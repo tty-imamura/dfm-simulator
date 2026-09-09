@@ -101,7 +101,16 @@
      "defDiffPct": -0.000009116874545023898,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "earthMoonReal|月|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.00001794882130607494,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "軌道長半径",
@@ -117,7 +126,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "earthMoonReal|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "近地点相対速度",
@@ -133,7 +151,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "earthMoonReal|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(月)",
@@ -162,7 +189,16 @@
       "revN": 7
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "earthMoonReal|月|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.00015472162752863444,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(月)",
@@ -195,7 +231,16 @@
       "eMeasured": 0.0549003355642999
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "earthMoonReal|月|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.0017388557617117905,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -290,7 +335,16 @@
      "defDiffPct": 0.7425032537462951,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "earthMoonRealKF1|月|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 1.010319725096326,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "近点回転の周期",
@@ -325,7 +379,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "earthMoonRealKF1|月|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.09939965616527804,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "引きずり歳差の由来",
@@ -358,7 +421,16 @@
       "eMeasured": 0.054041807976088214
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "earthMoonRealKF1|月|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.09939965616527804,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "補正の共通性",
@@ -374,7 +446,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "earthMoonRealKF1|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(月)",
@@ -403,7 +484,16 @@
       "revN": 4
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "earthMoonRealKF1|月|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 1.3367649479042183,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -493,7 +583,16 @@
       "eMeasured": 0.0549003355642999
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "emAuditNewton|月|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.008240770498714169,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "残差の正体",
@@ -509,7 +608,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "emAuditNewton|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "恒星月",
@@ -549,7 +657,16 @@
      "defDiffPct": -0.00000911687468310863,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "emAuditNewton|月|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.000019298818583248922,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "軌道要素の安定",
@@ -565,7 +682,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "emAuditNewton|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(月)",
@@ -594,7 +720,16 @@
       "revN": 6
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "emAuditNewton|月|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.0000058713806728167104,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -687,7 +822,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "emAuditDFM|月|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.25117980461093575,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "恒星月",
@@ -726,7 +870,16 @@
      "defDiffPct": 0.7370567962635043,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "emAuditDFM|月|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 1.6634441449758122,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "窓を延ばすと(第135便 実測)",
@@ -742,7 +895,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "emAuditDFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "離心率(第135便 実測)",
@@ -775,7 +937,16 @@
       "revN": 5
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "emAuditDFM|月|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 1.9400904173201414,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -867,7 +1038,16 @@
      },
      "degenerate": true,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "emAuditSolar|月|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.18091451297587985,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "窓・dt 依存",
@@ -883,7 +1063,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "emAuditSolar|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "恒星月",
@@ -923,7 +1112,16 @@
      "defDiffPct": 0.5963748194979125,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "emAuditSolar|月|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 1.2567561673421448,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "離心率(236公転=17.7年)",
@@ -956,7 +1154,16 @@
       "revN": 60
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "emAuditSolar|月|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 14.208592096548852,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "一次永年論との比較",
@@ -972,7 +1179,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "emAuditSolar|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -1051,7 +1267,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "qLockRadialAudit|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "試験粒子が実際に感じるフレーム回転",
@@ -1067,7 +1292,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "qLockRadialAudit|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "外側域の落ち方(log–log 傾き)",
@@ -1083,7 +1317,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "qLockRadialAudit|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "最外プローブ(2a_月)の引きずり近点移動",
@@ -1116,7 +1359,16 @@
       "eMeasured": 0.05032561099152029
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "qLockRadialAudit|最内|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.0003018123641842433,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "内側(1.5R_地球)",
@@ -1132,7 +1384,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "qLockRadialAudit|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "参照点の近点回転周期",
@@ -1166,7 +1427,16 @@
       "slopeDegPerOrbit": null
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "qLockRadialAudit|参照点|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 公転周期(最内)",
@@ -1203,7 +1473,16 @@
       "aOsc0": 9.569982812252475
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "qLockRadialAudit|最内|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.0587714036739027,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(最内)",
@@ -1232,7 +1511,16 @@
       "revN": 62
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "qLockRadialAudit|最内|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.02550739399706113,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 公転周期(参照点)",
@@ -1262,7 +1550,16 @@
       "aOsc0": 363.62464584747505
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "qLockRadialAudit|参照点|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(参照点)",
@@ -1291,7 +1588,16 @@
       "revN": 0
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "qLockRadialAudit|参照点|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.024720352654564674,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -1372,7 +1678,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "qLockRadialAuditQ3|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "📶 との傾き差(q3 − qLock)",
@@ -1388,7 +1703,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "qLockRadialAuditQ3|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "参照点の近点回転周期",
@@ -1421,7 +1745,16 @@
       "eMeasured": 0.050081074029287374
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "qLockRadialAuditQ3|参照点|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 103.627560744032,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "最外プローブ(2a_月)",
@@ -1437,7 +1770,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "qLockRadialAuditQ3|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "参照点での LT 級振幅",
@@ -1453,7 +1795,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "qLockRadialAuditQ3|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 公転周期(最内)",
@@ -1490,7 +1841,16 @@
       "aOsc0": 9.569982812252475
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "qLockRadialAuditQ3|最内|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.308644997242206,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(最内)",
@@ -1519,7 +1879,16 @@
       "revN": 62
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "qLockRadialAuditQ3|最内|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.3148733780552461,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(最内)",
@@ -1552,7 +1921,16 @@
       "eMeasured": 0.04945744355671558
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "qLockRadialAuditQ3|最内|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.000419007956186217,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 公転周期(参照点)",
@@ -1587,7 +1965,16 @@
       "aOsc0": 363.62464584747505
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "qLockRadialAuditQ3|参照点|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.0092702239949549,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(参照点)",
@@ -1616,7 +2003,16 @@
       "revN": 4
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "qLockRadialAuditQ3|参照点|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.18764581885578752,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -1714,7 +2110,16 @@
      "defDiffPct": 0.00000452076544332207,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "mercuryReal|水星|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.00005756169057771876,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "近日点前進",
@@ -1748,7 +2153,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "mercuryReal|水星|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.000035526925978690384,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "近日点速度",
@@ -1764,7 +2178,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "mercuryReal|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(水星)",
@@ -1793,7 +2216,16 @@
       "revN": 59
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "mercuryReal|水星|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.000011697700027713242,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -1884,7 +2316,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "mercuryRealKF1|水星|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.000040317801163571,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "q=3 対照(第120便版)",
@@ -1900,7 +2341,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "mercuryRealKF1|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "共通性",
@@ -1916,7 +2366,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "mercuryRealKF1|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 公転周期(水星)",
@@ -1953,7 +2412,16 @@
       "aOsc0": 579.0907634765185
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "mercuryRealKF1|水星|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.000057558364240599765,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(水星)",
@@ -1982,7 +2450,16 @@
       "revN": 59
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "mercuryRealKF1|水星|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.000011693087963483263,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -2088,7 +2565,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "solarInner|水星|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.00012982104342187958,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "公転周期(水/金/地/火)(金星)",
@@ -2121,7 +2607,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "solarInner|金星|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "公転周期(水/金/地/火)(地球)",
@@ -2152,7 +2647,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "solarInner|地球|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "公転周期(水/金/地/火)(火星)",
@@ -2183,7 +2687,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "solarInner|火星|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "軌道速度(地球)",
@@ -2199,7 +2712,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "solarInner|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "円軌道の維持(2水星周窓)",
@@ -2215,7 +2737,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "solarInner|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(水星)",
@@ -2244,7 +2775,16 @@
       "revN": 2
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "solarInner|水星|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 24.69904938389553,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(水星)",
@@ -2278,7 +2818,16 @@
      },
      "degenerate": true,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "solarInner|水星|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(金星)",
@@ -2307,7 +2856,16 @@
       "revN": 1
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "solarInner|金星|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 19.530752515883915,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(金星)",
@@ -2341,7 +2899,16 @@
      },
      "degenerate": true,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "solarInner|金星|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(地球)",
@@ -2370,7 +2937,16 @@
       "revN": 0
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "solarInner|地球|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 20.06494088827507,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(地球)",
@@ -2404,7 +2980,16 @@
      },
      "degenerate": true,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "solarInner|地球|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(火星)",
@@ -2433,7 +3018,16 @@
       "revN": 0
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "solarInner|火星|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 39.72461023692356,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(火星)",
@@ -2467,7 +3061,16 @@
      },
      "degenerate": true,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "solarInner|火星|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -2584,7 +3187,16 @@
      "defDiffPct": 0.0434910122079557,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "jupiterGalilean|イオ|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.05076200190684524,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(エウロパ)",
@@ -2624,7 +3236,16 @@
      "defDiffPct": -0.13290335265059972,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "jupiterGalilean|エウロパ|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.13290335265059972,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(ガニメデ)",
@@ -2664,7 +3285,16 @@
      "defDiffPct": -0.06619720450167224,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "jupiterGalilean|ガニメデ|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.06878761474274903,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(カリスト)",
@@ -2704,7 +3334,16 @@
      "defDiffPct": 0.006727274214175179,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "jupiterGalilean|カリスト|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.02177635842906287,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "kFrame=1(D₀=0.006・q_exact=12.0586)での周期(イオ)",
@@ -2744,7 +3383,16 @@
      "defDiffPct": 0.0434910122079557,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "jupiterGalilean|イオ|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.05076200190684524,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "kFrame=1(D₀=0.006・q_exact=12.0586)での周期(エウロパ)",
@@ -2784,7 +3432,16 @@
      "defDiffPct": -0.13290335265059972,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "jupiterGalilean|エウロパ|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.13290335265059972,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "kFrame=1(D₀=0.006・q_exact=12.0586)での周期(ガニメデ)",
@@ -2824,7 +3481,16 @@
      "defDiffPct": -0.06619720450167224,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "jupiterGalilean|ガニメデ|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.06878761474274903,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "kFrame=1(D₀=0.006・q_exact=12.0586)での周期(カリスト)",
@@ -2864,7 +3530,16 @@
      "defDiffPct": 0.006727274214175179,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "jupiterGalilean|カリスト|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.02177635842906287,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "20イオ公転窓の軌道保持(kFrame=1)",
@@ -2901,7 +3576,16 @@
       "aOsc0": 42.17800016217281
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "jupiterGalilean|イオ|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.05076200190684524,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "フレーム回転の内訳",
@@ -2917,7 +3601,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "jupiterGalilean|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "払った較正",
@@ -2933,7 +3626,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "jupiterGalilean|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "ラプラス共鳴",
@@ -2949,7 +3651,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "jupiterGalilean|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "スピン双極子モーメント Q(第246便d)",
@@ -2965,7 +3676,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "jupiterGalilean|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(イオ)",
@@ -2994,7 +3714,16 @@
       "revN": 62
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "jupiterGalilean|イオ|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 30.053205219826964,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(イオ)",
@@ -3028,7 +3757,16 @@
      },
      "degenerate": true,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "jupiterGalilean|イオ|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 4.831097475061391,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(エウロパ)",
@@ -3057,7 +3795,16 @@
       "revN": 62
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "jupiterGalilean|エウロパ|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 48.23286741367838,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(エウロパ)",
@@ -3091,7 +3838,16 @@
      },
      "degenerate": true,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "jupiterGalilean|エウロパ|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 1.660434490369085,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(ガニメデ)",
@@ -3120,7 +3876,16 @@
       "revN": 62
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "jupiterGalilean|ガニメデ|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 48.70218351179264,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(ガニメデ)",
@@ -3154,7 +3919,16 @@
      },
      "degenerate": true,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "jupiterGalilean|ガニメデ|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 5.332404505992618,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(カリスト)",
@@ -3183,7 +3957,16 @@
       "revN": 54
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "jupiterGalilean|カリスト|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.7955544914344832,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(カリスト)",
@@ -3217,7 +4000,16 @@
      },
      "degenerate": true,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "jupiterGalilean|カリスト|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 94.08849426180416,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -3314,7 +4106,16 @@
      "defDiffPct": 0.01911249489597043,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "venusReal|金星|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.01910884271938101,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "公転周期(kFrame=0 対照)",
@@ -3354,7 +4155,16 @@
      "defDiffPct": 0.01911249489597043,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "venusReal|金星|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.01910884271938101,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "半径振れ幅(1公転窓)",
@@ -3391,7 +4201,16 @@
       "aOsc0": 1082.0799999999115
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "venusReal|金星|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.01910884271938101,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "legacy 反作用の対照",
@@ -3407,7 +4226,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "venusReal|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(金星)",
@@ -3436,7 +4264,16 @@
       "revN": 54
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "venusReal|金星|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.16210569583217832,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(金星)",
@@ -3469,7 +4306,16 @@
       "eMeasured": 0.007008166125620266
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "venusReal|金星|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.010430649134352352,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -3572,7 +4418,16 @@
      "defDiffPct": -0.004645976189540473,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "marsMoonsReal|フォボス|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.011915259967734243,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "公転周期(フォボス/ダイモス・kFrame=1)(ダイモス)",
@@ -3612,7 +4467,16 @@
      "defDiffPct": 0.009307748447861832,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "marsMoonsReal|ダイモス|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.01049260597931783,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "半径振れ幅(2ダイモス公転窓)",
@@ -3649,7 +4513,16 @@
       "aOsc0": 23.46283365329996
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "marsMoonsReal|ダイモス|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.01049260597931783,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "kFrame=0 対照との周期差",
@@ -3686,7 +4559,16 @@
       "aOsc0": 9.375849216960834
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "marsMoonsReal|フォボス|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.011915259967734243,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "テスト粒子降格",
@@ -3702,7 +4584,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "marsMoonsReal|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(フォボス)",
@@ -3731,7 +4622,16 @@
       "revN": 62
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "marsMoonsReal|フォボス|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.08256483112223831,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(フォボス)",
@@ -3764,7 +4664,16 @@
       "eMeasured": 0.015160429177332188
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "marsMoonsReal|フォボス|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.6516840612744595,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(ダイモス)",
@@ -3793,7 +4702,16 @@
       "revN": 59
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "marsMoonsReal|ダイモス|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 1.019953758232136,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(ダイモス)",
@@ -3827,7 +4745,16 @@
      },
      "degenerate": true,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "marsMoonsReal|ダイモス|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 405.7963495386821,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -3924,7 +4851,16 @@
      "defDiffPct": 0.5355343549146192,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "plutoCharonReal|カロン|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.7764331327456896,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "公転周期(kFrame=1・E6′-R)",
@@ -3964,7 +4900,16 @@
      "defDiffPct": 0.5355343549146192,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "plutoCharonReal|カロン|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.7764331327456896,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "共通重心の位置",
@@ -3980,7 +4925,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "plutoCharonReal|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "半径振れ幅",
@@ -3996,7 +4950,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "plutoCharonReal|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(カロン)",
@@ -4025,7 +4988,16 @@
       "revN": 24
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "plutoCharonReal|カロン|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 24.824317010007313,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(カロン)",
@@ -4058,7 +5030,16 @@
       "eMeasured": 0.0012226704501995223
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "plutoCharonReal|カロン|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.4237905219688879,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -4172,7 +5153,16 @@
      "defDiffPct": 0.0008090809242043352,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "uranusReal|ミランダ|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.004155092017471237,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "公転周期(ミランダ/アリエル・kFrame=1・周回実測)(アリエル)",
@@ -4205,7 +5195,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "uranusReal|アリエル|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "公転周期(ウンブリエル/チタニア/オベロン・転写診断)(ウンブリエル)",
@@ -4236,7 +5235,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "uranusReal|ウンブリエル|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "公転周期(ウンブリエル/チタニア/オベロン・転写診断)(チタニア)",
@@ -4267,7 +5275,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "uranusReal|チタニア|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "公転周期(ウンブリエル/チタニア/オベロン・転写診断)(オベロン)",
@@ -4298,7 +5315,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "uranusReal|オベロン|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "環11帯(88粒)の半径保持(2ミランダ公転窓)",
@@ -4331,7 +5357,16 @@
       "aOsc0": 129.89990260899836
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "uranusReal|ミランダ|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.004155092017471237,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "天王星の自転(第196便: 面内符号+)",
@@ -4374,7 +5409,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "uranusReal|ミランダ|spin",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "環の質量(第192便)",
@@ -4390,7 +5434,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "uranusReal|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(ミランダ)",
@@ -4419,7 +5472,16 @@
       "revN": 2
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "uranusReal|ミランダ|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.8358402635560508,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(ミランダ)",
@@ -4452,7 +5514,16 @@
       "eMeasured": 0.0013048154285290995
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "uranusReal|ミランダ|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 99.69616049835737,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(アリエル)",
@@ -4481,7 +5552,16 @@
       "revN": 1
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "uranusReal|アリエル|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 2.3947225181926144,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(アリエル)",
@@ -4514,7 +5594,16 @@
       "eMeasured": 0.0012142038671073816
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "uranusReal|アリエル|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(ウンブリエル)",
@@ -4543,7 +5632,16 @@
       "revN": 0
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "uranusReal|ウンブリエル|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.27366543116019343,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(ウンブリエル)",
@@ -4576,7 +5674,16 @@
       "eMeasured": 0.0039053434009128697
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "uranusReal|ウンブリエル|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(チタニア)",
@@ -4605,7 +5712,16 @@
       "revN": 0
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "uranusReal|チタニア|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 27.372336680597126,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(チタニア)",
@@ -4639,7 +5755,16 @@
      },
      "degenerate": true,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "uranusReal|チタニア|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(オベロン)",
@@ -4668,7 +5793,16 @@
       "revN": 0
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "uranusReal|オベロン|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 62.40444753921752,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(オベロン)",
@@ -4702,7 +5836,16 @@
      },
      "degenerate": true,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "uranusReal|オベロン|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -4802,7 +5945,16 @@
      "defDiffPct": 0.20656309291262245,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "neptuneReal|トリトン|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.30753574727816413,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "公転周期(kFrame=1・E6′-R)",
@@ -4842,7 +5994,16 @@
      "defDiffPct": 0.20656309291262245,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "neptuneReal|トリトン|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.30753574727816413,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "トリトンの自転",
@@ -4863,7 +6024,16 @@
      "note": "観測欄が周期の数値ではない(帳簿・上限・比・宣言) / 照合できる実測が取れない(窓不足・宣言のみ)",
      "standard": false,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "neptuneReal|トリトン|spin",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "公転の向き(第188便)",
@@ -4900,7 +6070,16 @@
       "aOsc0": 35.47599821106013
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "neptuneReal|トリトン|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.30753574727816413,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "半径振れ幅",
@@ -4916,7 +6095,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "neptuneReal|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(トリトン)",
@@ -4945,7 +6133,16 @@
       "revN": 59
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "neptuneReal|トリトン|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 97.94067768266133,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(トリトン)",
@@ -4979,7 +6176,16 @@
      },
      "degenerate": true,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "neptuneReal|トリトン|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 18.120222978878946,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -5076,7 +6282,19 @@
      "defDiffPct": -0.00001581282817551328,
      "guideTolerance": false,
      "toleranceUsedPct": 0.023820867079561697,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "residual": 57354.41841459274,
+      "nSigma": 0.09565536038127231,
+      "sigma": 599594.4,
+      "status": "未判定",
+      "reason": "一次表(観測の出所)が未確認",
+      "key": "alphaCenAB|B|period",
+      "sigmaRelPct": 0.023820867079561697,
+      "defSpreadPct": 0.000020949828562897758,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測離心率(1公転の半径比振れ幅)",
@@ -5106,7 +6324,19 @@
      },
      "guideTolerance": false,
      "toleranceUsedPct": 0.028875584730590792,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "residual": -3.5115224172876935e-8,
+      "nSigma": 0.00023410149448584625,
+      "sigma": 0.00015,
+      "status": "未判定",
+      "reason": "一次表(観測の出所)が未確認",
+      "key": "alphaCenAB|B|ecc",
+      "sigmaRelPct": 0.028875584730590792,
+      "defSpreadPct": 0.0000022620303903535833,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "観測安定則(2026-08-25 裁定・適用第1号)",
@@ -5122,7 +6352,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "alphaCenAB|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "A/B 測定側(kFrame=1・第242便 pull 重み)",
@@ -5138,7 +6377,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "alphaCenAB|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "初期位相(第211便 — 遠点整列)",
@@ -5154,7 +6402,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "alphaCenAB|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "自転(両星)",
@@ -5175,7 +6432,16 @@
      "note": "観測欄が周期の数値ではない(帳簿・上限・比・宣言) / 照合できる実測が取れない(窓不足・宣言のみ)",
      "standard": false,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "alphaCenAB|B|spin",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(B)",
@@ -5208,7 +6474,16 @@
       "eMeasured": 0.5194699648847758
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "alphaCenAB|B|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.000002336055163617162,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -5301,7 +6576,16 @@
       "eMeasured": 0.5205091477660706
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "alphaCenABDFM|B|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.0000019079728978980993,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "公転周期(kFrame=1・pull 重み・観測質量)",
@@ -5341,7 +6625,19 @@
      "defDiffPct": 0.6666964082236391,
      "guideTolerance": false,
      "toleranceUsedPct": 0.023820867079561697,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "residual": -15560647.879133701,
+      "nSigma": 25.951956654588002,
+      "sigma": 599594.4,
+      "status": "未判定",
+      "reason": "量の定義・検出器が観測精度で一致しない",
+      "key": "alphaCenABDFM|B|period",
+      "sigmaRelPct": 0.023820867079561697,
+      "defSpreadPct": 0.6622810045539306,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測離心率(1周目の半径比振れ幅)",
@@ -5371,7 +6667,19 @@
      },
      "guideTolerance": false,
      "toleranceUsedPct": 0.028875584730590792,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "residual": 0.0010391477660706139,
+      "nSigma": 6.927651773804093,
+      "sigma": 0.00015,
+      "status": "未判定",
+      "reason": "量の定義・検出器が観測精度で一致しない",
+      "key": "alphaCenABDFM|B|ecc",
+      "sigmaRelPct": 0.028875584730590792,
+      "defSpreadPct": 0.2118596640254919,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "解析慣性則(第245便 — 一次則が台帳)",
@@ -5387,7 +6695,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "alphaCenABDFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "外殻の半径と自転(第208便 — 役割反転)",
@@ -5434,7 +6751,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "alphaCenABDFM|B|spin",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "DFM 質量(条件つき較正 — 実在値の主張ではない)",
@@ -5450,7 +6776,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "alphaCenABDFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "偶力の受け皿(第242便 — 隠れコアは持たない)",
@@ -5466,7 +6801,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "alphaCenABDFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "重心(第209便 — cmGauge:barycentric)",
@@ -5482,7 +6826,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "alphaCenABDFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -5579,7 +6932,19 @@
      "defDiffPct": -0.00003234135526080307,
      "guideTolerance": false,
      "toleranceUsedPct": 0.008577971768498496,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "residual": 37233.57261252403,
+      "nSigma": 0.2743862136222523,
+      "sigma": 135697.68,
+      "status": "未判定",
+      "reason": "一次表(観測の出所)が未確認",
+      "key": "siriusAB|B|period",
+      "sigmaRelPct": 0.008577971768498496,
+      "defSpreadPct": 0.00004058555108705681,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測離心率(1公転の半径比振れ幅)",
@@ -5609,7 +6974,19 @@
      },
      "guideTolerance": false,
      "toleranceUsedPct": 0.06256129315883806,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "residual": -5.5439289381453705e-8,
+      "nSigma": 0.00014983591724717217,
+      "sigma": 0.00037,
+      "status": "未判定",
+      "reason": "一次表(観測の出所)が未確認",
+      "key": "siriusAB|B|ecc",
+      "sigmaRelPct": 0.06256129315883806,
+      "defSpreadPct": 0.0000037836871159763747,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "観測安定則(適用第2号)",
@@ -5625,7 +7002,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "siriusAB|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "二体クロージャ確認(第214便 新設)",
@@ -5641,7 +7027,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "siriusAB|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "A/B 測定側(kFrame=1・第242便 pull 重み)",
@@ -5657,7 +7052,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "siriusAB|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "自転(両星 — 転写なし)",
@@ -5678,7 +7082,16 @@
      "note": "観測欄が周期の数値ではない(帳簿・上限・比・宣言) / 照合できる実測が取れない(窓不足・宣言のみ)",
      "standard": false,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "siriusAB|B|spin",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "Sirius B の半径(白色矮星)",
@@ -5694,7 +7107,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "siriusAB|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "初期位相(第211便 — 遠点整列)",
@@ -5710,7 +7132,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "siriusAB|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(B)",
@@ -5743,7 +7174,16 @@
       "eMeasured": 0.5914199445607106
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "siriusAB|B|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.0000017257992273090405,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -5819,7 +7259,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "siriusABDFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "公転周期(kFrame=1・pull 重み・観測質量)",
@@ -5859,7 +7308,16 @@
      "defDiffPct": 1.8828929859860868,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "siriusABDFM|B|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 1.8480953286682555,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測離心率(1周目の半径比振れ幅)",
@@ -5889,7 +7347,19 @@
      },
      "guideTolerance": false,
      "toleranceUsedPct": 0.06256129315883806,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "residual": 0.0023460233011380893,
+      "nSigma": 6.3406035165894306,
+      "sigma": 0.00037,
+      "status": "未判定",
+      "reason": "量の定義・検出器が観測精度で一致しない",
+      "key": "siriusABDFM|B|ecc",
+      "sigmaRelPct": 0.06256129315883806,
+      "defSpreadPct": 0.46867582965940996,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "近点(合わせていない側)",
@@ -5905,7 +7375,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "siriusABDFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "DFM 質量(条件つき較正 — 実在値の主張ではない)",
@@ -5921,7 +7400,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "siriusABDFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "解析慣性則(第245便 — 一次則が台帳)",
@@ -5937,7 +7425,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "siriusABDFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "A の殻自転(第221便 — 宣言つき代理値)",
@@ -5958,7 +7455,16 @@
      "note": "観測欄が周期の数値ではない(帳簿・上限・比・宣言) / 照合できる実測が取れない(窓不足・宣言のみ)",
      "standard": false,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "siriusABDFM|B|spin",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "偶力の受け皿と重心(第242便)",
@@ -5974,7 +7480,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "siriusABDFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(B)",
@@ -6007,7 +7522,16 @@
       "eMeasured": 0.593766023301138
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "siriusABDFM|B|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.000006952427897877815,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -6104,7 +7628,16 @@
      "defDiffPct": 0.0002884349312344042,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleAB|B|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.003273889663595242,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測離心率(1公転の半径比振れ幅)",
@@ -6134,7 +7667,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleAB|B|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.0011747748756982873,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "観測安定則(適用第3号)",
@@ -6150,7 +7692,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleAB|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "単位族(第220便 新設 → 第222便 経路拡張)",
@@ -6166,7 +7717,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleAB|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "近点前進(1PN — 合わせない照合)",
@@ -6200,7 +7760,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleAB|B|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.00011886352888333383,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "自転(両星 — 測定はあるが転写不能)",
@@ -6221,7 +7790,16 @@
      "note": "自転が転写されていない(spin=0・コア無し) / 照合できる実測が取れない(窓不足・宣言のみ)",
      "standard": false,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleAB|B|spin",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "半径(EOS proxy — 直接観測なし)",
@@ -6237,7 +7815,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleAB|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "スピンと 1PN 偶力(第223便 — 記帳化)",
@@ -6253,7 +7840,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleAB|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -6353,7 +7949,16 @@
      "defDiffPct": -1.2067962710843327,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABDFM|B|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 61.85305710979801,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "hold-out(離心率と近点 — 第246便で1行に統合)",
@@ -6383,7 +7988,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABDFM|B|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 82.57259036246094,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "DFM 質量(条件つき較正 — 実在値の主張ではない)",
@@ -6399,7 +8013,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABDFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "公転周期の短縮(第21報の問い → 第223便で機構確定)",
@@ -6436,7 +8059,16 @@
       "aOsc0": 619.206903073789
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABDFM|B|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 61.85305710979801,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "パルス時計(第221→226便)",
@@ -6478,7 +8110,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABDFM|B|spin",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "殻スピンと重心(第222便 — 保持成立+cmGauge)",
@@ -6494,7 +8135,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABDFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "χ-law(第224便 — 粒子別 f と f≈2 の説明)",
@@ -6510,7 +8160,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABDFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "重力磁気のスピン–スピン(第246便)",
@@ -6526,7 +8185,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABDFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(B)",
@@ -6559,7 +8227,16 @@
       "eMeasured": 0.0879767568136144
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABDFM|B|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 1.220678422846594,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -6653,7 +8330,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABSpinCal|B|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 1.591797658276635,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "公転周期(照合先 — fit していない)",
@@ -6693,7 +8379,16 @@
      "defDiffPct": -1.2073265525415207,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABSpinCal|B|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 61.85312492104463,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "**調整した量は 2 つ**(⚡ 本体の「ノブなし」とは別系譜)",
@@ -6709,7 +8404,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABSpinCal|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "スピン–スピン比 η=|F_SS|/|F_N|(遠点)",
@@ -6725,7 +8429,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABSpinCal|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "**共通則にできない**(3 系同時評価)",
@@ -6741,7 +8454,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABSpinCal|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "数値床(第247便a の framePrecision)",
@@ -6757,7 +8479,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABSpinCal|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(B)",
@@ -6786,7 +8517,16 @@
       "revN": 25
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABSpinCal|B|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 82.57795720088153,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -6879,7 +8619,16 @@
       "eMeasured": 0.606010857449756
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1757DFM|B|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.2030726390573359,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "**予測は観測の約 2 倍**(E6′ の帰結・fit で消さない)",
@@ -6895,7 +8644,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1757DFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "公転周期(hold-out — 合わせていない)",
@@ -6935,7 +8693,16 @@
      "defDiffPct": -3.6828950886987464,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1757DFM|B|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 57.264007987416434,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "離心率(hold-out — 合わせていない)",
@@ -6965,7 +8732,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1757DFM|B|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 14.293134364956453,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "DFM 質量(**較正していない** — ⚡ と同じ一次則を1回評価した値)",
@@ -6981,7 +8757,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1757DFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "**伴星の自転は未観測**(だから感度帯で出す)",
@@ -7002,7 +8787,16 @@
      "note": "観測欄が周期の数値ではない(帳簿・上限・比・宣言) / 照合できる実測が取れない(窓不足・宣言のみ)",
      "standard": false,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1757DFM|B|spin",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "半径は EOS proxy(NICER 測定ではない)",
@@ -7018,7 +8812,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1757DFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "周期の収縮(⚡ と同じ離散化仕事)",
@@ -7055,7 +8858,16 @@
       "aOsc0": 1177.4573459059156
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1757DFM|B|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 57.264007987416434,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -7148,7 +8960,16 @@
       "eMeasured": 0.06408356529024434
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1946DFM|B|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 1.7525111022786761,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "**予測は観測の約 2 倍**(E6′ の帰結・fit で消さない)",
@@ -7164,7 +8985,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1946DFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "公転周期(hold-out — 合わせていない)",
@@ -7204,7 +9034,16 @@
      "defDiffPct": -1.5550562963015127,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1946DFM|B|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 62.04106734145013,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "離心率(hold-out — 合わせていない)",
@@ -7234,7 +9073,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1946DFM|B|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 87.24695799843994,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "DFM 質量(**較正していない** — ⚡ と同じ一次則を1回評価した値)",
@@ -7250,7 +9098,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1946DFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "**伴星の自転は未観測**(だから感度帯で出す)",
@@ -7271,7 +9128,16 @@
      "note": "観測欄が周期の数値ではない(帳簿・上限・比・宣言) / 照合できる実測が取れない(窓不足・宣言のみ)",
      "standard": false,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1946DFM|B|spin",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "半径は EOS proxy(NICER 測定ではない)",
@@ -7287,7 +9153,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1946DFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "dt 収束(短周期ゆえ刻みが効く)",
@@ -7324,7 +9199,16 @@
       "aOsc0": 507.98772157193116
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1946DFM|B|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 62.04106734145013,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -7418,7 +9302,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABPN|B|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 1.6035829355493425,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "宣言したのは 2 つだけ(**既存キー**)",
@@ -7434,7 +9327,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABPN|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "**現象論の候補であって完成ではない**",
@@ -7450,7 +9352,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABPN|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "fit と hold-out の線引き(第41報 H1)",
@@ -7466,7 +9377,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABPN|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "旧則との差(A/B 対照で見える)",
@@ -7482,7 +9402,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABPN|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "公転周期(合わせていない)",
@@ -7522,7 +9451,16 @@
      "defDiffPct": -1.2074426242936311,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABPN|B|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 61.85233724359835,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "離心率(合わせていない)",
@@ -7552,7 +9490,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABPN|B|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 82.57079178662673,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "刻み依存(連続極限の確定ではない)",
@@ -7568,7 +9515,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrDoubleABPN|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -7662,7 +9618,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1757PN|B|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.404384617799404,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "宣言したのは 2 つだけ(**既存キー**)",
@@ -7678,7 +9643,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1757PN|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "**現象論の候補であって完成ではない**",
@@ -7694,7 +9668,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1757PN|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "新しい観測表との比較(第249便a で CSV へ別版追加)",
@@ -7710,7 +9693,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1757PN|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "旧則との差(A/B 対照で見える)",
@@ -7726,7 +9718,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1757PN|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "公転周期(合わせていない)",
@@ -7766,7 +9767,16 @@
      "defDiffPct": -3.6874686232145133,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1757PN|B|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 57.26525853231215,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "離心率(合わせていない)",
@@ -7796,7 +9806,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1757PN|B|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 14.293557907480748,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "刻み依存(連続極限の確定ではない)",
@@ -7812,7 +9831,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1757PN|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -7906,7 +9934,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1946PN|B|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 1.841151632390908,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "宣言したのは 2 つだけ(**既存キー**)",
@@ -7922,7 +9959,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1946PN|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "**現象論の候補であって完成ではない**",
@@ -7938,7 +9984,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1946PN|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "新しい観測表との比較(第249便a で CSV へ別版追加)",
@@ -7954,7 +10009,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1946PN|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "旧則との差(A/B 対照で見える)",
@@ -7970,7 +10034,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1946PN|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "公転周期(合わせていない)",
@@ -8010,7 +10083,16 @@
      "defDiffPct": -1.55690917856905,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1946PN|B|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 62.04049318250834,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "離心率(合わせていない)",
@@ -8040,7 +10122,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1946PN|B|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 87.24444784792166,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "刻み依存(連続極限の確定ではない)",
@@ -8056,7 +10147,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "psrJ1946PN|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -8153,7 +10253,16 @@
      "defDiffPct": -0.000021101623826796813,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914|B|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.00002199909022327255,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測離心率(1公転の半径比振れ幅)",
@@ -8183,7 +10292,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914|B|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.00032148468826166714,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "基準状態(スナップショット宣言)",
@@ -8199,7 +10317,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "単位族(第223便 新設 — 3例目)",
@@ -8215,7 +10342,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "換算整合則(geoPN=0 採用 — 第223便)",
@@ -8231,7 +10367,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "質量・半径・自転(転写と代理値)",
@@ -8252,7 +10397,16 @@
      "note": "観測欄が周期の数値ではない(帳簿・上限・比・宣言) / 照合できる実測が取れない(窓不足・宣言のみ)",
      "standard": false,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914|B|spin",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "帳簿・決定性(10公転)",
@@ -8289,7 +10443,16 @@
       "aOsc0": 192.81159798715308
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914|B|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.00002199909022327255,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(B)",
@@ -8322,7 +10485,16 @@
       "eMeasured": 0.08000019264117786
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914|B|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.00002492958239815511,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -8422,7 +10594,16 @@
      "defDiffPct": -1.070571107483886,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914DFM|B|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 63.81471743631183,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "hold-out の e(第223便 — 初の不成立例)",
@@ -8438,7 +10619,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914DFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "DFM 質量(条件つき較正 — 実在値の主張ではない)",
@@ -8454,7 +10644,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914DFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "χ-law(第224便 — f≈2 の説明と受け皿の裁定)",
@@ -8470,7 +10669,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914DFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "近点移動と周期短縮(第246便で1行に統合)",
@@ -8505,7 +10713,16 @@
      },
      "degenerate": true,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914DFM|B|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 106.74993693379552,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "否定対照(QA 機械固定)",
@@ -8521,7 +10738,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914DFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "帳簿・決定性",
@@ -8537,7 +10763,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914DFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "重力磁気のスピン–スピン(第246便)",
@@ -8553,7 +10788,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914DFM|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(B)",
@@ -8582,7 +10826,16 @@
       "revN": 26
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914DFM|B|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 83.94937247966804,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -8655,7 +10908,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914Merge4s|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "接触後の遅れ(放射の方向が決める)",
@@ -8671,7 +10933,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914Merge4s|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "用量 a=0.1313(**合わせ込みの1ノブ**)",
@@ -8687,7 +10958,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914Merge4s|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "刻み収束(接線・a=0.1313)",
@@ -8703,7 +10983,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914Merge4s|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "スピン–スピン(λ=1・χ=0.7 宣言)",
@@ -8719,7 +11008,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914Merge4s|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "帳簿・安全(dt=0.002)",
@@ -8735,7 +11033,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914Merge4s|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "再現しないもの",
@@ -8751,7 +11058,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914Merge4s|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "何を仮定したか(まとめ)",
@@ -8767,7 +11083,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914Merge4s|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 公転周期(B)",
@@ -8799,7 +11124,16 @@
       "aOsc0": 135.21852418034564
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914Merge4s|B|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(B)",
@@ -8828,7 +11162,16 @@
       "revN": 1
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914Merge4s|B|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 84.29092955134975,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(B)",
@@ -8861,7 +11204,16 @@
       "eMeasured": 0.08014635795368677
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "gw150914Merge4s|B|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -8888,7 +11240,7 @@
     "n": 11,
     "dt": 0.016,
     "steps": 668676,
-    "wallSec": 3.578,
+    "wallSec": 3.217,
     "orbits": [
      {
       "label": "D68",
@@ -8928,14 +11280,14 @@
      "target": "D68",
      "declaredModel": "38.108°/日(実単位・エンジン実測)",
      "declaredObs": "38.243°/日(Cassini)",
-     "model": 7.880041853510847,
-     "obs": 7.907957400121113,
+     "model": 8.038345481265377,
+     "obs": 8.066821828488292,
      "obsErr": null,
      "meas": 8.042145452277042,
      "unit": "deg/orbit",
-     "residualPct": 1.6968737357370465,
-     "modelResidualPct": 2.0571413423898486,
-     "verdict": "否",
+     "residualPct": -0.3058996062625866,
+     "modelResidualPct": 0.04727304916815488,
+     "verdict": "合",
      "method": "近点移動 検出器A(ṙ 交差・近点 58 個の直線 fit)",
      "note": null,
      "standard": false,
@@ -8949,11 +11301,23 @@
       "floorDeg": 0.0007774959076388317,
       "pRevSec": 17865.949830569363,
       "revN": 60,
+      "pPeriSec": 18224.862222665284,
+      "convPeriod": "periastron",
       "eMeasured": 0.052433309650357196
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "numBoundDt2": 0.000025311011096817992,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnZonalD68|D68|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.00014607751193794212,
+      "numBound": 0.000025311011096817992,
+      "arithOnly": null
+     }
     },
     {
      "name": "D68 の公転周期",
@@ -8993,7 +11357,17 @@
      "defDiffPct": 2.0089186161365307,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "numBoundDt2": 0.018660700628970517,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnZonalD68|D68|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 3.860740414527444,
+      "numBound": 0.018660700628970517,
+      "arithOnly": null
+     }
     },
     {
      "name": "解析式(J一次永年理論)の較正",
@@ -9009,7 +11383,17 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "numBoundDt2": null,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnZonalD68|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(D68)",
@@ -9038,13 +11422,23 @@
       "revN": 60
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "numBoundDt2": 8.003462789105131e-7,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnZonalD68|D68|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 2.6526530369499204,
+      "numBound": 8.003462789105131e-7,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
-    "合": 1,
+    "合": 2,
     "窓": 0,
-    "否": 1,
+    "否": 0,
     "従": 0,
     "転": 2
    },
@@ -9144,7 +11538,16 @@
      "defDiffPct": -0.5161402386878453,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false
+     "strictOK": false,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnRingReal|C環内縁|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.5161402386878452,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "タイタンの公転",
@@ -9175,7 +11578,16 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true
+     "strictOK": true,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnRingReal|タイタン|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "軌道速度(C環内縁)",
@@ -9191,7 +11603,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnRingReal|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(C環内縁)",
@@ -9220,7 +11641,16 @@
       "revN": 19
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnRingReal|C環内縁|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 85.64861573040778,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(C環内縁)",
@@ -9254,7 +11684,16 @@
      },
      "degenerate": true,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnRingReal|C環内縁|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 2.851177771924329,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 公転周期(ミマス)",
@@ -9290,7 +11729,16 @@
       "aOsc0": 185.50920009904772
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnRingReal|ミマス|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 8.870216017075794,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(ミマス)",
@@ -9319,7 +11767,16 @@
       "revN": 5
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnRingReal|ミマス|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 57.837237205935104,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(ミマス)",
@@ -9353,7 +11810,16 @@
      },
      "degenerate": true,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnRingReal|ミマス|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": 15.645252687617026,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(タイタン)",
@@ -9382,7 +11848,16 @@
       "revN": 0
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnRingReal|タイタン|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 91.54466006516074,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(タイタン)",
@@ -9416,7 +11891,16 @@
      },
      "degenerate": true,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnRingReal|タイタン|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -9518,7 +12002,16 @@
      },
      "degenerate": true,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnRingRealKF1|C環内縁|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "随伴プロファイル(ω_drag/LT)",
@@ -9534,7 +12027,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnRingRealKF1|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "補正の共通性",
@@ -9550,7 +12052,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnRingRealKF1|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "環と衛星を分けるもの(第246便d)",
@@ -9566,7 +12077,16 @@
      "verdict": "転",
      "method": "declaration",
      "standard": false,
-     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnRingRealKF1|null|other",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 公転周期(C環内縁)",
@@ -9600,7 +12120,16 @@
       "aOsc0": 76.81441752958418
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnRingRealKF1|C環内縁|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": 0.00009444180396453469,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(C環内縁)",
@@ -9629,7 +12158,16 @@
       "revN": 3
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnRingRealKF1|C環内縁|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 20.12484137518796,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 公転周期(ミマス)",
@@ -9659,7 +12197,16 @@
       "aOsc0": 185.50920009904772
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnRingRealKF1|ミマス|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(ミマス)",
@@ -9688,7 +12235,16 @@
       "revN": 0
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnRingRealKF1|ミマス|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 33.44074147303057,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(ミマス)",
@@ -9722,7 +12278,16 @@
      },
      "degenerate": true,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnRingRealKF1|ミマス|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 公転周期(タイタン)",
@@ -9752,7 +12317,16 @@
       "aOsc0": 1221.6581448764873
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnRingRealKF1|タイタン|period",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 離心率(タイタン)",
@@ -9781,7 +12355,16 @@
       "revN": 0
      },
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnRingRealKF1|タイタン|ecc",
+      "sigmaRelPct": null,
+      "defSpreadPct": 99.28910978335962,
+      "numBound": null,
+      "arithOnly": null
+     }
     },
     {
      "name": "実測(標準検出器): 近点移動(タイタン)",
@@ -9815,7 +12398,16 @@
      },
      "degenerate": true,
      "guideTolerance": true,
-     "toleranceUsedPct": 1
+     "toleranceUsedPct": 1,
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "saturnRingRealKF1|タイタン|precession",
+      "sigmaRelPct": null,
+      "defSpreadPct": null,
+      "numBound": null,
+      "arithOnly": null
+     }
     }
    ],
    "tally": {
@@ -10340,7 +12932,7 @@
     ]
    }
   ],
-  "caveat": "少数サンプル(n≈10)の順位相関である。**相関は原因ではない** — 同じ GM・a・e で ν だけを掃引する識別試験(外部レビューの識別試験)を通すまでは、どの量も「合わない度合いの説明」ではない。",
+  "caveat": "少数サンプル(n≈10)の順位相関である。**相関は原因ではない** — 同じ GM・a・e で ν だけを掃引する識別試験(外部レビューの識別試験)を通すまでは、どの量も「合わない度合いの説明」ではない。 第250便c: **この行数は独立な天体観測の数ではない** — 同じ物理系の旧則版・PN variant(psrDoubleABDFM と psrDoubleABSpinCal 等)が別行として入るので、n 行 ≠ n 天体である。 χ の順位相関が小さいことから「引きずりが消えた・χ が要らない」とは結論しない。",
   "nextTests": {
    "nu": "同じ GM・a・e で質量比だけを振る(ν 0.05→0.25)— 残差が ν に沿って動くか",
    "chi": "D0pull を ×10 して χ だけを動かす(質量・軌道は不変)",
@@ -10352,16 +12944,41 @@
  },
  "summary": {
   "nPresets": 34,
+  "nQuantities": 285,
   "tally": {
-   "合": 61,
+   "合": 62,
    "窓": 7,
-   "否": 8,
+   "否": 7,
    "従": 3,
    "転": 206
   },
   "byVersion": {
    "obs": 10,
    "dfm": 24
+  },
+  "gate": {
+   "rule": "|y_sim−y_obs| ≤ 3σ_obs + ε_num(ε_num ≤ 0.3σ_obs・ε_num は dt 2 段の差)",
+   "byStatus": {
+    "合(3σ)": 0,
+    "否(3σ)": 0,
+    "数値未解決": 0,
+    "未判定": 285
+   },
+   "byReason": {
+    "観測誤差(σ)または有限の実測が無い": 278,
+    "一次表(観測の出所)が未確認": 4,
+    "量の定義・検出器が観測精度で一致しない": 3
+   },
+   "withSigma": 7,
+   "arithOnlyPass": 0,
+   "note": "5 区分(合/窓/否/従/転)は来歴・解釈の欄として不変。門は別欄であり、一次表の照合(PRIMARY_VERIFIED)は第250便c 時点で 0 件なので「未判定」が既定である。"
+  },
+  "agreementBreakdown": {
+   "verdictOK": 62,
+   "sigma3": 0,
+   "guide": 58,
+   "unassessed": 4,
+   "note": "「合」の内訳: sigma3 = 機械門を通った 3σ 一致 / guide = 観測誤差が読めないときの ±1% 目安(観測一致ではない)/ unassessed = 観測誤差はあるが定義・一次表・数値収束の条件が未達。"
   }
  }
 }
