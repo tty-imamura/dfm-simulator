@@ -58,6 +58,9 @@ Float32/Float64 drag-field precision, detector method), and state the limits of 
 ## 7. Reproducibility
 - Map each reported number to its exact measurement window, detector, source record and code hash. Wave-248/249 harnesses are `tests/exp-w248a.mjs`, `tests/exp-w248b-audit.mjs`, `tests/exp-w248b-so.mjs`, `tests/exp-w248c.mjs` and `tests/exp-w249*.mjs`; their output JSON is archived under `tests/out/`. Saved QA results are regression evidence, not an independent rerun.
 - Commit/tag to be fixed at manuscript v0.1.
+- Review-v8 qualification: the wave-249 inventory contains 285 quantities; 57 of its 61 "agreement" labels use a provisional 1% guide, not an observational-uncertainty test. Keep provenance and statistical agreement separate (a 3σ+numerical-error gate is added in wave 250).
+- A rate derived from advance per periastron interval must use the periapsis (anomalistic) period; prefer fitting the periastron angle directly against time. Recomputing the saved D68 record gives 38.126 deg/day rather than 38.89 from the sidereal-period conversion — an audit correction, not a new integration.
+- The fixed-axis force's shell-spin reaction (wave 249c) changed rotational energy without corresponding axis work. From wave 250 the declared axis is treated as an external angular-momentum reservoir pending coupled axis dynamics; morphology is remeasured after this correction.
 
 ## 8. Not in this paper
-3D axis dynamics (closed), dark matter or spiral-arm theory claims, black-hole interior structure (rebuild pending), Michelson–Morley "null prediction" (the toy gives a staircase, not a prediction).
+3D axis dynamics (closed), dark matter or spiral-arm theory claims, black-hole interior structure (rebuild pending), Michelson–Morley "null prediction" (the toy gives a staircase, not a prediction; equal return wavelength/frequency does not imply zero phase, and the uniform-field toy suppresses phase only conditionally on the prescribed relative frame velocity).
