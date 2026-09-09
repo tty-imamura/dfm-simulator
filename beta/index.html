@@ -2216,7 +2216,25 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
 // CopyDataProperties 一発でクローンするため fast-properties のまま残る。
 // **同一の own enumerable プロパティを同じ挿入順で複製するだけ**なので、値・キー順・列挙・JSON 出力は
 // 1 bit も変わらない(内部表現だけの変更 — 全内蔵プリセットで機械証明済み)。
-function fastParams(o){ return {...o}; }
+// 第250便e(2): **全プリセットで params の hidden class(map)を 1 つに揃える**。{...o} だけでは fast だが
+// キー集合がプリセットごとに違い(galaxy 26 個・merger 24 個…)、perf ゲートのように 1 ページで多数の
+// サンプルを順に読むと S._core の p.* 読み出しが多相(polymorphic)になり、定常コストが上がる
+// (実測: galaxy→darkrotor→merger の順で merger が root 比 1.02 → 1.09、CI では 1.24〜1.27)。
+// 正準キー集合 = DEFAULT_PHYSICS + 内蔵プリセットの physics キーの和集合(初回に一度だけ決める)。
+// 未設定キーは値 undefined で置く(p.k===undefined / !p.k / p.k>0 の判定はすべて「無し」と同じ)。
+// JSON.stringify は undefined を落とすのでセーブ/エクスポートは不変。validatePreset は undefined の
+// キーを「無し」として読み飛ばす(同便で追加)。それ以外に params のキーを列挙する経路は無い。
+// 正準集合に無いキー(手書き/AI 生成の未知キー)は末尾に付く — 値は同じで map が別になるだけ(性能のみ)。
+let __PARAM_TMPL=null;
+function fastParams(o){
+  if(!__PARAM_TMPL){
+    const ks=new Set(Object.keys(DEFAULT_PHYSICS));
+    for(const q of BUILTIN_PRESETS) if(q && q.physics && typeof q.physics==="object") for(const k of Object.keys(q.physics)) ks.add(k);
+    const t={}; for(const k of ks) t[k]=undefined;
+    __PARAM_TMPL={...t};   // スプレッドで fast-properties の雛形にする(t 自体は辞書化していてよい)
+  }
+  return {...__PARAM_TMPL, ...o};
+}
 // v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
 const APP_VERSION = "1.43";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
@@ -11911,6 +11929,7 @@ function validatePreset(obj){
   if(p.physics!==undefined){
     if(typeof p.physics!=="object" || Array.isArray(p.physics)) bad("physicsはオブジェクト");
     else for(const k of Object.keys(p.physics)){
+      if(p.physics[k]===undefined) continue;   // 第250便e(2): 正準シェイプ params 由来の未設定キーは「無し」と同じ(JSON には現れない)
       // 第80便 A(E6′-R): frameReaction は唯一の非数値 physics キー — E6′ 反作用モデルの選択
       // ("legacy"=既定・既存挙動 / "pairReduced"=換算質量対称インパルス)。既定値は
       // DEFAULT_PHYSICS に置かない(省略時と "legacy" 明示でプリセット署名が 1 文字も変わらない)
