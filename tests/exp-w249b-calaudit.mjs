@@ -474,6 +474,37 @@ await browser.close();
 // ================================================================ 判定・相関(node 側)
 const VER = { OK: '合', WIN: '窓', NG: '否', DEP: '従', TR: '転' };
 
+// ---------------------------------------------------------------- 第250便c(第42報 W3・I2)
+// **機械門** assessObservation。既存の 5 区分(合/窓/否/従/転)は**来歴・解釈の欄としてそのまま
+// 保持**し、これは別欄である。門:
+//     |y_sim − y_obs| ≤ 3σ_obs + ε_num 、 ε_num ≤ 0.3σ_obs
+// ε_num は**保守的な決定論的数値誤差幅**(本便では dt 2 段 — 既定 0.016 と 0.008 — の同じ検出器の
+// 差)であり、観測残差を見て増やすフィット項ではない。
+//   ・観測誤差が読めない / 定義(検出器・周期の定義)が観測精度で一致しない / 一次表が未確認 → **未判定**
+//   ・数値が収束していない(dt 2 段が無い・ε_num が 0.3σ を超える)              → **数値未解決**
+// ±1% の目安(guideTolerance)は**観測一致ではない**。この門を通らない「合」は目安合である。
+const GATE = { OK: '合(3σ)', NG: '否(3σ)', NUM: '数値未解決', NA: '未判定' };
+function assessObservation({ value, reference, sigma, numBound,
+  converged = false, definitionMatches = false, sourceVerified = false }) {
+  if (![value, reference].every(Number.isFinite) || !Number.isFinite(sigma) || !(sigma > 0))
+    return { status: GATE.NA, reason: '観測誤差(σ)または有限の実測が無い' };
+  const residual = value - reference, nSigma = Math.abs(residual) / sigma;
+  const base = { residual, nSigma, sigma };
+  if (!definitionMatches)
+    return Object.assign(base, { status: GATE.NA, reason: '量の定義・検出器が観測精度で一致しない' });
+  if (!sourceVerified)
+    return Object.assign(base, { status: GATE.NA, reason: '一次表(観測の出所)が未確認' });
+  if (!converged || !Number.isFinite(numBound) || numBound > 0.3 * sigma)
+    return Object.assign(base, { status: GATE.NUM, reason: '数値誤差幅が予算(0.3σ)を超える/未測定', numBound });
+  const tolerance = 3 * sigma + numBound;
+  return Object.assign(base, { status: (Math.abs(residual) <= tolerance) ? GATE.OK : GATE.NG,
+    numBound, tolerance });
+}
+// 一次表(publication の一次表)との照合が**済んだ**量をここへ登録する。鍵は
+// `sample|target|quantity`(外部レビューの識別子)。**第250便c 時点では 0 件** — 本便は門の実装で
+// あって照合そのものは行っていない(I5 の再初期化と同じ便で埋める)。
+const PRIMARY_VERIFIED = new Set([]);
+
 function classify(q) {
   const s = String(q);
   if (/自転|パルス/.test(s) && !/公転/.test(s)) return 'spin';
@@ -640,7 +671,10 @@ for (const P of out.presets) {
     q.detail = { detectorA: t.A.slopeDeg, residA: t.A.residDeg, nPeriA: t.A.nPeri,
       detectorB: t.B.slopeDeg, residB: t.B.residDeg, nPeriB: t.B.nPeri,
       floorDeg: (t.A.residDeg !== null && t.A.nPeri > 1) ? 3 * t.A.residDeg / Math.sqrt(t.A.nPeri) : null,
-      pRevSec: pRevSec(t), revN: t.revN };
+      pRevSec: pRevSec(t), revN: t.revN,
+      // 第250便c: °/日 ⇄ °/周 の換算に使う周期を明示する(近点間 = slopeDeg と同じ間隔)
+      pPeriSec: (Number.isFinite(t.A.perMean) && t.A.perMean > 0) ? t.A.perMean * P.toSec : null,
+      convPeriod: 'periastron' };
     const ee = eMeas(t);
     q.detail.eMeasured = ee;
     if (q.detail.floorDeg !== null && q.meas !== null && Math.abs(q.meas) < q.detail.floorDeg) {
@@ -714,7 +748,12 @@ for (const P of out.presets) {
         if (mv) q.model = mv.v;
         fillEcc(q, t);
       } else if (kind === 'precession') {
-        const pS = pRevSec(t) || pOscSec(t);
+        // 第250便c(第42報 W3): slopeDeg は**近点番号に対する**傾きなので、観測の °/日・°/年を
+        // °/周へ直す換算にも**同じ近点間隔(近点間周期)**を使う。以前は同方向1周(revP)を使い、
+        // 無ければ osculating P へ落としていたが、大きく歳差する軌道では両者が数 % 違うため
+        // 系統誤差になる(🪐 D68: 同方向 17865.95 s / 近点間 18224.86 s = 2.0% 差)。
+        // フォールバックは置かない — 近点間隔が取れない対象は換算しない(= 判定しない)。
+        const pS = (Number.isFinite(t.A.perMean) && t.A.perMean > 0) ? t.A.perMean * P.toSec : null;
         const pDays = pS ? pS / 86400 : NaN;
         const conv = (r) => { if (!r) return null;
           if (r.kind === 'deg-per-orbit') return r.v;
@@ -811,6 +850,24 @@ for (const P of out.presets) {
         ? `${a.A.slopeDeg.toExponential(4)} → ${b.A.slopeDeg.toExponential(4)} °/周` : '窓不足'));
   }
 
+  // ---- 第250便c: I2 の機械門が使う ε_num(dt 2 段の同じ検出器の差)を各量へ記録する ----------
+  // 門そのものは --merge で持ち越した過去分にも掛けるため、**併合の後**に一括で付ける(下記)。
+  const halfOf = (t) => (half ? (half.targets[base.targets.indexOf(t)] || null) : null);
+  const rawMeas = (q, t) => { if (!t) return null;
+    if (q.kind === 'period') { const a = pRevSec(t); return (a !== null) ? a : pOscSec(t); }
+    if (q.kind === 'ecc') return eMeas(t);
+    if (q.kind === 'precession') {
+      if (q.unit === 's') { const sl = t.A.slopeDeg;
+        const pS = (Number.isFinite(t.A.perMean) && t.A.perMean > 0) ? t.A.perMean * P.toSec : null;
+        return (sl && pS) ? Math.abs(360 / sl) * pS : null; }
+      return t.A.slopeDeg; }
+    return null; };
+  for (const q of quantities) {
+    const t = base.targets.find((z) => z.label === q.target) || null;
+    const mHalf = rawMeas(q, halfOf(t));
+    q.numBoundDt2 = (Number.isFinite(mHalf) && Number.isFinite(q.meas)) ? Math.abs(q.meas - mHalf) : null;
+  }
+
   const tally = {}; for (const v of Object.values(VER)) tally[v] = 0;
   for (const q of quantities) tally[q.verdict] = (tally[q.verdict] || 0) + 1;
 
@@ -860,7 +917,10 @@ const pairs = [];
     n: rows.length, rows: rows.map((r) => ({ id: r.id, emoji: r.emoji, residPct: r.resid, ...r.c })),
     pairs,
     caveat: '少数サンプル(n≈10)の順位相関である。**相関は原因ではない** — 同じ GM・a・e で ν だけを'
-      + '掃引する識別試験(外部レビューの識別試験)を通すまでは、どの量も「合わない度合いの説明」ではない。',
+      + '掃引する識別試験(外部レビューの識別試験)を通すまでは、どの量も「合わない度合いの説明」ではない。'
+      + ' 第250便c: **この行数は独立な天体観測の数ではない** — 同じ物理系の旧則版・PN variant'
+      + '(psrDoubleABDFM と psrDoubleABSpinCal 等)が別行として入るので、n 行 ≠ n 天体である。'
+      + ' χ の順位相関が小さいことから「引きずりが消えた・χ が要らない」とは結論しない。',
     nextTests: {
       nu: '同じ GM・a・e で質量比だけを振る(ν 0.05→0.25)— 残差が ν に沿って動くか',
       chi: 'D0pull を ×10 して χ だけを動かす(質量・軌道は不変)',
@@ -871,11 +931,63 @@ const pairs = [];
     } };
 }
 
+// ---------------------------------------------------------------- 第250便c: I2 の機械門を掛ける
+// 5 区分(合/窓/否/従/転)は**不変**。門は別欄 q.gate に入れる。--merge で持ち越した過去分にも
+// 同じ門を掛けるため、量そのものに残っている値(meas/obs/obsErr/detail/numBoundDt2)だけで判定する。
+// 定義の一致は「同じ量の複数の定義・検出器が観測精度 σ_rel の中で一致しているか」で機械判定する:
+//   周期 … 同方向1周 / 近点間 / osculating の広がり、近点移動 … 検出器 A と B、離心率 … 窓と接触要素。
+const spreadPct = (vals) => { const v = vals.filter((z) => Number.isFinite(z) && z !== 0);
+  if (v.length < 2) return null;
+  const lo = Math.min(...v), hi = Math.max(...v);
+  return 100 * Math.abs(hi - lo) / Math.abs(hi); };
+for (const r of merged) for (const q of (r.quantities || [])) {
+  const sig = (Number.isFinite(q.obsErr) && q.obsErr > 0) ? q.obsErr : null;
+  const sigPct = (sig !== null && Number.isFinite(q.obs) && q.obs !== 0) ? 100 * Math.abs(sig / q.obs) : null;
+  const d = q.detail || {};
+  let defSpread = null;
+  if (q.kind === 'period') defSpread = spreadPct([d.revSec ? d.revSec[1] : null, d.periASec, d.oscSec]);
+  else if (q.kind === 'precession') defSpread = spreadPct([d.detectorA, d.detectorB]);
+  else if (q.kind === 'ecc') defSpread = spreadPct([q.meas, d.eProxyAll, d.eOscMean]);
+  const numBound = Number.isFinite(q.numBoundDt2) ? q.numBoundDt2 : null;
+  const g = assessObservation({ value: q.meas, reference: q.obs, sigma: sig, numBound,
+    converged: numBound !== null,
+    definitionMatches: (defSpread !== null && sigPct !== null) ? (defSpread <= sigPct) : false,
+    sourceVerified: PRIMARY_VERIFIED.has(`${r.id}|${q.target}|${q.kind}`) });
+  g.key = `${r.id}|${q.target}|${q.kind}`;
+  g.sigmaRelPct = sigPct; g.defSpreadPct = defSpread; g.numBound = numBound;
+  // 参考(判定ではない): 来歴・定義の条件を外し、3σ+ε_num の算術だけを見たときの成否
+  g.arithOnly = (sig !== null && numBound !== null && Number.isFinite(q.meas) && Number.isFinite(q.obs))
+    ? (Math.abs(q.meas - q.obs) <= 3 * sig + numBound) : null;
+  q.gate = g;
+}
+
 out.presets = merged;   // decl/run の生データは残さず、判定済みの表を正本にする
+// ---- 第250便c: 量の総数と、I2 の機械門の集計(5 区分の tally はそのまま残す)----
+const allQ = merged.flatMap((r) => r.quantities || []);
+const gateStatus = {}; for (const v of Object.values(GATE)) gateStatus[v] = 0;
+const gateReason = {};
+for (const q of allQ) { const st = (q.gate && q.gate.status) || GATE.NA;
+  gateStatus[st] = (gateStatus[st] || 0) + 1;
+  const rs = (q.gate && q.gate.reason) || '(判定済み)';
+  gateReason[rs] = (gateReason[rs] || 0) + 1; }
+const okQ = allQ.filter((q) => q.verdict === VER.OK);
+const okSigma3 = okQ.filter((q) => q.gate && q.gate.status === GATE.OK).length;
+const okGuide = okQ.filter((q) => q.guideTolerance && !(q.gate && q.gate.status === GATE.OK)).length;
 out.summary = { nPresets: merged.length,
+  nQuantities: allQ.length,   // 第250便c: 「261(+)量」ではなく**確定表記**の量数
   tally: merged.reduce((a, r) => { for (const [k, v] of Object.entries(r.tally)) a[k] = (a[k] || 0) + v; return a; }, {}),
   byVersion: { obs: merged.filter((r) => r.version === 'obs').length,
-    dfm: merged.filter((r) => r.version === 'dfm').length } };
+    dfm: merged.filter((r) => r.version === 'dfm').length },
+  gate: { rule: '|y_sim−y_obs| ≤ 3σ_obs + ε_num(ε_num ≤ 0.3σ_obs・ε_num は dt 2 段の差)',
+    byStatus: gateStatus, byReason: gateReason,
+    withSigma: allQ.filter((q) => Number.isFinite(q.obsErr) && q.obsErr > 0).length,
+    arithOnlyPass: allQ.filter((q) => q.gate && q.gate.arithOnly === true).length,
+    note: '5 区分(合/窓/否/従/転)は来歴・解釈の欄として不変。門は別欄であり、'
+      + '一次表の照合(PRIMARY_VERIFIED)は第250便c 時点で 0 件なので「未判定」が既定である。' },
+  agreementBreakdown: { verdictOK: okQ.length, sigma3: okSigma3, guide: okGuide,
+    unassessed: okQ.length - okSigma3 - okGuide,
+    note: '「合」の内訳: sigma3 = 機械門を通った 3σ 一致 / guide = 観測誤差が読めないときの ±1% 目安'
+      + '(観測一致ではない)/ unassessed = 観測誤差はあるが定義・一次表・数値収束の条件が未達。' } };
 
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify(out, null, 1));

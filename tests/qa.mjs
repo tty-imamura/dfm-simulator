@@ -9473,16 +9473,28 @@ if (!FAST) {
   }
 }
 
-// ---- 第249便c(第41報 W3・案A): behavior.axisForce-bitIdentity / behavior.axisForce-conservation ----
+// ---- 第249便c(第41報 W3・案A)+ 第250便c(第42報 W3): behavior.axisForce-bitIdentity /
+// ---- behavior.axisForce-conservation / behavior.axisForce-energy ----
 // physics.axisForce = 有限範囲の二極軸ポテンシャル Φ_A=−A·exp(−d²/R_b²)·(u²−v²)/(d²+r_c²)(玩具の opt-in)。
 //   (a) **既定経路 1 bit 不変**: 未宣言のサンプル 2 本(🎡 galaxyStd・🕶️ darkrotor)を 300 步走らせ、
 //       physics.axisForce:{A:0,…} を**明示**した側と全状態がビット同一・プリセット署名も同一。
 //       A=0 は検証器が「なし」へ正規化するので、宣言してもエクスポート JSON が 1 文字も変わらない。
 //   (b) **反作用で総 P・総 L が閉じる**: 重力を切った玩具(G=0・kFrame=0・軸力だけ)で 400 步。
-//       各星への力 F_i の合計 −ΣF_i を中心天体へ(運動量)、軸トルク −Σ(d_i×F_i)_z を中心天体の
-//       殻スピンへ(角運動量)返す実装なので、stateCarry:"double" では残差が丸め級(<1e-9 相対)。
+//       各星への力 F_i の合計 −ΣF_i を中心天体へ(運動量)、軸トルク −Σ(d_i×F_i)_z は**外部軸の
+//       リザーバ resL へ**(第250便c の帳簿修正 — 殻スピンには入れない)返す実装なので、
+//       stateCarry:"double" では残差が丸め級(<1e-9 相対)。
 //       φ 固定は保存力(外部駆動の仕事 axisWorkE が厳密 0)・omegaAxis 宣言時だけ axisWorkE≠0。
 //       力が −∇Φ であることは純関数 HP.dfmAxisPotential と有限差分の一致で押さえる。
+//   (c) **第250便c: 固定軸で総エネルギーが 2 次収束する**(behavior.axisForce-energy)。
+//       同じ玩具・同じ模型時間 4 を dt=0.01/0.005/0.0025 の leapfrog で走らせ、K+E_spin+U_axis の
+//       変化を測る。U はキャッシュ(S.axisU)を読まず**毎回現位置から** HP.dfmAxisPotential で
+//       再計算する。判定は「最細刻みの |ΔE|/|U_initial| が上限以下」かつ「刻み幅を半分にすると
+//       誤差が約 1/4(2 次収束比 3.5〜4.5)」の**両方**。修正前は殻スピンへ入れた反作用の仕事が
+//       相殺されず、dt を細かくしても |ΔE|/|U₀|≈58.5 のまま動かなかった(第250便c 実測)。
+//       ※ 大きくて動かない中心の回転エネルギーで割って誤差を小さく見せない — 分母は |U_initial|。
+//       同ブロックで **pinned の帳簿 4 条件**(中心/受け手の固定有無)も検査する。中心を原点外
+//       (100,50)に置いた 1 キックで、修正前は ΔL=−2.76(pinned 中心の反力のモーメント落ち)/
+//       +3.87(受け手 pinned の未適用力)等になっていた。4 条件すべてで ΔP・ΔL が丸め級になる。
 {
   const hasAF = await page.evaluate(() => typeof HP.dfmAxisPotential === 'function'
     && typeof HP.validateAxisForce === 'function');
@@ -9516,22 +9528,49 @@ if (!FAST) {
             { type: 'single', m: 1.5, x: 15, y: -90, vx: 0.2, vy: 0.05, spin: 0, pinned: false, radius: 1 }] };
         if (integ) pd.integrator = integ;
         return pd; };
-      const cons = (carry, ax, integ) => { const v = HP.validatePreset(mk(carry, ax, integ));
+      // 第250便c: 総エネルギー K+E_spin+U_axis。U は S.axisU を読まず**毎回現位置から**再計算する
+      const energy = (S, ax) => { let E = 0, U = 0;
+        for (let i = 0; i < S.n; i++) {
+          E += 0.5 * S.m[i] * (S.vx[i] * S.vx[i] + S.vy[i] * S.vy[i])
+            + 0.25 * S.m[i] * S.R[i] * S.R[i] * S.spin[i] * S.spin[i];
+          if (i) U += S.m[i] * HP.dfmAxisPotential(S.x[i] - S.x[0], S.y[i] - S.y[0],
+            Object.assign({}, ax, { phi: S._axisAngle() })).U;
+        }
+        return { E: E + U, U }; };
+      const cons = (carry, ax, integ, dt = 0.01) => { const v = HP.validatePreset(mk(carry, ax, integ));
         if (!v.ok) return { err: v.errors };
         const S = HP.sim; S.build(v.preset);
         const T0 = S.totals(), P0 = [T0.px + S.resPx, T0.py + S.resPy], L0 = T0.L + S.resL;
-        for (let k = 0; k < 400; k++) S.step(0.01);
+        const E0 = energy(S, ax);
+        for (let k = 0; k < Math.round(4 / dt); k++) S.step(dt);
         const T1 = S.totals(), P1 = [T1.px + S.resPx, T1.py + S.resPy], L1 = T1.L + S.resL;
         let pS = 0, lS = 0;
         for (let i = 0; i < S.n; i++) { pS += Math.abs(S.m[i] * S.vx[i]) + Math.abs(S.m[i] * S.vy[i]);
           lS += Math.abs(S.m[i] * (S.x[i] * S.vy[i] - S.y[i] * S.vx[i]))
             + 0.5 * Math.abs(S.m[i]) * S.R[i] * S.R[i] * Math.abs(S.spin[i]); }
+        const E1 = energy(S, ax);
         return { relP: (Math.abs(P1[0] - P0[0]) + Math.abs(P1[1] - P0[1])) / pS,
           relL: Math.abs(L1 - L0) / lS, axisW: S.axisWorkE, axisU: S.axisU,
+          relE: Math.abs(E1.E - E0.E) / Math.max(1, Math.abs(E0.U)),
           spinMoved: S.spin[0] !== 0.5, nan: S.hasNaN(), warn: (v.warnings || []).length }; };
       const AX = { A: 200, Rb: 120, rc: 5, axis: 0.3 };
       const fixed = cons(true, AX), leap = cons(true, AX, 'leapfrog');
+      const leapFine = cons(true, AX, 'leapfrog', 0.005);
+      const leapFinest = cons(true, AX, 'leapfrog', 0.0025);
       const driven = cons(true, Object.assign({ omegaAxis: 0.05 }, AX));
+      // ---- 第250便c: pinned の帳簿 4 条件(中心 (100,50)・受け手 (140,70) の 1 キック)----
+      const pinCase = (pinC, pinR) => {
+        const pd = mk(true, AX, null);
+        pd.bodies = [{ type: 'single', m: 1000, x: 100, y: 50, vx: 0, vy: 0, spin: 0.5, pinned: pinC, radius: 10 },
+          { type: 'single', m: 1, x: 140, y: 70, vx: 0, vy: 0, spin: 0, pinned: pinR, radius: 1 }];
+        const v = HP.validatePreset(pd); if (!v.ok) return { err: v.errors };
+        const S = HP.sim; S.build(v.preset);
+        const T0 = S.totals(), P0 = [T0.px + S.resPx, T0.py + S.resPy], L0 = T0.L + S.resL;
+        S._axisForce(0.01);
+        const T1 = S.totals(), P1 = [T1.px + S.resPx, T1.py + S.resPy], L1 = T1.L + S.resL;
+        return { dP: Math.max(Math.abs(P1[0] - P0[0]), Math.abs(P1[1] - P0[1])), dL: Math.abs(L1 - L0) }; };
+      const pinLedger = [[false, false], [true, false], [false, true], [true, true]]
+        .map(([a, b]) => ({ c: a, r: b, z: pinCase(a, b) }));
       // ---- 力 = −∇Φ(純関数と有限差分)----
       const cfg = { A: 3.5, Rb: 120, rc: 7, phi: 0.4 }; let gmax = 0;
       for (const [dx, dy] of [[10, 3], [-40, 60], [5, -90], [130, 20], [0.5, 0.2]]) {
@@ -9558,7 +9597,8 @@ if (!FAST) {
         clamp: vv({ A: 1e12, Rb: 1e12 }).axisForce.A === HP.AXIS_FORCE_CLAMPS.A[1],
         idem: (() => { const a = vv({ A: 5, Rb: 33, rc: 2, axis: 0.7, source: 1, omegaAxis: 0.1 }).axisForce;
           return JSON.stringify(vv(a).axisForce) === JSON.stringify(a); })() };
-      return { bit, fixed, leap, driven, gmax, pAx: pAx.U, pPe: pPe.U, pFlip: pFlip.U, valid };
+      return { bit, fixed, leap, leapFine, leapFinest, driven, pinLedger,
+        gmax, pAx: pAx.U, pPe: pPe.U, pFlip: pFlip.U, valid };
     });
     const bitOK = af.bit.every((r) => r.bitSame && r.sigSame && r.warn === 0 && !r.hasA && !r.hasB && !r.nan);
     add('behavior.axisForce-bitIdentity', bitOK,
@@ -9571,7 +9611,8 @@ if (!FAST) {
     const CN = { grad: af.gmax < 1e-8,
       dipole: af.pAx < 0 && af.pPe > 0 && Math.abs(af.pFlip - af.pAx) < 1e-12,
       fixP: af.fixed.relP < 1e-9, fixL: af.fixed.relL < 1e-9,
-      fixWork: af.fixed.axisW === 0, fixSpin: af.fixed.spinMoved,
+      // 第250便c: 中心の殻スピンは軸トルクを受け取らない(外部軸のリザーバ resL が受ける)
+      fixWork: af.fixed.axisW === 0, fixSpin: !af.fixed.spinMoved,
       leapP: af.leap.relP < 1e-9, leapL: af.leap.relL < 1e-9,
       drivenP: af.driven.relP < 1e-9, drivenL: af.driven.relL < 1e-9,
       drivenWork: af.driven.axisW !== 0,
@@ -9581,9 +9622,25 @@ if (!FAST) {
       (badCN.length ? `不成立=[${badCN.join(',')}] ` : '')
       + `力=−∇Φ の有限差分最大差 ${af.gmax.toExponential(1)}・二極(軸上 Φ=${af.pAx.toFixed(4)}<0・直交 Φ=${af.pPe.toFixed(4)}>0・π 回転で同一=${Math.abs(af.pFlip - af.pAx) < 1e-12}) / `
       + `玩具(G=0・軸力だけ・400 步・stateCarry double): 軸固定 |ΔP|/P=${af.fixed.relP.toExponential(2)}・|ΔL|/L=${af.fixed.relL.toExponential(2)}・`
-      + `外部駆動の仕事=${af.fixed.axisW}(保存力なので厳密 0)・中心スピンが軸トルクを受けた=${af.fixed.spinMoved} / `
+      + `外部駆動の仕事=${af.fixed.axisW}(保存力なので厳密 0)・軸トルクは resL へ(中心スピン不変=${!af.fixed.spinMoved}) / `
       + `leapfrog(前後半キック) |ΔP|/P=${af.leap.relP.toExponential(2)}・|ΔL|/L=${af.leap.relL.toExponential(2)} / `
       + `Ω_axis=0.05 の外部駆動 |ΔP|/P=${af.driven.relP.toExponential(2)}・|ΔL|/L=${af.driven.relL.toExponential(2)}・axisWorkE=${af.driven.axisW.toExponential(2)}(≠0 = 非保存の宣言)`);
+    // ---- 第250便c(第42報 W3): 固定軸の総エネルギー収束 + pinned 帳簿 4 条件 ----
+    const eSeq = [af.leap, af.leapFine, af.leapFinest].map((r) => r.relE);
+    const eRatio = [eSeq[0] / eSeq[1], eSeq[1] / eSeq[2]];
+    const badPin = af.pinLedger.filter((q) => !(q.z && q.z.dP < 1e-12 && q.z.dL < 1e-9));
+    const EN = { cap: eSeq[2] < 1e-5,
+      order: eRatio.every((r) => r > 3.5 && r < 4.5),
+      spinFixed: !af.leap.spinMoved && !af.leapFinest.spinMoved,
+      pin: badPin.length === 0 };
+    const badEN = Object.keys(EN).filter((k) => !EN[k]);
+    add('behavior.axisForce-energy', badEN.length === 0,
+      (badEN.length ? `不成立=[${badEN.join(',')}] ` : '')
+      + `固定軸(G=0・軸力だけ・leapfrog・模型時間 4・U は毎回現位置から再計算): `
+      + `|ΔE|/|U₀| (dt=.01/.005/.0025)=${eSeq.map((r) => r.toExponential(3)).join('/')}・`
+      + `2 次収束比=${eRatio.map((r) => r.toFixed(2)).join('/')}(3.5〜4.5)・最細刻み<1e-5=${EN.cap}・`
+      + `中心スピン不変=${EN.spinFixed} / pinned 帳簿 4 条件(中心 (100,50)・受け手 (140,70) の 1 キック): `
+      + af.pinLedger.map((q) => `中心pin=${q.c}/受け手pin=${q.r} |ΔP|max=${(q.z.dP || 0).toExponential(1)}・|ΔL|=${(q.z.dL || 0).toExponential(1)}`).join(' / '));
   } else {
     console.log('SKIP behavior.axisForce-*(対象に第249便c の axisForce なし — root 等)');
   }
