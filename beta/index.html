@@ -2208,6 +2208,15 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
   geoPN:0, lambdaPN:1, pnAlpha:1.5,   // v1.20: E12 測地線1PN(geoPN=1で有効。BOX_UNIVERSE §5)
   radiusScale:1, softening:2, timeScale:1,   // 第26便: radiusScale 既定 1.2→1(内蔵は明示値を維持)
   dispMag:1 };   // 第118便(原仮定者指示): 粒子表示倍率(描画半径のみ×dispMag — 表示専用・力学不変)
+// 第250便e(perf.starSeed の 1 步固定費): params を **fast-properties 表現**で保持するための複製。
+// V8 は「空オブジェクトへ 12 個超のプロパティを後付けした」オブジェクトを dictionary モードへ落とす
+// (Object.assign({},DEFAULT_PHYSICS,…) がまさにこれ)。dictionary の p[...] 読みは 1 回 ~15ns で、
+// S._core 冒頭の p 参照(frameWeight・dragRef・qTrans・gasCoh・gravMag・frameReaction・coupleSink・
+// cmGauge…)が 3 体級では 1 步コストの 1/4 を占めていた(実測: 本便 §perf)。オブジェクトスプレッドは
+// CopyDataProperties 一発でクローンするため fast-properties のまま残る。
+// **同一の own enumerable プロパティを同じ挿入順で複製するだけ**なので、値・キー順・列挙・JSON 出力は
+// 1 bit も変わらない(内部表現だけの変更 — 全内蔵プリセットで機械証明済み)。
+function fastParams(o){ return {...o}; }
 // v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
 const APP_VERSION = "1.43";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
@@ -14600,7 +14609,7 @@ function makeSim(){
       if(o.railOmega||o.railH){ S.railR[i]=o.railR; S.railAng[i]=o.railAng; S.railCx[i]=o.railCx; S.railCy[i]=o.railCy; }
       if(o.zonal) S.zonal={i, refR:o.zonal.refR, J:o.zonal.J, calib:(o.zonal.calib||1), _A:null};
     });
-    S.params = phys;
+    S.params = fastParams(phys);   // 第250便e
     // 第31便: UniverseBox(連続背景)— 未指定キーは既定値で正規化(builtin は明示値を持つ)
     const BU=preset.universeBox;
     S.box = BU? {mode:BU.mode||"static", D:BU.D||0, dPower:(BU.dPower===undefined?1:BU.dPower),
@@ -15935,7 +15944,7 @@ function makeSim(){
     // 第209便: cmGauge(0=既定・素通り/1="barycentric")— 適用本体は cmGaugeSubtract(S._core の外)
     const cmg=(p[CM_GAUGE_KEY]==="barycentric")?1:0;
     // 第237便(第30報): 粒子別 q_i(hasDragQ)と表面高度基準(dragRef:"interior"・旧名 "surface")は generic 経路(特別化カーネルは単一 q・中心距離が前提)
-    const dragSurf=(p[DRAG_REF_KEY]==="surface"||p[DRAG_REF_KEY]==="interior"||p[DRAG_REF_KEY]===DRAG_CONTACT), dqA=S.dragQ, hasDQ=S.hasDragQ;
+    const dRef=p[DRAG_REF_KEY], dragSurf=(dRef==="surface"||dRef==="interior"||dRef===DRAG_CONTACT), dqA=S.dragQ, hasDQ=S.hasDragQ;   // 第250便e: p[dragRef] の読みを 3 回 → 1 回(値・短絡順は不変)
     // 第239便(第31報): チャネル分離。chOn(並進 q・コア q・気体コヒーレンスのいずれか宣言)も generic 経路。未宣言は 1 bit 不変
     // (文脈は chanSetup が S._chG に置く — S._core 自体のバイトコード量を増やさないため: 実測でループ内外を問わず関数の
     //  文字数が閾値を越えると generic 既定経路が約 40% 遅くなる〔JIT 最適化の劣化〕)
@@ -17585,7 +17594,7 @@ function restoreDraft(){
   { const ph=Object.assign({},DEFAULT_PHYSICS,d.physics);
     // 第128便: params は κ 正準 — 旧ドラフトの Kt は κ 未併記なら換算して受理し、キーは残さない
     if("Kt" in ph){ if(!isNum(ph.kappaT) && isNum(ph.Kt)) ph.kappaT=ktToKappa(ph.Kt); delete ph.Kt; }
-    sim.params=ph; } sim.updateRadii();
+    sim.params=fastParams(ph); } sim.updateRadii();   // 第250便e
   if(d.cameraScale) camScale=d.cameraScale;
   // 第36便(P2-1): 箱設定の復元。プリセットに箱が無いのに箱設定だけ残る混乱を防ぐため sim.box が
   // 存在するときだけ適用する(loadSave の universeBox 復元と同じ条件・処理)。universeBox キーの
@@ -19682,7 +19691,7 @@ function restoreLastGood(){
   if(!snap) return;
   if(ab) abStop();                       // A/B中の発散はAの復元に一本化
   loadPreset(currentPreset.id,false);    // 初期配置へ(スナップショットもクリアされる)
-  sim.params=Object.assign({},snap); sim.updateRadii();
+  sim.params=fastParams(snap); sim.updateRadii();   // 第250便e
   setParamsDirty(true);                      // 復元値はプリセット既定と異なりうる(未保存扱い)
   buildParamRows(); requestRender();
   notify(T("divRestored"),4000);
@@ -20383,7 +20392,7 @@ function loadSave(s, selValue){
     if(!isNum(s.physics.kappaT) && isNum(s.physics.Kt)) s.physics.kappaT=ktToKappa(s.physics.Kt);
     delete s.physics.Kt;
   }
-  sim.params=Object.assign({},DEFAULT_PHYSICS,s.physics); sim.updateRadii();
+  sim.params=fastParams(Object.assign({},DEFAULT_PHYSICS,s.physics)); sim.updateRadii();   // 第250便e
   // 第243便(裁定 B5・第35報 Grok E): frameWeight 未宣言のセーブは既定 pull で走る(第242便)— 読込時に周知。
   // D0pull 未宣言の現実較正 DFM 連星は周期が数十% ずれる(第242便 −42〜−53%)ので強い警告
   if(s.physics && s.physics[FRAME_WEIGHT_KEY]===undefined && sim.params.kFrame>0){
@@ -20570,7 +20579,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   // 併走の起点を揃えるため H_eff の前回サンプル(_bhLastA/_bhLastT)も明示的に引き継ぐ
   simB.measureBox=sim.measureBox; simB.wallI0=sim.wallI0; simB.wallI1=sim.wallI1;
   simB.aEffRef=sim.aEffRef; simB._bhLastA=sim._bhLastA; simB._bhLastT=sim._bhLastT;
-  simB.params=Object.assign({},sim.params);
+  simB.params=fastParams(sim.params);   // 第250便e
   simB.world=JSON.parse(JSON.stringify(sim.world));
   simB.twall=normThermalWalls(simB.world, simB.thermal);   // 第37便 C1(台帳4-70)
   simB.wallRest=sim.wallRest? sim.wallRest.slice() : normWallRest(simB.world);   // 第94便: UI編集値ごと転写
@@ -20759,7 +20768,7 @@ function ckSnapOne(S){
 function ckRestoreOne(S,o){
   for(const k of CK_ARRS) if(S[k] && o.arrs[k]) S[k].set(o.arrs[k]);
   for(const k of CK_SC) if(o.sc[k]!==undefined) S[k]=o.sc[k];
-  S.params=Object.assign({},o.params);
+  S.params=fastParams(o.params);   // 第250便e
   if(S.phase && o.phase) Object.assign(S.phase, o.phase);
   if(S.twall && o.tw) for(let k=0;k<4;k++) S.twall[k]=o.tw[k]? Object.assign({},o.tw[k]) : null;
   if(S.wallRest && o.wr) for(let k=0;k<4;k++) S.wallRest[k]=o.wr[k];   // 第94便
@@ -20796,8 +20805,8 @@ $("#btnReset").addEventListener("click",()=>{
     const keepA=Object.assign({},sim.params), keepB=Object.assign({},ab.simB.params);
     const snapA=snapshotPhaseEdits(sim), snapB=snapshotPhaseEdits(ab.simB);   // 58B
     const mk2=()=>JSON.parse(JSON.stringify(currentPreset));
-    sim.build(mk2()); sim.params=keepA; sim.updateRadii(); applyPhaseEdits(sim,snapA);
-    ab.simB.build(mk2()); ab.simB.params=keepB; ab.simB.updateRadii(); applyPhaseEdits(ab.simB,snapB);
+    sim.build(mk2()); sim.params=fastParams(keepA); sim.updateRadii(); applyPhaseEdits(sim,snapA);   // 第250便e
+    ab.simB.build(mk2()); ab.simB.params=fastParams(keepB); ab.simB.updateRadii(); applyPhaseEdits(ab.simB,snapB);   // 第250便e
     // 第63便(原仮定者指示): 粒子patch系ワンタップA/Bは ⏮初めから でも B 側へ再適用
     // (「A/B比較を終了」するまで有効)
     if(ab.bodyPatch){
@@ -20830,7 +20839,7 @@ $("#btnReset").addEventListener("click",()=>{
   const keep=Object.assign({},sim.params), wasDirty=paramsDirty;
   const snapP=snapshotPhaseEdits(sim);   // 58B: 相変化ノブ・壁編集も保持
   loadPreset(currentPreset.id,false);
-  sim.params=keep; sim.updateRadii();
+  sim.params=fastParams(keep); sim.updateRadii();   // 第250便e
   applyPhaseEdits(sim,snapP);            // 58B
   applyGraphOverlays(sim,gsnap);         // 第95便: グラフ表示を保持
   setScaleExps(esnap);                   // 第95便: スケール指数の上書き値を保持(null=タグ既定も保持)
@@ -22161,7 +22170,7 @@ function buildParamRows(){
   else updatePhysLockBadge();
 }
 $("#btnParamDefault").addEventListener("click",()=>{
-  sim.params=Object.assign({},basePhysics); sim.updateRadii(); buildParamRows();
+  sim.params=fastParams(basePhysics); sim.updateRadii(); buildParamRows();   // 第250便e
   requestRender();
   notify(T("defaultsDone"));
 });

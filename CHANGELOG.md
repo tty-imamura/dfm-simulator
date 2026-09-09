@@ -6,6 +6,11 @@
 
 ## v1.44-b1(開発中 — beta)
 
+- **第250便e(2026-09-09・perf.starSeed の 1 步固定費)**: 同一 SHA で 1.084 PASS / 1.14 / 1.126 / 1.103 FAIL と閾値 1.10 に張り付いていた `perf.starSeed`(3 体・core v2)の原因は **`S.params` が V8 の dictionary モードに落ちていたこと**だった — `Object.assign({},DEFAULT_PHYSICS,preset.physics)` は空オブジェクトへ 24 個のプロパティを後付けするため辞書化し、`S._core` 冒頭の `p[frameWeight]`・`p[dragRef]`・`p.qTrans`・`p.gasCoh`・`p.gravMag`… の読みが **1 回 ~16ns**(fast-properties なら ~2.5ns)になる。3 体では対が 3 対しかないためこの 1 步固定費が全体の約 1/4 を占めていた。切り分け(beta 変種を root と交互ペアで測り min 比・starSeed 10000frames×spf4×13rep): 現状 **1.093** → chanSetup の本体を空にすると **1.048** → dragSurf/hasDQ も定数化 **1.022** → sumWu/bgWu も定数化 **1.011**(S.step の 4 フラグ・hasPulse は合計 0.3pt)。**呼び出し自体は無償**(本体を空にした 1.048 と呼び出しごと削った 1.050 が同値)で、逆に chanSetup の最短判定を `S._core` へインライン展開すると **1.145** と悪化した(第239便 §4.5 のバイトコード量の崖を再確認 — `S._core` は太らせない)。
+  対処は **`fastParams(o)={...o}`**(オブジェクトスプレッド = CopyDataProperties 一発のクローンなので fast-properties のまま残る)を **params を sim へ載せる 10 箇所**へ適用し、`S._core` の `p[DRAG_REF_KEY]` 読みを 3 回 → 1 回にしただけ。**物理式・演算順・分岐・キーの挿入順・エクスポート JSON は 1 bit も変えていない**(V8 の内部表現だけの変更)。
+  **ビット同一の証拠**: 全内蔵プリセット **114 本**を同一 seed で 600 步進めた後の x/y/vx/vy/spin/coreJ/coreOmV/RcV/Tint/tau/sumW/uAx/uAy/ds/R/m/totals/energies (約 21 配列・本)を旧 beta と比較し **全件 max|Δ|=0**。
+  **perf**: `perf.starSeed` の beta/root ペア比中央値 **1.09 → 0.821**(30000frames×spf4・ペア比[0.967 0.801 0.821]。別途 6 セットでも中央値 0.799)。`node tests/perf.mjs` は **22/22 PASS**(merger の再トス 1 件 1.112→1.096 は従来どおり — 182 体で対ループ支配のため本便は効かない)。`QA_FAST=1 QA_TARGET=beta/index.html` ALL PASS。root(index.html)は未改変。
+
 - **第249便(統括・2026-09-08・第41報「検証を優先/現実較正は質量以外を観測値に合わせるまで/渦巻き銀河の案」)**: PHYSICS〔第249便 — 統括〕に第8報「計算式が変われば質量が変わる」の適用限界を 1 段落で固定(現行の未補正 E12 では P 用の f と ω̇ 用の f は両立しない — 不可能宣言で探索を終えず λ_PN=1/f と ν 則を次段で検証)。別稿 6 骨子を修正(refit 表現・GW150914 の e +1.0% は棄却ではない・「単一則なし」は試した法則群の条件付き否定・否定的結果 10 件目 P と ω̇ の非両立・再現性の記述)。エンジン不変。
 - **第249便c(2026-09-08・第41報 W3「渦巻き銀河の案(計算式つき・複数)」・3 審査 v7)**: **DFM 版渦巻き銀河の案 A〜D を式つきで提案**し、
   第一候補の**案A だけ**を opt-in の玩具としてエンジンへ接続、**原理サンプル 3 本**で実測した。**既定経路は 1 bit 不変**。
