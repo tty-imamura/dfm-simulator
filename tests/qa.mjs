@@ -10421,6 +10421,122 @@ if (!FAST) {
   }
 }
 
+// ---- 第250便b(第42報 W2): behavior.mmWavelength — MM の**波長チャネル**(HP.dfmMMWavelength)----
+// 原仮定者(第42報)の指示「別々の方向に発射した光子が、反射して戻って来た時の波長を比較する。…
+// 観測位置が移動していても、ドップラー効果を考慮して一致する事を確認する」に対応する階段 W1〜W5 を、
+// behavior.mmPhase と**同じ様式**(SI 1887 装置 L=11 m・λ₀=500 nm・v=29.9792458 km/s・c=299792458)で
+// 機械固定する。規約は ω=u·k+c|k|(非分散)・移動境界で ω−V·k 保存・検出器の読み ν_D=(ω−V_D·k)/2π。
+//   (W1) 静止・等長      → λ₁=λ₂=λ₀ が**ビット厳密**・Δν=0・Δφ=0
+//   (W2) 静止・ΔL=λ/4    → **Δλ=0・Δν=0(ビット厳密)なのに Δφ=π** — 波長比較の null と距離の正対照が
+//                          分かれる(**波長一致 ≠ 位相一致**。本便の核)
+//   (W3) 装置 v・u=0     → 共移動検出器の帰還周波数は**両腕とも ν_D/ν₀=1**・同一 +x 出力へ再合成した
+//                          共通波長も**ビット厳密に一致**、**それでも Δφ=0.22 縞が残る**・90° で符号反転。
+//                          一方**戻り方向の空間波長は O(β) で違う**(腕ごとに戻る向きが違うため)
+//   (W4) 随伴 u=V        → Δλ・Δν・Δφ が全部 0(χ<1 では位相だけ (1−χ)² で残る)
+//   (W5) 検出器だけ動く   → 補正前 Δν≠0(比 1.0000033/1.0000167)・**ドップラー補正後は W1 に戻る**
+// **「DFM が MM null を予測する」とは決め打ちしない**。共移動検出器の帰還周波数一致は
+// **ドップラーの相殺**であって光速不変の証明ではない、も本テストの前提(値の合否だけを見る)。
+{
+  const hasMW = await page.evaluate(() => !!(window.HP && typeof HP.dfmMMWavelength === 'function'
+    && typeof HP.dfmMMPhase === 'function'));
+  if (hasMW) {
+    const mw = await page.evaluate(() => {
+      const C = 299792458, LAM = 5e-7, L = 11, V = 29979.2458;
+      const W = (o) => HP.dfmMMWavelength(o);
+      const base = { c: C, lambda0: LAM, L1: L, L2: L };
+      const w1 = W(Object.assign({}, base));
+      const dL = 1.25e-7;                                   // ΔL=λ/4 → 往復 λ/2 → Δφ=π
+      const w2 = W(Object.assign({}, base, { L1: L + dL }));
+      const w3 = W(Object.assign({}, base, { vx: V }));                  // 戻り方向のまま
+      const w3o = W(Object.assign({}, base, { vx: V, nOut: [1, 0] }));   // 同一 +x 出力へ再合成
+      const w3r = W(Object.assign({}, base, { vx: V, theta0: Math.PI / 2, nOut: [1, 0] }));
+      const w4 = W(Object.assign({}, base, { vx: V, ux: V, nOut: [1, 0] }));
+      const VD = { x: V + 1000, y: 5000 };
+      const w5 = W(Object.assign({}, base, { vx: V, vD: VD, nOut: [1, 0] }));
+      // 根探索の許容 2 段(iters 200 / 500)でビット同一 = 解析根なので dt/精度に依存しない
+      const kk = (r) => [r.arm1.lambdaOut, r.arm2.lambdaOut, r.arm1.lambdaCommon, r.arm2.lambdaCommon,
+        r.arm1.nuD, r.arm2.nuD, r.arm1.D, r.arm2.D, r.dLambdaOut, r.dNu, r.phase.dphi];
+      const i200 = kk(W(Object.assign({}, base, { vx: V, nOut: [1, 0], iters: 200 })));
+      const i500 = kk(W(Object.assign({}, base, { vx: V, nOut: [1, 0], iters: 500 })));
+      const iterSame = i200.every((z, i) => Object.is(z, i500[i]));
+      // 決定性(同じ cfg で 2 回 — 全数値ビット同一)
+      const cfgD = { c: C, lambda0: LAM, L1: L + 3e-4, L2: L, vx: 1234.5, uy: 67.8,
+        theta0: 0.3, vD: { x: 2000, y: -300 }, nOut: [0.6, 0.8] };
+      const d1 = kk(W(cfgD)), d2 = kk(W(cfgD));
+      const det = d1.every((z, i) => Object.is(z, d2[i]));
+      // 適用域外は null(**回転境界は扱わない**・超光速の残風・非数)
+      const gate = W(Object.assign({}, base, { omega: 1 })) === null
+        && W(Object.assign({}, base, { vx: 2 * C })) === null
+        && W(Object.assign({}, base, { vD: { x: 2 * C, y: 0 } })) === null
+        && W(Object.assign({}, base, { L1: NaN })) === null;
+      const P = (r) => ({ l1: r.arm1.lambdaOut, l2: r.arm2.lambdaOut,
+        c1: r.arm1.lambdaCommon, c2: r.arm2.lambdaCommon, D1: r.arm1.D, D2: r.arm2.D,
+        r1: r.arm1.nuD / r.nu0, r2: r.arm2.nuD / r.nu0,
+        cr1: r.arm1.nuCorr / r.nu0, cr2: r.arm2.nuCorr / r.nu0,
+        rho: [r.arm1.rhoFwd, r.arm1.rhoBack, r.arm2.rhoFwd, r.arm2.rhoBack],
+        longRel: Math.max(Math.abs(r.arm1.nuDlong / r.arm1.nuD - 1), Math.abs(r.arm2.nuDlong / r.arm2.nuD - 1)),
+        dl: r.dLambdaOut, dc: r.dLambdaCommon, dnu: r.dNu, dcorr: r.dNuCorr,
+        dphi: r.phase.dphiExact, fr: r.phase.fringes, dt: r.phase.dt });
+      return { nu0: w1.nu0, lam0: LAM, dL, w1: P(w1), w2: P(w2), w3: P(w3), w3o: P(w3o),
+        w3r: P(w3r), w4: P(w4), w5: P(w5), iterSame, det, gate };
+    });
+    const rel = (a, b) => Math.abs(a / b - 1);
+    const Z = (x) => Object.is(x, 0);
+    // (W1) 静止・等長: 戻り波長も共通出力波長も λ₀ ちょうど・Δν も Δφ も 0(ビット厳密)
+    const wa1 = Object.is(mw.w1.l1, mw.lam0) && Object.is(mw.w1.l2, mw.lam0)
+      && Z(mw.w1.dl) && Z(mw.w1.dc) && Z(mw.w1.dnu) && Z(mw.w1.dphi)
+      && mw.w1.D1 === 1 && mw.w1.D2 === 1;
+    // (W2) 静止・ΔL: **Δλ=0・Δν=0 のまま Δφ=π**(距離チャネルだけが動く)
+    //   Δφ が π と 2.5e-9 ずれるのは L1−L2 の桁落ち(ulp(11 m)=1.8e-15 m 対 ΔL=125 nm)であって物理ではない
+    const wa2 = Object.is(mw.w2.l1, mw.lam0) && Object.is(mw.w2.l2, mw.lam0)
+      && Z(mw.w2.dl) && Z(mw.w2.dc) && Z(mw.w2.dnu)
+      && rel(mw.w2.dphi, Math.PI) < 1e-8 && Math.abs(mw.w2.dt) > 0;
+    // (W3) 装置が動く: ν 一致・共通出力波長一致(ビット厳密)・**それでも 0.22 縞**・90° で符号反転
+    const b1 = 1e-4;
+    const wa3 = mw.w3o.r1 === 1 && mw.w3o.r2 === 1 && Object.is(mw.w3o.dc, 0)
+      && Object.is(mw.w3o.c1, mw.w3o.c2)
+      && rel(mw.w3o.c1, mw.lam0 * (1 - b1)) < 1e-12                 // 共通出力 = λ₀(1−β) = 499.95 nm
+      && rel(mw.w3.l1, mw.lam0 * (1 + b1)) < 1e-12                  // 平行腕の戻り = λ₀(1+β) = 500.05 nm
+      && rel(mw.w3.l2, mw.lam0 * (1 - b1 * b1)) < 1e-11             // 直交腕の戻り = λ₀(1−β²)
+      && Math.abs(mw.w3.dl / mw.lam0 - b1 * (1 + b1)) < 1e-12       // 戻り方向どうしは O(β) で違う
+      && Math.abs(mw.w3o.fr - 0.22) < 1e-6                          // 位相は 0.22 縞のまま残る
+      && rel(mw.w3r.dphi, -mw.w3o.dphi) < 1e-12                     // 90° 回転で符号反転
+      && Object.is(mw.w3r.dc, 0)
+      && mw.w3.rho.every((z) => Math.abs(z - 1) < 1e-12)            // ρ=(ω−V·k)/2πν₀ は往復で不変
+      && mw.w3.longRel < 1e-12;                                      // 長い道(ω−V_D·k)と比の形が一致
+    // (W4) 随伴 u=V: 波長も周波数も位相も全部 0
+    const wa4 = Object.is(mw.w4.l1, mw.lam0) && Object.is(mw.w4.l2, mw.lam0)
+      && Z(mw.w4.dl) && Z(mw.w4.dc) && Z(mw.w4.dnu) && Z(mw.w4.dphi)
+      && mw.w4.r1 === 1 && mw.w4.r2 === 1;
+    // (W5) 検出器だけ動く: 補正前は Δν≠0(既知の 2 比)、**補正後は W1 に戻る**
+    const wa5 = Math.abs(mw.w5.r1 - 1.0000033353074211) < 1e-12
+      && Math.abs(mw.w5.r2 - 1.0000166778712793) < 1e-12
+      && mw.w5.dnu !== 0 && Object.is(mw.w5.dcorr, 0)
+      && mw.w5.cr1 === 1 && mw.w5.cr2 === 1
+      && Object.is(mw.w5.dc, 0);                                     // 装置側の共通出力波長は動かない
+    add('behavior.mmWavelength',
+      wa1 && wa2 && wa3 && wa4 && wa5 && mw.iterSame && mw.det && mw.gate,
+      `(W1) 静止・等長: λ₁=λ₂=λ₀=${(mw.w1.l1 * 1e9).toFixed(6)}nm(**ビット厳密**)・Δν=${mw.w1.dnu}・` +
+      `Δφ=${mw.w1.dphi} / ` +
+      `(W2) 静止・ΔL=λ/4: **Δλ=${mw.w2.dl}・Δν=${mw.w2.dnu} のまま Δφ=${mw.w2.dphi.toFixed(9)}` +
+      `(=π と相対 ${rel(mw.w2.dphi, Math.PI).toExponential(1)} — L₁−L₂ の桁落ち)**=波長の null と` +
+      `距離の正対照が分かれる / ` +
+      `(W3) 装置 v(β=1e-4)・u=0: 戻り波長は平行腕 ${(mw.w3.l1 * 1e9).toFixed(6)}nm 対 直交腕 ` +
+      `${(mw.w3.l2 * 1e9).toFixed(6)}nm(**方向が違うので O(β) で違う**)/ 同一 +x 出力へ再合成すると` +
+      `両腕とも ${(mw.w3o.c1 * 1e9).toFixed(6)}nm(Δλ=${mw.w3o.dc} ビット厳密)・共移動検出器の` +
+      `**帰還周波数は ν_D/ν₀=${mw.w3o.r1}, ${mw.w3o.r2}**・**それでも Δφ=${mw.w3o.dphi.toFixed(9)} rad=` +
+      `${mw.w3o.fr.toFixed(7)} 縞**(90° 回転で符号反転 相対 ${rel(mw.w3r.dphi, -mw.w3o.dphi).toExponential(1)})・` +
+      `ρ 不変 ${Math.max(...mw.w3.rho.map((z) => Math.abs(z - 1))).toExponential(1)} / ` +
+      `(W4) 随伴 u=V: Δλ=${mw.w4.dl}・Δν=${mw.w4.dnu}・Δφ=${mw.w4.dphi} / ` +
+      `(W5) 検出器だけ (1000,5000) m/s: ν_D/ν₀=${mw.w5.r1}, ${mw.w5.r2}` +
+      `(Δν=${mw.w5.dnu.toExponential(3)} Hz)→ **補正後 ${mw.w5.cr1}, ${mw.w5.cr2}(ΔνCorr=${mw.w5.dcorr})** / ` +
+      `iters 200/500 でビット同一=${mw.iterSame}・純関数の決定性=${mw.det}・` +
+      `適用域外(回転境界・超光速・NaN)は null=${mw.gate}`);
+  } else {
+    console.log('SKIP behavior.mmWavelength(対象に第250便b の HP.dfmMMWavelength なし — root 等)');
+  }
+}
+
 // ---- 第246便d ⑤: behavior.contractBudget — コア収縮の E 予算と Q 不変 ----
 // 思考実験⑤「WD/NS の質量は元の赤色巨星とあまり変わらない → 質量はコアに集中し、成長すると
 // コア半径が縮む」。①エネルギー予算 dUbind=aGMc²(1/R1−1/R0) 対 dErot=J²/(2κMc)(1/R1²−1/R0²)
