@@ -10650,6 +10650,134 @@ if (!FAST) {
   }
 }
 
+// ---- 第250便a(第42報 W1): behavior.dragChannels250 — 引きずりの 2 チャネル(回転/並進)----
+// 原仮定者の見立て「コンパクト天体連星同士では引きずりが消える」を、**どのチャネルの話か**まで
+// 分けて機械固定する。回転チャネル η_rot=s(R/(R+d))^q/n は J0737 の転写値で 10⁻¹¹〜10⁻¹³ =
+// **サイズ比ゲート (R/(R+d))^q≈2.3×10⁻¹⁶ で消える**。一方 並進チャネル χ は同じ系で ≈1(飽和)で、
+// 恒星連星(αCen/シリウス)では χ≈2〜6×10⁻⁴ — **消えるのは回転チャネルだけ**である。
+{
+  const hasDC = await page.evaluate(() => typeof HP.dfmDragChannels === 'function');
+  if (hasDC) {
+    const dc = await page.evaluate(() => {
+      // J0737−3039A/B の転写値(⚡ psrDoubleABDFM の宣言そのもの)+ 観測公転の平均運動
+      const R = 0.01175, d = 955.9782718763176, n = 2 * Math.PI / 883.4534723278;
+      const A = HP.dfmDragChannels({ R, d, q: 3.1788606596895086, s: 2767.998768, n, chi: 0.9999403473682839 });
+      const B = HP.dfmDragChannels({ R, d, q: 3.185016056198988, s: 22.654675, n, chi: 0.9999443287852461 });
+      // s に厳密比例(回転チャネルは自転の一次)
+      const half = HP.dfmDragChannels({ R, d, q: 3.1788606596895086, s: 2767.998768 / 2, n });
+      // q を上げるとゲートは単調に落ちる(サイズ比が 1 未満だから)
+      const gq = [3, 3.1788606596895086, 4, 5].map((q) => HP.dfmDragChannels({ R, d, q, s: 1, n }).gate);
+      // 恒星連星の χ(✴️ αCenAB DFM / 💫 SiriusAB DFM の実測値 — CH 表と同じ数)
+      const star = HP.dfmDragChannels({ R: 0.084738, d: 348.54808, q: 4.611121739045699, s: 4.57371397, n: 1, chi: 1.988e-4 });
+      return { A, B, half, gq, star,
+        bad: [HP.dfmDragChannels(null), HP.dfmDragChannels({ R: 0, d: 1, q: 2 }),
+          HP.dfmDragChannels({ R: 1, d: -1, q: 2 }), HP.dfmDragChannels({ R: 1, d: 1, q: NaN })] };
+    });
+    const near = (a, b, t) => Math.abs(a / b - 1) < t;
+    add('behavior.dragChannels250',
+      near(dc.A.sizeRatio, 1.2290923263967048e-5, 1e-12)
+      && near(dc.A.gate, 2.457385930035465e-16, 1e-9) && near(dc.B.gate, 2.292175218822333e-16, 1e-9)
+      && near(dc.A.etaRot, 9.564077210807213e-11, 1e-9) && near(dc.B.etaRot, 7.301455840029772e-13, 1e-9)
+      && near(dc.half.etaRot, dc.A.etaRot / 2, 1e-12)
+      && dc.gq.every((g, i) => i === 0 || g < dc.gq[i - 1])
+      && dc.A.chi > 0.999 && dc.B.chi > 0.999 && dc.star.chi < 1e-3
+      && dc.A.ratio < 1e-9 && dc.B.ratio < 1e-9
+      && dc.A.etaRot < 1e-9 && dc.B.etaRot < 1e-9
+      && dc.bad.every((z) => z === null),
+      `J0737 の 2 チャネル(R=11.75 km proxy・d=近点側の遠点分離 955.978・n=2π/P_obs): ` +
+      `**回転チャネル** サイズ比 ${dc.A.sizeRatio.toExponential(4)} → ゲート (R/(R+d))^q=${dc.A.gate.toExponential(4)}(A)/` +
+      `${dc.B.gate.toExponential(4)}(B) → η_rot=${dc.A.etaRot.toExponential(4)}(A の自転が源)/` +
+      `${dc.B.etaRot.toExponential(4)}(B) / **並進チャネル** χ=${dc.A.chi.toFixed(6)}(飽和)→ ` +
+      `比 η_rot/χ=${dc.A.ratio.toExponential(3)} = **消えるのは回転チャネルだけ**。` +
+      `恒星連星(✴️ αCen)は同じ器で χ=${dc.star.chi.toExponential(3)} = 並進チャネルが 4 桁弱い side / ` +
+      `η_rot は s に厳密比例(半分で ${(dc.half.etaRot / dc.A.etaRot).toFixed(6)})・q を上げるとゲートは単調減少 / ` +
+      `不正入力は null=${dc.bad.every((z) => z === null)}`);
+  } else {
+    console.log('SKIP behavior.dragChannels250(対象に第250便a の 2 チャネル台帳なし — root 等)');
+  }
+}
+
+// ---- 第250便a: behavior.tidalSpinScale — ラグビーボール尺度(潮汐 vs 自転遠心)----
+// 見立て「潮汐力でロックされ自転軸方向にラグビーボールの様に引き伸ばされ、自転遠心と拮抗している」を
+// 無次元の桁で機械固定する。J0737 の転写値では **ε_tide/ε_rot = 4.2×10⁻¹²(A)/6.7×10⁻⁸(B)** で、
+// **どちらも自転遠心(オブレート)側が桁違いに勝つ**(拮抗しない)。しかも A と B で 4 桁違うので
+// **両体が同じ形にはならない**、が第一予測である。
+{
+  const hasTS = await page.evaluate(() => typeof HP.dfmTidalSpinScale === 'function');
+  if (hasTS) {
+    const ts = await page.evaluate(() => {
+      const G = 6.674e-11, R = 1.175e4, dPeri = 8.788366e8 * (1 - 0.087777036);
+      const mA = 2.660982861e30, mB = 2.483370041e30;
+      const A = HP.dfmTidalSpinScale({ m: mA, mComp: mB, R, d: dPeri, Omega: 2 * Math.PI / 0.02269937898645, G });
+      const B = HP.dfmTidalSpinScale({ m: mB, mComp: mA, R, d: dPeri, Omega: 2 * Math.PI / 2.77346074724, G });
+      // ε_tide ∝ d⁻³(距離 2 倍で 1/8)・ε_rot ∝ Ω²(Ω 2 倍で 4 倍)
+      const far = HP.dfmTidalSpinScale({ m: mA, mComp: mB, R, d: 2 * dPeri, Omega: 2 * Math.PI / 0.02269937898645, G });
+      const fast = HP.dfmTidalSpinScale({ m: mA, mComp: mB, R, d: dPeri, Omega: 4 * Math.PI / 0.02269937898645, G });
+      return { A, B, far, fast,
+        bad: [HP.dfmTidalSpinScale(null), HP.dfmTidalSpinScale({ m: 0, mComp: 1, R: 1, d: 1, Omega: 1 }),
+          HP.dfmTidalSpinScale({ m: 1, mComp: 1, R: 1, d: 0, Omega: 1 }), HP.dfmTidalSpinScale({ m: 1, mComp: 1, R: 1, d: 1, Omega: NaN })] };
+    });
+    const near = (a, b, t) => Math.abs(a / b - 1) < t;
+    add('behavior.tidalSpinScale',
+      near(ts.A.epsTide, 2.9382283977257893e-15, 1e-9) && near(ts.A.epsRot, 6.998695606205695e-4, 1e-9)
+      && near(ts.B.epsTide, 3.3735475150915487e-15, 1e-9) && near(ts.B.epsRot, 5.023444972272679e-8, 1e-9)
+      && near(ts.A.ratio, 4.198251450056611e-12, 1e-8) && near(ts.B.ratio, 6.71560559279961e-8, 1e-8)
+      && ts.A.shape === 'oblate' && ts.B.shape === 'oblate'
+      && near(ts.far.epsTide, ts.A.epsTide / 8, 1e-12) && near(ts.fast.epsRot, ts.A.epsRot * 4, 1e-12)
+      && ts.A.ratio < 1 && ts.B.ratio < 1 && (ts.B.ratio / ts.A.ratio) > 1e3
+      && ts.bad.every((z) => z === null),
+      `J0737(R=11.75 km EOS proxy・近点距離 ${(8.788366e8 * (1 - 0.087777036)).toExponential(5)} m・観測自転): ` +
+      `A ε_tide=${ts.A.epsTide.toExponential(3)} / ε_rot=${ts.A.epsRot.toExponential(3)} → 比 ${ts.A.ratio.toExponential(3)}・` +
+      `B ε_tide=${ts.B.epsTide.toExponential(3)} / ε_rot=${ts.B.epsRot.toExponential(3)} → 比 ${ts.B.ratio.toExponential(3)} → ` +
+      `**両体とも ε_rot 側(オブレート)が勝ち、拮抗しない**。A と B の比は ${(ts.B.ratio / ts.A.ratio).toExponential(2)} 倍違う = ` +
+      `**両体が同じ形にはならない**(第一予測) / ε_tide ∝ d⁻³・ε_rot ∝ Ω² を機械固定 / ` +
+      `不正入力は null=${ts.bad.every((z) => z === null)}。半径は EOS proxy・質量は転写なので DFM の内部構造の測定ではない`);
+  } else {
+    console.log('SKIP behavior.tidalSpinScale(対象に第250便a のラグビーボール尺度なし — root 等)');
+  }
+}
+
+// ---- 第250便a: behavior.inducedPair — 誘起応答(ファンデルワールス相当)の U と F ----
+// U=−C₆/(r²+r_c²)³+C₁₂/(r²+r_c²)⁶ と F=−dU/dr の一致(有限差分)・引力型 C₆>0 の符号・単調減衰。
+// **エンジンの力へは接続していない**(独立 RK4 の tests/exp-w250a-induced.mjs が符号を確かめる器)。
+{
+  const hasIP = await page.evaluate(() => typeof HP.dfmInducedPair === 'function');
+  if (hasIP) {
+    const ip = await page.evaluate(() => {
+      let maxRel = 0, n = 0;
+      for (const C6 of [0, 1e-3, 1, 7.5]) for (const C12 of [0, 1e-6, 2]) for (const rc of [0, 1e-4, 0.3])
+        for (const r of [0.2, 0.5, 1, 2, 5, 20]) {
+          const h = 1e-6 * r;
+          const a = HP.dfmInducedPair({ r: r + h, C6, C12, rc }), b = HP.dfmInducedPair({ r: r - h, C6, C12, rc });
+          const m = HP.dfmInducedPair({ r, C6, C12, rc });
+          const fd = -(a.U - b.U) / (2 * h);
+          if (Math.abs(fd) > 1e-9) { const rel = Math.abs(m.F - fd) / Math.abs(fd); if (rel > maxRel) maxRel = rel; n++; }
+        }
+      const mono = [0.5, 1, 2, 4, 8].map((r) => HP.dfmInducedPair({ r, C6: 1, C12: 0, rc: 1e-4 }));
+      const rep = HP.dfmInducedPair({ r: 0.5, C6: 0, C12: 1, rc: 1e-4 });   // C₁₂ 単独は斥力
+      const one = HP.dfmInducedPair({ r: 1, C6: 1, C12: 0, rc: 0 });        // r_c=0・r=1 の素の値
+      return { n, maxRel, mono: mono.map((z) => ({ U: z.U, F: z.F })), rep, one,
+        bad: [HP.dfmInducedPair(null), HP.dfmInducedPair({ r: -1 }), HP.dfmInducedPair({ r: 0, rc: 0 }),
+          HP.dfmInducedPair({ r: 1, C6: NaN })] };
+    });
+    const eq = (a, b) => Math.abs(a - b) < 1e-12;
+    add('behavior.inducedPair',
+      ip.maxRel < 1e-6 && ip.n >= 100
+      && ip.mono.every((z) => z.F < 0 && z.U < 0)
+      && ip.mono.every((z, i) => i === 0 || Math.abs(z.F) < Math.abs(ip.mono[i - 1].F))
+      && ip.rep.F > 0
+      && eq(ip.one.U, -1) && eq(ip.one.F, -6)
+      && ip.bad.every((z) => z === null),
+      `U=−C₆/(r²+r_c²)³+C₁₂/(r²+r_c²)⁶・F=−dU/dr: **有限差分との最大相対差 ${ip.maxRel.toExponential(3)}**(${ip.n} 点)/ ` +
+      `引力型 C₆=1・C₁₂=0・r_c=0・r=1 で U=${ip.one.U}・F=${ip.one.F}(=−6C₆/r⁷·r) / ` +
+      `C₆>0 は全域で F<0(引力)かつ |F| は r とともに単調減衰・C₁₂ 単独は F=${ip.rep.F.toExponential(3)}>0(斥力)/ ` +
+      `不正入力は null=${ip.bad.every((z) => z === null)}。**この関数はエンジンの力へ接続していない** — ` +
+      `独立 RK4(tests/exp-w250a-induced.mjs)が「引力型 C₆ は近点を前進させる」の符号を確定する`);
+  } else {
+    console.log('SKIP behavior.inducedPair(対象に第250便a の誘起応答なし — root 等)');
+  }
+}
+
 // ---- 第231便(第28報): behavior.supernovaObs — 超新星の観測転写(🥀 前駆星/🦀 残骸)----
 // 🥀: Joyce 一組整合の転写値+静止ビット保持。🦀: 膨張速度の転写(1506 km/s)・殻 KE=1.04e50 erg
 // (SN 1054 モデル帯と同桁・正準 1e51 の1桁下)・年齢算術・自由膨張・gas 宣言・決定性

@@ -26666,6 +26666,69 @@ function dfmDipoleDiscStability(eta){
   if(!Number.isFinite(e)) return null;
   return { eta:e, orbit:1-e, radial:1+e, vertical:1-3*e, stable:(e<1/3) };
 }
+// ===== 第250便a(第42報 W1「コンパクト連星の検証」)— 読み取り専用の純関数 3 本 ===============
+// 3 本とも **エンジンの力へは 1 バイトも接続していない**(dfmPlanetSpinMoment 等と同じ台帳枠)。
+// 原仮定者の見立て「コンパクト連星同士では引きずりが消える/自転軸は 90° 倒れて互いを向く/
+// 潮汐でラグビーボールに伸び自転遠心と拮抗する/ファンデルワールス相当の力が働く」を、
+// **説明文の言葉ではなく関数**にして、QA・実験ハーネス・PHYSICS.md が同じ数字を読めるようにする。
+//
+// ⑦ dfmDragChannels({R,d,q,s,n,chi}) — **引きずりの 2 チャネルを同じ器で並べる**(第42報 W1 の主題)。
+//    エンジンの u は u_i=Σ_j w_j{v_j + ω_j ẑ×r_ij}(pairCore* の E2/E3 そのもの)で、
+//      **回転チャネル** ω_j = s_j·(R_j/(R_j+d))^q  … サイズ比ゲート。円軌道 v≈n·d で規格化すると
+//                       η_rot = ω_j/n = (回転チャネルが u に入れる速さ)/(軌道速度)
+//      **並進チャネル** χ = w_j/(D₀+Σw)          … pull 重みの分率(dfmBinaryChi/dfmPullEntrainment)。
+//                       同じ規格化で χ = (並進チャネルが u に入れる速さ)/(軌道速度)
+//    **2 つは同じ無次元の物差しに乗る**ので比 η_rot/χ が「どちらのチャネルが残るか」を 1 数で言う。
+//    NS 連星では R/d≈1.3×10⁻⁵ で (R/(R+d))^q≈10⁻¹⁶ ⇒ **回転チャネルだけがサイズ比で消える**。
+//    並進チャネルは χ≈1(f≈2 の帰結)で飽和したまま = **「引きずりが消える」のは回転チャネルの話**。
+//    返値: sizeRatio=R/(R+d)・gate=sizeRatio^q・omegaEff=s·gate・uRot=omegaEff·d(重み前の速さ)・
+//          etaRot=omegaEff/n・chi・ratio=etaRot/chi。n/chi は省略可(その場合 null)。
+function dfmDragChannels(o){
+  if(!o || typeof o!=="object") return null;
+  const R=Number(o.R), d=Number(o.d), q=Number(o.q), s=Number((o.s!==undefined)? o.s : 0);
+  if(!(R>0 && d>0 && q>0) || ![R,d,q,s].every(Number.isFinite)) return null;
+  const sr=R/(R+d), gate=Math.pow(sr,q), om=s*gate, uRot=om*d;
+  const n=(o.n!==undefined)? Number(o.n) : NaN;
+  const chi=(o.chi!==undefined)? Number(o.chi) : NaN;
+  const etaRot=(Number.isFinite(n) && n>0)? om/n : null;
+  const chiOut=(Number.isFinite(chi) && chi>=0)? chi : null;
+  return { sizeRatio:sr, gate, omegaEff:om, uRot,
+    n:(Number.isFinite(n)? n : null), etaRot, chi:chiOut,
+    ratio:(etaRot!==null && chiOut!==null && chiOut>0)? etaRot/chiOut : null };
+}
+// ⑧ dfmTidalSpinScale({m,mComp,R,d,Omega,G}) — **ラグビーボールの尺度**(Grok v8 §3.2(2))。
+//    ε_tide=(m_comp/m)(R/d)³ … 潮汐のプロレート(伴星方向に伸びる)
+//    ε_rot =Ω²R³/(G m)       … 自転遠心のオブレート(自転軸に垂直へ膨らむ)
+//    ratio=ε_tide/ε_rot・net=ε_tide−ε_rot。**どちらも無次元の桁の目安**であって変形の解ではない
+//    (エンジンの天体は点の器で、変形の自由度そのものが無い)。半径は EOS proxy(J0737 は 11.75 km)・
+//    質量は転写値なので、**DFM の内部構造の測定ではない**。G の既定は SI の 6.674×10⁻¹¹。
+function dfmTidalSpinScale(o){
+  if(!o || typeof o!=="object") return null;
+  const m=Number(o.m), mc=Number(o.mComp), R=Number(o.R), d=Number(o.d), Om=Number(o.Omega);
+  const G=(o.G!==undefined)? Number(o.G) : 6.674e-11;
+  if(!(m>0 && mc>0 && R>0 && d>0 && G>0) || ![m,mc,R,d,Om,G].every(Number.isFinite)) return null;
+  const rd=R/d, epsT=(mc/m)*rd*rd*rd, epsR=Om*Om*R*R*R/(G*m);
+  return { epsTide:epsT, epsRot:epsR, ratio:(epsR!==0)? epsT/epsR : null, net:epsT-epsR,
+    shape:(epsT>epsR? "prolate" : (epsT<epsR? "oblate" : "neutral")), rOverD:rd };
+}
+// ⑨ dfmInducedPair({r,C6,C12,rc}) — **誘起応答(ファンデルワールス相当)の球対称最小候補**
+//    (ChatGPT v8 §5.1)。U=Q²/2α−Q𝓔 を Q で消去すると U_min=−(α/2)𝓔²、潮汐型 𝓔∝r⁻³ なら ∝ r⁻⁶。
+//      U(r) = −C₆/(r²+r_c²)³ + C₁₂/(r²+r_c²)⁶
+//      F(r) = −dU/dr = [−6C₆/(r²+r_c²)⁴ + 12C₁₂/(r²+r_c²)⁷]·r    (ベクトルは coeff·**r**)
+//    C₁₂ は未解像の近接反発を試す任意候補で既定 0(融合則との二重反発を避ける)。
+//    **エンジンの力へは接続していない** — 独立 RK4(tests/exp-w250a-induced.mjs)で符号だけを確かめる器。
+//    引力型 C₆>0 は F<0(引力)で、**近点を前進させる**(Δϖ=30πC₆/(Gm₁m₂p⁵)(1+3e²/2+e⁴/8)>0)。
+function dfmInducedPair(o){
+  if(!o || typeof o!=="object") return null;
+  const r=Number(o.r), C6=Number((o.C6!==undefined)? o.C6 : 0),
+        C12=Number((o.C12!==undefined)? o.C12 : 0), rc=Number((o.rc!==undefined)? o.rc : 0);
+  if(!(r>=0) || ![r,C6,C12,rc].every(Number.isFinite)) return null;
+  const s=r*r+rc*rc;
+  if(!(s>0)) return null;
+  const s3=s*s*s, s4=s3*s, s6=s3*s3, s7=s6*s;
+  const U=-C6/s3 + C12/s6, coeff=-6*C6/s4 + 12*C12/s7;
+  return { U, F:coeff*r, coeff, s, dUdr:-coeff*r };
+}
 // ===== 第247便d(裁定 A5′(2))— MM 2 腕干渉計の位相玩具 =========================================
 // 原理サンプル専用の **解析器**(純関数)。既存の光子/光線に「位相」を足すのではなく、
 // A11/E8R の規約 —「光は**局所メッシュ速度 u に対して**速さ c で直進する」(photonStep の
@@ -26773,6 +26836,11 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第247便d(裁定 A5′(2)): MM 2 腕干渉計の位相玩具(純関数の解析器)と、光が感じる u の 1 点評価。
   // どちらも読み取り専用で力学へは接続しない。QA behavior.mmPhase が階段(1)〜(5)を機械固定する
   dfmMMPhase, dfmFrameAt,
+  // 第250便a(第42報 W1): コンパクト連星の検証で使う純関数 3 本(読み取り専用 — 力へは接続しない)。
+  // 引きずり 2 チャネル(回転=サイズ比ゲート/並進=χ)・ラグビーボール尺度(ε_tide/ε_rot)・
+  // 誘起応答(vdW 相当)の U と F。QA behavior.dragChannels250 / behavior.tidalSpinScale /
+  // behavior.inducedPair が値を機械固定する
+  dfmDragChannels, dfmTidalSpinScale, dfmInducedPair,
   // 第246便d(第38報): 思考実験の検証で使う純関数(読み取り専用 — 力学へは接続しない)。
   // 惑星 Q 台帳・収縮の E 予算と Q 不変・双極子ディスクの面外安定性。QA behavior.planetSpinMoment /
   // behavior.contractBudget / behavior.dipoleDiscStability が値を機械固定する
