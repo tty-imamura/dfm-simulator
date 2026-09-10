@@ -11005,6 +11005,171 @@ if (!FAST) {
   }
 }
 
+// ---- 第251便a(第43報 W1): behavior.compactForce — コンパクト連星の追加対力 3 候補の識別試験 ----
+//   純関数 HP.dfmCompactForce と、それを呼ぶエンジン opt-in physics.compactForce を同じ器で固定する。
+//     ① 純関数: F=−∇U の有限差分一致(current は **v 固定**)・等大反対・不正入力 null
+//     ② **ゲート下は厳密 0(ビット)**: 恒星の χ/C/Ξ で U も fx も fy も 0(Object.is で照合)
+//     ③ current の署名: **v に偶**(全速度反転で力ビット同一)・**κ 符号反転で力が反転**
+//     ④ manev: 弱場一次の 6πμ/(pc²) と 2πα/(μp) の恒等式(alphaK=3・μ_N=μ)
+//     ⑤ lj: C₈/C₆ 比で近点の力の符号が変わる(理論値 ζ=C₈/(C₆s_p)=3/4)
+//     ⑥ エンジン: **未宣言は 1 bit 不変**(⚡ の 200 步が宣言前後でビット同一)・宣言すると
+//        近点移動が減る・**P と L は厳密に閉じる**・manev/lj は compactWorkE がビット 0・
+//        current は非 0(速度依存ポテンシャルの外部仕事)・ゲート下(恒星連星 ✴️)は素通りとビット同一
+//   **値の窓は最小限**(符号と桁だけ)。実系の残差は 🪝🪄🩹🪤 の obsCard と PHYSICS.md が持つ。
+{
+  const hasCF = await page.evaluate(() => typeof (window.HP && HP.dfmCompactForce) === 'function');
+  if (hasCF) {
+    const cf = await page.evaluate(() => {
+      const base = { dx: 700, dy: 300, vx1: 0.4, vy1: -2.7, vx2: -0.5, vy2: 2.9,
+        m1: 5321.8, m2: 4966.6, R1: 0.01175, R2: 0.01175, f1: 2, f2: 2,
+        chi1: 0.99994, chi2: 0.99994, G: 6.674, c: 2997.92458 };
+      const COEF = { current: { kappa: 6, rc: 0.5 }, manev: { alphaK: 3, rc: 0.5 },
+        lj: { C6: 1e18, C8: 4e23, rc: 0.5 } };
+      const STAR = { m1: 21.46, m2: 18.08, R1: 696, R2: 590, f1: 1.0002, f2: 1.0002,
+        chi1: 1.99e-4, chi2: 2.36e-4 };
+      const out = { fd: {}, off: {}, n3: {} };
+      for (const model of ['current', 'manev', 'lj']) {
+        let maxRel = 0, n = 0;
+        for (const [dx, dy] of [[700, 300], [-400, 900], [1200, 0], [0, -650], [55, 40]]) {
+          const h = 1e-6 * Math.hypot(dx, dy);
+          for (const ax of [0, 1]) {
+            const pp = Object.assign({}, base, COEF[model], { model });
+            const a = HP.dfmCompactForce(Object.assign({}, pp, { dx: dx + (ax ? 0 : h), dy: dy + (ax ? h : 0) }));
+            const b = HP.dfmCompactForce(Object.assign({}, pp, { dx: dx - (ax ? 0 : h), dy: dy - (ax ? h : 0) }));
+            const m = HP.dfmCompactForce(Object.assign({}, pp, { dx, dy }));
+            const fd = -(a.U - b.U) / (2 * h), f = ax ? m.fy : m.fx;
+            if (Math.abs(fd) > 0) { const rel = Math.abs(f - fd) / Math.abs(fd); if (rel > maxRel) maxRel = rel; n++; }
+          }
+        }
+        out.fd[model] = { maxRel, n };
+        const z = HP.dfmCompactForce(Object.assign({}, base, COEF[model], STAR, { model }));
+        out.off[model] = { on: z.on, bit: Object.is(z.U, 0) && Object.is(z.fx, 0) && Object.is(z.fy, 0) };
+        const A = HP.dfmCompactForce(Object.assign({}, base, COEF[model], { model }));
+        const B = HP.dfmCompactForce(Object.assign({}, base, COEF[model], { model, dx: -base.dx, dy: -base.dy,
+          vx1: base.vx2, vy1: base.vy2, vx2: base.vx1, vy2: base.vy1, m1: base.m2, m2: base.m1,
+          R1: base.R2, R2: base.R1, f1: base.f2, f2: base.f1, chi1: base.chi2, chi2: base.chi1 }));
+        out.n3[model] = Math.abs(A.fx + B.fx) <= 1e-9 * Math.abs(A.fx) && Math.abs(A.fy + B.fy) <= 1e-9 * Math.abs(A.fy);
+      }
+      // current の署名
+      const cv = Object.assign({}, base, COEF.current, { model: 'current' });
+      const c1 = HP.dfmCompactForce(cv);
+      const c2 = HP.dfmCompactForce(Object.assign({}, cv, { vx1: -cv.vx1, vy1: -cv.vy1, vx2: -cv.vx2, vy2: -cv.vy2 }));
+      const c3 = HP.dfmCompactForce(Object.assign({}, cv, { kappa: -COEF.current.kappa }));
+      out.vEven = Object.is(c1.fx, c2.fx) && Object.is(c1.fy, c2.fy) && Object.is(c1.U, c2.U);
+      out.kFlip = Object.is(c1.fx, -c3.fx) && Object.is(c1.fy, -c3.fy);
+      out.bad = [HP.dfmCompactForce(null), HP.dfmCompactForce({ model: 'nope', dx: 1, dy: 0, m1: 1, m2: 1 }),
+        HP.dfmCompactForce(Object.assign({}, base, { model: 'current', dx: 0, dy: 0 })),
+        HP.dfmCompactForce(Object.assign({}, base, { model: 'current', m1: -1 })),
+        HP.dfmCompactForce(Object.assign({}, base, { model: 'current', chi1: NaN }))].every((z) => z === null);
+      // manev の恒等式: F=−2μ_rα r/ρ⁴ から出る相対加速度 = −2α/ρ⁴·r
+      {
+        const mv = HP.dfmCompactForce(Object.assign({}, base, COEF.manev, { model: 'manev', rc: 0, dx: 1000, dy: 0 }));
+        const mur = base.m1 * base.m2 / (base.m1 + base.m2);
+        const aRel = -mv.fx * (1 / base.m1 + 1 / base.m2);   // 1→2 の力から作る相対加速度(内向き +)
+        out.manev = { mu: mv.mu, alpha: mv.alpha, identity: Math.abs(aRel / (2 * mv.alpha / Math.pow(1000, 4) * 1000) - 1),
+          murOk: Math.abs(mv.mur / mur - 1) < 1e-12,
+          alphaOk: Math.abs(mv.alpha / (3 * mv.mu * mv.mu / (base.c * base.c)) - 1) < 1e-12 };
+      }
+      // lj: 近点の力の符号が ζ=3/4 で変わる
+      {
+        const rp = 800, sp = rp * rp, sign = (zeta) => {
+          const z = HP.dfmCompactForce(Object.assign({}, base, { model: 'lj', rc: 0, dx: rp, dy: 0,
+            C6: 1, C8: zeta * sp }));
+          return Math.sign(z.coeff);
+        };
+        out.lj = { at0: sign(0), at05: sign(0.5), at074: sign(0.74), at075: sign(0.75), at076: sign(0.76), at2: sign(2) };
+      }
+      return out;
+    });
+    // ---- エンジン opt-in
+    const eng = await page.evaluate(() => {
+      const run = (id, patch, steps, dt) => {
+        const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+        if (patch !== undefined) { if (patch === null) delete pd.physics.compactForce; else pd.physics.compactForce = patch; }
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        const m = S.m.slice(0, S.n);
+        const P0 = [0, 0], L0 = [0];
+        const mom = () => { let px = 0, py = 0, L = 0;
+          for (let i = 0; i < S.n; i++) { px += m[i] * S.vx[i]; py += m[i] * S.vy[i]; L += m[i] * (S.x[i] * S.vy[i] - S.y[i] * S.vx[i]); }
+          return [px, py, L]; };
+        const a0 = mom();
+        for (let k = 0; k < steps; k++) S.step(dt);
+        const a1 = mom();
+        return { st: [S.x[0], S.y[0], S.vx[0], S.vy[0], S.x[1], S.y[1], S.vx[1], S.vy[1]],
+          has: S.hasCompactForce, U: S.compactU, W: S.compactWorkE, chi: S.compactChiMin,
+          gateN: S.compactGateN, onN: S.compactN,
+          dP: Math.hypot(a1[0] - a0[0], a1[1] - a0[1]) / (Math.abs(m[0] * S.vy[0]) + Math.abs(m[1] * S.vy[1])),
+          dL: Math.abs(a1[2] / a0[2] - 1), sig: JSON.stringify(v.preset.physics),
+          clampRN: S.clampRN, clampSN: S.clampSN, clampVN: S.clampVN, clampAN: S.clampAN,
+          nan: (() => { let c = 0; for (let i = 0; i < S.n; i++) if (!Number.isFinite(S.x[i]) || !Number.isFinite(S.vx[i])) c++; return c; })() };
+      };
+      const bit = (a, b) => a.st.every((z, i) => Object.is(z, b.st[i]));
+      // 追加対力**だけ**の帳簿(S.step ではなく S._compactForce を 1 回直接呼ぶ — E6′/1PN の
+      // 受け先ルーティングを混ぜずに「対力が P と L を厳密に閉じる」ことだけを見る)
+      const ledger = (id) => {
+        const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        const m = []; for (let i = 0; i < S.n; i++) m.push(S.m[i]);
+        const mom = () => { let px = 0, py = 0, L = 0;
+          for (let i = 0; i < S.n; i++) { px += m[i] * S.vx[i]; py += m[i] * S.vy[i]; L += m[i] * (S.x[i] * S.vy[i] - S.y[i] * S.vx[i]); }
+          return [px, py, L]; };
+        const a0 = mom(); S._compactForce(0.016); const a1 = mom();
+        const sc = Math.abs(m[0] * S.vy[0]) + Math.abs(m[1] * S.vy[1]);
+        return { dP: Math.hypot(a1[0] - a0[0], a1[1] - a0[1]) / sc, dL: Math.abs(a1[2] - a0[2]) / Math.abs(a0[2]), moved: a1[0] !== a0[0] || a1[1] !== a0[1] || true };
+      };
+      // ⚡(未宣言)は宣言前後で 1 bit 不変 / 用量 0 も未宣言と署名同一
+      const eA = run('psrDoubleABDFM', undefined, 200, 0.016);
+      const eZero = run('psrDoubleABDFM', { model: 'current', kappa: 0, chiGate: 0.5, rc: 0 }, 200, 0.016);
+      // ✴️(恒星連星)は宣言してもゲート下でビット同一
+      const sA = run('alphaCenABDFM', undefined, 200, 0.016);
+      const sB = run('alphaCenABDFM', { model: 'current', kappa: 12, chiGate: 0.5, rc: 0 }, 200, 0.016);
+      const sL = run('alphaCenABDFM', { model: 'lj', C6: 1e30, C8: 0, rc: 0 }, 200, 0.016);
+      const sM = run('alphaCenABDFM', { model: 'manev', alphaK: 3, cGate: 0.01, rc: 0, fMass: 1.0002157798299423 }, 200, 0.016);
+      // 🪝(宣言済み)は素通りしない・帳簿は current で非 0
+      const cA = run('psrDoubleABCF', undefined, 400, 0.016);
+      const cOff = run('psrDoubleABCF', null, 400, 0.016);
+      // manev / lj は保存力 → compactWorkE はビット 0
+      const mv = run('psrDoubleABCF', { model: 'manev', alphaK: 3, cGate: 0.01, rc: 0, fMass: 1.999942269345993 }, 200, 0.016);
+      const lj = run('psrDoubleABCF', { model: 'lj', C6: 1e24, C8: 0, rc: 0 }, 200, 0.016);
+      return { eA, eZero, sA, sB, sL, sM, cA, cOff, mv, lj, led: ledger('psrDoubleABCF'),
+        bitZero: bit(eA, eZero), sigZero: eA.sig === eZero.sig,
+        bitStar: bit(sA, sB) && bit(sA, sL) && bit(sA, sM),
+        moves: !bit(cA, cOff) };
+    });
+    const CK = {
+      fd: ['current', 'manev', 'lj'].every((m) => cf.fd[m].maxRel < 1e-6 && cf.fd[m].n >= 8),
+      gateBit: ['current', 'manev', 'lj'].every((m) => cf.off[m].on === false && cf.off[m].bit),
+      newton3: ['current', 'manev', 'lj'].every((m) => cf.n3[m]),
+      vEven: cf.vEven, kFlip: cf.kFlip, bad: cf.bad,
+      manev: cf.manev.identity < 1e-9 && cf.manev.murOk && cf.manev.alphaOk,
+      ljSign: cf.lj.at0 < 0 && cf.lj.at05 < 0 && cf.lj.at074 < 0 && cf.lj.at075 === 0 && cf.lj.at076 > 0 && cf.lj.at2 > 0,
+      engBit: eng.bitZero && eng.sigZero,
+      engStar: eng.bitStar && eng.sB.has === true && eng.sB.onN === 0 && eng.sB.gateN > 0,
+      engMoves: eng.moves && eng.cA.has === true && eng.cA.onN > 0,
+      engLedger: eng.led.dP < 1e-12 && eng.led.dL < 1e-12 && Math.abs(eng.cA.W) > 0
+        && Object.is(eng.mv.W, 0) && Object.is(eng.lj.W, 0),
+      engSane: eng.cA.nan === 0 && eng.cA.clampRN === 0 && eng.cA.clampSN === 0
+        && eng.cA.clampVN === 0 && eng.cA.clampAN === 0,
+    };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    add('behavior.compactForce', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + `純関数(3 モデル): 有限差分 F=−∇U の最大相対差 ${Math.max(...['current', 'manev', 'lj'].map((m) => cf.fd[m].maxRel)).toExponential(2)}`
+      + `(current は v 固定)/ 等大反対=${CK.newton3} / **ゲート下は U も F もビット 0**=${CK.gateBit}(恒星の χ/C/Ξ)/ `
+      + `current は v に偶=${cf.vEven}・κ 符号反転で力反転=${cf.kFlip} / 不正入力 null=${cf.bad} / `
+      + `manev: μ_r と α=3μ²/c² の恒等式=${CK.manev}(相対加速度 −2α/ρ⁴·r と ${cf.manev.identity.toExponential(1)} 一致)/ `
+      + `lj: 近点の力の符号は ζ=C₈/(C₆s_p) で 0/0.5/0.74 は引力・**0.75 でちょうど 0**・0.76/2 は斥力=${CK.ljSign} / `
+      + `エンジン opt-in: ⚡ は宣言前後(κ=0)で**200 步ビット同一かつ署名同一**=${CK.engBit} / `
+      + `✴️ 恒星連星は 3 モデルとも**ゲート下で素通りとビット同一**(対 ${eng.sB.gateN} 件が門で落ちる)=${CK.engStar} / `
+      + `🪝 は素通りしない(実行時 χ=${eng.cA.chi.toFixed(6)}・U=${eng.cA.U.toExponential(3)})=${CK.engMoves} / `
+      + `帳簿(_compactForce 単独の 1 キック): |ΔP|/P=${eng.led.dP.toExponential(1)}・|ΔL|/L=${eng.led.dL.toExponential(1)}(等大反対の中心力なので厳密)・`
+      + `current の compactWorkE=${eng.cA.W.toExponential(3)}(≠0 = 速度依存の外部仕事)・manev/lj は**ビット 0**=${CK.engLedger} / `
+      + `NaN 0・clampRN/SN/VN/AN すべて 0=${CK.engSane}`);
+  } else {
+    console.log('SKIP behavior.compactForce(対象に第251便a の追加対力なし — root 等)');
+  }
+}
+
 // ---- 第231便(第28報): behavior.supernovaObs — 超新星の観測転写(🥀 前駆星/🦀 残骸)----
 // 🥀: Joyce 一組整合の転写値+静止ビット保持。🦀: 膨張速度の転写(1506 km/s)・殻 KE=1.04e50 erg
 // (SN 1054 モデル帯と同桁・正準 1e51 の1桁下)・年齢算術・自由膨張・gas 宣言・決定性
@@ -11516,6 +11681,8 @@ if (!FAST) {
         'psrDoubleABSpinCal', 'gw150914Merge4s', 'gw150914SpinDipole', 'mmPhaseToy',
         'psrJ1757DFM', 'psrJ1946DFM',
         'psrDoubleABPN', 'psrJ1757PN', 'psrJ1946PN',
+        'psrDoubleABCF', 'psrJ1757CF', 'psrJ1946CF',
+        'psrB1534', 'psrB1534DFM', 'psrB1534CF', 'compactForceToy',
         'galaxyFieldLines', 'galaxyTiltPrecess', 'galaxyBarRotors',
         'axisBarStill', 'axisBarArms', 'axisBarReach'];   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)/ 第247便d: 🪞 mmPhaseToy(pull 明示の原理サンプル)/ 第248便a: 🧮🩺(⚡ の処方をそのまま当てた NS 連星 hold-out — ⚡ と同じ pull 宣言) / 第248便c: 🍥🪁🍢(銀河形態の原理サンプル — pull 既定)/ 第249便a: 🪶🪃🪀(NS 応答候補 λ_PN=1/f の variant — 複製元と同じ pull 宣言) / 第249便c: 🥢🎏🎚️(axisForce 玩具の原理サンプル — pull 既定)
       const all = HP.allPresets(); let nShare = 0, nOther = 0; const wrong = [];
@@ -22757,7 +22924,19 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     // 幾何・質量・半径 proxy・自転は複製元とビット同一の実較正)を追加 — 30→33 へ強化追随
     const gen249 = await page.evaluate(() =>
       HP.allPresets().some((p) => p.id === 'psrDoubleABPN'));
-    const want = gen249 ? 'alphaCenAB,alphaCenABDFM,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+    // 第251便a: 🪝🪄🩹 psrDoubleABCF / psrJ1757CF / psrJ1946CF(compactForce 案K の variant — 複製元と
+    // ビット同一の実較正)と 📿🧶🪤 psrB1534 / psrB1534DFM / psrB1534CF(第 4 の凍結 hold-out)を追加 — 33→39
+    const gen251 = await page.evaluate(() =>
+      HP.allPresets().some((p) => p.id === 'psrDoubleABCF'));
+    const want = gen251 ? 'alphaCenAB,alphaCenABDFM,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+        + 'gw150914,gw150914DFM,'
+        + 'jupiterGalilean,marsMoonsReal,mercuryReal,mercuryRealKF1,neptuneReal,plutoCharonReal,'
+        + 'psrB1534,psrB1534CF,psrB1534DFM,'
+        + 'psrDoubleAB,psrDoubleABCF,psrDoubleABDFM,psrDoubleABPN,psrDoubleABSpinCal,'
+        + 'psrJ1757CF,psrJ1757DFM,psrJ1757PN,psrJ1946CF,psrJ1946DFM,psrJ1946PN,'
+        + 'qLockRadialAudit,qLockRadialAuditQ3,saturnRingReal,saturnRingRealKF1,saturnZonalD68,'
+        + 'siriusAB,siriusABDFM,solarInner,uranusReal,venusReal'
+      : gen249 ? 'alphaCenAB,alphaCenABDFM,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
         + 'gw150914,gw150914DFM,'
         + 'jupiterGalilean,marsMoonsReal,mercuryReal,mercuryRealKF1,neptuneReal,plutoCharonReal,'
         + 'psrDoubleAB,psrDoubleABDFM,psrDoubleABPN,psrDoubleABSpinCal,psrJ1757DFM,psrJ1757PN,psrJ1946DFM,psrJ1946PN,'

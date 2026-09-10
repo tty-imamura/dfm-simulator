@@ -82,6 +82,13 @@ const CFG = {
   psrDoubleABPN:      { c: 0, o: [[1, 'B']] },
   psrJ1757PN:         { c: 0, o: [[1, 'B']] },
   psrJ1946PN:         { c: 0, o: [[1, 'B']] },
+  // 第251便a の compactForce variant(案K)と第 4 の凍結 hold-out PSR B1534+12(観測/DFM/CF の 3 版)
+  psrDoubleABCF:      { c: 0, o: [[1, 'B']] },
+  psrJ1757CF:         { c: 0, o: [[1, 'B']] },
+  psrJ1946CF:         { c: 0, o: [[1, 'B']] },
+  psrB1534:           { c: 0, o: [[1, 'B']] },
+  psrB1534DFM:        { c: 0, o: [[1, 'B']] },
+  psrB1534CF:         { c: 0, o: [[1, 'B']] },
   gw150914:           { c: 0, o: [[1, 'B']] },
   gw150914DFM:        { c: 0, o: [[1, 'B']] },
   gw150914Merge4s:    { c: 0, o: [[1, 'B']], orbMax: 3, note: '合体サンプル(外部放射オーバーレイ)— 3 公転で打ち切る' },
@@ -93,7 +100,8 @@ const CFG = {
 // 理論対照(観測較正ではない — preset 側の referenceKind 宣言と同じ集合)
 const THEORY_CONTROL = ['qLockRadialAudit', 'qLockRadialAuditQ3', 'emAuditNewton'];
 // 較正の従属量(第248便b の現行判定): NS 連星 DFM 版の近点移動は較正質量 f≈2 の帰結であって独立予言ではない
-const DEPENDENT = { psrDoubleABDFM: ['precession'], psrJ1757DFM: ['precession'], psrJ1946DFM: ['precession'] };
+const DEPENDENT = { psrDoubleABDFM: ['precession'], psrJ1757DFM: ['precession'], psrJ1946DFM: ['precession'],
+  psrB1534DFM: ['precession'] };   // 第251便a: 第 4 の凍結 hold-out の DFM 版も同じ構造(較正質量 f≈2 が 1PN へ入る)
 
 // ---------------------------------------------------------------- 単位(観測欄の数値を秒へ)
 const SEC = { '日': 86400, 'd': 86400, '年': 3.15576e7, 'yr': 3.15576e7, '時間': 3600, 'h': 3600,
