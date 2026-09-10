@@ -15552,7 +15552,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 1385472,
-    "wallSec": 2.6,
+    "wallSec": 2.523,
     "orbits": [
      {
       "label": "B",
@@ -15807,15 +15807,15 @@
      "model": 8833.497,
      "obs": 8834.534723278,
      "obsErr": null,
-     "meas": 8819.725098970986,
+     "meas": 8737.465922435305,
      "unit": "s",
-     "residualPct": -0.16763332502381062,
-     "modelResidualPct": -0.15590542487321785,
-     "verdict": "合",
-     "method": "同方向1周(2周目 — obsCard の数え方)",
-     "note": "**周期の定義依存**: 同方向1周 -0.1676% / 近点間 -1.0987%(判定に採ったのは revolution)",
+     "residualPct": -1.0987426489697272,
+     "modelResidualPct": -1.087124131753189,
+     "verdict": "否",
+     "method": "近点間周期(検出器A・ṙ の −→+ 交差。**窓=最初の 20 近点(19 区間)** — 第251便c の定義契約 + 第252便b の窓固定。検出できた近点は 25 個)",
+     "note": "**周期の定義依存**: 同方向1周 -0.1676% / 近点間 -1.0987%(判定に採ったのは **近点間**)",
      "standard": false,
-     "periodDef": "revolution",
+     "periodDef": "periastron",
      "detail": {
       "revSec": [
        8829.260454501167,
@@ -15836,7 +15836,7 @@
       "revN": 25,
       "aOscMean": 581.4985666197103,
       "aOsc0": 619.206903073789,
-      "periodDef": "revolution",
+      "periodDef": "periastron",
       "detPairSec": [
        8737.465922435305,
        8737.467538392513
@@ -15848,10 +15848,10 @@
      "guideTolerance": true,
      "toleranceUsedPct": 1,
      "strictOK": false,
-     "numBoundDt2": 7.271255959694827,
-     "numBoundDef": "revolution-or-osculating",
+     "numBoundDt2": 48.46463248316104,
+     "numBoundDef": "periastron",
      "numBoundDecl": {
-      "value": 7.271255959694827,
+      "value": 48.46463248316104,
       "basis": "dt=0.016 と dt/2=0.008 の同じ検出器の差(**上限としての宣言** — dt/4 は走らせていない)",
       "order": null,
       "orderNote": "dt/4 を走らせていないので収束次数は未測定。次数 p が既知なら真の誤差は |y(dt)−y(dt/2)|/(2^p−1) 程度で、ここに置いた値はその上限側の宣言である",
@@ -15862,7 +15862,7 @@
       "reason": "観測誤差(σ)または有限の実測が無い",
       "key": "psrDoubleABCF|B|period",
       "sigmaRelPct": null,
-      "numBound": 7.271255959694827,
+      "numBound": 48.46463248316104,
       "sigma": null,
       "sigmaFrom": null,
       "sigmaSource": null,
@@ -15871,9 +15871,9 @@
       "defSpreadCrossDefPct": 61.85320760908648,
       "defSpreadPct": 0.000018494571805065045,
       "defMeta": true,
-      "definitionNote": "判定した定義=revolution・検出器 A/B(同じ定義)の広がり=1.85e-5%(定義違いの広がり 6.19e+1% は σ と比較しない)",
+      "definitionNote": "判定した定義=periastron・検出器 A/B(同じ定義)の広がり=1.85e-5%(定義違いの広がり 6.19e+1% は σ と比較しない)",
       "numBoundDecl": {
-       "value": 7.271255959694827,
+       "value": 48.46463248316104,
        "basis": "dt=0.016 と dt/2=0.008 の同じ検出器の差(**上限としての宣言** — dt/4 は走らせていない)",
        "order": null,
        "orderNote": "dt/4 を走らせていないので収束次数は未測定。次数 p が既知なら真の誤差は |y(dt)−y(dt/2)|/(2^p−1) 程度で、ここに置いた値はその上限側の宣言である",
@@ -16017,9 +16017,9 @@
     }
    ],
    "tally": {
-    "合": 1,
+    "合": 0,
     "窓": 0,
-    "否": 1,
+    "否": 2,
     "従": 0,
     "転": 7
    },
@@ -16042,7 +16042,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 3534675,
-    "wallSec": 6.443,
+    "wallSec": 6.139,
     "orbits": [
      {
       "label": "B",
@@ -16261,15 +16261,15 @@
      "model": 15853.39,
      "obs": 15857.669019168,
      "obsErr": null,
-     "meas": 15802.167848675144,
+     "meas": 15508.091815859498,
      "unit": "s",
-     "residualPct": -0.3499957681407611,
-     "modelResidualPct": -0.3230990426959476,
-     "verdict": "合",
-     "method": "同方向1周(2周目 — obsCard の数え方)",
-     "note": "**周期の定義依存**: 同方向1周 -0.3500% / 近点間 -2.2045%(判定に採ったのは revolution)",
+     "residualPct": -2.2044677744626324,
+     "modelResidualPct": -2.178071593145073,
+     "verdict": "否",
+     "method": "近点間周期(検出器A・ṙ の −→+ 交差。**窓=最初の 20 近点(19 区間)** — 第251便c の定義契約 + 第252便b の窓固定。検出できた近点は 37 個)",
+     "note": "**周期の定義依存**: 同方向1周 -0.3500% / 近点間 -2.2045%(判定に採ったのは **近点間**)",
      "standard": false,
-     "periodDef": "revolution",
+     "periodDef": "periastron",
      "detail": {
       "revSec": [
        15837.116921416095,
@@ -16290,7 +16290,7 @@
       "revN": 37,
       "aOscMean": 929.1992365087898,
       "aOsc0": 1177.4573459059156,
-      "periodDef": "revolution",
+      "periodDef": "periastron",
       "detPairSec": [
        15508.091815859498,
        15508.091895649013
@@ -16302,10 +16302,10 @@
      "guideTolerance": true,
      "toleranceUsedPct": 1,
      "strictOK": false,
-     "numBoundDt2": 26.3180897579241,
-     "numBoundDef": "revolution-or-osculating",
+     "numBoundDt2": 172.6805279835753,
+     "numBoundDef": "periastron",
      "numBoundDecl": {
-      "value": 26.3180897579241,
+      "value": 172.6805279835753,
       "basis": "dt=0.016 と dt/2=0.008 の同じ検出器の差(**上限としての宣言** — dt/4 は走らせていない)",
       "order": null,
       "orderNote": "dt/4 を走らせていないので収束次数は未測定。次数 p が既知なら真の誤差は |y(dt)−y(dt/2)|/(2^p−1) 程度で、ここに置いた値はその上限側の宣言である",
@@ -16316,7 +16316,7 @@
       "reason": "観測誤差(σ)または有限の実測が無い",
       "key": "psrJ1757CF|B|period",
       "sigmaRelPct": null,
-      "numBound": 26.3180897579241,
+      "numBound": 172.6805279835753,
       "sigma": null,
       "sigmaFrom": null,
       "sigmaSource": null,
@@ -16325,9 +16325,9 @@
       "defSpreadCrossDefPct": 57.26611935249185,
       "defSpreadPct": 5.145024673317421e-7,
       "defMeta": true,
-      "definitionNote": "判定した定義=revolution・検出器 A/B(同じ定義)の広がり=5.15e-7%(定義違いの広がり 5.73e+1% は σ と比較しない)",
+      "definitionNote": "判定した定義=periastron・検出器 A/B(同じ定義)の広がり=5.15e-7%(定義違いの広がり 5.73e+1% は σ と比較しない)",
       "numBoundDecl": {
-       "value": 26.3180897579241,
+       "value": 172.6805279835753,
        "basis": "dt=0.016 と dt/2=0.008 の同じ検出器の差(**上限としての宣言** — dt/4 は走らせていない)",
        "order": null,
        "orderNote": "dt/4 を走らせていないので収束次数は未測定。次数 p が既知なら真の誤差は |y(dt)−y(dt/2)|/(2^p−1) 程度で、ここに置いた値はその上限側の宣言である",
@@ -16471,9 +16471,9 @@
     }
    ],
    "tally": {
-    "合": 1,
+    "合": 0,
     "窓": 0,
-    "否": 1,
+    "否": 2,
     "従": 0,
     "転": 6
    },
@@ -16496,7 +16496,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 1040661,
-    "wallSec": 1.927,
+    "wallSec": 1.792,
     "orbits": [
      {
       "label": "B",
@@ -16751,15 +16751,15 @@
      "model": 6780.86,
      "obs": 6781.366656,
      "obsErr": null,
-     "meas": 6767.101247137399,
+     "meas": 6685.732966750206,
      "unit": "s",
-     "residualPct": -0.21036185751701908,
-     "modelResidualPct": -0.20290572084663136,
-     "verdict": "合",
-     "method": "同方向1周(2周目 — obsCard の数え方)",
-     "note": "**周期の定義依存**: 同方向1周 -0.2104% / 近点間 -1.4102%(判定に採ったのは revolution)",
+     "residualPct": -1.4102421252385657,
+     "modelResidualPct": -1.4028756418771866,
+     "verdict": "否",
+     "method": "近点間周期(検出器A・ṙ の −→+ 交差。**窓=最初の 20 近点(19 区間)** — 第251便c の定義契約 + 第252便b の窓固定。検出できた近点は 25 個)",
+     "note": "**周期の定義依存**: 同方向1周 -0.2104% / 近点間 -1.4102%(判定に採ったのは **近点間**)",
      "standard": false,
-     "periodDef": "revolution",
+     "periodDef": "periastron",
      "detail": {
       "revSec": [
        6776.531479606825,
@@ -16780,7 +16780,7 @@
       "revN": 24,
       "aOscMean": 482.3609799598727,
       "aOsc0": 507.98772157193116,
-      "periodDef": "revolution",
+      "periodDef": "periastron",
       "detPairSec": [
        6685.732966750206,
        6685.72189791908
@@ -16792,10 +16792,10 @@
      "guideTolerance": true,
      "toleranceUsedPct": 1,
      "strictOK": false,
-     "numBoundDt2": 7.192390598314887,
-     "numBoundDef": "revolution-or-osculating",
+     "numBoundDt2": 47.926690498326025,
+     "numBoundDef": "periastron",
      "numBoundDecl": {
-      "value": 7.192390598314887,
+      "value": 47.926690498326025,
       "basis": "dt=0.016 と dt/2=0.008 の同じ検出器の差(**上限としての宣言** — dt/4 は走らせていない)",
       "order": null,
       "orderNote": "dt/4 を走らせていないので収束次数は未測定。次数 p が既知なら真の誤差は |y(dt)−y(dt/2)|/(2^p−1) 程度で、ここに置いた値はその上限側の宣言である",
@@ -16806,7 +16806,7 @@
       "reason": "観測誤差(σ)または有限の実測が無い",
       "key": "psrJ1946CF|B|period",
       "sigmaRelPct": null,
-      "numBound": 7.192390598314887,
+      "numBound": 47.926690498326025,
       "sigma": null,
       "sigmaFrom": null,
       "sigmaSource": null,
@@ -16815,9 +16815,9 @@
       "defSpreadCrossDefPct": 62.04176419908041,
       "defSpreadPct": 0.00016555897731954593,
       "defMeta": true,
-      "definitionNote": "判定した定義=revolution・検出器 A/B(同じ定義)の広がり=1.66e-4%(定義違いの広がり 6.20e+1% は σ と比較しない)",
+      "definitionNote": "判定した定義=periastron・検出器 A/B(同じ定義)の広がり=1.66e-4%(定義違いの広がり 6.20e+1% は σ と比較しない)",
       "numBoundDecl": {
-       "value": 7.192390598314887,
+       "value": 47.926690498326025,
        "basis": "dt=0.016 と dt/2=0.008 の同じ検出器の差(**上限としての宣言** — dt/4 は走らせていない)",
        "order": null,
        "orderNote": "dt/4 を走らせていないので収束次数は未測定。次数 p が既知なら真の誤差は |y(dt)−y(dt/2)|/(2^p−1) 程度で、ここに置いた値はその上限側の宣言である",
@@ -16961,9 +16961,9 @@
     }
    ],
    "tally": {
-    "合": 1,
+    "合": 0,
     "窓": 0,
-    "否": 1,
+    "否": 2,
     "従": 0,
     "転": 7
    },
@@ -17902,7 +17902,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 6617813,
-    "wallSec": 11.722,
+    "wallSec": 11.263,
     "orbits": [
      {
       "label": "B",
@@ -18004,12 +18004,12 @@
      }
     },
     {
-     "name": "**残差は刻みではなく処方の限界**",
+     "name": "**残差 +2.65% の正体(第252便a)**",
      "kind": "other",
      "version": "dfm",
      "target": null,
-     "model": "🧶(DFM 版)の比が **2.025** なので、半分を打ち消す処方は原理的に +1.26% を残す。凍結 κ が自系解より 1.25% 小さいぶんが更に +1.4% 乗る",
-     "obs": "—(足し合わせて +2.65% とほぼ一致する)",
+     "model": "Δϖ=A0+A_PN/2=0.0000568+0.0020193=**0.0020761°/周**(実測と 5 桁一致)。半分処方は 1PN しか触らないので A0(観測の +2.81%)が残る",
+     "obs": "—",
      "obsErr": null,
      "meas": null,
      "unit": null,
@@ -18121,15 +18121,15 @@
      "model": 36328.48,
      "obs": 36351.702644,
      "obsErr": null,
-     "meas": 36317.67730115232,
+     "meas": 36216.61778975595,
      "unit": "s",
-     "residualPct": -0.09360041036013209,
-     "modelResidualPct": -0.02973617076102537,
+     "residualPct": -0.3716053015919658,
+     "modelResidualPct": -0.3079187740418998,
      "verdict": "合",
-     "method": "同方向1周(2周目 — obsCard の数え方)",
+     "method": "近点間周期(検出器A・ṙ の −→+ 交差。**窓=最初の 20 近点(19 区間)** — 第251便c の定義契約 + 第252便b の窓固定。検出できた近点は 29 個)",
      "note": null,
      "standard": false,
-     "periodDef": "revolution",
+     "periodDef": "periastron",
      "detail": {
       "revSec": [
        36329.45330552805,
@@ -18150,7 +18150,7 @@
       "revN": 29,
       "aOscMean": 1543.8192801849227,
       "aOsc0": 1776.544616700594,
-      "periodDef": "revolution",
+      "periodDef": "periastron",
       "detPairSec": [
        36216.61778975595,
        36216.617832702264
@@ -18161,11 +18161,11 @@
      "defDiffPct": -0.2782653487401446,
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": true,
-     "numBoundDt2": 8.951747347251512,
-     "numBoundDef": "revolution-or-osculating",
+     "strictOK": false,
+     "numBoundDt2": 59.64481961598358,
+     "numBoundDef": "periastron",
      "numBoundDecl": {
-      "value": 8.951747347251512,
+      "value": 59.64481961598358,
       "basis": "dt=0.016 と dt/2=0.008 の同じ検出器の差(**上限としての宣言** — dt/4 は走らせていない)",
       "order": null,
       "orderNote": "dt/4 を走らせていないので収束次数は未測定。次数 p が既知なら真の誤差は |y(dt)−y(dt/2)|/(2^p−1) 程度で、ここに置いた値はその上限側の宣言である",
@@ -18176,7 +18176,7 @@
       "reason": "観測誤差(σ)または有限の実測が無い",
       "key": "psrB1534CF|B|period",
       "sigmaRelPct": null,
-      "numBound": 8.951747347251512,
+      "numBound": 59.64481961598358,
       "sigma": null,
       "sigmaFrom": null,
       "sigmaSource": null,
@@ -18185,9 +18185,9 @@
       "defSpreadCrossDefPct": 60.40627848077152,
       "defSpreadPct": 1.1858180183536049e-7,
       "defMeta": true,
-      "definitionNote": "判定した定義=revolution・検出器 A/B(同じ定義)の広がり=1.19e-7%(定義違いの広がり 6.04e+1% は σ と比較しない)",
+      "definitionNote": "判定した定義=periastron・検出器 A/B(同じ定義)の広がり=1.19e-7%(定義違いの広がり 6.04e+1% は σ と比較しない)",
       "numBoundDecl": {
-       "value": 8.951747347251512,
+       "value": 59.64481961598358,
        "basis": "dt=0.016 と dt/2=0.008 の同じ検出器の差(**上限としての宣言** — dt/4 は走らせていない)",
        "order": null,
        "orderNote": "dt/4 を走らせていないので収束次数は未測定。次数 p が既知なら真の誤差は |y(dt)−y(dt/2)|/(2^p−1) 程度で、ここに置いた値はその上限側の宣言である",
@@ -21910,7 +21910,7 @@
    {
     "id": "psrDoubleABCF",
     "emoji": "🪝",
-    "residPct": 0.16763332502381062,
+    "residPct": 1.0987426489697272,
     "nu": 0.24970199255011252,
     "chiA": 0.9999403473682839,
     "chiB": 0.9999443287852461,
@@ -21928,7 +21928,7 @@
    {
     "id": "psrJ1757CF",
     "emoji": "🪄",
-    "residPct": 0.3499957681407611,
+    "residPct": 2.2044677744626324,
     "nu": 0.24989428578811188,
     "chiA": 0.9997366377695805,
     "chiB": 0.9997255821093131,
@@ -21946,7 +21946,7 @@
    {
     "id": "psrJ1946CF",
     "emoji": "🩹",
-    "residPct": 0.21036185751701908,
+    "residPct": 1.4102421252385657,
     "nu": 0.24995001412821236,
     "chiA": 0.9999604437791544,
     "chiB": 0.9999615468000705,
@@ -21982,7 +21982,7 @@
    {
     "id": "psrB1534CF",
     "emoji": "🪤",
-    "residPct": 0.09360041036013209,
+    "residPct": 0.3716053015919658,
     "nu": 0.24999455526517358,
     "chiA": 0.9994878669701724,
     "chiB": 0.9994830670049496,
@@ -22020,7 +22020,7 @@
    {
     "correlate": "nu",
     "n": 24,
-    "rho": 0.6371239786332831,
+    "rho": 0.7266444828278156,
     "samples": [
      "🌘",
      "🧲",
@@ -22051,7 +22051,7 @@
    {
     "correlate": "chi",
     "n": 24,
-    "rho": 0.44212080763040507,
+    "rho": 0.5332482719250349,
     "samples": [
      "🌘",
      "🧲",
@@ -22082,7 +22082,7 @@
    {
     "correlate": "GMac2",
     "n": 24,
-    "rho": 0.56,
+    "rho": 0.6373913043478261,
     "samples": [
      "🌘",
      "🧲",
@@ -22113,7 +22113,7 @@
    {
     "correlate": "aOverR",
     "n": 24,
-    "rho": 0.5017391304347826,
+    "rho": 0.6217391304347826,
     "samples": [
      "🌘",
      "🧲",
@@ -22144,7 +22144,7 @@
    {
     "correlate": "e",
     "n": 24,
-    "rho": 0.7130434782608696,
+    "rho": 0.7652173913043478,
     "samples": [
      "🌘",
      "🧲",
@@ -22175,7 +22175,7 @@
    {
     "correlate": "spinRatio",
     "n": 24,
-    "rho": -0.5023301793193166,
+    "rho": -0.5980572512273372,
     "samples": [
      "🌘",
      "🧲",
@@ -22218,9 +22218,9 @@
   "nPresets": 40,
   "nQuantities": 339,
   "tally": {
-   "合": 67,
+   "合": 64,
    "窓": 6,
-   "否": 19,
+   "否": 22,
    "従": 4,
    "転": 243
   },
@@ -22252,9 +22252,9 @@
    "note": "5 区分(合/窓/否/従/転)は来歴・解釈の欄として不変(**CSV の σ は 5 区分の経路へ入れない** — 第251便c: σ が効くのは門だけ)。門は別欄であり、第251便c で観測 σ の転写(paper/data/solar-observations.csv の sigma 列)と一次表の照合印(sigma_primary)が入った。定義の一致は**同じ定義の検出器 A/B の広がり**だけで見る(定義違いの広がりは σ と比較しない)。ε_num は dt 2 段の差を**上限として宣言**した量で、dt/4 は走らせていない(収束次数は未測定)。"
   },
   "agreementBreakdown": {
-   "verdictOK": 67,
+   "verdictOK": 64,
    "sigma3": 2,
-   "guide": 63,
+   "guide": 60,
    "unassessed": 2,
    "note": "「合」の内訳: sigma3 = 機械門を通った 3σ 一致 / guide = 観測誤差が読めないときの ±1% 目安(観測一致ではない)/ unassessed = 観測誤差はあるが定義・一次表・数値収束の条件が未達。"
   }

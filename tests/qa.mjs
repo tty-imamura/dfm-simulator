@@ -268,7 +268,9 @@ if (!TARGET.startsWith('beta/')) {
       if (!sigCsv.has(k)) sigCsv.set(k, { raw: cols[8], note: cols[7] || '' });
     }
     const ECC = ['psrDoubleAB', 'psrDoubleABDFM', 'psrDoubleABSpinCal', 'psrDoubleABPN',
-      'psrJ1757DFM', 'psrJ1757PN', 'psrJ1946DFM', 'psrJ1946PN'];
+      'psrJ1757DFM', 'psrJ1757PN', 'psrJ1946DFM', 'psrJ1946PN',
+      'psrB1534', 'psrB1534DFM',                                        // 第251便a の第 4 hold-out
+      'psrDoubleABCF', 'psrJ1757CF', 'psrJ1946CF', 'psrB1534CF'];       // 第252便(統括): 案K variant も近点間
     const VIS = ['alphaCenAB', 'alphaCenABDFM', 'siriusAB', 'siriusABDFM'];
     const bad = [];
     let nPeri = 0, nRev = 0, nSigCsv = 0, nUnmeasured = 0;
