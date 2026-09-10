@@ -12503,6 +12503,286 @@ if (!FAST) {
   }
 }
 
+
+// ---- 第254便a(第46報「空間メッシュ本体」): behavior.meshTransport — 場 API と物質線の輸送 ----
+// 第46報「決定力場の空間メッシュの勾配で加速する力が重力」に対応する **場 API**(1/r の D_grav と
+// 1/r^p の W_pull を**別名で**返す)と、表示の正本になった **物質線の輸送**(dx/dt=u・dF/dt=(∇u)F)の
+// 契約を機械固定する。**どちらも読み取り専用の純関数**で、輸送だけが Bind した宇宙の S.step 末尾から
+// 呼ばれる(未登録なら 1 bit 不変 —— それは behavior.spaceMeshForce ① が固定する)。
+//   (M1) **剛体回転場で cos/sin と一致**: B=Ω·J・T=1・Ω=0.7 の輸送は x=R(ΩT)x₀・F=R(ΩT) へ収束し、
+//        刻み半減で誤差が 16 分の 1(観測次数 4)。det F は 1 のまま
+//   (M2) **∇χ=2/9**: W=1・∇W=(1,0)・D₀=2 なら ∇χ=D₀∇W/(W+D₀)²=2/9(ビット)。∂ₜχ も同じ係数
+//   (M3) **原子的停止**: fieldFn が null / det F≤1e−12 / 非有限 のとき、その步の更新を**1 つも適用せず**
+//        error を立てて止まる(半分だけ進んだ状態を残さない)
+//   (M4) **重力の向き**: g=G∇D_grav は源へ向く。Φ=−G·D_grav。**T2 の F は空間一様なので ∇F からは出ない**
+//   (M5) **源分割不変**: 同じ位置の質量 4 を 1+3 に分けても D_grav・W_pull・∇W が**ビット同一**(加算形)
+//   (M6) **幾何整合補間が既定**: 実エンジン(🪟)で頂点追従誤差を 2 案で測り、幾何整合が桁で勝つ
+{
+  const hasMT = await page.evaluate(() => !!(window.HP && typeof HP.dfmMeshTransportCreate === 'function'
+    && typeof HP.dfmMeshScalarField === 'function' && typeof HP.dfmMeshBlend === 'function'));
+  if (hasMT) {
+    const mt = await page.evaluate(() => {
+      const R = {};
+      // (M1) 剛体回転場
+      const OM = 0.7, T = 1;
+      const fld = () => ({ u: [0, 0], gradU: [0, -OM, OM, 0] });
+      const rot = (n) => {
+        const tr = HP.dfmMeshTransportCreate([[1, 0], [0, 1]]);
+        const h = T / n;
+        for (let i = 0; i < n; i++) HP.dfmMeshTransportStep(tr, h, (x, y) => ({ u: [-OM * y, OM * x], gradU: fld().gradU }));
+        const c = Math.cos(OM * T), s = Math.sin(OM * T);
+        const eX = Math.max(Math.abs(tr.x[0] - c), Math.abs(tr.x[1] - s), Math.abs(tr.x[2] + s), Math.abs(tr.x[3] - c));
+        const eF = Math.max(Math.abs(tr.F[0] - c), Math.abs(tr.F[1] + s), Math.abs(tr.F[2] - s), Math.abs(tr.F[3] - c));
+        return { n, eX, eF, det: tr.detMax };
+      };
+      R.rot = [10, 20, 40, 80].map(rot);
+      // (M2) ∇χ・∂ₜχ
+      const bl = HP.dfmMeshBlend({ u: [1, 0], gradU: [0, 0, 0, 0], dUdt: [0, 0] },
+        { u: [0, 0], gradU: [0, 0, 0, 0], dUdt: [0, 0] }, 1, [1, 0], 2, 1);
+      R.blend = { chi: bl.chi, gradChi: bl.gradChi, dChidt: bl.dChidt,
+        gradU: bl.gradU, u: bl.u, dUdt: bl.dUdt };
+      const blInf = HP.dfmMeshBlend({ u: [3, -4], gradU: [1, 2, 3, 4], dUdt: [5, 6] },
+        { u: [0, 0], gradU: [0, 0, 0, 0], dUdt: [0, 0] }, 1, [1, 1], Infinity, 1);
+      R.blendInf = { chi: blInf.chi, u: blInf.u, gradU: blInf.gradU, dUdt: blInf.dUdt };
+      // (M3) 原子的停止
+      const tr = HP.dfmMeshTransportCreate([[1, 0], [2, 3]]);
+      HP.dfmMeshTransportStep(tr, 0.1, () => ({ u: [1, 0], gradU: [0, 0, 0, 0] }));
+      const snap = Array.from(tr.x), snapF = Array.from(tr.F), st0 = tr.steps;
+      const stopA = HP.dfmMeshTransportStep(tr, 0.1, () => null);
+      const kept = tr.x.every((z, i) => Object.is(z, snap[i])) && tr.F.every((z, i) => Object.is(z, snapF[i]))
+        && tr.steps === st0;
+      const stopB = HP.dfmMeshTransportStep(tr, 0.1, () => ({ u: [1, 0], gradU: [0, 0, 0, 0] }));  // error 後は必ず null
+      const trD = HP.dfmMeshTransportCreate([[1, 0]]);
+      let rD = null, nD = 0;                                   // 一様収縮 det=e^{−2t} を det≤1e−12 まで進める
+      for (; nD < 60; nD++) { rD = HP.dfmMeshTransportStep(trD, 1, () => ({ u: [0, 0], gradU: [-1, 0, 0, -1] })); if (rD === null) break; }
+      R.atomic = { nullStop: stopA === null, kept, afterErr: stopB === null, err: tr.error,
+        detStop: rD === null && nD > 0 && nD < 60, detSteps: nD, detErr: trD.error };
+      // (M4)(M5) 場 API
+      const g1 = HP.dfmMeshScalarField([{ m: 4, x: 0, y: 0 }], 2, 0, { G: 3, eps: 0, power: 2 });
+      const g2 = HP.dfmMeshScalarField([{ m: 1, x: 0, y: 0 }, { m: 3, x: 0, y: 0 }], 2, 0, { G: 3, eps: 0, power: 2 });
+      R.field = { Dgrav: g1.Dgrav, Wpull: g1.Wpull, gradD: g1.gradD, gradW: g1.gradW,
+        gravity: g1.gravity, potential: g1.potential,
+        splitSame: Object.is(g1.Dgrav, g2.Dgrav) && Object.is(g1.Wpull, g2.Wpull)
+          && Object.is(g1.gradW[0], g2.gradW[0]) && Object.is(g1.gradW[1], g2.gradW[1])
+          && Object.is(g1.gravity[0], g2.gravity[0]) };
+      // 門
+      R.gateList = [HP.dfmMeshScalarField(null, 0, 0), HP.dfmMeshScalarField([{ m: 1, x: 0, y: 0 }], 0, 0, { eps: 0 }),
+        HP.dfmMeshScalarField([{ m: NaN, x: 0, y: 0 }], 1, 0), HP.dfmMeshBlend({}, {}, 1, [0, 0], -1),
+        HP.dfmMeshBlend({}, {}, 1, [0, 0], NaN), HP.dfmMeshParticleRHS({}, [0, 0], 'nope'),
+        HP.dfmMeshTransportCreate([]), HP.dfmMeshTransportCreate([[1, NaN]]),
+        HP.dfmMeshTransportCreate(new Array(HP.MESH_TR_MAX + 1).fill([0, 0])),
+        HP.dfmMeshTransportStep(null, 1, () => ({ u: [0, 0], gradU: [0, 0, 0, 0] })),
+        HP.dfmMeshTransportBind(HP.sim, [[0, 0]], null, { interpolation: 'nope' }),
+        HP.dfmMeshTransportBind(HP.sim, [[0, 0]], null, { background: 'frameAt' })].map((z) => z === null);
+      R.gates = R.gateList.every((z) => z);
+      // (M6) 実エンジンでの頂点追従(🪟 を 3000 步)
+      const P = HP.allPresets().find((z) => z.id === 'spaceMeshBinaryToy');
+      const follow = (interp) => {
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(P)));
+        const S = HP.sim; S.build(v.preset);
+        const A = HP.dfmSpaceMeshCapture(S, [0, 1]);
+        const M0 = HP.dfmSpaceMeshState(A, S);
+        const t2 = HP.dfmMeshTransportBind(S, [[S.x[0], S.y[0]], [S.x[1], S.y[1]]], [[0, 1]],
+          { ids: [0, 1], interpolation: interp });
+        let e = 0;
+        for (let k = 0; k < 3000; k++) {
+          S.step(0.004);
+          const rr = Math.hypot(S.x[1] - S.x[0], S.y[1] - S.y[0]);
+          const q = Math.max(Math.hypot(t2.x[0] - S.x[0], t2.x[1] - S.y[0]),
+            Math.hypot(t2.x[2] - S.x[1], t2.x[3] - S.y[1])) / rr;
+          if (q > e) e = q;
+        }
+        return { e, err: t2.error, chi: t2.chi, mode: t2.mode, angle: t2.angle, refRLen: M0.refRLen };
+      };
+      R.follow = { geometric: follow('geometric'), velocity: follow('velocity') };
+      HP.sim.meshTransport = null;
+      return R;
+    });
+    const ordX = mt.rot.slice(1).map((r, i) => Math.log2(mt.rot[i].eX / r.eX));
+    const m1 = mt.rot[3].eX < 1e-9 && mt.rot[3].eF < 1e-9
+      && ordX.every((o) => o > 3.6 && o < 4.4) && Math.abs(mt.rot[3].det - 1) < 1e-12;
+    const m2 = mt.blend.chi === 1 / 3 && mt.blend.gradChi[0] === 2 / 9 && mt.blend.gradChi[1] === 0
+      && mt.blend.dChidt === 2 / 9 && mt.blend.u[0] === 1 / 3
+      // ∇u = χ∇u_n+(1−χ)∇u_b+(u_n−u_b)⊗∇χ = 0+0+(1,0)⊗(2/9,0)
+      && mt.blend.gradU[0] === 2 / 9 && mt.blend.gradU[1] === 0
+      && mt.blend.gradU[2] === 0 && mt.blend.gradU[3] === 0
+      && mt.blend.dUdt[0] === 2 / 9 && mt.blend.dUdt[1] === 0
+      // D₀=∞ は node 側が 1 bit も残らない
+      && mt.blendInf.chi === 0 && mt.blendInf.u.every((z) => z === 0)
+      && mt.blendInf.gradU.every((z) => z === 0) && mt.blendInf.dUdt.every((z) => z === 0);
+    const m3 = mt.atomic.nullStop && mt.atomic.kept && mt.atomic.afterErr && mt.atomic.err === 'field'
+      && mt.atomic.detStop && mt.atomic.detErr === 'det';
+    // 源 m=4・G=3・|d|=2: D=2・W=1/4・∇D=(−1/2,0)・g=G∇D=(−1.5,0)(源へ向く)・Φ=−6
+    const m4 = mt.field.Dgrav === 2 && mt.field.Wpull === 1 && mt.field.gradD[0] === -1
+      && mt.field.gravity[0] === -3 && mt.field.potential === -6
+      && mt.field.gradW[0] === -1 && mt.field.splitSame && mt.gates;
+    const m6 = mt.follow.geometric.e < 1e-10 && mt.follow.velocity.e > 100 * mt.follow.geometric.e
+      && !mt.follow.geometric.err && !mt.follow.velocity.err;
+    const fx = (x) => Number(x).toExponential(4);
+    add('behavior.meshTransport', m1 && m2 && m3 && m4 && m6,
+      `(M1) **剛体回転場 B=Ω·J**(Ω=0.7・T=1): 位置誤差 n=10→80 で `
+      + `${mt.rot.map((r) => fx(r.eX)).join(' → ')}(**観測次数 ${ordX.map((o) => o.toFixed(3)).join('/')}**)・`
+      + `F の誤差 ${fx(mt.rot[3].eF)}・det F=${mt.rot[3].det}=${m1} / `
+      + `(M2) **∇χ=D₀∇W/(W+D₀)²**: W=1・∇W=(1,0)・D₀=2 で χ=${mt.blend.chi}・`
+      + `**∇χ=${mt.blend.gradChi[0]}(=2/9 ビット)**・∂ₜχ=${mt.blend.dChidt}・`
+      + `∇u に (u_n−u_b)⊗∇χ が入る(${mt.blend.gradU[0]})・∂ₜu に ∂ₜχ(u_n−u_b) が入る(${mt.blend.dUdt[0]})・`
+      + `**D₀=∞ で node 側がビット 0**=${mt.blendInf.chi === 0}=${m2} / `
+      + `(M3) **原子的停止**: fieldFn=null で step が null・状態は 1 bit も動かない=${mt.atomic.kept}・`
+      + `error 後は必ず null=${mt.atomic.afterErr}・det F≤1e−12 で停止=${mt.atomic.detStop}(${mt.atomic.detSteps} 步目)=${m3} / `
+      + `(M4)(M5) 場 API(m=4・G=3・d=2): D_grav=${mt.field.Dgrav}・W_pull=${mt.field.Wpull}・`
+      + `∇D=(${mt.field.gradD[0]},${mt.field.gradD[1]})・**g=G∇D=(${mt.field.gravity[0]},0)= 源へ向く**・`
+      + `Φ=−G·D=${mt.field.potential}・**源分割不変**(4 を 1+3 に分けてビット同一)=${mt.field.splitSame}・`
+      + `門 ${mt.gates}(${mt.gateList.map((z) => (z ? 1 : 0)).join('')})=${m4} / `
+      + `(M6) **物質線の頂点追従**(🪟 実エンジン 3000 步・相対): `
+      + `**幾何整合補間 ${fx(mt.follow.geometric.e)}** 対 速度補間 ${fx(mt.follow.velocity.e)}`
+      + `(χ=${Number(mt.follow.geometric.chi).toFixed(6)}・mode=${mt.follow.geometric.mode})=${m6}。`
+      + `**表示の座標混合は撤回した**(det[(1−χ)I+χR_θ] が χ=½・θ=π で 0 = 格子が潰れる)`);
+  } else {
+    console.log('SKIP behavior.meshTransport(対象に第254便a の HP.dfmMeshTransport* なし — root 等)');
+  }
+}
+
+// ---- 第254便a(第46報): behavior.spaceMeshForce — 空間メッシュの力への接続(opt-in)の契約 ----
+//   ① **未宣言は 1 bit 不変**: physics.spaceMesh を宣言しない/mode 欠落/gravity・inertia が両方 OFF は
+//      すべて「なし」へ正規化され、署名も 600 步の状態も**ビット同一**
+//   ② **u≡0 でニュートン**: material/action のどちらも a=g にビット一致(新しい力を作っていない)
+//   ③ **χ→0 で Δa→0**: D₀=∞ の混合は node 側をビット 0 で落とす
+//   ④ **重力チャネルは二重計上しない**: g_mesh=G∇D_grav の核は E4=G∇W と同じなので、
+//      置き換えても 1 步の |Δa_g| は丸めに留まり、近点間 P・近点移動は印字桁で一致する
+//   ⑤ **慣性候補は頂点で退化する**(否定結果): |a_I|/|g_N| が χ に 5 桁一致する = 慣性項は
+//      重力加速度の再導出であって新しい力ではない。**だから本体の力則としては採用しない**
+//   ⑥ **D0pull:0 の宣言が保持される**(第254便a M8): 明示 0 は真の 0・未宣言は undefined・
+//      旧セーブ(鍵なし)は未宣言へ
+//   ⑦ **門**: mode/inertia/light/D0 の不正値は検証器が落とす
+{
+  const hasSMF = await page.evaluate(() => !!(window.HP && typeof HP.dfmMeshParticleRHS === 'function'
+    && HP.SPACE_MESH_KEY));
+  if (hasSMF) {
+    const sf = await page.evaluate(() => {
+      const R = {}, KEY = HP.SPACE_MESH_KEY;
+      const P = HP.allPresets().find((z) => z.id === 'spaceMeshBinaryToy');
+      const mk = (patch) => { const q = JSON.parse(JSON.stringify(P));
+        if (patch === 'drop') delete q.physics[KEY]; else Object.assign(q.physics, patch || {});
+        return q; };
+      const run = (pd, n) => {
+        const v = HP.validatePreset(pd);
+        if (!v.ok) return { err: (v.errors || []).join('|') };
+        const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < n; k++) S.step(0.004);
+        return { sig: JSON.stringify(v.preset.physics), hasSM: S.hasSpaceMesh,
+          st: [S.x[0], S.y[0], S.vx[0], S.vy[0], S.x[1], S.y[1], S.vx[1], S.vy[1]],
+          workE: S.spaceMeshWorkE, chi: S.spaceMeshChi, gd: S.spaceMeshGravDiff, stop: S.spaceMeshStop,
+          decl: v.preset.physics[KEY], D0pull: v.preset.physics.D0pull };
+      };
+      // ① 未宣言の正規化(3 通りが同じ署名・同じ状態)
+      const base = run(mk('drop'), 600);
+      const same = (r) => r.sig === base.sig && r.st.every((z, i) => Object.is(z, base.st[i]));
+      R.norm = { base: base.sig.length,
+        dropped: same(base),
+        bothOff: same(run(mk({ spaceMesh: { mode: 'vertex', gravity: false, inertia: false } }), 600)),
+        noMode: same(run(mk({ spaceMesh: { gravity: true, inertia: 'material' } }), 600)),
+        nullDecl: same(run(mk({ spaceMesh: null }), 600)),
+        hasFlagOff: run(mk('drop'), 1).hasSM === false };
+      // ② u≡0 でニュートン(ビット)
+      const zero = { u: [0, 0], gradU: [0, 0, 0, 0], dUdt: [0, 0], gravity: [-1.25, 3.5] };
+      const nm = HP.dfmMeshParticleRHS(zero, [7, -9], 'material');
+      const na = HP.dfmMeshParticleRHS(zero, [7, -9], 'action');
+      R.newton = { material: nm.a, action: na.a,
+        bit: Object.is(nm.a[0], -1.25) && Object.is(nm.a[1], 3.5)
+          && Object.is(na.a[0], -1.25) && Object.is(na.a[1], 3.5) };
+      // action と material の差 = (∇u)ᵀ(v−u)
+      const f2 = { u: [1, 2], gradU: [0.5, -0.25, 0.75, 1.5], dUdt: [0.1, -0.2], gravity: [0, 0] };
+      const am = HP.dfmMeshParticleRHS(f2, [3, 5], 'material');
+      const aa = HP.dfmMeshParticleRHS(f2, [3, 5], 'action');
+      R.lawDiff = { d: [am.a[0] - aa.a[0], am.a[1] - aa.a[1]], cor: aa.coriolis, rel: aa.rel };
+      // ④ 重力チャネルは二重計上しない(🪟 の A/B)
+      const gOn = run(mk(), 3000), gOff = run(mk({ spaceMesh: null }), 3000);
+      R.grav = { on: gOn.hasSM, off: gOff.hasSM, gd: gOn.gd, workE: gOn.workE,
+        maxDiff: Math.max(...gOn.st.map((z, i) => Math.abs(z - gOff.st[i]))),
+        scale: Math.hypot(gOff.st[0], gOff.st[1]) };
+      // ⑤ 慣性候補の退化(頂点で |a_I|/|g_N| = χ)
+      const v0 = HP.validatePreset(mk({ spaceMesh: null }));
+      const S = HP.sim; S.build(v0.preset);
+      for (let k = 0; k < 2000; k++) S.step(0.004);
+      const A = HP.dfmSpaceMeshCapture(S, [0, 1]), M = HP.dfmSpaceMeshState(A, S);
+      const G = S.params.G, eps = S.params.softening, e2 = eps * eps;
+      const pw = HP.frameWeightPow(S.params) || 1;
+      const rx = S.x[1] - S.x[0], ry = S.y[1] - S.y[0], s = rx * rx + ry * ry + e2;
+      const iv = 1 / Math.sqrt(s), i3 = iv * iv * iv;
+      const a0 = [G * S.m[1] * rx * i3, G * S.m[1] * ry * i3];
+      const a1 = [-G * S.m[0] * rx * i3, -G * S.m[0] * ry * i3];
+      const wx = S.vx[1] - S.vx[0], wy = S.vy[1] - S.vy[0];
+      const dwx = a1[0] - a0[0], dwy = a1[1] - a0[1], r2 = rx * rx + ry * ry;
+      const B = M.gradU, H = B[0], Om = B[2];
+      const Hd = (wx * wx + wy * wy + rx * dwx + ry * dwy) / r2 - 2 * H * H;
+      const Od = (rx * dwy - ry * dwx) / r2 - 2 * H * Om;
+      const Cdd = [(a0[0] + a1[0]) / 2, (a0[1] + a1[1]) / 2];
+      const bd = []; for (let z = 0; z < S.n; z++) bd.push({ m: S.m[z], x: S.x[z], y: S.y[z] });
+      const ex = S.x[0] - M.origin[0], ey = S.y[0] - M.origin[1];
+      const un = [M.velocity[0] + B[0] * ex + B[1] * ey, M.velocity[1] + B[2] * ex + B[3] * ey];
+      const tn = [Cdd[0] + Hd * ex - Od * ey - (B[0] * M.velocity[0] + B[1] * M.velocity[1]),
+        Cdd[1] + Od * ex + Hd * ey - (B[2] * M.velocity[0] + B[3] * M.velocity[1])];
+      const fl = HP.dfmMeshScalarField(bd, S.x[0], S.y[0], { G, eps, power: pw, exclude: 0 });
+      const bl = HP.dfmMeshBlend({ u: un, gradU: B, dUdt: tn },
+        { u: [0, 0], gradU: [0, 0, 0, 0], dUdt: [0, 0] }, fl.Wpull, fl.gradW, M.D0, 0);
+      const im = HP.dfmMeshParticleRHS({ u: bl.u, gradU: bl.gradU, dUdt: bl.dUdt, gravity: [0, 0] },
+        [S.vx[0], S.vy[0]], 'material');
+      const gN = Math.hypot(fl.gravity[0], fl.gravity[1]);
+      R.degen = { chi: bl.chi, ratio: Math.hypot(im.a[0], im.a[1]) / gN,
+        relSpeed: Math.hypot(S.vx[0] - bl.u[0], S.vy[0] - bl.u[1]) };
+      // ⑥ D0pull:0 の宣言
+      const d0 = (val) => { const q = mk('drop');
+        if (val === 'drop') delete q.physics.D0pull; else q.physics.D0pull = val;
+        const v = HP.validatePreset(q); return v.preset.physics.D0pull; };
+      R.d0 = { zero: d0(0), zeroKept: Object.is(d0(0), 0), dropped: d0('drop'),
+        droppedUndef: d0('drop') === undefined, normal: d0(0.5) };
+      // ⑦ 門
+      R.gates = [
+        HP.validatePreset(mk({ spaceMesh: { mode: 'affine', gravity: true } })).ok,
+        HP.validatePreset(mk({ spaceMesh: { mode: 'vertex', inertia: 'geodesic' } })).ok,
+        HP.validatePreset(mk({ spaceMesh: { mode: 'vertex', gravity: true, light: 'aether' } })).ok,
+        HP.validatePreset(mk({ spaceMesh: { mode: 'vertex', gravity: true, D0: -1 } })).ok,
+        HP.validatePreset(mk({ spaceMesh: [1, 2] })).ok,
+        HP.validatePreset(mk({ spaceMesh: { mode: 'vertex', gravity: 'yes' } })).ok].every((z) => z === false);
+      // light は宣言と門だけ(既定 background は署名へ入れない)
+      const lb = HP.validatePreset(mk({ spaceMesh: { mode: 'vertex', gravity: true, light: 'background' } }));
+      const lm = HP.validatePreset(mk({ spaceMesh: { mode: 'vertex', gravity: true, light: 'mesh' } }));
+      R.light = { bgOmitted: lb.preset.physics[KEY].light === undefined,
+        meshKept: lm.preset.physics[KEY].light === 'mesh' };
+      // 決定性
+      const dA = run(mk(), 400), dB = run(mk(), 400);
+      R.det = dA.st.every((z, i) => Object.is(z, dB.st[i]));
+      return R;
+    });
+    const s1 = sf.norm.dropped && sf.norm.bothOff && sf.norm.noMode && sf.norm.nullDecl && sf.norm.hasFlagOff;
+    const s2 = sf.newton.bit;
+    const s4 = sf.grav.on === true && sf.grav.off === false && sf.grav.gd < 1e-15
+      && Math.abs(sf.grav.workE) < 1e-12 && sf.grav.maxDiff < 1e-10;
+    const s5 = Math.abs(sf.degen.ratio / sf.degen.chi - 1) < 1e-4;
+    const s6 = sf.d0.zeroKept && sf.d0.droppedUndef && sf.d0.normal === 0.5;
+    const s7 = sf.gates && sf.light.bgOmitted && sf.light.meshKept && sf.det;
+    const fx = (x) => Number(x).toExponential(4);
+    add('behavior.spaceMeshForce', s1 && s2 && s4 && s5 && s6 && s7,
+      `① **未宣言は 1 bit 不変**: 鍵なし/両方 OFF/mode 欠落/null の 4 通りが署名も 600 步の状態も`
+      + `ビット同一=${s1}(S.hasSpaceMesh=false で素通り) / `
+      + `② **u≡0 でニュートン**: material a=(${sf.newton.material})・action a=(${sf.newton.action})=g にビット一致=${s2}・`
+      + `2 候補の差は (∇u)ᵀ(v−u)=(${sf.lawDiff.cor.map((z) => z.toFixed(6))})(v−u=${sf.lawDiff.rel.map((z) => z.toFixed(3))}) / `
+      + `④ **重力チャネルは二重計上しない**: 🪟 で spaceMesh を足しても 1 步の |Δa_g|=${fx(sf.grav.gd)}・`
+      + `3000 步後の状態差 ${fx(sf.grav.maxDiff)}(|x|≈${sf.grav.scale.toFixed(1)})・spaceMeshWorkE=${fx(sf.grav.workE)}`
+      + `=${s4}(g_mesh=G∇D_grav の核は E4=G∇W と同じ) / `
+      + `⑤ **慣性候補は頂点で退化する(否定結果)**: |a_I|/|g_N|=${sf.degen.ratio.toFixed(8)} 対 `
+      + `**χ=${sf.degen.chi.toFixed(8)}**(相対差 ${fx(Math.abs(sf.degen.ratio / sf.degen.chi - 1))})・`
+      + `|v−u|=${fx(sf.degen.relSpeed)}=${s5} —— 慣性項は**重力加速度の再導出**であって新しい力ではない。`
+      + `**だから本体の力則としては採用しない** / `
+      + `⑥ **D0pull:0 の宣言**: 明示 0 が保持される=${sf.d0.zeroKept}・未宣言は undefined=${sf.d0.droppedUndef}・`
+      + `通常値は従来どおり(${sf.d0.normal})=${s6} / `
+      + `⑦ 門(mode/inertia/light/D0/型/真偽)=${sf.gates}・light は既定 background を署名へ入れない=`
+      + `${sf.light.bgOmitted}(mesh は保持=${sf.light.meshKept}・**photon/traceRay には接続していない**)・`
+      + `決定性=${sf.det}=${s7}`);
+  } else {
+    console.log('SKIP behavior.spaceMeshForce(対象に第254便a の physics.spaceMesh なし — root 等)');
+  }
+}
 // ---- 第254便b(第46報「銀河の空間メッシュ」): behavior.galaxyMesh — 局所場と物質線の契約 ----
 //   HP.dfmGalaxyMeshField / dfmGalaxyTracer*(Create/Step/Observe)/ dfmGalaxyMeshRecord だけを叩く
 //   軽量ブロック(エンジンは新サンプルの短い走行しか回さない — QA_FAST でも走る)。固定するのは 8 項目:
@@ -13451,7 +13731,7 @@ if (!FAST) {
         'psrJ1757DFM', 'psrJ1946DFM',
         'psrDoubleABPN', 'psrJ1757PN', 'psrJ1946PN',
         'psrDoubleABCF', 'psrJ1757CF', 'psrJ1946CF',
-        'psrB1534', 'psrB1534DFM', 'psrB1534CF', 'compactForceToy', 'boxBinaryToy',
+        'psrB1534', 'psrB1534DFM', 'psrB1534CF', 'compactForceToy', 'boxBinaryToy', 'spaceMeshBinaryToy',
         'axisBarStill', 'axisBarArms', 'axisBarReach'];   // 第251便b: 第248便c の 3 本(🍥🪁🍢)は廃止   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)/ 第247便d: 🪞 mmPhaseToy(pull 明示の原理サンプル)/ 第248便a: 🧮🩺(⚡ の処方をそのまま当てた NS 連星 hold-out — ⚡ と同じ pull 宣言) / 第248便c: 🍥🪁🍢(銀河形態の原理サンプル — pull 既定)/ 第249便a: 🪶🪃🪀(NS 応答候補 λ_PN=1/f の variant — 複製元と同じ pull 宣言) / 第249便c: 🥢🎏🎚️(axisForce 玩具の原理サンプル — pull 既定)
       const all = HP.allPresets(); let nShare = 0, nOther = 0; const wrong = [];
       for (const q of all) { const fw = q.physics && q.physics.frameWeight; if (MIG.indexOf(q.id) >= 0) { if (fw !== undefined && fw !== 'pull') wrong.push(q.id); } else if (fw === 'share') nShare++; else { nOther++; wrong.push(q.id); } }
