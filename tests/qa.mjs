@@ -368,7 +368,7 @@ if (!TARGET.startsWith('beta/')) {
     const PERI = {
       earthMoonRealKF1: '27.5228', emAuditDFM: '27.5325', plutoCharonReal: '6.43719',
       saturnZonalD68: '5.0625', alphaCenABDFM: '79.796', siriusABDFM: '50.151',
-      psrDoubleABDFM: '8712.96', psrJ1757DFM: '15853.35', psrJ1946DFM: '6780.92',
+      psrDoubleABDFM: '8737.37', psrJ1757DFM: '15853.35', psrJ1946DFM: '6780.92',   // 第254便d: ⚡ は framePrecision:"double" 本体化で 8712.96(可変窓・native)→ 8737.37(窓 20 近点・double)
       psrDoubleABPN: '8833.27', psrJ1757PN: '15852.64', psrJ1946PN: '6780.50',
       gw150914DFM: '0.178304',
     };
@@ -8257,10 +8257,10 @@ if (!FAST) {
     const dm = ps.dfm || { missing: true };
     const dfmOk = !dm.missing && dm.massOk && dm.declOk && !dm.nan && dm.det
       && dm.p2 !== null && Math.abs(dm.p2 / ps.P_OBS - 1) < 0.012   // 第240便: P 残差 −0.16%(hold-out)
-      && dm.e1 !== null && Math.abs(dm.e1 - 0.087977) < 0.002   // 第245便 一次則: 0.087977(χ² 則 0.087949・share 世代 0.087089 も窓内)
+      && dm.e1 !== null && Math.abs(dm.e1 - 0.087977) < 0.002   // 第254便d: 0.087976(第245便 一次則の native は 0.087977・χ² 則 0.087949・share 世代 0.087089 も窓内)
       && dm.rmin1 !== null && Math.abs(dm.rmin1 / 801.37 - 1) < 0.01   // 第245便 一次則: 801.37(χ² 則 801.42・share 世代 802.81 も窓内)
       && dm.angSign === 1
-      && dm.dPeri !== null && (dm.w242 ? (dm.dPeri >= 0.005 && dm.dPeri <= 0.02) : (dm.dPeri >= 0.05 && dm.dPeri <= 0.2))   // 第245便 一次則: +0.0088°/周(χ² 則 +0.0123・share 世代 +0.103 — claim 窓と同値)
+      && dm.dPeri !== null && (dm.w242 ? (dm.dPeri >= 0.008 && dm.dPeri <= 0.012) : (dm.dPeri >= 0.05 && dm.dPeri <= 0.2))   // 第254便d(第46報 M2): 本体が framePrecision:"double" を宣言 → +0.009757°/周(窓 0.008〜0.012 は claim 窓と同値。native の +0.008775 は第253便b まで)
       && dm.sMax === 0 && dm.clampD === 0                // 第222便: 殻スピンは全窓ビット保持(1PN 偶力の受け先ルーティング)
       && dm.omDriftB !== null && dm.omDriftB >= 0 && dm.omDriftB <= 2   // B コア Ω 保持(claim 窓と同値・宣言 +0.40%)
       // 力学コア時計の現状(第225便): A の 2768 は力学に載らない、B は初期値の転写で −0.4%/4.3公転。
@@ -8309,8 +8309,8 @@ if (!FAST) {
       + `近点複製プローブ: kF1 外挿 ${(ps.pr1.proj * 100).toFixed(2)}%/公転(宣言 18.00 — 発火・差し戻し)・kF0 ドリフト ${ps.pr0.drift.toExponential(1)}(<1e-5 — ノイズ床未満) / `
       + `経路等価(第222便 族拡張): CSV ${csvRows.length}行 → buildAstroFromRecords=${ps.hole.ok}(相対論的連星族 rel=${ps.hole.scale ? ps.hole.scale.rel : '—'}・L${ps.hole.scale ? ps.hole.scale.L : '—'}/T${ps.hole.scale ? ps.hole.scale.T : '—'}/M${ps.hole.scale ? ps.hole.scale.M : '—'}・q=${ps.hole.q}・観測安定則=${ps.hole.stab}・値域外スピン宣言 ${ps.hole.spinDecl}件・内蔵 📻 とビット一致=${ps.hole.same}) / `
       + `⚡ DFM版: 質量係数 f=${dm.w242 ? '1.99994(第245便 一次則・χ² 則 1.99988)' : '1.99777〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・coupleSink:core+二層・massFrac=(f−1)/f・cmGauge・${dm.w242 ? 'fitted 0ノブ' : 'fitted 1ノブ C'}・BコアΩ=22.654675 転写)=${dm.declOk}・`
-      + `2周目 ${dm.p2 === null ? '—' : (dm.p2 * 10).toFixed(2) + ' s'}(宣言 ${dm.w242 ? '8819.36〔hold-out −0.17%〕' : '8834.6'})・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(6)}(宣言 ${dm.w242 ? '0.087977' : '0.087089'})・近点 ${dm.rmin1 === null || dm.rmin1 === undefined ? '—' : dm.rmin1.toFixed(2)}(宣言 ${dm.w242 ? '801.37' : '802.81'} ±1%)・`
-      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(4) + '°/周'}(宣言 ${dm.w242 ? '+0.0088・窓 0.005〜0.02' : '+0.103'})・BコアΩ保持 ${dm.omDriftB === null || dm.omDriftB === undefined ? '—' : '+' + dm.omDriftB.toFixed(2) + '%'}(宣言 +0.38・窓0〜2)・`
+      + `2周目 ${dm.p2 === null ? '—' : (dm.p2 * 10).toFixed(2) + ' s'}(宣言 ${dm.w242 ? '8819.52〔hold-out −0.17%〕' : '8834.6'})・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(6)}(宣言 ${dm.w242 ? '0.087976' : '0.087089'})・近点 ${dm.rmin1 === null || dm.rmin1 === undefined ? '—' : dm.rmin1.toFixed(2)}(宣言 ${dm.w242 ? '801.37' : '802.81'} ±1%)・`
+      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(6) + '°/周'}(宣言 ${dm.w242 ? '+0.009757・窓 0.008〜0.012(第254便d: framePrecision:"double" 本体化)' : '+0.103'})・BコアΩ保持 ${dm.omDriftB === null || dm.omDriftB === undefined ? '—' : '+' + dm.omDriftB.toFixed(2) + '%'}(宣言 +0.38・窓0〜2)・`
       + `力学コア時計: A力学転写=${dm.pulseARepresented}(=false)・B ${dm.pulseTurnsB === undefined ? '—' : dm.pulseTurnsB.toFixed(0)}回転・平均 ${dm.pulseMeanSecB === undefined ? '—' : dm.pulseMeanSecB.toFixed(6)} s・末尾 ${dm.pulseEndSecB === undefined ? '—' : dm.pulseEndSecB.toFixed(6)} s(${dm.pulseEndErrorPctB === undefined ? '—' : dm.pulseEndErrorPctB.toFixed(3)}%)・`
       + `パルス時計チャネル(第226便): 宣言A/B=${dm.pulseDeclA}/${dm.pulseDeclB}・A ${dm.pulseChan ? dm.pulseChan.turnsA.toExponential(3) : '—'}回転・平均 ${dm.pulseChan ? (dm.pulseChan.meanSecA * 1000).toFixed(6) : '—'} ms/B ${dm.pulseChan ? dm.pulseChan.meanSecB.toFixed(7) : '—'} s・位相恒等 ${dm.pulseChan ? dm.pulseChan.phRelErrA.toExponential(1) : '—'}/${dm.pulseChan ? dm.pulseChan.phRelErrB.toExponential(1) : '—'}(<1e-9)・力学不干渉=${dm.pulseDynInv}・`
       + `殻スピン保持 |s|max=${dm.sMax === undefined ? '—' : dm.sMax}(=0・clampSN Δ=${dm.clampD} — 第222便 1PN 偶力ルーティング)・`
@@ -10218,9 +10218,14 @@ if (!FAST) {
 //      可逆性試験(前進 → v 反転 → 前進)の位置誤差が 1 次分割の 10⁻⁵ 級から**丸めの床**へ落ちる。
 //      semi(既定)は従来どおり 1 回・**S.step が半キック分割とビット一致**することも固定する
 //   C) physics.framePrecision:"double" — 引きずり場の 9 配列だけ Float64(ChatGPT v5 §4)。
-//      宣言で型が変わる/未宣言は Float32 のまま/署名は 1 文字も変わらない/⚡ の 100 步は
-//      native と一致しない(=経路が実在する)/**dt を半分にしても近点移動が ±10% 以内**
-//      (native は同じ操作で 1.5 倍以上動く — 数値床の否定対照。QA_FAST では省略)
+//      **第254便d で ⚡ psrDoubleABDFM 本体がこの宣言を持った**(第46報 M2)ので、契約の
+//      「宣言なし=native」側は**⚡ から宣言を外した一時コピー**で立てる(=本体は宣言あり側)。
+//      固定するのは 4 つで、意味は第247便a から変えていない:
+//        ①宣言なしのコピーは Float32(framePrec="single")②⚡ 本体は Float64(framePrec="double")
+//        ③両者の 100 步は**ビット非同一**(=経路が実在する)④"single" は署名から落ち・不正値は警告
+//      加えて⑤**⚡ 本体の physics.framePrecision==="double"** を機械固定する(本体化の宣言そのもの)。
+//      **dt を半分にしても近点移動が ±10% 以内**(宣言を外した native は同じ操作で 1.5 倍以上動く
+//      — 数値床の否定対照。QA_FAST では省略)
 //   E) HP.dfmCompactMeasures — 「手段」表の正本(⚡ NS–NS・🎻 BH・🪨 太陽–水星を**同じ無次元則**で同時評価)。
 //      ①kind "spin" では質量補正 f が η から約分される ②kind "kerr" では f² で効く
 //      ③Δϖ = −2π·η(r=p) の恒等式 ④エンジンの η と 1e-12 で一致 ⑤**どの則も 3 系を同時に満たさない**
@@ -10322,10 +10327,12 @@ if (!FAST) {
       // ---------------------------------------------------------------- C) framePrecision
       const frame = {};
       const KS = HP.FRAME_F64_ARRS.concat(['pairD']);
-      build(clone('psrDoubleABDFM'));
+      // 第254便d: ⚡ 本体が宣言を持ったので、**宣言を外した一時コピー**が native 対照になる
+      const noDecl = () => { const q = clone('psrDoubleABDFM'); delete q.physics.framePrecision; return q; };
+      frame.primaryDeclared = HP.allPresets().find((q) => q.id === 'psrDoubleABDFM').physics.framePrecision;
+      build(noDecl());
       frame.single = KS.every((k) => S[k].constructor === Float32Array) && S.framePrec === 'single';
-      const pD = clone('psrDoubleABDFM'); pD.physics.framePrecision = 'double';
-      const vD = build(pD);
+      const vD = build(clone('psrDoubleABDFM'));
       frame.double = KS.every((k) => S[k].constructor === Float64Array) && S.framePrec === 'double';
       frame.kept = vD.preset.physics.framePrecision === 'double';
       const pS = clone('psrDoubleABDFM'); pS.physics.framePrecision = 'single';
@@ -10334,12 +10341,12 @@ if (!FAST) {
       const vX = HP.validatePreset(pX);
       frame.badWarn = (vX.warnings || []).some((w) => /framePrecision/.test(w))
         && vX.preset.physics.framePrecision === undefined;
-      const n100 = run(clone('psrDoubleABDFM'), 100);
-      const d100 = run((() => { const q = clone('psrDoubleABDFM'); q.physics.framePrecision = 'double'; return q; })(), 100);
+      const n100 = run(noDecl(), 100);
+      const d100 = run(clone('psrDoubleABDFM'), 100);
       frame.bit100 = same(n100, d100);
       frame.max100 = Math.max.apply(null, n100.map((z, i) => Math.abs(z - d100[i])));
       // _grow が Float64 の pairD を Float32 へ落とさない
-      { const q = clone('psrDoubleABDFM'); q.physics.framePrecision = 'double'; build(q);
+      { build(clone('psrDoubleABDFM'));   // 本体が double 宣言(第254便d)
         S._grow(S.n + 4);
         frame.growKeeps = S.pairD.constructor === Float64Array && S.uPx.constructor === Float64Array; }
 
@@ -10408,8 +10415,9 @@ if (!FAST) {
         fittedDecl: /調整量/.test((sp.parameterAudit.fitted || []).join(''))
           && /λ=1×10¹¹/.test((sp.parameterAudit.fitted || []).join('')),
         noKnobless: !/フィットしたノブは無い/.test(JSON.stringify(sp)),
-        primaryUntouched: HP.allPresets().find((q) => q.id === 'psrDoubleABDFM').physics.spinSpin === undefined
-          && HP.allPresets().find((q) => q.id === 'psrDoubleABDFM').physics.framePrecision === undefined };
+        // 第254便d: ⚡ 本体は 🧿 の λ(spinSpin)を持たない — ただし framePrecision は本体化した(M2)
+        primarySpinUntouched: HP.allPresets().find((q) => q.id === 'psrDoubleABDFM').physics.spinSpin === undefined,
+        primaryFrameDouble: HP.allPresets().find((q) => q.id === 'psrDoubleABDFM').physics.framePrecision === 'double' };
       HP.loadPreset('saturn', false);
       return { decl, half, frame, meas, smp };
     });
@@ -10421,7 +10429,8 @@ if (!FAST) {
         const peri = (prec, dt) => {
           const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'psrDoubleABDFM')));
           pd.physics = Object.assign({}, pd.physics);
-          if (prec === 'frame') pd.physics.framePrecision = 'double';
+          // 第254便d: 本体が double を宣言したので、native 側は**宣言を外して**作る
+          if (prec === 'frame') pd.physics.framePrecision = 'double'; else delete pd.physics.framePrecision;
           const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
           const steps = Math.round(5.6 * 881.9 / dt);
           const raw = []; let rd1 = 0, t1 = 0, rMin = Infinity, rMax = -Infinity;
@@ -10470,6 +10479,7 @@ if (!FAST) {
       && h.old > 1e-7 && h.half < 1e-11 && h.half <= 100 * h.ctrl                              // B
       && h.engineIsHalfKick && h.semiUnchanged
       && f.single && f.double && f.kept && f.sigDropped && f.badWarn                           // C
+      && f.primaryDeclared === 'double'                                                        // 第254便d: 本体化
       && f.bit100 === false && f.max100 > 0 && f.max100 < 1e-4 && f.growKeeps
       && (!conv || (conv.frameRel < 0.1 && conv.nativeRel > 0.1 && conv.f4.n === 5 && conv.n4.n === 5))
       && m.massCancel < 1e-12 && m.kerrF2 < 1e-9 && m.periIdentity < 1e-12                     // E
@@ -10483,14 +10493,16 @@ if (!FAST) {
       && m.rows.find((x) => x.id === 'compact').ok.solarSafe
       && s.warn === 0 && s.lam === 1e11 && s.fp === 'double' && s.role === 'variant'           // 🧿
       && s.fam === 'psr' && s.cls === 'calibration' && s.fid === 'real' && s.nc
-      && s.massOk && s.fitted === 2 && s.fittedDecl && s.noKnobless && s.primaryUntouched,
+      && s.massOk && s.fitted === 2 && s.fittedDecl && s.noKnobless
+      && s.primarySpinUntouched && s.primaryFrameDouble,
       `A) 明示 ω=0 → Q=${d.zeroQ}(宣言フラグ=${d.zeroFlag}・未宣言側は従来式 ${d.otherQ})・` +
       `λ=0 とビット同一=${d.bitZeroIsLamZero}(未宣言とは相違=${d.differsFromPlain})・` +
       `融合で消滅=${d.fuseFlag === false}・放出片は非宣言 ${d.shedChildBad}件・残骸は保持=${d.shedParent}・A/B 転写=${d.abFlag} / ` +
       `B) 可逆性(150 単位往復・λ=200): 1 次分割 ${h.old.toExponential(3)} → **半キック ${h.half.toExponential(3)}**` +
       `(λ=0 の床 ${h.ctrl.toExponential(3)})・S.step が半キックとビット一致=${h.engineIsHalfKick}・semi は不変=${h.semiUnchanged} / ` +
-      `C) framePrecision: 宣言で Float64=${f.double}・未宣言は Float32=${f.single}・"single" は署名から落ちる=${f.sigDropped}・` +
-      `不正値は警告=${f.badWarn}・⚡ 100 步は native と相違(最大 ${f.max100.toExponential(2)})・_grow が型を保つ=${f.growKeeps}` +
+      `C) framePrecision: ⚡ 本体の宣言=${f.primaryDeclared}(第254便d 本体化)・本体は Float64=${f.double}・` +
+      `宣言を外したコピーは Float32=${f.single}・"single" は署名から落ちる=${f.sigDropped}・` +
+      `不正値は警告=${f.badWarn}・⚡ 100 步は宣言あり/なしで相違(最大 ${f.max100.toExponential(2)})・_grow が型を保つ=${f.growKeeps}` +
       (conv ? `・**dt 半減の収束: frame ${conv.f8.slopeDeg.toFixed(9)}→${conv.f4.slopeDeg.toFixed(9)}(${(conv.frameRel * 100).toFixed(2)}%)` +
         ` / native ${conv.n8.slopeDeg.toFixed(9)}→${conv.n4.slopeDeg.toFixed(9)}(${(conv.nativeRel * 100).toFixed(1)}%)**` : '(収束契約は QA_FAST で省略)') + ' / ' +
       `E) 手段表: η(λ=1) ⚡ ${m.etaBase.NS.toExponential(3)}・🎻 5R_s ${m.etaBase.BH5.toExponential(3)}・🪨 ${m.etaBase.SM.toExponential(3)}(Ξ=${m.XiNS.map((x) => x.toFixed(3)).join('/')} vs ${m.XiBH})・` +
@@ -10498,7 +10510,8 @@ if (!FAST) {
       `α=${m.alpha.toExponential(4)}(⚡ を η=1e-5 にする値)で 🎻 は ${m.rows.find((x) => x.id === 'compact').etaBH.toExponential(2)}・` +
       `🪨 は ${m.rows.find((x) => x.id === 'compact').sunArcsec.toExponential(2)}″/世紀 / ` +
       `**3 系を同時に満たす則=${m.anyAllThree ? 'あり' : 'なし'}**(単調 g(Ξ) には ${m.gDrop.toExponential(2)} 倍の落差が要る) / ` +
-      `🧿 psrDoubleABSpinCal: f=${s.f}・λ=${s.lam.toExponential(0)}・fitted ${s.fitted}件・⚡ 本体は不変=${s.primaryUntouched}`);
+      `🧿 psrDoubleABSpinCal: f=${s.f}・λ=${s.lam.toExponential(0)}・fitted ${s.fitted}件・⚡ 本体は λ を持たない=${s.primarySpinUntouched}` +
+      `(⚡ 本体の framePrecision は第254便d で "double" 本体化=${s.primaryFrameDouble})`);
   } else {
     console.log('SKIP behavior.compactMeasures(対象に第247便a の framePrecision/dfmCompactMeasures なし — root 等)');
   }
