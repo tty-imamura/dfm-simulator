@@ -2230,6 +2230,9 @@ function fastParams(o){
   if(!__PARAM_TMPL){
     const ks=new Set(Object.keys(DEFAULT_PHYSICS));
     for(const q of BUILTIN_PRESETS) if(q && q.physics && typeof q.physics==="object") for(const k of Object.keys(q.physics)) ks.add(k);
+    // 第252便b: 内蔵プリセットが 1 本も宣言していない opt-in 鍵も正準集合に入れる(宣言した保存/AI
+    // プリセットだけ hidden class が別になるのを防ぐ)。値は undefined なので既定経路は 1 bit 不変
+    ks.add(PERI_SUB_KEY);
     const t={}; for(const k of ks) t[k]=undefined;
     __PARAM_TMPL={...t};   // スプレッドで fast-properties の雛形にする(t 自体は辞書化していてよい)
   }
@@ -2358,6 +2361,46 @@ const COMPACT_FORCE_CLAMPS = { kappa:[-1e9,1e9], chiGate:[0,1], rc:[0,1e6], alph
   cGate:[0,1e6], C6:[-1e60,1e60], C8:[-1e80,1e80], xiTh:[1e-12,1e6], sFloor:[0,1e6], fMass:[1e-6,1e6] };
 const COMPACT_FORCE_DEFAULT = { model:"current", kappa:0, chiGate:0.5, rc:0, alphaK:3, cGate:0.01,
   C6:0, C8:0, xiTh:0.05, sFloor:1e-12, fMass:1 };
+// ===== 第252便b(第44報): physics.periSubsteps — 近点近傍だけ刻みを細かくする薄い包み(opt-in・既定 OFF)=====
+// 第251便a ⑨(設計ノート)の持ち越し。3 審査 v10 の一致点(K7/K8/K8′)どおり **`S.step` を呼ぶ側の薄い包み**
+// として書き、**`S._core` には 1 命令も足していない**(JIT 崖 — 第239便 §4.5)。
+//   宣言: physics.periSubsteps={n, rMul, pair?:[i,j], rPeri?}
+//     n     … 近点近傍での細分数(dt → dt/n を n 回)。**1 は「なし」へ正規化**(署名 1 文字も変わらない)
+//     rMul  … 近点近傍の定義。相対距離 r < rMul·r_peri の間だけ細分する(既定 1.5)
+//     pair  … 近点を測る 2 体(省略時は |m| 最大の 2 粒子)
+//     rPeri … 近点距離の**宣言値**(再現性のある正式形)。省略時(auto)は**走行中の相対距離の最小値**を
+//             基準にする —— ケプラー接触要素 a(1−e) を使わないのは、較正質量の系ではそれが実際の
+//             近点と大きく食い違うためである(実測は S._periSetup の見出しコメント)
+// **イベントは最後のサブステップの後に 1 度だけ**(Grok §4A): エコー・融合・分裂・放出は
+// 「dt を 1 步進めた」ときと同じ回数だけ発火する。dt 比例の外部オーバーレイ(petersGW)は
+// 各サブステップに掛かる(力と同じ扱い)。
+// **未宣言は 1 bit 不変**: ph へ入れない(署名・エクスポート JSON が 1 文字も変わらない)・
+// S.hasPeriSub=false で S.step の真偽値 1 つを読んで素通りする。
+// **これは物理ではなく数値設定**(role=numerics)である —— 刻みを変えて動く量は物理ではない。
+const PERI_SUB_KEY = "periSubsteps";
+const PERI_SUB_CLAMPS = { n:[1,256], rMul:[1,1e4], rPeri:[0,1e12] };
+const PERI_SUB_DEFAULT = { n:1, rMul:1.5, rPeri:0 };
+function validatePeriSubsteps(a){
+  if(a===null || a===undefined) return {ok:true, periSubsteps:null};
+  if(typeof a!=="object" || Array.isArray(a))
+    return {ok:false, err:"physics.periSubsteps はオブジェクト({n,rMul,pair?,rPeri?})か null"};
+  const num=(k)=>{ if(a[k]===undefined) return PERI_SUB_DEFAULT[k];
+    if(!isNum(a[k])) return null;
+    return clamp(a[k],PERI_SUB_CLAMPS[k][0],PERI_SUB_CLAMPS[k][1]); };
+  const n=num("n"), rMul=num("rMul"), rPeri=num("rPeri");
+  if(n===null || rMul===null || rPeri===null) return {ok:false, err:"physics.periSubsteps の n/rMul/rPeri は数値"};
+  const ni=Math.round(n);
+  if(ni<=1) return {ok:true, periSubsteps:null};   // n=1 = 未宣言(1 bit 不変)
+  const out={n:ni, rMul, rPeri};
+  if(a.pair!==undefined){
+    const q=a.pair;
+    if(!Array.isArray(q) || q.length!==2 || !isNum(q[0]) || !isNum(q[1])
+       || Math.floor(q[0])!==q[0] || Math.floor(q[1])!==q[1] || q[0]<0 || q[1]<0 || q[0]===q[1])
+      return {ok:false, err:"physics.periSubsteps.pair は相異なる 2 つの粒子 index の配列"};
+    out.pair=[q[0],q[1]];
+  }
+  return {ok:true, periSubsteps:out};
+}
 // 第246便(ChatGPT v4 §5.3/5.4): コアv2 の**実行状態**の値域(編集入口 S.applyCoreEdit が使う)。入力の値域(検証器 vCore:
 // massFrac 0.01〜0.95・Ω ±50)はプリセット/AI 生成の推奨範囲で、収縮(Ω↑)や放出(massFrac↑)を経た実行状態はこれを
 // 超えて正当。有限殻 0<Mc<M(massFrac<1)は維持(Mc=M の裸のコアは終端状態の別設計 — S4 第 2 段)
@@ -12179,6 +12222,14 @@ function validatePreset(obj){
         if(cv.compactForce!==null) ph[k]=cv.compactForce;
         continue;
       }
+      // 第252便b(第44報): periSubsteps — 近点近傍の刻み細分(**数値設定の opt-in・既定 OFF**)。
+      // n=1/null は「なし」へ正規化する(宣言と未宣言で署名が 1 文字も変わらない)
+      if(k===PERI_SUB_KEY){
+        const pv=validatePeriSubsteps(p.physics[k]);
+        if(!pv.ok){ bad(pv.err); continue; }
+        if(pv.periSubsteps!==null) ph[k]=pv.periSubsteps;
+        continue;
+      }
       // 第247便a: framePrecision も同じ流儀(既定 "single" は ph へ入れない=署名不変)
       if(k===FRAME_PRECISION_KEY){
         if(FRAME_PRECISIONS.indexOf(p.physics[k])<0) warnings.push('physics.framePrecision は "single"/"double" のみ — 既定(single)に修正');
@@ -15002,6 +15053,41 @@ function makeSim(){
     // 第251便a: コンパクト連星の追加対力(physics.compactForce)の有無フラグも同じ場所で張る。
     // validateCompactForce が用量 0 を null へ正規化しているので、キーの有無だけで判定できる
     S.hasCompactForce=!!S.params[COMPACT_FORCE_KEY];
+    // 第252便b: 近点サブステップ(physics.periSubsteps)の有無フラグと発火しきい値も同じ場所で張る。
+    // validatePeriSubsteps が n<=1 を null へ正規化しているので、キーの有無だけで判定できる
+    const __psq=S.params[PERI_SUB_KEY];
+    S.hasPeriSub=!!__psq; S.periSub=__psq||null;
+    S._periSetup();   // 未宣言でも呼ぶ(計数のリセットと状態の初期化だけ — 既定経路の値は 1 bit 不変)
+  };
+  // ===== 第252便b(第44報): 近点サブステップの準備(S.step を呼ぶ側の薄い包みの前段)=====
+  // **1 度だけ**決めるもの: 近点を測る 2 体 (i,j)・細分数 n・近点半径の基準 r_peri。
+  //   ・`periSubsteps.rPeri` を宣言していればその値で固定する(**再現性のある正式形**)。
+  //   ・宣言が無いときは **走行中の相対距離の最小値**(auto)を基準にする。ケプラー接触要素
+  //     a(1−e) を使わないのは、**較正質量の系ではそれが実際の近点と大きく食い違う**からである
+  //     (第252便b の実測: ⚡ psrDoubleABDFM は較正質量 f≈2 のニュートン接触要素が a(1−e)=282 を
+  //      返すが、kFrame=1 引きずり込みの実際の軌道は r∈[800, 956] —— 3 倍近く外れる)。
+  //     auto は最初の近点通過までは「今が最小」なので内向きの区間を丸ごと細分し、1 度近点を
+  //     通ったあとは近点近傍の帯だけを細分する(デューティ比は S.periSubHits で読める)。
+  S._periSetup = function(){
+    S.periSubHits=0; S.periSubSteps=0;   // 計数(監査・実験ハーネス用 — 物理には一切効かない)
+    const ps=S.periSub;
+    if(!ps || S.n<2){ S._psI=0; S._psJ=0; S._psN=1; S._psRmin=-1; S._psRmul=0; S._psAuto=false; S._psSrc=null; return; }
+    // **基準は 1 度だけ決める**: updateRadii は実行中にも呼ばれる(半径スライダー・粒子編集)ので、
+    // 同じ宣言オブジェクトなら初期化し直さない(走行の途中で判定が飛ばないことの保証)
+    if(S._psSrc===ps) return;
+    S._psSrc=ps;
+    let i=0, j=1;
+    if(ps.pair && ps.pair[0]<S.n && ps.pair[1]<S.n){ i=ps.pair[0]; j=ps.pair[1]; }
+    else {   // |m| 最大の 2 粒子(宣言が無いときの既定 — 連星の 2 体を機械的に選ぶ)
+      let m1=-Infinity, m2=-Infinity; i=0; j=1;
+      for(let k=0;k<S.n;k++){ const a=Math.abs(S.mEff[k]);
+        if(a>m1){ m2=m1; j=i; m1=a; i=k; } else if(a>m2){ m2=a; j=k; } }
+      if(i===j) j=(i===0)?1:0;
+    }
+    S._psI=i; S._psJ=j; S._psN=ps.n; S._psRmul=ps.rMul;
+    if(ps.rPeri>0){ S._psRmin=ps.rPeri; S._psAuto=false; }
+    else { const dx=S.x[j]-S.x[i], dy=S.y[j]-S.y[i]; S._psRmin=Math.hypot(dx,dy); S._psAuto=true; }
+    S._psRperi=S._psRmin;   // 監査用の初期値(auto では走行中に下がる)
   };
   // 第36便 C2: 掻出の実効値(auto の粒子は lS_eff、それ以外は指定値)。lSw[i] が常に実効値なので
   // 参照側は分岐不要 — 監査・UI 用の明示アクセサとして公開する(HP.sim.lSwEff(i))
@@ -15367,7 +15453,32 @@ function makeSim(){
       } else { vx[i]+=ddx; vy[i]+=ddy; }
     }
   };
+  // 第252便b: 近点サブステップの再入フラグ(クロージャ変数 — S のプロパティにしないのは、
+  // 既定経路で読むのがローカルスコープの真偽値 1 つで済むようにするため)。true の間は
+  // ①これ以上分割しない ②ステップ末の**離散イベント**を発火しない。
+  let __periIn = false;
   S.step = function(dt){
+    // ===== 第252便b(第44報): 近点サブステップ(physics.periSubsteps — opt-in・既定 OFF)=====
+    // 未宣言では S.hasPeriSub の**真偽値 1 つ**を読んで素通りする(既定経路 1 bit 不変)。
+    // 宣言時は相対距離が r<rMul·r_peri のときだけ dt を n 等分して自分自身を n 回呼び、
+    // **離散イベント(エコー・融合・分裂・放出)は最後のサブステップの後に 1 度だけ**発火する。
+    if(S.hasPeriSub && !__periIn && S._psRmin>0){
+      const i=S._psI, j=S._psJ, dx=S.x[j]-S.x[i], dy=S.y[j]-S.y[i];
+      const d2=dx*dx+dy*dy;
+      if(S._psAuto && d2<S._psRmin*S._psRmin) S._psRmin=Math.sqrt(d2);   // auto: 近点半径は走行中の最小値
+      const thr=S._psRmul*S._psRmin;
+      if(d2 < thr*thr){
+        const nn=S._psN, h=dt/nn;
+        __periIn=true;
+        try{ for(let k=0;k<nn;k++) S.step(h); }
+        finally{ __periIn=false; }
+        S.periSubHits=(S.periSubHits||0)+1; S.periSubSteps=(S.periSubSteps||0)+nn;
+        if(S.echoFlipAt!==null) S._echo();
+        if(S.fusion){ S._fuse(); if(S.fusion.fission) S._fission(); }
+        if(S.hasShed) S._shed();
+        return;
+      }
+    }
     // 第245便補足1: スピン双極子間力は積分器の**前**(=E4 の加速度に足すのと同義 — 上のコメント)。
     // 第247便a(ChatGPT v5 §7): leapfrog では**前後の半キック(dt/2 ×2)に分ける**。1 步 1 回の
     // 1 次分割は時間反転対称性を壊し、可逆性試験(150 単位前進 → v 反転 → 150 単位)で位置誤差が
@@ -15389,13 +15500,17 @@ function makeSim(){
       S._core(dt,0);
     }
     if(S.params.petersGW===true) S._petersGW(dt);   // 第227便: 外部物理オーバーレイ(既定 OFF=素通り)
-    if(S.echoFlipAt!==null) S._echo();
-    // 第44便 44B(台帳4-68c): 融合はサブステップ末(E系適用後)。fusion 未指定では null 判定 1 回
-    // 第45便 45B(台帳4-68d): 分裂は融合の**後**(同一サブステップで新生対が再融合しないための第1の柵)
-    if(S.fusion){ S._fuse(); if(S.fusion.fission) S._fission(); }
-    // 第244便(第36報): envelopeShed はステップ末(融合・分裂の後)。未宣言はフラグ1つで素通り =
-    // 1步あたりの追加コストは真偽値の読みだけ(S._core の中には 1 命令も足していない — 第208便の教訓)
-    if(S.hasShed) S._shed();
+    // 第252便b: 離散イベントは**最後のサブステップの後に 1 度だけ**(Grok §4A)。periSubsteps
+    // 未宣言では __periIn は常に false なので、下の 3 行は従来どおり毎步そのまま実行される
+    if(!__periIn){
+      if(S.echoFlipAt!==null) S._echo();
+      // 第44便 44B(台帳4-68c): 融合はサブステップ末(E系適用後)。fusion 未指定では null 判定 1 回
+      // 第45便 45B(台帳4-68d): 分裂は融合の**後**(同一サブステップで新生対が再融合しないための第1の柵)
+      if(S.fusion){ S._fuse(); if(S.fusion.fission) S._fission(); }
+      // 第244便(第36報): envelopeShed はステップ末(融合・分裂の後)。未宣言はフラグ1つで素通り =
+      // 1步あたりの追加コストは真偽値の読みだけ(S._core の中には 1 命令も足していない — 第208便の教訓)
+      if(S.hasShed) S._shed();
+    }
   };
   // 第35便(台帳4-62): Loschmidt echo — t が echoFlipAt に達した最初のステップ終端で、
   // 全粒子の v と s の符号を一度だけ反転する(pinned 含む・再反転はしない)。
@@ -27568,6 +27683,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   HALO_MODELS, validateHalo,   // 第197便(M0): 解析ハローキットの世代検出・QA 用
   AXIS_FORCE_KEY, AXIS_FORCE_CLAMPS, AXIS_FORCE_DEFAULT, validateAxisForce,   // 第249便c(案A): 軸ポテンシャルの世代検出・QA 用
   COMPACT_FORCE_KEY, COMPACT_FORCE_MODELS, COMPACT_FORCE_CLAMPS, COMPACT_FORCE_DEFAULT, validateCompactForce,   // 第251便a: コンパクト連星の追加対力(opt-in)の受理形・QA 用
+  PERI_SUB_KEY, PERI_SUB_CLAMPS, PERI_SUB_DEFAULT, validatePeriSubsteps,   // 第252便b: 近点サブステップ(opt-in の数値設定)の受理形・QA 用
   // 第249便c: 案A のポテンシャルと力の**純関数**(状態を 1 bit も読み書きしない — QA・報告・
   // PHYSICS.md が同じ式を読むための正本)。Φ_A=−A·exp(−s/R_b²)·(u²−v²)/(s+r_c²)、F=−m∇Φ_A
   dfmAxisPotential:(dx,dy,cfg)=>{

@@ -765,6 +765,11 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   **用量 0(current の κ=0・manev の alphaK=0・lj の C₆=C₈=0)は未宣言へ正規化**され、プリセット署名・エクスポート JSON が 1 文字も変わらない(未宣言は `S.hasCompactForce=false` で素通り = 既定経路 1 bit 不変)。
   ゲート(`current` は実行時 χ・`manev` は C=G(m/f)/(Rc²)・`lj` は Ξ=Gm/(Rc²) の合成 σ)を下回る対は **U も力もビットで 0** になる。
   **生成 AI はこのキーを使わない** — コンパクト連星の候補力の検証(docs/PHYSICS.md 第251便a の節)専用である。
+- **近点近傍の刻み細分(第252便b — `physics.periSubsteps`)**: `{"n":細分数, "rMul":近点近傍の倍率, "pair":[i,j](任意), "rPeri":近点半径の宣言値(任意)}` を宣言すると、**2 体の相対距離が r < rMul·r_peri の間だけ** 1 步 dt を n 等分して n 回進める(`S.step` を呼ぶ側の薄い包み — `S._core` には 1 命令も足していない)。**これは物理ではなく数値設定**である(role=numerics)。
+  ステップ末の**離散イベント(エコー・融合・分裂・放出)は最後のサブステップの後に 1 度だけ**発火する(dt 比例の外部オーバーレイ `petersGW` は各サブステップに掛かる)。
+  `pair` 省略時は |m| 最大の 2 粒子。`rPeri` 省略時(auto)は**走行中の相対距離の最小値**を基準にする —— ケプラー接触要素 a(1−e) を使わないのは、較正質量の系ではそれが実際の近点と大きく食い違うためである(第252便b の実測: ⚡ で a(1−e)=282 に対し実際の軌道は r∈[800, 956])。**再現性のある正式形は `rPeri` の明示宣言**である。
+  **`n` を省略・1 以下にすると未宣言へ正規化**され、プリセット署名・エクスポート JSON が 1 文字も変わらない(未宣言は `S.hasPeriSub=false` で素通り = 既定経路 1 bit 不変)。値域は n:1〜256・rMul:1〜10⁴。
+  ゲートを全域に開けた `{"n":4}` の dt は、**dt/4 の一様細分とビット一致する**(QA `behavior.periSubsteps`)。**生成 AI はこのキーを使わない** — 既定 dt の残差が離散化か処方かを切り分けるための数値実験用である(docs/PHYSICS.md 第252便b の節)。
 - **放射オーバーレイの用量と方向(第247便b — `physics.petersScale` / `physics.petersDirection`)**: `petersGW` を宣言した二体でだけ効く外部物理の付帯キー。`petersScale` は放射束の倍率(0〜100・既定 1・0 で完全に素通り・1 は署名に入れない)、`petersDirection:"tangential"` は放射キックを相対接線速度 v_t=(r×v)/|r| だけに与える(半径方向の落下速度は変えない。未宣言=従来方向)。値域は入力契約であって物理法則ではなく、**用量は合わせ込みのノブ**である。**生成 AI はこのキーを使わない** — コンパクト天体連星の較正 variant(docs/PHYSICS.md 第247便b の節)専用である。
 - **引きずり場の倍精度化(第247便a — `physics.framePrecision`)**: `"double"` を宣言すると引きずり場の実行状態配列
   (uPx/uPy/uAx/uAy/sumW/sumWu/dpx/dpy/pairD)だけが Float64 になる(`stateCarry:"double"` が倍精度にするのは x/y/v/a だけ)。
