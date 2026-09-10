@@ -41,12 +41,20 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = path.join(ROOT, 'tests', 'out');
-const SAMPLES = ['galaxy', 'darkrotor', 'merger', 'convection', 'counterring', 'saturnLayered'];
+// 第251便b(第43報 原仮定者指示「🌠merger は廃止」): merger を **SAMPLES(比較ゲート)から
+// EXTRA_SAMPLES へ移した**。beta から消えた一方で root(v1.43)はまだ持つので、交互ペア測定が
+// 組めない。EXTRA の「片側にしかプリセットが無い場合は informational(pass 判定なし・ゲート数に
+// 含めない)」という既存の流儀にそのまま乗せる — 昇格で root からも消えれば自動で SKIP になる
+// (EXTRA の逆向き〔beta 先行 → 昇格でゲート化〕と同じ仕組みを、廃止方向にそのまま使う)。
+// 走査順は不変(merger は SAMPLES の 3 番目にあったが、SAMPLES→EXTRA の連結順で走るため
+// 位置が変わる。第39便 39B の「♨️convection を通した後」の並びは SAMPLES 内で保たれる)。
+const SAMPLES = ['galaxy', 'darkrotor', 'convection', 'counterring', 'saturnLayered'];
 // 第36便 Wave A(P2-2・ChatGPT差分検証レビュー): echo/freebox(第35便で追加)をベンチ対象へ。
 // root(旧版)にはまだ存在しないため feature-detect し、片側にしかプリセットが無い場合は
 // 「beta 単独の実測 ms を informational として記録する(pass判定なし・SAMPLES の 6/6 ゲート数
 // には含めない)」。root へ第35便が昇格し両側に揃った時点で自動的に比較ゲートへ昇格する。
-const EXTRA_SAMPLES = ['echo', 'freebox',
+const EXTRA_SAMPLES = ['merger',   // 第251便b: beta で廃止 — root にある間は informational(上記)
+  'echo', 'freebox',
   // 第60便: E14″ 創発一本化 — 旧サンプル(melt/freeze/meltcycle/boil/chain/lattice)は廃止。
   // root には未昇格のため informational 計測(昇格時に自動で比較ゲートへ)
   'emergent', 'emergent2', 'chain2',
@@ -319,8 +327,9 @@ for (const id of [...SAMPLES, ...EXTRA_SAMPLES]) {
     informational.push({ id, side, ms: +one.ms.toFixed(1),
       msPerFrame: +(one.ms / (FRAMES_OVERRIDE[id] || FRAMES)).toFixed(2), stepsPerFrame: one.stepsPerFrame, n: one.n,
       raw: one.raw,
-      note: `${side === 'beta' ? 'root' : 'beta'}未実装のため${side}単独実測(pass判定なし・ゲート数に含めない)` });
-    console.log(`INFO perf.${id}  ${side}=${one.ms.toFixed(1)}ms(${(one.ms / (FRAMES_OVERRIDE[id] || FRAMES)).toFixed(2)}ms/frame・${side === 'beta' ? 'root' : 'beta'}未実装 — 昇格後に比較ゲート化)`);
+      // 第251便b: 片側計測の理由は 2 方向ある — beta 先行(昇格待ち)と、beta で廃止(root 昇格待ち)。
+      note: `${side === 'beta' ? 'root に無い(beta 先行 — 昇格で比較ゲート化)' : 'beta に無い(beta で廃止 — root 昇格で SKIP になる)'}ため ${side} 単独実測(pass判定なし・ゲート数に含めない)` });
+    console.log(`INFO perf.${id}  ${side}=${one.ms.toFixed(1)}ms(${(one.ms / (FRAMES_OVERRIDE[id] || FRAMES)).toFixed(2)}ms/frame・${side === 'beta' ? 'root に無い — 昇格後に比較ゲート化' : 'beta で廃止 — root 昇格で SKIP'})`);
   } else if (isExtra) {
     console.log(`SKIP perf.${id}(root/betaとも未実装)`);
   } else {

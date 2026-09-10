@@ -5,6 +5,9 @@ tests/out/*
 !tests/out/qa-results.json
 !tests/out/qa-results-beta.json
 !tests/out/perf-results.json
+# 第251便b: QA 指紋キャッシュ(固定 seed 指紋 + 前回の判定/detail)。コミットして手元の
+#           フルゲートで再利用する(CI は QA_CACHE=0 で従来どおり全実行)
+!tests/out/qa-fingerprints.json
 # 第249便b: 現実較正 31 本の棚卸し(第41報 W2)の結果正本 — QA `docs.calaudit-sync` が
 # 「列挙 id = sampleClass:"calibration" の集合」と「判定語彙が 5 区分」を機械固定するのでコミットする
 !tests/out/calaudit-w249.json
