@@ -11191,11 +11191,14 @@ if (!FAST) {
 //         掃引幅を 10 倍・100 倍にすると ΔN も 10 倍・100 倍(線形)
 //   (iii) 掃引しても **ΔN=0 ⇔ Δτ=0**(「縞が出なければ到着時間が一致している」)
 //   (iv)  固定波長で ψ を合わせた**後**に Δτ が δ 動く(装置を回す)と、**位相は
-//         Δφ=−2πν₀·δ(Δτ) だけ動く**(3 審査 v10 ChatGPT: 固定波長でも遅延差の感度は消えない)。
-//         同じ δ(Δτ) でも**掃引の縞移動は δ(ΔN)=−Δν·δ(Δτ)** と桁が全く違う
+//         Δφ=−2πν₀·δ(Δτ) だけ動き、検出器の縞も δN_detector=δΔφ/2π=−ν₀·δ(Δτ) だけ動く**。
+//         同じ δ(Δτ) に対する**掃引寄与 δ(N_sweep)=−Δν·δ(Δτ)** とは桁が全く違う
 //   (v)   決定性・門(c/λ₀ の非有限・負の τ・NaN の ψ/ν̇ は null)
-// **「位相は変わらない」は ΔN(縞計数)としては成り立ち、Δφ(位相)としては成り立たない** ——
-// この 2 つを同じ表で分けるのが本ブロックの目的である。
+// **第253便c(第45報・3 審査 v11 L7)の訂正**: 第252便c が「ΔN」と呼んだ量は**一定の Δτ に対する
+// 掃引寄与 N_sweep=−Δν·Δτ** であって**検出器の縞移動ではない**。Δν=0 で消えるのは掃引寄与だけで、
+// **固定波長でも遅延差が変われば検出器の縞は動く** —— したがって「位相は変わるが縞の本数は
+// 変わらない」という読みは**採らない**(明示名の正対照は behavior.mmDetectorFringe)。
+// 本ブロックの**判定値は 1 つも変えていない**(説明文だけを訂正した)。
 {
   const hasCo = await page.evaluate(() => !!(window.HP && typeof HP.dfmMMCoherent === 'function'));
   if (hasCo) {
@@ -11285,13 +11288,14 @@ if (!FAST) {
       `掃引幅 ×1/×10/×100 で ΔN=${co.iiL.map((r) => r[1]).join('/')}(線形)=${k2} / ` +
       `(iii) **ΔN=0 ⇔ Δτ=0**: Δτ=${co.iii[0][0]}→ΔN=${co.iii[0][1]}・Δτ=${co.iii[1][0]}→ΔN=${co.iii[1][1]}・` +
       `Δτ=${co.iii[2][0]}→**ΔN=${co.iii[2][1]}**(sweepNull=${co.iii[2][2]})=${k3} / ` +
-      `(iv) **ψ を合わせた後に δ(Δτ)=0.125 が入ると位相は Δφ=${co.iv[1].toFixed(9)} rad(=−π/4=${co.iv[3]} 縞)動く** ` +
-      `—— 固定波長でも到着時間差の**変化**は位相に効く(3 審査 v10)。同じ δ(Δτ) の掃引側の寄与は ` +
-      `δ(ΔN)=${co.iv[4]} で桁が違う=${k4} / (iv′) dfmMMPhase の Δφ=2πcΔt/λ との交差検算(符号だけ逆・和が厳密 0)=${k5} / ` +
+      `(iv) **ψ を合わせた後に δ(Δτ)=0.125 が入ると位相は Δφ=${co.iv[1].toFixed(9)} rad 動き、検出器の縞も ` +
+      `δN_detector=${co.iv[3]} 縞(=−π/4 相当)動く** —— 固定波長でも到着時間差の**変化**は検出器に効く` +
+      `(第253便c 訂正)。同じ δ(Δτ) の**掃引寄与**は δ(N_sweep)=${co.iv[4]} で桁が違う=${k4} / ` +
+      `(iv′) dfmMMPhase の Δφ=2πcΔt/λ との交差検算(符号だけ逆・和が厳密 0)=${k5} / ` +
       `(SI) 1887 装置(L=11 m・λ₀=500 nm・ΔL=1 mm・Δν=1 MHz): Δτ=${co.si[0].toExponential(6)} s・` +
       `ψ 合わせで Δφ_fixed=${co.si[4]}・**掃引で ΔN=${co.si[1].toExponential(6)} 縞**、` +
-      `δ(Δτ)=1e−16 s で **Δφ=${co.siRot[0].toExponential(6)} rad=${co.siRot[1].toExponential(6)} 縞**` +
-      `(掃引側は δ(ΔN)=${co.siRot[2].toExponential(6)})=${k6} / (v) 決定性=${co.det}・門=${co.gate}`);
+      `δ(Δτ)=1e−16 s で **Δφ=${co.siRot[0].toExponential(6)} rad=検出器の縞 ${co.siRot[1].toExponential(6)} 縞が動く**` +
+      `(同じ δ(Δτ) の掃引寄与は ${co.siRot[2].toExponential(6)} 縞 = 約 6×10⁸ 倍の差)=${k6} / (v) 決定性=${co.det}・門=${co.gate}`);
   } else {
     console.log('SKIP behavior.mmCoherent(対象に第252便c の HP.dfmMMCoherent なし — root 等)');
   }
@@ -11300,18 +11304,26 @@ if (!FAST) {
 // ---- 第252便c(第44報): behavior.mmLambdaSweep — 3 規約の波長掃引と受動鏡境界の検算 ----
 // (HP.dfmMMLambdaSweep)。第251便c の 3 規約を、原仮定者(第44報)の「固定波長 / 波長を時間変化」の
 // 2 つの読みで並べ、さらに 3 審査 v10 ChatGPT の**受動鏡境界の周波数検算**を機械固定する:
-//   (L1) L=3・λ₀=1・c=1・β=0.5: **stretch は固定 λ₀ で ΔN=0(ビット厳密)だが ΔT=1.0717967… ≠ 0**
-//        → Δν=1 で掃引すると **ΔN_sweep=−ΔT≠0**(「固定波長なら到着時間は効かない」は**計数の話**)
-//   (L2) galilean は ΔN=4.0957290…≠0(固定波長でも縞が出る)。**ΔT は 3 規約で同じ**(T は波長規約に依らない)
-//   (L3) comoving は ΔN=0 かつ **ΔT=0**(掃引しても縞が動かない = 到着時間が一致している唯一の規約)
+//   (L1) L=3・λ₀=1・c=1・β=0.5: **stretch は光路の波数計数 ΔN_path=0(ビット厳密)だが ΔT=1.0717967… ≠ 0**
+//        → Δν=1 で掃引すると **ΔN_sweep=−ΔT≠0**。**第253便c 訂正**: ΔN_path=0 は「固定波長なら
+//        到着時間は効かない」ことを意味しない —— 検出器の縞は δN_detector=−ν₀·δ(Δτ) で動き、
+//        ΔN_path と検出信号の同定は済んでいない(`detectorNull` は常に null を返す)
+//   (L2) galilean は ΔN_path=4.0957290…≠0。**ΔT は stretch と galilean で同じ**(T は波長規約に依らない
+//        —— ただし comoving は装置と同じ枠なので幾何が違い ΔT=0。「3 規約共通」ではない)
+//   (L3) comoving は ΔN_path=0 かつ **ΔT=0**。**この「到着時間が一致するのは comoving だけ」は
+//        等長 2 腕・一様並進・β≠0・この 3 規約に限った言明である**(β=0 なら 3 規約とも一致・
+//        腕長差があれば comoving でも Δτ が残る・回転装置は別の境界問題 — 3 審査 v11 L8)
 //   (B1) **受動鏡境界(ω=u·k+c|k| と ω−V·k 保存)で stretch は ρ₊=(1−β)²=0.25・ρ₋=(1+β)²=2.25**
 //        (ChatGPT の 0.25 対 2.25 を再現)・比 9・鏡が返す波長は規約値の 9 倍 → **不整合**
 //   (B2) galilean は ρ₊=ρ₋=1・鏡が返す波長=規約値(整合)。comoving も u=V の下で ρ=1(整合)
 //   (B3) stretch を u=V で検算しても ρ₊=0.5・ρ₋=1.5(比 3)で**やはり整合しない**
 //   (L4) ChatGPT §7 の L=10 表を同じ器で(ΔT=3.572655899081635・stretch ΔN=0・galilean ΔN=13.65243…)
 //   (L5) 門(β≥1・非有限・未知/空 rule・NaN の uFrac は null)・決定性
-// **これは「stretch を導出した」でも「反証した」でもない** —— stretch が ω=c|k| と ω−V·k 保存とは
-// **別の仮定**であることを数値で示すだけである(第251便c C(ii) の「仮定であって導出ではない」を維持)。
+// **stretch そのものを導出したのでも反証したのでもない**が、**ω=u·k+c|k| と ω−V·k 保存の 2 法則との
+// 両立は否定された**(第253便c・3 審査 v11 L8 —— 「何に対しても反証されていない」という免責にはしない)。
+// stretch は**規約として保持し、未導出であると明記する**(第251便c C(ii) を維持)。境界則が閉じない
+// 規約について ΔT を連続波式へ入れた `dPhiFixedLambda` は**条件付きの代入診断**であって、その規約が
+// 自己整合に予測した検出器の縞ではない。
 {
   const hasSw = await page.evaluate(() => !!(window.HP && typeof HP.dfmMMLambdaSweep === 'function'));
   if (hasSw) {
@@ -11385,11 +11397,210 @@ if (!FAST) {
       `ω=c|k| に入れると ν₊=${sw.bs[2]}・ν₋=${sw.bs[3]} となり **ρ₊=${sw.bs[4]}=(1−β)² 対 ρ₋=${sw.bs[5]}=(1+β)²**(比 ${sw.bs[6]})—— ` +
       `鏡が返す波長は ${sw.bs[7]} で規約値の **${sw.bs[8]} 倍**・u=V で検算しても ρ₊=${sw.bu[4]}/ρ₋=${sw.bu[5]}(比 ${sw.bu[6]})で` +
       `**整合しない**=${b1} / (B2) galilean(u=0)と comoving(u=V)は ρ₊=ρ₋=1・鏡の波長比 1 で**整合**=${b2} / ` +
-      `(L4) L=10: ΔT=${sw.b.s[5].toFixed(9)}(3 規約共通)・stretch ΔN=${sw.b.s[2]}・galilean ΔN=${sw.b.g[2].toFixed(9)}=${l4} / ` +
+      `(L4) L=10: ΔT=${sw.b.s[5].toFixed(9)}(stretch/galilean 共通・comoving は ${sw.b.c[5]})・stretch ΔN_path=${sw.b.s[2]}・galilean ΔN_path=${sw.b.g[2].toFixed(9)}=${l4} / ` +
       `(L5) rules 絞り込み=${l5}・決定性=${sw.det}・門(β≥1・非有限・未知/空 rule・NaN uFrac)=${sw.gate}。` +
-      `**stretch を導出も反証もしていない** —— ω=c|k| と ω−V·k 保存とは別の仮定であることを数値で示すだけ`);
+      `**stretch そのものを導出も反証もしていないが、ω=u·k+c|k| と ω−V·k 保存の 2 法則との両立は否定された** ` +
+      `—— 「何に対しても反証されていない」という免責にはしない(第253便c・3 審査 v11 L8。stretch は規約として保持し未導出と明記する)`);
   } else {
     console.log('SKIP behavior.mmLambdaSweep(対象に第252便c の HP.dfmMMLambdaSweep なし — root 等)');
+  }
+}
+
+// ---- 第253便c(第45報・3 審査 v11 L7): behavior.mmDetectorFringe — **固定波長の正対照** ----
+// 第252便c は「固定波長では位相は動くが縞の本数は動かない」と読んだ。**この読みを訂正する**:
+// 連続波の検出器強度は I=I₁+I₂+2√(I₁I₂)cosΔφ・Δφ=−2πν₀Δτ+ψ なので、**固定波長でも遅延差が
+// 変われば検出器の縞は δN_detector=δΔφ/2π=−ν₀·δ(Δτ) だけ動く**。区別すべきは 3 量である:
+//   ① **検出器の縞移動** δN_detector = −ν₀·δ(Δτ) —— 固定波長で**動く**(`detectorFringeShift`)
+//   ② **掃引寄与** N_sweep = −Δν·Δτ —— **Δν=0 なら 0**(`sweepFringeShift`)。遅延への無感度ではない
+//   ③ **光路の波数計数** N_path —— stretch で一致するよう仮定した量で、**検出信号とは未同定**
+// 本ブロックは **Δν=0(掃引を止めた)固定波長の装置**を正対照として置き、① が 0 でないこと・
+// ② が 0 であること・両者の桁比を機械固定する。判定値は第252便c のものを 1 つも変えていない。
+//   (F1) 等長 2 腕・ψ 合わせ・**掃引なし**で δ(Δτ)=10⁻¹⁶ s: **①=−0.05995849 縞**(=−ν₀δ(Δτ)・
+//        dphiRot/2π と一致)・**②=0 かつ ② の変化=0**(ビット厳密)
+//   (F2) 同じ装置に Δν=1 MHz の掃引を足すと ① は**そのまま**・② の変化だけが −10⁻¹⁰ 縞になる
+//        (比 **約 6×10⁸ 倍**)—— Δν=0 で消えるのは掃引寄与だけである
+//   (F3) 旧名との同値(fringesRot/dN/dNRot がそれぞれ ①②③′ とビット同一 — 旧返値は保持)
+//   (F4) `dfmMMLambdaSweep` の **stretch は pathCountNull=true かつ detectorNull=null**
+//        (この計算からは検出器の null を判定していない)。galilean は pathCountNull=false
+{
+  const hasDF = await page.evaluate(() => !!(window.HP && typeof HP.dfmMMCoherent === 'function'
+    && typeof HP.dfmMMLambdaSweep === 'function'));
+  if (hasDF) {
+    const df = await page.evaluate(() => {
+      const C = 299792458, LAM = 5e-7, NU0 = C / LAM;
+      const EQ = { c: C, lambda0: LAM, L1: 11, L2: 11 };            // 等長 2 腕(Δτ=0)
+      const fix = HP.dfmMMCoherent(Object.assign({}, EQ, { nullPhase: true, dTau: 1e-16 }));
+      const swp = HP.dfmMMCoherent(Object.assign({}, EQ, { nullPhase: true, dTau: 1e-16,
+        nudot: 1e9, t: 1e-3 }));
+      const dl = HP.dfmMMCoherent({ c: C, lambda0: LAM, L1: 11, L2: 11.001, nullPhase: true,
+        dTau: 1e-16, nudot: 1e9, t: 1e-3 });
+      const sw = HP.dfmMMLambdaSweep({ L: 3, lambda0: 1, beta: 0.5, c: 1, dNu: 1 });
+      const R = (k) => { const r = sw.byRule[k];
+        return [r.dN, r.pathCountNull, r.fixedNull, r.detectorNull, r.dT, r.dNsweep]; };
+      const alias = [Object.is(fix.detectorFringeShift, fix.fringesRot),
+        Object.is(swp.sweepFringeShift, swp.dN), Object.is(swp.sweepFringeShiftChange, swp.dNRot),
+        Object.is(dl.sweepFringeShift, dl.dN)];
+      return { fix: [fix.detectorFringeShift, fix.dphiRot, fix.sweepFringeShift,
+          fix.sweepFringeShiftChange, fix.dphiFixed, fix.dtau, fix.dNu],
+        swp: [swp.detectorFringeShift, swp.sweepFringeShift, swp.sweepFringeShiftChange, swp.dNu],
+        dl: [dl.detectorFringeShift, dl.sweepFringeShift, dl.sweepFringeShiftChange],
+        expect: -(NU0 * 1e-16), nu0: NU0, note: fix.note,
+        rules: { s: R('stretch'), g: R('galilean'), c: R('comoving') },
+        detNote: (sw.byRule.stretch.detectorNote || '').length > 0, alias };
+    });
+    const E = (a, b) => Object.is(a, b);
+    // (F1) 固定波長(Δν=0)で **検出器の縞は動く**・掃引寄与だけが 0
+    const f1 = E(df.fix[0], df.expect) && df.fix[0] !== 0
+      && Math.abs(df.fix[0] - (-0.0599584916)) < 1e-15
+      && Math.abs(df.fix[1] / (2 * Math.PI) / df.fix[0] - 1) < 1e-15
+      && E(df.fix[2], 0) && E(df.fix[3], 0) && E(df.fix[4], 0) && E(df.fix[5], 0) && E(df.fix[6], 0);
+    // (F2) 掃引を足しても ① は不変・② の変化だけが出る(比 約 6×10⁸)
+    const f2 = E(df.swp[0], df.fix[0]) && E(df.swp[1], 0) && df.swp[2] !== 0
+      && Math.abs(df.swp[2] - (-1e-10)) < 1e-24 && E(df.swp[3], 1e6)
+      && Math.abs(df.fix[0] / df.swp[2] / 5.99584916e8 - 1) < 1e-12
+      // 腕長差 ΔL=1 mm を足すと ② 本体も 0 でなくなる(第252便c の 6.671282e−6 縞)
+      && df.dl[1] > 6.6e-6 && df.dl[1] < 6.7e-6 && E(df.dl[0], df.fix[0]);
+    // (F3) 旧名は値そのまま(後方互換)
+    const f3 = df.alias.every((v) => v === true);
+    // (F4) 光路の波数計数の null と、**検出器の null を判定していない**こと
+    const f4 = E(df.rules.s[0], 0) && df.rules.s[1] === true && df.rules.s[2] === true
+      && df.rules.s[3] === null && df.rules.s[4] !== 0
+      && df.rules.g[1] === false && df.rules.g[3] === null
+      && E(df.rules.c[0], 0) && df.rules.c[1] === true && df.rules.c[3] === null
+      && E(df.rules.c[4], 0) && df.detNote;
+    add('behavior.mmDetectorFringe',
+      f1 && f2 && f3 && f4,
+      `(F1) **固定波長(Δν=0)の正対照**(SI 1887 装置 L=11 m・λ₀=500 nm・等長 2 腕・ψ 合わせ済み)に ` +
+      `δ(Δτ)=1e−16 s が入ると **検出器の縞は δN_detector=${df.fix[0]} 縞(=−ν₀δ(Δτ)・δΔφ=${df.fix[1].toExponential(6)} rad)動く** —— ` +
+      `**掃引寄与は sweepFringeShift=${df.fix[2]}・その変化=${df.fix[3]}(ビット厳密 0)**=${f1} / ` +
+      `(F2) Δν=${df.swp[3].toExponential(0)} の掃引を足しても ①は ${df.swp[0]} のまま・② の変化だけが ${df.swp[2].toExponential(6)} 縞になる` +
+      `(**比 ${(df.fix[0] / df.swp[2]).toExponential(6)} = 約 6×10⁸ 倍**)。腕長差 ΔL=1 mm を足すと ② 本体が ${df.dl[1].toExponential(6)} 縞=${f2} / ` +
+      `(F3) 旧名 fringesRot/dN/dNRot は値そのまま(後方互換)=${f3} / ` +
+      `(F4) dfmMMLambdaSweep: stretch は **pathCountNull=${df.rules.s[1]}(=旧 fixedNull)だが detectorNull=${df.rules.s[3]}** ` +
+      `(この計算から検出器の null は判定していない)・ΔT=${df.rules.s[4].toFixed(9)}≠0・galilean は pathCountNull=${df.rules.g[1]}・` +
+      `comoving は ΔN_path=${df.rules.c[0]} かつ ΔT=${df.rules.c[4]}=${f4}。` +
+      `**「位相は変わるが縞の本数は変わらない」という救済は採らない**(第252便c B(iv) の訂正)`);
+  } else {
+    console.log('SKIP behavior.mmDetectorFringe(対象に第252便c の HP.dfmMMCoherent なし — root 等)');
+  }
+}
+
+// ---- 第253便c(第45報・3 審査 v11 §6.1): behavior.meshWaveRHS — メッシュ上の波動法則候補 ----
+// `HP.dfmMeshWaveRHS(mesh, ray, c, gradC)` は ω=u_mesh·k+c|k| の Hamilton 方程式
+//   ẋ = u_mesh + c·k̂ ・ k̇ = −(∇u_mesh)ᵀk − |k|∇c
+// の右辺を 1 点で返す純関数である。**幾何から一意には出ない候補の 1 本**であって、DFM のどの法則から
+// 出るかは未導出 —— 本ブロックが機械固定するのは「この右辺が 2 つの既知の極限を再現すること」だけで、
+// **どの MM 規約(stretch/galilean/comoving)を導出したという主張も含まない**。
+//   (M1) **一様膨張** B=H·I(H=0.3・c=1・T=2): 解析解 k=k₀e^{−Ht}・x=a·x₀+c·k̂₀(a−1)/H と RK4 が
+//        一致し(n=320 で誤差 3.6e−13)、**|k|·a=1**(=|k|∝1/a・波長 ∝ a)。刻み半減で誤差は約 16 分の 1
+//   (M2) **剛体回転** B=Ω·J(Ω=0.7・c=1・T=3): 解析解 k=R(Ωt)k₀・x=R(Ωt)(x′₀+c·k̂₀t)と一致し、
+//        **|k| は不変**(n=800 で |k|−1 が −2.0e−15)。右辺 1 点でも k·k̇ は対称点 k=(1,1) で**ビット厳密 0**
+//   (M3) 一様並進(B=0)は k̇=0・∇c だけが k を曲げる(k̇=−|k|∇c)・せん断は **転置** (∇u)ᵀ で入る
+//   (M4) |k| のスケール非依存(k を 7 倍しても ẋ は同じ・k̇ は 7 倍)・決定性・
+//        門(|k|=0・c≤0・非有限・短い gradU・非有限 ∇c は null)
+{
+  const hasMW = await page.evaluate(() => !!(window.HP && typeof HP.dfmMeshWaveRHS === 'function'));
+  if (hasMW) {
+    const mw = await page.evaluate(() => {
+      const F = (mesh, ray, c, gc) => HP.dfmMeshWaveRHS(mesh, ray, c, gc);
+      const rk4 = (mesh, y0, c, T, n) => {
+        let y = y0.slice(); const h = T / n;
+        const f = (v) => { const r = F(mesh, { x: v[0], y: v[1], kx: v[2], ky: v[3] }, c);
+          return [r.dx, r.dy, r.dkx, r.dky]; };
+        for (let i = 0; i < n; i++) {
+          const a = f(y);
+          const b = f(y.map((v, j) => v + h / 2 * a[j]));
+          const c3 = f(y.map((v, j) => v + h / 2 * b[j]));
+          const d = f(y.map((v, j) => v + h * c3[j]));
+          y = y.map((v, j) => v + h / 6 * (a[j] + 2 * b[j] + 2 * c3[j] + d[j]));
+        }
+        return y;
+      };
+      const mx = (a, b) => Math.max(...a.map((v, j) => Math.abs(v - b[j])));
+      const K0 = [0.6, 0.8], y0 = [1, 0.5, K0[0], K0[1]];       // |k₀|=1 はビット厳密
+      // (M1) 一様膨張
+      const H = 0.3, TA = 2, A = Math.exp(H * TA);
+      const mE = { origin: [0, 0], velocity: [0, 0], gradU: [H, 0, 0, H] };
+      const eE = [A * y0[0] + K0[0] * (A - 1) / H, A * y0[1] + K0[1] * (A - 1) / H, K0[0] / A, K0[1] / A];
+      const rowsE = [20, 40, 80, 160, 320].map((n) => {
+        const y = rk4(mE, y0, 1, TA, n);
+        return [n, mx(y, eE), Math.hypot(y[2], y[3]) * A];
+      });
+      // (M2) 剛体回転
+      const OM = 0.7, TB = 3;
+      const mR = { origin: [0, 0], velocity: [0, 0], gradU: [0, -OM, OM, 0] };
+      const cs = Math.cos(OM * TB), sn = Math.sin(OM * TB);
+      const xp = [y0[0] + K0[0] * TB, y0[1] + K0[1] * TB];
+      const eR = [cs * xp[0] - sn * xp[1], sn * xp[0] + cs * xp[1],
+        cs * K0[0] - sn * K0[1], sn * K0[0] + cs * K0[1]];
+      const rowsR = [50, 100, 200, 400, 800].map((n) => {
+        const y = rk4(mR, y0, 1, TB, n);
+        return [n, mx(y, eR), Math.hypot(y[2], y[3]) - 1];
+      });
+      const rSym = F(mR, { x: 1, y: 0.5, kx: 1, ky: 1 }, 1);
+      const dk2Sym = 2 * (rSym.dkx + rSym.dky);
+      // (M3) 並進・∇c・せん断
+      const mT = { origin: [0, 0], velocity: [0.25, -0.5], gradU: [0, 0, 0, 0] };
+      const tr = F(mT, { x: 3, y: -2, kx: 0.6, ky: 0.8 }, 2);
+      const gc = F(mT, { x: 3, y: -2, kx: 0.6, ky: 0.8 }, 2, [0.1, -0.2]);
+      const sh = F({ origin: [1, 1], velocity: [0, 0], gradU: [0, 1, 0, 0] },
+        { x: 3, y: 4, kx: 0.6, ky: 0.8 }, 1);
+      // 位置に依らない(B=0 なら origin をずらしても同じ)・u(x)=velocity+B·(x−origin) の確認
+      const uAt = F({ origin: [2, 3], velocity: [1, 0], gradU: [0.5, 0, 0, 0.5] },
+        { x: 4, y: 3, kx: 1, ky: 0 }, 1);
+      const scale = (() => {
+        const a = F(mR, { x: 1, y: 0.5, kx: 0.6, ky: 0.8 }, 1);
+        const b = F(mR, { x: 1, y: 0.5, kx: 4.2, ky: 5.6 }, 1);
+        return [a.dx === b.dx, a.dy === b.dy, b.dkx / a.dkx, b.dky / a.dky];
+      })();
+      const gate = [F({}, { x: 0, y: 0, kx: 0, ky: 0 }, 1), F({}, { x: 0, y: 0, kx: 1, ky: 0 }, 0),
+        F({}, { x: 0, y: 0, kx: 1, ky: 0 }, -1), F({}, { x: NaN, y: 0, kx: 1, ky: 0 }, 1),
+        F({ gradU: [1, 2, 3] }, { x: 0, y: 0, kx: 1, ky: 0 }, 1),
+        F({}, { x: 0, y: 0, kx: Infinity, ky: 0 }, 1),
+        F({ velocity: [NaN, 0] }, { x: 0, y: 0, kx: 1, ky: 0 }, 1),
+        F({}, { x: 0, y: 0, kx: 1, ky: 0 }, 1, [NaN, 0])].every((v) => v === null);
+      const D = () => JSON.stringify(F({ origin: [0.5, -1], velocity: [0.2, 0.3],
+        gradU: [0.1, -0.2, 0.3, 0.4] }, { x: 2, y: 3, kx: -0.5, ky: 1.25 }, 1.5, [0.01, 0.02]));
+      return { rowsE, rowsR, dk2Sym, tr: [tr.dx, tr.dy, tr.dkx, tr.dky, tr.omega],
+        gc: [gc.dkx, gc.dky], sh: [sh.dkx, sh.dky], uAt: [uAt.dx, uAt.dy, uAt.omega],
+        scale, gate, det: D() === D() };
+    });
+    const ord = (rows) => rows.slice(1).map((r, i) => Math.log2(rows[i][1] / r[1]));
+    const oE = ord(mw.rowsE), oR = ord(mw.rowsR);
+    // (M1) 一様膨張: 解析一致・|k|∝1/a・観測次数 ≈4
+    const m1 = mw.rowsE[4][1] < 1e-11 && Math.abs(mw.rowsE[4][2] - 1) < 1e-11
+      && mw.rowsE.every((r) => Math.abs(r[2] - 1) < 1e-7)
+      && oE.every((o) => o > 3.8 && o < 4.2);
+    // (M2) 剛体回転: 解析一致・|k| 不変・観測次数 ≈4・対称点の k·k̇ はビット厳密 0
+    const m2 = mw.rowsR[4][1] < 1e-10 && Math.abs(mw.rowsR[4][2]) < 1e-12
+      && mw.rowsR.every((r) => Math.abs(r[2]) < 1e-7)
+      && oR.every((o) => o > 3.8 && o < 4.2) && Object.is(mw.dk2Sym, 0);
+    // (M3) 並進は k̇=0・∇c だけが曲げる・せん断は転置で入る(B01 は dky に効く)
+    const m3 = mw.tr[0] === 1.45 && mw.tr[1] === 1.1 && mw.tr[2] === 0 && mw.tr[3] === 0
+      && mw.tr[4] === 1.75 && mw.gc[0] === -0.1 && mw.gc[1] === 0.2
+      && mw.sh[0] === 0 && mw.sh[1] === -0.6
+      // u(x)=velocity+B·(x−origin): origin=(2,3)・velocity=(1,0)・B=0.5I・x=(4,3) なら u=(2,0)
+      && mw.uAt[0] === 3 && mw.uAt[1] === 0 && mw.uAt[2] === 3;
+    // (M4) スケール非依存・門・決定性
+    const m4 = mw.scale[0] === true && mw.scale[1] === true && mw.scale[2] === 7 && mw.scale[3] === 7
+      && mw.gate === true && mw.det === true;
+    const fx = (x) => Number(x).toExponential(6);
+    add('behavior.meshWaveRHS',
+      m1 && m2 && m3 && m4,
+      `(M1) **一様膨張 B=H·I**(H=0.3・c=1・T=2・a=e^{HT}=${Math.exp(0.6).toFixed(9)}): RK4 と解析解 ` +
+      `k=k₀e^{−Ht}/x=a·x₀+c·k̂₀(a−1)/H の最大誤差は n=${mw.rowsE[0][0]}→${mw.rowsE[4][0]} で ` +
+      `${mw.rowsE.map((r) => fx(r[1])).join(' → ')}(**観測次数 ${oE.map((o) => o.toFixed(3)).join('/')}** = 約 4 次)。` +
+      `**|k|·a=${mw.rowsE[4][2].toFixed(15)}**(=|k|∝1/a・波長 ∝ a)=${m1} / ` +
+      `(M2) **剛体回転 B=Ω·J**(Ω=0.7・c=1・T=3): 誤差 ${mw.rowsR.map((r) => fx(r[1])).join(' → ')}` +
+      `(**観測次数 ${oR.map((o) => o.toFixed(3)).join('/')}**)・**|k|−1=${fx(mw.rowsR[4][2])}(不変)**・` +
+      `右辺 1 点の k·k̇ は対称点 k=(1,1) で ${mw.dk2Sym}(ビット厳密)=${m2} / ` +
+      `(M3) 一様並進 u=(0.25,−0.5)・c=2: ẋ=(${mw.tr[0]},${mw.tr[1]})・**k̇=(${mw.tr[2]},${mw.tr[3]})**・ω=${mw.tr[4]}、` +
+      `∇c=(0.1,−0.2) で k̇=(${mw.gc[0]},${mw.gc[1]})=−|k|∇c、せん断 B=[[0,1],[0,0]] で k̇=(${mw.sh[0]},${mw.sh[1]})` +
+      `(**転置** (∇u)ᵀ の確認)=${m3} / (M4) |k| スケール非依存(ẋ 同一・k̇ は ${mw.scale[2]} 倍)・` +
+      `門(|k|=0・c≤0・非有限・短い gradU・非有限 ∇c)=${mw.gate}・決定性=${mw.det}=${m4}。` +
+      `**この候補は幾何から一意には出ない**(未導出)—— MM の 3 規約のどれかを導出したという主張は含まない`);
+  } else {
+    console.log('SKIP behavior.meshWaveRHS(対象に第253便c の HP.dfmMeshWaveRHS なし — root 等)');
   }
 }
 
@@ -12023,6 +12234,262 @@ if (!FAST) {
   }
 }
 
+// ---- 第253便a(第45報「空間メッシュ」): behavior.spaceMesh — 粒子を頂点とする動くメッシュの契約 ----
+//   純関数 3 本(HP.dfmSpaceMeshCapture / dfmSpaceMeshState / dfmSpaceMeshAt)だけを叩く軽量ブロックで、
+//   **エンジンは 1 步も回さない**(QA_FAST でも走る)。固定するのは 9 項目:
+//     ① T1 並進: 天体上で |u−v|=0 ビット(単独天体の移動は天体上の観測者から認知できない)
+//     ② T1 回転: ω≠0 で u=v+ω×(x−x₁) がビット・**天体上では観測者相対 0**
+//     ③ T2 頂点契約: u(xᵢ)=vᵢ・qᵢ=refᵢ(2 進で表せる配置ではビット・一般配置では 1 ulp 級)
+//     ④ T2 一意性: 同じ C・n̂・r・Ċ・Ω・ṙ なら**質量に依らず場が一致**する(中点は幾何の選択であって
+//        質量による決定力の配分とは分離 — 分かれるのは χ と unique だけ)
+//     ⑤ 共通並進: 両頂点に同じ Δx・ΔV を足しても**相対 u と q は不動**(F・gradU はビット同一)
+//     ⑥ χ の門: D₀→∞ で χ=0 かつ blend が HP.dfmFrameAt と**ビット一致**(現行への回帰)・D₀=0 で χ=1
+//     ⑦ 3 頂点(アフィン): 面積比が detF・3 頂点すべてで u(xᵢ)=vᵢ・**反転(共線・鏡像)は null**
+//     ⑧ 門: 非有限・m≤0・n=0・n>3・重複 id・範囲外 id・負 D₀・NaN D₀・**再構築後の anchor** は null
+//     ⑨ 決定性: 同じ入力の 2 回呼び出しが全数値フィールドでビット同一
+//   **これは診断器の契約であって、力・光・背景への接続ではない**(接続の形は未決 — PHYSICS〔第253便a〕⑥)。
+{
+  const hasSM = await page.evaluate(() => typeof HP.dfmSpaceMeshCapture === 'function'
+    && typeof HP.dfmSpaceMeshState === 'function' && typeof HP.dfmSpaceMeshAt === 'function');
+  if (hasSM) {
+    const sm = await page.evaluate(() => {
+      const mk = (bodies, phys) => ({ name: 'qa spaceMesh', description: 'd', emoji: '🕸',
+        camera: { scale: 130 }, world: { boundary: 'none', size: 0 },
+        physics: Object.assign({ G: 0.60066, D0: 0.006, kFrame: 1, q: 3, kRep: 0, muF: 0, gammaN: 0,
+          kappaS: 0, kappaT: 0.0006674, cLight: 30, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0,
+          geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 0.05, timeScale: 60,
+          stateCarry: 'double', framePrecision: 'double', frameReaction: 'pairReduced',
+          frameWeight: 'pull', D0pull: 1 }, phys || {}), bodies, overlays: {} });
+      const build = (bodies, phys) => { const v = HP.validatePreset(mk(bodies, phys));
+        const S = HP.sim; S.build(v.preset); return S; };
+      const B = (m, x, y, vx, vy) => ({ type: 'single', m, radius: 1, x, y, vx, vy, spin: 0, pinned: false });
+      const bit = (a, b) => Object.is(a, b);
+      const bitArr = (a, b) => Array.isArray(a) && Array.isArray(b) && a.length === b.length
+        && a.every((z, i) => Object.is(z, b[i]));
+      const rel = (a, b) => (b === 0) ? Math.abs(a - b) : Math.abs(a / b - 1);
+      const o = {};
+
+      // ---------- ① ② T1(剛体): 単独天体の並進と回転
+      let S = build([B(500, 12, -8, 0.25, -0.5)]);
+      const a1 = HP.dfmSpaceMeshCapture(S, [0]);
+      const t1s = HP.dfmSpaceMeshState(a1, S, { angle: 0, omega: 0 });
+      const t1r = HP.dfmSpaceMeshState(a1, S, { angle: 0.5, omega: 0.375 });
+      const p0 = HP.dfmSpaceMeshAt(t1s, S.x[0], S.y[0]);
+      const pF = HP.dfmSpaceMeshAt(t1s, S.x[0] + 4, S.y[0] + 8);
+      const r0 = HP.dfmSpaceMeshAt(t1r, S.x[0], S.y[0]);
+      const rF = HP.dfmSpaceMeshAt(t1r, S.x[0] + 4, S.y[0] + 8);
+      o.t1 = { kind: t1s.kind, chi: t1s.chi, mode: t1s.mode, unique: t1s.unique,
+        detF: t1r.detF, gradU: t1r.gradU,
+        // ① 並進: 天体の上でも、離れた点でも u=v(一様)
+        transSelfBit: bit(p0.ux, S.vx[0]) && bit(p0.uy, S.vy[0]),
+        transFarBit: bit(pF.ux, S.vx[0]) && bit(pF.uy, S.vy[0]),
+        // ② 回転: 離れた点で u=v+ω×r・天体の上では観測者相対 0
+        rotFarBit: bit(rF.ux, S.vx[0] - 0.375 * 8) && bit(rF.uy, S.vy[0] + 0.375 * 4),
+        rotSelfBit: bit(r0.ux, S.vx[0]) && bit(r0.uy, S.vy[0]),
+        needOmega: HP.dfmSpaceMeshState(a1, S, { angle: 0 }) === null };
+
+      // ---------- ③ T2 頂点契約(2 進で表せる配置 = ビット / 一般配置 = ulp 級)
+      S = build([B(512, -128, 0, 0, -0.5), B(512, 128, 0, 0, 0.5)]);
+      const a2 = HP.dfmSpaceMeshCapture(S, [0, 1]);
+      const m2 = HP.dfmSpaceMeshState(a2, S);
+      const d0 = HP.dfmSpaceMeshAt(m2, S.x[0], S.y[0]), d1 = HP.dfmSpaceMeshAt(m2, S.x[1], S.y[1]);
+      // 動かす(90° 回転 + 1/2 縮小)—— メッシュ座標 q は捕捉値に固定されるはず
+      S.x[0] = 0; S.y[0] = -64; S.x[1] = 0; S.y[1] = 64;
+      const m2b = HP.dfmSpaceMeshState(a2, S);
+      const e0 = HP.dfmSpaceMeshAt(m2b, S.x[0], S.y[0]), e1 = HP.dfmSpaceMeshAt(m2b, S.x[1], S.y[1]);
+      const dq = [m2b.ref[1][0] - m2b.ref[0][0], m2b.ref[1][1] - m2b.ref[0][1]], gg = m2b.metric;
+      const distG = Math.sqrt(dq[0] * (gg[0] * dq[0] + gg[1] * dq[1]) + dq[1] * (gg[2] * dq[0] + gg[3] * dq[1]));
+      const distP = Math.hypot(S.x[1] - S.x[0], S.y[1] - S.y[0]);
+      o.t2 = { kind: m2.kind, chi: m2.chi, W: m2.W, mode: m2.mode, unique: m2.unique,
+        vertBit: bit(d0.ux, S.vx[0]) && bit(d0.uy, S.vy[0]) && bit(d1.ux, S.vx[1]) && bit(d1.uy, S.vy[1]),
+        qBitAtCapture: bit(d0.qx, m2.ref[0][0]) && bit(d0.qy, m2.ref[0][1])
+          && bit(d1.qx, m2.ref[1][0]) && bit(d1.qy, m2.ref[1][1]),
+        // 動かしても q は捕捉値のまま(**これは座標の話であって距離が固定されたのではない**)
+        qBitMoved: bit(e0.qx, m2b.ref[0][0]) && bit(e0.qy, m2b.ref[0][1])
+          && bit(e1.qx, m2b.ref[1][0]) && bit(e1.qy, m2b.ref[1][1]),
+        Fmoved: m2b.F, detFmoved: m2b.detF, metricMoved: m2b.metric,
+        // 計量 g=FᵀF で復元した物理距離が慣性系の |r| と一致する(**線分長は固定されていない**)
+        distFromMetric: distG, distPhys: distP, distBit: bit(distG, distP) };
+      // 一般配置(2 進で割り切れない座標・速度)での相対誤差
+      S = build([B(500, -100.3, 7.7, 0.13, -0.7249672406391891), B(500, 100.7, -3.1, -0.02, 0.7249672406391891)]);
+      const a2g = HP.dfmSpaceMeshCapture(S, [0, 1]);
+      const m2g = HP.dfmSpaceMeshState(a2g, S);
+      const g0 = HP.dfmSpaceMeshAt(m2g, S.x[0], S.y[0]), g1 = HP.dfmSpaceMeshAt(m2g, S.x[1], S.y[1]);
+      o.t2gen = { chi: m2g.chi, mode: m2g.mode,
+        uErrMax: Math.max(rel(g0.ux, S.vx[0]), rel(g0.uy, S.vy[0]), rel(g1.ux, S.vx[1]), rel(g1.uy, S.vy[1])),
+        qErrMax: Math.max(rel(g0.qx, m2g.ref[0][0]), rel(g0.qy, m2g.ref[0][1]),
+          rel(g1.qx, m2g.ref[1][0]), rel(g1.qy, m2g.ref[1][1])) };
+
+      // ---------- ④ 一意性: 同じ C・n̂・r・Ċ・Ω・ṙ なら質量に依らず場が一致する
+      const geom = [B(512, -128, 0, 0, -0.5), B(512, 128, 0, 0, 0.5)];
+      const geomU = [B(768, -128, 0, 0, -0.5), B(256, 128, 0, 0, 0.5)];   // 同じ幾何・違う質量配分
+      S = build(geom); const aE = HP.dfmSpaceMeshCapture(S, [0, 1]);
+      const mE = HP.dfmSpaceMeshState(aE, S, { D0: 0 });
+      // 等質量側で χ が門を割ると unique は false になる(同じ anchor・D₀ だけを上げる)
+      const mEgate = HP.dfmSpaceMeshState(aE, S, { D0: 1e9 });
+      S = build(geomU); const aU = HP.dfmSpaceMeshCapture(S, [0, 1]);
+      const mU = HP.dfmSpaceMeshState(aU, S, { D0: 0 });
+      o.uniq = { fieldSame: bitArr(mE.F, mU.F) && bitArr(mE.gradU, mU.gradU)
+          && bitArr(mE.origin, mU.origin) && bitArr(mE.velocity, mU.velocity)
+          && bitArr(mE.inverse, mU.inverse) && bitArr(mE.metric, mU.metric) && bit(mE.detF, mU.detF),
+        eqDegEq: mE.equalMassDegree, eqDegUn: mU.equalMassDegree,
+        uniqueEq: mE.unique, uniqueUn: mU.unique, chiEq: mE.chi, chiUn: mU.chi,
+        gatedUnique: mEgate.unique, gatedChi: mEgate.chi, gatedMode: mEgate.mode };
+
+      // ---------- ⑤ 共通並進(位置 Δ・速度 V を両頂点に足す)
+      S = build([B(512, -128, 0, 0, -0.5), B(512, 128, 0, 0, 0.5)]);
+      const aT = HP.dfmSpaceMeshCapture(S, [0, 1]);
+      const mS = HP.dfmSpaceMeshState(aT, S);
+      const probe = [37, -21];
+      const qS = HP.dfmSpaceMeshAt(mS, probe[0], probe[1]);
+      const DX = 64, DY = -32, VX = 0.25, VY = -0.125;
+      S.x[0] += DX; S.y[0] += DY; S.x[1] += DX; S.y[1] += DY;
+      S.vx[0] += VX; S.vy[0] += VY; S.vx[1] += VX; S.vy[1] += VY;
+      const mM = HP.dfmSpaceMeshState(aT, S);
+      const qM = HP.dfmSpaceMeshAt(mM, probe[0] + DX, probe[1] + DY);
+      o.trans = { Fbit: bitArr(mS.F, mM.F), gradUbit: bitArr(mS.gradU, mM.gradU),
+        qBit: bit(qS.qx, qM.qx) && bit(qS.qy, qM.qy),
+        // 相対 u(メッシュ原点の速度を引いた分)が不動
+        uRelBit: bit(qS.ux - mS.velocity[0], qM.ux - mM.velocity[0])
+          && bit(qS.uy - mS.velocity[1], qM.uy - mM.velocity[1]),
+        vShiftBit: bit(mM.velocity[0], mS.velocity[0] + VX) && bit(mM.velocity[1], mS.velocity[1] + VY) };
+
+      // ---------- ⑥ χ の門(D₀→∞ / D₀=0)
+      S = build([B(512, -128, 0, 0, -0.5), B(512, 128, 0, 0, 0.5)]);
+      const aC = HP.dfmSpaceMeshCapture(S, [0, 1]);
+      const mInf = HP.dfmSpaceMeshState(aC, S, { D0: Infinity });
+      const mZero = HP.dfmSpaceMeshState(aC, S, { D0: 0 });
+      const bgAt = HP.dfmFrameAt(probe[0], probe[1], S);
+      const blAt = HP.dfmSpaceMeshAt(mInf, probe[0], probe[1], S);
+      const meshOnly = HP.dfmSpaceMeshAt(mZero, probe[0], probe[1], S);
+      const pureMesh = HP.dfmSpaceMeshAt(mZero, probe[0], probe[1]);
+      o.chi = { chiInf: mInf.chi, modeInf: mInf.mode, uniqueInf: mInf.unique,
+        chiZero: mZero.chi, modeZero: mZero.mode, uniqueZero: mZero.unique,
+        bgBit: bit(blAt.ux, bgAt.ux) && bit(blAt.uy, bgAt.uy),
+        meshBit: bit(meshOnly.ux, pureMesh.ux) && bit(meshOnly.uy, pureMesh.uy),
+        bgU: [bgAt.ux, bgAt.uy], meshU: [pureMesh.ux, pureMesh.uy],
+        // 既定(プリセットの D0pull=1)は blend
+        chiDefault: HP.dfmSpaceMeshState(aC, S).chi, modeDefault: HP.dfmSpaceMeshState(aC, S).mode };
+
+      // ---------- ⑦ 3 頂点(アフィン)
+      S = build([B(400, 0, 0, 0.1, 0.2), B(400, 64, 0, 0.3, -0.1), B(400, 0, 64, -0.2, 0.4)]);
+      const a3 = HP.dfmSpaceMeshCapture(S, [0, 1, 2]);
+      const m3 = HP.dfmSpaceMeshState(a3, S);
+      const w0 = HP.dfmSpaceMeshAt(m3, S.x[0], S.y[0]);
+      const w1 = HP.dfmSpaceMeshAt(m3, S.x[1], S.y[1]);
+      const w2 = HP.dfmSpaceMeshAt(m3, S.x[2], S.y[2]);
+      const vErr = Math.max(Math.abs(w0.ux - S.vx[0]), Math.abs(w0.uy - S.vy[0]),
+        Math.abs(w1.ux - S.vx[1]), Math.abs(w1.uy - S.vy[1]),
+        Math.abs(w2.ux - S.vx[2]), Math.abs(w2.uy - S.vy[2]));
+      S.x[1] = 128; S.y[2] = 128;                       // 2 倍に拡げる → 面積比 4
+      const m3s = HP.dfmSpaceMeshState(a3, S);
+      S.x[1] = 0; S.y[1] = 64; S.x[2] = 64; S.y[2] = 0; // 鏡像(向きが反転)→ null
+      const m3r = HP.dfmSpaceMeshState(a3, S);
+      S.x[1] = 32; S.y[1] = 32; S.x[2] = 64; S.y[2] = 64; // 共線 → null
+      const m3c = HP.dfmSpaceMeshState(a3, S);
+      o.t3 = { kind: m3.kind, detF: m3.detF, chi: m3.chi, mode: m3.mode, unique: m3.unique,
+        vErr, detFscaled: m3s.detF, area4Bit: bit(m3s.detF, 4),
+        reflectNull: m3r === null, collinearNull: m3c === null };
+
+      // ---------- ⑧ 門
+      S = build([B(512, -128, 0, 0, -0.5), B(512, 128, 0, 0, 0.5)]);
+      const aG = HP.dfmSpaceMeshCapture(S, [0, 1]);
+      const gates = {
+        empty: HP.dfmSpaceMeshCapture(S, []) === null,
+        tooMany: HP.dfmSpaceMeshCapture(S, [0, 1, 0, 1]) === null,
+        dup: HP.dfmSpaceMeshCapture(S, [0, 0]) === null,
+        oob: HP.dfmSpaceMeshCapture(S, [0, 5]) === null,
+        notArray: HP.dfmSpaceMeshCapture(S, 0) === null,
+        negD0: HP.dfmSpaceMeshState(aG, S, { D0: -1 }) === null,
+        nanD0: HP.dfmSpaceMeshState(aG, S, { D0: NaN }) === null,
+        noAnchor: HP.dfmSpaceMeshState(null, S) === null,
+        badMesh: HP.dfmSpaceMeshAt(null, 0, 0) === null,
+        nanPoint: HP.dfmSpaceMeshAt(HP.dfmSpaceMeshState(aG, S), NaN, 0) === null };
+      const mSave = S.m[0]; S.m[0] = 0; gates.mZero = HP.dfmSpaceMeshState(aG, S) === null;
+      S.m[0] = -5; gates.mNeg = HP.dfmSpaceMeshState(aG, S) === null; S.m[0] = mSave;
+      const vSave = S.vx[0]; S.vx[0] = NaN; gates.nanV = HP.dfmSpaceMeshState(aG, S) === null; S.vx[0] = vSave;
+      const xSave = S.x[1], ySave = S.y[1];
+      S.x[1] = S.x[0]; S.y[1] = S.y[0]; gates.rZero = HP.dfmSpaceMeshState(aG, S) === null;
+      S.x[1] = xSave; S.y[1] = ySave;
+      gates.capNanPos = (() => { const xs = S.x[0]; S.x[0] = NaN;
+        const z = HP.dfmSpaceMeshCapture(S, [0, 1]) === null; S.x[0] = xs; return z; })();
+      // 構成が変わった(n が増えた・配列が作り直された)後の anchor は null
+      build([B(512, -128, 0, 0, -0.5), B(512, 128, 0, 0, 0.5), B(1, 0, 300, 0, 0)]);
+      gates.staleAnchor = HP.dfmSpaceMeshState(aG, HP.sim) === null;
+      o.gates = gates;
+
+      // ---------- ⑨ 決定性
+      S = build([B(512, -128, 0, 0, -0.5), B(512, 128, 0, 0, 0.5)]);
+      const aD = HP.dfmSpaceMeshCapture(S, [0, 1]);
+      const x1 = HP.dfmSpaceMeshState(aD, S), x2 = HP.dfmSpaceMeshState(aD, S);
+      const flat = (z) => [].concat(z.F, z.inverse, z.gradU, z.metric, z.origin, z.velocity,
+        [z.detF, z.divU, z.W, z.chi, z.equalMassDegree, z.rLen], z.nHat, z.r);
+      const y1 = HP.dfmSpaceMeshAt(x1, 37, -21, S), y2 = HP.dfmSpaceMeshAt(x2, 37, -21, S);
+      o.det = { stateBit: bitArr(flat(x1), flat(x2)),
+        atBit: bit(y1.ux, y2.ux) && bit(y1.uy, y2.uy) && bit(y1.qx, y2.qx) && bit(y1.qy, y2.qy),
+        sameMode: x1.mode === x2.mode && x1.unique === x2.unique && x1.kind === x2.kind };
+      o.kinds = HP.SPACEMESH_KINDS;
+      o.consts = { eq: HP.SPACEMESH_EQMASS_TOL, gate: HP.SPACEMESH_CHI_GATE, bg: HP.SPACEMESH_CHI_BG };
+      return o;
+    });
+    const CK = {
+      // ① T1 並進
+      t1Translation: sm.t1.transSelfBit && sm.t1.transFarBit && sm.t1.kind === 'rigid'
+        && sm.t1.chi === 1 && sm.t1.mode === 'T1' && sm.t1.unique === true,
+      // ② T1 回転(観測者相対 0)
+      t1Rotation: sm.t1.rotFarBit && sm.t1.rotSelfBit && sm.t1.needOmega
+        && sm.t1.gradU[0] === 0 && sm.t1.gradU[3] === 0 && sm.t1.gradU[2] === 0.375,
+      // ③ T2 頂点契約(2 進配置はビット・一般配置は 1e−14 未満)
+      t2Vertex: sm.t2.vertBit && sm.t2.qBitAtCapture && sm.t2.qBitMoved
+        && sm.t2.distBit && sm.t2gen.uErrMax < 1e-14 && sm.t2gen.qErrMax < 1e-14
+        && sm.t2.kind === 'similarity',
+      // ④ T2 一意性(質量に依らず場が一致・分かれるのは χ と unique だけ)
+      t2Unique: sm.uniq.fieldSame && sm.uniq.uniqueEq === true && sm.uniq.uniqueUn === false
+        && sm.uniq.eqDegEq === 0 && sm.uniq.eqDegUn > 0 && sm.uniq.gatedUnique === false,
+      // ⑤ 共通並進で相対 u・q が不動
+      commonTranslation: sm.trans.Fbit && sm.trans.gradUbit && sm.trans.qBit
+        && sm.trans.uRelBit && sm.trans.vShiftBit,
+      // ⑥ χ の門(D₀→∞ でビット回帰・D₀=0 で χ=1)
+      chiGate: sm.chi.chiInf === 0 && sm.chi.modeInf === 'background' && sm.chi.uniqueInf === false
+        && sm.chi.bgBit && sm.chi.chiZero === 1 && sm.chi.modeZero === 'T2'
+        && sm.chi.uniqueZero === true && sm.chi.meshBit && sm.chi.modeDefault === 'blend',
+      // ⑦ 3 頂点(面積 detF・辺速度連続・反転/共線は null)
+      t3Affine: sm.t3.kind === 'affine' && sm.t3.area4Bit && sm.t3.vErr < 1e-12
+        && sm.t3.reflectNull && sm.t3.collinearNull && sm.t3.unique === false,
+      // ⑧ 門
+      gates: Object.keys(sm.gates).every((k) => sm.gates[k] === true),
+      // ⑨ 決定性
+      determinism: sm.det.stateBit && sm.det.atBit && sm.det.sameMode,
+    };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    const badGates = Object.keys(sm.gates).filter((k) => sm.gates[k] !== true);
+    add('behavior.spaceMesh', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + (badGates.length ? `門NG=[${badGates.join(',')}] ` : '')
+      + `T1(剛体): χ=${sm.t1.chi}・mode=${sm.t1.mode}・unique=${sm.t1.unique}・`
+      + `並進は天体上/遠方ともビット同一=${sm.t1.transSelfBit && sm.t1.transFarBit}・`
+      + `回転 u=v+ω×r ビット=${sm.t1.rotFarBit}(**天体上では観測者相対 0**=${sm.t1.rotSelfBit})・omega 必須=${sm.t1.needOmega} / `
+      + `T2(相似): χ=${sm.t2.chi.toExponential(4)}(W=${sm.t2.W.toExponential(4)})・mode=${sm.t2.mode}・`
+      + `頂点契約 u(xᵢ)=vᵢ ビット=${sm.t2.vertBit}・qᵢ=refᵢ ビット(捕捉時 ${sm.t2.qBitAtCapture}/動かした後 ${sm.t2.qBitMoved})・`
+      + `一般配置の相対誤差 u ${sm.t2gen.uErrMax.toExponential(2)}・q ${sm.t2gen.qErrMax.toExponential(2)}(<1e−14) / `
+      + `**q が固定されても物理距離は固定されない**: detF=${sm.t2.detFmoved}・計量 g で復元した距離 `
+      + `${sm.t2.distFromMetric} = 慣性系の |r| ${sm.t2.distPhys}(ビット=${sm.t2.distBit}) / `
+      + `一意性: 同じ幾何なら質量配分を変えても場がビット同一=${sm.uniq.fieldSame}・`
+      + `unique は等質量 ${sm.uniq.uniqueEq} 対 不等質量 ${sm.uniq.uniqueUn}(|Δm|/M ${sm.uniq.eqDegUn.toExponential(2)})・`
+      + `χ が門(${sm.consts.gate})を割ると等質量でも false=${sm.uniq.gatedUnique === false}(χ=${sm.uniq.gatedChi.toExponential(2)}) / `
+      + `共通並進(Δx・ΔV)で F・gradU・q・相対 u がビット不動=${sm.trans.Fbit && sm.trans.gradUbit && sm.trans.qBit && sm.trans.uRelBit} / `
+      + `χ の門: D₀→∞ で χ=${sm.chi.chiInf}・**blend が HP.dfmFrameAt とビット一致**=${sm.chi.bgBit}・`
+      + `D₀=0 で χ=${sm.chi.chiZero}(mode=${sm.chi.modeZero}・unique=${sm.chi.uniqueZero})・`
+      + `プリセット既定(D0pull=1)は χ=${sm.chi.chiDefault.toExponential(4)}=${sm.chi.modeDefault} / `
+      + `3 頂点: detF=${sm.t3.detF}・2 倍に拡げると面積比 ${sm.t3.detFscaled}(ビット=${sm.t3.area4Bit})・`
+      + `辺速度の残差 ${sm.t3.vErr.toExponential(2)}・鏡像=null ${sm.t3.reflectNull}・共線=null ${sm.t3.collinearNull} / `
+      + `門 ${Object.keys(sm.gates).length} 件すべて null=${badGates.length === 0}(再構築後の anchor を含む)/ `
+      + `決定性: 2 回呼び出しビット同一=${sm.det.stateBit && sm.det.atBit}`);
+  } else {
+    console.log('SKIP behavior.spaceMesh(対象に第253便a の HP.dfmSpaceMesh* なし — root 等)');
+  }
+}
+
 // ---- 第252便b(第44報): behavior.periSubsteps — 近点近傍の刻み細分(数値設定の opt-in)の契約 ----
 //   第251便a ⑨ が持ち越した「S._core を肥大させずに近点だけ細かくする」を、3 審査 v10 の一致点
 //   (K7/K8/K8′)どおり **S.step を呼ぶ側の薄い包み**として入れたことの機械固定である。
@@ -12140,6 +12607,104 @@ if (!FAST) {
       + `検証器(n≤1・null=なし/値域クランプ/不正入力 ok:false)=${CK.validator}`);
   } else {
     console.log('SKIP behavior.periSubsteps(対象に第252便b の近点サブステップなし — root 等)');
+  }
+}
+
+// ---- 第253便b(第45報・ChatGPT §7.3): behavior.periCounterRefresh — 近点サブステップの計数が
+//      **半径更新で消えない**ことの機械固定 ----
+//   実バグだった: `S._periSetup` が「同じ宣言なら初期化しない」判定より**先**に periSubHits/
+//   periSubSteps を 0 にしていたため、`S.updateRadii()` を通る経路(半径スライダー・粒子編集・
+//   params 差し替え)が走るたびに**累積計数が消えていた**(細分 5 回・内部 20 步のあとに呼ぶと
+//   [5,20] → [0,0])。計数は監査・実験ハーネス用で**物理には一切効かない**ので、直しても力学は
+//   1 bit も動かない —— それをこの門が両側から固定する:
+//     ① **保持**: 細分 5 步のあと `_periSetup()` / `updateRadii()` を呼んでも計数は [5,20] のまま。
+//     ② **別宣言では 0 へ**: 宣言オブジェクトを差し替えて呼ぶと計数は [0,0] に戻る(初期化の意味は残す)。
+//     ③ **宣言を外すと 0 へ**: periSubsteps を外して呼ぶと [0,0]・hasPeriSub=false。
+//     ④ **力学は不変**: 5 步 → `_periSetup()` → 5 步 の状態が、10 步まっすぐ進めた状態と**ビット同一**。
+//     ⑤ 未宣言の既定経路では計数は常に 0(素通り)。
+{
+  const hasPS2 = await page.evaluate(() => typeof (window.HP && HP.validatePeriSubsteps) === 'function');
+  if (hasPS2) {
+    const pc = await page.evaluate(() => {
+      const SRC = 'psrDoubleABDFM';
+      const build = (patch) => {
+        const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === SRC)));
+        if (patch) for (const k of Object.keys(patch)) {
+          if (patch[k] === null) delete pd.physics[k]; else pd.physics[k] = patch[k];
+        }
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset); return S;
+      };
+      const hash = (S) => {
+        let a = 0x811c9dc5;
+        const buf = new ArrayBuffer(8), f = new Float64Array(buf), u = new Uint8Array(buf);
+        const push = (v) => { f[0] = v; for (let b = 0; b < 8; b++) { a ^= u[b]; a = Math.imul(a, 0x01000193) >>> 0; } };
+        for (const k of ['x', 'y', 'vx', 'vy', 'spin']) { const A = S[k]; if (!A) continue;
+          for (let i = 0; i < S.n; i++) push(A[i]); }
+        push(S.t); return a.toString(16);
+      };
+      const GATE = { n: 4, rMul: 1e3 };   // 全域ゲート = 外側 1 步につき必ず 4 サブステップ
+      const R = {};
+      // ① 細分 5 步 → 計数 [5,20] → _periSetup()・updateRadii() を挟んでも保持
+      const S = build({ periSubsteps: GATE });
+      for (let k = 0; k < 5; k++) S.step(0.016);
+      R.after5 = [S.periSubHits || 0, S.periSubSteps || 0];
+      S._periSetup();
+      R.afterSetup = [S.periSubHits || 0, S.periSubSteps || 0];
+      S.updateRadii();
+      R.afterRadii = [S.periSubHits || 0, S.periSubSteps || 0];
+      // ④ 力学は不変: さらに 5 步 進めた状態が、10 步まっすぐと**ビット同一**
+      for (let k = 0; k < 5; k++) S.step(0.016);
+      R.hSplit = hash(S); R.total = [S.periSubHits || 0, S.periSubSteps || 0];
+      const S2 = build({ periSubsteps: GATE });
+      for (let k = 0; k < 10; k++) S2.step(0.016);
+      R.hStraight = hash(S2); R.total2 = [S2.periSubHits || 0, S2.periSubSteps || 0];
+      // ② 別宣言(新しいオブジェクト)へ差し替えると 0 へ戻る
+      const S3 = build({ periSubsteps: GATE });
+      for (let k = 0; k < 5; k++) S3.step(0.016);
+      R.before3 = [S3.periSubHits || 0, S3.periSubSteps || 0];
+      S3.params[HP.PERI_SUB_KEY] = HP.validatePeriSubsteps({ n: 2, rMul: 1e3 }).periSubsteps;
+      S3.updateRadii();
+      R.afterSwap = [S3.periSubHits || 0, S3.periSubSteps || 0];
+      R.swapN = S3.periSub ? S3.periSub.n : null;
+      // ③ 宣言を外すと 0 へ・hasPeriSub=false
+      const S4 = build({ periSubsteps: GATE });
+      for (let k = 0; k < 5; k++) S4.step(0.016);
+      S4.params[HP.PERI_SUB_KEY] = null;
+      S4.updateRadii();
+      R.afterDrop = [S4.periSubHits || 0, S4.periSubSteps || 0];
+      R.hasAfterDrop = !!S4.hasPeriSub;
+      // ⑤ 未宣言の既定経路は常に 0
+      const S5 = build(null);
+      for (let k = 0; k < 5; k++) S5.step(0.016);
+      S5.updateRadii();
+      R.plain = [S5.periSubHits || 0, S5.periSubSteps || 0];
+      R.hasPlain = !!S5.hasPeriSub;
+      return R;
+    });
+    const eq = (a, b) => a[0] === b[0] && a[1] === b[1];
+    const CK = {
+      counted: eq(pc.after5, [5, 20]),
+      keptOnSetup: eq(pc.afterSetup, [5, 20]),
+      keptOnRadii: eq(pc.afterRadii, [5, 20]),
+      bitSame: pc.hSplit === pc.hStraight && eq(pc.total, [10, 40]) && eq(pc.total2, [10, 40]),
+      resetOnSwap: eq(pc.before3, [5, 20]) && eq(pc.afterSwap, [0, 0]) && pc.swapN === 2,
+      resetOnDrop: eq(pc.afterDrop, [0, 0]) && pc.hasAfterDrop === false,
+      plainZero: eq(pc.plain, [0, 0]) && pc.hasPlain === false,
+    };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    add('behavior.periCounterRefresh', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + `⚡ を全域ゲート {n:4} で 5 步: 計数 [hits,subs]=[${pc.after5}]=${CK.counted} / `
+      + `**同じ宣言のまま _periSetup() を呼び直しても保持** [${pc.afterSetup}]=${CK.keptOnSetup}・`
+      + `updateRadii() でも保持 [${pc.afterRadii}]=${CK.keptOnRadii}`
+      + `(第253便b で直した実バグ — 以前はここで [0,0] に消えていた)/ `
+      + `**力学は不変**: 5 步 → _periSetup() → 5 步 が 10 步まっすぐとビット同一(${pc.hSplit})・`
+      + `計数は積み上がる [${pc.total}]=${CK.bitSame} / `
+      + `**別宣言へ差し替えると 0 へ**([${pc.before3}] → [${pc.afterSwap}]・n=${pc.swapN})=${CK.resetOnSwap} / `
+      + `宣言を外すと 0 へ・hasPeriSub=${pc.hasAfterDrop}=${CK.resetOnDrop} / `
+      + `未宣言の既定経路は常に [${pc.plain}]・hasPeriSub=${pc.hasPlain}=${CK.plainZero}`);
+  } else {
+    console.log('SKIP behavior.periCounterRefresh(対象に第252便b の近点サブステップなし — root 等)');
   }
 }
 

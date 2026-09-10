@@ -49,6 +49,9 @@ const BUDGET_HEAVY = BUDGET_LIGHT * 3;
 const ORB_MAX = 60;            // 直接法(近点間・同方向1周)で数える上限公転数
 // 第252便b(第44報): **近点間周期の窓は「最初の 20 近点(19 区間)」に固定**する(宣言であって
 // 自動判定ではない)。走行長で窓が変わっていたのが第251便 統括の残した窓感度 0.66pt の源である。
+// 第253便b(第45報 L6): **窓感度そのものは未計測のままである** —— 窓を 20・30・40 近点と振って
+// 値がどう動くかは測っていない。窓は**全系で 20 近点に固定**したので系間の比較は揃うが、
+// 「20 が十分な長さか」は本便でも確かめていない(未計測を未計測と書く)。
 const PERI_WINDOW = 20;
 const DT0 = 0.016;             // アプリ既定(index.html の const DT)
 
@@ -499,7 +502,10 @@ const out = { meta: {
     + ' 窓外の全近点平均は detail.periAllSec に履歴として残す。',
   periWindow: { nPeri: PERI_WINDOW, nIntervals: PERI_WINDOW - 1,
     reason: '第251便 統括の未解決「近点間平均の窓感度で ⚡🧿🪶 の周期残差が 0.66pt 割れる」— '
-      + '窓の長さが走行長(時間予算)で決まっていたのをやめ、宣言した固定窓にする(第252便b)' },
+      + '窓の長さが走行長(時間予算)で決まっていたのをやめ、宣言した固定窓にする(第252便b)',
+    unmeasured: '**窓感度は未計測のままである**(第253便b L6): 窓を 20・30・40 近点と振って値が'
+      + 'どう動くかは測っていない。窓は全系で 20 近点に固定したので系間の比較は揃うが、'
+      + '「20 が十分な長さか」は確かめていない。' },
   dtNote: 'dt はアプリ既定 0.016 と、その半分 0.008 の 2 段。dt/2 段は実行時 n≤12 のサンプルだけ'
     + '(重い環・多体は時間予算に収まらない — 明記)。',
 }, presets: [] };
@@ -580,6 +586,18 @@ const VER = { OK: '合', WIN: '窓', NG: '否', DEP: '従', TR: '転' };
 //   ・数値が収束していない(dt 2 段が無い・ε_num が 0.3σ を超える)              → **数値未解決**
 // ±1% の目安(guideTolerance)は**観測一致ではない**。この門を通らない「合」は目安合である。
 const GATE = { OK: '合(3σ)', NG: '否(3σ)', NUM: '数値未解決', NA: '未判定' };
+// 第253便b(第45報・ChatGPT §7.1): ε_num の**書き方の正本**。dt 2 段の差は**感度診断**であって
+// 誤差上限ではない —— 漸近域でも粗い側の真の誤差は 2^p/(2^p−1)·|Q_h−Q_{h/2}| で、この差そのもの
+// より大きい(p=1 で 2 倍・p=2 で 1.33 倍)。旧文言「上限としての宣言」は撤回する。
+// --merge で持ち越した過去分の行にも同じ文言を張り直すため、関数にして 2 か所から使う。
+function numBoundDeclOf(value, steps = 2, order = null) {
+  return { value, steps, order,
+    basis: 'dt=0.016 と dt/2=0.008 の同じ検出器の差(**感度診断** — dt/4 は走らせておらず、'
+      + '誤差上限は未確認。漸近域でも粗い側の誤差は 2^p/(2^p−1)|Q_h−Q_{h/2}| で、この値より大きい)',
+    orderNote: 'dt/4 を走らせていないので**収束次数は未測定**(order:null)。次数 p が実測されるまでは '
+      + '|Q_h−Q_{h/2}| を誤差の上限として使えない —— 真の誤差は 2^p/(2^p−1) 倍で、'
+      + 'p が小さいほど大きい(p=1 で 2 倍)。3 段+正の次数が揃うまでこの量は診断値である' };
+}
 function assessObservation({ value, reference, sigma, numBound,
   converged = false, definitionMatches = false, sourceVerified = false }) {
   if (![value, reference].every(Number.isFinite) || !Number.isFinite(sigma) || !(sigma > 0))
@@ -591,7 +609,9 @@ function assessObservation({ value, reference, sigma, numBound,
   if (!sourceVerified)
     return Object.assign(base, { status: GATE.NA, reason: '一次表(観測の出所)が未確認' });
   if (!converged || !Number.isFinite(numBound) || numBound > 0.3 * sigma)
-    return Object.assign(base, { status: GATE.NUM, reason: '数値誤差幅が予算(0.3σ)を超える/未測定', numBound });
+    return Object.assign(base, { status: GATE.NUM,
+      // 第253便b: 「収束の保留」も同じ区分へ入る(3 段+正の次数が無い = 数値は未解決)
+      reason: '数値誤差幅が予算(0.3σ)を超える/収束未確認(dt 3 段+正の実測次数が無い)', numBound });
   const tolerance = 3 * sigma + numBound;
   return Object.assign(base, { status: (Math.abs(residual) <= tolerance) ? GATE.OK : GATE.NG,
     numBound, tolerance });
@@ -1024,13 +1044,12 @@ for (const P of out.presets) {
     // 第251便c: ε_num は「dt 2 段の差」ではなく**宣言**である。dt/2 と dt/4 の差の上限として
     // 記録し、収束次数を添える(本便の走行は dt と dt/2 の 2 段なので、次数は 2 段からの推定
     // であって測定ではない — order:null は「次数未測定」を意味する)。
-    q.numBoundDecl = (q.numBoundDt2 === null) ? null : {
-      value: q.numBoundDt2,
-      basis: 'dt=0.016 と dt/2=0.008 の同じ検出器の差(**上限としての宣言** — dt/4 は走らせていない)',
-      order: null,
-      orderNote: 'dt/4 を走らせていないので収束次数は未測定。次数 p が既知なら真の誤差は '
-        + '|y(dt)−y(dt/2)|/(2^p−1) 程度で、ここに置いた値はその上限側の宣言である',
-      steps: 2 };
+    // 第253便b(第45報・ChatGPT §7.1): **dt 2 段の差は感度診断であって誤差上限ではない。**
+    // 漸近域でも粗い側の真の誤差は 2^p/(2^p−1)·|Q_h−Q_{h/2}| で、|Q_h−Q_{h/2}| そのものは
+    // それより**小さい**(p=1 なら 2 倍・p=2 なら 1.33 倍の開きがある)。したがって「上限としての宣言」
+    // という旧文言を撤回し、**感度診断・上限未確認**と書く。3 段(dt, dt/2, dt/4)と正の実測次数が
+    // 揃うまでは、この値を根拠に「数値は収束した」とは言わない(下の門の保留条件を参照)。
+    q.numBoundDecl = (q.numBoundDt2 === null) ? null : numBoundDeclOf(q.numBoundDt2);
   }
 
   const tally = {}; for (const v of Object.values(VER)) tally[v] = 0;
@@ -1139,8 +1158,22 @@ for (const r of merged) for (const q of (r.quantities || [])) {
       + `定義違いの広がり ${crossDef === null ? '—' : crossDef.toExponential(2) + '%'} は σ と比較しない`;
   }
   const numBound = Number.isFinite(q.numBoundDt2) ? q.numBoundDt2 : null;
+  // 第253便b(第45報・ChatGPT §7.1): **収束の保留条件**。`numBound !== null`(= dt 2 段が走った)
+  // だけで「収束済み」としていたのは過剰だった —— dt 2 段の差は感度診断であって誤差上限ではない。
+  // **3 段(dt, dt/2, dt/4)と正の実測次数が揃っていない結果は収束済みとしない**。
+  // 本便の走行は 2 段・order:null なので、この条件は**全量で偽**になり、門の 3σ 判定は
+  // 「数値未解決」へ保留される(判定を甘くする方向の変更ではない — 厳しくする方向である)。
+  // --merge で持ち越した過去分の行にも第253便b の文言を張り直す(値・段数・次数は動かさない)
+  if (q.numBoundDecl && Number.isFinite(q.numBoundDecl.value))
+    q.numBoundDecl = numBoundDeclOf(q.numBoundDecl.value,
+      Number.isFinite(q.numBoundDecl.steps) ? q.numBoundDecl.steps : 2,
+      Number.isFinite(q.numBoundDecl.order) ? q.numBoundDecl.order : null);
+  const nbd = q.numBoundDecl || null;
+  const convOK = numBound !== null && !!nbd
+    && Number.isFinite(nbd.steps) && nbd.steps >= 3
+    && Number.isFinite(nbd.order) && nbd.order > 0;
   const g = assessObservation({ value: q.meas, reference: q.obs, sigma: sig, numBound,
-    converged: numBound !== null,
+    converged: convOK,
     definitionMatches: (defMeta && detSpread !== null && sigPct !== null) ? (detSpread <= sigPct) : false,
     sourceVerified: PRIMARY_VERIFIED.has(`${r.id}|${q.target}|${q.kind}`)
       || (sigFrom === 'csv' && q.sigmaPrimaryVerified === true) });
@@ -1151,7 +1184,12 @@ for (const r of merged) for (const q of (r.quantities || [])) {
   g.detSpreadPct = detSpread; g.defSpreadCrossDefPct = crossDef;
   g.defSpreadPct = detSpread;   // 後方互換の欄名(中身は**同じ定義どうし**の広がりへ変わった)
   g.defMeta = defMeta; g.definitionNote = defNote;
-  g.numBoundDecl = q.numBoundDecl || null;   // ε_num は「宣言」である(dt/4 は走らせていない)
+  g.numBoundDecl = q.numBoundDecl || null;   // ε_num は「感度診断」である(dt/4 は走らせていない)
+  // 第253便b: 保留の理由を機械可読で残す(なぜ「数値未解決」なのかが JSON から辿れるように)
+  g.convergence = { ok: convOK, steps: nbd ? nbd.steps : null, order: nbd ? nbd.order : null,
+    rule: '3 段(dt, dt/2, dt/4)かつ実測次数 order>0 が揃うまで収束済みとしない(第253便b)',
+    hold: convOK ? null : ((!nbd || !(nbd.steps >= 3)) ? 'dt 3 段が走っていない(2 段は感度診断)'
+      : '収束次数が未測定または非正') };
   // 参考(判定ではない): 来歴・定義の条件を外し、3σ+ε_num の算術だけを見たときの成否
   g.arithOnly = (sig !== null && numBound !== null && Number.isFinite(q.meas) && Number.isFinite(q.obs))
     ? (Math.abs(q.meas - q.obs) <= 3 * sig + numBound) : null;
@@ -1175,7 +1213,10 @@ out.summary = { nPresets: merged.length,
   tally: merged.reduce((a, r) => { for (const [k, v] of Object.entries(r.tally)) a[k] = (a[k] || 0) + v; return a; }, {}),
   byVersion: { obs: merged.filter((r) => r.version === 'obs').length,
     dfm: merged.filter((r) => r.version === 'dfm').length },
-  gate: { rule: '|y_sim−y_obs| ≤ 3σ_obs + ε_num(ε_num ≤ 0.3σ_obs・ε_num は dt 2 段の差)',
+  gate: { rule: '|y_sim−y_obs| ≤ 3σ_obs + ε_num(ε_num ≤ 0.3σ_obs)。**ただし収束の保留条件**(第253便b): '
+    + 'dt 3 段(dt, dt/2, dt/4)かつ正の実測次数 order>0 が揃うまで「収束済み」としない —— '
+    + 'dt 2 段の差は**感度診断**であって誤差上限ではない(漸近域でも粗い側の誤差は 2^p/(2^p−1)|Q_h−Q_{h/2}|)。'
+    + '本便の走行は 2 段・次数未測定なので、σ を持つ量はすべて「数値未解決」へ保留される',
     byStatus: gateStatus, byReason: gateReason,
     withSigma: allQ.filter((q) => (q.gate && Number.isFinite(q.gate.sigma) && q.gate.sigma > 0)).length,
     withSigmaBySource: {
@@ -1188,11 +1229,18 @@ out.summary = { nPresets: merged.length,
       + '— 第251便c: σ が効くのは門だけ)。門は別欄であり、第251便c で観測 σ の転写(paper/data/'
       + 'solar-observations.csv の sigma 列)と一次表の照合印(sigma_primary)が入った。'
       + '定義の一致は**同じ定義の検出器 A/B の広がり**だけで見る(定義違いの広がりは σ と比較しない)。'
-      + 'ε_num は dt 2 段の差を**上限として宣言**した量で、dt/4 は走らせていない(収束次数は未測定)。' },
+      + '**第253便b(第45報)**: ε_num は dt 2 段の差であり、これは**感度診断**であって誤差上限ではない'
+      + '(旧文言「上限としての宣言」は撤回)。門は 3 段+正の実測次数が揃うまで「収束済み」としない'
+      + '保留条件を持つので、本便の走行(2 段・次数未測定)では 3σ の合否判定は出ず、'
+      + 'σ を持つ量はすべて**数値未解決**へ落ちる。これは判定を甘くする変更ではなく、'
+      + '**「まだ言えない」を言えるようにする変更**である。' },
   agreementBreakdown: { verdictOK: okQ.length, sigma3: okSigma3, guide: okGuide,
     unassessed: okQ.length - okSigma3 - okGuide,
     note: '「合」の内訳: sigma3 = 機械門を通った 3σ 一致 / guide = 観測誤差が読めないときの ±1% 目安'
-      + '(観測一致ではない)/ unassessed = 観測誤差はあるが定義・一次表・数値収束の条件が未達。' } };
+      + '(観測一致ではない)/ unassessed = 観測誤差はあるが定義・一次表・数値収束の条件が未達。'
+      + ' **第253便b**: 収束の保留条件(3 段+正の次数)を入れたので、本便の走行では sigma3=0 になる'
+      + '(第252便までの sigma3=2 件は「数値未解決」へ移った — 数値が悪くなったのではなく、'
+      + '2 段の差を上限として使ってよいという根拠が無かったということである)。' } };
 
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
