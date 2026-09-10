@@ -394,14 +394,193 @@ const w5cHasSpinup = await page.evaluate(() => HP.allPresets().some(p => p.id ==
 // 第245便: beta では ☀️starcore を廃止したが、**未昇格の root index.html はまだ持っており**、
 //          その claims が testId で behavior.starcore を指す(qa.testid-live)。root 昇格時に削除する
 const hasStarcore = await page.evaluate(() => HP.allPresets().some(p => p.id === 'starcore'));
+// 第251便b: 🌠merger を beta で廃止した(原仮定者指示 第43報「説明に対して結果が釈然としない」)。
+//          **未昇格の root index.html はまだ持っており**、その claims が testId で
+//          behavior.merger-causal を指す(qa.testid-live)。第245便の ☀️starcore と同じ流儀で
+//          merger 系のテストは has* ガードつきで残置する(beta では SKIP・root 昇格時に削除)
+const hasMerger = await page.evaluate(() => HP.allPresets().some(p => p.id === 'merger'));
 
 // bands(behavior.darkrotorLong の環帯定義。元コード2875行と同一)
 const w5cBands = [[80, 120], [120, 160], [160, 200], [200, 240]];
+
+// ==== 第251便b(第43報 W2「QA が長いので短縮できる手順を確認する」): 固定 seed 指紋キャッシュ ====
+// 「固定 seed の計測で結果が 1 bit も変わらなかったら、その上に乗っている多 seed / 掃引 /
+//  長時間の重い計測は前回の結果をそのまま使う」を機械化する。
+//   ① 指紋 = 対象プリセットを**固定 seed のまま短く走らせた全状態のビット列**(TypedArray は
+//      バイト列・数値はそのまま = kernel.bitident の照合器と同じ流儀)の SHA-256。
+//      物理が 1 bit でも変われば必ず変わる。**計測そのものは短縮しない** — 走るときは従来どおり
+//      全步数を走り、指紋が一致したときだけ**前回の全步数の結果**をそのまま再利用する。
+//   ② 鍵には状態指紋に加えて (a) そのテストが使うプリセット宣言の SHA-256(claims 窓・bodies・
+//      physics・説明文を含む)(b) qa.mjs の**そのテストの節のソース断片**の SHA-256(判定式・
+//      閾値・窓を変えたら無効化)(c) テストが直接呼ぶ HP API の関数ソース SHA-256(往復系のように
+//      状態指紋では代表できない分)を混ぜる。
+//   ③ 鍵が tests/out/qa-fingerprints.json の記録と一致し、かつ**前回がその節で全件 PASS** の
+//      ときだけ再利用する(1 件でも FAIL していた記録は使わない = 疑わしいものは再実行側に倒す)。
+//   ④ QA_REFRESH=1 で強制再実行・QA_CACHE=0 で無効化。**CI(process.env.CI)では既定で無効**
+//      (CI は従来どおり全実行で、そちらが最終裁定者。キャッシュは手元のフルゲート専用)。
+//   ⑤ QA_FAST では一切使わない(QA_FAST の意味は変えない)。
+const QA_CACHE = (process.env.QA_CACHE !== undefined)
+  ? process.env.QA_CACHE === '1'
+  : !process.env.CI;
+const QA_REFRESH = process.env.QA_REFRESH === '1';
+const FP_ON = QA_CACHE && !FAST;
+const FP_PATH = path.join(OUT_DIR, 'qa-fingerprints.json');
+const sha256 = (s) => crypto.createHash('sha256').update(s).digest('hex');
+let HEAD_COMMIT = 'unknown';
+try { HEAD_COMMIT = execSync('git rev-parse HEAD', { cwd: ROOT, stdio: 'pipe' }).toString().trim(); } catch {}
+const TARGET_SHA = sha256(fs.readFileSync(path.join(ROOT, TARGET)));
+const QA_SRC = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8');
+
+// 指紋を取る固定 seed の走行(共有 — 1 本の指紋を複数のテストが参照する)。
+// 步数は「そのテストが使う步数の 1/10(下限 600・上限 3000)」で決めてある(下の表の注記参照)。
+const FP_RUNS = {
+  'emergent@3000':         { id: 'emergent',    steps: 3000 },
+  'emergent2@3000':        { id: 'emergent2',   steps: 3000 },
+  'chain2@3000':           { id: 'chain2',      steps: 3000 },
+  'chaincycle@3000':       { id: 'chaincycle',  steps: 3000 },
+  'selfRotor@1800':        { id: 'selfRotor',   steps: 1800 },
+  'selfRotor-noFuse@1800': { id: 'selfRotor',   steps: 1800, dropFusion: true },
+  'bhCore-kF1@1200':       { id: 'bhCore',      steps: 1200, physics: { kFrame: 1 } },
+  'bhCore-kF0@1200':       { id: 'bhCore',      steps: 1200, physics: { kFrame: 0 } },
+  'galaxyStd-kF1@600':     { id: 'galaxyStd',   steps: 600,  physics: { kFrame: 1 } },
+  'galaxyStd-kF0@600':     { id: 'galaxyStd',   steps: 600,  physics: { kFrame: 0 } },
+  'galaxyGeo2-kF1@1200':   { id: 'galaxyGeo2',  steps: 1200, physics: { kFrame: 1 } },
+  'galaxyGeo2-kF0@1200':   { id: 'galaxyGeo2',  steps: 1200, physics: { kFrame: 0 } },
+  'galaxyDB-kF1@600':      { id: 'galaxyDB',    steps: 600,  physics: { kFrame: 1 } },
+  'galaxyDB-kF0@600':      { id: 'galaxyDB',    steps: 600,  physics: { kFrame: 0 } },
+  'uranusReal-kF1@3000':   { id: 'uranusReal',  steps: 3000 },
+  'uranusReal-kF0@3000':   { id: 'uranusReal',  steps: 3000, physics: { kFrame: 0 } },
+  'neptuneReal-kF1@3000':  { id: 'neptuneReal', steps: 3000 },
+  'neptuneReal-kF0@3000':  { id: 'neptuneReal', steps: 3000, physics: { kFrame: 0 } },
+};
+// テストごとの指紋の材料。runs=固定 seed 走行 / decls=プリセット宣言 / apis=HP の関数ソース /
+// allDecls=内蔵全件の宣言(往復系)
+const FP_SPECS = {
+  'behavior.phase-multiseed': { runs: ['emergent@3000', 'emergent2@3000', 'chaincycle@3000', 'chain2@3000'],
+    decls: ['emergent', 'emergent2', 'chaincycle', 'chain2'] },
+  'phasechange.emergent':  { runs: ['emergent@3000'],   decls: ['emergent'] },
+  'phasechange.emergent2': { runs: ['emergent2@3000'],  decls: ['emergent2'] },
+  'phasechange.chain2':    { runs: ['chain2@3000'],     decls: ['chain2'] },
+  'phasechange.multiseed': { runs: ['chain2@3000'],     decls: ['chain2'] },
+  'claim.chaincycle':      { runs: ['chaincycle@3000'], decls: ['chaincycle'] },
+  'behavior.selfrotor':    { runs: ['selfRotor@1800', 'selfRotor-noFuse@1800'], decls: ['selfRotor'],
+    apis: ['coreState', 'emergenceStats', 'classifyPreset'] },
+  'behavior.selfrotor-multiseed': { runs: ['selfRotor@1800', 'selfRotor-noFuse@1800'], decls: ['selfRotor'],
+    apis: ['emergenceStats', 'validatePreset'] },
+  'claim.bhcore-selfdrive': { runs: ['bhCore-kF1@1200', 'bhCore-kF0@1200'], decls: ['bhCore'], apis: ['coreState'] },
+  'claim.bhcore-free':      { runs: ['bhCore-kF1@1200', 'bhCore-kF0@1200'], decls: ['bhCore'], apis: ['coreState'] },
+  'claim.galaxystd-outerboost':  { runs: ['galaxyStd-kF1@600', 'galaxyStd-kF0@600'], decls: ['galaxyStd'], apis: ['abStart', 'ab'] },
+  'claim.galaxygeo2-outerboost': { runs: ['galaxyGeo2-kF1@1200', 'galaxyGeo2-kF0@1200'], decls: ['galaxyGeo2'], apis: ['abStart', 'ab'] },
+  'claim.galaxydb-contrast':     { runs: ['galaxyDB-kF1@600', 'galaxyDB-kF0@600'], decls: ['galaxyDB'], apis: ['abStart', 'ab'] },
+  'behavior.uranusReal': { runs: ['uranusReal-kF1@3000', 'uranusReal-kF0@3000', 'neptuneReal-kF1@3000', 'neptuneReal-kF0@3000'],
+    decls: ['uranusReal', 'neptuneReal'], apis: ['validatePreset'] },
+  // 往復系は「内蔵全件の宣言 × 検証器/構築器のソース」で代表する(判定は往復前後の bit 一致
+  // なので、物理そのものが変わっても両辺が同じだけ動く = 状態指紋では代表にならない)
+  'preset.roundtrip-builtins': { allDecls: true, apis: ['validatePreset', 'sim.build', 'APP_VERSION'] },
+};
+// qa.mjs の節の切り出し: `add('<id>'` を含む位置から、直前/直後の行頭 `// ---- ` までを 1 節とみなす
+// (見つからなければファイル全体を鍵に混ぜる = 最も保守的な側へ倒す)
+const fpSrcSlice = (testId) => {
+  const at = QA_SRC.indexOf(`add('${testId}'`);
+  if (at < 0) return sha256(QA_SRC);
+  const M = '\n// ---- ';
+  const a = QA_SRC.lastIndexOf(M, at), b = QA_SRC.indexOf(M, at);
+  if (a < 0 || b < 0) return sha256(QA_SRC);
+  return sha256(QA_SRC.slice(a, b));
+};
+
+const fpPrevAll = (() => { try { return JSON.parse(fs.readFileSync(FP_PATH, 'utf8')); } catch { return null; } })();
+const fpPrev = (fpPrevAll && fpPrevAll.targets && fpPrevAll.targets[TARGET]) || null;
+const fpNext = { commit: HEAD_COMMIT, date: new Date().toISOString().slice(0, 10), htmlSha256: TARGET_SHA,
+  target: TARGET, runs: {}, tests: {} };
+const fpCachedIds = [];
+let fpSavedMs = 0;
+let fpDigests = null;
+let fpDeclsResolve = null;
+const fpDeclsPromise = new Promise((r) => { fpDeclsResolve = r; });
+let fpDeclsOnly = null;
 
 // weight は並列プールでのキュー順(重い順)を決めるためだけの目安値(実測 scratchpad/full-qa-beta.log
 // 由来。galaxy/saturn/convection の3分割は合算実測206.6sをO(n²·步数)比で概算按分)。判定結果には
 // 一切影響しない(スケジューリングの都合の数値)。
 const W5C_UNITS = {
+  // 第251便b: 固定 seed 指紋の採取(上の FP_RUNS/FP_SPECS)。**W5c プールの 1 ユニットとして**
+  // 走らせる — 専用ページを増やすとページ数が 6 になり、4 コア機ではレンダラが落ちる実測が出た
+  // ので、常駐ページ数は従来どおり(主ページ + ワーカー NW)に保つ。weight を最大にして
+  // プール投入直後に走らせ、主ページ側の重いテストが指紋を要求する前に採り終える。
+  fpDigests: { enabled: FP_ON, weight: 999, run: async (fp) => {
+    const t0 = Date.now();
+    const out = { runs: {}, decls: {}, apis: {}, allDecls: null };
+    const need = new Set();
+    for (const sp of Object.values(FP_SPECS)) for (const d of (sp.decls || [])) need.add(d);
+    const apiNeed = new Set();
+    for (const sp of Object.values(FP_SPECS)) for (const a of (sp.apis || [])) apiNeed.add(a);
+    const dvT0 = Date.now();
+    const dv = await fp.evaluate(({ ids, apis }) => {
+      const o = { decls: {}, apis: {}, all: null };
+      for (const id of ids) {
+        const P = HP.allPresets().find((q) => q.id === id);
+        o.decls[id] = P ? JSON.stringify(P) : null;
+      }
+      for (const a of apis) {
+        const parts = a.split('.');
+        let cur = HP;
+        for (const p of parts) { cur = (cur === undefined || cur === null) ? undefined : cur[p]; }
+        o.apis[a] = (cur === undefined) ? null : String(cur);
+      }
+      o.all = JSON.stringify(HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => p));
+      return o;
+    }, { ids: [...need], apis: [...apiNeed] });
+    for (const [k, v] of Object.entries(dv.decls)) out.decls[k] = v === null ? null : sha256(v);
+    for (const [k, v] of Object.entries(dv.apis)) out.apis[k] = v === null ? null : sha256(v);
+    out.allDecls = sha256(dv.all);
+    console.log(`  [FP] 宣言/API の指紋を採取 [${((Date.now() - dvT0) / 1000).toFixed(1)}s]`);
+    fpDeclsOnly = { decls: out.decls, apis: out.apis, allDecls: out.allDecls };
+    fpDeclsResolve(fpDeclsOnly);
+    for (const [rid, sp] of Object.entries(FP_RUNS)) {
+      const s = await fp.evaluate((o) => {
+        const P = HP.allPresets().find((q) => q.id === o.id);
+        if (!P) return null;
+        const p = JSON.parse(JSON.stringify(P));
+        if (o.physics) Object.assign(p.physics, o.physics);
+        if (o.dropFusion) delete p.fusion;
+        if (o.seed !== undefined) p.seed = o.seed;
+        const v = HP.validatePreset(p);
+        if (!v.ok) return null;
+        const S = HP.sim;
+        S.build(v.preset);
+        for (let k = 0; k < o.steps; k++) S.step(0.016);
+        // 全状態を「型ごとに可逆な文字列」へ(kernel.bitident の collect と同じ規約)
+        const acc = {};
+        const collect = (obj, pre, depth) => {
+          if (depth > 3) return;
+          for (const k of Object.keys(obj)) {
+            if (k === '_pkC' || k === '_kKind') continue;
+            const v2 = obj[k];
+            if (v2 === null || v2 === undefined) { acc[pre + k] = String(v2); continue; }
+            const t = typeof v2;
+            if (t === 'number') { acc[pre + k] = Object.is(v2, -0) ? '-0' : String(v2); continue; }
+            if (t === 'boolean' || t === 'string') { acc[pre + k] = t + ':' + v2; continue; }
+            if (t === 'function') continue;
+            if (ArrayBuffer.isView(v2) && v2.BYTES_PER_ELEMENT) {
+              const u = new Uint8Array(v2.buffer, v2.byteOffset, v2.byteLength);
+              let h = ''; for (let q = 0; q < u.length; q++) { const x = u[q].toString(16); h += x.length < 2 ? '0' + x : x; }
+              acc[pre + k] = 'b' + u.length + ':' + h; continue;
+            }
+            if (Array.isArray(v2)) { acc[pre + k] = 'a' + v2.length; if (v2.length > 64) continue; }
+            if (t === 'object') collect(v2, pre + k + '.', depth + 1);
+          }
+        };
+        collect(S, '', 0);
+        const keys = Object.keys(acc).sort();
+        return keys.map((k) => k + '=' + acc[k]).join('\n');
+      }, sp);
+      out.runs[rid] = (s === null) ? null : sha256(s);
+    }
+    console.log(`  [FP] 固定 seed 指紋 ${Object.keys(FP_RUNS).length} 本を採取 [${((Date.now() - t0) / 1000).toFixed(1)}s]`
+      + `(欠測=${Object.values(out.runs).filter((x) => x === null).length} — 対象に無いプリセット)`);
+    return out;
+  } },
   buoyancy: { enabled: true, weight: 38, run: (pg) => pg.evaluate(() => {
     // 🧪buoyancy 部分のみ(元7i節 1350-1361行から抽出。merger/collapse は主ページに残置)
     const s = HP.sim;
@@ -668,7 +847,7 @@ const W5C_UNITS = {
   // P2-7: 🌠merger の3点セット(潮汐尾の成長 / kFrame の効き所 / muF の効き)。
   // 実測で分かったこと: 引きずり(kFrame)の効きは **スピン加熱に集中** していて、
   // 核どうしの接近そのものはほとんど変わらない。説明文にその内訳を明記した(40C)。
-  mergerCausal: { enabled: !FAST, weight: 34, run: (pg) => pg.evaluate(() => {
+  mergerCausal: { enabled: !FAST && hasMerger, weight: 34, run: (pg) => pg.evaluate(() => {
     const STEPS = 3000;   // t=48
     // bodies 配列 [核A, 円盤A, 核B, 円盤B] から index 範囲と初期円盤半径を導出する
     // (第50便 50I: 円盤 n を 150/120→100/80 に変えたため、旧ハードコード 1..150/152..271 を
@@ -1110,6 +1289,71 @@ async function w5cGetUnit(key) {
 }
 // ==== W5c ここまで(以下、既存セクション本体。各対象セクション内の該当箇所だけ getUnit() 経由に
 // ====   置き換えてあり、判定式・閾値・detail 文字列の生成コードそのものは変更していない) ========
+// 指紋の採取は W5c プールの fpDigests ユニットが持つ(専用ページを増やさない)
+const fpPromise = FP_ON
+  ? w5cGetUnit('fpDigests').catch((e) => { console.error('[FP] 指紋の採取に失敗:', e); fpDeclsResolve(null); return null; })
+  : null;
+// テストの鍵(指紋が採れないものは null = キャッシュしない)
+async function fpKey(testId) {
+  if (!FP_ON) return null;
+  const sp = FP_SPECS[testId];
+  if (!sp) return null;
+  // 走行指紋を使わないテスト(往復系)は宣言/API だけ待てばよい — 走行 18 本の完了は待たない
+  let src;
+  if (!(sp.runs && sp.runs.length)) {
+    src = fpDigests || (fpDeclsOnly || await fpDeclsPromise);
+  } else {
+    if (fpDigests === null) fpDigests = await fpPromise;
+    src = fpDigests;
+  }
+  if (!src) return null;
+  const mat = { test: testId, target: TARGET, runs: {}, decls: {}, apis: {}, src: fpSrcSlice(testId) };
+  for (const r of (sp.runs || [])) {
+    const d = src.runs[r];
+    if (!d) return null;             // 欠測(対象に無い等)はキャッシュ対象外
+    mat.runs[r] = d;
+  }
+  for (const d of (sp.decls || [])) {
+    const h = src.decls[d];
+    if (!h) return null;
+    mat.decls[d] = h;
+  }
+  for (const a of (sp.apis || [])) {
+    const h = src.apis[a];
+    if (!h) return null;
+    mat.apis[a] = h;
+  }
+  if (sp.allDecls) mat.allDecls = src.allDecls;
+  return sha256(JSON.stringify(mat));
+}
+
+// 重いテストの本体を包む: 指紋一致なら前回の判定と detail をそのまま再利用し、本体を実行しない
+async function fpRun(testId, body) {
+  const key = await fpKey(testId);
+  const prev = (fpPrev && fpPrev.tests && fpPrev.tests[testId]) || null;
+  if (key && !QA_REFRESH && prev && prev.key === key
+      && Array.isArray(prev.results) && prev.results.length && prev.results.every((r) => r.pass)) {
+    const tag = `【cached: 指紋一致 — 前回 ${prev.date}/${String(prev.commit).slice(0, 7)} の実測をそのまま再利用】`;
+    console.log(`[FP] CACHED ${testId}(指紋一致・前回 ${prev.date}/${String(prev.commit).slice(0, 7)}`
+      + `・省略 ${((prev.ms || 0) / 1000).toFixed(1)}s。再実行は QA_REFRESH=1 / QA_CACHE=0)`);
+    for (const r of prev.results) { add(r.id, true, `${r.detail} ${tag}`); fpCachedIds.push(r.id); }
+    fpSavedMs += prev.ms || 0;
+    fpNext.tests[testId] = prev;   // 記録はそのまま持ち越す
+    return true;
+  }
+  const from = results.length;
+  const t0 = Date.now();
+  await body();
+  const made = results.slice(from);
+  if (key && made.length && made.every((r) => r.pass)) {
+    fpNext.tests[testId] = { key, commit: HEAD_COMMIT, date: new Date().toISOString().slice(0, 10),
+      htmlSha256: TARGET_SHA, ms: Date.now() - t0,
+      results: made.map((r) => ({ id: r.id, pass: r.pass, detail: r.detail })) };
+  }
+  return false;
+}
+// ==== 指紋キャッシュ ここまで ============================================================
+
 
 // ---- 1) HP.verify.all() ----
 for (const v of await page.evaluate(() => HP.verify.all().map(v => ({ id: v.id, pass: v.pass, detail: v.detail })))) {
@@ -1248,6 +1492,7 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
     return !!(v.ok && v.preset.description.length === 1000);
   });
   if (hasW83D) {
+   await fpRun('preset.roundtrip-builtins', async () => {
     const FAST_SAMPLE = ['massLadder', 'selfRotor', 'bhCore', 'starSeed', 'saturn',
       'probeH', 'freebox', 'boxrot'];
     const r = await page.evaluate(({ fast, sample }) => {
@@ -1338,6 +1583,7 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
       `t=0+400步 ${r.n400}件(${FAST ? 'QA_FAST=代表' : 'フル=全件'})=[${r.bit400Ng.slice(0, 3).join(' ')}](0件)/ ` +
       `上限は健在(desc 16000切り詰め=${r.caps.desc}・節上限内は保持=${r.caps.sectKeep}・` +
       `summary 3000超は切り詰め警告→descStruct削除=${r.caps.sectCut}・m は20000で警告つきクランプ=${r.caps.mass})`);
+   });
   } else {
     console.log('SKIP preset.roundtrip-builtins(対象に第83便D の説明文上限の実測較正なし — root 等)');
   }
@@ -3298,21 +3544,24 @@ if (hasBadgeClassify) {
     `分離(重-軽の平均y差)=${rb.buoySep.toFixed(1)} (>20)`);
 }
 {
-  const r = await page.evaluate(() => {
+  const r = await page.evaluate((hasMg) => {
     const s = HP.sim, res = {};
     // 🌠 merger: 円盤が核と同じ並進速度で生成される(bulkVx/Vy。v1.18 修正)
     // v1.24: 円盤を回転支持(kepler ≈3〜5)にしたため、有限個の回転成分のサンプリング残差
     // ≈ v/√n が平均に残る。第27便: 負荷改善で円盤 150/120 に削減 → 残差増(固定シードで
     // 決定論的に 0.447)。並進の欠落(旧バグは |v̄−v核| ≈ 1.4)とはなお十分離れており、
     // 閾値は 0.7(実測×1.5マージン)で判定する
-    HP.loadPreset('merger', false);
-    let dvx = 0, dvy = 0, dc = 0;
-    for (let i = 0; i < s.n; i++) {   // 左銀河: 核=index0、円盤=核から半径130以内の自由粒子
-      if (i === 0 || s.m[i] > 100) continue;
-      const dx = s.x[i] - s.x[0], dy = s.y[i] - s.y[0];
-      if (dx * dx + dy * dy < 130 * 130) { dvx += s.vx[i]; dvy += s.vy[i]; dc++; }
+    // 第251便b: beta では 🌠 を廃止したので、merger を持つ対象(root)だけで測る
+    if (hasMg) {
+      HP.loadPreset('merger', false);
+      let dvx = 0, dvy = 0, dc = 0;
+      for (let i = 0; i < s.n; i++) {   // 左銀河: 核=index0、円盤=核から半径130以内の自由粒子
+        if (i === 0 || s.m[i] > 100) continue;
+        const dx = s.x[i] - s.x[0], dy = s.y[i] - s.y[0];
+        if (dx * dx + dy * dy < 130 * 130) { dvx += s.vx[i]; dvy += s.vy[i]; dc++; }
+      }
+      res.mergerDv = Math.hypot(dvx / dc - s.vx[0], dvy / dc - s.vy[0]);
     }
-    res.mergerDv = Math.hypot(dvx / dc - s.vx[0], dvy / dc - s.vy[0]);
     // 🌫️ collapse: 初期回転(v1.18)でも有界・NaNなし・全角運動量が正(回転獲得)
     HP.loadPreset('collapse', false);
     for (let k = 0; k < 6000; k++) s.step(0.016);
@@ -3323,8 +3572,9 @@ if (hasBadgeClassify) {
     }
     res.colRMax = rMax; res.colL = L; res.colNaN = s.hasNaN();
     return res;
-  });
-  add('merger.bulk-velocity', r.mergerDv < 0.7, `|v̄円盤−v核|=${r.mergerDv.toFixed(3)} (<0.7 — 回転サンプリング残差込み・第27便 n削減で更新)`);
+  }, hasMerger);
+  if (!hasMerger) console.log('SKIP merger.bulk-velocity(対象に 🌠merger なし — 第251便b で beta から廃止)');
+  if (hasMerger) add('merger.bulk-velocity', r.mergerDv < 0.7, `|v̄円盤−v核|=${r.mergerDv.toFixed(3)} (<0.7 — 回転サンプリング残差込み・第27便 n削減で更新)`);
   add('collapse.rotation', !r.colNaN && r.colRMax < 600 && r.colL > 0,
     `rMax=${r.colRMax.toFixed(0)} (<600) L=${r.colL.toFixed(0)} (>0)`);
 }
@@ -3656,13 +3906,20 @@ if (hasBadgeClassify) {
     res.descOpen = !!opened && opened.textContent.length > 10;
     lab.click();
     res.descClose = !document.querySelector('#paramRows .pdesc');
-    // ③ オーバーレイスロット: merger は回転曲線と温度グラフが別スロット(重ならない)
-    HP.loadPreset('merger', false);
+    // ③ オーバーレイスロット: 2グラフのサンプルは別スロット(重ならない)
+    // 第251便b: 代表は 🌠merger(回転曲線+温度グラフ)。beta では廃止したので、同じ「2スロット」
+    //           構成の 🎡galaxyStd(回転曲線+機構スペクトル)で測る。判定式(2スロットの
+    //           baseY が別)は同一 — slots[0]/slots[1] は元の rotationCurve/tempHistogram と同じ位置
+    const ovId = HP.allPresets().some((q) => q.id === 'merger') ? 'merger' : 'galaxyStd';
+    HP.loadPreset(ovId, false);
     const slots = HP.overlaySlots();
-    res.slots = slots;
-    res.slotDistinct = slots.length === 2 &&
-      HP.overlayBaseY(slots.indexOf('rotationCurve')) !== HP.overlayBaseY(slots.indexOf('tempHistogram'));
-    // ④ 軌跡の対象限定: merger(trailTargets:"sampled")は核+代表のみ記録される
+    res.slots = slots; res.ovId = ovId;
+    res.slotDistinct = slots.length === 2 && HP.overlayBaseY(0) !== HP.overlayBaseY(1);
+    // ④ 軌跡の対象限定: trailTargets:"sampled" は核+代表のみ記録される
+    //   (第251便b: 代表を 🌠merger → 🌫️collapse へ — どちらも trailTargets:"sampled")
+    const trId = HP.allPresets().some((q) => q.id === 'merger') ? 'merger' : 'collapse';
+    HP.loadPreset(trId, false);
+    res.trId = trId;
     HP.setRunning(true);
     await new Promise(res2 => setTimeout(res2, 500));
     HP.setRunning(false);
@@ -3687,8 +3944,8 @@ if (hasBadgeClassify) {
   add('params.desc-all', r.descMissingJa.length === 0 && r.descMissingEn.length === 0,
     `ja欠落=${r.descMissingJa.join(',') || 'なし'} en欠落=${r.descMissingEn.join(',') || 'なし'}`);
   add('params.desc-toggle', r.descOpen && r.descClose, '');
-  add('overlay.slots-distinct', r.slotDistinct, `merger slots=${JSON.stringify(r.slots)}`);
-  add('trail.sampled', r.trailSampled, `記録本数=${r.trailN}(核2+代表16前後、全352ではない)`);
+  add('overlay.slots-distinct', r.slotDistinct, `${r.ovId} slots=${JSON.stringify(r.slots)}`);
+  add('trail.sampled', r.trailSampled, `${r.trId}: 記録本数=${r.trailN}(核+代表16前後、全粒子ではない)`);
   add('spinlens.kframe-control', r.spinlensCtl,
     `非対称度 kF=1: ${r.asym1.toExponential(2)} / kF=0: ${r.asym0.toExponential(2)}(0で消失)`);
   add('projectile.layout', r.projOk, '説明「下段は斜方投射」と bodies[3](最大y・vy<0)の一致');
@@ -4554,6 +4811,7 @@ if (!FAST) {
   {
     const hasStd = await page.evaluate(() => HP.allPresets().some(p => p.id === 'galaxyStd'));
     if (hasStd) {
+     await fpRun('claim.galaxystd-outerboost', async () => {
       const r2 = await page.evaluate(() => {
         const s = HP.sim;
         HP.loadPreset('galaxyStd', false);
@@ -4580,6 +4838,7 @@ if (!FAST) {
         `vφ外縁 kF1=${r2.gA.toFixed(3)} kF0=${r2.gB.toFixed(3)} 比=${ratio.toFixed(4)}` +
         `(窓1.15〜1.4・較正実測1.2646) / 純度Π: 測地線=${r2.pi ? r2.pi[1] : '?'} 熱斥力=${r2.pi ? r2.pi[2] : '?'} ` +
         `結合=${r2.pi ? r2.pi[4] : '?'}(厳密0)・引きずり=${r2.pi ? (r2.pi[5] * 100).toFixed(1) + '%' : '?'}(>15% — 実測24.5%)`);
+     });
     } else {
       console.log('SKIP claim.galaxystd-outerboost(対象に 66B 未適用 — root 等)');
     }
@@ -4594,6 +4853,7 @@ if (!FAST) {
   {
     const hasG2 = await page.evaluate(() => HP.allPresets().some(p => p.id === 'galaxyGeo2'));
     if (hasG2) {
+     await fpRun('claim.galaxygeo2-outerboost', async () => {
       const r2 = await page.evaluate(() => {
         const s = HP.sim;
         HP.loadPreset('galaxyGeo2', false);
@@ -4624,6 +4884,7 @@ if (!FAST) {
         `(${ggNote})/ 純度Π: 熱斥力=${r2.pi ? r2.pi[2] : '?'} ` +
         `結合=${r2.pi ? r2.pi[4] : '?'}(厳密0)・測地線=${r2.pi ? (r2.pi[1] * 100).toFixed(1) + '%' : '?'}(>2% — 1PN)` +
         `・引きずり=${r2.pi ? (r2.pi[5] * 100).toFixed(1) + '%' : '?'}(>10% — 輸送+渦度)/ クランプ=${r2.clampV}`);
+     });
     } else {
       console.log('SKIP claim.galaxygeo2-outerboost(対象に 💫galaxyGeo2 なし — root 等。第70便)');
     }
@@ -4783,6 +5044,7 @@ if (!FAST) {
   {
     const hasDB = await page.evaluate(() => HP.allPresets().some(p => p.id === 'galaxyDB'));
     if (hasDB) {
+     await fpRun('claim.galaxydb-contrast', async () => {
       const r = await page.evaluate(() => {
         HP.loadPreset('galaxyDB', false);
         HP.abStart('kFrame', 0);
@@ -4819,6 +5081,7 @@ if (!FAST) {
         `|spin| ${r.b.spinAbs.toFixed(2)}/${r.d.spinAbs.toFixed(2)}=${spinR.toFixed(2)}(窓1.5〜2.4・実測1.92)/ ` +
         `公転 vt disk=${r.d.vt.toFixed(2)} bulge=${r.b.vt.toFixed(2)}(回転支持 vs 分散支持)/ ` +
         `kF0対照 spin=${r.d0.spinAbs}/${r.b0.spinAbs}(厳密0 — E6′③が唯一の経路)`);
+     });
     } else {
       console.log('SKIP claim.galaxydb-contrast(対象に 🍳galaxyDB なし — root 等。第74便)');
     }
@@ -5303,7 +5566,7 @@ if (!FAST) {
       console.log('SKIP preset.rmul-audit(対象に第213便の rMul 整理なし — root 等)');
     } else {
     const r = await page.evaluate((has218in) => {
-      const ones = [], radSingles = [];
+      const ones = [], radSingles = []; let rmulCtl = '';
       for (const p of HP.allPresets())
         (p.bodies || []).forEach((b, bi) => {
           if (b.rMul === 1) ones.push(p.id + '#' + bi);
@@ -5320,10 +5583,16 @@ if (!FAST) {
         const g0 = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'galaxy')));
         const g1 = JSON.parse(JSON.stringify(g0)); g1.bodies[0].radius = 40;
         ctlRadius = !same(snap(g0), snap(g1));
-        // ②merger 核(radius なし・rMul:1.2)の rMul を 2.5 へ — 従来写像側の rMul が除外を駆動
-        const m0 = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'merger')));
-        const m1 = JSON.parse(JSON.stringify(m0)); m1.bodies[0].rMul = 2.5;
+        // ②radius なし single の rMul を上げる — 従来写像側の rMul が除外を駆動する対照。
+        //   第251便b: 代表だった 🌠merger 核(rMul 1.2→2.5)は beta で廃止したので、merger が
+        //   無い対象では 💥counterring 中心(radius なし・rMul:0.8)を 0.8→4 へ振る(用量は
+        //   除外半径が環の配置を動かす最小値を実測して決めた。判定「配置が変わる=true」は不変)
+        const ctlId = HP.allPresets().some((q) => q.id === 'merger') ? 'merger' : 'counterring';
+        const ctlDose = (ctlId === 'merger') ? 2.5 : 4;
+        const m0 = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === ctlId)));
+        const m1 = JSON.parse(JSON.stringify(m0)); m1.bodies[0].rMul = ctlDose;
         ctlRmul = !same(snap(m0), snap(m1));
+        rmulCtl = ctlId + ' 中心(radius なし)rMul ' + m0.bodies[0].rMul + '→' + ctlDose;
       } else {
         // 第216便世代(exclMode なし): 旧対照 — galaxy 中心へ rMul:1.2 を足すと変わる
         const p0 = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'galaxy')));
@@ -5331,7 +5600,7 @@ if (!FAST) {
         ctlRadius = !same(snap(p0), snap(p1)); ctlRmul = true;
       }
       HP.loadPreset('saturn', false);
-      return { ones, radSingles, ctlRadius, ctlRmul };
+      return { ones, radSingles, ctlRadius, ctlRmul, rmulCtl };
     }, has218);
     add('preset.rmul-audit',
       r.ones.length === 0 && r.radSingles.length === 0 && r.ctlRadius === true && r.ctlRmul === true,
@@ -5340,7 +5609,7 @@ if (!FAST) {
       `${(r.ones.length || r.radSingles.length) ? ' NG=[' + r.ones.concat(r.radSingles).slice(0, 6).join(' ') + ']' : ''} / ` +
       (has218
         ? `生存対照(第218便原理): galaxy 中心 radius 15→40 で配置が変わる=${r.ctlRadius}・` +
-          `merger 核(radius なし)rMul 1.2→2.5 で配置が変わる=${r.ctlRmul}` +
+          `${r.rmulCtl} で配置が変わる=${r.ctlRmul}` +
           `(除外=配置粒子の実半径 — radius 併記では rMul が除外にも効かないので lint で禁止できる)`
         : `否定対照(第216便世代): galaxy 中心へ rMul:1.2 を足すと配置が変わる=${r.ctlRadius}`));
     }
@@ -5391,6 +5660,7 @@ if (!FAST) {
   {
     const hasBH = await page.evaluate(() => HP.allPresets().some(p => p.id === 'bhCore'));
     if (hasBH) {
+     await fpRun('claim.bhcore-selfdrive', async () => {
       const r = await page.evaluate(() => {
         const F96 = HP.allPresets().find(q => q.id === 'bhCore').physics.G === 0.2 ? 2 : 1;   // 第96便: 相似世代(G=0.2)は步数×2・スピン量×0.5 — 第126便: 巻き戻し世代(G=0.8・c₀=30)は×1
         const run = (mod) => {
@@ -5430,6 +5700,7 @@ if (!FAST) {
         `自走: 殻 ${r.a.sh0}→${r.a.shell.toFixed(3)}(窓 実測±10% — c₀=30単位) コアΩ ${r.a.om0.toFixed(1)}→${r.a.om1.toFixed(2)}(半減以下)/ ` +
         `中心lSw=${r.a.lSw.toFixed(3)}(>0.95 — 真っ暗)/ コアなし対照=${r.ncBoost.toFixed(3)}(<1.15 — コアが主因)/ ` +
         `帳簿込み|ΔL|=${r.a.relL.toExponential(1)}(<1e-3)`);
+     });
     } else {
       console.log('SKIP claim.bhcore-selfdrive(対象に ⚫bhCore なし — root 等。第78便)');
     }
@@ -5448,6 +5719,7 @@ if (!FAST) {
       return !!(p && p.balanceFrame === 'barycentric' && p.bodies[0].pinned === false);
     });
     if (hasBHF) {
+     await fpRun('claim.bhcore-free', async () => {
       const r = await page.evaluate(() => {
         const F96 = HP.allPresets().find(q => q.id === 'bhCore').physics.G === 0.2 ? 2 : 1;   // 第96便→第126便: 相似世代はG=0.2で判定(巻き戻し世代は×1)
         const run = (kFrame) => {
@@ -5507,6 +5779,7 @@ if (!FAST) {
         `中心lSw=${r.a.lSw.toFixed(3)}(≥0.99) 保持率=${r.a.keep.toFixed(3)}(≥0.95)/ ` +
         `BH重心相対 最大変位=${r.a.dMax.toFixed(3)}(0.2〜8 — 固定ではない有限反跳) 最大速度=${r.a.vMax.toFixed(4)}(<0.2)/ ` +
         `重心系初期化=${r.a.bf} 帳簿込み|ΔL|=${r.a.relL.toExponential(1)}(<1e-5)`);
+     });
     } else {
       console.log('SKIP claim.bhcore-free(対象の ⚫bhCore が自由中心構成でない — root 等。第81便)');
     }
@@ -6071,20 +6344,23 @@ if (!FAST) {
         const inert = (id, steps) => { HP.loadPreset(id, false);
           for (let k = 0; k < steps; k++) HP.sim.step(0.016);
           return HP.sim.clampRN; };
-        const drN = inert('darkrotor', 6000), mgN = inert('merger', 4000);
+        // 第251便b: 🌠merger は beta で廃止 — 持つ対象(root)だけ 4000步 の無発動を確認する
+        const drN = inert('darkrotor', 6000);
+        const mgN = HP.allPresets().some((q) => q.id === 'merger') ? inert('merger', 4000) : null;
         HP.loadPreset('saturn', false);
         return { patho, drN, mgN };
       });
       const relL = r.patho.dL / Math.max(1, r.patho.lScale);
       add('clamp.reaction-cap',
         !r.patho.nan && r.patho.clampR > 0 && r.patho.clampV === 0 && r.patho.vMax < 20
-        && r.patho.dP < 0.05 && relL < 2e-3 && r.patho.res > 1 && r.drN === 0 && r.mgN === 0,
+        && r.patho.dP < 0.05 && relL < 2e-3 && r.patho.res > 1 && r.drN === 0
+        && (r.mgN === null || r.mgN === 0),
         `病的構成(D0=0・質量比1:1.2e4・2000步): 発動=${r.patho.clampR}回・速度クランプ=${r.patho.clampV}` +
         `(旧実測1998回 → 0)・惑星 v最大=${r.patho.vMax.toFixed(1)}(<20・旧100)・` +
         `|ΔΣP|帳簿込み=${r.patho.dP.toExponential(1)}(<0.05)・|ΔΣL|帳簿込み/スケール=` +
         `${relL.toExponential(1)}(<2e-3・スピンクランプ${r.patho.clampS}回分は帳簿外)・` +
         `リザーバ吸収=${r.patho.res.toFixed(1)} / 正規ドラッグ系は不発: 🕶️6000步=${r.drN}回・` +
-        `🌠merger4000步=${r.mgN}回(=0 — 既存挙動 bit 不変)`);
+        `🌠merger4000步=${r.mgN === null ? 'SKIP(第251便b で廃止 — 対象に無し)' : r.mgN + '回(=0 — 既存挙動 bit 不変)'}`);
     } else {
       console.log('SKIP clamp.reaction-cap(対象に clampRN なし — root 等。第71便 P0)');
     }
@@ -6760,6 +7036,7 @@ if (!FAST) {
   const hasUN = await page.evaluate(() =>
     ['uranusReal', 'neptuneReal'].every((id) => HP.allPresets().some((q) => q.id === id)));
   if (hasUN) {
+   await fpRun('behavior.uranusReal', async () => {
     const un = await page.evaluate(() => {
       const P = (id) => HP.allPresets().find((q) => q.id === id);
       const run = (preset, patch, orbitsU, nSat) => {
@@ -6869,6 +7146,7 @@ if (!FAST) {
         `振れ幅 kF1 ${(n.kf1.wob[0] * 100).toPrecision(3)}% / kF0 ${(n.kf0.wob[0] * 100).toPrecision(3)}% / ` +
         `決定性=${n.det} / ${n.kf1.steps}步×2本`);
     }
+   });
   } else {
     console.log('SKIP behavior.uranusReal / behavior.neptuneReal(対象に第186便の2サンプルなし — root 等)');
   }
@@ -11516,8 +11794,7 @@ if (!FAST) {
         'psrDoubleABSpinCal', 'gw150914Merge4s', 'gw150914SpinDipole', 'mmPhaseToy',
         'psrJ1757DFM', 'psrJ1946DFM',
         'psrDoubleABPN', 'psrJ1757PN', 'psrJ1946PN',
-        'galaxyFieldLines', 'galaxyTiltPrecess', 'galaxyBarRotors',
-        'axisBarStill', 'axisBarArms', 'axisBarReach'];   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)/ 第247便d: 🪞 mmPhaseToy(pull 明示の原理サンプル)/ 第248便a: 🧮🩺(⚡ の処方をそのまま当てた NS 連星 hold-out — ⚡ と同じ pull 宣言) / 第248便c: 🍥🪁🍢(銀河形態の原理サンプル — pull 既定)/ 第249便a: 🪶🪃🪀(NS 応答候補 λ_PN=1/f の variant — 複製元と同じ pull 宣言) / 第249便c: 🥢🎏🎚️(axisForce 玩具の原理サンプル — pull 既定)
+        'axisBarStill', 'axisBarArms', 'axisBarReach'];   // 第251便b: 第248便c の 3 本(🍥🪁🍢)は廃止   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)/ 第247便d: 🪞 mmPhaseToy(pull 明示の原理サンプル)/ 第248便a: 🧮🩺(⚡ の処方をそのまま当てた NS 連星 hold-out — ⚡ と同じ pull 宣言) / 第248便c: 🍥🪁🍢(銀河形態の原理サンプル — pull 既定)/ 第249便a: 🪶🪃🪀(NS 応答候補 λ_PN=1/f の variant — 複製元と同じ pull 宣言) / 第249便c: 🥢🎏🎚️(axisForce 玩具の原理サンプル — pull 既定)
       const all = HP.allPresets(); let nShare = 0, nOther = 0; const wrong = [];
       for (const q of all) { const fw = q.physics && q.physics.frameWeight; if (MIG.indexOf(q.id) >= 0) { if (fw !== undefined && fw !== 'pull') wrong.push(q.id); } else if (fw === 'share') nShare++; else { nOther++; wrong.push(q.id); } }
       // 🌘: 宣言どおり(pull・D0pull=3.36e-5)で generic・近点移動 2.995°/周。pull3/pull4 は再較正値で同窓
@@ -12742,6 +13019,7 @@ if (!FAST) {
   //     「muF は円盤に届いていて結果を変える」という **存在** だけである
   //   ・核間距離の kFrame 差: 相対差 >1e-3(実測 5.5e-3/5.2e-3 = 5.5/5.2倍)かつ <0.05
   //     (実測の 9.1/9.7倍下 — **「引きずりは軌道にはほとんど効かない」ことの上限側の固定**)
+  if (hasMerger) {
   const mg = await w5cGetUnit('mergerCausal');
   const spinRatio = mg.base.end.meanSpin / (mg.kf0.end.meanSpin || 1e-12);
   const mufRel = Math.abs(mg.base.end.meanSpin - mg.muf0.end.meanSpin) / (mg.muf0.end.meanSpin || 1e-12);
@@ -12773,6 +13051,9 @@ if (!FAST) {
     `(5e-4 < 差 < 5% — **接近期の軌道にはほとんど効かないことの上限固定**。深接触期 ${mg.steps}步では ` +
     `${(sepRelEnd * 100).toFixed(2)}% まで育つ — 効きの現れる時期の内訳ごと固定) ` +
     `— 引きずりの効きはまずスピン加熱に集中し、接近期の軌道は変えない(第40便 40C+第50便 50I)`);
+  } else {
+    console.log('SKIP behavior.merger-causal(対象に 🌠merger なし — 第251便b で beta から廃止。root 昇格時に本節ごと削除)');
+  }
 
   // ---- P2-8: 🌫️collapse の etaRad 対照(**否定的結果の固定**)----
   // 説明文の主張「放射冷却(E11)による収縮」「etaRad/pRad を変えると冷却効率が崩壊速度に効く」を
@@ -13581,7 +13862,7 @@ if (!FAST) {
         && ['nebulaRotor', 'nebulaShell', 'nebulaBipolar', 'selfRotor', 'starSeed'].every(
           (id) => eq((r.fam151 || {})[id], ['rotorform', id === 'nebulaRotor' ? 'primary' : 'variant', ROTOR]))
         && eq((r.fam151 || {}).counterring, [null, null, '天体の物語'])
-        && eq((r.fam151 || {}).merger, [null, null, '銀河の物語']);
+        && (!hasMerger || eq((r.fam151 || {}).merger, [null, null, '銀河の物語']));   // 第251便b: 🌠 は beta で廃止
       const ok = r.nFam > 0 && multi.length === 0 && moved;
       add('groups.family-invariant', !r.w151Gen || ok,
         r.w151Gen
@@ -13596,9 +13877,10 @@ if (!FAST) {
     add('ai.base-context', r.baseOpts >= 28 && r.baseCtx && r.basePlain,
       `候補=${r.baseOpts} 文脈注入=${r.baseCtx} 未選択は素通し=${r.basePlain}`);
 
-    // ⑤ グラフ最小化: merger の2グラフで高さ 92→16 のスロット再配置
+    // ⑤ グラフ最小化: 2グラフのサンプルで高さ 92→16 のスロット再配置
+    //    (第251便b: 代表は 🌠merger。beta では廃止したので 🎡galaxyStd で測る — 判定式は不変)
     const ov = await page.evaluate(() => {
-      HP.loadPreset('merger', false);
+      HP.loadPreset(HP.allPresets().some((q) => q.id === 'merger') ? 'merger' : 'galaxyStd', false);
       const uz = HP.uiScale ? HP.uiScale() : 1;   // 第27便: 既定=1.15 でも成立するよう実スケールで判定
       const y0a = HP.overlayBaseY(0), y1a = HP.overlayBaseY(1);
       HP.ovMin.rotationCurve = true;
@@ -13780,11 +14062,16 @@ if (!FAST) {
     const pc = await page.evaluate(() => {
       const tot = (id) => { const p = HP.allPresets().find(q => q.id === id);
         return p.bodies.reduce((a, b) => a + (b.type === 'single' ? 1 : b.n), 0); };
-      const mq = HP.allPresets().find(q => q.id === 'merger').physics.q;
-      return { merger: tot('merger'), counterring: tot('counterring'), darkrotor: tot('darkrotor'), mq };
+      // 第251便b: 🌠merger は beta で廃止 — 持つ対象(root)だけ merger の 2 項を見る
+      const hasMg = HP.allPresets().some(q => q.id === 'merger');
+      const mq = hasMg ? HP.allPresets().find(q => q.id === 'merger').physics.q : null;
+      return { merger: hasMg ? tot('merger') : null, counterring: tot('counterring'), darkrotor: tot('darkrotor'), mq };
     });
-    add('perf.particle-caps', pc.merger <= 280 && pc.counterring <= 210 && pc.darkrotor <= 410 && pc.mq === 2,
-      `merger=${pc.merger}(≤280) counterring=${pc.counterring}(≤210) darkrotor=${pc.darkrotor}(≤410) q=${pc.mq}(=2)`);
+    add('perf.particle-caps',
+      (pc.merger === null || (pc.merger <= 280 && pc.mq === 2))
+      && pc.counterring <= 210 && pc.darkrotor <= 410,
+      `merger=${pc.merger === null ? 'SKIP(第251便b で廃止)' : pc.merger + '(≤280) q=' + pc.mq + '(=2)'} ` +
+      `counterring=${pc.counterring}(≤210) darkrotor=${pc.darkrotor}(≤410)`);
 
     // ⑤ タイトル説明のキーボード対応(第24次レビュー P1-4)
     const kb = await page.evaluate(() => {
@@ -18881,6 +19168,7 @@ if (hasEchoFlipAt) {
       // ⑦ phasechange.emergent: 🧬 三態の創発(純創発版 — 潜熱・相率なし)。実測(第60便
       //    2026-08-02): 1500步 固体状(c̄3.46・最大32粒)→ 12000步 液滴・分子群(c̄2.36・34成分)
       //    → 45000步 分子ガスの準定常(c̄2.41・30成分 最大9粒)。res 6.3e-4・クランプ0
+      await fpRun('phasechange.emergent', async () => {
       const em = await runStats('emergent', 45000, [1500, 12000]);
       add('phasechange.emergent',
         !em.nan
@@ -18893,10 +19181,12 @@ if (hasEchoFlipAt) {
         `12000步 液滴・分子群(c̄=${em[12000].cMean.toFixed(2)}<2.9・${em[12000].nComp}成分) → ` +
         `45000步 分子ガス(c̄=${em.end.cMean.toFixed(2)}・${em.end.nComp}成分 最大${em.end.maxComp}≤15 — 予算集中で「分子」が創発) ` +
         `帳簿残差=${em.res.toExponential(2)}(<1e-2 — 潜熱なしでも share 再配分の熱交換で閉鎖) クランプ=${em.clampA}回・あふれ=${em.ovf}回`);
+      });
 
       // ⑧ phasechange.emergent2: 🧊 格子も分子も(予算3×角度120°+創発伝導)。実測(第60便):
       //    60000步冷却で T̄=0.15・c̄3.04・3配位率0.375・角偏差17.5°(angK=0 対照は 79.2° の
       //    密集塊 c̄4.09)・3成分 最大44粒・res 2.8e-2・クランプ0
+      await fpRun('phasechange.emergent2', async () => {
       const e2 = await runStats('emergent2', 60000, []);
       add('phasechange.emergent2',
         !e2.nan
@@ -18907,10 +19197,12 @@ if (hasEchoFlipAt) {
         `角偏差=${e2.end.ang120.toFixed(1)}°(<25° — angK=0 対照の実測79.2°から1/4=リンク台帳なしの蜂の巣格子) ` +
         `連結=${e2.end.nComp}成分(≤6・最大${e2.end.maxComp}≥35) 帳簿残差=${e2.res.toExponential(2)}(<0.1 — bondN=3域のshare交差項・angK=0対照でも同階級) ` +
         `クランプ=${e2.clampA}回・近傍あふれ=${e2.ovf}回`);
+      });
 
       // ⑨ phasechange.chain2: ⛓️ 鎖の創発(予算2×角度180°)。実測(第60便): 45000步で
       //    2配位率0.80・c̄1.89・180°偏差13°(angK=0 対照は 94.5° の等方塊 c̄3.0)・8成分 最大37粒・
       //    res 2.3e-2・クランプ0 — 結合価の台帳なしで鎖が自己組織化
+      await fpRun('phasechange.chain2', async () => {
       const c2r = await runStats('chain2', 45000, []);
       add('phasechange.chain2',
         !c2r.nan
@@ -18922,9 +19214,11 @@ if (hasEchoFlipAt) {
         `180°偏差=${c2r.end.ang180.toFixed(1)}°(<25° — angK=0 対照の実測94.5°=まっすぐな鎖) ` +
         `連結=${c2r.end.nComp}成分(≤15・最大${c2r.end.maxComp}≥25 — 長い鎖) T̄=${c2r.end.T.toFixed(2)} ` +
         `帳簿残差=${c2r.res.toExponential(2)}(<0.1) クランプ=${c2r.clampA}回・あふれ=${c2r.ovf}回`);
+      });
 
       // ⑩ phasechange.multiseed: ⛓️chain2 の鎖創発が seed に依らない(seed 7/8/9 × 15000步 —
       //    ノイズ実現が違っても構造の族〔鎖〕は同じ。欠陥・端点数だけが変動する)
+      await fpRun('phasechange.multiseed', async () => {
       const seeds = [];
       for (const sd of [7, 8, 9]) {
         const r = await page.evaluate(({ sd }) => {
@@ -18955,6 +19249,7 @@ if (hasEchoFlipAt) {
         seeds.every(x => !x.nan && x.frac2 > 0.5 && x.ang < 30),
         `⛓️chain2 15000步 × seed3種: ` + seeds.map(x => `seed${x.sd}: 2配位率=${x.frac2.toFixed(2)}(>0.5) 180°偏差=${x.ang.toFixed(1)}°(<30°)`).join(' / ') +
         ` — 鎖の創発は seed 非依存(欠陥数のみ変動)`);
+      });
 
       // ⑪ phasechange.dt-convergence: dt 半減(0.016→0.008)で同じモデル時刻 t=96 の熱力学
       //    集計量(T̄・c̄)が収束していること(軌道は混沌でも集計量は壁駆動で頑健 — emergent2 冷却)
@@ -18982,6 +19277,7 @@ if (hasEchoFlipAt) {
       {
         const hasCyc = await page.evaluate(() => HP.allPresets().some(p => p.id === 'chaincycle'));
         if (hasCyc) {
+          await fpRun('claim.chaincycle', async () => {
           const cyc = await page.evaluate(() => {
             HP.loadPreset('chaincycle', false);
             const s = HP.sim;
@@ -19024,6 +19320,7 @@ if (hasEchoFlipAt) {
             `♻️凍結末(t=288): 最大連結=${cyc.fz.maxComp}(窓25〜50・実測36) 組替=${cyc.fz.churn.toFixed(3)}(<0.05) T̄=${cyc.fz.T.toFixed(2)} / ` +
             `解離末(t=528): ${cyc.ml.nComp}成分(窓50〜95・実測71) 最大=${cyc.ml.maxComp}(≤12) 組替=${cyc.ml.churn.toFixed(3)}(>0.15) ` +
             `T̄=${cyc.ml.T.toFixed(2)}(凍結末の3倍超) — 相・融点・潜熱の入力なしで凍結⇄解離が壁温だけで往復`);
+          });
         } else {
           console.log('SKIP claim.chaincycle(対象に 67A 未適用 — root 等)');
         }
@@ -19732,6 +20029,7 @@ if (hasSwAutoCb) {
 {
   const hasSR = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'selfRotor'));
   if (hasSR) {
+    await fpRun('behavior.selfrotor', async () => {
     const r = await page.evaluate(() => {
       const S = HP.sim;
       const P = HP.allPresets().find((p) => p.id === 'selfRotor');
@@ -19835,6 +20133,7 @@ if (hasSwAutoCb) {
       `保存: |ΔL|/L_scale=${m.relL.toExponential(2)}(<1e-4) clamp=${m.clampV}/${m.clampR} NaN=${m.nan} / ` +
       `バッジ: 閉鎖系=${r.cls.closed}・E水準=${r.emergence}・分類=${r.cls.sampleClass} / ` +
       `第82便B の較正実測 = 25体/155回/26.7%/0.589/0.159/種48個/対照0.56%・J=0`);
+    });
   } else {
     console.log('SKIP behavior.selfrotor(対象に 🥚selfRotor なし — 第82便B 未適用の root 等)');
   }
@@ -19857,6 +20156,7 @@ if (!FAST) {
   const hasSR2 = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'selfRotor'
     && Array.isArray(p.claims) && p.claims.some((c) => c.id === 'selfRotor.multi-seed-min-mass-fraction')));
   if (hasSR2) {
+    await fpRun('behavior.selfrotor-multiseed', async () => {
     const r = await page.evaluate((seeds) => {
       const S = HP.sim;
       const P = HP.allPresets().find((p) => p.id === 'selfRotor');
@@ -19919,6 +20219,7 @@ if (!FAST) {
       `減光コントラスト(中心/周囲) 本則 ${con.map((v) => v.toFixed(2)).join('/')} vs ` +
       `対照 ${conC.map((v) => v.toFixed(2)).join('/')}(重なりなし) / ` +
       `E水準=${r.emergence} / 16seed の正本は tests/exp-4-85.mjs(質量比 18.3〜53.3%・中央34.7%)`);
+    });
   } else {
     console.log('SKIP behavior.selfrotor-multiseed(対象に 🥚 の multi-seed claim なし — 第83便A 未適用の root 等)');
   }
@@ -19945,6 +20246,7 @@ if (!FAST) {
     return p && Array.isArray(p.claims) && p.claims.some((c) => c.kind === 'multi-seed');
   }), PIDS);
   if (hasPM) {
+    await fpRun('behavior.phase-multiseed', async () => {
     const r = await page.evaluate((seeds) => {
       const S = HP.sim;
       // 秩序変数(相変化グラフ量と同じ定義 — 第60便 QA と一致)
@@ -20069,6 +20371,7 @@ if (!FAST) {
       `E水準=🧬${r.emergence.emergent}・🧊${r.emergence.emergent2}・⛓️${r.emergence.chain2}・♻️${r.emergence.chaincycle}` +
       `(第84便A: ⑤摂動回復が4件とも通らないため E3 昇格なし) / ` +
       `16seed(7〜22)の分布は tests/exp-4-87.mjs が正本: 🧬c̄1.98〜2.75・🧊角偏差12.3〜44.1°・⛓️2配位率0.696〜0.804・♻️成分48〜84`);
+    });
   } else {
     console.log('SKIP behavior.phase-multiseed(対象に 🧬🧊⛓️♻️ の multi-seed claim なし — 第84便A 未適用の root 等)');
   }
@@ -20847,7 +21150,9 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         if (p.en && p.en.descStruct) {
           if (joined(p.en.descStruct) !== p.en.description) bad.push(p.id + ':en'); }
       }
-      const pilots = ['convection', 'merger', 'probeH'].every((id) => ids.includes(id));
+      // 第251便b: 🌠merger は beta で廃止 — 対象に存在するパイロットだけを判定する(root は3件)
+      const PILOTS = ['convection', 'merger', 'probeH'].filter((id) => HP.allPresets().some((q) => q.id === id));
+      const pilots = PILOTS.length >= 2 && PILOTS.every((id) => ids.includes(id));
       // UI: 区分見出し(ja)
       HP.loadPreset('convection', false);
       const headsJa = document.querySelectorAll('#helpBody .descSectHead').length;
@@ -24102,6 +24407,8 @@ add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '
 // W5c: ワーカープールの後片付け(全ユニットは既に上流の getUnit() で待ち合わせ済みのはずだが、
 // 各ワーカーの wp.close() 完了を確実に待ってから共有 browser を閉じる)
 if (w5cPoolPromise) await w5cPoolPromise;
+// 第251便b: 指紋ページの後片付け(キャッシュが 1 件も使われなくても採取は完了させる)
+if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 await browser.close();
 
 // ---- 結果JSON(コミット固定の再現記録)----
@@ -24134,9 +24441,24 @@ const QA_OUT = JSON.stringify({
   env: { node: process.version, playwright: playwrightVersion, platform: `${process.platform}/${process.arch}` },
   total: results.length, failed: results.filter(r => !r.pass).length, pass,
   durationMs: results.reduce((a, r) => a + (r.ms || 0), 0),  // 第17便: 項目別 ms の合計
+  // 第251便b: 指紋キャッシュで再実行を省いた項目(cached=0 なら従来どおりの全実行)
+  cache: { enabled: FP_ON, refresh: QA_REFRESH, cached: fpCachedIds.slice(),
+    cachedCount: fpCachedIds.length, savedMs: fpSavedMs, file: 'tests/out/qa-fingerprints.json' },
   results,
 }, null, 1);
 fs.writeFileSync(path.join(OUT_DIR, 'qa-results.json'), QA_OUT);
 if (TARGET.startsWith('beta/')) fs.writeFileSync(path.join(OUT_DIR, 'qa-results-beta.json'), QA_OUT);
-console.log(`\n${pass ? 'ALL PASS' : 'FAILED'} (${results.filter(r => r.pass).length}/${results.length}) → tests/out/qa-results.json${TARGET.startsWith('beta/') ? ' (+qa-results-beta.json)' : ''}`);
+// 第251便b: 指紋の記録(コミットする)。target ごとに 1 区画で、他の target の記録は保持する
+if (FP_ON && fpDigests) {
+  fpNext.runs = fpDigests.runs;
+  fpNext.decls = fpDigests.decls;
+  fpNext.apis = fpDigests.apis;
+  fpNext.allDecls = fpDigests.allDecls;
+  const all = (fpPrevAll && fpPrevAll.targets) ? fpPrevAll : { schema: 1, targets: {} };
+  all.schema = 1;
+  all.targets[TARGET] = fpNext;
+  fs.writeFileSync(FP_PATH, JSON.stringify(all, null, 1));
+}
+console.log(`\n${pass ? 'ALL PASS' : 'FAILED'} (${results.filter(r => r.pass).length}/${results.length}) → tests/out/qa-results.json${TARGET.startsWith('beta/') ? ' (+qa-results-beta.json)' : ''}`
+  + (FP_ON ? ` / 指紋キャッシュ: cached=${fpCachedIds.length}件(省略 ${(fpSavedMs / 1000).toFixed(1)}s・記録 tests/out/qa-fingerprints.json)` : ' / 指紋キャッシュ: 無効'));
 process.exit(pass ? 0 : 1);
