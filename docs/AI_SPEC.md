@@ -764,7 +764,16 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   `current`(案K)は `kappa`・`chiGate`(既定 0.5)・`rc`、`manev` は `alphaK`(既定 3)・`cGate`(既定 0.01)・`rc`・`fMass`、`lj` は `C6`・`C8`・`rc`・`xiTh`(既定 0.05)・`sFloor`(既定 1e-12)を取る。
   **用量 0(current の κ=0・manev の alphaK=0・lj の C₆=C₈=0)は未宣言へ正規化**され、プリセット署名・エクスポート JSON が 1 文字も変わらない(未宣言は `S.hasCompactForce=false` で素通り = 既定経路 1 bit 不変)。
   ゲート(`current` は実行時 χ・`manev` は C=G(m/f)/(Rc²)・`lj` は Ξ=Gm/(Rc²) の合成 σ)を下回る対は **U も力もビットで 0** になる。
-  **生成 AI はこのキーを使わない** — コンパクト連星の候補力の検証(docs/PHYSICS.md 第251便a の節)専用である。
+  **第252便a: `current` に `velocityFrame` が増えた**(`"absolute"`=既定=第251便a のまま v₁·v₂ の絶対速度積 /
+  `"pair"`=相対速度だけ v₁·v₂ → −ν|v₂−v₁|²、ν=m₁m₂/M²)。**既定 `"absolute"` はプリセット署名へ入らない**(宣言と未宣言で
+  エクスポート JSON が 1 文字も変わらない・既定経路の演算順も不変)。重心が静止した孤立連星では両枠は解析的に一致し、
+  **重心が背景決定力場に対して走っている系でだけ差が出る**(実測は docs/PHYSICS.md 第252便a の節)。未知の値は受理せず検証器が却下する。
+  **生成 AI はこのキーを使わない** — コンパクト連星の候補力の検証(docs/PHYSICS.md 第251便a・第252便a の節)専用である。
+- **`physics.D0pull` の意味(第252便a で統一)**: pull 重みの分母に入る背景項 D₀ᵖ は、**未宣言なら `physics.D0` へフォールバックし、
+  宣言された値はその値をそのまま使う**(場コード 4 か所と `compactForce` の χ 算出で同じ規約になった。第251便a までは
+  場コード側が `D0pull>0` で判定していたため「明示的な 0」の扱いが 2 通りあった)。**全内蔵プリセットで 600 步ビット同一**
+  (検証器 `validatePreset` が `D0pull:0` を既定値として `physics` から落とすため、プリセット経由で「明示 0」は届かない —
+  届くのは `abBody.physicsPatch` と `S.params` の直接書き換えだけである)。
 - **放射オーバーレイの用量と方向(第247便b — `physics.petersScale` / `physics.petersDirection`)**: `petersGW` を宣言した二体でだけ効く外部物理の付帯キー。`petersScale` は放射束の倍率(0〜100・既定 1・0 で完全に素通り・1 は署名に入れない)、`petersDirection:"tangential"` は放射キックを相対接線速度 v_t=(r×v)/|r| だけに与える(半径方向の落下速度は変えない。未宣言=従来方向)。値域は入力契約であって物理法則ではなく、**用量は合わせ込みのノブ**である。**生成 AI はこのキーを使わない** — コンパクト天体連星の較正 variant(docs/PHYSICS.md 第247便b の節)専用である。
 - **引きずり場の倍精度化(第247便a — `physics.framePrecision`)**: `"double"` を宣言すると引きずり場の実行状態配列
   (uPx/uPy/uAx/uAy/sumW/sumWu/dpx/dpy/pairD)だけが Float64 になる(`stateCarry:"double"` が倍精度にするのは x/y/v/a だけ)。

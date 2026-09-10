@@ -11671,6 +11671,114 @@ if (!FAST) {
   }
 }
 
+// ---- 第252便a(第44報「箱宇宙と連星」): behavior.boxBinary — 等質量では何が消えて何が残るか ----
+//   🫂 boxBinaryToy(等質量 2 体・kFrame=1 の引きずりだけ・1PN 切)を機械固定する。
+//     ① 宣言: **等質量**(m₁===m₂ ビット同一)・geoPN=0・kFrame=1・frameWeight:"pull"・D0pull=1・cLight=30
+//     ② 決定性: 同一構成 2 回実行がビット同一・NaN 0・安全クランプ 0
+//     ③ **等質量なら背景決定力場に対する共通並進が相対軌道から落ちる**: 両粒子に共通速度を足した
+//        走行と足さない走行で、**相対分離 r(t) の最大差が a の 10⁻⁸ 未満**(丸め — 否定対照は 10⁻³ 以上で 5 桁離れている)
+//     ④ **質量をずらすと落ちない**(否定対照): 同じ共通速度で m を 525/475 にすると同じ量が 10⁻³ 以上
+//     ⑤ **引きずりを切ると質量比によらず落ちる**(kFrame=0 = ガリレイ不変の対照)
+//     ⑥ **公転に伴う並進**: 静止(共通速度 0)では重心の弾道からのずれが厳密 0(等質量の対称性)
+//     ⑦ A/B の D0pull=1e−6 側は素通りしない(軌道が変わる)
+//   窓は**符号と桁だけ**(実測値は obsCard と PHYSICS.md 〔第252便a〕・tests/out/boxbinary-w252.json が持つ)。
+{
+  const hasBB = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'boxBinaryToy'));
+  if (hasBB) {
+    const bb = await page.evaluate(() => {
+      const STEPS = 60000, DT = 0.004, BOOST = 3;
+      // 相対分離 r(t) の軌跡を返す(**相対軌道が背景に対する移動で動くか**だけを見る)
+      const traj = (opt) => {
+        const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'boxBinaryToy')));
+        if (opt.kFrame !== undefined) pd.physics.kFrame = opt.kFrame;
+        if (opt.D0pull !== undefined) pd.physics.D0pull = opt.D0pull;
+        if (opt.masses) { pd.bodies[0].m = opt.masses[0]; pd.bodies[1].m = opt.masses[1]; }
+        if (opt.boost) for (const b of pd.bodies) b.vx += opt.boost;
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        const m0 = S.m[0], m1 = S.m[1], Ms = m0 + m1;
+        const cm = () => [(m0 * S.x[0] + m1 * S.x[1]) / Ms, (m0 * S.y[0] + m1 * S.y[1]) / Ms];
+        const vcm = () => [(m0 * S.vx[0] + m1 * S.vx[1]) / Ms, (m0 * S.vy[0] + m1 * S.vy[1]) / Ms];
+        const c0 = cm(), v0 = vcm();
+        const R = new Float64Array(STEPS >> 6), TH = new Float64Array(STEPS >> 6);
+        let cmDev = 0, j = 0;
+        for (let k = 0; k < STEPS; k++) {
+          S.step(DT);
+          if ((k & 63) === 63 && j < R.length) {
+            const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0];
+            R[j] = Math.hypot(dx, dy); TH[j] = Math.atan2(dy, dx); j++;
+            const c = cm(), t = (k + 1) * DT;
+            const d = Math.hypot(c[0] - (c0[0] + v0[0] * t), c[1] - (c0[1] + v0[1] * t));
+            if (d > cmDev) cmDev = d;
+          }
+        }
+        return { R, TH, n: j, cmDev,
+          st: [S.x[0], S.y[0], S.vx[0], S.vy[0], S.x[1], S.y[1], S.vx[1], S.vy[1]],
+          m: [m0, m1], nan: S.hasNaN(),
+          clamp: S.clampVN + S.clampSN + S.clampRN + S.clampTN + S.clampAN,
+          phys: v.preset.physics, warn: (v.warnings || []).length };
+      };
+      const relDiff = (a, b) => {   // 相対分離の最大差(a=153.846 単位で規格化)
+        let mx = 0; const n = Math.min(a.n, b.n);
+        for (let i = 0; i < n; i++) { const d = Math.abs(a.R[i] - b.R[i]); if (d > mx) mx = d; }
+        return mx / 153.84615384615384;
+      };
+      const eqStill = traj({}), eqMove = traj({ boost: BOOST });
+      const unStill = traj({ masses: [525, 475] }), unMove = traj({ masses: [525, 475], boost: BOOST });
+      const k0Still = traj({ kFrame: 0, masses: [525, 475] }), k0Move = traj({ kFrame: 0, masses: [525, 475], boost: BOOST });
+      const abSide = traj({ D0pull: 1e-6 });
+      const twice = traj({});
+      const src = HP.allPresets().find((q) => q.id === 'boxBinaryToy');
+      return {
+        decl: { eqMass: Object.is(src.bodies[0].m, src.bodies[1].m), geoPN: src.physics.geoPN,
+          kFrame: src.physics.kFrame, fw: src.physics.frameWeight, D0pull: src.physics.D0pull,
+          cLight: src.physics.cLight, spin: src.bodies[0].spin === 0 && src.bodies[1].spin === 0,
+          ab: src.abBody && src.abBody.physicsPatch ? src.abBody.physicsPatch.D0pull : null,
+          card: (src.obsCard || []).length },
+        detBit: eqStill.st.every((z, i) => Object.is(z, twice.st[i])),
+        nan: eqStill.nan + eqMove.nan + unMove.nan, clamp: eqStill.clamp + eqMove.clamp + unMove.clamp,
+        eqInvariant: relDiff(eqStill, eqMove),      // ③ 等質量 → 丸め
+        unSensitive: relDiff(unStill, unMove),      // ④ 質量差 → 落ちない
+        k0Invariant: relDiff(k0Still, k0Move),      // ⑤ kF0 → 質量差があっても落ちる
+        cmDevStill: eqStill.cmDev, cmDevMove: eqMove.cmDev, cmDevUn: unStill.cmDev,
+        abMoves: relDiff(eqStill, abSide),          // ⑦ A/B 側は素通りしない
+        warn: eqStill.warn,
+      };
+    });
+    const A = 153.84615384615384;
+    const CK = {
+      decl: bb.decl.eqMass && bb.decl.geoPN === 0 && bb.decl.kFrame === 1 && bb.decl.fw === 'pull'
+        && bb.decl.D0pull === 1 && bb.decl.cLight === 30 && bb.decl.spin
+        && bb.decl.ab === 1e-6 && bb.decl.card === 8,
+      det: bb.detBit && bb.nan === 0 && bb.clamp === 0 && bb.warn === 0,
+      // ③ 等質量: 背景に対する共通並進が相対軌道から**落ちる**(丸め)
+      eqInvariant: bb.eqInvariant < 1e-8,
+      // ④ 否定対照: 質量を 525/475 にすると同じ並進が相対軌道を動かす
+      unSensitive: bb.unSensitive > 1e-3,
+      // ⑤ kFrame=0 は質量差があってもガリレイ不変
+      k0Invariant: bb.k0Invariant < 1e-8,
+      // ⑥ 静止では重心の弾道からのずれが厳密 0(等質量の対称性)/ 質量差があると 0 でない
+      cmZero: bb.cmDevStill === 0 && bb.cmDevUn > 0,
+      // ⑦ A/B(D0pull=1e−6)は素通りしない
+      abMoves: bb.abMoves > 1e-2,
+    };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    add('behavior.boxBinary', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + `🫂 宣言: 等質量=${bb.decl.eqMass}・geoPN=${bb.decl.geoPN}・kFrame=${bb.decl.kFrame}・`
+      + `frameWeight="${bb.decl.fw}"・D0pull=${bb.decl.D0pull}・c₀=${bb.decl.cLight}・obsCard ${bb.decl.card} 行 / `
+      + `決定性: 2 回実行ビット同一=${bb.detBit}・NaN ${bb.nan}・clamp ${bb.clamp}・警告 ${bb.warn} / `
+      + `**等質量では背景に対する共通並進(v=3)が相対軌道から落ちる**: max|Δr|/a=${bb.eqInvariant.toExponential(2)}(<1e−8)/ `
+      + `否定対照(m 525/475): ${bb.unSensitive.toExponential(2)}(>1e−3 = 落ちない)/ `
+      + `kFrame=0 対照(m 525/475): ${bb.k0Invariant.toExponential(2)}(ガリレイ不変)/ `
+      + `公転に伴う並進(重心の弾道からのずれ): 静止・等質量で**厳密 0**=${bb.cmDevStill === 0}・`
+      + `質量差ありで ${(bb.cmDevUn / A).toExponential(2)}a・背景に対して動かすと ${(bb.cmDevMove / A).toExponential(2)}a`
+      + `(**相対軌道は動かないが重心の走り方は変わる**)/ `
+      + `A/B の D0pull=1e−6 側は素通りしない: max|Δr|/a=${bb.abMoves.toExponential(2)}`);
+  } else {
+    console.log('SKIP behavior.boxBinary(対象に第252便a の 🫂 なし — root 等)');
+  }
+}
+
 // ---- 第231便(第28報): behavior.supernovaObs — 超新星の観測転写(🥀 前駆星/🦀 残骸)----
 // 🥀: Joyce 一組整合の転写値+静止ビット保持。🦀: 膨張速度の転写(1506 km/s)・殻 KE=1.04e50 erg
 // (SN 1054 モデル帯と同桁・正準 1e51 の1桁下)・年齢算術・自由膨張・gas 宣言・決定性
@@ -12183,7 +12291,7 @@ if (!FAST) {
         'psrJ1757DFM', 'psrJ1946DFM',
         'psrDoubleABPN', 'psrJ1757PN', 'psrJ1946PN',
         'psrDoubleABCF', 'psrJ1757CF', 'psrJ1946CF',
-        'psrB1534', 'psrB1534DFM', 'psrB1534CF', 'compactForceToy',
+        'psrB1534', 'psrB1534DFM', 'psrB1534CF', 'compactForceToy', 'boxBinaryToy',
         'axisBarStill', 'axisBarArms', 'axisBarReach'];   // 第251便b: 第248便c の 3 本(🍥🪁🍢)は廃止   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)/ 第247便d: 🪞 mmPhaseToy(pull 明示の原理サンプル)/ 第248便a: 🧮🩺(⚡ の処方をそのまま当てた NS 連星 hold-out — ⚡ と同じ pull 宣言) / 第248便c: 🍥🪁🍢(銀河形態の原理サンプル — pull 既定)/ 第249便a: 🪶🪃🪀(NS 応答候補 λ_PN=1/f の variant — 複製元と同じ pull 宣言) / 第249便c: 🥢🎏🎚️(axisForce 玩具の原理サンプル — pull 既定)
       const all = HP.allPresets(); let nShare = 0, nOther = 0; const wrong = [];
       for (const q of all) { const fw = q.physics && q.physics.frameWeight; if (MIG.indexOf(q.id) >= 0) { if (fw !== undefined && fw !== 'pull') wrong.push(q.id); } else if (fw === 'share') nShare++; else { nOther++; wrong.push(q.id); } }
