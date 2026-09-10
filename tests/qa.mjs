@@ -531,6 +531,18 @@ const w5cBands = [[80, 120], [120, 160], [160, 200], [200, 240]];
 //   ④ QA_REFRESH=1 で強制再実行・QA_CACHE=0 で無効化。**CI(process.env.CI)では既定で無効**
 //      (CI は従来どおり全実行で、そちらが最終裁定者。キャッシュは手元のフルゲート専用)。
 //   ⑤ QA_FAST では一切使わない(QA_FAST の意味は変えない)。
+//   ⑥ **第252便c(第44報 K6): ローカル鍵の厳密化**。②の (a)(b)(c) は「そのテストが触る範囲」しか
+//      見ていないので、**同じ節・同じプリセットのまま別の箇所でエンジンが変わった**場合や、
+//      **実行環境が変わった**場合に古い結果を再利用してしまう余地があった。鍵に環境ブロック
+//      `env` を足して、次の 5 つが 1 つでも変わったら**全件を再実行**する:
+//        engine   = 対象 HTML(beta/index.html 等)全体の SHA-256(= TARGET_SHA。従来は記録欄
+//                   `htmlSha256` にあるだけで**鍵には入っていなかった**)
+//        qa       = tests/qa.mjs **全体**の SHA-256(節の断片 `src` に加えて全体も見る)
+//        lock     = package-lock.json の SHA-256(playwright 等の依存版)
+//        node     = process.version(Node ランタイム)
+//        chromium = browser.version()(Playwright が起動した実際のブラウザ版)
+//      **CI では従来どおり QA_CACHE 無効**(CI が最終裁定者)。厳密化はローカルの再利用を
+//      「疑わしいものは再実行側へ倒す」方向にだけ動かす(緩める方向の変更は 1 つもない)。
 const QA_CACHE = (process.env.QA_CACHE !== undefined)
   ? process.env.QA_CACHE === '1'
   : !process.env.CI;
@@ -542,6 +554,16 @@ let HEAD_COMMIT = 'unknown';
 try { HEAD_COMMIT = execSync('git rev-parse HEAD', { cwd: ROOT, stdio: 'pipe' }).toString().trim(); } catch {}
 const TARGET_SHA = sha256(fs.readFileSync(path.join(ROOT, TARGET)));
 const QA_SRC = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8');
+// 第252便c(K6): 指紋鍵の環境ブロック(⑥)。読めないものは 'unknown' に落として鍵に入れる
+// (欠測でキャッシュを外すのではなく、**同じ 'unknown' 同士だけが一致する**側へ倒す)
+const QA_SELF_SHA = sha256(QA_SRC);
+const LOCK_SHA = (() => {
+  try { return sha256(fs.readFileSync(path.join(ROOT, 'package-lock.json'))); } catch { return 'unknown'; }
+})();
+const BROWSER_VERSION = (() => { try { return String(browser.version()); } catch { return 'unknown'; } })();
+const FP_ENV = { engine: TARGET_SHA, qa: QA_SELF_SHA, lock: LOCK_SHA,
+  node: process.version, chromium: BROWSER_VERSION };
+const FP_ENV_SHA = sha256(JSON.stringify(FP_ENV));
 
 // 指紋を取る固定 seed の走行(共有 — 1 本の指紋を複数のテストが参照する)。
 // 步数は「そのテストが使う步数の 1/10(下限 600・上限 3000)」で決めてある(下の表の注記参照)。
@@ -604,7 +626,14 @@ const fpSrcSlice = (testId) => {
 const fpPrevAll = (() => { try { return JSON.parse(fs.readFileSync(FP_PATH, 'utf8')); } catch { return null; } })();
 const fpPrev = (fpPrevAll && fpPrevAll.targets && fpPrevAll.targets[TARGET]) || null;
 const fpNext = { commit: HEAD_COMMIT, date: new Date().toISOString().slice(0, 10), htmlSha256: TARGET_SHA,
-  target: TARGET, runs: {}, tests: {} };
+  target: TARGET, env: FP_ENV, envSha256: FP_ENV_SHA, runs: {}, tests: {} };
+if (FP_ON) {
+  const pe = (fpPrev && fpPrev.envSha256) || null;
+  console.log(`[FP] 鍵の環境ブロック(第252便c K6): engine=${TARGET_SHA.slice(0, 8)} qa=${QA_SELF_SHA.slice(0, 8)}`
+    + ` lock=${LOCK_SHA.slice(0, 8)} node=${process.version} chromium=${BROWSER_VERSION}`
+    + ` → env=${FP_ENV_SHA.slice(0, 8)}(前回 ${pe ? pe.slice(0, 8) : 'なし'}`
+    + `${pe && pe !== FP_ENV_SHA ? ' — **変化したので全件再実行**' : (pe ? ' — 一致' : ' — 記録なしなので全件再実行')})`);
+}
 const fpCachedIds = [];
 let fpSavedMs = 0;
 let fpDigests = null;
@@ -1419,7 +1448,9 @@ async function fpKey(testId) {
     src = fpDigests;
   }
   if (!src) return null;
-  const mat = { test: testId, target: TARGET, runs: {}, decls: {}, apis: {}, src: fpSrcSlice(testId) };
+  // 第252便c(K6): env(engine/qa/lock/node/chromium)を鍵に混ぜる — 1 つでも変われば全件再実行
+  const mat = { test: testId, target: TARGET, env: FP_ENV,
+    runs: {}, decls: {}, apis: {}, src: fpSrcSlice(testId) };
   for (const r of (sp.runs || [])) {
     const d = src.runs[r];
     if (!d) return null;             // 欠測(対象に無い等)はキャッシュ対象外
@@ -11146,6 +11177,217 @@ if (!FAST) {
       `(C7) 決定性=${pc.det}・門(β≥1・c/λ₀ の非有限・未知 rule)は null=${pc.gate}`);
   } else {
     console.log('SKIP behavior.mmPhaseCount(対象に第251便c の HP.dfmMMPhaseCount なし — root 等)');
+  }
+}
+
+// ---- 第252便c(第44報): behavior.mmCoherent — MM の**連続波チャネル**(HP.dfmMMCoherent)----
+// 原仮定者(第44報)の「波長が固定された干渉計は、光の到着時間が影響しない」を、**位相 Δφ** と
+// **縞の計数 ΔN** に分けて機械固定する。階段は原仮定者の文のとおり:
+//   (i)   等長・静止: Δφ=ψ が**固定**(ψ=0 と ψ=0.7 の両方でビット厳密)・掃引しても **ΔN=0**
+//   (ii)  腕長差 ΔL・静止: 固定波長なら ψ で縞を消せる(Δφ_fixed が**ビット厳密 0**)が、
+//         掃引すると **ΔN=−Δν·Δτ ≠ 0**(「波長を時間変化させると干渉縞が発生する」)。
+//         掃引幅を 10 倍・100 倍にすると ΔN も 10 倍・100 倍(線形)
+//   (iii) 掃引しても **ΔN=0 ⇔ Δτ=0**(「縞が出なければ到着時間が一致している」)
+//   (iv)  固定波長で ψ を合わせた**後**に Δτ が δ 動く(装置を回す)と、**位相は
+//         Δφ=−2πν₀·δ(Δτ) だけ動く**(3 審査 v10 ChatGPT: 固定波長でも遅延差の感度は消えない)。
+//         同じ δ(Δτ) でも**掃引の縞移動は δ(ΔN)=−Δν·δ(Δτ)** と桁が全く違う
+//   (v)   決定性・門(c/λ₀ の非有限・負の τ・NaN の ψ/ν̇ は null)
+// **「位相は変わらない」は ΔN(縞計数)としては成り立ち、Δφ(位相)としては成り立たない** ——
+// この 2 つを同じ表で分けるのが本ブロックの目的である。
+{
+  const hasCo = await page.evaluate(() => !!(window.HP && typeof HP.dfmMMCoherent === 'function'));
+  if (hasCo) {
+    const co = await page.evaluate(() => {
+      const K = (o) => HP.dfmMMCoherent(o);
+      // 単位系の玩具(c=1・λ₀=1・ν₀=1・L1=1・L2=1.25 → τ=2 / 2.5・Δτ=−0.5)—— ビット契約はここで取る
+      const U = { c: 1, lambda0: 1, L1: 1, L2: 1.25 };
+      const uEq = { c: 1, lambda0: 1, L1: 1, L2: 1 };
+      const i1 = K(Object.assign({}, uEq, { nudot: 2, t: 3 }));
+      const i2 = K(Object.assign({}, uEq, { psi: 0.7, nudot: 2, t: 3 }));
+      const ii0 = K(Object.assign({}, U, {}));                                  // ψ=0・掃引なし
+      const iiN = K(Object.assign({}, U, { nullPhase: true }));                 // ψ 合わせ・掃引なし
+      const iiS = K(Object.assign({}, U, { nullPhase: true, nudot: 2, t: 3 })); // ψ 合わせ・掃引あり
+      const iiL = [1, 10, 100].map((k) => {
+        const r = K(Object.assign({}, U, { nullPhase: true, nudot: 2 * k, t: 3 }));
+        return [r.dNu, r.dN, r.dNRel];
+      });
+      const iii = [0.25, 0.0625, 0].map((d) => {
+        const r = K({ c: 1, lambda0: 1, L1: 1, L2: 1 + d, nullPhase: true, nudot: 2, t: 3 });
+        return [r.dtau, r.dN, r.sweepNull, r.dtauZero];
+      });
+      const iv = K(Object.assign({}, U, { nullPhase: true, dTau: 0.125, nudot: 2, t: 3 }));
+      // SI 1887 装置(L=11 m・λ₀=500 nm・ΔL=1 mm・掃引 ν̇=1e9 Hz/s × 1 ms)の実測値
+      const C = 299792458, LAM = 5e-7, SI = { c: C, lambda0: LAM, L1: 11, L2: 11.001 };
+      const si = K(Object.assign({}, SI, { nullPhase: true, nudot: 1e9, t: 1e-3 }));
+      const siRot = K(Object.assign({}, SI, { nullPhase: true, dTau: 1e-16, nudot: 1e9, t: 1e-3 }));
+      // (iv) の交差検算: dfmMMPhase の Δφ=2πcΔt/λ と符号だけ違い、絶対値はビット一致する
+      const V = 29979.2458, chi = 0;
+      const P = (th) => HP.dfmMMPhase({ c: C, lambda: LAM, L1: 11, L2: 11, theta0: th, omega: 0,
+        vx: V, vy: 0, ux: chi * V, uy: 0 });
+      const p0 = P(0), p90 = P(Math.PI / 2);
+      const dTauRot = p90.dtExact - p0.dtExact;
+      const xr = K({ c: C, lambda0: LAM, L1: 11, L2: 11, nullPhase: true, dTau: dTauRot });
+      const cross = [xr.dphiRot, p90.dphiExact - p0.dphiExact, dTauRot];
+      const cfgD = { c: 3, lambda0: 0.5, L1: 2, L2: 3.25, psi: 0.125, nudot: 7, t: 0.5, dTau: 0.01 };
+      const det = JSON.stringify(K(cfgD)) === JSON.stringify(K(cfgD));
+      const gate = K({ c: Infinity }) === null && K({ lambda0: Infinity }) === null
+        && K({ lambda0: -1 }) === null && K({ c: 0 }) === null
+        && K({ tau1: -1, tau2: 0 }) === null && K({ psi: NaN }) === null
+        && K({ nudot: NaN }) === null && K({ t: Infinity }) === null
+        && K({ dTau: NaN }) === null && K({ nu0: 0 }) === null;
+      return { i1: [i1.dphiFixed, i1.dphi, i1.dN, i1.sweepNull, i1.dtau],
+        i2: [i2.dphiFixed, i2.dphi, i2.dN, i2.sweepNull],
+        ii0: [ii0.dtau, ii0.dphiFixed, ii0.psiNull, ii0.dN],
+        iiN: [iiN.dphiFixed, iiN.dN, iiN.sweepNull],
+        iiS: [iiS.dN, iiS.dNDiff, iiS.dNRel, iiS.dNu, iiS.dphiFixed],
+        iiL, iii,
+        iv: [iv.dphiFixed, iv.dphiRot, iv.dphiAfter, iv.fringesRot, iv.dNRot, iv.dN],
+        si: [si.dtau, si.dN, si.dNRel, si.dNu, si.dphiFixed, si.psiNull],
+        siRot: [siRot.dphiRot, siRot.fringesRot, siRot.dNRot],
+        cross, det, gate };
+    });
+    const E = (a, b) => Object.is(a, b), PI = Math.PI, TWO = 2 * Math.PI;
+    // (i) 等長・静止: Δφ=ψ が固定・ΔN=0(ψ=0 と ψ=0.7 の両方でビット厳密)
+    const k1 = E(co.i1[0], 0) && E(co.i1[1], 0) && E(co.i1[2], 0) && co.i1[3] === true && E(co.i1[4], 0)
+      && E(co.i2[0], 0.7) && E(co.i2[1], 0.7) && E(co.i2[2], 0) && co.i2[3] === true;
+    // (ii) 腕長差: Δτ=−0.5・ψ=0 なら Δφ=π / ψ 合わせで**厳密 0** / 掃引で ΔN=3(閉形式とビット一致)
+    const k2 = E(co.ii0[0], -0.5) && E(co.ii0[1], PI) && E(co.ii0[2], -PI) && E(co.ii0[3], 0)
+      && E(co.iiN[0], 0) && E(co.iiN[1], 0) && co.iiN[2] === true
+      && E(co.iiS[0], 3) && E(co.iiS[1], 3) && E(co.iiS[2], 0) && E(co.iiS[3], 6) && E(co.iiS[4], 0)
+      && E(co.iiL[0][1], 3) && E(co.iiL[1][1], 30) && E(co.iiL[2][1], 300)
+      // 掃引幅を上げると「位相差の引き算」側は桁落ちする(閉形式との相対差 ≤ 数 ulp)
+      && co.iiL.every((r) => r[2] < 1e-15);
+    // (iii) ΔN=0 ⇔ Δτ=0(ΔL>0 では 0 にならず・ΔL=0 でだけビット厳密 0)
+    const k3 = co.iii[0][1] !== 0 && co.iii[1][1] !== 0 && E(co.iii[2][1], 0)
+      && co.iii[0][2] === false && co.iii[1][2] === false && co.iii[2][2] === true
+      && co.iii[2][3] === true && co.iii[0][3] === false
+      && E(co.iii[0][0], -0.5) && E(co.iii[1][0], -0.125);
+    // (iv) ψ 合わせの後の δ(Δτ)=0.125 → Δφ=−2πν₀δ(Δτ)=−π/4(ビット厳密)・掃引の縞移動は別桁
+    const k4 = E(co.iv[0], 0) && E(co.iv[1], -PI / 4) && E(co.iv[2], -PI / 4)
+      && E(co.iv[3], -0.125) && E(co.iv[4], -0.75) && E(co.iv[5], 3)
+      && co.iv[1] !== 0;                                  // **固定波長でも位相は動く**
+    // (iv′) dfmMMPhase との交差検算: 符号だけ逆で絶対値はビット一致(和が厳密 0)
+    const k5 = E(co.cross[0] + co.cross[1], 0) && co.cross[0] !== 0;
+    // (SI) 1887 装置の実測値(ΔL=1 mm・Δν=1 MHz)
+    // τ=2L/c を 2 本引くので Δτ は −2ΔL/c と数 ulp(相対 1.6×10⁻¹²)違う — 相対で見る
+    const k6 = Math.abs(co.si[0] / (-2 * 0.001 / 299792458) - 1) < 1e-11 && E(co.si[4], 0)
+      && co.si[1] > 6.6e-6 && co.si[1] < 6.7e-6 && co.si[2] < 1e-7
+      && co.siRot[0] !== 0 && Math.abs(co.siRot[0] / (-TWO * (299792458 / 5e-7) * 1e-16) - 1) < 1e-15;
+    add('behavior.mmCoherent',
+      k1 && k2 && k3 && k4 && k5 && k6 && co.det && co.gate,
+      `(i) 等長・静止(c=λ₀=1・L=1): Δτ=${co.i1[4]}・Δφ_fixed=**${co.i1[0]}**(ψ=0)/ **${co.i2[0]}**(ψ=0.7)— ` +
+      `**掃引しても ΔN=${co.i1[2]}/${co.i2[2]}**(ビット厳密)=${k1} / ` +
+      `(ii) 腕長差 L2=1.25(Δτ=${co.ii0[0]}): ψ=0 なら Δφ_fixed=${co.ii0[1].toFixed(9)}(=π)、` +
+      `**ψ=${co.ii0[2].toFixed(9)} に合わせると Δφ_fixed=${co.iiN[0]}(厳密 0)**。掃引なしは ΔN=${co.iiN[1]}、` +
+      `**Δν=${co.iiS[3]} で掃引すると ΔN=${co.iiS[0]}**(位相差の引き算 ${co.iiS[1]} と rel ${co.iiS[2]})・` +
+      `掃引幅 ×1/×10/×100 で ΔN=${co.iiL.map((r) => r[1]).join('/')}(線形)=${k2} / ` +
+      `(iii) **ΔN=0 ⇔ Δτ=0**: Δτ=${co.iii[0][0]}→ΔN=${co.iii[0][1]}・Δτ=${co.iii[1][0]}→ΔN=${co.iii[1][1]}・` +
+      `Δτ=${co.iii[2][0]}→**ΔN=${co.iii[2][1]}**(sweepNull=${co.iii[2][2]})=${k3} / ` +
+      `(iv) **ψ を合わせた後に δ(Δτ)=0.125 が入ると位相は Δφ=${co.iv[1].toFixed(9)} rad(=−π/4=${co.iv[3]} 縞)動く** ` +
+      `—— 固定波長でも到着時間差の**変化**は位相に効く(3 審査 v10)。同じ δ(Δτ) の掃引側の寄与は ` +
+      `δ(ΔN)=${co.iv[4]} で桁が違う=${k4} / (iv′) dfmMMPhase の Δφ=2πcΔt/λ との交差検算(符号だけ逆・和が厳密 0)=${k5} / ` +
+      `(SI) 1887 装置(L=11 m・λ₀=500 nm・ΔL=1 mm・Δν=1 MHz): Δτ=${co.si[0].toExponential(6)} s・` +
+      `ψ 合わせで Δφ_fixed=${co.si[4]}・**掃引で ΔN=${co.si[1].toExponential(6)} 縞**、` +
+      `δ(Δτ)=1e−16 s で **Δφ=${co.siRot[0].toExponential(6)} rad=${co.siRot[1].toExponential(6)} 縞**` +
+      `(掃引側は δ(ΔN)=${co.siRot[2].toExponential(6)})=${k6} / (v) 決定性=${co.det}・門=${co.gate}`);
+  } else {
+    console.log('SKIP behavior.mmCoherent(対象に第252便c の HP.dfmMMCoherent なし — root 等)');
+  }
+}
+
+// ---- 第252便c(第44報): behavior.mmLambdaSweep — 3 規約の波長掃引と受動鏡境界の検算 ----
+// (HP.dfmMMLambdaSweep)。第251便c の 3 規約を、原仮定者(第44報)の「固定波長 / 波長を時間変化」の
+// 2 つの読みで並べ、さらに 3 審査 v10 ChatGPT の**受動鏡境界の周波数検算**を機械固定する:
+//   (L1) L=3・λ₀=1・c=1・β=0.5: **stretch は固定 λ₀ で ΔN=0(ビット厳密)だが ΔT=1.0717967… ≠ 0**
+//        → Δν=1 で掃引すると **ΔN_sweep=−ΔT≠0**(「固定波長なら到着時間は効かない」は**計数の話**)
+//   (L2) galilean は ΔN=4.0957290…≠0(固定波長でも縞が出る)。**ΔT は 3 規約で同じ**(T は波長規約に依らない)
+//   (L3) comoving は ΔN=0 かつ **ΔT=0**(掃引しても縞が動かない = 到着時間が一致している唯一の規約)
+//   (B1) **受動鏡境界(ω=u·k+c|k| と ω−V·k 保存)で stretch は ρ₊=(1−β)²=0.25・ρ₋=(1+β)²=2.25**
+//        (ChatGPT の 0.25 対 2.25 を再現)・比 9・鏡が返す波長は規約値の 9 倍 → **不整合**
+//   (B2) galilean は ρ₊=ρ₋=1・鏡が返す波長=規約値(整合)。comoving も u=V の下で ρ=1(整合)
+//   (B3) stretch を u=V で検算しても ρ₊=0.5・ρ₋=1.5(比 3)で**やはり整合しない**
+//   (L4) ChatGPT §7 の L=10 表を同じ器で(ΔT=3.572655899081635・stretch ΔN=0・galilean ΔN=13.65243…)
+//   (L5) 門(β≥1・非有限・未知/空 rule・NaN の uFrac は null)・決定性
+// **これは「stretch を導出した」でも「反証した」でもない** —— stretch が ω=c|k| と ω−V·k 保存とは
+// **別の仮定**であることを数値で示すだけである(第251便c C(ii) の「仮定であって導出ではない」を維持)。
+{
+  const hasSw = await page.evaluate(() => !!(window.HP && typeof HP.dfmMMLambdaSweep === 'function'));
+  if (hasSw) {
+    const sw = await page.evaluate(() => {
+      const S = (o) => HP.dfmMMLambdaSweep(o);
+      const A = S({ L: 3, lambda0: 1, beta: 0.5, c: 1, nudot: 1, t: 1 });
+      const B = S({ L: 10, lambda0: 1, beta: 0.5, c: 1, dNu: 1 });
+      const Z = S({ L: 3, lambda0: 1, beta: 0, c: 1, dNu: 1 });
+      const Uv = S({ L: 3, lambda0: 1, beta: 0.5, c: 1, uFrac: 0.5 });
+      const row = (r) => [r.N, r.Nperp, r.dN, r.T, r.Tperp, r.dT, r.dPhiFixedLambda,
+        r.dNsweep, r.dNsweepRate, r.fixedNull, r.sweepNull];
+      const bnd = (r) => [r.boundary.lambdaOut, r.boundary.lambdaBack, r.boundary.nuOut, r.boundary.nuBack,
+        r.boundary.rhoOut, r.boundary.rhoBack, r.boundary.rhoRatio, r.boundary.lambdaMirror,
+        r.boundary.mirrorRatio, r.boundary.rhoConsistent, r.boundary.mirrorConsistent, r.boundary.u];
+      const one = S({ L: 3, lambda0: 1, beta: 0.5, c: 1, rules: ['stretch'] });
+      const cfgD = { L: 7.5, lambda0: 0.4, beta: -0.25, c: 2, nudot: 3, t: 2 };
+      const det = JSON.stringify(S(cfgD)) === JSON.stringify(S(cfgD));
+      const gate = S({ beta: 1 }) === null && S({ beta: -1 }) === null
+        && S({ c: Infinity }) === null && S({ lambda0: Infinity }) === null
+        && S({ L: -1 }) === null && S({ rules: ['ether'] }) === null && S({ rules: [] }) === null
+        && S({ rules: 'stretch' }) === null && S({ uFrac: NaN }) === null && S({ dNu: NaN }) === null;
+      return { a: { s: row(A.byRule.stretch), g: row(A.byRule.galilean), c: row(A.byRule.comoving) },
+        b: { s: row(B.byRule.stretch), g: row(B.byRule.galilean), c: row(B.byRule.comoving) },
+        z: { s: row(Z.byRule.stretch), g: row(Z.byRule.galilean), c: row(Z.byRule.comoving) },
+        bs: bnd(A.byRule.stretch), bg: bnd(A.byRule.galilean), bc: bnd(A.byRule.comoving),
+        bu: bnd(Uv.byRule.stretch),
+        flags: [A.stretchFixedNull, A.stretchSweepNonNull, A.stretchBoundaryConsistent],
+        oneKeys: Object.keys(one.byRule), det, gate };
+    });
+    const E = (a, b) => Object.is(a, b);
+    const TP3 = 2 * 3 / Math.sqrt(1 - 0.25), DT3 = 8 - TP3;
+    // (L1) stretch: 固定 λ₀ の ΔN は**ビット厳密 0**、掃引の ΔN_sweep は −ΔT で 0 でない
+    const l1 = E(sw.a.s[0], 6) && E(sw.a.s[1], 6) && E(sw.a.s[2], 0) && E(sw.a.s[3], 8)
+      && E(sw.a.s[4], TP3) && Math.abs(sw.a.s[5] - DT3) < 1e-15
+      && E(sw.a.s[7], -sw.a.s[5]) && E(sw.a.s[8], -sw.a.s[5])
+      && sw.a.s[9] === true && sw.a.s[10] === false
+      && sw.flags[0] === true && sw.flags[1] === true;
+    // (L2) galilean: ΔN≠0・ΔT は stretch とビット同一(T は波長規約に依らない)
+    const l2 = Math.abs(sw.a.g[2] - 4.0957290262993205) < 1e-14 && sw.a.g[2] !== 0
+      && E(sw.a.g[5], sw.a.s[5]) && E(sw.a.g[7], sw.a.s[7]) && E(sw.a.g[3], 8)
+      && sw.a.g[9] === false && sw.a.g[10] === false;
+    // (L3) comoving: ΔN=0 かつ ΔT=0(掃引しても縞が動かない唯一の規約)
+    const l3 = E(sw.a.c[2], 0) && E(sw.a.c[5], 0) && E(sw.a.c[7], 0) && E(sw.a.c[6], 0)
+      && sw.a.c[9] === true && sw.a.c[10] === true
+      // β=0 では 3 規約が一致(ΔN も ΔT も 0)
+      && [sw.z.s, sw.z.g, sw.z.c].every((r) => E(r[2], 0) && E(r[5], 0) && E(r[7], 0));
+    // (B1)(B3) stretch の境界不整合 —— ChatGPT の 0.25 対 2.25 をビット厳密に再現
+    const b1 = E(sw.bs[0], 2) && E(sw.bs[1], 2 / 3) && E(sw.bs[2], 0.5) && E(sw.bs[3], 1.5)
+      && E(sw.bs[4], 0.25) && E(sw.bs[5], 2.25) && E(sw.bs[6], 9)
+      && E(sw.bs[7], 6) && E(sw.bs[8], 9) && sw.bs[9] === false && sw.bs[10] === false
+      && sw.flags[2] === false
+      && E(sw.bu[4], 0.5) && E(sw.bu[5], 1.5) && E(sw.bu[6], 3) && sw.bu[9] === false;
+    // (B2) galilean(u=0)と comoving(u=V)は ρ=1 でビット整合
+    const b2 = E(sw.bg[0], 0.5) && E(sw.bg[1], 1.5) && E(sw.bg[4], 1) && E(sw.bg[5], 1)
+      && E(sw.bg[6], 1) && E(sw.bg[7], 1.5) && E(sw.bg[8], 1) && sw.bg[9] === true && sw.bg[10] === true
+      && E(sw.bc[4], 1) && E(sw.bc[5], 1) && E(sw.bc[8], 1) && sw.bc[9] === true && E(sw.bc[11], 0.5);
+    // (L4) L=10 の表(ΔT は 3 規約共通・stretch ΔN=0・galilean ΔN=13.65243…)
+    const l4 = Math.abs(sw.b.s[5] - 3.572655899081635) < 1e-14 && E(sw.b.s[2], 0)
+      && E(sw.b.g[5], sw.b.s[5]) && Math.abs(sw.b.g[2] - 13.6524300876644) < 1e-13
+      && E(sw.b.s[7], -sw.b.s[5]) && E(sw.b.c[5], 0);
+    const l5 = sw.oneKeys.length === 1 && sw.oneKeys[0] === 'stretch';
+    add('behavior.mmLambdaSweep',
+      l1 && l2 && l3 && b1 && b2 && l4 && l5 && sw.det && sw.gate,
+      `(L1) **stretch**(L=3・λ₀=1・c=1・β=0.5): N=${sw.a.s[0]}・N⊥=${sw.a.s[1]}・**固定 λ₀ の ΔN=${sw.a.s[2]}` +
+      `(ビット厳密)**だが T=${sw.a.s[3]} 対 T⊥=${sw.a.s[4].toFixed(9)} で **ΔT=${sw.a.s[5].toFixed(9)}≠0** → ` +
+      `Δν=1 で掃引すると **ΔN_sweep=${sw.a.s[7].toFixed(9)}≠0**(=−ΔT)=${l1} / ` +
+      `(L2) **galilean**: **ΔN=${sw.a.g[2].toFixed(9)}≠0**(固定波長でも縞が出る)・ΔT は stretch とビット同一=${E(sw.a.g[5], sw.a.s[5])} / ` +
+      `(L3) **comoving**: ΔN=${sw.a.c[2]}・**ΔT=${sw.a.c[5]}**・ΔN_sweep=${sw.a.c[7]}(掃引しても動かない唯一の規約)・` +
+      `β=0 では 3 規約が一致=${l3} / ` +
+      `(B1) **受動鏡境界の検算**(ω=u·k+c|k|・ρ=(ω−V·k)/2πν₀): stretch は λ₊=${sw.bs[0]}・λ₋=${(sw.bs[1]).toFixed(9)} を ` +
+      `ω=c|k| に入れると ν₊=${sw.bs[2]}・ν₋=${sw.bs[3]} となり **ρ₊=${sw.bs[4]}=(1−β)² 対 ρ₋=${sw.bs[5]}=(1+β)²**(比 ${sw.bs[6]})—— ` +
+      `鏡が返す波長は ${sw.bs[7]} で規約値の **${sw.bs[8]} 倍**・u=V で検算しても ρ₊=${sw.bu[4]}/ρ₋=${sw.bu[5]}(比 ${sw.bu[6]})で` +
+      `**整合しない**=${b1} / (B2) galilean(u=0)と comoving(u=V)は ρ₊=ρ₋=1・鏡の波長比 1 で**整合**=${b2} / ` +
+      `(L4) L=10: ΔT=${sw.b.s[5].toFixed(9)}(3 規約共通)・stretch ΔN=${sw.b.s[2]}・galilean ΔN=${sw.b.g[2].toFixed(9)}=${l4} / ` +
+      `(L5) rules 絞り込み=${l5}・決定性=${sw.det}・門(β≥1・非有限・未知/空 rule・NaN uFrac)=${sw.gate}。` +
+      `**stretch を導出も反証もしていない** —— ω=c|k| と ω−V·k 保存とは別の仮定であることを数値で示すだけ`);
+  } else {
+    console.log('SKIP behavior.mmLambdaSweep(対象に第252便c の HP.dfmMMLambdaSweep なし — root 等)');
   }
 }
 
