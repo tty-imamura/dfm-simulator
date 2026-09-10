@@ -12021,6 +12021,126 @@ if (!FAST) {
   }
 }
 
+// ---- 第252便b(第44報): behavior.periSubsteps — 近点近傍の刻み細分(数値設定の opt-in)の契約 ----
+//   第251便a ⑨ が持ち越した「S._core を肥大させずに近点だけ細かくする」を、3 審査 v10 の一致点
+//   (K7/K8/K8′)どおり **S.step を呼ぶ側の薄い包み**として入れたことの機械固定である。
+//     ① **未宣言は 1 bit 不変**: ⚡ の 200 步が宣言前後でビット同一・physics 署名も 1 文字同一
+//        (n=1 は「なし」へ正規化されるので、宣言しても署名が変わらない)
+//     ② **opt-in の決定性**: 同じ宣言で 2 回走らせるとビット同一
+//     ③ **一様細分との厳密一致**: ゲートを全域に開けた {n:4} の dt=0.016 × 200 步は、
+//        dt=0.004 × 800 步と**ビット同一**(包みが「dt を n 等分して n 回呼ぶ」以上のことをしていない証拠)
+//     ④ **イベントは最後のサブステップの後に 1 度だけ**(Grok §4A): ステップ末の離散イベント
+//        (ここでは _echo を計数)は、細分の有無にかかわらず**外側ステップ数と同じ回数**しか発火しない
+//     ⑤ **ゲートが効く**: rMul を近点の近くに絞ると細分した外側ステップ数 < 全ステップ数
+//     ⑥ NaN 0・安全クランプ 0・時刻 t は細分の有無に依らず同じだけ進む
+//     ⑦ 検証器 validatePeriSubsteps: n≤1 と null は「なし」・値域クランプ・不正入力は ok:false
+//   **物理ではなく数値設定である**(role=numerics)— 刻みを変えて動く量は物理ではない、が本便の主題。
+{
+  const hasPS = await page.evaluate(() => typeof (window.HP && HP.validatePeriSubsteps) === 'function');
+  if (hasPS) {
+    const ps = await page.evaluate(() => {
+      const SRC = 'psrDoubleABDFM';
+      const build = (patch) => {
+        const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === SRC)));
+        if (patch) for (const k of Object.keys(patch)) {
+          if (patch[k] === null) delete pd.physics[k]; else pd.physics[k] = patch[k];
+        }
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        return { S, sig: JSON.stringify(v.preset.physics) };
+      };
+      const hash = (S) => {
+        let a = 0x811c9dc5;
+        const buf = new ArrayBuffer(8), f = new Float64Array(buf), u = new Uint8Array(buf);
+        const push = (v) => { f[0] = v; for (let b = 0; b < 8; b++) { a ^= u[b]; a = Math.imul(a, 0x01000193) >>> 0; } };
+        for (const k of ['x', 'y', 'vx', 'vy', 'spin']) { const A = S[k]; if (!A) continue;
+          for (let i = 0; i < S.n; i++) push(A[i]); }
+        push(S.t); return a.toString(16);
+      };
+      const run = (patch, n, dt) => {
+        const b = build(patch); const S = b.S;
+        for (let k = 0; k < n; k++) S.step(dt);
+        return { h: hash(S), sig: b.sig, t: S.t, nan: S.hasNaN(),
+          clamp: (S.clampRN || 0) + (S.clampSN || 0) + (S.clampVN || 0) + (S.clampAN || 0) + (S.clampTN || 0),
+          hits: S.periSubHits || 0, subs: S.periSubSteps || 0, has: !!S.hasPeriSub,
+          rPeri: S._psRmin || null, auto: !!S._psAuto, pair: S.hasPeriSub ? [S._psI, S._psJ] : null };
+      };
+      // t=0 の 2 体距離(しきい値の宣言に使う — 手打ちの数値を QA に置かないため)
+      const r0 = (() => { const S = build(null).S; return Math.hypot(S.x[1] - S.x[0], S.y[1] - S.y[0]); })();
+      // ステップ末の離散イベントの計数(_echo を差し替えて数える — 物理は 1 bit も変えない)
+      const evCount = (patch, n, dt) => {
+        const b = build(patch); const S = b.S;
+        S.echoFlipAt = 1e9;                 // 反転はしない閾値。_echo が毎ステップ末に呼ばれる状態を作る
+        let c = 0; const orig = S._echo;
+        S._echo = function () { c++; return orig.call(this); };
+        for (let k = 0; k < 50; k++) S.step(dt);
+        S._echo = orig; S.echoFlipAt = null;
+        return { calls: c, hits: S.periSubHits || 0, subs: S.periSubSteps || 0, t: S.t };
+      };
+      const R = {};
+      R.base = run(null, 200, 0.016);
+      R.n1 = run({ periSubsteps: { n: 1, rMul: 2 } }, 200, 0.016);      // ① n=1 = なし
+      R.on1 = run({ periSubsteps: { n: 4, rMul: 1e3 } }, 200, 0.016);   // ②③ 全域ゲート
+      R.on2 = run({ periSubsteps: { n: 4, rMul: 1e3 } }, 200, 0.016);
+      R.uni = run(null, 800, 0.004);
+      // ⑤ ゲートの両側: しきい値 1(= 決して近点近傍に入らない)は**素通りとビット同一**、
+      //    しきい値 0.95·r₀ は 0.36 公転の間に「入る前」と「入った後」が両方ある
+      R.gateOff = run({ periSubsteps: { n: 4, rMul: 1, rPeri: 1 } }, 200, 0.016);
+      R.gate = run({ periSubsteps: { n: 4, rMul: 1, rPeri: 0.95 * r0 } }, 20000, 0.016);
+      R.gateBase = run(null, 20000, 0.016);
+      R.evOff = evCount(null, 50, 0.016);
+      R.evOn = evCount({ periSubsteps: { n: 4, rMul: 1e3 } }, 50, 0.016);
+      const V = HP.validatePeriSubsteps;
+      R.val = {
+        key: HP.PERI_SUB_KEY === 'periSubsteps',
+        nullOk: V(null).ok === true && V(null).periSubsteps === null,
+        n1null: V({ n: 1 }).periSubsteps === null,
+        n0null: V({ n: 0 }).periSubsteps === null,
+        def: (() => { const z = V({ n: 4 }); return z.ok && z.periSubsteps.n === 4
+          && z.periSubsteps.rMul === HP.PERI_SUB_DEFAULT.rMul; })(),
+        clampN: V({ n: 1e9 }).periSubsteps.n === HP.PERI_SUB_CLAMPS.n[1],
+        clampR: V({ n: 4, rMul: 0 }).periSubsteps.rMul === HP.PERI_SUB_CLAMPS.rMul[0],
+        pairOk: (() => { const z = V({ n: 4, pair: [0, 1] }); return z.ok && z.periSubsteps.pair[1] === 1; })(),
+        badNum: V({ n: 'x' }).ok === false,
+        badPair: V({ n: 4, pair: [0, 0] }).ok === false && V({ n: 4, pair: [1] }).ok === false,
+        badType: V([1, 2]).ok === false,
+      };
+      return R;
+    });
+    const CK = {
+      bitZero: ps.n1.h === ps.base.h && ps.n1.sig === ps.base.sig && ps.n1.has === false,
+      determinism: ps.on1.h === ps.on2.h,
+      uniformEq: ps.on1.h === ps.uni.h,
+      substepCount: ps.on1.hits === 200 && ps.on1.subs === 800,
+      eventsOnce: ps.evOff.calls === 50 && ps.evOn.calls === 50 && ps.evOn.subs === 200 && ps.evOn.hits === 50,
+      gateOffBit: ps.gateOff.h === ps.base.h && ps.gateOff.hits === 0 && ps.gateOff.has === true,
+      gateWorks: ps.gate.hits > 0 && ps.gate.hits < 20000 && ps.gate.has === true
+        && ps.gate.h !== ps.gateBase.h,
+      pairAuto: !!ps.on1.pair && ps.on1.pair.length === 2 && ps.on1.rPeri > 0,
+      timeSame: Math.abs(ps.on1.t - ps.base.t) < 1e-9 && Math.abs(ps.evOn.t - ps.evOff.t) < 1e-9,
+      sane: ps.base.nan === false && ps.on1.nan === false && ps.gate.nan === false
+        && ps.base.clamp === 0 && ps.on1.clamp === 0 && ps.gate.clamp === 0,
+      validator: Object.keys(ps.val).every((k) => ps.val[k] === true),
+    };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    add('behavior.periSubsteps', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + `**未宣言は 1 bit 不変**: ⚡ 200 步のハッシュが宣言前後で同一(${ps.base.h})かつ physics 署名も同一`
+      + `(n=1 は「なし」へ正規化 — hasPeriSub=${ps.n1.has})=${CK.bitZero} / `
+      + `opt-in の決定性(同じ宣言で 2 回=ビット同一)=${CK.determinism} / `
+      + `**一様細分と厳密一致**: {n:4} の dt=0.016×200 步 が dt=0.004×800 步 とビット同一=${CK.uniformEq}`
+      + `(細分した外側步 ${ps.on1.hits}・踏んだサブステップ ${ps.on1.subs})=${CK.substepCount} / `
+      + `**イベントは最後のサブステップの後に 1 度だけ**: ステップ末の _echo が 外側 50 步に対し `
+      + `細分なし ${ps.evOff.calls} 回・細分あり ${ps.evOn.calls} 回(サブステップは ${ps.evOn.subs} 回踏んでいる)=${CK.eventsOnce} / `
+      + `**ゲート外はビット 0**(しきい値 1 = 近点近傍に入らない宣言で 200 步が素通りとビット同一・細分 ${ps.gateOff.hits} 回)=${CK.gateOffBit} / `
+      + `ゲート内だけ細分(しきい値 0.95·r₀ で 20000 步中 ${ps.gate.hits} 步が細分され、素通りと軌道が変わる)=${CK.gateWorks} / `
+      + `2 体は自動選択 pair=[${ps.on1.pair}]・r_peri=${ps.on1.rPeri === null ? '—' : ps.on1.rPeri.toFixed(3)}=${CK.pairAuto} / `
+      + `時刻 t は細分の有無に依らず同じだけ進む=${CK.timeSame} / NaN 0・クランプ 0=${CK.sane} / `
+      + `検証器(n≤1・null=なし/値域クランプ/不正入力 ok:false)=${CK.validator}`);
+  } else {
+    console.log('SKIP behavior.periSubsteps(対象に第252便b の近点サブステップなし — root 等)');
+  }
+}
+
 // ---- 第231便(第28報): behavior.supernovaObs — 超新星の観測転写(🥀 前駆星/🦀 残骸)----
 // 🥀: Joyce 一組整合の転写値+静止ビット保持。🦀: 膨張速度の転写(1506 km/s)・殻 KE=1.04e50 erg
 // (SN 1054 モデル帯と同桁・正準 1e51 の1桁下)・年齢算術・自由膨張・gas 宣言・決定性
