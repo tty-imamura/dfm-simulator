@@ -23746,10 +23746,12 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       HP.loadPreset('saturn', false);
       return out;
     });
+    // 第254便c: 頻用の指数組み合わせ6件を SCALE_BASES へ追加 → なし+15行(旧世代は なし+9行)
+    const wantBase = await page.evaluate(() => (typeof SCALE_BASES !== 'undefined') ? SCALE_BASES.length + 1 : 10);
     add('wave120.ui',
-      r.baseOpts === 10 && r.baseSet && r.tierMercury && r.ringTweak && r.kappa
+      r.baseOpts === wantBase && r.baseSet && r.tierMercury && r.ringTweak && r.kappa
       && r.abBtn && r.abPhys && r.hudMerged && r.kf1D0 && r.kf1Prec && r.newPresets,
-      `ベース9択+なし=${r.baseOpts}(e7選択=${r.baseSet}) / ☄️タグ=惑星=${r.tierMercury} / ` +
+      `ベース選択肢+なし=${r.baseOpts}(期待${wantBase}・e7選択=${r.baseSet}) / ☄️タグ=惑星=${r.tierMercury} / ` +
       `💍ts1+trail=${r.ringTweak} / κ併記=${r.kappa} / ワンタップphysics=${r.abBtn}&${r.abPhys} / ` +
       `歳差HUD統合=${r.hudMerged} / 🌘D0較正=${r.kf1D0}・正の積算=${r.kf1Prec} / 🪨💿=${r.newPresets}`);
   } else {
@@ -25840,6 +25842,139 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   } else {
     console.log('SKIP kernel.bitident(対象に第177便のカーネル特別化なし — root 等)');
   }
+}
+
+// ---- 第254便c(第46報「パラメータ」タブ関連タスク8件): ui.paramTabLayout ----
+// 8件を機械固定する: ①カテゴリ順(時空→引きずり・測地線→スピン・熱)②ステップ診断・物理ベンチが
+// 「シミュレーション」③保存量モニタが「共通設定」(hp_monitor 永続)④「光線」とλ0が1行
+// ⑤「粒子表示倍率」が「表示」⑥その英訳が ja と異なる⑦表示チェックボックスは⏮で保持・
+// 「プリセット既定値に戻す」でサンプル既定へ復帰⑧「ベースのスケール」に頻用の指数組み合わせ。
+// すべて**表示のみ**の契約 — 物理・presetSig の不変は既存の kernel.bitident / preset 系が担う。
+{
+  const lp = await browser.newPage();
+  const lpErr = [];
+  lp.on('pageerror', (e) => lpErr.push(String(e.message || e)));
+  await lp.goto(INDEX, { waitUntil: 'load' });
+  await lp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const has254c = await lp.evaluate(() => !!(window.HP && typeof DISPLAY_OVERLAY_KEYS !== 'undefined'
+    && document.querySelector('#monitorCb')));
+  if (has254c) {
+    const r = await lp.evaluate(() => {
+      const out = {};
+      const keepLang = (() => { try { return localStorage.getItem('hp_lang'); } catch (_) { return null; } })();
+      const keepMon = (() => { try { return localStorage.getItem('hp_monitor'); } catch (_) { return null; } })();
+      const cats = () => [...document.querySelectorAll('#paramRows details.catParams')]
+        .map((d) => (d.querySelector('summary').firstChild.textContent || '').trim());
+      const catOf = (name) => [...document.querySelectorAll('#paramRows details.catParams')]
+        .find((d) => (d.querySelector('summary').firstChild.textContent || '').trim() === name);
+      const inCat = (name, sel) => { const d = catOf(name); return !!(d && d.querySelector(sel)); };
+      HP.loadPreset('lensing', false);   // 💡: 光線ありのサンプル(rays 行の検査に要る)
+      out.cats = cats();
+      // ① 引きずり・測地線が 時空 と スピン・熱 の間
+      const iSt = out.cats.indexOf('時空'), iDg = out.cats.indexOf('引きずり・測地線'), iSh = out.cats.indexOf('スピン・熱');
+      out.catOrder = iSt >= 0 && iDg === iSt + 1 && iSh === iDg + 1;
+      // ② ステップ診断・物理ベンチ → シミュレーション(共通設定には無い)
+      out.diagInSim = inCat('シミュレーション', '#stepDiagCb') && inCat('シミュレーション', '#btnStepBench');
+      out.diagNotCommon = !inCat('共通設定', '#stepDiagCb') && !inCat('共通設定', '#btnStepBench');
+      // ③ 保存量モニタ → 共通設定(表示には無い)+ hp_monitor 永続
+      out.monInCommon = inCat('共通設定', '#monitorCb') && !inCat('表示', '#monitorCb');
+      { const cb = document.querySelector('#monitorCb'); const was = cb.checked;
+        cb.checked = !was; cb.dispatchEvent(new Event('change'));
+        out.monPersist = (localStorage.getItem('hp_monitor') === (cb.checked ? '1' : '0')) && HP.monitorNow() === cb.checked;
+        cb.checked = was; cb.dispatchEvent(new Event('change')); }
+      // ④ 「光線」トグル+λ0 が 1 行(「線の軌跡」+trailLife と同じ構造)
+      const rng = document.querySelector('#rayLambda0Range'), inp = document.querySelector('#rayLambda0In');
+      const rRow = rng && rng.closest('.prow');
+      out.raysOneRow = !!(rRow && inp && inp.closest('.prow') === rRow
+        && rRow.querySelector('label').textContent === HP.T('tgRays')
+        && rRow.querySelector('input[type=checkbox]'));
+      const tRow = document.querySelector('#trailLifeRange') && document.querySelector('#trailLifeRange').closest('.prow');
+      out.trailSameShape = !!(tRow && rRow && tRow !== rRow);
+      // λ0 の値域・既定は不変(スライダーは可視域・直値は可視外も受理)
+      out.lamDefault = HP.rayLambda0() === 580 && +rng.min === 380 && +rng.max === 780 && +rng.step === 5;
+      inp.value = '1200'; inp.dispatchEvent(new Event('change'));
+      out.lamWide = HP.rayLambda0() === 1200 && +rng.value === 780;
+      rng.value = '650'; rng.dispatchEvent(new Event('input'));
+      out.lamSlider = HP.rayLambda0() === 650;
+      HP.setRayLambda0(580);
+      // ⑤ 粒子表示倍率が「表示」カテゴリ(シミュレーションには無い)
+      const dispCat = catOf('表示');
+      const labTexts = (d) => d ? [...d.querySelectorAll('.prow label')].map((l) => l.textContent) : [];
+      out.dispMagInDisp = labTexts(dispCat).some((t) => t.startsWith('粒子表示倍率'))
+        && !labTexts(catOf('シミュレーション')).some((t) => t.startsWith('粒子表示倍率'));
+      out.dispMagCat = PARAM_DEFS.find((d) => d.key === 'dispMag').cat;
+      // ⑥ 英訳: I18N.en.params.dispMag があり ja と異なる
+      const jaLab = PARAM_DEFS.find((d) => d.key === 'dispMag').label;
+      HP.setLang('en');
+      HP.loadPreset('lensing', false);
+      out.dispMagEn = paramLabel(PARAM_DEFS.find((d) => d.key === 'dispMag'));
+      out.enCats = cats();
+      out.enDiffers = out.dispMagEn !== jaLab && /[A-Za-z]/.test(out.dispMagEn);
+      out.enDispHasMag = [...(catOf('Display') ? catOf('Display').querySelectorAll('.prow label') : [])]
+        .some((l) => l.textContent.startsWith(out.dispMagEn));
+      HP.setLang(keepLang === 'en' ? 'en' : 'ja');
+      HP.loadPreset('lensing', false);
+      // ⑦ 表示チェックボックス: ⏮ で保持・「プリセット既定値に戻す」で既定へ
+      const S0 = HP.sim;
+      out.presetDefaults = { trail: !!S0.overlays.trail, field: !!S0.overlays.field,
+        spaceMesh: !!S0.overlays.spaceMesh, rays: !!(S0.rays && S0.rays.n > 0) };
+      const flip = (label) => { const d = catOf('表示');
+        const row = [...d.querySelectorAll('.prow')].find((x) => (x.querySelector('label') || {}).textContent === label);
+        if (!row) return null; const cb = row.querySelector('input[type=checkbox]');
+        cb.checked = !cb.checked; cb.dispatchEvent(new Event('change')); return cb.checked; };
+      flip(HP.T('tgTrailLine')); flip(HP.T('tgField')); flip(HP.T('tgSpaceMesh')); flip(HP.T('tgRays'));
+      const flipped = { trail: !!HP.sim.overlays.trail, field: !!HP.sim.overlays.field,
+        spaceMesh: !!HP.sim.overlays.spaceMesh, rays: !!(HP.sim.rays && HP.sim.rays.n > 0) };
+      out.flippedAll = ['trail', 'field', 'spaceMesh', 'rays'].every((k) => flipped[k] !== out.presetDefaults[k]);
+      HP.sim.params.dispMag = 7;
+      document.getElementById('btnReset').click();
+      out.afterReset = { trail: !!HP.sim.overlays.trail, field: !!HP.sim.overlays.field,
+        spaceMesh: !!HP.sim.overlays.spaceMesh, rays: !!(HP.sim.rays && HP.sim.rays.n > 0), dispMag: HP.sim.params.dispMag };
+      out.keptOnReset = ['trail', 'field', 'spaceMesh', 'rays'].every((k) => out.afterReset[k] === flipped[k])
+        && out.afterReset.dispMag === 7;
+      document.getElementById('btnParamDefault').click();
+      out.afterDefaults = { trail: !!HP.sim.overlays.trail, field: !!HP.sim.overlays.field,
+        spaceMesh: !!HP.sim.overlays.spaceMesh, rays: !!(HP.sim.rays && HP.sim.rays.n > 0), dispMag: HP.sim.params.dispMag };
+      out.backOnDefaults = ['trail', 'field', 'spaceMesh', 'rays'].every((k) => out.afterDefaults[k] === out.presetDefaults[k])
+        && out.afterDefaults.dispMag === 1;
+      // ⑧ ベースのスケール: 追加した6件が選択肢にあり、選ぶと表の指数へ一括設定される
+      const NEW = ['gwBinary', 'psrBinary', 'planetStd', 'starBinary', 'cluster', 'galaxyReal'];
+      const sel = document.querySelector('#scaleBaseSel');
+      out.baseOptCount = sel.options.length;
+      out.baseHasNew = NEW.every((id) => [...sel.options].some((o) => o.value === id));
+      out.baseNames = NEW.map((id) => ([...sel.options].find((o) => o.value === id) || {}).textContent);
+      out.baseSetOk = NEW.every((id) => { const b = SCALE_BASES.find((x) => x.id === id);
+        sel.value = id; sel.dispatchEvent(new Event('change'));
+        const e = scaleEffNow();
+        return Math.abs(e.x - b.L) < 1e-9 && Math.abs(e.eT - b.T) < 1e-9 && Math.abs(e.eM - b.M) < 1e-9
+          && document.querySelector('#scaleBaseSel').value === id; });
+      // 一意性: どの2行も (L,T,M) が重複しない(matchBase が曖昧にならない)
+      out.baseUnique = new Set(SCALE_BASES.map((b) => `${b.L}/${b.T}/${b.M}`)).size === SCALE_BASES.length;
+      HP.setScaleExps(null);
+      HP.loadPreset('lensing', false);
+      try { if (keepMon === null) localStorage.removeItem('hp_monitor'); else localStorage.setItem('hp_monitor', keepMon); } catch (_) {}
+      try { if (keepLang === null) localStorage.removeItem('hp_lang'); else localStorage.setItem('hp_lang', keepLang); } catch (_) {}
+      return out;
+    });
+    const ok = r.catOrder && r.diagInSim && r.diagNotCommon && r.monInCommon && r.monPersist
+      && r.raysOneRow && r.trailSameShape && r.lamDefault && r.lamWide && r.lamSlider
+      && r.dispMagInDisp && r.dispMagCat === 'disp' && r.enDiffers && r.enDispHasMag
+      && r.flippedAll && r.keptOnReset && r.backOnDefaults
+      && r.baseHasNew && r.baseSetOk && r.baseUnique && lpErr.length === 0;
+    add('ui.paramTabLayout', ok,
+      `①順=[${r.cats.join('>')}]・時空>引きずり>スピン熱=${r.catOrder} / ` +
+      `②ステップ診断+物理ベンチ=シミュレーション(${r.diagInSim}・共通設定に無し=${r.diagNotCommon}) / ` +
+      `③保存量モニタ=共通設定(${r.monInCommon})・hp_monitor 永続=${r.monPersist} / ` +
+      `④光線+λ0 が1行=${r.raysOneRow}(線の軌跡と別行=${r.trailSameShape}・既定580/380〜780/5nm=${r.lamDefault}・` +
+      `直値1200受理=${r.lamWide}・スライダー650=${r.lamSlider}) / ` +
+      `⑤粒子表示倍率=表示カテゴリ(${r.dispMagInDisp}・cat=${r.dispMagCat}) / ⑥英訳="${r.dispMagEn}"(ja と別=${r.enDiffers}・EN Display 内=${r.enDispHasMag}) / ` +
+      `⑦既定[${JSON.stringify(r.presetDefaults)}]→反転=${r.flippedAll}→⏮保持=${r.keptOnReset}(dispMag=${r.afterReset.dispMag})→既定値に戻す=${r.backOnDefaults}(dispMag=${r.afterDefaults.dispMag}) / ` +
+      `⑧ベース選択肢=${r.baseOptCount}(追加6件=${r.baseHasNew}・一括設定=${r.baseSetOk}・指数一意=${r.baseUnique}) [${r.baseNames.join(' / ')}]` +
+      (lpErr.length ? ` / pageErrors=[${lpErr.slice(0, 2).join(' | ')}]` : ''));
+  } else {
+    console.log('SKIP ui.paramTabLayout(対象に第254便c のパラメータタブ整理なし — root 等)');
+  }
+  await lp.close();
 }
 
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));

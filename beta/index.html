@@ -839,7 +839,7 @@ ja: {
   benchResult:(r)=>`物理ベンチ: ${r.msPerStep.toFixed(3)} ms/步(${r.steps}步 計 ${r.ms.toFixed(1)}ms・N=${r.n})→ 予算${r.budgetMs}ms 内 ${r.stepsPerBudget} 步`,
   hudStepDiag:(d)=>`step ${d.want}→${d.run} (+${d.pend} pend) ${d.ms}ms/步 trim ${d.trim}/${d.win} fps ${d.fps} 実効×${d.eff}(要求×${d.req}) 破棄 ${d.cancel}步`
     +(d.bench? ` bench ${d.bench}ms/步` : ""),
-  grpCommonDesc:"サンプルに依らないアプリ全体の設定(描画品質・文字サイズ・スケール換算)。物理には影響しない。",
+  grpCommonDesc:"サンプルに依らないアプリ全体の設定(保存量モニタ・描画品質・文字サイズ・カメラ追従・上下反転)。物理には影響しない。",   /* 第254便c: 保存量モニタを追記・ステップ診断/物理ベンチはシミュレーションへ移動 */
   grpSpacetime:"時空", grpSpinHeat:"スピン・熱", grpDrag:"引きずり・測地線", grpLabBox:"実験箱",
   grpActive:"このサンプルの主役", grpAdvanced:"詳細設定(全パラメータ)",
   // 第95便(原仮定者指示): カテゴリの説明(ⓘ)を全カテゴリに用意
@@ -847,9 +847,9 @@ ja: {
   grpSpinHeatDesc:"スピン=熱のセクター(A9〜A12系)— 圧力の正体であるスピン斥力 kRep・摩擦 muF・衝突減衰 γn・熱伝導 κs・放射冷却 η_rad・ウィーン定数 b_m・熱容量 C。熱・温度・光のスペクトルに関わる法則。",
   grpDragDesc:"決定フレームの引きずりと測地線(A4/A5/E3/E6′/E12)— 背景決定力 D₀・空間引きずり kFrame・減衰指数 q・測地線モード geoPN・1PN補正。「空間が物質と光を運ぶ」効果の法則群。",
   grpLabBoxDesc:"箱境界のサンプル専用の実験条件 — 伝熱壁の壁温/壁レート(tint 箱のみ)と壁別の反発係数。箱を「ビーカーの壁」として外部環境を与える。箱境界のサンプルでのみ表示される。",
-  grpSimDesc:"物理法則ではなく数値・離散化の設定 — 粒子半径スケール・ソフトニング ε・時間倍率(速回し)・摂動注入。結果の頑健性を確かめる実験ノブでもある。",
+  grpSimDesc:"物理法則ではなく数値・離散化の設定 — ソフトニング ε・時間経過倍率(速回し)・摂動注入・ステップ診断・物理ベンチ。結果の頑健性を確かめる実験ノブでもある。",   /* 第254便c: ステップ診断・物理ベンチを追記(粒子表示倍率は表示カテゴリへ移動) */
   grpGraphDesc:"グラフウィンドウ(回転曲線・温度ヒストグラム・スペクトル・膨張・相変化・機構スペクトル・創発モニタ)の表示切替。表示のみ — OFF なら計測コストもゼロ。「初めから」ではリセットされない(第95便)。",
-  grpDisplayDesc:"画面表示の切替(温度色・軌跡・決定力マップ・光線・保存量モニタ・カメラ追従など)。すべて表示のみで物理には影響しない。",
+  grpDisplayDesc:"画面表示の切替(粒子表示倍率・線の軌跡・決定力マップ・空間メッシュ・光線と基準波長)。すべて表示のみで物理には影響しない。チェックボックスは「⏮ 初めから」では保持され、「プリセット既定値に戻す」でサンプルの既定へ戻る。",   /* 第254便c */
   physLockHead:"物理対応(GR較正)",
   physLockLabel:"物理対応ロック κ=G/cLight²",
   physLockDesc:"ONの間、時計・光の時空係数 κ を常に G/cLight² へ自動維持します(SI対応写像 κ=G/c²〔=1/Kt〕のシミュレータ内対応条件 — PHYSICS §5 物理対応条件)。κ は導出値になり、cLightやGを編集すると追随します(ロック中は κ のスライダー・直値入力はグレーアウトされ編集できません)。OFFでは3つを独立に編集できる「一般化トイ設定」で、GR較正の主張域外です。G=0 のときは κ=0(時空効果なし)が導出値そのものなので、第128便から厳密に成立します(旧 Kt 正準ではクランプによる近似でした)。導出値が κ の値域[0,1]の外になる場合(G が c² を超える等)はクランプされ、対応は近似になります。ロックの状態はセーブデータに保存され、セーブの読込で復元されます。別のサンプルを読み込むとロックは自動解除されます(意図しない κ 上書きの防止)。",
@@ -1192,7 +1192,7 @@ ja: {
   hudSysOpen:(r)=>`系: 開放系(${r} — リザーバ・帳簿を含めて読む)`,
   sysPin:"固定天体", sysRail:"レール", sysBath:"熱浴", sysWall:"伝熱壁", sysGrav:"外部重力",
   helpOps:"操作",
-  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。",
+  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。「パラメータ」タブは 時空 → 引きずり・測地線 → スピン・熱 →(実験箱など)→ シミュレーション → グラフ → 表示 → スケール → 共通設定 の順に並びます(第254便c)。「表示」カテゴリのチェックボックスは ⏮初めから では保持され、「プリセット既定値に戻す」でサンプルの既定に戻ります。「共通設定」(保存量モニタ・描画品質・文字サイズ・カメラ追従など)と「シミュレーション」のステップ診断・物理ベンチは端末に永続する設定で、サンプルを変えても引き継がれます。",   /* 第254便c: パラメータタブの構成を追記 */
   helpLaws:"この宇宙の法則(要約)",
   helpLawsBody:"① 空間は質点の相対配置だけで決まる(絶対空間なし)。② 決定力=質量÷距離。決定力の勾配が重力になる。③ 質点は「近くの空間」に対して慣性を持ち、空間ごと引きずられる(kFrame)。遠方宇宙の決定力がD₀。④ スピン=熱(温度T=Is²)。衝突で速度がスピンに変わり(muF)、スピンは斥力=圧力を生み(kRep)、拡散して平衡になる(κs)。⑤ 決定力が高い場所の時計は遅く、空間(共動フレーム)に対して速く動く時計も遅れる。光は同じψ=W·κ(κ=時空係数)で屈折して曲がり(n=e^{2ψ}。v1.7で時間と光を単一のψに統一)、「決定した空間」に運ばれる(c₀)。⑥ すべての相互作用は作用反作用対称で、運動量・角運動量を厳密に保存する(遠方宇宙との交換は帳簿に記録=保存量モニタ)。温度Tの質点はλ=b_m/Tの光を放射する(η_rad)。詳細は docs/PHYSICS.md(v1.6)。",
   ovCurve:"v(r): 実測(青) / 基準 v_bar(点線)", ovTemp:"平均温度(Is²) 左/右", ovLeft:"左", ovRight:"右",
@@ -1322,6 +1322,10 @@ ja: {
   // 第50便 50K(台帳4-78 C案): 構造化説明の区分見出し
   descSummaryHead:"📌 要約", descObserveHead:"👀 観察のポイント", descControlHead:"🎛 操作と対照",
   // 第74便→第98便: 7段階スケール(scaleTier)— チップ・換算表示・AI雛形(第84便C: 絞り込み用 grpScale は撤去)
+  // 第254便c: 「ベースのスケール」に追加した頻用組み合わせの名前(用途が分かる短い名)
+  scaleBase_gwBinary:"重力波連星(e4)", scaleBase_psrBinary:"パルサー連星(e6)",
+  scaleBase_planetStd:"惑星・標準(e8)", scaleBase_starBinary:"恒星連星(e10)",
+  scaleBase_cluster:"球状星団(e16)", scaleBase_galaxyReal:"実単位銀河(e19)",
   scaleName_molecular:"分子", scaleName_beaker:"ビーカー", scaleName_everyday:"日常",
   scaleName_planetary:"惑星", scaleName_stellar:"恒星",
   scaleName_galactic:"銀河", scaleName_cosmic:"宇宙全体",
@@ -1414,7 +1418,7 @@ en: {
   benchResult:(r)=>`Physics bench: ${r.msPerStep.toFixed(3)} ms/step (${r.steps} steps, ${r.ms.toFixed(1)}ms total, N=${r.n}) → ${r.stepsPerBudget} steps per ${r.budgetMs}ms budget`,
   hudStepDiag:(d)=>`step ${d.want}→${d.run} (+${d.pend} pend) ${d.ms}ms/step trim ${d.trim}/${d.win} fps ${d.fps} eff ×${d.eff} (req ×${d.req}) cancelled ${d.cancel}`
     +(d.bench? ` bench ${d.bench}ms/step` : ""),
-  grpCommonDesc:"App-wide settings that don't depend on the sample (render quality, text size, scale-converted display). Does not affect the physics.",
+  grpCommonDesc:"App-wide settings that don't depend on the sample (conservation monitor, render quality, text size, camera follow, vertical flip). Does not affect the physics.",   /* wave 254c */
   grpSpacetime:"Spacetime", grpSpinHeat:"Spin & Heat", grpDrag:"Dragging & Geodesics", grpLabBox:"Lab Box",
   grpActive:"Key settings of this sample", grpAdvanced:"Advanced (all parameters)",
   // wave 95: category descriptions (ⓘ) for every category
@@ -1422,9 +1426,9 @@ en: {
   grpSpinHeatDesc:"The spin=heat sector (A9–A12) — spin repulsion kRep (the origin of pressure), friction muF, collision damping γn, conduction κs, radiative cooling η_rad, Wien constant b_m and heat capacity C. Everything about heat, temperature and spectra.",
   grpDragDesc:"Determinacy-frame dragging and geodesics (A4/A5/E3/E6′/E12) — background determinacy D₀, frame dragging kFrame, falloff q, geodesic mode geoPN and the 1PN correction. The laws by which space carries matter and light.",
   grpLabBoxDesc:"Experimental conditions specific to box-bounded samples — thermal-wall temperature/rate (tint boxes only) and per-wall restitution. The box acts as a beaker wall providing an external environment. Shown only for box-bounded samples.",
-  grpSimDesc:"Numerical / discretization settings, not physical laws — particle radius scale, softening ε, time multiplier (fast-forward) and perturbation injection. Also robustness-testing knobs.",
+  grpSimDesc:"Numerical / discretization settings, not physical laws — softening ε, time multiplier (fast-forward), perturbation injection, step diagnostics and the physics bench. Also robustness-testing knobs.",   /* wave 254c */
   grpGraphDesc:"Toggles for graph windows (rotation curve, temperature histogram, spectrum, expansion, phase change, mechanism spectrum, emergence monitor). Display only — zero cost when OFF. Not reset by ⏮ Restart (wave 95).",
-  grpDisplayDesc:"Display toggles (temperature colors, trails, determinacy map, light rays, conservation monitor, camera follow, …). Display only — no effect on physics.",
+  grpDisplayDesc:"Display controls (particle display magnification, line trails, determinacy map, space mesh, light rays and their base wavelength). Display only — no effect on physics. The checkboxes are kept by \"⏮ Restart\" and returned to the sample defaults by \"Restore preset defaults\".",   /* wave 254c */
   physLockHead:"Physical correspondence (GR calibration)",
   physLockLabel:"Correspondence lock κ=G/cLight²",
   physLockDesc:"While ON, the spacetime coefficient κ (clocks & light) is automatically kept at G/cLight² — the in-simulator correspondence condition of the SI mapping κ=G/c² (=1/Kt; PHYSICS §5). κ becomes a derived value that follows edits to cLight or G (while locked, κ's slider and value box are greyed out and cannot be edited). While OFF, the three parameters are independent — a 'generalized toy setting' outside the GR-calibration claim domain. With G=0 the derived value is exactly κ=0 (no spacetime effect), so the lock holds exactly since wave 128 (the old Kt-canonical form could only clamp). If the derived value falls outside κ's range [0,1] it is clamped and the correspondence becomes approximate. The lock state is stored in save data and restored on load; loading a different preset automatically unlocks (preventing unintended κ overwrites).",
@@ -1753,7 +1757,7 @@ en: {
   hudSysOpen:(r)=>`System: open (${r} — read together with reservoirs/ledgers)`,
   sysPin:"pinned bodies", sysRail:"rail", sysBath:"heat bath", sysWall:"thermal walls", sysGrav:"external gravity",
   helpOps:"Controls",
-  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction.",
+  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction. The Parameters tab is ordered Spacetime → Dragging & Geodesics → Spin & Heat → (Lab Box etc.) → Simulation → Graphs → Display → Scale → General (wave 254c). Checkboxes in Display are kept by ⏮Restart and returned to the sample defaults by \"Restore preset defaults\". General (conservation monitor, render quality, text size, camera follow, …) and the step diagnostics / physics bench in Simulation are device-persistent settings that carry over between samples.",   /* wave 254c */
   helpLaws:"Laws of this universe (summary)",
   helpLawsBody:"(1) Space is defined only by the relative configuration of masses (no absolute space). (2) Determinacy = mass ÷ distance; its gradient is gravity. (3) Masses have inertia relative to the \"nearby space\" and are dragged along with it (kFrame). D₀ is the determinacy of the distant universe. (4) Spin = heat (T = Is²). Collisions convert velocity to spin (muF), spin creates repulsion = pressure (kRep), and diffuses to equilibrium (κs). (5) Clocks run slow where determinacy is high, and clocks moving fast relative to the comoving frame also run slow. Light refracts under the same ψ = W·κ (κ = the spacetime coefficient; n = e^{2ψ}; time and light unified in v1.7) and is carried by the \"determined space\" (c₀). (6) All interactions are action–reaction symmetric and conserve momentum and angular momentum exactly (exchanges with the distant universe are ledgered — see the conservation monitor). A mass at temperature T radiates at λ = b_m/T (η_rad). Details: docs/PHYSICS.md (v1.6).",
   ovCurve:"v(r): measured (blue) / baseline v_bar (dotted)", ovTemp:"Mean temperature (Is²) L/R", ovLeft:"L", ovRight:"R",
@@ -1879,6 +1883,10 @@ en: {
   // 第50便 50K(台帳4-78 C案): structured-description section heads
   descSummaryHead:"📌 Summary", descObserveHead:"👀 What to observe", descControlHead:"🎛 Controls & contrasts",
   // 第74便: 5-tier scale (scaleTier) — chips/conversion/AI templates (第84便C: filter-only grpScale removed)
+  // 第254便c: names of the frequently-used exponent combinations added to "Base scale"
+  scaleBase_gwBinary:"GW binary (e4)", scaleBase_psrBinary:"Pulsar binary (e6)",
+  scaleBase_planetStd:"Planetary standard (e8)", scaleBase_starBinary:"Stellar binary (e10)",
+  scaleBase_cluster:"Globular cluster (e16)", scaleBase_galaxyReal:"Real-unit galaxy (e19)",
   scaleName_molecular:"Molecular", scaleName_beaker:"Beaker", scaleName_everyday:"Everyday",
   scaleName_planetary:"Planetary", scaleName_stellar:"Stellar",
   scaleName_galactic:"Galactic", scaleName_cosmic:"Cosmic",
@@ -1916,7 +1924,8 @@ en: {
   // Reality Checks)へ改称。分類チップ(sampleClass calibration)と現実準拠チップ「📏 現実較正」は不変
   // 第151便(原仮定者指示): 新グループ「ローターの物語」(en: Rotor Stories)を銀河の物語の直後へ新設
   groups:{"空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河の物語":"Galaxy Stories","ローターの物語":"Rotor Stories","光の物語":"Light Stories","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","現実との照合・太陽系":"Reality Checks — Solar System","現実との照合・太陽系外":"Reality Checks — Beyond the Solar System","法則の実験室":"Law Lab","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
-  params:{G:"Gravity G", D0:"Background determinacy D₀", kFrame:"Frame dragging kFrame",
+  params:{dispMag:"Particle display magnification",   // 第254便c: 英訳が欠けていた(ja「粒子表示倍率」のまま出ていた)
+    G:"Gravity G", D0:"Background determinacy D₀", kFrame:"Frame dragging kFrame",
     q:"Drag falloff q", kRep:"Spin repulsion kRep", muF:"Friction→spin muF",
     gammaN:"Collision damping γn", kappaS:"Spin diffusion κs", kappaT:"Spacetime κ (time & light)",
     cLight:"Light speed c₀", bM:"Wien constant b_m", etaRad:"Radiative cooling η_rad",
@@ -2690,15 +2699,29 @@ const TIER_EC={molecular:3, beaker:0, everyday:0, planetary:4, stellar:4, galact
 // eC の手動上書きを廃止したため**一括設定の対象外**になった(eC は常にサンプルのティア別
 // x−eT)。C 列は各ティアの eC を示す参考値として残す。本表は表示セレクタ専用で、
 // サンプル読込時のタグ既定〔SCALE_ANCHORS+eC 規約〕には触れない
+// 第254便c(第46報「プリセットで良く使われるスケール指数の組み合わせを選択肢に追加する」):
+// 内蔵 118 本の実効指数(距離 x / 時間 eT / 質量 eM)を集計し、**既存9行に無く 2 本以上の
+// プリセットが使う組み合わせ 6 件**を追加した(nameKey 付きの行は用途名で表示する)。
+//   6/1/27  = 14本(📻⚡🧿🧮🩺… パルサー連星)   8/4/24 = 10本(⏱️🛰️☿🪐… 惑星タグの既定アンカー)
+//   10/6/29 =  6本(✨✴️🌟💫🥀🌹 恒星連星)      4/-3/29 =  4本(🎐🎻⏰⚛️ 重力波連星)
+//   16/12/35=  2本(🍇🫐 球状星団)              19/15/38=  2本(🌃🛞 実単位銀河)
+// 1本しか使わない組み合わせ(14/9/35 🦀・3/1/27 🏮)は入れない。並びは距離指数 x の昇順。
+// 表示セレクタ専用 — 物理・保存 JSON・サンプル読込時のタグ既定には一切触れない
 const SCALE_BASES=[
   {id:"molecular", tier:"molecular", suffix:"",     L:-10,  T:-13,  M:-26,  C:3},
   {id:"beaker",    tier:"beaker",    suffix:"",     L:-2.5, T:-2.5, M:-2.5, C:0},
   {id:"everyday",  tier:"everyday",  suffix:"",     L:0,    T:0,    M:0,    C:0},
+  {id:"gwBinary",  tier:"planetary", suffix:"",     L:4,    T:-3,   M:29,   C:4, nameKey:"scaleBase_gwBinary"},   // 第254便c: 🎐🎻⏰⚛️
+  {id:"psrBinary", tier:"planetary", suffix:"",     L:6,    T:1,    M:27,   C:4, nameKey:"scaleBase_psrBinary"},  // 第254便c: 📻⚡🧿🧮🩺…
   {id:"planetE6",  tier:"planetary", suffix:"(e6)", L:6,    T:2,    M:25,   C:4},
   {id:"planetE7",  tier:"planetary", suffix:"(e7)", L:7,    T:3,    M:26,   C:4},
+  {id:"planetStd", tier:"planetary", suffix:"",     L:8,    T:4,    M:24,   C:4, nameKey:"scaleBase_planetStd"},  // 第254便c: 惑星タグの既定アンカー ⏱️🛰️☿🪐…
   {id:"planetE8",  tier:"planetary", suffix:"(e8)", L:8,    T:4,    M:27,   C:4},
+  {id:"starBinary",tier:"stellar",   suffix:"",     L:10,   T:6,    M:29,   C:4, nameKey:"scaleBase_starBinary"}, // 第254便c: ✨✴️🌟💫🥀🌹
   {id:"stellar",   tier:"stellar",   suffix:"",     L:11,   T:7,    M:30,   C:4},
+  {id:"cluster",   tier:"stellar",   suffix:"",     L:16,   T:12,   M:35,   C:4, nameKey:"scaleBase_cluster"},    // 第254便c: 🍇🫐
   {id:"galactic",  tier:"galactic",  suffix:"",     L:19,   T:14,   M:34,   C:5},
+  {id:"galaxyReal",tier:"galactic",  suffix:"",     L:19,   T:15,   M:38,   C:5, nameKey:"scaleBase_galaxyReal"}, // 第254便c: 🌃🛞
   {id:"cosmic",    tier:"cosmic",    suffix:"",     L:23,   T:17,   M:42,   C:6}];
 // 第120便(原仮定者指示「スケールタグの表示は距離スケール指数に対応させる」):
 // scaleExp 宣言プリセットのタグは宣言 scaleTier ではなく距離指数 L から最近傍ティアを導出する
@@ -2885,7 +2908,9 @@ const PARAM_DEFS = [
   // 生きている(R=radiusScale·rMul·√m — 物理に効く離散化ノブ)が、スライダーからは外す。
   // 実単位サンプル(☄️🌙💍)は観測値の半径をそのまま持つため画面では点になる — dispMag が
   // 「描画だけ」を拡大する(接触判定・慣性・物理には一切入らない)
-  {key:"dispMag", label:"粒子表示倍率", mode:"log", lo:1, hi:1000, cat:"sim", group:"シミュレーション",
+  // 第254便c(第46報): 表示専用パラメータなので「シミュレーション」→「表示」カテゴリへ移す
+  // (cat は UI の所属だけを決める表示フィールド — params の鍵・保存形式・presetSig は 1 bit 不変)
+  {key:"dispMag", label:"粒子表示倍率", mode:"log", lo:1, hi:1000, cat:"disp", group:"シミュレーション",
    desc:"粒子の描画半径だけを拡大する表示専用の倍率(既定1)。観測値の半径(実単位サンプル)だと小さくて見辛い場合に使用する。接触判定・慣性・物理には一切影響しない — 純粋な虫めがね。"},
   {key:"timeScale",  label:"時間経過倍率",    mode:"log", lo:0.001, hi:1000, group:"シミュレーション",   /* 第97便: 範囲拡大 / 第118便(原仮定者指示): 0.001〜1000・「時間経過倍率」へ改名・粒子表示倍率の次へ */
    desc:"シミュレーション時間の進みの倍率(速回し)。物理法則は変わらず、1フレームに進む時間だけが変わる。発散したら下げるのが第一選択。(表示上の時間の読み替えは「スケール」カテゴリの時間スケール指数が担う)"},
@@ -17997,6 +18022,14 @@ let running=false, currentPreset=null, basePhysics=null, selIdx=-1;
 let selWorld="A";
 function selSimRef(){ return (ab && selWorld==="B")? ab.simB : sim; }
 let camX=0, camY=0, camScale=300, tempP90EMA=0.5, monitorOn=false;
+// 第254便c(第46報「保存量モニタ(P・L・帳簿)を『共通設定』カテゴリに移動する」):
+// 置き場所と一緒に**永続性も共通設定の流儀へ揃える**(hp_monitor に保存 — 描画品質・
+// ステップ診断・カメラ追従と同型)。既定値は現状維持: 未保存なら OFF で始まり、サンプルが
+// overlays.monitor:true を宣言していれば読込時に ON になる(loadPreset の ON のみ適用は不変)
+try{ monitorOn = localStorage.getItem("hp_monitor")==="1"; }catch(_){}
+function setMonitorOn(v){ monitorOn=!!v;
+  try{ localStorage.setItem("hp_monitor",monitorOn?"1":"0"); }catch(_){}
+  requestRender(); }
 // 第118便(原仮定者指示): 上下反転 — 描画の y 軸だけを反転する表示専用トグル(共通設定・
 // hp_flip_y 永続)。見た目の公転・自転を逆回転で確認するのが目的。物理座標・保存 JSON・
 // 一様重力 g_y の向き(+y)は一切変わらない — world→screen(w2sY)と screen→world の
@@ -21035,7 +21068,7 @@ function loadPreset(id, keepPhysics){
   trailBuf=[]; trailBufB=[];  // 軌道トレイルはプリセット読込・⏮初めからでリセット
   emergenceReset();           // 第82便B: 創発モニタの履歴もプリセット読込でリセット(表示層のみ)
   pmReset();                  // 第83便B: 相図の結果はプリセット単位・セッション内のみ(保存しない)
-  if(sim.overlays && sim.overlays.monitor) monitorOn=true;  // v1.12: プリセット既定の保存量モニタ(ONのみ適用)
+  if(sim.overlays && sim.overlays.monitor) setMonitorOn(true);  // v1.12: プリセット既定の保存量モニタ(ONのみ適用)/ 第254便c: 永続先へも書く
   basePhysics=Object.assign({},DEFAULT_PHYSICS,p.physics||{});
   camX=0; camY=0; camScale=p.camera.scale; tempP90EMA=0.5; selIdx=-1; nanNotified=false;
   // 第81便: カメラ追従はプリセット既定へ戻す(camera.follow があれば ON・無ければ「なし」)。
@@ -21370,9 +21403,24 @@ $("#btnCkLoad").addEventListener("click",()=>{
 const GRAPH_OVERLAY_KEYS=["rotationCurve","tempHistogram","spectrum","boxGraph","phaseGraph","mechSpectrum","emergence"];
 function snapshotGraphOverlays(){ const o={}; for(const k of GRAPH_OVERLAY_KEYS) o[k]=!!sim.overlays[k]; return o; }
 function applyGraphOverlays(S,o){ if(o) for(const k of GRAPH_OVERLAY_KEYS) S.overlays[k]=!!o[k]; }
+// 第254便c(第46報「『表示』カテゴリのパラメータの、チェックボックスの変更は、『初めから』では
+// 保持し、『プリセット既定値に戻す』でプリセットの既定値に戻す」):
+// 「表示」カテゴリのチェックボックス(温度色ではなく sim.overlays 系+光線束)を、グラフ
+// カテゴリ(第95便)と同じ流儀で ⏮初めから の前後に退避・復元する。光線は sim.rays の
+// 有無で表す表示状態なので、点灯していれば**現サンプルの束**(無宣言なら既定の平行光束)を
+// 作り直す。すべて表示のみ — 物理・保存 JSON・presetSig には一切入らない。
+// (保存量モニタは第254便c で共通設定〔hp_monitor 永続〕へ移したのでこの表の外)
+const DISPLAY_OVERLAY_KEYS=["trail","field","spaceMesh"];
+function presetRays(){ return (currentPreset&&currentPreset.rays)? JSON.parse(JSON.stringify(currentPreset.rays)) : null; }
+function snapshotDisplayOverlays(){ const o={}; for(const k of DISPLAY_OVERLAY_KEYS) o[k]=!!sim.overlays[k];
+  o.rays=!!(sim.rays&&sim.rays.n>0); return o; }
+function applyDisplayOverlays(S,o){ if(!o) return;
+  for(const k of DISPLAY_OVERLAY_KEYS) S.overlays[k]=!!o[k];
+  S.rays = o.rays ? (presetRays()||{n:26,spread:0.85}) : null; }
 $("#btnReset").addEventListener("click",()=>{
   // 第95便: グラフ(表示)とスケール指数(表示)は ⏮ で保持する
   const gsnap=snapshotGraphOverlays();
+  const dsnap=snapshotDisplayOverlays();   // 第254便c: 「表示」カテゴリのチェックボックスも ⏮ で保持する
   const esnap={L:scaleExpL, T:scaleExpT, M:scaleExpM};   // 第130便: eC は上書き廃止(常にタグ既定)
   if(ab){ // A/B中: 両方を初期配置へ(A・Bそれぞれの編集済みパラメータは保持)
     const keepA=Object.assign({},sim.params), keepB=Object.assign({},ab.simB.params);
@@ -21402,6 +21450,7 @@ $("#btnReset").addEventListener("click",()=>{
       }
     }
     applyGraphOverlays(sim,gsnap); applyGraphOverlays(ab.simB,gsnap);   // 第95便
+    applyDisplayOverlays(sim,dsnap); applyDisplayOverlays(ab.simB,dsnap);   // 第254便c
     trailBuf=[]; trailBufB=[]; selIdx=-1; nanNotified=false;
     stepGenBump("reset-ab");   // 第175便: ⏮初めから(A/B)も世代更新 — 旧配置の繰越は破棄
     running=false; updatePlayBtn(); buildParamRows(); updateBodyEdit();
@@ -21417,6 +21466,7 @@ $("#btnReset").addEventListener("click",()=>{
   sim.params=fastParams(keep); sim.updateRadii();   // 第250便e
   applyPhaseEdits(sim,snapP);            // 58B
   applyGraphOverlays(sim,gsnap);         // 第95便: グラフ表示を保持
+  applyDisplayOverlays(sim,dsnap);       // 第254便c: 「表示」カテゴリのチェックボックスを保持
   setScaleExps(esnap);                   // 第95便: スケール指数の上書き値を保持(null=タグ既定も保持)
   setParamsDirty(wasDirty);   // v1.17: ⏮はパラメータ保持なので未保存状態も維持
   buildParamRows();
@@ -22311,7 +22361,7 @@ function buildParamRows(){
     }
     for(const def of catDefs("st")){ if(def.key==="cLight" && cLinkRow) g.appendChild(cLinkRow); mkParamRow(def,g); }
   }
-  { const g=mkCat(T("grpSpinHeat"),T("grpSpinHeatDesc"));  for(const def of catDefs("sh")) mkParamRow(def,g); }
+  // 第254便c(第46報): 「引きずり・測地線」を「時空」と「スピン・熱」の間へ移す(表示順のみ)
   { const g=mkCat(T("grpDrag"),T("grpDragDesc"));
     // 第124便(原仮定者指示): qLock トグル行を「引きずり減衰 q」の直前に置く
     const qlRow=document.createElement("div"); qlRow.className="prow";
@@ -22328,6 +22378,7 @@ function buildParamRows(){
       cb.addEventListener("change",()=>setQLock(cb.checked));
       qlRow.appendChild(lab); qlRow.appendChild(cb); }
     for(const def of catDefs("dg")){ if(def.key==="q") g.appendChild(qlRow); mkParamRow(def,g); } }
+  { const g=mkCat(T("grpSpinHeat"),T("grpSpinHeatDesc"));  for(const def of catDefs("sh")) mkParamRow(def,g); }
   // 実験箱: 伝熱壁4面(天井/左/右/底)+壁別反発係数。
   // 第95便(原仮定者指示): 編集対象が無いとき(箱境界でも伝熱壁でもない)はカテゴリごと出さない
   if((sim.world && sim.world.boundary==="box") || sim.twall){
@@ -22338,7 +22389,8 @@ function buildParamRows(){
   // 第32便(W2): 箱宇宙(UniverseBox)の実験用パラメータ編集 — sim.box があるプリセットのみ表示
   if(sim.box) buildBoxParamRows(host);
   if(sim.phase) buildPhaseParamRows(host);   // 第53便 53D: 相変化(E14)の実験用パラメータ
-  { const g=mkCat(T("grpSim"),T("grpSimDesc"));
+  let simGroup=null;   // 第254便c: ステップ診断・物理ベンチを後段でこのカテゴリへ足すための参照
+  { const g=mkCat(T("grpSim"),T("grpSimDesc")); simGroup=g;
     // 第58便 58B: 時間倍率はシミュレーションカテゴリへ(applyBoth=A/B両方へ反映は従来どおり)。
     // 第119便(原仮定者指示): 「時間経過倍率」は「ソフトニング ε」の前(=粒子表示倍率の次)に置く
     const tsDef=PARAM_DEFS.find(d=>d.key==="timeScale");
@@ -22399,7 +22451,8 @@ function buildParamRows(){
     ["rays",T("tgRays"),()=>!!(sim.rays&&sim.rays.n>0),
       (v)=>{ const mk=()=> (currentPreset&&currentPreset.rays)?JSON.parse(JSON.stringify(currentPreset.rays)):{n:26,spread:0.85};
              sim.rays=v?mk():null; if(ab) ab.simB.rays=v?mk():null; },"tgRaysDesc"],
-    ["monitor",T("tgMonitor"),()=>monitorOn,(v)=>monitorOn=v,"tgMonitorDesc"]];
+    // 第254便c(第46報): 「保存量モニタ(P・L・帳簿)」は共通設定カテゴリへ移した(下の common 側)
+    ];
   // (第92便のスケールバートグルは第94便で「スケール」カテゴリへ移設)
   // 第79便(原仮定者指示): **グラフウィンドウ系のトグルは「グラフ」カテゴリへ分離**する
   // (「表示」カテゴリの上に新設)。オーバーレイの重なり順・A/B 連動・ゼロコスト条件は不変で、
@@ -22430,12 +22483,16 @@ function buildParamRows(){
       row.after(d);
     });
   };
-  let raysRow=null;   // 第38便: λ0行を「光線」トグル行の直後へ差し込むために参照を保持する
+  // 第254便c(第46報): 「粒子表示倍率」(dispMag — 表示専用)を「表示」カテゴリの先頭へ。
+  // cat:"disp" にしたので catDefs("disp") が拾う(キー・保存形式・presetSig は不変)
+  for(const def of catDefs("disp")) mkParamRow(def,disp);
   toggles.forEach(([id,label,get,set,descKey])=>{
     // 第121便(原仮定者指示): 「線の軌跡」行に残存時間(t.u.・0=無制限)を追加。
     // 第122便(原仮定者指示): 表示時間は**スライダー**で指定(既定 1000)+直値入力を併設。
     // 線は残り時間でだんだん暗くなる(drawTrailPolys — 表示専用・hp_trail_life 永続)
     const isTrailLine=(id==="trail");
+    // 第254便c(第46報「『光線』と『光線の基準波長(nm)』を1行にまとめる。『線の軌跡』を参考にする」)
+    const isRays=(id==="rays");
     const row=document.createElement("div"); row.className="prow";
     const lab=document.createElement("label"); lab.textContent=label; lab.style.flex="1";
     tapDesc(row,lab,descKey);
@@ -22457,38 +22514,45 @@ function buildParamRows(){
         rng.value=String(Math.min(5000,trailLife||0)); requestRender(); });
       row.insertBefore(rng, cb); row.insertBefore(num, cb);
     }
-    if(id==="rays") raysRow=row;
+    // 第37便 A3(原仮定者指示): 光線の基準波長λ0(nm)。表示専用(セーブ対象外・物理不変) —
+    // localStorage hp_ray_lambda0 に永続化。スライダーは可視光380〜780nm・5nm刻み、直値入力欄は
+    // 可視外(γ線〜遠赤外)も受理する広い clamp のまま — 両者は setRayLambda0 を共通の入口にする。
+    // 第254便c(第46報): 独立行(第38便)をやめ、「線の軌跡」と同じ**トグル行への同居**にした
+    // (値域・localStorage 鍵 hp_ray_lambda0・既定 580nm は不変。行ラベルはツールチップで補う)
+    if(isRays){
+      const rng=document.createElement("input"); rng.type="range"; rng.id="rayLambda0Range";
+      rng.min=380; rng.max=780; rng.step=5; rng.style.cssText="flex:0 0 84px;width:84px;";
+      const lamTip=T("rayLambda0Label")+" — "+T("rayLambda0Desc");
+      rng.value=clamp(rayLambda0,380,780); rng.title=lamTip;
+      const inp=document.createElement("input"); inp.type="text"; inp.inputMode="decimal";
+      inp.className="valIn"; inp.id="rayLambda0In"; inp.autocomplete="off";
+      inp.style.cssText="flex:0 0 56px;width:56px;text-align:right;";
+      inp.title=lamTip;
+      // γ線の 0.001 のような1未満の値が fmt() の丸めで 0.00 に潰れないよう、その場合だけ生値を出す
+      const fmtLam=(v)=> (v<1)? String(v) : fmt(v);
+      inp.value=fmtLam(rayLambda0);
+      rng.addEventListener("input",()=>{
+        setRayLambda0(parseFloat(rng.value));
+        inp.value=fmtLam(rayLambda0);
+      });
+      inp.addEventListener("change",()=>{
+        const v=parseFloat(inp.value.replace(/[,、\s]/g,""));
+        setRayLambda0(isFinite(v)? v : rayLambda0);
+        inp.value=fmtLam(rayLambda0);
+        rng.value=clamp(rayLambda0,380,780);   // 可視外の直値でもスライダーは可視域端に表示
+      });
+      row.insertBefore(rng, cb); row.insertBefore(inp, cb);
+    }
   });
-  // 第37便 A3(原仮定者指示): 光線の基準波長λ0(nm)。表示専用(セーブ対象外・物理不変) —
-  // localStorage hp_ray_lambda0 に永続化。
-  // 第38便(原仮定者指示): 「光線」トグル行の直後へ移動し、直値入力欄だけでなくスライダー
-  // (可視光380〜780nm・5nm刻み)も並べる。スライダーは可視域のみ操作でき、直値入力欄は
-  // 可視外(γ線〜遠赤外)も受理する広いclampのまま — 両者は setRayLambda0 を共通の入口にする
+  // 第254便c(第46報): 保存量モニタ(P・L・帳簿)— 表示トグル群から共通設定カテゴリへ移設。
+  // 永続は共通設定の流儀(hp_monitor)。既定は現状維持(未保存 OFF・サンプル宣言で ON)
   {
     const row=document.createElement("div"); row.className="prow";
-    const lab=document.createElement("label"); lab.textContent=T("rayLambda0Label"); lab.style.flex="0 0 auto";
-    tapDesc(row,lab,"rayLambda0Desc");
-    const rng=document.createElement("input"); rng.type="range";
-    rng.min=380; rng.max=780; rng.step=5; rng.style.flex="1"; rng.style.minWidth="60px";
-    rng.value=clamp(rayLambda0,380,780);
-    const inp=document.createElement("input"); inp.type="text"; inp.inputMode="decimal";
-    inp.className="valIn"; inp.autocomplete="off";
-    inp.style.width="56px"; inp.style.flex="0 0 56px";
-    // γ線の 0.001 のような1未満の値が fmt() の丸めで 0.00 に潰れないよう、その場合だけ生値を出す
-    const fmtLam=(v)=> (v<1)? String(v) : fmt(v);
-    inp.value=fmtLam(rayLambda0);
-    rng.addEventListener("input",()=>{
-      setRayLambda0(parseFloat(rng.value));
-      inp.value=fmtLam(rayLambda0);
-    });
-    inp.addEventListener("change",()=>{
-      const v=parseFloat(inp.value.replace(/[,、\s]/g,""));
-      setRayLambda0(isFinite(v)? v : rayLambda0);
-      inp.value=fmtLam(rayLambda0);
-      rng.value=clamp(rayLambda0,380,780);   // 可視外の直値でもスライダーは可視域端に表示
-    });
-    row.appendChild(lab); row.appendChild(rng); row.appendChild(inp);
-    disp.insertBefore(row, raysRow? raysRow.nextSibling : null);
+    const lab=document.createElement("label"); lab.textContent=T("tgMonitor"); lab.style.flex="1";
+    tapDesc(row,lab,"tgMonitorDesc");
+    const cb=document.createElement("input"); cb.type="checkbox"; cb.id="monitorCb"; cb.checked=monitorOn;
+    cb.addEventListener("change",()=>{ setMonitorOn(cb.checked); });
+    row.appendChild(lab); row.appendChild(cb); common.appendChild(row);
   }
   // v1.23: 描画品質(自動/正確/軽量)。localStorage hp_quality に永続化。ラベルタップで説明
   // → 第81便C(原仮定者指示): 「表示」から「共通設定」カテゴリへ移動(挙動・保存先は不変)
@@ -22565,8 +22629,9 @@ function buildParamRows(){
     const sel=document.createElement("select"); sel.id="scaleBaseSel"; sel.style.flex="0 0 150px";
     const oNone=document.createElement("option"); oNone.value=""; oNone.textContent=T("scaleBaseNone"); sel.appendChild(oNone);
     // 第120便(原仮定者指示): 選択肢を9行表(SCALE_BASES — 惑星 e6/e7/e8・スケール別 eC)へ
+    // 第254便c: nameKey つきの行(頻用の組み合わせ)は用途名で表示する
     for(const b of SCALE_BASES){ const o=document.createElement("option"); o.value=b.id;
-      o.textContent=SCALE_EMOJI[b.tier]+" "+T("scaleName_"+b.tier)+b.suffix; sel.appendChild(o); }
+      o.textContent=SCALE_EMOJI[b.tier]+" "+(b.nameKey? T(b.nameKey) : T("scaleName_"+b.tier)+b.suffix); sel.appendChild(o); }
     // 第130便: eC は上書き対象から外れた(常にタグ既定=ティア別 x−eT)ので、
     // 一致判定・一括設定とも距離/時間/質量の3指数だけを見る(表 C 列は参考値として残す)
     const matchBase=()=>{ const e=scaleEffNow();
@@ -22695,16 +22760,19 @@ function buildParamRows(){
     row.appendChild(lab); row.appendChild(cb); common.appendChild(row);
   }
   // 第175便 ③: ステップ診断の1行表示(既定 OFF・hp_step_diag 永続)。保存量モニタ・
-  // スケール換算表示と同じ「共通設定のトグル → HUD に1行追記」の流儀に揃える(表示のみ)
+  // スケール換算表示と同じ「トグル → HUD に1行追記」の流儀に揃える(表示のみ)
+  // 第254便c(第46報): 置き場所を「共通設定」→「シミュレーション」カテゴリへ移した
+  // (永続先 localStorage hp_step_diag・サンプル非依存という性質は不変)
   {
     const row=document.createElement("div"); row.className="prow";
     const lab=document.createElement("label"); lab.textContent=T("tgStepDiag"); lab.style.flex="1";
     tapDesc(row,lab,"tgStepDiagDesc");
     const cb=document.createElement("input"); cb.type="checkbox"; cb.id="stepDiagCb"; cb.checked=stepDiagOn;
     cb.addEventListener("change",()=>{ setStepDiag(cb.checked); });
-    row.appendChild(lab); row.appendChild(cb); common.appendChild(row);
+    row.appendChild(lab); row.appendChild(cb); if(simGroup) simGroup.appendChild(row); else common.appendChild(row);
   }
   // 第175便 ⑤: 簡易ベンチ(描画なしで 200步)。複製 sim で走るので本編は 1 ビットも変わらない
+  // 第254便c(第46報): 置き場所を「共通設定」→「シミュレーション」カテゴリへ移した(挙動不変)
   {
     const row=document.createElement("div"); row.className="prow";
     const lab=document.createElement("label"); lab.textContent=T("benchLabel"); lab.style.flex="1";
@@ -22721,7 +22789,8 @@ function buildParamRows(){
       notify(T("benchResult")(r), 8000);
       syncHud();   // 診断1行を出していれば bench の値もその場で反映する
     });
-    row.appendChild(lab); row.appendChild(out); row.appendChild(btn); common.appendChild(row);
+    row.appendChild(lab); row.appendChild(out); row.appendChild(btn);
+    if(simGroup) simGroup.appendChild(row); else common.appendChild(row);   // 第254便c
   }
   // 第79便(原仮定者指示): 「グラフ」カテゴリ(グラフウィンドウ表示の切替)を「表示」の上に新設
   {
@@ -22747,7 +22816,15 @@ function buildParamRows(){
   else updatePhysLockBadge();
 }
 $("#btnParamDefault").addEventListener("click",()=>{
-  sim.params=fastParams(basePhysics); sim.updateRadii(); buildParamRows();   // 第250便e
+  sim.params=fastParams(basePhysics); sim.updateRadii();   // 第250便e
+  // 第254便c(第46報): 「表示」カテゴリのチェックボックスもプリセットの既定値へ戻す
+  // (⏮初めから は保持・こちらが復帰の入口。共通設定〔永続〕には触れない)
+  const pov=(currentPreset&&currentPreset.overlays)||{};
+  const dflt={rays:!!(currentPreset&&currentPreset.rays)};
+  for(const k of DISPLAY_OVERLAY_KEYS) dflt[k]=!!pov[k];
+  applyDisplayOverlays(sim,dflt); if(ab) applyDisplayOverlays(ab.simB,dflt);
+  if(!dflt.trail){ trailBuf=[]; trailBufB=[]; }
+  buildParamRows();
   requestRender();
   notify(T("defaultsDone"));
 });
@@ -28374,7 +28451,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   paramRoles:()=>PARAM_DEFS.map(d=>({key:d.key, role:paramRole(d.key),
     declared:Object.prototype.hasOwnProperty.call(PARAM_ROLES,d.key)})),
   // 第91便 EXT-14: 保存モニタの ON/OFF(QA用 — 表示トグルと同じフラグを直接読む/書く)
-  setMonitor:(v)=>{ monitorOn=!!v; requestRender(); },
+  setMonitor:(v)=>{ setMonitorOn(v); },   // 第254便c: 共通設定として hp_monitor に永続
   monitorNow:()=>monitorOn,
   running:()=>running, setRunning:(v)=>{running=v; if(!v) stepGenBump("pause"); updatePlayBtn();},
   recTrail, drawRadiusCap, Q_TRAILPTS,  // 第29便: 軌跡上限・描画半径上限のQA用
