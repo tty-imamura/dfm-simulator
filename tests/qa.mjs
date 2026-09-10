@@ -11191,11 +11191,14 @@ if (!FAST) {
 //         掃引幅を 10 倍・100 倍にすると ΔN も 10 倍・100 倍(線形)
 //   (iii) 掃引しても **ΔN=0 ⇔ Δτ=0**(「縞が出なければ到着時間が一致している」)
 //   (iv)  固定波長で ψ を合わせた**後**に Δτ が δ 動く(装置を回す)と、**位相は
-//         Δφ=−2πν₀·δ(Δτ) だけ動く**(3 審査 v10 ChatGPT: 固定波長でも遅延差の感度は消えない)。
-//         同じ δ(Δτ) でも**掃引の縞移動は δ(ΔN)=−Δν·δ(Δτ)** と桁が全く違う
+//         Δφ=−2πν₀·δ(Δτ) だけ動き、検出器の縞も δN_detector=δΔφ/2π=−ν₀·δ(Δτ) だけ動く**。
+//         同じ δ(Δτ) に対する**掃引寄与 δ(N_sweep)=−Δν·δ(Δτ)** とは桁が全く違う
 //   (v)   決定性・門(c/λ₀ の非有限・負の τ・NaN の ψ/ν̇ は null)
-// **「位相は変わらない」は ΔN(縞計数)としては成り立ち、Δφ(位相)としては成り立たない** ——
-// この 2 つを同じ表で分けるのが本ブロックの目的である。
+// **第253便c(第45報・3 審査 v11 L7)の訂正**: 第252便c が「ΔN」と呼んだ量は**一定の Δτ に対する
+// 掃引寄与 N_sweep=−Δν·Δτ** であって**検出器の縞移動ではない**。Δν=0 で消えるのは掃引寄与だけで、
+// **固定波長でも遅延差が変われば検出器の縞は動く** —— したがって「位相は変わるが縞の本数は
+// 変わらない」という読みは**採らない**(明示名の正対照は behavior.mmDetectorFringe)。
+// 本ブロックの**判定値は 1 つも変えていない**(説明文だけを訂正した)。
 {
   const hasCo = await page.evaluate(() => !!(window.HP && typeof HP.dfmMMCoherent === 'function'));
   if (hasCo) {
@@ -11285,13 +11288,14 @@ if (!FAST) {
       `掃引幅 ×1/×10/×100 で ΔN=${co.iiL.map((r) => r[1]).join('/')}(線形)=${k2} / ` +
       `(iii) **ΔN=0 ⇔ Δτ=0**: Δτ=${co.iii[0][0]}→ΔN=${co.iii[0][1]}・Δτ=${co.iii[1][0]}→ΔN=${co.iii[1][1]}・` +
       `Δτ=${co.iii[2][0]}→**ΔN=${co.iii[2][1]}**(sweepNull=${co.iii[2][2]})=${k3} / ` +
-      `(iv) **ψ を合わせた後に δ(Δτ)=0.125 が入ると位相は Δφ=${co.iv[1].toFixed(9)} rad(=−π/4=${co.iv[3]} 縞)動く** ` +
-      `—— 固定波長でも到着時間差の**変化**は位相に効く(3 審査 v10)。同じ δ(Δτ) の掃引側の寄与は ` +
-      `δ(ΔN)=${co.iv[4]} で桁が違う=${k4} / (iv′) dfmMMPhase の Δφ=2πcΔt/λ との交差検算(符号だけ逆・和が厳密 0)=${k5} / ` +
+      `(iv) **ψ を合わせた後に δ(Δτ)=0.125 が入ると位相は Δφ=${co.iv[1].toFixed(9)} rad 動き、検出器の縞も ` +
+      `δN_detector=${co.iv[3]} 縞(=−π/4 相当)動く** —— 固定波長でも到着時間差の**変化**は検出器に効く` +
+      `(第253便c 訂正)。同じ δ(Δτ) の**掃引寄与**は δ(N_sweep)=${co.iv[4]} で桁が違う=${k4} / ` +
+      `(iv′) dfmMMPhase の Δφ=2πcΔt/λ との交差検算(符号だけ逆・和が厳密 0)=${k5} / ` +
       `(SI) 1887 装置(L=11 m・λ₀=500 nm・ΔL=1 mm・Δν=1 MHz): Δτ=${co.si[0].toExponential(6)} s・` +
       `ψ 合わせで Δφ_fixed=${co.si[4]}・**掃引で ΔN=${co.si[1].toExponential(6)} 縞**、` +
-      `δ(Δτ)=1e−16 s で **Δφ=${co.siRot[0].toExponential(6)} rad=${co.siRot[1].toExponential(6)} 縞**` +
-      `(掃引側は δ(ΔN)=${co.siRot[2].toExponential(6)})=${k6} / (v) 決定性=${co.det}・門=${co.gate}`);
+      `δ(Δτ)=1e−16 s で **Δφ=${co.siRot[0].toExponential(6)} rad=検出器の縞 ${co.siRot[1].toExponential(6)} 縞が動く**` +
+      `(同じ δ(Δτ) の掃引寄与は ${co.siRot[2].toExponential(6)} 縞 = 約 6×10⁸ 倍の差)=${k6} / (v) 決定性=${co.det}・門=${co.gate}`);
   } else {
     console.log('SKIP behavior.mmCoherent(対象に第252便c の HP.dfmMMCoherent なし — root 等)');
   }
@@ -11300,18 +11304,26 @@ if (!FAST) {
 // ---- 第252便c(第44報): behavior.mmLambdaSweep — 3 規約の波長掃引と受動鏡境界の検算 ----
 // (HP.dfmMMLambdaSweep)。第251便c の 3 規約を、原仮定者(第44報)の「固定波長 / 波長を時間変化」の
 // 2 つの読みで並べ、さらに 3 審査 v10 ChatGPT の**受動鏡境界の周波数検算**を機械固定する:
-//   (L1) L=3・λ₀=1・c=1・β=0.5: **stretch は固定 λ₀ で ΔN=0(ビット厳密)だが ΔT=1.0717967… ≠ 0**
-//        → Δν=1 で掃引すると **ΔN_sweep=−ΔT≠0**(「固定波長なら到着時間は効かない」は**計数の話**)
-//   (L2) galilean は ΔN=4.0957290…≠0(固定波長でも縞が出る)。**ΔT は 3 規約で同じ**(T は波長規約に依らない)
-//   (L3) comoving は ΔN=0 かつ **ΔT=0**(掃引しても縞が動かない = 到着時間が一致している唯一の規約)
+//   (L1) L=3・λ₀=1・c=1・β=0.5: **stretch は光路の波数計数 ΔN_path=0(ビット厳密)だが ΔT=1.0717967… ≠ 0**
+//        → Δν=1 で掃引すると **ΔN_sweep=−ΔT≠0**。**第253便c 訂正**: ΔN_path=0 は「固定波長なら
+//        到着時間は効かない」ことを意味しない —— 検出器の縞は δN_detector=−ν₀·δ(Δτ) で動き、
+//        ΔN_path と検出信号の同定は済んでいない(`detectorNull` は常に null を返す)
+//   (L2) galilean は ΔN_path=4.0957290…≠0。**ΔT は stretch と galilean で同じ**(T は波長規約に依らない
+//        —— ただし comoving は装置と同じ枠なので幾何が違い ΔT=0。「3 規約共通」ではない)
+//   (L3) comoving は ΔN_path=0 かつ **ΔT=0**。**この「到着時間が一致するのは comoving だけ」は
+//        等長 2 腕・一様並進・β≠0・この 3 規約に限った言明である**(β=0 なら 3 規約とも一致・
+//        腕長差があれば comoving でも Δτ が残る・回転装置は別の境界問題 — 3 審査 v11 L8)
 //   (B1) **受動鏡境界(ω=u·k+c|k| と ω−V·k 保存)で stretch は ρ₊=(1−β)²=0.25・ρ₋=(1+β)²=2.25**
 //        (ChatGPT の 0.25 対 2.25 を再現)・比 9・鏡が返す波長は規約値の 9 倍 → **不整合**
 //   (B2) galilean は ρ₊=ρ₋=1・鏡が返す波長=規約値(整合)。comoving も u=V の下で ρ=1(整合)
 //   (B3) stretch を u=V で検算しても ρ₊=0.5・ρ₋=1.5(比 3)で**やはり整合しない**
 //   (L4) ChatGPT §7 の L=10 表を同じ器で(ΔT=3.572655899081635・stretch ΔN=0・galilean ΔN=13.65243…)
 //   (L5) 門(β≥1・非有限・未知/空 rule・NaN の uFrac は null)・決定性
-// **これは「stretch を導出した」でも「反証した」でもない** —— stretch が ω=c|k| と ω−V·k 保存とは
-// **別の仮定**であることを数値で示すだけである(第251便c C(ii) の「仮定であって導出ではない」を維持)。
+// **stretch そのものを導出したのでも反証したのでもない**が、**ω=u·k+c|k| と ω−V·k 保存の 2 法則との
+// 両立は否定された**(第253便c・3 審査 v11 L8 —— 「何に対しても反証されていない」という免責にはしない)。
+// stretch は**規約として保持し、未導出であると明記する**(第251便c C(ii) を維持)。境界則が閉じない
+// 規約について ΔT を連続波式へ入れた `dPhiFixedLambda` は**条件付きの代入診断**であって、その規約が
+// 自己整合に予測した検出器の縞ではない。
 {
   const hasSw = await page.evaluate(() => !!(window.HP && typeof HP.dfmMMLambdaSweep === 'function'));
   if (hasSw) {
@@ -11385,11 +11397,210 @@ if (!FAST) {
       `ω=c|k| に入れると ν₊=${sw.bs[2]}・ν₋=${sw.bs[3]} となり **ρ₊=${sw.bs[4]}=(1−β)² 対 ρ₋=${sw.bs[5]}=(1+β)²**(比 ${sw.bs[6]})—— ` +
       `鏡が返す波長は ${sw.bs[7]} で規約値の **${sw.bs[8]} 倍**・u=V で検算しても ρ₊=${sw.bu[4]}/ρ₋=${sw.bu[5]}(比 ${sw.bu[6]})で` +
       `**整合しない**=${b1} / (B2) galilean(u=0)と comoving(u=V)は ρ₊=ρ₋=1・鏡の波長比 1 で**整合**=${b2} / ` +
-      `(L4) L=10: ΔT=${sw.b.s[5].toFixed(9)}(3 規約共通)・stretch ΔN=${sw.b.s[2]}・galilean ΔN=${sw.b.g[2].toFixed(9)}=${l4} / ` +
+      `(L4) L=10: ΔT=${sw.b.s[5].toFixed(9)}(stretch/galilean 共通・comoving は ${sw.b.c[5]})・stretch ΔN_path=${sw.b.s[2]}・galilean ΔN_path=${sw.b.g[2].toFixed(9)}=${l4} / ` +
       `(L5) rules 絞り込み=${l5}・決定性=${sw.det}・門(β≥1・非有限・未知/空 rule・NaN uFrac)=${sw.gate}。` +
-      `**stretch を導出も反証もしていない** —— ω=c|k| と ω−V·k 保存とは別の仮定であることを数値で示すだけ`);
+      `**stretch そのものを導出も反証もしていないが、ω=u·k+c|k| と ω−V·k 保存の 2 法則との両立は否定された** ` +
+      `—— 「何に対しても反証されていない」という免責にはしない(第253便c・3 審査 v11 L8。stretch は規約として保持し未導出と明記する)`);
   } else {
     console.log('SKIP behavior.mmLambdaSweep(対象に第252便c の HP.dfmMMLambdaSweep なし — root 等)');
+  }
+}
+
+// ---- 第253便c(第45報・3 審査 v11 L7): behavior.mmDetectorFringe — **固定波長の正対照** ----
+// 第252便c は「固定波長では位相は動くが縞の本数は動かない」と読んだ。**この読みを訂正する**:
+// 連続波の検出器強度は I=I₁+I₂+2√(I₁I₂)cosΔφ・Δφ=−2πν₀Δτ+ψ なので、**固定波長でも遅延差が
+// 変われば検出器の縞は δN_detector=δΔφ/2π=−ν₀·δ(Δτ) だけ動く**。区別すべきは 3 量である:
+//   ① **検出器の縞移動** δN_detector = −ν₀·δ(Δτ) —— 固定波長で**動く**(`detectorFringeShift`)
+//   ② **掃引寄与** N_sweep = −Δν·Δτ —— **Δν=0 なら 0**(`sweepFringeShift`)。遅延への無感度ではない
+//   ③ **光路の波数計数** N_path —— stretch で一致するよう仮定した量で、**検出信号とは未同定**
+// 本ブロックは **Δν=0(掃引を止めた)固定波長の装置**を正対照として置き、① が 0 でないこと・
+// ② が 0 であること・両者の桁比を機械固定する。判定値は第252便c のものを 1 つも変えていない。
+//   (F1) 等長 2 腕・ψ 合わせ・**掃引なし**で δ(Δτ)=10⁻¹⁶ s: **①=−0.05995849 縞**(=−ν₀δ(Δτ)・
+//        dphiRot/2π と一致)・**②=0 かつ ② の変化=0**(ビット厳密)
+//   (F2) 同じ装置に Δν=1 MHz の掃引を足すと ① は**そのまま**・② の変化だけが −10⁻¹⁰ 縞になる
+//        (比 **約 6×10⁸ 倍**)—— Δν=0 で消えるのは掃引寄与だけである
+//   (F3) 旧名との同値(fringesRot/dN/dNRot がそれぞれ ①②③′ とビット同一 — 旧返値は保持)
+//   (F4) `dfmMMLambdaSweep` の **stretch は pathCountNull=true かつ detectorNull=null**
+//        (この計算からは検出器の null を判定していない)。galilean は pathCountNull=false
+{
+  const hasDF = await page.evaluate(() => !!(window.HP && typeof HP.dfmMMCoherent === 'function'
+    && typeof HP.dfmMMLambdaSweep === 'function'));
+  if (hasDF) {
+    const df = await page.evaluate(() => {
+      const C = 299792458, LAM = 5e-7, NU0 = C / LAM;
+      const EQ = { c: C, lambda0: LAM, L1: 11, L2: 11 };            // 等長 2 腕(Δτ=0)
+      const fix = HP.dfmMMCoherent(Object.assign({}, EQ, { nullPhase: true, dTau: 1e-16 }));
+      const swp = HP.dfmMMCoherent(Object.assign({}, EQ, { nullPhase: true, dTau: 1e-16,
+        nudot: 1e9, t: 1e-3 }));
+      const dl = HP.dfmMMCoherent({ c: C, lambda0: LAM, L1: 11, L2: 11.001, nullPhase: true,
+        dTau: 1e-16, nudot: 1e9, t: 1e-3 });
+      const sw = HP.dfmMMLambdaSweep({ L: 3, lambda0: 1, beta: 0.5, c: 1, dNu: 1 });
+      const R = (k) => { const r = sw.byRule[k];
+        return [r.dN, r.pathCountNull, r.fixedNull, r.detectorNull, r.dT, r.dNsweep]; };
+      const alias = [Object.is(fix.detectorFringeShift, fix.fringesRot),
+        Object.is(swp.sweepFringeShift, swp.dN), Object.is(swp.sweepFringeShiftChange, swp.dNRot),
+        Object.is(dl.sweepFringeShift, dl.dN)];
+      return { fix: [fix.detectorFringeShift, fix.dphiRot, fix.sweepFringeShift,
+          fix.sweepFringeShiftChange, fix.dphiFixed, fix.dtau, fix.dNu],
+        swp: [swp.detectorFringeShift, swp.sweepFringeShift, swp.sweepFringeShiftChange, swp.dNu],
+        dl: [dl.detectorFringeShift, dl.sweepFringeShift, dl.sweepFringeShiftChange],
+        expect: -(NU0 * 1e-16), nu0: NU0, note: fix.note,
+        rules: { s: R('stretch'), g: R('galilean'), c: R('comoving') },
+        detNote: (sw.byRule.stretch.detectorNote || '').length > 0, alias };
+    });
+    const E = (a, b) => Object.is(a, b);
+    // (F1) 固定波長(Δν=0)で **検出器の縞は動く**・掃引寄与だけが 0
+    const f1 = E(df.fix[0], df.expect) && df.fix[0] !== 0
+      && Math.abs(df.fix[0] - (-0.0599584916)) < 1e-15
+      && Math.abs(df.fix[1] / (2 * Math.PI) / df.fix[0] - 1) < 1e-15
+      && E(df.fix[2], 0) && E(df.fix[3], 0) && E(df.fix[4], 0) && E(df.fix[5], 0) && E(df.fix[6], 0);
+    // (F2) 掃引を足しても ① は不変・② の変化だけが出る(比 約 6×10⁸)
+    const f2 = E(df.swp[0], df.fix[0]) && E(df.swp[1], 0) && df.swp[2] !== 0
+      && Math.abs(df.swp[2] - (-1e-10)) < 1e-24 && E(df.swp[3], 1e6)
+      && Math.abs(df.fix[0] / df.swp[2] / 5.99584916e8 - 1) < 1e-12
+      // 腕長差 ΔL=1 mm を足すと ② 本体も 0 でなくなる(第252便c の 6.671282e−6 縞)
+      && df.dl[1] > 6.6e-6 && df.dl[1] < 6.7e-6 && E(df.dl[0], df.fix[0]);
+    // (F3) 旧名は値そのまま(後方互換)
+    const f3 = df.alias.every((v) => v === true);
+    // (F4) 光路の波数計数の null と、**検出器の null を判定していない**こと
+    const f4 = E(df.rules.s[0], 0) && df.rules.s[1] === true && df.rules.s[2] === true
+      && df.rules.s[3] === null && df.rules.s[4] !== 0
+      && df.rules.g[1] === false && df.rules.g[3] === null
+      && E(df.rules.c[0], 0) && df.rules.c[1] === true && df.rules.c[3] === null
+      && E(df.rules.c[4], 0) && df.detNote;
+    add('behavior.mmDetectorFringe',
+      f1 && f2 && f3 && f4,
+      `(F1) **固定波長(Δν=0)の正対照**(SI 1887 装置 L=11 m・λ₀=500 nm・等長 2 腕・ψ 合わせ済み)に ` +
+      `δ(Δτ)=1e−16 s が入ると **検出器の縞は δN_detector=${df.fix[0]} 縞(=−ν₀δ(Δτ)・δΔφ=${df.fix[1].toExponential(6)} rad)動く** —— ` +
+      `**掃引寄与は sweepFringeShift=${df.fix[2]}・その変化=${df.fix[3]}(ビット厳密 0)**=${f1} / ` +
+      `(F2) Δν=${df.swp[3].toExponential(0)} の掃引を足しても ①は ${df.swp[0]} のまま・② の変化だけが ${df.swp[2].toExponential(6)} 縞になる` +
+      `(**比 ${(df.fix[0] / df.swp[2]).toExponential(6)} = 約 6×10⁸ 倍**)。腕長差 ΔL=1 mm を足すと ② 本体が ${df.dl[1].toExponential(6)} 縞=${f2} / ` +
+      `(F3) 旧名 fringesRot/dN/dNRot は値そのまま(後方互換)=${f3} / ` +
+      `(F4) dfmMMLambdaSweep: stretch は **pathCountNull=${df.rules.s[1]}(=旧 fixedNull)だが detectorNull=${df.rules.s[3]}** ` +
+      `(この計算から検出器の null は判定していない)・ΔT=${df.rules.s[4].toFixed(9)}≠0・galilean は pathCountNull=${df.rules.g[1]}・` +
+      `comoving は ΔN_path=${df.rules.c[0]} かつ ΔT=${df.rules.c[4]}=${f4}。` +
+      `**「位相は変わるが縞の本数は変わらない」という救済は採らない**(第252便c B(iv) の訂正)`);
+  } else {
+    console.log('SKIP behavior.mmDetectorFringe(対象に第252便c の HP.dfmMMCoherent なし — root 等)');
+  }
+}
+
+// ---- 第253便c(第45報・3 審査 v11 §6.1): behavior.meshWaveRHS — メッシュ上の波動法則候補 ----
+// `HP.dfmMeshWaveRHS(mesh, ray, c, gradC)` は ω=u_mesh·k+c|k| の Hamilton 方程式
+//   ẋ = u_mesh + c·k̂ ・ k̇ = −(∇u_mesh)ᵀk − |k|∇c
+// の右辺を 1 点で返す純関数である。**幾何から一意には出ない候補の 1 本**であって、DFM のどの法則から
+// 出るかは未導出 —— 本ブロックが機械固定するのは「この右辺が 2 つの既知の極限を再現すること」だけで、
+// **どの MM 規約(stretch/galilean/comoving)を導出したという主張も含まない**。
+//   (M1) **一様膨張** B=H·I(H=0.3・c=1・T=2): 解析解 k=k₀e^{−Ht}・x=a·x₀+c·k̂₀(a−1)/H と RK4 が
+//        一致し(n=320 で誤差 3.6e−13)、**|k|·a=1**(=|k|∝1/a・波長 ∝ a)。刻み半減で誤差は約 16 分の 1
+//   (M2) **剛体回転** B=Ω·J(Ω=0.7・c=1・T=3): 解析解 k=R(Ωt)k₀・x=R(Ωt)(x′₀+c·k̂₀t)と一致し、
+//        **|k| は不変**(n=800 で |k|−1 が −2.0e−15)。右辺 1 点でも k·k̇ は対称点 k=(1,1) で**ビット厳密 0**
+//   (M3) 一様並進(B=0)は k̇=0・∇c だけが k を曲げる(k̇=−|k|∇c)・せん断は **転置** (∇u)ᵀ で入る
+//   (M4) |k| のスケール非依存(k を 7 倍しても ẋ は同じ・k̇ は 7 倍)・決定性・
+//        門(|k|=0・c≤0・非有限・短い gradU・非有限 ∇c は null)
+{
+  const hasMW = await page.evaluate(() => !!(window.HP && typeof HP.dfmMeshWaveRHS === 'function'));
+  if (hasMW) {
+    const mw = await page.evaluate(() => {
+      const F = (mesh, ray, c, gc) => HP.dfmMeshWaveRHS(mesh, ray, c, gc);
+      const rk4 = (mesh, y0, c, T, n) => {
+        let y = y0.slice(); const h = T / n;
+        const f = (v) => { const r = F(mesh, { x: v[0], y: v[1], kx: v[2], ky: v[3] }, c);
+          return [r.dx, r.dy, r.dkx, r.dky]; };
+        for (let i = 0; i < n; i++) {
+          const a = f(y);
+          const b = f(y.map((v, j) => v + h / 2 * a[j]));
+          const c3 = f(y.map((v, j) => v + h / 2 * b[j]));
+          const d = f(y.map((v, j) => v + h * c3[j]));
+          y = y.map((v, j) => v + h / 6 * (a[j] + 2 * b[j] + 2 * c3[j] + d[j]));
+        }
+        return y;
+      };
+      const mx = (a, b) => Math.max(...a.map((v, j) => Math.abs(v - b[j])));
+      const K0 = [0.6, 0.8], y0 = [1, 0.5, K0[0], K0[1]];       // |k₀|=1 はビット厳密
+      // (M1) 一様膨張
+      const H = 0.3, TA = 2, A = Math.exp(H * TA);
+      const mE = { origin: [0, 0], velocity: [0, 0], gradU: [H, 0, 0, H] };
+      const eE = [A * y0[0] + K0[0] * (A - 1) / H, A * y0[1] + K0[1] * (A - 1) / H, K0[0] / A, K0[1] / A];
+      const rowsE = [20, 40, 80, 160, 320].map((n) => {
+        const y = rk4(mE, y0, 1, TA, n);
+        return [n, mx(y, eE), Math.hypot(y[2], y[3]) * A];
+      });
+      // (M2) 剛体回転
+      const OM = 0.7, TB = 3;
+      const mR = { origin: [0, 0], velocity: [0, 0], gradU: [0, -OM, OM, 0] };
+      const cs = Math.cos(OM * TB), sn = Math.sin(OM * TB);
+      const xp = [y0[0] + K0[0] * TB, y0[1] + K0[1] * TB];
+      const eR = [cs * xp[0] - sn * xp[1], sn * xp[0] + cs * xp[1],
+        cs * K0[0] - sn * K0[1], sn * K0[0] + cs * K0[1]];
+      const rowsR = [50, 100, 200, 400, 800].map((n) => {
+        const y = rk4(mR, y0, 1, TB, n);
+        return [n, mx(y, eR), Math.hypot(y[2], y[3]) - 1];
+      });
+      const rSym = F(mR, { x: 1, y: 0.5, kx: 1, ky: 1 }, 1);
+      const dk2Sym = 2 * (rSym.dkx + rSym.dky);
+      // (M3) 並進・∇c・せん断
+      const mT = { origin: [0, 0], velocity: [0.25, -0.5], gradU: [0, 0, 0, 0] };
+      const tr = F(mT, { x: 3, y: -2, kx: 0.6, ky: 0.8 }, 2);
+      const gc = F(mT, { x: 3, y: -2, kx: 0.6, ky: 0.8 }, 2, [0.1, -0.2]);
+      const sh = F({ origin: [1, 1], velocity: [0, 0], gradU: [0, 1, 0, 0] },
+        { x: 3, y: 4, kx: 0.6, ky: 0.8 }, 1);
+      // 位置に依らない(B=0 なら origin をずらしても同じ)・u(x)=velocity+B·(x−origin) の確認
+      const uAt = F({ origin: [2, 3], velocity: [1, 0], gradU: [0.5, 0, 0, 0.5] },
+        { x: 4, y: 3, kx: 1, ky: 0 }, 1);
+      const scale = (() => {
+        const a = F(mR, { x: 1, y: 0.5, kx: 0.6, ky: 0.8 }, 1);
+        const b = F(mR, { x: 1, y: 0.5, kx: 4.2, ky: 5.6 }, 1);
+        return [a.dx === b.dx, a.dy === b.dy, b.dkx / a.dkx, b.dky / a.dky];
+      })();
+      const gate = [F({}, { x: 0, y: 0, kx: 0, ky: 0 }, 1), F({}, { x: 0, y: 0, kx: 1, ky: 0 }, 0),
+        F({}, { x: 0, y: 0, kx: 1, ky: 0 }, -1), F({}, { x: NaN, y: 0, kx: 1, ky: 0 }, 1),
+        F({ gradU: [1, 2, 3] }, { x: 0, y: 0, kx: 1, ky: 0 }, 1),
+        F({}, { x: 0, y: 0, kx: Infinity, ky: 0 }, 1),
+        F({ velocity: [NaN, 0] }, { x: 0, y: 0, kx: 1, ky: 0 }, 1),
+        F({}, { x: 0, y: 0, kx: 1, ky: 0 }, 1, [NaN, 0])].every((v) => v === null);
+      const D = () => JSON.stringify(F({ origin: [0.5, -1], velocity: [0.2, 0.3],
+        gradU: [0.1, -0.2, 0.3, 0.4] }, { x: 2, y: 3, kx: -0.5, ky: 1.25 }, 1.5, [0.01, 0.02]));
+      return { rowsE, rowsR, dk2Sym, tr: [tr.dx, tr.dy, tr.dkx, tr.dky, tr.omega],
+        gc: [gc.dkx, gc.dky], sh: [sh.dkx, sh.dky], uAt: [uAt.dx, uAt.dy, uAt.omega],
+        scale, gate, det: D() === D() };
+    });
+    const ord = (rows) => rows.slice(1).map((r, i) => Math.log2(rows[i][1] / r[1]));
+    const oE = ord(mw.rowsE), oR = ord(mw.rowsR);
+    // (M1) 一様膨張: 解析一致・|k|∝1/a・観測次数 ≈4
+    const m1 = mw.rowsE[4][1] < 1e-11 && Math.abs(mw.rowsE[4][2] - 1) < 1e-11
+      && mw.rowsE.every((r) => Math.abs(r[2] - 1) < 1e-7)
+      && oE.every((o) => o > 3.8 && o < 4.2);
+    // (M2) 剛体回転: 解析一致・|k| 不変・観測次数 ≈4・対称点の k·k̇ はビット厳密 0
+    const m2 = mw.rowsR[4][1] < 1e-10 && Math.abs(mw.rowsR[4][2]) < 1e-12
+      && mw.rowsR.every((r) => Math.abs(r[2]) < 1e-7)
+      && oR.every((o) => o > 3.8 && o < 4.2) && Object.is(mw.dk2Sym, 0);
+    // (M3) 並進は k̇=0・∇c だけが曲げる・せん断は転置で入る(B01 は dky に効く)
+    const m3 = mw.tr[0] === 1.45 && mw.tr[1] === 1.1 && mw.tr[2] === 0 && mw.tr[3] === 0
+      && mw.tr[4] === 1.75 && mw.gc[0] === -0.1 && mw.gc[1] === 0.2
+      && mw.sh[0] === 0 && mw.sh[1] === -0.6
+      // u(x)=velocity+B·(x−origin): origin=(2,3)・velocity=(1,0)・B=0.5I・x=(4,3) なら u=(2,0)
+      && mw.uAt[0] === 3 && mw.uAt[1] === 0 && mw.uAt[2] === 3;
+    // (M4) スケール非依存・門・決定性
+    const m4 = mw.scale[0] === true && mw.scale[1] === true && mw.scale[2] === 7 && mw.scale[3] === 7
+      && mw.gate === true && mw.det === true;
+    const fx = (x) => Number(x).toExponential(6);
+    add('behavior.meshWaveRHS',
+      m1 && m2 && m3 && m4,
+      `(M1) **一様膨張 B=H·I**(H=0.3・c=1・T=2・a=e^{HT}=${Math.exp(0.6).toFixed(9)}): RK4 と解析解 ` +
+      `k=k₀e^{−Ht}/x=a·x₀+c·k̂₀(a−1)/H の最大誤差は n=${mw.rowsE[0][0]}→${mw.rowsE[4][0]} で ` +
+      `${mw.rowsE.map((r) => fx(r[1])).join(' → ')}(**観測次数 ${oE.map((o) => o.toFixed(3)).join('/')}** = 約 4 次)。` +
+      `**|k|·a=${mw.rowsE[4][2].toFixed(15)}**(=|k|∝1/a・波長 ∝ a)=${m1} / ` +
+      `(M2) **剛体回転 B=Ω·J**(Ω=0.7・c=1・T=3): 誤差 ${mw.rowsR.map((r) => fx(r[1])).join(' → ')}` +
+      `(**観測次数 ${oR.map((o) => o.toFixed(3)).join('/')}**)・**|k|−1=${fx(mw.rowsR[4][2])}(不変)**・` +
+      `右辺 1 点の k·k̇ は対称点 k=(1,1) で ${mw.dk2Sym}(ビット厳密)=${m2} / ` +
+      `(M3) 一様並進 u=(0.25,−0.5)・c=2: ẋ=(${mw.tr[0]},${mw.tr[1]})・**k̇=(${mw.tr[2]},${mw.tr[3]})**・ω=${mw.tr[4]}、` +
+      `∇c=(0.1,−0.2) で k̇=(${mw.gc[0]},${mw.gc[1]})=−|k|∇c、せん断 B=[[0,1],[0,0]] で k̇=(${mw.sh[0]},${mw.sh[1]})` +
+      `(**転置** (∇u)ᵀ の確認)=${m3} / (M4) |k| スケール非依存(ẋ 同一・k̇ は ${mw.scale[2]} 倍)・` +
+      `門(|k|=0・c≤0・非有限・短い gradU・非有限 ∇c)=${mw.gate}・決定性=${mw.det}=${m4}。` +
+      `**この候補は幾何から一意には出ない**(未導出)—— MM の 3 規約のどれかを導出したという主張は含まない`);
+  } else {
+    console.log('SKIP behavior.meshWaveRHS(対象に第253便c の HP.dfmMeshWaveRHS なし — root 等)');
   }
 }
 
