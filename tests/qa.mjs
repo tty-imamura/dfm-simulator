@@ -12490,6 +12490,224 @@ if (!FAST) {
   }
 }
 
+// ---- 第254便b(第46報「銀河の空間メッシュ」): behavior.galaxyMesh — 局所場と物質線の契約 ----
+//   HP.dfmGalaxyMeshField / dfmGalaxyTracer*(Create/Step/Observe)/ dfmGalaxyMeshRecord だけを叩く
+//   軽量ブロック(エンジンは新サンプルの短い走行しか回さない — QA_FAST でも走る)。固定するのは 8 項目:
+//     ① **加算形 W の分割不変**: 同じ位置の質量 4 を 1+3 に分けても W・χ・u・∇u・∂u/∂t がビット同一
+//     ② **χ の単調性**: 中心ほど χ→1・外へ単調に減る/D₀ を上げると χ が単調に下がる/D₀=0 で χ=1・
+//        D₀=∞ で χ=0(このとき u は u_bg とビット一致 = 現行への回帰)
+//     ③ **回転場で物質線が cos/sin と一致**: 剛体回転 u=Ω(−y,x) の指定場で Δθ=Ωt・det F=1(丸めまで)
+//     ④ **原子的停止**: 場が 1 点でも非有限を返したら **1 節点も動かない**(位置・F・θ がビット不動)
+//     ⑤ **未登録は 1 bit 不変**: tracer を作った走行と作らない走行で 200 步後の状態がビット同一
+//     ⑥ **決定性**: 同じ tracer 走行 2 回が全節点でビット同一
+//     ⑦ **門**: 非有限点・負 D₀・NaN D₀・p≤0・源なし・不正 spec・不正 tracer は null / false
+//     ⑧ **新サンプル 🎠**: NaN 0・2 回ビット同一・overlays.spaceMesh が {mode:"tracer"} へ正規化される
+//   **これは表示と記録の契約であって、力の接続ではない**(銀河へ力を載せる条件は未決 — PHYSICS〔第254便b〕⑧)。
+{
+  const hasGM = await page.evaluate(() => typeof HP.dfmGalaxyMeshField === 'function'
+    && typeof HP.dfmGalaxyTracerCreate === 'function' && typeof HP.dfmGalaxyTracerStep === 'function'
+    && typeof HP.dfmGalaxyTracerObserve === 'function' && typeof HP.dfmGalaxyMeshRecord === 'function');
+  if (hasGM) {
+    const gm = await page.evaluate(() => {
+      const bit = (a, b) => Object.is(a, b);
+      const bitArr = (a, b) => Array.isArray(a) && Array.isArray(b) && a.length === b.length
+        && a.every((z, i) => Object.is(z, b[i]));
+      const o = {};
+
+      // ---------- ① 加算形 W の分割不変(同じ位置の質量 4 を 1+3 に分ける)
+      const A = [{ m: 4, x: 0, y: 0, vx: 0.25, vy: -0.5 }, { m: 1, x: 40, y: 10, vx: -1, vy: 2 }];
+      const B = [{ m: 1, x: 0, y: 0, vx: 0.25, vy: -0.5 }, { m: 3, x: 0, y: 0, vx: 0.25, vy: -0.5 },
+        { m: 1, x: 40, y: 10, vx: -1, vy: 2 }];
+      const fa = HP.dfmGalaxyMeshField(A, 13, -7, { D0: 1, eps: 0.5, p: 2, bg: 'static' });
+      const fb = HP.dfmGalaxyMeshField(B, 13, -7, { D0: 1, eps: 0.5, p: 2, bg: 'static' });
+      o.split = { W: fa.W, chi: fa.chi,
+        wBit: bit(fa.W, fb.W), chiBit: bit(fa.chi, fb.chi),
+        uBit: bitArr(fa.u, fb.u), gradBit: bitArr(fa.gradU, fb.gradU),
+        dtBit: bitArr(fa.dUdt, fb.dUdt), gradWBit: bitArr(fa.gradW, fb.gradW) };
+
+      // ---------- ② χ の単調性(半径・D₀ の 2 方向)と両端の極
+      const P = [{ m: 1000, x: 0, y: 0, vx: 0, vy: 0 }];
+      const rr = [1, 5, 20, 80, 200];
+      const chiR = rr.map((r) => HP.dfmGalaxyMeshField(P, r, 0, { D0: 1, eps: 1, p: 2, bg: 'static' }).chi);
+      const chiD = [0.01, 0.1, 1, 10, 100].map((d) =>
+        HP.dfmGalaxyMeshField(P, 20, 0, { D0: d, eps: 1, p: 2, bg: 'static' }).chi);
+      const f0 = HP.dfmGalaxyMeshField(P, 20, 0, { D0: 0, eps: 1, p: 2, bg: 'static' });
+      const fInf = HP.dfmGalaxyMeshField(P, 20, 0, { D0: Infinity, eps: 1, p: 2, bg: 'static' });
+      // D₀=∞ の極では u が u_bg(static なら 0)とビット一致し、∇u も 0
+      o.chi = { chiR, chiD, chiZero: f0.chi, chiInf: fInf.chi,
+        monoR: chiR.every((z, i) => i === 0 || z < chiR[i - 1]),
+        monoD: chiD.every((z, i) => i === 0 || z < chiD[i - 1]),
+        infBit: bit(fInf.u[0], 0) && bit(fInf.u[1], 0) && fInf.gradU.every((z) => Object.is(z, 0)),
+        zeroMode: f0.mode, infMode: fInf.mode };
+
+      // ---------- ③ 剛体回転の指定場で Δθ=Ωt・det F=1
+      const OM = 0.7;
+      const rot = (x, y) => ({ u: [-OM * y, OM * x], gradU: [0, -OM, OM, 0], dUdt: [0, 0], chi: 1 });
+      const S0 = HP.sim;
+      const trR = HP.dfmGalaxyTracerCreate(S0, { lines: 3, perLine: 4, rMin: 2, rMax: 20, field: rot });
+      const DT = 0.002, NS = 500;                       // t = 1
+      for (let k = 0; k < NS; k++) HP.dfmGalaxyTracerStep(trR, DT, S0);
+      const obR = HP.dfmGalaxyTracerObserve(trR, { nodes: true });
+      let dThMax = 0, detMax = 0, cosMax = 0;
+      for (const nd of obR.nodes) {
+        dThMax = Math.max(dThMax, Math.abs(nd.dTheta - OM * DT * NS));
+        detMax = Math.max(detMax, Math.abs(nd.detF - 1));
+      }
+      for (let i = 0; i < trR.n; i++) {                 // cos/sin の一致(回転行列そのもの)
+        const c = Math.cos(OM * DT * NS), s = Math.sin(OM * DT * NS);
+        const x0 = trR.x0[i] - trR.cx, y0 = trR.y0[i] - trR.cy;
+        cosMax = Math.max(cosMax, Math.abs(trR.x[i] - trR.cx - (c * x0 - s * y0)),
+          Math.abs(trR.y[i] - trR.cy - (s * x0 + c * y0)));
+      }
+      o.rot = { omega: OM, t: DT * NS, dThetaErr: dThMax, detFErr: detMax, cosSinErr: cosMax,
+        steps: obR.steps, stopped: obR.stopped, windMean: obR.windMean };
+      S0.hasGalaxyTracer = false; S0._galTracer = null;
+
+      // ---------- ④ 原子的停止(1 点だけ非有限を返す場)
+      let hits = 0;
+      const bad = (x, y) => { hits++;
+        return (hits === 7) ? { u: [NaN, 0], gradU: [0, 0, 0, 0], dUdt: [0, 0], chi: 1 }
+          : { u: [-OM * y, OM * x], gradU: [0, -OM, OM, 0], dUdt: [0, 0], chi: 1 }; };
+      const trA = HP.dfmGalaxyTracerCreate(S0, { lines: 2, perLine: 4, rMin: 2, rMax: 20, field: bad });
+      const snap = { x: Array.from(trA.x), y: Array.from(trA.y), F: Array.from(trA.F), th: Array.from(trA.th) };
+      const okStep = HP.dfmGalaxyTracerStep(trA, 0.01, S0);
+      o.atomic = { returned: okStep, stopped: trA.stopped, reason: trA.stopReason, steps: trA.steps,
+        xBit: bitArr(Array.from(trA.x), snap.x), yBit: bitArr(Array.from(trA.y), snap.y),
+        fBit: bitArr(Array.from(trA.F), snap.F), thBit: bitArr(Array.from(trA.th), snap.th),
+        // 停止後の呼び出しは false のまま(黙って再開しない)
+        afterStop: HP.dfmGalaxyTracerStep(trA, 0.01, S0) === false };
+      S0.hasGalaxyTracer = false; S0._galTracer = null;
+
+      // ---------- ⑤⑥ 未登録は 1 bit 不変・登録した走行は決定的
+      const mk = () => { const pd = HP.allPresets().find((p) => p.id === 'galaxyMeshSpiral')
+          || HP.allPresets().find((p) => p.id === 'galaxyStd');
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
+        const S = HP.sim; S.build(v.preset); return S; };
+      const hashS = (S) => { let h = 2166136261 >>> 0;
+        const push = (z) => { const b = new Float64Array([z]); const u = new Uint32Array(b.buffer);
+          h = (Math.imul(h ^ u[0], 16777619)) >>> 0; h = (Math.imul(h ^ u[1], 16777619)) >>> 0; };
+        for (let i = 0; i < S.n; i++) { push(S.x[i]); push(S.y[i]); push(S.vx[i]); push(S.vy[i]); push(S.spin[i]); }
+        push(S.t); return h.toString(16) + ':' + S.n; };
+      const hashT = (tr) => { let h = 5381 >>> 0;
+        const push = (z) => { const b = new Float64Array([z]); const u = new Uint32Array(b.buffer);
+          h = (Math.imul(h, 33) ^ u[0]) >>> 0; h = (Math.imul(h, 33) ^ u[1]) >>> 0; };
+        for (let i = 0; i < tr.n; i++) { push(tr.x[i]); push(tr.y[i]); push(tr.th[i]);
+          for (let k = 0; k < 4; k++) push(tr.F[4 * i + k]); }
+        return h.toString(16); };
+      let S = mk(); for (let k = 0; k < 200; k++) S.step(0.016);
+      const hNo = hashS(S);
+      S = mk();
+      const trE = HP.dfmGalaxyTracerCreate(S, { lines: 4, perLine: 6, rMin: 20, rMax: 200,
+        field: { bgGrad: 'zero' } });
+      for (let k = 0; k < 200; k++) S.step(0.016);
+      const hYes = hashS(S), tYes = hashT(trE);
+      S = mk();
+      const trE2 = HP.dfmGalaxyTracerCreate(S, { lines: 4, perLine: 6, rMin: 20, rMax: 200,
+        field: { bgGrad: 'zero' } });
+      for (let k = 0; k < 200; k++) S.step(0.016);
+      o.hook = { stateBit: hNo === hYes, tracerBit: tYes === hashT(trE2),
+        hNo, hYes, steps: trE.steps, stopped: trE.stopped };
+
+      // ---------- ⑦ 門
+      const gates = {
+        nanPoint: HP.dfmGalaxyMeshField(A, NaN, 0, { D0: 1, bg: 'static' }) === null,
+        infPoint: HP.dfmGalaxyMeshField(A, 0, Infinity, { D0: 1, bg: 'static' }) === null,
+        negD0: HP.dfmGalaxyMeshField(A, 1, 1, { D0: -1, bg: 'static' }) === null,
+        nanD0: HP.dfmGalaxyMeshField(A, 1, 1, { D0: NaN, bg: 'static' }) === null,
+        zeroP: HP.dfmGalaxyMeshField(A, 1, 1, { D0: 1, p: 0, bg: 'static' }) === null,
+        negP: HP.dfmGalaxyMeshField(A, 1, 1, { D0: 1, p: -2, bg: 'static' }) === null,
+        negEps: HP.dfmGalaxyMeshField(A, 1, 1, { D0: 1, eps: -1, bg: 'static' }) === null,
+        negCell: HP.dfmGalaxyMeshField(A, 1, 1, { D0: 1, cellSize: -5, bg: 'static' }) === null,
+        emptySrc: HP.dfmGalaxyMeshField([], 1, 1, { D0: 1, bg: 'static' }) === null,
+        noSrc: HP.dfmGalaxyMeshField(null, 1, 1, { D0: 1, bg: 'static' }) === null,
+        zeroMass: HP.dfmGalaxyMeshField([{ m: 0, x: 0, y: 0, vx: 0, vy: 0 }], 1, 1, { D0: 1, bg: 'static' }) === null,
+        nanMass: HP.dfmGalaxyMeshField([{ m: NaN, x: 0, y: 0, vx: 0, vy: 0 }], 1, 1, { D0: 1, bg: 'static' }) === null,
+        badBg: HP.dfmGalaxyMeshField(A, 1, 1, { D0: 1, bg: 'nope' }) === null,
+        frameNoSim: HP.dfmGalaxyMeshField(A, 1, 1, { D0: 1, bg: 'frame' }) === null,
+        badLines: HP.dfmGalaxyTracerCreate(HP.sim, { lines: 0, perLine: 4, rMin: 1, rMax: 2 }) === null,
+        badPerLine: HP.dfmGalaxyTracerCreate(HP.sim, { lines: 2, perLine: 1, rMin: 1, rMax: 2 }) === null,
+        badRadii: HP.dfmGalaxyTracerCreate(HP.sim, { lines: 2, perLine: 4, rMin: 5, rMax: 5 }) === null,
+        zeroRmin: HP.dfmGalaxyTracerCreate(HP.sim, { lines: 2, perLine: 4, rMin: 0, rMax: 5 }) === null,
+        badField: HP.dfmGalaxyTracerCreate(HP.sim, { lines: 2, perLine: 4, rMin: 1, rMax: 5, field: 7 }) === null,
+        stepNoTracer: HP.dfmGalaxyTracerStep(null, 0.01, HP.sim) === false,
+        stepNanDt: (() => { const t = HP.dfmGalaxyTracerCreate(HP.sim, { lines: 1, perLine: 2, rMin: 1, rMax: 5, field: rot });
+          const z = HP.dfmGalaxyTracerStep(t, NaN, HP.sim) === false;
+          HP.sim.hasGalaxyTracer = false; HP.sim._galTracer = null; return z; })(),
+        obsNull: HP.dfmGalaxyTracerObserve(null) === null,
+        recNoSim: HP.dfmGalaxyMeshRecord({ n: 0 }) === null,
+        recBadRange: HP.dfmGalaxyMeshRecord(HP.sim, { rMin: 10, rMax: 5 }) === null };
+      o.gates = gates;
+      HP.sim.hasGalaxyTracer = false; HP.sim._galTracer = null;
+
+      // ---------- ⑧ 新サンプル 🎠(NaN 0・2 回ビット同一・overlays の正準化)
+      const pd = HP.allPresets().find((p) => p.id === 'galaxyMeshSpiral');
+      if (pd) {
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
+        const runOne = () => { const S2 = HP.sim; S2.build(v.preset);
+          for (let k = 0; k < 300; k++) S2.step(0.016);
+          return { h: hashS(S2), nan: S2.hasNaN() }; };
+        const r1 = runOne(), r2 = runOne();
+        const S3 = HP.sim; S3.build(v.preset);
+        const rec = HP.dfmGalaxyMeshRecord(S3, { bins: 4, rMax: 260, azimuths: 8, field: { bgGrad: 'zero' } });
+        o.sample = { emoji: pd.emoji, cls: pd.sampleClass, cLight: pd.physics.cLight,
+          overlay: JSON.stringify(v.preset.overlays.spaceMesh), bitSame: r1.h === r2.h,
+          nan: r1.nan, chiIn: rec.bins[0].chi, chiOut: rec.bins[3].chi,
+          vObsNull: rec.bins.every((b) => b.v_obs === null),
+          diffFinite: rec.bins.every((b) => b.diff === null || Number.isFinite(b.diff)),
+          omPatternNull: rec.bins.every((b) => b.Omega_pattern === null) };
+      } else o.sample = null;
+      return o;
+    });
+    const CK = {
+      // ① 加算形 W の分割不変
+      additiveW: gm.split.wBit && gm.split.chiBit && gm.split.uBit && gm.split.gradBit
+        && gm.split.dtBit && gm.split.gradWBit,
+      // ② χ の単調性と両端の極
+      chiMonotone: gm.chi.monoR && gm.chi.monoD && gm.chi.chiZero === 1 && gm.chi.chiInf === 0
+        && gm.chi.infBit && gm.chi.zeroMode === 'mesh' && gm.chi.infMode === 'background',
+      // ③ 回転場で cos/sin と一致・det F=1
+      rotation: gm.rot.dThetaErr < 1e-10 && gm.rot.detFErr < 1e-10 && gm.rot.cosSinErr < 1e-9
+        && gm.rot.stopped === false,
+      // ④ 原子的停止
+      atomicStop: gm.atomic.returned === false && gm.atomic.stopped === true
+        && gm.atomic.steps === 0 && gm.atomic.xBit && gm.atomic.yBit && gm.atomic.fBit
+        && gm.atomic.thBit && gm.atomic.afterStop,
+      // ⑤ 未登録は 1 bit 不変 / ⑥ 決定性
+      hookBitHold: gm.hook.stateBit && gm.hook.tracerBit && gm.hook.steps === 200
+        && gm.hook.stopped === false,
+      // ⑦ 門
+      gates: Object.keys(gm.gates).every((k) => gm.gates[k] === true),
+      // ⑧ 新サンプル
+      sample: !gm.sample || (gm.sample.bitSame && gm.sample.nan === false
+        && gm.sample.overlay === '{"mode":"tracer"}' && gm.sample.cLight === 30
+        && gm.sample.vObsNull && gm.sample.diffFinite && gm.sample.chiIn > gm.sample.chiOut),
+    };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    const badGates = Object.keys(gm.gates).filter((k) => gm.gates[k] !== true);
+    add('behavior.galaxyMesh', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + (badGates.length ? `門NG=[${badGates.join(',')}] ` : '')
+      + `**加算形 W**: 同位置の質量 4 を 1+3 に分けても W=${gm.split.W.toExponential(6)}・χ=${gm.split.chi.toFixed(6)}・`
+      + `u・∇u・∂u/∂t がビット同一=${gm.split.wBit && gm.split.uBit && gm.split.gradBit && gm.split.dtBit} / `
+      + `**χ の単調性**: r=1/5/20/80/200 で χ=${gm.chi.chiR.map((z) => z.toFixed(4)).join('/')}(中心ほど 1・単調減=${gm.chi.monoR})・`
+      + `D₀=0.01/0.1/1/10/100 で χ=${gm.chi.chiD.map((z) => z.toExponential(2)).join('/')}(単調減=${gm.chi.monoD})・`
+      + `D₀=0 で χ=${gm.chi.chiZero}(${gm.chi.zeroMode})・D₀=∞ で χ=${gm.chi.chiInf}(${gm.chi.infMode}・u=u_bg ビット=${gm.chi.infBit}) / `
+      + `**回転場の物質線**: Ω=${gm.rot.omega}・t=${gm.rot.t} で Δθ の誤差 ${gm.rot.dThetaErr.toExponential(2)}・`
+      + `det F−1 ${gm.rot.detFErr.toExponential(2)}・cos/sin との差 ${gm.rot.cosSinErr.toExponential(2)}(巻き数 ${gm.rot.windMean.toExponential(2)}=剛体回転は巻かない)/ `
+      + `**原子的停止**: 1 節点の非有限で false=${gm.atomic.returned === false}・reason=${gm.atomic.reason}・`
+      + `位置/F/θ がビット不動=${gm.atomic.xBit && gm.atomic.fBit && gm.atomic.thBit}・停止後は再開しない=${gm.atomic.afterStop} / `
+      + `**未登録は 1 bit 不変**: tracer 有無で 200 步後の状態がビット同一=${gm.hook.stateBit}(${gm.hook.hNo})・`
+      + `同じ tracer 走行 2 回がビット同一=${gm.hook.tracerBit} / `
+      + `門 ${Object.keys(gm.gates).length} 件すべて null/false=${badGates.length === 0} / `
+      + (gm.sample ? `新サンプル ${gm.sample.emoji}: overlays.spaceMesh=${gm.sample.overlay}・NaN=${gm.sample.nan}・`
+        + `300 步 2 回ビット同一=${gm.sample.bitSame}・χ(内)${Number(gm.sample.chiIn).toFixed(4)}>χ(外)${Number(gm.sample.chiOut).toFixed(4)}・`
+        + `v_obs は全ビン null=${gm.sample.vObsNull}(光学層が無いことの宣言)`
+        : '新サンプルなし(SKIP)'));
+  } else {
+    console.log('SKIP behavior.galaxyMesh(対象に第254便b の HP.dfmGalaxyMesh* なし — root 等)');
+  }
+}
+
 // ---- 第252便b(第44報): behavior.periSubsteps — 近点近傍の刻み細分(数値設定の opt-in)の契約 ----
 //   第251便a ⑨ が持ち越した「S._core を肥大させずに近点だけ細かくする」を、3 審査 v10 の一致点
 //   (K7/K8/K8′)どおり **S.step を呼ぶ側の薄い包み**として入れたことの機械固定である。
