@@ -50,7 +50,6 @@
 | galaxyStd | S | 基準対照として最短 |
 | galaxyGeo2 | A | 差は明確・式の前提が要る |
 | galaxyDB | S | 回転支持/分散支持を並置 |
-| merger | A | 潮汐尾の因果が見える |
 | collapse | A | 中心形成が直観的 |
 
 ### ローターの物語

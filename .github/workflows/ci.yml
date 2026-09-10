@@ -26,6 +26,9 @@ jobs:
             target: beta/index.html
     env:
       QA_TARGET: ${{ matrix.target }}
+      # 第251便b: 指紋キャッシュ(手元のフルゲート短縮用)は CI では常に無効 — CI は
+      #           従来どおり全項目を実際に走らせる(CI が最終裁定者という原則は不変)
+      QA_CACHE: '0'
     steps:
       # P2: サプライチェーン対策 — actions をコミット SHA で固定(タグは移動しうるため)
       # 第190便: Node20 世代の v4 系 SHA(内部 runs.using が node20)がランナーの非推奨警告を
