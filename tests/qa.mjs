@@ -12023,6 +12023,262 @@ if (!FAST) {
   }
 }
 
+// ---- 第253便a(第45報「空間メッシュ」): behavior.spaceMesh — 粒子を頂点とする動くメッシュの契約 ----
+//   純関数 3 本(HP.dfmSpaceMeshCapture / dfmSpaceMeshState / dfmSpaceMeshAt)だけを叩く軽量ブロックで、
+//   **エンジンは 1 步も回さない**(QA_FAST でも走る)。固定するのは 9 項目:
+//     ① T1 並進: 天体上で |u−v|=0 ビット(単独天体の移動は天体上の観測者から認知できない)
+//     ② T1 回転: ω≠0 で u=v+ω×(x−x₁) がビット・**天体上では観測者相対 0**
+//     ③ T2 頂点契約: u(xᵢ)=vᵢ・qᵢ=refᵢ(2 進で表せる配置ではビット・一般配置では 1 ulp 級)
+//     ④ T2 一意性: 同じ C・n̂・r・Ċ・Ω・ṙ なら**質量に依らず場が一致**する(中点は幾何の選択であって
+//        質量による決定力の配分とは分離 — 分かれるのは χ と unique だけ)
+//     ⑤ 共通並進: 両頂点に同じ Δx・ΔV を足しても**相対 u と q は不動**(F・gradU はビット同一)
+//     ⑥ χ の門: D₀→∞ で χ=0 かつ blend が HP.dfmFrameAt と**ビット一致**(現行への回帰)・D₀=0 で χ=1
+//     ⑦ 3 頂点(アフィン): 面積比が detF・3 頂点すべてで u(xᵢ)=vᵢ・**反転(共線・鏡像)は null**
+//     ⑧ 門: 非有限・m≤0・n=0・n>3・重複 id・範囲外 id・負 D₀・NaN D₀・**再構築後の anchor** は null
+//     ⑨ 決定性: 同じ入力の 2 回呼び出しが全数値フィールドでビット同一
+//   **これは診断器の契約であって、力・光・背景への接続ではない**(接続の形は未決 — PHYSICS〔第253便a〕⑥)。
+{
+  const hasSM = await page.evaluate(() => typeof HP.dfmSpaceMeshCapture === 'function'
+    && typeof HP.dfmSpaceMeshState === 'function' && typeof HP.dfmSpaceMeshAt === 'function');
+  if (hasSM) {
+    const sm = await page.evaluate(() => {
+      const mk = (bodies, phys) => ({ name: 'qa spaceMesh', description: 'd', emoji: '🕸',
+        camera: { scale: 130 }, world: { boundary: 'none', size: 0 },
+        physics: Object.assign({ G: 0.60066, D0: 0.006, kFrame: 1, q: 3, kRep: 0, muF: 0, gammaN: 0,
+          kappaS: 0, kappaT: 0.0006674, cLight: 30, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0,
+          geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 0.05, timeScale: 60,
+          stateCarry: 'double', framePrecision: 'double', frameReaction: 'pairReduced',
+          frameWeight: 'pull', D0pull: 1 }, phys || {}), bodies, overlays: {} });
+      const build = (bodies, phys) => { const v = HP.validatePreset(mk(bodies, phys));
+        const S = HP.sim; S.build(v.preset); return S; };
+      const B = (m, x, y, vx, vy) => ({ type: 'single', m, radius: 1, x, y, vx, vy, spin: 0, pinned: false });
+      const bit = (a, b) => Object.is(a, b);
+      const bitArr = (a, b) => Array.isArray(a) && Array.isArray(b) && a.length === b.length
+        && a.every((z, i) => Object.is(z, b[i]));
+      const rel = (a, b) => (b === 0) ? Math.abs(a - b) : Math.abs(a / b - 1);
+      const o = {};
+
+      // ---------- ① ② T1(剛体): 単独天体の並進と回転
+      let S = build([B(500, 12, -8, 0.25, -0.5)]);
+      const a1 = HP.dfmSpaceMeshCapture(S, [0]);
+      const t1s = HP.dfmSpaceMeshState(a1, S, { angle: 0, omega: 0 });
+      const t1r = HP.dfmSpaceMeshState(a1, S, { angle: 0.5, omega: 0.375 });
+      const p0 = HP.dfmSpaceMeshAt(t1s, S.x[0], S.y[0]);
+      const pF = HP.dfmSpaceMeshAt(t1s, S.x[0] + 4, S.y[0] + 8);
+      const r0 = HP.dfmSpaceMeshAt(t1r, S.x[0], S.y[0]);
+      const rF = HP.dfmSpaceMeshAt(t1r, S.x[0] + 4, S.y[0] + 8);
+      o.t1 = { kind: t1s.kind, chi: t1s.chi, mode: t1s.mode, unique: t1s.unique,
+        detF: t1r.detF, gradU: t1r.gradU,
+        // ① 並進: 天体の上でも、離れた点でも u=v(一様)
+        transSelfBit: bit(p0.ux, S.vx[0]) && bit(p0.uy, S.vy[0]),
+        transFarBit: bit(pF.ux, S.vx[0]) && bit(pF.uy, S.vy[0]),
+        // ② 回転: 離れた点で u=v+ω×r・天体の上では観測者相対 0
+        rotFarBit: bit(rF.ux, S.vx[0] - 0.375 * 8) && bit(rF.uy, S.vy[0] + 0.375 * 4),
+        rotSelfBit: bit(r0.ux, S.vx[0]) && bit(r0.uy, S.vy[0]),
+        needOmega: HP.dfmSpaceMeshState(a1, S, { angle: 0 }) === null };
+
+      // ---------- ③ T2 頂点契約(2 進で表せる配置 = ビット / 一般配置 = ulp 級)
+      S = build([B(512, -128, 0, 0, -0.5), B(512, 128, 0, 0, 0.5)]);
+      const a2 = HP.dfmSpaceMeshCapture(S, [0, 1]);
+      const m2 = HP.dfmSpaceMeshState(a2, S);
+      const d0 = HP.dfmSpaceMeshAt(m2, S.x[0], S.y[0]), d1 = HP.dfmSpaceMeshAt(m2, S.x[1], S.y[1]);
+      // 動かす(90° 回転 + 1/2 縮小)—— メッシュ座標 q は捕捉値に固定されるはず
+      S.x[0] = 0; S.y[0] = -64; S.x[1] = 0; S.y[1] = 64;
+      const m2b = HP.dfmSpaceMeshState(a2, S);
+      const e0 = HP.dfmSpaceMeshAt(m2b, S.x[0], S.y[0]), e1 = HP.dfmSpaceMeshAt(m2b, S.x[1], S.y[1]);
+      const dq = [m2b.ref[1][0] - m2b.ref[0][0], m2b.ref[1][1] - m2b.ref[0][1]], gg = m2b.metric;
+      const distG = Math.sqrt(dq[0] * (gg[0] * dq[0] + gg[1] * dq[1]) + dq[1] * (gg[2] * dq[0] + gg[3] * dq[1]));
+      const distP = Math.hypot(S.x[1] - S.x[0], S.y[1] - S.y[0]);
+      o.t2 = { kind: m2.kind, chi: m2.chi, W: m2.W, mode: m2.mode, unique: m2.unique,
+        vertBit: bit(d0.ux, S.vx[0]) && bit(d0.uy, S.vy[0]) && bit(d1.ux, S.vx[1]) && bit(d1.uy, S.vy[1]),
+        qBitAtCapture: bit(d0.qx, m2.ref[0][0]) && bit(d0.qy, m2.ref[0][1])
+          && bit(d1.qx, m2.ref[1][0]) && bit(d1.qy, m2.ref[1][1]),
+        // 動かしても q は捕捉値のまま(**これは座標の話であって距離が固定されたのではない**)
+        qBitMoved: bit(e0.qx, m2b.ref[0][0]) && bit(e0.qy, m2b.ref[0][1])
+          && bit(e1.qx, m2b.ref[1][0]) && bit(e1.qy, m2b.ref[1][1]),
+        Fmoved: m2b.F, detFmoved: m2b.detF, metricMoved: m2b.metric,
+        // 計量 g=FᵀF で復元した物理距離が慣性系の |r| と一致する(**線分長は固定されていない**)
+        distFromMetric: distG, distPhys: distP, distBit: bit(distG, distP) };
+      // 一般配置(2 進で割り切れない座標・速度)での相対誤差
+      S = build([B(500, -100.3, 7.7, 0.13, -0.7249672406391891), B(500, 100.7, -3.1, -0.02, 0.7249672406391891)]);
+      const a2g = HP.dfmSpaceMeshCapture(S, [0, 1]);
+      const m2g = HP.dfmSpaceMeshState(a2g, S);
+      const g0 = HP.dfmSpaceMeshAt(m2g, S.x[0], S.y[0]), g1 = HP.dfmSpaceMeshAt(m2g, S.x[1], S.y[1]);
+      o.t2gen = { chi: m2g.chi, mode: m2g.mode,
+        uErrMax: Math.max(rel(g0.ux, S.vx[0]), rel(g0.uy, S.vy[0]), rel(g1.ux, S.vx[1]), rel(g1.uy, S.vy[1])),
+        qErrMax: Math.max(rel(g0.qx, m2g.ref[0][0]), rel(g0.qy, m2g.ref[0][1]),
+          rel(g1.qx, m2g.ref[1][0]), rel(g1.qy, m2g.ref[1][1])) };
+
+      // ---------- ④ 一意性: 同じ C・n̂・r・Ċ・Ω・ṙ なら質量に依らず場が一致する
+      const geom = [B(512, -128, 0, 0, -0.5), B(512, 128, 0, 0, 0.5)];
+      const geomU = [B(768, -128, 0, 0, -0.5), B(256, 128, 0, 0, 0.5)];   // 同じ幾何・違う質量配分
+      S = build(geom); const aE = HP.dfmSpaceMeshCapture(S, [0, 1]);
+      const mE = HP.dfmSpaceMeshState(aE, S, { D0: 0 });
+      // 等質量側で χ が門を割ると unique は false になる(同じ anchor・D₀ だけを上げる)
+      const mEgate = HP.dfmSpaceMeshState(aE, S, { D0: 1e9 });
+      S = build(geomU); const aU = HP.dfmSpaceMeshCapture(S, [0, 1]);
+      const mU = HP.dfmSpaceMeshState(aU, S, { D0: 0 });
+      o.uniq = { fieldSame: bitArr(mE.F, mU.F) && bitArr(mE.gradU, mU.gradU)
+          && bitArr(mE.origin, mU.origin) && bitArr(mE.velocity, mU.velocity)
+          && bitArr(mE.inverse, mU.inverse) && bitArr(mE.metric, mU.metric) && bit(mE.detF, mU.detF),
+        eqDegEq: mE.equalMassDegree, eqDegUn: mU.equalMassDegree,
+        uniqueEq: mE.unique, uniqueUn: mU.unique, chiEq: mE.chi, chiUn: mU.chi,
+        gatedUnique: mEgate.unique, gatedChi: mEgate.chi, gatedMode: mEgate.mode };
+
+      // ---------- ⑤ 共通並進(位置 Δ・速度 V を両頂点に足す)
+      S = build([B(512, -128, 0, 0, -0.5), B(512, 128, 0, 0, 0.5)]);
+      const aT = HP.dfmSpaceMeshCapture(S, [0, 1]);
+      const mS = HP.dfmSpaceMeshState(aT, S);
+      const probe = [37, -21];
+      const qS = HP.dfmSpaceMeshAt(mS, probe[0], probe[1]);
+      const DX = 64, DY = -32, VX = 0.25, VY = -0.125;
+      S.x[0] += DX; S.y[0] += DY; S.x[1] += DX; S.y[1] += DY;
+      S.vx[0] += VX; S.vy[0] += VY; S.vx[1] += VX; S.vy[1] += VY;
+      const mM = HP.dfmSpaceMeshState(aT, S);
+      const qM = HP.dfmSpaceMeshAt(mM, probe[0] + DX, probe[1] + DY);
+      o.trans = { Fbit: bitArr(mS.F, mM.F), gradUbit: bitArr(mS.gradU, mM.gradU),
+        qBit: bit(qS.qx, qM.qx) && bit(qS.qy, qM.qy),
+        // 相対 u(メッシュ原点の速度を引いた分)が不動
+        uRelBit: bit(qS.ux - mS.velocity[0], qM.ux - mM.velocity[0])
+          && bit(qS.uy - mS.velocity[1], qM.uy - mM.velocity[1]),
+        vShiftBit: bit(mM.velocity[0], mS.velocity[0] + VX) && bit(mM.velocity[1], mS.velocity[1] + VY) };
+
+      // ---------- ⑥ χ の門(D₀→∞ / D₀=0)
+      S = build([B(512, -128, 0, 0, -0.5), B(512, 128, 0, 0, 0.5)]);
+      const aC = HP.dfmSpaceMeshCapture(S, [0, 1]);
+      const mInf = HP.dfmSpaceMeshState(aC, S, { D0: Infinity });
+      const mZero = HP.dfmSpaceMeshState(aC, S, { D0: 0 });
+      const bgAt = HP.dfmFrameAt(probe[0], probe[1], S);
+      const blAt = HP.dfmSpaceMeshAt(mInf, probe[0], probe[1], S);
+      const meshOnly = HP.dfmSpaceMeshAt(mZero, probe[0], probe[1], S);
+      const pureMesh = HP.dfmSpaceMeshAt(mZero, probe[0], probe[1]);
+      o.chi = { chiInf: mInf.chi, modeInf: mInf.mode, uniqueInf: mInf.unique,
+        chiZero: mZero.chi, modeZero: mZero.mode, uniqueZero: mZero.unique,
+        bgBit: bit(blAt.ux, bgAt.ux) && bit(blAt.uy, bgAt.uy),
+        meshBit: bit(meshOnly.ux, pureMesh.ux) && bit(meshOnly.uy, pureMesh.uy),
+        bgU: [bgAt.ux, bgAt.uy], meshU: [pureMesh.ux, pureMesh.uy],
+        // 既定(プリセットの D0pull=1)は blend
+        chiDefault: HP.dfmSpaceMeshState(aC, S).chi, modeDefault: HP.dfmSpaceMeshState(aC, S).mode };
+
+      // ---------- ⑦ 3 頂点(アフィン)
+      S = build([B(400, 0, 0, 0.1, 0.2), B(400, 64, 0, 0.3, -0.1), B(400, 0, 64, -0.2, 0.4)]);
+      const a3 = HP.dfmSpaceMeshCapture(S, [0, 1, 2]);
+      const m3 = HP.dfmSpaceMeshState(a3, S);
+      const w0 = HP.dfmSpaceMeshAt(m3, S.x[0], S.y[0]);
+      const w1 = HP.dfmSpaceMeshAt(m3, S.x[1], S.y[1]);
+      const w2 = HP.dfmSpaceMeshAt(m3, S.x[2], S.y[2]);
+      const vErr = Math.max(Math.abs(w0.ux - S.vx[0]), Math.abs(w0.uy - S.vy[0]),
+        Math.abs(w1.ux - S.vx[1]), Math.abs(w1.uy - S.vy[1]),
+        Math.abs(w2.ux - S.vx[2]), Math.abs(w2.uy - S.vy[2]));
+      S.x[1] = 128; S.y[2] = 128;                       // 2 倍に拡げる → 面積比 4
+      const m3s = HP.dfmSpaceMeshState(a3, S);
+      S.x[1] = 0; S.y[1] = 64; S.x[2] = 64; S.y[2] = 0; // 鏡像(向きが反転)→ null
+      const m3r = HP.dfmSpaceMeshState(a3, S);
+      S.x[1] = 32; S.y[1] = 32; S.x[2] = 64; S.y[2] = 64; // 共線 → null
+      const m3c = HP.dfmSpaceMeshState(a3, S);
+      o.t3 = { kind: m3.kind, detF: m3.detF, chi: m3.chi, mode: m3.mode, unique: m3.unique,
+        vErr, detFscaled: m3s.detF, area4Bit: bit(m3s.detF, 4),
+        reflectNull: m3r === null, collinearNull: m3c === null };
+
+      // ---------- ⑧ 門
+      S = build([B(512, -128, 0, 0, -0.5), B(512, 128, 0, 0, 0.5)]);
+      const aG = HP.dfmSpaceMeshCapture(S, [0, 1]);
+      const gates = {
+        empty: HP.dfmSpaceMeshCapture(S, []) === null,
+        tooMany: HP.dfmSpaceMeshCapture(S, [0, 1, 0, 1]) === null,
+        dup: HP.dfmSpaceMeshCapture(S, [0, 0]) === null,
+        oob: HP.dfmSpaceMeshCapture(S, [0, 5]) === null,
+        notArray: HP.dfmSpaceMeshCapture(S, 0) === null,
+        negD0: HP.dfmSpaceMeshState(aG, S, { D0: -1 }) === null,
+        nanD0: HP.dfmSpaceMeshState(aG, S, { D0: NaN }) === null,
+        noAnchor: HP.dfmSpaceMeshState(null, S) === null,
+        badMesh: HP.dfmSpaceMeshAt(null, 0, 0) === null,
+        nanPoint: HP.dfmSpaceMeshAt(HP.dfmSpaceMeshState(aG, S), NaN, 0) === null };
+      const mSave = S.m[0]; S.m[0] = 0; gates.mZero = HP.dfmSpaceMeshState(aG, S) === null;
+      S.m[0] = -5; gates.mNeg = HP.dfmSpaceMeshState(aG, S) === null; S.m[0] = mSave;
+      const vSave = S.vx[0]; S.vx[0] = NaN; gates.nanV = HP.dfmSpaceMeshState(aG, S) === null; S.vx[0] = vSave;
+      const xSave = S.x[1], ySave = S.y[1];
+      S.x[1] = S.x[0]; S.y[1] = S.y[0]; gates.rZero = HP.dfmSpaceMeshState(aG, S) === null;
+      S.x[1] = xSave; S.y[1] = ySave;
+      gates.capNanPos = (() => { const xs = S.x[0]; S.x[0] = NaN;
+        const z = HP.dfmSpaceMeshCapture(S, [0, 1]) === null; S.x[0] = xs; return z; })();
+      // 構成が変わった(n が増えた・配列が作り直された)後の anchor は null
+      build([B(512, -128, 0, 0, -0.5), B(512, 128, 0, 0, 0.5), B(1, 0, 300, 0, 0)]);
+      gates.staleAnchor = HP.dfmSpaceMeshState(aG, HP.sim) === null;
+      o.gates = gates;
+
+      // ---------- ⑨ 決定性
+      S = build([B(512, -128, 0, 0, -0.5), B(512, 128, 0, 0, 0.5)]);
+      const aD = HP.dfmSpaceMeshCapture(S, [0, 1]);
+      const x1 = HP.dfmSpaceMeshState(aD, S), x2 = HP.dfmSpaceMeshState(aD, S);
+      const flat = (z) => [].concat(z.F, z.inverse, z.gradU, z.metric, z.origin, z.velocity,
+        [z.detF, z.divU, z.W, z.chi, z.equalMassDegree, z.rLen], z.nHat, z.r);
+      const y1 = HP.dfmSpaceMeshAt(x1, 37, -21, S), y2 = HP.dfmSpaceMeshAt(x2, 37, -21, S);
+      o.det = { stateBit: bitArr(flat(x1), flat(x2)),
+        atBit: bit(y1.ux, y2.ux) && bit(y1.uy, y2.uy) && bit(y1.qx, y2.qx) && bit(y1.qy, y2.qy),
+        sameMode: x1.mode === x2.mode && x1.unique === x2.unique && x1.kind === x2.kind };
+      o.kinds = HP.SPACEMESH_KINDS;
+      o.consts = { eq: HP.SPACEMESH_EQMASS_TOL, gate: HP.SPACEMESH_CHI_GATE, bg: HP.SPACEMESH_CHI_BG };
+      return o;
+    });
+    const CK = {
+      // ① T1 並進
+      t1Translation: sm.t1.transSelfBit && sm.t1.transFarBit && sm.t1.kind === 'rigid'
+        && sm.t1.chi === 1 && sm.t1.mode === 'T1' && sm.t1.unique === true,
+      // ② T1 回転(観測者相対 0)
+      t1Rotation: sm.t1.rotFarBit && sm.t1.rotSelfBit && sm.t1.needOmega
+        && sm.t1.gradU[0] === 0 && sm.t1.gradU[3] === 0 && sm.t1.gradU[2] === 0.375,
+      // ③ T2 頂点契約(2 進配置はビット・一般配置は 1e−14 未満)
+      t2Vertex: sm.t2.vertBit && sm.t2.qBitAtCapture && sm.t2.qBitMoved
+        && sm.t2.distBit && sm.t2gen.uErrMax < 1e-14 && sm.t2gen.qErrMax < 1e-14
+        && sm.t2.kind === 'similarity',
+      // ④ T2 一意性(質量に依らず場が一致・分かれるのは χ と unique だけ)
+      t2Unique: sm.uniq.fieldSame && sm.uniq.uniqueEq === true && sm.uniq.uniqueUn === false
+        && sm.uniq.eqDegEq === 0 && sm.uniq.eqDegUn > 0 && sm.uniq.gatedUnique === false,
+      // ⑤ 共通並進で相対 u・q が不動
+      commonTranslation: sm.trans.Fbit && sm.trans.gradUbit && sm.trans.qBit
+        && sm.trans.uRelBit && sm.trans.vShiftBit,
+      // ⑥ χ の門(D₀→∞ でビット回帰・D₀=0 で χ=1)
+      chiGate: sm.chi.chiInf === 0 && sm.chi.modeInf === 'background' && sm.chi.uniqueInf === false
+        && sm.chi.bgBit && sm.chi.chiZero === 1 && sm.chi.modeZero === 'T2'
+        && sm.chi.uniqueZero === true && sm.chi.meshBit && sm.chi.modeDefault === 'blend',
+      // ⑦ 3 頂点(面積 detF・辺速度連続・反転/共線は null)
+      t3Affine: sm.t3.kind === 'affine' && sm.t3.area4Bit && sm.t3.vErr < 1e-12
+        && sm.t3.reflectNull && sm.t3.collinearNull && sm.t3.unique === false,
+      // ⑧ 門
+      gates: Object.keys(sm.gates).every((k) => sm.gates[k] === true),
+      // ⑨ 決定性
+      determinism: sm.det.stateBit && sm.det.atBit && sm.det.sameMode,
+    };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    const badGates = Object.keys(sm.gates).filter((k) => sm.gates[k] !== true);
+    add('behavior.spaceMesh', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + (badGates.length ? `門NG=[${badGates.join(',')}] ` : '')
+      + `T1(剛体): χ=${sm.t1.chi}・mode=${sm.t1.mode}・unique=${sm.t1.unique}・`
+      + `並進は天体上/遠方ともビット同一=${sm.t1.transSelfBit && sm.t1.transFarBit}・`
+      + `回転 u=v+ω×r ビット=${sm.t1.rotFarBit}(**天体上では観測者相対 0**=${sm.t1.rotSelfBit})・omega 必須=${sm.t1.needOmega} / `
+      + `T2(相似): χ=${sm.t2.chi.toExponential(4)}(W=${sm.t2.W.toExponential(4)})・mode=${sm.t2.mode}・`
+      + `頂点契約 u(xᵢ)=vᵢ ビット=${sm.t2.vertBit}・qᵢ=refᵢ ビット(捕捉時 ${sm.t2.qBitAtCapture}/動かした後 ${sm.t2.qBitMoved})・`
+      + `一般配置の相対誤差 u ${sm.t2gen.uErrMax.toExponential(2)}・q ${sm.t2gen.qErrMax.toExponential(2)}(<1e−14) / `
+      + `**q が固定されても物理距離は固定されない**: detF=${sm.t2.detFmoved}・計量 g で復元した距離 `
+      + `${sm.t2.distFromMetric} = 慣性系の |r| ${sm.t2.distPhys}(ビット=${sm.t2.distBit}) / `
+      + `一意性: 同じ幾何なら質量配分を変えても場がビット同一=${sm.uniq.fieldSame}・`
+      + `unique は等質量 ${sm.uniq.uniqueEq} 対 不等質量 ${sm.uniq.uniqueUn}(|Δm|/M ${sm.uniq.eqDegUn.toExponential(2)})・`
+      + `χ が門(${sm.consts.gate})を割ると等質量でも false=${sm.uniq.gatedUnique === false}(χ=${sm.uniq.gatedChi.toExponential(2)}) / `
+      + `共通並進(Δx・ΔV)で F・gradU・q・相対 u がビット不動=${sm.trans.Fbit && sm.trans.gradUbit && sm.trans.qBit && sm.trans.uRelBit} / `
+      + `χ の門: D₀→∞ で χ=${sm.chi.chiInf}・**blend が HP.dfmFrameAt とビット一致**=${sm.chi.bgBit}・`
+      + `D₀=0 で χ=${sm.chi.chiZero}(mode=${sm.chi.modeZero}・unique=${sm.chi.uniqueZero})・`
+      + `プリセット既定(D0pull=1)は χ=${sm.chi.chiDefault.toExponential(4)}=${sm.chi.modeDefault} / `
+      + `3 頂点: detF=${sm.t3.detF}・2 倍に拡げると面積比 ${sm.t3.detFscaled}(ビット=${sm.t3.area4Bit})・`
+      + `辺速度の残差 ${sm.t3.vErr.toExponential(2)}・鏡像=null ${sm.t3.reflectNull}・共線=null ${sm.t3.collinearNull} / `
+      + `門 ${Object.keys(sm.gates).length} 件すべて null=${badGates.length === 0}(再構築後の anchor を含む)/ `
+      + `決定性: 2 回呼び出しビット同一=${sm.det.stateBit && sm.det.atBit}`);
+  } else {
+    console.log('SKIP behavior.spaceMesh(対象に第253便a の HP.dfmSpaceMesh* なし — root 等)');
+  }
+}
+
 // ---- 第252便b(第44報): behavior.periSubsteps — 近点近傍の刻み細分(数値設定の opt-in)の契約 ----
 //   第251便a ⑨ が持ち越した「S._core を肥大させずに近点だけ細かくする」を、3 審査 v10 の一致点
 //   (K7/K8/K8′)どおり **S.step を呼ぶ側の薄い包み**として入れたことの機械固定である。
