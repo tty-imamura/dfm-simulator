@@ -12610,6 +12610,104 @@ if (!FAST) {
   }
 }
 
+// ---- 第253便b(第45報・ChatGPT §7.3): behavior.periCounterRefresh — 近点サブステップの計数が
+//      **半径更新で消えない**ことの機械固定 ----
+//   実バグだった: `S._periSetup` が「同じ宣言なら初期化しない」判定より**先**に periSubHits/
+//   periSubSteps を 0 にしていたため、`S.updateRadii()` を通る経路(半径スライダー・粒子編集・
+//   params 差し替え)が走るたびに**累積計数が消えていた**(細分 5 回・内部 20 步のあとに呼ぶと
+//   [5,20] → [0,0])。計数は監査・実験ハーネス用で**物理には一切効かない**ので、直しても力学は
+//   1 bit も動かない —— それをこの門が両側から固定する:
+//     ① **保持**: 細分 5 步のあと `_periSetup()` / `updateRadii()` を呼んでも計数は [5,20] のまま。
+//     ② **別宣言では 0 へ**: 宣言オブジェクトを差し替えて呼ぶと計数は [0,0] に戻る(初期化の意味は残す)。
+//     ③ **宣言を外すと 0 へ**: periSubsteps を外して呼ぶと [0,0]・hasPeriSub=false。
+//     ④ **力学は不変**: 5 步 → `_periSetup()` → 5 步 の状態が、10 步まっすぐ進めた状態と**ビット同一**。
+//     ⑤ 未宣言の既定経路では計数は常に 0(素通り)。
+{
+  const hasPS2 = await page.evaluate(() => typeof (window.HP && HP.validatePeriSubsteps) === 'function');
+  if (hasPS2) {
+    const pc = await page.evaluate(() => {
+      const SRC = 'psrDoubleABDFM';
+      const build = (patch) => {
+        const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === SRC)));
+        if (patch) for (const k of Object.keys(patch)) {
+          if (patch[k] === null) delete pd.physics[k]; else pd.physics[k] = patch[k];
+        }
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset); return S;
+      };
+      const hash = (S) => {
+        let a = 0x811c9dc5;
+        const buf = new ArrayBuffer(8), f = new Float64Array(buf), u = new Uint8Array(buf);
+        const push = (v) => { f[0] = v; for (let b = 0; b < 8; b++) { a ^= u[b]; a = Math.imul(a, 0x01000193) >>> 0; } };
+        for (const k of ['x', 'y', 'vx', 'vy', 'spin']) { const A = S[k]; if (!A) continue;
+          for (let i = 0; i < S.n; i++) push(A[i]); }
+        push(S.t); return a.toString(16);
+      };
+      const GATE = { n: 4, rMul: 1e3 };   // 全域ゲート = 外側 1 步につき必ず 4 サブステップ
+      const R = {};
+      // ① 細分 5 步 → 計数 [5,20] → _periSetup()・updateRadii() を挟んでも保持
+      const S = build({ periSubsteps: GATE });
+      for (let k = 0; k < 5; k++) S.step(0.016);
+      R.after5 = [S.periSubHits || 0, S.periSubSteps || 0];
+      S._periSetup();
+      R.afterSetup = [S.periSubHits || 0, S.periSubSteps || 0];
+      S.updateRadii();
+      R.afterRadii = [S.periSubHits || 0, S.periSubSteps || 0];
+      // ④ 力学は不変: さらに 5 步 進めた状態が、10 步まっすぐと**ビット同一**
+      for (let k = 0; k < 5; k++) S.step(0.016);
+      R.hSplit = hash(S); R.total = [S.periSubHits || 0, S.periSubSteps || 0];
+      const S2 = build({ periSubsteps: GATE });
+      for (let k = 0; k < 10; k++) S2.step(0.016);
+      R.hStraight = hash(S2); R.total2 = [S2.periSubHits || 0, S2.periSubSteps || 0];
+      // ② 別宣言(新しいオブジェクト)へ差し替えると 0 へ戻る
+      const S3 = build({ periSubsteps: GATE });
+      for (let k = 0; k < 5; k++) S3.step(0.016);
+      R.before3 = [S3.periSubHits || 0, S3.periSubSteps || 0];
+      S3.params[HP.PERI_SUB_KEY] = HP.validatePeriSubsteps({ n: 2, rMul: 1e3 }).periSubsteps;
+      S3.updateRadii();
+      R.afterSwap = [S3.periSubHits || 0, S3.periSubSteps || 0];
+      R.swapN = S3.periSub ? S3.periSub.n : null;
+      // ③ 宣言を外すと 0 へ・hasPeriSub=false
+      const S4 = build({ periSubsteps: GATE });
+      for (let k = 0; k < 5; k++) S4.step(0.016);
+      S4.params[HP.PERI_SUB_KEY] = null;
+      S4.updateRadii();
+      R.afterDrop = [S4.periSubHits || 0, S4.periSubSteps || 0];
+      R.hasAfterDrop = !!S4.hasPeriSub;
+      // ⑤ 未宣言の既定経路は常に 0
+      const S5 = build(null);
+      for (let k = 0; k < 5; k++) S5.step(0.016);
+      S5.updateRadii();
+      R.plain = [S5.periSubHits || 0, S5.periSubSteps || 0];
+      R.hasPlain = !!S5.hasPeriSub;
+      return R;
+    });
+    const eq = (a, b) => a[0] === b[0] && a[1] === b[1];
+    const CK = {
+      counted: eq(pc.after5, [5, 20]),
+      keptOnSetup: eq(pc.afterSetup, [5, 20]),
+      keptOnRadii: eq(pc.afterRadii, [5, 20]),
+      bitSame: pc.hSplit === pc.hStraight && eq(pc.total, [10, 40]) && eq(pc.total2, [10, 40]),
+      resetOnSwap: eq(pc.before3, [5, 20]) && eq(pc.afterSwap, [0, 0]) && pc.swapN === 2,
+      resetOnDrop: eq(pc.afterDrop, [0, 0]) && pc.hasAfterDrop === false,
+      plainZero: eq(pc.plain, [0, 0]) && pc.hasPlain === false,
+    };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    add('behavior.periCounterRefresh', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + `⚡ を全域ゲート {n:4} で 5 步: 計数 [hits,subs]=[${pc.after5}]=${CK.counted} / `
+      + `**同じ宣言のまま _periSetup() を呼び直しても保持** [${pc.afterSetup}]=${CK.keptOnSetup}・`
+      + `updateRadii() でも保持 [${pc.afterRadii}]=${CK.keptOnRadii}`
+      + `(第253便b で直した実バグ — 以前はここで [0,0] に消えていた)/ `
+      + `**力学は不変**: 5 步 → _periSetup() → 5 步 が 10 步まっすぐとビット同一(${pc.hSplit})・`
+      + `計数は積み上がる [${pc.total}]=${CK.bitSame} / `
+      + `**別宣言へ差し替えると 0 へ**([${pc.before3}] → [${pc.afterSwap}]・n=${pc.swapN})=${CK.resetOnSwap} / `
+      + `宣言を外すと 0 へ・hasPeriSub=${pc.hasAfterDrop}=${CK.resetOnDrop} / `
+      + `未宣言の既定経路は常に [${pc.plain}]・hasPeriSub=${pc.hasPlain}=${CK.plainZero}`);
+  } else {
+    console.log('SKIP behavior.periCounterRefresh(対象に第252便b の近点サブステップなし — root 等)');
+  }
+}
+
 // ---- 第231便(第28報): behavior.supernovaObs — 超新星の観測転写(🥀 前駆星/🦀 残骸)----
 // 🥀: Joyce 一組整合の転写値+静止ビット保持。🦀: 膨張速度の転写(1506 km/s)・殻 KE=1.04e50 erg
 // (SN 1054 モデル帯と同桁・正準 1e51 の1桁下)・年齢算術・自由膨張・gas 宣言・決定性
