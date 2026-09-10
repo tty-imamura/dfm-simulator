@@ -268,7 +268,9 @@ if (!TARGET.startsWith('beta/')) {
       if (!sigCsv.has(k)) sigCsv.set(k, { raw: cols[8], note: cols[7] || '' });
     }
     const ECC = ['psrDoubleAB', 'psrDoubleABDFM', 'psrDoubleABSpinCal', 'psrDoubleABPN',
-      'psrJ1757DFM', 'psrJ1757PN', 'psrJ1946DFM', 'psrJ1946PN'];
+      'psrJ1757DFM', 'psrJ1757PN', 'psrJ1946DFM', 'psrJ1946PN',
+      'psrB1534', 'psrB1534DFM',                                        // 第251便a の第 4 hold-out
+      'psrDoubleABCF', 'psrJ1757CF', 'psrJ1946CF', 'psrB1534CF'];       // 第252便(統括): 案K variant も近点間
     const VIS = ['alphaCenAB', 'alphaCenABDFM', 'siriusAB', 'siriusABDFM'];
     const bad = [];
     let nPeri = 0, nRev = 0, nSigCsv = 0, nUnmeasured = 0;
@@ -531,6 +533,18 @@ const w5cBands = [[80, 120], [120, 160], [160, 200], [200, 240]];
 //   ④ QA_REFRESH=1 で強制再実行・QA_CACHE=0 で無効化。**CI(process.env.CI)では既定で無効**
 //      (CI は従来どおり全実行で、そちらが最終裁定者。キャッシュは手元のフルゲート専用)。
 //   ⑤ QA_FAST では一切使わない(QA_FAST の意味は変えない)。
+//   ⑥ **第252便c(第44報 K6): ローカル鍵の厳密化**。②の (a)(b)(c) は「そのテストが触る範囲」しか
+//      見ていないので、**同じ節・同じプリセットのまま別の箇所でエンジンが変わった**場合や、
+//      **実行環境が変わった**場合に古い結果を再利用してしまう余地があった。鍵に環境ブロック
+//      `env` を足して、次の 5 つが 1 つでも変わったら**全件を再実行**する:
+//        engine   = 対象 HTML(beta/index.html 等)全体の SHA-256(= TARGET_SHA。従来は記録欄
+//                   `htmlSha256` にあるだけで**鍵には入っていなかった**)
+//        qa       = tests/qa.mjs **全体**の SHA-256(節の断片 `src` に加えて全体も見る)
+//        lock     = package-lock.json の SHA-256(playwright 等の依存版)
+//        node     = process.version(Node ランタイム)
+//        chromium = browser.version()(Playwright が起動した実際のブラウザ版)
+//      **CI では従来どおり QA_CACHE 無効**(CI が最終裁定者)。厳密化はローカルの再利用を
+//      「疑わしいものは再実行側へ倒す」方向にだけ動かす(緩める方向の変更は 1 つもない)。
 const QA_CACHE = (process.env.QA_CACHE !== undefined)
   ? process.env.QA_CACHE === '1'
   : !process.env.CI;
@@ -542,6 +556,16 @@ let HEAD_COMMIT = 'unknown';
 try { HEAD_COMMIT = execSync('git rev-parse HEAD', { cwd: ROOT, stdio: 'pipe' }).toString().trim(); } catch {}
 const TARGET_SHA = sha256(fs.readFileSync(path.join(ROOT, TARGET)));
 const QA_SRC = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8');
+// 第252便c(K6): 指紋鍵の環境ブロック(⑥)。読めないものは 'unknown' に落として鍵に入れる
+// (欠測でキャッシュを外すのではなく、**同じ 'unknown' 同士だけが一致する**側へ倒す)
+const QA_SELF_SHA = sha256(QA_SRC);
+const LOCK_SHA = (() => {
+  try { return sha256(fs.readFileSync(path.join(ROOT, 'package-lock.json'))); } catch { return 'unknown'; }
+})();
+const BROWSER_VERSION = (() => { try { return String(browser.version()); } catch { return 'unknown'; } })();
+const FP_ENV = { engine: TARGET_SHA, qa: QA_SELF_SHA, lock: LOCK_SHA,
+  node: process.version, chromium: BROWSER_VERSION };
+const FP_ENV_SHA = sha256(JSON.stringify(FP_ENV));
 
 // 指紋を取る固定 seed の走行(共有 — 1 本の指紋を複数のテストが参照する)。
 // 步数は「そのテストが使う步数の 1/10(下限 600・上限 3000)」で決めてある(下の表の注記参照)。
@@ -604,7 +628,14 @@ const fpSrcSlice = (testId) => {
 const fpPrevAll = (() => { try { return JSON.parse(fs.readFileSync(FP_PATH, 'utf8')); } catch { return null; } })();
 const fpPrev = (fpPrevAll && fpPrevAll.targets && fpPrevAll.targets[TARGET]) || null;
 const fpNext = { commit: HEAD_COMMIT, date: new Date().toISOString().slice(0, 10), htmlSha256: TARGET_SHA,
-  target: TARGET, runs: {}, tests: {} };
+  target: TARGET, env: FP_ENV, envSha256: FP_ENV_SHA, runs: {}, tests: {} };
+if (FP_ON) {
+  const pe = (fpPrev && fpPrev.envSha256) || null;
+  console.log(`[FP] 鍵の環境ブロック(第252便c K6): engine=${TARGET_SHA.slice(0, 8)} qa=${QA_SELF_SHA.slice(0, 8)}`
+    + ` lock=${LOCK_SHA.slice(0, 8)} node=${process.version} chromium=${BROWSER_VERSION}`
+    + ` → env=${FP_ENV_SHA.slice(0, 8)}(前回 ${pe ? pe.slice(0, 8) : 'なし'}`
+    + `${pe && pe !== FP_ENV_SHA ? ' — **変化したので全件再実行**' : (pe ? ' — 一致' : ' — 記録なしなので全件再実行')})`);
+}
 const fpCachedIds = [];
 let fpSavedMs = 0;
 let fpDigests = null;
@@ -1419,7 +1450,9 @@ async function fpKey(testId) {
     src = fpDigests;
   }
   if (!src) return null;
-  const mat = { test: testId, target: TARGET, runs: {}, decls: {}, apis: {}, src: fpSrcSlice(testId) };
+  // 第252便c(K6): env(engine/qa/lock/node/chromium)を鍵に混ぜる — 1 つでも変われば全件再実行
+  const mat = { test: testId, target: TARGET, env: FP_ENV,
+    runs: {}, decls: {}, apis: {}, src: fpSrcSlice(testId) };
   for (const r of (sp.runs || [])) {
     const d = src.runs[r];
     if (!d) return null;             // 欠測(対象に無い等)はキャッシュ対象外
@@ -11149,6 +11182,217 @@ if (!FAST) {
   }
 }
 
+// ---- 第252便c(第44報): behavior.mmCoherent — MM の**連続波チャネル**(HP.dfmMMCoherent)----
+// 原仮定者(第44報)の「波長が固定された干渉計は、光の到着時間が影響しない」を、**位相 Δφ** と
+// **縞の計数 ΔN** に分けて機械固定する。階段は原仮定者の文のとおり:
+//   (i)   等長・静止: Δφ=ψ が**固定**(ψ=0 と ψ=0.7 の両方でビット厳密)・掃引しても **ΔN=0**
+//   (ii)  腕長差 ΔL・静止: 固定波長なら ψ で縞を消せる(Δφ_fixed が**ビット厳密 0**)が、
+//         掃引すると **ΔN=−Δν·Δτ ≠ 0**(「波長を時間変化させると干渉縞が発生する」)。
+//         掃引幅を 10 倍・100 倍にすると ΔN も 10 倍・100 倍(線形)
+//   (iii) 掃引しても **ΔN=0 ⇔ Δτ=0**(「縞が出なければ到着時間が一致している」)
+//   (iv)  固定波長で ψ を合わせた**後**に Δτ が δ 動く(装置を回す)と、**位相は
+//         Δφ=−2πν₀·δ(Δτ) だけ動く**(3 審査 v10 ChatGPT: 固定波長でも遅延差の感度は消えない)。
+//         同じ δ(Δτ) でも**掃引の縞移動は δ(ΔN)=−Δν·δ(Δτ)** と桁が全く違う
+//   (v)   決定性・門(c/λ₀ の非有限・負の τ・NaN の ψ/ν̇ は null)
+// **「位相は変わらない」は ΔN(縞計数)としては成り立ち、Δφ(位相)としては成り立たない** ——
+// この 2 つを同じ表で分けるのが本ブロックの目的である。
+{
+  const hasCo = await page.evaluate(() => !!(window.HP && typeof HP.dfmMMCoherent === 'function'));
+  if (hasCo) {
+    const co = await page.evaluate(() => {
+      const K = (o) => HP.dfmMMCoherent(o);
+      // 単位系の玩具(c=1・λ₀=1・ν₀=1・L1=1・L2=1.25 → τ=2 / 2.5・Δτ=−0.5)—— ビット契約はここで取る
+      const U = { c: 1, lambda0: 1, L1: 1, L2: 1.25 };
+      const uEq = { c: 1, lambda0: 1, L1: 1, L2: 1 };
+      const i1 = K(Object.assign({}, uEq, { nudot: 2, t: 3 }));
+      const i2 = K(Object.assign({}, uEq, { psi: 0.7, nudot: 2, t: 3 }));
+      const ii0 = K(Object.assign({}, U, {}));                                  // ψ=0・掃引なし
+      const iiN = K(Object.assign({}, U, { nullPhase: true }));                 // ψ 合わせ・掃引なし
+      const iiS = K(Object.assign({}, U, { nullPhase: true, nudot: 2, t: 3 })); // ψ 合わせ・掃引あり
+      const iiL = [1, 10, 100].map((k) => {
+        const r = K(Object.assign({}, U, { nullPhase: true, nudot: 2 * k, t: 3 }));
+        return [r.dNu, r.dN, r.dNRel];
+      });
+      const iii = [0.25, 0.0625, 0].map((d) => {
+        const r = K({ c: 1, lambda0: 1, L1: 1, L2: 1 + d, nullPhase: true, nudot: 2, t: 3 });
+        return [r.dtau, r.dN, r.sweepNull, r.dtauZero];
+      });
+      const iv = K(Object.assign({}, U, { nullPhase: true, dTau: 0.125, nudot: 2, t: 3 }));
+      // SI 1887 装置(L=11 m・λ₀=500 nm・ΔL=1 mm・掃引 ν̇=1e9 Hz/s × 1 ms)の実測値
+      const C = 299792458, LAM = 5e-7, SI = { c: C, lambda0: LAM, L1: 11, L2: 11.001 };
+      const si = K(Object.assign({}, SI, { nullPhase: true, nudot: 1e9, t: 1e-3 }));
+      const siRot = K(Object.assign({}, SI, { nullPhase: true, dTau: 1e-16, nudot: 1e9, t: 1e-3 }));
+      // (iv) の交差検算: dfmMMPhase の Δφ=2πcΔt/λ と符号だけ違い、絶対値はビット一致する
+      const V = 29979.2458, chi = 0;
+      const P = (th) => HP.dfmMMPhase({ c: C, lambda: LAM, L1: 11, L2: 11, theta0: th, omega: 0,
+        vx: V, vy: 0, ux: chi * V, uy: 0 });
+      const p0 = P(0), p90 = P(Math.PI / 2);
+      const dTauRot = p90.dtExact - p0.dtExact;
+      const xr = K({ c: C, lambda0: LAM, L1: 11, L2: 11, nullPhase: true, dTau: dTauRot });
+      const cross = [xr.dphiRot, p90.dphiExact - p0.dphiExact, dTauRot];
+      const cfgD = { c: 3, lambda0: 0.5, L1: 2, L2: 3.25, psi: 0.125, nudot: 7, t: 0.5, dTau: 0.01 };
+      const det = JSON.stringify(K(cfgD)) === JSON.stringify(K(cfgD));
+      const gate = K({ c: Infinity }) === null && K({ lambda0: Infinity }) === null
+        && K({ lambda0: -1 }) === null && K({ c: 0 }) === null
+        && K({ tau1: -1, tau2: 0 }) === null && K({ psi: NaN }) === null
+        && K({ nudot: NaN }) === null && K({ t: Infinity }) === null
+        && K({ dTau: NaN }) === null && K({ nu0: 0 }) === null;
+      return { i1: [i1.dphiFixed, i1.dphi, i1.dN, i1.sweepNull, i1.dtau],
+        i2: [i2.dphiFixed, i2.dphi, i2.dN, i2.sweepNull],
+        ii0: [ii0.dtau, ii0.dphiFixed, ii0.psiNull, ii0.dN],
+        iiN: [iiN.dphiFixed, iiN.dN, iiN.sweepNull],
+        iiS: [iiS.dN, iiS.dNDiff, iiS.dNRel, iiS.dNu, iiS.dphiFixed],
+        iiL, iii,
+        iv: [iv.dphiFixed, iv.dphiRot, iv.dphiAfter, iv.fringesRot, iv.dNRot, iv.dN],
+        si: [si.dtau, si.dN, si.dNRel, si.dNu, si.dphiFixed, si.psiNull],
+        siRot: [siRot.dphiRot, siRot.fringesRot, siRot.dNRot],
+        cross, det, gate };
+    });
+    const E = (a, b) => Object.is(a, b), PI = Math.PI, TWO = 2 * Math.PI;
+    // (i) 等長・静止: Δφ=ψ が固定・ΔN=0(ψ=0 と ψ=0.7 の両方でビット厳密)
+    const k1 = E(co.i1[0], 0) && E(co.i1[1], 0) && E(co.i1[2], 0) && co.i1[3] === true && E(co.i1[4], 0)
+      && E(co.i2[0], 0.7) && E(co.i2[1], 0.7) && E(co.i2[2], 0) && co.i2[3] === true;
+    // (ii) 腕長差: Δτ=−0.5・ψ=0 なら Δφ=π / ψ 合わせで**厳密 0** / 掃引で ΔN=3(閉形式とビット一致)
+    const k2 = E(co.ii0[0], -0.5) && E(co.ii0[1], PI) && E(co.ii0[2], -PI) && E(co.ii0[3], 0)
+      && E(co.iiN[0], 0) && E(co.iiN[1], 0) && co.iiN[2] === true
+      && E(co.iiS[0], 3) && E(co.iiS[1], 3) && E(co.iiS[2], 0) && E(co.iiS[3], 6) && E(co.iiS[4], 0)
+      && E(co.iiL[0][1], 3) && E(co.iiL[1][1], 30) && E(co.iiL[2][1], 300)
+      // 掃引幅を上げると「位相差の引き算」側は桁落ちする(閉形式との相対差 ≤ 数 ulp)
+      && co.iiL.every((r) => r[2] < 1e-15);
+    // (iii) ΔN=0 ⇔ Δτ=0(ΔL>0 では 0 にならず・ΔL=0 でだけビット厳密 0)
+    const k3 = co.iii[0][1] !== 0 && co.iii[1][1] !== 0 && E(co.iii[2][1], 0)
+      && co.iii[0][2] === false && co.iii[1][2] === false && co.iii[2][2] === true
+      && co.iii[2][3] === true && co.iii[0][3] === false
+      && E(co.iii[0][0], -0.5) && E(co.iii[1][0], -0.125);
+    // (iv) ψ 合わせの後の δ(Δτ)=0.125 → Δφ=−2πν₀δ(Δτ)=−π/4(ビット厳密)・掃引の縞移動は別桁
+    const k4 = E(co.iv[0], 0) && E(co.iv[1], -PI / 4) && E(co.iv[2], -PI / 4)
+      && E(co.iv[3], -0.125) && E(co.iv[4], -0.75) && E(co.iv[5], 3)
+      && co.iv[1] !== 0;                                  // **固定波長でも位相は動く**
+    // (iv′) dfmMMPhase との交差検算: 符号だけ逆で絶対値はビット一致(和が厳密 0)
+    const k5 = E(co.cross[0] + co.cross[1], 0) && co.cross[0] !== 0;
+    // (SI) 1887 装置の実測値(ΔL=1 mm・Δν=1 MHz)
+    // τ=2L/c を 2 本引くので Δτ は −2ΔL/c と数 ulp(相対 1.6×10⁻¹²)違う — 相対で見る
+    const k6 = Math.abs(co.si[0] / (-2 * 0.001 / 299792458) - 1) < 1e-11 && E(co.si[4], 0)
+      && co.si[1] > 6.6e-6 && co.si[1] < 6.7e-6 && co.si[2] < 1e-7
+      && co.siRot[0] !== 0 && Math.abs(co.siRot[0] / (-TWO * (299792458 / 5e-7) * 1e-16) - 1) < 1e-15;
+    add('behavior.mmCoherent',
+      k1 && k2 && k3 && k4 && k5 && k6 && co.det && co.gate,
+      `(i) 等長・静止(c=λ₀=1・L=1): Δτ=${co.i1[4]}・Δφ_fixed=**${co.i1[0]}**(ψ=0)/ **${co.i2[0]}**(ψ=0.7)— ` +
+      `**掃引しても ΔN=${co.i1[2]}/${co.i2[2]}**(ビット厳密)=${k1} / ` +
+      `(ii) 腕長差 L2=1.25(Δτ=${co.ii0[0]}): ψ=0 なら Δφ_fixed=${co.ii0[1].toFixed(9)}(=π)、` +
+      `**ψ=${co.ii0[2].toFixed(9)} に合わせると Δφ_fixed=${co.iiN[0]}(厳密 0)**。掃引なしは ΔN=${co.iiN[1]}、` +
+      `**Δν=${co.iiS[3]} で掃引すると ΔN=${co.iiS[0]}**(位相差の引き算 ${co.iiS[1]} と rel ${co.iiS[2]})・` +
+      `掃引幅 ×1/×10/×100 で ΔN=${co.iiL.map((r) => r[1]).join('/')}(線形)=${k2} / ` +
+      `(iii) **ΔN=0 ⇔ Δτ=0**: Δτ=${co.iii[0][0]}→ΔN=${co.iii[0][1]}・Δτ=${co.iii[1][0]}→ΔN=${co.iii[1][1]}・` +
+      `Δτ=${co.iii[2][0]}→**ΔN=${co.iii[2][1]}**(sweepNull=${co.iii[2][2]})=${k3} / ` +
+      `(iv) **ψ を合わせた後に δ(Δτ)=0.125 が入ると位相は Δφ=${co.iv[1].toFixed(9)} rad(=−π/4=${co.iv[3]} 縞)動く** ` +
+      `—— 固定波長でも到着時間差の**変化**は位相に効く(3 審査 v10)。同じ δ(Δτ) の掃引側の寄与は ` +
+      `δ(ΔN)=${co.iv[4]} で桁が違う=${k4} / (iv′) dfmMMPhase の Δφ=2πcΔt/λ との交差検算(符号だけ逆・和が厳密 0)=${k5} / ` +
+      `(SI) 1887 装置(L=11 m・λ₀=500 nm・ΔL=1 mm・Δν=1 MHz): Δτ=${co.si[0].toExponential(6)} s・` +
+      `ψ 合わせで Δφ_fixed=${co.si[4]}・**掃引で ΔN=${co.si[1].toExponential(6)} 縞**、` +
+      `δ(Δτ)=1e−16 s で **Δφ=${co.siRot[0].toExponential(6)} rad=${co.siRot[1].toExponential(6)} 縞**` +
+      `(掃引側は δ(ΔN)=${co.siRot[2].toExponential(6)})=${k6} / (v) 決定性=${co.det}・門=${co.gate}`);
+  } else {
+    console.log('SKIP behavior.mmCoherent(対象に第252便c の HP.dfmMMCoherent なし — root 等)');
+  }
+}
+
+// ---- 第252便c(第44報): behavior.mmLambdaSweep — 3 規約の波長掃引と受動鏡境界の検算 ----
+// (HP.dfmMMLambdaSweep)。第251便c の 3 規約を、原仮定者(第44報)の「固定波長 / 波長を時間変化」の
+// 2 つの読みで並べ、さらに 3 審査 v10 ChatGPT の**受動鏡境界の周波数検算**を機械固定する:
+//   (L1) L=3・λ₀=1・c=1・β=0.5: **stretch は固定 λ₀ で ΔN=0(ビット厳密)だが ΔT=1.0717967… ≠ 0**
+//        → Δν=1 で掃引すると **ΔN_sweep=−ΔT≠0**(「固定波長なら到着時間は効かない」は**計数の話**)
+//   (L2) galilean は ΔN=4.0957290…≠0(固定波長でも縞が出る)。**ΔT は 3 規約で同じ**(T は波長規約に依らない)
+//   (L3) comoving は ΔN=0 かつ **ΔT=0**(掃引しても縞が動かない = 到着時間が一致している唯一の規約)
+//   (B1) **受動鏡境界(ω=u·k+c|k| と ω−V·k 保存)で stretch は ρ₊=(1−β)²=0.25・ρ₋=(1+β)²=2.25**
+//        (ChatGPT の 0.25 対 2.25 を再現)・比 9・鏡が返す波長は規約値の 9 倍 → **不整合**
+//   (B2) galilean は ρ₊=ρ₋=1・鏡が返す波長=規約値(整合)。comoving も u=V の下で ρ=1(整合)
+//   (B3) stretch を u=V で検算しても ρ₊=0.5・ρ₋=1.5(比 3)で**やはり整合しない**
+//   (L4) ChatGPT §7 の L=10 表を同じ器で(ΔT=3.572655899081635・stretch ΔN=0・galilean ΔN=13.65243…)
+//   (L5) 門(β≥1・非有限・未知/空 rule・NaN の uFrac は null)・決定性
+// **これは「stretch を導出した」でも「反証した」でもない** —— stretch が ω=c|k| と ω−V·k 保存とは
+// **別の仮定**であることを数値で示すだけである(第251便c C(ii) の「仮定であって導出ではない」を維持)。
+{
+  const hasSw = await page.evaluate(() => !!(window.HP && typeof HP.dfmMMLambdaSweep === 'function'));
+  if (hasSw) {
+    const sw = await page.evaluate(() => {
+      const S = (o) => HP.dfmMMLambdaSweep(o);
+      const A = S({ L: 3, lambda0: 1, beta: 0.5, c: 1, nudot: 1, t: 1 });
+      const B = S({ L: 10, lambda0: 1, beta: 0.5, c: 1, dNu: 1 });
+      const Z = S({ L: 3, lambda0: 1, beta: 0, c: 1, dNu: 1 });
+      const Uv = S({ L: 3, lambda0: 1, beta: 0.5, c: 1, uFrac: 0.5 });
+      const row = (r) => [r.N, r.Nperp, r.dN, r.T, r.Tperp, r.dT, r.dPhiFixedLambda,
+        r.dNsweep, r.dNsweepRate, r.fixedNull, r.sweepNull];
+      const bnd = (r) => [r.boundary.lambdaOut, r.boundary.lambdaBack, r.boundary.nuOut, r.boundary.nuBack,
+        r.boundary.rhoOut, r.boundary.rhoBack, r.boundary.rhoRatio, r.boundary.lambdaMirror,
+        r.boundary.mirrorRatio, r.boundary.rhoConsistent, r.boundary.mirrorConsistent, r.boundary.u];
+      const one = S({ L: 3, lambda0: 1, beta: 0.5, c: 1, rules: ['stretch'] });
+      const cfgD = { L: 7.5, lambda0: 0.4, beta: -0.25, c: 2, nudot: 3, t: 2 };
+      const det = JSON.stringify(S(cfgD)) === JSON.stringify(S(cfgD));
+      const gate = S({ beta: 1 }) === null && S({ beta: -1 }) === null
+        && S({ c: Infinity }) === null && S({ lambda0: Infinity }) === null
+        && S({ L: -1 }) === null && S({ rules: ['ether'] }) === null && S({ rules: [] }) === null
+        && S({ rules: 'stretch' }) === null && S({ uFrac: NaN }) === null && S({ dNu: NaN }) === null;
+      return { a: { s: row(A.byRule.stretch), g: row(A.byRule.galilean), c: row(A.byRule.comoving) },
+        b: { s: row(B.byRule.stretch), g: row(B.byRule.galilean), c: row(B.byRule.comoving) },
+        z: { s: row(Z.byRule.stretch), g: row(Z.byRule.galilean), c: row(Z.byRule.comoving) },
+        bs: bnd(A.byRule.stretch), bg: bnd(A.byRule.galilean), bc: bnd(A.byRule.comoving),
+        bu: bnd(Uv.byRule.stretch),
+        flags: [A.stretchFixedNull, A.stretchSweepNonNull, A.stretchBoundaryConsistent],
+        oneKeys: Object.keys(one.byRule), det, gate };
+    });
+    const E = (a, b) => Object.is(a, b);
+    const TP3 = 2 * 3 / Math.sqrt(1 - 0.25), DT3 = 8 - TP3;
+    // (L1) stretch: 固定 λ₀ の ΔN は**ビット厳密 0**、掃引の ΔN_sweep は −ΔT で 0 でない
+    const l1 = E(sw.a.s[0], 6) && E(sw.a.s[1], 6) && E(sw.a.s[2], 0) && E(sw.a.s[3], 8)
+      && E(sw.a.s[4], TP3) && Math.abs(sw.a.s[5] - DT3) < 1e-15
+      && E(sw.a.s[7], -sw.a.s[5]) && E(sw.a.s[8], -sw.a.s[5])
+      && sw.a.s[9] === true && sw.a.s[10] === false
+      && sw.flags[0] === true && sw.flags[1] === true;
+    // (L2) galilean: ΔN≠0・ΔT は stretch とビット同一(T は波長規約に依らない)
+    const l2 = Math.abs(sw.a.g[2] - 4.0957290262993205) < 1e-14 && sw.a.g[2] !== 0
+      && E(sw.a.g[5], sw.a.s[5]) && E(sw.a.g[7], sw.a.s[7]) && E(sw.a.g[3], 8)
+      && sw.a.g[9] === false && sw.a.g[10] === false;
+    // (L3) comoving: ΔN=0 かつ ΔT=0(掃引しても縞が動かない唯一の規約)
+    const l3 = E(sw.a.c[2], 0) && E(sw.a.c[5], 0) && E(sw.a.c[7], 0) && E(sw.a.c[6], 0)
+      && sw.a.c[9] === true && sw.a.c[10] === true
+      // β=0 では 3 規約が一致(ΔN も ΔT も 0)
+      && [sw.z.s, sw.z.g, sw.z.c].every((r) => E(r[2], 0) && E(r[5], 0) && E(r[7], 0));
+    // (B1)(B3) stretch の境界不整合 —— ChatGPT の 0.25 対 2.25 をビット厳密に再現
+    const b1 = E(sw.bs[0], 2) && E(sw.bs[1], 2 / 3) && E(sw.bs[2], 0.5) && E(sw.bs[3], 1.5)
+      && E(sw.bs[4], 0.25) && E(sw.bs[5], 2.25) && E(sw.bs[6], 9)
+      && E(sw.bs[7], 6) && E(sw.bs[8], 9) && sw.bs[9] === false && sw.bs[10] === false
+      && sw.flags[2] === false
+      && E(sw.bu[4], 0.5) && E(sw.bu[5], 1.5) && E(sw.bu[6], 3) && sw.bu[9] === false;
+    // (B2) galilean(u=0)と comoving(u=V)は ρ=1 でビット整合
+    const b2 = E(sw.bg[0], 0.5) && E(sw.bg[1], 1.5) && E(sw.bg[4], 1) && E(sw.bg[5], 1)
+      && E(sw.bg[6], 1) && E(sw.bg[7], 1.5) && E(sw.bg[8], 1) && sw.bg[9] === true && sw.bg[10] === true
+      && E(sw.bc[4], 1) && E(sw.bc[5], 1) && E(sw.bc[8], 1) && sw.bc[9] === true && E(sw.bc[11], 0.5);
+    // (L4) L=10 の表(ΔT は 3 規約共通・stretch ΔN=0・galilean ΔN=13.65243…)
+    const l4 = Math.abs(sw.b.s[5] - 3.572655899081635) < 1e-14 && E(sw.b.s[2], 0)
+      && E(sw.b.g[5], sw.b.s[5]) && Math.abs(sw.b.g[2] - 13.6524300876644) < 1e-13
+      && E(sw.b.s[7], -sw.b.s[5]) && E(sw.b.c[5], 0);
+    const l5 = sw.oneKeys.length === 1 && sw.oneKeys[0] === 'stretch';
+    add('behavior.mmLambdaSweep',
+      l1 && l2 && l3 && b1 && b2 && l4 && l5 && sw.det && sw.gate,
+      `(L1) **stretch**(L=3・λ₀=1・c=1・β=0.5): N=${sw.a.s[0]}・N⊥=${sw.a.s[1]}・**固定 λ₀ の ΔN=${sw.a.s[2]}` +
+      `(ビット厳密)**だが T=${sw.a.s[3]} 対 T⊥=${sw.a.s[4].toFixed(9)} で **ΔT=${sw.a.s[5].toFixed(9)}≠0** → ` +
+      `Δν=1 で掃引すると **ΔN_sweep=${sw.a.s[7].toFixed(9)}≠0**(=−ΔT)=${l1} / ` +
+      `(L2) **galilean**: **ΔN=${sw.a.g[2].toFixed(9)}≠0**(固定波長でも縞が出る)・ΔT は stretch とビット同一=${E(sw.a.g[5], sw.a.s[5])} / ` +
+      `(L3) **comoving**: ΔN=${sw.a.c[2]}・**ΔT=${sw.a.c[5]}**・ΔN_sweep=${sw.a.c[7]}(掃引しても動かない唯一の規約)・` +
+      `β=0 では 3 規約が一致=${l3} / ` +
+      `(B1) **受動鏡境界の検算**(ω=u·k+c|k|・ρ=(ω−V·k)/2πν₀): stretch は λ₊=${sw.bs[0]}・λ₋=${(sw.bs[1]).toFixed(9)} を ` +
+      `ω=c|k| に入れると ν₊=${sw.bs[2]}・ν₋=${sw.bs[3]} となり **ρ₊=${sw.bs[4]}=(1−β)² 対 ρ₋=${sw.bs[5]}=(1+β)²**(比 ${sw.bs[6]})—— ` +
+      `鏡が返す波長は ${sw.bs[7]} で規約値の **${sw.bs[8]} 倍**・u=V で検算しても ρ₊=${sw.bu[4]}/ρ₋=${sw.bu[5]}(比 ${sw.bu[6]})で` +
+      `**整合しない**=${b1} / (B2) galilean(u=0)と comoving(u=V)は ρ₊=ρ₋=1・鏡の波長比 1 で**整合**=${b2} / ` +
+      `(L4) L=10: ΔT=${sw.b.s[5].toFixed(9)}(3 規約共通)・stretch ΔN=${sw.b.s[2]}・galilean ΔN=${sw.b.g[2].toFixed(9)}=${l4} / ` +
+      `(L5) rules 絞り込み=${l5}・決定性=${sw.det}・門(β≥1・非有限・未知/空 rule・NaN uFrac)=${sw.gate}。` +
+      `**stretch を導出も反証もしていない** —— ω=c|k| と ω−V·k 保存とは別の仮定であることを数値で示すだけ`);
+  } else {
+    console.log('SKIP behavior.mmLambdaSweep(対象に第252便c の HP.dfmMMLambdaSweep なし — root 等)');
+  }
+}
+
 // ---- 第246便d ⑤: behavior.contractBudget — コア収縮の E 予算と Q 不変 ----
 // 思考実験⑤「WD/NS の質量は元の赤色巨星とあまり変わらない → 質量はコアに集中し、成長すると
 // コア半径が縮む」。①エネルギー予算 dUbind=aGMc²(1/R1−1/R0) 対 dErot=J²/(2κMc)(1/R1²−1/R0²)
@@ -11671,6 +11915,234 @@ if (!FAST) {
   }
 }
 
+// ---- 第252便a(第44報「箱宇宙と連星」): behavior.boxBinary — 等質量では何が消えて何が残るか ----
+//   🫂 boxBinaryToy(等質量 2 体・kFrame=1 の引きずりだけ・1PN 切)を機械固定する。
+//     ① 宣言: **等質量**(m₁===m₂ ビット同一)・geoPN=0・kFrame=1・frameWeight:"pull"・D0pull=1・cLight=30
+//     ② 決定性: 同一構成 2 回実行がビット同一・NaN 0・安全クランプ 0
+//     ③ **等質量なら背景決定力場に対する共通並進が相対軌道から落ちる**: 両粒子に共通速度を足した
+//        走行と足さない走行で、**相対分離 r(t) の最大差が a の 10⁻⁸ 未満**(丸め — 否定対照は 10⁻³ 以上で 5 桁離れている)
+//     ④ **質量をずらすと落ちない**(否定対照): 同じ共通速度で m を 525/475 にすると同じ量が 10⁻³ 以上
+//     ⑤ **引きずりを切ると質量比によらず落ちる**(kFrame=0 = ガリレイ不変の対照)
+//     ⑥ **公転に伴う並進**: 静止(共通速度 0)では重心の弾道からのずれが厳密 0(等質量の対称性)
+//     ⑦ A/B の D0pull=1e−6 側は素通りしない(軌道が変わる)
+//   窓は**符号と桁だけ**(実測値は obsCard と PHYSICS.md 〔第252便a〕・tests/out/boxbinary-w252.json が持つ)。
+{
+  const hasBB = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'boxBinaryToy'));
+  if (hasBB) {
+    const bb = await page.evaluate(() => {
+      const STEPS = 60000, DT = 0.004, BOOST = 3;
+      // 相対分離 r(t) の軌跡を返す(**相対軌道が背景に対する移動で動くか**だけを見る)
+      const traj = (opt) => {
+        const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'boxBinaryToy')));
+        if (opt.kFrame !== undefined) pd.physics.kFrame = opt.kFrame;
+        if (opt.D0pull !== undefined) pd.physics.D0pull = opt.D0pull;
+        if (opt.masses) { pd.bodies[0].m = opt.masses[0]; pd.bodies[1].m = opt.masses[1]; }
+        if (opt.boost) for (const b of pd.bodies) b.vx += opt.boost;
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        const m0 = S.m[0], m1 = S.m[1], Ms = m0 + m1;
+        const cm = () => [(m0 * S.x[0] + m1 * S.x[1]) / Ms, (m0 * S.y[0] + m1 * S.y[1]) / Ms];
+        const vcm = () => [(m0 * S.vx[0] + m1 * S.vx[1]) / Ms, (m0 * S.vy[0] + m1 * S.vy[1]) / Ms];
+        const c0 = cm(), v0 = vcm();
+        const R = new Float64Array(STEPS >> 6), TH = new Float64Array(STEPS >> 6);
+        let cmDev = 0, j = 0;
+        for (let k = 0; k < STEPS; k++) {
+          S.step(DT);
+          if ((k & 63) === 63 && j < R.length) {
+            const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0];
+            R[j] = Math.hypot(dx, dy); TH[j] = Math.atan2(dy, dx); j++;
+            const c = cm(), t = (k + 1) * DT;
+            const d = Math.hypot(c[0] - (c0[0] + v0[0] * t), c[1] - (c0[1] + v0[1] * t));
+            if (d > cmDev) cmDev = d;
+          }
+        }
+        return { R, TH, n: j, cmDev,
+          st: [S.x[0], S.y[0], S.vx[0], S.vy[0], S.x[1], S.y[1], S.vx[1], S.vy[1]],
+          m: [m0, m1], nan: S.hasNaN(),
+          clamp: S.clampVN + S.clampSN + S.clampRN + S.clampTN + S.clampAN,
+          phys: v.preset.physics, warn: (v.warnings || []).length };
+      };
+      const relDiff = (a, b) => {   // 相対分離の最大差(a=153.846 単位で規格化)
+        let mx = 0; const n = Math.min(a.n, b.n);
+        for (let i = 0; i < n; i++) { const d = Math.abs(a.R[i] - b.R[i]); if (d > mx) mx = d; }
+        return mx / 153.84615384615384;
+      };
+      const eqStill = traj({}), eqMove = traj({ boost: BOOST });
+      const unStill = traj({ masses: [525, 475] }), unMove = traj({ masses: [525, 475], boost: BOOST });
+      const k0Still = traj({ kFrame: 0, masses: [525, 475] }), k0Move = traj({ kFrame: 0, masses: [525, 475], boost: BOOST });
+      const abSide = traj({ D0pull: 1e-6 });
+      const twice = traj({});
+      const src = HP.allPresets().find((q) => q.id === 'boxBinaryToy');
+      return {
+        decl: { eqMass: Object.is(src.bodies[0].m, src.bodies[1].m), geoPN: src.physics.geoPN,
+          kFrame: src.physics.kFrame, fw: src.physics.frameWeight, D0pull: src.physics.D0pull,
+          cLight: src.physics.cLight, spin: src.bodies[0].spin === 0 && src.bodies[1].spin === 0,
+          ab: src.abBody && src.abBody.physicsPatch ? src.abBody.physicsPatch.D0pull : null,
+          card: (src.obsCard || []).length },
+        detBit: eqStill.st.every((z, i) => Object.is(z, twice.st[i])),
+        nan: eqStill.nan + eqMove.nan + unMove.nan, clamp: eqStill.clamp + eqMove.clamp + unMove.clamp,
+        eqInvariant: relDiff(eqStill, eqMove),      // ③ 等質量 → 丸め
+        unSensitive: relDiff(unStill, unMove),      // ④ 質量差 → 落ちない
+        k0Invariant: relDiff(k0Still, k0Move),      // ⑤ kF0 → 質量差があっても落ちる
+        cmDevStill: eqStill.cmDev, cmDevMove: eqMove.cmDev, cmDevUn: unStill.cmDev,
+        abMoves: relDiff(eqStill, abSide),          // ⑦ A/B 側は素通りしない
+        warn: eqStill.warn,
+      };
+    });
+    const A = 153.84615384615384;
+    const CK = {
+      decl: bb.decl.eqMass && bb.decl.geoPN === 0 && bb.decl.kFrame === 1 && bb.decl.fw === 'pull'
+        && bb.decl.D0pull === 1 && bb.decl.cLight === 30 && bb.decl.spin
+        && bb.decl.ab === 1e-6 && bb.decl.card === 8,
+      det: bb.detBit && bb.nan === 0 && bb.clamp === 0 && bb.warn === 0,
+      // ③ 等質量: 背景に対する共通並進が相対軌道から**落ちる**(丸め)
+      eqInvariant: bb.eqInvariant < 1e-8,
+      // ④ 否定対照: 質量を 525/475 にすると同じ並進が相対軌道を動かす
+      unSensitive: bb.unSensitive > 1e-3,
+      // ⑤ kFrame=0 は質量差があってもガリレイ不変
+      k0Invariant: bb.k0Invariant < 1e-8,
+      // ⑥ 静止では重心の弾道からのずれが厳密 0(等質量の対称性)/ 質量差があると 0 でない
+      cmZero: bb.cmDevStill === 0 && bb.cmDevUn > 0,
+      // ⑦ A/B(D0pull=1e−6)は素通りしない
+      abMoves: bb.abMoves > 1e-2,
+    };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    add('behavior.boxBinary', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + `🫂 宣言: 等質量=${bb.decl.eqMass}・geoPN=${bb.decl.geoPN}・kFrame=${bb.decl.kFrame}・`
+      + `frameWeight="${bb.decl.fw}"・D0pull=${bb.decl.D0pull}・c₀=${bb.decl.cLight}・obsCard ${bb.decl.card} 行 / `
+      + `決定性: 2 回実行ビット同一=${bb.detBit}・NaN ${bb.nan}・clamp ${bb.clamp}・警告 ${bb.warn} / `
+      + `**等質量では背景に対する共通並進(v=3)が相対軌道から落ちる**: max|Δr|/a=${bb.eqInvariant.toExponential(2)}(<1e−8)/ `
+      + `否定対照(m 525/475): ${bb.unSensitive.toExponential(2)}(>1e−3 = 落ちない)/ `
+      + `kFrame=0 対照(m 525/475): ${bb.k0Invariant.toExponential(2)}(ガリレイ不変)/ `
+      + `公転に伴う並進(重心の弾道からのずれ): 静止・等質量で**厳密 0**=${bb.cmDevStill === 0}・`
+      + `質量差ありで ${(bb.cmDevUn / A).toExponential(2)}a・背景に対して動かすと ${(bb.cmDevMove / A).toExponential(2)}a`
+      + `(**相対軌道は動かないが重心の走り方は変わる**)/ `
+      + `A/B の D0pull=1e−6 側は素通りしない: max|Δr|/a=${bb.abMoves.toExponential(2)}`);
+  } else {
+    console.log('SKIP behavior.boxBinary(対象に第252便a の 🫂 なし — root 等)');
+  }
+}
+
+// ---- 第252便b(第44報): behavior.periSubsteps — 近点近傍の刻み細分(数値設定の opt-in)の契約 ----
+//   第251便a ⑨ が持ち越した「S._core を肥大させずに近点だけ細かくする」を、3 審査 v10 の一致点
+//   (K7/K8/K8′)どおり **S.step を呼ぶ側の薄い包み**として入れたことの機械固定である。
+//     ① **未宣言は 1 bit 不変**: ⚡ の 200 步が宣言前後でビット同一・physics 署名も 1 文字同一
+//        (n=1 は「なし」へ正規化されるので、宣言しても署名が変わらない)
+//     ② **opt-in の決定性**: 同じ宣言で 2 回走らせるとビット同一
+//     ③ **一様細分との厳密一致**: ゲートを全域に開けた {n:4} の dt=0.016 × 200 步は、
+//        dt=0.004 × 800 步と**ビット同一**(包みが「dt を n 等分して n 回呼ぶ」以上のことをしていない証拠)
+//     ④ **イベントは最後のサブステップの後に 1 度だけ**(Grok §4A): ステップ末の離散イベント
+//        (ここでは _echo を計数)は、細分の有無にかかわらず**外側ステップ数と同じ回数**しか発火しない
+//     ⑤ **ゲートが効く**: rMul を近点の近くに絞ると細分した外側ステップ数 < 全ステップ数
+//     ⑥ NaN 0・安全クランプ 0・時刻 t は細分の有無に依らず同じだけ進む
+//     ⑦ 検証器 validatePeriSubsteps: n≤1 と null は「なし」・値域クランプ・不正入力は ok:false
+//   **物理ではなく数値設定である**(role=numerics)— 刻みを変えて動く量は物理ではない、が本便の主題。
+{
+  const hasPS = await page.evaluate(() => typeof (window.HP && HP.validatePeriSubsteps) === 'function');
+  if (hasPS) {
+    const ps = await page.evaluate(() => {
+      const SRC = 'psrDoubleABDFM';
+      const build = (patch) => {
+        const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === SRC)));
+        if (patch) for (const k of Object.keys(patch)) {
+          if (patch[k] === null) delete pd.physics[k]; else pd.physics[k] = patch[k];
+        }
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        return { S, sig: JSON.stringify(v.preset.physics) };
+      };
+      const hash = (S) => {
+        let a = 0x811c9dc5;
+        const buf = new ArrayBuffer(8), f = new Float64Array(buf), u = new Uint8Array(buf);
+        const push = (v) => { f[0] = v; for (let b = 0; b < 8; b++) { a ^= u[b]; a = Math.imul(a, 0x01000193) >>> 0; } };
+        for (const k of ['x', 'y', 'vx', 'vy', 'spin']) { const A = S[k]; if (!A) continue;
+          for (let i = 0; i < S.n; i++) push(A[i]); }
+        push(S.t); return a.toString(16);
+      };
+      const run = (patch, n, dt) => {
+        const b = build(patch); const S = b.S;
+        for (let k = 0; k < n; k++) S.step(dt);
+        return { h: hash(S), sig: b.sig, t: S.t, nan: S.hasNaN(),
+          clamp: (S.clampRN || 0) + (S.clampSN || 0) + (S.clampVN || 0) + (S.clampAN || 0) + (S.clampTN || 0),
+          hits: S.periSubHits || 0, subs: S.periSubSteps || 0, has: !!S.hasPeriSub,
+          rPeri: S._psRmin || null, auto: !!S._psAuto, pair: S.hasPeriSub ? [S._psI, S._psJ] : null };
+      };
+      // t=0 の 2 体距離(しきい値の宣言に使う — 手打ちの数値を QA に置かないため)
+      const r0 = (() => { const S = build(null).S; return Math.hypot(S.x[1] - S.x[0], S.y[1] - S.y[0]); })();
+      // ステップ末の離散イベントの計数(_echo を差し替えて数える — 物理は 1 bit も変えない)
+      const evCount = (patch, n, dt) => {
+        const b = build(patch); const S = b.S;
+        S.echoFlipAt = 1e9;                 // 反転はしない閾値。_echo が毎ステップ末に呼ばれる状態を作る
+        let c = 0; const orig = S._echo;
+        S._echo = function () { c++; return orig.call(this); };
+        for (let k = 0; k < 50; k++) S.step(dt);
+        S._echo = orig; S.echoFlipAt = null;
+        return { calls: c, hits: S.periSubHits || 0, subs: S.periSubSteps || 0, t: S.t };
+      };
+      const R = {};
+      R.base = run(null, 200, 0.016);
+      R.n1 = run({ periSubsteps: { n: 1, rMul: 2 } }, 200, 0.016);      // ① n=1 = なし
+      R.on1 = run({ periSubsteps: { n: 4, rMul: 1e3 } }, 200, 0.016);   // ②③ 全域ゲート
+      R.on2 = run({ periSubsteps: { n: 4, rMul: 1e3 } }, 200, 0.016);
+      R.uni = run(null, 800, 0.004);
+      // ⑤ ゲートの両側: しきい値 1(= 決して近点近傍に入らない)は**素通りとビット同一**、
+      //    しきい値 0.95·r₀ は 0.36 公転の間に「入る前」と「入った後」が両方ある
+      R.gateOff = run({ periSubsteps: { n: 4, rMul: 1, rPeri: 1 } }, 200, 0.016);
+      R.gate = run({ periSubsteps: { n: 4, rMul: 1, rPeri: 0.95 * r0 } }, 20000, 0.016);
+      R.gateBase = run(null, 20000, 0.016);
+      R.evOff = evCount(null, 50, 0.016);
+      R.evOn = evCount({ periSubsteps: { n: 4, rMul: 1e3 } }, 50, 0.016);
+      const V = HP.validatePeriSubsteps;
+      R.val = {
+        key: HP.PERI_SUB_KEY === 'periSubsteps',
+        nullOk: V(null).ok === true && V(null).periSubsteps === null,
+        n1null: V({ n: 1 }).periSubsteps === null,
+        n0null: V({ n: 0 }).periSubsteps === null,
+        def: (() => { const z = V({ n: 4 }); return z.ok && z.periSubsteps.n === 4
+          && z.periSubsteps.rMul === HP.PERI_SUB_DEFAULT.rMul; })(),
+        clampN: V({ n: 1e9 }).periSubsteps.n === HP.PERI_SUB_CLAMPS.n[1],
+        clampR: V({ n: 4, rMul: 0 }).periSubsteps.rMul === HP.PERI_SUB_CLAMPS.rMul[0],
+        pairOk: (() => { const z = V({ n: 4, pair: [0, 1] }); return z.ok && z.periSubsteps.pair[1] === 1; })(),
+        badNum: V({ n: 'x' }).ok === false,
+        badPair: V({ n: 4, pair: [0, 0] }).ok === false && V({ n: 4, pair: [1] }).ok === false,
+        badType: V([1, 2]).ok === false,
+      };
+      return R;
+    });
+    const CK = {
+      bitZero: ps.n1.h === ps.base.h && ps.n1.sig === ps.base.sig && ps.n1.has === false,
+      determinism: ps.on1.h === ps.on2.h,
+      uniformEq: ps.on1.h === ps.uni.h,
+      substepCount: ps.on1.hits === 200 && ps.on1.subs === 800,
+      eventsOnce: ps.evOff.calls === 50 && ps.evOn.calls === 50 && ps.evOn.subs === 200 && ps.evOn.hits === 50,
+      gateOffBit: ps.gateOff.h === ps.base.h && ps.gateOff.hits === 0 && ps.gateOff.has === true,
+      gateWorks: ps.gate.hits > 0 && ps.gate.hits < 20000 && ps.gate.has === true
+        && ps.gate.h !== ps.gateBase.h,
+      pairAuto: !!ps.on1.pair && ps.on1.pair.length === 2 && ps.on1.rPeri > 0,
+      timeSame: Math.abs(ps.on1.t - ps.base.t) < 1e-9 && Math.abs(ps.evOn.t - ps.evOff.t) < 1e-9,
+      sane: ps.base.nan === false && ps.on1.nan === false && ps.gate.nan === false
+        && ps.base.clamp === 0 && ps.on1.clamp === 0 && ps.gate.clamp === 0,
+      validator: Object.keys(ps.val).every((k) => ps.val[k] === true),
+    };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    add('behavior.periSubsteps', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + `**未宣言は 1 bit 不変**: ⚡ 200 步のハッシュが宣言前後で同一(${ps.base.h})かつ physics 署名も同一`
+      + `(n=1 は「なし」へ正規化 — hasPeriSub=${ps.n1.has})=${CK.bitZero} / `
+      + `opt-in の決定性(同じ宣言で 2 回=ビット同一)=${CK.determinism} / `
+      + `**一様細分と厳密一致**: {n:4} の dt=0.016×200 步 が dt=0.004×800 步 とビット同一=${CK.uniformEq}`
+      + `(細分した外側步 ${ps.on1.hits}・踏んだサブステップ ${ps.on1.subs})=${CK.substepCount} / `
+      + `**イベントは最後のサブステップの後に 1 度だけ**: ステップ末の _echo が 外側 50 步に対し `
+      + `細分なし ${ps.evOff.calls} 回・細分あり ${ps.evOn.calls} 回(サブステップは ${ps.evOn.subs} 回踏んでいる)=${CK.eventsOnce} / `
+      + `**ゲート外はビット 0**(しきい値 1 = 近点近傍に入らない宣言で 200 步が素通りとビット同一・細分 ${ps.gateOff.hits} 回)=${CK.gateOffBit} / `
+      + `ゲート内だけ細分(しきい値 0.95·r₀ で 20000 步中 ${ps.gate.hits} 步が細分され、素通りと軌道が変わる)=${CK.gateWorks} / `
+      + `2 体は自動選択 pair=[${ps.on1.pair}]・r_peri=${ps.on1.rPeri === null ? '—' : ps.on1.rPeri.toFixed(3)}=${CK.pairAuto} / `
+      + `時刻 t は細分の有無に依らず同じだけ進む=${CK.timeSame} / NaN 0・クランプ 0=${CK.sane} / `
+      + `検証器(n≤1・null=なし/値域クランプ/不正入力 ok:false)=${CK.validator}`);
+  } else {
+    console.log('SKIP behavior.periSubsteps(対象に第252便b の近点サブステップなし — root 等)');
+  }
+}
+
 // ---- 第231便(第28報): behavior.supernovaObs — 超新星の観測転写(🥀 前駆星/🦀 残骸)----
 // 🥀: Joyce 一組整合の転写値+静止ビット保持。🦀: 膨張速度の転写(1506 km/s)・殻 KE=1.04e50 erg
 // (SN 1054 モデル帯と同桁・正準 1e51 の1桁下)・年齢算術・自由膨張・gas 宣言・決定性
@@ -12183,7 +12655,7 @@ if (!FAST) {
         'psrJ1757DFM', 'psrJ1946DFM',
         'psrDoubleABPN', 'psrJ1757PN', 'psrJ1946PN',
         'psrDoubleABCF', 'psrJ1757CF', 'psrJ1946CF',
-        'psrB1534', 'psrB1534DFM', 'psrB1534CF', 'compactForceToy',
+        'psrB1534', 'psrB1534DFM', 'psrB1534CF', 'compactForceToy', 'boxBinaryToy',
         'axisBarStill', 'axisBarArms', 'axisBarReach'];   // 第251便b: 第248便c の 3 本(🍥🪁🍢)は廃止   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)/ 第247便d: 🪞 mmPhaseToy(pull 明示の原理サンプル)/ 第248便a: 🧮🩺(⚡ の処方をそのまま当てた NS 連星 hold-out — ⚡ と同じ pull 宣言) / 第248便c: 🍥🪁🍢(銀河形態の原理サンプル — pull 既定)/ 第249便a: 🪶🪃🪀(NS 応答候補 λ_PN=1/f の variant — 複製元と同じ pull 宣言) / 第249便c: 🥢🎏🎚️(axisForce 玩具の原理サンプル — pull 既定)
       const all = HP.allPresets(); let nShare = 0, nOther = 0; const wrong = [];
       for (const q of all) { const fw = q.physics && q.physics.frameWeight; if (MIG.indexOf(q.id) >= 0) { if (fw !== undefined && fw !== 'pull') wrong.push(q.id); } else if (fw === 'share') nShare++; else { nOther++; wrong.push(q.id); } }

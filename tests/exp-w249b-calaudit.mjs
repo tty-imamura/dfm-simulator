@@ -47,6 +47,9 @@ const ONLY = (() => { const i = argv.indexOf('--only'); return (i >= 0 && argv[i
 const BUDGET_LIGHT = (() => { const i = argv.indexOf('--budget'); return (i >= 0 && argv[i + 1]) ? Number(argv[i + 1]) : 30; })();
 const BUDGET_HEAVY = BUDGET_LIGHT * 3;
 const ORB_MAX = 60;            // 直接法(近点間・同方向1周)で数える上限公転数
+// 第252便b(第44報): **近点間周期の窓は「最初の 20 近点(19 区間)」に固定**する(宣言であって
+// 自動判定ではない)。走行長で窓が変わっていたのが第251便 統括の残した窓感度 0.66pt の源である。
+const PERI_WINDOW = 20;
 const DT0 = 0.016;             // アプリ既定(index.html の const DT)
 
 // ---------------------------------------------------------------- サンプル別の対象宣言
@@ -122,6 +125,9 @@ const ECC_TIMING_BINARY = new Set([
   // PSR B1534+12 系(第251便c 時点では**プリセットが無い** — CSV に観測行だけがある)。
   // 将来サンプルを起こしたときに定義契約が自動で効くよう、ID を先に置いておく。
   'psrB1534', 'psrB1534DFM', 'psrB1534PN',
+  // 第252便(統括): 第251便a の案K variant(CF)を追加 — 同じ系の DFM 版が近点間判定なのに CF 版だけ
+  // 同方向 1 周で判定していた不整合(第252便b の指摘)を解消する。定義契約は同じ(宣言列挙・自動判定なし)。
+  'psrDoubleABCF', 'psrJ1757CF', 'psrJ1946CF', 'psrB1534CF',
 ]);
 
 // ---------------------------------------------------------------- 第251便c(第43報 W3・ChatGPT §8.1)
@@ -284,7 +290,7 @@ await pg.goto(INDEX, { waitUntil: 'load' });
 await pg.waitForFunction(() => window.HP && HP.sim);
 
 // ---------------------------------------------------------------- ページ側ヘルパ(本体には入れない)
-await pg.evaluate(() => {
+await pg.evaluate((PERI_WINDOW) => {   // 第252便b: 近点間周期の固定窓をページ側へ渡す
   // 宣言 body index → 実行 index(ring/cluster 等は count 個へ展開される)
   window.__w249map = (p) => {
     const map = []; let si = 0;
@@ -422,11 +428,19 @@ await pg.evaluate(() => {
         slope = sxy / sxx;
         resid = Math.sqrt(ang.reduce((s, a, i) => s + (a - (my + slope * (i - mx))) ** 2, 0) / n);
       }
-      const per = []; for (let i = 1; i < use.length; i++) per.push((use[i].k - use[i - 1].k) * dt);
+      // 第252便b(第44報): **近点間周期の窓を「最初の 20 近点(19 区間)」へ固定**する。
+      // 第251便 統括の未解決「近点間平均の窓感度で ⚡🧿🪶 の周期残差が 0.66pt 割れる」への処置で、
+      // 窓の長さがサンプルごとの走行長(時間予算)で決まっていたのをやめ、**宣言した固定窓**にする。
+      // 20 近点に満たなければ **perMean=null(未計測)** を返す —— 他の周期定義へは置換しない
+      // (第251便c の定義契約 ④ をそのまま延長する)。窓外の全近点平均は perMeanAll に残す(履歴)。
+      const perAll = []; for (let i = 1; i < use.length; i++) perAll.push((use[i].k - use[i - 1].k) * dt);
+      const win = use.slice(0, PERI_WINDOW), measured = (win.length >= PERI_WINDOW);
       return { nPeri: n, rej, slopeDeg: slope === null ? null : slope * 180 / Math.PI,
         residDeg: resid === null ? null : resid * 180 / Math.PI,
-        perMean: per.length ? per.reduce((a, b) => a + b, 0) / per.length : null,
-        perFirst: per.length ? per[0] : null, perN: per.length };
+        perMean: measured ? (win[PERI_WINDOW - 1].k - win[0].k) * dt / (PERI_WINDOW - 1) : null,
+        perMeanAll: perAll.length ? perAll.reduce((a, b) => a + b, 0) / perAll.length : null,
+        perWindow: PERI_WINDOW, perFound: use.length, perUnmeasured: !measured,
+        perFirst: perAll.length ? perAll[0] : null, perN: measured ? PERI_WINDOW - 1 : 0 };
     };
     const out = T.map((t) => {
       const pRef = Number.isFinite(t.osc0.P) ? t.osc0.P : (t.rev.length > 1 ? t.rev[1] - t.rev[0] : 1);
@@ -453,7 +467,7 @@ await pg.evaluate(() => {
       nan: S.hasNaN(), clamp: (S.clampVN || 0) + (S.clampSN || 0) + (S.clampHN || 0) + (S.clampRN || 0) + (S.clampTN || 0),
       warnings: b.warnings, n: b.n, framePrec: S.framePrec || null };
   };
-});
+}, PERI_WINDOW);
 
 // ---------------------------------------------------------------- サンプル一覧と宣言の読み出し
 const decls = await pg.evaluate(() => HP.allPresets().filter((p) => p.sampleClass === 'calibration').map((p) => ({
@@ -479,7 +493,13 @@ const out = { meta: {
   toleranceNote: '観測誤差が obsCard の obs 欄から読めた量は誤差で機械判定する。読めない量は ±1% を'
     + '「目安」として使い(guide:true)、確定基準にはしない。',
   periodNote: '公転周期は 2 定義(近点間 / 同方向 1 周)を両方測り、判定は同方向 1 周で行う'
-    + '(obsCard の「2 周目/周回時間」がこの定義)。両定義が許容の内外に分かれた行は note に「定義依存」を書く。',
+    + '(obsCard の「2 周目/周回時間」がこの定義)。両定義が許容の内外に分かれた行は note に「定義依存」を書く。'
+    + ' **第252便b: 近点間周期の窓を「最初の 20 近点(19 区間)」に固定した。**20 近点に満たない対象は'
+    + ' unmeasured を返し、他の周期定義へは置換しない(第251便c の定義契約 ④ の延長)。'
+    + ' 窓外の全近点平均は detail.periAllSec に履歴として残す。',
+  periWindow: { nPeri: PERI_WINDOW, nIntervals: PERI_WINDOW - 1,
+    reason: '第251便 統括の未解決「近点間平均の窓感度で ⚡🧿🪶 の周期残差が 0.66pt 割れる」— '
+      + '窓の長さが走行長(時間予算)で決まっていたのをやめ、宣言した固定窓にする(第252便b)' },
   dtNote: 'dt はアプリ既定 0.016 と、その半分 0.008 の 2 段。dt/2 段は実行時 n≤12 のサンプルだけ'
     + '(重い環・多体は時間予算に収まらない — 明記)。',
 }, presets: [] };
@@ -753,8 +773,11 @@ for (const P of out.presets) {
       q.periodDef = (pPeriA !== null) ? 'periastron' : 'unmeasured';
       q.meas = pPeriA;
       q.method = (pPeriA !== null)
-        ? `近点間周期(検出器A・ṙ の −→+ 交差 ${t.A.nPeri} 個の平均 — 第251便c の定義契約)`
-        : '**未測定**: 近点が測れない(窓不足・縮退)— 他の周期定義へは置換しない(第251便c の定義契約)';
+        ? `近点間周期(検出器A・ṙ の −→+ 交差。**窓=最初の ${t.A.perWindow} 近点(${t.A.perWindow - 1} 区間)**`
+          + ` — 第251便c の定義契約 + 第252便b の窓固定。検出できた近点は ${t.A.perFound} 個)`
+        : `**未測定**: 近点間周期の窓(最初の ${PERI_WINDOW} 近点)が埋まらない`
+          + `(検出できた近点 ${t.A.perFound === undefined ? 0 : t.A.perFound} 個)— 他の周期定義へは置換しない`
+          + '(第251便c の定義契約 + 第252便b の窓固定)';
       if (pPeriA === null) q.note = (q.note ? q.note + ' / ' : '')
         + '離心タイミング連星の判定量は近点間周期だが**近点が測れない**ため未測定とする'
         + `(同方向1周 ${pRev === null ? '—' : pRev.toPrecision(9) + ' s'}・接触要素 `
@@ -767,6 +790,8 @@ for (const P of out.presets) {
     }
     q.unit = 's';
     q.detail = { revSec: revs.slice(0, 6), periASec: pPeriA, periBSec: pPeriB, oscSec: pOsc,
+      periWindow: t.A.perWindow || null, periFoundA: t.A.perFound, periFoundB: t.B.perFound,
+      periUnmeasuredA: t.A.perUnmeasured, periAllSec: (t.A.perMeanAll !== null && t.A.perMeanAll !== undefined) ? t.A.perMeanAll * P.toSec : null,
       revN: t.revN, aOscMean: t.oscA, aOsc0: t.osc0.a,
       periodDef: q.periodDef,
       // ③ 検出器 A/B は**同じ近点間周期どうし**で比べる(定義違いの広がりは crossDef 側へ)

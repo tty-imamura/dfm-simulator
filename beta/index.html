@@ -2230,6 +2230,9 @@ function fastParams(o){
   if(!__PARAM_TMPL){
     const ks=new Set(Object.keys(DEFAULT_PHYSICS));
     for(const q of BUILTIN_PRESETS) if(q && q.physics && typeof q.physics==="object") for(const k of Object.keys(q.physics)) ks.add(k);
+    // 第252便b: 内蔵プリセットが 1 本も宣言していない opt-in 鍵も正準集合に入れる(宣言した保存/AI
+    // プリセットだけ hidden class が別になるのを防ぐ)。値は undefined なので既定経路は 1 bit 不変
+    ks.add(PERI_SUB_KEY);
     const t={}; for(const k of ks) t[k]=undefined;
     __PARAM_TMPL={...t};   // スプレッドで fast-properties の雛形にする(t 自体は辞書化していてよい)
   }
@@ -2354,10 +2357,55 @@ const AXIS_FORCE_DEFAULT = { Rb:100, rc:1, axis:0, source:0 };
 // S.step の真偽値 1 つを読んで素通りする。**S._core の中には 1 命令も足していない**(JIT 崖 — 第239便 §4.5)。
 const COMPACT_FORCE_KEY = "compactForce";
 const COMPACT_FORCE_MODELS = ["current","manev","lj"];
+// 第252便a(第44報): current の**速度枠**。既定 "absolute"=v₁·v₂(背景決定力場に対する絶対速度の積 —
+// 第251便a のまま)/ opt-in "pair"=相対速度のみ v₁·v₂ → −ν|v₂−v₁|²(ν=m₁m₂/M²)。重心が静止した孤立連星では
+// 両者は厳密に一致し、**重心が背景に対して走っている系でだけ差が出る**(第44報「冥王星とカロンは背景決定力場に
+// 対する移動で互いの公転を続けている」に対応する識別軸)。既定は ph へ入れない=署名不変。
+const COMPACT_FORCE_VFRAMES = ["absolute","pair"];
 const COMPACT_FORCE_CLAMPS = { kappa:[-1e9,1e9], chiGate:[0,1], rc:[0,1e6], alphaK:[-1e9,1e9],
   cGate:[0,1e6], C6:[-1e60,1e60], C8:[-1e80,1e80], xiTh:[1e-12,1e6], sFloor:[0,1e6], fMass:[1e-6,1e6] };
 const COMPACT_FORCE_DEFAULT = { model:"current", kappa:0, chiGate:0.5, rc:0, alphaK:3, cGate:0.01,
   C6:0, C8:0, xiTh:0.05, sFloor:1e-12, fMass:1 };
+// ===== 第252便b(第44報): physics.periSubsteps — 近点近傍だけ刻みを細かくする薄い包み(opt-in・既定 OFF)=====
+// 第251便a ⑨(設計ノート)の持ち越し。3 審査 v10 の一致点(K7/K8/K8′)どおり **`S.step` を呼ぶ側の薄い包み**
+// として書き、**`S._core` には 1 命令も足していない**(JIT 崖 — 第239便 §4.5)。
+//   宣言: physics.periSubsteps={n, rMul, pair?:[i,j], rPeri?}
+//     n     … 近点近傍での細分数(dt → dt/n を n 回)。**1 は「なし」へ正規化**(署名 1 文字も変わらない)
+//     rMul  … 近点近傍の定義。相対距離 r < rMul·r_peri の間だけ細分する(既定 1.5)
+//     pair  … 近点を測る 2 体(省略時は |m| 最大の 2 粒子)
+//     rPeri … 近点距離の**宣言値**(再現性のある正式形)。省略時(auto)は**走行中の相対距離の最小値**を
+//             基準にする —— ケプラー接触要素 a(1−e) を使わないのは、較正質量の系ではそれが実際の
+//             近点と大きく食い違うためである(実測は S._periSetup の見出しコメント)
+// **イベントは最後のサブステップの後に 1 度だけ**(Grok §4A): エコー・融合・分裂・放出は
+// 「dt を 1 步進めた」ときと同じ回数だけ発火する。dt 比例の外部オーバーレイ(petersGW)は
+// 各サブステップに掛かる(力と同じ扱い)。
+// **未宣言は 1 bit 不変**: ph へ入れない(署名・エクスポート JSON が 1 文字も変わらない)・
+// S.hasPeriSub=false で S.step の真偽値 1 つを読んで素通りする。
+// **これは物理ではなく数値設定**(role=numerics)である —— 刻みを変えて動く量は物理ではない。
+const PERI_SUB_KEY = "periSubsteps";
+const PERI_SUB_CLAMPS = { n:[1,256], rMul:[1,1e4], rPeri:[0,1e12] };
+const PERI_SUB_DEFAULT = { n:1, rMul:1.5, rPeri:0 };
+function validatePeriSubsteps(a){
+  if(a===null || a===undefined) return {ok:true, periSubsteps:null};
+  if(typeof a!=="object" || Array.isArray(a))
+    return {ok:false, err:"physics.periSubsteps はオブジェクト({n,rMul,pair?,rPeri?})か null"};
+  const num=(k)=>{ if(a[k]===undefined) return PERI_SUB_DEFAULT[k];
+    if(!isNum(a[k])) return null;
+    return clamp(a[k],PERI_SUB_CLAMPS[k][0],PERI_SUB_CLAMPS[k][1]); };
+  const n=num("n"), rMul=num("rMul"), rPeri=num("rPeri");
+  if(n===null || rMul===null || rPeri===null) return {ok:false, err:"physics.periSubsteps の n/rMul/rPeri は数値"};
+  const ni=Math.round(n);
+  if(ni<=1) return {ok:true, periSubsteps:null};   // n=1 = 未宣言(1 bit 不変)
+  const out={n:ni, rMul, rPeri};
+  if(a.pair!==undefined){
+    const q=a.pair;
+    if(!Array.isArray(q) || q.length!==2 || !isNum(q[0]) || !isNum(q[1])
+       || Math.floor(q[0])!==q[0] || Math.floor(q[1])!==q[1] || q[0]<0 || q[1]<0 || q[0]===q[1])
+      return {ok:false, err:"physics.periSubsteps.pair は相異なる 2 つの粒子 index の配列"};
+    out.pair=[q[0],q[1]];
+  }
+  return {ok:true, periSubsteps:out};
+}
 // 第246便(ChatGPT v4 §5.3/5.4): コアv2 の**実行状態**の値域(編集入口 S.applyCoreEdit が使う)。入力の値域(検証器 vCore:
 // massFrac 0.01〜0.95・Ω ±50)はプリセット/AI 生成の推奨範囲で、収縮(Ω↑)や放出(massFrac↑)を経た実行状態はこれを
 // 超えて正当。有限殻 0<Mc<M(massFrac<1)は維持(Mc=M の裸のコアは終端状態の別設計 — S4 第 2 段)
@@ -9537,7 +9585,7 @@ const BUILTIN_PRESETS = [
     {q:"離心率(入力確認)", model:"実測 0.273674(転写比 −0.0013%)", obs:"0.2736775(Stairs et al. 2002)"},
     {q:"計算式(観測安定則)", model:"kFrame=0 — 観測値を算出した側の計算式。質量は観測値そのもの(1.3330/1.3455 M☉)", obs:"—(GR 由来の条件つき質量 — 実在値の主張ではない)"},
     {q:"半長径は**派生値**", model:"a=2282.957 単位(2.283×10⁹ m)= P_b と総質量 5.32620×10³⁰ kg のケプラー第三法則から算出(観測表から直接読んでいない)", obs:"—(x=a₁sin i/c=3.7294636 s は CSV に転写のみ・i は本サンプルに入れていない)"},
-    {q:"近点移動は**この版では基準にしない**", model:"kFrame=0・geoPN=2 の実測は +0.00033626°/周 で、GR 1PN の解析値 0.0020196°/周 とは別物(記録のみ)", obs:"+0.0020225°/周(ω̇=1.755789°/yr の換算)"},
+    {q:"近点移動は**この版では基準にしない**", model:"kF0・geoPN=2 の A_PN=+0.00033664°/周は GR 1PN 解析値の **0.16668 倍** = ν 則 1−(10/3)ν=0.166683(ν=0.249995)そのもの(第252便a)", obs:"+0.0020225°/周(ω̇=1.755789°/yr の換算)"},
     {q:"自転は転写できない", model:"P_spin=37.9 ms → ω=1657.83/単位 は殻 ±20・コア Ω ±50 の**両方の外**。読み取り専用の spinDipole/pulse にのみ載せる", obs:"37.9 ms(Fonseca et al. 2014 要旨 — **有効数字 3 桁のみ**)"},
     {q:"伴星は未観測", model:"自転も半径も観測が無いので**行を置かない**(0 と書かない)。半径は EOS proxy 11.75 km を両星に宣言つきで使う", obs:"—"},
     {q:"健全性", model:"NaN 0・安全クランプ 0・重心はゲージで機械ゼロ", obs:"—"}],
@@ -9555,7 +9603,7 @@ const BUILTIN_PRESETS = [
       {q:"Eccentricity (input check)", model:"measured 0.273674 (−0.0013% of the transcribed value)", obs:"0.2736775 (Stairs et al. 2002)"},
       {q:"The formula (the observation-stability rule)", model:"kFrame=0 — the formula the observations were reduced under; the masses are the observed ones (1.3330 / 1.3455 M_sun)", obs:"— (GR-derived conditional masses, not a claim about the real values)"},
       {q:"The semi-major axis is a DERIVED value", model:"a = 2282.957 units (2.283e9 m) from Kepler's third law with Pb and the total mass 5.32620e30 kg — NOT read from an observation table", obs:"— (x = a1 sin i / c = 3.7294636 s is transcribed into the CSV only; the inclination is not used in this sample)"},
-      {q:"The advance is NOT a reference in this build", model:"the kFrame=0, geoPN=2 measurement is +0.00033626°/orbit, which is a different quantity from the GR 1PN analytic 0.0020196°/orbit (recorded only)", obs:"+0.0020225°/orbit (from omega_dot=1.755789°/yr)"},
+      {q:"The advance is NOT a reference in this build", model:"the kF0, geoPN=2 A_PN of +0.00033664°/orbit is 0.16668 times the GR 1PN closed form — exactly the nu law 1-(10/3)nu = 0.166683 at nu=0.249995 (wave 252a)", obs:"+0.0020225°/orbit (from omega_dot=1.755789°/yr)"},
       {q:"The spin cannot be transcribed", model:"P_spin=37.9 ms gives omega=1657.83/unit, outside BOTH the ±20 shell range and the ±50 core-Omega range; it rides only the read-only spinDipole/pulse channels", obs:"37.9 ms (Fonseca et al. 2014 abstract — THREE SIGNIFICANT FIGURES ONLY)"},
       {q:"The companion is unobserved", model:"neither its spin nor its radius has an observation, so NO ROW IS WRITTEN (never 0); the radius used for both stars is the declared EOS proxy 11.75 km", obs:"—"},
       {q:"Sanity", model:"zero NaN, zero clamps; the barycentre is machine-zero under the gauge", obs:"—"}],
@@ -9630,16 +9678,16 @@ const BUILTIN_PRESETS = [
     {q:"公転周期(合わせていない・2 定義)", model:"近点間 36328.38 秒(−0.064% — 判定・dt=0.004)・同方向1周も同水準(履歴)。既定 dt では 36306.00 秒(−0.126%)", obs:"36351.702644 s(Stairs et al. 2002)"},
     {q:"離心率(合わせていない)", model:"実測 0.274054(転写比 +0.138%・dt=0.004)", obs:"0.2736775(転写)"},
     {q:"**この系では係数を 1 つも決めていない**", model:"f は一次則を 1 回評価しただけ(fit ではない)。κ も本系では解いていない(🪤 が ⚡ の凍結値を流す)", obs:"—(claim 窓は付けない)"},
-    {q:"**比 2.025 の意味**", model:"「ちょうど半分を打ち消す」処方(κ も λ_PN=1/f も)は原理的に **+1.26% を残す**。凍結 hold-out で初めて見えた差である", obs:"—(3 例の開発集合では見えなかった)"},
+    {q:"**比 2.025 の内訳(第252便a で同定)**", model:"Δϖ≈A0+λ·A_PN。A0(λ_PN=0 の基線)=+0.0000568°/周=観測の **+2.81%**・A_PN/観測=1.997。差の全部が A0 である", obs:"—(3 例の開発集合では A0 が数値床)"},
     {q:"自転は転写できない", model:"P_spin=37.9 ms → ω=1657.83/単位 は力学値域の外。読み取り専用の spinDipole/pulse にのみ載る", obs:"37.9 ms(有効数字 3 桁のみ)"},
     {q:"健全性", model:"NaN 0・clampRN/SN/VN/AN すべて 0", obs:"—"}],
   failureFirst:{
-    fail:"**4 例目でも近点移動は約 2 倍で、しかも比が 3 例と 1.3% 違う。** ①実測 +0.0040959°/周 は観測の +102.5% で、これは較正質量 f≈2 が E12 の 1PN チャネルへ入る第248便b の構造そのままである。②比が 2.025 であって 2.000 ではないので、**「ちょうど半分を打ち消す」型の処方(κ でも λ_PN=1/f でも)は本系で +1.26% を原理的に残す**。開発集合 3 本(2.000/2.001/2.000)では見えなかった差で、凍結 hold-out にした意味がここに出ている。③合わせていない周期は −0.064%・離心率は +0.138% で、⚡🧮🩺(周期 0.01〜0.03%)より 1 桁悪い。④質量は GR 由来の条件つき値からさらに一次則で較正した二重条件つきである。⑤半長径はケプラー派生値である。",
+    fail:"**4 例目でも近点移動は約 2 倍で、しかも比が 3 例と 1.3% 違う。** ①実測 +0.0040959°/周 は観測の +102.5% で、これは較正質量 f≈2 が E12 の 1PN チャネルへ入る第248便b の構造そのままである。②比が 2.025 であって 2.000 ではない原因は**第252便a で同定した**: Δϖ≈A0+λ·A_PN と分けると A_PN/観測=1.997 で 3 例と同じで、余分の全部が **A0(λ_PN=0 の非 1PN 基線)=+0.0000568°/周=観測の +2.81%** である(dt 0.004/0.001 で不変=離散化ではない)。**「ちょうど半分を打ち消す」型の処方(κ でも λ_PN=1/f でも)は 1PN チャネルしか触らないので A0 はそのまま残る**(旧記述の「+1.26% を残す」は比を丸ごと半分にした誤り — 正しくは A0+A_PN/2)。③合わせていない周期は −0.064%・離心率は +0.138% で、⚡🧮🩺(周期 0.01〜0.03%)より 1 桁悪い。④質量は GR 由来の条件つき値からさらに一次則で較正した二重条件つきである。⑤半長径はケプラー派生値である。",
     pass:"**⚡ の処方を 1 か所も変えずに、係数を 1 つも決めずに、周期と離心率が 0.1% 台で乗る。** 一次則を本系で 1 回評価しただけの f=1.9994855 を入れ、kFrame=1・pull 重み・D0pull=3.24204e-7 の宣言を ⚡ と同一にすると、合わせていない近点間周期は 36328.38 秒(観測の −0.064%)・離心率 0.274054(転写の +0.138%)。**近点移動が観測の約 2 倍になる構造が 4 例目でも再現する**ことが、第248便b の同定(較正質量 fM が 1PN へ入る)が系に依らない構造であることの追加証拠になる。",
   },
   descStruct:{
     summary:"**📿(観測版)と同じ幾何・同じ観測入力の上で、計算式だけ kFrame=1 の DFM 側へ差し替えた版**(第251便a — 第 4 の凍結 hold-out)。⚡ の処方(kFrame=1 の引きずり A8/E6′+測地線1PN E12・pull 重み・D0pull=3.24204e-7・coupleSink:\"core\"・cmGauge・framePrecision:\"double\")をそのまま当て、質量は一次則 f=1+k_F(αχ_A+βχ_B) を**本系で 1 回評価**した f=1.9994855(fit ノブなし)。**この系を見て決めた係数は 1 つも無い**。見どころは「近点移動が観測の約 2 倍になる」構造が 4 例目でも出るか、そして**その比が 3 例の 2.000 と同じか**である — 実測は **2.025** で、1.3% だけ違う。",
-    observe:"実測(5 近点窓・dt=0.004): **近点移動 +0.0040959°/周**(観測換算 0.0020225°/周 の **+102.5%** = 比 2.025)。既定 dt=0.016 では +0.0041003(+102.7%)。合わせていない側: 近点間周期 36328.38 秒(観測 36351.7026 s の −0.064%。既定 dt では 36306.00 秒 = −0.126%)・実測離心率 0.274054(転写の +0.138%)。NaN 0・安全クランプ 0。**比が 2.000 ではなく 2.025 であること**が本サンプルの中心的な測定で、「ちょうど半分にする」型の処方が原理的に +1.26% を残すことを意味する。**周期は定義を宣言してから合否を言う**(裁定 I6)。",
+    observe:"実測(5 近点窓・dt=0.004): **近点移動 +0.0040959°/周**(観測換算 0.0020225°/周 の **+102.5%** = 比 2.025)。既定 dt=0.016 では +0.0041003(+102.7%)。合わせていない側: 近点間周期 36328.38 秒(観測 36351.7026 s の −0.064%。既定 dt では 36306.00 秒 = −0.126%)・実測離心率 0.274054(転写の +0.138%)。NaN 0・安全クランプ 0。**比が 2.000 ではなく 2.025 であること**が本サンプルの中心的な測定で、第252便a の分解では**その差の全部が A0**(λ_PN=0 の基線 +0.0000568°/周 = 観測の +2.81%・dt 0.004 と 0.001 で不変)である。**周期は定義を宣言してから合否を言う**(裁定 I6)。",
     control:"ワンタップ対照A/B: B側 **kFrame=0** — 較正質量のままでは引力が過剰になり深い楕円へ落ちる(較正が kFrame=1 専用であることの機械対照)。📿(観測版)→本サンプル→🪤(CF 版)の順に見ると、「同じ観測・違う計算式・違う質量」と「足した力が 2 倍をどこまで直すか」が続けて読める。timeScale=1000 で1公転が実時間 約3.6秒・dispMag=1000(表示専用)。"},
   en:{name:"PSR B1534+12 (DFM build, frozen hold-out) — ⚡'s recipe applied unchanged to a fourth binary",
     obsCard:[
@@ -9648,16 +9696,16 @@ const BUILTIN_PRESETS = [
       {q:"Orbital period (never fitted; two definitions)", model:"periastron-to-periastron 36328.38 s (−0.064% — the verdict, dt=0.004); the same-direction revolution is at the same level (historical). At the default dt: 36306.00 s (−0.126%)", obs:"36351.702644 s (Stairs et al. 2002)"},
       {q:"Eccentricity (never fitted)", model:"measured 0.274054 (+0.138% of the transcribed value, dt=0.004)", obs:"0.2736775 (transcribed)"},
       {q:"NO COEFFICIENT IS DETERMINED ON THIS SYSTEM", model:"f is the linear law evaluated once (not a fit), and kappa was not solved here either (🪤 receives ⚡'s frozen number)", obs:"— (no claims window)"},
-      {q:"WHAT THE RATIO 2.025 MEANS", model:"any 'cancel exactly half' prescription — kappa or lambdaPN=1/f alike — NECESSARILY LEAVES +1.26% on this system. The frozen hold-out is where this first became visible", obs:"— (it was invisible across the three development systems)"},
+      {q:"WHERE THE 2.025 COMES FROM (identified in wave 252a)", model:"write the advance as A0 + lambda*A_PN: A0 (the lambdaPN=0 baseline) is +0.0000568°/orbit = +2.81% of the observation, while A_PN/obs = 1.997. THE WHOLE EXCESS IS A0", obs:"— (A0 sits at the numerical floor on the three development systems)"},
       {q:"The spin cannot be transcribed", model:"P_spin=37.9 ms gives omega=1657.83/unit, outside the dynamic ranges; it rides only the read-only spinDipole/pulse channels", obs:"37.9 ms (three significant figures only)"},
       {q:"Sanity", model:"zero NaN; clampRN/SN/VN/AN all zero", obs:"—"}],
     failureFirst:{
-      fail:"THE ADVANCE IS AGAIN ABOUT TWICE THE OBSERVATION — AND THE RATIO DIFFERS FROM THE OTHER THREE BY 1.3%. (1) The measured +0.0040959°/orbit is +102.5% of the observation, exactly the wave-248b structure of the calibrated mass f≈2 entering E12's 1PN channel. (2) Because the ratio is 2.025 and not 2.000, ANY 'CANCEL EXACTLY HALF' PRESCRIPTION (kappa or lambdaPN=1/f) NECESSARILY LEAVES +1.26% HERE — a difference invisible across the three development systems (2.000 / 2.001 / 2.000), which is precisely why the hold-out was frozen. (3) The unfitted period (−0.064%) and eccentricity (+0.138%) are an order of magnitude worse than on ⚡🧮🩺 (0.01–0.03% in period). (4) The masses are doubly conditional: a linear-law calibration on top of GR-derived values. (5) The semi-major axis is Kepler-derived.",
+      fail:"THE ADVANCE IS AGAIN ABOUT TWICE THE OBSERVATION — AND THE RATIO DIFFERS FROM THE OTHER THREE BY 1.3%. (1) The measured +0.0040959°/orbit is +102.5% of the observation, exactly the wave-248b structure of the calibrated mass f≈2 entering E12's 1PN channel. (2) WHY THE RATIO IS 2.025 AND NOT 2.000 WAS IDENTIFIED IN WAVE 252a: splitting the advance as A0 + lambda*A_PN gives A_PN/obs = 1.997, the same as the three development systems, and ALL of the excess is A0 — the lambdaPN=0, non-1PN baseline, +0.0000568°/orbit = +2.81% of the observation, unchanged between dt=0.004 and dt=0.001 (so it is not discretization). ANY 'CANCEL EXACTLY HALF' PRESCRIPTION (kappa or lambdaPN=1/f) ONLY TOUCHES THE 1PN CHANNEL, SO A0 SURVIVES IT (the earlier wording '+1.26% remains' halved the whole ratio and was wrong; the correct value is A0 + A_PN/2). (3) The unfitted period (−0.064%) and eccentricity (+0.138%) are an order of magnitude worse than on ⚡🧮🩺 (0.01–0.03% in period). (4) The masses are doubly conditional: a linear-law calibration on top of GR-derived values. (5) The semi-major axis is Kepler-derived.",
       pass:"⚡'S RECIPE, UNCHANGED, WITH NO COEFFICIENT DETERMINED HERE, STILL LANDS THE PERIOD AND ECCENTRICITY AT THE 0.1% LEVEL. With f=1.9994855 (the linear law evaluated once on this system) and ⚡'s declarations (kFrame=1, pull weights, D0pull=3.24204e-7), the unfitted periastron-to-periastron period is 36328.38 s (−0.064%) and the eccentricity 0.274054 (+0.138%). THAT THE FACTOR-OF-TWO STRUCTURE REAPPEARS ON A FOURTH BINARY is additional evidence that the wave-248b identification (the calibrated mass fM entering the 1PN channel) is a structural property, not a per-system accident.",
     },
     descStruct:{
       summary:"THE SAME GEOMETRY AND THE SAME OBSERVED INPUTS AS 📿, WITH ONLY THE FORMULA SWITCHED TO THE kFrame=1 DFM SIDE (wave 251a — the fourth frozen hold-out). ⚡'s recipe is applied unchanged (pull weights, D0pull=3.24204e-7, coupleSink:\"core\", cmGauge, framePrecision:\"double\"), and the masses come from the linear law f=1+k_F(αχ_A+βχ_B) EVALUATED ONCE on this system: f=1.9994855, no fitted knob. NO COEFFICIENT WAS CHOSEN BY LOOKING AT THIS SYSTEM. What to watch is whether the 'advance is about twice the observation' structure reappears on a fourth binary and whether THE RATIO MATCHES the 2.000 of the other three — measured, it is 2.025, off by 1.3%.",
-      observe:"Measured over a five-periastron window at dt=0.004: PERIASTRON ADVANCE +0.0040959°/orbit = +102.5% of the converted observation 0.0020225°/orbit, i.e. a ratio of 2.025. At the default dt=0.016 it is +0.0041003 (+102.7%). The unfitted side: periastron-to-periastron period 36328.38 s (−0.064% of 36351.7026 s; 36306.00 s = −0.126% at the default step) and measured eccentricity 0.274054 (+0.138%). Zero NaN, zero clamps. THAT THE RATIO IS 2.025 RATHER THAN 2.000 is the central measurement of this sample: it means a 'halve it' prescription necessarily leaves +1.26%. Periods are judged only after their definition has been declared (adjudication I6).",
+      observe:"Measured over a five-periastron window at dt=0.004: PERIASTRON ADVANCE +0.0040959°/orbit = +102.5% of the converted observation 0.0020225°/orbit, i.e. a ratio of 2.025. At the default dt=0.016 it is +0.0041003 (+102.7%). The unfitted side: periastron-to-periastron period 36328.38 s (−0.064% of 36351.7026 s; 36306.00 s = −0.126% at the default step) and measured eccentricity 0.274054 (+0.138%). Zero NaN, zero clamps. THAT THE RATIO IS 2.025 RATHER THAN 2.000 is the central measurement of this sample, and wave 252a's decomposition shows THE WHOLE DIFFERENCE IS A0 (the lambdaPN=0 baseline, +0.0000568°/orbit = +2.81% of the observation, unchanged from dt=0.004 to dt=0.001). Periods are judged only after their definition has been declared (adjudication I6).",
       control:"One-tap A/B: side B is kFrame=0 — at the calibrated masses gravity is excessive and the orbit plunges into a deep ellipse (the machine control that the calibration belongs to kFrame=1 only). Reading 📿 → this sample → 🪤 in order shows 'one observation, two formulas, two mass ledgers' followed by 'how far an added force repairs the factor of two'. With timeScale=1000 one orbit takes ~3.6 wall seconds; dispMag=1000 (display only)."},
     parameterAudit:{
       observedInputs:["real G=6.674","the same transcribed masses, Pb, e, radius proxy and pulsar spin as 📿",
@@ -9718,7 +9766,7 @@ const BUILTIN_PRESETS = [
   notClaim:["solar_cal"],
   obsCard:[
     {q:"近点移動(**凍結 hold-out の本番**)", model:"+0.0020761°/周(dt=0.004)= 観測の **+2.65%**。dt を 0.016→0.008→0.004 と細かくしても +2.83%→+2.69%→+2.65% でほぼ動かない", obs:"+0.0020225°/周(ω̇=1.755789°/yr の換算)"},
-    {q:"**残差は刻みではなく処方の限界**", model:"🧶(DFM 版)の比が **2.025** なので、半分を打ち消す処方は原理的に +1.26% を残す。凍結 κ が自系解より 1.25% 小さいぶんが更に +1.4% 乗る", obs:"—(足し合わせて +2.65% とほぼ一致する)"},
+    {q:"**残差 +2.65% の正体(第252便a)**", model:"Δϖ=A0+A_PN/2=0.0000568+0.0020193=**0.0020761°/周**(実測と 5 桁一致)。半分処方は 1PN しか触らないので A0(観測の +2.81%)が残る", obs:"—"},
     {q:"足した宣言は 1 個・**値は ⚡ と同一**", model:"compactForce={model:\"current\", kappa:12.015360249506628, chiGate:0.5, rc:0}。**本系を見て決めた係数は 1 つも無い**", obs:"—(bodies・massCalibration は 🧶 とビット同一)"},
     {q:"外した場合(A/B 対照)", model:"compactForce を外すと +0.0040959°/周(観測の +102.5%)— 足した 1 行が 2 倍を 1.03 倍まで詰める", obs:"—"},
     {q:"公転周期(合わせていない・2 定義)", model:"近点間 36328.48 秒(−0.064% — 判定・dt=0.004)・同方向1周も同水準(履歴)。既定 dt では 36306.10 秒(−0.125%)", obs:"36351.702644 s(Stairs et al. 2002)"},
@@ -9726,17 +9774,17 @@ const BUILTIN_PRESETS = [
     {q:"**現象論の候補であって完成ではない**", model:"作用原理・保存則は未導出。エネルギーは閉じず compactWorkE に外部仕事を記帳する", obs:"—"},
     {q:"健全性", model:"NaN 0・clampRN/SN/VN/AN すべて 0・実行時 χ=0.99949", obs:"—"}],
   failureFirst:{
-    fail:"**凍結 hold-out では 0.1% に入らない。残差 +2.65% は刻みを細かくしても消えない。** ①dt 0.016→0.008→0.004 で +2.83%→+2.69%→+2.65% と**ほぼ平ら**なので、これは離散化ではなく処方そのものの限界である。②内訳も同定できている: 🧶 の DFM/観測比が **2.025** なので「ちょうど半分を打ち消す」処方は原理的に +1.26% を残し、さらに凍結 κ(12.0154)が本系の自己解(約 12.166)より 1.25% 小さいぶんが +1.4% 乗る。**λ_PN=1/f 候補でも(半分にする処方である以上)+1.26% は同じく残る。** ③つまり第251便a の処方は「2 倍を半分にする」までしか説明しておらず、**なぜ系ごとに比が 2.000 と 2.025 に割れるのか**は未解決である。④作用原理・保存則は未導出でエネルギーは閉じない。⑤半長径はケプラー派生値・質量は二重条件つきである。",
-    pass:"**この系を 1 度も見ずに決めた 1 個の κ で、近点移動が観測の 2.025 倍から 1.027 倍へ入る。** 🧶 の宣言を 1 か所も動かさず compactForce を 1 行足すだけで、+0.0040959°/周(観測の +102.5%)が **+0.0020761°/周(+2.65%)** になる。**κ は ⚡ で凍結した数そのままで、本系での再 fit も再評価もしていない** — 凍結 hold-out として手続きが成立している。合わせていない周期は −0.064% で 🧶 と同水準を保つ(追加項が軌道の大きさをほとんど動かさないことの再確認)。そして**残差 +2.65% の内訳が量的に説明できる**(処方の +1.26% + 凍結の代価 +1.4%)ことが、次に何を測るべきかを 1 行で指している: **比が 2.000 と 2.025 に割れる原因**である。",
+    fail:"**凍結 hold-out では 0.1% に入らない。残差 +2.65% は刻みを細かくしても消えない。** ①dt 0.016→0.008→0.004 で +2.83%→+2.69%→+2.65% と**ほぼ平ら**なので、これは離散化ではなく処方そのものの限界である。②内訳は**第252便a で同定し直した**: 近点移動を Δϖ≈A0+λ·A_PN と分けると、実測は **A0+A_PN/2 = 0.0000568+0.0020193 = 0.0020761°/周** と 5 桁一致する。つまり残差の実体は **A0(λ_PN=0 の非 1PN 基線・観測の +2.81%)** であって、半分処方は 1PN チャネルしか触らないのでこれを消せない(λ_PN=1/f 候補でも同じ)。**旧記述の「処方の +1.26% + 凍結の代価 +1.4%」は誤った分解である** — 凍結 κ(12.0154)と本系の閉形式解(12.0086)の差は 0.06% しかない。③**A0 が何で決まるかは未解決**: kFrame=0 にすると消え(引きずりチャネル)・D0pull の 2 乗で効く(×0.5 で 0.25 倍・×2 で 4.0 倍)が、**等質量度(|m₁−m₂|/M を 0〜0.1 に振っても ±7%)・coupleSink・cmGauge・softening のいずれでも説明できない**(第252便a §EQ/§DIAG)。④作用原理・保存則は未導出でエネルギーは閉じない。⑤半長径はケプラー派生値・質量は二重条件つきである。",
+    pass:"**この系を 1 度も見ずに決めた 1 個の κ で、近点移動が観測の 2.025 倍から 1.027 倍へ入る。** 🧶 の宣言を 1 か所も動かさず compactForce を 1 行足すだけで、+0.0040959°/周(観測の +102.5%)が **+0.0020761°/周(+2.65%)** になる。**κ は ⚡ で凍結した数そのままで、本系での再 fit も再評価もしていない** — 凍結 hold-out として手続きが成立している。合わせていない周期は −0.064% で 🧶 と同水準を保つ(追加項が軌道の大きさをほとんど動かさないことの再確認)。そして**残差 +2.65% の内訳が量的に説明できる**ことが、次に何を測るべきかを 1 行で指している: 第252便a の分解では実測が **A0+A_PN/2 と 5 桁一致**し、残差の実体は **A0(λ_PN=0 の非 1PN 基線)**である — **A0 が何で決まるのか**が次の問いである。",
   },
   descStruct:{
-    summary:"**🧶 を複製して、⚡ で凍結した κ をそのまま宣言した第 4 の凍結 hold-out**(第251便a — 第43報 W1)。式もゲートも 🪝🪄🩹 と同一の **U_K=−κ·χ₁χ₂·(G m₁m₂/ρ)·(v₁·v₂)/c²** で(引きずり A8/E6′ と測地線1PN E12 は 🧶 の宣言のまま)、**この系を見て決めた係数は 1 つも無い**(κ=12.015360249506628 は ⚡ の値・f は一次則の 1 回評価)。開発集合 3 本が −0.02〜−0.14% に入るのに対し、本系の残差は **+2.65%** で、しかも刻みを細かくしても消えない。その内訳(処方が原理的に残す +1.26% と、凍結 κ が自系解より小さいぶんの +1.4%)まで同定できているので、**「合わない」ではなく「何がどれだけ足りないか」が数で言える**状態になっている。",
-    observe:"実測(5 近点窓): **近点移動 +0.0020761°/周**(dt=0.004。観測換算 0.0020225°/周 の **+2.65%**)。刻み依存は dt 0.016→0.008→0.004 で +0.0020798→+0.0020769→+0.0020761(観測比 +2.83%→+2.69%→+2.65%)と**ほぼ平ら**で、残差は離散化起源ではない。compactForce を外すと +0.0040959°/周(観測の +102.5%)。合わせていない近点間周期は 36328.48 秒(観測 36351.7026 s の −0.064%。既定 dt では 36306.10 秒 = −0.125%)。帳簿の内訳: 🧶 の比が 2.025 なので半分処方が原理的に残す分 +1.26%・凍結 κ 12.0154 と本系の自己解 ≈12.166 の差 1.25% が近点移動へ +1.4% — 合計が実測 +2.65% とほぼ一致する。NaN 0・安全クランプ 0・実行時 χ=0.99949。**周期は定義を宣言してから合否を言う**(裁定 I6)。",
+    summary:"**🧶 を複製して、⚡ で凍結した κ をそのまま宣言した第 4 の凍結 hold-out**(第251便a — 第43報 W1)。式もゲートも 🪝🪄🩹 と同一の **U_K=−κ·χ₁χ₂·(G m₁m₂/ρ)·(v₁·v₂)/c²** で(引きずり A8/E6′ と測地線1PN E12 は 🧶 の宣言のまま)、**この系を見て決めた係数は 1 つも無い**(κ=12.015360249506628 は ⚡ の値・f は一次則の 1 回評価)。開発集合 3 本が −0.02〜−0.14% に入るのに対し、本系の残差は **+2.65%** で、しかも刻みを細かくしても消えない。その内訳は第252便a で **Δϖ=A0+A_PN/2**(実測と 5 桁一致)と同定され、残差の実体が **A0(λ_PN=0 の非 1PN 基線)**であることまで分かっているので、**「合わない」ではなく「何がどれだけ足りないか」が数で言える**状態になっている。",
+    observe:"実測(5 近点窓): **近点移動 +0.0020761°/周**(dt=0.004。観測換算 0.0020225°/周 の **+2.65%**)。刻み依存は dt 0.016→0.008→0.004 で +0.0020798→+0.0020769→+0.0020761(観測比 +2.83%→+2.69%→+2.65%)と**ほぼ平ら**で、残差は離散化起源ではない。compactForce を外すと +0.0040959°/周(観測の +102.5%)。合わせていない近点間周期は 36328.48 秒(観測 36351.7026 s の −0.064%。既定 dt では 36306.10 秒 = −0.125%)。帳簿の内訳(第252便a で同定し直した): **A0+A_PN/2 = 0.0000568+0.0020193 = 0.0020761°/周**が実測と 5 桁一致する — 残差の実体は **A0(λ_PN=0 の非 1PN 基線・観測の +2.81%)**であって、凍結 κ 12.0154 と本系の閉形式解 12.0086 の差は 0.06% にすぎない。NaN 0・安全クランプ 0・実行時 χ=0.99949。**周期は定義を宣言してから合否を言う**(裁定 I6)。",
     control:"ワンタップ対照A/B: B側 **compactForce なし** — +0.0040959°/周(2.025 倍)へ戻る。**🪝🪄🩹(開発集合 3 本)と本サンプル(凍結 hold-out)を並べて見る**のが本サンプルの使い方 — 同じ 1 個の κ で残差が −0.020% / −0.040% / −0.143% / **+2.65%** になり、開発集合と hold-out の差がそのまま見える。timeScale=1000 で1公転が実時間 約3.6秒・dispMag=1000(表示専用)。"},
   en:{name:"PSR B1534+12 (compact force, proposal K; FROZEN HOLD-OUT) — ⚡'s kappa on a fourth binary",
     obsCard:[
       {q:"Periastron advance (THE FROZEN HOLD-OUT ITSELF)", model:"+0.0020761°/orbit at dt=0.004 = +2.65% of the observation; refining dt 0.016→0.008→0.004 gives +2.83%→+2.69%→+2.65%, i.e. barely moves", obs:"+0.0020225°/orbit (from omega_dot=1.755789°/yr)"},
-      {q:"THE RESIDUAL IS THE PRESCRIPTION, NOT THE STEP SIZE", model:"🧶's DFM/observed ratio is 2.025, so a 'cancel exactly half' prescription necessarily leaves +1.26%; the frozen kappa being 1.25% below this system's own solution adds a further ~+1.4%", obs:"— (the two add up to nearly the measured +2.65%)"},
+      {q:"WHAT THE +2.65% RESIDUAL ACTUALLY IS (wave 252a)", model:"the advance equals A0 + A_PN/2 = 0.0000568 + 0.0020193 = 0.0020761°/orbit, matching the measurement to five digits. A halving prescription touches only the 1PN channel, so A0 (+2.81% of the observation) survives", obs:"—"},
       {q:"ONE DECLARATION, WITH ⚡'S VALUE", model:"compactForce={model:\"current\", kappa:12.015360249506628, chiGate:0.5, rc:0} — NO COEFFICIENT WAS CHOSEN BY LOOKING AT THIS SYSTEM", obs:"— (bodies and massCalibration are bit-identical to 🧶)"},
       {q:"With it removed (the A/B control)", model:"removing compactForce gives +0.0040959°/orbit (+102.5%): the one added line brings a factor of 2.025 down to 1.027", obs:"—"},
       {q:"Orbital period (never fitted; two definitions)", model:"periastron-to-periastron 36328.48 s (−0.064% — the verdict, dt=0.004); the same-direction revolution is at the same level (historical). At the default dt: 36306.10 s (−0.125%)", obs:"36351.702644 s (Stairs et al. 2002)"},
@@ -9744,12 +9792,12 @@ const BUILTIN_PRESETS = [
       {q:"A PHENOMENOLOGICAL CANDIDATE, NOT A FINISHED LAW", model:"no action principle and no conservation law; energy does not close and the external work is booked in compactWorkE", obs:"—"},
       {q:"Sanity", model:"zero NaN; clampRN/SN/VN/AN all zero; run-time chi=0.99949", obs:"—"}],
     failureFirst:{
-      fail:"THE FROZEN HOLD-OUT DOES NOT REACH 0.1%, AND THE +2.65% RESIDUAL DOES NOT GO AWAY WITH A FINER STEP. (1) Over dt 0.016→0.008→0.004 the residual is +2.83%→+2.69%→+2.65%, essentially FLAT: this is a limit of the prescription, not of the discretization. (2) The breakdown is identified: 🧶's DFM/observed ratio is 2.025, so any 'cancel exactly half' prescription necessarily leaves +1.26%, and the frozen kappa (12.0154) being 1.25% below this system's own solution (~12.166) adds about +1.4%. THE lambdaPN=1/f CANDIDATE WOULD LEAVE THE SAME +1.26%, being a halving prescription too. (3) So wave 251a explains 'twice becomes half' and no further: WHY THE RATIO SPLITS INTO 2.000 AND 2.025 ACROSS SYSTEMS IS UNSOLVED. (4) No action principle, no conservation law, energy does not close. (5) The semi-major axis is Kepler-derived and the masses are doubly conditional.",
-      pass:"ONE NUMBER, FIXED WITHOUT EVER LOOKING AT THIS SYSTEM, BRINGS THE ADVANCE FROM 2.025x THE OBSERVATION TO 1.027x. Without moving any of 🧶's declarations, one added line takes +0.0040959°/orbit (+102.5%) to +0.0020761°/orbit (+2.65%). THE kappa IS ⚡'S FROZEN NUMBER, neither re-fitted nor re-evaluated here, so the hold-out procedure is intact. The unfitted period stays at 🧶's level (−0.064%), reconfirming that the added term barely moves the size of the orbit. AND THE +2.65% RESIDUAL IS QUANTITATIVELY ACCOUNTED FOR (+1.26% from the prescription plus ~+1.4% as the price of freezing), which points in one line at what to measure next: WHY THE RATIO SPLITS INTO 2.000 AND 2.025.",
+      fail:"THE FROZEN HOLD-OUT DOES NOT REACH 0.1%, AND THE +2.65% RESIDUAL DOES NOT GO AWAY WITH A FINER STEP. (1) Over dt 0.016→0.008→0.004 the residual is +2.83%→+2.69%→+2.65%, essentially FLAT: this is a limit of the prescription, not of the discretization. (2) THE BREAKDOWN WAS REDONE IN WAVE 252a: writing the advance as A0 + lambda*A_PN, the measurement equals A0 + A_PN/2 = 0.0000568 + 0.0020193 = 0.0020761°/orbit to five digits. The residual therefore IS A0 — the lambdaPN=0, non-1PN baseline, +2.81% of the observation — which a halving prescription cannot touch because it only scales the 1PN channel (the lambdaPN=1/f candidate is no different). THE EARLIER BREAKDOWN ('+1.26% from the prescription plus +1.4% as the price of freezing') WAS WRONG: the frozen kappa (12.0154) differs from this system's own closed form (12.0086) by only 0.06%. (3) WHAT SETS A0 IS UNSOLVED: it vanishes at kFrame=0 (so it is the dragging channel) and scales as D0pull squared (x0.5 gives 0.25, x2 gives 4.0), but NEITHER the degree of mass equality (sweeping |m1-m2|/M from 0 to 0.1 moves it by only 7%) NOR coupleSink, cmGauge or the softening accounts for it (wave 252a, sections EQ and DIAG). (4) No action principle, no conservation law, energy does not close. (5) The semi-major axis is Kepler-derived and the masses are doubly conditional.",
+      pass:"ONE NUMBER, FIXED WITHOUT EVER LOOKING AT THIS SYSTEM, BRINGS THE ADVANCE FROM 2.025x THE OBSERVATION TO 1.027x. Without moving any of 🧶's declarations, one added line takes +0.0040959°/orbit (+102.5%) to +0.0020761°/orbit (+2.65%). THE kappa IS ⚡'S FROZEN NUMBER, neither re-fitted nor re-evaluated here, so the hold-out procedure is intact. The unfitted period stays at 🧶's level (−0.064%), reconfirming that the added term barely moves the size of the orbit. AND THE +2.65% RESIDUAL IS QUANTITATIVELY ACCOUNTED FOR: wave 252a's decomposition reproduces the measurement as A0 + A_PN/2 to five digits, so the residual IS A0 — the lambdaPN=0, non-1PN baseline — which points in one line at what to measure next: WHAT SETS A0.",
     },
     descStruct:{
-      summary:"🧶 COPIED, WITH ⚡'S FROZEN kappa DECLARED UNCHANGED — THE FOURTH FROZEN HOLD-OUT (wave 251a, report 43 W1). Formula and gate are 🪝🪄🩹's: U_K = −kappa·chi₁chi₂·(G m₁m₂/rho)·(v₁·v₂)/c². NO COEFFICIENT WAS CHOSEN BY LOOKING AT THIS SYSTEM (kappa is ⚡'s number; f is the linear law evaluated once). Where the three development systems land at −0.02 to −0.14%, this one lands at +2.65%, and refining the step does not remove it. Because the breakdown is identified (+1.26% that the prescription necessarily leaves, plus ~+1.4% as the price of the frozen kappa), the state of affairs is not 'it disagrees' but 'here is exactly how much is missing and why'.",
-      observe:"Measured over a five-periastron window: PERIASTRON ADVANCE +0.0020761°/orbit at dt=0.004 = +2.65% of the converted observation 0.0020225°/orbit. Over dt 0.016→0.008→0.004 it is +0.0020798→+0.0020769→+0.0020761 (+2.83%→+2.69%→+2.65%), essentially FLAT, so the residual is not of discretization origin. Removing compactForce gives +0.0040959°/orbit (+102.5%). The unfitted periastron-to-periastron period is 36328.48 s (−0.064% of 36351.7026 s; 36306.10 s = −0.125% at the default step). The breakdown: 🧶's ratio of 2.025 means a halving prescription leaves +1.26%, and the 1.25% gap between the frozen kappa 12.0154 and this system's own solution (~12.166) contributes about +1.4% — together nearly the measured +2.65%. Zero NaN, zero clamps, run-time chi=0.99949. Periods are judged only after their definition has been declared (adjudication I6).",
+      summary:"🧶 COPIED, WITH ⚡'S FROZEN kappa DECLARED UNCHANGED — THE FOURTH FROZEN HOLD-OUT (wave 251a, report 43 W1). Formula and gate are 🪝🪄🩹's: U_K = −kappa·chi₁chi₂·(G m₁m₂/rho)·(v₁·v₂)/c². NO COEFFICIENT WAS CHOSEN BY LOOKING AT THIS SYSTEM (kappa is ⚡'s number; f is the linear law evaluated once). Where the three development systems land at −0.02 to −0.14%, this one lands at +2.65%, and refining the step does not remove it. Because the breakdown is identified — wave 252a reproduces the measurement as A0 + A_PN/2 to five digits, so the residual IS A0, the lambdaPN=0 non-1PN baseline — the state of affairs is not 'it disagrees' but 'here is exactly how much is missing and why'.",
+      observe:"Measured over a five-periastron window: PERIASTRON ADVANCE +0.0020761°/orbit at dt=0.004 = +2.65% of the converted observation 0.0020225°/orbit. Over dt 0.016→0.008→0.004 it is +0.0020798→+0.0020769→+0.0020761 (+2.83%→+2.69%→+2.65%), essentially FLAT, so the residual is not of discretization origin. Removing compactForce gives +0.0040959°/orbit (+102.5%). The unfitted periastron-to-periastron period is 36328.48 s (−0.064% of 36351.7026 s; 36306.10 s = −0.125% at the default step). The breakdown, redone in wave 252a: A0 + A_PN/2 = 0.0000568 + 0.0020193 = 0.0020761°/orbit matches the measurement to five digits, so the residual IS A0 (the lambdaPN=0 non-1PN baseline, +2.81% of the observation); the frozen kappa 12.0154 differs from this system's own closed form 12.0086 by only 0.06%. Zero NaN, zero clamps, run-time chi=0.99949. Periods are judged only after their definition has been declared (adjudication I6).",
       control:"One-tap A/B: side B has NO compactForce and the advance returns to +0.0040959°/orbit (2.025x). THE INTENDED USE IS TO PUT THE THREE DEVELOPMENT SYSTEMS (🪝🪄🩹) BESIDE THIS FROZEN HOLD-OUT: under one and the same kappa the residuals read −0.020% / −0.040% / −0.143% / +2.65%, and the gap between a development set and a hold-out is visible directly. With timeScale=1000 one orbit takes ~3.6 wall seconds; dispMag=1000 (display only)."},
     parameterAudit:{
       observedInputs:["real G=6.674","the same transcribed masses, Pb, e, radius proxy and pulsar spin as 📿🧶",
@@ -9871,6 +9919,93 @@ const BUILTIN_PRESETS = [
     stateCarry:"double", framePrecision:"double", frameReaction:"pairReduced", cmGauge:"barycentric",
     frameWeight:"pull", D0pull:1e-6,
     compactForce:{model:"current", kappa:6, chiGate:0.5, rc:0}},
+  bodies:[
+    {type:"single", m:500, radius:1, x:-100, y:0, vx:0, vy:-0.7249672406391891, spin:0, pinned:false, pnSource:true},
+    {type:"single", m:500, radius:1, x:100, y:0, vx:0, vy:0.7249672406391891, spin:0, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+// ===== 第252便a(第44報「箱宇宙と連星」): 🫂 boxBinaryToy — 等質量では何が消えて何が残るか =====
+// 原仮定者(第44報・全文は docs/PHYSICS.md 〔第252便a〕): 「もしも2つしかない天体が同じ質量だったら…
+// 2天体が等価な基準になるので、互いの公転が消える/…大質量の天体同士では…公転は残るが公転に伴う並進は減少する」。
+// 本サンプルは**その主張を測れる形にした原理サンプル**である。測ったのは 3 つ:
+//   ① 等質量(q=1)では、**背景決定力場に対する共通並進を与えても相対軌道が丸めまで動かない**
+//      (近点間 P の変化 2×10⁻¹⁴〜9×10⁻¹⁰%)。質量をずらすと差が出る(q=0.9 で −6.05%)。
+//      機構は χ: 引きずり分率 χ_i=w_j/(D0pull+w_j) が両者で等しいので、共通速度が相対運動から落ちる。
+//   ② **公転に伴う並進**(重心の弾道からのずれ)は q=1 で**厳密 0**・質量差とともに増える。
+//   ③ **「公転は消えない」**。相対軌道は同じ周期・同じ近点移動で回り続ける — 枠が等価になっても
+//      相対運動は残る。消えるのは「背景に対する移動の効果」と「重心の並進」である(Failure First)。
+// c₀=30 一律規約(第99/100便)・1PN は切る(geoPN=0)ので、見えるのは**引きずり(A8/E6′)だけ**。
+// **claim 窓は 1 つも張っていない**(現象論の器であって較正ではない)。
+{ id:"boxBinaryToy", name:"箱宇宙と連星 — 等質量だと背景に対する移動が消える", emoji:"🫂", group:"空間と時間",
+  scaleTier:"stellar",
+  sampleClass:"principle",
+  fidelity:"toy",
+  obsCard:[
+    {q:"何を見るか", model:"等質量 2 体(m=500・e=0.3)に kFrame=1 の引きずりだけを掛ける(1PN は切ってある)。D0pull が「背景の重み」", obs:"—(原理サンプル・観測較正ではない)"},
+    {q:"D0pull を振ると χ が動く", model:"1e−6→χ=0.99992・近点間 P=1947.70(ケプラー 489.21 の +298.1%)/1→χ=0.012346・P=504.90(+3.21%)/1e3→χ=1.25e−5・P=489.23(+0.003%)", obs:"—"},
+    {q:"**背景に対して動かしても相対軌道は変わらない**", model:"共通速度 0.3 と 3(相対速度 1.45)を足しても近点間 P の変化は 2×10⁻¹⁴〜9×10⁻¹⁰% = 丸め。D0pull 3 段とも同じ", obs:"—(第44報「2天体が等価な基準になる」の測れた形)"},
+    {q:"質量をずらすと差が出る", model:"D0pull=1・共通速度 3 で ΔP は q=0.99 −0.594%・q=0.9 −6.05%・q=0.5 −32.5%(|m₁−m₂|/M にほぼ比例)", obs:"—"},
+    {q:"公転に伴う並進(重心の弾道からのずれ)", model:"q=1 で**厳密 0**(D0pull 3 段とも)・q=0.99 で 2.9×10⁻⁵a・q=0.5 で 1.9×10⁻³a(D0pull=1・静止)", obs:"—(第44報「公転に伴う並進は減少する」に対応)"},
+    {q:"**「公転が消える」か → 消えない**", model:"相対軌道は同じ P・同じ近点移動で回り続ける。消えるのは背景に対する移動の効果と重心の並進である", obs:"—(第44報の文のうち、測って**出なかった**部分)"},
+    {q:"引きずりを切ると(kF0 対照)", model:"❄️冥王星カロンに同じ移動を与えると kF1 は同方向 P が +0.0210% 動き、kF0 は −3×10⁻¹²%(ガリレイ不変)", obs:"—(効いているのは A8/E6′ である)"},
+    {q:"帳簿・決定性", model:"NaN 0・安全クランプ 0・同一構成 2 回実行はビット同一(QA behavior.boxBinary)", obs:"—"}],
+  failureFirst:{
+    fail:"**これは玩具であって観測較正ではない。** ①**「等質量なら互いの公転が消える」は出ていない** — 相対軌道は q=1 でも同じ周期・同じ近点移動で回り続ける。枠が等価になることは相対運動を消さない(消えるのは背景に対する移動の効果と重心の並進である)。②潮汐ロックも自転の消失も**測っていない**(2D・spin=0 宣言)。③χ の等しさが共通速度を相対運動から落とすことは実測であって、**DFM の公理からの導出ではない**。④D0pull は「背景の重み」の宣言値であって、実系の値を較正した数ではない(ここでは 3 段の掃引に使っただけ)。⑤**claim 窓(regression window)は 1 つも張っていない**。⑥ここで見える近点移動は 1PN を切った引きずりだけの帰結で、実系の判定は ⚡🧮🩺🧶 と 🪝🪄🩹🪤 が持つ。",
+    pass:"**第44報の主張のうち、測れた 2 つがはっきり出た。** ①**等質量では背景決定力場に対する共通並進が相対軌道から完全に落ちる**: 共通速度を相対速度の 0.2 倍・2 倍と足しても近点間周期の変化は 2×10⁻¹⁴〜9×10⁻¹⁰%(丸め)で、D0pull を 10⁹ 倍振っても同じ。質量を 1% ずらすだけで −0.594%、10% で −6.05% の差が出るので、**効いているのは質量比そのもの**である(χ₁=χ₂ なら共通速度が相対運動から落ちる)。②**公転に伴う重心の並進(弾道からのずれ)は q=1 で厳密 0** で、質量差とともに単調に増える。③引きずりを切った kFrame=0 の対照では、質量比によらず背景に対する移動が相対軌道に効かない(ガリレイ不変)— **見えているのは A8/E6′ の引きずりチャネルである**ことが同じ画面で確かめられる。"},
+  descStruct:{
+    summary:"**第44報「箱宇宙と連星」を測れる形にした原理サンプル**(第252便a)。等質量の 2 体(m=500・半径 1・e=0.3・遠点分離 200)を、**1PN を切って(geoPN=0)引きずり(kFrame=1・A8/E6′)だけ**で回す。c₀=30 一律規約(第99/100便)に合わせた縮尺で、🪗 コンパクト力の玩具と**同じ軌道**(a=153.846・p=140・ケプラー周期 489.2102)を使う。ノブは **physics.D0pull**(pull 重みの分母に入る「背景の重み」)ひとつで、これを 1e−6 → 1 → 1e3 と振ると実行時の引きずり分率 χ=w/(D0pull+w) が 0.99992 → 0.012346 → 1.25×10⁻⁵ と動く。A 側は中段(D0pull=1)・ワンタップ B 側は χ≈1 の極(D0pull=1e−6)で、**互いだけが基準になった状態**が見える。**この系を見て決めた係数は 1 つも無い**(D0pull は掃引の 3 点・その他は 🪗 と同じ規約値)。",
+    observe:"実測(dt=0.004・近点 6 個の位相 fit — tests/exp-w252a-boxbinary.mjs §BOX)。**D0pull スイープ(q=1・静止)**: 1e−6 で χ=0.99992・近点間 P=1947.7023(ケプラー 489.2102 の +298.13%)・近点移動 −1.024°/周 / 1 で χ=0.012346・P=504.9014(+3.21%)・+8.811°/周 / 1e3 で χ=1.25×10⁻⁵・P=489.2262(+0.0033%)・+0.0091°/周。**背景に対する共通並進**(相対速度 1.4499 に対して 0.3 と 3 を足す): q=1 では近点間 P の変化が −2.2×10⁻¹⁴%/−8.7×10⁻¹⁰%(D0pull=1e−6)・+1.4×10⁻¹¹%/+7.1×10⁻¹¹%(1)・−2.0×10⁻¹²%/+2.0×10⁻¹⁰%(1e3)で、**3 段とも丸め**。質量をずらすと(D0pull=1・共通速度 3)q=0.99 −0.594%・q=0.9 −6.05%・q=0.5 −32.5%・q=0.1 −28.3% と出る。**重心の弾道からのずれ**(静止・a 比)は q=1 で 0(厳密)・q=0.99 で 2.887×10⁻⁵・q=0.5 で 1.926×10⁻³・q=0.01 で 4.973×10⁻³。**kF0 対照**(❄️ plutoCharonReal・q=0.1217): 同方向周期は kF1 で背景に対する移動により +0.0210% 動き、kF0 では −3×10⁻¹²%(ガリレイ不変)。NaN ゼロ・安全クランプ 0。",
+    control:"ワンタップ対照A/B: B 側は **D0pull=1e−6**(χ≈0.99992)— 押すと周期が 504.90 から 1947.70 へ約 3.86 倍に伸び、近点移動の向きが順行(+8.81°/周)から逆行(−1.02°/周)へ変わる。**「背景がほとんど効かず、互いだけが基準になった」極**である。physics.kFrame を 0 にすると引きずりが消えてケプラー楕円(周期 489.2102)に戻り、背景に対する移動は相対軌道に一切効かなくなる(ガリレイ不変の対照)。timeScale=60・dispMag=3(表示専用)。トレイルを点けると近点の向きが回るのが見える。🪗 と並べると「同じ楕円・違うチャネル(引きずり 対 コンパクト力)」の対照になる。"},
+  en:{name:"Box universe and a binary — equal masses hide the motion against the background",
+    obsCard:[
+      {q:"What to watch", model:"Two EQUAL masses (m=500, e=0.3) driven by the kFrame=1 dragging alone (1PN is switched off). D0pull is the weight of the background", obs:"— (a principle sample, not an observational calibration)"},
+      {q:"Sweeping D0pull moves chi", model:"1e-6 -> chi=0.99992, periastron period P=1947.70 (+298.1% of the Kepler 489.21) / 1 -> chi=0.012346, P=504.90 (+3.21%) / 1e3 -> chi=1.25e-5, P=489.23 (+0.003%)", obs:"—"},
+      {q:"MOVING AGAINST THE BACKGROUND LEAVES THE RELATIVE ORBIT UNCHANGED", model:"adding a common velocity of 0.3 or 3 (the relative speed is 1.45) moves P by 2e-14 to 9e-10 percent = rounding, at all three D0pull", obs:"— (report 44's 'the two become equivalent references', made measurable)"},
+      {q:"Unequal masses do show a difference", model:"at D0pull=1 with a common velocity of 3, dP is -0.594% at q=0.99, -6.05% at q=0.9 and -32.5% at q=0.5 (roughly linear in |m1-m2|/M)", obs:"—"},
+      {q:"The translation that accompanies the orbit", model:"the barycentre's departure from ballistic motion is EXACTLY ZERO at q=1 (all three D0pull), 2.9e-5a at q=0.99 and 1.9e-3a at q=0.5", obs:"— (report 44's 'the translation that accompanies the orbit decreases')"},
+      {q:"DOES THE ORBIT VANISH? NO", model:"the relative orbit keeps going with the same period and the same periastron advance. What vanishes is the effect of background motion and the barycentre's translation", obs:"— (the part of report 44 that measurement did NOT produce)"},
+      {q:"Switch the dragging off (the kF0 control)", model:"giving ❄️ Pluto-Charon the same motion moves its same-direction period by +0.0210% at kF1 and by -3e-12% at kF0 (Galilean invariance)", obs:"— (so the channel at work is A8/E6')"},
+      {q:"Ledgers and determinism", model:"zero NaN, zero safety clamps, two runs of the same build are bit-identical (QA behavior.boxBinary)", obs:"—"}],
+    failureFirst:{
+      fail:"THIS IS A TOY, NOT AN OBSERVATIONAL CALIBRATION. (1) 'EQUAL MASSES MAKE THE MUTUAL ORBIT VANISH' DID NOT COME OUT: at q=1 the relative orbit still runs with the same period and the same periastron advance. Making the two frames equivalent does not remove the relative motion — what it removes is the effect of background motion and the barycentre's translation. (2) Tidal locking and the disappearance of rotation are NOT measured here (2D, spin=0 declared). (3) That equal chi drops the common velocity out of the relative motion is a MEASUREMENT, not a derivation from the DFM axioms. (4) D0pull is a declared 'weight of the background', not a value calibrated against any real system — here it is only a three-point sweep. (5) NO CLAIMS (regression) WINDOW IS DECLARED. (6) The periastron advance seen here is the consequence of the dragging alone (1PN is off); the verdicts on real systems live in ⚡🧮🩺🧶 and 🪝🪄🩹🪤.",
+      pass:"TWO OF REPORT 44's CLAIMS CAME OUT CLEANLY. (1) AT EQUAL MASSES THE COMMON TRANSLATION AGAINST THE BACKGROUND DROPS COMPLETELY OUT OF THE RELATIVE ORBIT: adding 0.2x and 2x the relative speed as a common velocity moves the periastron period by 2e-14 to 9e-10 percent (rounding), and sweeping D0pull over nine decades does not change that. One percent of mass asymmetry already gives -0.594%, ten percent gives -6.05% — so WHAT MATTERS IS THE MASS RATIO ITSELF (equal chi means the common velocity cancels in the relative motion). (2) THE BARYCENTRE'S DEPARTURE FROM BALLISTIC MOTION IS EXACTLY ZERO AT q=1 and grows monotonically with the mass difference. (3) In the kFrame=0 control the background motion has no effect on the relative orbit at any mass ratio (Galilean invariance) — so the same screen confirms that WHAT IS AT WORK IS THE A8/E6' DRAGGING CHANNEL.",
+    },
+    descStruct:{
+      summary:"A PRINCIPLE SAMPLE THAT TURNS REPORT 44's 'BOX UNIVERSE AND A BINARY' INTO SOMETHING MEASURABLE (wave 252a). Two equal masses (m=500, radius 1, e=0.3, apoapsis separation 200) run with 1PN SWITCHED OFF (geoPN=0) and NOTHING BUT THE DRAGGING (kFrame=1, A8/E6'). The scaling follows the project-wide c0=30 convention (waves 99/100) and reuses 🪗's orbit exactly (a=153.846, p=140, Kepler period 489.2102). There is ONE knob, physics.D0pull — the 'weight of the background' in the denominator of the pull weights — and sweeping it 1e-6 -> 1 -> 1e3 moves the run-time dragging fraction chi = w/(D0pull+w) from 0.99992 to 0.012346 to 1.25e-5. Side A is the middle (D0pull=1) and the one-tap B side is the chi~1 extreme (D0pull=1e-6), where THE TWO BODIES ARE EACH OTHER'S ONLY REFERENCE. NO COEFFICIENT WAS CHOSEN BY LOOKING AT THIS SYSTEM.",
+      observe:"Measured at dt=0.004 over six periastra (tests/exp-w252a-boxbinary.mjs, section BOX). THE D0pull SWEEP (q=1, at rest): 1e-6 gives chi=0.99992, periastron period 1947.7023 (+298.13% of the Kepler 489.2102) and -1.024°/orbit; 1 gives chi=0.012346, 504.9014 (+3.21%) and +8.811°/orbit; 1e3 gives chi=1.25e-5, 489.2262 (+0.0033%) and +0.0091°/orbit. A COMMON TRANSLATION AGAINST THE BACKGROUND (0.3 and 3 added to a relative speed of 1.4499) moves the periastron period by -2.2e-14%/-8.7e-10% (D0pull=1e-6), +1.4e-11%/+7.1e-11% (1) and -2.0e-12%/+2.0e-10% (1e3) — ROUNDING IN ALL THREE. Breaking the mass symmetry (D0pull=1, common velocity 3) gives -0.594% at q=0.99, -6.05% at q=0.9, -32.5% at q=0.5 and -28.3% at q=0.1. THE BARYCENTRE'S DEPARTURE FROM BALLISTIC MOTION (at rest, in units of a) is 0 exactly at q=1, 2.887e-5 at q=0.99, 1.926e-3 at q=0.5 and 4.973e-3 at q=0.01. THE kF0 CONTROL (❄️ plutoCharonReal, q=0.1217): the same-direction period moves +0.0210% under background motion at kF1 and -3e-12% at kF0 (Galilean invariance). Zero NaN, zero clamps.",
+      control:"One-tap A/B: side B is D0pull=1e-6 (chi~0.99992) — the period stretches from 504.90 to 1947.70 (about 3.86x) and the periastron advance flips from prograde (+8.81°/orbit) to retrograde (-1.02°/orbit). THIS IS THE EXTREME WHERE THE BACKGROUND BARELY COUNTS AND THE TWO BODIES ARE EACH OTHER'S ONLY REFERENCE. Setting physics.kFrame to 0 removes the dragging, restores the closed Kepler ellipse (period 489.2102) and makes background motion completely irrelevant to the relative orbit (the Galilean control). timeScale=60 and dispMag=3 are display-only; switch trails on to watch the apsides turn. Next to 🪗 the pair compares one and the same ellipse under two different channels (dragging vs the compact force)."},
+    parameterAudit:{
+      observedInputs:["NONE — this sample transcribes no observation"],
+      fixedConventions:["the project-wide c0=30 convention (waves 99/100): G=0.60066, cLight=30, kappaT=G/c^2=0.0006674 — 🪗's scaling, reused unchanged",
+        "geoPN=0 (1PN off) and kFrame=1 (dragging on) — so the only channel at work is A8/E6'",
+        "frameWeight:\"pull\" with D0pull=1 on side A (the run-time chi=0.012346 follows from it, it is not declared)",
+        "two EQUAL bodies m=500, radius 1, an e=0.3 ellipse with apoapsis separation 200 (🪗's orbit)"],
+      fitted:["NOTHING"],
+      derived:["a=153.846, p=140, periastron distance 107.692, relative apoapsis speed 1.4499344812783782, Kepler period 489.2102",
+        "the run-time chi from D0pull: 0.99992 (1e-6) / 0.012346 (1) / 1.25e-5 (1e3)"],
+      numerical:["softening eps=0.05","timeScale=60 and dispMag=3 (display only)",
+        "measurement dt=0.004, six periastra, phase fit of the periastron directions"]}},
+  parameterAudit:{
+    observedInputs:["**無し** — 本サンプルは観測を 1 つも転写していない"],
+    fixedConventions:["**c₀=30 一律規約(第99/100便)**: G=0.60066・cLight=30・κ_T=G/c²=0.0006674(🪗 の縮尺をそのまま流用)",
+      "geoPN=0(1PN を切る)・kFrame=1(引きずり ON)— 効いているチャネルを A8/E6′ だけにする",
+      "frameWeight:\"pull\"・A 側 D0pull=1(実行時 χ=0.012346 はその帰結であって宣言値ではない)",
+      "**等質量** 2 体 m=500・radius=1・遠点分離 200 の e=0.3 楕円(🪗 と同じ軌道)"],
+    fitted:["**無し**"],
+    derived:["a=153.846・p=140・近点距離 107.692・遠点相対速度 1.4499344812783782・ケプラー周期 489.2102",
+      "D0pull から出る実行時 χ: 0.99992(1e−6)/ 0.012346(1)/ 1.25×10⁻⁵(1e3)"],
+    numerical:["ソフトニング ε=0.05","時間倍率 timeScale=60・粒子表示倍率 dispMag=3(いずれも表示専用)",
+      "測定 dt=0.004・近点 6 個・近点方向の位相 fit(tests/exp-w252a-boxbinary.mjs §BOX)"]},
+  abBody:{ label:{ja:"D0pull=1e−6(χ≈1 — 互いだけが基準になる極)", en:"D0pull=1e-6 (chi~1 — the two bodies are each other's only reference)"},
+    physicsPatch:{D0pull:1e-6} },
+  activeParams:["kFrame","G","cLight"],
+  camera:{scale:130}, world:{boundary:"none",size:0},
+  physics:{G:0.60066, D0:0.006, kFrame:1, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0006674,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
+    geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:60, dispMag:3,
+    stateCarry:"double", framePrecision:"double", frameReaction:"pairReduced",
+    frameWeight:"pull", D0pull:1},
   bodies:[
     {type:"single", m:500, radius:1, x:-100, y:0, vx:0, vy:-0.7249672406391891, spin:0, pinned:false, pnSource:true},
     {type:"single", m:500, radius:1, x:100, y:0, vx:0, vy:0.7249672406391891, spin:0, pinned:false}
@@ -11597,11 +11732,11 @@ const BUILTIN_PRESETS = [
     {q:"言わないこと", model:"**「DFM は MM null を予測する」とは書かない**。null は残風 w=v−u→0 の条件。到着時間差と位相差は別記録", obs:"—"}],
   descStruct:{
     summary:"**2 本の腕を往復した光の位相差を、正対照から順に積み上げて測る玩具**(第247便d — 裁定 A5′(2))。既存の光子・光線に「位相」を足すのではなく、原理サンプル専用の**解析器**(純関数 `HP.dfmMMPhase`)で実装した。装置は共通光源 S・分岐器 B・鏡 M1(腕 1)・鏡 M2(腕 2)・検出器 D(B と同位置・**同一時計**)で、**光源も分岐器も鏡も検出器も一緒に動く**。光は A11/E8R の規約どおり「**局所メッシュ速度 u に対して**速さ c で直進する」(`photonStep` の変位 ĉ·dl+u·dt と同じ形)ので、1 脚の到着時刻 τ は |Q(t₀+τ)−P−u·τ|=c·τ の根として解ける。画面が見せるのは**装置の姿**だけ: 自転する中心天体(m=100・R=10・spin=0.2・pinned)の**表面高度 h=0.01R** に、レール規定運動(`pinned`+`railOmega`=0.2)で回る 3 つの微小天体(`frameSource:false`・m=10⁻⁶)が分岐器 B と鏡 M1(半径方向・腕 0.8)と鏡 M2(接線方向・腕 0.8)を演じる。**エンジンが決めるのは無次元の χ=|u|/|v| だけ**で(`HP.dfmFrameAt` が光と同じ核 `rayField` から読む)、位相の数字は**SI の 1887 年干渉計**(L=11 m・λ=500 nm・v=29.98 km/s)で回す。ワンタップ対照 B 側は **kFrame=0**(引きずり無し=エーテル静止の古典)。",
-    observe:"**階段(1)〜(5)**。(1) 静止・等長 2 腕: Δt も Δφ も**ビット厳密 0**(装置の null 確認)。(2) 静止・腕長差 ΔL の**正対照**: Δφ は **4πΔL/λ** に一致する(解析形は相対 0・追跡値は ΔL=1 mm で 1.0×10⁻¹²・ΔL=λ/4 でも 5.9×10⁻¹⁰)。(3) 装置が一様速度 v で動き u=0(**引きずり無し=古典**): L=11 m・λ=500 nm・v=29.9792458 km/s(β=10⁻⁴)で **Δφ=1.3823008 rad = 0.2200000 縞**(古典 MM の近似 2π(L/λ)(v/c)² と相対 1.25×10⁻⁸ 一致 — 差は O(β²) の打ち切り)。装置を **90° 回すと符号が反転**する(相対 0)。(4) 同じ装置を**中心天体の随伴 u の中**に置くと Δφ は **(1−χ)²** 倍に落ちる: 表面高度 h=0.01R で χ=**0.977554** → Δφ=**6.9646×10⁻⁴ rad**(古典の **1/1985**)。高度を上げると χ 0.9776→0.8237(h=0.1R)→0.4417(0.5R)→0.1084(2R)→0.0062(10R)で、減衰は **1985→32.2→3.21→1.26→1.01 倍**と**古典へ戻る**。素材を気体殻にする(`gasCoh`=0.3)と同じ高度で χ=**0.293266**・Δφ=**0.69042 rad**(減衰 2.00 倍だけ)。**u=v ちょうどで解析形は厳密 0**(追跡値の床は 5.0×10⁻⁸ rad = 古典の 2.8×10⁷ 分の 1)。(5) **サニャック対照**は同じ規約(同じ脚・同じ Δφ=2πcΔt/λ)で回す: 閉路 A=1 m²・Ω=1000 rad/s で **Δφ=167.668 rad = 8πAΩ/(λc)**(相対 3×10⁻¹¹)・面積を 4 倍にすると 4 倍・Ω の符号で反転。**回転しない閉路を一様速度で動かすと Δt は厳密 0**(サニャックは回転の量である)。**到着時間差 Δt と干渉位相差 Δφ は別々に返す** — 光子 2 本の到着比較だけでは干渉位相を検証したことにならないからである。QA `behavior.mmPhase` が階段(1)(2)(3)(5)の解析一致・(4)の u 内での減少・A/B の bit 契約・純関数の決定性を機械固定する。**第250便b(第42報 W2)で波長チャネルを 1 本足した**(純関数 `HP.dfmMMWavelength` — ω=u·k+c|k| と移動境界での ω−V·k 保存だけを足したもの): 装置が動いていても、**共移動する検出器の帰還周波数は両腕とも ν_D/ν₀=1** で、同一の出力方向へ再合成した**波長も両腕でビット厳密に一致**する(往復ドップラーの相殺)。それでも**位相差は別に残る** — 静止のまま片腕を λ/4 だけ伸ばせば Δλ=Δν=0 のままで Δφ=π(W2)、動く装置では ν も共通出力波長も一致したまま Δφ=0.22 縞(W3)。**波長の一致は位相の一致ではない**。QA `behavior.mmWavelength` が W1〜W5 を機械固定する。**第251便c(第43報)で位相計数チャネルをもう 1 本足した**(純関数 `HP.dfmMMPhaseCount`): 原仮定者の修正版の解説「距離 3・波長 1 で往復 6 回転 → 0.5c で動く装置でも往路は距離 6・波長 2 で 3 回転・復路は距離 2・波長 2/3 で 3 回転・合計 6 回転で一致し、時間だけ 6 対 8 で伸びる」を**3 つの規約で並べて**返す。距離は 3 規約共通(d₊=L/(1−β)・d₋=L/(1+β))で、**違うのは波長だけ**である: `stretch`(修正版 — λ が光路と同じ比で伸縮)は **N=6 が β に依らずビット厳密**・T=8 対静止 6、`galilean`(第250便b の ω−V·k 保存=古典ドップラー)は λ₊=λ₀(1−β) の圧縮で **N=13.333…≠6**、`comoving`(随伴 u=V)は N=6・T=6。直交腕は T⊥=2L/(c√(1−β²)) で、stretch は N⊥=N(ΔN=0)・galilean は λ⊥=λ₀(1−β²) で N⊥≠N。**N の一致は到着時刻の一致ではない** — stretch でも ΔT は残る(L=10・c=λ₀=1 で ν₀ΔT=3.5727 縞)。**stretch は仮定であって導出ではない**(DFM のどの法則から出るかは未導出)・**どちらの規約でも「DFM は MM null を予測する」とは書かない**。QA `behavior.mmPhaseCount`。",
+    observe:"**階段(1)〜(5)**。(1) 静止・等長 2 腕: Δt も Δφ も**ビット厳密 0**(装置の null 確認)。(2) 静止・腕長差 ΔL の**正対照**: Δφ は **4πΔL/λ** に一致する(解析形は相対 0・追跡値は ΔL=1 mm で 1.0×10⁻¹²・ΔL=λ/4 でも 5.9×10⁻¹⁰)。(3) 装置が一様速度 v で動き u=0(**引きずり無し=古典**): L=11 m・λ=500 nm・v=29.9792458 km/s(β=10⁻⁴)で **Δφ=1.3823008 rad = 0.2200000 縞**(古典 MM の近似 2π(L/λ)(v/c)² と相対 1.25×10⁻⁸ 一致 — 差は O(β²) の打ち切り)。装置を **90° 回すと符号が反転**する(相対 0)。(4) 同じ装置を**中心天体の随伴 u の中**に置くと Δφ は **(1−χ)²** 倍に落ちる: 表面高度 h=0.01R で χ=**0.977554** → Δφ=**6.9646×10⁻⁴ rad**(古典の **1/1985**)。高度を上げると χ 0.9776→0.8237(h=0.1R)→0.4417(0.5R)→0.1084(2R)→0.0062(10R)で、減衰は **1985→32.2→3.21→1.26→1.01 倍**と**古典へ戻る**。素材を気体殻にする(`gasCoh`=0.3)と同じ高度で χ=**0.293266**・Δφ=**0.69042 rad**(減衰 2.00 倍だけ)。**u=v ちょうどで解析形は厳密 0**(追跡値の床は 5.0×10⁻⁸ rad = 古典の 2.8×10⁷ 分の 1)。(5) **サニャック対照**は同じ規約(同じ脚・同じ Δφ=2πcΔt/λ)で回す: 閉路 A=1 m²・Ω=1000 rad/s で **Δφ=167.668 rad = 8πAΩ/(λc)**(相対 3×10⁻¹¹)・面積を 4 倍にすると 4 倍・Ω の符号で反転。**回転しない閉路を一様速度で動かすと Δt は厳密 0**(サニャックは回転の量である)。**到着時間差 Δt と干渉位相差 Δφ は別々に返す** — 光子 2 本の到着比較だけでは干渉位相を検証したことにならないからである。QA `behavior.mmPhase` が階段(1)(2)(3)(5)の解析一致・(4)の u 内での減少・A/B の bit 契約・純関数の決定性を機械固定する。**第250便b(第42報 W2)で波長チャネルを 1 本足した**(純関数 `HP.dfmMMWavelength` — ω=u·k+c|k| と移動境界での ω−V·k 保存だけを足したもの): 装置が動いていても、**共移動する検出器の帰還周波数は両腕とも ν_D/ν₀=1** で、同一の出力方向へ再合成した**波長も両腕でビット厳密に一致**する(往復ドップラーの相殺)。それでも**位相差は別に残る** — 静止のまま片腕を λ/4 だけ伸ばせば Δλ=Δν=0 のままで Δφ=π(W2)、動く装置では ν も共通出力波長も一致したまま Δφ=0.22 縞(W3)。**波長の一致は位相の一致ではない**。QA `behavior.mmWavelength` が W1〜W5 を機械固定する。**第251便c(第43報)で位相計数チャネルをもう 1 本足した**(純関数 `HP.dfmMMPhaseCount`): 原仮定者の修正版の解説「距離 3・波長 1 で往復 6 回転 → 0.5c で動く装置でも往路は距離 6・波長 2 で 3 回転・復路は距離 2・波長 2/3 で 3 回転・合計 6 回転で一致し、時間だけ 6 対 8 で伸びる」を**3 つの規約で並べて**返す。距離は 3 規約共通(d₊=L/(1−β)・d₋=L/(1+β))で、**違うのは波長だけ**である: `stretch`(修正版 — λ が光路と同じ比で伸縮)は **N=6 が β に依らずビット厳密**・T=8 対静止 6、`galilean`(第250便b の ω−V·k 保存=古典ドップラー)は λ₊=λ₀(1−β) の圧縮で **N=13.333…≠6**、`comoving`(随伴 u=V)は N=6・T=6。直交腕は T⊥=2L/(c√(1−β²)) で、stretch は N⊥=N(ΔN=0)・galilean は λ⊥=λ₀(1−β²) で N⊥≠N。**N の一致は到着時刻の一致ではない** — stretch でも ΔT は残る(L=10・c=λ₀=1 で ν₀ΔT=3.5727 縞)。**stretch は仮定であって導出ではない**(DFM のどの法則から出るかは未導出)・**どちらの規約でも「DFM は MM null を予測する」とは書かない**。QA `behavior.mmPhaseCount`。**第252便c(第44報)で連続波チャネルを 2 本足した**(純関数 `HP.dfmMMCoherent` と `HP.dfmMMLambdaSweep`): 原仮定者の「実物の干渉計では位相を合わせているが二腕の長さの完全一致は保証していない/腕の長さが違うと波長を時間変化させた時に二腕の到着時間の違いで干渉縞が発生する/波長を時間変化させても干渉縞が発生しない状態を設定出来れば到着時間が一致している/波長が固定された干渉計は光の到着時間が影響しない」を、**位相 Δφ と縞の計数 ΔN に分けて**測る。連続波では Δφ(t)=−2πΔτ[ν₀+ν̇(t−(τ₁+τ₂)/2)]+ψ なので、(i) 等長・静止は Δφ=ψ 固定・掃引しても **ΔN=0**(ビット厳密)/(ii) 腕長差 ΔL=1 mm は ψ で **Δφ を厳密 0 にできる**が、Δν=1 MHz で掃引すると **ΔN=6.671282×10⁻⁶ 縞**が出る(掃引幅に比例)/(iii) **ΔN=0 になるのは Δτ=0 のときだけ**(ΔL=10⁻⁹ m でも ΔN=6.67×10⁻¹²)—— ここまでは原仮定者の指示のとおりである。ただし (iv) **ψ を合わせた後に Δτ が δ 動くと、固定波長のままでも位相は Δφ=−2πν₀·δ(Δτ) 動く**: δ(Δτ)=10⁻¹⁶ s で **0.3767 rad(0.06 縞)**で、同じ δ(Δτ) の掃引側の寄与 10⁻¹⁰ 縞と**6 桁違う**。つまり**「到着時間が影響しない」のは ΔN(縞の本数)についてであって、Δφ(位相)についてではない**。3 規約で並べると `stretch` は固定 λ₀ の **ΔN=0** だが **ΔT=1.0718(L=3・β=0.5)**が残り掃引すれば縞が動く・`galilean` は固定 λ₀ でも ΔN=4.0957・**ΔT=0 になるのは `comoving` だけ**である。**受動鏡境界の検算**(ω=u·k+c|k| と移動境界の ω−V·k 保存): stretch の λ₊=2λ₀・λ₋=2λ₀/3 を入れると **ρ₊=(1−β)²=0.25 対 ρ₋=(1+β)²=2.25**(比 9・鏡が返す波長は規約値の 9 倍)で**整合しない** —— **stretch を導出したのでも反証したのでもなく、この 2 法則とは別の仮定であることが数値で出た**という意味である。**地表(h=0.01R・χ=0.977554)で装置を 90° 回すと**、ゼロ距離の引きずりを考慮しても到着時間差は**δ(Δτ)=−3.697×10⁻¹⁹ s**(地球の自転 465.1 m/s なら −8.899×10⁻²³ s)だけ変わり、**位相も δ(Δφ)=1.393×10⁻³ rad(自転なら 3.353×10⁻⁷ rad)動く** —— 変わらないのは ΔN の側である。QA `behavior.mmCoherent` / `behavior.mmLambdaSweep`。",
     control:"ワンタップ対照A/B: **B 側は kFrame=0** — 引きずりを完全に切った「エーテル静止の古典」で、装置位置の u が厳密 0 になり Δφ は満額の 1.3823 rad(0.22 縞)へ戻る。おすすめの手動対照: `railOmega` を 0.1955 前後にすると装置が**随伴した空間と一緒に動く**ので残風 w=v−u がほぼ消える(Δφ が 10⁻⁶ 級へ)/中心天体の `spin` を 0 にすると u=0 になり古典へ戻る/`q` を上げると表面随伴が急峻になり高度依存が強くなる/`kappaT` を 0 にすると**光を曲げる源が 1 つも無くなり**(rayHeavy の閾値)光にとって u=0 になる — 光の随伴と粒子の随伴が別集合であることの確認。**較正系(🪨🌘💿)は触っていない**: 本サンプルは較正に 1 つも足しておらず、地表 χ の証明にもしていない。",},
   en:{name:"Two-Arm Round-Trip Phase — Positive Control First", descStruct:{
     summary:"A TOY THAT BUILDS UP THE PHASE DIFFERENCE OF LIGHT ROUND-TRIPPING TWO ARMS, STARTING FROM THE POSITIVE CONTROLS (wave 247d, ruling A5′(2)). Rather than bolting a phase onto the existing photons and rays, it is implemented as a dedicated ANALYSER for principle samples — the pure function HP.dfmMMPhase. The apparatus is a common source S, a beam splitter B, mirror M1 (arm 1), mirror M2 (arm 2) and a detector D at B's position ON THE SAME CLOCK, and THE SOURCE, SPLITTER, MIRRORS AND DETECTOR ALL MOVE TOGETHER. Light follows the A11/E8R convention — it travels at speed c RELATIVE TO THE LOCAL MESH VELOCITY u (the same form as photonStep's displacement ĉ·dl + u·dt) — so the arrival time τ of one leg is the root of |Q(t₀+τ) − P − u·τ| = c·τ. What the screen shows is only the SHAPE of the apparatus: a spinning pinned central body (m=100, R=10, spin=0.2) with three tiny bodies (frameSource:false, m=1e-6) carried on a rail (pinned + railOmega=0.2) at surface height h=0.01R, playing the splitter B, mirror M1 (radial, arm 0.8) and mirror M2 (tangential, arm 0.8). THE ENGINE SUPPLIES ONLY THE DIMENSIONLESS χ = |u|/|v| (read by HP.dfmFrameAt from rayField, the very kernel light uses); the phase numbers are then run on the SI 1887 INTERFEROMETER (L=11 m, λ=500 nm, v=29.98 km/s). The one-tap control B is kFrame=0 — no dragging at all, the classical ether-at-rest case.",
-    observe:"THE STAIRCASE (1)–(5). (1) Static, equal arms: both Δt and Δφ are BIT-EXACTLY ZERO (the instrument's own null check). (2) Static with an arm-length difference ΔL — THE POSITIVE CONTROL, PASSED FIRST: Δφ equals 4πΔL/λ (relative 0 for the closed form; 1.0e-12 for the traced value at ΔL=1 mm and 5.9e-10 even at ΔL=λ/4). (3) The apparatus moving uniformly at v with u=0 (NO DRAGGING = CLASSICAL): with L=11 m, λ=500 nm, v=29.9792458 km/s (β=1e-4), Δφ = 1.3823008 rad = 0.2200000 FRINGE, agreeing with the classical MM approximation 2π(L/λ)(v/c)² to 1.25e-8 (the difference is the O(β²) truncation). ROTATING THE APPARATUS BY 90° FLIPS THE SIGN exactly. (4) Put the same apparatus INSIDE THE CENTRAL BODY'S ENTRAINED u and Δφ falls by (1−χ)²: at surface height h=0.01R, χ=0.977554 gives Δφ=6.9646e-4 rad, 1/1985 of the classical value. Climb, and χ goes 0.9776 → 0.8237 (h=0.1R) → 0.4417 (0.5R) → 0.1084 (2R) → 0.0062 (10R), so the suppression falls 1985 → 32.2 → 3.21 → 1.26 → 1.01 AND THE CLASSICAL VALUE COMES BACK. Make the shell gaseous (gasCoh=0.3) and at the same height χ=0.293266 with Δφ=0.69042 rad (only a factor 2.00). AT u=v EXACTLY THE CLOSED FORM IS EXACTLY ZERO (the traced value's floor is 5.0e-8 rad, 2.8e7 times below classical). (5) THE SAGNAC CONTROL shares the convention (same leg solver, same Δφ=2πcΔt/λ): a closed loop of A=1 m² at Ω=1000 rad/s gives Δφ = 167.668 rad = 8πAΩ/(λc) to 3e-11, quadruples with four times the area, and flips with the sign of Ω. A NON-ROTATING LOOP CARRIED AT UNIFORM VELOCITY GIVES EXACTLY ZERO — Sagnac is a rotation quantity. THE ARRIVAL-TIME DIFFERENCE Δt AND THE INTERFERENCE PHASE Δφ ARE RETURNED SEPARATELY, because comparing the arrival of two photons is not by itself a test of interference phase. QA behavior.mmPhase machine-fixes steps (1)(2)(3)(5) against their closed forms, the fall inside u for (4), the A/B bit contract, and the determinism of the pure function. WAVE 250b (report 42, W2) ADDS A WAVELENGTH CHANNEL — the pure function HP.dfmMMWavelength, which adds only the non-dispersive relation ω = u·k + c|k| and the conservation of ω − V·k across boundaries moving at V. Even with the apparatus in motion, A CO-MOVING DETECTOR READS ν_D/ν₀ = 1 ON BOTH ARMS and the wavelengths recombined into a common output direction agree BIT-EXACTLY (the round-trip Doppler shifts cancel). THE PHASE DIFFERENCE STILL REMAINS SEPARATELY: at rest, lengthening one arm by λ/4 leaves Δλ = Δν = 0 yet gives Δφ = π (W2); with the apparatus moving, the frequency and the common output wavelength agree while Δφ stays at 0.22 fringe (W3). AGREEING WAVELENGTHS ARE NOT AGREEING PHASES. QA behavior.mmWavelength machine-fixes W1–W5. WAVE 251c (report 43) ADDS A PHASE-COUNT CHANNEL as well (the pure function HP.dfmMMPhaseCount): it lays the adjudicator's corrected account — “with a mirror 3 away and a wavelength of 1 the round trip is 6 turns; at 0.5c the outward leg is 6 long at wavelength 2 (3 turns) and the return leg 2 long at wavelength 2/3 (3 turns), so the count is 6 either way and only the TIME grows, 6 against 8” — side by side under THREE CONVENTIONS. The distances are common to all three (d+ = L/(1−beta), d− = L/(1+beta)); ONLY THE WAVELENGTH DIFFERS: “stretch” (the corrected account — the wavelength stretches in the same ratio as the path) gives N=6 BIT-EXACTLY AND INDEPENDENT OF beta with T=8 against 6 at rest; “galilean” (wave 250b’s boundary convention, omega − V.k conserved = classical Doppler) compresses the outward wavelength to lambda0(1−beta) and gives N=13.333… != 6; “comoving” (u=V) gives N=6, T=6. The transverse arm has T_perp = 2L/(c sqrt(1−beta^2)); under stretch N_perp = N (dN=0), under galilean lambda_perp = lambda0(1−beta^2) and N_perp != N. AGREEING COUNTS ARE NOT AGREEING ARRIVAL TIMES — even under stretch the two arms differ in T (at L=10 with c=lambda0=1, nu0*dT = 3.5727 fringes). STRETCH IS AN ASSUMPTION, NOT A DERIVATION (which DFM law it follows from is underived), and UNDER NEITHER CONVENTION IS IT WRITTEN THAT “DFM PREDICTS THE MM NULL”. QA behavior.mmPhaseCount.",
+    observe:"THE STAIRCASE (1)–(5). (1) Static, equal arms: both Δt and Δφ are BIT-EXACTLY ZERO (the instrument's own null check). (2) Static with an arm-length difference ΔL — THE POSITIVE CONTROL, PASSED FIRST: Δφ equals 4πΔL/λ (relative 0 for the closed form; 1.0e-12 for the traced value at ΔL=1 mm and 5.9e-10 even at ΔL=λ/4). (3) The apparatus moving uniformly at v with u=0 (NO DRAGGING = CLASSICAL): with L=11 m, λ=500 nm, v=29.9792458 km/s (β=1e-4), Δφ = 1.3823008 rad = 0.2200000 FRINGE, agreeing with the classical MM approximation 2π(L/λ)(v/c)² to 1.25e-8 (the difference is the O(β²) truncation). ROTATING THE APPARATUS BY 90° FLIPS THE SIGN exactly. (4) Put the same apparatus INSIDE THE CENTRAL BODY'S ENTRAINED u and Δφ falls by (1−χ)²: at surface height h=0.01R, χ=0.977554 gives Δφ=6.9646e-4 rad, 1/1985 of the classical value. Climb, and χ goes 0.9776 → 0.8237 (h=0.1R) → 0.4417 (0.5R) → 0.1084 (2R) → 0.0062 (10R), so the suppression falls 1985 → 32.2 → 3.21 → 1.26 → 1.01 AND THE CLASSICAL VALUE COMES BACK. Make the shell gaseous (gasCoh=0.3) and at the same height χ=0.293266 with Δφ=0.69042 rad (only a factor 2.00). AT u=v EXACTLY THE CLOSED FORM IS EXACTLY ZERO (the traced value's floor is 5.0e-8 rad, 2.8e7 times below classical). (5) THE SAGNAC CONTROL shares the convention (same leg solver, same Δφ=2πcΔt/λ): a closed loop of A=1 m² at Ω=1000 rad/s gives Δφ = 167.668 rad = 8πAΩ/(λc) to 3e-11, quadruples with four times the area, and flips with the sign of Ω. A NON-ROTATING LOOP CARRIED AT UNIFORM VELOCITY GIVES EXACTLY ZERO — Sagnac is a rotation quantity. THE ARRIVAL-TIME DIFFERENCE Δt AND THE INTERFERENCE PHASE Δφ ARE RETURNED SEPARATELY, because comparing the arrival of two photons is not by itself a test of interference phase. QA behavior.mmPhase machine-fixes steps (1)(2)(3)(5) against their closed forms, the fall inside u for (4), the A/B bit contract, and the determinism of the pure function. WAVE 250b (report 42, W2) ADDS A WAVELENGTH CHANNEL — the pure function HP.dfmMMWavelength, which adds only the non-dispersive relation ω = u·k + c|k| and the conservation of ω − V·k across boundaries moving at V. Even with the apparatus in motion, A CO-MOVING DETECTOR READS ν_D/ν₀ = 1 ON BOTH ARMS and the wavelengths recombined into a common output direction agree BIT-EXACTLY (the round-trip Doppler shifts cancel). THE PHASE DIFFERENCE STILL REMAINS SEPARATELY: at rest, lengthening one arm by λ/4 leaves Δλ = Δν = 0 yet gives Δφ = π (W2); with the apparatus moving, the frequency and the common output wavelength agree while Δφ stays at 0.22 fringe (W3). AGREEING WAVELENGTHS ARE NOT AGREEING PHASES. QA behavior.mmWavelength machine-fixes W1–W5. WAVE 251c (report 43) ADDS A PHASE-COUNT CHANNEL as well (the pure function HP.dfmMMPhaseCount): it lays the adjudicator's corrected account — “with a mirror 3 away and a wavelength of 1 the round trip is 6 turns; at 0.5c the outward leg is 6 long at wavelength 2 (3 turns) and the return leg 2 long at wavelength 2/3 (3 turns), so the count is 6 either way and only the TIME grows, 6 against 8” — side by side under THREE CONVENTIONS. The distances are common to all three (d+ = L/(1−beta), d− = L/(1+beta)); ONLY THE WAVELENGTH DIFFERS: “stretch” (the corrected account — the wavelength stretches in the same ratio as the path) gives N=6 BIT-EXACTLY AND INDEPENDENT OF beta with T=8 against 6 at rest; “galilean” (wave 250b’s boundary convention, omega − V.k conserved = classical Doppler) compresses the outward wavelength to lambda0(1−beta) and gives N=13.333… != 6; “comoving” (u=V) gives N=6, T=6. The transverse arm has T_perp = 2L/(c sqrt(1−beta^2)); under stretch N_perp = N (dN=0), under galilean lambda_perp = lambda0(1−beta^2) and N_perp != N. AGREEING COUNTS ARE NOT AGREEING ARRIVAL TIMES — even under stretch the two arms differ in T (at L=10 with c=lambda0=1, nu0*dT = 3.5727 fringes). STRETCH IS AN ASSUMPTION, NOT A DERIVATION (which DFM law it follows from is underived), and UNDER NEITHER CONVENTION IS IT WRITTEN THAT “DFM PREDICTS THE MM NULL”. QA behavior.mmPhaseCount. WAVE 252c (report 44) ADDS TWO CONTINUOUS-WAVE CHANNELS (the pure functions HP.dfmMMCoherent and HP.dfmMMLambdaSweep). The adjudicator writes: “a real interferometer has its phase adjusted, but the two arms are not guaranteed to be exactly equal; if the arms differ, sweeping the wavelength produces fringes from the difference in arrival time; if you can arrange for NO fringes to appear while the wavelength is swept, the arrival times agree; the claim here is that a FIXED-wavelength interferometer is not affected by the light’s arrival time.” For a continuous wave, dphi(t) = -2 pi dtau [nu0 + nudot (t - (tau1+tau2)/2)] + psi, which splits the question into a PHASE and a FRINGE COUNT. (i) Equal arms at rest: dphi = psi, fixed, and the sweep gives dN = 0 BIT-EXACTLY. (ii) With an arm difference of 1 mm, psi can null the fixed-wavelength phase EXACTLY, yet sweeping by 1 MHz moves dN = 6.671282e-6 fringes (linear in the sweep span). (iii) dN = 0 ONLY WHEN dtau = 0 (at dL = 1e-9 m, dN is still 6.67e-12). So far this is exactly the adjudicator’s account. BUT (iv) once psi has been set, a LATER change of dtau moves the phase even at fixed wavelength: dphi = -2 pi nu0 d(dtau), which for d(dtau) = 1e-16 s is 0.3767 rad (0.06 fringe) — SIX ORDERS OF MAGNITUDE above the 1e-10 fringe the sweep contributes for the same d(dtau). IT IS THE FRINGE COUNT dN, NOT THE PHASE dphi, THAT IS INSENSITIVE TO ARRIVAL TIME. Across the three conventions: “stretch” has dN = 0 at fixed lambda0 but keeps dT = 1.0718 (L=3, beta=0.5) so a sweep does move fringes; “galilean” has dN = 4.0957 even at fixed lambda0; ONLY “comoving” has dT = 0. THE PASSIVE-MIRROR BOUNDARY CHECK (omega = u.k + c|k| with omega - V.k conserved): feeding stretch’s lambda+ = 2 lambda0 and lambda- = 2 lambda0/3 into it gives rho+ = (1-beta)^2 = 0.25 against rho- = (1+beta)^2 = 2.25 (ratio 9; the mirror returns nine times the wavelength the convention asks for), SO STRETCH DOES NOT FOLLOW FROM THOSE TWO LAWS — that is neither a derivation nor a refutation of stretch, only a numerical statement that it is a SEPARATE ASSUMPTION. Finally, ROTATING THE APPARATUS BY 90 DEGREES at the surface (h=0.01R, chi=0.977554) changes the arrival-time difference by d(dtau) = -3.697e-19 s (-8.899e-23 s at the Earth’s rotation speed of 465.1 m/s) EVEN WITH THE ZERO-DISTANCE DRAGGING INCLUDED, and the phase moves with it: d(dphi) = 1.393e-3 rad (3.353e-7 rad for the rotation speed). What does not move is dN. QA behavior.mmCoherent and behavior.mmLambdaSweep.",
     control:"One-tap A/B: SIDE B IS kFrame=0 — dragging switched off entirely, the classical ether-at-rest case: u at the apparatus is exactly zero and Δφ returns to the full 1.3823 rad (0.22 fringe). Suggested manual controls: set railOmega near 0.1955 so the apparatus RIDES WITH THE ENTRAINED SPACE and the residual wind w=v−u nearly vanishes (Δφ drops to the 1e-6 level); set the central spin to 0 and u=0 brings the classical value back; raise q to sharpen the surface entrainment and strengthen the altitude dependence; set kappaT to 0 and NO BODY QUALIFIES AS A RAY SOURCE any more (the rayHeavy threshold), so light sees u=0 — a check that light's entrainment and matter's entrainment read different source sets. THE CALIBRATION SAMPLES (🪨🌘💿) WERE NOT TOUCHED: this sample adds nothing to the calibration and is not offered as proof of the surface χ."}},
   parameterAudit:{
     observedInputs:["SI 装置の 3 値のみ(L=11 m・λ=500 nm・v=29.9792458 km/s=地球の公転速度 — 1887 年の装置と地球軌道の桁を借りた**表示の単位**であって、天体の観測転写ではない)"],
@@ -12024,6 +12159,12 @@ function validateCompactForce(a){
   const out={model};
   const KEYS={ current:["kappa","chiGate","rc"], manev:["alphaK","cGate","rc","fMass"], lj:["C6","C8","rc","xiTh","sFloor"] };
   for(const k of KEYS[model]){ const v=num(k); if(v===null) return {ok:false, err:"physics.compactForce."+k+" は数値"}; out[k]=v; }
+  // 第252便a: current の速度枠(既定 "absolute" は out へ入れない = 宣言と未宣言で署名・エクスポート JSON が 1 文字も変わらない)
+  if(model==="current" && a.velocityFrame!==undefined){
+    if(COMPACT_FORCE_VFRAMES.indexOf(a.velocityFrame)<0)
+      return {ok:false, err:'physics.compactForce.velocityFrame は "absolute"/"pair" のみ'};
+    if(a.velocityFrame!==COMPACT_FORCE_VFRAMES[0]) out.velocityFrame=a.velocityFrame;
+  }
   const off=(model==="current")? (out.kappa===0) : (model==="manev")? (out.alphaK===0) : (out.C6===0 && out.C8===0);
   if(off) return {ok:true, compactForce:null};   // 用量 0 = 未宣言(1 bit 不変)
   return {ok:true, compactForce:out};
@@ -12177,6 +12318,14 @@ function validatePreset(obj){
         const cv=validateCompactForce(p.physics[k]);
         if(!cv.ok){ bad(cv.err); continue; }
         if(cv.compactForce!==null) ph[k]=cv.compactForce;
+        continue;
+      }
+      // 第252便b(第44報): periSubsteps — 近点近傍の刻み細分(**数値設定の opt-in・既定 OFF**)。
+      // n=1/null は「なし」へ正規化する(宣言と未宣言で署名が 1 文字も変わらない)
+      if(k===PERI_SUB_KEY){
+        const pv=validatePeriSubsteps(p.physics[k]);
+        if(!pv.ok){ bad(pv.err); continue; }
+        if(pv.periSubsteps!==null) ph[k]=pv.periSubsteps;
         continue;
       }
       // 第247便a: framePrecision も同じ流儀(既定 "single" は ph へ入れない=署名不変)
@@ -15002,6 +15151,41 @@ function makeSim(){
     // 第251便a: コンパクト連星の追加対力(physics.compactForce)の有無フラグも同じ場所で張る。
     // validateCompactForce が用量 0 を null へ正規化しているので、キーの有無だけで判定できる
     S.hasCompactForce=!!S.params[COMPACT_FORCE_KEY];
+    // 第252便b: 近点サブステップ(physics.periSubsteps)の有無フラグと発火しきい値も同じ場所で張る。
+    // validatePeriSubsteps が n<=1 を null へ正規化しているので、キーの有無だけで判定できる
+    const __psq=S.params[PERI_SUB_KEY];
+    S.hasPeriSub=!!__psq; S.periSub=__psq||null;
+    S._periSetup();   // 未宣言でも呼ぶ(計数のリセットと状態の初期化だけ — 既定経路の値は 1 bit 不変)
+  };
+  // ===== 第252便b(第44報): 近点サブステップの準備(S.step を呼ぶ側の薄い包みの前段)=====
+  // **1 度だけ**決めるもの: 近点を測る 2 体 (i,j)・細分数 n・近点半径の基準 r_peri。
+  //   ・`periSubsteps.rPeri` を宣言していればその値で固定する(**再現性のある正式形**)。
+  //   ・宣言が無いときは **走行中の相対距離の最小値**(auto)を基準にする。ケプラー接触要素
+  //     a(1−e) を使わないのは、**較正質量の系ではそれが実際の近点と大きく食い違う**からである
+  //     (第252便b の実測: ⚡ psrDoubleABDFM は較正質量 f≈2 のニュートン接触要素が a(1−e)=282 を
+  //      返すが、kFrame=1 引きずり込みの実際の軌道は r∈[800, 956] —— 3 倍近く外れる)。
+  //     auto は最初の近点通過までは「今が最小」なので内向きの区間を丸ごと細分し、1 度近点を
+  //     通ったあとは近点近傍の帯だけを細分する(デューティ比は S.periSubHits で読める)。
+  S._periSetup = function(){
+    S.periSubHits=0; S.periSubSteps=0;   // 計数(監査・実験ハーネス用 — 物理には一切効かない)
+    const ps=S.periSub;
+    if(!ps || S.n<2){ S._psI=0; S._psJ=0; S._psN=1; S._psRmin=-1; S._psRmul=0; S._psAuto=false; S._psSrc=null; return; }
+    // **基準は 1 度だけ決める**: updateRadii は実行中にも呼ばれる(半径スライダー・粒子編集)ので、
+    // 同じ宣言オブジェクトなら初期化し直さない(走行の途中で判定が飛ばないことの保証)
+    if(S._psSrc===ps) return;
+    S._psSrc=ps;
+    let i=0, j=1;
+    if(ps.pair && ps.pair[0]<S.n && ps.pair[1]<S.n){ i=ps.pair[0]; j=ps.pair[1]; }
+    else {   // |m| 最大の 2 粒子(宣言が無いときの既定 — 連星の 2 体を機械的に選ぶ)
+      let m1=-Infinity, m2=-Infinity; i=0; j=1;
+      for(let k=0;k<S.n;k++){ const a=Math.abs(S.mEff[k]);
+        if(a>m1){ m2=m1; j=i; m1=a; i=k; } else if(a>m2){ m2=a; j=k; } }
+      if(i===j) j=(i===0)?1:0;
+    }
+    S._psI=i; S._psJ=j; S._psN=ps.n; S._psRmul=ps.rMul;
+    if(ps.rPeri>0){ S._psRmin=ps.rPeri; S._psAuto=false; }
+    else { const dx=S.x[j]-S.x[i], dy=S.y[j]-S.y[i]; S._psRmin=Math.hypot(dx,dy); S._psAuto=true; }
+    S._psRperi=S._psRmin;   // 監査用の初期値(auto では走行中に下がる)
   };
   // 第36便 C2: 掻出の実効値(auto の粒子は lS_eff、それ以外は指定値)。lSw[i] が常に実効値なので
   // 参照側は分岐不要 — 監査・UI 用の明示アクセサとして公開する(HP.sim.lSwEff(i))
@@ -15316,7 +15500,7 @@ function makeSim(){
       const a={ model, dx, dy, vx1:v1x, vy1:v1y, vx2:v2x, vy2:v2y,
         m1:m[i], m2:m[j], R1:R[i], R2:R[j], G, c };
       if(isCur){
-        a.kappa=cf.kappa; a.chiGate=cf.chiGate; a.rc=cf.rc;
+        a.kappa=cf.kappa; a.chiGate=cf.chiGate; a.rc=cf.rc; a.velocityFrame=cf.velocityFrame;   // 第252便a: 未宣言は undefined = "absolute"(既定経路の演算順不変)
         const d2=dx*dx+dy*dy+eps2, wg=(pw>0)? Math.pow(d2,-pw/2) : 1/Math.sqrt(d2);
         const di=D0p+Wt[i], dj=D0p+Wt[j];
         a.chi1=(di>0)? (m[j]*wg)/di : 0;
@@ -15367,7 +15551,32 @@ function makeSim(){
       } else { vx[i]+=ddx; vy[i]+=ddy; }
     }
   };
+  // 第252便b: 近点サブステップの再入フラグ(クロージャ変数 — S のプロパティにしないのは、
+  // 既定経路で読むのがローカルスコープの真偽値 1 つで済むようにするため)。true の間は
+  // ①これ以上分割しない ②ステップ末の**離散イベント**を発火しない。
+  let __periIn = false;
   S.step = function(dt){
+    // ===== 第252便b(第44報): 近点サブステップ(physics.periSubsteps — opt-in・既定 OFF)=====
+    // 未宣言では S.hasPeriSub の**真偽値 1 つ**を読んで素通りする(既定経路 1 bit 不変)。
+    // 宣言時は相対距離が r<rMul·r_peri のときだけ dt を n 等分して自分自身を n 回呼び、
+    // **離散イベント(エコー・融合・分裂・放出)は最後のサブステップの後に 1 度だけ**発火する。
+    if(S.hasPeriSub && !__periIn && S._psRmin>0){
+      const i=S._psI, j=S._psJ, dx=S.x[j]-S.x[i], dy=S.y[j]-S.y[i];
+      const d2=dx*dx+dy*dy;
+      if(S._psAuto && d2<S._psRmin*S._psRmin) S._psRmin=Math.sqrt(d2);   // auto: 近点半径は走行中の最小値
+      const thr=S._psRmul*S._psRmin;
+      if(d2 < thr*thr){
+        const nn=S._psN, h=dt/nn;
+        __periIn=true;
+        try{ for(let k=0;k<nn;k++) S.step(h); }
+        finally{ __periIn=false; }
+        S.periSubHits=(S.periSubHits||0)+1; S.periSubSteps=(S.periSubSteps||0)+nn;
+        if(S.echoFlipAt!==null) S._echo();
+        if(S.fusion){ S._fuse(); if(S.fusion.fission) S._fission(); }
+        if(S.hasShed) S._shed();
+        return;
+      }
+    }
     // 第245便補足1: スピン双極子間力は積分器の**前**(=E4 の加速度に足すのと同義 — 上のコメント)。
     // 第247便a(ChatGPT v5 §7): leapfrog では**前後の半キック(dt/2 ×2)に分ける**。1 步 1 回の
     // 1 次分割は時間反転対称性を壊し、可逆性試験(150 単位前進 → v 反転 → 150 単位)で位置誤差が
@@ -15389,13 +15598,17 @@ function makeSim(){
       S._core(dt,0);
     }
     if(S.params.petersGW===true) S._petersGW(dt);   // 第227便: 外部物理オーバーレイ(既定 OFF=素通り)
-    if(S.echoFlipAt!==null) S._echo();
-    // 第44便 44B(台帳4-68c): 融合はサブステップ末(E系適用後)。fusion 未指定では null 判定 1 回
-    // 第45便 45B(台帳4-68d): 分裂は融合の**後**(同一サブステップで新生対が再融合しないための第1の柵)
-    if(S.fusion){ S._fuse(); if(S.fusion.fission) S._fission(); }
-    // 第244便(第36報): envelopeShed はステップ末(融合・分裂の後)。未宣言はフラグ1つで素通り =
-    // 1步あたりの追加コストは真偽値の読みだけ(S._core の中には 1 命令も足していない — 第208便の教訓)
-    if(S.hasShed) S._shed();
+    // 第252便b: 離散イベントは**最後のサブステップの後に 1 度だけ**(Grok §4A)。periSubsteps
+    // 未宣言では __periIn は常に false なので、下の 3 行は従来どおり毎步そのまま実行される
+    if(!__periIn){
+      if(S.echoFlipAt!==null) S._echo();
+      // 第44便 44B(台帳4-68c): 融合はサブステップ末(E系適用後)。fusion 未指定では null 判定 1 回
+      // 第45便 45B(台帳4-68d): 分裂は融合の**後**(同一サブステップで新生対が再融合しないための第1の柵)
+      if(S.fusion){ S._fuse(); if(S.fusion.fission) S._fission(); }
+      // 第244便(第36報): envelopeShed はステップ末(融合・分裂の後)。未宣言はフラグ1つで素通り =
+      // 1步あたりの追加コストは真偽値の読みだけ(S._core の中には 1 命令も足していない — 第208便の教訓)
+      if(S.hasShed) S._shed();
+    }
   };
   // 第35便(台帳4-62): Loschmidt echo — t が echoFlipAt に達した最初のステップ終端で、
   // 全粒子の v と s の符号を一度だけ反転する(pinned 含む・再反転はしない)。
@@ -17549,7 +17762,7 @@ function makeSim(){
     if(S.photons && S.photons.length){
       const pp=S.params;
       const O={heavy:[], kU:2*pp.kappaT, eps2:pp.softening*pp.softening, q:pp.q, c0:pp.cLight,
-        D0u:(frameWeightPow(pp)>0)? ((pp.D0pull>0)? pp.D0pull : pp.D0) : pp.D0,   // 第241便(第242便: 既定 pull・一般指数)
+        D0u:(frameWeightPow(pp)>0)? ((pp.D0pull!==undefined)? pp.D0pull : pp.D0) : pp.D0,   // 第241便(第242便: 既定 pull・一般指数。第252便a: D0pull の意味統一 — 未宣言=D₀ へフォールバック/明示値はその値〔0 を含む〕)
         D0:pp.D0, kF:pp.kFrame, BX:S.box, WB:0, bH:0};
       for(let i=0;i<n;i++) if(rayHeavy(S,i)) O.heavy.push(i);
       let aO=1;
@@ -18294,7 +18507,7 @@ function chanSetup(S,p,hasCoreV2,dragSurf,eps2){
   const qT=(p.qTrans>0)? p.qTrans : 0, gasCoh=(p.gasCoh!==undefined)? p.gasCoh : 1;
   const contact=(p[DRAG_REF_KEY]===DRAG_CONTACT);   // 第240便
   const fw=p[FRAME_WEIGHT_KEY], pw=(fw===undefined)? 2 : (fw==="pull")? 2 : (fw==="pull3")? 3 : (fw==="pull4")? 4 : 0;   // 第241便(第33報)/第242便: 既定 pull・指数 pw∈{2,3,4}(1 步 1 回 — 関数呼び出しを避ける・perf.starSeed)
-  const pull=(pw>0), D0p=(p.D0pull>0)? p.D0pull : p.D0;
+  const pull=(pw>0), D0p=(p.D0pull!==undefined)? p.D0pull : p.D0;   // 第252便a: 意味統一(未宣言=D₀ / 明示値はその値。0 も真の 0)
   const gm=(p.gravMag>0)? p.gravMag : 0, fsOff=(S.hasFrameOff===true);   // 第243便: gravMag 玩具・frameSource:false
   const hasQT=(qT>0)||S.hasDragQT, hasCQ=S.hasCoreDQ, cohOn=(gasCoh<1 && S.hasShellGas), chOn=hasQT||hasCQ||cohOn||contact||pull||fsOff||(gm>0);
   S._chG=chOn? {qT, gasCoh, dragSurf, hasCoreV2, hasCQ, cohOn, contact, pull, pw, D0p, eps2, gm, fsOff, fsep:(contact||pull||fsOff)} : null;
@@ -18467,7 +18680,7 @@ function traceRay(S, px, py, cxv, cyv, dl, maxSteps, emit){
   // 「引きずりなし」の対照実験になる(🌗spinlens)。屈折(ψ=W·κ)は kFrame と無関係のまま。
   // 内蔵プリセットは kFrame=1(💡🌗)または源が静止・無スピン(🔭🛰)のため描画は不変。
   const p=S.params, kU=2*p.kappaT, eps=p.softening, eps2=eps*eps, q=p.q, c0=p.cLight, D0=p.D0, kF=p.kFrame;
-  const D0u=(frameWeightPow(p)>0)? ((p.D0pull>0)? p.D0pull : D0) : D0;   // 第241便(第242便: 既定 pull・一般指数)
+  const D0u=(frameWeightPow(p)>0)? ((p.D0pull!==undefined)? p.D0pull : D0) : D0;   // 第241便(第242便: 既定 pull・一般指数。第252便a: 意味統一)
   const heavy=[];
   for(let i=0;i<S.n;i++) if(rayHeavy(S,i)) heavy.push(i);
   // 第31便: UniverseBox — W_B は一様(∇ψ 寄与なし=光は曲げない)だが、n_eff と
@@ -27103,16 +27316,24 @@ function dfmCompactForce(o){
     const kappa=num(o.kappa,1), rc=num(o.rc,0), gate=num(o.chiGate,0.5);
     const vx1=Number(o.vx1), vy1=Number(o.vy1), vx2=Number(o.vx2), vy2=Number(o.vy2);
     const chi1=Number(o.chi1), chi2=Number(o.chi2);
+    // 第252便a(第44報「等質量なら互いの公転が消える」): 速度枠の opt-in。
+    //   "absolute"(既定・第251便a のまま)= v₁·v₂(**背景決定力場に対する絶対速度**の積)
+    //   "pair"(opt-in)= 相対速度だけ: v₁·v₂ → −ν|v₂−v₁|²、ν=m₁m₂/M²(重心系では両者が一致する
+    //   —— 重心が走っている系でだけ差が出る)。既定は 1 文字も変えない(下の三項の else 側が旧式そのもの)。
+    const vFrame=(o.velocityFrame===undefined)? "absolute" : String(o.velocityFrame);
+    if(vFrame!=="absolute" && vFrame!=="pair") return null;   // 適用域外
     if(![kappa,rc,gate,vx1,vy1,vx2,vy2,chi1,chi2].every(Number.isFinite)) return null;
     if(!(rc>=0) || chi1<0 || chi2<0) return null;
     const chiIJ=(chi1<chi2)? chi1 : chi2;
-    if(!(chiIJ>=gate)) return OFF({ chiIJ, gateVal:gate, vdot:0 });   // ゲート下は厳密 0
-    const vdot=vx1*vx2+vy1*vy2;
+    if(!(chiIJ>=gate)) return OFF({ chiIJ, gateVal:gate, vdot:0, velocityFrame:vFrame });   // ゲート下は厳密 0
+    let vdot;
+    if(vFrame==="pair"){ const dvx=vx2-vx1, dvy=vy2-vy1, Mt=m1+m2; vdot=-(m1*m2/(Mt*Mt))*(dvx*dvx+dvy*dvy); }
+    else vdot=vx1*vx2+vy1*vy2;
     const rho2=r2+rc*rc, rho=Math.sqrt(rho2);
     if(!(rho>0)) return null;
     const K=kappa*chi1*chi2*G*m1*m2*vdot/(c*c);
     const U=-K/rho, coeff=-K/(rho2*rho);
-    return { model, on:true, U, fx:coeff*dx, fy:coeff*dy, coeff, r, rho, chiIJ, gateVal:gate, vdot, K };
+    return { model, on:true, U, fx:coeff*dx, fy:coeff*dy, coeff, r, rho, chiIJ, gateVal:gate, vdot, K, velocityFrame:vFrame };
   }
   if(model==="manev"){
     const f1=num(o.f1,1), f2=num(o.f2,1), R1=Number(o.R1), R2=Number(o.R2);
@@ -27430,6 +27651,160 @@ function dfmMMPhaseCount(cfg){
       : "galilean: λ⊥=λ₀(1−β²) なので N⊥=2L/(λ₀(1−β²)^{3/2}) ≠ N(**一致しない**)",
     note:"位相計数 N は到着時刻ではない。T と T⊥ は comoving を除いて一致しない" };
 }
+// ===== 第252便c(第44報)— MM の**連続波チャネル**: 固定波長の「位相」と、掃引で動く「縞の計数」 ===
+// 原仮定者(第44報)の指示をそのまま器へ載せる。原文(引用):
+//   「実物の干渉計では、位相を合わせているが、二腕の長さの完全一致は保証していない /
+//     腕の長さが違うと、波長を時間変化させた時に、二腕の到着時間の違いで干渉縞が発生する /
+//     波長を時間変化させても干渉縞が発生しない状態を設定出来れば、到着時間が一致している /
+//     ここでの主張は、波長が固定された干渉計は、光の到着時間が影響しない事である /
+//     なおDFMでは、地球上にある干渉計は地球の自転で移動しているので、干渉計を回せば、ゼロ距離の
+//     地球の引きずりを考慮しても、わずかに二腕の光の到着時間が変化する。位相は変わらない」
+//
+// 規約(1 本の連続波光源を 2 腕へ分け、**同一時計**の検出器で合成する。到着時刻 τ₁・τ₂ は外から渡す
+//   = dfmMMPhase / dfmMMPhaseCount が出した値をそのまま入れられる):
+//   ① 光源の位相 φ_e(t)=2π(ν₀t + ½ν̇t²)+φ₀(瞬時周波数 ν(t)=ν₀+ν̇t の**線形チャープ**。ν̇=0 が固定波長)。
+//   ② 腕 i を往復して時刻 t に検出器へ届く光の位相は、**発射時刻 t−τ_i の光源位相**である。
+//   ③ よって Δφ(t)=φ_e(t−τ₁)−φ_e(t−τ₂)+ψ = **−2πΔτ[ν₀+ν̇(t−(τ₁+τ₂)/2)] + ψ**(Δτ=τ₁−τ₂)。
+//      ψ は「位相を合わせる」自由度(補償板・腕の微調整・検出器の基準位相)で、**腕長の一致とは別物**。
+//   ④ ν̇=0(**固定波長**)では **Δφ=−2πν₀Δτ+ψ** —— **Δτ への感度は消えない**。ψ で 0 にできるのは
+//      「その時の Δτ」だけで、**Δτ が後から δ 動けば位相は −2πν₀·δ(Δτ) 動く**(3 審査 v10 ChatGPT)。
+//   ⑤ 掃引すると縞が動く: **ΔN(t) ≡ (Δφ(t)−Δφ(0))/2π = −ν̇·Δτ·t = −Δν·Δτ**。
+//      ν̇≠0・t≠0 なら **ΔN=0 ⇔ Δτ=0** —— これが原仮定者の「掃引しても縞が出なければ到着時間が一致」。
+// **「位相」と「縞の計数」は別の量である**: ④ が位相・⑤ が計数で、本関数は**別欄**で返す。
+//   固定波長で ψ を合わせても、位相は Δτ の**変化**に応じて動く(④)一方、縞の**本数**の移動は
+//   掃引幅 Δν に比例する(⑤)ので、Δν=0 なら ΔN=0 である。原仮定者の「位相は変わらない」が
+//   どちらの量についての主張なのかを、数値で分けるための器である。
+// 力学へは接続しない・プリセットのキーは 1 つも増えない・エンジンは 1 バイトも書き換えない。
+//
+// cfg: { c・lambda0(または nu0)・tau1,tau2(往復到着時間 — 省略時は L1,L2 から τ=2L/c)・
+//        psi(位相合わせ・既定 0)・nullPhase:true(ψ を「固定波長の Δφ が**厳密 0**」になる値へ取る)・
+//        nudot(ν̇ — 掃引の傾き)・t(掃引開始からの時刻)・dTau(装置を回す等による **δ(Δτ)**)}
+// 返値: {dphiFixed(固定波長の位相差)・dphi/dphi0(チャープ時刻 t / 0)・dN(縞の移動 — 閉形式)・
+//        dNDiff(位相差の引き算で出した同じ量)・dNRel・sweepNull・dtauZero・
+//        dphiRot(δ(Δτ) による位相の動き)・dphiAfter・dNRot・fringes…}
+function dfmMMCoherent(cfg){
+  const o=cfg||{};
+  const c=(o.c!==undefined)? Number(o.c) : 299792458;
+  const hasNu=(o.nu0!==undefined);
+  const lam0=hasNu? NaN : ((o.lambda0!==undefined)? Number(o.lambda0)
+    : ((o.lambda!==undefined)? Number(o.lambda) : 5e-7));
+  const nu0=hasNu? Number(o.nu0) : c/lam0;
+  const lam=hasNu? c/nu0 : lam0;
+  const L1=Number((o.L1!==undefined)? o.L1 : 1), L2=Number((o.L2!==undefined)? o.L2 : L1);
+  const hasT=(o.tau1!==undefined || o.tau2!==undefined);
+  const tau1=hasT? Number((o.tau1!==undefined)? o.tau1 : 0) : 2*L1/c;
+  const tau2=hasT? Number((o.tau2!==undefined)? o.tau2 : 0) : 2*L2/c;
+  const nud=(o.nudot!==undefined)? Number(o.nudot) : 0;
+  const tt=(o.t!==undefined)? Number(o.t) : 0;
+  const dTau=(o.dTau!==undefined)? Number(o.dTau) : 0;
+  if(![c,nu0,lam,L1,L2,tau1,tau2,nud,tt,dTau].every(Number.isFinite)) return null;
+  if(!(c>0) || !(nu0>0) || !(lam>0)) return null;
+  if(!(tau1>=0) || !(tau2>=0)) return null;
+  const TWO=2*Math.PI;
+  const dtau=tau1-tau2, tauMid=0.5*(tau1+tau2);
+  // ψ:「位相を合わせる」自由度。nullPhase なら固定波長の Δφ が**厳密 0**になる値を取る
+  const psiNull=TWO*nu0*dtau;
+  const psiIn=(o.psi!==undefined)? Number(o.psi) : 0;
+  if(!Number.isFinite(psiIn)) return null;
+  const psi=(o.nullPhase)? psiNull : psiIn;
+  const z=(x)=>(x===0)? 0 : x;                       // −0 を 0 へ畳む(ビット契約の読みやすさ)
+  // ④ 固定波長(ν̇ を使わない)の位相差
+  const dphiFixed=z(psi-TWO*nu0*dtau);
+  // ③ チャープした光源での位相差(時刻 t と時刻 0)
+  const nuEff=(w)=>nu0+nud*(w-tauMid);
+  const dphi=z(psi-TWO*dtau*nuEff(tt)), dphi0=z(psi-TWO*dtau*nuEff(0));
+  // ⑤ 縞の移動(閉形式と、位相の引き算で出した同じ量)
+  const dN=z(-(nud*dtau*tt)), dNDiff=z((dphi-dphi0)/TWO);
+  const dNRel=(dN!==0)? Math.abs(dNDiff/dN-1) : Math.abs(dNDiff);
+  // ④′ 装置を回す等で Δτ が δ 動いたときの位相の動き(**固定波長でも消えない**)
+  const dphiRot=z(-(TWO*nu0*dTau)), dNRot=z(-(nud*dTau*tt));
+  return { c, lambda0:lam, nu0, nudot:nud, t:tt, psi, psiNull, nullPhase:!!o.nullPhase,
+    L1, L2, tau1, tau2, dtau, tauMid, tauFromL:!hasT,
+    dphiFixed, fringesFixed:z(dphiFixed/TWO),
+    dphi, dphi0, dN, dNDiff, dNRel, dNu:z(nud*tt), nuAt:nu0+nud*tt,
+    sweepNull:(dN===0), dtauZero:(dtau===0), swept:(nud!==0 && tt!==0),
+    dTau, dphiRot, fringesRot:z(-(nu0*dTau)), dphiAfter:z(dphiFixed+dphiRot), dNRot,
+    note:"固定波長(ν̇=0)でも Δφ は Δτ に比例して残る。掃引で動く縞の本数 ΔN=−Δν·Δτ は Δν=0 なら 0 —— 位相と計数は別の量" };
+}
+// ===== 第252便c(第44報)— 3 規約の**波長掃引**チャネルと、受動鏡境界の周波数検算 ================
+// 第251便c の 3 規約(stretch / galilean / comoving)を、原仮定者(第44報)の「固定波長 / 波長を
+// 時間変化させる」の 2 つの読みで並べる。返すのは規約ごとに:
+//   (a) **固定 λ₀** で干渉計が見る**縞計数の差** ΔN = N∥ − N⊥(dfmMMPhaseCount の dN)
+//   (b) **到着時刻差** ΔT = T∥ − T⊥ と、固定 λ₀ での位相差 Δφ=2πcΔT/λ₀
+//   (c) **掃引したときの縞の移動** ΔN_sweep = −Δν·ΔT(dfmMMCoherent の ⑤ を Δτ→ΔT で読んだもの)
+// **stretch では (a) が 0 で (b)(c) が 0 でない** —— 「波長固定の干渉計は到着時間を見ない」は
+// **計数 ΔN の話としては成り立ち、位相 Δφ・掃引 ΔN_sweep の話としては成り立たない**。
+//
+// **受動鏡境界の検算**(3 審査 v10 ChatGPT): 規約が要求する空間波長 λ± を **ω = u·k + c|k|** に入れ、
+//   移動境界の保存量 **ρ ≡ (ω−V·k)/(2πν₀)**(装置速度 V=βc)を往路/復路で計算する。剛体装置なら
+//   ρ は往復で不変(=1)でなければならない。さらに「受動鏡が返す波長」λ_mirror=(c−u+V)/(ν₀ρ₊) を、
+//   規約が要求する λ₋ と比べる。**stretch は β=0.5 で ρ₊=(1−β)²=0.25・ρ₋=(1+β)²=2.25** となり、
+//   鏡が返す波長は規約値の **((1+β)/(1−β))²=9 倍**になる —— **stretch は ω=c|k| と ω−V·k 保存の
+//   組では成り立たない**。これは「stretch を導出した」でも「stretch を反証した」でもなく、
+//   **stretch がこの 2 法則とは別の仮定であること**を数値で示すものである(第251便c の C(ii) を維持)。
+//
+// cfg: {L・lambda0・beta・c・nudot・t(または dNu = 掃引幅)・rules(既定 3 規約)・uFrac(u/c —
+//       省略時は comoving のみ β・他は 0。stretch を u=V の下で検算したいときに使う)}
+// 返値: {byRule:{<rule>:{N,Nperp,dN,T,Tperp,dT,dPhiFixedLambda,dNsweep,dNsweepRate,boundary{…}}},
+//        stretchFixedNull, stretchSweepNonNull, …}
+function dfmMMLambdaSweep(cfg){
+  const o=cfg||{};
+  const c=(o.c!==undefined)? Number(o.c) : 1;
+  const lam0=(o.lambda0!==undefined)? Number(o.lambda0) : 1;
+  const L=(o.L!==undefined)? Number(o.L) : 3;
+  const b=(o.beta!==undefined)? Number(o.beta) : 0.5;
+  const nud=(o.nudot!==undefined)? Number(o.nudot) : 0;
+  const tt=(o.t!==undefined)? Number(o.t) : 0;
+  const dNu=(o.dNu!==undefined)? Number(o.dNu) : nud*tt;
+  const uF=(o.uFrac!==undefined)? Number(o.uFrac) : null;
+  if(![c,lam0,L,b,nud,tt,dNu].every(Number.isFinite)) return null;
+  if(uF!==null && !Number.isFinite(uF)) return null;
+  if(!(c>0) || !(lam0>0) || !(L>=0) || !(Math.abs(b)<1)) return null;
+  const RS=["stretch","galilean","comoving"];
+  let rules=RS;
+  if(o.rules!==undefined){
+    if(!Array.isArray(o.rules) || o.rules.length===0) return null;
+    rules=o.rules.map(String);
+    if(!rules.every((r)=>RS.indexOf(r)>=0)) return null;
+  }
+  const nu0=c/lam0, V=b*c, z=(x)=>(x===0)? 0 : x;
+  const byRule={};
+  for(const r of rules){
+    const pc=dfmMMPhaseCount({ L, lambda0:lam0, beta:b, c, rule:r, perp:true });
+    if(!pc) return null;
+    // ---- 受動鏡境界の検算(ω=u·k+c|k| と ω−V·k 保存)。u は既定で comoving のみ V・他は 0
+    const u=(uF!==null)? uF*c : ((r==="comoving")? V : 0);
+    const kOut=1/pc.lambdaOut, kBack=1/pc.lambdaBack;             // 1/λ(= |k|/2π)
+    const fOut=u*kOut+c*kOut, fBack=-u*kBack+c*kBack;             // ω/2π(n̂=+x / n̂=−x)
+    const rhoOut=(fOut-V*kOut)/nu0, rhoBack=(fBack+V*kBack)/nu0;  // (ω−V·k)/(2πν₀)
+    const lamMirror=(rhoOut!==0)? (c-u+V)/(nu0*rhoOut) : Infinity;
+    const mirrorRatio=lamMirror/pc.lambdaBack;
+    const boundary={ u, uFrac:u/c, V, kOut, kBack, nuOut:fOut, nuBack:fBack,
+      lambdaOut:pc.lambdaOut, lambdaBack:pc.lambdaBack,
+      rhoOut, rhoBack, rhoRatio:(rhoOut!==0)? rhoBack/rhoOut : Infinity,
+      lambdaMirror:lamMirror, mirrorRatio,
+      rhoConsistent:(rhoOut===1 && rhoBack===1), mirrorConsistent:(mirrorRatio===1),
+      note:(rhoOut===1 && rhoBack===1)
+        ? "ρ が往復とも 1 —— ω=u·k+c|k| と ω−V·k 保存に整合する"
+        : "ρ が往復で 1 にならない —— この規約は ω=u·k+c|k| と ω−V·k 保存の組から出ない(別の仮定)" };
+    // ---- 固定 λ₀ / 掃引の 2 つの読み
+    const dT=pc.dT, dN=pc.dN;
+    byRule[r]={ rule:r, N:pc.N, Nperp:pc.Nperp, dN, T:pc.T, Tperp:pc.Tperp, Trest:pc.Trest, dT,
+      lambdaOut:pc.lambdaOut, lambdaBack:pc.lambdaBack, lambdaPerp:pc.lambdaPerp,
+      dPhiFixedLambda:pc.dPhiFixedLambda, fringesFixedLambda:pc.fringesFixedLambda,
+      dNsweep:(dT!==null)? z(-(dNu*dT)) : null,           // ΔN_sweep = −Δν·ΔT(dfmMMCoherent ⑤)
+      dNsweepRate:(dT!==null)? z(-(nud*dT)) : null,       // 単位時間あたりの縞の移動
+      fixedNull:(dN===0), sweepNull:(dT===null)? null : (z(-(dNu*dT))===0),
+      boundary };
+  }
+  const S=byRule["stretch"]||null;
+  return { c, lambda0:lam0, nu0, L, beta:b, gamma:1/Math.sqrt(1-b*b), V,
+    nudot:nud, t:tt, dNu, rules, byRule,
+    stretchFixedNull:S? (S.dN===0) : null,
+    stretchSweepNonNull:S? (S.dNsweep!==0) : null,
+    stretchBoundaryConsistent:S? S.boundary.rhoConsistent : null,
+    note:"固定 λ₀ の ΔN と、掃引で動く ΔN_sweep=−Δν·ΔT は別の量。stretch は ΔN=0 でも ΔT≠0 なので掃引すれば縞が動く" };
+}
 // 第247便d: **光が感じる**決定フレーム u と局所光速 c/n_eff の 1 点評価(読み取り専用)。
 // traceRay/photonStep が使う共有カーネル rayField をそのまま呼ぶので、返す u は
 // 「光の位置更新に入る u」そのもの(粒子側の S.uPx/uPy は E6′ 用で源集合が違う — 光は
@@ -27439,7 +27814,7 @@ function dfmFrameAt(px,py,S){
   const T=S||sim; if(!T || !(T.n>0)) return null;
   px=Number(px); py=Number(py); if(!Number.isFinite(px) || !Number.isFinite(py)) return null;
   const p=T.params, kU=2*p.kappaT, eps=p.softening, eps2=eps*eps, q=p.q, c0=p.cLight, D0=p.D0, kF=p.kFrame;
-  const D0u=(frameWeightPow(p)>0)? ((p.D0pull>0)? p.D0pull : D0) : D0;
+  const D0u=(frameWeightPow(p)>0)? ((p.D0pull!==undefined)? p.D0pull : D0) : D0;   // 第252便a: 意味統一
   const heavy=[]; for(let i=0;i<T.n;i++) if(rayHeavy(T,i)) heavy.push(i);
   const BX=T.box; let WB=0, bH=0;
   if(BX){ const sc=boxScaleAt(BX,T.t); WB=boxWAt(BX,sc.a); bH=sc.H; }
@@ -27460,6 +27835,11 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 純関数)。原仮定者の修正版の計数がどの規約で成り立つのかを機械的に分ける。力学へは接続しない。
   // QA behavior.mmPhaseCount が L=3/L=10 の値と門(β≥1・非有限・未知 rule は null)を機械固定する
   dfmMMPhaseCount,
+  // 第252便c(第44報): MM の**連続波チャネル**(固定波長の位相 Δφ=−2πν₀Δτ+ψ と、線形チャープで動く
+  // 縞の計数 ΔN=−Δν·Δτ を**別欄**で返す純関数)と、3 規約の**波長掃引**チャネル(固定 λ₀ の ΔN と
+  // 掃引の ΔN_sweep・受動鏡境界 ρ=(ω−V·k)/2πν₀ の検算)。どちらも読み取り専用で力学へは接続しない。
+  // QA behavior.mmCoherent が階段(i)〜(iv)を・behavior.mmLambdaSweep が 3 規約と境界検算を機械固定する
+  dfmMMCoherent, dfmMMLambdaSweep,
   // 第250便a(第42報 W1): コンパクト連星の検証で使う純関数 3 本(読み取り専用 — 力へは接続しない)。
   // 引きずり 2 チャネル(回転=サイズ比ゲート/並進=χ)・ラグビーボール尺度(ε_tide/ε_rot)・
   // 誘起応答(vdW 相当)の U と F。QA behavior.dragChannels250 / behavior.tidalSpinScale /
@@ -27568,6 +27948,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   HALO_MODELS, validateHalo,   // 第197便(M0): 解析ハローキットの世代検出・QA 用
   AXIS_FORCE_KEY, AXIS_FORCE_CLAMPS, AXIS_FORCE_DEFAULT, validateAxisForce,   // 第249便c(案A): 軸ポテンシャルの世代検出・QA 用
   COMPACT_FORCE_KEY, COMPACT_FORCE_MODELS, COMPACT_FORCE_CLAMPS, COMPACT_FORCE_DEFAULT, validateCompactForce,   // 第251便a: コンパクト連星の追加対力(opt-in)の受理形・QA 用
+  PERI_SUB_KEY, PERI_SUB_CLAMPS, PERI_SUB_DEFAULT, validatePeriSubsteps,   // 第252便b: 近点サブステップ(opt-in の数値設定)の受理形・QA 用
   // 第249便c: 案A のポテンシャルと力の**純関数**(状態を 1 bit も読み書きしない — QA・報告・
   // PHYSICS.md が同じ式を読むための正本)。Φ_A=−A·exp(−s/R_b²)·(u²−v²)/(s+r_c²)、F=−m∇Φ_A
   dfmAxisPotential:(dx,dy,cfg)=>{
