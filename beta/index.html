@@ -15167,12 +15167,17 @@ function makeSim(){
   //     auto は最初の近点通過までは「今が最小」なので内向きの区間を丸ごと細分し、1 度近点を
   //     通ったあとは近点近傍の帯だけを細分する(デューティ比は S.periSubHits で読める)。
   S._periSetup = function(){
-    S.periSubHits=0; S.periSubSteps=0;   // 計数(監査・実験ハーネス用 — 物理には一切効かない)
     const ps=S.periSub;
-    if(!ps || S.n<2){ S._psI=0; S._psJ=0; S._psN=1; S._psRmin=-1; S._psRmul=0; S._psAuto=false; S._psSrc=null; return; }
+    if(!ps || S.n<2){ S.periSubHits=0; S.periSubSteps=0;
+      S._psI=0; S._psJ=0; S._psN=1; S._psRmin=-1; S._psRmul=0; S._psAuto=false; S._psSrc=null; return; }
     // **基準は 1 度だけ決める**: updateRadii は実行中にも呼ばれる(半径スライダー・粒子編集)ので、
     // 同じ宣言オブジェクトなら初期化し直さない(走行の途中で判定が飛ばないことの保証)
+    // 第253便b(第45報・ChatGPT §7.3 の実バグ): **計数のリセットもこの判定の後**に置く。
+    // 以前は同一設定の判定より前で 0 にしていたため、半径更新(スライダー・粒子編集)のたびに
+    // periSubHits/periSubSteps が消えていた(細分 5 回・内部 20 步の後に呼ぶと [5,20]→[0,0])。
+    // 計数は監査・実験ハーネス用で**物理には一切効かない**ので、力学は前後でビット同一である。
     if(S._psSrc===ps) return;
+    S.periSubHits=0; S.periSubSteps=0;   // 計数(新しい宣言に切り替わったときだけ 0 へ)
     S._psSrc=ps;
     let i=0, j=1;
     if(ps.pair && ps.pair[0]<S.n && ps.pair[1]<S.n){ i=ps.pair[0]; j=ps.pair[1]; }
