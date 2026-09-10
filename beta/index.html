@@ -879,6 +879,8 @@ ja: {
   
   tgTrailLineDesc:"粒子の軌道を線で記録して描く(☿の楕円歳差など)。記録間隔は描画品質に従う。",
   tgFieldDesc:"決定力 W の強さを背景の色マップで表示(A3/E1′)。明るいほど W が高い。",
+  tgSpaceMesh:"空間メッシュ",
+  tgSpaceMeshDesc:"重い2天体を頂点とする動くメッシュ(第253便a・第45報)を格子で表示。参照配置の正方格子を相似変換 F で写し、χ=W/(W+D₀ᵖ) で背景の静止格子と混ぜる。**表示のみで力学には一切影響しない**(診断器であって、力・光・背景には接続していない)。",
   // 第37便 A3(原仮定者指示): 光線の基準波長λ0(表示専用・セーブ対象外・物理不変)
   // 第38便(原仮定者指示): 既定を580nmへ・スライダーは「光線」トグルの直後に移動・直値は可視外も受理
   rayLambda0Label:"光線の基準波長(nm)",
@@ -1450,6 +1452,8 @@ en: {
   
   tgTrailLineDesc:"Records and draws orbit lines (e.g. Mercury's precessing ellipse). Recording interval follows render quality.",
   tgFieldDesc:"Background color map of the determinacy W (A3/E1'). Brighter = higher W.",
+  tgSpaceMesh:"Space mesh",
+  tgSpaceMeshDesc:"Draws the moving mesh whose vertices are the two heaviest bodies (wave 253a, report 45): the reference square lattice mapped through the similarity transform F, blended with the static background lattice by chi = W/(W+D0p). DISPLAY ONLY - it is a diagnostic and is not connected to force, light or the background.",
   // 第37便 A3: ray base wavelength lambda0 (display only, not saved, physics-free)
   // 38th flight (design lead's instruction): default now 580nm; slider moved right after the "rays" toggle; direct entry accepts non-visible values
   rayLambda0Label:"Ray base wavelength (nm)",
@@ -10010,7 +10014,10 @@ const BUILTIN_PRESETS = [
     {type:"single", m:500, radius:1, x:-100, y:0, vx:0, vy:-0.7249672406391891, spin:0, pinned:false, pnSource:true},
     {type:"single", m:500, radius:1, x:100, y:0, vx:0, vy:0.7249672406391891, spin:0, pinned:false}
   ],
-  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+  // 第253便a(第45報): 空間メッシュのオーバーレイを既定 ON にする(**表示のみ** — 物理は 1 bit も
+  // 変わらない。🫂 は claims 窓が 1 つも無いので回帰窓にも触れない)。等質量・χ が門を超えた極
+  // (ワンタップ B 側 D0pull=1e−6)で「2 天体を結ぶ線と中間地点が一意に決まる」のが色で見える
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,spaceMesh:true} },
 
 // ===== 第223便(第22報 原仮定者指示): GW150914 — 連星ブラックホールの基準状態 🎐 と DFM 版 🎻 =====
 // 観測レコード(2026-08-29 取得・paper/data/solar-observations.csv の GW150914 行)からの手組み転写。
@@ -13648,6 +13655,10 @@ function validatePreset(obj){
       for(const k of Object.keys(ov)) if(typeof p.overlays[k]==="boolean") ov[k]=p.overlays[k];
       // v1.21: 線の軌跡の対象限定(第9次裁定 4.4)— "all"(既定)| "sampled"(核+代表16粒子)
       if(p.overlays.trailTargets==="sampled") ov.trailTargets="sampled";
+      // 第253便a: 空間メッシュのオーバーレイ(表示のみ・既定 false)。**宣言されたときだけ鍵を足す**
+      // ので、未宣言のプリセットは overlays オブジェクト・presetSig・エクスポート JSON が 1 bit 不変
+      // (trailTargets と同じ流儀)。true の宣言だけを受ける
+      if(p.overlays.spaceMesh===true) ov.spaceMesh=true;
     }
   }
   p.overlays=ov;
@@ -19627,12 +19638,54 @@ function drawTrailPolys(bufArr, tNow, SX, SY, n){
     }
   }
 }
+// 第253便a(第45報): 空間メッシュのオーバーレイ(**表示のみ** — 力学・帳簿へは 1 バイトも触らない)。
+// |m| 最大の 2 粒子を頂点として捕捉し(初回・構成が変わったときだけ)、参照配置の正方格子を
+// x=C+F(q−C₀) で写した格子を薄い線で描く。χ で背景格子(参照配置そのまま=動かない格子)と混合する
+// ので、χ→0 では格子が背景に貼り付き、χ→1 では 2 天体に完全に随伴する。
+// **既定 false**(宣言したプリセットだけ ON)なので、他のプリセットの描画・状態は 1 bit 不変である。
+let _smAnchor=null, _smKey="";
+function drawSpaceMesh(){
+  const S=sim; if(!S || !(S.n>=2)) return;
+  let i1=-1,i2=-1,a1=-Infinity,a2=-Infinity;
+  for(let i=0;i<S.n;i++){ const a=Math.abs(S.m[i]);
+    if(a>a1){ a2=a1; i2=i1; a1=a; i1=i; } else if(a>a2){ a2=a; i2=i; } }
+  if(i1<0 || i2<0) return;
+  const lo=Math.min(i1,i2), hi=Math.max(i1,i2), key=S.n+"/"+lo+"/"+hi;
+  if(!_smAnchor || _smKey!==key || _smAnchor.owner!==S ||
+     _smAnchor.n!==S.n || _smAnchor.positionArray!==S.x){
+    _smAnchor=dfmSpaceMeshCapture(S,[lo,hi]); _smKey=key;
+  }
+  const M=_smAnchor? dfmSpaceMeshState(_smAnchor,S) : null;
+  if(!M) return;                                  // 退化・構成変化は**黙って固定枠へ戻さず描かない**
+  const C=M.origin, C0=M.refOrigin, F=M.F, chi=M.chi, h=(M.refRLen>0? M.refRLen : 1)/4, K=12;
+  const map=(qx,qy)=>{
+    const dx=qx-C0[0], dy=qy-C0[1];
+    const mx=C[0]+F[0]*dx+F[1]*dy, my=C[1]+F[2]*dx+F[3]*dy;
+    return [chi*mx+(1-chi)*qx, chi*my+(1-chi)*qy];
+  };
+  const seg=(p0,p1)=>{ ctx.beginPath();
+    ctx.moveTo(w2sX(p0[0]),w2sY(p0[1])); ctx.lineTo(w2sX(p1[0]),w2sY(p1[1])); ctx.stroke(); };
+  const lw=ctx.lineWidth;
+  ctx.lineWidth=1; ctx.strokeStyle="rgba(150,220,255,0.26)";
+  for(let a=-K;a<=K;a++){
+    seg(map(C0[0]+a*h, C0[1]-K*h), map(C0[0]+a*h, C0[1]+K*h));
+    seg(map(C0[0]-K*h, C0[1]+a*h), map(C0[0]+K*h, C0[1]+a*h));
+  }
+  // 2 頂点を結ぶ線分と中間地点(第45報「空間メッシュの天体同士を結ぶ線と中間地点は一意に決まる」の
+  // 可視化 — 一意性が立つのは等質量かつ χ が門を超えたときだけなので、色でそれを分ける)
+  ctx.strokeStyle=M.unique? "rgba(255,215,140,0.60)" : "rgba(180,190,210,0.45)";
+  seg([S.x[lo],S.y[lo]],[S.x[hi],S.y[hi]]);
+  ctx.fillStyle=M.unique? "rgba(255,215,140,0.85)" : "rgba(180,190,210,0.7)";
+  ctx.beginPath(); ctx.arc(w2sX(C[0]),w2sY(C[1]),2.5,0,7); ctx.fill();
+  ctx.lineWidth=lw;
+}
 function render(){
   applyCamFollow();   // 第81便: 天体追従(描画層のみ — camX/camY だけを動かす)
   ctx.setTransform(dpr,0,0,dpr,0,0);
   // 第122便: 「軌跡を残す」(残像)は廃止 — 毎フレーム全消去+線の軌跡(寿命フェード)に一本化
   ctx.fillStyle="#05070f"; ctx.fillRect(0,0,cw,ch); drawBG();
   if(sim.overlays.field) drawField();
+  if(sim.overlays.spaceMesh) drawSpaceMesh();   // 第253便a: 空間メッシュ(表示のみ・既定 OFF でゼロコスト)
   // 境界
   const z=zoom();
   if(sim.world.boundary!=="none"){
@@ -22335,6 +22388,8 @@ function buildParamRows(){
     ["trail",T("tgTrailLine"),()=>!!sim.overlays.trail,
       (v)=>{ setOv("trail")(v); if(!v){ trailBuf=[]; trailBufB=[]; } },"tgTrailLineDesc"],
     ["field",T("tgField"),()=>!!sim.overlays.field,setOv("field"),"tgFieldDesc"],
+    // 第253便a(第45報): 空間メッシュ(表示のみ・既定 OFF・力学へは一切影響しない)
+    ["spaceMesh",T("tgSpaceMesh"),()=>!!sim.overlays.spaceMesh,setOv("spaceMesh"),"tgSpaceMeshDesc"],
     // v1.17: 光線トグル — 光線ありプリセットはON/OFF、なしのプリセットも既定束(26本)で点灯できる
     ["rays",T("tgRays"),()=>!!(sim.rays&&sim.rays.n>0),
       (v)=>{ const mk=()=> (currentPreset&&currentPreset.rays)?JSON.parse(JSON.stringify(currentPreset.rays)):{n:26,spread:0.85};
@@ -27892,10 +27947,196 @@ function dfmFrameAt(px,py,S){
   return { ux:(Wu>0)? _RF.ux/Wu : 0, uy:(Wu>0)? _RF.uy/Wu : 0,
     W:Wt, Wu, neff, cLocal:c0/neff, sources:heavy.length };
 }
+// ===== 第253便a(第45報「空間メッシュ」): 粒子を頂点とする動くメッシュの診断器(読み取り専用)=====
+// 原仮定者(第45報・全文は docs/PHYSICS.md 〔第253便a〕に引用):
+//   「『背景決定力 D₀』が無視出来る程小さい時は、配置された粒子が空間メッシュの頂点となり、
+//    粒子の動きに連動して空間メッシュが変形して動く」。
+// **本 3 関数は幾何原型だけを置く**。力・光・背景・帳簿へは 1 バイトも接続しない(S を書き換えない)。
+// 3 審査 v11 の一致点: 現行の重み付き u(点評価・粒子は場の源であって頂点ではない)はこの公理の
+// 代用にならない/**メッシュで見た目を静止させることを物理的解決に数えない**/力の接続の形
+// (全項変換 vs 媒体化)は**未決**である(設計ノートは PHYSICS〔第253便a〕⑥)。
+//
+//   T1(n=1・剛体): u_mesh(x)=v₁+ω×(x−x₁)。姿勢は位置から決まらないので **殻の積分角 angle と
+//     角速度 omega を外から渡す**(ω×経過時間で代用しない)。
+//   T2(n=2・向きを保つ相似変換): C=(x₁+x₂)/2・r=x₂−x₁・r₀=捕捉時の r。
+//     F=[[a,−b],[b,a]](a=r·r₀/|r₀|²・b=r₀×r/|r₀|²)・u_mesh(x)=Ċ+[H I+Ω J](x−C)
+//     (H=r·w/|r|²・Ω=r×w/|r|²・w=v₂−v₁)。**両頂点で u_mesh(xᵢ)=vᵢ・メッシュ座標 qᵢ は捕捉値に固定**。
+//     不等質量でも幾何としては成立する(中点は幾何の選択であって、質量による決定力の配分とは分離)。
+//   T3(n=3・アフィン三角形): 銀河の局所セルの原型。生成・探索・再分割は**未実装**。
+//
+// **メッシュ座標で線分長が固定されても物理的分離は固定されない** —— 物理距離は計量 g=FᵀF で復元する
+// (|x₂−x₁|=√((q₂−q₁)ᵀg(q₂−q₁)))。q の不変を「実際の距離・公転周期の消失」と呼んではならない。
+const SPACEMESH_KINDS=["rigid","similarity","affine"];
+const SPACEMESH_EQMASS_TOL=1e-12;   // |m₁−m₂|/M がこれ以下なら「等質量」(unique の門)
+const SPACEMESH_CHI_GATE=0.5;       // χ がこれ以上なら「メッシュが基準」(mode "T2")
+const SPACEMESH_CHI_BG=1e-6;        // χ がこれ未満なら「背景が基準」(mode "background")
+// 捕捉: 参照配置 ref・owner・n・positionArray を持つ anchor を作る。**reset/融合/分裂/並べ替えで
+// n や配列が変わったら dfmSpaceMeshState が null を返して止まる**(黙って固定枠へ戻さない)。
+function dfmSpaceMeshCapture(S,ids){
+  const T=S||sim; if(!T || !(T.n>0)) return null;
+  if(!Array.isArray(ids) || ids.length<1 || ids.length>3) return null;
+  const seen=Object.create(null), idv=[];
+  for(const z of ids){
+    if(typeof z!=="number" || !Number.isInteger(z) || !(z>=0 && z<T.n)) return null;
+    if(seen[z]) return null; seen[z]=1; idv.push(z);
+  }
+  const k=idv.length, ref=[], mass=[];
+  for(const i of idv){
+    const xi=T.x[i], yi=T.y[i], mi=T.m[i];
+    if(!Number.isFinite(xi) || !Number.isFinite(yi) || !Number.isFinite(mi) || !(mi>0)) return null;
+    ref.push([xi,yi]); mass.push(mi);
+  }
+  let cx=0, cy=0; for(const q of ref){ cx+=q[0]; cy+=q[1]; }
+  const A={ owner:T, n:T.n, positionArray:T.x, ids:idv.slice(), k,
+    ref, refMass:mass, refOrigin:[cx/k,cy/k], t0:T.t };
+  if(k===2){
+    const rx=ref[1][0]-ref[0][0], ry=ref[1][1]-ref[0][1], r2=rx*rx+ry*ry;
+    if(!(r2>0) || !Number.isFinite(r2)) return null;          // 退化(r₀=0)
+    A.refR=[rx,ry]; A.refR2=r2; A.refRLen=Math.sqrt(r2);
+  } else if(k===3){
+    const d2x=ref[1][0]-ref[0][0], d2y=ref[1][1]-ref[0][1];
+    const d3x=ref[2][0]-ref[0][0], d3y=ref[2][1]-ref[0][1];
+    const det0=d2x*d3y-d2y*d3x;
+    if(!Number.isFinite(det0) || det0===0) return null;        // 参照が共線
+    A.refD=[d2x,d3x,d2y,d3y]; A.refDet=det0;
+  }
+  return A;
+}
+// 状態: 返値の origin/velocity/gradU だけで u(x)=velocity+B·(x−origin) が決まる(W3 の独立実装の契約)。
+// opts: {angle, angle0, omega}(n=1 の姿勢 — angle は参照配置からの積分角・angle0 は捕捉時の値〔既定 0〕)・
+//       {D0}(省略時は S.params から pull 重みの D₀ᵖ を読む。Infinity は「背景が全て」の極として受理)。
+function dfmSpaceMeshState(anchor,S,opts){
+  const T=S||sim, o=opts||{};
+  if(!anchor || typeof anchor!=="object" || !Array.isArray(anchor.ids)) return null;
+  if(!T || !(T.n>0)) return null;
+  // ---- 門: 構成が変わったら止める(reset/融合/分裂/並べ替え)
+  if(anchor.owner!==T || anchor.n!==T.n || anchor.positionArray!==T.x) return null;
+  const ids=anchor.ids, k=ids.length, p=T.params;
+  if(!p) return null;
+  let D0=o.D0;
+  if(D0===undefined) D0=(frameWeightPow(p)>0)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;
+  D0=Number(D0);
+  if(!(D0>=0)) return null;   // NaN・負は門(Infinity だけは極として通す)
+  const X=[], V=[], M=[];
+  for(const i of ids){
+    if(!(i>=0 && i<T.n)) return null;
+    const xi=T.x[i], yi=T.y[i], vxi=T.vx[i], vyi=T.vy[i], mi=T.m[i];
+    if(!Number.isFinite(xi) || !Number.isFinite(yi) || !Number.isFinite(vxi) ||
+       !Number.isFinite(vyi) || !Number.isFinite(mi) || !(mi>0)) return null;
+    X.push([xi,yi]); V.push([vxi,vyi]); M.push(mi);
+  }
+  // ---- 決定力の重み W(pull 重みの核はエンジンと同じ)と χ=W/(W+D₀ᵖ)
+  //      n=2・等質量では χ がエンジンの χ_i=w_j/(D₀ᵖ+w_j) と一致する(対の重みの平均を採るため)。
+  //      n=1 は宇宙に他の基準が無いので **χ=1(公理 T1)** —— 重みの外挿ではなく公理の宣言である。
+  const pw=frameWeightPow(p), eps=p.softening, eps2=eps*eps;
+  let Wsum=0, npair=0;
+  for(let i=0;i<k;i++) for(let j=i+1;j<k;j++){
+    const dx=X[j][0]-X[i][0], dy=X[j][1]-X[i][1], d2=dx*dx+dy*dy+eps2;
+    if(!(d2>0) || !Number.isFinite(d2)) return null;
+    const g=(pw>0)? Math.pow(d2,-pw/2) : 1/Math.sqrt(d2);
+    Wsum+=M[i]*g+M[j]*g; npair+=2;
+  }
+  const W=(npair>0)? Wsum/npair : Infinity;
+  const chi=(k===1)? 1 : ((D0===Infinity)? 0 : ((W+D0>0)? W/(W+D0) : 0));
+  let Mtot=0; for(const z of M) Mtot+=z;
+  const eqDeg=(k===1)? 0 : (k===2)? Math.abs(M[0]-M[1])/Mtot
+    : (Math.max(M[0],M[1],M[2])-Math.min(M[0],M[1],M[2]))/Mtot;
+  let kind, F, B, origin, velocity, mid=null, nHat=null, rVec=null, rLen=null, angle=null, omega=null;
+  if(k===1){
+    // ---- T1: 剛体(並進+回転)。姿勢は外から渡された積分角で決まる
+    const ang=Number(o.angle), a0=(o.angle0===undefined)? 0 : Number(o.angle0), om=Number(o.omega);
+    if(!Number.isFinite(ang) || !Number.isFinite(a0) || !Number.isFinite(om)) return null;
+    const dth=ang-a0; if(!Number.isFinite(dth)) return null;
+    const ca=Math.cos(dth), sa=Math.sin(dth);
+    kind="rigid"; F=[ca,-sa,sa,ca]; B=[0,-om,om,0];
+    origin=[X[0][0],X[0][1]]; velocity=[V[0][0],V[0][1]];
+    mid=[X[0][0],X[0][1]]; angle=dth; omega=om;
+  } else if(k===2){
+    // ---- T2: 向きを保つ相似変換(中点+線分)
+    const Cx=(X[0][0]+X[1][0])/2, Cy=(X[0][1]+X[1][1])/2;
+    const rx=X[1][0]-X[0][0], ry=X[1][1]-X[0][1], r2=rx*rx+ry*ry;
+    if(!(r2>0) || !Number.isFinite(r2)) return null;
+    const r0=anchor.refR, r02=anchor.refR2;
+    if(!r0 || !(r02>0)) return null;
+    const a=(rx*r0[0]+ry*r0[1])/r02, b=(r0[0]*ry-r0[1]*rx)/r02;
+    const Cvx=(V[0][0]+V[1][0])/2, Cvy=(V[0][1]+V[1][1])/2;
+    const wx=V[1][0]-V[0][0], wy=V[1][1]-V[0][1];
+    const H=(rx*wx+ry*wy)/r2, Om=(rx*wy-ry*wx)/r2;
+    kind="similarity"; F=[a,-b,b,a]; B=[H,-Om,Om,H];
+    origin=[Cx,Cy]; velocity=[Cvx,Cvy]; mid=[Cx,Cy];
+    rVec=[rx,ry]; rLen=Math.sqrt(r2); nHat=[rx/rLen,ry/rLen];
+  } else {
+    // ---- T3: アフィン三角形。F=D·D₀⁻¹・B=Ḟ F⁻¹=V·D⁻¹(3 頂点すべてで u(xᵢ)=vᵢ)
+    const d2x=X[1][0]-X[0][0], d2y=X[1][1]-X[0][1];
+    const d3x=X[2][0]-X[0][0], d3y=X[2][1]-X[0][1];
+    const det=d2x*d3y-d2y*d3x;
+    if(!Number.isFinite(det) || det===0) return null;
+    const R0=anchor.refD, det0=anchor.refDet;
+    if(!R0 || !Number.isFinite(det0) || det0===0) return null;
+    const i00=R0[3]/det0, i01=-R0[1]/det0, i10=-R0[2]/det0, i11=R0[0]/det0;
+    const j00=d3y/det, j01=-d3x/det, j10=-d2y/det, j11=d2x/det;
+    const e2x=V[1][0]-V[0][0], e2y=V[1][1]-V[0][1];
+    const e3x=V[2][0]-V[0][0], e3y=V[2][1]-V[0][1];
+    kind="affine";
+    F=[d2x*i00+d3x*i10, d2x*i01+d3x*i11, d2y*i00+d3y*i10, d2y*i01+d3y*i11];
+    B=[e2x*j00+e3x*j10, e2x*j01+e3x*j11, e2y*j00+e3y*j10, e2y*j01+e3y*j11];
+    origin=[(X[0][0]+X[1][0]+X[2][0])/3,(X[0][1]+X[1][1]+X[2][1])/3];
+    velocity=[(V[0][0]+V[1][0]+V[2][0])/3,(V[0][1]+V[1][1]+V[2][1])/3];
+    mid=[origin[0],origin[1]];
+  }
+  const detF=F[0]*F[3]-F[1]*F[2];
+  if(!Number.isFinite(detF) || !(detF>0)) return null;     // 反転・退化は null
+  if(!F.every(Number.isFinite) || !B.every(Number.isFinite)) return null;
+  const inverse=[F[3]/detF,-F[1]/detF,-F[2]/detF,F[0]/detF];
+  const metric=[F[0]*F[0]+F[2]*F[2], F[0]*F[1]+F[2]*F[3],
+                F[1]*F[0]+F[3]*F[2], F[1]*F[1]+F[3]*F[3]];   // g=FᵀF(物理距離の復元に使う)
+  const mode=(k===1)? "T1" : (chi>=SPACEMESH_CHI_GATE)? "T2"
+    : (chi>SPACEMESH_CHI_BG)? "blend" : "background";
+  // unique: 「2 天体が等価な基準になる」— **等質量かつ χ が門を超えたときだけ true**。
+  // 不等質量は false(大きい側が基準 — 第44報「大きな天体が宇宙の基準」の連続版。新しい力は出さない)。
+  const unique=(k===1)? true : (k===2 && eqDeg<=SPACEMESH_EQMASS_TOL && chi>=SPACEMESH_CHI_GATE);
+  return { kind, n:k, ids:ids.slice(), mass:M.slice(), massTotal:Mtot,
+    origin, velocity, refOrigin:[anchor.refOrigin[0],anchor.refOrigin[1]],
+    ref:anchor.ref.map((z)=>[z[0],z[1]]),
+    refR:anchor.refR? [anchor.refR[0],anchor.refR[1]] : null, refRLen:anchor.refRLen||null,
+    F, inverse, gradU:B, metric, detF, divU:B[0]+B[3],
+    W, D0, chi, mode, unique, equalMassDegree:eqDeg,
+    mid, nHat, r:rVec, rLen, angle, omega,
+    framePow:pw, softening:eps };
+}
+// 1 点評価: メッシュ速度 u_mesh とメッシュ座標 q を返す。S を渡すと **χ 混合**
+// u=χ u_mesh+(1−χ)·dfmFrameAt(現行の背景)を ux/uy に入れる(χ=0 は dfmFrameAt とビット一致)。
+function dfmSpaceMeshAt(mesh,px,py,S){
+  if(!mesh || typeof mesh!=="object" || !Array.isArray(mesh.F) || !Array.isArray(mesh.gradU)) return null;
+  px=Number(px); py=Number(py);
+  if(!Number.isFinite(px) || !Number.isFinite(py)) return null;
+  const dx=px-mesh.origin[0], dy=py-mesh.origin[1], B=mesh.gradU, iv=mesh.inverse, R0=mesh.refOrigin;
+  const mx=mesh.velocity[0]+B[0]*dx+B[1]*dy, my=mesh.velocity[1]+B[2]*dx+B[3]*dy;
+  const qx=R0[0]+iv[0]*dx+iv[1]*dy, qy=R0[1]+iv[2]*dx+iv[3]*dy;
+  let ux=mx, uy=my, bg=null;
+  if(S){
+    const chi=mesh.chi;
+    if(chi!==1){
+      bg=dfmFrameAt(px,py,S); if(!bg) return null;
+      if(chi===0){ ux=bg.ux; uy=bg.uy; }                       // ビット一致(現行への回帰)
+      else { ux=chi*mx+(1-chi)*bg.ux; uy=chi*my+(1-chi)*bg.uy; }
+    }
+  }
+  return { ux, uy, qx, qy, uMeshX:mx, uMeshY:my,
+    uBgX:bg? bg.ux : null, uBgY:bg? bg.uy : null, chi:mesh.chi };
+}
 window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON, frameWeightPow, frameWeightOf, FRAME_WEIGHT_DEFAULT,   // 第242便
   // 第247便d(裁定 A5′(2)): MM 2 腕干渉計の位相玩具(純関数の解析器)と、光が感じる u の 1 点評価。
   // どちらも読み取り専用で力学へは接続しない。QA behavior.mmPhase が階段(1)〜(5)を機械固定する
   dfmMMPhase, dfmFrameAt,
+  // 第253便a(第45報「空間メッシュ」): **粒子を頂点とする動くメッシュ**の幾何原型(読み取り専用の
+  // 純関数 3 本 — 力・光・背景へは接続しない)。dfmSpaceMeshCapture(S,ids) が参照配置を捕捉し、
+  // dfmSpaceMeshState(anchor,S,opts) が T1(剛体)/T2(相似)/T3(アフィン)の F・u の勾配 B・
+  // 計量 g=FᵀF・χ を返し、dfmSpaceMeshAt(mesh,x,y,S?) が 1 点の u とメッシュ座標 q を返す。
+  // 契約: u(x)=velocity+B·(x−origin)(W3 の独立実装がこの 3 フィールドだけを読む)。
+  // QA behavior.spaceMesh が 9 項目(頂点契約・一意性・共通並進・χ→0 のビット一致・門)を機械固定する
+  dfmSpaceMeshCapture, dfmSpaceMeshState, dfmSpaceMeshAt,
+  SPACEMESH_KINDS, SPACEMESH_EQMASS_TOL, SPACEMESH_CHI_GATE, SPACEMESH_CHI_BG,
   // 第250便b(第42報 W2): MM の**波長チャネル**(ω=u·k+c|k| と境界の ω−V·k 保存だけを足した純関数)。
   // 戻り波長 λ・共通出力波長・検出器の読み ν_D・ドップラー係数 D を、Δt/Δφ とは**別欄**で返す。
   // QA behavior.mmWavelength が階段 W1〜W5 を機械固定する。回転境界は扱わない(null を返す)
