@@ -793,15 +793,49 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   帳簿は **`S.spaceMeshWorkE`**(外部仕事)で、慣性項が入れた運動量・角運動量は resPx/resPy/resL のリザーバへ記帳する
   (**反作用は未定義** = 閉じた系ではないことの宣言)。**生成 AI はこのキーを使わない** —
   空間メッシュの検証(docs/PHYSICS.md 第254便a の節)専用である。
+  - **〔第255便a 追補〕** `S.spaceMeshWorkE` は **離散キックの厳密仕事** Σm(|v′|²−|v|²)/2 へ変わった
+    (旧式 F·v·dt はキック**前**の速度で測るので m|Δv|²/2 が抜けていた)。**pinned の未適用分は
+    別欄 `S.spaceMeshWorkPinned`**。T2 メッシュの**原点は重心**になり(`M.origin`=重心・
+    `M.barycentre`/`M.midpoint` を両方返す)、`_spaceMeshForce` の C̈ も (m₀g₀+m₁g₁)/M である
+    —— **等質量では中点式と厳密に同じ値**なので既存プリセットは 1 bit も動かない。
+- **対ごとの織り込み(第255便a — `physics.spaceMesh.weave`)**: `"off"`(既定)/`"pair"`/`"pairFull"`。
+  **引きずり(A8/E6′)が読むフレームだけ**を対の瞬間メッシュ u_pair=χ·u_node+(1−χ)·u_bg へ織り込む
+  **opt-in**(**E4 には触らない**)。頂点契約 u_node(xᵢ)=vᵢ から **vᵢ−u_pair=(1−χ)(vᵢ−u_bg)**。
+  - `"pair"` … **相対速度の読み替え**(Δv=kF(1−χ)Δu_frame)。χ→1 で対の自己引きずりが消える。
+  - `"pairFull"` … フレームそのものの代入(Δv=kF·Δu_pair)。**頂点では χΔvᵢ の自己項が残るので
+    連星が壊れる**(🪟 40 万步で r が 15.2〜2999.5・クランプ 795510 = 第254便a の慣性退化と同じ姿)。
+    **否定対照として残しているだけで、採用していない。**
+  - **legacy E6′(geoPN=0)の帯にしか織らない**(geoPN≥1 は `S.spaceMeshWeaveStop="geoPN"` で素通り)。
+    **多体(n≥3)は |m| 上位 2 体の対だけ**に織る。`kFrame=0` ではビット不変。
+  - 帳簿は `S.spaceMeshWeavePx/Py/L/E`(E は離散キックの厳密仕事)+ リザーバ(resPx/resPy/resL)。
+  **生成 AI はこのキーを使わない。** QA `behavior.pairWeave`。
+- **有限の回転子交換(第255便a — `physics.spaceMesh.reservoir`)**: `{"Imesh":正の数値, "gamma":0 以上の数値}`。
+  メッシュに**有限の慣性 I_m と独立な角運動量 J** を与え、軌道 L と γ で交換する opt-in(既定なし)。
+  純関数は **`HP.dfmMeshRotorExchange({L,J,Iorb,Imesh,gamma,dt})`** で、
+  ω=L/I_o・Ω_m=J/I_m・L̇=−γ(ω−Ω_m)・J̇=+γ(ω−Ω_m)・Q̇=γ(ω−Ω_m)²≥0 を**指数の厳密解**で 1 步進める。
+  **L+J 保存・L²/2I_o+J²/2I_m+Q 保存・Q≥0・同期で停止・逆回転で L が軌道へ戻る**(QA `behavior.meshRotorExchange`)。
+  源接続は相対ベクトル r への**等大反対の接線インパルス**で、`S.meshJ`/`S.meshQ`/`S.meshRotorL`/`S.meshRotorE` に記帳する。
+  **Q は「熱」であって重力波放出ではない**(外向き流束・伝播・波形の写像が無い)。**D₀ を慣性密度と同一視しない。**
+  **生成 AI はこのキーを使わない。**
 - **空間メッシュの純関数 API(第254便a)**: `HP.dfmMeshScalarField(bodies,x,y,{G,eps,power,exclude})` が
   **1/r の `Dgrav`** と **1/r^p の `Wpull`** を**別名で**返し(`gradD`・`gradW`・`gravity`・`potential` つき)、
   `HP.dfmMeshBlend(node,background,W,gradW,D0,Wdot)` が χ 混合を **∇χ・∂ₜχ 込み**で返し、
   `HP.dfmMeshParticleRHS(field,v,law)` が慣性 2 候補の加速度を返す(u=0 でニュートンにビット一致)。
   物質線の輸送は `HP.dfmMeshTransportCreate/Step/Bind/Observe`(RK4・上限 4096 点・det F>10⁻¹² の門・**原子的停止**)。
+  **〔第255便a 追補〕** `Bind` は `{entrainment:"vertex"(既定)|"blended"}` を受ける(`blended` は区間 χ を
+  u と ∇u に掛ける —— D₀=10⁶ でマーカー移動が 7.8×10⁻⁸ まで落ちて**輸送が止まる**)。
+  作業配列は**二重バッファで再利用**するので、**返る `tr.x`/`tr.F` は借用ビュー**である
+  (步をまたいで保持するなら複製すること。原子的停止は保持 —— 失敗した步では入れ替えない)。
+  描画側は **`tr.error` の輸送を作り直さない**(停止は停止のまま)。
   力(本節)と波(第253便c の `HP.dfmMeshWaveRHS`)は**同じ `{u,gradU,dUdt}` を読む**。
-- **オーバーレイ `overlays.spaceMeshMode`(第254便a)**: `"guide"`(参照ガイド = 瞬時の F 写像を **χ の不透明度**で描く)
+- **オーバーレイ `overlays.spaceMeshMode`(第254便a → 第255便c)**: `"lines"`(**空間線** = 凍結した時刻の場を
+  表示用パラメータ τ で追う線。dx/dτ=u+c_line ê・dê/dτ=(I−êêᵀ)Bê を中点法で積分。**光子でも物質線でもなく、
+  c_line は描画規約であって光速ではない**)/ `"guide"`(参照ガイド = 瞬時の F 写像を **χ の不透明度**で描く)
   / `"transport"`(輸送された物質線)。**座標の線形混合は撤回した**(det[(1−χ)I+χR_θ] が χ=½・θ=π で 0 = 格子が潰れる)。
-  `overlays.spaceMesh:true` だけの宣言は `guide` に落ちる。**表示のみ**で力学・帳簿へは 1 バイトも触らない。
+  **第255便c で既定が `"lines"` になった** —— `overlays.spaceMesh:true` だけの宣言は空間線で描かれ、
+  格子 2 種は**明示宣言したときだけの診断表示**として残る(`{mode:"tracer"}` の銀河は物質線に空間線を追加で描く)。
+  値域は 3 種のまま **1 形へ潰さない**(明示した `"lines"` は署名に `"lines"` として載る)。
+  **表示のみ**で力学・帳簿へは 1 バイトも触らない。
 - **近点近傍の刻み細分(第252便b — `physics.periSubsteps`)**: `{"n":細分数, "rMul":近点近傍の倍率, "pair":[i,j](任意), "rPeri":近点半径の宣言値(任意)}` を宣言すると、**2 体の相対距離が r < rMul·r_peri の間だけ** 1 步 dt を n 等分して n 回進める(`S.step` を呼ぶ側の薄い包み — `S._core` には 1 命令も足していない)。**これは物理ではなく数値設定**である(role=numerics)。
   ステップ末の**離散イベント(エコー・融合・分裂・放出)は最後のサブステップの後に 1 度だけ**発火する(dt 比例の外部オーバーレイ `petersGW` は各サブステップに掛かる)。
   `pair` 省略時は |m| 最大の 2 粒子。**`rPeri` の明示宣言が正式形**である(第253便b L5(c) — 走行のどこから測っても同じ門になるので再現性がある)。`rPeri` 省略時(auto)は**走行中の相対距離の最小値**を基準にする **診断用の形**で、最初の近点通過までは内向きの区間を丸ごと細分するため門の広さが走行に依存する —— 数値を報告する走行では auto を使わない。**ケプラー接触要素 a(1−e) は較正質量の系では使ってはいけない**: 実際の近点と大きく食い違う(第252便b の実測 — ⚡ psrDoubleABDFM は較正質量 f≈2 のニュートン接触要素が a(1−e)=**282** を返すが、kFrame=1 の実際の軌道は **r∈[800, 956]** で 3 倍近く外れる)。auto がケプラー接触要素ではなく走行中の最小相対距離を採るのはこのためである。
@@ -825,6 +859,14 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   - `HP.dfmGalaxyMeshRecord(S, opts)` — r ビンごとに **v_φ・u_mesh,φ・v_φ−u_mesh,φ・v_obs・Ω_pattern−Ω_mesh** の 5 量(第253便a ⑦ の宣言)を返す。**`v_obs` は常に `null`** である —— このアプリには粒子と独立な**光学回転曲線の層が無い**(`overlays.rotationCurve` は粒子速度そのものなので観測層ではない)。`Ω_pattern` は `opts.prev` に前時刻の記録を渡した**2 時刻差分**でだけ有限になる。
   - 表示は既存の overlay 鍵の**物質線モード** `overlays.spaceMesh:{mode:"tracer"}` で、宣言したプリセットだけに `{mode:"tracer"}` の正準形が付く(未宣言は 1 bit 不変)。**A/B 分割ビューでも描く**(第253便a ⑧ の限界 (a) は銀河側だけ解消した —— 頂点メッシュの格子は従来どおり単一ビューのみ)。
   - **生成 AI はこの 5 関数を使わない**(プリセット JSON からは呼べない)。`overlays.spaceMesh` は SYSTEM_PROMPT の overlay 一覧に入れていない。QA `behavior.galaxyMesh` が 8 項目の契約を機械固定する(docs/PHYSICS.md 第254便b の節)。
+- **銀河の空間メッシュ — u_n の 2 案と要求別の場(第255便b・第47報)**: `dfmGalaxyMeshField` の `opts` に **3 つの診断用 opt** が増えた。**既定値は第254便b と同じ経路で、全内蔵 120 本 × 600 步がビット同一**である(プリセットの physics/overlays は 1 文字も動いていない — **新しい物理キーは 0 個**)。
+  - `unSource:"all"`(既定=現行)/ `"disk"` — `"disk"` は **pinned な天体と最大質量の 1 体を u_n の重み平均の標本から外す**。**W(したがって χ)には残す**(質量を消すのではなく「速度の標本」から外すだけ)。返値に `unSources`(fit に使った体数)・`unExcluded`(外した体数)が付く。
+  - `unFit:"mean"`(既定=現行)/ `"affine"` — `"affine"` は**局所アフィン最小二乗**(重み w=mᵢ(d²+ε²)^(−p/2)・基底 [1,(xᵢ−x)/h,(yᵢ−y)/h] の 3×3)。**零次の重み平均は定数速度しか再現できない**が、剛体回転は位置の 1 次なので fit なら静止中心も正しい標本になる(機構試験: 中心 m=2500 を入れたまま (−0.4,1.0) を 12 桁再現 — docs/PHYSICS.md 第255便b ②)。`∇u_n` は**重みの空間微分込み**の完全な導関数で、fit の 1 次係数そのものは `unLinear` に別欄で返す。**ランク不足(det/(M₀₀M₁₁M₂₂)≤10⁻¹⁰)は `null`** を返して止まる(正則化もクリップもしない)。**affine では `dUdt:null`・`timeDerivativeComplete:false`**(fit の時間微分は未導出 — **欠落を 0 で埋めない**)。
+  - `need:"u"|"uB"|"uBt"`(既定 `"uBt"`=現行) — **要求しない量は計算せず `null`** を返す(`"u"` では `gradU`・`dUdt`・`gradW`・`gradChi` が null、`"uB"` では `dUdt`・`dWdt` が null)。**u と ∇u の値は need を変えてもビット同一**である。実測: 381 体 1 点評価が uBt 34.4 μs → u 16.2 μs(2.1 倍)。`fitH` はアフィン基底の数値スケール h(既定 = ε または 1)で、**平滑化長 ε とは別物**(u_n・∇u_n は h に依らない)。
+  - **空間線(W3)が銀河で読む契約は 1 つに固定する**: `HP.dfmGalaxyMeshField(S, x, y, {need:"uB", unSource, unFit})` の返値のうち **`{u:[ux,uy], gradU:[B₀₀,B₀₁,B₁₀,B₁₁]}` だけ**を読む(`dUdt` は読まない — `need:"uB"` では null である)。`dfmGalaxyTracerCreate` は `field` に `need` が無ければ **`"uB"` を補う**(物質線の状態はビット同一)。`dfmGalaxyMeshRecord` は `field` に `need` が無ければ **`"u"` を補う**(返値はビット同一・192 点で 6.7 ms → 3.2 ms)。
+  - `dfmGalaxyTracerStep` は**指定場のコールバックに RK4 の段階時刻を渡す**(`field(x,y,S,stageTime)`・t₀ / t₀+h/2 / t₀+h/2 / t₀+h)。**エンジン場の源配列は段階補間していない**(粒子は步末の 1 配置しか持たない — 未解決)。
+  - `HP.dfmMeshHaloReference({alpha, alphaPrime?, Phi?, dPhi?, r, h?})` — **有効慣性 α(r) の帳簿の読み**(純関数・力へは接続しない)。`v_c² = r·Φ′/(α + r·α′/2)`(α≡1 でニュートン)を r ごとに返す(`{r, alpha, alphaPrime, dPhi, denom, vc2, vc, stable, slope, vcSqrtR}`)。**α+rα′/2≤0 なら `vc:null`・`stable:false`**(クリップしない)。α が無い・Φ も Φ′ も無い・r≤0/NaN・α≤0・h≤0 は `null`。**ハロー質量の較正でも平坦回転曲線の予測でもない** — α=1−χ の例(α=r²/(r²+9))では **外側で α→1 となりケプラー型へ戻る**(r=100 で d ln v_c/d ln r=−0.5)。QA `behavior.meshHaloReference`。
+  - **生成 AI はこれらを使わない**(プリセット JSON からは呼べない)。QA `behavior.galaxyMesh` が 12 項目へ増えた(docs/PHYSICS.md 第255便b の節)。
 - **台帳の用語 — 等質量度の正名は `equalMassDegree`(第253便b L4・文書のみ)**: 2 体の質量がどれだけ揃っているかを表す量の**正名を `equalMassDegree = |m₁−m₂|/M`(M=m₁+m₂)** に固定する。**0 で等質量**・正質量(m₁,m₂>0)・M>0 のときにだけ定義され、値域は [0,1)。対応欄として **`4ν = 4m₁m₂/M² = 1−δ²`(δ=equalMassDegree)** を併記する(4ν は 1 で等質量 —— 向きが逆なので混ぜない)。ν=m₁m₂/M² は第249便a の ν 則でそのまま使う。**これはプリセットの物理キーではない**(生成 AI が JSON に書く欄ではなく、台帳・文書・ハーネス出力の呼び名の規約である)。
 - **観測安定則(第199便 M1 — 2026-08-25 裁定)**: 観測値再現版は、観測値で安定する計算式を
   採用する(観測値自体が計算式で算出されている為)。kFrame=1 雛形が自己診断で永年不安定と

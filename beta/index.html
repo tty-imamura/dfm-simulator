@@ -71,10 +71,19 @@
      flex+min-width:0 なので狭い画面でも横スクロールしない。
      第149便(原仮定者指示): 見出し名の右へ伸ばしていた罫線(::after)は削除した — 区切りは
      見出しテキストと上辺の境界だけで示す */
+  /* 第255便c(原仮定者指示「サンプル一覧は、グループ毎に畳んだ状態にする」): 見出しは
+     **開閉ボタン**になった(行は直後の .ppGroupBody に入り、畳んだグループは hidden)。
+     ボタンの UA 既定(枠・背景・中央寄せ・独自フォント)を消して、見た目は第147便/第149便の
+     見出し(上辺の区切り線+灰の太字)のまま保つ */
   .ppGroupHead{display:flex;align-items:center;gap:8px;min-width:0;overflow-wrap:anywhere;
+    width:100%;text-align:left;background:none;border:0;font-family:inherit;cursor:pointer;
     font-size:calc(11px*var(--uz,1));color:var(--dim);font-weight:700;
-    margin:10px 0 2px;padding-top:8px;border-top:1px solid var(--line,#2a3242);}
+    margin:10px 0 2px;padding:8px 2px 2px;border-top:1px solid var(--line,#2a3242);}
   .ppGroupHead:first-child{margin-top:2px;padding-top:0;border-top:0;}
+  .ppGroupHead[aria-expanded="true"]{color:var(--acc);}
+  .ppGroupHead .ppGroupMark{flex:0 0 auto;width:calc(10px*var(--uz,1));}
+  .ppGroupHead .ppGroupCount{margin-left:auto;font-weight:400;opacity:0.8;}
+  .ppGroupBody[hidden]{display:none!important;}
   /* 第147便: E水準フィルタの運用注記(件数は実行時導出 — 手打ちしない)
      第149便(原仮定者指示): グループ/スケール/分類/E水準の4種とも**次元見出しのタップで開閉**する
      畳み込みにした。既定は閉。改行を活かすため white-space:pre-line */
@@ -88,6 +97,7 @@
     margin:0;padding:4px 0 5px;border-bottom:1px solid var(--line,#2a3242);}
   .ppNote[hidden]{display:none;}
   /* 第149便: 絞り込みの次元見出し(グループ/スケール/分類/E水準)を説明の開閉ボタンにする。
+     第255便c: グループは絞り込みの次元ではなくなったが、説明行の見出しは同じ作法のまま残る。
      ボタンは行頭の見出し領域だけを占め、チップ(.ppChip)の当たり判定とは重ならない */
   .ppChips .ppDimBtn{background:none;border:0;padding:3px 0;margin:0;text-align:left;
     color:var(--dim);font-size:calc(10.5px*var(--uz,1));line-height:1.3;cursor:pointer;}
@@ -880,7 +890,7 @@ ja: {
   tgTrailLineDesc:"粒子の軌道を線で記録して描く(☿の楕円歳差など)。記録間隔は描画品質に従う。",
   tgFieldDesc:"決定力 W の強さを背景の色マップで表示(A3/E1′)。明るいほど W が高い。",
   tgSpaceMesh:"空間メッシュ",
-  tgSpaceMeshDesc:"重い2天体を頂点とする動くメッシュ(第253便a・第254便a)を格子で表示。モードはサンプルが宣言する2種類 —— 参照ガイド(瞬時の写像 x=C+F(q−C₀) の格子を χ=W/(W+D₀ᵖ) の不透明度で描く。座標は混ぜない)と、輸送された物質線(dx/dt=u・dF/dt=(∇u)F を計算の刻みで積分したマーカーを描く)。A/B分割ビューでも描く。銀河サンプル(第254便b)では**物質線モード**(mode:tracer)になり、局所の場 u=χ·u_n+(1−χ)·u_bg の中を運ばれる細い線(色=χ の強さ・黄色の短線=u の向き)を描く。**表示のみで力学・帳簿には一切影響しない**(力への接続は physics.spaceMesh の opt-in で、こことは別)。",
+  tgSpaceMeshDesc:"重い2天体を頂点とする動くメッシュ(第253便a・第254便a)を表示。**既定は「空間線」**(第255便c) —— 主要天体と**重心**から基準方向へ飛ばす線で、凍結した時刻の場を表示用パラメータ τ で追跡する(dx/dτ=u+c_line ê・dê/dτ=(I−êêᵀ)Bê を中点法で積分)。**光子でも物質線でもなく、c_line は描画規約であって光速ではない**(光線の屈折率・局所時計・減光は呼ばない)。本数は光線と同じ品質縮退で減り、線は5〜10Hz 上限のキャッシュから描く。2天体を結ぶ線の点は**重心**(⊙)で、等質量では中点と一致する。格子表示はサンプルが明示宣言したときだけの診断として残る2種類 —— 参照ガイド(瞬時の写像 x=C+F(q−C₀) の格子を χ=W/(W+D₀ᵖ) の不透明度で描く。座標は混ぜない)と、輸送された物質線(dx/dt=u・dF/dt=(∇u)F を計算の刻みで積分したマーカーを描く)。A/B分割ビューでも描く。銀河サンプル(第254便b)では**物質線モード**(mode:tracer)になり、局所の場 u=χ·u_n+(1−χ)·u_bg の中を運ばれる細い線(色=χ の強さ・黄色の短線=u の向き)を描く。**表示のみで力学・帳簿には一切影響しない**(力への接続は physics.spaceMesh の opt-in で、こことは別)。第255便a から、2 天体を結ぶ線の上に打つ点は**重心**である(等質量では中点と同じ点)。",
   // 第37便 A3(原仮定者指示): 光線の基準波長λ0(表示専用・セーブ対象外・物理不変)
   // 第38便(原仮定者指示): 既定を580nmへ・スライダーは「光線」トグルの直後に移動・直値は可視外も受理
   rayLambda0Label:"光線の基準波長(nm)",
@@ -890,7 +900,7 @@ ja: {
   // 第38便 A5(原仮定者指示): バー・折れ線の色を温度に対応させた(粒子の温度色と同じ写像)
   tgTempDesc:"温度ヒストグラム(左右比較)。表示は観測温度 T_obs=(1−減光)·T。バー・折れ線の色は温度に対応(粒子の温度色と同じ写像)。右系列は破線で区別。",
   tgSpectrumDesc:"放射スペクトル(A12: ピーク波長 λ=b_m/T のウィーン型)。表示は観測温度基準。",
-  tgMonitorDesc:"運動量P・角運動量Lとリザーバ帳簿(E6′/E11)の保存量モニタ(T7)。",
+  tgMonitorDesc:"運動量P・角運動量Lとリザーバ帳簿(E6′/E11)の保存量モニタ(T7)。「共通設定」の項目で、この端末に永続する(第254便c)。一度でも自分で切り替えたら、以後はその設定が常に勝つ —— サンプルの overlays.monitor 宣言を既定に読むのは、まだ一度も触っていない場合だけである(カメラ追従と同じ流儀 — 第255便c)。",
   tgBoxGraphDesc:"箱宇宙(UniverseBox)の尺度因子a(t)・膨張率H(t)の時系列と、拡大による波長の伸び(赤方偏移 1+z=a/a₀)を表示する。箱宇宙プリセットでのみ有効。",
   tgPhaseGraphDesc:"二段の相変化グラフ。上段=平均温度T̄(橙)と平均配位数c̄(緑) — 結合が切れて c̄ が下がる間は T̄ の上がりが鈍る=創発した実効潜熱の因果が読める。下段=六方配向秩序ψ6(水色)と結合の組替率(赤紫・0〜1) — 液体=組替が速い/結晶=組替≈0で秩序高い/ガラス=組替≈0なのに秩序低い、という動的な相の分類が読める。左端の縦帯=高さ別の平均配位数(相前線プロファイル — 床から進む融解・凝固前線)。相変化(E14″)プリセットでのみ有効。",
   ovPhaseGraph:"相変化 T̄・配位数", ovPhaseNote:"上:橙=T̄ 緑=c̄ 下:水=ψ6 紫=組替率×10 左帯=高さ別c(前線) 色=温度 線=結合",
@@ -1157,8 +1167,11 @@ ja: {
   // 第92便(原仮定者指示): プリセット選択ウィンドウ
   ppTitle:"サンプルを選ぶ",
   ppSearchPh:"検索(名前・ID・絵文字)",
-  ppPickTip:"タップしてサンプル選択ウィンドウを開く(グループ・スケール・分類・E水準で絞り込み/検索)",
+  ppPickTip:"タップしてサンプル選択ウィンドウを開く(スケール・分類・E水準で絞り込み/検索。一覧はグループごとに畳めます)",
   ppDimGroup:"グループ", ppDimScale:"スケール", ppDimClass:"分類", ppDimE:"E水準",
+  // 第255便c: グループは絞り込みの次元ではなくなった(一覧の見出しとして残る)ので、説明行の見出し語を分ける
+  ppNoteGroupLabel:"グループ(一覧の見出し)",
+  ppGroupToggleTip:"タップしてこのグループを開閉(開閉はこの端末に記憶されます)",
   // 第147便(統括裁定の実行): E水準の運用規約を UI へ明文化。件数 n は実行時導出(宣言のある
   // サンプル数)で、手打ちの数値は持たない。フィルタの意味論は不変(E0 は第94便どおり宣言なしも含む)
   ppENote:(n)=>`E水準は創発プログラム(論文4系)の宣言専用メタで、宣言のあるサンプルだけが対象(現在 ${n} 件 — E1〜E3)。全プリセットへの強制分類はしない。E0 チップは宣言なしのサンプルも含む(第94便)。E2/E3 の拡充は論文4の着手便で再判定する(第147便 運用規約)。`,
@@ -1167,7 +1180,7 @@ ja: {
   // 一切書かない(グループ=README のグループ紹介 / スケール=scaleTier の既存定義〔アンカーは
   // SCALE_ANCHORS から実行時導出〕/ 分類=sampleClass チップの tip 文そのまま / E水準=第147便の注記)
   ppNoteTip:"タップして説明を開閉",
-  ppNoteGroupHead:"サンプルのグループは表示・分類専用の区分で、物理・保存 JSON には一切影響しない(並びはスケール順)。",
+  ppNoteGroupHead:"サンプルのグループは表示・分類専用の区分で、物理・保存 JSON には一切影響しない(並びはスケール順)。第255便c で**絞り込みの次元からは外し**、一覧の見出し(タップで開閉・既定は畳んだ状態)として残した。",
   groupNotes:{
     "熱の実験室":"熱平衡・スピン圧・熱伝導・放射冷却・対流・三態の創発など、熱まわりの統制実験。",
     "空間と時間":"重力による時計の遅れ・弱場GR較正とその焦点版(GPS/光偏向/シャピロ)・水星の近日点前進・自由落下など、時空係数まわりの統制実験。",
@@ -1323,9 +1336,11 @@ ja: {
   descSummaryHead:"📌 要約", descObserveHead:"👀 観察のポイント", descControlHead:"🎛 操作と対照",
   // 第74便→第98便: 7段階スケール(scaleTier)— チップ・換算表示・AI雛形(第84便C: 絞り込み用 grpScale は撤去)
   // 第254便c: 「ベースのスケール」に追加した頻用組み合わせの名前(用途が分かる短い名)
-  scaleBase_gwBinary:"重力波連星(e4)", scaleBase_psrBinary:"パルサー連星(e6)",
-  scaleBase_planetStd:"惑星・標準(e8)", scaleBase_starBinary:"恒星連星(e10)",
-  scaleBase_cluster:"球状星団(e16)", scaleBase_galaxyReal:"実単位銀河(e19)",
+  // 第255便c(第47報 N7b): 指数の表記は**三つ組**(距離/時間/質量)へ統一したので、名前から
+  // 距離指数だけの丸括弧を外した(括弧は scaleBaseName() が表から機械生成する — 手打ちしない)
+  scaleBase_gwBinary:"重力波連星", scaleBase_psrBinary:"パルサー連星",
+  scaleBase_planetStd:"惑星・標準", scaleBase_starBinary:"恒星連星",
+  scaleBase_cluster:"球状星団", scaleBase_galaxyReal:"実単位銀河",
   scaleName_molecular:"分子", scaleName_beaker:"ビーカー", scaleName_everyday:"日常",
   scaleName_planetary:"惑星", scaleName_stellar:"恒星",
   scaleName_galactic:"銀河", scaleName_cosmic:"宇宙全体",
@@ -1457,7 +1472,7 @@ en: {
   tgTrailLineDesc:"Records and draws orbit lines (e.g. Mercury's precessing ellipse). Recording interval follows render quality.",
   tgFieldDesc:"Background color map of the determinacy W (A3/E1'). Brighter = higher W.",
   tgSpaceMesh:"Space mesh",
-  tgSpaceMeshDesc:"Draws the moving mesh whose vertices are the two heaviest bodies (waves 253a and 254a). A sample declares one of two modes: a REFERENCE GUIDE (the instantaneous map x=C+F(q-C0) drawn with chi = W/(W+D0p) as the OPACITY - coordinates are never blended) or a TRANSPORTED MATERIAL LINE (markers integrated by dx/dt=u and dF/dt=(grad u)F at the simulation clock). Drawn in the A/B split view too. On galaxy samples (wave 254b) it switches to MATERIAL-LINE mode (mode:tracer) and draws thin lines carried through the local field u = chi u_n + (1-chi) u_bg (colour = strength of chi, short yellow strokes = direction of u). DISPLAY ONLY - it touches neither the dynamics nor the ledgers; connecting the mesh to force is the separate physics.spaceMesh opt-in.",
+  tgSpaceMeshDesc:"Draws the moving mesh whose vertices are the two heaviest bodies (waves 253a and 254a). THE DEFAULT IS SPACE LINES (wave 255c): lines cast from the main bodies and from the BARYCENTRE along reference directions, tracking the field FROZEN AT THE CURRENT TIME through a display parameter tau (dx/dtau = u + c_line e, de/dtau = (I - e e^T) B e, midpoint rule). THEY ARE NEITHER PHOTONS NOR MATERIAL LINES, and c_line is a DRAWING CONVENTION, not a speed of light (no refractive index, no local clock, no extinction). Their count degrades with the same quality factor as the rays and they are drawn from a cache capped at 5-10 Hz. The dot on the segment joining the two bodies is the BARYCENTRE (a small circled dot), which coincides with the midpoint for equal masses. The lattice modes remain as a diagnostic only when a sample declares one explicitly: a REFERENCE GUIDE (the instantaneous map x=C+F(q-C0) drawn with chi = W/(W+D0p) as the OPACITY - coordinates are never blended) or a TRANSPORTED MATERIAL LINE (markers integrated by dx/dt=u and dF/dt=(grad u)F at the simulation clock). Drawn in the A/B split view too. On galaxy samples (wave 254b) it switches to MATERIAL-LINE mode (mode:tracer) and draws thin lines carried through the local field u = chi u_n + (1-chi) u_bg (colour = strength of chi, short yellow strokes = direction of u). DISPLAY ONLY - it touches neither the dynamics nor the ledgers; connecting the mesh to force is the separate physics.spaceMesh opt-in. Since wave 255a the dot on the segment joining the two bodies is the BARYCENTRE (the same point as the midpoint for equal masses).",
   // 第37便 A3: ray base wavelength lambda0 (display only, not saved, physics-free)
   // 38th flight (design lead's instruction): default now 580nm; slider moved right after the "rays" toggle; direct entry accepts non-visible values
   rayLambda0Label:"Ray base wavelength (nm)",
@@ -1467,7 +1482,7 @@ en: {
   // 38th flight A5 (design lead's instruction): bar/line color now follows temperature (same mapping as particle color)
   tgTempDesc:"Temperature histogram (left/right). Uses the observed temperature T_obs = (1-dimming) x T. Bar/line color follows temperature (same mapping as particle color). The right series is dashed to tell it apart.",
   tgSpectrumDesc:"Radiation spectrum (A12, Wien-type peak lambda=b_m/T). Uses observed temperature.",
-  tgMonitorDesc:"Conservation monitor (T7): momentum P, angular momentum L, and the reservoir ledger (E6'/E11).",
+  tgMonitorDesc:"Conservation monitor (T7): momentum P, angular momentum L, and the reservoir ledger (E6'/E11). It lives under \"General settings\" and persists on this device (wave 254c). Once you toggle it yourself your setting always wins; a sample's overlays.monitor declaration is read as the default only while you have never touched it (the same rule as camera follow — wave 255c).",
   tgBoxGraphDesc:"Shows the box universe (UniverseBox) scale factor a(t) and expansion rate H(t) over time, plus the wavelength stretch from expansion (redshift 1+z=a/a0). Only active on box-universe presets.",
   tgPhaseGraphDesc:"Two-panel phase graph. Top: mean temperature T̄ (orange) and mean coordination c̄ (green) — while bonds break (c̄ falls), T̄ climbs more slowly, the emergent latent heat read directly. Bottom: hexatic order ψ6 (cyan) and bond rewiring rate (magenta, 0-1) — liquid = fast rewiring, crystal = frozen and ordered, glass = frozen yet disordered: a dynamic classification of states. The left strip shows mean coordination by height (the phase-front profile advancing from the floor). Only active on phase-change (E14″) presets.",
   ovPhaseGraph:"Phase T̄ / coordination", ovPhaseNote:"top:orange=T̄ green=c̄ btm:cyan=ψ6 mag=rewiring×10 left=c by height (front) color=T lines=bonds",
@@ -1725,14 +1740,17 @@ en: {
   // 第92便: preset picker window
   ppTitle:"Choose a sample",
   ppSearchPh:"Search (name, ID, emoji)",
-  ppPickTip:"Tap to open the sample picker (filter by group, scale, class, E-level; search)",
+  ppPickTip:"Tap to open the sample picker (filter by scale, class, E-level; search; the list folds by group)",
   ppDimGroup:"Group", ppDimScale:"Scale", ppDimClass:"Class", ppDimE:"E-level",
+  // wave 255c: groups are no longer a filter dimension - they stay as the list headings
+  ppNoteGroupLabel:"Groups (list headings)",
+  ppGroupToggleTip:"Tap to open or close this group (remembered on this device)",
   // wave 147: operating rule for the E-level filter. The count is derived at runtime.
   ppENote:(n)=>`The E-level is declaration-only metadata for the emergence program (paper 4 line); only samples that declare one are in scope (${n} at present — E1–E3). It is never forced onto every preset. The E0 chip also covers samples with no declaration (wave 94). Extending E2/E3 is re-decided when paper 4 starts (wave 147 operating rule).`,
   // Wave 149: the four filter dimensions each carry a collapsible note, opened by tapping the
   // dimension label. Wording is transcribed/condensed from existing docs — no new physical claim.
   ppNoteTip:"Tap to show or hide the note",
-  ppNoteGroupHead:"Sample groups are a display/classification split only and never touch the physics or the saved JSON (the order runs from small to large scale).",
+  ppNoteGroupHead:"Sample groups are a display/classification split only and never touch the physics or the saved JSON (the order runs from small to large scale). Wave 255c removed them from the filter dimensions and kept them as the list headings (tap to fold or unfold; folded by default).",
   groupNotes:{
     "熱の実験室":"Controlled experiments around heat: thermal equilibrium, spin pressure, conduction, radiative cooling, convection, emergent states of matter.",
     "空間と時間":"Controlled experiments around the spacetime coefficient: gravitational clock delay, the weak-field GR calibration and its focused versions (GPS / light bending / Shapiro), Mercury's perihelion advance, free fall.",
@@ -1884,9 +1902,10 @@ en: {
   descSummaryHead:"📌 Summary", descObserveHead:"👀 What to observe", descControlHead:"🎛 Controls & contrasts",
   // 第74便: 5-tier scale (scaleTier) — chips/conversion/AI templates (第84便C: filter-only grpScale removed)
   // 第254便c: names of the frequently-used exponent combinations added to "Base scale"
-  scaleBase_gwBinary:"GW binary (e4)", scaleBase_psrBinary:"Pulsar binary (e6)",
-  scaleBase_planetStd:"Planetary standard (e8)", scaleBase_starBinary:"Stellar binary (e10)",
-  scaleBase_cluster:"Globular cluster (e16)", scaleBase_galaxyReal:"Real-unit galaxy (e19)",
+  // 第255便c: the exponents are now shown as a TRIPLE (length/time/mass) generated from the table
+  scaleBase_gwBinary:"GW binary", scaleBase_psrBinary:"Pulsar binary",
+  scaleBase_planetStd:"Planetary standard", scaleBase_starBinary:"Stellar binary",
+  scaleBase_cluster:"Globular cluster", scaleBase_galaxyReal:"Real-unit galaxy",
   scaleName_molecular:"Molecular", scaleName_beaker:"Beaker", scaleName_everyday:"Everyday",
   scaleName_planetary:"Planetary", scaleName_stellar:"Stellar",
   scaleName_galactic:"Galactic", scaleName_cosmic:"Cosmic",
@@ -2408,6 +2427,14 @@ const SPACE_MESH_KEY = "spaceMesh";
 const SPACE_MESH_MODES = ["vertex"];
 const SPACE_MESH_INERTIA = ["material","action"];
 const SPACE_MESH_LIGHT = ["background","mesh"];
+// 第255便a(第47報「粒子間の引力や引きずりの計算に織り込む方法を検討する」): 対ごとの織り込み。
+// **2 案を実装して実測で比べる**(第46報「判断出来ない場合は、各案を実装して検証を行う」):
+//   "pair"     … 相対速度の読み替え。対の自己引きずり(χ 分)を**取り除く**ので、頂点に残るのは
+//                 背景ぶんの (1−χ) だけ —— χ→1 で対の自己引きずりが消える。
+//   "pairFull" … フレームそのものの代入 u_frame→u_pair=χu_node+(1−χ)u_bg。
+//                 **頂点では u_node=vᵢ なので χΔvᵢ の自己項が残り、正のフィードバックになる**
+//                 (実測は PHYSICS〔第255便a〕—— 第254便a の慣性退化と同じ姿)。
+const SPACE_MESH_WEAVE = ["off","pair","pairFull"];
 function validateSpaceMesh(a){
   if(a===null || a===undefined) return {ok:true, spaceMesh:null};
   if(typeof a!=="object" || Array.isArray(a))
@@ -2421,8 +2448,25 @@ function validateSpaceMesh(a){
   let iner=(a.inertia===undefined)? false : a.inertia;
   if(iner!==false && SPACE_MESH_INERTIA.indexOf(iner)<0)
     return {ok:false, err:'physics.spaceMesh.inertia は "material"/"action"/false'};
-  if(grav===false && iner===false) return {ok:true, spaceMesh:null};   // 両方 OFF = 未宣言(1 bit 不変)
+  // 第255便a(第47報): weave(対ごとの織り込み)と reservoir(有限のメッシュ角運動量)。
+  // **既定 "off"・欠落は署名に出さない**(未宣言と 1 bit も変わらない)
+  const wv=(a.weave===undefined)? SPACE_MESH_WEAVE[0] : a.weave;
+  if(SPACE_MESH_WEAVE.indexOf(wv)<0)
+    return {ok:false, err:'physics.spaceMesh.weave は "off"/"pair"/"pairFull"'};
+  let res=null;
+  if(a.reservoir!==undefined && a.reservoir!==null){
+    const rv=a.reservoir;
+    if(typeof rv!=="object" || Array.isArray(rv))
+      return {ok:false, err:"physics.spaceMesh.reservoir はオブジェクト({Imesh,gamma})か null"};
+    if(!isNum(rv.Imesh) || !(rv.Imesh>0)) return {ok:false, err:"physics.spaceMesh.reservoir.Imesh は正の数値"};
+    if(!isNum(rv.gamma) || !(rv.gamma>=0)) return {ok:false, err:"physics.spaceMesh.reservoir.gamma は 0 以上の数値"};
+    res={Imesh:clamp(rv.Imesh,1e-12,1e18), gamma:clamp(rv.gamma,0,1e12)};
+  }
+  // 4 チャネル(gravity・inertia・weave・reservoir)がすべて OFF = 未宣言(1 bit 不変)
+  if(grav===false && iner===false && wv===SPACE_MESH_WEAVE[0] && !res) return {ok:true, spaceMesh:null};
   out.gravity=grav; out.inertia=iner;
+  if(wv!==SPACE_MESH_WEAVE[0]) out.weave=wv;      // 既定 "off" は out へ入れない(署名不変)
+  if(res) out.reservoir=res;
   if(a.light!==undefined){
     if(SPACE_MESH_LIGHT.indexOf(a.light)<0)
       return {ok:false, err:'physics.spaceMesh.light は "background"/"mesh"'};
@@ -2763,21 +2807,34 @@ const TIER_EC={molecular:3, beaker:0, everyday:0, planetary:4, stellar:4, galact
 // 1本しか使わない組み合わせ(14/9/35 🦀・3/1/27 🏮)は入れない。並びは距離指数 x の昇順。
 // 表示セレクタ専用 — 物理・保存 JSON・サンプル読込時のタグ既定には一切触れない
 const SCALE_BASES=[
-  {id:"molecular", tier:"molecular", suffix:"",     L:-10,  T:-13,  M:-26,  C:3},
-  {id:"beaker",    tier:"beaker",    suffix:"",     L:-2.5, T:-2.5, M:-2.5, C:0},
-  {id:"everyday",  tier:"everyday",  suffix:"",     L:0,    T:0,    M:0,    C:0},
-  {id:"gwBinary",  tier:"planetary", suffix:"",     L:4,    T:-3,   M:29,   C:4, nameKey:"scaleBase_gwBinary"},   // 第254便c: 🎐🎻⏰⚛️
-  {id:"psrBinary", tier:"planetary", suffix:"",     L:6,    T:1,    M:27,   C:4, nameKey:"scaleBase_psrBinary"},  // 第254便c: 📻⚡🧿🧮🩺…
-  {id:"planetE6",  tier:"planetary", suffix:"(e6)", L:6,    T:2,    M:25,   C:4},
-  {id:"planetE7",  tier:"planetary", suffix:"(e7)", L:7,    T:3,    M:26,   C:4},
-  {id:"planetStd", tier:"planetary", suffix:"",     L:8,    T:4,    M:24,   C:4, nameKey:"scaleBase_planetStd"},  // 第254便c: 惑星タグの既定アンカー ⏱️🛰️☿🪐…
-  {id:"planetE8",  tier:"planetary", suffix:"(e8)", L:8,    T:4,    M:27,   C:4},
-  {id:"starBinary",tier:"stellar",   suffix:"",     L:10,   T:6,    M:29,   C:4, nameKey:"scaleBase_starBinary"}, // 第254便c: ✨✴️🌟💫🥀🌹
-  {id:"stellar",   tier:"stellar",   suffix:"",     L:11,   T:7,    M:30,   C:4},
-  {id:"cluster",   tier:"stellar",   suffix:"",     L:16,   T:12,   M:35,   C:4, nameKey:"scaleBase_cluster"},    // 第254便c: 🍇🫐
-  {id:"galactic",  tier:"galactic",  suffix:"",     L:19,   T:14,   M:34,   C:5},
-  {id:"galaxyReal",tier:"galactic",  suffix:"",     L:19,   T:15,   M:38,   C:5, nameKey:"scaleBase_galaxyReal"}, // 第254便c: 🌃🛞
-  {id:"cosmic",    tier:"cosmic",    suffix:"",     L:23,   T:17,   M:42,   C:6}];
+  {id:"molecular", tier:"molecular", L:-10,  T:-13,  M:-26,  C:3},
+  {id:"beaker",    tier:"beaker",    L:-2.5, T:-2.5, M:-2.5, C:0},
+  {id:"everyday",  tier:"everyday",  L:0,    T:0,    M:0,    C:0},
+  {id:"gwBinary",  tier:"planetary", L:4,    T:-3,   M:29,   C:4, nameKey:"scaleBase_gwBinary"},   // 第254便c: 🎐🎻⏰⚛️
+  {id:"psrBinary", tier:"planetary", L:6,    T:1,    M:27,   C:4, nameKey:"scaleBase_psrBinary"},  // 第254便c: 📻⚡🧿🧮🩺…
+  {id:"planetE6",  tier:"planetary", L:6,    T:2,    M:25,   C:4},
+  {id:"planetE7",  tier:"planetary", L:7,    T:3,    M:26,   C:4},
+  {id:"planetStd", tier:"planetary", L:8,    T:4,    M:24,   C:4, nameKey:"scaleBase_planetStd"},  // 第254便c: 惑星タグの既定アンカー ⏱️🛰️☿🪐…
+  {id:"planetE8",  tier:"planetary", L:8,    T:4,    M:27,   C:4},
+  {id:"starBinary",tier:"stellar",   L:10,   T:6,    M:29,   C:4, nameKey:"scaleBase_starBinary"}, // 第254便c: ✨✴️🌟💫🥀🌹
+  {id:"stellar",   tier:"stellar",   L:11,   T:7,    M:30,   C:4},
+  {id:"cluster",   tier:"stellar",   L:16,   T:12,   M:35,   C:4, nameKey:"scaleBase_cluster"},    // 第254便c: 🍇🫐
+  {id:"galactic",  tier:"galactic",  L:19,   T:14,   M:34,   C:5},
+  {id:"galaxyReal",tier:"galactic",  L:19,   T:15,   M:38,   C:5, nameKey:"scaleBase_galaxyReal"}, // 第254便c: 🌃🛞
+  {id:"cosmic",    tier:"cosmic",    L:23,   T:17,   M:42,   C:6}];
+// 第255便c(第47報 N7b「『ベースのスケール』の名称を、三つ組表記 (e6/e2/e25) へ統一する」):
+// 第254便c までは名前の丸括弧が**距離指数だけ**だったので、「惑星・標準(e8)」(8/4/24)と
+// 「惑星(e8)」(8/4/27)が**同じ括弧で別の行**になっていた(質量指数が 3 桁違うのに見分けが
+// つかない)。括弧は表の (L,T,M) から機械生成する三つ組へ統一し、名前側の指数表記は撤去した。
+// **表示専用**(行の指数・一括設定・一致判定・物理・保存 JSON には一切触れない)
+function scaleExpTriple(b){
+  const e=(v)=>"e"+(Number.isInteger(v)? v : String(v));
+  return e(b.L)+"/"+e(b.T)+"/"+e(b.M);
+}
+function scaleBaseName(b){
+  return SCALE_EMOJI[b.tier]+" "+(b.nameKey? T(b.nameKey) : T("scaleName_"+b.tier))
+    +"("+scaleExpTriple(b)+")";
+}
 // 第120便(原仮定者指示「スケールタグの表示は距離スケール指数に対応させる」):
 // scaleExp 宣言プリセットのタグは宣言 scaleTier ではなく距離指数 L から最近傍ティアを導出する
 // (☄️mercuryReal は L=8 → 惑星)。表示・分類専用 — 物理不変
@@ -8547,34 +8604,34 @@ const BUILTIN_PRESETS = [
     {q:"公転周期(kFrame=1・χ-law 粒子別質量 — 2 定義)", model:"近点間 8737.37 秒(−1.100%・既定 dt・窓20近点。dt 収束側は 🧿 の 8834.02 秒 −0.006%)/ 同方向1周 2周目 8819.52 秒(−0.17% — 履歴)", obs:"8834.534723278 s(Hu et al. 2022)"},
     {q:"hold-out(離心率と近点 — 第246便で1行に統合)", model:"e=0.087976(+0.23%)・近点 801.37 単位(観測版 801.72 の −0.04%)— P 較正が hold-out の e も当てる(3例目)", obs:"e=0.087777036(転写)/ 近点は照合のみ — fit の対象ではない"},
     {q:"DFM 質量(条件つき較正 — 実在値の主張ではない)", model:"f=1.99994(一次則 f=1+k_F(αχ_A+βχ_B) の不動点・fit なし — 第245便A6。χ² 則 1.99988 併記): A 2.6756/B 2.4971 M☉。殻質量=観測値", obs:"—(kFrame=1 の計算式に条件づけられた較正値・第224便の χ-law)"},
-    {q:"周期短縮と近点移動は**別判定**(第248便b → 第249便a)", model:"周期短縮は dt にほぼ線形の離散化仕事(0.1107→0.0553→0.0290%/公転・Peters 比 8.8×10⁸ は記録)。近点移動は倍精度宣言の本体化で +0.009757°/周(dt 収束・p_obs=2.66)", obs:"観測換算 +0.004731°/周の**約 f 倍**。較正質量 fM がそのまま E12 の 1PN へ入る**較正の従属量**であって、独立な hold-out ではない。λ_PN=1/f の候補は variant 🪶 で"},
+    {q:"周期短縮と近点移動は**別判定**(第248便b → 第249便a)", model:"周期短縮は dt にほぼ線形の離散化仕事(0.1107→0.0553→0.0290%/公転・Peters 比 8.8×10⁸ は記録)。近点移動は倍精度宣言で +0.0095848°/周(窓20近点・既定 dt・p_obs=2.66)", obs:"観測換算 +0.004731°/周の**約 f 倍**。較正質量 fM がそのまま E12 の 1PN へ入る**較正の従属量**であって、独立な hold-out ではない。λ_PN=1/f の候補は variant 🪶 で"},
     {q:"パルス時計(第221→226便)", model:"第226便: 運動学パルス時計チャネル — A/B のパルスを観測転写の位相時計として搭載(力学不干渉・診断専用)。原理: パルス=コアスピン随伴の発光スペクトル(21cm 線の類推 — 発光振動数≠力学角速度)", obs:"A 22.699379 ms(2768.0/単位 — 両値域外でも本チャネルに載る)・B 2.773461 s(MNRAS 368 283)。B コア Ω は初期値転写(−0.4%/4.3公転・刻み依存)。TOA 再現は主張しない"},
     {q:"殻スピンと重心(第222便 — 保持成立+cmGauge)", model:"1PN 偶力ルーティング(第21報 GO)後、殻スピンのドリフト 0.0%(全窓ビット保持)・clampSN=0・帳簿 L 残差 2.0×10⁻¹⁴(機械ゼロ)。重心 3.7×10⁻⁴/4.3公転・P 残差 1.5×10⁻¹⁴", obs:"—(第220〜221便では ±40 飽和・帳簿残差 4.1×10⁻⁶ を宣言していた — 受け先ルーティングで解消。否定対照: coupleSink 除去で ±40 飽和が再現〔clampSN 8.6×10³/0.3公転〕)"},
     {q:"χ-law(第224便 — 粒子別 f と f≈2 の説明)", model:"χ 飽和域(w≫D₀)で f→2 に張り付く — f_PSR≈1.996 は法則の帰結。f=1+A はゼロフィット 0.09%(4連星最良)", obs:"—(f 系列の単調性の議論は χ-law が置き換えた — C 系列 ≤0.7% が記録)"},
     {q:"重力磁気のスピン–スピン(第246便)", model:"観測自転(22.699 ms/2.773 s)と半径 11.75 km をそのまま Q=½mR²ω へ転写 → **η=|F_SS|/|F_N|=1.09×10⁻¹⁶**(近点 1.55×10⁻¹⁶)", obs:"—(η は質量が約分され観測量だけで決まる: η=(3/4)(v_A/c)(v_B/c)R_AR_B/r²。η=10⁻³ には λ≈6.4×10¹² が要る)"}],
   failureFirst:{
     fail:"観測版 📻 の実測どおり、kFrame=1 は転写質量のままでは軌道を保てない(近点複製プローブの外挿発火 18.00%/公転・遠点発 0.56公転で接触要素周期 +157% の膨張)。さらに第220〜221便の実測では **1PN 反作用偶力が受け皿宣言でも吸収できなかった**: 点状中性子星の慣性モーメント(I≈0.18 単位)に対して偶力が桁で勝り、殻 spin=0 は ±40 飽和まで駆動されていた(clampSN 2.8×10⁵/4.3公転・帳簿 L 残差 4.1×10⁻⁶=クランプの捨て分)— 当時の 1PN 反作用偶力は E6′-R 偶力と違い受け先宣言を経由せずスピンへ直接書き込まれる実装だった(第69便 §18.4)。加えて**自転の転写**は、A の ω=2768.0/単位が殻値域 ±20 とコア Ω 値域 ±50 の**両方の外** — A は転写不能のまま(第220便の宣言不変)。",
-    pass:"「質量は軌道から計算式で算出される量 — 計算式が変われば質量が変わる」(原仮定者第8報)の**適用第3号**。観測軌道の遠点状態(分離 955.98 単位・f=1 の実ケプラー遠点速度)を初期状態に取り(第224便: 新質量の重心系へ再配分)、kFrame=1 の DFM 式で観測周期を再現する質量を較正すると **一次則の不動点 f_A=1.99994・f_B=1.99994**(第245便 A6 — 質量比=観測・fit ノブなし。χ² 則の 1.99988 は台帳 factorQuad に併記。χ 飽和域なので両則の差は 5 桁目)— 2周目 8819.52 秒(観測比 −0.17%)。このとき実測離心率 0.087976(転写比 +0.23%)・近点 801.37(観測版比 −0.04%)も**合わせていないのに** ±1% で一致する(**P(fit)に合わせた C が独立な hold-out の e も当てる** — 近点は遠点固定下で e から決まる整合表示〔独立には数えない〕。✨✴️🌟💫 の構造が中性子星連星でも再現・3例目)。**第221便**: コアv2 有効化 — **B の観測自転 ω=22.654675/単位をコア Ω として転写**(4.3公転ドリフト +0.38% で保持・引きずり源としてライブ状態に載る)。**第222便(第21報 原仮定者裁定「進める」)**: **1PN 反作用偶力の受け先ルーティング** — coupleSink 宣言時は 1PN 偶力も E6′-R と同じ受け先へ(凍結カーネルの対ループを改定し凍結参照を同便更新)。これで**殻スピンは全窓ビット保持**(ドリフト 0.0%・clampSN=0・帳簿 L 残差 2.0×10⁻¹⁴=機械ゼロ)— 定型ルール「スピン安定化はコア有効」が中性子星級でも成立した。**公転周期の短縮(第21報の問い → 第223便で機構確定)**: 規約刻み dt=0.016 の実測で **ΔP/P=−0.111%/公転** — kF0 で消滅し geoPN=0・D₀=0・受け皿・ゲージの各対照で不変(kF1 キック経路に固有。E_orb は +0.076%/公転で深まりケプラー比 −3/2 と整合)。**dt 収束実測(第223便の型・第245便で再測)**: 短縮率は dt にほぼ線形(0.1107→0.0553→0.0290%/公転)= **連続極限で消える離散化仕事**で、kF1 の連続力学は周期を保つと整合。**近点移動は第254便d で本体に framePrecision:\"double\" を宣言した**(引きずり場の 9 配列だけ Float64)ので +0.009757°/周・窓 20 近点 3 段で p_obs=2.66 と dt 収束する(native では +0.008775°/周・p_obs=−2.88 で収束しなかった — 第253便b まで)。Peters 式 GW 解析値との比 8.8×10⁸ 倍は記録として残す(短縮は数値起源 — 物理比較ではない・fit しない)。重心の歩行(D₀ 共通成分)とは独立(ゲージ有無で不変 — 原仮定者仮説の検証)。DFM 質量は A 2.6756 M☉・B 2.4971 M☉ — 実在の質量の主張ではない(殻質量は massFrac=(f−1)/f で観測値のまま — 第224便)。f≈2 への張り付きは χ 飽和の帰結(χ-law)で、C 系列 ≤0.7% が系間の記録。"},
+    pass:"「質量は軌道から計算式で算出される量 — 計算式が変われば質量が変わる」(原仮定者第8報)の**適用第3号**。観測軌道の遠点状態(分離 955.98 単位・f=1 の実ケプラー遠点速度)を初期状態に取り(第224便: 新質量の重心系へ再配分)、kFrame=1 の DFM 式で観測周期を再現する質量を較正すると **一次則の不動点 f_A=1.99994・f_B=1.99994**(第245便 A6 — 質量比=観測・fit ノブなし。χ² 則の 1.99988 は台帳 factorQuad に併記。χ 飽和域なので両則の差は 5 桁目)— 2周目 8819.52 秒(観測比 −0.17%)。このとき実測離心率 0.087976(転写比 +0.23%)・近点 801.37(観測版比 −0.04%)も**合わせていないのに** ±1% で一致する(**P(fit)に合わせた C が独立な hold-out の e も当てる** — 近点は遠点固定下で e から決まる整合表示〔独立には数えない〕。✨✴️🌟💫 の構造が中性子星連星でも再現・3例目)。**第221便**: コアv2 有効化 — **B の観測自転 ω=22.654675/単位をコア Ω として転写**(4.3公転ドリフト +0.38% で保持・引きずり源としてライブ状態に載る)。**第222便(第21報 原仮定者裁定「進める」)**: **1PN 反作用偶力の受け先ルーティング** — coupleSink 宣言時は 1PN 偶力も E6′-R と同じ受け先へ(凍結カーネルの対ループを改定し凍結参照を同便更新)。これで**殻スピンは全窓ビット保持**(ドリフト 0.0%・clampSN=0・帳簿 L 残差 2.0×10⁻¹⁴=機械ゼロ)— 定型ルール「スピン安定化はコア有効」が中性子星級でも成立した。**公転周期の短縮(第21報の問い → 第223便で機構確定)**: 規約刻み dt=0.016 の実測で **ΔP/P=−0.111%/公転** — kF0 で消滅し geoPN=0・D₀=0・受け皿・ゲージの各対照で不変(kF1 キック経路に固有。E_orb は +0.076%/公転で深まりケプラー比 −3/2 と整合)。**dt 収束実測(第223便の型・第245便で再測)**: 短縮率は dt にほぼ線形(0.1107→0.0553→0.0290%/公転)= **連続極限で消える離散化仕事**で、kF1 の連続力学は周期を保つと整合。**近点移動は第254便d で本体に framePrecision:\"double\" を宣言した**(引きずり場の 9 配列だけ Float64)ので **窓 20 近点・既定 dt で +0.0095848°/周**、同じ窓の dt 3 段(h/h2/h4)で p_obs=2.66 と dt 収束する(第255便d: カード・claims・QA の窓を 20 近点へ統一した。native〔宣言を外した対照〕は同じ窓で p_obs=−2.88 と収束しない)。Peters 式 GW 解析値との比 8.8×10⁸ 倍は記録として残す(短縮は数値起源 — 物理比較ではない・fit しない)。重心の歩行(D₀ 共通成分)とは独立(ゲージ有無で不変 — 原仮定者仮説の検証)。DFM 質量は A 2.6756 M☉・B 2.4971 M☉ — 実在の質量の主張ではない(殻質量は massFrac=(f−1)/f で観測値のまま — 第224便)。f≈2 への張り付きは χ 飽和の帰結(χ-law)で、C 系列 ≤0.7% が系間の記録。"},
   descStruct:{
-    summary:"**まず見えるもの: 軌道がゆっくり縮み(ΔP/P=−0.111%/公転 — 規約刻み dt=0.016 の実測)、楕円が回る(近点移動 +0.009757°/周・順行)。縮みは重力波ではなく kF1 キックの離散化仕事**(dt 半減で率もほぼ半減・連続極限で消える — 第223便。fit しない)。**📻(kFrame=0 — 観測安定則)の対になる DFM 版**(第220便 — ✴️💫 と同型の適用第3号)。転写幾何は 📻 と同一(遠点分離 955.98 単位・転写質量での実ケプラー遠点速度・半径は EOS proxy 0.01175)のまま、**kFrame=1(空間引きずり A8/E6′+測地線1PN E12 — DFM の計算式)で観測周期 8834.534723278 s を再現する質量を較正**: **第245便(裁定 A6)の台帳は一次則 f=1+k_F(αχ_A+βχ_B)** で不動点は f_A=1.99994・f_B=1.99994(質量比=観測・fit ノブなし。χ² 則の 1.99988 は factorQuad に併記 — χ 飽和域なので両則の差は 5 桁目にしか出ない)→ A 2.6756 M☉・B 2.4971 M☉。実在の質量の主張ではない(計算式に条件づけられた較正値・殻質量は massFrac=(f−1)/f で観測値のまま)。合わせていない e と近点も ±1% で一致する(3例目)。**二層構造(第221便)**: B の観測自転 ω=22.654675/単位をコア Ω として転写(初期値の転写であって予測ではない — 4.3公転のコア Ω のドリフト +0.38% は大半が刻み依存)。**殻スピンの保持(第222便)**: 1PN 反作用偶力を coupleSink の受け先へルーティングし(第220〜221便の ±40 飽和を解消)、殻スピンのドリフト 0.0%(全窓ビット保持・clampSN=0・帳簿 L 2.0×10⁻¹⁴)。**パルス時計(第226便)**: A 22.699379 ms・B 2.773461 s を観測転写の位相時計として表示(力学不干渉・TOA 再現は主張しない)。A の ω=2768.0/単位は力学値域外(宣言不変)。重心ゲージ cmGauge で重心は機械ゼロ。数値の全容・対照行列・dt 収束・コア規約は「見えるもの」「試すこと」と pass/fail 欄に置く。",
-    observe:"実測(4.3公転窓・重心ゲージ込み・第245便 A6 の一次則質量): 周回時間 [8829.44, 8819.52, 8809.76] 秒 — **2周目 8819.52 秒は観測 8834.534723278 秒の −0.17%**(fit 対象)。合わせていない側: 1周目の実測離心率 0.087976(転写 0.087777036 の +0.23%)・近点 801.37 単位(観測版の 801.72 の −0.04%)— **P に合わせた C が e と近点も ±1% で当てる**(e は独立な hold-out・近点は遠点固定下で e と同値の整合表示 — 3例目)。軌道は歳差するロゼットで**近点移動 +0.009757°/周**(順行 — 近点通過方向の実測。kF1 引きずり項自身の帰結であることは ✴️ 第211便の機構同定を参照)、周期は −0.11%/周で単調に収縮する(kF1 に厳密な閉軌道・定常はない — 宣言)。公転の向きは 📻 と同回り。二層構造の実測(第221便): **B のコア Ω は 22.654675(観測自転の転写 — 独立予測ではない)から 4.3公転でドリフト +0.38%** の範囲で保持(dt/2 で +0.16% — 大半が刻み依存・第225便)・A のコア Ω(受け皿・Ω₀=0)は +0.090 まで(E6′-R 偶力の記帳分)。殻スピンは保持される(第222便 — 1PN 偶力の受け先ルーティング後): 4.3公転で殻 spin=0 が全窓ビット保持(ドリフト 0.0%・clampSN=0)— **帳簿 L 残差 2.0×10⁻¹⁴**(機械ゼロ。粒子+リザーバ P 残差は 1.5×10⁻¹⁴ で閉)。周期短縮の対照行列(第223便で QA 機械固定): kF0 で消滅・geoPN=0/D₀=0/受け皿/ゲージの各対照で不変(0.10〜0.13 の同窓 — QA が機械固定)— kF1 キック経路に固有。**dt 収束**: dt 半減で 0.1107→0.0553、dt/4 で 0.0290%/公転(ほぼ線形)= 連続極限で消える離散化仕事(遠点ごとの E_orb 深化も同根)。近点移動の現行判定は**較正の従属量**である(第248便b): **第254便d で本体に `framePrecision:\"double\"` を宣言した**(引きずり場の 9 配列だけ Float64・第247便a の実験機能)。**旧 native 値の履歴**: 宣言前は近点移動 +0.008775°/周・2周目 8819.36 秒・e 0.087977・近点 801.3723・窓 20 近点 3 段の p_obs=−2.88(dt 収束せず — 第246便 D2 の「数値床」)で、4.3公転窓に近点を 5 個(倍精度は 4 個)拾う重複検出があった(第253便b まで)。宣言後は同じ窓 3 段で p_obs=2.66・ε_num=1.16×10⁻⁴(観測の 2.45%)・Richardson 外挿 0.0094716°/周、その全量が測地線1PN(E12)チャネルに乗る(λ_PN=0 で 6×10⁻⁷ まで消え、spinDipole を外してもビット同一)。走った M・a・e を入れた GR 1PN 式 6πGM/(c²a(1−e²)) と 5 桁一致するので、**観測換算 0.00473°/周 のちょうど 2 倍になるのは較正質量 f≈2 が ω̇ の式に入るため**であって、独立な予言でも数値の産物でもない(周期は f≈2 を・ω̇ は f≈1 を要求し、同じ f では両立しない)。第246便 D2 の「未認定」・第223便の「dt 収束 — 物理」はいずれも旧判定である。重心移動 3.7×10⁻⁴ 単位/4.3公転(機械ゼロ)。パルス時計チャネル(第226便): A 位相 1.674×10⁶ 回転・平均 22.699379 ms・B 平均 2.773461 s(いずれも宣言 2π/ω と相対 3×10⁻¹² 以内 — 解析積分)。pulse 宣言の有無で 400 step 軌道ビット一致(力学不干渉)。B は力学コア時計(−0.4%/4.3公転)との並置比較が読める。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.psrDoubleAB)。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。",
+    summary:"**まず見えるもの: 軌道がゆっくり縮み(ΔP/P=−0.111%/公転 — 規約刻み dt=0.016 の実測)、楕円が回る(近点移動 +0.0095848°/周・順行・窓20近点)。縮みは重力波ではなく kF1 キックの離散化仕事**(dt 半減で率もほぼ半減・連続極限で消える — 第223便。fit しない)。**📻(kFrame=0 — 観測安定則)の対になる DFM 版**(第220便 — ✴️💫 と同型の適用第3号)。転写幾何は 📻 と同一(遠点分離 955.98 単位・転写質量での実ケプラー遠点速度・半径は EOS proxy 0.01175)のまま、**kFrame=1(空間引きずり A8/E6′+測地線1PN E12 — DFM の計算式)で観測周期 8834.534723278 s を再現する質量を較正**: **第245便(裁定 A6)の台帳は一次則 f=1+k_F(αχ_A+βχ_B)** で不動点は f_A=1.99994・f_B=1.99994(質量比=観測・fit ノブなし。χ² 則の 1.99988 は factorQuad に併記 — χ 飽和域なので両則の差は 5 桁目にしか出ない)→ A 2.6756 M☉・B 2.4971 M☉。実在の質量の主張ではない(計算式に条件づけられた較正値・殻質量は massFrac=(f−1)/f で観測値のまま)。合わせていない e と近点も ±1% で一致する(3例目)。**二層構造(第221便)**: B の観測自転 ω=22.654675/単位をコア Ω として転写(初期値の転写であって予測ではない — 4.3公転のコア Ω のドリフト +0.38% は大半が刻み依存)。**殻スピンの保持(第222便)**: 1PN 反作用偶力を coupleSink の受け先へルーティングし(第220〜221便の ±40 飽和を解消)、殻スピンのドリフト 0.0%(全窓ビット保持・clampSN=0・帳簿 L 2.0×10⁻¹⁴)。**パルス時計(第226便)**: A 22.699379 ms・B 2.773461 s を観測転写の位相時計として表示(力学不干渉・TOA 再現は主張しない)。A の ω=2768.0/単位は力学値域外(宣言不変)。重心ゲージ cmGauge で重心は機械ゼロ。数値の全容・対照行列・dt 収束・コア規約は「見えるもの」「試すこと」と pass/fail 欄に置く。",
+    observe:"実測(4.3公転窓・重心ゲージ込み・第245便 A6 の一次則質量): 周回時間 [8829.44, 8819.52, 8809.76] 秒 — **2周目 8819.52 秒は観測 8834.534723278 秒の −0.17%**(fit 対象)。合わせていない側: 1周目の実測離心率 0.087976(転写 0.087777036 の +0.23%)・近点 801.37 単位(観測版の 801.72 の −0.04%)— **P に合わせた C が e と近点も ±1% で当てる**(e は独立な hold-out・近点は遠点固定下で e と同値の整合表示 — 3例目)。軌道は歳差するロゼットで**近点移動 +0.0095848°/周**(順行 — 近点通過方向の実測・**窓 20 近点**〔第255便d で統一〕。kF1 引きずり項自身の帰結であることは ✴️ 第211便の機構同定を参照)、周期は −0.11%/周で単調に収縮する(kF1 に厳密な閉軌道・定常はない — 宣言)。公転の向きは 📻 と同回り。二層構造の実測(第221便): **B のコア Ω は 22.654675(観測自転の転写 — 独立予測ではない)から 4.3公転でドリフト +0.38%** の範囲で保持(dt/2 で +0.16% — 大半が刻み依存・第225便)・A のコア Ω(受け皿・Ω₀=0)は +0.090 まで(E6′-R 偶力の記帳分)。殻スピンは保持される(第222便 — 1PN 偶力の受け先ルーティング後): 4.3公転で殻 spin=0 が全窓ビット保持(ドリフト 0.0%・clampSN=0)— **帳簿 L 残差 2.0×10⁻¹⁴**(機械ゼロ。粒子+リザーバ P 残差は 1.5×10⁻¹⁴ で閉)。周期短縮の対照行列(第223便で QA 機械固定): kF0 で消滅・geoPN=0/D₀=0/受け皿/ゲージの各対照で不変(0.10〜0.13 の同窓 — QA が機械固定)— kF1 キック経路に固有。**dt 収束**: dt 半減で 0.1107→0.0553、dt/4 で 0.0290%/公転(ほぼ線形)= 連続極限で消える離散化仕事(遠点ごとの E_orb 深化も同根)。近点移動の現行判定は**較正の従属量**である(第248便b): **第254便d で本体に `framePrecision:\"double\"` を宣言した**(引きずり場の 9 配列だけ Float64・第247便a の実験機能)。**旧 native 値の履歴**: 宣言前は近点移動 +0.008775°/周・2周目 8819.36 秒・e 0.087977・近点 801.3723・窓 20 近点 3 段の p_obs=−2.88(dt 収束せず — 第246便 D2 の「数値床」)で、4.3公転窓に近点を 5 個(倍精度は 4 個)拾う重複検出があった(第253便b まで)。宣言後は同じ窓 3 段で p_obs=2.66・ε_num=1.16×10⁻⁴(観測の 2.45%)・Richardson 外挿 0.0094716°/周、その全量が測地線1PN(E12)チャネルに乗る(λ_PN=0 で 6×10⁻⁷ まで消え、spinDipole を外してもビット同一)。走った M・a・e を入れた GR 1PN 式 6πGM/(c²a(1−e²)) と 5 桁一致するので、**観測換算 0.00473°/周 のちょうど 2 倍になるのは較正質量 f≈2 が ω̇ の式に入るため**であって、独立な予言でも数値の産物でもない(周期は f≈2 を・ω̇ は f≈1 を要求し、同じ f では両立しない)。第246便 D2 の「未認定」・第223便の「dt 収束 — 物理」はいずれも旧判定である。重心移動 3.7×10⁻⁴ 単位/4.3公転(機械ゼロ)。パルス時計チャネル(第226便): A 位相 1.674×10⁶ 回転・平均 22.699379 ms・B 平均 2.773461 s(いずれも宣言 2π/ω と相対 3×10⁻¹² 以内 — 解析積分)。pulse 宣言の有無で 400 step 軌道ビット一致(力学不干渉)。B は力学コア時計(−0.4%/4.3公転)との並置比較が読める。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.psrDoubleAB)。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。",
     control:"ワンタップ対照A/B: B側 kFrame=0(観測版の計算式側)— **同じ初期状態・同じ較正質量(×1.996)**では引力が過剰になり、軌道は深い楕円へ落ち込む(実測: 近点 〜283 単位・実測離心率 〜0.543・1周目 〜3702 秒)。この較正は kFrame=1 専用であることの機械対照。否定対照(QA が機械固定): **cmGauge を外すと重心が歩き出す**(0.5公転で 0.171 単位)。**coupleSink を外すと殻が ±40 飽和へ走り出す**(0.3公転で clampSN 8.6×10³ — 第222便のルーティングが保持の駆動因であることの機械対照)。観測版 📻 と本サンプルの対で「同じ観測・違う計算式・違う質量」が3例目の連星でも見える。B の粒子をタップするとコア(v2)読み出しに観測自転由来のコア Ω が見える。timeScale=300 で1公転が実時間 約3.1秒・dispMag=1000(表示専用)・トレイルで軌道を見る。"},
   en:{name:"Double Pulsar J0737−3039A/B (DFM build) — the kF1 mass calibration",
     obsCard:[
       {q:"Orbital period (kFrame=1, χ-law per-body masses — two definitions)", model:"periastron-to-periastron 8737.37 s (−1.100% at the default dt over the 20-periastron window; the dt-converged side is 🧿's 8834.02 s, −0.006%) / same-direction 2nd revolution 8819.52 s (−0.17% — historical)", obs:"8834.534723278 s (Hu et al. 2022)"},
       {q:"Hold-outs (eccentricity and periastron — merged into one row in wave 246)", model:"e=0.087976 (+0.23%); periastron 801.37 units (−0.04% of the observation build's 801.72) — the calibration fitted to P also lands the hold-out e (3rd reproduction of the ✨✴️🌟💫 structure)", obs:"e=0.087777036 (transcribed); the periastron is compared only, never fitted"},
       {q:"DFM masses (a conditional calibration — NOT real-mass claims)", model:"f=1.99994 (the LINEAR law f=1+k_F(αχ_A+βχ_B), self-consistent; observed mass ratio — wave 245 A6; the χ² law gives 1.99988): A 2.6756 M☉, B 2.4971 M☉; shell mass = observed (massFrac=(f−1)/f) — ratio 1.00008 at χ saturation", obs:"— (a calibration conditioned on the kFrame=1 formula — the wave-224 χ-law)"},
-      {q:"SEPARATE VERDICTS: the contraction and the apsidal advance (waves 248b → 249a)", model:"The period contraction is discretization work, nearly linear in dt (0.1107→0.0553→0.0290%/orbit; the 8.8×10⁸× Peters ratio is recorded). With framePrecision:\"double\" now declared on the preset itself the apsidal advance is +0.009757°/orbit and converges in dt (p_obs=2.66)", obs:"About f times the converted observation of +0.004731°/orbit: the calibrated mass fM enters E12's 1PN channel unchanged, so this is a DEPENDENT quantity of the calibration, not an independent hold-out. The lambdaPN=1/f candidate lives in the variant 🪶"},
+      {q:"SEPARATE VERDICTS: the contraction and the apsidal advance (waves 248b → 249a)", model:"The period contraction is discretization work, nearly linear in dt (0.1107→0.0553→0.0290%/orbit; the 8.8×10⁸× Peters ratio is recorded). With framePrecision:\"double\" now declared on the preset itself the apsidal advance is +0.0095848°/orbit over the 20-PERIASTRON WINDOW at the default dt (unified in wave 255d) and converges in dt (p_obs=2.66 over three steps)", obs:"About f times the converted observation of +0.004731°/orbit: the calibrated mass fM enters E12's 1PN channel unchanged, so this is a DEPENDENT quantity of the calibration, not an independent hold-out. The lambdaPN=1/f candidate lives in the variant 🪶"},
       {q:"The pulse clocks (waves 221→226)", model:"wave 226: a KINEMATIC PULSE-CLOCK CHANNEL carries both pulses as observed-transcribed phase clocks (display/diagnostic only — zero dynamics coupling). Principle: the pulse is an emission spectrum riding the core spin (21-cm hyperfine analogy — emitted frequency ≠ mechanical angular velocity)", obs:"A 22.699379 ms (2768.0/unit — outside both dynamic ranges, yet carried by this channel); B 2.773461 s (MNRAS 368 283). B's core Ω stays a transcribed initial value (−0.4% per 4.3 orbits — step-size dependent). No TOA claim"},
       {q:"Shell spins and barycentre (wave 222 — the hold succeeds, + cmGauge)", model:"after the 1PN-couple sink routing (the 21st report's GO), the shell-spin drift is 0.0% (bit-held over the whole window), clampSN=0, ledger L residual 2.0×10⁻¹⁴ (machine zero). CM shift 3.7×10⁻⁴ per 4.3 orbits; P residual 1.5×10⁻¹⁴", obs:"— (waves 220–221 declared the ±40 saturation and a 4.1×10⁻⁶ ledger residual — resolved by routing the couple through the coupleSink declaration. Negative control: removing coupleSink reproduces the saturation, clampSN 8.6×10³ per 0.3 orbit. cmGauge removes the D₀ common mode by declaration)"},
       {q:"χ-law (wave 224 — per-body f and why f≈2)", model:"in the χ-saturated regime (w≫D₀) f pins to 2 — f_PSR≈1.996 is the law's consequence. f=1+A is the best zero-fit of the four (0.09%)", obs:"— (the χ-law replaces the old monotonicity record; the C series ≤0.7% is the cross-system record)"},
       {q:"Gravitomagnetic spin-spin (wave 246)", model:"transcribing the OBSERVED spins (22.699 ms / 2.773 s) and radius 11.75 km straight into Q=½mR²ω gives η=|F_SS|/|F_N|=1.09×10⁻¹⁶ (1.55×10⁻¹⁶ at periastron)", obs:"— (the masses cancel: η=(3/4)(v_A/c)(v_B/c)R_AR_B/r², fixed by observables alone; reaching η=10⁻³ needs λ≈6.4×10¹²)"}],
     failureFirst:{
       fail:"As measured on the observation build 📻, kFrame=1 cannot hold the transcribed orbit at the transcribed masses (the perihelion-probe extrapolation fires at 18.00%/orbit; from aphelion the osculating period inflates +157% within 0.56 orbit). Moreover as measured in waves 220–221 THE 1PN REACTION COUPLE COULD NOT BE ABSORBED BY ANY DECLARED RECEPTACLE: the couple out-scales a point neutron star's moment of inertia (I≈0.18 units) and drove the shell spin=0 to the ±40 saturation (clampSN 2.8×10⁵ per 4.3 orbits), with the clamp's discard showing up as an angular-momentum ledger residual of 4.1×10⁻⁶ — because the implementation AT THE TIME wrote the 1PN reaction couple straight into the spins, bypassing the sink declaration, unlike the E6′-R couple (wave 69 §18.4). And for the ROTATIONS: A's ω=2768.0/unit is outside BOTH the ±20 shell range and the ±50 core-Ω range — A stays untranscribable (the wave-220 declaration, unchanged).",
-      pass:"THE THIRD APPLICATION of the adjudicator's principle (8th report): masses are quantities COMPUTED FROM ORBITS BY A FORMULA. Taking the observed orbit's apoapsis state as the initial condition (separation 955.98 units; wave 224 redistributes into the new masses' barycentric frame) and calibrating the masses so that the kFrame=1 DFM formula reproduces the observed period gives the LINEAR-law fixed point f_A=1.99994, f_B=1.99994 (wave 245 A6 — observed mass ratio, no fitted knob; the χ² fixed point 1.99988 is kept beside it as factorQuad, the two laws differing only in the 5th digit at χ saturation) — the 2nd revolution lands at 8819.52 s (−0.17%). The measured eccentricity 0.087976 (+0.23%) and periastron 801.37 (−0.04%) ALSO land within ±1% though neither was fitted — the calibration fitted to P also lands the independent hold-out e (the periastron is its consistency image under the fixed apoapsis), reproduced on a neutron-star binary (3rd case). WAVE 221 (20th report): core v2 is enabled and B'S OBSERVED ROTATION ω=22.654675/unit IS TRANSCRIBED INTO THE CORE Ω (outside the ±20 shell range, inside the ±50 core-Ω range) — held within a +0.38% drift over 4.3 orbits (a transcribed initial value, not a prediction; the drift is mostly step-size dependent — wave 225), so the observed rotation rides the live state as a dragging source (the core-differential outward path exists in the engine; at these distances (Rc/(Rc+d))^q≈10⁻¹⁶, no orbital back-coupling). WAVE 222 (the 21st report's adjudication: GO): THE 1PN REACTION COUPLE IS ROUTED THROUGH THE SINK DECLARATION — when coupleSink is declared it goes to the same sink as the E6′-R couple (the frozen kernel's pair loop was revised and its frozen reference updated in the same wave). The shell spin=0 is now BIT-HELD over the whole window (drift 0.0%, clampSN=0, ledger L residual 2.0×10⁻¹⁴ = machine zero) — the standing rule 'enable the core to stabilise spins' now holds on a neutron-star-class binary too. THE PERIOD CONTRACTION (the 21st report's question → mechanism settled in wave 223): −0.111%/orbit at the convention step dt=0.016 — it vanishes at kF0 and is invariant under the geoPN=0 / D₀=0 / sink / gauge controls (specific to the kF1 kick path; E_orb deepens at +0.076%/orbit, Kepler ratio −3/2). The convergence measurement (wave 223 method, re-measured in wave 245) shows the rate is nearly linear in dt (0.1107→0.0553→0.0290%/orbit) = DISCRETIZATION WORK THAT VANISHES IN THE CONTINUUM LIMIT — the continuum kF1 dynamics keeps the period. THE APSIDAL ADVANCE: wave 254d declares framePrecision:\"double\" on the preset itself (Float64 for the nine dragging-field arrays only), so it reads +0.009757°/rev and converges in dt (p_obs=2.66 over the 20-periastron window in three steps). Under the native Float32 field it read +0.008775°/rev and did NOT converge (p_obs=−2.88) — that was the state through wave 253b. The 8.8×10⁸× ratio to the Peters GW analytic is recorded, but the contraction is numerical in origin — not a physical comparison. Independent of the barycentre walk (gauge on/off invariant — the adjudicator's hypothesis, tested). The spin→dragging back-coupling is negligible at (R/(R+d))^q≈10⁻¹⁵ (measured: the P/e/periastron agreement above is the evidence). The DFM masses are A 2.6756 M☉ and B 2.4971 M☉ (about 1.996× the Newtonian inference) — not real-mass claims but a calibration conditioned on the formula (the shell mass stays observed via massFrac=(f−1)/f — wave 224). The pinning of f≈2 is the χ-saturation consequence (the χ-law); the C series ≤0.7% is the cross-system record."},
+      pass:"THE THIRD APPLICATION of the adjudicator's principle (8th report): masses are quantities COMPUTED FROM ORBITS BY A FORMULA. Taking the observed orbit's apoapsis state as the initial condition (separation 955.98 units; wave 224 redistributes into the new masses' barycentric frame) and calibrating the masses so that the kFrame=1 DFM formula reproduces the observed period gives the LINEAR-law fixed point f_A=1.99994, f_B=1.99994 (wave 245 A6 — observed mass ratio, no fitted knob; the χ² fixed point 1.99988 is kept beside it as factorQuad, the two laws differing only in the 5th digit at χ saturation) — the 2nd revolution lands at 8819.52 s (−0.17%). The measured eccentricity 0.087976 (+0.23%) and periastron 801.37 (−0.04%) ALSO land within ±1% though neither was fitted — the calibration fitted to P also lands the independent hold-out e (the periastron is its consistency image under the fixed apoapsis), reproduced on a neutron-star binary (3rd case). WAVE 221 (20th report): core v2 is enabled and B'S OBSERVED ROTATION ω=22.654675/unit IS TRANSCRIBED INTO THE CORE Ω (outside the ±20 shell range, inside the ±50 core-Ω range) — held within a +0.38% drift over 4.3 orbits (a transcribed initial value, not a prediction; the drift is mostly step-size dependent — wave 225), so the observed rotation rides the live state as a dragging source (the core-differential outward path exists in the engine; at these distances (Rc/(Rc+d))^q≈10⁻¹⁶, no orbital back-coupling). WAVE 222 (the 21st report's adjudication: GO): THE 1PN REACTION COUPLE IS ROUTED THROUGH THE SINK DECLARATION — when coupleSink is declared it goes to the same sink as the E6′-R couple (the frozen kernel's pair loop was revised and its frozen reference updated in the same wave). The shell spin=0 is now BIT-HELD over the whole window (drift 0.0%, clampSN=0, ledger L residual 2.0×10⁻¹⁴ = machine zero) — the standing rule 'enable the core to stabilise spins' now holds on a neutron-star-class binary too. THE PERIOD CONTRACTION (the 21st report's question → mechanism settled in wave 223): −0.111%/orbit at the convention step dt=0.016 — it vanishes at kF0 and is invariant under the geoPN=0 / D₀=0 / sink / gauge controls (specific to the kF1 kick path; E_orb deepens at +0.076%/orbit, Kepler ratio −3/2). The convergence measurement (wave 223 method, re-measured in wave 245) shows the rate is nearly linear in dt (0.1107→0.0553→0.0290%/orbit) = DISCRETIZATION WORK THAT VANISHES IN THE CONTINUUM LIMIT — the continuum kF1 dynamics keeps the period. THE APSIDAL ADVANCE: wave 254d declares framePrecision:\"double\" on the preset itself (Float64 for the nine dragging-field arrays only), so over the 20-PERIASTRON WINDOW at the default dt it reads +0.0095848°/rev and converges in dt (p_obs=2.66 over three steps in that same window). Wave 255d unified the card, the claims and the QA on that window. Under the native Float32 field (the declaration stripped, as a control) the same window gives p_obs=−2.88 — it does NOT converge. The 8.8×10⁸× ratio to the Peters GW analytic is recorded, but the contraction is numerical in origin — not a physical comparison. Independent of the barycentre walk (gauge on/off invariant — the adjudicator's hypothesis, tested). The spin→dragging back-coupling is negligible at (R/(R+d))^q≈10⁻¹⁵ (measured: the P/e/periastron agreement above is the evidence). The DFM masses are A 2.6756 M☉ and B 2.4971 M☉ (about 1.996× the Newtonian inference) — not real-mass claims but a calibration conditioned on the formula (the shell mass stays observed via massFrac=(f−1)/f — wave 224). The pinning of f≈2 is the χ-saturation consequence (the χ-law); the C series ≤0.7% is the cross-system record."},
     descStruct:{
-      summary:"WHAT YOU SEE FIRST: the orbit slowly SHRINKS (ΔP/P=−0.111%/orbit at the convention step dt=0.016) and the ellipse rotates (+0.009757°/rev prograde). The shrinking is NOT gravitational waves but DISCRETIZATION WORK of the kF1 kick (halving dt roughly halves the rate; it vanishes in the continuum limit — wave 223; never fitted). THE DFM COUNTERPART of 📻 (kFrame=0 — the observation-stability rule), the 3rd application of the ✴️💫 pattern (wave 220). The transcribed geometry is identical to 📻 (apoapsis separation 955.98 units, the real Kepler apoapsis speed at the transcribed masses, radii = EOS proxy 0.01175); on top of it THE MASSES ARE CALIBRATED SO THAT kFrame=1 (frame dragging A8/E6′ + the geodesic 1PN term E12 — the DFM formula) REPRODUCES THE OBSERVED PERIOD 8834.534723278 s: WAVE 245 (ADJUDICATION A6) TAKES THE LINEAR LAW f=1+k_F(αχ_A+βχ_B) as the ledger, whose fixed point is f_A=1.99994, f_B=1.99994 (observed mass ratio, no fitted knob; the χ² fixed point 1.99988 is recorded as factorQuad — at χ saturation the two differ only in the 5th digit) → A 2.6756 M☉, B 2.4971 M☉. Not real-mass claims (conditioned on the formula; the shell mass stays at the observed value via massFrac=(f−1)/f). The unfitted e and periastron also land within ±1% (3rd case). THE TWO-LAYER STRUCTURE (wave 221): B's observed rotation ω=22.654675/unit is transcribed into the core Ω (a transcribed initial value, not a prediction — the +0.38% drift over 4.3 orbits is mostly step-size dependent). THE SHELL SPINS ARE HELD (wave 222): the 1PN reaction couple is routed to the coupleSink receptacle (resolving the ±40 saturation of waves 220–221), so the shell-spin drift is 0.0% (bit-held, clampSN=0, ledger L 2.0×10⁻¹⁴). THE PULSE CLOCKS (wave 226): A 22.699379 ms and B 2.773461 s are shown as observed-transcribed phase clocks (no dynamics coupling; no TOA claim). A's ω=2768.0/unit stays outside the dynamic ranges (declared). cmGauge keeps the barycentre at machine zero. The full numbers, the control matrix, the dt convergence and the core conventions live in Observe/Try and the pass/fail fields. ",
-      observe:"Measured over a 4.3-orbit window (barycentric gauge, the wave-245 linear-law masses): revolution times [8829.44, 8819.52, 8809.76] s — the 2nd revolution, 8819.52 s, is −0.17% of the observed 8834.534723278 (the fit target). The unfitted side: the 1st-revolution eccentricity 0.087976 (+0.23% of the transcribed 0.087777036) and the periastron 801.37 units (−0.04% of the observation build's 801.72) — the C fitted to P ALSO lands e and the periastron within ±1% (e is the independent hold-out; the periastron is its consistency image under the fixed apoapsis — 3rd case). The orbit is a precessing rosette with a periastron advance of +0.009757°/rev (prograde — measured from the periastron-passage directions; the mechanism — the kF1 dragging term itself — was identified on ✴️ in wave 211), and the period contracts monotonically at −0.11%/rev (kF1 admits no strictly closed or stationary orbit — declared). It runs the same way round as 📻. The two-layer measurements (wave 221): B'S CORE Ω HOLDS THE TRANSCRIBED 22.654675 WITHIN A +0.38% DRIFT over 4.3 orbits (mostly step-size dependent — +0.16% at dt/2; a transcribed initial value, not a prediction — wave 225); A's core Ω (a receptacle, Ω₀=0) reaches +0.090 (the booked E6′-R couple). The shell spins are held (wave 222 — after the 1PN-couple sink routing): the shell spin=0 is bit-held over 4.3 orbits (drift 0.0%, clampSN=0) with an ANGULAR-MOMENTUM LEDGER RESIDUAL OF 2.0×10⁻¹⁴ (machine zero; the particle+reservoir momentum closes at 1.5×10⁻¹⁴). The contraction's control matrix (machine-fixed by QA in wave 223): it vanishes at kF0 and is invariant under the geoPN=0 / D₀=0 / sink / gauge controls (all inside the 0.10–0.13 window QA machine-fixes) — specific to the kF1 kick path. CONVERGENCE: halving dt gives 0.1107→0.0553, dt/4 gives 0.0290%/orbit (nearly linear) = discretization work that vanishes in the continuum limit (the apoapsis-sampled E_orb deepening is the same effect). The current verdict on the periastron advance is that it is a DEPENDENT QUANTITY OF THE CALIBRATION (wave 248b): WAVE 254d DECLARES framePrecision:\"double\" ON THE PRESET ITSELF (Float64 for the nine dragging-field arrays only — the wave-247a experimental flag). THE OLD NATIVE VALUES, FOR THE RECORD: before the declaration the advance read +0.008775°/rev, the 2nd revolution 8819.36 s, e 0.087977, the periastron 801.3723, and the 20-periastron window in three dt steps gave p_obs=−2.88 (no dt convergence — the wave-246 D2 \"numerical floor\"), with a duplicate periastron detection in the 4.3-orbit window (5 found against 4). That was the state through wave 253b. With the declaration the same three-step window gives p_obs=2.66, eps_num=1.16e-4 (2.45% of the observation) and a Richardson extrapolation of 0.0094716°/rev, and the whole of it sits in the geodesic 1PN (E12) channel (it falls to 6e-7 at lambda_PN=0, and removing spinDipole is bit-identical). It agrees to five digits with the GR 1PN formula 6piGM/(c^2 a(1-e^2)) evaluated on the M, a, e the run actually had, so THE FACTOR OF EXACTLY 2 OVER THE OBSERVED 0.00473°/rev COMES FROM THE CALIBRATED MASS f~2 ENTERING omega-dot — it is neither an independent prediction nor a numerical artefact (the period wants f~2 and omega-dot wants f~1; one f cannot serve both). The wave-246 D2 \"unadjudicated\" and the wave-223 \"dt-converged — physics\" are both superseded. CM shift 3.7×10⁻⁴ units per 4.3 orbits (machine zero). The wave-226 pulse channel: A 1.674×10⁶ turns, mean 22.699379 ms; B mean 2.773461 s (both within 3×10⁻¹² of the declared 2π/ω — analytic integration); orbits bit-identical with the declarations removed. Zero NaN; two runs are bit-identical (QA behavior.psrDoubleAB). Periods are judged only after their DEFINITION has been declared (adjudication I6, waves 249b→250d): the same-direction revolution and the periapsis-to-periapsis interval are different quantities; the verdict follows the periapsis definition, and where a system is near-circular that definition does not correspond to the observation, so it is annotated rather than judged.",
+      summary:"WHAT YOU SEE FIRST: the orbit slowly SHRINKS (ΔP/P=−0.111%/orbit at the convention step dt=0.016) and the ellipse rotates (+0.0095848°/rev prograde, 20-periastron window). The shrinking is NOT gravitational waves but DISCRETIZATION WORK of the kF1 kick (halving dt roughly halves the rate; it vanishes in the continuum limit — wave 223; never fitted). THE DFM COUNTERPART of 📻 (kFrame=0 — the observation-stability rule), the 3rd application of the ✴️💫 pattern (wave 220). The transcribed geometry is identical to 📻 (apoapsis separation 955.98 units, the real Kepler apoapsis speed at the transcribed masses, radii = EOS proxy 0.01175); on top of it THE MASSES ARE CALIBRATED SO THAT kFrame=1 (frame dragging A8/E6′ + the geodesic 1PN term E12 — the DFM formula) REPRODUCES THE OBSERVED PERIOD 8834.534723278 s: WAVE 245 (ADJUDICATION A6) TAKES THE LINEAR LAW f=1+k_F(αχ_A+βχ_B) as the ledger, whose fixed point is f_A=1.99994, f_B=1.99994 (observed mass ratio, no fitted knob; the χ² fixed point 1.99988 is recorded as factorQuad — at χ saturation the two differ only in the 5th digit) → A 2.6756 M☉, B 2.4971 M☉. Not real-mass claims (conditioned on the formula; the shell mass stays at the observed value via massFrac=(f−1)/f). The unfitted e and periastron also land within ±1% (3rd case). THE TWO-LAYER STRUCTURE (wave 221): B's observed rotation ω=22.654675/unit is transcribed into the core Ω (a transcribed initial value, not a prediction — the +0.38% drift over 4.3 orbits is mostly step-size dependent). THE SHELL SPINS ARE HELD (wave 222): the 1PN reaction couple is routed to the coupleSink receptacle (resolving the ±40 saturation of waves 220–221), so the shell-spin drift is 0.0% (bit-held, clampSN=0, ledger L 2.0×10⁻¹⁴). THE PULSE CLOCKS (wave 226): A 22.699379 ms and B 2.773461 s are shown as observed-transcribed phase clocks (no dynamics coupling; no TOA claim). A's ω=2768.0/unit stays outside the dynamic ranges (declared). cmGauge keeps the barycentre at machine zero. The full numbers, the control matrix, the dt convergence and the core conventions live in Observe/Try and the pass/fail fields. ",
+      observe:"Measured over a 4.3-orbit window (barycentric gauge, the wave-245 linear-law masses): revolution times [8829.44, 8819.52, 8809.76] s — the 2nd revolution, 8819.52 s, is −0.17% of the observed 8834.534723278 (the fit target). The unfitted side: the 1st-revolution eccentricity 0.087976 (+0.23% of the transcribed 0.087777036) and the periastron 801.37 units (−0.04% of the observation build's 801.72) — the C fitted to P ALSO lands e and the periastron within ±1% (e is the independent hold-out; the periastron is its consistency image under the fixed apoapsis — 3rd case). The orbit is a precessing rosette with a periastron advance of +0.0095848°/rev (prograde — measured from the periastron-passage directions over the 20-periastron window unified in wave 255d; the mechanism — the kF1 dragging term itself — was identified on ✴️ in wave 211), and the period contracts monotonically at −0.11%/rev (kF1 admits no strictly closed or stationary orbit — declared). It runs the same way round as 📻. The two-layer measurements (wave 221): B'S CORE Ω HOLDS THE TRANSCRIBED 22.654675 WITHIN A +0.38% DRIFT over 4.3 orbits (mostly step-size dependent — +0.16% at dt/2; a transcribed initial value, not a prediction — wave 225); A's core Ω (a receptacle, Ω₀=0) reaches +0.090 (the booked E6′-R couple). The shell spins are held (wave 222 — after the 1PN-couple sink routing): the shell spin=0 is bit-held over 4.3 orbits (drift 0.0%, clampSN=0) with an ANGULAR-MOMENTUM LEDGER RESIDUAL OF 2.0×10⁻¹⁴ (machine zero; the particle+reservoir momentum closes at 1.5×10⁻¹⁴). The contraction's control matrix (machine-fixed by QA in wave 223): it vanishes at kF0 and is invariant under the geoPN=0 / D₀=0 / sink / gauge controls (all inside the 0.10–0.13 window QA machine-fixes) — specific to the kF1 kick path. CONVERGENCE: halving dt gives 0.1107→0.0553, dt/4 gives 0.0290%/orbit (nearly linear) = discretization work that vanishes in the continuum limit (the apoapsis-sampled E_orb deepening is the same effect). The current verdict on the periastron advance is that it is a DEPENDENT QUANTITY OF THE CALIBRATION (wave 248b): WAVE 254d DECLARES framePrecision:\"double\" ON THE PRESET ITSELF (Float64 for the nine dragging-field arrays only — the wave-247a experimental flag). THE OLD NATIVE VALUES, FOR THE RECORD: before the declaration the advance read +0.008775°/rev, the 2nd revolution 8819.36 s, e 0.087977, the periastron 801.3723, and the 20-periastron window in three dt steps gave p_obs=−2.88 (no dt convergence — the wave-246 D2 \"numerical floor\"), with a duplicate periastron detection in the 4.3-orbit window (5 found against 4). That was the state through wave 253b. With the declaration the same three-step window gives p_obs=2.66, eps_num=1.16e-4 (2.45% of the observation) and a Richardson extrapolation of 0.0094716°/rev, and the whole of it sits in the geodesic 1PN (E12) channel (it falls to 6e-7 at lambda_PN=0, and removing spinDipole is bit-identical). It agrees to five digits with the GR 1PN formula 6piGM/(c^2 a(1-e^2)) evaluated on the M, a, e the run actually had, so THE FACTOR OF EXACTLY 2 OVER THE OBSERVED 0.00473°/rev COMES FROM THE CALIBRATED MASS f~2 ENTERING omega-dot — it is neither an independent prediction nor a numerical artefact (the period wants f~2 and omega-dot wants f~1; one f cannot serve both). The wave-246 D2 \"unadjudicated\" and the wave-223 \"dt-converged — physics\" are both superseded. CM shift 3.7×10⁻⁴ units per 4.3 orbits (machine zero). The wave-226 pulse channel: A 1.674×10⁶ turns, mean 22.699379 ms; B mean 2.773461 s (both within 3×10⁻¹² of the declared 2π/ω — analytic integration); orbits bit-identical with the declarations removed. Zero NaN; two runs are bit-identical (QA behavior.psrDoubleAB). Periods are judged only after their DEFINITION has been declared (adjudication I6, waves 249b→250d): the same-direction revolution and the periapsis-to-periapsis interval are different quantities; the verdict follows the periapsis definition, and where a system is near-circular that definition does not correspond to the observation, so it is annotated rather than judged.",
       control:"One-tap A/B: side B is kFrame=0 (the observation build's formula) — at the SAME initial state and the SAME calibrated masses (×1.996) gravity is excessive and the orbit plunges into a deep ellipse (measured: periastron ~283 units, eccentricity ~0.543, first revolution ~3702 s): the calibration belongs to kFrame=1 only. Negative control (machine-fixed by QA): REMOVING cmGauge sets the barycentre walking (0.171 units in half an orbit). REMOVING coupleSink sets the shells running to the ±40 saturation (clampSN 8.6×10³ in 0.3 orbit) — the machine control that the wave-222 routing is what drives the hold. Together with 📻 the pair shows one observation, two formulas, two mass ledgers — on a third binary. Tap B to see the observed-rotation core Ω in the Core (v2) readout. With timeScale=300 one orbit takes ~3.1 wall seconds; dispMag=1000 (display only); use trails."},
     parameterAudit:{
       observedInputs:["real G=6.674","real c₀=3×10³ (the L−T=5 relativistic-binary family)",
@@ -8632,11 +8689,16 @@ const BUILTIN_PRESETS = [
     { id:"psrDoubleABDFM.periastron-advance", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
       metric:"dfmPeriAdvanceDeg",
       chain:{ax:["A4","A5","A8"], eq:["E4","E6′"],
-        note:"ロゼット歳差の定量: 近点移動 +0.009757°/周(順行 — 近点通過方向の実測・4.3公転窓)。kF1 引きずり項自身の帰結であることの機構同定は ✴️ 第211便を参照 — 本 claim は第3の連星での定量記録(照合: 転写量からの 1PN 解析値 4.72×10⁻³ °/公転の約2倍 — fit で消さず宣言する)。**第254便d: 本体が framePrecision:\"double\" を宣言したので dt 収束する**(窓 20 近点・dt h/h2/h4 の実測帯 0.009469〜0.009672°/周・p_obs=2.66・ε_num は観測の 2.45%)。窓 0.008〜0.012 はその帯と 4.3公転窓の 0.009757 を ±20% 余裕で囲む回帰窓であって、観測歳差の再現ではない(現行判定は PHYSICS〔第254便d〕の表)。",
-        noteEn:"Quantifies the rosette precession: periastron advance +0.009757°/rev prograde (measured from the periastron-passage directions over the 4.3-orbit window). The mechanism identification (the kF1 dragging term itself) is on ✴️, wave 211 — this claim records the quantity on a third binary (about 2× the 1PN analytic 4.72×10⁻³ °/orbit from the transcribed quantities; declared, not fitted away). WAVE 254d: the preset now declares framePrecision:\"double\", so the value DOES converge in dt (the 20-periastron window at h, h/2, h/4 measures 0.009469–0.009672°/rev, p_obs=2.66, eps_num = 2.45% of the observation). The 0.008–0.012 window brackets that band and the 4.3-orbit 0.009757 with ~20% margin; it is a regression window, not a reproduction of the observed precession (the current verdict is the table in PHYSICS 〔wave 254d〕)."},
+        note:"ロゼット歳差の定量: 近点移動 +0.0095848°/周(順行 — 近点通過方向の実測・**窓 20 近点**〔第255便d: カード・claims・QA を 4.3公転窓からこの窓へ統一。4.3公転窓の値は PHYSICS に履歴として残す〕)。kF1 引きずり項自身の帰結であることの機構同定は ✴️ 第211便を参照 — 本 claim は第3の連星での定量記録(照合: 転写量からの 1PN 解析値 4.72×10⁻³ °/公転の約2倍 — fit で消さず宣言する)。**第254便d: 本体が framePrecision:\"double\" を宣言したので dt 収束する**(同じ窓の dt h/h2/h4 の実測帯 0.009469〜0.009672°/周・p_obs=2.66・ε_num は観測の 2.45%)。窓 0.008〜0.012 はその帯を ±20% 余裕で囲む回帰窓であって、観測歳差の再現ではない(現行判定は PHYSICS〔第255便d〕の表)。",
+        noteEn:"Quantifies the rosette precession: periastron advance +0.0095848°/rev prograde (measured from the periastron-passage directions over the 20-PERIASTRON WINDOW — wave 255d unified the card, the claims and the QA on this window; the old 4.3-orbit value is kept as history in PHYSICS). The mechanism identification (the kF1 dragging term itself) is on ✴️, wave 211 — this claim records the quantity on a third binary (about 2× the 1PN analytic 4.72×10⁻³ °/orbit from the transcribed quantities; declared, not fitted away). WAVE 254d: the preset now declares framePrecision:\"double\", so the value DOES converge in dt (the same window at h, h/2, h/4 measures 0.009469–0.009672°/rev, p_obs=2.66, eps_num = 2.45% of the observation). The 0.008–0.012 window brackets that band with ~20% margin; it is a regression window, not a reproduction of the observed precession (the current verdict is the table in PHYSICS 〔wave 255d〕)."},
       roleNote:"回顧的確認 — 較正ノブはゼロ。歳差は fit で消さずそのまま宣言する。",
       roleNoteEn:"Retrospective check — zero calibration knobs. The precession is declared, not fitted away.",
       expected:{min:0.008, max:0.012},
+      // 第255便d(Grok 気付き 7): note の中の**比の文言**を機械照合する。note が「観測換算 refValue の
+      // 約 N 倍」と書くとき、N は「説明文の宣言値 / refValue」と tol の中で一致していなければならない。
+      // 第254便d が手で直した「約22倍 → 約2倍」型の食い違いを QA `claims.note-sync` が機械で拾う。
+      noteRatio:{ pattern:"(?:約|about )(\\d+(?:\\.\\d+)?)\\s*(?:倍|×)", ref:0.0047309572, tol:0.3,
+        refNote:"観測換算 Δϖ_obs = ω̇ 16.899323 °/yr × P_obs 8834.534723278 s(第249便a の転写)" },
       descPattern:"近点移動 \\+(0\\.\\d+)°/周", testId:"behavior.psrDoubleAB" },
     { id:"psrDoubleABDFM.shell-spin-held", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
       metric:"dfmShellSpinDriftPct",
@@ -10145,8 +10207,10 @@ const BUILTIN_PRESETS = [
   ],
   // 第253便a(第45報): 空間メッシュのオーバーレイを既定 ON にする(**表示のみ** — 物理は 1 bit も
   // 変わらない。🫂 は claims 窓が 1 つも無いので回帰窓にも触れない)。等質量・χ が門を超えた極
-  // (ワンタップ B 側 D0pull=1e−6)で「2 天体を結ぶ線と中間地点が一意に決まる」のが色で見える
-  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,spaceMesh:true,spaceMeshMode:"guide"} },
+  // (ワンタップ B 側 D0pull=1e−6)で「2 天体を結ぶ線と重心が一意に決まる」のが色で見える
+  // 第255便c(第47報): 既定表示を格子(guide)から**空間線**(lines)へ。overlays の宣言文字列が
+  // 変わるので **presetSig は変わる**(意図した変更 —— 力学・600 步の状態は 1 bit も動かない)
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,spaceMesh:true,spaceMeshMode:"lines"} },
 
 // ===== 第254便a(第46報「空間メッシュ本体」): 🪟 spaceMeshBinaryToy — メッシュの重力と慣性を測る窓 =====
 // 原仮定者(第46報・全文は docs/PHYSICS.md 〔第254便a〕):「連星では、『背景決定力 D₀』をゼロに
@@ -10166,46 +10230,47 @@ const BUILTIN_PRESETS = [
   sampleClass:"principle",
   fidelity:"toy",
   obsCard:[
-    {q:"何を見るか", model:"等質量 2 体(m=500・e=0.5)に physics.spaceMesh={mode:\"vertex\",gravity:true} を足した宇宙。格子は輸送された物質線", obs:"—(原理サンプル・観測較正ではない)"},
+    {q:"何を見るか", model:"等質量 2 体(m=500・e=0.5)に physics.spaceMesh={mode:\"vertex\",gravity:true} を足した宇宙。表示は空間線(第255便c)", obs:"—(原理サンプル・観測較正ではない)"},
     {q:"**メッシュの重力は既にある重力**", model:"A/B(spaceMesh の有無)で近点間 P=1339.718898・近点移動 +2.027112°/周 が印字桁で同一。1 步の加速度差 |Δa_g| は 0〜2.8×10⁻¹⁸", obs:"—(第46報「勾配で加速する力が重力」の実測)"},
     {q:"メッシュの回転は D₀ に依らない", model:"Ω_mesh は頂点契約から恒等的に Ω_orbit。D0pull を 10⁻⁶〜10³ に振っても比は 1(掃引は 🫂 と本便の器)", obs:"—"},
     {q:"D₀ が動かすのは χ である", model:"χ=W/(W+D0pull): 0→1(厳密)/10⁻⁴→0.98861/10⁻²→0.46468/1→0.0086059/10³→8.68×10⁻⁶。近点間 P は 793.16/1339.84/888.41/531.56/518.87", obs:"—(第46報「D₀ をゼロに近付けると」の測れた形)"},
-    {q:"**D0pull:0 を宣言できる**(第254便a)", model:"明示 0 は真の 0 として保持される(χ=1 厳密・mode=T2・unique=true)。ただし χ→1 の極では安全クランプが出る(100 万步で 199 万回)", obs:"—"},
+    {q:"**D0pull:0 と、対の織り込み 5 段**(第254便a/第255便a)", model:"明示 0 は真の 0(χ=1 厳密・T2)。**opt-in weave:pair の Δϖ は D0pull=0 で +0.7618→−5.3×10⁻⁵(クランプ 259 万→0)・10³ では差 2.8×10⁻¹¹**(本体は未宣言)", obs:"—"},
     {q:"物質線は頂点を追う", model:"幾何整合補間で頂点追従誤差 8.6×10⁻¹³(相対・100 万步)。保存速度の両端補間だと 8.9×10⁻⁵(8 桁悪い)", obs:"—(表示の 2 案を実測で選んだ)"},
     {q:"**慣性候補は採用しない**(否定結果)", model:"頂点で |a_I|/|g_N|=χ(5 桁一致)= 慣性項は重力の再導出。足すと二重計上で連星が壊れる", obs:"—(第46報の 2 文目は測って**採れなかった**)"},
-    {q:"帳簿・決定性", model:"NaN 0・安全クランプ 0(D0pull=10⁻⁴)・spaceMeshWorkE=1.0×10⁻¹⁶(gravity のみは保存力)・QA behavior.spaceMeshForce", obs:"—"}],
+    {q:"帳簿・決定性", model:"NaN 0・安全クランプ 0(D0pull=10⁻⁴)・spaceMeshWorkE≈10⁻¹⁶(第255便a で**離散キックの厳密仕事**へ)・QA spaceMeshForce/pairWeave/meshRotorExchange", obs:"—"}],
   failureFirst:{
-    fail:"**これは玩具であって観測較正ではない。** ①**「メッシュを繋いだら何かが変わる」は出ていない** — gravity チャネルは既存の E4 と同じ核なので、繋いでも軌道は 1 bit 級でしか動かない(それが本サンプルの主張である)。②**慣性チャネルは採用していない**: material/action の 2 候補はどちらも頂点で χ·g_N に退化し、足すと連星が壊れる(r が 10⁵ 倍まで飛ぶ・安全クランプ 55 万回)。③光はメッシュに乗せていない(physics.spaceMesh.light は**宣言と検証器の門だけ**で、photon/traceRay には 1 バイトも接続していない)。④引きずり(A8/E6′)と 1PN は χ で割っていない — メッシュ側へ移したのは重力と慣性の 2 チャネルだけである。⑤D0pull は「背景の重み」の宣言値であって、実系を較正した数ではない。⑥**claim 窓(regression window)は 1 つも張っていない**。⑦2D・spin=0 宣言で、潮汐ロックも自転も測っていない。",
+    fail:"**これは玩具であって観測較正ではない。** ①**「メッシュを繋いだら何かが変わる」は出ていない** — gravity チャネルは既存の E4 と同じ核なので、繋いでも軌道は 1 bit 級でしか動かない(それが本サンプルの主張である)。②**慣性チャネルは採用していない**: material/action の 2 候補はどちらも頂点で χ·g_N に退化し、足すと連星が壊れる(r が 10⁵ 倍まで飛ぶ・安全クランプ 55 万回)。③光はメッシュに乗せていない(physics.spaceMesh.light は**宣言と検証器の門だけ**で、photon/traceRay には 1 バイトも接続していない)。④引きずり(A8/E6′)と 1PN は χ で割っていない — メッシュ側へ移したのは重力と慣性の 2 チャネルだけである。⑤D0pull は「背景の重み」の宣言値であって、実系を較正した数ではない。⑥**claim 窓(regression window)は 1 つも張っていない**。⑦2D・spin=0 宣言で、潮汐ロックも自転も測っていない。⑧**第255便a の opt-in(weave・reservoir)は本体が 1 つも宣言していない** — カードの 5 段は宣言を差し替えたハーネスの実測である。**「フレームの代入」案(weave:\"pairFull\")は連星を壊す**(40 万步で r が 200 倍・クランプ 79.5 万回)ので否定対照として残しているだけである。**回転子交換の Q は「熱」であって重力波放出ではない。**",
     pass:"**第46報の 3 文のうち、測れた 2 つがはっきり出た。** ①**「決定力場の空間メッシュの勾配で加速する力が重力」は、既にそうなっている**: メッシュのスカラー D_grav=Σm/√(d²+ε²) の勾配は、エンジンの E4=G∇W と**同じ核**なので、置き換えても軌道は動かない(A/B のビット差 10⁻¹⁹ 級)。「メッシュの重力」は新しい力ではなく、**既にある重力の別名**である。②**「D₀ をゼロに近付けると、空間メッシュが連星の公転に合わせて回転する」は χ の話である**: 節メッシュの回転率 Ω_mesh は頂点契約から恒等的に Ω_orbit に等しく、D₀ には依らない。D₀ が動かすのは混合の重み χ で、χ→1(D0pull→0)では混合場が完全に公転へ随伴し、χ→0 では背景に貼り付く。③**表示は 2 案を実装して実測で選んだ**: 座標の線形混合は格子を潰す(det=1−2χ(1−χ)(1−cosθ))ので撤回し、参照ガイド(χ=不透明度)と輸送された物質線の 2 モードにした。物質線は幾何整合補間で頂点を 10⁻¹⁵ で追う。"},
   descStruct:{
     summary:"**第46報「空間メッシュ本体」を測れる形にした原理サンプル**(第254便a)。等質量の 2 体(m=500・半径 1・e=0.5・遠点分離 240)を、**1PN を切って(geoPN=0)引きずり(kFrame=1・A8/E6′)だけ**で回し、そこへ **physics.spaceMesh={mode:\"vertex\", gravity:true}** を 1 行足す。足したのは「決定力場の空間メッシュの勾配で加速する力」で、そのスカラーは D_grav=Σm/√(d²+ε²)(Φ=−G·D_grav・g=+G·∇D_grav)。**これはエンジンの E4=G∇W と同じ核**なので、足しても軌道は丸めの水準でしか動かない —— それが本サンプルの主張である。格子は**輸送された物質線**(dx/dt=u・dF/dt=(∇u)F を S.step の時刻で RK4 積分したもの)で、公転に随伴して回るのが見える。**この系を見て決めた係数は 1 つも無い**。",
     observe:"実測(dt=0.004・器は tests/exp-w254a-meshforce.mjs)。**A/B(spaceMesh の有無)**: 150 万步(t=6000)で近点間 P=**1339.718898**・近点移動 **+2.027112°/周** がどちらも印字桁で同一。1 步の加速度差 |Δa_g| は **0〜2.8×10⁻¹⁸**、150 万步後の状態差は **3.3×10⁻¹⁰**(|r|≈10² に対して)= 丸めの蓄積である。帳簿 spaceMeshWorkE=**1.0×10⁻¹⁶**(gravity チャネルは保存力なので外部仕事を持たない)。**χ の D0pull 依存**(t=0 値): 0→**1(厳密)**・mode=T2・unique=true/1e−4→0.98861(T2・unique)/1e−2→0.46468(blend)/1→0.0086059/1e3→8.680×10⁻⁶。同じ 5 段の**近点間 P** は 793.16/1339.84/888.41/531.56/518.87(ケプラー 518.8544)・**近点移動** +0.6009/+2.0274/+62.86/+12.11/+0.0124°/周。**Ω_mesh 対 Ω_orbit は 5 段すべてで恒等的に一致**する(頂点契約 —— メッシュの回転は D₀ に依らない)。**輸送線の累積回転角/公転角**は 1.0000004〜1.0000010。**物質線の頂点追従**(相対・100 万步): 幾何整合補間 **8.6×10⁻¹³** 対 速度補間 **8.9×10⁻⁵**。NaN 0・D0pull=1e−4 では安全クランプ 0(D0pull=0 の極では 100 万步で 199 万回)。",
-    control:"ワンタップ対照A/B: B 側は **spaceMesh なし** — **見た目も数値も変わらない**。それが測った結果である(メッシュの重力は既にある重力であって、二重に数えるものではない)。表示トグル「空間メッシュ」で格子を消せる。physics.D0pull を 0 にすると χ=1 の極(互いだけが基準・ただし安全クランプが 100 万步で 199 万回)へ、10³ にすると格子が背景に貼り付く(P=518.87 = ケプラー 518.8544 の +0.003%)。physics.kFrame を 0 にすると引きずりが消えてケプラー楕円に戻る。timeScale=60・dispMag=3(表示専用)。🫂 と並べると「同じ引きずりチャネルを、D₀ の掃引で見るか・メッシュの接続で見るか」の対照になる。",
+    control:"ワンタップ対照A/B: B 側は **spaceMesh なし** — **見た目も数値も変わらない**。それが測った結果である(メッシュの重力は既にある重力であって、二重に数えるものではない)。表示トグル「空間メッシュ」で空間線を消せる。physics.D0pull を 0 にすると χ=1 の極(互いだけが基準・ただし安全クランプが 100 万步で 199 万回)へ、10³ にすると空間線が背景に貼り付く(P=518.87 = ケプラー 518.8544 の +0.003%)。physics.kFrame を 0 にすると引きずりが消えてケプラー楕円に戻る。timeScale=60・dispMag=3(表示専用)。🫂 と並べると「同じ引きずりチャネルを、D₀ の掃引で見るか・メッシュの接続で見るか」の対照になる。",
   },
   en:{name:"A window on the space mesh — the mesh's gravity is the gravity we already had",
     obsCard:[
-      {q:"What to watch", model:"Two equal masses (m=500, e=0.5) with physics.spaceMesh={mode:\"vertex\",gravity:true} added. The lattice is a TRANSPORTED material line", obs:"— (a principle sample, not an observational calibration)"},
+      {q:"What to watch", model:"Two equal masses (m=500, e=0.5) with physics.spaceMesh={mode:\"vertex\",gravity:true} added. The display draws SPACE LINES (wave 255c)", obs:"— (a principle sample, not an observational calibration)"},
       {q:"THE MESH'S GRAVITY IS THE GRAVITY WE ALREADY HAD", model:"with and without spaceMesh the periastron period 1339.718898 and the advance +2.027112 deg/orbit agree to every printed digit; the one-step acceleration difference is 0 to 2.8e-18", obs:"— (report 46: 'the force that accelerates along the gradient is gravity')"},
       {q:"The mesh's rotation does not depend on D0", model:"Omega_mesh equals Omega_orbit identically by the vertex contract, at every D0pull from 1e-6 to 1e3", obs:"—"},
       {q:"What D0 moves is chi", model:"chi=W/(W+D0pull): 0 -> 1 exactly / 1e-4 -> 0.98861 / 1e-2 -> 0.46468 / 1 -> 0.0086059 / 1e3 -> 8.68e-6; the periastron periods are 793.16 / 1339.84 / 888.41 / 531.56 / 518.87. The blended field's Omega falls with chi", obs:"— (report 46's 'bring D0 close to zero', made measurable)"},
-      {q:"D0pull:0 CAN NOW BE DECLARED (wave 254a)", model:"an explicit zero is kept as a true zero (chi=1 exactly, mode=T2, unique=true); the chi->1 pole trips 1.99 million safety clamps in a million steps", obs:"—"},
+      {q:"D0pull:0, AND THE FIVE-STEP PAIR WEAVE (waves 254a / 255a)", model:"an explicit zero stays a true zero (chi=1, T2). With the opt-in weave:pair the advance goes +0.7618 -> -5.3e-5 deg/orbit at D0pull=0 (clamps 2.59M -> 0); at 1e3 the gap is 2.8e-11", obs:"—"},
       {q:"The material line follows the vertices", model:"geometry-consistent interpolation tracks the vertices to 8.6e-13 (relative, one million steps); interpolating the stored velocities gives 8.9e-5, eight decades worse", obs:"— (the two display candidates were settled by measurement)"},
       {q:"THE INERTIA CANDIDATES ARE NOT ADOPTED (a negative result)", model:"at a vertex |a_I|/|g_N| equals chi to five digits: the inertial term is gravity re-derived, and adding it double-counts and destroys the binary", obs:"— (report 46's second sentence did NOT survive measurement)"},
-      {q:"Ledgers and determinism", model:"zero NaN, zero safety clamps at D0pull=1e-4; spaceMeshWorkE = 1.0e-16 (the gravity channel is conservative); QA behavior.spaceMeshForce", obs:"—"}],
+      {q:"Ledgers and determinism", model:"zero NaN, zero clamps at D0pull=1e-4; spaceMeshWorkE ~ 1e-16 (wave 255a made it the EXACT discrete-kick work); QA spaceMeshForce / pairWeave / meshRotorExchange", obs:"—"}],
     failureFirst:{
-      fail:"THIS IS A TOY, NOT AN OBSERVATIONAL CALIBRATION. (1) 'CONNECTING THE MESH CHANGES SOMETHING' DID NOT COME OUT: the gravity channel shares its kernel with E4, so connecting it moves the orbit only at the bit level — and that IS the claim of this sample. (2) THE INERTIA CHANNEL IS NOT ADOPTED: both candidates (material and action) degenerate to chi*g_N at the vertices and, when added, blow the binary apart (r out to 1e5 times, 550k safety clamps). (3) Light is NOT put on the mesh: physics.spaceMesh.light is a declaration and a validator gate only, with zero bytes connected to photon/traceRay. (4) Neither the dragging (A8/E6') nor the 1PN channel is weighted by chi — only gravity and inertia were moved to the mesh side. (5) D0pull is a declared 'weight of the background', not a calibrated number. (6) NO CLAIMS WINDOW IS DECLARED. (7) 2D with spin=0: tidal locking and rotation are not measured.",
+      fail:"THIS IS A TOY, NOT AN OBSERVATIONAL CALIBRATION. (1) 'CONNECTING THE MESH CHANGES SOMETHING' DID NOT COME OUT: the gravity channel shares its kernel with E4, so connecting it moves the orbit only at the bit level — and that IS the claim of this sample. (2) THE INERTIA CHANNEL IS NOT ADOPTED: both candidates (material and action) degenerate to chi*g_N at the vertices and, when added, blow the binary apart (r out to 1e5 times, 550k safety clamps). (3) Light is NOT put on the mesh: physics.spaceMesh.light is a declaration and a validator gate only, with zero bytes connected to photon/traceRay. (4) Neither the dragging (A8/E6') nor the 1PN channel is weighted by chi — only gravity and inertia were moved to the mesh side. (5) D0pull is a declared 'weight of the background', not a calibrated number. (6) NO CLAIMS WINDOW IS DECLARED. (7) 2D with spin=0: tidal locking and rotation are not measured. (8) THE WAVE-255a OPT-INS (weave, reservoir) ARE DECLARED BY NO BUILT-IN PRESET - the five-step row is a harness measurement made by swapping the declaration. The 'substitute the frame' candidate (weave:\"pairFull\") DESTROYS the binary (r out 200x, 795k clamps) and is kept only as a negative control. The rotor exchange's Q is HEAT, not gravitational-wave emission.",
       pass:"TWO OF REPORT 46's THREE SENTENCES CAME OUT CLEANLY. (1) 'THE FORCE THAT ACCELERATES ALONG THE GRADIENT OF THE MESH OF THE DETERMINACY FIELD IS GRAVITY' IS ALREADY TRUE HERE: the mesh scalar D_grav = sum m/sqrt(d^2+eps^2) has the same kernel as the engine's E4 = G grad W, so replacing one by the other leaves the orbit unchanged to ~1e-19. The mesh's gravity is not a new force; it is another name for the gravity already present. (2) 'BRING D0 CLOSE TO ZERO AND THE MESH ROTATES WITH THE ORBIT' IS A STATEMENT ABOUT chi: the node mesh's rotation rate equals the orbital rate identically, independent of D0, and what D0 moves is the blending weight chi. (3) THE DISPLAY WAS SETTLED BY MEASUREMENT: linearly blending COORDINATES collapses the lattice (det = 1-2chi(1-chi)(1-cos theta)), so that was withdrawn in favour of two modes — a reference guide (chi as opacity) and a transported material line, which tracks the vertices to 1e-15.",
     },
     descStruct:{
-      summary:"A PRINCIPLE SAMPLE THAT TURNS REPORT 46's 'SPACE MESH PROPER' INTO SOMETHING MEASURABLE (wave 254a). Two equal masses (m=500, radius 1, e=0.5, apoapsis separation 240) run with 1PN off (geoPN=0) and nothing but the dragging (kFrame=1, A8/E6'), and one line of physics.spaceMesh={mode:\"vertex\", gravity:true} is added. What is added is 'the force that accelerates along the gradient of the mesh of the determinacy field', whose scalar is D_grav = sum m/sqrt(d^2+eps^2) (Phi = -G D_grav, g = +G grad D_grav). THAT IS THE SAME KERNEL AS THE ENGINE'S E4 = G grad W, so adding it moves the orbit only at rounding level — which is the claim. The lattice is a TRANSPORTED MATERIAL LINE (dx/dt=u, dF/dt=(grad u)F, integrated by RK4 at S.step's clock) and is seen to comove with the orbit. NO COEFFICIENT WAS CHOSEN BY LOOKING AT THIS SYSTEM.",
+      summary:"A PRINCIPLE SAMPLE THAT TURNS REPORT 46's 'SPACE MESH PROPER' INTO SOMETHING MEASURABLE (wave 254a). Two equal masses (m=500, radius 1, e=0.5, apoapsis separation 240) run with 1PN off (geoPN=0) and nothing but the dragging (kFrame=1, A8/E6'), and one line of physics.spaceMesh={mode:\"vertex\", gravity:true} is added. What is added is 'the force that accelerates along the gradient of the mesh of the determinacy field', whose scalar is D_grav = sum m/sqrt(d^2+eps^2) (Phi = -G D_grav, g = +G grad D_grav). THAT IS THE SAME KERNEL AS THE ENGINE'S E4 = G grad W, so adding it moves the orbit only at rounding level — which is the claim. The display draws SPACE LINES (wave 255c) from the two bodies and the barycentre; the transported material line (dx/dt=u, dF/dt=(grad u)F, RK4 at S.step's clock) that this sample was built with in wave 254a stays available as the declared diagnostic mode. NO COEFFICIENT WAS CHOSEN BY LOOKING AT THIS SYSTEM.",
       observe:"Measured at dt=0.004 with tests/exp-w254a-meshforce.mjs. WITH VS WITHOUT spaceMesh over 1.5 million steps (t=6000): the periastron period 1339.718898 and the advance +2.027112 deg/orbit agree to every printed digit; the one-step |da_g| is 0 to 2.8e-18 and the state after 1.5M steps differs by 3.3e-10 (against |r| of order 1e2) — accumulated rounding. spaceMeshWorkE stays at the 1e-16 level (the gravity channel is conservative). chi VERSUS D0pull (at t=0): 0 -> 1 exactly (mode=T2, unique=true) / 1e-4 -> 0.98861 / 1e-2 -> 0.46468 / 1 -> 0.0086059 / 1e3 -> 8.680e-6; the same five give periastron periods 793.16 / 1339.84 / 888.41 / 531.56 / 518.87 (Kepler 518.8544) and advances +0.6009 / +2.0274 / +62.86 / +12.11 / +0.0124 deg/orbit. Omega_mesh EQUALS Omega_orbit at all five (the vertex contract — the mesh rotation does NOT depend on D0); the BLENDED field's Omega falls with chi. MATERIAL-LINE TRACKING (relative, one million steps): 8.6e-13 geometry-consistent against 8.9e-5 velocity-interpolated. Zero NaN; zero safety clamps at D0pull=1e-4 (1.99M in a million steps at the D0pull=0 pole).",
-      control:"One-tap A/B: side B has NO spaceMesh — AND NOTHING CHANGES, in the picture or in the numbers. That is the measured result (the mesh's gravity is the gravity already there, not a second one to count). The 'space mesh' display toggle removes the lattice. Setting physics.D0pull to 0 goes to the chi=1 pole (the two bodies are each other's only reference); 1e3 glues the lattice to the background. physics.kFrame=0 removes the dragging and restores the Kepler ellipse (period 518.85). timeScale=60 and dispMag=3 are display-only. Beside 🫂 the pair shows the same dragging channel read two ways: by sweeping D0 and by connecting the mesh."},
+      control:"One-tap A/B: side B has NO spaceMesh — AND NOTHING CHANGES, in the picture or in the numbers. That is the measured result (the mesh's gravity is the gravity already there, not a second one to count). The 'space mesh' display toggle removes the space lines. Setting physics.D0pull to 0 goes to the chi=1 pole (the two bodies are each other's only reference); 1e3 glues the space lines to the background. physics.kFrame=0 removes the dragging and restores the Kepler ellipse (period 518.85). timeScale=60 and dispMag=3 are display-only. Beside 🫂 the pair shows the same dragging channel read two ways: by sweeping D0 and by connecting the mesh."},
     parameterAudit:{
       observedInputs:["NONE — this sample transcribes no observation"],
       fixedConventions:["the project-wide c0=30 convention (waves 99/100): G=0.60066, cLight=30, kappaT=G/c^2=0.0006674",
         "geoPN=0 (1PN off) and kFrame=1 (dragging on) — the only pre-existing channel is A8/E6'",
         "frameWeight:\"pull\" with D0pull=1e-4 (the run-time chi=0.962 follows from it, it is not declared)",
-        "physics.spaceMesh={mode:\"vertex\", gravity:true, inertia:false} — the inertia channel is deliberately OFF"],
+        "physics.spaceMesh={mode:\"vertex\", gravity:true, inertia:false} — the inertia channel is deliberately OFF",
+        "the wave-255a opt-ins (spaceMesh.weave, spaceMesh.reservoir) are NOT declared (the five-step row is a harness measurement)"],
       fitted:["NOTHING"],
       derived:["a=160, p=120, periastron distance 80, relative apoapsis speed 1.118648738434009, Kepler period 518.8544",
         "the run-time chi from D0pull, and Omega_mesh = Omega_orbit from the vertex contract"],
@@ -10216,7 +10281,8 @@ const BUILTIN_PRESETS = [
     fixedConventions:["**c₀=30 一律規約(第99/100便)**: G=0.60066・cLight=30・κ_T=G/c²=0.0006674",
       "geoPN=0(1PN を切る)・kFrame=1(引きずり ON)— 既存チャネルを A8/E6′ だけにする",
       "frameWeight:\"pull\"・D0pull=1e−4(実行時 χ=0.962 はその帰結であって宣言値ではない)",
-      "physics.spaceMesh={mode:\"vertex\", gravity:true, inertia:false} — **慣性チャネルは意図して OFF**"],
+      "physics.spaceMesh={mode:\"vertex\", gravity:true, inertia:false} — **慣性チャネルは意図して OFF**",
+      "第255便a の opt-in(spaceMesh.weave・spaceMesh.reservoir)は**宣言していない**(カードの 5 段はハーネスが宣言を差し替えた実測)"],
     fitted:["**無し**"],
     derived:["a=160・p=120・近点距離 80・遠点相対速度 1.118648738434009・ケプラー周期 518.8544",
       "D0pull から出る実行時 χ・頂点契約から出る Ω_mesh=Ω_orbit"],
@@ -10236,9 +10302,11 @@ const BUILTIN_PRESETS = [
     {type:"single", m:500, radius:1, x:-120, y:0, vx:0, vy:-0.5593243692170045, spin:0, pinned:false, pnSource:true},
     {type:"single", m:500, radius:1, x:120, y:0, vx:0, vy:0.5593243692170045, spin:0, pinned:false}
   ],
-  // 第254便a: 空間メッシュのオーバーレイを**輸送線モード**で既定 ON にする(表示のみ)。
-  // 🫂 は参照ガイド(guide)を既定にした — 2 モードを両方の画面で見比べられる
-  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,spaceMesh:true,spaceMeshMode:"transport"} },
+  // 第254便a: 空間メッシュのオーバーレイを**輸送線モード**で既定 ON にしていた(表示のみ)。
+  // 第255便c(第47報): 🫂 と揃えて既定表示を**空間線**(lines)へ。格子 2 種(guide/transport)は
+  // 明示宣言したときだけの診断表示として残る。**presetSig は変わる**(意図した変更 —— 力学・
+  // 600 步の状態・physics.spaceMesh の opt-in は 1 bit も動かない)
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,spaceMesh:true,spaceMeshMode:"lines"} },
 
 // ===== 第223便(第22報 原仮定者指示): GW150914 — 連星ブラックホールの基準状態 🎐 と DFM 版 🎻 =====
 // 観測レコード(2026-08-29 取得・paper/data/solar-observations.csv の GW150914 行)からの手組み転写。
@@ -13913,8 +13981,14 @@ function validatePreset(obj){
       //                  (座標は混ぜない —— det[(1−χ)I+χR_θ] が χ=½・θ=π で 0 になるため)
       //   "transport" … 輸送された物質線。dx/dt=u・dF/dt=(∇u)F を **S.step の時刻で**積分した
       //                  マーカーを描く(描画は読むだけ)
-      // 既定(true 宣言)は "guide"。未宣言は 1 bit 不変(鍵を足さない)
-      if(p.overlays.spaceMeshMode==="transport" || p.overlays.spaceMeshMode==="guide"){
+      // 第255便c(第47報・3 審査 v13): 第3の値 **"lines"(空間線)** を足した。凍結した時刻の場を
+      //   表示用パラメータ τ で追跡する線(dx/dτ=u+c_line ê・dê/dτ=(I−êêᵀ)Bê)で、**光子でも
+      //   物質線でもない**。宣言なし(true だけ)の既定表示も空間線になった —— 格子 2 種は
+      //   **明示宣言したときだけの診断表示**として残す。
+      // **値域は 1 形へ潰さない**(署名便 —— "lines" の明示宣言は "lines" のまま署名に載る)。
+      // 未宣言は 1 bit 不変(鍵を足さない)
+      if(p.overlays.spaceMeshMode==="transport" || p.overlays.spaceMeshMode==="guide"
+         || p.overlays.spaceMeshMode==="lines"){
         ov.spaceMesh=true; ov.spaceMeshMode=p.overlays.spaceMeshMode;
       }
     }
@@ -15361,6 +15435,13 @@ function makeSim(){
     // 第254便a: spaceMesh の読み口(外部仕事・実行時 χ・置換した重力差のノルム・停止理由)。未宣言なら常に 0
     S.spaceMeshWorkE=0; S.spaceMeshChi=0; S.spaceMeshGravDiff=0; S.spaceMeshN=0; S.spaceMeshStop=null;
     S._smAnc=null; S.meshTransport=null;
+    // 第255便a: 帳簿の増設 —— pinned の未適用仕事は別欄・pairWeave の P/L/E・回転子交換の J/Q
+    S.spaceMeshWorkPinned=0;
+    S.spaceMeshWeavePx=0; S.spaceMeshWeavePy=0; S.spaceMeshWeaveL=0; S.spaceMeshWeaveE=0;
+    S.spaceMeshWeaveChi=0; S.spaceMeshWeaveRel=0; S.spaceMeshWeaveClamp=0; S.spaceMeshWeaveStop=null;
+    S._pw=null;
+    S.meshJ=0; S.meshQ=0; S.meshRotorL=0; S.meshRotorE=0; S.meshOmega=0; S.meshOmegaMesh=0;
+    S.meshRotorStop=null;
     S.wallEin=0; S.wallEout=0; S.wallKE=0;   // 第37便 C1(台帳4-70): 壁帳簿もリセット
     S.pinHeat=0;   // 第47便 47A(台帳4-86): pinned 熱浴の帳簿もリセット
     S.coreWork=0;  // 第77便(コアv2): パワーボール仕事+収縮の回転エネルギー増(外部仕事の明示帳簿)
@@ -15430,7 +15511,12 @@ function makeSim(){
     // validateSpaceMesh が「mode 欠落」「gravity/inertia 両方 OFF」を null へ正規化しているので、
     // キーの有無だけで判定できる。宣言が変わったら anchor を捨てて張り直す(黙って古い参照を使わない)
     const __sm=S.params[SPACE_MESH_KEY];
-    S.hasSpaceMesh=!!__sm; S.spaceMesh=__sm||null; S._smAnc=null; S.spaceMeshStop=null;
+    // 第255便a: 力へ当てるのは gravity/inertia のときだけ(weave・reservoir は別パス)
+    S.hasSpaceMesh=!!(__sm && (__sm.gravity===true || __sm.inertia));
+    S.hasPairWeave=!!(__sm && (__sm.weave==="pair" || __sm.weave==="pairFull"));
+    S.hasMeshReservoir=!!(__sm && __sm.reservoir);
+    S.spaceMesh=__sm||null; S._smAnc=null; S.spaceMeshStop=null; S.spaceMeshWeaveStop=null;
+    S.meshRotorStop=null; S._pw=null;
     // 第252便b: 近点サブステップ(physics.periSubsteps)の有無フラグと発火しきい値も同じ場所で張る。
     // validatePeriSubsteps が n<=1 を null へ正規化しているので、キーの有無だけで判定できる
     const __psq=S.params[PERI_SUB_KEY];
@@ -15836,6 +15922,20 @@ function makeSim(){
       } else { vx[i]+=ddx; vy[i]+=ddy; }
     }
   };
+  // 第255便a: anchor の管理を **weave・reservoir と共有**する(|m| 上位 2 体。構成が変わったら張り直す)
+  function spaceMeshAnchorOf(S){
+    let A=S._smAnc;
+    if(!A || A.owner!==S || A.n!==S.n || A.positionArray!==S.x){
+      const n=S.n, m=S.m;
+      let i1=-1,i2=-1,a1=-Infinity,a2=-Infinity;
+      for(let i=0;i<n;i++){ const q=Math.abs(m[i]);
+        if(q>a1){ a2=a1; i2=i1; a1=q; i1=i; } else if(q>a2){ a2=q; i2=i; } }
+      if(i1<0 || i2<0){ S._smAncErr="pair"; return null; }
+      A=S._smAnc=dfmSpaceMeshCapture(S,[Math.min(i1,i2),Math.max(i1,i2)]);
+      if(!A){ S._smAncErr="capture"; return null; }
+    }
+    S._smAncErr=null; return A;
+  }
   // ===== 第254便a(第46報): 空間メッシュの力への接続(physics.spaceMesh)=====
   // `_spinSpin`・`_axisForce`・`_compactForce` と同じ「S._core の**外**の 1 パス・速度キック
   // Δv=Δa·dt」で、semi(既定)では「E4 の加速度に足してから速度更新」と厳密に同義になる
@@ -15866,15 +15966,8 @@ function makeSim(){
     const pw0=frameWeightPow(p), pw=(pw0>0)? pw0 : 1;   // share(pw0=0)の核は w=m/√(d²+ε²)= p=1
     const x=S.x, y=S.y, vx=S.vx, vy=S.vy, m=S.m, mEff=S.mEff, pin=S.pinned;
     // ---- anchor(|m| 最大の 2 粒子)。構成が変わったら**黙って作り直さず**捨てて張り直す
-    let A=S._smAnc;
-    if(!A || A.owner!==S || A.n!==S.n || A.positionArray!==S.x){
-      let i1=-1,i2=-1,a1=-Infinity,a2=-Infinity;
-      for(let i=0;i<n;i++){ const q=Math.abs(m[i]);
-        if(q>a1){ a2=a1; i2=i1; a1=q; i1=i; } else if(q>a2){ a2=q; i2=i; } }
-      if(i1<0 || i2<0){ S.spaceMeshStop="pair"; return; }
-      A=S._smAnc=dfmSpaceMeshCapture(S,[Math.min(i1,i2),Math.max(i1,i2)]);
-      if(!A){ S.spaceMeshStop="capture"; return; }
-    }
+    const A=spaceMeshAnchorOf(S);
+    if(!A){ S.spaceMeshStop=S._smAncErr||"capture"; return; }
     const M=dfmSpaceMeshState(A,S,(cf.D0!==undefined)? {D0:cf.D0} : undefined);
     if(!M){ S.spaceMeshStop="state"; return; }   // 退化は黙って背景へ戻さず、停止理由を残して素通り
     S.spaceMeshStop=null;
@@ -15890,7 +15983,11 @@ function makeSim(){
     const wx=vx[ib]-vx[ia], wy=vy[ib]-vy[ia];
     const dwx=g1x-g0x, dwy=g1y-g0y;                    // ẇ
     const Cx=M.origin[0], Cy=M.origin[1], Ux=M.velocity[0], Uy=M.velocity[1];
-    const Ax=(g0x+g1x)/2, Ay=(g0y+g1y)/2;              // C̈(中点 C=(x₁+x₂)/2 の 2 階微分)
+    // 第255便a: C̈ は**重心**の 2 階微分(m₀g₀+m₁g₁)/M。孤立ニュートン対では厳密に 0 になる。
+    // 等質量は中点式のまま(値が厳密に同じで、既存の 🫂🪟 が 1 bit も動かない)
+    const mA=m[ia], mB=m[ib], mAB=mA+mB, eqmF=(mA===mB);
+    const Ax=eqmF? (g0x+g1x)/2 : (mA*g0x+mB*g1x)/mAB,
+          Ay=eqmF? (g0y+g1y)/2 : (mA*g0y+mB*g1y)/mAB;
     const B=M.gradU, H=B[0], Om=B[2];
     const Hd=(wx*wx+wy*wy+rx*dwx+ry*dwy)/r2-2*H*H;     // Ḣ = (|w|²+r·ẇ)/r² − 2H²
     const Od=(rx*dwy-ry*dwx)/r2-2*H*Om;                // Ω̇ = (r×ẇ)/r² − 2HΩ
@@ -15951,23 +16048,156 @@ function makeSim(){
     S.spaceMeshChi=chiMax; S.spaceMeshGravDiff=gDiff; S.spaceMeshN=nOn;
     if(!nOn) return;
     const carV=!!S.carVx, carVx=S.carVx, carVy=S.carVy;
-    let spx=0, spy=0, sl=0, wk=0;
+    let spx=0, spy=0, sl=0, wk=0, wkP=0;
     for(let i=0;i<n;i++){
       const ax=AXo[i], ay=AYo[i];
       if(ax===0 && ay===0) continue;
       const mi=mEff[i], fx=mi*ax, fy=mi*ay;
       spx+=fx; spy+=fy; sl+=x[i]*fy-y[i]*fx;
-      if(pin[i]) continue;                     // pinned は規定運動(未適用分も同じ帳簿で閉じる)
-      wk+=fx*vx[i]+fy*vy[i];
+      // 第255便a: pinned(規定運動)の**未適用分は別欄** S.spaceMeshWorkPinned へ(同じ帳簿で閉じる)
+      if(pin[i]){ wkP+=(fx*vx[i]+fy*vy[i])*dt; continue; }
+      const p0x=vx[i], p0y=vy[i];
       const ddx=ax*dt, ddy=ay*dt;
       if(carV){
         const addX=ddx+carVx[i], v0x=vx[i]; vx[i]=v0x+addX; carVx[i]=addX-(vx[i]-v0x);
         const addY=ddy+carVy[i], v0y=vy[i]; vy[i]=v0y+addY; carVy[i]=addY-(vy[i]-v0y);
       } else { vx[i]+=ddx; vy[i]+=ddy; }
+      // 第255便a(ChatGPT §7.4): **離散キックの厳密仕事** Σm(|v′|²−|v|²)/2。
+      // 旧式 F·v·dt はキック**前**の速度で測るので m|Δv|²/2 が丸ごと抜けていた
+      wk+=0.5*mi*((vx[i]*vx[i]+vy[i]*vy[i])-(p0x*p0x+p0y*p0y));
     }
     // **反作用は未定義**なので、入れた運動量・角運動量・仕事をリザーバ帳簿へ(閉じた系ではない宣言)
     S.resPx-=spx*dt; S.resPy-=spy*dt; S.resL-=sl*dt;
-    S.spaceMeshWorkE+=wk*dt;
+    S.spaceMeshWorkE+=wk; S.spaceMeshWorkPinned+=wkP;
+  };
+  // ===== 第255便a(第47報): pairWeave —— 対ごとの織り込み(physics.spaceMesh.weave:"pair")=====
+  // 原仮定者(第47報):「各粒子の移動回転により、空間メッシュの各座標における移動回転差分は、
+  // 瞬間的に決まっている。粒子間の引力や引きずりの計算に織り込む方法を検討する」。
+  // **引力(E4)には触らない**(第254便a で「メッシュの重力は既にある重力」= 恒等置換と実測済み)。
+  // 織り込むのは**引きずり(A8/E6′)が読むフレーム**だけである:
+  //   現行  u_frame,i = (Σ_{j≠i} w_j v_j + D₀ᵖ·u_bg)/(D₀ᵖ + Σ_{j≠i} w_j)   … pull 平均(**相手の速度**)
+  //   織込  u_pair,i  = χᵢ·u_node(xᵢ) + (1−χᵢ)·u_bg、u_node(x)=Ċ+B(x−C)    … **対の瞬間メッシュ**
+  // u_node は**頂点契約 u_node(xᵢ)=vᵢ**(重心原点でも中点原点でも恒等)なので、頂点では
+  // **vᵢ−u_pair,i=(1−χᵢ)(vᵢ−u_bg)** になる —— χ→1 で「対に対する相対速度」が消える。
+  // **2 案を実装して実測で比べる**:
+  //   "pair"     … 相対速度の読み替え。残る引きずりは背景ぶんの (1−χ) だけ
+  //                 → Δv_i = kF(1−χᵢ)·Δu_frame,i(本パスが書くのは差分 −kF·χᵢ·Δu_frame,i)
+  //   "pairFull" … フレームそのものの代入 Δv_i = kF·Δu_pair,i。**頂点では u_pair=χvᵢ なので
+  //                 χΔvᵢ の自己項が残る** = 第254便a の慣性退化と同じ正のフィードバック(実測で確認)
+  // χᵢ はエンジンの分母そのもの(χᵢ=Σw_j/(D₀ᵖ+Σw_j))を読むので、u_node を相手の速度に
+  // 差し替えれば u_frame に厳密に戻る(新しい重みを持ち込んでいない)。
+  // **実装は S._core の外の 1 パス**で、E6′ が当てた Δv=kF·Δu_frame を打ち消して
+  // Δv=kF·Δu_pair を当てる差分だけを書く(既定経路は S.hasPairWeave の真偽値 1 つで素通り)。
+  // **反作用は未定義**なので、入れた運動量・角運動量・仕事はリザーバ帳簿と
+  // spaceMeshWeaveP/L/E へ記帳する(= 閉じた系ではないことの宣言)。
+  // **多体(n≥3)の定義は「|m| 上位 2 体の対だけに織る」**(他の対は現行のまま。第255便a 第 1 案)。
+  S._pairWeaveForce = function(){
+    const n=S.n, cf=S.params[SPACE_MESH_KEY];
+    const wv=cf.weave;
+    if(!cf || (wv!=="pair" && wv!=="pairFull") || !(n>=2)) return;
+    const p=S.params, kF=p.kFrame;
+    if(!(kF>0)){ S.spaceMeshWeaveStop="kFrame"; return; }
+    // legacy E6′(geoPN=0)の帯だけに織る。geoPN=1 は物質への E6′ が無効・geoPN=2 は輸送 3 項で
+    // Δv が Δu だけでは決まらないので、**黙って別の式にせず停止理由を残して素通りする**
+    if((p.geoPN||0)>=1){ S.spaceMeshWeaveStop="geoPN"; return; }
+    const A=spaceMeshAnchorOf(S);
+    if(!A){ S.spaceMeshWeaveStop=S._smAncErr||"capture"; return; }
+    const M=dfmSpaceMeshState(A,S,(cf.D0!==undefined)? {D0:cf.D0} : undefined);
+    if(!M){ S.spaceMeshWeaveStop="state"; return; }
+    const CG=S._chG, fsep=!!(CG && CG.fsep), sWu=fsep? S.sumWu : S.sumW;
+    if(!sWu || !S.hasU){ S.spaceMeshWeaveStop="frame"; return; }
+    const WB=(S.boxA && S.boxA.W>0)? S.boxA.W : 0;
+    const bgWu=(fsep && CG.pull)? (CG.D0p+WB) : (p.D0+WB);
+    let PW=S._pw;
+    if(!PW || PW.nAl!==n) PW=S._pw={nAl:n, anc:null, wx:new Float64Array(n), wy:new Float64Array(n),
+      fx:new Float64Array(n), fy:new Float64Array(n), has:new Uint8Array(n)};
+    // anchor が張り直されたら前步の記憶を捨てる(融合・分裂・並べ替えで別の粒子を掴みうる)
+    if(PW.anc!==A){ PW.anc=A; PW.has.fill(0); }
+    const mEff=S.mEff, pin=S.pinned, x=S.x, y=S.y, vx=S.vx, vy=S.vy;
+    const carV=!!S.carVx, carVx=S.carVx, carVy=S.carVy;
+    const B=M.gradU, Cx=M.origin[0], Cy=M.origin[1], Ux=M.velocity[0], Uy=M.velocity[1];
+    let spx=0, spy=0, sl=0, dE=0, nCl=0, chiOut=0, relOut=0;
+    for(let z=0;z<2;z++){
+      const i=A.ids[z], den=bgWu+sWu[i];
+      if(!(den>0) || !S.hasU[i]){ PW.has[i]=0; continue; }
+      const chi=sWu[i]/den;
+      if(chi>chiOut) chiOut=chi;
+      const ex=x[i]-Cx, ey=y[i]-Cy;
+      const unx=Ux+B[0]*ex+B[1]*ey, uny=Uy+B[2]*ex+B[3]*ey;   // = vᵢ(頂点契約)
+      const uwx=chi*unx, uwy=chi*uny;              // u_bg=0(background:"static" の明示宣言)
+      const rl=Math.hypot(vx[i]-uwx,vy[i]-uwy); if(rl>relOut) relOut=rl;
+      const ufx=S.uPx[i], ufy=S.uPy[i];            // E6′ が読んだ pull 平均フレームそのもの
+      if(!PW.has[i]){ PW.wx[i]=uwx; PW.wy[i]=uwy; PW.fx[i]=ufx; PW.fy[i]=ufy; PW.has[i]=1; continue; }
+      let dfx=ufx-PW.fx[i], dfy=ufy-PW.fy[i];
+      const l2=dfx*dfx+dfy*dfy;                    // E6′ と同じ 1 サブステップ上限 0.8
+      if(l2>0.64){ const sc=0.8/Math.sqrt(l2); dfx*=sc; dfy*=sc; nCl++; }
+      let ddx, ddy;
+      if(wv==="pairFull"){
+        // フレームそのものの代入(Δv=kF·Δu_pair を当て直す)
+        let dwx=uwx-PW.wx[i], dwy=uwy-PW.wy[i];
+        const l1=dwx*dwx+dwy*dwy;
+        if(l1>0.64){ const sc=0.8/Math.sqrt(l1); dwx*=sc; dwy*=sc; nCl++; }
+        ddx=kF*(dwx-dfx); ddy=kF*(dwy-dfy);
+      } else {
+        // **相対速度の読み替え**: 対の自己引きずり(χ 分)を引く。頂点に残るのは (1−χ) だけ
+        ddx=-kF*chi*dfx; ddy=-kF*chi*dfy;
+      }
+      PW.wx[i]=uwx; PW.wy[i]=uwy; PW.fx[i]=ufx; PW.fy[i]=ufy;
+      if(ddx===0 && ddy===0) continue;
+      const mi=mEff[i];
+      spx+=mi*ddx; spy+=mi*ddy; sl+=mi*(x[i]*ddy-y[i]*ddx);
+      if(pin[i]) continue;                         // pinned は規定運動(未適用分も帳簿へ計上済み)
+      const q0x=vx[i], q0y=vy[i];
+      if(carV){
+        const addX=ddx+carVx[i], v0x=vx[i]; vx[i]=v0x+addX; carVx[i]=addX-(vx[i]-v0x);
+        const addY=ddy+carVy[i], v0y=vy[i]; vy[i]=v0y+addY; carVy[i]=addY-(vy[i]-v0y);
+      } else { vx[i]+=ddx; vy[i]+=ddy; }
+      dE+=0.5*mi*((vx[i]*vx[i]+vy[i]*vy[i])-(q0x*q0x+q0y*q0y));   // 離散キックの厳密仕事
+    }
+    S.spaceMeshWeaveChi=chiOut; S.spaceMeshWeaveRel=relOut;
+    S.spaceMeshWeaveClamp+=nCl; S.spaceMeshWeaveStop=null;
+    if(spx===0 && spy===0 && sl===0 && dE===0) return;
+    S.spaceMeshWeavePx+=spx; S.spaceMeshWeavePy+=spy; S.spaceMeshWeaveL+=sl; S.spaceMeshWeaveE+=dE;
+    S.resPx-=spx; S.resPy-=spy; S.resL-=sl;        // 閉じた系ではない宣言(反作用は未定義)
+  };
+  // ===== 第255便a(ChatGPT §8.1): 有限のメッシュ角運動量(physics.spaceMesh.reservoir)=====
+  // **メッシュに有限の慣性 I_m を与え、軌道 L とメッシュ J を γ で交換する**。純関数は
+  // `HP.dfmMeshRotorExchange`(L+J 保存・L²/2I_o+J²/2I_m+Q 保存・Q̇≥0)。ここはその源接続で、
+  // 相対ベクトル r に対する**等大反対の接線インパルス**(Δp_j=(dL/r²)·ẑ×r・Δp_i=−Δp_j)で
+  // 軌道 L を dL だけ変え、メッシュ J へ −dL を渡す。**I_o=μr² はサブステップ内で固定**する。
+  // **D₀ を慣性密度と同一視しない**(I_m は独立に宣言する数)。**Q は「熱」であって重力波放出ではない**
+  // —— 外向き流束・伝播・波形の写像を 1 つも持っていない。
+  S._meshReservoir = function(dt){
+    const cf=S.params[SPACE_MESH_KEY], rv=cf&&cf.reservoir;
+    if(!rv || !(S.n>=2)) return;
+    const A=spaceMeshAnchorOf(S);
+    if(!A){ S.meshRotorStop=S._smAncErr||"capture"; return; }
+    const i=A.ids[0], j=A.ids[1], m=S.m, x=S.x, y=S.y, vx=S.vx, vy=S.vy;
+    if(S.pinned[i] || S.pinned[j]){ S.meshRotorStop="pinned"; return; }   // 規定運動へは返さない
+    const mi=m[i], mj=m[j];
+    if(!(mi>0) || !(mj>0)){ S.meshRotorStop="mass"; return; }
+    const rx=x[j]-x[i], ry=y[j]-y[i], r2=rx*rx+ry*ry;
+    if(!(r2>0) || !Number.isFinite(r2)){ S.meshRotorStop="degenerate"; return; }
+    const wx=vx[j]-vx[i], wy=vy[j]-vy[i];
+    const mu=mi*mj/(mi+mj), Io=mu*r2, L=mu*(rx*wy-ry*wx);
+    const ex=dfmMeshRotorExchange({L, J:S.meshJ, Iorb:Io, Imesh:rv.Imesh, gamma:rv.gamma, dt});
+    if(!ex){ S.meshRotorStop="rotor"; return; }
+    S.meshRotorStop=null; S.meshOmega=ex.omega; S.meshOmegaMesh=ex.Omega;
+    const dL=ex.dL;
+    S.meshJ=ex.J; S.meshQ+=ex.dQ; S.meshRotorL+=dL;
+    if(dL===0) return;
+    const kk=dL/r2, ipx=kk*(-ry), ipy=kk*rx;      // Δp_j = (dL/r²)·ẑ×r(r×Δp_j=dL が厳密)
+    const carV=!!S.carVx, carVx=S.carVx, carVy=S.carVy;
+    const e0=0.5*(mi*(vx[i]*vx[i]+vy[i]*vy[i])+mj*(vx[j]*vx[j]+vy[j]*vy[j]));
+    const put=(k,ax,ay)=>{
+      if(carV){
+        const addX=ax+carVx[k], v0x=vx[k]; vx[k]=v0x+addX; carVx[k]=addX-(vx[k]-v0x);
+        const addY=ay+carVy[k], v0y=vy[k]; vy[k]=v0y+addY; carVy[k]=addY-(vy[k]-v0y);
+      } else { vx[k]+=ax; vy[k]+=ay; }
+    };
+    put(j, ipx/mj, ipy/mj); put(i, -ipx/mi, -ipy/mi);
+    const e1=0.5*(mi*(vx[i]*vx[i]+vy[i]*vy[i])+mj*(vx[j]*vx[j]+vy[j]*vy[j]));
+    S.meshRotorE+=e1-e0;                           // 粒子側が受け取った運動エネルギー(厳密差)
   };
   // 第252便b: 近点サブステップの再入フラグ(クロージャ変数 — S のプロパティにしないのは、
   // 既定経路で読むのがローカルスコープの真偽値 1 つで済むようにするため)。true の間は
@@ -16008,6 +16238,10 @@ function makeSim(){
       if(S.hasCompactForce) S._compactForce(dt*0.5);   // 第251便a: コンパクト連星の追加対力も同じ位置
       if(S.hasSpaceMesh) S._spaceMeshForce(dt*0.5);    // 第254便a: 空間メッシュの重力・慣性チャネルも同じ位置
       S._core(dt,1); S._core(dt,2);
+      // 第255便a: pairWeave は **E6′ が読んだフレームの差分**を打ち消す補正なので S._core の**後**。
+      // reservoir(回転子交換)も同じ位置(未宣言はどちらも真偽値 1 つで素通り)
+      if(S.hasPairWeave) S._pairWeaveForce();
+      if(S.hasMeshReservoir) S._meshReservoir(dt);
       if(S.hasSpaceMesh) S._spaceMeshForce(dt*0.5);
       if(S.hasCompactForce) S._compactForce(dt*0.5);
       if(S.hasAxisForce) S._axisForce(dt*0.5);
@@ -16018,6 +16252,8 @@ function makeSim(){
       if(S.hasCompactForce) S._compactForce(dt);
       if(S.hasSpaceMesh) S._spaceMeshForce(dt);        // 第254便a(未宣言は真偽値 1 つで素通り)
       S._core(dt,0);
+      if(S.hasPairWeave) S._pairWeaveForce();           // 第255便a(同上 — S._core の後)
+      if(S.hasMeshReservoir) S._meshReservoir(dt);
     }
     if(S.params.petersGW===true) S._petersGW(dt);   // 第227便: 外部物理オーバーレイ(既定 OFF=素通り)
     // 第252便b: 離散イベントは**最後のサブステップの後に 1 度だけ**(Grok §4A)。periSubsteps
@@ -18414,10 +18650,23 @@ let camX=0, camY=0, camScale=300, tempP90EMA=0.5, monitorOn=false;
 // 置き場所と一緒に**永続性も共通設定の流儀へ揃える**(hp_monitor に保存 — 描画品質・
 // ステップ診断・カメラ追従と同型)。既定値は現状維持: 未保存なら OFF で始まり、サンプルが
 // overlays.monitor:true を宣言していれば読込時に ON になる(loadPreset の ON のみ適用は不変)
-try{ monitorOn = localStorage.getItem("hp_monitor")==="1"; }catch(_){}
-function setMonitorOn(v){ monitorOn=!!v;
+// 第255便c(第47報 N7a): 永続の**方式**もカメラ追従(hp_camfollow)と同型にした。第254便c は
+// サンプルの overlays.monitor:true を setMonitorOn(true) で受けていたため、**サンプルの宣言が
+// 共通設定 hp_monitor を上書き**して以後の全サンプルで ON のままになった。以後は:
+//   ・hp_monitor に保存がある(= ユーザーが一度でも触った)なら、その値が常に勝つ
+//   ・保存が無いユーザーだけ、サンプルの宣言(overlays.monitor)を既定として読む
+// 上書きは setMonitorOn(= チェックボックスと HP.setMonitor)だけが行う
+let monitorTouched=false;
+try{ const _m=localStorage.getItem("hp_monitor");
+  if(_m!==null){ monitorTouched=true; monitorOn=(_m==="1"); } }catch(_){}
+function setMonitorOn(v){ monitorOn=!!v; monitorTouched=true;
   try{ localStorage.setItem("hp_monitor",monitorOn?"1":"0"); }catch(_){}
   requestRender(); }
+// サンプル読込時の既定(永続があれば触らない — camFollow と同じ流儀)
+function applyPresetMonitor(S){
+  if(monitorTouched) return;
+  monitorOn=!!(S && S.overlays && S.overlays.monitor);
+}
 // 第118便(原仮定者指示): 上下反転 — 描画の y 軸だけを反転する表示専用トグル(共通設定・
 // hp_flip_y 永続)。見た目の公転・自転を逆回転で確認するのが目的。物理座標・保存 JSON・
 // 一様重力 g_y の向き(+y)は一切変わらない — world→screen(w2sY)と screen→world の
@@ -20140,28 +20389,247 @@ function _smTrLattice(C0,h,K){
   }
   return {pts,eds};
 }
+// ===== 第255便c(第47報「空間線」): 表示のみの線 ============================================
+// 原仮定者(第47報): 「表示は、『光線』の表示を参考に、主要天体から基準となる方向に『空間線』を
+// 複数本飛ばして描画する方法を検討する」「連星での中間地点の表示は、重心地点に変える」
+// 「処理を軽くする工夫をする」。
+// 3 審査 v13 の一致点: 空間線は **凍結した時刻の場を表示用パラメータ τ で追跡する線**であって、
+// **光子でも物質線でもない**。c_line は**描画規約**であって光速ではない(光線の屈折率・局所時計・
+// 減光は 1 つも呼ばない)。表示は力学・帳簿へ 1 バイトも触らない。
+//   線の ODE: dx/dτ = u + c_line ê   ・   dê/dτ = (I − ê êᵀ) B ê   (B=∇u)
+//   中点法。剛体回転場(B の反対称部 Ω)では ê が Ω で回り、原点発の線は
+//   x(τ)=c_line τ (cos Ωτ, sin Ωτ) になる —— Ω=0.2・c_line=1・τ=1 で (0.980067, 0.198669)
+//   (QA ui.spaceLines がこの値を固定する)。
+// 場は 2 系統 —— 連星は dfmSpaceMeshCapture/State の解析場(u=v_C+B(x−C)・O(1))、
+// 銀河は dfmGalaxyMeshField(局所場・O(N))。どちらも**読むだけ**である。
+// 「処理を軽くする工夫」(第47報)は **3 段**で、いずれも実測に合わせてある(数値は
+// docs/PHYSICS.md 〔第255便c〕の表):
+//   ① 本数の品質縮退(光線と同じ係数 Q_RAY)② 5〜10Hz 上限のキャッシュ
+//   ③ **実測ビルド時間に対する duty 上限**(高い系では再構築の間隔を自動で延ばし、
+//      線の再構築が壁時計の SPACE_LINE_DUTY を超えないようにする)。
+// 連星の場は解析形(O(1))なので ① ② で足りるが、銀河の局所場は O(N)(N=351 で 1 点 41.6µs)
+// なので ③ が効く —— ∇u_bg の中心差分を落とす近似(bgGrad:"zero")は**線の形が変わる**
+// (終点 (120.4,397.1) 対 (−124.6,446.4))ので採らない。
+const SPACE_LINE_SEG=64;        // 1 本あたりの区間数(連星・門: ≤128)
+const SPACE_LINE_SEG_GAL=32;    // 銀河は区間数を半分に(局所場が O(N) —— 実測で決めた)
+const SPACE_LINE_TURN=1.0;      // τ_max の決め方 —— 場の回転で 1 rad 曲がるところまで
+const SPACE_LINE_LEN=1.2;       // 線の長さ = この倍率 × camScale(画面半径のおよそ 1.2 倍)
+const SPACE_LINE_MS=150;        // 再構築の下限間隔(≈6.7Hz —— 上限 5〜10Hz の内側)
+const SPACE_LINE_DUTY=0.03;     // 再構築に使ってよい壁時計の割合(実測ビルド時間から間隔を決める)
+const SPACE_LINE_MS_MAX=1000;   // 間隔の上限(これ以上は延ばさない)
+const SPACE_LINE_MAXORG=4;      // 原点の上限
+const SPACE_LINE_MAXDIR=16;     // 1 原点あたりの方向の上限
+const _slD=new Float64Array(4); // 導関数の作業領域(1 本 1 区間ごとの確保をしない)
+const _slF=new Float64Array(7); // 場の作業領域 [ux,uy,B00,B01,B10,B11,chi]
+function _slDeriv(ax,ay,cLine){
+  const ux=_slF[0], uy=_slF[1];
+  _slD[0]=ux+cLine*ax; _slD[1]=uy+cLine*ay;
+  const bx=_slF[2]*ax+_slF[3]*ay, by=_slF[4]*ax+_slF[5]*ay;
+  const dot=bx*ax+by*ay;                       // (I − ê êᵀ)Bê —— ê の長さを伸ばす成分を落とす
+  _slD[2]=bx-dot*ax; _slD[3]=by-dot*ay;
+}
+// 1 本を引く純関数。fieldAt(x,y) は **①作業領域 _slF を埋めて true を返す**(内部の速い経路 ——
+// 1 区間ごとの確保をしない)か、**②[ux,uy,B00,B01,B10,B11,chi] を返す**(QA・外部の書きやすい経路)。
+// 偽・null を返したら線をそこで止める。戻り値の pts は [x0,y0,x1,y1,…](長さ 2(n+1))。
+// **この関数は S を書き換えない**
+function dfmSpaceLineTrace(fieldAt,x0,y0,ex,ey,cLine,tauMax,steps,out){
+  const N=Math.max(1,Math.min(128,Math.round(Number(steps))));
+  const tm=Number(tauMax), cl=Number(cLine);
+  if(!Number.isFinite(tm) || !(tm>0) || !Number.isFinite(cl)) return null;
+  let x=Number(x0), y=Number(y0), a=Number(ex), b=Number(ey);
+  const n0=Math.hypot(a,b);
+  if(!Number.isFinite(x) || !Number.isFinite(y) || !(n0>0)) return null;
+  a/=n0; b/=n0;
+  const h=tm/N, P=(out && out.length>=2*(N+1))? out : new Float64Array(2*(N+1));
+  P[0]=x; P[1]=y;
+  const fld=(px,py)=>{ const r=fieldAt(px,py);
+    if(!r) return false;
+    if(r!==true){ for(let j=0;j<7;j++){ const v=Number(r[j]); _slF[j]=(j===6 && r[j]===undefined)? NaN : (Number.isFinite(v)? v : 0); } }
+    return true; };
+  let chiSum=0, nChi=0, k=0;
+  for(;k<N;k++){
+    if(!fld(x,y)) break;
+    if(Number.isFinite(_slF[6])){ chiSum+=_slF[6]; nChi++; }
+    _slDeriv(a,b,cl);
+    const xm=x+0.5*h*_slD[0], ym=y+0.5*h*_slD[1];
+    let am=a+0.5*h*_slD[2], bm=b+0.5*h*_slD[3];
+    const nm=Math.hypot(am,bm); if(!(nm>0)) break;
+    am/=nm; bm/=nm;
+    if(!fld(xm,ym)) break;
+    _slDeriv(am,bm,cl);
+    const xn=x+h*_slD[0], yn=y+h*_slD[1];
+    let an=a+h*_slD[2], bn=b+h*_slD[3];
+    const nn=Math.hypot(an,bn);
+    if(!Number.isFinite(xn) || !Number.isFinite(yn) || !(nn>0)) break;
+    x=xn; y=yn; a=an/nn; b=bn/nn;
+    P[2*k+2]=x; P[2*k+3]=y;
+  }
+  if(k<1) return null;
+  return { pts:P, n:k+1, ex:a, ey:b, chi:nChi? chiSum/nChi : null, full:k===N };
+}
+// 重心(表示用・W1 の dfmSpaceMeshState.origin とは独立に W3 が自前で持つ —— 第255便c)。
+// 等質量では中点と一致する。**力学・帳簿には触れない**
+function _smBarycentre(S,ids){
+  if(!S || !Array.isArray(ids) || !ids.length) return null;
+  let M=0, cx=0, cy=0;
+  for(const i of ids){
+    const m=S.m[i], xi=S.x[i], yi=S.y[i];
+    if(!(m>0) || !Number.isFinite(xi) || !Number.isFinite(yi)) return null;
+    M+=m; cx+=m*xi; cy+=m*yi;
+  }
+  if(!(M>0)) return null;
+  return [cx/M, cy/M];
+}
+function _slNow(){ return (typeof performance!=="undefined" && performance.now)? performance.now() : Date.now(); }
+// 場の入口を作る。戻り値の at(x,y) が _slF を埋める(偽なら線をそこで止める)
+function _slFieldOf(S){
+  const ovm=S.overlays && S.overlays.spaceMesh;
+  if(ovm && typeof ovm==="object" && ovm.mode==="tracer"){
+    // ---- 銀河: 局所場(W2 の need 契約があれば uB だけを求める。無ければ現行の戻り値を読む)
+    const fo={need:"uB"};
+    const at=(x,y)=>{ const f=dfmGalaxyMeshField(S,x,y,fo);
+      if(!f) return false;
+      _slF[0]=f.u[0]; _slF[1]=f.u[1];
+      _slF[2]=f.gradU[0]; _slF[3]=f.gradU[1]; _slF[4]=f.gradU[2]; _slF[5]=f.gradU[3];
+      _slF[6]=f.chi; return true; };
+    let i0=-1, mm=-Infinity;
+    for(let i=0;i<S.n;i++){ const m=S.m[i]; if(m>mm){ mm=m; i0=i; } }
+    if(i0<0 || !at(S.x[i0],S.y[i0])) return null;
+    return { at, kind:"galaxy", origins:[[S.x[i0],S.y[i0]]], baseAngle:null,
+      ux:_slF[0], uy:_slF[1], Om:0.5*(_slF[4]-_slF[3]), chi:_slF[6], ids:[i0] };
+  }
+  // ---- 連星(頂点メッシュ): u(x)=v_C+B(x−C)・B は場所によらない(T2 の解析場・O(1))
+  if(!(S.n>=2)) return null;
+  const ids=_smPick(S); if(!ids) return null;
+  const key=S.n+"/"+ids[0]+"/"+ids[1];
+  let A=S._smDraw;
+  if(!A || S._smDrawKey!==key || A.owner!==S || A.n!==S.n || A.positionArray!==S.x){
+    A=S._smDraw=dfmSpaceMeshCapture(S,ids); S._smDrawKey=key;
+  }
+  const M=A? dfmSpaceMeshState(A,S) : null;
+  if(!M) return null;                       // 退化・構成変化では**描かない**(黙って固定枠へ戻さない)
+  const B=M.gradU, C=M.origin, V=M.velocity, chi=M.chi;
+  const at=(x,y)=>{ const dx=x-C[0], dy=y-C[1];
+    _slF[0]=V[0]+B[0]*dx+B[1]*dy; _slF[1]=V[1]+B[2]*dx+B[3]*dy;
+    _slF[2]=B[0]; _slF[3]=B[1]; _slF[4]=B[2]; _slF[5]=B[3]; _slF[6]=chi;
+    return Number.isFinite(_slF[0]) && Number.isFinite(_slF[1]); };
+  const bc=_smBarycentre(S,ids);
+  const org=[[S.x[ids[0]],S.y[ids[0]]],[S.x[ids[1]],S.y[ids[1]]]];
+  if(bc) org.push(bc);
+  return { at, kind:"binary", origins:org.slice(0,SPACE_LINE_MAXORG),
+    baseAngle:M.nHat? Math.atan2(M.nHat[1],M.nHat[0]) : 0,
+    ux:V[0], uy:V[1], Om:0.5*(B[2]-B[1]), chi, mesh:M, ids };
+}
+// 線束を組み立てる(凍結した時刻の場を τ で伸ばす)。**本数は光線と同じ品質縮退 Q_RAY を掛ける**
+function _slBuild(S){
+  const t0=_slNow();
+  const F=_slFieldOf(S);
+  const seg=(F && F.kind==="galaxy")? SPACE_LINE_SEG_GAL : SPACE_LINE_SEG;
+  const out={ lines:[], kind:F? F.kind : null, cLine:0, tau:0, nDir:0, seg,
+              chi:F? F.chi : null, Om:F? F.Om : null, ms:0 };
+  if(!F){ out.ms=_slNow()-t0; return out; }
+  const q=Q_RAY[qLevel()];
+  // 長さ L(世界単位)は camScale 基準 —— 画面半径のおよそ SPACE_LINE_LEN 倍
+  const L=SPACE_LINE_LEN*camScale;
+  // τ_max: ①場が回っていれば「1 rad 曲がるところ」②回っていなければ移流が L を超えないところ
+  //        ③どちらも 0 なら 1(場が静止 = 直線。値は線の形に効かない)
+  const spd=Math.hypot(F.ux,F.uy), om=Math.abs(F.Om);
+  let tau=(om>0)? SPACE_LINE_TURN/om : Infinity;
+  const adv=(spd>0)? L/spd : Infinity;
+  if(adv<tau) tau=adv;
+  if(!Number.isFinite(tau) || !(tau>0)) tau=1;
+  const cLine=L/tau;                       // 総延長を L に揃える描画規約(光速ではない)
+  out.cLine=cLine; out.tau=tau; out.L=L;
+  const base=(F.baseAngle===null || !Number.isFinite(F.baseAngle))? 0 : F.baseAngle;
+  const mkDirs=(n)=>{ const d=[], k=Math.max(2,Math.min(SPACE_LINE_MAXDIR,Math.round(n*q)));
+    for(let i=0;i<k;i++){ const th=base+2*Math.PI*i/k; d.push([Math.cos(th),Math.sin(th)]); }
+    return d; };
+  const sets=[];
+  if(F.kind==="binary"){
+    // 主要天体からは ±結合線・±直交(4 方向)、重心からは連星軸を基準角にした等分(8 方向)
+    sets.push([F.origins[0], mkDirs(4)]);
+    sets.push([F.origins[1], mkDirs(4)]);
+    if(F.origins[2]) sets.push([F.origins[2], mkDirs(8)]);
+  } else {
+    sets.push([F.origins[0], mkDirs(8)]);    // 銀河は中心天体(最大質量)から等角
+  }
+  let nd=0;
+  for(const [o,ds] of sets){
+    nd+=ds.length;
+    for(const e of ds){
+      const ln=dfmSpaceLineTrace(F.at,o[0],o[1],e[0],e[1],cLine,tau,seg);
+      if(ln) out.lines.push(ln);
+    }
+  }
+  out.nDir=nd; out.ms=_slNow()-t0;
+  return out;
+}
+// キャッシュ(S.t・S.n・camScale・品質・モードで無効化。再構築は SPACE_LINE_MS ごと)。
+// **力計算はこのキャッシュを読まない**(読むのは描画だけ)
+function _slEnsure(S){
+  const key=S.n+"|"+S.t+"|"+camScale+"|"+qLevel()+"|"+String(S.overlays&&S.overlays.spaceMeshMode);
+  const c=S._slCache, now=_slNow();
+  if(c && c.key===key) return c;
+  // 上限 Hz(時刻が進んでも間引く)。間隔は「実測ビルド時間 ÷ duty」で自動的に延びる
+  if(c && c.n===S.n && (now-c.at)<c.every) return c;
+  const b=_slBuild(S);
+  // builds は**宇宙ごとの通し番号**(無効化で 0 へ戻さない —— QA がキャッシュの効きを数える口)
+  b.key=key; b.at=_slNow(); b.n=S.n; b.builds=(S._slBuilds=(S._slBuilds||0)+1);
+  b.every=Math.min(SPACE_LINE_MS_MAX,Math.max(SPACE_LINE_MS,b.ms/SPACE_LINE_DUTY));
+  S._slCache=b; return b;
+}
+function drawSpaceLinesOn(S,SXf,SYf){
+  const c=_slEnsure(S);
+  if(!c || !c.lines.length) return;
+  const lw=ctx.lineWidth; ctx.lineWidth=1;
+  for(const ln of c.lines){
+    const ch=(ln.chi===null)? 1 : ln.chi;                 // χ は**不透明度にだけ**入る(座標は混ぜない)
+    const al=Math.max(0.10,Math.min(0.62,0.14+0.48*ch));
+    ctx.strokeStyle="rgba(150,220,255,"+al.toFixed(3)+")";
+    const P=ln.pts;
+    ctx.beginPath(); ctx.moveTo(SXf(P[0]),SYf(P[1]));
+    for(let i=1;i<ln.n;i++) ctx.lineTo(SXf(P[2*i]),SYf(P[2*i+1]));
+    ctx.stroke();
+  }
+  ctx.lineWidth=lw;
+}
 function drawSpaceMeshOn(S,SXf,SYf,zv){
   // 第254便b: 銀河の物質線モード({mode:"tracer"})は局所場の tracer を描いて終わる(頂点メッシュは描かない)
   const ovm=S && S.overlays && S.overlays.spaceMesh;
   if(ovm && typeof ovm==="object" && ovm.mode==="tracer"){
-    _smKeepMode=ovm.mode; drawGalaxyTracerInto(S,SXf,SYf,(zv>0)? zv : zoom()); return; }
+    // 第255便c: 銀河は物質線(tracer)に**空間線を追加で**描く(tracer は診断として残す)
+    _smKeepMode=ovm.mode; drawGalaxyTracerInto(S,SXf,SYf,(zv>0)? zv : zoom());
+    drawSpaceLinesOn(S,SXf,SYf); return; }
   if(!S || !(S.n>=2)) return;
-  let MST=null;                                    // 線分・中間地点の色分けに使う状態(モードで作り方が違う)
-  const mode=(S.overlays && S.overlays.spaceMeshMode==="transport")? "transport" : "guide";
+  let MST=null;                                    // 線分・重心マーカーの色分けに使う状態(モードで作り方が違う)
+  // 第255便c(3 審査 v13): **既定の表示は空間線**。格子(guide/transport)はサンプルが明示して
+  // 宣言したときだけの診断表示として残す(overlays.spaceMeshMode の受理値は 3 種 —— 値域は
+  // 1 形へ潰さない)
+  const smm=S.overlays && S.overlays.spaceMeshMode;
+  const mode=(smm==="transport"||smm==="guide")? smm : "lines";
   const ids=_smPick(S); if(!ids) return;
   const key=S.n+"/"+ids[0]+"/"+ids[1];
-  if(mode==="transport"){
+  if(mode==="lines"){
+    drawSpaceLinesOn(S,SXf,SYf);
+    // 色分け(unique)の状態は、空間線が使ったアンカーを読み直す(毎フレームの捕捉を避ける)
+    const AN0=S._smDraw;
+    if(AN0 && S._smDrawKey===key && AN0.owner===S && AN0.n===S.n && AN0.positionArray===S.x)
+      MST=dfmSpaceMeshState(AN0,S);
+  } else if(mode==="transport"){
     // ---- 輸送モード: S.meshTransport が無ければ**このフレームで 1 度だけ**登録する
     //      (登録後の積分は S.step の末尾だけ — 描画は読むだけである)
     let tr=S.meshTransport;
-    if(!tr || tr.error || S._smTrKey!==key){
+    // 第255便a(ChatGPT §7.3): **停止した輸送を描画側が黙って作り直さない**。
+    // tr.error が立ったら止まったまま(再設定は構成鍵 key が変わったときの明示的な張り直しだけ)
+    if(tr && tr.error && S._smTrKey===key){ S._smTrStopped=tr.error; }
+    else if(!tr || S._smTrKey!==key){
       const a0=dfmSpaceMeshCapture(S,ids); if(!a0) return;
       const m0=dfmSpaceMeshState(a0,S); if(!m0) return;
       const h=(m0.refRLen>0? m0.refRLen : 1)/4;
       const L=_smTrLattice(m0.refOrigin,h,6);
       tr=dfmMeshTransportBind(S,L.pts,L.eds,{ids});
       if(!tr) return;
-      S._smTrKey=key;
+      S._smTrKey=key; S._smTrStopped=null;
     }
     const lw=ctx.lineWidth, al=Math.max(0.10,Math.min(0.55,0.10+0.45*(tr.chi||0)));
     ctx.lineWidth=1; ctx.strokeStyle="rgba(150,220,255,"+al.toFixed(3)+")";
@@ -20194,17 +20662,25 @@ function drawSpaceMeshOn(S,SXf,SYf,zv){
     }
     ctx.lineWidth=lw;
   }
-  // 2 頂点を結ぶ線分と中間地点(第45報「空間メッシュの天体同士を結ぶ線と中間地点は一意に決まる」の
-  // 可視化 — 一意性が立つのは等質量かつ χ が門を超えたときだけなので、色でそれを分ける)
+  // 2 頂点を結ぶ線分と**重心**(第45報「空間メッシュの天体同士を結ぶ線と中間地点は一意に決まる」の
+  // 可視化 — 一意性が立つのは等質量かつ χ が門を超えたときだけなので、色でそれを分ける)。
+  // 第255便c(第47報「連星での中間地点の表示は、重心地点に変える」): 点は**中点ではなく重心**
+  // (_smBarycentre —— W1 の dfmSpaceMeshState.origin とは独立に表示側で持つので、W1 が origin を
+  // 重心へ変えても変えなくても同じ場所に出る)。等質量では中点と一致する。⊙ 風の二重丸で描く
+  // 第255便a: dfmSpaceMeshState.origin 自体も重心になった(M.barycentre / M.midpoint を明示フィールドで持つ)
   let M2=MST;
   if(!M2){ const A2=dfmSpaceMeshCapture(S,ids); M2=A2? dfmSpaceMeshState(A2,S) : null; }
   if(!M2) return;
   const lw2=ctx.lineWidth; ctx.lineWidth=1;
-  ctx.strokeStyle=M2.unique? "rgba(255,215,140,0.60)" : "rgba(180,190,210,0.45)";
+  const col=M2.unique? "255,215,140" : "180,190,210";
+  ctx.strokeStyle="rgba("+col+(M2.unique? ",0.60)" : ",0.45)");
   ctx.beginPath(); ctx.moveTo(SXf(S.x[ids[0]]),SYf(S.y[ids[0]]));
   ctx.lineTo(SXf(S.x[ids[1]]),SYf(S.y[ids[1]])); ctx.stroke();
-  ctx.fillStyle=M2.unique? "rgba(255,215,140,0.85)" : "rgba(180,190,210,0.7)";
-  ctx.beginPath(); ctx.arc(SXf(M2.origin[0]),SYf(M2.origin[1]),2.5,0,7); ctx.fill();
+  const bc=_smBarycentre(S,ids)||M2.origin;
+  ctx.strokeStyle="rgba("+col+(M2.unique? ",0.85)" : ",0.7)");
+  ctx.beginPath(); ctx.arc(SXf(bc[0]),SYf(bc[1]),5,0,7); ctx.stroke();
+  ctx.fillStyle="rgba("+col+(M2.unique? ",0.85)" : ",0.7)");
+  ctx.beginPath(); ctx.arc(SXf(bc[0]),SYf(bc[1]),2,0,7); ctx.fill();
   ctx.lineWidth=lw2;
 }
 function drawSpaceMesh(){ drawSpaceMeshOn(sim,w2sX,w2sY); }
@@ -21247,7 +21723,34 @@ function setPresetSelectValue(v){
 // variant 非表示はプルダウンと同じ規則(ただし検索・属性絞り込み中は variant も対象にする —
 // 絞り込みは「探す」操作なので隠さない)。読込は既存の loadPreset/loadSave+paramsDirty 確認を
 // そのまま通る(プルダウンの change と同じ意味論)。表示専用 — 物理・保存 JSON に無関係
-let ppGroup="all", ppScale="all", ppClass="all", ppE="all", ppSearch="";
+// 第255便c(第47報): 絞り込みから**グループの次元を外した**(残りは スケール/分類/E水準 の 3 次元)。
+// グループは**一覧の見出しとして残り**、見出しのタップで開閉する(既定は畳んだ状態)。
+//   ・永続: hp_pick_open(グループ名 → 真偽)。共通設定と同じ端末ローカルの表示状態
+//   ・既定(未保存のグループ): **畳む**。ただし**いま読み込んでいるサンプルのグループだけは開く**
+//     (ウィンドウを開いた瞬間に現在地が見えるほうが迷わない)
+//   ・検索・属性絞り込み中: 一致があるグループを**自動で開く**。その間の開閉は一時状態
+//     (ppOpenTmp)に持ち、絞り込みを変えた/解除した時点で捨てる(永続側を汚さない)
+let ppScale="all", ppClass="all", ppE="all", ppSearch="";
+let ppOpen={};
+try{ const _pj=localStorage.getItem("hp_pick_open");
+  if(_pj){ const o=JSON.parse(_pj); if(o && typeof o==="object" && !Array.isArray(o)) ppOpen=o; } }catch(_){}
+let ppOpenTmp={}, ppFilterSig=null;
+function ppSetOpen(g,v){ ppOpen[g]=!!v;
+  try{ localStorage.setItem("hp_pick_open",JSON.stringify(ppOpen)); }catch(_){} }
+function ppFiltering(){   // 絞り込み(検索 or 属性)が効いているか。切り替わったら一時状態を捨てる
+  const sig=ppSearch+""+ppScale+""+ppClass+""+ppE;
+  if(sig!==ppFilterSig){ ppFilterSig=sig; ppOpenTmp={}; }
+  return !!(ppSearch || ppScale!=="all" || ppClass!=="all" || ppE!=="all");
+}
+function ppCurGroup(){ return (currentPreset && (currentPreset.group||"内蔵")) || null; }
+function ppIsOpen(g,filtering){
+  if(filtering) return Object.prototype.hasOwnProperty.call(ppOpenTmp,g)? !!ppOpenTmp[g] : true;
+  if(Object.prototype.hasOwnProperty.call(ppOpen,g)) return !!ppOpen[g];
+  return g===ppCurGroup();
+}
+function ppToggleOpen(g,filtering,now){
+  if(filtering) ppOpenTmp[g]=!now; else ppSetOpen(g,!now);
+}
 function updatePresetPickBtn(){
   const b=$("#btnPresetPick"); if(!b) return;
   const sel=$("#presetSelect");
@@ -21271,17 +21774,37 @@ function ppMatch(p){
   }
   return true;
 }
+let ppGrpSeq=0;
 function ppRender(){
   const list=$("#ppList"); if(!list) return;
   list.textContent="";
-  const mkHead=(t)=>{ const d=document.createElement("div"); d.className="ppGroupHead"; d.textContent=t; list.appendChild(d); };
+  const filtering=ppFiltering();
+  let body=null;                                  // いま積んでいるグループの行の入れ物
+  // 見出し = 開閉ボタン(第255便c)。行は .ppGroupBody に入れ、畳んだグループは hidden にする
+  // (行そのものは組み立てておく —— 検索の即応性と、グループ間の件数比較のため)
+  const mkHead=(g,txt)=>{
+    const open=ppIsOpen(g,filtering);
+    const h=document.createElement("button"); h.type="button"; h.className="ppGroupHead";
+    h.setAttribute("aria-expanded",open?"true":"false");
+    h.title=T("ppGroupToggleTip");
+    const mark=document.createElement("span"); mark.className="ppGroupMark"; mark.textContent=open?"▾":"▸";
+    const nm=document.createElement("span"); nm.textContent=txt;
+    const cnt=document.createElement("span"); cnt.className="ppGroupCount";
+    h.appendChild(mark); h.appendChild(nm); h.appendChild(cnt);
+    const d=document.createElement("div"); d.className="ppGroupBody"; d.hidden=!open;
+    d.id="ppGrpBody"+(ppGrpSeq++); h.setAttribute("aria-controls",d.id);
+    h.addEventListener("click",()=>{
+      ppToggleOpen(g,filtering,ppIsOpen(g,filtering)); ppRender(); });
+    list.appendChild(h); list.appendChild(d);
+    body=d; return {h,d,cnt};
+  };
   const mkRow=(label,tags,cur,fn)=>{
     const b=document.createElement("button"); b.type="button"; b.className="ppRow";
     if(cur) b.dataset.cur="1";
     const s1=document.createElement("span"); s1.textContent=label; b.appendChild(s1);
     if(tags){ const s2=document.createElement("span"); s2.className="ppTags"; s2.textContent=tags; b.appendChild(s2); }
     b.addEventListener("click",fn);
-    list.appendChild(b);
+    (body||list).appendChild(b);
   };
   const pick=(v)=>{   // プルダウンの change ハンドラと同じ意味論
     if(paramsDirty && !confirm(T("confirmDiscard"))) return;
@@ -21289,34 +21812,39 @@ function ppRender(){
     if(v.startsWith("save#")){ const s=getSaves()[+v.slice(5)]; if(s) loadSave(s,v); return; }
     loadPreset(v,false);
   };
-  let curGroup=null;
+  let curGroup=null, head=null, nInGroup=0;
+  const closeGroup=()=>{ if(head) head.cnt.textContent=String(nInGroup); nInGroup=0; };
   const attrFiltered=(ppScale!=="all"||ppClass!=="all"||ppE!=="all");
   familyGroupedBuiltins().forEach(p=>{
     const g=p.group||"内蔵";
     if(catalogHidden(p)) return;   // 第117便: catalog は検索・属性絞り込みより先に隠す(strict)
-    if(ppGroup!=="all" && g!==ppGroup) return;
     if(!ppMatch(p)) return;
     if(!showAllSamples && p.familyId && p.familyRole==="variant"
       && !(currentPreset&&p.id===currentPreset.id) && !ppSearch && !attrFiltered) return;
-    if(g!==curGroup){ curGroup=g; mkHead(gName(g)); }
+    if(g!==curGroup){ closeGroup(); curGroup=g; head=mkHead(g,gName(g)); }
+    nInGroup++;
     let label=(p.emoji||"")+" "+pName(p);
     if(p.familyId&&p.familyRole==="variant") label="└ "+label;
     const tags=[(p.scaleTier||p.scaleExp? SCALE_EMOJI[presetTierOf(p)]:""),(p.emergence||""),
       (p.sampleClass? T("bdgSC_"+p.sampleClass):"")].filter(Boolean).join(" ");
     mkRow(label,tags,!!(currentPreset&&currentPreset.id===p.id),()=>pick(p.id));
   });
+  closeGroup();
   const customs=getCustomPresets();
-  if(customs.length && !attrFiltered && (ppGroup==="all"||ppGroup==="AI生成")){
-    mkHead(gName("AI生成"));
-    customs.forEach(p=>{ if(ppSearch&&!ppMatch(p)) return;
+  if(customs.length && !attrFiltered){
+    head=mkHead("AI生成",gName("AI生成")); nInGroup=0;
+    customs.forEach(p=>{ if(ppSearch&&!ppMatch(p)) return; nInGroup++;
       mkRow("🤖 "+(p.emoji||"")+" "+pName(p),"",!!(currentPreset&&currentPreset.id===p.id),()=>pick(p.id)); });
+    closeGroup();
   }
   const saves=getSaves();
-  if(saves.length && !attrFiltered && (ppGroup==="all"||ppGroup==="保存一覧")){
-    mkHead(gName("保存一覧"));
+  if(saves.length && !attrFiltered){
+    head=mkHead("保存一覧",gName("保存一覧")); nInGroup=0;
     saves.forEach((s,idx)=>{ const nm=s.name||T("untitled");
       if(ppSearch && !String(nm).toLowerCase().includes(ppSearch.toLowerCase())) return;
+      nInGroup++;
       mkRow("💾 "+nm,"",false,()=>pick("save#"+idx)); });
+    closeGroup();
   }
 }
 // 第149便(原仮定者指示): 絞り込み4次元の説明文(畳み込みの中身)。いずれも**既存の宣言・文言からの
@@ -21412,11 +21940,11 @@ function showPresetPicker(rebuildOnly){
   // サンプル数 — 手打ちしない)。表示専用で、フィルタの意味論(第94便: E0 は宣言なしも含む)は不変
   // 第149便(原仮定者指示): その注記を「E水準」ラベルのタップで開く畳み込みへ変え、グループ・
   // スケール・分類にも同じ作法の説明を新設した(既定は閉。ppNoteText() が中身を組み立てる)
-  ppChipsRow(box, T("ppDimGroup"),
-    [["all",T("grpAll")]].concat(orderedGroups().map(g=>[g,gName(g)]))
-      .concat(getCustomPresets().length? [["AI生成",gName("AI生成")]]:[])
-      .concat(getSaves().length? [["保存一覧",gName("保存一覧")]]:[]),
-    ()=>ppGroup,(v)=>ppGroup=v, {key:"group", id:"ppGroupNote", btnId:"ppDimGroupBtn"});
+  // 第255便c(原仮定者指示「絞り込みで、グループの絞り込みを無くす」): グループのチップ行は撤去。
+  // グループは**一覧の見出し**として残るので、第149便のグループ説明はチップ無しの**説明行**として
+  // 残す(見出しのタップで開閉する作法・文言・id は不変 —— 次元ではなくなったので btnId だけ改名)
+  ppChipsRow(box, T("ppNoteGroupLabel"), [],
+    ()=>"all",()=>{}, {key:"group", id:"ppGroupNote", btnId:"ppGroupNoteBtn"});
   ppChipsRow(box, T("ppDimScale"),
     [["all",T("grpAll")]].concat(SCALE_TIERS.map(t=>[t,SCALE_EMOJI[t]+" "+T("scaleName_"+t)])),
     ()=>ppScale,(v)=>ppScale=v, {key:"scale", id:"ppScaleNote", btnId:"ppDimScaleBtn"});
@@ -21563,7 +22091,7 @@ function loadPreset(id, keepPhysics){
   trailBuf=[]; trailBufB=[];  // 軌道トレイルはプリセット読込・⏮初めからでリセット
   emergenceReset();           // 第82便B: 創発モニタの履歴もプリセット読込でリセット(表示層のみ)
   pmReset();                  // 第83便B: 相図の結果はプリセット単位・セッション内のみ(保存しない)
-  if(sim.overlays && sim.overlays.monitor) setMonitorOn(true);  // v1.12: プリセット既定の保存量モニタ(ONのみ適用)/ 第254便c: 永続先へも書く
+  applyPresetMonitor(sim);   // v1.12: プリセット既定の保存量モニタ / 第255便c: 永続は camFollow 方式(hp_monitor を上書きしない)
   basePhysics=Object.assign({},DEFAULT_PHYSICS,p.physics||{});
   camX=0; camY=0; camScale=p.camera.scale; tempP90EMA=0.5; selIdx=-1; nanNotified=false;
   // 第81便: カメラ追従はプリセット既定へ戻す(camera.follow があれば ON・無ければ「なし」)。
@@ -21910,10 +22438,13 @@ function applyGraphOverlays(S,o){ if(o) for(const k of GRAPH_OVERLAY_KEYS) S.ove
 // (保存量モニタは第254便c で共通設定〔hp_monitor 永続〕へ移したのでこの表の外)
 const DISPLAY_OVERLAY_KEYS=["trail","field","spaceMesh"];
 function presetRays(){ return (currentPreset&&currentPreset.rays)? JSON.parse(JSON.stringify(currentPreset.rays)) : null; }
-function snapshotDisplayOverlays(){ const o={}; for(const k of DISPLAY_OVERLAY_KEYS) o[k]=!!sim.overlays[k];
+// 第255便c: 正準形のオーバーレイ({mode:"tracer"} 等)は**真偽へ潰さずそのまま**退避・復元する
+// (第254便c は `!!` で潰していたので、🎠 で ⏮ を押すと物質線モードが落ちて頂点メッシュに戻った)
+const _ovCopy=(v)=>(v && typeof v==="object" && !Array.isArray(v))? Object.assign({},v) : !!v;
+function snapshotDisplayOverlays(){ const o={}; for(const k of DISPLAY_OVERLAY_KEYS) o[k]=_ovCopy(sim.overlays[k]);
   o.rays=!!(sim.rays&&sim.rays.n>0); return o; }
 function applyDisplayOverlays(S,o){ if(!o) return;
-  for(const k of DISPLAY_OVERLAY_KEYS) S.overlays[k]=!!o[k];
+  for(const k of DISPLAY_OVERLAY_KEYS) S.overlays[k]=_ovCopy(o[k]);
   S.rays = o.rays ? (presetRays()||{n:26,spread:0.85}) : null; }
 $("#btnReset").addEventListener("click",()=>{
   // 第95便: グラフ(表示)とスケール指数(表示)は ⏮ で保持する
@@ -23137,8 +23668,9 @@ function buildParamRows(){
     const oNone=document.createElement("option"); oNone.value=""; oNone.textContent=T("scaleBaseNone"); sel.appendChild(oNone);
     // 第120便(原仮定者指示): 選択肢を9行表(SCALE_BASES — 惑星 e6/e7/e8・スケール別 eC)へ
     // 第254便c: nameKey つきの行(頻用の組み合わせ)は用途名で表示する
+    // 第255便c(N7b): 指数は**三つ組**(距離/時間/質量)で機械生成する(suffix の手打ちは廃止)
     for(const b of SCALE_BASES){ const o=document.createElement("option"); o.value=b.id;
-      o.textContent=SCALE_EMOJI[b.tier]+" "+(b.nameKey? T(b.nameKey) : T("scaleName_"+b.tier)+b.suffix); sel.appendChild(o); }
+      o.textContent=scaleBaseName(b); sel.appendChild(o); }
     // 第130便: eC は上書き対象から外れた(常にタグ既定=ティア別 x−eT)ので、
     // 一致判定・一括設定とも距離/時間/質量の3指数だけを見る(表 C 列は参考値として残す)
     const matchBase=()=>{ const e=scaleEffNow();
@@ -23328,7 +23860,7 @@ $("#btnParamDefault").addEventListener("click",()=>{
   // (⏮初めから は保持・こちらが復帰の入口。共通設定〔永続〕には触れない)
   const pov=(currentPreset&&currentPreset.overlays)||{};
   const dflt={rays:!!(currentPreset&&currentPreset.rays)};
-  for(const k of DISPLAY_OVERLAY_KEYS) dflt[k]=!!pov[k];
+  for(const k of DISPLAY_OVERLAY_KEYS) dflt[k]=_ovCopy(pov[k]);   // 第255便c: 正準形は潰さない
   applyDisplayOverlays(sim,dflt); if(ab) applyDisplayOverlays(ab.simB,dflt);
   if(!dflt.trail){ trailBuf=[]; trailBufB=[]; }
   buildParamRows();
@@ -28630,7 +29162,7 @@ function dfmSpaceMeshState(anchor,S,opts){
   let Mtot=0; for(const z of M) Mtot+=z;
   const eqDeg=(k===1)? 0 : (k===2)? Math.abs(M[0]-M[1])/Mtot
     : (Math.max(M[0],M[1],M[2])-Math.min(M[0],M[1],M[2]))/Mtot;
-  let kind, F, B, origin, velocity, mid=null, nHat=null, rVec=null, rLen=null, angle=null, omega=null;
+  let kind, F, B, origin, velocity, mid=null, bary=null, nHat=null, rVec=null, rLen=null, angle=null, omega=null;
   if(k===1){
     // ---- T1: 剛体(並進+回転)。姿勢は外から渡された積分角で決まる
     const ang=Number(o.angle), a0=(o.angle0===undefined)? 0 : Number(o.angle0), om=Number(o.omega);
@@ -28639,20 +29171,30 @@ function dfmSpaceMeshState(anchor,S,opts){
     const ca=Math.cos(dth), sa=Math.sin(dth);
     kind="rigid"; F=[ca,-sa,sa,ca]; B=[0,-om,om,0];
     origin=[X[0][0],X[0][1]]; velocity=[V[0][0],V[0][1]];
-    mid=[X[0][0],X[0][1]]; angle=dth; omega=om;
+    mid=[X[0][0],X[0][1]]; bary=[X[0][0],X[0][1]]; angle=dth; omega=om;
   } else if(k===2){
-    // ---- T2: 向きを保つ相似変換(中点+線分)
-    const Cx=(X[0][0]+X[1][0])/2, Cy=(X[0][1]+X[1][1])/2;
+    // ---- T2: 向きを保つ相似変換(**原点は重心** —— 第255便a)
+    // 第255便a(第47報「連星での中間地点の表示は、重心地点に変える」): 原点を中点 (x₁+x₂)/2 から
+    // **重心 C=(m₁x₁+m₂x₂)/M・Ċ=(m₁v₁+m₂v₂)/M** へ移した。線形場 u=Ċ+B(x−C) の**頂点契約
+    // u(xᵢ)=vᵢ は原点の取り方に依らない恒等式**である(引き算で B r=v₂−v₁ が残るだけ)。
+    // **等質量は中点式をそのまま使う**(重心と厳密に同じ値であり、こう書くことで既存の
+    // 🫂🪟 が 1 bit も動かない)。中点は `midpoint`、重心は `barycentre` として両方返す。
+    const eqm=(M[0]===M[1]);
+    const mx=(X[0][0]+X[1][0])/2, my=(X[0][1]+X[1][1])/2;
+    const Cx=eqm? mx : (M[0]*X[0][0]+M[1]*X[1][0])/Mtot;
+    const Cy=eqm? my : (M[0]*X[0][1]+M[1]*X[1][1])/Mtot;
     const rx=X[1][0]-X[0][0], ry=X[1][1]-X[0][1], r2=rx*rx+ry*ry;
     if(!(r2>0) || !Number.isFinite(r2)) return null;
     const r0=anchor.refR, r02=anchor.refR2;
     if(!r0 || !(r02>0)) return null;
     const a=(rx*r0[0]+ry*r0[1])/r02, b=(r0[0]*ry-r0[1]*rx)/r02;
-    const Cvx=(V[0][0]+V[1][0])/2, Cvy=(V[0][1]+V[1][1])/2;
+    const Cvx=eqm? (V[0][0]+V[1][0])/2 : (M[0]*V[0][0]+M[1]*V[1][0])/Mtot;
+    const Cvy=eqm? (V[0][1]+V[1][1])/2 : (M[0]*V[0][1]+M[1]*V[1][1])/Mtot;
     const wx=V[1][0]-V[0][0], wy=V[1][1]-V[0][1];
     const H=(rx*wx+ry*wy)/r2, Om=(rx*wy-ry*wx)/r2;
     kind="similarity"; F=[a,-b,b,a]; B=[H,-Om,Om,H];
-    origin=[Cx,Cy]; velocity=[Cvx,Cvy]; mid=[Cx,Cy];
+    origin=[Cx,Cy]; velocity=[Cvx,Cvy]; mid=[mx,my];
+    bary=[Cx,Cy];
     rVec=[rx,ry]; rLen=Math.sqrt(r2); nHat=[rx/rLen,ry/rLen];
   } else {
     // ---- T3: アフィン三角形。F=D·D₀⁻¹・B=Ḟ F⁻¹=V·D⁻¹(3 頂点すべてで u(xᵢ)=vᵢ)
@@ -28672,6 +29214,8 @@ function dfmSpaceMeshState(anchor,S,opts){
     origin=[(X[0][0]+X[1][0]+X[2][0])/3,(X[0][1]+X[1][1]+X[2][1])/3];
     velocity=[(V[0][0]+V[1][0]+V[2][0])/3,(V[0][1]+V[1][1]+V[2][1])/3];
     mid=[origin[0],origin[1]];
+    // 第255便a: T3 の原点は幾何重心のまま(重心化は T2 だけ — 3 頂点のアフィン契約は原点に依らない)
+    bary=[(M[0]*X[0][0]+M[1]*X[1][0]+M[2]*X[2][0])/Mtot,(M[0]*X[0][1]+M[1]*X[1][1]+M[2]*X[2][1])/Mtot];
   }
   const detF=F[0]*F[3]-F[1]*F[2];
   if(!Number.isFinite(detF) || !(detF>0)) return null;     // 反転・退化は null
@@ -28690,7 +29234,8 @@ function dfmSpaceMeshState(anchor,S,opts){
     refR:anchor.refR? [anchor.refR[0],anchor.refR[1]] : null, refRLen:anchor.refRLen||null,
     F, inverse, gradU:B, metric, detF, divU:B[0]+B[3],
     W, D0, chi, mode, unique, equalMassDegree:eqDeg,
-    mid, nHat, r:rVec, rLen, angle, omega,
+    mid, midpoint:mid? [mid[0],mid[1]] : null, barycentre:bary? [bary[0],bary[1]] : null,
+    nHat, r:rVec, rLen, angle, omega,
     framePow:pw, softening:eps };
 }
 // 1 点評価: メッシュ速度 u_mesh とメッシュ座標 q を返す。S を渡すと **χ 混合**
@@ -28739,14 +29284,34 @@ function dfmSpaceMeshAt(mesh,px,py,S){
 //   ∂u_bg/∂t も 0 と宣言している。どちらも診断器の宣言であって導出ではない)。
 const GALMESH_P_DEFAULT=2;           // 加算形 W の冪(pull 重みと同じ既定)
 const GALMESH_CHI_BG=1e-6;           // χ がこれ未満なら「背景が全て」(mode の表記にだけ使う)
+const GALMESH_FIT_RANKTOL=1e-10;     // 第255便b: アフィン fit のランク門(det/(M₀₀M₁₁M₂₂) の下限)
 // 局所場 1 点評価。src は S(エンジン)または [{m,x,y,vx,vy},…](純関数として単体試験できる形)。
-// opts: {D0, eps, p, cellSize, bg:"frame"|"static", bgGrad:"fd"|"zero", h}
+// opts: {D0, eps, p, cellSize, bg:"frame"|"static", bgGrad:"fd"|"zero", h,
+//        unSource:"all"|"disk", unFit:"mean"|"affine", need:"u"|"uB"|"uBt", fitH}
 //   D0 省略時は S.params の pull 重み D₀ᵖ(第252便a の意味統一と同じ読み方)。Infinity は χ=0 の極。
 //   cellSize>0 は **固定格子セルへのビニング** —— 評価点をセル中心へ量子化して場をセル内一定にする
 //   (「セルの形」の決断のための対照。省略・0 は連続場)。
 //   bg:"frame"(既定・S があるとき)は u_bg=dfmFrameAt(現行の背景)・"static" は u_bg=0。
 //   ∇u_bg は中心差分(刻み h・既定 = softening)で数値評価する(dfmFrameAt に解析勾配が無いため。
 //   bgGrad:"zero" で 0 に落とせる —— 差は harness の実測で PHYSICS に載せる)。
+// ---- 第255便b(第47報): u_n の 2 案と要求別の場。**既定(all/mean/uBt)は第254便b とビット同一**。
+//   unSource:"all"(既定=現行)/"disk" —— "disk" は **静止中心(pinned な天体と最大質量の 1 体)を
+//     u_n の重み平均の標本から外す**。**W(したがって χ)には残す**(質量を消すのではなく、
+//     「速度の標本」から外すだけ)。第254便b ⑤-1 の穴(速度 0 の中心が pull 重みの大半を占める)への案 (a)。
+//   unFit:"mean"(既定=現行)/"affine" —— "affine" は**局所アフィン最小二乗**。
+//     重み w=mᵢ(d²+ε²)^(−p/2)・基底 φᵢ=[1,(xᵢ−x)/h,(yᵢ−y)/h] で vᵢ≈a+B(xᵢ−x) を解き、u_n=a とする。
+//     零次の重み平均は**定数速度しか再現できない**が、剛体回転 v=Ω(−y,x) は位置の 1 次なので
+//     **静止中心も正しい標本になる**(機構試験: 中心 m=2500 を入れたまま (−0.4,1.0) を 10 桁再現)。
+//     ∇u_n は **重みの空間微分込み**の完全な導関数 ∂ⱼc=M⁻¹(∂ⱼr−(∂ⱼM)c) の 0 成分である
+//     (fit の 1 次係数そのもの c₁/h は `unLinear` に別欄で返す)。
+//     **ランク不足(det/(M₀₀M₁₁M₂₂)≤10⁻¹⁰)は null で停止する** —— 正則化やクリップで
+//     「よく見える曲線」にしない。affine では `dUdt=null`・`timeDerivativeComplete=false` を返す
+//     (fit の時間微分は未導出。**欠落を 0 で埋めない**)。
+//   need:"u"|"uB"|"uBt"(既定 uBt=現行) —— 要求しない量は**計算せず null**(0 で埋めない)。
+//     "u" は ∇u_bg の中心差分 4 回と ∇W・∂ₜW の蓄積を丸ごと省く(表示・記録が使う)。
+//     "uB" は ∇u まで(物質線の輸送が使う契約)。**u と ∇u の値は need を変えてもビット同一**である。
+//   fitH —— アフィン基底の数値スケール h(既定 = ε または 1)。**平滑化長は ε**(重みの側)であって
+//     h ではない —— h は 3×3 の条件数を整えるためだけに入る(u_n・∇u_n は h に依らない)。
 function dfmGalaxyMeshField(src,px,py,opts){
   const o=opts||{};
   px=Number(px); py=Number(py);
@@ -28766,10 +29331,31 @@ function dfmGalaxyMeshField(src,px,py,opts){
   if(!(D0>=0)) return null;                       // NaN・負は門(Infinity は χ=0 の極として通す)
   const cell=Number(o.cellSize||0);
   if(!(cell>=0) || !Number.isFinite(cell)) return null;
+  // ---- 第255便b の 3 opt(未知の値は門 —— 既定は現行と同じ経路)
+  const unSrc=(o.unSource===undefined)? "all" : String(o.unSource);
+  if(unSrc!=="all" && unSrc!=="disk") return null;
+  const unFit=(o.unFit===undefined)? "mean" : String(o.unFit);
+  if(unFit!=="mean" && unFit!=="affine") return null;
+  const need=(o.need===undefined)? "uBt" : String(o.need);
+  if(need!=="u" && need!=="uB" && need!=="uBt") return null;
+  const wantB=(need!=="u"), wantT=(need==="uBt"), aff=(unFit==="affine"), sub=(unSrc!=="all");
+  const fh=Number((o.fitH===undefined)? (eps>0? eps : 1) : o.fitH);
+  if(!(fh>0) || !Number.isFinite(fh)) return null;
   let ex=px, ey=py, cellC=null;
   if(cell>0){ ex=(Math.floor(px/cell)+0.5)*cell; ey=(Math.floor(py/cell)+0.5)*cell; cellC=[ex,ey]; }
-  const eps2=eps*eps, hp=p/2;
+  // 除外する「静止中心」の索引(disk のみ) —— pinned な天体と**最大質量の 1 体**
+  let maxI=-1;
+  const pinA=(isSim && src.pinned)? src.pinned : null;
+  if(sub){ let bm=-Infinity;
+    for(let i=0;i<n;i++){ const mi=list? Number(list[i].m) : gm[i];
+      if(!(mi>0) || !(mi>bm)) continue; bm=mi; maxI=i; } }
+  const eps2=eps*eps, hp=p/2, ih=1/fh;
   let W=0, Wx=0, Wy=0, Wt=0, sx=0, sy=0, sxx=0, sxy=0, syx=0, syy=0, stx=0, sty=0, used=0;
+  let Wu=0, Wux=0, Wuy=0, Wut=0, nExcl=0, nFit=0;
+  // アフィン最小二乗の積率(M=Σwφφᵀ・r=Σwφv と、その ∂x/∂y)
+  let M00=0,M01=0,M02=0,M11=0,M12=0,M22=0, R0x=0,R1x=0,R2x=0, R0y=0,R1y=0,R2y=0;
+  let X00=0,X01=0,X02=0,X11=0,X12=0,X22=0, Y00=0,Y01=0,Y02=0,Y11=0,Y12=0,Y22=0;
+  let XR0x=0,XR1x=0,XR2x=0, XR0y=0,XR1y=0,XR2y=0, YR0x=0,YR1x=0,YR2x=0, YR0y=0,YR1y=0,YR2y=0;
   for(let i=0;i<n;i++){
     const mi=list? Number(list[i].m) : gm[i];
     const xi=list? Number(list[i].x) : gx[i], yi=list? Number(list[i].y) : gy[i];
@@ -28781,31 +29367,87 @@ function dfmGalaxyMeshField(src,px,py,opts){
     if(!(s>0) || !Number.isFinite(s)) return null;
     const w=mi*Math.pow(s,-hp);                    // wᵢ = mᵢ(d²+ε²)^(−p/2)(**加算形**)
     if(!Number.isFinite(w)) return null;
-    const k=-p*w/s;                                // ∇wᵢ = −p wᵢ dᵢ/s
-    const wx=k*dx, wy=k*dy;
-    const wt=p*w*(dx*vxi+dy*vyi)/s;                // ∂wᵢ/∂t = +p wᵢ (dᵢ·vᵢ)/s(固定点・粒子の移動のみ)
-    W+=w; Wx+=wx; Wy+=wy; Wt+=wt;
-    sx+=w*vxi; sy+=w*vyi;
-    sxx+=wx*vxi; sxy+=wy*vxi; syx+=wx*vyi; syy+=wy*vyi;
-    stx+=wt*vxi; sty+=wt*vyi;
+    let wx=0, wy=0, wt=0;
+    if(wantB){ const k=-p*w/s;                     // ∇wᵢ = −p wᵢ dᵢ/s
+      wx=k*dx; wy=k*dy;
+      W+=w; Wx+=wx; Wy+=wy;
+      if(wantT){ wt=p*w*(dx*vxi+dy*vyi)/s;         // ∂wᵢ/∂t = +p wᵢ (dᵢ·vᵢ)/s(固定点・粒子の移動のみ)
+        Wt+=wt; }
+    } else W+=w;
     used++;
+    // 「静止中心」を u_n の標本から外すのは disk だけ(W には上で既に入れてある)
+    if(sub && (i===maxI || (pinA? pinA[i]===1 : (list? list[i].pinned===true : false)))){ nExcl++; continue; }
+    nFit++;
+    if(sub){ Wu+=w; if(wantB){ Wux+=wx; Wuy+=wy; if(wantT) Wut+=wt; } }
+    if(aff){
+      const a1=-dx*ih, a2=-dy*ih;                  // φᵢ=[1,(xᵢ−x)/h,(yᵢ−y)/h]
+      const wa1=w*a1, wa2=w*a2;
+      M00+=w; M01+=wa1; M02+=wa2; M11+=wa1*a1; M12+=wa1*a2; M22+=wa2*a2;
+      R0x+=w*vxi; R1x+=wa1*vxi; R2x+=wa2*vxi;
+      R0y+=w*vyi; R1y+=wa1*vyi; R2y+=wa2*vyi;
+      if(wantB){
+        const xa1=wx*a1, xa2=wx*a2, ya1=wy*a1, ya2=wy*a2;
+        X00+=wx; X01+=xa1; X02+=xa2; X11+=xa1*a1; X12+=xa1*a2; X22+=xa2*a2;
+        Y00+=wy; Y01+=ya1; Y02+=ya2; Y11+=ya1*a1; Y12+=ya1*a2; Y22+=ya2*a2;
+        XR0x+=wx*vxi; XR1x+=xa1*vxi; XR2x+=xa2*vxi;
+        XR0y+=wx*vyi; XR1y+=xa1*vyi; XR2y+=xa2*vyi;
+        YR0x+=wy*vxi; YR1x+=ya1*vxi; YR2x+=ya2*vxi;
+        YR0y+=wy*vyi; YR1y+=ya1*vyi; YR2y+=ya2*vyi;
+      }
+    } else {
+      sx+=w*vxi; sy+=w*vyi;
+      if(wantB){ sxx+=wx*vxi; sxy+=wy*vxi; syx+=wx*vyi; syy+=wy*vyi;
+        if(wantT){ stx+=wt*vxi; sty+=wt*vyi; } }
+    }
   }
   if(!(used>0) || !(W>0) || !Number.isFinite(W)) return null;
-  const unx=sx/W, uny=sy/W;                        // u_n = Σwᵢvᵢ / W(pull 重みの局所平均)
-  // ∂_j u_n,k = [Σ (∂_j wᵢ) v_{i,k} − u_n,k ∂_j W] / W
-  const Gn=[(sxx-unx*Wx)/W,(sxy-unx*Wy)/W,(syx-uny*Wx)/W,(syy-uny*Wy)/W];
-  const Tn=[(stx-unx*Wt)/W,(sty-uny*Wt)/W];        // ∂_t u_n(粒子の加速度は入れていない)
+  const Wn=sub? Wu : W, Wnx=sub? Wux : Wx, Wny=sub? Wuy : Wy, Wnt=sub? Wut : Wt;
+  if(!(Wn>0) || !Number.isFinite(Wn)) return null;   // disk で標本が 1 つも残らなかった場合
+  let unx, uny, Gn=null, Tn=null, unLin=null, fitCond=null;
+  if(aff){
+    // 3×3 対称の解。**ランク不足は null**(正則化しない)
+    const A0=M11*M22-M12*M12, A1=M02*M12-M01*M22, A2=M01*M12-M02*M11;
+    const det=M00*A0+M01*A1+M02*A2, scale=M00*M11*M22;
+    if(!(det>GALMESH_FIT_RANKTOL*scale) || !Number.isFinite(det)) return null;
+    const B1=M00*M22-M02*M02, B2=M01*M02-M00*M12, C2=M00*M11-M01*M01;
+    const i00=A0/det, i01=A1/det, i02=A2/det, i11=B1/det, i12=B2/det, i22=C2/det;
+    const s0=(b0,b1,b2)=>i00*b0+i01*b1+i02*b2;
+    const cx0=s0(R0x,R1x,R2x), cy0=s0(R0y,R1y,R2y);
+    const cx1=i01*R0x+i11*R1x+i12*R2x, cx2=i02*R0x+i12*R1x+i22*R2x;
+    const cy1=i01*R0y+i11*R1y+i12*R2y, cy2=i02*R0y+i12*R1y+i22*R2y;
+    unx=cx0; uny=cy0; fitCond=det/scale;
+    if(wantB){
+      // ∂ⱼM(基底も x に依るので w の微分に加えて −1/h の項が入る)
+      const dxM00=X00, dxM01=X01-M00*ih, dxM02=X02, dxM11=X11-2*M01*ih, dxM12=X12-M02*ih, dxM22=X22;
+      const dyM00=Y00, dyM01=Y01, dyM02=Y02-M00*ih, dyM11=Y11, dyM12=Y12-M01*ih, dyM22=Y22-2*M02*ih;
+      const g=(dM00,dM01,dM02,dM11,dM12,dM22,dr0,dr1,dr2,c0,c1,c2)=>
+        s0(dr0-(dM00*c0+dM01*c1+dM02*c2),
+           dr1-(dM01*c0+dM11*c1+dM12*c2),
+           dr2-(dM02*c0+dM12*c1+dM22*c2));
+      const dxUx=g(dxM00,dxM01,dxM02,dxM11,dxM12,dxM22,XR0x,XR1x-R0x*ih,XR2x,cx0,cx1,cx2);
+      const dyUx=g(dyM00,dyM01,dyM02,dyM11,dyM12,dyM22,YR0x,YR1x,YR2x-R0x*ih,cx0,cx1,cx2);
+      const dxUy=g(dxM00,dxM01,dxM02,dxM11,dxM12,dxM22,XR0y,XR1y-R0y*ih,XR2y,cy0,cy1,cy2);
+      const dyUy=g(dyM00,dyM01,dyM02,dyM11,dyM12,dyM22,YR0y,YR1y,YR2y-R0y*ih,cy0,cy1,cy2);
+      Gn=[dxUx,dyUx,dxUy,dyUy];
+      unLin=[cx1*ih,cx2*ih,cy1*ih,cy2*ih];         // fit の 1 次係数そのもの(別欄)
+    }
+  } else {
+    unx=sx/Wn; uny=sy/Wn;                          // u_n = Σwᵢvᵢ / W(pull 重みの局所平均)
+    // ∂_j u_n,k = [Σ (∂_j wᵢ) v_{i,k} − u_n,k ∂_j W] / W
+    if(wantB){ Gn=[(sxx-unx*Wnx)/Wn,(sxy-unx*Wny)/Wn,(syx-uny*Wnx)/Wn,(syy-uny*Wny)/Wn];
+      if(wantT) Tn=[(stx-unx*Wnt)/Wn,(sty-uny*Wnt)/Wn]; }   // ∂_t u_n(粒子の加速度は入れていない)
+  }
   const chi=(D0===Infinity)? 0 : ((W+D0>0)? W/(W+D0) : 0);
   const den=(D0===Infinity)? Infinity : (W+D0)*(W+D0);
   const dchi=(D0===Infinity || !(den>0) || !Number.isFinite(den))? 0 : D0/den;   // ∇χ = D₀/(W+D₀)² ∇W
-  const cgx=dchi*Wx, cgy=dchi*Wy, cgt=dchi*Wt;
+  const cgx=wantB? dchi*Wx : 0, cgy=wantB? dchi*Wy : 0, cgt=wantT? dchi*Wt : 0;
   let ubx=0, uby=0, Gb=[0,0,0,0];
   const bgMode=(o.bg===undefined)? (isSim? "frame" : "static") : String(o.bg);
   if(bgMode==="frame"){
     if(!isSim) return null;
     const b0=dfmFrameAt(ex,ey,src); if(!b0) return null;
     ubx=b0.ux; uby=b0.uy;
-    if(o.bgGrad!=="zero" && chi!==1){
+    if(wantB && o.bgGrad!=="zero" && chi!==1){
       const h=Number((o.h===undefined)? (eps>0? eps : 1) : o.h);
       if(!(h>0) || !Number.isFinite(h)) return null;
       const bxp=dfmFrameAt(ex+h,ey,src), bxm=dfmFrameAt(ex-h,ey,src);
@@ -28818,14 +29460,21 @@ function dfmGalaxyMeshField(src,px,py,opts){
   const ux=chi*unx+(1-chi)*ubx, uy=chi*uny+(1-chi)*uby;
   // ∇u = χ∇u_n + (1−χ)∇u_bg + (u_n−u_bg)⊗∇χ
   const dux=unx-ubx, duy=uny-uby;
-  const B=[chi*Gn[0]+(1-chi)*Gb[0]+dux*cgx, chi*Gn[1]+(1-chi)*Gb[1]+dux*cgy,
-           chi*Gn[2]+(1-chi)*Gb[2]+duy*cgx, chi*Gn[3]+(1-chi)*Gb[3]+duy*cgy];
-  const dUdt=[chi*Tn[0]+dux*cgt, chi*Tn[1]+duy*cgt];   // ∂u_bg/∂t は 0 と宣言(導出ではない)
-  if(![ux,uy,B[0],B[1],B[2],B[3],dUdt[0],dUdt[1]].every(Number.isFinite)) return null;
+  const B=wantB? [chi*Gn[0]+(1-chi)*Gb[0]+dux*cgx, chi*Gn[1]+(1-chi)*Gb[1]+dux*cgy,
+                  chi*Gn[2]+(1-chi)*Gb[2]+duy*cgx, chi*Gn[3]+(1-chi)*Gb[3]+duy*cgy] : null;
+  // ∂u_bg/∂t は 0 と宣言(導出ではない)。affine は fit の時間微分が未導出なので **null**(0 で埋めない)
+  const dUdt=(wantT && Tn)? [chi*Tn[0]+dux*cgt, chi*Tn[1]+duy*cgt] : null;
+  if(!Number.isFinite(ux) || !Number.isFinite(uy)) return null;
+  if(B && !B.every(Number.isFinite)) return null;
+  if(dUdt && !dUdt.every(Number.isFinite)) return null;
   return { u:[ux,uy], gradU:B, dUdt, W, D0, chi, p, eps,
-    gradW:[Wx,Wy], gradChi:[cgx,cgy], dWdt:Wt, dChidt:cgt,
-    un:[unx,uny], ubg:[ubx,uby], gradUn:Gn, gradUbg:Gb, dUndt:Tn,
+    gradW:wantB? [Wx,Wy] : null, gradChi:wantB? [cgx,cgy] : null,
+    dWdt:wantT? Wt : null, dChidt:wantT? cgt : null,
+    un:[unx,uny], ubg:[ubx,uby], gradUn:Gn, gradUbg:wantB? Gb : null, dUndt:Tn,
     sources:used, cell:cellC, bg:bgMode,
+    need, unSource:unSrc, unFit, unSources:nFit, unExcluded:nExcl,
+    unLinear:unLin, fitCond, fitH:aff? fh : null,
+    timeDerivativeComplete:(dUdt!==null),
     mode:(chi>=0.5)? "mesh" : (chi>GALMESH_CHI_BG)? "blend" : "background" };
 }
 // 物質線(tracer)—— **表示は読むだけ**で、輸送は S.step の末尾から真偽値 1 つで呼ばれる。
@@ -28852,7 +29501,9 @@ function dfmGalaxyTracerCreate(S,spec){
     chi:new Float64Array(N), ux:new Float64Array(N), uy:new Float64Array(N),
     x0:new Float64Array(N), y0:new Float64Array(N),
     field:(typeof fld==="function")? fld : null,
-    opts:(typeof fld==="object" && fld)? Object.assign({},fld) : {},
+    // 第255便b: **輸送が要るのは u と ∇u だけ**なので、need 未指定のエンジン場は "uB" で読む
+    // (∂ₜu を毎步 381 体ぶん捨てるために計算しない —— u・∇u の値はビット同一)
+    opts:(typeof fld==="object" && fld)? Object.assign({need:"uB"},fld) : {need:"uB"},
     owner:T, t0:Number(T.t)||0, t:Number(T.t)||0, steps:0, stopped:false, stopReason:null,
     // 書き戻し前の控え(**原子的停止**のため —— 途中まで進んだ状態を残さない)。
     // 毎步の確保をやめて tracer に持たせる(描画ループから毎フレーム呼ばれる経路の GC 圧を作らない)
@@ -28872,9 +29523,12 @@ function dfmGalaxyTracerCreate(S,spec){
   return tr;
 }
 // 1 点の場を読む(tracer の内部 —— **指定場**(function)と**エンジン場**(dfmGalaxyMeshField)を
-// 同じ器で回すための唯一の分岐。指定場は QA と機構試験の再現にだけ使う)
-function _galTracerField(tr,S,x,y){
-  if(tr.field){ const f=tr.field(x,y,S);
+// 同じ器で回すための唯一の分岐。指定場は QA と機構試験の再現にだけ使う)。
+// 第255便b: **指定場には RK4 の段階時刻 st を渡す**(f(x,y,S,st))—— 時間変化する場で
+// 各段が同じ時刻を見ると RK4 は 1 次に落ちる。**エンジン場の源配列は段階補間しない**
+// (粒子は步の末尾の 1 つの配置しか持たない —— 未解決。docs/PHYSICS.md〔第255便b〕④)。
+function _galTracerField(tr,S,x,y,st){
+  if(tr.field){ const f=tr.field(x,y,S,st);
     if(!f || !Array.isArray(f.u) || !Array.isArray(f.gradU)) return null;
     return f; }
   return dfmGalaxyMeshField(S,x,y,tr.opts);
@@ -28888,14 +29542,17 @@ function dfmGalaxyTracerStep(tr,dt,S){
   if(!Number.isFinite(h) || h===0) return false;
   const N=tr.n, X=tr.x, Y=tr.y, F=tr.F, SX=tr._sx, SY=tr._sy, SF=tr._sF;
   const CH=tr._sch, UX=tr._sux, UY=tr._suy;
+  // 第255便b: RK4 の段階時刻(t₀・t₀+h/2・t₀+h/2・t₀+h)。tr.t は**步の始まり**の時刻である
+  // (エンジン駆動では S.step が S.t を進めた後に呼ばれ、書き戻しで tr.t=S.t=步の終わりになる)
+  const t0=Number.isFinite(tr.t)? tr.t : 0, stg=[t0, t0+0.5*h, t0+0.5*h, t0+h];
   for(let i=0;i<N;i++){
     const x0=X[i], y0=Y[i];
     const f0=F[4*i], f1=F[4*i+1], f2=F[4*i+2], f3=F[4*i+3];
     let ax=0, ay=0, aF0=0, aF1=0, aF2=0, aF3=0;   // RK4 の重み付き和
     let cx=x0, cy=y0, c0=f0, c1=f1, c2=f2, c3=f3;
     for(let s=0;s<4;s++){
-      const fl=_galTracerField(tr,T,cx,cy);
-      if(!fl){ tr.stopped=true; tr.stopReason="field"; return false; }
+      const fl=_galTracerField(tr,T,cx,cy,stg[s]);
+      if(!fl || !fl.gradU){ tr.stopped=true; tr.stopReason="field"; return false; }
       const ux=fl.u[0], uy=fl.u[1], B=fl.gradU;
       if(!Number.isFinite(ux) || !Number.isFinite(uy)
          || !Number.isFinite(B[0]) || !Number.isFinite(B[1])
@@ -28969,7 +29626,9 @@ function dfmGalaxyMeshRecord(S,opts){
   const rMax=Number(o.rMax===undefined? 260 : o.rMax), rMin=Number(o.rMin===undefined? 0 : o.rMin);
   if(!Number.isFinite(rMax) || !Number.isFinite(rMin) || !(rMax>rMin)) return null;
   const nAz=Math.max(1,Math.round(Number(o.azimuths===undefined?16:o.azimuths)));
-  const fo=o.field||{};
+  // 第255便b: 記録器が読むのは u・χ・W だけなので、need 未指定なら **"u"** で読む
+  // (∇u_bg の中心差分 4 回/点を丸ごと省く —— 返り値はビット同一)
+  const fo=Object.assign({need:"u"},o.field||{});
   const wid=(rMax-rMin)/nb, bins=[];
   for(let b=0;b<nb;b++){
     const r0=rMin+wid*b, r1=rMin+wid*(b+1);
@@ -28993,11 +29652,11 @@ function dfmGalaxyMeshRecord(S,opts){
     const B=bins[b];
     const vphi=(B.mass>0)? B.v_phi/B.mass : null;
     const vr=(B.mass>0)? B.v_r/B.mass : null;
-    let uphi=0, chi=0, W=0, ok=0;
+    let uphi=0, chi=0, W=0, ok=0, nullAz=0;
     for(let a=0;a<nAz;a++){
       const th=2*Math.PI*a/nAz, X=cx+B.r*Math.cos(th), Y=cy+B.r*Math.sin(th);
       const f=dfmGalaxyMeshField(T,X,Y,fo);
-      if(!f) continue;
+      if(!f){ nullAz++; continue; }        // 第255便b: affine のランク不足など —— **数えて残す**
       uphi+=(-Math.sin(th)*f.u[0]+Math.cos(th)*f.u[1]);
       chi+=f.chi; W+=f.W; ok++;
     }
@@ -29016,10 +29675,70 @@ function dfmGalaxyMeshRecord(S,opts){
     out.bins.push({ r:B.r, r0:B.r0, r1:B.r1, count:B.count, mass:B.mass,
       v_phi:vphi, v_r:vr, u_mesh_phi:uPhi, diff:(vphi!==null&&uPhi!==null)? vphi-uPhi : null,
       v_obs:null, chi:ok? chi/ok : null, W:ok? W/ok : null,
+      azOk:ok, azNull:nullAz,                  // 第255便b: 場が null を返した方位の数(埋めない)
       A2, psi2, Omega_mesh:omMesh, Omega_pattern:omP,
       Omega_pattern_minus_mesh:(omP!==null&&omMesh!==null)? omP-omMesh : null });
   }
   return out;
+}
+// ===== 第255便b(第47報): ハロー参照 —— **帳簿の読み**であって予測でも較正でもない =====
+// 位置依存の有効慣性 α(r)>0 を仮に置いたとき、円軌道の条件 α(r)·v²/r = Φ′(r) を
+// **r 依存の α まで含めて**書き下すと(v²=v_c²(r) 自身が r に依るため、α の r 依存が
+// 遠心項に半分だけ入る)
+//     v_c²(r) = r·Φ′(r) / ( α(r) + r·α′(r)/2 )
+// になる。α≡1 でニュートンの v_c²=rΦ′ に戻る。**これは「ダークマターハロー類似」の
+// 帳簿の読み**であって、ハロー質量の較正でも平坦回転曲線の予測でもない —— 実際、
+// 慣性の退化で自然に出る α=1−χ(W∝1/r²・D₀ 一定)は **外側で α→1(ケプラー型へ戻る)**ので、
+// **自動的には平坦化しない**(下の QA behavior.meshHaloReference が数で固定する)。
+// 純関数(S を 1 バイトも読み書きしない・力へは接続しない)。
+// opts: {alpha:(r)=>α, alphaPrime?:(r)=>α′, Phi?:(r)=>Φ, dPhi?:(r)=>Φ′, r:number|number[], h?}
+//   α′・Φ′ は関数を渡せばそれを使い、無ければ**中心差分**(刻み h・既定 10⁻⁵·max(1,r))で作る。
+//   返値 rows[i]: { r, alpha, alphaPrime, dPhi, denom:α+rα′/2, vc2, vc, stable, slope, vcSqrtR }
+//   **vc² が負(=円軌道が無い)なら vc は null**(絶対値やクリップで曲線を作らない)。
+//   slope は d ln v_c/d ln r(ケプラー則なら −1/2)、vcSqrtR は v_c√r(ケプラーなら一定)。
+function dfmMeshHaloReference(opts){
+  const o=opts||{};
+  if(typeof o.alpha!=="function") return null;
+  const aP=(o.alphaPrime===undefined||o.alphaPrime===null)? null : o.alphaPrime;
+  if(aP!==null && typeof aP!=="function") return null;
+  const Ph=(o.Phi===undefined||o.Phi===null)? null : o.Phi;
+  const dPh=(o.dPhi===undefined||o.dPhi===null)? null : o.dPhi;
+  if(Ph!==null && typeof Ph!=="function") return null;
+  if(dPh!==null && typeof dPh!=="function") return null;
+  if(Ph===null && dPh===null) return null;           // Φ も Φ′ も無ければ門
+  const rs=Array.isArray(o.r)? o.r : [o.r];
+  if(!rs.length) return null;
+  const hOpt=(o.h===undefined)? null : Number(o.h);
+  if(hOpt!==null && (!(hOpt>0) || !Number.isFinite(hOpt))) return null;
+  const num=(f,r,h)=>{ const a=Number(f(r+h)), b=Number(f(r-h));
+    if(!Number.isFinite(a) || !Number.isFinite(b)) return NaN;
+    return (a-b)/(2*h); };
+  const at=(r)=>{
+    if(!Number.isFinite(r) || !(r>0)) return null;
+    const h=(hOpt!==null)? hOpt : 1e-5*Math.max(1,r);
+    if(!(r-h>0)) return null;
+    const al=Number(o.alpha(r));
+    if(!Number.isFinite(al) || !(al>0)) return null;   // α≤0 は門(有効慣性は正)
+    const alp=aP? Number(aP(r)) : num(o.alpha,r,h);
+    const dphi=dPh? Number(dPh(r)) : num(Ph,r,h);
+    if(!Number.isFinite(alp) || !Number.isFinite(dphi)) return null;
+    const den=al+r*alp/2, v2=r*dphi/den;
+    if(!Number.isFinite(den) || !Number.isFinite(v2)) return null;
+    return { r, alpha:al, alphaPrime:alp, dPhi:dphi, denom:den, vc2:v2,
+      vc:(v2>0)? Math.sqrt(v2) : null, stable:(den>0 && v2>0) };
+  };
+  const rows=[];
+  for(const rr of rs){
+    const r=Number(rr), row=at(r);
+    if(!row) return null;
+    // d ln v_c/d ln r は同じ式を ln r 方向の中心差分で読む(ケプラー則で −1/2)
+    const d=1e-4, a=at(r*(1+d)), b=at(r*(1-d));
+    row.slope=(a && b && a.vc>0 && b.vc>0)? (Math.log(a.vc)-Math.log(b.vc))/(Math.log(r*(1+d))-Math.log(r*(1-d))) : null;
+    row.vcSqrtR=(row.vc!==null)? row.vc*Math.sqrt(r) : null;
+    rows.push(row);
+  }
+  return { rows, n:rows.length,
+    note:"v_c²=rΦ′/(α+rα′/2) は有効慣性 α(r) の帳簿の読み。ハロー質量の較正でも平坦回転曲線の予測でもない(α→1 でケプラー型へ戻る)" };
 }
 // ===== 第254便a(第46報「空間メッシュ本体」): 場 API・混合・粒子則・物質線の輸送 =====
 // 原仮定者(第46報・全文は docs/PHYSICS.md 〔第254便a〕に引用):
@@ -29131,12 +29850,53 @@ function dfmMeshParticleRHS(field,v,law){
   return { a:[ax,ay], law:lw, transport:md, coriolis:corr, gravity:[g[0],g[1]],
     rel:[vv[0]-u[0],vv[1]-u[1]] };
 }
+// ===== 第255便a(第47報・ChatGPT §8.1): 有限の回転子交換(純関数)=====
+// 原仮定者(第47報):「空間メッシュの追従による、慣性の退化は、重力波放出類似と、
+// ダークマターハロー類似を兼ねる」。第254便a の否定結果(頂点では |a_I|/|g_N|=χ に退化する)を
+// **隠さずに**扱うために、メッシュへ**有限の慣性 I_m と独立な角運動量 J** を与え、
+// 軌道 L との間で γ の摩擦交換を置く(第253便a ⑥4 の 6 点セットのうち「独立な運動量」だけを先に置く)。
+//   ω=L/I_o・Ω_m=J/I_m・L̇=−γ(ω−Ω_m)・J̇=+γ(ω−Ω_m)・Q̇=γ(ω−Ω_m)²≥0
+// 差 Δ=ω−Ω_m は Δ̇=−(γ/I_red)Δ(I_red=I_oI_m/(I_o+I_m))で**指数的に**緩和するので、
+// 1 步の更新は**厳密解**で書く(オイラー化しない):
+//   ΔL=−Δ₀·I_red·(1−e^{−k h})、k=γ/I_red / ΔQ=γΔ₀²(1−e^{−2k h})/(2k)
+// **保存則**: L+J は厳密に不変・E=L²/2I_o+J²/2I_m+Q も不変(dE/dt=ωL̇+Ω_mJ̇+Q̇=0)。
+// **否定対照**: メッシュが速い(Ω_m>ω)なら **L はメッシュから軌道へ戻る**(dL>0)。同期(Δ=0)では停止する。
+// **書かないこと**: これは重力波放出ではない(外向き流束・伝播・波形の写像を 1 つも持っていない)。
+// **D₀ を慣性密度と同一視しない**(I_m は独立に宣言する数)。**I_m→0 で退化を隠さない**(I_red→0 = 交換 0)。
+function dfmMeshRotorExchange(o){
+  if(!o || typeof o!=="object") return null;
+  const L=Number(o.L), J=Number(o.J), Io=Number(o.Iorb), Im=Number(o.Imesh);
+  const gm=Number(o.gamma), h=Number(o.dt);
+  if(![L,J,gm,h].every(Number.isFinite)) return null;
+  if(!(Io>0) || !Number.isFinite(Io)) return null;
+  if(!(Im>0)) return null;                       // I_m=0 は門(退化を黙って隠さない)
+  if(!(gm>=0)) return null;
+  const Ired=Number.isFinite(Im)? (Io*Im)/(Io+Im) : Io;   // I_m→∞(固定背景)の極も受ける
+  const w=L/Io, Om=Number.isFinite(Im)? J/Im : 0, D=w-Om;
+  let dL=0, dQ=0, k=0;
+  if(gm>0 && Ired>0 && h!==0){
+    k=gm/Ired;
+    const e1=Math.expm1(-k*h);                   // 1−e^{−kh} = −expm1(−kh)(小さい kh でも桁落ちしない)
+    dL=D*Ired*e1;                                // = −Δ·I_red·(1−e^{−kh})
+    dQ=gm*D*D*(-Math.expm1(-2*k*h))/(2*k);
+  }
+  const L1=L+dL, J1=J-dL;
+  if(![L1,J1,dL,dQ].every(Number.isFinite)) return null;
+  const E0=L*L/(2*Io)+(Number.isFinite(Im)? J*J/(2*Im) : 0);
+  const E1=L1*L1/(2*Io)+(Number.isFinite(Im)? J1*J1/(2*Im) : 0);
+  return { L:L1, J:J1, dL, dQ, Q:dQ, omega:w, Omega:Om, delta:D, Ired, k,
+    relax:(k>0)? 1/k : Infinity, energy0:E0, energy1:E1, energyResidual:E1-E0+dQ,
+    momentumResidual:(L1+J1)-(L+J) };
+}
 // ===== 物質線の輸送(**表示の正本**・第46報「メッシュが連星の公転に合わせて回転する」の内部量)=====
 // マーカー x と局所変形 F を **S.step の時刻で**時間積分する(dx/dt=u・dF/dt=(∇u)F・RK4)。
 // 描画は読むだけで、逆に描画から状態は動かない(A/B 分割ビューでも同じ配列を読む)。
 // **原子的停止**: 1 步のどこかで非有限・det F ≤ 1e−12 が出たら**その步の更新を 1 つも適用せず**
 // `tr.error` を立てて止まる(半分だけ進んだ状態を残さない)。上限 4096 点。
 const MESH_TR_MAX = 4096, MESH_TR_DETMIN = 1e-12;
+// 第255便a(ChatGPT §7.1): 随伴の 2 案。"vertex"(既定・現行)= 節の場そのもので運ぶ /
+// "blended" = 区間の χ を補間して **u と ∇u に掛ける**(二体の χ は空間一定なので ∇χ 項は出ない)。
+const MESH_TR_ENTRAIN = ["vertex","blended"];
 function dfmMeshTransportCreate(points,edges){
   if(!Array.isArray(points) || points.length<1 || points.length>MESH_TR_MAX) return null;
   const P=new Float64Array(points.length*2), FF=new Float64Array(points.length*4);
@@ -29160,7 +29920,7 @@ function dfmMeshTransportCreate(points,edges){
     }
   }
   return { n:points.length, x:P, F:FF, x0:Float64Array.from(P), edges:E,
-    t:0, steps:0, error:null, detMin:1, detMax:1 };
+    t:0, steps:0, error:null, detMin:1, detMax:1, _bx:null, _bf:null };
 }
 // fieldFn(x,y,s) → `{u:[ux,uy], gradU:[4]}`(null を返したら原子的停止)。s は步内の相対時刻 0〜1。
 function dfmMeshTransportStep(tr,dt,fieldFn){
@@ -29170,7 +29930,11 @@ function dfmMeshTransportStep(tr,dt,fieldFn){
   if(h===0) return { ok:true, t:tr.t, steps:tr.steps, detMin:tr.detMin, detMax:tr.detMax };
   if(typeof fieldFn!=="function") return null;
   const n=tr.n, X=tr.x, F=tr.F;
-  const nx=new Float64Array(n*2), nf=new Float64Array(n*4);
+  // 第255便a: 作業配列は**二重バッファで再利用**する(1 步ごとの 2 本の確保をやめる)。
+  // **原子的停止は保持**: 書き込むのは常に予備側で、成功したときだけ最後に入れ替える。
+  // **返す tr.x/tr.F は借用ビュー**(次の成功步で入れ替わる — 步をまたいで保持するなら複製すること)
+  let nx=tr._bx, nf=tr._bf;
+  if(!nx || nx.length!==n*2){ nx=tr._bx=new Float64Array(n*2); nf=tr._bf=new Float64Array(n*4); }
   const K=[0,0,0,0,0,0], Y=[0,0,0,0,0,0], AC=[0,0,0,0,0,0], ST=[0,0,0,0,0,0];
   const rhs=(y,s,out)=>{
     const z=fieldFn(y[0],y[1],s);
@@ -29211,6 +29975,7 @@ function dfmMeshTransportStep(tr,dt,fieldFn){
     nx[i*2]=o[0]; nx[i*2+1]=o[1];
     nf[i*4]=o[2]; nf[i*4+1]=o[3]; nf[i*4+2]=o[4]; nf[i*4+3]=o[5];
   }
+  tr._bx=X; tr._bf=F;                                                      // 二重バッファの入れ替え
   tr.x=nx; tr.F=nf; tr.t+=h; tr.steps++; tr.detMin=dMin; tr.detMax=dMax;   // ここで初めて書き込む(原子的)
   return { ok:true, t:tr.t, steps:tr.steps, detMin:dMin, detMax:dMax };
 }
@@ -29242,7 +30007,9 @@ function dfmMeshTransportBind(S,points,edges,opts){
   if(interp!=="geometric" && interp!=="velocity") return null;
   const bg=(o.background===undefined)? "static" : String(o.background);
   if(bg!=="static") return null;              // 現段階は静止背景だけを受ける(明示 — 黙って別の背景にしない)
-  tr.anchor=anchor; tr.ids=ids.slice(); tr.interpolation=interp; tr.background=bg;
+  const ent=(o.entrainment===undefined)? MESH_TR_ENTRAIN[0] : String(o.entrainment);
+  if(MESH_TR_ENTRAIN.indexOf(ent)<0) return null;   // 第255便a
+  tr.anchor=anchor; tr.ids=ids.slice(); tr.interpolation=interp; tr.background=bg; tr.entrainment=ent;
   tr.D0=(o.D0!==undefined)? o.D0 : null;
   tr.prev={ t:T.t, C:[m0.origin[0],m0.origin[1]], F:m0.F.slice(),
     U:[m0.velocity[0],m0.velocity[1]], B:m0.gradU.slice(), chi:m0.chi };
@@ -29278,7 +30045,7 @@ function dfmMeshTransportObserve(S){
   const rho=Math.sqrt(ca*ca+sa*sa);
   if(!(rho>0) || !Number.isFinite(rho)){ tr.error="rho"; return null; }
   const th=Math.atan2(sa,ca), lg=Math.log(rho);
-  let fieldFn;
+  let fieldFn;      // 第255便a: blended 随伴で包み直すので let のまま
   if(tr.interpolation==="velocity"){
     const U0=P.U, B0=P.B, U1=m1.velocity, B1=m1.gradU;
     fieldFn=(x,y,s)=>{
@@ -29296,6 +30063,17 @@ function dfmMeshTransportObserve(S){
       const cx=C0[0]+vx*h*w1, cy=C0[1]+vy*h*w1;
       const ex=x-cx, ey=y-cy;
       return { u:[vx+B[0]*ex+B[1]*ey, vy+B[2]*ex+B[3]*ey], gradU:B };
+    };
+  }
+  // 第255便a: blended 随伴 —— 区間 χ を線形補間して u と ∇u に掛ける(∇χ 項は二体では 0)。
+  // χ→0(D₀ 大)では u→0 になり、**輸送そのものが止まる**(頂点追従ではなく背景追従になる)
+  if(tr.entrainment==="blended"){
+    const base=fieldFn, c0=(P.chi!==undefined&&P.chi!==null)? P.chi : m1.chi, c1=m1.chi;
+    fieldFn=(x,y,sv)=>{
+      const z=base(x,y,sv); if(!z) return null;
+      const w1=(sv===undefined)? 0 : sv, cc=c0+(c1-c0)*w1;
+      return { u:[cc*z.u[0], cc*z.u[1]],
+        gradU:[cc*z.gradU[0], cc*z.gradU[1], cc*z.gradU[2], cc*z.gradU[3]] };
     };
   }
   const r=dfmMeshTransportStep(tr,h,fieldFn);
@@ -29318,6 +30096,21 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // QA behavior.spaceMesh が 9 項目(頂点契約・一意性・共通並進・χ→0 のビット一致・門)を機械固定する
   dfmSpaceMeshCapture, dfmSpaceMeshState, dfmSpaceMeshAt,
   SPACEMESH_KINDS, SPACEMESH_EQMASS_TOL, SPACEMESH_CHI_GATE, SPACEMESH_CHI_BG,
+  // 第255便c(第47報「空間線」): **表示のみ**の線 —— dfmSpaceLineTrace(fieldAt,x0,y0,ex,ey,c_line,τ_max,steps)
+  // が dx/dτ=u+c_line ê・dê/dτ=(I−êêᵀ)Bê を中点法で 1 本引く(fieldAt は _slF を埋める純関数)。
+  // spaceLineNow() は直近の線束(本数・区間数・c_line・τ_max・χ・再構築回数)の観測口で、
+  // barycentreOf(S,ids) は表示用の重心。**力学・帳簿へは 1 バイトも接続しない**
+  dfmSpaceLineTrace, barycentreOf:_smBarycentre,
+  spaceLineNow:(S)=>{ const c=(S||sim)._slCache;
+    return c? {kind:c.kind, lines:c.lines.length, nDir:c.nDir, seg:c.seg, cLine:c.cLine,
+               tau:c.tau, L:c.L, chi:c.chi, Om:c.Om, builds:c.builds, ms:c.ms, every:c.every,
+               pts:c.lines.reduce((a,l)=>a+l.n,0)} : null; },
+  spaceLineInvalidate:(S)=>{ (S||sim)._slCache=null; },
+  // キャッシュを整えて本数を返す(**描画はしない** —— canvas を触らずに線束だけを作る QA の口)
+  spaceLineEnsure:(S)=>{ const T=S||sim; const c=_slEnsure(T); return c? c.lines.length : 0; },
+  spaceLineConst:()=>({seg:SPACE_LINE_SEG, segGal:SPACE_LINE_SEG_GAL, turn:SPACE_LINE_TURN,
+                       len:SPACE_LINE_LEN, ms:SPACE_LINE_MS, msMax:SPACE_LINE_MS_MAX,
+                       duty:SPACE_LINE_DUTY, maxOrg:SPACE_LINE_MAXORG, maxDir:SPACE_LINE_MAXDIR}),
   // 第254便a(第46報「空間メッシュ本体」): **場 API・混合・粒子則**(純関数 3 本)と**物質線の輸送**(4 本)。
   // dfmMeshScalarField(bodies,x,y,opts) が D_grav(1/r)と W_pull(1/r^p)を**別名で**返し
   // (Φ=−G·D_grav・g=G·∇D_grav)、dfmMeshBlend(node,bg,W,gradW,D0,Wdot) が χ 混合を ∇χ・∂ₜχ 込みで返し、
@@ -29328,6 +30121,10 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   dfmMeshScalarField, dfmMeshBlend, dfmMeshParticleRHS,
   dfmMeshTransportCreate, dfmMeshTransportStep, dfmMeshTransportBind, dfmMeshTransportObserve,
   MESH_TR_MAX, MESH_TR_DETMIN, SPACE_MESH_KEY, SPACE_MESH_INERTIA, SPACE_MESH_LIGHT,
+  // 第255便a(第47報): 有限の回転子交換(純関数)。L+J 保存・L²/2I_o+J²/2I_m+Q 保存・Q̇≥0・
+  // 同期で停止・逆回転で L が軌道へ戻る。QA behavior.meshRotorExchange が機械固定する。
+  // **重力波放出ではない**(外向き流束・伝播・波形の写像が無い)
+  dfmMeshRotorExchange, SPACE_MESH_WEAVE, MESH_TR_ENTRAIN,
   // 第254便b(第46報「銀河の空間メッシュ」): **銀河は 1 つの大域相似メッシュに乗らない**(差動回転)ので、
   // 局所の場 dfmGalaxyMeshField(加算形 W・χ=W/(W+D₀)・u=χu_n+(1−χ)u_bg・∇u に (u_n−u_bg)⊗∇χ を含む)と
   // 物質線 dfmGalaxyTracer*(RK4・dF/dt=(∇u)F・原子的停止)で表す。u_n は**エンジンの粒子速度の局所平均**で、
@@ -29335,6 +30132,12 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // **力へは 1 バイトも接続しない**(表示と記録だけ)。QA behavior.galaxyMesh が契約を機械固定する
   dfmGalaxyMeshField, dfmGalaxyTracerCreate, dfmGalaxyTracerStep, dfmGalaxyTracerObserve,
   dfmGalaxyMeshRecord, GALMESH_P_DEFAULT, GALMESH_CHI_BG,
+  // 第255便b(第47報): u_n の 2 案(`unSource:"all"|"disk"`・`unFit:"mean"|"affine"`)と
+  // **要求別の場**(`need:"u"|"uB"|"uBt"` —— 要求しない量は計算せず null)。既定は第254便b とビット同一。
+  // 空間線(W3)が銀河で読む契約は `dfmGalaxyMeshField(S,x,y,{need:"uB",unSource,unFit})` の {u,gradU} だけ。
+  // dfmMeshHaloReference({alpha,Phi,r}) は有効慣性 α(r) の**帳簿の読み** v_c²=rΦ′/(α+rα′/2)(純関数)。
+  // QA behavior.galaxyMesh / behavior.meshHaloReference が機械固定する
+  dfmMeshHaloReference, GALMESH_FIT_RANKTOL,
   // 第250便b(第42報 W2): MM の**波長チャネル**(ω=u·k+c|k| と境界の ω−V·k 保存だけを足した純関数)。
   // 戻り波長 λ・共通出力波長・検出器の読み ν_D・ドップラー係数 D を、Δt/Δφ とは**別欄**で返す。
   // QA behavior.mmWavelength が階段 W1〜W5 を機械固定する。回転境界は扱わない(null を返す)
