@@ -71,10 +71,19 @@
      flex+min-width:0 なので狭い画面でも横スクロールしない。
      第149便(原仮定者指示): 見出し名の右へ伸ばしていた罫線(::after)は削除した — 区切りは
      見出しテキストと上辺の境界だけで示す */
+  /* 第255便c(原仮定者指示「サンプル一覧は、グループ毎に畳んだ状態にする」): 見出しは
+     **開閉ボタン**になった(行は直後の .ppGroupBody に入り、畳んだグループは hidden)。
+     ボタンの UA 既定(枠・背景・中央寄せ・独自フォント)を消して、見た目は第147便/第149便の
+     見出し(上辺の区切り線+灰の太字)のまま保つ */
   .ppGroupHead{display:flex;align-items:center;gap:8px;min-width:0;overflow-wrap:anywhere;
+    width:100%;text-align:left;background:none;border:0;font-family:inherit;cursor:pointer;
     font-size:calc(11px*var(--uz,1));color:var(--dim);font-weight:700;
-    margin:10px 0 2px;padding-top:8px;border-top:1px solid var(--line,#2a3242);}
+    margin:10px 0 2px;padding:8px 2px 2px;border-top:1px solid var(--line,#2a3242);}
   .ppGroupHead:first-child{margin-top:2px;padding-top:0;border-top:0;}
+  .ppGroupHead[aria-expanded="true"]{color:var(--acc);}
+  .ppGroupHead .ppGroupMark{flex:0 0 auto;width:calc(10px*var(--uz,1));}
+  .ppGroupHead .ppGroupCount{margin-left:auto;font-weight:400;opacity:0.8;}
+  .ppGroupBody[hidden]{display:none!important;}
   /* 第147便: E水準フィルタの運用注記(件数は実行時導出 — 手打ちしない)
      第149便(原仮定者指示): グループ/スケール/分類/E水準の4種とも**次元見出しのタップで開閉**する
      畳み込みにした。既定は閉。改行を活かすため white-space:pre-line */
@@ -88,6 +97,7 @@
     margin:0;padding:4px 0 5px;border-bottom:1px solid var(--line,#2a3242);}
   .ppNote[hidden]{display:none;}
   /* 第149便: 絞り込みの次元見出し(グループ/スケール/分類/E水準)を説明の開閉ボタンにする。
+     第255便c: グループは絞り込みの次元ではなくなったが、説明行の見出しは同じ作法のまま残る。
      ボタンは行頭の見出し領域だけを占め、チップ(.ppChip)の当たり判定とは重ならない */
   .ppChips .ppDimBtn{background:none;border:0;padding:3px 0;margin:0;text-align:left;
     color:var(--dim);font-size:calc(10.5px*var(--uz,1));line-height:1.3;cursor:pointer;}
@@ -880,7 +890,7 @@ ja: {
   tgTrailLineDesc:"粒子の軌道を線で記録して描く(☿の楕円歳差など)。記録間隔は描画品質に従う。",
   tgFieldDesc:"決定力 W の強さを背景の色マップで表示(A3/E1′)。明るいほど W が高い。",
   tgSpaceMesh:"空間メッシュ",
-  tgSpaceMeshDesc:"重い2天体を頂点とする動くメッシュ(第253便a・第254便a)を格子で表示。モードはサンプルが宣言する2種類 —— 参照ガイド(瞬時の写像 x=C+F(q−C₀) の格子を χ=W/(W+D₀ᵖ) の不透明度で描く。座標は混ぜない)と、輸送された物質線(dx/dt=u・dF/dt=(∇u)F を計算の刻みで積分したマーカーを描く)。A/B分割ビューでも描く。銀河サンプル(第254便b)では**物質線モード**(mode:tracer)になり、局所の場 u=χ·u_n+(1−χ)·u_bg の中を運ばれる細い線(色=χ の強さ・黄色の短線=u の向き)を描く。**表示のみで力学・帳簿には一切影響しない**(力への接続は physics.spaceMesh の opt-in で、こことは別)。",
+  tgSpaceMeshDesc:"重い2天体を頂点とする動くメッシュ(第253便a・第254便a)を表示。**既定は「空間線」**(第255便c) —— 主要天体と**重心**から基準方向へ飛ばす線で、凍結した時刻の場を表示用パラメータ τ で追跡する(dx/dτ=u+c_line ê・dê/dτ=(I−êêᵀ)Bê を中点法で積分)。**光子でも物質線でもなく、c_line は描画規約であって光速ではない**(光線の屈折率・局所時計・減光は呼ばない)。本数は光線と同じ品質縮退で減り、線は5〜10Hz 上限のキャッシュから描く。2天体を結ぶ線の点は**重心**(⊙)で、等質量では中点と一致する。格子表示はサンプルが明示宣言したときだけの診断として残る2種類 —— 参照ガイド(瞬時の写像 x=C+F(q−C₀) の格子を χ=W/(W+D₀ᵖ) の不透明度で描く。座標は混ぜない)と、輸送された物質線(dx/dt=u・dF/dt=(∇u)F を計算の刻みで積分したマーカーを描く)。A/B分割ビューでも描く。銀河サンプル(第254便b)では**物質線モード**(mode:tracer)になり、局所の場 u=χ·u_n+(1−χ)·u_bg の中を運ばれる細い線(色=χ の強さ・黄色の短線=u の向き)を描く。**表示のみで力学・帳簿には一切影響しない**(力への接続は physics.spaceMesh の opt-in で、こことは別)。",
   // 第37便 A3(原仮定者指示): 光線の基準波長λ0(表示専用・セーブ対象外・物理不変)
   // 第38便(原仮定者指示): 既定を580nmへ・スライダーは「光線」トグルの直後に移動・直値は可視外も受理
   rayLambda0Label:"光線の基準波長(nm)",
@@ -890,7 +900,7 @@ ja: {
   // 第38便 A5(原仮定者指示): バー・折れ線の色を温度に対応させた(粒子の温度色と同じ写像)
   tgTempDesc:"温度ヒストグラム(左右比較)。表示は観測温度 T_obs=(1−減光)·T。バー・折れ線の色は温度に対応(粒子の温度色と同じ写像)。右系列は破線で区別。",
   tgSpectrumDesc:"放射スペクトル(A12: ピーク波長 λ=b_m/T のウィーン型)。表示は観測温度基準。",
-  tgMonitorDesc:"運動量P・角運動量Lとリザーバ帳簿(E6′/E11)の保存量モニタ(T7)。",
+  tgMonitorDesc:"運動量P・角運動量Lとリザーバ帳簿(E6′/E11)の保存量モニタ(T7)。「共通設定」の項目で、この端末に永続する(第254便c)。一度でも自分で切り替えたら、以後はその設定が常に勝つ —— サンプルの overlays.monitor 宣言を既定に読むのは、まだ一度も触っていない場合だけである(カメラ追従と同じ流儀 — 第255便c)。",
   tgBoxGraphDesc:"箱宇宙(UniverseBox)の尺度因子a(t)・膨張率H(t)の時系列と、拡大による波長の伸び(赤方偏移 1+z=a/a₀)を表示する。箱宇宙プリセットでのみ有効。",
   tgPhaseGraphDesc:"二段の相変化グラフ。上段=平均温度T̄(橙)と平均配位数c̄(緑) — 結合が切れて c̄ が下がる間は T̄ の上がりが鈍る=創発した実効潜熱の因果が読める。下段=六方配向秩序ψ6(水色)と結合の組替率(赤紫・0〜1) — 液体=組替が速い/結晶=組替≈0で秩序高い/ガラス=組替≈0なのに秩序低い、という動的な相の分類が読める。左端の縦帯=高さ別の平均配位数(相前線プロファイル — 床から進む融解・凝固前線)。相変化(E14″)プリセットでのみ有効。",
   ovPhaseGraph:"相変化 T̄・配位数", ovPhaseNote:"上:橙=T̄ 緑=c̄ 下:水=ψ6 紫=組替率×10 左帯=高さ別c(前線) 色=温度 線=結合",
@@ -1157,8 +1167,11 @@ ja: {
   // 第92便(原仮定者指示): プリセット選択ウィンドウ
   ppTitle:"サンプルを選ぶ",
   ppSearchPh:"検索(名前・ID・絵文字)",
-  ppPickTip:"タップしてサンプル選択ウィンドウを開く(グループ・スケール・分類・E水準で絞り込み/検索)",
+  ppPickTip:"タップしてサンプル選択ウィンドウを開く(スケール・分類・E水準で絞り込み/検索。一覧はグループごとに畳めます)",
   ppDimGroup:"グループ", ppDimScale:"スケール", ppDimClass:"分類", ppDimE:"E水準",
+  // 第255便c: グループは絞り込みの次元ではなくなった(一覧の見出しとして残る)ので、説明行の見出し語を分ける
+  ppNoteGroupLabel:"グループ(一覧の見出し)",
+  ppGroupToggleTip:"タップしてこのグループを開閉(開閉はこの端末に記憶されます)",
   // 第147便(統括裁定の実行): E水準の運用規約を UI へ明文化。件数 n は実行時導出(宣言のある
   // サンプル数)で、手打ちの数値は持たない。フィルタの意味論は不変(E0 は第94便どおり宣言なしも含む)
   ppENote:(n)=>`E水準は創発プログラム(論文4系)の宣言専用メタで、宣言のあるサンプルだけが対象(現在 ${n} 件 — E1〜E3)。全プリセットへの強制分類はしない。E0 チップは宣言なしのサンプルも含む(第94便)。E2/E3 の拡充は論文4の着手便で再判定する(第147便 運用規約)。`,
@@ -1167,7 +1180,7 @@ ja: {
   // 一切書かない(グループ=README のグループ紹介 / スケール=scaleTier の既存定義〔アンカーは
   // SCALE_ANCHORS から実行時導出〕/ 分類=sampleClass チップの tip 文そのまま / E水準=第147便の注記)
   ppNoteTip:"タップして説明を開閉",
-  ppNoteGroupHead:"サンプルのグループは表示・分類専用の区分で、物理・保存 JSON には一切影響しない(並びはスケール順)。",
+  ppNoteGroupHead:"サンプルのグループは表示・分類専用の区分で、物理・保存 JSON には一切影響しない(並びはスケール順)。第255便c で**絞り込みの次元からは外し**、一覧の見出し(タップで開閉・既定は畳んだ状態)として残した。",
   groupNotes:{
     "熱の実験室":"熱平衡・スピン圧・熱伝導・放射冷却・対流・三態の創発など、熱まわりの統制実験。",
     "空間と時間":"重力による時計の遅れ・弱場GR較正とその焦点版(GPS/光偏向/シャピロ)・水星の近日点前進・自由落下など、時空係数まわりの統制実験。",
@@ -1323,9 +1336,11 @@ ja: {
   descSummaryHead:"📌 要約", descObserveHead:"👀 観察のポイント", descControlHead:"🎛 操作と対照",
   // 第74便→第98便: 7段階スケール(scaleTier)— チップ・換算表示・AI雛形(第84便C: 絞り込み用 grpScale は撤去)
   // 第254便c: 「ベースのスケール」に追加した頻用組み合わせの名前(用途が分かる短い名)
-  scaleBase_gwBinary:"重力波連星(e4)", scaleBase_psrBinary:"パルサー連星(e6)",
-  scaleBase_planetStd:"惑星・標準(e8)", scaleBase_starBinary:"恒星連星(e10)",
-  scaleBase_cluster:"球状星団(e16)", scaleBase_galaxyReal:"実単位銀河(e19)",
+  // 第255便c(第47報 N7b): 指数の表記は**三つ組**(距離/時間/質量)へ統一したので、名前から
+  // 距離指数だけの丸括弧を外した(括弧は scaleBaseName() が表から機械生成する — 手打ちしない)
+  scaleBase_gwBinary:"重力波連星", scaleBase_psrBinary:"パルサー連星",
+  scaleBase_planetStd:"惑星・標準", scaleBase_starBinary:"恒星連星",
+  scaleBase_cluster:"球状星団", scaleBase_galaxyReal:"実単位銀河",
   scaleName_molecular:"分子", scaleName_beaker:"ビーカー", scaleName_everyday:"日常",
   scaleName_planetary:"惑星", scaleName_stellar:"恒星",
   scaleName_galactic:"銀河", scaleName_cosmic:"宇宙全体",
@@ -1457,7 +1472,7 @@ en: {
   tgTrailLineDesc:"Records and draws orbit lines (e.g. Mercury's precessing ellipse). Recording interval follows render quality.",
   tgFieldDesc:"Background color map of the determinacy W (A3/E1'). Brighter = higher W.",
   tgSpaceMesh:"Space mesh",
-  tgSpaceMeshDesc:"Draws the moving mesh whose vertices are the two heaviest bodies (waves 253a and 254a). A sample declares one of two modes: a REFERENCE GUIDE (the instantaneous map x=C+F(q-C0) drawn with chi = W/(W+D0p) as the OPACITY - coordinates are never blended) or a TRANSPORTED MATERIAL LINE (markers integrated by dx/dt=u and dF/dt=(grad u)F at the simulation clock). Drawn in the A/B split view too. On galaxy samples (wave 254b) it switches to MATERIAL-LINE mode (mode:tracer) and draws thin lines carried through the local field u = chi u_n + (1-chi) u_bg (colour = strength of chi, short yellow strokes = direction of u). DISPLAY ONLY - it touches neither the dynamics nor the ledgers; connecting the mesh to force is the separate physics.spaceMesh opt-in.",
+  tgSpaceMeshDesc:"Draws the moving mesh whose vertices are the two heaviest bodies (waves 253a and 254a). THE DEFAULT IS SPACE LINES (wave 255c): lines cast from the main bodies and from the BARYCENTRE along reference directions, tracking the field FROZEN AT THE CURRENT TIME through a display parameter tau (dx/dtau = u + c_line e, de/dtau = (I - e e^T) B e, midpoint rule). THEY ARE NEITHER PHOTONS NOR MATERIAL LINES, and c_line is a DRAWING CONVENTION, not a speed of light (no refractive index, no local clock, no extinction). Their count degrades with the same quality factor as the rays and they are drawn from a cache capped at 5-10 Hz. The dot on the segment joining the two bodies is the BARYCENTRE (a small circled dot), which coincides with the midpoint for equal masses. The lattice modes remain as a diagnostic only when a sample declares one explicitly: a REFERENCE GUIDE (the instantaneous map x=C+F(q-C0) drawn with chi = W/(W+D0p) as the OPACITY - coordinates are never blended) or a TRANSPORTED MATERIAL LINE (markers integrated by dx/dt=u and dF/dt=(grad u)F at the simulation clock). Drawn in the A/B split view too. On galaxy samples (wave 254b) it switches to MATERIAL-LINE mode (mode:tracer) and draws thin lines carried through the local field u = chi u_n + (1-chi) u_bg (colour = strength of chi, short yellow strokes = direction of u). DISPLAY ONLY - it touches neither the dynamics nor the ledgers; connecting the mesh to force is the separate physics.spaceMesh opt-in.",
   // 第37便 A3: ray base wavelength lambda0 (display only, not saved, physics-free)
   // 38th flight (design lead's instruction): default now 580nm; slider moved right after the "rays" toggle; direct entry accepts non-visible values
   rayLambda0Label:"Ray base wavelength (nm)",
@@ -1467,7 +1482,7 @@ en: {
   // 38th flight A5 (design lead's instruction): bar/line color now follows temperature (same mapping as particle color)
   tgTempDesc:"Temperature histogram (left/right). Uses the observed temperature T_obs = (1-dimming) x T. Bar/line color follows temperature (same mapping as particle color). The right series is dashed to tell it apart.",
   tgSpectrumDesc:"Radiation spectrum (A12, Wien-type peak lambda=b_m/T). Uses observed temperature.",
-  tgMonitorDesc:"Conservation monitor (T7): momentum P, angular momentum L, and the reservoir ledger (E6'/E11).",
+  tgMonitorDesc:"Conservation monitor (T7): momentum P, angular momentum L, and the reservoir ledger (E6'/E11). It lives under \"General settings\" and persists on this device (wave 254c). Once you toggle it yourself your setting always wins; a sample's overlays.monitor declaration is read as the default only while you have never touched it (the same rule as camera follow — wave 255c).",
   tgBoxGraphDesc:"Shows the box universe (UniverseBox) scale factor a(t) and expansion rate H(t) over time, plus the wavelength stretch from expansion (redshift 1+z=a/a0). Only active on box-universe presets.",
   tgPhaseGraphDesc:"Two-panel phase graph. Top: mean temperature T̄ (orange) and mean coordination c̄ (green) — while bonds break (c̄ falls), T̄ climbs more slowly, the emergent latent heat read directly. Bottom: hexatic order ψ6 (cyan) and bond rewiring rate (magenta, 0-1) — liquid = fast rewiring, crystal = frozen and ordered, glass = frozen yet disordered: a dynamic classification of states. The left strip shows mean coordination by height (the phase-front profile advancing from the floor). Only active on phase-change (E14″) presets.",
   ovPhaseGraph:"Phase T̄ / coordination", ovPhaseNote:"top:orange=T̄ green=c̄ btm:cyan=ψ6 mag=rewiring×10 left=c by height (front) color=T lines=bonds",
@@ -1725,14 +1740,17 @@ en: {
   // 第92便: preset picker window
   ppTitle:"Choose a sample",
   ppSearchPh:"Search (name, ID, emoji)",
-  ppPickTip:"Tap to open the sample picker (filter by group, scale, class, E-level; search)",
+  ppPickTip:"Tap to open the sample picker (filter by scale, class, E-level; search; the list folds by group)",
   ppDimGroup:"Group", ppDimScale:"Scale", ppDimClass:"Class", ppDimE:"E-level",
+  // wave 255c: groups are no longer a filter dimension - they stay as the list headings
+  ppNoteGroupLabel:"Groups (list headings)",
+  ppGroupToggleTip:"Tap to open or close this group (remembered on this device)",
   // wave 147: operating rule for the E-level filter. The count is derived at runtime.
   ppENote:(n)=>`The E-level is declaration-only metadata for the emergence program (paper 4 line); only samples that declare one are in scope (${n} at present — E1–E3). It is never forced onto every preset. The E0 chip also covers samples with no declaration (wave 94). Extending E2/E3 is re-decided when paper 4 starts (wave 147 operating rule).`,
   // Wave 149: the four filter dimensions each carry a collapsible note, opened by tapping the
   // dimension label. Wording is transcribed/condensed from existing docs — no new physical claim.
   ppNoteTip:"Tap to show or hide the note",
-  ppNoteGroupHead:"Sample groups are a display/classification split only and never touch the physics or the saved JSON (the order runs from small to large scale).",
+  ppNoteGroupHead:"Sample groups are a display/classification split only and never touch the physics or the saved JSON (the order runs from small to large scale). Wave 255c removed them from the filter dimensions and kept them as the list headings (tap to fold or unfold; folded by default).",
   groupNotes:{
     "熱の実験室":"Controlled experiments around heat: thermal equilibrium, spin pressure, conduction, radiative cooling, convection, emergent states of matter.",
     "空間と時間":"Controlled experiments around the spacetime coefficient: gravitational clock delay, the weak-field GR calibration and its focused versions (GPS / light bending / Shapiro), Mercury's perihelion advance, free fall.",
@@ -1884,9 +1902,10 @@ en: {
   descSummaryHead:"📌 Summary", descObserveHead:"👀 What to observe", descControlHead:"🎛 Controls & contrasts",
   // 第74便: 5-tier scale (scaleTier) — chips/conversion/AI templates (第84便C: filter-only grpScale removed)
   // 第254便c: names of the frequently-used exponent combinations added to "Base scale"
-  scaleBase_gwBinary:"GW binary (e4)", scaleBase_psrBinary:"Pulsar binary (e6)",
-  scaleBase_planetStd:"Planetary standard (e8)", scaleBase_starBinary:"Stellar binary (e10)",
-  scaleBase_cluster:"Globular cluster (e16)", scaleBase_galaxyReal:"Real-unit galaxy (e19)",
+  // 第255便c: the exponents are now shown as a TRIPLE (length/time/mass) generated from the table
+  scaleBase_gwBinary:"GW binary", scaleBase_psrBinary:"Pulsar binary",
+  scaleBase_planetStd:"Planetary standard", scaleBase_starBinary:"Stellar binary",
+  scaleBase_cluster:"Globular cluster", scaleBase_galaxyReal:"Real-unit galaxy",
   scaleName_molecular:"Molecular", scaleName_beaker:"Beaker", scaleName_everyday:"Everyday",
   scaleName_planetary:"Planetary", scaleName_stellar:"Stellar",
   scaleName_galactic:"Galactic", scaleName_cosmic:"Cosmic",
@@ -2763,21 +2782,34 @@ const TIER_EC={molecular:3, beaker:0, everyday:0, planetary:4, stellar:4, galact
 // 1本しか使わない組み合わせ(14/9/35 🦀・3/1/27 🏮)は入れない。並びは距離指数 x の昇順。
 // 表示セレクタ専用 — 物理・保存 JSON・サンプル読込時のタグ既定には一切触れない
 const SCALE_BASES=[
-  {id:"molecular", tier:"molecular", suffix:"",     L:-10,  T:-13,  M:-26,  C:3},
-  {id:"beaker",    tier:"beaker",    suffix:"",     L:-2.5, T:-2.5, M:-2.5, C:0},
-  {id:"everyday",  tier:"everyday",  suffix:"",     L:0,    T:0,    M:0,    C:0},
-  {id:"gwBinary",  tier:"planetary", suffix:"",     L:4,    T:-3,   M:29,   C:4, nameKey:"scaleBase_gwBinary"},   // 第254便c: 🎐🎻⏰⚛️
-  {id:"psrBinary", tier:"planetary", suffix:"",     L:6,    T:1,    M:27,   C:4, nameKey:"scaleBase_psrBinary"},  // 第254便c: 📻⚡🧿🧮🩺…
-  {id:"planetE6",  tier:"planetary", suffix:"(e6)", L:6,    T:2,    M:25,   C:4},
-  {id:"planetE7",  tier:"planetary", suffix:"(e7)", L:7,    T:3,    M:26,   C:4},
-  {id:"planetStd", tier:"planetary", suffix:"",     L:8,    T:4,    M:24,   C:4, nameKey:"scaleBase_planetStd"},  // 第254便c: 惑星タグの既定アンカー ⏱️🛰️☿🪐…
-  {id:"planetE8",  tier:"planetary", suffix:"(e8)", L:8,    T:4,    M:27,   C:4},
-  {id:"starBinary",tier:"stellar",   suffix:"",     L:10,   T:6,    M:29,   C:4, nameKey:"scaleBase_starBinary"}, // 第254便c: ✨✴️🌟💫🥀🌹
-  {id:"stellar",   tier:"stellar",   suffix:"",     L:11,   T:7,    M:30,   C:4},
-  {id:"cluster",   tier:"stellar",   suffix:"",     L:16,   T:12,   M:35,   C:4, nameKey:"scaleBase_cluster"},    // 第254便c: 🍇🫐
-  {id:"galactic",  tier:"galactic",  suffix:"",     L:19,   T:14,   M:34,   C:5},
-  {id:"galaxyReal",tier:"galactic",  suffix:"",     L:19,   T:15,   M:38,   C:5, nameKey:"scaleBase_galaxyReal"}, // 第254便c: 🌃🛞
-  {id:"cosmic",    tier:"cosmic",    suffix:"",     L:23,   T:17,   M:42,   C:6}];
+  {id:"molecular", tier:"molecular", L:-10,  T:-13,  M:-26,  C:3},
+  {id:"beaker",    tier:"beaker",    L:-2.5, T:-2.5, M:-2.5, C:0},
+  {id:"everyday",  tier:"everyday",  L:0,    T:0,    M:0,    C:0},
+  {id:"gwBinary",  tier:"planetary", L:4,    T:-3,   M:29,   C:4, nameKey:"scaleBase_gwBinary"},   // 第254便c: 🎐🎻⏰⚛️
+  {id:"psrBinary", tier:"planetary", L:6,    T:1,    M:27,   C:4, nameKey:"scaleBase_psrBinary"},  // 第254便c: 📻⚡🧿🧮🩺…
+  {id:"planetE6",  tier:"planetary", L:6,    T:2,    M:25,   C:4},
+  {id:"planetE7",  tier:"planetary", L:7,    T:3,    M:26,   C:4},
+  {id:"planetStd", tier:"planetary", L:8,    T:4,    M:24,   C:4, nameKey:"scaleBase_planetStd"},  // 第254便c: 惑星タグの既定アンカー ⏱️🛰️☿🪐…
+  {id:"planetE8",  tier:"planetary", L:8,    T:4,    M:27,   C:4},
+  {id:"starBinary",tier:"stellar",   L:10,   T:6,    M:29,   C:4, nameKey:"scaleBase_starBinary"}, // 第254便c: ✨✴️🌟💫🥀🌹
+  {id:"stellar",   tier:"stellar",   L:11,   T:7,    M:30,   C:4},
+  {id:"cluster",   tier:"stellar",   L:16,   T:12,   M:35,   C:4, nameKey:"scaleBase_cluster"},    // 第254便c: 🍇🫐
+  {id:"galactic",  tier:"galactic",  L:19,   T:14,   M:34,   C:5},
+  {id:"galaxyReal",tier:"galactic",  L:19,   T:15,   M:38,   C:5, nameKey:"scaleBase_galaxyReal"}, // 第254便c: 🌃🛞
+  {id:"cosmic",    tier:"cosmic",    L:23,   T:17,   M:42,   C:6}];
+// 第255便c(第47報 N7b「『ベースのスケール』の名称を、三つ組表記 (e6/e2/e25) へ統一する」):
+// 第254便c までは名前の丸括弧が**距離指数だけ**だったので、「惑星・標準(e8)」(8/4/24)と
+// 「惑星(e8)」(8/4/27)が**同じ括弧で別の行**になっていた(質量指数が 3 桁違うのに見分けが
+// つかない)。括弧は表の (L,T,M) から機械生成する三つ組へ統一し、名前側の指数表記は撤去した。
+// **表示専用**(行の指数・一括設定・一致判定・物理・保存 JSON には一切触れない)
+function scaleExpTriple(b){
+  const e=(v)=>"e"+(Number.isInteger(v)? v : String(v));
+  return e(b.L)+"/"+e(b.T)+"/"+e(b.M);
+}
+function scaleBaseName(b){
+  return SCALE_EMOJI[b.tier]+" "+(b.nameKey? T(b.nameKey) : T("scaleName_"+b.tier))
+    +"("+scaleExpTriple(b)+")";
+}
 // 第120便(原仮定者指示「スケールタグの表示は距離スケール指数に対応させる」):
 // scaleExp 宣言プリセットのタグは宣言 scaleTier ではなく距離指数 L から最近傍ティアを導出する
 // (☄️mercuryReal は L=8 → 惑星)。表示・分類専用 — 物理不変
@@ -10145,8 +10177,10 @@ const BUILTIN_PRESETS = [
   ],
   // 第253便a(第45報): 空間メッシュのオーバーレイを既定 ON にする(**表示のみ** — 物理は 1 bit も
   // 変わらない。🫂 は claims 窓が 1 つも無いので回帰窓にも触れない)。等質量・χ が門を超えた極
-  // (ワンタップ B 側 D0pull=1e−6)で「2 天体を結ぶ線と中間地点が一意に決まる」のが色で見える
-  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,spaceMesh:true,spaceMeshMode:"guide"} },
+  // (ワンタップ B 側 D0pull=1e−6)で「2 天体を結ぶ線と重心が一意に決まる」のが色で見える
+  // 第255便c(第47報): 既定表示を格子(guide)から**空間線**(lines)へ。overlays の宣言文字列が
+  // 変わるので **presetSig は変わる**(意図した変更 —— 力学・600 步の状態は 1 bit も動かない)
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,spaceMesh:true,spaceMeshMode:"lines"} },
 
 // ===== 第254便a(第46報「空間メッシュ本体」): 🪟 spaceMeshBinaryToy — メッシュの重力と慣性を測る窓 =====
 // 原仮定者(第46報・全文は docs/PHYSICS.md 〔第254便a〕):「連星では、『背景決定力 D₀』をゼロに
@@ -10166,7 +10200,7 @@ const BUILTIN_PRESETS = [
   sampleClass:"principle",
   fidelity:"toy",
   obsCard:[
-    {q:"何を見るか", model:"等質量 2 体(m=500・e=0.5)に physics.spaceMesh={mode:\"vertex\",gravity:true} を足した宇宙。格子は輸送された物質線", obs:"—(原理サンプル・観測較正ではない)"},
+    {q:"何を見るか", model:"等質量 2 体(m=500・e=0.5)に physics.spaceMesh={mode:\"vertex\",gravity:true} を足した宇宙。表示は空間線(第255便c)", obs:"—(原理サンプル・観測較正ではない)"},
     {q:"**メッシュの重力は既にある重力**", model:"A/B(spaceMesh の有無)で近点間 P=1339.718898・近点移動 +2.027112°/周 が印字桁で同一。1 步の加速度差 |Δa_g| は 0〜2.8×10⁻¹⁸", obs:"—(第46報「勾配で加速する力が重力」の実測)"},
     {q:"メッシュの回転は D₀ に依らない", model:"Ω_mesh は頂点契約から恒等的に Ω_orbit。D0pull を 10⁻⁶〜10³ に振っても比は 1(掃引は 🫂 と本便の器)", obs:"—"},
     {q:"D₀ が動かすのは χ である", model:"χ=W/(W+D0pull): 0→1(厳密)/10⁻⁴→0.98861/10⁻²→0.46468/1→0.0086059/10³→8.68×10⁻⁶。近点間 P は 793.16/1339.84/888.41/531.56/518.87", obs:"—(第46報「D₀ をゼロに近付けると」の測れた形)"},
@@ -10180,11 +10214,11 @@ const BUILTIN_PRESETS = [
   descStruct:{
     summary:"**第46報「空間メッシュ本体」を測れる形にした原理サンプル**(第254便a)。等質量の 2 体(m=500・半径 1・e=0.5・遠点分離 240)を、**1PN を切って(geoPN=0)引きずり(kFrame=1・A8/E6′)だけ**で回し、そこへ **physics.spaceMesh={mode:\"vertex\", gravity:true}** を 1 行足す。足したのは「決定力場の空間メッシュの勾配で加速する力」で、そのスカラーは D_grav=Σm/√(d²+ε²)(Φ=−G·D_grav・g=+G·∇D_grav)。**これはエンジンの E4=G∇W と同じ核**なので、足しても軌道は丸めの水準でしか動かない —— それが本サンプルの主張である。格子は**輸送された物質線**(dx/dt=u・dF/dt=(∇u)F を S.step の時刻で RK4 積分したもの)で、公転に随伴して回るのが見える。**この系を見て決めた係数は 1 つも無い**。",
     observe:"実測(dt=0.004・器は tests/exp-w254a-meshforce.mjs)。**A/B(spaceMesh の有無)**: 150 万步(t=6000)で近点間 P=**1339.718898**・近点移動 **+2.027112°/周** がどちらも印字桁で同一。1 步の加速度差 |Δa_g| は **0〜2.8×10⁻¹⁸**、150 万步後の状態差は **3.3×10⁻¹⁰**(|r|≈10² に対して)= 丸めの蓄積である。帳簿 spaceMeshWorkE=**1.0×10⁻¹⁶**(gravity チャネルは保存力なので外部仕事を持たない)。**χ の D0pull 依存**(t=0 値): 0→**1(厳密)**・mode=T2・unique=true/1e−4→0.98861(T2・unique)/1e−2→0.46468(blend)/1→0.0086059/1e3→8.680×10⁻⁶。同じ 5 段の**近点間 P** は 793.16/1339.84/888.41/531.56/518.87(ケプラー 518.8544)・**近点移動** +0.6009/+2.0274/+62.86/+12.11/+0.0124°/周。**Ω_mesh 対 Ω_orbit は 5 段すべてで恒等的に一致**する(頂点契約 —— メッシュの回転は D₀ に依らない)。**輸送線の累積回転角/公転角**は 1.0000004〜1.0000010。**物質線の頂点追従**(相対・100 万步): 幾何整合補間 **8.6×10⁻¹³** 対 速度補間 **8.9×10⁻⁵**。NaN 0・D0pull=1e−4 では安全クランプ 0(D0pull=0 の極では 100 万步で 199 万回)。",
-    control:"ワンタップ対照A/B: B 側は **spaceMesh なし** — **見た目も数値も変わらない**。それが測った結果である(メッシュの重力は既にある重力であって、二重に数えるものではない)。表示トグル「空間メッシュ」で格子を消せる。physics.D0pull を 0 にすると χ=1 の極(互いだけが基準・ただし安全クランプが 100 万步で 199 万回)へ、10³ にすると格子が背景に貼り付く(P=518.87 = ケプラー 518.8544 の +0.003%)。physics.kFrame を 0 にすると引きずりが消えてケプラー楕円に戻る。timeScale=60・dispMag=3(表示専用)。🫂 と並べると「同じ引きずりチャネルを、D₀ の掃引で見るか・メッシュの接続で見るか」の対照になる。",
+    control:"ワンタップ対照A/B: B 側は **spaceMesh なし** — **見た目も数値も変わらない**。それが測った結果である(メッシュの重力は既にある重力であって、二重に数えるものではない)。表示トグル「空間メッシュ」で空間線を消せる。physics.D0pull を 0 にすると χ=1 の極(互いだけが基準・ただし安全クランプが 100 万步で 199 万回)へ、10³ にすると空間線が背景に貼り付く(P=518.87 = ケプラー 518.8544 の +0.003%)。physics.kFrame を 0 にすると引きずりが消えてケプラー楕円に戻る。timeScale=60・dispMag=3(表示専用)。🫂 と並べると「同じ引きずりチャネルを、D₀ の掃引で見るか・メッシュの接続で見るか」の対照になる。",
   },
   en:{name:"A window on the space mesh — the mesh's gravity is the gravity we already had",
     obsCard:[
-      {q:"What to watch", model:"Two equal masses (m=500, e=0.5) with physics.spaceMesh={mode:\"vertex\",gravity:true} added. The lattice is a TRANSPORTED material line", obs:"— (a principle sample, not an observational calibration)"},
+      {q:"What to watch", model:"Two equal masses (m=500, e=0.5) with physics.spaceMesh={mode:\"vertex\",gravity:true} added. The display draws SPACE LINES (wave 255c)", obs:"— (a principle sample, not an observational calibration)"},
       {q:"THE MESH'S GRAVITY IS THE GRAVITY WE ALREADY HAD", model:"with and without spaceMesh the periastron period 1339.718898 and the advance +2.027112 deg/orbit agree to every printed digit; the one-step acceleration difference is 0 to 2.8e-18", obs:"— (report 46: 'the force that accelerates along the gradient is gravity')"},
       {q:"The mesh's rotation does not depend on D0", model:"Omega_mesh equals Omega_orbit identically by the vertex contract, at every D0pull from 1e-6 to 1e3", obs:"—"},
       {q:"What D0 moves is chi", model:"chi=W/(W+D0pull): 0 -> 1 exactly / 1e-4 -> 0.98861 / 1e-2 -> 0.46468 / 1 -> 0.0086059 / 1e3 -> 8.68e-6; the periastron periods are 793.16 / 1339.84 / 888.41 / 531.56 / 518.87. The blended field's Omega falls with chi", obs:"— (report 46's 'bring D0 close to zero', made measurable)"},
@@ -10197,9 +10231,9 @@ const BUILTIN_PRESETS = [
       pass:"TWO OF REPORT 46's THREE SENTENCES CAME OUT CLEANLY. (1) 'THE FORCE THAT ACCELERATES ALONG THE GRADIENT OF THE MESH OF THE DETERMINACY FIELD IS GRAVITY' IS ALREADY TRUE HERE: the mesh scalar D_grav = sum m/sqrt(d^2+eps^2) has the same kernel as the engine's E4 = G grad W, so replacing one by the other leaves the orbit unchanged to ~1e-19. The mesh's gravity is not a new force; it is another name for the gravity already present. (2) 'BRING D0 CLOSE TO ZERO AND THE MESH ROTATES WITH THE ORBIT' IS A STATEMENT ABOUT chi: the node mesh's rotation rate equals the orbital rate identically, independent of D0, and what D0 moves is the blending weight chi. (3) THE DISPLAY WAS SETTLED BY MEASUREMENT: linearly blending COORDINATES collapses the lattice (det = 1-2chi(1-chi)(1-cos theta)), so that was withdrawn in favour of two modes — a reference guide (chi as opacity) and a transported material line, which tracks the vertices to 1e-15.",
     },
     descStruct:{
-      summary:"A PRINCIPLE SAMPLE THAT TURNS REPORT 46's 'SPACE MESH PROPER' INTO SOMETHING MEASURABLE (wave 254a). Two equal masses (m=500, radius 1, e=0.5, apoapsis separation 240) run with 1PN off (geoPN=0) and nothing but the dragging (kFrame=1, A8/E6'), and one line of physics.spaceMesh={mode:\"vertex\", gravity:true} is added. What is added is 'the force that accelerates along the gradient of the mesh of the determinacy field', whose scalar is D_grav = sum m/sqrt(d^2+eps^2) (Phi = -G D_grav, g = +G grad D_grav). THAT IS THE SAME KERNEL AS THE ENGINE'S E4 = G grad W, so adding it moves the orbit only at rounding level — which is the claim. The lattice is a TRANSPORTED MATERIAL LINE (dx/dt=u, dF/dt=(grad u)F, integrated by RK4 at S.step's clock) and is seen to comove with the orbit. NO COEFFICIENT WAS CHOSEN BY LOOKING AT THIS SYSTEM.",
+      summary:"A PRINCIPLE SAMPLE THAT TURNS REPORT 46's 'SPACE MESH PROPER' INTO SOMETHING MEASURABLE (wave 254a). Two equal masses (m=500, radius 1, e=0.5, apoapsis separation 240) run with 1PN off (geoPN=0) and nothing but the dragging (kFrame=1, A8/E6'), and one line of physics.spaceMesh={mode:\"vertex\", gravity:true} is added. What is added is 'the force that accelerates along the gradient of the mesh of the determinacy field', whose scalar is D_grav = sum m/sqrt(d^2+eps^2) (Phi = -G D_grav, g = +G grad D_grav). THAT IS THE SAME KERNEL AS THE ENGINE'S E4 = G grad W, so adding it moves the orbit only at rounding level — which is the claim. The display draws SPACE LINES (wave 255c) from the two bodies and the barycentre; the transported material line (dx/dt=u, dF/dt=(grad u)F, RK4 at S.step's clock) that this sample was built with in wave 254a stays available as the declared diagnostic mode. NO COEFFICIENT WAS CHOSEN BY LOOKING AT THIS SYSTEM.",
       observe:"Measured at dt=0.004 with tests/exp-w254a-meshforce.mjs. WITH VS WITHOUT spaceMesh over 1.5 million steps (t=6000): the periastron period 1339.718898 and the advance +2.027112 deg/orbit agree to every printed digit; the one-step |da_g| is 0 to 2.8e-18 and the state after 1.5M steps differs by 3.3e-10 (against |r| of order 1e2) — accumulated rounding. spaceMeshWorkE stays at the 1e-16 level (the gravity channel is conservative). chi VERSUS D0pull (at t=0): 0 -> 1 exactly (mode=T2, unique=true) / 1e-4 -> 0.98861 / 1e-2 -> 0.46468 / 1 -> 0.0086059 / 1e3 -> 8.680e-6; the same five give periastron periods 793.16 / 1339.84 / 888.41 / 531.56 / 518.87 (Kepler 518.8544) and advances +0.6009 / +2.0274 / +62.86 / +12.11 / +0.0124 deg/orbit. Omega_mesh EQUALS Omega_orbit at all five (the vertex contract — the mesh rotation does NOT depend on D0); the BLENDED field's Omega falls with chi. MATERIAL-LINE TRACKING (relative, one million steps): 8.6e-13 geometry-consistent against 8.9e-5 velocity-interpolated. Zero NaN; zero safety clamps at D0pull=1e-4 (1.99M in a million steps at the D0pull=0 pole).",
-      control:"One-tap A/B: side B has NO spaceMesh — AND NOTHING CHANGES, in the picture or in the numbers. That is the measured result (the mesh's gravity is the gravity already there, not a second one to count). The 'space mesh' display toggle removes the lattice. Setting physics.D0pull to 0 goes to the chi=1 pole (the two bodies are each other's only reference); 1e3 glues the lattice to the background. physics.kFrame=0 removes the dragging and restores the Kepler ellipse (period 518.85). timeScale=60 and dispMag=3 are display-only. Beside 🫂 the pair shows the same dragging channel read two ways: by sweeping D0 and by connecting the mesh."},
+      control:"One-tap A/B: side B has NO spaceMesh — AND NOTHING CHANGES, in the picture or in the numbers. That is the measured result (the mesh's gravity is the gravity already there, not a second one to count). The 'space mesh' display toggle removes the space lines. Setting physics.D0pull to 0 goes to the chi=1 pole (the two bodies are each other's only reference); 1e3 glues the space lines to the background. physics.kFrame=0 removes the dragging and restores the Kepler ellipse (period 518.85). timeScale=60 and dispMag=3 are display-only. Beside 🫂 the pair shows the same dragging channel read two ways: by sweeping D0 and by connecting the mesh."},
     parameterAudit:{
       observedInputs:["NONE — this sample transcribes no observation"],
       fixedConventions:["the project-wide c0=30 convention (waves 99/100): G=0.60066, cLight=30, kappaT=G/c^2=0.0006674",
@@ -10236,9 +10270,11 @@ const BUILTIN_PRESETS = [
     {type:"single", m:500, radius:1, x:-120, y:0, vx:0, vy:-0.5593243692170045, spin:0, pinned:false, pnSource:true},
     {type:"single", m:500, radius:1, x:120, y:0, vx:0, vy:0.5593243692170045, spin:0, pinned:false}
   ],
-  // 第254便a: 空間メッシュのオーバーレイを**輸送線モード**で既定 ON にする(表示のみ)。
-  // 🫂 は参照ガイド(guide)を既定にした — 2 モードを両方の画面で見比べられる
-  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,spaceMesh:true,spaceMeshMode:"transport"} },
+  // 第254便a: 空間メッシュのオーバーレイを**輸送線モード**で既定 ON にしていた(表示のみ)。
+  // 第255便c(第47報): 🫂 と揃えて既定表示を**空間線**(lines)へ。格子 2 種(guide/transport)は
+  // 明示宣言したときだけの診断表示として残る。**presetSig は変わる**(意図した変更 —— 力学・
+  // 600 步の状態・physics.spaceMesh の opt-in は 1 bit も動かない)
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,spaceMesh:true,spaceMeshMode:"lines"} },
 
 // ===== 第223便(第22報 原仮定者指示): GW150914 — 連星ブラックホールの基準状態 🎐 と DFM 版 🎻 =====
 // 観測レコード(2026-08-29 取得・paper/data/solar-observations.csv の GW150914 行)からの手組み転写。
@@ -13913,8 +13949,14 @@ function validatePreset(obj){
       //                  (座標は混ぜない —— det[(1−χ)I+χR_θ] が χ=½・θ=π で 0 になるため)
       //   "transport" … 輸送された物質線。dx/dt=u・dF/dt=(∇u)F を **S.step の時刻で**積分した
       //                  マーカーを描く(描画は読むだけ)
-      // 既定(true 宣言)は "guide"。未宣言は 1 bit 不変(鍵を足さない)
-      if(p.overlays.spaceMeshMode==="transport" || p.overlays.spaceMeshMode==="guide"){
+      // 第255便c(第47報・3 審査 v13): 第3の値 **"lines"(空間線)** を足した。凍結した時刻の場を
+      //   表示用パラメータ τ で追跡する線(dx/dτ=u+c_line ê・dê/dτ=(I−êêᵀ)Bê)で、**光子でも
+      //   物質線でもない**。宣言なし(true だけ)の既定表示も空間線になった —— 格子 2 種は
+      //   **明示宣言したときだけの診断表示**として残す。
+      // **値域は 1 形へ潰さない**(署名便 —— "lines" の明示宣言は "lines" のまま署名に載る)。
+      // 未宣言は 1 bit 不変(鍵を足さない)
+      if(p.overlays.spaceMeshMode==="transport" || p.overlays.spaceMeshMode==="guide"
+         || p.overlays.spaceMeshMode==="lines"){
         ov.spaceMesh=true; ov.spaceMeshMode=p.overlays.spaceMeshMode;
       }
     }
@@ -18414,10 +18456,23 @@ let camX=0, camY=0, camScale=300, tempP90EMA=0.5, monitorOn=false;
 // 置き場所と一緒に**永続性も共通設定の流儀へ揃える**(hp_monitor に保存 — 描画品質・
 // ステップ診断・カメラ追従と同型)。既定値は現状維持: 未保存なら OFF で始まり、サンプルが
 // overlays.monitor:true を宣言していれば読込時に ON になる(loadPreset の ON のみ適用は不変)
-try{ monitorOn = localStorage.getItem("hp_monitor")==="1"; }catch(_){}
-function setMonitorOn(v){ monitorOn=!!v;
+// 第255便c(第47報 N7a): 永続の**方式**もカメラ追従(hp_camfollow)と同型にした。第254便c は
+// サンプルの overlays.monitor:true を setMonitorOn(true) で受けていたため、**サンプルの宣言が
+// 共通設定 hp_monitor を上書き**して以後の全サンプルで ON のままになった。以後は:
+//   ・hp_monitor に保存がある(= ユーザーが一度でも触った)なら、その値が常に勝つ
+//   ・保存が無いユーザーだけ、サンプルの宣言(overlays.monitor)を既定として読む
+// 上書きは setMonitorOn(= チェックボックスと HP.setMonitor)だけが行う
+let monitorTouched=false;
+try{ const _m=localStorage.getItem("hp_monitor");
+  if(_m!==null){ monitorTouched=true; monitorOn=(_m==="1"); } }catch(_){}
+function setMonitorOn(v){ monitorOn=!!v; monitorTouched=true;
   try{ localStorage.setItem("hp_monitor",monitorOn?"1":"0"); }catch(_){}
   requestRender(); }
+// サンプル読込時の既定(永続があれば触らない — camFollow と同じ流儀)
+function applyPresetMonitor(S){
+  if(monitorTouched) return;
+  monitorOn=!!(S && S.overlays && S.overlays.monitor);
+}
 // 第118便(原仮定者指示): 上下反転 — 描画の y 軸だけを反転する表示専用トグル(共通設定・
 // hp_flip_y 永続)。見た目の公転・自転を逆回転で確認するのが目的。物理座標・保存 JSON・
 // 一様重力 g_y の向き(+y)は一切変わらない — world→screen(w2sY)と screen→world の
@@ -20140,21 +20195,238 @@ function _smTrLattice(C0,h,K){
   }
   return {pts,eds};
 }
+// ===== 第255便c(第47報「空間線」): 表示のみの線 ============================================
+// 原仮定者(第47報): 「表示は、『光線』の表示を参考に、主要天体から基準となる方向に『空間線』を
+// 複数本飛ばして描画する方法を検討する」「連星での中間地点の表示は、重心地点に変える」
+// 「処理を軽くする工夫をする」。
+// 3 審査 v13 の一致点: 空間線は **凍結した時刻の場を表示用パラメータ τ で追跡する線**であって、
+// **光子でも物質線でもない**。c_line は**描画規約**であって光速ではない(光線の屈折率・局所時計・
+// 減光は 1 つも呼ばない)。表示は力学・帳簿へ 1 バイトも触らない。
+//   線の ODE: dx/dτ = u + c_line ê   ・   dê/dτ = (I − ê êᵀ) B ê   (B=∇u)
+//   中点法。剛体回転場(B の反対称部 Ω)では ê が Ω で回り、原点発の線は
+//   x(τ)=c_line τ (cos Ωτ, sin Ωτ) になる —— Ω=0.2・c_line=1・τ=1 で (0.980067, 0.198669)
+//   (QA ui.spaceLines がこの値を固定する)。
+// 場は 2 系統 —— 連星は dfmSpaceMeshCapture/State の解析場(u=v_C+B(x−C)・O(1))、
+// 銀河は dfmGalaxyMeshField(局所場・O(N))。どちらも**読むだけ**である。
+// 「処理を軽くする工夫」(第47報)は **3 段**で、いずれも実測に合わせてある(数値は
+// docs/PHYSICS.md 〔第255便c〕の表):
+//   ① 本数の品質縮退(光線と同じ係数 Q_RAY)② 5〜10Hz 上限のキャッシュ
+//   ③ **実測ビルド時間に対する duty 上限**(高い系では再構築の間隔を自動で延ばし、
+//      線の再構築が壁時計の SPACE_LINE_DUTY を超えないようにする)。
+// 連星の場は解析形(O(1))なので ① ② で足りるが、銀河の局所場は O(N)(N=351 で 1 点 41.6µs)
+// なので ③ が効く —— ∇u_bg の中心差分を落とす近似(bgGrad:"zero")は**線の形が変わる**
+// (終点 (120.4,397.1) 対 (−124.6,446.4))ので採らない。
+const SPACE_LINE_SEG=64;        // 1 本あたりの区間数(連星・門: ≤128)
+const SPACE_LINE_SEG_GAL=32;    // 銀河は区間数を半分に(局所場が O(N) —— 実測で決めた)
+const SPACE_LINE_TURN=1.0;      // τ_max の決め方 —— 場の回転で 1 rad 曲がるところまで
+const SPACE_LINE_LEN=1.2;       // 線の長さ = この倍率 × camScale(画面半径のおよそ 1.2 倍)
+const SPACE_LINE_MS=150;        // 再構築の下限間隔(≈6.7Hz —— 上限 5〜10Hz の内側)
+const SPACE_LINE_DUTY=0.03;     // 再構築に使ってよい壁時計の割合(実測ビルド時間から間隔を決める)
+const SPACE_LINE_MS_MAX=1000;   // 間隔の上限(これ以上は延ばさない)
+const SPACE_LINE_MAXORG=4;      // 原点の上限
+const SPACE_LINE_MAXDIR=16;     // 1 原点あたりの方向の上限
+const _slD=new Float64Array(4); // 導関数の作業領域(1 本 1 区間ごとの確保をしない)
+const _slF=new Float64Array(7); // 場の作業領域 [ux,uy,B00,B01,B10,B11,chi]
+function _slDeriv(ax,ay,cLine){
+  const ux=_slF[0], uy=_slF[1];
+  _slD[0]=ux+cLine*ax; _slD[1]=uy+cLine*ay;
+  const bx=_slF[2]*ax+_slF[3]*ay, by=_slF[4]*ax+_slF[5]*ay;
+  const dot=bx*ax+by*ay;                       // (I − ê êᵀ)Bê —— ê の長さを伸ばす成分を落とす
+  _slD[2]=bx-dot*ax; _slD[3]=by-dot*ay;
+}
+// 1 本を引く純関数。fieldAt(x,y) は **①作業領域 _slF を埋めて true を返す**(内部の速い経路 ——
+// 1 区間ごとの確保をしない)か、**②[ux,uy,B00,B01,B10,B11,chi] を返す**(QA・外部の書きやすい経路)。
+// 偽・null を返したら線をそこで止める。戻り値の pts は [x0,y0,x1,y1,…](長さ 2(n+1))。
+// **この関数は S を書き換えない**
+function dfmSpaceLineTrace(fieldAt,x0,y0,ex,ey,cLine,tauMax,steps,out){
+  const N=Math.max(1,Math.min(128,Math.round(Number(steps))));
+  const tm=Number(tauMax), cl=Number(cLine);
+  if(!Number.isFinite(tm) || !(tm>0) || !Number.isFinite(cl)) return null;
+  let x=Number(x0), y=Number(y0), a=Number(ex), b=Number(ey);
+  const n0=Math.hypot(a,b);
+  if(!Number.isFinite(x) || !Number.isFinite(y) || !(n0>0)) return null;
+  a/=n0; b/=n0;
+  const h=tm/N, P=(out && out.length>=2*(N+1))? out : new Float64Array(2*(N+1));
+  P[0]=x; P[1]=y;
+  const fld=(px,py)=>{ const r=fieldAt(px,py);
+    if(!r) return false;
+    if(r!==true){ for(let j=0;j<7;j++){ const v=Number(r[j]); _slF[j]=(j===6 && r[j]===undefined)? NaN : (Number.isFinite(v)? v : 0); } }
+    return true; };
+  let chiSum=0, nChi=0, k=0;
+  for(;k<N;k++){
+    if(!fld(x,y)) break;
+    if(Number.isFinite(_slF[6])){ chiSum+=_slF[6]; nChi++; }
+    _slDeriv(a,b,cl);
+    const xm=x+0.5*h*_slD[0], ym=y+0.5*h*_slD[1];
+    let am=a+0.5*h*_slD[2], bm=b+0.5*h*_slD[3];
+    const nm=Math.hypot(am,bm); if(!(nm>0)) break;
+    am/=nm; bm/=nm;
+    if(!fld(xm,ym)) break;
+    _slDeriv(am,bm,cl);
+    const xn=x+h*_slD[0], yn=y+h*_slD[1];
+    let an=a+h*_slD[2], bn=b+h*_slD[3];
+    const nn=Math.hypot(an,bn);
+    if(!Number.isFinite(xn) || !Number.isFinite(yn) || !(nn>0)) break;
+    x=xn; y=yn; a=an/nn; b=bn/nn;
+    P[2*k+2]=x; P[2*k+3]=y;
+  }
+  if(k<1) return null;
+  return { pts:P, n:k+1, ex:a, ey:b, chi:nChi? chiSum/nChi : null, full:k===N };
+}
+// 重心(表示用・W1 の dfmSpaceMeshState.origin とは独立に W3 が自前で持つ —— 第255便c)。
+// 等質量では中点と一致する。**力学・帳簿には触れない**
+function _smBarycentre(S,ids){
+  if(!S || !Array.isArray(ids) || !ids.length) return null;
+  let M=0, cx=0, cy=0;
+  for(const i of ids){
+    const m=S.m[i], xi=S.x[i], yi=S.y[i];
+    if(!(m>0) || !Number.isFinite(xi) || !Number.isFinite(yi)) return null;
+    M+=m; cx+=m*xi; cy+=m*yi;
+  }
+  if(!(M>0)) return null;
+  return [cx/M, cy/M];
+}
+function _slNow(){ return (typeof performance!=="undefined" && performance.now)? performance.now() : Date.now(); }
+// 場の入口を作る。戻り値の at(x,y) が _slF を埋める(偽なら線をそこで止める)
+function _slFieldOf(S){
+  const ovm=S.overlays && S.overlays.spaceMesh;
+  if(ovm && typeof ovm==="object" && ovm.mode==="tracer"){
+    // ---- 銀河: 局所場(W2 の need 契約があれば uB だけを求める。無ければ現行の戻り値を読む)
+    const fo={need:"uB"};
+    const at=(x,y)=>{ const f=dfmGalaxyMeshField(S,x,y,fo);
+      if(!f) return false;
+      _slF[0]=f.u[0]; _slF[1]=f.u[1];
+      _slF[2]=f.gradU[0]; _slF[3]=f.gradU[1]; _slF[4]=f.gradU[2]; _slF[5]=f.gradU[3];
+      _slF[6]=f.chi; return true; };
+    let i0=-1, mm=-Infinity;
+    for(let i=0;i<S.n;i++){ const m=S.m[i]; if(m>mm){ mm=m; i0=i; } }
+    if(i0<0 || !at(S.x[i0],S.y[i0])) return null;
+    return { at, kind:"galaxy", origins:[[S.x[i0],S.y[i0]]], baseAngle:null,
+      ux:_slF[0], uy:_slF[1], Om:0.5*(_slF[4]-_slF[3]), chi:_slF[6], ids:[i0] };
+  }
+  // ---- 連星(頂点メッシュ): u(x)=v_C+B(x−C)・B は場所によらない(T2 の解析場・O(1))
+  if(!(S.n>=2)) return null;
+  const ids=_smPick(S); if(!ids) return null;
+  const key=S.n+"/"+ids[0]+"/"+ids[1];
+  let A=S._smDraw;
+  if(!A || S._smDrawKey!==key || A.owner!==S || A.n!==S.n || A.positionArray!==S.x){
+    A=S._smDraw=dfmSpaceMeshCapture(S,ids); S._smDrawKey=key;
+  }
+  const M=A? dfmSpaceMeshState(A,S) : null;
+  if(!M) return null;                       // 退化・構成変化では**描かない**(黙って固定枠へ戻さない)
+  const B=M.gradU, C=M.origin, V=M.velocity, chi=M.chi;
+  const at=(x,y)=>{ const dx=x-C[0], dy=y-C[1];
+    _slF[0]=V[0]+B[0]*dx+B[1]*dy; _slF[1]=V[1]+B[2]*dx+B[3]*dy;
+    _slF[2]=B[0]; _slF[3]=B[1]; _slF[4]=B[2]; _slF[5]=B[3]; _slF[6]=chi;
+    return Number.isFinite(_slF[0]) && Number.isFinite(_slF[1]); };
+  const bc=_smBarycentre(S,ids);
+  const org=[[S.x[ids[0]],S.y[ids[0]]],[S.x[ids[1]],S.y[ids[1]]]];
+  if(bc) org.push(bc);
+  return { at, kind:"binary", origins:org.slice(0,SPACE_LINE_MAXORG),
+    baseAngle:M.nHat? Math.atan2(M.nHat[1],M.nHat[0]) : 0,
+    ux:V[0], uy:V[1], Om:0.5*(B[2]-B[1]), chi, mesh:M, ids };
+}
+// 線束を組み立てる(凍結した時刻の場を τ で伸ばす)。**本数は光線と同じ品質縮退 Q_RAY を掛ける**
+function _slBuild(S){
+  const t0=_slNow();
+  const F=_slFieldOf(S);
+  const seg=(F && F.kind==="galaxy")? SPACE_LINE_SEG_GAL : SPACE_LINE_SEG;
+  const out={ lines:[], kind:F? F.kind : null, cLine:0, tau:0, nDir:0, seg,
+              chi:F? F.chi : null, Om:F? F.Om : null, ms:0 };
+  if(!F){ out.ms=_slNow()-t0; return out; }
+  const q=Q_RAY[qLevel()];
+  // 長さ L(世界単位)は camScale 基準 —— 画面半径のおよそ SPACE_LINE_LEN 倍
+  const L=SPACE_LINE_LEN*camScale;
+  // τ_max: ①場が回っていれば「1 rad 曲がるところ」②回っていなければ移流が L を超えないところ
+  //        ③どちらも 0 なら 1(場が静止 = 直線。値は線の形に効かない)
+  const spd=Math.hypot(F.ux,F.uy), om=Math.abs(F.Om);
+  let tau=(om>0)? SPACE_LINE_TURN/om : Infinity;
+  const adv=(spd>0)? L/spd : Infinity;
+  if(adv<tau) tau=adv;
+  if(!Number.isFinite(tau) || !(tau>0)) tau=1;
+  const cLine=L/tau;                       // 総延長を L に揃える描画規約(光速ではない)
+  out.cLine=cLine; out.tau=tau; out.L=L;
+  const base=(F.baseAngle===null || !Number.isFinite(F.baseAngle))? 0 : F.baseAngle;
+  const mkDirs=(n)=>{ const d=[], k=Math.max(2,Math.min(SPACE_LINE_MAXDIR,Math.round(n*q)));
+    for(let i=0;i<k;i++){ const th=base+2*Math.PI*i/k; d.push([Math.cos(th),Math.sin(th)]); }
+    return d; };
+  const sets=[];
+  if(F.kind==="binary"){
+    // 主要天体からは ±結合線・±直交(4 方向)、重心からは連星軸を基準角にした等分(8 方向)
+    sets.push([F.origins[0], mkDirs(4)]);
+    sets.push([F.origins[1], mkDirs(4)]);
+    if(F.origins[2]) sets.push([F.origins[2], mkDirs(8)]);
+  } else {
+    sets.push([F.origins[0], mkDirs(8)]);    // 銀河は中心天体(最大質量)から等角
+  }
+  let nd=0;
+  for(const [o,ds] of sets){
+    nd+=ds.length;
+    for(const e of ds){
+      const ln=dfmSpaceLineTrace(F.at,o[0],o[1],e[0],e[1],cLine,tau,seg);
+      if(ln) out.lines.push(ln);
+    }
+  }
+  out.nDir=nd; out.ms=_slNow()-t0;
+  return out;
+}
+// キャッシュ(S.t・S.n・camScale・品質・モードで無効化。再構築は SPACE_LINE_MS ごと)。
+// **力計算はこのキャッシュを読まない**(読むのは描画だけ)
+function _slEnsure(S){
+  const key=S.n+"|"+S.t+"|"+camScale+"|"+qLevel()+"|"+String(S.overlays&&S.overlays.spaceMeshMode);
+  const c=S._slCache, now=_slNow();
+  if(c && c.key===key) return c;
+  // 上限 Hz(時刻が進んでも間引く)。間隔は「実測ビルド時間 ÷ duty」で自動的に延びる
+  if(c && c.n===S.n && (now-c.at)<c.every) return c;
+  const b=_slBuild(S);
+  // builds は**宇宙ごとの通し番号**(無効化で 0 へ戻さない —— QA がキャッシュの効きを数える口)
+  b.key=key; b.at=_slNow(); b.n=S.n; b.builds=(S._slBuilds=(S._slBuilds||0)+1);
+  b.every=Math.min(SPACE_LINE_MS_MAX,Math.max(SPACE_LINE_MS,b.ms/SPACE_LINE_DUTY));
+  S._slCache=b; return b;
+}
+function drawSpaceLinesOn(S,SXf,SYf){
+  const c=_slEnsure(S);
+  if(!c || !c.lines.length) return;
+  const lw=ctx.lineWidth; ctx.lineWidth=1;
+  for(const ln of c.lines){
+    const ch=(ln.chi===null)? 1 : ln.chi;                 // χ は**不透明度にだけ**入る(座標は混ぜない)
+    const al=Math.max(0.10,Math.min(0.62,0.14+0.48*ch));
+    ctx.strokeStyle="rgba(150,220,255,"+al.toFixed(3)+")";
+    const P=ln.pts;
+    ctx.beginPath(); ctx.moveTo(SXf(P[0]),SYf(P[1]));
+    for(let i=1;i<ln.n;i++) ctx.lineTo(SXf(P[2*i]),SYf(P[2*i+1]));
+    ctx.stroke();
+  }
+  ctx.lineWidth=lw;
+}
 function drawSpaceMeshOn(S,SXf,SYf,zv){
   // 第254便b: 銀河の物質線モード({mode:"tracer"})は局所場の tracer を描いて終わる(頂点メッシュは描かない)
   const ovm=S && S.overlays && S.overlays.spaceMesh;
   if(ovm && typeof ovm==="object" && ovm.mode==="tracer"){
-    _smKeepMode=ovm.mode; drawGalaxyTracerInto(S,SXf,SYf,(zv>0)? zv : zoom()); return; }
+    // 第255便c: 銀河は物質線(tracer)に**空間線を追加で**描く(tracer は診断として残す)
+    _smKeepMode=ovm.mode; drawGalaxyTracerInto(S,SXf,SYf,(zv>0)? zv : zoom());
+    drawSpaceLinesOn(S,SXf,SYf); return; }
   if(!S || !(S.n>=2)) return;
-  let MST=null;                                    // 線分・中間地点の色分けに使う状態(モードで作り方が違う)
-  const mode=(S.overlays && S.overlays.spaceMeshMode==="transport")? "transport" : "guide";
+  let MST=null;                                    // 線分・重心マーカーの色分けに使う状態(モードで作り方が違う)
+  // 第255便c(3 審査 v13): **既定の表示は空間線**。格子(guide/transport)はサンプルが明示して
+  // 宣言したときだけの診断表示として残す(overlays.spaceMeshMode の受理値は 3 種 —— 値域は
+  // 1 形へ潰さない)
+  const smm=S.overlays && S.overlays.spaceMeshMode;
+  const mode=(smm==="transport"||smm==="guide")? smm : "lines";
   const ids=_smPick(S); if(!ids) return;
   const key=S.n+"/"+ids[0]+"/"+ids[1];
-  if(mode==="transport"){
+  if(mode==="lines"){
+    drawSpaceLinesOn(S,SXf,SYf);
+    // 色分け(unique)の状態は、空間線が使ったアンカーを読み直す(毎フレームの捕捉を避ける)
+    const AN0=S._smDraw;
+    if(AN0 && S._smDrawKey===key && AN0.owner===S && AN0.n===S.n && AN0.positionArray===S.x)
+      MST=dfmSpaceMeshState(AN0,S);
+  } else if(mode==="transport"){
     // ---- 輸送モード: S.meshTransport が無ければ**このフレームで 1 度だけ**登録する
     //      (登録後の積分は S.step の末尾だけ — 描画は読むだけである)
     let tr=S.meshTransport;
-    if(!tr || tr.error || S._smTrKey!==key){
+    if(tr && tr.error) return;   // 第255便c: 原子的に停止した輸送は**再生成しない**(黙って作り直さない)
+    if(!tr || S._smTrKey!==key){
       const a0=dfmSpaceMeshCapture(S,ids); if(!a0) return;
       const m0=dfmSpaceMeshState(a0,S); if(!m0) return;
       const h=(m0.refRLen>0? m0.refRLen : 1)/4;
@@ -20194,17 +20466,24 @@ function drawSpaceMeshOn(S,SXf,SYf,zv){
     }
     ctx.lineWidth=lw;
   }
-  // 2 頂点を結ぶ線分と中間地点(第45報「空間メッシュの天体同士を結ぶ線と中間地点は一意に決まる」の
-  // 可視化 — 一意性が立つのは等質量かつ χ が門を超えたときだけなので、色でそれを分ける)
+  // 2 頂点を結ぶ線分と**重心**(第45報「空間メッシュの天体同士を結ぶ線と中間地点は一意に決まる」の
+  // 可視化 — 一意性が立つのは等質量かつ χ が門を超えたときだけなので、色でそれを分ける)。
+  // 第255便c(第47報「連星での中間地点の表示は、重心地点に変える」): 点は**中点ではなく重心**
+  // (_smBarycentre —— W1 の dfmSpaceMeshState.origin とは独立に表示側で持つので、W1 が origin を
+  // 重心へ変えても変えなくても同じ場所に出る)。等質量では中点と一致する。⊙ 風の二重丸で描く
   let M2=MST;
   if(!M2){ const A2=dfmSpaceMeshCapture(S,ids); M2=A2? dfmSpaceMeshState(A2,S) : null; }
   if(!M2) return;
   const lw2=ctx.lineWidth; ctx.lineWidth=1;
-  ctx.strokeStyle=M2.unique? "rgba(255,215,140,0.60)" : "rgba(180,190,210,0.45)";
+  const col=M2.unique? "255,215,140" : "180,190,210";
+  ctx.strokeStyle="rgba("+col+(M2.unique? ",0.60)" : ",0.45)");
   ctx.beginPath(); ctx.moveTo(SXf(S.x[ids[0]]),SYf(S.y[ids[0]]));
   ctx.lineTo(SXf(S.x[ids[1]]),SYf(S.y[ids[1]])); ctx.stroke();
-  ctx.fillStyle=M2.unique? "rgba(255,215,140,0.85)" : "rgba(180,190,210,0.7)";
-  ctx.beginPath(); ctx.arc(SXf(M2.origin[0]),SYf(M2.origin[1]),2.5,0,7); ctx.fill();
+  const bc=_smBarycentre(S,ids)||M2.origin;
+  ctx.strokeStyle="rgba("+col+(M2.unique? ",0.85)" : ",0.7)");
+  ctx.beginPath(); ctx.arc(SXf(bc[0]),SYf(bc[1]),5,0,7); ctx.stroke();
+  ctx.fillStyle="rgba("+col+(M2.unique? ",0.85)" : ",0.7)");
+  ctx.beginPath(); ctx.arc(SXf(bc[0]),SYf(bc[1]),2,0,7); ctx.fill();
   ctx.lineWidth=lw2;
 }
 function drawSpaceMesh(){ drawSpaceMeshOn(sim,w2sX,w2sY); }
@@ -21247,7 +21526,34 @@ function setPresetSelectValue(v){
 // variant 非表示はプルダウンと同じ規則(ただし検索・属性絞り込み中は variant も対象にする —
 // 絞り込みは「探す」操作なので隠さない)。読込は既存の loadPreset/loadSave+paramsDirty 確認を
 // そのまま通る(プルダウンの change と同じ意味論)。表示専用 — 物理・保存 JSON に無関係
-let ppGroup="all", ppScale="all", ppClass="all", ppE="all", ppSearch="";
+// 第255便c(第47報): 絞り込みから**グループの次元を外した**(残りは スケール/分類/E水準 の 3 次元)。
+// グループは**一覧の見出しとして残り**、見出しのタップで開閉する(既定は畳んだ状態)。
+//   ・永続: hp_pick_open(グループ名 → 真偽)。共通設定と同じ端末ローカルの表示状態
+//   ・既定(未保存のグループ): **畳む**。ただし**いま読み込んでいるサンプルのグループだけは開く**
+//     (ウィンドウを開いた瞬間に現在地が見えるほうが迷わない)
+//   ・検索・属性絞り込み中: 一致があるグループを**自動で開く**。その間の開閉は一時状態
+//     (ppOpenTmp)に持ち、絞り込みを変えた/解除した時点で捨てる(永続側を汚さない)
+let ppScale="all", ppClass="all", ppE="all", ppSearch="";
+let ppOpen={};
+try{ const _pj=localStorage.getItem("hp_pick_open");
+  if(_pj){ const o=JSON.parse(_pj); if(o && typeof o==="object" && !Array.isArray(o)) ppOpen=o; } }catch(_){}
+let ppOpenTmp={}, ppFilterSig=null;
+function ppSetOpen(g,v){ ppOpen[g]=!!v;
+  try{ localStorage.setItem("hp_pick_open",JSON.stringify(ppOpen)); }catch(_){} }
+function ppFiltering(){   // 絞り込み(検索 or 属性)が効いているか。切り替わったら一時状態を捨てる
+  const sig=ppSearch+""+ppScale+""+ppClass+""+ppE;
+  if(sig!==ppFilterSig){ ppFilterSig=sig; ppOpenTmp={}; }
+  return !!(ppSearch || ppScale!=="all" || ppClass!=="all" || ppE!=="all");
+}
+function ppCurGroup(){ return (currentPreset && (currentPreset.group||"内蔵")) || null; }
+function ppIsOpen(g,filtering){
+  if(filtering) return Object.prototype.hasOwnProperty.call(ppOpenTmp,g)? !!ppOpenTmp[g] : true;
+  if(Object.prototype.hasOwnProperty.call(ppOpen,g)) return !!ppOpen[g];
+  return g===ppCurGroup();
+}
+function ppToggleOpen(g,filtering,now){
+  if(filtering) ppOpenTmp[g]=!now; else ppSetOpen(g,!now);
+}
 function updatePresetPickBtn(){
   const b=$("#btnPresetPick"); if(!b) return;
   const sel=$("#presetSelect");
@@ -21271,17 +21577,37 @@ function ppMatch(p){
   }
   return true;
 }
+let ppGrpSeq=0;
 function ppRender(){
   const list=$("#ppList"); if(!list) return;
   list.textContent="";
-  const mkHead=(t)=>{ const d=document.createElement("div"); d.className="ppGroupHead"; d.textContent=t; list.appendChild(d); };
+  const filtering=ppFiltering();
+  let body=null;                                  // いま積んでいるグループの行の入れ物
+  // 見出し = 開閉ボタン(第255便c)。行は .ppGroupBody に入れ、畳んだグループは hidden にする
+  // (行そのものは組み立てておく —— 検索の即応性と、グループ間の件数比較のため)
+  const mkHead=(g,txt)=>{
+    const open=ppIsOpen(g,filtering);
+    const h=document.createElement("button"); h.type="button"; h.className="ppGroupHead";
+    h.setAttribute("aria-expanded",open?"true":"false");
+    h.title=T("ppGroupToggleTip");
+    const mark=document.createElement("span"); mark.className="ppGroupMark"; mark.textContent=open?"▾":"▸";
+    const nm=document.createElement("span"); nm.textContent=txt;
+    const cnt=document.createElement("span"); cnt.className="ppGroupCount";
+    h.appendChild(mark); h.appendChild(nm); h.appendChild(cnt);
+    const d=document.createElement("div"); d.className="ppGroupBody"; d.hidden=!open;
+    d.id="ppGrpBody"+(ppGrpSeq++); h.setAttribute("aria-controls",d.id);
+    h.addEventListener("click",()=>{
+      ppToggleOpen(g,filtering,ppIsOpen(g,filtering)); ppRender(); });
+    list.appendChild(h); list.appendChild(d);
+    body=d; return {h,d,cnt};
+  };
   const mkRow=(label,tags,cur,fn)=>{
     const b=document.createElement("button"); b.type="button"; b.className="ppRow";
     if(cur) b.dataset.cur="1";
     const s1=document.createElement("span"); s1.textContent=label; b.appendChild(s1);
     if(tags){ const s2=document.createElement("span"); s2.className="ppTags"; s2.textContent=tags; b.appendChild(s2); }
     b.addEventListener("click",fn);
-    list.appendChild(b);
+    (body||list).appendChild(b);
   };
   const pick=(v)=>{   // プルダウンの change ハンドラと同じ意味論
     if(paramsDirty && !confirm(T("confirmDiscard"))) return;
@@ -21289,34 +21615,39 @@ function ppRender(){
     if(v.startsWith("save#")){ const s=getSaves()[+v.slice(5)]; if(s) loadSave(s,v); return; }
     loadPreset(v,false);
   };
-  let curGroup=null;
+  let curGroup=null, head=null, nInGroup=0;
+  const closeGroup=()=>{ if(head) head.cnt.textContent=String(nInGroup); nInGroup=0; };
   const attrFiltered=(ppScale!=="all"||ppClass!=="all"||ppE!=="all");
   familyGroupedBuiltins().forEach(p=>{
     const g=p.group||"内蔵";
     if(catalogHidden(p)) return;   // 第117便: catalog は検索・属性絞り込みより先に隠す(strict)
-    if(ppGroup!=="all" && g!==ppGroup) return;
     if(!ppMatch(p)) return;
     if(!showAllSamples && p.familyId && p.familyRole==="variant"
       && !(currentPreset&&p.id===currentPreset.id) && !ppSearch && !attrFiltered) return;
-    if(g!==curGroup){ curGroup=g; mkHead(gName(g)); }
+    if(g!==curGroup){ closeGroup(); curGroup=g; head=mkHead(g,gName(g)); }
+    nInGroup++;
     let label=(p.emoji||"")+" "+pName(p);
     if(p.familyId&&p.familyRole==="variant") label="└ "+label;
     const tags=[(p.scaleTier||p.scaleExp? SCALE_EMOJI[presetTierOf(p)]:""),(p.emergence||""),
       (p.sampleClass? T("bdgSC_"+p.sampleClass):"")].filter(Boolean).join(" ");
     mkRow(label,tags,!!(currentPreset&&currentPreset.id===p.id),()=>pick(p.id));
   });
+  closeGroup();
   const customs=getCustomPresets();
-  if(customs.length && !attrFiltered && (ppGroup==="all"||ppGroup==="AI生成")){
-    mkHead(gName("AI生成"));
-    customs.forEach(p=>{ if(ppSearch&&!ppMatch(p)) return;
+  if(customs.length && !attrFiltered){
+    head=mkHead("AI生成",gName("AI生成")); nInGroup=0;
+    customs.forEach(p=>{ if(ppSearch&&!ppMatch(p)) return; nInGroup++;
       mkRow("🤖 "+(p.emoji||"")+" "+pName(p),"",!!(currentPreset&&currentPreset.id===p.id),()=>pick(p.id)); });
+    closeGroup();
   }
   const saves=getSaves();
-  if(saves.length && !attrFiltered && (ppGroup==="all"||ppGroup==="保存一覧")){
-    mkHead(gName("保存一覧"));
+  if(saves.length && !attrFiltered){
+    head=mkHead("保存一覧",gName("保存一覧")); nInGroup=0;
     saves.forEach((s,idx)=>{ const nm=s.name||T("untitled");
       if(ppSearch && !String(nm).toLowerCase().includes(ppSearch.toLowerCase())) return;
+      nInGroup++;
       mkRow("💾 "+nm,"",false,()=>pick("save#"+idx)); });
+    closeGroup();
   }
 }
 // 第149便(原仮定者指示): 絞り込み4次元の説明文(畳み込みの中身)。いずれも**既存の宣言・文言からの
@@ -21412,11 +21743,11 @@ function showPresetPicker(rebuildOnly){
   // サンプル数 — 手打ちしない)。表示専用で、フィルタの意味論(第94便: E0 は宣言なしも含む)は不変
   // 第149便(原仮定者指示): その注記を「E水準」ラベルのタップで開く畳み込みへ変え、グループ・
   // スケール・分類にも同じ作法の説明を新設した(既定は閉。ppNoteText() が中身を組み立てる)
-  ppChipsRow(box, T("ppDimGroup"),
-    [["all",T("grpAll")]].concat(orderedGroups().map(g=>[g,gName(g)]))
-      .concat(getCustomPresets().length? [["AI生成",gName("AI生成")]]:[])
-      .concat(getSaves().length? [["保存一覧",gName("保存一覧")]]:[]),
-    ()=>ppGroup,(v)=>ppGroup=v, {key:"group", id:"ppGroupNote", btnId:"ppDimGroupBtn"});
+  // 第255便c(原仮定者指示「絞り込みで、グループの絞り込みを無くす」): グループのチップ行は撤去。
+  // グループは**一覧の見出し**として残るので、第149便のグループ説明はチップ無しの**説明行**として
+  // 残す(見出しのタップで開閉する作法・文言・id は不変 —— 次元ではなくなったので btnId だけ改名)
+  ppChipsRow(box, T("ppNoteGroupLabel"), [],
+    ()=>"all",()=>{}, {key:"group", id:"ppGroupNote", btnId:"ppGroupNoteBtn"});
   ppChipsRow(box, T("ppDimScale"),
     [["all",T("grpAll")]].concat(SCALE_TIERS.map(t=>[t,SCALE_EMOJI[t]+" "+T("scaleName_"+t)])),
     ()=>ppScale,(v)=>ppScale=v, {key:"scale", id:"ppScaleNote", btnId:"ppDimScaleBtn"});
@@ -21563,7 +21894,7 @@ function loadPreset(id, keepPhysics){
   trailBuf=[]; trailBufB=[];  // 軌道トレイルはプリセット読込・⏮初めからでリセット
   emergenceReset();           // 第82便B: 創発モニタの履歴もプリセット読込でリセット(表示層のみ)
   pmReset();                  // 第83便B: 相図の結果はプリセット単位・セッション内のみ(保存しない)
-  if(sim.overlays && sim.overlays.monitor) setMonitorOn(true);  // v1.12: プリセット既定の保存量モニタ(ONのみ適用)/ 第254便c: 永続先へも書く
+  applyPresetMonitor(sim);   // v1.12: プリセット既定の保存量モニタ / 第255便c: 永続は camFollow 方式(hp_monitor を上書きしない)
   basePhysics=Object.assign({},DEFAULT_PHYSICS,p.physics||{});
   camX=0; camY=0; camScale=p.camera.scale; tempP90EMA=0.5; selIdx=-1; nanNotified=false;
   // 第81便: カメラ追従はプリセット既定へ戻す(camera.follow があれば ON・無ければ「なし」)。
@@ -21910,10 +22241,13 @@ function applyGraphOverlays(S,o){ if(o) for(const k of GRAPH_OVERLAY_KEYS) S.ove
 // (保存量モニタは第254便c で共通設定〔hp_monitor 永続〕へ移したのでこの表の外)
 const DISPLAY_OVERLAY_KEYS=["trail","field","spaceMesh"];
 function presetRays(){ return (currentPreset&&currentPreset.rays)? JSON.parse(JSON.stringify(currentPreset.rays)) : null; }
-function snapshotDisplayOverlays(){ const o={}; for(const k of DISPLAY_OVERLAY_KEYS) o[k]=!!sim.overlays[k];
+// 第255便c: 正準形のオーバーレイ({mode:"tracer"} 等)は**真偽へ潰さずそのまま**退避・復元する
+// (第254便c は `!!` で潰していたので、🎠 で ⏮ を押すと物質線モードが落ちて頂点メッシュに戻った)
+const _ovCopy=(v)=>(v && typeof v==="object" && !Array.isArray(v))? Object.assign({},v) : !!v;
+function snapshotDisplayOverlays(){ const o={}; for(const k of DISPLAY_OVERLAY_KEYS) o[k]=_ovCopy(sim.overlays[k]);
   o.rays=!!(sim.rays&&sim.rays.n>0); return o; }
 function applyDisplayOverlays(S,o){ if(!o) return;
-  for(const k of DISPLAY_OVERLAY_KEYS) S.overlays[k]=!!o[k];
+  for(const k of DISPLAY_OVERLAY_KEYS) S.overlays[k]=_ovCopy(o[k]);
   S.rays = o.rays ? (presetRays()||{n:26,spread:0.85}) : null; }
 $("#btnReset").addEventListener("click",()=>{
   // 第95便: グラフ(表示)とスケール指数(表示)は ⏮ で保持する
@@ -23137,8 +23471,9 @@ function buildParamRows(){
     const oNone=document.createElement("option"); oNone.value=""; oNone.textContent=T("scaleBaseNone"); sel.appendChild(oNone);
     // 第120便(原仮定者指示): 選択肢を9行表(SCALE_BASES — 惑星 e6/e7/e8・スケール別 eC)へ
     // 第254便c: nameKey つきの行(頻用の組み合わせ)は用途名で表示する
+    // 第255便c(N7b): 指数は**三つ組**(距離/時間/質量)で機械生成する(suffix の手打ちは廃止)
     for(const b of SCALE_BASES){ const o=document.createElement("option"); o.value=b.id;
-      o.textContent=SCALE_EMOJI[b.tier]+" "+(b.nameKey? T(b.nameKey) : T("scaleName_"+b.tier)+b.suffix); sel.appendChild(o); }
+      o.textContent=scaleBaseName(b); sel.appendChild(o); }
     // 第130便: eC は上書き対象から外れた(常にタグ既定=ティア別 x−eT)ので、
     // 一致判定・一括設定とも距離/時間/質量の3指数だけを見る(表 C 列は参考値として残す)
     const matchBase=()=>{ const e=scaleEffNow();
@@ -23328,7 +23663,7 @@ $("#btnParamDefault").addEventListener("click",()=>{
   // (⏮初めから は保持・こちらが復帰の入口。共通設定〔永続〕には触れない)
   const pov=(currentPreset&&currentPreset.overlays)||{};
   const dflt={rays:!!(currentPreset&&currentPreset.rays)};
-  for(const k of DISPLAY_OVERLAY_KEYS) dflt[k]=!!pov[k];
+  for(const k of DISPLAY_OVERLAY_KEYS) dflt[k]=_ovCopy(pov[k]);   // 第255便c: 正準形は潰さない
   applyDisplayOverlays(sim,dflt); if(ab) applyDisplayOverlays(ab.simB,dflt);
   if(!dflt.trail){ trailBuf=[]; trailBufB=[]; }
   buildParamRows();
@@ -29318,6 +29653,21 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // QA behavior.spaceMesh が 9 項目(頂点契約・一意性・共通並進・χ→0 のビット一致・門)を機械固定する
   dfmSpaceMeshCapture, dfmSpaceMeshState, dfmSpaceMeshAt,
   SPACEMESH_KINDS, SPACEMESH_EQMASS_TOL, SPACEMESH_CHI_GATE, SPACEMESH_CHI_BG,
+  // 第255便c(第47報「空間線」): **表示のみ**の線 —— dfmSpaceLineTrace(fieldAt,x0,y0,ex,ey,c_line,τ_max,steps)
+  // が dx/dτ=u+c_line ê・dê/dτ=(I−êêᵀ)Bê を中点法で 1 本引く(fieldAt は _slF を埋める純関数)。
+  // spaceLineNow() は直近の線束(本数・区間数・c_line・τ_max・χ・再構築回数)の観測口で、
+  // barycentreOf(S,ids) は表示用の重心。**力学・帳簿へは 1 バイトも接続しない**
+  dfmSpaceLineTrace, barycentreOf:_smBarycentre,
+  spaceLineNow:(S)=>{ const c=(S||sim)._slCache;
+    return c? {kind:c.kind, lines:c.lines.length, nDir:c.nDir, seg:c.seg, cLine:c.cLine,
+               tau:c.tau, L:c.L, chi:c.chi, Om:c.Om, builds:c.builds, ms:c.ms, every:c.every,
+               pts:c.lines.reduce((a,l)=>a+l.n,0)} : null; },
+  spaceLineInvalidate:(S)=>{ (S||sim)._slCache=null; },
+  // キャッシュを整えて本数を返す(**描画はしない** —— canvas を触らずに線束だけを作る QA の口)
+  spaceLineEnsure:(S)=>{ const T=S||sim; const c=_slEnsure(T); return c? c.lines.length : 0; },
+  spaceLineConst:()=>({seg:SPACE_LINE_SEG, segGal:SPACE_LINE_SEG_GAL, turn:SPACE_LINE_TURN,
+                       len:SPACE_LINE_LEN, ms:SPACE_LINE_MS, msMax:SPACE_LINE_MS_MAX,
+                       duty:SPACE_LINE_DUTY, maxOrg:SPACE_LINE_MAXORG, maxDir:SPACE_LINE_MAXDIR}),
   // 第254便a(第46報「空間メッシュ本体」): **場 API・混合・粒子則**(純関数 3 本)と**物質線の輸送**(4 本)。
   // dfmMeshScalarField(bodies,x,y,opts) が D_grav(1/r)と W_pull(1/r^p)を**別名で**返し
   // (Φ=−G·D_grav・g=G·∇D_grav)、dfmMeshBlend(node,bg,W,gradW,D0,Wdot) が χ 混合を ∇χ・∂ₜχ 込みで返し、
