@@ -5059,8 +5059,8 @@ const BUILTIN_PRESETS = [
     {q:"言わないこと", model:"**渦を描けたことは長寿命構造の説明ではない**。平坦回転曲線・2 本腕の自律維持・ダークマターの主張ではない(T4)", obs:"—"}],
   descStruct:{
     summary:"**銀河の空間メッシュを「1 つの大きなメッシュ」ではなく「局所の場+物質線」で表す**原理サンプル(第254便b・第46報)。原仮定者の指示は「銀河では、空間メッシュが銀河の回転に合わせて渦を巻く/銀河の中心に近づくほど、背景決定力 D₀ の影響が相対的に弱まる」である。中心に近いほど D₀ が弱まることは、**χ(r)=W(r)/(W(r)+D₀) の形そのもの**が表している —— W は加算形 W(x)=Σmᵢ(|x−xᵢ|²+ε²)^(−p/2) で、中心では W が大きく χ→1(メッシュが基準)、外縁では D₀ が効いて χ→0(背景が基準)になる。メッシュの流れは u=χ·u_n+(1−χ)·u_bg で、**u_n はこのアプリの粒子速度を pull 重みで局所平均しただけ**である(観測回転曲線も解析形 Ω_n も入力していない)。画面の細い線は**物質線**で、場の中を RK4 で運ばれる(座標の線形混合はしない —— χ=½ の混合座標は半回転で潰れるからである)。色は χ の強さ、短い黄色の線は u の向きである。**力はメッシュから 1 つも出していない**: 動力学は従来どおり重力(E4)と空間の引きずり(A8/E6′)だけで、メッシュは**表示と記録**の層である(第253便a ⑦「銀河はメッシュ接続の後」)。",
-    observe:"実測(tests/exp-w254b-galaxymesh.mjs・3000步=t48・dt=0.016・351体・seed 20260910): ①**χ(r) は中心ほど 1・外縁ほど 0**。r=20/80/240 で χ=0.8070/0.2161/0.02986(W=6.2721/0.41351/0.046166)。**「中心に近づくほど D₀ の影響が相対的に弱まる」はこの 1 列がそのまま数値になっている**(新しい法則ではなく χ=W/(W+D₀) の読み替えである)。ワンタップ A/B の B 側(D₀=500)では同じ 3 点が 0.012405/0.00085072/0.000092542 まで落ちる(**65/254/323 倍の落差**)。②**物質線は内ほど速く巻く**。3000步で巻き数は平均 0.3216・最大 0.3253、内側(r₀=20)の回転角 Δθ=2.1791 rad に対して外側(r₀=240)は 0.16968 rad — **内/外 12.8 倍**の差動である。det F は 0.99634(内)/0.99937(外)で、この窓では面積がほとんど変わらない。③**5 量の記録**(第253便a ⑦ の宣言): r=16.2/81.2/243.8 で v_φ=5.412/5.749/3.117・u_mesh,φ=0.6805/1.8775/0.8357・**差 v_φ−u_mesh,φ=4.731/3.871/2.281**。**差は 0 から程遠い — つまり銀河の回転はまだメッシュに乗っていない**(第253便a ⑦ は「0 なら乗った」と宣言していた)。原因は測って分かっている: u_n は pull 重み(∝m/d²)の平均なので、**速度 0 の中心天体(m=2500)が重みの大半を占めて円盤の回転を薄めている** — u_n の重みの取り方は次便の決断事項である。**v_obs(r) は全ビンで null** である(このアプリには粒子と独立な光学回転曲線の層が無い — 無いものは埋めない)。Ω_pattern は m=2 の位相の 2 時刻差分でだけ有限になる。④健全性: **NaN 0**・速度/スピン/反作用クランプ **0 回**・**同構成 2 回の走行が状態でビット同一**(物質線もビット同一)・物質線の原子的停止 0 回。⑤**言わないこと**: 渦を描けたことは**長寿命構造の説明ではない**。物質線は一般に巻き続けるもので(内側の Δθ は t にほぼ比例して 0.52→1.04→2.08 rad と伸びる)、腕が巻き潰れない理由(winding problem)には触れていない。**平坦回転曲線・2 本腕の自律維持・ダークマターの主張ではない**(T4)。**観測回転曲線を u_mesh の入力に使っていない**(u_n はエンジンの粒子速度だけから作った従属量である)。**claim 窓も regression window も 1 つも張っていない。**",
-    control:"おすすめA/B(ワンタップ): B 側は **D₀=500** になる。χ が桁で落ちるので、**物質線が背景に貼り付いて巻かなくなる**(中心ほど D₀ が相対的に弱い、の対照)。表示トグル「空間メッシュ」で線そのものを消せる(力学は 1 bit も変わらない)。**kFrame=0** にすると背景 u_bg が消え、u はほぼ χ·u_n だけになる。同じ円盤で軸の力(案A)を足した版が 🎏(内側の棒と外側の 2 本腕)である。"},
+    observe:"実測(tests/exp-w254b-galaxymesh.mjs・3000步=t48・dt=0.016・351体・seed 20260910): ①**χ(r) は中心ほど 1・外縁ほど 0**。r=20/80/240 で χ=0.8070/0.2161/0.02986(W=6.2721/0.41351/0.046166)。**「中心に近づくほど D₀ の影響が相対的に弱まる」はこの 1 列がそのまま数値になっている**(新しい法則ではなく χ=W/(W+D₀) の読み替えである)。ワンタップ A/B の B 側(D₀=500)では同じ 3 点が 0.012405/0.00085072/0.000092542 まで落ちる(**65/254/323 倍の落差**)。②**物質線は内ほど速く巻く**。3000步で巻き数は平均 0.3216・最大 0.3253、内側(r₀=20)の回転角 Δθ=2.1791 rad に対して外側(r₀=240)は 0.16968 rad — **内/外 12.8 倍**の差動である。det F は 0.99634(内)/0.99937(外)で、この窓では面積がほとんど変わらない。③**5 量の記録**(第253便a ⑦ の宣言): r=16.2/81.2/243.8 で v_φ=5.412/5.749/3.117・u_mesh,φ=0.6805/1.8775/0.8357・**差 v_φ−u_mesh,φ=4.731/3.871/2.281**。**差は 0 から程遠い — つまり銀河の回転はまだメッシュに乗っていない**(第253便a ⑦ は「0 なら乗った」と宣言していた)。原因は測って分かっている: u_n は pull 重み(∝m/d²)の平均なので、**速度 0 の中心天体(m=2500)が重みの大半を占めて円盤の回転を薄めている**。**第256便b でこのサンプルの u_n の既定を `overlays.galaxyField` の disk/affine(中心を速度の標本から外し、局所アフィン最小二乗で fit する)に変えた** — 内側の差は 4.731→1.104 まで縮むが、**外縁は χ が小さいので 2.281→2.081 しか動かない**(**差は 0 にならない = 回転はまだメッシュに乗っていない**。第255便b ③)。**力へは相変わらず 1 バイトも接続していない。****v_obs(r) は全ビンで null** である(このアプリには粒子と独立な光学回転曲線の層が無い — 無いものは埋めない)。Ω_pattern は m=2 の位相の 2 時刻差分でだけ有限になる。④健全性: **NaN 0**・速度/スピン/反作用クランプ **0 回**・**同構成 2 回の走行が状態でビット同一**(物質線もビット同一)・物質線の原子的停止 0 回。⑤**言わないこと**: 渦を描けたことは**長寿命構造の説明ではない**。物質線は一般に巻き続けるもので(内側の Δθ は t にほぼ比例して 0.52→1.04→2.08 rad と伸びる)、腕が巻き潰れない理由(winding problem)には触れていない。**平坦回転曲線・2 本腕の自律維持・ダークマターの主張ではない**(T4)。**観測回転曲線を u_mesh の入力に使っていない**(u_n はエンジンの粒子速度だけから作った従属量である)。**claim 窓も regression window も 1 つも張っていない。**",
+    control:"おすすめA/B(ワンタップ): B 側は **D₀=500** になる。χ が桁で落ちるので、**物質線が背景に貼り付いて巻かなくなる**(中心ほど D₀ が相対的に弱い、の対照)。表示トグル「空間メッシュ」で線そのものを消せる(力学は 1 bit も変わらない)。**kFrame=0** にすると背景 u_bg が消え、u はほぼ χ·u_n だけになる。同じ円盤で軸の力(案A)を足した版が 🎏(内側の棒と外側の 2 本腕)である。**第256便b**: このサンプルだけ場の既定が **disk/affine**(`overlays.galaxyField`)になった — 物質線と空間線が読む u が中心側で強まる。**外挿の印**(支持半径 ≈253 の外では場が「有効範囲外」になる)も返り値に付いたが、**表示の値は 1 bit も変わらない**(印を立てるだけで χ 混合は続く)。"},
   en:{name:"A Galaxy's Space Mesh — Winding Material Lines and chi(r)", obsCard:[
     {q:"What it shows", model:"MATERIAL LINES carried by a LOCAL field (additive W, chi = W/(W+D0)). No single global mesh is used - one cannot represent differential rotation", obs:"- (a principle sample; no observation is transcribed)"},
     {q:"chi(r) at three radii", model:"chi(r=20/80/240) = 0.807 / 0.216 / 0.0299 (W = 6.27 / 0.414 / 0.0462): chi tends to 1 at the centre. Side B (D0=500) gives 0.0124 / 0.00085 / 0.0000925", obs:"-"},
@@ -5090,7 +5090,12 @@ const BUILTIN_PRESETS = [
      mMin:0.16,mMax:0.5, spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1.05,
      direction:1, bulkVx:0, bulkVy:0}],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,
-    spaceMesh:{mode:"tracer"}} },
+    spaceMesh:{mode:"tracer"},
+    // 第256便b(第48報・署名便): u_n の既定を **disk/affine** にする宣言。第255便b の機構試験
+    // (中心 m=2500+環 16 体・Ω=0.2)で誤差 1.074(all/mean)→ 4.4×10⁻¹⁶(disk/affine)だった案を
+    // このサンプルの**表示と記録の既定**にした。**🎠 の署名はこの 1 鍵ぶんだけ変わる**
+    // (他 119 本はビット同一・力学は 1 bit も動かない —— メッシュは力へ接続していない)。
+    galaxyField:{unSource:"disk",unFit:"affine"}} },
 
 // ===== グループ: 光の物語(第147便で「光」から改名 — 表示・分類専用)=====
 { id:"lensing", name:"重力レンズと光子捕捉", emoji:"💡", group:"光の物語",
@@ -13990,6 +13995,24 @@ function validatePreset(obj){
       if(p.overlays.spaceMeshMode==="transport" || p.overlays.spaceMeshMode==="guide"
          || p.overlays.spaceMeshMode==="lines"){
         ov.spaceMesh=true; ov.spaceMeshMode=p.overlays.spaceMeshMode;
+      }
+      // 第256便b(第48報): **銀河の局所場の宣言** `overlays.galaxyField:{unSource,unFit}`。
+      //   第255便b が opt として実装した u_n の 2 案(unSource:"all"|"disk"・unFit:"mean"|"affine")を
+      //   **プリセットが表示宣言として持てる**ようにした**別鍵**である(`spaceMesh`/`spaceMeshMode` の
+      //   値域には 1 文字も触っていない)。宣言したサンプルでは tracer・空間線・記録器が読む場の
+      //   既定 opt がこの宣言になる(**呼び出し側が明示した opts が常に優先**)。
+      //   **力へは接続しない**(表示と記録の層のまま)。
+      //   正準形は {unSource,unFit} の 2 鍵をこの順に持つ形で、**宣言したときだけ足す**
+      //   (未宣言のプリセットは overlays・presetSig・エクスポート JSON が 1 bit 不変)。
+      //   未知の値・オブジェクト以外は**落とす**(署名は宣言の有無と値だけで決まる)。
+      {
+        const gf=p.overlays.galaxyField;
+        if(gf && typeof gf==="object" && !Array.isArray(gf)){
+          const us=(gf.unSource===undefined)? "all" : gf.unSource;
+          const uf=(gf.unFit===undefined)? "mean" : gf.unFit;
+          if((us==="all"||us==="disk") && (uf==="mean"||uf==="affine")) ov.galaxyField={unSource:us,unFit:uf};
+          else warnings.push('overlays.galaxyField は {unSource:"all"|"disk", unFit:"mean"|"affine"} のみ — 無視します');
+        } else if(gf!==undefined) warnings.push("overlays.galaxyField はオブジェクト — 無視します");
       }
     }
   }
@@ -29285,6 +29308,43 @@ function dfmSpaceMeshAt(mesh,px,py,S){
 const GALMESH_P_DEFAULT=2;           // 加算形 W の冪(pull 重みと同じ既定)
 const GALMESH_CHI_BG=1e-6;           // χ がこれ未満なら「背景が全て」(mode の表記にだけ使う)
 const GALMESH_FIT_RANKTOL=1e-10;     // 第255便b: アフィン fit のランク門(det/(M₀₀M₁₁M₂₂) の下限)
+const GALMESH_SUPPORT_PAD=1.05;      // 第256便b: 支持半径の許容(これを超える評価点は **外挿の印**)
+// 第256便b(第48報): **標本雲の支持**(評価点に依らない幾何)。u_n の標本集合の質量重心 c と、
+// そこからの最大半径 R=max|xᵢ−c| を返す。**評価点ごとには計算しない**(S に 1 步 1 回だけ作る)。
+// 有効範囲の判定はこの (c,R) と評価点だけで決まる —— **値(u・∇u)には 1 bit も触らない**。
+// 一時表は **1 枠だけ**(鍵は unSource・n・t・位置配列の同一性)。all と disk を交互に呼ぶ器では
+// 毎回作り直しになるが、同じ組合せを並べて回す既定経路(tracer・空間線・記録器)では 1 步 1 回で済む。
+function _galSupport(src,isSim,list,n,sub,maxI,pinA){
+  if(isSim){
+    const c=src._galSup;
+    const key=(sub?"disk":"all")+"|"+n+"|"+src.t;
+    if(c && c.key===key && c.px===src.x) return c;
+  }
+  let M=0,cx=0,cy=0,nS=0;
+  for(let i=0;i<n;i++){
+    const mi=list? Number(list[i].m) : src.m[i];
+    if(!(mi>0)) continue;
+    if(sub && (i===maxI || (pinA? pinA[i]===1 : (list? list[i].pinned===true : false)))) continue;
+    const xi=list? Number(list[i].x) : src.x[i], yi=list? Number(list[i].y) : src.y[i];
+    if(!Number.isFinite(xi) || !Number.isFinite(yi)) return null;
+    M+=mi; cx+=mi*xi; cy+=mi*yi; nS++;
+  }
+  if(!(M>0) || !(nS>0)) return null;
+  cx/=M; cy/=M;
+  let R2=0;
+  for(let i=0;i<n;i++){
+    const mi=list? Number(list[i].m) : src.m[i];
+    if(!(mi>0)) continue;
+    if(sub && (i===maxI || (pinA? pinA[i]===1 : (list? list[i].pinned===true : false)))) continue;
+    const dx=(list? Number(list[i].x) : src.x[i])-cx, dy=(list? Number(list[i].y) : src.y[i])-cy;
+    const d2=dx*dx+dy*dy;
+    if(d2>R2) R2=d2;
+  }
+  const out={ key:isSim? ((sub?"disk":"all")+"|"+n+"|"+src.t) : null, px:isSim? src.x : null,
+    cx, cy, R:Math.sqrt(R2), nS, mass:M };
+  if(isSim) src._galSup=out;
+  return out;
+}
 // 局所場 1 点評価。src は S(エンジン)または [{m,x,y,vx,vy},…](純関数として単体試験できる形)。
 // opts: {D0, eps, p, cellSize, bg:"frame"|"static", bgGrad:"fd"|"zero", h,
 //        unSource:"all"|"disk", unFit:"mean"|"affine", need:"u"|"uB"|"uBt", fitH}
@@ -29332,10 +29392,15 @@ function dfmGalaxyMeshField(src,px,py,opts){
   const cell=Number(o.cellSize||0);
   if(!(cell>=0) || !Number.isFinite(cell)) return null;
   // ---- 第255便b の 3 opt(未知の値は門 —— 既定は現行と同じ経路)
-  const unSrc=(o.unSource===undefined)? "all" : String(o.unSource);
+  // 第256便b: **opts 未指定のときだけ** プリセットの表示宣言 `overlays.galaxyField` を既定にする
+  //   (呼び出し側が明示した unSource/unFit は常に優先。宣言の無いサンプルは第255便b とビット同一)
+  const gDecl=(isSim && src.overlays && src.overlays.galaxyField)? src.overlays.galaxyField : null;
+  const unSrc=(o.unSource===undefined)? ((gDecl && gDecl.unSource)? String(gDecl.unSource) : "all") : String(o.unSource);
   if(unSrc!=="all" && unSrc!=="disk") return null;
-  const unFit=(o.unFit===undefined)? "mean" : String(o.unFit);
+  const unFit=(o.unFit===undefined)? ((gDecl && gDecl.unFit)? String(gDecl.unFit) : "mean") : String(o.unFit);
   if(unFit!=="mean" && unFit!=="affine") return null;
+  const wMin=Number((o.wMin===undefined)? 0 : o.wMin);       // 第256便b: 有効範囲の重み和の下限(宣言専用)
+  if(!(wMin>=0) || !Number.isFinite(wMin)) return null;
   const need=(o.need===undefined)? "uBt" : String(o.need);
   if(need!=="u" && need!=="uB" && need!=="uBt") return null;
   const wantB=(need!=="u"), wantT=(need==="uBt"), aff=(unFit==="affine"), sub=(unSrc!=="all");
@@ -29351,7 +29416,7 @@ function dfmGalaxyMeshField(src,px,py,opts){
       if(!(mi>0) || !(mi>bm)) continue; bm=mi; maxI=i; } }
   const eps2=eps*eps, hp=p/2, ih=1/fh;
   let W=0, Wx=0, Wy=0, Wt=0, sx=0, sy=0, sxx=0, sxy=0, syx=0, syy=0, stx=0, sty=0, used=0;
-  let Wu=0, Wux=0, Wuy=0, Wut=0, nExcl=0, nFit=0;
+  let Wu=0, Wux=0, Wuy=0, Wut=0, nExcl=0, nFit=0, Wn2=0;   // Wn2 = Σw²(第256便b: 有効標本数 N_eff)
   // アフィン最小二乗の積率(M=Σwφφᵀ・r=Σwφv と、その ∂x/∂y)
   let M00=0,M01=0,M02=0,M11=0,M12=0,M22=0, R0x=0,R1x=0,R2x=0, R0y=0,R1y=0,R2y=0;
   let X00=0,X01=0,X02=0,X11=0,X12=0,X22=0, Y00=0,Y01=0,Y02=0,Y11=0,Y12=0,Y22=0;
@@ -29377,7 +29442,7 @@ function dfmGalaxyMeshField(src,px,py,opts){
     used++;
     // 「静止中心」を u_n の標本から外すのは disk だけ(W には上で既に入れてある)
     if(sub && (i===maxI || (pinA? pinA[i]===1 : (list? list[i].pinned===true : false)))){ nExcl++; continue; }
-    nFit++;
+    nFit++; Wn2+=w*w;
     if(sub){ Wu+=w; if(wantB){ Wux+=wx; Wuy+=wy; if(wantT) Wut+=wt; } }
     if(aff){
       const a1=-dx*ih, a2=-dy*ih;                  // φᵢ=[1,(xᵢ−x)/h,(yᵢ−y)/h]
@@ -29467,7 +29532,18 @@ function dfmGalaxyMeshField(src,px,py,opts){
   if(!Number.isFinite(ux) || !Number.isFinite(uy)) return null;
   if(B && !B.every(Number.isFinite)) return null;
   if(dUdt && !dUdt.every(Number.isFinite)) return null;
+  // ---- 第256便b(第48報): **有効範囲**(表示と記録の印 —— 値は 1 bit も変えない)。
+  //   nEff=(Σw)²/Σw² … 実際に u_n を決めている標本の**有効数**(1 体が支配すれば 1・一様なら標本数)。
+  //   supportR … 標本雲の**支持半径**(標本の質量重心 c からの最大半径。評価点に依らない)。
+  //   rSupport … 評価点の c からの距離。**unValid=false は「外挿している」の印**であって
+  //   null にはしない(外縁の χ 混合はそのまま続ける —— 第255便b ⑧-3 の決断事項への回答)。
+  const sup=_galSupport(src,isSim,list,n,sub,maxI,pinA);
+  const rSup=sup? Math.hypot(ex-sup.cx,ey-sup.cy) : null;
+  const unValid=(sup && rSup!==null)? (Wn>wMin && rSup<=GALMESH_SUPPORT_PAD*sup.R) : null;
   return { u:[ux,uy], gradU:B, dUdt, W, D0, chi, p, eps,
+    wSum:Wn, nEff:(Wn2>0)? (Wn*Wn)/Wn2 : null,
+    supportR:sup? sup.R : null, supportN:sup? sup.nS : null,
+    supportC:sup? [sup.cx,sup.cy] : null, rSupport:rSup, wMin, unValid,
     gradW:wantB? [Wx,Wy] : null, gradChi:wantB? [cgx,cgy] : null,
     dWdt:wantT? Wt : null, dChidt:wantT? cgt : null,
     un:[unx,uny], ubg:[ubx,uby], gradUn:Gn, gradUbg:wantB? Gb : null, dUndt:Tn,
@@ -29739,6 +29815,90 @@ function dfmMeshHaloReference(opts){
   }
   return { rows, n:rows.length,
     note:"v_c²=rΦ′/(α+rα′/2) は有効慣性 α(r) の帳簿の読み。ハロー質量の較正でも平坦回転曲線の予測でもない(α→1 でケプラー型へ戻る)" };
+}
+// ===== 第256便b(第48報): 腕の所要力(arm budget)—— **先に必要量を計算する**(純関数) =====
+// 原仮定者(第48報・原文): 「渦巻き銀河や棒渦巻銀河は、棒状に天体を引き付ける腕の生成に
+// 必要な力の大きさを先に計算する。後から整合する理論を選択すれば良い」。
+// 本節の 2 本は **純関数**である —— S を 1 バイトも読み書きせず、**粒子の力へも接続しない**
+// (ε 掃引は器 tests/exp-w256b-armbudget.mjs の中で診断コピーにだけ外力として当てる)。
+//
+// **必要量の式**(幅 w の帯に速度分散 σ⊥ の天体を留めるのに要る、回転ポテンシャルの相対振幅 ε):
+//   Φ_arm = ε v_c² A(r) cos ψ,  ψ = m[θ − Ω_p t − ln(r/R_b)/tan i]  (i = ピッチ角)
+//   |∇ψ|² = (m/r)² + (m/(r·tan i))²     …… i=90°(棒)では第 2 項が 0
+//   **ε_req = σ⊥² / ( w² v_c² f |∇ψ|² )**,  **Q_T = m ε f**
+//   f は幾何/自己重力の係数(既定 1 —— **較正していない宣言値**)。
+// 付随して返す量(いずれも上の式から代数的に出るだけで、新しい仮定は無い):
+//   aWidth   = σ⊥²/w              …… 幅 w の中で σ⊥ の逸脱を折り返すのに要る横向き加速度
+//   aAxis    = ε v_c² |∇ψ|        …… 腕のポテンシャルが出す加速度の振幅(= aWidth/(f·w·|∇ψ|))
+//   forceRatio = aAxis/(v_c²/r) = ε |∇ψ| r  …… 中心力に対する腕の力の比
+// **これは「腕が自律生成する」主張ではない**。腕を**保つのに要る力の大きさ**を先に見積る式である。
+// ChatGPT §5 の数値例(r=5・v_c=200・σ⊥=20・w=0.5・m=2・i=90°・f=1)で ε=0.25・Q_T=0.5 になる
+// (QA behavior.armBudget が 10⁻¹⁴ で固定する)。
+function dfmArmBudget(opts){
+  const o=opts||{};
+  const r=Number(o.r), vc=Number(o.vc), sg=Number(o.sigma), w=Number(o.width);
+  const m=Number((o.m===undefined)? 2 : o.m);
+  const pitch=Number((o.pitch===undefined)? 90 : o.pitch);      // 度(90 = 棒 = 半径方向の縞)
+  const f=Number((o.f===undefined)? 1 : o.f);
+  if(![r,vc,sg,w,m,pitch,f].every(Number.isFinite)) return null;
+  if(!(r>0) || !(vc>0) || !(sg>=0) || !(w>0) || !(m>0) || !(f>0)) return null;
+  if(!(pitch>0) || !(pitch<=90)) return null;                   // 0 は「巻きが無限」= 門
+  const pr=pitch*Math.PI/180;
+  const cot=(Math.abs(pitch-90)<1e-12)? 0 : Math.cos(pr)/Math.sin(pr);   // i=90° は**厳密に** 0
+  const kTh=m/r, kR=m*cot/r;
+  const g2=kTh*kTh+kR*kR, g=Math.sqrt(g2);
+  if(!(g2>0)) return null;
+  const eps=(sg*sg)/(w*w*vc*vc*f*g2);
+  const QT=m*eps*f;
+  const aWidth=(sg*sg)/w, aAxis=eps*vc*vc*g;
+  return { epsilon:eps, QT, aWidth, aAxis, forceRatio:eps*g*r,
+    gradPsi:g, kTheta:kTh, kR, cot, r, vc, sigma:sg, width:w, m, pitch, f,
+    note:"ε_req=σ⊥²/(w²v_c²f|∇ψ|²)・Q_T=mεf は**腕を保つのに要る力の見積り**であって、腕が自律生成する主張ではない" };
+}
+// 外部指定の**回転ポテンシャル**(解析勾配つき・純関数)。**粒子の力には接続していない**。
+//   Φ(x,y,t) = ε v_c² A(r) cos ψ,  A(r) = r²/(r²+R_b²) · exp(−(r/R_out)²),
+//   ψ = m[θ − Ω_p t − ln(r/R_b)·cot i]
+// A(r) は r→0 で r²(したがって力も 0)・r→∞ で 0 に落ちる**窓**である(棒/腕の帯だけを効かせる)。
+// 返値: { Phi, ax, ay, dPhidt, torque, r, psi, A }。ax=−∂Φ/∂x・ay=−∂Φ/∂y は**解析式**で、
+// 有限差分と 10⁻⁸ で一致する(QA)。**恒等式 ∂Φ/∂t = Ω_p·τ**(τ = x·a_y − y·a_x = −∂Φ/∂θ)も QA が固定する。
+function dfmArmPotential(x,y,t,opts){
+  const o=opts||{};
+  const X=Number(x), Y=Number(y), T=Number(t);
+  const eps=Number((o.epsilon===undefined)? 0 : o.epsilon);
+  const vc=Number((o.vc===undefined)? 1 : o.vc);
+  const Rb=Number((o.Rb===undefined)? 1 : o.Rb);
+  const Rout=Number((o.Rout===undefined)? Infinity : o.Rout);
+  const om=Number((o.omega===undefined)? 0 : o.omega);
+  const m=Number((o.m===undefined)? 2 : o.m);
+  const pitch=Number((o.pitch===undefined)? 90 : o.pitch);
+  if(![X,Y,T,eps,vc,Rb,om,m,pitch].every(Number.isFinite)) return null;
+  if(!(Rb>0) || !(vc>0) || !(m>0) || !(Rout>0)) return null;
+  if(!(pitch>0) || !(pitch<=90)) return null;
+  const pr=pitch*Math.PI/180;
+  const cot=(Math.abs(pitch-90)<1e-12)? 0 : Math.cos(pr)/Math.sin(pr);
+  const r2=X*X+Y*Y, r=Math.sqrt(r2);
+  const zero={ Phi:0, ax:0, ay:0, dPhidt:0, torque:0, r:0, psi:null, A:0, epsilon:eps, omega:om, m, pitch };
+  if(!(r>0)) return zero;                                  // **r=0 では力は 0**(A~r² の窓)
+  const th=Math.atan2(Y,X);
+  const psi=m*(th-om*T-Math.log(r/Rb)*cot);
+  const cw=Math.cos(psi), sw=Math.sin(psi);
+  const wOut=Number.isFinite(Rout)? Math.exp(-r2/(Rout*Rout)) : 1;
+  const wIn=r2/(r2+Rb*Rb);
+  const A=wIn*wOut;
+  // dA/dr = [2r Rb²/(r²+Rb²)²]·wOut + wIn·(−2r/R_out²)·wOut
+  const dA=wOut*(2*r*Rb*Rb/((r2+Rb*Rb)*(r2+Rb*Rb))) + (Number.isFinite(Rout)? A*(-2*r/(Rout*Rout)) : 0);
+  const K=eps*vc*vc;
+  const Phi=K*A*cw;
+  // ∂Φ/∂r = K[dA·cos ψ − A sin ψ·(−m cot/r)],  ∂Φ/∂θ = −K A m sin ψ
+  const dPhidr=K*(dA*cw + A*sw*(m*cot/r));
+  const dPhidth=-K*A*m*sw;
+  const cs=X/r, sn=Y/r;
+  const ax=-(dPhidr*cs - dPhidth*sn/r);
+  const ay=-(dPhidr*sn + dPhidth*cs/r);
+  const dPhidt=K*A*sw*m*om;                                // ∂Φ/∂t = +K A m Ω_p sin ψ
+  const torque=X*ay-Y*ax;                                  // τ = −∂Φ/∂θ
+  if(![Phi,ax,ay,dPhidt].every(Number.isFinite)) return null;
+  return { Phi, ax, ay, dPhidt, torque, r, psi, A, epsilon:eps, omega:om, m, pitch, cot };
 }
 // ===== 第254便a(第46報「空間メッシュ本体」): 場 API・混合・粒子則・物質線の輸送 =====
 // 原仮定者(第46報・全文は docs/PHYSICS.md 〔第254便a〕に引用):
@@ -30138,6 +30298,12 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // dfmMeshHaloReference({alpha,Phi,r}) は有効慣性 α(r) の**帳簿の読み** v_c²=rΦ′/(α+rα′/2)(純関数)。
   // QA behavior.galaxyMesh / behavior.meshHaloReference が機械固定する
   dfmMeshHaloReference, GALMESH_FIT_RANKTOL,
+  // 第256便b(第48報): 銀河の場の**表示宣言** `overlays.galaxyField:{unSource,unFit}`(🎠 は disk/affine)と、
+  // 返り値の**有効範囲**(nEff・supportR・rSupport・wSum・unValid —— 外挿は null にせず**印**を立てる)。
+  // 腕の所要力は純関数 2 本 —— dfmArmBudget({r,vc,sigma,width,m,pitch,f}) が ε_req=σ⊥²/(w²v_c²f|∇ψ|²) と
+  // Q_T=mεf を返し、dfmArmPotential(x,y,t,{epsilon,vc,Rb,Rout,omega,m,pitch}) が解析勾配つきの
+  // 回転ポテンシャルを返す。**どちらも粒子の力には接続していない**(ε 掃引は器の中の外力)。
+  dfmArmBudget, dfmArmPotential, GALMESH_SUPPORT_PAD,
   // 第250便b(第42報 W2): MM の**波長チャネル**(ω=u·k+c|k| と境界の ω−V·k 保存だけを足した純関数)。
   // 戻り波長 λ・共通出力波長・検出器の読み ν_D・ドップラー係数 D を、Δt/Δφ とは**別欄**で返す。
   // QA behavior.mmWavelength が階段 W1〜W5 を機械固定する。回転境界は扱わない(null を返す)

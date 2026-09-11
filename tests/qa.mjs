@@ -13578,6 +13578,53 @@ if (!FAST) {
           frozenOrder: Math.log2(decay(0.1, false) / decay(0.05, false)) };
         HP.sim.hasGalaxyTracer = false; HP.sim._galTracer = null;
       }
+      // ================= 第256便b(第48報): galaxyField 宣言と有効範囲 =================
+      // ---------- ⑬ **宣言の正準形**(🎠 は disk/affine)・**未宣言は 1 bit 不変**・宣言が場の既定になる
+      {
+        const decl = (id) => { const p = HP.allPresets().find((z) => z.id === id);
+          if (!p) return undefined;
+          return HP.validatePreset(JSON.parse(JSON.stringify(p))).preset.overlays.galaxyField; };
+        const mk = (gf) => ({ name: 'x', description: 'd', emoji: '🕸',
+          bodies: [{ type: 'single', m: 1, radius: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }],
+          camera: { scale: 100 }, world: { boundary: 'none', size: 0 }, overlays: { galaxyField: gf } });
+        const norm = (gf) => { const v = HP.validatePreset(mk(gf));
+          if (!v.ok) return 'INVALID';
+          const g = v.preset.overlays.galaxyField;
+          return (g === undefined) ? 'undefined' : JSON.stringify(g); };
+        // 宣言のある 🎠 / 無い 🎡 と、値域の受理・拒否
+        o.gfDecl = { gal: JSON.stringify(decl('galaxyMeshSpiral')),
+          std: decl('galaxyStd') === undefined,
+          // **正準形は {unSource,unFit} の 2 鍵をこの順で**(未知の鍵は落ちる)
+          canon: norm({ unSource: 'disk', unFit: 'affine', zzz: 1 }),
+          partial: norm({ unFit: 'affine' }),
+          reject: [norm({ unSource: 'core', unFit: 'mean' }), norm({ unSource: 'all', unFit: 'quad' }),
+            norm('disk'), norm([1, 2])].every((z) => z === 'undefined'),
+          // **未宣言は鍵を足さない**(overlays が 1 bit 不変)
+          absent: (() => { const p = mk(undefined); delete p.overlays.galaxyField;
+            const v = HP.validatePreset(p); return v.ok && v.preset.overlays.galaxyField === undefined; })() };
+        // 宣言が dfmGalaxyMeshField の既定になる / **明示 opts は常に優先**
+        const S5 = HP.sim;
+        S5.build(HP.validatePreset(JSON.parse(JSON.stringify(
+          HP.allPresets().find((p) => p.id === 'galaxyMeshSpiral')))).preset);
+        for (let k = 0; k < 300; k++) S5.step(0.016);
+        const fD = HP.dfmGalaxyMeshField(S5, 100, 0, { need: 'u' });
+        const fO = HP.dfmGalaxyMeshField(S5, 100, 0, { need: 'u', unSource: 'all', unFit: 'mean' });
+        const fFar = HP.dfmGalaxyMeshField(S5, 520, 0, { need: 'u' });
+        o.gfField = { unSource: fD.unSource, unFit: fD.unFit,
+          overrideSrc: fO.unSource, overrideFit: fO.unFit,
+          // ---------- 有効範囲: 外挿は **null にせず印**(χ 混合は続く)
+          inValid: fD.unValid, farValid: fFar.unValid,
+          farChi: fFar.chi, farFinite: Number.isFinite(fFar.u[0]) && Number.isFinite(fFar.u[1]),
+          nEffIn: fD.nEff, nEffFar: fFar.nEff, wSumIn: fD.wSum, wSumFar: fFar.wSum,
+          supportR: fD.supportR, supportN: fD.supportN,
+          rSupIn: fD.rSupport, rSupFar: fFar.rSupport, pad: HP.GALMESH_SUPPORT_PAD,
+          // wMin(重み和の下限)を宣言したときだけ効く
+          wMinBite: HP.dfmGalaxyMeshField(S5, 100, 0, { need: 'u', wMin: 1e9 }).unValid === false,
+          // 有効範囲の欄は **u を 1 bit も変えない**
+          uBit: (() => { const a = HP.dfmGalaxyMeshField(S5, 100, 0, { need: 'u', wMin: 1e9 });
+            return Object.is(a.u[0], fD.u[0]) && Object.is(a.u[1], fD.u[1]); })(),
+          badWMin: HP.dfmGalaxyMeshField(S5, 100, 0, { need: 'u', wMin: -1 }) === null };
+      }
       // ---------- ⑫ 新 opt の門(未知の値は null)
       o.gates255 = {
         badUnSource: HP.dfmGalaxyMeshField(A, 1, 1, { D0: 1, bg: 'static', unSource: 'core' }) === null,
@@ -13623,6 +13670,19 @@ if (!FAST) {
         && gm.stage.order > 3.5 && gm.stage.frozenOrder < 1.5,
       // ⑫ 新 opt の門
       gates255: Object.keys(gm.gates255).every((k) => gm.gates255[k] === true),
+      // ⑬ 第256便b: galaxyField 宣言の正準形・未宣言は鍵を足さない・宣言が場の既定になる
+      gfDecl: gm.gfDecl.gal === '{"unSource":"disk","unFit":"affine"}' && gm.gfDecl.std === true
+        && gm.gfDecl.canon === '{"unSource":"disk","unFit":"affine"}'
+        && gm.gfDecl.partial === '{"unSource":"all","unFit":"affine"}'
+        && gm.gfDecl.reject && gm.gfDecl.absent,
+      gfDefault: gm.gfField.unSource === 'disk' && gm.gfField.unFit === 'affine'
+        && gm.gfField.overrideSrc === 'all' && gm.gfField.overrideFit === 'mean',
+      // ⑭ 有効範囲: 支持の内は valid・外は **false の印**(null にせず χ 混合は続く)
+      gfRange: gm.gfField.inValid === true && gm.gfField.farValid === false
+        && gm.gfField.farChi > 0 && gm.gfField.farFinite
+        && gm.gfField.nEffFar > gm.gfField.nEffIn && gm.gfField.wSumFar < gm.gfField.wSumIn
+        && gm.gfField.rSupFar > gm.gfField.supportR * gm.gfField.pad
+        && gm.gfField.wMinBite && gm.gfField.uBit && gm.gfField.badWMin,
     };
     const bad = Object.keys(CK).filter((k) => !CK[k]);
     const badGates = Object.keys(gm.gates).filter((k) => gm.gates[k] !== true)
@@ -13657,7 +13717,18 @@ if (!FAST) {
       + `affine は dUdt=null=${gm.mech.affineTdc}・ランク不足(2 体/共線)は null=${gm.mech.rankTwo && gm.mech.rankCollinear} / `
       + `**段階時刻**: u_x=t で終点 ${gm.stage.ramp01.toFixed(15)}(厳密 1.5・誤差 ${gm.stage.err.toExponential(2)})、`
       + `段階時刻なしは ${gm.stage.rampFrozen01.toFixed(4)}・u_x=−x·t の観測次数 ${gm.stage.order.toFixed(2)}`
-      + `(段階時刻なし ${gm.stage.frozenOrder.toFixed(2)})`);
+      + `(段階時刻なし ${gm.stage.frozenOrder.toFixed(2)})`
+      // ---- 第256便b(第48報)
+      + ` / **第256便b** overlays.galaxyField(**別鍵** — spaceMesh の値域には触れていない): `
+      + `🎠 の宣言=${gm.gfDecl.gal}(正準形 ${gm.gfDecl.canon}・部分宣言は既定で埋める ${gm.gfDecl.partial}・`
+      + `未知の値は落とす=${gm.gfDecl.reject})・**未宣言のサンプルは鍵を足さない**=${gm.gfDecl.std && gm.gfDecl.absent} / `
+      + `宣言が場の既定になる=${gm.gfField.unSource}/${gm.gfField.unFit}(**明示 opts が優先**=`
+      + `${gm.gfField.overrideSrc}/${gm.gfField.overrideFit})/ `
+      + `**有効範囲**: 支持半径 ${Number(gm.gfField.supportR).toFixed(2)}(標本 ${gm.gfField.supportN} 体・許容 ×${gm.gfField.pad})に対し `
+      + `r=100 は unValid=${gm.gfField.inValid}(N_eff=${Number(gm.gfField.nEffIn).toFixed(1)}・Σw=${Number(gm.gfField.wSumIn).toExponential(3)})・`
+      + `r=520 は unValid=${gm.gfField.farValid}(N_eff=${Number(gm.gfField.nEffFar).toFixed(1)}・Σw=${Number(gm.gfField.wSumFar).toExponential(3)})だが `
+      + `**χ=${Number(gm.gfField.farChi).toExponential(3)} は有限で u も有限**(外挿は null にせず印を立てるだけ・χ 混合は続く)・`
+      + `有効範囲の欄は u を 1 bit も変えない=${gm.gfField.uBit}`);
   } else {
     console.log('SKIP behavior.galaxyMesh(対象に第254便b の HP.dfmGalaxyMesh* なし — root 等)');
   }
@@ -13740,6 +13811,104 @@ if (!FAST) {
       + `門 ${Object.keys(hr.gates).length} 件すべて null=${badG.length === 0}`);
   } else {
     console.log('SKIP behavior.meshHaloReference(対象に第255便b の HP.dfmMeshHaloReference なし — root 等)');
+  }
+}
+
+// ---- 第256便b(第48報): behavior.armBudget — 腕の所要力(純関数 2 本) ----
+//   原仮定者(第48報)の「棒状に天体を引き付ける腕の生成に必要な力の大きさを先に計算する」に対し、
+//   **必要量の式だけ**を純関数として置いたものである。**粒子の力には 1 バイトも接続していない**
+//   (ε 掃引は器 tests/exp-w256b-armbudget.mjs の中で診断コピーに外力として当てるだけ)。
+//   固定するのは 6 項目:
+//     ① **数値例**: r=5・v_c=200・σ⊥=20・w=0.5・m=2・i=90°・f=1 で ε=0.25・Q_T=0.5 を **10⁻¹⁴** で。
+//     ② **解析勾配**: dfmArmPotential の ax/ay が中心差分と 10⁻⁸ で一致する(5 点)。
+//     ③ **恒等式**: ∂Φ/∂t = Ω_p·τ(τ = x a_y − y a_x = −∂Φ/∂θ)が丸めで成り立つ。
+//     ④ **r=0 で 0・ε=0 で 0**: 窓 A(r)=r²/(r²+R_b²)·exp(−(r/R_out)²) は原点で力を出さない。
+//     ⑤ **棒(i=90°)は cot=0 が厳密**: 半径波数 k_R=0・|∇ψ|=m/r。ピッチを寝かせると |∇ψ| が増えて ε が下がる。
+//     ⑥ **門**: r≤0・v_c≤0・w≤0・pitch∉(0,90]・f≤0・NaN は null。
+//   **「腕が自律生成する」主張ではない**(腕を**保つのに要る**力の見積り式である)。
+{
+  const hasAB = await page.evaluate(() => typeof HP.dfmArmBudget === 'function'
+    && typeof HP.dfmArmPotential === 'function');
+  if (hasAB) {
+    const ab = await page.evaluate(() => {
+      const o = {};
+      // ① ChatGPT §5 の数値例
+      const b = HP.dfmArmBudget({ r: 5, vc: 200, sigma: 20, width: 0.5, m: 2, pitch: 90, f: 1 });
+      o.ex = { eps: b.epsilon, QT: b.QT, gradPsi: b.gradPsi, kR: b.kR, aWidth: b.aWidth,
+        aAxis: b.aAxis, forceRatio: b.forceRatio,
+        dEps: Math.abs(b.epsilon - 0.25), dQT: Math.abs(b.QT - 0.5) };
+      // ②③ 解析勾配と ∂ₜΦ=Ω_p τ
+      const op = { epsilon: 0.2, vc: 6, Rb: 30, Rout: 220, omega: 0.04, m: 2, pitch: 18 };
+      const h = 1e-5;
+      let gMax = 0, idMax = 0, dtMax = 0;
+      for (const [x, y] of [[37, -12], [-90, 55], [140, 130], [5, 3], [-200, 10]]) {
+        const P = HP.dfmArmPotential(x, y, 0.37, op);
+        const fx = (HP.dfmArmPotential(x + h, y, 0.37, op).Phi - HP.dfmArmPotential(x - h, y, 0.37, op).Phi) / (2 * h);
+        const fy = (HP.dfmArmPotential(x, y + h, 0.37, op).Phi - HP.dfmArmPotential(x, y - h, 0.37, op).Phi) / (2 * h);
+        const ft = (HP.dfmArmPotential(x, y, 0.37 + h, op).Phi - HP.dfmArmPotential(x, y, 0.37 - h, op).Phi) / (2 * h);
+        gMax = Math.max(gMax, Math.abs(P.ax + fx), Math.abs(P.ay + fy));
+        idMax = Math.max(idMax, Math.abs(P.dPhidt - op.omega * P.torque));
+        dtMax = Math.max(dtMax, Math.abs(P.dPhidt - ft));
+      }
+      o.fd = { gradMax: gMax, idMax, dtMax };
+      // ④ r=0・ε=0
+      const z0 = HP.dfmArmPotential(0, 0, 1, op);
+      const ze = HP.dfmArmPotential(40, 20, 1, Object.assign({}, op, { epsilon: 0 }));
+      o.zero = { r0: z0.ax === 0 && z0.ay === 0 && z0.Phi === 0 && z0.A === 0,
+        eps0: ze.Phi === 0 && ze.ax === 0 && ze.ay === 0 };
+      // ⑤ 棒(i=90°)対 渦巻(i=18°)
+      const bar = HP.dfmArmBudget({ r: 100, vc: 5, sigma: 1, width: 20, m: 2, pitch: 90 });
+      const sp = HP.dfmArmBudget({ r: 100, vc: 5, sigma: 1, width: 20, m: 2, pitch: 18 });
+      o.shape = { barCot: bar.cot, barKR: bar.kR, barGrad: bar.gradPsi, barEps: bar.epsilon, barQT: bar.QT,
+        spGrad: sp.gradPsi, spEps: sp.epsilon, spQT: sp.QT,
+        barExactMr: Math.abs(bar.gradPsi - 2 / 100) };
+      // ⑥ 門
+      o.gates = {
+        badR: HP.dfmArmBudget({ r: 0, vc: 5, sigma: 1, width: 2 }) === null,
+        negR: HP.dfmArmBudget({ r: -5, vc: 5, sigma: 1, width: 2 }) === null,
+        badVc: HP.dfmArmBudget({ r: 5, vc: 0, sigma: 1, width: 2 }) === null,
+        badW: HP.dfmArmBudget({ r: 5, vc: 5, sigma: 1, width: 0 }) === null,
+        badM: HP.dfmArmBudget({ r: 5, vc: 5, sigma: 1, width: 2, m: 0 }) === null,
+        badPitch0: HP.dfmArmBudget({ r: 5, vc: 5, sigma: 1, width: 2, pitch: 0 }) === null,
+        badPitch91: HP.dfmArmBudget({ r: 5, vc: 5, sigma: 1, width: 2, pitch: 91 }) === null,
+        badF: HP.dfmArmBudget({ r: 5, vc: 5, sigma: 1, width: 2, f: 0 }) === null,
+        nanR: HP.dfmArmBudget({ r: NaN, vc: 5, sigma: 1, width: 2 }) === null,
+        negSigma: HP.dfmArmBudget({ r: 5, vc: 5, sigma: -1, width: 2 }) === null,
+        noOpts: HP.dfmArmBudget() === null,
+        potNaN: HP.dfmArmPotential(NaN, 0, 0, op) === null,
+        potBadRb: HP.dfmArmPotential(1, 1, 0, { Rb: 0 }) === null,
+        potBadPitch: HP.dfmArmPotential(1, 1, 0, { pitch: 0 }) === null,
+        potBadRout: HP.dfmArmPotential(1, 1, 0, { Rout: -1 }) === null,
+      };
+      return o;
+    });
+    const CK = {
+      example: ab.ex.dEps < 1e-14 && ab.ex.dQT < 1e-14,
+      analyticGradient: ab.fd.gradMax < 1e-8 && ab.fd.dtMax < 1e-8,
+      patternIdentity: ab.fd.idMax < 1e-12,
+      zeros: ab.zero.r0 && ab.zero.eps0,
+      // 棒は cot=0 が厳密 → |∇ψ|=m/r。ピッチを寝かせると |∇ψ| が増え ε_req が下がる
+      shape: ab.shape.barCot === 0 && ab.shape.barKR === 0 && ab.shape.barExactMr < 1e-18
+        && ab.shape.spGrad > ab.shape.barGrad && ab.shape.spEps < ab.shape.barEps,
+      gates: Object.keys(ab.gates).every((k) => ab.gates[k] === true),
+    };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    const badG = Object.keys(ab.gates).filter((k) => ab.gates[k] !== true);
+    add('behavior.armBudget', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '') + (badG.length ? `門NG=[${badG.join(',')}] ` : '')
+      + `**ε_req=σ⊥²/(w²v_c²f|∇ψ|²)・Q_T=mεf**(腕を**保つ**のに要る力の見積り — `
+      + `「腕が自律生成する」主張ではない・粒子の力へは未接続)。数値例 r=5・v_c=200・σ⊥=20・w=0.5・m=2・i=90°・f=1 → `
+      + `ε=${ab.ex.eps.toFixed(15)}(|Δ|=${ab.ex.dEps.toExponential(2)})・Q_T=${ab.ex.QT.toFixed(15)}(|Δ|=${ab.ex.dQT.toExponential(2)})・`
+      + `|∇ψ|=${ab.ex.gradPsi}(棒なので k_R=${ab.ex.kR})・a_width=${ab.ex.aWidth}・a_axis=${ab.ex.aAxis.toFixed(3)}・`
+      + `力比=${ab.ex.forceRatio.toFixed(6)} / `
+      + `**解析勾配 vs 中心差分** 最大差 ${ab.fd.gradMax.toExponential(2)}・∂ₜΦ の差 ${ab.fd.dtMax.toExponential(2)}・`
+      + `**恒等式 ∂ₜΦ=Ω_p τ** の残差 ${ab.fd.idMax.toExponential(2)} / `
+      + `**r=0 で力 0**=${ab.zero.r0}(窓 A(r)∝r²)・**ε=0 で Φ も力も 0**=${ab.zero.eps0} / `
+      + `**棒(i=90°)は cot=0 が厳密**(|∇ψ|=m/r=${ab.shape.barGrad}・ε=${ab.shape.barEps.toFixed(6)}・Q_T=${ab.shape.barQT.toFixed(6)})、`
+      + `**渦巻(i=18°)は |∇ψ|=${ab.shape.spGrad.toFixed(6)} と大きく ε=${ab.shape.spEps.toExponential(4)} まで下がる**`
+      + `(同じ幅・同じ σ⊥ なら**寝た腕のほうが安い**)/ 門 ${Object.keys(ab.gates).length} 件すべて null=${badG.length === 0}`);
+  } else {
+    console.log('SKIP behavior.armBudget(対象に第256便b の HP.dfmArmBudget なし — root 等)');
   }
 }
 
