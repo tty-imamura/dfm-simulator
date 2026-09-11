@@ -28739,14 +28739,34 @@ function dfmSpaceMeshAt(mesh,px,py,S){
 //   ∂u_bg/∂t も 0 と宣言している。どちらも診断器の宣言であって導出ではない)。
 const GALMESH_P_DEFAULT=2;           // 加算形 W の冪(pull 重みと同じ既定)
 const GALMESH_CHI_BG=1e-6;           // χ がこれ未満なら「背景が全て」(mode の表記にだけ使う)
+const GALMESH_FIT_RANKTOL=1e-10;     // 第255便b: アフィン fit のランク門(det/(M₀₀M₁₁M₂₂) の下限)
 // 局所場 1 点評価。src は S(エンジン)または [{m,x,y,vx,vy},…](純関数として単体試験できる形)。
-// opts: {D0, eps, p, cellSize, bg:"frame"|"static", bgGrad:"fd"|"zero", h}
+// opts: {D0, eps, p, cellSize, bg:"frame"|"static", bgGrad:"fd"|"zero", h,
+//        unSource:"all"|"disk", unFit:"mean"|"affine", need:"u"|"uB"|"uBt", fitH}
 //   D0 省略時は S.params の pull 重み D₀ᵖ(第252便a の意味統一と同じ読み方)。Infinity は χ=0 の極。
 //   cellSize>0 は **固定格子セルへのビニング** —— 評価点をセル中心へ量子化して場をセル内一定にする
 //   (「セルの形」の決断のための対照。省略・0 は連続場)。
 //   bg:"frame"(既定・S があるとき)は u_bg=dfmFrameAt(現行の背景)・"static" は u_bg=0。
 //   ∇u_bg は中心差分(刻み h・既定 = softening)で数値評価する(dfmFrameAt に解析勾配が無いため。
 //   bgGrad:"zero" で 0 に落とせる —— 差は harness の実測で PHYSICS に載せる)。
+// ---- 第255便b(第47報): u_n の 2 案と要求別の場。**既定(all/mean/uBt)は第254便b とビット同一**。
+//   unSource:"all"(既定=現行)/"disk" —— "disk" は **静止中心(pinned な天体と最大質量の 1 体)を
+//     u_n の重み平均の標本から外す**。**W(したがって χ)には残す**(質量を消すのではなく、
+//     「速度の標本」から外すだけ)。第254便b ⑤-1 の穴(速度 0 の中心が pull 重みの大半を占める)への案 (a)。
+//   unFit:"mean"(既定=現行)/"affine" —— "affine" は**局所アフィン最小二乗**。
+//     重み w=mᵢ(d²+ε²)^(−p/2)・基底 φᵢ=[1,(xᵢ−x)/h,(yᵢ−y)/h] で vᵢ≈a+B(xᵢ−x) を解き、u_n=a とする。
+//     零次の重み平均は**定数速度しか再現できない**が、剛体回転 v=Ω(−y,x) は位置の 1 次なので
+//     **静止中心も正しい標本になる**(機構試験: 中心 m=2500 を入れたまま (−0.4,1.0) を 10 桁再現)。
+//     ∇u_n は **重みの空間微分込み**の完全な導関数 ∂ⱼc=M⁻¹(∂ⱼr−(∂ⱼM)c) の 0 成分である
+//     (fit の 1 次係数そのもの c₁/h は `unLinear` に別欄で返す)。
+//     **ランク不足(det/(M₀₀M₁₁M₂₂)≤10⁻¹⁰)は null で停止する** —— 正則化やクリップで
+//     「よく見える曲線」にしない。affine では `dUdt=null`・`timeDerivativeComplete=false` を返す
+//     (fit の時間微分は未導出。**欠落を 0 で埋めない**)。
+//   need:"u"|"uB"|"uBt"(既定 uBt=現行) —— 要求しない量は**計算せず null**(0 で埋めない)。
+//     "u" は ∇u_bg の中心差分 4 回と ∇W・∂ₜW の蓄積を丸ごと省く(表示・記録が使う)。
+//     "uB" は ∇u まで(物質線の輸送が使う契約)。**u と ∇u の値は need を変えてもビット同一**である。
+//   fitH —— アフィン基底の数値スケール h(既定 = ε または 1)。**平滑化長は ε**(重みの側)であって
+//     h ではない —— h は 3×3 の条件数を整えるためだけに入る(u_n・∇u_n は h に依らない)。
 function dfmGalaxyMeshField(src,px,py,opts){
   const o=opts||{};
   px=Number(px); py=Number(py);
@@ -28766,10 +28786,31 @@ function dfmGalaxyMeshField(src,px,py,opts){
   if(!(D0>=0)) return null;                       // NaN・負は門(Infinity は χ=0 の極として通す)
   const cell=Number(o.cellSize||0);
   if(!(cell>=0) || !Number.isFinite(cell)) return null;
+  // ---- 第255便b の 3 opt(未知の値は門 —— 既定は現行と同じ経路)
+  const unSrc=(o.unSource===undefined)? "all" : String(o.unSource);
+  if(unSrc!=="all" && unSrc!=="disk") return null;
+  const unFit=(o.unFit===undefined)? "mean" : String(o.unFit);
+  if(unFit!=="mean" && unFit!=="affine") return null;
+  const need=(o.need===undefined)? "uBt" : String(o.need);
+  if(need!=="u" && need!=="uB" && need!=="uBt") return null;
+  const wantB=(need!=="u"), wantT=(need==="uBt"), aff=(unFit==="affine"), sub=(unSrc!=="all");
+  const fh=Number((o.fitH===undefined)? (eps>0? eps : 1) : o.fitH);
+  if(!(fh>0) || !Number.isFinite(fh)) return null;
   let ex=px, ey=py, cellC=null;
   if(cell>0){ ex=(Math.floor(px/cell)+0.5)*cell; ey=(Math.floor(py/cell)+0.5)*cell; cellC=[ex,ey]; }
-  const eps2=eps*eps, hp=p/2;
+  // 除外する「静止中心」の索引(disk のみ) —— pinned な天体と**最大質量の 1 体**
+  let maxI=-1;
+  const pinA=(isSim && src.pinned)? src.pinned : null;
+  if(sub){ let bm=-Infinity;
+    for(let i=0;i<n;i++){ const mi=list? Number(list[i].m) : gm[i];
+      if(!(mi>0) || !(mi>bm)) continue; bm=mi; maxI=i; } }
+  const eps2=eps*eps, hp=p/2, ih=1/fh;
   let W=0, Wx=0, Wy=0, Wt=0, sx=0, sy=0, sxx=0, sxy=0, syx=0, syy=0, stx=0, sty=0, used=0;
+  let Wu=0, Wux=0, Wuy=0, Wut=0, nExcl=0, nFit=0;
+  // アフィン最小二乗の積率(M=Σwφφᵀ・r=Σwφv と、その ∂x/∂y)
+  let M00=0,M01=0,M02=0,M11=0,M12=0,M22=0, R0x=0,R1x=0,R2x=0, R0y=0,R1y=0,R2y=0;
+  let X00=0,X01=0,X02=0,X11=0,X12=0,X22=0, Y00=0,Y01=0,Y02=0,Y11=0,Y12=0,Y22=0;
+  let XR0x=0,XR1x=0,XR2x=0, XR0y=0,XR1y=0,XR2y=0, YR0x=0,YR1x=0,YR2x=0, YR0y=0,YR1y=0,YR2y=0;
   for(let i=0;i<n;i++){
     const mi=list? Number(list[i].m) : gm[i];
     const xi=list? Number(list[i].x) : gx[i], yi=list? Number(list[i].y) : gy[i];
@@ -28781,31 +28822,87 @@ function dfmGalaxyMeshField(src,px,py,opts){
     if(!(s>0) || !Number.isFinite(s)) return null;
     const w=mi*Math.pow(s,-hp);                    // wᵢ = mᵢ(d²+ε²)^(−p/2)(**加算形**)
     if(!Number.isFinite(w)) return null;
-    const k=-p*w/s;                                // ∇wᵢ = −p wᵢ dᵢ/s
-    const wx=k*dx, wy=k*dy;
-    const wt=p*w*(dx*vxi+dy*vyi)/s;                // ∂wᵢ/∂t = +p wᵢ (dᵢ·vᵢ)/s(固定点・粒子の移動のみ)
-    W+=w; Wx+=wx; Wy+=wy; Wt+=wt;
-    sx+=w*vxi; sy+=w*vyi;
-    sxx+=wx*vxi; sxy+=wy*vxi; syx+=wx*vyi; syy+=wy*vyi;
-    stx+=wt*vxi; sty+=wt*vyi;
+    let wx=0, wy=0, wt=0;
+    if(wantB){ const k=-p*w/s;                     // ∇wᵢ = −p wᵢ dᵢ/s
+      wx=k*dx; wy=k*dy;
+      W+=w; Wx+=wx; Wy+=wy;
+      if(wantT){ wt=p*w*(dx*vxi+dy*vyi)/s;         // ∂wᵢ/∂t = +p wᵢ (dᵢ·vᵢ)/s(固定点・粒子の移動のみ)
+        Wt+=wt; }
+    } else W+=w;
     used++;
+    // 「静止中心」を u_n の標本から外すのは disk だけ(W には上で既に入れてある)
+    if(sub && (i===maxI || (pinA? pinA[i]===1 : (list? list[i].pinned===true : false)))){ nExcl++; continue; }
+    nFit++;
+    if(sub){ Wu+=w; if(wantB){ Wux+=wx; Wuy+=wy; if(wantT) Wut+=wt; } }
+    if(aff){
+      const a1=-dx*ih, a2=-dy*ih;                  // φᵢ=[1,(xᵢ−x)/h,(yᵢ−y)/h]
+      const wa1=w*a1, wa2=w*a2;
+      M00+=w; M01+=wa1; M02+=wa2; M11+=wa1*a1; M12+=wa1*a2; M22+=wa2*a2;
+      R0x+=w*vxi; R1x+=wa1*vxi; R2x+=wa2*vxi;
+      R0y+=w*vyi; R1y+=wa1*vyi; R2y+=wa2*vyi;
+      if(wantB){
+        const xa1=wx*a1, xa2=wx*a2, ya1=wy*a1, ya2=wy*a2;
+        X00+=wx; X01+=xa1; X02+=xa2; X11+=xa1*a1; X12+=xa1*a2; X22+=xa2*a2;
+        Y00+=wy; Y01+=ya1; Y02+=ya2; Y11+=ya1*a1; Y12+=ya1*a2; Y22+=ya2*a2;
+        XR0x+=wx*vxi; XR1x+=xa1*vxi; XR2x+=xa2*vxi;
+        XR0y+=wx*vyi; XR1y+=xa1*vyi; XR2y+=xa2*vyi;
+        YR0x+=wy*vxi; YR1x+=ya1*vxi; YR2x+=ya2*vxi;
+        YR0y+=wy*vyi; YR1y+=ya1*vyi; YR2y+=ya2*vyi;
+      }
+    } else {
+      sx+=w*vxi; sy+=w*vyi;
+      if(wantB){ sxx+=wx*vxi; sxy+=wy*vxi; syx+=wx*vyi; syy+=wy*vyi;
+        if(wantT){ stx+=wt*vxi; sty+=wt*vyi; } }
+    }
   }
   if(!(used>0) || !(W>0) || !Number.isFinite(W)) return null;
-  const unx=sx/W, uny=sy/W;                        // u_n = Σwᵢvᵢ / W(pull 重みの局所平均)
-  // ∂_j u_n,k = [Σ (∂_j wᵢ) v_{i,k} − u_n,k ∂_j W] / W
-  const Gn=[(sxx-unx*Wx)/W,(sxy-unx*Wy)/W,(syx-uny*Wx)/W,(syy-uny*Wy)/W];
-  const Tn=[(stx-unx*Wt)/W,(sty-uny*Wt)/W];        // ∂_t u_n(粒子の加速度は入れていない)
+  const Wn=sub? Wu : W, Wnx=sub? Wux : Wx, Wny=sub? Wuy : Wy, Wnt=sub? Wut : Wt;
+  if(!(Wn>0) || !Number.isFinite(Wn)) return null;   // disk で標本が 1 つも残らなかった場合
+  let unx, uny, Gn=null, Tn=null, unLin=null, fitCond=null;
+  if(aff){
+    // 3×3 対称の解。**ランク不足は null**(正則化しない)
+    const A0=M11*M22-M12*M12, A1=M02*M12-M01*M22, A2=M01*M12-M02*M11;
+    const det=M00*A0+M01*A1+M02*A2, scale=M00*M11*M22;
+    if(!(det>GALMESH_FIT_RANKTOL*scale) || !Number.isFinite(det)) return null;
+    const B1=M00*M22-M02*M02, B2=M01*M02-M00*M12, C2=M00*M11-M01*M01;
+    const i00=A0/det, i01=A1/det, i02=A2/det, i11=B1/det, i12=B2/det, i22=C2/det;
+    const s0=(b0,b1,b2)=>i00*b0+i01*b1+i02*b2;
+    const cx0=s0(R0x,R1x,R2x), cy0=s0(R0y,R1y,R2y);
+    const cx1=i01*R0x+i11*R1x+i12*R2x, cx2=i02*R0x+i12*R1x+i22*R2x;
+    const cy1=i01*R0y+i11*R1y+i12*R2y, cy2=i02*R0y+i12*R1y+i22*R2y;
+    unx=cx0; uny=cy0; fitCond=det/scale;
+    if(wantB){
+      // ∂ⱼM(基底も x に依るので w の微分に加えて −1/h の項が入る)
+      const dxM00=X00, dxM01=X01-M00*ih, dxM02=X02, dxM11=X11-2*M01*ih, dxM12=X12-M02*ih, dxM22=X22;
+      const dyM00=Y00, dyM01=Y01, dyM02=Y02-M00*ih, dyM11=Y11, dyM12=Y12-M01*ih, dyM22=Y22-2*M02*ih;
+      const g=(dM00,dM01,dM02,dM11,dM12,dM22,dr0,dr1,dr2,c0,c1,c2)=>
+        s0(dr0-(dM00*c0+dM01*c1+dM02*c2),
+           dr1-(dM01*c0+dM11*c1+dM12*c2),
+           dr2-(dM02*c0+dM12*c1+dM22*c2));
+      const dxUx=g(dxM00,dxM01,dxM02,dxM11,dxM12,dxM22,XR0x,XR1x-R0x*ih,XR2x,cx0,cx1,cx2);
+      const dyUx=g(dyM00,dyM01,dyM02,dyM11,dyM12,dyM22,YR0x,YR1x,YR2x-R0x*ih,cx0,cx1,cx2);
+      const dxUy=g(dxM00,dxM01,dxM02,dxM11,dxM12,dxM22,XR0y,XR1y-R0y*ih,XR2y,cy0,cy1,cy2);
+      const dyUy=g(dyM00,dyM01,dyM02,dyM11,dyM12,dyM22,YR0y,YR1y,YR2y-R0y*ih,cy0,cy1,cy2);
+      Gn=[dxUx,dyUx,dxUy,dyUy];
+      unLin=[cx1*ih,cx2*ih,cy1*ih,cy2*ih];         // fit の 1 次係数そのもの(別欄)
+    }
+  } else {
+    unx=sx/Wn; uny=sy/Wn;                          // u_n = Σwᵢvᵢ / W(pull 重みの局所平均)
+    // ∂_j u_n,k = [Σ (∂_j wᵢ) v_{i,k} − u_n,k ∂_j W] / W
+    if(wantB){ Gn=[(sxx-unx*Wnx)/Wn,(sxy-unx*Wny)/Wn,(syx-uny*Wnx)/Wn,(syy-uny*Wny)/Wn];
+      if(wantT) Tn=[(stx-unx*Wnt)/Wn,(sty-uny*Wnt)/Wn]; }   // ∂_t u_n(粒子の加速度は入れていない)
+  }
   const chi=(D0===Infinity)? 0 : ((W+D0>0)? W/(W+D0) : 0);
   const den=(D0===Infinity)? Infinity : (W+D0)*(W+D0);
   const dchi=(D0===Infinity || !(den>0) || !Number.isFinite(den))? 0 : D0/den;   // ∇χ = D₀/(W+D₀)² ∇W
-  const cgx=dchi*Wx, cgy=dchi*Wy, cgt=dchi*Wt;
+  const cgx=wantB? dchi*Wx : 0, cgy=wantB? dchi*Wy : 0, cgt=wantT? dchi*Wt : 0;
   let ubx=0, uby=0, Gb=[0,0,0,0];
   const bgMode=(o.bg===undefined)? (isSim? "frame" : "static") : String(o.bg);
   if(bgMode==="frame"){
     if(!isSim) return null;
     const b0=dfmFrameAt(ex,ey,src); if(!b0) return null;
     ubx=b0.ux; uby=b0.uy;
-    if(o.bgGrad!=="zero" && chi!==1){
+    if(wantB && o.bgGrad!=="zero" && chi!==1){
       const h=Number((o.h===undefined)? (eps>0? eps : 1) : o.h);
       if(!(h>0) || !Number.isFinite(h)) return null;
       const bxp=dfmFrameAt(ex+h,ey,src), bxm=dfmFrameAt(ex-h,ey,src);
@@ -28818,14 +28915,21 @@ function dfmGalaxyMeshField(src,px,py,opts){
   const ux=chi*unx+(1-chi)*ubx, uy=chi*uny+(1-chi)*uby;
   // ∇u = χ∇u_n + (1−χ)∇u_bg + (u_n−u_bg)⊗∇χ
   const dux=unx-ubx, duy=uny-uby;
-  const B=[chi*Gn[0]+(1-chi)*Gb[0]+dux*cgx, chi*Gn[1]+(1-chi)*Gb[1]+dux*cgy,
-           chi*Gn[2]+(1-chi)*Gb[2]+duy*cgx, chi*Gn[3]+(1-chi)*Gb[3]+duy*cgy];
-  const dUdt=[chi*Tn[0]+dux*cgt, chi*Tn[1]+duy*cgt];   // ∂u_bg/∂t は 0 と宣言(導出ではない)
-  if(![ux,uy,B[0],B[1],B[2],B[3],dUdt[0],dUdt[1]].every(Number.isFinite)) return null;
+  const B=wantB? [chi*Gn[0]+(1-chi)*Gb[0]+dux*cgx, chi*Gn[1]+(1-chi)*Gb[1]+dux*cgy,
+                  chi*Gn[2]+(1-chi)*Gb[2]+duy*cgx, chi*Gn[3]+(1-chi)*Gb[3]+duy*cgy] : null;
+  // ∂u_bg/∂t は 0 と宣言(導出ではない)。affine は fit の時間微分が未導出なので **null**(0 で埋めない)
+  const dUdt=(wantT && Tn)? [chi*Tn[0]+dux*cgt, chi*Tn[1]+duy*cgt] : null;
+  if(!Number.isFinite(ux) || !Number.isFinite(uy)) return null;
+  if(B && !B.every(Number.isFinite)) return null;
+  if(dUdt && !dUdt.every(Number.isFinite)) return null;
   return { u:[ux,uy], gradU:B, dUdt, W, D0, chi, p, eps,
-    gradW:[Wx,Wy], gradChi:[cgx,cgy], dWdt:Wt, dChidt:cgt,
-    un:[unx,uny], ubg:[ubx,uby], gradUn:Gn, gradUbg:Gb, dUndt:Tn,
+    gradW:wantB? [Wx,Wy] : null, gradChi:wantB? [cgx,cgy] : null,
+    dWdt:wantT? Wt : null, dChidt:wantT? cgt : null,
+    un:[unx,uny], ubg:[ubx,uby], gradUn:Gn, gradUbg:wantB? Gb : null, dUndt:Tn,
     sources:used, cell:cellC, bg:bgMode,
+    need, unSource:unSrc, unFit, unSources:nFit, unExcluded:nExcl,
+    unLinear:unLin, fitCond, fitH:aff? fh : null,
+    timeDerivativeComplete:(dUdt!==null),
     mode:(chi>=0.5)? "mesh" : (chi>GALMESH_CHI_BG)? "blend" : "background" };
 }
 // 物質線(tracer)—— **表示は読むだけ**で、輸送は S.step の末尾から真偽値 1 つで呼ばれる。
@@ -28852,7 +28956,9 @@ function dfmGalaxyTracerCreate(S,spec){
     chi:new Float64Array(N), ux:new Float64Array(N), uy:new Float64Array(N),
     x0:new Float64Array(N), y0:new Float64Array(N),
     field:(typeof fld==="function")? fld : null,
-    opts:(typeof fld==="object" && fld)? Object.assign({},fld) : {},
+    // 第255便b: **輸送が要るのは u と ∇u だけ**なので、need 未指定のエンジン場は "uB" で読む
+    // (∂ₜu を毎步 381 体ぶん捨てるために計算しない —— u・∇u の値はビット同一)
+    opts:(typeof fld==="object" && fld)? Object.assign({need:"uB"},fld) : {need:"uB"},
     owner:T, t0:Number(T.t)||0, t:Number(T.t)||0, steps:0, stopped:false, stopReason:null,
     // 書き戻し前の控え(**原子的停止**のため —— 途中まで進んだ状態を残さない)。
     // 毎步の確保をやめて tracer に持たせる(描画ループから毎フレーム呼ばれる経路の GC 圧を作らない)
@@ -28872,9 +28978,12 @@ function dfmGalaxyTracerCreate(S,spec){
   return tr;
 }
 // 1 点の場を読む(tracer の内部 —— **指定場**(function)と**エンジン場**(dfmGalaxyMeshField)を
-// 同じ器で回すための唯一の分岐。指定場は QA と機構試験の再現にだけ使う)
-function _galTracerField(tr,S,x,y){
-  if(tr.field){ const f=tr.field(x,y,S);
+// 同じ器で回すための唯一の分岐。指定場は QA と機構試験の再現にだけ使う)。
+// 第255便b: **指定場には RK4 の段階時刻 st を渡す**(f(x,y,S,st))—— 時間変化する場で
+// 各段が同じ時刻を見ると RK4 は 1 次に落ちる。**エンジン場の源配列は段階補間しない**
+// (粒子は步の末尾の 1 つの配置しか持たない —— 未解決。docs/PHYSICS.md〔第255便b〕④)。
+function _galTracerField(tr,S,x,y,st){
+  if(tr.field){ const f=tr.field(x,y,S,st);
     if(!f || !Array.isArray(f.u) || !Array.isArray(f.gradU)) return null;
     return f; }
   return dfmGalaxyMeshField(S,x,y,tr.opts);
@@ -28888,14 +28997,17 @@ function dfmGalaxyTracerStep(tr,dt,S){
   if(!Number.isFinite(h) || h===0) return false;
   const N=tr.n, X=tr.x, Y=tr.y, F=tr.F, SX=tr._sx, SY=tr._sy, SF=tr._sF;
   const CH=tr._sch, UX=tr._sux, UY=tr._suy;
+  // 第255便b: RK4 の段階時刻(t₀・t₀+h/2・t₀+h/2・t₀+h)。tr.t は**步の始まり**の時刻である
+  // (エンジン駆動では S.step が S.t を進めた後に呼ばれ、書き戻しで tr.t=S.t=步の終わりになる)
+  const t0=Number.isFinite(tr.t)? tr.t : 0, stg=[t0, t0+0.5*h, t0+0.5*h, t0+h];
   for(let i=0;i<N;i++){
     const x0=X[i], y0=Y[i];
     const f0=F[4*i], f1=F[4*i+1], f2=F[4*i+2], f3=F[4*i+3];
     let ax=0, ay=0, aF0=0, aF1=0, aF2=0, aF3=0;   // RK4 の重み付き和
     let cx=x0, cy=y0, c0=f0, c1=f1, c2=f2, c3=f3;
     for(let s=0;s<4;s++){
-      const fl=_galTracerField(tr,T,cx,cy);
-      if(!fl){ tr.stopped=true; tr.stopReason="field"; return false; }
+      const fl=_galTracerField(tr,T,cx,cy,stg[s]);
+      if(!fl || !fl.gradU){ tr.stopped=true; tr.stopReason="field"; return false; }
       const ux=fl.u[0], uy=fl.u[1], B=fl.gradU;
       if(!Number.isFinite(ux) || !Number.isFinite(uy)
          || !Number.isFinite(B[0]) || !Number.isFinite(B[1])
@@ -28969,7 +29081,9 @@ function dfmGalaxyMeshRecord(S,opts){
   const rMax=Number(o.rMax===undefined? 260 : o.rMax), rMin=Number(o.rMin===undefined? 0 : o.rMin);
   if(!Number.isFinite(rMax) || !Number.isFinite(rMin) || !(rMax>rMin)) return null;
   const nAz=Math.max(1,Math.round(Number(o.azimuths===undefined?16:o.azimuths)));
-  const fo=o.field||{};
+  // 第255便b: 記録器が読むのは u・χ・W だけなので、need 未指定なら **"u"** で読む
+  // (∇u_bg の中心差分 4 回/点を丸ごと省く —— 返り値はビット同一)
+  const fo=Object.assign({need:"u"},o.field||{});
   const wid=(rMax-rMin)/nb, bins=[];
   for(let b=0;b<nb;b++){
     const r0=rMin+wid*b, r1=rMin+wid*(b+1);
@@ -28993,11 +29107,11 @@ function dfmGalaxyMeshRecord(S,opts){
     const B=bins[b];
     const vphi=(B.mass>0)? B.v_phi/B.mass : null;
     const vr=(B.mass>0)? B.v_r/B.mass : null;
-    let uphi=0, chi=0, W=0, ok=0;
+    let uphi=0, chi=0, W=0, ok=0, nullAz=0;
     for(let a=0;a<nAz;a++){
       const th=2*Math.PI*a/nAz, X=cx+B.r*Math.cos(th), Y=cy+B.r*Math.sin(th);
       const f=dfmGalaxyMeshField(T,X,Y,fo);
-      if(!f) continue;
+      if(!f){ nullAz++; continue; }        // 第255便b: affine のランク不足など —— **数えて残す**
       uphi+=(-Math.sin(th)*f.u[0]+Math.cos(th)*f.u[1]);
       chi+=f.chi; W+=f.W; ok++;
     }
@@ -29016,10 +29130,70 @@ function dfmGalaxyMeshRecord(S,opts){
     out.bins.push({ r:B.r, r0:B.r0, r1:B.r1, count:B.count, mass:B.mass,
       v_phi:vphi, v_r:vr, u_mesh_phi:uPhi, diff:(vphi!==null&&uPhi!==null)? vphi-uPhi : null,
       v_obs:null, chi:ok? chi/ok : null, W:ok? W/ok : null,
+      azOk:ok, azNull:nullAz,                  // 第255便b: 場が null を返した方位の数(埋めない)
       A2, psi2, Omega_mesh:omMesh, Omega_pattern:omP,
       Omega_pattern_minus_mesh:(omP!==null&&omMesh!==null)? omP-omMesh : null });
   }
   return out;
+}
+// ===== 第255便b(第47報): ハロー参照 —— **帳簿の読み**であって予測でも較正でもない =====
+// 位置依存の有効慣性 α(r)>0 を仮に置いたとき、円軌道の条件 α(r)·v²/r = Φ′(r) を
+// **r 依存の α まで含めて**書き下すと(v²=v_c²(r) 自身が r に依るため、α の r 依存が
+// 遠心項に半分だけ入る)
+//     v_c²(r) = r·Φ′(r) / ( α(r) + r·α′(r)/2 )
+// になる。α≡1 でニュートンの v_c²=rΦ′ に戻る。**これは「ダークマターハロー類似」の
+// 帳簿の読み**であって、ハロー質量の較正でも平坦回転曲線の予測でもない —— 実際、
+// 慣性の退化で自然に出る α=1−χ(W∝1/r²・D₀ 一定)は **外側で α→1(ケプラー型へ戻る)**ので、
+// **自動的には平坦化しない**(下の QA behavior.meshHaloReference が数で固定する)。
+// 純関数(S を 1 バイトも読み書きしない・力へは接続しない)。
+// opts: {alpha:(r)=>α, alphaPrime?:(r)=>α′, Phi?:(r)=>Φ, dPhi?:(r)=>Φ′, r:number|number[], h?}
+//   α′・Φ′ は関数を渡せばそれを使い、無ければ**中心差分**(刻み h・既定 10⁻⁵·max(1,r))で作る。
+//   返値 rows[i]: { r, alpha, alphaPrime, dPhi, denom:α+rα′/2, vc2, vc, stable, slope, vcSqrtR }
+//   **vc² が負(=円軌道が無い)なら vc は null**(絶対値やクリップで曲線を作らない)。
+//   slope は d ln v_c/d ln r(ケプラー則なら −1/2)、vcSqrtR は v_c√r(ケプラーなら一定)。
+function dfmMeshHaloReference(opts){
+  const o=opts||{};
+  if(typeof o.alpha!=="function") return null;
+  const aP=(o.alphaPrime===undefined||o.alphaPrime===null)? null : o.alphaPrime;
+  if(aP!==null && typeof aP!=="function") return null;
+  const Ph=(o.Phi===undefined||o.Phi===null)? null : o.Phi;
+  const dPh=(o.dPhi===undefined||o.dPhi===null)? null : o.dPhi;
+  if(Ph!==null && typeof Ph!=="function") return null;
+  if(dPh!==null && typeof dPh!=="function") return null;
+  if(Ph===null && dPh===null) return null;           // Φ も Φ′ も無ければ門
+  const rs=Array.isArray(o.r)? o.r : [o.r];
+  if(!rs.length) return null;
+  const hOpt=(o.h===undefined)? null : Number(o.h);
+  if(hOpt!==null && (!(hOpt>0) || !Number.isFinite(hOpt))) return null;
+  const num=(f,r,h)=>{ const a=Number(f(r+h)), b=Number(f(r-h));
+    if(!Number.isFinite(a) || !Number.isFinite(b)) return NaN;
+    return (a-b)/(2*h); };
+  const at=(r)=>{
+    if(!Number.isFinite(r) || !(r>0)) return null;
+    const h=(hOpt!==null)? hOpt : 1e-5*Math.max(1,r);
+    if(!(r-h>0)) return null;
+    const al=Number(o.alpha(r));
+    if(!Number.isFinite(al) || !(al>0)) return null;   // α≤0 は門(有効慣性は正)
+    const alp=aP? Number(aP(r)) : num(o.alpha,r,h);
+    const dphi=dPh? Number(dPh(r)) : num(Ph,r,h);
+    if(!Number.isFinite(alp) || !Number.isFinite(dphi)) return null;
+    const den=al+r*alp/2, v2=r*dphi/den;
+    if(!Number.isFinite(den) || !Number.isFinite(v2)) return null;
+    return { r, alpha:al, alphaPrime:alp, dPhi:dphi, denom:den, vc2:v2,
+      vc:(v2>0)? Math.sqrt(v2) : null, stable:(den>0 && v2>0) };
+  };
+  const rows=[];
+  for(const rr of rs){
+    const r=Number(rr), row=at(r);
+    if(!row) return null;
+    // d ln v_c/d ln r は同じ式を ln r 方向の中心差分で読む(ケプラー則で −1/2)
+    const d=1e-4, a=at(r*(1+d)), b=at(r*(1-d));
+    row.slope=(a && b && a.vc>0 && b.vc>0)? (Math.log(a.vc)-Math.log(b.vc))/(Math.log(r*(1+d))-Math.log(r*(1-d))) : null;
+    row.vcSqrtR=(row.vc!==null)? row.vc*Math.sqrt(r) : null;
+    rows.push(row);
+  }
+  return { rows, n:rows.length,
+    note:"v_c²=rΦ′/(α+rα′/2) は有効慣性 α(r) の帳簿の読み。ハロー質量の較正でも平坦回転曲線の予測でもない(α→1 でケプラー型へ戻る)" };
 }
 // ===== 第254便a(第46報「空間メッシュ本体」): 場 API・混合・粒子則・物質線の輸送 =====
 // 原仮定者(第46報・全文は docs/PHYSICS.md 〔第254便a〕に引用):
@@ -29335,6 +29509,12 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // **力へは 1 バイトも接続しない**(表示と記録だけ)。QA behavior.galaxyMesh が契約を機械固定する
   dfmGalaxyMeshField, dfmGalaxyTracerCreate, dfmGalaxyTracerStep, dfmGalaxyTracerObserve,
   dfmGalaxyMeshRecord, GALMESH_P_DEFAULT, GALMESH_CHI_BG,
+  // 第255便b(第47報): u_n の 2 案(`unSource:"all"|"disk"`・`unFit:"mean"|"affine"`)と
+  // **要求別の場**(`need:"u"|"uB"|"uBt"` —— 要求しない量は計算せず null)。既定は第254便b とビット同一。
+  // 空間線(W3)が銀河で読む契約は `dfmGalaxyMeshField(S,x,y,{need:"uB",unSource,unFit})` の {u,gradU} だけ。
+  // dfmMeshHaloReference({alpha,Phi,r}) は有効慣性 α(r) の**帳簿の読み** v_c²=rΦ′/(α+rα′/2)(純関数)。
+  // QA behavior.galaxyMesh / behavior.meshHaloReference が機械固定する
+  dfmMeshHaloReference, GALMESH_FIT_RANKTOL,
   // 第250便b(第42報 W2): MM の**波長チャネル**(ω=u·k+c|k| と境界の ω−V·k 保存だけを足した純関数)。
   // 戻り波長 λ・共通出力波長・検出器の読み ν_D・ドップラー係数 D を、Δt/Δφ とは**別欄**で返す。
   // QA behavior.mmWavelength が階段 W1〜W5 を機械固定する。回転境界は扱わない(null を返す)

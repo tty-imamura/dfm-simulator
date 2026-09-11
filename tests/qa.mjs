@@ -12795,6 +12795,15 @@ if (!FAST) {
 //     ⑥ **決定性**: 同じ tracer 走行 2 回が全節点でビット同一
 //     ⑦ **門**: 非有限点・負 D₀・NaN D₀・p≤0・源なし・不正 spec・不正 tracer は null / false
 //     ⑧ **新サンプル 🎠**: NaN 0・2 回ビット同一・overlays.spaceMesh が {mode:"tracer"} へ正規化される
+//   第255便b(第47報)が足した 4 項目:
+//     ⑨ **要求別の場**: 既定 opts(all/mean/uBt)が第254便b とビット同一・need を変えても u と ∇u は
+//        ビット同一・要求しない量は **null**(0 で埋めない・timeDerivativeComplete が false になる)
+//     ⑩ **機構試験**: 中心 m=2500 + 環 16 体(Ω=0.2)・評価点 (5,2)・D₀=0 で、正しい剛体回転 (−0.4,1.0) を
+//        **affine が 10 桁再現**し、**現行の平均(全源)は中心に薄められて桁で外す**。disk は W・χ を動かさない。
+//        アフィン fit の**ランク不足(2 体・共線)は null**(正則化もクリップもしない)。
+//     ⑪ **段階時刻**: RK4 の各段に t₀/t₀+h/2/t₀+h を渡すと、指定場 u_x=t の終点が丸めで 1.5 になり、
+//        u_x=−x·t の観測次数が 4 になる(**各段が同じ時刻を見ると 1 次に落ちる**ことを対照で示す)。
+//     ⑫ **新 opt の門**: 未知の unSource/unFit/need・非正の fitH は null。
 //   **これは表示と記録の契約であって、力の接続ではない**(銀河へ力を載せる条件は未決 — PHYSICS〔第254便b〕⑧)。
 {
   const hasGM = await page.evaluate(() => typeof HP.dfmGalaxyMeshField === 'function'
@@ -12949,6 +12958,93 @@ if (!FAST) {
           diffFinite: rec.bins.every((b) => b.diff === null || Number.isFinite(b.diff)),
           omPatternNull: rec.bins.every((b) => b.Omega_pattern === null) };
       } else o.sample = null;
+
+      // ================= 第255便b(第47報): u_n の 2 案・要求別の場・段階時刻 =================
+      // ---------- ⑨ 既定 opts は第254便b とビット同一 / need を変えても u・∇u はビット同一
+      {
+        const S4 = HP.sim; S4.build(HP.validatePreset(JSON.parse(JSON.stringify(
+          HP.allPresets().find((p) => p.id === 'galaxyStd')))).preset);
+        for (let k = 0; k < 120; k++) S4.step(0.016);
+        const f0 = HP.dfmGalaxyMeshField(S4, 37, -19, {});
+        const fE = HP.dfmGalaxyMeshField(S4, 37, -19, { unSource: 'all', unFit: 'mean', need: 'uBt' });
+        const fU = HP.dfmGalaxyMeshField(S4, 37, -19, { need: 'u' });
+        const fB = HP.dfmGalaxyMeshField(S4, 37, -19, { need: 'uB' });
+        o.need = {
+          defaultBit: bitArr(f0.u, fE.u) && bitArr(f0.gradU, fE.gradU) && bitArr(f0.dUdt, fE.dUdt)
+            && bit(f0.W, fE.W) && bit(f0.chi, fE.chi) && f0.unSource === 'all' && f0.unFit === 'mean',
+          uBit: bitArr(f0.u, fU.u), uBBit: bitArr(f0.u, fB.u) && bitArr(f0.gradU, fB.gradU),
+          // **欠落は null**(0 で埋めない)
+          uNull: fU.gradU === null && fU.dUdt === null && fU.gradW === null && fU.gradChi === null
+            && fU.timeDerivativeComplete === false,
+          uBNull: fB.dUdt === null && fB.dWdt === null && fB.timeDerivativeComplete === false
+            && Array.isArray(fB.gradU),
+          tdc: f0.timeDerivativeComplete === true,
+          u: f0.u[0], chi: f0.chi };
+      }
+      // ---------- ⑩ 機構試験: 中心 2500 + 環 16 体(Ω=0.2)・評価点 (5,2)・D₀=0 の 4 組合せ
+      {
+        const OM = 0.2, PX = 5, PY = 2, bodies = [{ m: 2500, x: 0, y: 0, vx: 0, vy: 0, pinned: true }];
+        for (let k = 0; k < 16; k++) { const th = 2 * Math.PI * k / 16, x = 10 * Math.cos(th), y = 10 * Math.sin(th);
+          bodies.push({ m: 1, x, y, vx: -OM * y, vy: OM * x, pinned: false }); }
+        const cell = (us, uf) => HP.dfmGalaxyMeshField(bodies, PX, PY,
+          { D0: 0, eps: 0, p: 2, bg: 'static', unSource: us, unFit: uf });
+        const er = (f) => f ? Math.hypot(f.u[0] + OM * PY, f.u[1] - OM * PX) : null;
+        const am = cell('all', 'mean'), aa = cell('all', 'affine');
+        const dm = cell('disk', 'mean'), da = cell('disk', 'affine');
+        o.mech = { exact: [-OM * PY, OM * PX],
+          allMean: am.u, allMeanErr: er(am), allAffine: aa.u, allAffineErr: er(aa),
+          diskMean: dm.u, diskMeanErr: er(dm), diskAffine: da.u, diskAffineErr: er(da),
+          // disk は静止中心を u_n の標本から外すが **W(=χ)には残す**
+          chiSame: bit(am.W, dm.W) && bit(am.chi, dm.chi) && bit(aa.W, da.W),
+          excl: dm.unExcluded, fit: dm.unSources, all: am.unSources,
+          // 剛体回転の ∇u = [0,−Ω,Ω,0](affine は fit の 1 次係数でも再現する)
+          gradErr: Math.max(Math.abs(aa.gradU[0]), Math.abs(aa.gradU[1] + OM),
+            Math.abs(aa.gradU[2] - OM), Math.abs(aa.gradU[3])),
+          affineTdc: aa.timeDerivativeComplete === false && aa.dUdt === null };
+        // ランク不足(2 体・共線 4 体)は null・三角形は通る
+        o.mech.rankTwo = HP.dfmGalaxyMeshField([{ m: 1, x: 0, y: 0, vx: 0, vy: 0 },
+          { m: 1, x: 5, y: 0, vx: 0, vy: 1 }], 1, 1, { D0: 1, eps: 1, bg: 'static', unFit: 'affine' }) === null;
+        o.mech.rankCollinear = HP.dfmGalaxyMeshField([0, 1, 2, 3].map((k) => ({ m: 1, x: 3 * k, y: 0, vx: 0, vy: k })),
+          1, 1, { D0: 1, eps: 1, bg: 'static', unFit: 'affine' }) === null;
+        o.mech.rankTriangle = HP.dfmGalaxyMeshField([{ m: 1, x: 0, y: 0, vx: 0, vy: 0 },
+          { m: 1, x: 5, y: 0, vx: 0, vy: 1 }, { m: 1, x: 0, y: 5, vx: -1, vy: 0 }],
+          1, 1, { D0: 1, eps: 1, bg: 'static', unFit: 'affine' }) !== null;
+      }
+      // ---------- ⑪ 段階時刻(RK4 の各段が同じ時刻を見ると 1 次に落ちる)
+      {
+        const ramp = (dt, useStage) => {
+          const fake = { t: 0 };
+          let frozen = 0;
+          const fld = (x, y, S, st) => ({ u: [useStage ? st : frozen, 0], gradU: [0, 0, 0, 0], chi: 1 });
+          const tr = HP.dfmGalaxyTracerCreate(fake, { lines: 1, perLine: 2, rMin: 1, rMax: 2, field: fld });
+          for (let k = 0; k < Math.round(1 / dt); k++) { frozen = fake.t; fake.t += dt;
+            HP.dfmGalaxyTracerStep(tr, dt, fake); }
+          return tr.x[0];
+        };
+        const decay = (dt, useStage) => {
+          const fake = { t: 0 };
+          let frozen = 0;
+          const fld = (x, y, S, st) => { const tt = useStage ? st : frozen;
+            return { u: [-x * tt, 0], gradU: [-tt, 0, 0, 0], chi: 1 }; };
+          const tr = HP.dfmGalaxyTracerCreate(fake, { lines: 1, perLine: 2, rMin: 1, rMax: 2, field: fld });
+          for (let k = 0; k < Math.round(1 / dt); k++) { frozen = fake.t; fake.t += dt;
+            HP.dfmGalaxyTracerStep(tr, dt, fake); }
+          return Math.abs(tr.x[0] - Math.exp(-0.5));
+        };
+        const e1 = decay(0.1, true), e2 = decay(0.05, true);
+        o.stage = { ramp01: ramp(0.1, true), rampFrozen01: ramp(0.1, false), exact: 1.5,
+          err: Math.abs(ramp(0.1, true) - 1.5), frozenErr: Math.abs(ramp(0.1, false) - 1.5),
+          order: Math.log2(e1 / e2), e1, e2,
+          frozenOrder: Math.log2(decay(0.1, false) / decay(0.05, false)) };
+        HP.sim.hasGalaxyTracer = false; HP.sim._galTracer = null;
+      }
+      // ---------- ⑫ 新 opt の門(未知の値は null)
+      o.gates255 = {
+        badUnSource: HP.dfmGalaxyMeshField(A, 1, 1, { D0: 1, bg: 'static', unSource: 'core' }) === null,
+        badUnFit: HP.dfmGalaxyMeshField(A, 1, 1, { D0: 1, bg: 'static', unFit: 'quad' }) === null,
+        badNeed: HP.dfmGalaxyMeshField(A, 1, 1, { D0: 1, bg: 'static', need: 'uBtt' }) === null,
+        badFitH: HP.dfmGalaxyMeshField(A, 1, 1, { D0: 1, bg: 'static', unFit: 'affine', fitH: 0 }) === null,
+        negFitH: HP.dfmGalaxyMeshField(A, 1, 1, { D0: 1, bg: 'static', unFit: 'affine', fitH: -2 }) === null };
       return o;
     });
     const CK = {
@@ -12974,9 +13070,23 @@ if (!FAST) {
       sample: !gm.sample || (gm.sample.bitSame && gm.sample.nan === false
         && gm.sample.overlay === '{"mode":"tracer"}' && gm.sample.cLight === 30
         && gm.sample.vObsNull && gm.sample.diffFinite && gm.sample.chiIn > gm.sample.chiOut),
+      // ⑨ 第255便b: 既定 opts はビット同一・need 別の u/∇u もビット同一・欠落は null
+      needContract: gm.need.defaultBit && gm.need.uBit && gm.need.uBBit && gm.need.uNull
+        && gm.need.uBNull && gm.need.tdc,
+      // ⑩ 機構試験: affine は剛体回転を 10 桁再現し、mean(全源)は中心に薄められる
+      mechanism: gm.mech.allAffineErr < 1e-9 && gm.mech.diskAffineErr < 1e-9
+        && gm.mech.allMeanErr > 1 && gm.mech.diskMeanErr < 1e-3 && gm.mech.gradErr < 1e-9
+        && gm.mech.chiSame && gm.mech.excl === 1 && gm.mech.affineTdc
+        && gm.mech.rankTwo && gm.mech.rankCollinear && gm.mech.rankTriangle,
+      // ⑪ 段階時刻: u_x=t は丸めで 1.5・u_x=−xt は 4 次(段階時刻なしは 1 次)
+      stageTime: gm.stage.err < 1e-12 && gm.stage.frozenErr > 0.04
+        && gm.stage.order > 3.5 && gm.stage.frozenOrder < 1.5,
+      // ⑫ 新 opt の門
+      gates255: Object.keys(gm.gates255).every((k) => gm.gates255[k] === true),
     };
     const bad = Object.keys(CK).filter((k) => !CK[k]);
-    const badGates = Object.keys(gm.gates).filter((k) => gm.gates[k] !== true);
+    const badGates = Object.keys(gm.gates).filter((k) => gm.gates[k] !== true)
+      .concat(Object.keys(gm.gates255).filter((k) => gm.gates255[k] !== true));
     add('behavior.galaxyMesh', bad.length === 0,
       (bad.length ? `不成立=[${bad.join(',')}] ` : '')
       + (badGates.length ? `門NG=[${badGates.join(',')}] ` : '')
@@ -12995,9 +13105,101 @@ if (!FAST) {
       + (gm.sample ? `新サンプル ${gm.sample.emoji}: overlays.spaceMesh=${gm.sample.overlay}・NaN=${gm.sample.nan}・`
         + `300 步 2 回ビット同一=${gm.sample.bitSame}・χ(内)${Number(gm.sample.chiIn).toFixed(4)}>χ(外)${Number(gm.sample.chiOut).toFixed(4)}・`
         + `v_obs は全ビン null=${gm.sample.vObsNull}(光学層が無いことの宣言)`
-        : '新サンプルなし(SKIP)'));
+        : '新サンプルなし(SKIP)')
+      // ---- 第255便b(第47報)
+      + ` / **第255便b** 既定 opts が第254便b とビット同一=${gm.need.defaultBit}・`
+      + `need=u/uB/uBt で u がビット同一=${gm.need.uBit && gm.need.uBBit}(欠落は null で埋めない=${gm.need.uNull && gm.need.uBNull})/ `
+      + `**機構試験**(中心 2500+環 16 体・Ω=0.2・(5,2)・D₀=0 → 正解 (−0.4,1.0)): `
+      + `all/mean=(${gm.mech.allMean.map((z) => z.toFixed(5)).join(',')}) 誤差 ${gm.mech.allMeanErr.toFixed(4)}・`
+      + `all/affine 誤差 ${gm.mech.allAffineErr.toExponential(2)}・disk/mean 誤差 ${gm.mech.diskMeanErr.toExponential(2)}・`
+      + `disk/affine 誤差 ${gm.mech.diskAffineErr.toExponential(2)}(∇u の誤差 ${gm.mech.gradErr.toExponential(2)})・`
+      + `disk は W/χ を動かさない=${gm.mech.chiSame}(標本 ${gm.mech.all}→${gm.mech.fit} 体)・`
+      + `affine は dUdt=null=${gm.mech.affineTdc}・ランク不足(2 体/共線)は null=${gm.mech.rankTwo && gm.mech.rankCollinear} / `
+      + `**段階時刻**: u_x=t で終点 ${gm.stage.ramp01.toFixed(15)}(厳密 1.5・誤差 ${gm.stage.err.toExponential(2)})、`
+      + `段階時刻なしは ${gm.stage.rampFrozen01.toFixed(4)}・u_x=−x·t の観測次数 ${gm.stage.order.toFixed(2)}`
+      + `(段階時刻なし ${gm.stage.frozenOrder.toFixed(2)})`);
   } else {
     console.log('SKIP behavior.galaxyMesh(対象に第254便b の HP.dfmGalaxyMesh* なし — root 等)');
+  }
+}
+
+// ---- 第255便b(第47報): behavior.meshHaloReference — 有効慣性 α(r) の**帳簿の読み**(純関数) ----
+//   原仮定者(第47報)の「空間メッシュの追従による、慣性の退化は、重力波放出類似と、
+//   ダークマターハロー類似を兼ねる」に対して、**ハロー類似の側だけを式として書き下した**もので、
+//   ハロー質量の較正でも平坦回転曲線の予測でもない。円軌道の条件 α(r)v²/r=Φ′(r) を、
+//   v²=v_c²(r) 自身が r に依ることまで込めて解くと v_c²=rΦ′/(α+rα′/2) になる(α≡1 でニュートン)。
+//   固定するのは 5 点:
+//     ① 慣性の退化から自然に出る α=1−χ の例(W∝1/r²・D₀ 一定 → α=r²/(r²+9))・GM=1 で
+//        r=3/10/30/100 の v_c が 0.6667/0.3173/0.1826/0.1000 になる(解析式と 10⁻⁹ 以内)
+//     ② **外側で α→1 となりケプラー型へ戻る** —— d ln v_c/d ln r が r=100 以遠で −0.5 に戻り、
+//        v_c√r が √(GM) に戻る。**自動的には平坦化しない**(これは否定結果である)
+//     ③ 中心側は逆に**ケプラーより急**(r=1 で傾き −1.35)であって、ハローの平坦部にはならない
+//     ④ 円軌道の安定性 α+rα′/2>0 を欄で持ち、破れたら **vc は null**(絶対値やクリップで曲線を作らない)
+//     ⑤ 門: α が無い・Φ も Φ′ も無い・r≤0/NaN・α≤0・h≤0 は null
+{
+  const hasHalo = await page.evaluate(() => typeof HP.dfmMeshHaloReference === 'function');
+  if (hasHalo) {
+    const hr = await page.evaluate(() => {
+      const alpha = (r) => r * r / (r * r + 9);      // α=1−χ(W∝1/r²・D₀ 一定)の例
+      const Phi = (r) => -1 / r;                     // GM=1
+      const rs = [1, 3, 10, 30, 100, 300];
+      const res = HP.dfmMeshHaloReference({ alpha, Phi, r: rs });
+      const ana = rs.map((r) => { const al = alpha(r), ap = 18 * r / ((r * r + 9) * (r * r + 9));
+        return Math.sqrt((1 / r) / (al + r * ap / 2)); });
+      const exact = HP.dfmMeshHaloReference({ alpha, alphaPrime: (r) => 18 * r / ((r * r + 9) * (r * r + 9)),
+        dPhi: (r) => 1 / (r * r), r: rs });
+      const bad = HP.dfmMeshHaloReference({ alpha: (r) => 1 / (r * r * r), Phi, r: [1, 2] });
+      return { rs, rows: res.rows.map((z, i) => ({ r: z.r, alpha: z.alpha, denom: z.denom,
+          vc: z.vc, slope: z.slope, vcSqrtR: z.vcSqrtR, stable: z.stable,
+          dAna: Math.abs(z.vc - ana[i]), dExact: Math.abs(z.vc - exact.rows[i].vc),
+          newton: Math.sqrt(1 / z.r) })),
+        unstable: bad.rows.map((z) => ({ r: z.r, denom: z.denom, vc2: z.vc2, vc: z.vc, stable: z.stable })),
+        gates: {
+          noAlpha: HP.dfmMeshHaloReference({ Phi, r: 3 }) === null,
+          noPhi: HP.dfmMeshHaloReference({ alpha, r: 3 }) === null,
+          negR: HP.dfmMeshHaloReference({ alpha, Phi, r: -3 }) === null,
+          zeroR: HP.dfmMeshHaloReference({ alpha, Phi, r: 0 }) === null,
+          nanR: HP.dfmMeshHaloReference({ alpha, Phi, r: NaN }) === null,
+          negAlpha: HP.dfmMeshHaloReference({ alpha: () => -1, Phi, r: 3 }) === null,
+          zeroAlpha: HP.dfmMeshHaloReference({ alpha: () => 0, Phi, r: 3 }) === null,
+          nanAlpha: HP.dfmMeshHaloReference({ alpha: () => NaN, Phi, r: 3 }) === null,
+          badH: HP.dfmMeshHaloReference({ alpha, Phi, r: 3, h: -1 }) === null,
+          emptyR: HP.dfmMeshHaloReference({ alpha, Phi, r: [] }) === null,
+          noOpts: HP.dfmMeshHaloReference() === null,
+          badAlphaType: HP.dfmMeshHaloReference({ alpha: 1, Phi, r: 3 }) === null } };
+    });
+    const by = (r) => hr.rows.find((z) => z.r === r);
+    const CK = {
+      // ① 解析値との一致(ChatGPT §8.2 の 0.6667/0.3173/0.1826/0.1000)
+      values: Math.abs(by(3).vc - 0.6666666667) < 1e-6 && Math.abs(by(10).vc - 0.3173112604) < 1e-6
+        && Math.abs(by(30).vc - 0.1825831) < 1e-6 && Math.abs(by(100).vc - 0.1) < 1e-6
+        && hr.rows.every((z) => z.dAna < 1e-8 && z.dExact < 1e-8),
+      // ② 外側はケプラー型へ戻る(平坦化しない)
+      kepler: Math.abs(by(100).slope + 0.5) < 1e-3 && Math.abs(by(300).slope + 0.5) < 1e-3
+        && Math.abs(by(100).vcSqrtR - 1) < 1e-5 && by(100).alpha > 0.999,
+      // ③ 中心側はケプラーより急(平坦部ではない)
+      innerSteep: by(1).slope < -1 && by(3).slope < -0.6 && by(1).vc > by(1).newton,
+      // ④ 安定性が破れたら vc は null
+      stability: hr.rows.every((z) => z.stable === true && z.denom > 0)
+        && hr.unstable.every((z) => z.stable === false && z.vc === null && z.denom < 0),
+      // ⑤ 門
+      gates: Object.keys(hr.gates).every((k) => hr.gates[k] === true),
+    };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    const badG = Object.keys(hr.gates).filter((k) => hr.gates[k] !== true);
+    add('behavior.meshHaloReference', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '') + (badG.length ? `門NG=[${badG.join(',')}] ` : '')
+      + `**v_c²=rΦ′/(α+rα′/2)**(有効慣性 α(r) の帳簿の読み — 較正でも予測でもない)。`
+      + `α=r²/(r²+9)(= 1−χ の例)・GM=1: `
+      + hr.rows.map((z) => `r=${z.r}: α=${z.alpha.toFixed(6)}・v_c=${z.vc.toFixed(7)}`
+        + `(ニュートン ${z.newton.toFixed(6)}・傾き ${z.slope.toFixed(4)})`).join(' / ')
+      + ` / **外側で α→1 となりケプラー型へ戻る**(r=100 で傾き ${by(100).slope.toFixed(5)}・v_c√r=${by(100).vcSqrtR.toFixed(6)})`
+      + ` = **自動的には平坦化しない**(否定結果)。中心側はケプラーより急(r=1 で傾き ${by(1).slope.toFixed(4)})。`
+      + `解析式との差 ≤${Math.max(...hr.rows.map((z) => z.dAna)).toExponential(2)}・`
+      + `円軌道安定性 α+rα′/2>0 が破れる例では v_c=null(${hr.unstable.map((z) => `r=${z.r}: 分母 ${z.denom.toFixed(4)}`).join('・')})・`
+      + `門 ${Object.keys(hr.gates).length} 件すべて null=${badG.length === 0}`);
+  } else {
+    console.log('SKIP behavior.meshHaloReference(対象に第255便b の HP.dfmMeshHaloReference なし — root 等)');
   }
 }
 
