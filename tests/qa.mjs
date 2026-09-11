@@ -13334,7 +13334,8 @@ if (!FAST) {
 //     ⑤ **未登録は 1 bit 不変**: tracer を作った走行と作らない走行で 200 步後の状態がビット同一
 //     ⑥ **決定性**: 同じ tracer 走行 2 回が全節点でビット同一
 //     ⑦ **門**: 非有限点・負 D₀・NaN D₀・p≤0・源なし・不正 spec・不正 tracer は null / false
-//     ⑧ **新サンプル 🎠**: NaN 0・2 回ビット同一・overlays.spaceMesh が {mode:"tracer"} へ正規化される
+//     ⑧ **新サンプル 🎠**: NaN 0・2 回ビット同一・overlays.spaceMesh が {mode:"lines"} へ正規化される
+//        (第256便c で既定表示が空間線になった。物質線は宣言したときだけの**排他の診断**)
 //   第255便b(第47報)が足した 4 項目:
 //     ⑨ **要求別の場**: 既定 opts(all/mean/uBt)が第254便b とビット同一・need を変えても u と ∇u は
 //        ビット同一・要求しない量は **null**(0 で埋めない・timeDerivativeComplete が false になる)
@@ -13608,7 +13609,9 @@ if (!FAST) {
       gates: Object.keys(gm.gates).every((k) => gm.gates[k] === true),
       // ⑧ 新サンプル
       sample: !gm.sample || (gm.sample.bitSame && gm.sample.nan === false
-        && gm.sample.overlay === '{"mode":"tracer"}' && gm.sample.cLight === 30
+        // 第256便c: 🎠 の既定表示は**空間線**({mode:"lines"})になった(排他の診断としての
+        // 物質線は宣言したときだけ)。**値域は 1 形**なので、ここは正準形の文字列で固定する
+        && gm.sample.overlay === '{"mode":"lines"}' && gm.sample.cLight === 30
         && gm.sample.vObsNull && gm.sample.diffFinite && gm.sample.chiIn > gm.sample.chiOut),
       // ⑨ 第255便b: 既定 opts はビット同一・need 別の u/∇u もビット同一・欠落は null
       needContract: gm.need.defaultBit && gm.need.uBit && gm.need.uBBit && gm.need.uNull
@@ -27406,18 +27409,25 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       let k = 0;
       const st = HP.dfmSpaceLineTrace(() => (k++ < 10 ? [0, 0, 0, 0, 0, 0, 1] : false), 0, 0, 1, 0, 1, 1, 64);
       out.stopOk = st.n < 65 && st.full === false;
-      // ② 受理値は 3 種・値域を 1 形へ潰さない / 🫂🪟 の宣言は "lines"
-      const mk = (m) => ({ name: 'x', description: 'd', emoji: '🕸', bodies: [{ type: 'single', m: 1, radius: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }],
-        camera: { scale: 100 }, world: { boundary: 'none', size: 0 },
-    overlays: { spaceMesh: true, spaceMeshMode: m } });
-      out.accept = ['lines', 'guide', 'transport'].map((m) => {
-        const v = HP.validatePreset(mk(m)); return v.ok ? v.preset.overlays.spaceMeshMode : null; });
-      out.rejects = ['tracer', 'rays', ''].map((m) => {
-        const v = HP.validatePreset(mk(m)); return v.ok ? (v.preset.overlays.spaceMeshMode === undefined) : false; });
+      // ② 第256便c: 値域は **1 形**({mode:…})。旧形 3 種は移行表で読み、正規化後に spaceMeshMode 鍵は残らない
+      const mk = (ov) => ({ name: 'x', description: 'd', emoji: '🕸', bodies: [{ type: 'single', m: 1, radius: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }],
+        camera: { scale: 100 }, world: { boundary: 'none', size: 0 }, overlays: ov });
+      const nrm = (ov) => { const v = HP.validatePreset(mk(ov));
+        return v.ok ? JSON.stringify(v.preset.overlays.spaceMesh === undefined ? null : v.preset.overlays.spaceMesh) : 'INVALID'; };
+      out.accept = ['lines', 'guide', 'transport', 'tracer'].map((m) => nrm({ spaceMesh: { mode: m } }));
+      out.acceptOk = out.accept.join(',') === '{"mode":"lines"},{"mode":"guide"},{"mode":"transport"},{"mode":"tracer"}';
+      // 旧形(第253便a true / 第254便a true+spaceMeshMode / 第255便c spaceMeshMode 単独)は**捨てずに読む**
+      out.legacy = [nrm({ spaceMesh: true }), nrm({ spaceMesh: true, spaceMeshMode: 'guide' }),
+        nrm({ spaceMeshMode: 'transport' }), nrm({ spaceMesh: { mode: 'tracer' } })];
+      out.legacyOk = out.legacy.join(',') === '{"mode":"lines"},{"mode":"guide"},{"mode":"transport"},{"mode":"tracer"}';
+      out.rejects = [nrm({}), nrm({ spaceMesh: false }), nrm({ spaceMesh: { mode: 'rays' } }),
+        nrm({ spaceMesh: false, spaceMeshMode: 'guide' })].every((z) => z === 'null');
+      const vLegacy = HP.validatePreset(mk({ spaceMesh: true, spaceMeshMode: 'guide' }));
+      out.noLegacyKey = vLegacy.preset.overlays.spaceMeshMode === undefined;
       const decl = (id) => { const p = HP.allPresets().find((z) => z.id === id);
         return HP.validatePreset(JSON.parse(JSON.stringify(p))).preset.overlays; };
-      out.boxMode = decl('boxBinaryToy').spaceMeshMode;
-      out.winMode = decl('spaceMeshBinaryToy').spaceMeshMode;
+      out.boxMode = JSON.stringify(decl('boxBinaryToy').spaceMesh);
+      out.winMode = JSON.stringify(decl('spaceMeshBinaryToy').spaceMesh);
       out.galOv = JSON.stringify(decl('galaxyMeshSpiral').spaceMesh);
       // ③ 品質縮退と門
       HP.loadPreset('spaceMeshBinaryToy', false);
@@ -27498,15 +27508,16 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       }, 120);
     }));
     const ok = r.odeOk && r.straightOk && r.stopOk
-      && r.accept.join(',') === 'lines,guide,transport' && r.rejects.every((z) => z === true)
-      && r.boxMode === 'lines' && r.winMode === 'lines' && r.galOv === '{"mode":"tracer"}'
+      && r.acceptOk && r.legacyOk && r.rejects && r.noLegacyKey
+      && r.boxMode === '{"mode":"lines"}' && r.winMode === '{"mode":"lines"}' && r.galOv === '{"mode":"lines"}'
       && r.degradeOk && r.galOk && r.cacheOk && r.bitOk && r.baryOk
       && ab.a > 0 && ab.b > 0 && ab.sep && spErr.length === 0;
     add('ui.spaceLines', ok,
       `①ODE 中点法 vs 解析解(剛体回転 Ω=0.2・c_line=1・τ=1): N=64 で誤差 ${r.conv[64].err.toExponential(3)}・` +
       `N=128 で ${r.conv[128].err.toExponential(3)}(収束次数 ${r.order.toFixed(2)}・終点 ${r.conv[64].end.map((v) => v.toFixed(7)).join(', ')} vs 厳密 ${r.exact.map((v) => v.toFixed(7)).join(', ')})=${r.odeOk} / ` +
       `無流は直線 [${r.straight.join(', ')}]=${r.straightOk}・場が読めない点で停止=${r.stopOk} / ` +
-      `②受理値=[${r.accept.join('|')}](不正値は鍵を足さない=${r.rejects.every((z) => z === true)})・🫂=${r.boxMode}・🪟=${r.winMode}・🎠=${r.galOv} / ` +
+      `②値域 1 形(第256便c): 受理=[${r.accept.join('|')}]=${r.acceptOk}・旧形の移行=[${r.legacy.join('|')}]=${r.legacyOk}・` +
+      `不正/OFF は鍵を足さない=${r.rejects}・正規化後に spaceMeshMode 鍵なし=${r.noLegacyKey}・🫂=${r.boxMode}・🪟=${r.winMode}・🎠=${r.galOv} / ` +
       `③品質縮退 exact ${r.cnt.exact.lines}本×${r.cnt.exact.seg} → auto ${r.cnt.auto.lines} → lite ${r.cnt.lite.lines}(門 原点≤${r.const.maxOrg}・方向≤${r.const.maxDir}・区間≤128)=${r.degradeOk}・` +
       `銀河 ${r.gal.lines}本×${r.gal.seg}区間・再構築 ${r.gal.ms.toFixed(1)}ms → 間隔 ${Math.round(r.gal.every)}ms(duty ${(100 * r.const.duty).toFixed(0)}%)=${r.galOk} / ` +
       `④キャッシュ builds ${r.cache.b0}→(50 回描画)${r.cache.b1}→(20 步+描画)${r.cache.b2}→(無効化)${r.cache.b3}=${r.cacheOk} / ` +
@@ -27518,6 +27529,164 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     console.log('SKIP ui.spaceLines(対象に第255便c の空間線なし — root 等)');
   }
   await sp.close();
+}
+
+// ---- 第256便c(第48報「複数の表示方式が混在しているが、重たい処理を整理する。表示色も軌跡と
+// 混ざらない様に見易くする」): ui.spaceMeshView ----
+// 3 審査 v14(O4/O7)の一致点を機械固定する 6 点:
+// ①**排他表示** —— 4 モード(lines/guide/transport/tracer)のどれか 1 つだけが動き、暗黙に
+//   両方のバックエンド(空間線のキャッシュ / 物質線の積分器 / 輸送)を登録しない。
+// ②**表示所有 tracer の停止** —— 非表示の 600 步で tr.steps が 1 つも増えず、再表示は
+//   **現在時刻で張り直す**(止まっていた間を積分したように見せない)。
+// ③**明示登録した tracer は止めない**(dfmGalaxyTracerCreate を直に呼んだものは 600 步ぶん進む)。
+// ④**線長のズーム不変** —— camScale を 24 倍振っても L と線の**世界座標**が 1 bit 変わらず、
+//   キャッシュも作り直さない(ズームは射影だけ)。
+// ⑤**色** —— 空間線は琥珀 rgba(232,168,72,·)・線の軌跡は氷青 rgba(150,200,255,·)・格子は氷青・
+//   tracer は青族(B=255)。実際に canvas へ渡された strokeStyle を拾って見る(ソース検査ではない)。
+// ⑥**1 フレームの描画時間**(OFF/lines/guide/transport/tracer)を記録する(絶対値は機械に依るので
+//   門は緩く、**ページエラー 0 と描けていること**だけを判定に使う)。
+{
+  const vp = await browser.newPage();
+  const vpErr = [];
+  vp.on('pageerror', (e) => vpErr.push(String(e.message || e)));
+  await vp.goto(INDEX, { waitUntil: 'load' });
+  await vp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const hasVM = await vp.evaluate(() => !!(window.HP && typeof HP.spaceMeshView === 'function'
+    && typeof HP.tracerInfo === 'function' && typeof HP.setCamScale === 'function'));
+  if (hasVM) {
+    const r = await vp.evaluate(() => {
+      const o = {};
+      const bench = (fn, n) => { fn(); const t0 = performance.now(); for (let i = 0; i < n; i++) fn(); return (performance.now() - t0) / n; };
+      // strokeStyle のスパイ(1 フレームのあいだ canvas へ渡された色をすべて拾う)
+      const spyOn = () => { const proto = CanvasRenderingContext2D.prototype;
+        const d = Object.getOwnPropertyDescriptor(proto, 'strokeStyle');
+        const seen = [];
+        Object.defineProperty(proto, 'strokeStyle', { configurable: true,
+          get() { return d.get.call(this); },
+          set(v) { seen.push(String(v)); d.set.call(this, v); } });
+        return { seen, off: () => Object.defineProperty(proto, 'strokeStyle', d) }; };
+      const colorsOf = (S, mode) => { S.overlays.spaceMesh = mode ? { mode } : false;
+        HP.spaceLineInvalidate(S); HP.tick(0);
+        const sp = spyOn(); HP.tick(0); sp.off(); return sp.seen; };
+      // ---- ① 排他表示(🎠 銀河で 4 モードを順に回す)
+      HP.loadPreset('galaxyMeshSpiral', false);
+      const G = HP.sim;
+      o.declared = HP.spaceMeshView(G);                     // 宣言の既定(1 形)
+      const excl = {};
+      for (const m of ['lines', 'guide', 'transport', 'tracer']) {
+        G.overlays.spaceMesh = { mode: m };
+        HP.spaceLineInvalidate(G); G._galTracer = null; G.hasGalaxyTracer = false; G.meshTransport = null;
+        HP.tick(0);
+        const ti = HP.tracerInfo(G);
+        excl[m] = { view: HP.spaceMeshView(G), lines: !!HP.spaceLineNow(G),
+          tracer: !!ti, transport: !!G.meshTransport };
+      }
+      o.excl = excl;
+      o.exclOk = excl.lines.lines && !excl.lines.tracer && !excl.lines.transport
+        && excl.tracer.tracer && !excl.tracer.lines && !excl.tracer.transport
+        && excl.guide.lines === false && excl.transport.transport === true && !excl.transport.lines;
+      // ---- ② 表示所有 tracer は非表示のあいだ運ばない / 再表示は現在時刻で張り直す
+      HP.loadPreset('galaxyMeshSpiral', false);
+      const S = HP.sim;
+      S.overlays.spaceMesh = { mode: 'tracer' }; HP.tick(0);
+      const t0i = HP.tracerInfo(S);
+      for (let i = 0; i < 100; i++) S.step(0.016);
+      const shown = HP.tracerInfo(S).steps;
+      S.overlays.spaceMesh = { mode: 'lines' };             // 排他の別モード = 非表示
+      const bHide = HP.tracerInfo(S).steps, tHide = HP.tracerInfo(S).t;
+      for (let i = 0; i < 600; i++) S.step(0.016);
+      const aHide = HP.tracerInfo(S);
+      S.overlays.spaceMesh = { mode: 'tracer' }; HP.tick(0);
+      const re = HP.tracerInfo(S);
+      o.tracer = { displayOnly: t0i.displayOnly, shown, bHide, aHide: aHide.steps, stale: aHide.stale,
+        tHide, tAfterHide: aHide.t, tSim: S.t, reSteps: re.steps, reT: re.t };
+      o.tracerOk = t0i.displayOnly === true && shown === 100 && aHide.steps === bHide
+        && aHide.stale === true && Math.abs(aHide.t - tHide) < 1e-12
+        && re.steps === 0 && Math.abs(re.t - S.t) < 1e-12;
+      // ---- ③ 明示登録した tracer は止めない
+      HP.loadPreset('galaxyMeshSpiral', false);
+      const E = HP.sim; E.overlays.spaceMesh = false;
+      HP.dfmGalaxyTracerCreate(E, { lines: 4, perLine: 8, rMin: 20, rMax: 200 });
+      const e0 = HP.tracerInfo(E);
+      for (let i = 0; i < 600; i++) E.step(0.016);
+      const e1 = HP.tracerInfo(E);
+      o.explicit = { displayOnly: e0.displayOnly, before: e0.steps, after: e1.steps };
+      o.explicitOk = e0.displayOnly === false && e1.steps === 600;
+      // ---- ④ 線長のズーム不変(L も線の世界座標も動かない・作り直さない)
+      const zoomRows = {};
+      for (const id of ['spaceMeshBinaryToy', 'galaxyMeshSpiral']) {
+        HP.loadPreset(id, false);
+        const Z = HP.sim; Z.overlays.spaceMesh = { mode: 'lines' };
+        HP.setCamScale(50); HP.spaceLineInvalidate(Z); HP.spaceLineEnsure(Z);
+        const st0 = HP.spaceLineNow(Z), c0 = Z._slCache;
+        const end0 = [c0.lines[0].pts[2 * c0.lines[0].n - 2], c0.lines[0].pts[2 * c0.lines[0].n - 1]];
+        const b0 = st0.builds;
+        let same = true;
+        for (const cs of [130, 400, 1200, 50]) { HP.setCamScale(cs); HP.spaceLineEnsure(Z);
+          const c = Z._slCache;
+          if (c.L !== st0.L || c.lines[0].pts[2 * c.lines[0].n - 2] !== end0[0]
+            || c.lines[0].pts[2 * c.lines[0].n - 1] !== end0[1]) same = false; }
+        zoomRows[id] = { L: st0.L, baseLen: st0.baseLen, kind: st0.kind, same,
+          builds0: b0, builds1: HP.spaceLineNow(Z).builds };
+        HP.setCamScale(400);
+      }
+      o.zoom = zoomRows;
+      o.zoomOk = Object.keys(zoomRows).every((k) => zoomRows[k].same
+        && zoomRows[k].builds1 === zoomRows[k].builds0 && zoomRows[k].L > 0);
+      // ---- ⑤ 色(canvas へ渡された strokeStyle を拾う)
+      HP.loadPreset('spaceMeshBinaryToy', false);
+      const B = HP.sim;
+      const amber = HP.spaceLineConst().rgb;
+      const cLines = colorsOf(B, 'lines'), cGuide = colorsOf(B, 'guide'), cTrans = colorsOf(B, 'transport');
+      HP.loadPreset('galaxyMeshSpiral', false);
+      const cTracer = colorsOf(HP.sim, 'tracer');
+      const has = (a, s2) => a.some((v) => v.indexOf(s2) >= 0);
+      o.colors = { amber, lines: cLines.filter((v) => v.indexOf('rgba(' + amber) === 0).length,
+        linesTrail: has(cLines, 'rgba(150,200,255'), guideIce: has(cGuide, 'rgba(150,220,255'),
+        transIce: has(cTrans, 'rgba(150,220,255'),
+        tracerBlue: cTracer.filter((v) => /^rgba\(\d+,\d+,255,/.test(v)).length,
+        sample: cLines.slice(0, 4) };
+      o.colorOk = amber === '232,168,72' && o.colors.lines > 0
+        && o.colors.guideIce && o.colors.transIce && o.colors.tracerBlue > 0;
+      // ---- ⑥ 1 フレームの描画時間(記録。絶対値は機械に依る)
+      const frame = {};
+      for (const id of ['spaceMeshBinaryToy', 'galaxyMeshSpiral']) {
+        HP.loadPreset(id, false); HP.setQuality('exact');
+        const F = HP.sim, row = {};
+        for (const m of [null, 'lines', 'guide', 'transport', 'tracer']) {
+          F.overlays.spaceMesh = m ? { mode: m } : false; HP.spaceLineInvalidate(F); HP.tick(0);
+          row[m || 'off'] = bench(() => HP.tick(0), 60);
+        }
+        F.overlays.spaceMesh = { mode: 'lines' }; HP.spaceLineInvalidate(F); HP.spaceLineEnsure(F);
+        row.buildMs = HP.spaceLineNow(F).ms; row.every = HP.spaceLineNow(F).every;
+        frame[id] = row;
+      }
+      o.frame = frame;
+      o.frameOk = Object.keys(frame).every((k) => frame[k].lines > 0 && frame[k].tracer > 0);
+      return o;
+    });
+    const ok = r.declared === 'lines' && r.exclOk && r.tracerOk && r.explicitOk
+      && r.zoomOk && r.colorOk && r.frameOk && vpErr.length === 0;
+    const f = (x) => Number(x).toFixed(3);
+    add('ui.spaceMeshView', ok,
+      `①排他表示(🎠 の既定 mode=${r.declared}): ` + ['lines', 'guide', 'transport', 'tracer']
+        .map((m) => `${m}→線${r.excl[m].lines ? '有' : '無'}/物質線${r.excl[m].tracer ? '有' : '無'}/輸送${r.excl[m].transport ? '有' : '無'}`).join(' ')
+      + `=${r.exclOk} / ` +
+      `②表示所有 tracer: 表示 100 步で steps=${r.tracer.shown} → 非表示 600 步で ${r.tracer.bHide}→${r.tracer.aHide}(stale=${r.tracer.stale}・` +
+      `tracer の時計 ${r.tracer.tAfterHide} 対 宇宙 ${r.tracer.tSim})→ 再表示で steps=${r.tracer.reSteps}・t=${r.tracer.reT}(現在時刻で張り直し)=${r.tracerOk} / ` +
+      `③明示登録は止めない(displayOnly=${r.explicit.displayOnly}): ${r.explicit.before}→${r.explicit.after} 步=${r.explicitOk} / ` +
+      `④ズーム不変(camScale 50→1200→50): ` + Object.keys(r.zoom)
+        .map((k) => `${k} L=${f(r.zoom[k].L)}(基準長 ${f(r.zoom[k].baseLen)}・${r.zoom[k].kind})・世界座標同一=${r.zoom[k].same}・builds ${r.zoom[k].builds0}→${r.zoom[k].builds1}`).join(' / ')
+      + `=${r.zoomOk} / ` +
+      `⑤色: 空間線 rgba(${r.colors.amber},·) ${r.colors.lines} 本(軌跡の氷青と別=${!r.colors.linesTrail})・guide/transport は氷青=${r.colors.guideIce}/${r.colors.transIce}・` +
+      `tracer は青族 ${r.colors.tracerBlue} 本=${r.colorOk} / ` +
+      `⑥1 フレーム描画 ms: ` + Object.keys(r.frame)
+        .map((k) => `${k} off ${f(r.frame[k].off)}・lines ${f(r.frame[k].lines)}・guide ${f(r.frame[k].guide)}・transport ${f(r.frame[k].transport)}・tracer ${f(r.frame[k].tracer)}(再構築 ${f(r.frame[k].buildMs)}ms・間隔 ${Math.round(r.frame[k].every)}ms)`).join(' / ')
+      + (vpErr.length ? ` / pageErrors=[${vpErr.slice(0, 2).join(' | ')}]` : ''));
+  } else {
+    console.log('SKIP ui.spaceMeshView(対象に第256便c の表示整理なし — root 等)');
+  }
+  await vp.close();
 }
 
 // ---- 第255便c(第47報「サンプルを選ぶ」UI 2 件): ui.samplePicker ----
@@ -27553,8 +27722,25 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       o.chips = chips.length;
       o.noGroupChip = !groupNames.some((g) => chips.includes(g));
       o.dimCount = dims.filter((d) => [HP.T('ppDimScale'), HP.T('ppDimClass'), HP.T('ppDimE')].includes(d)).length;
-      o.hasGroupDim = dims.includes(HP.T('ppDimGroup'));
       o.hasGroupNote = !!document.querySelector('#ppGroupNoteBtn') && !!document.querySelector('#ppGroupNote');
+      // 第256便c(第48報): 見出しは **「グループ」**(旧「グループ(一覧の見出し)」)で、
+      // **グループ一覧の直前**(= 一覧の先頭)にある。絞り込み 3 次元より**後ろ**・#ppList より**前**
+      o.groupLabel = (document.querySelector('#ppGroupNoteBtn') || {}).textContent;
+      o.groupLabelOk = o.groupLabel === HP.T('ppNoteGroupLabel') + ' ⓘ'
+        && HP.T('ppNoteGroupLabel').indexOf('(') < 0 && HP.T('ppNoteGroupLabel').indexOf('(') < 0;
+      const kids = [...document.querySelector('#ppModal .ppBox').children];
+      const iGroupRow = kids.findIndex((k) => k.contains(document.querySelector('#ppGroupNoteBtn')));
+      const iList = kids.findIndex((k) => k.id === 'ppList');
+      const iScale = kids.findIndex((k) => k.contains(document.querySelector('#ppDimScaleBtn')));
+      o.order = { iScale, iGroupRow, iList, n: kids.length };
+      // グループの説明行は**絞り込みの列から出て**一覧の直前へ移った(#ppGroupNote を挟んで隣接)
+      o.orderOk = iGroupRow > iScale && iGroupRow < iList && iList - iGroupRow === 2
+        && [...document.querySelectorAll('#ppModal .ppChips')]
+          .find((rw) => rw.contains(document.querySelector('#ppGroupNoteBtn'))).querySelectorAll('.ppChip').length === 0;
+      // 第256便c: 開閉の鍵は**安定 id**(表示名ではない)—— 改名耐性
+      o.gid = { cel: groupIdOf('天体の物語'), gal: groupIdOf('銀河の物語'), unknown: groupIdOf('架空のグループ') };
+      o.gidOk = o.gid.cel === 'celestial' && o.gid.gal === 'galaxy' && o.gid.unknown === 'g:架空のグループ'
+        && /^[A-Za-z]+$/.test(o.gid.cel);
       // ② 既定は畳む — 現在のサンプルのグループだけ開く
       o.curGroup = HP.currentPreset().group;
       o.headTexts = heads().map((h) => h.textContent.trim());
@@ -27571,7 +27757,11 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       o.shownAfterToggle = shown();
       let persisted = null; try { persisted = localStorage.getItem('hp_pick_open'); } catch (_) {}
       o.persist = persisted;
-      o.persistOk = !!persisted && JSON.parse(persisted)[o.headTexts[0].replace(/^[▸▾]\s*/, '').replace(/\d+$/, '')] !== undefined;
+      // 第256便c: 永続の鍵は**グループ id**(表示名ではない)
+      o.persistKeys = persisted ? Object.keys(JSON.parse(persisted)) : [];
+      o.persistOk = !!persisted && o.persistKeys.length > 0
+        && o.persistKeys.every((k) => /^[A-Za-z]+$/.test(k) || k.indexOf('g:') === 0)
+        && JSON.parse(persisted)[groupIdOf(o.headTexts[0].replace(/^[▸▾]\s*/, '').replace(/\d+$/, ''))] !== undefined;
       // ウィンドウを開き直しても永続が効く
       hidePresetPicker(); showPresetPicker();
       o.reopenOpen = heads()[0].getAttribute('aria-expanded');
@@ -27590,6 +27780,28 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       o.e0AllOpen = heads().every((h) => h.getAttribute('aria-expanded') === 'true');
       o.e0Shown = shown();
       [...document.querySelectorAll('#ppModal .ppChip')].find((c) => c.textContent === 'E0').click();
+      // ⑥ 第256便c: **現在サンプルが別グループへ移る**と、既定で開く見出しもそちらへ移る
+      //    (永続に無いグループの既定 = 「いま読み込んでいるサンプルのグループだけ開く」)
+      try { localStorage.removeItem('hp_pick_open'); } catch (_) {}
+      ppOpen = {}; ppOpenTmp = {}; ppFilterSig = null;
+      hidePresetPicker(); HP.loadPreset('galaxyMeshSpiral', false); showPresetPicker();
+      o.moveGroup = HP.currentPreset().group;
+      o.moveOpen = heads().filter((h) => h.getAttribute('aria-expanded') === 'true').map((h) => h.textContent.trim());
+      o.moveOk = o.moveOpen.length === 1 && o.moveOpen[0].includes(o.moveGroup);
+      // ⑦ 第256便c: **旧鍵(日本語のグループ名)の移行** —— id へ移し、表に無い名前は捨てずに保持する
+      hidePresetPicker();
+      const legacy = { '天体の物語': true, '銀河の物語': false, '架空のグループ': true };
+      const migrated = ppMigrateOpen(legacy);
+      o.mig = { from: ppOpenMigrated.from, to: ppOpenMigrated.to, renamed: ppOpenMigrated.renamed,
+        kept: ppOpenMigrated.kept, keys: Object.keys(migrated).join(',') };
+      o.migOk = o.mig.from === 3 && o.mig.to === 3 && o.mig.renamed === 2 && o.mig.kept === 1
+        && migrated.celestial === true && migrated.galaxy === false && migrated['g:架空のグループ'] === true;
+      // 2 回目の移行は何も動かさない(1 回だけの移行表)
+      const again = ppMigrateOpen(migrated);
+      o.migIdempotent = JSON.stringify(again) === JSON.stringify(migrated);
+      try { localStorage.removeItem('hp_pick_open'); } catch (_) {}
+      ppOpen = {}; ppOpenTmp = {}; ppFilterSig = null;
+      HP.loadPreset('saturn', false); showPresetPicker();
       // ⑤ 「すべて表示」で行が増える(畳みの状態は保つ)
       const before = rows().length;
       const cb = document.querySelector('#ppShowAll'); cb.checked = true; cb.dispatchEvent(new Event('change'));
@@ -27601,18 +27813,23 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       ppOpen = {};
       return o;
     });
-    const ok = r.noGroupChip && !r.hasGroupDim && r.dimCount === 3 && r.hasGroupNote
-      && r.foldedOk && r.toggled && r.persistOk && r.searchOk && r.backOk
-      && r.e0AllOpen && r.showAllGrew && pkErr.length === 0;
+    const ok = r.noGroupChip && r.dimCount === 3 && r.hasGroupNote && r.groupLabelOk && r.orderOk
+      && r.gidOk && r.foldedOk && r.toggled && r.persistOk && r.searchOk && r.backOk
+      && r.e0AllOpen && r.showAllGrew && r.moveOk && r.migOk && r.migIdempotent && pkErr.length === 0;
     add('ui.samplePicker', ok,
-      `①絞り込み次元=[${r.dims.join('|')}](グループ次元なし=${!r.hasGroupDim}・グループのチップ 0 件=${r.noGroupChip}・` +
-      `チップ総数 ${r.chips}・グループ説明は残る=${r.hasGroupNote}) / ` +
+      `①絞り込み次元=[${r.dims.join('|')}](グループのチップ 0 件=${r.noGroupChip}・チップ総数 ${r.chips}・` +
+      `グループ説明は残る=${r.hasGroupNote}) / ` +
+      `①'第256便c: 見出し「${r.groupLabel}」=${r.groupLabelOk}・並びは スケール(${r.order.iScale}) < グループ(${r.order.iGroupRow}) < 一覧(${r.order.iList})で` +
+      `一覧の直前=${r.orderOk}・グループ id=${JSON.stringify(r.gid)}=${r.gidOk} / ` +
       `②既定は畳む: 見出し ${r.headTexts.length} 個中 開 ${r.openHeads}(= 現在のサンプルのグループ「${r.curGroup}」のみ=${r.openIsCur})・` +
       `行 ${r.rowsShown}/${r.rowsAll} 表示=${r.foldedOk} / ` +
       `③見出しタップで開閉=${r.toggled}(表示 ${r.shownAfterToggle} 行)・hp_pick_open 永続=${r.persistOk}(${r.persist})・開き直しても維持=${r.reopenOpen} / ` +
       `④検索「水星」で一致グループが自動展開=${r.searchOk}(${r.searchShown}/${r.searchAll} 行・見出し ${JSON.stringify(r.searchHeads)})・` +
       `解除で永続側へ復帰=${r.backOk}・E0 絞り込みでも自動展開=${r.e0AllOpen}(${r.e0Shown} 行) / ` +
-      `⑤すべて表示で行が増える=${r.showAllGrew}(${r.showAllRows} 行・畳み状態は保つ=${r.showAllOpen})` +
+      `⑤すべて表示で行が増える=${r.showAllGrew}(${r.showAllRows} 行・畳み状態は保つ=${r.showAllOpen}) / ` +
+      `⑥現在サンプルを別グループ(${r.moveGroup})へ移すと開く見出しもそちらへ=${r.moveOk}(${JSON.stringify(r.moveOpen)}) / ` +
+      `⑦旧鍵(日本語名)の移行: ${r.mig.from} 件 → ${r.mig.to} 件(id へ ${r.mig.renamed}・名称不明を保持 ${r.mig.kept}・鍵=[${r.mig.keys}])` +
+      `=${r.migOk}・再実行で不変=${r.migIdempotent}` +
       (pkErr.length ? ` / pageErrors=[${pkErr.slice(0, 2).join(' | ')}]` : ''));
   } else {
     console.log('SKIP ui.samplePicker(対象に第255便c のサンプル選択 UI なし — root 等)');
