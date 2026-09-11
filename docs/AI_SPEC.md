@@ -793,11 +793,40 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   帳簿は **`S.spaceMeshWorkE`**(外部仕事)で、慣性項が入れた運動量・角運動量は resPx/resPy/resL のリザーバへ記帳する
   (**反作用は未定義** = 閉じた系ではないことの宣言)。**生成 AI はこのキーを使わない** —
   空間メッシュの検証(docs/PHYSICS.md 第254便a の節)専用である。
+  - **〔第255便a 追補〕** `S.spaceMeshWorkE` は **離散キックの厳密仕事** Σm(|v′|²−|v|²)/2 へ変わった
+    (旧式 F·v·dt はキック**前**の速度で測るので m|Δv|²/2 が抜けていた)。**pinned の未適用分は
+    別欄 `S.spaceMeshWorkPinned`**。T2 メッシュの**原点は重心**になり(`M.origin`=重心・
+    `M.barycentre`/`M.midpoint` を両方返す)、`_spaceMeshForce` の C̈ も (m₀g₀+m₁g₁)/M である
+    —— **等質量では中点式と厳密に同じ値**なので既存プリセットは 1 bit も動かない。
+- **対ごとの織り込み(第255便a — `physics.spaceMesh.weave`)**: `"off"`(既定)/`"pair"`/`"pairFull"`。
+  **引きずり(A8/E6′)が読むフレームだけ**を対の瞬間メッシュ u_pair=χ·u_node+(1−χ)·u_bg へ織り込む
+  **opt-in**(**E4 には触らない**)。頂点契約 u_node(xᵢ)=vᵢ から **vᵢ−u_pair=(1−χ)(vᵢ−u_bg)**。
+  - `"pair"` … **相対速度の読み替え**(Δv=kF(1−χ)Δu_frame)。χ→1 で対の自己引きずりが消える。
+  - `"pairFull"` … フレームそのものの代入(Δv=kF·Δu_pair)。**頂点では χΔvᵢ の自己項が残るので
+    連星が壊れる**(🪟 40 万步で r が 15.2〜2999.5・クランプ 795510 = 第254便a の慣性退化と同じ姿)。
+    **否定対照として残しているだけで、採用していない。**
+  - **legacy E6′(geoPN=0)の帯にしか織らない**(geoPN≥1 は `S.spaceMeshWeaveStop="geoPN"` で素通り)。
+    **多体(n≥3)は |m| 上位 2 体の対だけ**に織る。`kFrame=0` ではビット不変。
+  - 帳簿は `S.spaceMeshWeavePx/Py/L/E`(E は離散キックの厳密仕事)+ リザーバ(resPx/resPy/resL)。
+  **生成 AI はこのキーを使わない。** QA `behavior.pairWeave`。
+- **有限の回転子交換(第255便a — `physics.spaceMesh.reservoir`)**: `{"Imesh":正の数値, "gamma":0 以上の数値}`。
+  メッシュに**有限の慣性 I_m と独立な角運動量 J** を与え、軌道 L と γ で交換する opt-in(既定なし)。
+  純関数は **`HP.dfmMeshRotorExchange({L,J,Iorb,Imesh,gamma,dt})`** で、
+  ω=L/I_o・Ω_m=J/I_m・L̇=−γ(ω−Ω_m)・J̇=+γ(ω−Ω_m)・Q̇=γ(ω−Ω_m)²≥0 を**指数の厳密解**で 1 步進める。
+  **L+J 保存・L²/2I_o+J²/2I_m+Q 保存・Q≥0・同期で停止・逆回転で L が軌道へ戻る**(QA `behavior.meshRotorExchange`)。
+  源接続は相対ベクトル r への**等大反対の接線インパルス**で、`S.meshJ`/`S.meshQ`/`S.meshRotorL`/`S.meshRotorE` に記帳する。
+  **Q は「熱」であって重力波放出ではない**(外向き流束・伝播・波形の写像が無い)。**D₀ を慣性密度と同一視しない。**
+  **生成 AI はこのキーを使わない。**
 - **空間メッシュの純関数 API(第254便a)**: `HP.dfmMeshScalarField(bodies,x,y,{G,eps,power,exclude})` が
   **1/r の `Dgrav`** と **1/r^p の `Wpull`** を**別名で**返し(`gradD`・`gradW`・`gravity`・`potential` つき)、
   `HP.dfmMeshBlend(node,background,W,gradW,D0,Wdot)` が χ 混合を **∇χ・∂ₜχ 込み**で返し、
   `HP.dfmMeshParticleRHS(field,v,law)` が慣性 2 候補の加速度を返す(u=0 でニュートンにビット一致)。
   物質線の輸送は `HP.dfmMeshTransportCreate/Step/Bind/Observe`(RK4・上限 4096 点・det F>10⁻¹² の門・**原子的停止**)。
+  **〔第255便a 追補〕** `Bind` は `{entrainment:"vertex"(既定)|"blended"}` を受ける(`blended` は区間 χ を
+  u と ∇u に掛ける —— D₀=10⁶ でマーカー移動が 7.8×10⁻⁸ まで落ちて**輸送が止まる**)。
+  作業配列は**二重バッファで再利用**するので、**返る `tr.x`/`tr.F` は借用ビュー**である
+  (步をまたいで保持するなら複製すること。原子的停止は保持 —— 失敗した步では入れ替えない)。
+  描画側は **`tr.error` の輸送を作り直さない**(停止は停止のまま)。
   力(本節)と波(第253便c の `HP.dfmMeshWaveRHS`)は**同じ `{u,gradU,dUdt}` を読む**。
 - **オーバーレイ `overlays.spaceMeshMode`(第254便a)**: `"guide"`(参照ガイド = 瞬時の F 写像を **χ の不透明度**で描く)
   / `"transport"`(輸送された物質線)。**座標の線形混合は撤回した**(det[(1−χ)I+χR_θ] が χ=½・θ=π で 0 = 格子が潰れる)。
