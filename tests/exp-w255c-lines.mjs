@@ -16,6 +16,12 @@
 //   BIT  : **全内蔵プリセット × 600 步(dt=0.016)** の状態ハッシュと presetSig を基点 html と
 //          突き合わせる(表示便なので状態は全本一致・署名は意図した 2 本だけが動く)。
 //
+// **第256便c の注記(履歴として残す)**: `overlays.spaceMesh` の値域が 1 形({mode:…})になり、
+//   `overlays.spaceMeshMode` は旧形の入力としてしか読まれなくなったので、本器の COST 節が
+//   `S.overlays.spaceMeshMode` を差し替える行は**もう表示モードを切り替えない**(どのモードも
+//   宣言側の {mode} のまま測られる)。4 モードの 1 フレーム描画は tests/exp-w256c-display.mjs --cost
+//   が測る。本器は第255便c の実測の再現用にそのまま残す(数値は docs/PHYSICS.md 〔第255便c〕)。
+//
 // 実行: node tests/exp-w255c-lines.mjs [--ode] [--cost] [--bit] [--fast]
 //       W255C_BASE=<基点 html のパス> で BIT の基点を指定する(既定 tests/out/base-w255c.html)
 // 出力: tests/out/spacelines-w255c.json(.gitignore 既定どおり未コミット — 数値は PHYSICS に全載)
