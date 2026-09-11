@@ -13264,6 +13264,146 @@ if (!FAST) {
   }
 }
 
+// ---- 第256便a(第48報・3 審査 v14 O1): behavior.pairWeavePN — geoPN=2 への織り込み(opt-in)の契約 ----
+//   ① **未宣言は 1 bit 不変**: ⚡ に weave:"off" を足しても署名も 600 步の状態もビット同一
+//      (本体の署名には spaceMesh の 4 文字も出ない)
+//   ② **帯の門**: `weave:"pair"` は geoPN=2 では**停止のまま**(stop="geoPN"・OFF とビット同一)。
+//      新しい値 `"pairPN"` だけが geoPN=2 で通り、逆に geoPN=0 では停止する(pair の鏡)
+//   ③ **χ→0 で OFF へ戻る**(D0pull=10¹²): weave の仕事が丸めまで落ち、状態差が丸めに留まる
+//   ④ **帳簿**: Δ(系の P)+リザーバ=0・Δ(系の L)+リザーバ/|L| が小さい・NaN 0・安全クランプ 0
+//   ⑤ **∇u/∂ₜu の一括評価の恒等**(純関数 HP.dfmMeshWeaveBlend): u_n=u_bg では ∇χ 項も χ̇ 項も
+//      **厳密に 0**(jump=0)。χ の 1 次式であること。門(非有限・長さ違い)
+//   ⑥ **2 案は別物である(否定結果)**: `"pairPNFull"`(フレームそのものの代入)は頂点で ∂ₜu_pair≈χaᵢ の
+//      自己項が残り、連星を壊す。`"pairPN"`(相対速度の読み替え)は壊れない。決定性・門
+{
+  const hasPN = await page.evaluate(() => !!(window.HP && Array.isArray(HP.SPACE_MESH_WEAVE)
+    && HP.SPACE_MESH_WEAVE.indexOf('pairPN') >= 0 && typeof HP.dfmMeshWeaveBlend === 'function'));
+  if (hasPN) {
+    const pn = await page.evaluate((fast) => {
+      const R = {}, KEY = HP.SPACE_MESH_KEY;
+      const ID = 'psrDoubleABDFM';                      // geoPN=2・kFrame=1・frameWeight:"pull" の本体
+      const P = HP.allPresets().find((z) => z.id === ID);
+      const mk = (sm, ph) => { const q = JSON.parse(JSON.stringify(P));
+        if (sm === 'drop') delete q.physics[KEY];
+        else if (sm) q.physics[KEY] = Object.assign({ mode: 'vertex' }, q.physics[KEY] || {}, sm);
+        if (ph) Object.assign(q.physics, ph);
+        delete q.massCalibration;                       // 台帳の三者一致検査は本ブロックの対象外
+        return q; };
+      const run = (pd, n, dt) => {
+        const v = HP.validatePreset(pd);
+        if (!v.ok) return { err: (v.errors || []).join('|') };
+        const S = HP.sim; S.build(v.preset);
+        const T0 = S.totals();
+        for (let k = 0; k < n; k++) S.step(dt);
+        const T = S.totals();
+        return { sig: JSON.stringify(v.preset.physics), has: S.hasPairWeave, mode: S.spaceMeshWeaveMode,
+          st: [S.x[0], S.y[0], S.vx[0], S.vy[0], S.x[1], S.y[1], S.vx[1], S.vy[1]],
+          r: Math.hypot(S.x[1] - S.x[0], S.y[1] - S.y[0]), nan: S.hasNaN(),
+          clamp: S.clampVN + S.clampSN + S.clampRN + S.clampTN + S.clampAN,
+          wE: S.spaceMeshWeaveE, wL: S.spaceMeshWeaveL, wPx: S.spaceMeshWeavePx, wPy: S.spaceMeshWeavePy,
+          wChi: S.spaceMeshWeaveChi, wRel: S.spaceMeshWeaveRel, wClamp: S.spaceMeshWeaveClamp,
+          wStop: S.spaceMeshWeaveStop, trDv: S.spaceMeshWeaveTrDv, pnDv: S.spaceMeshWeavePNDv,
+          closePx: (T.px - T0.px) + S.resPx, closePy: (T.py - T0.py) + S.resPy,
+          closeL: (T.L - T0.L) + S.resL, Labs: Math.abs(T.L) || 1 };
+      };
+      const DT = 0.016;
+      // ① 未宣言の正規化(本体は spaceMesh を宣言していない = 署名に 1 文字も出ない)
+      const base = run(mk('drop'), 600, DT), declOff = run(mk({ weave: 'off' }), 600, DT);
+      R.norm = { sigSame: base.sig === declOff.sig, stSame: base.st.every((z, i) => Object.is(z, declOff.st[i])),
+        flagOff: base.has === false, flagOn: run(mk({ weave: 'pairPN' }), 1, DT).has === true,
+        noKeyInSig: !base.sig.includes(KEY) };
+      // ② 帯の門(pair は geoPN=2 で停止のまま / pairPN は geoPN=0 で停止)
+      const pair = run(mk({ weave: 'pair' }), 600, DT);
+      R.band = { pairStop: pair.wStop, pairBit: pair.st.every((z, i) => Object.is(z, base.st[i])), pairHas: pair.has };
+      const WIN = HP.allPresets().find((z) => z.id === 'spaceMeshBinaryToy');   // geoPN=0
+      const mkw = (sm) => { const q = JSON.parse(JSON.stringify(WIN));
+        q.physics[KEY] = Object.assign({}, q.physics[KEY], sm); return q; };
+      const g0 = run(mkw({ weave: 'pairPN' }), 600, 0.004), g0o = run(mkw({ weave: 'off' }), 600, 0.004);
+      R.band.pnStop = g0.wStop; R.band.pnBit = g0.st.every((z, i) => Object.is(z, g0o.st[i]));
+      // ③ χ→0
+      const z0 = run(mk('drop', { D0pull: 1e12 }), 600, DT), z1 = run(mk({ weave: 'pairPN' }, { D0pull: 1e12 }), 600, DT);
+      R.chiZero = { chi: z1.wChi, wE: z1.wE, wP: Math.hypot(z1.wPx, z1.wPy),
+        maxDiff: Math.max(...z1.st.map((v, i) => Math.abs(v - z0.st[i]))), scale: Math.hypot(z0.st[0], z0.st[1]) };
+      // ④ 帳簿(2000 步)と kFrame=0
+      const on = run(mk({ weave: 'pairPN' }), fast ? 600 : 2000, DT);
+      R.ledger = { closePx: on.closePx, closePy: on.closePy, closeL: on.closeL, Labs: on.Labs,
+        wE: on.wE, wChi: on.wChi, wRel: on.wRel, wClamp: on.wClamp, clamp: on.clamp, nan: on.nan,
+        stop: on.wStop, mode: on.mode, trDv: on.trDv, pnDv: on.pnDv, r: on.r, offR: base.r };
+      const k0 = run(mk('drop', { kFrame: 0 }), 600, DT), k1 = run(mk({ weave: 'pairPN' }, { kFrame: 0 }), 600, DT);
+      R.kf0 = { same: k1.st.every((z, i) => Object.is(z, k0.st[i])), stop: k1.wStop };
+      // ⑤ 一括評価の恒等(純関数)
+      const gen = { chi: 0.63, gradChi: [0.11, -0.27], un: [1.3, -2.1], gradUn: [0.5, -0.2, 0.7, 0.9],
+        ubg: [0.4, 0.8], gradUbg: [-0.1, 0.3, 0.2, -0.6], dtUn: [0.05, -0.07], dtUbg: [0.02, 0.03], chiDot: 0.31 };
+      const same = Object.assign({}, gen, { ubg: gen.un.slice(), gradUbg: gen.gradUn.slice(), dtUbg: gen.dtUn.slice() });
+      const bs = HP.dfmMeshWeaveBlend(same), bg = HP.dfmMeshWeaveBlend(gen);
+      const a0 = HP.dfmMeshWeaveBlend(Object.assign({}, gen, { chi: 0 }));
+      const a1 = HP.dfmMeshWeaveBlend(Object.assign({}, gen, { chi: 1 }));
+      const ah = HP.dfmMeshWeaveBlend(Object.assign({}, gen, { chi: 0.5 }));
+      R.blend = { jumpZero: bs.jump[0] === 0 && bs.jump[1] === 0,
+        uExact: bs.u.every((z, i) => Object.is(z, gen.un[i])),
+        dtExact: bs.dtU.every((z, i) => Object.is(z, gen.dtUn[i])),
+        gradErr: Math.max(...bs.gradU.map((z, i) => Math.abs(z - gen.gradUn[i]))),
+        linErr: Math.max(...ah.u.map((z, i) => Math.abs(z - 0.5 * (a0.u[i] + a1.u[i]))),
+          ...ah.gradU.map((z, i) => Math.abs(z - 0.5 * (a0.gradU[i] + a1.gradU[i])))),
+        curl: bg.curl, gates: [HP.dfmMeshWeaveBlend(null),
+          HP.dfmMeshWeaveBlend({ chi: NaN, un: [1, 1], gradUn: [0, 0, 0, 0] }),
+          HP.dfmMeshWeaveBlend({ chi: 0.5, un: [1], gradUn: [0, 0, 0, 0] }),
+          HP.dfmMeshWeaveBlend({ chi: 0.5, un: [1, 1], gradUn: [0, 0, 0] })].every((z) => z === null) };
+      // ⑥ 2 案(否定対照)・決定性・門
+      if (!fast) {
+        const full = run(mk({ weave: 'pairPNFull' }), 2000, DT);
+        R.two = { offR: base.r, pnR: on.r, fullR: full.r, fullClamp: full.wClamp, pnClamp: on.wClamp,
+          fullE: full.wE, pnE: on.wE, fullNaN: full.nan,
+          fullDev: Math.abs(full.r - base.r) / base.r, pnDev: Math.abs(on.r - base.r) / base.r };
+      }
+      const dA = run(mk({ weave: 'pairPN' }), 400, DT), dB = run(mk({ weave: 'pairPN' }), 400, DT);
+      R.det = dA.st.every((z, i) => Object.is(z, dB.st[i]));
+      R.gates = [HP.validatePreset(mk({ weave: 'pairXX' })).ok, HP.validatePreset(mk({ weave: 'PN' })).ok]
+        .every((z) => z === false);
+      R.accept = [HP.validatePreset(mk({ weave: 'pairPN' })).ok, HP.validatePreset(mk({ weave: 'pairPNFull' })).ok]
+        .every((z) => z === true);
+      return R;
+    }, FAST);
+    const fxp = (x) => Number(x).toExponential(4);
+    const p1 = pn.norm.sigSame && pn.norm.stSame && pn.norm.flagOff && pn.norm.flagOn && pn.norm.noKeyInSig;
+    const p2 = pn.band.pairStop === 'geoPN' && pn.band.pairBit && pn.band.pnStop === 'geoPN' && pn.band.pnBit;
+    const p3 = Math.abs(pn.chiZero.wE) < 1e-6 && pn.chiZero.maxDiff < 1e-9;
+    const p4 = Math.abs(pn.ledger.closePx) < 1e-6 && Math.abs(pn.ledger.closePy) < 1e-6
+      && Math.abs(pn.ledger.closeL) / pn.ledger.Labs < 1e-9 && !pn.ledger.nan && pn.ledger.clamp === 0
+      && pn.ledger.wClamp === 0 && pn.ledger.stop === null && pn.ledger.mode === 'pairPN'
+      && pn.kf0.same && pn.kf0.stop === 'kFrame';
+    const p5 = pn.blend.jumpZero && pn.blend.uExact && pn.blend.dtExact && pn.blend.gradErr < 1e-12
+      && pn.blend.linErr < 1e-12 && pn.blend.gates;
+    const p6 = pn.det && pn.gates && pn.accept
+      && (FAST || (pn.two.fullDev > 0.2 && pn.two.fullClamp > 100 && pn.two.pnClamp === 0
+        && pn.two.pnDev < 0.1 && Math.abs(pn.two.fullE) > 1000 * Math.abs(pn.two.pnE)));
+    add('behavior.pairWeavePN', p1 && p2 && p3 && p4 && p5 && p6,
+      `① **未宣言は 1 bit 不変**: ⚡ の本体署名に spaceMesh が出ない=${pn.norm.noKeyInSig}・weave:"off" を足しても`
+      + `署名=${pn.norm.sigSame}・600 步の状態がビット同一=${pn.norm.stSame}・S.hasPairWeave は未宣言 false/"pairPN" true`
+      + `=${pn.norm.flagOff && pn.norm.flagOn}=${p1} / `
+      + `② **帯の門**: geoPN=2 では **"pair" が停止のまま**(stop="${pn.band.pairStop}"・OFF とビット同一 ${pn.band.pairBit})、`
+      + `geoPN=0 では **"pairPN" が停止**(stop="${pn.band.pnStop}"・ビット同一 ${pn.band.pnBit})=${p2} / `
+      + `③ **χ→0 で OFF へ戻る**(D0pull=10¹²): χ=${fxp(pn.chiZero.chi)}・weave の仕事 ${fxp(pn.chiZero.wE)}・`
+      + `状態差 ${fxp(pn.chiZero.maxDiff)}(|x|≈${pn.chiZero.scale.toFixed(1)})=${p3} / `
+      + `④ **帳簿**: ΔP+リザーバ=(${fxp(pn.ledger.closePx)},${fxp(pn.ledger.closePy)})・`
+      + `ΔL+リザーバ=${fxp(pn.ledger.closeL)}(|L|≈${fxp(pn.ledger.Labs)})・weave の離散仕事 ${fxp(pn.ledger.wE)}・`
+      + `χ=${Number(pn.ledger.wChi).toFixed(8)}・|v−u_pair|=${fxp(pn.ledger.wRel)}・輸送 |Δv|=${fxp(pn.ledger.trDv)}・`
+      + `1PN |Δv|=${fxp(pn.ledger.pnDv)}・NaN=${pn.ledger.nan}・クランプ ${pn.ledger.clamp}/${pn.ledger.wClamp}・`
+      + `kFrame=0 はビット同一 ${pn.kf0.same}(stop="${pn.kf0.stop}")=${p4} / `
+      + `⑤ **∇u・∂ₜu の一括評価の恒等**(HP.dfmMeshWeaveBlend): u_n=u_bg で **(u_n−u_bg)⊗∇χ 項が厳密に 0**`
+      + `=${pn.blend.jumpZero}(u ビット一致 ${pn.blend.uExact}・∂ₜu ビット一致 ${pn.blend.dtExact}・`
+      + `∇u 残差 ${fxp(pn.blend.gradErr)} = χg+(1−χ)g の丸めのみ)・χ の 1 次式 ${fxp(pn.blend.linErr)}・門 ${pn.blend.gates}=${p5} / `
+      + `⑥ **2 案は別物である(否定結果)**: ${FAST ? '(QA_FAST では走行を省略)'
+        : `2000 步後の分離 r は OFF ${pn.two.offR.toFixed(3)} 対 **"pairPN" ${pn.two.pnR.toFixed(3)}`
+        + `(ずれ ${(100 * pn.two.pnDev).toFixed(2)}%・weave クランプ ${pn.two.pnClamp}・外部仕事 ${fxp(pn.two.pnE)})** 対 `
+        + `**"pairPNFull" ${pn.two.fullR.toFixed(2)}(ずれ ${(100 * pn.two.fullDev).toFixed(1)}%・weave クランプ `
+        + `${pn.two.fullClamp}・外部仕事 ${fxp(pn.two.fullE)})** —— フレームそのものの代入は頂点で ∂ₜu_pair≈χaᵢ の`
+        + `自己項が残り、**第254便a の慣性退化・第255便a の "pairFull" と同じ形で連星を壊す**`}・`
+      + `決定性=${pn.det}・門=${pn.gates}・受理=${pn.accept}=${p6}`);
+  } else {
+    console.log('SKIP behavior.pairWeavePN(対象に第256便a の weave:"pairPN" なし — root 等)');
+  }
+}
 // ---- 第255便a(第47報・ChatGPT §8.1): behavior.meshRotorExchange — 有限の回転子交換 ----
 //   純関数 HP.dfmMeshRotorExchange だけを叩く軽量ブロック(QA_FAST でも走る)。固定するのは 6 項目:
 //     ① **L+J が厳密に保存**(1 步でも 2 万步の積み上げでも)
@@ -13293,6 +13433,22 @@ if (!FAST) {
       R.rev = HP.dfmMeshRotorExchange({ L: 2, J: 20, Iorb: 4, Imesh: 2, gamma: 0.3, dt: 0.5 });
       R.g0 = HP.dfmMeshRotorExchange({ L: 10, J: 0, Iorb: 4, Imesh: 2, gamma: 0, dt: 0.5 });
       R.tiny = HP.dfmMeshRotorExchange({ L: 10, J: 0, Iorb: 4, Imesh: 1e-12, gamma: 0.3, dt: 0.5 });
+      // 第256便a(ChatGPT 気付き 4): h<0 は Q<0 を返すので **dt<0 は null**(前進専用)
+      R.fwd = { neg: [HP.dfmMeshRotorExchange({ L: 10, J: 0, Iorb: 4, Imesh: 2, gamma: 0.3, dt: -0.5 }),
+        HP.dfmMeshRotorExchange({ L: 10, J: 0, Iorb: 4, Imesh: 2, gamma: 0.3, dt: -1e-9 })].every((z) => z === null),
+        zero: HP.dfmMeshRotorExchange({ L: 10, J: 0, Iorb: 4, Imesh: 2, gamma: 0.3, dt: 0 }) };
+      // 第256便a(O2): 宣言の読み替え HP.dfmMeshRotorDesign(往復が恒等)
+      if (typeof HP.dfmMeshRotorDesign === 'function') {
+        const d = HP.dfmMeshRotorDesign({ beta: 0.25, tauSync: 40, mu: 100, rRef: 20, omegaRatio: 0.5, omegaOrb: 0.02 });
+        const inv = HP.dfmMeshRotorDesign({ Imesh: d.Imesh, gamma: d.gamma, Iref: d.Iref });
+        R.design = { d, inv, dBeta: Math.abs(inv.beta - 0.25), dTau: Math.abs(inv.tauSync - 40),
+          IrefOK: d.Iref === 100 * 400, IredOK: Math.abs(d.Ired - d.Iref * d.Imesh / (d.Iref + d.Imesh)) < 1e-9,
+          gammaOK: Math.abs(d.gamma - d.Ired / 40) < 1e-9, J0OK: Math.abs(d.J0 - 0.5 * 0.02 * d.Imesh) < 1e-9,
+          resOK: d.reservoir.Imesh === d.Imesh && d.reservoir.gamma === d.gamma,
+          gates: [HP.dfmMeshRotorDesign(null), HP.dfmMeshRotorDesign({ beta: 0, tauSync: 1, Iref: 1 }),
+            HP.dfmMeshRotorDesign({ beta: 1, tauSync: 0, Iref: 1 }), HP.dfmMeshRotorDesign({ beta: 1, tauSync: 1 }),
+            HP.dfmMeshRotorDesign({ beta: 1, tauSync: 1, mu: -1, rRef: 1 })].every((z) => z === null) };
+      } else R.design = null;
       R.gates = [HP.dfmMeshRotorExchange(null),
         HP.dfmMeshRotorExchange({ L: 1, J: 0, Iorb: 0, Imesh: 1, gamma: 1, dt: 1 }),
         HP.dfmMeshRotorExchange({ L: 1, J: 0, Iorb: 1, Imesh: 0, gamma: 1, dt: 1 }),
@@ -13309,7 +13465,10 @@ if (!FAST) {
     const r5 = Math.max(...rt.steps.map((z) => Math.abs(z - rt.steps[0]))) < 1e-9
       && Math.abs(rt.tiny.dL) < 1e-9;
     const r6 = rt.gates.every((z) => z);
-    add('behavior.meshRotorExchange', r1 && r2 && r3 && r4 && r5 && r6,
+    const r7 = rt.fwd.neg && rt.fwd.zero !== null && rt.fwd.zero.dL === 0 && rt.fwd.zero.dQ === 0
+      && !!rt.design && rt.design.dBeta < 1e-12 && rt.design.dTau < 1e-9 && rt.design.IrefOK
+      && rt.design.IredOK && rt.design.gammaOK && rt.design.J0OK && rt.design.resOK && rt.design.gates;
+    add('behavior.meshRotorExchange', r1 && r2 && r3 && r4 && r5 && r6 && r7,
       `① **L+J 厳密保存**: 1 步の残差 ${fxr(rt.one.momentumResidual)}・2 万步で ${fxr(rt.march.dSum)}=${r1} / `
       + `② **E=L²/2I_o+J²/2I_m+Q 保存**: 1 步 ${fxr(rt.one.energyResidual)}・2 万步 ${fxr(rt.march.dE)}=${r2} / `
       + `③ **Q≥0**(${fxr(rt.one.dQ)}/${fxr(rt.rev.dQ)}/${rt.sync.dQ})=${r3} / `
@@ -13318,7 +13477,12 @@ if (!FAST) {
       + `(${fxr(rt.march.omega)} 対 ${fxr(rt.march.Omega)})=${r4} / `
       + `⑤ **指数の厳密更新**: h=10⁻³/10⁻²/10⁻¹ で終状態 L=${rt.steps.map((z) => z.toFixed(9)).join('/')}・`
       + `**I_m→0 で交換が 0 へ落ちる**(dL=${fxr(rt.tiny.dL)} —— 退化を隠さない)=${r5} / `
-      + `⑥ 門=${r6}。**Q は「熱」であって重力波放出ではない**(外向き流束・伝播・波形の写像が無い)`);
+      + `⑥ 門=${r6} / `
+      + `⑦ **前進専用**(第256便a): dt<0 は null=${rt.fwd.neg}・dt=0 は dL=${rt.fwd.zero.dL}・dQ=${rt.fwd.zero.dQ}`
+      + `(h<0 だと Q<0 になるので門で止める) / **宣言の読み替え** HP.dfmMeshRotorDesign: `
+      + `β=0.25・τ_sync=40・I_ref=μr²=${rt.design.d.Iref} → I_m=${rt.design.d.Imesh}・γ=${rt.design.d.gamma}`
+      + `・I_red=${rt.design.d.Ired}・J₀=${rt.design.d.J0}、**往復残差 β ${fxr(rt.design.dBeta)}・τ ${fxr(rt.design.dTau)}**・`
+      + `門=${rt.design.gates}=${r7}。**Q は「熱」であって重力波放出ではない**(外向き流束・伝播・波形の写像が無い)`);
   } else {
     console.log('SKIP behavior.meshRotorExchange(対象に第255便a の HP.dfmMeshRotorExchange なし — root 等)');
   }
