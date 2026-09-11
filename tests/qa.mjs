@@ -17955,7 +17955,7 @@ if (!FAST) {
       // (a) 定数と検査器の同値性(下限ちょうどは通る・下限未満は落ちる)
       if (HP.OBS_M_MIN !== 1e-6) bad.push('OBS_M_MIN が 1e-6 でない: ' + HP.OBS_M_MIN);
       if (HP.OBS_R_MIN !== 0.01) bad.push('OBS_R_MIN が 0.01 でない: ' + HP.OBS_R_MIN);
-      const P0 = () => ({ bodies: [{ m: 1, radius: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0 },
+      const P0 = () => ({ bodies: [{ m: 1, radius: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false },
         { m: HP.OBS_M_MIN, radius: HP.OBS_R_MIN, x: 50, y: 0, vx: 0, vy: 0, spin: 0 }], camera: { scale: 100 } });
       if (HP.obsRangeCheck(P0()).length) bad.push('値域下限ちょうどが obsRangeCheck に落ちる');
       const pm = P0(); pm.bodies[1].m = HP.OBS_M_MIN * 0.99;
@@ -24095,8 +24095,12 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       // 再タップで閉じる。内容は既存文言からの転記なので「宣言側の文字列を含むか」で機械判定する
       // (グループ=実在するグループ名/スケール=全ティア名/分類=sampleClass チップ名/E水準=件数)。
       // 見出しボタンはチップとは別要素なので、チップの選択状態が変わらないことも併せて見る
+      // 第255便c: グループは絞り込みの次元ではなくなった(一覧の見出しとして残る)ので、
+      // 説明の開閉ボタンの id が ppDimGroupBtn → ppGroupNoteBtn へ変わった。**判定は弱めず**、
+      // 世代でどちらの id を見るかだけを切り替える(root 等の旧世代は従来どおり検査される)
+      const grpBtnId = document.querySelector('#ppGroupNoteBtn') ? 'ppGroupNoteBtn' : 'ppDimGroupBtn';
       const NOTES = [
-        ['ppDimGroupBtn', 'ppGroupNote', HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'))
+        [grpBtnId, 'ppGroupNote', HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'))
           .map((p) => p.group).filter((g, i, a) => g && a.indexOf(g) === i)],
         ['ppDimScaleBtn', 'ppScaleNote', HP.SCALE_TIERS.map((t) => HP.T('scaleName_' + t))],
         ['ppDimClassBtn', 'ppClassNote', ['principle', 'composite', 'calibration', 'semantic']
@@ -24104,7 +24108,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         ['ppDimEBtn', 'ppENote', [String(nDecl)]],
       ];
       const noteRows = [];
-      const w149Gen = !!document.querySelector('#ppDimGroupBtn');
+      const w149Gen = !!document.querySelector('#ppDimGroupBtn') || !!document.querySelector('#ppGroupNoteBtn');
       if (w149Gen) for (const [bid, nid, needles] of NOTES) {
         const b = document.querySelector('#' + bid), d = document.querySelector('#' + nid);
         if (!b || !d) { noteRows.push({ id: nid, ok: false, why: 'missing' }); continue; }
@@ -26595,6 +26599,32 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         cb.checked = !was; cb.dispatchEvent(new Event('change'));
         out.monPersist = (localStorage.getItem('hp_monitor') === (cb.checked ? '1' : '0')) && HP.monitorNow() === cb.checked;
         cb.checked = was; cb.dispatchEvent(new Event('change')); }
+      // 第255便c(N7a): 永続の**方式**が camFollow 方式か —— サンプルの overlays.monitor 宣言は
+      // hp_monitor を上書きしない。判定は 3 点:
+      //   (a) 一度も触っていない(hp_monitor 未保存)なら宣言サンプルで ON・非宣言サンプルで OFF
+      //   (b) OFF を選んだ後は、宣言サンプルを読み込んでも OFF のまま(保存値が常に勝つ)
+      //   (c) サンプルの読込で hp_monitor が書き換わらない
+      if (typeof applyPresetMonitor === 'function') {
+        const declId = (HP.allPresets().find((p) => p.overlays && p.overlays.monitor === true) || {}).id || null;
+        const plainId = (HP.allPresets().find((p) => !(p.overlays && p.overlays.monitor))
+          || {}).id || 'lensing';
+        out.monDecl = declId; out.monPlain = plainId;
+        if (declId) {
+          try { localStorage.removeItem('hp_monitor'); } catch (_) {}
+          monitorTouched = false; monitorOn = false;
+          HP.loadPreset(declId, false); const a1 = HP.monitorNow();
+          let st1 = null; try { st1 = localStorage.getItem('hp_monitor'); } catch (_) {}
+          HP.loadPreset(plainId, false); const a2 = HP.monitorNow();
+          HP.setMonitor(false);                         // ユーザーが明示 OFF
+          HP.loadPreset(declId, false); const a3 = HP.monitorNow();
+          let st3 = null; try { st3 = localStorage.getItem('hp_monitor'); } catch (_) {}
+          HP.setMonitor(true);
+          HP.loadPreset(plainId, false); const a4 = HP.monitorNow();
+          out.monFollow = { a1, st1, a2, a3, st3, a4 };
+          out.monFollowOk = a1 === true && st1 === null && a2 === false
+            && a3 === false && st3 === '0' && a4 === true;
+        } else { out.monFollowOk = true; out.monFollow = 'no-declaring-sample'; }
+      } else { out.monFollowOk = true; out.monFollow = 'pre-255c'; }
       // ④ 「光線」トグル+λ0 が 1 行(「線の軌跡」+trailLife と同じ構造)
       const rng = document.querySelector('#rayLambda0Range'), inp = document.querySelector('#rayLambda0In');
       const rRow = rng && rng.closest('.prow');
@@ -26663,6 +26693,17 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
           && document.querySelector('#scaleBaseSel').value === id; });
       // 一意性: どの2行も (L,T,M) が重複しない(matchBase が曖昧にならない)
       out.baseUnique = new Set(SCALE_BASES.map((b) => `${b.L}/${b.T}/${b.M}`)).size === SCALE_BASES.length;
+      // 第255便c(N7b): 名称は**三つ組表記**(距離/時間/質量)へ統一 —— 表示名も一意になる
+      // (第254便c までは「惑星・標準(e8)」と「惑星(e8)」が同じ括弧で区別できなかった)
+      if (typeof scaleBaseName === 'function') {
+        out.baseAllNames = [...sel.options].slice(1).map((z) => z.textContent);
+        out.baseTripleOk = SCALE_BASES.every((bb) => {
+          const opt = [...sel.options].find((z) => z.value === bb.id);
+          return opt && opt.textContent.includes(`(e${bb.L}/e${bb.T}/e${bb.M})`);
+        });
+        out.baseNameUnique = new Set(out.baseAllNames).size === out.baseAllNames.length;
+        out.baseNoOldSuffix = !out.baseAllNames.some((z) => /\(e-?[\d.]+\)$/.test(z));
+      } else { out.baseTripleOk = true; out.baseNameUnique = true; out.baseNoOldSuffix = true; out.baseAllNames = []; }
       HP.setScaleExps(null);
       HP.loadPreset('lensing', false);
       try { if (keepMon === null) localStorage.removeItem('hp_monitor'); else localStorage.setItem('hp_monitor', keepMon); } catch (_) {}
@@ -26673,21 +26714,280 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       && r.raysOneRow && r.trailSameShape && r.lamDefault && r.lamWide && r.lamSlider
       && r.dispMagInDisp && r.dispMagCat === 'disp' && r.enDiffers && r.enDispHasMag
       && r.flippedAll && r.keptOnReset && r.backOnDefaults
-      && r.baseHasNew && r.baseSetOk && r.baseUnique && lpErr.length === 0;
+      && r.baseHasNew && r.baseSetOk && r.baseUnique
+      && r.monFollowOk && r.baseTripleOk && r.baseNameUnique && r.baseNoOldSuffix && lpErr.length === 0;
     add('ui.paramTabLayout', ok,
       `①順=[${r.cats.join('>')}]・時空>引きずり>スピン熱=${r.catOrder} / ` +
       `②ステップ診断+物理ベンチ=シミュレーション(${r.diagInSim}・共通設定に無し=${r.diagNotCommon}) / ` +
-      `③保存量モニタ=共通設定(${r.monInCommon})・hp_monitor 永続=${r.monPersist} / ` +
+      `③保存量モニタ=共通設定(${r.monInCommon})・hp_monitor 永続=${r.monPersist}・` +
+      `第255便c camFollow 方式=${r.monFollowOk}(${JSON.stringify(r.monFollow)}) / ` +
       `④光線+λ0 が1行=${r.raysOneRow}(線の軌跡と別行=${r.trailSameShape}・既定580/380〜780/5nm=${r.lamDefault}・` +
       `直値1200受理=${r.lamWide}・スライダー650=${r.lamSlider}) / ` +
       `⑤粒子表示倍率=表示カテゴリ(${r.dispMagInDisp}・cat=${r.dispMagCat}) / ⑥英訳="${r.dispMagEn}"(ja と別=${r.enDiffers}・EN Display 内=${r.enDispHasMag}) / ` +
       `⑦既定[${JSON.stringify(r.presetDefaults)}]→反転=${r.flippedAll}→⏮保持=${r.keptOnReset}(dispMag=${r.afterReset.dispMag})→既定値に戻す=${r.backOnDefaults}(dispMag=${r.afterDefaults.dispMag}) / ` +
-      `⑧ベース選択肢=${r.baseOptCount}(追加6件=${r.baseHasNew}・一括設定=${r.baseSetOk}・指数一意=${r.baseUnique}) [${r.baseNames.join(' / ')}]` +
+      `⑧ベース選択肢=${r.baseOptCount}(追加6件=${r.baseHasNew}・一括設定=${r.baseSetOk}・指数一意=${r.baseUnique}) [${r.baseNames.join(' / ')}]・` +
+      `第255便c 三つ組表記=${r.baseTripleOk}(名称一意=${r.baseNameUnique}・旧単一指数表記なし=${r.baseNoOldSuffix})` +
       (lpErr.length ? ` / pageErrors=[${lpErr.slice(0, 2).join(' | ')}]` : ''));
   } else {
     console.log('SKIP ui.paramTabLayout(対象に第254便c のパラメータタブ整理なし — root 等)');
   }
   await lp.close();
+}
+
+// ---- 第255便c(第47報「空間線」): ui.spaceLines ----
+// 原仮定者: 「表示は、『光線』の表示を参考に、主要天体から基準となる方向に『空間線』を複数本
+// 飛ばして描画する方法を検討する」「連星での中間地点の表示は、重心地点に変える」「処理を軽くする」。
+// 機械固定するのは 7 点: ①ODE の解析解一致(剛体回転 Ω=0.2・c_line=1・τ=1 → (0.9800666,0.1986693))
+// ②既定モード = lines(🫂🪟 の宣言・未宣言サンプルの既定・受理値は 3 種で値域を 1 形に潰さない)
+// ③本数の品質縮退(exact > lite)と門(原点 ≤4・方向 ≤16・区間 ≤128)④キャッシュ(同じ状態では
+// 作り直さない・状態が変わっても間隔の下限で間引く・無効化で作り直す)⑤A/B 分割ビューでも描く
+// ⑥重心マーカー(不等質量では中点と**別の場所**・等質量では一致)⑦**力学ビット不変**
+// (空間線の ON/OFF・再構築を挟んでも 600 步の状態が 1 bit 同一)。
+{
+  const sp = await browser.newPage();
+  const spErr = [];
+  sp.on('pageerror', (e) => spErr.push(String(e.message || e)));
+  await sp.goto(INDEX, { waitUntil: 'load' });
+  await sp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const hasSL = await sp.evaluate(() => !!(window.HP && typeof HP.dfmSpaceLineTrace === 'function'));
+  if (hasSL) {
+    const r = await sp.evaluate(() => {
+      const out = {};
+      // ① ODE: 剛体回転の解析解 x(τ)=c τ (cos Ωτ, sin Ωτ)
+      const Om = 0.2;
+      const rot = (x, y) => [-Om * y, Om * x, 0, -Om, Om, 0, 1];
+      const exact = [Math.cos(Om), Math.sin(Om)];
+      const conv = {};
+      for (const N of [8, 32, 64, 128]) {
+        const l = HP.dfmSpaceLineTrace(rot, 0, 0, 1, 0, 1, 1, N);
+        conv[N] = { end: [l.pts[2 * l.n - 2], l.pts[2 * l.n - 1]],
+          err: Math.hypot(l.pts[2 * l.n - 2] - exact[0], l.pts[2 * l.n - 1] - exact[1]) };
+      }
+      out.exact = exact; out.conv = conv;
+      out.odeOk = conv[64].err < 1e-5 && conv[128].err < conv[64].err
+        && conv[64].err < conv[32].err && conv[32].err < conv[8].err;
+      // 2 次収束(区間を半分にすると誤差は約 1/4)
+      out.order = Math.log2(conv[32].err / conv[128].err) / 2;
+      // 無流・無勾配は直線(始点 (3,−2)・ê=(0,1)・c=2・τ=5 → (3,8))
+      const z = HP.dfmSpaceLineTrace(() => [0, 0, 0, 0, 0, 0, 1], 3, -2, 0, 1, 2, 5, 64);
+      out.straight = [z.pts[2 * z.n - 2], z.pts[2 * z.n - 1]];
+      out.straightOk = Math.abs(out.straight[0] - 3) < 1e-12 && Math.abs(out.straight[1] - 8) < 1e-12;
+      // 場が読めなくなったら**そこで止める**(黙って伸ばさない)
+      let k = 0;
+      const st = HP.dfmSpaceLineTrace(() => (k++ < 10 ? [0, 0, 0, 0, 0, 0, 1] : false), 0, 0, 1, 0, 1, 1, 64);
+      out.stopOk = st.n < 65 && st.full === false;
+      // ② 受理値は 3 種・値域を 1 形へ潰さない / 🫂🪟 の宣言は "lines"
+      const mk = (m) => ({ name: 'x', description: 'd', emoji: '🕸', bodies: [{ type: 'single', m: 1, radius: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }],
+        camera: { scale: 100 }, world: { boundary: 'none', size: 0 },
+    overlays: { spaceMesh: true, spaceMeshMode: m } });
+      out.accept = ['lines', 'guide', 'transport'].map((m) => {
+        const v = HP.validatePreset(mk(m)); return v.ok ? v.preset.overlays.spaceMeshMode : null; });
+      out.rejects = ['tracer', 'rays', ''].map((m) => {
+        const v = HP.validatePreset(mk(m)); return v.ok ? (v.preset.overlays.spaceMeshMode === undefined) : false; });
+      const decl = (id) => { const p = HP.allPresets().find((z) => z.id === id);
+        return HP.validatePreset(JSON.parse(JSON.stringify(p))).preset.overlays; };
+      out.boxMode = decl('boxBinaryToy').spaceMeshMode;
+      out.winMode = decl('spaceMeshBinaryToy').spaceMeshMode;
+      out.galOv = JSON.stringify(decl('galaxyMeshSpiral').spaceMesh);
+      // ③ 品質縮退と門
+      HP.loadPreset('spaceMeshBinaryToy', false);
+      const S = HP.sim, C = HP.spaceLineConst();
+      out.const = C;
+      const cnt = {};
+      for (const q of ['exact', 'auto', 'lite']) { HP.setQuality(q);
+        HP.spaceLineInvalidate(S); HP.spaceLineEnsure(S);
+        const s = HP.spaceLineNow(S);
+        cnt[q] = { lines: s.lines, seg: s.seg, pts: s.pts, kind: s.kind, ms: s.ms, every: s.every }; }
+      HP.setQuality('exact');
+      out.cnt = cnt;
+      out.degradeOk = cnt.exact.lines > cnt.lite.lines && cnt.lite.lines >= 2
+        && cnt.exact.lines <= C.maxOrg * C.maxDir && cnt.exact.seg <= 128;
+      // 銀河は中心天体 1 原点・区間数は半分(実測で決めた軽量化)
+      HP.loadPreset('galaxyMeshSpiral', false);
+      HP.spaceLineInvalidate(HP.sim); HP.spaceLineEnsure(HP.sim);
+      const gs = HP.spaceLineNow(HP.sim);
+      out.gal = { kind: gs.kind, lines: gs.lines, seg: gs.seg, every: gs.every, ms: gs.ms };
+      out.galOk = gs.kind === 'galaxy' && gs.seg === C.segGal && gs.lines <= C.maxDir
+        && gs.every >= C.ms && gs.every <= C.msMax;
+      // ④ キャッシュ: 同じ状態では作り直さない / 無効化で作り直す
+      HP.loadPreset('spaceMeshBinaryToy', false);
+      const S2 = HP.sim;
+      HP.spaceLineInvalidate(S2); HP.spaceLineEnsure(S2);
+      const b0 = HP.spaceLineNow(S2).builds;
+      for (let i = 0; i < 50; i++) HP.spaceLineEnsure(S2);
+      const b1 = HP.spaceLineNow(S2).builds;
+      for (let i = 0; i < 20; i++) S2.step(0.016);
+      HP.spaceLineEnsure(S2);
+      const b2 = HP.spaceLineNow(S2).builds;        // 下限間隔の内側なので増えない
+      HP.spaceLineInvalidate(S2); HP.spaceLineEnsure(S2);
+      const b3 = HP.spaceLineNow(S2).builds;
+      out.cache = { b0, b1, b2, b3 };
+      out.cacheOk = b1 === b0 && b2 === b0 && b3 === b0 + 1;
+      // ⑦ 力学ビット不変: 空間線を描いても 600 步の状態が 1 bit 同一
+      const hash = (T) => { let a = 0x811c9dc5;
+        const buf = new ArrayBuffer(8), f = new Float64Array(buf), u = new Uint8Array(buf);
+        const push = (v) => { f[0] = v; for (let b = 0; b < 8; b++) { a ^= u[b]; a = Math.imul(a, 0x01000193) >>> 0; } };
+        for (const k2 of ['x', 'y', 'vx', 'vy', 'spin']) for (let i = 0; i < T.n; i++) push(T[k2][i]);
+        push(T.t); return a.toString(16); };
+      const run = (draw) => { HP.loadPreset('spaceMeshBinaryToy', false);
+        const T = HP.sim;
+        for (let i = 0; i < 600; i++) { T.step(0.016);
+          if (draw && (i % 7) === 0) { HP.spaceLineInvalidate(T); HP.spaceLineEnsure(T); } }
+        return hash(T) + '|' + T.spaceMeshWorkE + '|' + T.hasNaN(); };
+      out.bitDraw = run(true); out.bitNoDraw = run(false);
+      out.bitOk = out.bitDraw === out.bitNoDraw;
+      // ⑥ 重心マーカー: 不等質量では中点と別の場所・等質量では一致
+      const bary = (bodies) => { const p = { name: 'qa bary', description: 'd', emoji: '🕸', bodies,
+          camera: { scale: 100 }, world: { boundary: 'none', size: 0 }, overlays: {} };
+        const v = HP.validatePreset(p); HP.sim.build(v.preset);
+        const b = HP.barycentreOf(HP.sim, [0, 1]);
+        const mid = [(HP.sim.x[0] + HP.sim.x[1]) / 2, (HP.sim.y[0] + HP.sim.y[1]) / 2];
+        return { b, mid, gap: Math.hypot(b[0] - mid[0], b[1] - mid[1]) }; };
+      out.baryEq = bary([{ type: 'single', m: 10, radius: 1, x: -50, y: 0, vx: 0, vy: 0, spin: 0, pinned: false },
+        { type: 'single', m: 10, radius: 1, x: 50, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }]);
+      out.baryUn = bary([{ type: 'single', m: 30, radius: 1, x: -50, y: 0, vx: 0, vy: 0, spin: 0, pinned: false },
+        { type: 'single', m: 10, radius: 1, x: 50, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }]);
+      out.baryOk = out.baryEq.gap < 1e-12 && out.baryUn.gap > 1
+        && Math.abs(out.baryUn.b[0] - (-25)) < 1e-9;
+      return out;
+    });
+    // ⑤ A/B 分割ビューでも同じ入口を通る(drawSpaceMeshOn — ソース検査ではなく実呼び出しで見る)
+    const ab = await sp.evaluate(() => new Promise((res) => {
+      HP.loadPreset('spaceMeshBinaryToy', false);
+      document.getElementById('btnAB').click();
+      setTimeout(() => {
+        const o = {};
+        HP.spaceLineInvalidate(HP.sim);
+        if (ab && ab.simB) HP.spaceLineInvalidate(ab.simB);
+        renderAB();   // A/B 中の描画入口は renderAB()(render() は単独表示の経路)
+        o.a = HP.spaceLineNow(HP.sim) ? HP.spaceLineNow(HP.sim).lines : 0;
+        o.b = (ab && ab.simB && HP.spaceLineNow(ab.simB)) ? HP.spaceLineNow(ab.simB).lines : 0;
+        o.sep = !!(ab && ab.simB && HP.sim._slCache !== ab.simB._slCache);
+        abStop();
+        res(o);
+      }, 120);
+    }));
+    const ok = r.odeOk && r.straightOk && r.stopOk
+      && r.accept.join(',') === 'lines,guide,transport' && r.rejects.every((z) => z === true)
+      && r.boxMode === 'lines' && r.winMode === 'lines' && r.galOv === '{"mode":"tracer"}'
+      && r.degradeOk && r.galOk && r.cacheOk && r.bitOk && r.baryOk
+      && ab.a > 0 && ab.b > 0 && ab.sep && spErr.length === 0;
+    add('ui.spaceLines', ok,
+      `①ODE 中点法 vs 解析解(剛体回転 Ω=0.2・c_line=1・τ=1): N=64 で誤差 ${r.conv[64].err.toExponential(3)}・` +
+      `N=128 で ${r.conv[128].err.toExponential(3)}(収束次数 ${r.order.toFixed(2)}・終点 ${r.conv[64].end.map((v) => v.toFixed(7)).join(', ')} vs 厳密 ${r.exact.map((v) => v.toFixed(7)).join(', ')})=${r.odeOk} / ` +
+      `無流は直線 [${r.straight.join(', ')}]=${r.straightOk}・場が読めない点で停止=${r.stopOk} / ` +
+      `②受理値=[${r.accept.join('|')}](不正値は鍵を足さない=${r.rejects.every((z) => z === true)})・🫂=${r.boxMode}・🪟=${r.winMode}・🎠=${r.galOv} / ` +
+      `③品質縮退 exact ${r.cnt.exact.lines}本×${r.cnt.exact.seg} → auto ${r.cnt.auto.lines} → lite ${r.cnt.lite.lines}(門 原点≤${r.const.maxOrg}・方向≤${r.const.maxDir}・区間≤128)=${r.degradeOk}・` +
+      `銀河 ${r.gal.lines}本×${r.gal.seg}区間・再構築 ${r.gal.ms.toFixed(1)}ms → 間隔 ${Math.round(r.gal.every)}ms(duty ${(100 * r.const.duty).toFixed(0)}%)=${r.galOk} / ` +
+      `④キャッシュ builds ${r.cache.b0}→(50 回描画)${r.cache.b1}→(20 步+描画)${r.cache.b2}→(無効化)${r.cache.b3}=${r.cacheOk} / ` +
+      `⑤A/B 分割ビュー A=${ab.a}本・B=${ab.b}本(キャッシュ独立=${ab.sep}) / ` +
+      `⑥重心マーカー: 等質量 gap=${r.baryEq.gap}・不等質量(30:10)重心 x=${r.baryUn.b[0]} 対 中点 ${r.baryUn.mid[0]}=${r.baryOk} / ` +
+      `⑦力学ビット不変(600 步・描画あり/なし)=${r.bitOk}(${r.bitDraw})` +
+      (spErr.length ? ` / pageErrors=[${spErr.slice(0, 2).join(' | ')}]` : ''));
+  } else {
+    console.log('SKIP ui.spaceLines(対象に第255便c の空間線なし — root 等)');
+  }
+  await sp.close();
+}
+
+// ---- 第255便c(第47報「サンプルを選ぶ」UI 2 件): ui.samplePicker ----
+// 原仮定者: 「絞り込みで、グループの絞り込みを無くす」「サンプル一覧は、グループ毎に畳んだ状態に
+// する」。機械固定: ①絞り込みの次元が スケール/分類/E水準 の 3 つで、グループのチップが 1 つも
+// 無い ②一覧の見出しは残り、既定は**畳んだ状態**(いま読み込んでいるサンプルのグループだけ開く)
+// ③見出しタップで開閉し hp_pick_open に永続する ④検索・属性絞り込み中は一致があるグループが
+// 自動で開き、絞り込みを解くと永続側の状態へ戻る ⑤「すべて表示」との整合(行の増減が見える)。
+{
+  const pk = await browser.newPage();
+  const pkErr = [];
+  pk.on('pageerror', (e) => pkErr.push(String(e.message || e)));
+  await pk.goto(INDEX, { waitUntil: 'load' });
+  await pk.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const hasSP = await pk.evaluate(() => !!(window.HP && typeof ppIsOpen === 'function'
+    && document.querySelector('#btnPresetPick')));
+  if (hasSP) {
+    const r = await pk.evaluate(() => {
+      const o = {};
+      try { localStorage.removeItem('hp_pick_open'); } catch (_) {}
+      ppOpen = {}; ppOpenTmp = {}; ppFilterSig = null; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all';
+      setShowAllSamples(false);
+      HP.loadPreset('saturn', false);
+      showPresetPicker();
+      const heads = () => [...document.querySelectorAll('#ppList .ppGroupHead')];
+      const rows = () => [...document.querySelectorAll('#ppList .ppRow')];
+      const shown = () => rows().filter((x) => x.offsetParent !== null).length;
+      // ① グループのチップが無い(次元見出しは スケール/分類/E水準 の 3 つ)
+      const dims = [...document.querySelectorAll('#ppModal .ppChips .ppDim')].map((x) => x.textContent.replace(/\s*ⓘ$/, ''));
+      o.dims = dims;
+      const groupNames = HP.allPresets().map((p) => p.group).filter((g, i, a) => g && a.indexOf(g) === i);
+      const chips = [...document.querySelectorAll('#ppModal .ppChip')].map((c) => c.textContent);
+      o.chips = chips.length;
+      o.noGroupChip = !groupNames.some((g) => chips.includes(g));
+      o.dimCount = dims.filter((d) => [HP.T('ppDimScale'), HP.T('ppDimClass'), HP.T('ppDimE')].includes(d)).length;
+      o.hasGroupDim = dims.includes(HP.T('ppDimGroup'));
+      o.hasGroupNote = !!document.querySelector('#ppGroupNoteBtn') && !!document.querySelector('#ppGroupNote');
+      // ② 既定は畳む — 現在のサンプルのグループだけ開く
+      o.curGroup = HP.currentPreset().group;
+      o.headTexts = heads().map((h) => h.textContent.trim());
+      o.openHeads = heads().filter((h) => h.getAttribute('aria-expanded') === 'true').length;
+      o.openIsCur = heads().filter((h) => h.getAttribute('aria-expanded') === 'true')
+        .every((h) => h.textContent.includes(o.curGroup));
+      o.rowsAll = rows().length; o.rowsShown = shown();
+      o.foldedOk = o.openHeads === 1 && o.openIsCur && o.rowsShown < o.rowsAll && o.rowsShown > 0;
+      // ③ 見出しタップで開閉+永続
+      const h0 = heads()[0];
+      const wasOpen0 = h0.getAttribute('aria-expanded') === 'true';
+      h0.click();
+      o.toggled = heads()[0].getAttribute('aria-expanded') !== String(wasOpen0);
+      o.shownAfterToggle = shown();
+      let persisted = null; try { persisted = localStorage.getItem('hp_pick_open'); } catch (_) {}
+      o.persist = persisted;
+      o.persistOk = !!persisted && JSON.parse(persisted)[o.headTexts[0].replace(/^[▸▾]\s*/, '').replace(/\d+$/, '')] !== undefined;
+      // ウィンドウを開き直しても永続が効く
+      hidePresetPicker(); showPresetPicker();
+      o.reopenOpen = heads()[0].getAttribute('aria-expanded');
+      // ④ 検索で自動展開 → 解除で永続側へ戻る
+      const si = document.querySelector('#ppSearch'); si.value = '水星'; si.dispatchEvent(new Event('input'));
+      o.searchHeads = heads().map((h) => h.textContent.trim());
+      o.searchAllOpen = heads().every((h) => h.getAttribute('aria-expanded') === 'true');
+      o.searchShown = shown(); o.searchAll = rows().length;
+      o.searchOk = o.searchAllOpen && o.searchShown === o.searchAll && o.searchAll > 0;
+      si.value = ''; si.dispatchEvent(new Event('input'));
+      o.backOpen = heads()[0].getAttribute('aria-expanded');
+      o.backOk = o.backOpen === o.reopenOpen;
+      // 属性絞り込み(E0)でも自動展開する
+      const e0 = [...document.querySelectorAll('#ppModal .ppChip')].find((c) => c.textContent === 'E0');
+      e0.click();
+      o.e0AllOpen = heads().every((h) => h.getAttribute('aria-expanded') === 'true');
+      o.e0Shown = shown();
+      [...document.querySelectorAll('#ppModal .ppChip')].find((c) => c.textContent === 'E0').click();
+      // ⑤ 「すべて表示」で行が増える(畳みの状態は保つ)
+      const before = rows().length;
+      const cb = document.querySelector('#ppShowAll'); cb.checked = true; cb.dispatchEvent(new Event('change'));
+      o.showAllRows = rows().length; o.showAllGrew = o.showAllRows > before;
+      o.showAllOpen = heads()[0].getAttribute('aria-expanded');
+      cb.checked = false; cb.dispatchEvent(new Event('change'));
+      hidePresetPicker();
+      try { localStorage.removeItem('hp_pick_open'); } catch (_) {}
+      ppOpen = {};
+      return o;
+    });
+    const ok = r.noGroupChip && !r.hasGroupDim && r.dimCount === 3 && r.hasGroupNote
+      && r.foldedOk && r.toggled && r.persistOk && r.searchOk && r.backOk
+      && r.e0AllOpen && r.showAllGrew && pkErr.length === 0;
+    add('ui.samplePicker', ok,
+      `①絞り込み次元=[${r.dims.join('|')}](グループ次元なし=${!r.hasGroupDim}・グループのチップ 0 件=${r.noGroupChip}・` +
+      `チップ総数 ${r.chips}・グループ説明は残る=${r.hasGroupNote}) / ` +
+      `②既定は畳む: 見出し ${r.headTexts.length} 個中 開 ${r.openHeads}(= 現在のサンプルのグループ「${r.curGroup}」のみ=${r.openIsCur})・` +
+      `行 ${r.rowsShown}/${r.rowsAll} 表示=${r.foldedOk} / ` +
+      `③見出しタップで開閉=${r.toggled}(表示 ${r.shownAfterToggle} 行)・hp_pick_open 永続=${r.persistOk}(${r.persist})・開き直しても維持=${r.reopenOpen} / ` +
+      `④検索「水星」で一致グループが自動展開=${r.searchOk}(${r.searchShown}/${r.searchAll} 行・見出し ${JSON.stringify(r.searchHeads)})・` +
+      `解除で永続側へ復帰=${r.backOk}・E0 絞り込みでも自動展開=${r.e0AllOpen}(${r.e0Shown} 行) / ` +
+      `⑤すべて表示で行が増える=${r.showAllGrew}(${r.showAllRows} 行・畳み状態は保つ=${r.showAllOpen})` +
+      (pkErr.length ? ` / pageErrors=[${pkErr.slice(0, 2).join(' | ')}]` : ''));
+  } else {
+    console.log('SKIP ui.samplePicker(対象に第255便c のサンプル選択 UI なし — root 等)');
+  }
+  await pk.close();
 }
 
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
