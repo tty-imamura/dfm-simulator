@@ -28,9 +28,14 @@
 //   1 サンプルあたりの步数は「実測した步/秒 × 時間予算」で決め、上限 60 公転。
 //   1 公転が予算に収まらない対象は接触要素だけを出し、`method:"osculating"` と記録する。
 //
-// 実行: node tests/exp-w249b-calaudit.mjs [--fast] [--only id1,id2] [--budget 20]
+// 実行: node tests/exp-w249b-calaudit.mjs [--fast] [--only id1,id2] [--budget 20] [--dt3] [--merge]
 //       --fast   … dt/2 段を全部省く
 //       --only   … サンプルを絞る(デバッグ用)
+//       --dt3    … 第255便d(第47報 N8): **dt/4 段を足して 3 段にする**。3 段が揃うと ε_num の定義が
+//                  |Q_h−Q_{h/2}|(感度診断)から **|Q_h−Q_{h/4}|** へ変わり、観測次数
+//                  p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| が `numBoundDecl.order` に入る。
+//                  第253便b の保留条件(3 段+正の次数)を満たした量だけが「数値未解決」から出る。
+//                  時間予算が 3 倍以上になるので、`--only` で系を絞って `--merge` するのが標準。
 // 出力: tests/out/calaudit-w249.json(QA `docs.calaudit-sync` が id 集合と verdict 語彙を照合する)
 import fs from 'node:fs';
 import path from 'node:path';
@@ -44,6 +49,7 @@ const argv = process.argv.slice(2);
 const FAST = argv.includes('--fast');
 const MERGE = argv.includes('--merge');   // --only で一部だけ回して既存 JSON へ差し替える(再判定用)
 const ONLY = (() => { const i = argv.indexOf('--only'); return (i >= 0 && argv[i + 1]) ? argv[i + 1].split(',') : null; })();
+const DT3 = argv.includes('--dt3');       // 第255便d(N8): dt/4 段を足して 3 段+観測次数を出す
 const BUDGET_LIGHT = (() => { const i = argv.indexOf('--budget'); return (i >= 0 && argv[i + 1]) ? Number(argv[i + 1]) : 30; })();
 const BUDGET_HEAVY = BUDGET_LIGHT * 3;
 const ORB_MAX = 60;            // 直接法(近点間・同方向1周)で数える上限公転数
@@ -507,7 +513,12 @@ const out = { meta: {
       + 'どう動くかは測っていない。窓は全系で 20 近点に固定したので系間の比較は揃うが、'
       + '「20 が十分な長さか」は確かめていない。' },
   dtNote: 'dt はアプリ既定 0.016 と、その半分 0.008 の 2 段。dt/2 段は実行時 n≤12 のサンプルだけ'
-    + '(重い環・多体は時間予算に収まらない — 明記)。',
+    + '(重い環・多体は時間予算に収まらない — 明記)。'
+    + (DT3 ? '**第255便d(第47報 N8): 本走行は --dt3 で dt/4=0.004 を足した 3 段**である'
+      + '(--only で絞った系だけ。ε_num=|Q_h−Q_{h/4}|・観測次数 p_obs を実測して numBoundDecl へ入れる)。' : ''),
+  dt3: DT3 ? { on: true, only: ONLY,
+    note: '3 段(dt, dt/2, dt/4)を走らせた系だけ numBoundDecl.steps=3・order=p_obs になる。'
+      + '2 段のままの系の値・文言は第253便b から 1 文字も動いていない。' } : { on: false },
 }, presets: [] };
 
 for (const id of ids) {
@@ -536,6 +547,7 @@ for (const id of ids) {
   const rows = [];
   const levels = [{ dt: DT0, tag: 'dt' }];
   if (!FAST && !heavy) levels.push({ dt: DT0 / 2, tag: 'dt/2' });
+  if (DT3 && !FAST && !heavy) levels.push({ dt: DT0 / 4, tag: 'dt/4' });   // 第255便d(N8)
 
   for (const lv of levels) {
     const rate = await pg.evaluate(({ id, dt }) => window.__w249rate(id, dt), { id, dt: lv.dt });
@@ -591,6 +603,19 @@ const GATE = { OK: '合(3σ)', NG: '否(3σ)', NUM: '数値未解決', NA: '未�
 // より大きい(p=1 で 2 倍・p=2 で 1.33 倍)。旧文言「上限としての宣言」は撤回する。
 // --merge で持ち越した過去分の行にも同じ文言を張り直すため、関数にして 2 か所から使う。
 function numBoundDeclOf(value, steps = 2, order = null) {
+  // 第255便d(第47報 N8): 3 段(dt, dt/2, dt/4)が揃った量だけ、ε_num の定義と文言が変わる。
+  // 2 段のままの量の文言・値は第253便b から 1 文字も変えていない。
+  if (steps >= 3) {
+    return { value, steps, order,
+      basis: 'dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**'
+        + '(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)',
+      orderNote: (Number.isFinite(order) && order > 0)
+        ? `観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = ${order.toFixed(3)} を実測した`
+          + '(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。'
+          + '3 段+正の次数が揃ったので、この量は収束の保留条件を満たす'
+        : '**観測次数が負または測れない**(Q が単調でない)= 収束していない。'
+          + '3 段は走ったが保留条件は満たさない(第253便b の門はこの量を「数値未解決」に留める)' };
+  }
   return { value, steps, order,
     basis: 'dt=0.016 と dt/2=0.008 の同じ検出器の差(**感度診断** — dt/4 は走らせておらず、'
       + '誤差上限は未確認。漸近域でも粗い側の誤差は 2^p/(2^p−1)|Q_h−Q_{h/2}| で、この値より大きい)',
@@ -635,6 +660,7 @@ for (const P of out.presets) {
   const d = P.decl, cfg = P.cfg;
   const base = P.runs.find((r) => r.tag === 'dt') || P.runs[0];
   const half = P.runs.find((r) => r.tag === 'dt/2') || null;
+  const quarter = P.runs.find((r) => r.tag === 'dt/4') || null;   // 第255便d(N8): 3 段目
   const version = (Number(d.physics.kFrame) > 0) ? 'dfm' : 'obs';
   const theory = THEORY_CONTROL.includes(d.id);
   const dep = DEPENDENT[d.id] || [];
@@ -1014,6 +1040,13 @@ for (const P of out.presets) {
     const a = base.targets[base.targets.indexOf(main)] || base.targets[0];
     const b = half.targets[base.targets.indexOf(main)] || half.targets[0];
     const pa = a.revP.length >= 2 ? a.revP[1] * P.toSec : null, pb = b.revP.length >= 2 ? b.revP[1] * P.toSec : null;
+    if (quarter) {
+      const c = quarter.targets[base.targets.indexOf(main)] || quarter.targets[0];
+      notes.push('**dt 3 段(第255便d N8)**: dt/4=0.004 まで走らせた。近点移動 '
+        + ((main.A.slopeDeg !== null && c && c.A.slopeDeg !== null)
+          ? `${main.A.slopeDeg.toExponential(4)} → ${c.A.slopeDeg.toExponential(4)} °/周(h → h/4)` : '窓不足')
+        + ' / ε_num=|Q_h−Q_{h/4}| と観測次数 p_obs は各量の numBoundDecl へ入れた');
+    }
     notes.push('dt 収束(主対象 ' + main.label + '): 周期 '
       + ((pa && pb) ? `${pa.toPrecision(9)} → ${pb.toPrecision(9)} s(${pct(pb, pa).toFixed(4)}%)` : '窓不足')
       + ' / 近点移動 ' + ((a.A.slopeDeg !== null && b.A.slopeDeg !== null)
@@ -1023,6 +1056,7 @@ for (const P of out.presets) {
   // ---- 第250便c: I2 の機械門が使う ε_num(dt 2 段の同じ検出器の差)を各量へ記録する ----------
   // 門そのものは --merge で持ち越した過去分にも掛けるため、**併合の後**に一括で付ける(下記)。
   const halfOf = (t) => (half ? (half.targets[base.targets.indexOf(t)] || null) : null);
+  const quarterOf = (t) => (quarter ? (quarter.targets[base.targets.indexOf(t)] || null) : null);
   const rawMeas = (q, t) => { if (!t) return null;
     // 第251便c: ε_num も**同じ定義**で作る(離心タイミング連星は dt/2 でも近点間)
     if (q.kind === 'period') {
@@ -1049,7 +1083,20 @@ for (const P of out.presets) {
     // それより**小さい**(p=1 なら 2 倍・p=2 なら 1.33 倍の開きがある)。したがって「上限としての宣言」
     // という旧文言を撤回し、**感度診断・上限未確認**と書く。3 段(dt, dt/2, dt/4)と正の実測次数が
     // 揃うまでは、この値を根拠に「数値は収束した」とは言わない(下の門の保留条件を参照)。
-    q.numBoundDecl = (q.numBoundDt2 === null) ? null : numBoundDeclOf(q.numBoundDt2);
+    // 第255便d(第47報 N8): dt/4 段が走っていれば **3 段**にする。ε_num の定義は第252便b ③ と
+    // 同じ |Q_h − Q_{h/4}| へ、観測次数は p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| を実測値として
+    // 入れる(**負でもそのまま入れる** — 門の側が order>0 を要求して落とす)。2 段のままの量は不変。
+    const mQuarter = rawMeas(q, quarterOf(t));
+    if (Number.isFinite(mQuarter) && Number.isFinite(mHalf) && Number.isFinite(q.meas)) {
+      const d1 = q.meas - mHalf, d2 = mHalf - mQuarter;
+      q.numBoundDt3 = Math.abs(q.meas - mQuarter);
+      q.pObs = (d1 !== 0 && d2 !== 0) ? Math.log2(Math.abs(d1 / d2)) : null;
+      q.dtStages = { dt: q.meas, dtHalf: mHalf, dtQuarter: mQuarter };
+      q.numBoundDt2 = q.numBoundDt3;   // 門が読む ε_num を 3 段の定義へ差し替える
+      q.numBoundDecl = numBoundDeclOf(q.numBoundDt3, 3, q.pObs);
+    } else {
+      q.numBoundDecl = (q.numBoundDt2 === null) ? null : numBoundDeclOf(q.numBoundDt2);
+    }
   }
 
   const tally = {}; for (const v of Object.values(VER)) tally[v] = 0;
@@ -1061,7 +1108,8 @@ for (const P of out.presets) {
     run: { n: base.n, dt: base.dt, steps: base.steps, wallSec: base.wallSec,
       orbits: base.targets.map((t) => ({ label: t.label, rev: t.revN, periA: t.A.nPeri, periB: t.B.nPeri })),
       nan: base.nan, clamp: base.clamp, warnings: base.warnings.length,
-      dtHalf: half ? { dt: half.dt, steps: half.steps } : null },
+      dtHalf: half ? { dt: half.dt, steps: half.steps } : null,
+      dtQuarter: quarter ? { dt: quarter.dt, steps: quarter.steps } : null },   // 第255便d(N8)
     correlates, quantities, tally, notes });
 }
 
@@ -1216,7 +1264,10 @@ out.summary = { nPresets: merged.length,
   gate: { rule: '|y_sim−y_obs| ≤ 3σ_obs + ε_num(ε_num ≤ 0.3σ_obs)。**ただし収束の保留条件**(第253便b): '
     + 'dt 3 段(dt, dt/2, dt/4)かつ正の実測次数 order>0 が揃うまで「収束済み」としない —— '
     + 'dt 2 段の差は**感度診断**であって誤差上限ではない(漸近域でも粗い側の誤差は 2^p/(2^p−1)|Q_h−Q_{h/2}|)。'
-    + '本便の走行は 2 段・次数未測定なので、σ を持つ量はすべて「数値未解決」へ保留される',
+    + '第253便b の走行は 2 段・次数未測定なので、σ を持つ量はすべて「数値未解決」へ保留された。'
+    + '**第255便d(第47報 N8)**: NS 4 系(⚡🧮🩺🧶)だけ --dt3 で 3 段を走らせ、観測次数 p_obs を実測した。'
+    + '3 段+正の次数が揃った量は保留を抜け、**3σ の合否がその場で出る**(= 収束の門と観測一致の門が分かれた)。'
+    + '**収束したことは一致したことではない** —— 次数が正でも残差が 3σ+ε_num を超えれば「否(3σ)」になる',
     byStatus: gateStatus, byReason: gateReason,
     withSigma: allQ.filter((q) => (q.gate && Number.isFinite(q.gate.sigma) && q.gate.sigma > 0)).length,
     withSigmaBySource: {

@@ -7936,7 +7936,8 @@ if (!FAST) {
 //     経て、内蔵 📻 とビット一致で再構築する(従来族 L−T=4 の全滅後にのみ rel 族を試す —
 //     既存系は 1 bit 不変。q=3.1789・L6/T1/M27)
 // (e) ⚡ DFM: 質量=📻×解析慣性則(第245便 一次則 f=1.99994・χ² 則 1.99988・share 1.99777)・2周目 ±0.5%(宣言 8819.36 s)・e1 0.087977±0.002・近点 801.37±1%・
-//     近点移動 +0.05〜0.2°/周(順行)・**スピンは保持できない宣言**(±40 飽和・clampSN>0・
+//     近点移動 **窓 20 近点(19 区間)・21.5 公転・検出器 A/B**(第255便d N6b: 4.3 公転・柵なしから作り替え。
+//     窓 0.008〜0.012 は据置・宣言 +0.0095848°/周・A/B 差 <2%・**柵却下(偽検出)0**)・**スピンは保持できない宣言**(±40 飽和・clampSN>0・
 //     帳簿 L 残差<1e-4〔宣言 5.0×10⁻⁶ — クランプ捨て分〕・P 残差<1e-8)・重心機械ゼロ・
 //     否定対照(cmGauge除去→歩行/kF0×f→深い楕円)・決定性
 {
@@ -8230,7 +8231,80 @@ if (!FAST) {
               sinkRes: decOf({ coupleSink: 'reservoir' }, 0.016), noGauge: decOf({}, 0.016, true),
               dtHalf: decOf({}, 0.008) };
           }
-          dfm = { massOk, declOk, w242, p2, e1, rmin1, nan: S.hasNaN(), angSign, dPeri, sMax,
+          // 第255便d(第47報 N6b): **判定に使う近点移動を「最初の 20 近点(19 区間)」窓へ作り替える。**
+          //   第254便d までの走行は 4.3 公転・柵なしの検出器で、同じ宣言でも窓で 1.8% 動いていた
+          //   (PHYSICS〔第254便d〕⑤)。第252便b が全系に入れた窓(20 近点・19 区間・一周に近点 1 つの柵)
+          //   をここでも使い、カード・claims と**同じ窓の同じ数**を機械固定する。窓 0.008〜0.012 は据置。
+          //   柵の参照周期は**実測の同方向周期**から取る(第252便b ⑧ — 観測値を器の柵に使わない)。
+          const peri20 = (() => {
+            const NW = 20, ORB = 21.5, dt2 = 0.016;
+            const vd2 = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
+            const S2 = HP.sim; S2.build(vd2.preset);
+            const steps2 = Math.round(ORB * P_OBS / dt2);
+            const A = [], Bd = [], sid = [];
+            let r2 = 0, r1 = 0, t2b = 0, t1b = 0, rd1 = 0, rmn = Infinity, rmx = -Infinity;
+            let acc2 = 0, accPrev2 = 0, thPrev2 = null, nTurn2 = 0;
+            for (let k = 0; k < steps2; k++) {
+              S2.step(dt2);
+              const dx = S2.x[1] - S2.x[0], dy = S2.y[1] - S2.y[0];
+              const rr = Math.hypot(dx, dy), th = Math.atan2(dy, dx);
+              const dvx = S2.vx[1] - S2.vx[0], dvy = S2.vy[1] - S2.vy[0];
+              const rd = (dx * dvx + dy * dvy) / rr;
+              if (rr < rmn) rmn = rr; if (rr > rmx) rmx = rr;
+              if (thPrev2 !== null) {
+                let d2 = th - thPrev2; while (d2 > Math.PI) d2 -= 2 * Math.PI; while (d2 < -Math.PI) d2 += 2 * Math.PI;
+                accPrev2 = acc2; acc2 += d2;
+                while (Math.abs(acc2) >= (nTurn2 + 1) * 2 * Math.PI) {
+                  const tgt = Math.sign(acc2) * (nTurn2 + 1) * 2 * Math.PI;
+                  const fr = (acc2 !== accPrev2) ? (tgt - accPrev2) / (acc2 - accPrev2) : 0;
+                  sid.push((k - 1 + fr) * dt2); nTurn2++;
+                }
+              }
+              thPrev2 = th;
+              if (k >= 1 && rd1 < 0 && rd >= 0) {                     // 検出器 A(ṙ の −→+ 交差)
+                const fr = (rd !== rd1) ? (-rd1 / (rd - rd1)) : 0;
+                let a1 = t1b, a2 = th; while (a2 - a1 > Math.PI) a2 -= 2 * Math.PI; while (a2 - a1 < -Math.PI) a2 += 2 * Math.PI;
+                A.push({ ang: a1 + fr * (a2 - a1), k: k - 1 + fr, r: rr });
+              }
+              if (k >= 2 && r1 < r2 && r1 < rr) {                     // 検出器 B(距離極小の放物線頂点)
+                const dd = (r2 - 2 * r1 + rr), fr = (dd !== 0) ? 0.5 * (r2 - rr) / dd : 0;
+                let a1 = t2b, a2 = t1b, a3 = th;
+                while (a2 - a1 > Math.PI) a2 -= 2 * Math.PI; while (a2 - a1 < -Math.PI) a2 += 2 * Math.PI;
+                while (a3 - a2 > Math.PI) a3 -= 2 * Math.PI; while (a3 - a2 < -Math.PI) a3 += 2 * Math.PI;
+                Bd.push({ ang: a2 + 0.5 * fr * (a3 - a1) + 0.5 * fr * fr * (a3 - 2 * a2 + a1), k: k - 1 + fr, r: r1 });
+              }
+              r2 = r1; r1 = rr; t2b = t1b; t1b = th; rd1 = rd;
+              if (S2.hasNaN()) break;
+            }
+            const sidMean = sid.length > 1 ? (sid[sid.length - 1] - sid[0]) / (sid.length - 1) : null;
+            const pUse = (sidMean > 0) ? sidMean : P_OBS;
+            const fit = (raw) => {
+              const mid = 0.5 * (rmn + rmx), peri = raw.filter((q) => q.r < mid), keep = [];
+              let dup = 0;
+              for (const q of peri) {
+                if (keep.length && (q.k - keep[keep.length - 1].k) * dt2 < 0.5 * pUse) { dup++; continue; }
+                keep.push(q);
+              }
+              if (keep.length < NW) return { cand: peri.length, dup, found: keep.length, slopeDeg: null, perSec: null };
+              const use = keep.slice(0, NW), ang = [];
+              for (let i = 0; i < use.length; i++) {
+                let a = use[i].ang;
+                if (i) { let z = a - ang[i - 1]; while (z > Math.PI) z -= 2 * Math.PI; while (z < -Math.PI) z += 2 * Math.PI; a = ang[i - 1] + z; }
+                ang.push(a);
+              }
+              const nn = ang.length, mx = (nn - 1) / 2, my = ang.reduce((a, b) => a + b, 0) / nn;
+              let sxy2 = 0, sxx2 = 0;
+              for (let i = 0; i < nn; i++) { sxy2 += (i - mx) * (ang[i] - my); sxx2 += (i - mx) * (i - mx); }
+              return { cand: peri.length, dup, found: keep.length,
+                slopeDeg: (sxy2 / sxx2) * 180 / Math.PI,
+                perSec: (use[NW - 1].k - use[0].k) * dt2 / (NW - 1) * 10 };
+            };
+            const fa = fit(A), fb = fit(Bd);
+            return { nWin: NW, orbits: ORB, A: fa, B: fb,
+              detDiff: (fa.slopeDeg !== null && fb.slopeDeg !== null) ? Math.abs(fa.slopeDeg - fb.slopeDeg) : null,
+              sidPsec: sidMean === null ? null : sidMean * 10, nan: S2.hasNaN() };
+          })();
+          dfm = { massOk, declOk, w242, p2, e1, rmin1, nan: S.hasNaN(), angSign, dPeri, peri20, sMax,
             clampD, lRel, comMax, pRel, negWalk, negWalkMax, negPlunge, rmin2, tRev2,
             decPct, decPct2, decB, negSink, negSinkClampD, ctrl,
             // 第221便: B コア Ω 保持(%)— **宣言値 OM_B 基準**(coreOmV は初回 step 前 0)
@@ -8260,7 +8334,17 @@ if (!FAST) {
       && dm.e1 !== null && Math.abs(dm.e1 - 0.087977) < 0.002   // 第254便d: 0.087976(第245便 一次則の native は 0.087977・χ² 則 0.087949・share 世代 0.087089 も窓内)
       && dm.rmin1 !== null && Math.abs(dm.rmin1 / 801.37 - 1) < 0.01   // 第245便 一次則: 801.37(χ² 則 801.42・share 世代 802.81 も窓内)
       && dm.angSign === 1
-      && dm.dPeri !== null && (dm.w242 ? (dm.dPeri >= 0.008 && dm.dPeri <= 0.012) : (dm.dPeri >= 0.05 && dm.dPeri <= 0.2))   // 第254便d(第46報 M2): 本体が framePrecision:"double" を宣言 → +0.009757°/周(窓 0.008〜0.012 は claim 窓と同値。native の +0.008775 は第253便b まで)
+      // 第255便d(第47報 N6b): **判定は窓 20 近点(19 区間)の値で行う**(カード・claims と同じ窓の同じ数)。
+      // 窓 0.008〜0.012 は据置(claim 窓と同値)。宣言値は +0.0095848°/周(既定 dt・検出器 A)。
+      // 併せて第254便d ③ の「偽検出ゼロ」契約を機械固定する: 21.5 公転で近点側候補は実近点数と
+      // 一致し(柵が 1 つも捨てない dup=0)、検出器 A と B の差は 2% 未満(実測 0.91%)。
+      && (dm.w242
+        ? (dm.peri20 && dm.peri20.A.slopeDeg !== null && dm.peri20.A.slopeDeg >= 0.008 && dm.peri20.A.slopeDeg <= 0.012
+          && dm.peri20.B.slopeDeg !== null && dm.peri20.B.slopeDeg >= 0.008 && dm.peri20.B.slopeDeg <= 0.012
+          && dm.peri20.detDiff / dm.peri20.A.slopeDeg < 0.02
+          && dm.peri20.A.dup === 0 && dm.peri20.B.dup === 0 && dm.peri20.A.found >= 20 && dm.peri20.B.found >= 20
+          && dm.peri20.A.perSec > 8730 && dm.peri20.A.perSec < 8745 && !dm.peri20.nan)
+        : (dm.dPeri !== null && dm.dPeri >= 0.05 && dm.dPeri <= 0.2))
       && dm.sMax === 0 && dm.clampD === 0                // 第222便: 殻スピンは全窓ビット保持(1PN 偶力の受け先ルーティング)
       && dm.omDriftB !== null && dm.omDriftB >= 0 && dm.omDriftB <= 2   // B コア Ω 保持(claim 窓と同値・宣言 +0.40%)
       // 力学コア時計の現状(第225便): A の 2768 は力学に載らない、B は初期値の転写で −0.4%/4.3公転。
@@ -8310,7 +8394,13 @@ if (!FAST) {
       + `経路等価(第222便 族拡張): CSV ${csvRows.length}行 → buildAstroFromRecords=${ps.hole.ok}(相対論的連星族 rel=${ps.hole.scale ? ps.hole.scale.rel : '—'}・L${ps.hole.scale ? ps.hole.scale.L : '—'}/T${ps.hole.scale ? ps.hole.scale.T : '—'}/M${ps.hole.scale ? ps.hole.scale.M : '—'}・q=${ps.hole.q}・観測安定則=${ps.hole.stab}・値域外スピン宣言 ${ps.hole.spinDecl}件・内蔵 📻 とビット一致=${ps.hole.same}) / `
       + `⚡ DFM版: 質量係数 f=${dm.w242 ? '1.99994(第245便 一次則・χ² 則 1.99988)' : '1.99777〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・coupleSink:core+二層・massFrac=(f−1)/f・cmGauge・${dm.w242 ? 'fitted 0ノブ' : 'fitted 1ノブ C'}・BコアΩ=22.654675 転写)=${dm.declOk}・`
       + `2周目 ${dm.p2 === null ? '—' : (dm.p2 * 10).toFixed(2) + ' s'}(宣言 ${dm.w242 ? '8819.52〔hold-out −0.17%〕' : '8834.6'})・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(6)}(宣言 ${dm.w242 ? '0.087976' : '0.087089'})・近点 ${dm.rmin1 === null || dm.rmin1 === undefined ? '—' : dm.rmin1.toFixed(2)}(宣言 ${dm.w242 ? '801.37' : '802.81'} ±1%)・`
-      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(6) + '°/周'}(宣言 ${dm.w242 ? '+0.009757・窓 0.008〜0.012(第254便d: framePrecision:"double" 本体化)' : '+0.103'})・BコアΩ保持 ${dm.omDriftB === null || dm.omDriftB === undefined ? '—' : '+' + dm.omDriftB.toFixed(2) + '%'}(宣言 +0.38・窓0〜2)・`
+      + `近点移動(**窓 20 近点・第255便d N6b**) A=${dm.peri20 && dm.peri20.A.slopeDeg !== null ? '+' + dm.peri20.A.slopeDeg.toFixed(7) : '—'}`
+      + `/B=${dm.peri20 && dm.peri20.B.slopeDeg !== null ? '+' + dm.peri20.B.slopeDeg.toFixed(7) : '—'}°/周`
+      + `(宣言 ${dm.w242 ? '+0.0095848・窓 0.008〜0.012(第254便d: framePrecision:"double" 本体化)' : '+0.103'}・`
+      + `A/B 差 ${dm.peri20 && dm.peri20.detDiff !== null ? (100 * dm.peri20.detDiff / dm.peri20.A.slopeDeg).toFixed(2) + '%' : '—'}<2%・`
+      + `近点側候補 ${dm.peri20 ? dm.peri20.A.cand + '/' + dm.peri20.B.cand : '—'} 個・柵却下(偽検出)${dm.peri20 ? dm.peri20.A.dup + '/' + dm.peri20.B.dup : '—'}=0・`
+      + `近点間 P ${dm.peri20 && dm.peri20.A.perSec !== null ? dm.peri20.A.perSec.toFixed(2) + ' s' : '—'}〔8730〜8745〕・`
+      + `参考: 同じ量を 4.3 公転・柵なしで測ると ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(6)})・BコアΩ保持${dm.omDriftB === null || dm.omDriftB === undefined ? '—' : '+' + dm.omDriftB.toFixed(2) + '%'}(宣言 +0.38・窓0〜2)・`
       + `力学コア時計: A力学転写=${dm.pulseARepresented}(=false)・B ${dm.pulseTurnsB === undefined ? '—' : dm.pulseTurnsB.toFixed(0)}回転・平均 ${dm.pulseMeanSecB === undefined ? '—' : dm.pulseMeanSecB.toFixed(6)} s・末尾 ${dm.pulseEndSecB === undefined ? '—' : dm.pulseEndSecB.toFixed(6)} s(${dm.pulseEndErrorPctB === undefined ? '—' : dm.pulseEndErrorPctB.toFixed(3)}%)・`
       + `パルス時計チャネル(第226便): 宣言A/B=${dm.pulseDeclA}/${dm.pulseDeclB}・A ${dm.pulseChan ? dm.pulseChan.turnsA.toExponential(3) : '—'}回転・平均 ${dm.pulseChan ? (dm.pulseChan.meanSecA * 1000).toFixed(6) : '—'} ms/B ${dm.pulseChan ? dm.pulseChan.meanSecB.toFixed(7) : '—'} s・位相恒等 ${dm.pulseChan ? dm.pulseChan.phRelErrA.toExponential(1) : '—'}/${dm.pulseChan ? dm.pulseChan.phRelErrB.toExponential(1) : '—'}(<1e-9)・力学不干渉=${dm.pulseDynInv}・`
       + `殻スピン保持 |s|max=${dm.sMax === undefined ? '—' : dm.sMax}(=0・clampSN Δ=${dm.clampD} — 第222便 1PN 偶力ルーティング)・`
@@ -8320,6 +8410,179 @@ if (!FAST) {
       + `否定対照(coupleSink除去→±40 飽和再現 clampSN Δ=${dm.negSinkClampD === undefined ? '—' : dm.negSinkClampD})=${dm.negSink}・(cmGauge除去→歩行 ${dm.negWalkMax === undefined ? '—' : dm.negWalkMax.toFixed(3)}単位)=${dm.negWalk}・(kF0×f→深い楕円 rmin=${dm.rmin2 === undefined ? '—' : dm.rmin2.toFixed(0)}・1周目 ${dm.tRev2 === null || dm.tRev2 === undefined ? '—' : (dm.tRev2 * 10).toFixed(0) + ' s'})=${dm.negPlunge}・決定性=${dm.det}`);
   } else {
     console.log('SKIP behavior.psrDoubleAB(対象に第220便の 📻 なし — root 等)');
+  }
+}
+
+// ---- 第255便d(第47報 N8/N6c): behavior.nsThreeStage — NS 4 系の dt 3 段門と偽検出の機械固定 ----
+//   第47報 3 審査 v13 は (c)「native 17 本の一括 double 化はしない —— **系ごとに p_obs 検定**(20 近点・
+//   3 段)を回し、負なら double を宣言する」、N8「NS 4 系(⚡🧮🩺🧶)だけ h, h/2, h/4 の 3 段+正の次数で
+//   門を通す」を求めた。器は `tests/exp-w255d-ns3stage.mjs`(結果 `tests/out/ns3stage-w255.json`)。
+//   本ブロックが機械固定するのは **3 つ**である:
+//     ① **宣言**: NS 4 系は 4 本とも `physics.framePrecision:"double"` を宣言している
+//        (= N6c の検定の結論。本便で新しく宣言した系は無い —— 4 本とも第254便d までに宣言済み)。
+//        併せて「native のまま残る kF1 較正サンプル」に NS 系が 1 本も無いことを数える。
+//     ② **決定性**(QA_FAST でも走る): 同じ宣言・同じ dt で 2 回走らせた Δϖ が**ビット同一**
+//        (窓は 3 近点 — QA_FAST でも回せる長さで傾きが出る短窓。窓長そのものは②の対象ではない)。
+//     ③ **p_obs の符号と偽検出数**(フルゲートのみ — 重い): ⚡ を native(宣言を外した対照)と double で
+//        h, h/2, h/4 の 3 段走らせ、**double は p_obs>0・柵の却下 0**、**native は p_obs<0 かつ
+//        dt を細かくするほど柵の却下が増える**ことを固定する(第254便d ③ の実測を門にした)。
+//   **窓は 20 近点(19 区間)・柵は「一周に近点 1 つ」**(第252便b)。値そのものの窓は張らない
+//   (棚卸しと同じ方針 — 固定するのは符号と偽検出数の契約である)。
+{
+  const NS4 = ['psrDoubleABDFM', 'psrJ1757DFM', 'psrJ1946DFM', 'psrB1534DFM'];
+  const hasNs = await page.evaluate((ids) => ids.every((id) => HP.allPresets().some((p) => p.id === id)), NS4);
+  if (!hasNs) {
+    console.log('SKIP behavior.nsThreeStage(対象に NS 4 系が揃っていない — root 等)');
+  } else {
+    // ページ側の器(第252便b/第254便d と同一手続き — 窓だけが引数)
+    await page.evaluate(() => {
+      window.__ns3 = {
+        build: (id, fp) => {
+          const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+          if (fp) pd.physics.framePrecision = fp; else delete pd.physics.framePrecision;
+          delete pd.massCalibration;
+          const v = HP.validatePreset(pd);
+          HP.sim.build(v.preset);
+          return HP.sim.framePrec || null;
+        },
+        win: (dt, tEnd, nWin) => {
+          const S = HP.sim, steps = Math.round(tEnd / dt);
+          const A = [], Bd = [], sid = [];
+          let r2 = 0, r1 = 0, t2 = 0, t1 = 0, rd1 = 0, rMin = Infinity, rMax = -Infinity;
+          let acc = 0, accPrev = 0, thPrev = null, nTurn = 0;
+          for (let k = 0; k < steps; k++) {
+            S.step(dt);
+            const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0];
+            const rr = Math.hypot(dx, dy), th = Math.atan2(dy, dx);
+            const dvx = S.vx[1] - S.vx[0], dvy = S.vy[1] - S.vy[0];
+            const rd = (dx * dvx + dy * dvy) / rr;
+            if (rr < rMin) rMin = rr; if (rr > rMax) rMax = rr;
+            if (thPrev !== null) {
+              let d = th - thPrev; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI;
+              accPrev = acc; acc += d;
+              while (Math.abs(acc) >= (nTurn + 1) * 2 * Math.PI) {
+                const tgt = Math.sign(acc) * (nTurn + 1) * 2 * Math.PI;
+                const fr = (acc !== accPrev) ? (tgt - accPrev) / (acc - accPrev) : 0;
+                sid.push((k - 1 + fr) * dt); nTurn++;
+              }
+            }
+            thPrev = th;
+            if (k >= 1 && rd1 < 0 && rd >= 0) {
+              const fr = (rd !== rd1) ? (-rd1 / (rd - rd1)) : 0;
+              let a1 = t1, a2 = th; while (a2 - a1 > Math.PI) a2 -= 2 * Math.PI; while (a2 - a1 < -Math.PI) a2 += 2 * Math.PI;
+              A.push({ ang: a1 + fr * (a2 - a1), k: k - 1 + fr, r: rr });
+            }
+            if (k >= 2 && r1 < r2 && r1 < rr) {
+              const dd = (r2 - 2 * r1 + rr), fr = (dd !== 0) ? 0.5 * (r2 - rr) / dd : 0;
+              let a1 = t2, a2 = t1, a3 = th;
+              while (a2 - a1 > Math.PI) a2 -= 2 * Math.PI; while (a2 - a1 < -Math.PI) a2 += 2 * Math.PI;
+              while (a3 - a2 > Math.PI) a3 -= 2 * Math.PI; while (a3 - a2 < -Math.PI) a3 += 2 * Math.PI;
+              Bd.push({ ang: a2 + 0.5 * fr * (a3 - a1) + 0.5 * fr * fr * (a3 - 2 * a2 + a1), k: k - 1 + fr, r: r1 });
+            }
+            r2 = r1; r1 = rr; t2 = t1; t1 = th; rd1 = rd;
+            if (S.hasNaN()) break;
+          }
+          const sidMean = sid.length > 1 ? (sid[sid.length - 1] - sid[0]) / (sid.length - 1) : null;
+          const pUse = (sidMean > 0) ? sidMean : null;
+          const fit = (raw) => {
+            const mid = 0.5 * (rMin + rMax), peri = raw.filter((q) => q.r < mid), keep = [];
+            let dup = 0;
+            for (const q of peri) {
+              if (keep.length && pUse && (q.k - keep[keep.length - 1].k) * dt < 0.5 * pUse) { dup++; continue; }
+              keep.push(q);
+            }
+            if (keep.length < nWin) return { cand: peri.length, dup, found: keep.length, slopeDeg: null };
+            const use = keep.slice(0, nWin), ang = [];
+            for (let i = 0; i < use.length; i++) {
+              let a = use[i].ang;
+              if (i) { let z = a - ang[i - 1]; while (z > Math.PI) z -= 2 * Math.PI; while (z < -Math.PI) z += 2 * Math.PI; a = ang[i - 1] + z; }
+              ang.push(a);
+            }
+            const n = ang.length, mx = (n - 1) / 2, my = ang.reduce((a, b) => a + b, 0) / n;
+            let sxy = 0, sxx = 0;
+            for (let i = 0; i < n; i++) { sxy += (i - mx) * (ang[i] - my); sxx += (i - mx) * (i - mx); }
+            return { cand: peri.length, dup, found: keep.length, slopeDeg: (sxy / sxx) * 180 / Math.PI };
+          };
+          return { A: fit(A), B: fit(Bd), nan: S.hasNaN() };
+        },
+        run: (id, fp, dt, orbits, nWin, Pu) => {
+          const prec = window.__ns3.build(id, fp);
+          const o = window.__ns3.win(dt, orbits * Pu, nWin);
+          o.framePrec = prec;
+          return o;
+        },
+      };
+    });
+    // ① 宣言(軽量)
+    const decl = await page.evaluate((ids) => {
+      const all = HP.allPresets();
+      const ns = ids.map((id) => { const p = all.find((q) => q.id === id);
+        return { id, emoji: p.emoji, fp: p.physics.framePrecision || null, kFrame: p.physics.kFrame }; });
+      const kf1Native = all.filter((p) => p.physics && p.physics.kFrame === 1 && !p.physics.framePrecision);
+      const kf1NativeCal = kf1Native.filter((p) => p.sampleClass === 'calibration');
+      return { ns, nKf1Native: kf1Native.length, nKf1NativeCal: kf1NativeCal.length,
+        nsInNative: kf1NativeCal.filter((p) => ids.indexOf(p.id) >= 0).length,
+        nativeCalIds: kf1NativeCal.map((p) => p.emoji + p.id) };
+    }, NS4);
+    const declOk = decl.ns.every((z) => z.fp === 'double' && z.kFrame === 1) && decl.nsInNative === 0;
+
+    // ② 決定性(QA_FAST でも走る — ⚡ を 6.5 公転・20 近点に満たない窓で 2 回)
+    const P_U_AB = 883.4534723278;
+    const det = await page.evaluate(([id, Pu]) => {
+      // 窓は 3 近点(2 区間)—— QA_FAST でも回せる長さで**傾きが出る**ようにする
+      const a = window.__ns3.run(id, 'double', 0.016, 3.2, 3, Pu);
+      const b = window.__ns3.run(id, 'double', 0.016, 3.2, 3, Pu);
+      return { candA: [a.A.cand, b.A.cand], candB: [a.B.cand, b.B.cand],
+        slopeA: [a.A.slopeDeg, b.A.slopeDeg], slopeB: [a.B.slopeDeg, b.B.slopeDeg],
+        same: a.A.cand === b.A.cand && a.B.cand === b.B.cand
+          && a.A.slopeDeg !== null && b.A.slopeDeg !== null
+          && Object.is(a.A.slopeDeg, b.A.slopeDeg) && Object.is(a.B.slopeDeg, b.B.slopeDeg) };
+    }, ['psrDoubleABDFM', P_U_AB]);
+
+    // ③ p_obs の符号と偽検出(フルゲートのみ)
+    let three = null;
+    if (!FAST) {
+      three = await page.evaluate(([id, Pu]) => {
+        const DTS = [0.016, 0.008, 0.004], out = {};
+        for (const fp of [null, 'double']) {
+          const rows = DTS.map((dt) => window.__ns3.run(id, fp, dt, 21.5, 20, Pu));
+          const Q = rows.map((r) => r.A.slopeDeg);
+          const d1 = Q[0] - Q[1], d2 = Q[1] - Q[2];
+          out[fp || 'native'] = { Q, dts: DTS,
+            pObs: (d1 !== 0 && d2 !== 0) ? Math.log2(Math.abs(d1 / d2)) : null,
+            epsNum: (Q.every((z) => z !== null)) ? Math.abs(Q[0] - Q[2]) : null,
+            dupA: rows.map((r) => r.A.dup), dupB: rows.map((r) => r.B.dup),
+            candA: rows.map((r) => r.A.cand), candB: rows.map((r) => r.B.cand),
+            detDiff: rows.map((r) => (r.A.slopeDeg !== null && r.B.slopeDeg !== null) ? Math.abs(r.A.slopeDeg - r.B.slopeDeg) : null),
+            nan: rows.some((r) => r.nan), framePrec: rows.map((r) => r.framePrec) };
+        }
+        return out;
+      }, ['psrDoubleABDFM', P_U_AB]);
+      await page.evaluate(() => HP.loadPreset('saturn', false));
+    }
+    const t3 = three;
+    const threeOk = !t3 || (
+      t3.double.pObs !== null && t3.double.pObs > 0            // double は収束(実測 +2.66)
+      && t3.native.pObs !== null && t3.native.pObs < 0         // native は収束しない(実測 −2.88)
+      && t3.double.dupA.every((z) => z === 0) && t3.double.dupB.every((z) => z === 0)   // double は偽検出ゼロ
+      && t3.native.dupA[2] > t3.native.dupA[0]                  // native は dt を細かくすると偽検出が増える
+      && t3.double.framePrec.every((z) => z === 'double') && t3.native.framePrec.every((z) => z === 'single')
+      && !t3.double.nan && !t3.native.nan
+      && t3.double.epsNum < t3.native.epsNum);                  // double の ε_num の方が小さい
+    add('behavior.nsThreeStage', declOk && det.same && threeOk,
+      `① 宣言: NS 4 系 ${decl.ns.map((z) => z.emoji + (z.fp || 'native')).join('/')}`
+      + `(4 本とも double = 第255便d の p_obs 検定で新規宣言は 0 本)・`
+      + `native のまま残る kF1 宣言 ${decl.nKf1Native} 本(うち現実較正 ${decl.nKf1NativeCal} 本)に NS 系は ${decl.nsInNative} 本 / `
+      + `② 決定性(⚡ 3.2 公転・窓 3 近点 ×2): 近点側候補 ${det.candA.join('=')}/${det.candB.join('=')}・Δϖ=${det.slopeA[0] === null ? '—' : det.slopeA[0].toFixed(8)}・ビット同一=${det.same} / `
+      + (t3 ? `③ 3 段(窓 20 近点・21.5 公転): **double** Q=[${t3.double.Q.map((z) => z === null ? '—' : z.toFixed(8)).join(', ')}]`
+        + ` p_obs=${t3.double.pObs === null ? '—' : t3.double.pObs.toFixed(3)}(>0)`
+        + ` ε_num=${t3.double.epsNum === null ? '—' : t3.double.epsNum.toExponential(3)}`
+        + ` 柵却下 A/B=[${t3.double.dupA.join(',')}]/[${t3.double.dupB.join(',')}](=0)`
+        + ` / **native(宣言を外した対照)** Q=[${t3.native.Q.map((z) => z === null ? '—' : z.toFixed(8)).join(', ')}]`
+        + ` p_obs=${t3.native.pObs === null ? '—' : t3.native.pObs.toFixed(3)}(<0 — 収束しない)`
+        + ` ε_num=${t3.native.epsNum === null ? '—' : t3.native.epsNum.toExponential(3)}`
+        + ` 柵却下 A/B=[${t3.native.dupA.join(',')}]/[${t3.native.dupB.join(',')}](dt を細かくするほど偽検出が増える)`
+        : '③ 3 段は QA_FAST では省略(フルゲートで機械固定)'));
   }
 }
 
@@ -22763,6 +23026,96 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       rows.map((v) => `${v.label}: ${Number.isFinite(v.val) ? v.val : 'NaN'}(窓${v.min}〜${v.max})${v.ok ? '' : ' ✗'}`).join(' / '));
   } else {
     console.log('SKIP claims.sync(対象に descPattern 付き claims 宣言なし — 第42便 42A 未適用の root 等)');
+  }
+}
+
+// ---- 42A′) 第255便d(第47報・Grok 気付き 7): claims.note-sync — **claims の note 文字列に書かれた
+// ----   数値を claim の窓と突き合わせる**。claims.sync が見ているのは `description`(説明文)だけで、
+// ----   `chain.note` / `chain.noteEn` / `roleNote` / `roleNoteEn` の中の数字は**誰も見ていなかった**。
+// ----   第254便d は ⚡ の note に残っていた「+0.0088°/周」「1PN 解析値の約22倍」を**手で**直した
+// ----   —— 同じ型の食い違いを機械で拾うのが本ブロックである。固定するのは 2 つ:
+// ----     ① **エコー照合**: claim の `descPattern`(と control.descPattern)を note 群へ当て、
+// ----        **マッチした全ての数値**が `expected`(control.expected)の窓に入っていること。さらに、
+// ----        説明文が同じパターンで数を持つなら **note の数はその数と一致**していること(窓内でも
+// ----        説明文と違う数を書いていたら食い違いである — 第254便d の「+0.0088」型)。
+// ----        パターンは ja 宣言なので en の note には普通マッチしない(マッチした分だけ検査する)。
+// ----     ② **比の照合**(opt-in 宣言 `noteRatio:{pattern, ref, tol}`): note が「観測換算 ref の
+// ----        **約 N 倍**」と書くとき、N が `説明文の宣言値 / ref` と相対 tol の中で一致すること。
+// ----        「約22倍 → 約2倍」型の誤記はこれで落ちる。
+// ----   **窓そのものは 1 つも動かしていない**(数値は claims の窓から読む)。軽量(page.evaluate 1 回)。
+{
+  const hasNote = await page.evaluate(() => HP.allPresets().some((p) => Array.isArray(p.claims)
+    && p.claims.some((c) => typeof c.descPattern === 'string' && c.chain && typeof c.chain.note === 'string')));
+  if (!hasNote) {
+    console.log('SKIP claims.note-sync(対象に note つき descPattern claims なし — 旧世代の root 等)');
+  } else {
+    const r = await page.evaluate(() => {
+      const inRange = (x, e) => !!e && Number.isFinite(x) && x >= e.min && x <= e.max;
+      const NOTE_KEYS = ['note', 'noteEn'];
+      const bad = [], ratios = [];
+      let nClaims = 0, nEcho = 0, nRatio = 0, nNoteStr = 0;
+      const scan = (id, label, pattern, scale, exp, texts, desc) => {
+        let re; try { re = new RegExp(pattern, 'g'); } catch (e) { return; }
+        // 説明文の宣言値(claims.sync が窓と照合している数)。note がその同じパターンで
+        // **別の数**を書いていたら食い違いである(第254便d の「+0.0088」型)。
+        let dv = NaN;
+        try { const dM = String(desc || '').match(new RegExp(pattern));
+          if (dM && dM[1] !== undefined) dv = parseFloat(dM[1]) * (scale === undefined ? 1 : scale); } catch (e) { /* noop */ }
+        for (const [where, txt] of texts) {
+          if (typeof txt !== 'string' || !txt) continue;
+          nNoteStr++;
+          re.lastIndex = 0;
+          let m;
+          while ((m = re.exec(txt)) !== null) {
+            if (m[1] === undefined) break;
+            const v = parseFloat(m[1]) * (scale === undefined ? 1 : scale);
+            nEcho++;
+            if (!inRange(v, exp)) bad.push(`${id}|${label}|${where}: ${m[0]} → ${v}(窓 ${exp.min}〜${exp.max}の外)`);
+            else if (Number.isFinite(dv) && v !== dv)
+              bad.push(`${id}|${label}|${where}: note=${v} 対 説明文=${dv}(同じパターンで別の数)`);
+            if (re.lastIndex === m.index) re.lastIndex++;
+          }
+        }
+      };
+      for (const p of HP.allPresets()) {
+        if (!Array.isArray(p.claims)) continue;
+        for (const c of p.claims) {
+          if (typeof c.descPattern !== 'string' || !c.expected) continue;
+          nClaims++;
+          const texts = [];
+          if (c.chain) for (const k of NOTE_KEYS) texts.push(['chain.' + k, c.chain[k]]);
+          texts.push(['roleNote', c.roleNote], ['roleNoteEn', c.roleNoteEn]);
+          scan(c.id, 'desc', c.descPattern, c.descScale, c.expected, texts, p.description);
+          if (c.control && typeof c.control.descPattern === 'string' && c.control.expected)
+            scan(c.id, 'control', c.control.descPattern, c.control.descScale, c.control.expected, texts, p.description);
+          // ② 比の照合
+          if (c.noteRatio && typeof c.noteRatio.pattern === 'string' && Number.isFinite(c.noteRatio.ref)) {
+            const declM = String(p.description || '').match(new RegExp(c.descPattern));
+            const decl = (declM && declM[1] !== undefined)
+              ? parseFloat(declM[1]) * (c.descScale === undefined ? 1 : c.descScale) : NaN;
+            const want = Number.isFinite(decl) ? decl / c.noteRatio.ref : NaN;
+            const tol = Number.isFinite(c.noteRatio.tol) ? c.noteRatio.tol : 0.3;
+            for (const [where, txt] of texts) {
+              if (typeof txt !== 'string' || !txt) continue;
+              const mm = txt.match(new RegExp(c.noteRatio.pattern));
+              if (!mm || mm[1] === undefined) continue;
+              const said = parseFloat(mm[1]);
+              nRatio++;
+              const rel = (Number.isFinite(want) && want !== 0) ? Math.abs(said / want - 1) : NaN;
+              ratios.push({ id: c.id, where, said, want, rel, ok: Number.isFinite(rel) && rel <= tol });
+              if (!(Number.isFinite(rel) && rel <= tol))
+                bad.push(`${c.id}|ratio|${where}: 「${mm[0]}」→ ${said} 対 実測比 ${Number.isFinite(want) ? want.toFixed(4) : 'NaN'}(相対差 ${Number.isFinite(rel) ? (rel * 100).toFixed(1) + '%' : '—'} > ${tol * 100}%)`);
+            }
+          }
+        }
+      }
+      return { bad, ratios, nClaims, nEcho, nRatio, nNoteStr };
+    });
+    add('claims.note-sync', r.bad.length === 0 && r.nClaims > 0 && r.nEcho > 0,
+      `descPattern つき claim ${r.nClaims} 件の note 群 ${r.nNoteStr} 本を走査・`
+      + `note の中でパターンにマッチした数値 ${r.nEcho} 件を窓と照合・比の宣言 ${r.nRatio} 件`
+      + (r.ratios.length ? `(${r.ratios.map((z) => `${z.id}@${z.where}: 「${z.said}倍」対 実測 ${z.want.toFixed(4)}(差 ${(z.rel * 100).toFixed(1)}%)`).join(' / ')})` : '')
+      + (r.bad.length ? ` / **不一致 ${r.bad.length} 件**: ${r.bad.slice(0, 6).join(' , ')}` : ''));
   }
 }
 
