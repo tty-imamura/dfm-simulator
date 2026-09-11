@@ -809,6 +809,24 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     **多体(n≥3)は |m| 上位 2 体の対だけ**に織る。`kFrame=0` ではビット不変。
   - 帳簿は `S.spaceMeshWeavePx/Py/L/E`(E は離散キックの厳密仕事)+ リザーバ(resPx/resPy/resL)。
   **生成 AI はこのキーを使わない。** QA `behavior.pairWeave`。
+- **geoPN=2 への織り込み(第256便a — `physics.spaceMesh.weave:"pairPN"|"pairPNFull"`)**: 統一測地線則
+  (geoPN=2・E12v2)の帯だけに効く**診断専用の 2 値**。`"pair"`/`"pairFull"` は geoPN≥1 で停止したままである
+  (`S.spaceMeshWeaveStop="geoPN"`)。逆に **`"pairPN"`/`"pairPNFull"` は geoPN<2 で停止する**(帯の鏡)。
+  織り込むのは**輸送 3 項が読むフレーム**と**1PN の速度依存項の引数 w=v−k_F·u だけ**で、
+  **1PN の係数(c_A=1+2α・c_B=α−½・λ_PN/c²)には触らない**。E4 にも触らない。
+  - `"pairPN"` … **相対速度の読み替え**(要求差分 = −k_F·χᵢ·T(u,∇u) —— 頂点に残る輸送は背景ぶんの (1−χ) だけ)。
+  - `"pairPNFull"` … **フレームそのものの代入**(要求差分 = k_F·[T(u_pair,∇u_pair) − T(u,∇u)])。
+    頂点では u_pair=χvᵢ なので ∂ₜu_pair≈χaᵢ の自己項が残り、**連星を壊す**(否定対照 —— 採用していない)。
+  - **∇u と ∂ₜu は χ 混合込みで同一時刻に一括評価する**(u だけ差し替えない):
+    ∇u=χ∇u_n+(1−χ)∇u_bg+(u_n−u_bg)⊗∇χ / ∂ₜu=χ∂ₜu_n+(1−χ)∂ₜu_bg+χ̇(u_n−u_bg)。
+    正本は純関数 **`HP.dfmMeshWeaveBlend({chi,chiDot,gradChi,un,gradUn,ubg,gradUbg,dtUn,dtUbg})`**
+    → `{u,gradU,dtU,curl,div,jump}`(行列は行優先。**u_n=u_bg では ∇χ 項も χ̇ 項も厳密に 0**)。
+  - `frameReaction:"pairReduced"` の宇宙では、**要求差分も ③′ の同じ線形写像(換算質量対称インパルス+
+    背景持ち分)を通す**。1PN の差分は _core と同じく**加速度として直接**当て、対反作用 Δa_j=−Δa_i·m_i/m_j を返す。
+  - `kFrame=0` ではビット不変。χ→0 では OFF へ戻る。**多体(n≥3)は |m| 上位 2 体の対だけ**。
+  - 帳簿は `weave` と同じ(`S.spaceMeshWeavePx/Py/L/E` + リザーバ)。診断は
+    `S.spaceMeshWeaveMode`・`S.spaceMeshWeaveTrDv`(輸送側の 1 步 |Δv|)・`S.spaceMeshWeavePNDv`(1PN 側)。
+  **どの内蔵プリセットも宣言していない。生成 AI はこのキーを使わない。** QA `behavior.pairWeavePN`。
 - **有限の回転子交換(第255便a — `physics.spaceMesh.reservoir`)**: `{"Imesh":正の数値, "gamma":0 以上の数値}`。
   メッシュに**有限の慣性 I_m と独立な角運動量 J** を与え、軌道 L と γ で交換する opt-in(既定なし)。
   純関数は **`HP.dfmMeshRotorExchange({L,J,Iorb,Imesh,gamma,dt})`** で、
@@ -816,6 +834,14 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   **L+J 保存・L²/2I_o+J²/2I_m+Q 保存・Q≥0・同期で停止・逆回転で L が軌道へ戻る**(QA `behavior.meshRotorExchange`)。
   源接続は相対ベクトル r への**等大反対の接線インパルス**で、`S.meshJ`/`S.meshQ`/`S.meshRotorL`/`S.meshRotorE` に記帳する。
   **Q は「熱」であって重力波放出ではない**(外向き流束・伝播・波形の写像が無い)。**D₀ を慣性密度と同一視しない。**
+  **〔第256便a 追補〕** **`dt<0` は `null`(前進専用)**である —— h<0 では Q<0 を返してしまうため、
+  黙って負の熱を作らずに門で止める(`dt=0` は dL=0・dQ=0 で通る)。
+  設計量からの**宣言の読み替え**は純関数 **`HP.dfmMeshRotorDesign({beta,tauSync,mu,rRef|Iref,omegaRatio,omegaOrb})`**
+  → `{Imesh,gamma,Iref,Ired,beta,tauSync,J0,OmegaMesh,reservoir}`。β=I_m/I_ref(I_ref=μ·r_ref²)・
+  γ=I_red,ref/τ_sync(I_red,ref=I_ref·β/(1+β))・J₀=(Ω_m/Ω_orb)·Ω_orb·I_m。
+  `{Imesh,gamma,Iref}` を渡すと**逆向き**(β・τ_sync)を返し、**往復は恒等**である。
+  **I_m は固定**(可変慣性は別の帳簿を定義してからでないと足さない —— 第256便a では実装していない)。
+  既存の `{Imesh,gamma}` 直接宣言は 1 bit も変わっていない。
   **生成 AI はこのキーを使わない。**
 - **空間メッシュの純関数 API(第254便a)**: `HP.dfmMeshScalarField(bodies,x,y,{G,eps,power,exclude})` が
   **1/r の `Dgrav`** と **1/r^p の `Wpull`** を**別名で**返し(`gradD`・`gradW`・`gravity`・`potential` つき)、

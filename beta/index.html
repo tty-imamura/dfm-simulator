@@ -2440,7 +2440,12 @@ const SPACE_MESH_LIGHT = ["background","mesh"];
 //   "pairFull" … フレームそのものの代入 u_frame→u_pair=χu_node+(1−χ)u_bg。
 //                 **頂点では u_node=vᵢ なので χΔvᵢ の自己項が残り、正のフィードバックになる**
 //                 (実測は PHYSICS〔第255便a〕—— 第254便a の慣性退化と同じ姿)。
-const SPACE_MESH_WEAVE = ["off","pair","pairFull"];
+//   "pairPN"   … **第256便a(第48報)**: geoPN=2 の帯への織り込み(診断専用)。E12 の輸送 3 項と
+//                 1PN の速度依存項の**引数 w=v−k_F·u だけ**を対メッシュ u_pair へ読み替える
+//                 (係数は 1 つも触らない)。∇u と ∂ₜu は χ 混合込みで**同一時刻に一括評価**する:
+//                   ∇u = χ∇u_n + (1−χ)∇u_bg + (u_n−u_bg)⊗∇χ / ∂ₜu = χ∂ₜu_n + (1−χ)∂ₜu_bg + χ̇(u_n−u_bg)
+//                 (純関数 `HP.dfmMeshWeaveBlend` が正本)。geoPN<2 では停止理由 "geoPN" で素通りする。
+const SPACE_MESH_WEAVE = ["off","pair","pairFull","pairPN","pairPNFull"];
 function validateSpaceMesh(a){
   if(a===null || a===undefined) return {ok:true, spaceMesh:null};
   if(typeof a!=="object" || Array.isArray(a))
@@ -2458,7 +2463,7 @@ function validateSpaceMesh(a){
   // **既定 "off"・欠落は署名に出さない**(未宣言と 1 bit も変わらない)
   const wv=(a.weave===undefined)? SPACE_MESH_WEAVE[0] : a.weave;
   if(SPACE_MESH_WEAVE.indexOf(wv)<0)
-    return {ok:false, err:'physics.spaceMesh.weave は "off"/"pair"/"pairFull"'};
+    return {ok:false, err:'physics.spaceMesh.weave は "off"/"pair"/"pairFull"/"pairPN"/"pairPNFull"'};
   let res=null;
   if(a.reservoir!==undefined && a.reservoir!==null){
     const rv=a.reservoir;
@@ -15474,6 +15479,8 @@ function makeSim(){
     S.spaceMeshWorkPinned=0;
     S.spaceMeshWeavePx=0; S.spaceMeshWeavePy=0; S.spaceMeshWeaveL=0; S.spaceMeshWeaveE=0;
     S.spaceMeshWeaveChi=0; S.spaceMeshWeaveRel=0; S.spaceMeshWeaveClamp=0; S.spaceMeshWeaveStop=null;
+    // 第256便a: pairPN の 2 チャネル別診断(輸送 3 項 / 1PN の w 引数)の最大 |Δv| と 1PN の外部仕事
+    S.spaceMeshWeaveTrDv=0; S.spaceMeshWeavePNDv=0; S.spaceMeshWeavePNE=0; S.spaceMeshWeaveMode=null;
     S._pw=null;
     S.meshJ=0; S.meshQ=0; S.meshRotorL=0; S.meshRotorE=0; S.meshOmega=0; S.meshOmegaMesh=0;
     S.meshRotorStop=null;
@@ -15548,7 +15555,8 @@ function makeSim(){
     const __sm=S.params[SPACE_MESH_KEY];
     // 第255便a: 力へ当てるのは gravity/inertia のときだけ(weave・reservoir は別パス)
     S.hasSpaceMesh=!!(__sm && (__sm.gravity===true || __sm.inertia));
-    S.hasPairWeave=!!(__sm && (__sm.weave==="pair" || __sm.weave==="pairFull"));
+    S.hasPairWeave=!!(__sm && (__sm.weave==="pair" || __sm.weave==="pairFull"
+      || __sm.weave==="pairPN" || __sm.weave==="pairPNFull"));
     S.hasMeshReservoir=!!(__sm && __sm.reservoir);
     S.spaceMesh=__sm||null; S._smAnc=null; S.spaceMeshStop=null; S.spaceMeshWeaveStop=null;
     S.meshRotorStop=null; S._pw=null;
@@ -16126,10 +16134,12 @@ function makeSim(){
   // **反作用は未定義**なので、入れた運動量・角運動量・仕事はリザーバ帳簿と
   // spaceMeshWeaveP/L/E へ記帳する(= 閉じた系ではないことの宣言)。
   // **多体(n≥3)の定義は「|m| 上位 2 体の対だけに織る」**(他の対は現行のまま。第255便a 第 1 案)。
-  S._pairWeaveForce = function(){
+  S._pairWeaveForce = function(dt){
     const n=S.n, cf=S.params[SPACE_MESH_KEY];
     const wv=cf.weave;
-    if(!cf || (wv!=="pair" && wv!=="pairFull") || !(n>=2)) return;
+    if(!cf || (wv!=="pair" && wv!=="pairFull" && wv!=="pairPN" && wv!=="pairPNFull") || !(n>=2)) return;
+    S.spaceMeshWeaveMode=wv;
+    if(wv==="pairPN" || wv==="pairPNFull"){ S._weavePN(dt, wv==="pairPNFull"); return; }   // 第256便a: geoPN=2 の帯は別パス(下)
     const p=S.params, kF=p.kFrame;
     if(!(kF>0)){ S.spaceMeshWeaveStop="kFrame"; return; }
     // legacy E6′(geoPN=0)の帯だけに織る。geoPN=1 は物質への E6′ が無効・geoPN=2 は輸送 3 項で
@@ -16193,6 +16203,204 @@ function makeSim(){
     S.spaceMeshWeaveClamp+=nCl; S.spaceMeshWeaveStop=null;
     if(spx===0 && spy===0 && sl===0 && dE===0) return;
     S.spaceMeshWeavePx+=spx; S.spaceMeshWeavePy+=spy; S.spaceMeshWeaveL+=sl; S.spaceMeshWeaveE+=dE;
+    S.resPx-=spx; S.resPy-=spy; S.resL-=sl;        // 閉じた系ではない宣言(反作用は未定義)
+  };
+  // ===== 第256便a(第48報): geoPN=2 への織り込み ―― weave:"pairPN"(診断専用・opt-in) =====
+  // 3 審査 v14 の一致点(O1)そのままの形: **u だけ差し替えない。** ∇u と ∂ₜu を χ 混合込みで
+  // **同一時刻に一括評価**し、**1PN の速度依存項の引数 w=v−k_F·u にだけ当てて係数は触らない**。
+  //   u_pair   = χ·u_n + (1−χ)·u_bg                       (u_n(x)=Ċ+B(x−C)・u_bg=0=background:"static")
+  //   ∇u_pair  = χ·∇u_n + (1−χ)·∇u_bg + (u_n−u_bg)⊗∇χ     (∇u_n=B・∇χ=(D₀ᵖ+W_B)·∇W/den²)
+  //   ∂ₜu_pair = χ·∂ₜu_n + (1−χ)·∂ₜu_bg + χ̇·(u_n−u_bg)
+  // エンジン(E12v2 §18.2)が 1 サブステップに当てた輸送 3 項は
+  //   Δv = k_F·T(u,∇u)、T = (u−u_prev) + ( −((v−u)·∇)u + (∇×u)·ẑ×w )·dt 、 w=v−k_F·u
+  // である。本パスが書くのは**同じ式を u_pair で書いたものとの差分だけ**:
+  //   Δv_weave = k_F·[ clamp(T(u_pair,∇u_pair)) − clamp(T(u,∇u)) ]
+  // (u−u_prev の部分はエンジンが読んだ値そのもの〔S.uPx と前步の記憶〕なので厳密。勾配・渦度の
+  //  部分は**両方とも同じ步末の状態**で評価する = 演算子分割で、誤差は片側だけに乗らない。)
+  // 1PN は a₁ₚₙ(w) の **w だけ** w_pair=v−k_F·u_pair,prev へ替えた差分を、エンジンと同じ
+  // 対反作用(Δa_j=−Δa_i·m_i/m_j)つきで書く。**係数 c_A=1+2α・c_B=α−½・λ_PN/c² は触らない。**
+  // **反作用(メッシュ側)は未定義**なので、入れた運動量・角運動量はリザーバ帳簿へ同時に記帳する。
+  // **多体(n≥3)は第255便a と同じく |m| 上位 2 体の対だけ**(χ の分母は他天体を含む = 純粋二体則ではない)。
+  S._weavePN = function(dt, full){
+    const p=S.params, kF=p.kFrame, cf=S.params[SPACE_MESH_KEY];
+    if(!(kF>0)){ S.spaceMeshWeaveStop="kFrame"; return; }
+    if(!((p.geoPN||0)>=2)){ S.spaceMeshWeaveStop="geoPN"; return; }   // pairPN は geoPN=2 の帯だけ
+    if(!Number.isFinite(dt) || dt===0){ S.spaceMeshWeaveStop="dt"; return; }
+    const G2=S._g2;
+    if(!G2 || G2.nAl!==S.n){ S.spaceMeshWeaveStop="grad"; return; }  // ∇u の解析勾配が無い
+    const WB=(S.boxA && S.boxA.W>0)? S.boxA.W : 0;
+    if(WB>0){ S.spaceMeshWeaveStop="box"; return; }                  // 箱の規定速度場は未対応(黙って別の式にしない)
+    const A=spaceMeshAnchorOf(S);
+    if(!A){ S.spaceMeshWeaveStop=S._smAncErr||"capture"; return; }
+    const M=dfmSpaceMeshState(A,S,(cf.D0!==undefined)? {D0:cf.D0} : undefined);
+    if(!M){ S.spaceMeshWeaveStop="state"; return; }
+    const CG=S._chG, fsep=!!(CG && CG.fsep), sWu=fsep? S.sumWu : S.sumW;
+    if(!sWu || !S.hasU){ S.spaceMeshWeaveStop="frame"; return; }
+    const bgWu=(fsep && CG.pull)? (CG.D0p+WB) : (p.D0+WB);
+    const n=S.n;
+    let PW=S._pw;
+    if(!PW || PW.nAl!==n) PW=S._pw={nAl:n, anc:null, wx:new Float64Array(n), wy:new Float64Array(n),
+      fx:new Float64Array(n), fy:new Float64Array(n), ch:new Float64Array(n), has:new Uint8Array(n)};
+    if(!PW.ch) PW.ch=new Float64Array(n);
+    if(PW.anc!==A){ PW.anc=A; PW.has.fill(0); }
+    const mEff=S.mEff, m=S.m, pin=S.pinned, x=S.x, y=S.y, vx=S.vx, vy=S.vy, R=S.R;
+    const B=M.gradU, Cx=M.origin[0], Cy=M.origin[1], Ux=M.velocity[0], Uy=M.velocity[1];
+    const i0=A.ids[0], i1=A.ids[1];
+    const rq=S._pwDv || (S._pwDv=new Float64Array(4));   // 輸送 3 項の**要求差分** [dx0,dy0,dx1,dy1]
+    rq[0]=0; rq[1]=0; rq[2]=0; rq[3]=0;
+    let nCl=0, chiOut=0, relOut=0, trDv=0, pnDv=0, ready=0;
+    const uPx=[0,0], uPy=[0,0];                          // u_pair,prev(1PN の w 引数に使う)
+    for(let z=0;z<2;z++){
+      const i=(z===0)? i0 : i1, den=bgWu+sWu[i];
+      if(!(den>0) || !S.hasU[i]){ PW.has[i]=0; continue; }
+      const chi=sWu[i]/den;
+      if(chi>chiOut) chiOut=chi;
+      const ex=x[i]-Cx, ey=y[i]-Cy;
+      const unx=Ux+B[0]*ex+B[1]*ey, uny=Uy+B[2]*ex+B[3]*ey;   // = vᵢ(頂点契約)
+      const upx=chi*unx, upy=chi*uny;                          // u_pair(u_bg=0)
+      const rl=Math.hypot(vx[i]-upx,vy[i]-upy); if(rl>relOut) relOut=rl;
+      const ux=S.uPx[i], uy=S.uPy[i];                          // エンジンが書いた u(この步)
+      // ∇χ = (D₀ᵖ+W_B)·∇W / den²(∇W はエンジンが対ループで積んだ解析勾配そのもの)
+      const gcx=bgWu*G2.dWx[i]/(den*den), gcy=bgWu*G2.dWy[i]/(den*den);
+      // ∇u_pair = χ∇u_n + (1−χ)∇u_bg + (u_n−u_bg)⊗∇χ(∇u_n=B・∇u_bg=0・u_bg=0)
+      const Pxx=chi*B[0]+unx*gcx, Pxy=chi*B[1]+unx*gcy,
+            Pyx=chi*B[2]+uny*gcx, Pyy=chi*B[3]+uny*gcy;
+      // エンジンの ∇u = (∇P − u⊗∇W)/den(_core §18.2 と同一式)
+      const Jxx=(G2.dPxx[i]-ux*G2.dWx[i])/den, Jxy=(G2.dPxy[i]-ux*G2.dWy[i])/den,
+            Jyx=(G2.dPyx[i]-uy*G2.dWx[i])/den, Jyy=(G2.dPyy[i]-uy*G2.dWy[i])/den;
+      if(!PW.has[i]){ PW.wx[i]=upx; PW.wy[i]=upy; PW.fx[i]=ux; PW.fy[i]=uy; PW.ch[i]=chi; PW.has[i]=1; continue; }
+      uPx[z]=PW.wx[i]; uPy[z]=PW.wy[i]; ready|=(1<<z);
+      const vxi=vx[i], vyi=vy[i];
+      // ---- エンジン側 T(u,∇u)(同じ步末の状態で書き直したもの)
+      const rux=vxi-ux, ruy=vyi-uy, wex=vxi-kF*ux, wey=vyi-kF*uy, curl=Jyx-Jxy;
+      let ex1=(ux-PW.fx[i]) + (-(rux*Jxx+ruy*Jxy) + curl*(-wey))*dt,
+          ey1=(uy-PW.fy[i]) + (-(rux*Jyx+ruy*Jyy) + curl*( wex))*dt;
+      const l2=ex1*ex1+ey1*ey1;
+      if(l2>0.64){ const sc=0.8/Math.sqrt(l2); ex1*=sc; ey1*=sc; nCl++; }   // E6′ と同じ 1 サブステップ上限
+      // ---- 対メッシュ側 T(u_pair,∇u_pair)(∂ₜu_pair の χ̇ 項は粒子追跡差分に含まれる)
+      const rpx=vxi-upx, rpy=vyi-upy, wpx=vxi-kF*upx, wpy=vyi-kF*upy, curlP=Pyx-Pxy;
+      let px1=(upx-PW.wx[i]) + (-(rpx*Pxx+rpy*Pxy) + curlP*(-wpy))*dt,
+          py1=(upy-PW.wy[i]) + (-(rpx*Pyx+rpy*Pyy) + curlP*( wpx))*dt;
+      const l1=px1*px1+py1*py1;
+      if(full && l1>0.64){ const sc=0.8/Math.sqrt(l1); px1*=sc; py1*=sc; nCl++; }
+      // **2 案を実装して実測で比べる**(第46報「判断出来ない場合は、各案を実装して検証を行う」):
+      //   "pairPN"     = **相対速度の読み替え**(第255便a の "pair" と同型)。対の自己引きずりを
+      //                  χ 分だけ抜くので、頂点に残る輸送は背景ぶんの (1−χ) だけになる
+      //                  → 要求差分 = −k_F·χᵢ·T(u,∇u)
+      //   "pairPNFull" = **フレームそのものの代入**(O1 の字義どおり u→u_pair を全項へ)。
+      //                  頂点では u_pair=χvᵢ なので ∂ₜu_pair≈χaᵢ の**自己項**が残る
+      //                  → 要求差分 = k_F·[T(u_pair,∇u_pair) − T(u,∇u)](否定対照)
+      const tx=full? kF*(px1-ex1) : -kF*chi*ex1,
+            ty=full? kF*(py1-ey1) : -kF*chi*ey1;
+      const td=Math.hypot(tx,ty); if(td>trDv) trDv=td;
+      rq[2*z]+=tx; rq[2*z+1]+=ty;
+      PW.wx[i]=upx; PW.wy[i]=upy; PW.fx[i]=ux; PW.fy[i]=uy; PW.ch[i]=chi;
+    }
+    // ---- 1PN の速度依存項の**引数だけ**の差し替え(係数は触らない)。源判定・対反作用は _core と同一規則。
+    //      1PN は _core では**加速度**として直接足される(③′ を通らない)ので、差分も直接当てる。
+    const invC2=(p.lambdaPN!==undefined? p.lambdaPN : 1)/(p.cLight*p.cLight);
+    const pnv=S._pwPn || (S._pwPn=new Float64Array(4));
+    pnv[0]=0; pnv[1]=0; pnv[2]=0; pnv[3]=0;
+    if(ready===3 && invC2>0){
+      const pnA=(p.pnAlpha!==undefined? p.pnAlpha : 1.5), cA=1+2*pnA, cB=pnA-0.5;
+      const G=p.G, eps=p.softening, eps2=eps*eps, pnOv=S.pnOv;
+      const pnK=(G>0)? (RAY_ALPHA_MIN/4)*(p.cLight*p.cLight)/G : Infinity;
+      for(let z=0;z<2;z++){
+        const i=(z===0)? i0 : i1, j=(z===0)? i1 : i0, zj=1-z;
+        if(pin[i]) continue;
+        const mj=m[j], Rj=R[j];
+        if(!(pnOv[j] || mj>=pnK*Math.max(Rj,eps))) continue;
+        const dx=x[i]-x[j], dy=y[i]-y[j], d2=dx*dx+dy*dy;
+        const invW=1/Math.sqrt(d2+eps2), invd3=invW*invW*invW, fg=G*invd3;
+        const Uj=G*mj*invW, gux=-fg*mj*dx, guy=-fg*mj*dy;
+        const wex=vx[i]-kF*PW.fx[i], wey=vy[i]-kF*PW.fy[i];       // エンジンの w(前步の u)
+        const wpx=vx[i]-kF*uPx[z],   wpy=vy[i]-kF*uPy[z];         // 対メッシュの w(前步の u_pair)
+        const dE2=gux*wex+guy*wey, dP2=gux*wpx+guy*wpy;
+        const v2e=wex*wex+wey*wey, v2p=wpx*wpx+wpy*wpy;
+        const aex=invC2*((cB*v2e-cA*Uj)*gux - cA*dE2*wex),
+              aey=invC2*((cB*v2e-cA*Uj)*guy - cA*dE2*wey);
+        const apx=invC2*((cB*v2p-cA*Uj)*gux - cA*dP2*wpx),
+              apy=invC2*((cB*v2p-cA*Uj)*guy - cA*dP2*wpy);
+        const ddx=(apx-aex)*dt, ddy=(apy-aey)*dt;
+        const dd=Math.hypot(ddx,ddy); if(dd>pnDv) pnDv=dd;
+        pnv[2*z]+=ddx; pnv[2*z+1]+=ddy;
+        if(!pin[j] && m[i]>0 && mj>0){ pnv[2*zj]-=ddx*m[i]/mj; pnv[2*zj+1]-=ddy*m[i]/mj; }   // §18.4 対反作用
+      }
+    }
+    S.spaceMeshWeaveChi=chiOut; S.spaceMeshWeaveRel=relOut;
+    S.spaceMeshWeaveClamp+=nCl; S.spaceMeshWeaveStop=null;
+    S.spaceMeshWeaveTrDv=trDv; S.spaceMeshWeavePNDv=pnDv;
+    // ---- 輸送 3 項の**要求差分**は、エンジンが要求を配るのと同じ規則で配る。
+    //      frameReaction:"pairReduced" では ②で速度へ書かず ③′(換算質量対称インパルス+背景持ち分)
+    //      へ流れるので、**差分も同じ線形写像を通す**(通さないと ⚡ で大きさが 2 倍ずれる — 実測)。
+    //      要求が非零なのは上位 2 体だけなので、対ループは i0/i1 に触れる対だけを回せば同値である。
+    const AC=(S._pwAcc && S._pwAcc.length>=2*n)? S._pwAcc : (S._pwAcc=new Float64Array(2*n));
+    AC.fill(0,0,2*n);
+    const pairR=(p[FRAME_REACTION_KEY]===FRAME_REACTIONS[1]);
+    if(pairR){
+      if(p.e6Radial===false){   // 第243便: 要求から重力方向成分を落とす(pairReduced 専用の opt-in)
+        for(let z=0;z<2;z++){ const i=(z===0)? i0 : i1;
+          if(rq[2*z]!==0 || rq[2*z+1]!==0){ e6Proj(S.ax[i],S.ay[i],rq[2*z],rq[2*z+1],_E6); rq[2*z]=_E6.x; rq[2*z+1]=_E6.y; } }
+      }
+      const bgW=p.D0+WB, sumW=S.sumW, eps=p.softening, eps2=eps*eps;
+      const W0=bgW+sumW[i0], W1=bgW+sumW[i1];
+      const put=(a,b,da,db,Wa,Wb)=>{   // 対 (a,b) の ③′(a は要求あり・b は要求 db〔無ければ 0〕)
+        const dx=x[a]-x[b], dy=y[a]-y[b], iw=1/Math.sqrt(dx*dx+dy*dy+eps2);
+        const ma=m[a], mb=m[b];
+        const phiAB=(mb*iw)/Wa, phiBA=(ma*iw)/Wb;
+        if(pin[b]){ const Jx=phiAB*ma*da[0], Jy=phiAB*ma*da[1];
+          AC[2*a]+=Jx/ma; AC[2*a+1]+=Jy/ma; return; }
+        if(pin[a]){ const Jx=phiBA*mb*db[0], Jy=phiBA*mb*db[1];
+          AC[2*b]+=Jx/mb; AC[2*b+1]+=Jy/mb; return; }
+        let Jx, Jy;
+        if(ma>0 && mb>0){ const mu=(ma*mb)/(ma+mb);
+          Jx=mu*(phiAB*da[0]-phiBA*db[0]); Jy=mu*(phiAB*da[1]-phiBA*db[1]); }
+        else { Jx=phiAB*ma*da[0]-phiBA*mb*db[0]; Jy=phiAB*ma*da[1]-phiBA*mb*db[1]; }
+        AC[2*a]+=Jx/ma; AC[2*a+1]+=Jy/ma; AC[2*b]-=Jx/mb; AC[2*b+1]-=Jy/mb;
+        // **残余トルクは spin へ書かない**(第255便a の weave 契約と同じ — 角運動量の食い違いは
+        //   下の帳簿 S.spaceMeshWeaveL / resL に全額そのまま残す)
+      };
+      const d0=[rq[0],rq[1]], d1=[rq[2],rq[3]], z2=[0,0];
+      if(W0>0 && W1>0 && (d0[0]!==0||d0[1]!==0||d1[0]!==0||d1[1]!==0)) put(i0,i1,d0,d1,W0,W1);
+      for(let k=0;k<n;k++){
+        if(k===i0 || k===i1) continue;
+        const Wk=bgW+sumW[k]; if(!(Wk>0)) continue;
+        if(W0>0 && (d0[0]!==0||d0[1]!==0)) put(i0,k,d0,z2,W0,Wk);
+        if(W1>0 && (d1[0]!==0||d1[1]!==0)) put(i1,k,d1,z2,W1,Wk);
+      }
+      if(bgW>0){   // 背景 D₀+W_B の持ち分(無限慣性リザーバ)
+        for(let z=0;z<2;z++){
+          const i=(z===0)? i0 : i1, Wi=(z===0)? W0 : W1;
+          if(!(Wi>0)) continue;
+          const dvx=(bgW/Wi)*rq[2*z], dvy=(bgW/Wi)*rq[2*z+1];
+          if(dvx===0 && dvy===0) continue;
+          AC[2*i]+=dvx; AC[2*i+1]+=dvy;
+        }
+      }
+    } else {
+      AC[2*i0]+=rq[0]; AC[2*i0+1]+=rq[1]; AC[2*i1]+=rq[2]; AC[2*i1+1]+=rq[3];
+    }
+    AC[2*i0]+=pnv[0]; AC[2*i0+1]+=pnv[1]; AC[2*i1]+=pnv[2]; AC[2*i1+1]+=pnv[3];
+    // ---- 適用(帳簿は第255便a と同契約: 離散キックの厳密仕事・ΔP/ΔL はリザーバへ同時記帳)
+    const carV=!!S.carVx, carVx=S.carVx, carVy=S.carVy;
+    let spx=0, spy=0, sl=0, dEt=0;
+    for(let i=0;i<n;i++){
+      let ddx=AC[2*i], ddy=AC[2*i+1];
+      if(ddx===0 && ddy===0) continue;
+      const dv2=ddx*ddx+ddy*ddy;
+      if(dv2>REACTION_DV_CAP2){ const sc=REACTION_DV_CAP/Math.sqrt(dv2); ddx*=sc; ddy*=sc; S.clampRN++; }
+      const mi=mEff[i];
+      spx+=mi*ddx; spy+=mi*ddy; sl+=mi*(x[i]*ddy-y[i]*ddx);
+      if(pin[i]) continue;
+      const q0x=vx[i], q0y=vy[i];
+      if(carV){
+        const addX=ddx+carVx[i], v0x=vx[i]; vx[i]=v0x+addX; carVx[i]=addX-(vx[i]-v0x);
+        const addY=ddy+carVy[i], v0y=vy[i]; vy[i]=v0y+addY; carVy[i]=addY-(vy[i]-v0y);
+      } else { vx[i]+=ddx; vy[i]+=ddy; }
+      dEt+=0.5*mi*((vx[i]*vx[i]+vy[i]*vy[i])-(q0x*q0x+q0y*q0y));   // 離散キックの厳密仕事
+    }
+    if(spx===0 && spy===0 && sl===0 && dEt===0) return;
+    S.spaceMeshWeavePx+=spx; S.spaceMeshWeavePy+=spy; S.spaceMeshWeaveL+=sl; S.spaceMeshWeaveE+=dEt;
     S.resPx-=spx; S.resPy-=spy; S.resL-=sl;        // 閉じた系ではない宣言(反作用は未定義)
   };
   // ===== 第255便a(ChatGPT §8.1): 有限のメッシュ角運動量(physics.spaceMesh.reservoir)=====
@@ -16275,7 +16483,7 @@ function makeSim(){
       S._core(dt,1); S._core(dt,2);
       // 第255便a: pairWeave は **E6′ が読んだフレームの差分**を打ち消す補正なので S._core の**後**。
       // reservoir(回転子交換)も同じ位置(未宣言はどちらも真偽値 1 つで素通り)
-      if(S.hasPairWeave) S._pairWeaveForce();
+      if(S.hasPairWeave) S._pairWeaveForce(dt);
       if(S.hasMeshReservoir) S._meshReservoir(dt);
       if(S.hasSpaceMesh) S._spaceMeshForce(dt*0.5);
       if(S.hasCompactForce) S._compactForce(dt*0.5);
@@ -16287,7 +16495,7 @@ function makeSim(){
       if(S.hasCompactForce) S._compactForce(dt);
       if(S.hasSpaceMesh) S._spaceMeshForce(dt);        // 第254便a(未宣言は真偽値 1 つで素通り)
       S._core(dt,0);
-      if(S.hasPairWeave) S._pairWeaveForce();           // 第255便a(同上 — S._core の後)
+      if(S.hasPairWeave) S._pairWeaveForce(dt);          // 第255便a(同上 — S._core の後)
       if(S.hasMeshReservoir) S._meshReservoir(dt);
     }
     if(S.params.petersGW===true) S._petersGW(dt);   // 第227便: 外部物理オーバーレイ(既定 OFF=素通り)
@@ -30194,6 +30402,7 @@ function dfmMeshRotorExchange(o){
   const L=Number(o.L), J=Number(o.J), Io=Number(o.Iorb), Im=Number(o.Imesh);
   const gm=Number(o.gamma), h=Number(o.dt);
   if(![L,J,gm,h].every(Number.isFinite)) return null;
+  if(h<0) return null;   // 第256便a(ChatGPT 気付き 4): h<0 は Q<0 を返してしまう —— **前進専用**の門
   if(!(Io>0) || !Number.isFinite(Io)) return null;
   if(!(Im>0)) return null;                       // I_m=0 は門(退化を黙って隠さない)
   if(!(gm>=0)) return null;
@@ -30213,6 +30422,81 @@ function dfmMeshRotorExchange(o){
   return { L:L1, J:J1, dL, dQ, Q:dQ, omega:w, Omega:Om, delta:D, Ired, k,
     relax:(k>0)? 1/k : Infinity, energy0:E0, energy1:E1, energyResidual:E1-E0+dQ,
     momentumResidual:(L1+J1)-(L+J) };
+}
+// ===== 第256便a(第48報・3 審査 v14 O1): χ 混合の一括評価 —— 純関数 `HP.dfmMeshWeaveBlend` =====
+// 「u だけ差し替えてはならない」を式として固定する正本。**同一時刻**の χ・∇χ・χ̇ を渡して
+//   u      = χ·u_n + (1−χ)·u_bg
+//   ∇u     = χ·∇u_n + (1−χ)·∇u_bg + (u_n−u_bg)⊗∇χ
+//   ∂ₜu    = χ·∂ₜu_n + (1−χ)·∂ₜu_bg + χ̇·(u_n−u_bg)
+// を一度に返す(行列は行優先 [∂ₓu_x, ∂_yu_x, ∂ₓu_y, ∂_yu_y])。
+// **恒等**: u_n=u_bg では ∇χ 項も χ̇ 項も**厳密に消える**(QA behavior.pairWeavePN ⑤)。
+// エンジンの `S._weavePN` はこれと同じ式を対メッシュ(u_n=Ċ+B(x−C)・u_bg=0)で書いたものである。
+function dfmMeshWeaveBlend(o){
+  if(!o || typeof o!=="object") return null;
+  const v2=(a,d0,d1)=>{ if(a===undefined||a===null) return [d0,d1];
+    if(!Array.isArray(a)||a.length<2) return null;
+    const p=Number(a[0]), q=Number(a[1]); return (Number.isFinite(p)&&Number.isFinite(q))? [p,q] : null; };
+  const m2=(a)=>{ if(a===undefined||a===null) return [0,0,0,0];
+    if(!Array.isArray(a)||a.length<4) return null;
+    const r=[Number(a[0]),Number(a[1]),Number(a[2]),Number(a[3])];
+    return r.every(Number.isFinite)? r : null; };
+  const chi=Number(o.chi);
+  if(!Number.isFinite(chi)) return null;
+  const un=v2(o.un,NaN,NaN), ubg=v2(o.ubg,0,0), gc=v2(o.gradChi,0,0);
+  const dun=v2(o.dtUn,0,0), dub=v2(o.dtUbg,0,0);
+  const gun=m2(o.gradUn), gub=m2(o.gradUbg);
+  const cd=(o.chiDot===undefined)? 0 : Number(o.chiDot);
+  if(!un || !ubg || !gc || !dun || !dub || !gun || !gub) return null;
+  if(!un.every(Number.isFinite) || !Number.isFinite(cd)) return null;
+  const jx=un[0]-ubg[0], jy=un[1]-ubg[1], om=1-chi;
+  const u=[chi*un[0]+om*ubg[0], chi*un[1]+om*ubg[1]];
+  const gradU=[chi*gun[0]+om*gub[0]+jx*gc[0], chi*gun[1]+om*gub[1]+jx*gc[1],
+               chi*gun[2]+om*gub[2]+jy*gc[0], chi*gun[3]+om*gub[3]+jy*gc[1]];
+  const dtU=[chi*dun[0]+om*dub[0]+cd*jx, chi*dun[1]+om*dub[1]+cd*jy];
+  if(!u.every(Number.isFinite) || !gradU.every(Number.isFinite) || !dtU.every(Number.isFinite)) return null;
+  return { u, gradU, dtU, curl:gradU[2]-gradU[1], div:gradU[0]+gradU[3], chi, jump:[jx,jy] };
+}
+// ===== 第256便a(3 審査 v14 O2): 回転子の**宣言の読み替え** —— 純関数 `HP.dfmMeshRotorDesign` =====
+// `physics.spaceMesh.reservoir` は {Imesh, gamma} を**そのまま**受ける(第255便a のまま不変)。
+// 設計側で扱いやすい 3 つの量から同じ 2 つを作るだけの純関数を別に置く:
+//   β = I_m/I_ref(I_ref=μ·r_ref² —— 参照配置の軌道慣性)・ τ_sync(同期の時定数)・
+//   Ω_m/Ω_orb(メッシュ回転子の初期比 → J₀=(Ω_m/Ω_orb)·Ω_orb·I_m)
+//   γ = I_red,ref/τ_sync 、 I_red,ref = I_ref·I_m/(I_ref+I_m) = I_ref·β/(1+β)
+// **逆向き**({Imesh,gamma} と I_ref から β・τ_sync)も同じ関数で返す(往復が恒等になる)。
+// **I_m は固定**である(可変慣性は別の帳簿を定義してからでないと足さない —— 本便では実装しない)。
+function dfmMeshRotorDesign(o){
+  if(!o || typeof o!=="object") return null;
+  let Iref=(o.Iref!==undefined)? Number(o.Iref) : NaN;
+  if(!Number.isFinite(Iref)){
+    const mu=Number(o.mu), rr=Number(o.rRef);
+    if(!Number.isFinite(mu) || !Number.isFinite(rr) || !(mu>0) || !(rr>0)) return null;
+    Iref=mu*rr*rr;
+  }
+  if(!(Iref>0) || !Number.isFinite(Iref)) return null;
+  let Imesh, gamma, beta, tauSync;
+  if(o.beta!==undefined || o.tauSync!==undefined){
+    beta=Number(o.beta); tauSync=Number(o.tauSync);
+    if(!(beta>0) || !Number.isFinite(beta)) return null;
+    if(!(tauSync>0) || !Number.isFinite(tauSync)) return null;
+    Imesh=beta*Iref;
+    gamma=(Iref*Imesh/(Iref+Imesh))/tauSync;
+  } else {
+    Imesh=Number(o.Imesh); gamma=Number(o.gamma);
+    if(!(Imesh>0) || !Number.isFinite(Imesh)) return null;
+    if(!(gamma>0) || !Number.isFinite(gamma)) return null;
+    beta=Imesh/Iref;
+    tauSync=(Iref*Imesh/(Iref+Imesh))/gamma;
+  }
+  const Ired=Iref*Imesh/(Iref+Imesh);
+  if(!Number.isFinite(Imesh) || !Number.isFinite(gamma) || !(Imesh>0) || !(gamma>=0)) return null;
+  let J0=null, OmegaMesh=null;
+  if(o.omegaRatio!==undefined || o.omegaOrb!==undefined){
+    const rt=Number(o.omegaRatio), wo=Number(o.omegaOrb);
+    if(!Number.isFinite(rt) || !Number.isFinite(wo)) return null;
+    OmegaMesh=rt*wo; J0=OmegaMesh*Imesh;
+  }
+  return { Imesh, gamma, Iref, Ired, beta, tauSync, J0, OmegaMesh,
+    reservoir:{Imesh, gamma} };   // そのまま physics.spaceMesh.reservoir へ入れられる形
 }
 // ===== 物質線の輸送(**表示の正本**・第46報「メッシュが連星の公転に合わせて回転する」の内部量)=====
 // マーカー x と局所変形 F を **S.step の時刻で**時間積分する(dx/dt=u・dF/dt=(∇u)F・RK4)。
@@ -30461,7 +30745,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第255便a(第47報): 有限の回転子交換(純関数)。L+J 保存・L²/2I_o+J²/2I_m+Q 保存・Q̇≥0・
   // 同期で停止・逆回転で L が軌道へ戻る。QA behavior.meshRotorExchange が機械固定する。
   // **重力波放出ではない**(外向き流束・伝播・波形の写像が無い)
-  dfmMeshRotorExchange, SPACE_MESH_WEAVE, MESH_TR_ENTRAIN,
+  dfmMeshRotorExchange, dfmMeshRotorDesign, dfmMeshWeaveBlend, SPACE_MESH_WEAVE, MESH_TR_ENTRAIN,
   // 第254便b(第46報「銀河の空間メッシュ」): **銀河は 1 つの大域相似メッシュに乗らない**(差動回転)ので、
   // 局所の場 dfmGalaxyMeshField(加算形 W・χ=W/(W+D₀)・u=χu_n+(1−χ)u_bg・∇u に (u_n−u_bg)⊗∇χ を含む)と
   // 物質線 dfmGalaxyTracer*(RK4・dF/dt=(∇u)F・原子的停止)で表す。u_n は**エンジンの粒子速度の局所平均**で、
