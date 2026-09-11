@@ -325,12 +325,17 @@ if (!TARGET.startsWith('beta/')) {
         }
       }
     }
-    // ⑥' **J0737 の ω̇ は CSV に行が無い**(第251便c: 足すと 📻 の経路等価テストが壊れる —
-    //     buildAstroFromRecords は periastron_advance を知らず「CSV 10 行 → 内蔵とビット一致」が
-    //     成立しなくなる。値は obsCard 側に残したまま、CSV へは足さないことをここに固定する)。
-    //     行が無いことは「σ=0」ではなく「**未記録**」である。
-    if (sigCsv.has('PSR J0737-3039 B|periastron_advance'))
-      bad.push('⑥\':J0737 の ω̇ 行が CSV に足されている(📻 の経路等価テストが壊れる)');
+    // ⑥' **第256便d(第48報)で保留を解除した**。第251便c は「J0737 の ω̇ 行を CSV へ足すと
+    //     📻 の経路等価テストが壊れる」ので行そのものを置かなかった。第256便d は本体を 1 bit も
+    //     変えずに `behavior.psrDoubleAB` 側で**ビルダーが消費する量**を宣言し(BUILDER_SKIP)、
+    //     観測レコードの側を完全にした。ここで固定するのは**行があること**と、その σ が読めること。
+    //     (σ 欄が空欄なら「未記録」であって 0 ではない —— ⑥'' が別に見る。)
+    {
+      const wd = sigCsv.get('PSR J0737-3039 B|periastron_advance');
+      if (!wd) bad.push('⑥\':J0737 の ω̇ 行が CSV に無い(第256便d で足したはず)');
+      else if (!(Number(wd.raw) > 0)) bad.push('⑥\':J0737 の ω̇ 行の sigma が正の数でない');
+      else if (!/sigma_primary=verified/.test(wd.note)) bad.push('⑥\':J0737 の ω̇ の sigma_primary が verified でない');
+    }
     // ⑥'' sigma 列が空欄の行からは σ を作らない(空欄=未記録であって 0 ではない)
     for (const [k, v] of sigCsv) {
       if (v.raw !== undefined && String(v.raw).trim() !== '' && !(Number(v.raw) > 0))
@@ -7944,7 +7949,12 @@ if (!FAST) {
   const hasPsr = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'psrDoubleAB'));
   if (hasPsr) {
     const csvText = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8');
-    const csvRows = csvText.split('\n').filter((l) => l.startsWith('PSR J0737-3039')).map((line) => {
+    // 第256便d: CSV に **J0737 の ω̇ 行**(periastron_advance)が入った(第251便c ⑥′ の保留を解除)。
+    // `buildAstroFromRecords` はこの量を消費しない(軌道の初期状態には入らない)ので、**経路等価の
+    // 入力からは外す**。本体(beta/index.html)は 1 bit も変えていない —— 変えたのは「ビルダーが
+    // 何を消費するか」をここで宣言したことだけである(σ を通すために bit 契約を緩めてはいない)。
+    const BUILDER_SKIP = new Set(['periastron_advance']);
+    const csvAll = csvText.split('\n').filter((l) => l.startsWith('PSR J0737-3039')).map((line) => {
       const cols = []; let cur = '', inQ = false;
       for (const ch of line) {
         if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
@@ -7954,8 +7964,12 @@ if (!FAST) {
       }
       cols.push(cur);
       return { body: cols[0], quantity: cols[1], value: Number(cols[2]), unit: cols[3],
-        source: cols[4], url: cols[5], retrieved: cols[6], note: cols[7] };
+        source: cols[4], url: cols[5], retrieved: cols[6], note: cols[7], sigma: cols[8] };
     });
+    const csvRows = csvAll.filter((r) => !BUILDER_SKIP.has(r.quantity)).map((r) => {
+      const o = Object.assign({}, r); delete o.sigma; return o;
+    });
+    const csvOmegaDot = csvAll.find((r) => r.quantity === 'periastron_advance') || null;
     const ps = await page.evaluate(({ csvRows, FAST }) => {
       const P_OBS = 883.4534723278;   // 転写周期 8834.534723278 s / 10¹
       const p = HP.allPresets().find((q) => q.id === 'psrDoubleAB');
@@ -8371,7 +8385,9 @@ if (!FAST) {
         [dm.ctrl.geo0, dm.ctrl.d00, dm.ctrl.sinkRes, dm.ctrl.noGauge].every((x) =>
           x !== null && x >= 0.09 && x <= 0.13 && Math.abs(x - dm.decPct) <= 0.01)
         && dm.ctrl.dtHalf !== null && dm.ctrl.dtHalf / dm.decPct >= 0.35 && dm.ctrl.dtHalf / dm.decPct <= 0.65));
-    add('behavior.psrDoubleAB', csvRows.length === 9
+    add('behavior.psrDoubleAB', csvAll.length === 10 && csvRows.length === 9
+      && !!csvOmegaDot && Object.is(csvOmegaDot.value, 16.899323) && csvOmegaDot.unit === 'deg/yr'
+      && Number(csvOmegaDot.sigma) === 1.3e-5
       && declOk && !ps.kf0.nan && !ps.kf1.nan && !ps.pr0.nan && !ps.pr1.nan
       && t0s !== null && Math.abs(t0s / 8834.534723278 - 1) < 0.001
       && Math.abs(ps.kf0.ecc - 0.087777036) < 0.005
@@ -8391,6 +8407,8 @@ if (!FAST) {
       + `kF0(採用側・1.05公転): ${t0s === null ? '—' : t0s.toFixed(2) + ' s'}(観測 8834.53・宣言 8835.04)・実測離心率 ${ps.kf0.ecc.toFixed(6)}(転写 0.087777)・重心 ${ps.kf0.comMax.toExponential(1)}・殻 spin=0 保持 |s|max=${ps.kf0.sMax}(=0 — 第223便 resL 記帳)・否定対照(宣言除去→有界振動 |s|max=${ps.kf0ns.sMax.toFixed(2)}〔20〜40〕・軌道ビット不変=${ps.orbitBitEq}) / `
       + `kF1(測定側・遠点発 0.56公転): 接触要素周期 +${(ps.kf1.growth * 100).toFixed(1)}%(宣言 +157%・膨張 — 🌟 の縮小と逆向き)・rmax=${ps.kf1.rmax.toFixed(0)}(>1500)・殻 |s|max=${ps.kf1.sMax}(=0 — 記帳化で飽和解消) / `
       + `近点複製プローブ: kF1 外挿 ${(ps.pr1.proj * 100).toFixed(2)}%/公転(宣言 18.00 — 発火・差し戻し)・kF0 ドリフト ${ps.pr0.drift.toExponential(1)}(<1e-5 — ノイズ床未満) / `
+      + `観測レコード(第256便d): J0737 の CSV 行 ${csvAll.length} 本(うちビルダーが消費する ${csvRows.length} 本)・`
+      + `ω̇ 行=${csvOmegaDot ? csvOmegaDot.value + ' ' + csvOmegaDot.unit + '(σ=' + csvOmegaDot.sigma + ')' : '**無し**'} / `
       + `経路等価(第222便 族拡張): CSV ${csvRows.length}行 → buildAstroFromRecords=${ps.hole.ok}(相対論的連星族 rel=${ps.hole.scale ? ps.hole.scale.rel : '—'}・L${ps.hole.scale ? ps.hole.scale.L : '—'}/T${ps.hole.scale ? ps.hole.scale.T : '—'}/M${ps.hole.scale ? ps.hole.scale.M : '—'}・q=${ps.hole.q}・観測安定則=${ps.hole.stab}・値域外スピン宣言 ${ps.hole.spinDecl}件・内蔵 📻 とビット一致=${ps.hole.same}) / `
       + `⚡ DFM版: 質量係数 f=${dm.w242 ? '1.99994(第245便 一次則・χ² 則 1.99988)' : '1.99777〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・coupleSink:core+二層・massFrac=(f−1)/f・cmGauge・${dm.w242 ? 'fitted 0ノブ' : 'fitted 1ノブ C'}・BコアΩ=22.654675 転写)=${dm.declOk}・`
       + `2周目 ${dm.p2 === null ? '—' : (dm.p2 * 10).toFixed(2) + ' s'}(宣言 ${dm.w242 ? '8819.52〔hold-out −0.17%〕' : '8834.6'})・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(6)}(宣言 ${dm.w242 ? '0.087976' : '0.087089'})・近点 ${dm.rmin1 === null || dm.rmin1 === undefined ? '—' : dm.rmin1.toFixed(2)}(宣言 ${dm.w242 ? '801.37' : '802.81'} ±1%)・`
@@ -23677,6 +23695,55 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       rows.map((v) => `${v.label}: ${Number.isFinite(v.val) ? v.val : 'NaN'}(窓${v.min}〜${v.max})${v.ok ? '' : ' ✗'}`).join(' / '));
   } else {
     console.log('SKIP claims.sync(対象に descPattern 付き claims 宣言なし — 第42便 42A 未適用の root 等)');
+  }
+}
+
+// ---- 42A″) 第256便d(第48報・ChatGPT O5.2): behavior.periDetectorSynthetic ----
+// ----   **近点検出器 A/B を、真値が閉じた式で分かる合成軌道で検定する**。解析ケプラー軌道に
+// ----   既知の歳差 ω̇ を与えると、近点間周期の真値は厳密に P、1 近点間の近点方向の前進は厳密に
+// ----   ω̇·P である。そこへ第252便b/第254便d/第255便d と**同一手続き**の検出器 A(ṙ の −→+ 交差)/
+// ----   B(距離極小の放物線頂点)・柵・20 近点の直線 fit をかけ、**推定器そのものの誤差**を測る。
+// ----   固定するのは 4 つ:
+// ----     (1) きれいな合成軌道では A も B も真値を復元する(A の相対誤差 <1e-10・B <1e-6)
+// ----     (2) 同じ軌道での **|A−B| は真値の 1e-6 未満**(= A/B 差は「定義差」でも推定器誤差でもない)
+// ----     (3) ω̇=0 の対照で出る近点移動は 1e-8 °/周 未満(推定器に素のバイアスが無い)
+// ----     (4) **位置に相対 1e-10 の雑音を足すと |A−B| は 10⁴ 倍以上に跳ねる**(= シミュレータ側の
+// ----         A−B〔4.5×10⁻⁶〜2.9×10⁻⁴ °/周〕は軌道側の雑音で説明がつく — 機構の同定)
+// ----   **ブラウザを使わない**(純 Node・約 2 秒)。器の本体は tests/exp-w256d-detector.mjs ----
+{
+  try {
+    const { runCase } = await import('./lib-w256d-peri.mjs');
+    const BASE = { a: 100, P: 400, omegaDotDegPerTime: 0.005 / 400, dt: 0.016, orbits: 21.5, nWin: 20 };
+    const bad = [];
+    const rows = [];
+    for (const e of [0.0877, 0.2737, 0.6058]) {
+      const r = runCase(Object.assign({}, BASE, { e }));
+      const z = runCase(Object.assign({}, BASE, { e, omegaDotDegPerTime: 0 }));
+      rows.push({ e, r, z });
+      if (!(r.A && r.B)) { bad.push(`e=${e}: 窓が埋まらない`); continue; }
+      if (!(Math.abs(r.A.advErrRel) < 1e-10)) bad.push(`e=${e}: A の相対誤差 ${r.A.advErrRel.toExponential(2)}`);
+      if (!(Math.abs(r.B.advErrRel) < 1e-6)) bad.push(`e=${e}: B の相対誤差 ${r.B.advErrRel.toExponential(2)}`);
+      if (!(r.detDiffRelTrue < 1e-6)) bad.push(`e=${e}: |A−B|/真値 ${r.detDiffRelTrue.toExponential(2)}`);
+      if (!(Math.abs(r.A.perErrRel) < 1e-9 && Math.abs(r.B.perErrRel) < 1e-9))
+        bad.push(`e=${e}: 近点間 P の相対誤差 ${r.A.perErrRel.toExponential(2)}/${r.B.perErrRel.toExponential(2)}`);
+      if (r.A.dup + r.A.jump + r.B.dup + r.B.jump !== 0) bad.push(`e=${e}: きれいな軌道で柵却下が出た`);
+      if (!(Math.abs(z.A.advDeg) < 1e-8 && Math.abs(z.B.advDeg) < 1e-8))
+        bad.push(`e=${e}: ω̇=0 の素のバイアス ${z.A.advDeg.toExponential(2)}/${z.B.advDeg.toExponential(2)}`);
+    }
+    // (4) 位置雑音 ε=1e-10 の対照 —— A/B 差の起源の同定
+    const clean = rows[0].r, noisy = runCase(Object.assign({}, BASE, { e: 0.0877, posNoise: 1e-10 }));
+    const jump = noisy.detDiffDeg / clean.detDiffDeg;
+    if (!(jump > 1e4)) bad.push(`雑音 ε=1e-10 で |A−B| が ${jump.toExponential(2)} 倍しか跳ねない`);
+    if (!(noisy.detDiffDeg > 1e-7)) bad.push(`雑音対照の |A−B| が小さすぎる ${noisy.detDiffDeg.toExponential(2)}`);
+    add('behavior.periDetectorSynthetic', bad.length === 0,
+      `合成軌道(解析ケプラー+既知 ω̇・真値は閉じた式)で検出器 A/B を検定: `
+      + rows.map((q) => `e=${q.e}: A 誤差 ${q.r.A.advErrRel.toExponential(1)}・B ${q.r.B.advErrRel.toExponential(1)}・`
+        + `|A−B|/真値 ${q.r.detDiffRelTrue.toExponential(1)}・ω̇=0 バイアス ${q.z.A.advDeg.toExponential(1)}`).join(' / ')
+      + ` / 位置雑音 ε=1e-10 の対照: |A−B| ${clean.detDiffDeg.toExponential(1)}→${noisy.detDiffDeg.toExponential(1)}°/周(×${jump.toExponential(1)})`
+      + `= **A/B 差は定義差でも推定器誤差でもなく軌道側の雑音**(第256便d)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  } catch (err) {
+    add('behavior.periDetectorSynthetic', false, '合成軌道の検定器が読めない: ' + String(err).slice(0, 160));
   }
 }
 
