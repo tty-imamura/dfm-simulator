@@ -1061,6 +1061,40 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     SYSTEM_PROMPT の overlay 一覧には入れていない(診断器の宣言であり生成対象ではない)。
     QA `behavior.galaxyMesh` は 17 項目へ・`behavior.chainMesh`・`behavior.toyLedger` が新設
     (docs/PHYSICS.md 第257便b の節)。
+- **引きずりの仕事・最小の閉鎖系・銀河の場の宣言 3 本(第258便b・第50報)**: いずれも**表示と記録の層**であり、
+  **粒子の力へは 1 バイトも接続していない**。**全内蔵 120 本 × 600 步の状態はビット同一**で、
+  **署名が変わったのは 🌌🎡🎠 の 3 本の `overlays` だけ**である。
+  - **新しい physics キー `ledger`(opt-in・既定 OFF)**: `physics.ledger:{dragWork:true}` を宣言した宇宙だけが
+    **引きずりの仕事**を記録する。正準形は `{dragWork:true}` の 1 鍵だけで、`false`・未宣言は「なし」へ正規化する
+    (**宣言と未宣言で presetSig・エクスポート JSON が 1 文字も変わらない**)。`true`/`false` 以外は検証エラー・
+    未知の鍵は落とす。**記録するだけで速度・スピンは 1 bit も変わらない**(QA が 200 步のビット同一で固定する)。
+    読み口は `S.dragWorkE`(= Σ m v·Δv)・`S.dragWorkKE`(= Σ m(v·Δv+½|Δv|²) —— そのキックが動かした**厳密な**
+    運動エネルギー)・`S.dragSpinE`(反作用の残余トルクが回転エネルギーを動かした量)・`S.dragWorkN`(キック回数)・
+    `S.dragWorkStop`(`"coupleSink"` = 残余トルクの受け先が殻スピンでないので回転ぶんが未定義)。
+    記録点は **E6′ の離散キック・E12(geoPN=2)の輸送 3 項・③/③′ の反作用の一括適用**の 3 か所である。
+  - `HP.dfmToyLedger` の返値に **`Wdrag`・`WdragKE`・`WdragSpin`・`dWdrag`・`dWdragKE`・`residualDrag`・`dragWorkN`**
+    が増えた。**未宣言なら `Wdrag` は 0 ではなく `null`** で `undefinedTerms` に名前が挙がる。
+    既存の `residual`(= ΔE_tot−ΔW_ext)は**意味も値も 1 bit も変えていない** —— 引きずりぶんを差し引いた残差は
+    **別欄 `residualDrag`**(= ΔE_tot−ΔW_ext−ΔK_drag)に返す。
+  - `HP.dfmChainMeshClosed(chain, opts)` / `ClosedStep(cs, dt)` / `ClosedEnergy(cs)` — 連鎖トイに**有限の E_mesh** を
+    結んだ**最小の閉鎖系**(純関数群・粒子の力へは未接続)。`opts` は `{Emesh0, G, centralMass, eps, ext}`。
+    **4 項** `E_tot = K(節点の運動) + U(重力) + E_mesh(残容量 E_res + 鎖の弾性) + Q(熱)`、**ΔE_tot = W_ext**。
+    **駆動は E_mesh から出る**(供給 = 節点へ渡った仕事 + 結合で散逸した熱)。1 步の供給が残容量を超える步は
+    **駆動 OFF でやり直す**ので **E_res は 0 を割らない**(近似で埋めない・`capState:"floor"`)。
+    `Q` は**粘性(bond γ・背景抵抗)と粒子–節点結合の散逸の和**である。
+    `ClosedEnergy` は `Wpin`(**pinned 中心の維持仕事 = 厳密に 0**。中心が動かないので拘束力が仕事をしない)と
+    `Fpin`(その拘束力そのもの —— 0 ではないので省略しない)を併記する。`dt<0`・不正な `ext`・負の `Emesh0`/`G` は `null`。
+    QA `behavior.chainMesh`(第258便b で ⑨ を追加)。
+  - **`overlays.galaxyField` の宣言が 3 本になった(署名便)**: 🌌 galaxy・🎡 galaxyStd に
+    `{unSource:"disk",unFit:"affine"}`、🎠 galaxyMeshSpiral に `{unSource:"disk",unFit:"affine",slipThreshold:0.9}`。
+    宣言すると**空間メッシュ表示の場が上位 2 体の連星場から銀河の局所場へ**変わる(表示を出したときだけ効く)。
+    **他の未宣言 117 本には一括追加していない。**
+  - **m=2 の呼び方の規約(第257便b ⑤ の読み替え)**: 引きずりシアの m=2 を ε に換算する 2 通り
+    (棒 i=90° の |∇ψ|=m/r と、渦巻 i=20° の |∇ψ|=(m/r)/sin i)は、**「形状仮定別の見積り(棒仮定 / 渦巻仮定)」**
+    と呼ぶ。**「上限」「下限」とは呼ばない**(どちらを採るかは宣言であって導出ではなく、片方が他方を
+    挟むことも示していない)。`HP.dfmArmBudget` の `pitch` も同じ規約で読む。
+  - **生成 AI はこれらを使わない**(`physics.ledger` は SYSTEM_PROMPT の physics キー一覧に入れていない ——
+    帳簿の診断宣言であり生成対象ではない)。
 - **台帳の用語 — 等質量度の正名は `equalMassDegree`(第253便b L4・文書のみ)**: 2 体の質量がどれだけ揃っているかを表す量の**正名を `equalMassDegree = |m₁−m₂|/M`(M=m₁+m₂)** に固定する。**0 で等質量**・正質量(m₁,m₂>0)・M>0 のときにだけ定義され、値域は [0,1)。対応欄として **`4ν = 4m₁m₂/M² = 1−δ²`(δ=equalMassDegree)** を併記する(4ν は 1 で等質量 —— 向きが逆なので混ぜない)。ν=m₁m₂/M² は第249便a の ν 則でそのまま使う。**これはプリセットの物理キーではない**(生成 AI が JSON に書く欄ではなく、台帳・文書・ハーネス出力の呼び名の規約である)。
 - **観測安定則(第199便 M1 — 2026-08-25 裁定)**: 観測値再現版は、観測値で安定する計算式を
   採用する(観測値自体が計算式で算出されている為)。kFrame=1 雛形が自己診断で永年不安定と
