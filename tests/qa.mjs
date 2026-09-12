@@ -13178,6 +13178,10 @@ if (!FAST) {
 //   ⑤ **2 案は別物である**(実測の否定結果): "pairFull"(フレームの代入)は頂点で χΔvᵢ の
 //      自己項が残るので連星が壊れる。"pair"(相対速度の読み替え)は壊れない
 //   ⑥ 決定性・門(weave/reservoir の不正値)
+//   〔第257便a〕要求差分は **③′ の共有ヘルパ `S._weaveSpread`** を通す(`"pairPN"` と規約を揃えた)。
+//      🪟 は frameReaction:"pairReduced" を宣言しているので **`"pair"`/`"pairFull"` の数値は動く**
+//      (4000 步で "pair" の r は 239.347470 → 239.347469・外部仕事 1.669543 → 1.669548)。
+//      **`"off"` と未宣言はビット同一のまま**(上の ①)。
 {
   const hasPW = await page.evaluate(() => !!(window.HP && Array.isArray(HP.SPACE_MESH_WEAVE)));
   if (hasPW) {
@@ -13258,7 +13262,10 @@ if (!FAST) {
     const w3 = pw.kf0.same && pw.kf0.stop === 'kFrame';
     const w4 = Math.abs(pw.ledger.closePx) < 1e-9 && Math.abs(pw.ledger.closePy) < 1e-9
       && Math.abs(pw.ledger.closeL) / pw.ledger.Labs < 1e-6 && !pw.ledger.nan && pw.ledger.stop === null;
-    const w5 = pw.two.fullDev > 0.5 && pw.two.fullClamp > 1000
+    // 第257便a: `"pair"`/`"pairFull"` の要求差分を ③′ の共有ヘルパへ通す規約統一で、否定対照の壊れ方が
+    // **変わった**(4000 步後の r は 54.78 → 165.10・ずれ 77.2% → 31.2%・安全クランプ 3598 → 3324・
+    // 外部仕事 4.60×10⁶ → 6.05×10⁶)。**壊れることは変わらない**ので門は 0.25 へ下げた(実測 0.312)
+    const w5 = pw.two.fullDev > 0.25 && pw.two.fullClamp > 1000
       && pw.two.pairClamp === 0 && pw.two.pairDev < 0.1
       && Math.abs(pw.two.fullE) > 1000 * Math.abs(pw.two.pairE);
     const w6 = pw.det && pw.gates;
@@ -13425,6 +13432,246 @@ if (!FAST) {
       + `決定性=${pn.det}・門=${pn.gates}・受理=${pn.accept}=${p6}`);
   } else {
     console.log('SKIP behavior.pairWeavePN(対象に第256便a の weave:"pairPN" なし — root 等)');
+  }
+}
+// ---- 第257便a(第49報): behavior.meshCoordInertia — 座標変換慣性(opt-in)の契約 ----
+//   ① **未宣言は 1 bit 不変**: ⚡ に spaceMesh を宣言しなければ署名に 1 文字も出ず、
+//      600 步の状態もビット同一(S.hasCoordInertia は未宣言 false / "coordinate" true)
+//   ② **純関数の恒等**: `HP.affineComovingStep` は**群**(100 分割と一括が丸めまで一致)・
+//      逆向き(dt<0)で戻る・固定点で再アンカーした形の**速度場**が一致する。
+//      `HP.relativeOrbitReference` は χ=0 でニュートン(f=1・Δϖ=0)・門
+//   ③ **箱の共動写像への収束の次数**: 回転する UniverseBox の共動試験粒子で、E6′ の誤差が
+//      dt 半減で半分になる(一次収束)—— 重いので QA_FAST では省略
+//   ④ **遠心の符号は (1−ηχ)² に乗る**: 剛体回転の箱(χ=1)で共回転試験粒子の残差 a_r+Ω²r が
+//      η=1 で 0 へ落ち、η=0.5/0.25 で Ω²r の (1−η)² 倍になる。**η=0 は kFrame=0 と同じ**
+//      (= E6′ の二重計上が無い。置換であることの機械証明)
+//   ⑤ **反作用と帳簿**: `inertiaReaction:"pair"` は慣性チャネルの ΔP/ΔL を頂点対へ返すので
+//      粒子系だけの残差が `"reservoir"` より桁で小さい。E_mesh=−E(厳密)・ΔP+リザーバが閉じる
+//   ⑥ **χ→0 で OFF へ戻る**(D0pull=10¹²)・**dt<0 で契約が壊れない**(NaN 0・有限)
+//   ⑦ 門(inertiaGain の範囲外・inertiaVertices 非真偽値・inertiaReaction 不正値)と受理
+{
+  const hasCI = await page.evaluate(() => !!(window.HP && Array.isArray(HP.SPACE_MESH_INERTIA)
+    && HP.SPACE_MESH_INERTIA.indexOf('coordinate') >= 0
+    && typeof HP.affineComovingStep === 'function' && typeof HP.relativeOrbitReference === 'function'));
+  if (hasCI) {
+    const ci = await page.evaluate((fast) => {
+      const R = {}, KEY = HP.SPACE_MESH_KEY;
+      const mkRun = (id, sm, ph, n, dt, bodies, ub) => {
+        const q = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === id)));
+        if (sm) q.physics[KEY] = Object.assign({ mode: 'vertex' }, q.physics[KEY] || {}, sm);
+        if (ph) Object.assign(q.physics, ph);
+        if (ub) q.universeBox = Object.assign({}, q.universeBox || {}, ub);
+        if (bodies) q.bodies = bodies;
+        delete q.massCalibration;
+        const v = HP.validatePreset(q);
+        if (!v.ok) return { err: (v.errors || []).join('|') };
+        const S = HP.sim; S.build(v.preset);
+        const T0 = S.totals();
+        for (let k = 0; k < n; k++) S.step(dt);
+        const T = S.totals();
+        return { sig: JSON.stringify(v.preset.physics), has: S.hasCoordInertia, n: S.n,
+          st: [S.x[0], S.y[0], S.vx[0], S.vy[0], S.x[1], S.y[1], S.vx[1], S.vy[1]],
+          nan: S.hasNaN(), stop: S.meshCoordStop, src: S.meshCoordSrc, chi: S.meshCoordChi,
+          mcN: S.meshCoordN, mcE: S.meshCoordE, mcEm: S.meshCoordEmesh,
+          mcP: Math.hypot(S.meshCoordPx, S.meshCoordPy), mcL: S.meshCoordL,
+          dvI: S.meshCoordDvI, dvE6: S.meshCoordDvE6, mcClamp: S.meshCoordClamp,
+          clamp: S.clampVN + S.clampSN + S.clampRN + S.clampTN + S.clampAN,
+          dPraw: Math.hypot(T.px - T0.px, T.py - T0.py), dLraw: T.L - T0.L, Labs: Math.abs(T0.L) || 1,
+          dPres: Math.hypot(T.px - T0.px + S.resPx, T.py - T0.py + S.resPy),
+          dLres: (T.L - T0.L) + S.resL,
+          vel: [S.vx[S.n - 1], S.vy[S.n - 1]], pos: [S.x[S.n - 1], S.y[S.n - 1]] };
+      };
+      // ① 未宣言 1 bit 不変(⚡)
+      const base = mkRun('psrDoubleABDFM', null, null, 600, 0.016);
+      const onCI = mkRun('psrDoubleABDFM', { inertia: 'coordinate', inertiaVertices: true }, null, 1, 0.016);
+      R.norm = { noKeyInSig: !base.sig.includes(KEY), flagOff: base.has === false,
+        flagOn: onCI.has === true, srcOn: onCI.src };
+      // ② 純関数
+      const cs = { C: [1, 2], V: [0.37, -0.21], H: 0.05, Omega: 0.4 };
+      const one = HP.affineComovingStep(Object.assign({ dt: 1.5 }, cs), [4, -3]);
+      let st = { x: [4, -3], C: cs.C.slice() };
+      for (let i = 0; i < 100; i++) {
+        const z = HP.affineComovingStep({ C: st.C, V: cs.V, H: cs.H, Omega: cs.Omega, dt: 0.015 }, st.x);
+        st = { x: z.x, C: z.C };
+      }
+      const back = HP.affineComovingStep({ C: one.C, V: cs.V, H: cs.H, Omega: cs.Omega, dt: -1.5 }, one.x);
+      let fe = 0;
+      for (const q of [[4, -3], [-8, 5], [0, 0], [120, 77]]) {
+        const zf = HP.affineComovingStep({ C: one.fixedPoint, V: [0, 0], H: cs.H, Omega: cs.Omega, dt: 0 }, q);
+        const ux = cs.V[0] + cs.H * (q[0] - cs.C[0]) - cs.Omega * (q[1] - cs.C[1]);
+        const uy = cs.V[1] + cs.Omega * (q[0] - cs.C[0]) + cs.H * (q[1] - cs.C[1]);
+        fe = Math.max(fe, Math.hypot(zf.u[0] - ux, zf.u[1] - uy));
+      }
+      const r0 = HP.relativeOrbitReference({ chi: 0, s: 1.5, omega: 2, r: 3, GM: 5 });
+      R.pure = { group: Math.hypot(one.x[0] - st.x[0], one.x[1] - st.x[1]) / Math.hypot(one.x[0], one.x[1]),
+        reverse: Math.hypot(back.x[0] - 4, back.x[1] + 3), fieldErr: fe,
+        newton: { f: r0.f, dv: r0.dvarpiDeg, ratio: r0.ratio },
+        gates: [HP.affineComovingStep(null, [0, 0]), HP.affineComovingStep({ dt: NaN }, [0, 0]),
+          HP.affineComovingStep({ dt: 1 }, [1]), HP.relativeOrbitReference(null),
+          HP.relativeOrbitReference({ chi: -0.1, omega: 1 }), HP.relativeOrbitReference({ chi: 1.1, omega: 1 }),
+          HP.relativeOrbitReference({ chi: 0.5, omega: NaN })].every((z) => z === null) };
+      // ③④ 箱(剛体回転・G=0・χ=1)—— 共回転試験粒子の a_r+Ω²r と共動写像の収束
+      const OM = 0.15, RP = 70, UB = { mode: 'exp', H0: 0, omega: OM, vx: 0, vy: 0, D: 80, dPower: 1 };
+      const PHB = { G: 0, D0: 0, kFrame: 1, geoPN: 0, softening: 4, stateCarry: 'double' };
+      const spin = (sm, ph, dt) => {
+        const bodies = [{ type: 'single', m: 1e-9, x: RP, y: 0, vx: 0, vy: OM * RP, spin: 0, pinned: false }];
+        const q = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'boxcomoving')));
+        q.universeBox = Object.assign({}, q.universeBox, UB);
+        Object.assign(q.physics, PHB, ph || {});
+        if (sm) q.physics[KEY] = Object.assign({ mode: 'vertex' }, sm);
+        q.bodies = bodies; delete q.massCalibration;
+        const v = HP.validatePreset(q);
+        if (!v.ok) return null;
+        const S = HP.sim; S.build(v.preset);
+        let ar = 0, r = RP;
+        for (let k = 0; k < 4; k++) {
+          const v0 = [S.vx[0], S.vy[0]];
+          S.step(dt);
+          r = Math.hypot(S.x[0], S.y[0]);
+          ar = ((S.vx[0] - v0[0]) / dt * S.x[0] + (S.vy[0] - v0[1]) / dt * S.y[0]) / r;
+        }
+        return { resid: ar + OM * OM * r, ref: OM * OM * r, chi: S.meshCoordChi, src: S.meshCoordSrc,
+          stop: S.meshCoordStop, nan: S.hasNaN() };
+      };
+      const e6 = spin(null, null, 0.005);
+      const c1 = spin({ inertia: 'coordinate' }, null, 0.005);
+      const c05 = spin({ inertia: 'coordinate', inertiaGain: 0.5 }, null, 0.005);
+      const c025 = spin({ inertia: 'coordinate', inertiaGain: 0.25 }, null, 0.005);
+      const c0 = spin({ inertia: 'coordinate', inertiaGain: 0 }, null, 0.005);
+      const kf0 = spin(null, { kFrame: 0 }, 0.005);
+      R.spin = { e6: e6.resid / e6.ref, c1: c1.resid / c1.ref, c05: c05.resid / c05.ref,
+        c025: c025.resid / c025.ref, c0: c0.resid / c0.ref, kf0: kf0.resid / kf0.ref,
+        chi: c1.chi, src: c1.src, stop: c1.stop, nan: c1.nan,
+        law05: Math.abs(c05.resid / c05.ref - 0.25), law025: Math.abs(c025.resid / c025.ref - 0.5625),
+        replace: Math.abs(c0.resid / c0.ref - kf0.resid / kf0.ref) };
+      // ③ 収束の次数(重い — QA_FAST では省略)
+      if (!fast) {
+        const conv = (dt) => {
+          const T = 5, r0 = 100;
+          const q = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'boxcomoving')));
+          q.universeBox = Object.assign({}, q.universeBox, { mode: 'exp', H0: 0, omega: 0.2, vx: 0, vy: 0, D: 80, dPower: 1 });
+          Object.assign(q.physics, PHB);
+          q.bodies = [{ type: 'single', m: 1e-9, x: r0, y: 0, vx: 0, vy: 0.2 * r0, spin: 0, pinned: false }];
+          delete q.massCalibration;
+          const v = HP.validatePreset(q);
+          if (!v.ok) return null;
+          const S = HP.sim; S.build(v.preset);
+          for (let k = 0; k < Math.round(T / dt); k++) S.step(dt);
+          const xa = HP.affineComovingStep({ C: [0, 0], V: [0, 0], H: 0, Omega: 0.2, dt: T }, [r0, 0]).x;
+          return Math.hypot(S.x[0] - xa[0], S.y[0] - xa[1]);
+        };
+        const a = conv(0.02), b = conv(0.01), c = conv(0.005);
+        R.conv = { a, b, c, r1: a / b, r2: b / c, p: Math.log2(a / b) };
+      }
+      // ⑤ 反作用と帳簿(**非頂点**のリング・🪟)
+      const ring = [];
+      for (let k = 0; k < 8; k++) {
+        const th = 2 * Math.PI * k / 8, rr = 900;
+        ring.push({ type: 'single', m: 0.5, x: rr * Math.cos(th), y: rr * Math.sin(th),
+          vx: -0.026 * Math.sin(th), vy: 0.026 * Math.cos(th), spin: 0, pinned: false });
+      }
+      const WIN = HP.allPresets().find((z) => z.id === 'spaceMeshBinaryToy');
+      const ringRun = (sm) => {
+        const q = JSON.parse(JSON.stringify(WIN));
+        if (sm) q.physics[KEY] = Object.assign({ mode: 'vertex' }, q.physics[KEY] || {}, sm);
+        q.bodies = q.bodies.concat(ring);
+        const v = HP.validatePreset(q);
+        if (!v.ok) return { err: (v.errors || []).join('|') };
+        const S = HP.sim; S.build(v.preset);
+        const T0 = S.totals();
+        for (let k = 0; k < (fast ? 400 : 3000); k++) S.step(0.004);
+        const T = S.totals();
+        return { dLraw: T.L - T0.L, Labs: Math.abs(T0.L) || 1,
+          dPres: Math.hypot(T.px - T0.px + S.resPx, T.py - T0.py + S.resPy),
+          dLres: (T.L - T0.L) + S.resL, mcE: S.meshCoordE, mcEm: S.meshCoordEmesh,
+          mcN: S.meshCoordN, nan: S.hasNaN(), stop: S.meshCoordStop,
+          clamp: S.clampVN + S.clampSN + S.clampRN + S.clampTN + S.clampAN };
+      };
+      const rPair = ringRun({ inertia: 'coordinate' });
+      const rRes = ringRun({ inertia: 'coordinate', inertiaReaction: 'reservoir' });
+      R.react = { pair: rPair, res: rRes,
+        eBook: Math.abs(rPair.mcE + rPair.mcEm),
+        better: Math.abs(rPair.dLraw) < 0.2 * Math.abs(rRes.dLraw) };
+      // ⑥ χ→0 で OFF へ戻る / dt<0 の契約
+      const z0 = mkRun('psrDoubleABDFM', null, { D0pull: 1e12 }, 600, 0.016);
+      const z1 = mkRun('psrDoubleABDFM', { inertia: 'coordinate', inertiaVertices: true }, { D0pull: 1e12 }, 600, 0.016);
+      R.chiZero = { chi: z1.chi, mcE: z1.mcE, dvI: z1.dvI,
+        maxDiff: Math.max(...z1.st.map((v, i) => Math.abs(v - z0.st[i]))), scale: Math.hypot(z0.st[0], z0.st[1]) };
+      const neg = (() => {
+        const q = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'boxcomoving')));
+        q.universeBox = Object.assign({}, q.universeBox, UB);
+        Object.assign(q.physics, PHB);
+        q.physics[KEY] = { mode: 'vertex', inertia: 'coordinate' };
+        q.bodies = [{ type: 'single', m: 1e-9, x: 130, y: 0, vx: 0, vy: OM * 130, spin: 0, pinned: false }];
+        delete q.massCalibration;
+        const v = HP.validatePreset(q);
+        if (!v.ok) return { err: 1 };
+        const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < 3; k++) S.step(0.01);
+        S.step(-0.01);
+        return { nan: S.hasNaN(), finite: [S.x[0], S.y[0], S.vx[0], S.vy[0]].every(Number.isFinite),
+          stop: S.meshCoordStop };
+      })();
+      R.neg = neg;
+      // ⑦ 門と受理
+      const mkq = (sm) => { const q = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'psrDoubleABDFM')));
+        q.physics[KEY] = Object.assign({ mode: 'vertex' }, sm); delete q.massCalibration; return q; };
+      R.gates = [HP.validatePreset(mkq({ inertia: 'coord' })).ok,
+        HP.validatePreset(mkq({ inertia: 'coordinate', inertiaGain: 1.5 })).ok,
+        HP.validatePreset(mkq({ inertia: 'coordinate', inertiaGain: -0.1 })).ok,
+        HP.validatePreset(mkq({ inertia: 'coordinate', inertiaVertices: 1 })).ok,
+        HP.validatePreset(mkq({ inertia: 'coordinate', inertiaReaction: 'both' })).ok].every((z) => z === false);
+      R.accept = [HP.validatePreset(mkq({ inertia: 'coordinate' })).ok,
+        HP.validatePreset(mkq({ inertia: 'coordinate', inertiaGain: 0.5, inertiaVertices: true, inertiaReaction: 'reservoir' })).ok]
+        .every((z) => z === true);
+      // 既定値は署名に出ない(η=1・vertices=false・reaction="pair")
+      const sigDef = JSON.stringify(HP.validatePreset(mkq({ inertia: 'coordinate', inertiaGain: 1,
+        inertiaVertices: false, inertiaReaction: 'pair' })).preset.physics[KEY]);
+      R.sigDefault = sigDef;
+      R.sigClean = !sigDef.includes('inertiaGain') && !sigDef.includes('inertiaVertices') && !sigDef.includes('inertiaReaction');
+      return R;
+    }, FAST);
+    const fxq = (x) => Number(x).toExponential(4);
+    const q1 = ci.norm.noKeyInSig && ci.norm.flagOff && ci.norm.flagOn && ci.sigClean;
+    const q2 = ci.pure.group < 1e-12 && ci.pure.reverse < 1e-12 && ci.pure.fieldErr < 1e-12
+      && ci.pure.newton.f === 1 && ci.pure.newton.dv === 0 && ci.pure.gates;
+    const q3 = FAST || (ci.conv && ci.conv.r1 > 1.8 && ci.conv.r1 < 2.2 && ci.conv.r2 > 1.8 && ci.conv.r2 < 2.2);
+    const q4 = Math.abs(ci.spin.e6) < 1e-4 && Math.abs(ci.spin.c1) < 1e-4
+      && ci.spin.law05 < 1e-3 && ci.spin.law025 < 1e-3 && ci.spin.replace < 1e-3
+      && ci.spin.src === 'box' && ci.spin.stop === null && !ci.spin.nan;
+    const q5 = ci.react.eBook < 1e-9 && ci.react.better && !ci.react.pair.nan
+      && ci.react.pair.clamp === 0 && Math.abs(ci.react.pair.dLres) / ci.react.pair.Labs < 1e-9
+      && ci.react.pair.dPres < 1e-9;
+    const q6 = ci.chiZero.chi < 1e-6 && Math.abs(ci.chiZero.mcE) < 1e-3 && ci.chiZero.maxDiff < 1e-6
+      && !ci.neg.nan && ci.neg.finite;
+    const q7 = ci.gates && ci.accept;
+    add('behavior.meshCoordInertia', q1 && q2 && q3 && q4 && q5 && q6 && q7,
+      `① **未宣言は 1 bit 不変**: ⚡ の署名に spaceMesh が出ない=${ci.norm.noKeyInSig}・`
+      + `S.hasCoordInertia は未宣言 false/"coordinate" true=${ci.norm.flagOff && ci.norm.flagOn}・`
+      + `既定値(η=1/vertices=false/reaction="pair")は署名に出ない=${ci.sigClean}(${ci.sigDefault})=${q1} / `
+      + `② **純関数**: affineComovingStep は**群**(100 分割と一括の相対差 ${fxq(ci.pure.group)})・`
+      + `逆向き(dt<0)で戻る ${fxq(ci.pure.reverse)}・固定点で再アンカーした形の速度場が一致 ${fxq(ci.pure.fieldErr)}`
+      + ` / relativeOrbitReference は χ=0 でニュートン(f=${ci.pure.newton.f}・Δϖ=${ci.pure.newton.dv}°)・門 ${ci.pure.gates}=${q2} / `
+      + `③ **箱の共動写像への収束**: ${FAST ? '(QA_FAST では省略)'
+        : `回転 Ω=0.2 の誤差 ${fxq(ci.conv.a)}/${fxq(ci.conv.b)}/${fxq(ci.conv.c)}(dt=.02/.01/.005)= `
+        + `**dt 半減で ${ci.conv.r1.toFixed(3)}・${ci.conv.r2.toFixed(3)} 倍 → 一次収束**`}=${q3} / `
+      + `④ **遠心の符号は (1−ηχ)² に乗る**(剛体回転の箱・χ=${fxq(ci.spin.chi)}・src="${ci.spin.src}"): `
+      + `残差/(Ω²r) は E6′ ${fxq(ci.spin.e6)}・**coordinate η=1 ${fxq(ci.spin.c1)}**・`
+      + `η=0.5 ${ci.spin.c05.toFixed(6)}(=(1−η)²=0.25 との差 ${fxq(ci.spin.law05)})・`
+      + `η=0.25 ${ci.spin.c025.toFixed(6)}(=0.5625 との差 ${fxq(ci.spin.law025)})・`
+      + `**η=0 ${ci.spin.c0.toFixed(6)} は kFrame=0 の ${ci.spin.kf0.toFixed(6)} と一致**(差 ${fxq(ci.spin.replace)}`
+      + ` = E6′ を**置換**していて二重計上が無いことの機械証明)=${q4} / `
+      + `⑤ **反作用と帳簿**(🪟+非頂点リング 8 個): E_mesh=−E の残差 ${fxq(ci.react.eBook)}・`
+      + `粒子系だけの ΔL は "pair" ${fxq(ci.react.pair.dLraw)} 対 "reservoir" ${fxq(ci.react.res.dLraw)}`
+      + `(|L|≈${fxq(ci.react.pair.Labs)} —— 頂点対へ返す側が桁で小さい=${ci.react.better})・`
+      + `ΔP+リザーバ ${fxq(ci.react.pair.dPres)}・ΔL+リザーバ/|L| ${fxq(Math.abs(ci.react.pair.dLres) / ci.react.pair.Labs)}・`
+      + `NaN=${ci.react.pair.nan}・クランプ ${ci.react.pair.clamp}=${q5} / `
+      + `⑥ **χ→0 で OFF へ戻る**(D0pull=10¹²): χ=${fxq(ci.chiZero.chi)}・慣性の 1 步 |Δv|=${fxq(ci.chiZero.dvI)}・`
+      + `仕事 ${fxq(ci.chiZero.mcE)}・状態差 ${fxq(ci.chiZero.maxDiff)}(|x|≈${ci.chiZero.scale.toFixed(1)}) / `
+      + `**dt<0 の契約**: NaN=${ci.neg.nan}・有限=${ci.neg.finite}・stop=${ci.neg.stop}=${q6} / `
+      + `⑦ 門(inertia 不正値・η 範囲外・vertices 非真偽・reaction 不正)=${ci.gates}・受理=${ci.accept}=${q7}`);
+  } else {
+    console.log('SKIP behavior.meshCoordInertia(対象に第257便a の inertia:"coordinate" なし — root 等)');
   }
 }
 // ---- 第255便a(第47報・ChatGPT §8.1): behavior.meshRotorExchange — 有限の回転子交換 ----
