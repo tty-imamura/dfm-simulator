@@ -241,8 +241,13 @@ if (!TARGET.startsWith('beta/')) {
 //     ② 近点が測れない行は **meas=null の「未測定」**であり、同方向1周・接触要素へ**置換していない**
 //        (meas は periASec とビット一致し、revSec[1]/oscSec を採っていない)。
 //     ③ dt/2 段の ε_num も**同じ定義**で作られている(numBoundDef:"periastron")。
-//     ④ 門の definitionMatches は**同じ定義の検出器 A/B の広がり**(gate.defSpreadPct)で決まり、
-//        **定義違いの広がり**(gate.defSpreadCrossDefPct)は別欄に残るだけで σ と比較されていない。
+//     ④ **定義違いの広がり**(gate.defSpreadCrossDefPct)は別欄に残るだけで σ と比較されていない。
+//        **第257便d(第49報)で ④ の前半が変わった**: 門の definitionMatches は **A 正本**へ移り、
+//        「同じ定義の検出器 A/B の広がり(gate.defSpreadPct)が σ_rel の内側か」では**なくなった**
+//        (第256便d ③ の合成軌道検定で、その広がりは定義差ではなく**軌道側の雑音**だと同定された)。
+//        A−B は gate.orbitNoiseIndicator へ移した。**本ブロックはそこを見ない** —— 定義の宣言と
+//        A 正本・4 段の集計・旧鍵の読み替えは `behavior.calauditMapping`(第257便d 新設)が見る。
+//        ここに残る ④ は「ecc は defMeta=false のまま」「定義未宣言のまま 3σ 合にしない」だけである。
 //     ⑤ 視覚連星(✨✴️🌟💫)は従来どおり periodDef:"revolution"。
 //     ⑥ σ は paper/data/solar-observations.csv の **sigma 列**から来ており(gate.sigmaFrom:"csv")、
 //        CSV の値とビット一致する。sigma 列が空欄の行からは σ を作っていない。
@@ -24288,6 +24293,118 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   } catch (err) {
     add('behavior.periDetectorSynthetic', false, '合成軌道の検定器が読めない: ' + String(err).slice(0, 160));
+  }
+}
+
+// ---- 42A‴) 第257便d(第49報・3 審査 v15): behavior.calauditMapping ----
+// ----   **棚卸しの門を 4 段で読む**規約を、出力 JSON の側で機械固定する(fs のみ・軽量)。
+// ----     ① 集計に 4 段(①数値収束/②観測量対応/③観測適合(3σ)/④予測)がある。
+// ----     ② `definitionMatches` は **A 正本**へ移った: すべての行が gate.detectorCanonical:"A" と
+// ----        gate.definitionDeclared を持ち、**3σ の合否が出た行は定義が宣言されている**。
+// ----     ③ A−B の広がりは `gate.orbitNoiseIndicator`(別欄・gate:"none")にあり、**旧鍵 defSpreadPct /
+// ----        detSpreadPct と値がビット一致**する(読み替え表 summary.keyAliases がある)。
+// ----     ④ 第 4 の状態 `mapping-unresolved` は**宣言した量にだけ**立つ(現行の宣言は ecc 全行)。
+// ----     ⑤ Float32 質量の欄(out.massFloat32)があり、保持質量は宣言質量の Math.fround と
+// ----        ビット一致し、最小刻み(ULP)が正である。
+// ----   **値そのものは窓にしない**(棚卸しは記録であって回帰窓ではない)。
+{
+  let ok = false, detail = '';
+  try {
+    const j = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+    const bad = [];
+    const st = (j.summary && j.summary.stages) || null;
+    const KEYS = ['①数値収束', '②観測量対応', '③観測適合(3σ)', '④予測(従属量でない③)'];
+    if (!st) bad.push('①summary.stages が無い');
+    else for (const k of KEYS) if (!Number.isFinite(st[k])) bad.push(`①段が無い: ${k}`);
+    if (!(j.summary && j.summary.keyAliases)) bad.push('③読み替え表 summary.keyAliases が無い');
+    const STATUS = ['合(3σ)', '否(3σ)', '数値未解決', 'mapping-unresolved', '未判定'];
+    let nGate = 0, nOni = 0, nMap = 0, nDecl = 0;
+    for (const p of (j.presets || [])) for (const q of (p.quantities || [])) {
+      const g = q.gate; if (!g) continue;
+      nGate++;
+      if (STATUS.indexOf(g.status) < 0) bad.push(`未知の門の状態 ${p.id}:${g.status}`);
+      if (g.detectorCanonical !== 'A') bad.push(`②A 正本の宣言が無い ${p.id}|${q.kind}`);
+      if (typeof g.definitionDeclared !== 'boolean') bad.push(`②definitionDeclared が無い ${p.id}|${q.kind}`);
+      if (g.definitionDeclared === true) nDecl++;
+      if (g.status === '合(3σ)' || g.status === '否(3σ)') {
+        if (g.definitionDeclared !== true) bad.push(`②定義未宣言のまま 3σ 判定 ${p.id}|${q.kind}`);
+        if (g.mappingResolved !== true) bad.push(`④対応未確定のまま 3σ 判定 ${p.id}|${q.kind}`);
+      }
+      const oni = g.orbitNoiseIndicator || null;
+      if (!oni) bad.push(`③orbitNoiseIndicator が無い ${p.id}|${q.kind}`);
+      else {
+        nOni++;
+        if (oni.gate !== undefined && !/none/.test(String(oni.gate))) bad.push(`③軌道雑音の欄が門に入っている ${p.id}`);
+        if (!Object.is(oni.abRelPct, g.defSpreadPct) || !Object.is(oni.abRelPct, g.detSpreadPct))
+          bad.push(`③旧鍵と値が食い違う ${p.id}|${q.kind}`);
+      }
+      if (g.status === 'mapping-unresolved') {
+        nMap++;
+        if (q.kind !== 'ecc') bad.push(`④宣言外の量が mapping-unresolved ${p.id}|${q.kind}`);
+        if (!g.mappingNote) bad.push(`④mapping-unresolved に理由が無い ${p.id}|${q.kind}`);
+      }
+    }
+    const mf = (j.massFloat32 && Array.isArray(j.massFloat32.rows)) ? j.massFloat32.rows : null;
+    let nBody = 0;
+    if (!mf || !mf.length) bad.push('⑤massFloat32 の欄が無い');
+    else for (const r of mf) {
+      if (r.missing) { bad.push(`⑤preset が見つからない ${r.id}`); continue; }
+      for (const b of (r.bodies || [])) {
+        nBody++;
+        if (b.heldIsFroundOfDeclared !== true) bad.push(`⑤保持質量が fround(宣言) でない ${r.id}#${b.i}`);
+        if (!(b.ulp32 > 0)) bad.push(`⑤最小刻みが正でない ${r.id}#${b.i}`);
+        if (!Number.isFinite(b.relDiff)) bad.push(`⑤相対差が無い ${r.id}#${b.i}`);
+      }
+    }
+    ok = bad.length === 0 && nGate > 0 && nOni > 0 && nBody > 0;
+    detail = st
+      ? `4 段: ①数値収束 ${st['①数値収束']} / ②観測量対応 ${st['②観測量対応']} / `
+        + `③観測適合(3σ) ${st['③観測適合(3σ)']} / ④予測 ${st['④予測(従属量でない③)']}`
+        + ` / mapping-unresolved ${nMap} 件(宣言どおり ecc のみ)・定義宣言済み ${nDecl}/${nGate} 量`
+        + ` / orbitNoiseIndicator ${nOni} 件(旧鍵 defSpreadPct とビット一致・門には入らない)`
+        + ` / Float32 質量 ${nBody} 粒(保持質量 = fround(宣言)・ULP>0)`
+      : '4 段の集計が読めない';
+    detail += (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : '');
+  } catch (err) { detail = 'calaudit-w249.json が読めない: ' + String(err).slice(0, 140); }
+  add('behavior.calauditMapping', ok, detail);
+}
+
+// ---- 42A⁗) 第257便d(第49報・3 審査 v15): behavior.clusterVirial ----
+// ----   星団 C0/C1/Cn の**初期条件が同じ平衡か**を固定する(純 Node・ブラウザ不要・約 0.1 秒)。
+// ----   3 審査 v15: 「中心配置を変えると平衡分布が変わる —— 同じ速度を配って膨張を比べると
+// ----   BH の効果と初期緩和が混ざる」。だから器は **2K/|U|・E_tot・λ・M・外縁の切り方**を
+// ----   揃えてから走らせる。ここで機械固定するのは**揃っていること**だけで、膨張の値ではない。
+// ----     ① 3 群の初期 2K/|U| が相対 1e-3 で一致(実測は 1e-14 台)
+// ----     ② 3 群の初期 E_tot が相対 1e-3 で一致
+// ----     ③ 揃え方が G に依らない(G を 2 通りで作って同じ広がり = 合わせ込みではない)
+// ----     ④ **r_h は揃わない**ことを明示的に確認する(揃っていると書かないための逆向きの門)
+{
+  try {
+    const { buildCell } = await import('./lib-w257d-cluster2.mjs');
+    const bad = [];
+    const cells = FAST ? [{ nField: 224, eps: 0.5 }]
+      : [{ nField: 224, eps: 0.5 }, { nField: 224, eps: 0.25 }];
+    const lines = [];
+    for (const c of cells) {
+      const a = buildCell({ nField: c.nField, eps: c.eps, seed: 20260911, G: 1 });
+      const b = buildCell({ nField: c.nField, eps: c.eps, seed: 20260911, G: 6.674e-2 });
+      if (!(a.spread.QRel < 1e-3)) bad.push(`①N=${c.nField} ε=${c.eps}: 2K/|U| の広がり ${a.spread.QRel.toExponential(2)}`);
+      if (!(a.spread.ERel < 1e-3)) bad.push(`②N=${c.nField} ε=${c.eps}: E_tot の広がり ${a.spread.ERel.toExponential(2)}`);
+      if (!(b.spread.QRel < 1e-3 && b.spread.ERel < 1e-3)) bad.push(`③N=${c.nField} ε=${c.eps}: G を変えると揃わない`);
+      if (a.rows.length !== 3) bad.push(`N=${c.nField} ε=${c.eps}: 群が 3 つでない`);
+      const rh = a.spread.rh;
+      if (!(Math.max(...rh) - Math.min(...rh) > 0)) bad.push(`④N=${c.nField} ε=${c.eps}: r_h まで一致している(揃え方の宣言と食い違う)`);
+      lines.push(`N=${c.nField} ε=${c.eps}: 2K/|U| 広がり ${a.spread.QRel.toExponential(1)}・`
+        + `E_tot ${a.spread.ERel.toExponential(1)}・λ ${a.spread.lambdaRel.toExponential(1)}・`
+        + `r_h ${rh.map((z) => z.toFixed(2)).join('/')}(**揃わない**)・r_cut/r_h `
+        + a.spread.rCutOverRh.map((z) => z.toFixed(2)).join('/'));
+    }
+    add('behavior.clusterVirial', bad.length === 0,
+      '星団 3 群(C0/C1/Cn)の初期平衡を機械固定: ' + lines.join(' / ')
+      + ' / 揃えるのは 2K/|U|・E_tot・λ・M・外縁の切り方で、**r_h は揃わない**(同じ E で分布が違えば違う)'
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  } catch (err) {
+    add('behavior.clusterVirial', false, '星団の初期条件ライブラリが読めない: ' + String(err).slice(0, 160));
   }
 }
 

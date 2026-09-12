@@ -28,7 +28,9 @@
 //   1 サンプルあたりの步数は「実測した步/秒 × 時間予算」で決め、上限 60 公転。
 //   1 公転が予算に収まらない対象は接触要素だけを出し、`method:"osculating"` と記録する。
 //
-// 実行: node tests/exp-w249b-calaudit.mjs [--fast] [--only id1,id2] [--budget 20] [--dt3] [--merge]
+// 実行: node tests/exp-w249b-calaudit.mjs [--fast] [--only id1,id2] [--budget 80] [--dt3] [--merge]
+//       --budget … 1 段あたりの**計算時間**の予算(秒・既定 80 — 第257便d で 30 から上げた)。
+//                  重いサンプルは ×3。精度条件ではない(窓が埋まらなければ「未測定」のまま)。
 //       --fast   … dt/2 段を全部省く
 //       --only   … サンプルを絞る(デバッグ用)
 //       --dt3    … 第255便d(第47報 N8): **dt/4 段を足して 3 段にする**。3 段が揃うと ε_num の定義が
@@ -50,7 +52,14 @@ const FAST = argv.includes('--fast');
 const MERGE = argv.includes('--merge');   // --only で一部だけ回して既存 JSON へ差し替える(再判定用)
 const ONLY = (() => { const i = argv.indexOf('--only'); return (i >= 0 && argv[i + 1]) ? argv[i + 1].split(',') : null; })();
 const DT3 = argv.includes('--dt3');       // 第255便d(N8): dt/4 段を足して 3 段+観測次数を出す
-const BUDGET_LIGHT = (() => { const i = argv.indexOf('--budget'); return (i >= 0 && argv[i + 1]) ? Number(argv[i + 1]) : 30; })();
+// 第257便d(第49報・3 審査 v15 一致): **dt/4 段の時間予算の既定を 30 s → 80 s にする**。
+// これは**計算時間の予算**であって精度条件の緩和ではない —— 第256便d は 🧶 の dt/4 を
+// `--budget 80` で走らせないと 20 近点窓が埋まらず(予算 30 s では 15 公転で切れて 2 段に落ちた)、
+// 「窓が埋まらない」が既定値の副作用として現れていた。予算・dt・近点数は**別の欄**でログし
+// (timeBudget)、窓が埋まらずに終わった行は `unmeasuredReason:"time-budget"` を立てる
+// (= **機種依存の時間で結果が変わった**ことを、数値の性質と混ぜずに記録する)。
+const BUDGET_DEFAULT = 80;
+const BUDGET_LIGHT = (() => { const i = argv.indexOf('--budget'); return (i >= 0 && argv[i + 1]) ? Number(argv[i + 1]) : BUDGET_DEFAULT; })();
 const BUDGET_HEAVY = BUDGET_LIGHT * 3;
 const ORB_MAX = 60;            // 直接法(近点間・同方向1周)で数える上限公転数
 // 第252便b(第44報): **近点間周期の窓は「最初の 20 近点(19 区間)」に固定**する(宣言であって
@@ -187,6 +196,28 @@ const SIGMA_BODY = {
   // (第251便c ⑥′ が保留していた行 —— 保留の理由だった 📻 の経路等価は QA 側で解いた)。
 };
 const SIGMA_QUANT = { period: 'orbital_period', ecc: 'eccentricity', precession: 'periastron_advance' };
+
+// ---------------------------------------------------------------- 第257便d(第49報・3 審査 v15)
+// **観測量対応の宣言表**(自動判定ではない — 宣言である)。
+// 門の `mappingResolved` は「**シミュレータが測っている量**と、**CSV/obsCard の観測が指す量**が
+// 同じ測定量か」だけを見る。合わないことの弁解ではなく、**定義の違う 2 量の差を棄却 σ として
+// 読まないため**の欄である。ここに載らない kind は「対応は確定」として扱う。
+//   ・**ecc(全行)**: 判定に使っているのは 1 周目の**距離の極値**から作る比
+//     (r_max−r_min)/(r_max+r_min) = `eProxy` である。観測側は
+//       - タイミング連星 … DD/DDGR の**時間離心率 e_T**(タイミングモデルのパラメータ)
+//       - 視覚連星 … астrometric な軌道 fit の**ケプラー要素 e**
+//     いずれも「1 周の距離の極値の比」ではない(歳差・PN・有限窓の下では別物になる)。
+//     **どちらが正しいかではなく、対応が未確定である**。棄却 σ を読むにはこの写像が要る。
+// 以下は「対応は確定している」と宣言した量(理由も併記する):
+//   ・period(離心タイミング連星) … 近点間周期 ⇄ 観測の P_b(近点間の平均周期)。第251便c の定義契約。
+//   ・period(視覚連星) … 同方向 1 周 ⇄ 軌道 fit の公転周期。
+//   ・precession … 近点方位の直線 fit の傾き [°/周] ⇄ ω̇ [deg/yr] を**同じ近点間周期**で換算した値。
+const MAPPING_UNRESOLVED = (kind, id) => {
+  if (kind !== 'ecc') return null;
+  return ECC_TIMING_BINARY.has(id)
+    ? 'タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない'
+    : '軌道 fit のケプラー要素 e と、距離の極値から作る eProxy は同じ測定量ではない';
+};
 
 // ---------------------------------------------------------------- 単位(観測欄の数値を秒へ)
 const SEC = { '日': 86400, 'd': 86400, '年': 3.15576e7, 'yr': 3.15576e7, '時間': 3600, 'h': 3600,
@@ -504,6 +535,11 @@ console.error(`[w249b] 現実較正サンプル ${decls.length} 本 / 走行対�
 const out = { meta: {
   wave: '第249便b', target: TARGET, dtBase: DT0,
   budgetSecLight: BUDGET_LIGHT, budgetSecHeavy: BUDGET_HEAVY, orbMax: ORB_MAX,
+  budgetNote: '第257便d(第49報): 1 段あたりの計算時間予算の**既定を 30 s → ' + BUDGET_DEFAULT + ' s** にした。'
+    + 'これは**計算時間の予算**であって精度条件ではない(第256便d は 🧶 の dt/4 を --budget 80 で'
+    + '走らせて初めて 20 近点窓が埋まった)。予算で切れて窓が埋まらなかった行は '
+    + '`unmeasuredReason:"time-budget"`、時間が余っているのに埋まらない行は `"window"` と分けて記録する。'
+    + '**機種依存の量**なので、dt・近点数とは別の欄(run.timeBudget)に置く。',
   verdicts: ['合', '窓', '否', '従', '転'],
   toleranceNote: '観測誤差が obsCard の obs 欄から読めた量は誤差で機械判定する。読めない量は ±1% を'
     + '「目安」として使い(guide:true)、確定基準にはしない。',
@@ -576,6 +612,15 @@ for (const id of ids) {
       window.__w249run(id, dt, maxSteps, targets, orbMax, G), { id, dt: lv.dt, maxSteps, targets, orbMax, G });
     r.dt = lv.dt; r.tag = lv.tag; r.rateStepsPerSec = Math.round(rate); r.wallSec = (Date.now() - t0) / 1000;
     r.stepsPerOrbit0 = stepsPerOrbit.map((s) => Number.isFinite(s) ? Math.round(s) : null);
+    // 第257便d: **計算時間の予算**を数値の性質と混ぜずに記録する(機種依存の欄)。
+    // budgetSec = この段に与えた秒数 / wallSec = 実際に掛かった秒数 / budgetHit = 予算で切れたか /
+    // periFound = 検出できた近点の数(窓 20 に届いたか)。**予算は精度条件ではない**。
+    r.timeBudget = { budgetSec: budget, heavy, wallSec: r.wallSec,
+      budgetHit: r.wallSec >= 0.9 * budget, maxSteps, stepsRun: r.steps,
+      rateStepsPerSec: Math.round(rate), dt: lv.dt,
+      periFoundA: r.targets.map((t) => t.A.perFound), periWindow: PERI_WINDOW,
+      windowFilledA: r.targets.map((t) => !t.A.perUnmeasured),
+      note: '機種依存の量である(この行の数値は計算機の速さで変わる)。dt・近点数は別欄。' };
     rows.push(r);
     console.error(`  ${d.emoji} ${id} [${lv.tag}=${lv.dt}] n=${r.n} steps=${r.steps}`
       + ` orbits=${r.targets.map((t) => t.revN).join('/')} ${r.wallSec.toFixed(1)}s`);
@@ -583,6 +628,60 @@ for (const id of ids) {
   out.presets.push({ decl: d, cfg: { center: cfg.c, orbiters: cfg.o, ringInner: cfg.ringInner || null,
     note: cfg.note || null }, runs: rows, toSec, G, c, heavy });
 }
+
+// ---------------------------------------------------------------- 第257便d(第49報・3 審査 v15)
+// **Float32 質量の記録**。状態配列 `S.m` は `stateCarry:"double"` を宣言した系でも **Float32Array**
+// である(倍精度化したのは軌道状態 x/y/v/a と累積角であって、質量ではない — beta/index.html
+// の `S.alloc` を参照)。したがって**宣言した質量は、そのまま保持されているとは限らない**。
+// ここで記録するのは 3 つだけで、**どれも実測である**(提案でも予想でもない):
+//   ① 保持質量 = 実際に `S.m[i]` に入っている値(Float32 の格子点)
+//   ② その桁での Float32 の**最小刻み**(ULP)
+//   ③ 宣言質量(preset の bodies[i].m)との差(絶対・相対)
+// あわせて **massCalibration の f の分解能**を測る: f を 1e−7 動かしたときに保持質量が動くか、
+// 動かないなら**保持質量を 1 目盛り動かすのに要る最小の δf**(= ULP / baseMass)はいくつか。
+// **「全 native を double 化せよ」という提案ではない**(エンジンは 1 bit も触っていない)。
+const MASS_F32_TARGETS = ['psrDoubleABDFM', 'psrJ1757DFM', 'psrJ1946DFM', 'psrB1534DFM', 'gw150914DFM'];
+out.massFloat32 = { note: '第257便d: S.m は Float32Array である(stateCarry:"double" は軌道状態の話)。'
+  + '① 保持質量 ② その桁の Float32 最小刻み(ULP) ③ 宣言質量との差、と f の分解能を実測で記録する。'
+  + '**エンジンは 1 bit も触っていない**(読み出しだけ)。',
+  rows: await pg.evaluate((ids) => {
+    const buf = new Float32Array(1), u32 = new Uint32Array(buf.buffer);
+    const ulp32 = (v) => { const a = Math.fround(v); buf[0] = a;
+      if (!Number.isFinite(a)) return null;
+      u32[0] = u32[0] + 1; const up = buf[0]; return Math.abs(up - a); };
+    const rows = [];
+    for (const id of ids) {
+      const p = HP.allPresets().find((q) => q.id === id);
+      if (!p) { rows.push({ id, missing: true }); continue; }
+      const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+      HP.sim.build(v.preset);
+      const S = HP.sim, mc = p.massCalibration || null, bodies = [];
+      const nB = Math.min(S.n, (p.bodies || []).length);
+      for (let i = 0; i < nB; i++) {
+        const decl = Number(p.bodies[i].m), held = S.m[i], u = ulp32(held);
+        const base = (mc && Array.isArray(mc.baseMass) && Number.isFinite(Number(mc.baseMass[i])))
+          ? Number(mc.baseMass[i]) : null;
+        const fb = (mc && Array.isArray(mc.factorByBody) && Number.isFinite(Number(mc.factorByBody[i])))
+          ? Number(mc.factorByBody[i])
+          : ((mc && Number.isFinite(Number(mc.factor))) ? Number(mc.factor) : null);
+        let fRes = null;
+        if (base !== null && fb !== null) {
+          const m0 = Math.fround(base * fb), m1 = Math.fround(base * (fb + 1e-7));
+          fRes = { dF: 1e-7, movesHeldMass: (m1 !== m0), dMassDouble: base * 1e-7,
+            minDeltaFthatMoves: (u !== null && base !== 0) ? u / base : null };
+        }
+        bodies.push({ i, declaredMass: decl, heldMass: held, ulp32: u,
+          absDiff: held - decl, relDiff: (decl !== 0) ? (held - decl) / Math.abs(decl) : null,
+          heldIsFroundOfDeclared: (held === Math.fround(decl)),
+          baseMass: base, factor: fb, fResolution: fRes });
+      }
+      rows.push({ id, emoji: p.emoji || null, n: S.n,
+        stateCarry: (p.physics || {}).stateCarry || null,
+        massArrayType: S.m.constructor.name,
+        massCalLaw: mc ? mc.law : null, bodies });
+    }
+    return rows;
+  }, MASS_F32_TARGETS) };
 
 out.pageErrors = pageErrors;
 await browser.close();
@@ -603,7 +702,14 @@ const VER = { OK: '合', WIN: '窓', NG: '否', DEP: '従', TR: '転' };
 //   ・観測誤差が読めない / 定義(検出器・周期の定義)が観測精度で一致しない / 一次表が未確認 → **未判定**
 //   ・数値が収束していない(dt 2 段が無い・ε_num が 0.3σ を超える)              → **数値未解決**
 // ±1% の目安(guideTolerance)は**観測一致ではない**。この門を通らない「合」は目安合である。
-const GATE = { OK: '合(3σ)', NG: '否(3σ)', NUM: '数値未解決', NA: '未判定' };
+// 第257便d(第49報・3 審査 v15 一致): **門を 4 段で読む**。
+//   (i) 数値収束(dt 3 段+正の観測次数)/(ii) 観測量対応(シミュレータの測定量と観測の量が
+//   同じものを指しているか)/(iii) 観測適合(3σ)/(iv) 予測(較正の従属量でない合格)。
+// **第 4 の状態 `mapping-unresolved` を足す**: σ も定義も一次表もあるが、**測っている量と
+// 観測の量の対応が未確定**な行(例: タイミング解の e_T と、距離の極値から作る eProxy)。
+// これは「合わない」でも「数値が足りない」でもない —— **定義の違う 2 量の差を棄却 σ として
+// 読まないため**の区分である(3σ は 1 mm も緩めない)。
+const GATE = { OK: '合(3σ)', NG: '否(3σ)', NUM: '数値未解決', MAP: 'mapping-unresolved', NA: '未判定' };
 // 第253便b(第45報・ChatGPT §7.1): ε_num の**書き方の正本**。dt 2 段の差は**感度診断**であって
 // 誤差上限ではない —— 漸近域でも粗い側の真の誤差は 2^p/(2^p−1)·|Q_h−Q_{h/2}| で、この差そのもの
 // より大きい(p=1 で 2 倍・p=2 で 1.33 倍)。旧文言「上限としての宣言」は撤回する。
@@ -630,13 +736,22 @@ function numBoundDeclOf(value, steps = 2, order = null) {
       + 'p が小さいほど大きい(p=1 で 2 倍)。3 段+正の次数が揃うまでこの量は診断値である' };
 }
 function assessObservation({ value, reference, sigma, numBound,
-  converged = false, definitionMatches = false, sourceVerified = false }) {
+  converged = false, definitionMatches = false, sourceVerified = false,
+  mappingResolved = true, mappingNote = '' }) {
   if (![value, reference].every(Number.isFinite) || !Number.isFinite(sigma) || !(sigma > 0))
     return { status: GATE.NA, reason: '観測誤差(σ)または有限の実測が無い' };
   const residual = value - reference, nSigma = Math.abs(residual) / sigma;
   const base = { residual, nSigma, sigma };
+  // 第257便d: `definitionMatches` は **A を正本とした「定義が宣言されているか」**である
+  // (第256便d ③ の実測: 検出器 A/B の差は定義差ではなく軌道側の雑音だった)。
+  // A−B の広がりは `orbitNoiseIndicator` という別欄へ移した —— 門はそれを読まない。
   if (!definitionMatches)
-    return Object.assign(base, { status: GATE.NA, reason: '量の定義・検出器が観測精度で一致しない' });
+    return Object.assign(base, { status: GATE.NA,
+      reason: '判定量の定義・推定器が宣言されていない(検出器 A を正本にできない)' });
+  // 第257便d: 定義は宣言されているが、**観測の量との対応**が未確定の行(e_T ⇄ eProxy 等)
+  if (!mappingResolved)
+    return Object.assign(base, { status: GATE.MAP,
+      reason: '観測量対応が未確定' + (mappingNote ? '(' + mappingNote + ')' : '') });
   if (!sourceVerified)
     return Object.assign(base, { status: GATE.NA, reason: '一次表(観測の出所)が未確認' });
   if (!converged || !Number.isFinite(numBound) || numBound > 0.3 * sigma)
@@ -1024,6 +1139,19 @@ for (const P of out.presets) {
     }
   }
 
+  // ---- 第257便d: 未測定の**理由**を分ける(時間予算か・窓そのものか)
+  for (const q of quantities) {
+    if (q.kind !== 'period' || q.periodDef !== 'unmeasured') continue;
+    const bt = base.timeBudget || {};
+    q.unmeasuredReason = bt.budgetHit ? 'time-budget' : 'window';
+    q.unmeasuredNote = bt.budgetHit
+      ? `**unmeasured/time-budget**: 与えた計算時間 ${bt.budgetSec} s を使い切って(実 ${(bt.wallSec || 0).toFixed(1)} s)`
+        + `20 近点窓が埋まらなかった(検出できた近点 ${JSON.stringify(bt.periFoundA)})。`
+        + '**機種依存の打ち切り**であって、数値が収束しないという意味ではない'
+      : `**unmeasured/window**: 計算時間は余っている(${(bt.wallSec || 0).toFixed(1)} / ${bt.budgetSec} s)のに`
+        + `20 近点窓が埋まらない(検出できた近点 ${JSON.stringify(bt.periFoundA)})— 軌道そのものの性質`;
+  }
+
   // ---- 宣言値と再実測の差(model 欄が読めた行だけ)
   for (const q of quantities) {
     if (q.model !== null && q.model !== undefined && Number.isFinite(q.model) && Number.isFinite(q.meas)) {
@@ -1115,7 +1243,9 @@ for (const P of out.presets) {
       orbits: base.targets.map((t) => ({ label: t.label, rev: t.revN, periA: t.A.nPeri, periB: t.B.nPeri })),
       nan: base.nan, clamp: base.clamp, warnings: base.warnings.length,
       dtHalf: half ? { dt: half.dt, steps: half.steps } : null,
-      dtQuarter: quarter ? { dt: quarter.dt, steps: quarter.steps } : null },   // 第255便d(N8)
+      dtQuarter: quarter ? { dt: quarter.dt, steps: quarter.steps } : null,   // 第255便d(N8)
+      // 第257便d: 段ごとの**計算時間予算**(機種依存の欄 — dt・近点数とは分けて置く)
+      timeBudget: P.runs.map((z) => Object.assign({ tag: z.tag }, z.timeBudget || {})) },
     correlates, quantities, tally, notes });
 }
 
@@ -1194,6 +1324,9 @@ for (const r of merged) for (const q of (r.quantities || [])) {
   // 定義違いの広がり(同方向1周/近点間/接触要素・窓と接触要素)は crossDef として**別欄に残し、
   // σ とは比較しない**。旧 JSON の行(定義メタデータ periodDef が無い)は昇格させない。
   let detSpread = null, crossDef = null, defMeta = true, defNote = '';
+  // 第257便d: **A を正本**にする。定義が宣言されていて検出器 A の測定値を判定に使っている行が
+  // `definitionDeclared:true`(= 門の definitionMatches)。A−B の広がりは門から外す。
+  let defDeclared = false, defDeclNote = '';
   if (q.kind === 'period') {
     detSpread = spreadPct(Array.isArray(d.detPairSec) ? d.detPairSec : []);
     crossDef = spreadPct([d.revSec ? d.revSec[1] : null, d.periASec, d.oscSec]);
@@ -1202,14 +1335,26 @@ for (const r of merged) for (const q of (r.quantities || [])) {
       ? `判定した定義=${d.periodDef}・検出器 A/B(同じ定義)の広がり=${detSpread === null ? '—' : detSpread.toExponential(2) + '%'}`
         + `(定義違いの広がり ${crossDef === null ? '—' : crossDef.toExponential(2) + '%'} は σ と比較しない)`
       : '**定義メタデータが無い行**(第251便c 以前の JSON)— 定義が宣言されるまで昇格させない';
+    defDeclared = defMeta && d.periodDef !== 'unmeasured' && Number.isFinite(q.meas);
+    defDeclNote = defDeclared
+      ? `定義=${d.periodDef}・判定に採ったのは**検出器 A**(近点間は ṙ の −→+ 交差・20 近点窓)`
+      : '定義が宣言されていない、または未測定';
   } else if (q.kind === 'precession') {
     detSpread = spreadPct([d.detectorA, d.detectorB]);   // 同じ「近点方位の直線 fit」の 2 検出器
     defNote = `検出器 A/B(同じ近点方位 fit)の広がり=${detSpread === null ? '—' : detSpread.toExponential(2) + '%'}`;
+    defDeclared = Number.isFinite(d.detectorA) && Number.isFinite(q.meas);
+    defDeclNote = defDeclared
+      ? '定義=近点方位の直線 fit の傾き・判定に採ったのは**検出器 A**(第256便d ③ で真値復元 ≤2.1×10⁻¹¹ を実測した側)'
+      : '検出器 A の傾きが取れない(窓不足・縮退)';
   } else if (q.kind === 'ecc') {
     crossDef = spreadPct([q.meas, d.eProxyAll, d.eOscMean]);
     defMeta = false;   // 同じ定義の 2 検出器が無い(1周目の窓・全窓・接触要素は別定義)
     defNote = '離心率は**同じ定義の 2 検出器が無い**(1周目の半径比・全窓・接触要素は別の量)— '
       + `定義違いの広がり ${crossDef === null ? '—' : crossDef.toExponential(2) + '%'} は σ と比較しない`;
+    // 第257便d: 推定器そのものは宣言されている(1 周目の距離の極値の比)。止まるのは**観測量対応**の側。
+    defDeclared = Number.isFinite(q.meas);
+    defDeclNote = '定義=1 周目の距離の極値の比 eProxy(推定器は宣言されている)— '
+      + '観測の量(e_T / ケプラー要素 e)との対応は別問題(mapping)';
   }
   const numBound = Number.isFinite(q.numBoundDt2) ? q.numBoundDt2 : null;
   // 第253便b(第45報・ChatGPT §7.1): **収束の保留条件**。`numBound !== null`(= dt 2 段が走った)
@@ -1226,18 +1371,39 @@ for (const r of merged) for (const q of (r.quantities || [])) {
   const convOK = numBound !== null && !!nbd
     && Number.isFinite(nbd.steps) && nbd.steps >= 3
     && Number.isFinite(nbd.order) && nbd.order > 0;
+  // 第257便d: 観測量対応の宣言(自動判定ではない)
+  const mapNote = MAPPING_UNRESOLVED(q.kind, r.id);
   const g = assessObservation({ value: q.meas, reference: q.obs, sigma: sig, numBound,
     converged: convOK,
-    definitionMatches: (defMeta && detSpread !== null && sigPct !== null) ? (detSpread <= sigPct) : false,
+    definitionMatches: defDeclared,
+    mappingResolved: (mapNote === null), mappingNote: mapNote || '',
     sourceVerified: PRIMARY_VERIFIED.has(`${r.id}|${q.target}|${q.kind}`)
       || (sigFrom === 'csv' && q.sigmaPrimaryVerified === true) });
   g.key = `${r.id}|${q.target}|${q.kind}`;
+  // 第257便d: **A 正本**の宣言と、A−B を測る別欄 `orbitNoiseIndicator`
+  g.detectorCanonical = 'A';
+  g.definitionDeclared = defDeclared; g.definitionDeclaredNote = defDeclNote;
+  g.mappingResolved = (mapNote === null); g.mappingNote = mapNote;
+  g.orbitNoiseIndicator = {
+    abRelPct: detSpread, sigmaRelPct: sigPct,
+    ratio: (detSpread !== null && sigPct !== null && sigPct > 0) ? detSpread / sigPct : null,
+    meaning: '検出器 A(正本)と B(距離極小の放物線頂点)の相対差 [%]。**これは定義の一致度ではない** —— '
+      + '第256便d ③ の合成軌道検定で、定義も推定器も 10⁻¹¹ 台で一致し、シミュレータ側の A−B は'
+      + '**軌道側の位置雑音 ε≈10⁻¹⁰〜10⁻⁸ に対する検出器 B の感度**だと同定された。'
+      + 'したがってこの欄は「**軌道側の相対 1e−10〜1e−8 の雑音に対する検出器差の感度**」であって、'
+      + '門(3σ)には入らない。ratio は σ_rel を 1 とした目盛り(>1 = 雑音が観測精度より大きい)',
+    gate: 'none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)' };
   g.sigmaRelPct = sigPct; g.numBound = numBound;
   g.sigma = sig; g.sigmaFrom = sigFrom; g.sigmaSource = q.sigmaSource || null;
   g.sigmaCardVsCsvRel = (sigCard !== null && sigCsv !== null) ? Math.abs(sigCard / sigCsv - 1) : null;
   g.detSpreadPct = detSpread; g.defSpreadCrossDefPct = crossDef;
-  g.defSpreadPct = detSpread;   // 後方互換の欄名(中身は**同じ定義どうし**の広がりへ変わった)
+  // **旧鍵(第257便d で意味が変わった欄 — 読み替え表は out.keyAliases)**
+  //   detSpreadPct / defSpreadPct … 値は同じ(A−B の相対差 %)だが、**門には入らない**。
+  //   正名は g.orbitNoiseIndicator.abRelPct。旧欄は既存の器・QA が読むので残す。
+  g.defSpreadPct = detSpread;   // 後方互換の欄名(= orbitNoiseIndicator.abRelPct・門からは外れた)
   g.defMeta = defMeta; g.definitionNote = defNote;
+  g.deprecatedKeys = { defSpreadPct: 'orbitNoiseIndicator.abRelPct',
+    detSpreadPct: 'orbitNoiseIndicator.abRelPct', defMeta: 'definitionDeclared(A 正本)' };
   g.numBoundDecl = q.numBoundDecl || null;   // ε_num は「感度診断」である(dt/4 は走らせていない)
   // 第253便b: 保留の理由を機械可読で残す(なぜ「数値未解決」なのかが JSON から辿れるように)
   g.convergence = { ok: convOK, steps: nbd ? nbd.steps : null, order: nbd ? nbd.order : null,
@@ -1262,7 +1428,42 @@ for (const q of allQ) { const st = (q.gate && q.gate.status) || GATE.NA;
 const okQ = allQ.filter((q) => q.verdict === VER.OK);
 const okSigma3 = okQ.filter((q) => q.gate && q.gate.status === GATE.OK).length;
 const okGuide = okQ.filter((q) => q.guideTolerance && !(q.gate && q.gate.status === GATE.OK)).length;
+
+// ---------------------------------------------------------------- 第257便d: **4 段判定の集計**
+// 段は**排他ではない**(status は排他だが、こちらは「どこまで来たか」の階段である)。
+//   ① 数値収束 … dt 3 段 + 正の観測次数 p_obs(第253便b の保留条件)
+//   ② 観測量対応 … σ があり・定義(A 正本)が宣言され・観測量対応が確定し・一次表の印がある
+//   ③ 観測適合 … 3σ+ε_num の門を通った(= status 合(3σ))
+//   ④ 予測 … ③ のうち**較正の従属量でない**もの(較正質量 f≈2 が式へ入る量は予測ではない)
+const hasSig = (q) => !!(q.gate && Number.isFinite(q.gate.sigma) && q.gate.sigma > 0);
+const stage1 = allQ.filter((q) => q.gate && q.gate.convergence && q.gate.convergence.ok === true);
+const stage2 = allQ.filter((q) => hasSig(q) && q.gate.definitionDeclared === true
+  && q.gate.mappingResolved === true
+  && (PRIMARY_VERIFIED.has(q.gate.key) || (q.gate.sigmaFrom === 'csv' && q.sigmaPrimaryVerified === true)));
+const stage3 = allQ.filter((q) => q.gate && q.gate.status === GATE.OK);
+const stage4 = stage3.filter((q) => q.verdict !== VER.DEP);
+const mapUnres = allQ.filter((q) => q.gate && q.gate.status === GATE.MAP);
 out.summary = { nPresets: merged.length,
+  stages: {
+    note: '第257便d(第49報・3 審査 v15): 門を**4 段**で読む。段は排他ではなく階段である。'
+      + '**3σ は 1 mm も緩めていない** —— 足したのは「定義の違う 2 量の差を棄却 σ として読まない」区分だけである。',
+    '①数値収束': stage1.length, '②観測量対応': stage2.length,
+    '③観測適合(3σ)': stage3.length, '④予測(従属量でない③)': stage4.length,
+    mappingUnresolved: mapUnres.length,
+    mappingUnresolvedKeys: mapUnres.map((q) => (q.gate && q.gate.key) || null),
+    stage3Keys: stage3.map((q) => q.gate.key),
+    ng3Keys: allQ.filter((q) => q.gate && q.gate.status === GATE.NG).map((q) => q.gate.key),
+    numUnresolvedKeys: allQ.filter((q) => q.gate && q.gate.status === GATE.NUM).map((q) => q.gate.key) },
+  keyAliases: {
+    note: '第257便d で意味の変わった鍵の**読み替え表**(欄そのものは消していない)。',
+    'gate.defSpreadPct / gate.detSpreadPct': 'gate.orbitNoiseIndicator.abRelPct'
+      + '(値は同じ・**門からは外れた**。第256便d までは definitionMatches の判定根拠だった)',
+    'gate.definitionMatches(第256便d までの意味)': '「A/B の広がりが σ_rel の内側か」= 実際には軌道雑音の大小'
+      + ' → 第257便d では gate.definitionDeclared(A を正本とした定義の宣言)と'
+      + ' gate.orbitNoiseIndicator(A−B の感度)に分割した',
+    'gate.defMeta': 'gate.definitionDeclared(旧欄は「同じ定義の 2 検出器が居るか」のまま残す)',
+    'gate.status 未判定(理由=量の定義・検出器が観測精度で一致しない)':
+      '第257便d では mapping-unresolved(観測量対応が未確定)か、定義未宣言の 未判定 のどちらかへ分かれる' },
   nQuantities: allQ.length,   // 第250便c: 「261(+)量」ではなく**確定表記**の量数
   tally: merged.reduce((a, r) => { for (const [k, v] of Object.entries(r.tally)) a[k] = (a[k] || 0) + v; return a; }, {}),
   byVersion: { obs: merged.filter((r) => r.version === 'obs').length,
@@ -1273,7 +1474,12 @@ out.summary = { nPresets: merged.length,
     + '第253便b の走行は 2 段・次数未測定なので、σ を持つ量はすべて「数値未解決」へ保留された。'
     + '**第255便d(第47報 N8)**: NS 4 系(⚡🧮🩺🧶)だけ --dt3 で 3 段を走らせ、観測次数 p_obs を実測した。'
     + '3 段+正の次数が揃った量は保留を抜け、**3σ の合否がその場で出る**(= 収束の門と観測一致の門が分かれた)。'
-    + '**収束したことは一致したことではない** —— 次数が正でも残差が 3σ+ε_num を超えれば「否(3σ)」になる',
+    + '**収束したことは一致したことではない** —— 次数が正でも残差が 3σ+ε_num を超えれば「否(3σ)」になる。'
+    + '**第257便d(第49報)**: (a) `definitionMatches` を **A 正本**へ —— 判定に採るのは検出器 A で、'
+    + '門が見るのは「定義が宣言されているか」だけになった。A−B は `orbitNoiseIndicator`(軌道側の'
+    + '相対 1e−10〜1e−8 の雑音に対する検出器差の感度)として別欄へ出す。(b) 第 4 の状態 '
+    + '`mapping-unresolved` を足した(観測量対応が未確定 — 例: タイミングの e_T と距離極値の eProxy)。'
+    + '**3σ そのものは 1 mm も緩めていない**',
     byStatus: gateStatus, byReason: gateReason,
     withSigma: allQ.filter((q) => (q.gate && Number.isFinite(q.gate.sigma) && q.gate.sigma > 0)).length,
     withSigmaBySource: {
