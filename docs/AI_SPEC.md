@@ -907,6 +907,49 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   - `HP.dfmArmBudget({r, vc, sigma, width, m?, pitch?, f?})` — **腕を保つのに要る力の見積り**(純関数・**粒子の力には未接続**)。`|∇ψ|²=(m/r)²+(m·cot i/r)²`(`pitch` は**度**・90° = 棒で cot=0 が厳密)から `epsilon = σ⊥²/(w² v_c² f |∇ψ|²)`・`QT = m·ε·f`・`aWidth=σ⊥²/w`・`aAxis=ε v_c²|∇ψ|`・`forceRatio=ε|∇ψ|r` を返す。r≤0・v_c≤0・w≤0・m≤0・pitch∉(0,90]・f≤0・NaN は `null`。**「腕が自律生成する」主張ではない。**
   - `HP.dfmArmPotential(x, y, t, {epsilon, vc, Rb, Rout?, omega?, m?, pitch?})` — 外部指定の**回転ポテンシャル**(解析勾配つき純関数)。`Φ = ε v_c² A(r) cos ψ`・`A(r)=r²/(r²+R_b²)·exp(−(r/R_out)²)`・`ψ = m[θ−Ω_p t−ln(r/R_b)·cot i]`。返値 `{Phi, ax, ay, dPhidt, torque, r, psi, A}`。**ax/ay は解析式**(中心差分と 10⁻⁸ で一致)、**恒等式 ∂ₜΦ = Ω_p·τ**(τ = x a_y − y a_x = −∂Φ/∂θ)が丸めで成り立つ。**r=0 で力 0**(窓 A∝r²)・**ε=0 で Φ も力も 0**。QA `behavior.armBudget`。
   - **生成 AI はこの 2 本も使わない**(プリセット JSON からは呼べない)。`overlays.galaxyField` も SYSTEM_PROMPT の overlay 一覧には入れていない(診断器の宣言であり生成対象ではない)。QA `behavior.galaxyMesh` は 14 項目・`behavior.armBudget` が新設(docs/PHYSICS.md 第256便b の節)。
+- **s の宣言と R_slip・磁石連鎖のトイ・BH 以降のトイ帳簿(第257便b・第49報)**: いずれも**表示と記録の層**であり、
+  **粒子の力へは 1 バイトも接続していない**。**新しい physics キーは 0 個**(`physics` は 1 文字も動いていない)。
+  - `overlays.galaxyField` に**第 3 の鍵 `slipThreshold`**(= s = w*/V の**宣言値**・既定 `HP.GALMESH_SLIP_DEFAULT`=0.9)。
+    **宣言したときだけ**正準形が `{unSource,unFit,slipThreshold}` の 3 鍵になる(**未宣言は 2 鍵のまま = 🎠 の署名も
+    エクスポート JSON も 1 bit 不変**)。値域は 0 ≤ s < 1(外は落として警告)。**表示と記録のみ**で、
+    `u`・`χ`・`∇u` は 1 bit も動かない。
+  - `HP.dfmSlipRadius({A, D0, p, s})` — **引きずり限界半径の式**(純関数)。`R = [(A/D₀)·s/(1−s)]^(1/p)` と
+    `{R, A, D0, p, s, chiFar}` を返す。**s≥1・s<0・A≤0・D₀≤0・p≤0・NaN は `null`**(D₀=0 は「どこまでも引きずる」なので
+    Infinity ではなく `null`)。**閾値 s に依存する設計式であって、束縛円盤の外縁の証明ではない。**
+  - `dfmGalaxyMeshField` の返値に **`sUsed`・`slipA`・`R_slip`・`chiSlip`** の 4 欄が増えた(**値は 1 bit も変えない**)。
+    `slipA` は加算形 W の遠方振幅 = **源として数えた質量の総和 Σmᵢ**(第256便b で A/M=0.99998 と実測した量の厳密形)。
+    `s` は opts の `slipThreshold` → プリセット宣言 → 既定 0.9 の順で決まる。
+  - `HP.dfmChainMeshBuild(S_or_bodies, opts)` / `Step(chain, dt, opts)` / `Static(chain, b?)` / `Field(chain, x, y, opts?)` /
+    `Energy(chain)` — **磁石連鎖の有限応答連鎖メッシュ**(**新しいトイ仮説**であって、現行 D₀ の単位・意味から
+    自動導出されるものではない)。粒子を**半径リング 1〜8 層**(`HP.CHAIN_RINGS_MAX`)に縮約し、節点ごとに
+    変位 ξ と速度 U を持たせる。`opts` は `{rings, kNeighbors, mu, tau, zeta, tauDrag, Kbg, gammaBg,
+    bond:"linear"|"central", kScale, gammaScale, D0, p, eps, center, capacity, edges}`。
+    宣言量は 3 つだけである(**μ・K・γ を全部 fit にしない**): **慣性比** `mu`(μ_b=mu·M_b)・**応答時間** `tau`
+    (K_ij=μ_red/τ²・γ_ij=2ζμ_red/τ)・**支持長は既存の幾何核をそのまま使う**(駆動係数 a_b=χ_b·μ_b/τ_drag、
+    χ_b は `dfmGalaxyMeshField` と同じ加算形 W から作る = 新しい長さスケールを 1 つも足していない)。
+    `kNeighbors:0` は**鎖を切った対照**(「磁石だけ」)。`bond:"linear"` は ChatGPT §10 の式そのもの
+    (**回転不変ではないので L が保存しない** —— 隠さずに測る)、`bond:"central"` は中心力で P も L も保存する。
+    `Step` は RK4(**dt<0 は `null`** —— 前進専用)で、返値は `{Em, Ekin, Epot, Q, Qdrive, Wext, P, L, dQ, dW,
+    residual, driveOn, capLeft, capState}`。**ΔE_m+ΔQ−ΔW_ext=0 が閉じた帳簿の意味**で、`Q̇≥0` は各段の被積分量が
+    非負・RK4 の重みが正であることから 1 步ごとに保証される。`capacity` は「観測した事実が無いエネルギー」の
+    **初期容量**で、使い切ると駆動が止まり `capState:"floor"` になる。
+    `Static` は**即時応答極限** U=b+K·U を、**ρ(K)<1 を確かめてからだけ**解く(ρ≥1 は `{rho, U:null, singular:true,
+    reason:"spectral-radius"}` —— 二重加算・自己源の無限増幅を防ぐ)。**この関係式は粘性(γ)だけの中継を記述する**
+    ので、弾性 K を入れた時間発展とは一致しない(`kScale:0` のときだけ一致する)。
+    `Field` は `dfmGalaxyMeshField` と**同じ返り値契約**(`u`・`nEff`・`supportR`・`unValid`)を持つ**別関数**である。
+    **粒子側には力を返さない**(反作用は `Pext`/`Wext` の帳簿に置くだけ)。QA `behavior.chainMesh`。
+  - `HP.dfmToyLedger(S, {caps?, ref?, maxPairs?})` — **BH 以降のトイの帳簿テンプレート**(既存の帳簿量を
+    **読むだけ**・S を 1 バイトも書かない)。`{K, U, Eshell, Ecore, Emesh, Q, Eescaped, Etot, Wext, residual,
+    dEtot, dWext, capState, capFloorCount, undefinedTerms, notes, obs, parts, closed}` を返す。
+    **未実装の項は 0 で埋めず `null`** にして `undefinedTerms` に名前を挙げる(`U` は対の数が `maxPairs` を
+    超えても**打ち切らずに未定義**にする)。**残差は基準 `ref`(前回の返値)を渡したときだけ定義される**
+    (基準の無い差を作らない)。`caps` は項ごとの `{min,max}` で、下限に達した項に印が立つ。
+    **減光(lightSweep)は `obs` 欄の観測写像**であって帳簿の項ではない(E_tot に入らない・質量推定を自動相殺しない)。
+    **Q を重力波と読まない。** QA `behavior.toyLedger`。
+  - **生成 AI はこれらを使わない**(プリセット JSON からは呼べない)。`overlays.galaxyField.slipThreshold` も
+    SYSTEM_PROMPT の overlay 一覧には入れていない(診断器の宣言であり生成対象ではない)。
+    QA `behavior.galaxyMesh` は 17 項目へ・`behavior.chainMesh`・`behavior.toyLedger` が新設
+    (docs/PHYSICS.md 第257便b の節)。
 - **台帳の用語 — 等質量度の正名は `equalMassDegree`(第253便b L4・文書のみ)**: 2 体の質量がどれだけ揃っているかを表す量の**正名を `equalMassDegree = |m₁−m₂|/M`(M=m₁+m₂)** に固定する。**0 で等質量**・正質量(m₁,m₂>0)・M>0 のときにだけ定義され、値域は [0,1)。対応欄として **`4ν = 4m₁m₂/M² = 1−δ²`(δ=equalMassDegree)** を併記する(4ν は 1 で等質量 —— 向きが逆なので混ぜない)。ν=m₁m₂/M² は第249便a の ν 則でそのまま使う。**これはプリセットの物理キーではない**(生成 AI が JSON に書く欄ではなく、台帳・文書・ハーネス出力の呼び名の規約である)。
 - **観測安定則(第199便 M1 — 2026-08-25 裁定)**: 観測値再現版は、観測値で安定する計算式を
   採用する(観測値自体が計算式で算出されている為)。kFrame=1 雛形が自己診断で永年不安定と
