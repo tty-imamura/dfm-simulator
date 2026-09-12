@@ -785,9 +785,10 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   - `gravity:true` … メッシュ側の **g=G∇D_grav**(D_grav=Σm/√(d²+ε²))で当該対の E4 重力を置き換える。
     **核が E4=G∇W と同じなので、置き換え差は丸めの水準に留まる**(🪟 で 1 步 |Δa_g|=0〜2.8×10⁻¹⁸)——
     「メッシュの重力」は既にある重力の別名であって、二重に数えるものではない。
-  - `inertia` … **2 候補**(`material`: a=g+∂ₜu+(∇u)v / `action`: a=g+∂ₜu+(∇u)v−(∇u)ᵀ(v−u))。
-    **どちらも「まだ採用しない」候補**である: 頂点では |a_I|/|g_N| が χ に 5 桁一致する(= 重力加速度の再導出)ため、
-    足すと二重計上になって連星が壊れる(docs/PHYSICS.md 第254便a ③④)。**生成 AI はこの値を使わない。**
+  - `inertia` … **3 候補**(`material`: a=g+∂ₜu+(∇u)v / `action`: a=g+∂ₜu+(∇u)v−(∇u)ᵀ(v−u) /
+    **`coordinate`(第257便a)**)。**どれも「まだ採用しない」候補**である: material/action は頂点で
+    |a_I|/|g_N| が χ に 5 桁一致する(= 重力加速度の再導出)ため、足すと二重計上になって連星が壊れる
+    (docs/PHYSICS.md 第254便a ③④)。**生成 AI はこの値を使わない。**
   - `light` … **宣言と検証器の門だけ**で、photon/traceRay には 1 バイトも接続していない(既定 `background` は署名へ入れない)。
   - `D0` … χ の分母。省略時はプリセットの `D0pull`(未宣言なら `D0`)。
   帳簿は **`S.spaceMeshWorkE`**(外部仕事)で、慣性項が入れた運動量・角運動量は resPx/resPy/resL のリザーバへ記帳する
@@ -827,6 +828,51 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   - 帳簿は `weave` と同じ(`S.spaceMeshWeavePx/Py/L/E` + リザーバ)。診断は
     `S.spaceMeshWeaveMode`・`S.spaceMeshWeaveTrDv`(輸送側の 1 步 |Δv|)・`S.spaceMeshWeavePNDv`(1PN 側)。
   **どの内蔵プリセットも宣言していない。生成 AI はこのキーを使わない。** QA `behavior.pairWeavePN`。
+  - **〔第257便a 訂正・追補〕** ① **1PN の w は両側とも「前步の場」で読む**(輸送ループが今步の値へ更新する**前**に
+    u_frame,prev と u_pair,prev の両方を退避する)。第256便a は u_pair 側だけを退避していた。
+    実測の変化は 1PN チャネルの 1 步 |Δv| の相対 1.7×10⁻⁴ で、**20 近点窓の P・Δϖ は印字桁で同一**である。
+    ② `"pairPN"` は **T_pair も ∇u_pair も ∇χ も計算しない**(要求差分が −k_F·χ·T(u,∇u) だけで決まるため)。
+    それらを作るのは `"pairPNFull"`(と診断)のときだけである。
+    ③ **`"pair"`/`"pairFull"` の要求差分も `"pairPN"` と同じ ③′ の共有ヘルパを通す**(規約統一)。
+    🪟 は `frameReaction:"pairReduced"` なので `"pair"` の数値は動く(近点間 P が +0.0003〜+0.05%)。
+    **`"off"`・未宣言はビット同一のままである。**
+- **座標変換慣性(第257便a — `physics.spaceMesh.inertia:"coordinate"` と 3 つのノブ)**: 第49報
+  「空間メッシュに対する相対的な移動が慣性である」を**作用で宣言した** opt-in の慣性則(**診断専用**)。
+  宣言する作用は 1 本だけである:
+
+      **L = ½m|v − η·χ·u_mesh(x,t)|² − mΦ**   (η=`inertiaGain`・χ=W/(D₀ᵖ+W_B+W) は既存の追従比)
+
+  Euler–Lagrange(**∂u/∂x 項を落とさない**)から ū=η·χ·u_mesh と置いて
+  **a = g + ∂ₜū + (∇ū)v − (∇ū)ᵀ(v−ū)**。**η=1・置換なしなら式は `inertia:"action"` と同型**である。
+  - **`inertiaGain`**(η∈[0,1]・既定 1)… 相対慣性の強度。**表示側の gain とは別物である**(名前も別)。
+  - **`inertiaVertices`**(既定 `false`)… 頂点(メッシュを定義する側)自身へ当てるか。
+    **2 体系では非頂点が存在しないので、既定では何も起きない**(`S.meshCoordN=0`・OFF とビット同一)。
+  - **`inertiaReaction`**(`"pair"` 既定 / `"reservoir"`)… 反作用の返し先。`"pair"` は非頂点粒子が受けた
+    運動量の負を**頂点対へ等量**返し、残った角運動量を**接線偶力**(P 中立)で返す。`"reservoir"` は
+    無限慣性リザーバの帳簿へ。**頂点自身へ当てた分と箱の場は常に reservoir 側**である。
+  - **加算ではなく置換**: この則が立つ粒子には **E6′(geoPN=0)/ E12v2 の輸送 3 項(geoPN=2)の追従キックを
+    当てない**(エンジンが当てた式を打ち消す要求を書く演算子分割)。geoPN=1 は物質への E6′ が無いので除去 0。
+    `frameReaction:"pairReduced"` では除去要求も ③′ の同じ線形写像を通す。
+  - **メッシュの源は 2 通り**(`S.meshCoordSrc`): UniverseBox を宣言した宇宙では**箱の規定場**
+    (u_B=V+Ωẑ×(r−c)+H(r−c)。`mode:"exp"`/`"lin"` だけ。他は `S.meshCoordStop="boxMode"` で停止)、
+    それ以外は **|m| 上位 2 体の T2 メッシュ**。
+  - **既定値は署名に出ない**(η=1・vertices=false・reaction="pair" は 1 文字も出さない = 未宣言と同じ正準形)。
+    **`inertia` が立っていないときは 3 つとも出さない。**
+  - 帳簿: `S.meshCoordPx/Py/L`(粒子系へ入れた運動量・角運動量)・`S.meshCoordE`(離散キックの厳密仕事)・
+    **`S.meshCoordEmesh=−E`**・`S.meshCoordChi`/`N`/`Stop`/`Src`/`Clamp`・
+    `S.meshCoordDvI`(慣性チャネルの 1 步 |Δv|)・`S.meshCoordDvE6`(除去チャネル)。リザーバへも同時記帳する。
+  - **どの内蔵プリセットも宣言していない。生成 AI はこのキーを使わない。** QA `behavior.meshCoordInertia`。
+  - **限界**: T2 頂点メッシュは**局所的でない**(|a_I|/|g_N| が r=300→4800 で 1.97→1370 まで伸びる)ので、
+    **遠方粒子・銀河・星団へこのまま当ててはならない**(docs/PHYSICS.md 第257便a ⑤3)。
+- **純関数 2 本(第257便a・力へは接続しない物差し)**:
+  - **`HP.affineComovingStep({C,V,H,Omega,dt}, [x,y])`** → `{x,v,u,C,F,a,theta,fixedPoint,gradU,dUdt}`。
+    x(t+h)=C+V·h+a·R(θ)(x−C)(a=e^{Hh}・θ=Ωh・**C も V·h 動く**)。**群**なので 100 分割と一括が
+    丸めまで一致する。**エンジンの箱は中心 c を動かさず一様 V を足す別の流れ**で、その厳密解は
+    `{C:fixedPoint, V:[0,0]}` の形で書ける(`fixedPoint = C − (H·I+Ω·J)⁻¹V`)。
+  - **`HP.relativeOrbitReference({chi,s,omega,r?,GM?})`** → `{f,kappa2,kappa,dvarpi,dvarpiDeg,Omegam,
+    relOmega,GMreq,M0,ratio,stable}`。参照モデル **f=(1−χ)²+sχ(1−χ)**・
+    **κ²=(ω−Ω_m)²+s(s−1)(ω−Ω_m)Ω_m**・**Δϖ=2π(ω/κ−1)**(Ω_m=χω)。χ∈[0,1] の外・非有限は門(null)。
+    **κ²≤0(不安定)では Δϖ は null。** **この式で観測に合わせたとは書かない。**
 - **有限の回転子交換(第255便a — `physics.spaceMesh.reservoir`)**: `{"Imesh":正の数値, "gamma":0 以上の数値}`。
   メッシュに**有限の慣性 I_m と独立な角運動量 J** を与え、軌道 L と γ で交換する opt-in(既定なし)。
   純関数は **`HP.dfmMeshRotorExchange({L,J,Iorb,Imesh,gamma,dt})`** で、
