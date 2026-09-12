@@ -769,6 +769,16 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   エクスポート JSON が 1 文字も変わらない・既定経路の演算順も不変)。重心が静止した孤立連星では両枠は解析的に一致し、
   **重心が背景決定力場に対して走っている系でだけ差が出る**(実測は docs/PHYSICS.md 第252便a の節)。未知の値は受理せず検証器が却下する。
   **生成 AI はこのキーを使わない** — コンパクト連星の候補力の検証(docs/PHYSICS.md 第251便a・第252便a の節)専用である。
+- **`physics.D0` の 0(第257便c — 第49報「『背景決定力 D₀』のスライダーの下限を『0』にする」)**: `D0` の値域は
+  第118便から `[0, 1e6]` で、**0 は前から受理していた値**である(内蔵 14 本 ⏱️🛰️🕰️🌟⏲️📦🌀📈🫧🪢🫁🔦🧭🕸️ が
+  D₀=0 を宣言している)。第257便c で**「法則の実験室」のスライダーの左端も 0 になった**(`zeroLeft` —— 重力 G・
+  時空係数 κ と同じ機構。対数域の下端 0.005 はそのまま)。**意味**: D₀=0 は「遠方の錨が無い」状態で、
+  源が 1 つでもある点では χ=W/(W+D₀) が **1** になり、近くの質量だけが基準になる。**源が 1 つも無い点**
+  (W=0)は 0/0 になるので、**χ=0 に落とす門**が全経路に入っている(第257便c で `dfmBinaryChi` に足したのが
+  最後の 1 か所。**D₀>0 の既定経路は同じ式を評価するので数値は 1 bit も変わらない**)。
+  実測(代表 10 本 × 600 步): **NaN 0・速度/スピンクランプ 0・帳簿有限**、D₀=0 と 0.005 の差は連続
+  (docs/PHYSICS.md〔第257便c〕6.)。**生成 AI が D₀=0 を選ぶ理由は普通は無い** —— ばら撒き系の安定には
+  D₀ を 20 以上にする(上の 5.)。
 - **`physics.D0pull` の意味(第252便a で統一・第254便a で宣言解禁)**: pull 重みの分母に入る背景項 D₀ᵖ は、
   **未宣言なら `physics.D0` へフォールバックし、宣言された値はその値をそのまま使う**(場コード 4 か所と
   `compactForce` の χ 算出で同じ規約。第251便a までは場コード側が `D0pull>0` で判定していたため
@@ -785,9 +795,10 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   - `gravity:true` … メッシュ側の **g=G∇D_grav**(D_grav=Σm/√(d²+ε²))で当該対の E4 重力を置き換える。
     **核が E4=G∇W と同じなので、置き換え差は丸めの水準に留まる**(🪟 で 1 步 |Δa_g|=0〜2.8×10⁻¹⁸)——
     「メッシュの重力」は既にある重力の別名であって、二重に数えるものではない。
-  - `inertia` … **2 候補**(`material`: a=g+∂ₜu+(∇u)v / `action`: a=g+∂ₜu+(∇u)v−(∇u)ᵀ(v−u))。
-    **どちらも「まだ採用しない」候補**である: 頂点では |a_I|/|g_N| が χ に 5 桁一致する(= 重力加速度の再導出)ため、
-    足すと二重計上になって連星が壊れる(docs/PHYSICS.md 第254便a ③④)。**生成 AI はこの値を使わない。**
+  - `inertia` … **3 候補**(`material`: a=g+∂ₜu+(∇u)v / `action`: a=g+∂ₜu+(∇u)v−(∇u)ᵀ(v−u) /
+    **`coordinate`(第257便a)**)。**どれも「まだ採用しない」候補**である: material/action は頂点で
+    |a_I|/|g_N| が χ に 5 桁一致する(= 重力加速度の再導出)ため、足すと二重計上になって連星が壊れる
+    (docs/PHYSICS.md 第254便a ③④)。**生成 AI はこの値を使わない。**
   - `light` … **宣言と検証器の門だけ**で、photon/traceRay には 1 バイトも接続していない(既定 `background` は署名へ入れない)。
   - `D0` … χ の分母。省略時はプリセットの `D0pull`(未宣言なら `D0`)。
   帳簿は **`S.spaceMeshWorkE`**(外部仕事)で、慣性項が入れた運動量・角運動量は resPx/resPy/resL のリザーバへ記帳する
@@ -827,6 +838,51 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   - 帳簿は `weave` と同じ(`S.spaceMeshWeavePx/Py/L/E` + リザーバ)。診断は
     `S.spaceMeshWeaveMode`・`S.spaceMeshWeaveTrDv`(輸送側の 1 步 |Δv|)・`S.spaceMeshWeavePNDv`(1PN 側)。
   **どの内蔵プリセットも宣言していない。生成 AI はこのキーを使わない。** QA `behavior.pairWeavePN`。
+  - **〔第257便a 訂正・追補〕** ① **1PN の w は両側とも「前步の場」で読む**(輸送ループが今步の値へ更新する**前**に
+    u_frame,prev と u_pair,prev の両方を退避する)。第256便a は u_pair 側だけを退避していた。
+    実測の変化は 1PN チャネルの 1 步 |Δv| の相対 1.7×10⁻⁴ で、**20 近点窓の P・Δϖ は印字桁で同一**である。
+    ② `"pairPN"` は **T_pair も ∇u_pair も ∇χ も計算しない**(要求差分が −k_F·χ·T(u,∇u) だけで決まるため)。
+    それらを作るのは `"pairPNFull"`(と診断)のときだけである。
+    ③ **`"pair"`/`"pairFull"` の要求差分も `"pairPN"` と同じ ③′ の共有ヘルパを通す**(規約統一)。
+    🪟 は `frameReaction:"pairReduced"` なので `"pair"` の数値は動く(近点間 P が +0.0003〜+0.05%)。
+    **`"off"`・未宣言はビット同一のままである。**
+- **座標変換慣性(第257便a — `physics.spaceMesh.inertia:"coordinate"` と 3 つのノブ)**: 第49報
+  「空間メッシュに対する相対的な移動が慣性である」を**作用で宣言した** opt-in の慣性則(**診断専用**)。
+  宣言する作用は 1 本だけである:
+
+      **L = ½m|v − η·χ·u_mesh(x,t)|² − mΦ**   (η=`inertiaGain`・χ=W/(D₀ᵖ+W_B+W) は既存の追従比)
+
+  Euler–Lagrange(**∂u/∂x 項を落とさない**)から ū=η·χ·u_mesh と置いて
+  **a = g + ∂ₜū + (∇ū)v − (∇ū)ᵀ(v−ū)**。**η=1・置換なしなら式は `inertia:"action"` と同型**である。
+  - **`inertiaGain`**(η∈[0,1]・既定 1)… 相対慣性の強度。**表示側の gain とは別物である**(名前も別)。
+  - **`inertiaVertices`**(既定 `false`)… 頂点(メッシュを定義する側)自身へ当てるか。
+    **2 体系では非頂点が存在しないので、既定では何も起きない**(`S.meshCoordN=0`・OFF とビット同一)。
+  - **`inertiaReaction`**(`"pair"` 既定 / `"reservoir"`)… 反作用の返し先。`"pair"` は非頂点粒子が受けた
+    運動量の負を**頂点対へ等量**返し、残った角運動量を**接線偶力**(P 中立)で返す。`"reservoir"` は
+    無限慣性リザーバの帳簿へ。**頂点自身へ当てた分と箱の場は常に reservoir 側**である。
+  - **加算ではなく置換**: この則が立つ粒子には **E6′(geoPN=0)/ E12v2 の輸送 3 項(geoPN=2)の追従キックを
+    当てない**(エンジンが当てた式を打ち消す要求を書く演算子分割)。geoPN=1 は物質への E6′ が無いので除去 0。
+    `frameReaction:"pairReduced"` では除去要求も ③′ の同じ線形写像を通す。
+  - **メッシュの源は 2 通り**(`S.meshCoordSrc`): UniverseBox を宣言した宇宙では**箱の規定場**
+    (u_B=V+Ωẑ×(r−c)+H(r−c)。`mode:"exp"`/`"lin"` だけ。他は `S.meshCoordStop="boxMode"` で停止)、
+    それ以外は **|m| 上位 2 体の T2 メッシュ**。
+  - **既定値は署名に出ない**(η=1・vertices=false・reaction="pair" は 1 文字も出さない = 未宣言と同じ正準形)。
+    **`inertia` が立っていないときは 3 つとも出さない。**
+  - 帳簿: `S.meshCoordPx/Py/L`(粒子系へ入れた運動量・角運動量)・`S.meshCoordE`(離散キックの厳密仕事)・
+    **`S.meshCoordEmesh=−E`**・`S.meshCoordChi`/`N`/`Stop`/`Src`/`Clamp`・
+    `S.meshCoordDvI`(慣性チャネルの 1 步 |Δv|)・`S.meshCoordDvE6`(除去チャネル)。リザーバへも同時記帳する。
+  - **どの内蔵プリセットも宣言していない。生成 AI はこのキーを使わない。** QA `behavior.meshCoordInertia`。
+  - **限界**: T2 頂点メッシュは**局所的でない**(|a_I|/|g_N| が r=300→4800 で 1.97→1370 まで伸びる)ので、
+    **遠方粒子・銀河・星団へこのまま当ててはならない**(docs/PHYSICS.md 第257便a ⑤3)。
+- **純関数 2 本(第257便a・力へは接続しない物差し)**:
+  - **`HP.affineComovingStep({C,V,H,Omega,dt}, [x,y])`** → `{x,v,u,C,F,a,theta,fixedPoint,gradU,dUdt}`。
+    x(t+h)=C+V·h+a·R(θ)(x−C)(a=e^{Hh}・θ=Ωh・**C も V·h 動く**)。**群**なので 100 分割と一括が
+    丸めまで一致する。**エンジンの箱は中心 c を動かさず一様 V を足す別の流れ**で、その厳密解は
+    `{C:fixedPoint, V:[0,0]}` の形で書ける(`fixedPoint = C − (H·I+Ω·J)⁻¹V`)。
+  - **`HP.relativeOrbitReference({chi,s,omega,r?,GM?})`** → `{f,kappa2,kappa,dvarpi,dvarpiDeg,Omegam,
+    relOmega,GMreq,M0,ratio,stable}`。参照モデル **f=(1−χ)²+sχ(1−χ)**・
+    **κ²=(ω−Ω_m)²+s(s−1)(ω−Ω_m)Ω_m**・**Δϖ=2π(ω/κ−1)**(Ω_m=χω)。χ∈[0,1] の外・非有限は門(null)。
+    **κ²≤0(不安定)では Δϖ は null。** **この式で観測に合わせたとは書かない。**
 - **有限の回転子交換(第255便a — `physics.spaceMesh.reservoir`)**: `{"Imesh":正の数値, "gamma":0 以上の数値}`。
   メッシュに**有限の慣性 I_m と独立な角運動量 J** を与え、軌道 L と γ で交換する opt-in(既定なし)。
   純関数は **`HP.dfmMeshRotorExchange({L,J,Iorb,Imesh,gamma,dt})`** で、
@@ -854,15 +910,29 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   (步をまたいで保持するなら複製すること。原子的停止は保持 —— 失敗した步では入れ替えない)。
   描画側は **`tr.error` の輸送を作り直さない**(停止は停止のまま)。
   力(本節)と波(第253便c の `HP.dfmMeshWaveRHS`)は**同じ `{u,gradU,dUdt}` を読む**。
-- **オーバーレイ `overlays.spaceMesh`(第254便a → 第255便c → 第256便c で 1 形化)**: 正準形は
-  **`{"mode":"lines"|"guide"|"transport"|"tracer"}` だけ**(未宣言は鍵なし)。**4 つは排他**で、同時には描かれない。
-  - `"lines"`(**既定** — 空間線 = 凍結した時刻の場を表示用パラメータ τ で追う線。dx/dτ=u+c_line ê・
+- **オーバーレイ `overlays.spaceMesh`(第254便a → 第255便c → 第256便c で 1 形化 → 第257便c で `"mesh"` 追加)**: 正準形は
+  **`{"mode":"mesh"|"lines"|"guide"|"transport"|"tracer"}` だけ**(未宣言は鍵なし)。**5 つは排他**で、同時には描かれない。
+  - `"mesh"`(**既定**・第257便c — 重心原点の**蓄積格子**。**全粒子の質量重心 C** を原点にした正方格子を、
+    C 中心の標本格子〔17×17〕へ**一度だけ**評価して凍結した速度場が作る**一意の写像 Φ** で写し、
+    各辺の **Φ(次)−Φ(前)** を**中心に近い交点から順に累積**して描く。Φ は dX/ds=g·[u(X)−u(C)]
+    (0≤s≤τ_ref)を RK4 で解いたもので、**τ_ref は系のサイズ / 内部速度から一度決まり gain では再正規化しない**。
+    Φ が一意なので**共有する交点は同じ値**になる〔閉路残差は丸めだけ = 相対 10⁻¹⁷ 級〕。
+    **セルの符号付き面積が負になったら折返しとして破線+凡例に替える**〔空間の反転ではなく表示の限界〕。
+    場は、連星が u=χ(x)[V+B(x−C_mesh)]+(1−χ(x))u_bg(x)〔**χ は交点ごと**〕、銀河〔`overlays.galaxyField` を
+    宣言したサンプル〕が `dfmGalaxyMeshField` で、**unValid=false の点は描かない**〔連星場へ落とさない〕。
+    **凍結場の診断図であって、過去から運ばれてきた物質のメッシュではない**)
+  - `"lines"`(空間線 = 凍結した時刻の場を表示用パラメータ τ で追う線。dx/dτ=u+c_line ê・
     dê/dτ=(I−êêᵀ)Bê を中点法で積分。**光子でも物質線でもなく、c_line は描画規約であって光速ではない**。
     **線の長さは系の長さで決まる**〔連星は 2 頂点の分離の 0.75 倍・銀河は中心から外縁〔半径の 95 パーセンタイル〕
     までの 2.40 倍〕ので**ズームしても世界座標では伸び縮みしない**。色は琥珀 rgba(232,168,72,·))
   - `"guide"`(参照ガイド = 瞬時の F 写像を **χ の不透明度**で描く)/ `"transport"`(輸送された物質線)
   - `"tracer"`(銀河の物質線。**表示していない間は 1 步も運ばれず**、再表示では現在時刻で張り直す)
-  **旧形は入力としてだけ読む**(移行表・**捨てるものは無い**): `spaceMesh:true` → `{mode:"lines"}` /
+  **表示専用の `gain`**(第257便c): 実行時の `overlays.spaceMesh.gain`(0〜2・既定 1.0・刻み 0.05)が
+  蓄積格子の写像の度合 g である。**`validatePreset` は `{mode}` しか出さない**ので、**プリセット署名・
+  エクスポート JSON・`S.params` には 1 文字も入らない**(UI のスライダー・localStorage `hp_sm_gain` に残る
+  セッション設定で、A/B の両側で同じ値を使う)。**生成 AI はこの鍵を書かない**。
+  **旧形は入力としてだけ読む**(移行表・**捨てるものは無い**。旧セーブに `"mesh"` は 1 件も無い):
+  `spaceMesh:true` → `{mode:"lines"}` /
   `spaceMesh:true` + `spaceMeshMode:"guide"|"transport"|"lines"`(第254便a・第255便c の鍵)→ `{mode:…}` /
   `spaceMeshMode` 単独 → `{mode:…}` / `spaceMesh:false` → 鍵なし。**`spaceMeshMode` は正規化後の
   overlays には出ない**(値域が 1 形になったため — 第256便c は**署名便**で、🫂🪟🎠 の 3 本の宣言表記が変わった)。
@@ -907,6 +977,49 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   - `HP.dfmArmBudget({r, vc, sigma, width, m?, pitch?, f?})` — **腕を保つのに要る力の見積り**(純関数・**粒子の力には未接続**)。`|∇ψ|²=(m/r)²+(m·cot i/r)²`(`pitch` は**度**・90° = 棒で cot=0 が厳密)から `epsilon = σ⊥²/(w² v_c² f |∇ψ|²)`・`QT = m·ε·f`・`aWidth=σ⊥²/w`・`aAxis=ε v_c²|∇ψ|`・`forceRatio=ε|∇ψ|r` を返す。r≤0・v_c≤0・w≤0・m≤0・pitch∉(0,90]・f≤0・NaN は `null`。**「腕が自律生成する」主張ではない。**
   - `HP.dfmArmPotential(x, y, t, {epsilon, vc, Rb, Rout?, omega?, m?, pitch?})` — 外部指定の**回転ポテンシャル**(解析勾配つき純関数)。`Φ = ε v_c² A(r) cos ψ`・`A(r)=r²/(r²+R_b²)·exp(−(r/R_out)²)`・`ψ = m[θ−Ω_p t−ln(r/R_b)·cot i]`。返値 `{Phi, ax, ay, dPhidt, torque, r, psi, A}`。**ax/ay は解析式**(中心差分と 10⁻⁸ で一致)、**恒等式 ∂ₜΦ = Ω_p·τ**(τ = x a_y − y a_x = −∂Φ/∂θ)が丸めで成り立つ。**r=0 で力 0**(窓 A∝r²)・**ε=0 で Φ も力も 0**。QA `behavior.armBudget`。
   - **生成 AI はこの 2 本も使わない**(プリセット JSON からは呼べない)。`overlays.galaxyField` も SYSTEM_PROMPT の overlay 一覧には入れていない(診断器の宣言であり生成対象ではない)。QA `behavior.galaxyMesh` は 14 項目・`behavior.armBudget` が新設(docs/PHYSICS.md 第256便b の節)。
+- **s の宣言と R_slip・磁石連鎖のトイ・BH 以降のトイ帳簿(第257便b・第49報)**: いずれも**表示と記録の層**であり、
+  **粒子の力へは 1 バイトも接続していない**。**新しい physics キーは 0 個**(`physics` は 1 文字も動いていない)。
+  - `overlays.galaxyField` に**第 3 の鍵 `slipThreshold`**(= s = w*/V の**宣言値**・既定 `HP.GALMESH_SLIP_DEFAULT`=0.9)。
+    **宣言したときだけ**正準形が `{unSource,unFit,slipThreshold}` の 3 鍵になる(**未宣言は 2 鍵のまま = 🎠 の署名も
+    エクスポート JSON も 1 bit 不変**)。値域は 0 ≤ s < 1(外は落として警告)。**表示と記録のみ**で、
+    `u`・`χ`・`∇u` は 1 bit も動かない。
+  - `HP.dfmSlipRadius({A, D0, p, s})` — **引きずり限界半径の式**(純関数)。`R = [(A/D₀)·s/(1−s)]^(1/p)` と
+    `{R, A, D0, p, s, chiFar}` を返す。**s≥1・s<0・A≤0・D₀≤0・p≤0・NaN は `null`**(D₀=0 は「どこまでも引きずる」なので
+    Infinity ではなく `null`)。**閾値 s に依存する設計式であって、束縛円盤の外縁の証明ではない。**
+  - `dfmGalaxyMeshField` の返値に **`sUsed`・`slipA`・`R_slip`・`chiSlip`** の 4 欄が増えた(**値は 1 bit も変えない**)。
+    `slipA` は加算形 W の遠方振幅 = **源として数えた質量の総和 Σmᵢ**(第256便b で A/M=0.99998 と実測した量の厳密形)。
+    `s` は opts の `slipThreshold` → プリセット宣言 → 既定 0.9 の順で決まる。
+  - `HP.dfmChainMeshBuild(S_or_bodies, opts)` / `Step(chain, dt, opts)` / `Static(chain, b?)` / `Field(chain, x, y, opts?)` /
+    `Energy(chain)` — **磁石連鎖の有限応答連鎖メッシュ**(**新しいトイ仮説**であって、現行 D₀ の単位・意味から
+    自動導出されるものではない)。粒子を**半径リング 1〜8 層**(`HP.CHAIN_RINGS_MAX`)に縮約し、節点ごとに
+    変位 ξ と速度 U を持たせる。`opts` は `{rings, kNeighbors, mu, tau, zeta, tauDrag, Kbg, gammaBg,
+    bond:"linear"|"central", kScale, gammaScale, D0, p, eps, center, capacity, edges}`。
+    宣言量は 3 つだけである(**μ・K・γ を全部 fit にしない**): **慣性比** `mu`(μ_b=mu·M_b)・**応答時間** `tau`
+    (K_ij=μ_red/τ²・γ_ij=2ζμ_red/τ)・**支持長は既存の幾何核をそのまま使う**(駆動係数 a_b=χ_b·μ_b/τ_drag、
+    χ_b は `dfmGalaxyMeshField` と同じ加算形 W から作る = 新しい長さスケールを 1 つも足していない)。
+    `kNeighbors:0` は**鎖を切った対照**(「磁石だけ」)。`bond:"linear"` は ChatGPT §10 の式そのもの
+    (**回転不変ではないので L が保存しない** —— 隠さずに測る)、`bond:"central"` は中心力で P も L も保存する。
+    `Step` は RK4(**dt<0 は `null`** —— 前進専用)で、返値は `{Em, Ekin, Epot, Q, Qdrive, Wext, P, L, dQ, dW,
+    residual, driveOn, capLeft, capState}`。**ΔE_m+ΔQ−ΔW_ext=0 が閉じた帳簿の意味**で、`Q̇≥0` は各段の被積分量が
+    非負・RK4 の重みが正であることから 1 步ごとに保証される。`capacity` は「観測した事実が無いエネルギー」の
+    **初期容量**で、使い切ると駆動が止まり `capState:"floor"` になる。
+    `Static` は**即時応答極限** U=b+K·U を、**ρ(K)<1 を確かめてからだけ**解く(ρ≥1 は `{rho, U:null, singular:true,
+    reason:"spectral-radius"}` —— 二重加算・自己源の無限増幅を防ぐ)。**この関係式は粘性(γ)だけの中継を記述する**
+    ので、弾性 K を入れた時間発展とは一致しない(`kScale:0` のときだけ一致する)。
+    `Field` は `dfmGalaxyMeshField` と**同じ返り値契約**(`u`・`nEff`・`supportR`・`unValid`)を持つ**別関数**である。
+    **粒子側には力を返さない**(反作用は `Pext`/`Wext` の帳簿に置くだけ)。QA `behavior.chainMesh`。
+  - `HP.dfmToyLedger(S, {caps?, ref?, maxPairs?})` — **BH 以降のトイの帳簿テンプレート**(既存の帳簿量を
+    **読むだけ**・S を 1 バイトも書かない)。`{K, U, Eshell, Ecore, Emesh, Q, Eescaped, Etot, Wext, residual,
+    dEtot, dWext, capState, capFloorCount, undefinedTerms, notes, obs, parts, closed}` を返す。
+    **未実装の項は 0 で埋めず `null`** にして `undefinedTerms` に名前を挙げる(`U` は対の数が `maxPairs` を
+    超えても**打ち切らずに未定義**にする)。**残差は基準 `ref`(前回の返値)を渡したときだけ定義される**
+    (基準の無い差を作らない)。`caps` は項ごとの `{min,max}` で、下限に達した項に印が立つ。
+    **減光(lightSweep)は `obs` 欄の観測写像**であって帳簿の項ではない(E_tot に入らない・質量推定を自動相殺しない)。
+    **Q を重力波と読まない。** QA `behavior.toyLedger`。
+  - **生成 AI はこれらを使わない**(プリセット JSON からは呼べない)。`overlays.galaxyField.slipThreshold` も
+    SYSTEM_PROMPT の overlay 一覧には入れていない(診断器の宣言であり生成対象ではない)。
+    QA `behavior.galaxyMesh` は 17 項目へ・`behavior.chainMesh`・`behavior.toyLedger` が新設
+    (docs/PHYSICS.md 第257便b の節)。
 - **台帳の用語 — 等質量度の正名は `equalMassDegree`(第253便b L4・文書のみ)**: 2 体の質量がどれだけ揃っているかを表す量の**正名を `equalMassDegree = |m₁−m₂|/M`(M=m₁+m₂)** に固定する。**0 で等質量**・正質量(m₁,m₂>0)・M>0 のときにだけ定義され、値域は [0,1)。対応欄として **`4ν = 4m₁m₂/M² = 1−δ²`(δ=equalMassDegree)** を併記する(4ν は 1 で等質量 —— 向きが逆なので混ぜない)。ν=m₁m₂/M² は第249便a の ν 則でそのまま使う。**これはプリセットの物理キーではない**(生成 AI が JSON に書く欄ではなく、台帳・文書・ハーネス出力の呼び名の規約である)。
 - **観測安定則(第199便 M1 — 2026-08-25 裁定)**: 観測値再現版は、観測値で安定する計算式を
   採用する(観測値自体が計算式で算出されている為)。kFrame=1 雛形が自己診断で永年不安定と

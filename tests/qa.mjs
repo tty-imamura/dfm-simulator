@@ -241,8 +241,13 @@ if (!TARGET.startsWith('beta/')) {
 //     ② 近点が測れない行は **meas=null の「未測定」**であり、同方向1周・接触要素へ**置換していない**
 //        (meas は periASec とビット一致し、revSec[1]/oscSec を採っていない)。
 //     ③ dt/2 段の ε_num も**同じ定義**で作られている(numBoundDef:"periastron")。
-//     ④ 門の definitionMatches は**同じ定義の検出器 A/B の広がり**(gate.defSpreadPct)で決まり、
-//        **定義違いの広がり**(gate.defSpreadCrossDefPct)は別欄に残るだけで σ と比較されていない。
+//     ④ **定義違いの広がり**(gate.defSpreadCrossDefPct)は別欄に残るだけで σ と比較されていない。
+//        **第257便d(第49報)で ④ の前半が変わった**: 門の definitionMatches は **A 正本**へ移り、
+//        「同じ定義の検出器 A/B の広がり(gate.defSpreadPct)が σ_rel の内側か」では**なくなった**
+//        (第256便d ③ の合成軌道検定で、その広がりは定義差ではなく**軌道側の雑音**だと同定された)。
+//        A−B は gate.orbitNoiseIndicator へ移した。**本ブロックはそこを見ない** —— 定義の宣言と
+//        A 正本・4 段の集計・旧鍵の読み替えは `behavior.calauditMapping`(第257便d 新設)が見る。
+//        ここに残る ④ は「ecc は defMeta=false のまま」「定義未宣言のまま 3σ 合にしない」だけである。
 //     ⑤ 視覚連星(✨✴️🌟💫)は従来どおり periodDef:"revolution"。
 //     ⑥ σ は paper/data/solar-observations.csv の **sigma 列**から来ており(gate.sigmaFrom:"csv")、
 //        CSV の値とビット一致する。sigma 列が空欄の行からは σ を作っていない。
@@ -13173,6 +13178,10 @@ if (!FAST) {
 //   ⑤ **2 案は別物である**(実測の否定結果): "pairFull"(フレームの代入)は頂点で χΔvᵢ の
 //      自己項が残るので連星が壊れる。"pair"(相対速度の読み替え)は壊れない
 //   ⑥ 決定性・門(weave/reservoir の不正値)
+//   〔第257便a〕要求差分は **③′ の共有ヘルパ `S._weaveSpread`** を通す(`"pairPN"` と規約を揃えた)。
+//      🪟 は frameReaction:"pairReduced" を宣言しているので **`"pair"`/`"pairFull"` の数値は動く**
+//      (4000 步で "pair" の r は 239.347470 → 239.347469・外部仕事 1.669543 → 1.669548)。
+//      **`"off"` と未宣言はビット同一のまま**(上の ①)。
 {
   const hasPW = await page.evaluate(() => !!(window.HP && Array.isArray(HP.SPACE_MESH_WEAVE)));
   if (hasPW) {
@@ -13253,7 +13262,10 @@ if (!FAST) {
     const w3 = pw.kf0.same && pw.kf0.stop === 'kFrame';
     const w4 = Math.abs(pw.ledger.closePx) < 1e-9 && Math.abs(pw.ledger.closePy) < 1e-9
       && Math.abs(pw.ledger.closeL) / pw.ledger.Labs < 1e-6 && !pw.ledger.nan && pw.ledger.stop === null;
-    const w5 = pw.two.fullDev > 0.5 && pw.two.fullClamp > 1000
+    // 第257便a: `"pair"`/`"pairFull"` の要求差分を ③′ の共有ヘルパへ通す規約統一で、否定対照の壊れ方が
+    // **変わった**(4000 步後の r は 54.78 → 165.10・ずれ 77.2% → 31.2%・安全クランプ 3598 → 3324・
+    // 外部仕事 4.60×10⁶ → 6.05×10⁶)。**壊れることは変わらない**ので門は 0.25 へ下げた(実測 0.312)
+    const w5 = pw.two.fullDev > 0.25 && pw.two.fullClamp > 1000
       && pw.two.pairClamp === 0 && pw.two.pairDev < 0.1
       && Math.abs(pw.two.fullE) > 1000 * Math.abs(pw.two.pairE);
     const w6 = pw.det && pw.gates;
@@ -13422,6 +13434,246 @@ if (!FAST) {
     console.log('SKIP behavior.pairWeavePN(対象に第256便a の weave:"pairPN" なし — root 等)');
   }
 }
+// ---- 第257便a(第49報): behavior.meshCoordInertia — 座標変換慣性(opt-in)の契約 ----
+//   ① **未宣言は 1 bit 不変**: ⚡ に spaceMesh を宣言しなければ署名に 1 文字も出ず、
+//      600 步の状態もビット同一(S.hasCoordInertia は未宣言 false / "coordinate" true)
+//   ② **純関数の恒等**: `HP.affineComovingStep` は**群**(100 分割と一括が丸めまで一致)・
+//      逆向き(dt<0)で戻る・固定点で再アンカーした形の**速度場**が一致する。
+//      `HP.relativeOrbitReference` は χ=0 でニュートン(f=1・Δϖ=0)・門
+//   ③ **箱の共動写像への収束の次数**: 回転する UniverseBox の共動試験粒子で、E6′ の誤差が
+//      dt 半減で半分になる(一次収束)—— 重いので QA_FAST では省略
+//   ④ **遠心の符号は (1−ηχ)² に乗る**: 剛体回転の箱(χ=1)で共回転試験粒子の残差 a_r+Ω²r が
+//      η=1 で 0 へ落ち、η=0.5/0.25 で Ω²r の (1−η)² 倍になる。**η=0 は kFrame=0 と同じ**
+//      (= E6′ の二重計上が無い。置換であることの機械証明)
+//   ⑤ **反作用と帳簿**: `inertiaReaction:"pair"` は慣性チャネルの ΔP/ΔL を頂点対へ返すので
+//      粒子系だけの残差が `"reservoir"` より桁で小さい。E_mesh=−E(厳密)・ΔP+リザーバが閉じる
+//   ⑥ **χ→0 で OFF へ戻る**(D0pull=10¹²)・**dt<0 で契約が壊れない**(NaN 0・有限)
+//   ⑦ 門(inertiaGain の範囲外・inertiaVertices 非真偽値・inertiaReaction 不正値)と受理
+{
+  const hasCI = await page.evaluate(() => !!(window.HP && Array.isArray(HP.SPACE_MESH_INERTIA)
+    && HP.SPACE_MESH_INERTIA.indexOf('coordinate') >= 0
+    && typeof HP.affineComovingStep === 'function' && typeof HP.relativeOrbitReference === 'function'));
+  if (hasCI) {
+    const ci = await page.evaluate((fast) => {
+      const R = {}, KEY = HP.SPACE_MESH_KEY;
+      const mkRun = (id, sm, ph, n, dt, bodies, ub) => {
+        const q = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === id)));
+        if (sm) q.physics[KEY] = Object.assign({ mode: 'vertex' }, q.physics[KEY] || {}, sm);
+        if (ph) Object.assign(q.physics, ph);
+        if (ub) q.universeBox = Object.assign({}, q.universeBox || {}, ub);
+        if (bodies) q.bodies = bodies;
+        delete q.massCalibration;
+        const v = HP.validatePreset(q);
+        if (!v.ok) return { err: (v.errors || []).join('|') };
+        const S = HP.sim; S.build(v.preset);
+        const T0 = S.totals();
+        for (let k = 0; k < n; k++) S.step(dt);
+        const T = S.totals();
+        return { sig: JSON.stringify(v.preset.physics), has: S.hasCoordInertia, n: S.n,
+          st: [S.x[0], S.y[0], S.vx[0], S.vy[0], S.x[1], S.y[1], S.vx[1], S.vy[1]],
+          nan: S.hasNaN(), stop: S.meshCoordStop, src: S.meshCoordSrc, chi: S.meshCoordChi,
+          mcN: S.meshCoordN, mcE: S.meshCoordE, mcEm: S.meshCoordEmesh,
+          mcP: Math.hypot(S.meshCoordPx, S.meshCoordPy), mcL: S.meshCoordL,
+          dvI: S.meshCoordDvI, dvE6: S.meshCoordDvE6, mcClamp: S.meshCoordClamp,
+          clamp: S.clampVN + S.clampSN + S.clampRN + S.clampTN + S.clampAN,
+          dPraw: Math.hypot(T.px - T0.px, T.py - T0.py), dLraw: T.L - T0.L, Labs: Math.abs(T0.L) || 1,
+          dPres: Math.hypot(T.px - T0.px + S.resPx, T.py - T0.py + S.resPy),
+          dLres: (T.L - T0.L) + S.resL,
+          vel: [S.vx[S.n - 1], S.vy[S.n - 1]], pos: [S.x[S.n - 1], S.y[S.n - 1]] };
+      };
+      // ① 未宣言 1 bit 不変(⚡)
+      const base = mkRun('psrDoubleABDFM', null, null, 600, 0.016);
+      const onCI = mkRun('psrDoubleABDFM', { inertia: 'coordinate', inertiaVertices: true }, null, 1, 0.016);
+      R.norm = { noKeyInSig: !base.sig.includes(KEY), flagOff: base.has === false,
+        flagOn: onCI.has === true, srcOn: onCI.src };
+      // ② 純関数
+      const cs = { C: [1, 2], V: [0.37, -0.21], H: 0.05, Omega: 0.4 };
+      const one = HP.affineComovingStep(Object.assign({ dt: 1.5 }, cs), [4, -3]);
+      let st = { x: [4, -3], C: cs.C.slice() };
+      for (let i = 0; i < 100; i++) {
+        const z = HP.affineComovingStep({ C: st.C, V: cs.V, H: cs.H, Omega: cs.Omega, dt: 0.015 }, st.x);
+        st = { x: z.x, C: z.C };
+      }
+      const back = HP.affineComovingStep({ C: one.C, V: cs.V, H: cs.H, Omega: cs.Omega, dt: -1.5 }, one.x);
+      let fe = 0;
+      for (const q of [[4, -3], [-8, 5], [0, 0], [120, 77]]) {
+        const zf = HP.affineComovingStep({ C: one.fixedPoint, V: [0, 0], H: cs.H, Omega: cs.Omega, dt: 0 }, q);
+        const ux = cs.V[0] + cs.H * (q[0] - cs.C[0]) - cs.Omega * (q[1] - cs.C[1]);
+        const uy = cs.V[1] + cs.Omega * (q[0] - cs.C[0]) + cs.H * (q[1] - cs.C[1]);
+        fe = Math.max(fe, Math.hypot(zf.u[0] - ux, zf.u[1] - uy));
+      }
+      const r0 = HP.relativeOrbitReference({ chi: 0, s: 1.5, omega: 2, r: 3, GM: 5 });
+      R.pure = { group: Math.hypot(one.x[0] - st.x[0], one.x[1] - st.x[1]) / Math.hypot(one.x[0], one.x[1]),
+        reverse: Math.hypot(back.x[0] - 4, back.x[1] + 3), fieldErr: fe,
+        newton: { f: r0.f, dv: r0.dvarpiDeg, ratio: r0.ratio },
+        gates: [HP.affineComovingStep(null, [0, 0]), HP.affineComovingStep({ dt: NaN }, [0, 0]),
+          HP.affineComovingStep({ dt: 1 }, [1]), HP.relativeOrbitReference(null),
+          HP.relativeOrbitReference({ chi: -0.1, omega: 1 }), HP.relativeOrbitReference({ chi: 1.1, omega: 1 }),
+          HP.relativeOrbitReference({ chi: 0.5, omega: NaN })].every((z) => z === null) };
+      // ③④ 箱(剛体回転・G=0・χ=1)—— 共回転試験粒子の a_r+Ω²r と共動写像の収束
+      const OM = 0.15, RP = 70, UB = { mode: 'exp', H0: 0, omega: OM, vx: 0, vy: 0, D: 80, dPower: 1 };
+      const PHB = { G: 0, D0: 0, kFrame: 1, geoPN: 0, softening: 4, stateCarry: 'double' };
+      const spin = (sm, ph, dt) => {
+        const bodies = [{ type: 'single', m: 1e-9, x: RP, y: 0, vx: 0, vy: OM * RP, spin: 0, pinned: false }];
+        const q = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'boxcomoving')));
+        q.universeBox = Object.assign({}, q.universeBox, UB);
+        Object.assign(q.physics, PHB, ph || {});
+        if (sm) q.physics[KEY] = Object.assign({ mode: 'vertex' }, sm);
+        q.bodies = bodies; delete q.massCalibration;
+        const v = HP.validatePreset(q);
+        if (!v.ok) return null;
+        const S = HP.sim; S.build(v.preset);
+        let ar = 0, r = RP;
+        for (let k = 0; k < 4; k++) {
+          const v0 = [S.vx[0], S.vy[0]];
+          S.step(dt);
+          r = Math.hypot(S.x[0], S.y[0]);
+          ar = ((S.vx[0] - v0[0]) / dt * S.x[0] + (S.vy[0] - v0[1]) / dt * S.y[0]) / r;
+        }
+        return { resid: ar + OM * OM * r, ref: OM * OM * r, chi: S.meshCoordChi, src: S.meshCoordSrc,
+          stop: S.meshCoordStop, nan: S.hasNaN() };
+      };
+      const e6 = spin(null, null, 0.005);
+      const c1 = spin({ inertia: 'coordinate' }, null, 0.005);
+      const c05 = spin({ inertia: 'coordinate', inertiaGain: 0.5 }, null, 0.005);
+      const c025 = spin({ inertia: 'coordinate', inertiaGain: 0.25 }, null, 0.005);
+      const c0 = spin({ inertia: 'coordinate', inertiaGain: 0 }, null, 0.005);
+      const kf0 = spin(null, { kFrame: 0 }, 0.005);
+      R.spin = { e6: e6.resid / e6.ref, c1: c1.resid / c1.ref, c05: c05.resid / c05.ref,
+        c025: c025.resid / c025.ref, c0: c0.resid / c0.ref, kf0: kf0.resid / kf0.ref,
+        chi: c1.chi, src: c1.src, stop: c1.stop, nan: c1.nan,
+        law05: Math.abs(c05.resid / c05.ref - 0.25), law025: Math.abs(c025.resid / c025.ref - 0.5625),
+        replace: Math.abs(c0.resid / c0.ref - kf0.resid / kf0.ref) };
+      // ③ 収束の次数(重い — QA_FAST では省略)
+      if (!fast) {
+        const conv = (dt) => {
+          const T = 5, r0 = 100;
+          const q = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'boxcomoving')));
+          q.universeBox = Object.assign({}, q.universeBox, { mode: 'exp', H0: 0, omega: 0.2, vx: 0, vy: 0, D: 80, dPower: 1 });
+          Object.assign(q.physics, PHB);
+          q.bodies = [{ type: 'single', m: 1e-9, x: r0, y: 0, vx: 0, vy: 0.2 * r0, spin: 0, pinned: false }];
+          delete q.massCalibration;
+          const v = HP.validatePreset(q);
+          if (!v.ok) return null;
+          const S = HP.sim; S.build(v.preset);
+          for (let k = 0; k < Math.round(T / dt); k++) S.step(dt);
+          const xa = HP.affineComovingStep({ C: [0, 0], V: [0, 0], H: 0, Omega: 0.2, dt: T }, [r0, 0]).x;
+          return Math.hypot(S.x[0] - xa[0], S.y[0] - xa[1]);
+        };
+        const a = conv(0.02), b = conv(0.01), c = conv(0.005);
+        R.conv = { a, b, c, r1: a / b, r2: b / c, p: Math.log2(a / b) };
+      }
+      // ⑤ 反作用と帳簿(**非頂点**のリング・🪟)
+      const ring = [];
+      for (let k = 0; k < 8; k++) {
+        const th = 2 * Math.PI * k / 8, rr = 900;
+        ring.push({ type: 'single', m: 0.5, x: rr * Math.cos(th), y: rr * Math.sin(th),
+          vx: -0.026 * Math.sin(th), vy: 0.026 * Math.cos(th), spin: 0, pinned: false });
+      }
+      const WIN = HP.allPresets().find((z) => z.id === 'spaceMeshBinaryToy');
+      const ringRun = (sm) => {
+        const q = JSON.parse(JSON.stringify(WIN));
+        if (sm) q.physics[KEY] = Object.assign({ mode: 'vertex' }, q.physics[KEY] || {}, sm);
+        q.bodies = q.bodies.concat(ring);
+        const v = HP.validatePreset(q);
+        if (!v.ok) return { err: (v.errors || []).join('|') };
+        const S = HP.sim; S.build(v.preset);
+        const T0 = S.totals();
+        for (let k = 0; k < (fast ? 400 : 3000); k++) S.step(0.004);
+        const T = S.totals();
+        return { dLraw: T.L - T0.L, Labs: Math.abs(T0.L) || 1,
+          dPres: Math.hypot(T.px - T0.px + S.resPx, T.py - T0.py + S.resPy),
+          dLres: (T.L - T0.L) + S.resL, mcE: S.meshCoordE, mcEm: S.meshCoordEmesh,
+          mcN: S.meshCoordN, nan: S.hasNaN(), stop: S.meshCoordStop,
+          clamp: S.clampVN + S.clampSN + S.clampRN + S.clampTN + S.clampAN };
+      };
+      const rPair = ringRun({ inertia: 'coordinate' });
+      const rRes = ringRun({ inertia: 'coordinate', inertiaReaction: 'reservoir' });
+      R.react = { pair: rPair, res: rRes,
+        eBook: Math.abs(rPair.mcE + rPair.mcEm),
+        better: Math.abs(rPair.dLraw) < 0.2 * Math.abs(rRes.dLraw) };
+      // ⑥ χ→0 で OFF へ戻る / dt<0 の契約
+      const z0 = mkRun('psrDoubleABDFM', null, { D0pull: 1e12 }, 600, 0.016);
+      const z1 = mkRun('psrDoubleABDFM', { inertia: 'coordinate', inertiaVertices: true }, { D0pull: 1e12 }, 600, 0.016);
+      R.chiZero = { chi: z1.chi, mcE: z1.mcE, dvI: z1.dvI,
+        maxDiff: Math.max(...z1.st.map((v, i) => Math.abs(v - z0.st[i]))), scale: Math.hypot(z0.st[0], z0.st[1]) };
+      const neg = (() => {
+        const q = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'boxcomoving')));
+        q.universeBox = Object.assign({}, q.universeBox, UB);
+        Object.assign(q.physics, PHB);
+        q.physics[KEY] = { mode: 'vertex', inertia: 'coordinate' };
+        q.bodies = [{ type: 'single', m: 1e-9, x: 130, y: 0, vx: 0, vy: OM * 130, spin: 0, pinned: false }];
+        delete q.massCalibration;
+        const v = HP.validatePreset(q);
+        if (!v.ok) return { err: 1 };
+        const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < 3; k++) S.step(0.01);
+        S.step(-0.01);
+        return { nan: S.hasNaN(), finite: [S.x[0], S.y[0], S.vx[0], S.vy[0]].every(Number.isFinite),
+          stop: S.meshCoordStop };
+      })();
+      R.neg = neg;
+      // ⑦ 門と受理
+      const mkq = (sm) => { const q = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'psrDoubleABDFM')));
+        q.physics[KEY] = Object.assign({ mode: 'vertex' }, sm); delete q.massCalibration; return q; };
+      R.gates = [HP.validatePreset(mkq({ inertia: 'coord' })).ok,
+        HP.validatePreset(mkq({ inertia: 'coordinate', inertiaGain: 1.5 })).ok,
+        HP.validatePreset(mkq({ inertia: 'coordinate', inertiaGain: -0.1 })).ok,
+        HP.validatePreset(mkq({ inertia: 'coordinate', inertiaVertices: 1 })).ok,
+        HP.validatePreset(mkq({ inertia: 'coordinate', inertiaReaction: 'both' })).ok].every((z) => z === false);
+      R.accept = [HP.validatePreset(mkq({ inertia: 'coordinate' })).ok,
+        HP.validatePreset(mkq({ inertia: 'coordinate', inertiaGain: 0.5, inertiaVertices: true, inertiaReaction: 'reservoir' })).ok]
+        .every((z) => z === true);
+      // 既定値は署名に出ない(η=1・vertices=false・reaction="pair")
+      const sigDef = JSON.stringify(HP.validatePreset(mkq({ inertia: 'coordinate', inertiaGain: 1,
+        inertiaVertices: false, inertiaReaction: 'pair' })).preset.physics[KEY]);
+      R.sigDefault = sigDef;
+      R.sigClean = !sigDef.includes('inertiaGain') && !sigDef.includes('inertiaVertices') && !sigDef.includes('inertiaReaction');
+      return R;
+    }, FAST);
+    const fxq = (x) => Number(x).toExponential(4);
+    const q1 = ci.norm.noKeyInSig && ci.norm.flagOff && ci.norm.flagOn && ci.sigClean;
+    const q2 = ci.pure.group < 1e-12 && ci.pure.reverse < 1e-12 && ci.pure.fieldErr < 1e-12
+      && ci.pure.newton.f === 1 && ci.pure.newton.dv === 0 && ci.pure.gates;
+    const q3 = FAST || (ci.conv && ci.conv.r1 > 1.8 && ci.conv.r1 < 2.2 && ci.conv.r2 > 1.8 && ci.conv.r2 < 2.2);
+    const q4 = Math.abs(ci.spin.e6) < 1e-4 && Math.abs(ci.spin.c1) < 1e-4
+      && ci.spin.law05 < 1e-3 && ci.spin.law025 < 1e-3 && ci.spin.replace < 1e-3
+      && ci.spin.src === 'box' && ci.spin.stop === null && !ci.spin.nan;
+    const q5 = ci.react.eBook < 1e-9 && ci.react.better && !ci.react.pair.nan
+      && ci.react.pair.clamp === 0 && Math.abs(ci.react.pair.dLres) / ci.react.pair.Labs < 1e-9
+      && ci.react.pair.dPres < 1e-9;
+    const q6 = ci.chiZero.chi < 1e-6 && Math.abs(ci.chiZero.mcE) < 1e-3 && ci.chiZero.maxDiff < 1e-6
+      && !ci.neg.nan && ci.neg.finite;
+    const q7 = ci.gates && ci.accept;
+    add('behavior.meshCoordInertia', q1 && q2 && q3 && q4 && q5 && q6 && q7,
+      `① **未宣言は 1 bit 不変**: ⚡ の署名に spaceMesh が出ない=${ci.norm.noKeyInSig}・`
+      + `S.hasCoordInertia は未宣言 false/"coordinate" true=${ci.norm.flagOff && ci.norm.flagOn}・`
+      + `既定値(η=1/vertices=false/reaction="pair")は署名に出ない=${ci.sigClean}(${ci.sigDefault})=${q1} / `
+      + `② **純関数**: affineComovingStep は**群**(100 分割と一括の相対差 ${fxq(ci.pure.group)})・`
+      + `逆向き(dt<0)で戻る ${fxq(ci.pure.reverse)}・固定点で再アンカーした形の速度場が一致 ${fxq(ci.pure.fieldErr)}`
+      + ` / relativeOrbitReference は χ=0 でニュートン(f=${ci.pure.newton.f}・Δϖ=${ci.pure.newton.dv}°)・門 ${ci.pure.gates}=${q2} / `
+      + `③ **箱の共動写像への収束**: ${FAST ? '(QA_FAST では省略)'
+        : `回転 Ω=0.2 の誤差 ${fxq(ci.conv.a)}/${fxq(ci.conv.b)}/${fxq(ci.conv.c)}(dt=.02/.01/.005)= `
+        + `**dt 半減で ${ci.conv.r1.toFixed(3)}・${ci.conv.r2.toFixed(3)} 倍 → 一次収束**`}=${q3} / `
+      + `④ **遠心の符号は (1−ηχ)² に乗る**(剛体回転の箱・χ=${fxq(ci.spin.chi)}・src="${ci.spin.src}"): `
+      + `残差/(Ω²r) は E6′ ${fxq(ci.spin.e6)}・**coordinate η=1 ${fxq(ci.spin.c1)}**・`
+      + `η=0.5 ${ci.spin.c05.toFixed(6)}(=(1−η)²=0.25 との差 ${fxq(ci.spin.law05)})・`
+      + `η=0.25 ${ci.spin.c025.toFixed(6)}(=0.5625 との差 ${fxq(ci.spin.law025)})・`
+      + `**η=0 ${ci.spin.c0.toFixed(6)} は kFrame=0 の ${ci.spin.kf0.toFixed(6)} と一致**(差 ${fxq(ci.spin.replace)}`
+      + ` = E6′ を**置換**していて二重計上が無いことの機械証明)=${q4} / `
+      + `⑤ **反作用と帳簿**(🪟+非頂点リング 8 個): E_mesh=−E の残差 ${fxq(ci.react.eBook)}・`
+      + `粒子系だけの ΔL は "pair" ${fxq(ci.react.pair.dLraw)} 対 "reservoir" ${fxq(ci.react.res.dLraw)}`
+      + `(|L|≈${fxq(ci.react.pair.Labs)} —— 頂点対へ返す側が桁で小さい=${ci.react.better})・`
+      + `ΔP+リザーバ ${fxq(ci.react.pair.dPres)}・ΔL+リザーバ/|L| ${fxq(Math.abs(ci.react.pair.dLres) / ci.react.pair.Labs)}・`
+      + `NaN=${ci.react.pair.nan}・クランプ ${ci.react.pair.clamp}=${q5} / `
+      + `⑥ **χ→0 で OFF へ戻る**(D0pull=10¹²): χ=${fxq(ci.chiZero.chi)}・慣性の 1 步 |Δv|=${fxq(ci.chiZero.dvI)}・`
+      + `仕事 ${fxq(ci.chiZero.mcE)}・状態差 ${fxq(ci.chiZero.maxDiff)}(|x|≈${ci.chiZero.scale.toFixed(1)}) / `
+      + `**dt<0 の契約**: NaN=${ci.neg.nan}・有限=${ci.neg.finite}・stop=${ci.neg.stop}=${q6} / `
+      + `⑦ 門(inertia 不正値・η 範囲外・vertices 非真偽・reaction 不正)=${ci.gates}・受理=${ci.accept}=${q7}`);
+  } else {
+    console.log('SKIP behavior.meshCoordInertia(対象に第257便a の inertia:"coordinate" なし — root 等)');
+  }
+}
 // ---- 第255便a(第47報・ChatGPT §8.1): behavior.meshRotorExchange — 有限の回転子交換 ----
 //   純関数 HP.dfmMeshRotorExchange だけを叩く軽量ブロック(QA_FAST でも走る)。固定するのは 6 項目:
 //     ① **L+J が厳密に保存**(1 步でも 2 万步の積み上げでも)
@@ -13516,8 +13768,8 @@ if (!FAST) {
 //     ⑤ **未登録は 1 bit 不変**: tracer を作った走行と作らない走行で 200 步後の状態がビット同一
 //     ⑥ **決定性**: 同じ tracer 走行 2 回が全節点でビット同一
 //     ⑦ **門**: 非有限点・負 D₀・NaN D₀・p≤0・源なし・不正 spec・不正 tracer は null / false
-//     ⑧ **新サンプル 🎠**: NaN 0・2 回ビット同一・overlays.spaceMesh が {mode:"lines"} へ正規化される
-//        (第256便c で既定表示が空間線になった。物質線は宣言したときだけの**排他の診断**)
+//     ⑧ **新サンプル 🎠**: NaN 0・2 回ビット同一・overlays.spaceMesh が {mode:"mesh"} へ正規化される
+//        (第257便c で既定表示が蓄積格子になった。物質線・空間線は宣言したときだけの**排他の診断**)
 //   第255便b(第47報)が足した 4 項目:
 //     ⑨ **要求別の場**: 既定 opts(all/mean/uBt)が第254便b とビット同一・need を変えても u と ∇u は
 //        ビット同一・要求しない量は **null**(0 で埋めない・timeDerivativeComplete が false になる)
@@ -13761,6 +14013,9 @@ if (!FAST) {
           frozenOrder: Math.log2(decay(0.1, false) / decay(0.05, false)) };
         HP.sim.hasGalaxyTracer = false; HP.sim._galTracer = null;
       }
+      const decl2 = (id) => { const p = HP.allPresets().find((z) => z.id === id);
+        if (!p) return undefined;
+        return HP.validatePreset(JSON.parse(JSON.stringify(p))).preset.overlays.galaxyField; };
       // ================= 第256便b(第48報): galaxyField 宣言と有効範囲 =================
       // ---------- ⑬ **宣言の正準形**(🎠 は disk/affine)・**未宣言は 1 bit 不変**・宣言が場の既定になる
       {
@@ -13808,6 +14063,72 @@ if (!FAST) {
             return Object.is(a.u[0], fD.u[0]) && Object.is(a.u[1], fD.u[1]); })(),
           badWMin: HP.dfmGalaxyMeshField(S5, 100, 0, { need: 'u', wMin: -1 }) === null };
       }
+      // ================= 第257便b(第49報): s の宣言と R_slip =================
+      // ---------- ⑮ `slipThreshold`(**宣言したときだけ正準形に入る**・表示と記録のみ)と
+      //            返り値 `R_slip`/`sUsed`/`slipA`。**式 dfmSlipRadius と厳密一致**・s≥1 は null。
+      {
+        const mk2 = (gf) => ({ name: 'x', description: 'd', emoji: '\u{1F578}',
+          bodies: [{ type: 'single', m: 1, radius: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }],
+          camera: { scale: 100 }, world: { boundary: 'none', size: 0 }, overlays: { galaxyField: gf } });
+        const norm2 = (gf) => { const v = HP.validatePreset(mk2(gf));
+          if (!v.ok) return 'INVALID';
+          const g = v.preset.overlays.galaxyField;
+          return (g === undefined) ? 'undefined' : JSON.stringify(g); };
+        const S6 = HP.sim;
+        S6.build(HP.validatePreset(JSON.parse(JSON.stringify(
+          HP.allPresets().find((p) => p.id === 'galaxyMeshSpiral')))).preset);
+        for (let k = 0; k < 300; k++) S6.step(0.016);
+        const base = HP.dfmGalaxyMeshField(S6, 100, 0, { need: 'u', bg: 'static' });
+        let mSum = 0; for (let i = 0; i < S6.n; i++) if (S6.m[i] > 0) mSum += S6.m[i];
+        const three = [0.7, 0.9, 0.97].map((s2) => {
+          const f = HP.dfmGalaxyMeshField(S6, 100, 0, { need: 'u', bg: 'static', slipThreshold: s2 });
+          const pure = HP.dfmSlipRadius({ A: base.slipA, D0: base.D0, p: base.p, s: s2 });
+          return { s: s2, R: f.R_slip, sUsed: f.sUsed, pureR: pure ? pure.R : null,
+            d: (pure && f.R_slip !== null) ? Math.abs(pure.R - f.R_slip) : null };
+        });
+        o.slip = {
+          // 正準形: 第 3 鍵は**宣言したときだけ**入る(未宣言の 🎠 は 2 鍵のまま = 署名不変)
+          galDecl: JSON.stringify(decl2('galaxyMeshSpiral')),
+          canon3: norm2({ unSource: 'disk', unFit: 'affine', slipThreshold: 0.5 }),
+          canon2: norm2({ unSource: 'disk', unFit: 'affine' }),
+          rejectS: [norm2({ unSource: 'all', unFit: 'mean', slipThreshold: 1 }),
+            norm2({ unSource: 'all', unFit: 'mean', slipThreshold: -0.1 }),
+            norm2({ unSource: 'all', unFit: 'mean', slipThreshold: 'x' })]
+            .every((z) => z === '{"unSource":"all","unFit":"mean"}'),
+          // A = 加算形 W の遠方振幅 = 源として数えた質量の総和
+          A: base.slipA, mSum, aExact: Object.is(base.slipA, mSum),
+          defaultS: base.sUsed, defaultR: base.R_slip, dflt: HP.GALMESH_SLIP_DEFAULT,
+          three, exact: three.every((z) => z.d === 0),
+          // 宣言が既定になる(opts 未指定のとき)
+          fromDecl: (() => { const S7 = HP.sim;
+            const pd = JSON.parse(JSON.stringify(HP.allPresets().find((p) => p.id === 'galaxyMeshSpiral')));
+            pd.overlays.galaxyField = { unSource: 'disk', unFit: 'affine', slipThreshold: 0.5 };
+            const v = HP.validatePreset(pd); if (!v.ok) return null;
+            S7.build(v.preset);
+            const f = HP.dfmGalaxyMeshField(S7, 100, 0, { need: 'u', bg: 'static' });
+            return { sUsed: f.sUsed, R: f.R_slip }; })(),
+          // s≥1 は null・R_slip は s に単調増加
+          gates: { sOne: HP.dfmSlipRadius({ A: 1, D0: 1, p: 2, s: 1 }) === null,
+            sOver: HP.dfmSlipRadius({ A: 1, D0: 1, p: 2, s: 1.5 }) === null,
+            sNeg: HP.dfmSlipRadius({ A: 1, D0: 1, p: 2, s: -0.1 }) === null,
+            d0Zero: HP.dfmSlipRadius({ A: 1, D0: 0, p: 2, s: 0.9 }) === null,
+            aZero: HP.dfmSlipRadius({ A: 0, D0: 1, p: 2, s: 0.9 }) === null,
+            pZero: HP.dfmSlipRadius({ A: 1, D0: 1, p: 0, s: 0.9 }) === null,
+            nan: HP.dfmSlipRadius({ A: NaN, D0: 1, p: 2, s: 0.9 }) === null,
+            noOpts: HP.dfmSlipRadius() === null,
+            fieldOne: HP.dfmGalaxyMeshField(S6, 100, 0, { need: 'u', slipThreshold: 1 }).R_slip === null,
+            s0: HP.dfmSlipRadius({ A: 1, D0: 1, p: 2, s: 0 }).R === 0 },
+          mono: (() => { let ok = true, prev = -1;
+            for (const s2 of [0.1, 0.25, 0.5, 0.75, 0.9, 0.99]) {
+              const R = HP.dfmSlipRadius({ A: 2615.9, D0: 1.5, p: 2, s: s2 }).R;
+              if (!(R > prev)) ok = false; prev = R; }
+            return ok; })(),
+          // **表示と記録のみ**: slipThreshold を変えても u・χ・∇u は 1 bit も動かない
+          uBit: (() => { const a = HP.dfmGalaxyMeshField(S6, 100, 0, { need: 'uBt', bg: 'static' });
+            const b = HP.dfmGalaxyMeshField(S6, 100, 0, { need: 'uBt', bg: 'static', slipThreshold: 0.1 });
+            return Object.is(a.u[0], b.u[0]) && Object.is(a.u[1], b.u[1]) && Object.is(a.chi, b.chi)
+              && a.gradU.every((z, i) => Object.is(z, b.gradU[i])); })() };
+      }
       // ---------- ⑫ 新 opt の門(未知の値は null)
       o.gates255 = {
         badUnSource: HP.dfmGalaxyMeshField(A, 1, 1, { D0: 1, bg: 'static', unSource: 'core' }) === null,
@@ -13838,9 +14159,9 @@ if (!FAST) {
       gates: Object.keys(gm.gates).every((k) => gm.gates[k] === true),
       // ⑧ 新サンプル
       sample: !gm.sample || (gm.sample.bitSame && gm.sample.nan === false
-        // 第256便c: 🎠 の既定表示は**空間線**({mode:"lines"})になった(排他の診断としての
-        // 物質線は宣言したときだけ)。**値域は 1 形**なので、ここは正準形の文字列で固定する
-        && gm.sample.overlay === '{"mode":"lines"}' && gm.sample.cLight === 30
+        // 第257便c: 🎠 の既定表示は**蓄積格子**({mode:"mesh"})になった(排他の診断としての
+        // 物質線・空間線は宣言したときだけ)。**値域は 1 形**なので、ここは正準形の文字列で固定する
+        && gm.sample.overlay === '{"mode":"mesh"}' && gm.sample.cLight === 30
         && gm.sample.vObsNull && gm.sample.diffFinite && gm.sample.chiIn > gm.sample.chiOut),
       // ⑨ 第255便b: 既定 opts はビット同一・need 別の u/∇u もビット同一・欠落は null
       needContract: gm.need.defaultBit && gm.need.uBit && gm.need.uBBit && gm.need.uNull
@@ -13868,6 +14189,15 @@ if (!FAST) {
         && gm.gfField.nEffFar > gm.gfField.nEffIn && gm.gfField.wSumFar < gm.gfField.wSumIn
         && gm.gfField.rSupFar > gm.gfField.supportR * gm.gfField.pad
         && gm.gfField.wMinBite && gm.gfField.uBit && gm.gfField.badWMin,
+      // ⑮ 第257便b: slipThreshold は**宣言したときだけ正準形に入る**・R_slip は式と厳密一致・
+      //    s≥1 は null・A は源の質量総和・**表示と記録のみ**(u/χ/∇u は 1 bit も動かない)
+      slipCanon: gm.slip.galDecl === '{"unSource":"disk","unFit":"affine"}'
+        && gm.slip.canon3 === '{"unSource":"disk","unFit":"affine","slipThreshold":0.5}'
+        && gm.slip.canon2 === '{"unSource":"disk","unFit":"affine"}' && gm.slip.rejectS,
+      slipValue: gm.slip.exact && gm.slip.aExact && gm.slip.mono
+        && gm.slip.defaultS === gm.slip.dflt && gm.slip.uBit
+        && gm.slip.fromDecl && gm.slip.fromDecl.sUsed === 0.5,
+      slipGates: Object.keys(gm.slip.gates).every((k) => gm.slip.gates[k] === true),
     };
     const bad = Object.keys(CK).filter((k) => !CK[k]);
     const badGates = Object.keys(gm.gates).filter((k) => gm.gates[k] !== true)
@@ -13913,7 +14243,17 @@ if (!FAST) {
       + `r=100 は unValid=${gm.gfField.inValid}(N_eff=${Number(gm.gfField.nEffIn).toFixed(1)}・Σw=${Number(gm.gfField.wSumIn).toExponential(3)})・`
       + `r=520 は unValid=${gm.gfField.farValid}(N_eff=${Number(gm.gfField.nEffFar).toFixed(1)}・Σw=${Number(gm.gfField.wSumFar).toExponential(3)})だが `
       + `**χ=${Number(gm.gfField.farChi).toExponential(3)} は有限で u も有限**(外挿は null にせず印を立てるだけ・χ 混合は続く)・`
-      + `有効範囲の欄は u を 1 bit も変えない=${gm.gfField.uBit}`);
+      + `有効範囲の欄は u を 1 bit も変えない=${gm.gfField.uBit}`
+      // ---- 第257便b(第49報)
+      + ` / **第257便b** s の宣言 slipThreshold(**表示と記録のみ**・既定 ${gm.slip.dflt}): `
+      + `正準形は宣言したときだけ 3 鍵=${gm.slip.canon3}(未宣言は 2 鍵のまま ${gm.slip.canon2} = 🎠 の署名不変)・`
+      + `値域外は落とす=${gm.slip.rejectS} / A=Σmᵢ=${gm.slip.A.toFixed(6)}(源の質量総和と厳密一致=${gm.slip.aExact})・`
+      + `R_slip(既定 s=${gm.slip.defaultS})=${Number(gm.slip.defaultR).toFixed(5)}・`
+      + `s=0.7/0.9/0.97 → ${gm.slip.three.map((z) => Number(z.R).toFixed(3)).join('/')}`
+      + `(純関数 dfmSlipRadius との差 ${gm.slip.three.map((z) => z.d).join('/')} = 厳密一致)・`
+      + `s に単調増加=${gm.slip.mono}・**s≥1 は null**=${gm.slip.gates.sOne && gm.slip.gates.fieldOne}・`
+      + `宣言が既定になる=${gm.slip.fromDecl && gm.slip.fromDecl.sUsed}・`
+      + `**u/χ/∇u は 1 bit も動かない**=${gm.slip.uBit}`);
   } else {
     console.log('SKIP behavior.galaxyMesh(対象に第254便b の HP.dfmGalaxyMesh* なし — root 等)');
   }
@@ -14094,6 +14434,298 @@ if (!FAST) {
       + `(同じ幅・同じ σ⊥ なら**寝た腕のほうが安い**)/ 門 ${Object.keys(ab.gates).length} 件すべて null=${badG.length === 0}`);
   } else {
     console.log('SKIP behavior.armBudget(対象に第256便b の HP.dfmArmBudget なし — root 等)');
+  }
+}
+
+
+// ---- 第257便b(第49報): behavior.chainMesh — 磁石連鎖の**有限応答連鎖メッシュ**(新しいトイ仮説) ----
+//   原仮定者(第49報)の「磁石をパチンコ玉に近付けると、複数のパチンコ玉を引きずる事が出来る。
+//   引きずられたパチンコ玉の先端では、元々の磁石の磁界より遠くまで磁力が届いている」に対し、
+//   **最小の有限応答**(節点 ξ・U、E_m=Σ½μ|U|²+Σ½K|Δξ|²、F_ij=K(ξ_j−ξ_i)+γ(U_j−U_i)=−F_ji、
+//   Q̇=γ|ΔU|²≥0)を純関数として置いたものである。**粒子の力へは 1 バイトも接続していない。**
+//   **これは新しいトイ仮説であって、現行 D₀ の単位・意味から自動導出されるものではない。**
+//   固定するのは 8 項目:
+//     ① **等反作用**: 駆動 OFF の自由振動で P が相対 10⁻¹² で保存する(F_ij=−F_ji)。
+//     ② **L の実測**: bond:"linear"(ChatGPT §10 の式)は**回転不変ではないので L が保存しない**・
+//        bond:"central"(中心力)は L も 10⁻¹² で保存する。**保存しないほうを隠さない。**
+//     ③ **帳簿が閉じる**: ΔE_m + ΔQ − ΔW_ext が相対 10⁻¹⁰ で 0。
+//     ④ **Q̇≥0**: 1 步の ΔQ が 1 度も負にならない(RK4 の重みが正・各段の被積分量が ≥0)。
+//     ⑤ **dt 3 段の次数**: 観測次数が 3.5 以上(RK4)。
+//     ⑥ **即時応答極限**: ρ(K)<1 のときだけ (I−K)⁻¹b を解く。χ=0(D₀=∞)では行和が 1 になり
+//        **ρ=1 → null と印**(二重加算・自己源の無限増幅を防ぐ)。
+//     ⑦ **リング数で発散しない**: rings=1..8 で |U| が有限・帳簿が閉じる。
+//     ⑧ **門**: dt<0・NaN・rings>8・rings=0・tau=0・mu<0・未知 bond・源なし・非有限点は null。
+//   併せて **粘性だけの鎖(kScale=0)は即時応答極限と一致し、弾性込み(kScale=1)は長時間で剛体化する**
+//   ことを対照で固定する(「鎖が届く」のが応答時間の話ではないことの機械的な確認)。
+{
+  const hasCM = await page.evaluate(() => typeof HP.dfmChainMeshBuild === 'function'
+    && typeof HP.dfmChainMeshStep === 'function' && typeof HP.dfmChainMeshStatic === 'function'
+    && typeof HP.dfmChainMeshField === 'function' && typeof HP.dfmChainMeshEnergy === 'function');
+  if (hasCM) {
+    const cm = await page.evaluate(() => {
+      const o = {};
+      // 小さな合成配置(エンジンを回さない —— 純関数だけの単体試験)
+      const bodies = [{ m: 1000, x: 0, y: 0, vx: 1, vy: 0 }];
+      for (let k = 0; k < 40; k++) {
+        const r = 10 + 5 * k, th = 0.7 * k;
+        bodies.push({ m: 3, x: r * Math.cos(th), y: r * Math.sin(th),
+          vx: 1 - 0.2 * Math.sin(th), vy: 0.2 * Math.cos(th) });
+      }
+      const mk = (opt) => HP.dfmChainMeshBuild(bodies, Object.assign({ rings: 5, kNeighbors: 1,
+        mu: 1, tau: 20, zeta: 0.4, tauDrag: 20, D0: 1.5, p: 2, eps: 3 }, opt || {}));
+      // ---------- ①②③④ 自由振動(駆動 OFF)で P・L・帳簿・Q̇
+      const freeRun = (bond) => {
+        const ch = mk({ bond, kNeighbors: 2 });
+        for (let i = 0; i < ch.n; i++) { ch.xi[2 * i] = 0.7 * (i + 1); ch.xi[2 * i + 1] = -0.4 * (i - 2);
+          ch.U[2 * i] = 0.03 * (i - 1); ch.U[2 * i + 1] = 0.05 * (2 - i); }
+        const e0 = HP.dfmChainMeshEnergy(ch);
+        let minDQ = Infinity, maxRes = 0;
+        for (let k = 0; k < 2000; k++) { const r = HP.dfmChainMeshStep(ch, 0.2, { drive: false });
+          minDQ = Math.min(minDQ, r.dQ); maxRes = Math.max(maxRes, Math.abs(r.residual)); }
+        const e1 = HP.dfmChainMeshEnergy(ch);
+        const ps = Math.hypot(e0.P[0], e0.P[1]) || 1, ls = Math.abs(e0.L) || 1;
+        return { bond, dPrel: Math.hypot(e1.P[0] - e0.P[0], e1.P[1] - e0.P[1]) / ps,
+          dLrel: Math.abs(e1.L - e0.L) / ls, minDQ, maxRes,
+          closeRel: Math.abs((e1.Em - e0.Em) + ch.Q - ch.Wext) / (Math.abs(e0.Em) || 1),
+          Em0: e0.Em, Em1: e1.Em, Q: ch.Q, L0: e0.L, L1: e1.L };
+      };
+      o.free = { linear: freeRun('linear'), central: freeRun('central') };
+      // ---------- ⑤ dt 3 段の次数(駆動 ON)
+      const endOf = (h, n, bond) => { const ch = mk({ bond });
+        for (let k = 0; k < n; k++) HP.dfmChainMeshStep(ch, h, {});
+        return Array.from(ch.xi).concat(Array.from(ch.U)); };
+      const dmax = (a, b) => { let s = 0; for (let i = 0; i < a.length; i++) s = Math.max(s, Math.abs(a[i] - b[i])); return s; };
+      o.conv = {};
+      for (const bond of ['linear', 'central']) {
+        const A = endOf(0.4, 300, bond), B = endOf(0.2, 600, bond), C = endOf(0.1, 1200, bond);
+        const d1 = dmax(A, B), d2 = dmax(B, C);
+        o.conv[bond] = { d1, d2, order: (d1 > 0 && d2 > 0) ? Math.log2(d1 / d2) : null };
+      }
+      // ---------- ⑥ 即時応答極限(ρ(K)<1 のときだけ解く)
+      const chS = mk({ gammaBg: 1, kScale: 0 });
+      const st = HP.dfmChainMeshStatic(chS);
+      const chZ = mk({ gammaBg: 0, D0: Infinity });                 // χ=0 → 駆動 0 → 行和 1
+      const stZ = HP.dfmChainMeshStatic(chZ);
+      // 粘性だけの鎖は時間発展が静的解へ収束する
+      let devVisc = 0;
+      for (let k = 0; k < 20000; k++) HP.dfmChainMeshStep(chS, 0.2, {});
+      for (let i = 0; i < chS.n; i++) devVisc = Math.max(devVisc,
+        Math.hypot(chS.U[2 * i] - st.U[i][0], chS.U[2 * i + 1] - st.U[i][1]));
+      // 弾性込みは剛体化する(節点間の |U| の比が 1 へ)
+      const chE = mk({ gammaBg: 1, kScale: 1 });
+      const stE = HP.dfmChainMeshStatic(chE);
+      let devElast = 0;
+      for (let k = 0; k < 20000; k++) HP.dfmChainMeshStep(chE, 0.2, {});
+      let mn = Infinity, mx = 0;
+      for (let i = 0; i < chE.n; i++) { const u = Math.hypot(chE.U[2 * i], chE.U[2 * i + 1]);
+        mn = Math.min(mn, u); mx = Math.max(mx, u);
+        devElast = Math.max(devElast, Math.hypot(chE.U[2 * i] - stE.U[i][0], chE.U[2 * i + 1] - stE.U[i][1])); }
+      o.staticLimit = { rho: st.rho, singular: st.singular, devVisc,
+        rhoZero: stZ.rho, zeroSingular: stZ.singular, zeroReason: stZ.reason, zeroU: stZ.U,
+        UoverV: st.U.map((u) => Math.hypot(u[0], u[1])),
+        devElast, rigidRatio: mx > 0 ? mn / mx : null };
+      // ---------- **鎖の有無**(kNeighbors=0 対 1)で外側の節点がどれだけ運ばれるか
+      const outerOf = (kN) => { const ch = mk({ gammaBg: 1, kScale: 0, kNeighbors: kN });
+        const s2 = HP.dfmChainMeshStatic(ch);
+        return { U: s2.U.map((u) => Math.hypot(u[0], u[1])), rho: s2.rho, n: ch.n }; };
+      const c0 = outerOf(0), c1 = outerOf(1);
+      o.chainGain = { noChain: c0.U, chain: c1.U, rhoNo: c0.rho, rhoYes: c1.rho,
+        gainOuter: c0.U[c0.U.length - 1] > 0 ? c1.U[c1.U.length - 1] / c0.U[c0.U.length - 1] : null };
+      // ---------- ⑦ リング数で発散しない
+      o.rings = [];
+      for (let rg = 1; rg <= 8; rg++) {
+        const ch = mk({ rings: rg, gammaBg: 1 });
+        if (!ch) { o.rings.push({ rings: rg, err: true }); continue; }
+        let last = null;
+        for (let k = 0; k < 1000; k++) last = HP.dfmChainMeshStep(ch, 0.2, {});
+        let uMax = 0;
+        for (let i = 0; i < ch.n; i++) uMax = Math.max(uMax, Math.hypot(ch.U[2 * i], ch.U[2 * i + 1]));
+        o.rings.push({ rings: rg, nodes: ch.n, uMax, finite: Number.isFinite(uMax),
+          closeRel: Math.abs(last.residual) / (Math.abs(last.Em) || 1) });
+      }
+      // ---------- 場の読み(dfmGalaxyMeshField と同じ返り値契約)
+      const chF = mk({ gammaBg: 1 });
+      const f1 = HP.dfmChainMeshField(chF, 50, 0, {});
+      const fFar = HP.dfmChainMeshField(chF, 5000, 0, {});
+      o.field = { keys: ['u', 'nEff', 'supportR', 'unValid'].every((k) => k in f1),
+        inValid: f1.unValid, farValid: fFar.unValid, farFinite: Number.isFinite(fFar.u[0]),
+        nEff: f1.nEff, supportR: f1.supportR };
+      // ---------- 容量の下限(観測した事実が無いエネルギーの初期容量)
+      const chC = mk({ gammaBg: 1, capacity: 1 });
+      let capHit = false, capState = null;
+      for (let k = 0; k < 2000; k++) { const r = HP.dfmChainMeshStep(chC, 0.2, {});
+        capState = r.capState; if (r.driveOn === false) capHit = true; }
+      o.cap = { capHit, capState, Wext: chC.Wext, capacity: chC.capacity };
+      // ---------- ⑧ 門
+      const g = mk({});
+      o.gates = {
+        negDt: HP.dfmChainMeshStep(g, -0.1, {}) === null,
+        nanDt: HP.dfmChainMeshStep(g, NaN, {}) === null,
+        zeroDt: (() => { const r = HP.dfmChainMeshStep(g, 0, {}); return !!r && r.dQ === 0; })(),
+        tooManyRings: HP.dfmChainMeshBuild(bodies, { rings: 9 }) === null,
+        zeroRings: HP.dfmChainMeshBuild(bodies, { rings: 0 }) === null,
+        badTau: HP.dfmChainMeshBuild(bodies, { rings: 3, tau: 0 }) === null,
+        negMu: HP.dfmChainMeshBuild(bodies, { rings: 3, mu: -1 }) === null,
+        badBond: HP.dfmChainMeshBuild(bodies, { rings: 3, bond: 'spring' }) === null,
+        badKn: HP.dfmChainMeshBuild(bodies, { rings: 3, kNeighbors: -1 }) === null,
+        badD0: HP.dfmChainMeshBuild(bodies, { rings: 3, D0: -1 }) === null,
+        noSrc: HP.dfmChainMeshBuild([], {}) === null,
+        badSrc: HP.dfmChainMeshBuild(null, {}) === null,
+        fieldNaN: HP.dfmChainMeshField(g, NaN, 0, {}) === null,
+        fieldBadP: HP.dfmChainMeshField(g, 1, 0, { p: 0 }) === null,
+        staticNull: HP.dfmChainMeshStatic(null) === null,
+        energyNull: HP.dfmChainMeshEnergy(null) === null };
+      return o;
+    });
+    const CK = {
+      // ① 等反作用(P が保存)—— 2 案とも
+      equalReaction: cm.free.linear.dPrel < 1e-12 && cm.free.central.dPrel < 1e-12,
+      // ② L: linear は保存しない(**隠さない**)・central は保存する
+      angularContrast: cm.free.linear.dLrel > 1e-6 && cm.free.central.dLrel < 1e-12,
+      // ③ 帳簿が閉じる
+      closure: cm.free.linear.closeRel < 1e-10 && cm.free.central.closeRel < 1e-10,
+      // ④ Q̇≥0
+      dissipationSign: cm.free.linear.minDQ >= 0 && cm.free.central.minDQ >= 0,
+      // ⑤ dt 3 段の次数(RK4)
+      order: cm.conv.linear.order > 3.5 && cm.conv.central.order > 3.5,
+      // ⑥ 即時応答極限: ρ<1 で解く・χ=0 では ρ=1 で null・粘性だけの鎖は静的解へ収束・
+      //    弾性込みは剛体化する(節点間の |U| 比が 1 へ)
+      staticLimit: cm.staticLimit.rho < 1 && cm.staticLimit.singular === false
+        && cm.staticLimit.devVisc < 1e-9
+        && cm.staticLimit.rhoZero >= 1 && cm.staticLimit.zeroSingular === true
+        && cm.staticLimit.zeroU === null
+        && cm.staticLimit.rigidRatio > 0.999 && cm.staticLimit.devElast > 1e-3,
+      // 鎖があると外側の節点がより運ばれる(**この器の中の測定**であって外縁の予測ではない)
+      chainGain: cm.chainGain.gainOuter > 1,
+      // ⑦ リング数で発散しない
+      rings: cm.rings.every((r) => !r.err && r.finite && r.closeRel < 1e-9),
+      // 場の契約(dfmGalaxyMeshField と同じ 4 欄)
+      field: cm.field.keys && cm.field.inValid === true && cm.field.farValid === false
+        && cm.field.farFinite,
+      // 容量の下限に達したら駆動が止まる
+      capacity: cm.cap.capHit === true && cm.cap.capState === 'floor',
+      // ⑧ 門
+      gates: Object.keys(cm.gates).every((k) => cm.gates[k] === true),
+    };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    const badG = Object.keys(cm.gates).filter((k) => cm.gates[k] !== true);
+    add('behavior.chainMesh', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '') + (badG.length ? `門NG=[${badG.join(',')}] ` : '')
+      + `**磁石連鎖の有限応答連鎖メッシュ**(新しいトイ仮説 — 現行 D₀ の意味から導出したものではない・`
+      + `粒子の力へは未接続)。**等反作用**: 駆動 OFF で P の相対変化 `
+      + `linear ${cm.free.linear.dPrel.toExponential(2)} / central ${cm.free.central.dPrel.toExponential(2)} / `
+      + `**L は隠さない**: linear(ChatGPT §10 の式)は**回転不変でないので保存しない** `
+      + `L ${cm.free.linear.L0.toExponential(4)}→${cm.free.linear.L1.toExponential(4)}`
+      + `(相対 ${cm.free.linear.dLrel.toExponential(2)})、central(中心力)は ${cm.free.central.dLrel.toExponential(2)} / `
+      + `**帳簿** ΔE_m+ΔQ−ΔW_ext の相対残差 ${cm.free.linear.closeRel.toExponential(2)} / ${cm.free.central.closeRel.toExponential(2)}・`
+      + `1 步の ΔQ の最小 ${cm.free.linear.minDQ.toExponential(2)}(≥0)/ `
+      + `**dt 3 段の次数** linear ${cm.conv.linear.order.toFixed(3)}・central ${cm.conv.central.order.toFixed(3)} / `
+      + `**即時応答極限** ρ(K)=${cm.staticLimit.rho.toFixed(6)}<1 で解く(粘性だけの鎖 kScale=0 は `
+      + `時間発展が静的解へ ${cm.staticLimit.devVisc.toExponential(2)} まで収束)、**χ=0 では ρ=${cm.staticLimit.rhoZero} → null と印**`
+      + `(${cm.staticLimit.zeroReason})/ **弾性込み(kScale=1)は長時間で剛体化する**`
+      + `(節点間 |U| の min/max=${cm.staticLimit.rigidRatio.toFixed(6)}・静的解との差 ${cm.staticLimit.devElast.toExponential(2)}) / `
+      + `**鎖の有無**(γ_bg 同じ・kNeighbors 0 対 1)で最外節点の |U| が `
+      + `${cm.chainGain.noChain[cm.chainGain.noChain.length - 1].toExponential(3)} → `
+      + `${cm.chainGain.chain[cm.chainGain.chain.length - 1].toExponential(3)}(×${cm.chainGain.gainOuter.toFixed(3)})`
+      + ` —— **これはこの器の中の測定であって「銀河の外縁を予測した」ではない** / `
+      + `リング 1〜8 で発散なし=${cm.rings.every((r) => r.finite)}・`
+      + `場は dfmGalaxyMeshField と同じ 4 欄(支持の内 unValid=${cm.field.inValid}・外 ${cm.field.farValid})・`
+      + `容量 ${cm.cap.capacity} を使い切ると駆動が止まる=${cm.cap.capHit}(${cm.cap.capState}・W_ext=${cm.cap.Wext.toFixed(6)})/ `
+      + `門 ${Object.keys(cm.gates).length} 件すべて null=${badG.length === 0}`);
+  } else {
+    console.log('SKIP behavior.chainMesh(対象に第257便b の HP.dfmChainMesh* なし — root 等)');
+  }
+}
+
+// ---- 第257便b(第49報): behavior.toyLedger — BH 以降のトイの**帳簿テンプレート** ----
+//   原仮定者(第49報)の「ブラックホール以降も同様に、エネルギー収支の整合と、質量以外の観測値との
+//   一致を目指す。その際に、観測した事実が無いエネルギーを許容する」に対し、
+//   **既存の帳簿量を読むだけ**の集計を置いたものである(S を 1 バイトも書かない)。
+//   固定するのは 6 項目:
+//     ① **未実装の項は 0 で埋めず null**(`undefinedTerms` に名前が挙がる)。
+//     ② **残差は基準 ref を渡したときだけ定義される**(基準の無い差を作らない)。
+//     ③ **熱の実験室(🔥)は閉じる**が、**BH 以降のトイ(🎻🍇🎠)は閉じない** —— 相対残差の桁で対照する。
+//     ④ **容量 caps の下限に達した項に印が立つ**(観測した事実が無いエネルギーに下限を置く)。
+//     ⑤ **減光は観測写像**であって帳簿の項ではない(`obs` に分かれていて Etot に入らない)。
+//     ⑥ **門**: S でないもの・maxPairs 超過(打ち切らず未定義)・不正 opts は null/未定義。
+//   **Q を重力波と読まない。「トイが完成した」とは書かない。**
+{
+  const hasTL = await page.evaluate(() => typeof HP.dfmToyLedger === 'function');
+  if (hasTL) {
+    const tl = await page.evaluate(() => {
+      const o = { rows: [] };
+      const run = (id, steps) => {
+        const pd = HP.allPresets().find((p) => p.id === id);
+        if (!pd) return null;
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
+        if (!v.ok) return null;
+        const S = HP.sim; S.build(v.preset);
+        const a = HP.dfmToyLedger(S, {});
+        for (let k = 0; k < steps; k++) S.step(0.016);
+        const b = HP.dfmToyLedger(S, { ref: a, caps: { Ecore: { min: 0 }, Emesh: { min: 0 }, Q: { min: 0 } } });
+        return { id, emoji: pd.emoji, n: S.n, K: b.K, U: b.U, Eshell: b.Eshell, Ecore: b.Ecore,
+          Emesh: b.Emesh, Q: b.Q, Eescaped: b.Eescaped, Etot: b.Etot, Wext: b.Wext,
+          residual: b.residual, rel: Math.abs(b.residual) / (Math.abs(b.Etot) || 1),
+          undef: b.undefinedTerms, capFloor: b.capFloorCount, obs: b.obs, closed: b.closed,
+          noRef: HP.dfmToyLedger(S, {}).residual };
+      };
+      for (const id of ['gas', 'gw150914DFM', 'tuc47', 'galaxyMeshSpiral']) {
+        const r = run(id, 600);
+        if (r) o.rows.push(r);
+      }
+      // ⑥ 門
+      const S = HP.sim;
+      o.gates = {
+        nullS: HP.dfmToyLedger(null, {}) === null,
+        notS: HP.dfmToyLedger({ n: 0 }, {}) === null,
+        badMaxPairs: HP.dfmToyLedger(S, { maxPairs: 0 }) === null,
+        // maxPairs を下回らせると U は **打ち切らず未定義**(0 で埋めない)
+        pairsUndef: (() => { const r = HP.dfmToyLedger(S, { maxPairs: 1 });
+          return r !== null && r.U === null && r.undefinedTerms.indexOf('U') >= 0; })(),
+        noRefNull: HP.dfmToyLedger(S, {}).residual === null,
+        obsNotInEtot: (() => { const r = HP.dfmToyLedger(S, {});
+          if (!r.obs) return true;
+          let s = 0;
+          for (const k of ['K', 'U', 'Eshell', 'Ecore', 'Emesh', 'Q', 'Eescaped']) if (r[k] !== null) s += r[k];
+          return Math.abs(s - r.Etot) <= 1e-9 * (Math.abs(r.Etot) || 1); })() };
+      return o;
+    });
+    const byId = (id) => tl.rows.find((r) => r.id === id);
+    const gas = byId('gas'), gw = byId('gw150914DFM'), tuc = byId('tuc47'), gal = byId('galaxyMeshSpiral');
+    const CK = {
+      // ① 未実装は null で名前が挙がる
+      undefinedNamed: tl.rows.every((r) => r.undef.length > 0)
+        && tl.rows.every((r) => r.undef.every((k) => k.indexOf('.') >= 0
+          || r[k] === null || r.closed === false)),
+      // ② 基準が無ければ残差は null
+      refRequired: tl.rows.every((r) => r.noRef === null),
+      // ③ 熱の実験室は閉じるが BH 以降のトイは閉じない(**桁で対照する**)
+      thermalCloses: !!gas && gas.rel < 1e-4 && gas.Eshell !== null,
+      toyNotClosed: !!gw && !!tuc && !!gal && gw.rel > 1e-4 && tuc.rel > 1e-4 && gal.rel > 1e-4,
+      // ④ 容量の印
+      caps: tl.rows.every((r) => r.capFloor >= 1),
+      // ⑤ 減光は観測写像(Etot に入らない)
+      obsSeparate: tl.gates.obsNotInEtot,
+      // ⑥ 門
+      gates: Object.keys(tl.gates).every((k) => tl.gates[k] === true),
+    };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    const badG = Object.keys(tl.gates).filter((k) => tl.gates[k] !== true);
+    const fmtRow = (r) => r ? `${r.emoji}${r.id}: E_tot=${r.Etot.toExponential(6)}・残差=${r.residual.toExponential(3)}`
+      + `(相対 ${r.rel.toExponential(2)})・未定義=[${r.undef.join(',')}]` : '(なし)';
+    add('behavior.toyLedger', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '') + (badG.length ? `門NG=[${badG.join(',')}] ` : '')
+      + `**E_tot=K+U+E_shell+E_core+E_mesh+Q+E_escaped・ΔE_tot=W_ext**(既存の帳簿量を読むだけ・`
+      + `**未実装の項は 0 で埋めず null**)。600 步(dt=0.016): `
+      + `${fmtRow(gas)} / ${fmtRow(gw)} / ${fmtRow(tuc)} / ${fmtRow(gal)} —— `
+      + `**熱の実験室は 10⁻⁵ 台で閉じるが、BH 以降のトイは 10⁻³ 台で閉じない**`
+      + `(= エネルギー収支の整合は**まだ取れていない**。「トイが完成した」とは書かない)/ `
+      + `基準 ref が無ければ残差は null=${CK.refRequired}・容量の下限に達した項に印=${CK.caps}・`
+      + `**減光は観測写像**で E_tot に入らない=${tl.gates.obsNotInEtot}`
+      + `(🎠 の平均減光 ${gal && gal.obs ? gal.obs.dimmingMean.toFixed(6) : 'n/a'})・`
+      + `**Q を重力波と読まない** / 門 ${Object.keys(tl.gates).length} 件=${badG.length === 0}`);
+  } else {
+    console.log('SKIP behavior.toyLedger(対象に第257便b の HP.dfmToyLedger なし — root 等)');
   }
 }
 
@@ -23911,6 +24543,118 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   }
 }
 
+// ---- 42A‴) 第257便d(第49報・3 審査 v15): behavior.calauditMapping ----
+// ----   **棚卸しの門を 4 段で読む**規約を、出力 JSON の側で機械固定する(fs のみ・軽量)。
+// ----     ① 集計に 4 段(①数値収束/②観測量対応/③観測適合(3σ)/④予測)がある。
+// ----     ② `definitionMatches` は **A 正本**へ移った: すべての行が gate.detectorCanonical:"A" と
+// ----        gate.definitionDeclared を持ち、**3σ の合否が出た行は定義が宣言されている**。
+// ----     ③ A−B の広がりは `gate.orbitNoiseIndicator`(別欄・gate:"none")にあり、**旧鍵 defSpreadPct /
+// ----        detSpreadPct と値がビット一致**する(読み替え表 summary.keyAliases がある)。
+// ----     ④ 第 4 の状態 `mapping-unresolved` は**宣言した量にだけ**立つ(現行の宣言は ecc 全行)。
+// ----     ⑤ Float32 質量の欄(out.massFloat32)があり、保持質量は宣言質量の Math.fround と
+// ----        ビット一致し、最小刻み(ULP)が正である。
+// ----   **値そのものは窓にしない**(棚卸しは記録であって回帰窓ではない)。
+{
+  let ok = false, detail = '';
+  try {
+    const j = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+    const bad = [];
+    const st = (j.summary && j.summary.stages) || null;
+    const KEYS = ['①数値収束', '②観測量対応', '③観測適合(3σ)', '④予測(従属量でない③)'];
+    if (!st) bad.push('①summary.stages が無い');
+    else for (const k of KEYS) if (!Number.isFinite(st[k])) bad.push(`①段が無い: ${k}`);
+    if (!(j.summary && j.summary.keyAliases)) bad.push('③読み替え表 summary.keyAliases が無い');
+    const STATUS = ['合(3σ)', '否(3σ)', '数値未解決', 'mapping-unresolved', '未判定'];
+    let nGate = 0, nOni = 0, nMap = 0, nDecl = 0;
+    for (const p of (j.presets || [])) for (const q of (p.quantities || [])) {
+      const g = q.gate; if (!g) continue;
+      nGate++;
+      if (STATUS.indexOf(g.status) < 0) bad.push(`未知の門の状態 ${p.id}:${g.status}`);
+      if (g.detectorCanonical !== 'A') bad.push(`②A 正本の宣言が無い ${p.id}|${q.kind}`);
+      if (typeof g.definitionDeclared !== 'boolean') bad.push(`②definitionDeclared が無い ${p.id}|${q.kind}`);
+      if (g.definitionDeclared === true) nDecl++;
+      if (g.status === '合(3σ)' || g.status === '否(3σ)') {
+        if (g.definitionDeclared !== true) bad.push(`②定義未宣言のまま 3σ 判定 ${p.id}|${q.kind}`);
+        if (g.mappingResolved !== true) bad.push(`④対応未確定のまま 3σ 判定 ${p.id}|${q.kind}`);
+      }
+      const oni = g.orbitNoiseIndicator || null;
+      if (!oni) bad.push(`③orbitNoiseIndicator が無い ${p.id}|${q.kind}`);
+      else {
+        nOni++;
+        if (oni.gate !== undefined && !/none/.test(String(oni.gate))) bad.push(`③軌道雑音の欄が門に入っている ${p.id}`);
+        if (!Object.is(oni.abRelPct, g.defSpreadPct) || !Object.is(oni.abRelPct, g.detSpreadPct))
+          bad.push(`③旧鍵と値が食い違う ${p.id}|${q.kind}`);
+      }
+      if (g.status === 'mapping-unresolved') {
+        nMap++;
+        if (q.kind !== 'ecc') bad.push(`④宣言外の量が mapping-unresolved ${p.id}|${q.kind}`);
+        if (!g.mappingNote) bad.push(`④mapping-unresolved に理由が無い ${p.id}|${q.kind}`);
+      }
+    }
+    const mf = (j.massFloat32 && Array.isArray(j.massFloat32.rows)) ? j.massFloat32.rows : null;
+    let nBody = 0;
+    if (!mf || !mf.length) bad.push('⑤massFloat32 の欄が無い');
+    else for (const r of mf) {
+      if (r.missing) { bad.push(`⑤preset が見つからない ${r.id}`); continue; }
+      for (const b of (r.bodies || [])) {
+        nBody++;
+        if (b.heldIsFroundOfDeclared !== true) bad.push(`⑤保持質量が fround(宣言) でない ${r.id}#${b.i}`);
+        if (!(b.ulp32 > 0)) bad.push(`⑤最小刻みが正でない ${r.id}#${b.i}`);
+        if (!Number.isFinite(b.relDiff)) bad.push(`⑤相対差が無い ${r.id}#${b.i}`);
+      }
+    }
+    ok = bad.length === 0 && nGate > 0 && nOni > 0 && nBody > 0;
+    detail = st
+      ? `4 段: ①数値収束 ${st['①数値収束']} / ②観測量対応 ${st['②観測量対応']} / `
+        + `③観測適合(3σ) ${st['③観測適合(3σ)']} / ④予測 ${st['④予測(従属量でない③)']}`
+        + ` / mapping-unresolved ${nMap} 件(宣言どおり ecc のみ)・定義宣言済み ${nDecl}/${nGate} 量`
+        + ` / orbitNoiseIndicator ${nOni} 件(旧鍵 defSpreadPct とビット一致・門には入らない)`
+        + ` / Float32 質量 ${nBody} 粒(保持質量 = fround(宣言)・ULP>0)`
+      : '4 段の集計が読めない';
+    detail += (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : '');
+  } catch (err) { detail = 'calaudit-w249.json が読めない: ' + String(err).slice(0, 140); }
+  add('behavior.calauditMapping', ok, detail);
+}
+
+// ---- 42A⁗) 第257便d(第49報・3 審査 v15): behavior.clusterVirial ----
+// ----   星団 C0/C1/Cn の**初期条件が同じ平衡か**を固定する(純 Node・ブラウザ不要・約 0.1 秒)。
+// ----   3 審査 v15: 「中心配置を変えると平衡分布が変わる —— 同じ速度を配って膨張を比べると
+// ----   BH の効果と初期緩和が混ざる」。だから器は **2K/|U|・E_tot・λ・M・外縁の切り方**を
+// ----   揃えてから走らせる。ここで機械固定するのは**揃っていること**だけで、膨張の値ではない。
+// ----     ① 3 群の初期 2K/|U| が相対 1e-3 で一致(実測は 1e-14 台)
+// ----     ② 3 群の初期 E_tot が相対 1e-3 で一致
+// ----     ③ 揃え方が G に依らない(G を 2 通りで作って同じ広がり = 合わせ込みではない)
+// ----     ④ **r_h は揃わない**ことを明示的に確認する(揃っていると書かないための逆向きの門)
+{
+  try {
+    const { buildCell } = await import('./lib-w257d-cluster2.mjs');
+    const bad = [];
+    const cells = FAST ? [{ nField: 224, eps: 0.5 }]
+      : [{ nField: 224, eps: 0.5 }, { nField: 224, eps: 0.25 }];
+    const lines = [];
+    for (const c of cells) {
+      const a = buildCell({ nField: c.nField, eps: c.eps, seed: 20260911, G: 1 });
+      const b = buildCell({ nField: c.nField, eps: c.eps, seed: 20260911, G: 6.674e-2 });
+      if (!(a.spread.QRel < 1e-3)) bad.push(`①N=${c.nField} ε=${c.eps}: 2K/|U| の広がり ${a.spread.QRel.toExponential(2)}`);
+      if (!(a.spread.ERel < 1e-3)) bad.push(`②N=${c.nField} ε=${c.eps}: E_tot の広がり ${a.spread.ERel.toExponential(2)}`);
+      if (!(b.spread.QRel < 1e-3 && b.spread.ERel < 1e-3)) bad.push(`③N=${c.nField} ε=${c.eps}: G を変えると揃わない`);
+      if (a.rows.length !== 3) bad.push(`N=${c.nField} ε=${c.eps}: 群が 3 つでない`);
+      const rh = a.spread.rh;
+      if (!(Math.max(...rh) - Math.min(...rh) > 0)) bad.push(`④N=${c.nField} ε=${c.eps}: r_h まで一致している(揃え方の宣言と食い違う)`);
+      lines.push(`N=${c.nField} ε=${c.eps}: 2K/|U| 広がり ${a.spread.QRel.toExponential(1)}・`
+        + `E_tot ${a.spread.ERel.toExponential(1)}・λ ${a.spread.lambdaRel.toExponential(1)}・`
+        + `r_h ${rh.map((z) => z.toFixed(2)).join('/')}(**揃わない**)・r_cut/r_h `
+        + a.spread.rCutOverRh.map((z) => z.toFixed(2)).join('/'));
+    }
+    add('behavior.clusterVirial', bad.length === 0,
+      '星団 3 群(C0/C1/Cn)の初期平衡を機械固定: ' + lines.join(' / ')
+      + ' / 揃えるのは 2K/|U|・E_tot・λ・M・外縁の切り方で、**r_h は揃わない**(同じ E で分布が違えば違う)'
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  } catch (err) {
+    add('behavior.clusterVirial', false, '星団の初期条件ライブラリが読めない: ' + String(err).slice(0, 160));
+  }
+}
+
 // ---- 42A′) 第255便d(第47報・Grok 気付き 7): claims.note-sync — **claims の note 文字列に書かれた
 // ----   数値を claim の窓と突き合わせる**。claims.sync が見ているのは `description`(説明文)だけで、
 // ----   `chain.note` / `chain.noteEn` / `roleNote` / `roleNoteEn` の中の数字は**誰も見ていなかった**。
@@ -27814,8 +28558,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         camera: { scale: 100 }, world: { boundary: 'none', size: 0 }, overlays: ov });
       const nrm = (ov) => { const v = HP.validatePreset(mk(ov));
         return v.ok ? JSON.stringify(v.preset.overlays.spaceMesh === undefined ? null : v.preset.overlays.spaceMesh) : 'INVALID'; };
-      out.accept = ['lines', 'guide', 'transport', 'tracer'].map((m) => nrm({ spaceMesh: { mode: m } }));
-      out.acceptOk = out.accept.join(',') === '{"mode":"lines"},{"mode":"guide"},{"mode":"transport"},{"mode":"tracer"}';
+      out.accept = ['mesh', 'lines', 'guide', 'transport', 'tracer'].map((m) => nrm({ spaceMesh: { mode: m } }));
+      out.acceptOk = out.accept.join(',') === '{"mode":"mesh"},{"mode":"lines"},{"mode":"guide"},{"mode":"transport"},{"mode":"tracer"}';
       // 旧形(第253便a true / 第254便a true+spaceMeshMode / 第255便c spaceMeshMode 単独)は**捨てずに読む**
       out.legacy = [nrm({ spaceMesh: true }), nrm({ spaceMesh: true, spaceMeshMode: 'guide' }),
         nrm({ spaceMeshMode: 'transport' }), nrm({ spaceMesh: { mode: 'tracer' } })];
@@ -27897,6 +28641,9 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       document.getElementById('btnAB').click();
       setTimeout(() => {
         const o = {};
+        // 第257便c: 既定表示が蓄積格子になったので、**空間線のブロックは lines を明示して**測る
+        HP.sim.overlays.spaceMesh = { mode: 'lines' };
+        if (ab && ab.simB) ab.simB.overlays.spaceMesh = { mode: 'lines' };
         HP.spaceLineInvalidate(HP.sim);
         if (ab && ab.simB) HP.spaceLineInvalidate(ab.simB);
         renderAB();   // A/B 中の描画入口は renderAB()(render() は単独表示の経路)
@@ -27909,7 +28656,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     }));
     const ok = r.odeOk && r.straightOk && r.stopOk
       && r.acceptOk && r.legacyOk && r.rejects && r.noLegacyKey
-      && r.boxMode === '{"mode":"lines"}' && r.winMode === '{"mode":"lines"}' && r.galOv === '{"mode":"lines"}'
+      && r.boxMode === '{"mode":"mesh"}' && r.winMode === '{"mode":"mesh"}' && r.galOv === '{"mode":"mesh"}'
       && r.degradeOk && r.galOk && r.cacheOk && r.bitOk && r.baryOk
       && ab.a > 0 && ab.b > 0 && ab.sep && spErr.length === 0;
     add('ui.spaceLines', ok,
@@ -27973,18 +28720,21 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const G = HP.sim;
       o.declared = HP.spaceMeshView(G);                     // 宣言の既定(1 形)
       const excl = {};
-      for (const m of ['lines', 'guide', 'transport', 'tracer']) {
+      for (const m of ['mesh', 'lines', 'guide', 'transport', 'tracer']) {
         G.overlays.spaceMesh = { mode: m };
-        HP.spaceLineInvalidate(G); G._galTracer = null; G.hasGalaxyTracer = false; G.meshTransport = null;
+        HP.spaceLineInvalidate(G); if (HP.spaceGridInvalidate) HP.spaceGridInvalidate(G);
+        G._galTracer = null; G.hasGalaxyTracer = false; G.meshTransport = null;
         HP.tick(0);
         const ti = HP.tracerInfo(G);
         excl[m] = { view: HP.spaceMeshView(G), lines: !!HP.spaceLineNow(G),
-          tracer: !!ti, transport: !!G.meshTransport };
+          tracer: !!ti, transport: !!G.meshTransport,
+          grid: !!(HP.spaceGridNow ? HP.spaceGridNow(G) : null) };
       }
       o.excl = excl;
-      o.exclOk = excl.lines.lines && !excl.lines.tracer && !excl.lines.transport
-        && excl.tracer.tracer && !excl.tracer.lines && !excl.tracer.transport
-        && excl.guide.lines === false && excl.transport.transport === true && !excl.transport.lines;
+      o.exclOk = excl.lines.lines && !excl.lines.tracer && !excl.lines.transport && !excl.lines.grid
+        && excl.tracer.tracer && !excl.tracer.lines && !excl.tracer.transport && !excl.tracer.grid
+        && excl.guide.lines === false && excl.transport.transport === true && !excl.transport.lines
+        && excl.mesh.grid === true && !excl.mesh.lines && !excl.mesh.tracer && !excl.mesh.transport;
       // ---- ② 表示所有 tracer は非表示のあいだ運ばない / 再表示は現在時刻で張り直す
       HP.loadPreset('galaxyMeshSpiral', false);
       const S = HP.sim;
@@ -28065,12 +28815,12 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       o.frameOk = Object.keys(frame).every((k) => frame[k].lines > 0 && frame[k].tracer > 0);
       return o;
     });
-    const ok = r.declared === 'lines' && r.exclOk && r.tracerOk && r.explicitOk
+    const ok = r.declared === 'mesh' && r.exclOk && r.tracerOk && r.explicitOk
       && r.zoomOk && r.colorOk && r.frameOk && vpErr.length === 0;
     const f = (x) => Number(x).toFixed(3);
     add('ui.spaceMeshView', ok,
-      `①排他表示(🎠 の既定 mode=${r.declared}): ` + ['lines', 'guide', 'transport', 'tracer']
-        .map((m) => `${m}→線${r.excl[m].lines ? '有' : '無'}/物質線${r.excl[m].tracer ? '有' : '無'}/輸送${r.excl[m].transport ? '有' : '無'}`).join(' ')
+      `①排他表示(🎠 の既定 mode=${r.declared}): ` + ['mesh', 'lines', 'guide', 'transport', 'tracer']
+        .map((m) => `${m}→格子${r.excl[m].grid ? '有' : '無'}/線${r.excl[m].lines ? '有' : '無'}/物質線${r.excl[m].tracer ? '有' : '無'}/輸送${r.excl[m].transport ? '有' : '無'}`).join(' ')
       + `=${r.exclOk} / ` +
       `②表示所有 tracer: 表示 100 步で steps=${r.tracer.shown} → 非表示 600 步で ${r.tracer.bHide}→${r.tracer.aHide}(stale=${r.tracer.stale}・` +
       `tracer の時計 ${r.tracer.tAfterHide} 対 宇宙 ${r.tracer.tSim})→ 再表示で steps=${r.tracer.reSteps}・t=${r.tracer.reT}(現在時刻で張り直し)=${r.tracerOk} / ` +
@@ -28087,6 +28837,405 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     console.log('SKIP ui.spaceMeshView(対象に第256便c の表示整理なし — root 等)');
   }
   await vp.close();
+}
+
+// ---- 第257便c(第49報「空間メッシュの描画を変更する。全体の重心を原点にしたメッシュを描画する。
+// 原点に近い交点から順に、引きずり量を反映して座標変換する。続く交点に対して座標変換を蓄積する事で、
+// 空間の歪みを表現する」): behavior.spaceMeshGrid ----
+// 機械固定するのは 9 点:
+// ①**力学ビット不変** —— 600 步の途中で格子を作り直しながら描いても、描かない走行と全型付き配列が
+//   ビット同一(表示は力学・帳簿へ 1 バイトも触らない)。
+// ②**解析場と厳密解の一致** —— 恒等/剛体回転/等方拡縮/せん断で、格子の交点が exp(g·A·τ) の
+//   厳密解と **相対 1e−8 未満**で一致する(恒等とせん断は厳密に 0)。
+// ③**分割不変** —— 格子を 8 分割から 16 分割へ増やしても外周の回転角が**1 bit 動かない**
+//   (角度を辺ごとに足す実装なら N 倍に膨らむ = この試験で落ちる)。
+// ④**共有交点の一致** —— 閉路を一周した辺差分の残差が丸めだけ(相対 1e−14 未満)。
+// ⑤**折返しの検出** —— gain を上げるとセルの符号付き面積が負になり folded が立つ・既定では立たない。
+// ⑥**有効範囲(unValid)** —— 銀河で支持半径の外の交点が落ちる(連星場へ黙って落ちない)。
+// ⑦**gain がキャッシュ鍵** —— gain を変えると作り直し、同じ gain では作り直さない。
+// ⑧**宣言の 3 本** —— overlays.spaceMesh を宣言する内蔵は 🫂🪟🎠 の 3 本だけで、いずれも mode=mesh。
+// ⑨**1 フレームの描画時間**(mesh/lines/guide/transport/tracer)を記録する(絶対値は機械に依るので
+//   門は緩く、ページエラー 0 と描けていることだけを判定に使う)。
+{
+  const gp = await browser.newPage();
+  const gpErr = [];
+  gp.on('pageerror', (e) => gpErr.push(String(e.message || e)));
+  await gp.goto(INDEX, { waitUntil: 'load' });
+  await gp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const hasGrid = await gp.evaluate(() => !!(window.HP && typeof HP.dfmSpaceGridBuild === 'function'
+    && typeof HP.spaceGridNow === 'function' && typeof HP.spaceMeshGain === 'function'));
+  if (hasGrid) {
+    const r = await gp.evaluate(() => {
+      const o = {};
+      const C = HP.spaceGridConst();
+      o.const = C;
+      // ② 解析場 vs 厳密解(すべて線形なので Φ=exp(g A tau)(x−C)+C が厳密解)
+      const cx = 7, cy = -3, R = 100;
+      const expm = (A, s) => { let M = [1, 0, 0, 1], T = [1, 0, 0, 1];
+        for (let k = 1; k <= 60; k++) {
+          const B = [T[0] * A[0] + T[1] * A[2], T[0] * A[1] + T[1] * A[3],
+            T[2] * A[0] + T[3] * A[2], T[2] * A[1] + T[3] * A[3]];
+          T = [B[0] * s / k, B[1] * s / k, B[2] * s / k, B[3] * s / k];
+          M = [M[0] + T[0], M[1] + T[1], M[2] + T[2], M[3] + T[3]];
+        }
+        return M; };
+      const fields = {
+        identity: { f: () => [2.5, -1.25, 1], A: [0, 0, 0, 0] },
+        rotation: { f: (x, y) => [-0.2 * (y - cy), 0.2 * (x - cx), 1], A: [0, -0.2, 0.2, 0] },
+        scaling: { f: (x, y) => [0.15 * (x - cx), 0.15 * (y - cy), 1], A: [0.15, 0, 0, 0.15] },
+        shear: { f: (x, y) => [0.3 * (y - cy), 0, 1], A: [0, 0.3, 0, 0] } };
+      const run = (nm, gain, K) => {
+        const F = fields[nm];
+        const g = HP.dfmSpaceGridBuild({ field: F.f, cx, cy, R, K, gain });
+        const E = expm(F.A, gain * g.tau);
+        let err = 0;
+        for (let j = 0; j < g.K; j++) for (let i = 0; i < g.K; i++) {
+          const k = j * g.K + i; if (!g.ok[k]) continue;
+          const qx = (cx - R) + i * g.h - cx, qy = (cy - R) + j * g.h - cy;
+          const d = Math.hypot(g.X[k] - (cx + E[0] * qx + E[1] * qy), g.Y[k] - (cy + E[2] * qx + E[3] * qy));
+          if (d > err) err = d;
+        }
+        const kc = ((g.K - 1) / 2) * g.K + (g.K - 1);
+        return { err: err / R, theta: Math.atan2(g.Y[kc] - cy, g.X[kc] - cx),
+          loop: g.loopMax / R, minArea: g.minAreaRatio, folded: g.folded, tau: g.tau, K: g.K };
+      };
+      o.analytic = {};
+      for (const nm of Object.keys(fields)) o.analytic[nm] = run(nm, 1, C.K);
+      o.analyticOk = Object.keys(o.analytic).every((k) => o.analytic[k].err < 1e-8);
+      // ③ 分割不変(8 分割 → 16 分割で外周の回転角が 1 bit 動かない)
+      o.split = { k9: run('rotation', 1, 9), k17: run('rotation', 1, 17) };
+      o.splitOk = o.split.k9.theta === o.split.k17.theta;
+      // ④ 閉路残差
+      o.loopOk = Object.keys(o.analytic).every((k) => o.analytic[k].loop < 1e-14);
+      // ⑤ 折返し(強い差動回転の解析場で gain を上げる)
+      const diff = (x, y) => { const r = Math.hypot(x, y) || 1e-9, w = 3 / r;
+        return [-w * y, w * x, 1]; };
+      const fold = {};
+      for (const gg of [0.25, 1, 4, 8]) {
+        const g = HP.dfmSpaceGridBuild({ field: diff, cx: 0, cy: 0, R: 50, gain: gg });
+        fold[gg] = { minArea: g.minAreaRatio, folded: g.folded, folds: g.folds };
+      }
+      o.fold = fold;
+      o.foldOk = fold[0.25].folded === false && fold[8].folded === true;
+      // ① 力学ビット不変(600 步・描画あり/なし)
+      const hash = (T) => { let a = 0x811c9dc5;
+        const buf = new ArrayBuffer(8), f = new Float64Array(buf), u = new Uint8Array(buf);
+        const push = (v) => { f[0] = v; for (let b = 0; b < 8; b++) { a ^= u[b]; a = Math.imul(a, 0x01000193) >>> 0; } };
+        for (const k of ['x', 'y', 'vx', 'vy', 'spin', 'R', 'm']) { const A = T[k]; if (!A) continue;
+          for (let i = 0; i < T.n; i++) push(A[i]); }
+        push(T.t); return a.toString(16); };
+      const runBit = (draw) => { HP.loadPreset('galaxyMeshSpiral', false);
+        const T = HP.sim;
+        for (let i = 0; i < 600; i++) { T.step(0.016);
+          if (draw && (i % 7) === 0) { HP.spaceGridInvalidate(T); HP.spaceGridEnsure(T); } }
+        return hash(T) + '|' + T.hasNaN() + '|' + T.clampVN + '|' + T.clampSN; };
+      o.bitDraw = runBit(true); o.bitNoDraw = runBit(false);
+      o.bitOk = o.bitDraw === o.bitNoDraw;
+      // ⑥ 有効範囲(unValid)で交点が落ちる + 原点 = 全粒子の質量重心
+      HP.loadPreset('galaxyMeshSpiral', false);
+      const G = HP.sim;
+      HP.spaceGridInvalidate(G); HP.spaceGridEnsure(G);
+      const gs = HP.spaceGridNow(G);
+      const fld = HP.dfmGalaxyMeshField(G, 0, 0, { need: 'u' });
+      const bc = HP.massCentreOf(G);
+      let i0 = 0; for (let i = 0; i < G.n; i++) if (G.m[i] > G.m[i0]) i0 = i;
+      o.galaxy = { kind: gs.kind, note: gs.note, K: gs.grid.K, R: gs.grid.R,
+        nodes: gs.grid.nodes, nOk: gs.grid.nOk, nInvalid: gs.grid.nInvalid,
+        supportR: fld.supportR, cx: gs.grid.cx, cy: gs.grid.cy,
+        bcGap: Math.hypot(gs.grid.cx - bc[0], gs.grid.cy - bc[1]),
+        maxMassGap: Math.hypot(bc[0] - G.x[i0], bc[1] - G.y[i0]) };
+      o.galaxyOk = gs.kind === 'galaxy' && gs.grid.nInvalid > 0 && gs.grid.nOk > 8
+        && o.galaxy.bcGap < 1e-12;
+      // ⑦ gain がキャッシュ鍵
+      HP.loadPreset('spaceMeshBinaryToy', false);
+      const B = HP.sim;
+      HP.spaceGridInvalidate(B); HP.spaceGridEnsure(B);
+      const b0 = HP.spaceGridNow(B).builds;
+      for (let i = 0; i < 30; i++) HP.spaceGridEnsure(B);
+      const b1 = HP.spaceGridNow(B).builds;
+      B.overlays.spaceMesh = { mode: 'mesh', gain: 0.35 };
+      HP.spaceGridEnsure(B);
+      const b2 = HP.spaceGridNow(B).builds, g2 = HP.spaceGridNow(B).gain;
+      o.cache = { b0, b1, b2, gain: g2 };
+      o.cacheOk = b1 === b0 && b2 === b0 + 1 && g2 === 0.35;
+      // ⑧ 宣言の 3 本
+      const decl = [];
+      for (const p of HP.allPresets()) {
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+        if (v.ok && v.preset.overlays && v.preset.overlays.spaceMesh)
+          decl.push(p.emoji + ':' + JSON.stringify(v.preset.overlays.spaceMesh));
+      }
+      o.decl = decl;
+      o.declOk = decl.length === 3 && decl.every((z) => /"mode":"mesh"/.test(z));
+      // ⑨ 1 フレームの描画時間
+      const bench = (fn, n) => { fn(); let best = Infinity;
+        for (let r2 = 0; r2 < 3; r2++) { const t0 = performance.now();
+          for (let i = 0; i < n; i++) fn();
+          const d = (performance.now() - t0) / n; if (d < best) best = d; }
+        return best; };
+      const frame = {};
+      for (const id of ['spaceMeshBinaryToy', 'galaxyMeshSpiral']) {
+        HP.loadPreset(id, false); HP.setQuality('exact');
+        const F = HP.sim, row = {};
+        for (const m of [null, 'mesh', 'lines', 'guide', 'transport', 'tracer']) {
+          F.overlays.spaceMesh = m ? { mode: m } : false;
+          HP.spaceGridInvalidate(F); HP.spaceLineInvalidate(F); HP.tick(0);
+          row[m || 'off'] = bench(() => HP.tick(0), 40);
+        }
+        F.overlays.spaceMesh = { mode: 'mesh' };
+        HP.spaceGridInvalidate(F); HP.spaceGridEnsure(F);
+        const st = HP.spaceGridNow(F);
+        row.buildMs = st.ms; row.every = st.every; row.K = st.grid.K; row.samples = st.grid.samples;
+        frame[id] = row;
+      }
+      o.frame = frame;
+      o.frameOk = Object.keys(frame).every((k) => frame[k].mesh > 0 && frame[k].K >= 7);
+      // ⑩ 折返しの見た目(**破線 + 凡例**)を canvas への実呼び出しで拾う(ソース検査ではない)
+      const spy = () => { const proto = CanvasRenderingContext2D.prototype;
+        const dash = [], text = [];
+        const od = proto.setLineDash, ot = proto.fillText;
+        proto.setLineDash = function (a2) { dash.push(JSON.stringify(a2)); return od.call(this, a2); };
+        proto.fillText = function (t2, x2, y2) { text.push(String(t2)); return ot.call(this, t2, x2, y2); };
+        return { dash, text, off: () => { proto.setLineDash = od; proto.fillText = ot; } }; };
+      HP.loadPreset('galaxyMeshSpiral', false);
+      const D = HP.sim, warn = {};
+      for (const g2 of [1, 2]) {
+        D.overlays.spaceMesh = { mode: 'mesh', gain: g2 };
+        HP.spaceGridInvalidate(D); HP.tick(0);
+        const sp = spy(); HP.tick(0); sp.off();
+        warn[g2] = { folded: HP.spaceGridNow(D).grid.folded,
+          dash: sp.dash.filter((v) => v !== '[]').length,
+          legend: sp.text.filter((t2) => /折返し|Folded/.test(t2)).length };
+      }
+      o.warn = warn;
+      o.warnOk = warn[1].folded === false && warn[1].legend === 0
+        && warn[2].folded === true && warn[2].legend === 1 && warn[2].dash > warn[1].dash;
+      // 交点が立たない系(1 体)でも落ちない = 格子 null
+      const one = { name: 'x', description: 'd', emoji: '🕸',
+        bodies: [{ type: 'single', m: 1, radius: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }],
+        camera: { scale: 100 }, world: { boundary: 'none', size: 0 },
+        overlays: { spaceMesh: { mode: 'mesh' } } };
+      const v1 = HP.validatePreset(one); HP.sim.build(v1.preset);
+      HP.spaceGridInvalidate(HP.sim); HP.tick(0);
+      o.oneBody = HP.spaceGridNow(HP.sim).grid;
+      o.oneOk = o.oneBody === null;
+      return o;
+    });
+    const ok = r.analyticOk && r.splitOk && r.loopOk && r.foldOk && r.bitOk
+      && r.galaxyOk && r.cacheOk && r.declOk && r.frameOk && r.warnOk && r.oneOk && gpErr.length === 0;
+    const e = (x) => Number(x).toExponential(3);
+    const f = (x) => Number(x).toFixed(3);
+    add('behavior.spaceMeshGrid', ok,
+      `①力学ビット不変(🎠・600 步・7 步ごとに格子再構築)=${r.bitOk}(${r.bitDraw}) / ` +
+      `②解析場 vs 厳密解 exp(g·A·τ)(相対誤差): ` + Object.keys(r.analytic)
+        .map((k) => `${k} ${e(r.analytic[k].err)}`).join('・') + `=${r.analyticOk} / ` +
+      `③分割不変 8→16: 外周角 ${r.split.k9.theta.toFixed(12)} 対 ${r.split.k17.theta.toFixed(12)}=${r.splitOk} / ` +
+      `④閉路残差(相対) ` + Object.keys(r.analytic).map((k) => e(r.analytic[k].loop)).join('・') + `=${r.loopOk} / ` +
+      `⑤折返し検出(差動回転 w∝1/r): ` + Object.keys(r.fold)
+        .map((g) => `g=${g}→面積比 ${r.fold[g].minArea.toFixed(4)}${r.fold[g].folded ? '(折返し ' + r.fold[g].folds + ')' : ''}`).join(' ')
+      + `=${r.foldOk} / ` +
+      `⑥銀河の有効範囲: 支持半径 ${r.galaxy.supportR.toFixed(1)}・交点 ${r.galaxy.nOk}/${r.galaxy.nodes}(外は ${r.galaxy.nInvalid} 個落ちる)・` +
+      `原点は質量重心(ずれ ${e(r.galaxy.bcGap)}・最大質量源との差 ${r.galaxy.maxMassGap.toFixed(3)})=${r.galaxyOk} / ` +
+      `⑦gain がキャッシュ鍵: builds ${r.cache.b0}→(30 回)${r.cache.b1}→(gain 変更)${r.cache.b2}=${r.cacheOk} / ` +
+      `⑧宣言 3 本=[${r.decl.join(' ')}]=${r.declOk} / ` +
+      `⑨1 フレーム ms: ` + Object.keys(r.frame).map((k) =>
+        `${k}(${r.frame[k].K}×${r.frame[k].K}・標本 ${r.frame[k].samples}) off ${f(r.frame[k].off)}・mesh ${f(r.frame[k].mesh)}・` +
+        `lines ${f(r.frame[k].lines)}・guide ${f(r.frame[k].guide)}・transport ${f(r.frame[k].transport)}・tracer ${f(r.frame[k].tracer)}` +
+        `(再構築 ${f(r.frame[k].buildMs)}ms・間隔 ${Math.round(r.frame[k].every)}ms)`).join(' / ')
+      + ` / ⑩折返しの見た目(🎠): gain 1→折返し ${r.warn[1].folded}・凡例 ${r.warn[1].legend} 件 / ` +
+      `gain 2→折返し ${r.warn[2].folded}・破線 ${r.warn[2].dash} 回・凡例 ${r.warn[2].legend} 件=${r.warnOk}・` +
+      `交点が立たない系(1 体)は格子なし=${r.oneOk}`
+      + (gpErr.length ? ` / pageErrors=[${gpErr.slice(0, 2).join(' | ')}]` : ''));
+  } else {
+    console.log('SKIP behavior.spaceMeshGrid(対象に第257便c の蓄積格子なし — root 等)');
+  }
+  await gp.close();
+}
+
+// ---- 第257便c(第49報「引きずり量を反映する度合は、パラメータの空間メッシュにスライダーを追加して
+// 調整可能にする」): ui.spaceMeshGain ----
+// 機械固定するのは 5 点: ①スライダーが「空間メッシュ」トグルの直下にあり、値域 0〜2・刻み 0.05
+// ②動かすと overlays.spaceMesh.gain に入り、格子が実際に変わる ③**presetSig と S.params に入らない**
+// (gain を動かしても全内蔵 120 本の署名が 1 文字も変わらない・params に gain 鍵が生えない)
+// ④A/B の両側で同じ値 ⑤保持(localStorage hp_sm_gain)—— 表示チェックボックスと同じ仕組み。
+{
+  const gg = await browser.newPage();
+  const ggErr = [];
+  gg.on('pageerror', (e) => ggErr.push(String(e.message || e)));
+  await gg.goto(INDEX, { waitUntil: 'load' });
+  await gg.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const hasGain = await gg.evaluate(() => !!(window.HP && typeof HP.setSpaceMeshGain === 'function'
+    && document.getElementById('smGainRange')));
+  if (hasGain) {
+    const r = await gg.evaluate(() => {
+      const o = {};
+      const rng = document.getElementById('smGainRange');
+      const C = HP.spaceGridConst();
+      // ① 位置と値域(トグル行の直後の行にある)
+      const row = rng.closest('.prow');
+      let prev = row.previousElementSibling;
+      while (prev && prev.classList.contains('pdesc')) prev = prev.previousElementSibling;
+      const prevCb = prev ? prev.querySelector('input[type=checkbox]') : null;
+      o.place = { min: rng.min, max: rng.max, step: rng.step,
+        prevLabel: prev ? (prev.querySelector('label') ? prev.querySelector('label').textContent : '') : '',
+        prevIsCheckbox: !!prevCb, hasVal: !!document.getElementById('smGainVal') };
+      o.placeOk = +rng.min === 0 && +rng.max === C.gainMax && +rng.step === C.gainStep
+        && !!prevCb && o.place.hasVal;
+      // ② 動かすと格子が変わる
+      HP.loadPreset('galaxyMeshSpiral', false);
+      const S = HP.sim;
+      const areaAt = (g) => { HP.setSpaceMeshGain(g);
+        HP.spaceGridInvalidate(S); HP.spaceGridEnsure(S);
+        const st = HP.spaceGridNow(S); return { gain: st.gain, minArea: st.grid.minAreaRatio,
+          ov: S.overlays.spaceMesh.gain }; };
+      o.moves = { g0: areaAt(0), g05: areaAt(0.5), g15: areaAt(1.5) };
+      o.moveOk = Math.abs(o.moves.g0.minArea - 1) < 1e-9 && o.moves.g05.minArea < 1 - 1e-6
+        && o.moves.g15.minArea < o.moves.g05.minArea
+        && o.moves.g05.ov === 0.5 && o.moves.g15.gain === 1.5;
+      // ③ presetSig・S.params に入らない
+      HP.setSpaceMeshGain(1.35);
+      o.paramsHasGain = ('gain' in HP.sim.params) || ('spaceMeshGain' in HP.sim.params);
+      const sigs = HP.allPresets().map((p) => { const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+        return JSON.stringify(v.ok ? v.preset.overlays : null); });
+      o.sigHasGain = sigs.some((z) => z.indexOf('gain') >= 0);
+      // 実行時 overlay に gain が入った状態のプリセットを検証しても正準形は {mode} だけ
+      const mk = { name: 'x', description: 'd', emoji: '🕸',
+        bodies: [{ type: 'single', m: 1, radius: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }],
+        camera: { scale: 100 }, world: { boundary: 'none', size: 0 },
+        overlays: { spaceMesh: { mode: 'mesh', gain: 1.7 } } };
+      const v = HP.validatePreset(mk);
+      o.canon = JSON.stringify(v.preset.overlays.spaceMesh);
+      o.sigOk = !o.paramsHasGain && !o.sigHasGain && o.canon === '{"mode":"mesh"}';
+      // ⑤ 保持(localStorage)
+      o.store = localStorage.getItem('hp_sm_gain');
+      o.storeOk = Math.abs(parseFloat(o.store) - 1.35) < 1e-9;
+      return o;
+    });
+    // ④ A/B の両側で同じ値
+    const abr = await gg.evaluate(() => new Promise((res) => {
+      HP.loadPreset('spaceMeshBinaryToy', false);
+      HP.setSpaceMeshGain(0.7);
+      document.getElementById('btnAB').click();
+      setTimeout(() => {
+        HP.setSpaceMeshGain(1.15);
+        const o = { a: HP.spaceMeshGain(HP.sim), b: (ab && ab.simB) ? HP.spaceMeshGain(ab.simB) : null,
+          ovA: HP.sim.overlays.spaceMesh && HP.sim.overlays.spaceMesh.gain,
+          ovB: (ab && ab.simB && ab.simB.overlays.spaceMesh) ? ab.simB.overlays.spaceMesh.gain : null };
+        abStop();
+        res(o);
+      }, 120);
+    }));
+    const abOk = abr.a === abr.b && abr.a === 1.15 && abr.ovA === 1.15 && abr.ovB === 1.15;
+    const ok = r.placeOk && r.moveOk && r.sigOk && r.storeOk && abOk && ggErr.length === 0;
+    add('ui.spaceMeshGain', ok,
+      `①位置と値域: 直前の行=「${r.place.prevLabel}」(チェックボックス=${r.place.prevIsCheckbox})・` +
+      `${r.place.min}〜${r.place.max}・刻み ${r.place.step}・値表示=${r.place.hasVal}=${r.placeOk} / ` +
+      `②動かすと格子が変わる: gain 0→最小面積比 ${r.moves.g0.minArea}・0.5→${r.moves.g05.minArea.toFixed(6)}・` +
+      `1.5→${r.moves.g15.minArea.toFixed(6)}=${r.moveOk} / ` +
+      `③署名に入らない: params に gain 鍵=${r.paramsHasGain}・全内蔵の検証後 overlays に gain=${r.sigHasGain}・` +
+      `正準形 ${r.canon}=${r.sigOk} / ` +
+      `④A/B 共通: A=${abr.a}・B=${abr.b}(overlay A=${abr.ovA}・B=${abr.ovB})=${abOk} / ` +
+      `⑤保持 hp_sm_gain=${r.store}=${r.storeOk}` +
+      (ggErr.length ? ` / pageErrors=[${ggErr.slice(0, 2).join(' | ')}]` : ''));
+  } else {
+    console.log('SKIP ui.spaceMeshGain(対象に第257便c の gain スライダーなし — root 等)');
+  }
+  await gg.close();
+}
+
+// ---- 第257便c(第49報「『背景決定力 D₀』のスライダーの下限を『0』にする」): params.d0Zero ----
+// 機械固定するのは 5 点: ①PARAM_DEFS の D0 行に zeroLeft 宣言があり、スライダーの左端が 0 へ
+// スナップする(G・κ と同じ機構) ②代表プリセット 10 本を **D₀=0** で 600 步走らせて
+// **NaN 0・速度/スピンクランプ 0・帳簿が有限** ③D₀=0 と D₀=0.005 の差が連続(χ→1 の極限)
+// ④χ の式の門: D₀=0 では源があれば χ=1 厳密・源が無ければ 0(0/0 を作らない)
+// ⑤既存の内蔵 D₀=0 サンプルが残っていること(この値は第257便c で初めて許したものではない)。
+{
+  const dz = await browser.newPage();
+  const dzErr = [];
+  dz.on('pageerror', (e) => dzErr.push(String(e.message || e)));
+  await dz.goto(INDEX, { waitUntil: 'load' });
+  await dz.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const hasDz = await dz.evaluate(() => !!(window.HP && HP.PARAM_DEFS && HP.dfmBinaryChi));
+  if (hasDz) {
+    const r = await dz.evaluate(() => {
+      const o = {};
+      // ① 宣言とスライダーの左端
+      const def = HP.PARAM_DEFS.find((d) => d.key === 'D0');
+      o.decl = { zeroLeft: def.zeroLeft === true, lo: def.lo, hi: def.hi, mode: def.mode,
+        desc: /遠方の錨なし/.test(def.desc) };
+      let snap = null;
+      const rows = Array.from(document.querySelectorAll('.prow'));
+      for (const row of rows) {
+        const lab = row.querySelector('label');
+        if (!lab || lab.textContent.indexOf('背景決定力') < 0) continue;
+        const rng = row.querySelector('input[type=range]');
+        if (!rng) continue;
+        rng.value = rng.min;
+        rng.dispatchEvent(new Event('input', { bubbles: true }));
+        snap = HP.sim.params.D0;
+        break;
+      }
+      o.snap = snap;
+      o.declOk = o.decl.zeroLeft && snap === 0 && o.decl.desc;
+      // ④ χ の門
+      o.chi = { src: HP.dfmBinaryChi(500, 500, 240, 0, 0.05, 2).chiA,
+        noSrc: HP.dfmBinaryChi(0, 0, 240, 0, 0.05, 2).chiA,
+        pos: HP.dfmBinaryChi(500, 500, 240, 1e-4, 0.05, 2).chiA };
+      o.chiOk = o.chi.src === 1 && o.chi.noSrc === 0 && Math.abs(o.chi.pos - 0.9886111984989862) < 1e-12;
+      // ②③ 代表 10 本 × 600 步
+      const ids = ['galaxy', 'boxBinaryToy', 'spaceMeshBinaryToy', 'galaxyMeshSpiral',
+        'psrDoubleABDFM', 'gas', 'convection', 'rotorSolo', 'starSeed', 'boxtrans'];
+      const runAt = (id, D0) => {
+        const p = HP.allPresets().find((z) => z.id === id);
+        if (!p) return null;
+        const q = JSON.parse(JSON.stringify(p));
+        q.physics = Object.assign({}, q.physics, { D0 });
+        const v = HP.validatePreset(q);
+        if (!v.ok) return { error: v.errors.join(';') };
+        const S = HP.sim; S.build(v.preset);
+        for (let i = 0; i < 600; i++) S.step(0.016);
+        let maxV = 0, sumR = 0;
+        for (let i = 0; i < S.n; i++) { const sp = Math.hypot(S.vx[i], S.vy[i]);
+          if (sp > maxV) maxV = sp; sumR += Math.hypot(S.x[i], S.y[i]); }
+        return { nan: S.hasNaN(), clampV: S.clampVN, clampS: S.clampSN, clampR: S.clampRN,
+          meanR: sumR / S.n, maxV, D0: S.params.D0,
+          finite: Number.isFinite(S.resPx) && Number.isFinite(S.resPy) && Number.isFinite(S.resL)
+            && Number.isFinite(maxV) && Number.isFinite(sumR) };
+      };
+      o.rows = {}; o.cont = {};
+      for (const id of ids) {
+        const z = runAt(id, 0), s = runAt(id, 0.005);
+        if (!z || z.error) { o.rows[id] = { missing: true }; continue; }
+        o.rows[id] = { zero: z, small: s };
+        o.cont[id] = Math.abs(z.meanR - s.meanR) / Math.max(1e-12, Math.abs(s.meanR));
+      }
+      const ok = Object.keys(o.rows).filter((k) => !o.rows[k].missing);
+      o.zeroOk = ok.length === ids.length
+        && ok.every((k) => o.rows[k].zero.nan === false && o.rows[k].zero.clampV === 0
+          && o.rows[k].zero.clampS === 0 && o.rows[k].zero.finite && o.rows[k].zero.D0 === 0);
+      // 連続性: クランプが発動しない系では 1e-3 未満(rotorSolo は反作用クランプ持ちなので別枠)
+      o.contOk = ok.every((k) => (o.rows[k].zero.clampR > 0) || o.cont[k] < 1e-3);
+      // ⑤ 既存の内蔵 D₀=0
+      o.builtin = HP.allPresets().filter((p) => p.physics && p.physics.D0 === 0).map((p) => p.emoji);
+      o.builtinOk = o.builtin.length > 0;
+      return o;
+    });
+    const ids = Object.keys(r.rows);
+    const ok = r.declOk && r.chiOk && r.zeroOk && r.contOk && r.builtinOk && dzErr.length === 0;
+    add('params.d0Zero', ok,
+      `①宣言とスナップ: zeroLeft=${r.decl.zeroLeft}・lo=${r.decl.lo}(対数域の下端)・` +
+      `左端で params.D0=${r.snap}・説明に「0=遠方の錨なし」=${r.decl.desc}=${r.declOk} / ` +
+      `②D₀=0 × 600 步(${ids.length} 本): NaN=0・速度/スピンクランプ=0・帳簿有限=${r.zeroOk}` +
+      `(反作用クランプは ` + ids.filter((k) => r.rows[k].zero && r.rows[k].zero.clampR > 0)
+        .map((k) => `${k}:${r.rows[k].zero.clampR}(D₀=0.005 でも ${r.rows[k].small.clampR})`).join('・') + ` — D₀=0 が原因ではない) / ` +
+      `③D₀=0 と 0.005 の ⟨r⟩ 相対差: ` + ids.map((k) => `${k} ${Number(r.cont[k]).toExponential(2)}`).join('・') + `=${r.contOk} / ` +
+      `④χ の門: 源あり D₀=0 → χ=${r.chi.src}・源なし D₀=0 → χ=${r.chi.noSrc}(NaN にしない)・D₀=1e−4 → ${r.chi.pos.toFixed(10)}=${r.chiOk} / ` +
+      `⑤内蔵の D₀=0 サンプル ${r.builtin.length} 本 [${r.builtin.join('')}]=${r.builtinOk}` +
+      (dzErr.length ? ` / pageErrors=[${dzErr.slice(0, 2).join(' | ')}]` : ''));
+  } else {
+    console.log('SKIP params.d0Zero(対象に PARAM_DEFS なし — root 等)');
+  }
+  await dz.close();
 }
 
 // ---- 第255便c(第47報「サンプルを選ぶ」UI 2 件): ui.samplePicker ----
