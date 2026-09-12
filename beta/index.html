@@ -2272,6 +2272,7 @@ function fastParams(o){
     // プリセットだけ hidden class が別になるのを防ぐ)。値は undefined なので既定経路は 1 bit 不変
     ks.add(PERI_SUB_KEY);
     ks.add(SPACE_MESH_KEY);   // 第254便a: 同上(内蔵 1 本が宣言するが、正準形は undefined で保つ)
+    ks.add(LEDGER_KEY);       // 第258便b: 同上(内蔵は 1 本も宣言しない — 値 undefined で正準形を保つ)
     const t={}; for(const k of ks) t[k]=undefined;
     __PARAM_TMPL={...t};   // スプレッドで fast-properties の雛形にする(t 自体は辞書化していてよい)
   }
@@ -2572,6 +2573,25 @@ function validatePeriSubsteps(a){
     out.pair=[q[0],q[1]];
   }
   return {ok:true, periSubsteps:out};
+}
+// ===== 第258便b(第50報): physics.ledger — **帳簿の記録**の opt-in(既定 OFF・力へは 1 バイトも接続しない) =====
+// 第257便b ⑦-7 が「次便で定義すべき項の 1 番目」とした **引きずりの仕事**を、E6′/E12 が粒子に
+// 当てた**実離散キック**の段階で記録する。正準形は `{dragWork:true}` の 1 鍵だけで、
+// **宣言したときだけ ph に入る**(未宣言は署名・エクスポート JSON が 1 文字も変わらない)。
+//   W_drag = Σ m v·Δv(キック直前の v と、実際に当てた Δv の内積)…… S.dragWorkE
+//   ΔK_drag = Σ m(v·Δv + ½|Δv|²)(同じキックが運動エネルギーを動かした**厳密**な量)…… S.dragWorkKE
+//   ΔK_spin = Σ I(sΔs + ½Δs²)(反作用の残余トルクが殻の回転エネルギーを動かした量)…… S.dragSpinE
+// **記録するだけで速度・スピンは 1 bit も変えない**。S._core には呼び出し 3 行しか足していない
+// (本体は _core の外の関数 —— 第208便の教訓)。coupleSink を宣言した宇宙では残余トルクの
+// 受け先が変わるので **S.dragWorkStop="coupleSink"** を立てて ΔK_spin を null 扱いにする。
+const LEDGER_KEY = "ledger";
+function validateLedger(a){
+  if(a===null || a===undefined) return {ok:true, ledger:null};
+  if(typeof a!=="object" || Array.isArray(a))
+    return {ok:false, err:"physics.ledger はオブジェクト({dragWork:true})か null"};
+  if(a.dragWork===undefined || a.dragWork===false) return {ok:true, ledger:null};   // 既定 = 未宣言(1 bit 不変)
+  if(a.dragWork!==true) return {ok:false, err:"physics.ledger.dragWork は true / false のみ"};
+  return {ok:true, ledger:{dragWork:true}};
 }
 // 第246便(ChatGPT v4 §5.3/5.4): コアv2 の**実行状態**の値域(編集入口 S.applyCoreEdit が使う)。入力の値域(検証器 vCore:
 // massFrac 0.01〜0.95・Ω ±50)はプリセット/AI 生成の推奨範囲で、収縮(Ω↑)や放出(massFrac↑)を経た実行状態はこれを
@@ -4098,11 +4118,11 @@ const BUILTIN_PRESETS = [
   descStruct:{
     summary:"中心の大質量星(m=2500・高スピン1.2・減光0.8 — 自星の光の8割を外に出さない)と、380個の恒星円盤。",
     observe:"右下のグラフは実線=実測・点線=バリオン基準v_bar(質量分布だけから期待される回転 — 中心質量だけでなく円盤の寄与も入った正直な基準線)。左からの光線24本は中心の強い場に捕捉・巻き付く(E8R/T5 — 光子捕捉の光学類似)。AI生成プリセットを土台に再設計(円盤半径260・24000步でNaNなし・恒星保持100%・スピン健全を機械検証)。※この画面のD₀はモデル内の調整値で、現実の予言値ではない(L14)。",
-    control:"恒星はケプラー回転で始まるが、空間の引きずり(A8/E6′)が外縁の回転を実測約1.3倍に増強する(T4) — kFrame=0にすると消える(おすすめA/B)。"},
+    control:"恒星はケプラー回転で始まるが、空間の引きずり(A8/E6′)が外縁の回転を実測約1.3倍に増強する(T4) — kFrame=0にすると消える(おすすめA/B)。表示と記録が読む場は galaxyField(disk/affine・第258便b)で、力へは接続していない(力学は1bitも変わらない)。"},
   en:{name:"Galactic Rotation Curve", descStruct:{
     summary:"A massive central star (m=2500, high spin 1.2, dimming 0.8 — it keeps 80% of its own light from getting out) surrounded by a disk of 380 stars. ",
     observe:"In the bottom-right graph, solid = measured and dotted = the baryonic baseline v_bar (the rotation expected from the mass distribution alone — an honest baseline that includes the disk's contribution, not just the central mass). The 24 light rays entering from the left are captured by the strong central field and wind around it (E8R/T5 — the optical analogue of photon capture). Redesigned on top of an AI-generated preset (disk radius 260; machine-verified: no NaN over 24000 steps, 100% star retention, healthy spins). Note: D₀ here is a model-internal tuning value, not a real-world prediction (L14). ",
-    control:"The stars start on Keplerian orbits, but the dragging of space (A8/E6′) enhances the outer rotation by a measured factor of about 1.3 (T4) — set kFrame to 0 and it disappears (suggested A/B)."}},
+    control:"The stars start on Keplerian orbits, but the dragging of space (A8/E6′) enhances the outer rotation by a measured factor of about 1.3 (T4) — set kFrame to 0 and it disappears (suggested A/B). The field read by the display and the recorders is galaxyField (disk/affine, wave 258b); it is not connected to force, so the dynamics do not change by one bit."}},
   activeParams:["kFrame","D0"],
   // 第42便 42A(台帳4-78 A案): claims — 説明文の外縁増強比(約1.3倍)を機械可読化。
   // QA claim.galaxy-outerboost の閾値は galA>galB*1.04(比≥1.04)。実測(第33便再設計後)は
@@ -4124,7 +4144,12 @@ const BUILTIN_PRESETS = [
      spinMin:0,spinMax:0.3, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1, bulkVx:0, bulkVy:0}
   ],
   rays:{n:24, spread:0.5},
-  overlays:{rotationCurve:true,tempHistogram:false,field:true,trail:false,monitor:false} },
+  // 第258便b(第50報・署名便): 表示と記録が読む**場を galaxyField(disk/affine)へ宣言**する
+  // (第256便b で 🎠 だけに入っていた宣言を銀河 2 本へ広げた —— **表示と記録の層**で、
+  //  力へは 1 バイトも接続していない。600 步の状態・力学は 1 bit も動かない)。
+  // **他の未宣言サンプル 77 本には一括追加しない**(3 審査 v16 Q3c)
+  overlays:{rotationCurve:true,tempHistogram:false,field:true,trail:false,monitor:false,
+    galaxyField:{unSource:"disk",unFit:"affine"}} },
 
 { id:"galaxyStd", catalog:"extended", name:"空間引きずりの基準実験 — 銀河標準", emoji:"🎡", group:"銀河の物語",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
@@ -4143,11 +4168,11 @@ const BUILTIN_PRESETS = [
   descStruct:{
     summary:"🌌銀河の回転曲線から、余分な効果(熱斥力・接触摩擦・減衰・熱伝導・恒星のスピン)をすべて取り除いた基準実験。残るのは重力(E4)と、中心天体(m=2500・スピン1.2)が空間を引きずる効果(A8/E6′空間の引きずり)だけ — 増強の「純粋な効き目」を測る(接触の法線ばねは重なり防止の芯として残る — 散逸はしない)。",
     observe:"右下の機構スペクトルに「いま効いている機構」の実測内訳が出る — 熱斥力・結合・測地線は厳密に0で、重力・引きずり・接触(弾性ばねのみ)の3チャネルが残る(実測Π: 重力41%・接触34%・引きずり25%)。半径ビン表示では引きずりの割合が中心34%→外縁2%と下がる — スピン引きずりの距離減衰が構成比として直接読める。外縁帯の回転はkFrame=1で実測約1.26倍に増強される(T4)。第64〜66便の分解実測で、この増強の主源は中心天体のコヒーレントスピンであり、恒星の集団公転単独では1.02倍に留まる(恒星スピンの寄与はゼロ)ことが確定している。",
-    control:"kFrame=0にすると増強が消える(おすすめA/B)。複合版の🌌(実測1.32倍 — 熱斥力と接触摩擦が上乗せ)と見比べると、機構の足し算も読める。"},
+    control:"kFrame=0にすると増強が消える(おすすめA/B)。複合版の🌌(実測1.32倍 — 熱斥力と接触摩擦が上乗せ)と見比べると、機構の足し算も読める。表示と記録が読む場は galaxyField(disk/affine・第258便b)で、力へは接続していない(力学は1bitも変わらない)。"},
   en:{name:"Frame-Dragging Baseline — Galactic Standard", descStruct:{
     summary:"A baseline version of 🌌 Galactic Rotation Curve with every extra effect — thermal repulsion, contact friction, damping, conduction and stellar spin — stripped away. What is left is gravity (E4) and the space-dragging of the central body (m=2500, spin 1.2) alone (A8/E6′ frame dragging) — a pure read of the enhancement's real strength (the elastic contact spring stays only as the non-dissipative core that prevents overlaps). ",
     observe:"The mechanism spectrum at the bottom right shows the measured breakdown of what is driving the system — thermal repulsion, bonds and geodesic stay exactly 0, leaving gravity, dragging and (elastic-only) contact (measured Π: gravity 41%, contact 34%, dragging 25%). In the radius-bin strip the dragging share falls from 34% at the center to 2% at the edge — the distance decay of spin dragging read directly as a composition. The outer-band rotation is enhanced by a measured factor of about 1.26 at kFrame=1 (T4). The decomposition runs of sessions 64-66 established that the enhancement is sourced by the central body's coherent spin — collective stellar orbiting alone gives only 1.02x (stellar spins contribute zero). ",
-    control:"Set kFrame to 0 and the enhancement disappears (suggested A/B). Compare with the composite 🌌 (measured 1.32x — thermal repulsion and contact friction stack on top) to read the mechanisms adding up."}},
+    control:"Set kFrame to 0 and the enhancement disappears (suggested A/B). Compare with the composite 🌌 (measured 1.32x — thermal repulsion and contact friction stack on top) to read the mechanisms adding up. The field read by the display and the recorders is galaxyField (disk/affine, wave 258b); it is not connected to force, so the dynamics do not change by one bit."}},
   activeParams:["kFrame","D0"],
   // claims — 説明文の「実測約1.26倍」を機械可読化。実測 1.2646(66A・seed 20260727・6000步)。
   // 窓は実測±12%程度。対照(kFrame=0)側は claim.galaxystd-outerboost が比>1.1 で機械判定
@@ -4167,7 +4192,9 @@ const BUILTIN_PRESETS = [
     {type:"disk", rMul:1.2, n:380, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1, bulkVx:0, bulkVy:0}
   ],
-  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,mechSpectrum:true} },
+  // 第258便b(第50報・署名便): 🌌 と同じく**場を galaxyField(disk/affine)へ宣言**する(表示と記録のみ)
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,mechSpectrum:true,
+    galaxyField:{unSource:"disk",unFit:"affine"}} },
 
 { id:"galaxyGeo2", catalog:"extended", name:"v−u統一測地線の銀河", emoji:"💫", group:"銀河の物語",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
@@ -5153,7 +5180,10 @@ const BUILTIN_PRESETS = [
     // (中心 m=2500+環 16 体・Ω=0.2)で誤差 1.074(all/mean)→ 4.4×10⁻¹⁶(disk/affine)だった案を
     // このサンプルの**表示と記録の既定**にした。**🎠 の署名はこの 1 鍵ぶんだけ変わる**
     // (他 119 本はビット同一・力学は 1 bit も動かない —— メッシュは力へ接続していない)。
-    galaxyField:{unSource:"disk",unFit:"affine"}} },
+    // 第258便b(第50報・署名便): **引きずり限界の閾値 s を宣言する**(第257便b の既定 0.9 を
+    // このサンプルの宣言値として明示 —— 表示と記録のみ・u/χ/∇u は 1 bit も動かない)。
+    // s=0.9 は**規約**であって導出ではない(R_slip=125.3 は粒子の最外縁 251.3 に届かない)
+    galaxyField:{unSource:"disk",unFit:"affine",slipThreshold:0.9}} },
 
 // ===== グループ: 光の物語(第147便で「光」から改名 — 表示・分類専用)=====
 { id:"lensing", name:"重力レンズと光子捕捉", emoji:"💡", group:"光の物語",
@@ -12707,6 +12737,14 @@ function validatePreset(obj){
         if(sv.spaceMesh!==null) ph[k]=sv.spaceMesh;
         continue;
       }
+      // 第258便b(第50報): ledger — 帳簿の記録の opt-in(dragWork)。false/未宣言は「なし」へ
+      // 正規化する(宣言と未宣言で署名が 1 文字も変わらない)
+      if(k===LEDGER_KEY){
+        const lv=validateLedger(p.physics[k]);
+        if(!lv.ok){ bad(lv.err); continue; }
+        if(lv.ledger!==null) ph[k]=lv.ledger;
+        continue;
+      }
       // 第247便a: framePrecision も同じ流儀(既定 "single" は ph へ入れない=署名不変)
       if(k===FRAME_PRECISION_KEY){
         if(FRAME_PRECISIONS.indexOf(p.physics[k])<0) warnings.push('physics.framePrecision は "single"/"double" のみ — 既定(single)に修正');
@@ -15531,6 +15569,9 @@ function makeSim(){
     // 第254便a: spaceMesh の読み口(外部仕事・実行時 χ・置換した重力差のノルム・停止理由)。未宣言なら常に 0
     S.spaceMeshWorkE=0; S.spaceMeshChi=0; S.spaceMeshGravDiff=0; S.spaceMeshN=0; S.spaceMeshStop=null;
     S._smAnc=null; S.meshTransport=null;
+    // 第258便b: 引きずりの仕事の読み口(physics.ledger.dragWork を宣言した宇宙だけ動く)。
+    // 未宣言なら S.hasDragWork=false で S.step の真偽値 1 つを読んで素通りする(1 bit 不変)
+    S.dragWorkE=0; S.dragWorkKE=0; S.dragSpinE=0; S.dragWorkN=0; S.dragWorkStop=null;
     // 第255便a: 帳簿の増設 —— pinned の未適用仕事は別欄・pairWeave の P/L/E・回転子交換の J/Q
     S.spaceMeshWorkPinned=0;
     S.spaceMeshWeavePx=0; S.spaceMeshWeavePy=0; S.spaceMeshWeaveL=0; S.spaceMeshWeaveE=0;
@@ -15625,6 +15666,13 @@ function makeSim(){
     S.meshRotorStop=null; S._pw=null; S._mc=null; S.meshCoordStop=null;
     // 第252便b: 近点サブステップ(physics.periSubsteps)の有無フラグと発火しきい値も同じ場所で張る。
     // validatePeriSubsteps が n<=1 を null へ正規化しているので、キーの有無だけで判定できる
+    // 第258便b: 引きずりの仕事の記録(physics.ledger.dragWork)の有無フラグも同じ場所で張る。
+    // validateLedger が false/未宣言を null へ正規化しているので、キーの有無だけで判定できる
+    const __lg=S.params[LEDGER_KEY];
+    S.hasDragWork=!!(__lg && __lg.dragWork===true);
+    S._dwOn=S.hasDragWork?1:0;
+    S.dragWorkStop=(S.hasDragWork && S.params[COUPLE_SINK_KEY]!==undefined
+      && S.params[COUPLE_SINK_KEY]!=="spin")? "coupleSink" : null;
     const __psq=S.params[PERI_SUB_KEY];
     S.hasPeriSub=!!__psq; S.periSub=__psq||null;
     S._periSetup();   // 未宣言でも呼ぶ(計数のリセットと状態の初期化だけ — 既定経路の値は 1 bit 不変)
@@ -16881,6 +16929,12 @@ function makeSim(){
     // **未登録なら真偽値 1 つを読んで素通りする**(既定経路 1 bit 不変)。輸送は表示・観測の側の
     // 状態であって、力学へは 1 バイトも書き戻さない
     if(S.meshTransport && !__periIn) dfmMeshTransportObserve(S);
+    // 第258便b(第50報): 引きずりの仕事の積算をスクラッチから読み口へ移す(**未宣言は真偽値 1 つ**)。
+    // 記録だけで状態は 1 bit も動かない —— 帳簿 dfmToyLedger の `Wdrag` がここを読む
+    if(S.hasDragWork){
+      S.dragWorkE+=_DW.w; S.dragWorkKE+=_DW.k; S.dragSpinE+=_DW.s; S.dragWorkN+=_DW.n;
+      _DW.w=0; _DW.k=0; _DW.s=0; _DW.n=0;
+    }
   };
   // 第35便(台帳4-62): Loschmidt echo — t が echoFlipAt に達した最初のステップ終端で、
   // 全粒子の v と s の符号を一度だけ反転する(pinned 含む・再反転はしない)。
@@ -17719,6 +17773,7 @@ function makeSim(){
     // ③′(legacy ③の直後)で対単位の対称インパルスとして配る。geoPN=2 の輸送3項要求も同じ
     // req へ流す(③′経路は共有)。配列は使う宇宙でだけ遅延確保する(39B/P4b と同型のゼロコスト)
     const pairR=(p[FRAME_REACTION_KEY]==="pairReduced") && kFrame>0;
+    const dwOn=(S._dwOn===1);   // 第258便b: 引きずりの仕事の記録(未宣言は真偽値 1 つ・積算は _core の外)
     // 第208便: coupleSink — E6′ 残余トルクの受け先(0="spin"=既定・1="core"・2="reservoir")。
     // 0 の既定経路は accS の一括適用が従来の1行のままなので 1 bit も変わらない
     const cplSink=(p[COUPLE_SINK_KEY]==="core")?1:((p[COUPLE_SINK_KEY]==="reservoir")?2:((p[COUPLE_SINK_KEY]==="tilt")?3:0));
@@ -18502,6 +18557,7 @@ function makeSim(){
           // 第80便 A(E6′-R): pairReduced では要求 d_i を速度へ書かず ③′へ渡す(legacy 経路は下)
           if(pairR){ const rx=kFrame*dux, ry=kFrame*duy; reqX[i]=rx; reqY[i]=ry; if(rx!==0||ry!==0) anyReq=true; }
           else{
+          if(dwOn) dwAddKick(m[i],vx[i],vy[i],kFrame*dux,kFrame*duy);   // 第258便b: 実離散キックの仕事(記録のみ)
           vx[i]+=kFrame*dux; vy[i]+=kFrame*duy;
           if(msOn){ MS.dxv[i]+=kFrame*dux*msIdt; MS.dyv[i]+=kFrame*duy*msIdt; }   // 65A: 引きずりチャネル(E6′輸送→Δv/dt)
           dpx[i]=m[i]*kFrame*dux; dpy[i]=m[i]*kFrame*duy;  // Δp_i(反作用パスで分配)
@@ -18537,6 +18593,7 @@ function makeSim(){
           // 第80便 A(E6′-R): 輸送3項の要求も同じ req へ(③′経路は E6′ と共有。legacy 経路は下)
           if(pairR){ const rx=kFrame*dux, ry=kFrame*duy; reqX[i]=rx; reqY[i]=ry; if(rx!==0||ry!==0) anyReq=true; }
           else{
+          if(dwOn) dwAddKick(m[i],vx[i],vy[i],kFrame*dux,kFrame*duy);   // 第258便b(E12 輸送 3 項も同じ帳簿)
           vx[i]+=kFrame*dux; vy[i]+=kFrame*duy;
           if(msOn){ MS.dxv[i]+=kFrame*dux*msIdt; MS.dyv[i]+=kFrame*duy*msIdt; }   // 65A: 引きずりチャネル(輸送3項→Δv/dt)
           dpx[i]=m[i]*kFrame*dux; dpy[i]=m[i]*kFrame*duy;    // Δp_i(③反作用パスで源へ返す)
@@ -18733,6 +18790,7 @@ function makeSim(){
       // 第208便: coupleSink — 残余トルク(accS)の受け先を宣言で切替える。既定(0)は従来の
       // 1行そのまま(=1 bit 不変)。宣言時のみ applyCoupleSinkAlt(S._core の外)が
       // J_core / リザーバ帳簿へ送る(意味論は COUPLE_SINK_KEY の見出しコメントを参照)
+      if(dwOn) dwAddApply(n,m,vx,vy,spin,Imom,accVx,accVy,accS,cplSink===0);   // 第258便b: 反作用も引きずりチャネル
       if(cplSink===0){ for(let i=0;i<n;i++){ vx[i]+=accVx[i]; vy[i]+=accVy[i]; spin[i]+=accS[i]; } }
       else applyCoupleSinkAlt(S, n, vx, vy, accVx, accVy, accS, Imom, cplSink);
       // 背景 D₀+W_B 分は無限慣性リザーバへ移譲(帳簿記録)。UniverseBox は規定運動の
@@ -18834,6 +18892,7 @@ function makeSim(){
       // 第208便: coupleSink — 残余トルク(accS)の受け先を宣言で切替える。既定(0)は従来の
       // 1行そのまま(=1 bit 不変)。宣言時のみ applyCoupleSinkAlt(S._core の外)が
       // J_core / リザーバ帳簿へ送る(意味論は COUPLE_SINK_KEY の見出しコメントを参照)
+      if(dwOn) dwAddApply(n,m,vx,vy,spin,Imom,accVx,accVy,accS,cplSink===0);   // 第258便b: 反作用も引きずりチャネル
       if(cplSink===0){ for(let i=0;i<n;i++){ vx[i]+=accVx[i]; vy[i]+=accVy[i]; spin[i]+=accS[i]; } }
       else applyCoupleSinkAlt(S, n, vx, vy, accVx, accVy, accS, Imom, cplSink);
       // 65A(診断層): pairReduced の引きずりチャネルは「最終的に適用した Δv」を記録する
@@ -19909,6 +19968,29 @@ function pairChannelGrad(S,i,j,dx,dy,mi,mj,invd3,idd,wj,wi){
     dPyy[j]+=gwy*cyv + wi*(-dx*domi*ny);
     { dPxx[j]+=wi*dgTi*nx*vx[i]; dPxy[j]+=wi*dgTi*ny*vx[i]; dPyx[j]+=wi*dgTi*nx*vy[i]; dPyy[j]+=wi*dgTi*ny*vy[i]; }
     dWxA[j]+=gwx; dWyA[j]+=gwy;
+  }
+}
+// ===== 第258便b(第50報): 引きずりの仕事の記録(physics.ledger.dragWork — S._core の外)=====
+// 第257便b ⑦-7 の「次便で定義すべき項の 1 番目」。E6′/E12 が粒子に当てた**実離散キック**の
+// 直前で v を読み、W_drag=Σ m v·Δv と ΔK=Σ m(v·Δv+½|Δv|²) を積む。**状態は 1 bit も変えない。**
+// 積算はモジュールのスクラッチに置き(O(N) ループの中から S.xxx を読まない — 第77便のゼロコスト原則)、
+// S.step の末尾で 1 度だけ S へ移す。**宣言しない宇宙では 1 命令も実行されない**(真偽値 1 つ)。
+const _DW={ w:0, k:0, s:0, n:0 };
+function dwAddKick(mi,vxi,vyi,dvx,dvy){
+  const w=mi*(vxi*dvx+vyi*dvy);
+  _DW.w+=w; _DW.k+=w+0.5*mi*(dvx*dvx+dvy*dvy); _DW.n++;
+}
+// ③/③′ の一括適用(反作用 accVx/accVy と残余トルク accS)の直前で同じ量を積む。
+// **反作用も引きずりチャネルの一部**なので、W_drag は「引きずりが系全体にした仕事」になる。
+// spinOn=false(coupleSink を宣言した宇宙)では残余トルクの受け先が殻スピンではないので
+// ΔK_spin を積まない(S.dragWorkStop="coupleSink" が読み口に印を立てる)。
+function dwAddApply(n,m,vx,vy,spin,Imom,accVx,accVy,accS,spinOn){
+  for(let i=0;i<n;i++){
+    const dvx=accVx[i], dvy=accVy[i], ds=spinOn? accS[i] : 0;
+    if(dvx===0 && dvy===0 && ds===0) continue;
+    const mi=m[i], w=mi*(vx[i]*dvx+vy[i]*dvy);
+    _DW.w+=w; _DW.k+=w+0.5*mi*(dvx*dvx+dvy*dvy); _DW.n++;
+    if(ds!==0){ const Ii=Imom[i]; _DW.s+=Ii*(spin[i]*ds+0.5*ds*ds); }
   }
 }
 function rayField(S, heavy, px, py, kU, eps2, q, kF, BX, WB, bH){
@@ -31448,6 +31530,168 @@ function dfmChainMeshField(ch,px,py,opts){
     r, nodes:ch.n, p, eps, center:ch.center.slice(),
     note:"u_chain は連鎖トイの節点速度の内挿であって、粒子の力へは接続していない" };
 }
+// ===== 第258便b(第50報): **最小の閉鎖系**(連鎖トイ + 有限 E_mesh)=====
+// 第257便b ⑥ が「BH 以降のトイは 10⁻³ で閉じていない・E_mesh は未定義」と書いた点に対して、
+// **4 項だけの閉じた縮約系**を置く(3 審査 v16 の一致点):
+//     E_tot = K(節点の運動) + U(重力) + E_mesh(有限容量 E₀ + 鎖の弾性) + Q(熱)、 ΔE_tot = W_ext
+//   ・**駆動は E_mesh から出る**。第257便b の連鎖トイは駆動 a_b(V_b−U_b) の仕事を「外から来る
+//     W_ext」として帳簿に置いていたが、ここでは **有限のメッシュ容量 E_res(初期 E₀・下限 0)**が
+//     それを供給する。供給量は「節点へ渡った仕事 + 結合で散逸した熱」= we+q_drive である。
+//   ・**容量が枯れたら駆動が止まる**(capState="floor")—— これが「容量枯渇で応答が弱まる」の実体。
+//     1 步の供給が残量を超える場合は**その步を駆動 OFF でやり直す**ので、**E_res は 0 を割らない**
+//     (残量 < 1 步ぶんの端数は `Eres` に残る。近似で埋めない)。
+//   ・**Q は単調非減少**(粘性・背景抵抗・粒子–節点結合の散逸の和)。
+//   ・**pinned 中心の維持仕事も計上する**: 中心は位置が動かないので拘束力の仕事は**厳密に 0** で、
+//     中心–節点の重力は節点位置だけの関数 = U に入る(`Wpin` 欄に 0 のまま出す —— 省略しない)。
+//   ・外部供給は `ext`(節点ごとの一定外力)だけで、その仕事率が W_ext になる。
+// **粒子の力へは 1 バイトも接続しない**(器の中の縮約系)。**「帳簿が整合した」とは書かない** ——
+// 閉じるのはこの 4 項の縮約系であって、🎻🍇🎠 の帳簿ではない。
+function _chainGravU(cs,xi){
+  const ch=cs.ch, N=ch.n, nodes=ch.nodes, G=cs.G, Mc=cs.centralMass, e2=cs.eps*cs.eps;
+  if(!(G>0)) return 0;
+  let U=0;
+  const cx=ch.center[0], cy=ch.center[1];
+  for(let i=0;i<N;i++){
+    const xi0=nodes[i].X[0]+xi[2*i], yi0=nodes[i].X[1]+xi[2*i+1];
+    if(Mc>0){ const dx=xi0-cx, dy=yi0-cy; U-=G*Mc*nodes[i].mu/Math.sqrt(dx*dx+dy*dy+e2); }
+    for(let j=i+1;j<N;j++){
+      const dx=xi0-(nodes[j].X[0]+xi[2*j]), dy=yi0-(nodes[j].X[1]+xi[2*j+1]);
+      U-=G*nodes[i].mu*nodes[j].mu/Math.sqrt(dx*dx+dy*dy+e2);
+    }
+  }
+  return U;
+}
+function _chainClosedForces(cs,xi,U,wk,driveOn){
+  const ch=cs.ch, N=ch.n, nodes=ch.nodes;
+  _chainForces(ch,xi,U,wk,driveOn);
+  const G=cs.G, Mc=cs.centralMass, e2=cs.eps*cs.eps;
+  if(G>0){
+    const cx=ch.center[0], cy=ch.center[1];
+    for(let i=0;i<N;i++){
+      const xi0=nodes[i].X[0]+xi[2*i], yi0=nodes[i].X[1]+xi[2*i+1];
+      if(Mc>0){ const dx=xi0-cx, dy=yi0-cy, s=dx*dx+dy*dy+e2, f=-G*Mc*nodes[i].mu/(s*Math.sqrt(s));
+        wk.F[2*i]+=f*dx; wk.F[2*i+1]+=f*dy; }
+      for(let j=i+1;j<N;j++){
+        const dx=xi0-(nodes[j].X[0]+xi[2*j]), dy=yi0-(nodes[j].X[1]+xi[2*j+1]);
+        const s=dx*dx+dy*dy+e2, f=-G*nodes[i].mu*nodes[j].mu/(s*Math.sqrt(s));
+        wk.F[2*i]+=f*dx; wk.F[2*i+1]+=f*dy; wk.F[2*j]-=f*dx; wk.F[2*j+1]-=f*dy;
+      }
+    }
+  }
+  let ep=0;
+  if(cs.ext) for(let i=0;i<N;i++){
+    const fx=cs.ext[i][0], fy=cs.ext[i][1];
+    if(fx===0 && fy===0) continue;
+    wk.F[2*i]+=fx; wk.F[2*i+1]+=fy; ep+=fx*U[2*i]+fy*U[2*i+1];
+  }
+  for(let i=0;i<N;i++){ wk.A[2*i]=wk.F[2*i]/nodes[i].mu; wk.A[2*i+1]=wk.F[2*i+1]/nodes[i].mu; }
+  wk.epow=ep;
+}
+// opts: {Emesh0(既定 Infinity = 無限容量の対照), G, centralMass, eps, ext:[[fx,fy],…]}
+function dfmChainMeshClosed(ch,opts){
+  if(!ch || !ch.nodes || !(ch.n>0)) return null;
+  const o=opts||{};
+  const E0=Number((o.Emesh0===undefined)? Infinity : o.Emesh0);
+  if(!(E0>=0)) return null;
+  const G=Number((o.G===undefined)? 0 : o.G);
+  if(!(G>=0) || !Number.isFinite(G)) return null;
+  const Mc=Number((o.centralMass===undefined)? 0 : o.centralMass);
+  if(!(Mc>=0) || !Number.isFinite(Mc)) return null;
+  const eps=Number((o.eps===undefined)? ch.decl.eps : o.eps);
+  if(!(eps>=0) || !Number.isFinite(eps)) return null;
+  let ext=null;
+  if(o.ext!==undefined && o.ext!==null){
+    if(!Array.isArray(o.ext) || o.ext.length!==ch.n) return null;
+    ext=[];
+    for(let i=0;i<ch.n;i++){
+      const v=o.ext[i];
+      if(!Array.isArray(v) || v.length<2) return null;
+      const a=Number(v[0]), b=Number(v[1]);
+      if(!Number.isFinite(a) || !Number.isFinite(b)) return null;
+      ext.push([a,b]);
+    }
+  }
+  return { ch, Emesh0:E0, Eres:E0, G, centralMass:Mc, eps, ext,
+    Q:0, Wext:0, Wpin:0, Qdrive:0, Esupplied:0, t:0, steps:0, driveOffSteps:0,
+    capState:(E0>0)? "ok" : "floor",
+    note:"E_tot=K+U+E_mesh+Q・ΔE_tot=W_ext。**駆動は有限の E_mesh から出る**。"
+      +"**pinned 中心の維持仕事は厳密に 0**(中心は動かないので拘束力が仕事をしない)" };
+}
+// 読み(状態を 1 バイトも変えない)。E_mesh = 残容量 E_res + 鎖の弾性エネルギー
+function dfmChainMeshClosedEnergy(cs){
+  if(!cs || !cs.ch) return null;
+  const e=dfmChainMeshEnergy(cs.ch);
+  if(!e) return null;
+  const Ug=_chainGravU(cs,cs.ch.xi);
+  const Em=cs.Eres+e.Epot;
+  // **pinned 中心の維持仕事**: 拘束力は「節点から中心への重力の合計の逆向き」で、中心の速度は 0 なので
+  // 仕事は**厳密に 0** である。力そのものは 0 ではないので、`Fpin` に出して省略していないことを示す
+  let fpx=0, fpy=0;
+  if(cs.G>0 && cs.centralMass>0){
+    const ch=cs.ch, e2=cs.eps*cs.eps, cx=ch.center[0], cy=ch.center[1];
+    for(let i=0;i<ch.n;i++){
+      const dx=(ch.nodes[i].X[0]+ch.xi[2*i])-cx, dy=(ch.nodes[i].X[1]+ch.xi[2*i+1])-cy;
+      const s=dx*dx+dy*dy+e2, f=cs.G*cs.centralMass*ch.nodes[i].mu/(s*Math.sqrt(s));
+      fpx+=f*dx; fpy+=f*dy;
+    }
+  }
+  return { K:e.Ekin, U:Ug, Emesh:Em, Eres:cs.Eres, Eelastic:e.Epot, Q:cs.Q,
+    Etot:e.Ekin+Ug+Em+cs.Q, Wext:cs.Wext, Wpin:cs.Wpin, Fpin:[-fpx,-fpy], vPin:[0,0],
+    P:e.P, L:e.L, capState:cs.capState };
+}
+// 1 步(RK4)。**dt<0 は門**。返り値は 4 項と残差 ΔE_tot−ΔW_ext。
+function dfmChainMeshClosedStep(cs,dt){
+  if(!cs || !cs.ch || !(cs.ch.n>0)) return null;
+  const h=Number(dt);
+  if(!Number.isFinite(h) || h<0) return null;
+  const ch=cs.ch, N=ch.n;
+  const wk=cs._wk || (cs._wk={ F:new Float64Array(2*N), A:new Float64Array(2*N),
+    x0:new Float64Array(2*N), u0:new Float64Array(2*N),
+    xt:new Float64Array(2*N), ut:new Float64Array(2*N),
+    x1:new Float64Array(2*N), u1:new Float64Array(2*N),
+    kx:[], ku:[], epow:0 });
+  if(!wk.kx.length) for(let s=0;s<4;s++){ wk.kx.push(new Float64Array(2*N)); wk.ku.push(new Float64Array(2*N)); }
+  const before=dfmChainMeshClosedEnergy(cs);
+  wk.x0.set(ch.xi); wk.u0.set(ch.U);
+  const cf=[0,0.5,0.5,1], w6=[1/6,1/3,1/3,1/6];
+  const run=(driveOn)=>{
+    const qs=[0,0,0,0], ws=[0,0,0,0], qds=[0,0,0,0], es=[0,0,0,0];
+    for(let s=0;s<4;s++){
+      const c=cf[s];
+      if(s===0){ wk.xt.set(wk.x0); wk.ut.set(wk.u0); }
+      else for(let k=0;k<2*N;k++){ wk.xt[k]=wk.x0[k]+c*h*wk.kx[s-1][k]; wk.ut[k]=wk.u0[k]+c*h*wk.ku[s-1][k]; }
+      _chainClosedForces(cs,wk.xt,wk.ut,wk,driveOn);
+      for(let k=0;k<2*N;k++){ wk.kx[s][k]=wk.ut[k]; wk.ku[s][k]=wk.A[k]; }
+      qs[s]=wk.qdot; ws[s]=wk.wdot; qds[s]=wk.qdrive; es[s]=wk.epow;
+    }
+    for(let k=0;k<2*N;k++){
+      let dx=0, du=0;
+      for(let s=0;s<4;s++){ dx+=w6[s]*wk.kx[s][k]; du+=w6[s]*wk.ku[s][k]; }
+      wk.x1[k]=wk.x0[k]+h*dx; wk.u1[k]=wk.u0[k]+h*du;
+    }
+    let dQ=0, dW=0, dQd=0, dE=0;
+    for(let s=0;s<4;s++){ dQ+=w6[s]*qs[s]; dW+=w6[s]*ws[s]; dQd+=w6[s]*qds[s]; dE+=w6[s]*es[s]; }
+    return { dQ:dQ*h, dW:dW*h, dQd:dQd*h, dExt:dE*h };
+  };
+  let driveOn=(cs.Eres>0);
+  let r=run(driveOn);
+  // **供給が残量を超える步は、駆動 OFF でやり直す**(E_res が 0 を割らない —— 近似で埋めない)
+  if(driveOn && (r.dW+r.dQd)>cs.Eres){ driveOn=false; r=run(false); cs.capState="floor"; }
+  ch.xi.set(wk.x1); ch.U.set(wk.u1);
+  // **Q は粘性(bond γ・背景抵抗)と粒子–節点結合の散逸の和**である(前者だけでは閉じない)
+  let dQ=r.dQ+r.dQd; if(dQ<0) dQ=0;                // 被積分量は ≥0(数学的には起きない)
+  cs.Q+=dQ; cs.Qdrive+=r.dQd; cs.Wext+=r.dExt; cs.t+=h; ch.t+=h; cs.steps++;
+  if(driveOn){ cs.Eres-=(r.dW+r.dQd); cs.Esupplied+=(r.dW+r.dQd); }
+  else cs.driveOffSteps++;
+  if(cs.Eres<=0 && cs.Emesh0!==Infinity){ if(cs.Eres<0) cs.Eres=0; cs.capState="floor"; }
+  const after=dfmChainMeshClosedEnergy(cs);
+  const dEtot=after.Etot-before.Etot, dWext=cs.Wext-before.Wext;
+  return { t:cs.t, dt:h, K:after.K, U:after.U, Emesh:after.Emesh, Eres:cs.Eres,
+    Eelastic:after.Eelastic, Q:cs.Q, Etot:after.Etot, Wext:cs.Wext, Wpin:cs.Wpin,
+    dEtot, dWext, residual:dEtot-dWext, dQ, dWdrive:r.dW, dQdrive:r.dQd,
+    driveOn, capState:cs.capState, P:after.P, L:after.L,
+    rel:Math.abs(dEtot-dWext)/(Math.abs(after.Etot)||1) };
+}
 // ===== 第257便b(第49報): BH 以降のトイの**帳簿テンプレート** `HP.dfmToyLedger` =====
 // 原仮定者(第49報・原文は docs/PHYSICS.md 〔第257便b〕に引用):
 //   「熱の実験室グループサンプルは、トイモデルでありながら、エネルギー収支の整合を行い、相変化を
@@ -31520,6 +31764,20 @@ function dfmToyLedger(S,opts){
   if(hidden.alignE||hidden.burstE||hidden.shedE||hidden.bindRel){
     und.push("hiddenSource");
     notes.push("隠れ成分からの移送(整列 alignE・爆発 burstE・放出 shedE・結合 bindRel)は**どの容量から出たか**が未定義である"); }
+  // ---- 第258便b(第50報): **引きずりの仕事** W_drag(physics.ledger.dragWork を宣言した宇宙だけ)。
+  //   第257便b ⑦-7 が「次便で定義すべき項の 1 番目」とした項である。E6′/E12 が粒子に当てた
+  //   **実離散キック**の段階で Σ m v·Δv(`Wdrag`)と、そのキックが動かした厳密な運動エネルギー
+  //   Σ m(v·Δv+½|Δv|²)(`WdragKE`)を積んである。**未宣言は 0 で埋めず null**(`undefinedTerms` に挙げる)。
+  //   これは外部仕事 W_ext とは別欄に置く(既存の `residual` の意味は 1 bit も変えない ——
+  //   引きずりぶんを差し引いた残差は `residualDrag` に分けて返す)。
+  let Wdrag=null, WdragKE=null, WdragSpin=null;
+  if(S.hasDragWork){
+    Wdrag=Number(S.dragWorkE||0); WdragKE=Number(S.dragWorkKE||0);
+    WdragSpin=(S.dragWorkStop===null)? Number(S.dragSpinE||0) : null;
+    if(WdragSpin===null){ und.push("Wdrag.spin");
+      notes.push("W_drag の回転ぶん: coupleSink を宣言した宇宙では残余トルクの受け先が殻スピンではない(未定義)"); }
+  } else { und.push("Wdrag");
+    notes.push("W_drag(引きずりが粒子にした仕事): physics.ledger.dragWork 未宣言 —— **記録していない**(0 ではない)"); }
   const terms={ K, U, Eshell, Ecore, Emesh, Q, Eescaped:Eesc };
   let Etot=0;
   for(const k of Object.keys(terms)) if(terms[k]!==null) Etot+=terms[k];
@@ -31537,10 +31795,17 @@ function dfmToyLedger(S,opts){
     capState[k]={ value:v, defined:true, min:mn, max:mx, atMin, atMax };
   }
   // ---- 残差(前回の返り値 ref を渡したときだけ定義される —— 基準の無い差は作らない)
-  let residual=null, dEtot=null, dWext=null;
+  let residual=null, dEtot=null, dWext=null, dWdrag=null, residualDrag=null, dWdragKE=null;
   const ref=o.ref;
   if(ref && typeof ref==="object" && Number.isFinite(ref.Etot) && Number.isFinite(ref.Wext)){
     dEtot=Etot-ref.Etot; dWext=Wext-ref.Wext; residual=dEtot-dWext;
+    // 第258便b: 引きずりぶんを差し引いた残差(**別欄** —— 既存の residual は 1 bit も動かさない)。
+    // 差し引くのは ΔK として実際に動いた量 `WdragKE`(+ 回転ぶん)である
+    if(Wdrag!==null && Number.isFinite(ref.Wdrag) && Number.isFinite(ref.WdragKE)){
+      dWdrag=Wdrag-ref.Wdrag; dWdragKE=(WdragKE-ref.WdragKE)
+        +((WdragSpin!==null && Number.isFinite(ref.WdragSpin))? (WdragSpin-ref.WdragSpin) : 0);
+      residualDrag=dEtot-dWext-dWdragKE;
+    }
   }
   // ---- 観測写像(**帳簿の項ではない**)。減光 lightSweep は「見える量」を減らすだけで、
   //      質量推定を自動で相殺しない(= 減光を足しても帳簿は 1 bit も閉じない)。
@@ -31554,6 +31819,7 @@ function dfmToyLedger(S,opts){
   }
   if(!obs){ und.push("obs.dimming"); notes.push("観測写像: 減光(lightSweep)の状態変数が無い"); }
   return { K, U, Eshell, Ecore, Emesh, Q, Eescaped:Eesc, Etot, Wext, residual, dEtot, dWext,
+    Wdrag, WdragKE, WdragSpin, dWdrag, dWdragKE, residualDrag, dragWorkN:S.hasDragWork? (S.dragWorkN|0) : null,
     capState, capFloorCount:capFloor, undefinedTerms:und, notes, obs,
     parts:{ wext:wparts, hidden, meshQ, pinHeat, radE:Eesc, radL:Number(S.radL||0),
       resPx:Number(S.resPx||0), resPy:Number(S.resPy||0), resL:Number(S.resL||0),
@@ -32153,6 +32419,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // **いずれも表示と記録の層である**(粒子の力へは 1 バイトも接続していない)。
   dfmSlipRadius, GALMESH_SLIP_DEFAULT,
   dfmChainMeshBuild, dfmChainMeshStep, dfmChainMeshStatic, dfmChainMeshField, dfmChainMeshEnergy,
+  // 第258便b(第50報): 最小の閉鎖系(K+U+有限 E_mesh+Q)と引きずり仕事の opt-in 鍵
+  dfmChainMeshClosed, dfmChainMeshClosedStep, dfmChainMeshClosedEnergy, LEDGER_KEY,
   CHAIN_RINGS_MAX, CHAIN_SUPPORT_PAD, dfmToyLedger,
   // 第250便b(第42報 W2): MM の**波長チャネル**(ω=u·k+c|k| と境界の ω−V·k 保存だけを足した純関数)。
   // 戻り波長 λ・共通出力波長・検出器の読み ν_D・ドップラー係数 D を、Δt/Δφ とは**別欄**で返す。
