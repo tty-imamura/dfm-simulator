@@ -15804,6 +15804,10 @@ function makeSim(){
     const __lg=S.params[LEDGER_KEY];
     S.hasDragWork=!!(__lg && __lg.dragWork===true);
     S._dwOn=S.hasDragWork?1:0;
+    // 第258便e: S._core が読む**唯一の真偽値**。実キックの控え(第258便a)と仕事の記録(第258便b)の
+    // どちらかを宣言した宇宙だけ 1 になり、_core の 4 か所は dragHookKick/dragHookApply を呼ぶ。
+    // 両方未宣言(= 内蔵プリセットは全本)では 0 で、_core は 1 命令も余分に走らない(JIT 崖)
+    S._hookOn=(S.hasCoordInertia||S.hasDragWork)?1:0;
     S.dragWorkStop=(S.hasDragWork && S.params[COUPLE_SINK_KEY]!==undefined
       && S.params[COUPLE_SINK_KEY]!=="spin")? "coupleSink" : null;
     const __psq=S.params[PERI_SUB_KEY];
@@ -17900,13 +17904,11 @@ function makeSim(){
     // mech の locals は束ねない(全参照が if(msOn) の内側 = OFF 経路では 1 度も読まれない。
     // __DMECH ダミーで MS の型を一定に保つ — 39B の型フィードバック対策と同型)
     const msOn=!!(S.overlays && S.overlays.mechSpectrum);
-    // 第258便a(3 審査 v16・ChatGPT §3.6): inertia:"coordinate" が立っている宇宙だけ、E6′/E12v2 が
-    // 当てた(= ③′ へ要求した)追従キックを**当てた段階で**控える。置換の除去はこの実キックを引く。
-    // **未宣言は null** で、下の 2 行(各ブロック 1 行)は 1 度も走らない(S._core は真偽値 1 つぶんだけ)
-    let MCR=null;
-    if(S.hasCoordInertia){ let z=S._mcRec;
-      if(!z || z.length!==2*n) z=S._mcRec=new Float64Array(2*n);
-      MCR=z; }
+    // 第258便a(実キックの控え — inertia:"coordinate")と第258便b(引きずりの仕事 — ledger.dragWork)の
+    // **共通フック**。第258便e で**真偽値 1 つ + 呼び出し 1 行**にまとめ、控えの確保・分岐・積算は
+    // すべて S._core の**外**(dragHookKick / dragHookApply)へ出した(JIT 崖 — 〔第258便e〕)。
+    // 両方とも未宣言なら S._hookOn=0 で、下の 4 か所は 1 度も走らない
+    const hkOn=(S._hookOn===1);
     if(msOn && (!S.mech || S.mech.nAl!==n)){
       const F6=()=>new Float64Array(n);
       S.mech={nAl:n, gx:F6(),gy:F6(),px:F6(),py:F6(),rx:F6(),ry:F6(),cx:F6(),cy:F6(),
@@ -17937,7 +17939,6 @@ function makeSim(){
     // ③′(legacy ③の直後)で対単位の対称インパルスとして配る。geoPN=2 の輸送3項要求も同じ
     // req へ流す(③′経路は共有)。配列は使う宇宙でだけ遅延確保する(39B/P4b と同型のゼロコスト)
     const pairR=(p[FRAME_REACTION_KEY]==="pairReduced") && kFrame>0;
-    const dwOn=(S._dwOn===1);   // 第258便b: 引きずりの仕事の記録(未宣言は真偽値 1 つ・積算は _core の外)
     // 第208便: coupleSink — E6′ 残余トルクの受け先(0="spin"=既定・1="core"・2="reservoir")。
     // 0 の既定経路は accS の一括適用が従来の1行のままなので 1 bit も変わらない
     const cplSink=(p[COUPLE_SINK_KEY]==="core")?1:((p[COUPLE_SINK_KEY]==="reservoir")?2:((p[COUPLE_SINK_KEY]==="tilt")?3:0));
@@ -18721,8 +18722,7 @@ function makeSim(){
           // 第80便 A(E6′-R): pairReduced では要求 d_i を速度へ書かず ③′へ渡す(legacy 経路は下)
           if(pairR){ const rx=kFrame*dux, ry=kFrame*duy; reqX[i]=rx; reqY[i]=ry; if(rx!==0||ry!==0) anyReq=true; }
           else{
-          if(MCR){ MCR[2*i]+=kFrame*dux; MCR[2*i+1]+=kFrame*duy; }   // 第258便a: 実キックの控え
-          if(dwOn) dwAddKick(m[i],vx[i],vy[i],kFrame*dux,kFrame*duy);   // 第258便b: 実離散キックの仕事(記録のみ)
+          if(hkOn) dragHookKick(S,i,m[i],vx[i],vy[i],kFrame*dux,kFrame*duy);   // 第258便a/b の共通フック(第258便e)
           vx[i]+=kFrame*dux; vy[i]+=kFrame*duy;
           if(msOn){ MS.dxv[i]+=kFrame*dux*msIdt; MS.dyv[i]+=kFrame*duy*msIdt; }   // 65A: 引きずりチャネル(E6′輸送→Δv/dt)
           dpx[i]=m[i]*kFrame*dux; dpy[i]=m[i]*kFrame*duy;  // Δp_i(反作用パスで分配)
@@ -18758,8 +18758,7 @@ function makeSim(){
           // 第80便 A(E6′-R): 輸送3項の要求も同じ req へ(③′経路は E6′ と共有。legacy 経路は下)
           if(pairR){ const rx=kFrame*dux, ry=kFrame*duy; reqX[i]=rx; reqY[i]=ry; if(rx!==0||ry!==0) anyReq=true; }
           else{
-          if(MCR){ MCR[2*i]+=kFrame*dux; MCR[2*i+1]+=kFrame*duy; }   // 第258便a: 実キックの控え
-          if(dwOn) dwAddKick(m[i],vx[i],vy[i],kFrame*dux,kFrame*duy);   // 第258便b(E12 輸送 3 項も同じ帳簿)
+          if(hkOn) dragHookKick(S,i,m[i],vx[i],vy[i],kFrame*dux,kFrame*duy);   // 第258便a/b の共通フック(第258便e)
           vx[i]+=kFrame*dux; vy[i]+=kFrame*duy;
           if(msOn){ MS.dxv[i]+=kFrame*dux*msIdt; MS.dyv[i]+=kFrame*duy*msIdt; }   // 65A: 引きずりチャネル(輸送3項→Δv/dt)
           dpx[i]=m[i]*kFrame*dux; dpy[i]=m[i]*kFrame*duy;    // Δp_i(③反作用パスで源へ返す)
@@ -18956,8 +18955,7 @@ function makeSim(){
       // 第208便: coupleSink — 残余トルク(accS)の受け先を宣言で切替える。既定(0)は従来の
       // 1行そのまま(=1 bit 不変)。宣言時のみ applyCoupleSinkAlt(S._core の外)が
       // J_core / リザーバ帳簿へ送る(意味論は COUPLE_SINK_KEY の見出しコメントを参照)
-      if(MCR) for(let i=0;i<n;i++){ MCR[2*i]+=accVx[i]; MCR[2*i+1]+=accVy[i]; }   // 第258便a: 実キックの控え(③/③′ の適用分)
-      if(dwOn) dwAddApply(n,m,vx,vy,spin,Imom,accVx,accVy,accS,cplSink===0);   // 第258便b: 反作用も引きずりチャネル
+      if(hkOn) dragHookApply(S,n,m,vx,vy,spin,Imom,accVx,accVy,accS,cplSink===0);   // 第258便a/b の共通フック(第258便e)
       if(cplSink===0){ for(let i=0;i<n;i++){ vx[i]+=accVx[i]; vy[i]+=accVy[i]; spin[i]+=accS[i]; } }
       else applyCoupleSinkAlt(S, n, vx, vy, accVx, accVy, accS, Imom, cplSink);
       // 背景 D₀+W_B 分は無限慣性リザーバへ移譲(帳簿記録)。UniverseBox は規定運動の
@@ -19059,8 +19057,7 @@ function makeSim(){
       // 第208便: coupleSink — 残余トルク(accS)の受け先を宣言で切替える。既定(0)は従来の
       // 1行そのまま(=1 bit 不変)。宣言時のみ applyCoupleSinkAlt(S._core の外)が
       // J_core / リザーバ帳簿へ送る(意味論は COUPLE_SINK_KEY の見出しコメントを参照)
-      if(MCR) for(let i=0;i<n;i++){ MCR[2*i]+=accVx[i]; MCR[2*i+1]+=accVy[i]; }   // 第258便a: 実キックの控え(③/③′ の適用分)
-      if(dwOn) dwAddApply(n,m,vx,vy,spin,Imom,accVx,accVy,accS,cplSink===0);   // 第258便b: 反作用も引きずりチャネル
+      if(hkOn) dragHookApply(S,n,m,vx,vy,spin,Imom,accVx,accVy,accS,cplSink===0);   // 第258便a/b の共通フック(第258便e)
       if(cplSink===0){ for(let i=0;i<n;i++){ vx[i]+=accVx[i]; vy[i]+=accVy[i]; spin[i]+=accS[i]; } }
       else applyCoupleSinkAlt(S, n, vx, vy, accVx, accVy, accS, Imom, cplSink);
       // 65A(診断層): pairReduced の引きずりチャネルは「最終的に適用した Δv」を記録する
@@ -19258,31 +19255,10 @@ function makeSim(){
     // 第33便(台帳4-63): 光子の伝播(1ステップ分)。光学は traceRay と同一(E8R: 重い粒子
     // rayHeavy(偏向角 α_min 基準)の 2∇ψ 屈折・W 合計に D₀/W_B・媒質随伴 kF·u に UniverseBox の u_B を含む)で、
     // 弧長は dl=(c₀/n_eff)·dt。到着時は 1+z=a_obs/a_emit の帳簿を photonLog へ積む
-    if(S.photons && S.photons.length){
-      const pp=S.params;
-      const O={heavy:[], kU:2*pp.kappaT, eps2:pp.softening*pp.softening, q:pp.q, c0:pp.cLight,
-        D0u:(frameWeightPow(pp)>0)? ((pp.D0pull!==undefined)? pp.D0pull : pp.D0) : pp.D0,   // 第241便(第242便: 既定 pull・一般指数。第252便a: D0pull の意味統一 — 未宣言=D₀ へフォールバック/明示値はその値〔0 を含む〕)
-        D0:pp.D0, kF:pp.kFrame, BX:S.box, WB:0, bH:0};
-      for(let i=0;i<n;i++) if(rayHeavy(S,i)) O.heavy.push(i);
-      let aO=1;
-      if(O.BX){ const sc=boxScaleAt(O.BX,S.t); aO=sc.a; O.WB=boxWAt(O.BX,sc.a); O.bH=sc.H; }
-      let died=false;
-      for(const ph of S.photons){
-        photonStep(S, ph, dt, O);
-        if(ph.to>=0 && ph.to<n){   // 到着判定: 対象粒子との距離 < max(R,6)
-          const hx=S.x[ph.to]-ph.x, hy=S.y[ph.to]-ph.y, hit=Math.max(S.R[ph.to],6);
-          if(hx*hx+hy*hy < hit*hit){
-            S.photonLog.push({tE:ph.tE, aE:ph.aE, tO:S.t, aO, lamE:ph.lamE,
-              lamO:ph.lamE*aO/ph.aE, z:aO/ph.aE-1, from:ph.from, to:ph.to});
-            if(S.photonLog.length>64) S.photonLog.shift();
-            ph.alive=false; died=true; continue;
-          }
-        }
-        // 暴走保護: 座標系の外へ出た/飛行時間が長すぎる光子は消滅
-        if(Math.abs(ph.x)>6000 || Math.abs(ph.y)>6000 || (S.t-ph.tE)>4000){ ph.alive=false; died=true; }
-      }
-      if(died) S.photons=S.photons.filter(q2=>q2.alive);
-    }
+    // 第258便e: 本体は S._core の**外**(photonPass)へ出した。光子のいない宇宙(= 内蔵のほぼ全本)では
+    // ここは真偽値 1 つで素通りし、_core のバイトコード量をそのぶん返す(JIT 崖 — 〔第258便e〕)。
+    // 式・順序・読み書きは 1 文字も変えていない(移しただけ)
+    if(S.photons && S.photons.length) photonPass(S,n,dt);
   };
   // 保存量(T7): P = Σmv、L = Σm(r×v) + ΣIs(保存量モニタ・V1 検証で使用)
   S.totals = function(){
@@ -20160,6 +20136,58 @@ function dwAddApply(n,m,vx,vy,spin,Imom,accVx,accVy,accS,spinOn){
     _DW.w+=w; _DW.k+=w+0.5*mi*(dvx*dvx+dvy*dvy); _DW.n++;
     if(ds!==0){ const Ii=Imom[i]; _DW.s+=Ii*(spin[i]*ds+0.5*ds*ds); }
   }
+}
+// ===== 第258便e(第50報・統括代理): 実キックの控え(第258便a)と仕事の記録(第258便b)を
+// **S._core の外の 1 つのフック**にまとめる(JIT 崖の回避 — 〔第258便e〕)。
+// 第258便a は「控えへ書く」4 行+確保 1 か所、第258便b は「仕事を積む」4 行+真偽値 1 つを
+// **それぞれ** S._core へ足していた。**足した量そのもの**(合計 13 行)が V8 の最適化の
+// しきい値を越えさせ、_core が一度 deopt した後は再最適化が通らず、**インタプリタのまま
+// 20 倍遅く**走り続けた(A/B や 2 度目の build を通る重いテストだけが 15〜20 倍になった)。
+// いまは S._core 側は **真偽値 1 つ(S._hookOn)+ 呼び出し 1 行 × 4 か所**だけで、控えの
+// 確保・null 判定・仕事の積算はすべてここにある。**渡す値は以前と 1 bit も変えていない**
+// (キック直前の v・同じ Δv・同じ順序 = 控えが先・仕事が後)。
+function mcRecOf(S){
+  const n2=2*S.n; let z=S._mcRec;
+  if(!z || z.length!==n2) z=S._mcRec=new Float64Array(n2);
+  return z;
+}
+function dragHookKick(S,i,mi,vxi,vyi,dvx,dvy){
+  if(S.hasCoordInertia){ const R=mcRecOf(S); R[2*i]+=dvx; R[2*i+1]+=dvy; }
+  if(S._dwOn===1) dwAddKick(mi,vxi,vyi,dvx,dvy);
+}
+function dragHookApply(S,n,m,vx,vy,spin,Imom,accVx,accVy,accS,spinOn){
+  if(S.hasCoordInertia){ const R=mcRecOf(S);
+    for(let i=0;i<n;i++){ R[2*i]+=accVx[i]; R[2*i+1]+=accVy[i]; } }
+  if(S._dwOn===1) dwAddApply(n,m,vx,vy,spin,Imom,accVx,accVy,accS,spinOn);
+}
+// ===== 第33便(台帳4-63): 光子の伝播(1ステップ分)— 第258便e で S._core の外へ出した =====
+// 光学は traceRay と同一(E8R: 重い粒子 rayHeavy(偏向角 α_min 基準)の 2∇ψ 屈折・
+// W 合計に D₀/W_B・媒質随伴 kF·u に UniverseBox の u_B を含む)で、弧長は dl=(c₀/n_eff)·dt。
+// 到着時は 1+z=a_obs/a_emit の帳簿を photonLog へ積む。**式は 1 文字も変えていない**。
+function photonPass(S,n,dt){
+  const pp=S.params;
+  const O={heavy:[], kU:2*pp.kappaT, eps2:pp.softening*pp.softening, q:pp.q, c0:pp.cLight,
+    D0u:(frameWeightPow(pp)>0)? ((pp.D0pull!==undefined)? pp.D0pull : pp.D0) : pp.D0,   // 第241便(第242便: 既定 pull・一般指数。第252便a: D0pull の意味統一 — 未宣言=D₀ へフォールバック/明示値はその値〔0 を含む〕)
+    D0:pp.D0, kF:pp.kFrame, BX:S.box, WB:0, bH:0};
+  for(let i=0;i<n;i++) if(rayHeavy(S,i)) O.heavy.push(i);
+  let aO=1;
+  if(O.BX){ const sc=boxScaleAt(O.BX,S.t); aO=sc.a; O.WB=boxWAt(O.BX,sc.a); O.bH=sc.H; }
+  let died=false;
+  for(const ph of S.photons){
+    photonStep(S, ph, dt, O);
+    if(ph.to>=0 && ph.to<n){   // 到着判定: 対象粒子との距離 < max(R,6)
+      const hx=S.x[ph.to]-ph.x, hy=S.y[ph.to]-ph.y, hit=Math.max(S.R[ph.to],6);
+      if(hx*hx+hy*hy < hit*hit){
+        S.photonLog.push({tE:ph.tE, aE:ph.aE, tO:S.t, aO, lamE:ph.lamE,
+          lamO:ph.lamE*aO/ph.aE, z:aO/ph.aE-1, from:ph.from, to:ph.to});
+        if(S.photonLog.length>64) S.photonLog.shift();
+        ph.alive=false; died=true; continue;
+      }
+    }
+    // 暴走保護: 座標系の外へ出た/飛行時間が長すぎる光子は消滅
+    if(Math.abs(ph.x)>6000 || Math.abs(ph.y)>6000 || (S.t-ph.tE)>4000){ ph.alive=false; died=true; }
+  }
+  if(died) S.photons=S.photons.filter(q2=>q2.alive);
 }
 function rayField(S, heavy, px, py, kU, eps2, q, kF, BX, WB, bH){
   let gx=0, gy=0, uNx=0, uNy=0, wSum=0;
