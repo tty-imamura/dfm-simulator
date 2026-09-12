@@ -42,6 +42,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+// 第258便d(第50報 W4): 条件不一致の隔離・証拠付き予測・ε_num の推定誤差・deg/yr の門は
+// **純関数**として tests/lib-w258d-evidence.mjs に置き、QA が同じ 1 本を読む。
+import { GATE, VERDICT_CONDITION, VERDICTS6, YEAR_SEC, enforceAllConditions,
+  predictionEligible, refinedNumBound, degPerYear, assessDegYearGate } from './lib-w258d-evidence.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -52,6 +56,12 @@ const FAST = argv.includes('--fast');
 const MERGE = argv.includes('--merge');   // --only で一部だけ回して既存 JSON へ差し替える(再判定用)
 const ONLY = (() => { const i = argv.indexOf('--only'); return (i >= 0 && argv[i + 1]) ? argv[i + 1].split(',') : null; })();
 const DT3 = argv.includes('--dt3');       // 第255便d(N8): dt/4 段を足して 3 段+観測次数を出す
+// 第258便d(第50報 W4): **h8 検査点**。--dt8 id1,id2 で指定した系にだけ dt/8=0.002 の 4 段目を足す。
+// 目的は 2 つ: (a) 3 段で出した観測次数 p_obs が h をもう 1 段細かくしても同じか(漸近域に居るか)、
+// (b) |Q_h−Q_{h/4}|/(1−4^−p) という**推定誤差**が、実際に測った |Q_{h/2}−Q_{h/8}| と整合するか。
+// **予算の都合で 1 系だけ走らせる**(⚡)。走らせていない系は「未走行」と書く(推定で埋めない)。
+const DT8 = (() => { const i = argv.indexOf('--dt8');
+  return (i >= 0 && argv[i + 1] && !argv[i + 1].startsWith('--')) ? argv[i + 1].split(',') : null; })();
 // 第257便d(第49報・3 審査 v15 一致): **dt/4 段の時間予算の既定を 30 s → 80 s にする**。
 // これは**計算時間の予算**であって精度条件の緩和ではない —— 第256便d は 🧶 の dt/4 を
 // `--budget 80` で走らせないと 20 近点窓が埋まらず(予算 30 s では 15 公転で切れて 2 段に落ちた)、
@@ -474,6 +484,31 @@ await pg.evaluate((PERI_WINDOW) => {   // 第252便b: 近点間周期の固定�
         slope = sxy / sxx;
         resid = Math.sqrt(ang.reduce((s, a, i) => s + (a - (my + slope * (i - mx))) ** 2, 0) / n);
       }
+      // 第258便d(第50報 W4): **deg/yr の門**のための、unwrap した近点角の**実時刻**への線形 fit。
+      // 上の slope は「近点番号に対する」傾き(°/周)で、deg/yr へ直すには周期を 1 つ選ぶ必要がある
+      // (⚡ は P_b と ω̇ が**別解**から来ているので、その換算は 2 つの解をまたぐ)。
+      // ここでは横軸を**時刻そのもの**(k·dt = シミュレータ時間)にして傾きを取り、
+      // 時系(t の範囲)と**傾きの分散・共分散**も残す。年の長さへの換算は node 側で行う。
+      let timeFit = null;
+      if (n >= 2) {
+        const ts = []; for (let i = 0; i < n; i++) ts.push(use[i].k * dt);
+        const mt = ts.reduce((a, b) => a + b, 0) / n, ma = ang.reduce((a, b) => a + b, 0) / n;
+        let sxy = 0, sxx = 0;
+        for (let i = 0; i < n; i++) { sxy += (ts[i] - mt) * (ang[i] - ma); sxx += (ts[i] - mt) * (ts[i] - mt); }
+        const sl = (sxx > 0) ? sxy / sxx : null;
+        let ss = 0;
+        if (sl !== null) for (let i = 0; i < n; i++) { const rr2 = ang[i] - (ma + sl * (ts[i] - mt)); ss += rr2 * rr2; }
+        const s2 = (n > 2) ? ss / (n - 2) : 0;
+        timeFit = { nPeri: n, slopeRadPerTime: sl,
+          slopeDegPerTime: (sl === null) ? null : sl * 180 / Math.PI,
+          t0: ts[0], t1: ts[n - 1], tSpan: ts[n - 1] - ts[0], dt,
+          varSlope: (sxx > 0) ? s2 / sxx : null,
+          seSlopeDegPerTime: (sxx > 0) ? Math.sqrt(s2 / sxx) * 180 / Math.PI : null,
+          varIntercept: (sxx > 0) ? s2 * (1 / n + mt * mt / sxx) : null,
+          covSlopeIntercept: (sxx > 0) ? -s2 * mt / sxx : null,
+          residRmsDeg: Math.sqrt(ss / n) * 180 / Math.PI,
+          note: '横軸は**時刻**(k·dt = シミュレータ時間単位)。近点番号ではない' };
+      }
       // 第252便b(第44報): **近点間周期の窓を「最初の 20 近点(19 区間)」へ固定**する。
       // 第251便 統括の未解決「近点間平均の窓感度で ⚡🧿🪶 の周期残差が 0.66pt 割れる」への処置で、
       // 窓の長さがサンプルごとの走行長(時間予算)で決まっていたのをやめ、**宣言した固定窓**にする。
@@ -482,7 +517,7 @@ await pg.evaluate((PERI_WINDOW) => {   // 第252便b: 近点間周期の固定�
       const perAll = []; for (let i = 1; i < use.length; i++) perAll.push((use[i].k - use[i - 1].k) * dt);
       const win = use.slice(0, PERI_WINDOW), measured = (win.length >= PERI_WINDOW);
       return { nPeri: n, rej, slopeDeg: slope === null ? null : slope * 180 / Math.PI,
-        residDeg: resid === null ? null : resid * 180 / Math.PI,
+        residDeg: resid === null ? null : resid * 180 / Math.PI, timeFit,
         perMean: measured ? (win[PERI_WINDOW - 1].k - win[0].k) * dt / (PERI_WINDOW - 1) : null,
         perMeanAll: perAll.length ? perAll.reduce((a, b) => a + b, 0) / perAll.length : null,
         perWindow: PERI_WINDOW, perFound: use.length, perUnmeasured: !measured,
@@ -540,7 +575,14 @@ const out = { meta: {
     + '走らせて初めて 20 近点窓が埋まった)。予算で切れて窓が埋まらなかった行は '
     + '`unmeasuredReason:"time-budget"`、時間が余っているのに埋まらない行は `"window"` と分けて記録する。'
     + '**機種依存の量**なので、dt・近点数とは別の欄(run.timeBudget)に置く。',
-  verdicts: ['合', '窓', '否', '従', '転'],
+  verdicts: VERDICTS6,
+  verdictsNote: '第258便d(第50報 W4): 5 区分に **`条`(condition-mismatch)** を足した。'
+    + '行が要求している条件(kFrame)と、割り当てられている測定値の走行条件が違う行の隔離である。'
+    + '**数値が間違っているのではなく、行の割り当てが間違っている** —— 元の証拠は '
+    + 'conditionRejectedEvidence に残す。',
+  dt8: DT8 ? { on: true, ids: DT8, dt: DT0 / 8,
+    note: '第258便d: h8 検査点。名指しした系だけ 4 段目を走らせる(予算の都合で 1 系)。'
+      + '走らせていない系は**未走行**である(推定で埋めない)。' } : { on: false },
   toleranceNote: '観測誤差が obsCard の obs 欄から読めた量は誤差で機械判定する。読めない量は ±1% を'
     + '「目安」として使い(guide:true)、確定基準にはしない。',
   periodNote: '公転周期は 2 定義(近点間 / 同方向 1 周)を両方測り、判定は同方向 1 周で行う'
@@ -590,6 +632,8 @@ for (const id of ids) {
   const levels = [{ dt: DT0, tag: 'dt' }];
   if (!FAST && !heavy) levels.push({ dt: DT0 / 2, tag: 'dt/2' });
   if (DT3 && !FAST && !heavy) levels.push({ dt: DT0 / 4, tag: 'dt/4' });   // 第255便d(N8)
+  // 第258便d(第50報 W4): **h8 検査点**。--dt8 で名指しした系にだけ 4 段目を足す(予算の都合で 1 系)。
+  if (DT8 && DT8.includes(id) && !FAST && !heavy) levels.push({ dt: DT0 / 8, tag: 'dt/8' });
 
   for (const lv of levels) {
     const rate = await pg.evaluate(({ id, dt }) => window.__w249rate(id, dt), { id, dt: lv.dt });
@@ -709,7 +753,8 @@ const VER = { OK: '合', WIN: '窓', NG: '否', DEP: '従', TR: '転' };
 // 観測の量の対応が未確定**な行(例: タイミング解の e_T と、距離の極値から作る eProxy)。
 // これは「合わない」でも「数値が足りない」でもない —— **定義の違う 2 量の差を棄却 σ として
 // 読まないため**の区分である(3σ は 1 mm も緩めない)。
-const GATE = { OK: '合(3σ)', NG: '否(3σ)', NUM: '数値未解決', MAP: 'mapping-unresolved', NA: '未判定' };
+// 第258便d(W4): GATE の語彙は `tests/lib-w258d-evidence.mjs` の 1 本に集約した(QA も同じ 1 本を読む)。
+// 第 5 の状態 `condition-mismatch` が足された(**合っていないのではなく、条件が違う**行の隔離)。
 // 第253便b(第45報・ChatGPT §7.1): ε_num の**書き方の正本**。dt 2 段の差は**感度診断**であって
 // 誤差上限ではない —— 漸近域でも粗い側の真の誤差は 2^p/(2^p−1)·|Q_h−Q_{h/2}| で、この差そのもの
 // より大きい(p=1 で 2 倍・p=2 で 1.33 倍)。旧文言「上限としての宣言」は撤回する。
@@ -782,6 +827,7 @@ for (const P of out.presets) {
   const base = P.runs.find((r) => r.tag === 'dt') || P.runs[0];
   const half = P.runs.find((r) => r.tag === 'dt/2') || null;
   const quarter = P.runs.find((r) => r.tag === 'dt/4') || null;   // 第255便d(N8): 3 段目
+  const eighth = P.runs.find((r) => r.tag === 'dt/8') || null;    // 第258便d(W4): h8 検査点(4 段目)
   const version = (Number(d.physics.kFrame) > 0) ? 'dfm' : 'obs';
   const theory = THEORY_CONTROL.includes(d.id);
   const dep = DEPENDENT[d.id] || [];
@@ -1191,6 +1237,7 @@ for (const P of out.presets) {
   // 門そのものは --merge で持ち越した過去分にも掛けるため、**併合の後**に一括で付ける(下記)。
   const halfOf = (t) => (half ? (half.targets[base.targets.indexOf(t)] || null) : null);
   const quarterOf = (t) => (quarter ? (quarter.targets[base.targets.indexOf(t)] || null) : null);
+  const eighthOf = (t) => (eighth ? (eighth.targets[base.targets.indexOf(t)] || null) : null);
   const rawMeas = (q, t) => { if (!t) return null;
     // 第251便c: ε_num も**同じ定義**で作る(離心タイミング連星は dt/2 でも近点間)
     if (q.kind === 'period') {
@@ -1231,9 +1278,97 @@ for (const P of out.presets) {
     } else {
       q.numBoundDecl = (q.numBoundDt2 === null) ? null : numBoundDeclOf(q.numBoundDt2);
     }
+    // 第258便d(W4): **h8 検査点**(--dt8 で名指しした系だけ)。4 段が揃うと 2 つのことが測れる:
+    //   (a) 観測次数が h をもう 1 段細かくしても同じか(p_obs(h,h/2,h/4) 対 p_obs(h/2,h/4,h/8))
+    //   (b) |Q_h−Q_{h/4}|/(1−4^−p) という**推定誤差**が、実測の |Q_{h/2}−Q_{h/8}| と整合するか
+    const mEighth = rawMeas(q, eighthOf(t));
+    if (Number.isFinite(mEighth) && Number.isFinite(mQuarter) && Number.isFinite(mHalf) && Number.isFinite(q.meas)) {
+      const d2 = mHalf - mQuarter, d3 = mQuarter - mEighth;
+      const pHalf = (d2 !== 0 && d3 !== 0) ? Math.log2(Math.abs(d2 / d3)) : null;
+      q.h8 = { stages: { dt: q.meas, dtHalf: mHalf, dtQuarter: mQuarter, dtEighth: mEighth },
+        pObs3: q.pObs, pObsShifted: pHalf,
+        numBoundH4: q.numBoundDt3, numBoundH8: Math.abs(mHalf - mEighth),
+        estimateFromH4: refinedNumBound(q.numBoundDt3, q.pObs),
+        estimateFromH8: refinedNumBound(Math.abs(mHalf - mEighth), pHalf),
+        richardson: (Number.isFinite(pHalf) && pHalf > 0)
+          ? mEighth + (mEighth - mQuarter) / (Math.pow(2, pHalf) - 1) : null,
+        note: '**h8 検査点**(第258便d): dt/8=0.002 まで走らせた 1 系だけの欄である。'
+          + 'pObs3 は (h,h/2,h/4)・pObsShifted は (h/2,h/4,h/8) の観測次数で、'
+          + '**2 つが揃っていれば漸近域に居る**と読める(揃わなければ居ない)。'
+          + '門が読む ε_num は従来どおり |Q_h−Q_{h/4}| のままで、ここは記録である' };
+    }
+    // 第258便d(W4): ε_num の**推定誤差欄**(門は緩めない — |Q_h−Q_{h/4}| は上限ではないという記録)
+    if (q.numBoundDecl && Number.isFinite(q.numBoundDecl.value))
+      q.numBoundDecl.estimate = refinedNumBound(q.numBoundDecl.value,
+        Number.isFinite(q.numBoundDecl.order) ? q.numBoundDecl.order : null,
+        (q.numBoundDecl.steps >= 3) ? 4 : 2);
   }
 
-  const tally = {}; for (const v of Object.values(VER)) tally[v] = 0;
+  // ---------------------------------------------------------------- 第258便d(第50報 W4): deg/yr の門
+  // 3 審査 v16 の一致点:「⚡ は **deg/yr の門**で判定する(unwrap した近点角を**実時刻**に線形 fit し、
+  // 時系・年の長さ・傾きの共分散を記録する)。Hu 解の P_b/e_T と Kramer の ω̇ の**来歴を分ける**。
+  // **単位を変えても比 2 は直らない**」。従来の判定量「°/周」は**別欄に残す**(消さない)。
+  // ここでやるのは 3 つだけである:
+  //   ① 近点角の実時刻 fit の傾き(deg/シミュレータ時間)を、scaleExp の T と**年の長さ**で deg/yr へ。
+  //   ② CSV の deg/yr の値と σ を**換算せずにそのまま**使う(°/周 への換算は周期を 1 つ選ぶので、
+  //      ⚡ では Kramer の ω̇ と Hu の P_b という**別解をまたぐ**)。
+  //   ③ 同じ門(3σ+ε_num・ε_num ≤ 0.3σ・収束条件)を掛け、°/周 の門と**判定が動くか**を記録する。
+  const degYearRow = sigBody ? SIGMA_TABLE.get(sigBody + '|periastron_advance') : null;
+  const periodRow = sigBody ? SIGMA_TABLE.get(sigBody + '|orbital_period') : null;
+  for (const q of quantities) {
+    if (q.kind !== 'precession' || q.unit !== 'deg/orbit') continue;
+    const t = base.targets.find((z) => z.label === q.target) || null;
+    if (!t) continue;
+    const tfOf = (x) => (x && x.A && x.A.timeFit && Number.isFinite(x.A.timeFit.slopeDegPerTime))
+      ? x.A.timeFit : null;
+    const f0 = tfOf(t), fH = tfOf(halfOf(t)), fQ = tfOf(quarterOf(t)), fE = tfOf(eighthOf(t));
+    if (!f0) { q.degYear = { measured: false,
+      reason: '**未走行/窓不足**: 近点角の実時刻 fit が取れない(検出器 A の近点が 2 個未満)' }; continue; }
+    const dy = (f) => (f ? degPerYear({ slopeDegPerSimTime: f.slopeDegPerTime, toSec: P.toSec }) : null);
+    const v0 = dy(f0), vH = dy(fH), vQ = dy(fQ), vE = dy(fE);
+    let nb = null, pObs = null, stages = 1;
+    if (Number.isFinite(vH)) { nb = Math.abs(v0 - vH); stages = 2; }
+    if (Number.isFinite(vQ) && Number.isFinite(vH)) {
+      nb = Math.abs(v0 - vQ); stages = 3;
+      const d1 = v0 - vH, d2 = vH - vQ;
+      pObs = (d1 !== 0 && d2 !== 0) ? Math.log2(Math.abs(d1 / d2)) : null;
+    }
+    const conv = (stages >= 3) && Number.isFinite(pObs) && pObs > 0;
+    const obsV = (degYearRow && Number.isFinite(degYearRow.value)) ? degYearRow.value : null;
+    const obsS = (degYearRow && Number.isFinite(degYearRow.sigma) && degYearRow.sigma > 0)
+      ? degYearRow.sigma : null;
+    q.degYear = { measured: true, unit: 'deg/yr', yearSec: YEAR_SEC,
+      yearNote: '年の長さは**単位の約束**(ユリウス年 365.25 d = 3.15576×10⁷ s)であって観測ではない',
+      meas: v0, stages: { dt: v0, dtHalf: vH, dtQuarter: vQ, dtEighth: vE }, nStages: stages,
+      numBound: nb, pObs, converged: conv,
+      numBoundEstimate: refinedNumBound(nb, pObs, (stages >= 3) ? 4 : 2),
+      obs: obsV, sigma: obsS,
+      timeFit: { nPeri: f0.nPeri, t0: f0.t0, t1: f0.t1, tSpanSim: f0.tSpan,
+        tSpanSec: (Number.isFinite(f0.tSpan)) ? f0.tSpan * P.toSec : null,
+        tSpanYr: (Number.isFinite(f0.tSpan)) ? f0.tSpan * P.toSec / YEAR_SEC : null,
+        slopeDegPerSimTime: f0.slopeDegPerTime, seSlopeDegPerTime: f0.seSlopeDegPerTime,
+        seDegPerYr: Number.isFinite(f0.seSlopeDegPerTime)
+          ? degPerYear({ slopeDegPerSimTime: f0.seSlopeDegPerTime, toSec: P.toSec }) : null,
+        varSlope: f0.varSlope, varIntercept: f0.varIntercept, covSlopeIntercept: f0.covSlopeIntercept,
+        residRmsDeg: f0.residRmsDeg,
+        note: '**横軸は時刻**(k·dt)であって近点番号ではない。共分散は fit の残差分散から作った '
+          + '2×2(傾き・切片)である — 観測の誤差ではなく**この fit の内的な散らばり**である' },
+      degPerOrbit: { meas: q.meas, obs: q.obs, unit: 'deg/orbit',
+        note: '**別欄として残す**(第250便c 以来の判定量)。°/周 は周期を 1 つ選ばないと作れない' },
+      provenance: {
+        omegaDot: degYearRow ? String(degYearRow.source).slice(0, 110) : null,
+        orbitalPeriod: periodRow ? String(periodRow.source).slice(0, 110) : null,
+        separated: !!(degYearRow && periodRow
+          && String(degYearRow.source).slice(0, 24) !== String(periodRow.source).slice(0, 24)),
+        note: 'ω̇ と P_b の**来歴を分ける**。⚡ では ω̇ が Kramer et al. (2021) PRX 11 041050 Table IV、'
+          + 'P_b は Hu et al. (2022) A&A 667 A149 の**別解**である。deg/yr の門は ω̇ の一次表だけを'
+          + '使うので、°/周 への換算が持っていた「2 つの解をまたぐ」問題が無い' },
+      ratioToObs: (Number.isFinite(v0) && Number.isFinite(obsV) && obsV !== 0) ? v0 / obsV : null };
+    q.degYear.gate = assessDegYearGate({ value: v0, reference: obsV, sigma: obsS,
+      numBound: nb, converged: conv });
+  }
+
+  const tally = {}; for (const v of VERDICTS6) tally[v] = 0;
   for (const q of quantities) tally[q.verdict] = (tally[q.verdict] || 0) + 1;
 
   report.push({ id: d.id, emoji: d.emoji, name: d.name, version,
@@ -1244,6 +1379,7 @@ for (const P of out.presets) {
       nan: base.nan, clamp: base.clamp, warnings: base.warnings.length,
       dtHalf: half ? { dt: half.dt, steps: half.steps } : null,
       dtQuarter: quarter ? { dt: quarter.dt, steps: quarter.steps } : null,   // 第255便d(N8)
+      dtEighth: eighth ? { dt: eighth.dt, steps: eighth.steps, wallSec: eighth.wallSec } : null,  // 第258便d(W4)
       // 第257便d: 段ごとの**計算時間予算**(機種依存の欄 — dt・近点数とは分けて置く)
       timeBudget: P.runs.map((z) => Object.assign({ tag: z.tag }, z.timeBudget || {})) },
     correlates, quantities, tally, notes });
@@ -1363,10 +1499,16 @@ for (const r of merged) for (const q of (r.quantities || [])) {
   // 本便の走行は 2 段・order:null なので、この条件は**全量で偽**になり、門の 3σ 判定は
   // 「数値未解決」へ保留される(判定を甘くする方向の変更ではない — 厳しくする方向である)。
   // --merge で持ち越した過去分の行にも第253便b の文言を張り直す(値・段数・次数は動かさない)
-  if (q.numBoundDecl && Number.isFinite(q.numBoundDecl.value))
+  if (q.numBoundDecl && Number.isFinite(q.numBoundDecl.value)) {
     q.numBoundDecl = numBoundDeclOf(q.numBoundDecl.value,
       Number.isFinite(q.numBoundDecl.steps) ? q.numBoundDecl.steps : 2,
       Number.isFinite(q.numBoundDecl.order) ? q.numBoundDecl.order : null);
+    // 第258便d(W4): **ε_num の推定誤差欄**を、--merge で持ち越した過去分の行にも張る。
+    // |Q_h−Q_{h/k}| は上限ではない —— 漸近形なら /(1−k^−p) 倍である(門は緩めも締めもしない)。
+    q.numBoundDecl.estimate = refinedNumBound(q.numBoundDecl.value,
+      Number.isFinite(q.numBoundDecl.order) ? q.numBoundDecl.order : null,
+      (q.numBoundDecl.steps >= 3) ? 4 : 2);
+  }
   const nbd = q.numBoundDecl || null;
   const convOK = numBound !== null && !!nbd
     && Number.isFinite(nbd.steps) && nbd.steps >= 3
@@ -1416,6 +1558,24 @@ for (const r of merged) for (const q of (r.quantities || [])) {
   q.gate = g;
 }
 
+// ---------------------------------------------------------------- 第258便d(第50報 W4)
+// **① 条件不一致の隔離**。obsCard の行が「kFrame=0 対照」と要求しているのに、割り当てられている
+// 測定値は kFrame=1 の走行のものである行が 8 行ある(🟠 木星衛星 4・🌇 金星・🥔 火星衛星の対照差・
+// ❄️ 冥王星/カロン・🌊 海王星)。プリセットの physics は 1 つなので、**1 回の走行から 2 つの条件の
+// 行へ同じ数値が配られていた**。これは「合っている」でも「合っていない」でもなく、**条件が違う**。
+// 元の証拠は `conditionRejectedEvidence` に残し(捨てない)、判定を `条` にして tally を再計算する。
+// **全 339 量に requiredContext / measurementContext を立てる**(新走行だけでなく、--merge で
+// 持ち越した過去分にも。どの条件の走行から来た数値なのかが、行ごとに JSON から辿れるようにする)。
+const conditionResult = enforceAllConditions(merged);
+// **② 証拠付き予測の資格**。③(3σ)を通っただけでは ④ に数えない —— `usedForFit:false` /
+// `validation:"held-out"` / `dataset` / `frozenProtocol` の 4 つが宣言として揃った量だけを数える。
+// **現行の宣言は 0 件である**(プリセットにも CSV にもこの 4 つを書いた行が無い)。
+for (const r of merged) for (const q of (r.quantities || [])) {
+  const pe = predictionEligible(q);
+  q.predictionEligible = pe.eligible;
+  q.predictionEligibleReasons = pe.reasons;
+}
+
 out.presets = merged;   // decl/run の生データは残さず、判定済みの表を正本にする
 // ---- 第250便c: 量の総数と、I2 の機械門の集計(5 区分の tally はそのまま残す)----
 const allQ = merged.flatMap((r) => r.quantities || []);
@@ -1442,13 +1602,28 @@ const stage2 = allQ.filter((q) => hasSig(q) && q.gate.definitionDeclared === tru
   && (PRIMARY_VERIFIED.has(q.gate.key) || (q.gate.sigmaFrom === 'csv' && q.sigmaPrimaryVerified === true)));
 const stage3 = allQ.filter((q) => q.gate && q.gate.status === GATE.OK);
 const stage4 = stage3.filter((q) => q.verdict !== VER.DEP);
+// 第258便d(W4): **④ は「証拠付き予測」**へ。③ を通っただけでは数えない(宣言が 4 つ要る)。
+const stage4ev = allQ.filter((q) => q.predictionEligible === true);
 const mapUnres = allQ.filter((q) => q.gate && q.gate.status === GATE.MAP);
+const condMis = allQ.filter((q) => q.gate && q.gate.status === GATE.COND);
 out.summary = { nPresets: merged.length,
   stages: {
-    note: '第257便d(第49報・3 審査 v15): 門を**4 段**で読む。段は排他ではなく階段である。'
-      + '**3σ は 1 mm も緩めていない** —— 足したのは「定義の違う 2 量の差を棄却 σ として読まない」区分だけである。',
+    note: '第258便d(第50報・3 審査 v16): 段は**階段ではない**。**①(数値収束)と ②(観測量対応)は'
+      + '独立な集合**である —— 数値が収束していなくても観測量対応は宣言できるし、その逆もある'
+      + '(①∩② が空でないだけで、①→② という順序は無い)。**④ ⊆ ③ だけが包含である**。'
+      + '第258便d で ④ は「③ のうち従属量でないもの」から「**証拠付き予測**」へ狭めた ——'
+      + '`usedForFit:false` / `validation:"held-out"` / `dataset` / `frozenProtocol` の 4 つが'
+      + '宣言として揃った量だけを数える。**現行は 0 件である**(宣言が無い)。'
+      + '**3σ は 1 mm も緩めていない**。',
     '①数値収束': stage1.length, '②観測量対応': stage2.length,
-    '③観測適合(3σ)': stage3.length, '④予測(従属量でない③)': stage4.length,
+    '③観測適合(3σ)': stage3.length,
+    '④予測(従属量でない③)': stage4.length,
+    '④予測(証拠付き)': stage4ev.length,
+    predictionNote: '「④予測(従属量でない③)」は第257便d までの弱い数え方(' + stage4.length + ' 件)で、'
+      + '**証拠付き予測は ' + stage4ev.length + ' 件**である。③ を通ったからといって予測ではない ——'
+      + 'fit に使っていないこと・hold-out であること・どのデータか・凍結手順、の 4 つが要る。',
+    conditionMismatch: condMis.length,
+    conditionMismatchKeys: condMis.map((q) => (q.gate && q.gate.key) || null),
     mappingUnresolved: mapUnres.length,
     mappingUnresolvedKeys: mapUnres.map((q) => (q.gate && q.gate.key) || null),
     stage3Keys: stage3.map((q) => q.gate.key),
@@ -1509,8 +1684,136 @@ out.summary = { nPresets: merged.length,
       + '保留が外れて**合否がその場で出た** —— 観測版 ✨🌟 が「合(3σ)」、**DFM 版 ✴️💫 が「否(3σ)」**である'
       + '(sigma3 が 0 でなくなったのは、判定が甘くなったからではなく、保留の条件を満たしたからである)。' } };
 
+// ---------------------------------------------------------------- 第258便d(W4): 3 つの新しい欄
+// (a) 条件不一致の一覧(隔離した行と、捨てていない元の証拠)
+out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
+  rule: '行が明記している条件(現行の宣言は kFrame だけ)と、その行に割り当てられている測定値の'
+    + '走行条件が違うとき、判定を `条`(condition-mismatch)にして隔離する。**宣言である**'
+    + '(閾値による自動判定ではない)。元の測定値・残差は conditionRejectedEvidence に残す —— '
+    + '**数値が間違っているのではなく、行の割り当てが間違っている**。',
+  fix: '対照条件の走行を**別に**行い、その行へ割り当てる。プリセットの physics は変えない'
+    + '(検証器の中で physics を差し替えた診断コピーを走らせる)。',
+  note: '**「対照が合っていた」という記録は、この便で 1 件も残っていない** —— '
+    + '対照条件の走行そのものが行われていなかったからである。' };
+// (b) deg/yr の門(⚡🧮🩺🧶 の近点移動)
+{
+  const rows = [];
+  for (const r of merged) for (const q of (r.quantities || [])) {
+    if (!q.degYear || q.degYear.measured !== true) continue;
+    rows.push({ id: r.id, emoji: r.emoji, target: q.target,
+      measDegPerYr: q.degYear.meas, obsDegPerYr: q.degYear.obs, sigmaDegPerYr: q.degYear.sigma,
+      ratio: q.degYear.ratioToObs, nSigma: q.degYear.gate ? q.degYear.gate.nSigma : null,
+      statusDegYear: q.degYear.gate ? q.degYear.gate.status : null,
+      statusDegPerOrbit: q.gate ? q.gate.status : null,
+      moved: !!(q.gate && q.degYear.gate && q.gate.status !== q.degYear.gate.status),
+      measDegPerOrbit: q.meas, obsDegPerOrbit: q.obs,
+      ratioDegPerOrbit: (Number.isFinite(q.meas) && Number.isFinite(q.obs) && q.obs !== 0) ? q.meas / q.obs : null,
+      tSpanYr: q.degYear.timeFit ? q.degYear.timeFit.tSpanYr : null,
+      nPeri: q.degYear.timeFit ? q.degYear.timeFit.nPeri : null,
+      seDegPerYr: q.degYear.timeFit ? q.degYear.timeFit.seDegPerYr : null,
+      provenanceSeparated: q.degYear.provenance ? q.degYear.provenance.separated : null });
+  }
+  out.degYearGate = { n: rows.length, rows,
+    rule: '近点角を unwrap して**実時刻**に線形 fit し、傾きを deg/yr へ直して CSV の deg/yr の'
+      + '値・σ と**換算せずに**比べる。°/周 は別欄に残す(degPerOrbit)。',
+    unitNote: '**単位を変えても比は直らない** —— ratio(deg/yr)と ratioDegPerOrbit を並べて置いたのは'
+      + 'そのためである。比が 2 に近いのは単位の取り違えではない。',
+    provenanceNote: '⚡ の ω̇ は Kramer et al. (2021) PRX 11 041050 Table IV、P_b は Hu et al. (2022) '
+      + 'A&A 667 A149 の**別解**である。deg/yr の門は ω̇ の一次表だけを使うので、'
+      + '°/周 への換算が持っていた「2 つの解をまたぐ」問題が無い。',
+    moved: rows.filter((z) => z.moved).length };
+}
+// (c) h8 検査点(--dt8 で名指しした系だけ。走らせていない系は **未走行** と書く)
+{
+  const rows = [];
+  for (const r of merged) for (const q of (r.quantities || [])) {
+    if (!q.h8) continue;
+    rows.push({ id: r.id, emoji: r.emoji, kind: q.kind, target: q.target,
+      stages: q.h8.stages, pObs3: q.h8.pObs3, pObsShifted: q.h8.pObsShifted,
+      numBoundH4: q.h8.numBoundH4, numBoundH8: q.h8.numBoundH8,
+      estimateFromH4: q.h8.estimateFromH4 ? q.h8.estimateFromH4.refined : null,
+      estimateFactorH4: q.h8.estimateFromH4 ? q.h8.estimateFromH4.factor : null,
+      richardson: q.h8.richardson });
+  }
+  out.h8 = { requested: DT8 || null, n: rows.length, rows,
+    notRun: DT8 ? null : '**未走行**(--dt8 を指定していない走行である)',
+    rule: 'dt/8=0.002 の 4 段目。pObs3=(h,h/2,h/4)・pObsShifted=(h/2,h/4,h/8) の観測次数を並べる'
+      + '(**2 つが揃えば漸近域に居る**と読める)。門が読む ε_num は |Q_h−Q_{h/4}| のままで、'
+      + '**|Q_h−Q_{h/4}| は上限ではない** —— 漸近形なら /(1−4^−p) 倍(p≈1 で 4/3)である。' };
+}
+// (d) 40 本の**再判定台帳**(docs/CALIBRATION_VERDICT_v1.44.md の正本 — QA が突き合わせる)
+{
+  const V4 = { OK: '合', LIM: '量限定合', NG: '否', HOLD: '保留' };
+  const ledger = merged.map((r) => {
+    const qs = r.quantities || [];
+    const st = (s) => qs.filter((q) => q.gate && q.gate.status === s);
+    const ng = st(GATE.NG), ok = st(GATE.OK), num = st(GATE.NUM), map = st(GATE.MAP), cond = st(GATE.COND);
+    const withSig = qs.filter((q) => q.gate && Number.isFinite(q.gate.sigma) && q.gate.sigma > 0);
+    // 4 値: 否 > 量限定合 > 保留。**「合」は「その系のすべての判定量が 3σ を通った」ときだけ** ——
+    // 現行は 0 本である(どの系も σ の付いた量がすべて通ってはいない)。
+    let v4 = V4.HOLD;
+    if (ng.length) v4 = V4.NG;
+    else if (ok.length) v4 = (ok.length === withSig.length && withSig.length > 0) ? V4.OK : V4.LIM;
+    const missing = [];
+    if (cond.length) missing.push('条件不一致');
+    if (!withSig.length) missing.push('σ 未接続');
+    if (map.length) missing.push('写像未確定');
+    if (num.length) missing.push('数値精度');
+    if (qs.every((q) => !Number.isFinite(q.meas))) missing.push('未測定');
+    if (!missing.length) missing.push('(3σ を通った量がある — 残りは量の不足)');
+    const rep = (() => {
+      const c = ok[0] || ng[0] || num[0] || withSig[0] || null;
+      return c ? { kind: c.kind, nSigma: (c.gate && Number.isFinite(c.gate.nSigma)) ? c.gate.nSigma : null,
+        residualPct: Number.isFinite(c.residualPct) ? c.residualPct : null } : null;
+    })();
+    // **保存済み代表残差**(σ の有無に依らず、観測と突き合わせた量が残している残差)。
+    // 条件不一致で隔離した行は**含めない**(その行の残差は conditionRejectedEvidence にある)。
+    const cmp = qs.filter((q) => Number.isFinite(q.obs) && Number.isFinite(q.meas)
+      && q.verdict !== VERDICT_CONDITION);
+    const per = cmp.find((q) => q.kind === 'period' && Number.isFinite(q.residualPct)) || null;
+    const worst = cmp.filter((q) => Number.isFinite(q.residualPct))
+      .sort((a, b) => Math.abs(b.residualPct) - Math.abs(a.residualPct))[0] || null;
+    // **分類変更の提案**(提案だけ — プリセット JSON は 1 bit も変えない)。機械的な条件は 2 つ:
+    //   (a) 参照が観測でない(referenceKind:"theory-control")/ (b) 観測と突き合わせた量が 0 件
+    // どちらかなら「原理/参照」へ移す提案を立てる。**現実較正に数えない**という提案であって、
+    // そのサンプルが要らないという意味ではない。
+    const proposeRef = (r.referenceKind === 'theory-control') || cmp.length === 0;
+    return { id: r.id, emoji: r.emoji, version: r.version,
+      referenceKind: r.referenceKind || null, verdict4: v4,
+      gateCounts: { ok: ok.length, ng: ng.length, num: num.length, map: map.length,
+        cond: cond.length, withSigma: withSig.length, nQ: qs.length },
+      representative: rep, missing,
+      comparedCount: cmp.length,
+      residualPeriodPct: per ? per.residualPct : null,
+      residualWorst: worst ? { kind: worst.kind, pct: worst.residualPct } : null,
+      classProposal: proposeRef ? '原理/参照' : null,
+      classProposalReason: proposeRef
+        ? ((r.referenceKind === 'theory-control') ? '参照が観測ではなく理論値である(referenceKind:"theory-control")'
+          : '観測と突き合わせた量が 0 件である(転写・帳簿・宣言だけ)')
+        : null,
+      predictionEligible: qs.filter((q) => q.predictionEligible === true).length };
+  });
+  out.verdictLedger = { n: ledger.length, values: Object.values(V4), rows: ledger,
+    counts: Object.values(V4).reduce((a, v) => { a[v] = ledger.filter((z) => z.verdict4 === v).length; return a; }, {}),
+    rule: '**4 値**(合/量限定合/否/保留)。「合」は**その系の σ を持つ判定量がすべて 3σ を通った**ときだけ。'
+      + '「量限定合」は一部の量だけが通った系。「否」は 3σ を外した量がある系。'
+      + '「保留」は**判定できない**系(σ 未接続・写像未確定・数値精度・未測定・条件不一致)——'
+      + '**保留は否定ではない**(物理仮説が否定されたという意味ではまったくない)。',
+    note: 'docs/CALIBRATION_VERDICT_v1.44.md はこの欄の転記である(QA docs.calibration-verdict-sync が照合する)。' };
+}
+
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
 console.error(`[w249b] wrote ${OUT}`);
 console.error('[w249b] 判定集計 ' + JSON.stringify(out.summary.tally));
+console.error('[w258d] 条件不一致 ' + out.conditionMismatch.n + ' 行 / 証拠付き予測 '
+  + out.summary.stages['④予測(証拠付き)'] + ' 件(従属量でない③ は '
+  + out.summary.stages['④予測(従属量でない③)'] + ' 件)/ 門 '
+  + JSON.stringify(out.summary.gate.byStatus));
+console.error('[w258d] 4 値 ' + JSON.stringify(out.verdictLedger.counts)
+  + ' / deg/yr 門 ' + out.degYearGate.n + ' 行(判定が動いた行 ' + out.degYearGate.moved + ')'
+  + ' / h8 ' + out.h8.n + ' 欄');
+for (const z of out.degYearGate.rows) console.error(`  ${z.emoji} ${z.id} deg/yr ${z.measDegPerYr === null ? '—' : z.measDegPerYr.toPrecision(7)}`
+  + ` 対 ${z.obsDegPerYr} (比 ${z.ratio === null ? '—' : z.ratio.toFixed(4)}・°/周の比 ${z.ratioDegPerOrbit === null ? '—' : z.ratioDegPerOrbit.toFixed(4)})`
+  + ` ${z.statusDegYear} / °周 ${z.statusDegPerOrbit}`);
 for (const p of pairs) console.error(`  ρ(${p.correlate}) = ${p.rho === null ? 'n/a' : p.rho.toFixed(3)} (n=${p.n})`);

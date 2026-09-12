@@ -203,7 +203,9 @@ if (!TARGET.startsWith('beta/')) {
       if (seg.includes('sampleClass:"calibration"')) calIds.push(marks[i][1]);
       if (seg.includes('referenceKind:"theory-control"')) theoryIds.push(marks[i][1]);
     }
-    const VERDICTS = ['合', '窓', '否', '従', '転'];
+    // 第258便d(第50報 W4): 5 区分に **`条`(condition-mismatch)** を足した。
+    // 行が要求する条件(kFrame)と、割り当てられている測定値の走行条件が違う行の隔離である。
+    const VERDICTS = ['合', '窓', '否', '従', '転', '条'];
     let ok = false, detail = '';
     try {
       const j = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
@@ -24564,8 +24566,21 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     if (!st) bad.push('①summary.stages が無い');
     else for (const k of KEYS) if (!Number.isFinite(st[k])) bad.push(`①段が無い: ${k}`);
     if (!(j.summary && j.summary.keyAliases)) bad.push('③読み替え表 summary.keyAliases が無い');
-    const STATUS = ['合(3σ)', '否(3σ)', '数値未解決', 'mapping-unresolved', '未判定'];
+    const STATUS = ['合(3σ)', '否(3σ)', '数値未解決', 'mapping-unresolved', 'condition-mismatch', '未判定'];
     let nGate = 0, nOni = 0, nMap = 0, nDecl = 0;
+    // ---- 第258便d(第50報 W4)で足した 5 条件 ----
+    //   ⑥ **条件不一致**: 行が要求する条件(kFrame)と走行条件が違う行が `condition-mismatch` で
+    //      隔離され、**元の証拠が conditionRejectedEvidence に残っている**。現行は 8 行で、
+    //      **venusReal を含む**(🟠×4・🌇・🥔・❄️・🌊)。全量に requiredContext/measurementContext が立つ。
+    //   ⑦ **証拠付き予測**: ④ は「③ のうち従属量でない」ではなく `predictionEvidence` の 4 宣言
+    //      (usedForFit:false / validation:"held-out" / dataset / frozenProtocol)が揃った量だけ。
+    //      **宣言が 1 つも無いので 0 件である**(0 であることを固定する)。
+    //   ⑧ **deg/yr の門**: NS 連星の近点移動に deg/yr の欄があり、°/周 が別欄に残り、
+    //      **実時刻 fit の時系・年の長さ・傾きの共分散**が記録されている。
+    //   ⑨ **①② は独立**: 集計の note が「階段」ではなく「①②は独立・④⊆③」と書いてある。
+    //   ⑩ **h8 検査点**: 走らせた系には 4 段の欄(pObs3 と pObsShifted)があり、
+    //      ε_num の**推定誤差欄** `/(1−4^−p)` が付いている。走らせていないなら n=0 で良い。
+    let nCond = 0, nCtx = 0, nPredEv = 0, nDegYear = 0;
     for (const p of (j.presets || [])) for (const q of (p.quantities || [])) {
       const g = q.gate; if (!g) continue;
       nGate++;
@@ -24590,7 +24605,71 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         if (q.kind !== 'ecc') bad.push(`④宣言外の量が mapping-unresolved ${p.id}|${q.kind}`);
         if (!g.mappingNote) bad.push(`④mapping-unresolved に理由が無い ${p.id}|${q.kind}`);
       }
+      // ⑥ 条件不一致の隔離(第258便d)
+      if (q.requiredContext && q.measurementContext) nCtx++;
+      else bad.push(`⑥条件の印が無い ${p.id}|${q.kind}`);
+      if (g.status === 'condition-mismatch') {
+        nCond++;
+        if (q.verdict !== '条') bad.push(`⑥隔離した行の 5 区分が 条 でない ${p.id}|${q.kind}`);
+        if (!q.conditionRejectedEvidence) bad.push(`⑥元の証拠が残っていない ${p.id}|${q.kind}`);
+        if (!q.conditionMismatch || q.conditionMismatch.requiredKFrame === q.conditionMismatch.measuredKFrame)
+          bad.push(`⑥条件不一致の理由が無い ${p.id}|${q.kind}`);
+      } else if (q.verdict === '条') bad.push(`⑥5 区分だけ 条 で門が違う ${p.id}|${q.kind}`);
+      // ⑦ 証拠付き予測(宣言の 4 つが揃わなければ資格なし)
+      if (typeof q.predictionEligible !== 'boolean') bad.push(`⑦predictionEligible が無い ${p.id}|${q.kind}`);
+      if (q.predictionEligible === true) {
+        nPredEv++;
+        const ev = q.predictionEvidence || null;
+        if (!ev || ev.usedForFit !== false || ev.validation !== 'held-out' || !ev.dataset || !ev.frozenProtocol)
+          bad.push(`⑦証拠なしで予測に数えている ${p.id}|${q.kind}`);
+      }
+      // ⑧ deg/yr の門(測れた行だけ — °/周 が別欄に残り、時系と共分散がある)
+      if (q.degYear && q.degYear.measured === true) {
+        nDegYear++;
+        const dg = q.degYear;
+        if (dg.unit !== 'deg/yr') bad.push(`⑧deg/yr の単位宣言が無い ${p.id}`);
+        if (!(dg.yearSec > 0)) bad.push(`⑧年の長さが記録されていない ${p.id}`);
+        if (!dg.degPerOrbit || !Number.isFinite(dg.degPerOrbit.meas))
+          bad.push(`⑧°/周 の別欄が残っていない ${p.id}`);
+        const tf = dg.timeFit || null;
+        if (!tf || !Number.isFinite(tf.tSpanYr) || !(tf.nPeri >= 2))
+          bad.push(`⑧実時刻 fit の時系が無い ${p.id}`);
+        if (!tf || !Number.isFinite(tf.varSlope) || !Number.isFinite(tf.covSlopeIntercept))
+          bad.push(`⑧傾きの共分散が無い ${p.id}`);
+        if (!dg.provenance || !dg.provenance.note) bad.push(`⑧ω̇ と P_b の来歴が分けられていない ${p.id}`);
+        if (!dg.gate || STATUS.indexOf(dg.gate.status) < 0) bad.push(`⑧deg/yr の門の状態が未知 ${p.id}`);
+      }
+      // ⑩ h8 検査点(走らせた行だけ)
+      if (q.h8) {
+        if (!q.h8.stages || !Number.isFinite(q.h8.stages.dtEighth)) bad.push(`⑩h8 の 4 段目が無い ${p.id}|${q.kind}`);
+        if (!('pObsShifted' in q.h8)) bad.push(`⑩ずらした観測次数が無い ${p.id}|${q.kind}`);
+        if (!q.h8.estimateFromH4) bad.push(`⑩推定誤差欄が無い ${p.id}|${q.kind}`);
+      }
+      if (q.numBoundDecl && Number.isFinite(q.numBoundDecl.value) && !q.numBoundDecl.estimate)
+        bad.push(`⑩ε_num の推定誤差欄が無い ${p.id}|${q.kind}`);
     }
+    // ⑥⑦⑨ 集計側(summary)の固定
+    if (st) {
+      if (!Number.isFinite(st['④予測(証拠付き)'])) bad.push('⑦④予測(証拠付き)の段が無い');
+      else if (st['④予測(証拠付き)'] !== nPredEv) bad.push('⑦証拠付き予測の集計が行と合わない');
+      if (!Number.isFinite(st.conditionMismatch)) bad.push('⑥summary に conditionMismatch が無い');
+      else if (st.conditionMismatch !== nCond) bad.push('⑥条件不一致の集計が行と合わない');
+      if (!/①②は独立|独立な集合/.test(String(st.note || ''))) bad.push('⑨集計の note が「①②は独立」になっていない');
+      if (!/④ ⊆ ③|④⊆③/.test(String(st.note || ''))) bad.push('⑨集計の note に「④⊆③」が無い');
+    }
+    if (nCond !== 8) bad.push(`⑥条件不一致が 8 行でない(${nCond} 行)`);
+    {
+      const ids = (j.conditionMismatch && Array.isArray(j.conditionMismatch.rows))
+        ? j.conditionMismatch.rows.map((z) => z.id) : [];
+      if (ids.indexOf('venusReal') < 0) bad.push('⑥条件不一致に venusReal が無い');
+      for (const need of ['jupiterGalilean', 'marsMoonsReal', 'plutoCharonReal', 'neptuneReal'])
+        if (ids.indexOf(need) < 0) bad.push(`⑥条件不一致に ${need} が無い`);
+      if (ids.filter((z) => z === 'jupiterGalilean').length !== 4) bad.push('⑥木星衛星の条件不一致が 4 行でない');
+    }
+    if (!j.degYearGate || !Array.isArray(j.degYearGate.rows)) bad.push('⑧degYearGate の欄が無い');
+    else if (j.degYearGate.rows.length !== nDegYear) bad.push('⑧deg/yr の集計が行と合わない');
+    if (!j.h8) bad.push('⑩h8 の欄が無い');
+    if (!j.verdictLedger || !Array.isArray(j.verdictLedger.rows)) bad.push('⑥再判定台帳(verdictLedger)が無い');
     const mf = (j.massFloat32 && Array.isArray(j.massFloat32.rows)) ? j.massFloat32.rows : null;
     let nBody = 0;
     if (!mf || !mf.length) bad.push('⑤massFloat32 の欄が無い');
@@ -24610,10 +24689,75 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         + ` / mapping-unresolved ${nMap} 件(宣言どおり ecc のみ)・定義宣言済み ${nDecl}/${nGate} 量`
         + ` / orbitNoiseIndicator ${nOni} 件(旧鍵 defSpreadPct とビット一致・門には入らない)`
         + ` / Float32 質量 ${nBody} 粒(保持質量 = fround(宣言)・ULP>0)`
+        + ` / **第258便d**: 条件不一致 ${nCond} 行(venusReal を含む)・条件の印 ${nCtx}/${nGate} 量`
+        + `・証拠付き予測 ${nPredEv} 件(従属量でない③ は ${st['④予測(従属量でない③)']} 件)`
+        + `・deg/yr の門 ${nDegYear} 行・h8 ${(j.h8 && j.h8.n) || 0} 欄`
       : '4 段の集計が読めない';
     detail += (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : '');
   } catch (err) { detail = 'calaudit-w249.json が読めない: ' + String(err).slice(0, 140); }
   add('behavior.calauditMapping', ok, detail);
+}
+
+// ---- 42A⁵) 第258便d(第50報 W4): docs.calibration-verdict-sync ----
+// ----   `docs/CALIBRATION_VERDICT_v1.44.md`(現実較正 40 本の再判定台帳)を機械固定する(fs のみ)。
+// ----     ① 台帳の行の ID 集合が、対象 HTML の sampleClass:"calibration" の ID 集合と**厳密一致**する。
+// ----     ② 判定は **4 値(合/量限定合/否/保留)だけ**である(第 5 の語を書かせない)。
+// ----     ③ 各行の判定が `tests/out/calaudit-w249.json` の `verdictLedger` と**一致**する
+// ----        (文書が測定から独立に動かないようにする —— 手で判定を書き換えたら落ちる)。
+// ----     ④ **「較正完了」「予測が成立」「保留=否定」を書いていない**(禁止語の機械検査)。
+// ----   **値そのものは窓にしない**(台帳は記録であって回帰窓ではない)。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const block = (html.match(/const BUILTIN_PRESETS = \[([\s\S]*?)\n\];/) || [, ''])[1];
+  // 台帳は棚卸し(beta 世代の 40 本)を写したものなので、旧世代の root など
+  // 第249便b の referenceKind 宣言を持たない対象では SKIP する(docs.calaudit-sync と同じ門)。
+  if (!/referenceKind:"theory-control"/.test(block)) {
+    console.log('SKIP docs.calibration-verdict-sync(対象に第249便b の referenceKind 宣言なし — 旧世代の root 等)');
+  } else {
+    const marks = [...block.matchAll(/\{ id:"(\w+)"/g)];
+    const calIds = [];
+    for (let i = 0; i < marks.length; i++) {
+      const seg = block.slice(marks[i].index, (i + 1 < marks.length) ? marks[i + 1].index : block.length);
+      if (seg.includes('sampleClass:"calibration"')) calIds.push(marks[i][1]);
+    }
+    const V4 = ['合', '量限定合', '否', '保留'];
+    let ok = false, detail = '';
+    try {
+      const md = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
+      const j = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+      const byId = new Map(((j.verdictLedger || {}).rows || []).map((r) => [r.id, r]));
+      const bad = [], seen = [];
+      for (const line of md.split('\n')) {
+        const m = line.match(/^\|\s*`(\w+)`\s*\|/);
+        if (!m) continue;
+        const cells = line.split('|').map((s) => s.trim());
+        // cells[0] は空・cells[1]=ID・cells[2]=絵文字・cells[3]=版・cells[4]=判定
+        const id = m[1], v = cells[4];
+        seen.push(id);
+        if (V4.indexOf(v) < 0) bad.push(`②4 値の外: ${id}→${String(v).slice(0, 12)}`);
+        const led = byId.get(id);
+        if (!led) bad.push(`③JSON の台帳に無い: ${id}`);
+        else if (led.verdict4 !== v) bad.push(`③判定が JSON と食い違う: ${id} 文書=${v} JSON=${led.verdict4}`);
+      }
+      const miss = calIds.filter((x) => seen.indexOf(x) < 0);
+      const extra = seen.filter((x) => calIds.indexOf(x) < 0);
+      const dup = seen.filter((x, i) => seen.indexOf(x) !== i);
+      if (miss.length) bad.push(`①文書に無い: ${miss.join(' ')}`);
+      if (extra.length) bad.push(`①HTML に無い: ${extra.join(' ')}`);
+      if (dup.length) bad.push(`①重複行: ${dup.join(' ')}`);
+      // ④ 禁止語(「書かない」と宣言している語を、**宣言の外で**書いていないか)。
+      //    鉤括弧の中は「その語を名指ししている」ので検査から外す(禁止語の一覧そのものを書けなくなる)。
+      for (const line of md.split('\n')) {
+        const bare = line.replace(/[「『][^」』]*[」』]/g, '');
+        if (/較正完了|現実較正が完成|予測が成立/.test(bare)) bad.push(`④禁止語: ${line.slice(0, 44)}`);
+      }
+      ok = bad.length === 0 && seen.length === calIds.length && calIds.length > 0;
+      detail = `${seen.length}/${calIds.length} 行 = 4 値 `
+        + V4.map((v) => `${v} ${seen.filter((id) => (byId.get(id) || {}).verdict4 === v).length}`).join(' / ')
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : '');
+    } catch (err) { detail = 'CALIBRATION_VERDICT_v1.44.md / calaudit-w249.json が読めない: ' + String(err).slice(0, 140); }
+    add('docs.calibration-verdict-sync', ok, detail);
+  }
 }
 
 // ---- 42A⁗) 第257便d(第49報・3 審査 v15): behavior.clusterVirial ----
