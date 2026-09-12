@@ -874,6 +874,32 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   - **どの内蔵プリセットも宣言していない。生成 AI はこのキーを使わない。** QA `behavior.meshCoordInertia`。
   - **限界**: T2 頂点メッシュは**局所的でない**(|a_I|/|g_N| が r=300→4800 で 1.97→1370 まで伸びる)ので、
     **遠方粒子・銀河・星団へこのまま当ててはならない**(docs/PHYSICS.md 第257便a ⑤3)。
+- **〔第258便a 追補〕支持関数つき局所場と η_eff(第50報・3 審査 v16 Q1c/ChatGPT §3.3・§3.6)**:
+  - **`inertiaSupport`**(`"none"` 既定 /`"support"`/`"chiCut"`/`"expGate"`)… 非局所性の門の**3 案**。
+    `"support"` は場そのものを純関数 `HP.dfmLocalMeshField` の**台がコンパクトな局所場**へ差し替える
+    (u・∇u・∂ₜu の 3 つとも)。`"chiCut"` は χ<`inertiaChiCut` で**当てない**(加速度の突然カット)、
+    `"expGate"` は ū へ exp(−(r/R)⁴) を掛ける(∇・∂ₜ は積の微分で入れる)。**どちらも対照**である。
+  - **`inertiaSupportR`**(正の数値・任意)… 支持半径 R。**無宣言なら頂点対の分離 r_sep の
+    `SPACE_MESH_SUPPORT_RSEP`=3 倍**(毎步)。**R は宣言値であって重力の切断半径ではない**
+    —— 重力(E4)へは 1 バイトも接続していない。
+  - **`inertiaChiCut`**(0〜1・既定 0.05)… `"chiCut"` の閾値。
+  - **箱の源では支持関数を掛けない**(空間一様な W_B に掛ける相手がいない)。宣言すると
+    `S.meshCoordStop="supportBox"` で停止する(黙って無視しない)。
+  - **`S.meshCoordStop` の値が 2 つ増えた**: `"noTargets"`(候補が全部頂点 = **2 体系の既定はこれ**)と
+    `"noU"`(u の履歴が無い/kFrame=0 で E6′ が走っていない)。`S.meshCoordOut` は支持外で当てなかった数。
+  - **η_eff = kFrame × `inertiaGain`**(契約変更): kFrame は E6′/E12 の追従の結合定数で、本則はその追従を
+    **置換**するので、置換後の強さも同じ結合で読む。**kFrame=0 では何も起こらない**。
+    実測(剛体箱・χ=W_B/(D₀+W_B)): 残差/(Ω²r)=**(1−kFrame·η·χ)²**。同じ箱で **E6′ は (1−kFrame·χ) の 1 乗**。
+    **q は χ に入らない**(q=1/3/6 で χ も残差も 8 桁一致)。
+  - **除去は「実際に当てた Δv」を引く**(第257便a は步末に式を再計算していた)。`_core` が ③/③′ を
+    通って速度へ入れた量そのものを控えて引く。**限界**: 本パスは `S._core` の後なので、步の途中の
+    Δv による**位置のずれは取り消せない**(多体で O(dt) の分割誤差)。また**引くのは対象粒子が受けた分だけ**で、
+    その粒子が相手へ配った反作用は戻さない(その非対称ぶんはリザーバ帳簿へ)。
+- **純関数(第258便a)**: **`HP.dfmLocalMeshField(sources, x, y, {D0,eps,p,R,bg})`** →
+  `{u,gradU,dUdt,chi,W,gradW,dWdt,nIn,D0,R}`。w_i=m_i(r_i²+ε²)^(−p/2)·C(r_i/R_i)・**C(z)=(1−z)⁴(1+4z)**(0≤z<1)・
+  0(z≥1)、u_i=v_i+ω_i ẑ×(x−x_i)、u=(Σw_iu_i+D₀u_bg)/(D₀+Σw_i)、**∇u=(∇N−u⊗∇D)/D**・
+  **∂ₜu=(∂ₜN−u·∂ₜD)/D**(商の微分)。源ごとに `{m,x,y,vx,vy,ax,ay,omega,omegaDot,R}` を読む。
+  **D₀=0 かつ支持内に源が無い点・R 無宣言・非有限は null**(0 で埋めない)。**力へは接続しない純関数**である。
 - **純関数 2 本(第257便a・力へは接続しない物差し)**:
   - **`HP.affineComovingStep({C,V,H,Omega,dt}, [x,y])`** → `{x,v,u,C,F,a,theta,fixedPoint,gradU,dUdt}`。
     x(t+h)=C+V·h+a·R(θ)(x−C)(a=e^{Hh}・θ=Ωh・**C も V·h 動く**)。**群**なので 100 分割と一括が

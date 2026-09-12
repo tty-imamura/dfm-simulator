@@ -13586,7 +13586,8 @@ if (!FAST) {
         return { dLraw: T.L - T0.L, Labs: Math.abs(T0.L) || 1,
           dPres: Math.hypot(T.px - T0.px + S.resPx, T.py - T0.py + S.resPy),
           dLres: (T.L - T0.L) + S.resL, mcE: S.meshCoordE, mcEm: S.meshCoordEmesh,
-          mcN: S.meshCoordN, nan: S.hasNaN(), stop: S.meshCoordStop,
+          mcN: S.meshCoordN, mcOut: S.meshCoordOut, nan: S.hasNaN(), stop: S.meshCoordStop,
+          st: [S.x[2], S.y[2], S.vx[2], S.vy[2]],   // 第258便a: 恒等比較に使う非頂点粒子の状態
           clamp: S.clampVN + S.clampSN + S.clampRN + S.clampTN + S.clampAN };
       };
       const rPair = ringRun({ inertia: 'coordinate' });
@@ -13615,6 +13616,69 @@ if (!FAST) {
           stop: S.meshCoordStop };
       })();
       R.neg = neg;
+      // ===== 第258便a(第50報・3 審査 v16)=====
+      // ⑧ **支持関数つき局所場**(純関数 HP.dfmLocalMeshField)の中央差分と支持端の連続
+      const LSRC = [{ m: 500, x: -120, y: 0, vx: 0.03, vy: -0.56, ax: 0.004, ay: 0.001 },
+        { m: 300, x: 140, y: 40, vx: -0.02, vy: 0.61, ax: -0.006, ay: 0.002, omega: 0.02 }];
+      const LO = { D0: 1e-3, eps: 0.05, p: 3, R: 700 };
+      const lf = (px, py, sr) => HP.dfmLocalMeshField(sr || LSRC, px, py, LO);
+      const advL = (h) => LSRC.map((b) => ({ m: b.m, x: b.x + b.vx * h + 0.5 * b.ax * h * h,
+        y: b.y + b.vy * h + 0.5 * b.ay * h * h, vx: b.vx + b.ax * h, vy: b.vy + b.ay * h,
+        ax: b.ax, ay: b.ay, omega: b.omega }));
+      let lg = 0, lgs = 0, lt = 0, lts = 0;
+      for (const q of [[60, 25], [-300, 110], [400, -380]]) {
+        const h = 1e-5 * Math.max(1, Math.hypot(q[0], q[1])), f0 = lf(q[0], q[1]);
+        const xp = lf(q[0] + h, q[1]), xm = lf(q[0] - h, q[1]);
+        const yp = lf(q[0], q[1] + h), ym = lf(q[0], q[1] - h);
+        const num = [(xp.u[0] - xm.u[0]) / (2 * h), (yp.u[0] - ym.u[0]) / (2 * h),
+          (xp.u[1] - xm.u[1]) / (2 * h), (yp.u[1] - ym.u[1]) / (2 * h)];
+        for (let k = 0; k < 4; k++) { lg = Math.max(lg, Math.abs(num[k] - f0.gradU[k])); lgs = Math.max(lgs, Math.abs(f0.gradU[k])); }
+        const hh = 1e-5, tp = lf(q[0], q[1], advL(hh)), tm = lf(q[0], q[1], advL(-hh));
+        const tn = [(tp.u[0] - tm.u[0]) / (2 * hh), (tp.u[1] - tm.u[1]) / (2 * hh)];
+        for (let k = 0; k < 2; k++) { lt = Math.max(lt, Math.abs(tn[k] - f0.dUdt[k])); lts = Math.max(lts, Math.abs(f0.dUdt[k])); }
+      }
+      const E1 = [{ m: 500, x: 0, y: 0, vx: 0.3, vy: -0.2, ax: 0.01, ay: 0.02 }];
+      const ein = HP.dfmLocalMeshField(E1, 700 - 1e-6, 0, LO), eout = HP.dfmLocalMeshField(E1, 700 + 1e-6, 0, LO);
+      R.local = { gRel: lg / Math.max(lgs, 1e-300), tRel: lt / Math.max(lts, 1e-300),
+        edgeU: Math.hypot(ein.u[0] - eout.u[0], ein.u[1] - eout.u[1]),
+        edgeG: Math.max(Math.abs(ein.gradU[0] - eout.gradU[0]), Math.abs(ein.gradU[1] - eout.gradU[1]),
+          Math.abs(ein.gradU[2] - eout.gradU[2]), Math.abs(ein.gradU[3] - eout.gradU[3])),
+        edgeT: Math.hypot(ein.dUdt[0] - eout.dUdt[0], ein.dUdt[1] - eout.dUdt[1]),
+        bgErr: (() => { const z = HP.dfmLocalMeshField([{ m: 1, x: 0, y: 0, vx: 5, vy: 5 }], 900, 0,
+          { R: 100, D0: 1, bg: { u: [1.25, -0.5] } }); return z ? Math.hypot(z.u[0] - 1.25, z.u[1] + 0.5) : NaN; })(),
+        gates: [HP.dfmLocalMeshField(null, 0, 0, { R: 1 }),
+          HP.dfmLocalMeshField([{ m: 1, x: 0, y: 0 }], 0, 0, {}),
+          HP.dfmLocalMeshField([{ m: 1, x: 0, y: 0 }], NaN, 0, { R: 1 }),
+          HP.dfmLocalMeshField([{ m: 1, x: 0, y: 0 }], 900, 0, { R: 100, D0: 0 })].every((z) => z === null) };
+      // ⑨ **η_eff = kFrame × η**(剛体回転の箱・χ=1)。kFrame=0.5・η=1 は kFrame=1・η=0.5 と同じ (1−0.5)² へ乗る
+      const kHalf = spin({ inertia: 'coordinate' }, { kFrame: 0.5 }, 0.005);
+      const eHalf = spin({ inertia: 'coordinate', inertiaGain: 0.5 }, null, 0.005);
+      const kZero = spin({ inertia: 'coordinate' }, { kFrame: 0 }, 0.005);
+      R.etaEff = { kHalf: kHalf.resid / kHalf.ref, eHalf: eHalf.resid / eHalf.ref,
+        law: Math.abs(kHalf.resid / kHalf.ref - 0.25),
+        same: Math.abs(kHalf.resid / kHalf.ref - eHalf.resid / eHalf.ref),
+        kZero: kZero.resid / kZero.ref, kf0: kf0.resid / kf0.ref,
+        kZeroDiff: Math.abs(kZero.resid / kZero.ref - kf0.resid / kf0.ref) };
+      // ⑩ **2 体系では作用対象 0**(既定 inertiaVertices:false)= S.meshCoordStop==="noTargets" で OFF とビット同一
+      const ntOff = mkRun('psrDoubleABDFM', null, null, 60, 0.016);
+      const ntOn = mkRun('psrDoubleABDFM', { inertia: 'coordinate' }, null, 60, 0.016);
+      R.noTargets = { stop: ntOn.stop, mcN: ntOn.mcN,
+        maxDiff: Math.max(...ntOn.st.map((v, i) => Math.abs(v - ntOff.st[i]))) };
+      // ⑪ **実キックの除去は恒等**: η=0(除去だけ)は kFrame=0(支えなし)と軌道で一致する(🪟+非頂点リング)
+      if (!fast) {
+        const a = ringRun({ inertia: 'coordinate', inertiaGain: 0, inertiaVertices: true });
+        const q = JSON.parse(JSON.stringify(WIN));
+        q.physics.kFrame = 0; q.bodies = q.bodies.concat(ring);
+        const v = HP.validatePreset(q);
+        const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < 3000; k++) S.step(0.004);
+        const b = [S.x[2], S.y[2], S.vx[2], S.vy[2]];
+        R.exact = { maxDiff: Math.max(...a.st.map((z, i) => Math.abs(z - b[i]))),
+          scale: Math.hypot(b[0], b[1]), clamp: a.clamp, nan: a.nan };
+      }
+      // ⑫ **support 経路が走る**(🪟+リング・支持半径は分離の既定倍率)
+      R.sup = ringRun({ inertia: 'coordinate', inertiaSupport: 'support' });
+      R.supNone = ringRun({ inertia: 'coordinate' });
       // ⑦ 門と受理
       const mkq = (sm) => { const q = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'psrDoubleABDFM')));
         q.physics[KEY] = Object.assign({ mode: 'vertex' }, sm); delete q.massCalibration; return q; };
@@ -13626,6 +13690,18 @@ if (!FAST) {
       R.accept = [HP.validatePreset(mkq({ inertia: 'coordinate' })).ok,
         HP.validatePreset(mkq({ inertia: 'coordinate', inertiaGain: 0.5, inertiaVertices: true, inertiaReaction: 'reservoir' })).ok]
         .every((z) => z === true);
+      // 第258便a: 支持関数の門と受理・既定は署名に出ない
+      R.supGates = [HP.validatePreset(mkq({ inertia: 'coordinate', inertiaSupport: 'sup' })).ok,
+        HP.validatePreset(mkq({ inertia: 'coordinate', inertiaSupportR: 0 })).ok,
+        HP.validatePreset(mkq({ inertia: 'coordinate', inertiaSupportR: -1 })).ok,
+        HP.validatePreset(mkq({ inertia: 'coordinate', inertiaChiCut: 1.5 })).ok,
+        HP.validatePreset(mkq({ inertia: 'coordinate', inertiaChiCut: -0.1 })).ok].every((z) => z === false);
+      R.supAccept = [HP.validatePreset(mkq({ inertia: 'coordinate', inertiaSupport: 'support', inertiaSupportR: 720 })).ok,
+        HP.validatePreset(mkq({ inertia: 'coordinate', inertiaSupport: 'chiCut', inertiaChiCut: 0.05 })).ok,
+        HP.validatePreset(mkq({ inertia: 'coordinate', inertiaSupport: 'expGate' })).ok].every((z) => z === true);
+      const sigSup = JSON.stringify(HP.validatePreset(mkq({ inertia: 'coordinate', inertiaSupport: 'none',
+        inertiaChiCut: 0.05 })).preset.physics[KEY]);
+      R.supSigClean = !sigSup.includes('inertiaSupport') && !sigSup.includes('inertiaChiCut');
       // 既定値は署名に出ない(η=1・vertices=false・reaction="pair")
       const sigDef = JSON.stringify(HP.validatePreset(mkq({ inertia: 'coordinate', inertiaGain: 1,
         inertiaVertices: false, inertiaReaction: 'pair' })).preset.physics[KEY]);
@@ -13646,8 +13722,18 @@ if (!FAST) {
       && ci.react.pair.dPres < 1e-9;
     const q6 = ci.chiZero.chi < 1e-6 && Math.abs(ci.chiZero.mcE) < 1e-3 && ci.chiZero.maxDiff < 1e-6
       && !ci.neg.nan && ci.neg.finite;
-    const q7 = ci.gates && ci.accept;
-    add('behavior.meshCoordInertia', q1 && q2 && q3 && q4 && q5 && q6 && q7,
+    const q7 = ci.gates && ci.accept && ci.supGates && ci.supAccept && ci.supSigClean;
+    // 第258便a: ⑧ 支持関数つき局所場(純関数)・⑨ η_eff=kFrame×η・⑩ 2 体で noTargets・
+    //           ⑪ 実キック除去の恒等(O(dt) の分割誤差まで)・⑫ support 経路が走る
+    const q8 = ci.local.gRel < 1e-8 && ci.local.tRel < 1e-8 && ci.local.edgeU < 1e-12
+      && ci.local.edgeG < 1e-12 && ci.local.edgeT < 1e-12 && ci.local.bgErr < 1e-12 && ci.local.gates;
+    const q9 = Math.abs(ci.etaEff.kHalf - 0.25) < 1e-4 && ci.etaEff.same < 1e-4 && ci.etaEff.kZeroDiff < 1e-9;
+    const q10 = ci.noTargets.stop === 'noTargets' && ci.noTargets.mcN === 0 && ci.noTargets.maxDiff === 0;
+    const q11 = FAST || (ci.exact && ci.exact.maxDiff / Math.max(ci.exact.scale, 1e-9) < 1e-6
+      && ci.exact.clamp === 0 && !ci.exact.nan);
+    const q12 = !ci.sup.nan && ci.sup.stop === null && ci.sup.mcN > 0
+      && Math.abs(ci.sup.dLraw - ci.supNone.dLraw) > 0;
+    add('behavior.meshCoordInertia', q1 && q2 && q3 && q4 && q5 && q6 && q7 && q8 && q9 && q10 && q11 && q12,
       `① **未宣言は 1 bit 不変**: ⚡ の署名に spaceMesh が出ない=${ci.norm.noKeyInSig}・`
       + `S.hasCoordInertia は未宣言 false/"coordinate" true=${ci.norm.flagOff && ci.norm.flagOn}・`
       + `既定値(η=1/vertices=false/reaction="pair")は署名に出ない=${ci.sigClean}(${ci.sigDefault})=${q1} / `
@@ -13671,7 +13757,23 @@ if (!FAST) {
       + `⑥ **χ→0 で OFF へ戻る**(D0pull=10¹²): χ=${fxq(ci.chiZero.chi)}・慣性の 1 步 |Δv|=${fxq(ci.chiZero.dvI)}・`
       + `仕事 ${fxq(ci.chiZero.mcE)}・状態差 ${fxq(ci.chiZero.maxDiff)}(|x|≈${ci.chiZero.scale.toFixed(1)}) / `
       + `**dt<0 の契約**: NaN=${ci.neg.nan}・有限=${ci.neg.finite}・stop=${ci.neg.stop}=${q6} / `
-      + `⑦ 門(inertia 不正値・η 範囲外・vertices 非真偽・reaction 不正)=${ci.gates}・受理=${ci.accept}=${q7}`);
+      + `⑦ 門(inertia 不正値・η 範囲外・vertices 非真偽・reaction 不正・support 不正値・R≤0・χ_cut>1)=`
+      + `${ci.gates && ci.supGates}・受理=${ci.accept && ci.supAccept}・既定は署名に出ない=${ci.supSigClean}=${q7} / `
+      + `⑧ **支持関数つき局所場**(第258便a・純関数 HP.dfmLocalMeshField): ∇u の中央差分 相対 ${fxq(ci.local.gRel)}・`
+      + `∂ₜu 相対 ${fxq(ci.local.tRel)}・**支持端(R の内外 ±10⁻⁶)の連続** |Δu|=${fxq(ci.local.edgeU)}・`
+      + `max|Δ∇u|=${fxq(ci.local.edgeG)}・|Δ∂ₜu|=${fxq(ci.local.edgeT)}(C・C′・C″ が z=1 で 0)・`
+      + `支持外は背景へ ${fxq(ci.local.bgErr)}・門(D₀=0 かつ支持外は null を含む 4 種)=${ci.local.gates}=${q8} / `
+      + `⑨ **η_eff=kFrame×η**(剛体箱・χ=1): kFrame=0.5・η=1 の残差/(Ω²r)=${ci.etaEff.kHalf.toFixed(6)}`
+      + `(=(1−0.5)²=0.25 との差 ${fxq(ci.etaEff.law)})で **kFrame=1・η=0.5 の ${ci.etaEff.eHalf.toFixed(6)} と一致**`
+      + `(差 ${fxq(ci.etaEff.same)})・**kFrame=0 は支えなしと一致** ${ci.etaEff.kZero.toFixed(6)} 対 `
+      + `${ci.etaEff.kf0.toFixed(6)}(差 ${fxq(ci.etaEff.kZeroDiff)})=${q9} / `
+      + `⑩ **2 体系は作用対象 0**: ⚡ に coordinate を宣言しても stop="${ci.noTargets.stop}"・N=${ci.noTargets.mcN}・`
+      + `600 步…60 步の状態差 ${ci.noTargets.maxDiff}(OFF と厳密一致)=${q10} / `
+      + `⑪ **実キック除去の恒等**(η=0 = 除去だけ 対 kFrame=0 = 支えなし・🪟+非頂点リング): ${FAST ? '(QA_FAST では省略)'
+        : `最大状態差 ${fxq(ci.exact.maxDiff)}(|x|≈${ci.exact.scale.toFixed(1)} = 相対 ${fxq(ci.exact.maxDiff / ci.exact.scale)})`
+        + ` —— **速度では厳密に打ち消えるが、E6′ が步の途中で当てた Δv の位置ぶんは取り消せない**(O(dt) の分割誤差)`}=${q11} / `
+      + `⑫ **support 経路が走る**(🪟+リング・R は分離の既定倍率): stop=${ci.sup.stop}・N=${ci.sup.mcN}・`
+      + `支持外 ${ci.sup.mcOut}・NaN=${ci.sup.nan}・ΔL は none の ${fxq(ci.supNone.dLraw)} に対して ${fxq(ci.sup.dLraw)}=${q12}`);
   } else {
     console.log('SKIP behavior.meshCoordInertia(対象に第257便a の inertia:"coordinate" なし — root 等)');
   }
