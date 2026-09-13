@@ -2963,8 +2963,8 @@ const ABS_DEFAULT = { kAbs:0, pAbs:4, fScat:0 };
 const ABS_SUPPORT_K = 4;
 // 第96便(スケール一律化 第2段): E9 法線ばねの定数を物理キーで任意指定可能にする
 // (kAbs と同じ「省略時=従来値・既定なら書き出さない」流儀 — 未宣言の全プリセットは 1 ビットも不変)。
-//   contactK  = ばね加速度定数(既定40。力 F=contactK·重なり·μM)
-//   contactCap= 対称な力上限の加速度(既定8。「軽い側の加速度≤contactCap」)
+//   contactK  = ばね加速度定数(既定40。力 F=contactK·重なり·μM。値域 [0,2000] — 第260便b で下限を 0 へ)
+//   contactCap= 対称な力上限の加速度(既定8。「軽い側の加速度≤contactCap」。値域 [0,400] — 同上)
 // どちらも加速度次元なので、c₀=30 相似変換(速度×k・時間÷k)では ×k² を宣言する —
 // これで接触を含む系(融合カスケード・環の衝突)も相似変換が厳密に成立する
 const CONTACT_DEFAULT={ contactK:40, contactCap:8 };
@@ -13087,7 +13087,10 @@ function validatePreset(obj){
       // 第96便: contactK/contactCap(E9 法線ばね定数)も同じ流儀 — 既定(40/8)なら ph へ入れない
       if(k==="contactK"||k==="contactCap"){
         if(!isNum(p.physics[k])){ bad("physics."+k+" が数値ではありません"); continue; }
-        const cc=(k==="contactK")? [0.1,2000] : [0.01,400];
+        // 第260便b(統括が設定した検証仮説 (15)): 下限を **0 に開ける**(opt-in 値域のみ ——
+        // 既定 40/8 は不変で、既存の 0.1/0.01 セーブもそのまま受理される)。0 にすると
+        // E9 の法線ばねが**完全に消える**ので「重力が 0 であること」を床なしで確認できる。
+        const cc=(k==="contactK")? [0,2000] : [0,400];
         const cv=clamp(p.physics[k],cc[0],cc[1]);
         if(cv!==p.physics[k]) warnings.push("physics."+k+" を値域に修正");
         if(cv!==CONTACT_DEFAULT[k]) ph[k]=cv;
@@ -15403,7 +15406,7 @@ function makeSim(){
     // **根 1 粒子の質量 m は従来どおり**で、この 4 配列は `S._layerForce`(外部パス)だけが読む
     S.layN=new Int32Array(n); S.layM=new Float64Array(n*BODY_LAYER_MAX);
     S.layR=new Float64Array(n*BODY_LAYER_MAX); S.layRl=new Int32Array(n*BODY_LAYER_MAX);
-    S.hasBodyLayers=false; S.layerN=0; S.layerStop=null;
+    S.hasBodyLayers=false; S.layerN=0; S.layerStop=null; S.layerPairN=0; S.layerStopN=0;
     S.shellGas=new Uint8Array(n);   // 第229便: shell:"gas" 宣言(意味論は検証器の Kcs=0 強制+表示)
     S.lSw=F();S.radOv=F();    // 観測系(第22便 — obsT/coreOT は第61便で廃止)
     // 第77便(コアv2): 独立コア(opt-in。第80便で disk/ring 群にも開放)。J_core が主変数
@@ -15985,7 +15988,7 @@ function makeSim(){
     // QcsOld=本体の既定記帳 |ΔJΔω|/2 の累積(**radE へ入れている値そのもの**)・
     // QcsExact=正確式 μΔω²(f−f²/2) の累積。**既定の Q は 1 bit も変えない** —— 両方を並べて出すだけ。
     S.QcsOld=0; S.QcsExact=0; S.QcsN=0;
-    S.layerN=0; S.layerDv=0; S.layMassRes=0; S.layerStop=null;
+    S.layerN=0; S.layerDv=0; S.layMassRes=0; S.layerStop=null; S.layerPairN=0; S.layerStopN=0;
     // 第249便c: 軸ポテンシャルの読み口(U_axis = Σ m_iΦ_A・外部駆動の仕事)。未宣言なら常に 0
     S.axisU=0; S.axisWorkE=0; S.axisPhi=0; S.axisPhi0=null;
     // 第251便a: compactForce の読み口(U_pair の合計・速度依存モデルの外部仕事・ゲート統計)。未宣言なら常に 0
@@ -16364,14 +16367,25 @@ function makeSim(){
   // **書かないこと**: 「親子コアで較正の自由度が増えて合った」「外部軌道だけでコア質量・半径を推定できた」。
   // **慣性核の r^−p 体積積分はここでは当てていない**(重力の球殻積分とは別物 — 純関数
   // `HP.dfmLayerKernel` で**数だけ測る**段階に留めてある。決断事項候補)。
+  // **第260便b(統括が設定した検証仮説 (6))**: 上の差分は「相手が**点**であること」を前提にしている。
+  // **両方が層を宣言した組が重なる**と、i の殻が対力を取消し、j の殻が**もう一度**取消すので
+  // 引力が斥力に化ける(再現: 根 m=1×2・殻 R=10・中心 x=∓1・G=1・ε=0.5 で 点源 −0.2282688236 /
+  // 層差分 +0.4565376457 / 合算 **+0.2282688222 外向き**)。**j>i 化や係数 1/2 は一般解ではない** ——
+  // 正しいのは「対ごとに **1 回だけ** ΔF = F_拡張対 − F_点源対 を等量反対符号で入れる」ことで、
+  // それが `dfmLayerPairForce`(薄殻×薄殻の対ポテンシャルの解析積分)である(**対策 B**)。
+  // ΔF が定義されない組(d→0 等)は `S.layerStop="overlap"` を立てて層差分を**当てない**
+  // (点源の単極子だけで進める = **対策 A**)。**融合の最中に未定義の力で 1 step 進めない。**
   S._layerForce = function(dt){
     const n=S.n, lN=S.layN;
     if(!lN || !(n>1) || !(dt!==0)) return;
-    const p=S.params, G=p.G, eps2=p.softening*p.softening;
+    const p=S.params, G=p.G, sof=p.softening, eps2=sof*sof;
     const x=S.x, y=S.y, vx=S.vx, vy=S.vy, m=S.m, pin=S.pinned;
     const layM=S.layM, layR=S.layR;
     const carV=!!S.carVx, carVx=S.carVx, carVy=S.carVy;
-    let nPair=0, dvMax=0;
+    let nPair=0, dvMax=0, nExt=0, nStop=0;
+    S.layerStop=null;
+    const rdLay=(k)=>{ const b=k*BODY_LAYER_MAX, a=[];
+      for(let q=0;q<lN[k];q++) a.push({m:layM[b+q], r:layR[b+q]}); return a; };
     const kick=(k,ax2,ay2)=>{
       const ddx=ax2*dt, ddy=ay2*dt;
       const a2=Math.abs(ddx)+Math.abs(ddy); if(a2>dvMax) dvMax=a2;
@@ -16389,6 +16403,19 @@ function makeSim(){
       for(let j=0;j<n;j++){
         if(j===i) continue;
         const dx=x[j]-xi, dy=y[j]-yi, d2=dx*dx+dy*dy;
+        if(lN[j]>0){                            // **拡張体どうし**(第260便b): 差分は対ごとに 1 回だけ
+          if(j<i) continue;
+          const rj=layR[j*BODY_LAYER_MAX+lN[j]-1], rs=rOut+rj;
+          if(!(rs>0) || !(d2<rs*rs)) continue;  // 重ならない組は従来どおり無補正(遠方は点源)
+          const mj=m[j], d=Math.sqrt(d2);
+          const pf=(d>0 && Math.abs(mj)>1e-12)? dfmLayerPairForce(rdLay(i), rdLay(j), d, {G:G, eps:sof}) : null;
+          if(!pf || !Number.isFinite(pf.dF)){ S.layerStop="overlap"; nStop++; continue; }
+          const ux=dx/d, uy=dy/d, dF=pf.dF;
+          nExt++;
+          kick(j, dF*ux/mj, dF*uy/mj);
+          kick(i, -dF*ux/mi, -dF*uy/mi);        // 等量反対(m_iΔa_i + m_jΔa_j = 0)
+          continue;
+        }
         if(!(d2<rOut*rOut)) continue;          // **遠方は点源**(補正は厳密に 0)
         const d=Math.sqrt(d2);
         let mOut=0;
@@ -16403,7 +16430,7 @@ function makeSim(){
         kick(i, -ax2*rat, -ay2*rat);            // 等量反対(m_iΔa_i + m_jΔa_j = 0)
       }
     }
-    S.layerN=nPair; S.layerDv=dvMax;
+    S.layerN=nPair; S.layerDv=dvMax; S.layerPairN=nExt; S.layerStopN=nStop;
   };
   // ===== 第249便c(第41報 W3・案A): 有限範囲の二極軸ポテンシャル(physics.axisForce)=====
   // 軸の向き φ を返す純関数(状態を書き換えない)。数値宣言は空間固定・"spin" は中心天体の
@@ -20225,6 +20252,8 @@ function stepDiagText(){
   // 2 体だけの系では非頂点が 1 つも無いので既定は no-op である(mesh:noTargets)—— 表示のみ
   if(sim && sim.hasCoordInertia) out+="  mesh:"+(sim.meshCoordStop||"on")+" N="+sim.meshCoordN;
   if(sim && sim.hasGeoToy) out+="  geoToy:"+(sim.geoToyStop||"on")+" N="+sim.geoToyN;
+  // 第260便b: 親子コアの層差分と**重なった拡張体の対**(ΔF を当てた組 / 停止した組)
+  if(sim && sim.hasBodyLayers) out+="  layer:"+(sim.layerStop||"on")+" N="+sim.layerN+" pair="+(sim.layerPairN||0)+"/"+(sim.layerStopN||0);
   return out;
 }
 function captureCamSnapshot(){
@@ -33931,6 +33960,84 @@ function dfmLayerGravity(layers, d, opts){
   return { mTot, mEnc, mOut:mTot-mEnc, rOut, aPoint, aLayered, da:aLayered-aPoint };
 }
 
+// (1b) **第260便b: 拡張体 2 体の対力**(薄殻 × 薄殻の対ポテンシャルを**解析積分**した純関数)。
+//     背景(統括が設定した検証仮説 (6)): `S._layerForce` の「点源取消 + 層重力」は**試験粒子が点**である
+//     ことを前提にした差分なので、**両方が層を宣言した組が重なる**と取消が 2 度入り、引力が斥力に化ける
+//     (再現は器 `tests/exp-w260b-layers2.mjs`)。一般解は「対ごとに 1 回だけ
+//     ΔF = F_拡張対 − F_点源対 を等量反対符号で入れる」ことで、j>i 化や係数 1/2 では直らない。
+//     **薄殻 × 薄殻の厳密形**(ソフトニング核 1/√(u²+ε²)):
+//       半径 R₁ の薄殻が中心から距離 s に作るポテンシャル
+//         φ(s) = −G m₁/(2R₁s)·( √((s+R₁)²+ε²) − √((s−R₁)²+ε²) )     (ε=0 で s>R₁ なら −Gm₁/s・内側は −Gm₁/R₁)
+//       半径 R₂ の薄殻上の点は中心から距離 s に **p(s)=s/(2R₂d)**(|R₂−d| ≤ s ≤ R₂+d)で分布するので
+//         U(d) = −G m₁m₂/(4R₁R₂d)·[ A(s+R₁) − A(s−R₁) ]_{|R₂−d|}^{R₂+d}、A(w)=∫√(w²+ε²)dw
+//         A(w) = ( w√(w²+ε²) + ε²·asinh(w/ε) )/2    (ε=0 では w|w|/2)
+//         F = −dU/dd = K(d·I′(d) − I(d))/d²、K=G m₁m₂/(4R₁R₂)、I′= g(s_hi) − g(s_lo)·sgn(d−R₂)
+//     **検算(ε=0・R₁=R₂=R)**: 0<d<2R で U=−Gm₁m₂(4R−d)/(4R²)・**F=−Gm₁m₂/(4R²)(距離に依らない引力)**、
+//     d=2R で点源 −Gm₁m₂/d と値も傾きも連続する。**遠方(d ≥ R₁+R₂)では ΔF=0**(ε=0)。
+//     **これは「重なった拡張体をどう扱うか」の定義であって、観測から導いたものではない。**
+function dfmLayerPairForce(layersA, layersB, d, opts){
+  const o=opts||{};
+  const G=(o.G===undefined)? 1 : Number(o.G);
+  const eps=(o.eps===undefined)? 0 : Number(o.eps);
+  d=Number(d);
+  if(![G,eps,d].every(Number.isFinite) || !(d>0) || !(eps>=0)) return null;
+  const norm=(L)=>{
+    if(!Array.isArray(L) || L.length<1) return null;
+    const out=[];
+    for(let k=0;k<L.length;k++){
+      const q=L[k]; if(!q) return null;
+      const mk=Number(q.m), rk=Number(q.r!==undefined? q.r : q.R);
+      if(!Number.isFinite(mk) || !Number.isFinite(rk) || !(mk>0) || !(rk>=0)) return null;
+      out.push({m:mk, r:rk});
+    }
+    return out;
+  };
+  const A=norm(layersA), B=norm(layersB);
+  if(!A || !B) return null;
+  const e2=eps*eps;
+  const Aint=(w)=>{                        // ∫√(w²+ε²)dw
+    const s=Math.sqrt(w*w+e2);
+    return (eps>0)? 0.5*(w*s + e2*Math.asinh(w/eps)) : 0.5*w*Math.abs(w);
+  };
+  // 薄殻(R1) × 薄殻(R2) の U と F(R=0 は点源として畳む)
+  const pair=(m1,R1,m2,R2)=>{
+    if(!(R1>0) && !(R2>0)){                // 点 × 点
+      const w=Math.sqrt(d*d+e2);
+      return { U:-G*m1*m2/w, F:-G*m1*m2*d/(w*w*w) };
+    }
+    if(!(R1>0)){ const t=R1; R1=R2; R2=t; const u=m1; m1=m2; m2=u; }
+    if(!(R2>0)){                           // 薄殻 × 点
+      const hp=Math.sqrt((d+R1)*(d+R1)+e2), hm=Math.sqrt((d-R1)*(d-R1)+e2);
+      // ε=0・d=R₁(殻の面の上)は真の不連続点(内側 0・外側 −Gm₁m₂/d²)。0/0 を NaN にせず
+      // **両側の平均**(−Gm₁m₂/(2R₁²))を返す —— 丸めて滑らかにしたのではなく、面上の値の定義である
+      const h=hp-hm, hd=(d+R1)/hp-((hm>0)? (d-R1)/hm : 0);
+      const K=G*m1*m2/(2*R1);
+      return { U:-K*h/d, F:K*(d*hd-h)/(d*d) };
+    }
+    const sHi=R2+d, sLo=Math.abs(R2-d), sg=(d>R2)? 1 : -1;
+    const I=Aint(sHi+R1)-Aint(sHi-R1)-(Aint(sLo+R1)-Aint(sLo-R1));
+    const g=(s)=>Math.sqrt((s+R1)*(s+R1)+e2)-Math.sqrt((s-R1)*(s-R1)+e2);
+    const Ip=g(sHi)-sg*g(sLo);
+    const K=G*m1*m2/(4*R1*R2);
+    return { U:-K*I/d, F:K*(d*Ip-I)/(d*d) };
+  };
+  let U=0, F=0, mA=0, mB=0, nP=0;
+  for(let a=0;a<A.length;a++){
+    mA+=A[a].m;
+    for(let b=0;b<B.length;b++){
+      const r=pair(A[a].m, A[a].r, B[b].m, B[b].r);
+      if(!Number.isFinite(r.U) || !Number.isFinite(r.F)) return null;
+      U+=r.U; F+=r.F; nP++;
+    }
+  }
+  for(let b=0;b<B.length;b++) mB+=B[b].m;
+  const w=Math.sqrt(d*d+e2);
+  const Upoint=-G*mA*mB/w, Fpoint=-G*mA*mB*d/(w*w*w);
+  const rOutA=A.reduce((s,L)=>Math.max(s,L.r),0), rOutB=B.reduce((s,L)=>Math.max(s,L.r),0);
+  return { U, F, Upoint, Fpoint, dU:U-Upoint, dF:F-Fpoint, mA, mB, nPair:nP, d, eps, G,
+    rOutA, rOutB, overlap:(d<rOutA+rOutB) };
+}
+
 // (2) **慣性核 w=m(r²+ε²)^(−p/2) の有限半径積分**。重力の球殻積分とは**別の量**で、
 //     "point"=点源・"shell"=薄い球殻(μ 積分は解析形)・"uniform"=一様密度球(半径方向は Simpson)。
 //     薄殻: (m/2)∫_{−1}^{1}(A−Bμ)^{−p/2}dμ、A=d²+R²+ε²・B=2dR(p=2 は対数形)。
@@ -33955,14 +34062,28 @@ function dfmLayerKernel(layer, d, opts){
     const A=d*d+s*s+e2, B=2*d*s;
     if(!(A>0)) return Infinity;
     if(!(B>0)) return Math.pow(A,-pw/2);
-    if(A-B<=0) return Infinity;                       // ε=0・d=s の特異(門)
     const q=1-pw/2;
+    // 第260便b(統括が設定した検証仮説 (7)): ε=0・d=s の端点は **q>0(p<2)なら可積分**である。
+    // A−B=(d−s)²+ε² なので A−B=0 は ε=0 かつ d=s のときだけで、そこでは (A−B)^q=0 が生き残る。
+    // **q≤0(p≥2)は真に発散する**ので Infinity のまま(丸めて有限にしない)。
+    if(A-B<=0) return (q>0)? Math.pow(A+B,q)/(2*B*q) : Infinity;
     if(Math.abs(q)<1e-12) return Math.log((A+B)/(A-B))/(2*B);
     return (Math.pow(A+B,q)-Math.pow(A-B,q))/(2*B*q);
   };
-  let value;
+  let value, method=shape;
   if(shape==="point") value=point;
-  else if(shape==="shell") value=m*shellUnit(R);
+  else if(shape==="shell"){ value=m*shellUnit(R); method="closed"; }
+  else if(eps===0 && (d===0 || pw===1 || pw===2)){
+    // **一様球・ε=0 の可積分内部の解析極限**(Simpson の端点 0×∞ を踏まずに値を返す)。
+    //   d=0 : 3m/((3−p)R^p)                      (p<3。**p=3 は対数発散なので null のまま**)
+    //   p=1 : d≥R ? m/d : m(3R²−d²)/(2R³)
+    //   p=2 : d=R ? 3m/(2R²) : 3m/(2R³)·( R + (R²−d²)/(2d)·ln((R+d)/|R−d|) )
+    method="analytic";
+    if(d===0) value=(pw<3)? 3*m/((3-pw)*Math.pow(R,pw)) : Infinity;
+    else if(pw===1) value=(d>=R)? m/d : m*(3*R*R-d*d)/(2*R*R*R);
+    else value=(d===R)? 3*m/(2*R*R)
+      : 3*m/(2*R*R*R)*(R + (R*R-d*d)/(2*d)*Math.log((R+d)/Math.abs(R-d)));
+  }
   else {
     // 一様球: ∫_0^R (3m s²/R³)·shellUnit(s) ds。d が内側のときは s=d で折って各区間を滑らかにする
     const seg=(a,b,nn)=>{
@@ -33978,7 +34099,7 @@ function dfmLayerKernel(layer, d, opts){
     value=m*((cut>0)? (seg(0,cut,nodes)+seg(cut,R,nodes)) : seg(0,R,nodes));
   }
   if(!Number.isFinite(value)) return null;
-  return { point, value, ratio:(point!==0)? value/point : null, shape, p:pw, eps, d, R, m, nodes };
+  return { point, value, ratio:(point!==0)? value/point : null, shape, method, p:pw, eps, d, R, m, nodes };
 }
 
 // (3) **層の合成則**(融合 body 単位)。"role"=同 role を合算(m は和・r は √(r_i²+r_j²) —— 殻とコア v2 の
@@ -34034,21 +34155,28 @@ function dfmSpinField3D(omegaVec, r, opts){
   return u;
 }
 
-// (5) **保守的歳差** τ_c = k(J_s×J_c)。J_c は J_s のまわりを**厳密回転**するので |J_c| は不変で、
-//     コアの回転 E は 1 bit も増えない。反作用 −τ_c を殻へ返すと総 J は厳密保存する
-//     (そのとき |J_s| は動くので殻側の E は変わりうる —— 返り値 dE がその分)。
+// (5) **保守的歳差** τ_c = k(J_s×J_c)。**第260便b(統括が設定した検証仮説 (8))で軸を J_total にした。**
+//     J_s = J_total − J_c なので **J_s×J_c = J_total×J_c** であり、閉じた対の厳密解は
+//     「**一定の J_total 軸のまわりに J_c を角 k|J_total|dt だけ回し、J_s = J_total − J_c とする**」である。
+//     このとき |J_c| も |J_s| も回転 E も総 J も厳密に保たれる(J_c の J_total 平行成分が不変で、
+//     垂直成分だけが回るため)。**旧実装は固定 J_s 軸で回していたので |J_s| が動き E が増えた**
+//     (Jc=(1,0,2)・Js=(0,0,4)・Ic=2・Is=8・k=0.2・T=1 で ΔE 0.0379/分割 1・4.0e−5/分割 1000)。
+//     **固定外部軸の歳差は別契約**なので `axis:"shell"` で opt-in として残す(既定は "total")。
+//     `angle` を明示したときも軸は J_total(または "shell")である。
 function dfmSpinPrecess(arg){
   const o=arg||{};
   const Js=o.Js, Jc=o.Jc;
   if(!Array.isArray(Js)||Js.length<3||!Array.isArray(Jc)||Jc.length<3) return null;
   const js=[Number(Js[0]),Number(Js[1]),Number(Js[2])], jc=[Number(Jc[0]),Number(Jc[1]),Number(Jc[2])];
   if(!js.every(Number.isFinite)||!jc.every(Number.isFinite)) return null;
-  const njs=Math.hypot(js[0],js[1],js[2]);
+  const axMode=(o.axis==="shell")? "shell" : "total";
+  const jax=(axMode==="shell")? js : [js[0]+jc[0], js[1]+jc[1], js[2]+jc[2]];
+  const njs=Math.hypot(jax[0],jax[1],jax[2]);
   if(!(njs>0)) return null;
   const ang=(o.angle!==undefined)? Number(o.angle)
     : Number((o.k===undefined?0:o.k))*njs*Number((o.dt===undefined?0:o.dt));
   if(!Number.isFinite(ang)) return null;
-  const u=[js[0]/njs, js[1]/njs, js[2]/njs], c=Math.cos(ang), s2=Math.sin(ang);
+  const u=[jax[0]/njs, jax[1]/njs, jax[2]/njs], c=Math.cos(ang), s2=Math.sin(ang);
   const dot=u[0]*jc[0]+u[1]*jc[1]+u[2]*jc[2];
   const cr=[u[1]*jc[2]-u[2]*jc[1], u[2]*jc[0]-u[0]*jc[2], u[0]*jc[1]-u[1]*jc[0]];
   const jc2=[0,0,0];
@@ -34058,7 +34186,8 @@ function dfmSpinPrecess(arg){
   const n2=(v)=>v[0]*v[0]+v[1]*v[1]+v[2]*v[2];
   const dE=(Number.isFinite(Is)&&Is>0)? (n2(js2)-n2(js))/(2*Is) : 0;
   const dEc=(Number.isFinite(Ic)&&Ic>0)? (n2(jc2)-n2(jc))/(2*Ic) : 0;
-  return { Jc:jc2, Js:js2, angle:ang, absJc0:Math.hypot(jc[0],jc[1],jc[2]), absJc1:Math.hypot(jc2[0],jc2[1],jc2[2]),
+  return { Jc:jc2, Js:js2, angle:ang, axis:axMode, absJc0:Math.hypot(jc[0],jc[1],jc[2]), absJc1:Math.hypot(jc2[0],jc2[1],jc2[2]),
+    absJs0:Math.hypot(js[0],js[1],js[2]), absJs1:Math.hypot(js2[0],js2[1],js2[2]),
     Jtot0:[js[0]+jc[0],js[1]+jc[1],js[2]+jc[2]], Jtot1:[js2[0]+jc2[0],js2[1]+jc2[1],js2[2]+jc2[2]],
     dE, dEc, dEtot:dE+dEc };
 }
@@ -34414,7 +34543,10 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // (**重力の球殻積分とは別物**・力へは接続していない)/ dfmLayerMerge=融合の層合成則 2 案/
   // dfmSpinField3D=u=a(d)(ω×r)(**q は角速度の減衰指数**・並進 p とは別)/ dfmSpinPrecess=保守的歳差・
   // dfmTiltWork=傾ける仕事・dfmSpinRelax=粘性緩和と Q の正確式。QA behavior.bodyLayers が機械固定する
-  dfmLayerGravity, dfmLayerKernel, dfmLayerMerge, dfmSpinField3D,
+  // 第260便b: dfmLayerPairForce=**重なった拡張体の対力**(薄殻×薄殻の対ポテンシャルの解析積分。
+  // ΔF=F_拡張対−F_点源対 を対ごとに 1 回だけ入れる = 二重計上の一般解)/ dfmLayerKernel は
+  // 可積分内部で `method:"analytic"` を返す / dfmSpinPrecess は **J_total 軸**が既定(旧固定軸は axis:"shell")
+  dfmLayerGravity, dfmLayerKernel, dfmLayerMerge, dfmLayerPairForce, dfmSpinField3D,
   dfmSpinPrecess, dfmTiltWork, dfmSpinRelax,
   BODY_LAYER_ROLES, BODY_LAYER_MAX, BODY_LAYER_KEY, LAYER_MERGE_RULE,
   // 第254便b(第46報「銀河の空間メッシュ」): **銀河は 1 つの大域相似メッシュに乗らない**(差動回転)ので、

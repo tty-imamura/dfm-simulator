@@ -950,18 +950,47 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     **a_layered = G·M_enc(d)·d/(d²+ε²)^{3/2}**(M_enc=Σ_{r_k ≤ d} m_k)。**内側は厳密 0・d ≥ r_最外 は点源と一致**。
     層が昇順でない/質量が非正/非有限は門(null)。`body.layers` を宣言した宇宙では本体もこの差分を当てる
     (`S._core` の**外**の 1 パス。実装差の床は `S.ax` が Float32 であることから来る相対 10⁻⁸ 級)。
-  - **`HP.dfmLayerKernel(layer, d, {p,eps,shape,nodes})`** → `{point,value,ratio,…}`。慣性核
+  - **`HP.dfmLayerKernel(layer, d, {p,eps,shape,nodes})`** → `{point,value,ratio,method,…}`。慣性核
     **w=m(r²+ε²)^(−p/2)** の有限半径積分(`shape`="point"/"shell"/"uniform")。薄殻は μ 積分の解析形。
     **重力の球殻積分とは別物**で、**力へは 1 バイトも接続していない**(測るだけ)。
+    **第260便b: 可積分な内部で解析極限を返す**(`method:"analytic"`・一様球・ε=0):
+    d=0 は 3m/((3−p)R^p)、p=1 は d≥R ? m/d : m(3R²−d²)/(2R³)、
+    p=2 は d=R ? 3m/(2R²) : (3m/(2R³))·(R+(R²−d²)/(2d)·ln((R+d)/|R−d|))。
+    **p=3 の対数発散は null のまま**(有限に丸めない)。薄殻の ε=0・d=R も **q=1−p/2>0(p<2)なら有限**
+    ((A+B)^q/(2Bq))で、p≥2 は null。`method` は "point"/"closed"(薄殻)/"analytic"/"uniform"(Simpson)。
   - **`HP.dfmLayerMerge(layersA, layersB, "role"|"add")`** → 合成後の層配列。既定は `HP.LAYER_MERGE_RULE`="role"
     (同 role を m の和・**r=√(r_i²+r_j²)** で合算 —— 殻とコア v2 の既存則と同型)。
+    **"add" は質量を守るが構造を守らない**(同じ半径を積み直すと畳み込みが発火し、8 回で 4 層へ縮退する ——
+    〔第260便b §4〕。**既定の "role" は 2 層を保つ**)。
+  - **`HP.dfmLayerPairForce(layersA, layersB, d, {G,eps})`**(第260便b)→
+    `{U,F,Upoint,Fpoint,dU,dF,mA,mB,nPair,rOutA,rOutB,overlap}`。**薄殻 × 薄殻の対ポテンシャルの解析積分**で、
+    `F` は距離 d が増える向きの**符号つき半径方向成分**(負 = 引力)。`r:0` の層は点として畳む。
+    **ε=0・R₁=R₂=R では 0<d<2R で F=−Gm₁m₂/(4R²)(距離に依らない)**・d≥2R で点源と値も傾きも連続・
+    **d ≥ r_out,A + r_out,B では ΔF=0(遠方は点源)**。d≤0・非有限・非正質量は門(null)。
+    **`body.layers` を宣言した拡張体どうしが重なる組では、本体もこの ΔF を対ごとに 1 回だけ当てる**
+    (第259便b の「点源取消+層重力」は**相手が点である**ことを前提にしていたので、両方が拡張体だと
+    取消が 2 度入って引力が斥力に化けた —— 〔第260便b §1〕)。読み口は
+    **`S.layerN`**(層差分を当てた作用対象)/ **`S.layerPairN`**(ΔF を当てた拡張体の対)/
+    **`S.layerStopN`**(ΔF が定義されず停止した対)/ **`S.layerStop`**(`null` か `"overlap"`)で、
+    HUD のステップ診断にも `layer:<stop|on> N=… pair=…/…` として出る。
+    **`S.layerStop="overlap"` の間、その対には層差分が当たらない**(点源の単極子だけで進む)。
+- **接触ばね `physics.contactK`/`physics.contactCap` の値域**(第260便b): **[0,2000] / [0,400]**
+  (第259便b までは [0.1,2000] / [0.01,400])。**既定 40/8 は不変で正準形にも出ない**・既存の 0.1/0.01 セーブも受理・
+  負値は 0 へ丸めて警告を出す。**0 にすると E9 の法線ばねが完全に消える**ので、
+  「包含質量 0 → 重力 0」を床なしで確認できる(〔第260便b §5〕)。**較正 37 本には 0 を書かない。**
   - **`HP.dfmSpinField3D(omegaVec, r, {a?,R,q})`** → `[ux,uy,uz]`。**u=a(d)(ω×r)**・a(d)=(R/(R+d))^q。
     **q は角速度の減衰指数で速度は r^(1−q)**(速度 r^−2 なら q=3)。**並進の p と同一パラメータにしない。**
     面外流 RMS は環上で **sinθ/√2**(θ=30/60/90 で 0.354/0.612/0.707)で、θ=90° では面内(2D 射影)が
     厳密に 0 でも面外流は最大になる。**幾何試験であって潮汐ロックの創発ではない。**
-  - **`HP.dfmSpinPrecess({Js,Jc,k,dt|angle,Is,Ic})`** / **`HP.dfmTiltWork({Js,Jc,Is,Ic,alpha,axis?})`**。
-    前者は τ_c=k(J_s×J_c) の**厳密回転**(|J_c| 不変・コアの E 不変・総 J 保存)、後者は J_c を倒して
-    総 J を保つときに**殻の側に現れる仕事**(J_s∥J_c なら ΔE=(1−cosα)(|J_s||J_c|+|J_c|²)/I_s)。
+  - **`HP.dfmSpinPrecess({Js,Jc,k,dt|angle,Is,Ic,axis?})`** / **`HP.dfmTiltWork({Js,Jc,Is,Ic,alpha,axis?})`**。
+    前者は τ_c=k(J_s×J_c) の**厳密回転**。**第260便b で軸を J_total にした**(`axis`: `"total"`=既定 /
+    `"shell"`=旧の固定 J_s 軸を opt-in で保存)。J_s×J_c=J_total×J_c なので閉じた対の厳密解は
+    「**一定の J_total 軸のまわりに J_c を角 k|J_total|dt 回し J_s=J_total−J_c とする**」で、
+    **|J_c|・|J_s|・回転 E・総 J がすべて厳密に保たれる**(返り値に `axis`/`absJs0`/`absJs1` を追加)。
+    旧の固定 J_s 軸は |J_s| が動くので **E が増える**(Jc=(1,0,2)・Js=(0,0,4)・Ic=2・Is=8・k=0.2・T=1 で
+    ΔE 3.79×10⁻² / 分割 1・4.00×10⁻⁵ / 分割 1000。新軸は同条件で ≤3.2×10⁻¹⁴)。
+    `angle` を明示したときも軸はこの選択に従う。後者は J_c を倒して
+    総 J を保つときに**殻の側に現れる仕事**(J_s∥J_c なら ΔE=(1−cosα)(|J_s||J_c|+|J_c|²)/I_s・本便で未変更)。
   - **`HP.dfmSpinRelax({Ic,Is,Kcs,dt,omegaC,omegaS})`** → `{mu,f,dJ,omegaC,omegaS,E0,E1,dE,Qexact,Qold,ratio,gamma,…}`。
     本体(第78便)と同じ指数解 ΔJ=μΔω·f・f=1−e^{−K_cs·dt}。**正確な散逸は Q_exact=μΔω²(f−f²/2)** で、
     本体の既定記帳 Q_old=|ΔJΔω|/2 は**その 1/(2−f) 倍**(K_cs·dt→0 で **1/2**)。**既定の記帳は変えていない** ——

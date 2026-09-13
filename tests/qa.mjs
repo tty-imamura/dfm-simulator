@@ -15044,10 +15044,25 @@ if (!FAST) {
 //      —— これは**幾何試験であって潮汐ロックの創発ではない**
 //   ⑦ **K_cs 熱記帳**: 正確式 Q_exact=μΔω²(f−f²/2) に対し既定記帳 Q_old は 1/(2−f) 倍(K_cs·dt→0 で 1/2)。
 //      **既定の Q(radE)は 1 bit も変えていない**(S.radE === S.QcsOld)
+//   —— 第260便b(第52報 W2)が足したもの ——
+//   ⑧ **重なる拡張体の二重計上を止めた**: 両方が層を宣言した組が重なると「点源取消」が 2 度入って
+//      引力が斥力に化ける。対ごとに **1 回だけ** ΔF=F_拡張対−F_点源対(`HP.dfmLayerPairForce`)を
+//      等量反対符号で入れる(**対策 B**)。ΔF が定義されない組は `S.layerStop="overlap"` を立てて
+//      層差分を当てない(**対策 A**)。**重ならない組は基点とビット同一**
+//   ⑨ **可積分核の解析極限**: uniform・ε=0 の内部で d=0 → 3m/((3−p)R^p)・p=1・p=2 の閉形式を返す
+//      (`method:"analytic"`)。**p=3 の対数発散は null のまま**。薄殻 A−B≤0 の門も q>0(p<2)なら有限
+//   ⑩ **保守的歳差の軸を J_total にした**: J_s×J_c = J_total×J_c なので、閉じた対の厳密解は
+//      「一定の J_total 軸のまわりに J_c を回し J_s=J_total−J_c」。**両ノルム・回転 E・総 J が厳密に保たれる**。
+//      旧の固定 J_s 軸は `axis:"shell"` で opt-in として残す
+//   ⑪ **接触ばね contactK/contactCap の値域下限を 0 に開けた**(既定 40/8 と既存 0.1/0.01 セーブは不変)
+//   ⑫ **球殻内部の「0」の検算目標を改訂**: 純関数は厳密 0・エンジンは |Δa| ≤ 1e−7×スケール
+//      (**0 に対する相対誤差は定義しない**)
 {
+  // 第260便b: `dfmLayerPairForce` も門に足す(root の旧世代 html は SKIP する)
   const hasBL = await page.evaluate(() => !!(window.HP && typeof HP.dfmLayerGravity === 'function'
     && typeof HP.dfmLayerKernel === 'function' && typeof HP.dfmSpinField3D === 'function'
-    && typeof HP.dfmSpinRelax === 'function' && Array.isArray(HP.BODY_LAYER_ROLES)));
+    && typeof HP.dfmSpinRelax === 'function' && typeof HP.dfmLayerPairForce === 'function'
+    && Array.isArray(HP.BODY_LAYER_ROLES)));
   if (hasBL) {
     const bl = await page.evaluate((fast) => {
       const O = {};
@@ -15219,6 +15234,94 @@ if (!FAST) {
         O.torque = { precessJcKept: Math.abs(pr.absJc1 - pr.absJc0), precessDE: Math.abs(pr.dEtot),
           tiltDE: tw.dE, tiltJcKept: Math.abs(tw.absJc1 - tw.absJc0) };
       }
+      // ⑧ 第260便b: **重なる拡張体の二重計上**(統括が設定した検証仮説 (6))と対策 A/B
+      {
+        const H = 1e-6;
+        const runOv = (withLayers, R, sep) => {
+          const b = [sgl({ m: 1, radius: 0.1, x: -sep / 2 }), sgl({ m: 1, radius: 0.1, x: sep / 2 })];
+          if (withLayers) { b[0].layers = [{ role: 'shell', m: 1, r: R }];
+            b[1].layers = [{ role: 'shell', m: 1, r: R }]; }
+          const v = HP.validatePreset(mkP(b));
+          const S = HP.sim; S.build(v.preset); S.step(H);
+          return { a: S.vx[1] / H, pairN: S.layerPairN, stop: S.layerStop,
+            dP: Math.abs(S.m[0] * S.vx[0] + S.m[1] * S.vx[1]) };
+        };
+        const P = runOv(false, 10, 2), L = runOv(true, 10, 2);
+        const pf = HP.dfmLayerPairForce([{ m: 1, r: 10 }], [{ m: 1, r: 10 }], 2, { G: 1, eps: 0.5 });
+        const fp = runOv(false, 10, 25), fl = runOv(true, 10, 25);
+        const b0 = [sgl({ m: 1, radius: 0.1, x: 0, layers: [{ role: 'shell', m: 1, r: 10 }] }),
+          sgl({ m: 1, radius: 0.1, x: 0, layers: [{ role: 'shell', m: 1, r: 10 }] })];
+        const v0 = HP.validatePreset(mkP(b0)); const S0 = HP.sim; S0.build(v0.preset); S0.step(H);
+        O.overlap = { point: P.a, total: L.a, layerDiff: L.a - P.a, pairN: L.pairN,
+          wantF: pf.F, wantDF: pf.dF, dP: L.dP, farSame: fp.a === fl.a, farPair: fl.pairN,
+          stop: S0.layerStop, stopNaN: S0.hasNaN() };
+        const eq = [0.5, 5, 19.9].map((d) =>
+          HP.dfmLayerPairForce([{ m: 1, r: 10 }], [{ m: 1, r: 10 }], d, { G: 1, eps: 0 }).F);
+        const h = 1e-5, LA = [{ m: 0.9, r: 2 }, { m: 0.1, r: 7 }], LB = [{ m: 0.4, r: 1 }, { m: 0.6, r: 5 }];
+        const z = HP.dfmLayerPairForce(LA, LB, 3, { G: 1, eps: 0.5 });
+        const cd = -(HP.dfmLayerPairForce(LA, LB, 3 + h, { G: 1, eps: 0.5 }).U
+          - HP.dfmLayerPairForce(LA, LB, 3 - h, { G: 1, eps: 0.5 }).U) / (2 * h);
+        O.pair = { eq, eqWant: -1 / 400, cdRel: Math.abs(z.F - cd) / Math.abs(cd),
+          far: HP.dfmLayerPairForce([{ m: 1, r: 10 }], [{ m: 1, r: 10 }], 50, { G: 1, eps: 0 }).dF,
+          gates: [HP.dfmLayerPairForce([], [{ m: 1, r: 1 }], 1, {}),
+            HP.dfmLayerPairForce([{ m: 1, r: 1 }], [{ m: 1, r: 1 }], 0, {}),
+            HP.dfmLayerPairForce([{ m: -1, r: 1 }], [{ m: 1, r: 1 }], 1, {})].every((q) => q === null) };
+      }
+      // ⑨ 第260便b: 慣性核の**可積分内部の解析極限**(検証仮説 (7))
+      {
+        const KK = (d, p) => HP.dfmLayerKernel({ m: 1, r: 1 }, d, { p, eps: 0, shape: 'uniform' });
+        const SK = (p) => HP.dfmLayerKernel({ m: 1, r: 1 }, 1, { p, eps: 0, shape: 'shell' });
+        O.kern = {
+          rows: [[0, 1, 1.5], [0, 2, 3], [0.2, 1, 1.48], [0.2, 2, 2.959674389], [1, 1, 1], [1, 2, 1.5]]
+            .map((q) => { const z = KK(q[0], q[1]);
+              return { d: q[0], p: q[1], v: z ? z.value : null, m: z ? z.method : null, w: q[2] }; }),
+          p3: [0, 0.2, 0.999].every((d) => KK(d, 3) === null),
+          shellGate: [0.5, 1, 1.5].every((p) => { const z = SK(p); return !!z && Number.isFinite(z.value); })
+            && [2, 3].every((p) => SK(p) === null)
+        };
+      }
+      // ⑩ 第260便b: **J_total 軸の保守的歳差**(検証仮説 (8))—— 旧固定軸は axis:"shell" で opt-in
+      {
+        const n2 = (v) => v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
+        const Ic = 2, Is = 8;
+        const run = (axis, N) => {
+          let jc = [1, 0, 2], js = [0, 0, 4];
+          const E0 = n2(jc) / (2 * Ic) + n2(js) / (2 * Is);
+          const J0 = [js[0] + jc[0], js[1] + jc[1], js[2] + jc[2]];
+          for (let i = 0; i < N; i++) {
+            const z = HP.dfmSpinPrecess({ Js: js, Jc: jc, k: 0.2, dt: 1 / N, Is, Ic, axis });
+            jc = z.Jc; js = z.Js; }
+          const J1 = [js[0] + jc[0], js[1] + jc[1], js[2] + jc[2]];
+          return { N, dE: n2(jc) / (2 * Ic) + n2(js) / (2 * Is) - E0,
+            dJ: Math.hypot(J1[0] - J0[0], J1[1] - J0[1], J1[2] - J0[2]) };
+        };
+        O.prec = { total: [1, 10, 1000].map((N) => run('total', N)),
+          shell: [1, 10, 1000].map((N) => run('shell', N)),
+          axisField: HP.dfmSpinPrecess({ Js: [0, 0, 1], Jc: [1, 0, 0], angle: 0.3 }).axis };
+      }
+      // ⑪ 第260便b: 接触ばねの値域下限 0(検証仮説 (15))—— 既定 40/8 と既存 0.1/0.01 セーブは不変
+      {
+        const rng = (cK, cC) => { const v = HP.validatePreset(mkP([sgl({ m: 1, radius: 1 })],
+          { contactK: cK, contactCap: cC }));
+          return [v.preset.physics.contactK, v.preset.physics.contactCap]; };
+        O.contact = { zero: rng(0, 0), floor: rng(0.1, 0.01), def: rng(40, 8), over: rng(5000, 5000) };
+      }
+      // ⑫ 第260便b: 球殻内部の「0」の**検算目標**を改訂(純関数は厳密 0・エンジンは |Δa| ≤ 1e−7×スケール)
+      {
+        // **試験粒子は 1 個ずつ置く**(2 個置くと粒子どうしの相互重力 —— mEff の床 0.01 で
+        // r=8/14 の対では点源スケールの 2.5e−6 倍 —— が混ざり、測っているものが変わる)
+        const sc = (d) => G * 1000 * d / Math.pow(d * d + eps * eps, 1.5);
+        const one = (d) => {
+          const b = [sgl({ m: 1000, radius: 1, pinned: true, layers: LY() }),
+            sgl({ m: 0.001, rMul: 0.02, x: d })];
+          const v = HP.validatePreset(mkP(b, { contactK: 0, contactCap: 0 }));
+          const S = HP.sim; S.build(v.preset); S.step(1e-3);
+          return Math.hypot(S.vx[1], S.vy[1]) / 1e-3;
+        };
+        O.inner0 = { a8: one(8), s8: sc(8), a14: one(14), s14: sc(14),
+          pure: HP.dfmLayerGravity(LY(), 8, { G: 1, eps: 0.5 }).aLayered,
+          pure14: HP.dfmLayerGravity(LY(), 14, { G: 1, eps: 0.5 }).aLayered };
+      }
       // 内蔵で layers を宣言しているのは 🧅 だけ
       O.builtins = HP.allPresets().filter((p) => (p.bodies || []).some((b) => b && b.layers)).map((p) => p.id);
       return O;
@@ -15249,7 +15352,24 @@ if (!FAST) {
       && bl.torque.precessJcKept < 1e-12 && bl.torque.precessDE < 1e-12
       && Math.abs(bl.torque.tiltDE - 0.75) < 1e-12 && bl.torque.tiltJcKept < 1e-12
       && bl.builtins.length === 1 && bl.builtins[0] === 'layeredCoreDFM';
-    add('behavior.bodyLayers', b1 && b2 && b3 && b4 && b5 && b6 && b7,
+    // 第260便b ⑧〜⑫
+    const b8 = bl.overlap.total < 0 && Math.abs(bl.overlap.total - bl.overlap.wantF) < 1e-6
+      && bl.overlap.pairN === 1 && bl.overlap.dP < 1e-9
+      && bl.overlap.farSame === true && bl.overlap.farPair === 0
+      && bl.overlap.stop === 'overlap' && bl.overlap.stopNaN === false
+      && bl.pair.eq.every((v) => Math.abs(v - bl.pair.eqWant) < 1e-12)
+      && bl.pair.cdRel < 1e-7 && bl.pair.far === 0 && bl.pair.gates;
+    const b9 = bl.kern.rows.every((r) => r.m === 'analytic' && Math.abs(r.v - r.w) < 1e-9)
+      && bl.kern.p3 && bl.kern.shellGate;
+    const b10 = bl.prec.total.every((r) => Math.abs(r.dE) <= 1e-12 && r.dJ <= 1e-11)
+      && bl.prec.shell[0].dE > 1e-3 && bl.prec.axisField === 'total';
+    const b11 = bl.contact.zero[0] === 0 && bl.contact.zero[1] === 0
+      && bl.contact.floor[0] === 0.1 && bl.contact.floor[1] === 0.01
+      && bl.contact.def[0] === undefined && bl.contact.def[1] === undefined
+      && bl.contact.over[0] === 2000 && bl.contact.over[1] === 400;
+    const b12 = bl.inner0.pure === 0 && bl.inner0.pure14 === 0
+      && bl.inner0.a8 <= 1e-7 * bl.inner0.s8 && bl.inner0.a14 <= 1e-7 * bl.inner0.s14;
+    add('behavior.bodyLayers', b1 && b2 && b3 && b4 && b5 && b6 && b7 && b8 && b9 && b10 && b11 && b12,
       `① **未宣言は 1 bit 不変**: 正準形に "layers" が出ない=${bl.undecl.clean}・S.hasBodyLayers=${bl.undecl.flag}・`
       + `層パスの作用対象 ${bl.undecl.n}=${b1} / `
       + `② **検証器**: 受理(警告 0)=${bl.valid.accept}・拒否 5 例 [層に並進自由度 ${bl.valid.r1}・`
@@ -15281,9 +15401,35 @@ if (!FAST) {
       + `**既定の radE は 1 bit 不変**(radE===QcsOld=${bl.engineKcs.same}) / `
       + `保守的歳差は |J_c| 不変(${fx(bl.torque.precessJcKept)})で E 不変(${fx(bl.torque.precessDE)})・`
       + `閉じたコア–殻を 90° 倒すと ΔE=${bl.torque.tiltDE}(|J_s|=1・|J_c|=0.5・I_s=1 の例)・`
-      + `内蔵で layers を宣言するのは [${bl.builtins.join(',')}] だけ=${b7}`);
+      + `内蔵で layers を宣言するのは [${bl.builtins.join(',')}] だけ=${b7} / `
+      + `⑧ **重なる拡張体の二重計上**(第260便b・根 m=1×2・殻 R=10・d=2・ε=0.5・重力チャネルだけ): `
+      + `点源 ${fx(bl.overlap.point)} に対し**対ごとに 1 回だけ** ΔF=F_拡張対−F_点源対 を入れるので `
+      + `層差分 ${fx(bl.overlap.layerDiff)}・合算 **${fx(bl.overlap.total)}(引力のまま)** で、`
+      + `純関数 dfmLayerPairForce の ${fx(bl.overlap.wantF)} と一致する(作用対 ${bl.overlap.pairN}・`
+      + `|ΔP|=${fx(bl.overlap.dP)})。**重ならない組は基点とビット同一**=${bl.overlap.farSame}(作用対 ${bl.overlap.farPair})・`
+      + `ΔF が定義されない組(d=0)は S.layerStop="${bl.overlap.stop}" を立てて層差分を当てない(NaN=${bl.overlap.stopNaN}) / `
+      + `純関数: 等半径 ε=0 は F=−Gm₁m₂/(4R²)=${bl.pair.eqWant}(d=0.5/5/19.9 とも)・中央差分との相対 ${fx(bl.pair.cdRel)}・`
+      + `遠方 d=50 の ΔF=${bl.pair.far}(厳密 0)・門 ${bl.pair.gates}=${b8} / `
+      + `⑨ **可積分核の解析極限**(uniform・ε=0): `
+      + bl.kern.rows.map((r) => `d=${r.d} p=${r.p} → ${r.v}(解析 ${r.w})`).join('・')
+      + `・**p=3 の内部は null のまま**(対数発散を有限に丸めない)=${bl.kern.p3}・`
+      + `薄殻 ε=0・d=R の門は q>0(p<2)なら有限=${bl.kern.shellGate}=${b9} / `
+      + `⑩ **保守的歳差は J_total 軸**(Jc=(1,0,2)・Js=(0,0,4)・Ic=2・Is=8・k=0.2・T=1): `
+      + `既定 axis="${bl.prec.axisField}" の ΔE は `
+      + bl.prec.total.map((r) => `分割 ${r.N} → ${fx(r.dE)}`).join('・')
+      + `(総 J 残差 ${fx(bl.prec.total[2].dJ)})。**旧の固定 J_s 軸**(axis:"shell" で opt-in)は `
+      + bl.prec.shell.map((r) => `分割 ${r.N} → ${fx(r.dE)}`).join('・')
+      + ` —— **J_s を固定軸にすると |J_s| が動いて E が増える**=${b10} / `
+      + `⑪ **接触ばねの値域下限 0**: 入力 0/0 → ${JSON.stringify(bl.contact.zero)}・`
+      + `既存セーブ 0.1/0.01 → ${JSON.stringify(bl.contact.floor)}・既定 40/8 は正準形に出ない `
+      + `${JSON.stringify(bl.contact.def)}・上限は 2000/400 ${JSON.stringify(bl.contact.over)}=${b11} / `
+      + `⑫ **球殻内部の「0」の検算目標**(第260便b で改訂): **純関数は厳密 0**`
+      + `(${bl.inner0.pure}/${bl.inner0.pure14})・エンジンは接触ばね 0・試験粒子 1 個で `
+      + `r=8/14 の |Δa|=${fx(bl.inner0.a8)}/${fx(bl.inner0.a14)} が点源スケール `
+      + `${fx(bl.inner0.s8)}/${fx(bl.inner0.s14)} の ${fx(bl.inner0.a8 / bl.inner0.s8)}/`
+      + `${fx(bl.inner0.a14 / bl.inner0.s14)} 倍(門は 1e−7 倍 —— **0 に対する相対誤差は定義しない**)=${b12}`);
   } else {
-    console.log('SKIP behavior.bodyLayers(対象に第259便b の body.layers なし — root 等)');
+    console.log('SKIP behavior.bodyLayers(対象に第259便b/第260便b の body.layers 一式なし — root 等)');
   }
 }
 
