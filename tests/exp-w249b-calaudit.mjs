@@ -45,7 +45,10 @@ import { fileURLToPath } from 'node:url';
 // 第258便d(第50報 W4): 条件不一致の隔離・証拠付き予測・ε_num の推定誤差・deg/yr の門は
 // **純関数**として tests/lib-w258d-evidence.mjs に置き、QA が同じ 1 本を読む。
 import { GATE, VERDICT_CONDITION, VERDICTS6, YEAR_SEC, enforceAllConditions,
-  predictionEligible, refinedNumBound, degPerYear, assessDegYearGate } from './lib-w258d-evidence.mjs';
+  predictionEligible, refinedNumBound, degPerYear, assessDegYearGate,
+  // 第259便d(第51報 W4): 証拠付き予測の**記録器**(枠だけ — 中身は空で出荷する)
+  emptyEvidenceRegistry, recordEvidence, applyEvidenceRegistry,
+  validatePredictionEvidence } from './lib-w258d-evidence.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -62,6 +65,13 @@ const DT3 = argv.includes('--dt3');       // 第255便d(N8): dt/4 段を足し�
 // **予算の都合で 1 系だけ走らせる**(⚡)。走らせていない系は「未走行」と書く(推定で埋めない)。
 const DT8 = (() => { const i = argv.indexOf('--dt8');
   return (i >= 0 && argv[i + 1] && !argv[i + 1].startsWith('--')) ? argv[i + 1].split(',') : null; })();
+// 第259便d(第51報 W4): **証拠付き予測の記録器**。`--record-evidence <file.json>` で
+// `{ "<gate.key>": {dataset, commit, harness, window, recordedAt}, … }` を読み、
+// 検証を通った宣言だけを量へ配る。**既定は 0 件**(ファイルを渡さなければ枠だけが出る)。
+// 過去に測った値を後から「fit に使っていない」と宣言することはしない —— それは後付けの hold-out で、
+// 「観測値を見る前に手順を凍結した」という hold-out の意味が失われる。宣言は**測る前**に入れる。
+const EVIDENCE_FILE = (() => { const i = argv.indexOf('--record-evidence');
+  return (i >= 0 && argv[i + 1] && !argv[i + 1].startsWith('--')) ? argv[i + 1] : null; })();
 // 第257便d(第49報・3 審査 v15 一致): **dt/4 段の時間予算の既定を 30 s → 80 s にする**。
 // これは**計算時間の予算**であって精度条件の緩和ではない —— 第256便d は 🧶 の dt/4 を
 // `--budget 80` で走らせないと 20 近点窓が埋まらず(予算 30 s では 15 公転で切れて 2 段に落ちた)、
@@ -1570,10 +1580,21 @@ const conditionResult = enforceAllConditions(merged);
 // **② 証拠付き予測の資格**。③(3σ)を通っただけでは ④ に数えない —— `usedForFit:false` /
 // `validation:"held-out"` / `dataset` / `frozenProtocol` の 4 つが宣言として揃った量だけを数える。
 // **現行の宣言は 0 件である**(プリセットにも CSV にもこの 4 つを書いた行が無い)。
+// **②′ 記録器(第259便d)**。枠を先に作り、`--record-evidence` で渡された宣言だけを配る。
+// **既定は 0 件**である —— 台帳には「予測が 0 件」ではなく「**記録器あり・記録 0 件**」と書く。
+const evidenceRegistry = emptyEvidenceRegistry();
+let evidenceApply = { applied: 0, unmatched: [] };
+if (EVIDENCE_FILE) {
+  const decls = JSON.parse(fs.readFileSync(path.isAbsolute(EVIDENCE_FILE)
+    ? EVIDENCE_FILE : path.join(ROOT, EVIDENCE_FILE), 'utf8'));
+  for (const [key, ev] of Object.entries(decls || {})) recordEvidence(evidenceRegistry, key, ev);
+  evidenceApply = applyEvidenceRegistry(merged, evidenceRegistry);
+}
 for (const r of merged) for (const q of (r.quantities || [])) {
   const pe = predictionEligible(q);
   q.predictionEligible = pe.eligible;
   q.predictionEligibleReasons = pe.reasons;
+  if (q.predictionEvidence) q.predictionEvidenceValid = validatePredictionEvidence(q.predictionEvidence);
 }
 
 out.presets = merged;   // decl/run の生データは残さず、判定済みの表を正本にする
@@ -1683,6 +1704,21 @@ out.summary = { nPresets: merged.length,
       + ' **第256便d(第48報)**: 恒星 4 系(✨✴️🌟💫)と 📻 を --dt3 で走らせて 3 段+正の次数を揃えた結果、'
       + '保留が外れて**合否がその場で出た** —— 観測版 ✨🌟 が「合(3σ)」、**DFM 版 ✴️💫 が「否(3σ)」**である'
       + '(sigma3 が 0 でなくなったのは、判定が甘くなったからではなく、保留の条件を満たしたからである)。' } };
+
+// ---------------------------------------------------------------- 第259便d(W4): 記録器の欄
+// **枠だけを出す**。`--record-evidence` を渡さなければ `n:0` で、`entries` は空のままである。
+out.predictionEvidenceRegistry = {
+  n: evidenceRegistry.n, entries: evidenceRegistry.entries, invalid: evidenceRegistry.invalid,
+  appliedToQuantities: evidenceApply.applied, unmatchedKeys: evidenceApply.unmatched,
+  file: EVIDENCE_FILE || null,
+  fields: ['usedForFit:false', 'validation:"held-out"', 'dataset',
+    'frozenProtocol:{commit,harness,window}', 'recordedAt'],
+  note: '**記録器あり・記録 ' + evidenceRegistry.n + ' 件**。第258便d の「宣言が無いので 0 件」は、'
+    + '**宣言する場所が無かった**ことと区別が付かなかった —— 第259便d で枠を作り、区別が付くようにした。'
+    + '**中身は空のまま出荷する**: 過去に測った値を後から「fit に使っていない」と宣言すると'
+    + '**後付けの hold-out** になるからである(hold-out は観測値を見る前に手順を凍結したことに意味がある)。'
+    + '宣言は**測る前**に `--record-evidence` で入れる。'
+    + '**「予測が 0 件」ではなく「記録が 0 件」である** —— この 2 つを台帳でも混ぜない。' };
 
 // ---------------------------------------------------------------- 第258便d(W4): 3 つの新しい欄
 // (a) 条件不一致の一覧(隔離した行と、捨てていない元の証拠)

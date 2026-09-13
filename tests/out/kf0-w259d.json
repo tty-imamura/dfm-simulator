@@ -1,0 +1,343 @@
+{
+ "meta": {
+  "wave": "第259便d",
+  "target": "beta/index.html",
+  "dt": 0.016,
+  "maxSteps": 12000000,
+  "budgetMs": 120000,
+  "touched": "**プリセット JSON は 1 bit も書き換えていない**。走らせるのは `physics.kFrame` の1 鍵(💫 の f=1 対照でだけ bodies[].m も宣言 f で割り戻す)を差し替えた診断コピーである。",
+  "gateNote": "**dt=0.016 の 1 段**なので門の判定ではない。太陽系 19 本は σ が門に 1 本も繋がっていないので、ここで言えるのは「行が要求する条件で測り直せたか」と「その条件での残差」だけである。**「条件一致に戻った」は「合った」ではない。**",
+  "selfCheck": "同じ器で kFrame=1(宣言どおり)も走らせ、棚卸しが記録した kFrame=1 の残差を再現することを確認する。"
+ },
+ "rows": [
+  {
+   "id": "jupiterGalilean",
+   "emoji": "🟠",
+   "row": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)",
+   "kind": "period",
+   "obsCardRow": {
+    "q": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)",
+    "model": "1.770342 / 3.552263 / 7.154235 / 16.684462 日(最大ずれ 0.0681%)",
+    "obs": "1.769138 / 3.551181 / 7.154553 / 16.689017 日"
+   },
+   "obsText": "1.769138 / 3.551181 / 7.154553 / 16.689017 日",
+   "obsDays": [
+    1.769138,
+    3.551181,
+    7.154553,
+    16.689017
+   ],
+   "declaredKFrame": 1,
+   "toSec": 1000,
+   "run": {
+    "kf1": {
+     "steps": 180259,
+     "stopped": "revolutions",
+     "nan": false,
+     "clamp": 0
+    },
+    "kf0": {
+     "steps": 180201,
+     "stopped": "revolutions",
+     "nan": false,
+     "clamp": 0
+    }
+   },
+   "massUnchanged": true,
+   "rows": [
+    {
+     "label": "イオ",
+     "obsDay": 1.769138,
+     "kf1Day": 1.7700641789251248,
+     "kf1ResidPct": 0.05235198865914919,
+     "kf0Day": 1.7700116671209873,
+     "kf0ResidPct": 0.04938377452676063,
+     "kf1Day1st": 1.7698539999775835,
+     "kf0Day1st": 1.7703563653440049,
+     "kf1Resid1stPct": 0.040471686074428664,
+     "kf0Resid1stPct": 0.06886773920433387
+    },
+    {
+     "label": "エウロパ",
+     "obsDay": 3.551181,
+     "kf1Day": 3.552307443206704,
+     "kf1ResidPct": 0.031720241990029915,
+     "kf0Day": 3.5512234652219026,
+     "kf0ResidPct": 0.0011958056179742008,
+     "kf1Day1st": 3.5519528105562514,
+     "kf0Day1st": 3.5535650617255374,
+     "kf1Resid1stPct": 0.021733912077455547,
+     "kf0Resid1stPct": 0.06713433433940116
+    },
+    {
+     "label": "ガニメデ",
+     "obsDay": 7.154553,
+     "kf1Day": 7.156506010875537,
+     "kf1ResidPct": 0.027297454858986034,
+     "kf0Day": 7.153791863122491,
+     "kf0ResidPct": -0.010638496598028088,
+     "kf1Day1st": 7.156298700595512,
+     "kf0Day1st": 7.155594353879177,
+     "kf1Resid1stPct": 0.024399855525732133,
+     "kf0Resid1stPct": 0.014555121461499615
+    },
+    {
+     "label": "カリスト",
+     "obsDay": 16.689017,
+     "kf1Day": 16.691056256289567,
+     "kf1ResidPct": 0.012219151610710495,
+     "kf0Day": 16.68453791416896,
+     "kf0ResidPct": -0.02683852398880026,
+     "kf1Day1st": 16.68998997008956,
+     "kf0Day1st": 16.685811728100468,
+     "kf1Resid1stPct": 0.005830002387556834,
+     "kf0Resid1stPct": -0.019205875933445814
+    }
+   ]
+  },
+  {
+   "id": "venusReal",
+   "emoji": "🌇",
+   "row": "公転周期(kFrame=0 対照)",
+   "kind": "period",
+   "obsCardRow": {
+    "q": "公転周期(kFrame=1・E6′-R)",
+    "model": "224.706 日(+0.0020%)",
+    "obs": "224.701 日"
+   },
+   "obsText": "224.701 日",
+   "obsDays": [
+    224.701
+   ],
+   "declaredKFrame": 1,
+   "toSec": 10000,
+   "run": {
+    "kf1": {
+     "steps": 242679,
+     "stopped": "revolutions",
+     "nan": false,
+     "clamp": 0
+    },
+    "kf0": {
+     "steps": 242674,
+     "stopped": "revolutions",
+     "nan": false,
+     "clamp": 0
+    }
+   },
+   "massUnchanged": true,
+   "rows": [
+    {
+     "label": "金星",
+     "obsDay": 224.701,
+     "kf1Day": 224.70216258539608,
+     "kf1ResidPct": 0.000517392177199004,
+     "kf0Day": 224.6977848067508,
+     "kf0ResidPct": -0.0014308762529717054,
+     "kf1Day1st": 224.7001423706972,
+     "kf0Day1st": 224.695932948925,
+     "kf1Resid1stPct": -0.00038167578373036977,
+     "kf0Resid1stPct": -0.0022550193701863287
+    }
+   ]
+  },
+  {
+   "id": "marsMoonsReal",
+   "emoji": "🥔",
+   "row": "kFrame=0 対照との周期差",
+   "kind": "periodDiff",
+   "obsCardRow": {
+    "q": "kFrame=0 対照との周期差",
+    "model": "0.002% 未満(実スケールでは引きずりが効かない)",
+    "obs": "—"
+   },
+   "obsText": "—",
+   "obsDays": [],
+   "declaredKFrame": 1,
+   "toSec": 100,
+   "run": {
+    "kf1": {
+     "steps": 136397,
+     "stopped": "revolutions",
+     "nan": false,
+     "clamp": 0
+    },
+    "kf0": {
+     "steps": 136395,
+     "stopped": "revolutions",
+     "nan": false,
+     "clamp": 0
+    }
+   },
+   "massUnchanged": true,
+   "rows": [
+    {
+     "label": "フォボス",
+     "obsDay": null,
+     "kf1Day": 0.31905837315569097,
+     "kf0Day": 0.31906044007420736,
+     "kf1Day1st": 0.3190399416532248,
+     "kf0Day1st": 0.31904206344191816,
+     "diffPct": -0.0006478140993963768,
+     "diff1stPct": -0.00066504982774496,
+     "kf1ResidPct": null,
+     "kf0ResidPct": null
+    },
+    {
+     "label": "ダイモス",
+     "obsDay": null,
+     "kf1Day": 1.2629269876921099,
+     "kf0Day": 1.2629154457962033,
+     "kf1Day1st": 1.2629084782425481,
+     "kf0Day1st": 1.2628968964123999,
+     "diffPct": 0.0009139088404527651,
+     "diff1stPct": 0.0009170843780808641,
+     "kf1ResidPct": null,
+     "kf0ResidPct": null
+    }
+   ]
+  },
+  {
+   "id": "plutoCharonReal",
+   "emoji": "❄️",
+   "row": "公転周期(kFrame=0 対照・同方向1周)",
+   "kind": "period",
+   "obsCardRow": {
+    "q": "公転周期(kFrame=0 対照・同方向1周)",
+    "model": "6.3874 日(+0.002%)",
+    "obs": "6.3872 日"
+   },
+   "obsText": "6.3872 日",
+   "obsDays": [
+    6.3872
+   ],
+   "declaredKFrame": 1,
+   "toSec": 100,
+   "run": {
+    "kf1": {
+     "steps": 691514,
+     "stopped": "revolutions",
+     "nan": false,
+     "clamp": 0
+    },
+    "kf0": {
+     "steps": 689831,
+     "stopped": "revolutions",
+     "nan": false,
+     "clamp": 0
+    }
+   },
+   "massUnchanged": true,
+   "rows": [
+    {
+     "label": "カロン",
+     "obsDay": 6.3872,
+     "kf1Day": 6.402900856597216,
+     "kf1ResidPct": 0.24581751937024196,
+     "kf0Day": 6.387315525038124,
+     "kf0ResidPct": 0.0018086961129160774,
+     "kf1Day1st": 6.402887434422397,
+     "kf0Day1st": 6.387297006520054,
+     "kf1Resid1stPct": 0.24560737760516965,
+     "kf0Resid1stPct": 0.0015187644046540888
+    }
+   ]
+  },
+  {
+   "id": "neptuneReal",
+   "emoji": "🌊",
+   "row": "公転周期(kFrame=0 対照)",
+   "kind": "period",
+   "obsCardRow": {
+    "q": "公転周期(kFrame=0 対照)",
+    "model": "5.87741 日(+0.009%)",
+    "obs": "5.876854 日"
+   },
+   "obsText": "5.876854 日",
+   "obsDays": [
+    5.876854
+   ],
+   "declaredKFrame": 1,
+   "toSec": 1000,
+   "run": {
+    "kf1": {
+     "steps": 63541,
+     "stopped": "revolutions",
+     "nan": false,
+     "clamp": 0
+    },
+    "kf0": {
+     "steps": 63473,
+     "stopped": "revolutions",
+     "nan": false,
+     "clamp": 0
+    }
+   },
+   "massUnchanged": true,
+   "rows": [
+    {
+     "label": "トリトン",
+     "obsDay": 5.876854,
+     "kf1Day": 5.883371695933256,
+     "kf1ResidPct": 0.11090450661623485,
+     "kf0Day": 5.87710049023008,
+     "kf0ResidPct": 0.004194254784622458,
+     "kf1Day1st": 5.883175963556383,
+     "kf0Day1st": 5.876915305034336,
+     "kf1Resid1stPct": 0.10757394273165416,
+     "kf0Resid1stPct": 0.0010431607512471981
+    }
+   ]
+  }
+ ],
+ "sirius": {
+  "id": "siriusABDFM",
+  "emoji": "💫",
+  "declaredFactor": 1.0003769425929947,
+  "obs": {
+   "key": "Sirius B|orbital_period",
+   "value": 1581932000,
+   "sigma": 135697.68,
+   "source": "Bond et al. (2017) ApJ 840 70 - The Sirius System and its Astrophysical Puzzles: HST and G",
+   "sigmaRelPct": 0.00857797174594104
+  },
+  "kFrame0_withF": {
+   "kFrame": 0,
+   "massDiv": 1,
+   "steps": 296521,
+   "stopped": "revolutions",
+   "nan": false,
+   "clamp": 0,
+   "heldMassB": 20.250560760498047,
+   "period2Sec": 1581441615.4053607,
+   "residualPct": -0.0309990944389077,
+   "nSigma": 3.6138023482737607
+  },
+  "kFrame0_f1": {
+   "kFrame": 0,
+   "massDiv": 1.0003769425929947,
+   "steps": 296620,
+   "stopped": "revolutions",
+   "nan": false,
+   "clamp": 0,
+   "heldMassB": 20.242929458618164,
+   "period2Sec": 1581969229.4126124,
+   "residualPct": 0.002353414218337969,
+   "nSigma": 0.2743555572389904
+  },
+  "kFrame1_f1": {
+   "kFrame": 1,
+   "massDiv": 1.0003769425929947,
+   "steps": 291375,
+   "stopped": "revolutions",
+   "nan": false,
+   "clamp": 0,
+   "heldMassB": 20.242929458618164,
+   "period2Sec": 1553957053.572467,
+   "residualPct": -1.7684038522220242,
+   "nSigma": 206.15640906707404
+  },
+  "note": "**観測質量そのものが失敗したとは書けない**。第258便d が測ったのは「補正質量 f=1.000377 を維持したまま kFrame=0 にすると 3.61σ」であって、観測質量(f=1)で走らせた対照はその時点で存在しなかった。本器はその 1 行を足す。**dt=0.016 の 1 段なので門の判定ではない。**"
+ },
+ "pageErrors": []
+}

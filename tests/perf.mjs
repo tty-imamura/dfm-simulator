@@ -134,6 +134,12 @@ const REPS = 2, FRAMES = 60, WARMUP_FRAMES = 20, SETS = 3;
 // しない。JSON に forcedRetoss:true を記録)。CI では未設定。
 const FORCE_RETOSS = new Set(String(process.env.PERF_FORCE_RETOSS || '')
   .split(',').map((s) => s.trim()).filter(Boolean));
+// 第259便d: 開発用フック PERF_ABJIT_ONLY=1 —— **末尾の A/B JIT probe だけ**を回す
+// (比較ゲート本体と geo2 ゲートを飛ばす)。4 コア機で 4 つの worktree が同時に走る状況では
+// perf の通しを回せないので、新項目だけを単体で確かめるための口である。CI では未設定。
+// **判定式・閾値・測定手順は 1 bit も変えない**。結果は別ファイル(perf-abjit-only.json)へ書き、
+// コミット対象の perf-results.json を**上書きしない**。
+const ABJIT_ONLY = process.env.PERF_ABJIT_ONLY === '1';
 
 async function getBrowser() {
   const exe = process.env.CHROMIUM_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
@@ -269,7 +275,7 @@ let fail = 0;
 const rows = [];
 const informational = [];
 // 比較ゲート対象: SAMPLES + 両側に揃った EXTRA(EXTRA は昇格時に自動で比較ゲートへ)
-for (const id of [...SAMPLES, ...EXTRA_SAMPLES]) {
+for (const id of (ABJIT_ONLY ? [] : [...SAMPLES, ...EXTRA_SAMPLES])) {
   const inRoot = rootIds.includes(id), inBeta = betaIds.includes(id);
   const isExtra = EXTRA_SAMPLES.includes(id);
   if (inRoot && inBeta) {
@@ -359,7 +365,7 @@ for (const id of [...SAMPLES, ...EXTRA_SAMPLES]) {
 const GEO2_THRESH = +(process.env.GEO2_THRESH || 1.65);
 let geo2Gate = null;
 const geo2Sweep = [];
-if (betaIds.includes('galaxyGeo2') && betaIds.includes('galaxyStd')) {
+if (!ABJIT_ONLY && betaIds.includes('galaxyGeo2') && betaIds.includes('galaxyStd')) {
   const pairs2 = [];
   for (let k = 0; k < SETS; k++) {
     const stdFirst = k % 2 === 0;
@@ -412,12 +418,88 @@ if (betaIds.includes('galaxyGeo2') && betaIds.includes('galaxyStd')) {
     console.log(`INFO perf.geo2-sweep N=${n}  geo0=${g0.ms.toFixed(1)}ms geo2=${g2.ms.toFixed(1)}ms 比=${(g2.ms / g0.ms).toFixed(3)}`);
   }
 } else {
-  console.log('SKIP perf.geo2-overhead(galaxyGeo2/galaxyStd が beta に揃っていない)');
+  console.log(ABJIT_ONLY ? 'SKIP perf.geo2-overhead(PERF_ABJIT_ONLY=1 — A/B JIT probe だけを回す)'
+    : 'SKIP perf.geo2-overhead(galaxyGeo2/galaxyStd が beta に揃っていない)');
 }
+// ---- 第259便d(第51報 W4): A/B JIT probe(**informational**) ----
+// 〔第258便e〕の JIT 崖を **本ゲートは検出できなかった**。理由は構造的で、上の測定は
+// 「1 ページ・1 プリセット・素の連続走行」なので、`S._core` が一度 deopt する経路
+// (A/B で 2 個目の sim を作る・build を 2 度呼ぶ)を通らない —— 素の走行では ×1.5 にしか
+// ならず、A/B 経路でだけ 15〜20 倍になった(第258便e の実測)。
+// 本項目は器 `tests/exp-w258e-jitprobe.mjs` と**同じ A/B ワークロード**
+// (loadPreset → abStart('kFrame',0) → 2 つの sim を交互に進める)を perf の末尾に 1 項目として置く。
+// 手順は本ゲートの流儀に合わせる: **同一環境(同一プロセス・常駐ページ)・2 sim・再 build 込み・
+// ウォームアップ後に 3 反復・中央値・ms/步(1 sim 1 步あたり)**。
+//
+// **基準値をどう置くか(決めて書く)**: **同一 run の root 側 ms/步**を基準にする。
+//  ・**固定値にはしない** —— 絶対 ms/步 は機種依存で、CI ランナーと手元で桁が違う。
+//  ・**tests/out の前回値も判定には使わない** —— tests/out は追跡外なので CI では空から始まり、
+//    しかも「毎回自分を基準にし直す」ので緩やかな劣化を見逃す(前回値は `prev` 欄に**記録だけ**する)。
+//  ・root/beta は同一プロセスで隣接して走るので比は負荷変動に強い(第62便の交互ペアと同じ理由)。
+//    root は別世代なので比は 1.00 ではない —— 見るのは絶対値ではなく**この比の急変**である
+//    (崖なら 15〜20 倍・第258便e の表)。root へ beta が昇格すれば比は 1 付近へ寄る。
+// **判定は informational**: 比が WARN(既定 1.5)を超えたら WARN 行を出すだけで **FAIL にしない**
+// (FAIL へ上げる基準値の決め方は決断事項として残した — 〔第259便d〕)。
+// 所要は 2 プリセット × 2 ページ ≈ 15 秒(崖が無いとき)。崖があるときのために 1 セル 30 秒で打ち切る。
+const ABJIT_PRESETS = String(process.env.PERF_ABJIT_PRESETS || 'galaxyGeo2,bhCore').split(',').map((s) => s.trim()).filter(Boolean);
+const ABJIT_WARN = +(process.env.PERF_ABJIT_WARN || 1.5);
+const ABJIT = { warm: 100, chunk: 100, reps: 3, budgetMs: 30000 };
+// 前回値(記録だけ — 判定には使わない)。この時点ではまだ上書きしていない
+let abJitPrev = null;
+try {
+  const prevJson = JSON.parse(fs.readFileSync(path.join(OUT_DIR, 'perf-results.json'), 'utf8'));
+  abJitPrev = (prevJson && prevJson.abJit && Array.isArray(prevJson.abJit.rows)) ? prevJson.abJit.rows : null;
+} catch { abJitPrev = null; }
+const abJitCell = (page, pid) => page.evaluate(([pid, warm, chunk, reps, budget]) => {
+  if (!HP.allPresets().some((p) => p.id === pid)) return { missing: true };
+  HP.loadPreset(pid, false);
+  const sA = HP.sim;
+  HP.abStart('kFrame', 0);                     // ← ここで 2 個目の sim ができる(deopt を通す経路)
+  const sB = HP.ab().simB;
+  const sims = [sA, sB];
+  const one = () => { for (const s of sims) s.step(0.016); };
+  for (let i = 0; i < warm; i++) one();
+  const per = [];
+  const t00 = performance.now();
+  for (let r = 0; r < reps && (performance.now() - t00) < budget; r++) {
+    const t0 = performance.now();
+    for (let i = 0; i < chunk; i++) one();
+    per.push((performance.now() - t0) / (chunk * sims.length));
+  }
+  const sorted = per.slice().sort((a, b) => a - b);
+  const nan = sA.hasNaN() || sB.hasNaN();
+  HP.abStop();
+  return { n: sA.n, sims: sims.length, reps: per.length, per: per.map((v) => +v.toFixed(4)),
+    msPerStep: sorted.length ? sorted[Math.floor(sorted.length / 2)] : null, nan };
+}, [pid, ABJIT.warm, ABJIT.chunk, ABJIT.reps, ABJIT.budgetMs]);
+const abJitRows = [];
+for (const pid of ABJIT_PRESETS) {
+  const r = await abJitCell(rootPage, pid);      // 基準(root)→ beta の順で隣接して測る
+  const b = await abJitCell(betaPage, pid);
+  if (r.missing || b.missing || !r.msPerStep || !b.msPerStep) {
+    console.log(`SKIP perf.abJit.${pid}(root/beta のどちらかに無い、または測れなかった)`);
+    continue;
+  }
+  const ratio = b.msPerStep / r.msPerStep;
+  const prev = (abJitPrev || []).find((z) => z.id === pid) || null;
+  const warn = ratio > ABJIT_WARN;
+  abJitRows.push({ id: pid, msPerStep: +b.msPerStep.toFixed(4), baseRef: +r.msPerStep.toFixed(4),
+    ratio: +ratio.toFixed(3), warn, warnRatio: ABJIT_WARN, nBeta: b.n, nRoot: r.n,
+    sims: b.sims, reps: b.reps, perBeta: b.per, perRoot: r.per, nan: b.nan || r.nan,
+    prev: prev ? { msPerStep: prev.msPerStep, baseRef: prev.baseRef, ratio: prev.ratio } : null,
+    baseRefKind: 'same-run-root', judgement: 'informational' });
+  console.log(`${warn ? 'WARN' : 'INFO'} perf.abJit.${pid}  beta=${b.msPerStep.toFixed(3)}ms/步`
+    + ` root=${r.msPerStep.toFixed(3)}ms/步 比=${ratio.toFixed(3)}`
+    + `(A/B 2 sim・warm ${ABJIT.warm} 步・${b.reps} 反復の中央値・基準=同一 run の root)`
+    + (prev ? ` 前回 比=${prev.ratio}` : '')
+    + (warn ? `  ← **${ABJIT_WARN}× 超**: S._core の JIT 崖(〔第258便e〕)を疑う。`
+      + 'tests/exp-w258e-jitprobe.mjs を基点 html と並べて回すこと(informational — ゲートは落とさない)' : ''));
+}
+
 await browser.close();
 
 fs.mkdirSync(OUT_DIR, { recursive: true });
-fs.writeFileSync(path.join(OUT_DIR, 'perf-results.json'), JSON.stringify({
+fs.writeFileSync(path.join(OUT_DIR, ABJIT_ONLY ? 'perf-abjit-only.json' : 'perf-results.json'), JSON.stringify({
   when: new Date().toISOString(), threshold: THRESH,
   reps: REPS, frames: FRAMES, sets: SETS, env,
   // results: 比較ゲート対象(pass/fail 判定あり。ratio はペア比の中央値。
@@ -428,10 +510,22 @@ fs.writeFileSync(path.join(OUT_DIR, 'perf-results.json'), JSON.stringify({
   // informational: 片側にしかプリセットが無いための参考計測(pass判定なし。ゲート対象外 —
   //          判定が無いので再トスの対象にもならない)
   // geo2: 第72便 — geoPN=2 のオーバーヘッドゲート(🎡⇔💫 同一初期配置ペア比)と N 掃引
+  // abJit: 第259便d — **informational** の A/B JIT probe(〔第258便e〕の崖を perf からも見る)。
+  //   rows[].msPerStep = beta の ms/步(1 sim 1 步あたり)・baseRef = 同一 run の root の ms/步・
+  //   ratio = msPerStep / baseRef。**判定は informational**(warn を立てるだけで fail を増やさない)。
+  //   prev は前回の走行の記録で、**判定には使わない**(tests/out は追跡外なので CI では空から始まる)。
   results: rows, informational, geo2: { gate: geo2Gate, sweep: geo2Sweep },
+  abJit: { rows: abJitRows, warnRatio: ABJIT_WARN, presets: ABJIT_PRESETS,
+    method: `ab(2 sim)・warm ${ABJIT.warm} 步・${ABJIT.reps} 反復 × ${ABJIT.chunk} 步の中央値・ms/步`,
+    baseRefKind: 'same-run-root', judgement: 'informational',
+    note: '基準は**同一 run の root** である。固定値にはできず(絶対 ms/步 は機種依存)、'
+      + '前回値も判定には使わない(tests/out は追跡外・毎回自分を基準にし直すと緩やかな劣化を見逃す)。'
+      + 'root は別世代なので比は 1.00 ではない —— 見るのは**比の急変**である(崖なら 15〜20 倍)。'
+      + 'FAIL へ上げる基準値の決め方は決断事項として残してある(〔第259便d〕)。' },
 }, null, 2));
 const retossed = rows.filter((r) => r.retossed);
-console.log(`perf gate: ${rows.length - fail}/${rows.length} PASS → tests/out/perf-results.json`
+console.log(`perf gate: ${rows.length - fail}/${rows.length} PASS → tests/out/${ABJIT_ONLY ? 'perf-abjit-only.json' : 'perf-results.json'}`
+  + (abJitRows.length ? ` [abJit(informational): ${abJitRows.map((r) => `${r.id} ×${r.ratio}${r.warn ? ' WARN' : ''}`).join(' / ')}]` : '')
   + (informational.length ? ` (+${informational.length} informational)` : '')
   // 第160便: 再トスが走ったサンプルは要約行にも残す(再トス無しの run では何も出ない)
   + (retossed.length ? ` [再トス ${retossed.length}件: ${retossed.map((r) => `${r.id} ${r.firstNormRatio}→${r.finalRatio}${r.finalPass ? '' : '(FAIL確定)'}`).join(' / ')}]` : ''));

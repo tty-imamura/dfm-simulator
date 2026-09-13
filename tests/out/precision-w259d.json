@@ -1,0 +1,732 @@
+{
+ "meta": {
+  "wave": "第259便d",
+  "target": "beta/index.html",
+  "dt0": 0.016,
+  "periWindow": 20,
+  "budgetS": 900,
+  "window": "**最初の 20 近点(19 区間)を窓とし、3 量をすべて同じ窓の中で作る**。棚卸しは離心率と傾きを走行長いっぱいから作るので、その 2 欄はここと一致しない(近点間 P は同じ窓なので一致するはずである)。**段ごとに窓を揃えることが収束次数を読む前提**である。",
+  "touched": "**プリセット JSON は 1 bit も書き換えていない**。変えるのは dt だけである。",
+  "gateNote": "**門の判定は動かさない**。門が読む ε_num は |Q_h−Q_{h/4}| のままで、/(1−4^−p) は**推定誤差の記録**である(第258便d ③)。"
+ },
+ "cases": [
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "note": "第258便d では**未走行**だった 4 段目(dt/8)を足す",
+   "toSec": 10,
+   "obs": {
+    "key": "PSR B1534+12 B|orbital_period",
+    "value": 36351.702644140794,
+    "sigma": 8.64e-7,
+    "source": "Stairs et al. (2002) ApJ 581 501 - Studies of the Relativistic Binary Pulsar PSR B1534+12.",
+    "sigmaRelPct": 2.376780005211834e-9
+   },
+   "precision": {
+    "framePrecision": "double",
+    "stateCarry": "double",
+    "xIsFloat64": true,
+    "vxIsFloat64": true
+   },
+   "massDiagnostic": {
+    "held": [
+     5299.97705078125,
+     5349.6767578125
+    ],
+    "declared": [
+     5299.977112834566,
+     5349.676823194979
+    ],
+    "heldIsFround": true,
+    "ulp32": [
+     0.0004239981640625,
+     0.000427974140625
+    ],
+    "ulpRel": [
+     8e-8,
+     8e-8
+    ],
+    "isFloat32": true
+   },
+   "diagnostics": {
+    "precision": {
+     "framePrecision": "double",
+     "stateCarry": "double",
+     "xIsFloat64": true,
+     "vxIsFloat64": true
+    },
+    "periodDefinition": {
+     "window": "20 近点(19 区間)",
+     "note": "**段ごとに同じ窓**である(窓が段で変わると収束次数は読めない)。棚卸しは離心率と傾きを走行長いっぱいから作るので、その 2 欄はここと一致しない(近点間 P は同じ窓なので一致する)。"
+    },
+    "timeSeries": [
+     {
+      "div": 1,
+      "tSpanSec": 688113.9478831756,
+      "steps": 4414258,
+      "wallSec": 5.34
+     },
+     {
+      "div": 2,
+      "tSpanSec": 689247.2101621901,
+      "steps": 8842686,
+      "wallSec": 10.44
+     },
+     {
+      "div": 4,
+      "tSpanSec": 689814.0335609525,
+      "steps": 17699545,
+      "wallSec": 21.02
+     },
+     {
+      "div": 8,
+      "tSpanSec": 690097.493342651,
+      "steps": 35413267,
+      "wallSec": 42.29
+     }
+    ],
+    "periastronExtraction": [
+     {
+      "div": 1,
+      "nPeri": 20,
+      "jump": 0,
+      "stopped": "window"
+     },
+     {
+      "div": 2,
+      "nPeri": 20,
+      "jump": 0,
+      "stopped": "window"
+     },
+     {
+      "div": 4,
+      "nPeri": 20,
+      "jump": 0,
+      "stopped": "window"
+     },
+     {
+      "div": 8,
+      "nPeri": 20,
+      "jump": 0,
+      "stopped": "window"
+     }
+    ],
+    "massRounding": {
+     "isFloat32": true,
+     "heldIsFround": true,
+     "ulpRel": [
+      8e-8,
+      8e-8
+     ],
+     "sumDeclared": 10649.653936029545,
+     "sumHeld": 10649.65380859375,
+     "relMassError": 1.1966191146122581e-8,
+     "relPeriodError": 5.9830955730612905e-9,
+     "periodErrorSec": 0.0002174957111633992,
+     "nSigma": 251.7311471798602,
+     "note": "**質量の丸めだけ**の寄与である(P ∝ M^(−1/2) で M の相対誤差の半分が P に乗る)。framePrecision / stateCarry は double だが、**質量 `S.m` は Float32Array のまま**なのでこの項は double 化では消えない。**離散化の ε_num とは別の出どころである** —— 桁を比べる。"
+    }
+   },
+   "stages": [
+    {
+     "div": 1,
+     "dt": 0.016,
+     "steps": 4414258,
+     "wallSec": 5.34,
+     "stopped": "window",
+     "nPeri": 20,
+     "measured": true,
+     "jump": 0,
+     "perMeanSec": 36216.52357279872,
+     "tSpanSec": 688113.9478831756,
+     "eProxy": 0.2753345213773055,
+     "slopeDegPerOrbit": 0.0041038962740084835,
+     "residDegPerOrbit": 0.000011054316648830076,
+     "nan": false,
+     "clamp": 0
+    },
+    {
+     "div": 2,
+     "dt": 0.008,
+     "steps": 8842686,
+     "wallSec": 10.44,
+     "stopped": "window",
+     "nPeri": 20,
+     "measured": true,
+     "jump": 0,
+     "perMeanSec": 36276.168955904745,
+     "tSpanSec": 689247.2101621901,
+     "eProxy": 0.27465066127666554,
+     "slopeDegPerOrbit": 0.004099232158209847,
+     "residDegPerOrbit": 0.000005506490221705178,
+     "nan": false,
+     "clamp": 0
+    },
+    {
+     "div": 4,
+     "dt": 0.004,
+     "steps": 17699545,
+     "wallSec": 21.02,
+     "stopped": "window",
+     "nPeri": 20,
+     "measured": true,
+     "jump": 0,
+     "perMeanSec": 36306.001766365924,
+     "tSpanSec": 689814.0335609525,
+     "eProxy": 0.27430948116939413,
+     "slopeDegPerOrbit": 0.004097140773345368,
+     "residDegPerOrbit": 0.0000027487533008193526,
+     "nan": false,
+     "clamp": 0
+    },
+    {
+     "div": 8,
+     "dt": 0.002,
+     "steps": 35413267,
+     "wallSec": 42.29,
+     "stopped": "window",
+     "nPeri": 20,
+     "measured": true,
+     "jump": 0,
+     "perMeanSec": 36320.92070224479,
+     "tSpanSec": 690097.493342651,
+     "eProxy": 0.2741390780977884,
+     "slopeDegPerOrbit": 0.0040961548603914615,
+     "residDegPerOrbit": 0.0000013733310112024383,
+     "nan": false,
+     "clamp": 0
+    }
+   ],
+   "quantities": [
+    {
+     "name": "近点間 P [s]",
+     "values": [
+      36216.52357279872,
+      36276.168955904745,
+      36306.001766365924,
+      36320.92070224479
+     ],
+     "stages": [
+      "dt/1",
+      "dt/2",
+      "dt/4",
+      "dt/8"
+     ],
+     "pObsRows": [
+      {
+       "triple": "dt/1,dt/2,dt/4",
+       "pObs": 0.9995105732656265,
+       "richardson": 36335.85482838157
+      },
+      {
+       "triple": "dt/2,dt/4,dt/8",
+       "pObs": 0.9997552597966478,
+       "richardson": 36335.844701137845
+      }
+     ],
+     "epsNum": 89.4781935672072,
+     "epsNumEstimate": {
+      "raw": 89.4781935672072,
+      "order": 0.9995105732656265,
+      "factor": 1.333635054816165,
+      "refined": 119.3312555828538,
+      "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3336 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+     },
+     "asymptotic": {
+      "pObsShifts": [
+       0.9995105732656265,
+       0.9997552597966478
+      ],
+      "inAsymptotic": true,
+      "note": "**段をずらしても観測次数が変わらないことが漸近域の条件**である(変わるなら、3 段で測った p_obs を収束次数として使ってはいけない)"
+     }
+    },
+    {
+     "name": "離心率 proxy",
+     "values": [
+      0.2753345213773055,
+      0.27465066127666554,
+      0.27430948116939413,
+      0.2741390780977884
+     ],
+     "stages": [
+      "dt/1",
+      "dt/2",
+      "dt/4",
+      "dt/8"
+     ],
+     "pObsRows": [
+      {
+       "triple": "dt/1,dt/2,dt/4",
+       "pObs": 1.0031676869089892,
+       "richardson": 0.27396979438332447
+      },
+      {
+       "triple": "dt/2,dt/4,dt/8",
+       "pObs": 1.00158219069232,
+       "richardson": 0.2739690481713439
+      }
+     ],
+     "epsNum": 0.0010250402079113874,
+     "epsNumEstimate": {
+      "raw": 0.0010250402079113874,
+      "order": 1.0031676869089892,
+      "factor": 1.3313887430443092,
+      "refined": 0.0013647269939810194,
+      "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3314 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+     },
+     "asymptotic": {
+      "pObsShifts": [
+       1.0031676869089892,
+       1.00158219069232
+      ],
+      "inAsymptotic": true,
+      "note": "**段をずらしても観測次数が変わらないことが漸近域の条件**である(変わるなら、3 段で測った p_obs を収束次数として使ってはいけない)"
+     }
+    },
+    {
+     "name": "近点移動 [°/周]",
+     "values": [
+      0.0041038962740084835,
+      0.004099232158209847,
+      0.004097140773345368,
+      0.0040961548603914615
+     ],
+     "stages": [
+      "dt/1",
+      "dt/2",
+      "dt/4",
+      "dt/8"
+     ],
+     "pObsRows": [
+      {
+       "triple": "dt/1,dt/2,dt/4",
+       "pObs": 1.1571450310818248,
+       "richardson": 0.00409544067692514
+      },
+      {
+       "triple": "dt/2,dt/4,dt/8",
+       "pObs": 1.084926394476886,
+       "richardson": 0.004095275575858418
+      }
+     ],
+     "epsNum": 0.000006755500663115782,
+     "epsNumEstimate": {
+      "raw": 0.000006755500663115782,
+      "order": 1.1571450310818248,
+      "factor": 1.2516610544515474,
+      "refined": 0.000008455597083343628,
+      "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.2517 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+     },
+     "asymptotic": {
+      "pObsShifts": [
+       1.1571450310818248,
+       1.084926394476886
+      ],
+      "inAsymptotic": true,
+      "note": "**段をずらしても観測次数が変わらないことが漸近域の条件**である(変わるなら、3 段で測った p_obs を収束次数として使ってはいけない)"
+     }
+    }
+   ],
+   "finest": {
+    "div": 8,
+    "perMeanSec": 36320.92070224479,
+    "residualPct": -0.08467812965280085,
+    "nSigma": 35627247.56482196
+   },
+   "extrapolated": {
+    "perMeanSec": 36335.844701137845,
+    "residualSec": -15.857943002949469,
+    "residualPct": -0.04362365955231389,
+    "nSigma": 18354100.69785818,
+    "note": "**外挿は走行ではない**(推定値である)。「dt を細かくすれば合う」とは書けない。"
+   }
+  },
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "note": "第258便d の 4 段に**5 段目(dt/16)**を足し、Float64 診断を分ける",
+   "toSec": 10,
+   "obs": {
+    "key": "PSR J0737-3039 B|orbital_period",
+    "value": 8834.534723278,
+    "sigma": 2.5056e-7,
+    "source": "Hu et al. (2022) A&A 667 A149 (via device-collected record)",
+    "sigmaRelPct": 2.8361425683211445e-9
+   },
+   "precision": {
+    "framePrecision": "double",
+    "stateCarry": "double",
+    "xIsFloat64": true,
+    "vxIsFloat64": true
+   },
+   "massDiagnostic": {
+    "held": [
+     5321.81201171875,
+     4966.5966796875
+    ],
+    "declared": [
+     5321.812101719132,
+     4966.596715423392
+    ],
+    "heldIsFround": true,
+    "ulp32": [
+     0.0004257449609375,
+     0.000397327734375
+    ],
+    "ulpRel": [
+     8e-8,
+     8e-8
+    ],
+    "isFloat32": true
+   },
+   "diagnostics": {
+    "precision": {
+     "framePrecision": "double",
+     "stateCarry": "double",
+     "xIsFloat64": true,
+     "vxIsFloat64": true
+    },
+    "periodDefinition": {
+     "window": "20 近点(19 区間)",
+     "note": "**段ごとに同じ窓**である(窓が段で変わると収束次数は読めない)。棚卸しは離心率と傾きを走行長いっぱいから作るので、その 2 欄はここと一致しない(近点間 P は同じ窓なので一致する)。"
+    },
+    "timeSeries": [
+     {
+      "div": 1,
+      "tSpanSec": 166010.07859020185,
+      "steps": 1065169,
+      "wallSec": 1.24
+     },
+     {
+      "div": 2,
+      "tSpanSec": 166930.93502917927,
+      "steps": 2141850,
+      "wallSec": 2.66
+     },
+     {
+      "div": 4,
+      "tSpanSec": 167391.4537348707,
+      "steps": 4295214,
+      "wallSec": 5.24
+     },
+     {
+      "div": 8,
+      "tSpanSec": 167621.71883353498,
+      "steps": 8601943,
+      "wallSec": 10.53
+     },
+     {
+      "div": 16,
+      "tSpanSec": 167736.85486718104,
+      "steps": 17215400,
+      "wallSec": 20.59
+     }
+    ],
+    "periastronExtraction": [
+     {
+      "div": 1,
+      "nPeri": 20,
+      "jump": 0,
+      "stopped": "window"
+     },
+     {
+      "div": 2,
+      "nPeri": 20,
+      "jump": 0,
+      "stopped": "window"
+     },
+     {
+      "div": 4,
+      "nPeri": 20,
+      "jump": 0,
+      "stopped": "window"
+     },
+     {
+      "div": 8,
+      "nPeri": 20,
+      "jump": 0,
+      "stopped": "window"
+     },
+     {
+      "div": 16,
+      "nPeri": 20,
+      "jump": 0,
+      "stopped": "window"
+     }
+    ],
+    "massRounding": {
+     "isFloat32": true,
+     "heldIsFround": true,
+     "ulpRel": [
+      8e-8,
+      8e-8
+     ],
+     "sumDeclared": 10288.408817142525,
+     "sumHeld": 10288.40869140625,
+     "relMassError": 1.2221158477934348e-8,
+     "relPeriodError": 6.110579238967174e-9,
+     "periodErrorSec": 0.00005398412446599716,
+     "nSigma": 215.45388117016748,
+     "note": "**質量の丸めだけ**の寄与である(P ∝ M^(−1/2) で M の相対誤差の半分が P に乗る)。framePrecision / stateCarry は double だが、**質量 `S.m` は Float32Array のまま**なのでこの項は double 化では消えない。**離散化の ε_num とは別の出どころである** —— 桁を比べる。"
+    }
+   },
+   "stages": [
+    {
+     "div": 1,
+     "dt": 0.016,
+     "steps": 1065169,
+     "wallSec": 1.24,
+     "stopped": "window",
+     "nPeri": 20,
+     "measured": true,
+     "jump": 0,
+     "perMeanSec": 8737.372557379043,
+     "tSpanSec": 166010.07859020185,
+     "eProxy": 0.09406572787919135,
+     "slopeDegPerOrbit": 0.00958477100995414,
+     "residDegPerOrbit": 0.00011487829383420405,
+     "nan": false,
+     "clamp": 0
+    },
+    {
+     "div": 2,
+     "dt": 0.008,
+     "steps": 2141850,
+     "wallSec": 2.66,
+     "stopped": "window",
+     "nPeri": 20,
+     "measured": true,
+     "jump": 0,
+     "perMeanSec": 8785.83868574628,
+     "tSpanSec": 166930.93502917927,
+     "eProxy": 0.09091909529820075,
+     "slopeDegPerOrbit": 0.009484505472021518,
+     "residDegPerOrbit": 0.00020807536940944913,
+     "nan": false,
+     "clamp": 0
+    },
+    {
+     "div": 4,
+     "dt": 0.004,
+     "steps": 4295214,
+     "wallSec": 5.24,
+     "stopped": "window",
+     "nPeri": 20,
+     "measured": true,
+     "jump": 0,
+     "perMeanSec": 8810.076512361618,
+     "tSpanSec": 167391.4537348707,
+     "eProxy": 0.08935883047456201,
+     "slopeDegPerOrbit": 0.009468648333666792,
+     "residDegPerOrbit": 0.000026701945129604873,
+     "nan": false,
+     "clamp": 0
+    },
+    {
+     "div": 8,
+     "dt": 0.002,
+     "steps": 8601943,
+     "wallSec": 10.53,
+     "stopped": "window",
+     "nPeri": 20,
+     "measured": true,
+     "jump": 0,
+     "perMeanSec": 8822.195728080791,
+     "tSpanSec": 167621.71883353498,
+     "eProxy": 0.08858192446094297,
+     "slopeDegPerOrbit": 0.009457484780855844,
+     "residDegPerOrbit": 0.000012674046436788777,
+     "nan": false,
+     "clamp": 0
+    },
+    {
+     "div": 16,
+     "dt": 0.001,
+     "steps": 17215400,
+     "wallSec": 20.59,
+     "stopped": "window",
+     "nPeri": 20,
+     "measured": true,
+     "jump": 0,
+     "perMeanSec": 8828.255519325317,
+     "tSpanSec": 167736.85486718104,
+     "eProxy": 0.08819427353457483,
+     "slopeDegPerOrbit": 0.00945251863136809,
+     "residDegPerOrbit": 0.000006329806376337798,
+     "nan": false,
+     "clamp": 0
+    }
+   ],
+   "quantities": [
+    {
+     "name": "近点間 P [s]",
+     "values": [
+      8737.372557379043,
+      8785.83868574628,
+      8810.076512361618,
+      8822.195728080791,
+      8828.255519325317
+     ],
+     "stages": [
+      "dt/1",
+      "dt/2",
+      "dt/4",
+      "dt/8",
+      "dt/16"
+     ],
+     "pObsRows": [
+      {
+       "triple": "dt/1,dt/2,dt/4",
+       "pObs": 0.9997165005001694,
+       "richardson": 8834.323867584906
+      },
+      {
+       "triple": "dt/2,dt/4,dt/8",
+       "pObs": 0.9999639998965821,
+       "richardson": 8834.315548653156
+      },
+      {
+       "triple": "dt/4,dt/8,dt/16",
+       "pObs": 0.9999563396598453,
+       "richardson": 8834.315677361925
+      }
+     ],
+     "epsNum": 72.70395498257494,
+     "epsNumEstimate": {
+      "raw": 72.70395498257494,
+      "order": 0.9997165005001694,
+      "factor": 1.3335080633384957,
+      "refined": 96.95131020586268,
+      "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3335 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+     },
+     "asymptotic": {
+      "pObsShifts": [
+       0.9997165005001694,
+       0.9999639998965821,
+       0.9999563396598453
+      ],
+      "inAsymptotic": true,
+      "note": "**段をずらしても観測次数が変わらないことが漸近域の条件**である(変わるなら、3 段で測った p_obs を収束次数として使ってはいけない)"
+     }
+    },
+    {
+     "name": "離心率 proxy",
+     "values": [
+      0.09406572787919135,
+      0.09091909529820075,
+      0.08935883047456201,
+      0.08858192446094297,
+      0.08819427353457483
+     ],
+     "stages": [
+      "dt/1",
+      "dt/2",
+      "dt/4",
+      "dt/8",
+      "dt/16"
+     ],
+     "pObsRows": [
+      {
+       "triple": "dt/1,dt/2,dt/4",
+       "pObs": 1.0120178126596542,
+       "richardson": 0.08782423907316578
+      },
+      {
+       "triple": "dt/2,dt/4,dt/8",
+       "pObs": 1.005978934456038,
+       "richardson": 0.0878114180898175
+      },
+      {
+       "triple": "dt/4,dt/8,dt/16",
+       "pObs": 1.0029819663003448,
+       "richardson": 0.08780822015817487
+      }
+     ],
+     "epsNum": 0.004706897404629332,
+     "epsNumEstimate": {
+      "raw": 0.004706897404629332,
+      "order": 1.0120178126596542,
+      "factor": 1.3260303485448681,
+      "refined": 0.006241488806025567,
+      "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3260 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+     },
+     "asymptotic": {
+      "pObsShifts": [
+       1.0120178126596542,
+       1.005978934456038,
+       1.0029819663003448
+      ],
+      "inAsymptotic": true,
+      "note": "**段をずらしても観測次数が変わらないことが漸近域の条件**である(変わるなら、3 段で測った p_obs を収束次数として使ってはいけない)"
+     }
+    },
+    {
+     "name": "近点移動 [°/周]",
+     "values": [
+      0.00958477100995414,
+      0.009484505472021518,
+      0.009468648333666792,
+      0.009457484780855844,
+      0.00945251863136809
+     ],
+     "stages": [
+      "dt/1",
+      "dt/2",
+      "dt/4",
+      "dt/8",
+      "dt/16"
+     ],
+     "pObsRows": [
+      {
+       "triple": "dt/1,dt/2,dt/4",
+       "pObs": 2.660621480437513,
+       "richardson": 0.009465669378514717
+      },
+      {
+       "triple": "dt/2,dt/4,dt/8",
+       "pObs": 0.5063362005050155,
+       "richardson": 0.009430932604443928
+      },
+      {
+       "triple": "dt/4,dt/8,dt/16",
+       "pObs": 1.1685966449318264,
+       "richardson": 0.009448539119393709
+      }
+     ],
+     "epsNum": 0.00011612267628734879,
+     "epsNumEstimate": {
+      "raw": 0.00011612267628734879,
+      "order": 2.660621480437513,
+      "factor": 1.025653517877102,
+      "refined": 0.00011910163143942322,
+      "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0257 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+     },
+     "asymptotic": {
+      "pObsShifts": [
+       2.660621480437513,
+       0.5063362005050155,
+       1.1685966449318264
+      ],
+      "inAsymptotic": false,
+      "note": "**段をずらしても観測次数が変わらないことが漸近域の条件**である(変わるなら、3 段で測った p_obs を収束次数として使ってはいけない)"
+     }
+    }
+   ],
+   "finest": {
+    "div": 16,
+    "perMeanSec": 8828.255519325317,
+    "residualPct": -0.07107566102081218,
+    "nSigma": 25060679.887783445
+   },
+   "extrapolated": {
+    "perMeanSec": 8834.315677361925,
+    "residualSec": -0.21904591607562907,
+    "residualPct": -0.0024794278695681373,
+    "nSigma": 874225.3994078428,
+    "note": "**外挿は走行ではない**(推定値である)。「dt を細かくすれば合う」とは書けない。"
+   }
+  }
+ ],
+ "pageErrors": []
+}
