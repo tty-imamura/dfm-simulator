@@ -999,6 +999,10 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     (同 role を m の和・**r=√(r_i²+r_j²)** で合算 —— 殻とコア v2 の既存則と同型)。
     **"add" は質量を守るが構造を守らない**(同じ半径を積み直すと畳み込みが発火し、8 回で 4 層へ縮退する ——
     〔第260便b §4〕。**既定の "role" は 2 層を保つ**)。
+    **第261便b: 「同じ半径」の判定を相対にした** —— |r_i−r_j| ≤ `HP.LAYER_MERGE_RTOL`(=10⁻⁹)×max(r_i,r_j)
+    なら 1 層に畳み、**半径はずらさない**(第260便b の (1+10⁻¹²) のずらしを廃止)。
+    これで "add" の層数が **8 回とも 4 層**で安定する(基点は 4→6→4→6→6→8→4 と非単調だった)。
+    宣言 `J` も層と一緒に和で運ぶ。**既定の "role" の結果は変わらない。**
   - **`HP.dfmLayerPairForce(layersA, layersB, d, {G,eps})`**(第260便b)→
     `{U,F,Upoint,Fpoint,dU,dF,mA,mB,nPair,rOutA,rOutB,overlap}`。**薄殻 × 薄殻の対ポテンシャルの解析積分**で、
     `F` は距離 d が増える向きの**符号つき半径方向成分**(負 = 引力)。`r:0` の層は点として畳む。
@@ -1011,6 +1015,48 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     **`S.layerStopN`**(ΔF が定義されず停止した対)/ **`S.layerStop`**(`null` か `"overlap"`)で、
     HUD のステップ診断にも `layer:<stop|on> N=… pair=…/…` として出る。
     **`S.layerStop="overlap"` の間、その対には層差分が当たらない**(点源の単極子だけで進む)。
+    **第261便b で 3 つ変わった。**
+    ① **近接域の桁落ちを式で直した**(実装は 3 分岐・返り値に `dFmethod`/`dFerr` が増えた)。
+       第260便b の実装は d が小さいほど d·I′ と I が消し合うので、R₁=R₂=10・m=1・G=1・ε=0.5 で
+       d=10⁻⁶ に **+2.43×10⁻⁴(斥力)**、ε=0・同半径の厳密値 −0.0025 に対して d=10⁻⁸ に **−0.83** を返していた。
+       いまは **ε=0 は閉じた形**(d ≥ R₁+R₂ で点源・d ≤ |R₁−R₂| で 0・その間は F=K((R₁−R₂)²−d²)/d²)、
+       **ε>0 は Φ(w,d)=(ε²/2)(X−asinh X)** の閉じた形(N=Φ(R₁+R₂,d)−Φ(R₂−R₁,d))、
+       **遠方は単極子+多重極 3 項**(Δ^k g の閉形式)を、**推定誤差の小さいほうで**使い分ける。
+       `dFmethod` は `"eps0-far"`/`"eps0-inside"`/`"eps0-overlap"`/`"stable"`/`"multipole"`/
+       `"shell-point"`/`"point"`/`"concentric"`、`dFerr` は **ΔF の相対誤差の見積り**である。
+       **交替点の ΔF は 10⁻⁶ 級が精度の上限**であり、そこから先を「厳密」とは書かない。
+    ② **重ならない対も ΔF を受ける**。**ε>0 では軟化核が調和でないので d ≥ r_out,A+r_out,B でも ΔF≠0**
+       (大きさは ε²R²/d⁵ 級)。カットを外し、**ΔF が厳密に 0 の対だけキックしない**
+       (ε=0 の遠方はこれに当たるので、従来どおり 1 命令も走らない)。
+    ③ **d=0 は門ではなくなった**(`d ≥ 0` を受ける)。**同心の薄殻は対称性で互いに純力を及ぼさない**ので
+       F=0・ΔF=0 を返し、U は −2K(h(R₁+R₂)−h(R₂−R₁)) の極限値を返す。これにより
+       `layerStop="overlap"` が立つ状況は**正しい宣言からは生じない**。
+       **`S.layerStopMode`**(既定 `"define"`/opt-in `"halt"`)が停止の作法を選ぶ。`"halt"` では
+       step の**前**に全対象対を検査し、ΔF が有限でない対があれば **時刻を進めずに** `S.layerHalt`
+       (`{i,j,d,reason:"layerPairUndefined"}`)と `S.layerStop="halt"` を立てて戻る。
+       **既定は `"define"`**(層の配列を実行時に壊さないかぎり検査は素通りする)。
+  - **`body.layers[].J`(省略可・第261便b)**: 層のスピン角運動量。**宣言値として運ばれるだけで
+    力へは 1 バイトも接続していない**(表示・保存・編集・融合の合算の対象)。未宣言の層は
+    **正準形に 1 文字も出ない**(既定経路の署名は不変)。値域は ±10¹²。
+  - **`S.applyLayerEdit(i, k, cfg)`(第261便b — 同心層を実行時に編集する唯一の入口)**:
+    `cfg={role?,m?,r?,J?}` で層 k を編集(k = 現在の層数なら**追加**)、`cfg=null` で層 k を削除
+    (`k<0` なら層宣言ごと外す)。**正準形(r 昇順・非重複・1〜8 層・m>0・role は 5 種)を検証し、
+    通らなければ 1 bit も書かずに `{ok:false, reason}` を返す**(理由は `radiusNotAscending` /
+    `layerNotPositive` / `tooManyLayers` / `unknownRole` / `noSuchLayer` / `badIndex`)。
+    **Σm 契約**: 層があるあいだ **根の m は派生量**(= Σ層 m)で、層を編集すると根の m が追随する
+    (宣言側の検証器 `vLayers` は逆向きに「Σ層 m ≠ body.m なら layers を落とす」—— どちらも
+    「Σ層 m = 根の m」を保つ点で同じ不変量)。`S.bodyLayersOf(i)` が正準形の層配列を返すので、
+    **編集 → 保存 → 読込がビット同一**になる(QA `behavior.bodyLayers` ⑯)。
+  - **`HP.coreV2ToLayers(core, body)`(第261便b — コア V2 → 同心層の変換器)**:
+    `core={mode,massFrac,radius,J?}`・`body={m,R,spin?}` から
+    `{ok:true, layers:[{role:"core",m:Mc,r:Rc,J},{role:"shell",m:m−Mc,r:R,J}], mode,Mc,Ms,Rc,R,sumM}` を返す。
+    **Σ層 m = |body.m| なので遠方の重力は厳密に 0 差**で、**近傍(コア半径の内側)だけが変わる**。
+    拒否は `{ok:false, reason}`(`cavityHasNoMass` —— cavity の massFrac は質量ではない /
+    `coreOutsideShell` —— Rc ≥ R / `massFracOutOfRange` / `unknownCoreMode` / …)。
+    `massFrac=1`(裸コア終端)は **1 層**になる(観測半径が Rc へ落ちる —— 宣言)。
+  - **`body.core`(コア V2)は廃止予定である。新しい宇宙では `body.layers`(親子コア)が正である。**
+    **ただし本便でコア V2 を消してはいない** —— 内蔵プリセットの `core:{…}` は 1 文字も変わっておらず、
+    検証器も従来どおり受理する。変換は**編集パネルの明示操作と上の純関数でだけ**起きる。
 - **接触ばね `physics.contactK`/`physics.contactCap` の値域**(第260便b): **[0,2000] / [0,400]**
   (第259便b までは [0.1,2000] / [0.01,400])。**既定 40/8 は不変で正準形にも出ない**・既存の 0.1/0.01 セーブも受理・
   負値は 0 へ丸めて警告を出す。**0 にすると E9 の法線ばねが完全に消える**ので、

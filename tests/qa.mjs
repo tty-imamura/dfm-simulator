@@ -15363,6 +15363,13 @@ if (!FAST) {
 //   ⑫ **球殻内部の「0」の検算目標を改訂**: 純関数は厳密 0・エンジンは |Δa| ≤ 1e−7×スケール
 //      (**0 に対する相対誤差は定義しない**)
 {
+  // 第261便b(統括が設定した検証仮説 (9)): **球殻内部の「0」の門を規約化する**。
+  //   ・純関数 `HP.dfmLayerGravity` は**厳密 0**(相対誤差は定義しない)
+  //   ・エンジンは |Δa| ≤ SHELL_INNER_GATE_REL × 点源スケール(Float32 の床に余裕 1 桁)
+  //   ・**試験粒子は SHELL_INNER_GATE_NTEST 個ずつ置く**(2 個置くと粒子どうしの相互重力が
+  //     mEff の床 0.01 ぶん混ざり、測っているものが変わる —— 第260便b §6 の実測)
+  const SHELL_INNER_GATE_REL = 1e-7;
+  const SHELL_INNER_GATE_NTEST = 1;
   // 第260便b: `dfmLayerPairForce` も門に足す(root の旧世代 html は SKIP する)
   const hasBL = await page.evaluate(() => !!(window.HP && typeof HP.dfmLayerGravity === 'function'
     && typeof HP.dfmLayerKernel === 'function' && typeof HP.dfmSpinField3D === 'function'
@@ -15557,9 +15564,13 @@ if (!FAST) {
         const b0 = [sgl({ m: 1, radius: 0.1, x: 0, layers: [{ role: 'shell', m: 1, r: 10 }] }),
           sgl({ m: 1, radius: 0.1, x: 0, layers: [{ role: 'shell', m: 1, r: 10 }] })];
         const v0 = HP.validatePreset(mkP(b0)); const S0 = HP.sim; S0.build(v0.preset); S0.step(H);
+        // 第261便b (5): 重ならない対にも ΔF が入るので `farSame` は false になる(基点は true)。
+        // 代わりに**純関数の ΔF と一致すること**を見る。(6): 完全に重なった対(d=0)は
+        // 対称性で力 0 と定義したので、`layerStop` は立たない(基点は "overlap")
+        const pfFar = HP.dfmLayerPairForce([{ m: 1, r: 10 }], [{ m: 1, r: 10 }], 25, { G: 1, eps: 0.5 });
         O.overlap = { point: P.a, total: L.a, layerDiff: L.a - P.a, pairN: L.pairN,
-          wantF: pf.F, wantDF: pf.dF, dP: L.dP, farSame: fp.a === fl.a, farPair: fl.pairN,
-          stop: S0.layerStop, stopNaN: S0.hasNaN() };
+          wantF: pf.F, wantDF: pf.dF, dP: L.dP, farDa: fl.a - fp.a, farWant: pfFar.dF, farPair: fl.pairN,
+          stop: S0.layerStop, stopNaN: S0.hasNaN(), stopPairN: S0.layerPairN };
         const eq = [0.5, 5, 19.9].map((d) =>
           HP.dfmLayerPairForce([{ m: 1, r: 10 }], [{ m: 1, r: 10 }], d, { G: 1, eps: 0 }).F);
         const h = 1e-5, LA = [{ m: 0.9, r: 2 }, { m: 0.1, r: 7 }], LB = [{ m: 0.4, r: 1 }, { m: 0.6, r: 5 }];
@@ -15568,10 +15579,99 @@ if (!FAST) {
           - HP.dfmLayerPairForce(LA, LB, 3 - h, { G: 1, eps: 0.5 }).U) / (2 * h);
         O.pair = { eq, eqWant: -1 / 400, cdRel: Math.abs(z.F - cd) / Math.abs(cd),
           far: HP.dfmLayerPairForce([{ m: 1, r: 10 }], [{ m: 1, r: 10 }], 50, { G: 1, eps: 0 }).dF,
+          // 第261便b: **d=0 は門ではなくなった**(対称性で力 0)。門は「配列でない/負の d/負の質量」
           gates: [HP.dfmLayerPairForce([], [{ m: 1, r: 1 }], 1, {}),
-            HP.dfmLayerPairForce([{ m: 1, r: 1 }], [{ m: 1, r: 1 }], 0, {}),
+            HP.dfmLayerPairForce([{ m: 1, r: 1 }], [{ m: 1, r: 1 }], -1, {}),
             HP.dfmLayerPairForce([{ m: -1, r: 1 }], [{ m: 1, r: 1 }], 1, {})].every((q) => q === null) };
       }
+      // ⑬ 第261便b(統括が設定した検証仮説 (5)): **ΔF の近接域の桁落ちを式で直した**+
+      //    **重ならない対へ拡張**+**d=0 は対称性で力 0**。参照は 3 つ:
+      //    (a) ε=0・同半径の厳密式 F=−Gm₁m₂/(4R²)(重なり)/ −Gm₁m₂/d²(d ≥ 2R)
+      //    (b) 小 d の解析級数 F ≈ 2K[d·g″(R₂)/3 + d³·g⁗(R₂)/30](K=Gm₁m₂/(4R₁R₂))
+      //    (c) 大 d の単極子 −Gm₁m₂d/(d²+ε²)^{3/2}
+      {
+        const SH = (R) => [{ role: 'shell', m: 1, r: R }];
+        const e2 = 0.25, K = 1 / 400;
+        const h2 = (u) => e2 / Math.pow(u * u + e2, 1.5);
+        const h4 = (u) => e2 * (12 * u * u - 3 * e2) / Math.pow(u * u + e2, 3.5);
+        const ser = (d) => 2 * K * (d * (h2(20) - h2(0)) / 3 + d * d * d * (h4(20) - h4(0)) / 30);
+        O.near = [1e-8, 1e-6, 1e-4].map((d) => { const z = HP.dfmLayerPairForce(SH(10), SH(10), d, { G: 1, eps: 0.5 });
+          return { d, F: z.F, want: ser(d), rel: Math.abs(z.F - ser(d)) / Math.abs(ser(d)), m: z.dFmethod }; });
+        O.near0 = [0.5, 5, 19.9].map((d) => HP.dfmLayerPairForce(SH(10), SH(10), d, { G: 1, eps: 0 }).F);
+        O.nearD0 = HP.dfmLayerPairForce(SH(10), SH(10), 0, { G: 1, eps: 0.5 });
+        O.nearD0e0 = HP.dfmLayerPairForce(SH(10), SH(10), 0, { G: 1, eps: 0 });
+        // 大 d は単極子 + 多重極(3 項)へ切り替わる(`dFmethod` が "multipole")
+        O.nearFar = [50, 300, 1000, 1e4].map((d) => { const z = HP.dfmLayerPairForce(SH(10), SH(10), d, { G: 1, eps: 0.5 });
+          return { d, dF: z.dF, m: z.dFmethod, err: z.dFerr }; });
+        // 一方が他方の内側(ε=0・d ≤ |R₁−R₂|)は厳密 0・d ≥ R₁+R₂ は点源
+        O.nested = { inside: HP.dfmLayerPairForce([{ m: 1, r: 3 }], [{ m: 1, r: 10 }], 5, { G: 1, eps: 0 }).F,
+          far: HP.dfmLayerPairForce([{ m: 1, r: 3 }], [{ m: 1, r: 10 }], 20, { G: 1, eps: 0 }).F, farWant: -1 / 400 };
+      }
+      // ⑭ 第261便b(検証仮説 (6)): **layerStop の 2 案**。既定 "define"(d=0 を対称性で力 0)と
+      //    opt-in "halt"(step 前検査で**時刻を進めない**)。ΔF が定義されない対を人為的に作って比べる
+      {
+        const mk2 = (mode, poke) => {
+          const b = [sgl({ m: 1, radius: 0.1, x: -1, layers: [{ role: 'shell', m: 1, r: 10 }] }),
+            sgl({ m: 1, radius: 0.1, x: 1, layers: [{ role: 'shell', m: 1, r: 10 }] })];
+          const v = HP.validatePreset(mkP(b));
+          const S = HP.sim; S.build(v.preset);
+          if (S.layerStopMode !== undefined) S.layerStopMode = mode;
+          if (poke) S.layM[0] = NaN;
+          const t0 = S.t, x1 = S.x[1];
+          for (let k = 0; k < 5; k++) S.step(0.016);
+          const out = { mode, poke, dt: S.t - t0, dx: S.x[1] - x1, stop: S.layerStop,
+            halt: S.layerHalt ? S.layerHalt.reason : null, nan: S.hasNaN() };
+          if (S.layerStopMode !== undefined) S.layerStopMode = 'define';
+          return out;
+        };
+        O.stopMode = [mk2('define', false), mk2('define', true), mk2('halt', true)];
+      }
+      // ⑮ 第261便b(検証仮説 (7)): **"add" の相対判定**。同じ半径の層は 1 層に畳み、**半径はずらさない**
+      {
+        const LA = [{ role: 'core', m: 90, r: 2 }, { role: 'shell', m: 10, r: 10 }];
+        const LB = [{ role: 'core', m: 45, r: 1.5 }, { role: 'shell', m: 5, r: 8 }];
+        let cur = LA.map((L) => Object.assign({}, L)); const ns = [];
+        for (let k = 0; k < 8; k++) { cur = HP.dfmLayerMerge(cur, LB.map((L) => Object.assign({}, L)), 'add');
+          ns.push(cur.length); }
+        O.addRule = { ns, last: cur.map((L) => ({ r: L.r, m: L.m })),
+          sum: cur.reduce((a, L) => a + L.m, 0),
+          asc: cur.every((L, k) => k === 0 || L.r > cur[k - 1].r),
+          rtol: HP.LAYER_MERGE_RTOL,
+          // 相対 1e−9 以内の 2 層は 1 層になり、r は外側のまま(ずらさない)
+          tie: HP.dfmLayerMerge([{ role: 'core', m: 1, r: 4 }], [{ role: 'shell', m: 2, r: 4 * (1 + 1e-12) }], 'add') };
+      }
+      // ⑯ 第261便b(第53報「親子コアは『選択粒子の編集』で…編集可能にする」「コア V2 は将来的に
+      //    廃止予定とし、親子コアで受け入れ可能にする」): **単一入口 applyLayerEdit の往復**と
+      //    **coreV2ToLayers の対応表**(遠方は厳密 0 差・cavity は変換しない)
+      if (typeof HP.coreV2ToLayers === 'function') {
+        const b0 = sgl({ m: 1000, radius: 100, pinned: true,
+          layers: [{ role: 'core', m: 900, r: 20 }, { role: 'shell', m: 100, r: 100 }] });
+        const v = HP.validatePreset(mkP([b0])); const S = HP.sim; S.build(v.preset);
+        const e1 = S.applyLayerEdit(0, 0, { m: 800, J: 3.5 });
+        const e2 = S.applyLayerEdit(0, 1, { r: 120 });
+        const bad = S.applyLayerEdit(0, 1, { r: 5 });      // 昇順が壊れる → 1 bit も書かない
+        const after = S.bodyLayersOf(0), mAfter = S.m[0];
+        const b2 = Object.assign({}, b0, { m: mAfter, layers: after });
+        const v2 = HP.validatePreset(mkP([b2]));
+        const S2 = HP.sim; S2.build(v2.preset);
+        let same = (S2.layN[0] === 2);
+        for (let q = 0; q < 2; q++) if (S2.layM[q] !== after[q].m || S2.layR[q] !== after[q].r
+          || S2.layJ[q] !== (after[q].J === undefined ? 0 : after[q].J)) same = false;
+        const cv = HP.coreV2ToLayers({ mode: 'differential', massFrac: 0.3, radius: 5, J: 12 },
+          { m: 100, R: 10, spin: 0.5 });
+        const farDa = cv.ok ? [10, 20, 100, 1000].map((d) =>
+          HP.dfmLayerGravity(cv.layers, d, { G: 1, eps: 0.5 }).da) : null;
+        const nearDa = cv.ok ? [1, 3, 5, 7].map((d) => { const g = HP.dfmLayerGravity(cv.layers, d, { G: 1, eps: 0.5 });
+          return { d, aPoint: g.aPoint, aLayered: g.aLayered, da: g.da }; }) : null;
+        O.edit = { e1: e1.ok, e2: e2.ok, bad: bad.ok, badWhy: bad.reason, mAfter,
+          sumM: after.reduce((a, L) => a + L.m, 0), warn: v2.warnings.length, buildSame: same,
+          jKept: after[0].J, canon: JSON.stringify(after),
+          conv: { ok: cv.ok, n: cv.ok ? cv.layers.length : 0, sumM: cv.ok ? cv.sumM : null,
+            farDa, nearDa,
+            cavity: HP.coreV2ToLayers({ mode: 'cavity', massFrac: -0.4, radius: 3 }, { m: 10, R: 8 }).reason,
+            outside: HP.coreV2ToLayers({ mode: 'rigid', massFrac: 0.5, radius: 12 }, { m: 10, R: 8 }).reason } };
+      }
+
       // ⑨ 第260便b: 慣性核の**可積分内部の解析極限**(検証仮説 (7))
       {
         const KK = (d, p) => HP.dfmLayerKernel({ m: 1, r: 1 }, d, { p, eps: 0, shape: 'uniform' });
@@ -15658,10 +15758,13 @@ if (!FAST) {
       && Math.abs(bl.torque.tiltDE - 0.75) < 1e-12 && bl.torque.tiltJcKept < 1e-12
       && bl.builtins.length === 1 && bl.builtins[0] === 'layeredCoreDFM';
     // 第260便b ⑧〜⑫
+    // 第261便b: 重ならない対も ΔF を受ける(farPair=1・farDa が純関数と一致)/
+    // 完全に重なった対は対称性で力 0(layerStop は立たない)
     const b8 = bl.overlap.total < 0 && Math.abs(bl.overlap.total - bl.overlap.wantF) < 1e-6
       && bl.overlap.pairN === 1 && bl.overlap.dP < 1e-9
-      && bl.overlap.farSame === true && bl.overlap.farPair === 0
-      && bl.overlap.stop === 'overlap' && bl.overlap.stopNaN === false
+      && bl.overlap.farPair === 1
+      && Math.abs(bl.overlap.farDa - bl.overlap.farWant) < 1e-4 * Math.abs(bl.overlap.farWant)
+      && bl.overlap.stop === null && bl.overlap.stopPairN === 0 && bl.overlap.stopNaN === false
       && bl.pair.eq.every((v) => Math.abs(v - bl.pair.eqWant) < 1e-12)
       && bl.pair.cdRel < 1e-7 && bl.pair.far === 0 && bl.pair.gates;
     const b9 = bl.kern.rows.every((r) => r.m === 'analytic' && Math.abs(r.v - r.w) < 1e-9)
@@ -15673,8 +15776,29 @@ if (!FAST) {
       && bl.contact.def[0] === undefined && bl.contact.def[1] === undefined
       && bl.contact.over[0] === 2000 && bl.contact.over[1] === 400;
     const b12 = bl.inner0.pure === 0 && bl.inner0.pure14 === 0
-      && bl.inner0.a8 <= 1e-7 * bl.inner0.s8 && bl.inner0.a14 <= 1e-7 * bl.inner0.s14;
-    add('behavior.bodyLayers', b1 && b2 && b3 && b4 && b5 && b6 && b7 && b8 && b9 && b10 && b11 && b12,
+      && bl.inner0.a8 <= SHELL_INNER_GATE_REL * bl.inner0.s8
+      && bl.inner0.a14 <= SHELL_INNER_GATE_REL * bl.inner0.s14;
+    // ---- 第261便b ⑬〜⑯ ----
+    const b13 = bl.near.every((r) => r.rel < 1e-6 && r.m === 'stable')
+      && bl.near0.every((v) => Math.abs(v + 1 / 400) < 1e-15)
+      && bl.nearD0.F === 0 && bl.nearD0.dF === 0 && bl.nearD0e0.F === 0
+      && bl.nearFar[3].m === 'multipole' && bl.nearFar[0].m === 'stable'
+      && bl.nested.inside === 0 && Math.abs(bl.nested.far - bl.nested.farWant) < 1e-15;
+    const b14 = bl.stopMode[0].dt > 0 && bl.stopMode[0].stop === null
+      && bl.stopMode[1].dt > 0 && bl.stopMode[1].stop === 'overlap' && bl.stopMode[1].nan === false
+      && bl.stopMode[2].dt === 0 && bl.stopMode[2].dx === 0
+      && bl.stopMode[2].stop === 'halt' && bl.stopMode[2].halt === 'layerPairUndefined';
+    const b15 = bl.addRule.ns.every((n) => n === 4) && bl.addRule.asc
+      && Math.abs(bl.addRule.sum - 500) < 1e-9 && bl.addRule.rtol === 1e-9
+      && bl.addRule.tie.length === 1 && bl.addRule.tie[0].m === 3;
+    const b16 = !!bl.edit && bl.edit.e1 && bl.edit.e2 && bl.edit.bad === false
+      && bl.edit.badWhy === 'radiusNotAscending' && bl.edit.mAfter === bl.edit.sumM
+      && bl.edit.warn === 0 && bl.edit.buildSame && bl.edit.jKept === 3.5
+      && bl.edit.conv.ok && bl.edit.conv.n === 2 && bl.edit.conv.sumM === 100
+      && bl.edit.conv.farDa.every((v) => v === 0)
+      && bl.edit.conv.cavity === 'cavityHasNoMass' && bl.edit.conv.outside === 'coreOutsideShell';
+    add('behavior.bodyLayers', b1 && b2 && b3 && b4 && b5 && b6 && b7 && b8 && b9 && b10 && b11 && b12
+      && b13 && b14 && b15 && b16,
       `① **未宣言は 1 bit 不変**: 正準形に "layers" が出ない=${bl.undecl.clean}・S.hasBodyLayers=${bl.undecl.flag}・`
       + `層パスの作用対象 ${bl.undecl.n}=${b1} / `
       + `② **検証器**: 受理(警告 0)=${bl.valid.accept}・拒否 5 例 [層に並進自由度 ${bl.valid.r1}・`
@@ -15711,8 +15835,10 @@ if (!FAST) {
       + `点源 ${fx(bl.overlap.point)} に対し**対ごとに 1 回だけ** ΔF=F_拡張対−F_点源対 を入れるので `
       + `層差分 ${fx(bl.overlap.layerDiff)}・合算 **${fx(bl.overlap.total)}(引力のまま)** で、`
       + `純関数 dfmLayerPairForce の ${fx(bl.overlap.wantF)} と一致する(作用対 ${bl.overlap.pairN}・`
-      + `|ΔP|=${fx(bl.overlap.dP)})。**重ならない組は基点とビット同一**=${bl.overlap.farSame}(作用対 ${bl.overlap.farPair})・`
-      + `ΔF が定義されない組(d=0)は S.layerStop="${bl.overlap.stop}" を立てて層差分を当てない(NaN=${bl.overlap.stopNaN}) / `
+      + `|ΔP|=${fx(bl.overlap.dP)})。`
+      + `**第261便b で重ならない対も ΔF を受ける**(作用対 ${bl.overlap.farPair}・エンジンの Δa `
+      + `${fx(bl.overlap.farDa)} が純関数の ΔF ${fx(bl.overlap.farWant)} と一致)・`
+      + `**完全に重なった対(d=0)は対称性で力 0**(layerStop=${bl.overlap.stop}・作用対 ${bl.overlap.stopPairN}・NaN=${bl.overlap.stopNaN}) / `
       + `純関数: 等半径 ε=0 は F=−Gm₁m₂/(4R²)=${bl.pair.eqWant}(d=0.5/5/19.9 とも)・中央差分との相対 ${fx(bl.pair.cdRel)}・`
       + `遠方 d=50 の ΔF=${bl.pair.far}(厳密 0)・門 ${bl.pair.gates}=${b8} / `
       + `⑨ **可積分核の解析極限**(uniform・ε=0): `
@@ -15732,7 +15858,31 @@ if (!FAST) {
       + `(${bl.inner0.pure}/${bl.inner0.pure14})・エンジンは接触ばね 0・試験粒子 1 個で `
       + `r=8/14 の |Δa|=${fx(bl.inner0.a8)}/${fx(bl.inner0.a14)} が点源スケール `
       + `${fx(bl.inner0.s8)}/${fx(bl.inner0.s14)} の ${fx(bl.inner0.a8 / bl.inner0.s8)}/`
-      + `${fx(bl.inner0.a14 / bl.inner0.s14)} 倍(門は 1e−7 倍 —— **0 に対する相対誤差は定義しない**)=${b12}`);
+      + `${fx(bl.inner0.a14 / bl.inner0.s14)} 倍(門は ${SHELL_INNER_GATE_REL} 倍・試験粒子 `
+      + `${SHELL_INNER_GATE_NTEST} 個 —— **0 に対する相対誤差は定義しない**)=${b12} / `
+      + `⑬ **ΔF の近接域(第261便b・検証仮説 (5))**: R₁=R₂=10・ε=0.5 の F は `
+      + bl.near.map((r) => `d=${r.d} → ${fx(r.F)}(解析級数 ${fx(r.want)}・相対 ${fx(r.rel)})`).join('・')
+      + `(基点は d=10⁻⁶ で **+2.43×10⁻⁴ の斥力**を返していた = 桁落ち)・`
+      + `ε=0 同半径の厳密値は ${JSON.stringify(bl.near0)}(=−1/400)・`
+      + `**d=0 は対称性で力 0**(F=${bl.nearD0.F}・ΔF=${bl.nearD0.dF}・ε=0 でも ${bl.nearD0e0.F})・`
+      + `一方が他方の内側(ε=0・R=3 対 10・d=5)は厳密 ${bl.nested.inside}・d=20 は点源 ${fx(bl.nested.far)}・`
+      + `遠方は多重極へ切り替わる(` + bl.nearFar.map((r) => `d=${r.d}:${r.m}`).join('/') + `)=${b13} / `
+      + `⑭ **layerStop の 2 案(検証仮説 (6))**: 既定 "define" は `
+      + `Δt=${bl.stopMode[0].dt}(stop=${bl.stopMode[0].stop})・ΔF を人為的に壊すと `
+      + `Δt=${bl.stopMode[1].dt}・stop="${bl.stopMode[1].stop}"(層差分だけ当てない)。`
+      + `**"halt" は時刻を進めない**: Δt=${bl.stopMode[2].dt}・Δx=${bl.stopMode[2].dx}・`
+      + `stop="${bl.stopMode[2].stop}"・理由 ${bl.stopMode[2].halt}=${b14} / `
+      + `⑮ **"add" の相対判定(検証仮説 (7))**: 8 回の層数 ${JSON.stringify(bl.addRule.ns)}`
+      + `(基点は 4→6→4→6→6→8→4 と非単調)・Σm ${bl.addRule.sum}・昇順 ${bl.addRule.asc}・`
+      + `相対許容差 ${bl.addRule.rtol}・r が相対 10⁻¹² 差の 2 層は 1 層(m=${bl.addRule.tie[0].m}・`
+      + `r=${bl.addRule.tie[0].r} —— **ずらさない**)=${b15} / `
+      + `⑯ **applyLayerEdit の往復と coreV2ToLayers**: 編集 2 件受理・昇順を壊す編集は拒否`
+      + `(${bl.edit.badWhy} —— 1 bit も書かない)・**Σm 契約**(根の m ${bl.edit.mAfter}=Σ層 m ${bl.edit.sumM})・`
+      + `正準形 ${bl.edit.canon}(警告 ${bl.edit.warn})から build し直して配列がビット同一 ${bl.edit.buildSame}・`
+      + `コア V2(differential・massFrac 0.3・Rc=5)→ ${bl.edit.conv.n} 層(Σm ${bl.edit.conv.sumM})で `
+      + `**遠方 d=10/20/100/1000 の Δa は厳密 0**(${JSON.stringify(bl.edit.conv.farDa)})・`
+      + `近傍は変わる(` + bl.edit.conv.nearDa.map((r) => `d=${r.d}: ${fx(r.aPoint)}→${fx(r.aLayered)}`).join('・') + `)・`
+      + `cavity は ${bl.edit.conv.cavity}・Rc≥R は ${bl.edit.conv.outside}=${b16}`);
   } else {
     console.log('SKIP behavior.bodyLayers(対象に第259便b/第260便b の body.layers 一式なし — root 等)');
   }
@@ -19589,6 +19739,84 @@ if (!FAST) {
     });
     add('bodyedit.minimize', be.shown0 && be.minOn && be.stillSelected && be.minOff,
       `表示=${be.shown0} 最小化=${be.minOn} 選択維持=${be.stillSelected} 復元=${be.minOff}`);
+
+    // ⑥b 第261便b(第53報「親子コアは、『選択粒子の編集』で、タブ切り替えなどでそれぞれの粒子を
+    //     編集可能にする」「親子コアは、見た目をコア V2 に準拠する」「コア V2 は将来的に廃止予定とし、
+    //     親子コアで受け入れ可能にする」): **層の編集タブ・変換ボタン・描画の凡例**。
+    //     ①🧅 の中心天体を選ぶと「親子コア(層)」ブロックが出て、タブが「根 + 層 2 つ」の 3 つになる
+    //     ②層タブの m 欄を書き換えると **S.layM と根の m(Σ層 m)が追随する**(単一入口 applyLayerEdit)
+    //     ③昇順が壊れる編集は**適用されず**、理由が #beLyNote に出る(配列は 1 bit も動かない)
+    //     ④層を持つ粒子では**コア V2 の廃止予定行は出ない**/ コア V2 を持つ粒子では出て、
+    //       「層へ変換」を押すと層が付く(押すまで何も変わらない)
+    //     ⑤タブの左帯が role 色(描画の凡例そのもの)
+    {
+      const hasLayUI = await page.evaluate(() => !!document.querySelector('#beLayers')
+        && !!(HP.sim && HP.sim.applyLayerEdit));
+      if (hasLayUI) {
+        const ly = await page.evaluate(() => {
+          const O = {};
+          HP.loadPreset('layeredCoreDFM', false);
+          HP.selectBody(0, 'A');
+          const blk = document.querySelector('#beLayers');
+          O.shown = blk.style.display === 'block';
+          const tabs = () => Array.from(document.querySelectorAll('#beLayTabs button'));
+          O.nTabs = tabs().length;
+          O.tabColors = tabs().slice(1).map((b) => b.style.borderLeftColor);
+          O.depHidden = document.querySelector('#beCvDepRow').style.display === 'none';
+          // 層1 を選んで m を書き換える
+          tabs()[1].click();
+          const S = HP.sim;
+          const inM = document.querySelector('#beLyM');
+          inM.value = '800'; inM.dispatchEvent(new Event('change'));
+          O.m0 = S.layM[0]; O.rootM = S.m[0]; O.sum = S.layM[0] + S.layM[1];
+          // 昇順を壊す編集(層1 の r を殻より大きく)は適用されない
+          const r0 = S.layR[0];
+          const inR = document.querySelector('#beLyR');
+          inR.value = '200'; inR.dispatchEvent(new Event('change'));
+          O.rKept = (S.layR[0] === r0);
+          O.note = document.querySelector('#beLyNote').textContent.slice(0, 40);
+          // J(宣言値・力へは未接続)
+          document.querySelector('#beLyJ').value = '2.5';
+          document.querySelector('#beLyJ').dispatchEvent(new Event('change'));
+          O.j0 = S.layJ[0];
+          // コア V2 を持つ粒子(層なし)では廃止予定行が出て、変換で層が付く
+          HP.loadPreset('bhCore', false);
+          const S2 = HP.sim;
+          let idx = -1;
+          for (let i = 0; i < S2.n; i++) if (S2.coreMd[i] && S2.coreMd[i] !== 4 && !S2.layN[i]) { idx = i; break; }
+          O.cvIdx = idx;
+          if (idx >= 0) {
+            HP.selectBody(idx, 'A');
+            O.depShown = document.querySelector('#beCvDepRow').style.display !== 'none';
+            O.before = S2.layN[idx];
+            document.querySelector('#beCvToLayers').click();
+            O.after = S2.layN[idx];
+            O.sum2 = (S2.layN[idx] > 0) ? (S2.layM[idx * HP.BODY_LAYER_MAX] + S2.layM[idx * HP.BODY_LAYER_MAX + 1]) : null;
+            O.rootM2 = S2.m[idx];
+          }
+          HP.selectBody(-1, 'A');
+          HP.loadPreset('layeredCoreDFM', false);
+          return O;
+        });
+        add('ui.bodyLayerTabs',
+          ly.shown && ly.nTabs === 3 && ly.depHidden
+          && ly.m0 === 800 && ly.rootM === 900 && ly.sum === 900
+          && ly.rKept && ly.note.length > 0 && ly.j0 === 2.5
+          && ly.cvIdx >= 0 && ly.depShown && ly.before === 0 && ly.after === 2
+          && Math.abs(ly.sum2 - ly.rootM2) < 1e-9
+          && ly.tabColors.every((c) => !!c && c !== 'rgb(255, 255, 255)'),
+          `🧅 の中心天体で「親子コア(層)」が開く=${ly.shown}・タブ=${ly.nTabs}(根+層2)・`
+          + `層を持つ粒子ではコア V2 の廃止予定行は出ない=${ly.depHidden} / `
+          + `層1 の m を 900→800 にすると layM=${ly.m0}・**根の m=${ly.rootM}=Σ層 m=${ly.sum}**(Σm 契約) / `
+          + `昇順を壊す編集(r=200)は**適用されない**=${ly.rKept}(理由が出る: 「${ly.note}…」) / `
+          + `J の宣言は運ぶ(layJ=${ly.j0} —— **力へは接続していない**) / `
+          + `コア V2 を持つ粒子(⚫ の #${ly.cvIdx})では廃止予定行が出て=${ly.depShown}、`
+          + `「層へ変換」で層が ${ly.before}→${ly.after}(Σ層 m=${ly.sum2}=根の m=${ly.rootM2}) / `
+          + `タブの左帯 role 色=${JSON.stringify(ly.tabColors)}`);
+      } else {
+        console.log('SKIP ui.bodyLayerTabs(対象に第261便b の層編集タブなし — root 等)');
+      }
+    }
 
     // ⑦ ⭐binary kFrame=1 の挙動: 3000步で連星が束縛(sep<350)・円盤残存 ≥95%・NaNなし
     //   (掃引実測 2026-07-25: 12000步で sep≈240・残存240/240 — 3000步はその途中経過)
