@@ -33016,6 +33016,160 @@ function dfmEscapeUpdate(rec,S){
     Eflux:rec.Eflux, Kflux:rec.Kflux, Uflux:rec.Uflux, nOut, Uint, Kout,
     crossOut:rec.crossOut, crossIn:rec.crossIn, stop:rec.stop, R, center:[c[0],c[1]] };
 }
+// ===== 第260便c(第52報): **有限容量のメッシュの器** `HP.dfmMeshCapacityStep`(純関数)=====
+// 統括が設定した検証仮説 (10):「**容量は力を制限しない**。次の器は有限のメッシュ状態 Pmesh/Emesh と
+// 粒子キックを**同段階で**更新(ΔPmesh=−ΔP・容量不足時は後から E を clamp せずキックを制約して
+// 再計算・τ と容量密度は宣言値・観測導出とは呼ばない)」。
+//
+// **既定経路の力へは 1 バイトも接続していない**(`S` を 1 バイトも読み書きしない純関数で、
+// 呼ぶのは器と QA だけである)。第258便b の `dfmChainMeshClosed` は「供給が残量を超える步は
+// **駆動 OFF でやり直す**」という 0/1 の門だったが、本関数は**キックの倍率 s∈[0,1] を解いて
+// 部分的に当てる**(= 容量が E を丸めるのではなく、キックそのものを制約する)。
+//
+// 1 步の契約(位置は kick の後に drift する。kick 中の位置は動かないので L も厳密に閉じる):
+//   Δv_i = s·Δv̂_i,  Δv̂_i = −(dt/τ)·χ·(v_i−u)      … "drag"(u・χ・τ は**宣言値**)
+//   ΔP = Σ mᵢΔv_i,  ΔL = Σ mᵢ(x_i Δv_{i,y} − y_i Δv_{i,x}),  ΔK = Σ mᵢ(v_i·Δv_i + ½|Δv_i|²)
+//   Pmesh ← Pmesh − ΔP,  Lmesh ← Lmesh − ΔL,  Emesh ← Emesh − ΔK
+// **メッシュには別立ての運動エネルギーを置かない**(Pmesh は運動量の受け皿・Emesh は内部の貯蔵で、
+// 両者を結ぶ有効慣性は**宣言していない** —— 宣言していないものを 0 で埋めない)。
+//   ΔK(s) = A·s + B·s²  (A=Σmᵢv_i·Δv̂_i・B=Σ½mᵢ|Δv̂_i|²≥0)
+// 容量の帯は **Emesh−ΔK ∈ [0, Emax]**、すなわち ΔK ∈ [E−Emax, E] である。s=0 は必ず帯の中にあるので、
+// **0 から動かして最初に帯を出る s** を 2 次方程式で解き、s*=min(1, その根)を当てて**やり直す**。
+//   s*<1 のとき capState は "floor"(E が尽きた = 供給できない)または "ceil"(E が満杯 = 受け取れない)。
+// **E を後から clamp しない**(clamp すると帳簿が閉じていないのに閉じたように見える)。
+// opts: { bodies:[{m,x,y,vx,vy}], P:[Px,Py], L, E, cap:{Emax}|{density,area}, tau, dt,
+//         kick:{mode:"drag", u:[ux,uy], chi} | {mode:"explicit", dv:[[dvx,dvy],…]}, drift:true }
+function dfmMeshCapacityStep(spec){
+  const o=spec||{};
+  if(typeof o!=="object") return null;
+  const bs=o.bodies;
+  if(!Array.isArray(bs) || bs.length<1) return null;
+  const n=bs.length;
+  const m=new Float64Array(n), x=new Float64Array(n), y=new Float64Array(n),
+        vx=new Float64Array(n), vy=new Float64Array(n);
+  for(let i=0;i<n;i++){
+    const b=bs[i]; if(!b || typeof b!=="object") return null;
+    m[i]=Number(b.m); x[i]=Number(b.x); y[i]=Number(b.y);
+    vx[i]=Number(b.vx); vy[i]=Number(b.vy);
+    if(![m[i],x[i],y[i],vx[i],vy[i]].every(Number.isFinite)) return null;
+    if(!(m[i]>0)) return null;                       // 負質量はこの器の外(宣言していない)
+  }
+  const dt=Number((o.dt===undefined)? 1 : o.dt);
+  if(!(dt>=0) || !Number.isFinite(dt)) return null;
+  const tau=Number((o.tau===undefined)? 1 : o.tau);
+  if(!(tau>0) || !Number.isFinite(tau)) return null;
+  let Px=0, Py=0;
+  if(o.P!==undefined && o.P!==null){
+    if(!Array.isArray(o.P) || o.P.length<2) return null;
+    Px=Number(o.P[0]); Py=Number(o.P[1]);
+    if(!Number.isFinite(Px) || !Number.isFinite(Py)) return null;
+  }
+  const Lm=Number((o.L===undefined)? 0 : o.L);
+  if(!Number.isFinite(Lm)) return null;
+  const E=Number(o.E);
+  if(!Number.isFinite(E) || !(E>=0)) return null;
+  // ---- 容量の宣言(**観測から導いた量ではない** —— 宣言値としてそのまま持ち回る)
+  const c=o.cap;
+  if(!c || typeof c!=="object") return null;
+  let Emax=null, dens=null, area=null;
+  if(c.Emax!==undefined){ Emax=Number(c.Emax); }
+  else if(c.density!==undefined && c.area!==undefined){
+    dens=Number(c.density); area=Number(c.area);
+    if(!(dens>=0) || !(area>=0) || !Number.isFinite(dens) || !Number.isFinite(area)) return null;
+    Emax=dens*area;
+  } else return null;
+  if(!(Emax>=0)) return null;                        // Infinity は「容量を宣言しない」対照として通す
+  if(E>Emax) return null;                            // 宣言と矛盾した初期値は門(黙って丸めない)
+  // ---- キック(**宣言値から作る** —— 新しい長さスケールを 1 つも足していない)
+  const kk=o.kick;
+  if(!kk || typeof kk!=="object") return null;
+  const mode=String(kk.mode===undefined? "drag" : kk.mode);
+  const dvx=new Float64Array(n), dvy=new Float64Array(n);
+  let chi=null, ux=0, uy=0;
+  if(mode==="drag"){
+    chi=Number((kk.chi===undefined)? 1 : kk.chi);
+    if(!(chi>=0) || !(chi<=1)) return null;
+    if(kk.u!==undefined && kk.u!==null){
+      if(!Array.isArray(kk.u) || kk.u.length<2) return null;
+      ux=Number(kk.u[0]); uy=Number(kk.u[1]);
+      if(!Number.isFinite(ux) || !Number.isFinite(uy)) return null;
+    }
+    const a=(dt/tau)*chi;
+    for(let i=0;i<n;i++){ dvx[i]=-a*(vx[i]-ux); dvy[i]=-a*(vy[i]-uy); }
+  } else if(mode==="explicit"){
+    const d=kk.dv;
+    if(!Array.isArray(d) || d.length!==n) return null;
+    for(let i=0;i<n;i++){
+      const v=d[i];
+      if(!Array.isArray(v) || v.length<2) return null;
+      dvx[i]=Number(v[0]); dvy[i]=Number(v[1]);
+      if(!Number.isFinite(dvx[i]) || !Number.isFinite(dvy[i])) return null;
+    }
+  } else return null;
+  // ---- ΔK(s)=A·s+B·s² の係数(A は符号を持つ・B≥0)
+  let A=0, B=0;
+  for(let i=0;i<n;i++){
+    A+=m[i]*(vx[i]*dvx[i]+vy[i]*dvy[i]);
+    B+=0.5*m[i]*(dvx[i]*dvx[i]+dvy[i]*dvy[i]);
+  }
+  if(!Number.isFinite(A) || !Number.isFinite(B)) return null;
+  // 帯 ΔK ∈ [lo, hi]。hi=E(供給の上限 = 貯蔵を使い切る)・lo=E−Emax(受入の上限 = 満杯)
+  const hi=E, lo=(Emax===Infinity)? -Infinity : (E-Emax);
+  // **0 から s を上げて最初に帯を出る点**を探す(s=0 は必ず帯の中にある)。
+  // ΔK は放物線なので [0,s] の最大・最小は端点と頂点 t*=−A/2B だけ見ればよい。
+  // 「[0,s] 全体が帯の中」は s について単調なので、二分で最大の s を取る(80 回 = 倍精度の底)
+  const fK=(t)=>A*t+B*t*t;
+  const band=(s)=>{
+    let mn=Math.min(0,fK(s)), mx=Math.max(0,fK(s));
+    if(B>0){ const ts=-A/(2*B);
+      if(ts>0 && ts<s){ const fv=fK(ts); if(fv<mn) mn=fv; if(fv>mx) mx=fv; } }
+    return { mn, mx, ok:(mn>=lo && mx<=hi) };
+  };
+  let s=1;
+  if(!band(1).ok){
+    let a=0, b=1;
+    for(let it=0;it<80;it++){ const mid=0.5*(a+b); if(band(mid).ok) a=mid; else b=mid; }
+    s=a;
+  }
+  let capState="ok";
+  if(s<1){ const bd=band(s);
+    capState=(Math.abs(bd.mx-hi)<=Math.abs(bd.mn-lo))? "floor" : "ceil"; }
+  // ---- **同段階の更新**(キックを s 倍でやり直して当てる。E は後から clamp しない)
+  let dPx=0, dPy=0, dL=0, dK=0;
+  const nb=new Array(n);
+  for(let i=0;i<n;i++){
+    const ax=s*dvx[i], ay=s*dvy[i];
+    dPx+=m[i]*ax; dPy+=m[i]*ay;
+    dL+=m[i]*(x[i]*ay-y[i]*ax);
+    dK+=m[i]*(vx[i]*ax+vy[i]*ay+0.5*(ax*ax+ay*ay));
+    const nvx=vx[i]+ax, nvy=vy[i]+ay;
+    nb[i]={ m:m[i], x:x[i], y:y[i], vx:nvx, vy:nvy, dv:[ax,ay] };
+  }
+  const drift=(o.drift===undefined)? true : !!o.drift;
+  if(drift) for(let i=0;i<n;i++){ nb[i].x=x[i]+nb[i].vx*dt; nb[i].y=y[i]+nb[i].vy*dt; }
+  const E1=E-dK;
+  // ---- 保存の検算(**この関数の中で閉じていることを数で返す** —— 呼ぶ側が別式で測り直せる)
+  let K0=0, K1=0, P0x=0, P0y=0, P1x=0, P1y=0, L0=0, L1=0;
+  for(let i=0;i<n;i++){
+    K0+=0.5*m[i]*(vx[i]*vx[i]+vy[i]*vy[i]);
+    K1+=0.5*m[i]*(nb[i].vx*nb[i].vx+nb[i].vy*nb[i].vy);
+    P0x+=m[i]*vx[i]; P0y+=m[i]*vy[i];
+    P1x+=m[i]*nb[i].vx; P1y+=m[i]*nb[i].vy;
+    L0+=m[i]*(x[i]*vy[i]-y[i]*vx[i]);
+    L1+=m[i]*(x[i]*nb[i].vy-y[i]*nb[i].vx);          // **drift 前の位置**で測る(kick の段階)
+  }
+  const P1=[Px-dPx,Py-dPy], L1m=Lm-dL;
+  return { bodies:nb, dv:nb.map((b)=>b.dv), scale:s, capState,
+    P:P1, L:L1m, E:E1, Emax, dP:[dPx,dPy], dL, dK, A, B,
+    dKfull:A+B, constrained:s<1,
+    // **宣言値**(観測から導いた量とは呼ばない)
+    decl:{ tau, chi, u:[ux,uy], dt, capacityDensity:dens, capacityArea:area, mode,
+      note:"τ・χ・u・容量(密度×面積)は**宣言値**である(観測から導出したものではない)" },
+    conserve:{ P:[(P1x+P1[0])-(P0x+Px),(P1y+P1[1])-(P0y+Py)], L:(L1+L1m)-(L0+Lm), E:(K1+E1)-(K0+E) },
+    K0, K1, note:"ΔPmesh=−ΔP・ΔLmesh=−ΔL・ΔEmesh=−ΔK を**同段階で**更新した。"
+      +"容量が足りない步は **E を clamp せずキックを s 倍に制約して再計算**している"
+      +"(s="+s+"・capState="+capState+")。**メッシュの有効慣性は宣言していない**(0 で埋めない)" };
+}
 // ===== 第257便b(第49報): BH 以降のトイの**帳簿テンプレート** `HP.dfmToyLedger` =====
 // 原仮定者(第49報・原文は docs/PHYSICS.md 〔第257便b〕に引用):
 //   「熱の実験室グループサンプルは、トイモデルでありながら、エネルギー収支の整合を行い、相変化を
@@ -33058,10 +33212,18 @@ function dfmToyLedger(S,opts){
     if(!Number.isFinite(U)){ U=null; und.push("U"); notes.push("U: 非有限になった"); }
   }
   // ---- E_shell(殻の内部熱。tint モードだけ定義される —— spin モードの温度は K の回転に入っている)
-  let Eshell=null;
+  // 第260便c(第52報): **欠落条件に名前を付ける**。E_shell が定義されるのは `thermal:"tint"` の宇宙だけで、
+  //   無印(= スピン=熱)の宇宙では**殻の回転エネルギーが既に K に入っている**(上の K の 2 行目
+  //   ¼mR²ω²)。ここで「殻の回転 E」を E_shell として足すと**同じ量を 2 回数える**ことになるので
+  //   **足さない**(0 で埋めるのでもない —— 未定義のまま名前を挙げる)。
+  let Eshell=null, EshellState=null;
   if(S.Tint){ Eshell=0; const C=S.params.cHeat;
-    for(let i=0;i<n;i++) Eshell+=C*Math.abs(S.m[i])*S.Tint[i]; }
-  else { und.push("Eshell"); notes.push("E_shell: 内部熱の状態変数(Tint)が無い(thermal:\"tint\" 未宣言)"); }
+    for(let i=0;i<n;i++) Eshell+=C*Math.abs(S.m[i])*S.Tint[i];
+    EshellState="tint"; }
+  else { und.push("Eshell"); EshellState="spin-in-K";
+    notes.push("E_shell: 内部熱の状態変数(Tint)が無い(thermal:\"tint\" 未宣言)—— この宇宙は"
+      +"**スピン=熱**の規約で、殻の回転エネルギー ¼mR²ω² は**既に K に入っている**。"
+      +"ここに殻の回転 E を足すと**二重計上**になるので足さない(0 で埋めるのでもない)"); }
   // ---- E_mesh(メッシュ回転子の独立な角運動量。physics.spaceMesh.reservoir を宣言した宇宙だけ)
   //   第259便c: **初期メッシュ貯蔵エネルギー E₀**(`physics.spaceMesh.meshEnergyCapacity`)を宣言した
   //   宇宙では、そこから**引きずりが粒子に実際に入れた運動エネルギー ΔK_drag** を引いた残りを
@@ -33164,6 +33326,12 @@ function dfmToyLedger(S,opts){
   }
   // ---- 残差(前回の返り値 ref を渡したときだけ定義される —— 基準の無い差は作らない)
   let residual=null, dEtot=null, dWext=null, dWdrag=null, residualDrag=null, dWdragKE=null;
+  // 第260便c(第52報): **null の理由に名前を付ける**。`residualDrag` が null になる経路は 2 つあり、
+  // どちらも「0」ではない —— 集計・QA・表示で **0 として足し込んではならない**
+  // (🍇 tuc47 は kFrame=0 で引きずりのキックが 1 回も起きず、`physics.ledger.dragWork` も
+  //  宣言していないので **W_drag そのものが未定義**である。tuc47DFM〔🫐・kFrame=1〕とは別の宇宙で、
+  //  同じ「47 Tuc」でも帳簿の欄の定義が違う —— 記録では必ず区別する)
+  let residualDragState="no-ref";
   const ref=o.ref;
   if(ref && typeof ref==="object" && Number.isFinite(ref.Etot) && Number.isFinite(ref.Wext)){
     dEtot=Etot-ref.Etot; dWext=Wext-ref.Wext; residual=dEtot-dWext;
@@ -33177,8 +33345,14 @@ function dfmToyLedger(S,opts){
       // その宇宙では residualDrag は residual と厳密に同じ値である —— これが
       // 「E₀ に名前を付けると帳簿の残差そのものが引きずり込みの残差になる」ことの意味である
       residualDrag=(meshCapState!==null)? residual : (dEtot-dWext-dWdragKE);
+      residualDragState=(meshCapState!==null)? "same-as-residual" : "ok";
       if(meshCapState!==null)
         notes.push("residualDrag は residual と同値である(ΔK_drag は E_mesh の減少として既に E_tot に入っている —— 二重に引かない)");
+    } else {
+      residualDragState="no-dragWork";
+      notes.push("residualDrag は **未定義(null)**である: この宇宙は W_drag を記録していない"
+        +"(physics.ledger.dragWork 未宣言)。**0 として集計・表示してはならない** —— "
+        +"「引きずりの仕事が 0 だった」ことと「記録していない」ことは別である");
     }
   }
   // ---- 観測写像(**帳簿の項ではない**)。減光 lightSweep は「見える量」を減らすだけで、
@@ -33193,10 +33367,11 @@ function dfmToyLedger(S,opts){
   }
   if(!obs){ und.push("obs.dimming"); notes.push("観測写像: 減光(lightSweep)の状態変数が無い"); }
   return { K, U, Eshell, Ecore, Emesh, Q, Eescaped:Eesc, Etot, Wext, residual, dEtot, dWext,
-    Wdrag, WdragKE, WdragSpin, dWdrag, dWdragKE, residualDrag, dragWorkN:S.hasDragWork? (S.dragWorkN|0) : null,
+    Wdrag, WdragKE, WdragSpin, dWdrag, dWdragKE, residualDrag, residualDragState,
+    dragWorkN:S.hasDragWork? (S.dragWorkN|0) : null,
     // 第259便c: E_mesh の基準(宣言値)と供給・床の印/E_escaped の逸走粒子ぶん(0)と通過流束の診断。
     // `EtotCore` は**宣言した定数 E₀ を除いた E_tot** —— 相対残差は宣言値で薄めずにこちらで割る
-    Emesh0, meshSupplied, meshCapState, EtotCore:Etot-((Emesh0===null)? 0 : Emesh0),
+    Emesh0, meshSupplied, meshCapState, EshellState, EtotCore:Etot-((Emesh0===null)? 0 : Emesh0),
     EescapedBodies:escBodies, escape,
     capState, capFloorCount:capFloor, undefinedTerms:und, notes, obs,
     parts:{ wext:wparts, hidden, meshQ, pinHeat, radE:Eesc, radL:Number(S.radL||0),
@@ -34450,6 +34625,10 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   dfmChainMesh2DBuild, dfmChainMesh2DStep, dfmChainMesh2DEnergy, dfmChainMesh2DModes,
   CHAIN2D_RINGS_MAX, CHAIN2D_SECTORS_MAX, CHAIN2D_SECTORS_MIN,
   dfmEscapeLedger, dfmEscapeUpdate,
+  // 第260便c(第52報): **有限容量のメッシュの器**(純関数)。Pmesh/Lmesh/Emesh と粒子キックを
+  // **同段階で**更新し、容量が足りない步は **E を clamp せずキックを s 倍に制約して再計算**する。
+  // τ・容量密度は**宣言値**であり、観測導出とは呼ばない。**力へは 1 バイトも接続していない**
+  dfmMeshCapacityStep,
   meshFieldApi:(S)=>_smFieldApi(S||sim), meshFieldApiLive:(S)=>_smFieldApiLive(S||sim),
   // 第250便b(第42報 W2): MM の**波長チャネル**(ω=u·k+c|k| と境界の ω−V·k 保存だけを足した純関数)。
   // 戻り波長 λ・共通出力波長・検出器の読み ν_D・ドップラー係数 D を、Δt/Δφ とは**別欄**で返す。

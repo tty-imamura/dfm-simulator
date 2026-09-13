@@ -1219,6 +1219,38 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     `overlays.spaceMesh.fieldApi` はいずれも SYSTEM_PROMPT の一覧に入れていない —— 診断器の宣言であり
     生成対象ではない)。QA `behavior.galaxyMesh` は 19 項目へ・`behavior.toyLedger` は 11 項目へ・
     `behavior.chainMesh` は 12 項目へ(docs/PHYSICS.md 第259便c の節)。
+- **第260便c(2026-09-13・第52報「早期に…銀河サンプルを完成させる」 — 帳簿の切り分けと有限容量の器)**:
+  - `HP.dfmMeshCapacityStep(spec)` — **有限容量のメッシュの器**(純関数・**S を 1 バイトも読み書きしない**・
+    **粒子の力へは 1 バイトも接続していない**)。有限のメッシュ状態 **Pmesh / Lmesh / Emesh** と粒子キックを
+    **同段階で**更新する: `ΔPmesh=−ΔP`・`ΔLmesh=−ΔL`・`ΔEmesh=−ΔK`。
+    `spec` は `{bodies:[{m,x,y,vx,vy}], P:[Px,Py], L, E, cap:{Emax}|{density,area}, tau, dt,
+    kick:{mode:"drag", u:[ux,uy], chi}|{mode:"explicit", dv:[[dvx,dvy],…]}, drift}`。
+    **容量の帯は `Emesh−ΔK ∈ [0,E_max]`**(= `ΔK ∈ [E−E_max, E]`)で、帯を出る步は
+    **後から E を clamp せず、キックの倍率 s∈[0,1] を二分で解いて再計算する**
+    (ΔK(s)=A·s+B·s² の最初の帯外れ点)。`capState` は `"floor"`(供給できない)/`"ceil"`(受け取れない)/`"ok"`。
+    返値は `{bodies, dv, scale, capState, P, L, E, Emax, dP, dL, dK, dKfull, A, B, constrained,
+    decl:{tau,chi,u,dt,capacityDensity,capacityArea,mode}, conserve:{P,L,E}, K0, K1}`。
+    **τ・χ・u・容量(密度 × 面積)はすべて宣言値**であり、`decl` にそのまま持ち回る ——
+    **観測から導出したとは呼ばない**。**メッシュの有効慣性は宣言していない**(Pmesh は運動量の受け皿で、
+    別立ての運動エネルギーを持たない —— 宣言していないものを 0 で埋めない)。
+    門(すべて `null`): spec が null / 粒子 0 / 非有限・負質量 / `E<0` / **`E>E_max`**(宣言と矛盾した初期値を
+    黙って丸めない)/ cap 未宣言 / `tau≤0` / `chi∉[0,1]` / 未知 `mode` / `dv` の長さ不一致 / `dt<0`。
+    実測(QA `behavior.chainMesh` ⑪): 小さな閉じた箱(粒子 3 + メッシュ・2000 步)で P 2.22×10⁻¹⁴・
+    J 4.05×10⁻¹⁴(Σm|x||v| で規格化)・E 1.51×10⁻¹⁵。容量 3 段(E_max=10⁶/2/0.2)で到達平均速さが
+    **1.9951 / 0.8165 / 0.2582 と単調に弱まる**。**力へは接続していない**(次便の署名便候補)。
+  - `HP.dfmToyLedger` の返値に **`residualDragState`** と **`EshellState`** が増えた
+    (**既存の値は 1 bit も変わらない** —— null の**理由**に名前を付けただけである)。
+    `residualDragState` は `"no-ref"`(基準未指定)/`"no-dragWork"`(**`physics.ledger.dragWork` 未宣言 =
+    記録していない。0 ではない**)/`"ok"`/`"same-as-residual"`(`meshEnergyCapacity` 宣言済み)。
+    **`residualDrag` の null を 0 として集計・QA・表示してはならない**
+    (「引きずりの仕事が 0 回だった」ことと「記録していない」ことは別である)。
+    `EshellState` は `"tint"`(`thermal:"tint"` を宣言した宇宙 = `Σ C·|m|·T_int`)/
+    `"spin-in-K"`(無印 = **スピン=熱**の規約。殻の回転 E ¼mR²ω² は**既に K に入っている**ので、
+    ここに殻の回転 E を足すと**二重計上**になる —— **足さない**。0 で埋めるのでもない)。
+    QA `behavior.toyLedger` ⑩ が `=== 0` で機械固定する。
+  - **生成 AI はこれらを使わない**(`dfmMeshCapacityStep` は器の純関数で、プリセット JSON の欄ではない)。
+    QA は `behavior.toyLedger` に ⑩(固定 T × dt の 1 点・null の扱い・E_shell の欠落条件)を、
+    `behavior.chainMesh` に ⑪(有限容量の器)を足した(docs/PHYSICS.md 第260便c の節)。
 - **台帳の用語 — 等質量度の正名は `equalMassDegree`(第253便b L4・文書のみ)**: 2 体の質量がどれだけ揃っているかを表す量の**正名を `equalMassDegree = |m₁−m₂|/M`(M=m₁+m₂)** に固定する。**0 で等質量**・正質量(m₁,m₂>0)・M>0 のときにだけ定義され、値域は [0,1)。対応欄として **`4ν = 4m₁m₂/M² = 1−δ²`(δ=equalMassDegree)** を併記する(4ν は 1 で等質量 —— 向きが逆なので混ぜない)。ν=m₁m₂/M² は第249便a の ν 則でそのまま使う。**これはプリセットの物理キーではない**(生成 AI が JSON に書く欄ではなく、台帳・文書・ハーネス出力の呼び名の規約である)。
 - **観測安定則(第199便 M1 — 2026-08-25 裁定)**: 観測値再現版は、観測値で安定する計算式を
   採用する(観測値自体が計算式で算出されている為)。kFrame=1 雛形が自己診断で永年不安定と

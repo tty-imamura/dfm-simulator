@@ -15551,6 +15551,112 @@ if (!FAST) {
         energyNull: HP.dfmChainMeshEnergy(null) === null };
       return o;
     });
+    // ---------- ⑪ 第260便c(第52報): **有限容量のメッシュの器** `HP.dfmMeshCapacityStep`
+    //   統括が設定した検証仮説 (10)「**容量は力を制限しない**: 有限のメッシュ状態 Pmesh/Emesh と
+    //   粒子キックを**同段階で**更新(ΔPmesh=−ΔP)・容量不足時は**後から E を clamp せず
+    //   キックを制約して再計算**・τ と容量密度は**宣言値**(観測導出とは呼ばない)」に対応する。
+    //   固定するのは 4 点:
+    //     (a) **小さな閉じた箱**(粒子 3 + メッシュ)で P・J・E が 10⁻¹² で閉じる
+    //         (J は総和がほぼ打ち消すので **Σm|x||v| の尺度**でも規格化して両方を出す)
+    //     (b) **容量 3 段で応答が弱まる**(供給が尽きると粒子の到達速度が単調に下がる)
+    //     (c) **E を clamp していない**: 供給が尽きた步は scale<1 で ΔK が帯を出ない
+    //         (floor = 供給できない側 / ceil = 受け取れない側の**両方**を固定する)
+    //     (d) 門・決定性
+    //   **粒子の力へは 1 バイトも接続していない**(第259便c の `dfmChainMeshClosed` の 0/1 の駆動 OFF に
+    //   対して、本関数は**キックの倍率 s を解いて部分的に当てる**)。
+    cm.cap260 = await page.evaluate(() => {
+      if (typeof HP.dfmMeshCapacityStep !== 'function') return { missing: true };
+      const mkBodies = () => [
+        { m: 2, x: -3, y: 1, vx: 0.4, vy: -0.2 },
+        { m: 1, x: 2, y: -1.5, vx: -0.3, vy: 0.5 },
+        { m: 3, x: 0.5, y: 4, vx: 0.1, vy: 0.25 }];
+      const rest = () => [{ m: 2, x: -3, y: 1, vx: 0, vy: 0 },
+        { m: 1, x: 2, y: -1.5, vx: 0, vy: 0 }, { m: 3, x: 0.5, y: 4, vx: 0, vy: 0 }];
+      const totals = (bs, P, L, E) => {
+        let px = P[0], py = P[1], l = L, k = 0, ls = 0;
+        for (const b of bs) { px += b.m * b.vx; py += b.m * b.vy;
+          l += b.m * (b.x * b.vy - b.y * b.vx);
+          k += 0.5 * b.m * (b.vx * b.vx + b.vy * b.vy);
+          ls += b.m * Math.hypot(b.x, b.y) * Math.hypot(b.vx, b.vy); }
+        return { P: [px, py], L: l, E: k + E, Lscale: ls };
+      };
+      const box = (mk, Emax, E0, steps, dt, u, chi, tau) => {
+        let bs = mk(), P = [0, 0], L = 0, E = E0;
+        const T0 = totals(bs, P, L, E);
+        let wP = 0, wL = 0, wE = 0, nC = 0, capState = 'ok', minS = 1;
+        for (let k = 0; k < steps; k++) {
+          const r = HP.dfmMeshCapacityStep({ bodies: bs, P, L, E, cap: { Emax },
+            tau, dt, kick: { mode: 'drag', u, chi } });
+          if (!r) return { err: 'step-null' };
+          bs = r.bodies; P = r.P; L = r.L; E = r.E;
+          if (r.constrained) nC++;
+          if (r.scale < minS) minS = r.scale;
+          if (r.capState !== 'ok') capState = r.capState;
+          const T = totals(bs, P, L, E);
+          wP = Math.max(wP, Math.hypot(T.P[0] - T0.P[0], T.P[1] - T0.P[1]));
+          wL = Math.max(wL, Math.abs(T.L - T0.L));
+          wE = Math.max(wE, Math.abs(T.E - T0.E));
+        }
+        let vsum = 0, vmax = 0;
+        for (const b of bs) { const s = Math.hypot(b.vx, b.vy); vsum += s; if (s > vmax) vmax = s; }
+        return { Emax, E0, steps, dt, tau, chi, capState, nConstrained: nC, minScale: minS,
+          Emesh: E, Eused: E0 - E, Pmesh: P, Lmesh: L,
+          vMean: vsum / bs.length, vMax: vmax,
+          absP: wP, absL: wL, absE: wE,
+          relP: wP / (Math.hypot(T0.P[0], T0.P[1]) || 1),
+          relL: wL / (Math.abs(T0.L) || 1), relLscale: wL / (T0.Lscale || 1),
+          relE: wE / (Math.abs(T0.E) || 1), L0: T0.L, Lscale0: T0.Lscale, Etot0: T0.E };
+      };
+      // (a) 保存(容量の帯の**真ん中**から始める —— 満杯から始めると受入側で s=0 になる)
+      const conserve = box(mkBodies, 1e6, 5e5, 2000, 0.02, [1.5, -0.8], 0.7, 5);
+      // (b) 容量 3 段(静止した粒子をメッシュが u=[2,0] へ引く = E は**供給**側)
+      const supply = [1e6, 2, 0.2].map((Emax) => box(rest, Emax, Emax, 1500, 0.02, [2, 0], 1, 5));
+      // (c) **E を clamp していない**(floor / ceil の両側)
+      const floorStep = (() => { const r = HP.dfmMeshCapacityStep({ bodies: rest(), P: [0, 0],
+        L: 0, E: 1e-4, cap: { Emax: 1 }, tau: 5, dt: 0.02, kick: { mode: 'drag', u: [50, 0], chi: 1 } });
+        return r ? { scale: r.scale, capState: r.capState, E: r.E, dK: r.dK, dKfull: r.dKfull,
+          conserve: r.conserve } : null; })();
+      const ceilStep = (() => { const r = HP.dfmMeshCapacityStep({
+        bodies: [{ m: 1, x: 0, y: 0, vx: 10, vy: 0 }], P: [0, 0], L: 0, E: 0.999,
+        cap: { Emax: 1 }, tau: 1, dt: 0.5, kick: { mode: 'drag', u: [0, 0], chi: 1 } });
+        return r ? { scale: r.scale, capState: r.capState, E: r.E, Emax: r.Emax, dK: r.dK,
+          dKfull: r.dKfull, conserve: r.conserve } : null; })();
+      // 容量密度 × 面積での宣言(**宣言値**であって観測導出ではない)
+      const byDensity = (() => { const r = HP.dfmMeshCapacityStep({ bodies: rest(), P: [0, 0],
+        L: 0, E: 0.5, cap: { density: 0.01, area: 100 }, tau: 5, dt: 0.02,
+        kick: { mode: 'drag', u: [2, 0], chi: 1 } });
+        return r ? { Emax: r.Emax, density: r.decl.capacityDensity, area: r.decl.capacityArea,
+          capState: r.capState } : null; })();
+      const det = (() => {
+        const go = () => { let bs = mkBodies(), P = [0, 0], L = 0, E = 100;
+          for (let k = 0; k < 50; k++) { const r = HP.dfmMeshCapacityStep({ bodies: bs, P, L, E,
+            cap: { Emax: 100 }, tau: 3, dt: 0.05, kick: { mode: 'drag', u: [1, 1], chi: 0.6 } });
+            bs = r.bodies; P = r.P; L = r.L; E = r.E; }
+          return bs.map((b) => [b.vx, b.vy]).flat().concat([P[0], P[1], L, E]); };
+        const a = go(), b = go();
+        return a.every((z, i) => Object.is(z, b[i])); })();
+      const gates = {
+        nullSpec: HP.dfmMeshCapacityStep(null) === null,
+        noBodies: HP.dfmMeshCapacityStep({ bodies: [], E: 1, cap: { Emax: 1 }, kick: {} }) === null,
+        negE: HP.dfmMeshCapacityStep({ bodies: mkBodies(), E: -1, cap: { Emax: 1 },
+          kick: { mode: 'drag' } }) === null,
+        eOverCap: HP.dfmMeshCapacityStep({ bodies: mkBodies(), E: 2, cap: { Emax: 1 },
+          kick: { mode: 'drag' } }) === null,
+        noCap: HP.dfmMeshCapacityStep({ bodies: mkBodies(), E: 1, kick: { mode: 'drag' } }) === null,
+        badTau: HP.dfmMeshCapacityStep({ bodies: mkBodies(), E: 1, cap: { Emax: 1 }, tau: 0,
+          kick: { mode: 'drag' } }) === null,
+        badChi: HP.dfmMeshCapacityStep({ bodies: mkBodies(), E: 1, cap: { Emax: 1 },
+          kick: { mode: 'drag', chi: 2 } }) === null,
+        badMode: HP.dfmMeshCapacityStep({ bodies: mkBodies(), E: 1, cap: { Emax: 1 },
+          kick: { mode: 'spring' } }) === null,
+        badDvLen: HP.dfmMeshCapacityStep({ bodies: mkBodies(), E: 1, cap: { Emax: 1 },
+          kick: { mode: 'explicit', dv: [[0, 0]] } }) === null,
+        negMass: HP.dfmMeshCapacityStep({ bodies: [{ m: -1, x: 0, y: 0, vx: 0, vy: 0 }], E: 1,
+          cap: { Emax: 1 }, kick: { mode: 'drag' } }) === null,
+        negDt: HP.dfmMeshCapacityStep({ bodies: mkBodies(), E: 1, cap: { Emax: 1 }, dt: -1,
+          kick: { mode: 'drag' } }) === null };
+      return { conserve, supply, floorStep, ceilStep, byDensity, det, gates };
+    });
     const CK = {
       // ① 等反作用(P が保存)—— 2 案とも
       equalReaction: cm.free.linear.dPrel < 1e-12 && cm.free.central.dPrel < 1e-12,
@@ -15601,6 +15707,26 @@ if (!FAST) {
           cm.c2d.stiff[0].rows[i].c2 < cm.c2d.stiff[1].rows[i].c2
           && cm.c2d.stiff[1].rows[i].c2 < cm.c2d.stiff[2].rows[i].c2)
         && cm.c2d.stiff.every((x) => x.rows.every((r) => r.lagDeg !== null && r.lagDeg < 0))),
+      // ⑪ 第260便c: **有限容量の器**(Pmesh/Emesh と粒子キックを同段階で更新・E を clamp しない)
+      meshCapacity: !cm.cap260 || cm.cap260.missing
+        || (cm.cap260.conserve.relP < 1e-12 && cm.cap260.conserve.relLscale < 1e-12
+          && cm.cap260.conserve.relE < 1e-12 && cm.cap260.conserve.capState === 'ok'
+          && cm.cap260.conserve.nConstrained === 0
+          // **容量 3 段で応答が単調に弱まる**(供給が尽きた段は floor の印が立つ)
+          && cm.cap260.supply[0].vMean > cm.cap260.supply[1].vMean
+          && cm.cap260.supply[1].vMean > cm.cap260.supply[2].vMean
+          && cm.cap260.supply[0].capState === 'ok'
+          && cm.cap260.supply[1].capState === 'floor' && cm.cap260.supply[2].capState === 'floor'
+          && cm.cap260.supply.every((r) => r.Emesh >= 0 && r.relE < 1e-12 && r.relP < 1e-12)
+          // **E を clamp していない**: 供給が尽きた步は scale<1・帯を出ない(floor / ceil の両側)
+          && cm.cap260.floorStep.scale < 1 && cm.cap260.floorStep.capState === 'floor'
+          && cm.cap260.floorStep.E >= 0 && cm.cap260.floorStep.dKfull > cm.cap260.floorStep.dK
+          && cm.cap260.ceilStep.scale < 1 && cm.cap260.ceilStep.capState === 'ceil'
+          && cm.cap260.ceilStep.E <= cm.cap260.ceilStep.Emax
+          && cm.cap260.ceilStep.dKfull < cm.cap260.ceilStep.dK
+          // 容量密度 × 面積の宣言(**宣言値**であって観測導出ではない)
+          && cm.cap260.byDensity.Emax === 1 && cm.cap260.det
+          && Object.keys(cm.cap260.gates).every((k) => cm.cap260.gates[k] === true)),
     };
     const bad = Object.keys(CK).filter((k) => !CK[k]);
     const badG = Object.keys(cm.gates).filter((k) => cm.gates[k] !== true);
@@ -15652,7 +15778,30 @@ if (!FAST) {
         + `**容量枯渇で応答が弱まる**(E₀=供給の 0.1/0.5/2 倍 → 枯渇步 `
         + `${cm.closed.caps.map((c) => (c.floorAt === null ? 'なし' : c.floorAt)).join('/')}・`
         + `最外節点の |U| ${cm.closed.caps.map((c) => c.Uout.toExponential(3)).join('/')})`
-        : ' / 最小の閉鎖系なし(SKIP)'));
+        : ' / 最小の閉鎖系なし(SKIP)')
+      + (cm.cap260 && !cm.cap260.missing
+        ? ` / **第260便c 有限容量の器**(HP.dfmMeshCapacityStep —— **容量は力を制限しない**: `
+          + `Pmesh/Lmesh/Emesh と粒子キックを**同段階で**更新し、容量が足りない步は`
+          + `**E を clamp せずキックを s 倍に制約して再計算**する): 小さな閉じた箱(粒子 3 + メッシュ・`
+          + `${cm.cap260.conserve.steps} 步)で P の相対 ${cm.cap260.conserve.relP.toExponential(2)}・`
+          + `J の相対 ${cm.cap260.conserve.relLscale.toExponential(2)}`
+          + `(**Σm|x||v| の尺度**で規格化 —— 総和 J=${cm.cap260.conserve.L0.toExponential(3)} は`
+          + `ほぼ打ち消すので生の比 ${cm.cap260.conserve.relL.toExponential(2)} も出す)・`
+          + `E の相対 ${cm.cap260.conserve.relE.toExponential(2)} / **容量 3 段で応答が弱まる**`
+          + `(静止した粒子を u=[2,0] へ引く・${cm.cap260.supply[0].steps} 步): `
+          + cm.cap260.supply.map((r) => `E₀=${r.Emax} → 平均速さ ${r.vMean.toFixed(6)}`
+            + `(${r.capState}・制約された步 ${r.nConstrained})`).join(' / ')
+          + ` —— **容量が小さいほど到達速度が小さい**(単調)。`
+          + `**E は帯の外へ出ていない**(供給側 floor: scale=${cm.cap260.floorStep.scale.toExponential(3)}・`
+          + `E=${cm.cap260.floorStep.E.toExponential(3)}≥0・無制約なら ΔK=${cm.cap260.floorStep.dKfull.toExponential(3)} の`
+          + `ところ実際は ${cm.cap260.floorStep.dK.toExponential(3)} / 受入側 ceil: `
+          + `scale=${cm.cap260.ceilStep.scale.toExponential(3)}・E=${cm.cap260.ceilStep.E}≤E_max=${cm.cap260.ceilStep.Emax})。`
+          + `**τ と容量密度は宣言値である**(密度 ${cm.cap260.byDensity.density} × 面積 `
+          + `${cm.cap260.byDensity.area} = E_max ${cm.cap260.byDensity.Emax} —— **観測導出とは呼ばない**)。`
+          + `2 回の走行がビット同一=${cm.cap260.det}・門 ${Object.keys(cm.cap260.gates).length} 件。`
+          + `**粒子の力へは 1 バイトも接続していない**`
+        : ' / 有限容量の器なし(SKIP)')
+      );
   } else {
     console.log('SKIP behavior.chainMesh(対象に第257便b の HP.dfmChainMesh* なし — root 等)');
   }
@@ -15904,6 +16053,95 @@ if (!FAST) {
           return Math.abs(s - r.Etot) <= 1e-9 * (Math.abs(r.Etot) || 1); })() };
       return o;
     });
+    // ---------- ⑩ 第260便c(第52報): **固定 T × dt の格子**の 1 点・**null の扱い**・**E_shell の欠落条件**
+    //   統括が設定した検証仮説 (9)「帳簿は**固定物理時間 T × 刻み dt の格子**で切り分ける
+    //   (分母は**固定参照** |K₀|+|U₀|+|Ecore₀|)。1/N なら離散化・定数なら未定義項」に対応する。
+    //   ここで固定するのは**軽い 3 点**だけで、格子の全表・窓長表は器
+    //   `tests/exp-w260c-ledgergrid.mjs` が測る(PHYSICS 〔第260便c〕に全載)。
+    //     (a) **T を固定して h を半分にする**と、🎻(2 体)は残差が半分になる(= 離散化)。
+    //         **🔥 gas は半分にならない**(= 離散化だけでは説明できない —— 否定結果)。
+    //     (b) **residualDrag=null を 0 扱いしない**: 🍇 tuc47 は `physics.ledger.dragWork` 未宣言で
+    //         **W_drag そのものが未定義**(`residualDragState:"no-dragWork"`)。診断コピーに宣言すると
+    //         **キック 0 回でも定義される**(「0 回だった」と「記録していない」は別である)。
+    //         **tuc47(🍇・kFrame=0)と tuc47DFM(🫐・kFrame=1)は別の宇宙**として記録する。
+    //     (c) **E_shell の欠落条件**: 定義されるのは `thermal:"tint"` の宇宙だけ。無印(スピン=熱)では
+    //         殻の回転 E ¼mR²ω² が**既に K に入っている**ので、ここに足すと**二重計上**になる。
+    //         **足さない**(0 で埋めるのでもない)—— 条件と量だけを記録する。
+    tl.w260c = await page.evaluate((FASTQ) => {
+      const byId2 = (id) => HP.allPresets().find((p) => p.id === id);
+      const build2 = (id, patch) => {
+        const pd = JSON.parse(JSON.stringify(byId2(id)));
+        if (patch) patch(pd);
+        const v = HP.validatePreset(pd);
+        if (!v.ok) return null;
+        const T = HP.sim; T.build(v.preset); T._galSup = null;
+        return T;
+      };
+      // **固定参照の分母**(初期値)。未定義の項は 0 を足したのではなく**項そのものが無い**
+      const denom2 = (a) => Math.abs(a.K) + (a.U === null ? 0 : Math.abs(a.U))
+        + (a.Ecore === null ? 0 : Math.abs(a.Ecore));
+      const fixedT = (id, T0, h, E0) => {
+        const S = build2(id, E0 === null ? null : (pd) => {
+          pd.physics.spaceMesh = { mode: 'vertex', meshEnergyCapacity: E0 }; });
+        if (!S) return { invalid: true, id };
+        const a = HP.dfmToyLedger(S, {});
+        const dn = denom2(a);
+        const N = Math.round(T0 / h);
+        for (let k = 0; k < N; k++) S.step(h);
+        const b = HP.dfmToyLedger(S, { ref: a });
+        const rd = b.residualDrag;
+        return { id, emoji: byId2(id).emoji, T: T0, h, N, denom: dn,
+          ecoreNull: a.Ecore === null, uNull: a.U === null,
+          residual: b.residual, residualDrag: rd, residualDragState: b.residualDragState,
+          rel: Math.abs(b.residual) / (dn || 1),
+          relDrag: (rd === null) ? null : Math.abs(rd) / (dn || 1),
+          meshCapState: b.meshCapState };
+      };
+      // (a) 🎻(2 体 —— ほぼ無料)と 🔥 gas(600/1200 步)。🎠 は重いので FAST では回さない
+      const gw = [0.016, 0.008].map((h) => fixedT('gw150914DFM', 96, h, 1e6));
+      const gas2 = [0.016, 0.008].map((h) => fixedT('gas', 9.6, h, null));
+      const gal2 = FASTQ ? null : [0.016, 0.008].map((h) => fixedT('galaxyMeshSpiral', 9.6, h, 1e6));
+      const pick = (r) => (r.relDrag === null ? r.rel : r.relDrag);
+      const grid = { gw: { rows: gw, ratio: pick(gw[0]) / pick(gw[1]),
+          pObs: Math.log2(pick(gw[0]) / pick(gw[1])) },
+        gas: { rows: gas2, ratio: pick(gas2[0]) / pick(gas2[1]),
+          pObs: Math.log2(pick(gas2[0]) / pick(gas2[1])) },
+        gal: gal2 ? { rows: gal2, ratio: pick(gal2[0]) / pick(gal2[1]),
+          pObs: Math.log2(pick(gal2[0]) / pick(gal2[1])) } : null };
+      // (b) null の扱い(tuc47 と tuc47DFM を**区別**する)
+      const probe = (id, patch) => {
+        const S = build2(id, patch);
+        if (!S) return { invalid: true, id };
+        const a = HP.dfmToyLedger(S, {});
+        for (let k = 0; k < 200; k++) S.step(0.016);
+        const b = HP.dfmToyLedger(S, { ref: a });
+        const pd = byId2(id);
+        return { id, emoji: pd.emoji, kFrame: S.params.kFrame,
+          declared: JSON.stringify((pd.physics && pd.physics.ledger) || null),
+          hasDragWork: !!S.hasDragWork, dragWorkN: b.dragWorkN, Wdrag: b.Wdrag,
+          residual: b.residual, residualDrag: b.residualDrag,
+          state: b.residualDragState, isNull: b.residualDrag === null,
+          isZero: b.residualDrag === 0, undefWdrag: b.undefinedTerms.indexOf('Wdrag') >= 0 };
+      };
+      const tuc = probe('tuc47'), tucD = probe('tuc47DFM');
+      const tucDecl = probe('tuc47', (pd) => { pd.physics.ledger = { dragWork: true }; });
+      // (c) E_shell の欠落条件
+      const esh = (id) => {
+        const S = build2(id);
+        if (!S) return { invalid: true, id };
+        const b = HP.dfmToyLedger(S, {});
+        let Kspin = 0, Ktr = 0;
+        for (let i = 0; i < S.n; i++) {
+          Ktr += 0.5 * S.m[i] * (S.vx[i] * S.vx[i] + S.vy[i] * S.vy[i]);
+          Kspin += 0.25 * S.m[i] * S.R[i] * S.R[i] * S.spin[i] * S.spin[i]; }
+        return { id, emoji: byId2(id).emoji, thermal: byId2(id).thermal || null,
+          Eshell: b.Eshell, state: b.EshellState, Ktrans: Ktr, Kspin,
+          spinShare: (b.K !== 0) ? Kspin / b.K : null,
+          undefNamed: b.undefinedTerms.indexOf('Eshell') >= 0 };
+      };
+      return { grid, nullTerm: { tuc, tucDFM: tucD, tucDecl },
+        eshell: ['gas', 'gw150914DFM', 'tuc47', 'galaxyMeshSpiral'].map(esh), fast: !!FASTQ };
+    }, FAST);
     const byId = (id) => tl.rows.find((r) => r.id === id);
     const gas = byId('gas'), gw = byId('gw150914DFM'), tuc = byId('tuc47'), gal = byId('galaxyMeshSpiral');
     const CK = {
@@ -15952,6 +16190,28 @@ if (!FAST) {
         && Math.abs(tl.esc259.cross.Kflux - (200 - 1250)) < 1e-6
         && Number.isFinite(tl.esc259.Eflux) && Number.isFinite(tl.esc259.Uint)
         && tl.esc259.Uint < 0,
+      // ⑩ 第260便c(第52報): **固定 T × dt** の 1 点。T を固定して h を半分にしたとき、
+      //    🎻(2 体)は残差が半分になる(p_obs≈1 = 離散化)が、**🔥 gas は半分にならない**
+      //    (= 離散化だけでは説明できない。**否定結果をそのまま固定する**)
+      gridFixedT: tl.w260c.grid.gw.pObs > 0.8 && tl.w260c.grid.gw.pObs < 1.2
+        && !(tl.w260c.grid.gas.ratio > 1.7 && tl.w260c.grid.gas.ratio < 2.3)
+        && tl.w260c.grid.gw.rows.every((r) => r.residualDragState === 'same-as-residual')
+        && tl.w260c.grid.gas.rows.every((r) => r.residualDragState === 'no-dragWork'
+          && r.relDrag === null),
+      // ⑩ **residualDrag=null を 0 扱いしない**(🍇 tuc47 と 🫐 tuc47DFM は別の宇宙として記録する)
+      nullNotZero: tl.w260c.nullTerm.tuc.isNull && tl.w260c.nullTerm.tuc.isZero === false
+        && tl.w260c.nullTerm.tuc.state === 'no-dragWork' && tl.w260c.nullTerm.tuc.undefWdrag
+        && tl.w260c.nullTerm.tucDFM.isNull && tl.w260c.nullTerm.tucDFM.state === 'no-dragWork'
+        && tl.w260c.nullTerm.tuc.kFrame !== tl.w260c.nullTerm.tucDFM.kFrame
+        && tl.w260c.nullTerm.tucDecl.isNull === false
+        && tl.w260c.nullTerm.tucDecl.state === 'ok'
+        && tl.w260c.nullTerm.tucDecl.dragWorkN === 0,
+      // ⑩ **E_shell の欠落条件**(thermal:"tint" の宇宙だけ定義される。スピン=熱では K に入っている)
+      eshellCondition: (() => { const E = tl.w260c.eshell;
+        const g = E.find((r) => r.id === 'gas');
+        return !!g && g.state === 'tint' && g.Eshell !== null && g.undefNamed === false
+          && E.filter((r) => r.id !== 'gas').every((r) => r.state === 'spin-in-K'
+            && r.Eshell === null && r.undefNamed); })(),
     };
     const bad = Object.keys(CK).filter((k) => !CK[k]);
     const badG = Object.keys(tl.gates).filter((k) => tl.gates[k] !== true);
@@ -16000,7 +16260,32 @@ if (!FAST) {
       + `(外向き ${tl.esc259.crossOut} 回/内向き ${tl.esc259.crossIn} 回)と、**残存系との重力相互作用** `
       + `Uint=${Number(tl.esc259.Uint).toFixed(6)} は**帳簿の項ではなく診断**で、E_tot には入れない`
       + `(入れると K・U と二重に数える)=${tl.esc259.notInEtot}・残差は 1 bit も動かない=${tl.esc259.residualEq}・`
-      + `**記録器は S を 1 バイトも書かない**=${tl.esc259.recorderBitSame}`);
+      + `**記録器は S を 1 バイトも書かない**=${tl.esc259.recorderBitSame}`
+      // ---- 第260便c(第52報): 固定 T × dt の 1 点・null の扱い・E_shell の欠落条件
+      + ` / **第260便c 固定 T × dt**(統括が設定した検証仮説 (9): **T を固定して h を変える**・`
+      + `分母は**固定参照** |K₀|+|U₀|+|Ecore₀|): 🎻 T=96 で h=0.016 → ${tl.w260c.grid.gw.rows[0].relDrag.toExponential(4)}・`
+      + `h=0.008 → ${tl.w260c.grid.gw.rows[1].relDrag.toExponential(4)}(**p_obs=${tl.w260c.grid.gw.pObs.toFixed(3)}** `
+      + `= 1 次 = 離散化)/ 🔥 gas T=9.6 で ${tl.w260c.grid.gas.rows[0].rel.toExponential(4)} → `
+      + `${tl.w260c.grid.gas.rows[1].rel.toExponential(4)}(比 ${tl.w260c.grid.gas.ratio.toFixed(3)} —— `
+      + `**半分にならない = 離散化だけでは説明できない**。否定結果である)`
+      + (tl.w260c.grid.gal ? ` / 🎠 T=9.6 で ${tl.w260c.grid.gal.rows[0].relDrag.toExponential(4)} → `
+        + `${tl.w260c.grid.gal.rows[1].relDrag.toExponential(4)}(比 ${tl.w260c.grid.gal.ratio.toFixed(3)})` : '(🎠 は FAST で省略)')
+      + ` / **residualDrag=null を 0 扱いしない**: 🍇 tuc47(kFrame=${tl.w260c.nullTerm.tuc.kFrame}・`
+      + `physics.ledger ${tl.w260c.nullTerm.tuc.declared})は **W_drag そのものが未定義**で `
+      + `residualDrag=null(state=${tl.w260c.nullTerm.tuc.state}・`
+      + `\`=== 0\` は ${tl.w260c.nullTerm.tuc.isZero} —— **0 ではない**)。`
+      + `🫐 tuc47DFM(kFrame=${tl.w260c.nullTerm.tucDFM.kFrame})は**別の宇宙**として記録する`
+      + `(同じ「47 Tuc」でも帳簿の欄の定義が違う)。診断コピーに ledger:{dragWork:true} を宣言すると`
+      + `**キック ${tl.w260c.nullTerm.tucDecl.dragWorkN} 回でも定義される**`
+      + `(state=${tl.w260c.nullTerm.tucDecl.state}・W_drag=${tl.w260c.nullTerm.tucDecl.Wdrag}) —— `
+      + `**「0 回だった」と「記録していない」は別である** / **E_shell の欠落条件**: `
+      + tl.w260c.eshell.map((r) => `${r.emoji}${r.id}=${r.state}`
+        + (r.Eshell === null ? '(未定義)' : `(${r.Eshell.toExponential(4)})`)
+        + `・回転 E の K に占める割合 ${r.spinShare === null ? 'n/a' : r.spinShare.toExponential(2)}`).join(' / ')
+      + ` —— **定義されるのは thermal:"tint" の宇宙だけ**で、無印(スピン=熱)の宇宙では`
+      + `**殻の回転 E ¼mR²ω² が既に K に入っている**。ここに殻の回転 E を足すと**二重計上**になるので`
+      + `**足さない**(0 で埋めるのでもない —— undefinedTerms に名前を挙げる)`
+      );
   } else {
     console.log('SKIP behavior.toyLedger(対象に第257便b の HP.dfmToyLedger なし — root 等)');
   }
