@@ -14135,6 +14135,45 @@ if (!FAST) {
       R.toy = { on: t1, zero: Math.max.apply(null, t0.st.map((z, i) => Math.abs(z - tOff.st[i]))),
         complexStop: tcx.stop, offSig: tOff.sig,
         sigClean: !JSON.stringify(P('spaceMeshBinaryToy').physics).includes('lawVersion') };
+      // ---------- ⑫ 第260便a: API 境界 4 項(数値 ID・空 complex・未知加速度・未知背景微分)
+      const XB = [{ id: 1, m: 7, x: 100, y: 0, vx: 0, vy: 0, ax: 0, ay: 0 },
+        { id: 9, m: 3, x: 0, y: 0, vx: 0, vy: 0, ax: 0, ay: 0 }];
+      const xNoId = [{ m: 7, x: 100, y: 0, vx: 0, vy: 0 }, { m: 3, x: 0, y: 0, vx: 0, vy: 0 }];
+      const WA = [{ id: 0, m: 5, x: -10, y: 0, vx: 0, vy: 0.2, ax: 0.01, ay: 0 },
+        { id: 1, m: 5, x: 10, y: 0, vx: 0, vy: -0.2, ax: -0.01, ay: 0 }];
+      const WN = WA.map((b) => ({ id: b.id, m: b.m, x: b.x, y: b.y, vx: b.vx, vy: b.vy }));
+      const tg = (bd, o) => { const z = HP.dfmField(bd, 3, 4, Object.assign({ eps: 0.5, D0: 1 }, o));
+        return z ? [z.timeDerivativeComplete, z.accComplete, z.bgDtComplete, z.uQuantity] : null; };
+      R.bound = {
+        ex1: (() => { const z = HP.dfmField(XB, 2, 0, { excludeBodyId: 1, eps: 1, D0: 1 });
+          return z ? [z.D, z.sourceIds.join('/')] : null; })(),
+        ex9: (() => { const z = HP.dfmField(XB, 2, 0, { excludeBodyId: 9, eps: 1, D0: 1 });
+          return z ? [z.D, z.sourceIds.join('/')] : null; })(),
+        exIdx: (() => { const z = HP.dfmField(xNoId, 2, 0, { excludeBodyId: 0, eps: 1, D0: 1 });
+          return z ? [z.D, z.sourceIds.join('/')] : null; })(),
+        cxEmpty: [HP.dfmField([], 1, 1, { lawVersion: 'complex' }),
+          HP.dfmField([], 1, 1, { lawVersion: 'complex', D0: 5 }),
+          HP.dfmField([{ id: 3, m: 1, x: 0, y: 0, vx: 1, vy: 0 }], 1, 1,
+            { lawVersion: 'complex', excludeBodyId: 3 })].every((z) => z === null),
+        cxOne: (() => { const z = HP.dfmField([{ id: 3, m: 1, x: 0, y: 0, vx: 1, vy: 0, ax: 0, ay: 0 }],
+          1, 1, { lawVersion: 'complex' }); return z ? [z.u[0], z.uQuantity] : null; })(),
+        // 第260便a: **要求別 `need`** —— "gravity" は空集合でも定義される(空和 0)が u は null
+        need: (() => { const a = HP.dfmField(WA, 3, 4, { eps: 0.5, D0: 1 });
+          const b = HP.dfmField(WA, 3, 4, { eps: 0.5, D0: 1, need: 'gravity' });
+          const e = HP.dfmField([], 3, 4, { need: 'gravity' });
+          return { bad: HP.dfmField(WA, 3, 4, { need: 'zzz' }) === null,
+            same: !!(a && b) && a.gravity[0] === b.gravity[0] && a.gravity[1] === b.gravity[1],
+            uNull: !!b && b.u === null && b.chi === null && b.uQuantity === null,
+            emptyG: !!e && e.D === 0 && e.gravity[0] === 0 && e.gravity[1] === 0,
+            emptyU: HP.dfmField([], 3, 4, {}) === null,
+            list: HP.DFM_FIELD_NEED.slice() }; })(),
+        tdc: { sAcc: tg(WA, {}), sNo: tg(WN, {}),
+          lR: tg(WA, { lawVersion: 'local', R: 60 }), lRd: tg(WA, { lawVersion: 'local', R: 60, Rdot: 0.3 }),
+          lRdNo: tg(WN, { lawVersion: 'local', R: 60, Rdot: 0.3 }),
+          fNo: tg(WA, { background: 'frame', bg: { u: [1, 0] } }),
+          fDt: tg(WA, { background: 'frame', bg: { u: [1, 0], dUdt: [0, 0] } }),
+          cAcc: tg(WA, { lawVersion: 'complex' }), cNo: tg(WN, { lawVersion: 'complex' }),
+          cFrame: tg(WA, { lawVersion: 'complex', background: 'frame', bg: { u: [1, 0], dUdt: [0, 0] } }) } };
       // ---------- ⑩ chiCut の廃止
       const cc = mkq({}, { inertia: 'coordinate', inertiaSupport: 'chiCut' }, null);
       R.chiCut = { ok: cc.ok, clean: cc.ok ? !JSON.stringify(cc.preset.physics[KEY]).includes('chiCut') : false,
@@ -14149,16 +14188,26 @@ if (!FAST) {
           q.bodies = q.bodies.concat(ring);
           const v = HP.validatePreset(q);
           const S = HP.sim; S.build(v.preset);
+          const T0 = S.totals();
           for (let k = 0; k < 3000; k++) S.step(0.004);
+          const T = S.totals();
           const st = []; for (let i = 0; i < S.n; i++) st.push(S.x[i], S.y[i], S.vx[i], S.vy[i]);
-          return { st, removal: S.meshCoordRemoval, give: S.meshCoordGive, scale: Math.hypot(S.x[2], S.y[2]) };
+          const sp = []; for (let i = 0; i < S.n; i++) sp.push(S.spin[i]);
+          return { st, sp, removal: S.meshCoordRemoval, give: S.meshCoordGive, scale: Math.hypot(S.x[2], S.y[2]),
+            dP: Math.hypot(T.px - T0.px + S.resPx, T.py - T0.py + S.resPy),
+            dLrel: Math.abs(T.L - T0.L + S.resL) / Math.max(Math.abs(T0.L), 1e-300) };
         };
         const base = runK(null);
         const post = runK({ inertia: 'coordinate', inertiaGain: 0, inertiaVertices: true });
         const inS = runK({ inertia: 'coordinate', inertiaGain: 0, inertiaVertices: true, inertiaRemoval: 'inStep' });
         const cmp = (a, b) => { let d = 0; for (let i = 0; i < a.st.length; i++) d = Math.max(d, Math.abs(a.st[i] - b.st[i])); return d; };
+        const cmpS = (a, b) => { let d = 0; for (let i = 0; i < a.sp.length; i++) d = Math.max(d, Math.abs(a.sp[i] - b.sp[i])); return d; };
+        // 第260便a: **残余トルクも同段階で除去契約の中へ**入れた(スピンの状態差と ΔL 帳簿残差)
         R.inStep = { post: cmp(post, base), inStep: cmp(inS, base), scale: base.scale,
-          removal: inS.removal, give: inS.give };
+          removal: inS.removal, give: inS.give,
+          postSpin: cmpS(post, base), inStepSpin: cmpS(inS, base),
+          dLbase: base.dLrel, dLpost: post.dLrel, dLinStep: inS.dLrel,
+          dPinStep: inS.dP };
       }
       return R;
     }, FAST);
@@ -14179,8 +14228,23 @@ if (!FAST) {
       && df.toy.on.dPres < 1e-12 && !df.toy.on.nan && df.toy.complexStop === 'complexNotVelocity';
     const q10 = df.chiCut.ok && df.chiCut.clean && df.chiCut.warn
       && df.chiCut.list.indexOf('chiCut') < 0 && df.chiCut.list.indexOf('expGate') >= 0;
-    const q11 = FAST || (df.inStep.inStep === 0 && df.inStep.post > 0 && df.inStep.removal === 'inStep');
-    add('behavior.dfmField', q1 && q2 && q3 && q4 && q5 && q6 && q7 && q8 && q9 && q10 && q11,
+    const q11 = FAST || (df.inStep.inStep === 0 && df.inStep.post > 0 && df.inStep.removal === 'inStep'
+      // 第260便a: スピンも厳密一致し、ΔL 帳簿残差が kFrame=0(支えなし)と同じ桁まで落ちる
+      && df.inStep.inStepSpin === 0 && df.inStep.postSpin > 0
+      && df.inStep.dLinStep < 1e-10 && df.inStep.dPinStep < 1e-12);
+    // ⑫ 第260便a: API 境界 4 項
+    const bd = df.bound;
+    const q12 = !!bd.ex1 && bd.ex1[1] === '9' && Math.abs(bd.ex1[0] - 3 / Math.sqrt(5)) < 1e-12
+      && !!bd.ex9 && bd.ex9[1] === '1' && !!bd.exIdx && bd.exIdx[1] === '1'
+      && bd.cxEmpty && !!bd.cxOne && bd.cxOne[0] === 0.5 && bd.cxOne[1] === 'unnormalizedA'
+      && bd.tdc.sAcc[0] === true && bd.tdc.sNo[0] === false && bd.tdc.sNo[1] === false
+      && bd.tdc.lR[0] === false && bd.tdc.lRd[0] === true && bd.tdc.lRdNo[0] === false
+      && bd.tdc.fNo[0] === false && bd.tdc.fNo[2] === false && bd.tdc.fDt[0] === true
+      && bd.tdc.cAcc[0] === true && bd.tdc.cNo[0] === false && bd.tdc.cFrame[0] === false
+      && bd.tdc.sAcc[3] === 'velocity' && bd.tdc.cAcc[3] === 'unnormalizedA'
+      && bd.need.bad && bd.need.same && bd.need.uNull && bd.need.emptyG && bd.need.emptyU
+      && bd.need.list.join('/') === 'all/gravity';
+    add('behavior.dfmField', q1 && q2 && q3 && q4 && q5 && q6 && q7 && q8 && q9 && q10 && q11 && q12,
       `① **未宣言は 1 bit 不変**: 🪟 の署名に lawVersion が出ない=${df.toy.sigClean}・`
       + `**toyGain=0 のトイはトイなしと厳密一致** 状態差=${df.toy.zero}(対照の署名 ${df.toy.offSig})=${q1} / `
       + `② **共通場 API**: g=G∇D と E4 の pair 和の相対差 ${fxq(df.api.gRel)}・∇D の中央差分 ${fxq(df.api.dRel)}・`
@@ -14206,9 +14270,158 @@ if (!FAST) {
       + `値域は ${JSON.stringify(df.chiCut.list)}=${q10} / `
       + `⑪ **同段階置換**(inertiaRemoval:"inStep"): ${FAST ? '(QA_FAST では省略)'
         : `η=0(除去だけ)と kFrame=0(支えなし)の最大状態差が **post ${fxq(df.inStep.post)} → inStep ${df.inStep.inStep}**`
-        + `(|x|≈${df.inStep.scale.toFixed(1)}・戻し ${df.inStep.give} 回)`}=${q11}`);
+        + `(|x|≈${df.inStep.scale.toFixed(1)}・戻し ${df.inStep.give} 回)・`
+        + `**第260便a: 残余トルクも同段階で除去契約の中へ** —— spin 差 post ${fxq(df.inStep.postSpin)} → `
+        + `inStep ${df.inStep.inStepSpin}・ΔL+res/|L₀| が post ${fxq(df.inStep.dLpost)} → `
+        + `inStep ${fxq(df.inStep.dLinStep)}(kFrame=0 の参照 ${fxq(df.inStep.dLbase)})・`
+        + `ΔP+res ${fxq(df.inStep.dPinStep)}。**既定は post のまま**(昇格しない)`}=${q11} / `
+      + `⑫ **API 境界 4 項**(第260便a): **excludeBodyId は数値 ID だけ**(id 1/9 の 2 源で `
+      + `excludeBodyId:1 → 残る源 ${bd.ex1 && bd.ex1[1]}・D=${bd.ex1 ? bd.ex1[0].toFixed(10) : '—'}・`
+      + `ID 未宣言なら添字が代替 → ${bd.exIdx && bd.exIdx[1]})・**complex の源なしは null**=${bd.cxEmpty}`
+      + `(1 源なら A=${bd.cxOne && bd.cxOne[0]}・uQuantity="${bd.cxOne && bd.cxOne[1]}")・`
+      + `**timeDerivativeComplete は源の a と背景微分が揃ったときだけ true**`
+      + `(scalar a 有/無=${bd.tdc.sAcc[0]}/${bd.tdc.sNo[0]}・local Ṙ 無/有=${bd.tdc.lR[0]}/${bd.tdc.lRd[0]}・`
+      + `frame ∂ₜu_bg 無/有=${bd.tdc.fNo[0]}/${bd.tdc.fDt[0]}・complex a 有/無=${bd.tdc.cAcc[0]}/${bd.tdc.cNo[0]}・`
+      + `complex に frame=${bd.tdc.cFrame[0]})・**要求別 need**${JSON.stringify(bd.need.list)}: `
+      + `"gravity" は g が "all" と同一=${bd.need.same}・u/χ は null=${bd.need.uNull}・`
+      + `**源が空でも g=0 は定義される**=${bd.need.emptyG} が **u は定義されない**(null)=${bd.need.emptyU}=${q12}`);
   } else {
     console.log('SKIP behavior.dfmField(対象に第259便a の HP.dfmField なし — root 等)');
+  }
+}
+// ---- 第260便a(第52報): behavior.fieldApiIdentity — 入場条件 (v)「表示とトイが同じ関数を読む」の恒等 ----
+//   統括の検証仮説 (1)。**「表示と力が同じ場になった」ことの確認ではない** —— 蓄積格子が読む場は
+//   **全源 scalar/local・背景 static の診断場**で、銀河の既存表示(disk/affine の u_n)とは**別の場**である。
+//   本ブロックが機械固定するのは 6 項目:
+//     ① **状態アダプタの契約**: `HP.dfmFieldSnapshot(S)` が {bodies, options, fieldRole} を返し、
+//        **ax/ay を捏造しない**ので `timeDerivativeComplete===false`(その bodies を渡した
+//        `dfmField` も false)。options は lawVersion/G/eps/p/D₀/background:"static"/energyContract:"none"。
+//     ② **拒否は理由つき**(黙って落とさない): complex="complexNotVelocity" / 親子コア="bodyLayers" /
+//        質量のある箱="massiveBox"。
+//     ③ **fieldApi:false は 1 bit 不変**: 立てて戻すと格子の交点がビット同一に戻る
+//        (基点 html との突き合わせは `tests/exp-w260a-fieldapi.mjs --grid`)。
+//     ④ **fieldApi:true で 🪟🎠 とも交点が全部読める**(9×9=81/81)。
+//     ⑤ **同一点でアダプタ経由と純関数直呼びの u・χ の差が 0**。
+//     ⑥ **注記 "API diagnostic: <law> / all / static (not disk-affine)"** が格子に付く。
+//        あわせて **disk/affine と全源 scalar の差**を数で出す(**一致は主張しない**)。
+{
+  const hasSnap = await page.evaluate(() => !!(window.HP && typeof HP.dfmFieldSnapshot === 'function'
+    && typeof HP.spaceGridFieldProbe === 'function' && typeof HP.spaceGridEnsure === 'function'));
+  if (hasSnap) {
+    const fi = await page.evaluate(() => {
+      const O = {}, KEY = HP.SPACE_MESH_KEY;
+      const P = (id) => JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === id)));
+      // **同じ HP.sim を使い回すので、build の直後にその場で読む**(後でまとめて読むと最後の宇宙になる)
+      const stopOf = (q) => { if (!q) return 'no-preset';
+        const v = HP.validatePreset(q); if (!v.ok) return 'invalid';
+        const T = HP.sim; T.build(v.preset);
+        const z = HP.dfmFieldSnapshot(T); return z ? z.stop : 'null-snapshot'; };
+      // ---------- ① アダプタの契約
+      HP.loadPreset('spaceMeshBinaryToy', false);
+      const T0 = HP.sim, s0 = HP.dfmFieldSnapshot(T0);
+      const f0 = (s0 && s0.bodies) ? HP.dfmField(s0.bodies, 40, 40, s0.options) : null;
+      O.snap = { stop: s0 && s0.stop, n: s0 && s0.n, tdc: s0 && s0.timeDerivativeComplete,
+        role: s0 && s0.fieldRole, opt: (s0 && s0.options) ? JSON.stringify(s0.options) : null,
+        noAcc: (s0 && s0.bodies) ? s0.bodies.every((b) => b.ax === undefined && b.ay === undefined) : null,
+        fieldTdc: f0 ? f0.timeDerivativeComplete : null, fieldQ: f0 ? f0.uQuantity : null };
+      // ---------- ② 拒否は理由つき
+      const qc = P('spaceMeshBinaryToy');
+      qc.physics.kFrame = 0; qc.physics.geoPN = 3;
+      qc.physics[KEY] = { mode: 'vertex', lawVersion: 'complex' };
+      O.reject = { complex: stopOf(qc), layers: stopOf(P('layeredCoreDFM')), box: stopOf(P('boxcomoving')) };
+      // ---------- ③〜⑥ 格子の恒等と差の表
+      O.grid = {};
+      for (const id of ['spaceMeshBinaryToy', 'galaxyMeshSpiral']) {
+        HP.loadPreset(id, false);
+        const T = HP.sim;
+        const grab = () => { HP.spaceGridInvalidate(T); HP.spaceGridEnsure(T);
+          const c = T._smgCache, g = c && c.grid;
+          return g ? { X: Array.from(g.X), Y: Array.from(g.Y), nOk: g.nOk, nodes: g.nodes,
+            K: g.K, R: g.R, cx: g.cx, cy: g.cy, h: g.h,
+            apiNote: (c.apiNote === undefined ? null : c.apiNote), fieldApi: (c.fieldApi === true) } : null; };
+        const off = grab();
+        T.overlays.spaceMesh = Object.assign({}, T.overlays.spaceMesh, { fieldApi: true });
+        const on = grab();
+        // 同じ 81 交点(未変形の格子位置)で現行の場と API の場を両方読む
+        let pr = null, adapter = null;
+        if (off) {
+          const pts = [];
+          for (let j = 0; j < off.K; j++) for (let i = 0; i < off.K; i++) pts.push([off.cx - off.R + i * off.h, off.cy - off.R + j * off.h]);
+          const z = HP.spaceGridFieldProbe(T, pts);
+          let nCur = 0, nApi = 0, nBoth = 0, dMax = 0, curMax = 0, apiMax = 0, dChi = 0;
+          for (const r of z.rows) {
+            if (r.cur) nCur++;
+            if (r.api) nApi++;
+            if (r.cur && r.api) { nBoth++;
+              dMax = Math.max(dMax, Math.hypot(r.cur[0] - r.api[0], r.cur[1] - r.api[1]));
+              curMax = Math.max(curMax, Math.hypot(r.cur[0], r.cur[1]));
+              apiMax = Math.max(apiMax, Math.hypot(r.api[0], r.api[1]));
+              dChi = Math.max(dChi, Math.abs(r.cur[2] - r.api[2])); }
+          }
+          pr = { n: z.rows.length, nCur, nApi, nBoth, dMax, curMax, apiMax, dChi,
+            apiNote: z.apiNote, apiLaw: z.apiLaw };
+          // ⑤ アダプタ経由と純関数直呼びの差(同一点)
+          const sn = HP.dfmFieldSnapshot(T);
+          let du = 0, dc = 0, nOk = 0;
+          if (sn && sn.bodies) {
+            for (let k = 0; k < pts.length; k += 7) {
+              const f = HP.dfmField(sn.bodies, pts[k][0], pts[k][1], sn.options);
+              const a = z.rows[k].api;
+              if (!f || !a) continue;
+              nOk++;
+              du = Math.max(du, Math.abs(f.u[0] - a[0]), Math.abs(f.u[1] - a[1]));
+              dc = Math.max(dc, Math.abs((f.chi === null ? 1 : f.chi) - a[2]));
+            }
+          }
+          adapter = { du, dc, nOk };
+        }
+        T.overlays.spaceMesh = Object.assign({}, T.overlays.spaceMesh, { fieldApi: false });
+        const off2 = grab();
+        const bit = (a, b) => !!a && !!b && a.X.length === b.X.length
+          && a.X.every((q, i) => Object.is(q, b.X[i])) && a.Y.every((q, i) => Object.is(q, b.Y[i]));
+        O.grid[id] = { nOkOff: off && off.nOk, nodes: off && off.nodes, nOkOn: on && on.nOk,
+          restored: bit(off, off2), differs: (off && on) ? !bit(off, on) : null,
+          noteOff: off && off.apiNote, noteOn: on && on.apiNote,
+          apiFlagOn: on && on.fieldApi, probe: pr, adapter };
+      }
+      return O;
+    });
+    const g1 = fi.grid.spaceMeshBinaryToy, g2 = fi.grid.galaxyMeshSpiral;
+    const c1 = fi.snap.stop === null && fi.snap.tdc === false && fi.snap.noAcc === true
+      && fi.snap.fieldTdc === false && fi.snap.fieldQ === 'velocity'
+      && fi.snap.role === 'diagnostic-all-static'
+      && fi.snap.opt === '{"lawVersion":"scalar","G":0.60066,"eps":0.05,"p":2,"D0":0.0001,'
+        + '"background":"static","energyContract":"none"}';
+    const c2 = fi.reject.complex === 'complexNotVelocity' && fi.reject.layers === 'bodyLayers'
+      && fi.reject.box === 'massiveBox';
+    const c3 = g1.restored === true && g2.restored === true;
+    const c4 = g1.nOkOn === g1.nodes && g2.nOkOn === g2.nodes && g1.nodes === 81 && g2.nodes === 81
+      && g1.apiFlagOn === true && g2.apiFlagOn === true;
+    const c5 = g1.adapter.du === 0 && g1.adapter.dc === 0 && g1.adapter.nOk > 0
+      && g2.adapter.du === 0 && g2.adapter.dc === 0 && g2.adapter.nOk > 0;
+    const c6 = String(g1.noteOn || '').indexOf('API diagnostic') === 0 && g1.noteOff === null
+      && String(g2.noteOn || '').indexOf('API diagnostic') === 0 && g2.noteOff === null
+      && String(g1.noteOn).indexOf('not disk-affine') > 0;
+    const fxg = (z) => (z === null || z === undefined || !Number.isFinite(z)) ? '—' : Number(z).toExponential(4);
+    add('behavior.fieldApiIdentity', c1 && c2 && c3 && c4 && c5 && c6,
+      `① **状態アダプタ**: 🪟 で stop=${fi.snap.stop}・n=${fi.snap.n}・fieldRole=${fi.snap.role}・`
+      + `options=${fi.snap.opt}・**ax/ay を捏造しない**=${fi.snap.noAcc} なので `
+      + `timeDerivativeComplete は snapshot/dfmField とも ${fi.snap.tdc}/${fi.snap.fieldTdc}=${c1} / `
+      + `② **拒否は理由つき**: complex=${fi.reject.complex}・親子コア=${fi.reject.layers}・`
+      + `質量のある箱=${fi.reject.box}=${c2} / `
+      + `③ **fieldApi を立てて戻すと交点がビット同一に戻る**(🪟=${g1.restored}・🎠=${g2.restored})=${c3}`
+      + `(基点 html との突き合わせは tests/exp-w260a-fieldapi.mjs --grid)/ `
+      + `④ **true で交点が全部読める**: 🪟 ${g1.nOkOff}/${g1.nodes} → ${g1.nOkOn}/${g1.nodes}・`
+      + `🎠 ${g2.nOkOff}/${g2.nodes} → ${g2.nOkOn}/${g2.nodes}=${c4} / `
+      + `⑤ **アダプタ経由と純関数直呼びの差**: 🪟 |Δu|=${g1.adapter.du}・|Δχ|=${g1.adapter.dc}・`
+      + `🎠 |Δu|=${g2.adapter.du}・|Δχ|=${g2.adapter.dc}=${c5} / `
+      + `⑥ **注記**: 🪟 "${g1.noteOn}"・🎠 "${g2.noteOn}"(off では ${g1.noteOff})=${c6} / `
+      + `**差の記録(一致は主張しない)**: 同じ 81 交点で **現行の表示場 対 全源 scalar** の |Δu| 最大は `
+      + `🪟 ${fxg(g1.probe.dMax)}(|u_cur| 最大 ${fxg(g1.probe.curMax)}・|u_api| 最大 ${fxg(g1.probe.apiMax)})・`
+      + `🎠 ${fxg(g2.probe.dMax)}(|u_cur| 最大 ${fxg(g2.probe.curMax)}・|u_api| 最大 ${fxg(g2.probe.apiMax)}・`
+      + `|Δχ| 最大 ${fxg(g2.probe.dChi)})—— **銀河の disk/affine 場と全源 scalar 場は別の場である**`);
+  } else {
+    console.log('SKIP behavior.fieldApiIdentity(対象に第260便a の HP.dfmFieldSnapshot なし — root 等)');
   }
 }
 // ---- 第255便a(第47報・ChatGPT §8.1): behavior.meshRotorExchange — 有限の回転子交換 ----

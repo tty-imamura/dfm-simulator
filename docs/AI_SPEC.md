@@ -915,9 +915,40 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     `"complex"`(**重ね合わせ A** = 第259便a・**u は速度ではない**・χ は null)。
   - `background`: `"static"`(既定・u_bg=0)/ `"frame"`(**呼び出し側が `bg:{u,gradU?,dUdt?}` を渡す**。渡さないと null
     —— 純関数は S を読めないので**ゼロ埋めしない**)。
-  - **`timeDerivativeComplete`**: `"scalar"`/`"complex"` は true、**`"local"` は `Rdot` を宣言したときだけ true**。
+  - **`timeDerivativeComplete`**(**第260便a で正直化**): 「∂ₜu にこの法則で必要な項が全部入っているか」を、
+    **源の `ax`/`ay` と背景の ∂ₜu_bg が揃ったときだけ** true にする(第259便a は `"scalar"`/`"complex"` を
+    無条件 true にしていたが、∂ₜu には Σw·a_i が入る)。`"local"` はさらに `Rdot` の宣言が要る。
+    `background:"static"` は u_bg≡0 なので ∂ₜu_bg≡0 が厳密に既知(揃っている扱い)、`"frame"` は
+    `bg.dUdt` を渡したときだけ揃う。**`"complex"` に `"frame"` を宣言しても false**(A は背景項を持たない)。
+    読み口として **`accComplete`**(源の a が全部宣言されたか)・**`bgDtComplete`**・
+    **`uQuantity`**(`"velocity"` / **`"unnormalizedA"`** = complex の A は速度ではない)が増えた。
+  - **`excludeBodyId` は宣言された数値 ID だけを外す(第260便a)**。**添字は ID を宣言していない body の代替**で
+    ある(第259便a は `id===exId || i===exId` と両方見ていたので、id:9 の body が添字 1 にいると
+    `excludeBodyId:1` で消えていた)。
+  - **要求別 `need:"all"|"gravity"`(第260便a)**: `"gravity"` は **D・∇D・g だけ**を返し u/∇u/∂ₜu/χ は
+    **null**(ゼロ埋めしない)。**重力は源が空でも定義される**(空和 = 0)が、**u は D₀=0 かつ源なしでは
+    定義されない**(分母が 0)—— この 1 点だけが違う。`HP.DFM_FIELD_NEED` が受理値。
   - `energyContract` は `"none"`(既定)/`"meshLedger"`/`"toy"` の文字列で、**この関数は帳簿を持たない**ことの宣言。
-  - **門**(null): 未知の lawVersion/energyContract・`"frame"` で bg 未指定・D₀<0・state が配列でない・R 無しの `"local"`。
+  - **門**(null): 未知の lawVersion/energyContract/need・`"frame"` で bg 未指定・D₀<0・state が配列でない・
+    R 無しの `"local"`・**源が 1 つも無い `"complex"`**(第260便a —— A=[0,0] を「静止した場」として返さない)。
+- **状態アダプタ(第260便a — 入場条件 (v))**: **`HP.dfmFieldSnapshot(S)`** →
+  `{stop, bodies, options, n, fieldRole:"diagnostic-all-static", timeDerivativeComplete:false, note}`。
+  **S の型付き配列から bodies 配列と options を 1 格子更新に 1 回だけ作る**(`S._core` の外・力へは接続しない)。
+  `options` は `{lawVersion, G, eps:softening, p:frameWeightPow, D0(pull なら D0pull), background:"static",
+  energyContract:"none"}`(`"local"` なら **R と Ṙ** —— 宣言 `inertiaSupportR` があればそれ、無ければ
+  表示が選ぶ上位 2 体の分離の 3 倍とその時間微分)。
+  - **`ax`/`ay` は捏造しない**ので `timeDerivativeComplete` は **false** である(その bodies を渡した
+    `dfmField` も false を返す)。
+  - **拒否は理由つき**(`bodies:null` + `stop` —— 黙って落とさない): `"complexNotVelocity"`(A は速度ではない)/
+    `"bodyLayers"`(親子コアは根 1 粒子の点源とは別の場)/ `"massiveBox"`(箱は規定場で bodies に書けない)/
+    `"nonPositiveMass"` / `"supportR"` / `"degenerate"` / `"n"` / `"lawVersion"`。
+  - **蓄積格子の両分岐(銀河・連星)とトイ積分器の重力**が、これを通して**同じ `dfmField`** を読む。
+    格子には注記 **`API diagnostic: <law> / all / static (not disk-affine)`** が付く(読めなければ
+    `API diagnostic: unavailable (<理由>)`)。**「表示と力が同じ場になった」という意味ではない** ——
+    銀河の既存表示(disk/affine の u_n)と**全源 scalar 場は別の場**であり、差は docs/PHYSICS.md
+    〔第260便a〕④ の表に数で置いてある。QA `behavior.fieldApiIdentity`。
+  - 読み口: `HP.spaceGridNow(S)` に **`fieldApi`/`apiNote`/`apiLaw`**、診断用に
+    **`HP.spaceGridFieldProbe(S, pts)`**(同じ点で現行の表示場と API の場を両方読む —— 一致の主張ではない)。
 - **複素決定力場(第259便a)**: **`HP.dfmComplexDeterminacy(sources, x, y, {p, eps, units:{M,L,T}})`** →
   `{Phi, gradPhi, A, gradA, dAdt, p, eps, sourceIds, dimless, cauchyRiemann, holomorphic:false}`。
   **Φ=Σmᵢ/(rᵢ²+ε²)^(1/2)**(スカラー)・**A=Σmᵢvᵢ/(rᵢ²+ε²)^(p/2)**(**重ね合わせ** —— 現行の正規化平均とは別物で
@@ -942,6 +973,12 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   書く直前に呼ばれるので、そこで先に引く/取り分を 0 にする)。実測では **η=0(除去だけ)が kFrame=0(支えなし)と
   状態で厳密一致**する(post は O(dt) の分割誤差が残る)。**限界**: 残余トルク(スピンへ渡る分)は除去契約の外なので、
   ΔL の帳簿残差が 1 次で残る。
+  - **第260便a(残余トルクの同段階除去)**: `dragHookApply` の同じ段階で**対象粒子の `accS` も 0 にし**、
+    取り消したスピン角運動量 I·Δs と離散回転仕事を控えへ入れる(**`coupleSink` 宣言時は受け先が
+    別経路なので触らない**)。あわせて**角運動量の帳簿を「引いた瞬間の腕」で測る**(步末の x[i] で
+    作り直すと 1 次の残差が残る)。実測で **spin まで含めて kFrame=0 と厳密一致**し、
+    (ΔL+リザーバ)/|L₀| は **2.06×10⁻⁶ → 2.1649×10⁻¹⁶**(支えなしの参照 2.1650×10⁻¹⁶)まで落ちた。
+    **既定は `"post"` のままである**(昇格しない)。
 - **`inertiaSupport` の値域が変わった(第259便a)**: `"none"`/`"support"`/`"expGate"` の 3 値。
   **旧 `"chiCut"` は受理して `"none"` へ正規化し警告を 1 行出す**(〔第258便a ③2〕—— この帯では一度も発動しない)。
   `inertiaChiCut` は受理・値域検査だけ残し、**正準形には出さない**(読む経路が無い)。
