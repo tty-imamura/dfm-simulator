@@ -943,6 +943,13 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     `"bodyLayers"`(親子コアは根 1 粒子の点源とは別の場)/ `"massiveBox"`(箱は規定場で bodies に書けない)/
     `"nonPositiveMass"` / `"supportR"` / `"degenerate"` / `"n"` / `"lawVersion"`。
   - **蓄積格子の両分岐(銀河・連星)とトイ積分器の重力**が、これを通して**同じ `dfmField`** を読む。
+  - **`p:frameWeightPow` の読み方(第261便・文書で固定・コードは不変)**: `frameWeight` **未宣言と
+    `"pull"` は p=2**・`"pull3"` は 3・`"pull4"` は 4・**`"share"` は関数が 0 を返す番兵**で、
+    **読む側がすべて p=1(核 w=m/(d²+ε²)^{1/2})へ読み替える**(このアダプタも `p:1` を渡す)。
+    したがって **API へ渡る p は 1・2・3・4 のいずれか**であり、**p=0(距離に依らない重み)は渡らない**。
+    D₀ の読み先も宣言で変わる(share は `D0`・pull 系は `D0pull`)。
+    **`dfmMeshScalarField` に直接 `power:0` を渡した場合だけ W=Σm(距離に依らない)になる** ——
+    これはアプリのどの経路も使っていない値である。
     格子には注記 **`API diagnostic: <law> / all / static (not disk-affine)`** が付く(読めなければ
     `API diagnostic: unavailable (<理由>)`)。**「表示と力が同じ場になった」という意味ではない** ——
     銀河の既存表示(disk/affine の u_n)と**全源 scalar 場は別の場**であり、差は docs/PHYSICS.md

@@ -31164,6 +31164,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
 // ---- 第257便c(第49報「空間メッシュの描画を変更する。全体の重心を原点にしたメッシュを描画する。
 // 原点に近い交点から順に、引きずり量を反映して座標変換する。続く交点に対して座標変換を蓄積する事で、
 // 空間の歪みを表現する」): behavior.spaceMeshGrid ----
+// 第261便a(第53報)で 3 点足した(⑮⑯⑰ —— 歪みの規格化・τ 固定でも歪み不変・原点規則)。
 // 機械固定するのは 9 点:
 // ①**力学ビット不変** —— 600 步の途中で格子を作り直しながら描いても、描かない走行と全型付き配列が
 //   ビット同一(表示は力学・帳簿へ 1 バイトも触らない)。
@@ -31194,7 +31195,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   await gp.goto(INDEX, { waitUntil: 'load' });
   await gp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
   const hasGrid = await gp.evaluate(() => !!(window.HP && typeof HP.dfmSpaceGridBuild === 'function'
-    && typeof HP.spaceGridNow === 'function' && typeof HP.spaceMeshGain === 'function'));
+    && typeof HP.spaceGridNow === 'function' && typeof HP.spaceMeshGain === 'function'
+    && typeof HP.spaceMeshOrigin === 'function'));   // 第261便a の原点規則・規格化の口
   if (hasGrid) {
     const r = await gp.evaluate(() => {
       const o = {};
@@ -31270,13 +31272,17 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const fld = HP.dfmGalaxyMeshField(G, 0, 0, { need: 'u' });
       const bc = HP.massCentreOf(G);
       let i0 = 0; for (let i = 0; i < G.n; i++) if (G.m[i] > G.m[i0]) i0 = i;
+      // 第261便a(第53報): 原点は**質量上位 2 粒子の重心**(2 位と 3 位が同質量なら 1 位のみ)。
+      // 第257便c の「全粒子の質量重心」との差は**数として出す**(門にはしない —— 規則が変わった)
+      const og = HP.spaceMeshOrigin(G);
       o.galaxy = { kind: gs.kind, note: gs.note, K: gs.grid.K, R: gs.grid.R,
         nodes: gs.grid.nodes, nOk: gs.grid.nOk, nInvalid: gs.grid.nInvalid,
         supportR: fld.supportR, cx: gs.grid.cx, cy: gs.grid.cy,
+        rule: gs.originRule, ruleGap: Math.hypot(gs.grid.cx - og.c[0], gs.grid.cy - og.c[1]),
         bcGap: Math.hypot(gs.grid.cx - bc[0], gs.grid.cy - bc[1]),
         maxMassGap: Math.hypot(bc[0] - G.x[i0], bc[1] - G.y[i0]) };
       o.galaxyOk = gs.kind === 'galaxy' && gs.grid.nInvalid > 0 && gs.grid.nOk > 8
-        && o.galaxy.bcGap < 1e-12;
+        && o.galaxy.ruleGap === 0 && (gs.originRule === 'top2' || gs.originRule === 'top1');
       // ⑦ gain がキャッシュ鍵
       HP.loadPreset('spaceMeshBinaryToy', false);
       const B = HP.sim;
@@ -31330,7 +31336,9 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         return { dash, text, off: () => { proto.setLineDash = od; proto.fillText = ot; } }; };
       HP.loadPreset('galaxyMeshSpiral', false);
       const D = HP.sim, warn = {};
-      for (const g2 of [1, 2]) {
+      // 第261便a: 歪みを規格化したので、🎠 が折返すのは **g=30**(実測: g=20 で面積比 0.0346・
+      // g=30 で −1.470/3 セル)。第258便c の g=2 はもう折返さない(= 規格化が効いている)
+      for (const g2 of [1, 30]) {
         D.overlays.spaceMesh = { mode: 'mesh', gain: g2 };
         HP.spaceGridInvalidate(D); HP.tick(0);
         const sp = spy(); HP.tick(0); sp.off();
@@ -31340,7 +31348,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       }
       o.warn = warn;
       o.warnOk = warn[1].folded === false && warn[1].legend === 0
-        && warn[2].folded === true && warn[2].legend === 1 && warn[2].dash > warn[1].dash;
+        && warn[30].folded === true && warn[30].legend === 1 && warn[30].dash > warn[1].dash;
       // 交点が立たない系(1 体)でも落ちない = 格子 null
       const one = { name: 'x', description: 'd', emoji: '🕸',
         bodies: [{ type: 'single', m: 1, radius: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }],
@@ -31382,14 +31390,22 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         camera: { scale: 100 }, world: { boundary: 'none', size: 0 },
         overlays: { spaceMesh: { mode: 'mesh', tau: 3.25, gain: 1.7 } } };
       o.tauCanon = JSON.stringify(HP.validatePreset(mkT).preset.overlays.spaceMesh);
-      o.tauRun = { fix: stFix.tauFix, fixGridTau: stFix.grid.tau, auto: stAuto.tauFix,
-        autoGridTau: stAuto.grid.tau, inParams: ('tau' in HP.sim.params) };
-      o.tauRunOk = stFix.tauFix === 3.25 && stFix.grid.tau === 3.25 && stAuto.tauFix === null
-        && stAuto.grid.tau !== 3.25 && !o.tauRun.inParams && o.tauCanon === '{"mode":"mesh"}';
+      // 第261便a(第53報「『τ 固定』を変えても歪みが変わらない様にする」): 宣言された τ は
+      // **写像に入らない**(grid.tauDecl に残るだけ)。格子の交点は自動と**ビット同一**である
+      const nodeEq = (a2, b2) => { if (!a2 || !b2 || a2.X.length !== b2.X.length) return false;
+        for (let k = 0; k < a2.X.length; k++) if (a2.X[k] !== b2.X[k] || a2.Y[k] !== b2.Y[k]) return false;
+        return true; };
+      o.tauRun = { fix: stFix.tauFix, fixGridTau: stFix.grid.tau, fixDecl: stFix.grid.tauDecl,
+        auto: stAuto.tauFix, autoGridTau: stAuto.grid.tau, norm: stFix.grid.norm,
+        bitSame: nodeEq(stFix.grid, stAuto.grid),
+        disp: stFix.grid.dispCell, inParams: ('tau' in HP.sim.params) };
+      o.tauRunOk = stFix.tauFix === 3.25 && stFix.grid.tauDecl === 3.25 && stAuto.tauFix === null
+        && stFix.grid.tau === stAuto.grid.tau && o.tauRun.bitSame
+        && !o.tauRun.inParams && o.tauCanon === '{"mode":"mesh"}';
       // ⑫ 折返しセルの別色(cellArea が観測口。折返しセルの数は folds と一致する)
       HP.loadPreset('galaxyMeshSpiral', false);
       const FD = HP.sim;
-      FD.overlays.spaceMesh = { mode: 'mesh', gain: 2 };
+      FD.overlays.spaceMesh = { mode: 'mesh', gain: 30 };   // 第261便a: 規格化後の折返し閾値
       HP.spaceGridInvalidate(FD); HP.spaceGridEnsure(FD);
       const fg = HP.spaceGridNow(FD).grid;
       const negs = (fg.cellArea || []).filter((z) => Number.isFinite(z) && z <= 0).length;
@@ -31411,9 +31427,11 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         return { text, off: () => { proto.fillText = ot; } }; })();
       HP.tick(0); spy2.off();
       o.top2 = { note: HP.spaceLineKindNote(HP.sim), texts: spy2.text.slice(0, 6) };
+      // 第261便a: 凡例は「g=… / 歪み(セル幅比) … / v_ref=… / τ=…(自動)」の 1 行になった
       o.top2Ok = o.top2.note === 'top2'
         && spy2.text.some((t2) => t2 === HP.T('smTop2Note'))
-        && spy2.text.some((t2) => /τ_ref=/.test(t2) && t2.indexOf(HP.T('smTauAuto')) >= 0);
+        && spy2.text.some((t2) => /τ=/.test(t2) && /^g=/.test(t2)
+          && t2.indexOf(HP.T('smDispLabel')) >= 0 && t2.indexOf(HP.T('smTauAuto')) >= 0);
       // ⑭ 不正入力の拒否(黙って既定へ落ちない)
       const good = (x, y, out) => { out[0] = 1; out[1] = 0; out[2] = 1; return true; };
       const rej = {
@@ -31425,12 +31443,107 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         nanGain: HP.dfmSpaceGridBuild({ field: good, cx: 0, cy: 0, R: 10, gain: NaN }) };
       o.reject = {}; for (const k of Object.keys(rej)) o.reject[k] = (rej[k] === null);
       o.rejectCtrl = !!HP.dfmSpaceGridBuild({ field: good, cx: 0, cy: 0, R: 10, gain: 1 });
+      // 第261便a: 知らない規格化名・質量の無い "mass" も拒否する(黙って既定へ落ちない)
+      o.reject.badNorm = HP.dfmSpaceGridBuild({ field: good, cx: 0, cy: 0, R: 10, gain: 1, norm: 'zzz' }) === null;
+      o.reject.massNoM = HP.dfmSpaceGridBuild({ field: good, cx: 0, cy: 0, R: 10, gain: 1, norm: 'mass' }) === null;
+      o.reject.badKappa = HP.dfmSpaceGridBuild({ field: good, cx: 0, cy: 0, R: 10, gain: 1, norm: 'cell', kappa: 0 }) === null;
       o.rejectOk = Object.keys(o.reject).every((k) => o.reject[k]) && o.rejectCtrl;
+      // ⑮ 第261便a(第53報「『引きずりの度合』が『1』の時に適切に描画される様にする。どのサンプル
+      //   でも安定化させる」): 表示の既定 norm="cell" では、**gain=1 の最大変位がセル幅の κ 倍**に
+      //   揃う(代表 8 本で 0.20〜0.30・折返し 0・非有限 0)。gain は**線形の倍率**として効く。
+      const NRMIDS = ['spaceMeshBinaryToy', 'galaxyMeshSpiral', 'boxBinaryToy', 'mercury',
+        'galaxy', 'boxrot', 'solarInner', 'chain2'];
+      const norm = {};
+      for (const id of NRMIDS) {
+        let S2 = null;
+        try { HP.loadPreset(id, false); S2 = HP.sim; } catch (e2) { continue; }
+        const row = {};
+        for (const g2 of [0, 1, 2]) {
+          S2.overlays.spaceMesh = { mode: 'mesh', gain: g2 };
+          HP.spaceGridInvalidate(S2); HP.spaceGridEnsure(S2);
+          const st2 = HP.spaceGridNow(S2);
+          if (!st2 || !st2.grid) { row['g' + g2] = null; continue; }
+          const G2 = st2.grid;
+          let nf = 0;
+          for (let k = 0; k < G2.X.length; k++) if (!Number.isFinite(G2.X[k]) || !Number.isFinite(G2.Y[k])) nf++;
+          row['g' + g2] = { disp: G2.dispCell, folds: G2.folds, norm: G2.norm,
+            kappa: G2.kappa, nonFinite: nf, tau: G2.tau, tauRef: G2.tauRef };
+        }
+        norm[id] = row;
+      }
+      o.norm = norm;
+      const nk = Object.keys(norm).filter((k) => norm[k].g1);
+      // 門: **どの系でも** g=0 で歪み 0・g=1 で折返し 0・非有限 0・変位はセル幅の 0.30 倍未満、
+      // かつ **8 本中 6 本以上**が κ=0.25 の近傍(0.20〜0.30)に入り、g=2 で概ね 2 倍になる
+      const inBand = nk.filter((k) => norm[k].g1.disp > 0.2 && norm[k].g1.disp < 0.3);
+      o.normBand = inBand.length;
+      o.normOk = nk.length >= 6 && inBand.length >= 6 && nk.every((k) => {
+        const a2 = norm[k].g0, b2 = norm[k].g1, c2 = norm[k].g2;
+        return a2 && b2 && c2 && b2.norm === 'cell' && a2.disp === 0 && b2.folds === 0
+          && b2.nonFinite === 0 && b2.disp < 0.3
+          && (b2.disp === 0 ? c2.disp === 0 : (c2.disp > 1.6 * b2.disp && c2.disp < 2.1 * b2.disp));
+      });
+      // ⑯ 第261便a: **τ 固定を変えても歪みが変わらない**(自動・0.5・2・100 で交点がビット同一)。
+      //   規格化を "none" に戻すと差が出る(= τ が絵を変えていたのは実装であって物理ではない)
+      const tauInv = {};
+      for (const id of ['spaceMeshBinaryToy', 'galaxyMeshSpiral']) {
+        HP.loadPreset(id, false);
+        const S3 = HP.sim, rows = {};
+        for (const nm of ['cell', 'none']) {
+          const hs = [];
+          for (const t of [null, 0.5, 2, 100]) {
+            const ov2 = { mode: 'mesh', gain: 1, norm: nm };
+            if (t !== null) ov2.tau = t;
+            S3.overlays.spaceMesh = ov2;
+            HP.spaceGridInvalidate(S3); HP.spaceGridEnsure(S3);
+            const G3 = HP.spaceGridNow(S3).grid;
+            hs.push({ X: G3.X, Y: G3.Y, tau: G3.tau, decl: G3.tauDecl, disp: G3.dispCell });
+          }
+          const same = hs.every((z) => { for (let k = 0; k < z.X.length; k++)
+            if (z.X[k] !== hs[0].X[k] || z.Y[k] !== hs[0].Y[k]) return false; return true; });
+          rows[nm] = { same, taus: hs.map((z) => z.tau), disp: hs.map((z) => z.disp) };
+        }
+        tauInv[id] = rows;
+      }
+      o.tauInv = tauInv;
+      o.tauInvOk = Object.keys(tauInv).every((k) => tauInv[k].cell.same && !tauInv[k].none.same);
+      // ⑰ 第261便a(第53報「原点は質量上位 2 粒子の重心。2 粒子目と 3 粒子目が同じ質量の場合は、
+      //   無視して 1 粒子目を原点にする」): 境界を**表にする**(相対 1e−9 の同質量判定・負質量は
+      //   |m| で並べて |m| で重み付け・全部 0 質量なら原点なし)
+      const mkO = (ms) => { const pr = { name: 'x', description: 'd', emoji: '🕸',
+        bodies: ms.map((b) => ({ type: 'single', m: b[0], radius: 1, x: b[1], y: b[2],
+          vx: 0, vy: 0, spin: 0, pinned: false })),
+        camera: { scale: 100 }, world: { boundary: 'none', size: 0 },
+        overlays: { spaceMesh: { mode: 'mesh' } } };
+        HP.sim.build(HP.validatePreset(pr).preset);
+        for (let i = 0; i < HP.sim.n && i < ms.length; i++) HP.sim.m[i] = ms[i][0];
+        const oo = HP.spaceMeshOrigin(HP.sim);
+        return oo ? { rule: oo.rule, c: [oo.c[0], oo.c[1]] } : null; };
+      o.origin = {
+        two: mkO([[9, -10, 0], [1, 10, 0]]),
+        three: mkO([[10, -10, 0], [5, 10, 0], [1, 0, 20]]),
+        tieExact: mkO([[10, -10, 0], [5, 10, 0], [5, 0, 20]]),
+        tie1e12: mkO([[10, -10, 0], [5 * (1 + 1e-12), 10, 0], [5, 0, 20]]),
+        tie1e6: mkO([[10, -10, 0], [5 * (1 + 1e-6), 10, 0], [5, 0, 20]]),
+        allSame: mkO([[2, -10, 0], [2, 10, 0], [2, 0, 20]]),
+        one: mkO([[3, 7, -2]]),
+        negative: mkO([[10, -10, 0], [-6, 10, 0], [1, 0, 20]]),
+        zeroSecond: mkO([[10, -10, 0], [0, 10, 0], [0, 0, 20]]),
+        allZero: mkO([[0, -10, 0], [0, 10, 0]]) };
+      const OG = o.origin;
+      o.originOk = OG.two.rule === 'top2' && Math.abs(OG.two.c[0] + 8) < 1e-12
+        && OG.three.rule === 'top2' && Math.abs(OG.three.c[0] + 10 / 3) < 1e-12
+        && OG.tieExact.rule === 'top1' && OG.tieExact.c[0] === -10
+        && OG.tie1e12.rule === 'top1' && OG.tie1e6.rule === 'top2'
+        && OG.allSame.rule === 'top1' && OG.one.rule === 'top1'
+        && OG.negative.rule === 'top2' && Math.abs(OG.negative.c[0] + 2.5) < 1e-12
+        && OG.zeroSecond.rule === 'top1' && OG.allZero === null;
       return o;
     });
     const ok = r.analyticOk && r.splitOk && r.loopOk && r.foldOk && r.bitOk
       && r.galaxyOk && r.cacheOk && r.declOk && r.frameOk && r.warnOk && r.oneOk
-      && r.tauOk && r.tauRunOk && r.cellOk && r.top2Ok && r.rejectOk && gpErr.length === 0;
+      && r.tauOk && r.tauRunOk && r.cellOk && r.top2Ok && r.rejectOk
+      && r.normOk && r.tauInvOk && r.originOk && gpErr.length === 0;
     const e = (x) => Number(x).toExponential(3);
     const f = (x) => Number(x).toFixed(3);
     add('behavior.spaceMeshGrid', ok,
@@ -31443,7 +31556,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         .map((g) => `g=${g}→面積比 ${r.fold[g].minArea.toFixed(4)}${r.fold[g].folded ? '(折返し ' + r.fold[g].folds + ')' : ''}`).join(' ')
       + `=${r.foldOk} / ` +
       `⑥銀河の有効範囲: 支持半径 ${r.galaxy.supportR.toFixed(1)}・交点 ${r.galaxy.nOk}/${r.galaxy.nodes}(外は ${r.galaxy.nInvalid} 個落ちる)・` +
-      `原点は質量重心(ずれ ${e(r.galaxy.bcGap)}・最大質量源との差 ${r.galaxy.maxMassGap.toFixed(3)})=${r.galaxyOk} / ` +
+      `原点規則=${r.galaxy.rule}(ずれ ${e(r.galaxy.ruleGap)}・第257便c の全粒子重心との差 ${r.galaxy.bcGap.toFixed(4)}・` +
+      `重心と最大質量源の差 ${r.galaxy.maxMassGap.toFixed(3)})=${r.galaxyOk} / ` +
       `⑦gain がキャッシュ鍵: builds ${r.cache.b0}→(30 回)${r.cache.b1}→(gain 変更)${r.cache.b2}=${r.cacheOk} / ` +
       `⑧宣言 3 本=[${r.decl.join(' ')}]=${r.declOk} / ` +
       `⑨1 フレーム ms: ` + Object.keys(r.frame).map((k) =>
@@ -31451,7 +31565,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         `lines ${f(r.frame[k].lines)}・guide ${f(r.frame[k].guide)}・transport ${f(r.frame[k].transport)}・tracer ${f(r.frame[k].tracer)}` +
         `(再構築 ${f(r.frame[k].buildMs)}ms・間隔 ${Math.round(r.frame[k].every)}ms)`).join(' / ')
       + ` / ⑩折返しの見た目(🎠): gain 1→折返し ${r.warn[1].folded}・凡例 ${r.warn[1].legend} 件 / ` +
-      `gain 2→折返し ${r.warn[2].folded}・破線 ${r.warn[2].dash} 回・凡例 ${r.warn[2].legend} 件=${r.warnOk}・` +
+      `gain 30→折返し ${r.warn[30].folded}・破線 ${r.warn[30].dash} 回・凡例 ${r.warn[30].legend} 件=${r.warnOk}・` +
       `交点が立たない系(1 体)は格子なし=${r.oneOk}` +
       ` / ⑪固定 τ: 自動 τ_ref は Ω=0.1→${r.tau.R10.tauA.toFixed(6)}・Ω=0.2→${r.tau.R10.tauB.toFixed(6)} で` +
       `格子は bit 同一(差 ${r.tau.R10.autoDiff})・τ=1 固定では R=10 で最大 ${r.tau.R10.fixDiff.toFixed(4)}・` +
@@ -31461,7 +31575,18 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `⑫折返しセルの別色: 面積 ≤0 のセル ${r.cell.negs} 個 = folds ${r.cell.folds}(全 ${r.cell.cells} セル・` +
       `cellArea ${r.cell.len}/${r.cell.expect})=${r.cellOk} / ` +
       `⑬上位 2 体の注記(宣言なし 3 体): note=${r.top2.note}・凡例に出る=${r.top2Ok} / ` +
-      `⑭不正入力の拒否 ${JSON.stringify(r.reject)}(正常系は作れる=${r.rejectCtrl})=${r.rejectOk}`
+      `⑭不正入力の拒否 ${JSON.stringify(r.reject)}(正常系は作れる=${r.rejectCtrl})=${r.rejectOk} / ` +
+      `⑮規格化(第261便a・norm="${(r.norm.spaceMeshBinaryToy && r.norm.spaceMeshBinaryToy.g1 || {}).norm}"・` +
+      `κ=${(r.norm.spaceMeshBinaryToy && r.norm.spaceMeshBinaryToy.g1 || {}).kappa}): gain=1 の最大変位/セル幅 ` +
+      Object.keys(r.norm).filter((k) => r.norm[k].g1)
+        .map((k) => `${k} ${f(r.norm[k].g1.disp)}(g=0 で ${r.norm[k].g0.disp}・g=2 で ${f(r.norm[k].g2.disp)}・折返し ${r.norm[k].g1.folds})`).join('・')
+      + `・κ 近傍 ${r.normBand}/${Object.keys(r.norm).length} 本=${r.normOk} / ` +
+      `⑯τ 固定でも歪み不変: ` + Object.keys(r.tauInv).map((k) =>
+        `${k} cell=${r.tauInv[k].cell.same}(τ ${r.tauInv[k].cell.taus.map((z) => f(z)).join('/')}・変位 ${r.tauInv[k].cell.disp.map((z) => f(z)).join('/')})・` +
+        `none=${r.tauInv[k].none.same}`).join(' / ') + `=${r.tauInvOk} / ` +
+      `⑰原点規則: ` + Object.keys(r.origin).map((k) =>
+        `${k}→${r.origin[k] ? (r.origin[k].rule + '@' + r.origin[k].c.map((z) => Math.round(z * 1e6) / 1e6).join(',')) : 'なし'}`).join('・')
+      + `=${r.originOk}`
       + (gpErr.length ? ` / pageErrors=[${gpErr.slice(0, 2).join(' | ')}]` : ''));
   } else {
     console.log('SKIP behavior.spaceMeshGrid(対象に第257便c の蓄積格子なし — root 等)');
@@ -31471,7 +31596,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
 
 // ---- 第257便c(第49報「引きずり量を反映する度合は、パラメータの空間メッシュにスライダーを追加して
 // 調整可能にする」): ui.spaceMeshGain ----
-// 機械固定するのは 5 点: ①スライダーが「空間メッシュ」トグルの直下にあり、値域 0〜2・刻み 0.05
+// 第261便a(第53報)で 3 点足した(⑥指数スライダー ⑦直値 100/上限 ⑧旧 localStorage 値の写像)。
+// 機械固定するのは 5 点: ①スライダーが「空間メッシュ」トグルの直下にあり、**位置**を 0〜100 で刻み
 // ②動かすと overlays.spaceMesh.gain に入り、格子が実際に変わる ③**presetSig と S.params に入らない**
 // (gain を動かしても全内蔵 120 本の署名が 1 文字も変わらない・params に gain 鍵が生えない)
 // ④A/B の両側で同じ値 ⑤保持(localStorage hp_sm_gain)—— 表示チェックボックスと同じ仕組み。
@@ -31482,6 +31608,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   await gg.goto(INDEX, { waitUntil: 'load' });
   await gg.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
   const hasGain = await gg.evaluate(() => !!(window.HP && typeof HP.setSpaceMeshGain === 'function'
+    && typeof HP.spaceMeshGainFromPos === 'function'   // 第261便a の指数スライダー
     && document.getElementById('smGainRange')));
   if (hasGain) {
     const r = await gg.evaluate(() => {
@@ -31497,8 +31624,38 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         rowLabel: row && row.querySelector('label') ? row.querySelector('label').textContent : '',
         sameRowCheckbox: !!rowCb, hasVal: !!num0, valIsInput: !!(num0 && num0.tagName === 'INPUT'),
         sameRowVal: !!(num0 && row && row.contains(num0)) };
-      o.placeOk = +rng.min === 0 && +rng.max === C.gainMax && +rng.step === C.gainStep
+      // 第261便a(第53報「スライダーは 0 から 10 を**指数的**に変化させる」): スライダーが刻むのは
+      // **位置**(0〜gainPos の整数)で、値は 0(特別値)と gainMin〜gainMax の等比である
+      o.placeOk = +rng.min === 0 && +rng.max === C.gainPos && +rng.step === C.gainStep
         && !!rowCb && o.place.hasVal && o.place.valIsInput && o.place.sameRowVal;
+      // ⑥ 指数目盛(位置 ↔ 値)。既定 1.0 が位置に**厳密**に乗ることと、等比であることを固定する
+      const pos = {};
+      for (const q of [0, 1, 34, 67, 100]) pos[q] = HP.spaceMeshGainFromPos(q);
+      const ratio = (a2, b2) => HP.spaceMeshGainFromPos(a2) / HP.spaceMeshGainFromPos(b2);
+      o.expo = { pos, defPos: HP.spaceMeshGainToPos(C.gainDef),
+        r1: ratio(34, 1), r2: ratio(67, 34), r3: ratio(100, 67),
+        roundTrip: [0.01, 0.1, 1, 10].every((g2) => Math.abs(HP.spaceMeshGainFromPos(HP.spaceMeshGainToPos(g2)) - g2) < 1e-6),
+        overMax: HP.spaceMeshGainToPos(500) };
+      o.expoOk = pos[0] === 0 && Math.abs(pos[1] - C.gainMin) < 1e-9
+        && Math.abs(pos[100] - C.gainMax) < 1e-9 && pos[67] === C.gainDef
+        && Math.abs(o.expo.r1 - o.expo.r2) < 1e-6 && Math.abs(o.expo.r2 - o.expo.r3) < 1e-6
+        && o.expo.roundTrip && o.expo.overMax === C.gainPos;
+      // ⑦ 直値(100 などの大きな値・上限 CAP で clamp・負は 0・非数は既定へ)
+      const before = HP.spaceMeshGain(HP.sim);
+      o.direct = { g100: HP.setSpaceMeshGain(100), gCap: HP.setSpaceMeshGain(C.gainCap * 10),
+        gNeg: HP.setSpaceMeshGain(-3), gSmall: HP.setSpaceMeshGain(0.003),
+        gNaN: HP.setSpaceMeshGain('abc'), before };
+      o.directOk = o.direct.g100 === 100 && o.direct.gCap === C.gainCap && o.direct.gNeg === 0
+        && Math.abs(o.direct.gSmall - 0.003) < 1e-12 && o.direct.gNaN === C.gainDef;
+      // ⑧ 旧 localStorage 値(第257便c〜第260便の 0〜2・刻み 0.05)を**そのまま読む**
+      const legacy = {};
+      for (const v of ['0', '0.05', '0.5', '1', '1.5', '2']) {
+        try { localStorage.setItem('hp_sm_gain', v); } catch (_) { /* ignore */ }
+        legacy[v] = { pos: HP.spaceMeshGainToPos(+v), accepted: +v >= 0 && +v <= C.gainCap };
+      }
+      o.legacy = legacy;
+      o.legacyOk = Object.keys(legacy).every((k) => legacy[k].accepted)
+        && legacy['1'].pos === 67 && legacy['0'].pos === 0 && legacy['2'].pos > 67;
       // ② 動かすと格子が変わる
       HP.loadPreset('galaxyMeshSpiral', false);
       const S = HP.sim;
@@ -31511,7 +31668,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         && o.moves.g15.minArea < o.moves.g05.minArea
         && o.moves.g05.ov === 0.5 && o.moves.g15.gain === 1.5;
       // ③ presetSig・S.params に入らない
-      HP.setSpaceMeshGain(1.35);
+      HP.setSpaceMeshGain(1.35);   // 第261便a: 刻みの丸めは廃止したので 1.35 はそのまま入る
       o.paramsHasGain = ('gain' in HP.sim.params) || ('spaceMeshGain' in HP.sim.params);
       const sigs = HP.allPresets().map((p) => { const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
         return JSON.stringify(v.ok ? v.preset.overlays : null); });
@@ -31544,7 +31701,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       }, 120);
     }));
     const abOk = abr.a === abr.b && abr.a === 1.15 && abr.ovA === 1.15 && abr.ovB === 1.15;
-    const ok = r.placeOk && r.moveOk && r.sigOk && r.storeOk && abOk && ggErr.length === 0;
+    const ok = r.placeOk && r.moveOk && r.sigOk && r.storeOk && abOk
+      && r.expoOk && r.directOk && r.legacyOk && ggErr.length === 0;
     add('ui.spaceMeshGain', ok,
       `①位置と値域(第258便c: 1 行化): 行=「${r.place.rowLabel}」(同じ行のチェックボックス=${r.place.sameRowCheckbox}・` +
       `値は直値入力=${r.place.valIsInput}・同じ行=${r.place.sameRowVal})・` +
@@ -31554,7 +31712,12 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `③署名に入らない: params に gain 鍵=${r.paramsHasGain}・全内蔵の検証後 overlays に gain=${r.sigHasGain}・` +
       `正準形 ${r.canon}=${r.sigOk} / ` +
       `④A/B 共通: A=${abr.a}・B=${abr.b}(overlay A=${abr.ovA}・B=${abr.ovB})=${abOk} / ` +
-      `⑤保持 hp_sm_gain=${r.store}=${r.storeOk}` +
+      `⑤保持 hp_sm_gain=${r.store}=${r.storeOk} / ` +
+      `⑥指数スライダー(第261便a): 位置 0→${r.expo.pos[0]}・1→${r.expo.pos[1]}・34→${r.expo.pos[34]}・` +
+      `67→${r.expo.pos[67]}(既定 ${r.expo.defPos})・100→${r.expo.pos[100]}・等比 ${r.expo.r1.toFixed(6)}/${r.expo.r2.toFixed(6)}/${r.expo.r3.toFixed(6)}・` +
+      `往復一致=${r.expo.roundTrip}・上端超(500)は位置 ${r.expo.overMax}=${r.expoOk} / ` +
+      `⑦直値: 100→${r.direct.g100}・上限超→${r.direct.gCap}・負→${r.direct.gNeg}・0.003→${r.direct.gSmall}・非数→${r.direct.gNaN}=${r.directOk} / ` +
+      `⑧旧 localStorage 値(0〜2)の写像: ` + Object.keys(r.legacy).map((k) => `${k}→位置 ${r.legacy[k].pos}`).join('・') + `=${r.legacyOk}` +
       (ggErr.length ? ` / pageErrors=[${ggErr.slice(0, 2).join(' | ')}]` : ''));
   } else {
     console.log('SKIP ui.spaceMeshGain(対象に第257便c の gain スライダーなし — root 等)');
@@ -32017,6 +32180,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   await mr.goto(INDEX, { waitUntil: 'load' });
   await mr.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
   const hasMR = await mr.evaluate(() => !!(window.HP && typeof HP.setSpaceMeshTau === 'function'
+    && typeof HP.spaceMeshGainToPos === 'function'     // 第261便a の指数スライダー
     && document.getElementById('smGainRange')));
   if (hasMR) {
     const sig0 = await mr.evaluate(() => HP.allPresets().map((p) => presetSig(p)).join('|'));
@@ -32045,19 +32209,23 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         return { g: HP.spaceMeshGain(HP.sim), rng: +rng.value, shown: num.value,
           ov: HP.sim.overlays.spaceMesh.gain,
           store: (() => { try { return localStorage.getItem('hp_sm_gain'); } catch (_) { return null; } })() }; };
-      o.typed = { a: setNum(0.35), b: setNum(9), c: (() => { const before = HP.spaceMeshGain(HP.sim);
-        num.value = 'abc'; num.dispatchEvent(new Event('change'));
-        return { g: HP.spaceMeshGain(HP.sim), same: HP.spaceMeshGain(HP.sim) === before }; })() };
-      o.typedOk = o.typed.a.g === 0.35 && o.typed.a.rng === 0.35 && o.typed.a.ov === 0.35
-        && parseFloat(o.typed.a.store) === 0.35
-        && o.typed.b.g === 2 && o.typed.c.same;
+      // 第261便a: スライダーの value は**位置**・直値は 100 も 9 も通る(上限は gainCap)
+      const C0 = HP.spaceGridConst();
+      o.typed = { a: setNum(0.35), b: setNum(9), d: setNum(100), e: setNum(C0.gainCap * 10),
+        c: (() => { const before = HP.spaceMeshGain(HP.sim);
+          num.value = 'abc'; num.dispatchEvent(new Event('change'));
+          return { g: HP.spaceMeshGain(HP.sim), same: HP.spaceMeshGain(HP.sim) === before }; })() };
+      o.typedOk = o.typed.a.g === 0.35 && o.typed.a.rng === HP.spaceMeshGainToPos(0.35)
+        && o.typed.a.ov === 0.35 && parseFloat(o.typed.a.store) === 0.35
+        && o.typed.b.g === 9 && o.typed.d.g === 100 && o.typed.e.g === C0.gainCap
+        && o.typed.e.rng === C0.gainPos && o.typed.c.same;
       // ③ 説明は 1 本(ラベルのタップで tgSpaceMeshDesc が開く)
       row.querySelector('label').click();
       const d = row.nextElementSibling;
       o.desc = { open: !!(d && d.classList.contains('pdesc')),
         isMerged: !!(d && d.textContent === HP.T('tgSpaceMeshDesc')),
         hasGain: HP.T('tgSpaceMeshDesc').indexOf(HP.T('smGainLabel')) >= 0,
-        hasTau: /τ_ref/.test(HP.T('tgSpaceMeshDesc')),
+        hasTau: /τ/.test(HP.T('tgSpaceMeshDesc')),
         gainTip: rng.title.indexOf(HP.T('smGainLabel')) === 0,
         enDiffers: true };
       row.querySelector('label').click();
@@ -32074,11 +32242,20 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       o.tau.fixed = HP.spaceMeshTau(HP.sim);
       tin.value = '2.5'; tin.dispatchEvent(new Event('change'));
       o.tau.typed = HP.spaceMeshTau(HP.sim);
-      o.tau.grid = (HP.spaceGridEnsure(HP.sim), HP.spaceGridNow(HP.sim).grid.tau);
+      // 第261便a(第53報「『τ 固定』を変えても歪みが変わらない様にする」): 打った τ は
+      // **grid.tauDecl** に残るが、写像には入らない —— 自動のときと交点がビット同一である
+      HP.spaceGridInvalidate(HP.sim); HP.spaceGridEnsure(HP.sim);
+      const gFix = HP.spaceGridNow(HP.sim).grid;
+      o.tau.grid = gFix.tau; o.tau.gridDecl = gFix.tauDecl; o.tau.disp = gFix.dispCell;
       tcb.checked = false; tcb.dispatchEvent(new Event('change'));
       o.tau.auto = HP.spaceMeshTau(HP.sim);
+      HP.spaceGridInvalidate(HP.sim); HP.spaceGridEnsure(HP.sim);
+      const gAuto = HP.spaceGridNow(HP.sim).grid;
+      o.tau.bitSame = (() => { for (let k = 0; k < gAuto.X.length; k++)
+        if (gAuto.X[k] !== gFix.X[k] || gAuto.Y[k] !== gFix.Y[k]) return false; return true; })();
       o.tauOk = o.tau.onHidden === false && o.tau.offHidden === true && o.tau.backHidden === false
-        && o.tau.fixed > 0 && o.tau.typed === 2.5 && o.tau.grid === 2.5 && o.tau.auto === null;
+        && o.tau.fixed > 0 && o.tau.typed === 2.5 && o.tau.gridDecl === 2.5
+        && o.tau.bitSame && o.tau.auto === null;
       // ⑤ 署名不変(呼び出し側で比較する)+ params に鍵が生えない
       HP.setSpaceMeshGain(1.6); HP.setSpaceMeshTau(4.5);
       o.paramKeys = ['gain', 'tau', 'spaceMeshGain', 'spaceMeshTau'].filter((k) => k in HP.sim.params);
@@ -32103,12 +32280,13 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     add('ui.spaceMeshRow', ok,
       `①1 行化: 「${r.one.label}」の行にスライダーと直値入力が同居=${r.one.sameRow}・` +
       `独立行の残り ${r.one.soloRows} 個・「線の軌跡」も同作法=${r.one.trailRow}=${r.oneOk} / ` +
-      `②直値入力: 0.35→gain ${r.typed.a.g}(スライダー ${r.typed.a.rng}・overlay ${r.typed.a.ov}・保存 ${r.typed.a.store})・` +
-      `9→clamp ${r.typed.b.g}・非数は据え置き=${r.typed.c.same}=${r.typedOk} / ` +
+      `②直値入力: 0.35→gain ${r.typed.a.g}(スライダー位置 ${r.typed.a.rng}・overlay ${r.typed.a.ov}・保存 ${r.typed.a.store})・` +
+      `9→${r.typed.b.g}・100→${r.typed.d.g}・上限超→${r.typed.e.g}・非数は据え置き=${r.typed.c.same}=${r.typedOk} / ` +
       `③説明の 1 本化: ラベルのタップで tgSpaceMeshDesc だけが開く=${r.desc.isMerged}(度合の説明を含む=${r.desc.hasGain}・` +
       `τ の説明を含む=${r.desc.hasTau}・スライダーの tip は smGainLabel から=${r.desc.gainTip})=${r.descOk} / ` +
       `④固定 τ の行: 空間メッシュ ON で見える=${!r.tau.onHidden}・OFF で隠れる=${r.tau.offHidden}・` +
-      `ON にすると τ=${r.tau.fixed}・2.5 を打つと格子 τ=${r.tau.grid}・OFF で自動(${r.tau.auto})=${r.tauOk} / ` +
+      `ON にすると τ=${r.tau.fixed}・2.5 を打つと宣言 τ=${r.tau.gridDecl}(実際の写像は τ=${Number(r.tau.grid).toFixed(4)}・` +
+      `歪み ${Number(r.tau.disp).toFixed(4)} セル)・自動と交点がビット同一=${r.tau.bitSame}・OFF で自動(${r.tau.auto})=${r.tauOk} / ` +
       `⑤署名不変: 全内蔵 ${sig0.split('|').length} 本の presetSig が同一=${sig0 === sig1}・params の余計な鍵=[${r.paramKeys.join(',')}]=${sigOk} / ` +
       `⑥A/B 共通: gain ${abr.gA}/${abr.gB}・τ ${abr.tA}/${abr.tB}=${abOk}` +
       (mrErr.length ? ` / pageErrors=[${mrErr.slice(0, 2).join(' | ')}]` : ''));

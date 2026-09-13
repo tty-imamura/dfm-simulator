@@ -905,14 +905,16 @@ ja: {
   tgFieldDesc:"決定力 W の強さを背景の色マップで表示(A3/E1′)。明るいほど W が高い。",
   tgSpaceMesh:"空間メッシュ",
   smGainLabel:"引きずりの度合",
-  smGainDesc:"引きずりの度合 g(0〜2・刻み 0.05・既定 1.0)。「空間メッシュ」と同じ行で直接編集できる。**表示専用**で、サンプルの署名(presetSig)にも物理パラメータ(S.params)にも入らない —— 動かしても力学・帳簿は 1 bit も変わらない。A/B 比較では両側に同じ値が入る。上げすぎるとセルの向きが裏返る(折返し)。",
+  smGainDesc:"引きずりの度合 g(既定 1.0)。スライダーは **0 から 10 までを指数目盛**(位置 0 だけが特別値 0)で、隣の欄に **100 などの直値**も入力できる(上限 10000 でクランプする)。「空間メッシュ」と同じ行で直接編集できる。**表示専用**で、サンプルの署名(presetSig)にも物理パラメータ(S.params)にも入らない —— 動かしても力学・帳簿は 1 bit も変わらない。A/B 比較では両側に同じ値が入る。**g=1 の最大変位はどのサンプルでもセル幅の 0.25 倍**に規格化してある(第261便a)ので、上げていくとその倍数で歪む。上げすぎるとセルの向きが裏返る(折返し)。",
   smTauLabel:"τ 固定",
-  smTauDesc:"蓄積格子の表示の時間幅 τ を固定する診断(表示専用・空間メッシュが ON のときだけ出る)。OFF は**自動**で、τ_ref=R/v_ref を系ごとに決め直す —— 同じ形の場なら**強さが違っても同じ絵**になる(剛体回転の Ω=0.1 と Ω=0.2 で格子差が 0)。ON にすると入力した τ をそのまま使うので、**強度の違いが絵に出る**。凡例に τ_ref・v_ref と自動/固定を表示する。署名・保存 JSON・S.params には入らない(実行時鍵 overlays.spaceMesh.tau)。",
+  smTauDesc:"蓄積格子の表示の時間幅 τ を固定する診断(表示専用・空間メッシュが ON のときだけ出る)。**第261便a から、τ を固定しても値を変えても描かれる歪みは変わらない**(格子はビット同一)—— 歪みは g とセル幅だけで規格化してあり、宣言した τ は凡例の診断表示にだけ残る。凡例には g・歪み(セル幅比)・v_ref・実際に使った τ と、自動/固定の別を出す。署名・保存 JSON・S.params には入らない(実行時鍵 overlays.spaceMesh.tau)。",
   smTauAuto:"自動", smTauFixed:"固定",
+  smDispLabel:"歪み(セル幅比)", smTauNoEffect:"表示には効かない",
+  smOrigin1:"原点は 1 位の粒子(2 位と 3 位が同質量)",
   smTop2Note:"場は上位 2 体(系全体のメッシュではない)",
   smFoldCellNote:"赤いセル=折返し",
   smFoldWarn:"折返し(表示の限界)",
-  tgSpaceMeshDesc:"空間メッシュの表示(**表示のみ** —— 力学・帳簿へは 1 バイトも影響しない)。既定は**蓄積格子**(mode: mesh)で、**全粒子の質量重心**を原点にした正方格子を、凍結した速度場が作る**一意の写像**で写したものである。同じ行の数値が**引きずりの度合 g**(0〜2・既定 1.0・直接編集可)で、写像 dX/ds=g·[u(X)−u(C)] を 0≤s≤τ_ref で解く度合を決める。τ_ref は系の大きさと内部速度から**一度だけ**決まり、g では再正規化しない(g=0 は歪みなしの正方格子・上げたぶんだけ歪む)。**これは凍結した場の診断図であって、過去から運ばれてきた物質のメッシュではない。**セルの向きが裏返ったら(折返し)そのセルを赤くし、格子全体を破線にして凡例を出す —— **空間が反転したのではなく、表示の時間幅 τ_ref とサンプリングの限界**である。凡例には τ_ref・v_ref と、τ が自動か固定かを出す(自動は形を見る・固定は強さを比べる)。銀河(overlays.galaxyField の宣言がある系)は局所場で描き、**有効範囲の外は描かない**。宣言の無い 3 体以上の系は**上位 2 体**から作った連星の場で描き、その旨を凡例に出す。残る 4 モード(lines / guide / transport / tracer)は**明示宣言したときだけの診断**で、同時には描かない。g と τ は署名(presetSig)にも S.params にも入らない。式と手順の全文は docs/PHYSICS.md と docs/AI_SPEC.md にある。",
+  tgSpaceMeshDesc:"空間メッシュの表示(**表示のみ** —— 力学・帳簿へは 1 バイトも影響しない)。既定は**蓄積格子**(mode: mesh)で、**質量上位 2 粒子の重心**を原点にした正方格子(2 位と 3 位が同質量の系は 1 位の粒子が原点 —— 第261便a)を、凍結した速度場が作る**一意の写像**で写したものである。同じ行の数値が**引きずりの度合 g**(既定 1.0・スライダーは 0〜10 の指数目盛・直値は 10000 まで)で、写像 dX/ds=g·[u(X)−u(C)] を 0≤s≤τ で解く度合を決める。**第261便a から、時間幅 τ はセル幅で規格化する**(τ=κ·h/v_ref・κ=0.25)ので、**g=1 の最大変位はどのサンプルでもセル幅の 0.25 倍**であり、**『τ 固定』を変えても歪みは変わらない**(g=0 は歪みなしの正方格子・上げたぶんだけ歪む)。**これは凍結した場の診断図であって、過去から運ばれてきた物質のメッシュではない。**セルの向きが裏返ったら(折返し)そのセルを赤くし、格子全体を破線にして凡例を出す —— **空間が反転したのではなく、表示の時間幅とサンプリングの限界**である。凡例には g・歪み(セル幅比)・v_ref・実際に使った τ と、τ が自動か固定かを出す(固定しても絵は変わらない —— 診断表示である)。銀河(overlays.galaxyField の宣言がある系)は局所場で描き、**有効範囲の外は描かない**。宣言の無い 3 体以上の系は**上位 2 体**から作った連星の場で描き、その旨を凡例に出す。残る 4 モード(lines / guide / transport / tracer)は**明示宣言したときだけの診断**で、同時には描かない。g と τ は署名(presetSig)にも S.params にも入らない。式と手順の全文は docs/PHYSICS.md と docs/AI_SPEC.md にある。",
   // 第37便 A3(原仮定者指示): 光線の基準波長λ0(表示専用・セーブ対象外・物理不変)
   // 第38便(原仮定者指示): 既定を580nmへ・スライダーは「光線」トグルの直後に移動・直値は可視外も受理
   rayLambda0Label:"光線の基準波長(nm)",
@@ -1516,14 +1518,16 @@ en: {
   tgFieldDesc:"Background color map of the determinacy W (A3/E1'). Brighter = higher W.",
   tgSpaceMesh:"Space mesh",
   smGainLabel:"Amount of dragging",
-  smGainDesc:"Amount of dragging g (0-2, step 0.05, default 1.0), edited directly on the same row as SPACE MESH. IT IS PURELY A DISPLAY CONTROL: it enters neither the sample signature (presetSig) nor the physics parameters (S.params), so moving it changes not one bit of the dynamics or the ledgers. Both sides of an A/B comparison share the value. Push it too far and cells turn inside out (folding).",
+  smGainDesc:"Amount of dragging g (default 1.0). The slider runs from 0 to 10 on a LOGARITHMIC scale (position 0 alone is the special value 0), and the box next to it takes DIRECT VALUES such as 100 (clamped at 10000). Both sit on the same row as SPACE MESH. IT IS PURELY A DISPLAY CONTROL: it enters neither the sample signature (presetSig) nor the physics parameters (S.params), so moving it changes not one bit of the dynamics or the ledgers. Both sides of an A/B comparison share the value. At g=1 the largest displacement is normalised to 0.25 of a cell width in EVERY sample (wave 261a), and it grows in proportion from there. Push it too far and cells turn inside out (folding).",
   smTauLabel:"Fix tau",
-  smTauDesc:"A diagnostic that FIXES the display time span tau of the accumulated grid (display only; shown while the space mesh is on). Off means AUTOMATIC: tau_ref = R/v_ref is recomputed per system, so two systems with the same field SHAPE but different STRENGTH draw the same picture (rigid rotation at omega=0.1 and omega=0.2 give a grid difference of exactly 0). On, the tau you type is used as is, so differences in strength show up in the picture. The legend prints tau_ref, v_ref and whether tau is automatic or fixed. It enters neither the signature, the saved JSON nor S.params (run-time key overlays.spaceMesh.tau).",
+  smTauDesc:"A diagnostic that FIXES the display time span tau of the accumulated grid (display only; shown while the space mesh is on). SINCE WAVE 261a, FIXING TAU OR CHANGING ITS VALUE NO LONGER CHANGES THE DISTORTION THAT IS DRAWN (the grid stays bit-identical): the distortion is normalised by g and the cell width alone, and the tau you declare survives only as a diagnostic readout. The legend prints g, the distortion in cell widths, v_ref, the tau actually used, and whether it is automatic or fixed. It enters neither the signature, the saved JSON nor S.params (run-time key overlays.spaceMesh.tau).",
   smTauAuto:"auto", smTauFixed:"fixed",
+  smDispLabel:"distortion (cells)", smTauNoEffect:"not used for the picture",
+  smOrigin1:"Origin is the heaviest body (2nd and 3rd have equal mass)",
   smTop2Note:"Field from the two heaviest bodies (not a mesh of the whole system)",
   smFoldCellNote:"Red cells = folded",
   smFoldWarn:"Folded (display limit)",
-  tgSpaceMeshDesc:"Draws the space mesh (DISPLAY ONLY - it touches neither the dynamics nor the ledgers). The default is the ACCUMULATED GRID (mode: mesh): a square grid centred on the MASS CENTROID OF ALL PARTICLES, mapped through the SINGLE-VALUED map built from the frozen velocity field. The number on the same row is the AMOUNT OF DRAGGING g (0-2, default 1.0, directly editable); it scales the map dX/ds = g.[u(X) - u(C)] solved over 0<=s<=tau_ref. tau_ref is fixed ONCE from the system size and its internal speed and is NOT renormalised by g (g=0 leaves the reference square grid untouched; more gain means more distortion). THIS IS A DIAGNOSTIC PICTURE OF A FROZEN FIELD, NOT A MATERIAL MESH CARRIED HERE FROM THE PAST. If cells turn inside out (folding) those cells turn red, the whole grid switches to a dashed stroke and a legend appears - SPACE HAS NOT INVERTED; this is the limit of the display time span tau_ref and of the sampling. The legend prints tau_ref, v_ref and whether tau is automatic or fixed (automatic shows the SHAPE, fixed compares the STRENGTH). A galaxy (a sample that declares overlays.galaxyField) is drawn with its local field and POINTS OUTSIDE THE VALID SUPPORT ARE NOT DRAWN. A system of three or more bodies without that declaration is drawn with the binary field OF ITS TWO HEAVIEST BODIES, and the legend says so. The remaining four modes (lines / guide / transport / tracer) are diagnostics drawn ONLY when a sample declares them, never two at once. Neither g nor tau enters presetSig or S.params. The full formulas and procedure are in docs/PHYSICS.md and docs/AI_SPEC.md.",
+  tgSpaceMeshDesc:"Draws the space mesh (DISPLAY ONLY - it touches neither the dynamics nor the ledgers). The default is the ACCUMULATED GRID (mode: mesh): a square grid centred on the BARYCENTRE OF THE TWO HEAVIEST PARTICLES (on the heaviest particle alone when the 2nd and 3rd have equal mass - wave 261a), mapped through the SINGLE-VALUED map built from the frozen velocity field. The number on the same row is the AMOUNT OF DRAGGING g (default 1.0; the slider runs 0 to 10 logarithmically and direct values are taken up to 10000); it scales the map dX/ds = g.[u(X) - u(C)] solved over 0<=s<=tau. SINCE WAVE 261a THE TIME SPAN TAU IS NORMALISED BY THE CELL WIDTH (tau = kappa.h/v_ref, kappa = 0.25), so AT g=1 THE LARGEST DISPLACEMENT IS 0.25 OF A CELL WIDTH IN EVERY SAMPLE and FIXING TAU NO LONGER CHANGES THE DISTORTION (g=0 leaves the reference square grid untouched; more gain means more distortion). THIS IS A DIAGNOSTIC PICTURE OF A FROZEN FIELD, NOT A MATERIAL MESH CARRIED HERE FROM THE PAST. If cells turn inside out (folding) those cells turn red, the whole grid switches to a dashed stroke and a legend appears - SPACE HAS NOT INVERTED; this is the limit of the display time span and of the sampling. The legend prints g, the distortion in cell widths, v_ref, the tau actually used and whether it is automatic or fixed (fixing it does not change the picture - it is a readout). A galaxy (a sample that declares overlays.galaxyField) is drawn with its local field and POINTS OUTSIDE THE VALID SUPPORT ARE NOT DRAWN. A system of three or more bodies without that declaration is drawn with the binary field OF ITS TWO HEAVIEST BODIES, and the legend says so. The remaining four modes (lines / guide / transport / tracer) are diagnostics drawn ONLY when a sample declares them, never two at once. Neither g nor tau enters presetSig or S.params. The full formulas and procedure are in docs/PHYSICS.md and docs/AI_SPEC.md.",
   // 第37便 A3: ray base wavelength lambda0 (display only, not saved, physics-free)
   // 38th flight (design lead's instruction): default now 580nm; slider moved right after the "rays" toggle; direct entry accepts non-visible values
   rayLambda0Label:"Ray base wavelength (nm)",
@@ -5359,8 +5363,8 @@ const BUILTIN_PRESETS = [
     {q:"巻き込み", model:"3000步(t=48)で**巻き数 平均 0.322**。内(r₀=20)Δθ=2.179・外(r₀=240)Δθ=0.170 = **内/外 12.8 倍**。det F 0.9963/0.9994", obs:"—"},
     {q:"5 量の記録", model:"r=16/81/244: v_φ=5.41/5.75/3.12・u_mesh,φ=0.68/1.88/0.84・差=4.73/3.87/2.28。**v_obs は光学層が無く null**・Ω_pattern は 2 時刻差分のみ", obs:"—"},
     {q:"力は載せていない", model:"メッシュは**表示と記録だけ**。u_mesh は粒子速度の局所平均で、**観測回転曲線は入力にしていない**", obs:"—"},
-    {q:"A/B(ワンタップ)", model:"B 側は D₀=500(χ→0)。**物質線が背景に貼り付いて巻かなくなる**", obs:"—"},
-    {q:"較正", model:"**していない**。claim 窓も regression window も付けない", obs:"—"},
+    {q:"A/B(ワンタップ)と較正", model:"B 側は D₀=500(χ→0)。**物質線が背景に貼り付いて巻かなくなる**。**較正はしていない** — claim 窓も regression window も付けない", obs:"—"},
+    {q:"共通場 API(診断)", model:"診断場として同じ純関数 HP.dfmField を読む — 表示の disk/affine とも力学の E6′/coordinate とも別の場・|Δu| は場と同桁", obs:"—"},
     {q:"言わないこと", model:"**渦を描けたことは長寿命構造の説明ではない**。平坦回転曲線・2 本腕の自律維持・ダークマターの主張ではない(T4)", obs:"—"}],
   descStruct:{
     summary:"**銀河の空間メッシュを「1 つの大きなメッシュ」ではなく「局所の場+物質線」で表す**原理サンプル(第254便b・第46報)。原仮定者の指示は「銀河では、空間メッシュが銀河の回転に合わせて渦を巻く/銀河の中心に近づくほど、背景決定力 D₀ の影響が相対的に弱まる」である。中心に近いほど D₀ が弱まることは、**χ(r)=W(r)/(W(r)+D₀) の形そのもの**が表している —— W は加算形 W(x)=Σmᵢ(|x−xᵢ|²+ε²)^(−p/2) で、中心では W が大きく χ→1(メッシュが基準)、外縁では D₀ が効いて χ→0(背景が基準)になる。メッシュの流れは u=χ·u_n+(1−χ)·u_bg で、**u_n はこのアプリの粒子速度を pull 重みで局所平均しただけ**である(観測回転曲線も解析形 Ω_n も入力していない)。**物質線**は場の中を RK4 で運ばれる細い線で、座標の線形混合はしない(χ=½ の混合座標は半回転で潰れるからである)。色は χ の強さ、短い黄色の線は u の向きである。**第257便c から、既定の画面は蓄積格子**(mode: mesh —— 表示方式は排他)である。蓄積格子は、**全粒子の質量重心**を原点にした正方格子を、凍結した速度場が作る**一意の写像**で写し、**各辺の差を原点に近い交点から順に累積**して描いたもので(閉路残差は丸めだけ)、**物質線と空間線は明示宣言したときの診断表示**になった —— 下の実測はいずれも物質線を明示登録したハーネス(tests/exp-w254b-galaxymesh.mjs)の数値である。**力はメッシュから 1 つも出していない**: 動力学は従来どおり重力(E4)と空間の引きずり(A8/E6′)だけで、メッシュは**表示と記録**の層である(第253便a ⑦「銀河はメッシュ接続の後」)。",
@@ -5372,8 +5376,8 @@ const BUILTIN_PRESETS = [
     {q:"Winding", model:"At 3000 steps (t=48) the mean winding is 0.322. Inner (r0=20) dTheta = 2.179 against outer (r0=240) 0.170 - a ratio of 12.8. det F = 0.9963 / 0.9994", obs:"-"},
     {q:"The five recorded quantities", model:"At r = 16 / 81 / 244: v_phi = 5.41 / 5.75 / 3.12, u_mesh_phi = 0.68 / 1.88 / 0.84, difference 4.73 / 3.87 / 2.28. v_obs is null (no optical layer); Omega_pattern needs two times", obs:"-"},
     {q:"No force is attached", model:"The mesh is DISPLAY AND RECORD ONLY. u_mesh is a local average of particle velocities; NO OBSERVED ROTATION CURVE IS FED IN", obs:"-"},
-    {q:"One-tap A/B", model:"Side B runs D0=500 (chi to 0). The material lines stick to the background and stop winding", obs:"-"},
-    {q:"Calibration", model:"NONE. No claim window and no regression window", obs:"-"},
+    {q:"One-tap A/B and calibration", model:"Side B runs D0=500 (chi to 0): the material lines stick to the background and stop winding. THERE IS NO CALIBRATION - no claim window and no regression window", obs:"-"},
+    {q:"Shared field API (diagnostic)", model:"As a DIAGNOSTIC field it reads the same pure function HP.dfmField - a different field from the disk/affine display and from the E6'/coordinate field of the dynamics; |du| is the same order as the field itself", obs:"-"},
     {q:"What this does not claim", model:"DRAWING A SPIRAL IS NOT AN EXPLANATION OF A LONG-LIVED STRUCTURE. Not a claim about flat rotation curves, self-sustained two-armed spirals or dark matter (T4)", obs:"-"}],
     descStruct:{
     summary:"A principle sample that represents a galaxy's space mesh NOT as one big mesh but as A LOCAL FIELD PLUS MATERIAL LINES (wave 254b, 46th report). The adjudicator's instruction reads: in a galaxy the space mesh winds up with the galaxy's rotation, and the closer to the centre, the weaker the background determinacy D0 becomes in relative terms. That relative weakening is exactly what the shape chi(r) = W(r)/(W(r)+D0) says: W is additive, W(x) = sum_i m_i (|x-x_i|^2+eps^2)^(-p/2), so W is large at the centre and chi tends to 1 (the mesh is the reference), while far out D0 dominates and chi tends to 0 (the background is the reference). The mesh flow is u = chi u_n + (1-chi) u_bg, where u_n is NOTHING BUT a pull-weighted local average of this app's own particle velocities - no observed rotation curve and no analytic Omega_n is fed in. The MATERIAL LINES are thin lines carried through the field by RK4 (coordinates are never linearly blended: a chi=1/2 blended coordinate collapses after half a turn); colour encodes chi and the short yellow strokes encode u. SINCE WAVE 257c THE DEFAULT VIEW IS THE ACCUMULATED GRID (mode: mesh; the view modes are exclusive) - a square grid centred on the MASS CENTROID OF ALL PARTICLES, mapped through the single-valued map built from the frozen velocity field, with each edge difference ACCUMULATED OUTWARD FROM THE INTERSECTION NEAREST THE ORIGIN (the closed-loop residual is rounding only) - and the material lines and space lines are the diagnostics you get by declaring mode=tracer or mode=lines - every measurement below comes from the harness (tests/exp-w254b-galaxymesh.mjs), which registers the material lines explicitly. NO FORCE COMES OUT OF THE MESH: the dynamics is still gravity (E4) and frame dragging (A8/E6') alone, and the mesh is a display-and-record layer (wave 253a: the galaxy comes AFTER the mesh is attached).",
@@ -10584,8 +10588,8 @@ const BUILTIN_PRESETS = [
   obsCard:[
     {q:"何を見るか", model:"等質量 2 体(m=500・e=0.5)に physics.spaceMesh={mode:\"vertex\",gravity:true} を足した宇宙。表示は重心原点の蓄積格子(第257便c)", obs:"—(原理サンプル・観測較正ではない)"},
     {q:"**メッシュの重力は既にある重力**", model:"A/B(spaceMesh の有無)で近点間 P=1339.718898・近点移動 +2.027112°/周 が印字桁で同一。1 步の加速度差 |Δa_g| は 0〜2.8×10⁻¹⁸", obs:"—(第46報「勾配で加速する力が重力」の実測)"},
-    {q:"メッシュの回転は D₀ に依らない", model:"Ω_mesh は頂点契約から恒等的に Ω_orbit。D0pull を 10⁻⁶〜10³ に振っても比は 1(掃引は 🫂 と本便の器)", obs:"—"},
-    {q:"D₀ が動かすのは χ である", model:"χ=W/(W+D0pull): 0→1(厳密)/10⁻⁴→0.98861/10⁻²→0.46468/1→0.0086059/10³→8.68×10⁻⁶。近点間 P は 793.16/1339.84/888.41/531.56/518.87", obs:"—(第46報「D₀ をゼロに近付けると」の測れた形)"},
+    {q:"回転は D₀ に依らない・D₀ が動かすのは χ", model:"Ω_mesh は頂点契約から恒等的に Ω_orbit(D0pull 10⁻⁶〜10³ で比 1)。χ=W/(W+D0pull): 0→1(厳密)/10⁻⁴→0.98861/10⁻²→0.46468/1→0.0086059/10³→8.68×10⁻⁶。近点間 P は 793.16/1339.84/888.41/531.56/518.87", obs:"—(第46報「D₀ をゼロに近付けると」の測れた形)"},
+    {q:"共通場 API(診断)", model:"診断場として同じ純関数 HP.dfmField を読む — 表示の disk/affine とも力学の E6′/coordinate とも別の場・|Δu| は場と同桁", obs:"—"},
     {q:"**D0pull:0 と、対の織り込み 5 段**(第254便a/第255便a)", model:"明示 0 は真の 0(χ=1 厳密・T2)。**opt-in weave:pair の Δϖ は D0pull=0 で +0.7618→−5.3×10⁻⁵(クランプ 259 万→0)・10³ では差 2.8×10⁻¹¹**(本体は未宣言)", obs:"—"},
     {q:"物質線は頂点を追う", model:"幾何整合補間で頂点追従誤差 8.6×10⁻¹³(相対・100 万步)。保存速度の両端補間だと 8.9×10⁻⁵(8 桁悪い)", obs:"—(表示の 2 案を実測で選んだ)"},
     {q:"**慣性候補は採用しない**(否定結果)", model:"頂点で |a_I|/|g_N|=χ(5 桁一致)= 慣性項は重力の再導出。足すと二重計上で連星が壊れる", obs:"—(第46報の 2 文目は測って**採れなかった**)"},
@@ -10602,8 +10606,8 @@ const BUILTIN_PRESETS = [
     obsCard:[
       {q:"What to watch", model:"Two equal masses (m=500, e=0.5) with physics.spaceMesh={mode:\"vertex\",gravity:true} added. The display draws the ACCUMULATED GRID centred on the mass centroid (wave 257c)", obs:"— (a principle sample, not an observational calibration)"},
       {q:"THE MESH'S GRAVITY IS THE GRAVITY WE ALREADY HAD", model:"with and without spaceMesh the periastron period 1339.718898 and the advance +2.027112 deg/orbit agree to every printed digit; the one-step acceleration difference is 0 to 2.8e-18", obs:"— (report 46: 'the force that accelerates along the gradient is gravity')"},
-      {q:"The mesh's rotation does not depend on D0", model:"Omega_mesh equals Omega_orbit identically by the vertex contract, at every D0pull from 1e-6 to 1e3", obs:"—"},
-      {q:"What D0 moves is chi", model:"chi=W/(W+D0pull): 0 -> 1 exactly / 1e-4 -> 0.98861 / 1e-2 -> 0.46468 / 1 -> 0.0086059 / 1e3 -> 8.68e-6; the periastron periods are 793.16 / 1339.84 / 888.41 / 531.56 / 518.87. The blended field's Omega falls with chi", obs:"— (report 46's 'bring D0 close to zero', made measurable)"},
+      {q:"The rotation does not depend on D0; what D0 moves is chi", model:"Omega_mesh equals Omega_orbit identically by the vertex contract, at every D0pull from 1e-6 to 1e3. chi=W/(W+D0pull): 0 -> 1 exactly / 1e-4 -> 0.98861 / 1e-2 -> 0.46468 / 1 -> 0.0086059 / 1e3 -> 8.68e-6; the periastron periods are 793.16 / 1339.84 / 888.41 / 531.56 / 518.87. The blended field's Omega falls with chi", obs:"— (report 46's 'bring D0 close to zero', made measurable)"},
+      {q:"Shared field API (diagnostic)", model:"As a DIAGNOSTIC field it reads the same pure function HP.dfmField - a different field from the disk/affine display and from the E6'/coordinate field of the dynamics; |du| is the same order as the field itself", obs:"-"},
       {q:"D0pull:0, AND THE FIVE-STEP PAIR WEAVE (waves 254a / 255a)", model:"an explicit zero stays a true zero (chi=1, T2). With the opt-in weave:pair the advance goes +0.7618 -> -5.3e-5 deg/orbit at D0pull=0 (clamps 2.59M -> 0); at 1e3 the gap is 2.8e-11", obs:"—"},
       {q:"The material line follows the vertices", model:"geometry-consistent interpolation tracks the vertices to 8.6e-13 (relative, one million steps); interpolating the stored velocities gives 8.9e-5, eight decades worse", obs:"— (the two display candidates were settled by measurement)"},
       {q:"THE INERTIA CANDIDATES ARE NOT ADOPTED (a negative result)", model:"at a vertex |a_I|/|g_N| equals chi to five digits: the inertial term is gravity re-derived, and adding it double-counts and destroys the binary", obs:"— (report 46's second sentence did NOT survive measurement)"},
@@ -21993,8 +21997,10 @@ function _slParamSig(S){
   const D0p=(p.D0pull!==undefined)? p.D0pull : p.D0;
   const gf=(S.overlays && S.overlays.galaxyField)? JSON.stringify(S.overlays.galaxyField) : "-";
   // 第259便c: 診断フラグ fieldApi もキャッシュ鍵に入れる(止めたまま切り替えたら即再構築する)
+  // 第261便a: 規格化 norm もキャッシュ鍵に入れる(τ 固定は写像に入らなくなったが、
+  // 凡例の表示が変わるので鍵からは外さない)
   return p.D0+"/"+D0p+"/"+p.kFrame+"/"+pw+"/"+p.softening+"/"+_smGain(S)+"/"+String(_smTau(S))+"/"+gf
-    +(_smFieldApi(S)? "/api" : "");
+    +"/"+_smNorm(S)+"/"+_smOriginMode(S)+(_smFieldApi(S)? "/api" : "");
 }
 // **どちらの場を読むかは表示モードでは決めない**(第256便c)。
 // **現行の規則は「宣言と体数」だけである**(第257便c — 下の _slKindOf / _slKindNote が正本):
@@ -22023,6 +22029,54 @@ function _smMassCentre(S){
   if(!(M>0)) return null;
   const X=cx/M, Y=cy/M;
   return (Number.isFinite(X) && Number.isFinite(Y))? [X,Y] : null;
+}
+// ===== 第261便a(第53報): 蓄積格子の**原点規則** =====================================
+// 原仮定者(第53報): 「空間メッシュの原点は、**質量上位2粒子の重心**とする。**2粒子目と3粒子目が
+//   同じ質量の場合は、無視して1粒子目を原点にする**」。
+// **表示専用**である —— presetSig にも S.params にも力学にも入らない(格子の交点は第260便の版と
+// 変わるが、600 步の状態は 1 bit も動かない)。第257便c からの「全粒子の質量重心」は
+// `_smMassCentre` として残す(銀河の基準長 r₉₅ はこれまでどおり重心まわりで測る —— 長さの規約を
+// 変えると第256便c の実測(逃走粒子で 3〜12 倍に跳ねる)ごとやり直しになるからである)。
+//   ・順位は **|m|**(負質量も大きさで並べる。0 質量は順位に入るが、重みが 0 なら原点は立たない)
+//   ・重心の重みも **|m|**(m₁+m₂=0 の対で原点が発散しないようにする)
+//   ・「同じ質量」は**相対**判定(SPACE_MESH_TIE_REL)。絶対値では比べない
+//   ・m₁=m₂=m₃ の系は字義どおり **1 位のみ**に落ちる(2 位と 3 位が同じだからである)
+const SPACE_MESH_TIE_REL=1e-9;    // 「2 粒子目と 3 粒子目が同じ質量」の相対判定
+// |m| の上位 3 つ(足りない順位は −1)。**位置・質量に非有限が 1 つでもあれば null**(黙って飛ばさない)
+function _smRank3(S){
+  if(!S || !(S.n>0)) return null;
+  let i1=-1,i2=-1,i3=-1,a1=-Infinity,a2=-Infinity,a3=-Infinity;
+  for(let i=0;i<S.n;i++){
+    const m=S.m[i], xi=S.x[i], yi=S.y[i];
+    if(!Number.isFinite(m) || !Number.isFinite(xi) || !Number.isFinite(yi)) return null;
+    const a=Math.abs(m);
+    if(a>a1){ a3=a2; i3=i2; a2=a1; i2=i1; a1=a; i1=i; }
+    else if(a>a2){ a3=a2; i3=i2; a2=a; i2=i; }
+    else if(a>a3){ a3=a; i3=i; }
+  }
+  return (i1<0)? null : [i1,i2,i3];
+}
+// 原点と、その**規則の名前**(凡例・QA・ハーネスが読む)。rule は "top2"(上位 2 粒子の重心)か
+// "top1"(2 位と 3 位が同質量なので 1 位だけ)。原点が立たない系は null(= 格子を描かない)
+function _smOrigin(S){
+  const r=_smRank3(S); if(!r) return null;
+  const i1=r[0], i2=r[1], i3=r[2];
+  const a1=Math.abs(S.m[i1]);
+  if(!(a1>0)) return null;                                   // 全部 0 質量 —— 原点は立たない
+  let rule="top1", ids=[i1];
+  if(i2>=0 && Math.abs(S.m[i2])>0){
+    const a2=Math.abs(S.m[i2]);
+    const a3=(i3>=0)? Math.abs(S.m[i3]) : null;
+    const tie=(a3!==null) && (Math.abs(a2-a3)<=SPACE_MESH_TIE_REL*Math.max(a2,a3));
+    if(!tie){ rule="top2"; ids=[i1,i2]; }
+  }
+  let X,Y;
+  if(rule==="top2"){
+    const a2=Math.abs(S.m[i2]), w=a1+a2;
+    if(!(w>0)) return null;
+    X=(a1*S.x[i1]+a2*S.x[i2])/w; Y=(a1*S.y[i1]+a2*S.y[i2])/w;
+  } else { X=S.x[i1]; Y=S.y[i1]; }
+  return (Number.isFinite(X) && Number.isFinite(Y))? {c:[X,Y], rule, ids} : null;
 }
 // 銀河の基準長: **質量重心から外縁まで**の距離(= 半径の 95 パーセンタイル)。空間線・蓄積格子・
 // 表示所有 tracer が**同じ長さ**を読むので、どれもズームに依らない。外縁を最外縁の 1 粒子に
@@ -22220,26 +22274,81 @@ const SPACE_MESH_GRID_K_LO=7;     // 品質縮退(auto/lite)での交点数
 const SPACE_MESH_SAMP=17;         // 凍結場の標本格子(片側。奇数 —— **中心 C がそのまま標本点**)
 const SPACE_MESH_SAMP_PAD=2.0;    // 標本格子の半幅 = この倍率 × 描く格子の半幅(写像が外へ出ても読める)
 const SPACE_MESH_FLOW_N=32;       // 写像 Φ を解く RK4 の区間数(実測で決めた —— 解析場の相対誤差が gain=1 で 2.0×10⁻⁹・gain=2 で 3.2×10⁻⁸。PHYSICS〔第257便c〕)
+// ===== 第261便a(第53報): 歪みの**規格化** ===========================================
+// 原仮定者(第53報): 「空間メッシュが、『引きずりの度合』が『1』の時に**適切に描画**される様に
+//   する。**歪みを質量の合計に反比例させる**などで、どのサンプルでも**安定化**させる。
+//   『**τ 固定**』を変えても**歪みが変わらない**様にする」。
+// 第258便c まで、写像の時間幅は τ_ref=R/v_ref(自動)か宣言された固定 τ だった。これは
+//   ① gain=1 の最大変位が **R = セル幅の 4 倍**になる(= 折返しの境界 1.50 のすぐ内側)
+//   ② 固定 τ を変えると歪みが変わる(第258便c はそれを「強度の比較」として足した)
+// という 2 つを持っていた。第261便a は**規格化**を spec の 1 鍵にして、案を 2 つ実装した
+// (実測表は docs/PHYSICS.md 〔第261便a〕):
+//   "cell" … τ = κ·h/v_ref(h = セル幅)。gain=1 の最大変位が**セル幅の κ 倍**に揃う。
+//            **τ の宣言は写像に入らない**(= 固定 τ を変えても格子がビット同一)。**採用**。
+//   "mass" … τ = τ_ref·κ_m/Σ|m|(「歪みを質量の合計に反比例させる」の字義)。
+//   "none" … 第258便c までの経路(τ_ref か固定 τ をそのまま使う)。純関数の既定はこれで、
+//            既存の解析試験(exp(g·A·τ) との一致)はこの経路で従来どおり回る。
+const SPACE_MESH_NORM="cell";     // **表示が使う**規格化(純関数の既定は "none" のまま)
+const SPACE_MESH_KAPPA=0.25;      // "cell": gain=1 での最大変位 ÷ セル幅(実測で決めた)
+const SPACE_MESH_KAPPA_M=1e3;     // "mass": 歪み ∝ κ_m/Σ|m| の係数(実測で決めた)
 const SPACE_MESH_EXT_BIN=1.5;     // 連星: 格子の外縁 = この倍率 × 2 頂点の分離(第256便c の線長と同じ根拠)
 const SPACE_MESH_EXT_GAL=1.0;     // 銀河: 格子の外縁 = この倍率 × 中心 → 外縁(半径の 95 パーセンタイル)
 const SPACE_MESH_GAIN_DEF=1.0;    // 「引きずりの度合」の既定。**実測で決めた** —— 🫂🪟🎠 の gain 掃引(0〜2)で
                                   // 折返しが出ないのは 1.50 まで(🫂🪟 は 2.0 でも出ない・🎠 が 1.75 で 1 セット折返す)。
                                   // その内側の切りの良い値が 1.0 である(0.5 も折返さないが、境界 1.50 に近いのは 1.0)
-const SPACE_MESH_GAIN_MAX=2;      // スライダーの上限
-const SPACE_MESH_GAIN_STEP=0.05;  // スライダーの刻み
+// 第261便a(第53報): 「『引きずりの度合』のスライダーは、『0』から『10』を**指数的**に変化させる。
+//   直値で『100』などの大きな値も**入力可能**にする」。上限の意味を 3 つに分けた:
+//   ① スライダーの上端 SPACE_MESH_GAIN_MAX=10 ② 直値入力の上限 SPACE_MESH_GAIN_CAP=1e4
+//   ③ 0 は**特別値**(歪み 0)—— 指数目盛には 0 が無いので、位置 0 だけを 0 に割り当てる。
+// 旧版(0〜2・刻み 0.05)の localStorage 値は**そのまま読める**(値域の内側だからである)
+const SPACE_MESH_GAIN_MAX=10;     // スライダーの上端(指数目盛)
+const SPACE_MESH_GAIN_MIN=0.01;   // スライダーの下端(位置 1。位置 0 は特別値 0)
+const SPACE_MESH_GAIN_CAP=1e4;    // **直値入力**の上限(これを超えたら clamp して表示に出す)
+const SPACE_MESH_GAIN_POS=100;    // スライダーの位置の数(0〜100 の整数 —— 値ではなく位置を刻む)
+const SPACE_MESH_GAIN_STEP=1;     // スライダーの刻み(**位置**の刻み。値の刻みではない)
+// 位置 → gain(位置 0 = 0・位置 1〜100 = 0.01〜10 の等比)。既定 1.0 は位置 67 に**厳密**に乗る
+// (0.01·1000^(66/99)=0.01·10²=1)。丸めは 1e−6 で、同じ位置は必ず同じ値になる
+function _smGainFromPos(p){
+  let q=Math.round(Number(p));
+  if(!Number.isFinite(q)) return SPACE_MESH_GAIN_DEF;
+  q=Math.max(0,Math.min(SPACE_MESH_GAIN_POS,q));
+  if(q<=0) return 0;
+  const t=(q-1)/(SPACE_MESH_GAIN_POS-1);
+  const g=SPACE_MESH_GAIN_MIN*Math.pow(SPACE_MESH_GAIN_MAX/SPACE_MESH_GAIN_MIN,t);
+  return Math.round(g*1e6)/1e6;
+}
+// gain → 位置(スライダーの上端を超える直値は上端の位置で止める —— 値そのものは切らない)
+function _smGainToPos(g){
+  const v=Number(g);
+  if(!Number.isFinite(v) || !(v>0)) return 0;
+  if(v<=SPACE_MESH_GAIN_MIN) return 1;
+  if(v>=SPACE_MESH_GAIN_MAX) return SPACE_MESH_GAIN_POS;
+  const t=Math.log(v/SPACE_MESH_GAIN_MIN)/Math.log(SPACE_MESH_GAIN_MAX/SPACE_MESH_GAIN_MIN);
+  return Math.max(1,Math.min(SPACE_MESH_GAIN_POS,Math.round(1+t*(SPACE_MESH_GAIN_POS-1))));
+}
+// 表示の桁(直値入力の欄と凡例で使う。100 以上は整数・小さい値は有効数字を残す)
+function _smGainFmt(g){
+  const v=Number(g);
+  if(!Number.isFinite(v)) return "";
+  if(v===0) return "0";
+  if(v>=100) return String(Math.round(v));
+  if(v>=1) return (Math.round(v*100)/100).toString();
+  return (Math.round(v*10000)/10000).toString();
+}
 const SPACE_MESH_MS=150;          // 再構築の下限間隔(空間線と同じ ≈6.7Hz)
 // 「引きずりの度合」gain。**表示専用**である —— presetSig にも S.params にも入らない。
 // ユーザーが動かしたときだけ localStorage(hp_sm_gain)に残り、A/B の両側で同じ値を使う。
 // overlays.spaceMesh.gain に置くのは**実行時の状態**で、validatePreset は {mode} しか出さないので
 // 署名・エクスポート JSON は 1 bit も変わらない(QA ui.spaceMeshGain が固定する)
 let _smGainUser=null;
+// 第261便a: 受理の上限は**直値の上限**(旧版の 0〜2 で保存された値はそのまま読める)
 try{ const _sg=parseFloat(localStorage.getItem("hp_sm_gain"));
-  if(isFinite(_sg) && _sg>=0 && _sg<=SPACE_MESH_GAIN_MAX) _smGainUser=_sg; }catch(_){}
+  if(isFinite(_sg) && _sg>=0 && _sg<=SPACE_MESH_GAIN_CAP) _smGainUser=_sg; }catch(_){}
 function _smGain(S){
   const ov=S && S.overlays && S.overlays.spaceMesh;
   if(ov && typeof ov==="object" && !Array.isArray(ov)){
     const v=Number(ov.gain);
-    if(Number.isFinite(v) && v>=0 && v<=SPACE_MESH_GAIN_MAX) return v;
+    if(Number.isFinite(v) && v>=0 && v<=SPACE_MESH_GAIN_CAP) return v;
   }
   return (_smGainUser===null)? SPACE_MESH_GAIN_DEF : _smGainUser;
 }
@@ -22274,11 +22383,13 @@ function setSpaceMeshTau(v){
   put(sim); if(ab) put(ab.simB);
   return t;
 }
+// 第261便a: **直値**は 0〜SPACE_MESH_GAIN_CAP(100 などの大きな値も受理する)。スライダーの
+// 上端(10)では切らない —— 切るのは直値の上限だけで、超えた入力は clamp して欄に出す。
+// 値の刻み(旧 0.05)は**廃止**した(指数目盛では下端側の刻みが粗すぎるからである)
 function setSpaceMeshGain(v){
   let g=Number(v);
   if(!Number.isFinite(g)) g=SPACE_MESH_GAIN_DEF;
-  g=Math.max(0,Math.min(SPACE_MESH_GAIN_MAX,g));
-  g=Math.round(g/SPACE_MESH_GAIN_STEP)*SPACE_MESH_GAIN_STEP;
+  g=Math.max(0,Math.min(SPACE_MESH_GAIN_CAP,g));
   g=Math.round(g*1e6)/1e6;
   _smGainUser=g;
   try{ localStorage.setItem("hp_sm_gain",String(g)); }catch(_){}
@@ -22317,6 +22428,15 @@ function dfmSpaceGridBuild(spec){
   if(o.steps!==undefined && !Number.isFinite(Number(o.steps))) return null;
   if(o.tau!==undefined && o.tau!==null
     && (!Number.isFinite(Number(o.tau)) || !(Number(o.tau)>0))) return null;
+  // 第261便a: 規格化の宣言(既定 "none" = 第258便c までの経路)。**知らない名前は拒否**する
+  // (黙って既定へ落ちない —— 「規格化したつもりで素の τ の絵が出ていた」を作らない)
+  const nrm=(o.norm===undefined || o.norm===null)? "none" : String(o.norm);
+  if(nrm!=="none" && nrm!=="cell" && nrm!=="mass") return null;
+  const kap=Number(o.kappa===undefined? ((nrm==="mass")? SPACE_MESH_KAPPA_M : SPACE_MESH_KAPPA) : o.kappa);
+  if(!Number.isFinite(kap) || !(kap>0)) return null;
+  let mSum=null;
+  if(nrm==="mass"){ mSum=Number(o.mass);
+    if(!Number.isFinite(mSum) || !(mSum>0)) return null; }   // 質量の合計が無い系では描かない
   const Nf=Math.max(1,Math.min(128,Math.round(Number(o.steps===undefined? SPACE_MESH_FLOW_N : o.steps))));
   const pad=Number(o.pad===undefined? SPACE_MESH_SAMP_PAD : o.pad);
   if(!(pad>=1) || !Number.isFinite(pad)) return null;
@@ -22351,8 +22471,14 @@ function dfmSpaceGridBuild(spec){
     const d=Math.hypot(SU[k]-uCx,SV[k]-uCy); if(d>vRef) vRef=d;
     if(Number.isFinite(SC[k])){ chiSum+=SC[k]; nChi++; }
   }
-  let tau=Number(o.tau);
-  if(!Number.isFinite(tau)) tau=(vRef>0)? R/vRef : 0;       // **gain では再正規化しない**
+  // ---- 第261便a: 時間幅の決め方(**gain では再正規化しない** —— g を上げたぶんだけ歪む)
+  const hCell=2*R/(K-1);
+  const tauRef=(vRef>0)? R/vRef : 0;                        // 第257便c の自動 τ(診断として残す)
+  const tauDecl=(o.tau===undefined || o.tau===null)? null : Number(o.tau);
+  let tau;
+  if(nrm==="cell") tau=(vRef>0)? kap*hCell/vRef : 0;        // 最大変位 ≈ g·κ·(セル幅)
+  else if(nrm==="mass") tau=tauRef*kap/mSum;                // 歪み ∝ 1/Σ|m|
+  else tau=(tauDecl!==null)? tauDecl : tauRef;              // 第258便c までの経路
   // ---- 双線形補間(凍結場の外へ出た点は読めない点として扱う —— 黙って端の値へ貼らない)
   const samp=(x,y)=>{
     const a=(x-sx0)/hs, b=(y-sy0)/hs;
@@ -22434,7 +22560,16 @@ function dfmSpaceGridBuild(spec){
     nCell++;
   }
   let nOk=0; for(let k=0;k<NG;k++) if(AOK[k]) nOk++;
+  // 第261便a: **変位の実測**(累積後の交点 − 参照配置の交点)。規格化の効き目はこの 1 列で読む。
+  // dispCell = 最大変位 ÷ セル幅(gain=1・norm="cell" なら κ の近傍に揃う)
+  let dispMax=0;
+  for(let j2=0;j2<K;j2++) for(let i2=0;i2<K;i2++){
+    const k2=j2*K+i2; if(!AOK[k2]) continue;
+    const d2=Math.hypot(X[k2]-(gx0+i2*h), Y[k2]-(gy0+j2*h));
+    if(d2>dispMax) dispMax=d2;
+  }
   return { K, R, cx, cy, gain:g, tau, vRef, h, samp:Ms, pad, steps:Nf,
+    norm:nrm, kappa:kap, tauRef, tauDecl, mass:mSum, dispMax, dispCell:(h>0)? dispMax/h : null,
     X, Y, phiX:PX, phiY:PY, ok:AOK, phiOk:OK, nodes:NG, nOk, nInvalid:nInv,
     samples:NS, sampleBad:nBad, cells:nCell, folds:nFold, cellArea:CA,
     minAreaRatio:(nCell>0)? minA : null, folded:(nFold>0), loopMax,
@@ -22547,18 +22682,58 @@ function _smFieldProbe(S,pts){
   return { kind:(F0? F0.kind : (F1? F1.kind : null)), apiNote:(FA? FA.apiNote : null),
     apiLaw:(F1? F1.apiLaw : null), apiLive:!!F1, n:rows.length, rows };
 }
+// 第261便a: 規格化の**実行時鍵** `overlays.spaceMesh.norm`(gain・tau と同じ流儀 —— 正準形は
+// {mode} だけなので署名・保存 JSON には 1 bit も入らない)。宣言が無ければ表示の既定 SPACE_MESH_NORM
+function _smNorm(S){
+  const ov=S && S.overlays && S.overlays.spaceMesh;
+  if(ov && typeof ov==="object" && !Array.isArray(ov) && ov.norm!==undefined && ov.norm!==null){
+    const v=String(ov.norm);
+    if(v==="none" || v==="cell" || v==="mass") return v;
+  }
+  return SPACE_MESH_NORM;
+}
+// 第261便a: 原点規則の**診断口**(実行時鍵 `overlays.spaceMesh.origin`)。"centroid" を宣言すると
+// 第257便c の「全粒子の質量重心」で描く —— **2 案を同じ版で比べるための口**であって、既定は
+// 第53報の規則("top2")である。正準形は {mode} だけなので署名・保存 JSON には入らない
+function _smOriginMode(S){
+  const ov=S && S.overlays && S.overlays.spaceMesh;
+  if(ov && typeof ov==="object" && !Array.isArray(ov) && ov.origin!==undefined && ov.origin!==null){
+    const v=String(ov.origin);
+    if(v==="centroid" || v==="top2") return v;
+  }
+  return "top2";
+}
+function _smMassSum(S){
+  if(!S || !(S.n>0)) return 0;
+  let M=0;
+  for(let i=0;i<S.n;i++){ const m=S.m[i]; if(Number.isFinite(m)) M+=Math.abs(m); }
+  return M;
+}
 function _smBuildGrid(S){
   const t0=_slNow();
-  const out={ kind:null, grid:null, ms:0, gain:_smGain(S), tauFix:_smTau(S), note:_slKindNote(S) };
-  const C=_smMassCentre(S);
+  const out={ kind:null, grid:null, ms:0, gain:_smGain(S), tauFix:_smTau(S), note:_slKindNote(S),
+    norm:_smNorm(S) };
+  // 第261便a(第53報): 原点は**質量上位 2 粒子の重心**(2 位と 3 位が同質量なら 1 位のみ)。
+  // 第257便c の「全粒子の質量重心」は `_smMassCentre` として残り、凡例と診断口が読む
+  const oMode=_smOriginMode(S);
+  const O=(oMode==="centroid")? (()=>{ const b=_smMassCentre(S);
+      return b? {c:b, rule:"centroid", ids:[]} : null; })() : _smOrigin(S);
+  const C=O? O.c : null;
   const F=C? _smGridFieldOf(S) : null;
   if(!C || !F || !(F.ext>0)){ out.ms=_slNow()-t0; if(F) out.apiNote=F.apiNote||null; return out; }
   out.kind=F.kind; out.baseLen=F.baseLen; out.centre=[C[0],C[1]];
+  out.originRule=O.rule; out.originIds=O.ids.slice();
+  const bc=_smMassCentre(S);
+  out.centroid=bc? [bc[0],bc[1]] : null;
+  out.originGap=bc? Math.hypot(C[0]-bc[0],C[1]-bc[1]) : null;
   // 第260便a: 共通場 API の注記(読んだ法則・源の集合・背景)。**disk/affine とは別の場である**
   out.apiNote=F.apiNote||null; out.fieldApi=(F.fieldApi===true); out.apiLaw=F.apiLaw||null;
   const K=(qLevel()==="lite")? SPACE_MESH_GRID_K_LO : SPACE_MESH_GRID_K;   // 品質縮退は lite だけ(9×9 → 7×7)
-  const spec={ field:F.at, cx:C[0], cy:C[1], R:F.ext, K, gain:out.gain };
-  if(out.tauFix!==null) spec.tau=out.tauFix;      // 第258便c: 固定 τ(欠落=自動)
+  const spec={ field:F.at, cx:C[0], cy:C[1], R:F.ext, K, gain:out.gain, norm:out.norm };
+  if(out.norm==="mass") spec.mass=_smMassSum(S);
+  if(out.tauFix!==null) spec.tau=out.tauFix;      // 第258便c: 固定 τ(欠落=自動)。
+  // 第261便a: norm="cell"/"mass" では**宣言された τ は写像に入らない**(= τ 固定を変えても
+  // 歪みが変わらない)。値は grid.tauDecl として残り、凡例の診断表示だけに出る
   out.grid=dfmSpaceGridBuild(spec);
   out.ms=_slNow()-t0;
   return out;
@@ -22631,8 +22806,16 @@ function drawSpaceGridOn(S,SXf,SYf){
   const legend=[];
   if(G.folded) legend.push(T("smFoldWarn")+" — "+T("smFoldCellNote"));
   const fx=(v)=>(Math.abs(v)>=1000||(v!==0&&Math.abs(v)<0.01))? v.toExponential(2) : (Math.round(v*1000)/1000);
-  legend.push("τ_ref="+fx(G.tau)+" / v_ref="+fx(G.vRef)
-    +" / "+T((c.tauFix!==null && c.tauFix!==undefined)? "smTauFixed" : "smTauAuto"));
+  // 第261便a: 凡例に **gain の実値**と**歪み(セル幅比)**を出す。τ は**診断表示として残す**が、
+  // 規格化 "cell"/"mass" では写像に入らないので、固定しても「表示に効かない」と明示する
+  const tFix=(c.tauFix!==null && c.tauFix!==undefined);
+  const tNote=(G.norm && G.norm!=="none")
+    ? (tFix? (T("smTauFixed")+" "+fx(G.tauDecl)+" — "+T("smTauNoEffect")) : T("smTauAuto"))
+    : T(tFix? "smTauFixed" : "smTauAuto");
+  legend.push("g="+_smGainFmt(G.gain)
+    +" / "+T("smDispLabel")+" "+((G.dispCell===null||G.dispCell===undefined)? "—" : fx(G.dispCell))
+    +" / v_ref="+fx(G.vRef)+" / τ="+fx(G.tau)+"("+tNote+")");
+  if(c.originRule==="top1") legend.push(T("smOrigin1"));
   if(c.note==="top2") legend.push(T("smTop2Note"));
   // 第260便a: **共通場 API を読んだときだけ**その注記を出す(読んだ法則・全源・静止背景)。
   // 既存の銀河 disk/affine 場とは**別の場**なので、凡例で区別できるようにする
@@ -25701,20 +25884,22 @@ function buildParamRows(){
     // した。値域・刻み・localStorage 鍵 hp_sm_gain・A/B 共通・**表示専用**は 1 つも変えていない。
     // 説明は tgSpaceMeshDesc へ 1 本化した(行ラベルのタップで開く)
     if(id==="spaceMesh"){
+      // 第261便a(第53報): スライダーは**位置**(0〜100 の整数)を刻み、値は指数目盛で作る
+      // (0〜10 —— 位置 0 だけが特別値 0)。直値は隣の欄で 100 などの大きな値も受理する
       const rng=document.createElement("input"); rng.type="range"; rng.id="smGainRange";
-      rng.min=0; rng.max=String(SPACE_MESH_GAIN_MAX); rng.step=String(SPACE_MESH_GAIN_STEP);
+      rng.min=0; rng.max=String(SPACE_MESH_GAIN_POS); rng.step=String(SPACE_MESH_GAIN_STEP);
       rng.style.cssText="flex:0 0 72px;width:72px;";
       const gTip=T("smGainLabel")+" — "+T("smGainDesc");
-      rng.value=String(_smGain(sim)); rng.title=gTip;
-      // 第258便c: 値表示の span を**直値入力**へ(0〜2 の外は clamp・非数は現在値へ戻す)
+      rng.value=String(_smGainToPos(_smGain(sim))); rng.title=gTip;
+      // 第258便c: 値表示の span を**直値入力**へ(上限 CAP の外は clamp・非数は現在値へ戻す)
       const num=document.createElement("input"); num.type="text"; num.className="valIn";
       num.id="smGainVal"; num.inputMode="decimal"; num.autocomplete="off"; num.title=gTip;
       num.style.cssText="flex:0 0 48px;width:48px;text-align:right;";
       const bust=()=>{ sim._smgCache=null; sim._slCache=null;
         if(ab && ab.simB){ ab.simB._smgCache=null; ab.simB._slCache=null; } };
-      const showG=(g)=>{ rng.value=String(g); num.value=g.toFixed(2); };
+      const showG=(g)=>{ rng.value=String(_smGainToPos(g)); num.value=_smGainFmt(g); };
       showG(_smGain(sim));
-      rng.addEventListener("input",()=>{ showG(setSpaceMeshGain(rng.value)); bust(); requestRender(); });
+      rng.addEventListener("input",()=>{ showG(setSpaceMeshGain(_smGainFromPos(rng.value))); bust(); requestRender(); });
       num.addEventListener("change",()=>{
         const v=parseFloat(String(num.value).replace(/[,、\s]/g,"").replace(/[−ー–—－]/g,"-"));
         if(isFinite(v)){ showG(setSpaceMeshGain(v)); bust(); requestRender(); }
@@ -34853,11 +35038,21 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
     const G=c.grid;
     return { kind:c.kind, note:c.note, gain:c.gain, tauFix:(c.tauFix===undefined? null : c.tauFix),
       ms:c.ms, every:c.every, builds:c.builds,
+      // 第261便a: 原点規則(top2 / top1)と、第257便c の全粒子重心との差。**表示専用**である
+      norm:(c.norm===undefined? null : c.norm),
+      originRule:(c.originRule===undefined? null : c.originRule),
+      originIds:(c.originIds===undefined? null : c.originIds),
+      centroid:(c.centroid===undefined? null : c.centroid),
+      originGap:(c.originGap===undefined? null : c.originGap),
       // 第260便a: 共通場 API を読んだかと、その注記(**disk/affine とは別の場である**ことの表示)
       fieldApi:(c.fieldApi===true), apiNote:(c.apiNote===undefined? null : c.apiNote),
       apiLaw:(c.apiLaw===undefined? null : c.apiLaw),
       baseLen:(c.baseLen===undefined? null : c.baseLen), centre:c.centre||null,
       grid:G? { K:G.K, R:G.R, cx:G.cx, cy:G.cy, h:G.h, tau:G.tau, vRef:G.vRef, samp:G.samp,
+        // 第261便a: 規格化の実測(最大変位とセル幅比)と、宣言 τ / 自動 τ_ref の診断
+        norm:G.norm, kappa:G.kappa, tauRef:G.tauRef, tauDecl:G.tauDecl, mass:G.mass,
+        dispMax:G.dispMax, dispCell:G.dispCell,
+        X:Array.prototype.slice.call(G.X), Y:Array.prototype.slice.call(G.Y),
         steps:G.steps, nodes:G.nodes, nOk:G.nOk, nInvalid:G.nInvalid, samples:G.samples,
         sampleBad:G.sampleBad, cells:G.cells, folds:G.folds, folded:G.folded,
         minAreaRatio:G.minAreaRatio, loopMax:G.loopMax, chi:G.chi, still:G.still,
@@ -34867,7 +35062,17 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
                        extBin:SPACE_MESH_EXT_BIN, extGal:SPACE_MESH_EXT_GAL,
                        gainDef:SPACE_MESH_GAIN_DEF, gainMax:SPACE_MESH_GAIN_MAX,
                        gainStep:SPACE_MESH_GAIN_STEP, ms:SPACE_MESH_MS,
+                       // 第261便a: 指数スライダー(位置 0〜100)・直値上限・規格化・原点規則の宣言値
+                       gainMin:SPACE_MESH_GAIN_MIN, gainCap:SPACE_MESH_GAIN_CAP,
+                       gainPos:SPACE_MESH_GAIN_POS, norm:SPACE_MESH_NORM,
+                       kappa:SPACE_MESH_KAPPA, kappaMass:SPACE_MESH_KAPPA_M,
+                       tieRel:SPACE_MESH_TIE_REL,
                        tauMax:SPACE_MESH_TAU_MAX}),
+  // 第261便a: 指数スライダーの位置 ↔ 値と、原点規則の観測口(**表示専用** —— 署名・params に入らない)
+  spaceMeshGainFromPos:_smGainFromPos, spaceMeshGainToPos:_smGainToPos,
+  spaceMeshOrigin:(S)=>{ const o=_smOrigin(S||sim);
+    return o? {c:[o.c[0],o.c[1]], rule:o.rule, ids:o.ids.slice()} : null; },
+  spaceMeshNorm:(S)=>_smNorm(S||sim),
   spaceLineKindNote:(S)=>_slKindNote(S||sim), massCentreOf:_smMassCentre,
   tracerInfo:(S)=>{ const T=S||sim, tr=T._galTracer;
     return tr? {displayOnly:!!tr.displayOnly, steps:tr.steps, t:tr.t, n:tr.n,
