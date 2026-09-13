@@ -14762,6 +14762,264 @@ if (!FAST) {
 }
 
 
+// ---- 第259便b(第51報 W2): behavior.bodyLayers — 親子コア(同心層)・3D スピン参照場・K_cs 熱記帳 ----
+//   ① **未宣言は 1 bit 不変**: layers を書かないプリセットの正準形に "layers" が 1 文字も出ず、
+//      S.hasBodyLayers=false で `S._layerForce` は 1 度も呼ばれない
+//   ② **検証器の拒否 5 例**(層に並進自由度 / 層の中の layers=循環参照 / r が昇順でない /
+//      Σ層 m ≠ body.m〔補完しない〕/ 層数 > 8)+ 群(disk)での拒否 + 正しい宣言の受理(警告 0)
+//   ③ **球殻内部の重力 0**(r < r_core は包含質量 0)・**中間帯は包含質量則**(コアだけ)・
+//      **遠方(r ≥ r_最外)は補正が 1 度も走らず総質量の点源と厳密一致**
+//      —— いずれも layers あり/なしの 1 步 Δv の**差**で測る(他チャネルは両側で同じなので落ちる)
+//   ④ **自己層の二重計上が無い**: 遠方の**絶対**加速度が総質量の点源と一致する(bodyId 集計の機械証明)
+//   ⑤ **融合は body 単位**: M は厳密和・P/L の残差は層なしと同じ桁・層合成則 "role" は層数を保つ
+//   ⑥ **3D スピン参照場**: 面外流 RMS=sinθ/√2(θ=30/60/90 で 0.354/0.612/0.707)・面内は |cosθ|
+//      (θ=90 で 2D 射影は消えるが面外流は最大)・**歳差率=公転率でも位相差 90° なら −0.5/−0.87/−1**
+//      —— これは**幾何試験であって潮汐ロックの創発ではない**
+//   ⑦ **K_cs 熱記帳**: 正確式 Q_exact=μΔω²(f−f²/2) に対し既定記帳 Q_old は 1/(2−f) 倍(K_cs·dt→0 で 1/2)。
+//      **既定の Q(radE)は 1 bit も変えていない**(S.radE === S.QcsOld)
+{
+  const hasBL = await page.evaluate(() => !!(window.HP && typeof HP.dfmLayerGravity === 'function'
+    && typeof HP.dfmLayerKernel === 'function' && typeof HP.dfmSpinField3D === 'function'
+    && typeof HP.dfmSpinRelax === 'function' && Array.isArray(HP.BODY_LAYER_ROLES)));
+  if (hasBL) {
+    const bl = await page.evaluate((fast) => {
+      const O = {};
+      const mkP = (bodies, ph) => ({ id: 'qaBL', name: 'qaBL', description: 'QA の器。', emoji: '🧪',
+        camera: { scale: 300 }, world: { boundary: 'none', size: 0 }, seed: 1,
+        physics: Object.assign({ G: 1, D0: 0, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0,
+          kappaT: 1 / 60, cLight: 30, contactK: 0.1, contactCap: 0.01, bM: 1, etaRad: 0, pRad: 4,
+          gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5,
+          radiusScale: 1, softening: 0.5, timeScale: 1 }, ph || {}),
+        bodies, overlays: {} });
+      const sgl = (o) => Object.assign({ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }, o);
+      const LY = () => [{ role: 'core', m: 900, r: 20 }, { role: 'shell', m: 100, r: 100 }];
+      const eps = 0.5, G = 1;
+
+      // ① 未宣言は 1 bit 不変(正準形に layers が出ない・フラグが立たない)
+      {
+        const v = HP.validatePreset(mkP([sgl({ m: 1000, radius: 1 })]));
+        const S = HP.sim; S.build(v.preset); S.step(0.016);
+        O.undecl = { clean: JSON.stringify(v.preset).indexOf('layers') < 0, flag: S.hasBodyLayers, n: S.layerN };
+      }
+      // ② 検証器
+      {
+        const acc = HP.validatePreset(mkP([sgl({ m: 1000, radius: 1, layers: LY() })]));
+        const rej = (ly) => { const v = HP.validatePreset(mkP([sgl({ m: 1000, radius: 1, layers: ly })]));
+          return v.ok && v.preset.bodies[0].layers === undefined
+            && (v.warnings || []).some((w) => String(w).indexOf('layers') >= 0); };
+        const grp = HP.validatePreset(mkP([{ type: 'disk', n: 4, cx: 0, cy: 0, radius: 10, mMin: 1, mMax: 1,
+          spinMin: 0, spinMax: 0, vMode: 'none', aroundMass: 0, vScale: 0, direction: 1,
+          layers: [{ role: 'core', m: 0.5, r: 1 }, { role: 'shell', m: 0.5, r: 2 }] }]));
+        O.valid = {
+          accept: acc.ok && acc.warnings.length === 0 && acc.preset.bodies[0].layers.length === 2,
+          r1: rej([{ role: 'core', m: 900, r: 20, vx: 1 }, { role: 'shell', m: 100, r: 100 }]),
+          r2: rej([{ role: 'core', m: 900, r: 20, layers: [{ role: 'core', m: 1, r: 1 }] }, { role: 'shell', m: 100, r: 100 }]),
+          r3: rej([{ role: 'core', m: 900, r: 100 }, { role: 'shell', m: 100, r: 20 }]),
+          r4: rej([{ role: 'core', m: 900, r: 20 }, { role: 'shell', m: 300, r: 100 }]),
+          r5: rej(Array.from({ length: 9 }, (_, k) => ({ role: 'core', m: 1000 / 9, r: k + 1 }))),
+          grp: grp.ok && (grp.warnings || []).some((w) => String(w).indexOf('layers') >= 0)
+        };
+      }
+      // ③ 球殻内部 0 / 中間帯 / 遠方
+      {
+        const DS = [8, 14, 50, 75, 300];
+        const run1 = (withLayers) => {
+          const b = [sgl({ m: 1000, radius: 1 })];
+          if (withLayers) b[0].layers = LY();
+          for (const d of DS) b.push(sgl({ m: 1e-6, rMul: 0.2, x: d, y: 0 }));
+          const v = HP.validatePreset(mkP(b));
+          const S = HP.sim; S.build(v.preset); S.step(1e-6);
+          const dv = []; for (let i = 0; i < S.n; i++) dv.push(S.vx[i] / 1e-6);
+          return { dv, layerN: S.layerN, flag: S.hasBodyLayers };
+        };
+        const A = run1(true), B = run1(false);
+        O.shell = { rows: [], flagOn: A.flag, flagOff: B.flag, layerN: A.layerN };
+        for (let k = 0; k < DS.length; k++) {
+          const d = DS[k], sq = Math.pow(d * d + eps * eps, 1.5);
+          let mEnc = 0; for (const L of LY()) if (L.r <= d) mEnc += L.m;
+          const theo = -G * mEnc * d / sq - (-G * 1000 * d / sq);
+          const meas = A.dv[k + 1] - B.dv[k + 1];
+          O.shell.rows.push({ d, mEnc, meas, theo,
+            rel: Math.abs(theo) > 0 ? Math.abs(meas - theo) / Math.abs(theo) : Math.abs(meas) });
+        }
+      }
+      // ④ 自己層の二重計上が無い(遠方の絶対加速度 = 総質量の点源)
+      {
+        const b = [sgl({ m: 1000, radius: 1, pinned: true, layers: LY() }), sgl({ m: 1e-6, rMul: 0.2, x: 300, y: 0 })];
+        const v = HP.validatePreset(mkP(b));
+        const S = HP.sim; S.build(v.preset); S.step(1e-3);
+        const a = S.vx[1] / 1e-3, th = -G * 1000 * 300 / Math.pow(300 * 300 + eps * eps, 1.5);
+        O.selfLayer = { a, th, rel: Math.abs(a - th) / Math.abs(th), layerN: S.layerN };
+      }
+      // ④b 遠方だけの系は 600 步ビット同一(重いので FAST では省略)
+      if (!fast) {
+        const far = (withLayers) => {
+          const b = [sgl({ m: 1000, radius: 1 })];
+          if (withLayers) b[0].layers = LY();
+          b.push(sgl({ m: 1e-3, rMul: 0.2, x: 300, y: 0, vy: 1.8257381 }));
+          b.push(sgl({ m: 1e-3, rMul: 0.2, x: 0, y: -500, vx: 1.4142125 }));
+          const v = HP.validatePreset(mkP(b));
+          const S = HP.sim; S.build(v.preset);
+          for (let k = 0; k < 600; k++) S.step(0.016);
+          const z = []; for (let i = 0; i < S.n; i++) z.push(S.x[i], S.y[i], S.vx[i], S.vy[i]);
+          return z.join(',');
+        };
+        O.farBitSame = (far(true) === far(false));
+      }
+      // ⑤ 融合(body 単位)と層合成則
+      {
+        const LA = [{ role: 'core', m: 90, r: 2 }, { role: 'shell', m: 10, r: 10 }];
+        const LB = [{ role: 'core', m: 45, r: 1.5 }, { role: 'shell', m: 5, r: 8 }];
+        const sum = (a) => a.reduce((s, L) => s + L.m, 0);
+        const asc = (a) => a.every((L, k) => k === 0 || L.r > a[k - 1].r);
+        let cr = LA.slice(), ca = LA.slice();
+        for (let k = 0; k < 8; k++) { cr = HP.dfmLayerMerge(cr, LB, 'role'); ca = HP.dfmLayerMerge(ca, LB, 'add'); }
+        O.merge = { role: HP.dfmLayerMerge(LA, LB, 'role'), add: HP.dfmLayerMerge(LA, LB, 'add'),
+          rep8Role: { n: cr.length, sum: sum(cr), asc: asc(cr) }, rep8Add: { n: ca.length, sum: sum(ca), asc: asc(ca) } };
+        if (!fast) {
+          const runFuse = (withLayers) => {
+            const b = [sgl({ m: 100, radius: 3, x: -6, y: 0, vx: 0.5, spin: 0.2 }),
+              sgl({ m: 50, radius: 3, x: 6, y: 0, vx: -0.5, vy: 0.2, spin: -0.1 })];
+            if (withLayers) { b[0].layers = JSON.parse(JSON.stringify(LA)); b[1].layers = JSON.parse(JSON.stringify(LB)); }
+            const pr = mkP(b); pr.fusion = { dFrac: 0.7 }; pr.thermal = 'tint';
+            const v = HP.validatePreset(pr);
+            const S = HP.sim; S.build(v.preset);
+            const T0 = S.totals(); let M0 = 0; for (let i = 0; i < S.n; i++) M0 += S.m[i];
+            const P0 = [T0.px + S.resPx, T0.py + S.resPy, T0.L + S.resL];
+            for (let k = 0; k < 4000 && S.n > 1; k++) S.step(0.004);
+            const T1 = S.totals(); let M1 = 0; for (let i = 0; i < S.n; i++) M1 += S.m[i];
+            const P1 = [T1.px + S.resPx + S.fusPx, T1.py + S.resPy + S.fusPy, T1.L + S.resL + S.fusL];
+            const lay = [];
+            for (let q = 0; q < (S.layN ? S.layN[0] : 0); q++) lay.push({ m: S.layM[q], r: S.layR[q] });
+            return { n: S.n, dM: M1 - M0, dP: Math.hypot(P1[0] - P0[0], P1[1] - P0[1]),
+              dL: Math.abs(P1[2] - P0[2]), Lscale: Math.abs(P0[2]), Pscale: Math.hypot(P0[0], P0[1]),
+              lay, laySum: lay.reduce((s, L) => s + L.m, 0), m0: S.m[0],
+              layMassRes: S.layMassRes, nan: S.hasNaN() };
+          };
+          O.fuse = runFuse(true); O.fuseNo = runFuse(false);
+        }
+      }
+      // ⑥ 3D スピン参照場
+      {
+        const N = 720;
+        const uAt = (th, phi, psi) => HP.dfmSpinField3D(
+          [Math.sin(th) * Math.cos(phi), Math.sin(th) * Math.sin(phi), Math.cos(th)],
+          [Math.cos(psi), Math.sin(psi), 0], { R: 1e9, q: 0 });
+        O.spin = [];
+        for (const thd of [0, 30, 60, 90]) {
+          const th = thd * Math.PI / 180;
+          let s2 = 0, inp = 0;
+          for (let k = 0; k < N; k++) { const u = uAt(th, 0, 2 * Math.PI * k / N);
+            s2 += u[2] * u[2]; inp += Math.hypot(u[0], u[1]); }
+          const lock = {};
+          for (const ph of [0, 90]) { let m1 = 0;
+            for (let k = 0; k < N; k++) { const psi = 2 * Math.PI * k / N;
+              m1 += uAt(th, psi + ph * Math.PI / 180, psi)[2]; }
+            lock['ph' + ph] = m1 / N; }
+          O.spin.push({ theta: thd, rms: Math.sqrt(s2 / N), want: Math.sin(th) / Math.SQRT2,
+            inPlane: inp / N, cos: Math.abs(Math.cos(th)), lock });
+        }
+        O.spinGates = [HP.dfmSpinField3D([0, 0], [1, 0, 0], {}), HP.dfmSpinField3D([0, 0, 1], [1, 0], {}),
+          HP.dfmSpinField3D([0, 0, 1], [1, 0, 0], { R: -1 })].every((z) => z === null);
+        O.kernGates = [HP.dfmLayerKernel({ m: 1, r: 1 }, 1, { p: 0 }), HP.dfmLayerKernel({ m: 1, r: 0 }, 1, {}),
+          HP.dfmLayerKernel({ m: 1, r: 1 }, 1, { shape: 'x' })].every((z) => z === null);
+        O.gravGates = [HP.dfmLayerGravity([], 1, {}), HP.dfmLayerGravity([{ m: 1, r: 2 }, { m: 1, r: 1 }], 1, {}),
+          HP.dfmLayerGravity([{ m: -1, r: 1 }], 1, {})].every((z) => z === null);
+        const g = HP.dfmLayerGravity(LY(), 50, { G: 1, eps: 0.5 });
+        const gin = HP.dfmLayerGravity(LY(), 8, { G: 1, eps: 0.5 });
+        const gout = HP.dfmLayerGravity(LY(), 300, { G: 1, eps: 0.5 });
+        O.gravPure = { mid: g.aLayered, midWant: 900 * 50 / Math.pow(2500.25, 1.5),
+          inside: gin.aLayered, outRel: Math.abs(gout.aLayered - gout.aPoint) / gout.aPoint };
+      }
+      // ⑦ K_cs 熱記帳(純関数の比 + 本体の診断列・既定 radE は 1 bit 不変)
+      {
+        O.relax = [];
+        for (const kd of [1e-4, 1e-2, 1]) {
+          const r = HP.dfmSpinRelax({ Ic: 2, Is: 5, Kcs: kd, dt: 1, omegaC: 3, omegaS: -1 });
+          O.relax.push({ Kdt: kd, f: r.f, ratio: r.ratio, want: 1 / (2 - r.f),
+            dEmatch: Math.abs(r.dE - r.Qexact), Jres: Math.abs(r.Jtot1 - r.Jtot0) });
+        }
+        const b = [sgl({ m: 100, radius: 3, spin: 0.5, pinned: true,
+          core: { mode: 'differential', massFrac: 0.5, radius: 1.5, omega: 6, Kcs: 0.5 } })];
+        const v = HP.validatePreset(mkP(b));
+        const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < 200; k++) S.step(0.016);
+        O.engineKcs = { QcsOld: S.QcsOld, QcsExact: S.QcsExact, n: S.QcsN, radE: S.radE,
+          same: S.radE === S.QcsOld, ratio: S.QcsExact !== 0 ? S.QcsOld / S.QcsExact : null };
+        // 傾ける仕事(保守的歳差は E 不変・|J_c| 不変 / 閉じたコア–殻を倒すと仕事が要る)
+        const pr = HP.dfmSpinPrecess({ Js: [0, 0, 1], Jc: [0.5, 0, 0.5], k: 0.3, dt: 0.7, Is: 1e18, Ic: 1 });
+        const tw = HP.dfmTiltWork({ Js: [0, 0, 1], Jc: [0, 0, 0.5], Is: 1, Ic: 1, alpha: Math.PI / 2 });
+        O.torque = { precessJcKept: Math.abs(pr.absJc1 - pr.absJc0), precessDE: Math.abs(pr.dEtot),
+          tiltDE: tw.dE, tiltJcKept: Math.abs(tw.absJc1 - tw.absJc0) };
+      }
+      // 内蔵で layers を宣言しているのは 🧅 だけ
+      O.builtins = HP.allPresets().filter((p) => (p.bodies || []).some((b) => b && b.layers)).map((p) => p.id);
+      return O;
+    }, FAST);
+    const fx = (x) => Number(x).toExponential(4);
+    const b1 = bl.undecl.clean && bl.undecl.flag === false && bl.undecl.n === 0;
+    const b2 = bl.valid.accept && bl.valid.r1 && bl.valid.r2 && bl.valid.r3 && bl.valid.r4 && bl.valid.r5 && bl.valid.grp;
+    const inner = bl.shell.rows.filter((r) => r.mEnc === 0);
+    const midR = bl.shell.rows.filter((r) => r.mEnc === 900);
+    const farR = bl.shell.rows.filter((r) => r.mEnc === 1000);
+    const b3 = inner.every((r) => r.rel < 1e-6) && midR.every((r) => r.rel < 1e-5)
+      && farR.every((r) => r.meas === 0) && bl.shell.flagOn === true && bl.shell.flagOff === false;
+    const b4 = bl.selfLayer.rel < 1e-6 && bl.selfLayer.layerN === 0
+      && (FAST || bl.farBitSame === true);
+    const b5 = bl.merge.rep8Role.n === 2 && bl.merge.rep8Role.asc && Math.abs(bl.merge.rep8Role.sum - 500) < 1e-9
+      && bl.merge.rep8Add.asc && Math.abs(bl.merge.rep8Add.sum - 500) < 1e-9
+      && (FAST || (bl.fuse.n === 1 && bl.fuse.dM === 0 && bl.fuse.layMassRes === 0 && !bl.fuse.nan
+        && Math.abs(bl.fuse.laySum - bl.fuse.m0) < 1e-9
+        && bl.fuse.dP / bl.fuse.Pscale < 1e-5 && bl.fuse.dL / bl.fuse.Lscale < 1e-5));
+    const b6 = bl.spin.every((r) => Math.abs(r.rms - r.want) < 1e-12 && Math.abs(r.inPlane - r.cos) < 1e-12)
+      && bl.spin.every((r) => Math.abs(r.lock.ph0) < 1e-12 && Math.abs(r.lock.ph90 + Math.sin(r.theta * Math.PI / 180)) < 1e-9)
+      && bl.spinGates && bl.kernGates && bl.gravGates
+      && Math.abs(bl.gravPure.mid - bl.gravPure.midWant) < 1e-12 && bl.gravPure.inside === 0
+      && bl.gravPure.outRel === 0;
+    const b7 = bl.relax.every((r) => Math.abs(r.ratio - r.want) < 1e-12 && r.dEmatch < 1e-12 && r.Jres < 1e-12)
+      && bl.engineKcs.same === true && bl.engineKcs.n > 0
+      && Math.abs(bl.engineKcs.ratio - 0.502) < 0.01
+      && bl.torque.precessJcKept < 1e-12 && bl.torque.precessDE < 1e-12
+      && Math.abs(bl.torque.tiltDE - 0.75) < 1e-12 && bl.torque.tiltJcKept < 1e-12
+      && bl.builtins.length === 1 && bl.builtins[0] === 'layeredCoreDFM';
+    add('behavior.bodyLayers', b1 && b2 && b3 && b4 && b5 && b6 && b7,
+      `① **未宣言は 1 bit 不変**: 正準形に "layers" が出ない=${bl.undecl.clean}・S.hasBodyLayers=${bl.undecl.flag}・`
+      + `層パスの作用対象 ${bl.undecl.n}=${b1} / `
+      + `② **検証器**: 受理(警告 0)=${bl.valid.accept}・拒否 5 例 [層に並進自由度 ${bl.valid.r1}・`
+      + `層の中の layers ${bl.valid.r2}・r が昇順でない ${bl.valid.r3}・Σ層 m≠body.m〔補完しない〕${bl.valid.r4}・`
+      + `層数>8 ${bl.valid.r5}]・群(disk)は single 専用で拒否 ${bl.valid.grp}=${b2} / `
+      + `③ **球殻定理**(コア 900@r=20 + 殻 100@r=100・layers あり/なしの 1 步 Δv の差): `
+      + inner.map((r) => `r=${r.d} 包含 0 → 相対 ${fx(r.rel)}`).join('・')
+      + `・` + midR.map((r) => `r=${r.d} 包含 900 → 相対 ${fx(r.rel)}`).join('・')
+      + `・**r=${farR.map((r) => r.d).join('/')} は補正が 1 度も走らず差が厳密 0**`
+      + `(残差の床は ax が Float32 の帳面であること)=${b3} / `
+      + `④ **自己層の二重計上なし**(bodyId 集計): 遠方 r=300 の**絶対**加速度 ${fx(bl.selfLayer.a)} が`
+      + `総質量 1000 の点源 ${fx(bl.selfLayer.th)} と相対 ${fx(bl.selfLayer.rel)}・作用対象 ${bl.selfLayer.layerN}`
+      + ` / 遠方だけの系の 600 步ビット同一=${FAST ? '(QA_FAST では省略)' : bl.farBitSame}=${b4} / `
+      + `⑤ **融合は body 単位**: 層合成則 "role" は 8 回繰り返しても ${bl.merge.rep8Role.n} 層(Σm ${bl.merge.rep8Role.sum})・`
+      + `"add" は ${bl.merge.rep8Add.n} 層(同じ半径が畳まれる)`
+      + (FAST ? ' / 実融合(QA_FAST では省略)' : ` / 実融合: ΔM=${bl.fuse.dM}(厳密)・`
+        + `ΔP/スケール ${fx(bl.fuse.dP / bl.fuse.Pscale)}(層なし ${fx(bl.fuseNo.dP / bl.fuseNo.Pscale)})・`
+        + `ΔL/|L| ${fx(bl.fuse.dL / bl.fuse.Lscale)}(層なし ${fx(bl.fuseNo.dL / bl.fuseNo.Lscale)})・`
+        + `Σ層 m=${bl.fuse.laySum} 対 m=${bl.fuse.m0}・記帳残差 ${bl.fuse.layMassRes}`) + `=${b5} / `
+      + `⑥ **3D スピン参照場**(u=a(d)(ω×r)・**q は角速度の減衰指数**で速度は r^(1−q)): 面外流 RMS=`
+      + bl.spin.map((r) => `θ=${r.theta}° ${r.rms.toFixed(6)}(=sinθ/√2 ${r.want.toFixed(6)})`).join('・')
+      + ` / 面内引きずりは |cosθ|(θ=90° で **2D 射影は 0 なのに面外流は最大 0.707**)`
+      + ` / **歳差率=公転率**: 位相差 0° は ${bl.spin.map((r) => r.lock.ph0.toFixed(3)).join('/')}・`
+      + `位相差 90° は ${bl.spin.map((r) => r.lock.ph90.toFixed(3)).join('/')}(=−sinθ)`
+      + ` —— **幾何試験であって潮汐ロックの創発ではない** / 純関数の門=${bl.spinGates && bl.kernGates && bl.gravGates}=${b6} / `
+      + `⑦ **K_cs 熱記帳**: 純関数の Q_old/Q_exact は `
+      + bl.relax.map((r) => `K·dt=${r.Kdt} → ${r.ratio.toFixed(6)}(=1/(2−f))`).join('・')
+      + `(K·dt→0 で 1/2)・本体の診断列は ${bl.engineKcs.n} 回で ${bl.engineKcs.ratio.toFixed(4)}・`
+      + `**既定の radE は 1 bit 不変**(radE===QcsOld=${bl.engineKcs.same}) / `
+      + `保守的歳差は |J_c| 不変(${fx(bl.torque.precessJcKept)})で E 不変(${fx(bl.torque.precessDE)})・`
+      + `閉じたコア–殻を 90° 倒すと ΔE=${bl.torque.tiltDE}(|J_s|=1・|J_c|=0.5・I_s=1 の例)・`
+      + `内蔵で layers を宣言するのは [${bl.builtins.join(',')}] だけ=${b7}`);
+  } else {
+    console.log('SKIP behavior.bodyLayers(対象に第259便b の body.layers なし — root 等)');
+  }
+}
+
 // ---- 第257便b(第49報): behavior.chainMesh — 磁石連鎖の**有限応答連鎖メッシュ**(新しいトイ仮説) ----
 //   原仮定者(第49報)の「磁石をパチンコ玉に近付けると、複数のパチンコ玉を引きずる事が出来る。
 //   引きずられたパチンコ玉の先端では、元々の磁石の磁界より遠くまで磁力が届いている」に対し、

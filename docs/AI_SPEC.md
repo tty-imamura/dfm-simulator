@@ -329,6 +329,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 - single/ring/disk には省略可の core(コアv2 — 中心コアの独立サブシステム)を指定できる: {"mode":"rigid"|"differential"|"active"|"cavity","massFrac":0.01〜0.95,"radius":0.01〜200,"omega":−50〜50,"Kcs":0〜10,"pump":0〜5,"contract":0〜0.2,"sourceRate":0〜100,"voidFraction":0.01〜1}。m は総質量のままで、massFrac=Mc/m・radius=コア半径 R_c(絶対値)・omega=初期コア角速度 Ω_c(角運動量 J=½·Mc·R_c²·Ω として保持され、以後 J が主変数)。差動分だけが ω += (Mc/m)·(Ω_c−s)·(R_c/(R_c+d))^q として追加の空間引きずりに効く。mode: rigid=殻と剛体回転(差動なし)・differential=独立回転・active=differential+sourceRate で内部エネルギー注入・cavity=空洞(massFrac の代わりに voidFraction。引きずりの符号が反転)。Kcs はコア⇄殻のトルク結合(緩和率)・contract は収縮率(J 保存で Ω 上昇)・pump はパワーボール係数。要望がコア/深部回転・空洞天体・2層天体・ダークローターのときだけ使う高度な属性。
 - core.shed(省略可・第244便/第246便): コアの回転が限界を超えたら**殻の一部をガス粒へ割って放出する**保存的な質量放出。{"omegaCrit":発火する|Ω_c|,"frac":放出する殻質量の比(0〜0.6],"n":粒数(4〜128・偶数),"rLaunch":放出半径(親半径R単位),"jFrac":コアJの移送比0〜1,"once":true/false,"rInner":最内層の半径(親半径R単位・既定=rLaunch),"layers":層数1〜8(既定1・n は layers×偶数へ正規化),"cooldown":再発火までの最短時間(once:false のときだけ効く)}。layers≧2 なら粒は rInner·R〜rLaunch·R の等間隔の層に置かれる(元の半径の円周だけでなくコアとの間にも配置される)。once:false は「Ω が再び omegaCrit を超えたら再発火」= 外殻が徐々に剥がれる。質量・運動量・角運動量・エネルギーは帳簿込みで閉じ、収支が負なら発火しない。core.burst(省略可・第234便): {"rate":放出率,"frac":放出する|J|の総比率} でコアの回転エネルギーを気体殻へ保存的に注入する(爆発)。要望が質量放出・恒星風・超新星・白色矮星/中性子星のときだけ使う高度な属性。
 - core.rTarget / core.bindLedger / core.shed.bare(省略可・第247便c — コア収縮の終端と裸コア終端): "rTarget":収縮の終端半径(0〜200・既定0=無制限 — contract は到達で止まる)。"bindLedger":"pairU" は「点粒子に自己重力エネルギーは無い」ことの宣言で、結合Eの状態関数 U_bind=−a·G·Mc²/R_c("bindA"=a・0〜10・既定0.6)を記録専用で持ち、各ステップの収縮に avail=ΔU_bind−ΔE_rot<0 ならその収縮を行わない予算門が掛かる。core.shed の "bare":true と "bareBelow":しきい値(≤1 はコア質量比・>1 は絶対質量・既定0.01)は、殻質量がしきい値を下回ったら次の発火で残りの殻を全部出して Mc=M(massFrac=1)の終端状態にする(保存契約「残骸>コア」の唯一の例外・1粒子1回だけ)。いずれも opt-in で未宣言なら従来と1bit不変。要望が「コアの収縮がどこで止まるか」「回転が速すぎて縮めない核」「白色矮星/中性子星が最後に裸のコアになる」のときだけ使う高度な属性。
+- body.layers(省略可・single 専用・第259便b — **親子コア(同心層)**): `"layers":[{"role":"core"|"mantle"|"shell"|"envelope"|"halo","m":層の質量,"r":層の半径},…]` を body 直下に書くと、その天体を**同心の層**に分けられる(「観測半径は殻が・質量はコアが担う」構造)。**1〜8 層・r は昇順(同心・非重複)・各層の m は排他で Σ層 m = body.m** でなければ検証器が layers を落とす(**補完はしない**)。**一つの天体に並進自由度は一つ**なので層に x/y/vx/vy は書けないし、多重の親子付けは**同心の入れ子 = layers の順序**で表す(層の中の layers は拒否)。効果は**有限半径の球殻定理**だけ — 試験粒子が半径 r_k の層の内側にいる間はその層の重力が 0 になり、**r ≥ 最外層の遠方では総質量の点源と厳密に一致する**。衝突半径は最外層だけ(body の radius)。融合は body 単位で、同じ role の層を m の和・r=√(r_i²+r_j²) で合算する。**未宣言は 1 bit 不変**。要望が「コアと外殻を分けたい」「白色矮星を赤色巨星のコアにしたい」「内部に重力のない空洞を作りたい」のときだけ使う高度な属性。**外部軌道だけではコア質量・半径を一意に決められない**(I・表面自転・減光・潮汐が要る)。
 - single には省略可の radius(半径の明示指定 0.01〜100。未指定は radiusScale·rMul·√|m|)・lightSweep(減光 0〜1 — 高速スピンコアが自星の光を外に出さない: 観測温度が0になり見掛けは冷たい。放射冷却も(1−lS)倍)を指定できる。要望がダークマター/ダークローター・見えない天体・拡がった天体のときだけ使う高度な属性で、通常のプリセットでは指定しない。disk/ring にも群共通の lightSweep(数値か "auto")を指定できる(恒星集団の減光実験用)。
 - single には省略可の railOmega(±2・pinned時のみ): 円レール駆動の角速度。railCx/railCy でレール中心を指定(既定は原点)。
 
@@ -900,6 +901,27 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   0(z≥1)、u_i=v_i+ω_i ẑ×(x−x_i)、u=(Σw_iu_i+D₀u_bg)/(D₀+Σw_i)、**∇u=(∇N−u⊗∇D)/D**・
   **∂ₜu=(∂ₜN−u·∂ₜD)/D**(商の微分)。源ごとに `{m,x,y,vx,vy,ax,ay,omega,omegaDot,R}` を読む。
   **D₀=0 かつ支持内に源が無い点・R 無宣言・非有限は null**(0 で埋めない)。**力へは接続しない純関数**である。
+- **純関数 6 本(第259便b — 親子コア・3D スピン参照場・歳差/緩和。**力へ接続しているのは重力の球殻差分だけ**)**:
+  - **`HP.dfmLayerGravity(layers, d, {G,eps})`** → `{mTot,mEnc,mOut,rOut,aPoint,aLayered,da}`。球殻定理
+    **a_layered = G·M_enc(d)·d/(d²+ε²)^{3/2}**(M_enc=Σ_{r_k ≤ d} m_k)。**内側は厳密 0・d ≥ r_最外 は点源と一致**。
+    層が昇順でない/質量が非正/非有限は門(null)。`body.layers` を宣言した宇宙では本体もこの差分を当てる
+    (`S._core` の**外**の 1 パス。実装差の床は `S.ax` が Float32 であることから来る相対 10⁻⁸ 級)。
+  - **`HP.dfmLayerKernel(layer, d, {p,eps,shape,nodes})`** → `{point,value,ratio,…}`。慣性核
+    **w=m(r²+ε²)^(−p/2)** の有限半径積分(`shape`="point"/"shell"/"uniform")。薄殻は μ 積分の解析形。
+    **重力の球殻積分とは別物**で、**力へは 1 バイトも接続していない**(測るだけ)。
+  - **`HP.dfmLayerMerge(layersA, layersB, "role"|"add")`** → 合成後の層配列。既定は `HP.LAYER_MERGE_RULE`="role"
+    (同 role を m の和・**r=√(r_i²+r_j²)** で合算 —— 殻とコア v2 の既存則と同型)。
+  - **`HP.dfmSpinField3D(omegaVec, r, {a?,R,q})`** → `[ux,uy,uz]`。**u=a(d)(ω×r)**・a(d)=(R/(R+d))^q。
+    **q は角速度の減衰指数で速度は r^(1−q)**(速度 r^−2 なら q=3)。**並進の p と同一パラメータにしない。**
+    面外流 RMS は環上で **sinθ/√2**(θ=30/60/90 で 0.354/0.612/0.707)で、θ=90° では面内(2D 射影)が
+    厳密に 0 でも面外流は最大になる。**幾何試験であって潮汐ロックの創発ではない。**
+  - **`HP.dfmSpinPrecess({Js,Jc,k,dt|angle,Is,Ic})`** / **`HP.dfmTiltWork({Js,Jc,Is,Ic,alpha,axis?})`**。
+    前者は τ_c=k(J_s×J_c) の**厳密回転**(|J_c| 不変・コアの E 不変・総 J 保存)、後者は J_c を倒して
+    総 J を保つときに**殻の側に現れる仕事**(J_s∥J_c なら ΔE=(1−cosα)(|J_s||J_c|+|J_c|²)/I_s)。
+  - **`HP.dfmSpinRelax({Ic,Is,Kcs,dt,omegaC,omegaS})`** → `{mu,f,dJ,omegaC,omegaS,E0,E1,dE,Qexact,Qold,ratio,gamma,…}`。
+    本体(第78便)と同じ指数解 ΔJ=μΔω·f・f=1−e^{−K_cs·dt}。**正確な散逸は Q_exact=μΔω²(f−f²/2)** で、
+    本体の既定記帳 Q_old=|ΔJΔω|/2 は**その 1/(2−f) 倍**(K_cs·dt→0 で **1/2**)。**既定の記帳は変えていない** ——
+    読み口 `S.QcsOld`/`S.QcsExact`/`S.QcsN` は**診断列**で、`S.radE` は 1 bit も動かない。
 - **純関数 2 本(第257便a・力へは接続しない物差し)**:
   - **`HP.affineComovingStep({C,V,H,Omega,dt}, [x,y])`** → `{x,v,u,C,F,a,theta,fixedPoint,gradU,dUdt}`。
     x(t+h)=C+V·h+a·R(θ)(x−C)(a=e^{Hh}・θ=Ωh・**C も V·h 動く**)。**群**なので 100 分割と一括が
