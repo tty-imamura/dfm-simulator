@@ -73,7 +73,11 @@ export function enforceMeasurementCondition(presetRec, q) {
     && req.kFrame !== meas.kFrame;
   q.conditionMatch = !mismatch;
   if (!mismatch) return false;
-  q.conditionRejectedEvidence = {
+  // 第259便d: **元の証拠だけはべき等にする**。--merge で持ち越した行は既に `条` へ隔離済みなので、
+  // そのまま作り直すと `conditionRejectedEvidence.verdict` が「元の判定(合/転)」ではなく `条` に、
+  // 残差が null になってしまう —— **元の証拠が消える**。既にあるなら作り直さない
+  // (門の状態・note・verdict は下でそのまま立て直す —— 門は毎回作り直される欄だからである)。
+  q.conditionRejectedEvidence = q.conditionRejectedEvidence || {
     verdict: q.verdict, residualPct: q.residualPct === undefined ? null : q.residualPct,
     residualPctRev: q.residualPctRev === undefined ? null : q.residualPctRev,
     residualPctPeri: q.residualPctPeri === undefined ? null : q.residualPctPeri,
@@ -94,7 +98,9 @@ export function enforceMeasurementCondition(presetRec, q) {
   };
   q.verdict = VERDICT_CONDITION;
   q.residualPct = null;
-  q.note = (q.note ? q.note + ' / ' : '') + '**条件不一致(condition-mismatch)**: ' + q.conditionMismatch.note;
+  // 第259便d: note の追記もべき等にする(--merge を重ねても同じ文が 2 度並ばない)
+  if (!/\*\*条件不一致\(condition-mismatch\)\*\*/.test(String(q.note || '')))
+    q.note = (q.note ? q.note + ' / ' : '') + '**条件不一致(condition-mismatch)**: ' + q.conditionMismatch.note;
   if (q.gate) {
     q.gate.status = GATE.COND;
     q.gate.reason = '測定条件が行の要求条件と違う(kFrame ' + meas.kFrame + ' ≠ ' + req.kFrame + ')';
@@ -142,6 +148,79 @@ export function predictionEligible(q) {
     if (!ev.frozenProtocol) reasons.push('frozenProtocol(凍結手順の記録)が宣言されていない');
   }
   return { eligible: reasons.length === 0, reasons };
+}
+
+// ---------------------------------------------------------------- ②′ 証拠付き予測の**記録器**(第259便d)
+// 第258便d は「資格」(`predictionEligible`)だけを作った。**枠が無いので誰も宣言できない**状態で、
+// 「宣言が無いから 0 件」という記録が、宣言する場所が無いことと区別できなかった。
+// 第259便d は**枠だけ**を作る —— `makePredictionEvidence` が作る形と、`validatePredictionEvidence`
+// が読む規則である。**中身は空のまま出荷する**(記録 0 件)。
+//
+// **なぜ空のままにするか(規約)**: 過去に測った値を後から「これは fit に使っていない」と宣言すると、
+// **後付けの hold-out** になる。hold-out は「観測値を見る前に手順を凍結した」ことに意味があるので、
+// 宣言は**測る前**に入れなければならない。だから記録器は用意し、**中身は次に測る量から**入れる。
+// 台帳には「**記録器あり・記録 0 件**」と書く(「予測が 0 件」ではなく「記録が 0 件」である)。
+export const PREDICTION_EVIDENCE_FIELDS = ['usedForFit', 'validation', 'dataset', 'frozenProtocol', 'recordedAt'];
+
+// 宣言を 1 件作る。**凍結手順**(どの commit のどの器をどの窓で回したか)が要る。
+export function makePredictionEvidence({ dataset, commit, harness, window: win, recordedAt } = {}) {
+  return {
+    usedForFit: false,                 // fit に使っていない(宣言)
+    validation: 'held-out',            // hold-out として扱う(宣言)
+    dataset: dataset || null,          // どの観測データか(CSV の行・一次表)
+    frozenProtocol: (commit || harness || win)
+      ? { commit: commit || null, harness: harness || null, window: win || null } : null,
+    recordedAt: recordedAt || null,    // いつ宣言したか(**測る前**でなければならない)
+  };
+}
+
+// 宣言 1 件を検証する(足りない欄を列挙する — 「揃っている」以外は資格なし)。
+export function validatePredictionEvidence(ev) {
+  const problems = [];
+  if (!ev || typeof ev !== 'object') return { valid: false, problems: ['宣言そのものが無い'] };
+  if (ev.usedForFit !== false) problems.push('usedForFit:false が無い');
+  if (ev.validation !== 'held-out') problems.push('validation:"held-out" が無い');
+  if (!ev.dataset) problems.push('dataset(どの観測データか)が無い');
+  const fp = ev.frozenProtocol;
+  if (!fp) problems.push('frozenProtocol(凍結手順)が無い');
+  else {
+    if (!fp.commit) problems.push('frozenProtocol.commit(凍結した版)が無い');
+    if (!fp.harness) problems.push('frozenProtocol.harness(どの器か)が無い');
+    if (!fp.window) problems.push('frozenProtocol.window(どの窓か)が無い');
+  }
+  if (!ev.recordedAt) problems.push('recordedAt(いつ宣言したか)が無い');
+  return { valid: problems.length === 0, problems };
+}
+
+// 記録器(空の台帳)。key は棚卸しの `gate.key`(系+量)である。
+export function emptyEvidenceRegistry(note) {
+  return { n: 0, entries: {}, invalid: [],
+    note: note || '**記録器あり・記録 0 件**。過去に測った値を後から「fit に使っていない」と'
+      + '宣言することはしない(後付けの hold-out になる)—— 宣言は**測る前**に入れる。' };
+}
+
+// 記録器へ 1 件足す(検証を通らない宣言は `invalid` へ回して**数に入れない**)。
+export function recordEvidence(registry, key, ev) {
+  const reg = registry || emptyEvidenceRegistry();
+  const v = validatePredictionEvidence(ev);
+  if (!v.valid) { reg.invalid.push({ key, problems: v.problems }); return reg; }
+  reg.entries[key] = ev; reg.n = Object.keys(reg.entries).length;
+  return reg;
+}
+
+// 記録器を棚卸しの量へ配る(key が一致した量にだけ `predictionEvidence` が立つ)。
+// **戻り値は配れた件数**。配れなかった key は `unmatched` に残す(黙って消さない)。
+export function applyEvidenceRegistry(presets, registry) {
+  const reg = registry || emptyEvidenceRegistry();
+  const used = new Set();
+  let applied = 0;
+  for (const p of (presets || [])) for (const q of (p.quantities || [])) {
+    const key = (q.gate && q.gate.key) || null;
+    if (key && Object.prototype.hasOwnProperty.call(reg.entries, key)) {
+      q.predictionEvidence = reg.entries[key]; used.add(key); applied++;
+    }
+  }
+  return { applied, unmatched: Object.keys(reg.entries).filter((k) => !used.has(k)) };
 }
 
 // ---------------------------------------------------------------- ③ ε_num の推定誤差欄

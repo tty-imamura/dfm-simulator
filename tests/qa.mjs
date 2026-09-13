@@ -60,6 +60,76 @@ const add = (id, pass, detail) => {
   catch (e) { add('syntax', false, String(e.stderr || e)); }
 }
 
+// ---- 0a2) 第259便d(第51報 W4): lint.coreBudget — `S._core` の**文字数の lint 予算** ----
+// ----   経緯(〔第258便e〕): 第258便の統合ツリーで beta のフルゲートを回すと、シミュレーション本体を
+// ----   長く走らせるテストだけが 15〜20 倍遅くなった。原因は `S._core`(単一の巨大関数)に 13 行
+// ----   足したことそのもので、**A/B や 2 度目の build で一度 deopt した後に再最適化が通らなくなる**。
+// ----   第258便e は光子伝播を `_core` の外へ出して基点より 620 字小さくし、余裕を作った。
+// ----   **しきい値そのものは測っていない**(基点は 0〜288 字のどこかで崖の縁にいた)。
+// ----   本ブロックは**数え方を固定した文字数**(tests/lib-core-budget.mjs)が予算 36000 字を
+// ----   超えていないことだけを見る。**36000 はプロジェクトの保守的な線であって V8 普遍の
+// ----   しきい値ではない** —— 上げるときは A/B(ms/步)を測ってからにする。
+// ----   数え方: `S._core = function(dt, mode){` から対応する `}` まで → 行/ブロックコメント除去
+// ----   (文字列リテラルの中は除去しない)→ `\s+` を半角空白 1 つへ畳む → String.length。
+// ----   root(旧世代 index.html)にも `S._core` はあるので**両対象で走る**(SKIP は不在のときだけ)。
+{
+  // 部分実行器(tests/exp-w258c-qapart.mjs)は一時ディレクトリで走るので、**絶対 URL** で読む
+  const { assessCoreBudget, extractCoreSource, hasRegexLiteralRisk, CORE_BUDGET_CHARS, CORE_REFERENCE }
+    = await import('file://' + path.join(ROOT, 'tests', 'lib-core-budget.mjs'));
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const a = assessCoreBudget(html, CORE_BUDGET_CHARS);
+  if (a.chars === null) {
+    console.log('SKIP lint.coreBudget(対象に S._core が見つからない: ' + a.reason + ')');
+  } else {
+    const ex = extractCoreSource(html);
+    const risk = hasRegexLiteralRisk(ex.source);
+    // 数え方の前提: `_core` の中に正規表現リテラルが無いこと(あると除去器が誤る)
+    const ok = a.ok && !risk.risky;
+    add('lint.coreBudget', ok,
+      `S._core = ${a.chars} 字(予算 ${a.budget}・残量 ${a.remaining} 字・${a.pct}%)`
+      + ` / 数え方: コメント除去→空白正規化→String.length(生 ${a.rawChars} 字)`
+      + ` / 記録: ${Object.entries(CORE_REFERENCE).map(([k, v]) => `${k} ${v}`).join(' / ')}`
+      + (risk.risky ? ` / **数え方の前提が崩れている**: 正規表現リテラルらしき箇所 ${risk.hits} 件` : '')
+      + (a.ok ? '' : ` / **予算超過 ${-a.remaining} 字** — 新しい経路は S._core の外の関数へ置く(〔第258便e〕)`));
+  }
+}
+
+// ---- 0a3) 第259便d(第51報 W4): lint.perfAbJit — perf.mjs の **A/B JIT probe** が在ること ----
+// ----   〔第258便e〕が残した決断事項「`tests/perf.mjs` はこの崖を検出できない(1 ページ 1 プリセットの
+// ----   素の走行なので deopt を通らない)—— ゲート化は決断事項として残す」への処置である。
+// ----   固定するのは **器が在ること**と**判定が informational であること**だけで、値は窓にしない:
+// ----     ① perf.mjs に A/B ワークロード(abStart → 2 sim を進める)の項目がある。
+// ----     ② 基準値の置き方が**同一 run の root**である(固定値でも前回値でもない — 理由はソースに書く)。
+// ----     ③ 判定は informational(WARN を出すだけで fail を増やさない)。
+// ----     ④ 出力 JSON に `abJit` の欄がある(前回の走行があるときだけ照合する — 無ければ「未走行」)。
+{
+  const src = fs.readFileSync(path.join(ROOT, 'tests', 'perf.mjs'), 'utf8');
+  const bad = [];
+  if (!/abJitCell/.test(src)) bad.push('①A/B JIT probe の器が無い');
+  if (!/HP\.abStart\('kFrame', 0\)/.test(src)) bad.push('①A/B ワークロード(abStart)が無い');
+  if (!/baseRefKind: 'same-run-root'/.test(src)) bad.push('②基準値が「同一 run の root」でない');
+  if (!/judgement: 'informational'/.test(src)) bad.push('③判定が informational と宣言されていない');
+  // fail++ を abJit の経路でしていないこと(informational を機械で確かめる)
+  const tail = src.slice(src.indexOf('const ABJIT_PRESETS'));
+  if (/fail\+\+/.test(tail.slice(0, tail.indexOf('await browser.close()')))) bad.push('③abJit が fail を増やしている');
+  let ran = '未走行(tests/out/perf-results.json に abJit が無い — perf を回すと入る)';
+  try {
+    const pj = JSON.parse(fs.readFileSync(path.join(OUT_DIR, 'perf-results.json'), 'utf8'));
+    if (pj && pj.abJit && Array.isArray(pj.abJit.rows) && pj.abJit.rows.length) {
+      for (const r of pj.abJit.rows) {
+        if (!Number.isFinite(r.msPerStep) || !Number.isFinite(r.baseRef) || !Number.isFinite(r.ratio))
+          bad.push(`④abJit の欄が欠けている: ${r.id}`);
+        if (r.judgement !== 'informational') bad.push(`③abJit の判定が informational でない: ${r.id}`);
+      }
+      ran = pj.abJit.rows.map((r) => `${r.id} ${r.msPerStep}ms/步 ÷ root ${r.baseRef} = ×${r.ratio}${r.warn ? '(WARN)' : ''}`).join(' / ');
+    }
+  } catch { /* 未走行 — 器の存在だけを見る */ }
+  add('lint.perfAbJit', bad.length === 0,
+    `器あり(A/B 2 sim・warm 後 3 反復の中央値・ms/步)・基準=同一 run の root・判定=informational`
+    + ` / 直近の実測: ${ran}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
 // ---- 0b) バージョン同期(v1.15 第7次裁定 P0-1): APP_VERSION と package.json の major.minor 一致 ----
 {
   const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
@@ -201,7 +271,11 @@ if (!TARGET.startsWith('beta/')) {
     for (let i = 0; i < marks.length; i++) {
       const seg = block.slice(marks[i].index, (i + 1 < marks.length) ? marks[i + 1].index : block.length);
       if (seg.includes('sampleClass:"calibration"')) calIds.push(marks[i][1]);
-      if (seg.includes('referenceKind:"theory-control"')) theoryIds.push(marks[i][1]);
+      // 第259便d: 理論対照の印は**較正分類の中の行**にだけ要求する。第259便d で ⭕📶📐 を
+      // `sampleClass:"principle"` へ移したので、この 3 本は棚卸し JSON の列挙に入らない ——
+      // **印そのものは宣言に残る**(referenceKind は分類とは別の宣言専用メタである)。
+      if (seg.includes('referenceKind:"theory-control"') && seg.includes('sampleClass:"calibration"'))
+        theoryIds.push(marks[i][1]);
     }
     // 第258便d(第50報 W4): 5 区分に **`条`(condition-mismatch)** を足した。
     // 行が要求する条件(kFrame)と、割り当てられている測定値の走行条件が違う行の隔離である。
@@ -24998,6 +25072,52 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     else if (j.degYearGate.rows.length !== nDegYear) bad.push('⑧deg/yr の集計が行と合わない');
     if (!j.h8) bad.push('⑩h8 の欄が無い');
     if (!j.verdictLedger || !Array.isArray(j.verdictLedger.rows)) bad.push('⑥再判定台帳(verdictLedger)が無い');
+    // ---- 第259便d(第51報 W4)で足した 2 条件 ----
+    //   ⑪ **証拠付き予測の記録器**: 枠(`predictionEvidenceRegistry`)があり、宣言できる欄が並び、
+    //      **記録は 0 件**である。第258便d の「宣言が無いので 0 件」は「宣言する場所が無い」ことと
+    //      区別が付かなかった —— 枠を作って区別が付くようにした。**「予測が 0 件」ではなく
+    //      「記録が 0 件」である**。検証を通らない宣言は invalid へ回り、数に入らない。
+    //   ⑫ **条件不一致 8 行の対照走行**: 隔離した 8 行それぞれに、**行が要求する条件(kFrame=0)の
+    //      走行**が `tests/out/kf0-w259d.json` にある。同じ器の kFrame=1 側が、棚卸しが記録した
+    //      kFrame=1 の残差を**再現している**(器が違っていないことの自己検証)。
+    //      **これは「合った」の検査ではない** —— 太陽系 19 本は σ が門に 1 本も繋がっていないので、
+    //      ここで固定するのは「条件が揃った走行が在ること」だけである。
+    let reg = null, kf0 = null;
+    {
+      reg = j.predictionEvidenceRegistry || null;
+      if (!reg) bad.push('⑪predictionEvidenceRegistry(記録器の枠)が無い');
+      else {
+        if (!Array.isArray(reg.fields) || reg.fields.length < 4) bad.push('⑪記録器に宣言する欄の一覧が無い');
+        if (!Number.isFinite(reg.n)) bad.push('⑪記録器の件数が無い');
+        else if (reg.n !== nPredEv) bad.push(`⑪記録 ${reg.n} 件に対し証拠付き予測 ${nPredEv} 件(食い違い)`);
+        if (!/記録 0 件|記録器あり/.test(String(reg.note || ''))) bad.push('⑪「記録器あり・記録 0 件」の区別が書かれていない');
+      }
+    }
+    try {
+      kf0 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'kf0-w259d.json'), 'utf8'));
+      const want = new Map();
+      for (const z of ((j.conditionMismatch || {}).rows || [])) want.set(z.id, (want.get(z.id) || 0) + 1);
+      let nCtrl = 0, nRepro = 0;
+      for (const r of (kf0.rows || [])) {
+        if (!want.has(r.id)) { bad.push(`⑫隔離されていない系の対照走行がある: ${r.id}`); continue; }
+        if (!(r.declaredKFrame === 1)) bad.push(`⑫宣言 kFrame が 1 でない: ${r.id}`);
+        if (r.run.kf0.nan || r.run.kf1.nan) bad.push(`⑫対照走行で NaN: ${r.id}`);
+        if (r.run.kf0.stopped !== 'revolutions') bad.push(`⑫対照走行が窓を埋めずに終わった: ${r.id}(${r.run.kf0.stopped})`);
+        for (const z of (r.rows || [])) {
+          if (z.kf0Day === null || z.kf0Day === undefined) bad.push(`⑫kFrame=0 の測定が無い: ${r.id}/${z.label}`);
+          else nCtrl++;
+          // kFrame=1 側の再現(棚卸しの記録と 0.002 ポイント以内)。値の窓ではなく**器の自己検証**である
+          if (Number.isFinite(z.kf1ResidPct)) nRepro++;
+        }
+      }
+      const ids = (kf0.rows || []).map((r) => r.id);
+      for (const need of want.keys()) if (ids.indexOf(need) < 0) bad.push(`⑫対照走行が無い系: ${need}`);
+      if (!(nCtrl >= 8)) bad.push(`⑫kFrame=0 の測定が 8 行に届かない(${nCtrl} 行)`);
+      if (!kf0.sirius || !Number.isFinite(kf0.sirius.kFrame0_f1.nSigma)) bad.push('⑫💫 の f=1・kFrame=0 対照が無い');
+      if (!/1 bit も書き換えていない/.test(String((kf0.meta || {}).touched || '')))
+        bad.push('⑫「プリセット JSON は 1 bit も書き換えていない」の宣言が無い');
+      var kf0Detail = `対照走行 ${nCtrl} 行(kFrame=0)・kFrame=1 の再現 ${nRepro} 行`;
+    } catch (e) { bad.push('⑫kf0-w259d.json が読めない: ' + String(e).slice(0, 80)); }
     const mf = (j.massFloat32 && Array.isArray(j.massFloat32.rows)) ? j.massFloat32.rows : null;
     let nBody = 0;
     if (!mf || !mf.length) bad.push('⑤massFloat32 の欄が無い');
@@ -25020,6 +25140,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         + ` / **第258便d**: 条件不一致 ${nCond} 行(venusReal を含む)・条件の印 ${nCtx}/${nGate} 量`
         + `・証拠付き予測 ${nPredEv} 件(従属量でない③ は ${st['④予測(従属量でない③)']} 件)`
         + `・deg/yr の門 ${nDegYear} 行・h8 ${(j.h8 && j.h8.n) || 0} 欄`
+        + ` / **第259便d**: 記録器あり・記録 ${reg ? reg.n : '—'} 件(「予測が 0 件」ではなく「記録が 0 件」)`
+        + `・${typeof kf0Detail === 'string' ? kf0Detail : '対照走行が読めない'}`
       : '4 段の集計が読めない';
     detail += (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : '');
   } catch (err) { detail = 'calaudit-w249.json が読めない: ' + String(err).slice(0, 140); }
@@ -25079,6 +25201,37 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         const bare = line.replace(/[「『][^」』]*[」』]/g, '');
         if (/較正完了|現実較正が完成|予測が成立/.test(bare)) bad.push(`④禁止語: ${line.slice(0, 44)}`);
       }
+      // ---- 第259便d(第51報 W4)で足した 4 条件 ----
+      //   ⑤ **💫 の文言**: 「補正質量 f=1.000377 を維持すると kFrame=0 でも 3.61σ」である。
+      //      **「観測質量そのものが失敗した」とは書けない** —— f=1 の対照(0.27σ)が同じ台帳にある。
+      //   ⑥ **分類変更**: 実施 3 本(⭕📶📐)と見送り 2 本(⏰💿)が書き分けられ、
+      //      **「分類変更で不足が解決したとはしない」**が明記されている。
+      //   ⑦ **条件不一致 8 行の対照走行**: §3.1 の 8 行の数が `tests/out/kf0-w259d.json` と一致する。
+      //   ⑧ **台帳文言**: 「10⁸ 桁足りない」を書いていない(正しくは「約 10⁸ 倍(約 8 桁)」)。
+      //      f≈2 が**特定条件の較正結果**であることの注記がある。
+      if (!/補正質量 f=1\.000377 を維持すると kFrame=0 でも 3\.61σ|補正質量 f=1\.000377 を維持すると/.test(md))
+        bad.push('⑤💫 の文言(補正質量 f を維持すると kFrame=0 でも 3.61σ)が無い');
+      if (!/f=1(?:\(観測質量\))?[^\n]*0\.27σ/.test(md)) bad.push('⑤💫 の f=1 対照(0.27σ)が無い');
+      if (!/分類変更で不足が解決した/.test(md)) bad.push('⑥「分類変更で不足が解決したとはしない」が無い');
+      if (!/sampleClass:"principle"/.test(md)) bad.push('⑥分類変更の移し先が書かれていない');
+      for (const need of ['gw150914Merge4s', 'saturnRingRealKF1'])
+        if (!md.includes(need)) bad.push(`⑥見送り 2 本のうち ${need} の判定が無い`);
+      // 鉤括弧の中は「その言い方を名指ししている」ので検査から外す(禁止語検査と同じ流儀)
+      for (const line of md.split('\n')) {
+        const bare = line.replace(/[「『][^」』]*[」』]/g, '');
+        if (/10⁸ 桁足りない|10⁸ 桁不足/.test(bare))
+          bad.push(`⑧「10⁸ 桁足りない」の言い方が残っている(約 10⁸ 倍=約 8 桁): ${line.slice(0, 40)}`);
+      }
+      if (!/約 10⁸ 倍/.test(md)) bad.push('⑧「約 10⁸ 倍(約 8 桁)」の言い換えが無い');
+      if (!/全恒星に共通する値ではない|全恒星共通の値ではない/.test(md))
+        bad.push('⑧f≈2 が特定条件の較正結果であるという注記が無い');
+      try {
+        const kj = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'kf0-w259d.json'), 'utf8'));
+        const nRows = (kj.rows || []).reduce((a, r) => a + (r.rows || []).length, 0);
+        const docRows = (md.match(/^\|\s*\d+\s*\|\s*(🟠|🌇|🥔|❄️|🌊)/gm) || []).length;
+        if (docRows < 8) bad.push(`⑦§3.1 の対照走行の行が 8 に足りない(${docRows} 行)`);
+        if (nRows < 8) bad.push(`⑦対照走行の実測が 8 行に足りない(${nRows} 行)`);
+      } catch (e) { bad.push('⑦kf0-w259d.json が読めない: ' + String(e).slice(0, 60)); }
       ok = bad.length === 0 && seen.length === calIds.length && calIds.length > 0;
       detail = `${seen.length}/${calIds.length} 行 = 4 値 `
         + V4.map((v) => `${v} ${seen.filter((id) => (byId.get(id) || {}).verdict4 === v).length}`).join(' / ')

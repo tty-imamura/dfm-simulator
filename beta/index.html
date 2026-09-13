@@ -1400,7 +1400,7 @@ ja: {
   scaleBaseRetiredHead:"廃止した選択肢",
   scaleBaseRetiredLine:(nm,alt)=>"廃止: "+nm+" — 代替は "+alt+"(指数はこのサンプルの宣言のまま。読み替えはしない)",
   scaleBaseRetiredTip:"この指数の組み合わせは第258便cで選択肢から外した(天体以上のスケールで、現実較正40本のどれも使っていなかったため)。代替は残った選択肢のうち指数がいちばん近いものを機械で選んでいる。**サンプルの宣言指数は書き換えない** — 観測転写サンプルでは指数そのものが実単位の宣言だからである。",
-  scaleBaseDesc:"スケールタグ(分子〜宇宙全体)の既定指数へ、距離・時間・質量の3指数を一括で設定する。下の指数スライダーを個別に動かして、どのタグの既定とも一致しなくなると「なし(個別指定)」になる。光速の換算指数 eC はサンプルのティア別 x−eT 固定なので、この一括設定の対象外(第130便)。**選択肢は 2 行**で、1 行目=用途の短い名・2 行目=三つ組表記(e8/e4/e27)である(第258便c)。表示形は行の小さなボタンで切り替えられる — プルダウン(option は 1 行目だけ・2 行目は直下の説明行)と 2 行ボタン群(1 つのボタンに 2 行を積む)。第258便c で**天体以上のスケールなのに現実較正 40 本のどれも使っていない選択肢**(⭐球状星団 e16/e12/e35・🌌実単位銀河 e19/e15/e38)を**廃止**した。廃止行に一致する指数のサンプル・セーブでは、説明行に「廃止: … — 代替は …」を出す — **指数そのものは書き換えない**(観測転写サンプルでは指数が実単位の宣言だからである)。表示専用 — 物理には影響しない。指数の状態はセーブに保存される(第94便 scaleExps)。",
+  scaleBaseDesc:"スケールタグ(分子〜宇宙全体)の既定指数へ、距離・時間・質量の3指数を一括で設定する。下の指数スライダーを個別に動かして、どのタグの既定とも一致しなくなると「なし(個別指定)」になる。光速の換算指数 eC はサンプルのティア別 x−eT 固定なので、この一括設定の対象外(第130便)。**選択肢は 2 行**で、1 行目=用途の短い名・2 行目=三つ組表記(e8/e4/e27)である(第258便c)。表示形は行の小さなボタンで切り替えられる — プルダウン(option は 1 行目だけ・2 行目は直下の説明行)と 2 行ボタン群(1 つのボタンに 2 行を積む)。第258便c で**天体以上のスケールなのに現実較正のどれも使っていない選択肢**(⭐球状星団 e16/e12/e35・🌌実単位銀河 e19/e15/e38)を**廃止**した。廃止行に一致する指数のサンプル・セーブでは、説明行に「廃止: … — 代替は …」を出す — **指数そのものは書き換えない**(観測転写サンプルでは指数が実単位の宣言だからである)。表示専用 — 物理には影響しない。指数の状態はセーブに保存される(第94便 scaleExps)。",
   // 第94便(原仮定者指示): 「スケール」カテゴリ新設 — 距離/時間/質量(+光速)の表示スケールを集約
   grpScale:"スケール",
   grpScaleDesc:"表示換算に使うスケール指数の集約(共通設定・表示専用 — 物理 sim.params には一切書き込まない)。各指数はサンプルのロード時にスケールタグの既定値で上書きされる(「日常」は距離・時間・質量とも 0.0)。",
@@ -1984,7 +1984,7 @@ en: {
   scaleBaseRetiredHead:"Retired options",
   scaleBaseRetiredLine:(nm,alt)=>"Retired: "+nm+" - replacement is "+alt+" (the exponents stay exactly as this sample declares them; nothing is silently re-read)",
   scaleBaseRetiredTip:"Wave 258c took this exponent triple out of the list (a stellar-or-larger scale that none of the 40 calibrated samples used). The replacement is picked by machine as the closest surviving option. THE SAMPLE DECLARATIONS ARE NOT REWRITTEN - in an observation-transcribed sample the exponents ARE the real-unit declaration.",
-  scaleBaseDesc:"Sets the three display exponents (distance, time, mass) to a scale tag's defaults (molecular … cosmic) at once. Moving an individual exponent slider below so the set no longer matches any tag switches this to NONE (CUSTOM). The light-speed conversion exponent eC is fixed to the sample's per-tier x−eT, so it is not part of this bulk setting (wave 130). EACH OPTION IS TWO LINES (wave 258c): line 1 is the short purpose name, line 2 the exponent triple (e8/e4/e27). The small button on the row switches the layout - a dropdown (the option carries line 1; line 2 sits in the description line right below) or two-line buttons (both lines stacked inside one button). Wave 258c RETIRED the options at stellar-or-larger scale that none of the 40 calibrated samples used (globular cluster e16/e12/e35 and real-unit galaxy e19/e15/e38). When the current exponents still match a retired row the description line says so and names the replacement - THE EXPONENTS THEMSELVES ARE NEVER REWRITTEN, because in an observation-transcribed sample the exponents ARE the real-unit declaration. Display only - physics is untouched. The exponent state is stored in saves (wave 94 scaleExps).",
+  scaleBaseDesc:"Sets the three display exponents (distance, time, mass) to a scale tag's defaults (molecular … cosmic) at once. Moving an individual exponent slider below so the set no longer matches any tag switches this to NONE (CUSTOM). The light-speed conversion exponent eC is fixed to the sample's per-tier x−eT, so it is not part of this bulk setting (wave 130). EACH OPTION IS TWO LINES (wave 258c): line 1 is the short purpose name, line 2 the exponent triple (e8/e4/e27). The small button on the row switches the layout - a dropdown (the option carries line 1; line 2 sits in the description line right below) or two-line buttons (both lines stacked inside one button). Wave 258c RETIRED the options at stellar-or-larger scale that none of the calibrated samples used (globular cluster e16/e12/e35 and real-unit galaxy e19/e15/e38). When the current exponents still match a retired row the description line says so and names the replacement - THE EXPONENTS THEMSELVES ARE NEVER REWRITTEN, because in an observation-transcribed sample the exponents ARE the real-unit declaration. Display only - physics is untouched. The exponent state is stored in saves (wave 94 scaleExps).",
   // wave 94: new Scale category — distance/time/mass (+light speed) display-scale exponents
   grpScale:"Scale",
   grpScaleDesc:"Display-scale exponents used by the converted display (shared setting, display only — nothing is ever written into sim.params). Loading a sample overwrites each exponent with its scale-tag default (everyday: distance, time and mass all 0.0).",
@@ -6257,7 +6257,14 @@ const BUILTIN_PRESETS = [
   familyId:"emAudit", familyRole:"variant",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 🌙🌘 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
-  sampleClass:"calibration",
+  // 第259便d(第51報 W4): **分類変更** —— 「現実較正」から**原理実証**(principle)へ移した 3 本のうちの 1 本である。
+  // 機械的な条件は 1 つ: **参照が観測ではなく理論値である**(referenceKind:"theory-control")。
+  // 「要らない」という意味ではない —— **「現実較正」の本数に数えない**というだけである(40 本 → 37 本)。
+  // 既存 4 分類(principle/composite/calibration/semantic)の中から選んだ: 参照が理論値の対照器は
+  // 🎡☿ と同じ**原理実証**である(「reference」という 5 つ目の分類は作らない —— 分類を増やすと
+  // スキーマ・分類チップ・UI・QA が連動して増えるので、既存の意味で置ける限りは既存へ置く)。
+  // **presetSig は sampleClass を見ない**ので、署名・保存 JSON・力学・600 步の状態は 1 bit も変わらない。
+  sampleClass:"principle",
   // 第249便b(第41報 W2 の棚卸し): referenceKind — **宣言専用メタ**(sampleClass と同方針・自動判定しない・
   // 物理/表示/QA には一切影響しない)。"theory-control" は「obsCard の参照が観測ではなく理論値
   //(二体ケプラー・Lense–Thirring 則・解析式)である対照サンプル」の印で、現実較正の棚卸しで
@@ -6613,7 +6620,14 @@ const BUILTIN_PRESETS = [
   familyId:"qlockAudit", familyRole:"primary",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 🌙🌘 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
-  sampleClass:"calibration",
+  // 第259便d(第51報 W4): **分類変更** —— 「現実較正」から**原理実証**(principle)へ移した 3 本のうちの 1 本である。
+  // 機械的な条件は 1 つ: **参照が観測ではなく理論値である**(referenceKind:"theory-control")。
+  // 「要らない」という意味ではない —— **「現実較正」の本数に数えない**というだけである(40 本 → 37 本)。
+  // 既存 4 分類(principle/composite/calibration/semantic)の中から選んだ: 参照が理論値の対照器は
+  // 🎡☿ と同じ**原理実証**である(「reference」という 5 つ目の分類は作らない —— 分類を増やすと
+  // スキーマ・分類チップ・UI・QA が連動して増えるので、既存の意味で置ける限りは既存へ置く)。
+  // **presetSig は sampleClass を見ない**ので、署名・保存 JSON・力学・600 步の状態は 1 bit も変わらない。
+  sampleClass:"principle",
   // 第249便b(第41報 W2 の棚卸し): referenceKind — **宣言専用メタ**(sampleClass と同方針・自動判定しない・
   // 物理/表示/QA には一切影響しない)。"theory-control" は「obsCard の参照が観測ではなく理論値
   //(二体ケプラー・Lense–Thirring 則・解析式)である対照サンプル」の印で、現実較正の棚卸しで
@@ -6779,7 +6793,14 @@ const BUILTIN_PRESETS = [
   familyId:"qlockAudit", familyRole:"variant",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 📶 と同一の指数系
-  sampleClass:"calibration",
+  // 第259便d(第51報 W4): **分類変更** —— 「現実較正」から**原理実証**(principle)へ移した 3 本のうちの 1 本である。
+  // 機械的な条件は 1 つ: **参照が観測ではなく理論値である**(referenceKind:"theory-control")。
+  // 「要らない」という意味ではない —— **「現実較正」の本数に数えない**というだけである(40 本 → 37 本)。
+  // 既存 4 分類(principle/composite/calibration/semantic)の中から選んだ: 参照が理論値の対照器は
+  // 🎡☿ と同じ**原理実証**である(「reference」という 5 つ目の分類は作らない —— 分類を増やすと
+  // スキーマ・分類チップ・UI・QA が連動して増えるので、既存の意味で置ける限りは既存へ置く)。
+  // **presetSig は sampleClass を見ない**ので、署名・保存 JSON・力学・600 步の状態は 1 bit も変わらない。
+  sampleClass:"principle",
   // 第249便b(第41報 W2 の棚卸し): referenceKind — **宣言専用メタ**(sampleClass と同方針・自動判定しない・
   // 物理/表示/QA には一切影響しない)。"theory-control" は「obsCard の参照が観測ではなく理論値
   //(二体ケプラー・Lense–Thirring 則・解析式)である対照サンプル」の印で、現実較正の棚卸しで
@@ -19231,27 +19252,10 @@ function makeSim(){
       }
     }
     // 第32便: 尺度・赤方偏移の履歴(25サブステップ=0.4時間単位ごと・上限720点。描画は W2)
-    if(S.boxHist){   // 第35便: boxHist は universeBox か measureBox のときだけ非 null(既定はゼロコスト)
-      if(++S._bhAcc>=25){ S._bhAcc=0;
-        if(S.box){
-          const sc=boxScaleAt(S.box,S.t);
-          S.boxHist.push({t:S.t, a:sc.a, H:sc.H, z:sc.a/S.boxARef-1});
-          if(S.boxHist.length>720) S.boxHist.shift();
-        } else {
-          // 第35便(台帳4-61): 実測 a_eff=⟨r⟩/⟨r⟩₀ と、前回サンプルとの対数差分から出す H_eff。
-          // 壁が全滅していれば更新をスキップ(ゼロ除算禁止)。z は universeBox の規定 a に
-          // 結び付いた規則なので実測 a_eff には適用しない(0 固定・表示もしない)
-          const ae=S.boxAEff();
-          if(ae!==null){
-            const dtH=S.t-S._bhLastT;
-            const He=(dtH>1e-9 && S._bhLastA>0)? Math.log(ae/S._bhLastA)/dtH : 0;
-            S.boxHist.push({t:S.t, a:ae, H:He, z:0});
-            S._bhLastA=ae; S._bhLastT=S.t;
-            if(S.boxHist.length>720) S.boxHist.shift();
-          }
-        }
-      }
-    }
+    // 第259便d: 本体は S._core の**外**(boxHistPass)へ**逐語で**出した(JIT 崖の余裕づくり — 〔第259便d〕)。
+    // 1 步に 1 回・粒子ループの外の冷たいブロックで、既定(box も measureBox も無い宇宙)では
+    // ここは真偽値 1 つで素通りする。**式・順序・読み書きは 1 文字も変えていない**(移しただけ)
+    if(S.boxHist) boxHistPass(S);   // 第35便: boxHist は universeBox か measureBox のときだけ非 null(既定はゼロコスト)
     // 第33便(台帳4-63): 光子の伝播(1ステップ分)。光学は traceRay と同一(E8R: 重い粒子
     // rayHeavy(偏向角 α_min 基準)の 2∇ψ 屈折・W 合計に D₀/W_B・媒質随伴 kF·u に UniverseBox の u_B を含む)で、
     // 弧長は dl=(c₀/n_eff)·dt。到着時は 1+z=a_obs/a_emit の帳簿を photonLog へ積む
@@ -20159,6 +20163,31 @@ function dragHookApply(S,n,m,vx,vy,spin,Imom,accVx,accVy,accS,spinOn){
   if(S.hasCoordInertia){ const R=mcRecOf(S);
     for(let i=0;i<n;i++){ R[2*i]+=accVx[i]; R[2*i+1]+=accVy[i]; } }
   if(S._dwOn===1) dwAddApply(n,m,vx,vy,spin,Imom,accVx,accVy,accS,spinOn);
+}
+// ===== 第32便: 尺度・赤方偏移の履歴 — 第259便d で S._core の外へ出した =====
+// 25 サブステップ=0.4 時間単位ごとに 1 点・上限 720 点(描画は W2)。1 步に 1 回しか回らない
+// **冷たいブロック**で、boxHist は universeBox か measureBox のときだけ非 null である(既定は null)。
+// **逐語移動である** —— 中の式・順序・読み書き・インデントは 1 文字も変えていない(〔第259便d〕)。
+function boxHistPass(S){
+      if(++S._bhAcc>=25){ S._bhAcc=0;
+        if(S.box){
+          const sc=boxScaleAt(S.box,S.t);
+          S.boxHist.push({t:S.t, a:sc.a, H:sc.H, z:sc.a/S.boxARef-1});
+          if(S.boxHist.length>720) S.boxHist.shift();
+        } else {
+          // 第35便(台帳4-61): 実測 a_eff=⟨r⟩/⟨r⟩₀ と、前回サンプルとの対数差分から出す H_eff。
+          // 壁が全滅していれば更新をスキップ(ゼロ除算禁止)。z は universeBox の規定 a に
+          // 結び付いた規則なので実測 a_eff には適用しない(0 固定・表示もしない)
+          const ae=S.boxAEff();
+          if(ae!==null){
+            const dtH=S.t-S._bhLastT;
+            const He=(dtH>1e-9 && S._bhLastA>0)? Math.log(ae/S._bhLastA)/dtH : 0;
+            S.boxHist.push({t:S.t, a:ae, H:He, z:0});
+            S._bhLastA=ae; S._bhLastT=S.t;
+            if(S.boxHist.length>720) S.boxHist.shift();
+          }
+        }
+      }
 }
 // ===== 第33便(台帳4-63): 光子の伝播(1ステップ分)— 第258便e で S._core の外へ出した =====
 // 光学は traceRay と同一(E8R: 重い粒子 rayHeavy(偏向角 α_min 基準)の 2∇ψ 屈折・
