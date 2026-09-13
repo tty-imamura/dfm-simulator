@@ -1711,8 +1711,12 @@ out.predictionEvidenceRegistry = {
   n: evidenceRegistry.n, entries: evidenceRegistry.entries, invalid: evidenceRegistry.invalid,
   appliedToQuantities: evidenceApply.applied, unmatchedKeys: evidenceApply.unmatched,
   file: EVIDENCE_FILE || null,
-  fields: ['usedForFit:false', 'validation:"held-out"', 'dataset',
-    'frozenProtocol:{commit,harness,window}', 'recordedAt'],
+  // 第260便d(W4): 宣言書式を **9 欄**にした(`units` / `covariance` / `extractor` / `codeHash` を追加)。
+  // 欄が増えても**記録は 0 件のまま**である —— 増えたのは「宣言に要るもの」だけである。
+  fields: ['dataset', 'usedForFit:false', 'validation:"held-out"', 'units', 'covariance',
+    'extractor', 'codeHash', 'frozenProtocol:{commit,harness,window}', 'recordedAt'],
+  declaredBefore: '**宣言は測定前にブリーフで行う**(器は記録するだけである)。'
+    + '後から「これは fit に使っていない」と書き足すのは**後付けの hold-out** であって宣言ではない。',
   note: '**記録器あり・記録 ' + evidenceRegistry.n + ' 件**。第258便d の「宣言が無いので 0 件」は、'
     + '**宣言する場所が無かった**ことと区別が付かなかった —— 第259便d で枠を作り、区別が付くようにした。'
     + '**中身は空のまま出荷する**: 過去に測った値を後から「fit に使っていない」と宣言すると'

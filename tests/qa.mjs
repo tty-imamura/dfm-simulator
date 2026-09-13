@@ -94,40 +94,132 @@ const add = (id, pass, detail) => {
   }
 }
 
-// ---- 0a3) 第259便d(第51報 W4): lint.perfAbJit — perf.mjs の **A/B JIT probe** が在ること ----
+// ---- 0a3) 第259便d(第51報 W4)→ **第260便d(第52報 W4)で 2 系統へ**: lint.perfAbJit ----
 // ----   〔第258便e〕が残した決断事項「`tests/perf.mjs` はこの崖を検出できない(1 ページ 1 プリセットの
 // ----   素の走行なので deopt を通らない)—— ゲート化は決断事項として残す」への処置である。
 // ----   固定するのは **器が在ること**と**判定が informational であること**だけで、値は窓にしない:
 // ----     ① perf.mjs に A/B ワークロード(abStart → 2 sim を進める)の項目がある。
-// ----     ② 基準値の置き方が**同一 run の root**である(固定値でも前回値でもない — 理由はソースに書く)。
-// ----     ③ 判定は informational(WARN を出すだけで fail を増やさない)。
-// ----     ④ 出力 JSON に `abJit` の欄がある(前回の走行があるときだけ照合する — 無ければ「未走行」)。
+// ----     ② **2 系統**ある:
+// ----        (a) `arm:"self-control"` … **同一 html の 2 ページ自己対照**(素の走行 対 A/B 走行)。
+// ----            基準値が要らないので機種依存も世代差も入らず、**CI でそのまま再現できる**。
+// ----        (b) `arm:"cross-html"` … **凍結基準 html 対 候補**(両ページ共通の遅化を捕まえる)。
+// ----            基準は `baselineKind` に宣言する(`frozen-file` は opt-in・`root-fallback` が CI の既定)。
+// ----     ③ 判定は **2 系統とも informational**(WARN を出すだけで fail を増やさない)。
+// ----     ④ **プリセットごとにページを開き直す**(同じページで 2 本目を測ると 2 度目の build が
+// ----        deopt を通し、「素の走行」でなくなる)。
+// ----     ⑤ 出力 JSON に `abJit` の欄がある(走行があるときだけ照合する — 無ければ「未走行」)。
+// ----   **FAIL 化はしない**(2 便続けて安定させてから決める — 〔第260便d〕の決断事項)。
 {
   const src = fs.readFileSync(path.join(ROOT, 'tests', 'perf.mjs'), 'utf8');
   const bad = [];
   if (!/abJitCell/.test(src)) bad.push('①A/B JIT probe の器が無い');
   if (!/HP\.abStart\('kFrame', 0\)/.test(src)) bad.push('①A/B ワークロード(abStart)が無い');
-  if (!/baseRefKind: 'same-run-root'/.test(src)) bad.push('②基準値が「同一 run の root」でない');
+  if (!/arm: 'self-control'/.test(src)) bad.push('②(a)自己対照(同一 html の 2 ページ)の系統が無い');
+  if (!/arm: 'cross-html'/.test(src)) bad.push('②(b)凍結基準 html 対 候補の系統が無い');
+  if (!/baselineKind: 'same-html-2pages'/.test(src)) bad.push('②(a)の基準が「同一 html の 2 ページ」と宣言されていない');
+  if (!/kind: 'frozen-file'/.test(src) || !/kind: 'root-fallback'/.test(src))
+    bad.push('②(b)の基準の置き方(frozen-file / root-fallback)が宣言されていない');
+  if (!/abJitFreshCell/.test(src)) bad.push('④プリセットごとにページを開き直していない(fresh cell が無い)');
   if (!/judgement: 'informational'/.test(src)) bad.push('③判定が informational と宣言されていない');
   // fail++ を abJit の経路でしていないこと(informational を機械で確かめる)
   const tail = src.slice(src.indexOf('const ABJIT_PRESETS'));
   if (/fail\+\+/.test(tail.slice(0, tail.indexOf('await browser.close()')))) bad.push('③abJit が fail を増やしている');
   let ran = '未走行(tests/out/perf-results.json に abJit が無い — perf を回すと入る)';
+  const armsSeen = new Set();
+  let legacyRows = 0;
   try {
     const pj = JSON.parse(fs.readFileSync(path.join(OUT_DIR, 'perf-results.json'), 'utf8'));
     if (pj && pj.abJit && Array.isArray(pj.abJit.rows) && pj.abJit.rows.length) {
       for (const r of pj.abJit.rows) {
         if (!Number.isFinite(r.msPerStep) || !Number.isFinite(r.baseRef) || !Number.isFinite(r.ratio))
-          bad.push(`④abJit の欄が欠けている: ${r.id}`);
+          bad.push(`⑤abJit の欄が欠けている: ${r.id}`);
         if (r.judgement !== 'informational') bad.push(`③abJit の判定が informational でない: ${r.id}`);
+        // `arm` の無い行は**第259便d までの 1 系統の走行**である。tests/out は走行のたびに
+        // 上書きされるので、**古い走行が残っていること自体は違反にしない**(器の側は上で見た)。
+        if (r.arm === undefined) legacyRows++;
+        else if (r.arm !== 'self-control' && r.arm !== 'cross-html') bad.push(`②系統の宣言が無い: ${r.id}/${r.arm}`);
+        else armsSeen.add(r.arm);
+        if (r.arm === 'cross-html' && !r.baselineKind) bad.push(`②(b)基準の置き方が記録されていない: ${r.id}`);
       }
-      ran = pj.abJit.rows.map((r) => `${r.id} ${r.msPerStep}ms/步 ÷ root ${r.baseRef} = ×${r.ratio}${r.warn ? '(WARN)' : ''}`).join(' / ');
+      // **2 系統の走行があるなら、両方そろっていること**(片方だけを「2 系統」と書かせない)。
+      // 走行がまるごと旧形式なら「旧形式の走行」と印字するだけにする(perf を回せば 2 系統になる)。
+      if (armsSeen.size) for (const need of ['self-control', 'cross-html'])
+        if (!armsSeen.has(need)) bad.push(`②走行に系統 ${need} が無い`);
+      ran = pj.abJit.rows.map((r) => `${r.arm === undefined ? '旧形式'
+        : r.arm === 'self-control' ? '自己' : '対html(' + r.baselineKind + ')'}`
+        + `/${r.id} ${r.msPerStep}ms/步 ÷ ${r.baseRef} = ×${r.ratio}${r.warn ? '(WARN)' : ''}`).join(' / ')
+        + (legacyRows ? `(**${legacyRows} 行は第259便d までの 1 系統の走行**である — perf を回すと 2 系統になる)` : '');
     }
   } catch { /* 未走行 — 器の存在だけを見る */ }
   add('lint.perfAbJit', bad.length === 0,
-    `器あり(A/B 2 sim・warm 後 3 反復の中央値・ms/步)・基準=同一 run の root・判定=informational`
+    '器あり・**2 系統**((a)同一 html の 2 ページ自己対照〔基準値不要・CI 再現可〕/ (b)凍結基準 html 対 候補'
+    + '〔frozen-file は opt-in・root-fallback が CI 既定〕)・A/B 2 sim・warm 後 3 反復の中央値・ms/步・'
+    + '**どちらも判定=informational**'
     + ` / 直近の実測: ${ran}`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 0a4) 第260便d(第52報 W4): lint.precisionUlp — Float32 の最小刻みと質量丸めの感度 ----
+// ----   `tests/lib-precision-diagnostics.mjs`(純関数・ブラウザも fs も要らない)を機械固定する。
+// ----     ① **対象質量付近の ULP は 0.00048828125(=2⁻¹¹)**である(NS 4 系の 8 体すべて)。
+// ----        質量が [4096, 8192) にあるので刻みは 2¹²⁻²³ で決まる —— **値は 1 つに決まる**。
+// ----     ② 旧記録「~0.0004」を返していた**探索版**(`ulpSearchLegacy`)は ULP ではなく
+// ----        「丸めが倒れるまでの距離」を返す。**両者が違うこと**を機械で残す(数え方の訂正の記録)。
+// ----     ③ 質量丸めの感度は **診断**である: `isBound:false`(誤差上限ではない)・
+// ----        `isMeasured:false`(Float64 実走の結果ではない)が**必ず立つ**。
+// ----     ④ 〔第259便d〕の記録(⚡ 215.5σ・🧶 251.7σ)を**再現する**(同じ数え方であることの確認)。
+// ----   **値そのものは窓にしない**(門ではない)。固定するのは「数え方」と「宣言」である。
+{
+  const L = await import('file://' + path.join(ROOT, 'tests', 'lib-precision-diagnostics.mjs'));
+  const bad = [];
+  const ULP = 0.00048828125;
+  // NS 4 系の宣言質量(**プリセット JSON から読む** — 手で打ち直した値ではない)
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const block = (html.match(/const BUILTIN_PRESETS = \[([\s\S]*?)\n\];/) || [, ''])[1];
+  const massOf = (pid) => {
+    const at = block.indexOf('id:"' + pid + '"');
+    if (at < 0) return null;
+    const seg = block.slice(block.indexOf('bodies:', at), block.indexOf('bodies:', at) + 4000);
+    const ms = [...seg.matchAll(/\bm:(-?[\d.eE+-]+)/g)].map((z) => Number(z[1])).filter(Number.isFinite);
+    return ms.length >= 2 ? ms.slice(0, 2) : null;
+  };
+  const CASES = [
+    { id: 'psrDoubleABDFM', emoji: '⚡', obsP: 8834.534723, sigma: 2.5056e-7, expectSigma: 215.5 },
+    { id: 'psrB1534DFM', emoji: '🧶', obsP: 36351.702644, sigma: 8.64e-7, expectSigma: 251.7 },
+    { id: 'psrJ1757DFM', emoji: '🧮', obsP: 15857.669019168, sigma: 4.32e-6, expectSigma: 40.8 },
+  ];
+  const seen = [];
+  if (!CASES.some((c) => massOf(c.id))) {
+    console.log('SKIP lint.precisionUlp(対象に NS 連星プリセットが無い — 旧世代の root 等)');
+  } else {
+    for (const c of CASES) {
+      const m = massOf(c.id);
+      if (!m) { seen.push(`${c.emoji} 不在`); continue; }
+      for (const z of m) if (L.float32Ulp(z) !== ULP)
+        bad.push(`①${c.emoji} の ULP が ${ULP} でない(${L.float32Ulp(z)} @ m=${z})`);
+      const e = L.massRoundingEstimate(m, null, c.obsP, c.sigma);
+      if (!e.ok) bad.push(`③${c.emoji} の診断が作れない: ${e.reason}`);
+      else {
+        if (e.isBound !== false) bad.push(`③${c.emoji} に isBound:false が立っていない(誤差上限ではない)`);
+        if (e.isMeasured !== false) bad.push(`③${c.emoji} に isMeasured:false が立っていない(実走ではない)`);
+        if (e.heldIsFround !== true) bad.push(`③${c.emoji} の保持質量が fround(宣言) でない`);
+        // ④ 記録の再現(0.1σ 以内 —— 同じ数え方なら小数第 1 位まで一致する)
+        if (!(Math.abs(e.nSigma - c.expectSigma) < 0.1))
+          bad.push(`④${c.emoji} が記録(${c.expectSigma}σ)を再現しない(${e.nSigma.toFixed(2)}σ)`);
+        seen.push(`${c.emoji} ULP ${ULP}・ΔP ${e.periodErrorSec.toExponential(3)} s = ${e.nSigma.toFixed(1)}σ`);
+        // ② 探索版は ULP と違う(数え方の訂正の記録 — **同じなら訂正の意味が消える**)
+        const lg = L.ulpSearchLegacy(m[0]);
+        if (!(lg > 0) || lg === ULP)
+          bad.push(`②探索版が ULP と同じ値を返している(数え方の訂正が消えている): ${lg}`);
+      }
+    }
+    add('lint.precisionUlp', bad.length === 0,
+      `Float32 の最小刻みは対象質量付近で **${ULP}(=2⁻¹¹)**(質量が [4096,8192) にあるため)`
+      + ` / ${seen.join(' / ')}`
+      + ' / 質量丸めは **診断**(isBound:false・isMeasured:false — 誤差上限でも Float64 実走の結果でもない)'
+      + ' / 旧記録 ~0.0004 の探索版は ULP ではなく「丸めが倒れるまでの距離」を返していた(第260便d で訂正)'
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+  }
 }
 
 // ---- 0b) バージョン同期(v1.15 第7次裁定 P0-1): APP_VERSION と package.json の major.minor 一致 ----
@@ -26137,6 +26229,34 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         bad.push('⑫「プリセット JSON は 1 bit も書き換えていない」の宣言が無い');
       var kf0Detail = `対照走行 ${nCtrl} 行(kFrame=0)・kFrame=1 の再現 ${nRepro} 行`;
     } catch (e) { bad.push('⑫kf0-w259d.json が読めない: ' + String(e).slice(0, 80)); }
+    // ---- 第260便d(第52報 W4)で足した 1 条件 ----
+    //   ⑬ **証拠付き予測の宣言書式**(純関数の側で固定する — 棚卸しを回さなくても確かめられる)。
+    //      `PREDICTION_EVIDENCE_FIELDS` が **9 欄**(dataset / usedForFit / validation / units /
+    //      covariance / extractor / codeHash / frozenProtocol / recordedAt)であり、
+    //      `validatePredictionEvidence` が**どれか 1 つでも欠けた宣言を弾く**こと。
+    //      **記録が 0 件であることは変わらない** —— 増えたのは「宣言に要るもの」だけである。
+    //      書式の本文は `docs/CALIBRATION_VERDICT_v1.44.md` §6′ にあり、
+    //      **文書と欄名の一致は `docs.calibration-verdict-sync` が見る**(役割を分ける)。
+    {
+      const EV = await import('file://' + path.join(ROOT, 'tests', 'lib-w258d-evidence.mjs'));
+      const FIELDS = EV.PREDICTION_EVIDENCE_FIELDS || [];
+      for (const need of ['dataset', 'usedForFit', 'validation', 'units', 'covariance',
+        'extractor', 'codeHash', 'frozenProtocol', 'recordedAt'])
+        if (FIELDS.indexOf(need) < 0) bad.push(`⑬宣言書式に ${need} が無い`);
+      const full = EV.makePredictionEvidence({ dataset: 'x', commit: 'c', harness: 'h', window: 'w',
+        recordedAt: '2026-09-13', units: 'deg/yr', covariance: { varSlope: 1 },
+        extractor: 'A(20 近点窓)', codeHash: 'deadbeef' });
+      const okFull = EV.validatePredictionEvidence(full);
+      if (!okFull.valid) bad.push(`⑬9 欄そろった宣言が通らない: ${okFull.problems.slice(0, 3).join(' , ')}`);
+      if (full.usedForFit !== false || full.validation !== 'held-out')
+        bad.push('⑬usedForFit:false / validation:"held-out" が固定されていない');
+      // 欄を 1 つずつ落として、**すべて弾かれる**ことを確かめる(4 欄だけの旧書式が通らないこと)
+      for (const k of ['dataset', 'units', 'covariance', 'extractor', 'codeHash', 'recordedAt']) {
+        const cut = { ...full }; delete cut[k];
+        if (EV.validatePredictionEvidence(cut).valid) bad.push(`⑬${k} が無くても通ってしまう`);
+      }
+      var evFieldsDetail = `宣言書式 ${FIELDS.length} 欄`;
+    }
     const mf = (j.massFloat32 && Array.isArray(j.massFloat32.rows)) ? j.massFloat32.rows : null;
     let nBody = 0;
     if (!mf || !mf.length) bad.push('⑤massFloat32 の欄が無い');
@@ -26161,6 +26281,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         + `・deg/yr の門 ${nDegYear} 行・h8 ${(j.h8 && j.h8.n) || 0} 欄`
         + ` / **第259便d**: 記録器あり・記録 ${reg ? reg.n : '—'} 件(「予測が 0 件」ではなく「記録が 0 件」)`
         + `・${typeof kf0Detail === 'string' ? kf0Detail : '対照走行が読めない'}`
+        + ` / **第260便d**: ${typeof evFieldsDetail === 'string' ? evFieldsDetail : '宣言書式が読めない'}`
+        + `(欄が 1 つでも欠けた宣言は弾かれる。**記録は 0 件のまま**)`
       : '4 段の集計が読めない';
     detail += (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : '');
   } catch (err) { detail = 'calaudit-w249.json が読めない: ' + String(err).slice(0, 140); }
@@ -26251,6 +26373,45 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         if (docRows < 8) bad.push(`⑦§3.1 の対照走行の行が 8 に足りない(${docRows} 行)`);
         if (nRows < 8) bad.push(`⑦対照走行の実測が 8 行に足りない(${nRows} 行)`);
       } catch (e) { bad.push('⑦kf0-w259d.json が読めない: ' + String(e).slice(0, 60)); }
+      // ---- 第260便d(第52報 W4)で足した 4 条件 ----
+      //   ⑨ **💫 の 3 対照が正式行である**: 3.61σ / 0.27σ / 206.16σ の 3 行が同じ表にあり、
+      //      「**UI で f を黙って切り替えない**」「本体 JSON は 1 bit も動かしていない」が書いてある。
+      //      **1 行だけ引くと意味が変わる 3 つ**なので、3 行そろっていることを機械で見る。
+      //   ⑩ **§予測(§6′)の宣言書式**: `PREDICTION_EVIDENCE_FIELDS` の**全欄名**が文書にあり、
+      //      「記録 0 件」と「測る前」が書いてある(欄を増やしたら文書も落ちる)。
+      //   ⑪ **完了定義 4 条件(§5′)**: 4 条件が並び、それぞれに**現在の距離が数で**書いてある。
+      //      「空間メッシュ優先は NS 較正の延期と同値」が明記されている。
+      //   ⑫ **🧮 の h8 の数が実測と一致する**(`tests/out/precision-w260d.json`)。
+      //      文書が測定から独立に動かないようにする(手で数字を書き換えたら落ちる)。
+      for (const need of ['3.61σ', '0.27σ', '206.16σ'])
+        if (!md.includes(need)) bad.push(`⑨💫 の 3 対照に ${need} の行が無い`);
+      if (!/UI で f を黙って切り替えない/.test(md)) bad.push('⑨「UI で f を黙って切り替えない」が無い');
+      if (!/本体 JSON は 1 bit も動かしていない/.test(md)) bad.push('⑨「本体 JSON は 1 bit も動かしていない」が無い');
+      try {
+        const EV = await import('file://' + path.join(ROOT, 'tests', 'lib-w258d-evidence.mjs'));
+        for (const f of (EV.PREDICTION_EVIDENCE_FIELDS || []))
+          if (!md.includes('`' + f + '`') && !md.includes(f)) bad.push(`⑩宣言書式の欄 ${f} が文書に無い`);
+      } catch (e) { bad.push('⑩宣言書式が読めない: ' + String(e).slice(0, 60)); }
+      if (!/記録は 0 件|記録 0 件/.test(md)) bad.push('⑩「記録 0 件」が無い');
+      if (!/宣言は\*\*測る前\*\*|測る前に/.test(md)) bad.push('⑩「宣言は測る前」が無い');
+      if (!/完了定義 4 条件|完了条件/.test(md)) bad.push('⑪完了定義 4 条件の節が無い');
+      for (const need of ['ε_num ≤0.3σ', 'eProxy ⇄ e_T', 'R の決定手続き'])
+        if (!md.includes(need) && !md.includes(need.replace('≤', '≤ '))) bad.push(`⑪完了条件 ${need} が無い`);
+      if (!/延期と同値/.test(md)) bad.push('⑪「空間メッシュ優先は NS 較正の延期と同値」が無い');
+      try {
+        const pj = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'precision-w260d.json'), 'utf8'));
+        const c = (pj.cases || [])[0] || null;
+        if (!c) bad.push('⑫precision-w260d.json に走行が無い');
+        else {
+          for (const st of (c.stages || [])) {
+            if (Number.isFinite(st.perMeanSec) && !md.includes(st.perMeanSec.toFixed(6)))
+              bad.push(`⑫🧮 の周期 dt/${st.div}(${st.perMeanSec.toFixed(6)} s)が文書に無い`);
+            if (Number.isFinite(st.degPerYear) && !md.includes(st.degPerYear.toFixed(5)))
+              bad.push(`⑫🧮 の deg/yr dt/${st.div}(${st.degPerYear.toFixed(5)})が文書に無い`);
+          }
+          if ((c.stages || []).length < 4) bad.push(`⑫🧮 の段が 4 に足りない(${(c.stages || []).length} 段)`);
+        }
+      } catch (e) { bad.push('⑫precision-w260d.json が読めない: ' + String(e).slice(0, 60)); }
       ok = bad.length === 0 && seen.length === calIds.length && calIds.length > 0;
       detail = `${seen.length}/${calIds.length} 行 = 4 値 `
         + V4.map((v) => `${v} ${seen.filter((id) => (byId.get(id) || {}).verdict4 === v).length}`).join(' / ')
