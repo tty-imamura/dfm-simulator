@@ -351,6 +351,13 @@
   #classChips .classChip[data-g^=emg-]{border-color:var(--ok);color:var(--ok);}
   /* 第92便: 現実準拠チップ(fidelity:"real" 宣言のみ) */
   #classChips .classChip[data-g=fid-real]{border-color:var(--ok);color:var(--ok);font-weight:700;}
+  /* 第261便c: 較正の現在地チップ。**赤は使わない**(赤=否は台帳の 4 値の側)。
+     灰=まだ言えない(収束確認・未完/測定再検証)・緑=実測合格・橙=要再確認 */
+  #classChips .classChip[data-g=cf-measured-pass]{border-color:var(--ok);color:var(--ok);font-weight:700;}
+  #classChips .classChip[data-g=cf-pass-expected-with-precision]{border-color:var(--acc);color:var(--acc);font-weight:700;}
+  #classChips .classChip[data-g=cf-convergence-incomplete]{border-color:var(--dim);color:var(--dim);}
+  #classChips .classChip[data-g=cf-measurement-recheck]{border-color:var(--dim);color:var(--dim);}
+  #classChips .classChip[data-g=cf-calibration-recheck]{border-color:var(--hot);color:var(--hot);}
   /* 第88便(v1.39-b1 スプリント1)EXT-01/03/04/09: 初見ガイド・役割チップ・しない主張・
      Failure First。すべて表示専用 — 物理・保存 JSON には一切影響しない */
   #fvOverlay{position:fixed;inset:0;background:rgba(5,8,18,.78);z-index:9999;display:flex;
@@ -944,6 +951,23 @@ ja: {
   bdgSC_calibration_dfmTip:"現実較正のうち、既定で空間引きずりが入っている版(physics.kFrame≠0)。DFM の効果込みで観測と突き合わせる側である(分類チップだけの派生表示 — 宣言・保存 JSON・署名には入らない)",
   bdgSC_calibration_kf0Tip:"現実較正のうち、既定で空間引きずりを切ってある版(physics.kFrame=0)。同じ観測値に対する**引きずり無しの対照**である(分類チップだけの派生表示 — 宣言・保存 JSON・署名には入らない)",
   bdgSC_semantic:"意味論表示", bdgSC_semanticTip:"光子波長など「表示物理」の意味論が主題 — 粒子力学への反作用はない(第67便 P3 分類)",
+  // 第261便c(第53報「現実較正サンプルは、数値精度が上がれば合格する事が予測出来る段階に達したら、
+  // その事をチップなどで明示して完了とする」): **較正の現在地チップ**(宣言専用メタ・presetSig 外)。
+  // 状態は 5 つだけで、**赤(=否)はこのチップには無い** —— 否は台帳の 4 値の側にある。
+  // 「収束確認・未完」「測定再検証」は**灰**で、「まだ言えない」であって否定ではない。
+  bdgCF_head:"較正の現在地",
+  "bdgCF_measured-pass":"✅ 実測合格",
+  "bdgCF_measured-passTip":"σ を持つ判定量が 3σ の門を通ったことが**実測で**確かめられている(範囲つきなら、その量だけ)。**系全体の合格とは限らない** — 範囲の欄を読むこと(第261便c)",
+  "bdgCF_pass-expected-with-precision":"🟡 精度向上で合格見込み",
+  "bdgCF_pass-expected-with-precisionTip":"**門 5 つ**(①対象量・観測版・単位・時系・窓・抽出法・f を固定/②4 段以上で除外条件なし/③隣接 3 段の次数が安定/④段ずらし Richardson が独立推定と照合済み/⑤|y∞−y_obs|+U∞ ≤ 3σ)を**すべて機械で通った**ときだけ立つ。開発上の完了として数える。**U∞ は数学的上限ではない**(第261便c・現在この状態のサンプルは 0 件)",
+  "bdgCF_convergence-incomplete":"⏳ 収束確認・未完",
+  "bdgCF_convergence-incompleteTip":"刻みの段は積んだが、門 5 つのどれかが通っていない(多くは⑤の距離)。**否定ではない** — 「まだ言えない」という手続き上の状態である(第261便c)",
+  "bdgCF_measurement-recheck":"🔎 測定再検証",
+  "bdgCF_measurement-recheckTip":"抽出器・窓・イベント列の側に確かめ直す点があり、段の値をそのまま収束の材料にできない。**否定ではない**(第261便c)",
+  "bdgCF_calibration-recheck":"🔁 較正要再確認",
+  "bdgCF_calibration-recheckTip":"宣言時の署名(presetSig)や単位が変わったので、較正の現在地を宣言し直す必要がある。**自動で立つ**(宣言のハッシュと現在の署名を突き合わせる)。**否定ではない**(第261便c)",
+  cfScope:(s)=>"(範囲: "+s+")",
+  cfTipTail:"**模型差(連続極限でも残る差)はこのチップの赤にしない** — このチップに赤は無い。判定の 4 値(合/量限定合/否/保留)は docs/CALIBRATION_VERDICT_v1.44.md の台帳が正本である。",
   // 第82便B: E水準タグ(創発の水準の宣言 — sampleClass と同方針の宣言専用メタ・自動判定しない)
   bdgE_E0:"E0 規定", bdgE_E0Tip:"創発の主張をしないサンプル(構造・運動が初期条件や外部規定でほぼ決まっている)。E水準は宣言専用のメタで、物理には一切影響しない(第82便)",
   bdgE_E1:"E1 外部駆動下の自己組織化", bdgE_E1Tip:"外部から駆動(伝熱壁・規定レール・pinned など)されている系で、局所則から構造・秩序が自発的に生じる。E水準は宣言専用のメタで、物理には一切影響しない(第82便)",
@@ -1552,6 +1576,23 @@ en: {
   bdgSC_calibration_dfmTip:"A calibrated sample whose default has frame dragging switched on (physics.kFrame is not 0), i.e. the side compared with observation WITH the DFM effect included (a chip-only derived label - never written into the declaration, the saved JSON or the signature)",
   bdgSC_calibration_kf0Tip:"A calibrated sample whose default has frame dragging switched off (physics.kFrame = 0), i.e. the NO-DRAGGING CONTROL for the same observation (a chip-only derived label - never written into the declaration, the saved JSON or the signature)",
   bdgSC_semantic:"Semantics", bdgSC_semanticTip:"The subject is the semantics of display physics (photon wavelengths etc.) — no back-reaction on particle dynamics (P3 classification, session 67)",
+  // Wave 261c (report 53): WHERE THIS CALIBRATION STANDS — a declaration-only chip, outside presetSig.
+  // There are exactly five states and NONE OF THEM IS RED: a refutation ("fails") lives in the ledger's
+  // four-valued verdict, not here. "Convergence incomplete" and "Measurement re-check" are GREY:
+  // they mean NOT YET SAYABLE, which is not a denial.
+  bdgCF_head:"Where this calibration stands",
+  "bdgCF_measured-pass":"✅ Measured pass",
+  "bdgCF_measured-passTip":"A quantity carrying an observational σ was MEASURED to pass the 3σ gate (for the declared scope only). THIS IS NOT A WHOLE-SYSTEM PASS — read the scope field (wave 261c)",
+  "bdgCF_pass-expected-with-precision":"🟡 Pass expected once precision improves",
+  "bdgCF_pass-expected-with-precisionTip":"Raised ONLY when all FIVE gates pass mechanically: (1) quantity, observation version, unit, time system, window, extractor and f are fixed and never re-fitted per step; (2) four or more steps with no excluded events; (3) the observed order is stable across shifted triples; (4) shifted-triple Richardson extrapolations are checked against an INDEPENDENT estimate; (5) |y_inf - y_obs| + U_inf <= 3σ. Counted as development-complete. U_INF IS NOT A MATHEMATICAL BOUND (wave 261c; ZERO samples are in this state today)",
+  "bdgCF_convergence-incomplete":"⏳ Convergence incomplete",
+  "bdgCF_convergence-incompleteTip":"The step ladder exists but at least one of the five gates does not pass (usually gate 5, the distance). THIS IS NOT A REFUTATION — it is the procedural state 'not yet sayable' (wave 261c)",
+  "bdgCF_measurement-recheck":"🔎 Measurement under re-check",
+  "bdgCF_measurement-recheckTip":"Something on the extractor / window / event-list side still has to be verified, so the ladder values cannot be fed to a convergence argument as they are. NOT A REFUTATION (wave 261c)",
+  "bdgCF_calibration-recheck":"🔁 Calibration must be re-declared",
+  "bdgCF_calibration-recheckTip":"The signature (presetSig) or the units changed since the declaration, so where this calibration stands has to be declared again. IT IS RAISED AUTOMATICALLY (the declared hash is compared with the current signature). NOT A REFUTATION (wave 261c)",
+  cfScope:(s)=>"(scope: "+s+")",
+  cfTipTail:"A MODEL DIFFERENCE (a residual that survives the continuum limit) IS NEVER PAINTED RED HERE - this chip has no red. The four-valued verdict (pass / partial pass / fails / held) lives in docs/CALIBRATION_VERDICT_v1.44.md.",
   // Dispatch 82B: emergence-level tag (a declaration-only tag, same policy as sampleClass — never auto-detected)
   bdgE_E0:"E0 Prescribed", bdgE_E0Tip:"A sample that makes no emergence claim: its structure and motion are essentially fixed by the initial conditions or by external prescription. The E level is declaration-only metadata and never touches the physics (dispatch 82)",
   bdgE_E1:"E1 Driven self-organization", bdgE_E1Tip:"Structure/order arises spontaneously from local rules, but the system is externally driven (thermal walls, prescribed rails, pinned bodies…). The E level is declaration-only metadata and never touches the physics (dispatch 82)",
@@ -2280,6 +2321,55 @@ function pObsCard(p){
   if(!p || !Array.isArray(p.obsCard)) return null;
   if(LANG==="en" && p.en && Array.isArray(p.en.obsCard)) return p.en.obsCard;
   return p.obsCard;
+}
+// ===== 第261便c(第53報「数値精度が上がれば合格する事が予測出来る段階に達したら、その事を
+// ===== チップなどで明示して完了とする」): **較正の現在地**の宣言(presetSig の外)=====
+// プリセットの任意鍵 `calibrationForecast:{status, scope, basis, gate, declaredSig, note}`。
+// status は下の 5 つだけで、**それ以外は落とす**(未知の状態をチップにしない)。
+// **presetSig はこの鍵を見ない**ので、署名・保存 JSON・力学・600 步の状態は 1 bit も変わらない。
+// **中身は宣言であって自動判定ではない** —— 門 5 つの機械判定は `HP.dfmForecastGate` が別に行う。
+const CALIBRATION_FORECAST_STATES=["measured-pass","pass-expected-with-precision",
+  "convergence-incomplete","measurement-recheck","calibration-recheck"];
+// 「開発上の完了として数える」状態(第53報の指示: 合格見込みも完了として数える)
+const CALIBRATION_FORECAST_COUNTED=["measured-pass","pass-expected-with-precision"];
+function calibrationForecastOf(p){
+  const f=(p&&p.calibrationForecast&&typeof p.calibrationForecast==="object")?p.calibrationForecast:null;
+  if(!f) return null;
+  if(CALIBRATION_FORECAST_STATES.indexOf(f.status)<0) return null;   // 未知の状態は落とす
+  const s=(k)=>(typeof f[k]==="string"&&f[k].trim()!=="")?f[k]:null;
+  const en=(LANG==="en"&&p.en&&p.en.calibrationForecast&&typeof p.en.calibrationForecast==="object")?p.en.calibrationForecast:null;
+  const se=(k)=>(en&&typeof en[k]==="string"&&en[k].trim()!=="")?en[k]:s(k);
+  return {status:f.status, scope:se("scope"), basis:s("basis"), note:se("note"),
+    declaredSig:s("declaredSig"),
+    gate:(f.gate&&typeof f.gate==="object")?f.gate:null};
+}
+// 署名のハッシュ(FNV-1a・16 進)。**宣言時の署名と突き合わせるためだけ**に使う
+function presetSigHash(p){
+  try{
+    const t=presetSig(p); let a=0x811c9dc5;
+    for(let i=0;i<t.length;i++){ a^=t.charCodeAt(i)&0xff; a=Math.imul(a,0x01000193)>>>0; }
+    return a.toString(16);
+  }catch(e){ return null; }
+}
+// **署名が宣言時と変わっていたら自動的に「較正要再確認」へ倒す**(宣言を放置して古い状態を
+// 見せ続けないための機械の線)。declaredSig を宣言していないサンプルは倒さない(判定できない)
+function calibrationReviewBadge(p){
+  const f=calibrationForecastOf(p); if(!f) return null;
+  if(!f.declaredSig) return {status:f.status, checked:false, sigChanged:null, sigNow:null, declaredSig:null};
+  const now=presetSigHash(p);
+  const changed=(now!==null && now!==f.declaredSig);
+  return {status:changed?"calibration-recheck":f.status, checked:true, sigChanged:changed,
+    sigNow:now, declaredSig:f.declaredSig};
+}
+// 表示用の派生(「開発上の完了として数えるか」)。**宣言には書かない**
+function calibrationCompletion(p){
+  const b=calibrationReviewBadge(p); if(!b) return null;
+  const f=calibrationForecastOf(p);
+  return {status:b.status, scope:f?f.scope:null,
+    countedAsComplete:CALIBRATION_FORECAST_COUNTED.indexOf(b.status)>=0,
+    sigChanged:b.sigChanged,
+    note:"**判定の 4 値(合/量限定合/否/保留)とは別の軸である。**「収束確認・未完」「測定再検証」は"
+      +"否定ではない(まだ言えない)。**模型差はこのチップの赤にしない** —— このチップに赤は無い。"};
 }
 function paramLabel(def){ return (LANG==="en" && I18N.en.params[def.key]) || def.label; }
 // v1.21: パラメータ名タップの説明文(ja=PARAM_DEFS.desc / en=I18N.en.paramDescs)
@@ -8181,6 +8271,14 @@ const BUILTIN_PRESETS = [
   sampleClass:"calibration",
   fidelity:"real",   // 両星の質量・半径・自転と相対軌道の a・e・P がすべて出典表(Akeson et al. 2021 ほか)の転写
   notClaim:["solar_cal"],
+  // 第261便c(第53報): 較正の現在地(**宣言専用メタ・presetSig の外**・力学は 1 bit も変わらない)。
+  // 台帳の 4 値では**量限定合** —— 周期 1 量だけが 3σ を通り、離心率は写像未確定である。
+  calibrationForecast:{ status:"measured-pass", scope:"公転周期(同方向1周)のみ",
+    basis:"docs/CALIBRATION_VERDICT_v1.44.md §2.2・§4′ / tests/out/calaudit-w249.json",
+    // 宣言時の presetSig ハッシュ。**これが変われば自動で「較正要再確認」へ倒れる**(第261便c)
+    declaredSig:"8b8c57d3",
+    note:"周期 +0.00228%(0.096σ)だけが実測で 3σ を通っている。離心率は eProxy⇄e_T の写像が未確定で、同じ系の中に通っていない量が残る(**系の合格ではない**)。",
+    gate:{scope:"部分量・実測合格なので門 5 つの対象外", passed:null, of:5} },
   obsCard:[
     {q:"公転周期(kFrame=0 採用側)", model:"79.7647 年(+0.0034%)", obs:"79.762 ± 0.019 年(Akeson et al. 2021 Table 8)"},
     {q:"実測離心率(1公転の半径比振れ幅)", model:"0.51947(転写値と表示桁一致)", obs:"e=0.51947 ± 0.00015(転写)"},
@@ -8196,6 +8294,8 @@ const BUILTIN_PRESETS = [
     observe:"kFrame=0(採用側)は1公転を完走して実測 79.7647 年(観測 79.762 年・+0.0034%)、1公転の半径比振れ幅から出る実測離心率 0.51947 は転写した e=0.51947 と表示桁で一致する(近点 1.675×10¹²m・遠点 5.296×10¹²m)。A/B の測定側 kFrame=1 では E6′ 運動引きずりが転写軌道を保てない: 近点位相の自己診断 400步(0.3%公転)で +0.0029% — 1公転換算 1.14%(第242便 pull・share 期は 133.54% で差し戻し)— と診断され、遠点発 0.56公転窓で接触要素周期が −0.43% 縮むだけで軌道は近点にほぼ届く(半径範囲 167.1〜529.6 単位・転写近点 167.5。cmGauge 無宣言の測定側は重心も 0.0057 単位しか歩かない — 第209便の機構)。初期位相は**遠点整列**(第211便 — 恒星二体の規約。✴️ DFM 版と初期位相を統一し、自己診断だけを感度最大の近点位相の複製で行う)。χ=W/(D₀+W) は近点で A 0.947/B 0.955・遠点で 0.851/0.871 — 質量比 0.8428 の対等質量系では**両星が同時に高 χ** を持ち、「反作用を吸収する支配的中心」が無い(第197便の合成連星〔値は架空〕で見つけた χ 系列の対等質量極限が、実在の連星で最初に成立した例)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.alphaCenAB)。",
     control:"ワンタップ対照A/B: B側 kFrame=1(**測定側**)— 観測安定則により既定の対照の向きが他の実較正系と逆で、押すと引きずり項の永年成長そのものが見える(接触要素周期が伸び続け軌道が開いていく)。timeScale=1000 で画面1秒≈11.6 日。表示は dispMag=300(恒星は 0.085/0.060 単位の点 — 表示専用)・トレイルで軌道を見る。camera.scale=630 は遠点 529.6 単位×1.2 の規約値。"},
   en:{name:"Alpha Centauri AB (Real Units) — the stellar binary two-body",
+    calibrationForecast:{ scope:"the orbital period (same-direction revolution) only",
+      note:"Only the period passes 3σ as measured (+0.00228%, 0.096σ). The eccentricity has no settled eProxy-to-e_T mapping, so a quantity that does NOT pass remains inside the same system - THIS IS NOT A WHOLE-SYSTEM PASS."},
     obsCard:[
       {q:"Orbital period (kFrame=0, adopted)", model:"79.7647 yr (+0.0034%)", obs:"79.762 ± 0.019 yr (Akeson et al. 2021 Table 8)"},
       {q:"Measured eccentricity (radius-ratio wobble over one orbit)", model:"0.51947 (matches the transcription to the shown digits)", obs:"e=0.51947 ± 0.00015 (transcribed)"},
@@ -8468,6 +8568,13 @@ const BUILTIN_PRESETS = [
   sampleClass:"calibration",
   fidelity:"real",   // 両星の質量・半径と相対軌道の a・e・P がすべて出典表(Bond et al. 2017)の転写(自転は出典に確定値なし — spin=0 宣言)
   notClaim:["solar_cal"],
+  // 第261便c(第53報): 較正の現在地(**宣言専用メタ・presetSig の外**)。台帳の 4 値では**量限定合**。
+  calibrationForecast:{ status:"measured-pass", scope:"公転周期(同方向1周)のみ",
+    basis:"docs/CALIBRATION_VERDICT_v1.44.md §2.2・§4′ / tests/out/calaudit-w249.json",
+    // 宣言時の presetSig ハッシュ。**これが変われば自動で「較正要再確認」へ倒れる**(第261便c)
+    declaredSig:"63359204",
+    note:"周期 +0.00235%(0.274σ)だけが実測で 3σ を通っている。離心率は写像未確定で、同じ系の中に通っていない量が残る(**系の合格ではない**)。",
+    gate:{scope:"部分量・実測合格なので門 5 つの対象外", passed:null, of:5} },
   obsCard:[
     {q:"公転周期(kFrame=0 採用側)", model:"50.1306 年(+0.0043%)", obs:"50.1284 ± 0.0043 年(Bond et al. 2017 Table)"},
     {q:"実測離心率(1公転の半径比振れ幅)", model:"0.59142(転写値と表示桁一致)", obs:"e=0.59142 ± 0.00037(転写)"},
@@ -8485,6 +8592,8 @@ const BUILTIN_PRESETS = [
     observe:"kFrame=0(採用側)は1公転を完走して実測 50.1306 年(観測 50.1284 年・+0.0043%)、1公転の半径比振れ幅から出る実測離心率 0.59142 は転写した e=0.59142 と表示桁で一致する(近点 1.209×10¹²m・遠点 4.710×10¹²m)。重心移動 4.1×10⁻⁶ 単位/1.05公転・粒子+リザーバ P 残差 1×10⁻¹⁶(機械ゼロ)。A/B の測定側 kFrame=1 は転写軌道を保てない: 近点複製の自己診断は 400步の試走で推定周期が 1.830% までずれ(観測安定則の差し戻し理由)、遠点発 0.56公転窓で接触要素周期が −0.94% 縮むだけで軌道は近点にほぼ届く(半径範囲 120.1〜471.0 単位・転写近点 120.9。cmGauge 無宣言の測定側は重心も 0.028 単位しか歩かない — 第209便の機構)。kFrame=0 のドリフト外挿 1.26%/公転(発火)は1公転の同位相クロージャ 2.8×10⁻⁴% で**位相振動**と確定(第214便の新判定則 — est プロファイルは近点発 3.6%公転の +2.4×10⁻⁴ で折り返す実測。αケンタウリは同じ振動の振幅が約1/5で外挿閾値に届かなかった)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.siriusAB)。",
     control:"ワンタップ対照A/B: B側 kFrame=1(測定側)— 押すと引きずり項が軌道を保てない様子(接触要素周期の縮小と近点喪失)が見える。timeScale=300 で1公転が実時間 約5.5秒(規約)。表示は dispMag=300(A は 0.119 単位・B は下限 0.01 単位の点 — 白色矮星の実半径は表示不能に小さい)・トレイルで軌道を見る。camera.scale=560 は遠点分離 470.98 単位×1.2 の規約値。✨ αケンタウリAB と並べると「同じ規約・違う連星(対等質量 vs 白色矮星連星)」の比較ができる。"},
   en:{name:"Sirius AB (Real Units) — the white-dwarf binary",
+    calibrationForecast:{ scope:"the orbital period (same-direction revolution) only",
+      note:"Only the period passes 3σ as measured (+0.00235%, 0.274σ). The eccentricity mapping is unsettled, so a quantity that does NOT pass remains inside the same system - THIS IS NOT A WHOLE-SYSTEM PASS."},
     obsCard:[
       {q:"Orbital period (kFrame=0, adopted)", model:"50.1306 yr (+0.0043%)", obs:"50.1284 ± 0.0043 yr (Bond et al. 2017)"},
       {q:"Measured eccentricity (radius-ratio wobble)", model:"0.59142 (matches the transcription to the shown digits)", obs:"e=0.59142 ± 0.00037 (transcribed)"},
@@ -8950,6 +9059,13 @@ const BUILTIN_PRESETS = [
   fidelity:"real",   // 幾何(遠点分離・遠点速度・半径 proxy)は 📻 と同じ転写。質量だけが宣言つき1ノブ較正。
                      // 第221便(第20報): コアv2 有効 — B の観測自転 ω=22.6547 を**コア Ω として転写**(殻 spin 値域 ±20 の外・コア Ω 値域 ±50 内)
   notClaim:["solar_cal"],
+  // 第261便c(第53報): 較正の現在地(**宣言専用メタ・presetSig の外**)。**合格見込みは立てていない**。
+  calibrationForecast:{ status:"measurement-recheck", scope:"近点間 P・近点移動",
+    basis:"docs/CALIBRATION_VERDICT_v1.44.md §5.6 / tests/out/richardson-w261c.json・tests/out/precision-w261c.json",
+    // 宣言時の presetSig ハッシュ。**これが変われば自動で「較正要再確認」へ倒れる**(第261便c)
+    declaredSig:"7b3f6a36",
+    note:"近点移動は h/16 まで細かくしても観測次数が段ごとに動く(漸近域に入らない)。第261便c のイベント列監査では重複検出 0・unwrap 失敗 0・20/20 検出なので、**原因は抽出器ではない**(未同定である)。",
+    gate:{passed:0, of:5, failed:["(3) 次数が安定しない","(4) 独立推定が無い","(5) 距離が 3σ に遠い"]} },
   obsCard:[
     {q:"公転周期(kFrame=1・χ-law 粒子別質量 — 2 定義)", model:"近点間 8737.37 秒(−1.100%・既定 dt・窓20近点。dt 収束側は 🧿 の 8834.02 秒 −0.006%)/ 同方向1周 2周目 8819.52 秒(−0.17% — 履歴)", obs:"8834.534723278 s(Hu et al. 2022)"},
     {q:"hold-out(離心率と近点 — 第246便で1行に統合)", model:"e=0.087976(+0.23%)・近点 801.37 単位(観測版 801.72 の −0.04%)— P 較正が hold-out の e も当てる(3例目)", obs:"e=0.087777036(転写)/ 近点は照合のみ — fit の対象ではない"},
@@ -8967,6 +9083,8 @@ const BUILTIN_PRESETS = [
     observe:"実測(4.3公転窓・重心ゲージ込み・第245便 A6 の一次則質量): 周回時間 [8829.44, 8819.52, 8809.76] 秒 — **2周目 8819.52 秒は観測 8834.534723278 秒の −0.17%**(fit 対象)。合わせていない側: 1周目の実測離心率 0.087976(転写 0.087777036 の +0.23%)・近点 801.37 単位(観測版の 801.72 の −0.04%)— **P に合わせた C が e と近点も ±1% で当てる**(e は独立な hold-out・近点は遠点固定下で e と同値の整合表示 — 3例目)。軌道は歳差するロゼットで**近点移動 +0.0095848°/周**(順行 — 近点通過方向の実測・**窓 20 近点**〔第255便d で統一〕。kF1 引きずり項自身の帰結であることは ✴️ 第211便の機構同定を参照)、周期は −0.11%/周で単調に収縮する(kF1 に厳密な閉軌道・定常はない — 宣言)。公転の向きは 📻 と同回り。二層構造の実測(第221便): **B のコア Ω は 22.654675(観測自転の転写 — 独立予測ではない)から 4.3公転でドリフト +0.38%** の範囲で保持(dt/2 で +0.16% — 大半が刻み依存・第225便)・A のコア Ω(受け皿・Ω₀=0)は +0.090 まで(E6′-R 偶力の記帳分)。殻スピンは保持される(第222便 — 1PN 偶力の受け先ルーティング後): 4.3公転で殻 spin=0 が全窓ビット保持(ドリフト 0.0%・clampSN=0)— **帳簿 L 残差 2.0×10⁻¹⁴**(機械ゼロ。粒子+リザーバ P 残差は 1.5×10⁻¹⁴ で閉)。周期短縮の対照行列(第223便で QA 機械固定): kF0 で消滅・geoPN=0/D₀=0/受け皿/ゲージの各対照で不変(0.10〜0.13 の同窓 — QA が機械固定)— kF1 キック経路に固有。**dt 収束**: dt 半減で 0.1107→0.0553、dt/4 で 0.0290%/公転(ほぼ線形)= 連続極限で消える離散化仕事(遠点ごとの E_orb 深化も同根)。近点移動の現行判定は**較正の従属量**である(第248便b): **第254便d で本体に `framePrecision:\"double\"` を宣言した**(引きずり場の 9 配列だけ Float64・第247便a の実験機能)。**旧 native 値の履歴**: 宣言前は近点移動 +0.008775°/周・2周目 8819.36 秒・e 0.087977・近点 801.3723・窓 20 近点 3 段の p_obs=−2.88(dt 収束せず — 第246便 D2 の「数値床」)で、4.3公転窓に近点を 5 個(倍精度は 4 個)拾う重複検出があった(第253便b まで)。宣言後は同じ窓 3 段で p_obs=2.66・ε_num=1.16×10⁻⁴(観測の 2.45%)・Richardson 外挿 0.0094716°/周、その全量が測地線1PN(E12)チャネルに乗る(λ_PN=0 で 6×10⁻⁷ まで消え、spinDipole を外してもビット同一)。走った M・a・e を入れた GR 1PN 式 6πGM/(c²a(1−e²)) と 5 桁一致するので、**観測換算 0.00473°/周 のちょうど 2 倍になるのは較正質量 f≈2 が ω̇ の式に入るため**であって、独立な予言でも数値の産物でもない(周期は f≈2 を・ω̇ は f≈1 を要求し、同じ f では両立しない)。第246便 D2 の「未認定」・第223便の「dt 収束 — 物理」はいずれも旧判定である。重心移動 3.7×10⁻⁴ 単位/4.3公転(機械ゼロ)。パルス時計チャネル(第226便): A 位相 1.674×10⁶ 回転・平均 22.699379 ms・B 平均 2.773461 s(いずれも宣言 2π/ω と相対 3×10⁻¹² 以内 — 解析積分)。pulse 宣言の有無で 400 step 軌道ビット一致(力学不干渉)。B は力学コア時計(−0.4%/4.3公転)との並置比較が読める。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.psrDoubleAB)。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。",
     control:"ワンタップ対照A/B: B側 kFrame=0(観測版の計算式側)— **同じ初期状態・同じ較正質量(×1.996)**では引力が過剰になり、軌道は深い楕円へ落ち込む(実測: 近点 〜283 単位・実測離心率 〜0.543・1周目 〜3702 秒)。この較正は kFrame=1 専用であることの機械対照。否定対照(QA が機械固定): **cmGauge を外すと重心が歩き出す**(0.5公転で 0.171 単位)。**coupleSink を外すと殻が ±40 飽和へ走り出す**(0.3公転で clampSN 8.6×10³ — 第222便のルーティングが保持の駆動因であることの機械対照)。観測版 📻 と本サンプルの対で「同じ観測・違う計算式・違う質量」が3例目の連星でも見える。B の粒子をタップするとコア(v2)読み出しに観測自転由来のコア Ω が見える。timeScale=300 で1公転が実時間 約3.1秒・dispMag=1000(表示専用)・トレイルで軌道を見る。"},
   en:{name:"Double Pulsar J0737−3039A/B (DFM build) — the kF1 mass calibration",
+    calibrationForecast:{ scope:"periastron-to-periastron P and the periastron advance",
+      note:"The periastron advance never reaches the asymptotic regime, even at h/16. The wave-261c event-list audit finds ZERO duplicate detections, ZERO unwrap failures and 20/20 detections, so THE EXTRACTOR IS NOT THE CAUSE - the cause is not identified."},
     obsCard:[
       {q:"Orbital period (kFrame=1, χ-law per-body masses — two definitions)", model:"periastron-to-periastron 8737.37 s (−1.100% at the default dt over the 20-periastron window; the dt-converged side is 🧿's 8834.02 s, −0.006%) / same-direction 2nd revolution 8819.52 s (−0.17% — historical)", obs:"8834.534723278 s (Hu et al. 2022)"},
       {q:"Hold-outs (eccentricity and periastron — merged into one row in wave 246)", model:"e=0.087976 (+0.23%); periastron 801.37 units (−0.04% of the observation build's 801.72) — the calibration fitted to P also lands the hold-out e (3rd reproduction of the ✨✴️🌟💫 structure)", obs:"e=0.087777036 (transcribed); the periastron is compared only, never fitted"},
@@ -9266,6 +9384,13 @@ const BUILTIN_PRESETS = [
   sampleClass:"calibration",
   fidelity:"real",   // 幾何・半径 proxy・自転は観測転写。質量は ⚡ と同じ一次則の値(fit ではない)
   notClaim:["solar_cal"],
+  // 第261便c(第53報): 較正の現在地(**宣言専用メタ・presetSig の外**)。**合格見込みは立てていない**。
+  calibrationForecast:{ status:"convergence-incomplete", scope:"近点間 P",
+    basis:"docs/CALIBRATION_VERDICT_v1.44.md §5.4・§5.6 / tests/out/richardson-w261c.json",
+    // 宣言時の presetSig ハッシュ。**これが変われば自動で「較正要再確認」へ倒れる**(第261便c)
+    declaredSig:"9dd447b2",
+    note:"4 量とも漸近域に居る(門 3)が、**漸近域と 3σ は別の門である**。収束先へ外挿しても観測との差は 10⁵σ 台で、これは刻みを細かくしても残る差(模型差)である。",
+    gate:{passed:0, of:5, failed:["(4) 独立推定が無い","(5) 距離が 3σ に遠い"]} },
   obsCard:[
     {q:"近点移動(**hold-out** — 較正に使っていない)", model:"+0.010407°/周(dt=0.001・引きずり場 倍精度・近点検出 2 方式の差 8×10⁻⁸)", obs:"+0.0052085°/周(ω̇=10.3651°/yr と P=15857.669 s からの換算)"},
     {q:"**比の別欄(第256便d)**: 較正質量での 1PN 値 = 観測の f 倍", model:"DFM/観測=**2.0020**(h/4・3段収束・窓20近点)。⚡ 2.0014・🩺 2.0023・🧶 2.0258 — 4 連星で同じ比。**3σ 一致は主張しない**(ε_num が σ の 10³倍超)", obs:"較正質量 fM がそのまま E12 の 1PN チャネルへ入る**較正の従属量**であって、独立な hold-out ではない。λ_PN=1/f の候補は variant 🪃 で"},
@@ -9284,6 +9409,8 @@ const BUILTIN_PRESETS = [
     observe:"実測(4.6公転窓・近点 4 個の位相 fit・引きずり場 倍精度): **近点移動 +0.010407°/周**(dt=0.001。dt 0.008→0.004→0.002→0.001 で 0.0104161→0.0104106→0.0104082→0.0104071 と収束し、近点検出 2 方式の差は 8×10⁻⁸)。観測換算は 0.0052085°/周(ω̇=10.3651°/yr)なので **DFM/GR 比 1.998**。合わせていない側: 近点間周期 15853.35 秒(観測 15857.669 s の −0.027%)・実測離心率 0.605972(転写 0.6058142 の +0.026%)。近点間周期は単調に縮み、率は dt に厳密に比例する(0.1109→0.0555→0.0277→0.0139%/周 — ⚡ と同じ離散化仕事)。感度表(tests/exp-w248a.mjs): 伴星スピンを 0(未観測)/ 仮定 10 ms / 仮定 100 ms と変えても軌道は 400 步ビット一致(λ 既定では spinDipole は力学に触れない)、半径を 11 / 11.75 / 13 km と変えても近点移動は 10 桁一致 — 動くのは η=|F_SS|/|F_N| だけで、仮定 10 ms・半径 11→13 km で 5.0×10⁻¹⁵→9.7×10⁻¹⁵。NaN ゼロ・clamp ゼロ。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。",
     control:"ワンタップ対照A/B: B側 **kFrame=0**(観測版の計算式側)— 同じ初期状態・同じ較正質量(×2.0)では引力が過剰になり軌道が深い楕円へ落ちる(⚡ と同じ機械対照: この質量は kFrame=1 専用)。**⚡(J0737)・🩺(J1946)と並べて見る**のが本サンプルの使い方 — 3 系とも近点移動の DFM/GR 比が 1.998 / 1.997 / 1.998 に揃う。伴星の自転は未観測なので、粒子をタップしても伴星側に spinDipole の読み出しは無い(「未知」であることが見えるのが宣言)。timeScale=500 で1公転が実時間 約3.2秒・dispMag=1000(表示専用)・トレイルで軌道を見る。"},
   en:{name:"PSR J1757−1854 (DFM build, hold-out) — ⚡'s recipe applied unchanged to a second neutron-star binary",
+    calibrationForecast:{ scope:"periastron-to-periastron P",
+      note:"All four quantities sit in the asymptotic regime (gate 3), BUT THE ASYMPTOTIC GATE AND THE 3-SIGMA GATE ARE DIFFERENT GATES. Extrapolated to the continuum limit the residual is still of order 1e5 sigma - a difference that a finer step does not remove."},
     obsCard:[
       {q:"Periastron advance (A HOLD-OUT — nothing was calibrated here)", model:"+0.010407°/orbit (dt=0.001, double-precision dragging field; the two periastron detectors differ by 8e-8)", obs:"+0.0052085°/orbit (converted from omega_dot=10.3651°/yr and P=15857.669 s)"},
       {q:"RATIO — A SEPARATE FIELD (wave 256d): the 1PN value at the calibrated mass is f times the observation", model:"DFM/observed = 2.0020 (h/4, three-step converged, 20-periastron window); ⚡ 2.0014, 🩺 2.0023, 🧶 2.0258 — the same ratio on four binaries. NOT A CLAIM OF 3σ AGREEMENT (eps_num exceeds σ by >10³)", obs:"The calibrated mass fM enters E12's 1PN channel unchanged, so this is a DEPENDENT quantity of the calibration, not an independent hold-out. The lambdaPN=1/f candidate lives in the variant 🪃"},
@@ -9388,6 +9515,13 @@ const BUILTIN_PRESETS = [
   sampleClass:"calibration",
   fidelity:"real",
   notClaim:["solar_cal"],
+  // 第261便c(第53報): 較正の現在地(**宣言専用メタ・presetSig の外**)。**合格見込みは立てていない**。
+  calibrationForecast:{ status:"measurement-recheck", scope:"近点間 P",
+    basis:"docs/CALIBRATION_VERDICT_v1.44.md §5.6 / tests/out/precision-w261c.json・tests/out/richardson-w261c.json",
+    // 宣言時の presetSig ハッシュ。**これが変われば自動で「較正要再確認」へ倒れる**(第261便c)
+    declaredSig:"be972f1",
+    note:"粗い刻みで同じ近点が何度も検出されていた(旧抽出器の欠陥)。第261便c で累積公転位相 1.5π の制限を入れて測り直した。**観測版 v2(DDFWHE)は台帳行であって、本サンプルと builder の入力は版 v1 のままである**(黙って置換していない)。",
+    gate:{passed:0, of:5, failed:["(4) 独立推定が無い","(5) 距離が 3σ に遠い"]} },
   obsCard:[
     {q:"近点移動(**hold-out** — 較正に使っていない)", model:"+0.011069°/周(dt=0.001・引きずり場 倍精度・近点検出 2 方式の差 6×10⁻⁷)", obs:"+0.0055424°/周(ω̇=25.79205°/yr と P=6781.367 s からの換算)"},
     {q:"**比の別欄(第256便d)**: 較正質量での 1PN 値 = 観測の f 倍", model:"DFM/観測=**2.0023**(h/4・3段収束・窓20近点)。⚡ 2.0014・🧮 2.0020・🧶 2.0258 — 4 連星で同じ比。**3σ 一致は主張しない**(ε_num が σ の 10⁴倍超)", obs:"較正質量 fM がそのまま E12 の 1PN チャネルへ入る**較正の従属量**であって、独立な hold-out ではない。λ_PN=1/f の候補は variant 🪀 で"},
@@ -9406,6 +9540,8 @@ const BUILTIN_PRESETS = [
     observe:"実測(4.6公転窓・近点 4 個の位相 fit・引きずり場 倍精度): **近点移動 +0.011069°/周**(dt=0.001。dt 0.008→0.004→0.002→0.001 で 0.012434→0.010997→0.011076→0.011069 — 1公転が 678 単位しかないので dt=0.008 では 12% 高く出る。dt≤0.002 で 3 桁安定・近点検出 2 方式の差 6×10⁻⁷)。観測換算 0.0055424°/周 に対し **DFM/GR 比 1.997**。合わせていない側: 近点間周期 6780.92 秒(観測 6781.366656 s の **−0.0066%** — 3 例中の最良)・実測離心率 0.063986(転写 0.063848 の +0.216%)。感度表(tests/exp-w248a.mjs): 伴星スピンを 0 / 仮定 10 ms / 仮定 100 ms と変えても軌道は 400 步ビット一致、半径 11 / 11.75 / 13 km でも近点移動は 10 桁一致 — 動くのは η だけで、仮定 10 ms・半径 11→13 km で 4.7×10⁻¹⁴→9.1×10⁻¹⁴(⚡ の観測 Q での 1.09×10⁻¹⁶ より 3 桁大きいが、これは**仮定**のスピンが作る値である)。NaN ゼロ・clamp ゼロ。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。",
     control:"ワンタップ対照A/B: B側 **kFrame=0** — 同じ初期状態・同じ較正質量(×2.0)では引力が過剰になり軌道が深い楕円へ落ちる(この質量は kFrame=1 専用であることの機械対照)。**⚡(J0737・ω̇ 16.90°/yr)・🧮(J1757・10.37°/yr)・本サンプル(25.79°/yr)を並べる**と、ω̇ が 2.5 倍違っても DFM/GR 比が 1.998 / 1.998 / 1.997 に揃うのが読める。伴星をタップしても spinDipole の読み出しは無い(未観測であることが見える)。timeScale=230 で1公転が実時間 約2.9秒・dispMag=1000(表示専用)。"},
   en:{name:"PSR J1946+2052 (DFM build, hold-out) — the shortest-period neutron-star binary in the Galaxy",
+    calibrationForecast:{ scope:"periastron-to-periastron P",
+      note:"At coarse steps the SAME periastron was detected several times (a defect of the old extractor). Wave 261c re-measured it with a 1.5-pi cumulative-orbital-phase gate. RECORD VERSION v2 (DDFWHE) IS A LEDGER ROW ONLY: this sample and every builder input still use version v1 - nothing was silently replaced."},
     obsCard:[
       {q:"Periastron advance (A HOLD-OUT — nothing was calibrated here)", model:"+0.011069°/orbit (dt=0.001, double-precision dragging field; the two detectors differ by 6e-7)", obs:"+0.0055424°/orbit (converted from omega_dot=25.79205°/yr and P=6781.367 s)"},
       {q:"RATIO — A SEPARATE FIELD (wave 256d): the 1PN value at the calibrated mass is f times the observation", model:"DFM/observed = 2.0023 (h/4, three-step converged, 20-periastron window); ⚡ 2.0014, 🧮 2.0020, 🧶 2.0258 — the same ratio on four binaries. NOT A CLAIM OF 3σ AGREEMENT (eps_num exceeds σ by >10⁴)", obs:"The calibrated mass fM enters E12's 1PN channel unchanged, so this is a DEPENDENT quantity of the calibration, not an independent hold-out. The lambdaPN=1/f candidate lives in the variant 🪀"},
@@ -10217,6 +10353,13 @@ const BUILTIN_PRESETS = [
   sampleClass:"calibration",
   fidelity:"real",
   notClaim:["solar_cal"],
+  // 第261便c(第53報): 較正の現在地(**宣言専用メタ・presetSig の外**)。**合格見込みは立てていない**。
+  calibrationForecast:{ status:"convergence-incomplete", scope:"近点間 P",
+    basis:"docs/CALIBRATION_VERDICT_v1.44.md §5.3・§5.6 / tests/out/richardson-w261c.json",
+    // 宣言時の presetSig ハッシュ。**これが変われば自動で「較正要再確認」へ倒れる**(第261便c)
+    declaredSig:"5888662e",
+    note:"3 量とも漸近域に居る(門 3)が、収束先へ外挿しても観測との差は 10⁷σ 台である。**漸近域に入ったことは 3σ に近づいたことではない。**",
+    gate:{passed:0, of:5, failed:["(4) 独立推定が無い","(5) 距離が 3σ に遠い"]} },
   obsCard:[
     {q:"DFM 質量(条件つき較正 — 実在値の主張ではない)", model:"f=1.9994855(⚡ と同じ一次則 f=1+k_F(αχ_A+βχ_B) を本系で**1 回評価**した値・fit ノブなし): 2.6647/2.6897 M☉。χ=0.99949/0.99948", obs:"—(kFrame=1 の計算式に条件づけられた較正値)"},
     {q:"近点移動(**hold-out の本題** — 2 倍超過が 4 例目でも出るか)", model:"〔比の別欄〕DFM/観測=**2.0258**(h/4・3段収束・窓20近点)。⚡ 2.0014・🧮 2.0020・🩺 2.0023 より 1.2% 大きい。**3σ 一致は主張しない**(ε_num が σ の 10³倍)", obs:"+0.0020225°/周(ω̇=1.755789(9)°/yr の換算・σ=9×10⁻⁶°/yr)"},
@@ -10235,6 +10378,8 @@ const BUILTIN_PRESETS = [
     observe:"実測(5 近点窓・dt=0.004): **近点移動 +0.0040959°/周**(観測換算 0.0020225°/周 の **+102.5%** = 比 2.025)。既定 dt=0.016 では +0.0041003(+102.7%)。合わせていない側: 近点間周期 36328.38 秒(観測 36351.7026 s の −0.064%。既定 dt では 36306.00 秒 = −0.126%)・実測離心率 0.274054(転写の +0.138%)。NaN 0・安全クランプ 0。**比が 2.000 ではなく 2.025 であること**が本サンプルの中心的な測定で、第252便a の分解では**その差の全部が A0**(λ_PN=0 の基線 +0.0000568°/周 = 観測の +2.81%・dt 0.004 と 0.001 で不変)である。**周期は定義を宣言してから合否を言う**(裁定 I6)。",
     control:"ワンタップ対照A/B: B側 **kFrame=0** — 較正質量のままでは引力が過剰になり深い楕円へ落ちる(較正が kFrame=1 専用であることの機械対照)。📿(観測版)→本サンプル→🪤(CF 版)の順に見ると、「同じ観測・違う計算式・違う質量」と「足した力が 2 倍をどこまで直すか」が続けて読める。timeScale=1000 で1公転が実時間 約3.6秒・dispMag=1000(表示専用)。"},
   en:{name:"PSR B1534+12 (DFM build, frozen hold-out) — ⚡'s recipe applied unchanged to a fourth binary",
+    calibrationForecast:{ scope:"periastron-to-periastron P",
+      note:"All three quantities sit in the asymptotic regime (gate 3), yet extrapolating to the continuum limit still leaves a residual of order 1e7 sigma. REACHING THE ASYMPTOTIC REGIME IS NOT THE SAME AS APPROACHING 3 SIGMA."},
     obsCard:[
       {q:"DFM masses (a conditional calibration — NOT real-mass claims)", model:"f=1.9994855 (⚡'s linear law f=1+k_F(αχ_A+βχ_B) EVALUATED ONCE on this system; no fitted knob): 2.6647 / 2.6897 M_sun, chi=0.99949 / 0.99948", obs:"— (a calibration conditioned on the kFrame=1 formula)"},
       {q:"Periastron advance (THE POINT OF THE HOLD-OUT: does the factor of two reappear?)", model:"[RATIO — A SEPARATE FIELD] DFM/observed = 2.0258 (h/4, three-step converged, 20-periastron window), 1.2% above ⚡ 2.0014 / 🧮 2.0020 / 🩺 2.0023. NOT A CLAIM OF 3σ AGREEMENT (eps_num exceeds σ by ~10³)", obs:"+0.0020225°/orbit (from omega_dot=1.755789(9)°/yr; sigma 9e-6 °/yr)"},
@@ -28817,6 +28962,21 @@ function renderHelp(){
     SCALE_EMOJI[cls.scaleTier]+" "+T("scaleName_"+cls.scaleTier), T("bdgScaleTip"));
   // 第92便: 現実準拠チップ — fidelity:"real" 宣言のあるプリセットにだけ表示(宣言なし=トイが既定)
   if(cls.fidelity==="real") addChip("fid-real", T("bdgFidReal"), T("bdgFidRealTip"));
+  // 第261便c: 較正の現在地チップ — calibrationForecast 宣言のあるサンプルにだけ出す。
+  // **署名が宣言時と変わっていれば自動的に「較正要再確認」**へ倒す(calibrationReviewBadge)。
+  // **赤は使わない**(赤=否は台帳の 4 値の側・模型差をこのチップの赤にしない)
+  {
+    const cf=calibrationForecastOf(currentPreset), cb=calibrationReviewBadge(currentPreset);
+    if(cf && cb){
+      addChip("cf-"+cb.status,
+        T("bdgCF_"+cb.status)+(cf.scope? " "+T("cfScope")(cf.scope) : ""),
+        T("bdgCF_"+cb.status+"Tip")
+          +(cf.note? "\n"+cf.note : "")
+          +(cf.basis? "\n"+cf.basis : "")
+          +(cb.sigChanged? "\n"+"presetSig "+cb.declaredSig+" → "+cb.sigNow : "")
+          +"\n"+T("cfTipTail"));
+    }
+  }
   // 第51便 51B(原仮定者指示): 引きずりタグ — kFrame>0 の系に表示(A8/E6′ が働く系の目印。
   // 0にすると引きずりなしの対照になることをツールチップで案内)
   if(currentPreset.physics && currentPreset.physics.kFrame>0) addChip("drag",T("bdgDrag"),T("bdgDragTip"));
@@ -28922,6 +29082,22 @@ function renderHelp(){
     if(oc && oc.length){
       const box=document.createElement("div"); box.className="ffBox ocBox";
       const bh=document.createElement("div"); bh.className="ffHead"; bh.textContent=T("ocHead"); box.appendChild(bh);
+      // 第261便c: 観測結果カードの**先頭 1 行**に較正の現在地を出す(宣言のあるサンプルのみ)。
+      // obsCard の行数(≤8 行)は宣言のままで、この 1 行は宣言ではなく派生表示である
+      {
+        const cf=calibrationForecastOf(currentPreset), cb=calibrationReviewBadge(currentPreset);
+        if(cf && cb){
+          // **クラスに ocRow を付けない**(観測結果カードの「宣言行」の数え方を変えないため —
+          // QA wave119.ui が `#helpBody .ocRow` の数を宣言数と突き合わせている)
+          const r0=document.createElement("div"); r0.className="ffRow ocForecastRow";
+          r0.dataset.cf=cb.status;
+          r0.textContent="🏷 "+T("bdgCF_head")+": "+T("bdgCF_"+cb.status)
+            +(cf.scope? " "+T("cfScope")(cf.scope) : "")
+            +(cf.note? " — "+cf.note : "");
+          r0.title=T("bdgCF_"+cb.status+"Tip")+"\n"+T("cfTipTail");
+          box.appendChild(r0);
+        }
+      }
       for(const row of oc){
         const r=document.createElement("div"); r.className="ffRow ocRow";
         r.textContent="📊 "+row.q+": "+T("ocModel")+" "+row.model+" / "+T("ocObs")+" "+row.obs;
@@ -34081,6 +34257,100 @@ function dfmField(state,px,py,opts){
   out.uQuantity="velocity";
   return out;
 }
+// ===== 第261便c(第53報・統括の読み (A)): **「精度向上で合格見込み」の門 5 つ**を機械判定する純関数 =====
+// `HP.dfmForecastGate(series)`。**この関数は表示にも力にも接続していない**(判定の器である)。
+//
+// ■ なぜ機械判定にするか
+//   第53報は「数値精度が上がれば合格する事が**予測出来る段階に達したら**、その事をチップなどで
+//   明示して完了とする」と指示している。**「予測出来る段階」を目で決めるとチップが宣言になる**ので、
+//   段の列と観測値から**機械で**決める。門は 5 つで、1 つでも欠けたら `verdict:null` である。
+//
+// ■ 門(統括の読み (A) をそのまま写す)
+//   (1) 対象量・観測版・単位・時系・窓・抽出法・f を**固定**(段ごとに再 fit しない)
+//   (2) h/h2/h4/h8 の **4 段以上**・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外
+//   (3) 隣接 3 段の次数が安定(暫定 0.5≤p≤4.5・2 組の差 ≤0.25)
+//   (4) Richardson を**段をずらして**比較し、独立推定(別積分法/別抽出法)と照合する
+//   (5) |y∞−y_obs| + U∞ ≤ 3σ
+//       U∞ = 隣接外挿差 + 独立推定との差 + 宣言系統幅。**数学的上限ではない**(宣言である)。
+//
+// ■ 入力(すべて呼び出し側の宣言 —— この関数は観測値も系の名前も持たない)
+//   { fixed:{quantity,observationVersion,unit,timeSystem,window,extractor,f,refitPerStage?},
+//     stages:[{h,y},…], excluded:{duplicateEvents,nan,incomplete,unwrapFailed,roundingFloor},
+//     yObs, sigma, systematic, independent:{value,method} }
+// ■ 出力
+//   { ok, verdict, gates:{g1..g5}, p, pShifts, yInf, uInf, residual, distanceSigma, failed[] }
+function dfmForecastGate(series){
+  const S=(series&&typeof series==="object")?series:{};
+  const F=(S.fixed&&typeof S.fixed==="object")?S.fixed:{};
+  const out={ok:false, verdict:null, gates:{}, p:null, pShifts:[], yInf:null, uInf:null,
+    residual:null, distanceSigma:null, failed:[],
+    note:"**U∞ は数学的上限ではない**(隣接外挿差+独立推定との差+宣言系統幅の和という宣言である)。"
+      +"**門を通ることは「観測と合った」ことではない** —— 「精度が上がれば合格すると予測できる段階」である。"};
+  // ---- 門(1): 固定の宣言(段ごとに再 fit しない)
+  const NEED=["quantity","observationVersion","unit","timeSystem","window","extractor","f"];
+  const miss=NEED.filter((k)=>!(typeof F[k]==="string"&&F[k].trim()!==""));
+  const refit=(F.refitPerStage===true);
+  out.gates.g1={pass:(miss.length===0&&!refit), missing:miss, refitPerStage:refit,
+    what:"対象量・観測版・単位・時系・窓・抽出法・f を固定(段ごとに再 fit しない)"};
+  // ---- 門(2): 4 段以上・刻み比 2・除外条件
+  const raw=Array.isArray(S.stages)?S.stages:[];
+  const st=raw.filter((z)=>z&&Number.isFinite(z.h)&&Number.isFinite(z.y)&&z.h>0)
+    .slice().sort((a,b)=>b.h-a.h);
+  const ex=(S.excluded&&typeof S.excluded==="object")?S.excluded:{};
+  const exBad=Object.keys(ex).filter((k)=>ex[k]===true||(Number.isFinite(ex[k])&&ex[k]>0));
+  const ratios=[]; let ratioOk=true;
+  for(let i=0;i+1<st.length;i++){ const r=st[i].h/st[i+1].h; ratios.push(r);
+    if(!(Math.abs(r-2)<1e-9)) ratioOk=false; }
+  out.gates.g2={pass:(st.length>=4&&exBad.length===0&&ratioOk&&st.length===raw.length),
+    nStages:st.length, nGiven:raw.length, ratios, excluded:exBad,
+    what:"4 段以上・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外"};
+  // ---- 門(3): 隣接 3 段の観測次数(段をずらして安定か)
+  const rows=[];
+  for(let i=0;i+2<st.length;i++){
+    const a=st[i].y-st[i+1].y, b=st[i+1].y-st[i+2].y;
+    const r=(b!==0)?(a/b):NaN;
+    const pv=(Number.isFinite(r)&&r>0)?Math.log2(r):null;
+    rows.push({hs:[st[i].h,st[i+1].h,st[i+2].h], p:pv,
+      richardson:(pv!==null&&pv>0)?(st[i+2].y+(st[i+2].y-st[i+1].y)/(Math.pow(2,pv)-1)):null});
+  }
+  out.pShifts=rows.map((z)=>z.p);
+  const ps=out.pShifts.filter((z)=>Number.isFinite(z));
+  let maxAdj=null;
+  for(let i=0;i+1<ps.length;i++){ const d=Math.abs(ps[i+1]-ps[i]); maxAdj=(maxAdj===null)?d:Math.max(maxAdj,d); }
+  out.p=ps.length?ps[ps.length-1]:null;
+  out.gates.g3={pass:(ps.length>=2&&ps.length===rows.length&&ps.every((z)=>z>=0.5&&z<=4.5)
+      &&maxAdj!==null&&maxAdj<=0.25),
+    pShifts:out.pShifts, maxAdjacentDiff:maxAdj, range:[0.5,4.5], tol:0.25,
+    what:"隣接 3 段の次数が安定(0.5≤p≤4.5・段をずらした 2 組の差 ≤0.25)"};
+  // ---- 門(4): 段ずらし Richardson と独立推定
+  const ext=rows.map((z)=>z.richardson).filter(Number.isFinite);
+  out.yInf=ext.length?ext[ext.length-1]:null;
+  const extSpread=(ext.length>=2)?Math.abs(ext[ext.length-1]-ext[ext.length-2]):null;
+  const ind=(S.independent&&Number.isFinite(S.independent.value))?S.independent:null;
+  const indDiff=(ind&&out.yInf!==null)?Math.abs(out.yInf-ind.value):null;
+  out.gates.g4={pass:(ext.length>=2&&ind!==null&&indDiff!==null),
+    nExtrapolations:ext.length, extrapolations:ext, extrapolationSpread:extSpread,
+    independent:ind?{value:ind.value, method:ind.method||null}:null, independentDiff:indDiff,
+    what:"Richardson を段をずらして比較し、独立推定(別積分法/別抽出法)と照合する"};
+  // ---- 門(5): |y∞−y_obs| + U∞ ≤ 3σ
+  const yObs=Number(S.yObs), sg=Number(S.sigma);
+  const sys=Number.isFinite(S.systematic)?Math.abs(Number(S.systematic)):0;
+  const u=(extSpread===null&&indDiff===null)?null:((extSpread||0)+(indDiff||0)+sys);
+  out.uInf=u;
+  const dist=(out.yInf!==null&&Number.isFinite(yObs))?Math.abs(out.yInf-yObs):null;
+  out.residual=dist;
+  out.distanceSigma=(dist!==null&&Number.isFinite(sg)&&sg>0)?((dist+(u||0))/sg):null;
+  out.gates.g5={pass:(dist!==null&&u!==null&&Number.isFinite(sg)&&sg>0&&(dist+u)<=3*sg),
+    residual:dist, uInf:u, sigma:(Number.isFinite(sg)&&sg>0)?sg:null, nSigma:out.distanceSigma,
+    uParts:{extrapolationSpread:extSpread, independentDiff:indDiff, systematic:sys},
+    what:"|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない)"};
+  const keys=["g1","g2","g3","g4","g5"];
+  out.failed=keys.filter((k)=>!out.gates[k].pass);
+  out.ok=(out.failed.length===0);
+  out.verdict=out.ok?"pass-expected-with-precision":null;
+  return out;
+}
+
 // ===== 第260便a(第52報・統括の検証仮説 (1) = 入場条件 (v)): **状態アダプタ** `HP.dfmFieldSnapshot(S)` =====
 // 原仮定者(第52報):「進め方は、空間メッシュの実装を優先する」。統括の読みでは 🪟🎠 の**展示として
 // 欠けているのは (v)「表示が同じ関数を読む」だけ**である。`HP.dfmField` は **S を読まない純関数**
@@ -34956,6 +35226,11 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // **同段階で**更新し、容量が足りない步は **E を clamp せずキックを s 倍に制約して再計算**する。
   // τ・容量密度は**宣言値**であり、観測導出とは呼ばない。**力へは 1 バイトも接続していない**
   dfmMeshCapacityStep,
+  // 第261便c(第53報・統括の読み (A)): **「精度向上で合格見込み」の門 5 つ**の機械判定(純関数)と、
+  // プリセットの宣言 `calibrationForecast` の読み(**presetSig の外**・表示専用の派生)。
+  // **力にも表示の物理にも接続していない**。QA behavior.calibrationForecast が契約を機械固定する
+  dfmForecastGate, CALIBRATION_FORECAST_STATES, CALIBRATION_FORECAST_COUNTED,
+  calibrationForecastOf, calibrationReviewBadge, calibrationCompletion, presetSigHash,
   meshFieldApi:(S)=>_smFieldApi(S||sim), meshFieldApiLive:(S)=>_smFieldApiLive(S||sim),
   // 第260便a(第52報): 同じ点で**現行の表示場**と**共通場 API の場**を両方読む診断口。
   // **一致の主張ではない**(銀河の disk/affine 場と全源 scalar 場は別の場である)
