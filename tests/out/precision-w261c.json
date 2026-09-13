@@ -1,0 +1,5161 @@
+{
+ "meta": {
+  "wave": "第261便c",
+  "target": "beta/index.html",
+  "dt0": 0.016,
+  "periWindow": 20,
+  "yearSec": 31557600,
+  "gates": [
+   "1.25π",
+   "1.5π",
+   "1.75π"
+  ],
+  "phaseGateDefault": 4.71238898038469,
+  "window": "**位相制限(1.5π)の検出器が採った最初の 20 近点(19 区間)**。旧法は同じ標本列から自分の最初の 20 候補で同じ量を作る —— **旧法の窓は 20 公転とは限らない**(それがこの器の主題である)。",
+  "extractor": "**1 回の走行に 4 つの検出器**(旧法 / 1.25π / 1.5π / 1.75π)を同時に流す。差は抽出器の差だけで、積分は 1 回しかしていない。",
+  "touched": "**プリセット JSON は 1 bit も書き換えていない**。変えるのは dt だけである。`S._core` には 1 命令も足していない。",
+  "obsNote": "観測は paper/data/solar-observations.csv が正本。**版 v1 = 最初の行**・**版 v2 = source に DDFWHE を含む行**(🩺 のみ)。**プリセットと builder は版 v1 のままである**。",
+  "spentSec": 191.9
+ },
+ "cases": [
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "note": "〔第258便d〕⑥ が「未走行」と書いた最後の 1 系。**抽出器の欠陥が最初に見つかった系**でもある",
+   "toSec": 10,
+   "truncated": null,
+   "obs": {
+    "v1": {
+     "period": {
+      "body": "PSR J1946+2052",
+      "quantity": "orbital_period",
+      "value": 6781.366656,
+      "unit": "s",
+      "source": "Meng et al. (2025) A&A 704 A153 - The double neutron star PSR J1946+2052 I. Masses and tests of general relativity [arXiv:2510.12506]",
+      "sigma": 0.000864,
+      "primaryVerified": true
+     },
+     "ecc": {
+      "body": "PSR J1946+2052",
+      "quantity": "eccentricity",
+      "value": 0.063848,
+      "unit": "1",
+      "source": "Meng et al. (2025) A&A 704 A153 - The double neutron star PSR J1946+2052 I. Masses and tests of general relativity [arXiv:2510.12506]",
+      "sigma": 0.000009,
+      "primaryVerified": true
+     },
+     "omegaDot": {
+      "body": "PSR J1946+2052",
+      "quantity": "periastron_advance",
+      "value": 25.79205,
+      "unit": "deg/yr",
+      "source": "Meng et al. (2025) A&A 704 A153 - The double neutron star PSR J1946+2052 I. Masses and tests of general relativity [arXiv:2510.12506]",
+      "sigma": 0.0004,
+      "primaryVerified": true
+     }
+    },
+    "v2": {
+     "period": {
+      "body": "PSR J1946+2052",
+      "quantity": "orbital_period",
+      "value": 6781.367998656,
+      "unit": "s",
+      "source": "Meng et al. (2025) A&A 704 A153 Table 1 DDFWHE column - The double neutron star PSR J1946+2052 I. Masses and tests of general relativity [arXiv:2510.12506]",
+      "sigma": 0.000001728,
+      "primaryVerified": false
+     },
+     "ecc": {
+      "body": "PSR J1946+2052",
+      "quantity": "eccentricity",
+      "value": 0.0638363,
+      "unit": "1",
+      "source": "Meng et al. (2025) A&A 704 A153 Table 1 DDFWHE column - The double neutron star PSR J1946+2052 I. Masses and tests of general relativity [arXiv:2510.12506]",
+      "sigma": 8e-7,
+      "primaryVerified": false
+     },
+     "omegaDot": {
+      "body": "PSR J1946+2052",
+      "quantity": "periastron_advance",
+      "value": 25.79205,
+      "unit": "deg/yr",
+      "source": "Meng et al. (2025) A&A 704 A153 Table 1 DDFWHE column - The double neutron star PSR J1946+2052 I. Masses and tests of general relativity [arXiv:2510.12506]",
+      "sigma": 0.0004,
+      "primaryVerified": true
+     },
+     "note": "**版 v2 = Meng et al. (2025) Table 1 DDFWHE 列**(🩺 のみ)。**プリセットと builder の入力は版 v1 のままである** —— 黙って置換していない。"
+    }
+   },
+   "precision": {
+    "framePrecision": "double",
+    "stateCarry": "double",
+    "xIsFloat64": true
+   },
+   "massRounding": {
+    "ok": true,
+    "massDeclaredSum": 10068.795059165655,
+    "massHeldSum": 10068.794921875,
+    "relMassError": -1.3635261676866741e-8,
+    "relPeriodError": 6.81763090426557e-9,
+    "periodErrorSec": 0.00004623285488710167,
+    "nSigma": 0.05351024871192323,
+    "ulp32": [
+     0.00048828125,
+     0.00048828125
+    ],
+    "ulpRel": [
+     9.563669746022554e-8,
+     9.838012195467755e-8
+    ],
+    "heldIsFround": true,
+    "isBound": false,
+    "isMeasured": false,
+    "model": "fixed-a Kepler: ΔP/P = √(M_decl/M_held) − 1",
+    "note": "**診断である。** 固定 a の Kepler 感度で、(a) 誤差上限でも (b) Float64 実走の結果でも (c) 離散化誤差 ε_num でもない。ε_num とは出どころが違う —— 桁を比べるためだけに使う。",
+    "isFloat32": true,
+    "ulpBitwise": [
+     0.00048828125,
+     0.00048828125
+    ]
+   },
+   "stages": [
+    {
+     "div": 1,
+     "dt": 0.016,
+     "wallSec": 1.21,
+     "steps": 815110,
+     "stopped": "window",
+     "nan": false,
+     "clamp": 0,
+     "eProxy": 0.07217953516083096,
+     "rMin": 672.7543789430093,
+     "rMax": 777.4278587588211,
+     "dets": {
+      "legacy": {
+       "measured": false,
+       "nPeri": 25,
+       "candidates": 25,
+       "rejectedCount": 0,
+       "unwrapFailed": true,
+       "jump": 1,
+       "measurementMethod": "radial-crossing/legacy-v0",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": null,
+       "perMeanSimRaw": 494.393215000677,
+       "periStartSim": 339.03900331287497,
+       "periEndSim": null,
+       "slopeRadPerOrbit": 0.00028825683556017446,
+       "seRadPerOrbit": 1.6258354668555659e-9,
+       "slopeRadPerSimTime": 0.010558028670804777,
+       "seRadPerSimTime": 8.557699190475514e-11,
+       "firstTimes": [
+        339.03900331287497,
+        339.06630594587597,
+        339.09360809175286,
+        339.1209097494377,
+        677.5047682960536,
+        677.5490524807194,
+        1016.2767735223001,
+        1692.5056262385456
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": null,
+       "perMeanSecRaw": 4943.93215000677,
+       "degPerOrbit": 0.016515900093394584,
+       "degPerYear": 1909015.4204489968,
+       "seDegPerYear": 0.015473323882285308,
+       "tSpanSec": null,
+       "firstTimesSec": [
+        3390.3900331287496,
+        3390.6630594587596,
+        3390.9360809175287,
+        3391.209097494377,
+        6775.047682960536,
+        6775.490524807194,
+        10162.767735223002,
+        16925.056262385457
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.25": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 25,
+       "rejectedCount": 5,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 3.9269908169872414,
+       "perMeanSim": 668.5642291994066,
+       "perMeanSimRaw": 668.5642291994066,
+       "periStartSim": 339.03900331287497,
+       "periEndSim": 13041.759358101599,
+       "slopeRadPerOrbit": 0.00020309627888875754,
+       "seRadPerOrbit": 0.0000035849339141804805,
+       "slopeRadPerSimTime": 3.0381057543386006e-7,
+       "seRadPerSimTime": 5.260067350619257e-9,
+       "firstTimes": [
+        339.03900331287497,
+        1016.2767735223001,
+        1692.5056262385456,
+        2367.7805278057353,
+        3042.096532073036,
+        3715.453006327683,
+        4387.850661016123,
+        5059.2893180795645
+       ],
+       "rejectedTimes": [
+        {
+         "tSim": 339.056,
+         "phase": 0.0003378569067802317
+        },
+        {
+         "tSim": 339.088,
+         "phase": 0.000675713823738544
+        },
+        {
+         "tSim": 339.12,
+         "phase": 0.0010135707462461951
+        },
+        {
+         "tSim": 677.504,
+         "phase": 3.1396806465898712
+        },
+        {
+         "tSim": 677.5360000000001,
+         "phase": 3.1399424733469323
+        }
+       ],
+       "perMeanSec": 6685.642291994065,
+       "perMeanSecRaw": 6685.642291994065,
+       "degPerOrbit": 0.01163655961513773,
+       "degPerYear": 54.9325154801378,
+       "seDegPerYear": 0.9510818731435642,
+       "tSpanSec": 127027.20354788724,
+       "firstTimesSec": [
+        3390.3900331287496,
+        10162.767735223002,
+        16925.056262385457,
+        23677.805278057353,
+        30420.96532073036,
+        37154.53006327683,
+        43878.50661016123,
+        50592.89318079565
+       ],
+       "rejectedTimesSec": [
+        {
+         "tSec": 3390.56,
+         "phase": 0.0003378569067802317
+        },
+        {
+         "tSec": 3390.88,
+         "phase": 0.000675713823738544
+        },
+        {
+         "tSec": 3391.2,
+         "phase": 0.0010135707462461951
+        },
+        {
+         "tSec": 6775.04,
+         "phase": 3.1396806465898712
+        },
+        {
+         "tSec": 6775.360000000001,
+         "phase": 3.1399424733469323
+        }
+       ]
+      },
+      "phase1.5": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 25,
+       "rejectedCount": 5,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 668.5642291994066,
+       "perMeanSimRaw": 668.5642291994066,
+       "periStartSim": 339.03900331287497,
+       "periEndSim": 13041.759358101599,
+       "slopeRadPerOrbit": 0.00020309627888875754,
+       "seRadPerOrbit": 0.0000035849339141804805,
+       "slopeRadPerSimTime": 3.0381057543386006e-7,
+       "seRadPerSimTime": 5.260067350619257e-9,
+       "firstTimes": [
+        339.03900331287497,
+        1016.2767735223001,
+        1692.5056262385456,
+        2367.7805278057353,
+        3042.096532073036,
+        3715.453006327683,
+        4387.850661016123,
+        5059.2893180795645
+       ],
+       "rejectedTimes": [
+        {
+         "tSim": 339.056,
+         "phase": 0.0003378569067802317
+        },
+        {
+         "tSim": 339.088,
+         "phase": 0.000675713823738544
+        },
+        {
+         "tSim": 339.12,
+         "phase": 0.0010135707462461951
+        },
+        {
+         "tSim": 677.504,
+         "phase": 3.1396806465898712
+        },
+        {
+         "tSim": 677.5360000000001,
+         "phase": 3.1399424733469323
+        }
+       ],
+       "perMeanSec": 6685.642291994065,
+       "perMeanSecRaw": 6685.642291994065,
+       "degPerOrbit": 0.01163655961513773,
+       "degPerYear": 54.9325154801378,
+       "seDegPerYear": 0.9510818731435642,
+       "tSpanSec": 127027.20354788724,
+       "firstTimesSec": [
+        3390.3900331287496,
+        10162.767735223002,
+        16925.056262385457,
+        23677.805278057353,
+        30420.96532073036,
+        37154.53006327683,
+        43878.50661016123,
+        50592.89318079565
+       ],
+       "rejectedTimesSec": [
+        {
+         "tSec": 3390.56,
+         "phase": 0.0003378569067802317
+        },
+        {
+         "tSec": 3390.88,
+         "phase": 0.000675713823738544
+        },
+        {
+         "tSec": 3391.2,
+         "phase": 0.0010135707462461951
+        },
+        {
+         "tSec": 6775.04,
+         "phase": 3.1396806465898712
+        },
+        {
+         "tSec": 6775.360000000001,
+         "phase": 3.1399424733469323
+        }
+       ],
+       "eProxyWindow": 0.07217953516083096
+      },
+      "phase1.75": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 25,
+       "rejectedCount": 5,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 5.497787143782138,
+       "perMeanSim": 668.5642291994066,
+       "perMeanSimRaw": 668.5642291994066,
+       "periStartSim": 339.03900331287497,
+       "periEndSim": 13041.759358101599,
+       "slopeRadPerOrbit": 0.00020309627888875754,
+       "seRadPerOrbit": 0.0000035849339141804805,
+       "slopeRadPerSimTime": 3.0381057543386006e-7,
+       "seRadPerSimTime": 5.260067350619257e-9,
+       "firstTimes": [
+        339.03900331287497,
+        1016.2767735223001,
+        1692.5056262385456,
+        2367.7805278057353,
+        3042.096532073036,
+        3715.453006327683,
+        4387.850661016123,
+        5059.2893180795645
+       ],
+       "rejectedTimes": [
+        {
+         "tSim": 339.056,
+         "phase": 0.0003378569067802317
+        },
+        {
+         "tSim": 339.088,
+         "phase": 0.000675713823738544
+        },
+        {
+         "tSim": 339.12,
+         "phase": 0.0010135707462461951
+        },
+        {
+         "tSim": 677.504,
+         "phase": 3.1396806465898712
+        },
+        {
+         "tSim": 677.5360000000001,
+         "phase": 3.1399424733469323
+        }
+       ],
+       "perMeanSec": 6685.642291994065,
+       "perMeanSecRaw": 6685.642291994065,
+       "degPerOrbit": 0.01163655961513773,
+       "degPerYear": 54.9325154801378,
+       "seDegPerYear": 0.9510818731435642,
+       "tSpanSec": 127027.20354788724,
+       "firstTimesSec": [
+        3390.3900331287496,
+        10162.767735223002,
+        16925.056262385457,
+        23677.805278057353,
+        30420.96532073036,
+        37154.53006327683,
+        43878.50661016123,
+        50592.89318079565
+       ],
+       "rejectedTimesSec": [
+        {
+         "tSec": 3390.56,
+         "phase": 0.0003378569067802317
+        },
+        {
+         "tSec": 3390.88,
+         "phase": 0.000675713823738544
+        },
+        {
+         "tSec": 3391.2,
+         "phase": 0.0010135707462461951
+        },
+        {
+         "tSec": 6775.04,
+         "phase": 3.1396806465898712
+        },
+        {
+         "tSec": 6775.360000000001,
+         "phase": 3.1399424733469323
+        }
+       ]
+      }
+     },
+     "mass": {
+      "held": [
+       5105.58447265625,
+       4963.21044921875
+      ],
+      "declared": [
+       5105.584602637203,
+       4963.210456528453
+      ],
+      "isFloat32": true
+     },
+     "precision": {
+      "framePrecision": "double",
+      "stateCarry": "double",
+      "xIsFloat64": true
+     }
+    },
+    {
+     "div": 2,
+     "dt": 0.008,
+     "wallSec": 2.24,
+     "steps": 1641607,
+     "stopped": "window",
+     "nan": false,
+     "clamp": 0,
+     "eProxy": 0.0679900171717606,
+     "rMin": 678.7776779469317,
+     "rMax": 777.8111793679668,
+     "dets": {
+      "legacy": {
+       "measured": true,
+       "nPeri": 21,
+       "candidates": 21,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/legacy-v0",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 638.1443038977889,
+       "perMeanSimRaw": 638.1443038977889,
+       "periStartSim": 339.0705810363376,
+       "periEndSim": 12463.812355094326,
+       "slopeRadPerOrbit": 0.00019230872516967136,
+       "seRadPerOrbit": 0.0000010127285736579318,
+       "slopeRadPerSimTime": 2.8940671680530863e-7,
+       "seRadPerSimTime": 1.2215504506345986e-9,
+       "firstTimes": [
+        339.0705810363376,
+        339.08235689452357,
+        1016.7497332303494,
+        1693.9426910853997,
+        2370.655819015877,
+        3046.8894463133006,
+        3722.643550796469,
+        4397.918138354394
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 6381.443038977888,
+       "perMeanSecRaw": 6381.443038977888,
+       "degPerOrbit": 0.011018478315763436,
+       "degPerYear": 52.32812889498789,
+       "seDegPerYear": 0.22087064923078284,
+       "tSpanSec": 121247.41774057987,
+       "firstTimesSec": [
+        3390.7058103633763,
+        3390.823568945236,
+        10167.497332303494,
+        16939.426910853996,
+        23706.558190158772,
+        30468.894463133005,
+        37226.43550796469,
+        43979.18138354394
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.25": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 21,
+       "rejectedCount": 1,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 3.9269908169872414,
+       "perMeanSim": 673.3570007117497,
+       "perMeanSimRaw": 673.3570007117497,
+       "periStartSim": 339.0705810363376,
+       "periEndSim": 13132.853594559581,
+       "slopeRadPerOrbit": 0.00019579089014200917,
+       "seRadPerOrbit": 5.969375905151537e-7,
+       "slopeRadPerSimTime": 2.907703598278495e-7,
+       "seRadPerSimTime": 8.418266545905222e-10,
+       "firstTimes": [
+        339.0705810363376,
+        1016.7497332303494,
+        1693.9426910853997,
+        2370.655819015877,
+        3046.8894463133006,
+        3722.643550796469,
+        4397.918138354394,
+        5072.713213023374
+       ],
+       "rejectedTimes": [
+        {
+         "tSim": 339.08,
+         "phase": 0.000168872620321725
+        }
+       ],
+       "perMeanSec": 6733.570007117497,
+       "perMeanSecRaw": 6733.570007117497,
+       "degPerOrbit": 0.011217991672246682,
+       "degPerYear": 52.5746915478453,
+       "seDegPerYear": 0.15221213306629536,
+       "tSpanSec": 127937.83013523243,
+       "firstTimesSec": [
+        3390.7058103633763,
+        10167.497332303494,
+        16939.426910853996,
+        23706.558190158772,
+        30468.894463133005,
+        37226.43550796469,
+        43979.18138354394,
+        50727.13213023374
+       ],
+       "rejectedTimesSec": [
+        {
+         "tSec": 3390.7999999999997,
+         "phase": 0.000168872620321725
+        }
+       ]
+      },
+      "phase1.5": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 21,
+       "rejectedCount": 1,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 673.3570007117497,
+       "perMeanSimRaw": 673.3570007117497,
+       "periStartSim": 339.0705810363376,
+       "periEndSim": 13132.853594559581,
+       "slopeRadPerOrbit": 0.00019579089014200917,
+       "seRadPerOrbit": 5.969375905151537e-7,
+       "slopeRadPerSimTime": 2.907703598278495e-7,
+       "seRadPerSimTime": 8.418266545905222e-10,
+       "firstTimes": [
+        339.0705810363376,
+        1016.7497332303494,
+        1693.9426910853997,
+        2370.655819015877,
+        3046.8894463133006,
+        3722.643550796469,
+        4397.918138354394,
+        5072.713213023374
+       ],
+       "rejectedTimes": [
+        {
+         "tSim": 339.08,
+         "phase": 0.000168872620321725
+        }
+       ],
+       "perMeanSec": 6733.570007117497,
+       "perMeanSecRaw": 6733.570007117497,
+       "degPerOrbit": 0.011217991672246682,
+       "degPerYear": 52.5746915478453,
+       "seDegPerYear": 0.15221213306629536,
+       "tSpanSec": 127937.83013523243,
+       "firstTimesSec": [
+        3390.7058103633763,
+        10167.497332303494,
+        16939.426910853996,
+        23706.558190158772,
+        30468.894463133005,
+        37226.43550796469,
+        43979.18138354394,
+        50727.13213023374
+       ],
+       "rejectedTimesSec": [
+        {
+         "tSec": 3390.7999999999997,
+         "phase": 0.000168872620321725
+        }
+       ],
+       "eProxyWindow": 0.0679900171717606
+      },
+      "phase1.75": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 21,
+       "rejectedCount": 1,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 5.497787143782138,
+       "perMeanSim": 673.3570007117497,
+       "perMeanSimRaw": 673.3570007117497,
+       "periStartSim": 339.0705810363376,
+       "periEndSim": 13132.853594559581,
+       "slopeRadPerOrbit": 0.00019579089014200917,
+       "seRadPerOrbit": 5.969375905151537e-7,
+       "slopeRadPerSimTime": 2.907703598278495e-7,
+       "seRadPerSimTime": 8.418266545905222e-10,
+       "firstTimes": [
+        339.0705810363376,
+        1016.7497332303494,
+        1693.9426910853997,
+        2370.655819015877,
+        3046.8894463133006,
+        3722.643550796469,
+        4397.918138354394,
+        5072.713213023374
+       ],
+       "rejectedTimes": [
+        {
+         "tSim": 339.08,
+         "phase": 0.000168872620321725
+        }
+       ],
+       "perMeanSec": 6733.570007117497,
+       "perMeanSecRaw": 6733.570007117497,
+       "degPerOrbit": 0.011217991672246682,
+       "degPerYear": 52.5746915478453,
+       "seDegPerYear": 0.15221213306629536,
+       "tSpanSec": 127937.83013523243,
+       "firstTimesSec": [
+        3390.7058103633763,
+        10167.497332303494,
+        16939.426910853996,
+        23706.558190158772,
+        30468.894463133005,
+        37226.43550796469,
+        43979.18138354394,
+        50727.13213023374
+       ],
+       "rejectedTimesSec": [
+        {
+         "tSec": 3390.7999999999997,
+         "phase": 0.000168872620321725
+        }
+       ]
+      }
+     },
+     "mass": {
+      "held": [
+       5105.58447265625,
+       4963.21044921875
+      ],
+      "declared": [
+       5105.584602637203,
+       4963.210456528453
+      ],
+      "isFloat32": true
+     },
+     "precision": {
+      "framePrecision": "double",
+      "stateCarry": "double",
+      "xIsFloat64": true
+     }
+    },
+    {
+     "div": 4,
+     "dt": 0.004,
+     "wallSec": 4.34,
+     "steps": 3294602,
+     "stopped": "window",
+     "nan": false,
+     "clamp": 0,
+     "eProxy": 0.06591788620955849,
+     "rMin": 681.7772173829893,
+     "rMax": 778.0028326093692,
+     "dets": {
+      "legacy": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/legacy-v0",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 675.754080649197,
+       "perMeanSimRaw": 675.754080649197,
+       "periStartSim": 339.07728005066576,
+       "periEndSim": 13178.40481238541,
+       "slopeRadPerOrbit": 0.0001936895860852575,
+       "seRadPerOrbit": 5.8610933454625065e-8,
+       "slopeRadPerSimTime": 2.8662681585014437e-7,
+       "seRadPerSimTime": 1.4089967232214372e-10,
+       "firstTimes": [
+        339.07728005066576,
+        1016.9887874630577,
+        1694.6609838655245,
+        2372.093415232214,
+        3049.286080419537,
+        3726.23898044644,
+        4402.952116336773,
+        5079.425489114548
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 6757.54080649197,
+       "perMeanSecRaw": 6757.54080649197,
+       "degPerOrbit": 0.011097595818321091,
+       "degPerYear": 51.82549019640166,
+       "seDegPerYear": 0.025476313390109438,
+       "tSpanSec": 128393.27532334745,
+       "firstTimesSec": [
+        3390.7728005066574,
+        10169.887874630578,
+        16946.609838655244,
+        23720.934152322137,
+        30492.86080419537,
+        37262.3898044644,
+        44029.521163367725,
+        50794.25489114548
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.25": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 3.9269908169872414,
+       "perMeanSim": 675.754080649197,
+       "perMeanSimRaw": 675.754080649197,
+       "periStartSim": 339.07728005066576,
+       "periEndSim": 13178.40481238541,
+       "slopeRadPerOrbit": 0.0001936895860852575,
+       "seRadPerOrbit": 5.8610933454625065e-8,
+       "slopeRadPerSimTime": 2.8662681585014437e-7,
+       "seRadPerSimTime": 1.4089967232214372e-10,
+       "firstTimes": [
+        339.07728005066576,
+        1016.9887874630577,
+        1694.6609838655245,
+        2372.093415232214,
+        3049.286080419537,
+        3726.23898044644,
+        4402.952116336773,
+        5079.425489114548
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 6757.54080649197,
+       "perMeanSecRaw": 6757.54080649197,
+       "degPerOrbit": 0.011097595818321091,
+       "degPerYear": 51.82549019640166,
+       "seDegPerYear": 0.025476313390109438,
+       "tSpanSec": 128393.27532334745,
+       "firstTimesSec": [
+        3390.7728005066574,
+        10169.887874630578,
+        16946.609838655244,
+        23720.934152322137,
+        30492.86080419537,
+        37262.3898044644,
+        44029.521163367725,
+        50794.25489114548
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.5": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 675.754080649197,
+       "perMeanSimRaw": 675.754080649197,
+       "periStartSim": 339.07728005066576,
+       "periEndSim": 13178.40481238541,
+       "slopeRadPerOrbit": 0.0001936895860852575,
+       "seRadPerOrbit": 5.8610933454625065e-8,
+       "slopeRadPerSimTime": 2.8662681585014437e-7,
+       "seRadPerSimTime": 1.4089967232214372e-10,
+       "firstTimes": [
+        339.07728005066576,
+        1016.9887874630577,
+        1694.6609838655245,
+        2372.093415232214,
+        3049.286080419537,
+        3726.23898044644,
+        4402.952116336773,
+        5079.425489114548
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 6757.54080649197,
+       "perMeanSecRaw": 6757.54080649197,
+       "degPerOrbit": 0.011097595818321091,
+       "degPerYear": 51.82549019640166,
+       "seDegPerYear": 0.025476313390109438,
+       "tSpanSec": 128393.27532334745,
+       "firstTimesSec": [
+        3390.7728005066574,
+        10169.887874630578,
+        16946.609838655244,
+        23720.934152322137,
+        30492.86080419537,
+        37262.3898044644,
+        44029.521163367725,
+        50794.25489114548
+       ],
+       "rejectedTimesSec": [],
+       "eProxyWindow": 0.06591788620955849
+      },
+      "phase1.75": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 5.497787143782138,
+       "perMeanSim": 675.754080649197,
+       "perMeanSimRaw": 675.754080649197,
+       "periStartSim": 339.07728005066576,
+       "periEndSim": 13178.40481238541,
+       "slopeRadPerOrbit": 0.0001936895860852575,
+       "seRadPerOrbit": 5.8610933454625065e-8,
+       "slopeRadPerSimTime": 2.8662681585014437e-7,
+       "seRadPerSimTime": 1.4089967232214372e-10,
+       "firstTimes": [
+        339.07728005066576,
+        1016.9887874630577,
+        1694.6609838655245,
+        2372.093415232214,
+        3049.286080419537,
+        3726.23898044644,
+        4402.952116336773,
+        5079.425489114548
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 6757.54080649197,
+       "perMeanSecRaw": 6757.54080649197,
+       "degPerOrbit": 0.011097595818321091,
+       "degPerYear": 51.82549019640166,
+       "seDegPerYear": 0.025476313390109438,
+       "tSpanSec": 128393.27532334745,
+       "firstTimesSec": [
+        3390.7728005066574,
+        10169.887874630578,
+        16946.609838655244,
+        23720.934152322137,
+        30492.86080419537,
+        37262.3898044644,
+        44029.521163367725,
+        50794.25489114548
+       ],
+       "rejectedTimesSec": []
+      }
+     },
+     "mass": {
+      "held": [
+       5105.58447265625,
+       4963.21044921875
+      ],
+      "declared": [
+       5105.584602637203,
+       4963.210456528453
+      ],
+      "isFloat32": true
+     },
+     "precision": {
+      "framePrecision": "double",
+      "stateCarry": "double",
+      "xIsFloat64": true
+     }
+    },
+    {
+     "div": 8,
+     "dt": 0.002,
+     "wallSec": 8.63,
+     "steps": 6600591,
+     "stopped": "window",
+     "nan": false,
+     "clamp": 0,
+     "eProxy": 0.06488739558191313,
+     "rMin": 683.2739921831106,
+     "rMax": 778.0986573884489,
+     "dets": {
+      "legacy": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/legacy-v0",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 676.9529013590517,
+       "perMeanSimRaw": 676.9529013590517,
+       "periStartSim": 339.07631828594634,
+       "periEndSim": 13201.181444107928,
+       "slopeRadPerOrbit": 0.0001934224905563056,
+       "seRadPerOrbit": 1.2908549312351182e-8,
+       "slopeRadPerSimTime": 2.8572508675018777e-7,
+       "seRadPerSimTime": 4.959671385778211e-11,
+       "firstTimes": [
+        339.07631828594634,
+        1017.10818899903,
+        1695.0201521005426,
+        2372.8122309560135,
+        3050.4844258216485,
+        3728.0367369535343,
+        4405.469164607684,
+        5082.7817090398985
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 6769.529013590517,
+       "perMeanSecRaw": 6769.529013590517,
+       "degPerOrbit": 0.011082292371785334,
+       "degPerYear": 51.66244699860804,
+       "seDegPerYear": 0.008967667593091082,
+       "tSpanSec": 128621.05125821981,
+       "firstTimesSec": [
+        3390.7631828594635,
+        10171.081889990299,
+        16950.201521005427,
+        23728.122309560134,
+        30504.844258216486,
+        37280.36736953534,
+        44054.69164607684,
+        50827.81709039898
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.25": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 3.9269908169872414,
+       "perMeanSim": 676.9529013590517,
+       "perMeanSimRaw": 676.9529013590517,
+       "periStartSim": 339.07631828594634,
+       "periEndSim": 13201.181444107928,
+       "slopeRadPerOrbit": 0.0001934224905563056,
+       "seRadPerOrbit": 1.2908549312351182e-8,
+       "slopeRadPerSimTime": 2.8572508675018777e-7,
+       "seRadPerSimTime": 4.959671385778211e-11,
+       "firstTimes": [
+        339.07631828594634,
+        1017.10818899903,
+        1695.0201521005426,
+        2372.8122309560135,
+        3050.4844258216485,
+        3728.0367369535343,
+        4405.469164607684,
+        5082.7817090398985
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 6769.529013590517,
+       "perMeanSecRaw": 6769.529013590517,
+       "degPerOrbit": 0.011082292371785334,
+       "degPerYear": 51.66244699860804,
+       "seDegPerYear": 0.008967667593091082,
+       "tSpanSec": 128621.05125821981,
+       "firstTimesSec": [
+        3390.7631828594635,
+        10171.081889990299,
+        16950.201521005427,
+        23728.122309560134,
+        30504.844258216486,
+        37280.36736953534,
+        44054.69164607684,
+        50827.81709039898
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.5": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 676.9529013590517,
+       "perMeanSimRaw": 676.9529013590517,
+       "periStartSim": 339.07631828594634,
+       "periEndSim": 13201.181444107928,
+       "slopeRadPerOrbit": 0.0001934224905563056,
+       "seRadPerOrbit": 1.2908549312351182e-8,
+       "slopeRadPerSimTime": 2.8572508675018777e-7,
+       "seRadPerSimTime": 4.959671385778211e-11,
+       "firstTimes": [
+        339.07631828594634,
+        1017.10818899903,
+        1695.0201521005426,
+        2372.8122309560135,
+        3050.4844258216485,
+        3728.0367369535343,
+        4405.469164607684,
+        5082.7817090398985
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 6769.529013590517,
+       "perMeanSecRaw": 6769.529013590517,
+       "degPerOrbit": 0.011082292371785334,
+       "degPerYear": 51.66244699860804,
+       "seDegPerYear": 0.008967667593091082,
+       "tSpanSec": 128621.05125821981,
+       "firstTimesSec": [
+        3390.7631828594635,
+        10171.081889990299,
+        16950.201521005427,
+        23728.122309560134,
+        30504.844258216486,
+        37280.36736953534,
+        44054.69164607684,
+        50827.81709039898
+       ],
+       "rejectedTimesSec": [],
+       "eProxyWindow": 0.06488739558191313
+      },
+      "phase1.75": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 5.497787143782138,
+       "perMeanSim": 676.9529013590517,
+       "perMeanSimRaw": 676.9529013590517,
+       "periStartSim": 339.07631828594634,
+       "periEndSim": 13201.181444107928,
+       "slopeRadPerOrbit": 0.0001934224905563056,
+       "seRadPerOrbit": 1.2908549312351182e-8,
+       "slopeRadPerSimTime": 2.8572508675018777e-7,
+       "seRadPerSimTime": 4.959671385778211e-11,
+       "firstTimes": [
+        339.07631828594634,
+        1017.10818899903,
+        1695.0201521005426,
+        2372.8122309560135,
+        3050.4844258216485,
+        3728.0367369535343,
+        4405.469164607684,
+        5082.7817090398985
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 6769.529013590517,
+       "perMeanSecRaw": 6769.529013590517,
+       "degPerOrbit": 0.011082292371785334,
+       "degPerYear": 51.66244699860804,
+       "seDegPerYear": 0.008967667593091082,
+       "tSpanSec": 128621.05125821981,
+       "firstTimesSec": [
+        3390.7631828594635,
+        10171.081889990299,
+        16950.201521005427,
+        23728.122309560134,
+        30504.844258216486,
+        37280.36736953534,
+        44054.69164607684,
+        50827.81709039898
+       ],
+       "rejectedTimesSec": []
+      }
+     },
+     "mass": {
+      "held": [
+       5105.58447265625,
+       4963.21044921875
+      ],
+      "declared": [
+       5105.584602637203,
+       4963.210456528453
+      ],
+      "isFloat32": true
+     },
+     "precision": {
+      "framePrecision": "double",
+      "stateCarry": "double",
+      "xIsFloat64": true
+     }
+    },
+    {
+     "div": 16,
+     "dt": 0.001,
+     "wallSec": 17.27,
+     "steps": 13212571,
+     "stopped": "window",
+     "nan": false,
+     "clamp": 0,
+     "eProxy": 0.06437353409798498,
+     "rMin": 684.0216345847499,
+     "rMax": 778.1465693155129,
+     "dets": {
+      "legacy": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/legacy-v0",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 677.5523111648803,
+       "perMeanSimRaw": 677.5523111648803,
+       "periStartSim": 339.0761032871016,
+       "periEndSim": 13212.570015419824,
+       "slopeRadPerOrbit": 0.00019327750309886346,
+       "seRadPerOrbit": 6.85720570838793e-9,
+       "slopeRadPerSimTime": 2.852583976343777e-7,
+       "seRadPerSimTime": 2.5401883393578137e-11,
+       "firstTimes": [
+        339.0761032871016,
+        1017.1678923474618,
+        1695.1997390231793,
+        2373.1716434157183,
+        3051.0836055893305,
+        3728.935625607835,
+        4406.727703535329,
+        5084.459839435537
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 6775.523111648803,
+       "perMeanSecRaw": 6775.523111648803,
+       "degPerOrbit": 0.011073985202391565,
+       "degPerYear": 51.57806413260003,
+       "seDegPerYear": 0.004592958460217143,
+       "tSpanSec": 128734.93912132722,
+       "firstTimesSec": [
+        3390.761032871016,
+        10171.678923474617,
+        16951.997390231794,
+        23731.716434157184,
+        30510.836055893305,
+        37289.35625607835,
+        44067.27703535329,
+        50844.59839435537
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.25": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 3.9269908169872414,
+       "perMeanSim": 677.5523111648803,
+       "perMeanSimRaw": 677.5523111648803,
+       "periStartSim": 339.0761032871016,
+       "periEndSim": 13212.570015419824,
+       "slopeRadPerOrbit": 0.00019327750309886346,
+       "seRadPerOrbit": 6.85720570838793e-9,
+       "slopeRadPerSimTime": 2.852583976343777e-7,
+       "seRadPerSimTime": 2.5401883393578137e-11,
+       "firstTimes": [
+        339.0761032871016,
+        1017.1678923474618,
+        1695.1997390231793,
+        2373.1716434157183,
+        3051.0836055893305,
+        3728.935625607835,
+        4406.727703535329,
+        5084.459839435537
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 6775.523111648803,
+       "perMeanSecRaw": 6775.523111648803,
+       "degPerOrbit": 0.011073985202391565,
+       "degPerYear": 51.57806413260003,
+       "seDegPerYear": 0.004592958460217143,
+       "tSpanSec": 128734.93912132722,
+       "firstTimesSec": [
+        3390.761032871016,
+        10171.678923474617,
+        16951.997390231794,
+        23731.716434157184,
+        30510.836055893305,
+        37289.35625607835,
+        44067.27703535329,
+        50844.59839435537
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.5": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 677.5523111648803,
+       "perMeanSimRaw": 677.5523111648803,
+       "periStartSim": 339.0761032871016,
+       "periEndSim": 13212.570015419824,
+       "slopeRadPerOrbit": 0.00019327750309886346,
+       "seRadPerOrbit": 6.85720570838793e-9,
+       "slopeRadPerSimTime": 2.852583976343777e-7,
+       "seRadPerSimTime": 2.5401883393578137e-11,
+       "firstTimes": [
+        339.0761032871016,
+        1017.1678923474618,
+        1695.1997390231793,
+        2373.1716434157183,
+        3051.0836055893305,
+        3728.935625607835,
+        4406.727703535329,
+        5084.459839435537
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 6775.523111648803,
+       "perMeanSecRaw": 6775.523111648803,
+       "degPerOrbit": 0.011073985202391565,
+       "degPerYear": 51.57806413260003,
+       "seDegPerYear": 0.004592958460217143,
+       "tSpanSec": 128734.93912132722,
+       "firstTimesSec": [
+        3390.761032871016,
+        10171.678923474617,
+        16951.997390231794,
+        23731.716434157184,
+        30510.836055893305,
+        37289.35625607835,
+        44067.27703535329,
+        50844.59839435537
+       ],
+       "rejectedTimesSec": [],
+       "eProxyWindow": 0.06437353409798498
+      },
+      "phase1.75": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 5.497787143782138,
+       "perMeanSim": 677.5523111648803,
+       "perMeanSimRaw": 677.5523111648803,
+       "periStartSim": 339.0761032871016,
+       "periEndSim": 13212.570015419824,
+       "slopeRadPerOrbit": 0.00019327750309886346,
+       "seRadPerOrbit": 6.85720570838793e-9,
+       "slopeRadPerSimTime": 2.852583976343777e-7,
+       "seRadPerSimTime": 2.5401883393578137e-11,
+       "firstTimes": [
+        339.0761032871016,
+        1017.1678923474618,
+        1695.1997390231793,
+        2373.1716434157183,
+        3051.0836055893305,
+        3728.935625607835,
+        4406.727703535329,
+        5084.459839435537
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 6775.523111648803,
+       "perMeanSecRaw": 6775.523111648803,
+       "degPerOrbit": 0.011073985202391565,
+       "degPerYear": 51.57806413260003,
+       "seDegPerYear": 0.004592958460217143,
+       "tSpanSec": 128734.93912132722,
+       "firstTimesSec": [
+        3390.761032871016,
+        10171.678923474617,
+        16951.997390231794,
+        23731.716434157184,
+        30510.836055893305,
+        37289.35625607835,
+        44067.27703535329,
+        50844.59839435537
+       ],
+       "rejectedTimesSec": []
+      }
+     },
+     "mass": {
+      "held": [
+       5105.58447265625,
+       4963.21044921875
+      ],
+      "declared": [
+       5105.584602637203,
+       4963.210456528453
+      ],
+      "isFloat32": true
+     },
+     "precision": {
+      "framePrecision": "double",
+      "stateCarry": "double",
+      "xIsFloat64": true
+     }
+    }
+   ],
+   "quantities": [
+    {
+     "key": "P",
+     "name": "近点間 P [s]",
+     "values": [
+      6685.642291994065,
+      6733.570007117497,
+      6757.54080649197,
+      6769.529013590517,
+      6775.523111648803
+     ],
+     "stages": [
+      "dt/1",
+      "dt/2",
+      "dt/4",
+      "dt/8",
+      "dt/16"
+     ],
+     "pObsRows": [
+      {
+       "triple": "dt/1,dt/2,dt/4",
+       "pObs": 0.9995821428774139,
+       "richardson": 6781.525497537863
+      },
+      {
+       "triple": "dt/2,dt/4,dt/8",
+       "pObs": 0.9996621085488182,
+       "richardson": 6781.522838142687
+      },
+      {
+       "triple": "dt/4,dt/8,dt/16",
+       "pObs": 1.0000013216027823,
+       "richardson": 6781.517198725134
+      }
+     ],
+     "epsNum": 71.89851449790513,
+     "epsNumEstimate": {
+      "raw": 71.89851449790513,
+      "order": 0.9995821428774139,
+      "factor": 1.3335909123211611,
+      "refined": 95.88320554379753,
+      "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3336 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+     },
+     "asymptotic": {
+      "pObsShifts": [
+       0.9995821428774139,
+       0.9996621085488182,
+       1.0000013216027823
+      ],
+      "inAsymptotic": true
+     }
+    },
+    {
+     "key": "e",
+     "name": "離心率 proxy",
+     "values": [
+      0.07217953516083096,
+      0.0679900171717606,
+      0.06591788620955849,
+      0.06488739558191313,
+      0.06437353409798498
+     ],
+     "stages": [
+      "dt/1",
+      "dt/2",
+      "dt/4",
+      "dt/8",
+      "dt/16"
+     ],
+     "pObsRows": [
+      {
+       "triple": "dt/1,dt/2,dt/4",
+       "pObs": 1.0156690823499135,
+       "richardson": 0.0638900440295356
+      },
+      {
+       "triple": "dt/2,dt/4,dt/8",
+       "pObs": 1.0077838031209023,
+       "richardson": 0.06386793531483659
+      },
+      {
+       "triple": "dt/4,dt/8,dt/16",
+       "pObs": 1.0038799582977267,
+       "richardson": 0.06386242544707739
+      }
+     ],
+     "epsNum": 0.006261648951272472,
+     "epsNumEstimate": {
+      "raw": 0.006261648951272472,
+      "order": 1.0156690823499135,
+      "factor": 1.3238511446111634,
+      "refined": 0.008289491131295353,
+      "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3239 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+     },
+     "asymptotic": {
+      "pObsShifts": [
+       1.0156690823499135,
+       1.0077838031209023,
+       1.0038799582977267
+      ],
+      "inAsymptotic": true
+     }
+    },
+    {
+     "key": "degYear",
+     "name": "近点移動 [deg/yr]",
+     "values": [
+      54.9325154801378,
+      52.5746915478453,
+      51.82549019640166,
+      51.66244699860804,
+      51.57806413260003
+     ],
+     "stages": [
+      "dt/1",
+      "dt/2",
+      "dt/4",
+      "dt/8",
+      "dt/16"
+     ],
+     "pObsRows": [
+      {
+       "triple": "dt/1,dt/2,dt/4",
+       "pObs": 1.6540305837024443,
+       "richardson": 51.476556474043505
+      },
+      {
+       "triple": "dt/2,dt/4,dt/8",
+       "pObs": 2.200099249268579,
+       "richardson": 51.61709561318205
+      },
+      {
+       "triple": "dt/4,dt/8,dt/16",
+       "pObs": 0.9502322590329381,
+       "richardson": 51.48754241836252
+      }
+     ],
+     "epsNum": 3.1070252837361423,
+     "epsNumEstimate": {
+      "raw": 3.1070252837361423,
+      "order": 1.6540305837024443,
+      "factor": 1.112304757925422,
+      "refined": 3.4559590060942953,
+      "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.1123 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+     },
+     "asymptotic": {
+      "pObsShifts": [
+       1.6540305837024443,
+       2.200099249268579,
+       0.9502322590329381
+      ],
+      "inAsymptotic": false
+     }
+    },
+    {
+     "key": "degOrbit",
+     "name": "近点移動 [°/周]",
+     "values": [
+      0.01163655961513773,
+      0.011217991672246682,
+      0.011097595818321091,
+      0.011082292371785334,
+      0.011073985202391565
+     ],
+     "stages": [
+      "dt/1",
+      "dt/2",
+      "dt/4",
+      "dt/8",
+      "dt/16"
+     ],
+     "pObsRows": [
+      {
+       "triple": "dt/1,dt/2,dt/4",
+       "pObs": 1.7976761124565899,
+       "richardson": 0.011048982409558504
+      },
+      {
+       "triple": "dt/2,dt/4,dt/8",
+       "pObs": 2.9758572024720555,
+       "richardson": 0.011080063899893886
+      },
+      {
+       "triple": "dt/4,dt/8,dt/16",
+       "pObs": 0.881427725021876,
+       "richardson": 0.011064121518901583
+      }
+     ],
+     "epsNum": 0.0005389637968166387,
+     "epsNumEstimate": {
+      "raw": 0.0005389637968166387,
+      "order": 1.7976761124565899,
+      "factor": 1.090197911343432,
+      "refined": 0.0005875772055792252,
+      "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0902 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+     },
+     "asymptotic": {
+      "pObsShifts": [
+       1.7976761124565899,
+       2.9758572024720555,
+       0.881427725021876
+      ],
+      "inAsymptotic": false
+     }
+    }
+   ],
+   "budget": {
+    "spentSec": 33.7,
+    "budgetTotalS": 12000
+   }
+  },
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "note": "近点移動が h/16 でも漸近域外である系(〔第259便d〕)。イベント列を監査する",
+   "toSec": 10,
+   "truncated": null,
+   "obs": {
+    "v1": {
+     "period": {
+      "body": "PSR J0737-3039 B",
+      "quantity": "orbital_period",
+      "value": 8834.534723278,
+      "unit": "s",
+      "source": "Hu et al. (2022) A&A 667 A149 (via device-collected record)",
+      "sigma": 2.5056e-7,
+      "primaryVerified": true
+     },
+     "ecc": {
+      "body": "PSR J0737-3039 B",
+      "quantity": "eccentricity",
+      "value": 0.087777036,
+      "unit": "1",
+      "source": "Hu et al. (2022) A&A 667 A149 (via device-collected record)",
+      "sigma": 4.8e-8,
+      "primaryVerified": true
+     },
+     "omegaDot": {
+      "body": "PSR J0737-3039 B",
+      "quantity": "periastron_advance",
+      "value": 16.899323,
+      "unit": "deg/yr",
+      "source": "Kramer et al. (2021) Phys. Rev. X 11 041050 - Strong-Field Gravity Tests with the Double Pulsar",
+      "sigma": 0.000013,
+      "primaryVerified": true
+     }
+    },
+    "v2": {
+     "period": null,
+     "ecc": null,
+     "omegaDot": null,
+     "note": "**版 v2 = Meng et al. (2025) Table 1 DDFWHE 列**(🩺 のみ)。**プリセットと builder の入力は版 v1 のままである** —— 黙って置換していない。"
+    }
+   },
+   "precision": {
+    "framePrecision": "double",
+    "stateCarry": "double",
+    "xIsFloat64": true
+   },
+   "massRounding": {
+    "ok": true,
+    "massDeclaredSum": 10288.408817142525,
+    "massHeldSum": 10288.40869140625,
+    "relMassError": -1.2221158477934348e-8,
+    "relPeriodError": 6.1105791537841014e-9,
+    "periodErrorSec": 0.000053984123713444345,
+    "nSigma": 215.453878166684,
+    "ulp32": [
+     0.00048828125,
+     0.00048828125
+    ],
+    "ulpRel": [
+     9.175093758801969e-8,
+     9.831304572881452e-8
+    ],
+    "heldIsFround": true,
+    "isBound": false,
+    "isMeasured": false,
+    "model": "fixed-a Kepler: ΔP/P = √(M_decl/M_held) − 1",
+    "note": "**診断である。** 固定 a の Kepler 感度で、(a) 誤差上限でも (b) Float64 実走の結果でも (c) 離散化誤差 ε_num でもない。ε_num とは出どころが違う —— 桁を比べるためだけに使う。",
+    "isFloat32": true,
+    "ulpBitwise": [
+     0.00048828125,
+     0.00048828125
+    ]
+   },
+   "stages": [
+    {
+     "div": 1,
+     "dt": 0.016,
+     "wallSec": 1.41,
+     "steps": 1065169,
+     "stopped": "window",
+     "nan": false,
+     "clamp": 0,
+     "eProxy": 0.09406572787919135,
+     "rMin": 790.9778812294356,
+     "rMax": 955.2368400168243,
+     "dets": {
+      "legacy": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/legacy-v0",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 873.7372557379044,
+       "perMeanSimRaw": 873.7372557379044,
+       "periStartSim": 441.6885549641951,
+       "periEndSim": 17042.69641398438,
+       "slopeRadPerOrbit": 0.00016728581217340195,
+       "seRadPerOrbit": 8.195647428281168e-8,
+       "slopeRadPerSimTime": 1.9145803702714716e-7,
+       "seRadPerSimTime": 1.9151392100475063e-10,
+       "firstTimes": [
+        441.6885549641951,
+        1324.1517299387583,
+        2205.6441715142473,
+        3086.1670391593825,
+        3965.7204312244526,
+        4844.304336357108,
+        5721.918778153375,
+        6598.563780985759
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 8737.372557379043,
+       "perMeanSecRaw": 8737.372557379043,
+       "degPerOrbit": 0.00958477100995414,
+       "degPerYear": 34.61785873573114,
+       "seDegPerYear": 0.03462796321435375,
+       "tSpanSec": 166010.07859020185,
+       "firstTimesSec": [
+        4416.885549641951,
+        13241.517299387582,
+        22056.44171514247,
+        30861.670391593827,
+        39657.204312244525,
+        48443.04336357108,
+        57219.18778153375,
+        65985.6378098576
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.25": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 3.9269908169872414,
+       "perMeanSim": 873.7372557379044,
+       "perMeanSimRaw": 873.7372557379044,
+       "periStartSim": 441.6885549641951,
+       "periEndSim": 17042.69641398438,
+       "slopeRadPerOrbit": 0.00016728581217340195,
+       "seRadPerOrbit": 8.195647428281168e-8,
+       "slopeRadPerSimTime": 1.9145803702714716e-7,
+       "seRadPerSimTime": 1.9151392100475063e-10,
+       "firstTimes": [
+        441.6885549641951,
+        1324.1517299387583,
+        2205.6441715142473,
+        3086.1670391593825,
+        3965.7204312244526,
+        4844.304336357108,
+        5721.918778153375,
+        6598.563780985759
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 8737.372557379043,
+       "perMeanSecRaw": 8737.372557379043,
+       "degPerOrbit": 0.00958477100995414,
+       "degPerYear": 34.61785873573114,
+       "seDegPerYear": 0.03462796321435375,
+       "tSpanSec": 166010.07859020185,
+       "firstTimesSec": [
+        4416.885549641951,
+        13241.517299387582,
+        22056.44171514247,
+        30861.670391593827,
+        39657.204312244525,
+        48443.04336357108,
+        57219.18778153375,
+        65985.6378098576
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.5": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 873.7372557379044,
+       "perMeanSimRaw": 873.7372557379044,
+       "periStartSim": 441.6885549641951,
+       "periEndSim": 17042.69641398438,
+       "slopeRadPerOrbit": 0.00016728581217340195,
+       "seRadPerOrbit": 8.195647428281168e-8,
+       "slopeRadPerSimTime": 1.9145803702714716e-7,
+       "seRadPerSimTime": 1.9151392100475063e-10,
+       "firstTimes": [
+        441.6885549641951,
+        1324.1517299387583,
+        2205.6441715142473,
+        3086.1670391593825,
+        3965.7204312244526,
+        4844.304336357108,
+        5721.918778153375,
+        6598.563780985759
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 8737.372557379043,
+       "perMeanSecRaw": 8737.372557379043,
+       "degPerOrbit": 0.00958477100995414,
+       "degPerYear": 34.61785873573114,
+       "seDegPerYear": 0.03462796321435375,
+       "tSpanSec": 166010.07859020185,
+       "firstTimesSec": [
+        4416.885549641951,
+        13241.517299387582,
+        22056.44171514247,
+        30861.670391593827,
+        39657.204312244525,
+        48443.04336357108,
+        57219.18778153375,
+        65985.6378098576
+       ],
+       "rejectedTimesSec": [],
+       "eProxyWindow": 0.09406572787919135
+      },
+      "phase1.75": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 5.497787143782138,
+       "perMeanSim": 873.7372557379044,
+       "perMeanSimRaw": 873.7372557379044,
+       "periStartSim": 441.6885549641951,
+       "periEndSim": 17042.69641398438,
+       "slopeRadPerOrbit": 0.00016728581217340195,
+       "seRadPerOrbit": 8.195647428281168e-8,
+       "slopeRadPerSimTime": 1.9145803702714716e-7,
+       "seRadPerSimTime": 1.9151392100475063e-10,
+       "firstTimes": [
+        441.6885549641951,
+        1324.1517299387583,
+        2205.6441715142473,
+        3086.1670391593825,
+        3965.7204312244526,
+        4844.304336357108,
+        5721.918778153375,
+        6598.563780985759
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 8737.372557379043,
+       "perMeanSecRaw": 8737.372557379043,
+       "degPerOrbit": 0.00958477100995414,
+       "degPerYear": 34.61785873573114,
+       "seDegPerYear": 0.03462796321435375,
+       "tSpanSec": 166010.07859020185,
+       "firstTimesSec": [
+        4416.885549641951,
+        13241.517299387582,
+        22056.44171514247,
+        30861.670391593827,
+        39657.204312244525,
+        48443.04336357108,
+        57219.18778153375,
+        65985.6378098576
+       ],
+       "rejectedTimesSec": []
+      }
+     },
+     "mass": {
+      "held": [
+       5321.81201171875,
+       4966.5966796875
+      ],
+      "declared": [
+       5321.812101719132,
+       4966.596715423392
+      ],
+      "isFloat32": true
+     },
+     "precision": {
+      "framePrecision": "double",
+      "stateCarry": "double",
+      "xIsFloat64": true
+     }
+    },
+    {
+     "div": 2,
+     "dt": 0.008,
+     "wallSec": 2.8,
+     "steps": 2141850,
+     "stopped": "window",
+     "nan": false,
+     "clamp": 0,
+     "eProxy": 0.09091909529820075,
+     "rMin": 796.32357343213,
+     "rMax": 955.6075678194699,
+     "dets": {
+      "legacy": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/legacy-v0",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 878.5838685746279,
+       "perMeanSimRaw": 878.5838685746279,
+       "periStartSim": 441.7045421214337,
+       "periEndSim": 17134.798045039362,
+       "slopeRadPerOrbit": 0.00016553584841019441,
+       "seRadPerOrbit": 1.4844513347755372e-7,
+       "slopeRadPerSimTime": 1.8841106459391745e-7,
+       "seRadPerSimTime": 2.1560617013823312e-10,
+       "firstTimes": [
+        441.7045421214337,
+        1324.6494913150623,
+        2207.111455079697,
+        3089.0886411681145,
+        3970.5810500605367,
+        4851.588687795112,
+        5732.111560444625,
+        6612.149674081625
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 8785.83868574628,
+       "perMeanSecRaw": 8785.83868574628,
+       "degPerOrbit": 0.009484505472021518,
+       "degPerYear": 34.066930381387586,
+       "seDegPerYear": 0.0389841244394408,
+       "tSpanSec": 166930.93502917927,
+       "firstTimesSec": [
+        4417.045421214337,
+        13246.494913150622,
+        22071.11455079697,
+        30890.886411681146,
+        39705.81050060537,
+        48515.88687795112,
+        57321.11560444625,
+        66121.49674081625
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.25": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 3.9269908169872414,
+       "perMeanSim": 878.5838685746279,
+       "perMeanSimRaw": 878.5838685746279,
+       "periStartSim": 441.7045421214337,
+       "periEndSim": 17134.798045039362,
+       "slopeRadPerOrbit": 0.00016553584841019441,
+       "seRadPerOrbit": 1.4844513347755372e-7,
+       "slopeRadPerSimTime": 1.8841106459391745e-7,
+       "seRadPerSimTime": 2.1560617013823312e-10,
+       "firstTimes": [
+        441.7045421214337,
+        1324.6494913150623,
+        2207.111455079697,
+        3089.0886411681145,
+        3970.5810500605367,
+        4851.588687795112,
+        5732.111560444625,
+        6612.149674081625
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 8785.83868574628,
+       "perMeanSecRaw": 8785.83868574628,
+       "degPerOrbit": 0.009484505472021518,
+       "degPerYear": 34.066930381387586,
+       "seDegPerYear": 0.0389841244394408,
+       "tSpanSec": 166930.93502917927,
+       "firstTimesSec": [
+        4417.045421214337,
+        13246.494913150622,
+        22071.11455079697,
+        30890.886411681146,
+        39705.81050060537,
+        48515.88687795112,
+        57321.11560444625,
+        66121.49674081625
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.5": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 878.5838685746279,
+       "perMeanSimRaw": 878.5838685746279,
+       "periStartSim": 441.7045421214337,
+       "periEndSim": 17134.798045039362,
+       "slopeRadPerOrbit": 0.00016553584841019441,
+       "seRadPerOrbit": 1.4844513347755372e-7,
+       "slopeRadPerSimTime": 1.8841106459391745e-7,
+       "seRadPerSimTime": 2.1560617013823312e-10,
+       "firstTimes": [
+        441.7045421214337,
+        1324.6494913150623,
+        2207.111455079697,
+        3089.0886411681145,
+        3970.5810500605367,
+        4851.588687795112,
+        5732.111560444625,
+        6612.149674081625
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 8785.83868574628,
+       "perMeanSecRaw": 8785.83868574628,
+       "degPerOrbit": 0.009484505472021518,
+       "degPerYear": 34.066930381387586,
+       "seDegPerYear": 0.0389841244394408,
+       "tSpanSec": 166930.93502917927,
+       "firstTimesSec": [
+        4417.045421214337,
+        13246.494913150622,
+        22071.11455079697,
+        30890.886411681146,
+        39705.81050060537,
+        48515.88687795112,
+        57321.11560444625,
+        66121.49674081625
+       ],
+       "rejectedTimesSec": [],
+       "eProxyWindow": 0.09091909529820075
+      },
+      "phase1.75": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 5.497787143782138,
+       "perMeanSim": 878.5838685746279,
+       "perMeanSimRaw": 878.5838685746279,
+       "periStartSim": 441.7045421214337,
+       "periEndSim": 17134.798045039362,
+       "slopeRadPerOrbit": 0.00016553584841019441,
+       "seRadPerOrbit": 1.4844513347755372e-7,
+       "slopeRadPerSimTime": 1.8841106459391745e-7,
+       "seRadPerSimTime": 2.1560617013823312e-10,
+       "firstTimes": [
+        441.7045421214337,
+        1324.6494913150623,
+        2207.111455079697,
+        3089.0886411681145,
+        3970.5810500605367,
+        4851.588687795112,
+        5732.111560444625,
+        6612.149674081625
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 8785.83868574628,
+       "perMeanSecRaw": 8785.83868574628,
+       "degPerOrbit": 0.009484505472021518,
+       "degPerYear": 34.066930381387586,
+       "seDegPerYear": 0.0389841244394408,
+       "tSpanSec": 166930.93502917927,
+       "firstTimesSec": [
+        4417.045421214337,
+        13246.494913150622,
+        22071.11455079697,
+        30890.886411681146,
+        39705.81050060537,
+        48515.88687795112,
+        57321.11560444625,
+        66121.49674081625
+       ],
+       "rejectedTimesSec": []
+      }
+     },
+     "mass": {
+      "held": [
+       5321.81201171875,
+       4966.5966796875
+      ],
+      "declared": [
+       5321.812101719132,
+       4966.596715423392
+      ],
+      "isFloat32": true
+     },
+     "precision": {
+      "framePrecision": "double",
+      "stateCarry": "double",
+      "xIsFloat64": true
+     }
+    },
+    {
+     "div": 4,
+     "dt": 0.004,
+     "wallSec": 4.72,
+     "steps": 4295214,
+     "stopped": "window",
+     "nan": false,
+     "clamp": 0,
+     "eProxy": 0.08935883047456201,
+     "rMin": 798.9877721726525,
+     "rMax": 955.7929228161951,
+     "dets": {
+      "legacy": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/legacy-v0",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 881.0076512361618,
+       "perMeanSimRaw": 881.0076512361618,
+       "periStartSim": 441.70927304341916,
+       "periEndSim": 17180.85464653049,
+       "slopeRadPerOrbit": 0.00016525908913596015,
+       "seRadPerOrbit": 1.9049702134973154e-8,
+       "slopeRadPerSimTime": 1.875794729828549e-7,
+       "seRadPerSimTime": 5.2830591930636724e-11,
+       "firstTimes": [
+        441.70927304341916,
+        1324.8983958926103,
+        2207.8451467894424,
+        3090.549502233232,
+        3973.0114637419724,
+        4855.231032833923,
+        5737.208211027212,
+        6618.942999840057
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 8810.076512361618,
+       "perMeanSecRaw": 8810.076512361618,
+       "degPerOrbit": 0.009468648333666792,
+       "degPerYear": 33.91656886423957,
+       "seDegPerYear": 0.00955239067932426,
+       "tSpanSec": 167391.4537348707,
+       "firstTimesSec": [
+        4417.092730434191,
+        13248.983958926103,
+        22078.451467894425,
+        30905.49502233232,
+        39730.11463741973,
+        48552.31032833923,
+        57372.082110272124,
+        66189.42999840058
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.25": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 3.9269908169872414,
+       "perMeanSim": 881.0076512361618,
+       "perMeanSimRaw": 881.0076512361618,
+       "periStartSim": 441.70927304341916,
+       "periEndSim": 17180.85464653049,
+       "slopeRadPerOrbit": 0.00016525908913596015,
+       "seRadPerOrbit": 1.9049702134973154e-8,
+       "slopeRadPerSimTime": 1.875794729828549e-7,
+       "seRadPerSimTime": 5.2830591930636724e-11,
+       "firstTimes": [
+        441.70927304341916,
+        1324.8983958926103,
+        2207.8451467894424,
+        3090.549502233232,
+        3973.0114637419724,
+        4855.231032833923,
+        5737.208211027212,
+        6618.942999840057
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 8810.076512361618,
+       "perMeanSecRaw": 8810.076512361618,
+       "degPerOrbit": 0.009468648333666792,
+       "degPerYear": 33.91656886423957,
+       "seDegPerYear": 0.00955239067932426,
+       "tSpanSec": 167391.4537348707,
+       "firstTimesSec": [
+        4417.092730434191,
+        13248.983958926103,
+        22078.451467894425,
+        30905.49502233232,
+        39730.11463741973,
+        48552.31032833923,
+        57372.082110272124,
+        66189.42999840058
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.5": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 881.0076512361618,
+       "perMeanSimRaw": 881.0076512361618,
+       "periStartSim": 441.70927304341916,
+       "periEndSim": 17180.85464653049,
+       "slopeRadPerOrbit": 0.00016525908913596015,
+       "seRadPerOrbit": 1.9049702134973154e-8,
+       "slopeRadPerSimTime": 1.875794729828549e-7,
+       "seRadPerSimTime": 5.2830591930636724e-11,
+       "firstTimes": [
+        441.70927304341916,
+        1324.8983958926103,
+        2207.8451467894424,
+        3090.549502233232,
+        3973.0114637419724,
+        4855.231032833923,
+        5737.208211027212,
+        6618.942999840057
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 8810.076512361618,
+       "perMeanSecRaw": 8810.076512361618,
+       "degPerOrbit": 0.009468648333666792,
+       "degPerYear": 33.91656886423957,
+       "seDegPerYear": 0.00955239067932426,
+       "tSpanSec": 167391.4537348707,
+       "firstTimesSec": [
+        4417.092730434191,
+        13248.983958926103,
+        22078.451467894425,
+        30905.49502233232,
+        39730.11463741973,
+        48552.31032833923,
+        57372.082110272124,
+        66189.42999840058
+       ],
+       "rejectedTimesSec": [],
+       "eProxyWindow": 0.08935883047456201
+      },
+      "phase1.75": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 5.497787143782138,
+       "perMeanSim": 881.0076512361618,
+       "perMeanSimRaw": 881.0076512361618,
+       "periStartSim": 441.70927304341916,
+       "periEndSim": 17180.85464653049,
+       "slopeRadPerOrbit": 0.00016525908913596015,
+       "seRadPerOrbit": 1.9049702134973154e-8,
+       "slopeRadPerSimTime": 1.875794729828549e-7,
+       "seRadPerSimTime": 5.2830591930636724e-11,
+       "firstTimes": [
+        441.70927304341916,
+        1324.8983958926103,
+        2207.8451467894424,
+        3090.549502233232,
+        3973.0114637419724,
+        4855.231032833923,
+        5737.208211027212,
+        6618.942999840057
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 8810.076512361618,
+       "perMeanSecRaw": 8810.076512361618,
+       "degPerOrbit": 0.009468648333666792,
+       "degPerYear": 33.91656886423957,
+       "seDegPerYear": 0.00955239067932426,
+       "tSpanSec": 167391.4537348707,
+       "firstTimesSec": [
+        4417.092730434191,
+        13248.983958926103,
+        22078.451467894425,
+        30905.49502233232,
+        39730.11463741973,
+        48552.31032833923,
+        57372.082110272124,
+        66189.42999840058
+       ],
+       "rejectedTimesSec": []
+      }
+     },
+     "mass": {
+      "held": [
+       5321.81201171875,
+       4966.5966796875
+      ],
+      "declared": [
+       5321.812101719132,
+       4966.596715423392
+      ],
+      "isFloat32": true
+     },
+     "precision": {
+      "framePrecision": "double",
+      "stateCarry": "double",
+      "xIsFloat64": true
+     }
+    },
+    {
+     "div": 8,
+     "dt": 0.002,
+     "wallSec": 10.15,
+     "steps": 8601943,
+     "stopped": "window",
+     "nan": false,
+     "clamp": 0,
+     "eProxy": 0.08858192446094297,
+     "rMin": 800.3177277418688,
+     "rMax": 955.8855980886441,
+     "dets": {
+      "legacy": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/legacy-v0",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 882.2195728080791,
+       "perMeanSimRaw": 882.2195728080791,
+       "periStartSim": 441.7125095422071,
+       "periEndSim": 17203.884392895707,
+       "slopeRadPerOrbit": 0.00016506424838318886,
+       "seRadPerOrbit": 9.041918418069072e-9,
+       "slopeRadPerSimTime": 1.8710105707801192e-7,
+       "seRadPerSimTime": 2.581311664024018e-11,
+       "firstTimes": [
+        441.7125095422071,
+        1325.022854564363,
+        2208.2120004581093,
+        3091.279947675516,
+        3974.226696596128,
+        4857.052247599548,
+        5739.756601065396,
+        6622.339757373214
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 8822.195728080791,
+       "perMeanSecRaw": 8822.195728080791,
+       "degPerOrbit": 0.009457484780855844,
+       "degPerYear": 33.83006565722908,
+       "seDegPerYear": 0.004667314254632627,
+       "tSpanSec": 167621.71883353498,
+       "firstTimesSec": [
+        4417.125095422071,
+        13250.22854564363,
+        22082.12000458109,
+        30912.799476755157,
+        39742.26696596128,
+        48570.52247599547,
+        57397.566010653965,
+        66223.39757373213
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.25": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 3.9269908169872414,
+       "perMeanSim": 882.2195728080791,
+       "perMeanSimRaw": 882.2195728080791,
+       "periStartSim": 441.7125095422071,
+       "periEndSim": 17203.884392895707,
+       "slopeRadPerOrbit": 0.00016506424838318886,
+       "seRadPerOrbit": 9.041918418069072e-9,
+       "slopeRadPerSimTime": 1.8710105707801192e-7,
+       "seRadPerSimTime": 2.581311664024018e-11,
+       "firstTimes": [
+        441.7125095422071,
+        1325.022854564363,
+        2208.2120004581093,
+        3091.279947675516,
+        3974.226696596128,
+        4857.052247599548,
+        5739.756601065396,
+        6622.339757373214
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 8822.195728080791,
+       "perMeanSecRaw": 8822.195728080791,
+       "degPerOrbit": 0.009457484780855844,
+       "degPerYear": 33.83006565722908,
+       "seDegPerYear": 0.004667314254632627,
+       "tSpanSec": 167621.71883353498,
+       "firstTimesSec": [
+        4417.125095422071,
+        13250.22854564363,
+        22082.12000458109,
+        30912.799476755157,
+        39742.26696596128,
+        48570.52247599547,
+        57397.566010653965,
+        66223.39757373213
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.5": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 882.2195728080791,
+       "perMeanSimRaw": 882.2195728080791,
+       "periStartSim": 441.7125095422071,
+       "periEndSim": 17203.884392895707,
+       "slopeRadPerOrbit": 0.00016506424838318886,
+       "seRadPerOrbit": 9.041918418069072e-9,
+       "slopeRadPerSimTime": 1.8710105707801192e-7,
+       "seRadPerSimTime": 2.581311664024018e-11,
+       "firstTimes": [
+        441.7125095422071,
+        1325.022854564363,
+        2208.2120004581093,
+        3091.279947675516,
+        3974.226696596128,
+        4857.052247599548,
+        5739.756601065396,
+        6622.339757373214
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 8822.195728080791,
+       "perMeanSecRaw": 8822.195728080791,
+       "degPerOrbit": 0.009457484780855844,
+       "degPerYear": 33.83006565722908,
+       "seDegPerYear": 0.004667314254632627,
+       "tSpanSec": 167621.71883353498,
+       "firstTimesSec": [
+        4417.125095422071,
+        13250.22854564363,
+        22082.12000458109,
+        30912.799476755157,
+        39742.26696596128,
+        48570.52247599547,
+        57397.566010653965,
+        66223.39757373213
+       ],
+       "rejectedTimesSec": [],
+       "eProxyWindow": 0.08858192446094297
+      },
+      "phase1.75": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 5.497787143782138,
+       "perMeanSim": 882.2195728080791,
+       "perMeanSimRaw": 882.2195728080791,
+       "periStartSim": 441.7125095422071,
+       "periEndSim": 17203.884392895707,
+       "slopeRadPerOrbit": 0.00016506424838318886,
+       "seRadPerOrbit": 9.041918418069072e-9,
+       "slopeRadPerSimTime": 1.8710105707801192e-7,
+       "seRadPerSimTime": 2.581311664024018e-11,
+       "firstTimes": [
+        441.7125095422071,
+        1325.022854564363,
+        2208.2120004581093,
+        3091.279947675516,
+        3974.226696596128,
+        4857.052247599548,
+        5739.756601065396,
+        6622.339757373214
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 8822.195728080791,
+       "perMeanSecRaw": 8822.195728080791,
+       "degPerOrbit": 0.009457484780855844,
+       "degPerYear": 33.83006565722908,
+       "seDegPerYear": 0.004667314254632627,
+       "tSpanSec": 167621.71883353498,
+       "firstTimesSec": [
+        4417.125095422071,
+        13250.22854564363,
+        22082.12000458109,
+        30912.799476755157,
+        39742.26696596128,
+        48570.52247599547,
+        57397.566010653965,
+        66223.39757373213
+       ],
+       "rejectedTimesSec": []
+      }
+     },
+     "mass": {
+      "held": [
+       5321.81201171875,
+       4966.5966796875
+      ],
+      "declared": [
+       5321.812101719132,
+       4966.596715423392
+      ],
+      "isFloat32": true
+     },
+     "precision": {
+      "framePrecision": "double",
+      "stateCarry": "double",
+      "xIsFloat64": true
+     }
+    },
+    {
+     "div": 16,
+     "dt": 0.001,
+     "wallSec": 20.5,
+     "steps": 17215400,
+     "stopped": "window",
+     "nan": false,
+     "clamp": 0,
+     "eProxy": 0.08819427353457483,
+     "rMin": 800.9821718380023,
+     "rMax": 955.9319351680471,
+     "dets": {
+      "legacy": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/legacy-v0",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 882.8255519325318,
+       "perMeanSimRaw": 882.8255519325318,
+       "periStartSim": 441.71414065691204,
+       "periEndSim": 17215.399627375016,
+       "slopeRadPerOrbit": 0.00016497757272348131,
+       "seRadPerOrbit": 4.5158105694554374e-9,
+       "slopeRadPerSimTime": 1.8687447813879288e-7,
+       "seRadPerSimTime": 1.2882572052303053e-11,
+       "firstTimes": [
+        441.71414065691204,
+        1325.0850847834015,
+        2208.395429239583,
+        3091.6451741202577,
+        3974.834319520339,
+        4857.962865534617,
+        5741.030812258023,
+        6624.0381597856585
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 8828.255519325317,
+       "perMeanSecRaw": 8828.255519325317,
+       "degPerOrbit": 0.00945251863136809,
+       "degPerYear": 33.789097527438514,
+       "seDegPerYear": 0.0023293201287563113,
+       "tSpanSec": 167736.85486718104,
+       "firstTimesSec": [
+        4417.141406569121,
+        13250.850847834015,
+        22083.95429239583,
+        30916.451741202578,
+        39748.343195203386,
+        48579.62865534617,
+        57410.30812258023,
+        66240.38159785658
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.25": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 3.9269908169872414,
+       "perMeanSim": 882.8255519325318,
+       "perMeanSimRaw": 882.8255519325318,
+       "periStartSim": 441.71414065691204,
+       "periEndSim": 17215.399627375016,
+       "slopeRadPerOrbit": 0.00016497757272348131,
+       "seRadPerOrbit": 4.5158105694554374e-9,
+       "slopeRadPerSimTime": 1.8687447813879288e-7,
+       "seRadPerSimTime": 1.2882572052303053e-11,
+       "firstTimes": [
+        441.71414065691204,
+        1325.0850847834015,
+        2208.395429239583,
+        3091.6451741202577,
+        3974.834319520339,
+        4857.962865534617,
+        5741.030812258023,
+        6624.0381597856585
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 8828.255519325317,
+       "perMeanSecRaw": 8828.255519325317,
+       "degPerOrbit": 0.00945251863136809,
+       "degPerYear": 33.789097527438514,
+       "seDegPerYear": 0.0023293201287563113,
+       "tSpanSec": 167736.85486718104,
+       "firstTimesSec": [
+        4417.141406569121,
+        13250.850847834015,
+        22083.95429239583,
+        30916.451741202578,
+        39748.343195203386,
+        48579.62865534617,
+        57410.30812258023,
+        66240.38159785658
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.5": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 882.8255519325318,
+       "perMeanSimRaw": 882.8255519325318,
+       "periStartSim": 441.71414065691204,
+       "periEndSim": 17215.399627375016,
+       "slopeRadPerOrbit": 0.00016497757272348131,
+       "seRadPerOrbit": 4.5158105694554374e-9,
+       "slopeRadPerSimTime": 1.8687447813879288e-7,
+       "seRadPerSimTime": 1.2882572052303053e-11,
+       "firstTimes": [
+        441.71414065691204,
+        1325.0850847834015,
+        2208.395429239583,
+        3091.6451741202577,
+        3974.834319520339,
+        4857.962865534617,
+        5741.030812258023,
+        6624.0381597856585
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 8828.255519325317,
+       "perMeanSecRaw": 8828.255519325317,
+       "degPerOrbit": 0.00945251863136809,
+       "degPerYear": 33.789097527438514,
+       "seDegPerYear": 0.0023293201287563113,
+       "tSpanSec": 167736.85486718104,
+       "firstTimesSec": [
+        4417.141406569121,
+        13250.850847834015,
+        22083.95429239583,
+        30916.451741202578,
+        39748.343195203386,
+        48579.62865534617,
+        57410.30812258023,
+        66240.38159785658
+       ],
+       "rejectedTimesSec": [],
+       "eProxyWindow": 0.08819427353457483
+      },
+      "phase1.75": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 5.497787143782138,
+       "perMeanSim": 882.8255519325318,
+       "perMeanSimRaw": 882.8255519325318,
+       "periStartSim": 441.71414065691204,
+       "periEndSim": 17215.399627375016,
+       "slopeRadPerOrbit": 0.00016497757272348131,
+       "seRadPerOrbit": 4.5158105694554374e-9,
+       "slopeRadPerSimTime": 1.8687447813879288e-7,
+       "seRadPerSimTime": 1.2882572052303053e-11,
+       "firstTimes": [
+        441.71414065691204,
+        1325.0850847834015,
+        2208.395429239583,
+        3091.6451741202577,
+        3974.834319520339,
+        4857.962865534617,
+        5741.030812258023,
+        6624.0381597856585
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 8828.255519325317,
+       "perMeanSecRaw": 8828.255519325317,
+       "degPerOrbit": 0.00945251863136809,
+       "degPerYear": 33.789097527438514,
+       "seDegPerYear": 0.0023293201287563113,
+       "tSpanSec": 167736.85486718104,
+       "firstTimesSec": [
+        4417.141406569121,
+        13250.850847834015,
+        22083.95429239583,
+        30916.451741202578,
+        39748.343195203386,
+        48579.62865534617,
+        57410.30812258023,
+        66240.38159785658
+       ],
+       "rejectedTimesSec": []
+      }
+     },
+     "mass": {
+      "held": [
+       5321.81201171875,
+       4966.5966796875
+      ],
+      "declared": [
+       5321.812101719132,
+       4966.596715423392
+      ],
+      "isFloat32": true
+     },
+     "precision": {
+      "framePrecision": "double",
+      "stateCarry": "double",
+      "xIsFloat64": true
+     }
+    }
+   ],
+   "quantities": [
+    {
+     "key": "P",
+     "name": "近点間 P [s]",
+     "values": [
+      8737.372557379043,
+      8785.83868574628,
+      8810.076512361618,
+      8822.195728080791,
+      8828.255519325317
+     ],
+     "stages": [
+      "dt/1",
+      "dt/2",
+      "dt/4",
+      "dt/8",
+      "dt/16"
+     ],
+     "pObsRows": [
+      {
+       "triple": "dt/1,dt/2,dt/4",
+       "pObs": 0.9997165005001694,
+       "richardson": 8834.323867584906
+      },
+      {
+       "triple": "dt/2,dt/4,dt/8",
+       "pObs": 0.9999639998965821,
+       "richardson": 8834.315548653156
+      },
+      {
+       "triple": "dt/4,dt/8,dt/16",
+       "pObs": 0.9999563396598453,
+       "richardson": 8834.315677361925
+      }
+     ],
+     "epsNum": 72.70395498257494,
+     "epsNumEstimate": {
+      "raw": 72.70395498257494,
+      "order": 0.9997165005001694,
+      "factor": 1.3335080633384957,
+      "refined": 96.95131020586268,
+      "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3335 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+     },
+     "asymptotic": {
+      "pObsShifts": [
+       0.9997165005001694,
+       0.9999639998965821,
+       0.9999563396598453
+      ],
+      "inAsymptotic": true
+     }
+    },
+    {
+     "key": "e",
+     "name": "離心率 proxy",
+     "values": [
+      0.09406572787919135,
+      0.09091909529820075,
+      0.08935883047456201,
+      0.08858192446094297,
+      0.08819427353457483
+     ],
+     "stages": [
+      "dt/1",
+      "dt/2",
+      "dt/4",
+      "dt/8",
+      "dt/16"
+     ],
+     "pObsRows": [
+      {
+       "triple": "dt/1,dt/2,dt/4",
+       "pObs": 1.0120178126596542,
+       "richardson": 0.08782423907316578
+      },
+      {
+       "triple": "dt/2,dt/4,dt/8",
+       "pObs": 1.005978934456038,
+       "richardson": 0.0878114180898175
+      },
+      {
+       "triple": "dt/4,dt/8,dt/16",
+       "pObs": 1.0029819663003448,
+       "richardson": 0.08780822015817487
+      }
+     ],
+     "epsNum": 0.004706897404629332,
+     "epsNumEstimate": {
+      "raw": 0.004706897404629332,
+      "order": 1.0120178126596542,
+      "factor": 1.3260303485448681,
+      "refined": 0.006241488806025567,
+      "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3260 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+     },
+     "asymptotic": {
+      "pObsShifts": [
+       1.0120178126596542,
+       1.005978934456038,
+       1.0029819663003448
+      ],
+      "inAsymptotic": true
+     }
+    },
+    {
+     "key": "degYear",
+     "name": "近点移動 [deg/yr]",
+     "values": [
+      34.61785873573114,
+      34.066930381387586,
+      33.91656886423957,
+      33.83006565722908,
+      33.789097527438514
+     ],
+     "stages": [
+      "dt/1",
+      "dt/2",
+      "dt/4",
+      "dt/8",
+      "dt/16"
+     ],
+     "pObsRows": [
+      {
+       "triple": "dt/1,dt/2,dt/4",
+       "pObs": 1.8734293378874516,
+       "richardson": 33.86012738247004
+      },
+      {
+       "triple": "dt/2,dt/4,dt/8",
+       "pObs": 0.797609852190266,
+       "richardson": 33.71288741046705
+      },
+      {
+       "triple": "dt/4,dt/8,dt/16",
+       "pObs": 1.0782515852711712,
+       "richardson": 33.752238302396904
+      }
+     ],
+     "epsNum": 0.7012898714915679,
+     "epsNumEstimate": {
+      "raw": 0.7012898714915679,
+      "order": 1.8734293378874516,
+      "factor": 1.0804823854784753,
+      "refined": 0.7577313532611026,
+      "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0805 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+     },
+     "asymptotic": {
+      "pObsShifts": [
+       1.8734293378874516,
+       0.797609852190266,
+       1.0782515852711712
+      ],
+      "inAsymptotic": false
+     }
+    },
+    {
+     "key": "degOrbit",
+     "name": "近点移動 [°/周]",
+     "values": [
+      0.00958477100995414,
+      0.009484505472021518,
+      0.009468648333666792,
+      0.009457484780855844,
+      0.00945251863136809
+     ],
+     "stages": [
+      "dt/1",
+      "dt/2",
+      "dt/4",
+      "dt/8",
+      "dt/16"
+     ],
+     "pObsRows": [
+      {
+       "triple": "dt/1,dt/2,dt/4",
+       "pObs": 2.660621480437513,
+       "richardson": 0.009465669378514717
+      },
+      {
+       "triple": "dt/2,dt/4,dt/8",
+       "pObs": 0.5063362005050155,
+       "richardson": 0.009430932604443928
+      },
+      {
+       "triple": "dt/4,dt/8,dt/16",
+       "pObs": 1.1685966449318264,
+       "richardson": 0.009448539119393709
+      }
+     ],
+     "epsNum": 0.00011612267628734879,
+     "epsNumEstimate": {
+      "raw": 0.00011612267628734879,
+      "order": 2.660621480437513,
+      "factor": 1.025653517877102,
+      "refined": 0.00011910163143942322,
+      "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0257 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+     },
+     "asymptotic": {
+      "pObsShifts": [
+       2.660621480437513,
+       0.5063362005050155,
+       1.1685966449318264
+      ],
+      "inAsymptotic": false
+     }
+    }
+   ],
+   "budget": {
+    "spentSec": 39.6,
+    "budgetTotalS": 12000
+   }
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "note": "〔第260便d〕の h8 を新しい抽出器で測り直す",
+   "toSec": 10,
+   "truncated": null,
+   "obs": {
+    "v1": {
+     "period": {
+      "body": "PSR J1757-1854",
+      "quantity": "orbital_period",
+      "value": 15857.669019168,
+      "unit": "s",
+      "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Universe Pulsar Survey XIII: PSR J1757-1854, the most accelerated binary pulsar",
+      "sigma": 0.00000432,
+      "primaryVerified": true
+     },
+     "ecc": {
+      "body": "PSR J1757-1854",
+      "quantity": "eccentricity",
+      "value": 0.6058142,
+      "unit": "1",
+      "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Universe Pulsar Survey XIII: PSR J1757-1854, the most accelerated binary pulsar",
+      "sigma": 1e-7,
+      "primaryVerified": true
+     },
+     "omegaDot": {
+      "body": "PSR J1757-1854",
+      "quantity": "periastron_advance",
+      "value": 10.3651,
+      "unit": "deg/yr",
+      "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Universe Pulsar Survey XIII: PSR J1757-1854, the most accelerated binary pulsar",
+      "sigma": 0.0002,
+      "primaryVerified": true
+     }
+    },
+    "v2": {
+     "period": null,
+     "ecc": null,
+     "omegaDot": null,
+     "note": "**版 v2 = Meng et al. (2025) Table 1 DDFWHE 列**(🩺 のみ)。**プリセットと builder の入力は版 v1 のままである** —— 黙って置換していない。"
+    }
+   },
+   "precision": {
+    "framePrecision": "double",
+    "stateCarry": "double",
+    "xIsFloat64": true
+   },
+   "massRounding": {
+    "ok": true,
+    "massDeclaredSum": 10868.57397200408,
+    "massHeldSum": 10868.57373046875,
+    "relMassError": -2.222327701455665e-8,
+    "relPeriodError": 1.1111638720251449e-8,
+    "periodErrorSec": 0.00017620468908631897,
+    "nSigma": 40.78812247368494,
+    "ulp32": [
+     0.00048828125,
+     0.00048828125
+    ],
+    "ulpRel": [
+     9.173840517747497e-8,
+     8.804150400798257e-8
+    ],
+    "heldIsFround": true,
+    "isBound": false,
+    "isMeasured": false,
+    "model": "fixed-a Kepler: ΔP/P = √(M_decl/M_held) − 1",
+    "note": "**診断である。** 固定 a の Kepler 感度で、(a) 誤差上限でも (b) Float64 実走の結果でも (c) 離散化誤差 ε_num でもない。ε_num とは出どころが違う —— 桁を比べるためだけに使う。",
+    "isFloat32": true,
+    "ulpBitwise": [
+     0.00048828125,
+     0.00048828125
+    ]
+   },
+   "stages": [
+    {
+     "div": 1,
+     "dt": 0.016,
+     "wallSec": 2.01,
+     "steps": 1891125,
+     "stopped": "window",
+     "nan": false,
+     "clamp": 0,
+     "eProxy": 0.6089203668102275,
+     "rMin": 515.1181689306248,
+     "rMax": 2119.2208516374058,
+     "dets": {
+      "legacy": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/legacy-v0",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 1550.8038974810872,
+       "perMeanSimRaw": 1550.8038974810872,
+       "periStartSim": 792.7223540885561,
+       "periEndSim": 30257.996406229217,
+       "slopeRadPerOrbit": 0.0001832036771908847,
+       "seRadPerOrbit": 8.882056445453119e-8,
+       "slopeRadPerSimTime": 1.1813193548851796e-7,
+       "seRadPerSimTime": 2.1650819981797695e-10,
+       "firstTimes": [
+        792.7223540885561,
+        2374.762272562976,
+        3953.2941390717083,
+        5528.324616401468,
+        7099.860350881039,
+        8667.90797224899,
+        10232.47409370538,
+        11793.565311964147
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 15508.038974810872,
+       "perMeanSecRaw": 15508.038974810872,
+       "degPerOrbit": 0.010496797494314838,
+       "degPerYear": 21.359639524248152,
+       "seDegPerYear": 0.03914722198558549,
+       "tSpanSec": 294652.7405214066,
+       "firstTimesSec": [
+        7927.223540885561,
+        23747.622725629757,
+        39532.94139071708,
+        55283.24616401468,
+        70998.6035088104,
+        86679.0797224899,
+        102324.7409370538,
+        117935.65311964147
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.25": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 3.9269908169872414,
+       "perMeanSim": 1550.8038974810872,
+       "perMeanSimRaw": 1550.8038974810872,
+       "periStartSim": 792.7223540885561,
+       "periEndSim": 30257.996406229217,
+       "slopeRadPerOrbit": 0.0001832036771908847,
+       "seRadPerOrbit": 8.882056445453119e-8,
+       "slopeRadPerSimTime": 1.1813193548851796e-7,
+       "seRadPerSimTime": 2.1650819981797695e-10,
+       "firstTimes": [
+        792.7223540885561,
+        2374.762272562976,
+        3953.2941390717083,
+        5528.324616401468,
+        7099.860350881039,
+        8667.90797224899,
+        10232.47409370538,
+        11793.565311964147
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 15508.038974810872,
+       "perMeanSecRaw": 15508.038974810872,
+       "degPerOrbit": 0.010496797494314838,
+       "degPerYear": 21.359639524248152,
+       "seDegPerYear": 0.03914722198558549,
+       "tSpanSec": 294652.7405214066,
+       "firstTimesSec": [
+        7927.223540885561,
+        23747.622725629757,
+        39532.94139071708,
+        55283.24616401468,
+        70998.6035088104,
+        86679.0797224899,
+        102324.7409370538,
+        117935.65311964147
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.5": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 1550.8038974810872,
+       "perMeanSimRaw": 1550.8038974810872,
+       "periStartSim": 792.7223540885561,
+       "periEndSim": 30257.996406229217,
+       "slopeRadPerOrbit": 0.0001832036771908847,
+       "seRadPerOrbit": 8.882056445453119e-8,
+       "slopeRadPerSimTime": 1.1813193548851796e-7,
+       "seRadPerSimTime": 2.1650819981797695e-10,
+       "firstTimes": [
+        792.7223540885561,
+        2374.762272562976,
+        3953.2941390717083,
+        5528.324616401468,
+        7099.860350881039,
+        8667.90797224899,
+        10232.47409370538,
+        11793.565311964147
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 15508.038974810872,
+       "perMeanSecRaw": 15508.038974810872,
+       "degPerOrbit": 0.010496797494314838,
+       "degPerYear": 21.359639524248152,
+       "seDegPerYear": 0.03914722198558549,
+       "tSpanSec": 294652.7405214066,
+       "firstTimesSec": [
+        7927.223540885561,
+        23747.622725629757,
+        39532.94139071708,
+        55283.24616401468,
+        70998.6035088104,
+        86679.0797224899,
+        102324.7409370538,
+        117935.65311964147
+       ],
+       "rejectedTimesSec": [],
+       "eProxyWindow": 0.6089203668102275
+      },
+      "phase1.75": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 5.497787143782138,
+       "perMeanSim": 1550.8038974810872,
+       "perMeanSimRaw": 1550.8038974810872,
+       "periStartSim": 792.7223540885561,
+       "periEndSim": 30257.996406229217,
+       "slopeRadPerOrbit": 0.0001832036771908847,
+       "seRadPerOrbit": 8.882056445453119e-8,
+       "slopeRadPerSimTime": 1.1813193548851796e-7,
+       "seRadPerSimTime": 2.1650819981797695e-10,
+       "firstTimes": [
+        792.7223540885561,
+        2374.762272562976,
+        3953.2941390717083,
+        5528.324616401468,
+        7099.860350881039,
+        8667.90797224899,
+        10232.47409370538,
+        11793.565311964147
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 15508.038974810872,
+       "perMeanSecRaw": 15508.038974810872,
+       "degPerOrbit": 0.010496797494314838,
+       "degPerYear": 21.359639524248152,
+       "seDegPerYear": 0.03914722198558549,
+       "tSpanSec": 294652.7405214066,
+       "firstTimesSec": [
+        7927.223540885561,
+        23747.622725629757,
+        39532.94139071708,
+        55283.24616401468,
+        70998.6035088104,
+        86679.0797224899,
+        102324.7409370538,
+        117935.65311964147
+       ],
+       "rejectedTimesSec": []
+      }
+     },
+     "mass": {
+      "held": [
+       5322.5390625,
+       5546.03466796875
+      ],
+      "declared": [
+       5322.5391160374165,
+       5546.034855966663
+      ],
+      "isFloat32": true
+     },
+     "precision": {
+      "framePrecision": "double",
+      "stateCarry": "double",
+      "xIsFloat64": true
+     }
+    },
+    {
+     "div": 2,
+     "dt": 0.008,
+     "wallSec": 5.11,
+     "steps": 3823266,
+     "stopped": "window",
+     "nan": false,
+     "clamp": 0,
+     "eProxy": 0.6074112930414002,
+     "rMin": 518.0324429547035,
+     "rMax": 2121.026876748715,
+     "dets": {
+      "legacy": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/legacy-v0",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 1568.0724196643437,
+       "perMeanSimRaw": 1568.0724196643437,
+       "periStartSim": 792.7498395636161,
+       "periEndSim": 30586.125813186143,
+       "slopeRadPerOrbit": 0.00018237303245218989,
+       "seRadPerOrbit": 4.385808722912944e-8,
+       "slopeRadPerSimTime": 1.1630329916107887e-7,
+       "seRadPerSimTime": 1.0622526034803842e-10,
+       "firstTimes": [
+        792.7498395636161,
+        2376.5462879729844,
+        3958.5862063369445,
+        5538.871264571749,
+        7117.403130505114,
+        8694.183469879314,
+        10269.213946354672,
+        11842.496221512869
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 15680.724196643438,
+       "perMeanSecRaw": 15680.724196643438,
+       "degPerOrbit": 0.010449205056512879,
+       "degPerYear": 21.029000627886038,
+       "seDegPerYear": 0.019206773003596852,
+       "tSpanSec": 297933.75973622524,
+       "firstTimesSec": [
+        7927.498395636161,
+        23765.462879729843,
+        39585.862063369445,
+        55388.71264571749,
+        71174.03130505115,
+        86941.83469879313,
+        102692.13946354671,
+        118424.96221512869
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.25": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 3.9269908169872414,
+       "perMeanSim": 1568.0724196643437,
+       "perMeanSimRaw": 1568.0724196643437,
+       "periStartSim": 792.7498395636161,
+       "periEndSim": 30586.125813186143,
+       "slopeRadPerOrbit": 0.00018237303245218989,
+       "seRadPerOrbit": 4.385808722912944e-8,
+       "slopeRadPerSimTime": 1.1630329916107887e-7,
+       "seRadPerSimTime": 1.0622526034803842e-10,
+       "firstTimes": [
+        792.7498395636161,
+        2376.5462879729844,
+        3958.5862063369445,
+        5538.871264571749,
+        7117.403130505114,
+        8694.183469879314,
+        10269.213946354672,
+        11842.496221512869
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 15680.724196643438,
+       "perMeanSecRaw": 15680.724196643438,
+       "degPerOrbit": 0.010449205056512879,
+       "degPerYear": 21.029000627886038,
+       "seDegPerYear": 0.019206773003596852,
+       "tSpanSec": 297933.75973622524,
+       "firstTimesSec": [
+        7927.498395636161,
+        23765.462879729843,
+        39585.862063369445,
+        55388.71264571749,
+        71174.03130505115,
+        86941.83469879313,
+        102692.13946354671,
+        118424.96221512869
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.5": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 1568.0724196643437,
+       "perMeanSimRaw": 1568.0724196643437,
+       "periStartSim": 792.7498395636161,
+       "periEndSim": 30586.125813186143,
+       "slopeRadPerOrbit": 0.00018237303245218989,
+       "seRadPerOrbit": 4.385808722912944e-8,
+       "slopeRadPerSimTime": 1.1630329916107887e-7,
+       "seRadPerSimTime": 1.0622526034803842e-10,
+       "firstTimes": [
+        792.7498395636161,
+        2376.5462879729844,
+        3958.5862063369445,
+        5538.871264571749,
+        7117.403130505114,
+        8694.183469879314,
+        10269.213946354672,
+        11842.496221512869
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 15680.724196643438,
+       "perMeanSecRaw": 15680.724196643438,
+       "degPerOrbit": 0.010449205056512879,
+       "degPerYear": 21.029000627886038,
+       "seDegPerYear": 0.019206773003596852,
+       "tSpanSec": 297933.75973622524,
+       "firstTimesSec": [
+        7927.498395636161,
+        23765.462879729843,
+        39585.862063369445,
+        55388.71264571749,
+        71174.03130505115,
+        86941.83469879313,
+        102692.13946354671,
+        118424.96221512869
+       ],
+       "rejectedTimesSec": [],
+       "eProxyWindow": 0.6074112930414002
+      },
+      "phase1.75": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 5.497787143782138,
+       "perMeanSim": 1568.0724196643437,
+       "perMeanSimRaw": 1568.0724196643437,
+       "periStartSim": 792.7498395636161,
+       "periEndSim": 30586.125813186143,
+       "slopeRadPerOrbit": 0.00018237303245218989,
+       "seRadPerOrbit": 4.385808722912944e-8,
+       "slopeRadPerSimTime": 1.1630329916107887e-7,
+       "seRadPerSimTime": 1.0622526034803842e-10,
+       "firstTimes": [
+        792.7498395636161,
+        2376.5462879729844,
+        3958.5862063369445,
+        5538.871264571749,
+        7117.403130505114,
+        8694.183469879314,
+        10269.213946354672,
+        11842.496221512869
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 15680.724196643438,
+       "perMeanSecRaw": 15680.724196643438,
+       "degPerOrbit": 0.010449205056512879,
+       "degPerYear": 21.029000627886038,
+       "seDegPerYear": 0.019206773003596852,
+       "tSpanSec": 297933.75973622524,
+       "firstTimesSec": [
+        7927.498395636161,
+        23765.462879729843,
+        39585.862063369445,
+        55388.71264571749,
+        71174.03130505115,
+        86941.83469879313,
+        102692.13946354671,
+        118424.96221512869
+       ],
+       "rejectedTimesSec": []
+      }
+     },
+     "mass": {
+      "held": [
+       5322.5390625,
+       5546.03466796875
+      ],
+      "declared": [
+       5322.5391160374165,
+       5546.034855966663
+      ],
+      "isFloat32": true
+     },
+     "precision": {
+      "framePrecision": "double",
+      "stateCarry": "double",
+      "xIsFloat64": true
+     }
+    },
+    {
+     "div": 4,
+     "dt": 0.004,
+     "wallSec": 9.12,
+     "steps": 7687928,
+     "stopped": "window",
+     "nan": false,
+     "clamp": 0,
+     "eProxy": 0.6066638499764121,
+     "rMin": 519.481352282999,
+     "rMax": 2121.930337193528,
+     "dets": {
+      "legacy": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/legacy-v0",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 1576.786577935108,
+       "perMeanSimRaw": 1576.786577935108,
+       "periStartSim": 792.7635823956446,
+       "periEndSim": 30751.708563162698,
+       "slopeRadPerOrbit": 0.00018198672657646038,
+       "seRadPerOrbit": 2.1807230561204034e-8,
+       "slopeRadPerSimTime": 1.1541604413603044e-7,
+       "seRadPerSimTime": 5.262832290313833e-11,
+       "firstTimes": [
+        792.7635823956446,
+        2377.438922678616,
+        3961.2353710492266,
+        5544.153345509485,
+        7126.193263799684,
+        8707.355543399039,
+        10287.64060152526,
+        11867.048855135281
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 15767.86577935108,
+       "perMeanSecRaw": 15767.86577935108,
+       "degPerOrbit": 0.010427071360232472,
+       "degPerYear": 20.8685745126045,
+       "seDegPerYear": 0.00951581806670753,
+       "tSpanSec": 299589.44980767055,
+       "firstTimesSec": [
+        7927.635823956445,
+        23774.38922678616,
+        39612.353710492265,
+        55441.53345509485,
+        71261.93263799684,
+        87073.55543399039,
+        102876.40601525259,
+        118670.48855135281
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.25": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 3.9269908169872414,
+       "perMeanSim": 1576.786577935108,
+       "perMeanSimRaw": 1576.786577935108,
+       "periStartSim": 792.7635823956446,
+       "periEndSim": 30751.708563162698,
+       "slopeRadPerOrbit": 0.00018198672657646038,
+       "seRadPerOrbit": 2.1807230561204034e-8,
+       "slopeRadPerSimTime": 1.1541604413603044e-7,
+       "seRadPerSimTime": 5.262832290313833e-11,
+       "firstTimes": [
+        792.7635823956446,
+        2377.438922678616,
+        3961.2353710492266,
+        5544.153345509485,
+        7126.193263799684,
+        8707.355543399039,
+        10287.64060152526,
+        11867.048855135281
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 15767.86577935108,
+       "perMeanSecRaw": 15767.86577935108,
+       "degPerOrbit": 0.010427071360232472,
+       "degPerYear": 20.8685745126045,
+       "seDegPerYear": 0.00951581806670753,
+       "tSpanSec": 299589.44980767055,
+       "firstTimesSec": [
+        7927.635823956445,
+        23774.38922678616,
+        39612.353710492265,
+        55441.53345509485,
+        71261.93263799684,
+        87073.55543399039,
+        102876.40601525259,
+        118670.48855135281
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.5": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 1576.786577935108,
+       "perMeanSimRaw": 1576.786577935108,
+       "periStartSim": 792.7635823956446,
+       "periEndSim": 30751.708563162698,
+       "slopeRadPerOrbit": 0.00018198672657646038,
+       "seRadPerOrbit": 2.1807230561204034e-8,
+       "slopeRadPerSimTime": 1.1541604413603044e-7,
+       "seRadPerSimTime": 5.262832290313833e-11,
+       "firstTimes": [
+        792.7635823956446,
+        2377.438922678616,
+        3961.2353710492266,
+        5544.153345509485,
+        7126.193263799684,
+        8707.355543399039,
+        10287.64060152526,
+        11867.048855135281
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 15767.86577935108,
+       "perMeanSecRaw": 15767.86577935108,
+       "degPerOrbit": 0.010427071360232472,
+       "degPerYear": 20.8685745126045,
+       "seDegPerYear": 0.00951581806670753,
+       "tSpanSec": 299589.44980767055,
+       "firstTimesSec": [
+        7927.635823956445,
+        23774.38922678616,
+        39612.353710492265,
+        55441.53345509485,
+        71261.93263799684,
+        87073.55543399039,
+        102876.40601525259,
+        118670.48855135281
+       ],
+       "rejectedTimesSec": [],
+       "eProxyWindow": 0.6066638499764121
+      },
+      "phase1.75": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 5.497787143782138,
+       "perMeanSim": 1576.786577935108,
+       "perMeanSimRaw": 1576.786577935108,
+       "periStartSim": 792.7635823956446,
+       "periEndSim": 30751.708563162698,
+       "slopeRadPerOrbit": 0.00018198672657646038,
+       "seRadPerOrbit": 2.1807230561204034e-8,
+       "slopeRadPerSimTime": 1.1541604413603044e-7,
+       "seRadPerSimTime": 5.262832290313833e-11,
+       "firstTimes": [
+        792.7635823956446,
+        2377.438922678616,
+        3961.2353710492266,
+        5544.153345509485,
+        7126.193263799684,
+        8707.355543399039,
+        10287.64060152526,
+        11867.048855135281
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 15767.86577935108,
+       "perMeanSecRaw": 15767.86577935108,
+       "degPerOrbit": 0.010427071360232472,
+       "degPerYear": 20.8685745126045,
+       "seDegPerYear": 0.00951581806670753,
+       "tSpanSec": 299589.44980767055,
+       "firstTimesSec": [
+        7927.635823956445,
+        23774.38922678616,
+        39612.353710492265,
+        55441.53345509485,
+        71261.93263799684,
+        87073.55543399039,
+        102876.40601525259,
+        118670.48855135281
+       ],
+       "rejectedTimesSec": []
+      }
+     },
+     "mass": {
+      "held": [
+       5322.5390625,
+       5546.03466796875
+      ],
+      "declared": [
+       5322.5391160374165,
+       5546.034855966663
+      ],
+      "isFloat32": true
+     },
+     "precision": {
+      "framePrecision": "double",
+      "stateCarry": "double",
+      "xIsFloat64": true
+     }
+    },
+    {
+     "div": 8,
+     "dt": 0.002,
+     "wallSec": 19.68,
+     "steps": 15417442,
+     "stopped": "window",
+     "nan": false,
+     "clamp": 0,
+     "eProxy": 0.6062918814794195,
+     "rMin": 520.2037713597664,
+     "rMax": 2122.3821794431437,
+     "dets": {
+      "legacy": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/legacy-v0",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 1581.1638441439848,
+       "perMeanSimRaw": 1581.1638441439848,
+       "periStartSim": 792.7704538120877,
+       "periEndSim": 30834.8834925478,
+       "slopeRadPerOrbit": 0.00018180064335042228,
+       "seRadPerOrbit": 1.087489728722664e-8,
+       "slopeRadPerSimTime": 1.1497896307503855e-7,
+       "seRadPerSimTime": 2.619569084645572e-11,
+       "firstTimes": [
+        792.7704538120877,
+        2377.8853968804788,
+        3962.56073715794,
+        5546.796579210421,
+        7130.5930275713445,
+        8713.950186741178,
+        10296.868161187462,
+        11879.347055345208
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 15811.638441439847,
+       "perMeanSecRaw": 15811.638441439847,
+       "degPerOrbit": 0.010416409576742312,
+       "degPerYear": 20.789545130185125,
+       "seDegPerYear": 0.004736488158389021,
+       "tSpanSec": 300421.1303873571,
+       "firstTimesSec": [
+        7927.704538120877,
+        23778.85396880479,
+        39625.6073715794,
+        55467.965792104216,
+        71305.93027571344,
+        87139.50186741177,
+        102968.68161187462,
+        118793.47055345208
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.25": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 3.9269908169872414,
+       "perMeanSim": 1581.1638441439848,
+       "perMeanSimRaw": 1581.1638441439848,
+       "periStartSim": 792.7704538120877,
+       "periEndSim": 30834.8834925478,
+       "slopeRadPerOrbit": 0.00018180064335042228,
+       "seRadPerOrbit": 1.087489728722664e-8,
+       "slopeRadPerSimTime": 1.1497896307503855e-7,
+       "seRadPerSimTime": 2.619569084645572e-11,
+       "firstTimes": [
+        792.7704538120877,
+        2377.8853968804788,
+        3962.56073715794,
+        5546.796579210421,
+        7130.5930275713445,
+        8713.950186741178,
+        10296.868161187462,
+        11879.347055345208
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 15811.638441439847,
+       "perMeanSecRaw": 15811.638441439847,
+       "degPerOrbit": 0.010416409576742312,
+       "degPerYear": 20.789545130185125,
+       "seDegPerYear": 0.004736488158389021,
+       "tSpanSec": 300421.1303873571,
+       "firstTimesSec": [
+        7927.704538120877,
+        23778.85396880479,
+        39625.6073715794,
+        55467.965792104216,
+        71305.93027571344,
+        87139.50186741177,
+        102968.68161187462,
+        118793.47055345208
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.5": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 1581.1638441439848,
+       "perMeanSimRaw": 1581.1638441439848,
+       "periStartSim": 792.7704538120877,
+       "periEndSim": 30834.8834925478,
+       "slopeRadPerOrbit": 0.00018180064335042228,
+       "seRadPerOrbit": 1.087489728722664e-8,
+       "slopeRadPerSimTime": 1.1497896307503855e-7,
+       "seRadPerSimTime": 2.619569084645572e-11,
+       "firstTimes": [
+        792.7704538120877,
+        2377.8853968804788,
+        3962.56073715794,
+        5546.796579210421,
+        7130.5930275713445,
+        8713.950186741178,
+        10296.868161187462,
+        11879.347055345208
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 15811.638441439847,
+       "perMeanSecRaw": 15811.638441439847,
+       "degPerOrbit": 0.010416409576742312,
+       "degPerYear": 20.789545130185125,
+       "seDegPerYear": 0.004736488158389021,
+       "tSpanSec": 300421.1303873571,
+       "firstTimesSec": [
+        7927.704538120877,
+        23778.85396880479,
+        39625.6073715794,
+        55467.965792104216,
+        71305.93027571344,
+        87139.50186741177,
+        102968.68161187462,
+        118793.47055345208
+       ],
+       "rejectedTimesSec": [],
+       "eProxyWindow": 0.6062918814794195
+      },
+      "phase1.75": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 5.497787143782138,
+       "perMeanSim": 1581.1638441439848,
+       "perMeanSimRaw": 1581.1638441439848,
+       "periStartSim": 792.7704538120877,
+       "periEndSim": 30834.8834925478,
+       "slopeRadPerOrbit": 0.00018180064335042228,
+       "seRadPerOrbit": 1.087489728722664e-8,
+       "slopeRadPerSimTime": 1.1497896307503855e-7,
+       "seRadPerSimTime": 2.619569084645572e-11,
+       "firstTimes": [
+        792.7704538120877,
+        2377.8853968804788,
+        3962.56073715794,
+        5546.796579210421,
+        7130.5930275713445,
+        8713.950186741178,
+        10296.868161187462,
+        11879.347055345208
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 15811.638441439847,
+       "perMeanSecRaw": 15811.638441439847,
+       "degPerOrbit": 0.010416409576742312,
+       "degPerYear": 20.789545130185125,
+       "seDegPerYear": 0.004736488158389021,
+       "tSpanSec": 300421.1303873571,
+       "firstTimesSec": [
+        7927.704538120877,
+        23778.85396880479,
+        39625.6073715794,
+        55467.965792104216,
+        71305.93027571344,
+        87139.50186741177,
+        102968.68161187462,
+        118793.47055345208
+       ],
+       "rejectedTimesSec": []
+      }
+     },
+     "mass": {
+      "held": [
+       5322.5390625,
+       5546.03466796875
+      ],
+      "declared": [
+       5322.5391160374165,
+       5546.034855966663
+      ],
+      "isFloat32": true
+     },
+     "precision": {
+      "framePrecision": "double",
+      "stateCarry": "double",
+      "xIsFloat64": true
+     }
+    }
+   ],
+   "quantities": [
+    {
+     "key": "P",
+     "name": "近点間 P [s]",
+     "values": [
+      15508.038974810872,
+      15680.724196643438,
+      15767.86577935108,
+      15811.638441439847
+     ],
+     "stages": [
+      "dt/1",
+      "dt/2",
+      "dt/4",
+      "dt/8"
+     ],
+     "pObsRows": [
+      {
+       "triple": "dt/1,dt/2,dt/4",
+       "pObs": 0.9867114027316336,
+       "richardson": 15856.63515501095
+      },
+      {
+       "triple": "dt/2,dt/4,dt/8",
+       "pObs": 0.9933311904829101,
+       "richardson": 15855.818603615791
+      }
+     ],
+     "epsNum": 259.8268045402074,
+     "epsNumEstimate": {
+      "raw": 259.8268045402074,
+      "order": 0.9867114027316336,
+      "factor": 1.3416482599513069,
+      "refined": 348.5961802000775,
+      "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3416 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+     },
+     "asymptotic": {
+      "pObsShifts": [
+       0.9867114027316336,
+       0.9933311904829101
+      ],
+      "inAsymptotic": true
+     }
+    },
+    {
+     "key": "e",
+     "name": "離心率 proxy",
+     "values": [
+      0.6089203668102275,
+      0.6074112930414002,
+      0.6066638499764121,
+      0.6062918814794195
+     ],
+     "stages": [
+      "dt/1",
+      "dt/2",
+      "dt/4",
+      "dt/8"
+     ],
+     "pObsRows": [
+      {
+       "triple": "dt/1,dt/2,dt/4",
+       "pObs": 1.0136277374514762,
+       "richardson": 0.6059303302632721
+      },
+      {
+       "triple": "dt/2,dt/4,dt/8",
+       "pObs": 1.0067832482227004,
+       "richardson": 0.6059233863147706
+      }
+     ],
+     "epsNum": 0.0022565168338154473,
+     "epsNumEstimate": {
+      "raw": 0.0022565168338154473,
+      "order": 1.0136277374514762,
+      "factor": 1.32506724618566,
+      "refined": 0.0029900365469554195,
+      "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3251 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+     },
+     "asymptotic": {
+      "pObsShifts": [
+       1.0136277374514762,
+       1.0067832482227004
+      ],
+      "inAsymptotic": true
+     }
+    },
+    {
+     "key": "degYear",
+     "name": "近点移動 [deg/yr]",
+     "values": [
+      21.359639524248152,
+      21.029000627886038,
+      20.8685745126045,
+      20.789545130185125
+     ],
+     "stages": [
+      "dt/1",
+      "dt/2",
+      "dt/4",
+      "dt/8"
+     ],
+     "pObsRows": [
+      {
+       "triple": "dt/1,dt/2,dt/4",
+       "pObs": 1.0433474404011374,
+       "richardson": 20.717372362560653
+      },
+      {
+       "triple": "dt/2,dt/4,dt/8",
+       "pObs": 1.0214479735834645,
+       "richardson": 20.71281424595954
+      }
+     ],
+     "epsNum": 0.4910650116436521,
+     "epsNumEstimate": {
+      "raw": 0.4910650116436521,
+      "order": 1.0433474404011374,
+      "factor": 1.3079065835656956,
+      "refined": 0.6422671616874975,
+      "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3079 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+     },
+     "asymptotic": {
+      "pObsShifts": [
+       1.0433474404011374,
+       1.0214479735834645
+      ],
+      "inAsymptotic": true
+     }
+    },
+    {
+     "key": "degOrbit",
+     "name": "近点移動 [°/周]",
+     "values": [
+      0.010496797494314838,
+      0.010449205056512879,
+      0.010427071360232472,
+      0.010416409576742312
+     ],
+     "stages": [
+      "dt/1",
+      "dt/2",
+      "dt/4",
+      "dt/8"
+     ],
+     "pObsRows": [
+      {
+       "triple": "dt/1,dt/2,dt/4",
+       "pObs": 1.1044879565116983,
+       "richardson": 0.01040782844083606
+      },
+      {
+       "triple": "dt/2,dt/4,dt/8",
+       "pObs": 1.0537956077209922,
+       "richardson": 0.010406500712434374
+      }
+     ],
+     "epsNum": 0.00006972613408236586,
+     "epsNumEstimate": {
+      "raw": 0.00006972613408236586,
+      "order": 1.1044879565116983,
+      "factor": 1.2759785789024392,
+      "refined": 0.00008896905347877812,
+      "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.2760 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+     },
+     "asymptotic": {
+      "pObsShifts": [
+       1.1044879565116983,
+       1.0537956077209922
+      ],
+      "inAsymptotic": true
+     }
+    }
+   ],
+   "budget": {
+    "spentSec": 35.9,
+    "budgetTotalS": 12000
+   }
+  },
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "note": "〔第259便d〕の h8 を新しい抽出器で測り直す",
+   "toSec": 10,
+   "truncated": null,
+   "obs": {
+    "v1": {
+     "period": {
+      "body": "PSR B1534+12",
+      "quantity": "orbital_period",
+      "value": 36351.702644140794,
+      "unit": "s",
+      "source": "Stairs et al. (2002) ApJ 581 501 - Studies of the Relativistic Binary Pulsar PSR B1534+12. I. Timing Analysis",
+      "sigma": 8.64e-7,
+      "primaryVerified": true
+     },
+     "ecc": {
+      "body": "PSR B1534+12",
+      "quantity": "eccentricity",
+      "value": 0.2736775,
+      "unit": "1",
+      "source": "Stairs et al. (2002) ApJ 581 501 - Studies of the Relativistic Binary Pulsar PSR B1534+12. I. Timing Analysis",
+      "sigma": 3e-7,
+      "primaryVerified": true
+     },
+     "omegaDot": {
+      "body": "PSR B1534+12",
+      "quantity": "periastron_advance",
+      "value": 1.755789,
+      "unit": "deg/yr",
+      "source": "Stairs et al. (2002) ApJ 581 501 - Studies of the Relativistic Binary Pulsar PSR B1534+12. I. Timing Analysis",
+      "sigma": 0.000009,
+      "primaryVerified": true
+     }
+    },
+    "v2": {
+     "period": null,
+     "ecc": null,
+     "omegaDot": null,
+     "note": "**版 v2 = Meng et al. (2025) Table 1 DDFWHE 列**(🩺 のみ)。**プリセットと builder の入力は版 v1 のままである** —— 黙って置換していない。"
+    }
+   },
+   "precision": {
+    "framePrecision": "double",
+    "stateCarry": "double",
+    "xIsFloat64": true
+   },
+   "massRounding": {
+    "ok": true,
+    "massDeclaredSum": 10649.653936029545,
+    "massHeldSum": 10649.65380859375,
+    "relMassError": -1.1966191146122581e-8,
+    "relPeriodError": 5.9830955745354686e-9,
+    "periodErrorSec": 0.00021749571121698808,
+    "nSigma": 251.73114724188434,
+    "ulp32": [
+     0.00048828125,
+     0.00048828125
+    ],
+    "ulpRel": [
+     9.212893557928111e-8,
+     9.127303688382144e-8
+    ],
+    "heldIsFround": true,
+    "isBound": false,
+    "isMeasured": false,
+    "model": "fixed-a Kepler: ΔP/P = √(M_decl/M_held) − 1",
+    "note": "**診断である。** 固定 a の Kepler 感度で、(a) 誤差上限でも (b) Float64 実走の結果でも (c) 離散化誤差 ε_num でもない。ε_num とは出どころが違う —— 桁を比べるためだけに使う。",
+    "isFloat32": true,
+    "ulpBitwise": [
+     0.00048828125,
+     0.00048828125
+    ]
+   },
+   "stages": [
+    {
+     "div": 1,
+     "dt": 0.016,
+     "wallSec": 5.29,
+     "steps": 4414258,
+     "stopped": "window",
+     "nan": false,
+     "clamp": 0,
+     "eProxy": 0.2753345213773055,
+     "rMin": 1651.816663410775,
+     "rMax": 2907.022448258328,
+     "dets": {
+      "legacy": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/legacy-v0",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 3621.6523572798715,
+       "perMeanSimRaw": 3621.6523572798715,
+       "periStartSim": 1816.7290794809485,
+       "periEndSim": 70628.12386779851,
+       "slopeRadPerOrbit": 0.00007162650214177543,
+       "seRadPerOrbit": 7.886370766016315e-9,
+       "slopeRadPerSimTime": 1.977727949757078e-8,
+       "seRadPerSimTime": 6.122088081220327e-12,
+       "firstTimes": [
+        1816.7290794809485,
+        5449.119538189523,
+        9080.316404112704,
+        12710.31976029147,
+        16339.129689759913,
+        19966.746275544996,
+        23593.169600666664,
+        27218.39974813731
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 36216.52357279872,
+       "perMeanSecRaw": 36216.52357279872,
+       "degPerOrbit": 0.0041038962740084835,
+       "degPerYear": 3.575964103961328,
+       "seDegPerYear": 0.0011069453320120383,
+       "tSpanSec": 688113.9478831756,
+       "firstTimesSec": [
+        18167.290794809483,
+        54491.19538189523,
+        90803.16404112703,
+        127103.1976029147,
+        163391.29689759912,
+        199667.46275544996,
+        235931.69600666664,
+        272183.99748137314
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.25": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 3.9269908169872414,
+       "perMeanSim": 3621.6523572798715,
+       "perMeanSimRaw": 3621.6523572798715,
+       "periStartSim": 1816.7290794809485,
+       "periEndSim": 70628.12386779851,
+       "slopeRadPerOrbit": 0.00007162650214177543,
+       "seRadPerOrbit": 7.886370766016315e-9,
+       "slopeRadPerSimTime": 1.977727949757078e-8,
+       "seRadPerSimTime": 6.122088081220327e-12,
+       "firstTimes": [
+        1816.7290794809485,
+        5449.119538189523,
+        9080.316404112704,
+        12710.31976029147,
+        16339.129689759913,
+        19966.746275544996,
+        23593.169600666664,
+        27218.39974813731
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 36216.52357279872,
+       "perMeanSecRaw": 36216.52357279872,
+       "degPerOrbit": 0.0041038962740084835,
+       "degPerYear": 3.575964103961328,
+       "seDegPerYear": 0.0011069453320120383,
+       "tSpanSec": 688113.9478831756,
+       "firstTimesSec": [
+        18167.290794809483,
+        54491.19538189523,
+        90803.16404112703,
+        127103.1976029147,
+        163391.29689759912,
+        199667.46275544996,
+        235931.69600666664,
+        272183.99748137314
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.5": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 3621.6523572798715,
+       "perMeanSimRaw": 3621.6523572798715,
+       "periStartSim": 1816.7290794809485,
+       "periEndSim": 70628.12386779851,
+       "slopeRadPerOrbit": 0.00007162650214177543,
+       "seRadPerOrbit": 7.886370766016315e-9,
+       "slopeRadPerSimTime": 1.977727949757078e-8,
+       "seRadPerSimTime": 6.122088081220327e-12,
+       "firstTimes": [
+        1816.7290794809485,
+        5449.119538189523,
+        9080.316404112704,
+        12710.31976029147,
+        16339.129689759913,
+        19966.746275544996,
+        23593.169600666664,
+        27218.39974813731
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 36216.52357279872,
+       "perMeanSecRaw": 36216.52357279872,
+       "degPerOrbit": 0.0041038962740084835,
+       "degPerYear": 3.575964103961328,
+       "seDegPerYear": 0.0011069453320120383,
+       "tSpanSec": 688113.9478831756,
+       "firstTimesSec": [
+        18167.290794809483,
+        54491.19538189523,
+        90803.16404112703,
+        127103.1976029147,
+        163391.29689759912,
+        199667.46275544996,
+        235931.69600666664,
+        272183.99748137314
+       ],
+       "rejectedTimesSec": [],
+       "eProxyWindow": 0.2753345213773055
+      },
+      "phase1.75": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 5.497787143782138,
+       "perMeanSim": 3621.6523572798715,
+       "perMeanSimRaw": 3621.6523572798715,
+       "periStartSim": 1816.7290794809485,
+       "periEndSim": 70628.12386779851,
+       "slopeRadPerOrbit": 0.00007162650214177543,
+       "seRadPerOrbit": 7.886370766016315e-9,
+       "slopeRadPerSimTime": 1.977727949757078e-8,
+       "seRadPerSimTime": 6.122088081220327e-12,
+       "firstTimes": [
+        1816.7290794809485,
+        5449.119538189523,
+        9080.316404112704,
+        12710.31976029147,
+        16339.129689759913,
+        19966.746275544996,
+        23593.169600666664,
+        27218.39974813731
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 36216.52357279872,
+       "perMeanSecRaw": 36216.52357279872,
+       "degPerOrbit": 0.0041038962740084835,
+       "degPerYear": 3.575964103961328,
+       "seDegPerYear": 0.0011069453320120383,
+       "tSpanSec": 688113.9478831756,
+       "firstTimesSec": [
+        18167.290794809483,
+        54491.19538189523,
+        90803.16404112703,
+        127103.1976029147,
+        163391.29689759912,
+        199667.46275544996,
+        235931.69600666664,
+        272183.99748137314
+       ],
+       "rejectedTimesSec": []
+      }
+     },
+     "mass": {
+      "held": [
+       5299.97705078125,
+       5349.6767578125
+      ],
+      "declared": [
+       5299.977112834566,
+       5349.676823194979
+      ],
+      "isFloat32": true
+     },
+     "precision": {
+      "framePrecision": "double",
+      "stateCarry": "double",
+      "xIsFloat64": true
+     }
+    },
+    {
+     "div": 2,
+     "dt": 0.008,
+     "wallSec": 10.14,
+     "steps": 8842686,
+     "stopped": "window",
+     "nan": false,
+     "clamp": 0,
+     "eProxy": 0.27465066127666554,
+     "rMin": 1654.4698197723512,
+     "rMax": 2907.386740776346,
+     "dets": {
+      "legacy": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/legacy-v0",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 3627.6168955904745,
+       "perMeanSimRaw": 3627.6168955904745,
+       "periStartSim": 1816.7605726301263,
+       "periEndSim": 70741.48158884914,
+       "slopeRadPerOrbit": 0.00007154509796439492,
+       "seRadPerOrbit": 3.928440344831844e-9,
+       "slopeRadPerSimTime": 1.9722336259547092e-8,
+       "seRadPerSimTime": 3.047159351567273e-12,
+       "firstTimes": [
+        1816.7605726301263,
+        5449.7478573792305,
+        9082.138314589996,
+        12713.931965024572,
+        16345.12882944425,
+        19975.72892861,
+        23605.732283280635,
+        27235.138914214098
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 36276.168955904745,
+       "perMeanSecRaw": 36276.168955904745,
+       "degPerOrbit": 0.004099232158209847,
+       "degPerYear": 3.5660297220888233,
+       "seDegPerYear": 0.0005509621513713781,
+       "tSpanSec": 689247.2101621901,
+       "firstTimesSec": [
+        18167.605726301263,
+        54497.47857379231,
+        90821.38314589996,
+        127139.31965024573,
+        163451.2882944425,
+        199757.2892861,
+        236057.32283280636,
+        272351.389142141
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.25": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 3.9269908169872414,
+       "perMeanSim": 3627.6168955904745,
+       "perMeanSimRaw": 3627.6168955904745,
+       "periStartSim": 1816.7605726301263,
+       "periEndSim": 70741.48158884914,
+       "slopeRadPerOrbit": 0.00007154509796439492,
+       "seRadPerOrbit": 3.928440344831844e-9,
+       "slopeRadPerSimTime": 1.9722336259547092e-8,
+       "seRadPerSimTime": 3.047159351567273e-12,
+       "firstTimes": [
+        1816.7605726301263,
+        5449.7478573792305,
+        9082.138314589996,
+        12713.931965024572,
+        16345.12882944425,
+        19975.72892861,
+        23605.732283280635,
+        27235.138914214098
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 36276.168955904745,
+       "perMeanSecRaw": 36276.168955904745,
+       "degPerOrbit": 0.004099232158209847,
+       "degPerYear": 3.5660297220888233,
+       "seDegPerYear": 0.0005509621513713781,
+       "tSpanSec": 689247.2101621901,
+       "firstTimesSec": [
+        18167.605726301263,
+        54497.47857379231,
+        90821.38314589996,
+        127139.31965024573,
+        163451.2882944425,
+        199757.2892861,
+        236057.32283280636,
+        272351.389142141
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.5": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 3627.6168955904745,
+       "perMeanSimRaw": 3627.6168955904745,
+       "periStartSim": 1816.7605726301263,
+       "periEndSim": 70741.48158884914,
+       "slopeRadPerOrbit": 0.00007154509796439492,
+       "seRadPerOrbit": 3.928440344831844e-9,
+       "slopeRadPerSimTime": 1.9722336259547092e-8,
+       "seRadPerSimTime": 3.047159351567273e-12,
+       "firstTimes": [
+        1816.7605726301263,
+        5449.7478573792305,
+        9082.138314589996,
+        12713.931965024572,
+        16345.12882944425,
+        19975.72892861,
+        23605.732283280635,
+        27235.138914214098
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 36276.168955904745,
+       "perMeanSecRaw": 36276.168955904745,
+       "degPerOrbit": 0.004099232158209847,
+       "degPerYear": 3.5660297220888233,
+       "seDegPerYear": 0.0005509621513713781,
+       "tSpanSec": 689247.2101621901,
+       "firstTimesSec": [
+        18167.605726301263,
+        54497.47857379231,
+        90821.38314589996,
+        127139.31965024573,
+        163451.2882944425,
+        199757.2892861,
+        236057.32283280636,
+        272351.389142141
+       ],
+       "rejectedTimesSec": [],
+       "eProxyWindow": 0.27465066127666554
+      },
+      "phase1.75": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 5.497787143782138,
+       "perMeanSim": 3627.6168955904745,
+       "perMeanSimRaw": 3627.6168955904745,
+       "periStartSim": 1816.7605726301263,
+       "periEndSim": 70741.48158884914,
+       "slopeRadPerOrbit": 0.00007154509796439492,
+       "seRadPerOrbit": 3.928440344831844e-9,
+       "slopeRadPerSimTime": 1.9722336259547092e-8,
+       "seRadPerSimTime": 3.047159351567273e-12,
+       "firstTimes": [
+        1816.7605726301263,
+        5449.7478573792305,
+        9082.138314589996,
+        12713.931965024572,
+        16345.12882944425,
+        19975.72892861,
+        23605.732283280635,
+        27235.138914214098
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 36276.168955904745,
+       "perMeanSecRaw": 36276.168955904745,
+       "degPerOrbit": 0.004099232158209847,
+       "degPerYear": 3.5660297220888233,
+       "seDegPerYear": 0.0005509621513713781,
+       "tSpanSec": 689247.2101621901,
+       "firstTimesSec": [
+        18167.605726301263,
+        54497.47857379231,
+        90821.38314589996,
+        127139.31965024573,
+        163451.2882944425,
+        199757.2892861,
+        236057.32283280636,
+        272351.389142141
+       ],
+       "rejectedTimesSec": []
+      }
+     },
+     "mass": {
+      "held": [
+       5299.97705078125,
+       5349.6767578125
+      ],
+      "declared": [
+       5299.977112834566,
+       5349.676823194979
+      ],
+      "isFloat32": true
+     },
+     "precision": {
+      "framePrecision": "double",
+      "stateCarry": "double",
+      "xIsFloat64": true
+     }
+    },
+    {
+     "div": 4,
+     "dt": 0.004,
+     "wallSec": 22.38,
+     "steps": 17699545,
+     "stopped": "window",
+     "nan": false,
+     "clamp": 0,
+     "eProxy": 0.27430948116939413,
+     "rMin": 1655.7949271124096,
+     "rMax": 2907.5688874806074,
+     "dets": {
+      "legacy": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/legacy-v0",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 3630.600176636592,
+       "perMeanSimRaw": 3630.600176636592,
+       "periStartSim": 1816.77631939122,
+       "periEndSim": 70798.17967548648,
+       "slopeRadPerOrbit": 0.00007150859641258339,
+       "seRadPerOrbit": 1.961015625227891e-9,
+       "slopeRadPerSimTime": 1.9696080127400173e-8,
+       "seRadPerSimTime": 1.5203091508095733e-12,
+       "firstTimes": [
+        1816.77631939122,
+        5450.062025322133,
+        9083.049309697526,
+        12715.738177708483,
+        16348.128634545275,
+        19980.22068539848,
+        23612.01433545851,
+        27243.509589915207
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 36306.001766365924,
+       "perMeanSecRaw": 36306.001766365924,
+       "degPerOrbit": 0.004097140773345368,
+       "degPerYear": 3.561282305434385,
+       "seDegPerYear": 0.0002748897264098801,
+       "tSpanSec": 689814.0335609525,
+       "firstTimesSec": [
+        18167.7631939122,
+        54500.620253221336,
+        90830.49309697526,
+        127157.38177708483,
+        163481.28634545277,
+        199802.2068539848,
+        236120.1433545851,
+        272435.0958991521
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.25": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 3.9269908169872414,
+       "perMeanSim": 3630.600176636592,
+       "perMeanSimRaw": 3630.600176636592,
+       "periStartSim": 1816.77631939122,
+       "periEndSim": 70798.17967548648,
+       "slopeRadPerOrbit": 0.00007150859641258339,
+       "seRadPerOrbit": 1.961015625227891e-9,
+       "slopeRadPerSimTime": 1.9696080127400173e-8,
+       "seRadPerSimTime": 1.5203091508095733e-12,
+       "firstTimes": [
+        1816.77631939122,
+        5450.062025322133,
+        9083.049309697526,
+        12715.738177708483,
+        16348.128634545275,
+        19980.22068539848,
+        23612.01433545851,
+        27243.509589915207
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 36306.001766365924,
+       "perMeanSecRaw": 36306.001766365924,
+       "degPerOrbit": 0.004097140773345368,
+       "degPerYear": 3.561282305434385,
+       "seDegPerYear": 0.0002748897264098801,
+       "tSpanSec": 689814.0335609525,
+       "firstTimesSec": [
+        18167.7631939122,
+        54500.620253221336,
+        90830.49309697526,
+        127157.38177708483,
+        163481.28634545277,
+        199802.2068539848,
+        236120.1433545851,
+        272435.0958991521
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.5": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 3630.600176636592,
+       "perMeanSimRaw": 3630.600176636592,
+       "periStartSim": 1816.77631939122,
+       "periEndSim": 70798.17967548648,
+       "slopeRadPerOrbit": 0.00007150859641258339,
+       "seRadPerOrbit": 1.961015625227891e-9,
+       "slopeRadPerSimTime": 1.9696080127400173e-8,
+       "seRadPerSimTime": 1.5203091508095733e-12,
+       "firstTimes": [
+        1816.77631939122,
+        5450.062025322133,
+        9083.049309697526,
+        12715.738177708483,
+        16348.128634545275,
+        19980.22068539848,
+        23612.01433545851,
+        27243.509589915207
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 36306.001766365924,
+       "perMeanSecRaw": 36306.001766365924,
+       "degPerOrbit": 0.004097140773345368,
+       "degPerYear": 3.561282305434385,
+       "seDegPerYear": 0.0002748897264098801,
+       "tSpanSec": 689814.0335609525,
+       "firstTimesSec": [
+        18167.7631939122,
+        54500.620253221336,
+        90830.49309697526,
+        127157.38177708483,
+        163481.28634545277,
+        199802.2068539848,
+        236120.1433545851,
+        272435.0958991521
+       ],
+       "rejectedTimesSec": [],
+       "eProxyWindow": 0.27430948116939413
+      },
+      "phase1.75": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 5.497787143782138,
+       "perMeanSim": 3630.600176636592,
+       "perMeanSimRaw": 3630.600176636592,
+       "periStartSim": 1816.77631939122,
+       "periEndSim": 70798.17967548648,
+       "slopeRadPerOrbit": 0.00007150859641258339,
+       "seRadPerOrbit": 1.961015625227891e-9,
+       "slopeRadPerSimTime": 1.9696080127400173e-8,
+       "seRadPerSimTime": 1.5203091508095733e-12,
+       "firstTimes": [
+        1816.77631939122,
+        5450.062025322133,
+        9083.049309697526,
+        12715.738177708483,
+        16348.128634545275,
+        19980.22068539848,
+        23612.01433545851,
+        27243.509589915207
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 36306.001766365924,
+       "perMeanSecRaw": 36306.001766365924,
+       "degPerOrbit": 0.004097140773345368,
+       "degPerYear": 3.561282305434385,
+       "seDegPerYear": 0.0002748897264098801,
+       "tSpanSec": 689814.0335609525,
+       "firstTimesSec": [
+        18167.7631939122,
+        54500.620253221336,
+        90830.49309697526,
+        127157.38177708483,
+        163481.28634545277,
+        199802.2068539848,
+        236120.1433545851,
+        272435.0958991521
+       ],
+       "rejectedTimesSec": []
+      }
+     },
+     "mass": {
+      "held": [
+       5299.97705078125,
+       5349.6767578125
+      ],
+      "declared": [
+       5299.977112834566,
+       5349.676823194979
+      ],
+      "isFloat32": true
+     },
+     "precision": {
+      "framePrecision": "double",
+      "stateCarry": "double",
+      "xIsFloat64": true
+     }
+    },
+    {
+     "div": 8,
+     "dt": 0.002,
+     "wallSec": 44.91,
+     "steps": 35413267,
+     "stopped": "window",
+     "nan": false,
+     "clamp": 0,
+     "eProxy": 0.2741390780977884,
+     "rMin": 1656.4571137553344,
+     "rMax": 2907.6599609437035,
+     "dets": {
+      "legacy": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/legacy-v0",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 3632.092070224479,
+       "perMeanSimRaw": 3632.092070224479,
+       "periStartSim": 1816.7841928183611,
+       "periEndSim": 70826.53352708346,
+       "slopeRadPerOrbit": 0.00007149138898539966,
+       "seRadPerOrbit": 9.797618326734633e-10,
+       "slopeRadPerSimTime": 1.9683253204632095e-8,
+       "seRadPerSimTime": 7.593604967675334e-13,
+       "firstTimes": [
+        1816.7841928183611,
+        5450.219111379992,
+        9083.504817217283,
+        12716.641311628646,
+        16349.628595910679,
+        19982.466671361213,
+        23615.155539279596,
+        27247.695200961967
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 36320.92070224479,
+       "perMeanSecRaw": 36320.92070224479,
+       "degPerOrbit": 0.0040961548603914615,
+       "degPerYear": 3.558963047348936,
+       "seDegPerYear": 0.00013730128447345225,
+       "tSpanSec": 690097.493342651,
+       "firstTimesSec": [
+        18167.84192818361,
+        54502.19111379992,
+        90835.04817217283,
+        127166.41311628645,
+        163496.28595910678,
+        199824.66671361213,
+        236151.55539279597,
+        272476.9520096197
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.25": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 3.9269908169872414,
+       "perMeanSim": 3632.092070224479,
+       "perMeanSimRaw": 3632.092070224479,
+       "periStartSim": 1816.7841928183611,
+       "periEndSim": 70826.53352708346,
+       "slopeRadPerOrbit": 0.00007149138898539966,
+       "seRadPerOrbit": 9.797618326734633e-10,
+       "slopeRadPerSimTime": 1.9683253204632095e-8,
+       "seRadPerSimTime": 7.593604967675334e-13,
+       "firstTimes": [
+        1816.7841928183611,
+        5450.219111379992,
+        9083.504817217283,
+        12716.641311628646,
+        16349.628595910679,
+        19982.466671361213,
+        23615.155539279596,
+        27247.695200961967
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 36320.92070224479,
+       "perMeanSecRaw": 36320.92070224479,
+       "degPerOrbit": 0.0040961548603914615,
+       "degPerYear": 3.558963047348936,
+       "seDegPerYear": 0.00013730128447345225,
+       "tSpanSec": 690097.493342651,
+       "firstTimesSec": [
+        18167.84192818361,
+        54502.19111379992,
+        90835.04817217283,
+        127166.41311628645,
+        163496.28595910678,
+        199824.66671361213,
+        236151.55539279597,
+        272476.9520096197
+       ],
+       "rejectedTimesSec": []
+      },
+      "phase1.5": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 4.71238898038469,
+       "perMeanSim": 3632.092070224479,
+       "perMeanSimRaw": 3632.092070224479,
+       "periStartSim": 1816.7841928183611,
+       "periEndSim": 70826.53352708346,
+       "slopeRadPerOrbit": 0.00007149138898539966,
+       "seRadPerOrbit": 9.797618326734633e-10,
+       "slopeRadPerSimTime": 1.9683253204632095e-8,
+       "seRadPerSimTime": 7.593604967675334e-13,
+       "firstTimes": [
+        1816.7841928183611,
+        5450.219111379992,
+        9083.504817217283,
+        12716.641311628646,
+        16349.628595910679,
+        19982.466671361213,
+        23615.155539279596,
+        27247.695200961967
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 36320.92070224479,
+       "perMeanSecRaw": 36320.92070224479,
+       "degPerOrbit": 0.0040961548603914615,
+       "degPerYear": 3.558963047348936,
+       "seDegPerYear": 0.00013730128447345225,
+       "tSpanSec": 690097.493342651,
+       "firstTimesSec": [
+        18167.84192818361,
+        54502.19111379992,
+        90835.04817217283,
+        127166.41311628645,
+        163496.28595910678,
+        199824.66671361213,
+        236151.55539279597,
+        272476.9520096197
+       ],
+       "rejectedTimesSec": [],
+       "eProxyWindow": 0.2741390780977884
+      },
+      "phase1.75": {
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "jump": 0,
+       "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+       "phaseGate": 5.497787143782138,
+       "perMeanSim": 3632.092070224479,
+       "perMeanSimRaw": 3632.092070224479,
+       "periStartSim": 1816.7841928183611,
+       "periEndSim": 70826.53352708346,
+       "slopeRadPerOrbit": 0.00007149138898539966,
+       "seRadPerOrbit": 9.797618326734633e-10,
+       "slopeRadPerSimTime": 1.9683253204632095e-8,
+       "seRadPerSimTime": 7.593604967675334e-13,
+       "firstTimes": [
+        1816.7841928183611,
+        5450.219111379992,
+        9083.504817217283,
+        12716.641311628646,
+        16349.628595910679,
+        19982.466671361213,
+        23615.155539279596,
+        27247.695200961967
+       ],
+       "rejectedTimes": [],
+       "perMeanSec": 36320.92070224479,
+       "perMeanSecRaw": 36320.92070224479,
+       "degPerOrbit": 0.0040961548603914615,
+       "degPerYear": 3.558963047348936,
+       "seDegPerYear": 0.00013730128447345225,
+       "tSpanSec": 690097.493342651,
+       "firstTimesSec": [
+        18167.84192818361,
+        54502.19111379992,
+        90835.04817217283,
+        127166.41311628645,
+        163496.28595910678,
+        199824.66671361213,
+        236151.55539279597,
+        272476.9520096197
+       ],
+       "rejectedTimesSec": []
+      }
+     },
+     "mass": {
+      "held": [
+       5299.97705078125,
+       5349.6767578125
+      ],
+      "declared": [
+       5299.977112834566,
+       5349.676823194979
+      ],
+      "isFloat32": true
+     },
+     "precision": {
+      "framePrecision": "double",
+      "stateCarry": "double",
+      "xIsFloat64": true
+     }
+    }
+   ],
+   "quantities": [
+    {
+     "key": "P",
+     "name": "近点間 P [s]",
+     "values": [
+      36216.52357279872,
+      36276.168955904745,
+      36306.001766365924,
+      36320.92070224479
+     ],
+     "stages": [
+      "dt/1",
+      "dt/2",
+      "dt/4",
+      "dt/8"
+     ],
+     "pObsRows": [
+      {
+       "triple": "dt/1,dt/2,dt/4",
+       "pObs": 0.9995105732656265,
+       "richardson": 36335.85482838157
+      },
+      {
+       "triple": "dt/2,dt/4,dt/8",
+       "pObs": 0.9997552597966478,
+       "richardson": 36335.844701137845
+      }
+     ],
+     "epsNum": 89.4781935672072,
+     "epsNumEstimate": {
+      "raw": 89.4781935672072,
+      "order": 0.9995105732656265,
+      "factor": 1.333635054816165,
+      "refined": 119.3312555828538,
+      "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3336 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+     },
+     "asymptotic": {
+      "pObsShifts": [
+       0.9995105732656265,
+       0.9997552597966478
+      ],
+      "inAsymptotic": true
+     }
+    },
+    {
+     "key": "e",
+     "name": "離心率 proxy",
+     "values": [
+      0.2753345213773055,
+      0.27465066127666554,
+      0.27430948116939413,
+      0.2741390780977884
+     ],
+     "stages": [
+      "dt/1",
+      "dt/2",
+      "dt/4",
+      "dt/8"
+     ],
+     "pObsRows": [
+      {
+       "triple": "dt/1,dt/2,dt/4",
+       "pObs": 1.0031676869089892,
+       "richardson": 0.27396979438332447
+      },
+      {
+       "triple": "dt/2,dt/4,dt/8",
+       "pObs": 1.00158219069232,
+       "richardson": 0.2739690481713439
+      }
+     ],
+     "epsNum": 0.0010250402079113874,
+     "epsNumEstimate": {
+      "raw": 0.0010250402079113874,
+      "order": 1.0031676869089892,
+      "factor": 1.3313887430443092,
+      "refined": 0.0013647269939810194,
+      "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3314 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+     },
+     "asymptotic": {
+      "pObsShifts": [
+       1.0031676869089892,
+       1.00158219069232
+      ],
+      "inAsymptotic": true
+     }
+    },
+    {
+     "key": "degYear",
+     "name": "近点移動 [deg/yr]",
+     "values": [
+      3.575964103961328,
+      3.5660297220888233,
+      3.561282305434385,
+      3.558963047348936
+     ],
+     "stages": [
+      "dt/1",
+      "dt/2",
+      "dt/4",
+      "dt/8"
+     ],
+     "pObsRows": [
+      {
+       "triple": "dt/1,dt/2,dt/4",
+       "pObs": 1.065287531623993,
+       "richardson": 3.556937189563483
+      },
+      {
+       "triple": "dt/2,dt/4,dt/8",
+       "pObs": 1.0334793016370678,
+       "richardson": 3.5567478056692465
+      }
+     ],
+     "epsNum": 0.014681798526942735,
+     "epsNumEstimate": {
+      "raw": 0.014681798526942735,
+      "order": 1.065287531623993,
+      "factor": 1.295952560779801,
+      "refined": 0.019026914397844548,
+      "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.2960 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+     },
+     "asymptotic": {
+      "pObsShifts": [
+       1.065287531623993,
+       1.0334793016370678
+      ],
+      "inAsymptotic": true
+     }
+    },
+    {
+     "key": "degOrbit",
+     "name": "近点移動 [°/周]",
+     "values": [
+      0.0041038962740084835,
+      0.004099232158209847,
+      0.004097140773345368,
+      0.0040961548603914615
+     ],
+     "stages": [
+      "dt/1",
+      "dt/2",
+      "dt/4",
+      "dt/8"
+     ],
+     "pObsRows": [
+      {
+       "triple": "dt/1,dt/2,dt/4",
+       "pObs": 1.1571450310818248,
+       "richardson": 0.00409544067692514
+      },
+      {
+       "triple": "dt/2,dt/4,dt/8",
+       "pObs": 1.084926394476886,
+       "richardson": 0.004095275575858418
+      }
+     ],
+     "epsNum": 0.000006755500663115782,
+     "epsNumEstimate": {
+      "raw": 0.000006755500663115782,
+      "order": 1.1571450310818248,
+      "factor": 1.2516610544515474,
+      "refined": 0.000008455597083343628,
+      "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.2517 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+     },
+     "asymptotic": {
+      "pObsShifts": [
+       1.1571450310818248,
+       1.084926394476886
+      ],
+      "inAsymptotic": true
+     }
+    }
+   ],
+   "budget": {
+    "spentSec": 82.7,
+    "budgetTotalS": 12000
+   }
+  }
+ ],
+ "pageErrors": []
+}

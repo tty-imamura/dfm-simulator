@@ -351,6 +351,13 @@
   #classChips .classChip[data-g^=emg-]{border-color:var(--ok);color:var(--ok);}
   /* 第92便: 現実準拠チップ(fidelity:"real" 宣言のみ) */
   #classChips .classChip[data-g=fid-real]{border-color:var(--ok);color:var(--ok);font-weight:700;}
+  /* 第261便c: 較正の現在地チップ。**赤は使わない**(赤=否は台帳の 4 値の側)。
+     灰=まだ言えない(収束確認・未完/測定再検証)・緑=実測合格・橙=要再確認 */
+  #classChips .classChip[data-g=cf-measured-pass]{border-color:var(--ok);color:var(--ok);font-weight:700;}
+  #classChips .classChip[data-g=cf-pass-expected-with-precision]{border-color:var(--acc);color:var(--acc);font-weight:700;}
+  #classChips .classChip[data-g=cf-convergence-incomplete]{border-color:var(--dim);color:var(--dim);}
+  #classChips .classChip[data-g=cf-measurement-recheck]{border-color:var(--dim);color:var(--dim);}
+  #classChips .classChip[data-g=cf-calibration-recheck]{border-color:var(--hot);color:var(--hot);}
   /* 第88便(v1.39-b1 スプリント1)EXT-01/03/04/09: 初見ガイド・役割チップ・しない主張・
      Failure First。すべて表示専用 — 物理・保存 JSON には一切影響しない */
   #fvOverlay{position:fixed;inset:0;background:rgba(5,8,18,.78);z-index:9999;display:flex;
@@ -560,8 +567,15 @@
         <div class="beRow"><label id="beLcvOm" style="min-width:34px">Ωc/Ωs/Δ</label><input type="text" id="beCvOm" readonly tabindex="-1" inputmode="text" autocomplete="off"></div>
         <div class="beRow"><label id="beLcvJ" style="min-width:34px">Jc/Ic/Kc</label><input type="text" id="beCvJ" readonly tabindex="-1" inputmode="text" autocomplete="off"></div>
         <div class="beRow"><label id="beLcvLs" style="min-width:34px">殻/コア/合成</label><input type="text" id="beCvLs" readonly tabindex="-1" inputmode="text" autocomplete="off"></div>
-        <!-- 第259便b: 親子コア(同心層)は**表示だけ**(編集は JSON — 層は宣言された構造であって実行中のノブではない) -->
+        <!-- 第259便b: 親子コア(同心層)の読み取り専用の 1 行(第261便b: 編集は下の「親子コア(層)」タブへ) -->
         <div class="beRow"><label id="beLcvLay" style="min-width:34px">層</label><input type="text" id="beCvLay" readonly tabindex="-1" inputmode="text" autocomplete="off"></div>
+        <!-- 第261便b(第53報「コア V2 は将来的に廃止予定とし、親子コアで受け入れ可能にする」):
+             **廃止予定の告知と変換ボタン**。押すまで何も変わらない(コア V2 は消さない・
+             内蔵プリセットの core:{ は 1 文字も触らない)。変換すると遠方の重力は厳密に 0 差で、
+             近傍(コア半径の内側)だけが変わる — その差は 〔第261便b〕 の表にある -->
+        <div class="beRow" id="beCvDepRow" style="display:none">
+          <span id="beCvDep" style="flex:1;opacity:.85;font-size:11px"></span>
+          <button class="btn" id="beCvToLayers" style="flex:0 0 auto"></button></div>
         <!-- 第212便(原仮定者指示「coreの数値も編集可能にする。有効によるフィールド追加や、
              無効によるフィールド無視も可能」): コアv2 の実行時編集。「コア有効」ON でコアを付与・
              OFF で除去(=フィールド無視)。数値は build と同じ式で即時再構成(S.applyCoreEdit)。
@@ -576,6 +590,25 @@
           <div class="beRow"><label id="beLcvEt" style="min-width:44px">傾きθ°</label><input type="text" id="beCvTilt" inputmode="decimal" autocomplete="off">
             <label id="beLcvEz" style="min-width:44px">ζ</label><input type="text" id="beCvIS" inputmode="text" autocomplete="off"></div>
         </div>
+      </details>
+      <!-- 第261便b(第53報 W2・原仮定者「親子コアは、『選択粒子の編集』で、タブ切り替えなどで
+           それぞれの粒子を編集可能にする」): **同心層の編集ブロック**。層を宣言した粒子だけに出る
+           (根では出ない)。タブは「根 / 層1 / 層2 …」で、根タブは読み取り専用の合計を出す。
+           編集は単一入口 S.applyLayerEdit(i,k,cfg) 経由(正準形が通らなければ 1 bit も書かない)。
+           **J は宣言値であって力へは接続していない**(表示・保存・編集の対象) -->
+      <details id="beLayers" style="display:none">
+        <summary id="beLayTitle" class="tappable" style="color:var(--acc);font-weight:700;cursor:pointer">親子コア(層)</summary>
+        <div class="rowBtns" id="beLayTabs" style="flex-wrap:wrap"></div>
+        <div id="beLayRoot" style="font-size:11.5px;opacity:.92;padding:2px 0"></div>
+        <div id="beLayEdit">
+          <div class="beRow"><label id="beLlyRole" style="min-width:44px">役割</label>
+            <select id="beLyRole" style="flex:1"></select>
+            <label id="beLlyM" style="min-width:24px">m</label><input type="text" id="beLyM" inputmode="text" autocomplete="off"></div>
+          <div class="beRow"><label id="beLlyR" style="min-width:44px">r</label><input type="text" id="beLyR" inputmode="decimal" autocomplete="off">
+            <label id="beLlyJ" style="min-width:24px">J</label><input type="text" id="beLyJ" inputmode="text" autocomplete="off"></div>
+        </div>
+        <div class="rowBtns"><button class="btn" id="beLyAdd"></button><button class="btn" id="beLyDel"></button></div>
+        <div class="beNote" id="beLyNote"></div>
       </details>
       <!-- 第100便 EXT-10: 形成系譜 — 融合で育った粒子の吸収履歴(読み取り専用・融合が起きた粒子のみ表示) -->
       <details id="beLineage" style="display:none">
@@ -905,14 +938,16 @@ ja: {
   tgFieldDesc:"決定力 W の強さを背景の色マップで表示(A3/E1′)。明るいほど W が高い。",
   tgSpaceMesh:"空間メッシュ",
   smGainLabel:"引きずりの度合",
-  smGainDesc:"引きずりの度合 g(0〜2・刻み 0.05・既定 1.0)。「空間メッシュ」と同じ行で直接編集できる。**表示専用**で、サンプルの署名(presetSig)にも物理パラメータ(S.params)にも入らない —— 動かしても力学・帳簿は 1 bit も変わらない。A/B 比較では両側に同じ値が入る。上げすぎるとセルの向きが裏返る(折返し)。",
+  smGainDesc:"引きずりの度合 g(既定 1.0)。スライダーは **0 から 10 までを指数目盛**(位置 0 だけが特別値 0)で、隣の欄に **100 などの直値**も入力できる(上限 10000 でクランプする)。「空間メッシュ」と同じ行で直接編集できる。**表示専用**で、サンプルの署名(presetSig)にも物理パラメータ(S.params)にも入らない —— 動かしても力学・帳簿は 1 bit も変わらない。A/B 比較では両側に同じ値が入る。**g=1 の最大変位はどのサンプルでもセル幅の 0.25 倍**に規格化してある(第261便a)ので、上げていくとその倍数で歪む。上げすぎるとセルの向きが裏返る(折返し)。",
   smTauLabel:"τ 固定",
-  smTauDesc:"蓄積格子の表示の時間幅 τ を固定する診断(表示専用・空間メッシュが ON のときだけ出る)。OFF は**自動**で、τ_ref=R/v_ref を系ごとに決め直す —— 同じ形の場なら**強さが違っても同じ絵**になる(剛体回転の Ω=0.1 と Ω=0.2 で格子差が 0)。ON にすると入力した τ をそのまま使うので、**強度の違いが絵に出る**。凡例に τ_ref・v_ref と自動/固定を表示する。署名・保存 JSON・S.params には入らない(実行時鍵 overlays.spaceMesh.tau)。",
+  smTauDesc:"蓄積格子の表示の時間幅 τ を固定する診断(表示専用・空間メッシュが ON のときだけ出る)。**第261便a から、τ を固定しても値を変えても描かれる歪みは変わらない**(格子はビット同一)—— 歪みは g とセル幅だけで規格化してあり、宣言した τ は凡例の診断表示にだけ残る。凡例には g・歪み(セル幅比)・v_ref・実際に使った τ と、自動/固定の別を出す。署名・保存 JSON・S.params には入らない(実行時鍵 overlays.spaceMesh.tau)。",
   smTauAuto:"自動", smTauFixed:"固定",
+  smDispLabel:"歪み(セル幅比)", smTauNoEffect:"表示には効かない",
+  smOrigin1:"原点は 1 位の粒子(2 位と 3 位が同質量)",
   smTop2Note:"場は上位 2 体(系全体のメッシュではない)",
   smFoldCellNote:"赤いセル=折返し",
   smFoldWarn:"折返し(表示の限界)",
-  tgSpaceMeshDesc:"空間メッシュの表示(**表示のみ** —— 力学・帳簿へは 1 バイトも影響しない)。既定は**蓄積格子**(mode: mesh)で、**全粒子の質量重心**を原点にした正方格子を、凍結した速度場が作る**一意の写像**で写したものである。同じ行の数値が**引きずりの度合 g**(0〜2・既定 1.0・直接編集可)で、写像 dX/ds=g·[u(X)−u(C)] を 0≤s≤τ_ref で解く度合を決める。τ_ref は系の大きさと内部速度から**一度だけ**決まり、g では再正規化しない(g=0 は歪みなしの正方格子・上げたぶんだけ歪む)。**これは凍結した場の診断図であって、過去から運ばれてきた物質のメッシュではない。**セルの向きが裏返ったら(折返し)そのセルを赤くし、格子全体を破線にして凡例を出す —— **空間が反転したのではなく、表示の時間幅 τ_ref とサンプリングの限界**である。凡例には τ_ref・v_ref と、τ が自動か固定かを出す(自動は形を見る・固定は強さを比べる)。銀河(overlays.galaxyField の宣言がある系)は局所場で描き、**有効範囲の外は描かない**。宣言の無い 3 体以上の系は**上位 2 体**から作った連星の場で描き、その旨を凡例に出す。残る 4 モード(lines / guide / transport / tracer)は**明示宣言したときだけの診断**で、同時には描かない。g と τ は署名(presetSig)にも S.params にも入らない。式と手順の全文は docs/PHYSICS.md と docs/AI_SPEC.md にある。",
+  tgSpaceMeshDesc:"空間メッシュの表示(**表示のみ** —— 力学・帳簿へは 1 バイトも影響しない)。既定は**蓄積格子**(mode: mesh)で、**質量上位 2 粒子の重心**を原点にした正方格子(2 位と 3 位が同質量の系は 1 位の粒子が原点 —— 第261便a)を、凍結した速度場が作る**一意の写像**で写したものである。同じ行の数値が**引きずりの度合 g**(既定 1.0・スライダーは 0〜10 の指数目盛・直値は 10000 まで)で、写像 dX/ds=g·[u(X)−u(C)] を 0≤s≤τ で解く度合を決める。**第261便a から、時間幅 τ はセル幅で規格化する**(τ=κ·h/v_ref・κ=0.25)ので、**g=1 の最大変位はどのサンプルでもセル幅の 0.25 倍**であり、**『τ 固定』を変えても歪みは変わらない**(g=0 は歪みなしの正方格子・上げたぶんだけ歪む)。**これは凍結した場の診断図であって、過去から運ばれてきた物質のメッシュではない。**セルの向きが裏返ったら(折返し)そのセルを赤くし、格子全体を破線にして凡例を出す —— **空間が反転したのではなく、表示の時間幅とサンプリングの限界**である。凡例には g・歪み(セル幅比)・v_ref・実際に使った τ と、τ が自動か固定かを出す(固定しても絵は変わらない —— 診断表示である)。銀河(overlays.galaxyField の宣言がある系)は局所場で描き、**有効範囲の外は描かない**。宣言の無い 3 体以上の系は**上位 2 体**から作った連星の場で描き、その旨を凡例に出す。残る 4 モード(lines / guide / transport / tracer)は**明示宣言したときだけの診断**で、同時には描かない。g と τ は署名(presetSig)にも S.params にも入らない。式と手順の全文は docs/PHYSICS.md と docs/AI_SPEC.md にある。",
   // 第37便 A3(原仮定者指示): 光線の基準波長λ0(表示専用・セーブ対象外・物理不変)
   // 第38便(原仮定者指示): 既定を580nmへ・スライダーは「光線」トグルの直後に移動・直値は可視外も受理
   rayLambda0Label:"光線の基準波長(nm)",
@@ -944,6 +979,23 @@ ja: {
   bdgSC_calibration_dfmTip:"現実較正のうち、既定で空間引きずりが入っている版(physics.kFrame≠0)。DFM の効果込みで観測と突き合わせる側である(分類チップだけの派生表示 — 宣言・保存 JSON・署名には入らない)",
   bdgSC_calibration_kf0Tip:"現実較正のうち、既定で空間引きずりを切ってある版(physics.kFrame=0)。同じ観測値に対する**引きずり無しの対照**である(分類チップだけの派生表示 — 宣言・保存 JSON・署名には入らない)",
   bdgSC_semantic:"意味論表示", bdgSC_semanticTip:"光子波長など「表示物理」の意味論が主題 — 粒子力学への反作用はない(第67便 P3 分類)",
+  // 第261便c(第53報「現実較正サンプルは、数値精度が上がれば合格する事が予測出来る段階に達したら、
+  // その事をチップなどで明示して完了とする」): **較正の現在地チップ**(宣言専用メタ・presetSig 外)。
+  // 状態は 5 つだけで、**赤(=否)はこのチップには無い** —— 否は台帳の 4 値の側にある。
+  // 「収束確認・未完」「測定再検証」は**灰**で、「まだ言えない」であって否定ではない。
+  bdgCF_head:"較正の現在地",
+  "bdgCF_measured-pass":"✅ 実測合格",
+  "bdgCF_measured-passTip":"σ を持つ判定量が 3σ の門を通ったことが**実測で**確かめられている(範囲つきなら、その量だけ)。**系全体の合格とは限らない** — 範囲の欄を読むこと(第261便c)",
+  "bdgCF_pass-expected-with-precision":"🟡 精度向上で合格見込み",
+  "bdgCF_pass-expected-with-precisionTip":"**門 5 つ**(①対象量・観測版・単位・時系・窓・抽出法・f を固定/②4 段以上で除外条件なし/③隣接 3 段の次数が安定/④段ずらし Richardson が独立推定と照合済み/⑤|y∞−y_obs|+U∞ ≤ 3σ)を**すべて機械で通った**ときだけ立つ。開発上の完了として数える。**U∞ は数学的上限ではない**(第261便c・現在この状態のサンプルは 0 件)",
+  "bdgCF_convergence-incomplete":"⏳ 収束確認・未完",
+  "bdgCF_convergence-incompleteTip":"刻みの段は積んだが、門 5 つのどれかが通っていない(多くは⑤の距離)。**否定ではない** — 「まだ言えない」という手続き上の状態である(第261便c)",
+  "bdgCF_measurement-recheck":"🔎 測定再検証",
+  "bdgCF_measurement-recheckTip":"抽出器・窓・イベント列の側に確かめ直す点があり、段の値をそのまま収束の材料にできない。**否定ではない**(第261便c)",
+  "bdgCF_calibration-recheck":"🔁 較正要再確認",
+  "bdgCF_calibration-recheckTip":"宣言時の署名(presetSig)や単位が変わったので、較正の現在地を宣言し直す必要がある。**自動で立つ**(宣言のハッシュと現在の署名を突き合わせる)。**否定ではない**(第261便c)",
+  cfScope:(s)=>"(範囲: "+s+")",
+  cfTipTail:"**模型差(連続極限でも残る差)はこのチップの赤にしない** — このチップに赤は無い。判定の 4 値(合/量限定合/否/保留)は docs/CALIBRATION_VERDICT_v1.44.md の台帳が正本である。",
   // 第82便B: E水準タグ(創発の水準の宣言 — sampleClass と同方針の宣言専用メタ・自動判定しない)
   bdgE_E0:"E0 規定", bdgE_E0Tip:"創発の主張をしないサンプル(構造・運動が初期条件や外部規定でほぼ決まっている)。E水準は宣言専用のメタで、物理には一切影響しない(第82便)",
   bdgE_E1:"E1 外部駆動下の自己組織化", bdgE_E1Tip:"外部から駆動(伝熱壁・規定レール・pinned など)されている系で、局所則から構造・秩序が自発的に生じる。E水準は宣言専用のメタで、物理には一切影響しない(第82便)",
@@ -997,6 +1049,30 @@ ja: {
     +"容量|J|=|½·Mc·Rc²·ζ·Ω0| で即時再構成する。m や spin の直接編集と同じ実験扱いで、帳簿(T7)は編集時点から"
     +"再出発。cavity は有効/無効の切替のみ(数値編集の対象外)。傾きθは z 射影の宣言(第210便)— 90°でコアは"
     +"エッジオン(横棒)に描かれる。貼付/保存 JSON の検証器の値域・併用不可則(tilt×Kcs等)は貼付時に適用される。",
+  // 第261便b(第53報 W2): 親子コア(同心層)の編集ブロック
+  beLayTitle:"親子コア(層)", beLayRoot:"根", beLayTab:(k)=>"層"+k,
+  beLyRole:"役割", beLyM:"m", beLyR:"r", beLyJ:"J",
+  beLyAdd:"層を追加", beLyDel:"この層を削除",
+  beLyRootInfo:(n,sum,m,R)=>`層 ${n}・Σ層 m=${sum}(根の m=${m}・観測半径 R=${R})`,
+  beLyNote:"層を編集すると**根の m は Σ層 m に追随**します(層が主・根が従)。r は昇順(同心・非重複)が必要で、"
+    +"通らない編集は 1 bit も書きません。**J は宣言値で力には接続していません**(表示・保存のみ)。",
+  beLyErr:(why)=>"編集は適用されていません: "+why,
+  beLyErrWhy:{radiusNotAscending:"r が昇順(同心・非重複)になりません", layerNotPositive:"m・r は正の数値が必要",
+    tooManyLayers:"層は 8 までです", unknownRole:"役割が不正です", noSuchLayer:"その層はありません",
+    sumNotPositive:"Σ層 m が正になりません", badIndex:"粒子が選ばれていません"},
+  beCvDep:"コアv2 は**廃止予定**です(親子コアの層へ変換できます)。",
+  beCvToLayers:"層へ変換",
+  beCvConvOk:(n)=>`コアv2 を ${n} 層へ変換しました(遠方の重力は厳密に 0 差・コア半径の内側は変わります)。`,
+  beCvConvNg:(why)=>"変換できません: "+why,
+  beCvConvWhy:{cavityHasNoMass:"cavity は質量を持たない重みなので層に写せません",
+    coreOutsideShell:"Rc が R 以上なので同心・昇順になりません",
+    massFracOutOfRange:"質量比が値域の外です", unknownCoreMode:"この種別は変換表にありません",
+    coreRadiusNotPositive:"Rc が正ではありません", bodyMassNotPositive:"根の m が正ではありません",
+    bodyRadiusNotPositive:"R が正ではありません"},
+  beDly:"親子コア(body.layers)の実行時編集(第261便b — 実験用)。タブで根と各層を切り替え、m・r・役割・J を編集します。"
+    +"単一入口 S.applyLayerEdit(i,k,cfg) が正準形(r 昇順・非重複・1〜8 層・m>0)を検証し、通らなければ 1 bit も書きません。"
+    +"**Σm 契約**: 層があるあいだ根の m は派生量(= Σ層 m)です。**J は宣言値で力へは接続していません**。"
+    +"重力は従来どおり「根 1 粒子の点源 + 有限半径の球殻定理の差分」で、S._core には 1 命令も足していません。",
   beLinTitle:"形成系譜",
   beLinSum:(n,tree,ev,ge)=>`直接吸収 ${n} 回・系譜 ${ge?"≥":""}${tree} 粒(記録 ${ev} 件)`,
   beLinRow:(t,dm,m,ls)=>`t=${t}: +${dm} → m=${m}・減光=${ls}`,
@@ -1516,14 +1592,16 @@ en: {
   tgFieldDesc:"Background color map of the determinacy W (A3/E1'). Brighter = higher W.",
   tgSpaceMesh:"Space mesh",
   smGainLabel:"Amount of dragging",
-  smGainDesc:"Amount of dragging g (0-2, step 0.05, default 1.0), edited directly on the same row as SPACE MESH. IT IS PURELY A DISPLAY CONTROL: it enters neither the sample signature (presetSig) nor the physics parameters (S.params), so moving it changes not one bit of the dynamics or the ledgers. Both sides of an A/B comparison share the value. Push it too far and cells turn inside out (folding).",
+  smGainDesc:"Amount of dragging g (default 1.0). The slider runs from 0 to 10 on a LOGARITHMIC scale (position 0 alone is the special value 0), and the box next to it takes DIRECT VALUES such as 100 (clamped at 10000). Both sit on the same row as SPACE MESH. IT IS PURELY A DISPLAY CONTROL: it enters neither the sample signature (presetSig) nor the physics parameters (S.params), so moving it changes not one bit of the dynamics or the ledgers. Both sides of an A/B comparison share the value. At g=1 the largest displacement is normalised to 0.25 of a cell width in EVERY sample (wave 261a), and it grows in proportion from there. Push it too far and cells turn inside out (folding).",
   smTauLabel:"Fix tau",
-  smTauDesc:"A diagnostic that FIXES the display time span tau of the accumulated grid (display only; shown while the space mesh is on). Off means AUTOMATIC: tau_ref = R/v_ref is recomputed per system, so two systems with the same field SHAPE but different STRENGTH draw the same picture (rigid rotation at omega=0.1 and omega=0.2 give a grid difference of exactly 0). On, the tau you type is used as is, so differences in strength show up in the picture. The legend prints tau_ref, v_ref and whether tau is automatic or fixed. It enters neither the signature, the saved JSON nor S.params (run-time key overlays.spaceMesh.tau).",
+  smTauDesc:"A diagnostic that FIXES the display time span tau of the accumulated grid (display only; shown while the space mesh is on). SINCE WAVE 261a, FIXING TAU OR CHANGING ITS VALUE NO LONGER CHANGES THE DISTORTION THAT IS DRAWN (the grid stays bit-identical): the distortion is normalised by g and the cell width alone, and the tau you declare survives only as a diagnostic readout. The legend prints g, the distortion in cell widths, v_ref, the tau actually used, and whether it is automatic or fixed. It enters neither the signature, the saved JSON nor S.params (run-time key overlays.spaceMesh.tau).",
   smTauAuto:"auto", smTauFixed:"fixed",
+  smDispLabel:"distortion (cells)", smTauNoEffect:"not used for the picture",
+  smOrigin1:"Origin is the heaviest body (2nd and 3rd have equal mass)",
   smTop2Note:"Field from the two heaviest bodies (not a mesh of the whole system)",
   smFoldCellNote:"Red cells = folded",
   smFoldWarn:"Folded (display limit)",
-  tgSpaceMeshDesc:"Draws the space mesh (DISPLAY ONLY - it touches neither the dynamics nor the ledgers). The default is the ACCUMULATED GRID (mode: mesh): a square grid centred on the MASS CENTROID OF ALL PARTICLES, mapped through the SINGLE-VALUED map built from the frozen velocity field. The number on the same row is the AMOUNT OF DRAGGING g (0-2, default 1.0, directly editable); it scales the map dX/ds = g.[u(X) - u(C)] solved over 0<=s<=tau_ref. tau_ref is fixed ONCE from the system size and its internal speed and is NOT renormalised by g (g=0 leaves the reference square grid untouched; more gain means more distortion). THIS IS A DIAGNOSTIC PICTURE OF A FROZEN FIELD, NOT A MATERIAL MESH CARRIED HERE FROM THE PAST. If cells turn inside out (folding) those cells turn red, the whole grid switches to a dashed stroke and a legend appears - SPACE HAS NOT INVERTED; this is the limit of the display time span tau_ref and of the sampling. The legend prints tau_ref, v_ref and whether tau is automatic or fixed (automatic shows the SHAPE, fixed compares the STRENGTH). A galaxy (a sample that declares overlays.galaxyField) is drawn with its local field and POINTS OUTSIDE THE VALID SUPPORT ARE NOT DRAWN. A system of three or more bodies without that declaration is drawn with the binary field OF ITS TWO HEAVIEST BODIES, and the legend says so. The remaining four modes (lines / guide / transport / tracer) are diagnostics drawn ONLY when a sample declares them, never two at once. Neither g nor tau enters presetSig or S.params. The full formulas and procedure are in docs/PHYSICS.md and docs/AI_SPEC.md.",
+  tgSpaceMeshDesc:"Draws the space mesh (DISPLAY ONLY - it touches neither the dynamics nor the ledgers). The default is the ACCUMULATED GRID (mode: mesh): a square grid centred on the BARYCENTRE OF THE TWO HEAVIEST PARTICLES (on the heaviest particle alone when the 2nd and 3rd have equal mass - wave 261a), mapped through the SINGLE-VALUED map built from the frozen velocity field. The number on the same row is the AMOUNT OF DRAGGING g (default 1.0; the slider runs 0 to 10 logarithmically and direct values are taken up to 10000); it scales the map dX/ds = g.[u(X) - u(C)] solved over 0<=s<=tau. SINCE WAVE 261a THE TIME SPAN TAU IS NORMALISED BY THE CELL WIDTH (tau = kappa.h/v_ref, kappa = 0.25), so AT g=1 THE LARGEST DISPLACEMENT IS 0.25 OF A CELL WIDTH IN EVERY SAMPLE and FIXING TAU NO LONGER CHANGES THE DISTORTION (g=0 leaves the reference square grid untouched; more gain means more distortion). THIS IS A DIAGNOSTIC PICTURE OF A FROZEN FIELD, NOT A MATERIAL MESH CARRIED HERE FROM THE PAST. If cells turn inside out (folding) those cells turn red, the whole grid switches to a dashed stroke and a legend appears - SPACE HAS NOT INVERTED; this is the limit of the display time span and of the sampling. The legend prints g, the distortion in cell widths, v_ref, the tau actually used and whether it is automatic or fixed (fixing it does not change the picture - it is a readout). A galaxy (a sample that declares overlays.galaxyField) is drawn with its local field and POINTS OUTSIDE THE VALID SUPPORT ARE NOT DRAWN. A system of three or more bodies without that declaration is drawn with the binary field OF ITS TWO HEAVIEST BODIES, and the legend says so. The remaining four modes (lines / guide / transport / tracer) are diagnostics drawn ONLY when a sample declares them, never two at once. Neither g nor tau enters presetSig or S.params. The full formulas and procedure are in docs/PHYSICS.md and docs/AI_SPEC.md.",
   // 第37便 A3: ray base wavelength lambda0 (display only, not saved, physics-free)
   // 38th flight (design lead's instruction): default now 580nm; slider moved right after the "rays" toggle; direct entry accepts non-visible values
   rayLambda0Label:"Ray base wavelength (nm)",
@@ -1552,6 +1630,23 @@ en: {
   bdgSC_calibration_dfmTip:"A calibrated sample whose default has frame dragging switched on (physics.kFrame is not 0), i.e. the side compared with observation WITH the DFM effect included (a chip-only derived label - never written into the declaration, the saved JSON or the signature)",
   bdgSC_calibration_kf0Tip:"A calibrated sample whose default has frame dragging switched off (physics.kFrame = 0), i.e. the NO-DRAGGING CONTROL for the same observation (a chip-only derived label - never written into the declaration, the saved JSON or the signature)",
   bdgSC_semantic:"Semantics", bdgSC_semanticTip:"The subject is the semantics of display physics (photon wavelengths etc.) — no back-reaction on particle dynamics (P3 classification, session 67)",
+  // Wave 261c (report 53): WHERE THIS CALIBRATION STANDS — a declaration-only chip, outside presetSig.
+  // There are exactly five states and NONE OF THEM IS RED: a refutation ("fails") lives in the ledger's
+  // four-valued verdict, not here. "Convergence incomplete" and "Measurement re-check" are GREY:
+  // they mean NOT YET SAYABLE, which is not a denial.
+  bdgCF_head:"Where this calibration stands",
+  "bdgCF_measured-pass":"✅ Measured pass",
+  "bdgCF_measured-passTip":"A quantity carrying an observational σ was MEASURED to pass the 3σ gate (for the declared scope only). THIS IS NOT A WHOLE-SYSTEM PASS — read the scope field (wave 261c)",
+  "bdgCF_pass-expected-with-precision":"🟡 Pass expected once precision improves",
+  "bdgCF_pass-expected-with-precisionTip":"Raised ONLY when all FIVE gates pass mechanically: (1) quantity, observation version, unit, time system, window, extractor and f are fixed and never re-fitted per step; (2) four or more steps with no excluded events; (3) the observed order is stable across shifted triples; (4) shifted-triple Richardson extrapolations are checked against an INDEPENDENT estimate; (5) |y_inf - y_obs| + U_inf <= 3σ. Counted as development-complete. U_INF IS NOT A MATHEMATICAL BOUND (wave 261c; ZERO samples are in this state today)",
+  "bdgCF_convergence-incomplete":"⏳ Convergence incomplete",
+  "bdgCF_convergence-incompleteTip":"The step ladder exists but at least one of the five gates does not pass (usually gate 5, the distance). THIS IS NOT A REFUTATION — it is the procedural state 'not yet sayable' (wave 261c)",
+  "bdgCF_measurement-recheck":"🔎 Measurement under re-check",
+  "bdgCF_measurement-recheckTip":"Something on the extractor / window / event-list side still has to be verified, so the ladder values cannot be fed to a convergence argument as they are. NOT A REFUTATION (wave 261c)",
+  "bdgCF_calibration-recheck":"🔁 Calibration must be re-declared",
+  "bdgCF_calibration-recheckTip":"The signature (presetSig) or the units changed since the declaration, so where this calibration stands has to be declared again. IT IS RAISED AUTOMATICALLY (the declared hash is compared with the current signature). NOT A REFUTATION (wave 261c)",
+  cfScope:(s)=>"(scope: "+s+")",
+  cfTipTail:"A MODEL DIFFERENCE (a residual that survives the continuum limit) IS NEVER PAINTED RED HERE - this chip has no red. The four-valued verdict (pass / partial pass / fails / held) lives in docs/CALIBRATION_VERDICT_v1.44.md.",
   // Dispatch 82B: emergence-level tag (a declaration-only tag, same policy as sampleClass — never auto-detected)
   bdgE_E0:"E0 Prescribed", bdgE_E0Tip:"A sample that makes no emergence claim: its structure and motion are essentially fixed by the initial conditions or by external prescription. The E level is declaration-only metadata and never touches the physics (dispatch 82)",
   bdgE_E1:"E1 Driven self-organization", bdgE_E1Tip:"Structure/order arises spontaneously from local rules, but the system is externally driven (thermal walls, prescribed rails, pinned bodies…). The E level is declaration-only metadata and never touches the physics (dispatch 82)",
@@ -1604,6 +1699,33 @@ en: {
     +"experimental like direct m/spin edits — the ledgers (T7) restart from the edit. Cavity cores only toggle "
     +"on/off. Tilt θ is the declared z-projection (wave 210) — at 90° the core is drawn edge-on (a bar). The "
     +"validator's ranges and exclusions (tilt×Kcs etc.) apply when pasting/saving JSON.",
+  // 第261便b(第53報 W2): parent-child core (concentric layers) editing block
+  beLayTitle:"Parent-child core (layers)", beLayRoot:"root", beLayTab:(k)=>"layer "+k,
+  beLyRole:"role", beLyM:"m", beLyR:"r", beLyJ:"J",
+  beLyAdd:"add layer", beLyDel:"remove this layer",
+  beLyRootInfo:(n,sum,m,R)=>`${n} layers · sum of layer m=${sum} (root m=${m}, observed radius R=${R})`,
+  beLyNote:"Editing a layer makes THE ROOT m FOLLOW the sum of the layer masses (the layers are primary). "
+    +"Radii must stay ascending (concentric, non-overlapping); an edit that fails writes nothing at all. "
+    +"J IS A DECLARED VALUE AND IS NOT CONNECTED TO THE FORCES (display and save only).",
+  beLyErr:(why)=>"the edit was not applied: "+why,
+  beLyErrWhy:{radiusNotAscending:"the radii would not stay ascending (concentric, non-overlapping)",
+    layerNotPositive:"m and r must be positive numbers", tooManyLayers:"at most 8 layers",
+    unknownRole:"unknown role", noSuchLayer:"no such layer",
+    sumNotPositive:"the sum of the layer masses is not positive", badIndex:"no body is selected"},
+  beCvDep:"Core v2 IS DEPRECATED (it can be converted into parent-child layers).",
+  beCvToLayers:"convert to layers",
+  beCvConvOk:(n)=>`Converted the core v2 into ${n} layers (the far field is identical to the bit; inside the core radius it changes).`,
+  beCvConvNg:(why)=>"cannot convert: "+why,
+  beCvConvWhy:{cavityHasNoMass:"a cavity is a weight, not a mass, so it cannot become a layer",
+    coreOutsideShell:"Rc is not smaller than R, so the layers would not be concentric and ascending",
+    massFracOutOfRange:"the mass fraction is out of range", unknownCoreMode:"this core type is not in the conversion table",
+    coreRadiusNotPositive:"Rc is not positive", bodyMassNotPositive:"the root m is not positive",
+    bodyRadiusNotPositive:"R is not positive"},
+  beDly:"Runtime editing of the parent-child core (body.layers, wave 261b - experimental). The tabs switch between the root "
+    +"and each layer; m, r, role and J are editable. The single entry point S.applyLayerEdit(i,k,cfg) validates the canonical "
+    +"form (ascending, non-overlapping radii, 1-8 layers, m>0) and writes nothing if it fails. SUM RULE: while layers exist the "
+    +"root m is a derived quantity (= the sum of the layer masses). J IS DECLARED ONLY AND IS NOT CONNECTED TO THE FORCES. "
+    +"Gravity is still 'one root point source plus the finite-radius shell-theorem difference', and S._core gains no instruction.",
   beLinTitle:"Formation lineage",
   beLinSum:(n,tree,ev,ge)=>`absorbed ${n}× directly · lineage ${ge?"≥":""}${tree} grains (${ev} events logged)`,
   beLinRow:(t,dm,m,ls)=>`t=${t}: +${dm} → m=${m}, dimming=${ls}`,
@@ -2281,6 +2403,55 @@ function pObsCard(p){
   if(LANG==="en" && p.en && Array.isArray(p.en.obsCard)) return p.en.obsCard;
   return p.obsCard;
 }
+// ===== 第261便c(第53報「数値精度が上がれば合格する事が予測出来る段階に達したら、その事を
+// ===== チップなどで明示して完了とする」): **較正の現在地**の宣言(presetSig の外)=====
+// プリセットの任意鍵 `calibrationForecast:{status, scope, basis, gate, declaredSig, note}`。
+// status は下の 5 つだけで、**それ以外は落とす**(未知の状態をチップにしない)。
+// **presetSig はこの鍵を見ない**ので、署名・保存 JSON・力学・600 步の状態は 1 bit も変わらない。
+// **中身は宣言であって自動判定ではない** —— 門 5 つの機械判定は `HP.dfmForecastGate` が別に行う。
+const CALIBRATION_FORECAST_STATES=["measured-pass","pass-expected-with-precision",
+  "convergence-incomplete","measurement-recheck","calibration-recheck"];
+// 「開発上の完了として数える」状態(第53報の指示: 合格見込みも完了として数える)
+const CALIBRATION_FORECAST_COUNTED=["measured-pass","pass-expected-with-precision"];
+function calibrationForecastOf(p){
+  const f=(p&&p.calibrationForecast&&typeof p.calibrationForecast==="object")?p.calibrationForecast:null;
+  if(!f) return null;
+  if(CALIBRATION_FORECAST_STATES.indexOf(f.status)<0) return null;   // 未知の状態は落とす
+  const s=(k)=>(typeof f[k]==="string"&&f[k].trim()!=="")?f[k]:null;
+  const en=(LANG==="en"&&p.en&&p.en.calibrationForecast&&typeof p.en.calibrationForecast==="object")?p.en.calibrationForecast:null;
+  const se=(k)=>(en&&typeof en[k]==="string"&&en[k].trim()!=="")?en[k]:s(k);
+  return {status:f.status, scope:se("scope"), basis:s("basis"), note:se("note"),
+    declaredSig:s("declaredSig"),
+    gate:(f.gate&&typeof f.gate==="object")?f.gate:null};
+}
+// 署名のハッシュ(FNV-1a・16 進)。**宣言時の署名と突き合わせるためだけ**に使う
+function presetSigHash(p){
+  try{
+    const t=presetSig(p); let a=0x811c9dc5;
+    for(let i=0;i<t.length;i++){ a^=t.charCodeAt(i)&0xff; a=Math.imul(a,0x01000193)>>>0; }
+    return a.toString(16);
+  }catch(e){ return null; }
+}
+// **署名が宣言時と変わっていたら自動的に「較正要再確認」へ倒す**(宣言を放置して古い状態を
+// 見せ続けないための機械の線)。declaredSig を宣言していないサンプルは倒さない(判定できない)
+function calibrationReviewBadge(p){
+  const f=calibrationForecastOf(p); if(!f) return null;
+  if(!f.declaredSig) return {status:f.status, checked:false, sigChanged:null, sigNow:null, declaredSig:null};
+  const now=presetSigHash(p);
+  const changed=(now!==null && now!==f.declaredSig);
+  return {status:changed?"calibration-recheck":f.status, checked:true, sigChanged:changed,
+    sigNow:now, declaredSig:f.declaredSig};
+}
+// 表示用の派生(「開発上の完了として数えるか」)。**宣言には書かない**
+function calibrationCompletion(p){
+  const b=calibrationReviewBadge(p); if(!b) return null;
+  const f=calibrationForecastOf(p);
+  return {status:b.status, scope:f?f.scope:null,
+    countedAsComplete:CALIBRATION_FORECAST_COUNTED.indexOf(b.status)>=0,
+    sigChanged:b.sigChanged,
+    note:"**判定の 4 値(合/量限定合/否/保留)とは別の軸である。**「収束確認・未完」「測定再検証」は"
+      +"否定ではない(まだ言えない)。**模型差はこのチップの赤にしない** —— このチップに赤は無い。"};
+}
 function paramLabel(def){ return (LANG==="en" && I18N.en.params[def.key]) || def.label; }
 // v1.21: パラメータ名タップの説明文(ja=PARAM_DEFS.desc / en=I18N.en.paramDescs)
 function paramDesc(def){ return (LANG==="en" && I18N.en.paramDescs[def.key]) || def.desc || ""; }
@@ -2791,14 +2962,32 @@ const SPIN_DIP_OM_CLAMP = [-1e6, 1e6], SPIN_DIP_R_CLAMP = [1e-12, 1e12];
 //   ・**collision 半径は最外層だけ**(body の R は従来どおり — 層は R を書き換えない)。
 // **書かないこと**: 「親子コアで較正の自由度が増えて合った」「外部軌道からコア質量・半径を推定できた」。
 const BODY_LAYER_ROLES = ["core","mantle","shell","envelope","halo"];
+// 第261便b(第53報「親子コアは、見た目をコア V2 に準拠する」): role ごとの描画色(**表示専用**)。
+// 線種・透明度はコア V2 の描き分け(内側の暗い円 rgba(10,12,24,.55)+白スポーク)を流用し、
+// 層の境界だけを role 色で描く。**力学には 1 バイトも効かない。**
+const BODY_LAYER_COLORS = { core:"#ff9a6c", mantle:"#ffd166", shell:"#7ec8ff", envelope:"#9ae6a0", halo:"#c8a2ff" };
 const BODY_LAYER_MAX = 8;          // 1 粒子あたりの層数の上限(配列のストライドでもある)
 const BODY_LAYER_MTOL = 1e-6;      // Σ層 m と body.m の相対許容差(超えたら拒否)
+const BODY_LAYER_JCAP = 1e12;      // 第261便b: 層の宣言 J の値域(表示・保存のみ — 力へは未接続)
+const BODY_LAYER_RMIN = 1e-6;      // 第261便b: 編集パネルから置ける層半径の下限
 const BODY_LAYER_KEY = "layers";
 // 融合の層合成則(**本便の既定**)。"role"=同 role を合算(m は和・r は √(r_i²+r_j²) ——
 // 殻の R′=√(R_i²+R_j²)・コア v2 の R_c′ と**同型の既存則**)/ "add"=小さい方の層を層として追加。
 // **"role" を採る理由**: 層数が role の数で上から押さえられ、繰り返しの融合でも
 // 「同心・非重複・r 昇順・≤"+BODY_LAYER_MAX+" 層」の不変量が壊れない(実測は 〔第259便b〕 の表)。
 const LAYER_MERGE_RULE = "role";
+// 第261便b(統括が設定した検証仮説 (7)): 融合の層合成で「同じ半径」を判定する**相対**許容差。
+// 絶対一致+(1+10⁻¹²)のずらしをやめ、|r_i−r_j| ≤ この値 × max(r_i,r_j) なら 1 層に畳む(r はずらさない)
+const LAYER_MERGE_RTOL = 1e-9;
+// 第261便b(第53報「親子コアは、見た目をコア V2 に準拠する」「コア V2 は将来的に廃止予定とし、
+// 親子コアで受け入れ可能にする」): コア V2(core:{mode,massFrac,radius,…})→ layers の**対応表**。
+// **コア V2 を消すものではない**(内蔵 92 か所の core:{ は 1 文字も触らない)—— 変換は編集パネルの
+// 明示操作と純関数 HP.coreV2ToLayers でだけ起きる。対応は「コア層(Mc=massFrac·|m|・r=Rc)+
+// 殻層(m−Mc・r=R)」の 2 層で、**Σ層 m = body.m なので遠方の点源は厳密に 0 差**である。
+// cavity(mode:"cavity")は質量を持たない光学・引きずりの重みなので**変換しない**(layers は
+// 正質量の層しか受けない)。J(コアの自転)は layers 側では**宣言値として運ばれるだけ**で
+// 力へは接続していない(第261便b — 書かないこと: 「親子コアで較正の自由度が増えて合った」)
+const CORE_V2_TO_LAYER_ROLE = { rigid:["core","shell"], differential:["core","shell"], active:["core","shell"] };
 // スピン双極子モーメント Q_i(z 成分・上式そのもの)。表示・QA・監査が同じ量を読むための純関数
 function spinDipoleMoment(S, i){
   if(!(i>=0 && i<S.n)) return 0;
@@ -3664,7 +3853,7 @@ const BUILTIN_PRESETS = [
       "衛星は円軌道 v=√(GM/r)","論文1 Table I の分解は地上の自転項を運動項へ畳み込まない(ここでも別扱い)",
       "画面アナログ: G=0.25・c₀=30・κ=G/c₀²=1/3600(物理対応条件が成立)",
       "画面の半径 60:250 は実比 R⊕/r_GPS=0.2399 の転記(丸め)",
-      "静止参照時計は質量床級の目印(m=0.001)で、接触ばねは値域下限 contactK=0.1/contactCap=0.01(実質ゼロ)— 衛星がすれ違っても蹴られない"],
+      "静止参照時計は質量床級の目印(m=0.001)で、接触ばねは**実質ゼロの小さい値** contactK=0.1/contactCap=0.01 — 衛星がすれ違っても蹴られない(第260便b で値域の下限は 0 まで開いたので、この 0.1/0.01 はもう「下限」ではない — 第261便b で文言を直した)"],
     fitted:[],
     derived:["衛星速度 v=√(GM/r_GPS)","重力項 (ψ_地上−ψ_衛星)·86400s","運動項 −(v²/2c²)·86400s","正味 = 重力項+運動項"],
     numerical:["ソフトニング ε=2","時間倍率 timeScale=4"]},
@@ -5359,8 +5548,8 @@ const BUILTIN_PRESETS = [
     {q:"巻き込み", model:"3000步(t=48)で**巻き数 平均 0.322**。内(r₀=20)Δθ=2.179・外(r₀=240)Δθ=0.170 = **内/外 12.8 倍**。det F 0.9963/0.9994", obs:"—"},
     {q:"5 量の記録", model:"r=16/81/244: v_φ=5.41/5.75/3.12・u_mesh,φ=0.68/1.88/0.84・差=4.73/3.87/2.28。**v_obs は光学層が無く null**・Ω_pattern は 2 時刻差分のみ", obs:"—"},
     {q:"力は載せていない", model:"メッシュは**表示と記録だけ**。u_mesh は粒子速度の局所平均で、**観測回転曲線は入力にしていない**", obs:"—"},
-    {q:"A/B(ワンタップ)", model:"B 側は D₀=500(χ→0)。**物質線が背景に貼り付いて巻かなくなる**", obs:"—"},
-    {q:"較正", model:"**していない**。claim 窓も regression window も付けない", obs:"—"},
+    {q:"A/B(ワンタップ)と較正", model:"B 側は D₀=500(χ→0)。**物質線が背景に貼り付いて巻かなくなる**。**較正はしていない** — claim 窓も regression window も付けない", obs:"—"},
+    {q:"共通場 API(診断)", model:"診断場として同じ純関数 HP.dfmField を読む — 表示の disk/affine とも力学の E6′/coordinate とも別の場・|Δu| は場と同桁", obs:"—"},
     {q:"言わないこと", model:"**渦を描けたことは長寿命構造の説明ではない**。平坦回転曲線・2 本腕の自律維持・ダークマターの主張ではない(T4)", obs:"—"}],
   descStruct:{
     summary:"**銀河の空間メッシュを「1 つの大きなメッシュ」ではなく「局所の場+物質線」で表す**原理サンプル(第254便b・第46報)。原仮定者の指示は「銀河では、空間メッシュが銀河の回転に合わせて渦を巻く/銀河の中心に近づくほど、背景決定力 D₀ の影響が相対的に弱まる」である。中心に近いほど D₀ が弱まることは、**χ(r)=W(r)/(W(r)+D₀) の形そのもの**が表している —— W は加算形 W(x)=Σmᵢ(|x−xᵢ|²+ε²)^(−p/2) で、中心では W が大きく χ→1(メッシュが基準)、外縁では D₀ が効いて χ→0(背景が基準)になる。メッシュの流れは u=χ·u_n+(1−χ)·u_bg で、**u_n はこのアプリの粒子速度を pull 重みで局所平均しただけ**である(観測回転曲線も解析形 Ω_n も入力していない)。**物質線**は場の中を RK4 で運ばれる細い線で、座標の線形混合はしない(χ=½ の混合座標は半回転で潰れるからである)。色は χ の強さ、短い黄色の線は u の向きである。**第257便c から、既定の画面は蓄積格子**(mode: mesh —— 表示方式は排他)である。蓄積格子は、**全粒子の質量重心**を原点にした正方格子を、凍結した速度場が作る**一意の写像**で写し、**各辺の差を原点に近い交点から順に累積**して描いたもので(閉路残差は丸めだけ)、**物質線と空間線は明示宣言したときの診断表示**になった —— 下の実測はいずれも物質線を明示登録したハーネス(tests/exp-w254b-galaxymesh.mjs)の数値である。**力はメッシュから 1 つも出していない**: 動力学は従来どおり重力(E4)と空間の引きずり(A8/E6′)だけで、メッシュは**表示と記録**の層である(第253便a ⑦「銀河はメッシュ接続の後」)。",
@@ -5372,8 +5561,8 @@ const BUILTIN_PRESETS = [
     {q:"Winding", model:"At 3000 steps (t=48) the mean winding is 0.322. Inner (r0=20) dTheta = 2.179 against outer (r0=240) 0.170 - a ratio of 12.8. det F = 0.9963 / 0.9994", obs:"-"},
     {q:"The five recorded quantities", model:"At r = 16 / 81 / 244: v_phi = 5.41 / 5.75 / 3.12, u_mesh_phi = 0.68 / 1.88 / 0.84, difference 4.73 / 3.87 / 2.28. v_obs is null (no optical layer); Omega_pattern needs two times", obs:"-"},
     {q:"No force is attached", model:"The mesh is DISPLAY AND RECORD ONLY. u_mesh is a local average of particle velocities; NO OBSERVED ROTATION CURVE IS FED IN", obs:"-"},
-    {q:"One-tap A/B", model:"Side B runs D0=500 (chi to 0). The material lines stick to the background and stop winding", obs:"-"},
-    {q:"Calibration", model:"NONE. No claim window and no regression window", obs:"-"},
+    {q:"One-tap A/B and calibration", model:"Side B runs D0=500 (chi to 0): the material lines stick to the background and stop winding. THERE IS NO CALIBRATION - no claim window and no regression window", obs:"-"},
+    {q:"Shared field API (diagnostic)", model:"As a DIAGNOSTIC field it reads the same pure function HP.dfmField - a different field from the disk/affine display and from the E6'/coordinate field of the dynamics; |du| is the same order as the field itself", obs:"-"},
     {q:"What this does not claim", model:"DRAWING A SPIRAL IS NOT AN EXPLANATION OF A LONG-LIVED STRUCTURE. Not a claim about flat rotation curves, self-sustained two-armed spirals or dark matter (T4)", obs:"-"}],
     descStruct:{
     summary:"A principle sample that represents a galaxy's space mesh NOT as one big mesh but as A LOCAL FIELD PLUS MATERIAL LINES (wave 254b, 46th report). The adjudicator's instruction reads: in a galaxy the space mesh winds up with the galaxy's rotation, and the closer to the centre, the weaker the background determinacy D0 becomes in relative terms. That relative weakening is exactly what the shape chi(r) = W(r)/(W(r)+D0) says: W is additive, W(x) = sum_i m_i (|x-x_i|^2+eps^2)^(-p/2), so W is large at the centre and chi tends to 1 (the mesh is the reference), while far out D0 dominates and chi tends to 0 (the background is the reference). The mesh flow is u = chi u_n + (1-chi) u_bg, where u_n is NOTHING BUT a pull-weighted local average of this app's own particle velocities - no observed rotation curve and no analytic Omega_n is fed in. The MATERIAL LINES are thin lines carried through the field by RK4 (coordinates are never linearly blended: a chi=1/2 blended coordinate collapses after half a turn); colour encodes chi and the short yellow strokes encode u. SINCE WAVE 257c THE DEFAULT VIEW IS THE ACCUMULATED GRID (mode: mesh; the view modes are exclusive) - a square grid centred on the MASS CENTROID OF ALL PARTICLES, mapped through the single-valued map built from the frozen velocity field, with each edge difference ACCUMULATED OUTWARD FROM THE INTERSECTION NEAREST THE ORIGIN (the closed-loop residual is rounding only) - and the material lines and space lines are the diagnostics you get by declaring mode=tracer or mode=lines - every measurement below comes from the harness (tests/exp-w254b-galaxymesh.mjs), which registers the material lines explicitly. NO FORCE COMES OUT OF THE MESH: the dynamics is still gravity (E4) and frame dragging (A8/E6') alone, and the mesh is a display-and-record layer (wave 253a: the galaxy comes AFTER the mesh is attached).",
@@ -8181,6 +8370,14 @@ const BUILTIN_PRESETS = [
   sampleClass:"calibration",
   fidelity:"real",   // 両星の質量・半径・自転と相対軌道の a・e・P がすべて出典表(Akeson et al. 2021 ほか)の転写
   notClaim:["solar_cal"],
+  // 第261便c(第53報): 較正の現在地(**宣言専用メタ・presetSig の外**・力学は 1 bit も変わらない)。
+  // 台帳の 4 値では**量限定合** —— 周期 1 量だけが 3σ を通り、離心率は写像未確定である。
+  calibrationForecast:{ status:"measured-pass", scope:"公転周期(同方向1周)のみ",
+    basis:"docs/CALIBRATION_VERDICT_v1.44.md §2.2・§4′ / tests/out/calaudit-w249.json",
+    // 宣言時の presetSig ハッシュ。**これが変われば自動で「較正要再確認」へ倒れる**(第261便c)
+    declaredSig:"8b8c57d3",
+    note:"周期 +0.00228%(0.096σ)だけが実測で 3σ を通っている。離心率は eProxy⇄e_T の写像が未確定で、同じ系の中に通っていない量が残る(**系の合格ではない**)。",
+    gate:{scope:"部分量・実測合格なので門 5 つの対象外", passed:null, of:5} },
   obsCard:[
     {q:"公転周期(kFrame=0 採用側)", model:"79.7647 年(+0.0034%)", obs:"79.762 ± 0.019 年(Akeson et al. 2021 Table 8)"},
     {q:"実測離心率(1公転の半径比振れ幅)", model:"0.51947(転写値と表示桁一致)", obs:"e=0.51947 ± 0.00015(転写)"},
@@ -8196,6 +8393,8 @@ const BUILTIN_PRESETS = [
     observe:"kFrame=0(採用側)は1公転を完走して実測 79.7647 年(観測 79.762 年・+0.0034%)、1公転の半径比振れ幅から出る実測離心率 0.51947 は転写した e=0.51947 と表示桁で一致する(近点 1.675×10¹²m・遠点 5.296×10¹²m)。A/B の測定側 kFrame=1 では E6′ 運動引きずりが転写軌道を保てない: 近点位相の自己診断 400步(0.3%公転)で +0.0029% — 1公転換算 1.14%(第242便 pull・share 期は 133.54% で差し戻し)— と診断され、遠点発 0.56公転窓で接触要素周期が −0.43% 縮むだけで軌道は近点にほぼ届く(半径範囲 167.1〜529.6 単位・転写近点 167.5。cmGauge 無宣言の測定側は重心も 0.0057 単位しか歩かない — 第209便の機構)。初期位相は**遠点整列**(第211便 — 恒星二体の規約。✴️ DFM 版と初期位相を統一し、自己診断だけを感度最大の近点位相の複製で行う)。χ=W/(D₀+W) は近点で A 0.947/B 0.955・遠点で 0.851/0.871 — 質量比 0.8428 の対等質量系では**両星が同時に高 χ** を持ち、「反作用を吸収する支配的中心」が無い(第197便の合成連星〔値は架空〕で見つけた χ 系列の対等質量極限が、実在の連星で最初に成立した例)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.alphaCenAB)。",
     control:"ワンタップ対照A/B: B側 kFrame=1(**測定側**)— 観測安定則により既定の対照の向きが他の実較正系と逆で、押すと引きずり項の永年成長そのものが見える(接触要素周期が伸び続け軌道が開いていく)。timeScale=1000 で画面1秒≈11.6 日。表示は dispMag=300(恒星は 0.085/0.060 単位の点 — 表示専用)・トレイルで軌道を見る。camera.scale=630 は遠点 529.6 単位×1.2 の規約値。"},
   en:{name:"Alpha Centauri AB (Real Units) — the stellar binary two-body",
+    calibrationForecast:{ scope:"the orbital period (same-direction revolution) only",
+      note:"Only the period passes 3σ as measured (+0.00228%, 0.096σ). The eccentricity has no settled eProxy-to-e_T mapping, so a quantity that does NOT pass remains inside the same system - THIS IS NOT A WHOLE-SYSTEM PASS."},
     obsCard:[
       {q:"Orbital period (kFrame=0, adopted)", model:"79.7647 yr (+0.0034%)", obs:"79.762 ± 0.019 yr (Akeson et al. 2021 Table 8)"},
       {q:"Measured eccentricity (radius-ratio wobble over one orbit)", model:"0.51947 (matches the transcription to the shown digits)", obs:"e=0.51947 ± 0.00015 (transcribed)"},
@@ -8468,6 +8667,13 @@ const BUILTIN_PRESETS = [
   sampleClass:"calibration",
   fidelity:"real",   // 両星の質量・半径と相対軌道の a・e・P がすべて出典表(Bond et al. 2017)の転写(自転は出典に確定値なし — spin=0 宣言)
   notClaim:["solar_cal"],
+  // 第261便c(第53報): 較正の現在地(**宣言専用メタ・presetSig の外**)。台帳の 4 値では**量限定合**。
+  calibrationForecast:{ status:"measured-pass", scope:"公転周期(同方向1周)のみ",
+    basis:"docs/CALIBRATION_VERDICT_v1.44.md §2.2・§4′ / tests/out/calaudit-w249.json",
+    // 宣言時の presetSig ハッシュ。**これが変われば自動で「較正要再確認」へ倒れる**(第261便c)
+    declaredSig:"63359204",
+    note:"周期 +0.00235%(0.274σ)だけが実測で 3σ を通っている。離心率は写像未確定で、同じ系の中に通っていない量が残る(**系の合格ではない**)。",
+    gate:{scope:"部分量・実測合格なので門 5 つの対象外", passed:null, of:5} },
   obsCard:[
     {q:"公転周期(kFrame=0 採用側)", model:"50.1306 年(+0.0043%)", obs:"50.1284 ± 0.0043 年(Bond et al. 2017 Table)"},
     {q:"実測離心率(1公転の半径比振れ幅)", model:"0.59142(転写値と表示桁一致)", obs:"e=0.59142 ± 0.00037(転写)"},
@@ -8485,6 +8691,8 @@ const BUILTIN_PRESETS = [
     observe:"kFrame=0(採用側)は1公転を完走して実測 50.1306 年(観測 50.1284 年・+0.0043%)、1公転の半径比振れ幅から出る実測離心率 0.59142 は転写した e=0.59142 と表示桁で一致する(近点 1.209×10¹²m・遠点 4.710×10¹²m)。重心移動 4.1×10⁻⁶ 単位/1.05公転・粒子+リザーバ P 残差 1×10⁻¹⁶(機械ゼロ)。A/B の測定側 kFrame=1 は転写軌道を保てない: 近点複製の自己診断は 400步の試走で推定周期が 1.830% までずれ(観測安定則の差し戻し理由)、遠点発 0.56公転窓で接触要素周期が −0.94% 縮むだけで軌道は近点にほぼ届く(半径範囲 120.1〜471.0 単位・転写近点 120.9。cmGauge 無宣言の測定側は重心も 0.028 単位しか歩かない — 第209便の機構)。kFrame=0 のドリフト外挿 1.26%/公転(発火)は1公転の同位相クロージャ 2.8×10⁻⁴% で**位相振動**と確定(第214便の新判定則 — est プロファイルは近点発 3.6%公転の +2.4×10⁻⁴ で折り返す実測。αケンタウリは同じ振動の振幅が約1/5で外挿閾値に届かなかった)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.siriusAB)。",
     control:"ワンタップ対照A/B: B側 kFrame=1(測定側)— 押すと引きずり項が軌道を保てない様子(接触要素周期の縮小と近点喪失)が見える。timeScale=300 で1公転が実時間 約5.5秒(規約)。表示は dispMag=300(A は 0.119 単位・B は下限 0.01 単位の点 — 白色矮星の実半径は表示不能に小さい)・トレイルで軌道を見る。camera.scale=560 は遠点分離 470.98 単位×1.2 の規約値。✨ αケンタウリAB と並べると「同じ規約・違う連星(対等質量 vs 白色矮星連星)」の比較ができる。"},
   en:{name:"Sirius AB (Real Units) — the white-dwarf binary",
+    calibrationForecast:{ scope:"the orbital period (same-direction revolution) only",
+      note:"Only the period passes 3σ as measured (+0.00235%, 0.274σ). The eccentricity mapping is unsettled, so a quantity that does NOT pass remains inside the same system - THIS IS NOT A WHOLE-SYSTEM PASS."},
     obsCard:[
       {q:"Orbital period (kFrame=0, adopted)", model:"50.1306 yr (+0.0043%)", obs:"50.1284 ± 0.0043 yr (Bond et al. 2017)"},
       {q:"Measured eccentricity (radius-ratio wobble)", model:"0.59142 (matches the transcription to the shown digits)", obs:"e=0.59142 ± 0.00037 (transcribed)"},
@@ -8950,6 +9158,13 @@ const BUILTIN_PRESETS = [
   fidelity:"real",   // 幾何(遠点分離・遠点速度・半径 proxy)は 📻 と同じ転写。質量だけが宣言つき1ノブ較正。
                      // 第221便(第20報): コアv2 有効 — B の観測自転 ω=22.6547 を**コア Ω として転写**(殻 spin 値域 ±20 の外・コア Ω 値域 ±50 内)
   notClaim:["solar_cal"],
+  // 第261便c(第53報): 較正の現在地(**宣言専用メタ・presetSig の外**)。**合格見込みは立てていない**。
+  calibrationForecast:{ status:"measurement-recheck", scope:"近点間 P・近点移動",
+    basis:"docs/CALIBRATION_VERDICT_v1.44.md §5.6 / tests/out/richardson-w261c.json・tests/out/precision-w261c.json",
+    // 宣言時の presetSig ハッシュ。**これが変われば自動で「較正要再確認」へ倒れる**(第261便c)
+    declaredSig:"7b3f6a36",
+    note:"近点移動は h/16 まで細かくしても観測次数が段ごとに動く(漸近域に入らない)。第261便c のイベント列監査では重複検出 0・unwrap 失敗 0・20/20 検出なので、**原因は抽出器ではない**(未同定である)。",
+    gate:{passed:0, of:5, failed:["(3) 次数が安定しない","(4) 独立推定が無い","(5) 距離が 3σ に遠い"]} },
   obsCard:[
     {q:"公転周期(kFrame=1・χ-law 粒子別質量 — 2 定義)", model:"近点間 8737.37 秒(−1.100%・既定 dt・窓20近点。dt 収束側は 🧿 の 8834.02 秒 −0.006%)/ 同方向1周 2周目 8819.52 秒(−0.17% — 履歴)", obs:"8834.534723278 s(Hu et al. 2022)"},
     {q:"hold-out(離心率と近点 — 第246便で1行に統合)", model:"e=0.087976(+0.23%)・近点 801.37 単位(観測版 801.72 の −0.04%)— P 較正が hold-out の e も当てる(3例目)", obs:"e=0.087777036(転写)/ 近点は照合のみ — fit の対象ではない"},
@@ -8967,6 +9182,8 @@ const BUILTIN_PRESETS = [
     observe:"実測(4.3公転窓・重心ゲージ込み・第245便 A6 の一次則質量): 周回時間 [8829.44, 8819.52, 8809.76] 秒 — **2周目 8819.52 秒は観測 8834.534723278 秒の −0.17%**(fit 対象)。合わせていない側: 1周目の実測離心率 0.087976(転写 0.087777036 の +0.23%)・近点 801.37 単位(観測版の 801.72 の −0.04%)— **P に合わせた C が e と近点も ±1% で当てる**(e は独立な hold-out・近点は遠点固定下で e と同値の整合表示 — 3例目)。軌道は歳差するロゼットで**近点移動 +0.0095848°/周**(順行 — 近点通過方向の実測・**窓 20 近点**〔第255便d で統一〕。kF1 引きずり項自身の帰結であることは ✴️ 第211便の機構同定を参照)、周期は −0.11%/周で単調に収縮する(kF1 に厳密な閉軌道・定常はない — 宣言)。公転の向きは 📻 と同回り。二層構造の実測(第221便): **B のコア Ω は 22.654675(観測自転の転写 — 独立予測ではない)から 4.3公転でドリフト +0.38%** の範囲で保持(dt/2 で +0.16% — 大半が刻み依存・第225便)・A のコア Ω(受け皿・Ω₀=0)は +0.090 まで(E6′-R 偶力の記帳分)。殻スピンは保持される(第222便 — 1PN 偶力の受け先ルーティング後): 4.3公転で殻 spin=0 が全窓ビット保持(ドリフト 0.0%・clampSN=0)— **帳簿 L 残差 2.0×10⁻¹⁴**(機械ゼロ。粒子+リザーバ P 残差は 1.5×10⁻¹⁴ で閉)。周期短縮の対照行列(第223便で QA 機械固定): kF0 で消滅・geoPN=0/D₀=0/受け皿/ゲージの各対照で不変(0.10〜0.13 の同窓 — QA が機械固定)— kF1 キック経路に固有。**dt 収束**: dt 半減で 0.1107→0.0553、dt/4 で 0.0290%/公転(ほぼ線形)= 連続極限で消える離散化仕事(遠点ごとの E_orb 深化も同根)。近点移動の現行判定は**較正の従属量**である(第248便b): **第254便d で本体に `framePrecision:\"double\"` を宣言した**(引きずり場の 9 配列だけ Float64・第247便a の実験機能)。**旧 native 値の履歴**: 宣言前は近点移動 +0.008775°/周・2周目 8819.36 秒・e 0.087977・近点 801.3723・窓 20 近点 3 段の p_obs=−2.88(dt 収束せず — 第246便 D2 の「数値床」)で、4.3公転窓に近点を 5 個(倍精度は 4 個)拾う重複検出があった(第253便b まで)。宣言後は同じ窓 3 段で p_obs=2.66・ε_num=1.16×10⁻⁴(観測の 2.45%)・Richardson 外挿 0.0094716°/周、その全量が測地線1PN(E12)チャネルに乗る(λ_PN=0 で 6×10⁻⁷ まで消え、spinDipole を外してもビット同一)。走った M・a・e を入れた GR 1PN 式 6πGM/(c²a(1−e²)) と 5 桁一致するので、**観測換算 0.00473°/周 のちょうど 2 倍になるのは較正質量 f≈2 が ω̇ の式に入るため**であって、独立な予言でも数値の産物でもない(周期は f≈2 を・ω̇ は f≈1 を要求し、同じ f では両立しない)。第246便 D2 の「未認定」・第223便の「dt 収束 — 物理」はいずれも旧判定である。重心移動 3.7×10⁻⁴ 単位/4.3公転(機械ゼロ)。パルス時計チャネル(第226便): A 位相 1.674×10⁶ 回転・平均 22.699379 ms・B 平均 2.773461 s(いずれも宣言 2π/ω と相対 3×10⁻¹² 以内 — 解析積分)。pulse 宣言の有無で 400 step 軌道ビット一致(力学不干渉)。B は力学コア時計(−0.4%/4.3公転)との並置比較が読める。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.psrDoubleAB)。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。",
     control:"ワンタップ対照A/B: B側 kFrame=0(観測版の計算式側)— **同じ初期状態・同じ較正質量(×1.996)**では引力が過剰になり、軌道は深い楕円へ落ち込む(実測: 近点 〜283 単位・実測離心率 〜0.543・1周目 〜3702 秒)。この較正は kFrame=1 専用であることの機械対照。否定対照(QA が機械固定): **cmGauge を外すと重心が歩き出す**(0.5公転で 0.171 単位)。**coupleSink を外すと殻が ±40 飽和へ走り出す**(0.3公転で clampSN 8.6×10³ — 第222便のルーティングが保持の駆動因であることの機械対照)。観測版 📻 と本サンプルの対で「同じ観測・違う計算式・違う質量」が3例目の連星でも見える。B の粒子をタップするとコア(v2)読み出しに観測自転由来のコア Ω が見える。timeScale=300 で1公転が実時間 約3.1秒・dispMag=1000(表示専用)・トレイルで軌道を見る。"},
   en:{name:"Double Pulsar J0737−3039A/B (DFM build) — the kF1 mass calibration",
+    calibrationForecast:{ scope:"periastron-to-periastron P and the periastron advance",
+      note:"The periastron advance never reaches the asymptotic regime, even at h/16. The wave-261c event-list audit finds ZERO duplicate detections, ZERO unwrap failures and 20/20 detections, so THE EXTRACTOR IS NOT THE CAUSE - the cause is not identified."},
     obsCard:[
       {q:"Orbital period (kFrame=1, χ-law per-body masses — two definitions)", model:"periastron-to-periastron 8737.37 s (−1.100% at the default dt over the 20-periastron window; the dt-converged side is 🧿's 8834.02 s, −0.006%) / same-direction 2nd revolution 8819.52 s (−0.17% — historical)", obs:"8834.534723278 s (Hu et al. 2022)"},
       {q:"Hold-outs (eccentricity and periastron — merged into one row in wave 246)", model:"e=0.087976 (+0.23%); periastron 801.37 units (−0.04% of the observation build's 801.72) — the calibration fitted to P also lands the hold-out e (3rd reproduction of the ✨✴️🌟💫 structure)", obs:"e=0.087777036 (transcribed); the periastron is compared only, never fitted"},
@@ -9266,6 +9483,13 @@ const BUILTIN_PRESETS = [
   sampleClass:"calibration",
   fidelity:"real",   // 幾何・半径 proxy・自転は観測転写。質量は ⚡ と同じ一次則の値(fit ではない)
   notClaim:["solar_cal"],
+  // 第261便c(第53報): 較正の現在地(**宣言専用メタ・presetSig の外**)。**合格見込みは立てていない**。
+  calibrationForecast:{ status:"convergence-incomplete", scope:"近点間 P",
+    basis:"docs/CALIBRATION_VERDICT_v1.44.md §5.4・§5.6 / tests/out/richardson-w261c.json",
+    // 宣言時の presetSig ハッシュ。**これが変われば自動で「較正要再確認」へ倒れる**(第261便c)
+    declaredSig:"9dd447b2",
+    note:"4 量とも漸近域に居る(門 3)が、**漸近域と 3σ は別の門である**。収束先へ外挿しても観測との差は 10⁵σ 台で、これは刻みを細かくしても残る差(模型差)である。",
+    gate:{passed:0, of:5, failed:["(4) 独立推定が無い","(5) 距離が 3σ に遠い"]} },
   obsCard:[
     {q:"近点移動(**hold-out** — 較正に使っていない)", model:"+0.010407°/周(dt=0.001・引きずり場 倍精度・近点検出 2 方式の差 8×10⁻⁸)", obs:"+0.0052085°/周(ω̇=10.3651°/yr と P=15857.669 s からの換算)"},
     {q:"**比の別欄(第256便d)**: 較正質量での 1PN 値 = 観測の f 倍", model:"DFM/観測=**2.0020**(h/4・3段収束・窓20近点)。⚡ 2.0014・🩺 2.0023・🧶 2.0258 — 4 連星で同じ比。**3σ 一致は主張しない**(ε_num が σ の 10³倍超)", obs:"較正質量 fM がそのまま E12 の 1PN チャネルへ入る**較正の従属量**であって、独立な hold-out ではない。λ_PN=1/f の候補は variant 🪃 で"},
@@ -9284,6 +9508,8 @@ const BUILTIN_PRESETS = [
     observe:"実測(4.6公転窓・近点 4 個の位相 fit・引きずり場 倍精度): **近点移動 +0.010407°/周**(dt=0.001。dt 0.008→0.004→0.002→0.001 で 0.0104161→0.0104106→0.0104082→0.0104071 と収束し、近点検出 2 方式の差は 8×10⁻⁸)。観測換算は 0.0052085°/周(ω̇=10.3651°/yr)なので **DFM/GR 比 1.998**。合わせていない側: 近点間周期 15853.35 秒(観測 15857.669 s の −0.027%)・実測離心率 0.605972(転写 0.6058142 の +0.026%)。近点間周期は単調に縮み、率は dt に厳密に比例する(0.1109→0.0555→0.0277→0.0139%/周 — ⚡ と同じ離散化仕事)。感度表(tests/exp-w248a.mjs): 伴星スピンを 0(未観測)/ 仮定 10 ms / 仮定 100 ms と変えても軌道は 400 步ビット一致(λ 既定では spinDipole は力学に触れない)、半径を 11 / 11.75 / 13 km と変えても近点移動は 10 桁一致 — 動くのは η=|F_SS|/|F_N| だけで、仮定 10 ms・半径 11→13 km で 5.0×10⁻¹⁵→9.7×10⁻¹⁵。NaN ゼロ・clamp ゼロ。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。",
     control:"ワンタップ対照A/B: B側 **kFrame=0**(観測版の計算式側)— 同じ初期状態・同じ較正質量(×2.0)では引力が過剰になり軌道が深い楕円へ落ちる(⚡ と同じ機械対照: この質量は kFrame=1 専用)。**⚡(J0737)・🩺(J1946)と並べて見る**のが本サンプルの使い方 — 3 系とも近点移動の DFM/GR 比が 1.998 / 1.997 / 1.998 に揃う。伴星の自転は未観測なので、粒子をタップしても伴星側に spinDipole の読み出しは無い(「未知」であることが見えるのが宣言)。timeScale=500 で1公転が実時間 約3.2秒・dispMag=1000(表示専用)・トレイルで軌道を見る。"},
   en:{name:"PSR J1757−1854 (DFM build, hold-out) — ⚡'s recipe applied unchanged to a second neutron-star binary",
+    calibrationForecast:{ scope:"periastron-to-periastron P",
+      note:"All four quantities sit in the asymptotic regime (gate 3), BUT THE ASYMPTOTIC GATE AND THE 3-SIGMA GATE ARE DIFFERENT GATES. Extrapolated to the continuum limit the residual is still of order 1e5 sigma - a difference that a finer step does not remove."},
     obsCard:[
       {q:"Periastron advance (A HOLD-OUT — nothing was calibrated here)", model:"+0.010407°/orbit (dt=0.001, double-precision dragging field; the two periastron detectors differ by 8e-8)", obs:"+0.0052085°/orbit (converted from omega_dot=10.3651°/yr and P=15857.669 s)"},
       {q:"RATIO — A SEPARATE FIELD (wave 256d): the 1PN value at the calibrated mass is f times the observation", model:"DFM/observed = 2.0020 (h/4, three-step converged, 20-periastron window); ⚡ 2.0014, 🩺 2.0023, 🧶 2.0258 — the same ratio on four binaries. NOT A CLAIM OF 3σ AGREEMENT (eps_num exceeds σ by >10³)", obs:"The calibrated mass fM enters E12's 1PN channel unchanged, so this is a DEPENDENT quantity of the calibration, not an independent hold-out. The lambdaPN=1/f candidate lives in the variant 🪃"},
@@ -9388,6 +9614,13 @@ const BUILTIN_PRESETS = [
   sampleClass:"calibration",
   fidelity:"real",
   notClaim:["solar_cal"],
+  // 第261便c(第53報): 較正の現在地(**宣言専用メタ・presetSig の外**)。**合格見込みは立てていない**。
+  calibrationForecast:{ status:"measurement-recheck", scope:"近点間 P",
+    basis:"docs/CALIBRATION_VERDICT_v1.44.md §5.6 / tests/out/precision-w261c.json・tests/out/richardson-w261c.json",
+    // 宣言時の presetSig ハッシュ。**これが変われば自動で「較正要再確認」へ倒れる**(第261便c)
+    declaredSig:"be972f1",
+    note:"粗い刻みで同じ近点が何度も検出されていた(旧抽出器の欠陥)。第261便c で累積公転位相 1.5π の制限を入れて測り直した。**観測版 v2(DDFWHE)は台帳行であって、本サンプルと builder の入力は版 v1 のままである**(黙って置換していない)。",
+    gate:{passed:0, of:5, failed:["(4) 独立推定が無い","(5) 距離が 3σ に遠い"]} },
   obsCard:[
     {q:"近点移動(**hold-out** — 較正に使っていない)", model:"+0.011069°/周(dt=0.001・引きずり場 倍精度・近点検出 2 方式の差 6×10⁻⁷)", obs:"+0.0055424°/周(ω̇=25.79205°/yr と P=6781.367 s からの換算)"},
     {q:"**比の別欄(第256便d)**: 較正質量での 1PN 値 = 観測の f 倍", model:"DFM/観測=**2.0023**(h/4・3段収束・窓20近点)。⚡ 2.0014・🧮 2.0020・🧶 2.0258 — 4 連星で同じ比。**3σ 一致は主張しない**(ε_num が σ の 10⁴倍超)", obs:"較正質量 fM がそのまま E12 の 1PN チャネルへ入る**較正の従属量**であって、独立な hold-out ではない。λ_PN=1/f の候補は variant 🪀 で"},
@@ -9406,6 +9639,8 @@ const BUILTIN_PRESETS = [
     observe:"実測(4.6公転窓・近点 4 個の位相 fit・引きずり場 倍精度): **近点移動 +0.011069°/周**(dt=0.001。dt 0.008→0.004→0.002→0.001 で 0.012434→0.010997→0.011076→0.011069 — 1公転が 678 単位しかないので dt=0.008 では 12% 高く出る。dt≤0.002 で 3 桁安定・近点検出 2 方式の差 6×10⁻⁷)。観測換算 0.0055424°/周 に対し **DFM/GR 比 1.997**。合わせていない側: 近点間周期 6780.92 秒(観測 6781.366656 s の **−0.0066%** — 3 例中の最良)・実測離心率 0.063986(転写 0.063848 の +0.216%)。感度表(tests/exp-w248a.mjs): 伴星スピンを 0 / 仮定 10 ms / 仮定 100 ms と変えても軌道は 400 步ビット一致、半径 11 / 11.75 / 13 km でも近点移動は 10 桁一致 — 動くのは η だけで、仮定 10 ms・半径 11→13 km で 4.7×10⁻¹⁴→9.1×10⁻¹⁴(⚡ の観測 Q での 1.09×10⁻¹⁶ より 3 桁大きいが、これは**仮定**のスピンが作る値である)。NaN ゼロ・clamp ゼロ。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。",
     control:"ワンタップ対照A/B: B側 **kFrame=0** — 同じ初期状態・同じ較正質量(×2.0)では引力が過剰になり軌道が深い楕円へ落ちる(この質量は kFrame=1 専用であることの機械対照)。**⚡(J0737・ω̇ 16.90°/yr)・🧮(J1757・10.37°/yr)・本サンプル(25.79°/yr)を並べる**と、ω̇ が 2.5 倍違っても DFM/GR 比が 1.998 / 1.998 / 1.997 に揃うのが読める。伴星をタップしても spinDipole の読み出しは無い(未観測であることが見える)。timeScale=230 で1公転が実時間 約2.9秒・dispMag=1000(表示専用)。"},
   en:{name:"PSR J1946+2052 (DFM build, hold-out) — the shortest-period neutron-star binary in the Galaxy",
+    calibrationForecast:{ scope:"periastron-to-periastron P",
+      note:"At coarse steps the SAME periastron was detected several times (a defect of the old extractor). Wave 261c re-measured it with a 1.5-pi cumulative-orbital-phase gate. RECORD VERSION v2 (DDFWHE) IS A LEDGER ROW ONLY: this sample and every builder input still use version v1 - nothing was silently replaced."},
     obsCard:[
       {q:"Periastron advance (A HOLD-OUT — nothing was calibrated here)", model:"+0.011069°/orbit (dt=0.001, double-precision dragging field; the two detectors differ by 6e-7)", obs:"+0.0055424°/orbit (converted from omega_dot=25.79205°/yr and P=6781.367 s)"},
       {q:"RATIO — A SEPARATE FIELD (wave 256d): the 1PN value at the calibrated mass is f times the observation", model:"DFM/observed = 2.0023 (h/4, three-step converged, 20-periastron window); ⚡ 2.0014, 🧮 2.0020, 🧶 2.0258 — the same ratio on four binaries. NOT A CLAIM OF 3σ AGREEMENT (eps_num exceeds σ by >10⁴)", obs:"The calibrated mass fM enters E12's 1PN channel unchanged, so this is a DEPENDENT quantity of the calibration, not an independent hold-out. The lambdaPN=1/f candidate lives in the variant 🪀"},
@@ -10217,6 +10452,13 @@ const BUILTIN_PRESETS = [
   sampleClass:"calibration",
   fidelity:"real",
   notClaim:["solar_cal"],
+  // 第261便c(第53報): 較正の現在地(**宣言専用メタ・presetSig の外**)。**合格見込みは立てていない**。
+  calibrationForecast:{ status:"convergence-incomplete", scope:"近点間 P",
+    basis:"docs/CALIBRATION_VERDICT_v1.44.md §5.3・§5.6 / tests/out/richardson-w261c.json",
+    // 宣言時の presetSig ハッシュ。**これが変われば自動で「較正要再確認」へ倒れる**(第261便c)
+    declaredSig:"5888662e",
+    note:"3 量とも漸近域に居る(門 3)が、収束先へ外挿しても観測との差は 10⁷σ 台である。**漸近域に入ったことは 3σ に近づいたことではない。**",
+    gate:{passed:0, of:5, failed:["(4) 独立推定が無い","(5) 距離が 3σ に遠い"]} },
   obsCard:[
     {q:"DFM 質量(条件つき較正 — 実在値の主張ではない)", model:"f=1.9994855(⚡ と同じ一次則 f=1+k_F(αχ_A+βχ_B) を本系で**1 回評価**した値・fit ノブなし): 2.6647/2.6897 M☉。χ=0.99949/0.99948", obs:"—(kFrame=1 の計算式に条件づけられた較正値)"},
     {q:"近点移動(**hold-out の本題** — 2 倍超過が 4 例目でも出るか)", model:"〔比の別欄〕DFM/観測=**2.0258**(h/4・3段収束・窓20近点)。⚡ 2.0014・🧮 2.0020・🩺 2.0023 より 1.2% 大きい。**3σ 一致は主張しない**(ε_num が σ の 10³倍)", obs:"+0.0020225°/周(ω̇=1.755789(9)°/yr の換算・σ=9×10⁻⁶°/yr)"},
@@ -10235,6 +10477,8 @@ const BUILTIN_PRESETS = [
     observe:"実測(5 近点窓・dt=0.004): **近点移動 +0.0040959°/周**(観測換算 0.0020225°/周 の **+102.5%** = 比 2.025)。既定 dt=0.016 では +0.0041003(+102.7%)。合わせていない側: 近点間周期 36328.38 秒(観測 36351.7026 s の −0.064%。既定 dt では 36306.00 秒 = −0.126%)・実測離心率 0.274054(転写の +0.138%)。NaN 0・安全クランプ 0。**比が 2.000 ではなく 2.025 であること**が本サンプルの中心的な測定で、第252便a の分解では**その差の全部が A0**(λ_PN=0 の基線 +0.0000568°/周 = 観測の +2.81%・dt 0.004 と 0.001 で不変)である。**周期は定義を宣言してから合否を言う**(裁定 I6)。",
     control:"ワンタップ対照A/B: B側 **kFrame=0** — 較正質量のままでは引力が過剰になり深い楕円へ落ちる(較正が kFrame=1 専用であることの機械対照)。📿(観測版)→本サンプル→🪤(CF 版)の順に見ると、「同じ観測・違う計算式・違う質量」と「足した力が 2 倍をどこまで直すか」が続けて読める。timeScale=1000 で1公転が実時間 約3.6秒・dispMag=1000(表示専用)。"},
   en:{name:"PSR B1534+12 (DFM build, frozen hold-out) — ⚡'s recipe applied unchanged to a fourth binary",
+    calibrationForecast:{ scope:"periastron-to-periastron P",
+      note:"All three quantities sit in the asymptotic regime (gate 3), yet extrapolating to the continuum limit still leaves a residual of order 1e7 sigma. REACHING THE ASYMPTOTIC REGIME IS NOT THE SAME AS APPROACHING 3 SIGMA."},
     obsCard:[
       {q:"DFM masses (a conditional calibration — NOT real-mass claims)", model:"f=1.9994855 (⚡'s linear law f=1+k_F(αχ_A+βχ_B) EVALUATED ONCE on this system; no fitted knob): 2.6647 / 2.6897 M_sun, chi=0.99949 / 0.99948", obs:"— (a calibration conditioned on the kFrame=1 formula)"},
       {q:"Periastron advance (THE POINT OF THE HOLD-OUT: does the factor of two reappear?)", model:"[RATIO — A SEPARATE FIELD] DFM/observed = 2.0258 (h/4, three-step converged, 20-periastron window), 1.2% above ⚡ 2.0014 / 🧮 2.0020 / 🩺 2.0023. NOT A CLAIM OF 3σ AGREEMENT (eps_num exceeds σ by ~10³)", obs:"+0.0020225°/orbit (from omega_dot=1.755789(9)°/yr; sigma 9e-6 °/yr)"},
@@ -10584,8 +10828,8 @@ const BUILTIN_PRESETS = [
   obsCard:[
     {q:"何を見るか", model:"等質量 2 体(m=500・e=0.5)に physics.spaceMesh={mode:\"vertex\",gravity:true} を足した宇宙。表示は重心原点の蓄積格子(第257便c)", obs:"—(原理サンプル・観測較正ではない)"},
     {q:"**メッシュの重力は既にある重力**", model:"A/B(spaceMesh の有無)で近点間 P=1339.718898・近点移動 +2.027112°/周 が印字桁で同一。1 步の加速度差 |Δa_g| は 0〜2.8×10⁻¹⁸", obs:"—(第46報「勾配で加速する力が重力」の実測)"},
-    {q:"メッシュの回転は D₀ に依らない", model:"Ω_mesh は頂点契約から恒等的に Ω_orbit。D0pull を 10⁻⁶〜10³ に振っても比は 1(掃引は 🫂 と本便の器)", obs:"—"},
-    {q:"D₀ が動かすのは χ である", model:"χ=W/(W+D0pull): 0→1(厳密)/10⁻⁴→0.98861/10⁻²→0.46468/1→0.0086059/10³→8.68×10⁻⁶。近点間 P は 793.16/1339.84/888.41/531.56/518.87", obs:"—(第46報「D₀ をゼロに近付けると」の測れた形)"},
+    {q:"回転は D₀ に依らない・D₀ が動かすのは χ", model:"Ω_mesh=Ω_orbit(頂点契約・D0pull 10⁻⁶〜10³ で比 1)。χ: 0→1/10⁻⁴→0.9886/10⁻²→0.4647/1→0.0086/10³→8.7×10⁻⁶。P 793/1340/888/532/519", obs:"—(第46報「D₀ をゼロに近付けると」の測れた形)"},
+    {q:"共通場 API(診断)", model:"診断場として同じ純関数 HP.dfmField を読む — 表示の disk/affine とも力学の E6′/coordinate とも別の場・|Δu| は場と同桁", obs:"—"},
     {q:"**D0pull:0 と、対の織り込み 5 段**(第254便a/第255便a)", model:"明示 0 は真の 0(χ=1 厳密・T2)。**opt-in weave:pair の Δϖ は D0pull=0 で +0.7618→−5.3×10⁻⁵(クランプ 259 万→0)・10³ では差 2.8×10⁻¹¹**(本体は未宣言)", obs:"—"},
     {q:"物質線は頂点を追う", model:"幾何整合補間で頂点追従誤差 8.6×10⁻¹³(相対・100 万步)。保存速度の両端補間だと 8.9×10⁻⁵(8 桁悪い)", obs:"—(表示の 2 案を実測で選んだ)"},
     {q:"**慣性候補は採用しない**(否定結果)", model:"頂点で |a_I|/|g_N|=χ(5 桁一致)= 慣性項は重力の再導出。足すと二重計上で連星が壊れる", obs:"—(第46報の 2 文目は測って**採れなかった**)"},
@@ -10602,8 +10846,8 @@ const BUILTIN_PRESETS = [
     obsCard:[
       {q:"What to watch", model:"Two equal masses (m=500, e=0.5) with physics.spaceMesh={mode:\"vertex\",gravity:true} added. The display draws the ACCUMULATED GRID centred on the mass centroid (wave 257c)", obs:"— (a principle sample, not an observational calibration)"},
       {q:"THE MESH'S GRAVITY IS THE GRAVITY WE ALREADY HAD", model:"with and without spaceMesh the periastron period 1339.718898 and the advance +2.027112 deg/orbit agree to every printed digit; the one-step acceleration difference is 0 to 2.8e-18", obs:"— (report 46: 'the force that accelerates along the gradient is gravity')"},
-      {q:"The mesh's rotation does not depend on D0", model:"Omega_mesh equals Omega_orbit identically by the vertex contract, at every D0pull from 1e-6 to 1e3", obs:"—"},
-      {q:"What D0 moves is chi", model:"chi=W/(W+D0pull): 0 -> 1 exactly / 1e-4 -> 0.98861 / 1e-2 -> 0.46468 / 1 -> 0.0086059 / 1e3 -> 8.68e-6; the periastron periods are 793.16 / 1339.84 / 888.41 / 531.56 / 518.87. The blended field's Omega falls with chi", obs:"— (report 46's 'bring D0 close to zero', made measurable)"},
+      {q:"The rotation does not depend on D0; what D0 moves is chi", model:"Omega_mesh equals Omega_orbit identically by the vertex contract, at every D0pull from 1e-6 to 1e3. chi=W/(W+D0pull): 0 -> 1 exactly / 1e-4 -> 0.98861 / 1e-2 -> 0.46468 / 1 -> 0.0086059 / 1e3 -> 8.68e-6; the periastron periods are 793.16 / 1339.84 / 888.41 / 531.56 / 518.87. The blended field's Omega falls with chi", obs:"— (report 46's 'bring D0 close to zero', made measurable)"},
+      {q:"Shared field API (diagnostic)", model:"As a DIAGNOSTIC field it reads the same pure function HP.dfmField - a different field from the disk/affine display and from the E6'/coordinate field of the dynamics; |du| is the same order as the field itself", obs:"-"},
       {q:"D0pull:0, AND THE FIVE-STEP PAIR WEAVE (waves 254a / 255a)", model:"an explicit zero stays a true zero (chi=1, T2). With the opt-in weave:pair the advance goes +0.7618 -> -5.3e-5 deg/orbit at D0pull=0 (clamps 2.59M -> 0); at 1e3 the gap is 2.8e-11", obs:"—"},
       {q:"The material line follows the vertices", model:"geometry-consistent interpolation tracks the vertices to 8.6e-13 (relative, one million steps); interpolating the stored velocities gives 8.9e-5, eight decades worse", obs:"— (the two display candidates were settled by measurement)"},
       {q:"THE INERTIA CANDIDATES ARE NOT ADOPTED (a negative result)", model:"at a vertex |a_I|/|g_N| equals chi to five digits: the inertial term is gravity re-derived, and adding it double-counts and destroys the binary", obs:"— (report 46's second sentence did NOT survive measurement)"},
@@ -12285,10 +12529,10 @@ const BUILTIN_PRESETS = [
     {q:"遠方(r≥100)", model:"補正が 1 度も走らず、総質量 1000 の点源と**ビット一致**する", obs:"—"},
     {q:"コア質量・半径は決まるか", model:"**外部軌道だけでは一意にならない** — I・表面自転・減光・潮汐が要る", obs:"—"},
     {q:"白色矮星を赤色巨星のコアに擬える", model:"**意図的なトイ仮説**(通常の赤色超巨星が中性子星コアを持つ標準進化像ではない)", obs:"—"},
-    {q:"接触ばねの床", model:"contactK=0.1/contactCap=0.01(値域下限)でも殻の内側に外向き ≤0.01 が残る", obs:"—(正直な限界)"}],
+    {q:"接触ばねの床(第261便b で 0 へ)", model:"**contactK=0/contactCap=0**。第259便b の 0.1/0.01 では帯A に +2.000=½·0.01·20² の床が残っていた", obs:"—(床を外しただけで、融合まで完成したわけではない)"}],
   descStruct:{
     summary:"**一つの天体を「同心の層」に分けて、観測半径は殻が・質量はコアが担う**姿を見せる原理サンプル(第259便b — 第51報)。重力は E4 だけを残す(kFrame=0・D₀=0・geoPN=0)。宣言は **body.layers:[{role,m,r},…]** 1 つだけで、中心天体 m=1000 を **コア層(m=900・r=20)+ 殻層(m=100・r=100)**に分ける。**一つの天体に並進自由度は一つ**(根に x/v があり、層は並進を持たない)・**各層の m は排他**(Σ層 m = body.m でなければ検証器が拒否する — 補完はしない)・**衝突半径は最外層だけ**。力学の側では **S._core に 1 命令も足していない** —— 対ループへは従来どおり**根 1 粒子(質量 = Σ層)**が渡り、**有限半径の球殻定理の差分だけ**が `S._core` の外の 1 パスで当たる。だから **r ≥ 100 では補正が 1 度も走らず、遠方は総質量の点源と厳密に一致する**。**言わないこと**: 「親子コアで較正の自由度が増えて合った」「外部軌道からコア質量・半径を推定できた」 —— 外部軌道が見ているのは包含質量だけで、コアの質量と半径は**別の観測量(慣性能率・表面自転・減光・潮汐)なしには分離できない**。白色矮星を赤色巨星のコアに、中性子星を赤色超巨星のコアに擬えるのは**意図的なトイ仮説**であって、標準的な恒星進化像ではない。",
-    observe:"配置(dt=0.016): 中心の二層天体(pinned)と質量 0.001 の試験粒子 6 個を 3 帯に 2 個ずつ置いてある。**帯A(r<20 = コア層の内側)** は r=8 と r=14 に静止で置いた —— 包含質量が 0 なので重力は厳密に 0 で、粒はその場に浮く(動くのは接触ばねの床 ≤0.01 のぶんだけ)。**帯B(20<r<100 = コアと殻の間)** は r=50・75 の円軌道で、包含質量がコアの 900 だけになるので速度は点源(1000)の √0.9=0.9487 倍になる(v=4.2423/3.4640)。**帯C(r≫100)** は r=300・500 の円軌道(v=1.8257/1.4142)で、ここでは層の補正が 1 度も走らない —— **layers を外した同じ配置と状態がビット一致する**。層を宣言しても `S._core` の文字数は基点と 1 文字も変わらない。QA `behavior.bodyLayers` が、未宣言のビット同一・検証器の 5 つの拒否・球殻内部 0・遠方点源・融合の M/P/J 保存・自層の二重計上が無いこと・3D スピン参照場の面外流・K_cs 熱記帳の比を機械固定する。",
+    observe:"配置(dt=0.016): 中心の二層天体(pinned)と質量 0.001 の試験粒子 6 個を 3 帯に 2 個ずつ置いてある。**接触ばねは 0/0**(第261便b —— 第259便b の 0.1/0.01 では帯A が床で押し出されていた)。**帯A(r<20 = コア層の内側)** は r=8 と r=14 に静止で置いた —— 包含質量が 0 なので重力は厳密に 0 で、粒はその場に浮く。実測(t=20)は **r=7.996692 / 13.993558**(第259便b の 9.9985 / 15.9956 から床の +2.000 が消えた)で、残る −0.003 / −0.006 は**試験粒子どうしの相互重力**である(mEff の床 0.01 が効く)。**帯B(20<r<100 = コアと殻の間)** は r=50・75 の円軌道で、包含質量がコアの 900 だけになるので速度は点源(1000)の √0.9=0.9487 倍になる(v=4.2423/3.4640。t=20 の r=49.9649 / 74.9772)。**帯C(r≫100)** は r=300・500 の円軌道(v=1.8257/1.4142)で、ここでは層の補正が 1 度も走らない —— **layers を外した同じ配置と状態がビット一致し、接触ばねを 0 にしても r=299.998262 / 499.999311 は第259便b と 1 bit も変わらない**。層を宣言しても `S._core` の文字数は基点と 1 文字も変わらない。QA `behavior.bodyLayers` が、未宣言のビット同一・検証器の 5 つの拒否・球殻内部 0・遠方点源・融合の M/P/J 保存・自層の二重計上が無いこと・3D スピン参照場の面外流・K_cs 熱記帳の比を機械固定する。",
     control:"ワンタップ対照は **layers を外す**(= 従来の点源 1000)—— 帯A の 2 粒が中心へ落ち、帯B の 2 粒の円軌道が速すぎて外へ膨らむ一方、**帯C は 1 ビットも変わらない**。手動の対照: コア層の r を 20→60 にすると「重力が 0 の空洞」が広がる/コアと殻の質量比を 9:1 から 5:5 にすると帯B の速度が √0.5 倍になる/層を 1 つだけ(m=1000・r=100)にすると全域で点源に戻る。"},
   en:{name:"Parent–Child Core — the Radius Is the Shell, the Mass Is the Core (principle)",
     obsCard:[
@@ -12299,10 +12543,10 @@ const BUILTIN_PRESETS = [
       {q:"Far field (r≥100)", model:"the correction never runs, so it is BIT-IDENTICAL to a point source of the total mass 1000", obs:"—"},
       {q:"Can the core mass and radius be pinned down", model:"NOT FROM THE EXTERNAL ORBIT ALONE — moment of inertia, surface rotation, dimming and tides are needed", obs:"—"},
       {q:"White dwarf as a red giant's core", model:"A DELIBERATE TOY HYPOTHESIS (not the standard evolutionary picture in which a red supergiant holds a neutron-star core)", obs:"—"},
-      {q:"The contact-spring floor", model:"even at the range floor (contactK=0.1, contactCap=0.01) an outward ≤0.01 remains inside the shell", obs:"— (an honest limit)"}],
+      {q:"The contact-spring floor (set to 0 in wave 261b)", model:"contactK=0, contactCap=0. At the wave-259b values 0.1/0.01 band A still carried a floor of +2.000 = 1/2·0.01·20²", obs:"— (the floor is gone; that is not the same as the sample being finished)"}],
     descStruct:{
       summary:"A PRINCIPLE SAMPLE that splits one body into CONCENTRIC LAYERS so that THE SHELL CARRIES THE OBSERVED RADIUS WHILE THE CORE CARRIES THE MASS (wave 259b, report 51). One declaration does it — body.layers:[{role,m,r},…] — splitting the central body m=1000 into a CORE LAYER (m=900, r=20) and a SHELL LAYER (m=100, r=100). ONE BODY HAS ONE TRANSLATIONAL DEGREE OF FREEDOM (x/v live on the root; layers have none); EACH LAYER'S MASS IS EXCLUSIVE (the validator REJECTS a declaration whose layer masses do not sum to body.m — it never completes it); ONLY THE OUTERMOST LAYER SETS THE COLLISION RADIUS. On the dynamics side NOT ONE INSTRUCTION IS ADDED TO S._core — the pair loop still receives A SINGLE ROOT PARTICLE of the total mass, and only THE FINITE-RADIUS SHELL-THEOREM DIFFERENCE is applied in one pass outside it. That is why AT r ≥ 100 THE CORRECTION NEVER RUNS AND THE FAR FIELD MATCHES THE POINT SOURCE EXACTLY. WHAT IS NOT CLAIMED: that parent–child cores 'bought calibration freedom and made things fit', or that the core mass and radius can be inferred from the external orbit — the external orbit sees only the enclosed mass, and the core's mass and radius CANNOT BE SEPARATED without other observables (moment of inertia, surface rotation, dimming, tides). Casting a white dwarf as a red giant's core, or a neutron star as a red supergiant's, is A DELIBERATE TOY HYPOTHESIS, not standard stellar evolution.",
-      observe:"Layout (dt=0.016): the two-layer central body (pinned) plus six test particles of mass 0.001, two in each of three bands. BAND A (r<20, inside the core layer) starts at rest at r=8 and r=14 — the enclosed mass is exactly 0, so gravity is exactly 0 and the grains float (only the contact-spring floor of ≤0.01 moves them). BAND B (20<r<100, between core and shell) runs circular orbits at r=50 and 75, where only the core's 900 is enclosed, so the speeds are √0.9=0.9487 of the point-source values (v=4.2423 and 3.4640). BAND C (r≫100) runs circular orbits at r=300 and 500 (v=1.8257 and 1.4142), where the layer correction never runs — THE STATE IS BIT-IDENTICAL TO THE SAME LAYOUT WITH layers REMOVED. Declaring layers does not change S._core by a single character. QA behavior.bodyLayers machine-fixes the bit-identity without the declaration, the validator's five rejections, the zero inside the shell, the far-field point source, M/P/J conservation through fusion, the absence of self-layer double counting, the out-of-plane flow of the 3D spin reference field, and the K_cs heat-ledger ratio.",
+      observe:"Layout (dt=0.016): the two-layer central body (pinned) plus six test particles of mass 0.001, two in each of three bands. THE CONTACT SPRINGS ARE 0/0 (wave 261b — at the wave-259b values 0.1/0.01 band A was pushed out by the floor). BAND A (r<20, inside the core layer) starts at rest at r=8 and r=14 — the enclosed mass is exactly 0, so gravity is exactly 0 and the grains float: at t=20 they sit at r=7.996692 and 13.993558 (the +2.000 floor of wave 259b, where they had drifted to 9.9985 and 15.9956, is gone), and the remaining −0.003/−0.006 IS THE MUTUAL GRAVITY OF THE TEST GRAINS THEMSELVES (the mEff floor of 0.01). BAND B (20<r<100, between core and shell) runs circular orbits at r=50 and 75, where only the core's 900 is enclosed, so the speeds are √0.9=0.9487 of the point-source values (v=4.2423 and 3.4640). BAND C (r≫100) runs circular orbits at r=300 and 500 (v=1.8257 and 1.4142), where the layer correction never runs — THE STATE IS BIT-IDENTICAL TO THE SAME LAYOUT WITH layers REMOVED, and zeroing the contact springs leaves r=299.998262 and 499.999311 UNCHANGED TO THE BIT from wave 259b. Declaring layers does not change S._core by a single character. QA behavior.bodyLayers machine-fixes the bit-identity without the declaration, the validator's five rejections, the zero inside the shell, the far-field point source, M/P/J conservation through fusion, the absence of self-layer double counting, the out-of-plane flow of the 3D spin reference field, and the K_cs heat-ledger ratio.",
       control:"The one-tap control is TO REMOVE layers (= the old 1000 point source): the two grains of band A fall to the centre and the two circular orbits of band B are too fast and bulge outward, while BAND C DOES NOT MOVE BY A SINGLE BIT. Manual controls: raise the core layer's r from 20 to 60 and the gravity-free cavity grows; change the core:shell mass ratio from 9:1 to 5:5 and band B's speeds drop by √0.5; collapse it to a single layer (m=1000, r=100) and the whole field returns to a point source."}},
   parameterAudit:{
     observedInputs:["なし(原理トイ — 観測値の転写はしない)"],
@@ -12314,7 +12558,11 @@ const BUILTIN_PRESETS = [
   validT:20,
   camera:{scale:620}, world:{boundary:"none",size:0}, seed:20260913,
   physics:{G:1, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
-    cLight:30, contactK:0.1, contactCap:0.01, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
+    // 第261便b(統括が設定した検証仮説 (8)・**署名便**): 接触ばねを **0/0** にした(第260便b で
+    // 値域の下限が 0 に開いた)。第259便b の 0.1/0.01 では帯A が **+2.000 = ½·0.01·20²** の床で
+    // 押し出されていて、「コア層の内側は重力が厳密に 0」が**床に隠れて見えなかった**。
+    // **観測半径(最外層 r=100)は変えていない**し、層の宣言も 1 文字も変えていない。
+    cLight:30, contactK:0, contactCap:0, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
     geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.5, timeScale:1, frameWeight:"share"},
   bodies:[
     // 二層天体: コア層 900(r=20)+ 殻層 100(r=100)。body.m=1000=Σ層 m(一致しなければ検証器が layers を落とす)
@@ -13366,7 +13614,14 @@ function validatePreset(obj){
         const role=(BODY_LAYER_ROLES.indexOf(L.role)>=0)? L.role : null;
         if(L.role!==undefined && role===null) warnings.push(atk+'.role は "'+BODY_LAYER_ROLES.join('"/"')+'" のいずれか — 既定の役割名に修正');
         const o2={role:(role||BODY_LAYER_ROLES[Math.min(k,BODY_LAYER_ROLES.length-1)]), m:L.m, r:L.r};
-        for(const k2 of Object.keys(L)) if(["role","m","r"].indexOf(k2)<0)
+        // 第261便b(第53報「親子コアは『選択粒子の編集』でそれぞれの粒子を編集可能にする」):
+        // 層の **J(スピン角運動量)は省略可の宣言値**。正準形には宣言されたときだけ出る
+        // (未宣言の層は 1 文字も増えない = 既定経路の署名不変)。**力へは接続していない。**
+        if(L.J!==undefined){
+          if(!isNum(L.J)){ warnings.push(atk+".J は数値が必要 — J を無視します"); }
+          else o2.J=clamp(L.J, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);
+        }
+        for(const k2 of Object.keys(L)) if(["role","m","r","J"].indexOf(k2)<0)
           warnings.push(atk+" の未知キー("+String(k2).slice(0,20)+")— 無視");
         out.push(o2);
       }
@@ -15407,7 +15662,12 @@ function makeSim(){
     // **根 1 粒子の質量 m は従来どおり**で、この 4 配列は `S._layerForce`(外部パス)だけが読む
     S.layN=new Int32Array(n); S.layM=new Float64Array(n*BODY_LAYER_MAX);
     S.layR=new Float64Array(n*BODY_LAYER_MAX); S.layRl=new Int32Array(n*BODY_LAYER_MAX);
+    // 第261便b(第53報「親子コアは、『選択粒子の編集』で、タブ切り替えなどでそれぞれの粒子を
+    // 編集可能にする」): 層ごとのスピン角運動量 J。**宣言値を運ぶだけで力へは 1 バイトも
+    // 接続していない**(表示・保存・編集の対象。未宣言は 0 で、どの経路も読まない)
+    S.layJ=new Float64Array(n*BODY_LAYER_MAX);
     S.hasBodyLayers=false; S.layerN=0; S.layerStop=null; S.layerPairN=0; S.layerStopN=0;
+    S.layerHalt=null; S.layerDF=0;   // 第261便b(検証仮説 (6)): 実停止の理由と最後の |ΔF| 合計
     S.shellGas=new Uint8Array(n);   // 第229便: shell:"gas" 宣言(意味論は検証器の Kcs=0 強制+表示)
     S.lSw=F();S.radOv=F();    // 観測系(第22便 — obsT/coreOT は第61便で廃止)
     // 第77便(コアv2): 独立コア(opt-in。第80便で disk/ring 群にも開放)。J_core が主変数
@@ -15785,7 +16045,8 @@ function makeSim(){
       if(o.layers && o.layers.length){
         const nl=Math.min(o.layers.length, BODY_LAYER_MAX), b0=i*BODY_LAYER_MAX;
         for(let k=0;k<nl;k++){ const L=o.layers[k];
-          S.layM[b0+k]=L.m; S.layR[b0+k]=L.r; S.layRl[b0+k]=Math.max(0,BODY_LAYER_ROLES.indexOf(L.role)); }
+          S.layM[b0+k]=L.m; S.layR[b0+k]=L.r; S.layRl[b0+k]=Math.max(0,BODY_LAYER_ROLES.indexOf(L.role));
+          S.layJ[b0+k]=(L.J!==undefined)? L.J : 0; }   // 第261便b: 層の J は宣言値(力へは未接続)
         S.layN[i]=nl; S.hasBodyLayers=true;
       }
       S.shellGas[i]=(o.shell==="gas")?1:0;   // 第229便: 殻の相
@@ -16015,6 +16276,11 @@ function makeSim(){
     S.meshCoordOut=0; S._mcRec=null; S._mcSnap=null;   // 第258便a: 支持外の粒子数・実キックの控え
     S._mcPre=null; S._mcPreE=null; S._mcSnap2=null; S._mcSnap3=null; S._mcTgt=null;   // 第259便a: 同段階置換
     S.meshCoordRemoval=null; S.meshCoordGive=0;
+    // 第261便d(第53報): coupleSink を宣言した宇宙の inStep 段階で**受け先へ送った角運動量**の記帳。
+    // **値は 1 bit も変わらない**(送り先も規則も applyCoupleSinkAlt と同一)——
+    // 記録するのは「いつ・どれだけ・支持範囲の出入りの步だったか」だけである(0 で埋めない)
+    S._mcSinkJ=null; S._mcSnap6=null;
+    S.meshCoordSinkL=0; S.meshCoordSinkGive=0; S.meshCoordSinkN=0; S.meshCoordSink=null;
     // 第259便a: geoPN=3(トイの測地線モード)の帳簿と読み口。未宣言なら常に 0/null
     S.geoToyPx=0; S.geoToyPy=0; S.geoToyL=0; S.geoToyE=0; S.geoToyEmesh=0;
     S.geoToyMeshPx=0; S.geoToyMeshPy=0; S.geoToyMeshL=0;
@@ -16126,6 +16392,11 @@ function makeSim(){
     S._hookOn=(S.hasCoordInertia||S.hasDragWork)?1:0;
     S.dragWorkStop=(S.hasDragWork && S.params[COUPLE_SINK_KEY]!==undefined
       && S.params[COUPLE_SINK_KEY]!=="spin")? "coupleSink" : null;
+    // 第261便d(第53報・統括が設定した検証仮説 (2)): coupleSink の受け先を `S._core` の外でも読めるように
+    // 同じ場所で張る(`_core` 側の `cplSink` はローカルのまま = **1 命令も足していない**)。
+    // 0="spin"(未宣言)/1="core"/2="reservoir"/3="tilt" —— 分岐の数え方は `_core` と同一である
+    S._cplSinkI=(S.params[COUPLE_SINK_KEY]==="core")?1:((S.params[COUPLE_SINK_KEY]==="reservoir")?2
+      :((S.params[COUPLE_SINK_KEY]==="tilt")?3:0));
     const __psq=S.params[PERI_SUB_KEY];
     S.hasPeriSub=!!__psq; S.periSub=__psq||null;
     S._periSetup();   // 未宣言でも呼ぶ(計数のリセットと状態の初期化だけ — 既定経路の値は 1 bit 不変)
@@ -16269,6 +16540,82 @@ function makeSim(){
     S.hasCoreTilt=anyT;   // 第227便
     return S.coreMd[i];
   };
+  // ===== 第261便b(第53報 W2・原仮定者「親子コアは、『選択粒子の編集』で、タブ切り替えなどで
+  // それぞれの粒子を編集可能にする」): **同心層を実行時に編集する唯一の入口** =====
+  // `S.applyCoreEdit` と同型に作る: ①現在の層を読む ②変わった欄だけ差し替える ③**正準形**
+  // (r 昇順・非重複・1〜BODY_LAYER_MAX 層・m>0)を検証する ④通ったときだけ配列へ書いて
+  // `S.hasBodyLayers` 等を再計算する。**通らなければ 1 bit も書かない**(理由を返す)。
+  // **Σm 契約**: 層があるあいだ **根の m は派生量**(= Σ層 m)である。検証器 `vLayers` は
+  // 「Σ層 m ≠ body.m なら layers を落とす(補完しない)」という宣言側の契約で、こちらは
+  // 実行時の編集なので**逆向きに閉じる**(層が主・根が従) —— どちらも「Σ層 m = 根の m」を
+  // 保つ点で同じ不変量である。層を全部外すと根の m はそのとき点源として残る。
+  // **層の J は宣言値として運ぶだけで力へは接続していない**(第261便b — 書かないこと:
+  // 「親子コアで較正の自由度が増えて合った」)。
+  S.bodyLayersOf = function(i){
+    if(!(i>=0 && i<S.n) || !S.layN || !(S.layN[i]>0)) return null;
+    const b0=i*BODY_LAYER_MAX, out=[];
+    for(let q=0;q<S.layN[i];q++){
+      const o={role:BODY_LAYER_ROLES[S.layRl[b0+q]]||BODY_LAYER_ROLES[0], m:S.layM[b0+q], r:S.layR[b0+q]};
+      if(S.layJ[b0+q]!==0) o.J=S.layJ[b0+q];   // 未宣言(0)は正準形に出さない = 署名不変
+      out.push(o);
+    }
+    return out;
+  };
+  S._setBodyLayers = function(i, arr){
+    if(!(i>=0 && i<S.n) || !S.layN) return {ok:false, reason:"badIndex"};
+    const LM=BODY_LAYER_MAX, b0=i*LM;
+    if(!Array.isArray(arr)) return {ok:false, reason:"notArray"};
+    if(arr.length>LM) return {ok:false, reason:"tooManyLayers"};
+    let sum=0, rPrev=0;
+    for(let q=0;q<arr.length;q++){
+      const L=arr[q];
+      if(!L || !(L.m>0) || !(L.r>0)) return {ok:false, reason:"layerNotPositive", at:q};
+      if(!(L.r>rPrev)) return {ok:false, reason:"radiusNotAscending", at:q};
+      if(BODY_LAYER_ROLES.indexOf(L.role)<0) return {ok:false, reason:"unknownRole", at:q};
+      rPrev=L.r; sum+=L.m;
+    }
+    if(arr.length>0 && !(sum>0)) return {ok:false, reason:"sumNotPositive"};
+    for(let q=0;q<LM;q++){ const L=arr[q];
+      S.layM[b0+q]=L? L.m : 0; S.layR[b0+q]=L? L.r : 0;
+      S.layRl[b0+q]=L? Math.max(0,BODY_LAYER_ROLES.indexOf(L.role)) : 0;
+      S.layJ[b0+q]=(L && Number.isFinite(L.J))? L.J : 0; }
+    S.layN[i]=arr.length;
+    if(arr.length>0) S.m[i]=sum;          // Σm 契約(層が主・根が従)
+    let any=false; for(let k=0;k<S.n;k++) if(S.layN[k]>0){ any=true; break; }
+    S.hasBodyLayers=any;
+    S.updateRadii();
+    return {ok:true, layers:S.bodyLayersOf(i), sumM:sum, n:arr.length};
+  };
+  S.applyLayerEdit = function(i, k, cfg){
+    if(!(i>=0 && i<S.n) || !S.layN) return {ok:false, reason:"badIndex"};
+    const cur=S.bodyLayersOf(i)||[];
+    const next=cur.map((L)=>({role:L.role, m:L.m, r:L.r, J:(L.J===undefined)?0:L.J}));
+    if(cfg===null || cfg===undefined){
+      if(k<0) return S._setBodyLayers(i, []);               // 層宣言ごと外す
+      if(!(k<next.length)) return {ok:false, reason:"noSuchLayer"};
+      next.splice(k,1);
+      return S._setBodyLayers(i, next);
+    }
+    const has=(key)=>{ const v=cfg[key]; return v!==undefined && v!==null && typeof v==="number" && isFinite(v); };
+    let L;
+    if(k>=next.length){                                      // 追加(末尾 = 最外)
+      if(next.length>=BODY_LAYER_MAX) return {ok:false, reason:"tooManyLayers"};
+      const rOut=next.length? next[next.length-1].r : 0;
+      L={role:(BODY_LAYER_ROLES.indexOf(cfg.role)>=0)? cfg.role : BODY_LAYER_ROLES[Math.min(next.length,BODY_LAYER_ROLES.length-1)],
+         m:has("m")? cfg.m : 1, r:has("r")? cfg.r : (rOut>0? rOut*2 : Math.max(BODY_LAYER_RMIN, S.R[i])), J:has("J")? cfg.J : 0};
+      next.push(L);
+    } else {
+      L=next[k];
+      if(BODY_LAYER_ROLES.indexOf(cfg.role)>=0) L.role=cfg.role;
+      if(has("m")) L.m=clamp(cfg.m, 1e-12, MASS_CAP);
+      if(has("r")) L.r=clamp(cfg.r, BODY_LAYER_RMIN, 1e6);
+      if(has("J")) L.J=clamp(cfg.J, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);
+    }
+    if(L.m!==undefined) L.m=clamp(L.m, 1e-12, MASS_CAP);
+    if(L.r!==undefined) L.r=clamp(L.r, BODY_LAYER_RMIN, 1e6);
+    if(L.J!==undefined) L.J=clamp(L.J, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);
+    return S._setBodyLayers(i, next);
+  };
   // 第35便(台帳4-62): 積分器の入口。既定("semi")は _core を1回呼ぶだけで現行と厳密等価
   // (ゼロコスト経路 — QA integrator.default-unchanged が位置ハッシュの bit 一致で保証)。
   // "leapfrog" は KDK(kick–drift–kick): パスA=力評価+半キック+ドリフト、
@@ -16376,6 +16723,38 @@ function makeSim(){
   // それが `dfmLayerPairForce`(薄殻×薄殻の対ポテンシャルの解析積分)である(**対策 B**)。
   // ΔF が定義されない組(d→0 等)は `S.layerStop="overlap"` を立てて層差分を**当てない**
   // (点源の単極子だけで進める = **対策 A**)。**融合の最中に未定義の力で 1 step 進めない。**
+  // **第261便b(統括が設定した検証仮説 (5)(6))で 2 つ直した。**
+  //   (5) **重ならない対も ΔF の対象にする**。第260便b は `d² < (r_A+r_B)²` で切っていたが、
+  //       ソフトニング核 1/√(u²+ε²) は調和ではないので **ε>0 では d ≥ r_A+r_B でも ΔF ≠ 0**
+  //       (大きさは ε²R²/d⁵ 級)。カットを外し、**ΔF===0 の対はキックしない**(ε=0 の遠方は
+  //       厳密に 0 なので、従来どおり 1 命令も走らない = 既定経路は 1 bit 不変)。
+  //   (6) **`layerStop="overlap"` は step を止めていなかった**(層差分を当てないだけで時刻は進んでいた)。
+  //       2 案を実装して比べた —— **案B(既定 `S.layerStopMode="define"`)**: ε>0 の d=0 は
+  //       **対称性で力 0**(同心の薄殻は互いに純力を及ぼさない)と定義し、`dfmLayerPairForce` が
+  //       d=0 でも値を返す。ΔF が定義されない対は原理的に残らない。
+  //       **案A(`S.layerStopMode="halt"`)**: step の**前**に全対象対を検査し、ΔF が有限でない対が
+  //       1 つでもあれば `S.layerHalt` を立てて **時刻を進めない**(`S.step` が即 return する)。
+  //       採否は 〔第261便b〕 の比較表にある。**どちらも既定経路には 1 命令も足さない**
+  //       (`S.hasBodyLayers` が false なら `S.step` は真偽値 1 つを読んで素通りする)。
+  S.layerStopMode="define";   // 第261便b: "define"(既定・案B)/ "halt"(案A)
+  // 案A の事前検査。ΔF が有限でない対があれば理由を返す(なければ null)。**状態を書き換えない。**
+  S._layerPrecheck = function(){
+    const n=S.n, lN=S.layN;
+    if(!lN || !(n>1)) return null;
+    const p=S.params, G=p.G, sof=p.softening, layM=S.layM, layR=S.layR, x=S.x, y=S.y, m=S.m;
+    const rdLay=(k)=>{ const b=k*BODY_LAYER_MAX, a=[];
+      for(let q=0;q<lN[k];q++) a.push({m:layM[b+q], r:layR[b+q]}); return a; };
+    for(let i=0;i<n;i++){
+      if(lN[i]<=0 || !(Math.abs(m[i])>1e-12)) continue;
+      for(let j=i+1;j<n;j++){
+        if(lN[j]<=0 || !(Math.abs(m[j])>1e-12)) continue;
+        const dx=x[j]-x[i], dy=y[j]-y[i], d=Math.hypot(dx,dy);
+        const pf=dfmLayerPairForce(rdLay(i), rdLay(j), d, {G:G, eps:sof});
+        if(!pf || !Number.isFinite(pf.dF)) return {i, j, d, reason:"layerPairUndefined"};
+      }
+    }
+    return null;
+  };
   S._layerForce = function(dt){
     const n=S.n, lN=S.layN;
     if(!lN || !(n>1) || !(dt!==0)) return;
@@ -16383,7 +16762,7 @@ function makeSim(){
     const x=S.x, y=S.y, vx=S.vx, vy=S.vy, m=S.m, pin=S.pinned;
     const layM=S.layM, layR=S.layR;
     const carV=!!S.carVx, carVx=S.carVx, carVy=S.carVy;
-    let nPair=0, dvMax=0, nExt=0, nStop=0;
+    let nPair=0, dvMax=0, nExt=0, nStop=0, dfSum=0;
     S.layerStop=null;
     const rdLay=(k)=>{ const b=k*BODY_LAYER_MAX, a=[];
       for(let q=0;q<lN[k];q++) a.push({m:layM[b+q], r:layR[b+q]}); return a; };
@@ -16406,13 +16785,14 @@ function makeSim(){
         const dx=x[j]-xi, dy=y[j]-yi, d2=dx*dx+dy*dy;
         if(lN[j]>0){                            // **拡張体どうし**(第260便b): 差分は対ごとに 1 回だけ
           if(j<i) continue;
-          const rj=layR[j*BODY_LAYER_MAX+lN[j]-1], rs=rOut+rj;
-          if(!(rs>0) || !(d2<rs*rs)) continue;  // 重ならない組は従来どおり無補正(遠方は点源)
           const mj=m[j], d=Math.sqrt(d2);
-          const pf=(d>0 && Math.abs(mj)>1e-12)? dfmLayerPairForce(rdLay(i), rdLay(j), d, {G:G, eps:sof}) : null;
+          // 第261便b (5): 重なりのカットは外した(ε>0 では遠方でも ΔF≠0)。d=0 も受ける((6) 案B)
+          const pf=(Math.abs(mj)>1e-12)? dfmLayerPairForce(rdLay(i), rdLay(j), d, {G:G, eps:sof}) : null;
           if(!pf || !Number.isFinite(pf.dF)){ S.layerStop="overlap"; nStop++; continue; }
-          const ux=dx/d, uy=dy/d, dF=pf.dF;
-          nExt++;
+          const dF=pf.dF;
+          if(dF===0 || !(d>0)) continue;        // ΔF が厳密に 0(ε=0 の遠方・同心)の対はキックしない
+          const ux=dx/d, uy=dy/d;
+          nExt++; dfSum+=Math.abs(dF);
           kick(j, dF*ux/mj, dF*uy/mj);
           kick(i, -dF*ux/mi, -dF*uy/mi);        // 等量反対(m_iΔa_i + m_jΔa_j = 0)
           continue;
@@ -16431,7 +16811,7 @@ function makeSim(){
         kick(i, -ax2*rat, -ay2*rat);            // 等量反対(m_iΔa_i + m_jΔa_j = 0)
       }
     }
-    S.layerN=nPair; S.layerDv=dvMax; S.layerPairN=nExt; S.layerStopN=nStop;
+    S.layerN=nPair; S.layerDv=dvMax; S.layerPairN=nExt; S.layerStopN=nStop; S.layerDF=dfSum;
   };
   // ===== 第249便c(第41報 W3・案A): 有限範囲の二極軸ポテンシャル(physics.axisForce)=====
   // 軸の向き φ を返す純関数(状態を書き換えない)。数値宣言は空間固定・"spin" は中心天体の
@@ -17174,7 +17554,14 @@ function makeSim(){
       if(S._mcPreL){ let SL=S._mcSnap5;
         if(!SL || SL.length!==S._mcPreL.length) SL=S._mcSnap5=new Float64Array(S._mcPreL.length);
         SL.set(S._mcPreL); S._mcPreL.fill(0); PREL=SL; } }
+    // 第261便d: **sink へ送った角運動量**の控えも同じ流儀で 1 度読んで 0 へ戻す
+    let PREQ=null;
+    if(S._mcInStep===1 && S._mcSinkJ){ let SQ=S._mcSnap6;
+      if(!SQ || SQ.length!==S._mcSinkJ.length) SQ=S._mcSnap6=new Float64Array(S._mcSinkJ.length);
+      SQ.set(S._mcSinkJ); S._mcSinkJ.fill(0); PREQ=SQ; }
     S.meshCoordRemoval=(S._mcInStep===1)? "inStep" : "post";
+    // 第261便d: 残余トルクの受け先を**読み口にも出す**(post/inStep のどちらでも同じ宣言を読む)
+    S.meshCoordSink=COUPLE_SINKS[S._cplSinkI|0]||"spin";
     const x=S.x, y=S.y, vx=S.vx, vy=S.vy, m=S.m, mEff=S.mEff, pin=S.pinned;
     const pw0=frameWeightPow(p), pw=(pw0>0)? pw0 : 1;
     const eps=p.softening, eps2=eps*eps;
@@ -17360,6 +17747,20 @@ function makeSim(){
         }
       }
     }
+    // 第261便d(第53報・統括が設定した検証仮説 (2) 3 行目): **支持範囲の出入りは sink 側にも同瞬間で記帳**。
+    // スピン受けの宇宙では、支持範囲から出た粒子の「先に引いたスピン」は上のループで**そのまま返す**。
+    // `coupleSink` を宣言した宇宙では**引いていない**(受け先へ送ってある)ので返す相手がいない ——
+    // **返しが 0 であること自体を、送った量と出入りの步数つきで記帳する**(黙って 0 にしない)。
+    if(S._mcInStep===1 && PREQ){
+      let sJ=0, gJ=0, sN=0;
+      for(let i=0;i<n;i++){
+        const q=PREQ[i];
+        if(q===0) continue;
+        sJ+=q; sN++;
+        if(!MC.on[i]) gJ+=q;        // 支持範囲から出た步に受け先へ送った分(= 返しは構成的に 0)
+      }
+      if(sN){ S.meshCoordSinkL+=sJ; S.meshCoordSinkGive+=gJ; S.meshCoordSinkN+=sN; }
+    }
     S.meshCoordGive=nGive;
     if(!nOn && !nGive) return;
     const AC=MC.ac;
@@ -17465,6 +17866,15 @@ function makeSim(){
   // ①これ以上分割しない ②ステップ末の**離散イベント**を発火しない。
   let __periIn = false;
   S.step = function(dt){
+    // ===== 第261便b(統括が設定した検証仮説 (6)・案A): **層差分が定義されない対があれば時刻を進めない** =====
+    // 既定は案B("define" —— ε>0 の d=0 を対称性で力 0 と定義するので、そもそも未定義の対が出ない)。
+    // "halt" を選んだときだけ、step の**前**に全対象対を検査して停止する(`S._core` の外・
+    // 未宣言は `S.hasBodyLayers` の真偽値 1 つで素通り = 既定経路 1 bit 不変)。
+    if(S.hasBodyLayers && S.layerStopMode==="halt"){
+      const st=S._layerPrecheck();
+      if(st){ S.layerHalt=st; S.layerStop="halt"; return; }   // 時刻も速度も 1 bit も動かさない
+      S.layerHalt=null;
+    }
     // ===== 第252便b(第44報): 近点サブステップ(physics.periSubsteps — opt-in・既定 OFF)=====
     // 未宣言では S.hasPeriSub の**真偽値 1 つ**を読んで素通りする(既定経路 1 bit 不変)。
     // 宣言時は相対距離が r<rMul·r_peri のときだけ dt を n 等分して自分自身を n 回呼び、
@@ -17767,13 +18177,14 @@ function makeSim(){
         // そのままでは Σ層 m ≠ m[i] になる —— 残差を layMassRes に記帳して**黙って書き換えない**)
         if(S.layN && (S.layN[i]>0 || S.layN[j]>0)){
           const LM=BODY_LAYER_MAX, rd=(k0)=>{ const a=[], b1=k0*LM;
-            for(let q=0;q<S.layN[k0];q++) a.push({role:BODY_LAYER_ROLES[S.layRl[b1+q]]||"", m:S.layM[b1+q], r:S.layR[b1+q]});
+            for(let q=0;q<S.layN[k0];q++) a.push({role:BODY_LAYER_ROLES[S.layRl[b1+q]]||"", m:S.layM[b1+q], r:S.layR[b1+q], J:S.layJ[b1+q]});
             return a; };
           const mg=dfmLayerMerge(rd(i), rd(j), LAYER_MERGE_RULE);
           const b1=i*LM; let sumL=0;
           for(let q=0;q<LM;q++){ const L=mg[q];
             S.layM[b1+q]=L? L.m : 0; S.layR[b1+q]=L? L.r : 0;
             S.layRl[b1+q]=L? Math.max(0,BODY_LAYER_ROLES.indexOf(L.role)) : 0;
+            S.layJ[b1+q]=(L && Number.isFinite(L.J))? L.J : 0;   // 第261便b: 宣言 J も層と一緒に運ぶ(力へは未接続)
             if(L) sumL+=L.m; }
           S.layN[i]=Math.min(mg.length,LM);
           S.layN[j]=0;
@@ -17856,7 +18267,7 @@ function makeSim(){
     // 第259便b: 親子コアの同心層はストライド BODY_LAYER_MAX の平らな配列なので別に詰める
     if(S.layN && S.hasBodyLayers){ const LM=BODY_LAYER_MAX;
       for(let t=0;t<k;t++){ const s0=keep[t]; if(s0===t) continue;
-        for(let q=0;q<LM;q++){ S.layM[t*LM+q]=S.layM[s0*LM+q]; S.layR[t*LM+q]=S.layR[s0*LM+q]; S.layRl[t*LM+q]=S.layRl[s0*LM+q]; } } }
+        for(let q=0;q<LM;q++){ S.layM[t*LM+q]=S.layM[s0*LM+q]; S.layR[t*LM+q]=S.layR[s0*LM+q]; S.layRl[t*LM+q]=S.layRl[s0*LM+q]; S.layJ[t*LM+q]=S.layJ[s0*LM+q]; } } }
     // 旧 index → 新 index の写像(消えた粒子は融合先へ写す)
     const nm=new Int32Array(n).fill(-1);
     for(let t=0;t<k;t++) nm[keep[t]]=t;
@@ -17902,7 +18313,7 @@ function makeSim(){
       S.linId[i]=-1; S.linN[i]=0; }   // alloc と同じ既定値(+コアv2・第80便/第100便/第208便: ζ=1)
     // 第259便b: 親子コアの同心層(ストライド BODY_LAYER_MAX)は別に伸ばす
     if(S.layM){ const LM=BODY_LAYER_MAX;
-      for(const key of ["layM","layR","layRl"]){ const a=S[key];
+      for(const key of ["layM","layR","layRl","layJ"]){ const a=S[key];
         const b=new a.constructor(nc*LM); b.set(a); S[key]=b; } }
     // 第247便a: framePrecision:"double" の Float64 pairD を Float32 へ落とさない(型を引き継ぐ)
     S.pairD=new (S.pairD? S.pairD.constructor : Float32Array)(Math.max(1,nc*(nc-1)/2));
@@ -20270,7 +20681,9 @@ function stepDiagText(){
   if(sim && sim.hasCoordInertia) out+="  mesh:"+(sim.meshCoordStop||"on")+" N="+sim.meshCoordN;
   if(sim && sim.hasGeoToy) out+="  geoToy:"+(sim.geoToyStop||"on")+" N="+sim.geoToyN;
   // 第260便b: 親子コアの層差分と**重なった拡張体の対**(ΔF を当てた組 / 停止した組)
-  if(sim && sim.hasBodyLayers) out+="  layer:"+(sim.layerStop||"on")+" N="+sim.layerN+" pair="+(sim.layerPairN||0)+"/"+(sim.layerStopN||0);
+  if(sim && sim.hasBodyLayers) out+="  layer:"+(sim.layerStop||"on")+" N="+sim.layerN+" pair="+(sim.layerPairN||0)+"/"+(sim.layerStopN||0)
+    // 第261便b(検証仮説 (6)・案A): 停止したら理由と対を出す(時刻は進んでいない)
+    +(sim.layerHalt? (" HALT["+sim.layerHalt.i+","+sim.layerHalt.j+"] d="+fmt(sim.layerHalt.d)) : "");
   return out;
 }
 function captureCamSnapshot(){
@@ -20643,6 +21056,13 @@ function mcPreLOf(S){
   if(!z || z.length!==n) z=S._mcPreL=new Float64Array(n);
   return z;
 }
+// 第261便d(第53報・統括が設定した検証仮説 (2)): coupleSink を宣言した宇宙の inStep 段階で
+// **受け先へ送った角運動量**の控え(`_meshCoordForce` が 1 度読んで 0 へ戻す)。
+function mcSinkJOf(S){
+  const n=S.n; let z=S._mcSinkJ;
+  if(!z || z.length!==n) z=S._mcSinkJ=new Float64Array(n);
+  return z;
+}
 function dragHookKick(S,i,mi,vxi,vyi,dvx,dvy){
   if(S.hasCoordInertia){
     // ===== 第259便a: **同段階置換**(`inertiaRemoval:"inStep"`)=====
@@ -20688,6 +21108,26 @@ function dragHookApply(S,n,m,vx,vy,spin,Imom,accVx,accVy,accS,spinOn){
           const PS=mcPreSOf(S), ds=accS[i], Ii=Imom[i], s0=spin[i];
           PS[i]+=ds; mcPreLOf(S)[i]+=Ii*ds;                // 取り消したスピン角運動量
           S._mcPreE[i]+=Ii*(s0*ds)+0.5*Ii*ds*ds;          // 取り消した離散回転仕事(厳密)
+          accS[i]=0;
+        }
+        // ===== 第261便d(第53報・統括が設定した検証仮説 (2)): **宣言時は sink へ送ったあと 0** =====
+        // `coupleSink` を宣言した宇宙(spinOn=false)では、残余トルクは殻スピンへは入らない。
+        // ここで **applyCoupleSinkAlt と同一の規則**で受け先(J_core / 容量つき J_z / リザーバ帳簿)へ
+        // 送り、`accS[i]=0` にする。**送り先も規則も同じなので状態は 1 bit も変わらない** ——
+        // 変わるのは**送った段階**(この同段階)と、送った量が `_mcSinkJ` に記帳されることだけである。
+        // **スピンからは 1 bit も引かない**(引いていないので `_mcPreS`/`_mcPreL` には積まない ——
+        // 角運動量は受け先に在って、系から消えてはいない)。
+        else if(!spinOn && accS[i]!==0){
+          const ds=accS[i], Ii=Imom[i], dJc=Ii*ds, cs=S._cplSinkI|0;
+          if(cs===1 && (S.coreMd[i]===2||S.coreMd[i]===3)) S.coreJ[i]+=dJc;
+          else if(cs===3 && (S.coreMd[i]===2||S.coreMd[i]===3) && S.coreJm[i]>0){
+            let nj=S.coreJ[i]+dJc;
+            if(nj>S.coreJm[i]){ S.resL+=nj-S.coreJm[i]; nj=S.coreJm[i]; S.clampTN++; }
+            else if(nj<-S.coreJm[i]){ S.resL+=nj+S.coreJm[i]; nj=-S.coreJm[i]; S.clampTN++; }
+            S.coreJ[i]=nj;
+          }
+          else S.resL+=dJc;
+          mcSinkJOf(S)[i]+=dJc;
           accS[i]=0;
         }
       } else { R[2*i]+=ax; R[2*i+1]+=ay; }
@@ -21993,8 +22433,10 @@ function _slParamSig(S){
   const D0p=(p.D0pull!==undefined)? p.D0pull : p.D0;
   const gf=(S.overlays && S.overlays.galaxyField)? JSON.stringify(S.overlays.galaxyField) : "-";
   // 第259便c: 診断フラグ fieldApi もキャッシュ鍵に入れる(止めたまま切り替えたら即再構築する)
+  // 第261便a: 規格化 norm もキャッシュ鍵に入れる(τ 固定は写像に入らなくなったが、
+  // 凡例の表示が変わるので鍵からは外さない)
   return p.D0+"/"+D0p+"/"+p.kFrame+"/"+pw+"/"+p.softening+"/"+_smGain(S)+"/"+String(_smTau(S))+"/"+gf
-    +(_smFieldApi(S)? "/api" : "");
+    +"/"+_smNorm(S)+"/"+_smOriginMode(S)+(_smFieldApi(S)? "/api" : "");
 }
 // **どちらの場を読むかは表示モードでは決めない**(第256便c)。
 // **現行の規則は「宣言と体数」だけである**(第257便c — 下の _slKindOf / _slKindNote が正本):
@@ -22023,6 +22465,54 @@ function _smMassCentre(S){
   if(!(M>0)) return null;
   const X=cx/M, Y=cy/M;
   return (Number.isFinite(X) && Number.isFinite(Y))? [X,Y] : null;
+}
+// ===== 第261便a(第53報): 蓄積格子の**原点規則** =====================================
+// 原仮定者(第53報): 「空間メッシュの原点は、**質量上位2粒子の重心**とする。**2粒子目と3粒子目が
+//   同じ質量の場合は、無視して1粒子目を原点にする**」。
+// **表示専用**である —— presetSig にも S.params にも力学にも入らない(格子の交点は第260便の版と
+// 変わるが、600 步の状態は 1 bit も動かない)。第257便c からの「全粒子の質量重心」は
+// `_smMassCentre` として残す(銀河の基準長 r₉₅ はこれまでどおり重心まわりで測る —— 長さの規約を
+// 変えると第256便c の実測(逃走粒子で 3〜12 倍に跳ねる)ごとやり直しになるからである)。
+//   ・順位は **|m|**(負質量も大きさで並べる。0 質量は順位に入るが、重みが 0 なら原点は立たない)
+//   ・重心の重みも **|m|**(m₁+m₂=0 の対で原点が発散しないようにする)
+//   ・「同じ質量」は**相対**判定(SPACE_MESH_TIE_REL)。絶対値では比べない
+//   ・m₁=m₂=m₃ の系は字義どおり **1 位のみ**に落ちる(2 位と 3 位が同じだからである)
+const SPACE_MESH_TIE_REL=1e-9;    // 「2 粒子目と 3 粒子目が同じ質量」の相対判定
+// |m| の上位 3 つ(足りない順位は −1)。**位置・質量に非有限が 1 つでもあれば null**(黙って飛ばさない)
+function _smRank3(S){
+  if(!S || !(S.n>0)) return null;
+  let i1=-1,i2=-1,i3=-1,a1=-Infinity,a2=-Infinity,a3=-Infinity;
+  for(let i=0;i<S.n;i++){
+    const m=S.m[i], xi=S.x[i], yi=S.y[i];
+    if(!Number.isFinite(m) || !Number.isFinite(xi) || !Number.isFinite(yi)) return null;
+    const a=Math.abs(m);
+    if(a>a1){ a3=a2; i3=i2; a2=a1; i2=i1; a1=a; i1=i; }
+    else if(a>a2){ a3=a2; i3=i2; a2=a; i2=i; }
+    else if(a>a3){ a3=a; i3=i; }
+  }
+  return (i1<0)? null : [i1,i2,i3];
+}
+// 原点と、その**規則の名前**(凡例・QA・ハーネスが読む)。rule は "top2"(上位 2 粒子の重心)か
+// "top1"(2 位と 3 位が同質量なので 1 位だけ)。原点が立たない系は null(= 格子を描かない)
+function _smOrigin(S){
+  const r=_smRank3(S); if(!r) return null;
+  const i1=r[0], i2=r[1], i3=r[2];
+  const a1=Math.abs(S.m[i1]);
+  if(!(a1>0)) return null;                                   // 全部 0 質量 —— 原点は立たない
+  let rule="top1", ids=[i1];
+  if(i2>=0 && Math.abs(S.m[i2])>0){
+    const a2=Math.abs(S.m[i2]);
+    const a3=(i3>=0)? Math.abs(S.m[i3]) : null;
+    const tie=(a3!==null) && (Math.abs(a2-a3)<=SPACE_MESH_TIE_REL*Math.max(a2,a3));
+    if(!tie){ rule="top2"; ids=[i1,i2]; }
+  }
+  let X,Y;
+  if(rule==="top2"){
+    const a2=Math.abs(S.m[i2]), w=a1+a2;
+    if(!(w>0)) return null;
+    X=(a1*S.x[i1]+a2*S.x[i2])/w; Y=(a1*S.y[i1]+a2*S.y[i2])/w;
+  } else { X=S.x[i1]; Y=S.y[i1]; }
+  return (Number.isFinite(X) && Number.isFinite(Y))? {c:[X,Y], rule, ids} : null;
 }
 // 銀河の基準長: **質量重心から外縁まで**の距離(= 半径の 95 パーセンタイル)。空間線・蓄積格子・
 // 表示所有 tracer が**同じ長さ**を読むので、どれもズームに依らない。外縁を最外縁の 1 粒子に
@@ -22220,26 +22710,81 @@ const SPACE_MESH_GRID_K_LO=7;     // 品質縮退(auto/lite)での交点数
 const SPACE_MESH_SAMP=17;         // 凍結場の標本格子(片側。奇数 —— **中心 C がそのまま標本点**)
 const SPACE_MESH_SAMP_PAD=2.0;    // 標本格子の半幅 = この倍率 × 描く格子の半幅(写像が外へ出ても読める)
 const SPACE_MESH_FLOW_N=32;       // 写像 Φ を解く RK4 の区間数(実測で決めた —— 解析場の相対誤差が gain=1 で 2.0×10⁻⁹・gain=2 で 3.2×10⁻⁸。PHYSICS〔第257便c〕)
+// ===== 第261便a(第53報): 歪みの**規格化** ===========================================
+// 原仮定者(第53報): 「空間メッシュが、『引きずりの度合』が『1』の時に**適切に描画**される様に
+//   する。**歪みを質量の合計に反比例させる**などで、どのサンプルでも**安定化**させる。
+//   『**τ 固定**』を変えても**歪みが変わらない**様にする」。
+// 第258便c まで、写像の時間幅は τ_ref=R/v_ref(自動)か宣言された固定 τ だった。これは
+//   ① gain=1 の最大変位が **R = セル幅の 4 倍**になる(= 折返しの境界 1.50 のすぐ内側)
+//   ② 固定 τ を変えると歪みが変わる(第258便c はそれを「強度の比較」として足した)
+// という 2 つを持っていた。第261便a は**規格化**を spec の 1 鍵にして、案を 2 つ実装した
+// (実測表は docs/PHYSICS.md 〔第261便a〕):
+//   "cell" … τ = κ·h/v_ref(h = セル幅)。gain=1 の最大変位が**セル幅の κ 倍**に揃う。
+//            **τ の宣言は写像に入らない**(= 固定 τ を変えても格子がビット同一)。**採用**。
+//   "mass" … τ = τ_ref·κ_m/Σ|m|(「歪みを質量の合計に反比例させる」の字義)。
+//   "none" … 第258便c までの経路(τ_ref か固定 τ をそのまま使う)。純関数の既定はこれで、
+//            既存の解析試験(exp(g·A·τ) との一致)はこの経路で従来どおり回る。
+const SPACE_MESH_NORM="cell";     // **表示が使う**規格化(純関数の既定は "none" のまま)
+const SPACE_MESH_KAPPA=0.25;      // "cell": gain=1 での最大変位 ÷ セル幅(実測で決めた)
+const SPACE_MESH_KAPPA_M=1e3;     // "mass": 歪み ∝ κ_m/Σ|m| の係数(実測で決めた)
 const SPACE_MESH_EXT_BIN=1.5;     // 連星: 格子の外縁 = この倍率 × 2 頂点の分離(第256便c の線長と同じ根拠)
 const SPACE_MESH_EXT_GAL=1.0;     // 銀河: 格子の外縁 = この倍率 × 中心 → 外縁(半径の 95 パーセンタイル)
 const SPACE_MESH_GAIN_DEF=1.0;    // 「引きずりの度合」の既定。**実測で決めた** —— 🫂🪟🎠 の gain 掃引(0〜2)で
                                   // 折返しが出ないのは 1.50 まで(🫂🪟 は 2.0 でも出ない・🎠 が 1.75 で 1 セット折返す)。
                                   // その内側の切りの良い値が 1.0 である(0.5 も折返さないが、境界 1.50 に近いのは 1.0)
-const SPACE_MESH_GAIN_MAX=2;      // スライダーの上限
-const SPACE_MESH_GAIN_STEP=0.05;  // スライダーの刻み
+// 第261便a(第53報): 「『引きずりの度合』のスライダーは、『0』から『10』を**指数的**に変化させる。
+//   直値で『100』などの大きな値も**入力可能**にする」。上限の意味を 3 つに分けた:
+//   ① スライダーの上端 SPACE_MESH_GAIN_MAX=10 ② 直値入力の上限 SPACE_MESH_GAIN_CAP=1e4
+//   ③ 0 は**特別値**(歪み 0)—— 指数目盛には 0 が無いので、位置 0 だけを 0 に割り当てる。
+// 旧版(0〜2・刻み 0.05)の localStorage 値は**そのまま読める**(値域の内側だからである)
+const SPACE_MESH_GAIN_MAX=10;     // スライダーの上端(指数目盛)
+const SPACE_MESH_GAIN_MIN=0.01;   // スライダーの下端(位置 1。位置 0 は特別値 0)
+const SPACE_MESH_GAIN_CAP=1e4;    // **直値入力**の上限(これを超えたら clamp して表示に出す)
+const SPACE_MESH_GAIN_POS=100;    // スライダーの位置の数(0〜100 の整数 —— 値ではなく位置を刻む)
+const SPACE_MESH_GAIN_STEP=1;     // スライダーの刻み(**位置**の刻み。値の刻みではない)
+// 位置 → gain(位置 0 = 0・位置 1〜100 = 0.01〜10 の等比)。既定 1.0 は位置 67 に**厳密**に乗る
+// (0.01·1000^(66/99)=0.01·10²=1)。丸めは 1e−6 で、同じ位置は必ず同じ値になる
+function _smGainFromPos(p){
+  let q=Math.round(Number(p));
+  if(!Number.isFinite(q)) return SPACE_MESH_GAIN_DEF;
+  q=Math.max(0,Math.min(SPACE_MESH_GAIN_POS,q));
+  if(q<=0) return 0;
+  const t=(q-1)/(SPACE_MESH_GAIN_POS-1);
+  const g=SPACE_MESH_GAIN_MIN*Math.pow(SPACE_MESH_GAIN_MAX/SPACE_MESH_GAIN_MIN,t);
+  return Math.round(g*1e6)/1e6;
+}
+// gain → 位置(スライダーの上端を超える直値は上端の位置で止める —— 値そのものは切らない)
+function _smGainToPos(g){
+  const v=Number(g);
+  if(!Number.isFinite(v) || !(v>0)) return 0;
+  if(v<=SPACE_MESH_GAIN_MIN) return 1;
+  if(v>=SPACE_MESH_GAIN_MAX) return SPACE_MESH_GAIN_POS;
+  const t=Math.log(v/SPACE_MESH_GAIN_MIN)/Math.log(SPACE_MESH_GAIN_MAX/SPACE_MESH_GAIN_MIN);
+  return Math.max(1,Math.min(SPACE_MESH_GAIN_POS,Math.round(1+t*(SPACE_MESH_GAIN_POS-1))));
+}
+// 表示の桁(直値入力の欄と凡例で使う。100 以上は整数・小さい値は有効数字を残す)
+function _smGainFmt(g){
+  const v=Number(g);
+  if(!Number.isFinite(v)) return "";
+  if(v===0) return "0";
+  if(v>=100) return String(Math.round(v));
+  if(v>=1) return (Math.round(v*100)/100).toString();
+  return (Math.round(v*10000)/10000).toString();
+}
 const SPACE_MESH_MS=150;          // 再構築の下限間隔(空間線と同じ ≈6.7Hz)
 // 「引きずりの度合」gain。**表示専用**である —— presetSig にも S.params にも入らない。
 // ユーザーが動かしたときだけ localStorage(hp_sm_gain)に残り、A/B の両側で同じ値を使う。
 // overlays.spaceMesh.gain に置くのは**実行時の状態**で、validatePreset は {mode} しか出さないので
 // 署名・エクスポート JSON は 1 bit も変わらない(QA ui.spaceMeshGain が固定する)
 let _smGainUser=null;
+// 第261便a: 受理の上限は**直値の上限**(旧版の 0〜2 で保存された値はそのまま読める)
 try{ const _sg=parseFloat(localStorage.getItem("hp_sm_gain"));
-  if(isFinite(_sg) && _sg>=0 && _sg<=SPACE_MESH_GAIN_MAX) _smGainUser=_sg; }catch(_){}
+  if(isFinite(_sg) && _sg>=0 && _sg<=SPACE_MESH_GAIN_CAP) _smGainUser=_sg; }catch(_){}
 function _smGain(S){
   const ov=S && S.overlays && S.overlays.spaceMesh;
   if(ov && typeof ov==="object" && !Array.isArray(ov)){
     const v=Number(ov.gain);
-    if(Number.isFinite(v) && v>=0 && v<=SPACE_MESH_GAIN_MAX) return v;
+    if(Number.isFinite(v) && v>=0 && v<=SPACE_MESH_GAIN_CAP) return v;
   }
   return (_smGainUser===null)? SPACE_MESH_GAIN_DEF : _smGainUser;
 }
@@ -22274,11 +22819,13 @@ function setSpaceMeshTau(v){
   put(sim); if(ab) put(ab.simB);
   return t;
 }
+// 第261便a: **直値**は 0〜SPACE_MESH_GAIN_CAP(100 などの大きな値も受理する)。スライダーの
+// 上端(10)では切らない —— 切るのは直値の上限だけで、超えた入力は clamp して欄に出す。
+// 値の刻み(旧 0.05)は**廃止**した(指数目盛では下端側の刻みが粗すぎるからである)
 function setSpaceMeshGain(v){
   let g=Number(v);
   if(!Number.isFinite(g)) g=SPACE_MESH_GAIN_DEF;
-  g=Math.max(0,Math.min(SPACE_MESH_GAIN_MAX,g));
-  g=Math.round(g/SPACE_MESH_GAIN_STEP)*SPACE_MESH_GAIN_STEP;
+  g=Math.max(0,Math.min(SPACE_MESH_GAIN_CAP,g));
   g=Math.round(g*1e6)/1e6;
   _smGainUser=g;
   try{ localStorage.setItem("hp_sm_gain",String(g)); }catch(_){}
@@ -22317,6 +22864,15 @@ function dfmSpaceGridBuild(spec){
   if(o.steps!==undefined && !Number.isFinite(Number(o.steps))) return null;
   if(o.tau!==undefined && o.tau!==null
     && (!Number.isFinite(Number(o.tau)) || !(Number(o.tau)>0))) return null;
+  // 第261便a: 規格化の宣言(既定 "none" = 第258便c までの経路)。**知らない名前は拒否**する
+  // (黙って既定へ落ちない —— 「規格化したつもりで素の τ の絵が出ていた」を作らない)
+  const nrm=(o.norm===undefined || o.norm===null)? "none" : String(o.norm);
+  if(nrm!=="none" && nrm!=="cell" && nrm!=="mass") return null;
+  const kap=Number(o.kappa===undefined? ((nrm==="mass")? SPACE_MESH_KAPPA_M : SPACE_MESH_KAPPA) : o.kappa);
+  if(!Number.isFinite(kap) || !(kap>0)) return null;
+  let mSum=null;
+  if(nrm==="mass"){ mSum=Number(o.mass);
+    if(!Number.isFinite(mSum) || !(mSum>0)) return null; }   // 質量の合計が無い系では描かない
   const Nf=Math.max(1,Math.min(128,Math.round(Number(o.steps===undefined? SPACE_MESH_FLOW_N : o.steps))));
   const pad=Number(o.pad===undefined? SPACE_MESH_SAMP_PAD : o.pad);
   if(!(pad>=1) || !Number.isFinite(pad)) return null;
@@ -22351,8 +22907,14 @@ function dfmSpaceGridBuild(spec){
     const d=Math.hypot(SU[k]-uCx,SV[k]-uCy); if(d>vRef) vRef=d;
     if(Number.isFinite(SC[k])){ chiSum+=SC[k]; nChi++; }
   }
-  let tau=Number(o.tau);
-  if(!Number.isFinite(tau)) tau=(vRef>0)? R/vRef : 0;       // **gain では再正規化しない**
+  // ---- 第261便a: 時間幅の決め方(**gain では再正規化しない** —— g を上げたぶんだけ歪む)
+  const hCell=2*R/(K-1);
+  const tauRef=(vRef>0)? R/vRef : 0;                        // 第257便c の自動 τ(診断として残す)
+  const tauDecl=(o.tau===undefined || o.tau===null)? null : Number(o.tau);
+  let tau;
+  if(nrm==="cell") tau=(vRef>0)? kap*hCell/vRef : 0;        // 最大変位 ≈ g·κ·(セル幅)
+  else if(nrm==="mass") tau=tauRef*kap/mSum;                // 歪み ∝ 1/Σ|m|
+  else tau=(tauDecl!==null)? tauDecl : tauRef;              // 第258便c までの経路
   // ---- 双線形補間(凍結場の外へ出た点は読めない点として扱う —— 黙って端の値へ貼らない)
   const samp=(x,y)=>{
     const a=(x-sx0)/hs, b=(y-sy0)/hs;
@@ -22434,7 +22996,16 @@ function dfmSpaceGridBuild(spec){
     nCell++;
   }
   let nOk=0; for(let k=0;k<NG;k++) if(AOK[k]) nOk++;
+  // 第261便a: **変位の実測**(累積後の交点 − 参照配置の交点)。規格化の効き目はこの 1 列で読む。
+  // dispCell = 最大変位 ÷ セル幅(gain=1・norm="cell" なら κ の近傍に揃う)
+  let dispMax=0;
+  for(let j2=0;j2<K;j2++) for(let i2=0;i2<K;i2++){
+    const k2=j2*K+i2; if(!AOK[k2]) continue;
+    const d2=Math.hypot(X[k2]-(gx0+i2*h), Y[k2]-(gy0+j2*h));
+    if(d2>dispMax) dispMax=d2;
+  }
   return { K, R, cx, cy, gain:g, tau, vRef, h, samp:Ms, pad, steps:Nf,
+    norm:nrm, kappa:kap, tauRef, tauDecl, mass:mSum, dispMax, dispCell:(h>0)? dispMax/h : null,
     X, Y, phiX:PX, phiY:PY, ok:AOK, phiOk:OK, nodes:NG, nOk, nInvalid:nInv,
     samples:NS, sampleBad:nBad, cells:nCell, folds:nFold, cellArea:CA,
     minAreaRatio:(nCell>0)? minA : null, folded:(nFold>0), loopMax,
@@ -22547,18 +23118,58 @@ function _smFieldProbe(S,pts){
   return { kind:(F0? F0.kind : (F1? F1.kind : null)), apiNote:(FA? FA.apiNote : null),
     apiLaw:(F1? F1.apiLaw : null), apiLive:!!F1, n:rows.length, rows };
 }
+// 第261便a: 規格化の**実行時鍵** `overlays.spaceMesh.norm`(gain・tau と同じ流儀 —— 正準形は
+// {mode} だけなので署名・保存 JSON には 1 bit も入らない)。宣言が無ければ表示の既定 SPACE_MESH_NORM
+function _smNorm(S){
+  const ov=S && S.overlays && S.overlays.spaceMesh;
+  if(ov && typeof ov==="object" && !Array.isArray(ov) && ov.norm!==undefined && ov.norm!==null){
+    const v=String(ov.norm);
+    if(v==="none" || v==="cell" || v==="mass") return v;
+  }
+  return SPACE_MESH_NORM;
+}
+// 第261便a: 原点規則の**診断口**(実行時鍵 `overlays.spaceMesh.origin`)。"centroid" を宣言すると
+// 第257便c の「全粒子の質量重心」で描く —— **2 案を同じ版で比べるための口**であって、既定は
+// 第53報の規則("top2")である。正準形は {mode} だけなので署名・保存 JSON には入らない
+function _smOriginMode(S){
+  const ov=S && S.overlays && S.overlays.spaceMesh;
+  if(ov && typeof ov==="object" && !Array.isArray(ov) && ov.origin!==undefined && ov.origin!==null){
+    const v=String(ov.origin);
+    if(v==="centroid" || v==="top2") return v;
+  }
+  return "top2";
+}
+function _smMassSum(S){
+  if(!S || !(S.n>0)) return 0;
+  let M=0;
+  for(let i=0;i<S.n;i++){ const m=S.m[i]; if(Number.isFinite(m)) M+=Math.abs(m); }
+  return M;
+}
 function _smBuildGrid(S){
   const t0=_slNow();
-  const out={ kind:null, grid:null, ms:0, gain:_smGain(S), tauFix:_smTau(S), note:_slKindNote(S) };
-  const C=_smMassCentre(S);
+  const out={ kind:null, grid:null, ms:0, gain:_smGain(S), tauFix:_smTau(S), note:_slKindNote(S),
+    norm:_smNorm(S) };
+  // 第261便a(第53報): 原点は**質量上位 2 粒子の重心**(2 位と 3 位が同質量なら 1 位のみ)。
+  // 第257便c の「全粒子の質量重心」は `_smMassCentre` として残り、凡例と診断口が読む
+  const oMode=_smOriginMode(S);
+  const O=(oMode==="centroid")? (()=>{ const b=_smMassCentre(S);
+      return b? {c:b, rule:"centroid", ids:[]} : null; })() : _smOrigin(S);
+  const C=O? O.c : null;
   const F=C? _smGridFieldOf(S) : null;
   if(!C || !F || !(F.ext>0)){ out.ms=_slNow()-t0; if(F) out.apiNote=F.apiNote||null; return out; }
   out.kind=F.kind; out.baseLen=F.baseLen; out.centre=[C[0],C[1]];
+  out.originRule=O.rule; out.originIds=O.ids.slice();
+  const bc=_smMassCentre(S);
+  out.centroid=bc? [bc[0],bc[1]] : null;
+  out.originGap=bc? Math.hypot(C[0]-bc[0],C[1]-bc[1]) : null;
   // 第260便a: 共通場 API の注記(読んだ法則・源の集合・背景)。**disk/affine とは別の場である**
   out.apiNote=F.apiNote||null; out.fieldApi=(F.fieldApi===true); out.apiLaw=F.apiLaw||null;
   const K=(qLevel()==="lite")? SPACE_MESH_GRID_K_LO : SPACE_MESH_GRID_K;   // 品質縮退は lite だけ(9×9 → 7×7)
-  const spec={ field:F.at, cx:C[0], cy:C[1], R:F.ext, K, gain:out.gain };
-  if(out.tauFix!==null) spec.tau=out.tauFix;      // 第258便c: 固定 τ(欠落=自動)
+  const spec={ field:F.at, cx:C[0], cy:C[1], R:F.ext, K, gain:out.gain, norm:out.norm };
+  if(out.norm==="mass") spec.mass=_smMassSum(S);
+  if(out.tauFix!==null) spec.tau=out.tauFix;      // 第258便c: 固定 τ(欠落=自動)。
+  // 第261便a: norm="cell"/"mass" では**宣言された τ は写像に入らない**(= τ 固定を変えても
+  // 歪みが変わらない)。値は grid.tauDecl として残り、凡例の診断表示だけに出る
   out.grid=dfmSpaceGridBuild(spec);
   out.ms=_slNow()-t0;
   return out;
@@ -22631,8 +23242,16 @@ function drawSpaceGridOn(S,SXf,SYf){
   const legend=[];
   if(G.folded) legend.push(T("smFoldWarn")+" — "+T("smFoldCellNote"));
   const fx=(v)=>(Math.abs(v)>=1000||(v!==0&&Math.abs(v)<0.01))? v.toExponential(2) : (Math.round(v*1000)/1000);
-  legend.push("τ_ref="+fx(G.tau)+" / v_ref="+fx(G.vRef)
-    +" / "+T((c.tauFix!==null && c.tauFix!==undefined)? "smTauFixed" : "smTauAuto"));
+  // 第261便a: 凡例に **gain の実値**と**歪み(セル幅比)**を出す。τ は**診断表示として残す**が、
+  // 規格化 "cell"/"mass" では写像に入らないので、固定しても「表示に効かない」と明示する
+  const tFix=(c.tauFix!==null && c.tauFix!==undefined);
+  const tNote=(G.norm && G.norm!=="none")
+    ? (tFix? (T("smTauFixed")+" "+fx(G.tauDecl)+" — "+T("smTauNoEffect")) : T("smTauAuto"))
+    : T(tFix? "smTauFixed" : "smTauAuto");
+  legend.push("g="+_smGainFmt(G.gain)
+    +" / "+T("smDispLabel")+" "+((G.dispCell===null||G.dispCell===undefined)? "—" : fx(G.dispCell))
+    +" / v_ref="+fx(G.vRef)+" / τ="+fx(G.tau)+"("+tNote+")");
+  if(c.originRule==="top1") legend.push(T("smOrigin1"));
   if(c.note==="top2") legend.push(T("smTop2Note"));
   // 第260便a: **共通場 API を読んだときだけ**その注記を出す(読んだ法則・全源・静止背景)。
   // 既存の銀河 disk/affine 場とは**別の場**なので、凡例で区別できるようにする
@@ -22873,6 +23492,26 @@ function render(){
           ctx.beginPath(); ctx.moveTo(sx+Math.cos(a)*rc*0.25, sy+fy*Math.sin(a)*rc*0.25*sq);
           ctx.lineTo(sx+Math.cos(a)*rc*0.88, sy+fy*Math.sin(a)*rc*0.88*sq); ctx.stroke(); }
         ctx.lineWidth=1;
+      }
+    }
+    // 第261便b(第53報「親子コアは、見た目をコア V2 に準拠する」): **同心層の描画**(表示専用)。
+    // コア V2 と同じ門(rr>=7)・同じ内側の暗い円の色調で、層の境界を role 色で描く。
+    // 透明度は massFrac(その層の質量比)で、**質量を担う層ほど濃い**。力学は 1 bit も変わらない
+    if(sim.layN && sim.layN[i]>0 && rr>=7){
+      const LM=BODY_LAYER_MAX, b0=i*LM, nlD=sim.layN[i], dm=(sim.params.dispMag||1);
+      let mTot=0; for(let q=0;q<nlD;q++) mTot+=sim.layM[b0+q];
+      for(let q=nlD-1;q>=0;q--){
+        const rl=Math.min(sim.layR[b0+q]*dm*z, rr*0.97);
+        if(!(rl>=1.2)) continue;
+        const fr=(mTot>0)? sim.layM[b0+q]/mTot : 0;
+        ctx.globalAlpha=0.25+0.55*fr;
+        ctx.fillStyle="rgba(10,12,24,0.55)";
+        ctx.beginPath(); ctx.arc(sx,sy,rl,0,7); ctx.fill();
+        ctx.globalAlpha=0.85;
+        ctx.strokeStyle=BODY_LAYER_COLORS[BODY_LAYER_ROLES[sim.layRl[b0+q]]]||"#ffffff";
+        ctx.lineWidth=Math.max(1,rr*0.06);
+        ctx.beginPath(); ctx.arc(sx,sy,rl,0,7); ctx.stroke();
+        ctx.globalAlpha=1; ctx.lineWidth=1;
       }
     }
     if(sim.pinned[i]){ ctx.strokeStyle="rgba(255,255,255,0.75)"; ctx.beginPath(); ctx.arc(sx,sy,rr+2,0,7); ctx.stroke(); }
@@ -24297,7 +24936,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
     // 第259便b: 親子コアの同心層(ストライド BODY_LAYER_MAX)と宣言フラグ
     simB.hasBodyLayers=sim.hasBodyLayers;
     if(sim.layM && simB.layM){ const LM=BODY_LAYER_MAX, cnt=Math.min(sim.n*LM, simB.layM.length);
-      for(const key of ["layM","layR","layRl"]) simB[key].set(sim[key].subarray(0,cnt)); }
+      for(const key of ["layM","layR","layRl","layJ"]) simB[key].set(sim[key].subarray(0,cnt)); }
     simB.hasCoreV2=sim.hasCoreV2; simB.hasLSwAuto=sim.hasLSwAuto; simB._rsUsed=sim._rsUsed;
     simB.hasPulse=sim.hasPulse;   // 第226便
     simB.hasCoreTilt=sim.hasCoreTilt;   // 第227便
@@ -24517,7 +25156,7 @@ function applyPhaseEdits(S,o){
 let ckSnap=null;
 const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU","pinned",
   "mEff","rotAc","lSw","radOv","rMulv","lSwAuto",   // 第81便: コアv1 配列は廃止
-  "pulseOm","pulsePh","shellGas","ssQov","ssDec","layN","layM","layR","layRl",   // 第226便: パルス時計チャネル / 第229便: 殻の相 / 第246便: 観測 Q の転写 / 第247便a: 宣言フラグ
+  "pulseOm","pulsePh","shellGas","ssQov","ssDec","layN","layM","layR","layRl","layJ",   // 第226便: パルス時計チャネル / 第229便: 殻の相 / 第246便: 観測 Q の転写 / 第247便a: 宣言フラグ
   "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",
   "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx","shdBB","coreRT","coreBA","coreBare",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復 / 第247便c: 裸コア終端・rTarget・結合 E 台帳
@@ -25701,20 +26340,22 @@ function buildParamRows(){
     // した。値域・刻み・localStorage 鍵 hp_sm_gain・A/B 共通・**表示専用**は 1 つも変えていない。
     // 説明は tgSpaceMeshDesc へ 1 本化した(行ラベルのタップで開く)
     if(id==="spaceMesh"){
+      // 第261便a(第53報): スライダーは**位置**(0〜100 の整数)を刻み、値は指数目盛で作る
+      // (0〜10 —— 位置 0 だけが特別値 0)。直値は隣の欄で 100 などの大きな値も受理する
       const rng=document.createElement("input"); rng.type="range"; rng.id="smGainRange";
-      rng.min=0; rng.max=String(SPACE_MESH_GAIN_MAX); rng.step=String(SPACE_MESH_GAIN_STEP);
+      rng.min=0; rng.max=String(SPACE_MESH_GAIN_POS); rng.step=String(SPACE_MESH_GAIN_STEP);
       rng.style.cssText="flex:0 0 72px;width:72px;";
       const gTip=T("smGainLabel")+" — "+T("smGainDesc");
-      rng.value=String(_smGain(sim)); rng.title=gTip;
-      // 第258便c: 値表示の span を**直値入力**へ(0〜2 の外は clamp・非数は現在値へ戻す)
+      rng.value=String(_smGainToPos(_smGain(sim))); rng.title=gTip;
+      // 第258便c: 値表示の span を**直値入力**へ(上限 CAP の外は clamp・非数は現在値へ戻す)
       const num=document.createElement("input"); num.type="text"; num.className="valIn";
       num.id="smGainVal"; num.inputMode="decimal"; num.autocomplete="off"; num.title=gTip;
       num.style.cssText="flex:0 0 48px;width:48px;text-align:right;";
       const bust=()=>{ sim._smgCache=null; sim._slCache=null;
         if(ab && ab.simB){ ab.simB._smgCache=null; ab.simB._slCache=null; } };
-      const showG=(g)=>{ rng.value=String(g); num.value=g.toFixed(2); };
+      const showG=(g)=>{ rng.value=String(_smGainToPos(g)); num.value=_smGainFmt(g); };
       showG(_smGain(sim));
-      rng.addEventListener("input",()=>{ showG(setSpaceMeshGain(rng.value)); bust(); requestRender(); });
+      rng.addEventListener("input",()=>{ showG(setSpaceMeshGain(_smGainFromPos(rng.value))); bust(); requestRender(); });
       num.addEventListener("change",()=>{
         const v=parseFloat(String(num.value).replace(/[,、\s]/g,"").replace(/[−ー–—－]/g,"-"));
         if(isFinite(v)){ showG(setSpaceMeshGain(v)); bust(); requestRender(); }
@@ -28726,6 +29367,13 @@ function applyLang(){
   $("#beLcvEr").textContent=T("beCoreEr"); $("#beLcvEo").textContent=T("beCoreEo");
   $("#beLcvEk").textContent=T("beCoreEk"); $("#beLcvEt").textContent=T("beCoreEt");
   $("#beLcvEz").textContent=T("beCoreEz");
+  // 第261便b(第53報 W2): 親子コア(層)の編集ブロック+コアv2 の廃止予定告知
+  $("#beLayTitle").textContent=T("beLayTitle"); $("#beLlyRole").textContent=T("beLyRole");
+  $("#beLlyM").textContent=T("beLyM"); $("#beLlyR").textContent=T("beLyR"); $("#beLlyJ").textContent=T("beLyJ");
+  $("#beLyAdd").textContent=T("beLyAdd"); $("#beLyDel").textContent=T("beLyDel");
+  $("#beCvDep").textContent=T("beCvDep"); $("#beCvToLayers").textContent=T("beCvToLayers");
+  { const sel=$("#beLyRole"); sel.textContent="";
+    for(const r of BODY_LAYER_ROLES){ const op=document.createElement("option"); op.value=r; op.textContent=r; sel.appendChild(op); } }
   $("#beLinTitle").textContent=T("beLinTitle");   // 第100便 EXT-10: 形成系譜
   $("#beNote").textContent=T("beNote");                          // v1.17: 粒子編集パネル
   $("#aiProvHead").textContent=T("aiProvHead"); $("#aiProvLabel").textContent=T("aiProvLabel");
@@ -28817,6 +29465,21 @@ function renderHelp(){
     SCALE_EMOJI[cls.scaleTier]+" "+T("scaleName_"+cls.scaleTier), T("bdgScaleTip"));
   // 第92便: 現実準拠チップ — fidelity:"real" 宣言のあるプリセットにだけ表示(宣言なし=トイが既定)
   if(cls.fidelity==="real") addChip("fid-real", T("bdgFidReal"), T("bdgFidRealTip"));
+  // 第261便c: 較正の現在地チップ — calibrationForecast 宣言のあるサンプルにだけ出す。
+  // **署名が宣言時と変わっていれば自動的に「較正要再確認」**へ倒す(calibrationReviewBadge)。
+  // **赤は使わない**(赤=否は台帳の 4 値の側・模型差をこのチップの赤にしない)
+  {
+    const cf=calibrationForecastOf(currentPreset), cb=calibrationReviewBadge(currentPreset);
+    if(cf && cb){
+      addChip("cf-"+cb.status,
+        T("bdgCF_"+cb.status)+(cf.scope? " "+T("cfScope")(cf.scope) : ""),
+        T("bdgCF_"+cb.status+"Tip")
+          +(cf.note? "\n"+cf.note : "")
+          +(cf.basis? "\n"+cf.basis : "")
+          +(cb.sigChanged? "\n"+"presetSig "+cb.declaredSig+" → "+cb.sigNow : "")
+          +"\n"+T("cfTipTail"));
+    }
+  }
   // 第51便 51B(原仮定者指示): 引きずりタグ — kFrame>0 の系に表示(A8/E6′ が働く系の目印。
   // 0にすると引きずりなしの対照になることをツールチップで案内)
   if(currentPreset.physics && currentPreset.physics.kFrame>0) addChip("drag",T("bdgDrag"),T("bdgDragTip"));
@@ -28922,6 +29585,22 @@ function renderHelp(){
     if(oc && oc.length){
       const box=document.createElement("div"); box.className="ffBox ocBox";
       const bh=document.createElement("div"); bh.className="ffHead"; bh.textContent=T("ocHead"); box.appendChild(bh);
+      // 第261便c: 観測結果カードの**先頭 1 行**に較正の現在地を出す(宣言のあるサンプルのみ)。
+      // obsCard の行数(≤8 行)は宣言のままで、この 1 行は宣言ではなく派生表示である
+      {
+        const cf=calibrationForecastOf(currentPreset), cb=calibrationReviewBadge(currentPreset);
+        if(cf && cb){
+          // **クラスに ocRow を付けない**(観測結果カードの「宣言行」の数え方を変えないため —
+          // QA wave119.ui が `#helpBody .ocRow` の数を宣言数と突き合わせている)
+          const r0=document.createElement("div"); r0.className="ffRow ocForecastRow";
+          r0.dataset.cf=cb.status;
+          r0.textContent="🏷 "+T("bdgCF_head")+": "+T("bdgCF_"+cb.status)
+            +(cf.scope? " "+T("cfScope")(cf.scope) : "")
+            +(cf.note? " — "+cf.note : "");
+          r0.title=T("bdgCF_"+cb.status+"Tip")+"\n"+T("cfTipTail");
+          box.appendChild(r0);
+        }
+      }
       for(const row of oc){
         const r=document.createElement("div"); r.className="ffRow ocRow";
         r.textContent="📊 "+row.q+": "+T("ocModel")+" "+row.model+" / "+T("ocObs")+" "+row.obs;
@@ -29251,6 +29930,8 @@ function coreModeName(md){ return CORE_MODE_NAMES[md] || ("mode#"+md); }
 // 「変わった欄だけ」を適用するために読む(表示は派生値 — 丸めた表示値を再確定して主変数 Mc・J を
 // 動かしてしまうのを防ぐ)。表示していないときは null
 let beCvShown=null;
+// 第261便b(第53報 W2): 親子コア(層)の編集タブの状態(表示状態だけ — 物理には一切効かない)
+let beLayIdx=-1, beLaySel=-1, beLayMsg="";
 function updateBodyEdit(){
   const el=$("#bodyEdit");
   const S=selSimRef();
@@ -29350,6 +30031,46 @@ function updateBodyEdit(){
     $("#beCvLs").value=(lsS!==null)? `${fmt(lsS)}/${fmt(lsC)}/${fmt(lsMix)}` : `—/—/${fmt(lsMix)}`;
     $("#beCvLs").title=$("#beCvLs").value;   // 第92便: 見切れ対策の補助(全文ツールチップ)
   }
+  // 第261便b(第53報 W2・原仮定者「親子コアは、『選択粒子の編集』で、タブ切り替えなどで
+  // それぞれの粒子を編集可能にする」): **同心層の編集ブロック**。層を宣言した粒子だけに出す。
+  // タブ index: −1=根(読み取り専用の合計)・0..n−1=各層。**表示だけのループで、物理配列へは
+  // 一切書かない**(書き込みは下の単一入口 beLayApply → S.applyLayerEdit だけ)
+  {
+    const lp2=$("#beLayers"), nl=(S.layN && i<S.n)? S.layN[i] : 0;
+    if(!nl){ lp2.style.display="none"; beLayIdx=-1; }
+    else {
+      lp2.style.display="block";
+      if(beLaySel!==i){ beLaySel=i; beLayIdx=-1; beLayMsg=""; }   // 別の粒子を選んだらタブは根へ戻す
+      if(beLayIdx>=nl) beLayIdx=nl-1;
+      const arr=S.bodyLayersOf(i)||[];
+      let sum=0; for(const L of arr) sum+=L.m;
+      const tabs=$("#beLayTabs"); tabs.textContent="";
+      const mkTab=(k,label)=>{ const b=document.createElement("button");
+        b.className="btn"+((k===beLayIdx)? " primary" : ""); b.textContent=label;
+        b.style.flex="0 0 auto"; b.style.padding="2px 8px";
+        // 第261便b: role ごとの色を左端の帯に出す(= 描画の凡例そのもの)
+        if(k>=0) b.style.borderLeft="4px solid "+(BODY_LAYER_COLORS[arr[k].role]||"#fff");
+        b.addEventListener("click",()=>{ beLayIdx=k; updateBodyEdit(); });
+        tabs.appendChild(b); };
+      mkTab(-1, T("beLayRoot"));
+      for(let k=0;k<nl;k++) mkTab(k, T("beLayTab")(k+1));
+      $("#beLayRoot").textContent=T("beLyRootInfo")(nl, fmt(sum), fmt(S.m[i]), fmt(S.R[i]));
+      const ed=(beLayIdx>=0 && beLayIdx<arr.length);
+      $("#beLayEdit").style.display=ed? "" : "none";
+      $("#beLyDel").style.display=ed? "" : "none";
+      $("#beLyAdd").style.display=(nl<BODY_LAYER_MAX)? "" : "none";
+      if(ed){
+        const L=arr[beLayIdx];
+        $("#beLyRole").value=L.role; $("#beLyM").value=fmt(L.m);
+        $("#beLyR").value=fmt(L.r); $("#beLyJ").value=fmt(L.J===undefined? 0 : L.J);
+      }
+      if(!beLayMsg) $("#beLyNote").textContent=T("beLyNote");
+    }
+  }
+  // 第261便b: コアv2 の**廃止予定告知と変換ボタン**(コアがあって cavity でないときだけ出す)。
+  // 押すまで何も変わらない(コア V2 は消さない)
+  { const dr=$("#beCvDepRow");
+    if(dr) dr.style.display=(md && md!==4 && !(S.layN && S.layN[i]>0))? "" : "none"; }
   // 第245便(原仮定者指示): パルス時計の読み取り専用表示 — 宣言 ω(rad/モデル時間単位)から
   // 周期 P=2π/|ω| を出し、時間スケール指数 eT で実時間へ換算して並べる。累積位相は回転数で出す。
   // 表示専用(canvas の換算行 selConvLinesNow と同じ換算式)— 物理配列へは一切書かない
@@ -29499,6 +30220,59 @@ $("#beCvOn").addEventListener("change",()=>{
   } else S.applyCoreEdit(i,null);
   setParamsDirty(true); requestRender(); updateBodyEdit();
 });
+// ===== 第261便b(第53報 W2): 親子コア(同心層)の編集ハンドラ =====
+// すべて **単一入口 S.applyLayerEdit(i,k,cfg)** を通す(正準形が通らなければ 1 bit も書かない)。
+// 失敗は #beLyNote に理由を出すだけで、配列も根の m も動かさない(applyCoreEdit と同じ流儀)。
+function beLayApply(cfg, kOv){
+  const S=selSimRef();
+  if(selIdx<0||selIdx>=S.n){ updateBodyEdit(); return; }
+  const k=(kOv===undefined)? beLayIdx : kOv;
+  const r=S.applyLayerEdit(selIdx, k, cfg);
+  if(!r || !r.ok){
+    const why=(r && T("beLyErrWhy")[r.reason]) || (r? r.reason : "unknown");
+    beLayMsg=T("beLyErr")(why); $("#beLyNote").textContent=beLayMsg;
+  } else { beLayMsg=""; }
+  setParamsDirty(true); requestRender(); updateBodyEdit();
+}
+function beLayNum(id){
+  const v=parseFloat($(id).value.replace(/[,、\s]/g,"").replace(/[−ー–—－]/g,"-"));   // v1.24 と同じ流儀
+  return isFinite(v)? v : undefined;
+}
+for(const [id,key] of [["#beLyM","m"],["#beLyR","r"],["#beLyJ","J"]])
+  $(id).addEventListener("change",()=>{ const v=beLayNum(id); if(v===undefined){ updateBodyEdit(); return; }
+    const c={}; c[key]=v; beLayApply(c); });
+$("#beLyRole").addEventListener("change",()=>beLayApply({role:$("#beLyRole").value}));
+$("#beLyAdd").addEventListener("click",()=>{
+  const S=selSimRef();
+  if(selIdx<0||selIdx>=S.n) return;
+  const n0=(S.layN && S.layN[selIdx])? S.layN[selIdx] : 0;
+  beLayIdx=n0;                      // 追加した層をそのまま選ぶ
+  beLayApply({}, n0);
+});
+$("#beLyDel").addEventListener("click",()=>{ const k=beLayIdx; if(k<0) return;
+  beLayIdx=Math.max(-1,k-1); beLayApply(null, k); });
+// コアv2 → 層への変換(押すまで何も変わらない・コア V2 は消さない)
+$("#beCvToLayers").addEventListener("click",()=>{
+  const S=selSimRef();
+  if(selIdx<0||selIdx>=S.n) return;
+  const i=selIdx, md=S.coreMd[i];
+  if(!md || md===4){ beLayMsg=T("beCvConvNg")(T("beCvConvWhy").cavityHasNoMass); notify(beLayMsg,3500); return; }
+  const mode=(md===1)?"rigid":((md===3)?"active":"differential");
+  const cv=coreV2ToLayers({mode, massFrac:S.coreMF[i], radius:S.RcV[i], J:S.coreJ[i]},
+    {m:S.m[i], R:S.R[i], spin:S.spin[i]});
+  if(!cv || !cv.ok){
+    const why=(cv && T("beCvConvWhy")[cv.reason]) || (cv? cv.reason : "unknown");
+    notify(T("beCvConvNg")(why),3500); return;
+  }
+  const r=S._setBodyLayers(i, cv.layers);
+  if(!r || !r.ok){
+    const why=(r && T("beLyErrWhy")[r.reason]) || (r? r.reason : "unknown");
+    notify(T("beCvConvNg")(why),3500); return;
+  }
+  beLaySel=i; beLayIdx=-1; beLayMsg="";
+  setParamsDirty(true); requestRender(); updateBodyEdit();
+  notify(T("beCvConvOk")(cv.layers.length),3500);
+});
 // 第26便(原仮定者指示): ✕(選択解除)→ 最小化トグルへ変更。選択解除は粒子の再タップ/空白タップで可能
 let beMin=false;
 function applyBeMin(){ $("#bodyEdit").classList.toggle("min",beMin); $("#beClose").textContent=beMin?"＋":"−";
@@ -29511,6 +30285,7 @@ let beDescShown=null;
     beLdq:"beDdq",   // 第239便
     beLsw:"beDsw",beLswAuto:"beDsw",beLvx:"beDv",beLvy:"beDv",beLp:"beDp",
     beLcvTitle:"beDcv",   // 第80便C: コアv2内訳ブロックの説明
+    beLayTitle:"beDly",beLlyRole:"beDly",beLlyM:"beDly",beLlyR:"beDly",beLlyJ:"beDly",   // 第261便b: 親子コア(層)の説明
     beLcvOn:"beDce",beLcvEmf:"beDce",beLcvEr:"beDce",beLcvEo:"beDce",
     beLcvEk:"beDce",beLcvEt:"beDce",beLcvEz:"beDce"};   // 第212便: コア編集の説明
   for(const id of Object.keys(BE_DESC)){
@@ -33299,6 +34074,32 @@ function dfmMeshCapacityStep(spec){
 // 容量 `caps` は「観測した事実が無いエネルギー」に**初期容量と下限**を持たせるための宣言で、
 // 下限に達した項には印が立つ(`capState`)。**caps を宣言しないと容量は無い**(= トイとして未完成)。
 //   opts: { caps:{ <項名>:{min?,max?}, … }, ref:<前回の返り値>, maxPairs }
+// ===== 第261便d(第53報・統括が設定した検証仮説 (10)): **規格化の分母を併記する** =====
+// 〔第260便c〕は 🎠 の相対残差を「分母の 99.24% が固定(pinned)バルジ核の一定スピン E である」と
+// 断ったうえで載せた。**断りを本文に書くだけでは、1 行だけ抜き出されたときに意味が変わる**ので、
+// 帳簿の返り値そのものに**両方の分母**を入れる:
+//   ・`denom.legacy` = 従来分母 |K|+|U|+|E_core|(**未定義の項は 0 を足したのではなく項が無い**)
+//   ・`denom.active` = **活動部分** = legacy − |Σ_{pinned} ¼mR²ω²|(走行中ほとんど動かない定数を除く)
+// **どちらか一方を正本にしない。** 活動部分が ≈0(|active| ≤ floorRel×legacy)なら
+// **比は未定義(null)にして絶対残差を読む**(小さな分母で割った大きな数を「悪化」と読ませない)。
+// **毎時刻の E_tot を分母にしない** —— 呼ぶ側が初回の返り値の denom を**固定参照**として使う。
+const LEDGER_ACTIVE_FLOOR_REL=1e-6;      // **宣言値**(活動部分が「≈0」とみなされる相対しきい値)
+// 相対残差の併記(純関数 — S を 1 バイトも読まない)。value は残差、denom は帳簿の `denom` 欄。
+function dfmLedgerRelative(value,denom){
+  const v=Number(value);
+  if(value===null || value===undefined || !Number.isFinite(v)) return null;
+  const d=denom||{};
+  const L=Number(d.legacy), A=Number(d.active);
+  const fr=Number((d.floorRel===undefined)? LEDGER_ACTIVE_FLOOR_REL : d.floorRel);
+  const okL=Number.isFinite(L) && L>0;
+  const okA=okL && Number.isFinite(A) && Math.abs(A)>fr*L;
+  return { abs:Math.abs(v),
+    relLegacy: okL? Math.abs(v)/L : null,
+    relActive: okA? Math.abs(v)/Math.abs(A) : null,
+    denomState: okA? "ok" : (okL? "active-degenerate" : "no-denom"),
+    floorRel:fr,
+    note:"従来分母と活動部分を**併記**する。活動部分が ≈0 なら比は未定義(null)にして絶対残差 abs を読む" };
+}
 function dfmToyLedger(S,opts){
   if(!S || typeof S!=="object" || !(S.n>0) || !S.m) return null;
   const o=opts||{};
@@ -33481,7 +34282,26 @@ function dfmToyLedger(S,opts){
       note:"減光は**観測写像**であって帳簿の項ではない(質量推定を自動相殺しない)" } : null;
   }
   if(!obs){ und.push("obs.dimming"); notes.push("観測写像: 減光(lightSweep)の状態変数が無い"); }
+  // ---- 第261便d(第53報): **規格化の分母を 2 つ返す**(片方を正本にしない)
+  let pinSpinE=0, pinN=0;
+  if(S.pinned && S.R && S.spin) for(let i=0;i<n;i++) if(S.pinned[i]===1){
+    pinN++; pinSpinE+=0.25*S.m[i]*S.R[i]*S.R[i]*S.spin[i]*S.spin[i]; }
+  const dLegacy=Math.abs(K)+((U===null)? 0 : Math.abs(U))+((Ecore===null)? 0 : Math.abs(Ecore));
+  const dActive=dLegacy-Math.abs(pinSpinE);
+  const dState=(!(dLegacy>0))? "no-denom"
+    : ((Math.abs(dActive)<=LEDGER_ACTIVE_FLOOR_REL*dLegacy)? "active-degenerate" : "ok");
+  if(dState==="active-degenerate")
+    notes.push("規格化: **活動部分がしきい値以下**(|active| ≤ "+LEDGER_ACTIVE_FLOOR_REL
+      +"×legacy)—— 活動部分での比は**未定義**にして絶対残差を読む");
+  const denom={ legacy:dLegacy, active:dActive, pinnedSpinE:pinSpinE, pinnedN:pinN,
+    activeShare:(dLegacy>0)? (Math.abs(pinSpinE)/dLegacy) : null,
+    activeState:dState, floorRel:LEDGER_ACTIVE_FLOOR_REL,
+    parts:{ K:Math.abs(K), U:(U===null)? null : Math.abs(U), Ecore:(Ecore===null)? null : Math.abs(Ecore) },
+    note:"legacy=|K|+|U|+|E_core|(未定義の項は**項そのものが無い** — 0 を足していない)/ "
+      +"active=legacy−|Σ_{pinned} ¼mR²ω²|(**固定天体の一定スピン E** を除いた活動部分)。"
+      +"**どちらか一方を正本にしない**。毎時刻の E_tot を分母にしない(初回の値を固定参照として使う)" };
   return { K, U, Eshell, Ecore, Emesh, Q, Eescaped:Eesc, Etot, Wext, residual, dEtot, dWext,
+    denom,
     Wdrag, WdragKE, WdragSpin, dWdrag, dWdragKE, residualDrag, residualDragState,
     dragWorkN:S.hasDragWork? (S.dragWorkN|0) : null,
     // 第259便c: E_mesh の基準(宣言値)と供給・床の印/E_escaped の逸走粒子ぶん(0)と通過流束の診断。
@@ -34081,6 +34901,100 @@ function dfmField(state,px,py,opts){
   out.uQuantity="velocity";
   return out;
 }
+// ===== 第261便c(第53報・統括の読み (A)): **「精度向上で合格見込み」の門 5 つ**を機械判定する純関数 =====
+// `HP.dfmForecastGate(series)`。**この関数は表示にも力にも接続していない**(判定の器である)。
+//
+// ■ なぜ機械判定にするか
+//   第53報は「数値精度が上がれば合格する事が**予測出来る段階に達したら**、その事をチップなどで
+//   明示して完了とする」と指示している。**「予測出来る段階」を目で決めるとチップが宣言になる**ので、
+//   段の列と観測値から**機械で**決める。門は 5 つで、1 つでも欠けたら `verdict:null` である。
+//
+// ■ 門(統括の読み (A) をそのまま写す)
+//   (1) 対象量・観測版・単位・時系・窓・抽出法・f を**固定**(段ごとに再 fit しない)
+//   (2) h/h2/h4/h8 の **4 段以上**・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外
+//   (3) 隣接 3 段の次数が安定(暫定 0.5≤p≤4.5・2 組の差 ≤0.25)
+//   (4) Richardson を**段をずらして**比較し、独立推定(別積分法/別抽出法)と照合する
+//   (5) |y∞−y_obs| + U∞ ≤ 3σ
+//       U∞ = 隣接外挿差 + 独立推定との差 + 宣言系統幅。**数学的上限ではない**(宣言である)。
+//
+// ■ 入力(すべて呼び出し側の宣言 —— この関数は観測値も系の名前も持たない)
+//   { fixed:{quantity,observationVersion,unit,timeSystem,window,extractor,f,refitPerStage?},
+//     stages:[{h,y},…], excluded:{duplicateEvents,nan,incomplete,unwrapFailed,roundingFloor},
+//     yObs, sigma, systematic, independent:{value,method} }
+// ■ 出力
+//   { ok, verdict, gates:{g1..g5}, p, pShifts, yInf, uInf, residual, distanceSigma, failed[] }
+function dfmForecastGate(series){
+  const S=(series&&typeof series==="object")?series:{};
+  const F=(S.fixed&&typeof S.fixed==="object")?S.fixed:{};
+  const out={ok:false, verdict:null, gates:{}, p:null, pShifts:[], yInf:null, uInf:null,
+    residual:null, distanceSigma:null, failed:[],
+    note:"**U∞ は数学的上限ではない**(隣接外挿差+独立推定との差+宣言系統幅の和という宣言である)。"
+      +"**門を通ることは「観測と合った」ことではない** —— 「精度が上がれば合格すると予測できる段階」である。"};
+  // ---- 門(1): 固定の宣言(段ごとに再 fit しない)
+  const NEED=["quantity","observationVersion","unit","timeSystem","window","extractor","f"];
+  const miss=NEED.filter((k)=>!(typeof F[k]==="string"&&F[k].trim()!==""));
+  const refit=(F.refitPerStage===true);
+  out.gates.g1={pass:(miss.length===0&&!refit), missing:miss, refitPerStage:refit,
+    what:"対象量・観測版・単位・時系・窓・抽出法・f を固定(段ごとに再 fit しない)"};
+  // ---- 門(2): 4 段以上・刻み比 2・除外条件
+  const raw=Array.isArray(S.stages)?S.stages:[];
+  const st=raw.filter((z)=>z&&Number.isFinite(z.h)&&Number.isFinite(z.y)&&z.h>0)
+    .slice().sort((a,b)=>b.h-a.h);
+  const ex=(S.excluded&&typeof S.excluded==="object")?S.excluded:{};
+  const exBad=Object.keys(ex).filter((k)=>ex[k]===true||(Number.isFinite(ex[k])&&ex[k]>0));
+  const ratios=[]; let ratioOk=true;
+  for(let i=0;i+1<st.length;i++){ const r=st[i].h/st[i+1].h; ratios.push(r);
+    if(!(Math.abs(r-2)<1e-9)) ratioOk=false; }
+  out.gates.g2={pass:(st.length>=4&&exBad.length===0&&ratioOk&&st.length===raw.length),
+    nStages:st.length, nGiven:raw.length, ratios, excluded:exBad,
+    what:"4 段以上・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外"};
+  // ---- 門(3): 隣接 3 段の観測次数(段をずらして安定か)
+  const rows=[];
+  for(let i=0;i+2<st.length;i++){
+    const a=st[i].y-st[i+1].y, b=st[i+1].y-st[i+2].y;
+    const r=(b!==0)?(a/b):NaN;
+    const pv=(Number.isFinite(r)&&r>0)?Math.log2(r):null;
+    rows.push({hs:[st[i].h,st[i+1].h,st[i+2].h], p:pv,
+      richardson:(pv!==null&&pv>0)?(st[i+2].y+(st[i+2].y-st[i+1].y)/(Math.pow(2,pv)-1)):null});
+  }
+  out.pShifts=rows.map((z)=>z.p);
+  const ps=out.pShifts.filter((z)=>Number.isFinite(z));
+  let maxAdj=null;
+  for(let i=0;i+1<ps.length;i++){ const d=Math.abs(ps[i+1]-ps[i]); maxAdj=(maxAdj===null)?d:Math.max(maxAdj,d); }
+  out.p=ps.length?ps[ps.length-1]:null;
+  out.gates.g3={pass:(ps.length>=2&&ps.length===rows.length&&ps.every((z)=>z>=0.5&&z<=4.5)
+      &&maxAdj!==null&&maxAdj<=0.25),
+    pShifts:out.pShifts, maxAdjacentDiff:maxAdj, range:[0.5,4.5], tol:0.25,
+    what:"隣接 3 段の次数が安定(0.5≤p≤4.5・段をずらした 2 組の差 ≤0.25)"};
+  // ---- 門(4): 段ずらし Richardson と独立推定
+  const ext=rows.map((z)=>z.richardson).filter(Number.isFinite);
+  out.yInf=ext.length?ext[ext.length-1]:null;
+  const extSpread=(ext.length>=2)?Math.abs(ext[ext.length-1]-ext[ext.length-2]):null;
+  const ind=(S.independent&&Number.isFinite(S.independent.value))?S.independent:null;
+  const indDiff=(ind&&out.yInf!==null)?Math.abs(out.yInf-ind.value):null;
+  out.gates.g4={pass:(ext.length>=2&&ind!==null&&indDiff!==null),
+    nExtrapolations:ext.length, extrapolations:ext, extrapolationSpread:extSpread,
+    independent:ind?{value:ind.value, method:ind.method||null}:null, independentDiff:indDiff,
+    what:"Richardson を段をずらして比較し、独立推定(別積分法/別抽出法)と照合する"};
+  // ---- 門(5): |y∞−y_obs| + U∞ ≤ 3σ
+  const yObs=Number(S.yObs), sg=Number(S.sigma);
+  const sys=Number.isFinite(S.systematic)?Math.abs(Number(S.systematic)):0;
+  const u=(extSpread===null&&indDiff===null)?null:((extSpread||0)+(indDiff||0)+sys);
+  out.uInf=u;
+  const dist=(out.yInf!==null&&Number.isFinite(yObs))?Math.abs(out.yInf-yObs):null;
+  out.residual=dist;
+  out.distanceSigma=(dist!==null&&Number.isFinite(sg)&&sg>0)?((dist+(u||0))/sg):null;
+  out.gates.g5={pass:(dist!==null&&u!==null&&Number.isFinite(sg)&&sg>0&&(dist+u)<=3*sg),
+    residual:dist, uInf:u, sigma:(Number.isFinite(sg)&&sg>0)?sg:null, nSigma:out.distanceSigma,
+    uParts:{extrapolationSpread:extSpread, independentDiff:indDiff, systematic:sys},
+    what:"|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない)"};
+  const keys=["g1","g2","g3","g4","g5"];
+  out.failed=keys.filter((k)=>!out.gates[k].pass);
+  out.ok=(out.failed.length===0);
+  out.verdict=out.ok?"pass-expected-with-precision":null;
+  return out;
+}
+
 // ===== 第260便a(第52報・統括の検証仮説 (1) = 入場条件 (v)): **状態アダプタ** `HP.dfmFieldSnapshot(S)` =====
 // 原仮定者(第52報):「進め方は、空間メッシュの実装を優先する」。統括の読みでは 🪟🎠 の**展示として
 // 欠けているのは (v)「表示が同じ関数を読む」だけ**である。`HP.dfmField` は **S を読まない純関数**
@@ -34338,12 +35252,43 @@ function dfmLayerGravity(layers, d, opts){
 //     **検算(ε=0・R₁=R₂=R)**: 0<d<2R で U=−Gm₁m₂(4R−d)/(4R²)・**F=−Gm₁m₂/(4R²)(距離に依らない引力)**、
 //     d=2R で点源 −Gm₁m₂/d と値も傾きも連続する。**遠方(d ≥ R₁+R₂)では ΔF=0**(ε=0)。
 //     **これは「重なった拡張体をどう扱うか」の定義であって、観測から導いたものではない。**
+//     **第261便b(統括が設定した検証仮説 (5))で、上の「素朴な式のまま」を捨てて 3 分岐にした。**
+//     第260便b の実装は A(w)=∫√(w²+ε²)dw の差で I と I′ を作っていたので、**d が小さいほど
+//     d·I′ と I が桁ごと一致して消し合う**(N=d·I′−I は O(d³) なのに両者は O(d))。実測(R₁=R₂=10・
+//     m=1・G=1・ε=0.5): d=10⁻⁶ で **+2.43×10⁻⁴(斥力)**、ε=0・同半径の厳密値 −0.0025 に対して
+//     d=10⁻⁸ で **−0.83** —— どちらも桁落ちであって物理ではない。**clamp では直らない。**
+//     直し方は「差を式の側で先に取る」ことである。
+//     ① **ε=0 は閉じた形**(すべての d で厳密・分岐は d と |R₁−R₂|・R₁+R₂ の比較だけ):
+//          d ≥ R₁+R₂        → F=−Gm₁m₂/d²(単極子)・U=−Gm₁m₂/d
+//          d ≤ |R₁−R₂|      → F=0(一方が他方の内側 — 球殻定理)・U=−Gm₁m₂/max(R₁,R₂)
+//          その間(重なり)  → F=K((R₁−R₂)²−d²)/d²・U=−K(d(2R₁+2R₂−d)−(R₁−R₂)²)/d、K=Gm₁m₂/(4R₁R₂)
+//        (R₁=R₂ なら F=−K で距離に依らない = 第260便b の表と一致。d=R₁+R₂ で単極子と連続)
+//     ② **ε>0 は Φ(w,d) の閉じた形**。N=d·I′−I を w=R₁+R₂ と w=R₂−R₁ の 2 点の
+//        **台形則−真の積分**に分解すると、N=Φ(R₁+R₂,d)−Φ(R₂−R₁,d)、
+//          Φ(w,d) = d[h(w+d)+h(w−d)] − ∫_{w−d}^{w+d}h = **(ε²/2)(X − asinh X)**、h(w)=√(w²+ε²)
+//          X = 2d·Q/(ε²(h₊+h₋))、Q = h₊h₋ + d² + ε² − w²(**Q は常に正**。w²−d²−ε²>0 の側は
+//          Q = 4ε²w²/(h₊h₋ + w²−d²−ε²) で作る —— どちらの向きでも足し算だけになる)
+//        X−asinh X は X³/6 − 3X⁵/40 + 5X⁷/112 − … なので、**X<0.1 は級数・それ以外は直接**評価する。
+//        I は I = d[(h(w₁+d)+h(w₁−d)) − (h(w₂+d)+h(w₂−d))] − N で戻す(こちらは消し合わない)。
+//        d→0 の極限は F=0・U=−2K(h(R₁+R₂)−h(R₂−R₁)) で、**d=0 も値を持つ**(下の ③ と (6))。
+//     ③ **遠方は単極子+多重極の 3 項**。ε>0 では ΔF=F−F_点源 が 0 にならない(軟化核は調和でない)。
+//        球面平均の展開 M_R[f]=Σ R^{2k}Δ^k f/(2k+1)! から
+//          ΔU = −Gm₁m₂[c₁Δg + c₂Δ²g + c₃Δ³g + …]、g=(d²+ε²)^{−1/2}
+//          c₁=(R₁²+R₂²)/6、c₂=(R₁⁴+R₂⁴)/120+R₁²R₂²/36、c₃=(R₁⁶+R₂⁶)/5040+(R₁⁴R₂²+R₁²R₂⁴)/720
+//          Δg=−3ε²u^{−5/2}、Δ²g=−60ε²u^{−7/2}+105ε⁴u^{−9/2}、
+//          Δ³g=−2520ε²u^{−9/2}+11340ε⁴u^{−11/2}−10395ε⁶u^{−13/2}(u=d²+ε²)
+//        ② と ③ の**どちらを使うかは推定誤差で決める**(固定のしきい値ではない): ② は
+//        |ΔF| に対する丸め床 8ε_mach·max(|Φ₁|,|Φ₂|,|d·br|)·K/d²、③ は打ち切り |T₃|/|ΣT|。
+//        小さいほうを採る(返り値 `dFmethod`・`dFerr`)。**交替点での ΔF の相対精度は 10⁻⁶ 級が上限**
+//        であり、そこから先を「厳密」とは書かない(実測は 〔第261便b〕 の表)。
+//     **これは「重なった拡張体をどう扱うか」の定義であって、観測から導いたものではない。**
 function dfmLayerPairForce(layersA, layersB, d, opts){
   const o=opts||{};
   const G=(o.G===undefined)? 1 : Number(o.G);
   const eps=(o.eps===undefined)? 0 : Number(o.eps);
   d=Number(d);
-  if(![G,eps,d].every(Number.isFinite) || !(d>0) || !(eps>=0)) return null;
+  // 第261便b(検証仮説 (6)): **d=0 も受ける**(対称性で力 0 —— 下の d0 分岐)。負の d だけを落とす
+  if(![G,eps,d].every(Number.isFinite) || !(d>=0) || !(eps>=0)) return null;
   const norm=(L)=>{
     if(!Array.isArray(L) || L.length<1) return null;
     const out=[];
@@ -34357,47 +35302,84 @@ function dfmLayerPairForce(layersA, layersB, d, opts){
   };
   const A=norm(layersA), B=norm(layersB);
   if(!A || !B) return null;
-  const e2=eps*eps;
-  const Aint=(w)=>{                        // ∫√(w²+ε²)dw
-    const s=Math.sqrt(w*w+e2);
-    return (eps>0)? 0.5*(w*s + e2*Math.asinh(w/eps)) : 0.5*w*Math.abs(w);
+  const e2=eps*eps, EPSM=Number.EPSILON;
+  const hh=(w)=>Math.sqrt(w*w+e2);
+  const w0=Math.sqrt(d*d+e2);
+  // Φ(w,d) = d[h(w+d)+h(w−d)] − ∫_{w−d}^{w+d}h = (ε²/2)(X − asinh X)。**ε>0 のときだけ呼ぶ**
+  const PHI=(w)=>{
+    if(!(d>0)) return 0;
+    const hp=hh(w+d), hm=hh(w-d), P=w*w-d*d-e2;
+    const Q=(P<=0)? (hp*hm-P) : (4*e2*w*w)/(hp*hm+P);
+    const X=2*d*Q/(e2*(hp+hm));
+    if(!(X>0)) return 0;
+    if(X<0.1){ const X2=X*X;      // X−asinh X = X³/6 − 3X⁵/40 + 5X⁷/112 − 35X⁹/1152 + 63X¹¹/2816 − …
+      return 0.5*e2*X*X2*(1/6 + X2*(-3/40 + X2*(5/112 + X2*(-35/1152 + X2*(63/2816 - X2*231/13312))))); }
+    return 0.5*e2*(X-Math.asinh(X));
   };
-  // 薄殻(R1) × 薄殻(R2) の U と F(R=0 は点源として畳む)
+  // 遠方の多重極(ε>0 のときだけ意味がある)。ΔF と ΔU の 3 項と、打ち切りの相対量を返す
+  const MPOLE=(m1,R1,m2,R2)=>{
+    const u=d*d+e2, pw=(a)=>Math.pow(u,-a), Gm=G*m1*m2;
+    const R12=R1*R1, R22=R2*R2;
+    const c1=(R12+R22)/6;
+    const c2=(R12*R12+R22*R22)/120 + R12*R22/36;
+    const c3=(R12*R12*R12+R22*R22*R22)/5040 + (R12*R12*R22+R12*R22*R22)/720;
+    const T1=Gm*c1*(15*e2*d*pw(3.5));
+    const T2=Gm*c2*(420*e2*d*pw(4.5) - 945*e2*e2*d*pw(5.5));
+    const T3=Gm*c3*(22680*e2*d*pw(5.5) - 124740*e2*e2*d*pw(6.5) + 135135*e2*e2*e2*d*pw(7.5));
+    const V1=-Gm*c1*(-3*e2*pw(2.5));
+    const V2=-Gm*c2*(-60*e2*pw(3.5) + 105*e2*e2*pw(4.5));
+    const V3=-Gm*c3*(-2520*e2*pw(4.5) + 11340*e2*e2*pw(5.5) - 10395*e2*e2*e2*pw(6.5));
+    const dF=T1+T2+T3;
+    return { dF, dU:V1+V2+V3, err:(dF!==0)? Math.abs(T3)/Math.abs(dF) : Infinity };
+  };
+  // 薄殻(R1) × 薄殻(R2) の U・F と、点源との差 ΔU・ΔF(R=0 は点源として畳む)
   const pair=(m1,R1,m2,R2)=>{
-    if(!(R1>0) && !(R2>0)){                // 点 × 点
-      const w=Math.sqrt(d*d+e2);
-      return { U:-G*m1*m2/w, F:-G*m1*m2*d/(w*w*w) };
-    }
+    const Upt=-G*m1*m2/w0, Fpt=(d>0)? -G*m1*m2*d/(w0*w0*w0) : 0;
+    const fin=(U,F,mth,err)=>({ U, F, dU:U-Upt, dF:F-Fpt, method:mth, err:(err===undefined)? 0 : err });
+    if(!(R1>0) && !(R2>0)) return fin(Upt, Fpt, "point", 0);          // 点 × 点(ΔU=ΔF=0)
     if(!(R1>0)){ const t=R1; R1=R2; R2=t; const u=m1; m1=m2; m2=u; }
-    if(!(R2>0)){                           // 薄殻 × 点
-      const hp=Math.sqrt((d+R1)*(d+R1)+e2), hm=Math.sqrt((d-R1)*(d-R1)+e2);
+    if(!(R2>0)){                           // 薄殻 × 点 —— **消し合わない形**へ書き直した(第261便b)
+      // φ_殻(d) = 2/(h(d+R₁)+h(d−R₁)) は (h₊−h₋)=4dR₁/(h₊+h₋) を先に約分した厳密形で、
+      // U=−2Gm₁m₂/(h₊+h₋)・F=−2Gm₁m₂[(d+R₁)/h₊+(d−R₁)/h₋]/(h₊+h₋)² は d→0 でも壊れない。
       // ε=0・d=R₁(殻の面の上)は真の不連続点(内側 0・外側 −Gm₁m₂/d²)。0/0 を NaN にせず
       // **両側の平均**(−Gm₁m₂/(2R₁²))を返す —— 丸めて滑らかにしたのではなく、面上の値の定義である
-      const h=hp-hm, hd=(d+R1)/hp-((hm>0)? (d-R1)/hm : 0);
-      const K=G*m1*m2/(2*R1);
-      return { U:-K*h/d, F:K*(d*hd-h)/(d*d) };
+      const hp=Math.sqrt((d+R1)*(d+R1)+e2), hm=Math.sqrt((d-R1)*(d-R1)+e2), Aq=hp+hm;
+      const K2=2*G*m1*m2;
+      const U=-K2/Aq, F=-K2*((d+R1)/hp + ((hm>0)? (d-R1)/hm : 0))/(Aq*Aq);
+      return fin(U, F, "shell-point", 0);
     }
-    const sHi=R2+d, sLo=Math.abs(R2-d), sg=(d>R2)? 1 : -1;
-    const I=Aint(sHi+R1)-Aint(sHi-R1)-(Aint(sLo+R1)-Aint(sLo-R1));
-    const g=(s)=>Math.sqrt((s+R1)*(s+R1)+e2)-Math.sqrt((s-R1)*(s-R1)+e2);
-    const Ip=g(sHi)-sg*g(sLo);
-    const K=G*m1*m2/(4*R1*R2);
-    return { U:-K*I/d, F:K*(d*Ip-I)/(d*d) };
+    const K=G*m1*m2/(4*R1*R2), dR=R1-R2;
+    if(eps===0){                           // ① ε=0 の閉じた形(すべての d で厳密)
+      if(d>=R1+R2) return fin(-G*m1*m2/d, -G*m1*m2/(d*d), "eps0-far", 0);
+      if(d<=Math.abs(dR)) return fin(-G*m1*m2/Math.max(R1,R2), 0, "eps0-inside", 0);
+      return fin(-K*(d*(2*R1+2*R2-d)-dR*dR)/d, K*(dR*dR/(d*d)-1), "eps0-overlap", 0);
+    }
+    const w1=R1+R2, w2=R2-R1;
+    if(!(d>0)) return fin(-2*K*(hh(w1)-hh(w2)), 0, "concentric", 0);   // ③ d=0 は対称性で力 0
+    const P1=PHI(w1), P2=PHI(w2), N=P1-P2;
+    const br=(hh(w1+d)+hh(w1-d))-(hh(w2+d)+hh(w2-d));
+    const Us=-K*(d*br-N)/d, Fs=K*N/(d*d);
+    const errS=8*EPSM*K*Math.max(Math.abs(P1),Math.abs(P2),Math.abs(d*br))/(d*d)/Math.abs(Fs-Fpt);
+    const mp=MPOLE(m1,R1,m2,R2);
+    if(mp.err<errS) return { U:Upt+mp.dU, F:Fpt+mp.dF, dU:mp.dU, dF:mp.dF, method:"multipole", err:mp.err };
+    return fin(Us, Fs, "stable", errS);
   };
-  let U=0, F=0, mA=0, mB=0, nP=0;
+  let U=0, F=0, dU=0, dF=0, mA=0, mB=0, nP=0, errMax=0, mth="";
   for(let a=0;a<A.length;a++){
     mA+=A[a].m;
     for(let b=0;b<B.length;b++){
       const r=pair(A[a].m, A[a].r, B[b].m, B[b].r);
       if(!Number.isFinite(r.U) || !Number.isFinite(r.F)) return null;
-      U+=r.U; F+=r.F; nP++;
+      U+=r.U; F+=r.F; dU+=r.dU; dF+=r.dF; nP++;
+      if(Number.isFinite(r.err) && r.err>errMax) errMax=r.err;
+      if(mth.indexOf(r.method)<0) mth=mth? (mth+"+"+r.method) : r.method;
     }
   }
   for(let b=0;b<B.length;b++) mB+=B[b].m;
-  const w=Math.sqrt(d*d+e2);
-  const Upoint=-G*mA*mB/w, Fpoint=-G*mA*mB*d/(w*w*w);
+  const Upoint=-G*mA*mB/w0, Fpoint=(d>0)? -G*mA*mB*d/(w0*w0*w0) : 0;
   const rOutA=A.reduce((s,L)=>Math.max(s,L.r),0), rOutB=B.reduce((s,L)=>Math.max(s,L.r),0);
-  return { U, F, Upoint, Fpoint, dU:U-Upoint, dF:F-Fpoint, mA, mB, nPair:nP, d, eps, G,
+  return { U, F, Upoint, Fpoint, dU, dF, mA, mB, nPair:nP, d, eps, G,
+    dFmethod:mth, dFerr:errMax,
     rOutA, rOutB, overlap:(d<rOutA+rOutB) };
 }
 
@@ -34476,21 +35458,66 @@ function dfmLayerMerge(la, lb, rule){
     const map=new Map();
     for(const L of A.concat(B)){
       const k=String(L.role||"");
+      const jl=Number.isFinite(Number(L.J))? Number(L.J) : 0;   // 第261便b: 宣言 J は和で運ぶ(力へは未接続)
       const cur=map.get(k);
-      if(cur){ cur.m+=Number(L.m); cur.r=Math.sqrt(cur.r*cur.r+Number(L.r)*Number(L.r)); }
-      else map.set(k,{role:k, m:Number(L.m), r:Number(L.r)});
+      if(cur){ cur.m+=Number(L.m); cur.r=Math.sqrt(cur.r*cur.r+Number(L.r)*Number(L.r)); cur.J+=jl; }
+      else map.set(k,{role:k, m:Number(L.m), r:Number(L.r), J:jl});
     }
     out=Array.from(map.values());
   } else {
-    out=A.concat(B).map(L=>({role:String(L.role||""), m:Number(L.m), r:Number(L.r)}));
+    out=A.concat(B).map(L=>({role:String(L.role||""), m:Number(L.m), r:Number(L.r),
+      J:(Number.isFinite(Number(L.J))? Number(L.J) : 0)}));
   }
   out.sort((u,v)=>u.r-v.r);
-  // 同一半径・上限超過は**内側から**畳む(非重複・昇順・層数 ≤ BODY_LAYER_MAX の不変量を保つ)
+  // 同一半径・上限超過は**内側から**畳む(非重複・昇順・層数 ≤ BODY_LAYER_MAX の不変量を保つ)。
+  // 第261便b(統括が設定した検証仮説 (7)): 判定を**相対** |r_i−r_j| ≤ LAYER_MERGE_RTOL·max(r_i,r_j)
+  // にし、**半径はずらさない**(外側の r をそのまま採る)。第260便b の実装は「同じ半径」を
+  // 絶対比較したうえで内側を (1+10⁻¹²) だけずらしていたので、"add" を繰り返すと
+  // 同じ半径が一時的に別の層として残り、層数が 4→6→4→6→6→8→4 と非単調に動いて
+  // **最内層が畳まれて消える**(第260便b §4 の実測)。ずらしをやめると同じ半径は必ず 1 層になる。
   for(let k=1;k<out.length;k++){
-    if(out[k].r<=out[k-1].r){ out[k].m+=out[k-1].m; out[k].r=Math.max(out[k].r,out[k-1].r*(1+1e-12)); out.splice(k-1,1); k--; }
+    const rp=out[k-1].r, rk=out[k].r;
+    if(rk-rp<=LAYER_MERGE_RTOL*Math.max(Math.abs(rk),Math.abs(rp))){
+      out[k].m+=out[k-1].m; out[k].r=Math.max(rk,rp);
+      out[k].J=(out[k].J||0)+(out[k-1].J||0); out.splice(k-1,1); k--; }
   }
-  while(out.length>BODY_LAYER_MAX){ out[1].m+=out[0].m; out.splice(0,1); }
+  while(out.length>BODY_LAYER_MAX){ out[1].m+=out[0].m; out[1].J=(out[1].J||0)+(out[0].J||0); out.splice(0,1); }
   return out;
+}
+
+// (3b) **第261便b(第53報「コア V2 は将来的に廃止予定とし、親子コアで受け入れ可能にする」):
+//      コア V2 → 同心層の変換器**(純関数 —— S も内蔵プリセットも 1 バイトも書き換えない)。
+//   対応表(mode → role): rigid / differential / active → **コア層 "core" + 殻層 "shell"** の 2 層。
+//     コア層: m = massFrac·|m_body|、r = Rc、J = コアの J(宣言値として運ぶ —— **力へは未接続**)
+//     殻層  : m = |m_body| − Mc、r = R(観測半径)、J = ½·m_shell·R²·spin(宣言値・同上)
+//   **cavity(mode:"cavity")は変換しない** —— coreMF は「空洞の重み」であって質量ではないので、
+//   正質量の層に写すと質量が増える(`reason:"cavityHasNoMass"` を返す。決断事項として残す)。
+//   **massFrac=1(裸コア終端)は 1 層**(殻の m が 0 になるため。観測半径は Rc へ落ちる — 宣言)。
+//   **Rc ≥ R は拒否**(同心・昇順・非重複が壊れる。`reason:"coreOutsideShell"`)。
+//   **遠方の重力は厳密に 0 差**である(Σ層 m = |m_body| なので `_layerForce` の差分が走らない/
+//   ε>0 でも単極子は同じ)。**近傍は変わる**(コア層の内側は包含質量 0 になる)—— 差の実測は
+//   〔第261便b〕 の表にある。**「コア V2 を廃止した」とは書かない**(本便は変換の道を足しただけ)。
+function coreV2ToLayers(core, body){
+  const c=core||{}, b=body||{};
+  const mode=String(c.mode||"");
+  const mB=Math.abs(Number(b.m)), R=Number(b.R!==undefined? b.R : b.radius);
+  const Rc=Number(c.radius!==undefined? c.radius : c.Rc);
+  const mf=Number(c.massFrac);
+  if(!Number.isFinite(mB) || !(mB>0)) return { ok:false, reason:"bodyMassNotPositive" };
+  if(!Number.isFinite(R) || !(R>0)) return { ok:false, reason:"bodyRadiusNotPositive" };
+  if(mode==="cavity") return { ok:false, reason:"cavityHasNoMass" };
+  if(["rigid","differential","active"].indexOf(mode)<0) return { ok:false, reason:"unknownCoreMode" };
+  if(!Number.isFinite(mf) || !(mf>0) || mf>1) return { ok:false, reason:"massFracOutOfRange" };
+  if(!Number.isFinite(Rc) || !(Rc>0)) return { ok:false, reason:"coreRadiusNotPositive" };
+  if(!(Rc<R) && mf<1) return { ok:false, reason:"coreOutsideShell" };
+  const Mc=mf*mB, Ms=mB-Mc;
+  const Jc=Number.isFinite(Number(c.J))? Number(c.J) : 0;
+  const sp=Number(b.spin);
+  const Js=(Number.isFinite(sp) && Ms>0)? 0.5*Ms*R*R*sp : 0;
+  const layers=(Ms>0)? [{role:"core", m:Mc, r:Rc, J:Jc}, {role:"shell", m:Ms, r:R, J:Js}]
+                     : [{role:"core", m:Mc, r:Rc, J:Jc}];
+  return { ok:true, layers, mode, Mc, Ms, Rc, R, sumM:Mc+Ms,
+    note:"far field identical (sum of layer masses = |body.m|); the near field changes" };
 }
 
 // (4) **3D スピン参照場** u_spin = a(d)(ω×r)。a(d)=(R/(R+d))^q は**角速度の減衰指数**であって
@@ -34853,11 +35880,21 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
     const G=c.grid;
     return { kind:c.kind, note:c.note, gain:c.gain, tauFix:(c.tauFix===undefined? null : c.tauFix),
       ms:c.ms, every:c.every, builds:c.builds,
+      // 第261便a: 原点規則(top2 / top1)と、第257便c の全粒子重心との差。**表示専用**である
+      norm:(c.norm===undefined? null : c.norm),
+      originRule:(c.originRule===undefined? null : c.originRule),
+      originIds:(c.originIds===undefined? null : c.originIds),
+      centroid:(c.centroid===undefined? null : c.centroid),
+      originGap:(c.originGap===undefined? null : c.originGap),
       // 第260便a: 共通場 API を読んだかと、その注記(**disk/affine とは別の場である**ことの表示)
       fieldApi:(c.fieldApi===true), apiNote:(c.apiNote===undefined? null : c.apiNote),
       apiLaw:(c.apiLaw===undefined? null : c.apiLaw),
       baseLen:(c.baseLen===undefined? null : c.baseLen), centre:c.centre||null,
       grid:G? { K:G.K, R:G.R, cx:G.cx, cy:G.cy, h:G.h, tau:G.tau, vRef:G.vRef, samp:G.samp,
+        // 第261便a: 規格化の実測(最大変位とセル幅比)と、宣言 τ / 自動 τ_ref の診断
+        norm:G.norm, kappa:G.kappa, tauRef:G.tauRef, tauDecl:G.tauDecl, mass:G.mass,
+        dispMax:G.dispMax, dispCell:G.dispCell,
+        X:Array.prototype.slice.call(G.X), Y:Array.prototype.slice.call(G.Y),
         steps:G.steps, nodes:G.nodes, nOk:G.nOk, nInvalid:G.nInvalid, samples:G.samples,
         sampleBad:G.sampleBad, cells:G.cells, folds:G.folds, folded:G.folded,
         minAreaRatio:G.minAreaRatio, loopMax:G.loopMax, chi:G.chi, still:G.still,
@@ -34867,7 +35904,17 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
                        extBin:SPACE_MESH_EXT_BIN, extGal:SPACE_MESH_EXT_GAL,
                        gainDef:SPACE_MESH_GAIN_DEF, gainMax:SPACE_MESH_GAIN_MAX,
                        gainStep:SPACE_MESH_GAIN_STEP, ms:SPACE_MESH_MS,
+                       // 第261便a: 指数スライダー(位置 0〜100)・直値上限・規格化・原点規則の宣言値
+                       gainMin:SPACE_MESH_GAIN_MIN, gainCap:SPACE_MESH_GAIN_CAP,
+                       gainPos:SPACE_MESH_GAIN_POS, norm:SPACE_MESH_NORM,
+                       kappa:SPACE_MESH_KAPPA, kappaMass:SPACE_MESH_KAPPA_M,
+                       tieRel:SPACE_MESH_TIE_REL,
                        tauMax:SPACE_MESH_TAU_MAX}),
+  // 第261便a: 指数スライダーの位置 ↔ 値と、原点規則の観測口(**表示専用** —— 署名・params に入らない)
+  spaceMeshGainFromPos:_smGainFromPos, spaceMeshGainToPos:_smGainToPos,
+  spaceMeshOrigin:(S)=>{ const o=_smOrigin(S||sim);
+    return o? {c:[o.c[0],o.c[1]], rule:o.rule, ids:o.ids.slice()} : null; },
+  spaceMeshNorm:(S)=>_smNorm(S||sim),
   spaceLineKindNote:(S)=>_slKindNote(S||sim), massCentreOf:_smMassCentre,
   tracerInfo:(S)=>{ const T=S||sim, tr=T._galTracer;
     return tr? {displayOnly:!!tr.displayOnly, steps:tr.steps, t:tr.t, n:tr.n,
@@ -34916,9 +35963,14 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第260便b: dfmLayerPairForce=**重なった拡張体の対力**(薄殻×薄殻の対ポテンシャルの解析積分。
   // ΔF=F_拡張対−F_点源対 を対ごとに 1 回だけ入れる = 二重計上の一般解)/ dfmLayerKernel は
   // 可積分内部で `method:"analytic"` を返す / dfmSpinPrecess は **J_total 軸**が既定(旧固定軸は axis:"shell")
+  // 第261便b(第53報 W2): dfmLayerPairForce を**桁落ちしない 3 分岐**(ε=0 の閉じた形/ε>0 の
+  // Φ=(ε²/2)(X−asinh X)/遠方の多重極 3 項)へ書き直し、**d=0 も対称性で力 0** として受ける。
+  // coreV2ToLayers=**コア V2 → 同心層の変換器**(遠方は厳密に 0 差・近傍は変わる・cavity は変換しない)。
+  // dfmLayerMerge の「同じ半径」は**相対** LAYER_MERGE_RTOL 判定になり、半径のずらしをやめた。
   dfmLayerGravity, dfmLayerKernel, dfmLayerMerge, dfmLayerPairForce, dfmSpinField3D,
-  dfmSpinPrecess, dfmTiltWork, dfmSpinRelax,
-  BODY_LAYER_ROLES, BODY_LAYER_MAX, BODY_LAYER_KEY, LAYER_MERGE_RULE,
+  dfmSpinPrecess, dfmTiltWork, dfmSpinRelax, coreV2ToLayers,
+  BODY_LAYER_ROLES, BODY_LAYER_MAX, BODY_LAYER_KEY, LAYER_MERGE_RULE, LAYER_MERGE_RTOL,
+  BODY_LAYER_JCAP, BODY_LAYER_RMIN,
   // 第254便b(第46報「銀河の空間メッシュ」): **銀河は 1 つの大域相似メッシュに乗らない**(差動回転)ので、
   // 局所の場 dfmGalaxyMeshField(加算形 W・χ=W/(W+D₀)・u=χu_n+(1−χ)u_bg・∇u に (u_n−u_bg)⊗∇χ を含む)と
   // 物質線 dfmGalaxyTracer*(RK4・dF/dt=(∇u)F・原子的停止)で表す。u_n は**エンジンの粒子速度の局所平均**で、
@@ -34946,6 +35998,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第258便b(第50報): 最小の閉鎖系(K+U+有限 E_mesh+Q)と引きずり仕事の opt-in 鍵
   dfmChainMeshClosed, dfmChainMeshClosedStep, dfmChainMeshClosedEnergy, LEDGER_KEY,
   CHAIN_RINGS_MAX, CHAIN_SUPPORT_PAD, dfmToyLedger,
+  dfmLedgerRelative, LEDGER_ACTIVE_FLOOR_REL,   // 第261便d(第53報): 規格化の分母の併記
   // 第259便c(第51報): **2D 連鎖メッシュ**(半径環 × 方位節点 —— m=2 は方位自由度なしに測れない)・
   // **E_escaped の境界通過流束の記録器**(粒子は消えないので E_escaped,bodies=0 と定義した)・
   // 蓄積格子が共通場 API を読む**診断フラグ**の読み(実行時鍵 overlays.spaceMesh.fieldApi)
@@ -34956,6 +36009,11 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // **同段階で**更新し、容量が足りない步は **E を clamp せずキックを s 倍に制約して再計算**する。
   // τ・容量密度は**宣言値**であり、観測導出とは呼ばない。**力へは 1 バイトも接続していない**
   dfmMeshCapacityStep,
+  // 第261便c(第53報・統括の読み (A)): **「精度向上で合格見込み」の門 5 つ**の機械判定(純関数)と、
+  // プリセットの宣言 `calibrationForecast` の読み(**presetSig の外**・表示専用の派生)。
+  // **力にも表示の物理にも接続していない**。QA behavior.calibrationForecast が契約を機械固定する
+  dfmForecastGate, CALIBRATION_FORECAST_STATES, CALIBRATION_FORECAST_COUNTED,
+  calibrationForecastOf, calibrationReviewBadge, calibrationCompletion, presetSigHash,
   meshFieldApi:(S)=>_smFieldApi(S||sim), meshFieldApiLive:(S)=>_smFieldApiLive(S||sim),
   // 第260便a(第52報): 同じ点で**現行の表示場**と**共通場 API の場**を両方読む診断口。
   // **一致の主張ではない**(銀河の disk/affine 場と全源 scalar 場は別の場である)

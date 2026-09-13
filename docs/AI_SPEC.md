@@ -943,6 +943,13 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     `"bodyLayers"`(親子コアは根 1 粒子の点源とは別の場)/ `"massiveBox"`(箱は規定場で bodies に書けない)/
     `"nonPositiveMass"` / `"supportR"` / `"degenerate"` / `"n"` / `"lawVersion"`。
   - **蓄積格子の両分岐(銀河・連星)とトイ積分器の重力**が、これを通して**同じ `dfmField`** を読む。
+  - **`p:frameWeightPow` の読み方(第261便・文書で固定・コードは不変)**: `frameWeight` **未宣言と
+    `"pull"` は p=2**・`"pull3"` は 3・`"pull4"` は 4・**`"share"` は関数が 0 を返す番兵**で、
+    **読む側がすべて p=1(核 w=m/(d²+ε²)^{1/2})へ読み替える**(このアダプタも `p:1` を渡す)。
+    したがって **API へ渡る p は 1・2・3・4 のいずれか**であり、**p=0(距離に依らない重み)は渡らない**。
+    D₀ の読み先も宣言で変わる(share は `D0`・pull 系は `D0pull`)。
+    **`dfmMeshScalarField` に直接 `power:0` を渡した場合だけ W=Σm(距離に依らない)になる** ——
+    これはアプリのどの経路も使っていない値である。
     格子には注記 **`API diagnostic: <law> / all / static (not disk-affine)`** が付く(読めなければ
     `API diagnostic: unavailable (<理由>)`)。**「表示と力が同じ場になった」という意味ではない** ——
     銀河の既存表示(disk/affine の u_n)と**全源 scalar 場は別の場**であり、差は docs/PHYSICS.md
@@ -999,6 +1006,10 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     (同 role を m の和・**r=√(r_i²+r_j²)** で合算 —— 殻とコア v2 の既存則と同型)。
     **"add" は質量を守るが構造を守らない**(同じ半径を積み直すと畳み込みが発火し、8 回で 4 層へ縮退する ——
     〔第260便b §4〕。**既定の "role" は 2 層を保つ**)。
+    **第261便b: 「同じ半径」の判定を相対にした** —— |r_i−r_j| ≤ `HP.LAYER_MERGE_RTOL`(=10⁻⁹)×max(r_i,r_j)
+    なら 1 層に畳み、**半径はずらさない**(第260便b の (1+10⁻¹²) のずらしを廃止)。
+    これで "add" の層数が **8 回とも 4 層**で安定する(基点は 4→6→4→6→6→8→4 と非単調だった)。
+    宣言 `J` も層と一緒に和で運ぶ。**既定の "role" の結果は変わらない。**
   - **`HP.dfmLayerPairForce(layersA, layersB, d, {G,eps})`**(第260便b)→
     `{U,F,Upoint,Fpoint,dU,dF,mA,mB,nPair,rOutA,rOutB,overlap}`。**薄殻 × 薄殻の対ポテンシャルの解析積分**で、
     `F` は距離 d が増える向きの**符号つき半径方向成分**(負 = 引力)。`r:0` の層は点として畳む。
@@ -1011,6 +1022,48 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     **`S.layerStopN`**(ΔF が定義されず停止した対)/ **`S.layerStop`**(`null` か `"overlap"`)で、
     HUD のステップ診断にも `layer:<stop|on> N=… pair=…/…` として出る。
     **`S.layerStop="overlap"` の間、その対には層差分が当たらない**(点源の単極子だけで進む)。
+    **第261便b で 3 つ変わった。**
+    ① **近接域の桁落ちを式で直した**(実装は 3 分岐・返り値に `dFmethod`/`dFerr` が増えた)。
+       第260便b の実装は d が小さいほど d·I′ と I が消し合うので、R₁=R₂=10・m=1・G=1・ε=0.5 で
+       d=10⁻⁶ に **+2.43×10⁻⁴(斥力)**、ε=0・同半径の厳密値 −0.0025 に対して d=10⁻⁸ に **−0.83** を返していた。
+       いまは **ε=0 は閉じた形**(d ≥ R₁+R₂ で点源・d ≤ |R₁−R₂| で 0・その間は F=K((R₁−R₂)²−d²)/d²)、
+       **ε>0 は Φ(w,d)=(ε²/2)(X−asinh X)** の閉じた形(N=Φ(R₁+R₂,d)−Φ(R₂−R₁,d))、
+       **遠方は単極子+多重極 3 項**(Δ^k g の閉形式)を、**推定誤差の小さいほうで**使い分ける。
+       `dFmethod` は `"eps0-far"`/`"eps0-inside"`/`"eps0-overlap"`/`"stable"`/`"multipole"`/
+       `"shell-point"`/`"point"`/`"concentric"`、`dFerr` は **ΔF の相対誤差の見積り**である。
+       **交替点の ΔF は 10⁻⁶ 級が精度の上限**であり、そこから先を「厳密」とは書かない。
+    ② **重ならない対も ΔF を受ける**。**ε>0 では軟化核が調和でないので d ≥ r_out,A+r_out,B でも ΔF≠0**
+       (大きさは ε²R²/d⁵ 級)。カットを外し、**ΔF が厳密に 0 の対だけキックしない**
+       (ε=0 の遠方はこれに当たるので、従来どおり 1 命令も走らない)。
+    ③ **d=0 は門ではなくなった**(`d ≥ 0` を受ける)。**同心の薄殻は対称性で互いに純力を及ぼさない**ので
+       F=0・ΔF=0 を返し、U は −2K(h(R₁+R₂)−h(R₂−R₁)) の極限値を返す。これにより
+       `layerStop="overlap"` が立つ状況は**正しい宣言からは生じない**。
+       **`S.layerStopMode`**(既定 `"define"`/opt-in `"halt"`)が停止の作法を選ぶ。`"halt"` では
+       step の**前**に全対象対を検査し、ΔF が有限でない対があれば **時刻を進めずに** `S.layerHalt`
+       (`{i,j,d,reason:"layerPairUndefined"}`)と `S.layerStop="halt"` を立てて戻る。
+       **既定は `"define"`**(層の配列を実行時に壊さないかぎり検査は素通りする)。
+  - **`body.layers[].J`(省略可・第261便b)**: 層のスピン角運動量。**宣言値として運ばれるだけで
+    力へは 1 バイトも接続していない**(表示・保存・編集・融合の合算の対象)。未宣言の層は
+    **正準形に 1 文字も出ない**(既定経路の署名は不変)。値域は ±10¹²。
+  - **`S.applyLayerEdit(i, k, cfg)`(第261便b — 同心層を実行時に編集する唯一の入口)**:
+    `cfg={role?,m?,r?,J?}` で層 k を編集(k = 現在の層数なら**追加**)、`cfg=null` で層 k を削除
+    (`k<0` なら層宣言ごと外す)。**正準形(r 昇順・非重複・1〜8 層・m>0・role は 5 種)を検証し、
+    通らなければ 1 bit も書かずに `{ok:false, reason}` を返す**(理由は `radiusNotAscending` /
+    `layerNotPositive` / `tooManyLayers` / `unknownRole` / `noSuchLayer` / `badIndex`)。
+    **Σm 契約**: 層があるあいだ **根の m は派生量**(= Σ層 m)で、層を編集すると根の m が追随する
+    (宣言側の検証器 `vLayers` は逆向きに「Σ層 m ≠ body.m なら layers を落とす」—— どちらも
+    「Σ層 m = 根の m」を保つ点で同じ不変量)。`S.bodyLayersOf(i)` が正準形の層配列を返すので、
+    **編集 → 保存 → 読込がビット同一**になる(QA `behavior.bodyLayers` ⑯)。
+  - **`HP.coreV2ToLayers(core, body)`(第261便b — コア V2 → 同心層の変換器)**:
+    `core={mode,massFrac,radius,J?}`・`body={m,R,spin?}` から
+    `{ok:true, layers:[{role:"core",m:Mc,r:Rc,J},{role:"shell",m:m−Mc,r:R,J}], mode,Mc,Ms,Rc,R,sumM}` を返す。
+    **Σ層 m = |body.m| なので遠方の重力は厳密に 0 差**で、**近傍(コア半径の内側)だけが変わる**。
+    拒否は `{ok:false, reason}`(`cavityHasNoMass` —— cavity の massFrac は質量ではない /
+    `coreOutsideShell` —— Rc ≥ R / `massFracOutOfRange` / `unknownCoreMode` / …)。
+    `massFrac=1`(裸コア終端)は **1 層**になる(観測半径が Rc へ落ちる —— 宣言)。
+  - **`body.core`(コア V2)は廃止予定である。新しい宇宙では `body.layers`(親子コア)が正である。**
+    **ただし本便でコア V2 を消してはいない** —— 内蔵プリセットの `core:{…}` は 1 文字も変わっておらず、
+    検証器も従来どおり受理する。変換は**編集パネルの明示操作と上の純関数でだけ**起きる。
 - **接触ばね `physics.contactK`/`physics.contactCap` の値域**(第260便b): **[0,2000] / [0,400]**
   (第259便b までは [0.1,2000] / [0.01,400])。**既定 40/8 は不変で正準形にも出ない**・既存の 0.1/0.01 セーブも受理・
   負値は 0 へ丸めて警告を出す。**0 にすると E9 の法線ばねが完全に消える**ので、
@@ -1314,9 +1367,73 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     `"spin-in-K"`(無印 = **スピン=熱**の規約。殻の回転 E ¼mR²ω² は**既に K に入っている**ので、
     ここに殻の回転 E を足すと**二重計上**になる —— **足さない**。0 で埋めるのでもない)。
     QA `behavior.toyLedger` ⑩ が `=== 0` で機械固定する。
+  - **第261便d(第53報)で正式 API になった帳簿の欄**(**既存の値は 1 bit も変わらない**):
+    `residualDragState` と `EshellState` は**正式な読み口**である(上の 2 つ —— 値の列挙と意味はそのまま)。
+    さらに `HP.dfmToyLedger` の返値に **`denom`** が増えた:
+    `{legacy, active, pinnedSpinE, pinnedN, activeShare, activeState, floorRel, parts}`。
+    **`legacy` = \|K\|+\|U\|+\|E_core\|**(**未定義の項は 0 を足したのではなく項そのものが無い**)/
+    **`active` = legacy − \|Σ_{pinned} ¼mR²ω²\|**(= **固定天体の一定スピン E** を除いた**活動部分**)/
+    `activeState` は `"ok"` / `"active-degenerate"`(\|active\| ≤ `floorRel`×legacy)/ `"no-denom"`(legacy≤0)。
+    **`floorRel` は宣言値**(`HP.LEDGER_ACTIVE_FLOOR_REL` = 1e−6)。
+  - `HP.dfmLedgerRelative(value, denom)` — **相対残差を 1 つに決めない**純関数(S を 1 バイトも読まない)。
+    返値 `{abs, relLegacy, relActive, denomState, floorRel}`。**活動部分が退化している宇宙では `relActive` は
+    `null`** になり(0 で割った大きな数を出さない)、**絶対残差 `abs` を読む**。`value` が null/非有限なら **null**。
+    **どちらか一方を正本にしない** —— 🎠 galaxyMeshSpiral は分母の **97.083%** が固定バルジ核のスピン E なので、
+    同じ残差が**従来分母 3.18×10⁻⁴ / 活動部分 1.09×10⁻²(34.28 倍)**になる。
+    **相対残差を引用するときは必ずどちらの分母かを書く。**
+    **門の宣言**(QA `behavior.ledgerNorm` の `LEDGER_GATE_W261D`): 窓 **T=96・h=0.016(6000 步)**・
+    分母 **[legacy | active] の両方**・しきい値 **1e−3**・seed は**プリセットの宣言値**・
+    読む欄は **residualDrag(無ければ residual)**・**判定は informational**。
+    **窓を宣言しない門は意味を持たない**(残差は窓で単調に増える —— 〔第260便c〕②)。
+  - **`S.meshCoordSink` / `S.meshCoordSinkL` / `S.meshCoordSinkGive` / `S.meshCoordSinkN`**(第261便d・診断の読み口)—
+    `physics.spaceMesh.inertiaRemoval:"inStep"` を宣言し、かつ `physics.coupleSink` を宣言した宇宙で、
+    **残余トルクを同段階で受け先(J_core / 容量つき J_z / リザーバ帳簿)へ送った量**の記帳である。
+    **送り先も規則も `applyCoupleSinkAlt` と同一なので、状態は 1 bit も変わらない**(記帳が増えるだけ)。
+    **`inertiaRemoval` の既定は `"post"` のままで、内蔵プリセットは 1 本も `"inStep"` を宣言していない。**
+    **生成 AI はこれらを JSON に書かない**(読み口であって宣言鍵ではない)。
   - **生成 AI はこれらを使わない**(`dfmMeshCapacityStep` は器の純関数で、プリセット JSON の欄ではない)。
     QA は `behavior.toyLedger` に ⑩(固定 T × dt の 1 点・null の扱い・E_shell の欠落条件)を、
     `behavior.chainMesh` に ⑪(有限容量の器)を足した(docs/PHYSICS.md 第260便c の節)。
+- **第261便c(2026-09-13・第53報「現実較正サンプルは、数値精度が上がれば合格する事が予測出来る段階に達したら、
+  その事をチップなどで明示して完了とする」 — 較正の現在地チップの器)**:
+  - **プリセットの任意鍵 `calibrationForecast`(宣言専用メタ・`presetSig` の外・生成 AI は書かない)**:
+    `{status, scope, basis, gate, declaredSig, note}`。`status` は **5 つの列挙だけ**で、
+    **それ以外は落とす**(未知の状態をチップにしない):
+    `"measured-pass"`(実測合格)/ `"pass-expected-with-precision"`(精度向上で合格見込み)/
+    `"convergence-incomplete"`(収束確認・未完)/ `"measurement-recheck"`(測定再検証)/
+    `"calibration-recheck"`(較正要再確認)。`scope` は**範囲**(「公転周期のみ」等)、
+    `basis` は根拠へのポインタ、`declaredSig` は**宣言時の `presetSig` の FNV ハッシュ**である。
+    en 側は `p.en.calibrationForecast:{scope,note}` に文言だけを置く(`status` は共通)。
+    **この鍵は `presetSig` に入らない**ので、署名・保存 JSON・力学・600 步の状態は 1 bit も変わらない。
+  - **派生(表示専用・宣言には書かない)**: `HP.calibrationForecastOf(p)`(未知の状態を落とす読み)/
+    `HP.presetSigHash(p)` / `HP.calibrationReviewBadge(p)`(**`declaredSig` と現在の署名が違えば
+    自動的に `"calibration-recheck"` へ倒す**・`declaredSig` 未宣言なら倒さない)/
+    `HP.calibrationCompletion(p)`(**開発上の完了として数えるのは `measured-pass` と
+    `pass-expected-with-precision` だけ**)。定数は `HP.CALIBRATION_FORECAST_STATES` と
+    `HP.CALIBRATION_FORECAST_COUNTED`。
+  - **`HP.dfmForecastGate(series)` — 門 5 つの機械判定(純関数・力にも表示の物理にも接続していない)**:
+    入力は `{fixed:{quantity,observationVersion,unit,timeSystem,window,extractor,f,refitPerStage?},
+    stages:[{h,y},…], excluded:{duplicateEvents,nan,incomplete,unwrapFailed,roundingFloor},
+    yObs, sigma, systematic, independent:{value,method}|null}`。
+    返値は `{ok, verdict, gates:{g1..g5}, p, pShifts, yInf, uInf, residual, distanceSigma, failed[]}`。
+    門は (1) 固定の宣言(段ごとに再 fit しない)/ (2) **4 段以上**・刻み比 2・除外印が 1 つも立っていない /
+    (3) 隣接 3 段の次数が **0.5≤p≤4.5** かつ段ずらしの差 **≤0.25** / (4) 段ずらし Richardson が
+    **2 本以上**あり **独立推定**と照合されている / (5) **|y∞−y_obs| + U∞ ≤ 3σ**
+    (**U∞ = 隣接外挿差 + 独立推定との差 + 宣言系統幅**)。
+    **`U∞` は数学的上限ではない**(3 項を足すという宣言である)。`ok` が真のときだけ
+    `verdict:"pass-expected-with-precision"` が立ち、それ以外は **`null`** である
+    (**「たぶん通る」を返さない**)。**門を通ることは「観測と合った」ことではない。**
+  - **生成 AI はこれらを使わない**(`calibrationForecast` は台帳の宣言で、生成対象の物理キーではない。
+    `dfmForecastGate` は器の純関数である)。QA `behavior.calibrationForecast` が
+    合成データの合格例・**否定対照 7 本**・`presetSig` 不変・未知状態の除去・署名変化での自動倒し・
+    チップの出方・**NS 4 系が 1 件も通らないこと**を機械固定する
+    (docs/CALIBRATION_VERDICT_v1.44.md §4′ と docs/PHYSICS.md 第261便c の節)。
+  - **近点抽出器の位相制限(`tests/lib-precision-diagnostics.mjs` の純関数・アプリの外)**:
+    `createPeriastronDetector({mode,phaseGate,maxCount,unwrapJump})` / `extractPeriastra(samples, opts)`。
+    既定は **前の採用近点からの累積公転位相が 1.5π を超えるまで次の候補を採らない**
+    (`measurementMethod:"radial-crossing/orbit-phase-1.5pi-v1"`)。**観測周期は閾値に入れない。**
+    unwrap 失敗は **`measured:false`**(0 とは書かない)。旧法は `mode:"legacy"` で残っている。
+    QA `lint.periPhaseGate`(純 Node)が合成データで機械固定する。
 - **台帳の用語 — 等質量度の正名は `equalMassDegree`(第253便b L4・文書のみ)**: 2 体の質量がどれだけ揃っているかを表す量の**正名を `equalMassDegree = |m₁−m₂|/M`(M=m₁+m₂)** に固定する。**0 で等質量**・正質量(m₁,m₂>0)・M>0 のときにだけ定義され、値域は [0,1)。対応欄として **`4ν = 4m₁m₂/M² = 1−δ²`(δ=equalMassDegree)** を併記する(4ν は 1 で等質量 —— 向きが逆なので混ぜない)。ν=m₁m₂/M² は第249便a の ν 則でそのまま使う。**これはプリセットの物理キーではない**(生成 AI が JSON に書く欄ではなく、台帳・文書・ハーネス出力の呼び名の規約である)。
 - **観測安定則(第199便 M1 — 2026-08-25 裁定)**: 観測値再現版は、観測値で安定する計算式を
   採用する(観測値自体が計算式で算出されている為)。kFrame=1 雛形が自己診断で永年不安定と

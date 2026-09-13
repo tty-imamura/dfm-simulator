@@ -21,6 +21,18 @@ tests/out/*
 # QA `docs.calibration-verdict-sync` が台帳 §5.4 の 4 段の数値(周期・deg/yr)と突き合わせるので
 # コミットする(文書が測定から独立に動かないようにするため)。
 !tests/out/precision-w260d.json
+# 第261便d: 帳簿の**両分母**(従来 / 活動部分)・E_shell 契約の照合・coupleSink × inStep の 3 行の
+# 実測正本(tests/exp-w261d-ledgernorm.mjs)。docs/PHYSICS.md 〔第261便d〕の表がこの値そのものなので
+# コミットする(**QA はこのファイルを読まない** —— 読むのは器の中で走らせた値である)
+!tests/out/w261d-ledgernorm.json
+# 第261便c: 位相制限つき近点抽出器で測り直した ⚡🧮🩺🧶 の段(tests/exp-w261c-precision.mjs)・
+# 段ずらし Richardson と門 5 つの機械判定(tests/exp-w261c-richardson.mjs)・収束先に対する
+# 較正の試行と感度行列・e 写像(tests/exp-w261c-convcal.mjs)の実測正本。
+# QA `docs.calibration-verdict-sync` ⑭⑮ が台帳 §5.6 の数値と、`behavior.calibrationForecast` ② が
+# 「門 5 つを通った系は 0 件」と突き合わせるのでコミットする(文書が測定から独立に動かないようにするため)。
+!tests/out/precision-w261c.json
+!tests/out/richardson-w261c.json
+!tests/out/convcal-w261c.json
 # 第134便: kF1 較正ハーネスの実測正本(論文3 再現性 — 外部レビュー P0 対応。
 # 本文の中心値〔q*=6.16/8.25/21.8・drag −5.6e-10・第122便 q*=4.59〕を提出コミットから再生成可能に)
 !tests/out/coreshell-results.json
