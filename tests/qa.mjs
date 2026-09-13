@@ -296,6 +296,70 @@ const add = (id, pass, detail) => {
   }
 }
 
+// ---- 0a⁗) 第261便c(第53報 W3): lint.periPhaseGate ----
+// ----   近点抽出器の**位相制限**(`tests/lib-precision-diagnostics.mjs`)を、合成データで機械固定する。
+// ----   ブラウザ不要・約 0.01 秒。固定するのは 5 つ:
+// ----     ① きれいな 1 次楕円の標本列では、旧法と位相制限が**同じ**近点を採る(差が出ない)
+// ----     ② 近点の近傍に ṙ の符号反転を 1 回**注入**すると、旧法は 2 回採り・位相制限は 1 回だけ採る
+// ----     ③ 閾値 1.25π / 1.5π / 1.75π で結果が**変わらない**(合わせ込みのノブではない)
+// ----     ④ unwrap 失敗は **measured:false**(0 とは書かない・黙って窓を短くしない)
+// ----     ⑤ `measurementMethod` が記録される(旧法と新法で別の文字列)
+{
+  const L = await import('file://' + path.join(ROOT, 'tests', 'lib-precision-diagnostics.mjs'));
+  const bad = [];
+  // 合成の 2 体(円に近い楕円)。**この試験に観測値は 1 つも無い。**
+  const mk = (nOrbit, ecc, perStep, inject) => {
+    const s = [];
+    const N = nOrbit * perStep;
+    for (let k = 0; k <= N; k++) {
+      const u = 2 * Math.PI * k / perStep;                 // 平均近点角(近点で 0)
+      const r = 1 - ecc * Math.cos(u);
+      const rd = ecc * Math.sin(u);                         // ṙ ∝ sin u(近点で符号が − → +)
+      const th = u + 0.01 * (k / perStep);                  // ゆっくり回る近点(方位は単調増)
+      s.push({ k, r, rd, th });
+    }
+    if (inject) {                                           // 近点のすぐ後ろに符号反転を 1 回入れる
+      const at = perStep + 2;
+      s[at] = { ...s[at], rd: -Math.abs(s[at].rd) };
+      s[at + 1] = { ...s[at + 1], rd: Math.abs(s[at + 1].rd) };
+    }
+    return s;
+  };
+  const clean = mk(6, 0.2, 400, false);
+  const dirty = mk(6, 0.2, 400, true);
+  const A = L.extractPeriastra(clean, { mode: 'legacy' });
+  const B = L.extractPeriastra(clean, {});
+  if (A.nPeri !== B.nPeri) bad.push(`①きれいな列で旧法 ${A.nPeri} と位相制限 ${B.nPeri} が違う`);
+  if (B.rejectedCount !== 0) bad.push(`①きれいな列で位相制限が候補を棄却した(${B.rejectedCount} 件)`);
+  const C = L.extractPeriastra(dirty, { mode: 'legacy' });
+  const D = L.extractPeriastra(dirty, {});
+  if (!(C.nPeri === A.nPeri + 1)) bad.push(`②注入した重複を旧法が拾っていない(${C.nPeri} vs ${A.nPeri})`);
+  if (!(D.nPeri === A.nPeri && D.rejectedCount === 1))
+    bad.push(`②位相制限が重複を 1 件だけ落としていない(採用 ${D.nPeri}・棄却 ${D.rejectedCount})`);
+  for (const g of [1.25, 1.5, 1.75]) {
+    const E = L.extractPeriastra(dirty, { phaseGate: g * Math.PI });
+    if (E.nPeri !== D.nPeri || E.rejectedCount !== D.rejectedCount)
+      bad.push(`③閾値 ${g}π で結果が変わる(採用 ${E.nPeri}・棄却 ${E.rejectedCount})`);
+  }
+  // ④ unwrap 失敗(近点方位が π/2 を超えて跳ぶ列)は measured:false
+  const jumpy = clean.map((z, i) => ({ ...z, th: z.th + ((i > 900) ? 3.0 : 0) }));
+  const F = L.extractPeriastra(jumpy, { window: 5 });
+  if (F.unwrapFailed !== true) bad.push('④跳びのある列で unwrapFailed が立たない');
+  if (F.measured !== false) bad.push('④unwrap 失敗なのに measured:false になっていない');
+  // 窓を満たさない列も measured:false(「測れなかった」と「0 だった」を混ぜない)
+  const G = L.extractPeriastra(mk(2, 0.2, 400, false), { window: 20 });
+  if (G.measured !== false) bad.push('④窓を満たしていないのに measured:false になっていない');
+  // ⑤ 方式名
+  if (B.measurementMethod !== L.PERI_METHOD_PHASE) bad.push('⑤位相制限の measurementMethod が違う');
+  if (A.measurementMethod !== L.PERI_METHOD_LEGACY) bad.push('⑤旧法の measurementMethod が違う');
+  if (Math.abs(L.PERI_PHASE_GATE_DEFAULT - 1.5 * Math.PI) > 1e-15) bad.push('⑤既定の閾値が 1.5π でない');
+  add('lint.periPhaseGate', bad.length === 0,
+    `きれいな列では旧法と同じ(${A.nPeri} 近点・棄却 0)・重複を注入すると旧法 ${C.nPeri} / 位相制限 ${D.nPeri}(棄却 ${D.rejectedCount})`
+    + ` / 閾値 1.25π・1.5π・1.75π で不変 / unwrap 失敗は measured:false / 方式名 ${B.measurementMethod}`
+    + ' / **観測周期は閾値に入れていない**(累積公転位相だけで決める)'
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
 // ---- 0b) バージョン同期(v1.15 第7次裁定 P0-1): APP_VERSION と package.json の major.minor 一致 ----
 {
   const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
@@ -14498,6 +14562,155 @@ if (!FAST) {
     console.log('SKIP behavior.fieldApiIdentity(対象に第260便a の HP.dfmFieldSnapshot なし — root 等)');
   }
 }
+// ---- 第261便c(第53報 W3): behavior.calibrationForecast — 「精度向上で合格見込み」チップの器 ----
+//   固定するのは 8 つ(**中身の判定ではなく、器の契約**である):
+//     ① **門 5 つの機械判定**: 合成データ(y=y∞+C·h の 4 段・独立推定つき)で ok=true・
+//        verdict="pass-expected-with-precision"。**否定対照 7 本**(3 段だけ / 段ごとに再 fit /
+//        単位の宣言なし / 次数が不安定 / 独立推定なし / 距離が遠い / unwrap 失敗を除外していない)で
+//        それぞれ**落ちる門が変わる**(空振りでないことを示す)。
+//     ② **NS 4 系は 1 件も通らない**(`tests/out/richardson-w261c.json` の機械判定がすべて ok=false)。
+//        **「合格見込み」は現在 0 件である。**
+//     ③ **presetSig は calibrationForecast を見ない**(宣言を足しても署名は 1 文字も変わらない)。
+//     ④ **未知の状態は落とす**(5 つの列挙にない status はチップにしない)。
+//     ⑤ **署名が宣言時と変われば自動で「較正要再確認」**(declaredSig を壊すと status が倒れる)。
+//     ⑥ **チップが出る**(⚡=cf-measurement-recheck・✨=cf-measured-pass・宣言の無いサンプルは 0 個)。
+//     ⑦ **開発上の完了として数える**のは measured-pass と pass-expected-with-precision だけ。
+//        現在の内訳は **実測合格 2(✨🌟 の部分量)・合格見込み 0**である。
+//     ⑧ **このチップに赤は無い**(スタイルシートに `data-g=cf-…` で var(--err) が現れない ——
+//        「赤=否」は台帳の 4 値の側であり、模型差をこのチップの赤にしない)。
+{
+  const hasCF = await page.evaluate(() => !!(window.HP && typeof HP.dfmForecastGate === 'function'));
+  if (!hasCF) {
+    console.log('SKIP behavior.calibrationForecast(対象に第261便c の HP.dfmForecastGate なし — root 等)');
+  } else {
+    const bad = [];
+    const r = await page.evaluate(() => {
+      const O = {};
+      // ---- ① 合成データ(観測値は 1 つも使わない): y(h) = 100 + 1000 h の 4 段
+      const mk = (over) => Object.assign({
+        fixed: { quantity: '合成量', observationVersion: '合成', unit: '合成単位',
+          timeSystem: '合成', window: '合成窓', extractor: '合成抽出器', f: '固定', refitPerStage: false },
+        stages: [{ h: 0.016, y: 116 }, { h: 0.008, y: 108 }, { h: 0.004, y: 104 }, { h: 0.002, y: 102 }],
+        excluded: { duplicateEvents: 0, nan: 0, incomplete: 0, unwrapFailed: 0, roundingFloor: 0 },
+        yObs: 100, sigma: 1, systematic: 0,
+        independent: { value: 100, method: '別積分法(合成)' },
+      }, over || {});
+      O.pass = HP.dfmForecastGate(mk());
+      O.neg = {};
+      O.neg.threeStages = HP.dfmForecastGate(mk({ stages: [{ h: 0.016, y: 116 }, { h: 0.008, y: 108 }, { h: 0.004, y: 104 }] }));
+      O.neg.refit = HP.dfmForecastGate(mk({ fixed: Object.assign({}, mk().fixed, { refitPerStage: true }) }));
+      O.neg.noUnit = HP.dfmForecastGate(mk({ fixed: Object.assign({}, mk().fixed, { unit: '' }) }));
+      O.neg.unstable = HP.dfmForecastGate(mk({ stages: [{ h: 0.016, y: 116 }, { h: 0.008, y: 108 }, { h: 0.004, y: 104 }, { h: 0.002, y: 102.5 }] }));
+      O.neg.noIndep = HP.dfmForecastGate(mk({ independent: null }));
+      O.neg.farAway = HP.dfmForecastGate(mk({ yObs: 110 }));
+      O.neg.unwrap = HP.dfmForecastGate(mk({ excluded: { duplicateEvents: 0, nan: 0, incomplete: 0, unwrapFailed: 1, roundingFloor: 0 } }));
+      // ---- ③ presetSig は宣言を見ない
+      const p = HP.allPresets().find((q) => q.id === 'psrDoubleABDFM');
+      const noCF = JSON.parse(JSON.stringify(p)); delete noCF.calibrationForecast;
+      const otherCF = JSON.parse(JSON.stringify(p));
+      otherCF.calibrationForecast = { status: 'measured-pass', scope: 'ちがうもの', declaredSig: 'zzzz' };
+      O.sig = { withCF: presetSig(p), without: presetSig(noCF), other: presetSig(otherCF),
+        hash: HP.presetSigHash(p), hashNo: HP.presetSigHash(noCF) };
+      // ---- ④ 未知の状態は落とす
+      O.unknown = HP.calibrationForecastOf({ calibrationForecast: { status: 'bogus', scope: 'x' } });
+      O.noDecl = HP.calibrationForecastOf({ id: 'x' });
+      // ---- ⑤ 署名が変われば「較正要再確認」
+      const broken = JSON.parse(JSON.stringify(p));
+      broken.calibrationForecast = Object.assign({}, p.calibrationForecast, { declaredSig: 'deadbeef' });
+      O.brokenBadge = HP.calibrationReviewBadge(broken);
+      O.trueBadge = HP.calibrationReviewBadge(p);
+      // ---- ⑦ 全サンプルの内訳
+      O.tally = {};
+      O.counted = 0;
+      for (const q of HP.allPresets()) {
+        const c = HP.calibrationCompletion(q);
+        if (!c) continue;
+        O.tally[c.status] = (O.tally[c.status] || 0) + 1;
+        if (c.countedAsComplete) O.counted++;
+      }
+      O.states = HP.CALIBRATION_FORECAST_STATES.slice();
+      O.badStates = Object.keys(O.tally).filter((k) => O.states.indexOf(k) < 0);
+      // ---- ⑥ チップ
+      const chipOf = (id) => { HP.loadPreset(id, false); renderHelp();
+        return [...document.querySelectorAll('#classChips .classChip')]
+          .map((x) => x.dataset.g).filter((g) => g.indexOf('cf-') === 0); };
+      O.chipPsr = chipOf('psrDoubleABDFM');
+      O.chipAlpha = chipOf('alphaCenAB');
+      O.chipNone = chipOf('saturn');
+      // 観測結果カードの行数は宣言のまま(現在地の行は ocRow ではない)
+      HP.loadPreset('psrDoubleABDFM', false); renderHelp();
+      const pp = HP.allPresets().find((q) => q.id === 'psrDoubleABDFM');
+      O.ocRows = document.querySelectorAll('#helpBody .ocRow').length;
+      O.ocDecl = (pp.obsCard || []).length;
+      O.ocForecastRows = document.querySelectorAll('#helpBody .ocForecastRow').length;
+      HP.loadPreset('saturn', false);
+      return O;
+    });
+    // ① 合格例
+    if (!(r.pass.ok === true && r.pass.verdict === 'pass-expected-with-precision'))
+      bad.push(`①合成の合格例が通らない(failed=${(r.pass.failed || []).join(',')})`);
+    if (!(Math.abs(r.pass.yInf - 100) < 1e-9)) bad.push(`①合成の y∞ が 100 でない(${r.pass.yInf})`);
+    if (!(r.pass.uInf === 0)) bad.push(`①合成の U∞ が 0 でない(${r.pass.uInf})`);
+    const NEG = [['threeStages', 'g2'], ['refit', 'g1'], ['noUnit', 'g1'], ['unstable', 'g3'],
+      ['noIndep', 'g4'], ['farAway', 'g5'], ['unwrap', 'g2']];
+    for (const [k, g] of NEG) {
+      const z = r.neg[k];
+      if (!z || z.ok !== false) bad.push(`①否定対照 ${k} が通ってしまう`);
+      else if ((z.failed || []).indexOf(g) < 0) bad.push(`①否定対照 ${k} が ${g} で落ちない(${(z.failed || []).join(',')})`);
+      else if (z.verdict !== null) bad.push(`①否定対照 ${k} に verdict が立っている`);
+    }
+    // ② NS 4 系は 0 件
+    let nsSeen = 0, nsPass = 0;
+    try {
+      const rj = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'richardson-w261c.json'), 'utf8'));
+      for (const g of (rj.forecastGates || [])) { nsSeen++; if (g.ok) nsPass++; }
+      if (nsSeen < 4) bad.push(`②NS の機械判定が 4 系に足りない(${nsSeen})`);
+      if (nsPass !== 0) bad.push(`②NS で門 5 つを通った系がある(${nsPass} 件)—— 本便の宣言は 0 件である`);
+    } catch (e) { bad.push('②richardson-w261c.json が読めない: ' + String(e).slice(0, 60)); }
+    // ③ 署名
+    if (r.sig.withCF !== r.sig.without) bad.push('③presetSig が calibrationForecast を見ている');
+    if (r.sig.withCF !== r.sig.other) bad.push('③presetSig が宣言の中身で変わる');
+    if (r.sig.hash !== r.sig.hashNo) bad.push('③presetSigHash が宣言で変わる');
+    // ④⑤
+    if (r.unknown !== null) bad.push('④未知の status が落ちていない');
+    if (r.noDecl !== null) bad.push('④宣言の無いサンプルに現在地が出ている');
+    if (!(r.brokenBadge && r.brokenBadge.status === 'calibration-recheck' && r.brokenBadge.sigChanged === true))
+      bad.push('⑤declaredSig を壊しても「較正要再確認」へ倒れない');
+    if (!(r.trueBadge && r.trueBadge.sigChanged === false))
+      bad.push(`⑤現行の declaredSig が現在の署名と一致しない(宣言の貼り直しが要る: ${JSON.stringify(r.trueBadge)})`);
+    // ⑥ チップ
+    if (!(r.chipPsr.length === 1 && r.chipPsr[0] === 'cf-measurement-recheck'))
+      bad.push(`⑥⚡ のチップが違う(${r.chipPsr.join(',')})`);
+    if (!(r.chipAlpha.length === 1 && r.chipAlpha[0] === 'cf-measured-pass'))
+      bad.push(`⑥✨ のチップが違う(${r.chipAlpha.join(',')})`);
+    if (r.chipNone.length !== 0) bad.push(`⑥宣言の無いサンプルにチップが出る(${r.chipNone.join(',')})`);
+    if (r.ocRows !== r.ocDecl) bad.push(`⑥観測結果カードの宣言行が変わっている(${r.ocRows} ≠ ${r.ocDecl})`);
+    if (r.ocForecastRows !== 1) bad.push(`⑥現在地の行が 1 行でない(${r.ocForecastRows})`);
+    // ⑦ 内訳
+    if (r.badStates.length) bad.push(`⑦列挙にない状態がある: ${r.badStates.join(',')}`);
+    if ((r.tally['pass-expected-with-precision'] || 0) !== 0)
+      bad.push(`⑦「精度向上で合格見込み」が 0 件でない(${r.tally['pass-expected-with-precision']} 件)`);
+    if (r.counted !== 2) bad.push(`⑦開発上の完了として数える件数が 2 でない(${r.counted})`);
+    // ⑧ 赤を使っていない
+    {
+      const css = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+      if (/data-g=cf-[a-z-]+\]\{border-color:var\(--err\)/.test(css))
+        bad.push('⑧現在地チップに赤(--err)を使っている');
+      if (!/data-g=cf-convergence-incomplete\]\{border-color:var\(--dim\)/.test(css))
+        bad.push('⑧「収束確認・未完」が灰(--dim)になっていない');
+    }
+    add('behavior.calibrationForecast', bad.length === 0,
+      `① 門 5 つ: 合成の合格例 ok=${r.pass.ok}(y∞=${r.pass.yInf}・U∞=${r.pass.uInf})・否定対照 ${NEG.length} 本`
+      + `(${NEG.map(([k, g]) => k + '→' + g).join(' / ')}) / `
+      + `② **NS ${nsSeen} 系はすべて不合格**(通った系 ${nsPass} 件 = 「合格見込み」は 0 件)/ `
+      + `③ presetSig は宣言を見ない(署名・ハッシュとも不変)/ ④ 未知の状態は落とす / `
+      + `⑤ declaredSig を壊すと自動で「較正要再確認」/ ⑥ チップ ⚡=${r.chipPsr.join(',')}・`
+      + `✨=${r.chipAlpha.join(',')}・宣言なし=${r.chipNone.length} 個・観測結果カードの宣言行 ${r.ocRows}/${r.ocDecl} 行 / `
+      + `⑦ 内訳 ${JSON.stringify(r.tally)}(開発上の完了として数える ${r.counted} 件 —— **すべて部分量の実測合格であり、`
+      + `「精度向上で合格見込み」は 0 件**)/ ⑧ このチップに赤は無い(赤=否は台帳の 4 値の側)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
 // ---- 第255便a(第47報・ChatGPT §8.1): behavior.meshRotorExchange — 有限の回転子交換 ----
 //   純関数 HP.dfmMeshRotorExchange だけを叩く軽量ブロック(QA_FAST でも走る)。固定するのは 6 項目:
 //     ① **L+J が厳密に保存**(1 步でも 2 万步の積み上げでも)
@@ -27378,6 +27591,52 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
           if ((c.stages || []).length < 4) bad.push(`⑫🧮 の段が 4 に足りない(${(c.stages || []).length} 段)`);
         }
       } catch (e) { bad.push('⑫precision-w260d.json が読めない: ' + String(e).slice(0, 60)); }
+      // ---- 第261便c(第53報 W3)で足した 3 条件 ----
+      //   ⑬ **§4′(精度待ちチップの契約)と §5.6(第261便c の実測)がある**。
+      //      5 つの状態名がすべて文書にあり、**「合格見込み」が 0 件であること**が書いてある。
+      //   ⑭ **🩺 の段が実測と一致する**(`tests/out/precision-w261c.json` の 5 段)。
+      //      **旧法の無効集計 4943.93 s** も文書にある(直した中身が消えないようにする)。
+      //   ⑮ **Richardson 4 系の y∞ と門の判定が実測と一致し、通った系が 0 件**である
+      //      (`tests/out/richardson-w261c.json`)。
+      if (!/## 4′\./.test(md)) bad.push('⑬§4′(精度待ちチップの契約)が無い');
+      if (!/### 5\.6 /.test(md)) bad.push('⑬§5.6(第261便c)が無い');
+      for (const st of ['measured-pass', 'pass-expected-with-precision', 'convergence-incomplete',
+        'measurement-recheck', 'calibration-recheck'])
+        if (!md.includes(st)) bad.push(`⑬状態 ${st} が文書に無い`);
+      if (!/「精度向上で合格見込み」は 0 件/.test(md)) bad.push('⑬「合格見込みは 0 件」が無い');
+      if (!/U∞ は数学的上限ではない/.test(md)) bad.push('⑬「U∞ は数学的上限ではない」が無い');
+      if (!/条件 4 は R を使う較正系にだけかかる|条件 4 の対象外/.test(md))
+        bad.push('⑬条件 4 の適用範囲(R が不要な系は対象外)が無い');
+      try {
+        const pj = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'precision-w261c.json'), 'utf8'));
+        const c = (pj.cases || []).find((z) => z.id === 'psrJ1946DFM');
+        if (!c) bad.push('⑭precision-w261c.json に 🩺 が無い');
+        else {
+          if ((c.stages || []).length < 5) bad.push(`⑭🩺 の段が 5 に足りない(${(c.stages || []).length})`);
+          for (const st of (c.stages || [])) {
+            const v = st.dets['phase1.5'].perMeanSec;
+            if (Number.isFinite(v) && !md.includes(v.toFixed(6)))
+              bad.push(`⑭🩺 の周期 dt/${st.div}(${v.toFixed(6)} s)が文書に無い`);
+          }
+          const raw = c.stages[0].dets.legacy.perMeanSecRaw;
+          if (Number.isFinite(raw) && !md.includes(raw.toFixed(2)))
+            bad.push(`⑭旧法の無効集計(${raw.toFixed(2)} s)が文書に無い`);
+          if (c.stages[0].dets.legacy.measured !== false)
+            bad.push('⑭h=0.016 の旧法が measured:false になっていない(直っていない)');
+        }
+      } catch (e) { bad.push('⑭precision-w261c.json が読めない: ' + String(e).slice(0, 60)); }
+      try {
+        const rj = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'richardson-w261c.json'), 'utf8'));
+        let nPass = 0;
+        for (const g of (rj.forecastGates || [])) if (g.ok) nPass++;
+        if ((rj.forecastGates || []).length < 4) bad.push('⑮門の機械判定が 4 系に足りない');
+        if (nPass !== 0) bad.push(`⑮門 5 つを通った系がある(${nPass} 件)—— 文書は 0 件と書いている`);
+        for (const c of (rj.cases || [])) {
+          const q = (c.quantities || []).find((z) => z.key === 'P');
+          if (q && Number.isFinite(q.yInf) && !md.includes(q.yInf.toFixed(4)))
+            bad.push(`⑮${c.emoji} の y∞(${q.yInf.toFixed(4)} s)が文書に無い`);
+        }
+      } catch (e) { bad.push('⑮richardson-w261c.json が読めない: ' + String(e).slice(0, 60)); }
       ok = bad.length === 0 && seen.length === calIds.length && calIds.length > 0;
       detail = `${seen.length}/${calIds.length} 行 = 4 値 `
         + V4.map((v) => `${v} ${seen.filter((id) => (byId.get(id) || {}).verdict4 === v).length}`).join(' / ')

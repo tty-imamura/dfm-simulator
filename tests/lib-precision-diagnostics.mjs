@@ -87,3 +87,105 @@ export function ulpSearchLegacy(x) {
   while (f(z + u) === f(z) && guard++ < 2000) u *= 2;
   return u;
 }
+
+// =====================================================================================
+// 第261便c(第53報 W3)「近点抽出器の位相制限」—— **純関数**の近点検出器。
+//
+// ■ なぜ足すか(統括が設定した検証仮説 (C))
+//   〔第248便a〕以来の近点抽出は「相対動径速度 ṙ の符号が − → + へ変わった步」を**無条件に**
+//   近点として採る。粗い刻みでは ṙ が近点の近傍で数値的に符号を往復するので、**同じ 1 回の近点が
+//   複数回検出される**(🩺 psrJ1946DFM・h=0.016 で連続する步に何度も立つ)。
+//   検出数が窓を埋めてしまうため、器は `measured:true` のまま**無効な周期**(1 公転に満たない
+//   区間の平均)を出す。**これは精度の問題ではなく抽出器の欠陥である。**
+//
+// ■ 何を変えるか
+//   前の**採用**近点からの**累積公転位相**(相対位置ベクトルの方位角の増分の絶対値の和)が
+//   `phaseGate`(既定 1.5π)を超えるまで、次の候補を採らない。
+//   **観測周期は閾値に入れない**(観測値を抽出器へ入れると、合否が観測に依存してしまう)。
+//   1.5π は「1 公転 = 2π の手前」という**幾何の宣言**であって、系ごとに合わせるノブではない。
+//
+// ■ 何を変えないか
+//   採用した近点の**時刻と方位の作り方**(ṙ の線形内挿・方位の内挿)は 1 行も変えていない。
+//   `mode:'legacy'` で旧法(無条件採用)へ戻せる —— 旧法と新法の差を**同じ器で**測るためである。
+//
+// ■ unwrap 失敗は measured:false にする(0 とは書かない・旧器は break して黙って窓を短くした)
+//   隣り合う近点方位の差が π/2 を超えたら unwrap 失敗とし、`unwrapFailed:true` ・ `measured:false`
+//   を立てる。**「測れなかった」と「測ったら 0 だった」を混ぜない。**
+export const PERI_PHASE_GATE_DEFAULT = 1.5 * Math.PI;
+export const PERI_METHOD_PHASE = 'radial-crossing/orbit-phase-1.5pi-v1';
+export const PERI_METHOD_LEGACY = 'radial-crossing/legacy-v0';
+export const PERI_UNWRAP_JUMP = Math.PI / 2;
+
+// 検出器(逐次)。`push` は 1 步ごとに呼ぶ。**この関数の中に観測値は 1 つも無い。**
+//   opts = { mode:'phase'|'legacy', phaseGate, maxCount, unwrapJump }
+export function createPeriastronDetector(opts) {
+  const o = opts || {};
+  const mode = (o.mode === 'legacy') ? 'legacy' : 'phase';
+  const phaseGate = Number.isFinite(o.phaseGate) ? Number(o.phaseGate) : PERI_PHASE_GATE_DEFAULT;
+  const maxCount = Number.isFinite(o.maxCount) ? Number(o.maxCount) : Infinity;
+  const unwrapJump = Number.isFinite(o.unwrapJump) ? Number(o.unwrapJump) : PERI_UNWRAP_JUMP;
+  const peri = [];            // 採用した近点 {k, ang, r, phaseSincePrev}
+  const rejected = [];        // 位相制限で**採らなかった**候補 {k, phaseSincePrev}
+  let have = false, rd1 = 0, th1 = 0;
+  let phase = 0;              // 前の採用近点からの累積公転位相
+  let candidates = 0, unwrapFailed = false;
+  const wrap = (z) => { while (z > Math.PI) z -= 2 * Math.PI; while (z < -Math.PI) z += 2 * Math.PI; return z; };
+  return {
+    mode, phaseGate, unwrapJump,
+    // k は步番号(または任意の単調な横軸)。rd = ṙ、th = 相対位置の方位角。
+    push(k, r, rd, th) {
+      if (have) phase += Math.abs(wrap(th - th1));
+      let accepted = false;
+      if (have && rd1 < 0 && rd >= 0) {
+        candidates++;
+        const gateOpen = (mode === 'legacy') || (peri.length === 0) || (phase > phaseGate);
+        if (gateOpen) {
+          const fr = (rd !== rd1) ? (-rd1 / (rd - rd1)) : 0;
+          let a1 = th1, a2 = th;
+          while (a2 - a1 > Math.PI) a2 -= 2 * Math.PI;
+          while (a2 - a1 < -Math.PI) a2 += 2 * Math.PI;
+          peri.push({ k: k - 1 + fr, ang: a1 + fr * (a2 - a1), r, phaseSincePrev: phase });
+          phase = 0;
+          accepted = true;
+        } else rejected.push({ k: k - 1, phaseSincePrev: phase });
+      }
+      rd1 = rd; th1 = th; have = true;
+      return { accepted, full: peri.length >= maxCount };
+    },
+    // 窓(先頭 window 個)の集計。**window を満たしていなければ measured:false** である。
+    result(window) {
+      const w = Number.isFinite(window) ? Number(window) : peri.length;
+      const n = peri.length;
+      const ang = []; let jump = 0;
+      for (let i = 0; i < n; i++) {
+        let a = peri[i].ang;
+        if (i) {
+          const z = wrap(a - ang[i - 1]);
+          if (Math.abs(z) > unwrapJump) { jump++; break; }
+          a = ang[i - 1] + z;
+        }
+        ang.push(a);
+      }
+      if (jump > 0) unwrapFailed = true;
+      const measured = (n >= w) && !unwrapFailed;
+      return {
+        peri, ang, nPeri: n, window: w, measured,
+        unwrapFailed, jump,
+        candidates, acceptedCount: n, rejectedCount: rejected.length, rejected,
+        mode, phaseGate,
+        measurementMethod: (mode === 'legacy') ? PERI_METHOD_LEGACY : PERI_METHOD_PHASE,
+        note: (mode === 'legacy')
+          ? '**旧法**: ṙ の符号反転を無条件に近点として採る(粗い刻みで同じ近点を複数回拾う)。'
+          : '**位相制限**: 前の採用近点からの累積公転位相が ' + phaseGate.toFixed(6)
+            + ' rad を超えるまで次の候補を採らない。**観測周期は閾値に入れていない。**',
+      };
+    },
+  };
+}
+
+// 逐次でない入口(合成データの単体試験用)。samples = [{k,r,rd,th}]。
+export function extractPeriastra(samples, opts) {
+  const d = createPeriastronDetector(opts);
+  for (const s of (samples || [])) d.push(s.k, s.r, s.rd, s.th);
+  return d.result((opts && opts.window) || undefined);
+}

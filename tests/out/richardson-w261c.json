@@ -1,0 +1,1411 @@
+{
+ "meta": {
+  "wave": "第261便c",
+  "source": "tests/out/precision-w261c.json",
+  "target": "beta/index.html",
+  "window": "**位相制限(1.5π)の検出器が採った最初の 20 近点(19 区間)**。旧法は同じ標本列から自分の最初の 20 候補で同じ量を作る —— **旧法の窓は 20 公転とは限らない**(それがこの器の主題である)。",
+  "extractor": "**1 回の走行に 4 つの検出器**(旧法 / 1.25π / 1.5π / 1.75π)を同時に流す。差は抽出器の差だけで、積分は 1 回しかしていない。",
+  "gateNote": "**門 5 つを通ったサンプルは 0 件である。** 通らない理由を `failed` に機械で残す。**「漸近域だから精度が足りる」とは書かない** —— 漸近域(門 3)と 3σ(門 5)は別の門である。",
+  "hypothesis": "統括が設定した検証仮説 (B)(🧮 P∞=15855.411 s・−2.258 s 等)は**仮説**であって、本器が印字するのは自前の実測である(差は hypDelta 欄)。"
+ },
+ "cases": [
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "toSec": 10,
+   "quantities": [
+    {
+     "key": "P",
+     "name": "近点間 P [s]",
+     "stages": [
+      "h/1",
+      "h/2",
+      "h/4",
+      "h/8",
+      "h/16"
+     ],
+     "values": [
+      6685.642291994065,
+      6733.570007117497,
+      6757.54080649197,
+      6769.529013590517,
+      6775.523111648803
+     ],
+     "shiftedRichardson": [
+      {
+       "triple": "h/1,h/2,h/4",
+       "pObs": 0.9995821428774139,
+       "yInf": 6781.525497537863
+      },
+      {
+       "triple": "h/2,h/4,h/8",
+       "pObs": 0.9996621085488182,
+       "yInf": 6781.522838142687
+      },
+      {
+       "triple": "h/4,h/8,h/16",
+       "pObs": 1.0000013216027823,
+       "yInf": 6781.517198725134
+      }
+     ],
+     "pShifts": [
+      0.9995821428774139,
+      0.9996621085488182,
+      1.0000013216027823
+     ],
+     "yInf": 6781.517198725134,
+     "extrapolations": [
+      6781.525497537863,
+      6781.522838142687,
+      6781.517198725134
+     ],
+     "extrapolationSpread": 0.005639417552629311,
+     "asymptotic": true,
+     "obsV1": {
+      "value": 6781.366656,
+      "unit": "s",
+      "sigma": 0.000864,
+      "source": "Meng et al. (2025) A&A 704 A153 - The double neutron star PSR J1946+2052 I. Mass",
+      "finestResidual": -5.843544351197124,
+      "finestNSigma": 6763.361517589265,
+      "finestResidualPct": -0.08617060022889174,
+      "yInfResidual": 0.1505427251340734,
+      "yInfNSigma": 174.23926520147387,
+      "yInfResidualPct": 0.002219946697630287
+     },
+     "obsV2": {
+      "value": 6781.367998656,
+      "unit": "s",
+      "sigma": 0.000001728,
+      "source": "Meng et al. (2025) A&A 704 A153 Table 1 DDFWHE column - The double neutron star ",
+      "finestResidual": -5.8448870071970305,
+      "finestNSigma": 3382457.758794578,
+      "finestResidualPct": -0.08619038235877229,
+      "yInfResidual": 0.14920006913416728,
+      "yInfNSigma": 86342.63260079124,
+      "yInfResidualPct": 0.002200147067136561
+     }
+    },
+    {
+     "key": "e",
+     "name": "離心率 proxy",
+     "stages": [
+      "h/1",
+      "h/2",
+      "h/4",
+      "h/8",
+      "h/16"
+     ],
+     "values": [
+      0.07217953516083096,
+      0.0679900171717606,
+      0.06591788620955849,
+      0.06488739558191313,
+      0.06437353409798498
+     ],
+     "shiftedRichardson": [
+      {
+       "triple": "h/1,h/2,h/4",
+       "pObs": 1.0156690823499135,
+       "yInf": 0.0638900440295356
+      },
+      {
+       "triple": "h/2,h/4,h/8",
+       "pObs": 1.0077838031209023,
+       "yInf": 0.06386793531483659
+      },
+      {
+       "triple": "h/4,h/8,h/16",
+       "pObs": 1.0038799582977267,
+       "yInf": 0.06386242544707739
+      }
+     ],
+     "pShifts": [
+      1.0156690823499135,
+      1.0077838031209023,
+      1.0038799582977267
+     ],
+     "yInf": 0.06386242544707739,
+     "extrapolations": [
+      0.0638900440295356,
+      0.06386793531483659,
+      0.06386242544707739
+     ],
+     "extrapolationSpread": 0.0000055098677591985945,
+     "asymptotic": true,
+     "obsV1": {
+      "value": 0.063848,
+      "unit": "1",
+      "sigma": 0.000009,
+      "source": "Meng et al. (2025) A&A 704 A153 - The double neutron star PSR J1946+2052 I. Mass",
+      "finestResidual": 0.0005255340979849754,
+      "finestNSigma": 58.39267755388615,
+      "finestResidualPct": 0.8231018951023923,
+      "yInfResidual": 0.000014425447077387465,
+      "yInfNSigma": 1.6028274530430517,
+      "yInfResidualPct": 0.02259342043194378
+     },
+     "obsV2": {
+      "value": 0.0638363,
+      "unit": "1",
+      "sigma": 8e-7,
+      "source": "Meng et al. (2025) A&A 704 A153 Table 1 DDFWHE column - The double neutron star ",
+      "finestResidual": 0.0005372340979849788,
+      "finestNSigma": 671.5426224812235,
+      "finestResidualPct": 0.8415808842069149,
+      "yInfResidual": 0.00002612544707739084,
+      "yInfNSigma": 32.65680884673855,
+      "yInfResidualPct": 0.04092569130320968
+     }
+    },
+    {
+     "key": "degYear",
+     "name": "近点移動 [deg/yr]",
+     "stages": [
+      "h/1",
+      "h/2",
+      "h/4",
+      "h/8",
+      "h/16"
+     ],
+     "values": [
+      54.9325154801378,
+      52.5746915478453,
+      51.82549019640166,
+      51.66244699860804,
+      51.57806413260003
+     ],
+     "shiftedRichardson": [
+      {
+       "triple": "h/1,h/2,h/4",
+       "pObs": 1.6540305837024443,
+       "yInf": 51.476556474043505
+      },
+      {
+       "triple": "h/2,h/4,h/8",
+       "pObs": 2.200099249268579,
+       "yInf": 51.61709561318205
+      },
+      {
+       "triple": "h/4,h/8,h/16",
+       "pObs": 0.9502322590329381,
+       "yInf": 51.48754241836252
+      }
+     ],
+     "pShifts": [
+      1.6540305837024443,
+      2.200099249268579,
+      0.9502322590329381
+     ],
+     "yInf": 51.48754241836252,
+     "extrapolations": [
+      51.476556474043505,
+      51.61709561318205,
+      51.48754241836252
+     ],
+     "extrapolationSpread": 0.12955319481952898,
+     "asymptotic": false,
+     "obsV1": {
+      "value": 25.79205,
+      "unit": "deg/yr",
+      "sigma": 0.0004,
+      "source": "Meng et al. (2025) A&A 704 A153 - The double neutron star PSR J1946+2052 I. Mass",
+      "finestResidual": 25.786014132600034,
+      "finestNSigma": 64465.03533150008,
+      "finestResidualPct": 99.97659795402085,
+      "yInfResidual": 25.695492418362523,
+      "yInfNSigma": 64238.7310459063,
+      "yInfResidualPct": 99.62563044954753
+     },
+     "obsV2": {
+      "value": 25.79205,
+      "unit": "deg/yr",
+      "sigma": 0.0004,
+      "source": "Meng et al. (2025) A&A 704 A153 Table 1 DDFWHE column - The double neutron star ",
+      "finestResidual": 25.786014132600034,
+      "finestNSigma": 64465.03533150008,
+      "finestResidualPct": 99.97659795402085,
+      "yInfResidual": 25.695492418362523,
+      "yInfNSigma": 64238.7310459063,
+      "yInfResidualPct": 99.62563044954753
+     }
+    }
+   ],
+   "twoTermRichardson": {
+    "formula": "P∞ = 2×P(h/8) − P(h/4)(次数 1 を仮定した 2 項 Richardson)",
+    "value": 6781.517220689064,
+    "residualSec": 0.15056468906368536,
+    "nSigma": 174.2646864163025,
+    "hypothesis": {
+     "residualOrderFitOld": 0.149,
+     "note": "🩺 の旧値は**抽出器の欠陥で無効**(統括の読み (C))。本器は新しい抽出器で測り直した段から作る。"
+    },
+    "hypDelta": null,
+    "note": "**外挿は走行ではない**(推定値である)。「dt を細かくすれば合う」とは書けない。"
+   },
+   "eventAudit": [
+    {
+     "div": 1,
+     "candidates": 25,
+     "rejected": 5,
+     "legacyNPeri": 25,
+     "legacyMeasured": false,
+     "legacyUnwrapFailed": true,
+     "legacyPeriodSec": null,
+     "legacyPeriodSecRaw": 4943.93215000677,
+     "legacyDegPerYear": 1909015.4204489968,
+     "nan": false,
+     "clamp": 0,
+     "stopped": "window"
+    },
+    {
+     "div": 2,
+     "candidates": 21,
+     "rejected": 1,
+     "legacyNPeri": 21,
+     "legacyMeasured": true,
+     "legacyUnwrapFailed": false,
+     "legacyPeriodSec": 6381.443038977888,
+     "legacyPeriodSecRaw": 6381.443038977888,
+     "legacyDegPerYear": 52.32812889498789,
+     "nan": false,
+     "clamp": 0,
+     "stopped": "window"
+    },
+    {
+     "div": 4,
+     "candidates": 20,
+     "rejected": 0,
+     "legacyNPeri": 20,
+     "legacyMeasured": true,
+     "legacyUnwrapFailed": false,
+     "legacyPeriodSec": 6757.54080649197,
+     "legacyPeriodSecRaw": 6757.54080649197,
+     "legacyDegPerYear": 51.82549019640166,
+     "nan": false,
+     "clamp": 0,
+     "stopped": "window"
+    },
+    {
+     "div": 8,
+     "candidates": 20,
+     "rejected": 0,
+     "legacyNPeri": 20,
+     "legacyMeasured": true,
+     "legacyUnwrapFailed": false,
+     "legacyPeriodSec": 6769.529013590517,
+     "legacyPeriodSecRaw": 6769.529013590517,
+     "legacyDegPerYear": 51.66244699860804,
+     "nan": false,
+     "clamp": 0,
+     "stopped": "window"
+    },
+    {
+     "div": 16,
+     "candidates": 20,
+     "rejected": 0,
+     "legacyNPeri": 20,
+     "legacyMeasured": true,
+     "legacyUnwrapFailed": false,
+     "legacyPeriodSec": 6775.523111648803,
+     "legacyPeriodSecRaw": 6775.523111648803,
+     "legacyDegPerYear": 51.57806413260003,
+     "nan": false,
+     "clamp": 0,
+     "stopped": "window"
+    }
+   ]
+  },
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "toSec": 10,
+   "quantities": [
+    {
+     "key": "P",
+     "name": "近点間 P [s]",
+     "stages": [
+      "h/1",
+      "h/2",
+      "h/4",
+      "h/8",
+      "h/16"
+     ],
+     "values": [
+      8737.372557379043,
+      8785.83868574628,
+      8810.076512361618,
+      8822.195728080791,
+      8828.255519325317
+     ],
+     "shiftedRichardson": [
+      {
+       "triple": "h/1,h/2,h/4",
+       "pObs": 0.9997165005001694,
+       "yInf": 8834.323867584906
+      },
+      {
+       "triple": "h/2,h/4,h/8",
+       "pObs": 0.9999639998965821,
+       "yInf": 8834.315548653156
+      },
+      {
+       "triple": "h/4,h/8,h/16",
+       "pObs": 0.9999563396598453,
+       "yInf": 8834.315677361925
+      }
+     ],
+     "pShifts": [
+      0.9997165005001694,
+      0.9999639998965821,
+      0.9999563396598453
+     ],
+     "yInf": 8834.315677361925,
+     "extrapolations": [
+      8834.323867584906,
+      8834.315548653156,
+      8834.315677361925
+     ],
+     "extrapolationSpread": 0.0001287087688979227,
+     "asymptotic": true,
+     "obsV1": {
+      "value": 8834.534723278,
+      "unit": "s",
+      "sigma": 2.5056e-7,
+      "source": "Hu et al. (2022) A&A 667 A149 (via device-collected record)",
+      "finestResidual": -6.2792039526830195,
+      "finestNSigma": 25060679.887783445,
+      "finestResidualPct": -0.07107566102081218,
+      "yInfResidual": -0.21904591607562907,
+      "yInfNSigma": 874225.3994078428,
+      "yInfResidualPct": -0.0024794278695681373
+     },
+     "obsV2": null
+    },
+    {
+     "key": "e",
+     "name": "離心率 proxy",
+     "stages": [
+      "h/1",
+      "h/2",
+      "h/4",
+      "h/8",
+      "h/16"
+     ],
+     "values": [
+      0.09406572787919135,
+      0.09091909529820075,
+      0.08935883047456201,
+      0.08858192446094297,
+      0.08819427353457483
+     ],
+     "shiftedRichardson": [
+      {
+       "triple": "h/1,h/2,h/4",
+       "pObs": 1.0120178126596542,
+       "yInf": 0.08782423907316578
+      },
+      {
+       "triple": "h/2,h/4,h/8",
+       "pObs": 1.005978934456038,
+       "yInf": 0.0878114180898175
+      },
+      {
+       "triple": "h/4,h/8,h/16",
+       "pObs": 1.0029819663003448,
+       "yInf": 0.08780822015817487
+      }
+     ],
+     "pShifts": [
+      1.0120178126596542,
+      1.005978934456038,
+      1.0029819663003448
+     ],
+     "yInf": 0.08780822015817487,
+     "extrapolations": [
+      0.08782423907316578,
+      0.0878114180898175,
+      0.08780822015817487
+     ],
+     "extrapolationSpread": 0.0000031979316426344884,
+     "asymptotic": true,
+     "obsV1": {
+      "value": 0.087777036,
+      "unit": "1",
+      "sigma": 4.8e-8,
+      "source": "Hu et al. (2022) A&A 667 A149 (via device-collected record)",
+      "finestResidual": 0.0004172375345748297,
+      "finestNSigma": 8692.44863697562,
+      "finestResidualPct": 0.47533791705478606,
+      "yInfResidual": 0.00003118415817486564,
+      "yInfNSigma": 649.6699619763675,
+      "yInfResidualPct": 0.0355265563704676
+     },
+     "obsV2": null
+    },
+    {
+     "key": "degYear",
+     "name": "近点移動 [deg/yr]",
+     "stages": [
+      "h/1",
+      "h/2",
+      "h/4",
+      "h/8",
+      "h/16"
+     ],
+     "values": [
+      34.61785873573114,
+      34.066930381387586,
+      33.91656886423957,
+      33.83006565722908,
+      33.789097527438514
+     ],
+     "shiftedRichardson": [
+      {
+       "triple": "h/1,h/2,h/4",
+       "pObs": 1.8734293378874516,
+       "yInf": 33.86012738247004
+      },
+      {
+       "triple": "h/2,h/4,h/8",
+       "pObs": 0.797609852190266,
+       "yInf": 33.71288741046705
+      },
+      {
+       "triple": "h/4,h/8,h/16",
+       "pObs": 1.0782515852711712,
+       "yInf": 33.752238302396904
+      }
+     ],
+     "pShifts": [
+      1.8734293378874516,
+      0.797609852190266,
+      1.0782515852711712
+     ],
+     "yInf": 33.752238302396904,
+     "extrapolations": [
+      33.86012738247004,
+      33.71288741046705,
+      33.752238302396904
+     ],
+     "extrapolationSpread": 0.03935089192985686,
+     "asymptotic": false,
+     "obsV1": {
+      "value": 16.899323,
+      "unit": "deg/yr",
+      "sigma": 0.000013,
+      "source": "Kramer et al. (2021) Phys. Rev. X 11 041050 - Strong-Field Gravity Tests with th",
+      "finestResidual": 16.889774527438515,
+      "finestNSigma": 1299213.4251875782,
+      "finestResidualPct": 99.94349789893072,
+      "yInfResidual": 16.852915302396905,
+      "yInfNSigma": 1296378.1001843775,
+      "yInfResidualPct": 99.7253872382752
+     },
+     "obsV2": null
+    }
+   ],
+   "twoTermRichardson": {
+    "formula": "P∞ = 2×P(h/8) − P(h/4)(次数 1 を仮定した 2 項 Richardson)",
+    "value": 8834.314943799964,
+    "residualSec": -0.21977947803679854,
+    "nSigma": 877153.0892273249,
+    "hypothesis": {
+     "residualOrderFit": -0.219
+    },
+    "hypDelta": null,
+    "note": "**外挿は走行ではない**(推定値である)。「dt を細かくすれば合う」とは書けない。"
+   },
+   "eventAudit": [
+    {
+     "div": 1,
+     "candidates": 20,
+     "rejected": 0,
+     "legacyNPeri": 20,
+     "legacyMeasured": true,
+     "legacyUnwrapFailed": false,
+     "legacyPeriodSec": 8737.372557379043,
+     "legacyPeriodSecRaw": 8737.372557379043,
+     "legacyDegPerYear": 34.61785873573114,
+     "nan": false,
+     "clamp": 0,
+     "stopped": "window"
+    },
+    {
+     "div": 2,
+     "candidates": 20,
+     "rejected": 0,
+     "legacyNPeri": 20,
+     "legacyMeasured": true,
+     "legacyUnwrapFailed": false,
+     "legacyPeriodSec": 8785.83868574628,
+     "legacyPeriodSecRaw": 8785.83868574628,
+     "legacyDegPerYear": 34.066930381387586,
+     "nan": false,
+     "clamp": 0,
+     "stopped": "window"
+    },
+    {
+     "div": 4,
+     "candidates": 20,
+     "rejected": 0,
+     "legacyNPeri": 20,
+     "legacyMeasured": true,
+     "legacyUnwrapFailed": false,
+     "legacyPeriodSec": 8810.076512361618,
+     "legacyPeriodSecRaw": 8810.076512361618,
+     "legacyDegPerYear": 33.91656886423957,
+     "nan": false,
+     "clamp": 0,
+     "stopped": "window"
+    },
+    {
+     "div": 8,
+     "candidates": 20,
+     "rejected": 0,
+     "legacyNPeri": 20,
+     "legacyMeasured": true,
+     "legacyUnwrapFailed": false,
+     "legacyPeriodSec": 8822.195728080791,
+     "legacyPeriodSecRaw": 8822.195728080791,
+     "legacyDegPerYear": 33.83006565722908,
+     "nan": false,
+     "clamp": 0,
+     "stopped": "window"
+    },
+    {
+     "div": 16,
+     "candidates": 20,
+     "rejected": 0,
+     "legacyNPeri": 20,
+     "legacyMeasured": true,
+     "legacyUnwrapFailed": false,
+     "legacyPeriodSec": 8828.255519325317,
+     "legacyPeriodSecRaw": 8828.255519325317,
+     "legacyDegPerYear": 33.789097527438514,
+     "nan": false,
+     "clamp": 0,
+     "stopped": "window"
+    }
+   ]
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "toSec": 10,
+   "quantities": [
+    {
+     "key": "P",
+     "name": "近点間 P [s]",
+     "stages": [
+      "h/1",
+      "h/2",
+      "h/4",
+      "h/8"
+     ],
+     "values": [
+      15508.038974810872,
+      15680.724196643438,
+      15767.86577935108,
+      15811.638441439847
+     ],
+     "shiftedRichardson": [
+      {
+       "triple": "h/1,h/2,h/4",
+       "pObs": 0.9867114027316336,
+       "yInf": 15856.63515501095
+      },
+      {
+       "triple": "h/2,h/4,h/8",
+       "pObs": 0.9933311904829101,
+       "yInf": 15855.818603615791
+      }
+     ],
+     "pShifts": [
+      0.9867114027316336,
+      0.9933311904829101
+     ],
+     "yInf": 15855.818603615791,
+     "extrapolations": [
+      15856.63515501095,
+      15855.818603615791
+     ],
+     "extrapolationSpread": 0.8165513951589674,
+     "asymptotic": true,
+     "obsV1": {
+      "value": 15857.669019168,
+      "unit": "s",
+      "sigma": 0.00000432,
+      "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Universe Pulsar S",
+      "finestResidual": -46.03057772815373,
+      "finestNSigma": 10655226.325961512,
+      "finestResidualPct": -0.29027329093900334,
+      "yInfResidual": -1.850415552209597,
+      "yInfNSigma": 428336.9333818512,
+      "yInfResidualPct": -0.011668900075874343
+     },
+     "obsV2": null
+    },
+    {
+     "key": "e",
+     "name": "離心率 proxy",
+     "stages": [
+      "h/1",
+      "h/2",
+      "h/4",
+      "h/8"
+     ],
+     "values": [
+      0.6089203668102275,
+      0.6074112930414002,
+      0.6066638499764121,
+      0.6062918814794195
+     ],
+     "shiftedRichardson": [
+      {
+       "triple": "h/1,h/2,h/4",
+       "pObs": 1.0136277374514762,
+       "yInf": 0.6059303302632721
+      },
+      {
+       "triple": "h/2,h/4,h/8",
+       "pObs": 1.0067832482227004,
+       "yInf": 0.6059233863147706
+      }
+     ],
+     "pShifts": [
+      1.0136277374514762,
+      1.0067832482227004
+     ],
+     "yInf": 0.6059233863147706,
+     "extrapolations": [
+      0.6059303302632721,
+      0.6059233863147706
+     ],
+     "extrapolationSpread": 0.000006943948501536568,
+     "asymptotic": true,
+     "obsV1": {
+      "value": 0.6058142,
+      "unit": "1",
+      "sigma": 1e-7,
+      "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Universe Pulsar S",
+      "finestResidual": 0.00047768147941951167,
+      "finestNSigma": 4776.8147941951165,
+      "finestResidualPct": 0.07884950194622571,
+      "yInfResidual": 0.00010918631477063734,
+      "yInfNSigma": 1091.8631477063734,
+      "yInfResidualPct": 0.018023069576552902
+     },
+     "obsV2": null
+    },
+    {
+     "key": "degYear",
+     "name": "近点移動 [deg/yr]",
+     "stages": [
+      "h/1",
+      "h/2",
+      "h/4",
+      "h/8"
+     ],
+     "values": [
+      21.359639524248152,
+      21.029000627886038,
+      20.8685745126045,
+      20.789545130185125
+     ],
+     "shiftedRichardson": [
+      {
+       "triple": "h/1,h/2,h/4",
+       "pObs": 1.0433474404011374,
+       "yInf": 20.717372362560653
+      },
+      {
+       "triple": "h/2,h/4,h/8",
+       "pObs": 1.0214479735834645,
+       "yInf": 20.71281424595954
+      }
+     ],
+     "pShifts": [
+      1.0433474404011374,
+      1.0214479735834645
+     ],
+     "yInf": 20.71281424595954,
+     "extrapolations": [
+      20.717372362560653,
+      20.71281424595954
+     ],
+     "extrapolationSpread": 0.004558116601113937,
+     "asymptotic": true,
+     "obsV1": {
+      "value": 10.3651,
+      "unit": "deg/yr",
+      "sigma": 0.0002,
+      "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Universe Pulsar S",
+      "finestResidual": 10.424445130185125,
+      "finestNSigma": 52122.225650925626,
+      "finestResidualPct": 100.57254758936358,
+      "yInfResidual": 10.347714245959539,
+      "yInfNSigma": 51738.57122979769,
+      "yInfResidualPct": 99.83226641286181
+     },
+     "obsV2": null
+    }
+   ],
+   "twoTermRichardson": {
+    "formula": "P∞ = 2×P(h/8) − P(h/4)(次数 1 を仮定した 2 項 Richardson)",
+    "value": 15855.411103528615,
+    "residualSec": -2.2579156393858284,
+    "nSigma": 522665.65726523806,
+    "hypothesis": {
+     "pInfTwoTerm": 15855.411,
+     "residualTwoTerm": -2.258,
+     "residualOrderFit": -1.85
+    },
+    "hypDelta": 0.00010352861499995925,
+    "note": "**外挿は走行ではない**(推定値である)。「dt を細かくすれば合う」とは書けない。"
+   },
+   "eventAudit": [
+    {
+     "div": 1,
+     "candidates": 20,
+     "rejected": 0,
+     "legacyNPeri": 20,
+     "legacyMeasured": true,
+     "legacyUnwrapFailed": false,
+     "legacyPeriodSec": 15508.038974810872,
+     "legacyPeriodSecRaw": 15508.038974810872,
+     "legacyDegPerYear": 21.359639524248152,
+     "nan": false,
+     "clamp": 0,
+     "stopped": "window"
+    },
+    {
+     "div": 2,
+     "candidates": 20,
+     "rejected": 0,
+     "legacyNPeri": 20,
+     "legacyMeasured": true,
+     "legacyUnwrapFailed": false,
+     "legacyPeriodSec": 15680.724196643438,
+     "legacyPeriodSecRaw": 15680.724196643438,
+     "legacyDegPerYear": 21.029000627886038,
+     "nan": false,
+     "clamp": 0,
+     "stopped": "window"
+    },
+    {
+     "div": 4,
+     "candidates": 20,
+     "rejected": 0,
+     "legacyNPeri": 20,
+     "legacyMeasured": true,
+     "legacyUnwrapFailed": false,
+     "legacyPeriodSec": 15767.86577935108,
+     "legacyPeriodSecRaw": 15767.86577935108,
+     "legacyDegPerYear": 20.8685745126045,
+     "nan": false,
+     "clamp": 0,
+     "stopped": "window"
+    },
+    {
+     "div": 8,
+     "candidates": 20,
+     "rejected": 0,
+     "legacyNPeri": 20,
+     "legacyMeasured": true,
+     "legacyUnwrapFailed": false,
+     "legacyPeriodSec": 15811.638441439847,
+     "legacyPeriodSecRaw": 15811.638441439847,
+     "legacyDegPerYear": 20.789545130185125,
+     "nan": false,
+     "clamp": 0,
+     "stopped": "window"
+    }
+   ]
+  },
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "toSec": 10,
+   "quantities": [
+    {
+     "key": "P",
+     "name": "近点間 P [s]",
+     "stages": [
+      "h/1",
+      "h/2",
+      "h/4",
+      "h/8"
+     ],
+     "values": [
+      36216.52357279872,
+      36276.168955904745,
+      36306.001766365924,
+      36320.92070224479
+     ],
+     "shiftedRichardson": [
+      {
+       "triple": "h/1,h/2,h/4",
+       "pObs": 0.9995105732656265,
+       "yInf": 36335.85482838157
+      },
+      {
+       "triple": "h/2,h/4,h/8",
+       "pObs": 0.9997552597966478,
+       "yInf": 36335.844701137845
+      }
+     ],
+     "pShifts": [
+      0.9995105732656265,
+      0.9997552597966478
+     ],
+     "yInf": 36335.844701137845,
+     "extrapolations": [
+      36335.85482838157,
+      36335.844701137845
+     ],
+     "extrapolationSpread": 0.010127243724127766,
+     "asymptotic": true,
+     "obsV1": {
+      "value": 36351.702644140794,
+      "unit": "s",
+      "sigma": 8.64e-7,
+      "source": "Stairs et al. (2002) ApJ 581 501 - Studies of the Relativistic Binary Pulsar PSR",
+      "finestResidual": -30.781941896006174,
+      "finestNSigma": 35627247.56482196,
+      "finestResidualPct": -0.08467812965280085,
+      "yInfResidual": -15.857943002949469,
+      "yInfNSigma": 18354100.69785818,
+      "yInfResidualPct": -0.0436236595523139
+     },
+     "obsV2": null
+    },
+    {
+     "key": "e",
+     "name": "離心率 proxy",
+     "stages": [
+      "h/1",
+      "h/2",
+      "h/4",
+      "h/8"
+     ],
+     "values": [
+      0.2753345213773055,
+      0.27465066127666554,
+      0.27430948116939413,
+      0.2741390780977884
+     ],
+     "shiftedRichardson": [
+      {
+       "triple": "h/1,h/2,h/4",
+       "pObs": 1.0031676869089892,
+       "yInf": 0.27396979438332447
+      },
+      {
+       "triple": "h/2,h/4,h/8",
+       "pObs": 1.00158219069232,
+       "yInf": 0.2739690481713439
+      }
+     ],
+     "pShifts": [
+      1.0031676869089892,
+      1.00158219069232
+     ],
+     "yInf": 0.2739690481713439,
+     "extrapolations": [
+      0.27396979438332447,
+      0.2739690481713439
+     ],
+     "extrapolationSpread": 7.462119805956569e-7,
+     "asymptotic": true,
+     "obsV1": {
+      "value": 0.2736775,
+      "unit": "1",
+      "sigma": 3e-7,
+      "source": "Stairs et al. (2002) ApJ 581 501 - Studies of the Relativistic Binary Pulsar PSR",
+      "finestResidual": 0.00046157809778840653,
+      "finestNSigma": 1538.5936592946885,
+      "finestResidualPct": 0.16865767108673768,
+      "yInfResidual": 0.00029154817134385835,
+      "yInfNSigma": 971.8272378128612,
+      "yInfResidualPct": 0.10652982848201198
+     },
+     "obsV2": null
+    },
+    {
+     "key": "degYear",
+     "name": "近点移動 [deg/yr]",
+     "stages": [
+      "h/1",
+      "h/2",
+      "h/4",
+      "h/8"
+     ],
+     "values": [
+      3.575964103961328,
+      3.5660297220888233,
+      3.561282305434385,
+      3.558963047348936
+     ],
+     "shiftedRichardson": [
+      {
+       "triple": "h/1,h/2,h/4",
+       "pObs": 1.065287531623993,
+       "yInf": 3.556937189563483
+      },
+      {
+       "triple": "h/2,h/4,h/8",
+       "pObs": 1.0334793016370678,
+       "yInf": 3.5567478056692465
+      }
+     ],
+     "pShifts": [
+      1.065287531623993,
+      1.0334793016370678
+     ],
+     "yInf": 3.5567478056692465,
+     "extrapolations": [
+      3.556937189563483,
+      3.5567478056692465
+     ],
+     "extrapolationSpread": 0.0001893838942366166,
+     "asymptotic": true,
+     "obsV1": {
+      "value": 1.755789,
+      "unit": "deg/yr",
+      "sigma": 0.000009,
+      "source": "Stairs et al. (2002) ApJ 581 501 - Studies of the Relativistic Binary Pulsar PSR",
+      "finestResidual": 1.8031740473489362,
+      "finestNSigma": 200352.67192765957,
+      "finestResidualPct": 102.69878939604565,
+      "yInfResidual": 1.8009588056692465,
+      "yInfNSigma": 200106.53396324962,
+      "yInfResidualPct": 102.57262152053843
+     },
+     "obsV2": null
+    }
+   ],
+   "twoTermRichardson": {
+    "formula": "P∞ = 2×P(h/8) − P(h/4)(次数 1 を仮定した 2 項 Richardson)",
+    "value": 36335.83963812365,
+    "residualSec": -15.863006017141743,
+    "nSigma": 18359960.66798813,
+    "hypothesis": {
+     "residualOrderFit": -15.86
+    },
+    "hypDelta": null,
+    "note": "**外挿は走行ではない**(推定値である)。「dt を細かくすれば合う」とは書けない。"
+   },
+   "eventAudit": [
+    {
+     "div": 1,
+     "candidates": 20,
+     "rejected": 0,
+     "legacyNPeri": 20,
+     "legacyMeasured": true,
+     "legacyUnwrapFailed": false,
+     "legacyPeriodSec": 36216.52357279872,
+     "legacyPeriodSecRaw": 36216.52357279872,
+     "legacyDegPerYear": 3.575964103961328,
+     "nan": false,
+     "clamp": 0,
+     "stopped": "window"
+    },
+    {
+     "div": 2,
+     "candidates": 20,
+     "rejected": 0,
+     "legacyNPeri": 20,
+     "legacyMeasured": true,
+     "legacyUnwrapFailed": false,
+     "legacyPeriodSec": 36276.168955904745,
+     "legacyPeriodSecRaw": 36276.168955904745,
+     "legacyDegPerYear": 3.5660297220888233,
+     "nan": false,
+     "clamp": 0,
+     "stopped": "window"
+    },
+    {
+     "div": 4,
+     "candidates": 20,
+     "rejected": 0,
+     "legacyNPeri": 20,
+     "legacyMeasured": true,
+     "legacyUnwrapFailed": false,
+     "legacyPeriodSec": 36306.001766365924,
+     "legacyPeriodSecRaw": 36306.001766365924,
+     "legacyDegPerYear": 3.561282305434385,
+     "nan": false,
+     "clamp": 0,
+     "stopped": "window"
+    },
+    {
+     "div": 8,
+     "candidates": 20,
+     "rejected": 0,
+     "legacyNPeri": 20,
+     "legacyMeasured": true,
+     "legacyUnwrapFailed": false,
+     "legacyPeriodSec": 36320.92070224479,
+     "legacyPeriodSecRaw": 36320.92070224479,
+     "legacyDegPerYear": 3.558963047348936,
+     "nan": false,
+     "clamp": 0,
+     "stopped": "window"
+    }
+   ]
+  }
+ ],
+ "forecastGates": [
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "observationVersion": "DDFWHE (Meng et al. 2025 Table 1)",
+   "duplicateCandidatesRejected": [
+    5,
+    1,
+    0,
+    0,
+    0
+   ],
+   "ok": false,
+   "verdict": null,
+   "failed": [
+    "g4",
+    "g5"
+   ],
+   "p": 1.0000013216027823,
+   "pShifts": [
+    0.9995821428774139,
+    0.9996621085488182,
+    1.0000013216027823
+   ],
+   "yInf": 6781.517198725134,
+   "uInf": 0.005639417552629311,
+   "residual": 0.14920006913416728,
+   "distanceSigma": 89606.18442522951,
+   "gates": {
+    "g1": {
+     "pass": true,
+     "missing": [],
+     "refitPerStage": false,
+     "what": "対象量・観測版・単位・時系・窓・抽出法・f を固定(段ごとに再 fit しない)"
+    },
+    "g2": {
+     "pass": true,
+     "nStages": 5,
+     "nGiven": 5,
+     "ratios": [
+      2,
+      2,
+      2,
+      2
+     ],
+     "excluded": [],
+     "what": "4 段以上・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外"
+    },
+    "g3": {
+     "pass": true,
+     "pShifts": [
+      0.9995821428774139,
+      0.9996621085488182,
+      1.0000013216027823
+     ],
+     "maxAdjacentDiff": 0.00033921305396411583,
+     "range": [
+      0.5,
+      4.5
+     ],
+     "tol": 0.25,
+     "what": "隣接 3 段の次数が安定(0.5≤p≤4.5・段をずらした 2 組の差 ≤0.25)"
+    },
+    "g4": {
+     "pass": false,
+     "nExtrapolations": 3,
+     "extrapolations": [
+      6781.525497537863,
+      6781.522838142687,
+      6781.517198725134
+     ],
+     "extrapolationSpread": 0.005639417552629311,
+     "independent": null,
+     "independentDiff": null,
+     "what": "Richardson を段をずらして比較し、独立推定(別積分法/別抽出法)と照合する"
+    },
+    "g5": {
+     "pass": false,
+     "residual": 0.14920006913416728,
+     "uInf": 0.005639417552629311,
+     "sigma": 0.000001728,
+     "nSigma": 89606.18442522951,
+     "uParts": {
+      "extrapolationSpread": 0.005639417552629311,
+      "independentDiff": null,
+      "systematic": 0
+     },
+     "what": "|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない)"
+    }
+   }
+  },
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "observationVersion": "Hu et al. (2022) A&A 667 A149 (via device-collected record)",
+   "duplicateCandidatesRejected": [
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "ok": false,
+   "verdict": null,
+   "failed": [
+    "g4",
+    "g5"
+   ],
+   "p": 0.9999563396598453,
+   "pShifts": [
+    0.9997165005001694,
+    0.9999639998965821,
+    0.9999563396598453
+   ],
+   "yInf": 8834.315677361925,
+   "uInf": 0.0001287087688979227,
+   "residual": 0.21904591607562907,
+   "distanceSigma": 874739.0838303281,
+   "gates": {
+    "g1": {
+     "pass": true,
+     "missing": [],
+     "refitPerStage": false,
+     "what": "対象量・観測版・単位・時系・窓・抽出法・f を固定(段ごとに再 fit しない)"
+    },
+    "g2": {
+     "pass": true,
+     "nStages": 5,
+     "nGiven": 5,
+     "ratios": [
+      2,
+      2,
+      2,
+      2
+     ],
+     "excluded": [],
+     "what": "4 段以上・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外"
+    },
+    "g3": {
+     "pass": true,
+     "pShifts": [
+      0.9997165005001694,
+      0.9999639998965821,
+      0.9999563396598453
+     ],
+     "maxAdjacentDiff": 0.00024749939641277585,
+     "range": [
+      0.5,
+      4.5
+     ],
+     "tol": 0.25,
+     "what": "隣接 3 段の次数が安定(0.5≤p≤4.5・段をずらした 2 組の差 ≤0.25)"
+    },
+    "g4": {
+     "pass": false,
+     "nExtrapolations": 3,
+     "extrapolations": [
+      8834.323867584906,
+      8834.315548653156,
+      8834.315677361925
+     ],
+     "extrapolationSpread": 0.0001287087688979227,
+     "independent": null,
+     "independentDiff": null,
+     "what": "Richardson を段をずらして比較し、独立推定(別積分法/別抽出法)と照合する"
+    },
+    "g5": {
+     "pass": false,
+     "residual": 0.21904591607562907,
+     "uInf": 0.0001287087688979227,
+     "sigma": 2.5056e-7,
+     "nSigma": 874739.0838303281,
+     "uParts": {
+      "extrapolationSpread": 0.0001287087688979227,
+      "independentDiff": null,
+      "systematic": 0
+     },
+     "what": "|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない)"
+    }
+   }
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "observationVersion": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resoluti",
+   "duplicateCandidatesRejected": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "ok": false,
+   "verdict": null,
+   "failed": [
+    "g4",
+    "g5"
+   ],
+   "p": 0.9933311904829101,
+   "pShifts": [
+    0.9867114027316336,
+    0.9933311904829101
+   ],
+   "yInf": 15855.818603615791,
+   "uInf": 0.8165513951589674,
+   "residual": 1.850415552209597,
+   "distanceSigma": 617353.4600390195,
+   "gates": {
+    "g1": {
+     "pass": true,
+     "missing": [],
+     "refitPerStage": false,
+     "what": "対象量・観測版・単位・時系・窓・抽出法・f を固定(段ごとに再 fit しない)"
+    },
+    "g2": {
+     "pass": true,
+     "nStages": 4,
+     "nGiven": 4,
+     "ratios": [
+      2,
+      2,
+      2
+     ],
+     "excluded": [],
+     "what": "4 段以上・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外"
+    },
+    "g3": {
+     "pass": true,
+     "pShifts": [
+      0.9867114027316336,
+      0.9933311904829101
+     ],
+     "maxAdjacentDiff": 0.0066197877512764736,
+     "range": [
+      0.5,
+      4.5
+     ],
+     "tol": 0.25,
+     "what": "隣接 3 段の次数が安定(0.5≤p≤4.5・段をずらした 2 組の差 ≤0.25)"
+    },
+    "g4": {
+     "pass": false,
+     "nExtrapolations": 2,
+     "extrapolations": [
+      15856.63515501095,
+      15855.818603615791
+     ],
+     "extrapolationSpread": 0.8165513951589674,
+     "independent": null,
+     "independentDiff": null,
+     "what": "Richardson を段をずらして比較し、独立推定(別積分法/別抽出法)と照合する"
+    },
+    "g5": {
+     "pass": false,
+     "residual": 1.850415552209597,
+     "uInf": 0.8165513951589674,
+     "sigma": 0.00000432,
+     "nSigma": 617353.4600390195,
+     "uParts": {
+      "extrapolationSpread": 0.8165513951589674,
+      "independentDiff": null,
+      "systematic": 0
+     },
+     "what": "|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない)"
+    }
+   }
+  },
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "observationVersion": "Stairs et al. (2002) ApJ 581 501 - Studies of the Relativist",
+   "duplicateCandidatesRejected": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "ok": false,
+   "verdict": null,
+   "failed": [
+    "g4",
+    "g5"
+   ],
+   "p": 0.9997552597966478,
+   "pShifts": [
+    0.9995105732656265,
+    0.9997552597966478
+   ],
+   "yInf": 36335.844701137845,
+   "uInf": 0.010127243724127766,
+   "residual": 15.857943002949469,
+   "distanceSigma": 18365822.044761106,
+   "gates": {
+    "g1": {
+     "pass": true,
+     "missing": [],
+     "refitPerStage": false,
+     "what": "対象量・観測版・単位・時系・窓・抽出法・f を固定(段ごとに再 fit しない)"
+    },
+    "g2": {
+     "pass": true,
+     "nStages": 4,
+     "nGiven": 4,
+     "ratios": [
+      2,
+      2,
+      2
+     ],
+     "excluded": [],
+     "what": "4 段以上・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外"
+    },
+    "g3": {
+     "pass": true,
+     "pShifts": [
+      0.9995105732656265,
+      0.9997552597966478
+     ],
+     "maxAdjacentDiff": 0.00024468653102127647,
+     "range": [
+      0.5,
+      4.5
+     ],
+     "tol": 0.25,
+     "what": "隣接 3 段の次数が安定(0.5≤p≤4.5・段をずらした 2 組の差 ≤0.25)"
+    },
+    "g4": {
+     "pass": false,
+     "nExtrapolations": 2,
+     "extrapolations": [
+      36335.85482838157,
+      36335.844701137845
+     ],
+     "extrapolationSpread": 0.010127243724127766,
+     "independent": null,
+     "independentDiff": null,
+     "what": "Richardson を段をずらして比較し、独立推定(別積分法/別抽出法)と照合する"
+    },
+    "g5": {
+     "pass": false,
+     "residual": 15.857943002949469,
+     "uInf": 0.010127243724127766,
+     "sigma": 8.64e-7,
+     "nSigma": 18365822.044761106,
+     "uParts": {
+      "extrapolationSpread": 0.010127243724127766,
+      "independentDiff": null,
+      "systematic": 0
+     },
+     "what": "|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない)"
+    }
+   }
+  }
+ ]
+}

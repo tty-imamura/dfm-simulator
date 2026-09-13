@@ -1,0 +1,915 @@
+{
+ "meta": {
+  "wave": "第261便c",
+  "target": "beta/index.html",
+  "dt0": 0.016,
+  "divs": [
+   1,
+   2,
+   4,
+   8
+  ],
+  "periWindow": 20,
+  "yearSec": 31557600,
+  "touched": "**本体のプリセット JSON は 1 bit も書き換えていない**。診断コピーの bodies[i].m に共通係数を掛け、初期位置・初期速度・core.massFrac・physics は触らない(λ_PN の掃引だけは例外で、これも診断コピーの physics.lambdaPN を動かす)。",
+  "direction": "f_new/f_old = (P∞/P_obs)²(固定 a の Kepler 感度)。**探索の初期方向であって最適値ではない。**",
+  "extractor": "radial-crossing/orbit-phase-1.5pi-v1(第261便c の位相制限)"
+ },
+ "convcal": [
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "massScale": 1.0000440034254074,
+   "observationVersion": "v2 (DDFWHE)",
+   "obs": {
+    "value": 6781.367998656,
+    "sigma": 0.000001728,
+    "unit": "s"
+   },
+   "before": {
+    "yInf": 6781.517198725134,
+    "pShifts": [
+     0.9995821428774139,
+     0.9996621085488182,
+     1.0000013216027823
+    ],
+    "spread": 0.005639417552629311,
+    "residual": 0.14920006913416728,
+    "nSigma": 86342.63260079124,
+    "nSigmaWithEnvelope": 89606.18442522951,
+    "finest": 6775.523111648803
+   },
+   "after": {
+    "yInf": 6780.979682514899,
+    "pShifts": [
+     0.9996524219969685,
+     0.9996523235714975
+    ],
+    "spread": 0.000003272974026913289,
+    "residual": -0.3883161411013134,
+    "nSigma": 224719.98906326006,
+    "nSigmaWithEnvelope": 224721.88314545157,
+    "finest": 6768.986080836899
+   },
+   "sideEffects": {
+    "degPerYearBefore": 51.48754241836252,
+    "degPerYearAfter": 51.60266836690065,
+    "degPerYearObs": 25.79205,
+    "degPerYearRatioBefore": 1.9962563044954753,
+    "degPerYearRatioAfter": 2.0007199259810933,
+    "eProxyBefore": 0.06386242544707739,
+    "eProxyAfter": 0.06390910883354407,
+    "eObs": 0.063848
+   },
+   "stages": [
+    {
+     "div": 1,
+     "dt": 0.016,
+     "wallSec": 1.1,
+     "steps": 815044,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "rejected": 4,
+     "unwrapFailed": false,
+     "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+     "perMeanSim": 668.510020913451,
+     "eProxy": 0.0722211380883172,
+     "rMin": 672.6980303764003,
+     "rMax": 777.4277657433993,
+     "slopeRadPerSimTime": 3.061378346170403e-7,
+     "slopeRadPerOrbit": 0.00020462974820567047,
+     "massSum": 10069.238120637983,
+     "lambdaPN": 1,
+     "nan": false,
+     "perMeanSec": 6685.100209134509,
+     "degPerYear": 55.353311237243275,
+     "degPerOrbit": 0.011724420935009647
+    },
+    {
+     "div": 2,
+     "dt": 0.008,
+     "wallSec": 2.15,
+     "steps": 1641475,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "rejected": 1,
+     "unwrapFailed": false,
+     "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+     "perMeanSim": 673.3028393025783,
+     "eProxy": 0.06803139983434689,
+     "rMin": 678.7211993406529,
+     "rMax": 777.8111328001796,
+     "slopeRadPerSimTime": 2.915863157354583e-7,
+     "slopeRadPerOrbit": 0.00019632337818835366,
+     "massSum": 10069.238120637983,
+     "lambdaPN": 1,
+     "nan": false,
+     "perMeanSec": 6733.028393025783,
+     "degPerYear": 52.72222594641526,
+     "degPerOrbit": 0.011248500989943386
+    },
+    {
+     "div": 4,
+     "dt": 0.004,
+     "wallSec": 3.86,
+     "steps": 3294337,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "rejected": 0,
+     "unwrapFailed": false,
+     "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+     "perMeanSim": 675.6998259161,
+     "eProxy": 0.06595916172911259,
+     "rMin": 681.7206721288765,
+     "rMax": 778.0028093216554,
+     "slopeRadPerSimTime": 2.8691211339326793e-7,
+     "slopeRadPerOrbit": 0.00019386662888454053,
+     "massSum": 10069.238120637983,
+     "lambdaPN": 1,
+     "nan": false,
+     "perMeanSec": 6756.9982591610005,
+     "degPerYear": 51.877075338497846,
+     "degPerOrbit": 0.011107739623513191
+    },
+    {
+     "div": 8,
+     "dt": 0.002,
+     "wallSec": 7.61,
+     "steps": 6600062,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "rejected": 0,
+     "unwrapFailed": false,
+     "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+     "perMeanSim": 676.89860808369,
+     "eProxy": 0.0649286188278192,
+     "rMin": 683.2174124188589,
+     "rMax": 778.0986457464452,
+     "slopeRadPerSimTime": 2.857664521670637e-7,
+     "slopeRadPerOrbit": 0.00019343498054545278,
+     "massSum": 10069.238120637983,
+     "lambdaPN": 1,
+     "nan": false,
+     "perMeanSec": 6768.986080836899,
+     "degPerYear": 51.66992635116064,
+     "degPerOrbit": 0.011083007995449631
+    }
+   ],
+   "massSum": {
+    "before": 10068.795059165655,
+    "after": 10069.238120637983
+   },
+   "note": "**3σ に入ったかどうかだけを見る**(入っていない)。副作用(ω̇・e)は別欄にある。**「近点移動が観測と合った」とは書かない。**",
+   "second": {
+    "massScale": 1.0000122141695225,
+    "dPdsMeasured": -12215.326540113472,
+    "dPdsFixedAKepler": -3390.758599362567,
+    "sensitivityRatio": 3.602535002760104,
+    "yInf": 6781.368702749699,
+    "pShifts": [
+     0.9994146277113751,
+     0.9998560030605153
+    ],
+    "spread": 0.014680202491035743,
+    "residual": 0.000704093698914221,
+    "nSigma": 407.4616313161001,
+    "envelopeSigma": 8495.487552682722,
+    "nSigmaWithEnvelope": 8902.949183998822,
+    "degPerYear": 51.57184736484907,
+    "eProxy": 0.06387937535245772,
+    "stages": [
+     {
+      "div": 1,
+      "dt": 0.016,
+      "measured": true,
+      "perMeanSec": 6685.48767768662,
+      "eProxy": 0.0721910969091068,
+      "degPerYear": 54.801570974936816
+     },
+     {
+      "div": 2,
+      "dt": 0.008,
+      "measured": true,
+      "perMeanSec": 6733.416071571468,
+      "eProxy": 0.0680015147330886,
+      "degPerYear": 52.32257167047252
+     },
+     {
+      "div": 4,
+      "dt": 0.004,
+      "measured": true,
+      "perMeanSec": 6757.389993939374,
+      "eProxy": 0.06592935437603636,
+      "degPerYear": 51.835176090367014
+     },
+     {
+      "div": 8,
+      "dt": 0.002,
+      "measured": true,
+      "perMeanSec": 6769.378151614491,
+      "eProxy": 0.064898849370454,
+      "degPerYear": 51.66421418601562
+     }
+    ],
+    "note": "**1 量(近点間 P)への fit である。** 通っても予測ではない(hold-out ではなくなる)。**そして通っていない** —— 隣接外挿差(包絡)だけで 3σ を大きく超える。"
+   }
+  },
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "massScale": 0.9999504120573648,
+   "observationVersion": "v1",
+   "obs": {
+    "value": 8834.534723278,
+    "sigma": 2.5056e-7,
+    "unit": "s"
+   },
+   "before": {
+    "yInf": 8834.315677361925,
+    "pShifts": [
+     0.9997165005001694,
+     0.9999639998965821,
+     0.9999563396598453
+    ],
+    "spread": 0.0001287087688979227,
+    "residual": -0.21904591607562907,
+    "nSigma": 874225.3994078428,
+    "nSigmaWithEnvelope": 874739.0838303281,
+    "finest": 8828.255519325317
+   },
+   "after": {
+    "yInf": 8835.086188227277,
+    "pShifts": [
+     0.9997542730411708,
+     0.9998906886985528
+    ],
+    "spread": 0.0045850273072574055,
+    "residual": 0.5514649492761237,
+    "nSigma": 2200929.7145439163,
+    "nSigmaWithEnvelope": 2219228.8337459336,
+    "finest": 8822.965406136556
+   },
+   "sideEffects": {
+    "degPerYearBefore": 33.752238302396904,
+    "degPerYearAfter": 33.763670038091284,
+    "degPerYearObs": 16.899323,
+    "degPerYearRatioBefore": 1.997253872382752,
+    "degPerYearRatioAfter": 1.9979303335459822,
+    "eProxyBefore": 0.08780822015817487,
+    "eProxyAfter": 0.08776622234151368,
+    "eObs": 0.087777036
+   },
+   "stages": [
+    {
+     "div": 1,
+     "dt": 0.016,
+     "wallSec": 1.34,
+     "steps": 1065263,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "rejected": 1,
+     "unwrapFailed": false,
+     "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+     "perMeanSim": 873.8146552824351,
+     "eProxy": 0.09402017399626518,
+     "rMin": 791.0506761555854,
+     "rMax": 955.2369418477858,
+     "slopeRadPerSimTime": 1.9197633787646864e-7,
+     "slopeRadPerOrbit": 0.0001677518552198506,
+     "massSum": 10287.898636116293,
+     "lambdaPN": 1,
+     "nan": false,
+     "perMeanSec": 8738.14655282435,
+     "degPerYear": 34.711573608520084,
+     "degPerOrbit": 0.009611473309587068
+    },
+    {
+     "div": 2,
+     "dt": 0.008,
+     "wallSec": 2.63,
+     "steps": 2142038,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "rejected": 0,
+     "unwrapFailed": false,
+     "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+     "perMeanSim": 878.6610406326639,
+     "eProxy": 0.0908737239141116,
+     "rMin": 796.3964817282523,
+     "rMax": 955.6076186416591,
+     "slopeRadPerSimTime": 1.8868669705501306e-7,
+     "slopeRadPerOrbit": 0.00016579210938366464,
+     "massSum": 10287.898636116293,
+     "lambdaPN": 1,
+     "nan": false,
+     "perMeanSec": 8786.61040632664,
+     "degPerYear": 34.11676796328987,
+     "degPerOrbit": 0.009499188144255277
+    },
+    {
+     "div": 4,
+     "dt": 0.004,
+     "wallSec": 5.13,
+     "steps": 4295590,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "rejected": 0,
+     "unwrapFailed": false,
+     "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+     "perMeanSim": 881.0846460730976,
+     "eProxy": 0.0893135481841077,
+     "rMin": 799.0607388804445,
+     "rMax": 955.7929482192853,
+     "slopeRadPerSimTime": 1.8753945859913255e-7,
+     "slopeRadPerOrbit": 0.0001652382796108579,
+     "massSum": 10287.898636116293,
+     "lambdaPN": 1,
+     "nan": false,
+     "perMeanSec": 8810.846460730976,
+     "degPerYear": 33.90933379432761,
+     "degPerOrbit": 0.009467456035704761
+    },
+    {
+     "div": 8,
+     "dt": 0.002,
+     "wallSec": 10.16,
+     "steps": 8602693,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "rejected": 0,
+     "unwrapFailed": false,
+     "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+     "perMeanSim": 882.2965406136556,
+     "eProxy": 0.08853668607491018,
+     "rMin": 800.3907242537514,
+     "rMax": 955.8856107903442,
+     "slopeRadPerSimTime": 1.870661874444285e-7,
+     "slopeRadPerOrbit": 0.00016504788377786454,
+     "massSum": 10287.898636116293,
+     "lambdaPN": 1,
+     "nan": false,
+     "perMeanSec": 8822.965406136556,
+     "degPerYear": 33.82376081848582,
+     "degPerOrbit": 0.009456547158037364
+    }
+   ],
+   "massSum": {
+    "before": 10288.408817142525,
+    "after": 10287.898636116293
+   },
+   "note": "**3σ に入ったかどうかだけを見る**(入っていない)。副作用(ω̇・e)は別欄にある。**「近点移動が観測と合った」とは書かない。**",
+   "second": {
+    "massScale": 0.9999859028122648,
+    "dPdsMeasured": -15538.270482805929,
+    "dPdsFixedAKepler": -4417.157838680962,
+    "sensitivityRatio": 3.5177077773263177,
+    "yInf": 8834.535459822602,
+    "pShifts": [
+     0.9997752837749334,
+     0.9998548661656627
+    ],
+    "spread": 0.002674826559086796,
+    "residual": 0.0007365446017502109,
+    "nSigma": 2939.5937170745965,
+    "envelopeSigma": 10675.393355231465,
+    "nSigmaWithEnvelope": 13614.987072306061,
+    "degPerYear": 33.77697163034684,
+    "eProxy": 0.08779860456082986,
+    "stages": [
+     {
+      "div": 1,
+      "dt": 0.016,
+      "measured": true,
+      "perMeanSec": 8737.595198049006,
+      "eProxy": 0.09405281414789135,
+      "degPerYear": 34.80519004257602
+     },
+     {
+      "div": 2,
+      "dt": 0.008,
+      "measured": true,
+      "perMeanSec": 8786.059115776428,
+      "eProxy": 0.09090623251279732,
+      "degPerYear": 34.159373008996575
+     },
+     {
+      "div": 4,
+      "dt": 0.004,
+      "measured": true,
+      "perMeanSec": 8810.294849338377,
+      "eProxy": 0.08934599236772353,
+      "degPerYear": 33.917042259476545
+     },
+     {
+      "div": 8,
+      "dt": 0.002,
+      "measured": true,
+      "perMeanSec": 8822.413935227261,
+      "eProxy": 0.08856909866821079,
+      "degPerYear": 33.828278404433455
+     }
+    ],
+    "note": "**1 量(近点間 P)への fit である。** 通っても予測ではない(hold-out ではなくなる)。**そして通っていない** —— 隣接外挿差(包絡)だけで 3σ を大きく超える。"
+   }
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "massScale": 0.9997666356148053,
+   "observationVersion": "v1",
+   "obs": {
+    "value": 15857.669019168,
+    "sigma": 0.00000432,
+    "unit": "s"
+   },
+   "before": {
+    "yInf": 15855.818603615791,
+    "pShifts": [
+     0.9867114027316336,
+     0.9933311904829101
+    ],
+    "spread": 0.8165513951589674,
+    "residual": -1.850415552209597,
+    "nSigma": 428336.9333818512,
+    "nSigmaWithEnvelope": 617353.4600390195,
+    "finest": 15811.638441439847
+   },
+   "after": {
+    "yInf": 15859.02996342837,
+    "pShifts": [
+     0.9867235953689968,
+     0.9933373328058706
+    ],
+    "spread": 0.8153989389229537,
+    "residual": 1.360944260368342,
+    "nSigma": 315033.39360378287,
+    "nSigmaWithEnvelope": 503783.1479840962,
+    "finest": 15814.87151157033
+   },
+   "sideEffects": {
+    "degPerYearBefore": 20.71281424595954,
+    "degPerYearAfter": 20.6989658071118,
+    "degPerYearObs": 10.3651,
+    "degPerYearRatioBefore": 1.998322664128618,
+    "degPerYearRatioAfter": 1.996986599947111,
+    "eProxyBefore": 0.6059233863147706,
+    "eProxyAfter": 0.6058314314074477,
+    "eObs": 0.6058142
+   },
+   "stages": [
+    {
+     "div": 1,
+     "dt": 0.016,
+     "wallSec": 2.37,
+     "steps": 1891536,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "rejected": 0,
+     "unwrapFailed": false,
+     "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+     "perMeanSim": 1551.1416074655758,
+     "eProxy": 0.6088277662253727,
+     "rMin": 515.2703860586167,
+     "rMax": 2119.2232797443,
+     "slopeRadPerSimTime": 1.1805070398576277e-7,
+     "slopeRadPerOrbit": 0.00018311756352398767,
+     "massSum": 10866.03763392116,
+     "lambdaPN": 1,
+     "nan": false,
+     "perMeanSec": 15511.416074655757,
+     "degPerYear": 21.344951915773027,
+     "degPerOrbit": 0.010491863544643243
+    },
+    {
+     "div": 2,
+     "dt": 0.008,
+     "wallSec": 4.23,
+     "steps": 3824069,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "rejected": 0,
+     "unwrapFailed": false,
+     "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+     "perMeanSim": 1568.4020108371178,
+     "eProxy": 0.607319023382972,
+     "rMin": 518.1842374749975,
+     "rMax": 2121.0280917760306,
+     "slopeRadPerSimTime": 1.1622443684917245e-7,
+     "slopeRadPerOrbit": 0.000182287675615855,
+     "massSum": 10866.03763392116,
+     "lambdaPN": 1,
+     "nan": false,
+     "perMeanSec": 15684.020108371178,
+     "degPerYear": 21.01474139690498,
+     "degPerOrbit": 0.010444314470038301
+    },
+    {
+     "div": 4,
+     "dt": 0.004,
+     "wallSec": 7.79,
+     "steps": 7689514,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "rejected": 0,
+     "unwrapFailed": false,
+     "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+     "perMeanSim": 1577.1119985273297,
+     "eProxy": 0.6065717399379057,
+     "rMin": 519.6329419271777,
+     "rMax": 2121.9309449434036,
+     "slopeRadPerSimTime": 1.153383339980927e-7,
+     "slopeRadPerOrbit": 0.00018190172735446165,
+     "massSum": 10866.03763392116,
+     "lambdaPN": 1,
+     "nan": false,
+     "perMeanSec": 15771.119985273297,
+     "degPerYear": 20.85452360819101,
+     "degPerOrbit": 0.010422201263550049
+    },
+    {
+     "div": 8,
+     "dt": 0.002,
+     "wallSec": 17.41,
+     "steps": 15420594,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "rejected": 0,
+     "unwrapFailed": false,
+     "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+     "perMeanSim": 1581.4871511570332,
+     "eProxy": 0.6061998501198945,
+     "rMin": 520.3552596500405,
+     "rMax": 2122.382483382639,
+     "slopeRadPerSimTime": 1.14901820804865e-7,
+     "slopeRadPerOrbit": 0.00018171581724977704,
+     "massSum": 10866.03763392116,
+     "lambdaPN": 1,
+     "nan": false,
+     "perMeanSec": 15814.87151157033,
+     "degPerYear": 20.77559690292401,
+     "degPerOrbit": 0.010411549399182787
+    }
+   ],
+   "massSum": {
+    "before": 10868.57397200408,
+    "after": 10866.03763392116
+   },
+   "note": "**3σ に入ったかどうかだけを見る**(入っていない)。副作用(ω̇・e)は別欄にある。**「近点移動が観測と合った」とは書かない。**",
+   "second": {
+    "massScale": 0.9998655332591493,
+    "dPdsMeasured": -13761.139301090554,
+    "dPdsFixedAKepler": -7927.909301807896,
+    "sensitivityRatio": 1.735784149038188,
+    "yInf": 15857.66890415731,
+    "pShifts": [
+     0.986718429621381,
+     0.9933347304422615
+    ],
+    "spread": 0.8158871333271236,
+    "residual": -0.00011501069093355909,
+    "nSigma": 26.622845123509048,
+    "envelopeSigma": 188862.76234424158,
+    "nSigmaWithEnvelope": 188889.38518936507,
+    "degPerYear": 20.704833511036785,
+    "eProxy": 0.605870404378475,
+    "stages": [
+     {
+      "div": 1,
+      "dt": 0.016,
+      "measured": true,
+      "perMeanSec": 15509.984787735273,
+      "eProxy": 0.608867013080904,
+      "degPerYear": 21.351173390176122
+     },
+     {
+      "div": 2,
+      "dt": 0.008,
+      "measured": true,
+      "perMeanSec": 15682.623222796563,
+      "eProxy": 0.6073581289772418,
+      "degPerYear": 21.02078313319568
+     },
+     {
+      "div": 4,
+      "dt": 0.004,
+      "measured": true,
+      "perMeanSec": 15769.740771325993,
+      "eProxy": 0.6066107773590454,
+      "degPerYear": 20.860477094023867
+     },
+     {
+      "div": 8,
+      "dt": 0.002,
+      "measured": true,
+      "perMeanSec": 15813.50125327269,
+      "eProxy": 0.6062388543932244,
+      "degPerYear": 20.781506889404916
+     }
+    ],
+    "note": "**1 量(近点間 P)への fit である。** 通っても予測ではない(hold-out ではなくなる)。**そして通っていない** —— 隣接外挿差(包絡)だけで 3σ を大きく超える。"
+   }
+  },
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "massScale": 0.999127717111321,
+   "observationVersion": "v1",
+   "obs": {
+    "value": 36351.702644140794,
+    "sigma": 8.64e-7,
+    "unit": "s"
+   },
+   "before": {
+    "yInf": 36335.844701137845,
+    "pShifts": [
+     0.9995105732656265,
+     0.9997552597966478
+    ],
+    "spread": 0.010127243724127766,
+    "residual": -15.857943002949469,
+    "nSigma": 18354100.69785818,
+    "nSigmaWithEnvelope": 18365822.044761106,
+    "finest": 36320.92070224479
+   },
+   "after": {
+    "yInf": 36378.80896639979,
+    "pShifts": [
+     0.9995138384206002,
+     0.9997568938946921
+    ],
+    "spread": 0.010048598705907352,
+    "residual": 27.106322258994624,
+    "nSigma": 31373058.170132667,
+    "nSigmaWithEnvelope": 31384688.492708948,
+    "finest": 36363.90146553061
+   },
+   "sideEffects": {
+    "degPerYearBefore": 3.5567478056692465,
+    "degPerYearAfter": 3.546647671381279,
+    "degPerYearObs": 1.755789,
+    "degPerYearRatioBefore": 2.0257262152053843,
+    "degPerYearRatioAfter": 2.0199737390889676,
+    "eProxyBefore": 0.2739690481713439,
+    "eProxyAfter": 0.2733357413166912,
+    "eObs": 0.2736775
+   },
+   "stages": [
+    {
+     "div": 1,
+     "dt": 0.016,
+     "wallSec": 5.35,
+     "steps": 4419510,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "rejected": 0,
+     "unwrapFailed": false,
+     "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+     "perMeanSim": 3625.961927156082,
+     "eProxy": 0.27469993674593646,
+     "rMin": 1654.0872058957482,
+     "rMax": 2907.024228383397,
+     "slopeRadPerSimTime": 1.9720896146852373e-8,
+     "slopeRadPerOrbit": 0.00007150728942261418,
+     "massSum": 10640.364425130792,
+     "lambdaPN": 1,
+     "nan": false,
+     "perMeanSec": 36259.61927156082,
+     "degPerYear": 3.5657693328223115,
+     "degPerOrbit": 0.004097065888336266
+    },
+    {
+     "div": 2,
+     "dt": 0.008,
+     "wallSec": 10.43,
+     "steps": 8853174,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "rejected": 0,
+     "unwrapFailed": false,
+     "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+     "perMeanSim": 3631.9199055839454,
+     "eProxy": 0.27401671849748077,
+     "rMin": 1656.7402783806292,
+     "rMax": 2907.3876308786153,
+     "slopeRadPerSimTime": 1.9666218834159597e-8,
+     "slopeRadPerOrbit": 0.00007142614927960965,
+     "massSum": 10640.364425130792,
+     "lambdaPN": 1,
+     "nan": false,
+     "perMeanSec": 36319.199055839454,
+     "degPerYear": 3.5558830333687164,
+     "degPerOrbit": 0.004092416900593018
+    },
+    {
+     "div": 4,
+     "dt": 0.004,
+     "wallSec": 21.18,
+     "steps": 17720506,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "rejected": 0,
+     "unwrapFailed": false,
+     "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+     "perMeanSim": 3634.8998988313756,
+     "eProxy": 0.2736758573710601,
+     "rMin": 1658.0653471357887,
+     "rMax": 2907.5693325387683,
+     "slopeRadPerSimTime": 1.964009285113912e-8,
+     "slopeRadPerOrbit": 0.00007138977591558465,
+     "massSum": 10640.364425130792,
+     "lambdaPN": 1,
+     "nan": false,
+     "perMeanSec": 36348.99898831375,
+     "degPerYear": 3.5511591492028782,
+     "degPerOrbit": 0.004090332860347693
+    },
+    {
+     "div": 8,
+     "dt": 0.002,
+     "wallSec": 39.78,
+     "steps": 35455173,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "rejected": 0,
+     "unwrapFailed": false,
+     "measurementMethod": "radial-crossing/orbit-phase-1.5pi-v1",
+     "perMeanSim": 3636.3901465530607,
+     "eProxy": 0.2735056132796626,
+     "rMin": 1658.727515416563,
+     "rMax": 2907.6601834744592,
+     "slopeRadPerSimTime": 1.962733029855865e-8,
+     "slopeRadPerOrbit": 0.00007137263159920339,
+     "massSum": 10640.364425130792,
+     "lambdaPN": 1,
+     "nan": false,
+     "perMeanSec": 36363.90146553061,
+     "degPerYear": 3.548851530002356,
+     "degPerOrbit": 0.00408935056337641
+    }
+   ],
+   "massSum": {
+    "before": 10649.653936029545,
+    "after": 10640.364425130792
+   },
+   "note": "**3σ に入ったかどうかだけを見る**(入っていない)。副作用(ω̇・e)は別欄にある。**「近点移動が観測と合った」とは書かない。**",
+   "second": {
+    "massScale": 0.9996780437825066,
+    "dPdsMeasured": -49254.96741889418,
+    "dPdsFixedAKepler": -18167.922350568922,
+    "sensitivityRatio": 2.711095218730488,
+    "yInf": 36351.68567858788,
+    "pShifts": [
+     0.9995117788543656,
+     0.999755863915434
+    ],
+    "spread": 0.010098219427163713,
+    "residual": -0.016965552917099558,
+    "nSigma": 19636.056617013375,
+    "envelopeSigma": 11687.753966624667,
+    "nSigmaWithEnvelope": 31323.810583638046,
+    "degPerYear": 3.5530183209466615,
+    "eProxy": 0.2737354606076589,
+    "stages": [
+     {
+      "div": 1,
+      "dt": 0.016,
+      "measured": true,
+      "perMeanSec": 36232.413084470405,
+      "eProxy": 0.2751004625132948,
+      "degPerYear": 3.5721996587286164
+     },
+     {
+      "div": 2,
+      "dt": 0.008,
+      "measured": true,
+      "perMeanSec": 36292.034244048475,
+      "eProxy": 0.27441683909241427,
+      "degPerYear": 3.562283043475999
+     },
+     {
+      "div": 4,
+      "dt": 0.004,
+      "measured": true,
+      "perMeanSec": 36321.85491371646,
+      "eProxy": 0.2740757767059883,
+      "degPerYear": 3.5575443239743207
+     },
+     {
+      "div": 8,
+      "dt": 0.002,
+      "measured": true,
+      "perMeanSec": 36336.76777192419,
+      "eProxy": 0.27390543228914477,
+      "degPerYear": 3.55522936432562
+     }
+    ],
+    "note": "**1 量(近点間 P)への fit である。** 通っても予測ではない(hold-out ではなくなる)。**そして通っていない** —— 隣接外挿差(包絡)だけで 3σ を大きく超える。"
+   }
+  }
+ ],
+ "sensitivity": {
+  "id": "psrDoubleABDFM",
+  "emoji": "⚡",
+  "dt": 0.004,
+  "delta": 0.0001,
+  "base": {
+   "P": 8810.076512361618,
+   "w": 33.91656886423957,
+   "e": 0.08935883047456201
+  },
+  "rows": [
+   {
+    "knob": "massScale",
+    "label": "質量係数 s",
+    "step": 0.0001,
+    "dP": -15537.689457241868,
+    "dOmega": 138.40338560122234,
+    "dE": 0.913844601004854,
+    "relP": -1.763627073549314,
+    "relOmega": 4.080701268905475,
+    "relE": 10.226684885552528
+   },
+   {
+    "knob": "velScale",
+    "label": "初期相対速度の倍率",
+    "step": 0.0001,
+    "dP": 22245.944293745197,
+    "dOmega": -160.41277934508713,
+    "dE": -1.8263768557752469,
+    "relP": 2.5250568780567804,
+    "relOmega": -4.729628754228753,
+    "relE": -20.438683519869542
+   },
+   {
+    "knob": "lambdaPN",
+    "label": "宣言係数 λ_PN",
+    "step": 0.0001,
+    "dP": 0.28424744414223824,
+    "dOmega": 16.96308323786866,
+    "dE": -0.000009186443203357264,
+    "relP": 0.00003226390187910448,
+    "relOmega": 0.5001414885381856,
+    "relE": -0.00010280397756517628
+   }
+  ],
+  "matrixRelative": [
+   [
+    -1.763627073549314,
+    4.080701268905475,
+    10.226684885552528
+   ],
+   [
+    2.5250568780567804,
+    -4.729628754228753,
+    -20.438683519869542
+   ],
+   [
+    0.00003226390187910448,
+    0.5001414885381856,
+    -0.00010280397756517628
+   ]
+  ],
+  "determinant": -5.114002386151874,
+  "cosines": {
+   "s·v": -0.9878960743915931,
+   "s·λ": 0.3657465357711966,
+   "v·λ": -0.22362618448340138
+  },
+  "note": "行が平行(|cos|→1)なら**そのノブは独立ではない**(同じ方向にしか動かせない)。**行列式の絶対値そのものは単位に依存する** —— ここで読むのは cos の側である。"
+ },
+ "eMap": {
+  "id": "psrDoubleABDFM",
+  "emoji": "⚡",
+  "dt": 0.004,
+  "nSamples": 4416,
+  "window": "最初の近点から 2 つ目の近点まで(1 公転)",
+  "aR": 878.6174556437315,
+  "eR": 0.08783738654657355,
+  "eT": 0.08478408355026287,
+  "n": 0.007100900018690832,
+  "t0": -0.9968319644895968,
+  "residualMaxRad": 0.04665751187121668,
+  "eProxyWindow20": 0.08935883047456201,
+  "diff": -0.0030533029963106806,
+  "diffRelPct": -3.476085885924832,
+  "obsEcc": 0.087777036,
+  "note": "**GR の e_r→e_t の式は 1 つも移植していない。** e_r は r = a_r(1 − e_r cos u) の距離側、e_t は n(t−t₀) = u − e_t sin u の時間側から**別々に**作った。**これは写像そのものではない**(2 つの量の差を測ったドラフトである)。残差はこの 1 公転の窓での最大値で、**上限ではない**。"
+ },
+ "pageErrors": []
+}

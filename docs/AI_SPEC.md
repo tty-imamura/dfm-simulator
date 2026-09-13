@@ -1394,6 +1394,46 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   - **生成 AI はこれらを使わない**(`dfmMeshCapacityStep` は器の純関数で、プリセット JSON の欄ではない)。
     QA は `behavior.toyLedger` に ⑩(固定 T × dt の 1 点・null の扱い・E_shell の欠落条件)を、
     `behavior.chainMesh` に ⑪(有限容量の器)を足した(docs/PHYSICS.md 第260便c の節)。
+- **第261便c(2026-09-13・第53報「現実較正サンプルは、数値精度が上がれば合格する事が予測出来る段階に達したら、
+  その事をチップなどで明示して完了とする」 — 較正の現在地チップの器)**:
+  - **プリセットの任意鍵 `calibrationForecast`(宣言専用メタ・`presetSig` の外・生成 AI は書かない)**:
+    `{status, scope, basis, gate, declaredSig, note}`。`status` は **5 つの列挙だけ**で、
+    **それ以外は落とす**(未知の状態をチップにしない):
+    `"measured-pass"`(実測合格)/ `"pass-expected-with-precision"`(精度向上で合格見込み)/
+    `"convergence-incomplete"`(収束確認・未完)/ `"measurement-recheck"`(測定再検証)/
+    `"calibration-recheck"`(較正要再確認)。`scope` は**範囲**(「公転周期のみ」等)、
+    `basis` は根拠へのポインタ、`declaredSig` は**宣言時の `presetSig` の FNV ハッシュ**である。
+    en 側は `p.en.calibrationForecast:{scope,note}` に文言だけを置く(`status` は共通)。
+    **この鍵は `presetSig` に入らない**ので、署名・保存 JSON・力学・600 步の状態は 1 bit も変わらない。
+  - **派生(表示専用・宣言には書かない)**: `HP.calibrationForecastOf(p)`(未知の状態を落とす読み)/
+    `HP.presetSigHash(p)` / `HP.calibrationReviewBadge(p)`(**`declaredSig` と現在の署名が違えば
+    自動的に `"calibration-recheck"` へ倒す**・`declaredSig` 未宣言なら倒さない)/
+    `HP.calibrationCompletion(p)`(**開発上の完了として数えるのは `measured-pass` と
+    `pass-expected-with-precision` だけ**)。定数は `HP.CALIBRATION_FORECAST_STATES` と
+    `HP.CALIBRATION_FORECAST_COUNTED`。
+  - **`HP.dfmForecastGate(series)` — 門 5 つの機械判定(純関数・力にも表示の物理にも接続していない)**:
+    入力は `{fixed:{quantity,observationVersion,unit,timeSystem,window,extractor,f,refitPerStage?},
+    stages:[{h,y},…], excluded:{duplicateEvents,nan,incomplete,unwrapFailed,roundingFloor},
+    yObs, sigma, systematic, independent:{value,method}|null}`。
+    返値は `{ok, verdict, gates:{g1..g5}, p, pShifts, yInf, uInf, residual, distanceSigma, failed[]}`。
+    門は (1) 固定の宣言(段ごとに再 fit しない)/ (2) **4 段以上**・刻み比 2・除外印が 1 つも立っていない /
+    (3) 隣接 3 段の次数が **0.5≤p≤4.5** かつ段ずらしの差 **≤0.25** / (4) 段ずらし Richardson が
+    **2 本以上**あり **独立推定**と照合されている / (5) **|y∞−y_obs| + U∞ ≤ 3σ**
+    (**U∞ = 隣接外挿差 + 独立推定との差 + 宣言系統幅**)。
+    **`U∞` は数学的上限ではない**(3 項を足すという宣言である)。`ok` が真のときだけ
+    `verdict:"pass-expected-with-precision"` が立ち、それ以外は **`null`** である
+    (**「たぶん通る」を返さない**)。**門を通ることは「観測と合った」ことではない。**
+  - **生成 AI はこれらを使わない**(`calibrationForecast` は台帳の宣言で、生成対象の物理キーではない。
+    `dfmForecastGate` は器の純関数である)。QA `behavior.calibrationForecast` が
+    合成データの合格例・**否定対照 7 本**・`presetSig` 不変・未知状態の除去・署名変化での自動倒し・
+    チップの出方・**NS 4 系が 1 件も通らないこと**を機械固定する
+    (docs/CALIBRATION_VERDICT_v1.44.md §4′ と docs/PHYSICS.md 第261便c の節)。
+  - **近点抽出器の位相制限(`tests/lib-precision-diagnostics.mjs` の純関数・アプリの外)**:
+    `createPeriastronDetector({mode,phaseGate,maxCount,unwrapJump})` / `extractPeriastra(samples, opts)`。
+    既定は **前の採用近点からの累積公転位相が 1.5π を超えるまで次の候補を採らない**
+    (`measurementMethod:"radial-crossing/orbit-phase-1.5pi-v1"`)。**観測周期は閾値に入れない。**
+    unwrap 失敗は **`measured:false`**(0 とは書かない)。旧法は `mode:"legacy"` で残っている。
+    QA `lint.periPhaseGate`(純 Node)が合成データで機械固定する。
 - **台帳の用語 — 等質量度の正名は `equalMassDegree`(第253便b L4・文書のみ)**: 2 体の質量がどれだけ揃っているかを表す量の**正名を `equalMassDegree = |m₁−m₂|/M`(M=m₁+m₂)** に固定する。**0 で等質量**・正質量(m₁,m₂>0)・M>0 のときにだけ定義され、値域は [0,1)。対応欄として **`4ν = 4m₁m₂/M² = 1−δ²`(δ=equalMassDegree)** を併記する(4ν は 1 で等質量 —— 向きが逆なので混ぜない)。ν=m₁m₂/M² は第249便a の ν 則でそのまま使う。**これはプリセットの物理キーではない**(生成 AI が JSON に書く欄ではなく、台帳・文書・ハーネス出力の呼び名の規約である)。
 - **観測安定則(第199便 M1 — 2026-08-25 裁定)**: 観測値再現版は、観測値で安定する計算式を
   採用する(観測値自体が計算式で算出されている為)。kFrame=1 雛形が自己診断で永年不安定と
