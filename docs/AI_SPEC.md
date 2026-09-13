@@ -915,9 +915,40 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     `"complex"`(**重ね合わせ A** = 第259便a・**u は速度ではない**・χ は null)。
   - `background`: `"static"`(既定・u_bg=0)/ `"frame"`(**呼び出し側が `bg:{u,gradU?,dUdt?}` を渡す**。渡さないと null
     —— 純関数は S を読めないので**ゼロ埋めしない**)。
-  - **`timeDerivativeComplete`**: `"scalar"`/`"complex"` は true、**`"local"` は `Rdot` を宣言したときだけ true**。
+  - **`timeDerivativeComplete`**(**第260便a で正直化**): 「∂ₜu にこの法則で必要な項が全部入っているか」を、
+    **源の `ax`/`ay` と背景の ∂ₜu_bg が揃ったときだけ** true にする(第259便a は `"scalar"`/`"complex"` を
+    無条件 true にしていたが、∂ₜu には Σw·a_i が入る)。`"local"` はさらに `Rdot` の宣言が要る。
+    `background:"static"` は u_bg≡0 なので ∂ₜu_bg≡0 が厳密に既知(揃っている扱い)、`"frame"` は
+    `bg.dUdt` を渡したときだけ揃う。**`"complex"` に `"frame"` を宣言しても false**(A は背景項を持たない)。
+    読み口として **`accComplete`**(源の a が全部宣言されたか)・**`bgDtComplete`**・
+    **`uQuantity`**(`"velocity"` / **`"unnormalizedA"`** = complex の A は速度ではない)が増えた。
+  - **`excludeBodyId` は宣言された数値 ID だけを外す(第260便a)**。**添字は ID を宣言していない body の代替**で
+    ある(第259便a は `id===exId || i===exId` と両方見ていたので、id:9 の body が添字 1 にいると
+    `excludeBodyId:1` で消えていた)。
+  - **要求別 `need:"all"|"gravity"`(第260便a)**: `"gravity"` は **D・∇D・g だけ**を返し u/∇u/∂ₜu/χ は
+    **null**(ゼロ埋めしない)。**重力は源が空でも定義される**(空和 = 0)が、**u は D₀=0 かつ源なしでは
+    定義されない**(分母が 0)—— この 1 点だけが違う。`HP.DFM_FIELD_NEED` が受理値。
   - `energyContract` は `"none"`(既定)/`"meshLedger"`/`"toy"` の文字列で、**この関数は帳簿を持たない**ことの宣言。
-  - **門**(null): 未知の lawVersion/energyContract・`"frame"` で bg 未指定・D₀<0・state が配列でない・R 無しの `"local"`。
+  - **門**(null): 未知の lawVersion/energyContract/need・`"frame"` で bg 未指定・D₀<0・state が配列でない・
+    R 無しの `"local"`・**源が 1 つも無い `"complex"`**(第260便a —— A=[0,0] を「静止した場」として返さない)。
+- **状態アダプタ(第260便a — 入場条件 (v))**: **`HP.dfmFieldSnapshot(S)`** →
+  `{stop, bodies, options, n, fieldRole:"diagnostic-all-static", timeDerivativeComplete:false, note}`。
+  **S の型付き配列から bodies 配列と options を 1 格子更新に 1 回だけ作る**(`S._core` の外・力へは接続しない)。
+  `options` は `{lawVersion, G, eps:softening, p:frameWeightPow, D0(pull なら D0pull), background:"static",
+  energyContract:"none"}`(`"local"` なら **R と Ṙ** —— 宣言 `inertiaSupportR` があればそれ、無ければ
+  表示が選ぶ上位 2 体の分離の 3 倍とその時間微分)。
+  - **`ax`/`ay` は捏造しない**ので `timeDerivativeComplete` は **false** である(その bodies を渡した
+    `dfmField` も false を返す)。
+  - **拒否は理由つき**(`bodies:null` + `stop` —— 黙って落とさない): `"complexNotVelocity"`(A は速度ではない)/
+    `"bodyLayers"`(親子コアは根 1 粒子の点源とは別の場)/ `"massiveBox"`(箱は規定場で bodies に書けない)/
+    `"nonPositiveMass"` / `"supportR"` / `"degenerate"` / `"n"` / `"lawVersion"`。
+  - **蓄積格子の両分岐(銀河・連星)とトイ積分器の重力**が、これを通して**同じ `dfmField`** を読む。
+    格子には注記 **`API diagnostic: <law> / all / static (not disk-affine)`** が付く(読めなければ
+    `API diagnostic: unavailable (<理由>)`)。**「表示と力が同じ場になった」という意味ではない** ——
+    銀河の既存表示(disk/affine の u_n)と**全源 scalar 場は別の場**であり、差は docs/PHYSICS.md
+    〔第260便a〕④ の表に数で置いてある。QA `behavior.fieldApiIdentity`。
+  - 読み口: `HP.spaceGridNow(S)` に **`fieldApi`/`apiNote`/`apiLaw`**、診断用に
+    **`HP.spaceGridFieldProbe(S, pts)`**(同じ点で現行の表示場と API の場を両方読む —— 一致の主張ではない)。
 - **複素決定力場(第259便a)**: **`HP.dfmComplexDeterminacy(sources, x, y, {p, eps, units:{M,L,T}})`** →
   `{Phi, gradPhi, A, gradA, dAdt, p, eps, sourceIds, dimless, cauchyRiemann, holomorphic:false}`。
   **Φ=Σmᵢ/(rᵢ²+ε²)^(1/2)**(スカラー)・**A=Σmᵢvᵢ/(rᵢ²+ε²)^(p/2)**(**重ね合わせ** —— 現行の正規化平均とは別物で
@@ -942,6 +973,12 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   書く直前に呼ばれるので、そこで先に引く/取り分を 0 にする)。実測では **η=0(除去だけ)が kFrame=0(支えなし)と
   状態で厳密一致**する(post は O(dt) の分割誤差が残る)。**限界**: 残余トルク(スピンへ渡る分)は除去契約の外なので、
   ΔL の帳簿残差が 1 次で残る。
+  - **第260便a(残余トルクの同段階除去)**: `dragHookApply` の同じ段階で**対象粒子の `accS` も 0 にし**、
+    取り消したスピン角運動量 I·Δs と離散回転仕事を控えへ入れる(**`coupleSink` 宣言時は受け先が
+    別経路なので触らない**)。あわせて**角運動量の帳簿を「引いた瞬間の腕」で測る**(步末の x[i] で
+    作り直すと 1 次の残差が残る)。実測で **spin まで含めて kFrame=0 と厳密一致**し、
+    (ΔL+リザーバ)/|L₀| は **2.06×10⁻⁶ → 2.1649×10⁻¹⁶**(支えなしの参照 2.1650×10⁻¹⁶)まで落ちた。
+    **既定は `"post"` のままである**(昇格しない)。
 - **`inertiaSupport` の値域が変わった(第259便a)**: `"none"`/`"support"`/`"expGate"` の 3 値。
   **旧 `"chiCut"` は受理して `"none"` へ正規化し警告を 1 行出す**(〔第258便a ③2〕—— この帯では一度も発動しない)。
   `inertiaChiCut` は受理・値域検査だけ残し、**正準形には出さない**(読む経路が無い)。
@@ -950,18 +987,47 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     **a_layered = G·M_enc(d)·d/(d²+ε²)^{3/2}**(M_enc=Σ_{r_k ≤ d} m_k)。**内側は厳密 0・d ≥ r_最外 は点源と一致**。
     層が昇順でない/質量が非正/非有限は門(null)。`body.layers` を宣言した宇宙では本体もこの差分を当てる
     (`S._core` の**外**の 1 パス。実装差の床は `S.ax` が Float32 であることから来る相対 10⁻⁸ 級)。
-  - **`HP.dfmLayerKernel(layer, d, {p,eps,shape,nodes})`** → `{point,value,ratio,…}`。慣性核
+  - **`HP.dfmLayerKernel(layer, d, {p,eps,shape,nodes})`** → `{point,value,ratio,method,…}`。慣性核
     **w=m(r²+ε²)^(−p/2)** の有限半径積分(`shape`="point"/"shell"/"uniform")。薄殻は μ 積分の解析形。
     **重力の球殻積分とは別物**で、**力へは 1 バイトも接続していない**(測るだけ)。
+    **第260便b: 可積分な内部で解析極限を返す**(`method:"analytic"`・一様球・ε=0):
+    d=0 は 3m/((3−p)R^p)、p=1 は d≥R ? m/d : m(3R²−d²)/(2R³)、
+    p=2 は d=R ? 3m/(2R²) : (3m/(2R³))·(R+(R²−d²)/(2d)·ln((R+d)/|R−d|))。
+    **p=3 の対数発散は null のまま**(有限に丸めない)。薄殻の ε=0・d=R も **q=1−p/2>0(p<2)なら有限**
+    ((A+B)^q/(2Bq))で、p≥2 は null。`method` は "point"/"closed"(薄殻)/"analytic"/"uniform"(Simpson)。
   - **`HP.dfmLayerMerge(layersA, layersB, "role"|"add")`** → 合成後の層配列。既定は `HP.LAYER_MERGE_RULE`="role"
     (同 role を m の和・**r=√(r_i²+r_j²)** で合算 —— 殻とコア v2 の既存則と同型)。
+    **"add" は質量を守るが構造を守らない**(同じ半径を積み直すと畳み込みが発火し、8 回で 4 層へ縮退する ——
+    〔第260便b §4〕。**既定の "role" は 2 層を保つ**)。
+  - **`HP.dfmLayerPairForce(layersA, layersB, d, {G,eps})`**(第260便b)→
+    `{U,F,Upoint,Fpoint,dU,dF,mA,mB,nPair,rOutA,rOutB,overlap}`。**薄殻 × 薄殻の対ポテンシャルの解析積分**で、
+    `F` は距離 d が増える向きの**符号つき半径方向成分**(負 = 引力)。`r:0` の層は点として畳む。
+    **ε=0・R₁=R₂=R では 0<d<2R で F=−Gm₁m₂/(4R²)(距離に依らない)**・d≥2R で点源と値も傾きも連続・
+    **d ≥ r_out,A + r_out,B では ΔF=0(遠方は点源)**。d≤0・非有限・非正質量は門(null)。
+    **`body.layers` を宣言した拡張体どうしが重なる組では、本体もこの ΔF を対ごとに 1 回だけ当てる**
+    (第259便b の「点源取消+層重力」は**相手が点である**ことを前提にしていたので、両方が拡張体だと
+    取消が 2 度入って引力が斥力に化けた —— 〔第260便b §1〕)。読み口は
+    **`S.layerN`**(層差分を当てた作用対象)/ **`S.layerPairN`**(ΔF を当てた拡張体の対)/
+    **`S.layerStopN`**(ΔF が定義されず停止した対)/ **`S.layerStop`**(`null` か `"overlap"`)で、
+    HUD のステップ診断にも `layer:<stop|on> N=… pair=…/…` として出る。
+    **`S.layerStop="overlap"` の間、その対には層差分が当たらない**(点源の単極子だけで進む)。
+- **接触ばね `physics.contactK`/`physics.contactCap` の値域**(第260便b): **[0,2000] / [0,400]**
+  (第259便b までは [0.1,2000] / [0.01,400])。**既定 40/8 は不変で正準形にも出ない**・既存の 0.1/0.01 セーブも受理・
+  負値は 0 へ丸めて警告を出す。**0 にすると E9 の法線ばねが完全に消える**ので、
+  「包含質量 0 → 重力 0」を床なしで確認できる(〔第260便b §5〕)。**較正 37 本には 0 を書かない。**
   - **`HP.dfmSpinField3D(omegaVec, r, {a?,R,q})`** → `[ux,uy,uz]`。**u=a(d)(ω×r)**・a(d)=(R/(R+d))^q。
     **q は角速度の減衰指数で速度は r^(1−q)**(速度 r^−2 なら q=3)。**並進の p と同一パラメータにしない。**
     面外流 RMS は環上で **sinθ/√2**(θ=30/60/90 で 0.354/0.612/0.707)で、θ=90° では面内(2D 射影)が
     厳密に 0 でも面外流は最大になる。**幾何試験であって潮汐ロックの創発ではない。**
-  - **`HP.dfmSpinPrecess({Js,Jc,k,dt|angle,Is,Ic})`** / **`HP.dfmTiltWork({Js,Jc,Is,Ic,alpha,axis?})`**。
-    前者は τ_c=k(J_s×J_c) の**厳密回転**(|J_c| 不変・コアの E 不変・総 J 保存)、後者は J_c を倒して
-    総 J を保つときに**殻の側に現れる仕事**(J_s∥J_c なら ΔE=(1−cosα)(|J_s||J_c|+|J_c|²)/I_s)。
+  - **`HP.dfmSpinPrecess({Js,Jc,k,dt|angle,Is,Ic,axis?})`** / **`HP.dfmTiltWork({Js,Jc,Is,Ic,alpha,axis?})`**。
+    前者は τ_c=k(J_s×J_c) の**厳密回転**。**第260便b で軸を J_total にした**(`axis`: `"total"`=既定 /
+    `"shell"`=旧の固定 J_s 軸を opt-in で保存)。J_s×J_c=J_total×J_c なので閉じた対の厳密解は
+    「**一定の J_total 軸のまわりに J_c を角 k|J_total|dt 回し J_s=J_total−J_c とする**」で、
+    **|J_c|・|J_s|・回転 E・総 J がすべて厳密に保たれる**(返り値に `axis`/`absJs0`/`absJs1` を追加)。
+    旧の固定 J_s 軸は |J_s| が動くので **E が増える**(Jc=(1,0,2)・Js=(0,0,4)・Ic=2・Is=8・k=0.2・T=1 で
+    ΔE 3.79×10⁻² / 分割 1・4.00×10⁻⁵ / 分割 1000。新軸は同条件で ≤3.2×10⁻¹⁴)。
+    `angle` を明示したときも軸はこの選択に従う。後者は J_c を倒して
+    総 J を保つときに**殻の側に現れる仕事**(J_s∥J_c なら ΔE=(1−cosα)(|J_s||J_c|+|J_c|²)/I_s・本便で未変更)。
   - **`HP.dfmSpinRelax({Ic,Is,Kcs,dt,omegaC,omegaS})`** → `{mu,f,dJ,omegaC,omegaS,E0,E1,dE,Qexact,Qold,ratio,gamma,…}`。
     本体(第78便)と同じ指数解 ΔJ=μΔω·f・f=1−e^{−K_cs·dt}。**正確な散逸は Q_exact=μΔω²(f−f²/2)** で、
     本体の既定記帳 Q_old=|ΔJΔω|/2 は**その 1/(2−f) 倍**(K_cs·dt→0 で **1/2**)。**既定の記帳は変えていない** ——
@@ -1219,6 +1285,38 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     `overlays.spaceMesh.fieldApi` はいずれも SYSTEM_PROMPT の一覧に入れていない —— 診断器の宣言であり
     生成対象ではない)。QA `behavior.galaxyMesh` は 19 項目へ・`behavior.toyLedger` は 11 項目へ・
     `behavior.chainMesh` は 12 項目へ(docs/PHYSICS.md 第259便c の節)。
+- **第260便c(2026-09-13・第52報「早期に…銀河サンプルを完成させる」 — 帳簿の切り分けと有限容量の器)**:
+  - `HP.dfmMeshCapacityStep(spec)` — **有限容量のメッシュの器**(純関数・**S を 1 バイトも読み書きしない**・
+    **粒子の力へは 1 バイトも接続していない**)。有限のメッシュ状態 **Pmesh / Lmesh / Emesh** と粒子キックを
+    **同段階で**更新する: `ΔPmesh=−ΔP`・`ΔLmesh=−ΔL`・`ΔEmesh=−ΔK`。
+    `spec` は `{bodies:[{m,x,y,vx,vy}], P:[Px,Py], L, E, cap:{Emax}|{density,area}, tau, dt,
+    kick:{mode:"drag", u:[ux,uy], chi}|{mode:"explicit", dv:[[dvx,dvy],…]}, drift}`。
+    **容量の帯は `Emesh−ΔK ∈ [0,E_max]`**(= `ΔK ∈ [E−E_max, E]`)で、帯を出る步は
+    **後から E を clamp せず、キックの倍率 s∈[0,1] を二分で解いて再計算する**
+    (ΔK(s)=A·s+B·s² の最初の帯外れ点)。`capState` は `"floor"`(供給できない)/`"ceil"`(受け取れない)/`"ok"`。
+    返値は `{bodies, dv, scale, capState, P, L, E, Emax, dP, dL, dK, dKfull, A, B, constrained,
+    decl:{tau,chi,u,dt,capacityDensity,capacityArea,mode}, conserve:{P,L,E}, K0, K1}`。
+    **τ・χ・u・容量(密度 × 面積)はすべて宣言値**であり、`decl` にそのまま持ち回る ——
+    **観測から導出したとは呼ばない**。**メッシュの有効慣性は宣言していない**(Pmesh は運動量の受け皿で、
+    別立ての運動エネルギーを持たない —— 宣言していないものを 0 で埋めない)。
+    門(すべて `null`): spec が null / 粒子 0 / 非有限・負質量 / `E<0` / **`E>E_max`**(宣言と矛盾した初期値を
+    黙って丸めない)/ cap 未宣言 / `tau≤0` / `chi∉[0,1]` / 未知 `mode` / `dv` の長さ不一致 / `dt<0`。
+    実測(QA `behavior.chainMesh` ⑪): 小さな閉じた箱(粒子 3 + メッシュ・2000 步)で P 2.22×10⁻¹⁴・
+    J 4.05×10⁻¹⁴(Σm|x||v| で規格化)・E 1.51×10⁻¹⁵。容量 3 段(E_max=10⁶/2/0.2)で到達平均速さが
+    **1.9951 / 0.8165 / 0.2582 と単調に弱まる**。**力へは接続していない**(次便の署名便候補)。
+  - `HP.dfmToyLedger` の返値に **`residualDragState`** と **`EshellState`** が増えた
+    (**既存の値は 1 bit も変わらない** —— null の**理由**に名前を付けただけである)。
+    `residualDragState` は `"no-ref"`(基準未指定)/`"no-dragWork"`(**`physics.ledger.dragWork` 未宣言 =
+    記録していない。0 ではない**)/`"ok"`/`"same-as-residual"`(`meshEnergyCapacity` 宣言済み)。
+    **`residualDrag` の null を 0 として集計・QA・表示してはならない**
+    (「引きずりの仕事が 0 回だった」ことと「記録していない」ことは別である)。
+    `EshellState` は `"tint"`(`thermal:"tint"` を宣言した宇宙 = `Σ C·|m|·T_int`)/
+    `"spin-in-K"`(無印 = **スピン=熱**の規約。殻の回転 E ¼mR²ω² は**既に K に入っている**ので、
+    ここに殻の回転 E を足すと**二重計上**になる —— **足さない**。0 で埋めるのでもない)。
+    QA `behavior.toyLedger` ⑩ が `=== 0` で機械固定する。
+  - **生成 AI はこれらを使わない**(`dfmMeshCapacityStep` は器の純関数で、プリセット JSON の欄ではない)。
+    QA は `behavior.toyLedger` に ⑩(固定 T × dt の 1 点・null の扱い・E_shell の欠落条件)を、
+    `behavior.chainMesh` に ⑪(有限容量の器)を足した(docs/PHYSICS.md 第260便c の節)。
 - **台帳の用語 — 等質量度の正名は `equalMassDegree`(第253便b L4・文書のみ)**: 2 体の質量がどれだけ揃っているかを表す量の**正名を `equalMassDegree = |m₁−m₂|/M`(M=m₁+m₂)** に固定する。**0 で等質量**・正質量(m₁,m₂>0)・M>0 のときにだけ定義され、値域は [0,1)。対応欄として **`4ν = 4m₁m₂/M² = 1−δ²`(δ=equalMassDegree)** を併記する(4ν は 1 で等質量 —— 向きが逆なので混ぜない)。ν=m₁m₂/M² は第249便a の ν 則でそのまま使う。**これはプリセットの物理キーではない**(生成 AI が JSON に書く欄ではなく、台帳・文書・ハーネス出力の呼び名の規約である)。
 - **観測安定則(第199便 M1 — 2026-08-25 裁定)**: 観測値再現版は、観測値で安定する計算式を
   採用する(観測値自体が計算式で算出されている為)。kFrame=1 雛形が自己診断で永年不安定と
