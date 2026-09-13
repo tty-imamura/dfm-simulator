@@ -1095,6 +1095,64 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     挟むことも示していない)。`HP.dfmArmBudget` の `pitch` も同じ規約で読む。
   - **生成 AI はこれらを使わない**(`physics.ledger` は SYSTEM_PROMPT の physics キー一覧に入れていない ——
     帳簿の診断宣言であり生成対象ではない)。
+- **銀河の背景の宣言・E_escaped の定義・E₀ の正名・2D 連鎖(第259便c・第51報)**: いずれも**表示と記録の層**であり、
+  **粒子の力へは 1 バイトも接続していない**。**全内蔵 120 本 × 600 步の状態はビット同一**で、
+  **署名が変わったのは 🌌🎡🎠(overlays)と 🎻🎠(physics.ledger)の 4 本だけ**である。
+  - **`overlays.galaxyField` に第 4 の鍵 `bg`**(`"static"|"frame"`)。**宣言したときだけ**正準形が
+    `{unSource,unFit,slipThreshold?,bg}` になる(未宣言は 1 bit 不変)。値域外は**落とす**(警告)。
+    宣言があると `dfmGalaxyMeshField` の `bg` の既定がその宣言になる(**明示 `opts.bg` が常に優先**)。
+    **🌌 galaxy・🎡 galaxyStd・🎠 galaxyMeshSpiral の 3 本が `bg:"static"` を宣言した(署名便)** ——
+    `"static"` は u_bg=0(u=χ·u_n)なので **q・kFrame にビット不変**で、**外へ単調に落ちる**。
+    **これは表示と記録が読む場の選択であって、力学の改善ではない**(600 步の状態は 1 bit も動かない)。
+  - **新しい physics キー `spaceMesh.meshEnergyCapacity`(宣言専用・力へは未接続)**: **初期メッシュ貯蔵
+    エネルギー E₀** の正名。0 以上の数値だけを受け、**宣言したときだけ正準形に入る**(負・非数値は検証エラー)。
+    これを宣言した宇宙は `physics.spaceMesh` の 4 チャネル(gravity/inertia/weave/reservoir)がすべて OFF でも
+    宣言が残る(= **`S.hasSpaceMesh` は false のままで、力の経路には 1 度も入らない**)。
+    `HP.dfmToyLedger` の **E_mesh = E₀ − ΔK_drag** の基準になる(ΔK_drag は `physics.ledger.dragWork` が
+    記録した量 —— **未宣言なら E_mesh は 0 で埋めず未定義**)。E_mesh が負になったら**値は連続のまま返し
+    `meshCapState:"floor"`** を立てる(近似で 0 に丸めない = 宣言が供給に足りていない、という測定結果)。
+  - `HP.dfmToyLedger` の返値に **`Emesh0`・`meshSupplied`・`meshCapState`・`EtotCore`・`EescapedBodies`・`escape`** が増えた。
+    `EtotCore` は**宣言した定数 E₀ を除いた E_tot** で、相対残差は宣言値で薄めずにこちらで割る。
+    **`meshEnergyCapacity` を宣言した宇宙では `residualDrag` は `residual` と同値になる**
+    (ΔK_drag が E_mesh の減少として既に E_tot に入っているので**二重に引かない**)。
+  - **`physics.ledger:{dragWork:true}` を 🎻 gw150914DFM と 🎠 galaxyMeshSpiral が内蔵で宣言した(署名便)**。
+    **記録は力学を 1 bit も変えない**(600 步の状態はビット同一)。🎻 は `coupleSink:"reservoir"` なので
+    **回転ぶん ΔK_spin は未定義**(`S.dragWorkStop="coupleSink"`)。
+  - `HP.dfmEscapeLedger(S, {R, center?, maxPairs?})` / `HP.dfmEscapeUpdate(rec, S)` — **境界通過流束の記録器**
+    (**S を 1 バイトも書かない**外部状態)。**このエンジンは粒子を 1 個も消さない**ので
+    **`E_escaped,bodies` は 0 と定義される**(未定義ではない —— `dfmToyLedger` に `opts.escape` で記録器を渡すと
+    `undefinedTerms` から "Eescaped.bodies" が消え、`escape` 欄に診断が入る)。
+    外向き通過の瞬間に `K_i + U_i^int`(そのとき内側にいる粒子との対和)を積み、内向き通過では引く。
+    `Uint`(= 出た粒子と残存系の重力相互作用 —— **出た粒子の重力は残る**)も毎回読む。
+    **これは帳簿の項ではなく診断であり、E_tot には入れない**(入れると K・U と二重に数える)。
+    **粒子数が変わった宇宙(融合・放出)では `stop:"n-changed"` で積算を止める**(索引の対応が取れないため)。
+    `R≤0`・NaN 中心・null の S は `null`。QA `behavior.toyLedger`。
+  - `HP.dfmChainMesh2DBuild(opts)` / `2DStep(ch, dt, opts?)` / `2DEnergy(ch)` / `2DModes(ch, m)` —
+    **2D 連鎖メッシュ**(半径環 × 方位節点・純関数群・粒子の力へは未接続)。第258便b ⑦-4 の
+    「リング縮約に**軌道の支持**(= 方位方向の節点)を入れるか」への実装で、**m=2 は方位自由度なしには測れない**。
+    `opts` は `{rings(1〜8), sectors(4〜64), rIn, rOut, mu, tau, zeta, kScale, gammaScale,
+    bond:"linear"|"central", gammaBg, Kbg, tauDrag, D0, p, eps, center, drive:{mass,r,omega,phase}}`。
+    節点 (b,k) は基準配置 X=C+r_b(cosθ_k,sinθ_k) からの変位 ξ と速度 U を持ち、結合は**半径方向**と
+    **方位方向**(輪)の 2 系統。駆動は**回転する 2 体**(m=2 の駆動)で、節点の基準配置の pull 重み平均速度 V と
+    χ=W/(W+D₀) から a=χ·μ/τ_drag として F=a(V−U) を当てる(**新しい長さスケールを 1 つも足していない**)。
+    駆動は時間に依るので **RK4 の各段は段階時刻 t+c_s·h で評価する**。
+    `2DStep` の返値は `{t, dt, Em, Ekin, Epot, Q, Qdrive, Wext, P, L, dQ, dW, chiMean, residual, rel}` で、
+    **ΔE_m+ΔQ−ΔW_ext=0 が閉じた帳簿の意味**(観測次数 4.11/4.05)。**dt<0 は `null`**。
+    `2DModes(ch,m)` は環ごとの `c_m=(1/K)Σ ξ_r(θ_k)e^{−imθ_k}` と、パターン位相 φ=−arg(c_m)/m・
+    **駆動のパターン位相との差(位相遅れ)**を返す。**2m≥K(ナイキスト)は `null`**。
+    **|c₂|/|c₀| は単独指標にしない**(c₀ が剛性で潰れるぶんが混ざる)・**「上限」「下限」とは呼ばない**
+    (第258便b ⑥ の規約)。QA `behavior.chainMesh`。
+  - **蓄積格子の診断フラグ `overlays.spaceMesh.fieldApi`(実行時鍵・既定 false)**: **正準形にも presetSig にも
+    S.params にも入らない**(検証器は `overlays.spaceMesh` を `{mode}` の 1 形へ潰すので、プリセットに書いても
+    正準形には出ない —— `gain`・`tau` と同じ流儀)。**true かつ共通場 API `HP.dfmField` が在るときだけ**
+    そちらを読み、**無いときは現行経路で格子の交点が 1 bit も変わらない**。
+    読みは `HP.meshFieldApi(S)`(フラグ)/`HP.meshFieldApiLive(S)`(実際に読むか)。
+    API の返り値契約は最低限 `{u:[ux,uy], chi, unValid}` として扱い、**満たさない返り値は読めない点にする**
+    (黙ってゼロ埋めしない)。QA `behavior.galaxyMesh`。
+  - **生成 AI はこれらを使わない**(`physics.spaceMesh.meshEnergyCapacity`・`overlays.galaxyField.bg`・
+    `overlays.spaceMesh.fieldApi` はいずれも SYSTEM_PROMPT の一覧に入れていない —— 診断器の宣言であり
+    生成対象ではない)。QA `behavior.galaxyMesh` は 19 項目へ・`behavior.toyLedger` は 11 項目へ・
+    `behavior.chainMesh` は 12 項目へ(docs/PHYSICS.md 第259便c の節)。
 - **台帳の用語 — 等質量度の正名は `equalMassDegree`(第253便b L4・文書のみ)**: 2 体の質量がどれだけ揃っているかを表す量の**正名を `equalMassDegree = |m₁−m₂|/M`(M=m₁+m₂)** に固定する。**0 で等質量**・正質量(m₁,m₂>0)・M>0 のときにだけ定義され、値域は [0,1)。対応欄として **`4ν = 4m₁m₂/M² = 1−δ²`(δ=equalMassDegree)** を併記する(4ν は 1 で等質量 —— 向きが逆なので混ぜない)。ν=m₁m₂/M² は第249便a の ν 則でそのまま使う。**これはプリセットの物理キーではない**(生成 AI が JSON に書く欄ではなく、台帳・文書・ハーネス出力の呼び名の規約である)。
 - **観測安定則(第199便 M1 — 2026-08-25 裁定)**: 観測値再現版は、観測値で安定する計算式を
   採用する(観測値自体が計算式で算出されている為)。kFrame=1 雛形が自己診断で永年不安定と
