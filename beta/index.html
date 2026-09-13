@@ -16015,6 +16015,11 @@ function makeSim(){
     S.meshCoordOut=0; S._mcRec=null; S._mcSnap=null;   // 第258便a: 支持外の粒子数・実キックの控え
     S._mcPre=null; S._mcPreE=null; S._mcSnap2=null; S._mcSnap3=null; S._mcTgt=null;   // 第259便a: 同段階置換
     S.meshCoordRemoval=null; S.meshCoordGive=0;
+    // 第261便d(第53報): coupleSink を宣言した宇宙の inStep 段階で**受け先へ送った角運動量**の記帳。
+    // **値は 1 bit も変わらない**(送り先も規則も applyCoupleSinkAlt と同一)——
+    // 記録するのは「いつ・どれだけ・支持範囲の出入りの步だったか」だけである(0 で埋めない)
+    S._mcSinkJ=null; S._mcSnap6=null;
+    S.meshCoordSinkL=0; S.meshCoordSinkGive=0; S.meshCoordSinkN=0; S.meshCoordSink=null;
     // 第259便a: geoPN=3(トイの測地線モード)の帳簿と読み口。未宣言なら常に 0/null
     S.geoToyPx=0; S.geoToyPy=0; S.geoToyL=0; S.geoToyE=0; S.geoToyEmesh=0;
     S.geoToyMeshPx=0; S.geoToyMeshPy=0; S.geoToyMeshL=0;
@@ -16126,6 +16131,11 @@ function makeSim(){
     S._hookOn=(S.hasCoordInertia||S.hasDragWork)?1:0;
     S.dragWorkStop=(S.hasDragWork && S.params[COUPLE_SINK_KEY]!==undefined
       && S.params[COUPLE_SINK_KEY]!=="spin")? "coupleSink" : null;
+    // 第261便d(第53報・統括が設定した検証仮説 (2)): coupleSink の受け先を `S._core` の外でも読めるように
+    // 同じ場所で張る(`_core` 側の `cplSink` はローカルのまま = **1 命令も足していない**)。
+    // 0="spin"(未宣言)/1="core"/2="reservoir"/3="tilt" —— 分岐の数え方は `_core` と同一である
+    S._cplSinkI=(S.params[COUPLE_SINK_KEY]==="core")?1:((S.params[COUPLE_SINK_KEY]==="reservoir")?2
+      :((S.params[COUPLE_SINK_KEY]==="tilt")?3:0));
     const __psq=S.params[PERI_SUB_KEY];
     S.hasPeriSub=!!__psq; S.periSub=__psq||null;
     S._periSetup();   // 未宣言でも呼ぶ(計数のリセットと状態の初期化だけ — 既定経路の値は 1 bit 不変)
@@ -17174,7 +17184,14 @@ function makeSim(){
       if(S._mcPreL){ let SL=S._mcSnap5;
         if(!SL || SL.length!==S._mcPreL.length) SL=S._mcSnap5=new Float64Array(S._mcPreL.length);
         SL.set(S._mcPreL); S._mcPreL.fill(0); PREL=SL; } }
+    // 第261便d: **sink へ送った角運動量**の控えも同じ流儀で 1 度読んで 0 へ戻す
+    let PREQ=null;
+    if(S._mcInStep===1 && S._mcSinkJ){ let SQ=S._mcSnap6;
+      if(!SQ || SQ.length!==S._mcSinkJ.length) SQ=S._mcSnap6=new Float64Array(S._mcSinkJ.length);
+      SQ.set(S._mcSinkJ); S._mcSinkJ.fill(0); PREQ=SQ; }
     S.meshCoordRemoval=(S._mcInStep===1)? "inStep" : "post";
+    // 第261便d: 残余トルクの受け先を**読み口にも出す**(post/inStep のどちらでも同じ宣言を読む)
+    S.meshCoordSink=COUPLE_SINKS[S._cplSinkI|0]||"spin";
     const x=S.x, y=S.y, vx=S.vx, vy=S.vy, m=S.m, mEff=S.mEff, pin=S.pinned;
     const pw0=frameWeightPow(p), pw=(pw0>0)? pw0 : 1;
     const eps=p.softening, eps2=eps*eps;
@@ -17359,6 +17376,20 @@ function makeSim(){
           S.resPx-=bpx; S.resPy-=bpy; S.resL-=bl;
         }
       }
+    }
+    // 第261便d(第53報・統括が設定した検証仮説 (2) 3 行目): **支持範囲の出入りは sink 側にも同瞬間で記帳**。
+    // スピン受けの宇宙では、支持範囲から出た粒子の「先に引いたスピン」は上のループで**そのまま返す**。
+    // `coupleSink` を宣言した宇宙では**引いていない**(受け先へ送ってある)ので返す相手がいない ——
+    // **返しが 0 であること自体を、送った量と出入りの步数つきで記帳する**(黙って 0 にしない)。
+    if(S._mcInStep===1 && PREQ){
+      let sJ=0, gJ=0, sN=0;
+      for(let i=0;i<n;i++){
+        const q=PREQ[i];
+        if(q===0) continue;
+        sJ+=q; sN++;
+        if(!MC.on[i]) gJ+=q;        // 支持範囲から出た步に受け先へ送った分(= 返しは構成的に 0)
+      }
+      if(sN){ S.meshCoordSinkL+=sJ; S.meshCoordSinkGive+=gJ; S.meshCoordSinkN+=sN; }
     }
     S.meshCoordGive=nGive;
     if(!nOn && !nGive) return;
@@ -20643,6 +20674,13 @@ function mcPreLOf(S){
   if(!z || z.length!==n) z=S._mcPreL=new Float64Array(n);
   return z;
 }
+// 第261便d(第53報・統括が設定した検証仮説 (2)): coupleSink を宣言した宇宙の inStep 段階で
+// **受け先へ送った角運動量**の控え(`_meshCoordForce` が 1 度読んで 0 へ戻す)。
+function mcSinkJOf(S){
+  const n=S.n; let z=S._mcSinkJ;
+  if(!z || z.length!==n) z=S._mcSinkJ=new Float64Array(n);
+  return z;
+}
 function dragHookKick(S,i,mi,vxi,vyi,dvx,dvy){
   if(S.hasCoordInertia){
     // ===== 第259便a: **同段階置換**(`inertiaRemoval:"inStep"`)=====
@@ -20688,6 +20726,26 @@ function dragHookApply(S,n,m,vx,vy,spin,Imom,accVx,accVy,accS,spinOn){
           const PS=mcPreSOf(S), ds=accS[i], Ii=Imom[i], s0=spin[i];
           PS[i]+=ds; mcPreLOf(S)[i]+=Ii*ds;                // 取り消したスピン角運動量
           S._mcPreE[i]+=Ii*(s0*ds)+0.5*Ii*ds*ds;          // 取り消した離散回転仕事(厳密)
+          accS[i]=0;
+        }
+        // ===== 第261便d(第53報・統括が設定した検証仮説 (2)): **宣言時は sink へ送ったあと 0** =====
+        // `coupleSink` を宣言した宇宙(spinOn=false)では、残余トルクは殻スピンへは入らない。
+        // ここで **applyCoupleSinkAlt と同一の規則**で受け先(J_core / 容量つき J_z / リザーバ帳簿)へ
+        // 送り、`accS[i]=0` にする。**送り先も規則も同じなので状態は 1 bit も変わらない** ——
+        // 変わるのは**送った段階**(この同段階)と、送った量が `_mcSinkJ` に記帳されることだけである。
+        // **スピンからは 1 bit も引かない**(引いていないので `_mcPreS`/`_mcPreL` には積まない ——
+        // 角運動量は受け先に在って、系から消えてはいない)。
+        else if(!spinOn && accS[i]!==0){
+          const ds=accS[i], Ii=Imom[i], dJc=Ii*ds, cs=S._cplSinkI|0;
+          if(cs===1 && (S.coreMd[i]===2||S.coreMd[i]===3)) S.coreJ[i]+=dJc;
+          else if(cs===3 && (S.coreMd[i]===2||S.coreMd[i]===3) && S.coreJm[i]>0){
+            let nj=S.coreJ[i]+dJc;
+            if(nj>S.coreJm[i]){ S.resL+=nj-S.coreJm[i]; nj=S.coreJm[i]; S.clampTN++; }
+            else if(nj<-S.coreJm[i]){ S.resL+=nj+S.coreJm[i]; nj=-S.coreJm[i]; S.clampTN++; }
+            S.coreJ[i]=nj;
+          }
+          else S.resL+=dJc;
+          mcSinkJOf(S)[i]+=dJc;
           accS[i]=0;
         }
       } else { R[2*i]+=ax; R[2*i+1]+=ay; }
@@ -33299,6 +33357,32 @@ function dfmMeshCapacityStep(spec){
 // 容量 `caps` は「観測した事実が無いエネルギー」に**初期容量と下限**を持たせるための宣言で、
 // 下限に達した項には印が立つ(`capState`)。**caps を宣言しないと容量は無い**(= トイとして未完成)。
 //   opts: { caps:{ <項名>:{min?,max?}, … }, ref:<前回の返り値>, maxPairs }
+// ===== 第261便d(第53報・統括が設定した検証仮説 (10)): **規格化の分母を併記する** =====
+// 〔第260便c〕は 🎠 の相対残差を「分母の 99.24% が固定(pinned)バルジ核の一定スピン E である」と
+// 断ったうえで載せた。**断りを本文に書くだけでは、1 行だけ抜き出されたときに意味が変わる**ので、
+// 帳簿の返り値そのものに**両方の分母**を入れる:
+//   ・`denom.legacy` = 従来分母 |K|+|U|+|E_core|(**未定義の項は 0 を足したのではなく項が無い**)
+//   ・`denom.active` = **活動部分** = legacy − |Σ_{pinned} ¼mR²ω²|(走行中ほとんど動かない定数を除く)
+// **どちらか一方を正本にしない。** 活動部分が ≈0(|active| ≤ floorRel×legacy)なら
+// **比は未定義(null)にして絶対残差を読む**(小さな分母で割った大きな数を「悪化」と読ませない)。
+// **毎時刻の E_tot を分母にしない** —— 呼ぶ側が初回の返り値の denom を**固定参照**として使う。
+const LEDGER_ACTIVE_FLOOR_REL=1e-6;      // **宣言値**(活動部分が「≈0」とみなされる相対しきい値)
+// 相対残差の併記(純関数 — S を 1 バイトも読まない)。value は残差、denom は帳簿の `denom` 欄。
+function dfmLedgerRelative(value,denom){
+  const v=Number(value);
+  if(value===null || value===undefined || !Number.isFinite(v)) return null;
+  const d=denom||{};
+  const L=Number(d.legacy), A=Number(d.active);
+  const fr=Number((d.floorRel===undefined)? LEDGER_ACTIVE_FLOOR_REL : d.floorRel);
+  const okL=Number.isFinite(L) && L>0;
+  const okA=okL && Number.isFinite(A) && Math.abs(A)>fr*L;
+  return { abs:Math.abs(v),
+    relLegacy: okL? Math.abs(v)/L : null,
+    relActive: okA? Math.abs(v)/Math.abs(A) : null,
+    denomState: okA? "ok" : (okL? "active-degenerate" : "no-denom"),
+    floorRel:fr,
+    note:"従来分母と活動部分を**併記**する。活動部分が ≈0 なら比は未定義(null)にして絶対残差 abs を読む" };
+}
 function dfmToyLedger(S,opts){
   if(!S || typeof S!=="object" || !(S.n>0) || !S.m) return null;
   const o=opts||{};
@@ -33481,7 +33565,26 @@ function dfmToyLedger(S,opts){
       note:"減光は**観測写像**であって帳簿の項ではない(質量推定を自動相殺しない)" } : null;
   }
   if(!obs){ und.push("obs.dimming"); notes.push("観測写像: 減光(lightSweep)の状態変数が無い"); }
+  // ---- 第261便d(第53報): **規格化の分母を 2 つ返す**(片方を正本にしない)
+  let pinSpinE=0, pinN=0;
+  if(S.pinned && S.R && S.spin) for(let i=0;i<n;i++) if(S.pinned[i]===1){
+    pinN++; pinSpinE+=0.25*S.m[i]*S.R[i]*S.R[i]*S.spin[i]*S.spin[i]; }
+  const dLegacy=Math.abs(K)+((U===null)? 0 : Math.abs(U))+((Ecore===null)? 0 : Math.abs(Ecore));
+  const dActive=dLegacy-Math.abs(pinSpinE);
+  const dState=(!(dLegacy>0))? "no-denom"
+    : ((Math.abs(dActive)<=LEDGER_ACTIVE_FLOOR_REL*dLegacy)? "active-degenerate" : "ok");
+  if(dState==="active-degenerate")
+    notes.push("規格化: **活動部分がしきい値以下**(|active| ≤ "+LEDGER_ACTIVE_FLOOR_REL
+      +"×legacy)—— 活動部分での比は**未定義**にして絶対残差を読む");
+  const denom={ legacy:dLegacy, active:dActive, pinnedSpinE:pinSpinE, pinnedN:pinN,
+    activeShare:(dLegacy>0)? (Math.abs(pinSpinE)/dLegacy) : null,
+    activeState:dState, floorRel:LEDGER_ACTIVE_FLOOR_REL,
+    parts:{ K:Math.abs(K), U:(U===null)? null : Math.abs(U), Ecore:(Ecore===null)? null : Math.abs(Ecore) },
+    note:"legacy=|K|+|U|+|E_core|(未定義の項は**項そのものが無い** — 0 を足していない)/ "
+      +"active=legacy−|Σ_{pinned} ¼mR²ω²|(**固定天体の一定スピン E** を除いた活動部分)。"
+      +"**どちらか一方を正本にしない**。毎時刻の E_tot を分母にしない(初回の値を固定参照として使う)" };
   return { K, U, Eshell, Ecore, Emesh, Q, Eescaped:Eesc, Etot, Wext, residual, dEtot, dWext,
+    denom,
     Wdrag, WdragKE, WdragSpin, dWdrag, dWdragKE, residualDrag, residualDragState,
     dragWorkN:S.hasDragWork? (S.dragWorkN|0) : null,
     // 第259便c: E_mesh の基準(宣言値)と供給・床の印/E_escaped の逸走粒子ぶん(0)と通過流束の診断。
@@ -34946,6 +35049,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第258便b(第50報): 最小の閉鎖系(K+U+有限 E_mesh+Q)と引きずり仕事の opt-in 鍵
   dfmChainMeshClosed, dfmChainMeshClosedStep, dfmChainMeshClosedEnergy, LEDGER_KEY,
   CHAIN_RINGS_MAX, CHAIN_SUPPORT_PAD, dfmToyLedger,
+  dfmLedgerRelative, LEDGER_ACTIVE_FLOOR_REL,   // 第261便d(第53報): 規格化の分母の併記
   // 第259便c(第51報): **2D 連鎖メッシュ**(半径環 × 方位節点 —— m=2 は方位自由度なしに測れない)・
   // **E_escaped の境界通過流束の記録器**(粒子は消えないので E_escaped,bodies=0 と定義した)・
   // 蓄積格子が共通場 API を読む**診断フラグ**の読み(実行時鍵 overlays.spaceMesh.fieldApi)

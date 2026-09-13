@@ -109,9 +109,27 @@ const add = (id, pass, detail) => {
 // ----        deopt を通し、「素の走行」でなくなる)。
 // ----     ⑤ 出力 JSON に `abJit` の欄がある(走行があるときだけ照合する — 無ければ「未走行」)。
 // ----   **FAIL 化はしない**(2 便続けて安定させてから決める — 〔第260便d〕の決断事項)。
+// ----   **第261便d(第53報 W4)で足したのは「FAIL 化の基準」の文書固定だけである**(判定は動かしていない):
+// ----     ⑥ `AB_FAIL_CRITERIA_W261D` —— **(a) 自己対照 >4 = 非常ベル**(基準値が要らないので機種に
+// ----        依らない)/ **(b) 凍結基準 html 対 候補 >1.5**/ **`root-fallback` は凍結扱いしない**
+// ----        (root は昇格したときしか動かないので「凍結基準」ではない —— `frozen-file` のときだけ
+// ----        (b) を基準として読む)。**2 便安定したら FAIL 化する**(本便が 2 便目・**判定は据え置き**)。
+// ----     ⑦ **雑音床**(〔第260便d〕①3 の実測 ×0.95〜0.99)より十分上に置く: (a) の観測帯は
+// ----        第260便d 0.72/0.81・第261便d 0.75/0.86(基点 html 側は 0.75〜0.79)で、
+// ----        **>4 は帯の 5 倍以上離れている**。**帯そのものを合格条件にしない**(A/B の 2 本目が
+// ----        kFrame=0 で安い系統的なずれであって、崖とは無関係である)。
+// ----   **「A/B ゲートを FAIL 化した」「JIT 崖を解決した」とは書かない。**
 {
   const src = fs.readFileSync(path.join(ROOT, 'tests', 'perf.mjs'), 'utf8');
   const bad = [];
+  // 第261便d: **FAIL 化の基準**(値と読み方をここに固定する。**適用は次便** —— judgement は informational のまま)
+  const AB_FAIL_CRITERIA_W261D = {
+    selfControl: { warn: 3, fail: 4, note: '同一 html の 2 ページ自己対照(A/B ÷ 素)。基準値が要らない' },
+    crossHtml: { warn: 1.5, fail: 1.5, note: '凍結基準 html 対 候補。**frozen-file のときだけ基準として読む**' },
+    rootFallbackIsFrozen: false,      // **root-fallback は凍結扱いしない**(昇格時しか動かない内容)
+    noiseFloor: [0.95, 0.99],         // 〔第260便d〕①3: **同じファイルどうしでも ±5% 振れる**
+    observedSelfControl: { w260d: [0.72, 0.81], w261d: [0.75, 0.86] },
+    activateAfterWaves: 2, activatedAt: null, judgement: 'informational' };
   if (!/abJitCell/.test(src)) bad.push('①A/B JIT probe の器が無い');
   if (!/HP\.abStart\('kFrame', 0\)/.test(src)) bad.push('①A/B ワークロード(abStart)が無い');
   if (!/arm: 'self-control'/.test(src)) bad.push('②(a)自己対照(同一 html の 2 ページ)の系統が無い');
@@ -151,11 +169,67 @@ const add = (id, pass, detail) => {
         + (legacyRows ? `(**${legacyRows} 行は第259便d までの 1 系統の走行**である — perf を回すと 2 系統になる)` : '');
     }
   } catch { /* 未走行 — 器の存在だけを見る */ }
+  // 第261便d: 基準の**宣言**そのものを機械で見る(値を書き換えたら QA が落ちる)
+  const C = AB_FAIL_CRITERIA_W261D;
+  if (!(C.selfControl.fail === 4 && C.crossHtml.fail === 1.5 && C.rootFallbackIsFrozen === false
+    && C.judgement === 'informational' && C.activatedAt === null))
+    bad.push('⑥FAIL 化の基準の宣言(自己対照 4 / 対 html 1.5 / root-fallback は凍結扱いしない / 未適用)が崩れている');
   add('lint.perfAbJit', bad.length === 0,
     '器あり・**2 系統**((a)同一 html の 2 ページ自己対照〔基準値不要・CI 再現可〕/ (b)凍結基準 html 対 候補'
     + '〔frozen-file は opt-in・root-fallback が CI 既定〕)・A/B 2 sim・warm 後 3 反復の中央値・ms/步・'
     + '**どちらも判定=informational**'
     + ` / 直近の実測: ${ran}`
+    + ` / **第261便d: FAIL 化の基準を宣言した(適用は次便)**: (a)自己対照 >${C.selfControl.fail}=非常ベル`
+    + `(WARN ${C.selfControl.warn})・(b)凍結基準 html 対 候補 >${C.crossHtml.fail}・`
+    + `**root-fallback は凍結扱いしない**=${C.rootFallbackIsFrozen === false}・`
+    + `雑音床 ×${C.noiseFloor[0]}〜${C.noiseFloor[1]}(同じファイルどうし)・`
+    + `(a)の観測帯 第260便d ${C.observedSelfControl.w260d.join('/')}・第261便d ${C.observedSelfControl.w261d.join('/')}`
+    + `(= **2 便続けて同じ帯**)・**適用は ${C.activateAfterWaves} 便安定の次**(activatedAt=${C.activatedAt})`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 0a3b) 第261便d(第53報 W4): lint.frozenBaseline — 凍結基準 html の**部分 clone** の器 ----
+// ----   〔第260便d〕①は「(b) 凍結基準 html 対 候補は CI では再現できない —— checkout が shallow で、
+// ----   履歴が 423 MB(本便の実測 448 MB)ある」と書き、決断事項に「**部分 clone なら別**」を残した。
+// ----   本ブロックが固定するのは **script が在ることと、その作り**だけである(**CI yaml は 1 文字も
+// ----   変えていない** —— 有効化は次便の裁定):
+// ----     ① `tests/ci-frozen-baseline.sh` がある。
+// ----     ② `git clone --filter=blob:none --no-checkout`(履歴の中身も作業ツリーも作らない)を使う。
+// ----     ③ 取り出しは `git show <凍結SHA>:beta/index.html`(3.7 MB の 1 ファイルだけ)。
+// ----     ④ 所要時間を **1 行 JSON**(cloneSec / showSec / totalSec / gitKB)で返す(CI が読める)。
+// ----     ⑤ **`.github/workflows` はこの script をまだ呼んでいない**(= 本便では有効化していない)。
+// ----   **手元の実測(第261便d・3 回)**: 合計 1.79 / 1.56 / 1.66 s・`.git` 2.6 MB・
+// ----   取り出した html は凍結 SHA の `beta/index.html` と**バイト同一**。**+1 分の予算には収まる**が、
+// ----   **CI ランナーの回線・GitHub 側の応答は測っていない**(手元の値は上限ではない)。
+{
+  const SH = path.join(ROOT, 'tests', 'ci-frozen-baseline.sh');
+  const bad = [];
+  let src = '';
+  if (!fs.existsSync(SH)) bad.push('①tests/ci-frozen-baseline.sh が無い');
+  else {
+    src = fs.readFileSync(SH, 'utf8');
+    if (!/--filter=blob:none/.test(src)) bad.push('②--filter=blob:none(部分 clone)が無い');
+    if (!/--no-checkout/.test(src)) bad.push('②--no-checkout(作業ツリーを作らない)が無い');
+    if (!/git -C "\$TMP\/repo" show/.test(src)) bad.push('③git show <SHA>:beta/index.html が無い');
+    if (!/beta\/index\.html/.test(src)) bad.push('③取り出す対象が beta/index.html と書かれていない');
+    for (const k of ['cloneSec', 'showSec', 'totalSec', 'gitKB'])
+      if (!new RegExp('\\\\"' + k + '\\\\"').test(src) && !src.includes('"' + k + '"')) bad.push('④' + k + ' を返していない');
+  }
+  // ⑤ **CI はまだ呼んでいない**(本便で yaml を変えていないことの機械確認)
+  let wired = [];
+  const WFD = path.join(ROOT, '.github', 'workflows');
+  if (fs.existsSync(WFD)) for (const f of fs.readdirSync(WFD)) {
+    if (!/\.ya?ml$/.test(f)) continue;
+    if (fs.readFileSync(path.join(WFD, f), 'utf8').includes('ci-frozen-baseline')) wired.push(f);
+  }
+  if (wired.length) bad.push('⑤本便では CI へ繋がない約束だが workflows が呼んでいる: ' + wired.join(','));
+  add('lint.frozenBaseline', bad.length === 0,
+    '**凍結基準 html の部分 clone の器**(〔第260便d〕の決断事項「部分 clone なら別」への処置): '
+    + '`git clone --filter=blob:none --no-checkout` + `git show <凍結SHA>:beta/index.html` で '
+    + '**3.7 MB の 1 ファイルだけ**を取り出す。手元の実測(3 回): **合計 1.79 / 1.56 / 1.66 s**・'
+    + '`.git` 2.6 MB(全履歴 448 MB の 0.6%)・取り出した html は凍結 SHA と**バイト同一**。'
+    + `**CI yaml は 1 文字も変えていない**(workflows からの参照 ${wired.length} 件 —— 有効化は次便の裁定)`
+    + ' —— **手元の秒数は CI の上限ではない**(ランナーの回線も GitHub 側の応答も測っていない)'
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
 }
 
@@ -16739,6 +16813,172 @@ if (!FAST) {
       );
   } else {
     console.log('SKIP behavior.toyLedger(対象に第257便b の HP.dfmToyLedger なし — root 等)');
+  }
+}
+
+// ---- 第261便d(第53報 W4): behavior.ledgerNorm — 帳簿の**規格化**と E_shell 契約の正式 API ----
+//   統括が設定した検証仮説 (10)「分母から pinned 核の一定スピン E を除いた**活動部分**と従来分母を
+//   **併記**する。活動部分の基準 ≈0 なら比は未定義にして絶対残差・**毎時刻 Etot を分母にしない**」と
+//   (12)「**E_shell は T_int だけ・回転 E は K**」「`residualDragState`/`EshellState` を正式 API に」
+//   「1e−3 門を **T=96・h=0.016・分母・seed** まで宣言する」への処置である。
+//   固定するのは 6 点:
+//     ① `HP.dfmToyLedger` の返り値に **`denom`**(legacy / active / pinnedSpinE / activeState / floorRel)がある。
+//     ② **legacy = |K|+|U|+|E_core|**(未定義の項は 0 を足したのではなく項そのものが無い)。
+//     ③ **active = legacy − |Σ_{pinned} ¼mR²ω²|**。🎠 では **pinned 1 体が分母の 97% 超**である。
+//     ④ 純関数 `HP.dfmLedgerRelative` が**両方の比を返す**。活動部分が floorRel 以下の宇宙では
+//        `relActive` は **null**(0 で割った大きな数を出さない)で `denomState:"active-degenerate"`。
+//     ⑤ **門の宣言**(`LEDGER_GATE_W261D`): 窓 **T=96・h=0.016(6000 步)**・分母は**両方**・
+//        しきい値 **1e−3**・seed は**プリセットの宣言値**・判定は **informational**。
+//        **窓を宣言しない門は意味を持たない**(〔第260便c〕⑦-5)—— 数だけでなく窓と分母を一緒に固定する。
+//     ⑥ **E_shell 契約の照合**: `EshellState:"tint"` の宇宙だけ E_shell が定義され、無印は null で
+//        `undefinedTerms` に名前が挙がる。**K − 並進K = 殻の回転 E**(= 回転 E は K の中にある)。
+//   **書かないこと**: 「帳簿が閉じた」「規格化で残差が縮んだ」「1e−3 を通ったから合格」。
+{
+  const hasLN = await page.evaluate(() => typeof HP.dfmToyLedger === 'function'
+    && typeof HP.dfmLedgerRelative === 'function');
+  if (!hasLN) {
+    console.log('SKIP behavior.ledgerNorm(対象に第261便d の HP.dfmLedgerRelative なし — root 等)');
+  } else {
+    // **門の宣言**(窓・刻み・分母・seed・しきい値・判定を 1 か所に置く。値は器と PHYSICS と同じ)
+    const LEDGER_GATE_W261D = { T: 96, h: 0.016, steps: 6000, denom: ['legacy', 'active'],
+      threshold: 1e-3, seedSource: 'preset.seed(宣言値 — 未宣言は id のハッシュ)',
+      judgement: 'informational', read: 'residualDrag(無ければ residual)' };
+    const ln = await page.evaluate((G) => {
+      const byId = (id) => HP.allPresets().find((p) => p.id === id);
+      const build = (id, patch) => {
+        const pd = JSON.parse(JSON.stringify(byId(id)));
+        if (patch) patch(pd);
+        const v = HP.validatePreset(pd);
+        if (!v.ok) return null;
+        const S = HP.sim; S.build(v.preset); S._galSup = null;
+        return { S, seed: (v.preset.seed === undefined) ? null : v.preset.seed };
+      };
+      const denomOf = (S, z) => {                    // ② ③ を**器の外**でも数え直す
+        let K = 0, pin = 0;
+        for (let i = 0; i < S.n; i++) {
+          K += 0.5 * S.m[i] * (S.vx[i] * S.vx[i] + S.vy[i] * S.vy[i])
+            + 0.25 * S.m[i] * S.R[i] * S.R[i] * S.spin[i] * S.spin[i];
+          if (S.pinned[i] === 1) pin += 0.25 * S.m[i] * S.R[i] * S.R[i] * S.spin[i] * S.spin[i];
+        }
+        const legacy = Math.abs(z.K) + (z.U === null ? 0 : Math.abs(z.U))
+          + (z.Ecore === null ? 0 : Math.abs(z.Ecore));
+        return { Kown: K, pinOwn: pin, legacyOwn: legacy };
+      };
+      const run = (id, steps, h, patch) => {
+        const b = build(id, patch);
+        if (!b) return null;
+        const S = b.S;
+        const a = HP.dfmToyLedger(S, {});
+        const chk = denomOf(S, a);
+        for (let k = 0; k < steps; k++) S.step(h);
+        const z = HP.dfmToyLedger(S, { ref: a });
+        const v = (z.residualDrag === null) ? z.residual : z.residualDrag;
+        const rel = HP.dfmLedgerRelative(v, a.denom);
+        return { id, emoji: byId(id).emoji, seed: b.seed, steps, h,
+          read: (z.residualDrag === null) ? 'residual' : 'residualDrag',
+          value: v, dragState: z.residualDragState, EshellState: z.EshellState,
+          undefEshell: z.undefinedTerms.indexOf('Eshell') >= 0, Eshell: z.Eshell,
+          denom0: a.denom, chk, rel };
+      };
+      const capPatch = (pd) => { pd.physics.spaceMesh = { mode: 'vertex', meshEnergyCapacity: 1e6 }; };
+      // **門の宣言どおりの窓**(T=96・h=0.016)で 🎠 を 1 本だけ走らせる。FAST では 600 步に落とし、
+      // **窓が違えば数は比べられない**ので「窓」を返り値に必ず付ける(〔第260便c〕②)
+      const steps = G.fast ? 600 : G.steps;
+      const gal = run('galaxyMeshSpiral', steps, G.h, capPatch);
+      const gw = run('gw150914DFM', steps, G.h, capPatch);
+      // ④ 純関数の契約(退化した分母・null・0 分母)
+      const F = HP.LEDGER_ACTIVE_FLOOR_REL;
+      const pure = {
+        floor: F,
+        nullIn: HP.dfmLedgerRelative(null, { legacy: 1, active: 1 }) === null,
+        nanIn: HP.dfmLedgerRelative(NaN, { legacy: 1, active: 1 }) === null,
+        plain: HP.dfmLedgerRelative(2, { legacy: 4, active: 1 }),
+        degen: HP.dfmLedgerRelative(2, { legacy: 4, active: 4 * F * 0.5 }),
+        noDenom: HP.dfmLedgerRelative(2, { legacy: 0, active: 0 }) };
+      // ⑥ E_shell 契約の照合(tint / spin-in-K)
+      const esh = ['gas', 'gw150914DFM', 'galaxyMeshSpiral'].map((id) => {
+        const b = build(id); if (!b) return null;
+        const S = b.S, z = HP.dfmToyLedger(S, {});
+        let Ktr = 0, Krot = 0;
+        for (let i = 0; i < S.n; i++) {
+          Ktr += 0.5 * S.m[i] * (S.vx[i] * S.vx[i] + S.vy[i] * S.vy[i]);
+          Krot += 0.25 * S.m[i] * S.R[i] * S.R[i] * S.spin[i] * S.spin[i];
+        }
+        return { id, emoji: byId(id).emoji, state: z.EshellState, Eshell: z.Eshell,
+          undefNamed: z.undefinedTerms.indexOf('Eshell') >= 0,
+          spinInK: Math.abs((z.K - Ktr) - Krot) <= 1e-9 * (Math.abs(z.K) || 1),
+          spinShare: (z.K !== 0) ? Krot / z.K : null };
+      });
+      return { gal, gw, pure, esh, steps };
+    }, { steps: LEDGER_GATE_W261D.steps, h: LEDGER_GATE_W261D.h, fast: FAST });
+    const near = (a, b, t) => Math.abs(a - b) <= t * (Math.abs(b) || 1);
+    const CK = {
+      // ① 欄がある
+      hasDenom: !!ln.gal && !!ln.gal.denom0 && Number.isFinite(ln.gal.denom0.legacy)
+        && Number.isFinite(ln.gal.denom0.active) && Number.isFinite(ln.gal.denom0.pinnedSpinE)
+        && typeof ln.gal.denom0.activeState === 'string' && ln.gal.denom0.floorRel > 0,
+      // ② legacy を器の外で数え直しても一致する
+      legacyMatches: near(ln.gal.denom0.legacy, ln.gal.chk.legacyOwn, 1e-12)
+        && near(ln.gw.denom0.legacy, ln.gw.chk.legacyOwn, 1e-12),
+      // ③ active = legacy − |pinned スピン E|。🎠 は pinned 1 体が分母の 97% 超
+      activeIsLegacyMinusPinned: near(ln.gal.denom0.active,
+        ln.gal.denom0.legacy - Math.abs(ln.gal.denom0.pinnedSpinE), 1e-12),
+      pinnedMatches: near(ln.gal.denom0.pinnedSpinE, ln.gal.chk.pinOwn, 1e-12)
+        && ln.gal.denom0.pinnedN === 1 && ln.gal.denom0.activeShare > 0.97,
+      // 🎻 は pinned が 0 なので**両分母が厳密に一致**する(規格化が効くのは pinned のある宇宙だけ)
+      noPinnedSame: ln.gw.denom0.pinnedN === 0 && ln.gw.denom0.pinnedSpinE === 0
+        && ln.gw.denom0.active === ln.gw.denom0.legacy
+        && ln.gw.rel.relLegacy === ln.gw.rel.relActive,
+      // ④ 純関数の契約
+      pureNull: ln.pure.nullIn && ln.pure.nanIn,
+      pureBoth: near(ln.pure.plain.relLegacy, 0.5, 1e-12) && near(ln.pure.plain.relActive, 2, 1e-12)
+        && ln.pure.plain.denomState === 'ok',
+      pureDegenerate: ln.pure.degen.relActive === null && ln.pure.degen.relLegacy !== null
+        && ln.pure.degen.denomState === 'active-degenerate',
+      pureNoDenom: ln.pure.noDenom.relLegacy === null && ln.pure.noDenom.relActive === null
+        && ln.pure.noDenom.denomState === 'no-denom' && ln.pure.noDenom.abs === 2,
+      // ⑤ 門の宣言がそろっている(窓・刻み・分母・seed・しきい値・判定)
+      gateDeclared: LEDGER_GATE_W261D.T === 96 && LEDGER_GATE_W261D.h === 0.016
+        && LEDGER_GATE_W261D.steps === 6000
+        && LEDGER_GATE_W261D.denom.length === 2 && LEDGER_GATE_W261D.threshold === 1e-3
+        && LEDGER_GATE_W261D.judgement === 'informational'
+        && typeof LEDGER_GATE_W261D.seedSource === 'string',
+      // ⑤′ **両分母で判定が変わりうる**ことを 1 点だけ機械に残す(FAST では窓が短いので見ない)
+      gateSplits: FAST || (ln.gal.rel.relLegacy < LEDGER_GATE_W261D.threshold
+        && ln.gal.rel.relActive > LEDGER_GATE_W261D.threshold),
+      // ⑥ E_shell 契約
+      eshellContract: ln.esh.every((r) => !!r && r.spinInK
+        && ((r.state === 'tint') ? (r.Eshell !== null && !r.undefNamed)
+          : (r.state === 'spin-in-K' && r.Eshell === null && r.undefNamed))),
+    };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    const ex = (x) => (x === null || x === undefined) ? 'null' : Number(x).toExponential(4);
+    add('behavior.ledgerNorm', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + `**規格化の分母を併記する**(統括が設定した検証仮説 (10)): `
+      + `legacy=|K₀|+|U₀|+|Ecore₀| / active=legacy−|Σ_{pinned} ¼mR²ω²|。`
+      + `🎠 galaxyMeshSpiral(窓 ${ln.gal.steps} 步 × h=${ln.gal.h}・seed=${ln.gal.seed}): `
+      + `legacy=${ln.gal.denom0.legacy.toFixed(3)}・active=${ln.gal.denom0.active.toFixed(3)}・`
+      + `**pinned ${ln.gal.denom0.pinnedN} 体が分母の ${(ln.gal.denom0.activeShare * 100).toFixed(3)}%**`
+      + `(= 走行中ほとんど動かない定数で相対残差が薄まる)。${ln.gal.read}=${ex(ln.gal.value)} → `
+      + `**従来分母 ${ex(ln.gal.rel.relLegacy)} / 活動部分 ${ex(ln.gal.rel.relActive)}**`
+      + `(比 ${(ln.gal.rel.relActive / ln.gal.rel.relLegacy).toFixed(2)} 倍)`
+      + ` / 🎻 gw150914DFM は pinned 0 体なので**両分母が厳密に一致**(${ex(ln.gw.rel.relLegacy)})`
+      + ` / **門の宣言**: 窓 T=${LEDGER_GATE_W261D.T}・h=${LEDGER_GATE_W261D.h}(${LEDGER_GATE_W261D.steps} 步)・`
+      + `分母=[${LEDGER_GATE_W261D.denom.join('|')}]・しきい値 ${LEDGER_GATE_W261D.threshold}・`
+      + `seed=${LEDGER_GATE_W261D.seedSource}・読む欄=${LEDGER_GATE_W261D.read}・**判定=${LEDGER_GATE_W261D.judgement}**`
+      + `(**窓を宣言しない門は意味を持たない** —— 〔第260便c〕②)`
+      + (FAST ? ' / (FAST: 窓 600 步で API だけを見る)'
+        : ` / **両分母で 1e−3 の合否が分かれる**: 🎠 は従来分母では下回り活動部分では上回る=${CK.gateSplits}`
+          + `(**判定を変えたのではなく、分母を 1 つに決めていなかった** —— どちらか一方を正本にしない)`)
+      + ` / 純関数 HP.dfmLedgerRelative: null/NaN は null=${CK.pureNull}・`
+      + `活動部分が floorRel(${ln.pure.floor})以下なら relActive は **null**=${CK.pureDegenerate}`
+      + `(0 で割った大きな数を出さない)・分母 0 は no-denom=${CK.pureNoDenom}`
+      + ` / **E_shell 契約**(検証仮説 (12)「T_int だけ・回転 E は K」): `
+      + ln.esh.map((r) => `${r.emoji}${r.id}=${r.state}`
+        + (r.Eshell === null ? '(未定義)' : `(${r.Eshell.toExponential(4)})`)).join(' / ')
+      + ` —— **既存実装と一致した**(K−並進K=殻の回転 E=${ln.esh.every((r) => r.spinInK)})ので`
+      + `**署名便は作らない**(thermal:"tint" を新たに宣言するプリセットは 1 本も無い)`);
   }
 }
 

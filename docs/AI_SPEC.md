@@ -1314,6 +1314,30 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     `"spin-in-K"`(無印 = **スピン=熱**の規約。殻の回転 E ¼mR²ω² は**既に K に入っている**ので、
     ここに殻の回転 E を足すと**二重計上**になる —— **足さない**。0 で埋めるのでもない)。
     QA `behavior.toyLedger` ⑩ が `=== 0` で機械固定する。
+  - **第261便d(第53報)で正式 API になった帳簿の欄**(**既存の値は 1 bit も変わらない**):
+    `residualDragState` と `EshellState` は**正式な読み口**である(上の 2 つ —— 値の列挙と意味はそのまま)。
+    さらに `HP.dfmToyLedger` の返値に **`denom`** が増えた:
+    `{legacy, active, pinnedSpinE, pinnedN, activeShare, activeState, floorRel, parts}`。
+    **`legacy` = \|K\|+\|U\|+\|E_core\|**(**未定義の項は 0 を足したのではなく項そのものが無い**)/
+    **`active` = legacy − \|Σ_{pinned} ¼mR²ω²\|**(= **固定天体の一定スピン E** を除いた**活動部分**)/
+    `activeState` は `"ok"` / `"active-degenerate"`(\|active\| ≤ `floorRel`×legacy)/ `"no-denom"`(legacy≤0)。
+    **`floorRel` は宣言値**(`HP.LEDGER_ACTIVE_FLOOR_REL` = 1e−6)。
+  - `HP.dfmLedgerRelative(value, denom)` — **相対残差を 1 つに決めない**純関数(S を 1 バイトも読まない)。
+    返値 `{abs, relLegacy, relActive, denomState, floorRel}`。**活動部分が退化している宇宙では `relActive` は
+    `null`** になり(0 で割った大きな数を出さない)、**絶対残差 `abs` を読む**。`value` が null/非有限なら **null**。
+    **どちらか一方を正本にしない** —— 🎠 galaxyMeshSpiral は分母の **97.083%** が固定バルジ核のスピン E なので、
+    同じ残差が**従来分母 3.18×10⁻⁴ / 活動部分 1.09×10⁻²(34.28 倍)**になる。
+    **相対残差を引用するときは必ずどちらの分母かを書く。**
+    **門の宣言**(QA `behavior.ledgerNorm` の `LEDGER_GATE_W261D`): 窓 **T=96・h=0.016(6000 步)**・
+    分母 **[legacy | active] の両方**・しきい値 **1e−3**・seed は**プリセットの宣言値**・
+    読む欄は **residualDrag(無ければ residual)**・**判定は informational**。
+    **窓を宣言しない門は意味を持たない**(残差は窓で単調に増える —— 〔第260便c〕②)。
+  - **`S.meshCoordSink` / `S.meshCoordSinkL` / `S.meshCoordSinkGive` / `S.meshCoordSinkN`**(第261便d・診断の読み口)—
+    `physics.spaceMesh.inertiaRemoval:"inStep"` を宣言し、かつ `physics.coupleSink` を宣言した宇宙で、
+    **残余トルクを同段階で受け先(J_core / 容量つき J_z / リザーバ帳簿)へ送った量**の記帳である。
+    **送り先も規則も `applyCoupleSinkAlt` と同一なので、状態は 1 bit も変わらない**(記帳が増えるだけ)。
+    **`inertiaRemoval` の既定は `"post"` のままで、内蔵プリセットは 1 本も `"inStep"` を宣言していない。**
+    **生成 AI はこれらを JSON に書かない**(読み口であって宣言鍵ではない)。
   - **生成 AI はこれらを使わない**(`dfmMeshCapacityStep` は器の純関数で、プリセット JSON の欄ではない)。
     QA は `behavior.toyLedger` に ⑩(固定 T × dt の 1 点・null の扱い・E_shell の欠落条件)を、
     `behavior.chainMesh` に ⑪(有限容量の器)を足した(docs/PHYSICS.md 第260便c の節)。
