@@ -30298,6 +30298,13 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   rd.on('pageerror', (e) => rdErr.push(String(e.message || e)));
   await rd.goto(INDEX, { waitUntil: 'load' });
   await rd.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  // 統括(第258便): 第258便c 未適用の対象(旧世代 root 等)は SKIP —— ui.spaceMeshGain と同じ門
+  const hasRD = await rd.evaluate(() => !!(window.HP && typeof HP.setSpaceMeshGain === 'function'
+    && document.getElementById('smGainRange')));
+  if (!hasRD) {
+    console.log('SKIP ui.raysDesc(対象に第258便c の光線説明なし — root 等)');
+    await rd.close();
+  } else {
   const r = await rd.evaluate(() => {
     const pick = (lang) => { const I = (lang === 'en') ? I18N.en : I18N.ja;
       return { rays: I.tgRaysDesc, lam: I.rayLambda0Desc, label: I.rayLambda0Label }; };
@@ -30331,6 +30338,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     `同居行のまま(トグルと同じ .prow)=${r.sameRow && r.rowHasToggle}` +
     (rdErr.length ? ` / pageErrors=[${rdErr.slice(0, 2).join(' | ')}]` : ''));
   await rd.close();
+  }
 }
 
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
