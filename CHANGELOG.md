@@ -6,6 +6,34 @@
 
 ## v1.44-b1(開発中 — beta)
 
+- **第260便a(2026-09-13・第52報「進め方は、空間メッシュの実装を優先する。早期にコンパクト天体連星サンプルと銀河サンプルを完成させる」)**:
+  入場条件 (v)「**表示とトイが同じ `HP.dfmField` を読む**」を埋めた。**内蔵プリセットの JSON は 1 bit も触っていない**
+  (**121 本 × 600 步の状態・署名が基点 bbc554d とビット同一**・トイ〔🪟+リング〕3000 步もビット同一・
+  器 `tests/exp-w260a-fieldapi.mjs`・結果 `tests/out/fieldapi-w260a.json`)。**`S._core` には 1 命令も足していない**
+  (コメント除去後 **35197 字 = 基点と同一**)。
+  (a) **状態アダプタ `HP.dfmFieldSnapshot(S)`**: S の型付き配列から bodies 配列と options を **1 格子更新に 1 回**作る。
+  **ax/ay は捏造しない**ので `timeDerivativeComplete` は false。拒否は理由つき(complexNotVelocity / bodyLayers /
+  massiveBox / nonPositiveMass)。
+  (b) **蓄積格子の銀河・連星の両分岐とトイの重力が同じ `dfmField` を読む**。交点は 🪟 81/81・🎠 **49/81 → 81/81**、
+  `fieldApi:false` は基点とビット同一。格子に注記 `API diagnostic: <law> / all / static (not disk-affine)`。
+  **同じ 81 交点で現行の表示場との |Δu| は 🪟 2.2002・🎠 1.7454(相対で 1 に届く)—— disk/affine と全源 scalar は
+  別の場であり、「同じ関数になった」とは書かない**(QA `behavior.fieldApiIdentity` 新設)。
+  (c) **API 境界 3 件**: `excludeBodyId` は**数値 ID だけ**(添字は ID 未宣言時の代替 —— id 1/9 の 2 源で
+  `excludeBodyId:1` → 残る源 9・D=1.3416407865)/ **源が 1 つも無い complex は null** / `timeDerivativeComplete` は
+  **源の a と背景微分が揃ったときだけ true**(`accComplete`・`bgDtComplete`・`uQuantity` を追加)。
+  要求別 `need:"all"|"gravity"` も足した(重力は空集合でも定義される・u は定義されない)。
+  (d) **残余トルクの同段階除去**(`inertiaRemoval:"inStep"`・既定は post のまま): `accS` も同じ段階で 0 にし、
+  角運動量を**引いた瞬間の腕**で記帳する。η=0 対 kFrame=0 で **spin まで厳密一致**し、(ΔL+リザーバ)/|L₀| が
+  **2.0560×10⁻⁶ → 2.1649×10⁻¹⁶**(支えなしの参照 2.1650×10⁻¹⁶・post は 4.4101×10⁻¹²)。
+  (e) **⚡ の p 掃引 3 行**(診断コピー・**較正ではない** —— geoPN=3 が kFrame=0 を要求するのでワンタップ対照 B の帯):
+  **p=1/2 は scalar/local とも軌道が成立せず(r_min が初期の遠点のまま単調に開く = 離脱)**、p=3 だけ窓が閉じるが
+  P は観測の **5.236 倍(scalar)/ 1.1815 倍(local)**・ω̇ は scalar が **−11766 °/yr(逆行)**・local は unwrap 不能。
+  **交差は無い**ので第258便a ⑫6 の探索をここで閉じる。あわせて `frameWeightPow` が**未宣言を 2 と読む**ことを
+  記録した(p=1 は `frameWeight:"share"` の宣言で作る)。
+  A/B JIT probe は基点比 ×1.01(💫)/ ×1.02(⚫)/ ×0.97(🎠)/ ×0.79(🌠)で門 1.5× の内側。
+  (f) 文言: `CLAMPS.geoPN` の行末コメントの drift を修正・Negative Claim「**complex の A/W = D₀=0 の scalar**」を
+  PHYSICS と RELEASE_NOTES へ固定。
+
 - **第259便(統括・2026-09-13・第51報「概ね同意/空間メッシュの実装を優先・複素決定力場の仮定・geoPN=3 でトイ分離・親子コア」)**: 統括が設定した検証仮説で a〜d を実測し(PHYSICS〔第259便 — 統括〕)、paper6 骨子に審査 v17 の限定 4 点(複素場は器として存在し入場条件 4 つを満たしてトイ積分器へ接続したが較正には未接続・D₀=0 の正規化平均 u は減衰しない/親子コアは同心層として `_core` 不変で入り較正 40 本には 0 本・外部軌道だけではコア質量を一意推定できない/銀河の帳簿は E_escaped では閉じない・単一源 D₀=0 は厳密に非減衰/`S._core` に 36000 字の機械の線と A/B JIT probe・8 行の対照は条件一致したが保留・💫 は f=1・kF0 で 0.27σ)を追記。統合で `validateSpaceMesh` の未宣言判定に c の `meshEnergyCapacity` と a の `lawVersion` を両方保持・HP 公開表と AI_SPEC は a→b 順。統合ツリーの A/B JIT probe(基点 2c91954 比)は 💫 ×1.09・⚫ ×1.03・🎠 ×0.97・🎻 ×1.13 で門 1.5× の内側。**統括でエンジン・器の数値は触っていない**。残った決断事項は次版へ。
 - **第259便a(2026-09-13・第51報「空間メッシュとは複素決定力場である、と仮定する」「『測地線モード geoPN=3』などとして、
   トイモデル用に明確に処理を分ける事を検討する」)**: 純関数 3 本と**トイの測地線モード geoPN=3** を足した。
