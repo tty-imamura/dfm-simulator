@@ -13778,6 +13778,273 @@ if (!FAST) {
     console.log('SKIP behavior.meshCoordInertia(対象に第257便a の inertia:"coordinate" なし — root 等)');
   }
 }
+// ---- 第259便a(第51報): behavior.dfmField — 共通場 API・複素決定力場・geoPN=3(トイ分離) ----
+//   ① **未宣言は 1 bit 不変**: lawVersion/toyGain/inertiaRemoval を宣言しなければ署名に 1 文字も出ない。
+//      **toyGain=0 のトイは「トイなし」と厳密一致**(新しい則が既定経路へ漏れていないことの機械証明)
+//   ② **共通場 API**: g=G∇D が **E4 の pair 和**と一致(1e−8)・∇D の中央差分・門・
+//      `timeDerivativeComplete` は **Ṙ を宣言した "local" だけ true**(ゼロ埋めして「完全」と言わない)
+//   ③ **Ṙ 補正**(統括の検証仮説 (1)): 動く支持半径(R=3×分離)で ∂ₜu の中央差分との相対差が
+//      補正前 10⁻³ 級 → 補正後 10⁻⁹ 級へ落ちる。**固定 R では補正なしで一致**する
+//   ④ **負質量の源は拒否**(m≤0 は null —— 0 で埋めない)
+//   ⑤ **複素決定力場**: A=Σm v/(r²+ε²)^{p/2} は**重ね合わせ**(源 2 倍で 2 倍・分割で不変)で、
+//      **Cauchy–Riemann は満たさない**(残差を数で出す)。Φ と A は**単位が違う**(dimless 欄)
+//   ⑥ **D₀=0 は「相対(重み)」であって「絶対(u)」ではない**: 単一源・D₀=0 では χ=1 のまま
+//      **|u| が r に依らず u_src に等しい**(減衰しない)一方、**A は r^−p で減衰**する
+//   ⑦ **geoPN=3 の検証器**: sampleClass:"calibration" は拒否・lawVersion 未宣言は**従来どおり 2 へ丸めて警告**・
+//      kFrame>0 と inertia/weave の併用は拒否・受理された 3 は `S.params.geoPN===3` のまま
+//   ⑧ **dispatch 除外**: geoPN=3 では `S._core` から見た geoPN が 0 なので **`S._g2` が確保されない**
+//      (geo2 の ∇u 集積が立たない)。剛体箱の共回転極は **(1−η·χ)²** に乗る(入場条件 (i))
+//   ⑨ **トイの帳簿**: E+E_mesh=0(厳密)・ΔP+リザーバが閉じる・`lawVersion:"complex"` は
+//      **積分器へ接続しない**(A は速度ではない — `S.geoToyStop="complexNotVelocity"`)
+//   ⑩ **chiCut の廃止**: 旧 JSON の `inertiaSupport:"chiCut"` は**受理して "none"** へ(警告 1 行・署名に出ない)
+//   ⑪ **同段階置換**(`inertiaRemoval:"inStep"`・重いので QA_FAST では省略): η=0(除去だけ)が
+//      kFrame=0(支えなし)と**状態で厳密一致**する(第258便a の post は O(dt) の分割誤差が残る)
+{
+  const hasDF = await page.evaluate(() => !!(window.HP && typeof HP.dfmField === 'function'
+    && typeof HP.dfmComplexDeterminacy === 'function' && typeof HP.dfmGeoToyStep === 'function'
+    && Array.isArray(HP.DFM_FIELD_LAWS)));
+  if (hasDF) {
+    const fxq = (x) => Number(x).toExponential(4);
+    const df = await page.evaluate((fast) => {
+      const R = {}, KEY = HP.SPACE_MESH_KEY;
+      const P = (id) => JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === id)));
+      // ---------- ② 共通場 API
+      const BD = [{ id: 0, m: 500, x: -120, y: 0, vx: 0.03, vy: -0.56, ax: 0.004, ay: 0.001 },
+        { id: 1, m: 300, x: 140, y: 40, vx: -0.02, vy: 0.61, ax: -0.006, ay: 0.002 },
+        { id: 2, m: 20, x: 40, y: -260, vx: 0.4, vy: 0.1, ax: 0, ay: 0 }];
+      const G = 1.7, eps = 0.05;
+      let gw = 0, gs = 0;
+      for (const q of [[60, 25], [-300, 110], [400, -380]]) {
+        const f = HP.dfmField(BD, q[0], q[1], { G, eps, p: 2, D0: 1 });
+        let gx = 0, gy = 0;
+        for (const b of BD) {
+          const dx = q[0] - b.x, dy = q[1] - b.y, s = dx * dx + dy * dy + eps * eps;
+          const iv = 1 / Math.sqrt(s), iv3 = iv * iv * iv;
+          gx -= G * b.m * dx * iv3; gy -= G * b.m * dy * iv3;
+        }
+        gw = Math.max(gw, Math.hypot(f.gravity[0] - gx, f.gravity[1] - gy));
+        gs = Math.max(gs, Math.hypot(gx, gy));
+      }
+      let gd = 0, gds = 0;
+      for (const q of [[60, 25], [-300, 110], [400, -380]]) {
+        const h = 1e-4 * Math.max(1, Math.hypot(q[0], q[1]));
+        const f0 = HP.dfmField(BD, q[0], q[1], { G, eps, p: 2, D0: 1 });
+        const xp = HP.dfmField(BD, q[0] + h, q[1], { G, eps, p: 2, D0: 1 });
+        const xm = HP.dfmField(BD, q[0] - h, q[1], { G, eps, p: 2, D0: 1 });
+        const yp = HP.dfmField(BD, q[0], q[1] + h, { G, eps, p: 2, D0: 1 });
+        const ym = HP.dfmField(BD, q[0], q[1] - h, { G, eps, p: 2, D0: 1 });
+        const n = [(xp.D - xm.D) / (2 * h), (yp.D - ym.D) / (2 * h)];
+        gd = Math.max(gd, Math.abs(n[0] - f0.gradD[0]), Math.abs(n[1] - f0.gradD[1]));
+        gds = Math.max(gds, Math.abs(n[0]), Math.abs(n[1]));
+      }
+      R.api = { gRel: gw / Math.max(gs, 1e-300), dRel: gd / Math.max(gds, 1e-300),
+        tdc: { scalar: HP.dfmField(BD, 60, 25, { G, eps, D0: 1, lawVersion: 'scalar' }).timeDerivativeComplete,
+          local: HP.dfmField(BD, 60, 25, { G, eps, D0: 1, lawVersion: 'local', R: 700 }).timeDerivativeComplete,
+          localRdot: HP.dfmField(BD, 60, 25, { G, eps, D0: 1, lawVersion: 'local', R: 700, Rdot: 1.3 }).timeDerivativeComplete },
+        gates: [HP.dfmField(BD, 0, 0, { lawVersion: 'zzz' }), HP.dfmField(BD, 0, 0, { background: 'frame' }),
+          HP.dfmField(BD, 0, 0, { D0: -1 }), HP.dfmField(null, 0, 0, {}),
+          HP.dfmField(BD, 0, 0, { energyContract: 'free' }),
+          HP.dfmField(BD, 0, 0, { lawVersion: 'local' })].every((z) => z === null) };
+      // ---------- ③④ Ṙ 補正と負質量拒否
+      const B0 = [{ m: 500, x: -120, y: 0, vx: 0.30, vy: -0.56, ax: 0.004, ay: 0.001 },
+        { m: 500, x: 140, y: 40, vx: 0.62, vy: -0.14, ax: -0.006, ay: 0.002 }];
+      const mk = (t) => {
+        const b = B0.map((q) => ({ m: q.m, x: q.x + q.vx * t + 0.5 * q.ax * t * t,
+          y: q.y + q.vy * t + 0.5 * q.ay * t * t, vx: q.vx + q.ax * t, vy: q.vy + q.ay * t, ax: q.ax, ay: q.ay }));
+        const rx = b[1].x - b[0].x, ry = b[1].y - b[0].y, rr = Math.hypot(rx, ry);
+        return { bodies: b, R: 3 * rr, Rdot: 3 * ((rx * (b[1].vx - b[0].vx) + ry * (b[1].vy - b[0].vy)) / rr) };
+      };
+      const LP = { D0: 1e-3, eps: 0.05, p: 3 };
+      const at = (t, rd) => { const s = mk(t);
+        return HP.dfmLocalMeshField(s.bodies, 60, 25, Object.assign({}, LP, { R: s.R, Rdot: rd ? s.Rdot : 0 })); };
+      const hh = 1e-5, f0 = at(0, false), fp = at(hh, false), fm = at(-hh, false), f1 = at(0, true);
+      const num = [(fp.u[0] - fm.u[0]) / (2 * hh), (fp.u[1] - fm.u[1]) / (2 * hh)];
+      const rel = (z) => Math.max(Math.abs(num[0] - z.dUdt[0]), Math.abs(num[1] - z.dUdt[1]))
+        / Math.max(Math.abs(num[0]), Math.abs(num[1]), 1e-300);
+      const fixAt = (t) => HP.dfmLocalMeshField(mk(t).bodies, 60, 25, Object.assign({}, LP, { R: 700 }));
+      const g0 = fixAt(0), gp = fixAt(hh), gm2 = fixAt(-hh);
+      const gnum = [(gp.u[0] - gm2.u[0]) / (2 * hh), (gp.u[1] - gm2.u[1]) / (2 * hh)];
+      R.rdot = { before: rel(f0), after: rel(f1), usedBefore: f0.RdotUsed, usedAfter: f1.RdotUsed,
+        fixed: Math.max(Math.abs(gnum[0] - g0.dUdt[0]), Math.abs(gnum[1] - g0.dUdt[1]))
+          / Math.max(Math.abs(gnum[0]), Math.abs(gnum[1]), 1e-300),
+        neg: [HP.dfmLocalMeshField([{ m: -1, x: 0, y: 0 }], 10, 0, { R: 100, D0: 1 }),
+          HP.dfmLocalMeshField([{ m: 0, x: 0, y: 0 }], 10, 0, { R: 100, D0: 1 }),
+          HP.dfmComplexDeterminacy([{ m: -1, x: 0, y: 0 }], 10, 0, {})].every((z) => z === null),
+        pos: !!HP.dfmLocalMeshField([{ m: 1, x: 0, y: 0 }], 10, 0, { R: 100, D0: 1 }) };
+      // ---------- ⑤ 複素決定力場
+      const CB = [{ m: 500, x: -120, y: 0, vx: 0.03, vy: -0.56 }, { m: 500, x: 120, y: 0, vx: -0.03, vy: 0.56 }];
+      const a1 = HP.dfmComplexDeterminacy(CB, 600, 0, { p: 2, eps });
+      const a2 = HP.dfmComplexDeterminacy(CB.map((b) => Object.assign({}, b, { m: 2 * b.m })), 600, 0, { p: 2, eps });
+      const s1 = HP.dfmComplexDeterminacy([{ m: 4, x: 0, y: 0, vx: 1, vy: 2 }], 5, 0, { p: 2 });
+      const s2 = HP.dfmComplexDeterminacy([{ m: 1, x: 0, y: 0, vx: 1, vy: 2 },
+        { m: 3, x: 0, y: 0, vx: 1, vy: 2 }], 5, 0, { p: 2 });
+      const un = HP.dfmComplexDeterminacy(CB, 600, 0, { p: 2, eps, units: { M: 1000, L: 240, T: 518.8544 } });
+      R.cx = { linear: Math.max(Math.abs(a2.A[0] - 2 * a1.A[0]), Math.abs(a2.A[1] - 2 * a1.A[1]))
+          / Math.max(Math.abs(2 * a1.A[0]), Math.abs(2 * a1.A[1]), 1e-300),
+        split: Math.abs(s1.A[0] - s2.A[0]) + Math.abs(s1.A[1] - s2.A[1]),
+        cr: [a1.cauchyRiemann.rel1, a1.cauchyRiemann.rel2], holo: a1.holomorphic,
+        dimless: !!un.dimless, noUnits: HP.dfmComplexDeterminacy(CB, 600, 0, { p: 2, eps }).dimless === null };
+      // ---------- ⑥ D₀=0 の相対 vs 絶対
+      const SRC = [{ m: 500, x: 0, y: 0, vx: 0.37, vy: -0.21 }];
+      const uSrc = Math.hypot(0.37, 0.21);
+      const rr2 = [300, 800, 1600, 4800].map((r) => {
+        const w = HP.dfmLocalMeshField(SRC, r, 0, { p: 2, eps, D0: 0, support: false });
+        const c = HP.dfmComplexDeterminacy(SRC, r, 0, { p: 2, eps });
+        const w8 = HP.dfmLocalMeshField(SRC, r, 0, { p: 2, eps, D0: 80, support: false });
+        return { r, u: Math.hypot(w.u[0], w.u[1]), chi: w.chi, A: Math.hypot(c.A[0], c.A[1]),
+          u80: Math.hypot(w8.u[0], w8.u[1]) };
+      });
+      R.d0 = { rows: rr2, uSrc,
+        flat: Math.max.apply(null, rr2.map((z) => Math.abs(z.u - uSrc))) / uSrc,
+        chi1: Math.max.apply(null, rr2.map((z) => Math.abs(z.chi - 1))),
+        aDecay: rr2[0].A / rr2[3].A, ratio: (4800 / 300) * (4800 / 300),
+        u80Decay: rr2[0].u80 / rr2[3].u80 };
+      // ---------- ⑦⑧ geoPN=3 の検証器と dispatch 除外
+      const mkq = (phys, sm, cls) => { const q = P('spaceMeshBinaryToy');
+        Object.assign(q.physics, phys);
+        if (sm) q.physics[KEY] = Object.assign({ mode: 'vertex' }, q.physics[KEY] || {}, sm);
+        if (cls) q.sampleClass = cls;
+        delete q.massCalibration; return HP.validatePreset(q); };
+      const noLaw = mkq({ geoPN: 3, kFrame: 0 }, null, null);
+      const good = mkq({ geoPN: 3, kFrame: 0 }, { lawVersion: 'local' }, null);
+      R.geo3 = { rounded: noLaw.ok && noLaw.preset.physics.geoPN === 2,
+        warn: (noLaw.warnings || []).some((w) => w.indexOf('geoPN=3') >= 0),
+        calib: mkq({ geoPN: 3, kFrame: 0 }, { lawVersion: 'scalar' }, 'calibration').ok === false,
+        kf: mkq({ geoPN: 3, kFrame: 1 }, { lawVersion: 'scalar' }, null).ok === false,
+        iner: mkq({ geoPN: 3, kFrame: 0 }, { lawVersion: 'scalar', inertia: 'coordinate' }, null).ok === false,
+        weave: mkq({ geoPN: 3, kFrame: 0 }, { lawVersion: 'scalar', weave: 'pair' }, null).ok === false,
+        accepted: good.ok && good.preset.physics.geoPN === 3 };
+      // 剛体箱の共回転極(入場条件 (i))と dispatch 除外
+      const OM = 0.15, RP = 70;
+      const spin = (eta, D0) => {
+        const q = P('boxcomoving');
+        q.bodies = [{ type: 'single', m: 1e-9, x: RP, y: 0, vx: 0, vy: OM * RP, spin: 0, pinned: false }];
+        q.universeBox = Object.assign({}, q.universeBox || {},
+          { mode: 'exp', H0: 0, omega: OM, vx: 0, vy: 0, D: 80, dPower: 1 });
+        Object.assign(q.physics, { G: 0, D0, kFrame: 0, geoPN: 3, softening: 4, stateCarry: 'double' });
+        q.physics[KEY] = { mode: 'vertex', lawVersion: 'scalar', toyGain: eta };
+        delete q.massCalibration;
+        const v = HP.validatePreset(q);
+        if (!v.ok) return null;
+        const S = HP.sim; S.build(v.preset);
+        let ar = 0, r = RP;
+        for (let k = 0; k < 4; k++) {
+          const v0 = [S.vx[0], S.vy[0]];
+          S.step(0.005);
+          r = Math.hypot(S.x[0], S.y[0]);
+          ar = ((S.vx[0] - v0[0]) / 0.005 * S.x[0] + (S.vy[0] - v0[1]) / 0.005 * S.y[0]) / r;
+        }
+        return { ratio: (ar + OM * OM * r) / (OM * OM * r), geoPN: S.params.geoPN,
+          g2: S._g2 === null || S._g2 === undefined, stop: S.geoToyStop, N: S.geoToyN, nan: S.hasNaN() };
+      };
+      const box = [];
+      for (const D0 of [0, 80]) for (const eta of [0, 0.5, 1]) {
+        const z = spin(eta, D0); const chi = 80 / (D0 + 80);
+        box.push({ D0, eta, chi, ratio: z.ratio, law: (1 - eta * chi) * (1 - eta * chi),
+          diff: Math.abs(z.ratio - (1 - eta * chi) * (1 - eta * chi)), geoPN: z.geoPN, g2: z.g2, nan: z.nan });
+      }
+      R.box = { rows: box, maxDiff: Math.max.apply(null, box.map((b) => b.diff)),
+        geoPN3: box.every((b) => b.geoPN === 3), g2: box.every((b) => b.g2), nan: box.some((b) => b.nan) };
+      // ---------- ①⑨ トイの帳簿・未宣言 1 bit 不変
+      const ring = [];
+      for (let k = 0; k < 8; k++) { const th = 2 * Math.PI * k / 8, rr = 900;
+        ring.push({ type: 'single', m: 0.5, x: rr * Math.cos(th), y: rr * Math.sin(th),
+          vx: -0.026 * Math.sin(th), vy: 0.026 * Math.cos(th), spin: 0, pinned: false }); }
+      const toy = (law, gain) => {
+        const q = P('spaceMeshBinaryToy');
+        q.physics.kFrame = 0;
+        if (law) { q.physics.geoPN = 3; q.physics[KEY] = { mode: 'vertex', gravity: true, lawVersion: law, toyGain: gain }; }
+        q.bodies = q.bodies.concat(ring);
+        const v = HP.validatePreset(q);
+        if (!v.ok) return { err: (v.errors || []).join('|') };
+        const S = HP.sim; S.build(v.preset);
+        const T0 = S.totals();
+        for (let k = 0; k < (fast ? 300 : 3000); k++) S.step(0.004);
+        const T = S.totals();
+        return { stop: S.geoToyStop, N: S.geoToyN, e: Math.abs(S.geoToyE + S.geoToyEmesh),
+          dPres: Math.hypot(T.px - T0.px + S.resPx, T.py - T0.py + S.resPy),
+          nan: S.hasNaN(), st: [S.x[2], S.y[2], S.vx[2], S.vy[2]], sig: JSON.stringify(v.preset.physics[KEY] || null) };
+      };
+      const tOff = toy(null, 1), t0 = toy('scalar', 0), t1 = toy('scalar', 1), tcx = toy('complex', 1);
+      R.toy = { on: t1, zero: Math.max.apply(null, t0.st.map((z, i) => Math.abs(z - tOff.st[i]))),
+        complexStop: tcx.stop, offSig: tOff.sig,
+        sigClean: !JSON.stringify(P('spaceMeshBinaryToy').physics).includes('lawVersion') };
+      // ---------- ⑩ chiCut の廃止
+      const cc = mkq({}, { inertia: 'coordinate', inertiaSupport: 'chiCut' }, null);
+      R.chiCut = { ok: cc.ok, clean: cc.ok ? !JSON.stringify(cc.preset.physics[KEY]).includes('chiCut') : false,
+        warn: cc.ok ? (cc.warnings || []).some((w) => w.indexOf('chiCut') >= 0) : false,
+        list: HP.SPACE_MESH_INERTIA_SUPPORT.slice() };
+      // ---------- ⑪ 同段階置換(重い)
+      if (!fast) {
+        const runK = (sm) => {
+          const q = P('spaceMeshBinaryToy');
+          if (sm) q.physics[KEY] = Object.assign({ mode: 'vertex' }, q.physics[KEY] || {}, sm);
+          else q.physics.kFrame = 0;
+          q.bodies = q.bodies.concat(ring);
+          const v = HP.validatePreset(q);
+          const S = HP.sim; S.build(v.preset);
+          for (let k = 0; k < 3000; k++) S.step(0.004);
+          const st = []; for (let i = 0; i < S.n; i++) st.push(S.x[i], S.y[i], S.vx[i], S.vy[i]);
+          return { st, removal: S.meshCoordRemoval, give: S.meshCoordGive, scale: Math.hypot(S.x[2], S.y[2]) };
+        };
+        const base = runK(null);
+        const post = runK({ inertia: 'coordinate', inertiaGain: 0, inertiaVertices: true });
+        const inS = runK({ inertia: 'coordinate', inertiaGain: 0, inertiaVertices: true, inertiaRemoval: 'inStep' });
+        const cmp = (a, b) => { let d = 0; for (let i = 0; i < a.st.length; i++) d = Math.max(d, Math.abs(a.st[i] - b.st[i])); return d; };
+        R.inStep = { post: cmp(post, base), inStep: cmp(inS, base), scale: base.scale,
+          removal: inS.removal, give: inS.give };
+      }
+      return R;
+    }, FAST);
+    const q1 = df.toy.sigClean && df.toy.zero === 0 && df.toy.offSig.indexOf('lawVersion') < 0
+      && df.toy.offSig.indexOf('toyGain') < 0;
+    const q2 = df.api.gRel < 1e-8 && df.api.dRel < 1e-8 && df.api.gates
+      && df.api.tdc.scalar === true && df.api.tdc.local === false && df.api.tdc.localRdot === true;
+    const q3 = df.rdot.before > 1e-4 && df.rdot.after < 1e-7 && df.rdot.fixed < 1e-7
+      && df.rdot.usedBefore === false && df.rdot.usedAfter === true;
+    const q4 = df.rdot.neg && df.rdot.pos;
+    const q5 = df.cx.linear < 1e-12 && df.cx.split < 1e-12 && df.cx.holo === false
+      && df.cx.cr[1] > 0.1 && df.cx.dimless && df.cx.noUnits;
+    const q6 = df.d0.flat < 1e-12 && df.d0.chi1 < 1e-12 && df.d0.aDecay > 200 && df.d0.u80Decay > 200;
+    const q7 = df.geo3.rounded && df.geo3.warn && df.geo3.calib && df.geo3.kf
+      && df.geo3.iner && df.geo3.weave && df.geo3.accepted;
+    const q8 = df.box.maxDiff < 1e-5 && df.box.geoPN3 && df.box.g2 && !df.box.nan;
+    const q9 = df.toy.on.stop === null && df.toy.on.N > 0 && df.toy.on.e === 0
+      && df.toy.on.dPres < 1e-12 && !df.toy.on.nan && df.toy.complexStop === 'complexNotVelocity';
+    const q10 = df.chiCut.ok && df.chiCut.clean && df.chiCut.warn
+      && df.chiCut.list.indexOf('chiCut') < 0 && df.chiCut.list.indexOf('expGate') >= 0;
+    const q11 = FAST || (df.inStep.inStep === 0 && df.inStep.post > 0 && df.inStep.removal === 'inStep');
+    add('behavior.dfmField', q1 && q2 && q3 && q4 && q5 && q6 && q7 && q8 && q9 && q10 && q11,
+      `① **未宣言は 1 bit 不変**: 🪟 の署名に lawVersion が出ない=${df.toy.sigClean}・`
+      + `**toyGain=0 のトイはトイなしと厳密一致** 状態差=${df.toy.zero}(対照の署名 ${df.toy.offSig})=${q1} / `
+      + `② **共通場 API**: g=G∇D と E4 の pair 和の相対差 ${fxq(df.api.gRel)}・∇D の中央差分 ${fxq(df.api.dRel)}・`
+      + `timeDerivativeComplete は scalar=${df.api.tdc.scalar}/local(Ṙ 無)=${df.api.tdc.local}/local(Ṙ 有)=${df.api.tdc.localRdot}・`
+      + `門 ${df.api.gates}=${q2} / `
+      + `③ **Ṙ 補正**(動く支持半径 R=3×分離): ∂ₜu の中央差分との相対差が **補正前 ${fxq(df.rdot.before)} → 補正後 ${fxq(df.rdot.after)}**・`
+      + `固定 R では補正なしで ${fxq(df.rdot.fixed)}(RdotUsed=${df.rdot.usedBefore}→${df.rdot.usedAfter})=${q3} / `
+      + `④ **負質量の源は拒否**(m≤0 は null・正質量は受理)=${q4} / `
+      + `⑤ **複素決定力場**: A の線形性 ${fxq(df.cx.linear)}・分割不変 ${fxq(df.cx.split)}・`
+      + `**Cauchy–Riemann の残差 rel=[${fxq(df.cx.cr[0])}, ${fxq(df.cx.cr[1])}] = 満たさない**(holomorphic=${df.cx.holo})・`
+      + `単位は units 宣言のときだけ無次元化欄=${df.cx.dimless && df.cx.noUnits}=${q5} / `
+      + `⑥ **D₀=0 は相対(重み)であって絶対(u)ではない**: 単一源で χ=1 のまま **|u| が r に依らず u_src**`
+      + `(最大相対差 ${fxq(df.d0.flat)}・r=300→4800)、同じ帯で **A は ${df.d0.aDecay.toFixed(1)} 倍に減る**`
+      + `(r² 比 ${df.d0.ratio})・D₀=80 の u も ${df.d0.u80Decay.toFixed(1)} 倍に減る=${q6} / `
+      + `⑦ **geoPN=3 の検証器**: lawVersion 未宣言は 2 へ丸め+警告=${df.geo3.rounded && df.geo3.warn}・`
+      + `calibration 拒否=${df.geo3.calib}・kFrame>0 拒否=${df.geo3.kf}・inertia 併用拒否=${df.geo3.iner}・`
+      + `weave 併用拒否=${df.geo3.weave}・受理後も params.geoPN=3=${df.geo3.accepted}=${q7} / `
+      + `⑧ **dispatch 除外と入場条件 (i)**: 剛体箱の残差/(Ω²r) が **(1−η·χ)²** に乗る(最大差 ${fxq(df.box.maxDiff)})・`
+      + `**S._g2 が確保されない**=${df.box.g2}・S.params.geoPN は 3 のまま=${df.box.geoPN3}=${q8} / `
+      + `⑨ **トイの帳簿**: E+E_mesh=${fxq(df.toy.on.e)}・ΔP+リザーバ ${fxq(df.toy.on.dPres)}・N=${df.toy.on.N}・`
+      + `**complex は積分器へ接続しない**(stop="${df.toy.complexStop}" —— A は速度ではない)=${q9} / `
+      + `⑩ **chiCut の廃止**: 旧 JSON は受理して "none" へ(警告つき)=${df.chiCut.ok && df.chiCut.clean && df.chiCut.warn}・`
+      + `値域は ${JSON.stringify(df.chiCut.list)}=${q10} / `
+      + `⑪ **同段階置換**(inertiaRemoval:"inStep"): ${FAST ? '(QA_FAST では省略)'
+        : `η=0(除去だけ)と kFrame=0(支えなし)の最大状態差が **post ${fxq(df.inStep.post)} → inStep ${df.inStep.inStep}**`
+        + `(|x|≈${df.inStep.scale.toFixed(1)}・戻し ${df.inStep.give} 回)`}=${q11}`);
+  } else {
+    console.log('SKIP behavior.dfmField(対象に第259便a の HP.dfmField なし — root 等)');
+  }
+}
 // ---- 第255便a(第47報・ChatGPT §8.1): behavior.meshRotorExchange — 有限の回転子交換 ----
 //   純関数 HP.dfmMeshRotorExchange だけを叩く軽量ブロック(QA_FAST でも走る)。固定するのは 6 項目:
 //     ① **L+J が厳密に保存**(1 步でも 2 万步の積み上げでも)

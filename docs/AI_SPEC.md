@@ -900,6 +900,51 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   0(z≥1)、u_i=v_i+ω_i ẑ×(x−x_i)、u=(Σw_iu_i+D₀u_bg)/(D₀+Σw_i)、**∇u=(∇N−u⊗∇D)/D**・
   **∂ₜu=(∂ₜN−u·∂ₜD)/D**(商の微分)。源ごとに `{m,x,y,vx,vy,ax,ay,omega,omegaDot,R}` を読む。
   **D₀=0 かつ支持内に源が無い点・R 無宣言・非有限は null**(0 で埋めない)。**力へは接続しない純関数**である。
+  - **〔第259便a 追補〕Ṙ 補正と負質量拒否**: 既定の支持半径は「頂点対の分離 r_sep の 3 倍」= **時間変化する量**なので、
+    ∂ₜw に **+20·m·(r²+ε²)^(−p/2)·z²(1−z)³·Ṙ/R**(C′(z)=−20z(1−z)³ 由来)が要る。源ごとの `Rdot`(または
+    `opts.Rdot`)を宣言したときだけ入り、**宣言しなければ第258便a と 1 bit 同一**である。返り値に
+    **`RdotUsed`**(この呼び出しで Ṙ 項が入ったか)と **`support`**(支持関数を掛けたか)が増えた。
+    `opts.support:false` を渡すと **C≡1**(支持関数なし = 大域の正規化平均 = 第254便の法則)になり、R は要らない。
+    **`m≤0` の源は拒否**(null —— 支持つきの正規化平均は Σw が 0 を跨ぐと χ も u も意味を失う)。
+- **共通場 API(第259便a)**: **`HP.dfmField(state, x, y, {excludeBodyId, background, lawVersion, p, R, Rdot, D0, eps, G, bg, energyContract})`**
+  → `{D, gradD, gravity, u, gradU, dUdt, chi, sourceIds, supportPolicy, timeDerivativeComplete, energyContract, W, gradW, dWdt, nIn}`。
+  `state` は `[{id?,m,x,y,vx,vy,ax,ay,omega,omegaDot,R?,Rdot?}, …]` か `{bodies:[…]}`(**S は読まない純関数**)。
+  - **D=Σmᵢ/√(rᵢ²+ε²) と ∇D を同じ源集合から**返し、**重力は g=G∇D**(E4 の pair 和と実測で差 0 —— 同じ核なので
+    置き換えても二重にも半分にもならない)。
+  - `lawVersion`: `"scalar"`(既定・大域の正規化平均 = 第254便)/ `"local"`(支持関数つき = 第258便a・**R の宣言が要る**)/
+    `"complex"`(**重ね合わせ A** = 第259便a・**u は速度ではない**・χ は null)。
+  - `background`: `"static"`(既定・u_bg=0)/ `"frame"`(**呼び出し側が `bg:{u,gradU?,dUdt?}` を渡す**。渡さないと null
+    —— 純関数は S を読めないので**ゼロ埋めしない**)。
+  - **`timeDerivativeComplete`**: `"scalar"`/`"complex"` は true、**`"local"` は `Rdot` を宣言したときだけ true**。
+  - `energyContract` は `"none"`(既定)/`"meshLedger"`/`"toy"` の文字列で、**この関数は帳簿を持たない**ことの宣言。
+  - **門**(null): 未知の lawVersion/energyContract・`"frame"` で bg 未指定・D₀<0・state が配列でない・R 無しの `"local"`。
+- **複素決定力場(第259便a)**: **`HP.dfmComplexDeterminacy(sources, x, y, {p, eps, units:{M,L,T}})`** →
+  `{Phi, gradPhi, A, gradA, dAdt, p, eps, sourceIds, dimless, cauchyRiemann, holomorphic:false}`。
+  **Φ=Σmᵢ/(rᵢ²+ε²)^(1/2)**(スカラー)・**A=Σmᵢvᵢ/(rᵢ²+ε²)^(p/2)**(**重ね合わせ** —— 現行の正規化平均とは別物で
+  分母が無い)。**m/r と m/r² は単位が違う**(Φ は M/L・A は M·L^{1−p}·T^{−1})ので、p を掃く比較は
+  `units` を宣言した **`dimless`** 欄でしか意味を持たない(未宣言なら `dimless` は null)。
+  `cauchyRiemann` は **検算だけ**の残差 2 本(r1=∂ₓu_x−∂ᵧu_y・r2=∂ₓu_y+∂ᵧu_x)で、**正則性は要求しない**
+  (`holomorphic` は常に false)。`m≤0` は拒否(null)。**力へは 1 バイトも接続しない。**
+- **geoPN=3(トイの測地線モード・第259便a)**: `CLAMPS.geoPN` の上限が 3 になったが、**3 は宣言だけでは通らない**。
+  - **受理条件**: (a) `sampleClass:"calibration"` では**拒否**、(b) `physics.spaceMesh.lawVersion` の宣言が無ければ
+    **従来どおり 2 へ丸めて警告**、(c) `kFrame>0` は拒否、(d) `spaceMesh.inertia`・`weave` との併用は拒否(**重複適用禁止**)。
+  - **dispatch**: 受理された 3 は **`S._core` から見ると 0**(`geoCoreDispatch` が `_core` の呼び出しの間だけ
+    `S.params.geoPN` を 0 にして戻す)。よって `geo`・`geo2`・特別化②(pairCorePN)のどれも立たず、**`S._g2` も確保されない**。
+    **`S.params.geoPN` は `_core` の外では 3 のまま**なので、保存・エクスポート・UI は宣言値をそのまま読む。
+  - **積分器** `HP.dfmGeoToyStep(S,dt)`(`S._core` の外・`_meshCoordForce` と同じ位置):
+    **a = ∂ₜū + (∇ū)v − (∇ū)ᵀ(v−ū)**、ū=η·χ·u_mesh(η=`spaceMesh.toyGain`・0〜1・既定 1)。
+    v=ū を入れると ∂ₜu+(u·∇)u を含む形になる(`x+=meshShift` の後処理は使わない)。
+    **粒子とメッシュの運動量を同時更新する契約**で、ΔP・ΔL・離散仕事の厳密な負を同じ步にメッシュ帳簿
+    (`S.geoToyMeshPx/Py/L`・`S.geoToyEmesh`)とリザーバへ記帳する。読み口は `S.geoToyStop`/`N`/`Chi`/`Dv`/`E`。
+    **`lawVersion:"complex"` は接続しない**(`S.geoToyStop="complexNotVelocity"` —— A は速度ではない)。
+- **除去の段階(第259便a — `physics.spaceMesh.inertiaRemoval`)**: `"post"`(既定 = 第258便a・`S._core` の後で引く)/
+  `"inStep"`(**当てた段階で引く** —— `dragHookKick` は `_core` が速度へ書く直前、`dragHookApply` は ③/③′ が
+  書く直前に呼ばれるので、そこで先に引く/取り分を 0 にする)。実測では **η=0(除去だけ)が kFrame=0(支えなし)と
+  状態で厳密一致**する(post は O(dt) の分割誤差が残る)。**限界**: 残余トルク(スピンへ渡る分)は除去契約の外なので、
+  ΔL の帳簿残差が 1 次で残る。
+- **`inertiaSupport` の値域が変わった(第259便a)**: `"none"`/`"support"`/`"expGate"` の 3 値。
+  **旧 `"chiCut"` は受理して `"none"` へ正規化し警告を 1 行出す**(〔第258便a ③2〕—— この帯では一度も発動しない)。
+  `inertiaChiCut` は受理・値域検査だけ残し、**正準形には出さない**(読む経路が無い)。
 - **純関数 2 本(第257便a・力へは接続しない物差し)**:
   - **`HP.affineComovingStep({C,V,H,Omega,dt}, [x,y])`** → `{x,v,u,C,F,a,theta,fixedPoint,gradU,dUdt}`。
     x(t+h)=C+V·h+a·R(θ)(x−C)(a=e^{Hh}・θ=Ωh・**C も V·h 動く**)。**群**なので 100 分割と一括が
