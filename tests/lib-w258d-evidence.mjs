@@ -160,14 +160,25 @@ export function predictionEligible(q) {
 // **後付けの hold-out** になる。hold-out は「観測値を見る前に手順を凍結した」ことに意味があるので、
 // 宣言は**測る前**に入れなければならない。だから記録器は用意し、**中身は次に測る量から**入れる。
 // 台帳には「**記録器あり・記録 0 件**」と書く(「予測が 0 件」ではなく「記録が 0 件」である)。
-export const PREDICTION_EVIDENCE_FIELDS = ['usedForFit', 'validation', 'dataset', 'frozenProtocol', 'recordedAt'];
+// 第260便d(第52報 W4): **宣言書式を 9 欄へ**(統括が設定した検証仮説の (2) の書式に合わせた)。
+// 足したのは 4 つ —— `units`(観測とモデルを同じ単位で比べたことの記録)・`covariance`(推定量の
+// 共分散。1 量でも傾きの分散が要る)・`extractor`(どの検出器で量を取り出したか)・`codeHash`
+// (凍結した版の指紋)。**記録が 0 件であることは変わらない** —— 増えたのは「宣言に要る欄」だけである。
+// **後付けで埋めてはいけない**: 宣言は測る前にブリーフで行い、器はそれを**記録するだけ**である。
+export const PREDICTION_EVIDENCE_FIELDS = ['dataset', 'usedForFit', 'validation', 'units',
+  'covariance', 'extractor', 'codeHash', 'frozenProtocol', 'recordedAt'];
 
 // 宣言を 1 件作る。**凍結手順**(どの commit のどの器をどの窓で回したか)が要る。
-export function makePredictionEvidence({ dataset, commit, harness, window: win, recordedAt } = {}) {
+export function makePredictionEvidence({ dataset, commit, harness, window: win, recordedAt,
+  units, covariance, extractor, codeHash } = {}) {
   return {
     usedForFit: false,                 // fit に使っていない(宣言)
     validation: 'held-out',            // hold-out として扱う(宣言)
     dataset: dataset || null,          // どの観測データか(CSV の行・一次表)
+    units: units || null,              // 第260便d: 観測とモデルを**同じ単位**で比べた記録(換算の有無)
+    covariance: covariance || null,    // 第260便d: 推定量の共分散(傾き・切片の分散を含む)
+    extractor: extractor || null,      // 第260便d: どの検出器で量を取り出したか(A/B・窓の定義)
+    codeHash: codeHash || null,        // 第260便d: 凍結した版の指紋(commit だけでは足りない場合)
     frozenProtocol: (commit || harness || win)
       ? { commit: commit || null, harness: harness || null, window: win || null } : null,
     recordedAt: recordedAt || null,    // いつ宣言したか(**測る前**でなければならない)
@@ -189,6 +200,11 @@ export function validatePredictionEvidence(ev) {
     if (!fp.window) problems.push('frozenProtocol.window(どの窓か)が無い');
   }
   if (!ev.recordedAt) problems.push('recordedAt(いつ宣言したか)が無い');
+  // 第260便d で足した 4 欄(宣言書式を 9 欄にした)
+  if (!ev.units) problems.push('units(観測とモデルを同じ単位で比べた記録)が無い');
+  if (!ev.covariance) problems.push('covariance(推定量の共分散)が無い');
+  if (!ev.extractor) problems.push('extractor(どの検出器で量を取り出したか)が無い');
+  if (!ev.codeHash) problems.push('codeHash(凍結した版の指紋)が無い');
   return { valid: problems.length === 0, problems };
 }
 

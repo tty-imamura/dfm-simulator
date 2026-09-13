@@ -17,6 +17,10 @@ tests/out/*
 # `docs.calibration-verdict-sync` が台帳 §3/§5 の数値と突き合わせるのでコミットする
 !tests/out/kf0-w259d.json
 !tests/out/precision-w259d.json
+# 第260便d: 🧮 J1757−1854 の h8 検査点(tests/exp-w260d-precision.mjs)の実測正本。
+# QA `docs.calibration-verdict-sync` が台帳 §5.4 の 4 段の数値(周期・deg/yr)と突き合わせるので
+# コミットする(文書が測定から独立に動かないようにするため)。
+!tests/out/precision-w260d.json
 # 第134便: kF1 較正ハーネスの実測正本(論文3 再現性 — 外部レビュー P0 対応。
 # 本文の中心値〔q*=6.16/8.25/21.8・drag −5.6e-10・第122便 q*=4.59〕を提出コミットから再生成可能に)
 !tests/out/coreshell-results.json

@@ -421,28 +421,49 @@ if (!ABJIT_ONLY && betaIds.includes('galaxyGeo2') && betaIds.includes('galaxyStd
   console.log(ABJIT_ONLY ? 'SKIP perf.geo2-overhead(PERF_ABJIT_ONLY=1 — A/B JIT probe だけを回す)'
     : 'SKIP perf.geo2-overhead(galaxyGeo2/galaxyStd が beta に揃っていない)');
 }
-// ---- 第259便d(第51報 W4): A/B JIT probe(**informational**) ----
-// 〔第258便e〕の JIT 崖を **本ゲートは検出できなかった**。理由は構造的で、上の測定は
+// ---- 第259便d(第51報 W4)→ **第260便d(第52報 W4)で 2 系統へ**: A/B JIT probe(**informational**) ----
+// 〔第258便e〕の JIT 崖を **本ゲートの本体は検出できない**。理由は構造的で、上の測定は
 // 「1 ページ・1 プリセット・素の連続走行」なので、`S._core` が一度 deopt する経路
-// (A/B で 2 個目の sim を作る・build を 2 度呼ぶ)を通らない —— 素の走行では ×1.5 にしか
-// ならず、A/B 経路でだけ 15〜20 倍になった(第258便e の実測)。
-// 本項目は器 `tests/exp-w258e-jitprobe.mjs` と**同じ A/B ワークロード**
-// (loadPreset → abStart('kFrame',0) → 2 つの sim を交互に進める)を perf の末尾に 1 項目として置く。
-// 手順は本ゲートの流儀に合わせる: **同一環境(同一プロセス・常駐ページ)・2 sim・再 build 込み・
-// ウォームアップ後に 3 反復・中央値・ms/步(1 sim 1 步あたり)**。
+// (A/B で 2 個目の sim を作る)を通らない —— 素の走行では ×1.5 にしかならず、
+// A/B 経路でだけ 15〜20 倍になった(〔第258便e〕の実測)。
+// ワークロードは器 `tests/exp-w258e-jitprobe.mjs` と**同じ**である
+// (`loadPreset` → `abStart('kFrame',0)` → 2 つの sim を交互に進める)。
 //
-// **基準値をどう置くか(決めて書く)**: **同一 run の root 側 ms/步**を基準にする。
-//  ・**固定値にはしない** —— 絶対 ms/步 は機種依存で、CI ランナーと手元で桁が違う。
-//  ・**tests/out の前回値も判定には使わない** —— tests/out は追跡外なので CI では空から始まり、
-//    しかも「毎回自分を基準にし直す」ので緩やかな劣化を見逃す(前回値は `prev` 欄に**記録だけ**する)。
-//  ・root/beta は同一プロセスで隣接して走るので比は負荷変動に強い(第62便の交互ペアと同じ理由)。
-//    root は別世代なので比は 1.00 ではない —— 見るのは絶対値ではなく**この比の急変**である
-//    (崖なら 15〜20 倍・第258便e の表)。root へ beta が昇格すれば比は 1 付近へ寄る。
-// **判定は informational**: 比が WARN(既定 1.5)を超えたら WARN 行を出すだけで **FAIL にしない**
-// (FAIL へ上げる基準値の決め方は決断事項として残した — 〔第259便d〕)。
-// 所要は 2 プリセット × 2 ページ ≈ 15 秒(崖が無いとき)。崖があるときのために 1 セル 30 秒で打ち切る。
+// **第260便d: 系統を 2 つにした**(〔第259便d〕が残した決断事項「FAIL へ上げる基準値の決め方」への処置)。
+//
+//  (a) **自己対照(同一 html の 2 ページ)** —— `arm:"self-control"`
+//      同じ html を**新しいページ 2 枚**で開き、片方で**素の走行**(1 sim・deopt を通さない)、
+//      もう片方で **A/B 走行**(2 sim・deopt を通す)を測り、比 = A/B ÷ 素 を出す。
+//      **期待は 1 付近**である(崖が無ければ 1 步のコストは経路で変わらない)。
+//      崖があると素は ×1.5・A/B は ×15〜20 なので、**比は 10 倍級へ跳ねる**(〔第258便e〕の表から)。
+//      **基準値が要らない**のがこの系統の要点である —— 同じ html・同じ機器・同じ run の中で閉じるので、
+//      機種依存も世代差も入らず、**CI でそのまま再現できる**。
+//      ページは**プリセットごとに開き直す**(同じページで 2 本目を測ると、2 度目の build が
+//      deopt を通してしまい「素の走行」でなくなる)。
+//
+//  (b) **凍結基準 html 対 候補** —— `arm:"cross-html"`
+//      両ページに共通して効く遅化(A/B でも素でも同じだけ遅くなる変更)は (a) では見えない。
+//      そこで**別の html を基準**にして候補 beta の A/B ms/步 を割る。基準の置き方は 2 つあり、
+//      **CI で再現できるのは後者である**:
+//        ・**凍結 html ファイル**(`PERF_ABJIT_BASELINE` か `tests/perf-baseline/index.html`)…
+//          `git show <SHA>:beta/index.html` で作れるが、**CI では再現できない**。
+//          CI の checkout は shallow(fetch-depth 1)で、この履歴は 423 MB あるため
+//          `fetch-depth: 0` を perf ジョブに入れるのは割に合わない。3.7 MB の html を便ごとに
+//          コミットして凍結基準にするのも採らない(リポジトリが便ごとに 3.7 MB 増える)。
+//          → **手元・調査用の opt-in** とする(あれば使う)。
+//        ・**root(`index.html`)へのフォールバック**… root は**昇格したときしか動かない凍結内容**で、
+//          チェックアウトに必ず在る。**CI の既定はこちら**である。
+//          root は別世代なので比は 1.00 ではない —— 見るのは絶対値ではなく**比の急変**である。
+//      どちらを使ったかは `baselineKind` に必ず書く(`frozen-file` / `root-fallback`)。
+//
+// **どちらも informational**: WARN を出すだけで **fail を増やさない**
+// (QA `lint.perfAbJit` が「fail++ をこの経路でしていないこと」を機械で確かめる)。
+// **FAIL 化の基準**は 2 便続けて安定してから決める(決断事項 — 〔第260便d〕に案を書いた)。
+// 所要は 2 プリセット × 4 ページ ≈ 40 秒(崖が無いとき)。崖があるときのために 1 セル 30 秒で打ち切る。
 const ABJIT_PRESETS = String(process.env.PERF_ABJIT_PRESETS || 'galaxyGeo2,bhCore').split(',').map((s) => s.trim()).filter(Boolean);
 const ABJIT_WARN = +(process.env.PERF_ABJIT_WARN || 1.5);
+// (a) 自己対照の WARN。期待 1 付近・崖なら 10 倍級なので、その間に置く(**informational のまま**)。
+const ABJIT_SELF_WARN = +(process.env.PERF_ABJIT_SELF_WARN || 3);
 const ABJIT = { warm: 100, chunk: 100, reps: 3, budgetMs: 30000 };
 // 前回値(記録だけ — 判定には使わない)。この時点ではまだ上書きしていない
 let abJitPrev = null;
@@ -450,13 +471,14 @@ try {
   const prevJson = JSON.parse(fs.readFileSync(path.join(OUT_DIR, 'perf-results.json'), 'utf8'));
   abJitPrev = (prevJson && prevJson.abJit && Array.isArray(prevJson.abJit.rows)) ? prevJson.abJit.rows : null;
 } catch { abJitPrev = null; }
-const abJitCell = (page, pid) => page.evaluate(([pid, warm, chunk, reps, budget]) => {
+// 1 セル = 1 ページ・1 プリセット。mode:"ab" は 2 個目の sim を作る(deopt を通す)・"plain" は作らない。
+const abJitCell = (page, pid, mode) => page.evaluate(([pid, mode, warm, chunk, reps, budget]) => {
   if (!HP.allPresets().some((p) => p.id === pid)) return { missing: true };
   HP.loadPreset(pid, false);
   const sA = HP.sim;
-  HP.abStart('kFrame', 0);                     // ← ここで 2 個目の sim ができる(deopt を通す経路)
-  const sB = HP.ab().simB;
-  const sims = [sA, sB];
+  let sB = null;
+  if (mode === 'ab') { HP.abStart('kFrame', 0); sB = HP.ab().simB; }   // ← 2 個目の sim(deopt 経路)
+  const sims = sB ? [sA, sB] : [sA];
   const one = () => { for (const s of sims) s.step(0.016); };
   for (let i = 0; i < warm; i++) one();
   const per = [];
@@ -467,33 +489,79 @@ const abJitCell = (page, pid) => page.evaluate(([pid, warm, chunk, reps, budget]
     per.push((performance.now() - t0) / (chunk * sims.length));
   }
   const sorted = per.slice().sort((a, b) => a - b);
-  const nan = sA.hasNaN() || sB.hasNaN();
-  HP.abStop();
+  const nan = sA.hasNaN() || (sB ? sB.hasNaN() : false);
+  if (sB) HP.abStop();
   return { n: sA.n, sims: sims.length, reps: per.length, per: per.map((v) => +v.toFixed(4)),
-    msPerStep: sorted.length ? sorted[Math.floor(sorted.length / 2)] : null, nan };
-}, [pid, ABJIT.warm, ABJIT.chunk, ABJIT.reps, ABJIT.budgetMs]);
+    msPerStep: sorted.length ? sorted[Math.floor(sorted.length / 2)] : null, nan, mode };
+}, [pid, mode, ABJIT.warm, ABJIT.chunk, ABJIT.reps, ABJIT.budgetMs]);
+// **プリセットごとに新しいページで測る**(同じページで 2 本目を測ると 2 度目の build が
+// deopt を通すので「素の走行」ではなくなる)。
+const abJitFreshCell = async (target, pid, mode) => {
+  const page = await openPage(target);
+  try { return await abJitCell(page, pid, mode); }
+  finally { await page.close(); }
+};
+// (b) の基準 html を決める(**決め方そのものを JSON に残す**)
+const abJitBaseline = (() => {
+  const envPath = process.env.PERF_ABJIT_BASELINE || '';
+  const cand = envPath ? [envPath] : [path.join('tests', 'perf-baseline', 'index.html')];
+  for (const c of cand) {
+    const abs = path.isAbsolute(c) ? c : path.join(ROOT, c);
+    if (fs.existsSync(abs)) return { target: path.relative(ROOT, abs), kind: 'frozen-file',
+      note: '凍結 html(固定 SHA の beta/index.html を取り出したもの)。**CI では再現できない**ので opt-in である。' };
+  }
+  return { target: 'index.html', kind: 'root-fallback',
+    note: 'root(`index.html`)は昇格したときしか動かない凍結内容で、チェックアウトに必ず在る。'
+      + '**CI の既定はこちら**。root は別世代なので比は 1.00 ではない —— 見るのは比の急変である。' };
+})();
 const abJitRows = [];
 for (const pid of ABJIT_PRESETS) {
-  const r = await abJitCell(rootPage, pid);      // 基準(root)→ beta の順で隣接して測る
-  const b = await abJitCell(betaPage, pid);
-  if (r.missing || b.missing || !r.msPerStep || !b.msPerStep) {
-    console.log(`SKIP perf.abJit.${pid}(root/beta のどちらかに無い、または測れなかった)`);
+  // (a) 自己対照: 同一 html(beta)の 2 ページ —— 素 と A/B
+  const plain = await abJitFreshCell(path.join('beta', 'index.html'), pid, 'plain');
+  const ab = await abJitFreshCell(path.join('beta', 'index.html'), pid, 'ab');
+  if (plain.missing || ab.missing || !plain.msPerStep || !ab.msPerStep) {
+    console.log(`SKIP perf.abJit.self.${pid}(beta に無い、または測れなかった)`);
+  } else {
+    const ratio = ab.msPerStep / plain.msPerStep;
+    const warn = ratio > ABJIT_SELF_WARN;
+    const prev = (abJitPrev || []).find((z) => z.id === pid && z.arm === 'self-control') || null;
+    abJitRows.push({ id: pid, arm: 'self-control', msPerStep: +ab.msPerStep.toFixed(4),
+      baseRef: +plain.msPerStep.toFixed(4), ratio: +ratio.toFixed(3), warn, warnRatio: ABJIT_SELF_WARN,
+      baselineKind: 'same-html-2pages', baseRefKind: 'same-html-plain-run',
+      expectedRatio: 1, cliffRatioRef: '10 倍級(〔第258便e〕: 素 ×1.5 対 A/B ×15〜20)',
+      nBeta: ab.n, sims: ab.sims, reps: ab.reps, perAb: ab.per, perPlain: plain.per,
+      nan: ab.nan || plain.nan, prev: prev ? { ratio: prev.ratio } : null,
+      judgement: 'informational' });
+    console.log(`${warn ? 'WARN' : 'INFO'} perf.abJit.self.${pid}  A/B=${ab.msPerStep.toFixed(3)}ms/步`
+      + ` 素=${plain.msPerStep.toFixed(3)}ms/步 比=${ratio.toFixed(3)}`
+      + `(同一 html の 2 ページ自己対照・期待 1 付近・崖なら 10 倍級)`
+      + (prev ? ` 前回 比=${prev.ratio}` : '')
+      + (warn ? `  ← **${ABJIT_SELF_WARN}× 超**: S._core の JIT 崖(〔第258便e〕)を疑う` : ''));
+  }
+  // (b) 凍結基準 html 対 候補(両方とも A/B 走行で測る)
+  const cand = await abJitFreshCell(path.join('beta', 'index.html'), pid, 'ab');
+  const base = await abJitFreshCell(abJitBaseline.target, pid, 'ab');
+  if (cand.missing || base.missing || !cand.msPerStep || !base.msPerStep) {
+    console.log(`SKIP perf.abJit.cross.${pid}(基準 ${abJitBaseline.target} と beta のどちらかに無い、または測れなかった)`);
     continue;
   }
-  const ratio = b.msPerStep / r.msPerStep;
-  const prev = (abJitPrev || []).find((z) => z.id === pid) || null;
+  const ratio = cand.msPerStep / base.msPerStep;
+  const prev = (abJitPrev || []).find((z) => z.id === pid && z.arm === 'cross-html') || null;
   const warn = ratio > ABJIT_WARN;
-  abJitRows.push({ id: pid, msPerStep: +b.msPerStep.toFixed(4), baseRef: +r.msPerStep.toFixed(4),
-    ratio: +ratio.toFixed(3), warn, warnRatio: ABJIT_WARN, nBeta: b.n, nRoot: r.n,
-    sims: b.sims, reps: b.reps, perBeta: b.per, perRoot: r.per, nan: b.nan || r.nan,
+  abJitRows.push({ id: pid, arm: 'cross-html', msPerStep: +cand.msPerStep.toFixed(4),
+    baseRef: +base.msPerStep.toFixed(4), ratio: +ratio.toFixed(3), warn, warnRatio: ABJIT_WARN,
+    baselineKind: abJitBaseline.kind, baselineTarget: abJitBaseline.target,
+    baseRefKind: abJitBaseline.kind === 'frozen-file' ? 'frozen-html' : 'same-run-root',
+    nBeta: cand.n, nBase: base.n, sims: cand.sims, reps: cand.reps,
+    perBeta: cand.per, perBase: base.per, nan: cand.nan || base.nan,
     prev: prev ? { msPerStep: prev.msPerStep, baseRef: prev.baseRef, ratio: prev.ratio } : null,
-    baseRefKind: 'same-run-root', judgement: 'informational' });
-  console.log(`${warn ? 'WARN' : 'INFO'} perf.abJit.${pid}  beta=${b.msPerStep.toFixed(3)}ms/步`
-    + ` root=${r.msPerStep.toFixed(3)}ms/步 比=${ratio.toFixed(3)}`
-    + `(A/B 2 sim・warm ${ABJIT.warm} 步・${b.reps} 反復の中央値・基準=同一 run の root)`
+    judgement: 'informational' });
+  console.log(`${warn ? 'WARN' : 'INFO'} perf.abJit.cross.${pid}  beta=${cand.msPerStep.toFixed(3)}ms/步`
+    + ` 基準(${abJitBaseline.kind})=${base.msPerStep.toFixed(3)}ms/步 比=${ratio.toFixed(3)}`
+    + `(A/B 2 sim・warm ${ABJIT.warm} 步・${cand.reps} 反復の中央値)`
     + (prev ? ` 前回 比=${prev.ratio}` : '')
-    + (warn ? `  ← **${ABJIT_WARN}× 超**: S._core の JIT 崖(〔第258便e〕)を疑う。`
-      + 'tests/exp-w258e-jitprobe.mjs を基点 html と並べて回すこと(informational — ゲートは落とさない)' : ''));
+    + (warn ? `  ← **${ABJIT_WARN}× 超**: 両ページ共通の遅化を疑う。`
+      + '器 tests/exp-w258e-jitprobe.mjs を基点 html と並べて回すこと(informational — ゲートは落とさない)' : ''));
 }
 
 await browser.close();
@@ -510,22 +578,40 @@ fs.writeFileSync(path.join(OUT_DIR, ABJIT_ONLY ? 'perf-abjit-only.json' : 'perf-
   // informational: 片側にしかプリセットが無いための参考計測(pass判定なし。ゲート対象外 —
   //          判定が無いので再トスの対象にもならない)
   // geo2: 第72便 — geoPN=2 のオーバーヘッドゲート(🎡⇔💫 同一初期配置ペア比)と N 掃引
-  // abJit: 第259便d — **informational** の A/B JIT probe(〔第258便e〕の崖を perf からも見る)。
+  // abJit: 第259便d → **第260便d で 2 系統**の **informational** な A/B JIT probe
+  //   (〔第258便e〕の崖を perf からも見る)。rows[].arm = "self-control"(同一 html の 2 ページ:
+  //   A/B ÷ 素・期待 1・崖なら 10 倍級)/ "cross-html"(凍結基準 html 対 候補・どちらも A/B)。
   //   rows[].msPerStep = beta の ms/步(1 sim 1 步あたり)・baseRef = 同一 run の root の ms/步・
   //   ratio = msPerStep / baseRef。**判定は informational**(warn を立てるだけで fail を増やさない)。
   //   prev は前回の走行の記録で、**判定には使わない**(tests/out は追跡外なので CI では空から始まる)。
   results: rows, informational, geo2: { gate: geo2Gate, sweep: geo2Sweep },
-  abJit: { rows: abJitRows, warnRatio: ABJIT_WARN, presets: ABJIT_PRESETS,
-    method: `ab(2 sim)・warm ${ABJIT.warm} 步・${ABJIT.reps} 反復 × ${ABJIT.chunk} 步の中央値・ms/步`,
+  abJit: { rows: abJitRows, warnRatio: ABJIT_WARN, selfWarnRatio: ABJIT_SELF_WARN,
+    presets: ABJIT_PRESETS,
+    method: `ab(2 sim)・warm ${ABJIT.warm} 步・${ABJIT.reps} 反復 × ${ABJIT.chunk} 步の中央値・ms/步`
+      + '(**プリセットごとに新しいページ** — 同じページで 2 本目を測ると 2 度目の build が deopt を通す)',
+    // 第260便d: **2 系統**。どちらも informational(WARN を出すだけで fail を増やさない)。
+    arms: [
+      { arm: 'self-control', baselineKind: 'same-html-2pages', expectedRatio: 1,
+        warnRatio: ABJIT_SELF_WARN, judgement: 'informational',
+        note: '**同一 html の 2 ページ自己対照**(素の走行 対 A/B 走行)。基準値が要らないので'
+          + '機種依存も世代差も入らず、**CI でそのまま再現できる**。期待は 1 付近で、'
+          + '崖があると 10 倍級へ跳ねる(〔第258便e〕: 素 ×1.5 対 A/B ×15〜20)。'
+          + '**両ページに共通して効く遅化は、この系統では見えない**(そのための (b) である)。' },
+      { arm: 'cross-html', baselineKind: abJitBaseline.kind, baselineTarget: abJitBaseline.target,
+        warnRatio: ABJIT_WARN, judgement: 'informational',
+        note: '**凍結基準 html 対 候補**(どちらも A/B 走行)。' + abJitBaseline.note
+          + ' 固定値は採らない(絶対 ms/步 は機種依存)。前回値も判定には使わない'
+          + '(tests/out は追跡外・毎回自分を基準にし直すと緩やかな劣化を見逃す) —— `prev` に記録だけする。' },
+    ],
     baseRefKind: 'same-run-root', judgement: 'informational',
-    note: '基準は**同一 run の root** である。固定値にはできず(絶対 ms/步 は機種依存)、'
-      + '前回値も判定には使わない(tests/out は追跡外・毎回自分を基準にし直すと緩やかな劣化を見逃す)。'
-      + 'root は別世代なので比は 1.00 ではない —— 見るのは**比の急変**である(崖なら 15〜20 倍)。'
-      + 'FAIL へ上げる基準値の決め方は決断事項として残してある(〔第259便d〕)。' },
+    note: '**2 系統とも informational である。** (a) 自己対照は基準値が要らず CI で再現でき、'
+      + '(b) 凍結基準は両ページ共通の遅化を捕まえる。**FAIL 化は 2 便続けて安定させてから**'
+      + '決める(決断事項 — 〔第260便d〕に案を書いた)。'
+      + 'root は別世代なので (b) の比は 1.00 ではない —— 見るのは**比の急変**である(崖なら 15〜20 倍)。' },
 }, null, 2));
 const retossed = rows.filter((r) => r.retossed);
 console.log(`perf gate: ${rows.length - fail}/${rows.length} PASS → tests/out/${ABJIT_ONLY ? 'perf-abjit-only.json' : 'perf-results.json'}`
-  + (abJitRows.length ? ` [abJit(informational): ${abJitRows.map((r) => `${r.id} ×${r.ratio}${r.warn ? ' WARN' : ''}`).join(' / ')}]` : '')
+  + (abJitRows.length ? ` [abJit(informational・2 系統): ${abJitRows.map((r) => `${r.arm === 'self-control' ? '自己' : '対html'}/${r.id} ×${r.ratio}${r.warn ? ' WARN' : ''}`).join(' / ')}]` : '')
   + (informational.length ? ` (+${informational.length} informational)` : '')
   // 第160便: 再トスが走ったサンプルは要約行にも残す(再トス無しの run では何も出ない)
   + (retossed.length ? ` [再トス ${retossed.length}件: ${retossed.map((r) => `${r.id} ${r.firstNormRatio}→${r.finalRatio}${r.finalPass ? '' : '(FAIL確定)'}`).join(' / ')}]` : ''));
