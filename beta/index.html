@@ -967,7 +967,11 @@ ja: {
   smTop2Note:"場は上位 2 体(系全体のメッシュではない)",
   smFoldCellNote:"赤いセル=折返し",
   smFoldWarn:"折返し(表示の限界)",
-  tgSpaceMeshDesc:"空間メッシュの表示(**表示のみ** —— 力学・帳簿へは 1 バイトも影響しない)。既定は**蓄積格子**(mode: mesh)で、**質量上位 2 粒子の重心**を原点にした正方格子(2 位と 3 位が同質量の系は 1 位の粒子が原点 —— 第261便a)を、凍結した速度場が作る**一意の写像**で写したものである。同じ行の数値が**引きずりの度合 g**(既定 1.0・スライダーは 0〜10 の指数目盛・直値は 10000 まで)で、写像 dX/ds=g·[u(X)−u(C)] を 0≤s≤τ で解く度合を決める。**第261便a から、時間幅 τ はセル幅で規格化する**(τ=κ·h/v_ref・κ=0.25)ので、**g=1 の最大変位はどのサンプルでもセル幅の 0.25 倍**であり、**『τ 固定』を変えても歪みは変わらない**(g=0 は歪みなしの正方格子・上げたぶんだけ歪む)。**これは凍結した場の診断図であって、過去から運ばれてきた物質のメッシュではない。**セルの向きが裏返ったら(折返し)そのセルを赤くし、格子全体を破線にして凡例を出す —— **空間が反転したのではなく、表示の時間幅とサンプリングの限界**である。凡例には g・歪み(セル幅比)・v_ref・実際に使った τ と、τ が自動か固定かを出す(固定しても絵は変わらない —— 診断表示である)。銀河(overlays.galaxyField の宣言がある系)は局所場で描き、**有効範囲の外は描かない**。宣言の無い 3 体以上の系は**上位 2 体**から作った連星の場で描き、その旨を凡例に出す。残る 4 モード(lines / guide / transport / tracer)は**明示宣言したときだけの診断**で、同時には描かない。g と τ は署名(presetSig)にも S.params にも入らない。式と手順の全文は docs/PHYSICS.md と docs/AI_SPEC.md にある。",
+  // 第262便d(第54報・統括が設定した検証仮説 (2)): **格子消失の警告**(表示のみ・presetSig 外・g は保持する)
+  smNodesLabel:"交点",
+  smGridLoss:"格子が読めない交点が多い — 引きずりの度合を下げると戻る(g は自動で変えない)",
+  smGainReset:"引きずりの度合を 1 に戻す",
+  tgSpaceMeshDesc:"空間メッシュの表示(**表示のみ** —— 力学・帳簿へは 1 バイトも影響しない)。既定は**蓄積格子**(mode: mesh)で、**質量上位 2 粒子の重心**を原点にした正方格子(2 位と 3 位が同質量の系は 1 位の粒子が原点 —— 第261便a)を、凍結した速度場が作る**一意の写像**で写したものである。同じ行の数値が**引きずりの度合 g**(既定 1.0・スライダーは 0〜10 の指数目盛・直値は 10000 まで)で、写像 dX/ds=g·[u(X)−u(C)] を 0≤s≤τ で解く度合を決める。**第261便a から、時間幅 τ はセル幅で規格化する**(τ=κ·h/v_ref・κ=0.25)ので、**g=1 の最大変位はどのサンプルでもセル幅の 0.25 倍**であり、**『τ 固定』を変えても歪みは変わらない**(g=0 は歪みなしの正方格子・上げたぶんだけ歪む)。**これは凍結した場の診断図であって、過去から運ばれてきた物質のメッシュではない。**セルの向きが裏返ったら(折返し)そのセルを赤くし、格子全体を破線にして凡例を出す —— **空間が反転したのではなく、表示の時間幅とサンプリングの限界**である。凡例には g・歪み(セル幅比)・v_ref・実際に使った τ と、τ が自動か固定か、**読めた交点の数 nOk/nodes**(第262便d)を出す(固定しても絵は変わらない —— 診断表示である)。**g を上げすぎると折返しより先に格子そのものが消える**ので、読めた交点が全体の 1/4 を割ったら琥珀の 1 行で警告する(第262便d・🎠 は g=1 で 61/81・g=100 で 5/81)。**警告は g を自動で戻さない** —— 戻す操作は同じ行の ⟲ ボタン(g を 1 へ)である。警告も presetSig・S.params には入らない。銀河(overlays.galaxyField の宣言がある系)は局所場で描き、**有効範囲の外は描かない**。宣言の無い 3 体以上の系は**上位 2 体**から作った連星の場で描き、その旨を凡例に出す。残る 4 モード(lines / guide / transport / tracer)は**明示宣言したときだけの診断**で、同時には描かない。g と τ は署名(presetSig)にも S.params にも入らない。式と手順の全文は docs/PHYSICS.md と docs/AI_SPEC.md にある。",
   // 第37便 A3(原仮定者指示): 光線の基準波長λ0(表示専用・セーブ対象外・物理不変)
   // 第38便(原仮定者指示): 既定を580nmへ・スライダーは「光線」トグルの直後に移動・直値は可視外も受理
   rayLambda0Label:"光線の基準波長(nm)",
@@ -977,7 +981,7 @@ ja: {
   // 第38便 A5(原仮定者指示): バー・折れ線の色を温度に対応させた(粒子の温度色と同じ写像)
   tgTempDesc:"温度ヒストグラム(左右比較)。表示は観測温度 T_obs=(1−減光)·T。バー・折れ線の色は温度に対応(粒子の温度色と同じ写像)。右系列は破線で区別。",
   tgSpectrumDesc:"放射スペクトル(A12: ピーク波長 λ=b_m/T のウィーン型)。表示は観測温度基準。",
-  tgMonitorDesc:"運動量P・角運動量Lとリザーバ帳簿(E6′/E11)の保存量モニタ(T7)。「共通設定」の項目で、この端末に永続する(第254便c)。一度でも自分で切り替えたら、以後はその設定が常に勝つ —— サンプルの overlays.monitor 宣言を既定に読むのは、まだ一度も触っていない場合だけである(カメラ追従と同じ流儀 — 第255便c)。",
+  tgMonitorDesc:"運動量P・角運動量Lとリザーバ帳簿(E6′/E11)の保存量モニタ(T7)。第262便d から**帳簿の分母と相対残差**も 2 行出す: 相対残差は**割った分母で桁が変わる**ので(固定天体の一定スピン E が分母の大半を占める系では 30 倍以上)、**どちらの分母か**を必ず併記する。**正本は活動部分**(固定天体の一定スピン E を除いた分母)で従来分母を併記し、状態名は within(活動分母で 1e−3 以下)/ over(**帳簿が閉じたうえで**超えた)/ undefined-terms(**未定義の項が残るので合否を言えない**)である。**「通ったから合格」とは読まない**(記録のための門であり、表示専用・物理不変)。「共通設定」の項目で、この端末に永続する(第254便c)。一度でも自分で切り替えたら、以後はその設定が常に勝つ —— サンプルの overlays.monitor 宣言を既定に読むのは、まだ一度も触っていない場合だけである(カメラ追従と同じ流儀 — 第255便c)。",
   tgBoxGraphDesc:"箱宇宙(UniverseBox)の尺度因子a(t)・膨張率H(t)の時系列と、拡大による波長の伸び(赤方偏移 1+z=a/a₀)を表示する。箱宇宙プリセットでのみ有効。",
   tgPhaseGraphDesc:"二段の相変化グラフ。上段=平均温度T̄(橙)と平均配位数c̄(緑) — 結合が切れて c̄ が下がる間は T̄ の上がりが鈍る=創発した実効潜熱の因果が読める。下段=六方配向秩序ψ6(水色)と結合の組替率(赤紫・0〜1) — 液体=組替が速い/結晶=組替≈0で秩序高い/ガラス=組替≈0なのに秩序低い、という動的な相の分類が読める。左端の縦帯=高さ別の平均配位数(相前線プロファイル — 床から進む融解・凝固前線)。相変化(E14″)プリセットでのみ有効。",
   ovPhaseGraph:"相変化 T̄・配位数", ovPhaseNote:"上:橙=T̄ 緑=c̄ 下:水=ψ6 紫=組替率×10 左帯=高さ別c(前線) 色=温度 線=結合",
@@ -1364,6 +1368,11 @@ ja: {
   hudProbeHTension:(pt,dkt)=>`テンション類似: 点値(現a)=${pt.toFixed(3)} → a=2で${dkt.toFixed(3)}(実宇宙67.4/73.0≈0.923と同水準 — 較正)`,
   // 第50便 50E(台帳4-89): 安全クランプの帳簿(発動時のみ表示 — 保存則の主張域外の明示)
   hudClamp:(v,s,h)=>`⚠ クランプ発動: 速度=${v} スピン=${s} H=${h}(保存則の主張域外)`,
+  // 第262便d(第54報・統括が設定した検証仮説 (9)): **帳簿の相対残差は「どの分母で割ったか」を必ず並記する**
+  // (🎠 は両分母で 34 倍違う)。**活動部分が正本**で、従来分母を併記する。表示専用
+  hudLedger:(r,rl,st)=>`帳簿残差: ${r}(分母=**活動部分**・正本)/ ${rl}(分母=従来)・${st}`,
+  hudLedgerDenom:(a,l,sh,n)=>`帳簿分母: 活動=${a}(正本)/ 従来=${l}(固定天体 ${n} 体の一定スピンE が ${sh}%)`,
+  hudLedgerNA:"未定義(活動部分 ≈ 0 — 絶対残差を読む)",
   // 第51便 51D: 熱伝導の前線・列熱(密/疎の2行を常時比較)
   hudConduction:(a,b)=>`前線(T>4): 間隔${a.gap}=距離${Math.round(a.front)} / 間隔${b.gap}=距離${Math.round(b.front)}  列の熱: ${a.heat.toFixed(1)} 対 ${b.heat.toFixed(1)}(${b.heat>0?(a.heat/b.heat).toFixed(2):"—"}倍)`,
   // 第50便 50G(台帳4-91): 自由な箱の加速・形状診断(H_eff=直近サンプル・壁リングの形状4指標)
@@ -1633,7 +1642,10 @@ en: {
   smTop2Note:"Field from the two heaviest bodies (not a mesh of the whole system)",
   smFoldCellNote:"Red cells = folded",
   smFoldWarn:"Folded (display limit)",
-  tgSpaceMeshDesc:"Draws the space mesh (DISPLAY ONLY - it touches neither the dynamics nor the ledgers). The default is the ACCUMULATED GRID (mode: mesh): a square grid centred on the BARYCENTRE OF THE TWO HEAVIEST PARTICLES (on the heaviest particle alone when the 2nd and 3rd have equal mass - wave 261a), mapped through the SINGLE-VALUED map built from the frozen velocity field. The number on the same row is the AMOUNT OF DRAGGING g (default 1.0; the slider runs 0 to 10 logarithmically and direct values are taken up to 10000); it scales the map dX/ds = g.[u(X) - u(C)] solved over 0<=s<=tau. SINCE WAVE 261a THE TIME SPAN TAU IS NORMALISED BY THE CELL WIDTH (tau = kappa.h/v_ref, kappa = 0.25), so AT g=1 THE LARGEST DISPLACEMENT IS 0.25 OF A CELL WIDTH IN EVERY SAMPLE and FIXING TAU NO LONGER CHANGES THE DISTORTION (g=0 leaves the reference square grid untouched; more gain means more distortion). THIS IS A DIAGNOSTIC PICTURE OF A FROZEN FIELD, NOT A MATERIAL MESH CARRIED HERE FROM THE PAST. If cells turn inside out (folding) those cells turn red, the whole grid switches to a dashed stroke and a legend appears - SPACE HAS NOT INVERTED; this is the limit of the display time span and of the sampling. The legend prints g, the distortion in cell widths, v_ref, the tau actually used and whether it is automatic or fixed (fixing it does not change the picture - it is a readout). A galaxy (a sample that declares overlays.galaxyField) is drawn with its local field and POINTS OUTSIDE THE VALID SUPPORT ARE NOT DRAWN. A system of three or more bodies without that declaration is drawn with the binary field OF ITS TWO HEAVIEST BODIES, and the legend says so. The remaining four modes (lines / guide / transport / tracer) are diagnostics drawn ONLY when a sample declares them, never two at once. Neither g nor tau enters presetSig or S.params. The full formulas and procedure are in docs/PHYSICS.md and docs/AI_SPEC.md.",
+  smNodesLabel:"nodes",
+  smGridLoss:"Too many grid nodes cannot be read - lower the amount of dragging to get them back (g is never changed for you)",
+  smGainReset:"Reset the amount of dragging to 1",
+  tgSpaceMeshDesc:"Draws the space mesh (DISPLAY ONLY - it touches neither the dynamics nor the ledgers). The default is the ACCUMULATED GRID (mode: mesh): a square grid centred on the BARYCENTRE OF THE TWO HEAVIEST PARTICLES (on the heaviest particle alone when the 2nd and 3rd have equal mass - wave 261a), mapped through the SINGLE-VALUED map built from the frozen velocity field. The number on the same row is the AMOUNT OF DRAGGING g (default 1.0; the slider runs 0 to 10 logarithmically and direct values are taken up to 10000); it scales the map dX/ds = g.[u(X) - u(C)] solved over 0<=s<=tau. SINCE WAVE 261a THE TIME SPAN TAU IS NORMALISED BY THE CELL WIDTH (tau = kappa.h/v_ref, kappa = 0.25), so AT g=1 THE LARGEST DISPLACEMENT IS 0.25 OF A CELL WIDTH IN EVERY SAMPLE and FIXING TAU NO LONGER CHANGES THE DISTORTION (g=0 leaves the reference square grid untouched; more gain means more distortion). THIS IS A DIAGNOSTIC PICTURE OF A FROZEN FIELD, NOT A MATERIAL MESH CARRIED HERE FROM THE PAST. If cells turn inside out (folding) those cells turn red, the whole grid switches to a dashed stroke and a legend appears - SPACE HAS NOT INVERTED; this is the limit of the display time span and of the sampling. The legend prints g, the distortion in cell widths, v_ref, the tau actually used, whether it is automatic or fixed, and HOW MANY GRID NODES COULD BE READ (nOk/nodes, wave 262d) (fixing tau does not change the picture - it is a readout). RAISING g TOO FAR MAKES THE GRID ITSELF DISAPPEAR BEFORE IT FOLDS, so an amber line warns once fewer than a quarter of the nodes can be read (wave 262d; the spiral-galaxy mesh reads 61/81 at g=1 and 5/81 at g=100). THE WARNING NEVER RESETS g FOR YOU - the reset control is the small button on the same row, which puts g back to 1. The warning enters neither presetSig nor S.params. A galaxy (a sample that declares overlays.galaxyField) is drawn with its local field and POINTS OUTSIDE THE VALID SUPPORT ARE NOT DRAWN. A system of three or more bodies without that declaration is drawn with the binary field OF ITS TWO HEAVIEST BODIES, and the legend says so. The remaining four modes (lines / guide / transport / tracer) are diagnostics drawn ONLY when a sample declares them, never two at once. Neither g nor tau enters presetSig or S.params. The full formulas and procedure are in docs/PHYSICS.md and docs/AI_SPEC.md.",
   // 第37便 A3: ray base wavelength lambda0 (display only, not saved, physics-free)
   // 38th flight (design lead's instruction): default now 580nm; slider moved right after the "rays" toggle; direct entry accepts non-visible values
   rayLambda0Label:"Ray base wavelength (nm)",
@@ -1643,7 +1655,7 @@ en: {
   // 38th flight A5 (design lead's instruction): bar/line color now follows temperature (same mapping as particle color)
   tgTempDesc:"Temperature histogram (left/right). Uses the observed temperature T_obs = (1-dimming) x T. Bar/line color follows temperature (same mapping as particle color). The right series is dashed to tell it apart.",
   tgSpectrumDesc:"Radiation spectrum (A12, Wien-type peak lambda=b_m/T). Uses observed temperature.",
-  tgMonitorDesc:"Conservation monitor (T7): momentum P, angular momentum L, and the reservoir ledger (E6'/E11). It lives under \"General settings\" and persists on this device (wave 254c). Once you toggle it yourself your setting always wins; a sample's overlays.monitor declaration is read as the default only while you have never touched it (the same rule as camera follow — wave 255c).",
+  tgMonitorDesc:"Conservation monitor (T7): momentum P, angular momentum L, and the reservoir ledger (E6'/E11). Since wave 262d it also prints TWO LEDGER LINES: relative residuals change by orders of magnitude depending on WHICH DENOMINATOR they were divided by (over 30x in systems where the constant spin energy of a pinned body dominates), so the denominator is always named. THE PRIMARY ONE IS THE ACTIVE PART (the denominator with the pinned constant spin energy removed); the legacy denominator is printed beside it. The state name is within (at or below 1e-3 on the active denominator) / over (exceeded WITH A CLOSED LEDGER) / undefined-terms (terms are still missing, so no verdict can be given). DO NOT READ a pass AS a proof of correctness - this gate is a record. Display only; the physics never changes. It lives under \"General settings\" and persists on this device (wave 254c). Once you toggle it yourself your setting always wins; a sample's overlays.monitor declaration is read as the default only while you have never touched it (the same rule as camera follow — wave 255c).",
   tgBoxGraphDesc:"Shows the box universe (UniverseBox) scale factor a(t) and expansion rate H(t) over time, plus the wavelength stretch from expansion (redshift 1+z=a/a0). Only active on box-universe presets.",
   tgPhaseGraphDesc:"Two-panel phase graph. Top: mean temperature T̄ (orange) and mean coordination c̄ (green) — while bonds break (c̄ falls), T̄ climbs more slowly, the emergent latent heat read directly. Bottom: hexatic order ψ6 (cyan) and bond rewiring rate (magenta, 0-1) — liquid = fast rewiring, crystal = frozen and ordered, glass = frozen yet disordered: a dynamic classification of states. The left strip shows mean coordination by height (the phase-front profile advancing from the floor). Only active on phase-change (E14″) presets.",
   ovPhaseGraph:"Phase T̄ / coordination", ovPhaseNote:"top:orange=T̄ green=c̄ btm:cyan=ψ6 mag=rewiring×10 left=c by height (front) color=T lines=bonds",
@@ -2017,6 +2029,9 @@ en: {
   hudProbeHTension:(pt,dkt)=>`tension analogue: point(now)=${pt.toFixed(3)} → ${dkt.toFixed(3)} at a=2 (cf. real 67.4/73.0≈0.923 — calibration)`,
   // 第50便 50E(台帳4-89): safety-clamp ledger (shown only when fired — outside the conservation claim domain)
   hudClamp:(v,s,h)=>`⚠ clamps fired: velocity=${v} spin=${s} H=${h} (outside the conservation claims)`,
+  hudLedger:(r,rl,st)=>`Ledger residual: ${r} (denominator = **ACTIVE PART**, the primary one) / ${rl} (legacy denominator); ${st}`,
+  hudLedgerDenom:(a,l,sh,n)=>`Ledger denominators: active=${a} (primary) / legacy=${l} (the constant spin E of ${n} pinned bodies is ${sh}%)`,
+  hudLedgerNA:"undefined (active part is about 0 - read the absolute residual)",
   // 第51便 51D: conduction front & row heat (dense vs sparse, live)
   hudConduction:(a,b)=>`front (T>4): gap ${a.gap}=dist ${Math.round(a.front)} / gap ${b.gap}=dist ${Math.round(b.front)}  row heat: ${a.heat.toFixed(1)} vs ${b.heat.toFixed(1)} (${b.heat>0?(a.heat/b.heat).toFixed(2):"—"}x)`,
   // 第50便 50G(台帳4-91): free-box acceleration & shape diagnostics
@@ -3148,7 +3163,18 @@ const FRAME_WEIGHT_KEY = "frameWeight", FRAME_WEIGHTS = ["share","pull","pull3",
 // 一般形 w=m/(d²+ε²)^{p/2}(p=2 pull・3 pull3・4 pull4 — 潮汐力 m/d³ の類推。分母 D0pull+W_B+Σw。D0pull の次元は kg/m^p)。
 const FRAME_WEIGHT_DEFAULT = "pull", FRAME_POWS = { share:0, pull:2, pull3:3, pull4:4 };
 // 1 步 1〜2 回呼ばれる(chanSetup・光学コンテキスト)— 3 体級の小さな宇宙では 1 步 1.5 µs なので分岐だけの軽い形にする(perf.starSeed)
-function frameWeightPow(p){ const v=p[FRAME_WEIGHT_KEY]; return (v===undefined)? 2 : (v==="pull")? 2 : (v==="pull3")? 3 : (v==="pull4")? 4 : 0; }
+// 第262便d(第54報・統括が設定した検証仮説 (1)): **番兵 0 を廃した**。
+//   旧: share と未知名で **0** を返し、読む側が全員 `(pw>0)? pw : 1` で 1 へ読み替えていた
+//       (エンジン 2 か所・状態アダプタ・拡張体の 4 か所が同じ式を書いていた)。
+//   新: **share と未知名は p=1**(核 w=m/(d²+ε²)^{1/2})を**そのまま返す**。0 は返らない。
+//   「pull 族かどうか」は **`frameWeightIsPull` が唯一の判定**である(`pw>0` を真偽に使わない)。
+//   **値は 1 bit も変わらない**(旧番兵 0 を真偽に使っていた 9 か所をすべて `frameWeightIsPull` へ
+//   置き換え、`Math.pow(d2,-pw/2)` と `1/Math.sqrt(d2)` の**分岐も p=1 のまま**据え置いた ——
+//   `Math.pow(x,-0.5)` は `1/Math.sqrt(x)` と最下位ビットが一致する保証が無いので、分岐条件だけを
+//   `pw>0` から `pw!==1` へ書き換えて**同じ式が走る**ようにした)。121 本 × 600 步で指紋一致を確認。
+function frameWeightPow(p){ const v=p[FRAME_WEIGHT_KEY]; return (v===undefined)? 2 : (v==="pull")? 2 : (v==="pull3")? 3 : (v==="pull4")? 4 : 1; }
+// pull 族(未宣言=既定 pull / pull / pull3 / pull4)かどうか。**share と未知名は false**。
+function frameWeightIsPull(p){ const v=p? p[FRAME_WEIGHT_KEY] : undefined; return v===undefined || v==="pull" || v==="pull3" || v==="pull4"; }
 function frameWeightOf(p){ const v=p? p[FRAME_WEIGHT_KEY] : undefined; return (v===undefined||v===null)? FRAME_WEIGHT_DEFAULT : v; }
 // 第197便(M0): physics.halo — 解析的ダークハロー外部項(観測再現版専用)。オブジェクト値の
 // opt-in キーで、省略時はプリセット署名・挙動とも 1 bit 不変(frameReaction と同じ流儀)。
@@ -13453,7 +13479,7 @@ function validatePreset(obj){
   // 第240便: contact は ∇u 勾配(geoPN=2)と両立しない(フレーム重み w′ の勾配を持たない)→ interior へ落とす
   if(ph[DRAG_REF_KEY]===DRAG_CONTACT && ph.geoPN===2){ warnings.push('physics.dragRef:"contact" は geoPN=2 と併用不可 — "interior" に修正'); ph[DRAG_REF_KEY]="interior"; }
   // 第242便: contact(接触=完全引きずり)は share のフレーム重みで定義した opt-in — 既定 pull と併用しない(合成は裁定事項)
-  if(ph[DRAG_REF_KEY]===DRAG_CONTACT && frameWeightPow(ph)>0){ warnings.push('physics.dragRef:"contact" は frameWeight:"share" 専用(第242便)— "share" に修正'); ph[FRAME_WEIGHT_KEY]="share"; }
+  if(ph[DRAG_REF_KEY]===DRAG_CONTACT && frameWeightIsPull(ph)){ warnings.push('physics.dragRef:"contact" は frameWeight:"share" 専用(第242便)— "share" に修正'); ph[FRAME_WEIGHT_KEY]="share"; }
   p.physics=ph;
   // bodies
   if(!Array.isArray(p.bodies)) bad("bodies(配列)が必要です");
@@ -16982,7 +17008,7 @@ function makeSim(){
       for(let i=0;i<n;i++) Wt[i]=0;
       for(let i=0;i<n;i++) for(let j=i+1;j<n;j++){
         const dx=x[j]-x[i], dy=y[j]-y[i], d2=dx*dx+dy*dy+eps2;
-        const wg=(pw>0)? Math.pow(d2,-pw/2) : 1/Math.sqrt(d2);
+        const wg=(pw!==1)? Math.pow(d2,-pw/2) : 1/Math.sqrt(d2);
         Wt[i]+=m[j]*wg; Wt[j]+=m[i]*wg;
       }
     }
@@ -16994,7 +17020,7 @@ function makeSim(){
         m1:m[i], m2:m[j], R1:R[i], R2:R[j], G, c };
       if(isCur){
         a.kappa=cf.kappa; a.chiGate=cf.chiGate; a.rc=cf.rc; a.velocityFrame=cf.velocityFrame;   // 第252便a: 未宣言は undefined = "absolute"(既定経路の演算順不変)
-        const d2=dx*dx+dy*dy+eps2, wg=(pw>0)? Math.pow(d2,-pw/2) : 1/Math.sqrt(d2);
+        const d2=dx*dx+dy*dy+eps2, wg=(pw!==1)? Math.pow(d2,-pw/2) : 1/Math.sqrt(d2);
         const di=D0p+Wt[i], dj=D0p+Wt[j];
         a.chi1=(di>0)? (m[j]*wg)/di : 0;
         a.chi2=(dj>0)? (m[i]*wg)/dj : 0;
@@ -17087,7 +17113,7 @@ function makeSim(){
     const n=S.n, cf=S.params[SPACE_MESH_KEY];
     if(!cf || !(n>=2)) return;
     const p=S.params, G=p.G, eps=p.softening, eps2=eps*eps;
-    const pw0=frameWeightPow(p), pw=(pw0>0)? pw0 : 1;   // share(pw0=0)の核は w=m/√(d²+ε²)= p=1
+    const pw=frameWeightPow(p), pull=frameWeightIsPull(p);   // 第262便d: share は p=1 をそのまま返す(番兵 0 は廃止)
     const x=S.x, y=S.y, vx=S.vx, vy=S.vy, m=S.m, mEff=S.mEff, pin=S.pinned;
     // ---- anchor(|m| 最大の 2 粒子)。構成が変わったら**黙って作り直さず**捨てて張り直す
     const A=spaceMeshAnchorOf(S);
@@ -17096,7 +17122,7 @@ function makeSim(){
     if(!M){ S.spaceMeshStop="state"; return; }   // 退化は黙って背景へ戻さず、停止理由を残して素通り
     S.spaceMeshStop=null;
     const D0=(cf.D0!==undefined)? cf.D0
-      : ((pw0>0)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0);
+      : (pull? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0);
     // ---- 頂点のニュートン対重力(C̈・Ḃ の材料 — E4 と同じ核)
     const ia=A.ids[0], ib=A.ids[1];
     const rx=x[ib]-x[ia], ry=y[ib]-y[ia], r2=rx*rx+ry*ry;
@@ -17619,7 +17645,7 @@ function makeSim(){
     // 第261便d: 残余トルクの受け先を**読み口にも出す**(post/inStep のどちらでも同じ宣言を読む)
     S.meshCoordSink=COUPLE_SINKS[S._cplSinkI|0]||"spin";
     const x=S.x, y=S.y, vx=S.vx, vy=S.vy, m=S.m, mEff=S.mEff, pin=S.pinned;
-    const pw0=frameWeightPow(p), pw=(pw0>0)? pw0 : 1;
+    const pw=frameWeightPow(p);
     const eps=p.softening, eps2=eps*eps;
     const CG=S._chG, fsep=!!(CG && CG.fsep), sWu=fsep? S.sumWu : S.sumW;
     if(!sWu || !S.hasU || !S.uPx){ S.meshCoordStop="frame"; return; }
@@ -20943,8 +20969,8 @@ function chanSetup(S,p,hasCoreV2,dragSurf,eps2){
   if(p[FRAME_WEIGHT_KEY]==="share" && !S.hasDragQT && !S.hasCoreDQ && !(p.qTrans>0) && p[DRAG_REF_KEY]!==DRAG_CONTACT && !(S.hasShellGas && p.gasCoh<1) && !S.hasFrameOff && !(p.gravMag>0)){ S._chG=null; return false; }
   const qT=(p.qTrans>0)? p.qTrans : 0, gasCoh=(p.gasCoh!==undefined)? p.gasCoh : 1;
   const contact=(p[DRAG_REF_KEY]===DRAG_CONTACT);   // 第240便
-  const fw=p[FRAME_WEIGHT_KEY], pw=(fw===undefined)? 2 : (fw==="pull")? 2 : (fw==="pull3")? 3 : (fw==="pull4")? 4 : 0;   // 第241便(第33報)/第242便: 既定 pull・指数 pw∈{2,3,4}(1 步 1 回 — 関数呼び出しを避ける・perf.starSeed)
-  const pull=(pw>0), D0p=(p.D0pull!==undefined)? p.D0pull : p.D0;   // 第252便a: 意味統一(未宣言=D₀ / 明示値はその値。0 も真の 0)
+  const fw=p[FRAME_WEIGHT_KEY], pw=(fw===undefined)? 2 : (fw==="pull")? 2 : (fw==="pull3")? 3 : (fw==="pull4")? 4 : 1;   // 第241便(第33報)/第242便: 既定 pull・指数 pw∈{2,3,4}(1 步 1 回 — 関数呼び出しを避ける・perf.starSeed)
+  const pull=(fw===undefined)||(fw==="pull")||(fw==="pull3")||(fw==="pull4"), D0p=(p.D0pull!==undefined)? p.D0pull : p.D0;   // 第252便a: 意味統一(未宣言=D₀ / 明示値はその値。0 も真の 0)
   const gm=(p.gravMag>0)? p.gravMag : 0, fsOff=(S.hasFrameOff===true);   // 第243便: gravMag 玩具・frameSource:false
   const hasQT=(qT>0)||S.hasDragQT, hasCQ=S.hasCoreDQ, cohOn=(gasCoh<1 && S.hasShellGas), chOn=hasQT||hasCQ||cohOn||contact||pull||fsOff||(gm>0);
   S._chG=chOn? {qT, gasCoh, dragSurf, hasCoreV2, hasCQ, cohOn, contact, pull, pw, D0p, eps2, gm, fsOff, fsep:(contact||pull||fsOff)} : null;
@@ -21222,7 +21248,7 @@ function boxHistPass(S){
 function photonPass(S,n,dt){
   const pp=S.params;
   const O={heavy:[], kU:2*pp.kappaT, eps2:pp.softening*pp.softening, q:pp.q, c0:pp.cLight,
-    D0u:(frameWeightPow(pp)>0)? ((pp.D0pull!==undefined)? pp.D0pull : pp.D0) : pp.D0,   // 第241便(第242便: 既定 pull・一般指数。第252便a: D0pull の意味統一 — 未宣言=D₀ へフォールバック/明示値はその値〔0 を含む〕)
+    D0u:frameWeightIsPull(pp)? ((pp.D0pull!==undefined)? pp.D0pull : pp.D0) : pp.D0,   // 第241便(第242便: 既定 pull・一般指数。第252便a: D0pull の意味統一 — 未宣言=D₀ へフォールバック/明示値はその値〔0 を含む〕)
     D0:pp.D0, kF:pp.kFrame, BX:S.box, WB:0, bH:0};
   for(let i=0;i<n;i++) if(rayHeavy(S,i)) O.heavy.push(i);
   let aO=1;
@@ -21249,7 +21275,7 @@ function rayField(S, heavy, px, py, kU, eps2, q, kF, BX, WB, bH){
   // 第239便: 光線も同じチャネル核(既定は呼ばれない)
   const pp=S.params, rqT=(pp.qTrans>0)? pp.qTrans : 0, rCoh=(pp.gasCoh!==undefined)? pp.gasCoh : 1;
   const rCt=(pp[DRAG_REF_KEY]===DRAG_CONTACT), rSurf=(pp[DRAG_REF_KEY]==="surface"||pp[DRAG_REF_KEY]==="interior"||rCt);
-  const rPw=frameWeightPow(pp), rPl=(rPw>0);   // 第241便(第242便: 既定 pull・一般指数)
+  const rPl=frameWeightIsPull(pp), rPw=frameWeightPow(pp);   // 第241便(第242便: 既定 pull・一般指数)/第262便d: pull 判定は isPull・指数は pow(share も 1)
   const rFs=(S.hasFrameOff===true), rGm=(pp.gravMag>0)? pp.gravMag : 0;   // 第243便: frameSource:false・gravMag
   const rCh=(rqT>0)||S.hasDragQT||S.hasCoreDQ||(rCoh<1 && S.hasShellGas)||rCt||rPl||rFs||(rGm>0);
   let wuSum=0;
@@ -21306,7 +21332,7 @@ function traceRay(S, px, py, cxv, cyv, dl, maxSteps, emit){
   // 「引きずりなし」の対照実験になる(🌗spinlens)。屈折(ψ=W·κ)は kFrame と無関係のまま。
   // 内蔵プリセットは kFrame=1(💡🌗)または源が静止・無スピン(🔭🛰)のため描画は不変。
   const p=S.params, kU=2*p.kappaT, eps=p.softening, eps2=eps*eps, q=p.q, c0=p.cLight, D0=p.D0, kF=p.kFrame;
-  const D0u=(frameWeightPow(p)>0)? ((p.D0pull!==undefined)? p.D0pull : D0) : D0;   // 第241便(第242便: 既定 pull・一般指数。第252便a: 意味統一)
+  const D0u=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : D0) : D0;   // 第241便(第242便: 既定 pull・一般指数。第252便a: 意味統一)
   const heavy=[];
   for(let i=0;i<S.n;i++) if(rayHeavy(S,i)) heavy.push(i);
   // 第31便: UniverseBox — W_B は一様(∇ψ 寄与なし=光は曲げない)だが、n_eff と
@@ -22850,6 +22876,11 @@ function _smGain(S){
 // 強度の差が絵に出る。**表示専用** —— presetSig にも S.params にも入らない(実行時鍵
 // overlays.spaceMesh.tau)。値は localStorage hp_sm_tau に残り、A/B の両側で同じ値を使う
 const SPACE_MESH_TAU_MAX=1e6;     // 固定 τ の上限(表示のみ —— これ以上は自動と区別が付かない)
+// 第262便d(検証仮説 (2)): 格子消失の警告を出す境界。**宣言値**であって測った値ではない
+// (読めた交点 nOk が nodes のこの分数を割ったら 1 行出す)。表示専用 —— 力・署名には入らない
+const SPACE_MESH_LOSS_FRAC=0.25;
+// 凡例と観測口が**同じ 1 つの式**を読む(表示と記録で境界がずれないように)
+function _smGridLoss(G){ return !!(G && G.nodes>0 && G.nOk<G.nodes*SPACE_MESH_LOSS_FRAC); }
 let _smTauUser=null;              // null = 自動
 try{ const _st=parseFloat(localStorage.getItem("hp_sm_tau"));
   if(isFinite(_st) && _st>0 && _st<=SPACE_MESH_TAU_MAX) _smTauUser=_st; }catch(_){}
@@ -23128,14 +23159,14 @@ function _smGridFieldOf(S,force){
   const M=A? dfmSpaceMeshState(A,S) : null;
   if(!M) return null;
   const p=S.params, pw=frameWeightPow(p), eps=p.softening, eps2=eps*eps;
-  const D0=(pw>0)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;
+  const D0=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;
   const B=M.gradU, C=M.origin, V=M.velocity;
   const at=(x,y,o)=>{
     let W=0;
     for(let z=0;z<ids.length;z++){
       const i=ids[z], dx=x-S.x[i], dy=y-S.y[i], d2=dx*dx+dy*dy+eps2;
       if(!(d2>0)) return false;
-      W+=S.m[i]*((pw>0)? Math.pow(d2,-pw/2) : 1/Math.sqrt(d2));
+      W+=S.m[i]*((pw!==1)? Math.pow(d2,-pw/2) : 1/Math.sqrt(d2));
     }
     if(!Number.isFinite(W)) return false;
     // **D₀=0 の門**: W+D₀ が 0 のときだけ χ=0(0/0 を作らない)。D₀>0 の既定経路は同じ式である
@@ -23306,7 +23337,12 @@ function drawSpaceGridOn(S,SXf,SYf){
     : T(tFix? "smTauFixed" : "smTauAuto");
   legend.push("g="+_smGainFmt(G.gain)
     +" / "+T("smDispLabel")+" "+((G.dispCell===null||G.dispCell===undefined)? "—" : fx(G.dispCell))
-    +" / v_ref="+fx(G.vRef)+" / τ="+fx(G.tau)+"("+tNote+")");
+    +" / v_ref="+fx(G.vRef)+" / τ="+fx(G.tau)+"("+tNote+")"
+    +" / "+T("smNodesLabel")+" "+G.nOk+"/"+G.nodes);
+  // 第262便d(統括が設定した検証仮説 (2)): **格子消失の警告**。読めた交点が
+  // nodes/4 を割ったら琥珀 1 行を出す。**g は保持する**(勝手に 1 へ戻さない ——
+  // 戻す操作はパラメータ行の ⟲ ボタン)。**表示のみ** —— presetSig と S.params には入らない
+  if(_smGridLoss(G)) legend.push(T("smGridLoss"));
   if(c.originRule==="top1") legend.push(T("smOrigin1"));
   if(c.note==="top2") legend.push(T("smTop2Note"));
   // 第260便a: **共通場 API を読んだときだけ**その注記を出す(読んだ法則・全源・静止背景)。
@@ -23318,6 +23354,7 @@ function drawSpaceGridOn(S,SXf,SYf){
     const x0=SXf(G.cx-G.R), y0=SYf(G.cy-G.R)-6;
     for(let i=0;i<legend.length;i++){
       ctx.fillStyle=(i===0 && G.folded)? "rgba(255,110,110,0.95)"
+        : (legend[i]===T("smGridLoss"))? "rgba(255,190,90,0.95)"   // 第262便d: 格子消失は琥珀
         : "rgba("+SPACE_LINE_RGB+",0.92)";
       ctx.fillText(legend[i], x0, y0-(legend.length-1-i)*14);
     }
@@ -24150,6 +24187,9 @@ function syncHud(){
     // 第50便 50E(台帳4-89): 安全クランプの帳簿 — 発動があったときだけ1行追記
     // (保存則主張の構成では厳密0で不可視のまま。発動していたら保存則の主張域外であることの明示)
     if(sim.clampVN||sim.clampSN||sim.clampHN) txt+=`\n${T("hudClamp")(sim.clampVN,sim.clampSN,sim.clampHN)}`;
+    // 第262便d(第54報・検証仮説 (9)): **帳簿の分母を画面に出す**(実機 Q3「どちらの分母か分かるか」)。
+    // 活動部分が正本・従来分母を併記。判定はしない(門は QA が持つ)。表示専用・物理は 1 bit も動かない
+    for(const ln of ledgerHudLines(sim)) txt+=`\n${ln}`;
   }
   // 第74便: スケール換算表示ON のとき、現在の指数と換算単位を HUD に1行追記(表示のみ・物理不変)
   // 第94便: 指数は scaleEffNow の4指数(距離/時間/質量 — タグ既定+スライダー上書き)から取る
@@ -26416,7 +26456,13 @@ function buildParamRows(){
         const v=parseFloat(String(num.value).replace(/[,、\s]/g,"").replace(/[−ー–—－]/g,"-"));
         if(isFinite(v)){ showG(setSpaceMeshGain(v)); bust(); requestRender(); }
         else showG(_smGain(sim)); });
-      row.insertBefore(rng, cb); row.insertBefore(num, cb);
+      // 第262便d(検証仮説 (2)の「1 へ戻す操作」): g を既定(1)へ戻すボタン。
+      // 警告は g を**自動では戻さない** —— 戻すかどうかは使う側が決める(表示専用・presetSig 外)
+      const rst=document.createElement("button"); rst.type="button"; rst.id="smGainReset";
+      rst.textContent="\u27f2"; rst.title=T("smGainReset");
+      rst.style.cssText="flex:0 0 24px;width:24px;padding:0;line-height:1.1;";
+      rst.addEventListener("click",()=>{ showG(setSpaceMeshGain(SPACE_MESH_GAIN_DEF)); bust(); requestRender(); });
+      row.insertBefore(rng, cb); row.insertBefore(num, cb); row.insertBefore(rst, cb);
     }
     // 第258便c(3 審査 v16 Q3d): **固定 τ の比較モード**。自動 τ は「形」を見るためのもので、
     // **強度の比較を隠す**(剛体回転 Ω=0.1 と 0.2 が同じ絵になる)。診断なので独立した小行にし、
@@ -31394,7 +31440,10 @@ function dfmInternalEntrainment(o){
 // 追加フィットなしで 1% 以内に再現する — QA behavior.dragChannels が機械固定)。chi-law v1(f_i=C·2χ_i)の因果側の基準則
 // 第242便: 第 6 引数 p(0/未指定=share の分率 1/√(a²+ε²)・2/3/4=pull の引き 1/(a²+ε²)^{p/2}。D0 は対応する背景 D₀/D0pull)
 function dfmBinaryChi(mA,mB,a,D0,eps,p){
-  const e=(eps>0)? eps : 0, pw=(p>0)? Number(p) : 0, w=(pw>0)? Math.pow(a*a+e*e,-pw/2) : 1/Math.sqrt(a*a+e*e), wBA=mB*w, wAB=mA*w;
+  // 第262便d: 第 6 引数は **0/未指定(旧 share の番兵)と 1(新しい share の指数)を同じ核**として扱う。
+  // p=1 は数学的に s^{−1/2}=1/√s だが `Math.pow(x,-0.5)` と `1/Math.sqrt(x)` の最下位ビットは
+  // 一致が保証されないので、**分岐は p>1 で切る**(既存の値は 1 bit も動かない)。
+  const e=(eps>0)? eps : 0, pw=(p>0)? Number(p) : 1, w=(pw>1)? Math.pow(a*a+e*e,-pw/2) : 1/Math.sqrt(a*a+e*e), wBA=mB*w, wAB=mA*w;
   // 第257便c: **D₀=0 の門**。分母 D₀+w が 0(= 背景の錨も相手の重みも無い)ときだけ χ=0 にする。
   // D₀>0 の既定経路は分母が必ず正なので**同じ式が評価される**(既定の数値は 1 bit も変わらない)
   return { chiA:((D0+wBA>0)? wBA/(D0+wBA) : 0), chiB:((D0+wAB>0)? wAB/(D0+wAB) : 0), wBA, wAB };
@@ -32243,7 +32292,7 @@ function dfmFrameAt(px,py,S){
   const T=S||sim; if(!T || !(T.n>0)) return null;
   px=Number(px); py=Number(py); if(!Number.isFinite(px) || !Number.isFinite(py)) return null;
   const p=T.params, kU=2*p.kappaT, eps=p.softening, eps2=eps*eps, q=p.q, c0=p.cLight, D0=p.D0, kF=p.kFrame;
-  const D0u=(frameWeightPow(p)>0)? ((p.D0pull!==undefined)? p.D0pull : D0) : D0;   // 第252便a: 意味統一
+  const D0u=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : D0) : D0;   // 第252便a: 意味統一
   const heavy=[]; for(let i=0;i<T.n;i++) if(rayHeavy(T,i)) heavy.push(i);
   const BX=T.box; let WB=0, bH=0;
   if(BX){ const sc=boxScaleAt(BX,T.t); WB=boxWAt(BX,sc.a); bH=sc.H; }
@@ -32319,7 +32368,7 @@ function dfmSpaceMeshState(anchor,S,opts){
   const ids=anchor.ids, k=ids.length, p=T.params;
   if(!p) return null;
   let D0=o.D0;
-  if(D0===undefined) D0=(frameWeightPow(p)>0)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;
+  if(D0===undefined) D0=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;
   D0=Number(D0);
   if(!(D0>=0)) return null;   // NaN・負は門(Infinity だけは極として通す)
   const X=[], V=[], M=[];
@@ -32338,7 +32387,7 @@ function dfmSpaceMeshState(anchor,S,opts){
   for(let i=0;i<k;i++) for(let j=i+1;j<k;j++){
     const dx=X[j][0]-X[i][0], dy=X[j][1]-X[i][1], d2=dx*dx+dy*dy+eps2;
     if(!(d2>0) || !Number.isFinite(d2)) return null;
-    const g=(pw>0)? Math.pow(d2,-pw/2) : 1/Math.sqrt(d2);
+    const g=(pw!==1)? Math.pow(d2,-pw/2) : 1/Math.sqrt(d2);
     Wsum+=M[i]*g+M[j]*g; npair+=2;
   }
   const W=(npair>0)? Wsum/npair : Infinity;
@@ -32561,12 +32610,12 @@ function dfmGalaxyMeshField(src,px,py,opts){
   if(isSim){ n=src.n|0; gx=src.x; gy=src.y; gvx=src.vx; gvy=src.vy; gm=src.m; p0=src.params||null; }
   else if(Array.isArray(src) && src.length>0){ list=src; n=src.length; }
   else return null;
-  const p=(o.p===undefined)? (p0? (frameWeightPow(p0)||GALMESH_P_DEFAULT) : GALMESH_P_DEFAULT) : Number(o.p);
+  const p=(o.p===undefined)? (p0? (frameWeightIsPull(p0)? frameWeightPow(p0) : GALMESH_P_DEFAULT) : GALMESH_P_DEFAULT) : Number(o.p);
   if(!(p>0) || !Number.isFinite(p)) return null;
   const eps=Number((o.eps===undefined)? (p0? p0.softening : 1) : o.eps);
   if(!(eps>=0) || !Number.isFinite(eps)) return null;
   let D0=o.D0;
-  if(D0===undefined) D0=p0? ((frameWeightPow(p0)>0)? ((p0.D0pull!==undefined)? p0.D0pull : p0.D0) : p0.D0) : 0;
+  if(D0===undefined) D0=p0? (frameWeightIsPull(p0)? ((p0.D0pull!==undefined)? p0.D0pull : p0.D0) : p0.D0) : 0;
   D0=Number(D0);
   if(!(D0>=0)) return null;                       // NaN・負は門(Infinity は χ=0 の極として通す)
   const cell=Number(o.cellSize||0);
@@ -33156,12 +33205,12 @@ function dfmChainMeshBuild(src,opts){
   const kSc=Number((o.kScale===undefined)? 1 : o.kScale);
   const gSc=Number((o.gammaScale===undefined)? 1 : o.gammaScale);
   if(!(kSc>=0) || !(gSc>=0) || !Number.isFinite(kSc) || !Number.isFinite(gSc)) return null;
-  const p=(o.p===undefined)? (p0? (frameWeightPow(p0)||GALMESH_P_DEFAULT) : GALMESH_P_DEFAULT) : Number(o.p);
+  const p=(o.p===undefined)? (p0? (frameWeightIsPull(p0)? frameWeightPow(p0) : GALMESH_P_DEFAULT) : GALMESH_P_DEFAULT) : Number(o.p);
   if(!(p>0) || !Number.isFinite(p)) return null;
   const eps=Number((o.eps===undefined)? (p0? p0.softening : 1) : o.eps);
   if(!(eps>=0) || !Number.isFinite(eps)) return null;
   let D0=o.D0;
-  if(D0===undefined) D0=p0? ((frameWeightPow(p0)>0)? ((p0.D0pull!==undefined)? p0.D0pull : p0.D0) : p0.D0) : 0;
+  if(D0===undefined) D0=p0? (frameWeightIsPull(p0)? ((p0.D0pull!==undefined)? p0.D0pull : p0.D0) : p0.D0) : 0;
   D0=Number(D0);
   if(!(D0>=0)) return null;                       // Infinity は χ=0 の極(= 駆動 0)として通す
   const cap=Number((o.capacity===undefined)? Infinity : o.capacity);
@@ -34209,6 +34258,36 @@ function dfmLedgerRelative(value,denom){
     floorRel:fr,
     note:"従来分母と活動部分を**併記**する。活動部分が ≈0 なら比は未定義(null)にして絶対残差 abs を読む" };
 }
+// ===== 第262便d(第54報・統括が設定した検証仮説 (9)): **活動部分を正本にした 1e−3 の門の状態名** =====
+// 〔第261便d〕は両分母を返すところまでで、「**どちらを正本にするか**」を決めていなかった。
+// 本便で決めるのは 3 つだけである(**しきい値は 1 つも動かさない・門は廃さない**):
+//   ① **正本は活動部分**(`relActive`)である。従来分母(`relLegacy`)は**併記**する。
+//   ② **両方通過を「合」と呼ばない。** この門は informational で、通っても
+//      「帳簿が閉じた」とは書かない(未定義項があれば帳簿は閉じていない)。
+//   ③ **超えたことを「否」と呼べるのは、帳簿が閉じている宇宙だけ**である。
+//      未定義項(`undefinedTerms`)が残っている宇宙で比が門を超えても、その超過が
+//      **未定義項の中にあるのか**を切り分けられない —— **「未定義項(門外)」として記録する**。
+//      (🎠 galaxyMeshSpiral は活動 1.09e−2・🫐 tuc47DFM は 0.31 —— どちらもこの状態である。)
+// 返す状態名: "no-denom" / "active-degenerate" / "undefined-terms" / "within" / "over"。
+// **FAIL を出す関数ではない**(判定は呼ぶ側が宣言する)。純関数 —— S を 1 バイトも読まない。
+const LEDGER_GATE_THRESHOLD=1e-3;        // **宣言値**(〔第261便d〕の門の数をそのまま使う)
+function dfmLedgerGateState(rel,undefinedTerms,threshold){
+  const th=Number((threshold===undefined)? LEDGER_GATE_THRESHOLD : threshold);
+  const und=Array.isArray(undefinedTerms)? undefinedTerms.slice() : [];
+  const r=rel||{};
+  const out={ primary:"active", threshold:th, relActive:(r.relActive===undefined)? null : r.relActive,
+    relLegacy:(r.relLegacy===undefined)? null : r.relLegacy, abs:(r.abs===undefined)? null : r.abs,
+    undefinedTerms:und, ledgerClosed:(und.length===0), state:"no-denom", judged:false,
+    note:"**正本は活動部分**・従来分母は併記。通っても「合」とは呼ばない・"
+      +"未定義項が残る宇宙で超えても「否」とは呼ばない(**未定義項(門外)**として記録する)" };
+  if(!(th>0) || !Number.isFinite(th)) return out;
+  if(r.denomState==="no-denom" || (r.relLegacy===null && r.relActive===null)) return out;
+  if(r.relActive===null || r.relActive===undefined){ out.state="active-degenerate"; return out; }
+  if(!(out.ledgerClosed) && r.relActive>th){ out.state="undefined-terms"; return out; }
+  out.state=(r.relActive<=th)? "within" : "over";
+  out.judged=out.ledgerClosed;      // **閉じた帳簿でだけ「否」を名乗れる**
+  return out;
+}
 function dfmToyLedger(S,opts){
   if(!S || typeof S!=="object" || !(S.n>0) || !S.m) return null;
   const o=opts||{};
@@ -34424,6 +34503,35 @@ function dfmToyLedger(S,opts){
     closed:(und.length===0),
     note:"E_tot=K+U+E_shell+E_core+E_mesh+Q+E_escaped・ΔE_tot=W_ext。**未定義の項は 0 で埋めていない**。"
       +"Q を重力波と読まない。減光は観測写像であって帳簿の項ではない" };
+}
+// ===== 第262便d(第54報・統括が設定した検証仮説 (9)): 帳簿 HUD の 1〜2 行(**表示専用**) =====
+// 〔第261便d〕の Negative Claim 30「相対残差は**どの分母で割ったか**を書かずに引用してはならない」を
+// **画面の側**でも守る。**活動部分を正本**にして先に書き、従来分母を同じ行へ併記する
+// (🎠 は両分母で 34.28 倍違う)。**判定はしない** —— 1e−3 の門は QA `behavior.ledgerNorm` が持つ。
+// 帳簿は対の和(O(n²))を含むので **LEDGER_HUD_MS ごとに 1 回**だけ数え直す(力学は 1 bit も動かない)。
+// 基準 ref は「その宇宙を最初に見た時刻の帳簿」である(毎時刻の E_tot を分母にしない)。
+const LEDGER_HUD_MS=500;
+let _ledHud=null;
+function ledgerHudLines(S){
+  if(!S || !(S.n>0)) return [];
+  const now=(typeof performance!=="undefined" && performance.now)? performance.now() : Date.now();
+  const stale=(!_ledHud || _ledHud.S!==S || _ledHud.n!==S.n || S.t<_ledHud.t || now-_ledHud.at>=LEDGER_HUD_MS);
+  if(stale){
+    const z=dfmToyLedger(S,(_ledHud && _ledHud.S===S && _ledHud.n===S.n && S.t>=_ledHud.t && _ledHud.ref)
+      ? {ref:_ledHud.ref} : {});
+    if(!z){ _ledHud=null; return []; }
+    const fresh=!(_ledHud && _ledHud.S===S && _ledHud.n===S.n && S.t>=_ledHud.t && _ledHud.ref);
+    const ref=fresh? z : _ledHud.ref;
+    const v=fresh? null : ((z.residualDrag===null)? z.residual : z.residualDrag);
+    _ledHud={S, n:S.n, t:S.t, at:now, ref, z, rel:(v===null)? null : dfmLedgerRelative(v,ref.denom)};
+  }
+  const d=_ledHud.ref.denom, rel=_ledHud.rel;
+  const ex=(x)=>(x===null||x===undefined||!Number.isFinite(x))? T("hudLedgerNA") : Number(x).toExponential(3);
+  const out=[T("hudLedgerDenom")(ex(d.active), ex(d.legacy),
+    (d.activeShare===null)? "—" : (d.activeShare*100).toFixed(3), d.pinnedN)];
+  if(rel){ const g=dfmLedgerGateState(rel,_ledHud.z? _ledHud.z.undefinedTerms : []);
+    out.push(T("hudLedger")(ex(rel.relActive), ex(rel.relLegacy), g.state)); }
+  return out;
 }
 // ===== 第254便a(第46報「空間メッシュ本体」): 場 API・混合・粒子則・物質線の輸送 =====
 // 原仮定者(第46報・全文は docs/PHYSICS.md 〔第254便a〕に引用):
@@ -35145,8 +35253,8 @@ function dfmFieldSnapshot(S){
       && Number.isFinite(vx[i]) && Number.isFinite(vy[i]))) return stop("nonfinite");
     B.push({id:i, m:mi, x:x[i], y:y[i], vx:vx[i], vy:vy[i]});     // **ax/ay は入れない**(捏造しない)
   }
-  const pw0=frameWeightPow(p), pw=(pw0>0)? pw0 : 1;
-  const D0=(pw0>0)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;
+  const pw=frameWeightPow(p);
+  const D0=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;
   const opt={ lawVersion:law, G:p.G, eps:p.softening, p:pw, D0,
     background:"static", energyContract:"none" };
   if(law==="local"){
@@ -35198,9 +35306,9 @@ function dfmGeoToyStep(S,dt){
   if(law==="complex"){ S.geoToyStop="complexNotVelocity"; return null; }
   const eta=(cf.toyGain===undefined)? 1 : cf.toyGain;
   const x=S.x, y=S.y, vx=S.vx, vy=S.vy, m=S.m, mEff=S.mEff, pin=S.pinned;
-  const pw0=frameWeightPow(p), pw=(pw0>0)? pw0 : 1;
+  const pw=frameWeightPow(p);
   const eps=p.softening, eps2=eps*eps, G=p.G;
-  const D0p=(pw0>0)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;
+  const D0p=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;
   const B0=S.box, boxOn=!!(B0 && S.boxA && S.boxA.W>0);
   const WB=boxOn? S.boxA.W : 0, bH=boxOn? S.boxA.H : 0;
   const bHd=boxOn? ((B0.mode==="lin")? -bH*bH : 0) : 0;
@@ -36023,7 +36131,7 @@ function dfmMeshTransportObserve(S){
   tr.symDev=sym; tr.lastTheta=th; tr.lastLog=lg;
   return r;
 }
-window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON, frameWeightPow, frameWeightOf, FRAME_WEIGHT_DEFAULT,   // 第242便
+window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON, frameWeightPow, frameWeightIsPull, frameWeightOf, FRAME_WEIGHT_DEFAULT,   // 第242便
   // 第247便d(裁定 A5′(2)): MM 2 腕干渉計の位相玩具(純関数の解析器)と、光が感じる u の 1 点評価。
   // どちらも読み取り専用で力学へは接続しない。QA behavior.mmPhase が階段(1)〜(5)を機械固定する
   dfmMMPhase, dfmFrameAt,
@@ -36090,6 +36198,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
         steps:G.steps, nodes:G.nodes, nOk:G.nOk, nInvalid:G.nInvalid, samples:G.samples,
         sampleBad:G.sampleBad, cells:G.cells, folds:G.folds, folded:G.folded,
         minAreaRatio:G.minAreaRatio, loopMax:G.loopMax, chi:G.chi, still:G.still,
+        // 第262便d: 格子消失の警告が出ているか(凡例と同じ式・表示専用)
+        gridLoss:_smGridLoss(G), lossFrac:SPACE_MESH_LOSS_FRAC,
         cellArea:G.cellArea? Array.prototype.slice.call(G.cellArea) : null } : null }; },
   spaceGridConst:()=>({K:SPACE_MESH_GRID_K, kLo:SPACE_MESH_GRID_K_LO, samp:SPACE_MESH_SAMP,
                        pad:SPACE_MESH_SAMP_PAD, steps:SPACE_MESH_FLOW_N,
@@ -36101,7 +36211,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
                        gainPos:SPACE_MESH_GAIN_POS, norm:SPACE_MESH_NORM,
                        kappa:SPACE_MESH_KAPPA, kappaMass:SPACE_MESH_KAPPA_M,
                        tieRel:SPACE_MESH_TIE_REL,
-                       tauMax:SPACE_MESH_TAU_MAX}),
+                       tauMax:SPACE_MESH_TAU_MAX,
+                       // 第262便d: 格子消失の警告の境界(宣言値)
+                       lossFrac:SPACE_MESH_LOSS_FRAC}),
   // 第261便a: 指数スライダーの位置 ↔ 値と、原点規則の観測口(**表示専用** —— 署名・params に入らない)
   spaceMeshGainFromPos:_smGainFromPos, spaceMeshGainToPos:_smGainToPos,
   spaceMeshOrigin:(S)=>{ const o=_smOrigin(S||sim);
@@ -36194,6 +36306,10 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   dfmChainMeshClosed, dfmChainMeshClosedStep, dfmChainMeshClosedEnergy, LEDGER_KEY,
   CHAIN_RINGS_MAX, CHAIN_SUPPORT_PAD, dfmToyLedger,
   dfmLedgerRelative, LEDGER_ACTIVE_FLOOR_REL,   // 第261便d(第53報): 規格化の分母の併記
+  // 第262便d(第54報): **活動部分を正本**にした 1e−3 の門の状態名(純関数・FAIL を出さない)
+  dfmLedgerGateState, LEDGER_GATE_THRESHOLD,
+  // 第262便d(第54報): 帳簿 HUD の行(**活動部分が正本**・従来分母を併記)と、その節流間隔。表示専用
+  ledgerHudLines, LEDGER_HUD_MS,
   // 第259便c(第51報): **2D 連鎖メッシュ**(半径環 × 方位節点 —— m=2 は方位自由度なしに測れない)・
   // **E_escaped の境界通過流束の記録器**(粒子は消えないので E_escaped,bodies=0 と定義した)・
   // 蓄積格子が共通場 API を読む**診断フラグ**の読み(実行時鍵 overlays.spaceMesh.fieldApi)

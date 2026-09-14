@@ -456,14 +456,26 @@ if (!ABJIT_ONLY && betaIds.includes('galaxyGeo2') && betaIds.includes('galaxyStd
 //          root は別世代なので比は 1.00 ではない —— 見るのは絶対値ではなく**比の急変**である。
 //      どちらを使ったかは `baselineKind` に必ず書く(`frozen-file` / `root-fallback`)。
 //
-// **どちらも informational**: WARN を出すだけで **fail を増やさない**
-// (QA `lint.perfAbJit` が「fail++ をこの経路でしていないこと」を機械で確かめる)。
-// **FAIL 化の基準**は 2 便続けて安定してから決める(決断事項 — 〔第260便d〕に案を書いた)。
+// **第262便d(第54報 W4)で FAIL 化した**(統括が設定した検証仮説 (8)・〔第261便d〕が宣言した基準の適用):
+//   ・(a) 自己対照 **>4 = FAIL**(基準値が要らないので機種に依らない。WARN は 3)。
+//   ・(b) 凍結基準 html 対 候補 **>1.5 = FAIL**、ただし **`frozen-file` を取得できたときだけ**。
+//   ・**`root-fallback` は凍結扱いしない**(root は昇格したときしか動かないので「凍結基準」ではない)
+//     —— root-fallback の (b) は **informational のまま**で、WARN は出すが fail を増やさない。
+//     **取得失敗を root-fallback の合格に置き換えない**(取れなかったことは「通った」ではない)。
+// 判定の別は各行の `judgement`(`gate` / `informational`)に必ず書く。
+// (QA `lint.perfAbJit` が基準値と「gate の行だけが fail を増やすこと」を機械で確かめる)。
 // 所要は 2 プリセット × 4 ページ ≈ 40 秒(崖が無いとき)。崖があるときのために 1 セル 30 秒で打ち切る。
 const ABJIT_PRESETS = String(process.env.PERF_ABJIT_PRESETS || 'galaxyGeo2,bhCore').split(',').map((s) => s.trim()).filter(Boolean);
 const ABJIT_WARN = +(process.env.PERF_ABJIT_WARN || 1.5);
-// (a) 自己対照の WARN。期待 1 付近・崖なら 10 倍級なので、その間に置く(**informational のまま**)。
+// (a) 自己対照の WARN。期待 1 付近・崖なら 10 倍級なので、その間に置く。
 const ABJIT_SELF_WARN = +(process.env.PERF_ABJIT_SELF_WARN || 3);
+// 第262便d: **FAIL 化のしきい値**(〔第261便d〕が QA に宣言した値をそのまま適用する)。
+//   自己対照 4 は観測帯(第260便d 0.72/0.81・第261便d 0.75/0.86)の 5 倍近く上・
+//   雑音床(同じファイルどうしで ±5%)の遥か上にある。**帯そのものは合格条件にしない**。
+const ABJIT_SELF_FAIL = +(process.env.PERF_ABJIT_SELF_FAIL || 4);
+const ABJIT_CROSS_FAIL = +(process.env.PERF_ABJIT_CROSS_FAIL || 1.5);
+// **root-fallback は凍結扱いしない** —— (b) が FAIL を出せるのは frozen-file を取得できたときだけ。
+const ABJIT_ROOT_FALLBACK_IS_FROZEN = false;
 const ABJIT = { warm: 100, chunk: 100, reps: 3, budgetMs: 30000 };
 // 前回値(記録だけ — 判定には使わない)。この時点ではまだ上書きしていない
 let abJitPrev = null;
@@ -524,19 +536,24 @@ for (const pid of ABJIT_PRESETS) {
   } else {
     const ratio = ab.msPerStep / plain.msPerStep;
     const warn = ratio > ABJIT_SELF_WARN;
+    // 第262便d: **(a) は基準値が要らないので常に gate である**(>4 で FAIL)
+    const failed = ratio > ABJIT_SELF_FAIL;
+    if (failed) fail++;
     const prev = (abJitPrev || []).find((z) => z.id === pid && z.arm === 'self-control') || null;
     abJitRows.push({ id: pid, arm: 'self-control', msPerStep: +ab.msPerStep.toFixed(4),
       baseRef: +plain.msPerStep.toFixed(4), ratio: +ratio.toFixed(3), warn, warnRatio: ABJIT_SELF_WARN,
+      failed, failRatio: ABJIT_SELF_FAIL,
       baselineKind: 'same-html-2pages', baseRefKind: 'same-html-plain-run',
       expectedRatio: 1, cliffRatioRef: '10 倍級(〔第258便e〕: 素 ×1.5 対 A/B ×15〜20)',
       nBeta: ab.n, sims: ab.sims, reps: ab.reps, perAb: ab.per, perPlain: plain.per,
       nan: ab.nan || plain.nan, prev: prev ? { ratio: prev.ratio } : null,
-      judgement: 'informational' });
-    console.log(`${warn ? 'WARN' : 'INFO'} perf.abJit.self.${pid}  A/B=${ab.msPerStep.toFixed(3)}ms/步`
+      judgement: 'gate' });
+    console.log(`${failed ? 'FAIL' : warn ? 'WARN' : 'INFO'} perf.abJit.self.${pid}  A/B=${ab.msPerStep.toFixed(3)}ms/步`
       + ` 素=${plain.msPerStep.toFixed(3)}ms/步 比=${ratio.toFixed(3)}`
       + `(同一 html の 2 ページ自己対照・期待 1 付近・崖なら 10 倍級)`
       + (prev ? ` 前回 比=${prev.ratio}` : '')
-      + (warn ? `  ← **${ABJIT_SELF_WARN}× 超**: S._core の JIT 崖(〔第258便e〕)を疑う` : ''));
+      + (failed ? `  ← **${ABJIT_SELF_FAIL}× 超 = FAIL**(第262便d で FAIL 化): S._core の JIT 崖(〔第258便e〕)`
+        : warn ? `  ← **${ABJIT_SELF_WARN}× 超**: S._core の JIT 崖(〔第258便e〕)を疑う` : ''));
   }
   // (b) 凍結基準 html 対 候補(両方とも A/B 走行で測る)
   const cand = await abJitFreshCell(path.join('beta', 'index.html'), pid, 'ab');
@@ -548,20 +565,29 @@ for (const pid of ABJIT_PRESETS) {
   const ratio = cand.msPerStep / base.msPerStep;
   const prev = (abJitPrev || []).find((z) => z.id === pid && z.arm === 'cross-html') || null;
   const warn = ratio > ABJIT_WARN;
+  // 第262便d: **frozen-file のときだけ gate**。root-fallback は凍結扱いしない(informational)。
+  const crossIsGate = (abJitBaseline.kind === 'frozen-file')
+    || (abJitBaseline.kind === 'root-fallback' && ABJIT_ROOT_FALLBACK_IS_FROZEN);
+  const failed = crossIsGate && ratio > ABJIT_CROSS_FAIL;
+  if (failed) fail++;
   abJitRows.push({ id: pid, arm: 'cross-html', msPerStep: +cand.msPerStep.toFixed(4),
     baseRef: +base.msPerStep.toFixed(4), ratio: +ratio.toFixed(3), warn, warnRatio: ABJIT_WARN,
+    failed, failRatio: crossIsGate ? ABJIT_CROSS_FAIL : null,
+    rootFallbackIsFrozen: ABJIT_ROOT_FALLBACK_IS_FROZEN,
     baselineKind: abJitBaseline.kind, baselineTarget: abJitBaseline.target,
     baseRefKind: abJitBaseline.kind === 'frozen-file' ? 'frozen-html' : 'same-run-root',
     nBeta: cand.n, nBase: base.n, sims: cand.sims, reps: cand.reps,
     perBeta: cand.per, perBase: base.per, nan: cand.nan || base.nan,
     prev: prev ? { msPerStep: prev.msPerStep, baseRef: prev.baseRef, ratio: prev.ratio } : null,
-    judgement: 'informational' });
-  console.log(`${warn ? 'WARN' : 'INFO'} perf.abJit.cross.${pid}  beta=${cand.msPerStep.toFixed(3)}ms/步`
+    judgement: crossIsGate ? 'gate' : 'informational' });
+  console.log(`${failed ? 'FAIL' : warn ? 'WARN' : 'INFO'} perf.abJit.cross.${pid}  beta=${cand.msPerStep.toFixed(3)}ms/步`
     + ` 基準(${abJitBaseline.kind})=${base.msPerStep.toFixed(3)}ms/步 比=${ratio.toFixed(3)}`
     + `(A/B 2 sim・warm ${ABJIT.warm} 步・${cand.reps} 反復の中央値)`
     + (prev ? ` 前回 比=${prev.ratio}` : '')
     + (warn ? `  ← **${ABJIT_WARN}× 超**: 両ページ共通の遅化を疑う。`
-      + '器 tests/exp-w258e-jitprobe.mjs を基点 html と並べて回すこと(informational — ゲートは落とさない)' : ''));
+      + '器 tests/exp-w258e-jitprobe.mjs を基点 html と並べて回すこと'
+      + (crossIsGate ? '(**frozen-file 基準なので FAIL**)'
+        : '(root-fallback は**凍結扱いしない**ので informational —— 取得失敗を合格に置き換えない)') : ''));
 }
 
 await browser.close();

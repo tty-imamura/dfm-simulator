@@ -38,6 +38,10 @@ tests/out/*
 # §5(4 つの viewport の見切れ画素)・§6(有限性の拒否)の表がこの値そのものなのでコミットする
 # (**QA はこのファイルを読まない** —— 読むのは器の中で走らせた値である)
 !tests/out/w262b-migrate.json
+# 第262便d: 太陽系 16 本の σ 接続の切断点分解(tests/exp-w262d-solarsigma.mjs)の実測正本。
+#   docs/CALIBRATION_VERDICT_v1.44.md §2.3′ と docs/PHYSICS.md 〔第262便d〕④ の表がこの値そのもの
+#   なのでコミットする(**エンジンは走らせていない** —— 入力は CSV と calaudit-w249.json だけである)
+!tests/out/solarsigma-w262d.json
 # 第134便: kF1 較正ハーネスの実測正本(論文3 再現性 — 外部レビュー P0 対応。
 # 本文の中心値〔q*=6.16/8.25/21.8・drag −5.6e-10・第122便 q*=4.59〕を提出コミットから再生成可能に)
 !tests/out/coreshell-results.json

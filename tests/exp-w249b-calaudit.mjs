@@ -216,6 +216,24 @@ const SIGMA_BODY = {
   // (第251便c ⑥′ が保留していた行 —— 保留の理由だった 📻 の経路等価は QA 側で解いた)。
 };
 const SIGMA_QUANT = { period: 'orbital_period', ecc: 'eccentricity', precession: 'periastron_advance' };
+// ---------------------------------------------------------------- 第262便d(第54報 W4・統括の読み (A)・検証仮説 (10))
+// **太陽系 16 本の σ 接続**。`SIGMA_BODY` は「preset → CSV の body 名」で、しかも
+// **最初の周回体にしか当たらない**(applySigma の `t.label !== cfg.orbiters[0][1]`)。太陽系は
+// 1 本の preset が複数の周回体を持つので、**target ラベルごとの宣言表**を別に置く。
+// **宣言であって自動判定ではない** —— CSV に行が無い天体は、ここに書かない(推測で当てない)。
+// **値は 1 つも動かない**: ここで繋がる CSV 行は**全部 sigma 列が空欄**なので、
+// `applySigma` は `sigmaSource` と `sigmaNote`(診断の文字列)を書くだけで、
+// `obsSigmaCsv` は 1 件も立たない = 門の判定は 1 bit も変わらない。
+// **切れているのは対応表ではなく CSV の sigma 列と行そのものである**ことを、
+// `tests/exp-w262d-solarsigma.mjs` が数で示す(合 0 / 量限定合 0 / 否 0 / 保留 16)。
+const SIGMA_TARGET_BODY = {
+  'venusReal|金星': 'Venus', 'solarInner|金星': 'Venus', 'solarInner|火星': 'Mars',
+  'marsMoonsReal|フォボス': 'Phobos', 'marsMoonsReal|ダイモス': 'Deimos',
+  'plutoCharonReal|カロン': 'Charon',
+  'uranusReal|ミランダ': 'Miranda', 'uranusReal|アリエル': 'Ariel',
+  'uranusReal|ウンブリエル': 'Umbriel', 'uranusReal|チタニア': 'Titania', 'uranusReal|オベロン': 'Oberon',
+  'neptuneReal|トリトン': 'Triton',
+};
 
 // ---------------------------------------------------------------- 第257便d(第49報・3 審査 v15)
 // **観測量対応の宣言表**(自動判定ではない — 宣言である)。
@@ -967,9 +985,13 @@ for (const P of out.presets) {
   // という第250便c の設計をそのまま守る(σ が効くのは門だけ)。
   const sigBody = SIGMA_BODY[d.id] || null;
   const applySigma = (q, t, kind, toJudgedUnit) => {
-    if (!sigBody || t.label !== cfg.orbiters[0][1]) return q;
-    const row = SIGMA_TABLE.get(sigBody + '|' + SIGMA_QUANT[kind]);
-    if (!row) { q.sigmaNote = `CSV に ${sigBody}|${SIGMA_QUANT[kind]} の行が無い`; return q; }
+    // 第262便d: target ごとの宣言表を先に見る(太陽系は 1 preset に複数の周回体がある)。
+    // 無ければ従来どおり preset 単位の SIGMA_BODY を**最初の周回体にだけ**当てる(NS/恒星は不変)。
+    const body = SIGMA_TARGET_BODY[d.id + '|' + t.label]
+      || ((sigBody && t.label === cfg.orbiters[0][1]) ? sigBody : null);
+    if (!body) return q;
+    const row = SIGMA_TABLE.get(body + '|' + SIGMA_QUANT[kind]);
+    if (!row) { q.sigmaNote = `CSV に ${body}|${SIGMA_QUANT[kind]} の行が無い`; return q; }
     q.sigmaSource = { body: row.body, quantity: row.quantity, unit: row.unit, sigma: row.sigma,
       source: String(row.source).slice(0, 90), primaryVerified: row.primaryVerified };
     q.sigmaPrimaryVerified = !!row.primaryVerified;

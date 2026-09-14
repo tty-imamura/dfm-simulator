@@ -108,7 +108,16 @@ const add = (id, pass, detail) => {
 // ----     ④ **プリセットごとにページを開き直す**(同じページで 2 本目を測ると 2 度目の build が
 // ----        deopt を通し、「素の走行」でなくなる)。
 // ----     ⑤ 出力 JSON に `abJit` の欄がある(走行があるときだけ照合する — 無ければ「未走行」)。
-// ----   **FAIL 化はしない**(2 便続けて安定させてから決める — 〔第260便d〕の決断事項)。
+// ----   **第262便d(第54報 W4)で FAIL 化した**(統括が設定した検証仮説 (8))。基準は〔第261便d〕が
+// ----   宣言した値そのままで、**しきい値は 1 つも動かしていない**(適用しただけである):
+// ----     ⑧ (a) 自己対照 **>4 = FAIL**(基準値が要らないので機種に依らない・常に gate)。
+// ----     ⑨ (b) 凍結基準 html 対 候補 **>1.5 = FAIL**、**`frozen-file` を取得できたときだけ**。
+// ----        **`root-fallback` は凍結扱いしない** —— その行は `judgement:"informational"` のままで、
+// ----        WARN は出すが fail を増やさない。**取得失敗を root-fallback の合格に置き換えない**。
+// ----     ⑩ 各行の `judgement` は `gate` / `informational` のどちらかで、**`gate` の行だけが**
+// ----        `failed` を立てて fail を増やす(機械で確かめる)。
+// ----   **「A/B ゲートを FAIL 化した」ことは「JIT 崖を解決した」ことではない**(しきい値そのものは
+// ----   依然として測っていない —— Negative Claim 19/26 は取り下げない)。
 // ----   **第261便d(第53報 W4)で足したのは「FAIL 化の基準」の文書固定だけである**(判定は動かしていない):
 // ----     ⑥ `AB_FAIL_CRITERIA_W261D` —— **(a) 自己対照 >4 = 非常ベル**(基準値が要らないので機種に
 // ----        依らない)/ **(b) 凍結基準 html 対 候補 >1.5**/ **`root-fallback` は凍結扱いしない**
@@ -122,14 +131,20 @@ const add = (id, pass, detail) => {
 {
   const src = fs.readFileSync(path.join(ROOT, 'tests', 'perf.mjs'), 'utf8');
   const bad = [];
-  // 第261便d: **FAIL 化の基準**(値と読み方をここに固定する。**適用は次便** —— judgement は informational のまま)
-  const AB_FAIL_CRITERIA_W261D = {
-    selfControl: { warn: 3, fail: 4, note: '同一 html の 2 ページ自己対照(A/B ÷ 素)。基準値が要らない' },
-    crossHtml: { warn: 1.5, fail: 1.5, note: '凍結基準 html 対 候補。**frozen-file のときだけ基準として読む**' },
+  // 第261便d: **FAIL 化の基準**(値と読み方をここに固定した)。**第262便d で適用した** ——
+  // 値は 1 つも動かしていない(activatedAt が null から便名に変わっただけである)。
+  const AB_FAIL_CRITERIA_W262D = {
+    selfControl: { warn: 3, fail: 4, judgement: 'gate',
+      note: '同一 html の 2 ページ自己対照(A/B ÷ 素)。基準値が要らないので**常に gate**' },
+    crossHtml: { warn: 1.5, fail: 1.5, judgement: { 'frozen-file': 'gate', 'root-fallback': 'informational' },
+      note: '凍結基準 html 対 候補。**frozen-file のときだけ FAIL を出す**。root-fallback は凍結扱いしない' },
     rootFallbackIsFrozen: false,      // **root-fallback は凍結扱いしない**(昇格時しか動かない内容)
     noiseFloor: [0.95, 0.99],         // 〔第260便d〕①3: **同じファイルどうしでも ±5% 振れる**
-    observedSelfControl: { w260d: [0.72, 0.81], w261d: [0.75, 0.86] },
-    activateAfterWaves: 2, activatedAt: null, judgement: 'informational' };
+    observedSelfControl: { w260d: [0.72, 0.81], w261d: [0.75, 0.86], w262d: 'jitprobe: 本便の実測を PHYSICS〔第262便d〕の 3 便表に載せた' },
+    activateAfterWaves: 2, activatedAt: '第262便d(第54報)', judgement: 'gate(条件つき)',
+    // FAIL 化しても**崖のしきい値を測ったことにはならない**(Negative Claim 19/26 は維持する)
+    notSolved: 'JIT 崖のしきい値そのものは依然として測っていない' };
+  const AB_FAIL_CRITERIA_W261D = AB_FAIL_CRITERIA_W262D;   // 旧名(第261便d の宣言と同じ値)
   if (!/abJitCell/.test(src)) bad.push('①A/B JIT probe の器が無い');
   if (!/HP\.abStart\('kFrame', 0\)/.test(src)) bad.push('①A/B ワークロード(abStart)が無い');
   if (!/arm: 'self-control'/.test(src)) bad.push('②(a)自己対照(同一 html の 2 ページ)の系統が無い');
@@ -138,10 +153,19 @@ const add = (id, pass, detail) => {
   if (!/kind: 'frozen-file'/.test(src) || !/kind: 'root-fallback'/.test(src))
     bad.push('②(b)の基準の置き方(frozen-file / root-fallback)が宣言されていない');
   if (!/abJitFreshCell/.test(src)) bad.push('④プリセットごとにページを開き直していない(fresh cell が無い)');
-  if (!/judgement: 'informational'/.test(src)) bad.push('③判定が informational と宣言されていない');
-  // fail++ を abJit の経路でしていないこと(informational を機械で確かめる)
-  const tail = src.slice(src.indexOf('const ABJIT_PRESETS'));
-  if (/fail\+\+/.test(tail.slice(0, tail.indexOf('await browser.close()')))) bad.push('③abJit が fail を増やしている');
+  if (!/judgement: 'informational'/.test(src)) bad.push('③root-fallback の informational 宣言が無い');
+  // 第262便d: **FAIL 化した**ので、逆に「gate の経路で fail++ していること」を機械で確かめる
+  const tail0 = src.slice(src.indexOf('const ABJIT_PRESETS'));
+  const tail = tail0.slice(0, tail0.indexOf('await browser.close()'));
+  if (!/fail\+\+/.test(tail)) bad.push('⑧abJit が fail を増やしていない(FAIL 化されていない)');
+  if (!/ABJIT_SELF_FAIL = \+\(process\.env\.PERF_ABJIT_SELF_FAIL \|\| 4\)/.test(src))
+    bad.push('⑧(a)自己対照の FAIL しきい値 4 が perf.mjs に無い');
+  if (!/ABJIT_CROSS_FAIL = \+\(process\.env\.PERF_ABJIT_CROSS_FAIL \|\| 1\.5\)/.test(src))
+    bad.push('⑨(b)凍結基準の FAIL しきい値 1.5 が perf.mjs に無い');
+  if (!/ABJIT_ROOT_FALLBACK_IS_FROZEN = false/.test(src))
+    bad.push('⑨root-fallback を凍結扱いしない宣言が perf.mjs に無い');
+  if (!/crossIsGate/.test(tail)) bad.push('⑨(b)の gate/informational の切り分けが無い');
+  if (!/judgement: 'gate'/.test(tail)) bad.push('⑩gate の宣言が無い');
   let ran = '未走行(tests/out/perf-results.json に abJit が無い — perf を回すと入る)';
   const armsSeen = new Set();
   let legacyRows = 0;
@@ -151,7 +175,14 @@ const add = (id, pass, detail) => {
       for (const r of pj.abJit.rows) {
         if (!Number.isFinite(r.msPerStep) || !Number.isFinite(r.baseRef) || !Number.isFinite(r.ratio))
           bad.push(`⑤abJit の欄が欠けている: ${r.id}`);
-        if (r.judgement !== 'informational') bad.push(`③abJit の判定が informational でない: ${r.id}`);
+        // 第262便d: 判定は `gate`(FAIL を出せる)か `informational`(出さない)のどちらか。
+        // **root-fallback の cross-html が gate になっていたら違反**(凍結扱いしない約束)
+        if (r.judgement !== 'informational' && r.judgement !== 'gate')
+          bad.push(`⑩abJit の判定が gate/informational でない: ${r.id}/${r.judgement}`);
+        if (r.arm === 'cross-html' && r.baselineKind === 'root-fallback' && r.judgement === 'gate')
+          bad.push(`⑨root-fallback を凍結扱いしている: ${r.id}`);
+        if (r.judgement === 'informational' && r.failed === true)
+          bad.push(`⑩informational の行が FAIL を立てている: ${r.id}`);
         // `arm` の無い行は**第259便d までの 1 系統の走行**である。tests/out は走行のたびに
         // 上書きされるので、**古い走行が残っていること自体は違反にしない**(器の側は上で見た)。
         if (r.arm === undefined) legacyRows++;
@@ -170,21 +201,25 @@ const add = (id, pass, detail) => {
     }
   } catch { /* 未走行 — 器の存在だけを見る */ }
   // 第261便d: 基準の**宣言**そのものを機械で見る(値を書き換えたら QA が落ちる)
-  const C = AB_FAIL_CRITERIA_W261D;
+  const C = AB_FAIL_CRITERIA_W262D;
   if (!(C.selfControl.fail === 4 && C.crossHtml.fail === 1.5 && C.rootFallbackIsFrozen === false
-    && C.judgement === 'informational' && C.activatedAt === null))
-    bad.push('⑥FAIL 化の基準の宣言(自己対照 4 / 対 html 1.5 / root-fallback は凍結扱いしない / 未適用)が崩れている');
+    && C.selfControl.judgement === 'gate' && C.crossHtml.judgement['frozen-file'] === 'gate'
+    && C.crossHtml.judgement['root-fallback'] === 'informational'
+    && typeof C.activatedAt === 'string' && C.activatedAt.length > 0))
+    bad.push('⑥FAIL 化の基準の宣言(自己対照 4 / 対 html 1.5 / root-fallback は凍結扱いしない / 適用済み)が崩れている');
   add('lint.perfAbJit', bad.length === 0,
     '器あり・**2 系統**((a)同一 html の 2 ページ自己対照〔基準値不要・CI 再現可〕/ (b)凍結基準 html 対 候補'
     + '〔frozen-file は opt-in・root-fallback が CI 既定〕)・A/B 2 sim・warm 後 3 反復の中央値・ms/步・'
-    + '**どちらも判定=informational**'
+    + '**第262便d で FAIL 化した**((a)は常に gate・(b)は frozen-file のときだけ gate・'
+    + 'root-fallback は informational のまま)'
     + ` / 直近の実測: ${ran}`
-    + ` / **第261便d: FAIL 化の基準を宣言した(適用は次便)**: (a)自己対照 >${C.selfControl.fail}=非常ベル`
+    + ` / **第261便d の宣言をそのまま適用した(値は 1 つも動かしていない)**: (a)自己対照 >${C.selfControl.fail}=FAIL`
     + `(WARN ${C.selfControl.warn})・(b)凍結基準 html 対 候補 >${C.crossHtml.fail}・`
     + `**root-fallback は凍結扱いしない**=${C.rootFallbackIsFrozen === false}・`
     + `雑音床 ×${C.noiseFloor[0]}〜${C.noiseFloor[1]}(同じファイルどうし)・`
     + `(a)の観測帯 第260便d ${C.observedSelfControl.w260d.join('/')}・第261便d ${C.observedSelfControl.w261d.join('/')}`
-    + `(= **2 便続けて同じ帯**)・**適用は ${C.activateAfterWaves} 便安定の次**(activatedAt=${C.activatedAt})`
+    + `(= **2 便続けて同じ帯**)・**${C.activateAfterWaves} 便安定したので適用した**(activatedAt=${C.activatedAt})`
+    + ` / **${C.notSolved}** —— 「FAIL 化した」は「JIT 崖を解決した」ではない`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
 }
 
@@ -197,7 +232,12 @@ const add = (id, pass, detail) => {
 // ----     ② `git clone --filter=blob:none --no-checkout`(履歴の中身も作業ツリーも作らない)を使う。
 // ----     ③ 取り出しは `git show <凍結SHA>:beta/index.html`(3.7 MB の 1 ファイルだけ)。
 // ----     ④ 所要時間を **1 行 JSON**(cloneSec / showSec / totalSec / gitKB)で返す(CI が読める)。
-// ----     ⑤ **`.github/workflows` はこの script をまだ呼んでいない**(= 本便では有効化していない)。
+// ----     ⑤ **`.github/workflows` はこの script をまだ呼んでいない**(= 本便でも有効化していない)。
+// ----   **第262便d(第54報 W4)で足したのは位置づけの文書固定だけである**(script の中身も yaml も不変):
+// ----     ⑥ **夜間/手動ジョブの候補**であって **PR ゲートには入れない**ことが script に書いてある
+// ----        (clone はネットワーク依存で、手元の 1.6〜1.8 s は CI の上限ではない)。
+// ----     ⑦ **取得失敗を root-fallback の合格に置き換えない**ことが script に書いてある
+// ----        (失敗したら informational へ落ちるだけで、「凍結基準で通った」とは書かない)。
 // ----   **手元の実測(第261便d・3 回)**: 合計 1.79 / 1.56 / 1.66 s・`.git` 2.6 MB・
 // ----   取り出した html は凍結 SHA の `beta/index.html` と**バイト同一**。**+1 分の予算には収まる**が、
 // ----   **CI ランナーの回線・GitHub 側の応答は測っていない**(手元の値は上限ではない)。
@@ -214,6 +254,10 @@ const add = (id, pass, detail) => {
     if (!/beta\/index\.html/.test(src)) bad.push('③取り出す対象が beta/index.html と書かれていない');
     for (const k of ['cloneSec', 'showSec', 'totalSec', 'gitKB'])
       if (!new RegExp('\\\\"' + k + '\\\\"').test(src) && !src.includes('"' + k + '"')) bad.push('④' + k + ' を返していない');
+    // 第262便d: 位置づけ(夜間/手動・PR ゲートに入れない・取得失敗を合格に置き換えない)の文書固定
+    if (!/夜間\/手動ジョブの候補/.test(src)) bad.push('⑥夜間/手動ジョブの候補である宣言が無い');
+    if (!/PR ゲートに入れるものではない/.test(src)) bad.push('⑥PR ゲートに入れない宣言が無い');
+    if (!/取得失敗を合格に置き換えない/.test(src)) bad.push('⑦取得失敗を合格に置き換えない宣言が無い');
   }
   // ⑤ **CI はまだ呼んでいない**(本便で yaml を変えていないことの機械確認)
   let wired = [];
@@ -229,6 +273,9 @@ const add = (id, pass, detail) => {
     + '**3.7 MB の 1 ファイルだけ**を取り出す。手元の実測(3 回): **合計 1.79 / 1.56 / 1.66 s**・'
     + '`.git` 2.6 MB(全履歴 448 MB の 0.6%)・取り出した html は凍結 SHA と**バイト同一**。'
     + `**CI yaml は 1 文字も変えていない**(workflows からの参照 ${wired.length} 件 —— 有効化は次便の裁定)`
+    + ' / **第262便d: 位置づけを文書で固定した** —— **夜間/手動ジョブの候補であって PR ゲートには入れない**。'
+    + '**frozen-file を取得できたときだけ** (b) を FAIL の基準として読み、**取得失敗は root-fallback の'
+    + '合格に置き換えない**(root-fallback の行は informational のままで fail を増やさない)'
     + ' —— **手元の秒数は CI の上限ではない**(ランナーの回線も GitHub 側の応答も測っていない)'
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
 }
@@ -17334,10 +17381,22 @@ if (!FAST) {
 //        **窓を宣言しない門は意味を持たない**(〔第260便c〕⑦-5)—— 数だけでなく窓と分母を一緒に固定する。
 //     ⑥ **E_shell 契約の照合**: `EshellState:"tint"` の宇宙だけ E_shell が定義され、無印は null で
 //        `undefinedTerms` に名前が挙がる。**K − 並進K = 殻の回転 E**(= 回転 E は K の中にある)。
-//   **書かないこと**: 「帳簿が閉じた」「規格化で残差が縮んだ」「1e−3 を通ったから合格」。
+//   第262便d(第54報・検証仮説 (9))で足したのは **正本の宣言と状態名**だけである(しきい値も値も不変):
+//     ⑦ **正本は活動部分**(`relActive`)。従来分母は**併記**する。**両方通過を「合」と呼ばない。**
+//     ⑧ 純関数 `HP.dfmLedgerGateState(rel, undefinedTerms)` が状態名を返す:
+//        "within"(活動分母で門以下)/ "over"(閉じた帳簿で門を超えた = **否を名乗れる唯一の状態**)/
+//        **"undefined-terms"**(未定義項が残る宇宙で門を超えた = **門外**。超過が未定義項の中に
+//        あるのか切り分けられないので「否」と呼ばない)/ "active-degenerate" / "no-denom"。
+//     ⑨ **門は廃さない**。実測(窓 T=96・h=0.016・6000 步)は
+//        **🎻 gw150914DFM 活動 8.462e−4 = "within"**(従来分母も同値 —— pinned 0 体)・
+//        **🎠 galaxyMeshSpiral 活動 1.0905e−2 = "undefined-terms"**(従来分母では 3.181e−4)・
+//        **🫐 tuc47DFM 0.3098 = "undefined-terms"**(従来分母も同値)。**どれも FAIL にしない。**
+//   **書かないこと**: 「帳簿が閉じた」「規格化で残差が縮んだ」「1e−3 を通ったから合格」
+//   「🎠🫐 は帳簿が壊れている」(未定義項があるので**判定そのものが未定義**である)。
 {
   const hasLN = await page.evaluate(() => typeof HP.dfmToyLedger === 'function'
-    && typeof HP.dfmLedgerRelative === 'function');
+    && typeof HP.dfmLedgerRelative === 'function'
+    && typeof HP.dfmLedgerGateState === 'function');   // 第262便d: 状態名の純関数
   if (!hasLN) {
     console.log('SKIP behavior.ledgerNorm(対象に第261便d の HP.dfmLedgerRelative なし — root 等)');
   } else {
@@ -17345,6 +17404,13 @@ if (!FAST) {
     const LEDGER_GATE_W261D = { T: 96, h: 0.016, steps: 6000, denom: ['legacy', 'active'],
       threshold: 1e-3, seedSource: 'preset.seed(宣言値 — 未宣言は id のハッシュ)',
       judgement: 'informational', read: 'residualDrag(無ければ residual)' };
+    // 第262便d: **正本は活動部分**。状態名の期待値(実測を窓にするのではなく、**状態の名前**を固定する)
+    const LEDGER_PRIMARY_W262D = { primary: 'active', alsoReported: 'legacy',
+      states: ['within', 'over', 'undefined-terms', 'active-degenerate', 'no-denom'],
+      expect: { gw150914DFM: 'within', galaxyMeshSpiral: 'undefined-terms', tuc47DFM: 'undefined-terms' },
+      judgement: 'informational',
+      note: '**「否」を名乗れるのは帳簿が閉じた宇宙で門を超えたとき("over")だけ**。'
+        + '未定義項が残る宇宙の超過は "undefined-terms"(門外)として記録する — FAIL にしない' };
     const ln = await page.evaluate((G) => {
       const byId = (id) => HP.allPresets().find((p) => p.id === id);
       const build = (id, patch) => {
@@ -17380,6 +17446,7 @@ if (!FAST) {
           read: (z.residualDrag === null) ? 'residual' : 'residualDrag',
           value: v, dragState: z.residualDragState, EshellState: z.EshellState,
           undefEshell: z.undefinedTerms.indexOf('Eshell') >= 0, Eshell: z.Eshell,
+          und: z.undefinedTerms.slice(), closed: z.closed,
           denom0: a.denom, chk, rel };
       };
       const capPatch = (pd) => { pd.physics.spaceMesh = { mode: 'vertex', meshEnergyCapacity: 1e6 }; };
@@ -17388,6 +17455,8 @@ if (!FAST) {
       const steps = G.fast ? 600 : G.steps;
       const gal = run('galaxyMeshSpiral', steps, G.h, capPatch);
       const gw = run('gw150914DFM', steps, G.h, capPatch);
+      // 第262便d: 🫐 tuc47DFM(容量 patch なし = 宣言のまま)も同じ型であることを 1 本だけ足す
+      const tuc = run('tuc47DFM', steps, G.h);
       // ④ 純関数の契約(退化した分母・null・0 分母)
       const F = HP.LEDGER_ACTIVE_FLOOR_REL;
       const pure = {
@@ -17411,7 +17480,17 @@ if (!FAST) {
           spinInK: Math.abs((z.K - Ktr) - Krot) <= 1e-9 * (Math.abs(z.K) || 1),
           spinShare: (z.K !== 0) ? Krot / z.K : null };
       });
-      return { gal, gw, pure, esh, steps };
+      // 第262便d ⑧: 状態名の純関数(門の値は動かさない)
+      const st = (z) => (z ? HP.dfmLedgerGateState(z.rel, z.und) : null);
+      const gate = { gal: st(gal), gw: st(gw), tuc: st(tuc),
+        // 契約: 閉じた帳簿でだけ "over"/judged が立つ・未定義項があれば "undefined-terms"
+        closedOver: HP.dfmLedgerGateState({ abs: 1, relLegacy: 1e-2, relActive: 1e-2, denomState: 'ok' }, []),
+        openOver: HP.dfmLedgerGateState({ abs: 1, relLegacy: 1e-2, relActive: 1e-2, denomState: 'ok' }, ['Emesh']),
+        closedWithin: HP.dfmLedgerGateState({ abs: 1, relLegacy: 1e-9, relActive: 1e-9, denomState: 'ok' }, []),
+        degen: HP.dfmLedgerGateState({ abs: 1, relLegacy: 1e-2, relActive: null, denomState: 'active-degenerate' }, []),
+        none: HP.dfmLedgerGateState({ abs: 1, relLegacy: null, relActive: null, denomState: 'no-denom' }, []),
+        threshold: HP.LEDGER_GATE_THRESHOLD };
+      return { gal, gw, tuc, pure, esh, steps, gate };
     }, { steps: LEDGER_GATE_W261D.steps, h: LEDGER_GATE_W261D.h, fast: FAST });
     const near = (a, b, t) => Math.abs(a - b) <= t * (Math.abs(b) || 1);
     const CK = {
@@ -17449,6 +17528,17 @@ if (!FAST) {
       gateSplits: FAST || (ln.gal.rel.relLegacy < LEDGER_GATE_W261D.threshold
         && ln.gal.rel.relActive > LEDGER_GATE_W261D.threshold),
       // ⑥ E_shell 契約
+      // 第262便d ⑦⑧⑨: 正本は活動部分・状態名の契約・実測 3 本の状態名
+      primaryDeclared: LEDGER_PRIMARY_W262D.primary === 'active'
+        && ln.gate.threshold === LEDGER_GATE_W261D.threshold
+        && ln.gate.gal.primary === 'active' && ln.gate.gw.primary === 'active',
+      stateContract: ln.gate.closedOver.state === 'over' && ln.gate.closedOver.judged === true
+        && ln.gate.openOver.state === 'undefined-terms' && ln.gate.openOver.judged === false
+        && ln.gate.closedWithin.state === 'within'
+        && ln.gate.degen.state === 'active-degenerate' && ln.gate.none.state === 'no-denom',
+      stateObserved: FAST || (ln.gate.gw.state === LEDGER_PRIMARY_W262D.expect.gw150914DFM
+        && ln.gate.gal.state === LEDGER_PRIMARY_W262D.expect.galaxyMeshSpiral
+        && (!ln.tuc || ln.gate.tuc.state === LEDGER_PRIMARY_W262D.expect.tuc47DFM)),
       eshellContract: ln.esh.every((r) => !!r && r.spinInK
         && ((r.state === 'tint') ? (r.Eshell !== null && !r.undefNamed)
           : (r.state === 'spin-in-K' && r.Eshell === null && r.undefNamed))),
@@ -17476,6 +17566,13 @@ if (!FAST) {
       + ` / 純関数 HP.dfmLedgerRelative: null/NaN は null=${CK.pureNull}・`
       + `活動部分が floorRel(${ln.pure.floor})以下なら relActive は **null**=${CK.pureDegenerate}`
       + `(0 で割った大きな数を出さない)・分母 0 は no-denom=${CK.pureNoDenom}`
+      + ` / **第262便d: 正本は活動部分**(従来分母は併記・**両方通過を「合」と呼ばない**)・`
+      + `門 ${ln.gate.threshold} の状態名: `
+      + `\u{1F3BB}gw150914DFM=**${ln.gate.gw.state}**(活動 ${ex(ln.gw.rel.relActive)}・未定義項 ${ln.gw.und.length} 件)・`
+      + `\u{1F3A0}galaxyMeshSpiral=**${ln.gate.gal.state}**(活動 ${ex(ln.gal.rel.relActive)}・従来 ${ex(ln.gal.rel.relLegacy)}・未定義項 ${ln.gal.und.length} 件)`
+      + (ln.tuc ? `・\u{1FAD0}tuc47DFM=**${ln.gate.tuc.state}**(${ex(ln.tuc.rel.relActive)}・未定義項 ${ln.tuc.und.length} 件)` : '')
+      + ` —— **"undefined-terms" は門外であって FAIL ではない**(超過が未定義項の中にあるのかを切り分けられない)。`
+      + `「否」を名乗れるのは**帳簿が閉じた宇宙の "over"** だけ=${CK.stateContract}`
       + ` / **E_shell 契約**(検証仮説 (12)「T_int だけ・回転 E は K」): `
       + ln.esh.map((r) => `${r.emoji}${r.id}=${r.state}`
         + (r.Eshell === null ? '(未定義)' : `(${r.Eshell.toExponential(4)})`)).join(' / ')
@@ -17940,7 +18037,7 @@ if (!FAST) {
       };
       const t5 = toy(5), t10 = toy(10);
       const repEq = !t5.err && !t10.err && t5.x.every((x, i) => Object.is(x, t10.x[i]));
-      const obsPull = (typeof HP.frameWeightPow === 'function') && HP.frameWeightPow(HP.allPresets().find((q) => q.id === 'alphaCenAB').physics) > 0;   // 第242便: ✨ は pull(generic)
+      const obsPull = (typeof HP.frameWeightIsPull === 'function') && HP.frameWeightIsPull(HP.allPresets().find((q) => q.id === 'alphaCenAB').physics);   // 第242便: ✨ は pull(generic)/第262便d: 番兵 0 を使わず isPull で判定
       return { decl, on, off, sw, relOnOff, relSwap, repEq, t5, t10, ob0, ob1, obsEq, obsPull };
     });
     const dOK = Object.values(dq.decl).every((d) => d.hasDragQ === true && d.kKind === 0 && d.qs.every((q) => Math.abs(q.decl - q.calc) < 1e-9) && d.aOK);
@@ -18081,8 +18178,8 @@ if (!FAST) {
         const pD = HP.allPresets().find((q) => q.id === d), pO = HP.allPresets().find((q) => q.id === o); if (!pD || !pO) { fl[d] = null; continue; }
         const mA = pD.bodies[0].m, mB = pD.bodies[1].m, a = Math.hypot(pD.bodies[0].x - pD.bodies[1].x, pD.bodies[0].y - pD.bodies[1].y);
         // 第242便: フレーム重みの世代を宣言から読み、pull なら D₀ᵖ と指数 p を渡す
-        const pwD = HP.frameWeightPow ? HP.frameWeightPow(pD.physics) : 0;
-        const D0D = pwD > 0 ? pD.physics.D0pull : pD.physics.D0;
+        const pwD = HP.frameWeightPow ? HP.frameWeightPow(pD.physics) : 1;           // 第262便d: share も p=1(番兵 0 は廃止)
+        const D0D = HP.frameWeightIsPull(pD.physics) ? pD.physics.D0pull : pD.physics.D0;
         const chi = HP.dfmBinaryChi(mA, mB, a, D0D, pD.physics.softening, pwD);
         fl[d] = { pred: HP.dfmBinaryInertiaFactor(mA, mB, chi.chiA, chi.chiB, pD.physics.kFrame), led: (mA + mB) / (pO.bodies[0].m + pO.bodies[1].m) }; }
       // ④ 編集欄 #beDq(✴️ A を選択 → 4.611… が見える → 3 へ → 空欄で既定へ)
@@ -18206,7 +18303,20 @@ if (!FAST) {
       const mk = (ph) => { const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'alphaCenAB'))); delete pd.physics.frameWeight; Object.assign(pd.physics, ph || {}); const v = HP.validatePreset(pd); return { sig: JSON.stringify(v.preset.physics), fw: v.preset.physics.frameWeight, warn: (v.warnings || []).length }; };
       const d0 = mk(), dP = mk({ frameWeight: 'pull' }), dS = mk({ frameWeight: 'share' }), d3 = mk({ frameWeight: 'pull3' }), dX = mk({ frameWeight: 'x' });
       const def = { sigSame: d0.sig === dP.sig && d0.fw === undefined, share: dS.fw === 'share' && dS.warn === 0, p3: d3.fw === 'pull3' && d3.warn === 0, bad: dX.fw === undefined && dX.warn === 1,
-        pow: HP.frameWeightPow({}) === 2 && HP.frameWeightPow({ frameWeight: 'share' }) === 0 && HP.frameWeightPow({ frameWeight: 'pull3' }) === 3 && HP.frameWeightPow({ frameWeight: 'pull4' }) === 4 && HP.FRAME_WEIGHT_DEFAULT === 'pull' };
+        // 第262便d(第54報・統括が設定した検証仮説 (1)): **番兵 0 を廃した**。share と未知名は **p=1**(核 w=m/√(d²+ε²))
+        // をそのまま返す。「pull 族か」は `frameWeightIsPull` **だけ**が答える(`pw>0` を真偽に使わない)。
+        pow: HP.frameWeightPow({}) === 2 && HP.frameWeightPow({ frameWeight: 'share' }) === 1 && HP.frameWeightPow({ frameWeight: 'pull3' }) === 3 && HP.frameWeightPow({ frameWeight: 'pull4' }) === 4 && HP.FRAME_WEIGHT_DEFAULT === 'pull'
+          && HP.frameWeightPow({ frameWeight: 'nonsense' }) === 1 };
+      // 第262便d: 番兵監査 —— 0 は**どの宣言でも返らない**・isPull は 4 語だけ真・pull 族の p は 2/3/4
+      const sentinel = { zeroNever: ['share', 'pull', 'pull3', 'pull4', 'nonsense', undefined]
+        .every((v) => HP.frameWeightPow(v === undefined ? {} : { frameWeight: v }) !== 0),
+        isPull: HP.frameWeightIsPull({}) === true && HP.frameWeightIsPull({ frameWeight: 'pull' }) === true
+          && HP.frameWeightIsPull({ frameWeight: 'pull3' }) === true && HP.frameWeightIsPull({ frameWeight: 'pull4' }) === true
+          && HP.frameWeightIsPull({ frameWeight: 'share' }) === false && HP.frameWeightIsPull({ frameWeight: 'nonsense' }) === false
+          && HP.frameWeightIsPull(null) === true,
+        // p=1 と旧番兵 0 は dfmBinaryChi で**同じ核**(1/√s)を通る(Math.pow(x,-0.5) と最下位ビットが違いうる)
+        chiSame: (() => { const a2 = HP.dfmBinaryChi(500, 500, 240, 1e-4, 0.05, 0), b2 = HP.dfmBinaryChi(500, 500, 240, 1e-4, 0.05, 1);
+          return Object.is(a2.chiA, b2.chiA) && Object.is(a2.wBA, b2.wBA); })() };
       // legacy 内蔵サンプルは "share" 明示(1 bit 不変)・pull 世代の現実較正 14 本は未宣言か "pull" 明示
       // 第247便b: ⏰ gw150914Merge4s(🎻 の複製)と ⚛️ gw150914SpinDipole(🎐 の複製)も pull 世代
       const MIG = ['earthMoonRealKF1', 'mercuryRealKF1', 'saturnRingRealKF1', 'alphaCenABDFM', 'siriusABDFM', 'psrDoubleABDFM', 'gw150914DFM', 'alphaCenAB', 'siriusAB', 'psrDoubleAB', 'gw150914',
@@ -18238,12 +18348,13 @@ if (!FAST) {
       const acen = HP.dfmPullEntrainment({ M: 1.8e30, d: 3.5e12, D0p: D0P, ext: [] });
       const psr = HP.dfmPullEntrainment({ M: 2.5e30, d: 9.0e8, D0p: D0P, ext: [] });
       const galaxy = 1e41 / (2.5e20 * 2.5e20);
-      return { rows, def, nShare, nOther, wrong: wrong.slice(0, 5), e0: { k: e0.k, fw: e0.fw, D0pull: e0.D0pull, warn: e0.warn }, shareMoves: !e0.o.every((x, i) => Object.is(x, eS.o[i])), kShare: eS.k,
+      return { rows, def, sentinel, nShare, nOther, wrong: wrong.slice(0, 5), e0: { k: e0.k, fw: e0.fw, D0pull: e0.D0pull, warn: e0.warn }, shareMoves: !e0.o.every((x, i) => Object.is(x, eS.o[i])), kShare: eS.k,
         pp2, pp3, pp4, ground, gps, moon, acen, psr, galaxyOverD0p: galaxy / D0P };
     }, { D0P3: 1.42216e-7, D0P4: 1e-9 });
     const near = (a, b, tol) => Math.abs(a / b - 1) < tol;
     const win = (pp) => !!pp && pp.dPeri > 2.85 && pp.dPeri < 3.15;
     const CK = { toy: fp.rows.every((r) => near(r.chi, r.chiAn, 1e-5) && r.k === 0 && r.warn === 0), def: Object.values(fp.def).every(Boolean),
+      sentinel: Object.values(fp.sentinel).every(Boolean),
       legacy: fp.nShare >= 80 && fp.nOther === 0 && fp.wrong.length === 0,
       moonDecl: fp.e0.fw === undefined && fp.e0.D0pull === 3.24204e-5 && fp.e0.k === 0 && fp.e0.warn === 0 && fp.shareMoves && fp.kShare === 2,
       moonCal2: win(fp.pp2), moonCal3: win(fp.pp3), moonReference4: !!fp.pp4 && fp.pp4.dPeri > 1.5 && fp.pp4.dPeri < 2.0,
@@ -18254,7 +18365,10 @@ if (!FAST) {
     add('behavior.framePull', bad.length === 0,
       (bad.length ? `不成立=[${bad.join(',')}] ` : '')
       + `玩具(p=2/3/4・geoPN 0/2・h=0/10/100): 解析一致 max|Δχ/χ|=${Math.max(...fp.rows.map((r) => Math.abs(r.chi / r.chiAn - 1))).toExponential(1)} / `
-      + `既定 pull: 署名不変=${fp.def.sigSame}・share/pull3 明示=${fp.def.share}/${fp.def.p3}・不正値=警告${fp.def.bad}・pow=${fp.def.pow} / legacy share 明示 ${fp.nShare} 本(未固定 ${fp.nOther}${fp.wrong.length ? ' ' + fp.wrong.join(',') : ''}) / `
+      + `既定 pull: 署名不変=${fp.def.sigSame}・share/pull3 明示=${fp.def.share}/${fp.def.p3}・不正値=警告${fp.def.bad}・pow=${fp.def.pow} / `
+      + `**第262便d: 番兵 0 → 1**(share と未知名は p=1 をそのまま返す): 0 はどの宣言でも返らない=${fp.sentinel.zeroNever}・`
+      + `frameWeightIsPull が唯一の pull 判定=${fp.sentinel.isPull}・dfmBinaryChi は p=0 と p=1 で**ビット同一**=${fp.sentinel.chiSame}`
+      + `(**121 本 × 600 步の状態は基点とビット同一** —— 番兵の整理であって規則の変更ではない) / legacy share 明示 ${fp.nShare} 本(未固定 ${fp.nOther}${fp.wrong.length ? ' ' + fp.wrong.join(',') : ''}) / `
       + `🌘 宣言(pull・D0pull=${fp.e0.D0pull}・kKind ${fp.e0.k}): 近点移動 p=2 ${f3(fp.pp2)}°/周・p=3(D0pull=${1.42216e-7}) ${f3(fp.pp3)}(窓 2.85〜3.15・8.85 年)・p=4 の履歴比較点 D0pull=${1e-9} で ${f3(fp.pp4)}(窓 1.5〜2.0 — 第243便で門を >0 にしたので最大値の主張ではない)・share 明示は特別化(kKind ${fp.kShare})で軌道が動く=${fp.shareMoves} / `
       + `物理予測(p=2・D0p=3.24204e8 kg/m²): 地表 χ_E=${fp.ground.chi.toFixed(4)}(残風 ${fp.ground.residual.toFixed(0)} m/s — 第34報: MM の非観測量)・GPS ${fp.gps.chi.toFixed(4)}・月 ${fp.moon.chi.toFixed(4)}・α Cen 相手 ${fp.acen.chi.toExponential(2)}・PSR ${fp.psr.chi.toFixed(5)}・銀河/D0p ${fp.galaxyOverD0p.toExponential(1)}`);
   } else {
@@ -18408,9 +18522,11 @@ if (!FAST) {
           const d = Math.hypot(rx, eps);
           // 第242便: フレーム重みの世代で χ の定義が変わる — share は w=m/√(a²+ε²)・D₀、
           // pull(p=2/3/4)は w=m/(a²+ε²)^{p/2}・D₀ᵖ(physics.D0pull)。QA は宣言から読む
-          const pw = HP.frameWeightPow ? HP.frameWeightPow(pd.physics) : 0;
-          const D0f = pw > 0 ? pd.physics.D0pull : pd.physics.D0;
-          const wOf = (m) => pw > 0 ? m / Math.pow(rx * rx + eps * eps, pw / 2) : m / d;
+          // 第262便d: 番兵 0 は廃止 —— 指数は frameWeightPow(share も 1)・pull 族かは frameWeightIsPull
+          const pw = HP.frameWeightPow ? HP.frameWeightPow(pd.physics) : 1;
+          const isPull = HP.frameWeightIsPull ? HP.frameWeightIsPull(pd.physics) : false;
+          const D0f = isPull ? pd.physics.D0pull : pd.physics.D0;
+          const wOf = (m) => isPull ? m / Math.pow(rx * rx + eps * eps, pw / 2) : m / d;
           const chiOf = (m) => { const w = wOf(m); return w / (D0f + w); };
           const chi = (w) => w / (D0f + w);   // 旧 chi-law-v1 分岐用(share の w を直接受ける)
           const ma = fA * mc.baseMass[0], mb = fB * mc.baseMass[1], mt = ma + mb;
@@ -32516,6 +32632,11 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
 // ---- 第257便c(第49報「引きずり量を反映する度合は、パラメータの空間メッシュにスライダーを追加して
 // 調整可能にする」): ui.spaceMeshGain ----
 // 第261便a(第53報)で 3 点足した(⑥指数スライダー ⑦直値 100/上限 ⑧旧 localStorage 値の写像)。
+// 第262便d(第54報・統括が設定した検証仮説 (2))で 2 点足した —— **どちらも表示専用**:
+//   ⑨ **凡例に `nOk/nodes` を出す**(格子が何交点読めているか)。
+//   ⑩ **格子消失の警告**: `nOk < nodes × lossFrac`(宣言値 0.25)で **1 行**出す(琥珀)。
+//      **g は保持する**(勝手に 1 へ戻さない)—— 戻す操作はパラメータ行の ⟲ ボタン(`#smGainReset`)。
+//      **presetSig にも S.params にも入らない**(gain と同じ流儀)。
 // 機械固定するのは 5 点: ①スライダーが「空間メッシュ」トグルの直下にあり、**位置**を 0〜100 で刻み
 // ②動かすと overlays.spaceMesh.gain に入り、格子が実際に変わる ③**presetSig と S.params に入らない**
 // (gain を動かしても全内蔵 120 本の署名が 1 文字も変わらない・params に gain 鍵が生えない)
@@ -32528,6 +32649,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   await gg.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
   const hasGain = await gg.evaluate(() => !!(window.HP && typeof HP.setSpaceMeshGain === 'function'
     && typeof HP.spaceMeshGainFromPos === 'function'   // 第261便a の指数スライダー
+    && document.getElementById('smGainReset')          // 第262便d の「1 へ戻す」ボタン
     && document.getElementById('smGainRange')));
   if (hasGain) {
     const r = await gg.evaluate(() => {
@@ -32603,6 +32725,32 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       // ⑤ 保持(localStorage)
       o.store = localStorage.getItem('hp_sm_gain');
       o.storeOk = Math.abs(parseFloat(o.store) - 1.35) < 1e-9;
+      // ⑨⑩ 第262便d: 格子消失の警告(**表示専用**)。🎠 で g を上げると nOk が落ちることを実測する
+      {
+        const CC = HP.spaceGridConst();
+        HP.loadPreset('galaxyMeshSpiral', false);
+        const S2 = HP.sim;
+        const at = (g) => { HP.setSpaceMeshGain(g); HP.spaceGridInvalidate(S2); HP.spaceGridEnsure(S2);
+          const st = HP.spaceGridNow(S2);
+          return { gain: st.gain, nOk: st.grid.nOk, nodes: st.grid.nodes,
+            loss: st.grid.gridLoss, lossFrac: st.grid.lossFrac }; };
+        o.loss = { g1: at(1), g100: at(100), lossFrac: CC.lossFrac };
+        // 宣言値が凡例と観測口で同じ 1 つであること・g=1 では警告が出ないこと
+        o.lossOk = CC.lossFrac === 0.25 && o.loss.g1.lossFrac === CC.lossFrac
+          && o.loss.g1.loss === (o.loss.g1.nOk < o.loss.g1.nodes * CC.lossFrac)
+          && o.loss.g100.loss === (o.loss.g100.nOk < o.loss.g100.nodes * CC.lossFrac)
+          && o.loss.g1.loss === false;
+        // 「1 へ戻す」ボタン: g は**押すまで変わらない**(警告は自動で戻さない)
+        const before = HP.spaceMeshGain(S2);
+        const btn = document.getElementById('smGainReset');
+        o.reset = { before, exists: !!btn, sameRow: !!(btn && btn.closest('.prow')
+          && btn.closest('.prow').contains(document.getElementById('smGainRange'))) };
+        if (btn) btn.click();
+        o.reset.after = HP.spaceMeshGain(S2);
+        o.resetOk = o.reset.exists && o.reset.sameRow && o.reset.before === 100
+          && o.reset.after === CC.gainDef;
+        HP.setSpaceMeshGain(1.35);   // ⑤ の localStorage 検査の値へ戻す
+      }
       return o;
     });
     // ④ A/B の両側で同じ値
@@ -32621,7 +32769,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     }));
     const abOk = abr.a === abr.b && abr.a === 1.15 && abr.ovA === 1.15 && abr.ovB === 1.15;
     const ok = r.placeOk && r.moveOk && r.sigOk && r.storeOk && abOk
-      && r.expoOk && r.directOk && r.legacyOk && ggErr.length === 0;
+      && r.expoOk && r.directOk && r.legacyOk && r.lossOk && r.resetOk && ggErr.length === 0;
     add('ui.spaceMeshGain', ok,
       `①位置と値域(第258便c: 1 行化): 行=「${r.place.rowLabel}」(同じ行のチェックボックス=${r.place.sameRowCheckbox}・` +
       `値は直値入力=${r.place.valIsInput}・同じ行=${r.place.sameRowVal})・` +
@@ -32636,7 +32784,11 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `67→${r.expo.pos[67]}(既定 ${r.expo.defPos})・100→${r.expo.pos[100]}・等比 ${r.expo.r1.toFixed(6)}/${r.expo.r2.toFixed(6)}/${r.expo.r3.toFixed(6)}・` +
       `往復一致=${r.expo.roundTrip}・上端超(500)は位置 ${r.expo.overMax}=${r.expoOk} / ` +
       `⑦直値: 100→${r.direct.g100}・上限超→${r.direct.gCap}・負→${r.direct.gNeg}・0.003→${r.direct.gSmall}・非数→${r.direct.gNaN}=${r.directOk} / ` +
-      `⑧旧 localStorage 値(0〜2)の写像: ` + Object.keys(r.legacy).map((k) => `${k}→位置 ${r.legacy[k].pos}`).join('・') + `=${r.legacyOk}` +
+      `⑧旧 localStorage 値(0〜2)の写像: ` + Object.keys(r.legacy).map((k) => `${k}→位置 ${r.legacy[k].pos}`).join('・') + `=${r.legacyOk} / ` +
+      `⑨⑩格子消失の警告(第262便d・検証仮説 (2)・**表示専用**): 境界=nOk < nodes×${r.loss.lossFrac}(宣言値)・` +
+      `🎠 g=1 → ${r.loss.g1.nOk}/${r.loss.g1.nodes}(警告 ${r.loss.g1.loss})・` +
+      `g=100 → ${r.loss.g100.nOk}/${r.loss.g100.nodes}(警告 ${r.loss.g100.loss})=${r.lossOk}・` +
+      `**g は警告で自動に戻らない**(${r.reset.before} のまま)→ ⟲ を押して ${r.reset.after}=${r.resetOk}` +
       (ggErr.length ? ` / pageErrors=[${ggErr.slice(0, 2).join(' | ')}]` : ''));
   } else {
     console.log('SKIP ui.spaceMeshGain(対象に第257便c の gain スライダーなし — root 等)');
