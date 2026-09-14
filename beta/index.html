@@ -888,7 +888,7 @@ ja: {
   tgDragPauseDesc:"画面のドラッグ・ピンチ・ホイール操作をしている間だけ物理計算を一時停止し、その1フレームぶんの計算時間をまるごと操作の追従に回す(既定 ON・共通設定・永続)。粒子の多いサンプルほど効く。▶/⏸ のポーズ状態とは別の内部的な抑制なので、指を離せば元の再生状態へそのまま戻る(ボタン表示は変わらない)。物理の式・結果は一切変わらない — 止まっている間ステップを進めないだけ。OFF にすると操作中も計算を続けるが、ドラッグの追従は1フレームぶん(重いサンプルでは数百ms)遅れる。",
   // 第175便(レビュー第5巡 P0): step 会計の繰越化 — 診断1行と簡易ベンチ(開発者向け)
   tgStepDiag:"ステップ診断を表示",
-  tgStepDiagDesc:"HUD の末尾に、1フレームあたりのステップ会計を1行だけ追記する開発者向けの表示(既定 OFF・共通設定・永続)。「step 要求→実行 (+繰越) ms/步 trim 打切り回数/窓 fps 実効×倍率(要求×倍率) 破棄 累計」の並びで、要求した歩数のうち何步が実際に走り・何步が次フレームへ繰り越され・何步が上限超過で破棄されたかがその場で読める。実効倍率は「実行歩数×dt ÷ 壁時計」を「時間倍率×1・60fps で全要求を実行できたときの進み」で割った値なので、括弧内の要求倍率と直接比べられる(実効 < 要求 なら、その差がそのまま繰越+破棄として現れている)。**第259便a 追記**: 座標変換慣性(physics.spaceMesh の inertia:coordinate)を宣言した宇宙では行末に「mesh:<停止理由> N=<対象数>」が、トイの測地線モード(geoPN=3)では「geoToy:<停止理由> N=<対象数>」が付く。2 体だけの系は非頂点が 0 なので mesh:noTargets と出る(黙って素通りさせないための読み口)。表示のみ・物理は一切変わらない。",
+  tgStepDiagDesc:"HUD の末尾に、1フレームあたりのステップ会計を1行だけ追記する開発者向けの表示(既定 OFF・共通設定・永続)。「step 要求→実行 (+繰越) ms/步 trim 打切り回数/窓 fps 実効×倍率(要求×倍率) 破棄 累計」の並びで、要求した歩数のうち何步が実際に走り・何步が次フレームへ繰り越され・何步が上限超過で破棄されたかがその場で読める。実効倍率は「実行歩数×dt ÷ 壁時計」を「時間倍率×1・60fps で全要求を実行できたときの進み」で割った値なので、括弧内の要求倍率と直接比べられる(実効 < 要求 なら、その差がそのまま繰越+破棄として現れている)。**第259便a 追記**: 座標変換慣性(physics.spaceMesh の inertia:coordinate)を宣言した宇宙では行末に「mesh:<停止理由> N=<対象数>」が、トイの測地線モード(geoPN=3)では「geoToy:<停止理由> N=<対象数>」が付く。**第262便a 追記**: geoPN=3 を選んでも入場条件(kFrame=0・空間メッシュの慣性/織り込みと排他)が立たないときは、値を 3 のまま保って「geoToy:denied」と出る(力学は geoPN=2 と同じで走る)。2 体だけの系は非頂点が 0 なので mesh:noTargets と出る(黙って素通りさせないための読み口)。表示のみ・物理は一切変わらない。",
   benchLabel:"物理ベンチ(200步)",
   benchDesc:"いまの状態の複製に対して、描画も HUD も通さずに 200 步だけ回し、1步あたりの所要時間を測る開発者向けの機能(共通設定)。複製で走らせるので本編の座標時間・粒子は 1 ビットも変わらない。表示される ms/步 が 16ms 近い、あるいはそれを超えるなら「重いのは物理」で、逆に ms/步 が小さいのに fps が出ないなら「重いのは描画」— この 1 行で切り分けられる。併記の「予算内 n 步」は、1フレームの物理予算(12ms)にこの ms/步 なら何步入るかの目安。",
   benchRun:"測定",
@@ -920,6 +920,11 @@ ja: {
   cLinkDesc:"ONの間、「光速 c₀」を変更すると k=新c₀/旧c₀ の力学的相似変換を現在の状態へ自動適用し、見た目の運動を保ちます(G・bM・接触定数 ×k²/η_rad・κs ×k/時間倍率 ÷k/速度・スピン・コアΩ ×k/内部エネルギー ×k²/コア源 ×k³/箱 H0 ×k)。κ は G/c² が不変なので据え置かれ、物理対応ロックとも整合します。スケールフリーなエンジンでは c₀ の値そのものに意味はなく、この連動で「c₀ を変えても同じ宇宙を記述できる」ことを確かめられます。注意: サブステップ離散化・値域クランプ(特に時間倍率 0.01〜100)・放射冷却の T^p(p≠1)では厳密相似が破れます。画面全体の実験的設定で、プリセットやセーブには保存されません。",
   cLinkApplied:(k)=>"相似変換を適用: k="+k+"(G×k²・速度×k・時間倍率÷k 等)",
   cLinkClamped:(keys)=>"⚠ 相似変換: "+keys+" が値域クランプされ厳密相似が破れています",
+  /* 第262便a: geoPN=3(トイ)の入場条件を満たさないときの 1 行。値は 3 のまま保ち、力学は geoPN=2 と同じで走る */
+  geoToyDenied:(why)=>"⚠ 測地線モード geoPN=3(トイ)の入場条件が立っていません("
+    +(why==="kFrame"? "空間引きずり kFrame>0 — トイは kFrame=0 専用" : "空間メッシュの慣性/織り込みと排他")
+    +")。値は 3 のまま保ち、力学は geoPN=2 と同じで走ります(ステップ会計の geoToy:denied)",
+  geoToyOn:"測地線モード geoPN=3(トイ)が有効になりました。サンプルが lawVersion を宣言していなければ scalar を既定として使います(較正ではありません)",
   divUndo:"⏪ 直前の設定に戻して初めから",
   divRestored:"発散前の設定に戻し、初期配置から再開できます(▶実行)",
   
@@ -1544,7 +1549,7 @@ en: {
   tgDragPauseDesc:"While you drag, pinch or wheel-zoom the view, physics stepping is paused so that the whole frame budget goes into following your finger or mouse (default ON, General, persisted). The heavier the sample, the more it helps. This is an internal suppression, separate from the ▶/⏸ pause state: release the pointer and playback resumes exactly as before, and the button never changes. The physics equations and results are untouched — steps simply are not taken while it is held. Turn it OFF to keep computing during input, at the cost of one physics frame (hundreds of ms on heavy samples) of lag in the drag.",
   // wave 175 (5th review round, P0): carried-over step accounting — one-line diagnostics and a quick bench (developer-facing)
   tgStepDiag:"Show step diagnostics",
-  tgStepDiagDesc:"Appends one developer-facing line to the HUD with the per-frame step accounting (default OFF, General, persisted). It reads \"step requested→executed (+carried) ms/step trim trims/window fps eff ×rate (req ×rate) cancelled total\", so you can see at a glance how many of the requested steps actually ran, how many were carried over to the next frame, and how many were cancelled at the backlog cap. The effective rate is (executed steps × dt) / wall-clock seconds, divided by the advance you would get at time-scale ×1 and 60 fps — so it is directly comparable with the requested rate in parentheses (whenever effective < requested, the gap is exactly what shows up as carried + cancelled). WAVE 259a ADDS: when a sample declares the coordinate inertia (physics.spaceMesh with inertia set to coordinate) the line ends with mesh:<stop reason> N=<targets>, and with the toy geodesic mode (geoPN=3) it ends with geoToy:<stop reason> N=<targets>. A two-body system has no non-vertex particles, so it reads mesh:noTargets - a read-out so that nothing passes through silently. Display only; the physics never changes.",
+  tgStepDiagDesc:"Appends one developer-facing line to the HUD with the per-frame step accounting (default OFF, General, persisted). It reads \"step requested→executed (+carried) ms/step trim trims/window fps eff ×rate (req ×rate) cancelled total\", so you can see at a glance how many of the requested steps actually ran, how many were carried over to the next frame, and how many were cancelled at the backlog cap. The effective rate is (executed steps × dt) / wall-clock seconds, divided by the advance you would get at time-scale ×1 and 60 fps — so it is directly comparable with the requested rate in parentheses (whenever effective < requested, the gap is exactly what shows up as carried + cancelled). WAVE 259a ADDS: when a sample declares the coordinate inertia (physics.spaceMesh with inertia set to coordinate) the line ends with mesh:<stop reason> N=<targets>, and with the toy geodesic mode (geoPN=3) it ends with geoToy:<stop reason> N=<targets>. WAVE 262a ADDS: when geoPN=3 is selected but the entry conditions do not hold (kFrame=0, exclusive with the space-mesh inertia/weave), the value stays 3 and the line reads geoToy:denied (the dynamics run exactly as geoPN=2). A two-body system has no non-vertex particles, so it reads mesh:noTargets - a read-out so that nothing passes through silently. Display only; the physics never changes.",
   benchLabel:"Physics bench (200 steps)",
   benchDesc:"Runs 200 steps on a copy of the current state with no rendering and no HUD, and reports the time per step (General, developer-facing). It runs on a copy, so the live coordinate time and bodies are not touched by a single bit. If the reported ms/step is near or above 16 ms, the cost is in the physics; if ms/step is small yet the frame rate is poor, the cost is in the rendering — this one line separates the two. The \"n steps per budget\" figure says how many steps fit into one frame's physics budget (12 ms) at this cost.",
   benchRun:"Measure",
@@ -1576,6 +1581,11 @@ en: {
   cLinkDesc:"While ON, changing the light speed c₀ automatically applies the dynamical similarity transform with k = new c₀ / old c₀ to the current state, preserving the visible motion (G, b_m, contact constants ×k²; η_rad, κs ×k; time scale ÷k; velocities, spins, core Ω ×k; internal energy ×k²; core source ×k³; box H0 ×k). κ stays put since G/c² is invariant — consistent with the correspondence lock. In a scale-free engine the value of c₀ itself carries no meaning; this link lets you verify that the same universe can be described at any c₀. Caveats: exact similarity breaks under substep discretization, range clamps (especially time scale 0.01–100), and radiative cooling's T^p with p≠1. A global experimental setting — not stored in presets or saves.",
   cLinkApplied:(k)=>"Similarity transform applied: k="+k+" (G×k², velocities ×k, time scale ÷k, …)",
   cLinkClamped:(keys)=>"⚠ Similarity transform: "+keys+" clamped to range — exact similarity broken",
+  /* Wave 262a: one line when the geoPN=3 toy cannot be entered. The value stays 3; the dynamics run exactly as geoPN=2 */
+  geoToyDenied:(why)=>"⚠ The geodesic mode geoPN=3 (toy) cannot be entered ("
+    +(why==="kFrame"? "frame dragging kFrame>0 — the toy is kFrame=0 only" : "exclusive with the space-mesh inertia/weave")
+    +"). The value stays 3 and the dynamics run exactly as geoPN=2 (see geoToy:denied in the step accounting)",
+  geoToyOn:"The geodesic mode geoPN=3 (toy) is now active. If the sample declares no lawVersion, scalar is used as the runtime default (this is not a calibration)",
   divUndo:"⏪ Restore last-good settings & restart",
   divRestored:"Pre-divergence settings restored — press ▶ Run to restart from the initial layout",
   
@@ -2158,7 +2168,7 @@ en: {
     cHeat:"Heat-capacity coefficient, active only in the internal-temperature mode (samples with thermal:\"tint\"). A particle's heat energy is E=C·m·T_int, so a dissipated ΔE raises it by ΔT_int=ΔE/(C·m) (A9′/E9). Larger C means the same dissipation heats less. It does nothing in the default spin-as-heat mode (thermal omitted).",
     gravityX:"Uniform external gravity acting horizontally across the whole scene (v1.17). It does not contribute to determinacy W, so it builds a 'ground lab' without distorting clocks, light or dragging. Momentum exchange is ledgered.",
     gravityY:"Uniform external gravity acting vertically (+y is down on screen). The 'downward gravity' of ⚾ free fall, ♨️ convection and 🧪 buoyancy. Beaker-tag samples (♨️🧪) default to 0.031 (≈9.8 m/s² converted — wave 98: the beaker tag inherited the old everyday calibration); the everyday tag (⚾) uses the real value 9.8 (9.8 m/s² as-is). Set 0 for weightlessness.",
-    geoPN:"The v2.0 geodesic mode (E12). At 1, matter's motion is derived by an action principle from the same ψ=W·κ that slows clocks, enabling the 1PN correction (☿); E6′ dragging on matter is disabled (no double counting). At 2, the unified v−u geodesic law (stage 2): frame transport, vorticity Coriolis (the true face of dragging) and 1PN all follow from one equation derived with u≠0 — exactly equal to 1 when kFrame=0. 0 = legacy. AT 3, A SEPARATE TOY PATH (wave 259a, the complex determinacy field) that is EXCLUSIVE with E6-prime, 1PN and the coordinate inertia — no double application. It is accepted only when the sample declares physics.spaceMesh.lawVersion (scalar/local/complex) and kFrame=0; without that declaration it is rounded down to 2 as before, and it is rejected outright for the reality-calibration class (sampleClass:calibration).",
+    geoPN:"The v2.0 geodesic mode (E12). At 1, matter's motion is derived by an action principle from the same ψ=W·κ that slows clocks, enabling the 1PN correction (☿); E6′ dragging on matter is disabled (no double counting). At 2, the unified v−u geodesic law (stage 2): frame transport, vorticity Coriolis (the true face of dragging) and 1PN all follow from one equation derived with u≠0 — exactly equal to 1 when kFrame=0. 0 = legacy. AT 3, A SEPARATE TOY PATH (wave 259a, the complex determinacy field) that is EXCLUSIVE with E6-prime, 1PN and the coordinate inertia — no double application. Declaring 3 in a sample JSON requires physics.spaceMesh.lawVersion (scalar/local/complex); a JSON without that declaration is still rounded down to 2 on load, and it is rejected outright for the reality-calibration class (sampleClass:calibration). WAVE 262a: A VALUE OF 3 SET FROM THIS ROW (the UI) IS NO LONGER REWRITTEN TO 2 - samples that declare no lawVersion use the runtime default scalar, and when the entry conditions cannot hold (kFrame>0, or the space-mesh inertia/weave is on) the value stays 3, one warning line is shown, and the dynamics run exactly as geoPN=2 (geoToy:denied in the step accounting).",
     lambdaPN:"Strength of the 1PN correction in geodesic mode (geoPN≥1 — also gates the a₁ₚₙ(w) term of geoPN=2), continuous on 0–1 (integer restriction removed in wave 110). The 1PN acceleration scales as λ_PN/c₀², so the 1PN strength can be calibrated with c₀ held fixed. At 0 you recover Newtonian gravity and the ellipse closes — the A/B control for ☿ Mercury.",
     pnAlpha:"Breakdown of the 1PN correction (E12). 1.5 = full (GR's β=γ=1 — the full 42.98″/century of Mercury), 0.5 = time-rate only (advance drops to 1/3). Machine-verified in V18–V20.",
     radiusScale:"Global scale of the particle radius R=radiusScale·rMul·√m (default 1). Affects contact size and the moment of inertia I=½mR² (the I in temperature T=Is²). Per-body variation lives in the body key rMul; this knob scales every particle relatively. A discretization setting, not a law of physics.",
@@ -3486,7 +3496,7 @@ const PARAM_DEFS = [
   {key:"gravityY",label:"一様重力 g_y",      mode:"lin", lo:-10, hi:10, step:0.005, cat:"st", group:"法則の実験室",   /* 第79便: 同上。第94便: ⚾の g_y=9.8(実値化)がスライダー内に収まるよう CLAMPS と同じ±10へ拡大(第56便 kRep と同じ方針) */
    desc:"画面全体に働く縦方向の一様な外部重力場(+yは画面下向き)。⚾自由落下・♨️対流・🧪浮力の「下向きの重力」はこれ。ビーカータグ(♨️🧪)は 0.031(換算 ≈9.8 m/s² — 第98便: 旧日常較正を引き継ぎ)、日常タグ(⚾)は実値 9.8(そのまま 9.8 m/s²)を既定とする。0にすると無重力になる。"},
   {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:3, step:1,    cat:"dg", group:"法則の実験室",
-   desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W·κから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では 1 と厳密に同じ。0=従来(legacy)。**3=トイ(複素決定力場)**: 第259便a で足した**トイモデル専用**の別処理で、E6′・1PN・座標変換慣性のどれとも**排他**(重複適用を禁止する)。サンプル側で physics.spaceMesh.lawVersion(scalar/local/complex)と kFrame=0 を宣言していないと受理されず、宣言が無ければ従来どおり 2 へ丸める。「現実較正」分類(sampleClass:calibration)では拒否する。"},
+   desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W·κから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では 1 と厳密に同じ。0=従来(legacy)。**3=トイ(複素決定力場)**: 第259便a で足した**トイモデル専用**の別処理で、E6′・1PN・座標変換慣性のどれとも**排他**(重複適用を禁止する)。サンプル JSON で 3 を宣言するには physics.spaceMesh.lawVersion(scalar/local/complex)が要り、宣言の無い JSON は読み込み時に従来どおり 2 へ丸める。「現実較正」分類(sampleClass:calibration)の JSON では拒否する。**第262便a**: **この行(UI)で 3 にした値はもう 2 へ書き換えない** —— lawVersion の宣言が無いサンプルでは実行時の既定 scalar を使い、kFrame>0 や空間メッシュの慣性/織り込みと重なって入場条件が立たないときは、値を 3 のまま保ったうえで警告を 1 行出し、力学は geoPN=2 と同じで走る(ステップ会計の geoToy:denied)。"},
   {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, cat:"dg", group:"法則の実験室",
    desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。"},   // 第124便(原仮定者指示): geoPN の次へ移動
   {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:0.05, cat:"dg", group:"法則の実験室",
@@ -9352,6 +9362,108 @@ const BUILTIN_PRESETS = [
       pulse:{omega:22.654675, source:"observed"},   // 第226便: B も同チャネル(コア転写時計と並置比較できる)
       spinDipole:{omega:22.654675, radius:0.01175, source:"observed"},   // 第246便: B の観測自転 2.773461 s も同じ器へ
       core:{mode:"differential", massFrac:0.49998556691988266, radius:0.01, omega:22.654675, Kcs:0, inertiaScale:1000000}}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+// ===== 第262便a(第54報「psrDoubleAB サンプルの『geoPN=3』版を用意する」): 📻 の幾何の診断コピー 🩻 =====
+// **較正候補ではない**(RELEASE_NOTES の Negative Claim 27 — トイの測地線モードの慣性則は較正候補から外してある)。
+// 📻 の幾何・**観測質量そのもの(f=1)**・kFrame=0 をそのまま置き、**法則だけ**を geoPN=3(第259便a の
+// トイ積分器 `HP.dfmGeoToyStep`)へ替えた診断サンプルである。**📻 と ⚡ の JSON は 1 bit も動かない。**
+// 「空間メッシュ」と呼ばれるものは**別の 3 層**である: ①表示の蓄積格子(overlays.spaceMesh)②座標変換慣性
+// (physics.spaceMesh.inertia:"coordinate")③ここで使う geoPN=3 のトイ —— 読む場も当たる先も違う。
+{ id:"psrDoubleABGeoToy", name:"二重パルサー J0737−3039A/B — geoPN=3 診断(f=1・較正候補ではない)", emoji:"🩻", group:"現実との照合・太陽系外",
+  // グループは**ファミリー psr の所属グループ**に合わせる(QA `groups.family-invariant`: 1 ファミリーは 1 グループ)。
+  // 分類は `sampleClass:"principle"`・`fidelity:"toy"` の側が担う —— **現実較正の 1 本ではない**。
+  familyId:"psr", familyRole:"variant",   // 仲間のメインは ⚡(primary)。本サンプルは法則を替えた診断の枝
+  scaleTier:"planetary",
+  scaleExp:{L:6, T:1, M:27},   // 📻⚡ と同じ単位系(1単位=10⁶m/10¹s/10²⁷kg — L−T=5 族)
+  sampleClass:"principle",
+  fidelity:"toy",   // 幾何は 📻 の転写だが**法則がトイ**なので現実較正(real)とは名乗らない
+  notClaim:["solar_cal"],
+  obsCard:[
+    {q:"**診断コピー**(これは較正候補ではない)", model:"📻 の幾何と観測質量(f=1)に geoPN=3 のトイ則を当てただけ。合わせる操作はしていない", obs:"—(Negative Claim 27: トイの慣性則は較正候補から外してある)"},
+    {q:"公転周期(近点間・合わせていない)", model:"8842.456 秒(+0.0897%・+7.92 s = 3.16×10⁷σ)— 既定 dt・診断時間 70676 秒で近点 8 個", obs:"8834.534723278 s(Hu et al. 2022・σ=2.5056×10⁻⁷ s)"},
+    {q:"離心率 proxy(合わせていない)", model:"0.650722(転写の 7.41 倍)— 半径帯 217.79〜1029.32(遠点発 r₀=955.978)", obs:"eT=0.087777036(転写)"},
+    {q:"近点移動(**この構成では測れない**)", model:"既定 dt で −2.9673×10⁵ °/yr(逆行)。dt/2 では近点方位の隣接差が π/2 を超えて unwrap 不能=未測定", obs:"+16.899323 °/yr(Kramer et al. 2021)— 桁が違ううえ収束していない"},
+    {q:"D₀=0 の対照(**原仮定者は D₀=0 を想定していない**)", model:"束縛が消えて直線離脱する。r>4r₀ の時刻 6468.751→6468.598 秒(h〜h/8)は解析値 √15 r₀/|v_rel|=6468.576 秒へ収束", obs:"—(質量に依らない: f=0.95/1.05 でも同じ時刻)"},
+    {q:"χ=1 は**共回転の証拠ではない**", model:"D₀=0・二体では χ=1 厳密だが u は位置に依らず一定(∇u=0)。既定 D₀=0.006 では χ_max=0.16173", obs:"—(自己を除外した一点の並進平均には、二体配置から共回転の勾配を復元する処理が無い)"},
+    {q:"帳簿(トイはメッシュ側へ同時記帳する)", model:"E_toy+E_mesh=0(厳密)・ΔP+リザーバ 3.1×10⁻¹¹・(ΔL+リザーバ)/|L₀| 4.7×10⁻¹⁶・clamp 0・NaN 0", obs:"—(ただし粒子側の運動量は 8 公転で |P|=1.27×10³ 単位まで育つ — 重心は歩く)"},
+    {q:"掃引の結論(第262便a)", model:"D₀ 8 点 × η 3 点 × 法則 2 種の 48 構成で、近点間 P が観測をまたぐ構成は **0 件**。最も近いのが本構成の +7.92 秒", obs:"—(トイを強くするほど P は長くなる。P が観測へ寄るのは χ→0 = トイを切る極限だけ)"}],
+  failureFirst:{
+    fail:"**このサンプルは観測に合っていない。** ①近点間周期は +0.0897%(3.16×10⁷σ)で、合わせる操作をしていないどころか**合わせる余地が無い**: D₀ 8 点 × η 3 点 × lawVersion 2 種の 48 構成を掃いても、観測周期をまたぐ構成は 1 つも出なかった(トイを強くすると P は長くなり、P が観測へ寄るのは χ→0 = トイを切る極限だけである)。②離心率 proxy 0.650722 は転写 0.087777 の 7.41 倍で、軌道の形からして別物である。③近点移動は既定 dt で −2.97×10⁵ °/yr(逆行)だが、dt/2 にすると近点方位の隣接差が π/2 を超えて unwrap できない —— **収束していないどころか、この構成では測れない量である**。④D₀=0 にすると相対加速度が厳密に 0 になって連星が直線離脱する(下の pass 欄)—— **D₀=0 は想定されていない**(第54報)。⑤トイは粒子側の運動量を 8 公転で 1.27×10³ 単位まで育てる(厳密な負をメッシュとリザーバへ記帳しているので帳簿は閉じるが、重心は歩く)。⑥**⚡ の f≈2 を説明しない**: 第262便a の釣り合い曲線は現行経路(geoPN=2)で測っており、トイはその曲線の上に乗らない。",
+    pass:"**器としては契約どおり動き、否定結果が数で確定した。** 粒子とメッシュの同時更新の契約は保たれ(E_toy+E_mesh は厳密に 0・ΔP+リザーバ 3.1×10⁻¹¹・(ΔL+リザーバ)/|L₀| 4.7×10⁻¹⁶・安全クランプ 0・NaN 0)、入場条件(sampleClass≠calibration・lawVersion 宣言・kFrame=0・inertia/weave と排他)を満たしたまま 8 公転ぶんの診断時間を完走する。**D₀=0 の離脱は解析と一致した**: 二体・D₀=0 では自己を除いた正規化平均が u_A=v_B(χ=1 厳密)・∂ₜu_A=g_B になるので a_A=g_A+g_B・a_B=g_B+g_A、すなわち r̈=0 が厳密に成り立ち、遠点発なら r(t)²=r₀²+|v_rel|²t²。r=4r₀ の時刻の解析値 √15 r₀/|v_rel|=6468.576 秒に対し実測は 6468.751→6468.664→6468.620→6468.598 秒(h・h/2・h/4・h/8)で、比は 1.0000271→1.0000136→1.0000068→1.0000034 と dt に一次で寄る。質量に依らないことも f=0.95/1.05 で確かめた(いずれも同じ時刻)。**η=0(トイの強さ 0)は geoPN=0 の Newton と 600 步で状態ビット同一**であり、この経路が唯一の差であることの機械対照になっている。",
+  },
+  descStruct:{
+    summary:"**📻 二重パルサー観測版の幾何と観測質量(f=1)に、法則だけを geoPN=3 のトイ測地線モードへ替えた診断コピー**(第262便a — 第54報「psrDoubleAB サンプルの geoPN=3 版を用意する」)。重力(E4)はそのままで、E6′ の引きずりと E12 の 1PN は**当たらない**(geoPN=3 は E6′・1PN・座標変換慣性と排他 — 重複適用禁止)。代わりに、自己を除いた正規化平均のフレーム速度 ū=η·u を使う作用 L=½m|v−ū|²−mΦ から出る a=∂ₜū+(∇ū)v−(∇ū)ᵀ(v−ū) を、粒子とメッシュの運動量を同時更新する契約で当てる(第259便a の `HP.dfmGeoToyStep`)。宣言は lawVersion:\"local\"(支持半径 R=上位 2 体の分離の 3 倍)・η=toyGain=1(既定)・D₀=0.006(🌘 で決めた共有値の流用・**D0pull は宣言しない**のでトイは D₀ を読む)・kFrame=0(トイの入場条件)。**これは較正候補ではない**(Negative Claim 27)。**📻 と ⚡ の JSON は 1 bit も動いていない。**",
+    observe:"実測(既定 dt=0.016・観測周期 8 回分 = 70676.32 秒の診断時間・位相制限 1.5π の近点抽出器): 近点 8 個・**近点間 8842.456 秒**(観測 8834.534723278 秒の +0.0897%・+7.92 秒 = 3.16×10⁷σ)・離心率 proxy **0.650722**(転写 0.087777036 の 7.41 倍)・半径帯 217.79〜1029.32(遠点発 r₀=955.978)・χ_max 0.16173・近点移動 −2.9673×10⁵ °/yr(**dt/2 では unwrap 不能で測れない** — 収束していない)。帳簿は E_toy+E_mesh=0(厳密)・ΔP+リザーバ 3.1×10⁻¹¹・(ΔL+リザーバ)/|L₀| 4.7×10⁻¹⁶・安全クランプ 0・NaN 0(粒子側の運動量は 8 公転で |P|=1.27×10³ 単位まで育ち、その厳密な負がメッシュとリザーバに載る)。**lawVersion を scalar にすると**同じ診断時間で近点は 4 個しか立たず(未完)近点間は 16846.5 秒・e proxy 0.1158 になる。**D₀=0 にすると相対加速度が厳密に 0 になり直線離脱する**: r>4r₀ の時刻は 6468.751/6468.664/6468.620/6468.598 秒(h/h2/h4/h8)で解析値 √15 r₀/|v_rel|=6468.576 秒へ dt の一次で寄り、f=0.95/1.05 でも同じ(質量に依らない)。**η=0 は geoPN=0 の Newton と 600 步で状態ビット同一。**",
+    control:"ワンタップ対照A/B: B側 **geoPN=2(📻 と同じ統一測地線則)** — 同じ JSON のまま法則だけ戻すと近点間 8834.772 秒(+0.0027%)・e proxy 0.0877645・近点移動 +2.8185 °/yr になり、**軌道の形が観測へ戻る**。パラメータ行の D₀ を上げていくと χ が下がってトイが弱まり、周期は観測へ近づくが**下から交差はしない**(第262便a の掃引: 48 構成で交差 0 件)。D₀ を 0 にすると離脱が見える。timeScale=300・dispMag=1000(表示専用)・トレイルで軌道を見る。"},
+  en:{name:"Double Pulsar J0737−3039A/B — geoPN=3 diagnostic (f=1, NOT a calibration candidate)",
+    obsCard:[
+      {q:"A DIAGNOSTIC COPY (not a calibration candidate)", model:"📻's geometry and observed masses (f=1) with the geoPN=3 toy law applied — nothing was fitted", obs:"— (Negative Claim 27: the toy inertia law is excluded from the calibration candidates)"},
+      {q:"Orbital period (periastron-to-periastron, never fitted)", model:"8842.456 s (+0.0897%, +7.92 s = 3.16e7 sigma) — default dt, 8 periastra over a 70676 s diagnostic window", obs:"8834.534723278 s (Hu et al. 2022; sigma=2.5056e-7 s)"},
+      {q:"Eccentricity proxy (never fitted)", model:"0.650722 (7.41x the transcribed value) — radius band 217.79 to 1029.32 (started at apoapsis r0=955.978)", obs:"eT=0.087777036 (transcribed)"},
+      {q:"Periastron advance (NOT MEASURABLE in this configuration)", model:"-2.9673e5 deg/yr (retrograde) at the default dt; at dt/2 successive periastron azimuths jump past pi/2 and cannot be unwrapped", obs:"+16.899323 deg/yr (Kramer et al. 2021) — orders apart AND not converged"},
+      {q:"The D0=0 control (THE ADJUDICATOR DOES NOT ASSUME D0=0)", model:"the binary becomes unbound and separates in a straight line; r>4r0 at 6468.751 down to 6468.598 s (h to h/8) against the analytic sqrt(15) r0/|v_rel| = 6468.576 s", obs:"— (mass-independent: f=0.95 and 1.05 give the same time)"},
+      {q:"chi=1 IS NOT EVIDENCE OF CO-ROTATION", model:"with D0=0 and two bodies chi is exactly 1, yet u is constant in space (grad u = 0). At the declared D0=0.006 the maximum chi is 0.16173", obs:"— (a self-excluded translational average at one point has no step that recovers a co-rotation gradient from the two-body configuration)"},
+      {q:"Ledger (the toy books the mesh side in the same step)", model:"E_toy+E_mesh = 0 exactly; dP+reservoir 3.1e-11; (dL+reservoir)/|L0| 4.7e-16; zero clamps; zero NaN", obs:"— but the particles' momentum grows to |P|=1.27e3 units over 8 orbits — the barycentre walks"},
+      {q:"What the sweep found (wave 262a)", model:"across 48 configurations (8 values of D0 x 3 of eta x 2 law versions) NOT ONE crosses the observed period; the closest is this configuration at +7.92 s", obs:"— the stronger the toy, the longer P; P approaches the observation only in the chi->0 limit, i.e. with the toy switched off"}],
+    failureFirst:{
+      fail:"THIS SAMPLE DOES NOT MATCH THE OBSERVATION. (1) The periastron-to-periastron period is +0.0897% (3.16e7 sigma) off, and there is no room to fit it: a sweep of 48 configurations (8 D0 x 3 eta x 2 lawVersion) never crosses the observed period — a stronger toy makes P longer, and P approaches the observation only in the chi->0 limit where the toy is off. (2) The eccentricity proxy 0.650722 is 7.41x the transcribed 0.087777 — a different orbit shape altogether. (3) The periastron advance reads -2.97e5 deg/yr (retrograde) at the default dt, but at dt/2 successive periastron azimuths jump past pi/2 and cannot be unwrapped — it is not merely unconverged, IT IS NOT MEASURABLE in this configuration. (4) With D0=0 the relative acceleration is exactly zero and the binary leaves in a straight line (see the pass column) — D0=0 IS NOT ASSUMED (report 54). (5) The toy grows the particles' momentum to 1.27e3 units over 8 orbits (the exact negative is booked to the mesh and reservoir so the ledger closes, but the barycentre walks). (6) IT DOES NOT EXPLAIN ⚡'s f≈2: the wave-262a balance curve was measured on the current path (geoPN=2), and this toy does not lie on that curve.",
+      pass:"THE INSTRUMENT BEHAVES TO CONTRACT, AND THE NEGATIVE RESULT IS NOW A NUMBER. The simultaneous particle-and-mesh update holds (E_toy+E_mesh is exactly 0, dP+reservoir 3.1e-11, (dL+reservoir)/|L0| 4.7e-16, zero safety clamps, zero NaN), and the run completes 8 orbits of diagnostic time while satisfying the entry conditions (sampleClass not calibration, lawVersion declared, kFrame=0, exclusive with inertia and weave). THE D0=0 ESCAPE MATCHES THE ANALYSIS: for two bodies at D0=0 the self-excluded normalised average gives u_A=v_B (chi exactly 1) and d/dt u_A = g_B, hence a_A=g_A+g_B and a_B=g_B+g_A, so the relative acceleration vanishes identically and, started from apoapsis, r(t)^2 = r0^2 + |v_rel|^2 t^2. Against the analytic sqrt(15) r0/|v_rel| = 6468.576 s for r=4r0, the measurements are 6468.751 / 6468.664 / 6468.620 / 6468.598 s at h, h/2, h/4, h/8 — ratios 1.0000271 / 1.0000136 / 1.0000068 / 1.0000034, first order in dt. Mass independence was checked at f=0.95 and 1.05 (same time). AND eta=0 IS BIT-IDENTICAL IN STATE TO geoPN=0 NEWTON OVER 600 STEPS — a machine control that this path is the only difference.",
+    },
+    descStruct:{
+      summary:"📻'S DOUBLE-PULSAR GEOMETRY AND OBSERVED MASSES (f=1) WITH ONLY THE LAW SWAPPED FOR THE geoPN=3 TOY GEODESIC MODE (wave 262a — report 54: 'prepare a geoPN=3 version of the psrDoubleAB sample'). Gravity (E4) is unchanged, while the E6-prime dragging and the E12 1PN term DO NOT ACT (geoPN=3 is exclusive with E6-prime, 1PN and the coordinate inertia — no double application). In their place the toy applies a = d/dt u-bar + (grad u-bar)v - (grad u-bar)^T (v - u-bar), derived from L = 1/2 m |v - u-bar|^2 - m Phi with u-bar = eta u the self-excluded normalised average frame velocity, updating the particle and mesh momenta in the same step (HP.dfmGeoToyStep, wave 259a). The declarations are lawVersion local (support radius R = 3x the separation of the top two bodies), eta = toyGain = 1 (the default), D0 = 0.006 (the shared value fixed on 🌘, reused — D0pull IS NOT DECLARED so the toy reads D0), and kFrame = 0 (the toy's entry condition). THIS IS NOT A CALIBRATION CANDIDATE (Negative Claim 27). 📻's AND ⚡'s JSON ARE BIT-UNCHANGED.",
+      observe:"Measured (default dt=0.016, a diagnostic window of 8 observed periods = 70676.32 s, the 1.5-pi phase-gated periastron detector): 8 periastra, PERIASTRON-TO-PERIASTRON 8842.456 s (+0.0897% of 8834.534723278 s, i.e. +7.92 s = 3.16e7 sigma), eccentricity proxy 0.650722 (7.41x the transcribed 0.087777036), radius band 217.79 to 1029.32 (apoapsis start r0=955.978), maximum chi 0.16173, periastron advance -2.9673e5 deg/yr (AT dt/2 IT CANNOT BE UNWRAPPED — not converged). The ledger: E_toy+E_mesh = 0 exactly, dP+reservoir 3.1e-11, (dL+reservoir)/|L0| 4.7e-16, zero clamps, zero NaN (the particles' momentum grows to |P|=1.27e3 units over 8 orbits and its exact negative sits on the mesh and the reservoir). WITH lawVersion scalar the same window yields only 4 periastra (incomplete), 16846.5 s and e proxy 0.1158. WITH D0=0 the relative acceleration vanishes identically and the pair leaves in a straight line: r>4r0 at 6468.751 / 6468.664 / 6468.620 / 6468.598 s (h, h/2, h/4, h/8), converging first order in dt to the analytic sqrt(15) r0/|v_rel| = 6468.576 s, and f=0.95 / 1.05 give the same time (mass-independent). eta=0 IS BIT-IDENTICAL TO geoPN=0 NEWTON OVER 600 STEPS.",
+      control:"One-tap A/B: side B is geoPN=2 (📻's unified geodesic law). Swapping only the law in the same JSON gives 8834.772 s (+0.0027%), e proxy 0.0877645 and +2.8185 deg/yr — THE ORBIT SHAPE RETURNS TO THE OBSERVATION. Raising D0 in the parameter row lowers chi, weakens the toy and brings the period toward the observation, BUT IT NEVER CROSSES (the wave-262a sweep: zero crossings in 48 configurations). Setting D0 to 0 shows the escape. timeScale=300, dispMag=1000 (display only); use trails."},
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c0=3e3 (the L-T=5 relativistic-binary family)",
+        "A's 1.338186 M_sun and B's 1.248866 M_sun — THE OBSERVED MASSES, f=1 (no mass calibration here)",
+        "the relative orbit a=8.788366e8 m and e=0.087777036, transcribed exactly as in 📻",
+        "the observed period 8834.534723278 s and the observed advance 16.899323 deg/yr (compared against, never fitted)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10^6 m / 10 s / 10^27 kg — 📻's family)",
+        "geoPN=3 (the toy geodesic mode, wave 259a) with physics.spaceMesh lawVersion local and inertia false",
+        "kFrame=0 (the toy's entry condition — it replaces the E6-prime/E12 follow term, so no follow coupling may stand)",
+        "toyGain eta = 1 (the default; not written into the canonical form)",
+        "coupleSink reservoir and stateCarry / framePrecision double — 📻's declarations",
+        "two-body barycentric, APHELION-aligned (wave 211); spin=0 declared as in 📻"],
+      fitted:["NOTHING. D0=0.006 is the shared value reused; the masses are the observed ones (f=1)"],
+      derived:["q=3.1789 and kappa=G/c0^2=7.4156e-7 — carried over from 📻 unchanged (both inert at kFrame=0)",
+        "the support radius R = 3x the separation of the top two bodies (the lawVersion local default)"],
+      numerical:["softening eps=0.05","time multiplier timeScale=300","display magnification dispMag=1000 (display only)",
+        "measurement: default dt=0.016 over 8 observed periods, the 1.5-pi phase-gated periastron detector (tests/exp-w262a-geotoy.mjs)"]}},
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=3×10³(L−T=5 相対論的連星族)",
+      "A の 1.338186 M☉・B の 1.248866 M☉ — **観測質量そのもの(f=1)**。本サンプルに質量較正は無い",
+      "相対軌道 a=8.788366×10⁸m・e=0.087777036(📻 と同じ転写)",
+      "観測周期 8834.534723278 s・観測の近点移動 16.899323 °/yr(**照合先であって fit の対象ではない**)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁶m/10¹s/10²⁷kg — 📻 と同じ族)",
+      "geoPN=3(第259便a のトイ測地線モード)+ physics.spaceMesh の lawVersion:\"local\"・inertia:false",
+      "kFrame=0(トイの入場条件 — E6′/E12 の追従を置換するので追従の結合が立っていてはならない)",
+      "toyGain η=1(既定 — 正準形には書かれない)",
+      "coupleSink:\"reservoir\"・stateCarry/framePrecision:\"double\"(📻 の宣言をそのまま)",
+      "二体重心系・遠点整列(第211便)・spin=0 宣言(📻 と同じ)"],
+    fitted:["**無い。** D₀=0.006 は共有値の流用で、質量は観測値そのもの(f=1)"],
+    derived:["q=3.1789・κ=G/c₀²=7.4156×10⁻⁷ — 📻 から不変のまま引き継ぐ(kFrame=0 なのでどちらも力に入らない)",
+      "支持半径 R=上位 2 体の分離の 3 倍(lawVersion:\"local\" の既定)"],
+    numerical:["ソフトニング ε=0.05","時間倍率 timeScale=300","粒子表示倍率 dispMag=1000(表示専用)",
+      "測定: 既定 dt=0.016・観測周期 8 回分・位相制限 1.5π の近点抽出器(tests/exp-w262a-geotoy.mjs)"]},
+  abBody:{ label:{ja:"geoPN=2(📻 と同じ統一測地線則へ戻す — トイを切る)", en:"geoPN=2 (back to 📻's unified geodesic law — the toy off)"},
+    physicsPatch:{geoPN:2} },
+  activeParams:["geoPN","D0","kFrame"],
+  camera:{scale:1100}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:0, q:3.1789, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-7,
+    cLight:3000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:3, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:300, dispMag:1000,
+    stateCarry:"double", framePrecision:"double", frameReaction:"pairReduced", coupleSink:"reservoir",
+    frameWeight:"pull",
+    // **D0pull は宣言しない**: pull 重みのときエンジンは D0pull を先に読むので、宣言を外すと
+    // トイは physics.D0(=0.006 の共有値)を読む。kFrame=0 なので E6′ の分母には誰も触らない
+    spaceMesh:{mode:"vertex", gravity:false, inertia:false, lawVersion:"local"}},
+  bodies:[ // 📻 psrDoubleAB の bodies を**ビット同一で複製**(質量は観測値 = f=1・遠点整列)。
+           // pnSource の宣言も 📻 のまま残すが、geoPN=3 では `_core` から見た geoPN が 0 なので
+           // 1PN は当たらない(宣言を消して転写を崩さないための据置 — 力には入らない)
+    {type:"single", m:2660.982861, radius:0.01175, x:-461.48618600827865, y:0, vx:0, vy:-2.763093948239957, spin:0, pinned:false, pnSource:true},
+    {type:"single", m:2483.370041, radius:0.01175, x:494.49208586803894, y:0, vx:0, vy:2.9607128692905675, spin:0, pinned:false, pnSource:true}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -16285,6 +16397,7 @@ function makeSim(){
     S.geoToyPx=0; S.geoToyPy=0; S.geoToyL=0; S.geoToyE=0; S.geoToyEmesh=0;
     S.geoToyMeshPx=0; S.geoToyMeshPy=0; S.geoToyMeshL=0;
     S.geoToyN=0; S.geoToyDv=0; S.geoToyChi=0; S.geoToyStop=null;
+    S.geoToyDeny=null;   // 第262便a: 3 のまま入場条件を満たさない理由("kFrame"/"meshChannel")
     S.meshJ=0; S.meshQ=0; S.meshRotorL=0; S.meshRotorE=0; S.meshOmega=0; S.meshOmegaMesh=0;
     S.meshRotorStop=null;
     S.wallEin=0; S.wallEout=0; S.wallKE=0;   // 第37便 C1(台帳4-70): 壁帳簿もリセット
@@ -16370,15 +16483,26 @@ function makeSim(){
     // "inStep"(**当てた段階** —— `dragHookKick` の中で速度から先に引き、_core の += で相殺する)
     S._mcInStep=(S.hasCoordInertia && __sm && __sm.inertiaRemoval==="inStep")?1:0;
     S._mcPre=null; S._mcTgt=null; S.meshCoordRemoval=S.hasCoordInertia? (S._mcInStep? "inStep" : "post") : null;
-    // 第259便a: geoPN=3(トイの測地線モード)。**受理条件を満たさない宣言はここで 2 へ落とす**
-    // (検証器を通っていない経路〔スライダー・A/B パッチ・手書き params〕でも同じ門になる)。
-    // 受理された 3 は `geoCoreDispatch` が `S._core` から隠す(`_core` には 1 命令も足していない)
+    // 第259便a → **第262便a(第54報「geoPN を 3 にした時に、初めからで 2 になるので、修正する」)**:
+    // geoPN=3(トイの測地線モード)の**実行時の門**(検証器を通っていない経路〔スライダー・A/B パッチ・
+    // 手書き params〕もここを通る)。第259便a はどの条件が欠けても **`S.params.geoPN` を 2 へ書き換えて**
+    // いたので、UI で 3 を選ぶと `updateRadii` がその場で 2 へ戻し、「⏮ 初めから」で行が作り直された
+    // ときにスライダーが 2 に見えた(**原因は ⏮ の側ではなく、この行だった** —— 再現は
+    // `tests/exp-w262a-uigeopn.mjs`)。本便は 2 つに分けた:
+    //   ① **lawVersion 未宣言は理由にしない**。宣言が無ければ `dfmGeoToyStep` が実行時の既定
+    //      GEO_TOY_LAW_DEFAULT("scalar")を読む。**保存 JSON・presetSig・S.params には 1 文字も入れない**
+    //      (検証器 §geoPN=3 の「宣言なし JSON は 2 へ丸める」門はそのまま — 読み込みの正準形は不変)。
+    //   ② 入場条件(kFrame=0・inertia/weave と排他)を満たさないときは **3 のまま**
+    //      `S.geoToyDeny` と `S.geoToyStop="denied"` を立てる(**黙って 2 に書き換えない**)。
+    //      このとき `_core` が受け取る値は `geoCoreDispatch` が 2 にするので、**力学は第259便a の
+    //      丸めと 1 bit 同じ**である(3 を保つのは UI・保存・読み口の側だけ)。
     if(S.params.geoPN>=3){
-      const okToy=!!(__sm && __sm.lawVersion!==undefined) && !(S.params.kFrame>0)
-        && !!(__sm && __sm.inertia===false) && !(__sm && __sm.weave!==undefined);
-      if(!okToy){ S.params.geoPN=2; S.geoToyStop="denied"; }
-    }
-    S.hasGeoToy=(S.params.geoPN>=3);
+      const okToy=!(S.params.kFrame>0)
+        && !(__sm && __sm.inertia!==false) && !(__sm && __sm.weave!==undefined);
+      S.geoToyDeny=okToy? null : ((S.params.kFrame>0)? "kFrame" : "meshChannel");
+      if(!okToy) S.geoToyStop="denied";
+    } else S.geoToyDeny=null;
+    S.hasGeoToy=(S.params.geoPN>=3 && !S.geoToyDeny);
     // 第252便b: 近点サブステップ(physics.periSubsteps)の有無フラグと発火しきい値も同じ場所で張る。
     // validatePeriSubsteps が n<=1 を null へ正規化しているので、キーの有無だけで判定できる
     // 第258便b: 引きずりの仕事の記録(physics.ledger.dragWork)の有無フラグも同じ場所で張る。
@@ -20679,7 +20803,8 @@ function stepDiagText(){
   // 第259便a(第51報): **座標変換慣性とトイの停止理由を HUD にも出す**(黙って素通りさせない)。
   // 2 体だけの系では非頂点が 1 つも無いので既定は no-op である(mesh:noTargets)—— 表示のみ
   if(sim && sim.hasCoordInertia) out+="  mesh:"+(sim.meshCoordStop||"on")+" N="+sim.meshCoordN;
-  if(sim && sim.hasGeoToy) out+="  geoToy:"+(sim.geoToyStop||"on")+" N="+sim.geoToyN;
+  // 第262便a: **入場条件を満たさない 3 も出す**(黙って 2 に丸めなくなったので、denied はここに出る)
+  if(sim && sim.params && sim.params.geoPN>=3) out+="  geoToy:"+(sim.geoToyStop||"on")+" N="+sim.geoToyN;
   // 第260便b: 親子コアの層差分と**重なった拡張体の対**(ΔF を当てた組 / 停止した組)
   if(sim && sim.hasBodyLayers) out+="  layer:"+(sim.layerStop||"on")+" N="+sim.layerN+" pair="+(sim.layerPairN||0)+"/"+(sim.layerStopN||0)
     // 第261便b(検証仮説 (6)・案A): 停止したら理由と対を出す(時刻は進んでいない)
@@ -26075,8 +26200,16 @@ function buildParamRows(){
         }
         if(key==="radiusScale") S.updateRadii();
         // 第259便a: geoPN(=3 のトイ)と kFrame はトイの受理条件に効くので派生値を張り直す。
-        // 条件を満たさない 3 は updateRadii が 2 へ落とす(S.geoToyStop="denied")
-        else if(key==="geoPN" || key==="kFrame") S.updateRadii();
+        // 第262便a: **3 はもう 2 へ書き換えない**。入場条件が立たなかったとき(S.geoToyDeny)と
+        // 立ったときの**変化のときだけ** 1 行知らせる(スライダーを動かすたびに出さない)
+        else if(key==="geoPN" || key==="kFrame"){
+          const dy0=S.geoToyDeny, gt0=S.hasGeoToy;
+          S.updateRadii();
+          if(S===sim && S.params.geoPN>=3){
+            if(S.geoToyDeny && S.geoToyDeny!==dy0) notify(T("geoToyDenied")(S.geoToyDeny),5000);
+            else if(S.hasGeoToy && !gt0) notify(T("geoToyOn"),4000);
+          }
+        }
       }
       if(clinkDone){
         CLINK_KEYS.forEach(syncParamRow);   // G/時間倍率 等の行表示を追随
@@ -34795,6 +34928,10 @@ function dfmComplexDeterminacy(sources,px,py,opts){
 // **energyContract** は文字列("none"/"meshLedger"/"toy")で、**この関数は帳簿を持たない**ことの宣言である。
 // **表示(蓄積格子)も同じ関数を読めるよう**読み口だけ公開する(表示側の差し替えは本便では行わない)。
 const DFM_FIELD_LAWS = ["scalar","local","complex"];
+// 第262便a(第54報): geoPN=3 のトイが **lawVersion 未宣言のときに読む実行時の既定**。
+// **正準形にも presetSig にも S.params にも入らない**(サンプル JSON の宣言は今までどおり必須で、
+// 検証器は宣言なしの 3 を 2 へ丸める —— 補うのは UI/スライダー経由の実行時の値だけである)。
+const GEO_TOY_LAW_DEFAULT = "scalar";
 const DFM_FIELD_BG = ["static","frame"];
 const DFM_FIELD_ENERGY = ["none","meshLedger","toy"];
 const DFM_FIELD_NEED = ["all","gravity"];   // 第260便a: 要求別(gravity は D・∇D・g だけ)
@@ -35084,7 +35221,9 @@ function dfmGeoToyStep(S,dt){
   S.geoToyN=0; S.geoToyDv=0; S.geoToyChi=0;
   if(!(n>=1)){ S.geoToyStop="n"; return null; }
   if(!Number.isFinite(dt) || dt===0){ S.geoToyStop="dt"; return null; }
-  const cf=p[SPACE_MESH_KEY]||{}, law=cf.lawVersion;
+  // 第262便a: **宣言が無ければ実行時の既定 "scalar"**(GEO_TOY_LAW_DEFAULT)。宣言があればそちらが勝つ。
+  // 内蔵プリセットは全本が geoPN≤2 なのでこの関数を通らない —— 既定経路は 1 bit 不変である。
+  const cf=p[SPACE_MESH_KEY]||{}, law=(cf.lawVersion===undefined)? GEO_TOY_LAW_DEFAULT : cf.lawVersion;
   if(DFM_FIELD_LAWS.indexOf(law)<0){ S.geoToyStop="lawVersion"; return null; }
   if(law==="complex"){ S.geoToyStop="complexNotVelocity"; return null; }
   const eta=(cf.toyGain===undefined)? 1 : cf.toyGain;
@@ -35202,9 +35341,12 @@ function dfmGeoToyStep(S,dt){
 // kKind の特別化②(pairCorePN)のどれも geoPN=3 で立たない(`S._g2` も確保されない)。
 // **保存・エクスポート・UI が読む `S.params.geoPN` は 3 のまま**である(_core の外では常に 3)。
 // 既定経路(geoPN≤2)は**プロパティ読み 1 回と比較 1 回**だけ増える(`S.step` の中・`_core` の外)。
+// 第262便a: **入場条件を満たさない 3**(`S.geoToyDeny`)は 3 のまま保つので、`_core` へは
+// **2** を渡す —— 第259便a が `S.params.geoPN=2` と書き換えていたときと**力学は 1 bit 同じ**である
+// (`geo`・`geo2`・kKind の特別化②が読む値が同じ 2 になる)。受理された 3 は従来どおり 0。
 function geoCoreDispatch(S,dt,mode){
   const p=S.params;
-  if(p.geoPN>=3){ const g=p.geoPN; p.geoPN=0; try{ S._core(dt,mode); } finally{ p.geoPN=g; } }
+  if(p.geoPN>=3){ const g=p.geoPN; p.geoPN=S.hasGeoToy?0:2; try{ S._core(dt,mode); } finally{ p.geoPN=g; } }
   else S._core(dt,mode);
 }
 // ===== 第259便b(第51報 W2): 親子コア・3D スピン参照場・歳差/緩和の**純関数**(S を 1 バイトも読み書きしない)=====

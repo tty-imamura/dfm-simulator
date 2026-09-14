@@ -1,0 +1,230 @@
+{
+ "meta": {
+  "wave": "第262便a",
+  "files": [
+   "beta/_w262_base.html",
+   "beta/index.html"
+  ],
+  "symptom": "UI で geoPN を 3 にすると **その場で** params が 2 へ戻る(つまみは 3 に残る)。「⏮ 初めから」は行を作り直すのでつまみも 2 に落ちる —— 症状が見える場所であって原因ではない。",
+  "fix": "① lawVersion 未宣言は実行時の既定 \"scalar\" で補う ② 入場条件が立たないときは 3 のまま geoToyDeny/geoToyStop=\"denied\" を立て、`_core` へは 2 を渡す(力学は従来の丸めと 1 bit 同じ)。"
+ },
+ "runs": [
+  {
+   "file": "beta/_w262_base.html",
+   "cases": [
+    {
+     "id": "psrDoubleAB",
+     "presetGeoPN": 2,
+     "afterSlider": {
+      "params": 2,
+      "hasGeoToy": false,
+      "deny": null,
+      "stop": "denied",
+      "num": "2.00",
+      "rng": "3"
+     },
+     "afterReset": {
+      "params": 2,
+      "hasGeoToy": false,
+      "deny": null,
+      "stop": null,
+      "num": "2.00",
+      "rng": "2"
+     },
+     "afterStep": {
+      "params": 2,
+      "hasGeoToy": false,
+      "deny": null,
+      "stop": null
+     },
+     "backTo2": {
+      "params": 2,
+      "hasGeoToy": false,
+      "deny": null,
+      "stop": null,
+      "num": "2",
+      "rng": "2"
+     }
+    },
+    {
+     "id": "psrDoubleABDFM",
+     "presetGeoPN": 2,
+     "afterSlider": {
+      "params": 2,
+      "hasGeoToy": false,
+      "deny": null,
+      "stop": "denied",
+      "num": "2.00",
+      "rng": "3"
+     },
+     "afterReset": {
+      "params": 2,
+      "hasGeoToy": false,
+      "deny": null,
+      "stop": null,
+      "num": "2.00",
+      "rng": "2"
+     },
+     "afterStep": {
+      "params": 2,
+      "hasGeoToy": false,
+      "deny": null,
+      "stop": null
+     },
+     "backTo2": {
+      "params": 2,
+      "hasGeoToy": false,
+      "deny": null,
+      "stop": null,
+      "num": "2",
+      "rng": "2"
+     }
+    },
+    {
+     "id": "mercury",
+     "presetGeoPN": 1,
+     "afterSlider": {
+      "params": 2,
+      "hasGeoToy": false,
+      "deny": null,
+      "stop": "denied",
+      "num": "2.00",
+      "rng": "3"
+     },
+     "afterReset": {
+      "params": 2,
+      "hasGeoToy": false,
+      "deny": null,
+      "stop": null,
+      "num": "2.00",
+      "rng": "2"
+     },
+     "afterStep": {
+      "params": 2,
+      "hasGeoToy": false,
+      "deny": null,
+      "stop": null
+     },
+     "backTo2": {
+      "params": 2,
+      "hasGeoToy": false,
+      "deny": null,
+      "stop": null,
+      "num": "2",
+      "rng": "2"
+     }
+    }
+   ],
+   "pageErrors": []
+  },
+  {
+   "file": "beta/index.html",
+   "cases": [
+    {
+     "id": "psrDoubleAB",
+     "presetGeoPN": 2,
+     "afterSlider": {
+      "params": 3,
+      "hasGeoToy": true,
+      "deny": null,
+      "stop": null,
+      "num": "3.00",
+      "rng": "3"
+     },
+     "afterReset": {
+      "params": 3,
+      "hasGeoToy": true,
+      "deny": null,
+      "stop": null,
+      "num": "3.00",
+      "rng": "3"
+     },
+     "afterStep": {
+      "params": 3,
+      "hasGeoToy": true,
+      "deny": null,
+      "stop": null
+     },
+     "backTo2": {
+      "params": 2,
+      "hasGeoToy": false,
+      "deny": null,
+      "stop": null,
+      "num": "2",
+      "rng": "2"
+     }
+    },
+    {
+     "id": "psrDoubleABDFM",
+     "presetGeoPN": 2,
+     "afterSlider": {
+      "params": 3,
+      "hasGeoToy": false,
+      "deny": "kFrame",
+      "stop": "denied",
+      "num": "3.00",
+      "rng": "3"
+     },
+     "afterReset": {
+      "params": 3,
+      "hasGeoToy": false,
+      "deny": "kFrame",
+      "stop": "denied",
+      "num": "3.00",
+      "rng": "3"
+     },
+     "afterStep": {
+      "params": 3,
+      "hasGeoToy": false,
+      "deny": "kFrame",
+      "stop": "denied"
+     },
+     "backTo2": {
+      "params": 2,
+      "hasGeoToy": false,
+      "deny": null,
+      "stop": "denied",
+      "num": "2",
+      "rng": "2"
+     }
+    },
+    {
+     "id": "mercury",
+     "presetGeoPN": 1,
+     "afterSlider": {
+      "params": 3,
+      "hasGeoToy": true,
+      "deny": null,
+      "stop": null,
+      "num": "3.00",
+      "rng": "3"
+     },
+     "afterReset": {
+      "params": 3,
+      "hasGeoToy": true,
+      "deny": null,
+      "stop": null,
+      "num": "3.00",
+      "rng": "3"
+     },
+     "afterStep": {
+      "params": 3,
+      "hasGeoToy": true,
+      "deny": null,
+      "stop": null
+     },
+     "backTo2": {
+      "params": 2,
+      "hasGeoToy": false,
+      "deny": null,
+      "stop": null,
+      "num": "2",
+      "rng": "2"
+     }
+    }
+   ],
+   "pageErrors": []
+  }
+ ],
+ "pageErrors": []
+}
