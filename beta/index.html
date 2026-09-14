@@ -203,7 +203,12 @@
      明示的に隠す(従来どおり最小化中はコアv2内訳ブロック全体が見えない挙動を維持) */
   #bodyEdit.min .beRow,#bodyEdit.min .beNote,#bodyEdit.min #beCoreV2>summary{display:none;}
   /* 第262便b: 層の切り替えボタンと層ブロックも最小化中は畳む(従来の「ヘッダだけ残す」挙動を維持) */
-  #bodyEdit.min #beLayToggleRow,#bodyEdit.min #beLayers,#bodyEdit.min #beLineage{display:none;}
+  /* 第263便b(第55報「『粒子の編集』を畳んだ時に、『親子コア(層)』も畳む」): このセレクタだけでは
+     畳めていなかった —— #beLayers の display は JS が**インライン**で書くので、インラインの方が
+     セレクタより強く、最小化しても層ブロックが残っていた(実測: 最小化中のパネル高 159px・
+     #beLayers の computed display が block のまま)。**状態側**(beLayMode を false に落とす)で畳み、
+     この行は !important で二重に押さえる(表示のみ — 物理には 1 bit も効かない) */
+  #bodyEdit.min #beLayToggleRow,#bodyEdit.min #beLayers,#bodyEdit.min #beLineage{display:none!important;}
   #bodyEdit.min{width:auto;min-width:120px;max-height:none;overflow:visible;}
   /* 第262便b: 層タブは狭幅で折り返す(1 行に詰め込まない)・選択中のタブが分かる */
   #beLayTabs{gap:4px;margin-top:4px;}
@@ -211,7 +216,19 @@
   #beLayers #beLayTitle{margin:2px 0;}
   #beLayers .beRow select{font-size:calc(11px*var(--uz,1));min-height:30px;background:var(--panel);
     border:1px solid var(--line);border-radius:6px;color:var(--acc);}
-  #beCvDepRow{flex-wrap:wrap;}
+  /* 第263便b(第55報「『親子コアへ移行』の説明が、狭い場所で読みづらいので修正する」):
+     説明とボタンを**同じ行に並べない**。基点では説明が flex:1 でボタン(135.6px)の隣に押し込まれ、
+     文字の入る幅が **30.4px = 1 行 2.4 文字**(41 字が 17 行・高さ 255px)になっていた(実測)。
+     説明を 1 行占有(flex-basis:100%)にすると幅 170px = 1 行 13.0 文字・3 行・高さ 55.03px になる
+     (font-size も固定 11px をやめて calc(11px*var(--uz)) にしたので、文字サイズ設定に従う)。
+     長い規約文(V2 は消さない・source 保持・裸コアの 2 段確認)は下の details に畳んで置く */
+  #beCvDepRow{flex-wrap:wrap;gap:4px;}
+  #beCvDepRow #beCvDep{flex:1 0 100%;min-width:0;font-size:calc(11px*var(--uz,1));line-height:1.45;
+    opacity:.92;overflow-wrap:anywhere;}
+  #beCvDepRow #beCvToLayers{flex:1 0 100%;}
+  #beCvDepMore{flex:1 0 100%;min-width:0;font-size:calc(10.5px*var(--uz,1));line-height:1.45;color:var(--dim);}
+  #beCvDepMore>summary{cursor:pointer;color:var(--acc);opacity:.9;}
+  #beCvDepMore>div{padding:2px 0;overflow-wrap:anywhere;white-space:pre-line;}
   #notice{position:absolute;left:50%;top:12px;transform:translateX(-50%);max-width:92%;
     background:rgba(20,24,48,.92);border:1px solid var(--line);border-radius:10px;
     padding:8px 12px;font-size:12px;display:none;pointer-events:none;text-align:center;}
@@ -611,9 +628,16 @@
              **廃止予定の告知と変換ボタン**。押すまで何も変わらない(コア V2 は消さない・
              内蔵プリセットの core:{ は 1 文字も触らない)。変換すると遠方の重力は厳密に 0 差で、
              近傍(コア半径の内側)だけが変わる — その差は 〔第261便b〕 の表にある -->
+        <!-- 第263便b(第55報「『親子コアへ移行』の説明が、狭い場所で読みづらいので修正する」):
+             説明・ボタン・詳細(details)を**それぞれ 1 行占有**にする(幅は CSS 側 #beCvDepRow)。
+             基点の inline style(説明 flex:1 + ボタン flex:0 0 auto)は、188px のパネルで説明の列を
+             30.4px まで痩せさせていたので外した。details には「V2 は消さない・元 JSON を source に
+             保持・遠方は 0 差/コア半径の内側は変わる・裸コアは 2 段確認」を畳んで置く(既定は閉) -->
         <div class="beRow" id="beCvDepRow" style="display:none">
-          <span id="beCvDep" style="flex:1;opacity:.85;font-size:11px"></span>
-          <button class="btn" id="beCvToLayers" style="flex:0 0 auto"></button></div>
+          <span id="beCvDep"></span>
+          <button class="btn" id="beCvToLayers"></button>
+          <details id="beCvDepMore"><summary id="beCvDepMoreSum"></summary>
+            <div id="beCvDepMoreBody"></div></details></div>
         <!-- 第212便(原仮定者指示「coreの数値も編集可能にする。有効によるフィールド追加や、
              無効によるフィールド無視も可能」): コアv2 の実行時編集。「コア有効」ON でコアを付与・
              OFF で除去(=フィールド無視)。数値は build と同じ式で即時再構成(S.applyCoreEdit)。
@@ -945,6 +969,10 @@ ja: {
     +(why==="kFrame"? "空間引きずり kFrame>0 — トイは kFrame=0 専用" : "空間メッシュの慣性/織り込みと排他")
     +")。値は 3 のまま保ち、力学は geoPN=2 と同じで走ります(ステップ会計の geoToy:denied)",
   geoToyOn:"測地線モード geoPN=3(トイ)が有効になりました。サンプルが lawVersion を宣言していなければ scalar を既定として使います(較正ではありません)",
+  /* 第263便b(第55報・検証仮説 (7)): geoPN の保存は非対称である。**表示専用の 1 行**(行の直下に常設・
+     プリセット署名には入らない・力学には 1 bit も効かない) */
+  geoToySaveNote:"※ 保存の非対称: いま走っている geoPN=3 は、保存 JSON に physics.spaceMesh.lawVersion "
+    +"(scalar/local/complex)の宣言が無ければ、読み込み時に 2 へ丸められます(実行中の力学は変わりません)。",
   divUndo:"⏪ 直前の設定に戻して初めから",
   divRestored:"発散前の設定に戻し、初期配置から再開できます(▶実行)",
   
@@ -1093,8 +1121,10 @@ ja: {
     sumNotPositive:"Σ層 m が正になりません", badIndex:"粒子が選ばれていません",
     layerNotFinite:"m・r・J に有限でない値(Infinity/NaN)があります",   // 第262便b
     sumNotFinite:"Σ層 m が有限になりません"},
-  beCvDep:"コアv2 は**廃止予定**です(『コア』が根・『外殻』が層1 へ移行できます)。",
-  beCvDepNaked:(R)=>`コアv2 は**廃止予定**です(裸コア: 層は 1 つになり、観測半径 R=${R} は層に載りません)。`,
+  // 第263便b(第55報「『親子コアへ移行』の説明が、狭い場所で読みづらいので修正する」):
+  // 強調の ** はそのまま文字として出るので、188px のパネルでは 4 字ぶんの雑音になる。外した
+  beCvDep:"コアv2 は「廃止予定」です(『コア』が根・『外殻』が層1 へ移行できます)。",
+  beCvDepNaked:(R)=>`コアv2 は「廃止予定」です(裸コア: 層は 1 つになり、観測半径 R=${R} は層に載りません)。`,
   beCvToLayers:"親子コアへ移行",
   beCvConvConfirm:"確認して移行",
   beCvConvNakedAsk:(R)=>`裸コア(質量比 1)です。層は 1 つ(r=Rc)になり、観測半径 R=${R} は層に載りません(計画の observedRadius には保持します)。もう一度押すと移行します。`,
@@ -1108,12 +1138,23 @@ ja: {
     bodyMassNotDeclared:"m が宣言されていません", bodyRadiusNotDeclared:"半径 R が宣言されていません",
     valuesNotFinite:"導いた値が有限になりません",
     bodyRadiusNotPositive:"R が正ではありません"},
+  // 第263便b(第55報 W2): 移行の規約文は details に畳む(既定は閉 — 開かなければ縦に 1 行しか足さない)
+  beCvDepMoreSum:"この移行について",
+  beCvDepMore:"・移行してもコアv2 の宣言は消えません(元の core JSON は移行計画の source に残ります)。\n"
+    +"・遠方の重力は移行の前後で厳密に 0 差で、コア半径の内側だけが変わります。\n"
+    +"・裸コア(質量比 1)は 2 段確認です — 1 回目で警告が出て、もう一度押すと移行します。\n"
+    +"・移行できない粒子ではボタンが無効になり、上の行に理由が出ます(黙って消しません)。\n"
+    +"・層が運ぶのは J_z だけです。傾きθ・Kcs・pump・contract は層に載りません。",
   beDly:"親子コア(body.layers)の実行時編集(第261便b・第262便b — 実験用)。m 欄の上の切り替えボタンで、"
     +"粒子の編集(m/s/R/…)と根・層の情報が**丸ごと入れ替わり**ます(縦に足さないので見切れません)。"
     +"**根タブは最内層**(コアv2 から移行すると『コア』が根・『外殻』が層1)で、タブで根と各層を切り替え、m・r・役割・J を編集します。"
     +"単一入口 S.applyLayerEdit(i,k,cfg) が正準形(r 昇順・非重複・1〜8 層・m>0)を検証し、通らなければ 1 bit も書きません。"
     +"**Σm 契約**: 層があるあいだ根の m は派生量(= Σ層 m)です。**J は宣言値で力へは接続していません**。"
-    +"重力は従来どおり「根 1 粒子の点源 + 有限半径の球殻定理の差分」で、S._core には 1 命令も足していません。",
+    +"重力は従来どおり「根 1 粒子の点源 + 有限半径の球殻定理の差分」で、S._core には 1 命令も足していません。"
+    +"**第263便b**: パネル右上の「−」で**畳むと「親子コア(層)」も畳み**、「＋」で**再展開すると基本行(m・s・R・…)から開きます**"
+    +"(層をまた見るには切り替えボタンをもう一度押します)。「親子コアへ移行」の説明は 1 行を占有し、"
+    +"規約文(V2 は消さない・元の宣言を保持・遠方は同じでコア半径の内側だけ変わる・裸コアは 2 段確認)は"
+    +"ボタンの下の「この移行について」に畳んであります。",
   beLinTitle:"形成系譜",
   beLinSum:(n,tree,ev,ge)=>`直接吸収 ${n} 回・系譜 ${ge?"≥":""}${tree} 粒(記録 ${ev} 件)`,
   beLinRow:(t,dm,m,ls)=>`t=${t}: +${dm} → m=${m}・減光=${ls}`,
@@ -1627,6 +1668,9 @@ en: {
     +(why==="kFrame"? "frame dragging kFrame>0 — the toy is kFrame=0 only" : "exclusive with the space-mesh inertia/weave")
     +"). The value stays 3 and the dynamics run exactly as geoPN=2 (see geoToy:denied in the step accounting)",
   geoToyOn:"The geodesic mode geoPN=3 (toy) is now active. If the sample declares no lawVersion, scalar is used as the runtime default (this is not a calibration)",
+  /* Wave 263b (report 55, hypothesis 7): saving geoPN is asymmetric - one display-only line under the row */
+  geoToySaveNote:"Note - saving is asymmetric: a geoPN of 3 running now is rounded down to 2 on load "
+    +"unless the saved JSON declares physics.spaceMesh.lawVersion (scalar/local/complex). The dynamics running now do not change.",
   divUndo:"⏪ Restore last-good settings & restart",
   divRestored:"Pre-divergence settings restored — press ▶ Run to restart from the initial layout",
   
@@ -1770,6 +1814,7 @@ en: {
     sumNotPositive:"the sum of the layer masses is not positive", badIndex:"no body is selected",
     layerNotFinite:"m, r or J is not finite (Infinity/NaN)",   // 第262便b
     sumNotFinite:"the sum of the layer masses is not finite"},
+  // Wave 263b (report 55, W2): the same note, laid out one item per line
   beCvDep:"Core v2 IS DEPRECATED (the CORE becomes the ROOT and the SHELL becomes LAYER 1).",
   beCvDepNaked:(R)=>`Core v2 IS DEPRECATED (naked core: there will be a single layer, and the observed radius R=${R} is not carried by it).`,
   beCvToLayers:"migrate to layers",
@@ -1785,6 +1830,13 @@ en: {
     bodyMassNotDeclared:"m is not declared", bodyRadiusNotDeclared:"the radius R is not declared",
     valuesNotFinite:"the derived values are not finite",
     bodyRadiusNotPositive:"R is not positive"},
+  // Wave 263b (report 55, W2): the long rules go into a details block (closed by default)
+  beCvDepMoreSum:"about this migration",
+  beCvDepMore:"- Migrating does NOT delete the core v2 declaration (the original core JSON is kept in the plan's source).\n"
+    +"- The far field is identical before and after; only the inside of the core radius changes.\n"
+    +"- A naked core (mass fraction 1) asks twice: the first press warns, the second one migrates.\n"
+    +"- For a body that cannot migrate the button is disabled and the reason is shown in the line above.\n"
+    +"- The layers carry J_z only: the tilt, Kcs, pump and contract are not carried.",
   beDly:"Runtime editing of the parent-child core (body.layers, waves 261b/262b - experimental). The toggle above the m field "
     +"SWAPS the body editor (m/s/R/...) and the root/layer information WHOLESALE (nothing is stacked below, so nothing is clipped). "
     +"THE ROOT TAB IS THE INNERMOST LAYER (after migrating from core v2 the CORE is the root and the SHELL is layer 1). "
@@ -1792,7 +1844,11 @@ en: {
     +"and each layer; m, r, role and J are editable. The single entry point S.applyLayerEdit(i,k,cfg) validates the canonical "
     +"form (ascending, non-overlapping radii, 1-8 layers, m>0) and writes nothing if it fails. SUM RULE: while layers exist the "
     +"root m is a derived quantity (= the sum of the layer masses). J IS DECLARED ONLY AND IS NOT CONNECTED TO THE FORCES. "
-    +"Gravity is still 'one root point source plus the finite-radius shell-theorem difference', and S._core gains no instruction.",
+    +"Gravity is still 'one root point source plus the finite-radius shell-theorem difference', and S._core gains no instruction. "
+    +"WAVE 263b: minimizing the panel with the - button ALSO FOLDS the parent-child core, and re-expanding with + OPENS THE BASIC "
+    +"ROWS (m/s/R/...) again - press the toggle once more to go back to the layers. The note next to 'migrate to layers' now takes "
+    +"a line of its own, and the rules (the core v2 declaration is kept, the original JSON is preserved, the far field is identical "
+    +"and only the inside of the core radius changes, a naked core asks twice) are folded into 'about this migration' under the button.",
   beLinTitle:"Formation lineage",
   beLinSum:(n,tree,ev,ge)=>`absorbed ${n}× directly · lineage ${ge?"≥":""}${tree} grains (${ev} events logged)`,
   beLinRow:(t,dm,m,ls)=>`t=${t}: +${dm} → m=${m}, dimming=${ls}`,
@@ -26424,7 +26480,13 @@ function buildParamRows(){
       const cb=document.createElement("input"); cb.type="checkbox"; cb.id="qLockCb"; cb.checked=qLockOn;
       cb.addEventListener("change",()=>setQLock(cb.checked));
       qlRow.appendChild(lab); qlRow.appendChild(cb); }
-    for(const def of catDefs("dg")){ if(def.key==="q") g.appendChild(qlRow); mkParamRow(def,g); } }
+    // 第263便b(第55報・検証仮説 (7)「geoPN=3 の保存非対称の UI 注記」): geoPN 行の直下に
+    // **表示専用の 1 行**を常設する(実行中の 3 は、lawVersion の宣言が無い保存 JSON では
+    // 読み込み時に 2 へ丸められる)。プリセット署名にも力学にも 1 bit も効かない
+    for(const def of catDefs("dg")){ if(def.key==="q") g.appendChild(qlRow); mkParamRow(def,g);
+      if(def.key==="geoPN"){ const nt=document.createElement("div"); nt.id="geoToySaveNote";
+        nt.className="note"; nt.style.cssText="font-size:calc(10.5px*var(--uz,1));line-height:1.45;padding:0 4px 4px;";
+        nt.textContent=T("geoToySaveNote"); g.appendChild(nt); } } }
   { const g=mkCat(T("grpSpinHeat"),T("grpSpinHeatDesc"));  for(const def of catDefs("sh")) mkParamRow(def,g); }
   // 実験箱: 伝熱壁4面(天井/左/右/底)+壁別反発係数。
   // 第95便(原仮定者指示): 編集対象が無いとき(箱境界でも伝熱壁でもない)はカテゴリごと出さない
@@ -29607,6 +29669,8 @@ function applyLang(){
   $("#beLlyM").textContent=T("beLyM"); $("#beLlyR").textContent=T("beLyR"); $("#beLlyJ").textContent=T("beLyJ");
   $("#beLyAdd").textContent=T("beLyAdd"); $("#beLyDel").textContent=T("beLyDel");
   $("#beCvDep").textContent=T("beCvDep"); $("#beCvToLayers").textContent=T("beCvToLayers");
+  // 第263便b(第55報「『親子コアへ移行』の説明が、狭い場所で読みづらいので修正する」): 規約文の details
+  $("#beCvDepMoreSum").textContent=T("beCvDepMoreSum"); $("#beCvDepMoreBody").textContent=T("beCvDepMore");
   // 第262便b: m の上の切り替えボタン(実際の文言は updateBodyEdit が状態に合わせて上書きする)
   $("#beLayToggle").textContent=T("beLayToggleOn");
   { const sel=$("#beLyRole"); sel.textContent="";
@@ -30563,8 +30627,19 @@ $("#beCvToLayers").addEventListener("click",()=>{
 });
 // 第26便(原仮定者指示): ✕(選択解除)→ 最小化トグルへ変更。選択解除は粒子の再タップ/空白タップで可能
 let beMin=false;
+// 第263便b(第55報「『粒子の編集』を畳んだ時に、『親子コア(層)』も畳む」): 畳みは**状態側**で行う。
+// 基点では CSS(#bodyEdit.min #beLayers)だけで隠そうとしていたが、#beLayers の display は
+// updateBodyEdit がインラインで書くのでセレクタが負けていた(実測: 最小化しても層ブロックが残り、
+// パネル高 159px)。ここで beLayMode を落とし、再展開の既定は**案B(基本行で開く)**にする。
+// beMinKeepLay=true なら**案A(畳む前の層モードを復元)**になる —— 両案を同じ html で測るための
+// 表示専用スイッチ(HP.beMinKeepLayerMode)。物理配列へは 1 bit も書かない
+let beLayModeSaved=false, beMinKeepLay=false;
 function applyBeMin(){ $("#bodyEdit").classList.toggle("min",beMin); $("#beClose").textContent=beMin?"＋":"−";
-  $("#beClose").setAttribute("aria-label",beMin?"expand":"minimize"); }
+  $("#beClose").setAttribute("aria-label",beMin?"expand":"minimize");
+  if(beMin){ beLayModeSaved=beLayMode; beLayMode=false; beCvConfirm=false; beLayMsg=""; }
+  else if(beMinKeepLay && beLayModeSaved) beLayMode=true;
+  if(!beMin) beLayModeSaved=false;
+  updateBodyEdit(); }
 $("#beClose").addEventListener("click",()=>{ beMin=!beMin; applyBeMin(); });
 // 第23便(原仮定者指示): 粒子編集のパラメータ名タップで説明を表示(同じ名前を再タップで元に戻る)
 let beDescShown=null;
@@ -31572,7 +31647,12 @@ function dfmInternalEntrainment(o){
 // 「同じ観測軌道を支える重力質量はニュートン換算の f 倍」。円軌道・一定 χ の一次近似。4 連星の台帳 f を
 // 追加フィットなしで 1% 以内に再現する — QA behavior.dragChannels が機械固定)。chi-law v1(f_i=C·2χ_i)の因果側の基準則
 // 第242便: 第 6 引数 p(0/未指定=share の分率 1/√(a²+ε²)・2/3/4=pull の引き 1/(a²+ε²)^{p/2}。D0 は対応する背景 D₀/D0pull)
+// 第263便b(第55報・検証仮説 (9)): 第 6 引数 0(旧 share の番兵)は**非推奨**である。値は従来どおり
+// p=1 と同じ核(1/√s)で返す(1 bit も変えない)が、セッションに 1 度だけ console.warn を出す
+let chiP0Warned=false;
 function dfmBinaryChi(mA,mB,a,D0,eps,p){
+  if(p===0 && !chiP0Warned){ chiP0Warned=true;
+    console.warn("dfmBinaryChi: the 6th argument 0 is deprecated (kept as the same kernel as p=1, 1/sqrt(a^2+eps^2)); pass 1 for share"); }
   // 第262便d: 第 6 引数は **0/未指定(旧 share の番兵)と 1(新しい share の指数)を同じ核**として扱う。
   // p=1 は数学的に s^{−1/2}=1/√s だが `Math.pow(x,-0.5)` と `1/Math.sqrt(x)` の最下位ビットは
   // 一致が保証されないので、**分岐は p>1 で切る**(既存の値は 1 bit も動かない)。
@@ -36731,6 +36811,11 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第12便: 粒子選択のQA用(A/B比較中の編集検証 — world: "A"|"B")
   selectBody:(i,world)=>{ selWorld=(world==="B")?"B":"A"; selIdx=i; updateBodyEdit(); },
   selInfo:()=>({selIdx, selWorld}), selSimRef,
+  // 第263便b(第55報「『粒子の編集』を畳んだ時に、『親子コア(層)』も畳む」): 畳み連動の読み口と、
+  // 再展開の 2 案を同じ html で比べるための表示専用スイッチ(QA bodyedit.minimize / 実験器が読む)。
+  // beMinKeepLayerMode(true)=案A(畳む前の層モードを復元)・既定 false=案B(基本行で開く)
+  beLayModeNow:()=>beLayMode, beMinNow:()=>beMin,
+  beMinKeepLayerMode:(v)=>{ if(v!==undefined) beMinKeepLay=!!v; return beMinKeepLay; },
   wavelengthColor,  // 第36便 B3(原仮定者指示): 光線の波長色計算のQA用(色関数そのものを公開・重複実装しない)
   rayLambda0:()=>rayLambda0, setRayLambda0,  // 第37便 A3(原仮定者指示): 光線の基準波長λ0のQA用
   rayBandColor, rayLambda0FromRaw,  // 第38便(原仮定者指示): 可視光外の記号色/既定移行ロジックのQA用
