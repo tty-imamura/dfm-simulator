@@ -1,0 +1,1394 @@
+{
+ "base": "beta/_w262_base.html",
+ "cur": "beta/index.html",
+ "probeBase": {
+  "has": {
+   "plan": false,
+   "report": false,
+   "toLayers": true
+  },
+  "errs": [],
+  "nPresets": 121,
+  "grav": [
+   {
+    "d": 1,
+    "aPoint": 71.55417527999327,
+    "aLayered": 0,
+    "da": -71.55417527999327
+   },
+   {
+    "d": 3,
+    "aPoint": 10.663718095482636,
+    "aLayered": 0,
+    "da": -10.663718095482636
+   },
+   {
+    "d": 5,
+    "aPoint": 3.9407413473662936,
+    "aLayered": 1.1822224042098881,
+    "da": -2.7585189431564054
+   },
+   {
+    "d": 7,
+    "aPoint": 2.025296852448193,
+    "aLayered": 0.6075890557344579,
+    "da": -1.417707796713735
+   },
+   {
+    "d": 10,
+    "aPoint": 0.9962616846661794,
+    "aLayered": 0.9962616846661794,
+    "da": 0
+   },
+   {
+    "d": 20,
+    "aPoint": 0.24976580797204814,
+    "aLayered": 0.24976580797204814,
+    "da": 0
+   },
+   {
+    "d": 100,
+    "aPoint": 0.009999625011718407,
+    "aLayered": 0.009999625011718407,
+    "da": 0
+   },
+   {
+    "d": 1000,
+    "aPoint": 0.0000999999625000117,
+    "aLayered": 0.0000999999625000117,
+    "da": 0
+   }
+  ],
+  "gravLayers": [
+   {
+    "role": "core",
+    "m": 30,
+    "r": 5,
+    "J": 12
+   },
+   {
+    "role": "shell",
+    "m": 70,
+    "r": 10,
+    "J": 1750
+   }
+  ],
+  "table": {
+   "differential": {
+    "ok": true,
+    "layers": [
+     {
+      "role": "core",
+      "m": 30,
+      "r": 5,
+      "J": 12
+     },
+     {
+      "role": "shell",
+      "m": 70,
+      "r": 10,
+      "J": 1750
+     }
+    ],
+    "mode": "differential",
+    "Mc": 30,
+    "Ms": 70,
+    "Rc": 5,
+    "R": 10,
+    "sumM": 100,
+    "note": "far field identical (sum of layer masses = |body.m|); the near field changes"
+   },
+   "rigid": {
+    "ok": true,
+    "layers": [
+     {
+      "role": "core",
+      "m": 30,
+      "r": 5,
+      "J": 0
+     },
+     {
+      "role": "shell",
+      "m": 70,
+      "r": 10,
+      "J": 1750
+     }
+    ],
+    "mode": "rigid",
+    "Mc": 30,
+    "Ms": 70,
+    "Rc": 5,
+    "R": 10,
+    "sumM": 100,
+    "note": "far field identical (sum of layer masses = |body.m|); the near field changes"
+   },
+   "active": {
+    "ok": true,
+    "layers": [
+     {
+      "role": "core",
+      "m": 30,
+      "r": 5,
+      "J": 0
+     },
+     {
+      "role": "shell",
+      "m": 70,
+      "r": 10,
+      "J": 1750
+     }
+    ],
+    "mode": "active",
+    "Mc": 30,
+    "Ms": 70,
+    "Rc": 5,
+    "R": 10,
+    "sumM": 100,
+    "note": "far field identical (sum of layer masses = |body.m|); the near field changes"
+   },
+   "cavity": {
+    "ok": false,
+    "reason": "cavityHasNoMass"
+   },
+   "naked": {
+    "ok": true,
+    "layers": [
+     {
+      "role": "core",
+      "m": 10,
+      "r": 3,
+      "J": 0
+     }
+    ],
+    "mode": "rigid",
+    "Mc": 10,
+    "Ms": 0,
+    "Rc": 3,
+    "R": 8,
+    "sumM": 10,
+    "note": "far field identical (sum of layer masses = |body.m|); the near field changes"
+   },
+   "outside": {
+    "ok": false,
+    "reason": "coreOutsideShell"
+   },
+   "negative": {
+    "ok": true,
+    "layers": [
+     {
+      "role": "core",
+      "m": 5,
+      "r": 3,
+      "J": 0
+     },
+     {
+      "role": "shell",
+      "m": 5,
+      "r": 8,
+      "J": 0
+     }
+    ],
+    "mode": "rigid",
+    "Mc": 5,
+    "Ms": 5,
+    "Rc": 3,
+    "R": 8,
+    "sumM": 10,
+    "note": "far field identical (sum of layer masses = |body.m|); the near field changes"
+   }
+  },
+  "engine": [
+   {
+    "d": 3,
+    "aPlain": -10.663717985153198,
+    "aLayers": -2.3841859042583735e-7,
+    "da": 10.663717746734608,
+    "rel": 0.9999999776420766,
+    "err": null
+   },
+   {
+    "d": 12,
+    "aPlain": -0.6926399073563516,
+    "aLayers": -0.6926399073563516,
+    "da": 0,
+    "rel": 0,
+    "err": null
+   },
+   {
+    "d": 30,
+    "aPlain": -0.1110648299800232,
+    "aLayers": -0.1110648299800232,
+    "da": 0,
+    "rel": 0,
+    "err": null
+   },
+   {
+    "d": 100,
+    "aPlain": -0.009999625035561621,
+    "aLayers": -0.009999625035561621,
+    "da": 0,
+    "rel": 0,
+    "err": null
+   }
+  ],
+  "finite": {
+   "inf": {
+    "ok": true,
+    "layers": [
+     {
+      "role": "core",
+      "m": null,
+      "r": 20
+     },
+     {
+      "role": "shell",
+      "m": 100,
+      "r": 100
+     }
+    ],
+    "sumM": null,
+    "n": 2
+   },
+   "mAfterInf": null,
+   "layAfterInf": null,
+   "big": {
+    "ok": true,
+    "layers": [
+     {
+      "role": "core",
+      "m": 1e+300,
+      "r": 20
+     },
+     {
+      "role": "shell",
+      "m": 1e+300,
+      "r": 100
+     }
+    ],
+    "sumM": 2e+300,
+    "n": 2
+   },
+   "mAfterBig": null,
+   "rInf": {
+    "ok": true,
+    "layers": [
+     {
+      "role": "core",
+      "m": 900,
+      "r": null
+     }
+    ],
+    "sumM": 900,
+    "n": 1
+   },
+   "jInf": {
+    "ok": true,
+    "layers": [
+     {
+      "role": "core",
+      "m": 900,
+      "r": 20
+     }
+    ],
+    "sumM": 900,
+    "n": 1
+   },
+   "m0": 1000,
+   "l0": 900,
+   "mEnd": 900,
+   "layEnd": 900,
+   "ok": {
+    "ok": true,
+    "layers": [
+     {
+      "role": "core",
+      "m": 800,
+      "r": 20
+     },
+     {
+      "role": "shell",
+      "m": 100,
+      "r": 100
+     }
+    ],
+    "sumM": 900,
+    "n": 2
+   },
+   "mOk": 900
+  },
+  "pageErrors": []
+ },
+ "probeCur": {
+  "has": {
+   "plan": true,
+   "report": true,
+   "toLayers": true
+  },
+  "errs": [],
+  "nPresets": 121,
+  "report": {
+   "nCore": 75,
+   "counts": {
+    "convertible": 61,
+    "naked": 0,
+    "cavity": 0,
+    "needsResolve": 13,
+    "rejected": 1
+   },
+   "ids": {
+    "convertible": [
+     "⏳nebulaBipolar×23",
+     "⚫bhCore×1",
+     "🪩bhCoreTilt×1",
+     "⚡psrDoubleABDFM×2",
+     "🧿psrDoubleABSpinCal×2",
+     "🧮psrJ1757DFM×2",
+     "🩺psrJ1946DFM×2",
+     "🪶psrDoubleABPN×2",
+     "🪃psrJ1757PN×2",
+     "🪀psrJ1946PN×2",
+     "🪝psrDoubleABCF×2",
+     "🪄psrJ1757CF×2",
+     "🩹psrJ1946CF×2",
+     "📿psrB1534×2",
+     "🧶psrB1534DFM×2",
+     "🪤psrB1534CF×2",
+     "🎻gw150914DFM×2",
+     "⏰gw150914Merge4s×2",
+     "🛞ngc3198DFM×1",
+     "🥀supernovaProg×1",
+     "🌹supernovaProgDFM×1",
+     "🏮pulsarSolo×1",
+     "🌱starSeed×2"
+    ],
+    "naked": [],
+    "cavity": [],
+    "needsResolve": [
+     "🐚nebulaShell×3",
+     "🥚selfRotor×1",
+     "🌍earthMoon×2",
+     "🌕earthMoonFree×2",
+     "🎯saturnLayered×1",
+     "🎇supernovaCore×1",
+     "⚪whiteDwarfDFM×1",
+     "🔘whiteDwarfBareDFM×1",
+     "🎆envelopeShedDFM×1"
+    ],
+    "rejected": [
+     "🦀crabRemnant×1"
+    ]
+   },
+   "byReason": {
+    "bodyMassNotDeclared": 4,
+    "bodyRadiusNotDeclared": 9,
+    "coreOutsideShell": 1
+   }
+  },
+  "built": {
+   "counts": {
+    "convertible": 304,
+    "naked": 0,
+    "cavity": 0,
+    "rejected": 1
+   },
+   "rows": [
+    {
+     "id": "🦀crabRemnant",
+     "c": {
+      "convertible": 0,
+      "naked": 0,
+      "cavity": 0,
+      "rejected": 1
+     },
+     "why": {
+      "coreOutsideShell": 1
+     }
+    }
+   ],
+   "nRows": 33,
+   "total": 305
+  },
+  "grav": [
+   {
+    "d": 1,
+    "aPoint": 71.55417527999327,
+    "aLayered": 0,
+    "da": -71.55417527999327
+   },
+   {
+    "d": 3,
+    "aPoint": 10.663718095482636,
+    "aLayered": 0,
+    "da": -10.663718095482636
+   },
+   {
+    "d": 5,
+    "aPoint": 3.9407413473662936,
+    "aLayered": 1.1822224042098881,
+    "da": -2.7585189431564054
+   },
+   {
+    "d": 7,
+    "aPoint": 2.025296852448193,
+    "aLayered": 0.6075890557344579,
+    "da": -1.417707796713735
+   },
+   {
+    "d": 10,
+    "aPoint": 0.9962616846661794,
+    "aLayered": 0.9962616846661794,
+    "da": 0
+   },
+   {
+    "d": 20,
+    "aPoint": 0.24976580797204814,
+    "aLayered": 0.24976580797204814,
+    "da": 0
+   },
+   {
+    "d": 100,
+    "aPoint": 0.009999625011718407,
+    "aLayered": 0.009999625011718407,
+    "da": 0
+   },
+   {
+    "d": 1000,
+    "aPoint": 0.0000999999625000117,
+    "aLayered": 0.0000999999625000117,
+    "da": 0
+   }
+  ],
+  "gravLayers": [
+   {
+    "role": "core",
+    "m": 30,
+    "r": 5,
+    "J": 12
+   },
+   {
+    "role": "shell",
+    "m": 70,
+    "r": 10,
+    "J": 1750
+   }
+  ],
+  "table": {
+   "differential": {
+    "ok": true,
+    "layers": [
+     {
+      "role": "core",
+      "m": 30,
+      "r": 5,
+      "J": 12
+     },
+     {
+      "role": "shell",
+      "m": 70,
+      "r": 10,
+      "J": 1750
+     }
+    ],
+    "mode": "differential",
+    "Mc": 30,
+    "Ms": 70,
+    "Rc": 5,
+    "R": 10,
+    "sumM": 100,
+    "plan": {
+     "ok": true,
+     "layers": [
+      {
+       "role": "core",
+       "m": 30,
+       "r": 5,
+       "J": 12
+      },
+      {
+       "role": "shell",
+       "m": 70,
+       "r": 10,
+       "J": 1750
+      }
+     ],
+     "mode": "differential",
+     "Mc": 30,
+     "Ms": 70,
+     "Rc": 5,
+     "R": 10,
+     "sumM": 100,
+     "inertiaScale": 1,
+     "Ic": 375,
+     "omega": 0.032,
+     "tiltDeg": 0,
+     "Jz": 12,
+     "Jx": 0,
+     "Jmag": 12,
+     "Jshell": 1750,
+     "Erot": 0.192,
+     "ErotZ": 0.192,
+     "source": {
+      "mode": "differential",
+      "massFrac": 0.3,
+      "radius": 5,
+      "Jz": 12
+     },
+     "canReplaceV2": false,
+     "warnings": [
+      "canReplaceV2:false",
+      "layerJIsDeclarationOnly"
+     ],
+     "note": "far field identical (sum of layer masses = body.m); the near field changes"
+    },
+    "note": "far field identical (sum of layer masses = body.m); the near field changes"
+   },
+   "rigid": {
+    "ok": true,
+    "layers": [
+     {
+      "role": "core",
+      "m": 30,
+      "r": 5,
+      "J": 0
+     },
+     {
+      "role": "shell",
+      "m": 70,
+      "r": 10,
+      "J": 1750
+     }
+    ],
+    "mode": "rigid",
+    "Mc": 30,
+    "Ms": 70,
+    "Rc": 5,
+    "R": 10,
+    "sumM": 100,
+    "plan": {
+     "ok": true,
+     "layers": [
+      {
+       "role": "core",
+       "m": 30,
+       "r": 5,
+       "J": 0
+      },
+      {
+       "role": "shell",
+       "m": 70,
+       "r": 10,
+       "J": 1750
+      }
+     ],
+     "mode": "rigid",
+     "Mc": 30,
+     "Ms": 70,
+     "Rc": 5,
+     "R": 10,
+     "sumM": 100,
+     "inertiaScale": 1,
+     "Ic": 375,
+     "omega": 0,
+     "tiltDeg": 0,
+     "Jz": 0,
+     "Jx": 0,
+     "Jmag": 0,
+     "Jshell": 1750,
+     "Erot": 0,
+     "ErotZ": 0,
+     "source": {
+      "mode": "rigid",
+      "massFrac": 0.3,
+      "radius": 5
+     },
+     "canReplaceV2": false,
+     "warnings": [
+      "canReplaceV2:false",
+      "layerJIsDeclarationOnly"
+     ],
+     "note": "far field identical (sum of layer masses = body.m); the near field changes"
+    },
+    "note": "far field identical (sum of layer masses = body.m); the near field changes"
+   },
+   "active": {
+    "ok": true,
+    "layers": [
+     {
+      "role": "core",
+      "m": 30,
+      "r": 5,
+      "J": 0
+     },
+     {
+      "role": "shell",
+      "m": 70,
+      "r": 10,
+      "J": 1750
+     }
+    ],
+    "mode": "active",
+    "Mc": 30,
+    "Ms": 70,
+    "Rc": 5,
+    "R": 10,
+    "sumM": 100,
+    "plan": {
+     "ok": true,
+     "layers": [
+      {
+       "role": "core",
+       "m": 30,
+       "r": 5,
+       "J": 0
+      },
+      {
+       "role": "shell",
+       "m": 70,
+       "r": 10,
+       "J": 1750
+      }
+     ],
+     "mode": "active",
+     "Mc": 30,
+     "Ms": 70,
+     "Rc": 5,
+     "R": 10,
+     "sumM": 100,
+     "inertiaScale": 1,
+     "Ic": 375,
+     "omega": 0,
+     "tiltDeg": 0,
+     "Jz": 0,
+     "Jx": 0,
+     "Jmag": 0,
+     "Jshell": 1750,
+     "Erot": 0,
+     "ErotZ": 0,
+     "source": {
+      "mode": "active",
+      "massFrac": 0.3,
+      "radius": 5
+     },
+     "canReplaceV2": false,
+     "warnings": [
+      "canReplaceV2:false",
+      "layerJIsDeclarationOnly",
+      "coreDynamicsNotCarried"
+     ],
+     "note": "far field identical (sum of layer masses = body.m); the near field changes"
+    },
+    "note": "far field identical (sum of layer masses = body.m); the near field changes"
+   },
+   "cavity": {
+    "ok": false,
+    "reason": "cavityHasNoMass"
+   },
+   "naked": {
+    "ok": true,
+    "layers": [
+     {
+      "role": "core",
+      "m": 10,
+      "r": 3,
+      "J": 0
+     }
+    ],
+    "mode": "rigid",
+    "Mc": 10,
+    "Ms": 0,
+    "Rc": 3,
+    "R": 8,
+    "sumM": 10,
+    "observedRadius": 8,
+    "plan": {
+     "ok": true,
+     "layers": [
+      {
+       "role": "core",
+       "m": 10,
+       "r": 3,
+       "J": 0
+      }
+     ],
+     "mode": "rigid",
+     "Mc": 10,
+     "Ms": 0,
+     "Rc": 3,
+     "R": 8,
+     "sumM": 10,
+     "inertiaScale": 1,
+     "Ic": 45,
+     "omega": 0,
+     "tiltDeg": 0,
+     "Jz": 0,
+     "Jx": 0,
+     "Jmag": 0,
+     "Jshell": 0,
+     "Erot": 0,
+     "ErotZ": 0,
+     "observedRadius": 8,
+     "source": {
+      "mode": "rigid",
+      "massFrac": 1,
+      "radius": 3
+     },
+     "canReplaceV2": false,
+     "warnings": [
+      "canReplaceV2:false",
+      "layerJIsDeclarationOnly",
+      "nakedCoreObservedRadiusKept"
+     ],
+     "note": "far field identical (sum of layer masses = body.m); the near field changes"
+    },
+    "note": "far field identical (sum of layer masses = body.m); the near field changes"
+   },
+   "outside": {
+    "ok": false,
+    "reason": "coreOutsideShell"
+   },
+   "negative": {
+    "ok": false,
+    "reason": "bodyMassNegative"
+   }
+  },
+  "engine": [
+   {
+    "d": 3,
+    "aPlain": -10.663717985153198,
+    "aLayers": -2.3841859042583735e-7,
+    "da": 10.663717746734608,
+    "rel": 0.9999999776420766,
+    "err": null
+   },
+   {
+    "d": 12,
+    "aPlain": -0.6926399073563516,
+    "aLayers": -0.6926399073563516,
+    "da": 0,
+    "rel": 0,
+    "err": null
+   },
+   {
+    "d": 30,
+    "aPlain": -0.1110648299800232,
+    "aLayers": -0.1110648299800232,
+    "da": 0,
+    "rel": 0,
+    "err": null
+   },
+   {
+    "d": 100,
+    "aPlain": -0.009999625035561621,
+    "aLayers": -0.009999625035561621,
+    "da": 0,
+    "rel": 0,
+    "err": null
+   }
+  ],
+  "plan": {
+   "json0": {
+    "ok": true,
+    "layers": [
+     {
+      "role": "core",
+      "m": 30,
+      "r": 5,
+      "J": 1500
+     },
+     {
+      "role": "shell",
+      "m": 70,
+      "r": 10,
+      "J": 1750
+     }
+    ],
+    "mode": "differential",
+    "Mc": 30,
+    "Ms": 70,
+    "Rc": 5,
+    "R": 10,
+    "sumM": 100,
+    "inertiaScale": 1,
+    "Ic": 375,
+    "omega": 4,
+    "tiltDeg": 0,
+    "Jz": 1500,
+    "Jx": 0,
+    "Jmag": 1500,
+    "Jshell": 1750,
+    "Erot": 3000,
+    "ErotZ": 3000,
+    "source": {
+     "mode": "differential",
+     "massFrac": 0.3,
+     "radius": 5,
+     "omega": 4,
+     "tilt": 0,
+     "inertiaScale": 1
+    },
+    "canReplaceV2": false,
+    "warnings": [
+     "canReplaceV2:false",
+     "layerJIsDeclarationOnly"
+    ],
+    "note": "far field identical (sum of layer masses = body.m); the near field changes"
+   },
+   "json60": {
+    "ok": true,
+    "layers": [
+     {
+      "role": "core",
+      "m": 30,
+      "r": 5,
+      "J": 750.0000000000001
+     },
+     {
+      "role": "shell",
+      "m": 70,
+      "r": 10,
+      "J": 1750
+     }
+    ],
+    "mode": "differential",
+    "Mc": 30,
+    "Ms": 70,
+    "Rc": 5,
+    "R": 10,
+    "sumM": 100,
+    "inertiaScale": 1,
+    "Ic": 375,
+    "omega": 4,
+    "tiltDeg": 60,
+    "Jz": 750.0000000000001,
+    "Jx": 1299.038105676658,
+    "Jmag": 1500,
+    "Jshell": 1750,
+    "Erot": 3000,
+    "ErotZ": 750.0000000000001,
+    "source": {
+     "mode": "differential",
+     "massFrac": 0.3,
+     "radius": 5,
+     "omega": 4,
+     "tilt": 60,
+     "inertiaScale": 1
+    },
+    "canReplaceV2": false,
+    "warnings": [
+     "canReplaceV2:false",
+     "layerJIsDeclarationOnly",
+     "tiltNotCarried"
+    ],
+    "note": "far field identical (sum of layer masses = body.m); the near field changes"
+   },
+   "active": {
+    "ok": true,
+    "layers": [
+     {
+      "role": "core",
+      "m": 30,
+      "r": 5,
+      "J": 600
+     },
+     {
+      "role": "shell",
+      "m": 70,
+      "r": 10,
+      "J": 1750
+     }
+    ],
+    "mode": "active",
+    "Mc": 30,
+    "Ms": 70,
+    "Rc": 5,
+    "R": 10,
+    "sumM": 100,
+    "inertiaScale": 0.4,
+    "Ic": 150,
+    "omega": 4,
+    "tiltDeg": 0,
+    "Jz": 600,
+    "Jx": 0,
+    "Jmag": 600,
+    "Jshell": 1750,
+    "Erot": 1200,
+    "ErotZ": 1200,
+    "source": {
+     "mode": "active",
+     "massFrac": 0.3,
+     "radius": 5,
+     "omega": 4,
+     "Kcs": 0.2,
+     "inertiaScale": 0.4
+    },
+    "canReplaceV2": false,
+    "warnings": [
+     "canReplaceV2:false",
+     "layerJIsDeclarationOnly",
+     "KcsNotCarried",
+     "coreDynamicsNotCarried"
+    ],
+    "note": "far field identical (sum of layer masses = body.m); the near field changes"
+   },
+   "naked": {
+    "ok": true,
+    "layers": [
+     {
+      "role": "core",
+      "m": 10,
+      "r": 3,
+      "J": 45
+     }
+    ],
+    "mode": "rigid",
+    "Mc": 10,
+    "Ms": 0,
+    "Rc": 3,
+    "R": 8,
+    "sumM": 10,
+    "inertiaScale": 1,
+    "Ic": 45,
+    "omega": 1,
+    "tiltDeg": 0,
+    "Jz": 45,
+    "Jx": 0,
+    "Jmag": 45,
+    "Jshell": 0,
+    "Erot": 22.5,
+    "ErotZ": 22.5,
+    "observedRadius": 8,
+    "source": {
+     "mode": "rigid",
+     "massFrac": 1,
+     "radius": 3,
+     "omega": 1
+    },
+    "canReplaceV2": false,
+    "warnings": [
+     "canReplaceV2:false",
+     "layerJIsDeclarationOnly",
+     "nakedCoreObservedRadiusKept"
+    ],
+    "note": "far field identical (sum of layer masses = body.m); the near field changes"
+   },
+   "tiltLive": {
+    "ok": true,
+    "layers": [
+     {
+      "role": "core",
+      "m": 750.0000298023224,
+      "r": 7.5,
+      "J": 2.583239341951448e-11
+     },
+     {
+      "role": "shell",
+      "m": 1749.9999701976776,
+      "r": 15,
+      "J": 29531.250670552236
+     }
+    ],
+    "mode": "differential",
+    "Mc": 750.0000298023224,
+    "Ms": 1749.9999701976776,
+    "Rc": 7.5,
+    "R": 15,
+    "sumM": 2500,
+    "inertiaScale": 1,
+    "Ic": 21093.750838190317,
+    "omega": 19.999999205271436,
+    "tiltDeg": 90,
+    "Jz": 2.583239341951448e-11,
+    "Jx": 421875,
+    "Jmag": 421875,
+    "Jshell": 29531.250670552236,
+    "Erot": 4218749.832361943,
+    "ErotZ": 1.5817778329219742e-26,
+    "source": {
+     "mode": "differential",
+     "massFrac": 0.30000001192092896,
+     "radius": 7.5,
+     "inertiaScale": 1,
+     "Jz": 2.583239341951448e-11,
+     "Jmag": 421875
+    },
+    "canReplaceV2": false,
+    "warnings": [
+     "canReplaceV2:false",
+     "layerJIsDeclarationOnly",
+     "tiltNotCarried"
+    ],
+    "note": "far field identical (sum of layer masses = body.m); the near field changes"
+   },
+   "tiltLiveRaw": {
+    "Jz": 2.583239341951448e-11,
+    "Jm": 421875,
+    "Jx": 421875,
+    "m": 2500,
+    "R": 15,
+    "Rc": 7.5,
+    "mf": 0.30000001192092896,
+    "iS": 1
+   }
+  },
+  "finite": {
+   "inf": {
+    "ok": false,
+    "reason": "layerNotFinite",
+    "at": 0
+   },
+   "mAfterInf": 1000,
+   "layAfterInf": 900,
+   "big": {
+    "ok": false,
+    "reason": "layerNotFinite",
+    "at": 0
+   },
+   "mAfterBig": 1000,
+   "rInf": {
+    "ok": false,
+    "reason": "layerNotFinite",
+    "at": 0
+   },
+   "jInf": {
+    "ok": false,
+    "reason": "layerNotFinite",
+    "at": 0
+   },
+   "m0": 1000,
+   "l0": 900,
+   "mEnd": 1000,
+   "layEnd": 900,
+   "ok": {
+    "ok": true,
+    "layers": [
+     {
+      "role": "core",
+      "m": 800,
+      "r": 20
+     },
+     {
+      "role": "shell",
+      "m": 100,
+      "r": 100
+     }
+    ],
+    "sumM": 900,
+    "n": 2
+   },
+   "mOk": 900
+  },
+  "pageErrors": []
+ },
+ "uiBase": {
+  "widths": [
+   {
+    "hasToggle": false,
+    "closed": {
+     "h": 320.1875,
+     "w": 188,
+     "bottom": 389.1875,
+     "wrapBottom": 720,
+     "overflowPx": 0,
+     "scrollH": 318,
+     "clientH": 318,
+     "scrollW": 186,
+     "clientW": 186,
+     "xOverflow": 0
+    },
+    "open": {
+     "h": 544.84375,
+     "w": 188,
+     "bottom": 613.84375,
+     "wrapBottom": 720,
+     "overflowPx": 0,
+     "scrollH": 543,
+     "clientH": 543,
+     "scrollW": 186,
+     "clientW": 186,
+     "xOverflow": 0
+    },
+    "tabs": [
+     "根",
+     "層1",
+     "層2"
+    ],
+    "width": 1280,
+    "height": 720,
+    "pageErrors": []
+   },
+   {
+    "hasToggle": false,
+    "closed": {
+     "h": 320.1875,
+     "w": 188,
+     "bottom": 389.1875,
+     "wrapBottom": 720,
+     "overflowPx": 0,
+     "scrollH": 318,
+     "clientH": 318,
+     "scrollW": 186,
+     "clientW": 186,
+     "xOverflow": 0
+    },
+    "open": {
+     "h": 544.84375,
+     "w": 188,
+     "bottom": 613.84375,
+     "wrapBottom": 720,
+     "overflowPx": 0,
+     "scrollH": 543,
+     "clientH": 543,
+     "scrollW": 186,
+     "clientW": 186,
+     "xOverflow": 0
+    },
+    "tabs": [
+     "根",
+     "層1",
+     "層2"
+    ],
+    "width": 1024,
+    "height": 720,
+    "pageErrors": []
+   },
+   {
+    "hasToggle": false,
+    "closed": {
+     "h": 320.1875,
+     "w": 188,
+     "bottom": 389.1875,
+     "wrapBottom": 612,
+     "overflowPx": 0,
+     "scrollH": 318,
+     "clientH": 318,
+     "scrollW": 186,
+     "clientW": 186,
+     "xOverflow": 0
+    },
+    "open": {
+     "h": 544.84375,
+     "w": 188,
+     "bottom": 613.84375,
+     "wrapBottom": 612,
+     "overflowPx": 1.84375,
+     "scrollH": 543,
+     "clientH": 543,
+     "scrollW": 186,
+     "clientW": 186,
+     "xOverflow": 0
+    },
+    "tabs": [
+     "根",
+     "層1",
+     "層2"
+    ],
+    "width": 800,
+    "height": 720,
+    "pageErrors": []
+   },
+   {
+    "hasToggle": false,
+    "closed": {
+     "h": 320.1875,
+     "w": 188,
+     "bottom": 389.1875,
+     "wrapBottom": 312,
+     "overflowPx": 77.1875,
+     "scrollH": 318,
+     "clientH": 318,
+     "scrollW": 186,
+     "clientW": 186,
+     "xOverflow": 0
+    },
+    "open": {
+     "h": 544.84375,
+     "w": 188,
+     "bottom": 613.84375,
+     "wrapBottom": 312,
+     "overflowPx": 301.84375,
+     "scrollH": 543,
+     "clientH": 543,
+     "scrollW": 186,
+     "clientW": 186,
+     "xOverflow": 0
+    },
+    "tabs": [
+     "根",
+     "層1",
+     "層2"
+    ],
+    "width": 800,
+    "height": 420,
+    "pageErrors": []
+   }
+  ]
+ },
+ "uiCur": {
+  "widths": [
+   {
+    "hasToggle": true,
+    "toggleBeforeM": true,
+    "toggleTop": 110,
+    "mTop": 151,
+    "toggleAboveM": true,
+    "closed": {
+     "h": 343.1875,
+     "w": 188,
+     "bottom": 412.1875,
+     "wrapBottom": 720,
+     "overflowPx": 0,
+     "scrollH": 341,
+     "clientH": 341,
+     "scrollW": 186,
+     "clientW": 186,
+     "xOverflow": 0
+    },
+    "open": {
+     "h": 490.84375,
+     "w": 188,
+     "bottom": 559.84375,
+     "wrapBottom": 720,
+     "overflowPx": 0,
+     "scrollH": 489,
+     "clientH": 489,
+     "scrollW": 186,
+     "clientW": 186,
+     "xOverflow": 0
+    },
+    "tabs": [
+     "根",
+     "層1"
+    ],
+    "baseHidden": true,
+    "layShown": true,
+    "backShown": true,
+    "width": 1280,
+    "height": 720,
+    "pageErrors": []
+   },
+   {
+    "hasToggle": true,
+    "toggleBeforeM": true,
+    "toggleTop": 110,
+    "mTop": 151,
+    "toggleAboveM": true,
+    "closed": {
+     "h": 343.1875,
+     "w": 188,
+     "bottom": 412.1875,
+     "wrapBottom": 720,
+     "overflowPx": 0,
+     "scrollH": 341,
+     "clientH": 341,
+     "scrollW": 186,
+     "clientW": 186,
+     "xOverflow": 0
+    },
+    "open": {
+     "h": 490.84375,
+     "w": 188,
+     "bottom": 559.84375,
+     "wrapBottom": 720,
+     "overflowPx": 0,
+     "scrollH": 489,
+     "clientH": 489,
+     "scrollW": 186,
+     "clientW": 186,
+     "xOverflow": 0
+    },
+    "tabs": [
+     "根",
+     "層1"
+    ],
+    "baseHidden": true,
+    "layShown": true,
+    "backShown": true,
+    "width": 1024,
+    "height": 720,
+    "pageErrors": []
+   },
+   {
+    "hasToggle": true,
+    "toggleBeforeM": true,
+    "toggleTop": 110,
+    "mTop": 151,
+    "toggleAboveM": true,
+    "closed": {
+     "h": 343.1875,
+     "w": 188,
+     "bottom": 412.1875,
+     "wrapBottom": 612,
+     "overflowPx": 0,
+     "scrollH": 341,
+     "clientH": 341,
+     "scrollW": 186,
+     "clientW": 186,
+     "xOverflow": 0
+    },
+    "open": {
+     "h": 490.84375,
+     "w": 188,
+     "bottom": 559.84375,
+     "wrapBottom": 612,
+     "overflowPx": 0,
+     "scrollH": 489,
+     "clientH": 489,
+     "scrollW": 186,
+     "clientW": 186,
+     "xOverflow": 0
+    },
+    "tabs": [
+     "根",
+     "層1"
+    ],
+    "baseHidden": true,
+    "layShown": true,
+    "backShown": true,
+    "width": 800,
+    "height": 720,
+    "pageErrors": []
+   },
+   {
+    "hasToggle": true,
+    "toggleBeforeM": true,
+    "toggleTop": 110,
+    "mTop": 151,
+    "toggleAboveM": true,
+    "closed": {
+     "h": 235,
+     "w": 188,
+     "bottom": 304,
+     "wrapBottom": 312,
+     "overflowPx": 0,
+     "scrollH": 341,
+     "clientH": 233,
+     "scrollW": 186,
+     "clientW": 186,
+     "xOverflow": 0
+    },
+    "open": {
+     "h": 235,
+     "w": 188,
+     "bottom": 304,
+     "wrapBottom": 312,
+     "overflowPx": 0,
+     "scrollH": 489,
+     "clientH": 233,
+     "scrollW": 186,
+     "clientW": 186,
+     "xOverflow": 0
+    },
+    "tabs": [
+     "根",
+     "層1"
+    ],
+    "baseHidden": true,
+    "layShown": true,
+    "backShown": true,
+    "width": 800,
+    "height": 420,
+    "pageErrors": []
+   }
+  ]
+ }
+}

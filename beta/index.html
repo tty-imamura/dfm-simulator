@@ -176,8 +176,12 @@
   /* v1.17: 選択粒子の編集パネル(タップ選択中のみ表示) */
   /* 第12便: z-index — 狭い横画面等でキャンバスが低くても、後続UI(操作列・タブ)に隠れず操作できる */
   /* 第92便(原仮定者指示): コア内訳(v2)の数値見切れ対策 — パネル幅 172→188px */
+  /* 第262便b(第54報「表示が見切れない様に調整する」): パネルは #canvasWrap より高くならない。
+     溢れた分はパネルの中でスクロールする(#canvasWrap 側は overflow を変えていないので、
+     従来は下端がそのまま切れていた)。最小化中は従来どおり内容の高さのまま */
   #bodyEdit{position:absolute;right:8px;top:8px;width:188px;z-index:6;background:rgba(20,24,48,.94);
-    border:1px solid var(--line);border-radius:10px;padding:8px;display:none;font-size:calc(11.5px*var(--uz,1));}
+    border:1px solid var(--line);border-radius:10px;padding:8px;display:none;font-size:calc(11.5px*var(--uz,1));
+    max-height:calc(100% - 16px);overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;}
   #bodyEdit .beHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;
     font-weight:700;color:var(--acc);}
   #bodyEdit .beHead button{background:none;border:none;color:var(--dim);font-size:calc(14px*var(--uz,1));
@@ -198,7 +202,16 @@
   /* 第81便C: #beCoreV2 が details 化(summary は .beRow の外)したため、最小化時は summary も
      明示的に隠す(従来どおり最小化中はコアv2内訳ブロック全体が見えない挙動を維持) */
   #bodyEdit.min .beRow,#bodyEdit.min .beNote,#bodyEdit.min #beCoreV2>summary{display:none;}
-  #bodyEdit.min{width:auto;min-width:120px;}
+  /* 第262便b: 層の切り替えボタンと層ブロックも最小化中は畳む(従来の「ヘッダだけ残す」挙動を維持) */
+  #bodyEdit.min #beLayToggleRow,#bodyEdit.min #beLayers,#bodyEdit.min #beLineage{display:none;}
+  #bodyEdit.min{width:auto;min-width:120px;max-height:none;overflow:visible;}
+  /* 第262便b: 層タブは狭幅で折り返す(1 行に詰め込まない)・選択中のタブが分かる */
+  #beLayTabs{gap:4px;margin-top:4px;}
+  #beLayTabs .btn{flex:0 0 auto;max-width:100%;}
+  #beLayers #beLayTitle{margin:2px 0;}
+  #beLayers .beRow select{font-size:calc(11px*var(--uz,1));min-height:30px;background:var(--panel);
+    border:1px solid var(--line);border-radius:6px;color:var(--acc);}
+  #beCvDepRow{flex-wrap:wrap;}
   #notice{position:absolute;left:50%;top:12px;transform:translateX(-50%);max-width:92%;
     background:rgba(20,24,48,.92);border:1px solid var(--line);border-radius:10px;
     padding:8px 12px;font-size:12px;display:none;pointer-events:none;text-align:center;}
@@ -533,6 +546,31 @@
       <!-- 第25便(原仮定者指示): 行構成を対で整理(第61便: To×/TcO×〔obsT/coreOT〕は未使用のため廃止)
            第81便(原仮定者指示): コアv1(mc/m・sc/s・Rc/R)の編集行を廃止 — コアはコアv2 の
            独立サブシステムになり、内訳は下の「コア内訳(v2)」ブロックが読み取り専用で示す -->
+      <!-- 第262便b(第54報「『親子コア(層)』の切り替えボタンは『m』の上にする。切り替えると、
+           『根』や『層』の情報が丸ごと切り替わる。表示が見切れない様に調整する」):
+           **層を持つ粒子だけに出る切り替えボタン**。ON で下の #beBaseRows(m/s/R/… とコア内訳 v2・
+           形成系譜)を丸ごと隠し、#beLayers(根+層のタブ)に**入れ替える** —— 縦に足さないので
+           パネルが伸びない(見切れの主因だった)。表示だけの状態で、物理には 1 bit も効かない -->
+      <div class="rowBtns" id="beLayToggleRow" style="display:none;margin-top:0">
+        <button class="btn" id="beLayToggle" aria-pressed="false"></button></div>
+      <!-- 第261便b: 同心層の編集ブロック(第262便b: details → div。上のボタンで開閉する) -->
+      <div id="beLayers" style="display:none">
+        <div id="beLayTitle" class="tappable" style="color:var(--acc);font-weight:700;cursor:pointer">親子コア(層)</div>
+        <div class="rowBtns" id="beLayTabs" style="flex-wrap:wrap"></div>
+        <div id="beLayRoot" style="font-size:11.5px;opacity:.92;padding:2px 0"></div>
+        <!-- 第262便b(第54報「表示が見切れない様に調整する」): 役割の select は 1 行占有にする
+             (188px 幅で「役割 + select + m + 数値」を 1 行に詰めると select が 2 文字で切れていた) -->
+        <div id="beLayEdit">
+          <div class="beRow"><label id="beLlyRole" style="min-width:34px">役割</label>
+            <select id="beLyRole" style="flex:1;min-width:0"></select></div>
+          <div class="beRow"><label id="beLlyM" style="min-width:14px">m</label><input type="text" id="beLyM" inputmode="text" autocomplete="off">
+            <label id="beLlyR" style="min-width:14px">r</label><input type="text" id="beLyR" inputmode="decimal" autocomplete="off"></div>
+          <div class="beRow"><label id="beLlyJ" style="min-width:14px">J</label><input type="text" id="beLyJ" inputmode="text" autocomplete="off"></div>
+        </div>
+        <div class="rowBtns"><button class="btn" id="beLyAdd"></button><button class="btn" id="beLyDel"></button></div>
+        <div class="beNote" id="beLyNote"></div>
+      </div>
+      <div id="beBaseRows">
       <div class="beRow"><label id="beLm">m</label><input type="text" id="beM" inputmode="text" autocomplete="off">
         <label id="beLs">s</label><input type="text" id="beS" inputmode="text" autocomplete="off"></div>
       <!-- 第94便(原仮定者指示): 第93便の行別換算副表示(#beConv/#beConvR/#beConvV)は廃止 —
@@ -591,31 +629,13 @@
             <label id="beLcvEz" style="min-width:44px">ζ</label><input type="text" id="beCvIS" inputmode="text" autocomplete="off"></div>
         </div>
       </details>
-      <!-- 第261便b(第53報 W2・原仮定者「親子コアは、『選択粒子の編集』で、タブ切り替えなどで
-           それぞれの粒子を編集可能にする」): **同心層の編集ブロック**。層を宣言した粒子だけに出る
-           (根では出ない)。タブは「根 / 層1 / 層2 …」で、根タブは読み取り専用の合計を出す。
-           編集は単一入口 S.applyLayerEdit(i,k,cfg) 経由(正準形が通らなければ 1 bit も書かない)。
-           **J は宣言値であって力へは接続していない**(表示・保存・編集の対象) -->
-      <details id="beLayers" style="display:none">
-        <summary id="beLayTitle" class="tappable" style="color:var(--acc);font-weight:700;cursor:pointer">親子コア(層)</summary>
-        <div class="rowBtns" id="beLayTabs" style="flex-wrap:wrap"></div>
-        <div id="beLayRoot" style="font-size:11.5px;opacity:.92;padding:2px 0"></div>
-        <div id="beLayEdit">
-          <div class="beRow"><label id="beLlyRole" style="min-width:44px">役割</label>
-            <select id="beLyRole" style="flex:1"></select>
-            <label id="beLlyM" style="min-width:24px">m</label><input type="text" id="beLyM" inputmode="text" autocomplete="off"></div>
-          <div class="beRow"><label id="beLlyR" style="min-width:44px">r</label><input type="text" id="beLyR" inputmode="decimal" autocomplete="off">
-            <label id="beLlyJ" style="min-width:24px">J</label><input type="text" id="beLyJ" inputmode="text" autocomplete="off"></div>
-        </div>
-        <div class="rowBtns"><button class="btn" id="beLyAdd"></button><button class="btn" id="beLyDel"></button></div>
-        <div class="beNote" id="beLyNote"></div>
-      </details>
       <!-- 第100便 EXT-10: 形成系譜 — 融合で育った粒子の吸収履歴(読み取り専用・融合が起きた粒子のみ表示) -->
       <details id="beLineage" style="display:none">
         <summary id="beLinTitle" class="tappable" style="color:var(--acc);font-weight:700;cursor:pointer">形成系譜</summary>
         <div id="beLinSummary" style="font-size:11.5px;opacity:.92;padding:2px 0"></div>
         <div id="beLinRows" style="font-size:11px;opacity:.88;max-height:110px;overflow-y:auto"></div>
       </details>
+      </div><!-- /#beBaseRows -->
       <div class="beNote" id="beNote">※編集は即時反映。⏮初めからで初期値に戻ります。</div>
     </div>
   </div>
@@ -1051,6 +1071,8 @@ ja: {
     +"エッジオン(横棒)に描かれる。貼付/保存 JSON の検証器の値域・併用不可則(tilt×Kcs等)は貼付時に適用される。",
   // 第261便b(第53報 W2): 親子コア(同心層)の編集ブロック
   beLayTitle:"親子コア(層)", beLayRoot:"根", beLayTab:(k)=>"層"+k,
+  // 第262便b(第54報): m の上の切り替えボタン(ON で根/層の情報へ丸ごと入れ替わる)
+  beLayToggleOn:"親子コア(層)を開く", beLayToggleOff:"粒子の編集へ戻る",
   beLyRole:"役割", beLyM:"m", beLyR:"r", beLyJ:"J",
   beLyAdd:"層を追加", beLyDel:"この層を削除",
   beLyRootInfo:(n,sum,m,R)=>`層 ${n}・Σ層 m=${sum}(根の m=${m}・観測半径 R=${R})`,
@@ -1059,17 +1081,27 @@ ja: {
   beLyErr:(why)=>"編集は適用されていません: "+why,
   beLyErrWhy:{radiusNotAscending:"r が昇順(同心・非重複)になりません", layerNotPositive:"m・r は正の数値が必要",
     tooManyLayers:"層は 8 までです", unknownRole:"役割が不正です", noSuchLayer:"その層はありません",
-    sumNotPositive:"Σ層 m が正になりません", badIndex:"粒子が選ばれていません"},
-  beCvDep:"コアv2 は**廃止予定**です(親子コアの層へ変換できます)。",
-  beCvToLayers:"層へ変換",
-  beCvConvOk:(n)=>`コアv2 を ${n} 層へ変換しました(遠方の重力は厳密に 0 差・コア半径の内側は変わります)。`,
-  beCvConvNg:(why)=>"変換できません: "+why,
+    sumNotPositive:"Σ層 m が正になりません", badIndex:"粒子が選ばれていません",
+    layerNotFinite:"m・r・J に有限でない値(Infinity/NaN)があります",   // 第262便b
+    sumNotFinite:"Σ層 m が有限になりません"},
+  beCvDep:"コアv2 は**廃止予定**です(『コア』が根・『外殻』が層1 へ移行できます)。",
+  beCvDepNaked:(R)=>`コアv2 は**廃止予定**です(裸コア: 層は 1 つになり、観測半径 R=${R} は層に載りません)。`,
+  beCvToLayers:"親子コアへ移行",
+  beCvConvConfirm:"確認して移行",
+  beCvConvNakedAsk:(R)=>`裸コア(質量比 1)です。層は 1 つ(r=Rc)になり、観測半径 R=${R} は層に載りません(計画の observedRadius には保持します)。もう一度押すと移行します。`,
+  beCvConvOk:(n)=>`コアv2 を ${n} 層へ移行しました(根=コア・層1=外殻。遠方の重力は厳密に 0 差・コア半径の内側は変わります。コアv2 は消していません)。`,
+  beCvConvNg:(why)=>"移行できません: "+why,
   beCvConvWhy:{cavityHasNoMass:"cavity は質量を持たない重みなので層に写せません",
     coreOutsideShell:"Rc が R 以上なので同心・昇順になりません",
     massFracOutOfRange:"質量比が値域の外です", unknownCoreMode:"この種別は変換表にありません",
     coreRadiusNotPositive:"Rc が正ではありません", bodyMassNotPositive:"根の m が正ではありません",
+    bodyMassNegative:"根の m が負です(層は正質量しか受けません)",   // 第262便b
+    bodyMassNotDeclared:"m が宣言されていません", bodyRadiusNotDeclared:"半径 R が宣言されていません",
+    valuesNotFinite:"導いた値が有限になりません",
     bodyRadiusNotPositive:"R が正ではありません"},
-  beDly:"親子コア(body.layers)の実行時編集(第261便b — 実験用)。タブで根と各層を切り替え、m・r・役割・J を編集します。"
+  beDly:"親子コア(body.layers)の実行時編集(第261便b・第262便b — 実験用)。m 欄の上の切り替えボタンで、"
+    +"粒子の編集(m/s/R/…)と根・層の情報が**丸ごと入れ替わり**ます(縦に足さないので見切れません)。"
+    +"**根タブは最内層**(コアv2 から移行すると『コア』が根・『外殻』が層1)で、タブで根と各層を切り替え、m・r・役割・J を編集します。"
     +"単一入口 S.applyLayerEdit(i,k,cfg) が正準形(r 昇順・非重複・1〜8 層・m>0)を検証し、通らなければ 1 bit も書きません。"
     +"**Σm 契約**: 層があるあいだ根の m は派生量(= Σ層 m)です。**J は宣言値で力へは接続していません**。"
     +"重力は従来どおり「根 1 粒子の点源 + 有限半径の球殻定理の差分」で、S._core には 1 命令も足していません。",
@@ -1701,6 +1733,8 @@ en: {
     +"validator's ranges and exclusions (tilt×Kcs etc.) apply when pasting/saving JSON.",
   // 第261便b(第53報 W2): parent-child core (concentric layers) editing block
   beLayTitle:"Parent-child core (layers)", beLayRoot:"root", beLayTab:(k)=>"layer "+k,
+  // 第262便b(第54報): the toggle above the m field (it swaps the root/layer information wholesale)
+  beLayToggleOn:"open parent-child core (layers)", beLayToggleOff:"back to the body editor",
   beLyRole:"role", beLyM:"m", beLyR:"r", beLyJ:"J",
   beLyAdd:"add layer", beLyDel:"remove this layer",
   beLyRootInfo:(n,sum,m,R)=>`${n} layers · sum of layer m=${sum} (root m=${m}, observed radius R=${R})`,
@@ -1711,17 +1745,28 @@ en: {
   beLyErrWhy:{radiusNotAscending:"the radii would not stay ascending (concentric, non-overlapping)",
     layerNotPositive:"m and r must be positive numbers", tooManyLayers:"at most 8 layers",
     unknownRole:"unknown role", noSuchLayer:"no such layer",
-    sumNotPositive:"the sum of the layer masses is not positive", badIndex:"no body is selected"},
-  beCvDep:"Core v2 IS DEPRECATED (it can be converted into parent-child layers).",
-  beCvToLayers:"convert to layers",
-  beCvConvOk:(n)=>`Converted the core v2 into ${n} layers (the far field is identical to the bit; inside the core radius it changes).`,
-  beCvConvNg:(why)=>"cannot convert: "+why,
+    sumNotPositive:"the sum of the layer masses is not positive", badIndex:"no body is selected",
+    layerNotFinite:"m, r or J is not finite (Infinity/NaN)",   // 第262便b
+    sumNotFinite:"the sum of the layer masses is not finite"},
+  beCvDep:"Core v2 IS DEPRECATED (the CORE becomes the ROOT and the SHELL becomes LAYER 1).",
+  beCvDepNaked:(R)=>`Core v2 IS DEPRECATED (naked core: there will be a single layer, and the observed radius R=${R} is not carried by it).`,
+  beCvToLayers:"migrate to layers",
+  beCvConvConfirm:"confirm and migrate",
+  beCvConvNakedAsk:(R)=>`This is a naked core (mass fraction 1). It becomes a single layer at r=Rc, and the observed radius R=${R} is not carried by the layers (the plan keeps it in observedRadius). Press again to migrate.`,
+  beCvConvOk:(n)=>`Migrated the core v2 into ${n} layers (root=core, layer 1=shell; the far field is identical to the bit, inside the core radius it changes; the core v2 declaration is kept).`,
+  beCvConvNg:(why)=>"cannot migrate: "+why,
   beCvConvWhy:{cavityHasNoMass:"a cavity is a weight, not a mass, so it cannot become a layer",
     coreOutsideShell:"Rc is not smaller than R, so the layers would not be concentric and ascending",
     massFracOutOfRange:"the mass fraction is out of range", unknownCoreMode:"this core type is not in the conversion table",
     coreRadiusNotPositive:"Rc is not positive", bodyMassNotPositive:"the root m is not positive",
+    bodyMassNegative:"the root m is negative (layers only accept positive masses)",   // 第262便b
+    bodyMassNotDeclared:"m is not declared", bodyRadiusNotDeclared:"the radius R is not declared",
+    valuesNotFinite:"the derived values are not finite",
     bodyRadiusNotPositive:"R is not positive"},
-  beDly:"Runtime editing of the parent-child core (body.layers, wave 261b - experimental). The tabs switch between the root "
+  beDly:"Runtime editing of the parent-child core (body.layers, waves 261b/262b - experimental). The toggle above the m field "
+    +"SWAPS the body editor (m/s/R/...) and the root/layer information WHOLESALE (nothing is stacked below, so nothing is clipped). "
+    +"THE ROOT TAB IS THE INNERMOST LAYER (after migrating from core v2 the CORE is the root and the SHELL is layer 1). "
+    +"The tabs switch between the root "
     +"and each layer; m, r, role and J are editable. The single entry point S.applyLayerEdit(i,k,cfg) validates the canonical "
     +"form (ascending, non-overlapping radii, 1-8 layers, m>0) and writes nothing if it fails. SUM RULE: while layers exist the "
     +"root m is a derived quantity (= the sum of the layer masses). J IS DECLARED ONLY AND IS NOT CONNECTED TO THE FORCES. "
@@ -2981,7 +3026,9 @@ const LAYER_MERGE_RULE = "role";
 const LAYER_MERGE_RTOL = 1e-9;
 // 第261便b(第53報「親子コアは、見た目をコア V2 に準拠する」「コア V2 は将来的に廃止予定とし、
 // 親子コアで受け入れ可能にする」): コア V2(core:{mode,massFrac,radius,…})→ layers の**対応表**。
-// **コア V2 を消すものではない**(内蔵 92 か所の core:{ は 1 文字も触らない)—— 変換は編集パネルの
+// **コア V2 を消すものではない**(内蔵の core:{…} 宣言は 1 文字も触らない —— 第262便b で数え直した:
+// **内蔵 121 本のうち 33 本・75 の body 宣言**〔ソース上の `core:{mode:` 78 個のうち 3 個は説明文〕。
+// build 後の粒子数では 305 個〔🐚54・🥚180 は手続き生成〕。旧コメントの「92 か所」は数え違いだった)—— 変換は編集パネルの
 // 明示操作と純関数 HP.coreV2ToLayers でだけ起きる。対応は「コア層(Mc=massFrac·|m|・r=Rc)+
 // 殻層(m−Mc・r=R)」の 2 層で、**Σ層 m = body.m なので遠方の点源は厳密に 0 差**である。
 // cavity(mode:"cavity")は質量を持たない光学・引きずりの重みなので**変換しない**(layers は
@@ -16570,11 +16617,20 @@ function makeSim(){
     for(let q=0;q<arr.length;q++){
       const L=arr[q];
       if(!L || !(L.m>0) || !(L.r>0)) return {ok:false, reason:"layerNotPositive", at:q};
+      // 第262便b(統括が設定した検証仮説 (4)): **有限性を原子的に検査する**。旧実装は `m>0` だけを
+      // 見ていたので **Infinity を受理**し、Σm を Float32 の `S.m` へ書いた瞬間に根の質量が
+      // Infinity になっていた(検査の前に 1 bit も書かないので、拒否すれば元の状態がそのまま残る)。
+      // r は Float64 の layR、m の合計は **Float32 の S.m** に入るので `Math.fround` 後も見る。
+      if(!Number.isFinite(L.m) || !Number.isFinite(L.r)) return {ok:false, reason:"layerNotFinite", at:q};
+      if(L.J!==undefined && L.J!==null && !Number.isFinite(L.J)) return {ok:false, reason:"layerNotFinite", at:q};
+      if(!Number.isFinite(Math.fround(L.m))) return {ok:false, reason:"layerNotFinite", at:q};
       if(!(L.r>rPrev)) return {ok:false, reason:"radiusNotAscending", at:q};
       if(BODY_LAYER_ROLES.indexOf(L.role)<0) return {ok:false, reason:"unknownRole", at:q};
       rPrev=L.r; sum+=L.m;
     }
     if(arr.length>0 && !(sum>0)) return {ok:false, reason:"sumNotPositive"};
+    if(arr.length>0 && (!Number.isFinite(sum) || !Number.isFinite(Math.fround(sum))))
+      return {ok:false, reason:"sumNotFinite"};
     for(let q=0;q<LM;q++){ const L=arr[q];
       S.layM[b0+q]=L? L.m : 0; S.layR[b0+q]=L? L.r : 0;
       S.layRl[b0+q]=L? Math.max(0,BODY_LAYER_ROLES.indexOf(L.role)) : 0;
@@ -29372,6 +29428,8 @@ function applyLang(){
   $("#beLlyM").textContent=T("beLyM"); $("#beLlyR").textContent=T("beLyR"); $("#beLlyJ").textContent=T("beLyJ");
   $("#beLyAdd").textContent=T("beLyAdd"); $("#beLyDel").textContent=T("beLyDel");
   $("#beCvDep").textContent=T("beCvDep"); $("#beCvToLayers").textContent=T("beCvToLayers");
+  // 第262便b: m の上の切り替えボタン(実際の文言は updateBodyEdit が状態に合わせて上書きする)
+  $("#beLayToggle").textContent=T("beLayToggleOn");
   { const sel=$("#beLyRole"); sel.textContent="";
     for(const r of BODY_LAYER_ROLES){ const op=document.createElement("option"); op.value=r; op.textContent=r; sel.appendChild(op); } }
   $("#beLinTitle").textContent=T("beLinTitle");   // 第100便 EXT-10: 形成系譜
@@ -29931,7 +29989,21 @@ function coreModeName(md){ return CORE_MODE_NAMES[md] || ("mode#"+md); }
 // 動かしてしまうのを防ぐ)。表示していないときは null
 let beCvShown=null;
 // 第261便b(第53報 W2): 親子コア(層)の編集タブの状態(表示状態だけ — 物理には一切効かない)
-let beLayIdx=-1, beLaySel=-1, beLayMsg="";
+// 第262便b(第54報): beLayIdx は **0 = 根(最内層)**・1.. = 層1.. になった(−1 の「合計タブ」は廃止
+// —— 合計は常時 1 行で出す)。beLayMode は m の上の切り替えボタンの状態(ON で根/層の情報へ丸ごと
+// 入れ替わる)。beCvConfirm は massFrac=1(裸コア)変換の 2 段確認(ネイティブ confirm は使わない)
+let beLayIdx=0, beLaySel=-1, beLayMsg="", beLayMode=false, beCvConfirm=false, beCvSel=-1;
+// 第262便b: 選択中の粒子のコア V2 を**実行状態のまま**移行計画へ渡す(主変数 J_z=S.coreJ・
+// |J|=S.coreJm をそのまま使うので、パネルの丸めた表示値を経由しない)。**読むだけ**の純関数呼び出し
+function beCorePlanNow(S, i){
+  if(!(i>=0 && i<S.n) || !S.coreMd || !S.coreMd[i]) return null;
+  const md=S.coreMd[i];
+  const mode=(md===1)?"rigid":((md===3)?"active":((md===4)?"cavity":"differential"));
+  return coreV2MigrationPlan({ m:S.m[i], R:S.R[i], spin:S.spin[i],
+    core:{ mode, massFrac:S.coreMF[i], radius:S.RcV[i], inertiaScale:S.coreIS[i],
+      Kcs:S.coreKcs[i], pump:S.corePump? S.corePump[i] : 0, contract:S.coreCtr? S.coreCtr[i] : 0,
+      Jz:S.coreJ[i], Jmag:S.coreJm? S.coreJm[i] : Math.abs(S.coreJ[i]) } });
+}
 function updateBodyEdit(){
   const el=$("#bodyEdit");
   const S=selSimRef();
@@ -30035,13 +30107,24 @@ function updateBodyEdit(){
   // それぞれの粒子を編集可能にする」): **同心層の編集ブロック**。層を宣言した粒子だけに出す。
   // タブ index: −1=根(読み取り専用の合計)・0..n−1=各層。**表示だけのループで、物理配列へは
   // 一切書かない**(書き込みは下の単一入口 beLayApply → S.applyLayerEdit だけ)
+  // 第262便b(第54報「『親子コア(層)』の切り替えボタンは『m』の上にする。切り替えると、『根』や
+  // 『層』の情報が丸ごと切り替わる」): タブ index は **0 = 根(最内層)**・k≥1 = 層k。
   {
     const lp2=$("#beLayers"), nl=(S.layN && i<S.n)? S.layN[i] : 0;
-    if(!nl){ lp2.style.display="none"; beLayIdx=-1; }
+    const tgRow=$("#beLayToggleRow"), tg=$("#beLayToggle");
+    if(!nl){ lp2.style.display="none"; beLayIdx=0; beLayMode=false;
+      if(tgRow) tgRow.style.display="none"; }
     else {
-      lp2.style.display="block";
-      if(beLaySel!==i){ beLaySel=i; beLayIdx=-1; beLayMsg=""; }   // 別の粒子を選んだらタブは根へ戻す
+      if(tgRow) tgRow.style.display="";
+      if(tg){ tg.textContent=beLayMode? T("beLayToggleOff") : T("beLayToggleOn");
+        tg.setAttribute("aria-pressed", beLayMode? "true" : "false"); }
+      lp2.style.display=beLayMode? "block" : "none";
+      // 別の粒子を選んだらタブは根へ戻し、切り替えも閉じた状態から始める(第262便b)
+      if(beLaySel!==i){ beLaySel=i; beLayIdx=0; beLayMsg=""; beLayMode=false;
+        lp2.style.display="none";
+        if(tg) tg.textContent=T("beLayToggleOn"); }
       if(beLayIdx>=nl) beLayIdx=nl-1;
+      if(beLayIdx<0) beLayIdx=0;
       const arr=S.bodyLayersOf(i)||[];
       let sum=0; for(const L of arr) sum+=L.m;
       const tabs=$("#beLayTabs"); tabs.textContent="";
@@ -30049,11 +30132,12 @@ function updateBodyEdit(){
         b.className="btn"+((k===beLayIdx)? " primary" : ""); b.textContent=label;
         b.style.flex="0 0 auto"; b.style.padding="2px 8px";
         // 第261便b: role ごとの色を左端の帯に出す(= 描画の凡例そのもの)
-        if(k>=0) b.style.borderLeft="4px solid "+(BODY_LAYER_COLORS[arr[k].role]||"#fff");
+        b.style.borderLeft="4px solid "+(BODY_LAYER_COLORS[arr[k].role]||"#fff");
         b.addEventListener("click",()=>{ beLayIdx=k; updateBodyEdit(); });
         tabs.appendChild(b); };
-      mkTab(-1, T("beLayRoot"));
-      for(let k=0;k<nl;k++) mkTab(k, T("beLayTab")(k+1));
+      // **根 = 最内層**(第54報「『コア』が『根』になり、『外殻』が『層1』になる」)。
+      // 内部表現(r 昇順の layers 配列)は変えていない —— 先頭を「根」と呼ぶだけである
+      for(let k=0;k<nl;k++) mkTab(k, (k===0)? T("beLayRoot") : T("beLayTab")(k));
       $("#beLayRoot").textContent=T("beLyRootInfo")(nl, fmt(sum), fmt(S.m[i]), fmt(S.R[i]));
       const ed=(beLayIdx>=0 && beLayIdx<arr.length);
       $("#beLayEdit").style.display=ed? "" : "none";
@@ -30066,11 +30150,30 @@ function updateBodyEdit(){
       }
       if(!beLayMsg) $("#beLyNote").textContent=T("beLyNote");
     }
+    // 層モードでは根/層の情報が**丸ごと**入れ替わる(m/s/R/… とコア内訳 v2 は隠れる)ので、
+    // パネルは縦に伸びない = 見切れない
+    const base=$("#beBaseRows");
+    if(base) base.style.display=(nl && beLayMode)? "none" : "";
   }
-  // 第261便b: コアv2 の**廃止予定告知と変換ボタン**(コアがあって cavity でないときだけ出す)。
-  // 押すまで何も変わらない(コア V2 は消さない)
+  // 第261便b: コアv2 の**廃止予定告知と変換ボタン**(コアを持ち、まだ層が無い粒子に出す)。
+  // 押すまで何も変わらない(コア V2 は消さない)。第262便b: **変換できない場合も行は出し、
+  // ボタンを disabled にして理由を書く**(cavity・Rc≥R・裸コア確認の 3 種 — 黙って消さない)
   { const dr=$("#beCvDepRow");
-    if(dr) dr.style.display=(md && md!==4 && !(S.layN && S.layN[i]>0))? "" : "none"; }
+    if(dr){
+      const show=(md && !(S.layN && S.layN[i]>0));
+      dr.style.display=show? "" : "none";
+      if(show){
+        if(beCvSel!==i){ beCvSel=i; beCvConfirm=false; }   // 別の粒子を選んだら 2 段確認は解除
+        const pl=beCorePlanNow(S,i);
+        const btn=$("#beCvToLayers");
+        btn.disabled=!(pl && pl.ok);
+        btn.style.opacity=(pl && pl.ok)? "" : ".5";
+        btn.textContent=(pl && pl.ok && pl.Ms<=0 && beCvConfirm)? T("beCvConvConfirm") : T("beCvToLayers");
+        $("#beCvDep").textContent=(pl && pl.ok)
+          ? ((pl.Ms>0)? T("beCvDep") : T("beCvDepNaked")(fmt(pl.R)))
+          : T("beCvConvNg")((pl && T("beCvConvWhy")[pl.reason]) || (pl? pl.reason : "unknown"));
+      }
+    } }
   // 第245便(原仮定者指示): パルス時計の読み取り専用表示 — 宣言 ω(rad/モデル時間単位)から
   // 周期 P=2π/|ω| を出し、時間スケール指数 eT で実時間へ換算して並べる。累積位相は回転数で出す。
   // 表示専用(canvas の換算行 selConvLinesNow と同じ換算式)— 物理配列へは一切書かない
@@ -30250,28 +30353,34 @@ $("#beLyAdd").addEventListener("click",()=>{
   beLayApply({}, n0);
 });
 $("#beLyDel").addEventListener("click",()=>{ const k=beLayIdx; if(k<0) return;
-  beLayIdx=Math.max(-1,k-1); beLayApply(null, k); });
-// コアv2 → 層への変換(押すまで何も変わらない・コア V2 は消さない)
+  beLayIdx=Math.max(0,k-1); beLayApply(null, k); });   // 第262便b: 根タブ(0)が下限
+// 第262便b(第54報「『親子コア(層)』の切り替えボタンは『m』の上にする」): 根/層の情報を丸ごと入れ替える。
+// 表示だけの状態で、物理配列へは 1 bit も書かない
+$("#beLayToggle").addEventListener("click",()=>{ beLayMode=!beLayMode; beLayMsg=""; updateBodyEdit(); });
+// コアv2 → 親子コアへの移行(押すまで何も変わらない・コア V2 は消さない = canReplaceV2:false)。
+// 第262便b: **根 = コア・層1 = 外殻**(第54報)。裸コア(massFrac=1・殻の m が 0)は観測半径 R が
+// 層に載らないので **2 段確認**にする(1 回目で警告とボタン文言が変わり、2 回目で変換する)
 $("#beCvToLayers").addEventListener("click",()=>{
   const S=selSimRef();
   if(selIdx<0||selIdx>=S.n) return;
-  const i=selIdx, md=S.coreMd[i];
-  if(!md || md===4){ beLayMsg=T("beCvConvNg")(T("beCvConvWhy").cavityHasNoMass); notify(beLayMsg,3500); return; }
-  const mode=(md===1)?"rigid":((md===3)?"active":"differential");
-  const cv=coreV2ToLayers({mode, massFrac:S.coreMF[i], radius:S.RcV[i], J:S.coreJ[i]},
-    {m:S.m[i], R:S.R[i], spin:S.spin[i]});
-  if(!cv || !cv.ok){
-    const why=(cv && T("beCvConvWhy")[cv.reason]) || (cv? cv.reason : "unknown");
+  const i=selIdx;
+  const pl=beCorePlanNow(S,i);
+  if(!pl || !pl.ok){
+    const why=(pl && T("beCvConvWhy")[pl.reason]) || (pl? pl.reason : "unknown");
     notify(T("beCvConvNg")(why),3500); return;
   }
-  const r=S._setBodyLayers(i, cv.layers);
+  if(pl.Ms<=0 && !beCvConfirm){        // 裸コア: 観測半径 R は層に載らない — 確認してから
+    beCvConfirm=true; updateBodyEdit();
+    notify(T("beCvConvNakedAsk")(fmt(pl.R)),4000); return;
+  }
+  const r=S._setBodyLayers(i, pl.layers);
   if(!r || !r.ok){
     const why=(r && T("beLyErrWhy")[r.reason]) || (r? r.reason : "unknown");
     notify(T("beCvConvNg")(why),3500); return;
   }
-  beLaySel=i; beLayIdx=-1; beLayMsg="";
+  beLaySel=i; beLayIdx=0; beLayMsg=""; beLayMode=true; beCvConfirm=false;   // 変換したら層モードで開く
   setParamsDirty(true); requestRender(); updateBodyEdit();
-  notify(T("beCvConvOk")(cv.layers.length),3500);
+  notify(T("beCvConvOk")(pl.layers.length),3500);
 });
 // 第26便(原仮定者指示): ✕(選択解除)→ 最小化トグルへ変更。選択解除は粒子の再タップ/空白タップで可能
 let beMin=false;
@@ -35492,32 +35601,115 @@ function dfmLayerMerge(la, lb, rule){
 //     殻層  : m = |m_body| − Mc、r = R(観測半径)、J = ½·m_shell·R²·spin(宣言値・同上)
 //   **cavity(mode:"cavity")は変換しない** —— coreMF は「空洞の重み」であって質量ではないので、
 //   正質量の層に写すと質量が増える(`reason:"cavityHasNoMass"` を返す。決断事項として残す)。
-//   **massFrac=1(裸コア終端)は 1 層**(殻の m が 0 になるため。観測半径は Rc へ落ちる — 宣言)。
+//   **massFrac=1(裸コア終端)は 1 層**(殻の m が 0 になるため)。**第262便b: 観測半径 R は層に載らず
+//   計画の `observedRadius` に残す**(零質量の殻を偽造しない。UI は 2 段確認でそれを見せる)。
 //   **Rc ≥ R は拒否**(同心・昇順・非重複が壊れる。`reason:"coreOutsideShell"`)。
-//   **遠方の重力は厳密に 0 差**である(Σ層 m = |m_body| なので `_layerForce` の差分が走らない/
+//   **遠方の重力は厳密に 0 差**である(Σ層 m = m_body 〔第262便b: 負の m は拒否するので絶対値ではない〕
+//   なので `_layerForce` の差分が走らない/
 //   ε>0 でも単極子は同じ)。**近傍は変わる**(コア層の内側は包含質量 0 になる)—— 差の実測は
 //   〔第261便b〕 の表にある。**「コア V2 を廃止した」とは書かない**(本便は変換の道を足しただけ)。
-function coreV2ToLayers(core, body){
-  const c=core||{}, b=body||{};
+// (3c) **第262便b(第54報「コアV2からの移行が可能な様に整備する」・統括が設定した検証仮説 (3)):
+//      移行計画 `coreV2MigrationPlan(body)`**。上の変換表に **Ic・J_z・J_x・回転 E の投影**と
+//      **元 JSON の保持(`source`)**・**警告配列**・**`canReplaceV2:false`** を足した純関数である。
+//      `coreV2ToLayers` はこの関数の薄い包み(返り値の鍵は従来どおり)。
+//   **入口は 2 つの書き方を受ける**:
+//     ① **JSON 形**(内蔵プリセットの `core:{mode,massFrac,radius,omega,tilt,inertiaScale,…}`)—
+//        I_c=½·M_c·Rc²·ζ・J_z=I_c·ω·cos θ・J_x=I_c·ω·sin θ(θ は度・`S.applyCoreEdit` と同一式)。
+//     ② **実行状態形**(編集パネル)— `core.Jz`(=S.coreJ)と `core.Jmag`(=S.coreJm)が来たら
+//        主変数をそのまま使い、ω=|J|/I_c・θ=acos(J_z/|J|) を**読み戻す**(丸めを通さない)。
+//   **層に載るのは J_z だけ**である(層の J はスカラー宣言)。θ≠0 の面内成分 J_x は計画には
+//   出るが層には載らない —— 警告 `tiltNotCarried` で明示する。**回転 E** は E=|J|²/(2I_c)、
+//   その z 投影は E_z=J_z²/(2I_c)(θ≠0 なら E_z<E)。**どちらも力へは接続していない**。
+//   **負の m は拒否**する(第262便b で直した穴 —— 旧実装は |m| を使っていたので、m<0 の粒子を
+//   変換すると Σ層 m>0 になり**重力の符号が黙って反転**した。`reason:"bodyMassNegative"`)。
+function coreV2MigrationPlan(body){
+  const b=body||{}, c=(b.core||b.coreV2||{});
   const mode=String(c.mode||"");
-  const mB=Math.abs(Number(b.m)), R=Number(b.R!==undefined? b.R : b.radius);
+  const mRaw=Number(b.m), R=Number(b.R!==undefined? b.R : b.radius);
   const Rc=Number(c.radius!==undefined? c.radius : c.Rc);
   const mf=Number(c.massFrac);
-  if(!Number.isFinite(mB) || !(mB>0)) return { ok:false, reason:"bodyMassNotPositive" };
+  if(b.m===undefined || b.m===null) return { ok:false, reason:"bodyMassNotDeclared" };
+  if(!Number.isFinite(mRaw) || mRaw===0) return { ok:false, reason:"bodyMassNotPositive" };
+  if(mRaw<0) return { ok:false, reason:"bodyMassNegative" };
+  if((b.R===undefined || b.R===null) && (b.radius===undefined || b.radius===null))
+    return { ok:false, reason:"bodyRadiusNotDeclared" };
   if(!Number.isFinite(R) || !(R>0)) return { ok:false, reason:"bodyRadiusNotPositive" };
   if(mode==="cavity") return { ok:false, reason:"cavityHasNoMass" };
   if(["rigid","differential","active"].indexOf(mode)<0) return { ok:false, reason:"unknownCoreMode" };
   if(!Number.isFinite(mf) || !(mf>0) || mf>1) return { ok:false, reason:"massFracOutOfRange" };
   if(!Number.isFinite(Rc) || !(Rc>0)) return { ok:false, reason:"coreRadiusNotPositive" };
   if(!(Rc<R) && mf<1) return { ok:false, reason:"coreOutsideShell" };
-  const Mc=mf*mB, Ms=mB-Mc;
-  const Jc=Number.isFinite(Number(c.J))? Number(c.J) : 0;
+  const Mc=mf*mRaw, Ms=mRaw-Mc;
+  const zeta=Number.isFinite(Number(c.inertiaScale))? Number(c.inertiaScale) : 1;
+  const Ic=0.5*Mc*Rc*Rc*zeta;
+  let om, thDeg, Jz, Jx, Jm;
+  if(c.Jz!==undefined || c.J!==undefined){                 // ② 実行状態形(主変数そのまま)
+    Jz=Number.isFinite(Number(c.Jz!==undefined? c.Jz : c.J))? Number(c.Jz!==undefined? c.Jz : c.J) : 0;
+    Jm=Number.isFinite(Number(c.Jmag))? Math.abs(Number(c.Jmag)) : Math.abs(Jz);
+    if(Jm<Math.abs(Jz)) Jm=Math.abs(Jz);
+    om=(Ic>1e-12)? Jm/Ic : 0;
+    thDeg=(Jm>0)? Math.acos(Math.max(-1,Math.min(1,Jz/Jm)))*180/Math.PI : 0;
+    Jx=Math.sqrt(Math.max(0, Jm*Jm-Jz*Jz));
+  } else {                                                  // ① JSON 形(build と同一式)
+    om=Number.isFinite(Number(c.omega))? Number(c.omega) : 0;
+    thDeg=Number.isFinite(Number(c.tilt))? Number(c.tilt) : 0;
+    const rad=thDeg*Math.PI/180;
+    Jz=Ic*om*Math.cos(rad); Jx=Ic*om*Math.sin(rad); Jm=Math.abs(Ic*om);
+  }
   const sp=Number(b.spin);
   const Js=(Number.isFinite(sp) && Ms>0)? 0.5*Ms*R*R*sp : 0;
-  const layers=(Ms>0)? [{role:"core", m:Mc, r:Rc, J:Jc}, {role:"shell", m:Ms, r:R, J:Js}]
-                     : [{role:"core", m:Mc, r:Rc, J:Jc}];
+  if(![Mc,Ms,Ic,Jz,Js].every(Number.isFinite)) return { ok:false, reason:"valuesNotFinite" };
+  // **根 = コア・層1 = 外殻**(第54報)。内部表現は従来どおり「r 昇順の layers 配列」で、
+  // 最内層(配列の先頭)が「根」である —— UI のタブがその規約を見せる
+  const layers=(Ms>0)? [{role:"core", m:Mc, r:Rc, J:Jz}, {role:"shell", m:Ms, r:R, J:Js}]
+                     : [{role:"core", m:Mc, r:Rc, J:Jz}];
+  const warnings=["canReplaceV2:false","layerJIsDeclarationOnly"];
+  if(Math.abs(Jx)>0) warnings.push("tiltNotCarried");
+  if(Number(c.Kcs)>0) warnings.push("KcsNotCarried");
+  if(Number(c.pump)>0 || Number(c.contract)>0 || mode==="active") warnings.push("coreDynamicsNotCarried");
+  if(Ms<=0) warnings.push("nakedCoreObservedRadiusKept");
+  const Er=(Ic>1e-12)? (Jm*Jm)/(2*Ic) : 0, ErZ=(Ic>1e-12)? (Jz*Jz)/(2*Ic) : 0;
   return { ok:true, layers, mode, Mc, Ms, Rc, R, sumM:Mc+Ms,
-    note:"far field identical (sum of layer masses = |body.m|); the near field changes" };
+    inertiaScale:zeta, Ic, omega:om, tiltDeg:thDeg, Jz, Jx, Jmag:Jm, Jshell:Js,
+    Erot:Er, ErotZ:ErZ,
+    observedRadius:(Ms>0)? undefined : R,     // 裸コア(massFrac=1)の観測半径は層に載らないので別欄で保持する
+    source:JSON.parse(JSON.stringify(c)),     // 元の core JSON をそのまま持つ(V2 は消さない)
+    canReplaceV2:false, warnings,
+    note:"far field identical (sum of layer masses = body.m); the near field changes" };
+}
+// **移行レポート**(検証仮説 (3)): プリセット 1 本の可否の表だけを返す —— **変換しない**。
+// 分類は convertible(2 層)/ naked(massFrac=1 の 1 層)/ cavity / needsResolve(m・R が
+// JSON に書かれていない = build が導く)/ rejected。`counts` と `rows` の両方を返す。
+function coreV2MigrateReport(preset){
+  const p=preset||{}, bs=Array.isArray(p.bodies)? p.bodies : [];
+  const counts={convertible:0, naked:0, cavity:0, needsResolve:0, rejected:0};
+  const byReason={}, rows=[];
+  for(let i=0;i<bs.length;i++){
+    const b=bs[i];
+    if(!b || !b.core) continue;
+    const pl=coreV2MigrationPlan(b);
+    let cls;
+    if(pl.ok) cls=(pl.Ms>0)? "convertible" : "naked";
+    else if(pl.reason==="cavityHasNoMass") cls="cavity";
+    else if(pl.reason==="bodyMassNotDeclared" || pl.reason==="bodyRadiusNotDeclared") cls="needsResolve";
+    else cls="rejected";
+    counts[cls]++;
+    if(!pl.ok){ byReason[pl.reason]=(byReason[pl.reason]||0)+1; }
+    rows.push({ index:i, mode:String((b.core||{}).mode||""), cls,
+      reason:pl.ok? null : pl.reason, nLayers:pl.ok? pl.layers.length : 0 });
+  }
+  return { id:p.id!==undefined? p.id : null, nBodies:bs.length, nCore:rows.length,
+    counts, byReason, rows, canReplaceV2:false };
+}
+function coreV2ToLayers(core, body){
+  const c=core||{}, b=body||{};
+  const pl=coreV2MigrationPlan({ m:b.m, R:(b.R!==undefined? b.R : b.radius), spin:b.spin,
+    core:{ mode:c.mode, massFrac:c.massFrac, radius:(c.radius!==undefined? c.radius : c.Rc),
+      omega:c.omega, tilt:c.tilt, inertiaScale:c.inertiaScale, Kcs:c.Kcs, pump:c.pump, contract:c.contract,
+      Jz:(c.Jz!==undefined? c.Jz : c.J), Jmag:c.Jmag } });
+  if(!pl.ok) return { ok:false, reason:pl.reason };
+  return { ok:true, layers:pl.layers, mode:pl.mode, Mc:pl.Mc, Ms:pl.Ms, Rc:pl.Rc, R:pl.R,
+    sumM:pl.sumM, observedRadius:pl.observedRadius, plan:pl, note:pl.note };
 }
 
 // (4) **3D スピン参照場** u_spin = a(d)(ω×r)。a(d)=(R/(R+d))^q は**角速度の減衰指数**であって
@@ -35968,7 +36160,10 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // coreV2ToLayers=**コア V2 → 同心層の変換器**(遠方は厳密に 0 差・近傍は変わる・cavity は変換しない)。
   // dfmLayerMerge の「同じ半径」は**相対** LAYER_MERGE_RTOL 判定になり、半径のずらしをやめた。
   dfmLayerGravity, dfmLayerKernel, dfmLayerMerge, dfmLayerPairForce, dfmSpinField3D,
-  dfmSpinPrecess, dfmTiltWork, dfmSpinRelax, coreV2ToLayers,
+  // 第262便b(第54報「コアV2からの移行が可能な様に整備する」): coreV2MigrationPlan=**移行計画**
+  // (Ic・J_z・J_x・回転 E の投影・元 JSON の `source` 保持・`canReplaceV2:false`・警告配列)・
+  // coreV2MigrateReport=**プリセット 1 本の可否の表**(変換しない)。
+  dfmSpinPrecess, dfmTiltWork, dfmSpinRelax, coreV2ToLayers, coreV2MigrationPlan, coreV2MigrateReport,
   BODY_LAYER_ROLES, BODY_LAYER_MAX, BODY_LAYER_KEY, LAYER_MERGE_RULE, LAYER_MERGE_RTOL,
   BODY_LAYER_JCAP, BODY_LAYER_RMIN,
   // 第254便b(第46報「銀河の空間メッシュ」): **銀河は 1 つの大域相似メッシュに乗らない**(差動回転)ので、

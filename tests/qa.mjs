@@ -16175,6 +16175,145 @@ if (!FAST) {
   }
 }
 
+// ---- 第262便b(第54報 W2「コアV2からの移行が可能な様に整備する」): behavior.coreV2Migrate ----
+//   固定するのは 6 つ:
+//   ① **移行計画の中身**: I_c=½·M_c·Rc²·ζ・J_z=I_c·ω·cos θ・J_x=I_c·ω·sin θ・回転 E=|J|²/(2I_c)。
+//      **層に載るのは J_z だけ**なので、θ≠0 では E_z<E になり、警告 `tiltNotCarried` が付く。
+//   ② **根 = コア・層1 = 外殻**(第54報): layers[0].role="core"・r=Rc、layers[1].role="shell"・r=R。
+//      **Σ層 m = body.m** なので遠方の重力は厳密に 0 差(エンジンの 1 步 Δa でも 0)。
+//   ③ **変換表の拒否**: cavity=`cavityHasNoMass`・Rc≥R(massFrac<1)=`coreOutsideShell`・
+//      負の m=`bodyMassNegative`(第262便b で直した穴 —— 旧実装は |m| を使い符号を黙って反転させた)。
+//   ④ **massFrac=1(裸コア)は 1 層**(r=Rc)で、観測半径 R は層に載らず `observedRadius` に残る。
+//   ⑤ **元 JSON を保持**(`source`)・**`canReplaceV2:false`**(コア V2 は消さない)。
+//   ⑥ **内蔵 121 本の移行レポート**(`coreV2MigrateReport` — 変換しない): 件数が固定値と一致する。
+//   ⑦ **非有限の拒否**(統括が設定した検証仮説 (4)): `_setBodyLayers` に Infinity/1e300 を渡すと
+//      `layerNotFinite` で拒否し、**元の状態が 1 bit も動かない**(基点は受理して根の m が Infinity になった)。
+{
+  const hasMig = await page.evaluate(() => !!(window.HP && typeof HP.coreV2MigrationPlan === 'function'
+    && typeof HP.coreV2MigrateReport === 'function'));
+  if (hasMig) {
+    const mg = await page.evaluate(() => {
+      const O = {};
+      const P = HP.coreV2MigrationPlan;
+      O.p0 = P({ m: 100, radius: 10, spin: 0.5,
+        core: { mode: 'differential', massFrac: 0.3, radius: 5, omega: 4, tilt: 0, inertiaScale: 1 } });
+      O.p60 = P({ m: 100, radius: 10, spin: 0.5,
+        core: { mode: 'differential', massFrac: 0.3, radius: 5, omega: 4, tilt: 60, inertiaScale: 1 } });
+      O.naked = P({ m: 10, radius: 8, spin: 0, core: { mode: 'rigid', massFrac: 1, radius: 3, omega: 1 } });
+      O.cavity = P({ m: 10, radius: 8, core: { mode: 'cavity', massFrac: -0.4, radius: 3 } });
+      O.outside = P({ m: 10, radius: 8, core: { mode: 'rigid', massFrac: 0.5, radius: 12 } });
+      O.neg = P({ m: -10, radius: 8, core: { mode: 'rigid', massFrac: 0.5, radius: 3 } });
+      // ② 遠方の Δa(純関数)とエンジンの 1 步 Δa
+      O.far = [10, 20, 100, 1000].map((d) => HP.dfmLayerGravity(O.p0.layers, d, { G: 1, eps: 0.5 }).da);
+      O.near = [3, 5, 7].map((d) => { const g = HP.dfmLayerGravity(O.p0.layers, d, { G: 1, eps: 0.5 });
+        return { d, aPoint: g.aPoint, aLayered: g.aLayered }; });
+      {
+        const mkP = (bodies) => ({ id: 'qaMig', name: 'qaMig', description: 'QA の器。', emoji: '🧪',
+          camera: { scale: 300 }, world: { boundary: 'none', size: 0 }, seed: 1,
+          physics: { G: 1, D0: 0, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 1 / 60,
+            cLight: 30, contactK: 0, contactCap: 0, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0,
+            geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 0.5, timeScale: 1 },
+          bodies, overlays: {} });
+        const run = (d, convert) => {
+          const v = HP.validatePreset(mkP([
+            { type: 'single', m: 100, radius: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true,
+              core: { mode: 'differential', massFrac: 0.3, radius: 5, omega: 0 } },
+            { type: 'single', m: 1e-6, radius: 0.01, x: d, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }]));
+          const S = HP.sim; S.build(v.preset);
+          if (convert) {
+            const pl = HP.coreV2MigrationPlan({ m: S.m[0], R: S.R[0], spin: S.spin[0],
+              core: { mode: 'differential', massFrac: S.coreMF[0], radius: S.RcV[0],
+                inertiaScale: S.coreIS[0], Jz: S.coreJ[0], Jmag: S.coreJm[0] } });
+            S._setBodyLayers(0, pl.layers);
+          }
+          const dt = 0.016, v0 = S.vx[1]; S.step(dt);
+          return (S.vx[1] - v0) / dt;
+        };
+        O.engine = [12, 30, 100].map((d) => ({ d, da: run(d, true) - run(d, false) }));
+      }
+      // ⑥ 内蔵 121 本のレポート(宣言の段と build 後の段)
+      {
+        const tot = { convertible: 0, naked: 0, cavity: 0, needsResolve: 0, rejected: 0 };
+        const why = {}; let nCore = 0; const badIds = [];
+        for (const p of HP.allPresets()) {
+          const rep = HP.coreV2MigrateReport(p);
+          if (!rep.nCore) continue;
+          nCore += rep.nCore;
+          for (const k of Object.keys(tot)) tot[k] += rep.counts[k] || 0;
+          for (const k of Object.keys(rep.byReason)) why[k] = (why[k] || 0) + rep.byReason[k];
+          if (rep.counts.rejected) badIds.push((p.emoji || '') + p.id);
+        }
+        O.rep = { nPresets: HP.allPresets().length, nCore, tot, why, badIds };
+      }
+      // ⑦ 非有限の拒否(原子的 — 元の状態が残る)
+      {
+        const mkP = (bodies) => ({ id: 'qaMig2', name: 'qaMig2', description: 'QA の器。', emoji: '🧪',
+          camera: { scale: 300 }, world: { boundary: 'none', size: 0 }, seed: 1,
+          physics: { G: 1, D0: 0, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 1 / 60,
+            cLight: 30, contactK: 0, contactCap: 0, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0,
+            geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 0.5, timeScale: 1 },
+          bodies, overlays: {} });
+        const v = HP.validatePreset(mkP([{ type: 'single', m: 1000, radius: 100, x: 0, y: 0, vx: 0, vy: 0,
+          spin: 0, pinned: true, layers: [{ role: 'core', m: 900, r: 20 }, { role: 'shell', m: 100, r: 100 }] }]));
+        const S = HP.sim; S.build(v.preset);
+        const L = () => [{ role: 'core', m: 900, r: 20 }, { role: 'shell', m: 100, r: 100 }];
+        const t = {};
+        const put = (arr) => { const r = S._setBodyLayers(0, arr);
+          return { ok: r.ok, why: r.reason || null, m: S.m[0], l0: S.layM[0], l1: S.layM[1] }; };
+        t.inf = put([{ role: 'core', m: Infinity, r: 20 }, { role: 'shell', m: 100, r: 100 }]);
+        t.big = put([{ role: 'core', m: 1e300, r: 20 }, { role: 'shell', m: 1e300, r: 100 }]);
+        t.rInf = put([{ role: 'core', m: 900, r: Infinity }]);
+        t.jInf = put([{ role: 'core', m: 900, r: 20, J: Infinity }]);
+        t.good = put(L());
+        O.fin = t;
+      }
+      return O;
+    });
+    const fx = (v) => (v === null || v === undefined ? String(v) : Number(v).toExponential(6));
+    const m1 = mg.p0.Ic === 375 && mg.p0.Jz === 1500 && mg.p0.Jx === 0 && mg.p0.Erot === 3000
+      && Math.abs(mg.p60.Jz - 750) < 1e-9 && Math.abs(mg.p60.Jx - 1299.038105676658) < 1e-9
+      && Math.abs(mg.p60.Jmag - 1500) < 1e-9 && Math.abs(mg.p60.ErotZ - 750) < 1e-9
+      && mg.p60.warnings.indexOf('tiltNotCarried') >= 0;
+    const m2 = mg.p0.layers.length === 2 && mg.p0.layers[0].role === 'core' && mg.p0.layers[0].r === 5
+      && mg.p0.layers[1].role === 'shell' && mg.p0.layers[1].r === 10
+      && mg.p0.sumM === 100 && mg.far.every((d) => d === 0) && mg.engine.every((e) => e.da === 0);
+    const m3 = mg.cavity.reason === 'cavityHasNoMass' && mg.outside.reason === 'coreOutsideShell'
+      && mg.neg.reason === 'bodyMassNegative';
+    const m4 = mg.naked.ok && mg.naked.layers.length === 1 && mg.naked.layers[0].r === 3
+      && mg.naked.observedRadius === 8 && mg.naked.warnings.indexOf('nakedCoreObservedRadiusKept') >= 0;
+    const m5 = mg.p0.canReplaceV2 === false && mg.p0.source && mg.p0.source.massFrac === 0.3
+      && mg.p0.warnings.indexOf('canReplaceV2:false') >= 0;
+    const m6 = mg.rep.nPresets === 121 && mg.rep.nCore === 75 && mg.rep.tot.convertible === 61
+      && mg.rep.tot.needsResolve === 13 && mg.rep.tot.rejected === 1
+      && mg.rep.tot.cavity === 0 && mg.rep.tot.naked === 0;
+    const m7 = !mg.fin.inf.ok && mg.fin.inf.why === 'layerNotFinite' && mg.fin.inf.m === 1000
+      && !mg.fin.big.ok && mg.fin.big.m === 1000 && !mg.fin.rInf.ok && !mg.fin.jInf.ok
+      && mg.fin.inf.l0 === 900 && mg.fin.good.ok;
+    add('behavior.coreV2Migrate', m1 && m2 && m3 && m4 && m5 && m6 && m7,
+      `① **移行計画**: I_c=½M_cRc²ζ=${mg.p0.Ic}・J_z=I_cω cosθ=${mg.p0.Jz}・回転 E=${mg.p0.Erot}、`
+      + `θ=60° では J_z=${mg.p60.Jz}・J_x=${mg.p60.Jx}・|J|=${mg.p60.Jmag}・**E_z=${mg.p60.ErotZ}<E=${mg.p60.Erot}**`
+      + `(層に載るのは J_z だけ —— 警告 ${JSON.stringify(mg.p60.warnings)})=${m1} / `
+      + `② **根=コア(r=Rc=${mg.p0.layers[0].r}・m=${mg.p0.layers[0].m})・層1=外殻(r=R=${mg.p0.layers[1].r}・`
+      + `m=${mg.p0.layers[1].m})**・Σ層 m=${mg.p0.sumM}=body.m なので **遠方 d=10/20/100/1000 の Δa は厳密 0**`
+      + `(純関数 ${JSON.stringify(mg.far)}・**エンジンの 1 步 Δa も 0**`
+      + `${JSON.stringify(mg.engine.map((e) => e.da))})・近傍は変わる(`
+      + mg.near.map((r) => `d=${r.d}: ${fx(r.aPoint)}→${fx(r.aLayered)}`).join('・') + `)=${m2} / `
+      + `③ **拒否**: cavity=${mg.cavity.reason}・Rc≥R=${mg.outside.reason}・`
+      + `**負の m=${mg.neg.reason}**(第262便b で直した穴)=${m3} / `
+      + `④ **裸コア(massFrac=1)は 1 層**(r=Rc=${mg.naked.layers[0].r})で観測半径は `
+      + `observedRadius=${mg.naked.observedRadius} に残る=${m4} / `
+      + `⑤ 元 JSON を source に保持・canReplaceV2=${mg.p0.canReplaceV2}(**コア V2 は消さない**)=${m5} / `
+      + `⑥ **内蔵 ${mg.rep.nPresets} 本の移行レポート**(変換しない): コア宣言 ${mg.rep.nCore} 件 = `
+      + `移行可 ${mg.rep.tot.convertible}・裸コア ${mg.rep.tot.naked}・cavity ${mg.rep.tot.cavity}・`
+      + `m/R が未宣言(build が導く) ${mg.rep.tot.needsResolve}・拒否 ${mg.rep.tot.rejected}`
+      + `(${JSON.stringify(mg.rep.badIds)}・理由 ${JSON.stringify(mg.rep.why)})=${m6} / `
+      + `⑦ **非有限は原子的に拒否**(検証仮説 (4)): Infinity/1e300/r=∞/J=∞ の 4 例すべて `
+      + `${mg.fin.inf.why} で、根の m=${mg.fin.inf.m}・層 m=${mg.fin.inf.l0} が **1 bit も動かない**=${m7}`);
+  } else {
+    console.log('SKIP behavior.coreV2Migrate(対象に第262便b の移行計画・移行レポートなし — root 等)');
+  }
+}
+
 // ---- 第257便b(第49報): behavior.chainMesh — 磁石連鎖の**有限応答連鎖メッシュ**(新しいトイ仮説) ----
 //   原仮定者(第49報)の「磁石をパチンコ玉に近付けると、複数のパチンコ玉を引きずる事が出来る。
 //   引きずられたパチンコ玉の先端では、元々の磁石の磁界より遠くまで磁力が届いている」に対し、
@@ -20196,12 +20335,16 @@ if (!FAST) {
     // ⑥b 第261便b(第53報「親子コアは、『選択粒子の編集』で、タブ切り替えなどでそれぞれの粒子を
     //     編集可能にする」「親子コアは、見た目をコア V2 に準拠する」「コア V2 は将来的に廃止予定とし、
     //     親子コアで受け入れ可能にする」): **層の編集タブ・変換ボタン・描画の凡例**。
-    //     ①🧅 の中心天体を選ぶと「親子コア(層)」ブロックが出て、タブが「根 + 層 2 つ」の 3 つになる
+    //     ①🧅 の中心天体を選ぶと **m 欄の上に切り替えボタン**が出る(第262便b・第54報)。押すと
+    //       根/層の情報が**丸ごと入れ替わり**(#beBaseRows が隠れる)、タブは **根(最内層) + 層1…**
     //     ②層タブの m 欄を書き換えると **S.layM と根の m(Σ層 m)が追随する**(単一入口 applyLayerEdit)
     //     ③昇順が壊れる編集は**適用されず**、理由が #beLyNote に出る(配列は 1 bit も動かない)
     //     ④層を持つ粒子では**コア V2 の廃止予定行は出ない**/ コア V2 を持つ粒子では出て、
-    //       「層へ変換」を押すと層が付く(押すまで何も変わらない)
+    //       「親子コアへ移行」を押すと **根=コア・層1=外殻**が付く(押すまで何も変わらない)。
+    //       移行できない粒子(🦀 Rc≥R)では**行は出るがボタンが disabled で理由が出る**(第262便b)
     //     ⑤タブの左帯が role 色(描画の凡例そのもの)
+    //     ⑥**見切れない**(第54報「表示が見切れない様に調整する」): 390×844 の本スイート既定幅で、
+    //       層モードのパネルが #canvasWrap の下端を越えない(越えるぶんはパネル内スクロール)
     {
       const hasLayUI = await page.evaluate(() => !!document.querySelector('#beLayers')
         && !!(HP.sim && HP.sim.applyLayerEdit));
@@ -20211,18 +20354,34 @@ if (!FAST) {
           HP.loadPreset('layeredCoreDFM', false);
           HP.selectBody(0, 'A');
           const blk = document.querySelector('#beLayers');
+          const tg = document.querySelector('#beLayToggle');
+          O.hasToggle = !!tg;
+          // ① 切り替えボタンは m 欄より上(DOM 順序で見る — 画面座標は最小化状態に依らない)
+          const mRow = document.querySelector('#beM').closest('.beRow');
+          const tgRow = document.querySelector('#beLayToggleRow');
+          O.toggleRowShown = tgRow && tgRow.style.display !== 'none';
+          O.toggleAboveM = !!(tgRow && (tgRow.compareDocumentPosition(mRow) & Node.DOCUMENT_POSITION_FOLLOWING));
+          O.closedBlk = blk.style.display;
+          if (tg) tg.click();
           O.shown = blk.style.display === 'block';
+          O.baseHidden = document.querySelector('#beBaseRows').style.display === 'none';
           const tabs = () => Array.from(document.querySelectorAll('#beLayTabs button'));
           O.nTabs = tabs().length;
-          O.tabColors = tabs().slice(1).map((b) => b.style.borderLeftColor);
+          O.tabLabels = tabs().map((b) => b.textContent);
+          O.tabColors = tabs().map((b) => b.style.borderLeftColor);
           O.depHidden = document.querySelector('#beCvDepRow').style.display === 'none';
-          // 層1 を選んで m を書き換える
-          tabs()[1].click();
+          // ⑥ 見切れ(層モードで開いた状態のパネル下端 対 #canvasWrap の下端)
+          { const el = document.querySelector('#bodyEdit');
+            const r = el.getBoundingClientRect(), w = document.querySelector('#canvasWrap').getBoundingClientRect();
+            O.fit = { overflowPx: Math.max(0, r.bottom - w.bottom), h: r.height,
+              scrollH: el.scrollHeight, clientH: el.clientHeight, xOverflow: el.scrollWidth - el.clientWidth }; }
+          // 根タブ(= 最内層)の m を書き換える
+          tabs()[0].click();
           const S = HP.sim;
           const inM = document.querySelector('#beLyM');
           inM.value = '800'; inM.dispatchEvent(new Event('change'));
           O.m0 = S.layM[0]; O.rootM = S.m[0]; O.sum = S.layM[0] + S.layM[1];
-          // 昇順を壊す編集(層1 の r を殻より大きく)は適用されない
+          // 昇順を壊す編集(根の r を殻より大きく)は適用されない
           const r0 = S.layR[0];
           const inR = document.querySelector('#beLyR');
           inR.value = '200'; inR.dispatchEvent(new Event('change'));
@@ -20232,7 +20391,10 @@ if (!FAST) {
           document.querySelector('#beLyJ').value = '2.5';
           document.querySelector('#beLyJ').dispatchEvent(new Event('change'));
           O.j0 = S.layJ[0];
-          // コア V2 を持つ粒子(層なし)では廃止予定行が出て、変換で層が付く
+          // 切り替えを戻すと粒子の編集が復帰する
+          if (tg) tg.click();
+          O.backShown = document.querySelector('#beBaseRows').style.display !== 'none';
+          // コア V2 を持つ粒子(層なし)では廃止予定行が出て、移行で 根=コア・層1=外殻 が付く
           HP.loadPreset('bhCore', false);
           const S2 = HP.sim;
           let idx = -1;
@@ -20244,27 +20406,57 @@ if (!FAST) {
             O.before = S2.layN[idx];
             document.querySelector('#beCvToLayers').click();
             O.after = S2.layN[idx];
-            O.sum2 = (S2.layN[idx] > 0) ? (S2.layM[idx * HP.BODY_LAYER_MAX] + S2.layM[idx * HP.BODY_LAYER_MAX + 1]) : null;
+            const b0 = idx * HP.BODY_LAYER_MAX;
+            O.sum2 = (S2.layN[idx] > 0) ? (S2.layM[b0] + S2.layM[b0 + 1]) : null;
             O.rootM2 = S2.m[idx];
+            O.rootIsCore = (S2.layR[b0] === S2.RcV[idx]) && (HP.BODY_LAYER_ROLES[S2.layRl[b0]] === 'core');
+            O.shellIsR = (S2.layR[b0 + 1] === S2.R[idx]) && (HP.BODY_LAYER_ROLES[S2.layRl[b0 + 1]] === 'shell');
+            O.coreKept = S2.coreMd[idx];   // コア V2 は消えない(canReplaceV2:false)
+            O.tabsAfter = Array.from(document.querySelectorAll('#beLayTabs button')).map((b) => b.textContent);
+          }
+          // 移行できない粒子(🦀 Rc≥R)は行が出て、ボタンが disabled で理由が出る
+          HP.loadPreset('crabRemnant', false);
+          const S3 = HP.sim;
+          let j = -1; for (let i = 0; i < S3.n; i++) if (S3.coreMd[i] && !S3.layN[i]) { j = i; break; }
+          if (j >= 0) {
+            HP.selectBody(j, 'A');
+            O.ngShown = document.querySelector('#beCvDepRow').style.display !== 'none';
+            O.ngDisabled = document.querySelector('#beCvToLayers').disabled === true;
+            O.ngWhy = document.querySelector('#beCvDep').textContent.slice(0, 60);
+            O.ngLayN = S3.layN[j];
           }
           HP.selectBody(-1, 'A');
           HP.loadPreset('layeredCoreDFM', false);
           return O;
         });
         add('ui.bodyLayerTabs',
-          ly.shown && ly.nTabs === 3 && ly.depHidden
+          ly.hasToggle && ly.toggleRowShown && ly.toggleAboveM && ly.closedBlk === 'none'
+          && ly.shown && ly.baseHidden && ly.backShown
+          && ly.nTabs === 2 && ly.depHidden
           && ly.m0 === 800 && ly.rootM === 900 && ly.sum === 900
           && ly.rKept && ly.note.length > 0 && ly.j0 === 2.5
+          && ly.fit.overflowPx === 0 && ly.fit.xOverflow === 0
           && ly.cvIdx >= 0 && ly.depShown && ly.before === 0 && ly.after === 2
+          && ly.rootIsCore && ly.shellIsR && ly.coreKept !== 0
           && Math.abs(ly.sum2 - ly.rootM2) < 1e-9
+          && ly.ngShown && ly.ngDisabled && ly.ngLayN === 0
           && ly.tabColors.every((c) => !!c && c !== 'rgb(255, 255, 255)'),
-          `🧅 の中心天体で「親子コア(層)」が開く=${ly.shown}・タブ=${ly.nTabs}(根+層2)・`
+          `🧅 の中心天体で **m 欄の上に切り替えボタン**が出る=${ly.toggleAboveM}(既定は閉じている=${ly.closedBlk === 'none'})・`
+          + `押すと層ブロックが開き=${ly.shown} **粒子の編集は丸ごと隠れる**=${ly.baseHidden}(戻せる=${ly.backShown})・`
+          + `タブ=${ly.nTabs} ${JSON.stringify(ly.tabLabels)}(**根=最内層・層1…**)・`
           + `層を持つ粒子ではコア V2 の廃止予定行は出ない=${ly.depHidden} / `
-          + `層1 の m を 900→800 にすると layM=${ly.m0}・**根の m=${ly.rootM}=Σ層 m=${ly.sum}**(Σm 契約) / `
+          + `根タブの m を 900→800 にすると layM=${ly.m0}・**根の m=${ly.rootM}=Σ層 m=${ly.sum}**(Σm 契約) / `
           + `昇順を壊す編集(r=200)は**適用されない**=${ly.rKept}(理由が出る: 「${ly.note}…」) / `
           + `J の宣言は運ぶ(layJ=${ly.j0} —— **力へは接続していない**) / `
+          + `**見切れない**: 層モードのパネル高 ${ly.fit.h.toFixed(1)}px・#canvasWrap からのはみ出し `
+          + `${ly.fit.overflowPx}px・横はみ出し ${ly.fit.xOverflow}px(溢れるぶんはパネル内スクロール: `
+          + `scrollH ${ly.fit.scrollH} / clientH ${ly.fit.clientH}) / `
           + `コア V2 を持つ粒子(⚫ の #${ly.cvIdx})では廃止予定行が出て=${ly.depShown}、`
-          + `「層へ変換」で層が ${ly.before}→${ly.after}(Σ層 m=${ly.sum2}=根の m=${ly.rootM2}) / `
+          + `「親子コアへ移行」で層が ${ly.before}→${ly.after}(**根=コア(r=Rc)**=${ly.rootIsCore}・`
+          + `**層1=外殻(r=R)**=${ly.shellIsR}・Σ層 m=${ly.sum2}=根の m=${ly.rootM2}・`
+          + `タブ ${JSON.stringify(ly.tabsAfter)}・**コア V2 は消えない**(coreMd=${ly.coreKept})) / `
+          + `移行できない粒子(🦀 Rc≥R)は行が出て=${ly.ngShown} ボタンが disabled=${ly.ngDisabled}・`
+          + `理由「${ly.ngWhy}」・層は付かない(layN=${ly.ngLayN}) / `
           + `タブの左帯 role 色=${JSON.stringify(ly.tabColors)}`);
       } else {
         console.log('SKIP ui.bodyLayerTabs(対象に第261便b の層編集タブなし — root 等)');

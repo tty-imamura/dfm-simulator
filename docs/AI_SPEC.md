@@ -1060,10 +1060,37 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     **Σ層 m = |body.m| なので遠方の重力は厳密に 0 差**で、**近傍(コア半径の内側)だけが変わる**。
     拒否は `{ok:false, reason}`(`cavityHasNoMass` —— cavity の massFrac は質量ではない /
     `coreOutsideShell` —— Rc ≥ R / `massFracOutOfRange` / `unknownCoreMode` / …)。
-    `massFrac=1`(裸コア終端)は **1 層**になる(観測半径が Rc へ落ちる —— 宣言)。
+    `massFrac=1`(裸コア終端)は **1 層**になる(観測半径は層に載らず `observedRadius` に残る)。
+    **第262便b から本関数は `HP.coreV2MigrationPlan` の薄い包み**である(返り値の鍵は従来どおり・
+    `plan` に計画全体が入る)。
+  - **`HP.coreV2MigrationPlan(body)`(第262便b — 移行計画)**: `body={m, radius|R, spin?, core:{…}}` から
+    **根 = コア・層1 = 外殻**の層配列に加えて、**慣性と角運動量の分解**を返す純関数(`S` も内蔵プリセットも
+    1 バイトも書かない)。ζ=`inertiaScale`・θ=`tilt`(度)として
+    **I_c=½·M_c·Rc²·ζ / J_z=I_c·ω·cos θ / J_x=I_c·ω·sin θ / E_rot=|J|²/(2I_c) / E_z=J_z²/(2I_c)**。
+    入口は 2 形受ける: **JSON 形**(`core.omega`/`core.tilt`/`core.inertiaScale`)と
+    **実行状態形**(`core.Jz`=`S.coreJ`・`core.Jmag`=`S.coreJm` —— 主変数をそのまま使い、
+    ω=|J|/I_c・θ=acos(J_z/|J|) を読み戻す)。
+    返り値: `{ok, layers, mode, Mc, Ms, Rc, R, sumM, inertiaScale, Ic, omega, tiltDeg, Jz, Jx, Jmag,
+    Jshell, Erot, ErotZ, observedRadius?, source, canReplaceV2:false, warnings[]}`。
+    **層に載るのは J_z だけ**なので θ≠0 では E_z<E_rot になり、警告 `tiltNotCarried` が付く
+    (🪩 bhCoreTilt は θ=90° で E_z/E_rot=3.75×10⁻³³)。`Kcs`/`pump`/`contract`/`mode:"active"` は
+    `KcsNotCarried`/`coreDynamicsNotCarried` を立てるだけで**層は再現しない**。
+    **`source` に元の core JSON をそのまま持ち、`canReplaceV2:false`**(コア V2 は消さない)。
+    拒否の理由に **`bodyMassNegative`**(第262便b で塞いだ穴 —— 旧実装は |m| を使っていたので
+    負質量の粒子を変換すると Σ層 m>0 になり重力の符号が黙って反転した)と
+    `bodyMassNotDeclared`/`bodyRadiusNotDeclared`(build が導く量なので宣言の段では移行できない)を追加。
+  - **`HP.coreV2MigrateReport(preset)`(第262便b — 移行レポート)**: プリセット 1 本の**可否の表だけ**を返す
+    (**変換しない・1 バイトも書かない**)。`{id, nBodies, nCore, counts:{convertible,naked,cavity,
+    needsResolve,rejected}, byReason, rows:[{index,mode,cls,reason,nLayers}], canReplaceV2:false}`。
+    内蔵 121 本の実測(第262便b): コア宣言 **75 件**(33 本)= 移行可 61・裸コア 0・cavity 0・
+    m/R 未宣言 13・拒否 1(🦀 crabRemnant の `coreOutsideShell`)。build 後の 305 粒子では 304/1。
+  - **`S._setBodyLayers(i, arr)` の有限性(第262便b)**: `m`・`r`・`J`・Σm を `Number.isFinite` と
+    **`Math.fround` 後**(Σm は Float32 の `S.m` に入る)で検査し、通らなければ
+    `layerNotFinite`/`sumNotFinite` で拒否する。**検査は書き込みの前**なので、拒否時は元の状態が
+    1 bit も動かない(旧実装は Infinity を受理して根の m を Infinity にしていた)。
   - **`body.core`(コア V2)は廃止予定である。新しい宇宙では `body.layers`(親子コア)が正である。**
-    **ただし本便でコア V2 を消してはいない** —— 内蔵プリセットの `core:{…}` は 1 文字も変わっておらず、
-    検証器も従来どおり受理する。変換は**編集パネルの明示操作と上の純関数でだけ**起きる。
+    **ただしコア V2 を消してはいない** —— 内蔵プリセットの `core:{…}`(**121 本のうち 33 本・75 の body 宣言**)は
+    1 文字も変わっておらず、検証器も従来どおり受理する。移行は**編集パネルの明示操作と上の純関数でだけ**起きる。
 - **接触ばね `physics.contactK`/`physics.contactCap` の値域**(第260便b): **[0,2000] / [0,400]**
   (第259便b までは [0.1,2000] / [0.01,400])。**既定 40/8 は不変で正準形にも出ない**・既存の 0.1/0.01 セーブも受理・
   負値は 0 へ丸めて警告を出す。**0 にすると E9 の法線ばねが完全に消える**ので、
