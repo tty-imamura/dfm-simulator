@@ -970,6 +970,11 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 - **geoPN=3(トイの測地線モード・第259便a)**: `CLAMPS.geoPN` の上限が 3 になったが、**3 は宣言だけでは通らない**。
   - **受理条件**: (a) `sampleClass:"calibration"` では**拒否**、(b) `physics.spaceMesh.lawVersion` の宣言が無ければ
     **従来どおり 2 へ丸めて警告**、(c) `kFrame>0` は拒否、(d) `spaceMesh.inertia`・`weave` との併用は拒否(**重複適用禁止**)。
+  - **保存の非対称(第263便b — 契約は変えていない・読み口を足しただけ)**: **UI で 3 にした値は実行中は 3 のまま**
+    走る(第262便a)が、**保存 JSON に `physics.spaceMesh.lawVersion` の宣言が無ければ、読み込み時に 2 へ丸められる**
+    (上の受理条件 (b))。この非対称を、パラメータタブの geoPN 行の直下に**表示専用の 1 行**(`geoToySaveNote`・
+    ja/en)として常設した。**プリセット署名(presetSig)にも `S.params` にも 1 bit も効かない**
+    (QA `ui.geoToySaveNote` が「geoPN 行の直後にある・ja/en で別の文言・署名不変・『較正』を名乗らない」を機械固定する)。
   - **dispatch**: 受理された 3 は **`S._core` から見ると 0**(`geoCoreDispatch` が `_core` の呼び出しの間だけ
     `S.params.geoPN` を 0 にして戻す)。よって `geo`・`geo2`・特別化②(pairCorePN)のどれも立たず、**`S._g2` も確保されない**。
     **`S.params.geoPN` は `_core` の外では 3 のまま**なので、保存・エクスポート・UI は宣言値をそのまま読む。
@@ -1092,6 +1097,25 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     **`Math.fround` 後**(Σm は Float32 の `S.m` に入る)で検査し、通らなければ
     `layerNotFinite`/`sumNotFinite` で拒否する。**検査は書き込みの前**なので、拒否時は元の状態が
     1 bit も動かない(旧実装は Infinity を受理して根の m を Infinity にしていた)。
+  - **負質量の粒子は層に写せない(規約 —— 第263便b で恒久規約に上げた)**: `coreV2MigrationPlan` は
+    `m<0` を **`bodyMassNegative`** で拒否する(第262便b の実装)。理由は層の側の契約である ——
+    `applyLayerEdit` は `layerNotPositive`/`sumNotPositive` で正の m しか受けず、
+    **Σ層 m = 根の m**(Σm 契約)は符号ごと成り立たなければならない(旧実装は |m| を使ったので
+    負質量の粒子を移行すると Σ層 m>0 になり、**重力の符号が黙って反転**した)。
+    **負 m の粒子そのものは従来どおり受理する** —— 変わったのは「層へ写せない」ことだけである
+    (`m<0` は JSON でも `#beM` 欄でも書ける)。将来これを緩めるなら**明示キーの opt-in**
+    (例 `body.layersAllowNegativeMass:true`)を立てて、Σm 契約と重力符号の扱いを宣言の側に
+    引き受けさせる形にする —— **本便では実装していない**(そのキーは未定義で、書いても検証器は無視する)。
+  - **`coreOutsideShell` は「観測半径 = コア半径」の別名である(規約 —— 第263便b で明文化)**:
+    `Rc ≥ R` のときの拒否理由コードで、**等号(Rc=R)を含む**。「コアが殻の外に出ている」場合だけを
+    指す名前ではない。層の正準形は r 昇順・非重複なので、Rc=R では 2 層に分けられない
+    (1 層に潰すと外殻の m が 0 になり、観測半径 R が層に載らない)。内蔵でこれに当たるのは
+    **🦀 crabRemnant(Rc=R=0.01)の 1 本だけ**である(第262便b の移行レポートの「拒否 1」)。
+  - **`HP.dfmBinaryChi` の第 6 引数 0 は非推奨である(第263便b)**: 0(旧 share の番兵)は
+    **1 と同じ核**(w=1/√(a²+ε²))で計算し、**返り値は 1 bit も変わらない**
+    (QA `behavior.framePull` が p=0 と p=1 の `Object.is` を見る)。第263便b からは、0 が来たときに
+    **セッションに 1 度だけ `console.warn` を 1 行**出す(値も経路も変えない・`console.error` ではない)。
+    新しい呼び出しは **share なら 1・pull なら 2/3/4** を渡す。
   - **`body.core`(コア V2)は廃止予定である。新しい宇宙では `body.layers`(親子コア)が正である。**
     **ただしコア V2 を消してはいない** —— 内蔵プリセットの `core:{…}`(**121 本のうち 33 本・75 の body 宣言**)は
     1 文字も変わっておらず、検証器も従来どおり受理する。移行は**編集パネルの明示操作と上の純関数でだけ**起きる。

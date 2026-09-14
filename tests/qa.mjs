@@ -14556,6 +14556,49 @@ if (!FAST) {
     console.log('SKIP ui.geoPNRestart(対象に第262便a の geoToyDeny なし — root 等)');
   }
 }
+// ---- 第263便b(第55報・統括が設定した検証仮説 (7)): ui.geoToySaveNote ----
+//   **geoPN の保存は非対称である**: UI で 3 にした値は実行中は 3 のまま走る(第262便a)が、
+//   保存 JSON に physics.spaceMesh.lawVersion の宣言が無ければ**読み込み時に 2 へ丸められる**
+//   (第259便a の検証器の契約。本便はそれを**変えていない** —— 読み口を 1 行足しただけである)。
+//   機械固定するのは 4 点: ①注記が geoPN 行の直後にある ②ja/en どちらでも空でない別の文言が出る
+//   ③注記が出ても params と preset 署名は 1 bit も変わらない(表示専用)④注記は「較正」を名乗らない。
+//   注記の無い対象(root 等)は SKIP。
+{
+  const hasSaveNote = await page.evaluate(() => !!document.querySelector('#geoToySaveNote'));
+  if (hasSaveNote) {
+    const gn = await page.evaluate(() => {
+      HP.loadPreset('psrDoubleAB', false);
+      const geoRow = () => {
+        const l = Array.from(document.querySelectorAll('#paramRows .prow label'))
+          .find((z) => /geoPN/.test(z.textContent));
+        return l ? l.parentElement : null;
+      };
+      const O = {};
+      const sig0 = presetSig(HP.currentPreset()), pn0 = HP.sim.params.geoPN;
+      const row = geoRow();
+      const nx = row ? row.nextElementSibling : null;
+      O.afterGeoRow = !!(nx && nx.id === 'geoToySaveNote');
+      O.ja = (document.querySelector('#geoToySaveNote').textContent || '').trim();
+      HP.setLang('en');
+      O.en = (document.querySelector('#geoToySaveNote').textContent || '').trim();
+      HP.setLang('ja');
+      O.back = (document.querySelector('#geoToySaveNote').textContent || '').trim();
+      O.sigSame = presetSig(HP.currentPreset()) === sig0;
+      O.pnSame = HP.sim.params.geoPN === pn0;
+      O.noCal = !/較正/.test(O.ja) && !/calibrat/i.test(O.en);
+      O.mentions = /lawVersion/.test(O.ja) && /lawVersion/.test(O.en);
+      return O;
+    });
+    add('ui.geoToySaveNote',
+      gn.afterGeoRow && gn.ja.length > 0 && gn.en.length > 0 && gn.ja !== gn.en && gn.back === gn.ja
+      && gn.sigSame && gn.pnSame && gn.noCal && gn.mentions,
+      `geoPN 行の直後=${gn.afterGeoRow}・ja「${gn.ja.slice(0, 40)}…」/ en「${gn.en.slice(0, 40)}…」`
+      + `(ja≠en=${gn.ja !== gn.en}・往復=${gn.back === gn.ja}・lawVersion に言及=${gn.mentions})・`
+      + `preset 署名は不変=${gn.sigSame}・params.geoPN 不変=${gn.pnSame}・「較正」を名乗らない=${gn.noCal}`);
+  } else {
+    console.log('SKIP ui.geoToySaveNote(対象に第263便b の保存非対称の注記なし — root 等)');
+  }
+}
 // ---- 第260便a(第52報): behavior.fieldApiIdentity — 入場条件 (v)「表示とトイが同じ関数を読む」の恒等 ----
 //   統括の検証仮説 (1)。**「表示と力が同じ場になった」ことの確認ではない** —— 蓄積格子が読む場は
 //   **全源 scalar/local・背景 static の診断場**で、銀河の既存表示(disk/affine の u_n)とは**別の場**である。
@@ -20554,8 +20597,54 @@ if (!FAST) {
       HP.selectBody(-1, 'A');
       return { shown0, minOn, stillSelected, minOff };
     });
-    add('bodyedit.minimize', be.shown0 && be.minOn && be.stillSelected && be.minOff,
-      `表示=${be.shown0} 最小化=${be.minOn} 選択維持=${be.stillSelected} 復元=${be.minOff}`);
+    // 第263便b(第55報「『粒子の編集』を畳んだ時に、『親子コア(層)』も畳む」): **畳み連動**。
+    //   基点は CSS(#bodyEdit.min #beLayers)だけで隠そうとしていたが、#beLayers の display は
+    //   updateBodyEdit が**インライン**で書くのでセレクタが負け、最小化しても層ブロックが残っていた。
+    //   ここで固定するのは 4 点: ①最小化で層ブロックが computed display:none になる
+    //   ②状態(HP.beLayModeNow)も false に落ちる ③最小化中の高さが基本行のときと同じ(ヘッダだけ)
+    //   ④**再展開は案B**(基本行で開く)。案A(HP.beMinKeepLayerMode(true))では層モードが戻る
+    //   —— 両案を同じ html で切り替えて測る。層 UI の無い対象(root 等)は SKIP 値で素通し
+    const bl = await page.evaluate(() => {
+      const O = { has: !!(document.querySelector('#beLayToggle') && window.HP && HP.beLayModeNow
+        && HP.beMinKeepLayerMode && HP.allPresets().some((q) => q.id === 'layeredCoreDFM')) };
+      if (!O.has) return O;
+      HP.loadPreset('layeredCoreDFM', false);
+      HP.selectBody(0, 'A');
+      const el = document.querySelector('#bodyEdit');
+      const tg = document.querySelector('#beLayToggle'), close = document.querySelector('#beClose');
+      const vis = (q) => getComputedStyle(document.querySelector(q)).display !== 'none';
+      const h = () => +el.getBoundingClientRect().height.toFixed(2);
+      close.click(); O.baseMinH = h(); close.click();          // 基本行のままの最小化(比較の基準)
+      tg.click();
+      O.openLayers = vis('#beLayers'); O.openH = h();
+      close.click();
+      O.minLayers = vis('#beLayers'); O.minToggle = vis('#beLayToggleRow');
+      O.minMode = HP.beLayModeNow(); O.minH = h();
+      close.click();
+      O.reBase = vis('#beBaseRows'); O.reLayers = vis('#beLayers');
+      O.reMode = HP.beLayModeNow(); O.reH = h();
+      HP.beMinKeepLayerMode(true);                              // 案A の挙動(採用しない方)
+      tg.click(); close.click(); close.click();
+      O.altLayers = vis('#beLayers'); O.altMode = HP.beLayModeNow(); O.altH = h();
+      HP.beMinKeepLayerMode(false);
+      if (HP.beLayModeNow()) tg.click();
+      HP.selectBody(-1, 'A');
+      HP.loadPreset('saturn', false);
+      return O;
+    });
+    const blOk = !bl.has || (bl.openLayers && !bl.minLayers && !bl.minToggle && bl.minMode === false
+      && Math.abs(bl.minH - bl.baseMinH) < 1e-6 && bl.minH < bl.openH
+      && bl.reBase && !bl.reLayers && bl.reMode === false
+      && bl.altLayers && bl.altMode === true);
+    add('bodyedit.minimize', be.shown0 && be.minOn && be.stillSelected && be.minOff && blOk,
+      `表示=${be.shown0} 最小化=${be.minOn} 選択維持=${be.stillSelected} 復元=${be.minOff} / `
+      + (bl.has
+        ? `**畳み連動**(第263便b): 層モードで開いた高さ ${bl.openH}px → 最小化で層ブロック非表示=${!bl.minLayers}・`
+          + `切り替え行も非表示=${!bl.minToggle}・状態 beLayMode=${bl.minMode}・高さ ${bl.minH}px`
+          + `(基本行のときの最小化 ${bl.baseMinH}px と同じ=${Math.abs(bl.minH - bl.baseMinH) < 1e-6}) / `
+          + `**再展開は案B**: 基本行=${bl.reBase}・層ブロック=${bl.reLayers}(高さ ${bl.reH}px) / `
+          + `案A(復元)に切り替えると層モードが戻る=${bl.altLayers}(高さ ${bl.altH}px)`
+        : 'SKIP 畳み連動(対象に第261便b の層 UI なし — root 等)'));
 
     // ⑥b 第261便b(第53報「親子コアは、『選択粒子の編集』で、タブ切り替えなどでそれぞれの粒子を
     //     編集可能にする」「親子コアは、見た目をコア V2 に準拠する」「コア V2 は将来的に廃止予定とし、
@@ -20649,6 +20738,23 @@ if (!FAST) {
             O.ngDisabled = document.querySelector('#beCvToLayers').disabled === true;
             O.ngWhy = document.querySelector('#beCvDep').textContent.slice(0, 60);
             O.ngLayN = S3.layN[j];
+            // 第263便b(第55報「『親子コアへ移行』の説明が、狭い場所で読みづらいので修正する」):
+            // **説明の寸法**。基点は説明とボタンが同じ行にいて、説明の列が 30.4px(1 行 2.4 文字)
+            // まで痩せていた。ここで固定するのは「説明は 1 行占有(ボタンと同じ行にいない)・
+            // 文字の見切れ 0・ボタン文言の見切れ 0・パネルの横スクロール 0・規約文の details は既定で閉」
+            // 「コア内訳(v2)」の details を開いた状態(= 移行の行が実機で見えている状態)で測る
+            { const cvd = document.querySelector('#beCoreV2'); if (cvd) cvd.open = true; }
+            { const more = document.querySelector('#beCvDepMore');
+              if (!more) O.depFit = null;
+              else { const sp = document.querySelector('#beCvDep'), bt = document.querySelector('#beCvToLayers');
+                const sr = sp.getBoundingClientRect(), br = bt.getBoundingClientRect();
+                const pel = document.querySelector('#bodyEdit');
+                O.depFit = { spanW: +sr.width.toFixed(2), spanH: +sr.height.toFixed(2),
+                  sameLine: (br.top < sr.bottom - 1 && sr.top < br.bottom - 1),
+                  xClip: Math.max(0, sp.scrollWidth - sp.clientWidth),
+                  btnClip: Math.max(0, bt.scrollWidth - bt.clientWidth),
+                  panelX: Math.max(0, pel.scrollWidth - pel.clientWidth),
+                  moreOpen: more.open, panelW: +pel.getBoundingClientRect().width.toFixed(2) }; } }
           }
           HP.selectBody(-1, 'A');
           HP.loadPreset('layeredCoreDFM', false);
@@ -20665,6 +20771,9 @@ if (!FAST) {
           && ly.rootIsCore && ly.shellIsR && ly.coreKept !== 0
           && Math.abs(ly.sum2 - ly.rootM2) < 1e-9
           && ly.ngShown && ly.ngDisabled && ly.ngLayN === 0
+          && (ly.depFit === null || (!ly.depFit.sameLine && ly.depFit.spanW > ly.depFit.panelW * 0.8
+            && ly.depFit.xClip === 0 && ly.depFit.btnClip === 0 && ly.depFit.panelX === 0
+            && ly.depFit.moreOpen === false))
           && ly.tabColors.every((c) => !!c && c !== 'rgb(255, 255, 255)'),
           `🧅 の中心天体で **m 欄の上に切り替えボタン**が出る=${ly.toggleAboveM}(既定は閉じている=${ly.closedBlk === 'none'})・`
           + `押すと層ブロックが開き=${ly.shown} **粒子の編集は丸ごと隠れる**=${ly.baseHidden}(戻せる=${ly.backShown})・`
@@ -20682,7 +20791,13 @@ if (!FAST) {
           + `タブ ${JSON.stringify(ly.tabsAfter)}・**コア V2 は消えない**(coreMd=${ly.coreKept})) / `
           + `移行できない粒子(🦀 Rc≥R)は行が出て=${ly.ngShown} ボタンが disabled=${ly.ngDisabled}・`
           + `理由「${ly.ngWhy}」・層は付かない(layN=${ly.ngLayN}) / `
-          + `タブの左帯 role 色=${JSON.stringify(ly.tabColors)}`);
+          + `タブの左帯 role 色=${JSON.stringify(ly.tabColors)} / `
+          + (ly.depFit
+            ? `**説明の寸法**(第263便b): 説明の幅 ${ly.depFit.spanW}px / パネル ${ly.depFit.panelW}px・`
+              + `高さ ${ly.depFit.spanH}px・ボタンと同じ行にいない=${!ly.depFit.sameLine}・`
+              + `文字の見切れ ${ly.depFit.xClip}px・ボタン文言の見切れ ${ly.depFit.btnClip}px・`
+              + `パネルの横スクロール ${ly.depFit.panelX}px・規約文の details は既定で閉=${ly.depFit.moreOpen === false}`
+            : 'SKIP 説明の寸法(対象に第263便b の #beCvDepMore なし — root 等)'));
       } else {
         console.log('SKIP ui.bodyLayerTabs(対象に第261便b の層編集タブなし — root 等)');
       }
