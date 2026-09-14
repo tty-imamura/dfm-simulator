@@ -14577,6 +14577,155 @@ if (!FAST) {
     console.log('SKIP ui.geoPNRestart(対象に第262便a の geoToyDeny なし — root 等)');
   }
 }
+// ---- 第263便a(第55報「コンパクト連星では geoPN=3 の適用となり引きずりが弱まって kFrame≈0.7」): behavior.geoToyOverlay ----
+//   統括が設定した検証仮説 (1)(4)。**明示キー `physics.spaceMesh.toyAllowDrag:true`** で
+//   geoPN=3 ∧ kFrame>0 を許す診断経路と、**支配度の器** `HP.dfmDominance` を機械固定する。
+//   **これは較正則ではない**(Negative Claim 27 を維持する)—— 重畳は「二重計上の可能性がある診断構成」で、
+//   本ブロックが固定するのは**門と対照と読み口**であって、「引きずりが弱い法則」ではない。
+//     ① **既定は 1 bit 不変**: 内蔵プリセットで `toyAllowDrag` を宣言する本は **0 本**で、
+//        正準形(physics 署名)に `toyAllowDrag` の 12 文字も出ない。
+//     ② **クラスの門**: `sampleClass:"calibration"` では **geoPN の値に依らず拒否**・
+//        `"principle"` では受理し、**警告 1 行**(重畳の告知)が必ず出る。kFrame=0 では警告を出さない。
+//     ③ **実行時**: 受理された宇宙は `S.geoToyDeny===null`・`S.hasGeoToy===true`・
+//        `S.geoToyOverlay==="drag"`。**宣言しなければ従来どおり** deny="kFrame"・overlay=null である。
+//     ④ **HUD**: ステップ会計の文字列に `overlay:drag` が出る(黙って重ねない)。
+//     ⑤ **η=0 の対照**: toyAllowDrag ∧ toyGain=0 は **geoPN=0(legacy E6′ だけ)と 300 步で状態ビット同一**。
+//        すなわち重畳で増えた分は**トイの分だけ**であり、差の出どころが 1 か所に限定される。
+//        さらに η=1 との状態差が 0 でないことも出す(「対照が効いていない」を排除する)。
+//     ⑥ **支配度の器**: 二体・D₀=0 で `uAlign===1` 厳密(u₂=v₁ —— 第262便a ②)・
+//        D₀>0 では `uAlign` と `chiSecond` が恒等に一致(二体)・**m≤0 と n<2 は null**(0 で埋めない)。
+{
+  const hasOverlay = await page.evaluate(() => !!(window.HP && HP.sim)
+    && ('geoToyOverlay' in HP.sim) && typeof HP.dfmDominance === 'function');
+  if (hasOverlay) {
+    const r = await page.evaluate(() => {
+      const KEY = HP.SPACE_MESH_KEY;
+      const P = (id) => JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === id)));
+      // ① 既定 1 bit 不変(内蔵で宣言する本は 0 本・署名にも出ない)
+      const declared = [], sigHit = [];
+      for (const q of HP.allPresets()) {
+        const sm = q.physics && q.physics[KEY];
+        if (sm && sm.toyAllowDrag !== undefined) declared.push(q.id);
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(q)));
+        if (v.ok && JSON.stringify(v.preset.physics).indexOf('toyAllowDrag') >= 0) sigHit.push(q.id);
+      }
+      // ② クラスの門
+      const mk = (cls, kFrame, allow, geoPN) => {
+        const q = P('psrDoubleABGeoToy');
+        q.sampleClass = cls; delete q.claims; delete q.massCalibration;
+        q.physics.geoPN = (geoPN === undefined) ? 3 : geoPN;
+        q.physics.kFrame = kFrame;
+        q.physics[KEY] = { mode: 'vertex', gravity: false, inertia: false, lawVersion: 'local' };
+        if (allow) q.physics[KEY].toyAllowDrag = true;
+        return HP.validatePreset(q);
+      };
+      const noKey = mk('principle', 0.7, false);
+      const okKey = mk('principle', 0.7, true);
+      const calKey = mk('calibration', 0.7, true);
+      const calKey2 = mk('calibration', 0, true, 2);      // geoPN=2 でも診断キーは拒否
+      const kf0 = mk('principle', 0, true);
+      // ③④⑤ 実行時
+      const run = (kFrame, allow, eta, geoPN, nStep) => {
+        const q = P('psrDoubleABGeoToy');
+        q.sampleClass = 'principle'; delete q.claims; delete q.massCalibration;
+        q.physics.geoPN = (geoPN === undefined) ? 3 : geoPN;
+        q.physics.kFrame = kFrame;
+        if (geoPN === 0) delete q.physics[KEY];
+        else {
+          q.physics[KEY] = { mode: 'vertex', gravity: false, inertia: false, lawVersion: 'local', toyGain: eta };
+          if (allow) q.physics[KEY].toyAllowDrag = true;
+        }
+        const v = HP.validatePreset(q);
+        if (!v.ok) return { err: (v.errors || []).join('|') };
+        const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < nStep; k++) S.step(0.016);
+        return { deny: S.geoToyDeny, overlay: S.geoToyOverlay, has: !!S.hasGeoToy, stop: S.geoToyStop,
+          N: S.geoToyN, geoPN: S.params.geoPN, nan: S.hasNaN(),
+          st: [S.x[0], S.y[0], S.vx[0], S.vy[0], S.x[1], S.y[1], S.vx[1], S.vy[1]] };
+      };
+      const on = run(0.7, true, 1, 3, 1);
+      // **未宣言の対照は検証器を通せない**(geoPN=3 ∧ kFrame>0 は JSON の側で拒否される)ので、
+      // kFrame=0 で組んでから**実行時に** kFrame を上げる(スライダーと同じ経路)。従来どおり denied になる。
+      const off = (() => {
+        const q = P('psrDoubleABGeoToy');
+        q.sampleClass = 'principle'; delete q.claims; delete q.massCalibration;
+        q.physics.geoPN = 3; q.physics.kFrame = 0;
+        q.physics[KEY] = { mode: 'vertex', gravity: false, inertia: false, lawVersion: 'local', toyGain: 1 };
+        const v = HP.validatePreset(q);
+        if (!v.ok) return { err: (v.errors || []).join('|') };
+        const S = HP.sim; S.build(v.preset);
+        S.params.kFrame = 0.7; S.updateRadii(); S.step(0.016);
+        return { deny: S.geoToyDeny, overlay: S.geoToyOverlay, has: !!S.hasGeoToy, stop: S.geoToyStop,
+          N: S.geoToyN, geoPN: S.params.geoPN, nan: S.hasNaN() };
+      })();
+      const eta0 = run(0.7, true, 0, 3, 300);
+      const legacy = run(0.7, false, 0, 0, 300);
+      const eta1 = run(0.7, true, 1, 3, 300);
+      // ④ HUD(overlay:drag を出す)
+      let hud = null;
+      try {
+        HP.loadPreset('psrDoubleABGeoToy', false);
+        const S = HP.sim;
+        S.params.kFrame = 0.7;
+        S.params[KEY] = Object.assign({}, S.params[KEY] || {}, { toyAllowDrag: true });
+        S.updateRadii(); S.step(0.016);
+        hud = { overlay: S.geoToyOverlay, deny: S.geoToyDeny,
+          text: (typeof HP.stepDiagText === 'function') ? String(HP.stepDiagText()) : null };
+      } catch (e) { hud = { err: String((e && e.message) || e) }; }
+      // ⑥ 支配度の器
+      const B = [{ m: 5, x: -10, y: 0, vx: 0.1, vy: -0.4 }, { m: 3, x: 12, y: 3, vx: -0.2, vy: 0.7 }];
+      const d0 = HP.dfmDominance(B, { p: 2, eps: 0, D0: 0 });
+      const d1 = HP.dfmDominance(B, { p: 2, eps: 0.05, D0: 1 });
+      const dom = { uAlign0: d0 ? d0.uAlign : null, chi0: d0 ? d0.chiSecond : null,
+        ident: (d1 && d1.uAlign !== null) ? Math.abs(d1.uAlign - d1.chiSecond) : null,
+        massRatio: d0 ? d0.massRatio : null,
+        neg: [HP.dfmDominance([{ m: -1, x: 0, y: 0 }, { m: 1, x: 1, y: 0 }], {}),
+          HP.dfmDominance([{ m: 0, x: 0, y: 0 }, { m: 1, x: 1, y: 0 }], {}),
+          HP.dfmDominance([{ m: 1, x: 0, y: 0 }], {}), HP.dfmDominance(null, {})].every((z) => z === null) };
+      return { declared, sigHit,
+        noKey: { ok: noKey.ok, err: (noKey.errors || []).join('|') },
+        okKey: { ok: okKey.ok, geoPN: okKey.ok ? okKey.preset.physics.geoPN : null,
+          warn: (okKey.warnings || []).some((w) => w.indexOf('toyAllowDrag') >= 0),
+          sig: okKey.ok ? JSON.stringify(okKey.preset.physics[KEY]) : null },
+        calKey: calKey.ok, calKey2: calKey2.ok,
+        kf0: { ok: kf0.ok, warn: (kf0.warnings || []).some((w) => w.indexOf('toyAllowDrag') >= 0) },
+        on, off, eta0, legacy, eta1, hud, dom };
+    });
+    const bitSame = (a, b) => !!(a && b && a.st && b.st && a.st.every((z, i) => Object.is(z, b.st[i])));
+    const maxDiff = (a, b) => (a && b && a.st && b.st)
+      ? a.st.reduce((d, z, i) => Math.max(d, Math.abs(z - b.st[i])), 0) : null;
+    const CK = {
+      defaultClean: r.declared.length === 0 && r.sigHit.length === 0,
+      gateNoKey: r.noKey.ok === false && r.noKey.err.indexOf('toyAllowDrag') >= 0,
+      gateKey: r.okKey.ok === true && r.okKey.geoPN === 3 && r.okKey.warn === true,
+      gateCalib: r.calKey === false && r.calKey2 === false,
+      gateKf0Quiet: r.kf0.ok === true && r.kf0.warn === false,
+      runOn: r.on.deny === null && r.on.has === true && r.on.overlay === 'drag' && r.on.geoPN === 3,
+      runOff: r.off.deny === 'kFrame' && r.off.has === false && r.off.overlay === null
+        && r.off.stop === 'denied' && r.off.geoPN === 3,
+      hud: !!(r.hud && r.hud.overlay === 'drag'
+        && (r.hud.text === null || r.hud.text.indexOf('overlay:drag') >= 0)),
+      etaZero: bitSame(r.eta0, r.legacy),
+      etaOneDiffers: !bitSame(r.eta1, r.eta0) && r.eta1.nan === false,
+      dom: r.dom.uAlign0 === 1 && r.dom.chi0 === 1 && r.dom.ident !== null && r.dom.ident < 1e-12
+        && r.dom.massRatio === 0.625 && r.dom.neg === true };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    add('behavior.geoToyOverlay', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + `① 内蔵で toyAllowDrag を宣言する本=${r.declared.length}(0 本)・署名に出る本=${r.sigHit.length}(0 本) / `
+      + `② 未宣言の kF=0.7 は拒否=${r.noKey.ok === false}・宣言すると受理 geoPN=${r.okKey.geoPN} 警告=${r.okKey.warn}・`
+      + `calibration は拒否(geoPN3/geoPN2)=${r.calKey === false}/${r.calKey2 === false}・kF=0 では警告なし=${r.kf0.warn === false} / `
+      + `③ 実行時 deny=${r.on.deny}/overlay=${r.on.overlay}(**明示キーなしで実行時に kFrame を上げた**ら `
+      + `deny=${r.off.deny}/overlay=${r.off.overlay}/stop=${r.off.stop}・geoPN は ${r.off.geoPN} のまま) / `
+      + `④ HUD overlay=${r.hud && r.hud.overlay} / `
+      + `⑤ η=0 と legacy E6′ が 300 步ビット同一=${CK.etaZero}(η=1 との状態差=${
+        maxDiff(r.eta1, r.eta0) === null ? '—' : maxDiff(r.eta1, r.eta0).toExponential(3)}) / `
+      + `⑥ dfmDominance: D₀=0 の uAlign=${r.dom.uAlign0}(=1 厳密)・二体の |uAlign−χ₂|=${
+        r.dom.ident === null ? '—' : r.dom.ident.toExponential(2)}・m≤0/n<2 は null=${r.dom.neg}`);
+  } else {
+    console.log('SKIP behavior.geoToyOverlay(対象に第263便a の geoToyOverlay / HP.dfmDominance なし — root 等)');
+  }
+}
 // ---- 第263便b(第55報・統括が設定した検証仮説 (7)): ui.geoToySaveNote ----
 //   **geoPN の保存は非対称である**: UI で 3 にした値は実行中は 3 のまま走る(第262便a)が、
 //   保存 JSON に physics.spaceMesh.lawVersion の宣言が無ければ**読み込み時に 2 へ丸められる**
