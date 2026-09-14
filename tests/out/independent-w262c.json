@@ -1,0 +1,4718 @@
+{
+ "meta": {
+  "wave": "第262便c",
+  "target": "beta/index.html",
+  "dt0": 0.016,
+  "periWindow": 20,
+  "yearSec": 31557600,
+  "divs": [
+   1,
+   2,
+   4,
+   8
+  ],
+  "phaseGate": 4.71238898038469,
+  "extractor": "位相制限 1.5π(`radial-crossing/orbit-phase-1.5pi-v1` —— 全経路で同一)",
+  "window": "**最初の 20 近点(19 区間)**。段・積分法・参照器のあいだで窓は同じである。",
+  "independentContract": "独立推定は **同じ抽出器・別の積分**だけを採る(検証仮説 (6))。**別の理論の式を解いた値(標準二体相対 1PN 等)は門(4) に入れない**(対照は別器 exp-w262c-e12ref)。",
+  "kF1Limitation": "**kFrame=1 の DFM 全経路は常微分方程式ではない** —— E6′/geoPN=2 の引きずりは Δv=k_F·(u_n−u_{n−1}) という**前步の u との差分インパルス**で、dt を掛ける右辺が無い。RK4 の中間段に「前步の u」は定義できないので、**法則を書き換えずにエンジンの外の参照器は作れない**。よって kFrame=1 側の独立推定は **leapfrog-KDK(エンジン内の別積分)だけ**である。",
+  "touched": "**プリセット JSON は 1 bit も書き換えていない**(診断コピーに patch を当てただけ)。`S._core` には 1 命令も足していない。",
+  "spentSec": 930.6
+ },
+ "bitChecks": [
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "steps": 600,
+   "dt": 0.016,
+   "bitSame": false,
+   "maxRelDiff": 2.350760696813458e-8,
+   "note": "**semi と bit が違う** —— `S._core(dt,mode)` の KDK フェーズ分割が効いている(別積分である)。"
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "steps": 600,
+   "dt": 0.016,
+   "bitSame": false,
+   "maxRelDiff": 2.5552723137913246e-9,
+   "note": "**semi と bit が違う** —— `S._core(dt,mode)` の KDK フェーズ分割が効いている(別積分である)。"
+  },
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "steps": 600,
+   "dt": 0.016,
+   "bitSame": false,
+   "maxRelDiff": 3.777036832418235e-8,
+   "note": "**semi と bit が違う** —— `S._core(dt,mode)` の KDK フェーズ分割が効いている(別積分である)。"
+  },
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "steps": 600,
+   "dt": 0.016,
+   "bitSame": false,
+   "maxRelDiff": 2.7600879897714827e-9,
+   "note": "**semi と bit が違う** —— `S._core(dt,mode)` の KDK フェーズ分割が効いている(別積分である)。"
+  },
+  {
+   "id": "psrDoubleAB",
+   "emoji": "📻",
+   "steps": 600,
+   "dt": 0.016,
+   "bitSame": false,
+   "maxRelDiff": 0.000004121974163336419,
+   "note": "**semi と bit が違う** —— `S._core(dt,mode)` の KDK フェーズ分割が効いている(別積分である)。"
+  }
+ ],
+ "cases": [
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "kind": "ledger-kF1",
+   "body": "PSR J0737-3039 B",
+   "toSec": 10,
+   "obs": {
+    "period": {
+     "body": "PSR J0737-3039 B",
+     "quantity": "orbital_period",
+     "value": 8834.534723278,
+     "unit": "s",
+     "source": "Hu et al. (2022) A&A 667 A149 (via device-collected record)",
+     "sigma": 2.5056e-7
+    },
+    "periodV2": null,
+    "omegaDot": {
+     "body": "PSR J0737-3039 B",
+     "quantity": "periastron_advance",
+     "value": 16.899323,
+     "unit": "deg/yr",
+     "source": "Kramer et al. (2021) Phys. Rev. X 11 041050 - Strong-Field Gravity Tests with the Double Pulsar",
+     "sigma": 0.000013
+    },
+    "ecc": {
+     "body": "PSR J0737-3039 B",
+     "quantity": "eccentricity",
+     "value": 0.087777036,
+     "unit": "1",
+     "source": "Hu et al. (2022) A&A 667 A149 (via device-collected record)",
+     "sigma": 4.8e-8
+    }
+   },
+   "runs": {
+    "ledger-semi": {
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "wallSec": 2.24,
+       "steps": 1065169,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 8737.372557379043,
+       "degPerYear": 34.61785873573114,
+       "seDegPerYear": 0.03462796321435375,
+       "eProxy": 0.09406572787919135,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "wallSec": 4.43,
+       "steps": 2141850,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 8785.83868574628,
+       "degPerYear": 34.066930381387586,
+       "seDegPerYear": 0.0389841244394408,
+       "eProxy": 0.09091909529820075,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "wallSec": 8.75,
+       "steps": 4295214,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 8810.076512361618,
+       "degPerYear": 33.91656886423957,
+       "seDegPerYear": 0.00955239067932426,
+       "eProxy": 0.08935883047456201,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 8,
+       "dt": 0.002,
+       "wallSec": 17.51,
+       "steps": 8601943,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 8822.195728080791,
+       "degPerYear": 33.83006565722908,
+       "seDegPerYear": 0.004667314254632627,
+       "eProxy": 0.08858192446094297,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      }
+     ],
+     "truncated": null,
+     "richardson": {
+      "P": {
+       "triples": [
+        {
+         "p": 0.9997165005001694,
+         "yInf": 8834.323867584906
+        },
+        {
+         "p": 0.9999639998965821,
+         "yInf": 8834.315548653156
+        }
+       ],
+       "extrapolations": [
+        8834.323867584906,
+        8834.315548653156
+       ],
+       "yInf": 8834.315548653156,
+       "spread": 0.008318931750181946
+      },
+      "degPerYear": {
+       "triples": [
+        {
+         "p": 1.8734293378874516,
+         "yInf": 33.86012738247004
+        },
+        {
+         "p": 0.797609852190266,
+         "yInf": 33.71288741046705
+        }
+       ],
+       "extrapolations": [
+        33.86012738247004,
+        33.71288741046705
+       ],
+       "yInf": 33.71288741046705,
+       "spread": 0.14723997200299266
+      },
+      "e": {
+       "triples": [
+        {
+         "p": 1.0120178126596542,
+         "yInf": 0.08782423907316578
+        },
+        {
+         "p": 1.005978934456038,
+         "yInf": 0.0878114180898175
+        }
+       ],
+       "extrapolations": [
+        0.08782423907316578,
+        0.0878114180898175
+       ],
+       "yInf": 0.0878114180898175,
+       "spread": 0.000012820983348274528
+      }
+     }
+    },
+    "ledger-leapfrog": {
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "wallSec": 3.65,
+       "steps": 1065169,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 8737.370930061756,
+       "degPerYear": 34.61862598787008,
+       "seDegPerYear": 0.03458557529574265,
+       "eProxy": 0.09406581449162907,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "wallSec": 7.24,
+       "steps": 2141850,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 8785.837839414497,
+       "degPerYear": 34.06709261444555,
+       "seDegPerYear": 0.038905894238763956,
+       "eProxy": 0.09091913871050435,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "wallSec": 14.57,
+       "steps": 4295214,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 8810.076080497021,
+       "degPerYear": 33.91657990437874,
+       "seDegPerYear": 0.009550533191759514,
+       "eProxy": 0.08935885221420603,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 8,
+       "dt": 0.002,
+       "wallSec": 28.95,
+       "steps": 8601942,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 8822.195510259728,
+       "degPerYear": 33.83006737136348,
+       "seDegPerYear": 0.00466740070682412,
+       "eProxy": 0.08858193527841278,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      }
+     ],
+     "truncated": null,
+     "richardson": {
+      "P": {
+       "triples": [
+        {
+         "p": 0.999715078074454,
+         "yInf": 8834.3238981741
+        },
+        {
+         "p": 0.999963189857651,
+         "yInf": 8834.31555849688
+        }
+       ],
+       "extrapolations": [
+        8834.3238981741,
+        8834.31555849688
+       ],
+       "yInf": 8834.31555849688,
+       "spread": 0.008339677218828001
+      },
+      "degPerYear": {
+       "triples": [
+        {
+         "p": 1.8735628655881424,
+         "yInf": 33.860088860495935
+        },
+        {
+         "p": 0.7989042654039082,
+         "yInf": 33.7131236578689
+        }
+       ],
+       "extrapolations": [
+        33.860088860495935,
+        33.7131236578689
+       ],
+       "yInf": 33.7131236578689,
+       "spread": 0.14696520262703672
+      },
+      "e": {
+       "triples": [
+        {
+         "p": 1.0120175798586468,
+         "yInf": 0.08782423900557151
+        },
+        {
+         "p": 1.0059786918265414,
+         "yInf": 0.08781141781698217
+        }
+       ],
+       "extrapolations": [
+        0.08782423900557151,
+        0.08781141781698217
+       ],
+       "yInf": 0.08781141781698217,
+       "spread": 0.000012821188589348664
+      }
+     }
+    },
+    "kF0-semi": {
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "wallSec": 0.57,
+       "steps": 450295,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 3694.7442110791744,
+       "degPerYear": 26.817029780910442,
+       "seDegPerYear": 0.000009322843222138115,
+       "eProxy": 0.5438685328660605,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "wallSec": 1.11,
+       "steps": 900589,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 3694.735604154964,
+       "degPerYear": 26.9482835373668,
+       "seDegPerYear": 0.000004743585157538409,
+       "eProxy": 0.5438672626705082,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "wallSec": 2.21,
+       "steps": 1801179,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 3694.731300379486,
+       "degPerYear": 26.981116759852174,
+       "seDegPerYear": 0.000002377509816143046,
+       "eProxy": 0.5438666200688205,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 8,
+       "dt": 0.002,
+       "wallSec": 4.51,
+       "steps": 3602359,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 3694.7291484142816,
+       "degPerYear": 26.989334901637434,
+       "seDegPerYear": 0.0000011889226352630753,
+       "eProxy": 0.543866297469867,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      }
+     ],
+     "truncated": null,
+     "richardson": {
+      "P": {
+       "triples": [
+        {
+         "p": 0.9998949484874191,
+         "yInf": 3694.7269959771706
+        },
+        {
+         "p": 0.9999480655421307,
+         "yInf": 3694.7269962941346
+        }
+       ],
+       "extrapolations": [
+        3694.7269959771706,
+        3694.7269962941346
+       ],
+       "yInf": 3694.7269962941346,
+       "spread": 3.1696390578872524e-7
+      },
+      "degPerYear": {
+       "triples": [
+        {
+         "p": 1.9991304547159001,
+         "yInf": 26.992069967026318
+        },
+        {
+         "p": 1.9982722269460411,
+         "yInf": 26.992078660848524
+        }
+       ],
+       "extrapolations": [
+        26.992069967026318,
+        26.992078660848524
+       ],
+       "yInf": 26.992078660848524,
+       "spread": 0.000008693822206140567
+      },
+      "e": {
+       "triples": [
+        {
+         "p": 0.9830539483907638,
+         "yInf": 0.5438659621004234
+        },
+        {
+         "p": 0.9941830117794164,
+         "yInf": 0.5438659722536311
+        }
+       ],
+       "extrapolations": [
+        0.5438659621004234,
+        0.5438659722536311
+       ],
+       "yInf": 0.5438659722536311,
+       "spread": 1.0153207719021395e-8
+      }
+     }
+    },
+    "kF0-leapfrog": {
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "wallSec": 0.98,
+       "steps": 450295,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 3694.7355847677463,
+       "degPerYear": 26.81699258410828,
+       "seDegPerYear": 0.000004709711479894941,
+       "eProxy": 0.5438672297035267,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "wallSec": 1.92,
+       "steps": 900590,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 3694.7312955327725,
+       "degPerYear": 26.948294057435515,
+       "seDegPerYear": 0.0000023669166689321446,
+       "eProxy": 0.5438666114606779,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "wallSec": 3.87,
+       "steps": 1801180,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 3694.7291472018287,
+       "degPerYear": 26.98112922863466,
+       "seDegPerYear": 0.0000011873158498865973,
+       "eProxy": 0.5438662941477994,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 8,
+       "dt": 0.002,
+       "wallSec": 7.78,
+       "steps": 3602359,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 3694.7280721082893,
+       "degPerYear": 26.98934293544701,
+       "seDegPerYear": 5.942805309273515e-7,
+       "eProxy": 0.5438661334798597,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      }
+     ],
+     "truncated": null,
+     "richardson": {
+      "P": {
+       "triples": [
+        {
+         "p": 0.9975040990017212,
+         "yInf": 3694.726991418207
+        },
+        {
+         "p": 0.998754065055848,
+         "yInf": 3694.726995155405
+        }
+       ],
+       "extrapolations": [
+        3694.726991418207,
+        3694.726995155405
+       ],
+       "yInf": 3694.726995155405,
+       "spread": 0.000003737197857844876
+      },
+      "degPerYear": {
+       "triples": [
+        {
+         "p": 1.9995692222969748,
+         "yInf": 26.992078644265955
+        },
+        {
+         "p": 1.9991366208636483,
+         "yInf": 26.992083023466932
+        }
+       ],
+       "extrapolations": [
+        26.992078644265955,
+        26.992083023466932
+       ],
+       "yInf": 26.992083023466932,
+       "spread": 0.000004379200976956099
+      },
+      "e": {
+       "triples": [
+        {
+         "p": 0.9622675711303992,
+         "yInf": 0.5438659595601119
+        },
+        {
+         "p": 0.9818239988984692,
+         "yInf": 0.5438659686855991
+        }
+       ],
+       "extrapolations": [
+        0.5438659595601119,
+        0.5438659686855991
+       ],
+       "yInf": 0.5438659686855991,
+       "spread": 9.125487254735276e-9
+      }
+     }
+    }
+   },
+   "references": {
+    "ledger-semi": {
+     "applicable": false,
+     "reason": "kFrame=1",
+     "note": "**kFrame=1 の DFM 全経路は常微分方程式ではない** —— E6′/geoPN=2 の引きずりは Δv=k_F·(u_n−u_{n−1}) という**前步の u との差分インパルス**で、dt を掛ける右辺が無い。RK4 の中間段に「前步の u」は定義できないので、**法則を書き換えずにエンジンの外の参照器は作れない**。よって kFrame=1 側の独立推定は **leapfrog-KDK(エンジン内の別積分)だけ**である。"
+    },
+    "kF0-semi": {
+     "applicable": true,
+     "method": "rk4-reference",
+     "law": "エンジンの kFrame=0・geoPN=2 経路と同じ式(E4 ソフトニング重力 + E12 測地線 1PN + 対反作用)",
+     "stages": [
+      {
+       "nPerOrbit": 400,
+       "dt": 2.2086336808195,
+       "steps": 3261,
+       "stopped": "window",
+       "measured": true,
+       "perMeanSec": 3694.44773851176,
+       "degPerYear": 35.12202487526781,
+       "wallSec": 0.02
+      },
+      {
+       "nPerOrbit": 800,
+       "dt": 1.10431684040975,
+       "steps": 6524,
+       "stopped": "window",
+       "measured": true,
+       "perMeanSec": 3694.718323911703,
+       "degPerYear": 27.517568985804054,
+       "wallSec": 0.01
+      },
+      {
+       "nPerOrbit": 1600,
+       "dt": 0.552158420204875,
+       "steps": 13048,
+       "stopped": "window",
+       "measured": true,
+       "perMeanSec": 3694.726745131751,
+       "degPerYear": 27.03665951789085,
+       "wallSec": 0.02
+      },
+      {
+       "nPerOrbit": 3200,
+       "dt": 0.2760792101024375,
+       "steps": 26096,
+       "stopped": "window",
+       "measured": true,
+       "perMeanSec": 3694.7269866764777,
+       "degPerYear": 26.99368527322866,
+       "wallSec": 0.03
+      }
+     ],
+     "value": 3694.7269866764777,
+     "selfSpread": 0.00024154472657755832,
+     "degPerYear": 26.99368527322866,
+     "note": "**エンジンの外**の Float64・古典 RK4。刻みはエンジンの段と別列(P_obs/400…/3200)で、**同じ抽出器**(位相制限 1.5π)を通している。"
+    }
+   }
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "kind": "ledger-kF1",
+   "body": "PSR J1757-1854",
+   "toSec": 10,
+   "obs": {
+    "period": {
+     "body": "PSR J1757-1854",
+     "quantity": "orbital_period",
+     "value": 15857.669019168,
+     "unit": "s",
+     "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Universe Pulsar Survey XIII: PSR J1757-1854, the most accelerated binary pulsar",
+     "sigma": 0.00000432
+    },
+    "periodV2": null,
+    "omegaDot": {
+     "body": "PSR J1757-1854",
+     "quantity": "periastron_advance",
+     "value": 10.3651,
+     "unit": "deg/yr",
+     "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Universe Pulsar Survey XIII: PSR J1757-1854, the most accelerated binary pulsar",
+     "sigma": 0.0002
+    },
+    "ecc": {
+     "body": "PSR J1757-1854",
+     "quantity": "eccentricity",
+     "value": 0.6058142,
+     "unit": "1",
+     "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Universe Pulsar Survey XIII: PSR J1757-1854, the most accelerated binary pulsar",
+     "sigma": 1e-7
+    }
+   },
+   "runs": {
+    "ledger-semi": {
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "wallSec": 3.8,
+       "steps": 1891125,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 15508.038974810872,
+       "degPerYear": 21.359639524248152,
+       "seDegPerYear": 0.03914722198558549,
+       "eProxy": 0.6089203668102275,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "wallSec": 7.75,
+       "steps": 3823266,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 15680.724196643438,
+       "degPerYear": 21.029000627886038,
+       "seDegPerYear": 0.019206773003596852,
+       "eProxy": 0.6074112930414002,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "wallSec": 15.43,
+       "steps": 7687928,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 15767.86577935108,
+       "degPerYear": 20.8685745126045,
+       "seDegPerYear": 0.00951581806670753,
+       "eProxy": 0.6066638499764121,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 8,
+       "dt": 0.002,
+       "wallSec": 31.55,
+       "steps": 15417442,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 15811.638441439847,
+       "degPerYear": 20.789545130185125,
+       "seDegPerYear": 0.004736488158389021,
+       "eProxy": 0.6062918814794195,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      }
+     ],
+     "truncated": null,
+     "richardson": {
+      "P": {
+       "triples": [
+        {
+         "p": 0.9867114027316336,
+         "yInf": 15856.63515501095
+        },
+        {
+         "p": 0.9933311904829101,
+         "yInf": 15855.818603615791
+        }
+       ],
+       "extrapolations": [
+        15856.63515501095,
+        15855.818603615791
+       ],
+       "yInf": 15855.818603615791,
+       "spread": 0.8165513951589674
+      },
+      "degPerYear": {
+       "triples": [
+        {
+         "p": 1.0433474404011374,
+         "yInf": 20.717372362560653
+        },
+        {
+         "p": 1.0214479735834645,
+         "yInf": 20.71281424595954
+        }
+       ],
+       "extrapolations": [
+        20.717372362560653,
+        20.71281424595954
+       ],
+       "yInf": 20.71281424595954,
+       "spread": 0.004558116601113937
+      },
+      "e": {
+       "triples": [
+        {
+         "p": 1.0136277374514762,
+         "yInf": 0.6059303302632721
+        },
+        {
+         "p": 1.0067832482227004,
+         "yInf": 0.6059233863147706
+        }
+       ],
+       "extrapolations": [
+        0.6059303302632721,
+        0.6059233863147706
+       ],
+       "yInf": 0.6059233863147706,
+       "spread": 0.000006943948501536568
+      }
+     }
+    },
+    "ledger-leapfrog": {
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "wallSec": 6.34,
+       "steps": 1891123,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 15508.022945991528,
+       "degPerYear": 21.359667632008694,
+       "seDegPerYear": 0.03914886074646601,
+       "eProxy": 0.6089203483799919,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "wallSec": 13.19,
+       "steps": 3823264,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 15680.716044136836,
+       "degPerYear": 21.029013975108995,
+       "seDegPerYear": 0.019207565350462794,
+       "eProxy": 0.6074112835597385,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "wallSec": 26.27,
+       "steps": 7687926,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 15767.861668011305,
+       "degPerYear": 20.868581020035013,
+       "seDegPerYear": 0.009516208135687623,
+       "eProxy": 0.6066638451593096,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 8,
+       "dt": 0.002,
+       "wallSec": 51.39,
+       "steps": 15417440,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 15811.636376929184,
+       "degPerYear": 20.78954834263572,
+       "seDegPerYear": 0.004736681729144878,
+       "eProxy": 0.6062918790323474,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      }
+     ],
+     "truncated": null,
+     "richardson": {
+      "P": {
+       "triples": [
+        {
+         "p": 0.9867103006868713,
+         "yInf": 15856.635297217785
+        },
+        {
+         "p": 0.9933306340322579,
+         "yInf": 15855.818639230152
+        }
+       ],
+       "extrapolations": [
+        15856.635297217785,
+        15855.818639230152
+       ],
+       "yInf": 15855.818639230152,
+       "spread": 0.8166579876324249
+      },
+      "degPerYear": {
+       "triples": [
+        {
+         "p": 1.0433503362192862,
+         "yInf": 20.717373013031708
+        },
+        {
+         "p": 1.021449332626074,
+         "yInf": 20.712814401728746
+        }
+       ],
+       "extrapolations": [
+        20.717373013031708,
+        20.712814401728746
+       ],
+       "yInf": 20.712814401728746,
+       "spread": 0.004558611302961424
+      },
+      "e": {
+       "triples": [
+        {
+         "p": 1.0136281859058482,
+         "yInf": 0.6059303304756088
+        },
+        {
+         "p": 1.0067834370737365,
+         "yInf": 0.6059233863116205
+        }
+       ],
+       "extrapolations": [
+        0.6059303304756088,
+        0.6059233863116205
+       ],
+       "yInf": 0.6059233863116205,
+       "spread": 0.000006944163988387153
+      }
+     }
+    },
+    "kF0-semi": {
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "wallSec": 1.45,
+       "steps": 1148806,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 9426.122225742443,
+       "degPerYear": 11.514470407324476,
+       "seDegPerYear": 0.000014357980371405776,
+       "eProxy": 0.8029015746171663,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "wallSec": 2.92,
+       "steps": 2297593,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 9426.033682217836,
+       "degPerYear": 11.581064837458888,
+       "seDegPerYear": 0.0000071631253037429394,
+       "eProxy": 0.8028992703501582,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "wallSec": 6.21,
+       "steps": 4595168,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 9425.98940768918,
+       "degPerYear": 11.597743183385314,
+       "seDegPerYear": 0.0000035812943332923822,
+       "eProxy": 0.8028981074038203,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 8,
+       "dt": 0.002,
+       "wallSec": 12.24,
+       "steps": 9190316,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 9425.967269739918,
+       "degPerYear": 11.601927573923156,
+       "seDegPerYear": 0.000001791131511924616,
+       "eProxy": 0.8028975258459998,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      }
+     ],
+     "truncated": null,
+     "richardson": {
+      "P": {
+       "triples": [
+        {
+         "p": 0.9999098549847335,
+         "yInf": 9425.945127627127
+        },
+        {
+         "p": 0.9999553633002402,
+         "yInf": 9425.945130420705
+        }
+       ],
+       "extrapolations": [
+        9425.945127627127,
+        9425.945130420705
+       ],
+       "yInf": 9425.945130420705,
+       "spread": 0.0000027935784601140767
+      },
+      "degPerYear": {
+       "triples": [
+        {
+         "p": 1.997425300618116,
+         "yInf": 11.603315880588132
+        },
+        {
+         "p": 1.9948868040159093,
+         "yInf": 11.603328981534167
+        }
+       ],
+       "extrapolations": [
+        11.603315880588132,
+        11.603328981534167
+       ],
+       "yInf": 11.603328981534167,
+       "spread": 0.000013100946034683147
+      },
+      "e": {
+       "triples": [
+        {
+         "p": 0.9865233717420036,
+         "yInf": 0.802896922422053
+        },
+        {
+         "p": 0.9997899861445474,
+         "yInf": 0.8028969441188271
+        }
+       ],
+       "extrapolations": [
+        0.802896922422053,
+        0.8028969441188271
+       ],
+       "yInf": 0.8028969441188271,
+       "spread": 2.1696774044066558e-8
+      }
+     }
+    },
+    "kF0-leapfrog": {
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "wallSec": 2.51,
+       "steps": 1148797,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 9426.033664814811,
+       "degPerYear": 11.51453806786505,
+       "seDegPerYear": 0.000007068150265110807,
+       "eProxy": 0.8028992372812845,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "wallSec": 4.94,
+       "steps": 2297584,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 9425.98940334403,
+       "degPerYear": 11.58111128793462,
+       "seDegPerYear": 0.0000035827784896797973,
+       "eProxy": 0.8028981006612604,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "wallSec": 10.38,
+       "steps": 4595158,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 9425.96726865438,
+       "degPerYear": 11.597769585455884,
+       "seDegPerYear": 0.0000017915430105512758,
+       "eProxy": 0.8028975244020329,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 8,
+       "dt": 0.002,
+       "wallSec": 20.2,
+       "steps": 9190307,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 9425.95620032588,
+       "degPerYear": 11.601941577962876,
+       "seDegPerYear": 8.959998944068158e-7,
+       "eProxy": 0.8028972339568654,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      }
+     ],
+     "truncated": null,
+     "richardson": {
+      "P": {
+       "triples": [
+        {
+         "p": 0.9997422461661631,
+         "yInf": 9425.945126053382
+        },
+        {
+         "p": 0.9998717777505469,
+         "yInf": 9425.94513002968
+        }
+       ],
+       "extrapolations": [
+        9425.945126053382,
+        9425.94513002968
+       ],
+       "yInf": 9425.94513002968,
+       "spread": 0.0000039762981032254174
+      },
+      "degPerYear": {
+       "triples": [
+        {
+         "p": 1.9987009866914096,
+         "yInf": 11.603329022636988
+        },
+        {
+         "p": 1.9974324928866118,
+         "yInf": 11.603335546911936
+        }
+       ],
+       "extrapolations": [
+        11.603329022636988,
+        11.603335546911936
+       ],
+       "yInf": 11.603335546911936,
+       "spread": 0.000006524274947850017
+      },
+      "e": {
+       "triples": [
+        {
+         "p": 0.979960184508102,
+         "yInf": 0.8028969317933076
+        },
+        {
+         "p": 0.9884521214037645,
+         "yInf": 0.8028969388055517
+        }
+       ],
+       "extrapolations": [
+        0.8028969317933076,
+        0.8028969388055517
+       ],
+       "yInf": 0.8028969388055517,
+       "spread": 7.012244118698163e-9
+      }
+     }
+    }
+   },
+   "references": {
+    "ledger-semi": {
+     "applicable": false,
+     "reason": "kFrame=1",
+     "note": "**kFrame=1 の DFM 全経路は常微分方程式ではない** —— E6′/geoPN=2 の引きずりは Δv=k_F·(u_n−u_{n−1}) という**前步の u との差分インパルス**で、dt を掛ける右辺が無い。RK4 の中間段に「前步の u」は定義できないので、**法則を書き換えずにエンジンの外の参照器は作れない**。よって kFrame=1 側の独立推定は **leapfrog-KDK(エンジン内の別積分)だけ**である。"
+    },
+    "kF0-semi": {
+     "applicable": true,
+     "method": "rk4-reference",
+     "law": "エンジンの kFrame=0・geoPN=2 経路と同じ式(E4 ソフトニング重力 + E12 測地線 1PN + 対反作用)",
+     "stages": [
+      {
+       "nPerOrbit": 400,
+       "dt": 3.9644172547920005,
+       "steps": 4550,
+       "stopped": "window",
+       "measured": true,
+       "perMeanSec": 9247.64804220324,
+       "degPerYear": 89.76944270792458,
+       "wallSec": 0.01
+      },
+      {
+       "nPerOrbit": 800,
+       "dt": 1.9822086273960002,
+       "steps": 9267,
+       "stopped": "window",
+       "measured": true,
+       "perMeanSec": 9420.051035231005,
+       "degPerYear": 18.758210456229882,
+       "wallSec": 0.01
+      },
+      {
+       "nPerOrbit": 1600,
+       "dt": 0.9911043136980001,
+       "steps": 18545,
+       "stopped": "window",
+       "measured": true,
+       "perMeanSec": 9425.759403078753,
+       "degPerYear": 12.331872705791755,
+       "wallSec": 0.01
+      },
+      {
+       "nPerOrbit": 3200,
+       "dt": 0.49555215684900006,
+       "steps": 37091,
+       "stopped": "window",
+       "measured": true,
+       "perMeanSec": 9425.939322028287,
+       "degPerYear": 11.614239562168857,
+       "wallSec": 0.03
+      }
+     ],
+     "value": 9425.939322028287,
+     "selfSpread": 0.17991894953411247,
+     "degPerYear": 11.614239562168857,
+     "note": "**エンジンの外**の Float64・古典 RK4。刻みはエンジンの段と別列(P_obs/400…/3200)で、**同じ抽出器**(位相制限 1.5π)を通している。"
+    }
+   }
+  },
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "kind": "ledger-kF1",
+   "body": "PSR J1946+2052",
+   "toSec": 10,
+   "obs": {
+    "period": {
+     "body": "PSR J1946+2052",
+     "quantity": "orbital_period",
+     "value": 6781.366656,
+     "unit": "s",
+     "source": "Meng et al. (2025) A&A 704 A153 - The double neutron star PSR J1946+2052 I. Masses and tests of general relativity [arXiv:2510.12506]",
+     "sigma": 0.000864
+    },
+    "periodV2": {
+     "body": "PSR J1946+2052",
+     "quantity": "orbital_period",
+     "value": 6781.367998656,
+     "unit": "s",
+     "source": "Meng et al. (2025) A&A 704 A153 Table 1 DDFWHE column - The double neutron star PSR J1946+2052 I. Masses and tests of general relativity [arXiv:2510.12506]",
+     "sigma": 0.000001728
+    },
+    "omegaDot": {
+     "body": "PSR J1946+2052",
+     "quantity": "periastron_advance",
+     "value": 25.79205,
+     "unit": "deg/yr",
+     "source": "Meng et al. (2025) A&A 704 A153 - The double neutron star PSR J1946+2052 I. Masses and tests of general relativity [arXiv:2510.12506]",
+     "sigma": 0.0004
+    },
+    "ecc": {
+     "body": "PSR J1946+2052",
+     "quantity": "eccentricity",
+     "value": 0.063848,
+     "unit": "1",
+     "source": "Meng et al. (2025) A&A 704 A153 - The double neutron star PSR J1946+2052 I. Masses and tests of general relativity [arXiv:2510.12506]",
+     "sigma": 0.000009
+    }
+   },
+   "runs": {
+    "ledger-semi": {
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "wallSec": 2.03,
+       "steps": 815110,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 25,
+       "rejectedCount": 5,
+       "unwrapFailed": false,
+       "perMeanSec": 6685.642291994065,
+       "degPerYear": 54.9325154801378,
+       "seDegPerYear": 0.9510818731435642,
+       "eProxy": 0.07217953516083096,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "wallSec": 3.57,
+       "steps": 1641607,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 21,
+       "rejectedCount": 1,
+       "unwrapFailed": false,
+       "perMeanSec": 6733.570007117497,
+       "degPerYear": 52.5746915478453,
+       "seDegPerYear": 0.15221213306629536,
+       "eProxy": 0.0679900171717606,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "wallSec": 6.76,
+       "steps": 3294602,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 6757.54080649197,
+       "degPerYear": 51.82549019640166,
+       "seDegPerYear": 0.025476313390109438,
+       "eProxy": 0.06591788620955849,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 8,
+       "dt": 0.002,
+       "wallSec": 13.21,
+       "steps": 6600591,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 6769.529013590517,
+       "degPerYear": 51.66244699860804,
+       "seDegPerYear": 0.008967667593091082,
+       "eProxy": 0.06488739558191313,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      }
+     ],
+     "truncated": null,
+     "richardson": {
+      "P": {
+       "triples": [
+        {
+         "p": 0.9995821428774139,
+         "yInf": 6781.525497537863
+        },
+        {
+         "p": 0.9996621085488182,
+         "yInf": 6781.522838142687
+        }
+       ],
+       "extrapolations": [
+        6781.525497537863,
+        6781.522838142687
+       ],
+       "yInf": 6781.522838142687,
+       "spread": 0.002659395176124235
+      },
+      "degPerYear": {
+       "triples": [
+        {
+         "p": 1.6540305837024443,
+         "yInf": 51.476556474043505
+        },
+        {
+         "p": 2.200099249268579,
+         "yInf": 51.61709561318205
+        }
+       ],
+       "extrapolations": [
+        51.476556474043505,
+        51.61709561318205
+       ],
+       "yInf": 51.61709561318205,
+       "spread": 0.14053913913854643
+      },
+      "e": {
+       "triples": [
+        {
+         "p": 1.0156690823499135,
+         "yInf": 0.0638900440295356
+        },
+        {
+         "p": 1.0077838031209023,
+         "yInf": 0.06386793531483659
+        }
+       ],
+       "extrapolations": [
+        0.0638900440295356,
+        0.06386793531483659
+       ],
+       "yInf": 0.06386793531483659,
+       "spread": 0.000022108714699015097
+      }
+     }
+    },
+    "ledger-leapfrog": {
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "wallSec": 2.74,
+       "steps": 815110,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 25,
+       "rejectedCount": 5,
+       "unwrapFailed": false,
+       "perMeanSec": 6685.640476490726,
+       "degPerYear": 54.93516586479897,
+       "seDegPerYear": 0.9517364240104087,
+       "eProxy": 0.07217968191629945,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "wallSec": 5.5,
+       "steps": 1641607,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 21,
+       "rejectedCount": 1,
+       "unwrapFailed": false,
+       "perMeanSec": 6733.56905621873,
+       "degPerYear": 52.57537784439583,
+       "seDegPerYear": 0.15253307054028079,
+       "eProxy": 0.067990090625464,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "wallSec": 11.04,
+       "steps": 3294601,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 6757.5403189012095,
+       "degPerYear": 51.825647843602844,
+       "seDegPerYear": 0.02541174053541407,
+       "eProxy": 0.06591792256598017,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 8,
+       "dt": 0.002,
+       "wallSec": 21.95,
+       "steps": 6600591,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 6769.52876619975,
+       "degPerYear": 51.662444795035675,
+       "seDegPerYear": 0.00896944090847898,
+       "eProxy": 0.06488741397128585,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      }
+     ],
+     "truncated": null,
+     "richardson": {
+      "P": {
+       "triples": [
+        {
+         "p": 0.9995802843536974,
+         "yInf": 6781.525535338446
+        },
+        {
+         "p": 0.9996610866500542,
+         "yInf": 6781.522848059888
+        }
+       ],
+       "extrapolations": [
+        6781.525535338446,
+        6781.522848059888
+       ],
+       "yInf": 6781.522848059888,
+       "spread": 0.002687278558369144
+      },
+      "degPerYear": {
+       "triples": [
+        {
+         "p": 1.6542142296872469,
+         "yInf": 51.476533049450794
+        },
+        {
+         "p": 2.199703126887647,
+         "yInf": 51.61703301138185
+        }
+       ],
+       "extrapolations": [
+        51.476533049450794,
+        51.61703301138185
+       ],
+       "yInf": 51.61703301138185,
+       "spread": 0.14049996193105585
+      },
+      "e": {
+       "triples": [
+        {
+         "p": 1.0156684959127178,
+         "yInf": 0.06389004245057968
+        },
+        {
+         "p": 1.007784477612515,
+         "yInf": 0.0638679368776337
+        }
+       ],
+       "extrapolations": [
+        0.06389004245057968,
+        0.0638679368776337
+       ],
+       "yInf": 0.0638679368776337,
+       "spread": 0.000022105572945976815
+      }
+     }
+    },
+    "kF0-semi": {
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "wallSec": 0.42,
+       "steps": 338230,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 2775.237594595509,
+       "degPerYear": 41.47750172132147,
+       "seDegPerYear": 0.000021444365932076304,
+       "eProxy": 0.5319079087877783,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "wallSec": 0.83,
+       "steps": 676459,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 2775.2282003413984,
+       "degPerYear": 41.76993069266955,
+       "seDegPerYear": 0.000010753864091049517,
+       "eProxy": 0.5319060183203771,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "wallSec": 1.67,
+       "steps": 1352919,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 2775.223503106162,
+       "degPerYear": 41.84308314478469,
+       "seDegPerYear": 0.000005397707566521626,
+       "eProxy": 0.5319050698915282,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 8,
+       "dt": 0.002,
+       "wallSec": 3.35,
+       "steps": 2705838,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 2775.2211544608153,
+       "degPerYear": 41.861393626051864,
+       "seDegPerYear": 0.000002699229298839114,
+       "eProxy": 0.5319045900150545,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      }
+     ],
+     "truncated": null,
+     "richardson": {
+      "P": {
+       "triples": [
+        {
+         "p": 0.9999667731576514,
+         "yInf": 2775.218805654553
+        },
+        {
+         "p": 0.9999829673725387,
+         "yInf": 2775.218805760011
+        }
+       ],
+       "extrapolations": [
+        2775.218805654553,
+        2775.218805760011
+       ],
+       "yInf": 2775.218805760011,
+       "spread": 1.0545818440732546e-7
+      },
+      "degPerYear": {
+       "triples": [
+        {
+         "p": 1.9991081178796046,
+         "yInf": 41.86748740507293
+        },
+        {
+         "p": 1.9982365142033207,
+         "yInf": 41.867507077466016
+        }
+       ],
+       "extrapolations": [
+        41.86748740507293,
+        41.867507077466016
+       ],
+       "yInf": 41.867507077466016,
+       "spread": 0.00001967239308697799
+      },
+      "e": {
+       "triples": [
+        {
+         "p": 0.9951315201315442,
+         "yInf": 0.5319041150290342
+        },
+        {
+         "p": 0.9828764612649483,
+         "yInf": 0.5319040985407986
+        }
+       ],
+       "extrapolations": [
+        0.5319041150290342,
+        0.5319040985407986
+       ],
+       "yInf": 0.5319040985407986,
+       "spread": 1.6488235665690354e-8
+      }
+     }
+    },
+    "kF0-leapfrog": {
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "wallSec": 0.74,
+       "steps": 338230,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 2775.2281749855915,
+       "degPerYear": 41.47737420437138,
+       "seDegPerYear": 0.000010951208087512957,
+       "eProxy": 0.5319059546441177,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "wallSec": 1.49,
+       "steps": 676460,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 2775.2234967673207,
+       "degPerYear": 41.76994367557941,
+       "seDegPerYear": 0.000005376537355184498,
+       "eProxy": 0.5319050505711274,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "wallSec": 2.93,
+       "steps": 1352920,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 2775.221152876409,
+       "degPerYear": 41.84310873716692,
+       "seDegPerYear": 0.0000026954597466173605,
+       "eProxy": 0.5319045838388555,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 8,
+       "dt": 0.002,
+       "wallSec": 5.83,
+       "steps": 2705839,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 2775.2199797362564,
+       "degPerYear": 41.86141117384485,
+       "seDegPerYear": 0.0000013501777736464602,
+       "eProxy": 0.531904345564176,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      }
+     ],
+     "truncated": null,
+     "richardson": {
+      "P": {
+       "triples": [
+        {
+         "p": 0.9970537488383218,
+         "yInf": 2775.2187993827642
+        },
+        {
+         "p": 0.9985300463326013,
+         "yInf": 2775.218804201833
+        }
+       ],
+       "extrapolations": [
+        2775.2187993827642,
+        2775.218804201833
+       ],
+       "yInf": 2775.218804201833,
+       "spread": 0.0000048190686356974766
+      },
+      "degPerYear": {
+       "triples": [
+        {
+         "p": 1.9995524463494283,
+         "yInf": 41.867507181329294
+        },
+        {
+         "p": 1.999119151582993,
+         "yInf": 41.867516955128586
+        }
+       ],
+       "extrapolations": [
+        41.867507181329294,
+        41.867516955128586
+       ],
+       "yInf": 41.867516955128586,
+       "spread": 0.000009773799291679097
+      },
+      "e": {
+       "triples": [
+        {
+         "p": 0.9538440286196752,
+         "yInf": 0.5319040857397663
+        },
+        {
+         "p": 0.969969574267262,
+         "yInf": 0.5319040970505576
+        }
+       ],
+       "extrapolations": [
+        0.5319040857397663,
+        0.5319040970505576
+       ],
+       "yInf": 0.5319040970505576,
+       "spread": 1.1310791303564827e-8
+      }
+     }
+    }
+   },
+   "references": {
+    "ledger-semi": {
+     "applicable": false,
+     "reason": "kFrame=1",
+     "note": "**kFrame=1 の DFM 全経路は常微分方程式ではない** —— E6′/geoPN=2 の引きずりは Δv=k_F·(u_n−u_{n−1}) という**前步の u との差分インパルス**で、dt を掛ける右辺が無い。RK4 の中間段に「前步の u」は定義できないので、**法則を書き換えずにエンジンの外の参照器は作れない**。よって kFrame=1 側の独立推定は **leapfrog-KDK(エンジン内の別積分)だけ**である。"
+    },
+    "kF0-semi": {
+     "applicable": true,
+     "method": "rk4-reference",
+     "law": "エンジンの kFrame=0・geoPN=2 経路と同じ式(E4 ソフトニング重力 + E12 測地線 1PN + 対反作用)",
+     "stages": [
+      {
+       "nPerOrbit": 400,
+       "dt": 1.695341664,
+       "steps": 3191,
+       "stopped": "window",
+       "measured": true,
+       "perMeanSec": 2775.0331649268496,
+       "degPerYear": 52.43540096643854,
+       "wallSec": 0
+      },
+      {
+       "nPerOrbit": 800,
+       "dt": 0.847670832,
+       "steps": 6384,
+       "stopped": "window",
+       "measured": true,
+       "perMeanSec": 2775.2131667424073,
+       "degPerYear": 42.57025381570001,
+       "wallSec": 0.01
+      },
+      {
+       "nPerOrbit": 1600,
+       "dt": 0.423835416,
+       "steps": 12768,
+       "stopped": "window",
+       "measured": true,
+       "perMeanSec": 2775.218631184296,
+       "degPerYear": 41.90316673846938,
+       "wallSec": 0.01
+      },
+      {
+       "nPerOrbit": 3200,
+       "dt": 0.211917708,
+       "steps": 25536,
+       "stopped": "window",
+       "measured": true,
+       "perMeanSec": 2775.2188006906217,
+       "degPerYear": 41.870356310630605,
+       "wallSec": 0.03
+      }
+     ],
+     "value": 2775.2188006906217,
+     "selfSpread": 0.00016950632561929524,
+     "degPerYear": 41.870356310630605,
+     "note": "**エンジンの外**の Float64・古典 RK4。刻みはエンジンの段と別列(P_obs/400…/3200)で、**同じ抽出器**(位相制限 1.5π)を通している。"
+    }
+   }
+  },
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "kind": "ledger-kF1",
+   "body": "PSR B1534+12",
+   "toSec": 10,
+   "obs": {
+    "period": {
+     "body": "PSR B1534+12",
+     "quantity": "orbital_period",
+     "value": 36351.702644140794,
+     "unit": "s",
+     "source": "Stairs et al. (2002) ApJ 581 501 - Studies of the Relativistic Binary Pulsar PSR B1534+12. I. Timing Analysis",
+     "sigma": 8.64e-7
+    },
+    "periodV2": null,
+    "omegaDot": {
+     "body": "PSR B1534+12",
+     "quantity": "periastron_advance",
+     "value": 1.755789,
+     "unit": "deg/yr",
+     "source": "Stairs et al. (2002) ApJ 581 501 - Studies of the Relativistic Binary Pulsar PSR B1534+12. I. Timing Analysis",
+     "sigma": 0.000009
+    },
+    "ecc": {
+     "body": "PSR B1534+12",
+     "quantity": "eccentricity",
+     "value": 0.2736775,
+     "unit": "1",
+     "source": "Stairs et al. (2002) ApJ 581 501 - Studies of the Relativistic Binary Pulsar PSR B1534+12. I. Timing Analysis",
+     "sigma": 3e-7
+    }
+   },
+   "runs": {
+    "ledger-semi": {
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "wallSec": 8.74,
+       "steps": 4414258,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 36216.52357279872,
+       "degPerYear": 3.575964103961328,
+       "seDegPerYear": 0.0011069453320120383,
+       "eProxy": 0.2753345213773055,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "wallSec": 17.5,
+       "steps": 8842686,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 36276.168955904745,
+       "degPerYear": 3.5660297220888233,
+       "seDegPerYear": 0.0005509621513713781,
+       "eProxy": 0.27465066127666554,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "wallSec": 35.55,
+       "steps": 17699545,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 36306.001766365924,
+       "degPerYear": 3.561282305434385,
+       "seDegPerYear": 0.0002748897264098801,
+       "eProxy": 0.27430948116939413,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 8,
+       "dt": 0.002,
+       "wallSec": 72.67,
+       "steps": 35413267,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 36320.92070224479,
+       "degPerYear": 3.558963047348936,
+       "seDegPerYear": 0.00013730128447345225,
+       "eProxy": 0.2741390780977884,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      }
+     ],
+     "truncated": null,
+     "richardson": {
+      "P": {
+       "triples": [
+        {
+         "p": 0.9995105732656265,
+         "yInf": 36335.85482838157
+        },
+        {
+         "p": 0.9997552597966478,
+         "yInf": 36335.844701137845
+        }
+       ],
+       "extrapolations": [
+        36335.85482838157,
+        36335.844701137845
+       ],
+       "yInf": 36335.844701137845,
+       "spread": 0.010127243724127766
+      },
+      "degPerYear": {
+       "triples": [
+        {
+         "p": 1.065287531623993,
+         "yInf": 3.556937189563483
+        },
+        {
+         "p": 1.0334793016370678,
+         "yInf": 3.5567478056692465
+        }
+       ],
+       "extrapolations": [
+        3.556937189563483,
+        3.5567478056692465
+       ],
+       "yInf": 3.5567478056692465,
+       "spread": 0.0001893838942366166
+      },
+      "e": {
+       "triples": [
+        {
+         "p": 1.0031676869089892,
+         "yInf": 0.27396979438332447
+        },
+        {
+         "p": 1.00158219069232,
+         "yInf": 0.2739690481713439
+        }
+       ],
+       "extrapolations": [
+        0.27396979438332447,
+        0.2739690481713439
+       ],
+       "yInf": 0.2739690481713439,
+       "spread": 7.462119805956569e-7
+      }
+     }
+    },
+    "ledger-leapfrog": {
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "wallSec": 18.18,
+       "steps": 4414258,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 36216.5212999946,
+       "degPerYear": 3.5759645247132137,
+       "seDegPerYear": 0.0011069620831911367,
+       "eProxy": 0.27533449926618414,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "wallSec": 30.42,
+       "steps": 8842685,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 36276.16781269477,
+       "degPerYear": 3.5660298968990296,
+       "seDegPerYear": 0.0005509702215000206,
+       "eProxy": 0.27465065009504736,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "wallSec": 60.3,
+       "steps": 17699545,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 36306.001193057455,
+       "degPerYear": 3.561282383250933,
+       "seDegPerYear": 0.0002748937166281951,
+       "eProxy": 0.27430947561437086,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 8,
+       "dt": 0.002,
+       "wallSec": 120.16,
+       "steps": 35413267,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 36320.92041515612,
+       "degPerYear": 3.55896307940875,
+       "seDegPerYear": 0.00013730330597874657,
+       "eProxy": 0.2741390753180795,
+       "build": {
+        "warnings": [],
+        "kFrame": 1,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      }
+     ],
+     "truncated": null,
+     "richardson": {
+      "P": {
+       "triples": [
+        {
+         "p": 0.9995103356907193,
+         "yInf": 36335.85483519707
+        },
+        {
+         "p": 0.9997551417537373,
+         "yInf": 36335.84470280877
+        }
+       ],
+       "extrapolations": [
+        36335.85483519707,
+        36335.84470280877
+       ],
+       "yInf": 36335.84470280877,
+       "spread": 0.010132388299098238
+      },
+      "degPerYear": {
+       "triples": [
+        {
+         "p": 1.065293772274597,
+         "yInf": 3.55693721460471
+        },
+        {
+         "p": 1.0334803140854076,
+         "yInf": 3.5567477970640105
+        }
+       ],
+       "extrapolations": [
+        3.55693721460471,
+        3.5567477970640105
+       ],
+       "yInf": 3.5567477970640105,
+       "spread": 0.00018941754069956573
+      },
+      "e": {
+       "triples": [
+        {
+         "p": 1.003168421964312,
+         "yInf": 0.2739697947756473
+        },
+        {
+         "p": 1.0015818952158033,
+         "yInf": 0.2739690480913021
+        }
+       ],
+       "extrapolations": [
+        0.2739697947756473,
+        0.2739690480913021
+       ],
+       "yInf": 0.2739690480913021,
+       "spread": 7.466843451875427e-7
+      }
+     }
+    },
+    "kF0-semi": {
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "wallSec": 2.68,
+       "steps": 2150814,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 17647.723458061097,
+       "degPerYear": 2.4016439885911933,
+       "seDegPerYear": 1.3266513549109873e-7,
+       "eProxy": 0.6367435949826977,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "wallSec": 5.3,
+       "steps": 4301629,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 17647.71666919939,
+       "degPerYear": 2.4036970861782607,
+       "seDegPerYear": 6.622049888432912e-8,
+       "eProxy": 0.6367434245376351,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "wallSec": 10.83,
+       "steps": 8603258,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 17647.713274310234,
+       "degPerYear": 2.4042106355312582,
+       "seDegPerYear": 3.3140051896071295e-8,
+       "eProxy": 0.6367433382646536,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 8,
+       "dt": 0.002,
+       "wallSec": 21.58,
+       "steps": 17206517,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 17647.711576737118,
+       "degPerYear": 2.4043391580771822,
+       "seDegPerYear": 1.6682052455077358e-8,
+       "eProxy": 0.6367432946967663,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      }
+     ],
+     "truncated": null,
+     "richardson": {
+      "P": {
+       "triples": [
+        {
+         "p": 0.9998052250372349,
+         "yInf": 17647.709878504218
+        },
+        {
+         "p": 0.999890757688947,
+         "yInf": 17647.709878906888
+        }
+       ],
+       "extrapolations": [
+        17647.709878504218,
+        17647.709878906888
+       ],
+       "yInf": 17647.709878906888,
+       "spread": 4.0266968426294625e-7
+      },
+      "degPerYear": {
+       "triples": [
+        {
+         "p": 1.9992273688643747,
+         "yInf": 2.404381940938993
+        },
+        {
+         "p": 1.998481463955428,
+         "yInf": 2.4043820591025327
+        }
+       ],
+       "extrapolations": [
+        2.404381940938993,
+        2.4043820591025327
+       ],
+       "yInf": 2.4043820591025327,
+       "spread": 1.1816353984173134e-7
+      },
+      "e": {
+       "triples": [
+        {
+         "p": 0.9823260881754935,
+         "yInf": 0.636743249838334
+        },
+        {
+         "p": 0.9856436599027438,
+         "yInf": 0.6367432502486544
+        }
+       ],
+       "extrapolations": [
+        0.636743249838334,
+        0.6367432502486544
+       ],
+       "yInf": 0.6367432502486544,
+       "spread": 4.1032044428845893e-10
+      }
+     }
+    },
+    "kF0-leapfrog": {
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "wallSec": 4.62,
+       "steps": 2150815,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 17647.71666434583,
+       "degPerYear": 2.401644389473757,
+       "seDegPerYear": 6.583129650708532e-8,
+       "eProxy": 0.6367434218206482,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "wallSec": 9.35,
+       "steps": 4301630,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 17647.713273094312,
+       "degPerYear": 2.4036974612995365,
+       "seDegPerYear": 3.3109379088516135e-8,
+       "eProxy": 0.6367433372555581,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "wallSec": 18.7,
+       "steps": 8603259,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 17647.711576447502,
+       "degPerYear": 2.4042108657802914,
+       "seDegPerYear": 1.651306959955272e-8,
+       "eProxy": 0.6367432945307554,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 8,
+       "dt": 0.002,
+       "wallSec": 37.69,
+       "steps": 17206517,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 17647.710727861395,
+       "degPerYear": 2.404339285322345,
+       "seDegPerYear": 8.231103685223114e-9,
+       "eProxy": 0.6367432729018914,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      }
+     ],
+     "truncated": null,
+     "richardson": {
+      "P": {
+       "triples": [
+        {
+         "p": 0.9991315167314346,
+         "yInf": 17647.70987775613
+        },
+        {
+         "p": 0.999553306762252,
+         "yInf": 17647.70987874956
+        }
+       ],
+       "extrapolations": [
+        17647.70987775613,
+        17647.70987874956
+       ],
+       "yInf": 17647.70987874956,
+       "spread": 9.934301488101482e-7
+      },
+      "degPerYear": {
+       "triples": [
+        {
+         "p": 1.999616308105728,
+         "yInf": 2.4043820613062024
+        },
+        {
+         "p": 1.9992311279900252,
+         "yInf": 2.404382122267699
+        }
+       ],
+       "extrapolations": [
+        2.4043820613062024,
+        2.404382122267699
+       ],
+       "yInf": 2.404382122267699,
+       "spread": 6.09614967395089e-8
+      },
+      "e": {
+       "triples": [
+        {
+         "p": 0.9849883887041484,
+         "yInf": 0.6367432509027385
+        },
+        {
+         "p": 0.9821159338305777,
+         "yInf": 0.6367432507266392
+        }
+       ],
+       "extrapolations": [
+        0.6367432509027385,
+        0.6367432507266392
+       ],
+       "yInf": 0.6367432507266392,
+       "spread": 1.7609935731854875e-10
+      }
+     }
+    }
+   },
+   "references": {
+    "ledger-semi": {
+     "applicable": false,
+     "reason": "kFrame=1",
+     "note": "**kFrame=1 の DFM 全経路は常微分方程式ではない** —— E6′/geoPN=2 の引きずりは Δv=k_F·(u_n−u_{n−1}) という**前步の u との差分インパルス**で、dt を掛ける右辺が無い。RK4 の中間段に「前步の u」は定義できないので、**法則を書き換えずにエンジンの外の参照器は作れない**。よって kFrame=1 側の独立推定は **leapfrog-KDK(エンジン内の別積分)だけ**である。"
+    },
+    "kF0-semi": {
+     "applicable": true,
+     "method": "rk4-reference",
+     "law": "エンジンの kFrame=0・geoPN=2 経路と同じ式(E4 ソフトニング重力 + E12 測地線 1PN + 対反作用)",
+     "stages": [
+      {
+       "nPerOrbit": 400,
+       "dt": 9.087925661035198,
+       "steps": 3785,
+       "stopped": "window",
+       "measured": true,
+       "perMeanSec": 17642.990644418136,
+       "degPerYear": 5.493145710379483,
+       "wallSec": 0
+      },
+      {
+       "nPerOrbit": 800,
+       "dt": 4.543962830517599,
+       "steps": 7573,
+       "stopped": "window",
+       "measured": true,
+       "perMeanSec": 17647.56216079765,
+       "degPerYear": 2.6119348902859403,
+       "wallSec": 0.01
+      },
+      {
+       "nPerOrbit": 1600,
+       "dt": 2.2719814152587996,
+       "steps": 15146,
+       "stopped": "window",
+       "measured": true,
+       "perMeanSec": 17647.705178468757,
+       "degPerYear": 2.4141145115227003,
+       "wallSec": 0.01
+      },
+      {
+       "nPerOrbit": 3200,
+       "dt": 1.1359907076293998,
+       "steps": 30293,
+       "stopped": "window",
+       "measured": true,
+       "perMeanSec": 17647.709751336355,
+       "degPerYear": 2.4053193355359554,
+       "wallSec": 0.02
+      }
+     ],
+     "value": 17647.709751336355,
+     "selfSpread": 0.0045728675977443345,
+     "degPerYear": 2.4053193355359554,
+     "note": "**エンジンの外**の Float64・古典 RK4。刻みはエンジンの段と別列(P_obs/400…/3200)で、**同じ抽出器**(位相制限 1.5π)を通している。"
+    }
+   }
+  },
+  {
+   "id": "psrDoubleAB",
+   "emoji": "📻",
+   "kind": "observation-kF0",
+   "body": "PSR J0737-3039 B",
+   "toSec": 10,
+   "obs": {
+    "period": {
+     "body": "PSR J0737-3039 B",
+     "quantity": "orbital_period",
+     "value": 8834.534723278,
+     "unit": "s",
+     "source": "Hu et al. (2022) A&A 667 A149 (via device-collected record)",
+     "sigma": 2.5056e-7
+    },
+    "periodV2": null,
+    "omegaDot": {
+     "body": "PSR J0737-3039 B",
+     "quantity": "periastron_advance",
+     "value": 16.899323,
+     "unit": "deg/yr",
+     "source": "Kramer et al. (2021) Phys. Rev. X 11 041050 - Strong-Field Gravity Tests with the Double Pulsar",
+     "sigma": 0.000013
+    },
+    "ecc": {
+     "body": "PSR J0737-3039 B",
+     "quantity": "eccentricity",
+     "value": 0.087777036,
+     "unit": "1",
+     "source": "Hu et al. (2022) A&A 667 A149 (via device-collected record)",
+     "sigma": 4.8e-8
+    }
+   },
+   "runs": {
+    "ledger-semi": {
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "wallSec": 1.11,
+       "steps": 1076726,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 8834.772714551871,
+       "degPerYear": 2.818521583518826,
+       "seDegPerYear": 2.8216232122810275e-8,
+       "eProxy": 0.08776458809789227,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "wallSec": 2.22,
+       "steps": 2153464,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 8834.772253572486,
+       "degPerYear": 2.82172072767192,
+       "seDegPerYear": 1.3794320644567633e-8,
+       "eProxy": 0.0877645451928636,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "wallSec": 4.47,
+       "steps": 4306939,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 8834.772029501963,
+       "degPerYear": 2.8225205634072816,
+       "seDegPerYear": 6.323235594469756e-9,
+       "eProxy": 0.08776452561754339,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 8,
+       "dt": 0.002,
+       "wallSec": 8.76,
+       "steps": 8613891,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 8834.771919076056,
+       "degPerYear": 2.8227205468992325,
+       "seDegPerYear": 3.888458295439007e-9,
+       "eProxy": 0.08776451628807108,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "semi",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      }
+     ],
+     "truncated": null,
+     "richardson": {
+      "P": {
+       "triples": [
+        {
+         "p": 1.0407493603713962,
+         "yInf": 8834.771817574054
+        },
+        {
+         "p": 1.0208742012155134,
+         "yInf": 8834.771811777699
+        }
+       ],
+       "extrapolations": [
+        8834.771817574054,
+        8834.771811777699
+       ],
+       "yInf": 8834.771811777699,
+       "spread": 0.000005796355253551155
+      },
+      "degPerYear": {
+       "triples": [
+        {
+         "p": 1.9999103566308365,
+         "yInf": 2.8227871974084935
+        },
+        {
+         "p": 1.9998228251773422,
+         "yInf": 2.822787218979719
+        }
+       ],
+       "extrapolations": [
+        2.8227871974084935,
+        2.822787218979719
+       ],
+       "yInf": 2.822787218979719,
+       "spread": 2.157122569457215e-8
+      },
+      "e": {
+       "triples": [
+        {
+         "p": 1.1321108409628473,
+         "yInf": 0.08776450919242766
+        },
+        {
+         "p": 1.0691685205450643,
+         "yInf": 0.08776450779301491
+        }
+       ],
+       "extrapolations": [
+        0.08776450919242766,
+        0.08776450779301491
+       ],
+       "yInf": 0.08776450779301491,
+       "spread": 1.3994127523453415e-9
+      }
+     }
+    },
+    "ledger-leapfrog": {
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "wallSec": 1.91,
+       "steps": 1076737,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 8834.772248608904,
+       "degPerYear": 2.8185185359743365,
+       "seDegPerYear": 1.3704028720764613e-8,
+       "eProxy": 0.08776453895546817,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "wallSec": 3.82,
+       "steps": 2153475,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 8834.77202826347,
+       "degPerYear": 2.821720016323583,
+       "seDegPerYear": 7.59242458685144e-9,
+       "eProxy": 0.08776452395470251,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "wallSec": 7.63,
+       "steps": 4306951,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 8834.771918765262,
+       "degPerYear": 2.8225204090432996,
+       "seDegPerYear": 3.6202108507112162e-9,
+       "eProxy": 0.087764515896589,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      },
+      {
+       "div": 8,
+       "dt": 0.002,
+       "wallSec": 15.5,
+       "steps": 8613902,
+       "stopped": "window",
+       "nan": false,
+       "clamp": 0,
+       "measured": true,
+       "nPeri": 20,
+       "candidates": 20,
+       "rejectedCount": 0,
+       "unwrapFailed": false,
+       "perMeanSec": 8834.77186418268,
+       "degPerYear": 2.822720511841874,
+       "seDegPerYear": 8.747803744667832e-10,
+       "eProxy": 0.08776451163796575,
+       "build": {
+        "warnings": [],
+        "kFrame": 0,
+        "integrator": "leapfrog",
+        "n": 2,
+        "scaleExpT": 1
+       }
+      }
+     ],
+     "truncated": null,
+     "richardson": {
+      "P": {
+       "triples": [
+        {
+         "p": 1.0088597599534754,
+         "yInf": 8834.771810599657
+        },
+        {
+         "p": 1.0043946912329373,
+         "yInf": 8834.77180993112
+        }
+       ],
+       "extrapolations": [
+        8834.771810599657,
+        8834.77180993112
+       ],
+       "yInf": 8834.77180993112,
+       "spread": 6.685368134640157e-7
+      },
+      "degPerYear": {
+       "triples": [
+        {
+         "p": 1.9999592048760704,
+         "yInf": 2.8227872166757644
+        },
+        {
+         "p": 1.9999667002475878,
+         "yInf": 2.822787214827527
+        }
+       ],
+       "extrapolations": [
+        2.8227872166757644,
+        2.822787214827527
+       ],
+       "yInf": 2.822787214827527,
+       "spread": 1.8482375629957914e-9
+      },
+      "e": {
+       "triples": [
+        {
+         "p": 0.8965221064005506,
+         "yInf": 0.08776450654379529
+        },
+        {
+         "p": 0.9200550256319971,
+         "yInf": 0.08776450686472759
+        }
+       ],
+       "extrapolations": [
+        0.08776450654379529,
+        0.08776450686472759
+       ],
+       "yInf": 0.08776450686472759,
+       "spread": 3.2093229462848427e-10
+      }
+     }
+    }
+   },
+   "references": {
+    "ledger-semi": {
+     "applicable": true,
+     "method": "rk4-reference",
+     "law": "エンジンの kFrame=0・geoPN=2 経路と同じ式(E4 ソフトニング重力 + E12 測地線 1PN + 対反作用)",
+     "stages": [
+      {
+       "nPerOrbit": 400,
+       "dt": 2.2086336808195,
+       "steps": 7800,
+       "stopped": "window",
+       "measured": true,
+       "perMeanSec": 8834.771812816654,
+       "degPerYear": 2.829165700539044,
+       "wallSec": 0.01
+      },
+      {
+       "nPerOrbit": 800,
+       "dt": 1.10431684040975,
+       "steps": 15600,
+       "stopped": "window",
+       "measured": true,
+       "perMeanSec": 8834.771810627746,
+       "degPerYear": 2.82314568066205,
+       "wallSec": 0.01
+      },
+      {
+       "nPerOrbit": 1600,
+       "dt": 0.552158420204875,
+       "steps": 31200,
+       "stopped": "window",
+       "measured": true,
+       "perMeanSec": 8834.771809642622,
+       "degPerYear": 2.8227699541443374,
+       "wallSec": 0.03
+      },
+      {
+       "nPerOrbit": 3200,
+       "dt": 0.2760792101024375,
+       "steps": 62401,
+       "stopped": "window",
+       "measured": true,
+       "perMeanSec": 8834.771809702535,
+       "degPerYear": 2.8227873224597557,
+       "wallSec": 0.05
+      }
+     ],
+     "value": 8834.771809702535,
+     "selfSpread": 5.991387297399342e-8,
+     "degPerYear": 2.8227873224597557,
+     "note": "**エンジンの外**の Float64・古典 RK4。刻みはエンジンの段と別列(P_obs/400…/3200)で、**同じ抽出器**(位相制限 1.5π)を通している。"
+    }
+   }
+  }
+ ],
+ "forecastGates": [
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "seriesTag": "ledger",
+   "observationVersion": "Hu et al. (2022) A&A 667 A149 (via device-collected record)",
+   "independent": {
+    "value": 8834.31555849688,
+    "method": "leapfrog-KDK"
+   },
+   "ok": false,
+   "verdict": null,
+   "failed": [
+    "g5"
+   ],
+   "p": 0.9999639998965821,
+   "pShifts": [
+    0.9997165005001694,
+    0.9999639998965821
+   ],
+   "yInf": 8834.315548653156,
+   "uInf": 0.008328775475092698,
+   "residual": 0.219174624844527,
+   "distanceSigma": 907979.7266906917,
+   "uParts": {
+    "extrapolationSpread": 0.008318931750181946,
+    "independentDiff": 0.000009843724910751916,
+    "systematic": 0
+   },
+   "gates": {
+    "g1": {
+     "pass": true,
+     "missing": [],
+     "refitPerStage": false,
+     "what": "対象量・観測版・単位・時系・窓・抽出法・f を固定(段ごとに再 fit しない)"
+    },
+    "g2": {
+     "pass": true,
+     "nStages": 4,
+     "nGiven": 4,
+     "ratios": [
+      2,
+      2,
+      2
+     ],
+     "excluded": [],
+     "what": "4 段以上・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外"
+    },
+    "g3": {
+     "pass": true,
+     "pShifts": [
+      0.9997165005001694,
+      0.9999639998965821
+     ],
+     "maxAdjacentDiff": 0.00024749939641277585,
+     "range": [
+      0.5,
+      4.5
+     ],
+     "tol": 0.25,
+     "what": "隣接 3 段の次数が安定(0.5≤p≤4.5・段をずらした 2 組の差 ≤0.25)"
+    },
+    "g4": {
+     "pass": true,
+     "nExtrapolations": 2,
+     "extrapolations": [
+      8834.323867584906,
+      8834.315548653156
+     ],
+     "extrapolationSpread": 0.008318931750181946,
+     "independent": {
+      "value": 8834.31555849688,
+      "method": "leapfrog-KDK"
+     },
+     "independentDiff": 0.000009843724910751916,
+     "what": "Richardson を段をずらして比較し、独立推定(別積分法/別抽出法)と照合する"
+    },
+    "g5": {
+     "pass": false,
+     "residual": 0.219174624844527,
+     "uInf": 0.008328775475092698,
+     "sigma": 2.5056e-7,
+     "nSigma": 907979.7266906917,
+     "uParts": {
+      "extrapolationSpread": 0.008318931750181946,
+      "independentDiff": 0.000009843724910751916,
+      "systematic": 0
+     },
+     "what": "|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない)"
+    }
+   }
+  },
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "seriesTag": "kF0-rk4",
+   "observationVersion": "Hu et al. (2022) A&A 667 A149 (via device-collected record)",
+   "independent": {
+    "value": 3694.7269866764777,
+    "method": "rk4-reference"
+   },
+   "ok": false,
+   "verdict": null,
+   "failed": [
+    "g5"
+   ],
+   "p": 0.9999480655421307,
+   "pShifts": [
+    0.9998949484874191,
+    0.9999480655421307
+   ],
+   "yInf": 3694.7269962941346,
+   "uInf": 0.000009934620720741805,
+   "residual": 5139.807726983866,
+   "distanceSigma": 20513281197.790897,
+   "uParts": {
+    "extrapolationSpread": 3.1696390578872524e-7,
+    "independentDiff": 0.00000961765681495308,
+    "systematic": 0
+   },
+   "gates": {
+    "g1": {
+     "pass": true,
+     "missing": [],
+     "refitPerStage": false,
+     "what": "対象量・観測版・単位・時系・窓・抽出法・f を固定(段ごとに再 fit しない)"
+    },
+    "g2": {
+     "pass": true,
+     "nStages": 4,
+     "nGiven": 4,
+     "ratios": [
+      2,
+      2,
+      2
+     ],
+     "excluded": [],
+     "what": "4 段以上・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外"
+    },
+    "g3": {
+     "pass": true,
+     "pShifts": [
+      0.9998949484874191,
+      0.9999480655421307
+     ],
+     "maxAdjacentDiff": 0.00005311705471156003,
+     "range": [
+      0.5,
+      4.5
+     ],
+     "tol": 0.25,
+     "what": "隣接 3 段の次数が安定(0.5≤p≤4.5・段をずらした 2 組の差 ≤0.25)"
+    },
+    "g4": {
+     "pass": true,
+     "nExtrapolations": 2,
+     "extrapolations": [
+      3694.7269959771706,
+      3694.7269962941346
+     ],
+     "extrapolationSpread": 3.1696390578872524e-7,
+     "independent": {
+      "value": 3694.7269866764777,
+      "method": "rk4-reference"
+     },
+     "independentDiff": 0.00000961765681495308,
+     "what": "Richardson を段をずらして比較し、独立推定(別積分法/別抽出法)と照合する"
+    },
+    "g5": {
+     "pass": false,
+     "residual": 5139.807726983866,
+     "uInf": 0.000009934620720741805,
+     "sigma": 2.5056e-7,
+     "nSigma": 20513281197.790897,
+     "uParts": {
+      "extrapolationSpread": 3.1696390578872524e-7,
+      "independentDiff": 0.00000961765681495308,
+      "systematic": 0
+     },
+     "what": "|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない)"
+    }
+   }
+  },
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "seriesTag": "kF0-leapfrog",
+   "observationVersion": "Hu et al. (2022) A&A 667 A149 (via device-collected record)",
+   "independent": {
+    "value": 3694.726995155405,
+    "method": "leapfrog-KDK"
+   },
+   "ok": false,
+   "verdict": null,
+   "failed": [
+    "g5"
+   ],
+   "p": 0.9999480655421307,
+   "pShifts": [
+    0.9998949484874191,
+    0.9999480655421307
+   ],
+   "yInf": 3694.7269962941346,
+   "uInf": 0.0000014556935639120638,
+   "residual": 5139.807726983866,
+   "distanceSigma": 20513281163.95099,
+   "uParts": {
+    "extrapolationSpread": 3.1696390578872524e-7,
+    "independentDiff": 0.0000011387296581233386,
+    "systematic": 0
+   },
+   "gates": {
+    "g1": {
+     "pass": true,
+     "missing": [],
+     "refitPerStage": false,
+     "what": "対象量・観測版・単位・時系・窓・抽出法・f を固定(段ごとに再 fit しない)"
+    },
+    "g2": {
+     "pass": true,
+     "nStages": 4,
+     "nGiven": 4,
+     "ratios": [
+      2,
+      2,
+      2
+     ],
+     "excluded": [],
+     "what": "4 段以上・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外"
+    },
+    "g3": {
+     "pass": true,
+     "pShifts": [
+      0.9998949484874191,
+      0.9999480655421307
+     ],
+     "maxAdjacentDiff": 0.00005311705471156003,
+     "range": [
+      0.5,
+      4.5
+     ],
+     "tol": 0.25,
+     "what": "隣接 3 段の次数が安定(0.5≤p≤4.5・段をずらした 2 組の差 ≤0.25)"
+    },
+    "g4": {
+     "pass": true,
+     "nExtrapolations": 2,
+     "extrapolations": [
+      3694.7269959771706,
+      3694.7269962941346
+     ],
+     "extrapolationSpread": 3.1696390578872524e-7,
+     "independent": {
+      "value": 3694.726995155405,
+      "method": "leapfrog-KDK"
+     },
+     "independentDiff": 0.0000011387296581233386,
+     "what": "Richardson を段をずらして比較し、独立推定(別積分法/別抽出法)と照合する"
+    },
+    "g5": {
+     "pass": false,
+     "residual": 5139.807726983866,
+     "uInf": 0.0000014556935639120638,
+     "sigma": 2.5056e-7,
+     "nSigma": 20513281163.95099,
+     "uParts": {
+      "extrapolationSpread": 3.1696390578872524e-7,
+      "independentDiff": 0.0000011387296581233386,
+      "systematic": 0
+     },
+     "what": "|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない)"
+    }
+   }
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "seriesTag": "ledger",
+   "observationVersion": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Univers",
+   "independent": {
+    "value": 15855.818639230152,
+    "method": "leapfrog-KDK"
+   },
+   "ok": false,
+   "verdict": null,
+   "failed": [
+    "g5"
+   ],
+   "p": 0.9933311904829101,
+   "pShifts": [
+    0.9867114027316336,
+    0.9933311904829101
+   ],
+   "yInf": 15855.818603615791,
+   "uInf": 0.8165870095199352,
+   "residual": 1.850415552209597,
+   "distanceSigma": 617361.7041040583,
+   "uParts": {
+    "extrapolationSpread": 0.8165513951589674,
+    "independentDiff": 0.00003561436096788384,
+    "systematic": 0
+   },
+   "gates": {
+    "g1": {
+     "pass": true,
+     "missing": [],
+     "refitPerStage": false,
+     "what": "対象量・観測版・単位・時系・窓・抽出法・f を固定(段ごとに再 fit しない)"
+    },
+    "g2": {
+     "pass": true,
+     "nStages": 4,
+     "nGiven": 4,
+     "ratios": [
+      2,
+      2,
+      2
+     ],
+     "excluded": [],
+     "what": "4 段以上・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外"
+    },
+    "g3": {
+     "pass": true,
+     "pShifts": [
+      0.9867114027316336,
+      0.9933311904829101
+     ],
+     "maxAdjacentDiff": 0.0066197877512764736,
+     "range": [
+      0.5,
+      4.5
+     ],
+     "tol": 0.25,
+     "what": "隣接 3 段の次数が安定(0.5≤p≤4.5・段をずらした 2 組の差 ≤0.25)"
+    },
+    "g4": {
+     "pass": true,
+     "nExtrapolations": 2,
+     "extrapolations": [
+      15856.63515501095,
+      15855.818603615791
+     ],
+     "extrapolationSpread": 0.8165513951589674,
+     "independent": {
+      "value": 15855.818639230152,
+      "method": "leapfrog-KDK"
+     },
+     "independentDiff": 0.00003561436096788384,
+     "what": "Richardson を段をずらして比較し、独立推定(別積分法/別抽出法)と照合する"
+    },
+    "g5": {
+     "pass": false,
+     "residual": 1.850415552209597,
+     "uInf": 0.8165870095199352,
+     "sigma": 0.00000432,
+     "nSigma": 617361.7041040583,
+     "uParts": {
+      "extrapolationSpread": 0.8165513951589674,
+      "independentDiff": 0.00003561436096788384,
+      "systematic": 0
+     },
+     "what": "|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない)"
+    }
+   }
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "seriesTag": "kF0-rk4",
+   "observationVersion": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Univers",
+   "independent": {
+    "value": 9425.939322028287,
+    "method": "rk4-reference"
+   },
+   "ok": false,
+   "verdict": null,
+   "failed": [
+    "g5"
+   ],
+   "p": 0.9999553633002402,
+   "pShifts": [
+    0.9999098549847335,
+    0.9999553633002402
+   ],
+   "yInf": 9425.945130420705,
+   "uInf": 0.0058111859962082235,
+   "residual": 6431.723888747296,
+   "distanceSigma": 1488826319.4290028,
+   "uParts": {
+    "extrapolationSpread": 0.0000027935784601140767,
+    "independentDiff": 0.0058083924177481094,
+    "systematic": 0
+   },
+   "gates": {
+    "g1": {
+     "pass": true,
+     "missing": [],
+     "refitPerStage": false,
+     "what": "対象量・観測版・単位・時系・窓・抽出法・f を固定(段ごとに再 fit しない)"
+    },
+    "g2": {
+     "pass": true,
+     "nStages": 4,
+     "nGiven": 4,
+     "ratios": [
+      2,
+      2,
+      2
+     ],
+     "excluded": [],
+     "what": "4 段以上・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外"
+    },
+    "g3": {
+     "pass": true,
+     "pShifts": [
+      0.9999098549847335,
+      0.9999553633002402
+     ],
+     "maxAdjacentDiff": 0.000045508315506648245,
+     "range": [
+      0.5,
+      4.5
+     ],
+     "tol": 0.25,
+     "what": "隣接 3 段の次数が安定(0.5≤p≤4.5・段をずらした 2 組の差 ≤0.25)"
+    },
+    "g4": {
+     "pass": true,
+     "nExtrapolations": 2,
+     "extrapolations": [
+      9425.945127627127,
+      9425.945130420705
+     ],
+     "extrapolationSpread": 0.0000027935784601140767,
+     "independent": {
+      "value": 9425.939322028287,
+      "method": "rk4-reference"
+     },
+     "independentDiff": 0.0058083924177481094,
+     "what": "Richardson を段をずらして比較し、独立推定(別積分法/別抽出法)と照合する"
+    },
+    "g5": {
+     "pass": false,
+     "residual": 6431.723888747296,
+     "uInf": 0.0058111859962082235,
+     "sigma": 0.00000432,
+     "nSigma": 1488826319.4290028,
+     "uParts": {
+      "extrapolationSpread": 0.0000027935784601140767,
+      "independentDiff": 0.0058083924177481094,
+      "systematic": 0
+     },
+     "what": "|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない)"
+    }
+   }
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "seriesTag": "kF0-leapfrog",
+   "observationVersion": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Univers",
+   "independent": {
+    "value": 9425.94513002968,
+    "method": "leapfrog-KDK"
+   },
+   "ok": false,
+   "verdict": null,
+   "failed": [
+    "g5"
+   ],
+   "p": 0.9999553633002402,
+   "pShifts": [
+    0.9999098549847335,
+    0.9999553633002402
+   ],
+   "yInf": 9425.945130420705,
+   "uInf": 0.0000031846029742155224,
+   "residual": 6431.723888747296,
+   "distanceSigma": 1488824974.9842358,
+   "uParts": {
+    "extrapolationSpread": 0.0000027935784601140767,
+    "independentDiff": 3.910245141014457e-7,
+    "systematic": 0
+   },
+   "gates": {
+    "g1": {
+     "pass": true,
+     "missing": [],
+     "refitPerStage": false,
+     "what": "対象量・観測版・単位・時系・窓・抽出法・f を固定(段ごとに再 fit しない)"
+    },
+    "g2": {
+     "pass": true,
+     "nStages": 4,
+     "nGiven": 4,
+     "ratios": [
+      2,
+      2,
+      2
+     ],
+     "excluded": [],
+     "what": "4 段以上・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外"
+    },
+    "g3": {
+     "pass": true,
+     "pShifts": [
+      0.9999098549847335,
+      0.9999553633002402
+     ],
+     "maxAdjacentDiff": 0.000045508315506648245,
+     "range": [
+      0.5,
+      4.5
+     ],
+     "tol": 0.25,
+     "what": "隣接 3 段の次数が安定(0.5≤p≤4.5・段をずらした 2 組の差 ≤0.25)"
+    },
+    "g4": {
+     "pass": true,
+     "nExtrapolations": 2,
+     "extrapolations": [
+      9425.945127627127,
+      9425.945130420705
+     ],
+     "extrapolationSpread": 0.0000027935784601140767,
+     "independent": {
+      "value": 9425.94513002968,
+      "method": "leapfrog-KDK"
+     },
+     "independentDiff": 3.910245141014457e-7,
+     "what": "Richardson を段をずらして比較し、独立推定(別積分法/別抽出法)と照合する"
+    },
+    "g5": {
+     "pass": false,
+     "residual": 6431.723888747296,
+     "uInf": 0.0000031846029742155224,
+     "sigma": 0.00000432,
+     "nSigma": 1488824974.9842358,
+     "uParts": {
+      "extrapolationSpread": 0.0000027935784601140767,
+      "independentDiff": 3.910245141014457e-7,
+      "systematic": 0
+     },
+     "what": "|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない)"
+    }
+   }
+  },
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "seriesTag": "ledger",
+   "observationVersion": "Meng et al. (2025) A&A 704 A153 Table 1 DDFWHE column - The double neu",
+   "independent": {
+    "value": 6781.522848059888,
+    "method": "leapfrog-KDK"
+   },
+   "ok": false,
+   "verdict": null,
+   "failed": [
+    "g5"
+   ],
+   "p": 0.9996621085488182,
+   "pShifts": [
+    0.9995821428774139,
+    0.9996621085488182
+   ],
+   "yInf": 6781.522838142687,
+   "uInf": 0.002669312377292954,
+   "residual": 0.1548394866867966,
+   "distanceSigma": 91150.92538431108,
+   "uParts": {
+    "extrapolationSpread": 0.002659395176124235,
+    "independentDiff": 0.000009917201168718748,
+    "systematic": 0
+   },
+   "gates": {
+    "g1": {
+     "pass": true,
+     "missing": [],
+     "refitPerStage": false,
+     "what": "対象量・観測版・単位・時系・窓・抽出法・f を固定(段ごとに再 fit しない)"
+    },
+    "g2": {
+     "pass": true,
+     "nStages": 4,
+     "nGiven": 4,
+     "ratios": [
+      2,
+      2,
+      2
+     ],
+     "excluded": [],
+     "what": "4 段以上・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外"
+    },
+    "g3": {
+     "pass": true,
+     "pShifts": [
+      0.9995821428774139,
+      0.9996621085488182
+     ],
+     "maxAdjacentDiff": 0.00007996567140433619,
+     "range": [
+      0.5,
+      4.5
+     ],
+     "tol": 0.25,
+     "what": "隣接 3 段の次数が安定(0.5≤p≤4.5・段をずらした 2 組の差 ≤0.25)"
+    },
+    "g4": {
+     "pass": true,
+     "nExtrapolations": 2,
+     "extrapolations": [
+      6781.525497537863,
+      6781.522838142687
+     ],
+     "extrapolationSpread": 0.002659395176124235,
+     "independent": {
+      "value": 6781.522848059888,
+      "method": "leapfrog-KDK"
+     },
+     "independentDiff": 0.000009917201168718748,
+     "what": "Richardson を段をずらして比較し、独立推定(別積分法/別抽出法)と照合する"
+    },
+    "g5": {
+     "pass": false,
+     "residual": 0.1548394866867966,
+     "uInf": 0.002669312377292954,
+     "sigma": 0.000001728,
+     "nSigma": 91150.92538431108,
+     "uParts": {
+      "extrapolationSpread": 0.002659395176124235,
+      "independentDiff": 0.000009917201168718748,
+      "systematic": 0
+     },
+     "what": "|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない)"
+    }
+   }
+  },
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "seriesTag": "kF0-rk4",
+   "observationVersion": "Meng et al. (2025) A&A 704 A153 Table 1 DDFWHE column - The double neu",
+   "independent": {
+    "value": 2775.2188006906217,
+    "method": "rk4-reference"
+   },
+   "ok": false,
+   "verdict": null,
+   "failed": [
+    "g5"
+   ],
+   "p": 0.9999829673725387,
+   "pShifts": [
+    0.9999667731576514,
+    0.9999829673725387
+   ],
+   "yInf": 2775.218805760011,
+   "uInf": 0.000005174847501621116,
+   "residual": 4006.149192895989,
+   "distanceSigma": 2318373378.5132155,
+   "uParts": {
+    "extrapolationSpread": 1.0545818440732546e-7,
+    "independentDiff": 0.0000050693893172137905,
+    "systematic": 0
+   },
+   "gates": {
+    "g1": {
+     "pass": true,
+     "missing": [],
+     "refitPerStage": false,
+     "what": "対象量・観測版・単位・時系・窓・抽出法・f を固定(段ごとに再 fit しない)"
+    },
+    "g2": {
+     "pass": true,
+     "nStages": 4,
+     "nGiven": 4,
+     "ratios": [
+      2,
+      2,
+      2
+     ],
+     "excluded": [],
+     "what": "4 段以上・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外"
+    },
+    "g3": {
+     "pass": true,
+     "pShifts": [
+      0.9999667731576514,
+      0.9999829673725387
+     ],
+     "maxAdjacentDiff": 0.000016194214887299552,
+     "range": [
+      0.5,
+      4.5
+     ],
+     "tol": 0.25,
+     "what": "隣接 3 段の次数が安定(0.5≤p≤4.5・段をずらした 2 組の差 ≤0.25)"
+    },
+    "g4": {
+     "pass": true,
+     "nExtrapolations": 2,
+     "extrapolations": [
+      2775.218805654553,
+      2775.218805760011
+     ],
+     "extrapolationSpread": 1.0545818440732546e-7,
+     "independent": {
+      "value": 2775.2188006906217,
+      "method": "rk4-reference"
+     },
+     "independentDiff": 0.0000050693893172137905,
+     "what": "Richardson を段をずらして比較し、独立推定(別積分法/別抽出法)と照合する"
+    },
+    "g5": {
+     "pass": false,
+     "residual": 4006.149192895989,
+     "uInf": 0.000005174847501621116,
+     "sigma": 0.000001728,
+     "nSigma": 2318373378.5132155,
+     "uParts": {
+      "extrapolationSpread": 1.0545818440732546e-7,
+      "independentDiff": 0.0000050693893172137905,
+      "systematic": 0
+     },
+     "what": "|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない)"
+    }
+   }
+  },
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "seriesTag": "kF0-leapfrog",
+   "observationVersion": "Meng et al. (2025) A&A 704 A153 Table 1 DDFWHE column - The double neu",
+   "independent": {
+    "value": 2775.218804201833,
+    "method": "leapfrog-KDK"
+   },
+   "ok": false,
+   "verdict": null,
+   "failed": [
+    "g5"
+   ],
+   "p": 0.9999829673725387,
+   "pShifts": [
+    0.9999667731576514,
+    0.9999829673725387
+   ],
+   "yInf": 2775.218805760011,
+   "uInf": 0.0000016636363397992682,
+   "residual": 4006.149192895989,
+   "distanceSigma": 2318373376.4812646,
+   "uParts": {
+    "extrapolationSpread": 1.0545818440732546e-7,
+    "independentDiff": 0.0000015581781553919427,
+    "systematic": 0
+   },
+   "gates": {
+    "g1": {
+     "pass": true,
+     "missing": [],
+     "refitPerStage": false,
+     "what": "対象量・観測版・単位・時系・窓・抽出法・f を固定(段ごとに再 fit しない)"
+    },
+    "g2": {
+     "pass": true,
+     "nStages": 4,
+     "nGiven": 4,
+     "ratios": [
+      2,
+      2,
+      2
+     ],
+     "excluded": [],
+     "what": "4 段以上・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外"
+    },
+    "g3": {
+     "pass": true,
+     "pShifts": [
+      0.9999667731576514,
+      0.9999829673725387
+     ],
+     "maxAdjacentDiff": 0.000016194214887299552,
+     "range": [
+      0.5,
+      4.5
+     ],
+     "tol": 0.25,
+     "what": "隣接 3 段の次数が安定(0.5≤p≤4.5・段をずらした 2 組の差 ≤0.25)"
+    },
+    "g4": {
+     "pass": true,
+     "nExtrapolations": 2,
+     "extrapolations": [
+      2775.218805654553,
+      2775.218805760011
+     ],
+     "extrapolationSpread": 1.0545818440732546e-7,
+     "independent": {
+      "value": 2775.218804201833,
+      "method": "leapfrog-KDK"
+     },
+     "independentDiff": 0.0000015581781553919427,
+     "what": "Richardson を段をずらして比較し、独立推定(別積分法/別抽出法)と照合する"
+    },
+    "g5": {
+     "pass": false,
+     "residual": 4006.149192895989,
+     "uInf": 0.0000016636363397992682,
+     "sigma": 0.000001728,
+     "nSigma": 2318373376.4812646,
+     "uParts": {
+      "extrapolationSpread": 1.0545818440732546e-7,
+      "independentDiff": 0.0000015581781553919427,
+      "systematic": 0
+     },
+     "what": "|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない)"
+    }
+   }
+  },
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "seriesTag": "ledger",
+   "observationVersion": "Stairs et al. (2002) ApJ 581 501 - Studies of the Relativistic Binary ",
+   "independent": {
+    "value": 36335.84470280877,
+    "method": "leapfrog-KDK"
+   },
+   "ok": false,
+   "verdict": null,
+   "failed": [
+    "g5"
+   ],
+   "p": 0.9997552597966478,
+   "pShifts": [
+    0.9995105732656265,
+    0.9997552597966478
+   ],
+   "yInf": 36335.844701137845,
+   "uInf": 0.010128914647793863,
+   "residual": 15.857943002949469,
+   "distanceSigma": 18365823.978700534,
+   "uParts": {
+    "extrapolationSpread": 0.010127243724127766,
+    "independentDiff": 0.0000016709236660972238,
+    "systematic": 0
+   },
+   "gates": {
+    "g1": {
+     "pass": true,
+     "missing": [],
+     "refitPerStage": false,
+     "what": "対象量・観測版・単位・時系・窓・抽出法・f を固定(段ごとに再 fit しない)"
+    },
+    "g2": {
+     "pass": true,
+     "nStages": 4,
+     "nGiven": 4,
+     "ratios": [
+      2,
+      2,
+      2
+     ],
+     "excluded": [],
+     "what": "4 段以上・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外"
+    },
+    "g3": {
+     "pass": true,
+     "pShifts": [
+      0.9995105732656265,
+      0.9997552597966478
+     ],
+     "maxAdjacentDiff": 0.00024468653102127647,
+     "range": [
+      0.5,
+      4.5
+     ],
+     "tol": 0.25,
+     "what": "隣接 3 段の次数が安定(0.5≤p≤4.5・段をずらした 2 組の差 ≤0.25)"
+    },
+    "g4": {
+     "pass": true,
+     "nExtrapolations": 2,
+     "extrapolations": [
+      36335.85482838157,
+      36335.844701137845
+     ],
+     "extrapolationSpread": 0.010127243724127766,
+     "independent": {
+      "value": 36335.84470280877,
+      "method": "leapfrog-KDK"
+     },
+     "independentDiff": 0.0000016709236660972238,
+     "what": "Richardson を段をずらして比較し、独立推定(別積分法/別抽出法)と照合する"
+    },
+    "g5": {
+     "pass": false,
+     "residual": 15.857943002949469,
+     "uInf": 0.010128914647793863,
+     "sigma": 8.64e-7,
+     "nSigma": 18365823.978700534,
+     "uParts": {
+      "extrapolationSpread": 0.010127243724127766,
+      "independentDiff": 0.0000016709236660972238,
+      "systematic": 0
+     },
+     "what": "|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない)"
+    }
+   }
+  },
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "seriesTag": "kF0-rk4",
+   "observationVersion": "Stairs et al. (2002) ApJ 581 501 - Studies of the Relativistic Binary ",
+   "independent": {
+    "value": 17647.709751336355,
+    "method": "rk4-reference"
+   },
+   "ok": false,
+   "verdict": null,
+   "failed": [
+    "g5"
+   ],
+   "p": 0.999890757688947,
+   "pShifts": [
+    0.9998052250372349,
+    0.999890757688947
+   ],
+   "yInf": 17647.709878906888,
+   "uInf": 0.00012797320232493803,
+   "residual": 18703.992765233907,
+   "distanceSigma": 21648139922.693413,
+   "uParts": {
+    "extrapolationSpread": 4.0266968426294625e-7,
+    "independentDiff": 0.00012757053264067508,
+    "systematic": 0
+   },
+   "gates": {
+    "g1": {
+     "pass": true,
+     "missing": [],
+     "refitPerStage": false,
+     "what": "対象量・観測版・単位・時系・窓・抽出法・f を固定(段ごとに再 fit しない)"
+    },
+    "g2": {
+     "pass": true,
+     "nStages": 4,
+     "nGiven": 4,
+     "ratios": [
+      2,
+      2,
+      2
+     ],
+     "excluded": [],
+     "what": "4 段以上・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外"
+    },
+    "g3": {
+     "pass": true,
+     "pShifts": [
+      0.9998052250372349,
+      0.999890757688947
+     ],
+     "maxAdjacentDiff": 0.00008553265171207247,
+     "range": [
+      0.5,
+      4.5
+     ],
+     "tol": 0.25,
+     "what": "隣接 3 段の次数が安定(0.5≤p≤4.5・段をずらした 2 組の差 ≤0.25)"
+    },
+    "g4": {
+     "pass": true,
+     "nExtrapolations": 2,
+     "extrapolations": [
+      17647.709878504218,
+      17647.709878906888
+     ],
+     "extrapolationSpread": 4.0266968426294625e-7,
+     "independent": {
+      "value": 17647.709751336355,
+      "method": "rk4-reference"
+     },
+     "independentDiff": 0.00012757053264067508,
+     "what": "Richardson を段をずらして比較し、独立推定(別積分法/別抽出法)と照合する"
+    },
+    "g5": {
+     "pass": false,
+     "residual": 18703.992765233907,
+     "uInf": 0.00012797320232493803,
+     "sigma": 8.64e-7,
+     "nSigma": 21648139922.693413,
+     "uParts": {
+      "extrapolationSpread": 4.0266968426294625e-7,
+      "independentDiff": 0.00012757053264067508,
+      "systematic": 0
+     },
+     "what": "|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない)"
+    }
+   }
+  },
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "seriesTag": "kF0-leapfrog",
+   "observationVersion": "Stairs et al. (2002) ApJ 581 501 - Studies of the Relativistic Binary ",
+   "independent": {
+    "value": 17647.70987874956,
+    "method": "leapfrog-KDK"
+   },
+   "ok": false,
+   "verdict": null,
+   "failed": [
+    "g5"
+   ],
+   "p": 0.999890757688947,
+   "pShifts": [
+    0.9998052250372349,
+    0.999890757688947
+   ],
+   "yInf": 17647.709878906888,
+   "uInf": 5.599977157544345e-7,
+   "residual": 18703.992765233907,
+   "distanceSigma": 21648139775.224426,
+   "uParts": {
+    "extrapolationSpread": 4.0266968426294625e-7,
+    "independentDiff": 1.5732803149148822e-7,
+    "systematic": 0
+   },
+   "gates": {
+    "g1": {
+     "pass": true,
+     "missing": [],
+     "refitPerStage": false,
+     "what": "対象量・観測版・単位・時系・窓・抽出法・f を固定(段ごとに再 fit しない)"
+    },
+    "g2": {
+     "pass": true,
+     "nStages": 4,
+     "nGiven": 4,
+     "ratios": [
+      2,
+      2,
+      2
+     ],
+     "excluded": [],
+     "what": "4 段以上・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外"
+    },
+    "g3": {
+     "pass": true,
+     "pShifts": [
+      0.9998052250372349,
+      0.999890757688947
+     ],
+     "maxAdjacentDiff": 0.00008553265171207247,
+     "range": [
+      0.5,
+      4.5
+     ],
+     "tol": 0.25,
+     "what": "隣接 3 段の次数が安定(0.5≤p≤4.5・段をずらした 2 組の差 ≤0.25)"
+    },
+    "g4": {
+     "pass": true,
+     "nExtrapolations": 2,
+     "extrapolations": [
+      17647.709878504218,
+      17647.709878906888
+     ],
+     "extrapolationSpread": 4.0266968426294625e-7,
+     "independent": {
+      "value": 17647.70987874956,
+      "method": "leapfrog-KDK"
+     },
+     "independentDiff": 1.5732803149148822e-7,
+     "what": "Richardson を段をずらして比較し、独立推定(別積分法/別抽出法)と照合する"
+    },
+    "g5": {
+     "pass": false,
+     "residual": 18703.992765233907,
+     "uInf": 5.599977157544345e-7,
+     "sigma": 8.64e-7,
+     "nSigma": 21648139775.224426,
+     "uParts": {
+      "extrapolationSpread": 4.0266968426294625e-7,
+      "independentDiff": 1.5732803149148822e-7,
+      "systematic": 0
+     },
+     "what": "|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない)"
+    }
+   }
+  },
+  {
+   "id": "psrDoubleAB",
+   "emoji": "📻",
+   "seriesTag": "ledger",
+   "observationVersion": "Hu et al. (2022) A&A 667 A149 (via device-collected record)",
+   "independent": {
+    "value": 8834.77180993112,
+    "method": "leapfrog-KDK"
+   },
+   "ok": false,
+   "verdict": null,
+   "failed": [
+    "g5"
+   ],
+   "p": 1.0208742012155134,
+   "pShifts": [
+    1.0407493603713962,
+    1.0208742012155134
+   ],
+   "yInf": 8834.771811777699,
+   "uInf": 0.000007642933269380592,
+   "residual": 0.23708849969807488,
+   "distanceSigma": 946264.9370663485,
+   "uParts": {
+    "extrapolationSpread": 0.000005796355253551155,
+    "independentDiff": 0.0000018465780158294365,
+    "systematic": 0
+   },
+   "gates": {
+    "g1": {
+     "pass": true,
+     "missing": [],
+     "refitPerStage": false,
+     "what": "対象量・観測版・単位・時系・窓・抽出法・f を固定(段ごとに再 fit しない)"
+    },
+    "g2": {
+     "pass": true,
+     "nStages": 4,
+     "nGiven": 4,
+     "ratios": [
+      2,
+      2,
+      2
+     ],
+     "excluded": [],
+     "what": "4 段以上・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外"
+    },
+    "g3": {
+     "pass": true,
+     "pShifts": [
+      1.0407493603713962,
+      1.0208742012155134
+     ],
+     "maxAdjacentDiff": 0.019875159155882782,
+     "range": [
+      0.5,
+      4.5
+     ],
+     "tol": 0.25,
+     "what": "隣接 3 段の次数が安定(0.5≤p≤4.5・段をずらした 2 組の差 ≤0.25)"
+    },
+    "g4": {
+     "pass": true,
+     "nExtrapolations": 2,
+     "extrapolations": [
+      8834.771817574054,
+      8834.771811777699
+     ],
+     "extrapolationSpread": 0.000005796355253551155,
+     "independent": {
+      "value": 8834.77180993112,
+      "method": "leapfrog-KDK"
+     },
+     "independentDiff": 0.0000018465780158294365,
+     "what": "Richardson を段をずらして比較し、独立推定(別積分法/別抽出法)と照合する"
+    },
+    "g5": {
+     "pass": false,
+     "residual": 0.23708849969807488,
+     "uInf": 0.000007642933269380592,
+     "sigma": 2.5056e-7,
+     "nSigma": 946264.9370663485,
+     "uParts": {
+      "extrapolationSpread": 0.000005796355253551155,
+      "independentDiff": 0.0000018465780158294365,
+      "systematic": 0
+     },
+     "what": "|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない)"
+    }
+   }
+  },
+  {
+   "id": "psrDoubleAB",
+   "emoji": "📻",
+   "seriesTag": "ledger-rk4",
+   "observationVersion": "Hu et al. (2022) A&A 667 A149 (via device-collected record)",
+   "independent": {
+    "value": 8834.771809702535,
+    "method": "rk4-reference"
+   },
+   "ok": false,
+   "verdict": null,
+   "failed": [
+    "g5"
+   ],
+   "p": 1.0208742012155134,
+   "pShifts": [
+    1.0407493603713962,
+    1.0208742012155134
+   ],
+   "yInf": 8834.771811777699,
+   "uInf": 0.000007871518391766585,
+   "residual": 0.23708849969807488,
+   "distanceSigma": 946265.8493632929,
+   "uParts": {
+    "extrapolationSpread": 0.000005796355253551155,
+    "independentDiff": 0.00000207516313821543,
+    "systematic": 0
+   },
+   "gates": {
+    "g1": {
+     "pass": true,
+     "missing": [],
+     "refitPerStage": false,
+     "what": "対象量・観測版・単位・時系・窓・抽出法・f を固定(段ごとに再 fit しない)"
+    },
+    "g2": {
+     "pass": true,
+     "nStages": 4,
+     "nGiven": 4,
+     "ratios": [
+      2,
+      2,
+      2
+     ],
+     "excluded": [],
+     "what": "4 段以上・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外"
+    },
+    "g3": {
+     "pass": true,
+     "pShifts": [
+      1.0407493603713962,
+      1.0208742012155134
+     ],
+     "maxAdjacentDiff": 0.019875159155882782,
+     "range": [
+      0.5,
+      4.5
+     ],
+     "tol": 0.25,
+     "what": "隣接 3 段の次数が安定(0.5≤p≤4.5・段をずらした 2 組の差 ≤0.25)"
+    },
+    "g4": {
+     "pass": true,
+     "nExtrapolations": 2,
+     "extrapolations": [
+      8834.771817574054,
+      8834.771811777699
+     ],
+     "extrapolationSpread": 0.000005796355253551155,
+     "independent": {
+      "value": 8834.771809702535,
+      "method": "rk4-reference"
+     },
+     "independentDiff": 0.00000207516313821543,
+     "what": "Richardson を段をずらして比較し、独立推定(別積分法/別抽出法)と照合する"
+    },
+    "g5": {
+     "pass": false,
+     "residual": 0.23708849969807488,
+     "uInf": 0.000007871518391766585,
+     "sigma": 2.5056e-7,
+     "nSigma": 946265.8493632929,
+     "uParts": {
+      "extrapolationSpread": 0.000005796355253551155,
+      "independentDiff": 0.00000207516313821543,
+      "systematic": 0
+     },
+     "what": "|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない)"
+    }
+   }
+  }
+ ],
+ "pageErrors": []
+}

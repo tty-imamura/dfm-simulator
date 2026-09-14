@@ -1423,10 +1423,23 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     **`U∞` は数学的上限ではない**(3 項を足すという宣言である)。`ok` が真のときだけ
     `verdict:"pass-expected-with-precision"` が立ち、それ以外は **`null`** である
     (**「たぶん通る」を返さない**)。**門を通ることは「観測と合った」ことではない。**
+  - **第262便c: 必須入力(欠落を「合格」と読まない)**。第261便c の判定は、`excluded` 欄が**無い**系列・
+    独立推定の `method` が**無い**系列・`systematic` を**宣言していない**系列を**黙って 0 と見なして
+    通していた**。本便から次の 3 つを必須にする(**門は厳しくなる方向にしか動かない** —— 通る件数は増えない):
+    (a) `excluded` の **5 鍵すべて**(`duplicateEvents` / `nan` / `incomplete` / `unwrapFailed` /
+    `roundingFloor`)を **明示の `false` または 0 以上の有限数**で宣言する(欄が無い・`undefined`・
+    負・非有限は「除外した」と読まない。落ちるのは門(2)・読み口は `gates.g2.missingExclusions`)。
+    (b) `independent.method` は**空でない文字列**が必須で、**`fixed.extractor` と同じ名前は独立と認めない**
+    (門(4)・読み口は `gates.g4.methodMissing` / `gates.g4.methodSameAsExtractor`)。
+    (c) `systematic` は**非負の有限数として明示宣言**する(省略は 0 ではない。門(5)・読み口は
+    `gates.g5.systematicDeclared`)。
   - **生成 AI はこれらを使わない**(`calibrationForecast` は台帳の宣言で、生成対象の物理キーではない。
     `dfmForecastGate` は器の純関数である)。QA `behavior.calibrationForecast` が
-    合成データの合格例・**否定対照 7 本**・`presetSig` 不変・未知状態の除去・署名変化での自動倒し・
-    チップの出方・**NS 4 系が 1 件も通らないこと**を機械固定する
+    合成データの合格例・**否定対照 13 本**(第262便c で 6 本追加 —— 除外欄なし / 除外欄が 4 鍵だけ /
+    独立推定に method なし / method が抽出法と同名 / 系統幅の宣言なし / 系統幅が負)・
+    `presetSig` 不変・未知状態の除去・署名変化での自動倒し・
+    チップの出方・**NS 4 系が 1 件も通らないこと**・**独立推定を入れても通る件数が 0 のまま**であること
+    (`tests/out/independent-w262c.json`)を機械固定する
     (docs/CALIBRATION_VERDICT_v1.44.md §4′ と docs/PHYSICS.md 第261便c の節)。
   - **近点抽出器の位相制限(`tests/lib-precision-diagnostics.mjs` の純関数・アプリの外)**:
     `createPeriastronDetector({mode,phaseGate,maxCount,unwrapJump})` / `extractPeriastra(samples, opts)`。
