@@ -33,6 +33,34 @@ tests/out/*
 !tests/out/precision-w261c.json
 !tests/out/richardson-w261c.json
 !tests/out/convcal-w261c.json
+# 第262便b: コア V2 → 親子コアの移行の実測正本(tests/exp-w262b-migrate.mjs)。
+# docs/PHYSICS.md 〔第262便b〕 §2(遠方/近傍の表)・§4(内蔵 121 本の移行レポート)・
+# §5(4 つの viewport の見切れ画素)・§6(有限性の拒否)の表がこの値そのものなのでコミットする
+# (**QA はこのファイルを読まない** —— 読むのは器の中で走らせた値である)
+!tests/out/w262b-migrate.json
+# 第262便d: 太陽系 16 本の σ 接続の切断点分解(tests/exp-w262d-solarsigma.mjs)の実測正本。
+#   docs/CALIBRATION_VERDICT_v1.44.md §2.3′ と docs/PHYSICS.md 〔第262便d〕④ の表がこの値そのもの
+#   なのでコミットする(**エンジンは走らせていない** —— 入力は CSV と calaudit-w249.json だけである)
+!tests/out/solarsigma-w262d.json
+# 第262便c: 門(4) の独立推定(tests/exp-w262c-independent.mjs —— leapfrog-KDK とエンジン外 RK4 参照器・
+# 門 5 つの再判定)・📻 の E12 と標準二体相対 1PN の対照(tests/exp-w262c-e12ref.mjs)・
+# ✨🌟 の e 写像(tests/exp-w262c-emap.mjs)・🩺 観測版 v2 の差(tests/exp-w262c-v2delta.mjs)の実測正本。
+# QA `behavior.calibrationForecast` ②′ が independent-w262c.json を読んで「独立推定を入れても
+# 通った系は 0 件」「門(4) を通った系列は 14 本」を機械固定し、docs/PHYSICS.md 〔第262便c〕と
+# docs/CALIBRATION_VERDICT_v1.44.md §5.7 の表がこれらの値そのものなのでコミットする。
+!tests/out/independent-w262c.json
+!tests/out/e12ref-w262c.json
+!tests/out/emap-w262c.json
+!tests/out/v2delta-w262c.json
+# 第262便a: NS の釣り合い探索の実測正本。
+#   balance: 現行経路(geoPN=2)の釣り合い曲線 f(kFrame)(tests/exp-w262a-balance.mjs)
+#   geotoy : geoPN=3 の D₀×η×lawVersion 掃引と D₀=0 の直線離脱(tests/exp-w262a-geotoy.mjs)
+#   uigeopn: geoPN=3 を UI で選ぶと 2 へ戻る不具合の実機再現と、直ったことの確認(tests/exp-w262a-uigeopn.mjs)
+#   docs/PHYSICS.md 〔第262便a〕の表がこの値そのものなのでコミットする
+#   (**QA はこの 3 本を読まない** —— 読むのは器の中で走らせた値である)
+!tests/out/balance-w262a.json
+!tests/out/geotoy-w262a.json
+!tests/out/uigeopn-w262a.json
 # 第134便: kF1 較正ハーネスの実測正本(論文3 再現性 — 外部レビュー P0 対応。
 # 本文の中心値〔q*=6.16/8.25/21.8・drag −5.6e-10・第122便 q*=4.59〕を提出コミットから再生成可能に)
 !tests/out/coreshell-results.json

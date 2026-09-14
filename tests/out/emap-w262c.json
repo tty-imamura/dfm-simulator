@@ -1,0 +1,304 @@
+{
+ "meta": {
+  "wave": "第262便c",
+  "target": "beta/index.html",
+  "dt0": 0.016,
+  "divs": [
+   1,
+   2,
+   4
+  ],
+  "window": "**最初の近点から 2 つ目の近点まで(1 公転)** —— 位相制限 1.5π の検出器が採った近点",
+  "method": "r = a_r(1 − e_r cos u)(距離側)と n(t−t₀) = u − e_t sin u(時間側)を**別々に** fit。**GR の e_r→e_t 式は 1 つも移植していない。**",
+  "judgement": "判定するのは**離心率という 1 量**だけである。**系の合格にはしない。**e_r と e_t の**どちらを観測 e と比べるべきかは決まっていない**ので、両方を σ 倍つきで出す。",
+  "touched": "プリセット JSON は 1 bit も書き換えていない(変えるのは dt だけ)。"
+ },
+ "cases": [
+  {
+   "id": "alphaCenAB",
+   "emoji": "✨",
+   "note": "量限定合(周期のみ)。**離心率が写像未確定**で残っていた系",
+   "obs": {
+    "ecc": {
+     "body": "Alpha Centauri B",
+     "quantity": "eccentricity",
+     "value": 0.51947,
+     "unit": "1",
+     "source": "Akeson et al. (2021) AJ 162 14 - Precision Millimeter Astrometry of the Alpha Centauri AB System (via device-collected record)",
+     "sigma": 0.00015
+    },
+    "period": {
+     "body": "Alpha Centauri B",
+     "quantity": "orbital_period",
+     "value": 2517097300,
+     "unit": "s",
+     "source": "Akeson et al. (2021) AJ 162 14 - Precision Millimeter Astrometry of the Alpha Centauri AB System (via device-collected record)",
+     "sigma": 599594.4
+    }
+   },
+   "stages": [
+    {
+     "div": 1,
+     "dt": 0.016,
+     "wallSec": 1.22,
+     "steps": 235981,
+     "stopped": "window",
+     "nSamples": 19666,
+     "periSec": 2517154247.417158,
+     "aR": 348.5480878820074,
+     "eR": 0.5194699631868642,
+     "eT": 0.5194700240311257,
+     "residualMaxRad": 0.00015264274348858464,
+     "nFit": 19666,
+     "eRminusObs": -3.681313576198164e-8,
+     "eTminusObs": 2.403112575599664e-8,
+     "eRnSigma": 0.0002454209050798776,
+     "eTnSigma": 0.00016020750503997763,
+     "eRpass3sigma": true,
+     "eTpass3sigma": true
+    },
+    {
+     "div": 2,
+     "dt": 0.008,
+     "wallSec": 1.42,
+     "steps": 471964,
+     "stopped": "window",
+     "nSamples": 19666,
+     "periSec": 2517154247.406421,
+     "aR": 348.5480876261904,
+     "eR": 0.519469964794556,
+     "eT": 0.5194699957056746,
+     "residualMaxRad": 0.00013342100602464768,
+     "nFit": 19666,
+     "eRminusObs": -3.5205444004482445e-8,
+     "eTminusObs": -4.294325339770921e-9,
+     "eRnSigma": 0.00023470296002988297,
+     "eTnSigma": 0.00002862883559847281,
+     "eRpass3sigma": true,
+     "eTpass3sigma": true
+    },
+    {
+     "div": 4,
+     "dt": 0.004,
+     "wallSec": 1.68,
+     "steps": 943930,
+     "stopped": "window",
+     "nSamples": 19666,
+     "periSec": 2517154247.402839,
+     "aR": 348.54808758895297,
+     "eR": 0.5194699652029956,
+     "eT": 0.5194699865536248,
+     "residualMaxRad": 0.00012377887091297168,
+     "nFit": 19666,
+     "eRminusObs": -3.479700438902e-8,
+     "eTminusObs": -1.3446375235481867e-8,
+     "eRnSigma": 0.00023198002926013336,
+     "eTnSigma": 0.00008964250156987912,
+     "eRpass3sigma": true,
+     "eTpass3sigma": true
+    }
+   ],
+   "stageSpread": {
+    "eR": 2.016131372961638e-9,
+    "eT": 3.747750099147851e-8
+   },
+   "verdict": {
+    "quantity": "離心率(準ケプラー fit)",
+    "eRpass": true,
+    "eTpass": true,
+    "note": "**この合否は「離心率という 1 量」の合否であって、系の合格ではない。**e_r・e_t のどちらを観測 e と比べるかは**決まっていない**(写像は未確定のままである)。"
+   }
+  },
+  {
+   "id": "siriusAB",
+   "emoji": "🌟",
+   "note": "同上",
+   "obs": {
+    "ecc": {
+     "body": "Sirius B",
+     "quantity": "eccentricity",
+     "value": 0.59142,
+     "unit": "1",
+     "source": "Bond et al. (2017) ApJ 840 70 - The Sirius System and its Astrophysical Puzzles: HST and Ground-Based Astrometry (via device-collected record)",
+     "sigma": 0.00037
+    },
+    "period": {
+     "body": "Sirius B",
+     "quantity": "orbital_period",
+     "value": 1581932000,
+     "unit": "s",
+     "source": "Bond et al. (2017) ApJ 840 70 - The Sirius System and its Astrophysical Puzzles: HST and Ground-Based Astrometry (via device-collected record)",
+     "sigma": 135697.68
+    }
+   },
+   "stages": [
+    {
+     "div": 1,
+     "dt": 0.016,
+     "wallSec": 0.86,
+     "steps": 148307,
+     "stopped": "window",
+     "nSamples": 19775,
+     "periSec": 1581968716.9701552,
+     "aR": 295.9464862756034,
+     "eR": 0.591419944425971,
+     "eT": 0.591419977995427,
+     "residualMaxRad": 0.00007621618210507108,
+     "nFit": 19775,
+     "eRminusObs": -5.557402893430208e-8,
+     "eTminusObs": -2.200457294154745e-8,
+     "eRnSigma": 0.00015020007820081642,
+     "eTnSigma": 0.00005947181876093906,
+     "eRpass3sigma": true,
+     "eTpass3sigma": true
+    },
+    {
+     "div": 2,
+     "dt": 0.008,
+     "wallSec": 0.99,
+     "steps": 296617,
+     "stopped": "window",
+     "nSamples": 19775,
+     "periSec": 1581968717.073816,
+     "aR": 295.94648589760754,
+     "eR": 0.5914199462788203,
+     "eT": 0.5914199840353283,
+     "residualMaxRad": 0.00007130548243106105,
+     "nFit": 19775,
+     "eRminusObs": -5.3721179615884296e-8,
+     "eTminusObs": -1.5964671695734012e-8,
+     "eRnSigma": 0.00014519237734022782,
+     "eTnSigma": 0.00004314776133982166,
+     "eRpass3sigma": true,
+     "eTpass3sigma": true
+    },
+    {
+     "div": 4,
+     "dt": 0.004,
+     "wallSec": 1.2,
+     "steps": 593236,
+     "stopped": "window",
+     "nSamples": 19775,
+     "periSec": 1581968717.0963786,
+     "aR": 295.94648561672733,
+     "eR": 0.5914199474755958,
+     "eT": 0.5914199724584358,
+     "residualMaxRad": 0.0000847357531257309,
+     "nFit": 19775,
+     "eRminusObs": -5.2524404159370874e-8,
+     "eTminusObs": -2.754156414042086e-8,
+     "eRnSigma": 0.00014195784907938073,
+     "eTnSigma": 0.00007443665983897529,
+     "eRpass3sigma": true,
+     "eTpass3sigma": true
+    }
+   ],
+   "stageSpread": {
+    "eR": 3.0496247749312033e-9,
+    "eT": 1.1576892444686848e-8
+   },
+   "verdict": {
+    "quantity": "離心率(準ケプラー fit)",
+    "eRpass": true,
+    "eTpass": true,
+    "note": "**この合否は「離心率という 1 量」の合否であって、系の合格ではない。**e_r・e_t のどちらを観測 e と比べるかは**決まっていない**(写像は未確定のままである)。"
+   }
+  },
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "note": "**再現の自己点検** —— 第261便c のドラフト(e_r=0.0878374・e_t=0.0847841)と並べる",
+   "obs": {
+    "ecc": {
+     "body": "PSR J0737-3039 B",
+     "quantity": "eccentricity",
+     "value": 0.087777036,
+     "unit": "1",
+     "source": "Hu et al. (2022) A&A 667 A149 (via device-collected record)",
+     "sigma": 4.8e-8
+    },
+    "period": {
+     "body": "PSR J0737-3039 B",
+     "quantity": "orbital_period",
+     "value": 8834.534723278,
+     "unit": "s",
+     "source": "Hu et al. (2022) A&A 667 A149 (via device-collected record)",
+     "sigma": 2.5056e-7
+    }
+   },
+   "stages": [
+    {
+     "div": 1,
+     "dt": 0.016,
+     "wallSec": 1.19,
+     "steps": 82760,
+     "stopped": "window",
+     "nSamples": 18385,
+     "periSec": 8824.631749745633,
+     "aR": 878.0328388112439,
+     "eR": 0.08792837556065188,
+     "eT": 0.07902586995020214,
+     "residualMaxRad": 0.0867323622777004,
+     "nFit": 18385,
+     "eRminusObs": 0.00015133956065187248,
+     "eTminusObs": -0.008751166049797865,
+     "eRnSigma": 3152.907513580677,
+     "eTnSigma": 182315.95937078886,
+     "eRpass3sigma": false,
+     "eTpass3sigma": false
+    },
+    {
+     "div": 2,
+     "dt": 0.008,
+     "wallSec": 0.96,
+     "steps": 165582,
+     "stopped": "window",
+     "nSamples": 18395,
+     "periSec": 8829.449491936286,
+     "aR": 878.4225979211899,
+     "eR": 0.08786769594421177,
+     "eT": 0.08259686279588216,
+     "residualMaxRad": 0.06426292131462266,
+     "nFit": 18395,
+     "eRminusObs": 0.00009065994421177115,
+     "eTminusObs": -0.005180173204117844,
+     "eRnSigma": 1888.7488377452323,
+     "eTnSigma": 107920.27508578841,
+     "eRpass3sigma": false,
+     "eTpass3sigma": false
+    },
+    {
+     "div": 4,
+     "dt": 0.004,
+     "wallSec": 1.31,
+     "steps": 331225,
+     "stopped": "window",
+     "nSamples": 18400,
+     "periSec": 8831.891228491912,
+     "aR": 878.6174447399017,
+     "eR": 0.08783740688676385,
+     "eT": 0.08477888294250063,
+     "residualMaxRad": 0.047249345826981454,
+     "nFit": 18400,
+     "eRminusObs": 0.00006037088676384694,
+     "eTminusObs": -0.0029981530574993698,
+     "eRnSigma": 1257.7268075801446,
+     "eTnSigma": 62461.52203123687,
+     "eRpass3sigma": false,
+     "eTpass3sigma": false
+    }
+   ],
+   "stageSpread": {
+    "eR": 0.00009096867388802554,
+    "eT": 0.005753012992298495
+   },
+   "verdict": {
+    "quantity": "離心率(準ケプラー fit)",
+    "eRpass": false,
+    "eTpass": false,
+    "note": "**この合否は「離心率という 1 量」の合否であって、系の合格ではない。**e_r・e_t のどちらを観測 e と比べるかは**決まっていない**(写像は未確定のままである)。"
+   }
+  }
+ ],
+ "pageErrors": []
+}

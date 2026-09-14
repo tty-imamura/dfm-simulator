@@ -1,0 +1,555 @@
+{
+ "meta": {
+  "wave": "第262便c",
+  "target": "beta/index.html",
+  "sample": "psrDoubleAB(📻)",
+  "toSec": 10,
+  "state": {
+   "x": [
+    -461.48618600827865,
+    494.49208586803894
+   ],
+   "y": [
+    0,
+    0
+   ],
+   "vx": [
+    0,
+    0
+   ],
+   "vy": [
+    -2.763093948239957,
+    2.9607128692905675
+   ],
+   "m": [
+    2660.98291015625,
+    2483.3701171875
+   ],
+   "pnOv": [
+    1,
+    1
+   ],
+   "n": 2,
+   "G": 6.674,
+   "eps": 0.05,
+   "cLight": 3000,
+   "lambdaPN": 1,
+   "pnAlpha": 1.5,
+   "geoPN": 2,
+   "kFrame": 0,
+   "scaleT": 1
+  },
+  "window": "最初の 20 近点(19 区間)",
+  "yearSec": 31557600,
+  "extractor": "radial-crossing/orbit-phase-1.5pi-v1(**3 つの式すべてに同じもの**を通した)",
+  "integrator": "古典 RK4(Float64)。刻みは P_obs/400 … P_obs/3200 の 4 段。",
+  "notReplacement": "**エンジンの E12 は 1 bit も変えていない。** 本器は**対照**であって置換ではない。置換するなら明示キー(例 `pnForm`)+ 署名便 + 対照試験が要る —— 決断事項候補である。",
+  "cNote": "cLight=3000 は L6/T1 で 3×10⁸ m/s。厳密値 2997.92458 との差は c⁻² で 0.138% で、**この差は dt 誤差ではない**(別欄で測る)。"
+ },
+ "laws": [
+  {
+   "key": "E12kF0",
+   "label": "現行 E12(エンジンの kFrame=0・geoPN=2 経路 —— 各源の ∇U_j と個々の v_i・対反作用)",
+   "c": 3000,
+   "stages": [
+    {
+     "nPerOrbit": 400,
+     "dt": 2.2086336808195,
+     "steps": 7800,
+     "stopped": "window",
+     "measured": true,
+     "perMeanSec": 8834.771812816654,
+     "degPerYear": 2.829165700539044,
+     "seDegPerYear": 0.00007462876041479502,
+     "wallSec": 0.05
+    },
+    {
+     "nPerOrbit": 800,
+     "dt": 1.10431684040975,
+     "steps": 15600,
+     "stopped": "window",
+     "measured": true,
+     "perMeanSec": 8834.771810627746,
+     "degPerYear": 2.82314568066205,
+     "seDegPerYear": 0.00002729606940473108,
+     "wallSec": 0.04
+    },
+    {
+     "nPerOrbit": 1600,
+     "dt": 0.552158420204875,
+     "steps": 31200,
+     "stopped": "window",
+     "measured": true,
+     "perMeanSec": 8834.771809642622,
+     "degPerYear": 2.8227699541443374,
+     "seDegPerYear": 0.0000047784392847991346,
+     "wallSec": 0.06
+    },
+    {
+     "nPerOrbit": 3200,
+     "dt": 0.2760792101024375,
+     "steps": 62401,
+     "stopped": "window",
+     "measured": true,
+     "perMeanSec": 8834.771809702535,
+     "degPerYear": 2.8227873224597557,
+     "seDegPerYear": 0.0000011651507906459131,
+     "wallSec": 0.05
+    }
+   ],
+   "richardson": {
+    "P": {
+     "triples": [
+      {
+       "p": 1.151833261542065,
+       "yInf": 8834.771808836438
+      },
+      {
+       "p": null,
+       "yInf": null
+      }
+     ],
+     "extrapolations": [
+      8834.771808836438
+     ],
+     "yInf": 8834.771808836438,
+     "spread": null
+    },
+    "degPerYear": {
+     "triples": [
+      {
+       "p": 4.0020134044929305,
+       "yInf": 2.8227449429680704
+      },
+      {
+       "p": null,
+       "yInf": null
+      }
+     ],
+     "extrapolations": [
+      2.8227449429680704
+     ],
+     "yInf": 2.8227449429680704,
+     "spread": null
+    }
+   },
+   "finest": {
+    "perMeanSec": 8834.771809702535,
+    "degPerYear": 2.8227873224597557
+   },
+   "obs": {
+    "periodResidualSec": 0.23708642453493667,
+    "periodNSigma": 946226.1515602517,
+    "omegaDotResidual": -14.076535677540242,
+    "omegaDotNSigma": 1082810.436733865
+   }
+  },
+  {
+   "key": "relative1PN",
+   "label": "標準二体相対 1PN(Blanchet §9.3・調和座標 —— 相対 r と相対 v・ν 依存)",
+   "c": 3000,
+   "stages": [
+    {
+     "nPerOrbit": 400,
+     "dt": 2.2086336808195,
+     "steps": 7800,
+     "stopped": "window",
+     "measured": true,
+     "perMeanSec": 8834.803631065208,
+     "degPerYear": 16.875365183365098,
+     "seDegPerYear": 0.00009251273241417577,
+     "wallSec": 0.02
+    },
+    {
+     "nPerOrbit": 800,
+     "dt": 1.10431684040975,
+     "steps": 15600,
+     "stopped": "window",
+     "measured": true,
+     "perMeanSec": 8834.803628740301,
+     "degPerYear": 16.86932432035853,
+     "seDegPerYear": 0.00003171323266722939,
+     "wallSec": 0.01
+    },
+    {
+     "nPerOrbit": 1600,
+     "dt": 0.552158420204875,
+     "steps": 31200,
+     "stopped": "window",
+     "measured": true,
+     "perMeanSec": 8834.803628095116,
+     "degPerYear": 16.868999577851543,
+     "seDegPerYear": 0.000005032297404317034,
+     "wallSec": 0.02
+    },
+    {
+     "nPerOrbit": 3200,
+     "dt": 0.2760792101024375,
+     "steps": 62401,
+     "stopped": "window",
+     "measured": true,
+     "perMeanSec": 8834.803628097643,
+     "degPerYear": 16.869015096727367,
+     "seDegPerYear": 0.0000011432250054506102,
+     "wallSec": 0.05
+    }
+   ],
+   "richardson": {
+    "P": {
+     "triples": [
+      {
+       "p": 1.849388879614322,
+       "yInf": 8834.8036278473
+      },
+      {
+       "p": null,
+       "yInf": null
+      }
+     ],
+     "extrapolations": [
+      8834.8036278473
+     ],
+     "yInf": 8834.8036278473,
+     "spread": null
+    },
+    "degPerYear": {
+     "triples": [
+      {
+       "p": 4.217386526960844,
+       "yInf": 16.868981128678566
+      },
+      {
+       "p": null,
+       "yInf": null
+      }
+     ],
+     "extrapolations": [
+      16.868981128678566
+     ],
+     "yInf": 16.868981128678566,
+     "spread": null
+    }
+   },
+   "finest": {
+    "perMeanSec": 8834.803628097643,
+    "degPerYear": 16.869015096727367
+   },
+   "obs": {
+    "periodResidualSec": 0.2689048196425574,
+    "periodNSigma": 1073215.276351203,
+    "omegaDotResidual": -0.03030790327263233,
+    "omegaDotNSigma": 2331.377174817872
+   }
+  },
+  {
+   "key": "newtonSoft",
+   "label": "ソフトニング付きニュートン(ε=0.05 —— 数値床。逆行がここに出る)",
+   "c": 3000,
+   "stages": [
+    {
+     "nPerOrbit": 400,
+     "dt": 2.2086336808195,
+     "steps": 7799,
+     "stopped": "window",
+     "measured": true,
+     "perMeanSec": 8834.532569136421,
+     "degPerYear": -0.0010516434800553252,
+     "seDegPerYear": 9.644400762468937e-9,
+     "wallSec": 0.01
+    },
+    {
+     "nPerOrbit": 800,
+     "dt": 1.10431684040975,
+     "steps": 15599,
+     "stopped": "window",
+     "measured": true,
+     "perMeanSec": 8834.532574003493,
+     "degPerYear": -0.006014346058970314,
+     "seDegPerYear": 3.5788353664107035e-9,
+     "wallSec": 0.01
+    },
+    {
+     "nPerOrbit": 1600,
+     "dt": 0.552158420204875,
+     "steps": 31199,
+     "stopped": "window",
+     "measured": true,
+     "perMeanSec": 8834.53257347507,
+     "degPerYear": -0.006321567015583052,
+     "seDegPerYear": 2.073613789567134e-9,
+     "wallSec": 0.02
+    },
+    {
+     "nPerOrbit": 3200,
+     "dt": 0.2760792101024375,
+     "steps": 62399,
+     "stopped": "window",
+     "measured": true,
+     "perMeanSec": 8834.5325734205,
+     "degPerYear": -0.0063400075384703975,
+     "seDegPerYear": 9.277897373397497e-10,
+     "wallSec": 0.06
+    }
+   ],
+   "richardson": {
+    "P": {
+     "triples": [
+      {
+       "p": null,
+       "yInf": null
+      },
+      {
+       "p": 3.2755236226512046,
+       "yInf": 8834.532573414215
+      }
+     ],
+     "extrapolations": [
+      8834.532573414215
+     ],
+     "yInf": 8834.532573414215,
+     "spread": null
+    },
+    "degPerYear": {
+     "triples": [
+      {
+       "p": 4.013777458887119,
+       "yInf": -0.006341840904267285
+      },
+      {
+       "p": 4.058325161103054,
+       "yInf": -0.0063411850866857385
+      }
+     ],
+     "extrapolations": [
+      -0.006341840904267285,
+      -0.0063411850866857385
+     ],
+     "yInf": -0.0063411850866857385,
+     "spread": 6.558175815463141e-7
+    }
+   },
+   "finest": {
+    "perMeanSec": 8834.5325734205,
+    "degPerYear": -0.0063400075384703975
+   },
+   "obs": {
+    "periodResidualSec": -0.00214985750062624,
+    "periodNSigma": 8580.210331362709,
+    "omegaDotResidual": -16.905663007538468,
+    "omegaDotNSigma": 1300435.6159644977
+   }
+  },
+  {
+   "key": "E12kF0-cExact",
+   "label": "現行 E12 を c=2997.92458(厳密値)で —— **規約 c=3000 との差を dt 誤差に混ぜないための別欄**",
+   "c": 2997.92458,
+   "stages": [
+    {
+     "nPerOrbit": 400,
+     "dt": 2.2086336808195,
+     "steps": 7800,
+     "stopped": "window",
+     "measured": true,
+     "perMeanSec": 8834.772144178225,
+     "degPerYear": 2.8330836280744705,
+     "seDegPerYear": 0.00007480914499158624,
+     "wallSec": 0.01
+    },
+    {
+     "nPerOrbit": 800,
+     "dt": 1.10431684040975,
+     "steps": 15600,
+     "stopped": "window",
+     "measured": true,
+     "perMeanSec": 8834.772141987249,
+     "degPerYear": 2.8270632499529262,
+     "seDegPerYear": 0.000027344780415145584,
+     "wallSec": 0.03
+    },
+    {
+     "nPerOrbit": 1600,
+     "dt": 0.552158420204875,
+     "steps": 31200,
+     "stopped": "window",
+     "measured": true,
+     "perMeanSec": 8834.772141004945,
+     "degPerYear": 2.826687982074159,
+     "seDegPerYear": 0.000004775277946080798,
+     "wallSec": 0.04
+    },
+    {
+     "nPerOrbit": 3200,
+     "dt": 0.2760792101024375,
+     "steps": 62401,
+     "stopped": "window",
+     "measured": true,
+     "perMeanSec": 8834.77214106479,
+     "degPerYear": 2.8267053767664776,
+     "seDegPerYear": 0.0000011656118857188355,
+     "wallSec": 0.08
+    }
+   ],
+   "richardson": {
+    "P": {
+     "triples": [
+      {
+       "p": 1.157333343745493,
+       "yInf": 8834.772140206614
+      },
+      {
+       "p": null,
+       "yInf": null
+      }
+     ],
+     "extrapolations": [
+      8834.772140206614
+     ],
+     "yInf": 8834.772140206614,
+     "spread": null
+    },
+    "degPerYear": {
+     "triples": [
+      {
+       "p": 4.00386138864241,
+       "yInf": 2.8266630355319697
+      },
+      {
+       "p": null,
+       "yInf": null
+      }
+     ],
+     "extrapolations": [
+      2.8266630355319697
+     ],
+     "yInf": 2.8266630355319697,
+     "spread": null
+    }
+   },
+   "finest": {
+    "perMeanSec": 8834.77214106479,
+    "degPerYear": 2.8267053767664776
+   },
+   "obs": {
+    "periodResidualSec": 0.23741778678959236,
+    "periodNSigma": 947548.6382087818,
+    "omegaDotResidual": -14.072617623233521,
+    "omegaDotNSigma": 1082509.0479410402
+   }
+  },
+  {
+   "key": "relative1PN-cExact",
+   "label": "相対 1PN を c=2997.92458 で(同上)",
+   "c": 2997.92458,
+   "stages": [
+    {
+     "nPerOrbit": 400,
+     "dt": 2.2086336808195,
+     "steps": 7800,
+     "stopped": "window",
+     "measured": true,
+     "perMeanSec": 8834.804006497392,
+     "degPerYear": 16.898736961352906,
+     "seDegPerYear": 0.0000927300314131652,
+     "wallSec": 0.01
+    },
+    {
+     "nPerOrbit": 800,
+     "dt": 1.10431684040975,
+     "steps": 15600,
+     "stopped": "window",
+     "measured": true,
+     "perMeanSec": 8834.804004172218,
+     "degPerYear": 16.89269602573656,
+     "seDegPerYear": 0.000031761960618227416,
+     "wallSec": 0.03
+    },
+    {
+     "nPerOrbit": 1600,
+     "dt": 0.552158420204875,
+     "steps": 31200,
+     "stopped": "window",
+     "measured": true,
+     "perMeanSec": 8834.804003531572,
+     "degPerYear": 16.89237197077923,
+     "seDegPerYear": 0.0000050468947832074775,
+     "wallSec": 0.05
+    },
+    {
+     "nPerOrbit": 3200,
+     "dt": 0.2760792101024375,
+     "steps": 62401,
+     "stopped": "window",
+     "measured": true,
+     "perMeanSec": 8834.804003532892,
+     "degPerYear": 16.89238741770614,
+     "seDegPerYear": 0.0000011423736270255097,
+     "wallSec": 0.07
+    }
+   ],
+   "richardson": {
+    "P": {
+     "triples": [
+      {
+       "p": 1.8597389098009425,
+       "yInf": 8834.804003287925
+      },
+      {
+       "p": null,
+       "yInf": null
+      }
+     ],
+     "extrapolations": [
+      8834.804003287925
+     ],
+     "yInf": 8834.804003287925,
+     "spread": null
+    },
+    "degPerYear": {
+     "triples": [
+      {
+       "p": 4.220461601164951,
+       "yInf": 16.892353602088043
+      },
+      {
+       "p": null,
+       "yInf": null
+      }
+     ],
+     "extrapolations": [
+      16.892353602088043
+     ],
+     "yInf": 16.892353602088043,
+     "spread": null
+    }
+   },
+   "finest": {
+    "perMeanSec": 8834.804003532892,
+    "degPerYear": 16.89238741770614
+   },
+   "obs": {
+    "periodResidualSec": 0.26928025489178253,
+    "periodNSigma": 1074713.6609665651,
+    "omegaDotResidual": -0.00693558229385971,
+    "omegaDotNSigma": 533.5063302969008
+   }
+  }
+ ],
+ "summary": {
+  "e12DegPerYear": 2.8227873224597557,
+  "rel1PNDegPerYear": 16.869015096727367,
+  "newtonDegPerYear": -0.0063400075384703975,
+  "ratioE12overRel1PN": 0.16733563318746356,
+  "inverseRatio": 5.976013482315002,
+  "e12PeriodSec": 8834.771809702535,
+  "rel1PNPeriodSec": 8834.803628097643,
+  "newtonPeriodSec": 8834.5325734205,
+  "obsPeriodSec": 8834.534723278,
+  "obsPeriodSigma": 2.5056e-7,
+  "obsEcc": 0.087777036,
+  "cExactDeltaDegPerYear": 0.003918054306721874,
+  "cExactDeltaPeriodSec": 0.00033136225465568714,
+  "cExactRelPct": 0.13880090347393623,
+  "relExactDeltaDegPerYear": 0.02337232097877262,
+  "note": "**どちらの式も観測 P からは離れている**(E12 +0.24 s 級・相対 1PN +0.27 s 級 = いずれも 10⁵〜10⁶σ)。「1PN の式に直せば合う」とは書けない。"
+ }
+}
