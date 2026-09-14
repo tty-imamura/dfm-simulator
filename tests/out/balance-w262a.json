@@ -1,0 +1,6545 @@
+{
+ "meta": {
+  "wave": "第262便a",
+  "target": "beta/index.html",
+  "dt0": 0.016,
+  "periWindow": 20,
+  "yearSec": 31557600,
+  "fInterval": [
+   1,
+   2.1
+  ],
+  "pTolSec": 0.001,
+  "kFrames": [
+   0,
+   0.1,
+   0.25,
+   0.5,
+   0.6,
+   0.7,
+   0.75,
+   1
+  ],
+  "divs": [
+   1,
+   2
+  ],
+  "metric": "**近点間 P** = 位相制限(1.5π)の最初の 20 近点(19 区間)の平均間隔。ω̇ は採用近点の方位を**実時刻**に回帰した傾き。",
+  "notMetric": "**⚡ の較正が使った定義と同じとは限らない** —— f(kFrame=1) が massCalibration の 1.99994 に一致することは要求していない。",
+  "families": {
+   "B": "📻(観測版)の JSON に質量係数 f と kFrame だけを当てた連続な族(コア無し・coupleSink:\"reservoir\")。f=1・kFrame=0 は 📻 そのもの。",
+   "A": "⚡(DFM 版)の JSON に f と kFrame を当て、コア v2 の massFrac=(f−1)/f(第224便)を張り直した族。**f≲1.0101 では massFrac が検証器の下限 0.01 に当たり不連続**。"
+  },
+  "touched": "**本体 📻 と ⚡ の JSON は 1 bit も書き換えていない**(走行用のコピーをページ内で作る)。`S._core` には 1 命令も足していない。",
+  "claim": "**この表は較正則ではない。** 交差が出ても採らない(Negative Claim 27)。",
+  "spentSec": 1862
+ },
+ "obs": {
+  "period": {
+   "body": "PSR J0737-3039 B",
+   "quantity": "orbital_period",
+   "value": 8834.534723278,
+   "unit": "s",
+   "source": "Hu et al. (2022) A&A 667 A149 (via device-collected record)",
+   "sigma": 2.5056e-7
+  },
+  "ecc": {
+   "body": "PSR J0737-3039 B",
+   "quantity": "eccentricity",
+   "value": 0.087777036,
+   "unit": "1",
+   "source": "Hu et al. (2022) A&A 667 A149 (via device-collected record)",
+   "sigma": 4.8e-8
+  },
+  "omegaDot": {
+   "body": "PSR J0737-3039 B",
+   "quantity": "periastron_advance",
+   "value": 16.899323,
+   "unit": "deg/yr",
+   "source": "Kramer et al. (2021) Phys. Rev. X 11 041050 - Strong-Field Gravity Tests with the Double Pulsar",
+   "sigma": 0.000013
+  }
+ },
+ "identity": {
+  "base": [
+   -460.64930134884287,
+   -26.509691237466683,
+   0.17402245312205658,
+   -2.758099059129038,
+   493.59534648911347,
+   28.405687782806208,
+   -0.18646869048488948,
+   2.955360741361553
+  ],
+  "diag": [
+   -460.64930134884287,
+   -26.509691237466683,
+   0.17402245312205658,
+   -2.758099059129038,
+   493.59534648911347,
+   28.405687782806208,
+   -0.18646869048488948,
+   2.955360741361553
+  ],
+  "same": true
+ },
+ "rows": [
+  {
+   "family": "B",
+   "kFrame": 0,
+   "div": 1,
+   "dt": 0.016,
+   "fRoot": 1.0000153258367184,
+   "reason": null,
+   "deltaPSec": -0.00007183030174928717,
+   "nSigma": 286.67904593425595,
+   "run": {
+    "ok": true,
+    "steps": 1076697,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4534651447699,
+    "slopeRadPerSimTime": 1.5589053761601173e-8,
+    "seRadPerSimTime": 1.5443224683560302e-16,
+    "r0": 955.9782718763176,
+    "rMin": 801.6925753899792,
+    "rMax": 955.9784246430577,
+    "rMinAll": 801.6925753899792,
+    "rMaxAll": 955.9784246430577,
+    "eProxy": 0.08777857133114136,
+    "mHeld": [
+     2661.023681640625,
+     2483.408203125
+    ],
+    "chiDecl": [
+     0.9998807071242305,
+     0.9998886686881701
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"reservoir\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.0000153258367184,
+    "periodSec": 8834.534651447699,
+    "degPerYear": 2.8186837665441447,
+    "seDegPerYear": 2.7923161587823196e-8
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 8834.772714551871,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08776458809789227,
+     "degPerYear": 2.818521583518826
+    },
+    {
+     "f": 2.1,
+     "periodSec": 3530.8431520284885,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.5656023132406104,
+     "degPerYear": 30.91720284840698
+    },
+    {
+     "f": 1.0000493578201164,
+     "periodSec": 8834.006248700718,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08780960988719261,
+     "degPerYear": 2.8190439567839136
+    },
+    {
+     "f": 1.0000153258367184,
+     "periodSec": 8834.534651447699,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08777857133114136,
+     "degPerYear": 2.8186837665441447
+    }
+   ],
+   "spentSec": 3.6
+  },
+  {
+   "family": "B",
+   "kFrame": 0.1,
+   "div": 1,
+   "dt": 0.016,
+   "fRoot": 1.098751899732764,
+   "reason": "区間が 10⁻¹² まで潰れた(|ΔP| は抽出器の段差で残る)",
+   "deltaPSec": -0.007342069786318461,
+   "nSigma": 29302.641228921064,
+   "run": {
+    "ok": true,
+    "steps": 1076753,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4527381208214,
+    "slopeRadPerSimTime": 1.544017371116877e-10,
+    "seRadPerSimTime": 2.987391486651973e-10,
+    "r0": 955.9782718763176,
+    "rMin": 801.4305533704568,
+    "rMax": 955.8441543428308,
+    "rMinAll": 801.4305533704568,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.0878710655167341,
+    "mHeld": [
+     2923.760009765625,
+     2728.607666015625
+    ],
+    "chiDecl": [
+     0.9998914259143405,
+     0.9998986721825502
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.1,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"reservoir\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.098751899732764,
+    "periodSec": 8834.527381208214,
+    "degPerYear": 0.02791764507188599,
+    "seDegPerYear": 0.05401554203680681
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 10550.34153840048,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.004438068521035523,
+     "degPerYear": 15.414264591475826
+    },
+    {
+     "f": 2.1,
+     "periodSec": 3819.6311760775798,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.5243878834954413,
+     "degPerYear": 36.54120578182508
+    },
+    {
+     "f": 1.2804143091938593,
+     "periodSec": 6905.623650756741,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.2176488818191667,
+     "degPerYear": 3.882424747702308
+    },
+    {
+     "f": 1.132009334495772,
+     "periodSec": 8389.968541253458,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.1147361758854721,
+     "degPerYear": 0.3415086647763801
+    },
+    {
+     "f": 1.086951172449125,
+     "periodSec": 9005.758846521006,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.07794151148497654,
+     "degPerYear": -0.12467251768600845
+    },
+    {
+     "f": 1.099479859934756,
+     "periodSec": 8824.213306846652,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08847658308939127,
+     "degPerYear": 0.08208894673925882
+    },
+    {
+     "f": 1.098767565922414,
+     "periodSec": 8834.299099368136,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08788497171483059,
+     "degPerYear": 0.21219751148311955
+    },
+    {
+     "f": 1.0987351337745532,
+     "periodSec": 8834.759672815548,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08785752610411132,
+     "degPerYear": -0.23507194950642898
+    },
+    {
+     "f": 1.0987509740204553,
+     "periodSec": 8834.559623623483,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787000288963531,
+     "degPerYear": -0.13443263106181638
+    },
+    {
+     "f": 1.0987538689642673,
+     "periodSec": 8834.52003301584,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787186829160641,
+     "degPerYear": 0.46778503520734793
+    },
+    {
+     "f": 1.0987527947831404,
+     "periodSec": 8834.519725146956,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787336921510186,
+     "degPerYear": 0.31411334377710287
+    },
+    {
+     "f": 1.0987517998933445,
+     "periodSec": 8834.545723395808,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0878697916760408,
+     "degPerYear": -0.36354646637301496
+    },
+    {
+     "f": 1.0987522208411176,
+     "periodSec": 8834.499344168893,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0878731550860427,
+     "degPerYear": -0.3803449759346296
+    },
+    {
+     "f": 1.098751899732764,
+     "periodSec": 8834.527381208214,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0878710655167341,
+     "degPerYear": 0.02791764507188599
+    },
+    {
+     "f": 1.0987518426528202,
+     "periodSec": 8834.545723395808,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0878697916760408,
+     "degPerYear": -0.36354646637301496
+    },
+    {
+     "f": 1.0987518768846207,
+     "periodSec": 8834.500082065802,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787066925345179,
+     "degPerYear": -0.08064391900404601
+    },
+    {
+     "f": 1.098751850903102,
+     "periodSec": 8834.545723395808,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0878697916760408,
+     "degPerYear": -0.36354646637301496
+    },
+    {
+     "f": 1.0987518571649653,
+     "periodSec": 8834.545723395808,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0878697916760408,
+     "degPerYear": -0.36354646637301496
+    },
+    {
+     "f": 1.0987518648243222,
+     "periodSec": 8834.545723395808,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0878697916760408,
+     "degPerYear": -0.36354646637301496
+    },
+    {
+     "f": 1.098751871572128,
+     "periodSec": 8834.500082065802,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787066925345179,
+     "degPerYear": -0.08064391900404601
+    },
+    {
+     "f": 1.0987518664506257,
+     "periodSec": 8834.545723395808,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0878697916760408,
+     "degPerYear": -0.36354646637301496
+    },
+    {
+     "f": 1.0987518676849704,
+     "periodSec": 8834.500082065802,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787066925345179,
+     "degPerYear": -0.08064391900404601
+    },
+    {
+     "f": 1.0987518667481178,
+     "periodSec": 8834.545723395808,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0878697916760408,
+     "degPerYear": -0.36354646637301496
+    },
+    {
+     "f": 1.0987518669739107,
+     "periodSec": 8834.545723395808,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0878697916760408,
+     "degPerYear": -0.36354646637301496
+    },
+    {
+     "f": 1.098751867250095,
+     "periodSec": 8834.545723395808,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0878697916760408,
+     "degPerYear": -0.36354646637301496
+    },
+    {
+     "f": 1.0987518674934103,
+     "periodSec": 8834.500082065802,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787066925345179,
+     "degPerYear": -0.08064391900404601
+    },
+    {
+     "f": 1.098751867308737,
+     "periodSec": 8834.545723395808,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0878697916760408,
+     "degPerYear": -0.36354646637301496
+    },
+    {
+     "f": 1.0987518673532455,
+     "periodSec": 8834.545723395808,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0878697916760408,
+     "degPerYear": -0.36354646637301496
+    },
+    {
+     "f": 1.0987518674076873,
+     "periodSec": 8834.545723395808,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0878697916760408,
+     "degPerYear": -0.36354646637301496
+    },
+    {
+     "f": 1.0987518674556498,
+     "periodSec": 8834.500082065802,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787066925345179,
+     "degPerYear": -0.08064391900404601
+    },
+    {
+     "f": 1.098751867419247,
+     "periodSec": 8834.545723395808,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0878697916760408,
+     "degPerYear": -0.36354646637301496
+    },
+    {
+     "f": 1.0987518674280206,
+     "periodSec": 8834.500082065802,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787066925345179,
+     "degPerYear": -0.08064391900404601
+    },
+    {
+     "f": 1.0987518674213614,
+     "periodSec": 8834.500082065802,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787066925345179,
+     "degPerYear": -0.08064391900404601
+    },
+    {
+     "f": 1.0987518674195367,
+     "periodSec": 8834.545723395808,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0878697916760408,
+     "degPerYear": -0.36354646637301496
+    },
+    {
+     "f": 1.0987518674199765,
+     "periodSec": 8834.500082065802,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787066925345179,
+     "degPerYear": -0.08064391900404601
+    }
+   ],
+   "spentSec": 64.7
+  },
+  {
+   "family": "B",
+   "kFrame": 0.25,
+   "div": 1,
+   "dt": 0.016,
+   "fRoot": 1.2468719409613696,
+   "reason": "区間が 10⁻¹² まで潰れた(|ΔP| は抽出器の段差で残る)",
+   "deltaPSec": -0.027925052181672072,
+   "nSigma": 111450.55947346773,
+   "run": {
+    "ok": true,
+    "steps": 1076819,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.450679822582,
+    "slopeRadPerSimTime": -8.314772024842977e-10,
+    "seRadPerSimTime": 6.562122764208445e-10,
+    "r0": 955.9782718763176,
+    "rMin": 801.1047692196718,
+    "rMax": 955.684762685662,
+    "rMinAll": 801.1047692196718,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08799004699119527,
+    "mHeld": [
+     3317.90478515625,
+     3096.4443359375
+    ],
+    "chiDecl": [
+     0.9999043225549911,
+     0.999910708174261
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.25,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"reservoir\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.2468719409613696,
+    "periodSec": 8834.506798225819,
+    "degPerYear": -0.15034083073514962,
+    "seDegPerYear": 0.11865087639318223
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 14017.585483023879,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.14174242899605952,
+     "degPerYear": -6.466322526109146
+    },
+    {
+     "f": 2.1,
+     "periodSec": 4322.261428029508,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.4613535411965174,
+     "degPerYear": 41.063732299471376
+    },
+    {
+     "f": 1.5880521170185657,
+     "periodSec": 6077.9887408858085,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.2852159523229331,
+     "degPerYear": 12.854558299481228
+    },
+    {
+     "f": 1.3838864958603014,
+     "periodSec": 7427.326400110243,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.17883858283557214,
+     "degPerYear": 5.4629413033164305
+    },
+    {
+     "f": 1.2487916602838443,
+     "periodSec": 8810.449947579458,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08939958143050107,
+     "degPerYear": 0.31269053708171796
+    },
+    {
+     "f": 1.2442516725279702,
+     "periodSec": 8867.65833752777,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08605417398779068,
+     "degPerYear": 0.4259247833438325
+    },
+    {
+     "f": 1.2468803219841098,
+     "periodSec": 8834.428776207567,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08799453891735791,
+     "degPerYear": -0.47432745844557667
+    },
+    {
+     "f": 1.2468719409613696,
+     "periodSec": 8834.506798225819,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08799004699119527,
+     "degPerYear": -0.15034083073514962
+    },
+    {
+     "f": 1.246867530333642,
+     "periodSec": 8834.589782894145,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798876666878261,
+     "degPerYear": -0.8272698032599994
+    },
+    {
+     "f": 1.2468704567473343,
+     "periodSec": 8834.64073479925,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798703453118605,
+     "degPerYear": -0.33291546772286995
+    },
+    {
+     "f": 1.2468717682292025,
+     "periodSec": 8834.563329193275,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798638733226138,
+     "degPerYear": 0.3307553265850588
+    },
+    {
+     "f": 1.2468719070758874,
+     "periodSec": 8834.506798225819,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08799004699119527,
+     "degPerYear": -0.15034083073514962
+    },
+    {
+     "f": 1.2468718384886848,
+     "periodSec": 8834.450683488198,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798964968680037,
+     "degPerYear": 0.994632959990898
+    },
+    {
+     "f": 1.2468717784477334,
+     "periodSec": 8834.450683488198,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798964968680037,
+     "degPerYear": 0.994632959990898
+    },
+    {
+     "f": 1.2468717690305688,
+     "periodSec": 8834.563329193275,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798638733226138,
+     "degPerYear": 0.3307553265850588
+    },
+    {
+     "f": 1.2468717714220192,
+     "periodSec": 8834.563329193275,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798638733226138,
+     "degPerYear": 0.3307553265850588
+    },
+    {
+     "f": 1.2468717742676785,
+     "periodSec": 8834.450683488198,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798964968680037,
+     "degPerYear": 0.994632959990898
+    },
+    {
+     "f": 1.2468717721446627,
+     "periodSec": 8834.563329193275,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798638733226138,
+     "degPerYear": 0.3307553265850588
+    },
+    {
+     "f": 1.246871772683794,
+     "periodSec": 8834.563329193275,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798638733226138,
+     "degPerYear": 0.3307553265850588
+    },
+    {
+     "f": 1.2468717733253223,
+     "periodSec": 8834.563329193275,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798638733226138,
+     "degPerYear": 0.3307553265850588
+    },
+    {
+     "f": 1.2468717738686357,
+     "periodSec": 8834.450683488198,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798964968680037,
+     "degPerYear": 0.994632959990898
+    },
+    {
+     "f": 1.2468717734632946,
+     "periodSec": 8834.450683488198,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798964968680037,
+     "degPerYear": 0.994632959990898
+    },
+    {
+     "f": 1.246871773345389,
+     "periodSec": 8834.563329193275,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798638733226138,
+     "degPerYear": 0.3307553265850588
+    },
+    {
+     "f": 1.2468717733753305,
+     "periodSec": 8834.563329193275,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798638733226138,
+     "degPerYear": 0.3307553265850588
+    },
+    {
+     "f": 1.2468717734109591,
+     "periodSec": 8834.563329193275,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798638733226138,
+     "degPerYear": 0.3307553265850588
+    },
+    {
+     "f": 1.246871773441133,
+     "periodSec": 8834.450683488198,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798964968680037,
+     "degPerYear": 0.994632959990898
+    },
+    {
+     "f": 1.2468717734186217,
+     "periodSec": 8834.563329193275,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798638733226138,
+     "degPerYear": 0.3307553265850588
+    },
+    {
+     "f": 1.2468717734243384,
+     "periodSec": 8834.450683488198,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798964968680037,
+     "degPerYear": 0.994632959990898
+    },
+    {
+     "f": 1.2468717734200734,
+     "periodSec": 8834.563329193275,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798638733226138,
+     "degPerYear": 0.3307553265850588
+    },
+    {
+     "f": 1.2468717734211565,
+     "periodSec": 8834.563329193275,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798638733226138,
+     "degPerYear": 0.3307553265850588
+    },
+    {
+     "f": 1.2468717734224453,
+     "periodSec": 8834.563329193275,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798638733226138,
+     "degPerYear": 0.3307553265850588
+    },
+    {
+     "f": 1.2468717734235368,
+     "periodSec": 8834.563329193275,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798638733226138,
+     "degPerYear": 0.3307553265850588
+    }
+   ],
+   "spentSec": 121.6
+  },
+  {
+   "family": "B",
+   "kFrame": 0.5,
+   "div": 1,
+   "dt": 0.016,
+   "fRoot": 1.4937646205834698,
+   "reason": "反復上限(34)— |ΔP| 最小の点を採った",
+   "deltaPSec": 0.004323430553995422,
+   "nSigma": 17255.070857261424,
+   "run": {
+    "ok": true,
+    "steps": 1076906,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4539046708554,
+    "slopeRadPerSimTime": 4.280702231218178e-8,
+    "seRadPerSimTime": 7.922059612489924e-10,
+    "r0": 955.9782718763176,
+    "rMin": 800.692988614203,
+    "rMax": 955.4898552242767,
+    "rMinAll": 800.692988614203,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08814393509945406,
+    "mHeld": [
+     3974.882080078125,
+     3709.5703125
+    ],
+    "chiDecl": [
+     0.9999201350691433,
+     0.99992546542227
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.5,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"reservoir\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.4937646205834698,
+    "periodSec": 8834.539046708554,
+    "degPerYear": 7.740011724293823,
+    "seDegPerYear": 0.14324012970128358
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 24346.672654058886,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.3694862130795549,
+     "degPerYear": -8.017653316842567
+    },
+    {
+     "f": 2.1,
+     "periodSec": 5317.66550800256,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.35446483131056467,
+     "degPerYear": 43.752832003804606
+    },
+    {
+     "f": 1.8967021554456285,
+     "periodSec": 6085.156758199682,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.2839845026684028,
+     "degPerYear": 29.194267341606864
+    },
+    {
+     "f": 1.7616984043069037,
+     "periodSec": 6761.915998456251,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.22829556668282938,
+     "degPerYear": 20.54049060207442
+    },
+    {
+     "f": 1.6010757021525275,
+     "periodSec": 7846.628610894559,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.1498812634118761,
+     "degPerYear": 12.698628189316342
+    },
+    {
+     "f": 1.4790424901642394,
+     "periodSec": 8993.090664970045,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.07897997467669629,
+     "degPerYear": 6.955548875814526
+    },
+    {
+     "f": 1.4959197088874627,
+     "periodSec": 8811.737503326025,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08947871121371002,
+     "degPerYear": 7.679779574083585
+    },
+    {
+     "f": 1.4937981375626344,
+     "periodSec": 8834.23811343289,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08816307885727373,
+     "degPerYear": 9.800733753894013
+    },
+    {
+     "f": 1.4937431367036749,
+     "periodSec": 8834.757470350254,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0881307873830391,
+     "degPerYear": 7.060240986730755
+    },
+    {
+     "f": 1.4937667260309662,
+     "periodSec": 8834.520250940912,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08814279650061053,
+     "degPerYear": 6.416358700130143
+    },
+    {
+     "f": 1.4937652868877813,
+     "periodSec": 8834.462918495763,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08814791990220468,
+     "degPerYear": 9.307082874085113
+    },
+    {
+     "f": 1.4937566041508696,
+     "periodSec": 8834.555149228847,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08813745368192223,
+     "degPerYear": 8.613703867485789
+    },
+    {
+     "f": 1.493758527079935,
+     "periodSec": 8834.628387823472,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08813820731874293,
+     "degPerYear": 7.76616787212308
+    },
+    {
+     "f": 1.4937634137766962,
+     "periodSec": 8834.711520780122,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08813250855125503,
+     "degPerYear": 8.272562618376487
+    },
+    {
+     "f": 1.4937651142315131,
+     "periodSec": 8834.474813867717,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.088139350775538,
+     "degPerYear": 7.18626713487374
+    },
+    {
+     "f": 1.4937646838543677,
+     "periodSec": 8834.421221021745,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08814201598322202,
+     "degPerYear": 7.034422556937453
+    },
+    {
+     "f": 1.4937639698575271,
+     "periodSec": 8834.614052129218,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0881444694718982,
+     "degPerYear": 8.223401166854588
+    },
+    {
+     "f": 1.4937642635889166,
+     "periodSec": 8834.598007343378,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08813578662065827,
+     "degPerYear": 8.657472411202491
+    },
+    {
+     "f": 1.493764485158154,
+     "periodSec": 8834.595458463546,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08814464111549751,
+     "degPerYear": 7.751822768474754
+    },
+    {
+     "f": 1.4937646205834698,
+     "periodSec": 8834.539046708554,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08814393509945406,
+     "degPerYear": 7.740011724293823
+    },
+    {
+     "f": 1.4937646353608558,
+     "periodSec": 8834.539046708554,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08814393509945406,
+     "degPerYear": 7.740011724293823
+    },
+    {
+     "f": 1.4937646537240359,
+     "periodSec": 8834.539046708554,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08814393509945406,
+     "degPerYear": 7.740011724293823
+    },
+    {
+     "f": 1.493764670275519,
+     "periodSec": 8834.539046708554,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08814393509945406,
+     "degPerYear": 7.740011724293823
+    },
+    {
+     "f": 1.4937646799045399,
+     "periodSec": 8834.421221021745,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08814201598322202,
+     "degPerYear": 7.034422556937453
+    },
+    {
+     "f": 1.493764670628841,
+     "periodSec": 8834.539046708554,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08814393509945406,
+     "degPerYear": 7.740011724293823
+    },
+    {
+     "f": 1.4937646709691983,
+     "periodSec": 8834.539046708554,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08814393509945406,
+     "degPerYear": 7.740011724293823
+    },
+    {
+     "f": 1.4937646716017257,
+     "periodSec": 8834.539046708554,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08814393509945406,
+     "degPerYear": 7.740011724293823
+    },
+    {
+     "f": 1.493764672699516,
+     "periodSec": 8834.496855853946,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08814088851047848,
+     "degPerYear": 7.94147494761932
+    },
+    {
+     "f": 1.4937646717142197,
+     "periodSec": 8834.539046708554,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08814393509945406,
+     "degPerYear": 7.740011724293823
+    },
+    {
+     "f": 1.493764671815186,
+     "periodSec": 8834.539046708554,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08814393509945406,
+     "degPerYear": 7.740011724293823
+    },
+    {
+     "f": 1.4937646719795803,
+     "periodSec": 8834.496855853946,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08814088851047848,
+     "degPerYear": 7.94147494761932
+    },
+    {
+     "f": 1.493764671832032,
+     "periodSec": 8834.539046708554,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08814393509945406,
+     "degPerYear": 7.740011724293823
+    },
+    {
+     "f": 1.4937646718471518,
+     "periodSec": 8834.539046708554,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08814393509945406,
+     "degPerYear": 7.740011724293823
+    },
+    {
+     "f": 1.4937646718717699,
+     "periodSec": 8834.539046708554,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08814393509945406,
+     "degPerYear": 7.740011724293823
+    },
+    {
+     "f": 1.4937646719055697,
+     "periodSec": 8834.539046708554,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08814393509945406,
+     "degPerYear": 7.740011724293823
+    },
+    {
+     "f": 1.4937646719409,
+     "periodSec": 8834.496855853946,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08814088851047848,
+     "degPerYear": 7.94147494761932
+    }
+   ],
+   "spentSec": 187.1
+  },
+  {
+   "family": "B",
+   "kFrame": 0.6,
+   "div": 1,
+   "dt": 0.016,
+   "fRoot": 1.5925242363535765,
+   "reason": "区間が 10⁻¹² まで潰れた(|ΔP| は抽出器の段差で残る)",
+   "deltaPSec": 0.03394025712259463,
+   "nSigma": 135457.6034586312,
+   "run": {
+    "ok": true,
+    "steps": 1076936,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4568663535124,
+    "slopeRadPerSimTime": 6.302824675083516e-8,
+    "seRadPerSimTime": 1.7350381744261212e-9,
+    "r0": 955.9782718763176,
+    "rMin": 800.552974939181,
+    "rMax": 955.4229570093449,
+    "rMinAll": 800.552974939181,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08819595943909767,
+    "mHeld": [
+     4237.6796875,
+     3954.826904296875
+    ],
+    "chiDecl": [
+     0.9999250874829514,
+     0.9999300873246955
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.6,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"reservoir\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.5925242363535765,
+    "periodSec": 8834.568663535123,
+    "degPerYear": 11.396246280702442,
+    "seDegPerYear": 0.3137152524700116
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 31747.161000934993,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.4604533466776269,
+     "degPerYear": -7.347054431332251
+    },
+    {
+     "f": 2.1,
+     "periodSec": 5774.130263292151,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.31132607738461665,
+     "degPerYear": 43.41768225097097
+    },
+    {
+     "f": 1.970386904786378,
+     "periodSec": 6304.194460863968,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.26519768807324723,
+     "degPerYear": 33.38635115662623
+    },
+    {
+     "f": 1.873880506783095,
+     "periodSec": 6781.029838866676,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.22672318854564724,
+     "degPerYear": 26.364546706634457
+    },
+    {
+     "f": 1.7410498582884988,
+     "periodSec": 7596.737049821242,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.16686246614068773,
+     "degPerYear": 18.933774843093058
+    },
+    {
+     "f": 1.6093708723916702,
+     "periodSec": 8671.207284200163,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.09784862181866813,
+     "degPerYear": 13.656077970435636
+    },
+    {
+     "f": 1.576495535183175,
+     "periodSec": 8996.71246254255,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0788275604880769,
+     "degPerYear": 11.070635561535951
+    },
+    {
+     "f": 1.5928751451579979,
+     "periodSec": 8831.026382137945,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08841068445209403,
+     "degPerYear": 10.782204968176762
+    },
+    {
+     "f": 1.5925283130077508,
+     "periodSec": 8834.429023851004,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819758169094856,
+     "degPerYear": 11.813293541478739
+    },
+    {
+     "f": 1.5925074414710352,
+     "periodSec": 8834.63332859434,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0881769013556917,
+     "degPerYear": 13.721007438552022
+    },
+    {
+     "f": 1.5925175148763155,
+     "periodSec": 8834.621860457744,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819554647419155,
+     "degPerYear": 11.432921061292529
+    },
+    {
+     "f": 1.5925242363535765,
+     "periodSec": 8834.568663535123,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819595943909767,
+     "degPerYear": 11.396246280702442
+    },
+    {
+     "f": 1.5925265284504848,
+     "periodSec": 8834.573303512827,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08820249652467417,
+     "degPerYear": 11.863589135175202
+    },
+    {
+     "f": 1.5925278577630577,
+     "periodSec": 8834.568920308782,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819899211111511,
+     "degPerYear": 11.367425544003854
+    },
+    {
+     "f": 1.5925282393017512,
+     "periodSec": 8834.596426927017,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819516768225721,
+     "degPerYear": 12.561233493594695
+    },
+    {
+     "f": 1.59252830926262,
+     "periodSec": 8834.429023851004,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819758169094856,
+     "degPerYear": 11.813293541478739
+    },
+    {
+     "f": 1.5925282650888573,
+     "periodSec": 8834.596426927017,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819516768225721,
+     "degPerYear": 12.561233493594695
+    },
+    {
+     "f": 1.5925282813710093,
+     "periodSec": 8834.596426927017,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819516768225721,
+     "degPerYear": 12.561233493594695
+    },
+    {
+     "f": 1.5925282963946987,
+     "periodSec": 8834.429023851004,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819758169094856,
+     "degPerYear": 11.813293541478739
+    },
+    {
+     "f": 1.5925282869086403,
+     "periodSec": 8834.429023851004,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819758169094856,
+     "degPerYear": 11.813293541478739
+    },
+    {
+     "f": 1.5925282826221587,
+     "periodSec": 8834.596426927017,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819516768225721,
+     "degPerYear": 12.561233493594695
+    },
+    {
+     "f": 1.592528284202127,
+     "periodSec": 8834.596426927017,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819516768225721,
+     "degPerYear": 12.561233493594695
+    },
+    {
+     "f": 1.5925282856599783,
+     "periodSec": 8834.596426927017,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819516768225721,
+     "degPerYear": 12.561233493594695
+    },
+    {
+     "f": 1.5925282865342358,
+     "periodSec": 8834.429023851004,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819758169094856,
+     "degPerYear": 11.813293541478739
+    },
+    {
+     "f": 1.5925282859822238,
+     "periodSec": 8834.596426927017,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819516768225721,
+     "degPerYear": 12.561233493594695
+    },
+    {
+     "f": 1.5925282861856918,
+     "periodSec": 8834.596426927017,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819516768225721,
+     "degPerYear": 12.561233493594695
+    },
+    {
+     "f": 1.5925282863734334,
+     "periodSec": 8834.596426927017,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819516768225721,
+     "degPerYear": 12.561233493594695
+    },
+    {
+     "f": 1.5925282864860202,
+     "periodSec": 8834.596426927017,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819516768225721,
+     "degPerYear": 12.561233493594695
+    },
+    {
+     "f": 1.5925282865257324,
+     "periodSec": 8834.429023851004,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819758169094856,
+     "degPerYear": 11.813293541478739
+    },
+    {
+     "f": 1.5925282865006578,
+     "periodSec": 8834.429023851004,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819758169094856,
+     "degPerYear": 11.813293541478739
+    },
+    {
+     "f": 1.5925282864893273,
+     "periodSec": 8834.596426927017,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819516768225721,
+     "degPerYear": 12.561233493594695
+    },
+    {
+     "f": 1.5925282864935038,
+     "periodSec": 8834.596426927017,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819516768225721,
+     "degPerYear": 12.561233493594695
+    },
+    {
+     "f": 1.5925282864973573,
+     "periodSec": 8834.596426927017,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819516768225721,
+     "degPerYear": 12.561233493594695
+    },
+    {
+     "f": 1.5925282864996682,
+     "periodSec": 8834.429023851004,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819758169094856,
+     "degPerYear": 11.813293541478739
+    },
+    {
+     "f": 1.592528286498209,
+     "periodSec": 8834.429023851004,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819758169094856,
+     "degPerYear": 11.813293541478739
+    }
+   ],
+   "spentSec": 251.7
+  },
+  {
+   "family": "B",
+   "kFrame": 0.7,
+   "div": 1,
+   "dt": 0.016,
+   "fRoot": 1.6912977814084849,
+   "reason": "反復上限(34)— |ΔP| 最小の点を採った",
+   "deltaPSec": 0.0210506829625956,
+   "nSigma": 84014.53928238986,
+   "run": {
+    "ok": true,
+    "steps": 1076958,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4555773960963,
+    "slopeRadPerSimTime": 1.006603351250884e-7,
+    "seRadPerSimTime": 1.4922544022012288e-9,
+    "r0": 955.9782718763176,
+    "rMin": 800.4310461596269,
+    "rMax": 955.3735487897466,
+    "rMinAll": 800.4310461596269,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.0882458692019696,
+    "mHeld": [
+     4500.5146484375,
+     4200.1181640625
+    ],
+    "chiDecl": [
+     0.9999294621430633,
+     0.9999341700286815
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.7,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"reservoir\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.6912977814084849,
+    "periodSec": 8834.555773960963,
+    "degPerYear": 18.20056925141028,
+    "seDegPerYear": 0.2698170988029627
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 43128.96134063066,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.5513404673262913,
+     "degPerYear": -6.112256389567476
+    },
+    {
+     "f": 2.1,
+     "periodSec": 6268.217507506887,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.26809729712869274,
+     "degPerYear": 43.24344677609145
+    },
+    {
+     "f": 2.0234158445057893,
+     "periodSec": 6613.1808719540695,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.2398770034885022,
+     "degPerYear": 36.998321011844354
+    },
+    {
+     "f": 1.961158686134247,
+     "periodSec": 6928.114581618316,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.21534281481905806,
+     "degPerYear": 33.22002397805108
+    },
+    {
+     "f": 1.8649895075178098,
+     "periodSec": 7490.973300532063,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.17423349732238333,
+     "degPerYear": 26.98088828542312
+    },
+    {
+     "f": 1.7478021689199705,
+     "periodSec": 8340.049619762101,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.11806145063675727,
+     "degPerYear": 20.286483896618005
+    },
+    {
+     "f": 1.6704638032747023,
+     "periodSec": 9034.297571845724,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.07673217756455519,
+     "degPerYear": 16.19998981917318
+    },
+    {
+     "f": 1.6927171382373816,
+     "periodSec": 8821.35310934885,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08901210265604421,
+     "degPerYear": 17.229667083164156
+    },
+    {
+     "f": 1.6913396200494248,
+     "periodSec": 8834.079996400915,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08826562336365339,
+     "degPerYear": 15.607142734937495
+    },
+    {
+     "f": 1.6912450101320746,
+     "periodSec": 8834.946452382437,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08821625620310147,
+     "degPerYear": 18.34482446705035
+    },
+    {
+     "f": 1.6912899675879318,
+     "periodSec": 8834.65304289877,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08824295199679535,
+     "degPerYear": 16.538570750342988
+    },
+    {
+     "f": 1.6913069625208794,
+     "periodSec": 8834.227192910808,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08825758685134166,
+     "degPerYear": 15.382995304496571
+    },
+    {
+     "f": 1.6912946895183727,
+     "periodSec": 8834.638289170747,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08824133823727826,
+     "degPerYear": 17.909948653953073
+    },
+    {
+     "f": 1.6912977814084849,
+     "periodSec": 8834.555773960963,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0882458692019696,
+     "degPerYear": 18.20056925141028
+    },
+    {
+     "f": 1.6912988869642338,
+     "periodSec": 8834.637771568887,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08822519832441708,
+     "degPerYear": 14.817000320820334
+    },
+    {
+     "f": 1.6913035119196493,
+     "periodSec": 8834.590999149383,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08823830828185415,
+     "degPerYear": 18.97480262389528
+    },
+    {
+     "f": 1.6913055620822184,
+     "periodSec": 8834.36367773994,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08825079695749888,
+     "degPerYear": 17.686763919340194
+    },
+    {
+     "f": 1.6913040194595477,
+     "periodSec": 8834.627922941007,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08823538228475777,
+     "degPerYear": 17.187775247869453
+    },
+    {
+     "f": 1.6913045635447854,
+     "periodSec": 8834.46569793966,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08824459988010376,
+     "degPerYear": 17.65302240380352
+    },
+    {
+     "f": 1.6913043320412113,
+     "periodSec": 8834.385488090285,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08825336436635509,
+     "degPerYear": 18.578874038758883
+    },
+    {
+     "f": 1.691304093839773,
+     "periodSec": 8834.627922941007,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08823538228475777,
+     "degPerYear": 17.187775247869453
+    },
+    {
+     "f": 1.6913041854119777,
+     "periodSec": 8834.5606093705,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08825699180419228,
+     "degPerYear": 18.376245309933648
+    },
+    {
+     "f": 1.6913042231783328,
+     "periodSec": 8834.385488090285,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08825336436635509,
+     "degPerYear": 18.578874038758883
+    },
+    {
+     "f": 1.6913041909945281,
+     "periodSec": 8834.5606093705,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08825699180419228,
+     "degPerYear": 18.376245309933648
+    },
+    {
+     "f": 1.6913041957518766,
+     "periodSec": 8834.5606093705,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08825699180419228,
+     "degPerYear": 18.376245309933648
+    },
+    {
+     "f": 1.6913042028159337,
+     "periodSec": 8834.385488090285,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08825336436635509,
+     "degPerYear": 18.578874038758883
+    },
+    {
+     "f": 1.691304196796072,
+     "periodSec": 8834.5606093705,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08825699180419228,
+     "degPerYear": 18.376245309933648
+    },
+    {
+     "f": 1.6913041976859164,
+     "periodSec": 8834.5606093705,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08825699180419228,
+     "degPerYear": 18.376245309933648
+    },
+    {
+     "f": 1.6913041990072222,
+     "periodSec": 8834.5606093705,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08825699180419228,
+     "degPerYear": 18.376245309933648
+    },
+    {
+     "f": 1.6913042005673589,
+     "periodSec": 8834.5606093705,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08825699180419228,
+     "degPerYear": 18.376245309933648
+    },
+    {
+     "f": 1.6913042018741882,
+     "periodSec": 8834.5606093705,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08825699180419228,
+     "degPerYear": 18.376245309933648
+    },
+    {
+     "f": 1.6913042025664868,
+     "periodSec": 8834.385488090285,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08825336436635509,
+     "degPerYear": 18.578874038758883
+    },
+    {
+     "f": 1.6913042019765225,
+     "periodSec": 8834.385488090285,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08825336436635509,
+     "degPerYear": 18.578874038758883
+    },
+    {
+     "f": 1.6913042018823552,
+     "periodSec": 8834.5606093705,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08825699180419228,
+     "degPerYear": 18.376245309933648
+    },
+    {
+     "f": 1.6913042018962747,
+     "periodSec": 8834.5606093705,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08825699180419228,
+     "degPerYear": 18.376245309933648
+    },
+    {
+     "f": 1.6913042019169438,
+     "periodSec": 8834.5606093705,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08825699180419228,
+     "degPerYear": 18.376245309933648
+    }
+   ],
+   "spentSec": 319.5
+  },
+  {
+   "family": "B",
+   "kFrame": 0.75,
+   "div": 1,
+   "dt": 0.016,
+   "fRoot": 1.7406699238449432,
+   "reason": null,
+   "deltaPSec": -0.0005266950192890363,
+   "nSigma": 2102.0714371369586,
+   "run": {
+    "ok": true,
+    "steps": 1076966,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4534196582981,
+    "slopeRadPerSimTime": 1.0554948943720144e-7,
+    "seRadPerSimTime": 1.4060082649081511e-9,
+    "r0": 955.9782718763176,
+    "rMin": 800.3867641875311,
+    "rMax": 955.3482836461766,
+    "rMinAll": 800.3867641875311,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08826019600727508,
+    "mHeld": [
+     4631.89306640625,
+     4322.7275390625
+    ],
+    "chiDecl": [
+     0.9999314627328271,
+     0.9999360371022639
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.75,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"reservoir\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.7406699238449432,
+    "periodSec": 8834.534196582981,
+    "degPerYear": 19.084585696694955,
+    "seDegPerYear": 0.2542227855859579
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 51329.834375239836,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.5968644201546579,
+     "degPerYear": -5.368995288927548
+    },
+    {
+     "f": 2.1,
+     "periodSec": 6531.034768461064,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.24643332648070568,
+     "degPerYear": 42.522989186948095
+    },
+    {
+     "f": 2.0434393338093995,
+     "periodSec": 6799.52372346632,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.2251879912734382,
+     "degPerYear": 37.97792632304866
+    },
+    {
+     "f": 1.9957547232405817,
+     "periodSec": 7047.003595941125,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.2063633996549096,
+     "degPerYear": 35.30590100998338
+    },
+    {
+     "f": 1.9184841097996705,
+     "periodSec": 7495.883647411084,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.1738753324644938,
+     "degPerYear": 29.15108242303077
+    },
+    {
+     "f": 1.8157018979151693,
+     "periodSec": 8207.535405289142,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.1264110302321441,
+     "degPerYear": 23.68764632519815
+    },
+    {
+     "f": 1.7295843475800394,
+     "periodSec": 8936.588041661578,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08234671977327136,
+     "degPerYear": 17.950996845737112
+    },
+    {
+     "f": 1.7416391449215514,
+     "periodSec": 8825.849300640692,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08877790833025588,
+     "degPerYear": 20.076534466879014
+    },
+    {
+     "f": 1.7406936672255535,
+     "periodSec": 8834.34731778207,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0882765981019173,
+     "degPerYear": 19.669672839955243
+    },
+    {
+     "f": 1.7406530153544257,
+     "periodSec": 8834.709518132227,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08825224901730974,
+     "degPerYear": 18.8865213498347
+    },
+    {
+     "f": 1.7406726336068232,
+     "periodSec": 8834.432794466316,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08826151680943267,
+     "degPerYear": 18.569799171887123
+    },
+    {
+     "f": 1.7406654073902017,
+     "periodSec": 8834.823635521476,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08824598212483041,
+     "degPerYear": 21.785824599265407
+    },
+    {
+     "f": 1.7406707490564068,
+     "periodSec": 8834.481935481168,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08825631803405201,
+     "degPerYear": 22.716569438560732
+    },
+    {
+     "f": 1.7406699238449432,
+     "periodSec": 8834.534196582981,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08826019600727508,
+     "degPerYear": 19.084585696694955
+    }
+   ],
+   "spentSec": 350.5
+  },
+  {
+   "family": "B",
+   "kFrame": 1,
+   "div": 1,
+   "dt": 0.016,
+   "fRoot": 1.9875955930561753,
+   "reason": "区間が 10⁻¹² まで潰れた(|ΔP| は抽出器の段差で残る)",
+   "deltaPSec": -0.016863964523508912,
+   "nSigma": 67305.09468194809,
+   "run": {
+    "ok": true,
+    "steps": 1077009,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4517859313478,
+    "slopeRadPerSimTime": 1.821645906369676e-7,
+    "seRadPerSimTime": 2.294031327976657e-9,
+    "r0": 955.9782718763176,
+    "rMin": 800.1363009411546,
+    "rMax": 955.24922874335,
+    "rMinAll": 800.1363009411546,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08836402327531659,
+    "mHeld": [
+     5288.9580078125,
+     4935.935546875
+    ],
+    "chiDecl": [
+     0.9999399768364068,
+     0.9999439829825254
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":1,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"reservoir\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.9875955930561753,
+    "periodSec": 8834.517859313477,
+    "degPerYear": 32.937494624102285,
+    "seDegPerYear": 0.41478777114996385
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": null,
+     "stopped": "escape",
+     "nPeri": 1,
+     "eProxy": 0.6000008211040582,
+     "degPerYear": null
+    },
+    {
+     "f": 2.1,
+     "periodSec": 8029.586927012184,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.137884459313911,
+     "degPerYear": 41.01065698067049
+    },
+    {
+     "f": 1.55,
+     "periodSec": 15146.78632945401,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.18039323178962594,
+     "degPerYear": 11.849953644610295
+    },
+    {
+     "f": 2.0377955761933118,
+     "periodSec": 8453.46674974896,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.11114515214052254,
+     "degPerYear": 38.06074699666953
+    },
+    {
+     "f": 2.010024113990904,
+     "periodSec": 8659.653118226262,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.09866494573484746,
+     "degPerYear": 37.290417471200286
+    },
+    {
+     "f": 1.9858723347962244,
+     "periodSec": 8848.464083338837,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08755235599769881,
+     "degPerYear": 34.67480289906699
+    },
+    {
+     "f": 1.9876541107026815,
+     "periodSec": 8834.165242808456,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08839710990759692,
+     "degPerYear": 34.7537014374784
+    },
+    {
+     "f": 1.9876080698088663,
+     "periodSec": 8834.430096115233,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08836616097033523,
+     "degPerYear": 36.4457646220571
+    },
+    {
+     "f": 1.9875823805829314,
+     "periodSec": 8834.645520023185,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08835962137872563,
+     "degPerYear": 35.265869882347246
+    },
+    {
+     "f": 1.9875955930561753,
+     "periodSec": 8834.517859313477,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08836402327531659,
+     "degPerYear": 32.937494624102285
+    },
+    {
+     "f": 1.9875938476900359,
+     "periodSec": 8834.70579355928,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08834179159335523,
+     "degPerYear": 29.74189460085558
+    },
+    {
+     "f": 1.9875954364386703,
+     "periodSec": 8834.653564137645,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08835633185184591,
+     "degPerYear": 35.04857758197307
+    },
+    {
+     "f": 1.987595582680073,
+     "periodSec": 8834.517859313477,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08836402327531659,
+     "degPerYear": 32.937494624102285
+    },
+    {
+     "f": 1.9875955645067336,
+     "periodSec": 8834.653564137645,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08835633185184591,
+     "degPerYear": 35.04857758197307
+    },
+    {
+     "f": 1.987595580421682,
+     "periodSec": 8834.517859313477,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08836402327531659,
+     "degPerYear": 32.937494624102285
+    },
+    {
+     "f": 1.98759557844394,
+     "periodSec": 8834.517859313477,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08836402327531659,
+     "degPerYear": 32.937494624102285
+    },
+    {
+     "f": 1.9875955753628833,
+     "periodSec": 8834.629342725239,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08834261591396621,
+     "degPerYear": 36.23441183091943
+    },
+    {
+     "f": 1.9875955779778722,
+     "periodSec": 8834.517859313477,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08836402327531659,
+     "degPerYear": 32.937494624102285
+    },
+    {
+     "f": 1.987595577582306,
+     "periodSec": 8834.517859313477,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08836402327531659,
+     "degPerYear": 32.937494624102285
+    },
+    {
+     "f": 1.987595576999072,
+     "periodSec": 8834.517859313477,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08836402327531659,
+     "degPerYear": 32.937494624102285
+    },
+    {
+     "f": 1.9875955763180893,
+     "periodSec": 8834.629342725239,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08834261591396621,
+     "degPerYear": 36.23441183091943
+    },
+    {
+     "f": 1.9875955768960607,
+     "periodSec": 8834.517859313477,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08836402327531659,
+     "degPerYear": 32.937494624102285
+    },
+    {
+     "f": 1.9875955768086317,
+     "periodSec": 8834.517859313477,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08836402327531659,
+     "degPerYear": 32.937494624102285
+    },
+    {
+     "f": 1.987595576679724,
+     "periodSec": 8834.517859313477,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08836402327531659,
+     "degPerYear": 32.937494624102285
+    },
+    {
+     "f": 1.9875955765292113,
+     "periodSec": 8834.517859313477,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08836402327531659,
+     "degPerYear": 32.937494624102285
+    },
+    {
+     "f": 1.9875955764051199,
+     "periodSec": 8834.629342725239,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08834261591396621,
+     "degPerYear": 36.23441183091943
+    },
+    {
+     "f": 1.98759557651044,
+     "periodSec": 8834.517859313477,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08836402327531659,
+     "degPerYear": 32.937494624102285
+    },
+    {
+     "f": 1.9875955764945084,
+     "periodSec": 8834.629342725239,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08834261591396621,
+     "degPerYear": 36.23441183091943
+    },
+    {
+     "f": 1.98759557650803,
+     "periodSec": 8834.517859313477,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08836402327531659,
+     "degPerYear": 32.937494624102285
+    },
+    {
+     "f": 1.9875955765059845,
+     "periodSec": 8834.517859313477,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08836402327531659,
+     "degPerYear": 32.937494624102285
+    },
+    {
+     "f": 1.9875955765029687,
+     "periodSec": 8834.517859313477,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08836402327531659,
+     "degPerYear": 32.937494624102285
+    },
+    {
+     "f": 1.9875955764994475,
+     "periodSec": 8834.629342725239,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08834261591396621,
+     "degPerYear": 36.23441183091943
+    },
+    {
+     "f": 1.987595576502436,
+     "periodSec": 8834.517859313477,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08836402327531659,
+     "degPerYear": 32.937494624102285
+    },
+    {
+     "f": 1.987595576501984,
+     "periodSec": 8834.629342725239,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08834261591396621,
+     "degPerYear": 36.23441183091943
+    }
+   ],
+   "spentSec": 409.5
+  },
+  {
+   "family": "A",
+   "kFrame": 0,
+   "div": 1,
+   "dt": 0.016,
+   "fRoot": 1.0000153258367184,
+   "reason": null,
+   "deltaPSec": -0.00007183030174928717,
+   "nSigma": 286.67904593425595,
+   "run": {
+    "ok": true,
+    "steps": 1076697,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4534651447699,
+    "slopeRadPerSimTime": 1.5589053761601173e-8,
+    "seRadPerSimTime": 1.5443224683560302e-16,
+    "r0": 955.9782718763176,
+    "rMin": 801.6925753899792,
+    "rMax": 955.9784246430577,
+    "rMinAll": 801.6925753899792,
+    "rMaxAll": 955.9784246430577,
+    "eProxy": 0.08777857133114136,
+    "mHeld": [
+     2661.023681640625,
+     2483.408203125
+    ],
+    "chiDecl": [
+     0.9998807071242305,
+     0.9998886686881701
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"framePrecision\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"core\",\"cmGauge\":\"barycentric\",\"D0pull\":3.24204e-7}",
+    "warn": 2,
+    "f": 1.0000153258367184,
+    "periodSec": 8834.534651447699,
+    "degPerYear": 2.8186837665441447,
+    "seDegPerYear": 2.7923161587823196e-8
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 8834.772714551871,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08776458809789227,
+     "degPerYear": 2.818521583518826
+    },
+    {
+     "f": 2.1,
+     "periodSec": 3530.8431520284885,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.5656023132406104,
+     "degPerYear": 30.91720284840698
+    },
+    {
+     "f": 1.0000493578201164,
+     "periodSec": 8834.006248700718,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08780960988719261,
+     "degPerYear": 2.8190439567839136
+    },
+    {
+     "f": 1.0000153258367184,
+     "periodSec": 8834.534651447699,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08777857133114136,
+     "degPerYear": 2.8186837665441447
+    }
+   ],
+   "spentSec": 414.1
+  },
+  {
+   "family": "A",
+   "kFrame": 0.1,
+   "div": 1,
+   "dt": 0.016,
+   "fRoot": 1.0987516577894327,
+   "reason": null,
+   "deltaPSec": 0.0004245992586220382,
+   "nSigma": 1694.601127961519,
+   "run": {
+    "ok": true,
+    "steps": 1076754,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4535147877259,
+    "slopeRadPerSimTime": -2.814009674275192e-10,
+    "seRadPerSimTime": 6.085186665197327e-12,
+    "r0": 955.9782718763176,
+    "rMin": 801.4318266676411,
+    "rMax": 955.8439286958525,
+    "rMinAll": 801.4318266676411,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08787016013674596,
+    "mHeld": [
+     2923.75927734375,
+     2728.60693359375
+    ],
+    "chiDecl": [
+     0.9998914258904353,
+     0.9998986721602403
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.1,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"framePrecision\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"core\",\"cmGauge\":\"barycentric\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.0987516577894327,
+    "periodSec": 8834.535147877259,
+    "degPerYear": -0.05088059550679857,
+    "seDegPerYear": 0.0011002731231726072
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 10550.10275410992,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.004441128970435316,
+     "degPerYear": -2.2744233495849717
+    },
+    {
+     "f": 2.1,
+     "periodSec": 3819.6290997228466,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.5243873561350895,
+     "degPerYear": 36.45256068676699
+    },
+    {
+     "f": 1.280385145358238,
+     "periodSec": 6905.861171547921,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.21762884684108472,
+     "degPerYear": 4.023599845823834
+    },
+    {
+     "f": 1.1319944852170267,
+     "periodSec": 8390.165666697581,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.11472709742124994,
+     "degPerYear": 0.6329386657451835
+    },
+    {
+     "f": 1.086950422325263,
+     "periodSec": 9005.74521231036,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.07794137918047679,
+     "degPerYear": -0.28805517662602387
+    },
+    {
+     "f": 1.0994784799754345,
+     "periodSec": 8824.234969643454,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08847470051687042,
+     "degPerYear": -0.036183693880296165
+    },
+    {
+     "f": 1.0987675784559374,
+     "periodSec": 8834.308871852278,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08788343017538279,
+     "degPerYear": -0.05055836648517561
+    },
+    {
+     "f": 1.0987364834136242,
+     "periodSec": 8834.749987784031,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08785755885477951,
+     "degPerYear": -0.05118660862568714
+    },
+    {
+     "f": 1.0987516577894327,
+     "periodSec": 8834.535147877259,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787016013674596,
+     "degPerYear": -0.05088059550679857
+    }
+   ],
+   "spentSec": 432.6
+  },
+  {
+   "family": "A",
+   "kFrame": 0.25,
+   "div": 1,
+   "dt": 0.016,
+   "fRoot": 1.2468718336886224,
+   "reason": null,
+   "deltaPSec": 0.000006848609700682573,
+   "nSigma": 27.33321240693875,
+   "run": {
+    "ok": true,
+    "steps": 1076822,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.453473012661,
+    "slopeRadPerSimTime": 1.9048304005577857e-9,
+    "seRadPerSimTime": 2.2708324884795953e-11,
+    "r0": 955.9782718763176,
+    "rMin": 801.1060772150634,
+    "rMax": 955.6837913773795,
+    "rMinAll": 801.1060772150634,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08798873270265689,
+    "mHeld": [
+     3317.904541015625,
+     3096.444091796875
+    ],
+    "chiDecl": [
+     0.9999043225467603,
+     0.9999107081665796
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.25,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"framePrecision\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"core\",\"cmGauge\":\"barycentric\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.2468718336886224,
+    "periodSec": 8834.53473012661,
+    "degPerYear": 0.3444156784741592,
+    "seDegPerYear": 0.004105931488660828
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 14017.63858003833,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.14174558798411882,
+     "degPerYear": -6.203341211984349
+    },
+    {
+     "f": 2.1,
+     "periodSec": 4322.272872789924,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.46135529151253424,
+     "degPerYear": 41.25726192162604
+    },
+    {
+     "f": 1.5880556148773115,
+     "periodSec": 6077.938635529579,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.28521622638262567,
+     "degPerYear": 12.67298995408831
+    },
+    {
+     "f": 1.3838877220502752,
+     "periodSec": 7427.371723260992,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.1788352053160246,
+     "degPerYear": 4.761483425580973
+    },
+    {
+     "f": 1.2487961718140375,
+     "periodSec": 8810.432386760753,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08940219664755382,
+     "degPerYear": 0.4021431714183243
+    },
+    {
+     "f": 1.2442528975939435,
+     "periodSec": 8867.58106970074,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08605807364661801,
+     "degPerYear": 0.26603063051685644
+    },
+    {
+     "f": 1.2468800554923747,
+     "periodSec": 8834.43097864079,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879948099461193,
+     "degPerYear": 0.3446631782562913
+    },
+    {
+     "f": 1.2468718336886224,
+     "periodSec": 8834.53473012661,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798873270265689,
+     "degPerYear": 0.3444156784741592
+    }
+   ],
+   "spentSec": 449.4
+  },
+  {
+   "family": "A",
+   "kFrame": 0.5,
+   "div": 1,
+   "dt": 0.016,
+   "fRoot": 1.4937669964624924,
+   "reason": null,
+   "deltaPSec": 0.00003983355236414354,
+   "nSigma": 158.97809851589858,
+   "run": {
+    "ok": true,
+    "steps": 1076906,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4534763111553,
+    "slopeRadPerSimTime": 4.303497968567209e-8,
+    "seRadPerSimTime": 6.561369858218845e-11,
+    "r0": 955.9782718763176,
+    "rMin": 800.6885641114399,
+    "rMax": 955.4896653479743,
+    "rMinAll": 800.6885641114399,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08814657797243351,
+    "mHeld": [
+     3974.888427734375,
+     3709.576171875
+    ],
+    "chiDecl": [
+     0.9999201351961607,
+     0.9999254655408105
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.5,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"framePrecision\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"core\",\"cmGauge\":\"barycentric\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.4937669964624924,
+    "periodSec": 8834.534763111553,
+    "degPerYear": 7.781229091168513,
+    "seDegPerYear": 0.01186372629697951
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 24346.296463129875,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.36950521833190336,
+     "degPerYear": -8.034461249827515
+    },
+    {
+     "f": 2.1,
+     "periodSec": 5317.771650235798,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.354457852598948,
+     "degPerYear": 43.56509068189492
+    },
+    {
+     "f": 1.8967031381368515,
+     "periodSec": 6085.069610237356,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.2839954684857464,
+     "degPerYear": 29.05710708471673
+    },
+    {
+     "f": 1.7616928228430124,
+     "periodSec": 6762.064971629144,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.22829121400190586,
+     "degPerYear": 20.890877353452872
+    },
+    {
+     "f": 1.6010773344288194,
+     "periodSec": 7846.721046613028,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.1498755941885759,
+     "degPerYear": 12.565819203854021
+    },
+    {
+     "f": 1.4790505328148222,
+     "periodSec": 8992.939230026854,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.07898644231146287,
+     "degPerYear": 7.17177250165673
+    },
+    {
+     "f": 1.4959143337905103,
+     "periodSec": 8811.950166331237,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08946816950191551,
+     "degPerYear": 7.871105671841827
+    },
+    {
+     "f": 1.4938099996075629,
+     "periodSec": 8834.081247583972,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08817307500706535,
+     "degPerYear": 7.783026810311673
+    },
+    {
+     "f": 1.493725974773121,
+     "periodSec": 8834.967304174757,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08812130224890431,
+     "degPerYear": 7.7795152872993
+    },
+    {
+     "f": 1.4937669964624924,
+     "periodSec": 8834.534763111553,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08814657797243351,
+     "degPerYear": 7.781229091168513
+    }
+   ],
+   "spentSec": 472.9
+  },
+  {
+   "family": "A",
+   "kFrame": 0.6,
+   "div": 1,
+   "dt": 0.016,
+   "fRoot": 1.592532074624467,
+   "reason": null,
+   "deltaPSec": 0.00006038587343937252,
+   "nSigma": 241.00364559136543,
+   "run": {
+    "ok": true,
+    "steps": 1076932,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4534783663873,
+    "slopeRadPerSimTime": 6.702826048828616e-8,
+    "seRadPerSimTime": 8.783076964582189e-11,
+    "r0": 955.9782718763176,
+    "rMin": 800.5534389043125,
+    "rMax": 955.4293547649901,
+    "rMinAll": 800.5534389043125,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08819899398732076,
+    "mHeld": [
+     4237.70068359375,
+     3954.846435546875
+    ],
+    "chiDecl": [
+     0.999925087851635,
+     0.999930087668774
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.6,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"framePrecision\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"core\",\"cmGauge\":\"barycentric\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.592532074624467,
+    "periodSec": 8834.534783663874,
+    "degPerYear": 12.119495681219531,
+    "seDegPerYear": 0.015880833332781348
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 31746.748547296884,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.46045760172687095,
+     "degPerYear": -7.395616934883685
+    },
+    {
+     "f": 2.1,
+     "periodSec": 5774.02538998453,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.3113347525575366,
+     "degPerYear": 43.47479534960435
+    },
+    {
+     "f": 1.9703809282441378,
+     "periodSec": 6304.266086358297,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.26519092249114906,
+     "degPerYear": 33.86343945074551
+    },
+    {
+     "f": 1.8738760202670648,
+     "periodSec": 6781.061395097313,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.2267265820232676,
+     "degPerYear": 27.455454613259526
+    },
+    {
+     "f": 1.7410457570130935,
+     "periodSec": 7596.768380701218,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.1668660368021369,
+     "degPerYear": 19.617363379930705
+    },
+    {
+     "f": 1.6093682914939706,
+     "periodSec": 8671.16678072785,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.09784219154523245,
+     "degPerYear": 12.904307553727556
+    },
+    {
+     "f": 1.5764848207641693,
+     "periodSec": 8996.916429504294,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.07881703612371092,
+     "degPerYear": 11.387260781414785
+    },
+    {
+     "f": 1.5928767772982868,
+     "periodSec": 8831.120291727144,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08839842433553591,
+     "degPerYear": 12.135392146295626
+    },
+    {
+     "f": 1.5925391987857789,
+     "periodSec": 8834.46422536685,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08820311258249762,
+     "degPerYear": 12.119823771316563
+    },
+    {
+     "f": 1.5925252708840016,
+     "periodSec": 8834.602050429903,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819506524198822,
+     "degPerYear": 12.11918273826393
+    },
+    {
+     "f": 1.592532074624467,
+     "periodSec": 8834.534783663874,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819899398732076,
+     "degPerYear": 12.119495681219531
+    }
+   ],
+   "spentSec": 500.7
+  },
+  {
+   "family": "A",
+   "kFrame": 0.7,
+   "div": 1,
+   "dt": 0.016,
+   "fRoot": 1.6913002849894851,
+   "reason": null,
+   "deltaPSec": 0.00001872217580967117,
+   "nSigma": 74.72132746516272,
+   "run": {
+    "ok": true,
+    "steps": 1076955,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4534742000176,
+    "slopeRadPerSimTime": 9.386925300470751e-8,
+    "seRadPerSimTime": 1.1301051180312602e-10,
+    "r0": 955.9782718763176,
+    "rMin": 800.4322159809129,
+    "rMax": 955.376277304555,
+    "rMinAll": 800.4322159809129,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08824656100945882,
+    "mHeld": [
+     4500.52099609375,
+     4200.12451171875
+    ],
+    "chiDecl": [
+     0.999929462247471,
+     0.9999341701261212
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.7,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"framePrecision\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"core\",\"cmGauge\":\"barycentric\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.6913002849894851,
+    "periodSec": 8834.534742000176,
+    "degPerYear": 16.972661950382427,
+    "seDegPerYear": 0.02043362605195089
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 43128.18010156081,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.5513616745888874,
+     "degPerYear": -6.141374849787723
+    },
+    {
+     "f": 2.1,
+     "periodSec": 6268.209255503421,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.26808661998341254,
+     "degPerYear": 43.11268944860106
+    },
+    {
+     "f": 2.0234139922046634,
+     "periodSec": 6613.143110430597,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.2398759433878597,
+     "degPerYear": 37.338326145778126
+    },
+    {
+     "f": 1.9611546205571324,
+     "periodSec": 6928.292702213731,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.21533340974494317,
+     "degPerYear": 32.95382267617316
+    },
+    {
+     "f": 1.864991963561343,
+     "periodSec": 7490.839101443235,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.17423353200831143,
+     "degPerYear": 26.707901584635408
+    },
+    {
+     "f": 1.7477918649542679,
+     "periodSec": 8340.010266402127,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.11807545668624844,
+     "degPerYear": 19.924965618272868
+    },
+    {
+     "f": 1.6704474669891398,
+     "periodSec": 9034.466319965775,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.07672932511147997,
+     "degPerYear": 15.936021574300556
+    },
+    {
+     "f": 1.6927146628767273,
+     "periodSec": 8821.33637540213,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08901750644217116,
+     "degPerYear": 17.04403457129358
+    },
+    {
+     "f": 1.6913357379295726,
+     "periodSec": 8834.203815018533,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08826587611991422,
+     "degPerYear": 16.974446895338872
+    },
+    {
+     "f": 1.6912668213956776,
+     "periodSec": 8834.847063511423,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0882283335063465,
+     "degPerYear": 16.97097752804711
+    },
+    {
+     "f": 1.6913002849894851,
+     "periodSec": 8834.534742000176,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08824656100945882,
+     "degPerYear": 16.972661950382427
+    }
+   ],
+   "spentSec": 531.6
+  },
+  {
+   "family": "A",
+   "kFrame": 0.75,
+   "div": 1,
+   "dt": 0.016,
+   "fRoot": 1.7406853751060558,
+   "reason": null,
+   "deltaPSec": -0.00045417383989843074,
+   "nSigma": 1812.6350570658954,
+   "run": {
+    "ok": true,
+    "steps": 1076965,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.453426910416,
+    "slopeRadPerSimTime": 1.0818214488613118e-7,
+    "seRadPerSimTime": 1.2673443577187182e-10,
+    "r0": 955.9782718763176,
+    "rMin": 800.3761064323587,
+    "rMax": 955.3520559616121,
+    "rMinAll": 800.3761064323587,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08826876098970844,
+    "mHeld": [
+     4631.93408203125,
+     4322.76611328125
+    ],
+    "chiDecl": [
+     0.9999314633411591,
+     0.9999360376699966
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.75,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"framePrecision\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"core\",\"cmGauge\":\"barycentric\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.7406853751060558,
+    "periodSec": 8834.53426910416,
+    "degPerYear": 19.560600680688445,
+    "seDegPerYear": 0.022915072475548106
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 51334.6520727532,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.596794928788457,
+     "degPerYear": -5.307558456012582
+    },
+    {
+     "f": 2.1,
+     "periodSec": 6530.926823154167,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.24642666287965892,
+     "degPerYear": 42.86965867132941
+    },
+    {
+     "f": 2.0434429017672167,
+     "periodSec": 6799.546775851573,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.22519212241961986,
+     "degPerYear": 38.59809637360513
+    },
+    {
+     "f": 1.995763801992602,
+     "periodSec": 7046.9350280484505,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.20636428559261108,
+     "degPerYear": 35.178089711578686
+    },
+    {
+     "f": 1.9184978298882882,
+     "periodSec": 7495.761516395345,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.17388285348988022,
+     "degPerYear": 29.978158678414342
+    },
+    {
+     "f": 1.8157161030346343,
+     "periodSec": 8207.45298680023,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.12642530706777397,
+     "degPerYear": 23.697130719095483
+    },
+    {
+     "f": 1.729595660588533,
+     "periodSec": 8936.650454870713,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08235020284010641,
+     "degPerYear": 18.981782342917253
+    },
+    {
+     "f": 1.741655839580572,
+     "periodSec": 8825.724974838127,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08878305826601925,
+     "degPerYear": 19.61165568720407
+    },
+    {
+     "f": 1.7406980150750706,
+     "periodSec": 8834.41953318352,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08827545549926234,
+     "degPerYear": 19.561264464022322
+    },
+    {
+     "f": 1.7406730237736914,
+     "periodSec": 8834.647282979717,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08826216787405886,
+     "degPerYear": 19.559946898623522
+    },
+    {
+     "f": 1.7406853751060558,
+     "periodSec": 8834.53426910416,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08826876098970844,
+     "degPerYear": 19.560600680688445
+    }
+   ],
+   "spentSec": 564.2
+  },
+  {
+   "family": "A",
+   "kFrame": 1,
+   "div": 1,
+   "dt": 0.016,
+   "fRoot": 1.987620363688568,
+   "reason": null,
+   "deltaPSec": -0.0007745190341665875,
+   "nSigma": 3091.1519562842736,
+   "run": {
+    "ok": true,
+    "steps": 1077009,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 21,
+    "rejected": 1,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4533948758966,
+    "slopeRadPerSimTime": 1.8875565959074297e-7,
+    "seRadPerSimTime": 9.043801437460574e-10,
+    "r0": 955.9782718763176,
+    "rMin": 800.1321358768931,
+    "rMax": 955.2494096931579,
+    "rMinAll": 800.1321358768931,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08836669965439976,
+    "mHeld": [
+     5289.02392578125,
+     4935.9970703125
+    ],
+    "chiDecl": [
+     0.999939977584398,
+     0.9999439836805959
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":1,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"framePrecision\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"core\",\"cmGauge\":\"barycentric\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.987620363688568,
+    "periodSec": 8834.533948758966,
+    "degPerYear": 34.129237198622185,
+    "seDegPerYear": 0.16352253760526156
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": null,
+     "stopped": "escape",
+     "nPeri": 1,
+     "eProxy": 0.600001009792028,
+     "degPerYear": null
+    },
+    {
+     "f": 2.1,
+     "periodSec": 8029.59768608062,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.13788660448700119,
+     "degPerYear": 41.332751757541764
+    },
+    {
+     "f": 1.55,
+     "periodSec": 15147.529584851489,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.18038525886929754,
+     "degPerYear": 12.090274142980897
+    },
+    {
+     "f": 2.0378028089120934,
+     "periodSec": 8453.402386772326,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.11114894727092652,
+     "degPerYear": 37.34188868594431
+    },
+    {
+     "f": 2.010029595345425,
+     "periodSec": 8659.612010153673,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.09867969118868951,
+     "degPerYear": 35.151944044946084
+    },
+    {
+     "f": 1.985874844080447,
+     "periodSec": 8848.493286543204,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08755365935221854,
+     "degPerYear": 33.86755576301087
+    },
+    {
+     "f": 1.987659910499588,
+     "periodSec": 8834.213047395155,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08838507573337762,
+     "degPerYear": 33.84375881496881
+    },
+    {
+     "f": 1.987619700191458,
+     "periodSec": 8834.540120199097,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08836634734091577,
+     "degPerYear": 34.131427436107764
+    },
+    {
+     "f": 1.987620363688568,
+     "periodSec": 8834.533948758966,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08836669965439976,
+     "degPerYear": 34.129237198622185
+    }
+   ],
+   "spentSec": 583.2
+  },
+  {
+   "family": "B",
+   "kFrame": 0,
+   "div": 2,
+   "dt": 0.008,
+   "fRoot": 1.0000152959043622,
+   "reason": null,
+   "deltaPSec": 0.0002041873049165588,
+   "nSigma": 814.9237903757934,
+   "run": {
+    "ok": true,
+    "steps": 2153406,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4534927465306,
+    "slopeRadPerSimTime": 1.5606747347791577e-8,
+    "seRadPerSimTime": 7.655174836228603e-17,
+    "r0": 955.9782718763176,
+    "rMin": 801.6926477443187,
+    "rMax": 955.9783448408967,
+    "rMinAll": 801.6926477443187,
+    "rMaxAll": 955.9783448408967,
+    "eProxy": 0.08777848513597628,
+    "mHeld": [
+     2661.023681640625,
+     2483.407958984375
+    ],
+    "chiDecl": [
+     0.9998807071206604,
+     0.9998886686848381
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"reservoir\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.0000152959043622,
+    "periodSec": 8834.534927465305,
+    "degPerYear": 2.821882974458206,
+    "seDegPerYear": 1.3841453991315597e-8
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 8834.772253572486,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0877645451928636,
+     "degPerYear": 2.82172072767192
+    },
+    {
+     "f": 2.1,
+     "periodSec": 3530.832326463874,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.5656007331153251,
+     "degPerYear": 31.08511313081509
+    },
+    {
+     "f": 1.0000492621197685,
+     "periodSec": 8834.00726148451,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0878094804868618,
+     "degPerYear": 2.8222430233766294
+    },
+    {
+     "f": 1.0000152959043622,
+     "periodSec": 8834.534927465305,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08777848513597628,
+     "degPerYear": 2.821882974458206
+    }
+   ],
+   "spentSec": 590.7
+  },
+  {
+   "family": "B",
+   "kFrame": 0.1,
+   "div": 2,
+   "dt": 0.008,
+   "fRoot": 1.0993743669069922,
+   "reason": "区間が 10⁻¹² まで潰れた(|ΔP| は抽出器の段差で残る)",
+   "deltaPSec": 0.0025999771496572066,
+   "nSigma": 10376.664869321547,
+   "run": {
+    "ok": true,
+    "steps": 2153463,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4537323255149,
+    "slopeRadPerSimTime": -1.2569268100652864e-9,
+    "seRadPerSimTime": 2.6174510401608765e-10,
+    "r0": 955.9782718763176,
+    "rMin": 801.5639546257588,
+    "rMax": 955.9115019736303,
+    "rMinAll": 801.5639546257588,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08782344400218528,
+    "mHeld": [
+     2925.416259765625,
+     2730.1533203125
+    ],
+    "chiDecl": [
+     0.9998914873824561,
+     0.9998987295486801
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.1,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"reservoir\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.0993743669069922,
+    "periodSec": 8834.53732325515,
+    "degPerYear": -0.22726710995069688,
+    "seDegPerYear": 0.04732658485531946
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 10558.300926821168,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.003936883416721127,
+     "degPerYear": -0.19821356388351324
+    },
+    {
+     "f": 2.1,
+     "periodSec": 3841.1679558455985,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.5232726948010801,
+     "degPerYear": 36.52647115713978
+    },
+    {
+     "f": 1.282284544922757,
+     "periodSec": 6900.747732089127,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.2181196776070713,
+     "degPerYear": 4.209743970753887
+    },
+    {
+     "f": 1.1330377256088164,
+     "periodSec": 8385.983881868473,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.11496428447031583,
+     "degPerYear": 1.1038484096954002
+    },
+    {
+     "f": 1.0874999981471911,
+     "periodSec": 9006.348598028704,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.07784915288867295,
+     "degPerYear": -1.0473489408174415
+    },
+    {
+     "f": 1.1001119555953038,
+     "periodSec": 8824.079247748617,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08843681446930154,
+     "degPerYear": -0.383815762203083
+    },
+    {
+     "f": 1.099388498731746,
+     "periodSec": 8834.328672623902,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08783293808112189,
+     "degPerYear": -0.06824957292343137
+    },
+    {
+     "f": 1.0993600519970808,
+     "periodSec": 8834.743443425752,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08781164685691296,
+     "degPerYear": 0.19522650968624883
+    },
+    {
+     "f": 1.0993743669069922,
+     "periodSec": 8834.53732325515,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08782344400218528,
+     "degPerYear": -0.22726710995069688
+    },
+    {
+     "f": 1.099374714763235,
+     "periodSec": 8834.494792113173,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08782754374309086,
+     "degPerYear": -0.3657811951715684
+    },
+    {
+     "f": 1.0993743881718405,
+     "periodSec": 8834.530823973259,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08782453361661062,
+     "degPerYear": -0.03145443966450737
+    },
+    {
+     "f": 1.09937437222388,
+     "periodSec": 8834.53732325515,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08782344400218528,
+     "degPerYear": -0.22726710995069688
+    },
+    {
+     "f": 1.099374378603713,
+     "periodSec": 8834.53732325515,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08782344400218528,
+     "degPerYear": -0.22726710995069688
+    },
+    {
+     "f": 1.0993743840716115,
+     "periodSec": 8834.530823973259,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08782453361661062,
+     "degPerYear": -0.03145443966450737
+    },
+    {
+     "f": 1.0993743807910947,
+     "periodSec": 8834.530823973259,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08782453361661062,
+     "degPerYear": -0.03145443966450737
+    },
+    {
+     "f": 1.0993743791506279,
+     "periodSec": 8834.53732325515,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08782344400218528,
+     "degPerYear": -0.22726710995069688
+    },
+    {
+     "f": 1.0993743798068814,
+     "periodSec": 8834.530823973259,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08782453361661062,
+     "degPerYear": -0.03145443966450737
+    },
+    {
+     "f": 1.0993743794131559,
+     "periodSec": 8834.53732325515,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08782344400218528,
+     "degPerYear": -0.22726710995069688
+    },
+    {
+     "f": 1.099374379570662,
+     "periodSec": 8834.530823973259,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08782453361661062,
+     "degPerYear": -0.03145443966450737
+    },
+    {
+     "f": 1.0993743794761648,
+     "periodSec": 8834.53732325515,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08782344400218528,
+     "degPerYear": -0.22726710995069688
+    },
+    {
+     "f": 1.0993743795139677,
+     "periodSec": 8834.53732325515,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08782344400218528,
+     "degPerYear": -0.22726710995069688
+    },
+    {
+     "f": 1.0993743795463669,
+     "periodSec": 8834.53732325515,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08782344400218528,
+     "degPerYear": -0.22726710995069688
+    },
+    {
+     "f": 1.099374379564037,
+     "periodSec": 8834.530823973259,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08782453361661062,
+     "degPerYear": -0.03145443966450737
+    },
+    {
+     "f": 1.0993743795534356,
+     "periodSec": 8834.53732325515,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08782344400218528,
+     "degPerYear": -0.22726710995069688
+    },
+    {
+     "f": 1.0993743795576767,
+     "periodSec": 8834.53732325515,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08782344400218528,
+     "degPerYear": -0.22726710995069688
+    },
+    {
+     "f": 1.0993743795613113,
+     "periodSec": 8834.53732325515,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08782344400218528,
+     "degPerYear": -0.22726710995069688
+    },
+    {
+     "f": 1.0993743795632938,
+     "periodSec": 8834.530823973259,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08782453361661062,
+     "degPerYear": -0.03145443966450737
+    },
+    {
+     "f": 1.0993743795621045,
+     "periodSec": 8834.530823973259,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08782453361661062,
+     "degPerYear": -0.03145443966450737
+    }
+   ],
+   "spentSec": 691.4
+  },
+  {
+   "family": "B",
+   "kFrame": 0.25,
+   "div": 2,
+   "dt": 0.008,
+   "fRoot": 1.2484166846804712,
+   "reason": "反復上限(34)— |ΔP| 最小の点を採った",
+   "deltaPSec": -0.008509911713190377,
+   "nSigma": 33963.568459412425,
+   "run": {
+    "ok": true,
+    "steps": 2153530,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4526213366287,
+    "slopeRadPerSimTime": 2.378114887267939e-9,
+    "seRadPerSimTime": 1.1951191305018996e-9,
+    "r0": 955.9782718763176,
+    "rMin": 801.4084530409148,
+    "rMax": 955.8284444469634,
+    "rMinAll": 801.4084530409148,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08787659286394758,
+    "mHeld": [
+     3322.015380859375,
+     3100.280517578125
+    ],
+    "chiDecl": [
+     0.9999044409313398,
+     0.999910818650745
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.25,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"reservoir\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.2484166846804712,
+    "periodSec": 8834.526213366287,
+    "degPerYear": 0.4299910648990287,
+    "seDegPerYear": 0.2160915565337083
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 14036.955957405109,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.14097552441274247,
+     "degPerYear": -6.091428237079152
+    },
+    {
+     "f": 2.1,
+     "periodSec": 4359.5402167799175,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.4591651405411321,
+     "degPerYear": 41.30856980263709
+    },
+    {
+     "f": 1.5913421011268984,
+     "periodSec": 6085.178682545997,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.2850682208980528,
+     "degPerYear": 12.990309444610602
+    },
+    {
+     "f": 1.3868834094816147,
+     "periodSec": 7423.152374289025,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.1792168855674434,
+     "degPerYear": 4.631070132352369
+    },
+    {
+     "f": 1.2508017236792783,
+     "periodSec": 8804.857135732876,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08962194635066467,
+     "degPerYear": 0.7959389465542916
+    },
+    {
+     "f": 1.2452065302562025,
+     "periodSec": 8874.789614074285,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08553435178796019,
+     "degPerYear": -0.10275440930262938
+    },
+    {
+     "f": 1.248427264106509,
+     "periodSec": 8834.52411695315,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0878763518680815,
+     "degPerYear": 0.2094487596010346
+    },
+    {
+     "f": 1.248426415733785,
+     "periodSec": 8834.39574282545,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08789410086513472,
+     "degPerYear": 0.016380701213725073
+    },
+    {
+     "f": 1.2484043348230152,
+     "periodSec": 8834.621923377008,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787644785031225,
+     "degPerYear": 0.1231901411189269
+    },
+    {
+     "f": 1.2484128477459524,
+     "periodSec": 8834.706126406172,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0878779553842719,
+     "degPerYear": 0.7625845884266078
+    },
+    {
+     "f": 1.2484225017920876,
+     "periodSec": 8834.480791884445,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08788824010331202,
+     "degPerYear": 1.6581041395848173
+    },
+    {
+     "f": 1.2484201912000064,
+     "periodSec": 8834.45640184531,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08789196306327081,
+     "degPerYear": 0.8322966158169186
+    },
+    {
+     "f": 1.2484166846804712,
+     "periodSec": 8834.526213366287,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787659286394758,
+     "degPerYear": 0.4299910648990287
+    },
+    {
+     "f": 1.2484160489419012,
+     "periodSec": 8834.603389634254,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787391875635099,
+     "degPerYear": 0.876151160052154
+    },
+    {
+     "f": 1.2484166145801767,
+     "periodSec": 8834.638661130171,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787316032396218,
+     "degPerYear": 0.6210026371122335
+    },
+    {
+     "f": 1.2484166819235998,
+     "periodSec": 8834.526213366287,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787659286394758,
+     "degPerYear": 0.4299910648990287
+    },
+    {
+     "f": 1.2484166768271303,
+     "periodSec": 8834.526213366287,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787659286394758,
+     "degPerYear": 0.4299910648990287
+    },
+    {
+     "f": 1.248416668068429,
+     "periodSec": 8834.526213366287,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787659286394758,
+     "degPerYear": 0.4299910648990287
+    },
+    {
+     "f": 1.2484166548726454,
+     "periodSec": 8834.526213366287,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787659286394758,
+     "degPerYear": 0.4299910648990287
+    },
+    {
+     "f": 1.2484166389260791,
+     "periodSec": 8834.526213366287,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787659286394758,
+     "degPerYear": 0.4299910648990287
+    },
+    {
+     "f": 1.2484166251195283,
+     "periodSec": 8834.638661130171,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787316032396218,
+     "degPerYear": 0.6210026371122335
+    },
+    {
+     "f": 1.248416637881216,
+     "periodSec": 8834.526213366287,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787659286394758,
+     "degPerYear": 0.4299910648990287
+    },
+    {
+     "f": 1.2484166369154268,
+     "periodSec": 8834.526213366287,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787659286394758,
+     "degPerYear": 0.4299910648990287
+    },
+    {
+     "f": 1.2484166352556387,
+     "periodSec": 8834.526213366287,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787659286394758,
+     "degPerYear": 0.4299910648990287
+    },
+    {
+     "f": 1.2484166327550164,
+     "periodSec": 8834.526213366287,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787659286394758,
+     "degPerYear": 0.4299910648990287
+    },
+    {
+     "f": 1.2484166297331163,
+     "periodSec": 8834.638661130171,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787316032396218,
+     "degPerYear": 0.6210026371122335
+    },
+    {
+     "f": 1.2484166325263226,
+     "periodSec": 8834.526213366287,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787659286394758,
+     "degPerYear": 0.4299910648990287
+    },
+    {
+     "f": 1.2484166323149362,
+     "periodSec": 8834.526213366287,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787659286394758,
+     "degPerYear": 0.4299910648990287
+    },
+    {
+     "f": 1.248416631951651,
+     "periodSec": 8834.526213366287,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787659286394758,
+     "degPerYear": 0.4299910648990287
+    },
+    {
+     "f": 1.2484166314043288,
+     "periodSec": 8834.526213366287,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787659286394758,
+     "degPerYear": 0.4299910648990287
+    },
+    {
+     "f": 1.2484166307429123,
+     "periodSec": 8834.638661130171,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787316032396218,
+     "degPerYear": 0.6210026371122335
+    },
+    {
+     "f": 1.2484166313542735,
+     "periodSec": 8834.526213366287,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787659286394758,
+     "degPerYear": 0.4299910648990287
+    },
+    {
+     "f": 1.2484166313080065,
+     "periodSec": 8834.526213366287,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787659286394758,
+     "degPerYear": 0.4299910648990287
+    },
+    {
+     "f": 1.2484166312284928,
+     "periodSec": 8834.526213366287,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787659286394758,
+     "degPerYear": 0.4299910648990287
+    },
+    {
+     "f": 1.248416631108698,
+     "periodSec": 8834.638661130171,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787316032396218,
+     "degPerYear": 0.6210026371122335
+    },
+    {
+     "f": 1.248416631219427,
+     "periodSec": 8834.526213366287,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08787659286394758,
+     "degPerYear": 0.4299910648990287
+    }
+   ],
+   "spentSec": 822
+  },
+  {
+   "family": "B",
+   "kFrame": 0.5,
+   "div": 2,
+   "dt": 0.008,
+   "fRoot": 1.4968504408196686,
+   "reason": "区間が 10⁻¹² まで潰れた(|ΔP| は抽出器の段差で残る)",
+   "deltaPSec": -0.024877668109184015,
+   "nSigma": 99288.26671928486,
+   "run": {
+    "ok": true,
+    "steps": 2153608,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4509845609891,
+    "slopeRadPerSimTime": 3.5756473333164026e-8,
+    "seRadPerSimTime": 2.374742266305825e-9,
+    "r0": 955.9782718763176,
+    "rMin": 801.2204128856864,
+    "rMax": 955.730293304361,
+    "rMinAll": 801.2204128856864,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.0879420691054729,
+    "mHeld": [
+     3983.09326171875,
+     3717.233642578125
+    ],
+    "chiDecl": [
+     0.9999202997009403,
+     0.9999256190670125
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.5,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"reservoir\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.4968504408196686,
+    "periodSec": 8834.509845609891,
+    "degPerYear": 6.465189771897109,
+    "seDegPerYear": 0.42938125547108047
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 24392.080509820913,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.36880048082586303,
+     "degPerYear": -8.066013932854045
+    },
+    {
+     "f": 2.1,
+     "periodSec": 5363.704856022195,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.35142552207065875,
+     "degPerYear": 43.505546181552795
+    },
+    {
+     "f": 1.899356869790449,
+     "periodSec": 6113.379525938166,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.2822801859675797,
+     "degPerYear": 28.573368129592996
+    },
+    {
+     "f": 1.7654693674645745,
+     "periodSec": 6777.547819598966,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.22745411314837655,
+     "degPerYear": 21.21615994274157
+    },
+    {
+     "f": 1.6053840769992374,
+     "periodSec": 7846.004005648487,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.14992662185223832,
+     "degPerYear": 13.295115483582295
+    },
+    {
+     "f": 1.4827004118354237,
+     "periodSec": 8985.295236414744,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.07920967093209859,
+     "degPerYear": 7.205434257751623
+    },
+    {
+     "f": 1.4989349371386274,
+     "periodSec": 8812.543603432874,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08924728069007891,
+     "degPerYear": 6.890928311126448
+    },
+    {
+     "f": 1.4968682973887792,
+     "periodSec": 8834.304044220211,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08796798299372702,
+     "degPerYear": 10.496605422668123
+    },
+    {
+     "f": 1.4968250730262813,
+     "periodSec": 8834.86072986693,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08793414864267353,
+     "degPerYear": 9.243538047092049
+    },
+    {
+     "f": 1.4968503861038855,
+     "periodSec": 8834.610489370687,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879424083361275,
+     "degPerYear": 7.055845305894567
+    },
+    {
+     "f": 1.4968574872454437,
+     "periodSec": 8834.398191175393,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08796934043424112,
+     "degPerYear": 8.17716579888183
+    },
+    {
+     "f": 1.496852920396505,
+     "periodSec": 8834.434309119524,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08796121489308843,
+     "degPerYear": 6.555130913255627
+    },
+    {
+     "f": 1.4968510803097075,
+     "periodSec": 8834.250711932615,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08797127827666686,
+     "degPerYear": 7.709108956952445
+    },
+    {
+     "f": 1.4968504295077183,
+     "periodSec": 8834.610489370687,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879424083361275,
+     "degPerYear": 7.055845305894567
+    },
+    {
+     "f": 1.4968505665611258,
+     "periodSec": 8834.37419774804,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08795924883155129,
+     "degPerYear": 7.871473727785004
+    },
+    {
+     "f": 1.49685047345342,
+     "periodSec": 8834.425434790595,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08795218424151688,
+     "degPerYear": 4.802344956344648
+    },
+    {
+     "f": 1.4968504408196686,
+     "periodSec": 8834.509845609891,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879420691054729,
+     "degPerYear": 6.465189771897109
+    },
+    {
+     "f": 1.4968504343974838,
+     "periodSec": 8834.509845609891,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879420691054729,
+     "degPerYear": 6.465189771897109
+    },
+    {
+     "f": 1.4968504308559547,
+     "periodSec": 8834.610489370687,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879424083361275,
+     "degPerYear": 7.055845305894567
+    },
+    {
+     "f": 1.4968504335220696,
+     "periodSec": 8834.509845609891,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879420691054729,
+     "degPerYear": 6.465189771897109
+    },
+    {
+     "f": 1.496850432863045,
+     "periodSec": 8834.509845609891,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879420691054729,
+     "degPerYear": 6.465189771897109
+    },
+    {
+     "f": 1.496850432067456,
+     "periodSec": 8834.610489370687,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879424083361275,
+     "degPerYear": 7.055845305894567
+    },
+    {
+     "f": 1.496850432666387,
+     "periodSec": 8834.610489370687,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879424083361275,
+     "degPerYear": 7.055845305894567
+    },
+    {
+     "f": 1.4968504328353118,
+     "periodSec": 8834.509845609891,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879420691054729,
+     "degPerYear": 6.465189771897109
+    },
+    {
+     "f": 1.4968504327935561,
+     "periodSec": 8834.509845609891,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879420691054729,
+     "degPerYear": 6.465189771897109
+    },
+    {
+     "f": 1.4968504327431476,
+     "periodSec": 8834.509845609891,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879420691054729,
+     "degPerYear": 6.465189771897109
+    },
+    {
+     "f": 1.496850432699568,
+     "periodSec": 8834.610489370687,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879424083361275,
+     "degPerYear": 7.055845305894567
+    },
+    {
+     "f": 1.4968504327323753,
+     "periodSec": 8834.610489370687,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879424083361275,
+     "degPerYear": 7.055845305894567
+    },
+    {
+     "f": 1.4968504327416283,
+     "periodSec": 8834.509845609891,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879420691054729,
+     "degPerYear": 6.465189771897109
+    },
+    {
+     "f": 1.496850432739341,
+     "periodSec": 8834.509845609891,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879420691054729,
+     "degPerYear": 6.465189771897109
+    },
+    {
+     "f": 1.49685043273658,
+     "periodSec": 8834.509845609891,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879420691054729,
+     "degPerYear": 6.465189771897109
+    },
+    {
+     "f": 1.4968504327341927,
+     "periodSec": 8834.509845609891,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879420691054729,
+     "degPerYear": 6.465189771897109
+    },
+    {
+     "f": 1.4968504327328764,
+     "periodSec": 8834.610489370687,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879424083361275,
+     "degPerYear": 7.055845305894567
+    },
+    {
+     "f": 1.4968504327338674,
+     "periodSec": 8834.509845609891,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879420691054729,
+     "degPerYear": 6.465189771897109
+    }
+   ],
+   "spentSec": 949
+  },
+  {
+   "family": "B",
+   "kFrame": 0.6,
+   "div": 2,
+   "dt": 0.008,
+   "fRoot": 1.5962217565023855,
+   "reason": "区間が 10⁻¹² まで潰れた(|ΔP| は抽出器の段差で残る)",
+   "deltaPSec": 0.042846059888688615,
+   "nSigma": 171001.19687375726,
+   "run": {
+    "ok": true,
+    "steps": 2153651,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4577569337889,
+    "slopeRadPerSimTime": 5.078700054484889e-8,
+    "seRadPerSimTime": 1.7035717530129718e-9,
+    "r0": 955.9782718763176,
+    "rMin": 801.1696557474488,
+    "rMax": 955.7021089121235,
+    "rMinAll": 801.1696557474488,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08795886886748297,
+    "mHeld": [
+     4247.5185546875,
+     3964.00927734375
+    ],
+    "chiDecl": [
+     0.9999252609988417,
+     0.9999302492605253
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.6,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"reservoir\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.5962217565023855,
+    "periodSec": 8834.57756933789,
+    "degPerYear": 9.182885387171236,
+    "seDegPerYear": 0.3080257544039422
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 31811.712135660047,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.45988035130187793,
+     "degPerYear": -7.569383116643841
+    },
+    {
+     "f": 2.1,
+     "periodSec": 5821.354005120056,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.3081365331582045,
+     "degPerYear": 41.64005143963552
+    },
+    {
+     "f": 1.9724719846750003,
+     "periodSec": 6338.417201163145,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.26300007987497187,
+     "degPerYear": 33.00460061568997
+    },
+    {
+     "f": 1.8771798614159163,
+     "periodSec": 6804.49302046161,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.2252907834506197,
+     "degPerYear": 26.70868984142393
+    },
+    {
+     "f": 1.745457072518712,
+     "periodSec": 7604.405134763023,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.16638869176907586,
+     "degPerYear": 18.759859449608616
+    },
+    {
+     "f": 1.6139754176106977,
+     "periodSec": 8664.282556580782,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.09805902008498087,
+     "degPerYear": 13.980416131239695
+    },
+    {
+     "f": 1.5796174542555124,
+     "periodSec": 9000.91139485162,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.07832666204894781,
+     "degPerYear": 10.654944781023287
+    },
+    {
+     "f": 1.5965986600679656,
+     "periodSec": 8830.682574867396,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08818164131443651,
+     "degPerYear": 9.22958306503608
+    },
+    {
+     "f": 1.5962143883272188,
+     "periodSec": 8834.610029820176,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08796341366033288,
+     "degPerYear": 11.912995972747398
+    },
+    {
+     "f": 1.5962217565023855,
+     "periodSec": 8834.57756933789,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08795886886748297,
+     "degPerYear": 9.182885387171236
+    },
+    {
+     "f": 1.5962299583747663,
+     "periodSec": 8834.077294012786,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08799541027514311,
+     "degPerYear": 13.588001677388949
+    },
+    {
+     "f": 1.5962224589514122,
+     "periodSec": 8834.479057375298,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08795682002944197,
+     "degPerYear": 10.970465672186586
+    },
+    {
+     "f": 1.5962219517131118,
+     "periodSec": 8834.700009490147,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08796385550400537,
+     "degPerYear": 14.825602277496534
+    },
+    {
+     "f": 1.5962223311595696,
+     "periodSec": 8834.409211748014,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08796847791955302,
+     "degPerYear": 11.52485911015523
+    },
+    {
+     "f": 1.5962221673862709,
+     "periodSec": 8834.48376067612,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08797571622948708,
+     "degPerYear": 10.92624939480584
+    },
+    {
+     "f": 1.5962220851198354,
+     "periodSec": 8834.425427988986,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798473179268111,
+     "degPerYear": 12.493146140625889
+    },
+    {
+     "f": 1.596221988313089,
+     "periodSec": 8834.227097284527,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798308297982625,
+     "degPerYear": 12.261561219612828
+    },
+    {
+     "f": 1.5962219540165368,
+     "periodSec": 8834.700009490147,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08796385550400537,
+     "degPerYear": 14.825602277496534
+    },
+    {
+     "f": 1.596221966003428,
+     "periodSec": 8834.227097284527,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798308297982625,
+     "degPerYear": 12.261561219612828
+    },
+    {
+     "f": 1.5962219582060413,
+     "periodSec": 8834.700009490147,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08796385550400537,
+     "degPerYear": 14.825602277496534
+    },
+    {
+     "f": 1.596221960931284,
+     "periodSec": 8834.700009490147,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08796385550400537,
+     "degPerYear": 14.825602277496534
+    },
+    {
+     "f": 1.5962219635585404,
+     "periodSec": 8834.227097284527,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798308297982625,
+     "degPerYear": 12.261561219612828
+    },
+    {
+     "f": 1.596221961849529,
+     "periodSec": 8834.700009490147,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08796385550400537,
+     "degPerYear": 14.825602277496534
+    },
+    {
+     "f": 1.5962219624468408,
+     "periodSec": 8834.700009490147,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08796385550400537,
+     "degPerYear": 14.825602277496534
+    },
+    {
+     "f": 1.5962219630226762,
+     "periodSec": 8834.700009490147,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08796385550400537,
+     "degPerYear": 14.825602277496534
+    },
+    {
+     "f": 1.5962219633883807,
+     "periodSec": 8834.700009490147,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08796385550400537,
+     "degPerYear": 14.825602277496534
+    },
+    {
+     "f": 1.596221963526425,
+     "periodSec": 8834.227097284527,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798308297982625,
+     "degPerYear": 12.261561219612828
+    },
+    {
+     "f": 1.5962219634366281,
+     "periodSec": 8834.700009490147,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08796385550400537,
+     "degPerYear": 14.825602277496534
+    },
+    {
+     "f": 1.5962219634680128,
+     "periodSec": 8834.227097284527,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798308297982625,
+     "degPerYear": 12.261561219612828
+    },
+    {
+     "f": 1.5962219634475974,
+     "periodSec": 8834.700009490147,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08796385550400537,
+     "degPerYear": 14.825602277496534
+    },
+    {
+     "f": 1.5962219634547328,
+     "periodSec": 8834.700009490147,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08796385550400537,
+     "degPerYear": 14.825602277496534
+    },
+    {
+     "f": 1.5962219634616115,
+     "periodSec": 8834.227097284527,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798308297982625,
+     "degPerYear": 12.261561219612828
+    },
+    {
+     "f": 1.5962219634571368,
+     "periodSec": 8834.227097284527,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798308297982625,
+     "degPerYear": 12.261561219612828
+    },
+    {
+     "f": 1.596221963455242,
+     "periodSec": 8834.700009490147,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08796385550400537,
+     "degPerYear": 14.825602277496534
+    },
+    {
+     "f": 1.5962219634559043,
+     "periodSec": 8834.700009490147,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08796385550400537,
+     "degPerYear": 14.825602277496534
+    },
+    {
+     "f": 1.5962219634565427,
+     "periodSec": 8834.227097284527,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798308297982625,
+     "degPerYear": 12.261561219612828
+    }
+   ],
+   "spentSec": 1086.9
+  },
+  {
+   "family": "B",
+   "kFrame": 0.7,
+   "div": 2,
+   "dt": 0.008,
+   "fRoot": 1.6955784936022127,
+   "reason": "反復上限(34)— |ΔP| 最小の点を採った",
+   "deltaPSec": 0.05558606949307432,
+   "nSigma": 221847.33993085218,
+   "run": {
+    "ok": true,
+    "steps": 2153677,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4590309347494,
+    "slopeRadPerSimTime": 1.038020248358966e-7,
+    "seRadPerSimTime": 2.9216672970210603e-9,
+    "r0": 955.9782718763176,
+    "rMin": 801.0815472361304,
+    "rMax": 955.6798421431788,
+    "rMinAll": 801.0815472361304,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08800187426800765,
+    "mHeld": [
+     4511.9052734375,
+     4210.7490234375
+    ],
+    "chiDecl": [
+     0.9999296402126839,
+     0.9999343362142388
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.7,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"reservoir\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.6955784936022127,
+    "periodSec": 8834.590309347494,
+    "degPerYear": 18.768623600493765,
+    "seDegPerYear": 0.5282717159935125
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 43232.405335879266,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.5508574589886187,
+     "degPerYear": -6.283235679004371
+    },
+    {
+     "f": 2.1,
+     "periodSec": 6316.353200554759,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.2647907418797652,
+     "degPerYear": 42.634599171671326
+    },
+    {
+     "f": 2.0249648996907506,
+     "periodSec": 6651.814646082887,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.23731310733013647,
+     "degPerYear": 36.54506847718688
+    },
+    {
+     "f": 1.963806470513189,
+     "periodSec": 6958.667545818907,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.2133619004662895,
+     "degPerYear": 34.23583453265363
+    },
+    {
+     "f": 1.8690231601749723,
+     "periodSec": 7507.757149310106,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.17314902077264813,
+     "degPerYear": 27.433535246843363
+    },
+    {
+     "f": 1.7528664046448048,
+     "periodSec": 8339.190990068691,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.1179948317778222,
+     "degPerYear": 20.00774995336224
+    },
+    {
+     "f": 1.6750933862034951,
+     "periodSec": 9028.466860024173,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.07675731568704763,
+     "degPerYear": 11.711168868702915
+    },
+    {
+     "f": 1.696975318104719,
+     "periodSec": 8821.72162955418,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08873973701070362,
+     "degPerYear": 16.17376103734391
+    },
+    {
+     "f": 1.6956191792294895,
+     "periodSec": 8834.075739097487,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08801107538962025,
+     "degPerYear": 14.976985333658716
+    },
+    {
+     "f": 1.6955224791092998,
+     "periodSec": 8835.166636015922,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879568877666547,
+     "degPerYear": 18.120339681078082
+    },
+    {
+     "f": 1.6955784936022127,
+     "periodSec": 8834.590309347494,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08800187426800765,
+     "degPerYear": 18.768623600493765
+    },
+    {
+     "f": 1.6955864267041632,
+     "periodSec": 8834.739344255837,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.087969542446813,
+     "degPerYear": 17.993892497994654
+    },
+    {
+     "f": 1.6956074115062152,
+     "periodSec": 8834.259041813237,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08799252461431527,
+     "degPerYear": 17.227599904728034
+    },
+    {
+     "f": 1.6955953667601253,
+     "periodSec": 8834.37300806826,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879939727466747,
+     "degPerYear": 16.19714608122661
+    },
+    {
+     "f": 1.6955898909938178,
+     "periodSec": 8834.45339240017,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798693194994568,
+     "degPerYear": 16.35406051973514
+    },
+    {
+     "f": 1.6955877643279165,
+     "periodSec": 8834.69332236738,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08797855860770368,
+     "degPerYear": 13.46663628259522
+    },
+    {
+     "f": 1.6955891701017733,
+     "periodSec": 8834.592198055916,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798034119990406,
+     "degPerYear": 18.561195084122367
+    },
+    {
+     "f": 1.6955895922845594,
+     "periodSec": 8834.366307959266,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798482320474572,
+     "degPerYear": 15.754661879155957
+    },
+    {
+     "f": 1.6955892775206565,
+     "periodSec": 8834.596295413878,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798084485770882,
+     "degPerYear": 16.99809534965078
+    },
+    {
+     "f": 1.6955893617891042,
+     "periodSec": 8834.657275673633,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798269419385941,
+     "degPerYear": 13.719668295942363
+    },
+    {
+     "f": 1.6955894984101272,
+     "periodSec": 8834.464946759826,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08797357869253851,
+     "degPerYear": 17.300220651959567
+    },
+    {
+     "f": 1.6955894488443126,
+     "periodSec": 8834.437434506539,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08799006989771839,
+     "degPerYear": 14.504289793987544
+    },
+    {
+     "f": 1.6955893954309118,
+     "periodSec": 8834.657275673633,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798269419385941,
+     "degPerYear": 13.719668295942363
+    },
+    {
+     "f": 1.6955894252066828,
+     "periodSec": 8834.437434506539,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08799006989771839,
+     "degPerYear": 14.504289793987544
+    },
+    {
+     "f": 1.6955894120296777,
+     "periodSec": 8834.437434506539,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08799006989771839,
+     "degPerYear": 14.504289793987544
+    },
+    {
+     "f": 1.6955894018453757,
+     "periodSec": 8834.437434506539,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08799006989771839,
+     "degPerYear": 14.504289793987544
+    },
+    {
+     "f": 1.6955893969671565,
+     "periodSec": 8834.657275673633,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798269419385941,
+     "degPerYear": 13.719668295942363
+    },
+    {
+     "f": 1.6955893996865627,
+     "periodSec": 8834.437434506539,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08799006989771839,
+     "degPerYear": 14.504289793987544
+    },
+    {
+     "f": 1.6955893984831134,
+     "periodSec": 8834.437434506539,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08799006989771839,
+     "degPerYear": 14.504289793987544
+    },
+    {
+     "f": 1.6955893975529863,
+     "periodSec": 8834.437434506539,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08799006989771839,
+     "degPerYear": 14.504289793987544
+    },
+    {
+     "f": 1.695589397107461,
+     "periodSec": 8834.657275673633,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798269419385941,
+     "degPerYear": 13.719668295942363
+    },
+    {
+     "f": 1.695589397355823,
+     "periodSec": 8834.657275673633,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798269419385941,
+     "degPerYear": 13.719668295942363
+    },
+    {
+     "f": 1.6955893974969638,
+     "periodSec": 8834.657275673633,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798269419385941,
+     "degPerYear": 13.719668295942363
+    },
+    {
+     "f": 1.695589397543709,
+     "periodSec": 8834.657275673633,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798269419385941,
+     "degPerYear": 13.719668295942363
+    },
+    {
+     "f": 1.6955893975521488,
+     "periodSec": 8834.437434506539,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08799006989771839,
+     "degPerYear": 14.504289793987544
+    },
+    {
+     "f": 1.6955893975484138,
+     "periodSec": 8834.657275673633,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798269419385941,
+     "degPerYear": 13.719668295942363
+    }
+   ],
+   "spentSec": 1230.5
+  },
+  {
+   "family": "B",
+   "kFrame": 0.75,
+   "div": 2,
+   "dt": 0.008,
+   "fRoot": 1.7452433118866382,
+   "reason": "反復上限(34)— |ΔP| 最小の点を採った",
+   "deltaPSec": -0.003142336365272058,
+   "nSigma": 12541.253054246721,
+   "run": {
+    "ok": true,
+    "steps": 2153676,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4531580941634,
+    "slopeRadPerSimTime": 1.1737184636612462e-7,
+    "seRadPerSimTime": 2.30222169737083e-9,
+    "r0": 955.9782718763176,
+    "rMin": 801.0733975667828,
+    "rMax": 955.6561150829393,
+    "rMinAll": 801.0733975667828,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.0879946038380122,
+    "mHeld": [
+     4644.0625,
+     4334.0849609375
+    ],
+    "chiDecl": [
+     0.9999316423215924,
+     0.999936204705536
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.75,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"reservoir\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.7452433118866382,
+    "periodSec": 8834.531580941635,
+    "degPerYear": 21.22220649571539,
+    "seDegPerYear": 0.41626868600255235
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 51451.08900996353,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.5967112019139669,
+     "degPerYear": -5.235830831440126
+    },
+    {
+     "f": 2.1,
+     "periodSec": 6579.506466581688,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.2430977451561541,
+     "degPerYear": 42.15480750865108
+    },
+    {
+     "f": 2.044719331439497,
+     "periodSec": 6840.0560885406,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.22247212141097034,
+     "degPerYear": 38.764646347307924
+    },
+    {
+     "f": 1.9980118187593185,
+     "periodSec": 7080.617913848045,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.2041371173856067,
+     "degPerYear": 35.13871900072901
+    },
+    {
+     "f": 1.9221114205354417,
+     "periodSec": 7517.794582453015,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.17244940658236074,
+     "degPerYear": 28.66908521604438
+    },
+    {
+     "f": 1.8206835177980525,
+     "periodSec": 8211.946542398451,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.12600717892991,
+     "degPerYear": 21.614524322052745
+    },
+    {
+     "f": 1.734804984238404,
+     "periodSec": 8929.774619020889,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08245314283006062,
+     "degPerYear": 21.67061988664545
+    },
+    {
+     "f": 1.7461991646127042,
+     "periodSec": 8826.247539338665,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08847389546058244,
+     "degPerYear": 18.241642872725
+    },
+    {
+     "f": 1.7452870779500684,
+     "periodSec": 8834.448666616481,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08800689412747217,
+     "degPerYear": 20.24869526152548
+    },
+    {
+     "f": 1.7452681693451793,
+     "periodSec": 8834.478023061269,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08800031134164503,
+     "degPerYear": 22.79031780243812
+    },
+    {
+     "f": 1.7452433118866382,
+     "periodSec": 8834.531580941635,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879946038380122,
+     "degPerYear": 21.22220649571539
+    },
+    {
+     "f": 1.7452405574039043,
+     "periodSec": 8834.866406572148,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08796552032626358,
+     "degPerYear": 19.078540254458527
+    },
+    {
+     "f": 1.7452432860358356,
+     "periodSec": 8834.531580941635,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879946038380122,
+     "degPerYear": 21.22220649571539
+    },
+    {
+     "f": 1.7452432604276427,
+     "periodSec": 8834.531580941635,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879946038380122,
+     "degPerYear": 21.22220649571539
+    },
+    {
+     "f": 1.7452432101636495,
+     "periodSec": 8834.738277208728,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08799019341670941,
+     "degPerYear": 19.142850778759264
+    },
+    {
+     "f": 1.7452432596634955,
+     "periodSec": 8834.531580941635,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879946038380122,
+     "degPerYear": 21.22220649571539
+    },
+    {
+     "f": 1.7452432589109654,
+     "periodSec": 8834.531580941635,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879946038380122,
+     "degPerYear": 21.22220649571539
+    },
+    {
+     "f": 1.7452432574509817,
+     "periodSec": 8834.531580941635,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879946038380122,
+     "degPerYear": 21.22220649571539
+    },
+    {
+     "f": 1.7452432547008345,
+     "periodSec": 8834.531580941635,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879946038380122,
+     "degPerYear": 21.22220649571539
+    },
+    {
+     "f": 1.7452432498051518,
+     "periodSec": 8834.531580941635,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879946038380122,
+     "degPerYear": 21.22220649571539
+    },
+    {
+     "f": 1.7452432419532011,
+     "periodSec": 8834.531580941635,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879946038380122,
+     "degPerYear": 21.22220649571539
+    },
+    {
+     "f": 1.745243231441858,
+     "periodSec": 8834.531580941635,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879946038380122,
+     "degPerYear": 21.22220649571539
+    },
+    {
+     "f": 1.74524322086702,
+     "periodSec": 8834.531580941635,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879946038380122,
+     "degPerYear": 21.22220649571539
+    },
+    {
+     "f": 1.745243213760233,
+     "periodSec": 8834.738277208728,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08799019341670941,
+     "degPerYear": 19.142850778759264
+    },
+    {
+     "f": 1.7452432207589779,
+     "periodSec": 8834.531580941635,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879946038380122,
+     "degPerYear": 21.22220649571539
+    },
+    {
+     "f": 1.7452432206525783,
+     "periodSec": 8834.531580941635,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879946038380122,
+     "degPerYear": 21.22220649571539
+    },
+    {
+     "f": 1.7452432204461523,
+     "periodSec": 8834.531580941635,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879946038380122,
+     "degPerYear": 21.22220649571539
+    },
+    {
+     "f": 1.7452432200573111,
+     "periodSec": 8834.531580941635,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879946038380122,
+     "degPerYear": 21.22220649571539
+    },
+    {
+     "f": 1.7452432193651144,
+     "periodSec": 8834.531580941635,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879946038380122,
+     "degPerYear": 21.22220649571539
+    },
+    {
+     "f": 1.7452432182549331,
+     "periodSec": 8834.531580941635,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879946038380122,
+     "degPerYear": 21.22220649571539
+    },
+    {
+     "f": 1.7452432167687424,
+     "periodSec": 8834.531580941635,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879946038380122,
+     "degPerYear": 21.22220649571539
+    },
+    {
+     "f": 1.7452432152735742,
+     "periodSec": 8834.738277208728,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08799019341670941,
+     "degPerYear": 19.142850778759264
+    },
+    {
+     "f": 1.745243216746012,
+     "periodSec": 8834.531580941635,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879946038380122,
+     "degPerYear": 21.22220649571539
+    },
+    {
+     "f": 1.745243216723627,
+     "periodSec": 8834.531580941635,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879946038380122,
+     "degPerYear": 21.22220649571539
+    },
+    {
+     "f": 1.7452432166801979,
+     "periodSec": 8834.531580941635,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879946038380122,
+     "degPerYear": 21.22220649571539
+    },
+    {
+     "f": 1.745243216598391,
+     "periodSec": 8834.531580941635,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879946038380122,
+     "degPerYear": 21.22220649571539
+    }
+   ],
+   "spentSec": 1377.9
+  },
+  {
+   "family": "B",
+   "kFrame": 1,
+   "div": 2,
+   "dt": 0.008,
+   "fRoot": 1.9936866211425543,
+   "reason": "反復上限(34)— |ΔP| 最小の点を採った",
+   "deltaPSec": 0.0065144477357534925,
+   "nSigma": 25999.551946653468,
+   "run": {
+    "ok": true,
+    "steps": 2153723,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4541237725736,
+    "slopeRadPerSimTime": 1.5654288411228653e-7,
+    "seRadPerSimTime": 1.4420277386374277e-9,
+    "r0": 955.9782718763176,
+    "rMin": 800.9561276513435,
+    "rMax": 955.6046049018937,
+    "rMinAll": 800.9561276513435,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08804049548902411,
+    "mHeld": [
+     5305.166015625,
+     4951.0615234375
+    ],
+    "chiDecl": [
+     0.9999401602056955,
+     0.9999441541138198
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":1,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"reservoir\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.9936866211425543,
+    "periodSec": 8834.541237725736,
+    "degPerYear": 28.304789563441886,
+    "seDegPerYear": 0.2607355289142449
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": null,
+     "stopped": "escape",
+     "nPeri": 1,
+     "eProxy": 0.6000002605687351,
+     "degPerYear": null
+    },
+    {
+     "f": 2.1,
+     "periodSec": 8079.179492524039,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.13455896859376842,
+     "degPerYear": 40.06366133908551
+    },
+    {
+     "f": 1.55,
+     "periodSec": 15197.545428569465,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.1786048117943847,
+     "degPerYear": 12.372986484817151
+    },
+    {
+     "f": 2.04163753582673,
+     "periodSec": 8474.437782376866,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.10962844988472652,
+     "degPerYear": 40.51947627304374
+    },
+    {
+     "f": 2.0153048959226765,
+     "periodSec": 8668.151900029326,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.09789747720615359,
+     "degPerYear": 38.00936150491305
+    },
+    {
+     "f": 1.9921802459381044,
+     "periodSec": 8846.468385635504,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0873647988050023,
+     "degPerYear": 36.58507164065759
+    },
+    {
+     "f": 1.993727841294267,
+     "periodSec": 8833.973562425055,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0880643990901237,
+     "degPerYear": 34.39001288421419
+    },
+    {
+     "f": 1.9936583365149314,
+     "periodSec": 8835.096025509978,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08805527899758904,
+     "degPerYear": 36.84696902691025
+    },
+    {
+     "f": 1.9936930932818115,
+     "periodSec": 8834.485384567904,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08805283921775423,
+     "degPerYear": 34.09074903272339
+    },
+    {
+     "f": 1.993690284996407,
+     "periodSec": 8834.474036879663,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08806811750200558,
+     "degPerYear": 30.92723072540218
+    },
+    {
+     "f": 1.9936846048757297,
+     "periodSec": 8834.568119798874,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08805753562349311,
+     "degPerYear": 35.56363751339753
+    },
+    {
+     "f": 1.9936866211425543,
+     "periodSec": 8834.541237725736,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08804049548902411,
+     "degPerYear": 28.304789563441886
+    },
+    {
+     "f": 1.9936872687146714,
+     "periodSec": 8834.488240907707,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08803788734973199,
+     "degPerYear": 33.06596713914759
+    },
+    {
+     "f": 1.9936867007430825,
+     "periodSec": 8834.62595710321,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0880599967414654,
+     "degPerYear": 30.64779114482533
+    },
+    {
+     "f": 1.9936870770112511,
+     "periodSec": 8834.561257397092,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08805174765266423,
+     "degPerYear": 32.85945086397088
+    },
+    {
+     "f": 1.9936871792041249,
+     "periodSec": 8834.345504713787,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08806028020947954,
+     "degPerYear": 37.66278495398108
+    },
+    {
+     "f": 1.9936870895793353,
+     "periodSec": 8834.561257397092,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08805174765266423,
+     "degPerYear": 32.85945086397088
+    },
+    {
+     "f": 1.9936871006017467,
+     "periodSec": 8834.561257397092,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08805174765266423,
+     "degPerYear": 32.85945086397088
+    },
+    {
+     "f": 1.9936871178180775,
+     "periodSec": 8834.345504713787,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08806028020947954,
+     "degPerYear": 37.66278495398108
+    },
+    {
+     "f": 1.9936871027190792,
+     "periodSec": 8834.561257397092,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08805174765266423,
+     "degPerYear": 32.85945086397088
+    },
+    {
+     "f": 1.9936871045760138,
+     "periodSec": 8834.561257397092,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08805174765266423,
+     "degPerYear": 32.85945086397088
+    },
+    {
+     "f": 1.9936871074764317,
+     "periodSec": 8834.561257397092,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08805174765266423,
+     "degPerYear": 32.85945086397088
+    },
+    {
+     "f": 1.9936871111927246,
+     "periodSec": 8834.561257397092,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08805174765266423,
+     "degPerYear": 32.85945086397088
+    },
+    {
+     "f": 1.993687114695621,
+     "periodSec": 8834.345504713787,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08806028020947954,
+     "degPerYear": 37.66278495398108
+    },
+    {
+     "f": 1.9936871116235246,
+     "periodSec": 8834.561257397092,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08805174765266423,
+     "degPerYear": 32.85945086397088
+    },
+    {
+     "f": 1.9936871120013433,
+     "periodSec": 8834.561257397092,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08805174765266423,
+     "degPerYear": 32.85945086397088
+    },
+    {
+     "f": 1.9936871125914728,
+     "periodSec": 8834.345504713787,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08806028020947954,
+     "degPerYear": 37.66278495398108
+    },
+    {
+     "f": 1.9936871120739197,
+     "periodSec": 8834.561257397092,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08805174765266423,
+     "degPerYear": 32.85945086397088
+    },
+    {
+     "f": 1.9936871121375703,
+     "periodSec": 8834.561257397092,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08805174765266423,
+     "degPerYear": 32.85945086397088
+    },
+    {
+     "f": 1.9936871122369888,
+     "periodSec": 8834.561257397092,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08805174765266423,
+     "degPerYear": 32.85945086397088
+    },
+    {
+     "f": 1.9936871123643733,
+     "periodSec": 8834.561257397092,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08805174765266423,
+     "degPerYear": 32.85945086397088
+    },
+    {
+     "f": 1.9936871124844433,
+     "periodSec": 8834.345504713787,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08806028020947954,
+     "degPerYear": 37.66278495398108
+    },
+    {
+     "f": 1.99368711237914,
+     "periodSec": 8834.561257397092,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08805174765266423,
+     "degPerYear": 32.85945086397088
+    },
+    {
+     "f": 1.9936871123920905,
+     "periodSec": 8834.561257397092,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08805174765266423,
+     "degPerYear": 32.85945086397088
+    },
+    {
+     "f": 1.9936871124123186,
+     "periodSec": 8834.561257397092,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08805174765266423,
+     "degPerYear": 32.85945086397088
+    },
+    {
+     "f": 1.9936871124382367,
+     "periodSec": 8834.345504713787,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08806028020947954,
+     "degPerYear": 37.66278495398108
+    }
+   ],
+   "spentSec": 1510.2
+  },
+  {
+   "family": "A",
+   "kFrame": 0,
+   "div": 2,
+   "dt": 0.008,
+   "fRoot": 1.0000152959043622,
+   "reason": null,
+   "deltaPSec": 0.0002041873049165588,
+   "nSigma": 814.9237903757934,
+   "run": {
+    "ok": true,
+    "steps": 2153406,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4534927465306,
+    "slopeRadPerSimTime": 1.5606747347791577e-8,
+    "seRadPerSimTime": 7.655174836228603e-17,
+    "r0": 955.9782718763176,
+    "rMin": 801.6926477443187,
+    "rMax": 955.9783448408967,
+    "rMinAll": 801.6926477443187,
+    "rMaxAll": 955.9783448408967,
+    "eProxy": 0.08777848513597628,
+    "mHeld": [
+     2661.023681640625,
+     2483.407958984375
+    ],
+    "chiDecl": [
+     0.9998807071206604,
+     0.9998886686848381
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"framePrecision\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"core\",\"cmGauge\":\"barycentric\",\"D0pull\":3.24204e-7}",
+    "warn": 2,
+    "f": 1.0000152959043622,
+    "periodSec": 8834.534927465305,
+    "degPerYear": 2.821882974458206,
+    "seDegPerYear": 1.3841453991315597e-8
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 8834.772253572486,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0877645451928636,
+     "degPerYear": 2.82172072767192
+    },
+    {
+     "f": 2.1,
+     "periodSec": 3530.832326463874,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.5656007331153251,
+     "degPerYear": 31.08511313081509
+    },
+    {
+     "f": 1.0000492621197685,
+     "periodSec": 8834.00726148451,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0878094804868618,
+     "degPerYear": 2.8222430233766294
+    },
+    {
+     "f": 1.0000152959043622,
+     "periodSec": 8834.534927465305,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08777848513597628,
+     "degPerYear": 2.821882974458206
+    }
+   ],
+   "spentSec": 1519.5
+  },
+  {
+   "family": "A",
+   "kFrame": 0.1,
+   "div": 2,
+   "dt": 0.008,
+   "fRoot": 1.099373334312346,
+   "reason": null,
+   "deltaPSec": -0.00041210444760508835,
+   "nSigma": 1644.733587185059,
+   "run": {
+    "ok": true,
+    "steps": 2153463,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4534311173553,
+    "slopeRadPerSimTime": -1.1437813029342183e-10,
+    "seRadPerSimTime": 3.074269012853961e-12,
+    "r0": 955.9782718763176,
+    "rMin": 801.5636812394146,
+    "rMax": 955.9109910632067,
+    "rMinAll": 801.5636812394146,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08782334804379752,
+    "mHeld": [
+     2925.41357421875,
+     2730.15087890625
+    ],
+    "chiDecl": [
+     0.9998914872805459,
+     0.9998987294535707
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.1,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"framePrecision\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"core\",\"cmGauge\":\"barycentric\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.099373334312346,
+    "periodSec": 8834.534311173553,
+    "degPerYear": -0.020680907516007273,
+    "seDegPerYear": 0.000555863896105463
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 10558.287787941135,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0039385892800657294,
+     "degPerYear": -1.9973669500728997
+    },
+    {
+     "f": 2.1,
+     "periodSec": 3841.152874279407,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.5232715591702676,
+     "degPerYear": 36.49423123875347
+    },
+    {
+     "f": 1.2822823116553732,
+     "periodSec": 6900.767829430986,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.21812048729249078,
+     "degPerYear": 4.087031015982527
+    },
+    {
+     "f": 1.1330368679695049,
+     "periodSec": 8386.022177498773,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.11496011689925568,
+     "degPerYear": 0.6705726636727986
+    },
+    {
+     "f": 1.0875017629138959,
+     "periodSec": 9006.34452814699,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.07785301368788648,
+     "degPerYear": -0.25823467188115573
+    },
+    {
+     "f": 1.100113556614571,
+     "periodSec": 8824.07169048176,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08843788276960982,
+     "degPerYear": -0.00576499051338924
+    },
+    {
+     "f": 1.0993896000843504,
+     "periodSec": 8834.304586623583,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08783683199010105,
+     "degPerYear": -0.020354022843694405
+    },
+    {
+     "f": 1.0993578380151203,
+     "periodSec": 8834.753973000574,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08781045460100356,
+     "degPerYear": -0.02099358214615909
+    },
+    {
+     "f": 1.099373334312346,
+     "periodSec": 8834.534311173553,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08782334804379752,
+     "degPerYear": -0.020680907516007273
+    }
+   ],
+   "spentSec": 1556.4
+  },
+  {
+   "family": "A",
+   "kFrame": 0.25,
+   "div": 2,
+   "dt": 0.008,
+   "fRoot": 1.248418043243046,
+   "reason": null,
+   "deltaPSec": -0.0008425489613728132,
+   "nSigma": 3362.6634792976265,
+   "run": {
+    "ok": true,
+    "steps": 2153531,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.453388072904,
+    "slopeRadPerSimTime": 2.106192479679416e-9,
+    "seRadPerSimTime": 1.1426671788592888e-11,
+    "r0": 955.9782718763176,
+    "rMin": 801.4038027677618,
+    "rMax": 955.8305230923177,
+    "rMinAll": 801.4038027677618,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08788055073359188,
+    "mHeld": [
+     3322.01904296875,
+     3100.283935546875
+    ],
+    "chiDecl": [
+     0.9999044410353198,
+     0.999910818747786
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.25,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"framePrecision\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"core\",\"cmGauge\":\"barycentric\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.248418043243046,
+    "periodSec": 8834.533880729039,
+    "degPerYear": 0.38082430418662966,
+    "seDegPerYear": 0.002066076284595902
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 14036.736103369381,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.14098535436949622,
+     "degPerYear": -6.199439155036111
+    },
+    {
+     "f": 2.1,
+     "periodSec": 4359.520841725584,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.4591700829126305,
+     "degPerYear": 40.90305845485832
+    },
+    {
+     "f": 1.5913293611212378,
+     "periodSec": 6085.1995862858785,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.28506921178403116,
+     "degPerYear": 12.747659914135085
+    },
+    {
+     "f": 1.3868704384246184,
+     "periodSec": 7423.272048188424,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.17921190691325373,
+     "degPerYear": 4.837414383019829
+    },
+    {
+     "f": 1.2507970671571091,
+     "periodSec": 8804.925517737789,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0896203293149968,
+     "degPerYear": 0.4519875602008809
+    },
+    {
+     "f": 1.245214351980427,
+     "periodSec": 8874.770033848858,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0855272325720355,
+     "degPerYear": 0.2852728902782844
+    },
+    {
+     "f": 1.2484303851276142,
+     "periodSec": 8834.37972096413,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08788959191975965,
+     "degPerYear": 0.38119344866529886
+    },
+    {
+     "f": 1.248418043243046,
+     "periodSec": 8834.533880729039,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08788055073359188,
+     "degPerYear": 0.38082430418662966
+    }
+   ],
+   "spentSec": 1589.9
+  },
+  {
+   "family": "A",
+   "kFrame": 0.5,
+   "div": 2,
+   "dt": 0.008,
+   "fRoot": 1.4968401645385425,
+   "reason": null,
+   "deltaPSec": 0.0001892216514534084,
+   "nSigma": 755.1949690828881,
+   "run": {
+    "ok": true,
+    "steps": 2153615,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4534912499652,
+    "slopeRadPerSimTime": 4.3057958816672435e-8,
+    "seRadPerSimTime": 3.2759934251214144e-11,
+    "r0": 955.9782718763176,
+    "rMin": 801.2001467350383,
+    "rMax": 955.732577065543,
+    "rMinAll": 801.2001467350383,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08795580401975864,
+    "mHeld": [
+     3983.06591796875,
+     3717.2080078125
+    ],
+    "chiDecl": [
+     0.9999202991538161,
+     0.9999256185564018
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.5,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"framePrecision\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"core\",\"cmGauge\":\"barycentric\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.4968401645385425,
+    "periodSec": 8834.534912499652,
+    "degPerYear": 7.785383987579191,
+    "seDegPerYear": 0.0059233803590056045
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 24392.31493139441,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.368833082410391,
+     "degPerYear": -8.030658071924112
+    },
+    {
+     "f": 2.1,
+     "periodSec": 5363.806866971646,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.3514208752420607,
+     "degPerYear": 42.924062199436264
+    },
+    {
+     "f": 1.899364163022583,
+     "periodSec": 6113.415191840089,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.2822921611123045,
+     "degPerYear": 28.857350910217807
+    },
+    {
+     "f": 1.7654787856341227,
+     "periodSec": 6777.453111928836,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.22745806401224522,
+     "degPerYear": 20.851094739424937
+    },
+    {
+     "f": 1.6053876040644097,
+     "periodSec": 7845.982009434714,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.14992822520932614,
+     "degPerYear": 12.610217137104755
+    },
+    {
+     "f": 1.4827025214446705,
+     "periodSec": 8985.173246549331,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.07921827847358742,
+     "degPerYear": 7.199773836031519
+    },
+    {
+     "f": 1.4989255216496828,
+     "periodSec": 8812.80314307593,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08923074005086394,
+     "degPerYear": 7.87258467202449
+    },
+    {
+     "f": 1.4968802050723342,
+     "periodSec": 8834.116347261235,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798032529143907,
+     "degPerYear": 7.787056598133075
+    },
+    {
+     "f": 1.4968018873034288,
+     "periodSec": 8834.93467491808,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08793238515412069,
+     "degPerYear": 7.783786546807068
+    },
+    {
+     "f": 1.4968401645385425,
+     "periodSec": 8834.534912499652,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08795580401975864,
+     "degPerYear": 7.785383987579191
+    }
+   ],
+   "spentSec": 1636.9
+  },
+  {
+   "family": "A",
+   "kFrame": 0.6,
+   "div": 2,
+   "dt": 0.008,
+   "fRoot": 1.5962127791371845,
+   "reason": null,
+   "deltaPSec": 0.00038928238427615725,
+   "nSigma": 1553.649362532556,
+   "run": {
+    "ok": true,
+    "steps": 2153641,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4535112560384,
+    "slopeRadPerSimTime": 6.694925183315774e-8,
+    "seRadPerSimTime": 4.3763389533016986e-11,
+    "r0": 955.9782718763176,
+    "rMin": 801.1342952197326,
+    "rMax": 955.7020583395455,
+    "rMinAll": 801.1342952197326,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08798074038408014,
+    "mHeld": [
+     4247.49462890625,
+     3963.987060546875
+    ],
+    "chiDecl": [
+     0.9999252605785286,
+     0.9999302488682629
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.6,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"framePrecision\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"core\",\"cmGauge\":\"barycentric\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.5962127791371845,
+    "periodSec": 8834.535112560385,
+    "degPerYear": 12.105209989667454,
+    "seDegPerYear": 0.00791293413520135
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 31814.002992468973,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.45988252212743086,
+     "degPerYear": -7.3923955403117105
+    },
+    {
+     "f": 2.1,
+     "periodSec": 5821.28746588767,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.308141870060042,
+     "degPerYear": 42.81986289263721
+    },
+    {
+     "f": 1.9724807348528193,
+     "periodSec": 6338.39899608668,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.2630066735278089,
+     "degPerYear": 33.54065107187556
+    },
+    {
+     "f": 1.8771956964052086,
+     "periodSec": 6804.513851230249,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.22529526761234642,
+     "degPerYear": 27.302472293234366
+    },
+    {
+     "f": 1.7454828383173189,
+     "periodSec": 7604.3192033761825,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.16641434364808708,
+     "degPerYear": 19.606306763919154
+    },
+    {
+     "f": 1.6139998707605672,
+     "periodSec": 8663.93312757572,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.09808594464976415,
+     "degPerYear": 12.93392879814469
+    },
+    {
+     "f": 1.579577212703681,
+     "periodSec": 9001.241059808479,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.07832446943098123,
+     "degPerYear": 11.345757559368279
+    },
+    {
+     "f": 1.5965897839181196,
+     "periodSec": 8830.83848722645,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08819728035907069,
+     "degPerYear": 12.122597994771306
+    },
+    {
+     "f": 1.5962207608564396,
+     "periodSec": 8834.456443775976,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879853476897438,
+     "degPerYear": 12.105579521121289
+    },
+    {
+     "f": 1.5962051450581265,
+     "periodSec": 8834.609593351473,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0879763784005832,
+     "degPerYear": 12.104859576399978
+    },
+    {
+     "f": 1.5962127791371845,
+     "periodSec": 8834.535112560385,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798074038408014,
+     "degPerYear": 12.105209989667454
+    }
+   ],
+   "spentSec": 1692
+  },
+  {
+   "family": "A",
+   "kFrame": 0.7,
+   "div": 2,
+   "dt": 0.008,
+   "fRoot": 1.6955871510498803,
+   "reason": null,
+   "deltaPSec": -0.0001347274719591951,
+   "nSigma": 537.70542767878,
+   "run": {
+    "ok": true,
+    "steps": 2153664,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4534588550529,
+    "slopeRadPerSimTime": 9.368526450261756e-8,
+    "seRadPerSimTime": 5.6227479311670515e-11,
+    "r0": 955.9782718763176,
+    "rMin": 801.0750978197154,
+    "rMax": 955.6751647285912,
+    "rMinAll": 801.0750978197154,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08800344033227353,
+    "mHeld": [
+     4511.92822265625,
+     4210.7705078125
+    ],
+    "chiDecl": [
+     0.9999296405719066,
+     0.9999343365494875
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.7,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"framePrecision\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"core\",\"cmGauge\":\"barycentric\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.6955871510498803,
+    "periodSec": 8834.534588550528,
+    "degPerYear": 16.939394671174682,
+    "seDegPerYear": 0.010166587760437868
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 43232.8515966481,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.5508933265461758,
+     "degPerYear": -6.138753654793759
+    },
+    {
+     "f": 2.1,
+     "periodSec": 6316.234296253664,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.264801395094334,
+     "degPerYear": 42.471042848255436
+    },
+    {
+     "f": 2.024962505443391,
+     "periodSec": 6651.779005937392,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.23731289086457857,
+     "degPerYear": 36.92008878518212
+    },
+    {
+     "f": 1.9638040261979128,
+     "periodSec": 6958.744249294268,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.21336171557522315,
+     "degPerYear": 32.68068795465115
+    },
+    {
+     "f": 1.8690255594457401,
+     "periodSec": 7507.664447210696,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.17316030789888429,
+     "degPerYear": 26.59986495835466
+    },
+    {
+     "f": 1.7528627577692009,
+     "periodSec": 8339.263402285886,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.11798249500331837,
+     "degPerYear": 19.926085978620367
+    },
+    {
+     "f": 1.67510121563309,
+     "periodSec": 9028.617536355458,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.07678459076912506,
+     "degPerYear": 15.918881938867347
+    },
+    {
+     "f": 1.6969944314725622,
+     "periodSec": 8821.551246760437,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0887642258341201,
+     "degPerYear": 17.01042221698273
+    },
+    {
+     "f": 1.6956216824157182,
+     "periodSec": 8834.216202290001,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08802208080263003,
+     "degPerYear": 16.941132106869603
+    },
+    {
+     "f": 1.695554548025627,
+     "periodSec": 8834.835457038305,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08798582548892968,
+     "degPerYear": 16.937752815979366
+    },
+    {
+     "f": 1.6955871510498803,
+     "periodSec": 8834.534588550528,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08800344033227353,
+     "degPerYear": 16.939394671174682
+    }
+   ],
+   "spentSec": 1753.6
+  },
+  {
+   "family": "A",
+   "kFrame": 0.75,
+   "div": 2,
+   "dt": 0.008,
+   "fRoot": 1.7452749031381325,
+   "reason": null,
+   "deltaPSec": -0.0000018063910829368979,
+   "nSigma": 7.2094152416063935,
+   "run": {
+    "ok": true,
+    "steps": 2153675,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4534721471609,
+    "slopeRadPerSimTime": 1.0794632009545467e-7,
+    "seRadPerSimTime": 6.302119983506015e-11,
+    "r0": 955.9782718763176,
+    "rMin": 801.0477162760858,
+    "rMax": 955.6628812758892,
+    "rMinAll": 801.0477162760858,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08801402189709785,
+    "mHeld": [
+     4644.146484375,
+     4334.16357421875
+    ],
+    "chiDecl": [
+     0.9999316435588513,
+     0.999936205860222
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":0.75,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"framePrecision\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"core\",\"cmGauge\":\"barycentric\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.7452749031381325,
+    "periodSec": 8834.53472147161,
+    "degPerYear": 19.517960792508322,
+    "seDegPerYear": 0.011394972115675944
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": 51469.82505182618,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.5963810504677676,
+     "degPerYear": -5.305212023479987
+    },
+    {
+     "f": 2.1,
+     "periodSec": 6579.250594243929,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.24311352314085072,
+     "degPerYear": 42.24038496290482
+    },
+    {
+     "f": 2.0447364492008977,
+     "periodSec": 6840.0575000257495,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.22247545282416262,
+     "degPerYear": 38.144463277677396
+    },
+    {
+     "f": 1.9980478114029496,
+     "periodSec": 7080.462682862317,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.20415388594579004,
+     "degPerYear": 34.84954260372854
+    },
+    {
+     "f": 1.922169291158946,
+     "periodSec": 7517.190815279606,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.1724870139398837,
+     "degPerYear": 29.81015677746598
+    },
+    {
+     "f": 1.8207333183998786,
+     "periodSec": 8211.585495012612,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.1260482043819026,
+     "degPerYear": 23.664927990679463
+    },
+    {
+     "f": 1.7348387920773856,
+     "periodSec": 8929.418500477594,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08249424936326011,
+     "degPerYear": 18.972394216595816
+    },
+    {
+     "f": 1.7461924036224117,
+     "periodSec": 8826.30353786993,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08849613026349393,
+     "degPerYear": 19.566246739946827
+    },
+    {
+     "f": 1.745286097890295,
+     "periodSec": 8834.434131232358,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08801990995469565,
+     "degPerYear": 19.518549943342457
+    },
+    {
+     "f": 1.7452639931147573,
+     "periodSec": 8834.632756852428,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08800828215872451,
+     "degPerYear": 19.517386605059674
+    },
+    {
+     "f": 1.7452749031381325,
+     "periodSec": 8834.53472147161,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08801402189709785,
+     "degPerYear": 19.517960792508322
+    }
+   ],
+   "spentSec": 1819.3
+  },
+  {
+   "family": "A",
+   "kFrame": 1,
+   "div": 2,
+   "dt": 0.008,
+   "fRoot": 1.9937187875234377,
+   "reason": null,
+   "deltaPSec": 0.00003513858791848179,
+   "nSigma": 140.2402135954733,
+   "run": {
+    "ok": true,
+    "steps": 2153720,
+    "stopped": "window",
+    "nan": false,
+    "nPeri": 20,
+    "candidates": 20,
+    "rejected": 0,
+    "unwrapFailed": false,
+    "clamp": 0,
+    "perMeanSim": 883.4534758416588,
+    "slopeRadPerSimTime": 1.8623631500444905e-7,
+    "seRadPerSimTime": 2.004039753723229e-10,
+    "r0": 955.9782718763176,
+    "rMin": 800.9284448043661,
+    "rMax": 955.6107504640056,
+    "rMinAll": 800.9284448043661,
+    "rMaxAll": 955.9782718763176,
+    "eProxy": 0.08806083352783167,
+    "mHeld": [
+     5305.25146484375,
+     4951.1416015625
+    ],
+    "chiDecl": [
+     0.9999401611710846,
+     0.9999441550147792
+    ],
+    "sig": "{\"G\":6.674,\"D0\":0.006,\"kFrame\":1,\"q\":3.1789,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-7,\"cLight\":3000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":300,\"dispMag\":1000,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"framePrecision\":\"double\",\"frameReaction\":\"pairReduced\",\"coupleSink\":\"core\",\"cmGauge\":\"barycentric\",\"D0pull\":3.24204e-7}",
+    "warn": 0,
+    "f": 1.9937187875234377,
+    "periodSec": 8834.534758416588,
+    "degPerYear": 33.673710147634054,
+    "seDegPerYear": 0.03623538931684716
+   },
+   "trace": [
+    {
+     "f": 1,
+     "periodSec": null,
+     "stopped": "escape",
+     "nPeri": 1,
+     "eProxy": 0.6000010653516366,
+     "degPerYear": null
+    },
+    {
+     "f": 2.1,
+     "periodSec": 8079.4672350643295,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.13455622674296838,
+     "degPerYear": 40.887221502150375
+    },
+    {
+     "f": 1.55,
+     "periodSec": 15196.974224664224,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.17865664772031634,
+     "degPerYear": 11.918697475682412
+    },
+    {
+     "f": 2.041652727686206,
+     "periodSec": 8474.680204546054,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.10962757337068457,
+     "degPerYear": 36.82591934761392
+    },
+    {
+     "f": 2.0153338170323014,
+     "periodSec": 8668.003560563042,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.09791250942216566,
+     "degPerYear": 35.086375771526335
+    },
+    {
+     "f": 1.9921861625008326,
+     "periodSec": 8846.623233157196,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08735421824752633,
+     "degPerYear": 33.643608288424645
+    },
+    {
+     "f": 1.9937527349081152,
+     "periodSec": 8834.268435273514,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08807644414292344,
+     "degPerYear": 33.698938361381344
+    },
+    {
+     "f": 1.993718969933233,
+     "periodSec": 8834.533250028864,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08806092037518069,
+     "degPerYear": 33.67307442164933
+    },
+    {
+     "f": 1.9937185964121027,
+     "periodSec": 8834.536266805906,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.0880607457330982,
+     "degPerYear": 33.67434587594359
+    },
+    {
+     "f": 1.9937187875234377,
+     "periodSec": 8834.534758416588,
+     "stopped": "window",
+     "nPeri": 20,
+     "eProxy": 0.08806083352783167,
+     "degPerYear": 33.673710147634054
+    }
+   ],
+   "spentSec": 1862
+  }
+ ],
+ "pageErrors": []
+}

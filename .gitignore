@@ -52,6 +52,15 @@ tests/out/*
 !tests/out/e12ref-w262c.json
 !tests/out/emap-w262c.json
 !tests/out/v2delta-w262c.json
+# 第262便a: NS の釣り合い探索の実測正本。
+#   balance: 現行経路(geoPN=2)の釣り合い曲線 f(kFrame)(tests/exp-w262a-balance.mjs)
+#   geotoy : geoPN=3 の D₀×η×lawVersion 掃引と D₀=0 の直線離脱(tests/exp-w262a-geotoy.mjs)
+#   uigeopn: geoPN=3 を UI で選ぶと 2 へ戻る不具合の実機再現と、直ったことの確認(tests/exp-w262a-uigeopn.mjs)
+#   docs/PHYSICS.md 〔第262便a〕の表がこの値そのものなのでコミットする
+#   (**QA はこの 3 本を読まない** —— 読むのは器の中で走らせた値である)
+!tests/out/balance-w262a.json
+!tests/out/geotoy-w262a.json
+!tests/out/uigeopn-w262a.json
 # 第134便: kF1 較正ハーネスの実測正本(論文3 再現性 — 外部レビュー P0 対応。
 # 本文の中心値〔q*=6.16/8.25/21.8・drag −5.6e-10・第122便 q*=4.59〕を提出コミットから再生成可能に)
 !tests/out/coreshell-results.json

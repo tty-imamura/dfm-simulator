@@ -14474,6 +14474,88 @@ if (!FAST) {
     console.log('SKIP behavior.dfmField(対象に第259便a の HP.dfmField なし — root 等)');
   }
 }
+// ---- 第262便a(第54報「geoPN を 3 にした時に、初めからで 2 になるので、修正する」): ui.geoPNRestart ----
+//   第259便a の実行時の門(`S.updateRadii()`)は、受理条件を 1 つでも欠くと **`S.params.geoPN` を 2 へ
+//   書き換えて**いた。パラメータ行の `setParam` は geoPN を書いた直後に `updateRadii()` を呼ぶので、
+//   **スライダーを 3 にした瞬間に値が 2 へ戻り**、「⏮ 初めから」で行が作り直されるとつまみも 2 に落ちた。
+//   本ブロックが機械固定するのは 5 項目:
+//     ① **UI で 3 にした値が保たれる**(📻: kFrame=0・spaceMesh 宣言なし)—— スライダー・⏮ の前後とも
+//        `S.params.geoPN===3`・つまみも "3"。**lawVersion 未宣言でもトイは走る**(実行時の既定 "scalar")。
+//     ② **入場条件が立たないときは 3 のまま denied**(⚡: kFrame=1)—— `S.geoToyDeny==="kFrame"`・
+//        `hasGeoToy===false`・1 步後に `S.geoToyStop==="denied"`。**黙って 2 に書き換えない**。
+//     ③ **denied の力学は geoPN=2 と 1 bit 同じ**(`geoCoreDispatch` が `_core` へ 2 を渡す)——
+//        ⚡ を geoPN=3(denied)と geoPN=2 で 200 步走らせて状態がビット同一。
+//     ④ **検証器の門は従来どおり**: lawVersion 宣言なしの JSON は読み込み時に 2 へ丸めて警告
+//        (第259便a の契約を変えていない —— 補うのは UI 経由の実行時の値だけである)。
+//     ⑤ **3 → 2 へ戻せる**(往復)。
+{
+  const hasDeny = await page.evaluate(() => !!(window.HP && HP.sim) && ('geoToyDeny' in HP.sim));
+  if (hasDeny) {
+    const r = await page.evaluate(() => {
+      const row = () => {
+        const l = Array.from(document.querySelectorAll('#paramRows .prow label'))
+          .find((z) => /geoPN/.test(z.textContent));
+        if (!l) return null;
+        const p = l.parentElement;
+        return { rng: p.querySelector('input[type=range]'), num: p.querySelector('input.valIn') };
+      };
+      const snap = (S) => ({ geoPN: S.params.geoPN, has: !!S.hasGeoToy, deny: S.geoToyDeny, stop: S.geoToyStop });
+      const ui = (id) => {
+        HP.loadPreset(id, false);
+        const S = HP.sim, f0 = row();
+        if (!f0) return { err: 'geoPN 行が無い' };
+        f0.rng.value = '3'; f0.rng.dispatchEvent(new Event('input', { bubbles: true }));
+        const a = { ...snap(S), rng: row().rng.value };
+        document.querySelector('#btnReset').click();
+        const b = { ...snap(S), rng: row().rng.value };
+        S.step(0.016);
+        const c = snap(S);
+        const f3 = row(); f3.num.value = '2'; f3.num.dispatchEvent(new Event('change', { bubbles: true }));
+        return { slider: a, reset: b, step: c, back: snap(S).geoPN, N: S.geoToyN };
+      };
+      const radio = ui('psrDoubleAB'), dfm = ui('psrDoubleABDFM');
+      // ③ denied の力学 = geoPN=2(200 步の状態がビット同一)
+      const run = (g) => {
+        const q = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'psrDoubleABDFM')));
+        const v = HP.validatePreset(q);
+        const S = HP.sim; S.build(v.preset);
+        S.params.geoPN = g; S.updateRadii();
+        for (let k = 0; k < 200; k++) S.step(0.016);
+        return { st: [S.x[0], S.y[0], S.vx[0], S.vy[0], S.x[1], S.y[1], S.vx[1], S.vy[1]],
+          deny: S.geoToyDeny, held: S.params.geoPN };
+      };
+      const g3 = run(3), g2 = run(2);
+      // ④ 検証器は従来どおり(宣言なし JSON は 2 へ丸めて警告)
+      const q = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'psrDoubleAB')));
+      q.physics.geoPN = 3; q.sampleClass = 'principle'; delete q.claims;
+      const vNo = HP.validatePreset(JSON.parse(JSON.stringify(q)));
+      return { radio, dfm,
+        denySame: g3.st.every((z, i) => Object.is(z, g2.st[i])),
+        denyHeld: g3.held === 3 && g3.deny === 'kFrame' && g2.deny === null,
+        valRound: vNo.ok && vNo.preset.physics.geoPN === 2
+          && (vNo.warnings || []).some((w) => w.indexOf('geoPN=3') >= 0) };
+    });
+    const CK = {
+      keepSlider: r.radio.slider.geoPN === 3 && r.radio.slider.rng === '3',
+      keepReset: r.radio.reset.geoPN === 3 && r.radio.reset.rng === '3',
+      toyRuns: r.radio.step.has === true && r.radio.step.stop === null && r.radio.N === 2,
+      denyKeep: r.dfm.slider.geoPN === 3 && r.dfm.reset.geoPN === 3 && r.dfm.slider.deny === 'kFrame',
+      denyStop: r.dfm.step.has === false && r.dfm.step.stop === 'denied',
+      denySame: r.denySame && r.denyHeld,
+      valRound: r.valRound,
+      back: r.radio.back === 2 && r.dfm.back === 2 };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    add('ui.geoPNRestart', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + `📻(kF0・lawVersion 未宣言): スライダー3 で params=${r.radio.slider.geoPN}(つまみ ${r.radio.slider.rng})・`
+      + `⏮ 後 ${r.radio.reset.geoPN}(つまみ ${r.radio.reset.rng})・1 步後 stop=${r.radio.step.stop} N=${r.radio.N}(既定 scalar で走る) / `
+      + `⚡(kF1): 3 のまま deny=${r.dfm.slider.deny}・⏮ 後 ${r.dfm.reset.geoPN}・stop=${r.dfm.step.stop}(黙って 2 に丸めない) / `
+      + `denied の 200 步が geoPN=2 とビット同一=${r.denySame} / 検証器は従来どおり 2 へ丸めて警告=${r.valRound} / `
+      + `3→2 の往復=${r.radio.back}/${r.dfm.back}`);
+  } else {
+    console.log('SKIP ui.geoPNRestart(対象に第262便a の geoToyDeny なし — root 等)');
+  }
+}
 // ---- 第260便a(第52報): behavior.fieldApiIdentity — 入場条件 (v)「表示とトイが同じ関数を読む」の恒等 ----
 //   統括の検証仮説 (1)。**「表示と力が同じ場になった」ことの確認ではない** —— 蓄積格子が読む場は
 //   **全源 scalar/local・背景 static の診断場**で、銀河の既存表示(disk/affine の u_n)とは**別の場**である。
@@ -18351,7 +18433,8 @@ if (!FAST) {
         'psrDoubleABPN', 'psrJ1757PN', 'psrJ1946PN',
         'psrDoubleABCF', 'psrJ1757CF', 'psrJ1946CF',
         'psrB1534', 'psrB1534DFM', 'psrB1534CF', 'compactForceToy', 'boxBinaryToy', 'spaceMeshBinaryToy',
-        'axisBarStill', 'axisBarArms', 'axisBarReach'];   // 第251便b: 第248便c の 3 本(🍥🪁🍢)は廃止   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)/ 第247便d: 🪞 mmPhaseToy(pull 明示の原理サンプル)/ 第248便a: 🧮🩺(⚡ の処方をそのまま当てた NS 連星 hold-out — ⚡ と同じ pull 宣言) / 第248便c: 🍥🪁🍢(銀河形態の原理サンプル — pull 既定)/ 第249便a: 🪶🪃🪀(NS 応答候補 λ_PN=1/f の variant — 複製元と同じ pull 宣言) / 第249便c: 🥢🎏🎚️(axisForce 玩具の原理サンプル — pull 既定)
+        'axisBarStill', 'axisBarArms', 'axisBarReach',
+        'psrDoubleABGeoToy'];   // 第251便b: 第248便c の 3 本(🍥🪁🍢)は廃止 / 第262便a: 🩻(📻 の geoPN=3 診断コピー — 📻 と同じ pull 宣言)   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)/ 第247便d: 🪞 mmPhaseToy(pull 明示の原理サンプル)/ 第248便a: 🧮🩺(⚡ の処方をそのまま当てた NS 連星 hold-out — ⚡ と同じ pull 宣言) / 第248便c: 🍥🪁🍢(銀河形態の原理サンプル — pull 既定)/ 第249便a: 🪶🪃🪀(NS 応答候補 λ_PN=1/f の variant — 複製元と同じ pull 宣言) / 第249便c: 🥢🎏🎚️(axisForce 玩具の原理サンプル — pull 既定)
       const all = HP.allPresets(); let nShare = 0, nOther = 0; const wrong = [];
       for (const q of all) { const fw = q.physics && q.physics.frameWeight; if (MIG.indexOf(q.id) >= 0) { if (fw !== undefined && fw !== 'pull') wrong.push(q.id); } else if (fw === 'share') nShare++; else { nOther++; wrong.push(q.id); } }
       // 🌘: 宣言どおり(pull・D0pull=3.36e-5)で generic・近点移動 2.995°/周。pull3/pull4 は再較正値で同窓
