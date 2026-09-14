@@ -16340,7 +16340,7 @@ if (!FAST) {
 //      負の m=`bodyMassNegative`(第262便b で直した穴 —— 旧実装は |m| を使い符号を黙って反転させた)。
 //   ④ **massFrac=1(裸コア)は 1 層**(r=Rc)で、観測半径 R は層に載らず `observedRadius` に残る。
 //   ⑤ **元 JSON を保持**(`source`)・**`canReplaceV2:false`**(コア V2 は消さない)。
-//   ⑥ **内蔵 121 本の移行レポート**(`coreV2MigrateReport` — 変換しない): 件数が固定値と一致する。
+//   ⑥ **内蔵 122 本の移行レポート**(第262便a で 🩻 が加わり 121→122)(`coreV2MigrateReport` — 変換しない): 件数が固定値と一致する。
 //   ⑦ **非有限の拒否**(統括が設定した検証仮説 (4)): `_setBodyLayers` に Infinity/1e300 を渡すと
 //      `layerNotFinite` で拒否し、**元の状態が 1 bit も動かない**(基点は受理して根の m が Infinity になった)。
 {
@@ -16438,7 +16438,7 @@ if (!FAST) {
       && mg.naked.observedRadius === 8 && mg.naked.warnings.indexOf('nakedCoreObservedRadiusKept') >= 0;
     const m5 = mg.p0.canReplaceV2 === false && mg.p0.source && mg.p0.source.massFrac === 0.3
       && mg.p0.warnings.indexOf('canReplaceV2:false') >= 0;
-    const m6 = mg.rep.nPresets === 121 && mg.rep.nCore === 75 && mg.rep.tot.convertible === 61
+    const m6 = mg.rep.nPresets === 122 && mg.rep.nCore === 75 && mg.rep.tot.convertible === 61
       && mg.rep.tot.needsResolve === 13 && mg.rep.tot.rejected === 1
       && mg.rep.tot.cavity === 0 && mg.rep.tot.naked === 0;
     const m7 = !mg.fin.inf.ok && mg.fin.inf.why === 'layerNotFinite' && mg.fin.inf.m === 1000
@@ -33161,7 +33161,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       o.famOk = o.fam.solarInner.length === 1 && o.fam.solarInner[0].endsWith(':primary')
         && o.fam.venusReal.length === 1 && o.fam.venusReal[0].endsWith(':primary')
         && o.fam.mercury.length === 2
-        && o.fam.earthmoon === 2 && o.fam.saturn === 3 && o.fam.psr === 7 && o.fam.grcal === 4;
+        && o.fam.earthmoon === 2 && o.fam.saturn === 3 && o.fam.psr === 8 /* 第262便a: 🩻 psrDoubleABGeoToy */ && o.fam.grcal === 4;
       // 単独ファミリーでは「この仲間」導線が出ない(他メンバーが無いので)
       hidePresetPicker(); HP.loadPreset('solarInner', false);
       { const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click(); }
