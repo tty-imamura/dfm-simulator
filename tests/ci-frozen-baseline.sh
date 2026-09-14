@@ -7,7 +7,22 @@
 # 本スクリプトは `git clone --filter=blob:none --no-checkout` + `git show <凍結SHA>:beta/index.html` で
 # **凍結した 1 ファイルだけ**を取り出し、**所要時間と取得量**を測る。
 #
-# **CI の yaml は本便では 1 文字も変えていない**(有効化は次便の裁定 —— 〔第261便d〕⑤)。
+# **CI の yaml は本便でも 1 文字も変えていない**(〔第261便d〕⑤ と同じ —— 第262便d でも足していない)。
+#
+# 第262便d(第54報 W4・統括が設定した検証仮説 (8))の位置づけ:
+#   **これは「夜間/手動ジョブの候補」であって、PR ゲートに入れるものではない。**
+#   ・PR ごとに走らせない: clone は**ネットワークと GitHub 側の応答**に依存し、手元の 1.6〜1.8 s が
+#     CI ランナーの上限である保証は無い(測っていない)。**PR の赤は再現できる原因だけに使う。**
+#   ・**取得に成功したときだけ** (b) を FAIL の基準として読む(perf.mjs の `frozen-file`)。
+#   ・**取得に失敗したら root-fallback へ落ちるが、それは「凍結基準で通った」ではない** ——
+#     root-fallback の行は `judgement:"informational"` のままで、**fail を増やさない**
+#     (perf.mjs の `ABJIT_ROOT_FALLBACK_IS_FROZEN=false`)。
+#     **取得失敗を合格に置き換えない**というのがこの取り決めの要点である。
+#   ・想定する呼び出し方(**yaml には入れていない** —— 次便の裁定):
+#       schedule(夜間)または workflow_dispatch(手動)で
+#         tests/ci-frozen-baseline.sh <凍結SHA> tests/perf-baseline/index.html
+#         PERF_ABJIT_ONLY=1 node tests/perf.mjs
+#       取得が失敗しても**ジョブは続ける**(continue-on-error 相当)。
 #
 # 使い方:
 #   tests/ci-frozen-baseline.sh <凍結SHA> [出力パス] [リポジトリURL]

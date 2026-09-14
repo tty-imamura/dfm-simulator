@@ -943,9 +943,13 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     `"bodyLayers"`(親子コアは根 1 粒子の点源とは別の場)/ `"massiveBox"`(箱は規定場で bodies に書けない)/
     `"nonPositiveMass"` / `"supportR"` / `"degenerate"` / `"n"` / `"lawVersion"`。
   - **蓄積格子の両分岐(銀河・連星)とトイ積分器の重力**が、これを通して**同じ `dfmField`** を読む。
-  - **`p:frameWeightPow` の読み方(第261便・文書で固定・コードは不変)**: `frameWeight` **未宣言と
-    `"pull"` は p=2**・`"pull3"` は 3・`"pull4"` は 4・**`"share"` は関数が 0 を返す番兵**で、
-    **読む側がすべて p=1(核 w=m/(d²+ε²)^{1/2})へ読み替える**(このアダプタも `p:1` を渡す)。
+  - **`p:frameWeightPow` の読み方(第261便で文書に固定 → **第262便d で番兵を廃した**)**:
+    `frameWeight` **未宣言と `"pull"` は p=2**・`"pull3"` は 3・`"pull4"` は 4・
+    **`"share"` と未知名は p=1**(核 w=m/(d²+ε²)^{1/2})を **`frameWeightPow` がそのまま返す**。
+    **第261便までは `"share"` で 0 を返す番兵**で、読む側がすべて `(pw>0)? pw : 1` と読み替えていた ——
+    **第262便d でその番兵を廃し、「pull 族かどうか」は `HP.frameWeightIsPull(physics)` だけが答える**
+    (`pw>0` を真偽に使う経路は 0 になった)。**値は 1 bit も変わっていない**
+    (全内蔵 121 本 × 600 步の状態が基点とビット同一 —— 番兵の整理であって規則の変更ではない)。
     したがって **API へ渡る p は 1・2・3・4 のいずれか**であり、**p=0(距離に依らない重み)は渡らない**。
     D₀ の読み先も宣言で変わる(share は `D0`・pull 系は `D0pull`)。
     **`dfmMeshScalarField` に直接 `power:0` を渡した場合だけ W=Σm(距離に依らない)になる** ——
@@ -1385,6 +1389,23 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     分母 **[legacy | active] の両方**・しきい値 **1e−3**・seed は**プリセットの宣言値**・
     読む欄は **residualDrag(無ければ residual)**・**判定は informational**。
     **窓を宣言しない門は意味を持たない**(残差は窓で単調に増える —— 〔第260便c〕②)。
+  - `HP.dfmLedgerGateState(rel, undefinedTerms, threshold?)`(**第262便d**)— **正本を宣言した**状態名の純関数。
+    返値 `{primary:"active", threshold, relActive, relLegacy, abs, undefinedTerms, ledgerClosed, state, judged, note}`。
+    **正本は活動部分**(`relActive`)で、従来分母は**併記**する(`HP.LEDGER_GATE_THRESHOLD` = 1e−3)。
+    `state` は 5 つ: **`"within"`**(活動分母で門以下)/ **`"over"`**(**帳簿が閉じた**宇宙で門を超えた ——
+    **「否」を名乗れる唯一の状態**・`judged:true`)/ **`"undefined-terms"`**(未定義項が残る宇宙で門を超えた ——
+    **門外**。超過が未定義項の中にあるのかを切り分けられないので**「否」と呼ばない**・`judged:false`)/
+    `"active-degenerate"` / `"no-denom"`。**FAIL を出す関数ではない**(判定は呼ぶ側が宣言する)。
+    実測(窓 T=96・h=0.016): **🎻 gw150914DFM 8.462×10⁻⁴ = `within`**・
+    **🎠 galaxyMeshSpiral 活動 1.0905×10⁻² = `undefined-terms`**(従来分母では 3.181×10⁻⁴)・
+    **🫐 tuc47DFM 3.098×10⁻¹ = `undefined-terms`**。**門は廃していない。**
+    **「両方の分母を通ったから合格」とは書かない**(未定義項がある限り帳簿は閉じていない)。
+    HUD(保存量モニタ ON)は **`HP.ledgerHudLines(S)`** の 2 行で**どちらの分母か**を必ず出す
+    (`HP.LEDGER_HUD_MS`=500 ms ごとに数え直す表示専用の節流 —— 力学は 1 bit も動かない)。
+  - **`HP.frameWeightIsPull(physics)`(第262便d)** — **pull 族かどうかを答える唯一の関数**
+    (未宣言 / `"pull"` / `"pull3"` / `"pull4"` が true・`"share"` と未知名が false)。
+    `HP.frameWeightPow` は **share と未知名で p=1 を返す**ようになった(**番兵 0 は廃止**)。
+    **生成 AI は JSON に書かない**(読み口である)。
   - **`S.meshCoordSink` / `S.meshCoordSinkL` / `S.meshCoordSinkGive` / `S.meshCoordSinkN`**(第261便d・診断の読み口)—
     `physics.spaceMesh.inertiaRemoval:"inStep"` を宣言し、かつ `physics.coupleSink` を宣言した宇宙で、
     **残余トルクを同段階で受け先(J_core / 容量つき J_z / リザーバ帳簿)へ送った量**の記帳である。
