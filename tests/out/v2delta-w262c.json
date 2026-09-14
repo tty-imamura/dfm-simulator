@@ -1,0 +1,356 @@
+{
+ "meta": {
+  "wave": "第262便c",
+  "target": "beta/index.html",
+  "sample": "🩺 psrJ1946DFM",
+  "divs": [
+   1,
+   2,
+   4,
+   8
+  ],
+  "window": "最初の 20 近点(19 区間)",
+  "extractor": "radial-crossing/orbit-phase-1.5pi-v1",
+  "touched": "**プリセット JSON は 1 bit も書き換えていない。** 版 v2 側は**診断コピー**(bodies の x/vy だけ差し替えたコピー)で走らせた —— 署名便は行っていない。",
+  "blastRadius": [
+   "beta/index.html: 🩺 psrJ1946DFM の bodies(x/vy)",
+   "beta/index.html: 🩺 を複製した variant 🪀 psrJ1946PN・🩹 psrJ1946CF の bodies(同じ初期状態を持つ)",
+   "beta/index.html: 🩺 の obsCard / descStruct / failureFirst の実測数値(P・e・近点移動)",
+   "beta/index.html: 🩺 の claims の expected 窓と descPattern",
+   "tests/qa.mjs: 近点間 P の期待値表(psrJ1946DFM 6780.92 / psrJ1946PN 6780.50 など)",
+   "tests/qa.mjs: 121 本の 600 步ビット指紋(署名便として 1 本だけ動く)",
+   "paper/data/solar-observations.csv: semi_major_axis の版 v2 行(現在は v1 行のみ)",
+   "docs/CALIBRATION_VERDICT_v1.44.md §2.1 / §5 の 🩺 行・docs/SAMPLE_RANKING.md・docs/PHYSICS.md"
+  ],
+  "notDone": "**本便では署名便を実施していない。** 上の blastRadius が 8 か所・変更する実測数値が 20 以上あり、その全部を測り直して揃えるには本便の走行予算に収まらない。**差だけを先に測って置く**(検証仮説 (7) の「同時に揃える」条件は、揃える先の数値がこの表で確定してから満たす)。"
+ },
+ "summary": {
+  "inputs": {
+   "v1": {
+    "periodSec": 6781.366656,
+    "periodSigma": 0.000864,
+    "ecc": 0.063848,
+    "eccSigma": 0.000009,
+    "omegaDot": 25.79205,
+    "omegaDotSigma": 0.0004,
+    "a": 731.4902889635589,
+    "rApo": 778.1944809333041,
+    "vApo": 6.357695272372749,
+    "source": "Meng et al. (2025) A&A 704 A153 - The double neutron star PSR J1946+2052 I. Masses and tes"
+   },
+   "v2": {
+    "periodSec": 6781.367998656,
+    "periodSigma": 0.000001728,
+    "ecc": 0.0638363,
+    "eccSigma": 8e-7,
+    "omegaDot": 25.79205,
+    "omegaDotSigma": 0.0004,
+    "a": 731.4903855163476,
+    "rApo": 778.1860252132848,
+    "vApo": 6.357769542671246,
+    "source": "Meng et al. (2025) A&A 704 A153 Table 1 DDFWHE column - The double neutron star PSR J1946+"
+   },
+   "delta": {
+    "periodSec": 0.0013426559999061283,
+    "periodRel": 1.9799194882320314e-7,
+    "ecc": -0.000011700000000003374,
+    "eccRel": -0.00018324771331918577,
+    "sigmaRatioPeriod": 500,
+    "a": 0.00009655278870468464,
+    "aRel": 1.3199462817406544e-7,
+    "rApo": -0.008455720019355795,
+    "rApoRel": -0.000010865818540905971,
+    "vApo": 0.0000742702984970478,
+    "vApoRel": 0.000011681953178817497
+   }
+  },
+  "bodiesV1": {
+   "x0": -383.59535200440934,
+   "x1": 394.59912892889486,
+   "vy0": -3.133898293672956,
+   "vy1": 3.2237969786997933
+  },
+  "bodiesV2": {
+   "x0": -383.5911839269213,
+   "x1": 394.59484128636353,
+   "vy0": -3.1339349037260895,
+   "vy1": 3.2238346389451564
+  },
+  "declaredBodies": [
+   {
+    "m": 5105.584602637203,
+    "x": -383.59535200440934,
+    "vy": -3.133898293672956
+   },
+   {
+    "m": 4963.210456528453,
+    "x": 394.59912892889486,
+    "vy": 3.2237969786997933
+   }
+  ],
+  "selfCheck": {
+   "x0": {
+    "declared": -383.59535200440934,
+    "reproduced": -383.59535200440934,
+    "relDiff": 0
+   },
+   "vy0": {
+    "declared": -3.133898293672956,
+    "reproduced": -3.133898293672956,
+    "relDiff": 0
+   },
+   "x1": {
+    "declared": 394.59912892889486,
+    "reproduced": 394.59912892889486,
+    "relDiff": 0
+   },
+   "vy1": {
+    "declared": 3.2237969786997933,
+    "reproduced": 3.2237969786997933,
+    "relDiff": 0
+   },
+   "aFromCsv": 731.4902889635589,
+   "aV2Scaled": 731.4903855163476,
+   "aRelDiff": 1.3199462817406544e-7,
+   "aKeplerFromMassRows": 731.4847951054501,
+   "aKeplerRelDiffVsCsv": -0.000007510500401317768,
+   "note": "**a は CSV の行が正本**(論文の総質量 2.531858 M☉ 由来)。質量 2 行の和からケプラーを解き直すと 7.5×10⁻⁶ ずれる —— v1→v2 の差より 57 倍大きい。この 1 点が「署名便を勘で組んではいけない」理由である。"
+  },
+  "measured": {
+   "v1": {
+    "stages": [
+     6685.642291994065,
+     6733.570007117497,
+     6757.54080649197,
+     6769.529013590517
+    ],
+    "richardsonP": {
+     "triples": [
+      {
+       "p": 0.9995821428774139,
+       "yInf": 6781.525497537863
+      },
+      {
+       "p": 0.9996621085488182,
+       "yInf": 6781.522838142687
+      }
+     ],
+     "extrapolations": [
+      6781.525497537863,
+      6781.522838142687
+     ],
+     "yInf": 6781.522838142687,
+     "spread": 0.002659395176124235
+    },
+    "richardsonW": {
+     "triples": [
+      {
+       "p": 1.6540305837024443,
+       "yInf": 51.476556474043505
+      },
+      {
+       "p": 2.200099249268579,
+       "yInf": 51.61709561318205
+      }
+     ],
+     "extrapolations": [
+      51.476556474043505,
+      51.61709561318205
+     ],
+     "yInf": 51.61709561318205,
+     "spread": 0.14053913913854643
+    },
+    "eFinest": 0.06488739558191313
+   },
+   "v2": {
+    "stages": [
+     6685.644115322102,
+     6733.571607728185,
+     6757.5422844719305,
+     6769.530421576665
+    ],
+    "richardsonP": {
+     "triples": [
+      {
+       "p": 0.9995828193536264,
+       "yInf": 6781.526830316914
+      },
+      {
+       "p": 0.9996631512154337,
+       "yInf": 6781.524158761894
+      }
+     ],
+     "extrapolations": [
+      6781.526830316914,
+      6781.524158761894
+     ],
+     "yInf": 6781.524158761894,
+     "spread": 0.002671555020242522
+    },
+    "richardsonW": {
+     "triples": [
+      {
+       "p": 1.6540791520559541,
+       "yInf": 51.47665851891284
+      },
+      {
+       "p": 2.1930188578321776,
+       "yInf": 51.616262817271235
+      }
+     ],
+     "extrapolations": [
+      51.47665851891284,
+      51.616262817271235
+     ],
+     "yInf": 51.616262817271235,
+     "spread": 0.1396042983583925
+    },
+    "eFinest": 0.06487570260370683
+   }
+  },
+  "verdict": {
+   "deltaPinfSec": 0.0013206192070356337,
+   "nSigmaV1againstV1obs": 180.76636885035037,
+   "nSigmaV1againstV2obs": 89606.18442522951,
+   "nSigmaV2againstV2obs": 90370.43165152328,
+   "deltaOmegaDot": -0.0008327959108171967,
+   "deltaEccProxy": -0.00001169297820630133,
+   "note": "**版 v2 に揃えても門(5) は近づかない** —— y∞ は 10⁻³ s 級しか動かないのに、σ が 500 倍きつくなるので σ 倍の距離はむしろ増える。**「v2 にすれば合う」とは書けない。**"
+  }
+ },
+ "runs": {
+  "v1": [
+   {
+    "div": 1,
+    "dt": 0.016,
+    "wallSec": 1.77,
+    "steps": 815110,
+    "stopped": "window",
+    "measured": true,
+    "nPeri": 20,
+    "unwrapFailed": false,
+    "nan": false,
+    "perMeanSec": 6685.642291994065,
+    "degPerYear": 54.9325154801378,
+    "eProxy": 0.07217953516083096,
+    "initX0": 331.6163488295894,
+    "initVy0": 3.5915538384077856
+   },
+   {
+    "div": 2,
+    "dt": 0.008,
+    "wallSec": 3.51,
+    "steps": 1641607,
+    "stopped": "window",
+    "measured": true,
+    "nPeri": 20,
+    "unwrapFailed": false,
+    "nan": false,
+    "perMeanSec": 6733.570007117497,
+    "degPerYear": 52.5746915478453,
+    "eProxy": 0.0679900171717606,
+    "initX0": 334.58648905315624,
+    "initVy0": 3.5763406595410605
+   },
+   {
+    "div": 4,
+    "dt": 0.004,
+    "wallSec": 6.56,
+    "steps": 3294602,
+    "stopped": "window",
+    "measured": true,
+    "nPeri": 20,
+    "unwrapFailed": false,
+    "nan": false,
+    "perMeanSec": 6757.54080649197,
+    "degPerYear": 51.82549019640166,
+    "eProxy": 0.06591788620955849,
+    "initX0": 336.0655256937703,
+    "initVy0": 3.568839951472994
+   },
+   {
+    "div": 8,
+    "dt": 0.002,
+    "wallSec": 14.22,
+    "steps": 6600591,
+    "stopped": "window",
+    "measured": true,
+    "nPeri": 20,
+    "unwrapFailed": false,
+    "nan": false,
+    "perMeanSec": 6769.529013590517,
+    "degPerYear": 51.66244699860804,
+    "eProxy": 0.06488739558191313,
+    "initX0": 336.803594627211,
+    "initVy0": 3.565115997072206
+   }
+  ],
+  "v2": [
+   {
+    "div": 1,
+    "dt": 0.016,
+    "wallSec": 1.73,
+    "steps": 815111,
+    "stopped": "window",
+    "measured": true,
+    "nPeri": 20,
+    "unwrapFailed": false,
+    "nan": false,
+    "perMeanSec": 6685.644115322102,
+    "degPerYear": 54.94247647649936,
+    "eProxy": 0.07216790720286365,
+    "initX0": 331.6202659805197,
+    "initVy0": 3.59150943753115
+   },
+   {
+    "div": 2,
+    "dt": 0.008,
+    "wallSec": 3.4,
+    "steps": 1641608,
+    "stopped": "window",
+    "measured": true,
+    "nPeri": 20,
+    "unwrapFailed": false,
+    "nan": false,
+    "perMeanSec": 6733.571607728185,
+    "degPerYear": 52.57788921267203,
+    "eProxy": 0.06797835060353354,
+    "initX0": 334.5906189849292,
+    "initVy0": 3.576297821039429
+   },
+   {
+    "div": 4,
+    "dt": 0.004,
+    "wallSec": 6.76,
+    "steps": 3294602,
+    "stopped": "window",
+    "measured": true,
+    "nPeri": 20,
+    "unwrapFailed": false,
+    "nan": false,
+    "perMeanSec": 6757.5422844719305,
+    "degPerYear": 51.82656409840895,
+    "eProxy": 0.06590620135628654,
+    "initX0": 336.06980501467564,
+    "initVy0": 3.5687983123544975
+   },
+   {
+    "div": 8,
+    "dt": 0.002,
+    "wallSec": 13.24,
+    "steps": 6600593,
+    "stopped": "window",
+    "measured": true,
+    "nPeri": 20,
+    "unwrapFailed": false,
+    "nan": false,
+    "perMeanSec": 6769.530421576665,
+    "degPerYear": 51.66225430529578,
+    "eProxy": 0.06487570260370683,
+    "initX0": 336.80782760592734,
+    "initVy0": 3.5650737534915877
+   }
+  ]
+ },
+ "pageErrors": []
+}

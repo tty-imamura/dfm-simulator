@@ -14651,6 +14651,14 @@ if (!FAST) {
       O.neg.noIndep = HP.dfmForecastGate(mk({ independent: null }));
       O.neg.farAway = HP.dfmForecastGate(mk({ yObs: 110 }));
       O.neg.unwrap = HP.dfmForecastGate(mk({ excluded: { duplicateEvents: 0, nan: 0, incomplete: 0, unwrapFailed: 1, roundingFloor: 0 } }));
+      // ---- ⑨ 第262便c(検証仮説 (5)): **入力の欠落を「合格」と読まない**
+      //      〔第261便c〕はこの 6 本がすべて PASS になっていた(検査が空振りしていた)。
+      O.neg.noExcluded = HP.dfmForecastGate(mk({ excluded: undefined }));
+      O.neg.partialExcluded = HP.dfmForecastGate(mk({ excluded: { duplicateEvents: 0, nan: 0, incomplete: 0, unwrapFailed: 0 } }));
+      O.neg.indepNoMethod = HP.dfmForecastGate(mk({ independent: { value: 100 } }));
+      O.neg.indepSameName = HP.dfmForecastGate(mk({ independent: { value: 100, method: '合成抽出器' } }));
+      O.neg.noSystematic = HP.dfmForecastGate(mk({ systematic: undefined }));
+      O.neg.negSystematic = HP.dfmForecastGate(mk({ systematic: -1 }));
       // ---- ③ presetSig は宣言を見ない
       const p = HP.allPresets().find((q) => q.id === 'psrDoubleABDFM');
       const noCF = JSON.parse(JSON.stringify(p)); delete noCF.calibrationForecast;
@@ -14699,7 +14707,10 @@ if (!FAST) {
     if (!(Math.abs(r.pass.yInf - 100) < 1e-9)) bad.push(`①合成の y∞ が 100 でない(${r.pass.yInf})`);
     if (!(r.pass.uInf === 0)) bad.push(`①合成の U∞ が 0 でない(${r.pass.uInf})`);
     const NEG = [['threeStages', 'g2'], ['refit', 'g1'], ['noUnit', 'g1'], ['unstable', 'g3'],
-      ['noIndep', 'g4'], ['farAway', 'g5'], ['unwrap', 'g2']];
+      ['noIndep', 'g4'], ['farAway', 'g5'], ['unwrap', 'g2'],
+      // 第262便c(検証仮説 (5)): 欠落した宣言は「除外済み/独立/系統幅 0」と読まない
+      ['noExcluded', 'g2'], ['partialExcluded', 'g2'], ['indepNoMethod', 'g4'],
+      ['indepSameName', 'g4'], ['noSystematic', 'g5'], ['negSystematic', 'g5']];
     for (const [k, g] of NEG) {
       const z = r.neg[k];
       if (!z || z.ok !== false) bad.push(`①否定対照 ${k} が通ってしまう`);
@@ -14714,6 +14725,19 @@ if (!FAST) {
       if (nsSeen < 4) bad.push(`②NS の機械判定が 4 系に足りない(${nsSeen})`);
       if (nsPass !== 0) bad.push(`②NS で門 5 つを通った系がある(${nsPass} 件)—— 本便の宣言は 0 件である`);
     } catch (e) { bad.push('②richardson-w261c.json が読めない: ' + String(e).slice(0, 60)); }
+    // ②′ 第262便c: **独立推定を入れても通った系は 0 件**(門(4) は通るが門(5) が残る)。
+    //     「件数は増えない」ことをここで機械固定する。
+    let indSeen = 0, indPass = 0, indG4 = 0;
+    try {
+      const ij = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'independent-w262c.json'), 'utf8'));
+      for (const g of (ij.forecastGates || [])) {
+        indSeen++; if (g.ok) indPass++;
+        if ((g.failed || []).indexOf('g4') < 0) indG4++;
+      }
+      if (indSeen < 4) bad.push(`②′独立推定の機械判定が足りない(${indSeen})`);
+      if (indPass !== 0) bad.push(`②′独立推定を入れて門 5 つを通った系がある(${indPass} 件)—— 本便の宣言も 0 件である`);
+      if (indG4 < 1) bad.push('②′門(4) を通った系列が 1 つも無い(独立推定が効いていない)');
+    } catch (e) { bad.push('②′independent-w262c.json が読めない: ' + String(e).slice(0, 60)); }
     // ③ 署名
     if (r.sig.withCF !== r.sig.without) bad.push('③presetSig が calibrationForecast を見ている');
     if (r.sig.withCF !== r.sig.other) bad.push('③presetSig が宣言の中身で変わる');
@@ -14750,6 +14774,8 @@ if (!FAST) {
       `① 門 5 つ: 合成の合格例 ok=${r.pass.ok}(y∞=${r.pass.yInf}・U∞=${r.pass.uInf})・否定対照 ${NEG.length} 本`
       + `(${NEG.map(([k, g]) => k + '→' + g).join(' / ')}) / `
       + `② **NS ${nsSeen} 系はすべて不合格**(通った系 ${nsPass} 件 = 「合格見込み」は 0 件)/ `
+      + `②′ 独立推定を入れた ${indSeen} 系列でも通ったのは ${indPass} 件(門(4) を通った系列 ${indG4} 本 —— `
+      + `**門(4) は通るが門(5) は通らない**。件数は増えていない)/ `
       + `③ presetSig は宣言を見ない(署名・ハッシュとも不変)/ ④ 未知の状態は落とす / `
       + `⑤ declaredSig を壊すと自動で「較正要再確認」/ ⑥ チップ ⚡=${r.chipPsr.join(',')}・`
       + `✨=${r.chipAlpha.join(',')}・宣言なし=${r.chipNone.length} 個・観測結果カードの宣言行 ${r.ocRows}/${r.ocDecl} 行 / `

@@ -35138,6 +35138,14 @@ function dfmField(state,px,py,opts){
 //   { fixed:{quantity,observationVersion,unit,timeSystem,window,extractor,f,refitPerStage?},
 //     stages:[{h,y},…], excluded:{duplicateEvents,nan,incomplete,unwrapFailed,roundingFloor},
 //     yObs, sigma, systematic, independent:{value,method} }
+// ■ 第262便c(第54報・統括が設定した検証仮説 (5)): **入力の欠落を「合格」と読まない**
+//   〔第261便c〕の判定は、`excluded` 欄そのものが**無い**系列・独立推定の `method` が**無い**系列・
+//   `systematic` を**宣言していない**系列を、**黙って 0 と見なして通していた**(検査が空振りしていた)。
+//   本便で 3 つを必須にする: (a) 除外 5 検査を**明示の false / 0** で宣言すること(欄が無い・
+//   未定義・負・非有限は「除外した」と読まない)、(b) 独立推定は **method 文字列が必須**で、
+//   **抽出法(fixed.extractor)と同じ名前は独立と認めない**(同じ抽出器を別名で通さない)、
+//   (c) `systematic` は**非負の有限数として宣言**すること(省略は 0 ではない)。
+//   **これは誤認定を防ぐ修正であって、通る件数を増やす変更ではない**(門は厳しくなる方向にしか動かない)。
 // ■ 出力
 //   { ok, verdict, gates:{g1..g5}, p, pShifts, yInf, uInf, residual, distanceSigma, failed[] }
 function dfmForecastGate(series){
@@ -35157,14 +35165,17 @@ function dfmForecastGate(series){
   const raw=Array.isArray(S.stages)?S.stages:[];
   const st=raw.filter((z)=>z&&Number.isFinite(z.h)&&Number.isFinite(z.y)&&z.h>0)
     .slice().sort((a,b)=>b.h-a.h);
-  const ex=(S.excluded&&typeof S.excluded==="object")?S.excluded:{};
-  const exBad=Object.keys(ex).filter((k)=>ex[k]===true||(Number.isFinite(ex[k])&&ex[k]>0));
+  const ex=(S.excluded&&typeof S.excluded==="object")?S.excluded:null;
+  // 第262便c(検証仮説 (5)): 5 つの除外検査は **明示の false / 0** でなければ「除外した」と読まない
+  const EXK=["duplicateEvents","nan","incomplete","unwrapFailed","roundingFloor"];
+  const exMissing=EXK.filter((k)=>!(ex&&(ex[k]===false||(Number.isFinite(ex[k])&&ex[k]>=0))));
+  const exBad=ex? Object.keys(ex).filter((k)=>ex[k]===true||(Number.isFinite(ex[k])&&ex[k]>0)) : [];
   const ratios=[]; let ratioOk=true;
   for(let i=0;i+1<st.length;i++){ const r=st[i].h/st[i+1].h; ratios.push(r);
     if(!(Math.abs(r-2)<1e-9)) ratioOk=false; }
-  out.gates.g2={pass:(st.length>=4&&exBad.length===0&&ratioOk&&st.length===raw.length),
-    nStages:st.length, nGiven:raw.length, ratios, excluded:exBad,
-    what:"4 段以上・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を除外"};
+  out.gates.g2={pass:(st.length>=4&&exBad.length===0&&exMissing.length===0&&ratioOk&&st.length===raw.length),
+    nStages:st.length, nGiven:raw.length, ratios, excluded:exBad, missingExclusions:exMissing,
+    what:"4 段以上・刻み比 2・重複イベント/NaN/未完走/unwrap 失敗/丸め床を**明示の false/0 で**除外"};
   // ---- 門(3): 隣接 3 段の観測次数(段をずらして安定か)
   const rows=[];
   for(let i=0;i+2<st.length;i++){
@@ -35189,22 +35200,29 @@ function dfmForecastGate(series){
   const extSpread=(ext.length>=2)?Math.abs(ext[ext.length-1]-ext[ext.length-2]):null;
   const ind=(S.independent&&Number.isFinite(S.independent.value))?S.independent:null;
   const indDiff=(ind&&out.yInf!==null)?Math.abs(out.yInf-ind.value):null;
-  out.gates.g4={pass:(ext.length>=2&&ind!==null&&indDiff!==null),
+  // 第262便c(検証仮説 (5)): **method 文字列は必須**で、抽出法と同じ名前は独立と認めない
+  const indM=(ind&&typeof ind.method==="string"&&ind.method.trim()!=="")?ind.method.trim():null;
+  const indSameName=(indM!==null&&indM===String(F.extractor===undefined?"":F.extractor).trim());
+  out.gates.g4={pass:(ext.length>=2&&ind!==null&&indDiff!==null&&indM!==null&&!indSameName),
     nExtrapolations:ext.length, extrapolations:ext, extrapolationSpread:extSpread,
-    independent:ind?{value:ind.value, method:ind.method||null}:null, independentDiff:indDiff,
-    what:"Richardson を段をずらして比較し、独立推定(別積分法/別抽出法)と照合する"};
+    independent:ind?{value:ind.value, method:indM}:null, independentDiff:indDiff,
+    methodMissing:(ind!==null&&indM===null), methodSameAsExtractor:indSameName,
+    what:"Richardson を段をずらして比較し、独立推定(**別名で宣言された**別積分法/別抽出法)と照合する"};
   // ---- 門(5): |y∞−y_obs| + U∞ ≤ 3σ
   const yObs=Number(S.yObs), sg=Number(S.sigma);
-  const sys=Number.isFinite(S.systematic)?Math.abs(Number(S.systematic)):0;
+  // 第262便c(検証仮説 (5)): 系統幅は **非負の有限数として宣言**されていなければならない(省略は 0 ではない)
+  const sysOk=(Number.isFinite(S.systematic)&&Number(S.systematic)>=0);
+  const sys=sysOk?Number(S.systematic):0;
   const u=(extSpread===null&&indDiff===null)?null:((extSpread||0)+(indDiff||0)+sys);
   out.uInf=u;
   const dist=(out.yInf!==null&&Number.isFinite(yObs))?Math.abs(out.yInf-yObs):null;
   out.residual=dist;
   out.distanceSigma=(dist!==null&&Number.isFinite(sg)&&sg>0)?((dist+(u||0))/sg):null;
-  out.gates.g5={pass:(dist!==null&&u!==null&&Number.isFinite(sg)&&sg>0&&(dist+u)<=3*sg),
+  out.gates.g5={pass:(sysOk&&dist!==null&&u!==null&&Number.isFinite(sg)&&sg>0&&(dist+u)<=3*sg),
     residual:dist, uInf:u, sigma:(Number.isFinite(sg)&&sg>0)?sg:null, nSigma:out.distanceSigma,
+    systematicDeclared:sysOk,
     uParts:{extrapolationSpread:extSpread, independentDiff:indDiff, systematic:sys},
-    what:"|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない)"};
+    what:"|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない・系統幅は非負有限の**明示宣言**)"};
   const keys=["g1","g2","g3","g4","g5"];
   out.failed=keys.filter((k)=>!out.gates[k].pass);
   out.ok=(out.failed.length===0);
