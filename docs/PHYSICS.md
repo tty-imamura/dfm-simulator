@@ -16941,7 +16941,7 @@ OK  index.html        beta/index.html の byte コピー(APP_VERSION 差し替�
 
 **RC 準備(〔第263便d〕)。** `tests/release-promote.mjs`(dry-run 既定・`--apply`・`--check` 7 項)が v1.43 昇格コミット 37eefc4 の機械置換 8 件を過不足なく再現(使い捨てコピーで 7/7 PASS)。CHANGELOG 見出しは `## v1.44.0(RC・日付)` でないと root QA `release.no-beta-identifiers` が落ちる(実測)。HOLD #5 の先頭段落・§4⁸ 実績表・§1′・§4¹⁰・昇格 5 段・Pages SHA 照合 `tests/ci-pages-collate.sh`(本環境は 403 で取得不可 → informational)・`dfmForecastGate` 恒久契約 4 項。
 
-**統括で触ったもの。** a〜d の統合(完了順 d→b→c→a・文書は a→b→c→d)。検証仮説 (7) の保存非対称の注記は a と b の双方が実装したので **b の `geoToySaveNote`(QA つき)に統合し、a の未使用 i18n キーを除去**した。QA `behavior.geoToyOverlay` ブロックの閉じ括弧が統合の継ぎ目で欠けたのを修復。Negative Claims は a の 39・40(採番衝突なし)。**RC 昇格(APP_VERSION 1.44・root 昇格)は本節の後、全ゲート PASS を確認してから統括が `tests/release-promote.mjs --apply` で行う**(結果は CHANGELOG 統括行に記す)。
+**統括で触ったもの。** a〜d の統合(完了順 d→b→c→a・文書は a→b→c→d)。検証仮説 (7) の保存非対称の注記は a と b の双方が実装したので **b の `geoToySaveNote`(QA つき)に統合し、a の未使用 i18n キーを除去**した。QA `behavior.geoToyOverlay` ブロックの閉じ括弧が統合の継ぎ目で欠けたのを修復。Negative Claims は a の 39・40(採番衝突なし)。**RC 昇格(APP_VERSION 1.44・root 昇格)は、昇格前のフルゲート(beta 667/667・root 531/531・perf 21/21)を確認してから統括が `tests/release-promote.mjs --apply`(`--check` 7/7)で行った**(昇格後の再ゲートの値は CHANGELOG 統括行に記す)。v1.44 は検証版(RC)であり「現実較正の完了」「Release」は名乗らない。
 
 **言わないこと。** 「kFrame≈0.7 を採用した」「⚡/📻 の kFrame を 0.7 にした」「geoPN=3 で f≈1 が成立した」「geoPN=3 は較正候補」「支配天体で法則を分岐した」「χ_eff を較正則にした」「太陽系・恒星連星・NS の現実較正を完了した」「観測レコードで判定が出た(σ は unverified のまま)」「E12 を二体 1PN に置き換えた」「Release した」「HOLD が解けた」。残った決断事項(支配度の正本を χ_eff に置くか・toyAllowDrag を診断以上に進めるか・ω̇ の谷の台帳化・判定に使う解を台帳の正本にするか・B1534 の採用レコード更新・`sigma_primary` 部分一致の欠陥・A の取得依頼・案B の恒久化・BETA_BUILD 次期線・CITATION 日付)は第264便へ。
 
