@@ -61,6 +61,10 @@ tests/out/*
 !tests/out/balance-w262a.json
 !tests/out/geotoy-w262a.json
 !tests/out/uigeopn-w262a.json
+# 第263便a: geoPN=3 × 部分引きずりの実測正本(tests/exp-w263a-dragoverlay.mjs)。
+#   bit / ctrl(二重計上の対照 3 走行)/ sweep(30 点の根探索)/ valley(ω̇ の谷)/ dom(支配度の 4 軸)を 1 本にまとめたもの。
+#   docs/PHYSICS.md 〔第263便a〕の表がこの値そのものなのでコミットする(**QA はこのファイルを読まない**)
+!tests/out/dragoverlay-w263a.json
 # 第134便: kF1 較正ハーネスの実測正本(論文3 再現性 — 外部レビュー P0 対応。
 # 本文の中心値〔q*=6.16/8.25/21.8・drag −5.6e-10・第122便 q*=4.59〕を提出コミットから再生成可能に)
 !tests/out/coreshell-results.json

@@ -970,6 +970,16 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 - **geoPN=3(トイの測地線モード・第259便a)**: `CLAMPS.geoPN` の上限が 3 になったが、**3 は宣言だけでは通らない**。
   - **受理条件**: (a) `sampleClass:"calibration"` では**拒否**、(b) `physics.spaceMesh.lawVersion` の宣言が無ければ
     **従来どおり 2 へ丸めて警告**、(c) `kFrame>0` は拒否、(d) `spaceMesh.inertia`・`weave` との併用は拒否(**重複適用禁止**)。
+  - **第263便a — 明示キー `physics.spaceMesh.toyAllowDrag`(true/false・既定 false)**: 受理条件 **(c) だけ**を開ける
+    診断用の鍵である(第55報の仮説「コンパクト連星では geoPN=3 の適用となり引きずりが弱まって kFrame≈0.7」を**測る**ため)。
+    - **(a) は開かない**: `sampleClass:"calibration"` では **geoPN の値に依らず**この鍵そのものを拒否する。
+    - 受理すると**警告 1 行**が必ず出る —— **E6′ の追従キックとトイが同じ步で重なる**(`_core` から見た geoPN は 0 なので
+      legacy E6′ が走る)。**二重計上の可能性がある診断構成**であって、法則の宣言ではない。
+    - 実行時の読み口は **`S.geoToyOverlay==="drag"`**(重畳中)/ `null`(重畳なし)で、**ステップ会計(HUD)に `overlay:drag` が出る**。
+      `S.geoToyDeny` は重畳中は `null` になる(= 入場した)。
+    - **既定(未宣言)は 1 bit 不変**: 内蔵プリセットで宣言する本は 0 本・正準形(physics 署名)にも出ない。
+      **`toyGain:0` との組み合わせは legacy E6′ だけの走行と状態ビット同一**であり、これが重畳の対照である。
+    - **較正候補ではない**(Negative Claim 27/39 を維持する)。QA `behavior.geoToyOverlay` が門と対照と読み口を機械固定する。
   - **dispatch**: 受理された 3 は **`S._core` から見ると 0**(`geoCoreDispatch` が `_core` の呼び出しの間だけ
     `S.params.geoPN` を 0 にして戻す)。よって `geo`・`geo2`・特別化②(pairCorePN)のどれも立たず、**`S._g2` も確保されない**。
     **`S.params.geoPN` は `_core` の外では 3 のまま**なので、保存・エクスポート・UI は宣言値をそのまま読む。
@@ -979,6 +989,13 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     **粒子とメッシュの運動量を同時更新する契約**で、ΔP・ΔL・離散仕事の厳密な負を同じ步にメッシュ帳簿
     (`S.geoToyMeshPx/Py/L`・`S.geoToyEmesh`)とリザーバへ記帳する。読み口は `S.geoToyStop`/`N`/`Chi`/`Dv`/`E`。
     **`lawVersion:"complex"` は接続しない**(`S.geoToyStop="complexNotVelocity"` —— A は速度ではない)。
+- **支配度の器(第263便a — `HP.dfmDominance(bodies, opts)`)**: 「支配天体が 1 つかどうか」を**測れる形**にした純関数。
+  `bodies=[{m,x,y,vx,vy}]`・`opts={p, eps, D0}`(既定 p=2・eps=0・D₀=0)。**3 つの軸を別々に返す**(1 つの数に畳まない):
+  **①`massRatio`=m₁/(m₁+m₂)**(質量上位 2 体)・**②`chiBias`=χ₂/(χ₁+χ₂)**(χ_i=Σ_{j≠i}w_j/(D₀+Σ_{j≠i}w_j)・
+  w_j=m_j/(d_ij²+ε²)^{p/2} は**エンジンの pull 重みと同じ式**)・**③`uAlign`=(u₂·v₁)/|v₁|²**(u₂ は自己除外の正規化平均)。
+  併せて `chiTop`/`chiSecond`/`massFracTotal`/`uMagRatio`/`chi[]` を返す。`dominance` は **① の別名**であって合成指標ではない。
+  **二体では ③ は χ₂ と恒等に一致し、D₀=0 では厳密に 1 になる**(u₂=v₁ —— 〔第262便a ②〕)。
+  **m≤0 の源と n<2 は null**(0 で埋めない)。**力へは 1 バイトも接続せず、この数で法則を分岐する経路は実装していない。**
 - **除去の段階(第259便a — `physics.spaceMesh.inertiaRemoval`)**: `"post"`(既定 = 第258便a・`S._core` の後で引く)/
   `"inStep"`(**当てた段階で引く** —— `dragHookKick` は `_core` が速度へ書く直前、`dragHookApply` は ③/③′ が
   書く直前に呼ばれるので、そこで先に引く/取り分を 0 にする)。実測では **η=0(除去だけ)が kFrame=0(支えなし)と
