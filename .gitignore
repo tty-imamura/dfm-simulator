@@ -42,6 +42,10 @@ tests/out/*
 #   docs/CALIBRATION_VERDICT_v1.44.md §2.3′ と docs/PHYSICS.md 〔第262便d〕④ の表がこの値そのもの
 #   なのでコミットする(**エンジンは走らせていない** —— 入力は CSV と calaudit-w249.json だけである)
 !tests/out/solarsigma-w262d.json
+# 第263便c: 観測レコード(2026-09-14 intake)の会計(tests/exp-w263c-obsintake.mjs)の実測正本。
+#   docs/CALIBRATION_VERDICT_v1.44.md §5.8 と docs/PHYSICS.md 〔第263便c〕の表がこの値そのもの
+#   なのでコミットする(**エンジンは走らせていない** —— 入力は CSV と既存の結果 JSON だけである)
+!tests/out/obsintake-w263c.json
 # 第262便c: 門(4) の独立推定(tests/exp-w262c-independent.mjs —— leapfrog-KDK とエンジン外 RK4 参照器・
 # 門 5 つの再判定)・📻 の E12 と標準二体相対 1PN の対照(tests/exp-w262c-e12ref.mjs)・
 # ✨🌟 の e 写像(tests/exp-w262c-emap.mjs)・🩺 観測版 v2 の差(tests/exp-w262c-v2delta.mjs)の実測正本。

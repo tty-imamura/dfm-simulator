@@ -1,6 +1,6 @@
 {
- "when": "2026-09-14T05:33:33.438Z",
- "wave": "第262便d(第54報 W4)",
+ "when": "2026-09-14T21:14:30.894Z",
+ "wave": "第262便d(第54報 W4)→ 第263便c(第55報 W3)で σ 未確認の状態名と不足一覧を足した",
  "inputs": {
   "calaudit": "tests/out/calaudit-w249.json",
   "csv": "paper/data/solar-observations.csv",
@@ -44,19 +44,47 @@
   "note": "**宣言表であって自動判定ではない**。CSV に行が無い対象は null を明示する(推測で当てない)"
  },
  "csvSummary": {
-  "rows": 170,
-  "bodies": 51,
-  "rowsWithSigma": 18,
+  "rows": 264,
+  "bodies": 53,
+  "rowsWithSigma": 110,
   "sigmaBodies": [
+   "Phobos",
+   "Charon",
+   "Ariel",
+   "Umbriel",
+   "Titania",
+   "Oberon",
+   "Alpha Centauri A",
    "Alpha Centauri B",
+   "Sirius A",
    "Sirius B",
    "PSR J0737-3039 B",
    "PSR J1757-1854",
+   "PSR J1757-1854 companion",
    "PSR J1946+2052",
-   "PSR B1534+12"
+   "PSR J1946+2052 companion",
+   "PSR B1913+16",
+   "PSR B1913+16 companion",
+   "PSR B1534+12",
+   "PSR B1534+12 companion",
+   "Alpha Centauri AB",
+   "Sirius AB",
+   "Mars",
+   "Deimos",
+   "Pluto",
+   "Uranus",
+   "Miranda",
+   "Neptune",
+   "Triton"
   ],
-  "solarRowsWithSigma": 0,
-  "finding": "**太陽系の body には σ が 1 行も入っていない**(21 個の σ は恒星連星と NS 連星の行だけ)"
+  "solarRowsWithSigma": 19,
+  "solarSigmaQuantities": {
+   "radius": 6,
+   "GM": 10,
+   "radius_candidate": 3
+  },
+  "solarSigmaGated": 0,
+  "finding": "太陽系の body にも σ の行が入った(2026-09-14 の観測レコード intake)。**ただし門が読む量(公転周期・離心率・近点移動・自転)の σ は 0 件である** —— 入ったのは半径・GM・候補行の σ で、判定量の σ ではない"
  },
  "cutTally": {
   "csv-body-missing": 66,
@@ -3509,14 +3537,930 @@
    "verdict": "保留(σ 未登録)"
   }
  ],
+ "missingForJudgement": [
+  {
+   "key": "月|orbital_period",
+   "body": null,
+   "target": "月",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-body-missing",
+   "presets": [
+    "🌙",
+    "🌘",
+    "🧲",
+    "🔆"
+   ],
+   "nQuantities": 6,
+   "obsPresent": 6
+  },
+  {
+   "key": "月|periastron_advance",
+   "body": null,
+   "target": "月",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-body-missing",
+   "presets": [
+    "🌙",
+    "🌘",
+    "🧲",
+    "🔆"
+   ],
+   "nQuantities": 5,
+   "obsPresent": 3
+  },
+  {
+   "key": "月|eccentricity",
+   "body": null,
+   "target": "月",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-body-missing",
+   "presets": [
+    "🌙",
+    "🌘",
+    "🧲",
+    "🔆"
+   ],
+   "nQuantities": 4,
+   "obsPresent": 2
+  },
+  {
+   "key": "水星|orbital_period",
+   "body": null,
+   "target": "水星",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-body-missing",
+   "presets": [
+    "☄️",
+    "🪨",
+    "🌞"
+   ],
+   "nQuantities": 3,
+   "obsPresent": 2
+  },
+  {
+   "key": "水星|periastron_advance",
+   "body": null,
+   "target": "水星",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-body-missing",
+   "presets": [
+    "☄️",
+    "🪨",
+    "🌞"
+   ],
+   "nQuantities": 3,
+   "obsPresent": 2
+  },
+  {
+   "key": "水星|eccentricity",
+   "body": null,
+   "target": "水星",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-body-missing",
+   "presets": [
+    "☄️",
+    "🪨",
+    "🌞"
+   ],
+   "nQuantities": 3,
+   "obsPresent": 0
+  },
+  {
+   "key": "イオ|orbital_period",
+   "body": null,
+   "target": "イオ",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-body-missing",
+   "presets": [
+    "🟠"
+   ],
+   "nQuantities": 3,
+   "obsPresent": 2
+  },
+  {
+   "key": "エウロパ|orbital_period",
+   "body": null,
+   "target": "エウロパ",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-body-missing",
+   "presets": [
+    "🟠"
+   ],
+   "nQuantities": 2,
+   "obsPresent": 2
+  },
+  {
+   "key": "ガニメデ|orbital_period",
+   "body": null,
+   "target": "ガニメデ",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-body-missing",
+   "presets": [
+    "🟠"
+   ],
+   "nQuantities": 2,
+   "obsPresent": 2
+  },
+  {
+   "key": "カリスト|orbital_period",
+   "body": null,
+   "target": "カリスト",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-body-missing",
+   "presets": [
+    "🟠"
+   ],
+   "nQuantities": 2,
+   "obsPresent": 2
+  },
+  {
+   "key": "D68|orbital_period",
+   "body": null,
+   "target": "D68",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-body-missing",
+   "presets": [
+    "📡"
+   ],
+   "nQuantities": 2,
+   "obsPresent": 2
+  },
+  {
+   "key": "C環内縁|orbital_period",
+   "body": null,
+   "target": "C環内縁",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-body-missing",
+   "presets": [
+    "💍",
+    "💿"
+   ],
+   "nQuantities": 2,
+   "obsPresent": 1
+  },
+  {
+   "key": "タイタン|orbital_period",
+   "body": null,
+   "target": "タイタン",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-body-missing",
+   "presets": [
+    "💍",
+    "💿"
+   ],
+   "nQuantities": 2,
+   "obsPresent": 1
+  },
+  {
+   "key": "C環内縁|eccentricity",
+   "body": null,
+   "target": "C環内縁",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-body-missing",
+   "presets": [
+    "💍",
+    "💿"
+   ],
+   "nQuantities": 2,
+   "obsPresent": 0
+  },
+  {
+   "key": "C環内縁|periastron_advance",
+   "body": null,
+   "target": "C環内縁",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-body-missing",
+   "presets": [
+    "💍",
+    "💿"
+   ],
+   "nQuantities": 2,
+   "obsPresent": 1
+  },
+  {
+   "key": "ミマス|orbital_period",
+   "body": null,
+   "target": "ミマス",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-body-missing",
+   "presets": [
+    "💍",
+    "💿"
+   ],
+   "nQuantities": 2,
+   "obsPresent": 0
+  },
+  {
+   "key": "ミマス|eccentricity",
+   "body": null,
+   "target": "ミマス",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-body-missing",
+   "presets": [
+    "💍",
+    "💿"
+   ],
+   "nQuantities": 2,
+   "obsPresent": 0
+  },
+  {
+   "key": "ミマス|periastron_advance",
+   "body": null,
+   "target": "ミマス",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-body-missing",
+   "presets": [
+    "💍",
+    "💿"
+   ],
+   "nQuantities": 2,
+   "obsPresent": 0
+  },
+  {
+   "key": "タイタン|eccentricity",
+   "body": null,
+   "target": "タイタン",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-body-missing",
+   "presets": [
+    "💍",
+    "💿"
+   ],
+   "nQuantities": 2,
+   "obsPresent": 0
+  },
+  {
+   "key": "タイタン|periastron_advance",
+   "body": null,
+   "target": "タイタン",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-body-missing",
+   "presets": [
+    "💍",
+    "💿"
+   ],
+   "nQuantities": 2,
+   "obsPresent": 0
+  },
+  {
+   "key": "地球|orbital_period",
+   "body": null,
+   "target": "地球",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-body-missing",
+   "presets": [
+    "🌞"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 1
+  },
+  {
+   "key": "地球|eccentricity",
+   "body": null,
+   "target": "地球",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-body-missing",
+   "presets": [
+    "🌞"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "地球|periastron_advance",
+   "body": null,
+   "target": "地球",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-body-missing",
+   "presets": [
+    "🌞"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "イオ|eccentricity",
+   "body": null,
+   "target": "イオ",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-body-missing",
+   "presets": [
+    "🟠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "イオ|periastron_advance",
+   "body": null,
+   "target": "イオ",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-body-missing",
+   "presets": [
+    "🟠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "エウロパ|eccentricity",
+   "body": null,
+   "target": "エウロパ",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-body-missing",
+   "presets": [
+    "🟠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "エウロパ|periastron_advance",
+   "body": null,
+   "target": "エウロパ",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-body-missing",
+   "presets": [
+    "🟠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "ガニメデ|eccentricity",
+   "body": null,
+   "target": "ガニメデ",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-body-missing",
+   "presets": [
+    "🟠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "ガニメデ|periastron_advance",
+   "body": null,
+   "target": "ガニメデ",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-body-missing",
+   "presets": [
+    "🟠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "カリスト|eccentricity",
+   "body": null,
+   "target": "カリスト",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-body-missing",
+   "presets": [
+    "🟠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "カリスト|periastron_advance",
+   "body": null,
+   "target": "カリスト",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-body-missing",
+   "presets": [
+    "🟠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "D68|periastron_advance",
+   "body": null,
+   "target": "D68",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-body-missing",
+   "presets": [
+    "📡"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 1
+  },
+  {
+   "key": "D68|eccentricity",
+   "body": null,
+   "target": "D68",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-body-missing",
+   "presets": [
+    "📡"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Venus|periastron_advance",
+   "body": "Venus",
+   "target": "金星",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-quantity-missing",
+   "presets": [
+    "🌞",
+    "🌇"
+   ],
+   "nQuantities": 2,
+   "obsPresent": 0
+  },
+  {
+   "key": "Mars|orbital_period",
+   "body": "Mars",
+   "target": "火星",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-quantity-missing",
+   "presets": [
+    "🌞"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 1
+  },
+  {
+   "key": "Mars|eccentricity",
+   "body": "Mars",
+   "target": "火星",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-quantity-missing",
+   "presets": [
+    "🌞"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Mars|periastron_advance",
+   "body": "Mars",
+   "target": "火星",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-quantity-missing",
+   "presets": [
+    "🌞"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Phobos|periastron_advance",
+   "body": "Phobos",
+   "target": "フォボス",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-quantity-missing",
+   "presets": [
+    "🥔"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Deimos|periastron_advance",
+   "body": "Deimos",
+   "target": "ダイモス",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-quantity-missing",
+   "presets": [
+    "🥔"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Charon|periastron_advance",
+   "body": "Charon",
+   "target": "カロン",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-quantity-missing",
+   "presets": [
+    "❄️"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Miranda|periastron_advance",
+   "body": "Miranda",
+   "target": "ミランダ",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-quantity-missing",
+   "presets": [
+    "💠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Ariel|periastron_advance",
+   "body": "Ariel",
+   "target": "アリエル",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-quantity-missing",
+   "presets": [
+    "💠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Umbriel|periastron_advance",
+   "body": "Umbriel",
+   "target": "ウンブリエル",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-quantity-missing",
+   "presets": [
+    "💠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Titania|periastron_advance",
+   "body": "Titania",
+   "target": "チタニア",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-quantity-missing",
+   "presets": [
+    "💠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Oberon|periastron_advance",
+   "body": "Oberon",
+   "target": "オベロン",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-quantity-missing",
+   "presets": [
+    "💠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Triton|periastron_advance",
+   "body": "Triton",
+   "target": "トリトン",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-quantity-missing",
+   "presets": [
+    "🌊"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Venus|orbital_period",
+   "body": "Venus",
+   "target": "金星",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "🌞",
+    "🌇"
+   ],
+   "nQuantities": 4,
+   "obsPresent": 3
+  },
+  {
+   "key": "Charon|orbital_period",
+   "body": "Charon",
+   "target": "カロン",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "❄️"
+   ],
+   "nQuantities": 3,
+   "obsPresent": 3
+  },
+  {
+   "key": "Triton|orbital_period",
+   "body": "Triton",
+   "target": "トリトン",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "🌊"
+   ],
+   "nQuantities": 3,
+   "obsPresent": 2
+  },
+  {
+   "key": "Venus|eccentricity",
+   "body": "Venus",
+   "target": "金星",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "🌞",
+    "🌇"
+   ],
+   "nQuantities": 2,
+   "obsPresent": 0
+  },
+  {
+   "key": "Phobos|orbital_period",
+   "body": "Phobos",
+   "target": "フォボス",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "🥔"
+   ],
+   "nQuantities": 2,
+   "obsPresent": 1
+  },
+  {
+   "key": "Deimos|orbital_period",
+   "body": "Deimos",
+   "target": "ダイモス",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "🥔"
+   ],
+   "nQuantities": 2,
+   "obsPresent": 1
+  },
+  {
+   "key": "Miranda|orbital_period",
+   "body": "Miranda",
+   "target": "ミランダ",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "💠"
+   ],
+   "nQuantities": 2,
+   "obsPresent": 1
+  },
+  {
+   "key": "Phobos|eccentricity",
+   "body": "Phobos",
+   "target": "フォボス",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "🥔"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Deimos|eccentricity",
+   "body": "Deimos",
+   "target": "ダイモス",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "🥔"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Charon|eccentricity",
+   "body": "Charon",
+   "target": "カロン",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "❄️"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Ariel|orbital_period",
+   "body": "Ariel",
+   "target": "アリエル",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "💠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 1
+  },
+  {
+   "key": "Umbriel|orbital_period",
+   "body": "Umbriel",
+   "target": "ウンブリエル",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "💠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 1
+  },
+  {
+   "key": "Titania|orbital_period",
+   "body": "Titania",
+   "target": "チタニア",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "💠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 1
+  },
+  {
+   "key": "Oberon|orbital_period",
+   "body": "Oberon",
+   "target": "オベロン",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "💠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 1
+  },
+  {
+   "key": "Miranda|rotation_period",
+   "body": "Miranda",
+   "target": "ミランダ",
+   "quantity": "rotation_period",
+   "kind": "spin",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "💠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 1
+  },
+  {
+   "key": "Miranda|eccentricity",
+   "body": "Miranda",
+   "target": "ミランダ",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "💠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Ariel|eccentricity",
+   "body": "Ariel",
+   "target": "アリエル",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "💠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Umbriel|eccentricity",
+   "body": "Umbriel",
+   "target": "ウンブリエル",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "💠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Titania|eccentricity",
+   "body": "Titania",
+   "target": "チタニア",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "💠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Oberon|eccentricity",
+   "body": "Oberon",
+   "target": "オベロン",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "💠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Triton|rotation_period",
+   "body": "Triton",
+   "target": "トリトン",
+   "quantity": "rotation_period",
+   "kind": "spin",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "🌊"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Triton|eccentricity",
+   "body": "Triton",
+   "target": "トリトン",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "🌊"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  }
+ ],
  "conclusion": {
   "connected": 0,
-  "note": "**対応表を繋いでも 3σ の判定は 1 件も出ない** —— 切断点は対応表ではなく **CSV の sigma 列と行そのもの**である。したがって太陽系 16 本は「保留(σ 未登録)」のままである(**否定ではない**)。",
+  "unverified": 0,
+  "missingForJudgement": 68,
+  "note": "**対応表を繋いでも 3σ の判定は 1 件も出ない** —— 切断点は対応表ではなく **CSV の sigma 列と行そのもの**である。したがって太陽系 16 本は「保留(σ 未登録)」のままである(**否定ではない**)。2026-09-14 の観測レコード intake でも**この数は動かない**: 入った σ は半径・GM・候補行のもので、門が読む量(公転周期・離心率・近点移動・自転)の σ ではない。",
   "doNotWrite": [
    "太陽系の現実較正を完了した",
    "σ を繋いだので合格した",
    "保留は否定である",
-   "±1% の目安を σ として読んだ"
+   "±1% の目安を σ として読んだ",
+   "観測レコードが入ったので判定が出た(σ は unverified のままである)"
   ]
  }
 }

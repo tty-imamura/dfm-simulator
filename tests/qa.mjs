@@ -7678,7 +7678,7 @@ if (!FAST) {
   const hasAC = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'alphaCenAB'));
   if (hasAC) {
     const csvText = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8');
-    const csvRows = csvText.split('\n').filter((l) => l.startsWith('Alpha Centauri')).map((line) => {
+    const csvParsed = csvText.split('\n').filter((l) => l.startsWith('Alpha Centauri')).map((line) => {
       const cols = []; let cur = '', inQ = false;
       for (const ch of line) {
         if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
@@ -7690,6 +7690,13 @@ if (!FAST) {
       return { body: cols[0], quantity: cols[1], value: Number(cols[2]), unit: cols[3],
         source: cols[4], url: cols[5], retrieved: cols[6], note: cols[7] };
     });
+    // 第263便c(第55報 W3): 原仮定者が提供した観測レコード(2026-09-14 intake)の行を CSV へ**併置**した
+    // (採用レコードは 1 行も置き換えていない —— 併置した行は note に `intake_row=2026-09-14` を持つ)。
+    // **ビルダーが消費するのは採用レコードだけである**ことをここで宣言する(第256便d の BUILDER_SKIP と
+    // 同じ流儀: 本体は 1 bit も変えていない —— 変えたのは「何を入力として渡すか」の宣言だけである)。
+    const INTAKE_ROW = (r) => /intake_row=2026-09-14/.test(r.note || '');
+    const csvIntakeN = csvParsed.filter(INTAKE_ROW).length;
+    const csvRows = csvParsed.filter((r) => !INTAKE_ROW(r));
     const ac = await page.evaluate(({ csvRows }) => {
       const P_OBS = 2517.0973;   // 転写周期 2.5170973e9 s / 10⁶(CSV row Alpha Centauri B, orbital_period)
       const p = HP.allPresets().find((q) => q.id === 'alphaCenAB');
@@ -7974,7 +7981,7 @@ if (!FAST) {
       + `kF0(採用側・1.05公転): ${t0 === null ? '—' : t0.toFixed(4) + '年'}(観測 79.762・宣言 79.7647)・`
       + `実測離心率 ${ac.kf0.ecc.toFixed(5)}(転写 0.51947)・座標最大 ${ac.kf0.maxAbs.toFixed(0)}(±5000 内)・重心 ${ac.kf0.comMax.toExponential(1)}(<1e-3) / `
       + `kF1(測定側・遠点発 0.56公転窓 — 第211便): 接触要素周期 ${(ac.kf1.growth * 100).toFixed(1)}%(宣言 pull −0.43%/share −13.0%)・rmin=${ac.kf1.rmin.toFixed(0)}(pull は近点 167.5 にほぼ届く) / `
-      + `経路等価: CSV ${csvRows.length}行 → buildAstroFromRecords が観測安定則発動(${ac.eq.stab})+内蔵とビット一致=${ac.eq.same}(第242便 pull: 記録経路は kF${ac.eq.recKF}〔自己診断通過〕・kFrame 以外の一致=${ac.eq.sameNoKF}) / `
+      + `経路等価: CSV ${csvRows.length}行(2026-09-14 intake の併置行 ${csvIntakeN} 本は builder へ渡さない)→ buildAstroFromRecords が観測安定則発動(${ac.eq.stab})+内蔵とビット一致=${ac.eq.same}(第242便 pull: 記録経路は kF${ac.eq.recKF}〔自己診断通過〕・kFrame 以外の一致=${ac.eq.sameNoKF}) / `
       + `✴️ DFM版(第245便 一次則): 質量係数 f=${dm.w242 ? '1.0002158(=観測質量+0.022%・χ² 則 1.0000000)' : '1.84419〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・A/B=kF0・外殻=転写光学半径ビット・${dm.w242 ? 'coupleSink:reservoir・コア無し・fitted 0ノブ' : 'coupleSink:core・massFrac=(f−1)/f・fitted 2ノブ'})=${dm.declOk}・`
       + `familyRole: ✴️=primary/✨=variant(第204便) / `
       + `kF1 の2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(3) + '年'}(観測 79.762・宣言 ${dm.w242 ? '79.269〔hold-out −0.62%〕' : '79.761'})・`
@@ -8007,7 +8014,7 @@ if (!FAST) {
   const hasSi = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'siriusAB'));
   if (hasSi) {
     const csvText = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8');
-    const csvRows = csvText.split('\n').filter((l) => l.startsWith('Sirius')).map((line) => {
+    const csvParsed = csvText.split('\n').filter((l) => l.startsWith('Sirius')).map((line) => {
       const cols = []; let cur = '', inQ = false;
       for (const ch of line) {
         if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
@@ -8019,6 +8026,13 @@ if (!FAST) {
       return { body: cols[0], quantity: cols[1], value: Number(cols[2]), unit: cols[3],
         source: cols[4], url: cols[5], retrieved: cols[6], note: cols[7] };
     });
+    // 第263便c(第55報 W3): 原仮定者が提供した観測レコード(2026-09-14 intake)の行を CSV へ**併置**した
+    // (採用レコードは 1 行も置き換えていない —— 併置した行は note に `intake_row=2026-09-14` を持つ)。
+    // **ビルダーが消費するのは採用レコードだけである**ことをここで宣言する(第256便d の BUILDER_SKIP と
+    // 同じ流儀: 本体は 1 bit も変えていない —— 変えたのは「何を入力として渡すか」の宣言だけである)。
+    const INTAKE_ROW = (r) => /intake_row=2026-09-14/.test(r.note || '');
+    const csvIntakeN = csvParsed.filter(INTAKE_ROW).length;
+    const csvRows = csvParsed.filter((r) => !INTAKE_ROW(r));
     const si = await page.evaluate(({ csvRows }) => {
       const P_OBS = 1581.932;   // 転写周期 1.581932e9 s / 10⁶
       const p = HP.allPresets().find((q) => q.id === 'siriusAB');
@@ -8272,7 +8286,7 @@ if (!FAST) {
       `宣言=${declOk}(fidelity=real・L10/T6/M29・κ=G/c₀²・kFrame=0〔観測安定則 第2号〕・spin=0×2・B半径=0.01〔半径限定二体降格〕・A/B 測定側 kF1) / `
       + `kF0(採用側・1.05公転): ${t0 === null ? '—' : t0.toFixed(4) + '年'}(観測 50.1284・宣言 50.1306)・実測離心率 ${si.kf0.ecc.toFixed(5)}(転写 0.59142)・重心 ${si.kf0.comMax.toExponential(1)} / `
       + `kF1(測定側・遠点発 0.56公転): 接触要素周期 ${(si.kf1.growth * 100).toFixed(1)}%(宣言 pull −0.94%/share −19.0%)・rmin=${si.kf1.rmin.toFixed(0)}(pull は近点 120.9 にほぼ届く) / `
-      + `経路等価: CSV ${csvRows.length}行 → 観測安定則発動(${si.eq.stab})+二体クロージャ確認 note=${si.eq.closure}+半径限定降格=${si.eq.demR}+内蔵とビット一致=${si.eq.same} / `
+      + `経路等価: CSV ${csvRows.length}行(2026-09-14 intake の併置行 ${csvIntakeN} 本は builder へ渡さない)→ 観測安定則発動(${si.eq.stab})+二体クロージャ確認 note=${si.eq.closure}+半径限定降格=${si.eq.demR}+内蔵とビット一致=${si.eq.same} / `
       + `💫 DFM版: 質量係数 f=${dm.w242 ? '1.0003769(=観測質量+0.038%・第245便 一次則)' : '1.88813〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・${dm.w242 ? 'coupleSink:reservoir・コア無し・fitted 0ノブ' : (dm.w221 ? 'coupleSink:core+二層〔第221便〕' : 'coupleSink:reservoir')}・cmGauge)=${dm.declOk}・`
       + `2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(4) + '年'}(宣言 ${dm.w242 ? '49.225〔hold-out −1.80%〕' : (dm.w221 ? '50.128' : '50.1290')})・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(5)}(宣言 ${dm.w242 ? '0.59377' : '0.58880'})・近点 ${dm.rmin === undefined ? '—' : dm.rmin.toFixed(2)}・`
       + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(3) + '°/周'}(宣言 ${dm.w242 ? '+2.197' : '+2.55'})・spin残余 ${dm.sMax === undefined ? '—' : dm.sMax.toExponential(1)}(<1e-3)・`
@@ -8312,7 +8326,7 @@ if (!FAST) {
     // 入力からは外す**。本体(beta/index.html)は 1 bit も変えていない —— 変えたのは「ビルダーが
     // 何を消費するか」をここで宣言したことだけである(σ を通すために bit 契約を緩めてはいない)。
     const BUILDER_SKIP = new Set(['periastron_advance']);
-    const csvAll = csvText.split('\n').filter((l) => l.startsWith('PSR J0737-3039')).map((line) => {
+    const csvParsed = csvText.split('\n').filter((l) => l.startsWith('PSR J0737-3039')).map((line) => {
       const cols = []; let cur = '', inQ = false;
       for (const ch of line) {
         if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
@@ -8324,6 +8338,13 @@ if (!FAST) {
       return { body: cols[0], quantity: cols[1], value: Number(cols[2]), unit: cols[3],
         source: cols[4], url: cols[5], retrieved: cols[6], note: cols[7], sigma: cols[8] };
     });
+    // 第263便c(第55報 W3): 原仮定者が提供した観測レコード(2026-09-14 intake)の行を CSV へ**併置**した
+    // (採用レコードは 1 行も置き換えていない —— 併置した行は note に `intake_row=2026-09-14` を持つ)。
+    // **ビルダーが消費するのは採用レコードだけである**ことをここで宣言する(第256便d の BUILDER_SKIP と
+    // 同じ流儀: 本体は 1 bit も変えていない —— 変えたのは「何を入力として渡すか」の宣言だけである)。
+    const INTAKE_ROW = (r) => /intake_row=2026-09-14/.test(r.note || '');
+    const csvIntakeN = csvParsed.filter(INTAKE_ROW).length;
+    const csvAll = csvParsed.filter((r) => !INTAKE_ROW(r));
     const csvRows = csvAll.filter((r) => !BUILDER_SKIP.has(r.quantity)).map((r) => {
       const o = Object.assign({}, r); delete o.sigma; return o;
     });
@@ -8765,7 +8786,7 @@ if (!FAST) {
       + `kF0(採用側・1.05公転): ${t0s === null ? '—' : t0s.toFixed(2) + ' s'}(観測 8834.53・宣言 8835.04)・実測離心率 ${ps.kf0.ecc.toFixed(6)}(転写 0.087777)・重心 ${ps.kf0.comMax.toExponential(1)}・殻 spin=0 保持 |s|max=${ps.kf0.sMax}(=0 — 第223便 resL 記帳)・否定対照(宣言除去→有界振動 |s|max=${ps.kf0ns.sMax.toFixed(2)}〔20〜40〕・軌道ビット不変=${ps.orbitBitEq}) / `
       + `kF1(測定側・遠点発 0.56公転): 接触要素周期 +${(ps.kf1.growth * 100).toFixed(1)}%(宣言 +157%・膨張 — 🌟 の縮小と逆向き)・rmax=${ps.kf1.rmax.toFixed(0)}(>1500)・殻 |s|max=${ps.kf1.sMax}(=0 — 記帳化で飽和解消) / `
       + `近点複製プローブ: kF1 外挿 ${(ps.pr1.proj * 100).toFixed(2)}%/公転(宣言 18.00 — 発火・差し戻し)・kF0 ドリフト ${ps.pr0.drift.toExponential(1)}(<1e-5 — ノイズ床未満) / `
-      + `観測レコード(第256便d): J0737 の CSV 行 ${csvAll.length} 本(うちビルダーが消費する ${csvRows.length} 本)・`
+      + `観測レコード(第256便d): J0737 の CSV 行 ${csvAll.length} 本(うちビルダーが消費する ${csvRows.length} 本・2026-09-14 intake の併置行 ${csvIntakeN} 本は渡さない)・`
       + `ω̇ 行=${csvOmegaDot ? csvOmegaDot.value + ' ' + csvOmegaDot.unit + '(σ=' + csvOmegaDot.sigma + ')' : '**無し**'} / `
       + `経路等価(第222便 族拡張): CSV ${csvRows.length}行 → buildAstroFromRecords=${ps.hole.ok}(相対論的連星族 rel=${ps.hole.scale ? ps.hole.scale.rel : '—'}・L${ps.hole.scale ? ps.hole.scale.L : '—'}/T${ps.hole.scale ? ps.hole.scale.T : '—'}/M${ps.hole.scale ? ps.hole.scale.M : '—'}・q=${ps.hole.q}・観測安定則=${ps.hole.stab}・値域外スピン宣言 ${ps.hole.spinDecl}件・内蔵 📻 とビット一致=${ps.hole.same}) / `
       + `⚡ DFM版: 質量係数 f=${dm.w242 ? '1.99994(第245便 一次則・χ² 則 1.99988)' : '1.99777〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・coupleSink:core+二層・massFrac=(f−1)/f・cmGauge・${dm.w242 ? 'fitted 0ノブ' : 'fitted 1ノブ C'}・BコアΩ=22.654675 転写)=${dm.declOk}・`

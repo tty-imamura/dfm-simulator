@@ -1,0 +1,2453 @@
+{
+ "when": "2026-09-14T21:21:46.381Z",
+ "wave": "第263便c(第55報 W3)",
+ "inputs": {
+  "csv": "paper/data/solar-observations.csv",
+  "calaudit": "tests/out/calaudit-w249.json",
+  "solarsigma": "tests/out/solarsigma-w262d.json",
+  "emap": "tests/out/emap-w262c.json",
+  "calauditRegate": {
+   "on": true,
+   "checked": 35,
+   "unchanged": 35,
+   "changed": [],
+   "verifiedFlips": [],
+   "noSource": 279,
+   "limitation": "既存の `sigmaSource` の宛先だけを見る。**新しく繋がる量(対応表に無い宛先)は走行が要る** —— --regate は「繋がっている σ が動いたか」しか答えない。"
+  }
+ },
+ "intake": {
+  "date": "2026-09-14",
+  "provenance": "原仮定者が提供した観測レコード(2026-09-14 intake)。一次資料は各行の source/url にある。",
+  "rule": [
+   "既存の行の値は 1 つも置換しない(候補行・解タグ行で併置する)",
+   "σ は sigma_primary=unverified; intake 2026-09-14(原仮定者が一次資料を確認したら verified へ)",
+   "プリセット・builder・本体 JSON は変えない(署名不変)",
+   "非対称・非 1σ の区間は sigma 列へ入れない(note に sigma_asymmetric= で残す)"
+  ],
+  "csvRows": 353,
+  "addedRows": 174,
+  "sigmaAddedToExistingRows": 24,
+  "candidateRows": 38,
+  "solutionRows": 105,
+  "rowsWithSigma": 182,
+  "sigmaVerified": 19,
+  "sigmaUnverified": 163
+ },
+ "csvAudit": {
+  "太陽系": {
+   "rows": 134,
+   "keys": 134,
+   "withSigma": 22,
+   "verified": 0,
+   "unverified": 22,
+   "intakeRows": 36,
+   "sigmaAddedAtIntake": 6,
+   "candidateRows": 21,
+   "solutionRows": 0,
+   "solutions": []
+  },
+  "恒星": {
+   "rows": 43,
+   "keys": 39,
+   "withSigma": 40,
+   "verified": 6,
+   "unverified": 34,
+   "intakeRows": 27,
+   "sigmaAddedAtIntake": 8,
+   "candidateRows": 13,
+   "solutionRows": 0,
+   "solutions": []
+  },
+  "NS": {
+   "rows": 169,
+   "keys": 84,
+   "withSigma": 120,
+   "verified": 13,
+   "unverified": 107,
+   "intakeRows": 111,
+   "sigmaAddedAtIntake": 10,
+   "candidateRows": 4,
+   "solutionRows": 105,
+   "solutions": [
+    "Kramer2021-DDS",
+    "Hu2022-DDS",
+    "Fonseca2014-DD",
+    "Fonseca2014-DDGR",
+    "Cameron2018-DDH",
+    "Singha2026-DDH",
+    "Meng2025-DDFWHE",
+    "Meng2025-DDGR"
+   ]
+  },
+  "BH 以降": {
+   "rows": 7,
+   "keys": 7,
+   "withSigma": 0,
+   "verified": 0,
+   "unverified": 0,
+   "intakeRows": 0,
+   "sigmaAddedAtIntake": 0,
+   "candidateRows": 0,
+   "solutionRows": 0,
+   "solutions": []
+  }
+ },
+ "gateByTier": {
+  "太陽系": {
+   "presets": 16,
+   "quantities": 139,
+   "status": {
+    "未判定": 131,
+    "condition-mismatch": 8
+   },
+   "sigmaFrom": {
+    "csv": 0,
+    "obsCard": 0,
+    "none": 139
+   },
+   "sigmaVerified": 0,
+   "sigmaUnverified": 0,
+   "noSigmaSource": 111
+  },
+  "恒星": {
+   "presets": 4,
+   "quantities": 33,
+   "status": {
+    "合(3σ)": 2,
+    "mapping-unresolved": 4,
+    "未判定": 25,
+    "否(3σ)": 2
+   },
+   "sigmaFrom": {
+    "csv": 8,
+    "obsCard": 0,
+    "none": 25
+   },
+   "sigmaVerified": 8,
+   "sigmaUnverified": 0,
+   "noSigmaSource": 4
+  },
+  "NS": {
+   "presets": 14,
+   "quantities": 114,
+   "status": {
+    "数値未解決": 17,
+    "mapping-unresolved": 8,
+    "未判定": 89
+   },
+   "sigmaFrom": {
+    "csv": 27,
+    "obsCard": 0,
+    "none": 87
+   },
+   "sigmaVerified": 27,
+   "sigmaUnverified": 0,
+   "noSigmaSource": 17
+  },
+  "BH 以降": {
+   "presets": 3,
+   "quantities": 28,
+   "status": {
+    "未判定": 28
+   },
+   "sigmaFrom": {
+    "csv": 0,
+    "obsCard": 0,
+    "none": 28
+   },
+   "sigmaVerified": 0,
+   "sigmaUnverified": 0,
+   "noSigmaSource": 10
+  }
+ },
+ "presetsNoSigma": [
+  {
+   "id": "psrDoubleABCF",
+   "emoji": "🪝",
+   "tier": "NS",
+   "why": "**対応表に宛先があっても、この系の走行が σ 転写より前である**(σ を繋ぐには走行が要る)"
+  },
+  {
+   "id": "psrJ1757CF",
+   "emoji": "🪄",
+   "tier": "NS",
+   "why": "**対応表に宛先があっても、この系の走行が σ 転写より前である**(σ を繋ぐには走行が要る)"
+  },
+  {
+   "id": "psrJ1946CF",
+   "emoji": "🩹",
+   "tier": "NS",
+   "why": "**対応表に宛先があっても、この系の走行が σ 転写より前である**(σ を繋ぐには走行が要る)"
+  },
+  {
+   "id": "psrB1534",
+   "emoji": "📿",
+   "tier": "NS",
+   "why": "**対応表に宛先があっても、この系の走行が σ 転写より前である**(σ を繋ぐには走行が要る)"
+  },
+  {
+   "id": "psrB1534CF",
+   "emoji": "🪤",
+   "tier": "NS",
+   "why": "**対応表に宛先があっても、この系の走行が σ 転写より前である**(σ を繋ぐには走行が要る)"
+  }
+ ],
+ "solutions": [
+  {
+   "body": "PSR J0737-3039 B",
+   "quantity": "orbital_period",
+   "unit": "s",
+   "preset": "psrDoubleAB",
+   "emoji": "📻",
+   "meas": 8834.772714551871,
+   "rows": [
+    {
+     "rank": 0,
+     "adopted": true,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 8834.534723278,
+     "sigma": 2.5056e-7,
+     "verified": true,
+     "intakeRow": false,
+     "residual": 0.237991273870648,
+     "nSigma": 949837.4595731482
+    },
+    {
+     "rank": 1,
+     "adopted": false,
+     "solution": "Kramer2021-DDS",
+     "value": 8834.53472328672,
+     "sigma": 8.64e-8,
+     "verified": false,
+     "intakeRow": true,
+     "residual": 0.2379912651504128,
+     "nSigma": 2754528.5318334815
+    },
+    {
+     "rank": 2,
+     "adopted": false,
+     "solution": "Hu2022-DDS",
+     "value": 8834.53472327808,
+     "sigma": 2.5056e-7,
+     "verified": false,
+     "intakeRow": true,
+     "residual": 0.23799127379061247,
+     "nSigma": 949837.4592537215
+    }
+   ]
+  },
+  {
+   "body": "PSR J0737-3039 B",
+   "quantity": "orbital_period",
+   "unit": "s",
+   "preset": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "meas": 8737.372557379043,
+   "rows": [
+    {
+     "rank": 0,
+     "adopted": true,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 8834.534723278,
+     "sigma": 2.5056e-7,
+     "verified": true,
+     "intakeRow": false,
+     "residual": -97.16216589895703,
+     "nSigma": 387780036.3144837
+    },
+    {
+     "rank": 1,
+     "adopted": false,
+     "solution": "Kramer2021-DDS",
+     "value": 8834.53472328672,
+     "sigma": 8.64e-8,
+     "verified": false,
+     "intakeRow": true,
+     "residual": -97.16216590767726,
+     "nSigma": 1124562105.4129312
+    },
+    {
+     "rank": 2,
+     "adopted": false,
+     "solution": "Hu2022-DDS",
+     "value": 8834.53472327808,
+     "sigma": 2.5056e-7,
+     "verified": false,
+     "intakeRow": true,
+     "residual": -97.16216589903706,
+     "nSigma": 387780036.3148031
+    }
+   ]
+  },
+  {
+   "body": "PSR J0737-3039 B",
+   "quantity": "eccentricity",
+   "unit": "1",
+   "preset": "psrDoubleAB",
+   "emoji": "📻",
+   "meas": 0.08776451972086562,
+   "rows": [
+    {
+     "rank": 0,
+     "adopted": true,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 0.087777036,
+     "sigma": 4.8e-8,
+     "verified": true,
+     "intakeRow": false,
+     "residual": -0.000012516279134386354,
+     "nSigma": 260.7558152997157
+    },
+    {
+     "rank": 1,
+     "adopted": false,
+     "solution": "Kramer2021-DDS",
+     "value": 0.087777023,
+     "sigma": 6.1e-8,
+     "verified": false,
+     "intakeRow": true,
+     "residual": -0.00001250327913437932,
+     "nSigma": 204.97178908818555
+    },
+    {
+     "rank": 2,
+     "adopted": false,
+     "solution": "Hu2022-DDS",
+     "value": 0.087777036,
+     "sigma": 4.8e-8,
+     "verified": false,
+     "intakeRow": true,
+     "residual": -0.000012516279134386354,
+     "nSigma": 260.7558152997157
+    }
+   ]
+  },
+  {
+   "body": "PSR J0737-3039 B",
+   "quantity": "eccentricity",
+   "unit": "1",
+   "preset": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "meas": 0.08797580166914369,
+   "rows": [
+    {
+     "rank": 0,
+     "adopted": true,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 0.087777036,
+     "sigma": 4.8e-8,
+     "verified": true,
+     "intakeRow": false,
+     "residual": 0.00019876566914368843,
+     "nSigma": 4140.951440493509
+    },
+    {
+     "rank": 1,
+     "adopted": false,
+     "solution": "Kramer2021-DDS",
+     "value": 0.087777023,
+     "sigma": 6.1e-8,
+     "verified": false,
+     "intakeRow": true,
+     "residual": 0.00019877866914369546,
+     "nSigma": 3258.666707273696
+    },
+    {
+     "rank": 2,
+     "adopted": false,
+     "solution": "Hu2022-DDS",
+     "value": 0.087777036,
+     "sigma": 4.8e-8,
+     "verified": false,
+     "intakeRow": true,
+     "residual": 0.00019876566914368843,
+     "nSigma": 4140.951440493509
+    }
+   ]
+  },
+  {
+   "body": "PSR J0737-3039 B",
+   "quantity": "periastron_advance",
+   "unit": "deg/yr",
+   "preset": "psrDoubleAB",
+   "emoji": "📻",
+   "meas": null,
+   "rows": [
+    {
+     "rank": 0,
+     "adopted": true,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 16.899323,
+     "sigma": 0.000013,
+     "verified": true,
+     "intakeRow": false,
+     "residual": null,
+     "nSigma": null
+    },
+    {
+     "rank": 1,
+     "adopted": false,
+     "solution": "Kramer2021-DDS",
+     "value": 16.899323,
+     "sigma": 0.000013,
+     "verified": false,
+     "intakeRow": true,
+     "residual": null,
+     "nSigma": null
+    },
+    {
+     "rank": 2,
+     "adopted": false,
+     "solution": "Hu2022-DDS",
+     "value": 16.899321,
+     "sigma": 0.000037,
+     "verified": false,
+     "intakeRow": true,
+     "residual": null,
+     "nSigma": null
+    }
+   ]
+  },
+  {
+   "body": "PSR J0737-3039 B",
+   "quantity": "periastron_advance",
+   "unit": "deg/yr",
+   "preset": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "meas": 34.76910129827645,
+   "rows": [
+    {
+     "rank": 0,
+     "adopted": true,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 16.899323,
+     "sigma": 0.000013,
+     "verified": true,
+     "intakeRow": false,
+     "residual": 17.869778298276454,
+     "nSigma": 1374598.3306366503
+    },
+    {
+     "rank": 1,
+     "adopted": false,
+     "solution": "Kramer2021-DDS",
+     "value": 16.899323,
+     "sigma": 0.000013,
+     "verified": false,
+     "intakeRow": true,
+     "residual": 17.869778298276454,
+     "nSigma": 1374598.3306366503
+    },
+    {
+     "rank": 2,
+     "adopted": false,
+     "solution": "Hu2022-DDS",
+     "value": 16.899321,
+     "sigma": 0.000037,
+     "verified": false,
+     "intakeRow": true,
+     "residual": 17.869780298276453,
+     "nSigma": 482967.0350885528
+    }
+   ]
+  },
+  {
+   "body": "PSR B1534+12",
+   "quantity": "orbital_period",
+   "unit": "s",
+   "preset": "psrB1534",
+   "emoji": "📿",
+   "meas": 36351.982268999236,
+   "rows": [
+    {
+     "rank": 0,
+     "adopted": true,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 36351.702644140794,
+     "sigma": 8.64e-7,
+     "verified": true,
+     "intakeRow": false,
+     "residual": 0.27962485844182083,
+     "nSigma": 323639.88245581114
+    },
+    {
+     "rank": 1,
+     "adopted": false,
+     "solution": "Fonseca2014-DD",
+     "value": 36351.7026231456,
+     "sigma": 1.728e-7,
+     "verified": false,
+     "intakeRow": true,
+     "residual": 0.2796458536395221,
+     "nSigma": 1618320.9122657527
+    },
+    {
+     "rank": 2,
+     "adopted": false,
+     "solution": "Fonseca2014-DDGR",
+     "value": 36351.7026233184,
+     "sigma": 1.728e-7,
+     "verified": false,
+     "intakeRow": true,
+     "residual": 0.27964568083552876,
+     "nSigma": 1618319.9122426433
+    }
+   ]
+  },
+  {
+   "body": "PSR B1534+12",
+   "quantity": "orbital_period",
+   "unit": "s",
+   "preset": "psrB1534DFM",
+   "emoji": "🧶",
+   "meas": 36216.52357279872,
+   "rows": [
+    {
+     "rank": 0,
+     "adopted": true,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 36351.702644140794,
+     "sigma": 8.64e-7,
+     "verified": true,
+     "intakeRow": false,
+     "residual": -135.1790713420778,
+     "nSigma": 156457258.49777523
+    },
+    {
+     "rank": 1,
+     "adopted": false,
+     "solution": "Fonseca2014-DD",
+     "value": 36351.7026231456,
+     "sigma": 1.728e-7,
+     "verified": false,
+     "intakeRow": true,
+     "residual": -135.1790503468801,
+     "nSigma": 782286170.9888895
+    },
+    {
+     "rank": 2,
+     "adopted": false,
+     "solution": "Fonseca2014-DDGR",
+     "value": 36351.7026233184,
+     "sigma": 1.728e-7,
+     "verified": false,
+     "intakeRow": true,
+     "residual": -135.1790505196841,
+     "nSigma": 782286171.9889126
+    }
+   ]
+  },
+  {
+   "body": "PSR B1534+12",
+   "quantity": "eccentricity",
+   "unit": "1",
+   "preset": "psrB1534",
+   "emoji": "📿",
+   "meas": 0.27367428566386626,
+   "rows": [
+    {
+     "rank": 0,
+     "adopted": true,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 0.2736775,
+     "sigma": 3e-7,
+     "verified": true,
+     "intakeRow": false,
+     "residual": -0.0000032143361337610976,
+     "nSigma": 10.714453779203659
+    },
+    {
+     "rank": 1,
+     "adopted": false,
+     "solution": "Fonseca2014-DD",
+     "value": 0.27367752,
+     "sigma": 7e-8,
+     "verified": false,
+     "intakeRow": true,
+     "residual": -0.0000032343361337505705,
+     "nSigma": 46.20480191072243
+    },
+    {
+     "rank": 2,
+     "adopted": false,
+     "solution": "Fonseca2014-DDGR",
+     "value": 0.2736774,
+     "sigma": 4e-8,
+     "verified": false,
+     "intakeRow": true,
+     "residual": -0.000003114336133758222,
+     "nSigma": 77.85840334395554
+    }
+   ]
+  },
+  {
+   "body": "PSR B1534+12",
+   "quantity": "eccentricity",
+   "unit": "1",
+   "preset": "psrB1534DFM",
+   "emoji": "🧶",
+   "meas": 0.2740066896467654,
+   "rows": [
+    {
+     "rank": 0,
+     "adopted": true,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 0.2736775,
+     "sigma": 3e-7,
+     "verified": true,
+     "intakeRow": false,
+     "residual": 0.000329189646765371,
+     "nSigma": 1097.2988225512368
+    },
+    {
+     "rank": 1,
+     "adopted": false,
+     "solution": "Fonseca2014-DD",
+     "value": 0.27367752,
+     "sigma": 7e-8,
+     "verified": false,
+     "intakeRow": true,
+     "residual": 0.0003291696467653815,
+     "nSigma": 4702.423525219736
+    },
+    {
+     "rank": 2,
+     "adopted": false,
+     "solution": "Fonseca2014-DDGR",
+     "value": 0.2736774,
+     "sigma": 4e-8,
+     "verified": false,
+     "intakeRow": true,
+     "residual": 0.00032928964676537387,
+     "nSigma": 8232.241169134346
+    }
+   ]
+  },
+  {
+   "body": "PSR B1534+12",
+   "quantity": "periastron_advance",
+   "unit": "deg/yr",
+   "preset": "psrB1534",
+   "emoji": "📿",
+   "meas": null,
+   "rows": [
+    {
+     "rank": 0,
+     "adopted": true,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 1.755789,
+     "sigma": 0.000009,
+     "verified": true,
+     "intakeRow": false,
+     "residual": null,
+     "nSigma": null
+    },
+    {
+     "rank": 1,
+     "adopted": false,
+     "solution": "Fonseca2014-DD",
+     "value": 1.755795,
+     "sigma": 0.0000019,
+     "verified": false,
+     "intakeRow": true,
+     "residual": null,
+     "nSigma": null
+    },
+    {
+     "rank": 2,
+     "adopted": false,
+     "solution": "Fonseca2014-DDGR",
+     "value": 1.755795,
+     "sigma": null,
+     "verified": false,
+     "intakeRow": true,
+     "residual": null,
+     "nSigma": null
+    }
+   ]
+  },
+  {
+   "body": "PSR B1534+12",
+   "quantity": "periastron_advance",
+   "unit": "deg/yr",
+   "preset": "psrB1534DFM",
+   "emoji": "🧶",
+   "meas": 3.584204104058244,
+   "rows": [
+    {
+     "rank": 0,
+     "adopted": true,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 1.755789,
+     "sigma": 0.000009,
+     "verified": true,
+     "intakeRow": false,
+     "residual": 1.828415104058244,
+     "nSigma": 203157.2337842493
+    },
+    {
+     "rank": 1,
+     "adopted": false,
+     "solution": "Fonseca2014-DD",
+     "value": 1.755795,
+     "sigma": 0.0000019,
+     "verified": false,
+     "intakeRow": true,
+     "residual": 1.828409104058244,
+     "nSigma": 962320.5810832863
+    },
+    {
+     "rank": 2,
+     "adopted": false,
+     "solution": "Fonseca2014-DDGR",
+     "value": 1.755795,
+     "sigma": null,
+     "verified": false,
+     "intakeRow": true,
+     "residual": 1.828409104058244,
+     "nSigma": null
+    }
+   ]
+  },
+  {
+   "body": "PSR J1757-1854",
+   "quantity": "orbital_period",
+   "unit": "s",
+   "preset": "psrJ1757DFM",
+   "emoji": "🧮",
+   "meas": 15508.038974810872,
+   "rows": [
+    {
+     "rank": 0,
+     "adopted": true,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 15857.669019168,
+     "sigma": 0.00000432,
+     "verified": true,
+     "intakeRow": false,
+     "residual": -349.630044357129,
+     "nSigma": 80932880.6382243
+    },
+    {
+     "rank": 1,
+     "adopted": false,
+     "solution": "Cameron2018-DDH",
+     "value": 15857.669019168,
+     "sigma": 0.00000432,
+     "verified": false,
+     "intakeRow": true,
+     "residual": -349.630044357129,
+     "nSigma": 80932880.6382243
+    },
+    {
+     "rank": 2,
+     "adopted": false,
+     "solution": "Singha2026-DDH",
+     "value": 15857.6679651744,
+     "sigma": 1.728e-7,
+     "verified": false,
+     "intakeRow": true,
+     "residual": -349.6289903635279,
+     "nSigma": 2023315916.4556012
+    }
+   ]
+  },
+  {
+   "body": "PSR J1757-1854",
+   "quantity": "eccentricity",
+   "unit": "1",
+   "preset": "psrJ1757DFM",
+   "emoji": "🧮",
+   "meas": 0.606010857449756,
+   "rows": [
+    {
+     "rank": 0,
+     "adopted": true,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 0.6058142,
+     "sigma": 1e-7,
+     "verified": true,
+     "intakeRow": false,
+     "residual": 0.0001966574497560547,
+     "nSigma": 1966.5744975605471
+    },
+    {
+     "rank": 1,
+     "adopted": false,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 0.605817,
+     "sigma": null,
+     "verified": false,
+     "intakeRow": false,
+     "residual": 0.0001938574497559742,
+     "nSigma": null
+    },
+    {
+     "rank": 2,
+     "adopted": false,
+     "solution": "Cameron2018-DDH",
+     "value": 0.6058142,
+     "sigma": 0.000001,
+     "verified": false,
+     "intakeRow": true,
+     "residual": 0.0001966574497560547,
+     "nSigma": 196.65744975605472
+    },
+    {
+     "rank": 3,
+     "adopted": false,
+     "solution": "Singha2026-DDH",
+     "value": 0.605817,
+     "sigma": 0.000002,
+     "verified": false,
+     "intakeRow": true,
+     "residual": 0.0001938574497559742,
+     "nSigma": 96.9287248779871
+    }
+   ]
+  },
+  {
+   "body": "PSR J1757-1854",
+   "quantity": "periastron_advance",
+   "unit": "deg/yr",
+   "preset": "psrJ1757DFM",
+   "emoji": "🧮",
+   "meas": 21.913884886306672,
+   "rows": [
+    {
+     "rank": 0,
+     "adopted": true,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 10.3651,
+     "sigma": 0.0002,
+     "verified": true,
+     "intakeRow": false,
+     "residual": 11.548784886306672,
+     "nSigma": 57743.924431533356
+    },
+    {
+     "rank": 1,
+     "adopted": false,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 10.364986,
+     "sigma": null,
+     "verified": false,
+     "intakeRow": false,
+     "residual": 11.548898886306672,
+     "nSigma": null
+    },
+    {
+     "rank": 2,
+     "adopted": false,
+     "solution": "Cameron2018-DDH",
+     "value": 10.3651,
+     "sigma": 0.0002,
+     "verified": false,
+     "intakeRow": true,
+     "residual": 11.548784886306672,
+     "nSigma": 57743.924431533356
+    },
+    {
+     "rank": 3,
+     "adopted": false,
+     "solution": "Singha2026-DDH",
+     "value": 10.364986,
+     "sigma": 0.000008,
+     "verified": false,
+     "intakeRow": true,
+     "residual": 11.548898886306672,
+     "nSigma": 1443612.3607883342
+    }
+   ]
+  },
+  {
+   "body": "PSR J1946+2052",
+   "quantity": "orbital_period",
+   "unit": "s",
+   "preset": "psrJ1946DFM",
+   "emoji": "🩺",
+   "meas": 6685.642291994065,
+   "rows": [
+    {
+     "rank": 0,
+     "adopted": true,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 6781.366656,
+     "sigma": 0.000864,
+     "verified": true,
+     "intakeRow": false,
+     "residual": -95.72436400593506,
+     "nSigma": 110792.08796983225
+    },
+    {
+     "rank": 1,
+     "adopted": false,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 6781.367998656,
+     "sigma": 0.000001728,
+     "verified": false,
+     "intakeRow": false,
+     "residual": -95.72570666193496,
+     "nSigma": 55396820.98491607
+    },
+    {
+     "rank": 2,
+     "adopted": false,
+     "solution": "Meng2025-DDFWHE",
+     "value": 6781.367998656,
+     "sigma": 0.000001728,
+     "verified": false,
+     "intakeRow": true,
+     "residual": -95.72570666193496,
+     "nSigma": 55396820.98491607
+    },
+    {
+     "rank": 3,
+     "adopted": false,
+     "solution": "Meng2025-DDGR",
+     "value": 6781.367997792,
+     "sigma": 6.912e-7,
+     "verified": false,
+     "intakeRow": true,
+     "residual": -95.725705797935,
+     "nSigma": 138492051.21229023
+    }
+   ]
+  },
+  {
+   "body": "PSR J1946+2052",
+   "quantity": "eccentricity",
+   "unit": "1",
+   "preset": "psrJ1946DFM",
+   "emoji": "🩺",
+   "meas": 0.06408356529024434,
+   "rows": [
+    {
+     "rank": 0,
+     "adopted": true,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 0.063848,
+     "sigma": 0.000009,
+     "verified": true,
+     "intakeRow": false,
+     "residual": 0.0002355652902443356,
+     "nSigma": 26.17392113825951
+    },
+    {
+     "rank": 1,
+     "adopted": false,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 0.0638363,
+     "sigma": null,
+     "verified": false,
+     "intakeRow": false,
+     "residual": 0.00024726529024433896,
+     "nSigma": null
+    },
+    {
+     "rank": 2,
+     "adopted": false,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 0.0638363,
+     "sigma": 8e-7,
+     "verified": false,
+     "intakeRow": false,
+     "residual": 0.00024726529024433896,
+     "nSigma": 309.08161280542373
+    },
+    {
+     "rank": 3,
+     "adopted": false,
+     "solution": "Meng2025-DDFWHE",
+     "value": 0.0638363,
+     "sigma": 8e-7,
+     "verified": false,
+     "intakeRow": true,
+     "residual": 0.00024726529024433896,
+     "nSigma": 309.08161280542373
+    },
+    {
+     "rank": 4,
+     "adopted": false,
+     "solution": "Meng2025-DDGR",
+     "value": 0.0638365,
+     "sigma": 4e-7,
+     "verified": false,
+     "intakeRow": true,
+     "residual": 0.0002470652902443332,
+     "nSigma": 617.663225610833
+    }
+   ]
+  },
+  {
+   "body": "PSR J1946+2052",
+   "quantity": "periastron_advance",
+   "unit": "deg/yr",
+   "preset": "psrJ1946DFM",
+   "emoji": "🩺",
+   "meas": 54.718644453894484,
+   "rows": [
+    {
+     "rank": 0,
+     "adopted": true,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 25.79205,
+     "sigma": 0.0004,
+     "verified": true,
+     "intakeRow": false,
+     "residual": 28.926594453894484,
+     "nSigma": 72316.4861347362
+    },
+    {
+     "rank": 1,
+     "adopted": false,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 25.79205,
+     "sigma": null,
+     "verified": false,
+     "intakeRow": false,
+     "residual": 28.926594453894484,
+     "nSigma": null
+    },
+    {
+     "rank": 2,
+     "adopted": false,
+     "solution": "(採用レコード・解タグなし)",
+     "value": 25.79205,
+     "sigma": 0.0004,
+     "verified": true,
+     "intakeRow": false,
+     "residual": 28.926594453894484,
+     "nSigma": 72316.4861347362
+    },
+    {
+     "rank": 3,
+     "adopted": false,
+     "solution": "Meng2025-DDFWHE",
+     "value": 25.79205,
+     "sigma": 0.0004,
+     "verified": false,
+     "intakeRow": true,
+     "residual": 28.926594453894484,
+     "nSigma": 72316.4861347362
+    },
+    {
+     "rank": 4,
+     "adopted": false,
+     "solution": "Meng2025-DDGR",
+     "value": 25.7918222,
+     "sigma": null,
+     "verified": false,
+     "intakeRow": true,
+     "residual": 28.926822253894485,
+     "nSigma": null
+    }
+   ]
+  }
+ ],
+ "solutionSpread": [
+  {
+   "body": "PSR J0737-3039 B",
+   "quantity": "orbital_period",
+   "a": "採用レコード",
+   "b": "Kramer2021-DDS",
+   "diff": 8.720235200598836e-9,
+   "sigmaA": 2.5056e-7,
+   "sigmaB": 8.64e-8,
+   "nSigmaA": 0.034802982122441074,
+   "nSigmaB": 0.10092864815507911
+  },
+  {
+   "body": "PSR J0737-3039 B",
+   "quantity": "orbital_period",
+   "a": "採用レコード",
+   "b": "Hu2022-DDS",
+   "diff": 8.003553375601768e-11,
+   "sigmaA": 2.5056e-7,
+   "sigmaB": 2.5056e-7,
+   "nSigmaA": 0.0003194266193966223,
+   "nSigmaB": 0.0003194266193966223
+  },
+  {
+   "body": "PSR J0737-3039 B",
+   "quantity": "eccentricity",
+   "a": "採用レコード",
+   "b": "Kramer2021-DDS",
+   "diff": 1.3000000007035162e-8,
+   "sigmaA": 4.8e-8,
+   "sigmaB": 6.1e-8,
+   "nSigmaA": 0.2708333334798992,
+   "nSigmaB": 0.21311475421369117
+  },
+  {
+   "body": "PSR J0737-3039 B",
+   "quantity": "eccentricity",
+   "a": "採用レコード",
+   "b": "Hu2022-DDS",
+   "diff": 0,
+   "sigmaA": 4.8e-8,
+   "sigmaB": 4.8e-8,
+   "nSigmaA": 0,
+   "nSigmaB": 0
+  },
+  {
+   "body": "PSR J0737-3039 B",
+   "quantity": "periastron_advance",
+   "a": "採用レコード",
+   "b": "Kramer2021-DDS",
+   "diff": 0,
+   "sigmaA": 0.000013,
+   "sigmaB": 0.000013,
+   "nSigmaA": 0,
+   "nSigmaB": 0
+  },
+  {
+   "body": "PSR J0737-3039 B",
+   "quantity": "periastron_advance",
+   "a": "採用レコード",
+   "b": "Hu2022-DDS",
+   "diff": 0.000001999999998503199,
+   "sigmaA": 0.000013,
+   "sigmaB": 0.000037,
+   "nSigmaA": 0.15384615373101532,
+   "nSigmaB": 0.05405405401359998
+  },
+  {
+   "body": "PSR B1534+12",
+   "quantity": "orbital_period",
+   "a": "採用レコード",
+   "b": "Fonseca2014-DD",
+   "diff": 0.000020995197701267898,
+   "sigmaA": 8.64e-7,
+   "sigmaB": 1.728e-7,
+   "nSigmaA": 24.299997339430437,
+   "nSigmaB": 121.49998669715218
+  },
+  {
+   "body": "PSR B1534+12",
+   "quantity": "orbital_period",
+   "a": "採用レコード",
+   "b": "Fonseca2014-DDGR",
+   "diff": 0.000020822393707931042,
+   "sigmaA": 8.64e-7,
+   "sigmaB": 1.728e-7,
+   "nSigmaA": 24.09999271751278,
+   "nSigmaB": 120.4999635875639
+  },
+  {
+   "body": "PSR B1534+12",
+   "quantity": "eccentricity",
+   "a": "採用レコード",
+   "b": "Fonseca2014-DD",
+   "diff": 1.9999999989472883e-8,
+   "sigmaA": 3e-7,
+   "sigmaB": 7e-8,
+   "nSigmaA": 0.06666666663157628,
+   "nSigmaB": 0.28571428556389833
+  },
+  {
+   "body": "PSR B1534+12",
+   "quantity": "eccentricity",
+   "a": "採用レコード",
+   "b": "Fonseca2014-DDGR",
+   "diff": 1.0000000000287557e-7,
+   "sigmaA": 3e-7,
+   "sigmaB": 4e-8,
+   "nSigmaA": 0.3333333333429186,
+   "nSigmaB": 2.500000000071889
+  },
+  {
+   "body": "PSR B1534+12",
+   "quantity": "periastron_advance",
+   "a": "採用レコード",
+   "b": "Fonseca2014-DD",
+   "diff": 0.000005999999999950489,
+   "sigmaA": 0.000009,
+   "sigmaB": 0.0000019,
+   "nSigmaA": 0.6666666666611655,
+   "nSigmaB": 3.157894736816047
+  },
+  {
+   "body": "PSR J1757-1854",
+   "quantity": "orbital_period",
+   "a": "採用レコード",
+   "b": "Cameron2018-DDH",
+   "diff": 0,
+   "sigmaA": 0.00000432,
+   "sigmaB": 0.00000432,
+   "nSigmaA": 0,
+   "nSigmaB": 0
+  },
+  {
+   "body": "PSR J1757-1854",
+   "quantity": "orbital_period",
+   "a": "採用レコード",
+   "b": "Singha2026-DDH",
+   "diff": 0.001053993601090042,
+   "sigmaA": 0.00000432,
+   "sigmaB": 1.728e-7,
+   "nSigmaA": 243.98000025232452,
+   "nSigmaB": 6099.5000063081125
+  },
+  {
+   "body": "PSR J1757-1854",
+   "quantity": "eccentricity",
+   "a": "採用レコード",
+   "b": "Cameron2018-DDH",
+   "diff": 0,
+   "sigmaA": 1e-7,
+   "sigmaB": 0.000001,
+   "nSigmaA": 0,
+   "nSigmaB": 0
+  },
+  {
+   "body": "PSR J1757-1854",
+   "quantity": "eccentricity",
+   "a": "採用レコード",
+   "b": "Singha2026-DDH",
+   "diff": 0.000002800000000080516,
+   "sigmaA": 1e-7,
+   "sigmaB": 0.000002,
+   "nSigmaA": 28.00000000080516,
+   "nSigmaB": 1.400000000040258
+  },
+  {
+   "body": "PSR J1757-1854",
+   "quantity": "periastron_advance",
+   "a": "採用レコード",
+   "b": "Cameron2018-DDH",
+   "diff": 0,
+   "sigmaA": 0.0002,
+   "sigmaB": 0.0002,
+   "nSigmaA": 0,
+   "nSigmaB": 0
+  },
+  {
+   "body": "PSR J1757-1854",
+   "quantity": "periastron_advance",
+   "a": "採用レコード",
+   "b": "Singha2026-DDH",
+   "diff": 0.00011399999999994748,
+   "sigmaA": 0.0002,
+   "sigmaB": 0.000008,
+   "nSigmaA": 0.5699999999997374,
+   "nSigmaB": 14.249999999993435
+  },
+  {
+   "body": "PSR J1946+2052",
+   "quantity": "orbital_period",
+   "a": "採用レコード",
+   "b": "採用レコード(別版)",
+   "diff": 0.0013426559999061283,
+   "sigmaA": 0.000864,
+   "sigmaB": 0.000001728,
+   "nSigmaA": 1.5539999998913523,
+   "nSigmaB": 776.9999999456761
+  },
+  {
+   "body": "PSR J1946+2052",
+   "quantity": "orbital_period",
+   "a": "採用レコード",
+   "b": "Meng2025-DDFWHE",
+   "diff": 0.0013426559999061283,
+   "sigmaA": 0.000864,
+   "sigmaB": 0.000001728,
+   "nSigmaA": 1.5539999998913523,
+   "nSigmaB": 776.9999999456761
+  },
+  {
+   "body": "PSR J1946+2052",
+   "quantity": "orbital_period",
+   "a": "採用レコード",
+   "b": "Meng2025-DDGR",
+   "diff": 0.0013417919999483274,
+   "sigmaA": 0.000864,
+   "sigmaB": 6.912e-7,
+   "nSigmaA": 1.5529999999401938,
+   "nSigmaB": 1941.249999925242
+  },
+  {
+   "body": "PSR J1946+2052",
+   "quantity": "eccentricity",
+   "a": "採用レコード",
+   "b": "採用レコード(別版)",
+   "diff": 0.000011700000000003374,
+   "sigmaA": 0.000009,
+   "sigmaB": 8e-7,
+   "nSigmaA": 1.3000000000003749,
+   "nSigmaB": 14.625000000004219
+  },
+  {
+   "body": "PSR J1946+2052",
+   "quantity": "eccentricity",
+   "a": "採用レコード",
+   "b": "Meng2025-DDFWHE",
+   "diff": 0.000011700000000003374,
+   "sigmaA": 0.000009,
+   "sigmaB": 8e-7,
+   "nSigmaA": 1.3000000000003749,
+   "nSigmaB": 14.625000000004219
+  },
+  {
+   "body": "PSR J1946+2052",
+   "quantity": "eccentricity",
+   "a": "採用レコード",
+   "b": "Meng2025-DDGR",
+   "diff": 0.000011499999999997623,
+   "sigmaA": 0.000009,
+   "sigmaB": 4e-7,
+   "nSigmaA": 1.2777777777775137,
+   "nSigmaB": 28.74999999999406
+  },
+  {
+   "body": "PSR J1946+2052",
+   "quantity": "periastron_advance",
+   "a": "採用レコード",
+   "b": "採用レコード(別版)",
+   "diff": 0,
+   "sigmaA": 0.0004,
+   "sigmaB": 0.0004,
+   "nSigmaA": 0,
+   "nSigmaB": 0
+  },
+  {
+   "body": "PSR J1946+2052",
+   "quantity": "periastron_advance",
+   "a": "採用レコード",
+   "b": "Meng2025-DDFWHE",
+   "diff": 0,
+   "sigmaA": 0.0004,
+   "sigmaB": 0.0004,
+   "nSigmaA": 0,
+   "nSigmaB": 0
+  }
+ ],
+ "eRejudge": [
+  {
+   "id": "alphaCenAB",
+   "emoji": "✨",
+   "obsRow": {
+    "body": "Alpha Centauri B",
+    "value": 0.51947,
+    "sigma": 0.00015
+   },
+   "intakeRows": [
+    {
+     "body": "Alpha Centauri AB",
+     "value": 0.51947,
+     "sigma": 0.00015,
+     "solution": null,
+     "sameValue": true,
+     "sameSigma": true
+    }
+   ],
+   "stages": [
+    {
+     "div": 1,
+     "eR": 0.5194699631868642,
+     "eT": 0.5194700240311257,
+     "nSigmaR_current": 0.0002454209050798776,
+     "nSigmaT_current": 0.00016020750503997763,
+     "nSigmaR_intake": 0.0002454209050798776,
+     "nSigmaT_intake": 0.00016020750503997763
+    },
+    {
+     "div": 2,
+     "eR": 0.519469964794556,
+     "eT": 0.5194699957056746,
+     "nSigmaR_current": 0.00023470296002988297,
+     "nSigmaT_current": 0.00002862883559847281,
+     "nSigmaR_intake": 0.00023470296002988297,
+     "nSigmaT_intake": 0.00002862883559847281
+    },
+    {
+     "div": 4,
+     "eR": 0.5194699652029956,
+     "eT": 0.5194699865536248,
+     "nSigmaR_current": 0.00023198002926013336,
+     "nSigmaT_current": 0.00008964250156987912,
+     "nSigmaR_intake": 0.00023198002926013336,
+     "nSigmaT_intake": 0.00008964250156987912
+    }
+   ],
+   "note": "**4 値は昇格させない**(第262便c の宣言のまま)。ここで確かめているのは、σ の**出所**が増えたときに **σ の数が動くかどうか**である。"
+  },
+  {
+   "id": "siriusAB",
+   "emoji": "🌟",
+   "obsRow": {
+    "body": "Sirius B",
+    "value": 0.59142,
+    "sigma": 0.00037
+   },
+   "intakeRows": [
+    {
+     "body": "Sirius AB",
+     "value": 0.59142,
+     "sigma": 0.00037,
+     "solution": null,
+     "sameValue": true,
+     "sameSigma": true
+    }
+   ],
+   "stages": [
+    {
+     "div": 1,
+     "eR": 0.591419944425971,
+     "eT": 0.591419977995427,
+     "nSigmaR_current": 0.00015020007820081642,
+     "nSigmaT_current": 0.00005947181876093906,
+     "nSigmaR_intake": 0.00015020007820081642,
+     "nSigmaT_intake": 0.00005947181876093906
+    },
+    {
+     "div": 2,
+     "eR": 0.5914199462788203,
+     "eT": 0.5914199840353283,
+     "nSigmaR_current": 0.00014519237734022782,
+     "nSigmaT_current": 0.00004314776133982166,
+     "nSigmaR_intake": 0.00014519237734022782,
+     "nSigmaT_intake": 0.00004314776133982166
+    },
+    {
+     "div": 4,
+     "eR": 0.5914199474755958,
+     "eT": 0.5914199724584358,
+     "nSigmaR_current": 0.00014195784907938073,
+     "nSigmaT_current": 0.00007443665983897529,
+     "nSigmaR_intake": 0.00014195784907938073,
+     "nSigmaT_intake": 0.00007443665983897529
+    }
+   ],
+   "note": "**4 値は昇格させない**(第262便c の宣言のまま)。ここで確かめているのは、σ の**出所**が増えたときに **σ の数が動くかどうか**である。"
+  },
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "obsRow": {
+    "body": "PSR J0737-3039 B",
+    "value": 0.087777036,
+    "sigma": 4.8e-8
+   },
+   "intakeRows": [
+    {
+     "body": "PSR J0737-3039 B",
+     "value": 0.087777023,
+     "sigma": 6.1e-8,
+     "solution": "Kramer2021-DDS",
+     "sameValue": false,
+     "sameSigma": false
+    },
+    {
+     "body": "PSR J0737-3039 B",
+     "value": 0.087777036,
+     "sigma": 4.8e-8,
+     "solution": "Hu2022-DDS",
+     "sameValue": true,
+     "sameSigma": true
+    }
+   ],
+   "stages": [
+    {
+     "div": 1,
+     "eR": 0.08792837556065188,
+     "eT": 0.07902586995020214,
+     "nSigmaR_current": 3152.907513580677,
+     "nSigmaT_current": 182315.95937078886,
+     "nSigmaR_Kramer2021-DDS": 2481.1895188832705,
+     "nSigmaT_Kramer2021-DDS": 143461.52540652224,
+     "nSigmaR_Hu2022-DDS": 3152.907513580677,
+     "nSigmaT_Hu2022-DDS": 182315.95937078886
+    },
+    {
+     "div": 2,
+     "eR": 0.08786769594421177,
+     "eT": 0.08259686279588216,
+     "nSigmaR_current": 1888.7488377452323,
+     "nSigmaT_current": 107920.27508578841,
+     "nSigmaR_Kramer2021-DDS": 1486.4417083898063,
+     "nSigmaT_Kramer2021-DDS": 84920.65908389897,
+     "nSigmaR_Hu2022-DDS": 1888.7488377452323,
+     "nSigmaT_Hu2022-DDS": 107920.27508578841
+    },
+    {
+     "div": 4,
+     "eR": 0.08783740688676385,
+     "eT": 0.08477888294250063,
+     "nSigmaR_current": 1257.7268075801446,
+     "nSigmaT_current": 62461.52203123687,
+     "nSigmaR_Kramer2021-DDS": 989.8997830139996,
+     "nSigmaT_Kramer2021-DDS": 49149.837008186274,
+     "nSigmaR_Hu2022-DDS": 1257.7268075801446,
+     "nSigmaT_Hu2022-DDS": 62461.52203123687
+    }
+   ],
+   "note": "**4 値は昇格させない**(第262便c の宣言のまま)。ここで確かめているのは、σ の**出所**が増えたときに **σ の数が動くかどうか**である。"
+  }
+ ],
+ "markMismatch": {
+  "n": 3,
+  "rows": [
+   {
+    "body": "Alpha Centauri B",
+    "quantity": "semi_major_axis",
+    "firstMark": "unverified",
+    "readAs": "verified",
+    "tier": "恒星",
+    "connectedToGate": false
+   },
+   {
+    "body": "Sirius B",
+    "quantity": "semi_major_axis",
+    "firstMark": "unverified",
+    "readAs": "verified",
+    "tier": "恒星",
+    "connectedToGate": false
+   },
+   {
+    "body": "PSR J1946+2052",
+    "quantity": "eccentricity",
+    "firstMark": "unverified",
+    "readAs": "verified",
+    "tier": "NS",
+    "connectedToGate": true
+   }
+  ],
+  "nConnected": 1,
+  "note": "**印は行の note の部分一致で読まれている**。第251便c の説明文が `sigma_primary=verified` の語を含むため、説明文つきの行は自身の印が unverified でも verified と読まれる。**本便では直していない**(読み方を変えると門の σ の出所が動くので、統括の裁定事項として出す)。",
+  "doNotWrite": [
+   "この行は verified である",
+   "印は正しく読まれている"
+  ]
+ },
+ "missingA": {
+  "n": 68,
+  "byCut": {
+   "csv-body-missing": 33,
+   "csv-quantity-missing": 13,
+   "csv-sigma-empty": 22
+  },
+  "rows": [
+   {
+    "key": "月|orbital_period",
+    "body": null,
+    "target": "月",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-body-missing",
+    "presets": [
+     "🌙",
+     "🌘",
+     "🧲",
+     "🔆"
+    ],
+    "nQuantities": 6,
+    "obsPresent": 6
+   },
+   {
+    "key": "月|periastron_advance",
+    "body": null,
+    "target": "月",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-body-missing",
+    "presets": [
+     "🌙",
+     "🌘",
+     "🧲",
+     "🔆"
+    ],
+    "nQuantities": 5,
+    "obsPresent": 3
+   },
+   {
+    "key": "月|eccentricity",
+    "body": null,
+    "target": "月",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-body-missing",
+    "presets": [
+     "🌙",
+     "🌘",
+     "🧲",
+     "🔆"
+    ],
+    "nQuantities": 4,
+    "obsPresent": 2
+   },
+   {
+    "key": "水星|orbital_period",
+    "body": null,
+    "target": "水星",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-body-missing",
+    "presets": [
+     "☄️",
+     "🪨",
+     "🌞"
+    ],
+    "nQuantities": 3,
+    "obsPresent": 2
+   },
+   {
+    "key": "水星|periastron_advance",
+    "body": null,
+    "target": "水星",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-body-missing",
+    "presets": [
+     "☄️",
+     "🪨",
+     "🌞"
+    ],
+    "nQuantities": 3,
+    "obsPresent": 2
+   },
+   {
+    "key": "水星|eccentricity",
+    "body": null,
+    "target": "水星",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-body-missing",
+    "presets": [
+     "☄️",
+     "🪨",
+     "🌞"
+    ],
+    "nQuantities": 3,
+    "obsPresent": 0
+   },
+   {
+    "key": "イオ|orbital_period",
+    "body": null,
+    "target": "イオ",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-body-missing",
+    "presets": [
+     "🟠"
+    ],
+    "nQuantities": 3,
+    "obsPresent": 2
+   },
+   {
+    "key": "エウロパ|orbital_period",
+    "body": null,
+    "target": "エウロパ",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-body-missing",
+    "presets": [
+     "🟠"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 2
+   },
+   {
+    "key": "ガニメデ|orbital_period",
+    "body": null,
+    "target": "ガニメデ",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-body-missing",
+    "presets": [
+     "🟠"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 2
+   },
+   {
+    "key": "カリスト|orbital_period",
+    "body": null,
+    "target": "カリスト",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-body-missing",
+    "presets": [
+     "🟠"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 2
+   },
+   {
+    "key": "D68|orbital_period",
+    "body": null,
+    "target": "D68",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-body-missing",
+    "presets": [
+     "📡"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 2
+   },
+   {
+    "key": "C環内縁|orbital_period",
+    "body": null,
+    "target": "C環内縁",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-body-missing",
+    "presets": [
+     "💍",
+     "💿"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 1
+   },
+   {
+    "key": "タイタン|orbital_period",
+    "body": null,
+    "target": "タイタン",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-body-missing",
+    "presets": [
+     "💍",
+     "💿"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 1
+   },
+   {
+    "key": "C環内縁|eccentricity",
+    "body": null,
+    "target": "C環内縁",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-body-missing",
+    "presets": [
+     "💍",
+     "💿"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 0
+   },
+   {
+    "key": "C環内縁|periastron_advance",
+    "body": null,
+    "target": "C環内縁",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-body-missing",
+    "presets": [
+     "💍",
+     "💿"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 1
+   },
+   {
+    "key": "ミマス|orbital_period",
+    "body": null,
+    "target": "ミマス",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-body-missing",
+    "presets": [
+     "💍",
+     "💿"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 0
+   },
+   {
+    "key": "ミマス|eccentricity",
+    "body": null,
+    "target": "ミマス",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-body-missing",
+    "presets": [
+     "💍",
+     "💿"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 0
+   },
+   {
+    "key": "ミマス|periastron_advance",
+    "body": null,
+    "target": "ミマス",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-body-missing",
+    "presets": [
+     "💍",
+     "💿"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 0
+   },
+   {
+    "key": "タイタン|eccentricity",
+    "body": null,
+    "target": "タイタン",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-body-missing",
+    "presets": [
+     "💍",
+     "💿"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 0
+   },
+   {
+    "key": "タイタン|periastron_advance",
+    "body": null,
+    "target": "タイタン",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-body-missing",
+    "presets": [
+     "💍",
+     "💿"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 0
+   },
+   {
+    "key": "地球|orbital_period",
+    "body": null,
+    "target": "地球",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-body-missing",
+    "presets": [
+     "🌞"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 1
+   },
+   {
+    "key": "地球|eccentricity",
+    "body": null,
+    "target": "地球",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-body-missing",
+    "presets": [
+     "🌞"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "地球|periastron_advance",
+    "body": null,
+    "target": "地球",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-body-missing",
+    "presets": [
+     "🌞"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "イオ|eccentricity",
+    "body": null,
+    "target": "イオ",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-body-missing",
+    "presets": [
+     "🟠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "イオ|periastron_advance",
+    "body": null,
+    "target": "イオ",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-body-missing",
+    "presets": [
+     "🟠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "エウロパ|eccentricity",
+    "body": null,
+    "target": "エウロパ",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-body-missing",
+    "presets": [
+     "🟠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "エウロパ|periastron_advance",
+    "body": null,
+    "target": "エウロパ",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-body-missing",
+    "presets": [
+     "🟠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "ガニメデ|eccentricity",
+    "body": null,
+    "target": "ガニメデ",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-body-missing",
+    "presets": [
+     "🟠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "ガニメデ|periastron_advance",
+    "body": null,
+    "target": "ガニメデ",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-body-missing",
+    "presets": [
+     "🟠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "カリスト|eccentricity",
+    "body": null,
+    "target": "カリスト",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-body-missing",
+    "presets": [
+     "🟠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "カリスト|periastron_advance",
+    "body": null,
+    "target": "カリスト",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-body-missing",
+    "presets": [
+     "🟠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "D68|periastron_advance",
+    "body": null,
+    "target": "D68",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-body-missing",
+    "presets": [
+     "📡"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 1
+   },
+   {
+    "key": "D68|eccentricity",
+    "body": null,
+    "target": "D68",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-body-missing",
+    "presets": [
+     "📡"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Venus|periastron_advance",
+    "body": "Venus",
+    "target": "金星",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-quantity-missing",
+    "presets": [
+     "🌞",
+     "🌇"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 0
+   },
+   {
+    "key": "Mars|orbital_period",
+    "body": "Mars",
+    "target": "火星",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-quantity-missing",
+    "presets": [
+     "🌞"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 1
+   },
+   {
+    "key": "Mars|eccentricity",
+    "body": "Mars",
+    "target": "火星",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-quantity-missing",
+    "presets": [
+     "🌞"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Mars|periastron_advance",
+    "body": "Mars",
+    "target": "火星",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-quantity-missing",
+    "presets": [
+     "🌞"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Phobos|periastron_advance",
+    "body": "Phobos",
+    "target": "フォボス",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-quantity-missing",
+    "presets": [
+     "🥔"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Deimos|periastron_advance",
+    "body": "Deimos",
+    "target": "ダイモス",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-quantity-missing",
+    "presets": [
+     "🥔"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Charon|periastron_advance",
+    "body": "Charon",
+    "target": "カロン",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-quantity-missing",
+    "presets": [
+     "❄️"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Miranda|periastron_advance",
+    "body": "Miranda",
+    "target": "ミランダ",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-quantity-missing",
+    "presets": [
+     "💠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Ariel|periastron_advance",
+    "body": "Ariel",
+    "target": "アリエル",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-quantity-missing",
+    "presets": [
+     "💠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Umbriel|periastron_advance",
+    "body": "Umbriel",
+    "target": "ウンブリエル",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-quantity-missing",
+    "presets": [
+     "💠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Titania|periastron_advance",
+    "body": "Titania",
+    "target": "チタニア",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-quantity-missing",
+    "presets": [
+     "💠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Oberon|periastron_advance",
+    "body": "Oberon",
+    "target": "オベロン",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-quantity-missing",
+    "presets": [
+     "💠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Triton|periastron_advance",
+    "body": "Triton",
+    "target": "トリトン",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-quantity-missing",
+    "presets": [
+     "🌊"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Venus|orbital_period",
+    "body": "Venus",
+    "target": "金星",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "🌞",
+     "🌇"
+    ],
+    "nQuantities": 4,
+    "obsPresent": 3
+   },
+   {
+    "key": "Charon|orbital_period",
+    "body": "Charon",
+    "target": "カロン",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "❄️"
+    ],
+    "nQuantities": 3,
+    "obsPresent": 3
+   },
+   {
+    "key": "Triton|orbital_period",
+    "body": "Triton",
+    "target": "トリトン",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "🌊"
+    ],
+    "nQuantities": 3,
+    "obsPresent": 2
+   },
+   {
+    "key": "Venus|eccentricity",
+    "body": "Venus",
+    "target": "金星",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "🌞",
+     "🌇"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 0
+   },
+   {
+    "key": "Phobos|orbital_period",
+    "body": "Phobos",
+    "target": "フォボス",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "🥔"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 1
+   },
+   {
+    "key": "Deimos|orbital_period",
+    "body": "Deimos",
+    "target": "ダイモス",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "🥔"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 1
+   },
+   {
+    "key": "Miranda|orbital_period",
+    "body": "Miranda",
+    "target": "ミランダ",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "💠"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 1
+   },
+   {
+    "key": "Phobos|eccentricity",
+    "body": "Phobos",
+    "target": "フォボス",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "🥔"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Deimos|eccentricity",
+    "body": "Deimos",
+    "target": "ダイモス",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "🥔"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Charon|eccentricity",
+    "body": "Charon",
+    "target": "カロン",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "❄️"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Ariel|orbital_period",
+    "body": "Ariel",
+    "target": "アリエル",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "💠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 1
+   },
+   {
+    "key": "Umbriel|orbital_period",
+    "body": "Umbriel",
+    "target": "ウンブリエル",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "💠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 1
+   },
+   {
+    "key": "Titania|orbital_period",
+    "body": "Titania",
+    "target": "チタニア",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "💠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 1
+   },
+   {
+    "key": "Oberon|orbital_period",
+    "body": "Oberon",
+    "target": "オベロン",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "💠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 1
+   },
+   {
+    "key": "Miranda|rotation_period",
+    "body": "Miranda",
+    "target": "ミランダ",
+    "quantity": "rotation_period",
+    "kind": "spin",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "💠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 1
+   },
+   {
+    "key": "Miranda|eccentricity",
+    "body": "Miranda",
+    "target": "ミランダ",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "💠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Ariel|eccentricity",
+    "body": "Ariel",
+    "target": "アリエル",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "💠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Umbriel|eccentricity",
+    "body": "Umbriel",
+    "target": "ウンブリエル",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "💠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Titania|eccentricity",
+    "body": "Titania",
+    "target": "チタニア",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "💠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Oberon|eccentricity",
+    "body": "Oberon",
+    "target": "オベロン",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "💠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Triton|rotation_period",
+    "body": "Triton",
+    "target": "トリトン",
+    "quantity": "rotation_period",
+    "kind": "spin",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "🌊"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Triton|eccentricity",
+    "body": "Triton",
+    "target": "トリトン",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "🌊"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   }
+  ],
+  "finding": "**A(太陽系の P/e/ω̇ の観測値と σ)は 2026-09-14 の観測レコードに含まれていない。** 入った太陽系の σ は半径・GM・候補行のもので、門が読む量の σ は 0 件である。したがって太陽系 16 本の 4 値は**保留のまま**である(**否定ではない**)。"
+ },
+ "doNotWrite": [
+  "太陽系・恒星連星・NS 連星の現実較正を完了した",
+  "観測レコードで判定が出た(σ は unverified のままである)",
+  "解タグ行を採用レコードに置き換えた",
+  "σ を繋いだので合格した",
+  "保留は否定である"
+ ]
+}
