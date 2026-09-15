@@ -994,6 +994,25 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     **粒子とメッシュの運動量を同時更新する契約**で、ΔP・ΔL・離散仕事の厳密な負を同じ步にメッシュ帳簿
     (`S.geoToyMeshPx/Py/L`・`S.geoToyEmesh`)とリザーバへ記帳する。読み口は `S.geoToyStop`/`N`/`Chi`/`Dv`/`E`。
     **`lawVersion:"complex"` は接続しない**(`S.geoToyStop="complexNotVelocity"` —— A は速度ではない)。
+  - **第264便b — 固定(pinned)源の ∂ₜu(不具合の修正・新しい鍵は 0 個)**: トイは ∂ₜu の中の Σw·a_i に
+    **全粒子の重力加速度**を渡していたが、**pinned 粒子は規定運動**であって力を受けても速度が動かない。
+    渡すべきなのは**規定運動の加速度**で、`dfmGeoToyStep` はこれを
+    **静止/等速の pinned は 0**・**レール駆動(`railOmega`/`railH`)は P̈=(h²−ω²)(P−C)+2hω·(−(P−C)_y,(P−C)_x)**
+    として作る(**重力 E4 は 1 バイトも変えていない**)。内蔵で geoPN≥3 を宣言する本(🩻)に pinned 粒子は
+    **0 個**なので、**内蔵 122 本は 1 bit も動かない**。QA `behavior.geoToyPinned`。
+  - **第264便b — 源の閉包 `physics.spaceMesh.toyClosure`("gravity" 既定 /"iterate")+`toyClosureIters`(1〜64・既定 8)**:
+    `"gravity"` は上の a_i=g_i(**現状とビット同一**)。`"iterate"` は「源も同じトイ則で加速している」として
+    **a_i = g_i + t_i(a)** の固定点を Jacobi 反復で解く**診断モード**である(**採用則ではない**)。
+    - 二体・単一源支配では t₀=η·χ₀·a₁・t₁=η·χ₁·a₀ なので係数行列は [1,−ηχ₀;−ηχ₁,1]、
+      **det=1−η²χ₀χ₁**(解の増幅)・**収縮率 ρ=√(η²χ₀χ₁)=ηχ**(反復の速さ)である。
+      **η=χ=1 で det=0** —— 反復は止まらない(残差が下がらないことが結果である)。
+    - 読み口は `S.geoToyClosure`/`S.geoToyIters`/`S.geoToyResid`(絶対)/`S.geoToyResidRel`(**源の重力加速度の
+      最大値で割った相対**)/`S.geoToyConverged`。HUD(ステップ会計)に `closure:iterate it=… res=…`
+      (未収束なら「**未収束**」)が出る。停止条件は相対残差 ≤ `GEO_TOY_CLOSURE_TOL`(10⁻¹²・**宣言値**)。
+    - **既定は 1 bit 不変**(正準形に 1 文字も出ない)。宣言すると**警告 1 行**・`sampleClass:"calibration"` では**拒否**。
+    - **質量のある箱(`universeBox`)の宇宙では閉包は効かない**(箱は規定場で、∂ₜu に源の加速度が入らない)——
+      "gravity" と "iterate" がビット同一で、反復は 2 回目に残差 0 で止まる。
+    - QA `behavior.geoToyClosure` が門・既定不変・反復数と残差・特異点・箱の不変を機械固定する。
 - **支配度の器(第263便a — `HP.dfmDominance(bodies, opts)`)**: 「支配天体が 1 つかどうか」を**測れる形**にした純関数。
   `bodies=[{m,x,y,vx,vy}]`・`opts={p, eps, D0}`(既定 p=2・eps=0・D₀=0)。**3 つの軸を別々に返す**(1 つの数に畳まない):
   **①`massRatio`=m₁/(m₁+m₂)**(質量上位 2 体)・**②`chiBias`=χ₂/(χ₁+χ₂)**(χ_i=Σ_{j≠i}w_j/(D₀+Σ_{j≠i}w_j)・

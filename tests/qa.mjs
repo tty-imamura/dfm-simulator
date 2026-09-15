@@ -14726,6 +14726,218 @@ if (!FAST) {
     console.log('SKIP behavior.geoToyOverlay(対象に第263便a の geoToyOverlay / HP.dfmDominance なし — root 等)');
   }
 }
+// ---- 第264便b(第56報「geoPN=3 — 空間メッシュで引きずり計算を完全に置き換える整備」): behavior.geoToyPinned ----
+//   統括の読み (B)(i)。**pinned 源は規定運動**なので、トイの ∂ₜu へ渡す源の加速度は
+//   **規定運動の加速度**(静止なら 0・レール駆動なら向心 −ω²(P−C))でなければならない。
+//   第263便a までは**受けている重力加速度**を渡していたので、静止した pinned 源が
+//   静止した試験粒子を蹴っていた(再現器 tests/exp-w264b-pinned.mjs)。
+//     ① **静止 pinned 源 + 静止試験粒子**(D₀=0・scalar・η=1)で **トイの Δv が厳密に 0**。
+//     ② **同じ幾何で pinned を外すと 0 ではない**(自由源では重力加速度こそが正しい a_i)。
+//        しかも値は解析式 η·g_src·dt と 10⁻⁶ で一致する(**非 pinned の経路は変えていない**)。
+//     ③ **レール駆動の pinned 源**(railOmega)では、トイの加速度が **η·(−ω²(P−C))** と 10⁻⁹ で一致する
+//        (ω は `S.railOmega` が Float32 配列なので `Math.fround` を通して比べる)。
+//     ④ **内蔵で geoPN≥3 を宣言する本に pinned 粒子は 0 個**(= この修正で内蔵 122 本は 1 bit も動かない)。
+{
+  const hasPinFix = await page.evaluate(() => !!(window.HP && HP.sim)
+    && typeof HP.dfmGeoToyStep === 'function' && Array.isArray(HP.SPACE_MESH_TOY_CLOSURE));
+  if (hasPinFix) {
+    const r = await page.evaluate(() => {
+      const KEY = HP.SPACE_MESH_KEY;
+      const G = 6.674, EPS = 0.05, DT = 0.016, RSEP = 100, MSRC = 1000, MTEST = 10;
+      const mk = (bodies, sm) => {
+        const q = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'spaceMeshBinaryToy')));
+        delete q.claims; delete q.massCalibration; delete q.scaleExp; delete q.overlays;
+        q.sampleClass = 'principle';
+        q.physics = { G, D0: 0, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 0,
+          cLight: 30, bM: 1, etaRad: 0, geoPN: 3, lambdaPN: 1, radiusScale: 1, softening: EPS,
+          timeScale: 1, stateCarry: 'double', frameWeight: 'share',
+          spaceMesh: Object.assign({ mode: 'vertex', gravity: false, inertia: false,
+            lawVersion: 'scalar', toyGain: 1 }, sm || {}) };
+        q.bodies = bodies;
+        const v = HP.validatePreset(q);
+        if (!v.ok) return { err: (v.errors || []).join('|') };
+        const S = HP.sim; S.build(v.preset);
+        S.step(DT);
+        const vv = [];
+        for (let i = 0; i < S.n; i++) vv.push(S.vx[i], S.vy[i]);
+        return { px: S.geoToyPx, py: S.geoToyPy, N: S.geoToyN, chi: S.geoToyChi,
+          stop: S.geoToyStop, nan: S.hasNaN(), sx: S.x[0], sy: S.y[0], vv };
+      };
+      // **粒子ごと**のトイ Δv は η=0 の対照との速度差で取る(合計 `geoToyPx` は 2 体で打ち消し合う)
+      const dvOf = (bodies, i) => {
+        const a = mk(bodies, { toyGain: 1 }), b = mk(bodies, { toyGain: 0 });
+        if (a.err || b.err) return null;
+        return [a.vv[2 * i] - b.vv[2 * i], a.vv[2 * i + 1] - b.vv[2 * i + 1]];
+      };
+      const B = (o) => Object.assign({ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }, o);
+      const bodiesPin = [B({ m: MSRC, x: 0, y: 0, pinned: true }), B({ m: MTEST, x: RSEP, y: 0 })];
+      const bodiesFree = [B({ m: MSRC, x: 0, y: 0 }), B({ m: MTEST, x: RSEP, y: 0 })];
+      const pin = mk(bodiesPin);
+      const free = mk(bodiesFree);
+      const dvPin = dvOf(bodiesPin, 1), dvFree = dvOf(bodiesFree, 1);
+      const OM = 0.02, RR = 40, OM32 = Math.fround(OM);
+      const bodiesRail = [B({ m: MSRC, x: RR, y: 0, pinned: true, railOmega: OM }),
+        B({ m: MTEST, x: RSEP + RR, y: 0 })];
+      const rail = mk(bodiesRail);
+      // 自由源の期待値(源が受ける重力加速度 —— 位置は步の途中で動くので 10⁻⁶ で比べる)
+      const aFree = G * MTEST * RSEP / Math.pow(RSEP * RSEP + EPS * EPS, 1.5);
+      // 内蔵で geoPN≥3 の本に pinned はあるか
+      const hits = [];
+      for (const q of HP.allPresets()) {
+        if (!(q.physics && q.physics.geoPN >= 3)) continue;
+        let np = 0;
+        for (const b of (q.bodies || [])) if (b && b.pinned === true) np++;
+        hits.push(q.id + ':' + np);
+      }
+      return { pin, free, rail, aFree, dvPin, dvFree, dt: DT,
+        railExpect: [-OM32 * OM32 * rail.sx * DT, -OM32 * OM32 * rail.sy * DT], hits };
+    });
+    // 自由源の期待値: 試験粒子が受けるトイ Δv = η·a_src·dt(a_src は**源が受けている重力加速度**)
+    const relFree = r.dvFree
+      ? Math.max(Math.abs(r.dvFree[0] - r.aFree * r.dt) / (r.aFree * r.dt), Math.abs(r.dvFree[1]))
+      : null;
+    const relRail = Math.max(Math.abs(r.rail.px / 10 - r.railExpect[0]) / Math.abs(r.railExpect[0]),
+      Math.abs(r.rail.py / 10 - r.railExpect[1]) / Math.abs(r.railExpect[1]));
+    const CK = {
+      pinZero: r.pin.px === 0 && r.pin.py === 0 && r.pin.N === 1 && r.pin.stop === null
+        && !!r.dvPin && r.dvPin[0] === 0 && r.dvPin[1] === 0,
+      freeNonZero: !!r.dvFree && r.dvFree[0] > 0 && relFree !== null && relFree < 1e-5,
+      rail: relRail < 1e-9,
+      noNaN: !r.pin.nan && !r.free.nan && !r.rail.nan,
+      builtinClean: r.hits.every((z) => z.endsWith(':0')) };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    add('behavior.geoToyPinned', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + `① 静止 pinned 源での試験粒子のトイ Δv=[${r.dvPin}](**厳密 0**・N=${r.pin.N}・χ=${r.pin.chi}) / `
+      + `② 同じ幾何で pinned を外すと Δv_x=${Number(r.dvFree[0]).toExponential(6)}≠0(解析 η·a_src·dt=${
+        Number(r.aFree * r.dt).toExponential(6)} と相対 ${relFree.toExponential(2)}) / `
+      + `③ レール駆動 pinned は η·(−ω²e) と相対 ${relRail.toExponential(2)} で一致 / `
+      + `④ 内蔵で geoPN≥3 の本の pinned 数: ${r.hits.join(' ') || '(0 本)'}`);
+  } else {
+    console.log('SKIP behavior.geoToyPinned(対象に第264便b の HP.SPACE_MESH_TOY_CLOSURE なし — root 等)');
+  }
+}
+// ---- 第264便b(第56報・統括の読み (B)(ii)): behavior.geoToyClosure ----
+//   **源の閉包** `physics.spaceMesh.toyClosure`("gravity" 既定 = 現状 /"iterate" = 固定点反復の診断)。
+//   **採用則ではない**(反復が止まらない帯があること自体が測りたい結果である)。
+//     ① **既定は 1 bit 不変**: 内蔵で `toyClosure` を宣言する本は 0 本・正準形(physics 署名)にも出ない。
+//     ② **検証器**: 未知の値は拒否・`sampleClass:"calibration"` では拒否・宣言すると警告が 1 行出る。
+//        `toyClosureIters` は 1〜64 の外を拒否する。
+//     ③ **"iterate" は反復数と相対残差を返す**(`S.geoToyIters`≥2・`S.geoToyResidRel` が有限)。
+//        HUD(ステップ会計)に `closure:iterate it=… res=…` が出る。
+//     ④ **収束する側**: D₀ を上げて χ を下げると `S.geoToyConverged===true`。
+//        **特異点側**(D₀=0 ∧ η=1 ∧ 等質量二体 = det 1−η²χ₀χ₁ が 0)では **false のまま**で、
+//        HUD に「未収束」が出る。**収縮率は ρ=ηχ**(残差の比が ηχ と 10⁻⁶ で一致する)。
+//     ⑤ **質量のある箱では閉包が効かない**(箱は規定場 —— ∂ₜu に源の加速度が入らない):
+//        `boxcomoving` の geoPN=3 コピーで "gravity" と "iterate" が 40 步ビット同一・反復は 2 回で残差 0。
+{
+  const hasClosure = await page.evaluate(() => !!(window.HP && HP.sim)
+    && Array.isArray(HP.SPACE_MESH_TOY_CLOSURE) && ('geoToyClosure' in HP.sim));
+  if (hasClosure) {
+    const r = await page.evaluate(() => {
+      const KEY = HP.SPACE_MESH_KEY;
+      const G = 6.674, EPS = 0.05, DT = 0.016, MM = 500, SEP = 240;
+      const mk = (D0, eta, closure, iters, cls) => {
+        const q = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'spaceMeshBinaryToy')));
+        delete q.claims; delete q.massCalibration; delete q.scaleExp; delete q.overlays;
+        q.sampleClass = cls || 'principle';
+        const sm = { mode: 'vertex', gravity: false, inertia: false, lawVersion: 'scalar', toyGain: eta };
+        if (closure !== undefined && closure !== null) sm.toyClosure = closure;
+        if (iters !== undefined && iters !== null) sm.toyClosureIters = iters;
+        q.physics = { G, D0, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 0,
+          cLight: 30, bM: 1, etaRad: 0, geoPN: 3, lambdaPN: 1, radiusScale: 1, softening: EPS,
+          timeScale: 1, stateCarry: 'double', frameWeight: 'share', spaceMesh: sm };
+        q.bodies = [{ type: 'single', m: MM, x: -SEP / 2, y: 0, vx: 0, vy: -0.4, spin: 0, pinned: false },
+          { type: 'single', m: MM, x: SEP / 2, y: 0, vx: 0, vy: 0.4, spin: 0, pinned: false }];
+        return HP.validatePreset(q);
+      };
+      const run = (D0, eta, closure, iters) => {
+        const v = mk(D0, eta, closure, iters);
+        if (!v.ok) return { err: (v.errors || []).join('|') };
+        const S = HP.sim; S.build(v.preset);
+        S.step(DT);
+        return { chi: S.geoToyChi, iters: S.geoToyIters, resid: S.geoToyResid,
+          residRel: S.geoToyResidRel, conv: S.geoToyConverged, closure: S.geoToyClosure,
+          warn: (v.warnings || []).some((w) => w.indexOf('toyClosure') >= 0),
+          sig: JSON.stringify(v.preset.physics[KEY]),
+          hud: (typeof HP.stepDiagText === 'function') ? String(HP.stepDiagText()) : null,
+          nan: S.hasNaN() };
+      };
+      // ① 内蔵の宣言 0 本・署名にも出ない
+      const declared = [], sigHit = [];
+      for (const q of HP.allPresets()) {
+        const sm = q.physics && q.physics[KEY];
+        if (sm && sm.toyClosure !== undefined) declared.push(q.id);
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(q)));
+        if (v.ok && JSON.stringify(v.preset.physics).indexOf('toyClosure') >= 0) sigHit.push(q.id);
+      }
+      // ② 門
+      const gates = { bad: mk(0, 1, 'zzz').ok, calib: mk(0, 1, 'iterate', null, 'calibration').ok,
+        iters0: mk(0, 1, 'iterate', 0).ok, iters99: mk(0, 1, 'iterate', 99).ok,
+        okDefault: mk(0, 1, null).ok, defaultSig: mk(0, 1, null).ok
+          ? JSON.stringify(mk(0, 1, null).preset.physics[KEY]) : null };
+      // ③④ 走行
+      const grav = run(8, 1, null);
+      const conv = run(8, 1, 'iterate', 32);
+      const sing = run(0, 1, 'iterate', 32);
+      // 収縮率 ρ=ηχ(反復を 1 回ずつ増やしたときの残差の比)
+      const s7 = run(2, 0.75, 'iterate', 7), s8 = run(2, 0.75, 'iterate', 8);
+      const ratio = (s7.residRel > 0) ? s8.residRel / s7.residRel : null;
+      const rho = 0.75 * s8.chi;
+      // ⑤ 質量のある箱
+      const box = (closure) => {
+        const q = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'boxcomoving')));
+        delete q.claims; delete q.massCalibration;
+        q.sampleClass = 'principle';
+        q.physics.geoPN = 3; q.physics.kFrame = 0;
+        const sm = { mode: 'vertex', gravity: false, inertia: false, lawVersion: 'scalar', toyGain: 1 };
+        if (closure) { sm.toyClosure = closure; sm.toyClosureIters = 32; }
+        q.physics[KEY] = sm;
+        const v = HP.validatePreset(q);
+        if (!v.ok) return { err: (v.errors || []).join('|') };
+        const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < 40; k++) S.step(0.005);
+        const st = [];
+        for (let i = 0; i < S.n; i++) st.push(S.x[i], S.y[i], S.vx[i], S.vy[i]);
+        return { st, iters: S.geoToyIters, resid: S.geoToyResid, conv: S.geoToyConverged,
+          W: S.boxA ? S.boxA.W : null, N: S.geoToyN };
+      };
+      const bg = box(null), bi = box('iterate');
+      return { declared, sigHit, gates, grav, conv, sing, ratio, rho,
+        box: { same: (bg.st && bi.st) ? bg.st.every((z, i) => Object.is(z, bi.st[i])) : null,
+          iters: bi.iters, resid: bi.resid, conv: bi.conv, W: bg.W, N: bi.N } };
+    });
+    const CK = {
+      defaultClean: r.declared.length === 0 && r.sigHit.length === 0
+        && (r.gates.defaultSig || '').indexOf('toyClosure') < 0,
+      gates: r.gates.bad === false && r.gates.calib === false && r.gates.iters0 === false
+        && r.gates.iters99 === false && r.gates.okDefault === true,
+      gravityQuiet: r.grav.closure === 'gravity' && r.grav.iters === 1 && r.grav.residRel === null
+        && (r.grav.hud === null || r.grav.hud.indexOf('closure:') < 0),
+      iterateReports: r.conv.closure === 'iterate' && r.conv.iters >= 2
+        && Number.isFinite(r.conv.residRel) && r.conv.warn === true
+        && (r.conv.hud === null || r.conv.hud.indexOf('closure:iterate') >= 0),
+      converges: r.conv.conv === true,
+      singular: r.sing.conv === false && r.sing.residRel >= 0.5
+        && (r.sing.hud === null || r.sing.hud.indexOf('未収束') >= 0),
+      rho: r.ratio !== null && Math.abs(r.ratio - r.rho) / r.rho < 1e-6,
+      box: r.box.same === true && r.box.iters === 2 && r.box.resid === 0 && r.box.conv === true };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    add('behavior.geoToyClosure', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + `① 内蔵で toyClosure を宣言する本=${r.declared.length}・署名に出る本=${r.sigHit.length}(既定署名=${r.gates.defaultSig}) / `
+      + `② 門(未知値/calibration/iters=0/iters=99)=${r.gates.bad}/${r.gates.calib}/${r.gates.iters0}/${r.gates.iters99}(すべて false) / `
+      + `③ 既定 "gravity" は反復 1・残差 null / "iterate" は it=${r.conv.iters} res=${
+        Number(r.conv.residRel).toExponential(2)} 警告=${r.conv.warn} / `
+      + `④ 収束 χ=${r.conv.chi.toFixed(6)} → conv=${r.conv.conv} / **特異点**(D₀=0・η=1・χ=${
+        r.sing.chi}) → conv=${r.sing.conv} res=${Number(r.sing.residRel).toExponential(2)}・`
+      + `収縮率 実測 ${r.ratio === null ? '—' : r.ratio.toExponential(6)} 対 ρ=ηχ ${r.rho.toExponential(6)} / `
+      + `⑤ 質量のある箱(W=${r.box.W})では閉包が効かない: 40 步ビット同一=${r.box.same}・反復=${
+        r.box.iters}・残差=${r.box.resid}`);
+  } else {
+    console.log('SKIP behavior.geoToyClosure(対象に第264便b の toyClosure なし — root 等)');
+  }
+}
 // ---- 第263便b(第55報・統括が設定した検証仮説 (7)): ui.geoToySaveNote ----
 //   **geoPN の保存は非対称である**: UI で 3 にした値は実行中は 3 のまま走る(第262便a)が、
 //   保存 JSON に physics.spaceMesh.lawVersion の宣言が無ければ**読み込み時に 2 へ丸められる**
