@@ -7678,7 +7678,7 @@ if (!FAST) {
   const hasAC = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'alphaCenAB'));
   if (hasAC) {
     const csvText = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8');
-    const csvRows = csvText.split('\n').filter((l) => l.startsWith('Alpha Centauri')).map((line) => {
+    const csvParsed = csvText.split('\n').filter((l) => l.startsWith('Alpha Centauri')).map((line) => {
       const cols = []; let cur = '', inQ = false;
       for (const ch of line) {
         if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
@@ -7690,6 +7690,13 @@ if (!FAST) {
       return { body: cols[0], quantity: cols[1], value: Number(cols[2]), unit: cols[3],
         source: cols[4], url: cols[5], retrieved: cols[6], note: cols[7] };
     });
+    // 第263便c(第55報 W3): 原仮定者が提供した観測レコード(2026-09-14 intake)の行を CSV へ**併置**した
+    // (採用レコードは 1 行も置き換えていない —— 併置した行は note に `intake_row=2026-09-14` を持つ)。
+    // **ビルダーが消費するのは採用レコードだけである**ことをここで宣言する(第256便d の BUILDER_SKIP と
+    // 同じ流儀: 本体は 1 bit も変えていない —— 変えたのは「何を入力として渡すか」の宣言だけである)。
+    const INTAKE_ROW = (r) => /intake_row=2026-09-14/.test(r.note || '');
+    const csvIntakeN = csvParsed.filter(INTAKE_ROW).length;
+    const csvRows = csvParsed.filter((r) => !INTAKE_ROW(r));
     const ac = await page.evaluate(({ csvRows }) => {
       const P_OBS = 2517.0973;   // 転写周期 2.5170973e9 s / 10⁶(CSV row Alpha Centauri B, orbital_period)
       const p = HP.allPresets().find((q) => q.id === 'alphaCenAB');
@@ -7974,7 +7981,7 @@ if (!FAST) {
       + `kF0(採用側・1.05公転): ${t0 === null ? '—' : t0.toFixed(4) + '年'}(観測 79.762・宣言 79.7647)・`
       + `実測離心率 ${ac.kf0.ecc.toFixed(5)}(転写 0.51947)・座標最大 ${ac.kf0.maxAbs.toFixed(0)}(±5000 内)・重心 ${ac.kf0.comMax.toExponential(1)}(<1e-3) / `
       + `kF1(測定側・遠点発 0.56公転窓 — 第211便): 接触要素周期 ${(ac.kf1.growth * 100).toFixed(1)}%(宣言 pull −0.43%/share −13.0%)・rmin=${ac.kf1.rmin.toFixed(0)}(pull は近点 167.5 にほぼ届く) / `
-      + `経路等価: CSV ${csvRows.length}行 → buildAstroFromRecords が観測安定則発動(${ac.eq.stab})+内蔵とビット一致=${ac.eq.same}(第242便 pull: 記録経路は kF${ac.eq.recKF}〔自己診断通過〕・kFrame 以外の一致=${ac.eq.sameNoKF}) / `
+      + `経路等価: CSV ${csvRows.length}行(2026-09-14 intake の併置行 ${csvIntakeN} 本は builder へ渡さない)→ buildAstroFromRecords が観測安定則発動(${ac.eq.stab})+内蔵とビット一致=${ac.eq.same}(第242便 pull: 記録経路は kF${ac.eq.recKF}〔自己診断通過〕・kFrame 以外の一致=${ac.eq.sameNoKF}) / `
       + `✴️ DFM版(第245便 一次則): 質量係数 f=${dm.w242 ? '1.0002158(=観測質量+0.022%・χ² 則 1.0000000)' : '1.84419〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・A/B=kF0・外殻=転写光学半径ビット・${dm.w242 ? 'coupleSink:reservoir・コア無し・fitted 0ノブ' : 'coupleSink:core・massFrac=(f−1)/f・fitted 2ノブ'})=${dm.declOk}・`
       + `familyRole: ✴️=primary/✨=variant(第204便) / `
       + `kF1 の2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(3) + '年'}(観測 79.762・宣言 ${dm.w242 ? '79.269〔hold-out −0.62%〕' : '79.761'})・`
@@ -8007,7 +8014,7 @@ if (!FAST) {
   const hasSi = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'siriusAB'));
   if (hasSi) {
     const csvText = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8');
-    const csvRows = csvText.split('\n').filter((l) => l.startsWith('Sirius')).map((line) => {
+    const csvParsed = csvText.split('\n').filter((l) => l.startsWith('Sirius')).map((line) => {
       const cols = []; let cur = '', inQ = false;
       for (const ch of line) {
         if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
@@ -8019,6 +8026,13 @@ if (!FAST) {
       return { body: cols[0], quantity: cols[1], value: Number(cols[2]), unit: cols[3],
         source: cols[4], url: cols[5], retrieved: cols[6], note: cols[7] };
     });
+    // 第263便c(第55報 W3): 原仮定者が提供した観測レコード(2026-09-14 intake)の行を CSV へ**併置**した
+    // (採用レコードは 1 行も置き換えていない —— 併置した行は note に `intake_row=2026-09-14` を持つ)。
+    // **ビルダーが消費するのは採用レコードだけである**ことをここで宣言する(第256便d の BUILDER_SKIP と
+    // 同じ流儀: 本体は 1 bit も変えていない —— 変えたのは「何を入力として渡すか」の宣言だけである)。
+    const INTAKE_ROW = (r) => /intake_row=2026-09-14/.test(r.note || '');
+    const csvIntakeN = csvParsed.filter(INTAKE_ROW).length;
+    const csvRows = csvParsed.filter((r) => !INTAKE_ROW(r));
     const si = await page.evaluate(({ csvRows }) => {
       const P_OBS = 1581.932;   // 転写周期 1.581932e9 s / 10⁶
       const p = HP.allPresets().find((q) => q.id === 'siriusAB');
@@ -8272,7 +8286,7 @@ if (!FAST) {
       `宣言=${declOk}(fidelity=real・L10/T6/M29・κ=G/c₀²・kFrame=0〔観測安定則 第2号〕・spin=0×2・B半径=0.01〔半径限定二体降格〕・A/B 測定側 kF1) / `
       + `kF0(採用側・1.05公転): ${t0 === null ? '—' : t0.toFixed(4) + '年'}(観測 50.1284・宣言 50.1306)・実測離心率 ${si.kf0.ecc.toFixed(5)}(転写 0.59142)・重心 ${si.kf0.comMax.toExponential(1)} / `
       + `kF1(測定側・遠点発 0.56公転): 接触要素周期 ${(si.kf1.growth * 100).toFixed(1)}%(宣言 pull −0.94%/share −19.0%)・rmin=${si.kf1.rmin.toFixed(0)}(pull は近点 120.9 にほぼ届く) / `
-      + `経路等価: CSV ${csvRows.length}行 → 観測安定則発動(${si.eq.stab})+二体クロージャ確認 note=${si.eq.closure}+半径限定降格=${si.eq.demR}+内蔵とビット一致=${si.eq.same} / `
+      + `経路等価: CSV ${csvRows.length}行(2026-09-14 intake の併置行 ${csvIntakeN} 本は builder へ渡さない)→ 観測安定則発動(${si.eq.stab})+二体クロージャ確認 note=${si.eq.closure}+半径限定降格=${si.eq.demR}+内蔵とビット一致=${si.eq.same} / `
       + `💫 DFM版: 質量係数 f=${dm.w242 ? '1.0003769(=観測質量+0.038%・第245便 一次則)' : '1.88813〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・${dm.w242 ? 'coupleSink:reservoir・コア無し・fitted 0ノブ' : (dm.w221 ? 'coupleSink:core+二層〔第221便〕' : 'coupleSink:reservoir')}・cmGauge)=${dm.declOk}・`
       + `2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(4) + '年'}(宣言 ${dm.w242 ? '49.225〔hold-out −1.80%〕' : (dm.w221 ? '50.128' : '50.1290')})・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(5)}(宣言 ${dm.w242 ? '0.59377' : '0.58880'})・近点 ${dm.rmin === undefined ? '—' : dm.rmin.toFixed(2)}・`
       + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(3) + '°/周'}(宣言 ${dm.w242 ? '+2.197' : '+2.55'})・spin残余 ${dm.sMax === undefined ? '—' : dm.sMax.toExponential(1)}(<1e-3)・`
@@ -8312,7 +8326,7 @@ if (!FAST) {
     // 入力からは外す**。本体(beta/index.html)は 1 bit も変えていない —— 変えたのは「ビルダーが
     // 何を消費するか」をここで宣言したことだけである(σ を通すために bit 契約を緩めてはいない)。
     const BUILDER_SKIP = new Set(['periastron_advance']);
-    const csvAll = csvText.split('\n').filter((l) => l.startsWith('PSR J0737-3039')).map((line) => {
+    const csvParsed = csvText.split('\n').filter((l) => l.startsWith('PSR J0737-3039')).map((line) => {
       const cols = []; let cur = '', inQ = false;
       for (const ch of line) {
         if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
@@ -8324,6 +8338,13 @@ if (!FAST) {
       return { body: cols[0], quantity: cols[1], value: Number(cols[2]), unit: cols[3],
         source: cols[4], url: cols[5], retrieved: cols[6], note: cols[7], sigma: cols[8] };
     });
+    // 第263便c(第55報 W3): 原仮定者が提供した観測レコード(2026-09-14 intake)の行を CSV へ**併置**した
+    // (採用レコードは 1 行も置き換えていない —— 併置した行は note に `intake_row=2026-09-14` を持つ)。
+    // **ビルダーが消費するのは採用レコードだけである**ことをここで宣言する(第256便d の BUILDER_SKIP と
+    // 同じ流儀: 本体は 1 bit も変えていない —— 変えたのは「何を入力として渡すか」の宣言だけである)。
+    const INTAKE_ROW = (r) => /intake_row=2026-09-14/.test(r.note || '');
+    const csvIntakeN = csvParsed.filter(INTAKE_ROW).length;
+    const csvAll = csvParsed.filter((r) => !INTAKE_ROW(r));
     const csvRows = csvAll.filter((r) => !BUILDER_SKIP.has(r.quantity)).map((r) => {
       const o = Object.assign({}, r); delete o.sigma; return o;
     });
@@ -8765,7 +8786,7 @@ if (!FAST) {
       + `kF0(採用側・1.05公転): ${t0s === null ? '—' : t0s.toFixed(2) + ' s'}(観測 8834.53・宣言 8835.04)・実測離心率 ${ps.kf0.ecc.toFixed(6)}(転写 0.087777)・重心 ${ps.kf0.comMax.toExponential(1)}・殻 spin=0 保持 |s|max=${ps.kf0.sMax}(=0 — 第223便 resL 記帳)・否定対照(宣言除去→有界振動 |s|max=${ps.kf0ns.sMax.toFixed(2)}〔20〜40〕・軌道ビット不変=${ps.orbitBitEq}) / `
       + `kF1(測定側・遠点発 0.56公転): 接触要素周期 +${(ps.kf1.growth * 100).toFixed(1)}%(宣言 +157%・膨張 — 🌟 の縮小と逆向き)・rmax=${ps.kf1.rmax.toFixed(0)}(>1500)・殻 |s|max=${ps.kf1.sMax}(=0 — 記帳化で飽和解消) / `
       + `近点複製プローブ: kF1 外挿 ${(ps.pr1.proj * 100).toFixed(2)}%/公転(宣言 18.00 — 発火・差し戻し)・kF0 ドリフト ${ps.pr0.drift.toExponential(1)}(<1e-5 — ノイズ床未満) / `
-      + `観測レコード(第256便d): J0737 の CSV 行 ${csvAll.length} 本(うちビルダーが消費する ${csvRows.length} 本)・`
+      + `観測レコード(第256便d): J0737 の CSV 行 ${csvAll.length} 本(うちビルダーが消費する ${csvRows.length} 本・2026-09-14 intake の併置行 ${csvIntakeN} 本は渡さない)・`
       + `ω̇ 行=${csvOmegaDot ? csvOmegaDot.value + ' ' + csvOmegaDot.unit + '(σ=' + csvOmegaDot.sigma + ')' : '**無し**'} / `
       + `経路等価(第222便 族拡張): CSV ${csvRows.length}行 → buildAstroFromRecords=${ps.hole.ok}(相対論的連星族 rel=${ps.hole.scale ? ps.hole.scale.rel : '—'}・L${ps.hole.scale ? ps.hole.scale.L : '—'}/T${ps.hole.scale ? ps.hole.scale.T : '—'}/M${ps.hole.scale ? ps.hole.scale.M : '—'}・q=${ps.hole.q}・観測安定則=${ps.hole.stab}・値域外スピン宣言 ${ps.hole.spinDecl}件・内蔵 📻 とビット一致=${ps.hole.same}) / `
       + `⚡ DFM版: 質量係数 f=${dm.w242 ? '1.99994(第245便 一次則・χ² 則 1.99988)' : '1.99777〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・coupleSink:core+二層・massFrac=(f−1)/f・cmGauge・${dm.w242 ? 'fitted 0ノブ' : 'fitted 1ノブ C'}・BコアΩ=22.654675 転写)=${dm.declOk}・`
@@ -14554,6 +14575,198 @@ if (!FAST) {
       + `3→2 の往復=${r.radio.back}/${r.dfm.back}`);
   } else {
     console.log('SKIP ui.geoPNRestart(対象に第262便a の geoToyDeny なし — root 等)');
+  }
+}
+// ---- 第263便a(第55報「コンパクト連星では geoPN=3 の適用となり引きずりが弱まって kFrame≈0.7」): behavior.geoToyOverlay ----
+//   統括が設定した検証仮説 (1)(4)。**明示キー `physics.spaceMesh.toyAllowDrag:true`** で
+//   geoPN=3 ∧ kFrame>0 を許す診断経路と、**支配度の器** `HP.dfmDominance` を機械固定する。
+//   **これは較正則ではない**(Negative Claim 27 を維持する)—— 重畳は「二重計上の可能性がある診断構成」で、
+//   本ブロックが固定するのは**門と対照と読み口**であって、「引きずりが弱い法則」ではない。
+//     ① **既定は 1 bit 不変**: 内蔵プリセットで `toyAllowDrag` を宣言する本は **0 本**で、
+//        正準形(physics 署名)に `toyAllowDrag` の 12 文字も出ない。
+//     ② **クラスの門**: `sampleClass:"calibration"` では **geoPN の値に依らず拒否**・
+//        `"principle"` では受理し、**警告 1 行**(重畳の告知)が必ず出る。kFrame=0 では警告を出さない。
+//     ③ **実行時**: 受理された宇宙は `S.geoToyDeny===null`・`S.hasGeoToy===true`・
+//        `S.geoToyOverlay==="drag"`。**宣言しなければ従来どおり** deny="kFrame"・overlay=null である。
+//     ④ **HUD**: ステップ会計の文字列に `overlay:drag` が出る(黙って重ねない)。
+//     ⑤ **η=0 の対照**: toyAllowDrag ∧ toyGain=0 は **geoPN=0(legacy E6′ だけ)と 300 步で状態ビット同一**。
+//        すなわち重畳で増えた分は**トイの分だけ**であり、差の出どころが 1 か所に限定される。
+//        さらに η=1 との状態差が 0 でないことも出す(「対照が効いていない」を排除する)。
+//     ⑥ **支配度の器**: 二体・D₀=0 で `uAlign===1` 厳密(u₂=v₁ —— 第262便a ②)・
+//        D₀>0 では `uAlign` と `chiSecond` が恒等に一致(二体)・**m≤0 と n<2 は null**(0 で埋めない)。
+{
+  const hasOverlay = await page.evaluate(() => !!(window.HP && HP.sim)
+    && ('geoToyOverlay' in HP.sim) && typeof HP.dfmDominance === 'function');
+  if (hasOverlay) {
+    const r = await page.evaluate(() => {
+      const KEY = HP.SPACE_MESH_KEY;
+      const P = (id) => JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === id)));
+      // ① 既定 1 bit 不変(内蔵で宣言する本は 0 本・署名にも出ない)
+      const declared = [], sigHit = [];
+      for (const q of HP.allPresets()) {
+        const sm = q.physics && q.physics[KEY];
+        if (sm && sm.toyAllowDrag !== undefined) declared.push(q.id);
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(q)));
+        if (v.ok && JSON.stringify(v.preset.physics).indexOf('toyAllowDrag') >= 0) sigHit.push(q.id);
+      }
+      // ② クラスの門
+      const mk = (cls, kFrame, allow, geoPN) => {
+        const q = P('psrDoubleABGeoToy');
+        q.sampleClass = cls; delete q.claims; delete q.massCalibration;
+        q.physics.geoPN = (geoPN === undefined) ? 3 : geoPN;
+        q.physics.kFrame = kFrame;
+        q.physics[KEY] = { mode: 'vertex', gravity: false, inertia: false, lawVersion: 'local' };
+        if (allow) q.physics[KEY].toyAllowDrag = true;
+        return HP.validatePreset(q);
+      };
+      const noKey = mk('principle', 0.7, false);
+      const okKey = mk('principle', 0.7, true);
+      const calKey = mk('calibration', 0.7, true);
+      const calKey2 = mk('calibration', 0, true, 2);      // geoPN=2 でも診断キーは拒否
+      const kf0 = mk('principle', 0, true);
+      // ③④⑤ 実行時
+      const run = (kFrame, allow, eta, geoPN, nStep) => {
+        const q = P('psrDoubleABGeoToy');
+        q.sampleClass = 'principle'; delete q.claims; delete q.massCalibration;
+        q.physics.geoPN = (geoPN === undefined) ? 3 : geoPN;
+        q.physics.kFrame = kFrame;
+        if (geoPN === 0) delete q.physics[KEY];
+        else {
+          q.physics[KEY] = { mode: 'vertex', gravity: false, inertia: false, lawVersion: 'local', toyGain: eta };
+          if (allow) q.physics[KEY].toyAllowDrag = true;
+        }
+        const v = HP.validatePreset(q);
+        if (!v.ok) return { err: (v.errors || []).join('|') };
+        const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < nStep; k++) S.step(0.016);
+        return { deny: S.geoToyDeny, overlay: S.geoToyOverlay, has: !!S.hasGeoToy, stop: S.geoToyStop,
+          N: S.geoToyN, geoPN: S.params.geoPN, nan: S.hasNaN(),
+          st: [S.x[0], S.y[0], S.vx[0], S.vy[0], S.x[1], S.y[1], S.vx[1], S.vy[1]] };
+      };
+      const on = run(0.7, true, 1, 3, 1);
+      // **未宣言の対照は検証器を通せない**(geoPN=3 ∧ kFrame>0 は JSON の側で拒否される)ので、
+      // kFrame=0 で組んでから**実行時に** kFrame を上げる(スライダーと同じ経路)。従来どおり denied になる。
+      const off = (() => {
+        const q = P('psrDoubleABGeoToy');
+        q.sampleClass = 'principle'; delete q.claims; delete q.massCalibration;
+        q.physics.geoPN = 3; q.physics.kFrame = 0;
+        q.physics[KEY] = { mode: 'vertex', gravity: false, inertia: false, lawVersion: 'local', toyGain: 1 };
+        const v = HP.validatePreset(q);
+        if (!v.ok) return { err: (v.errors || []).join('|') };
+        const S = HP.sim; S.build(v.preset);
+        S.params.kFrame = 0.7; S.updateRadii(); S.step(0.016);
+        return { deny: S.geoToyDeny, overlay: S.geoToyOverlay, has: !!S.hasGeoToy, stop: S.geoToyStop,
+          N: S.geoToyN, geoPN: S.params.geoPN, nan: S.hasNaN() };
+      })();
+      const eta0 = run(0.7, true, 0, 3, 300);
+      const legacy = run(0.7, false, 0, 0, 300);
+      const eta1 = run(0.7, true, 1, 3, 300);
+      // ④ HUD(overlay:drag を出す)
+      let hud = null;
+      try {
+        HP.loadPreset('psrDoubleABGeoToy', false);
+        const S = HP.sim;
+        S.params.kFrame = 0.7;
+        S.params[KEY] = Object.assign({}, S.params[KEY] || {}, { toyAllowDrag: true });
+        S.updateRadii(); S.step(0.016);
+        hud = { overlay: S.geoToyOverlay, deny: S.geoToyDeny,
+          text: (typeof HP.stepDiagText === 'function') ? String(HP.stepDiagText()) : null };
+      } catch (e) { hud = { err: String((e && e.message) || e) }; }
+      // ⑥ 支配度の器
+      const B = [{ m: 5, x: -10, y: 0, vx: 0.1, vy: -0.4 }, { m: 3, x: 12, y: 3, vx: -0.2, vy: 0.7 }];
+      const d0 = HP.dfmDominance(B, { p: 2, eps: 0, D0: 0 });
+      const d1 = HP.dfmDominance(B, { p: 2, eps: 0.05, D0: 1 });
+      const dom = { uAlign0: d0 ? d0.uAlign : null, chi0: d0 ? d0.chiSecond : null,
+        ident: (d1 && d1.uAlign !== null) ? Math.abs(d1.uAlign - d1.chiSecond) : null,
+        massRatio: d0 ? d0.massRatio : null,
+        neg: [HP.dfmDominance([{ m: -1, x: 0, y: 0 }, { m: 1, x: 1, y: 0 }], {}),
+          HP.dfmDominance([{ m: 0, x: 0, y: 0 }, { m: 1, x: 1, y: 0 }], {}),
+          HP.dfmDominance([{ m: 1, x: 0, y: 0 }], {}), HP.dfmDominance(null, {})].every((z) => z === null) };
+      return { declared, sigHit,
+        noKey: { ok: noKey.ok, err: (noKey.errors || []).join('|') },
+        okKey: { ok: okKey.ok, geoPN: okKey.ok ? okKey.preset.physics.geoPN : null,
+          warn: (okKey.warnings || []).some((w) => w.indexOf('toyAllowDrag') >= 0),
+          sig: okKey.ok ? JSON.stringify(okKey.preset.physics[KEY]) : null },
+        calKey: calKey.ok, calKey2: calKey2.ok,
+        kf0: { ok: kf0.ok, warn: (kf0.warnings || []).some((w) => w.indexOf('toyAllowDrag') >= 0) },
+        on, off, eta0, legacy, eta1, hud, dom };
+    });
+    const bitSame = (a, b) => !!(a && b && a.st && b.st && a.st.every((z, i) => Object.is(z, b.st[i])));
+    const maxDiff = (a, b) => (a && b && a.st && b.st)
+      ? a.st.reduce((d, z, i) => Math.max(d, Math.abs(z - b.st[i])), 0) : null;
+    const CK = {
+      defaultClean: r.declared.length === 0 && r.sigHit.length === 0,
+      gateNoKey: r.noKey.ok === false && r.noKey.err.indexOf('toyAllowDrag') >= 0,
+      gateKey: r.okKey.ok === true && r.okKey.geoPN === 3 && r.okKey.warn === true,
+      gateCalib: r.calKey === false && r.calKey2 === false,
+      gateKf0Quiet: r.kf0.ok === true && r.kf0.warn === false,
+      runOn: r.on.deny === null && r.on.has === true && r.on.overlay === 'drag' && r.on.geoPN === 3,
+      runOff: r.off.deny === 'kFrame' && r.off.has === false && r.off.overlay === null
+        && r.off.stop === 'denied' && r.off.geoPN === 3,
+      hud: !!(r.hud && r.hud.overlay === 'drag'
+        && (r.hud.text === null || r.hud.text.indexOf('overlay:drag') >= 0)),
+      etaZero: bitSame(r.eta0, r.legacy),
+      etaOneDiffers: !bitSame(r.eta1, r.eta0) && r.eta1.nan === false,
+      dom: r.dom.uAlign0 === 1 && r.dom.chi0 === 1 && r.dom.ident !== null && r.dom.ident < 1e-12
+        && r.dom.massRatio === 0.625 && r.dom.neg === true };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    add('behavior.geoToyOverlay', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + `① 内蔵で toyAllowDrag を宣言する本=${r.declared.length}(0 本)・署名に出る本=${r.sigHit.length}(0 本) / `
+      + `② 未宣言の kF=0.7 は拒否=${r.noKey.ok === false}・宣言すると受理 geoPN=${r.okKey.geoPN} 警告=${r.okKey.warn}・`
+      + `calibration は拒否(geoPN3/geoPN2)=${r.calKey === false}/${r.calKey2 === false}・kF=0 では警告なし=${r.kf0.warn === false} / `
+      + `③ 実行時 deny=${r.on.deny}/overlay=${r.on.overlay}(**明示キーなしで実行時に kFrame を上げた**ら `
+      + `deny=${r.off.deny}/overlay=${r.off.overlay}/stop=${r.off.stop}・geoPN は ${r.off.geoPN} のまま) / `
+      + `④ HUD overlay=${r.hud && r.hud.overlay} / `
+      + `⑤ η=0 と legacy E6′ が 300 步ビット同一=${CK.etaZero}(η=1 との状態差=${
+        maxDiff(r.eta1, r.eta0) === null ? '—' : maxDiff(r.eta1, r.eta0).toExponential(3)}) / `
+      + `⑥ dfmDominance: D₀=0 の uAlign=${r.dom.uAlign0}(=1 厳密)・二体の |uAlign−χ₂|=${
+        r.dom.ident === null ? '—' : r.dom.ident.toExponential(2)}・m≤0/n<2 は null=${r.dom.neg}`);
+  } else {
+    console.log('SKIP behavior.geoToyOverlay(対象に第263便a の geoToyOverlay / HP.dfmDominance なし — root 等)');
+  }
+}
+// ---- 第263便b(第55報・統括が設定した検証仮説 (7)): ui.geoToySaveNote ----
+//   **geoPN の保存は非対称である**: UI で 3 にした値は実行中は 3 のまま走る(第262便a)が、
+//   保存 JSON に physics.spaceMesh.lawVersion の宣言が無ければ**読み込み時に 2 へ丸められる**
+//   (第259便a の検証器の契約。本便はそれを**変えていない** —— 読み口を 1 行足しただけである)。
+//   機械固定するのは 4 点: ①注記が geoPN 行の直後にある ②ja/en どちらでも空でない別の文言が出る
+//   ③注記が出ても params と preset 署名は 1 bit も変わらない(表示専用)④注記は「較正」を名乗らない。
+//   注記の無い対象(root 等)は SKIP。
+{
+  const hasSaveNote = await page.evaluate(() => !!document.querySelector('#geoToySaveNote'));
+  if (hasSaveNote) {
+    const gn = await page.evaluate(() => {
+      HP.loadPreset('psrDoubleAB', false);
+      const geoRow = () => {
+        const l = Array.from(document.querySelectorAll('#paramRows .prow label'))
+          .find((z) => /geoPN/.test(z.textContent));
+        return l ? l.parentElement : null;
+      };
+      const O = {};
+      const sig0 = presetSig(HP.currentPreset()), pn0 = HP.sim.params.geoPN;
+      const row = geoRow();
+      const nx = row ? row.nextElementSibling : null;
+      O.afterGeoRow = !!(nx && nx.id === 'geoToySaveNote');
+      O.ja = (document.querySelector('#geoToySaveNote').textContent || '').trim();
+      HP.setLang('en');
+      O.en = (document.querySelector('#geoToySaveNote').textContent || '').trim();
+      HP.setLang('ja');
+      O.back = (document.querySelector('#geoToySaveNote').textContent || '').trim();
+      O.sigSame = presetSig(HP.currentPreset()) === sig0;
+      O.pnSame = HP.sim.params.geoPN === pn0;
+      O.noCal = !/較正/.test(O.ja) && !/calibrat/i.test(O.en);
+      O.mentions = /lawVersion/.test(O.ja) && /lawVersion/.test(O.en);
+      return O;
+    });
+    add('ui.geoToySaveNote',
+      gn.afterGeoRow && gn.ja.length > 0 && gn.en.length > 0 && gn.ja !== gn.en && gn.back === gn.ja
+      && gn.sigSame && gn.pnSame && gn.noCal && gn.mentions,
+      `geoPN 行の直後=${gn.afterGeoRow}・ja「${gn.ja.slice(0, 40)}…」/ en「${gn.en.slice(0, 40)}…」`
+      + `(ja≠en=${gn.ja !== gn.en}・往復=${gn.back === gn.ja}・lawVersion に言及=${gn.mentions})・`
+      + `preset 署名は不変=${gn.sigSame}・params.geoPN 不変=${gn.pnSame}・「較正」を名乗らない=${gn.noCal}`);
+  } else {
+    console.log('SKIP ui.geoToySaveNote(対象に第263便b の保存非対称の注記なし — root 等)');
   }
 }
 // ---- 第260便a(第52報): behavior.fieldApiIdentity — 入場条件 (v)「表示とトイが同じ関数を読む」の恒等 ----
@@ -20554,8 +20767,54 @@ if (!FAST) {
       HP.selectBody(-1, 'A');
       return { shown0, minOn, stillSelected, minOff };
     });
-    add('bodyedit.minimize', be.shown0 && be.minOn && be.stillSelected && be.minOff,
-      `表示=${be.shown0} 最小化=${be.minOn} 選択維持=${be.stillSelected} 復元=${be.minOff}`);
+    // 第263便b(第55報「『粒子の編集』を畳んだ時に、『親子コア(層)』も畳む」): **畳み連動**。
+    //   基点は CSS(#bodyEdit.min #beLayers)だけで隠そうとしていたが、#beLayers の display は
+    //   updateBodyEdit が**インライン**で書くのでセレクタが負け、最小化しても層ブロックが残っていた。
+    //   ここで固定するのは 4 点: ①最小化で層ブロックが computed display:none になる
+    //   ②状態(HP.beLayModeNow)も false に落ちる ③最小化中の高さが基本行のときと同じ(ヘッダだけ)
+    //   ④**再展開は案B**(基本行で開く)。案A(HP.beMinKeepLayerMode(true))では層モードが戻る
+    //   —— 両案を同じ html で切り替えて測る。層 UI の無い対象(root 等)は SKIP 値で素通し
+    const bl = await page.evaluate(() => {
+      const O = { has: !!(document.querySelector('#beLayToggle') && window.HP && HP.beLayModeNow
+        && HP.beMinKeepLayerMode && HP.allPresets().some((q) => q.id === 'layeredCoreDFM')) };
+      if (!O.has) return O;
+      HP.loadPreset('layeredCoreDFM', false);
+      HP.selectBody(0, 'A');
+      const el = document.querySelector('#bodyEdit');
+      const tg = document.querySelector('#beLayToggle'), close = document.querySelector('#beClose');
+      const vis = (q) => getComputedStyle(document.querySelector(q)).display !== 'none';
+      const h = () => +el.getBoundingClientRect().height.toFixed(2);
+      close.click(); O.baseMinH = h(); close.click();          // 基本行のままの最小化(比較の基準)
+      tg.click();
+      O.openLayers = vis('#beLayers'); O.openH = h();
+      close.click();
+      O.minLayers = vis('#beLayers'); O.minToggle = vis('#beLayToggleRow');
+      O.minMode = HP.beLayModeNow(); O.minH = h();
+      close.click();
+      O.reBase = vis('#beBaseRows'); O.reLayers = vis('#beLayers');
+      O.reMode = HP.beLayModeNow(); O.reH = h();
+      HP.beMinKeepLayerMode(true);                              // 案A の挙動(採用しない方)
+      tg.click(); close.click(); close.click();
+      O.altLayers = vis('#beLayers'); O.altMode = HP.beLayModeNow(); O.altH = h();
+      HP.beMinKeepLayerMode(false);
+      if (HP.beLayModeNow()) tg.click();
+      HP.selectBody(-1, 'A');
+      HP.loadPreset('saturn', false);
+      return O;
+    });
+    const blOk = !bl.has || (bl.openLayers && !bl.minLayers && !bl.minToggle && bl.minMode === false
+      && Math.abs(bl.minH - bl.baseMinH) < 1e-6 && bl.minH < bl.openH
+      && bl.reBase && !bl.reLayers && bl.reMode === false
+      && bl.altLayers && bl.altMode === true);
+    add('bodyedit.minimize', be.shown0 && be.minOn && be.stillSelected && be.minOff && blOk,
+      `表示=${be.shown0} 最小化=${be.minOn} 選択維持=${be.stillSelected} 復元=${be.minOff} / `
+      + (bl.has
+        ? `**畳み連動**(第263便b): 層モードで開いた高さ ${bl.openH}px → 最小化で層ブロック非表示=${!bl.minLayers}・`
+          + `切り替え行も非表示=${!bl.minToggle}・状態 beLayMode=${bl.minMode}・高さ ${bl.minH}px`
+          + `(基本行のときの最小化 ${bl.baseMinH}px と同じ=${Math.abs(bl.minH - bl.baseMinH) < 1e-6}) / `
+          + `**再展開は案B**: 基本行=${bl.reBase}・層ブロック=${bl.reLayers}(高さ ${bl.reH}px) / `
+          + `案A(復元)に切り替えると層モードが戻る=${bl.altLayers}(高さ ${bl.altH}px)`
+        : 'SKIP 畳み連動(対象に第261便b の層 UI なし — root 等)'));
 
     // ⑥b 第261便b(第53報「親子コアは、『選択粒子の編集』で、タブ切り替えなどでそれぞれの粒子を
     //     編集可能にする」「親子コアは、見た目をコア V2 に準拠する」「コア V2 は将来的に廃止予定とし、
@@ -20649,6 +20908,23 @@ if (!FAST) {
             O.ngDisabled = document.querySelector('#beCvToLayers').disabled === true;
             O.ngWhy = document.querySelector('#beCvDep').textContent.slice(0, 60);
             O.ngLayN = S3.layN[j];
+            // 第263便b(第55報「『親子コアへ移行』の説明が、狭い場所で読みづらいので修正する」):
+            // **説明の寸法**。基点は説明とボタンが同じ行にいて、説明の列が 30.4px(1 行 2.4 文字)
+            // まで痩せていた。ここで固定するのは「説明は 1 行占有(ボタンと同じ行にいない)・
+            // 文字の見切れ 0・ボタン文言の見切れ 0・パネルの横スクロール 0・規約文の details は既定で閉」
+            // 「コア内訳(v2)」の details を開いた状態(= 移行の行が実機で見えている状態)で測る
+            { const cvd = document.querySelector('#beCoreV2'); if (cvd) cvd.open = true; }
+            { const more = document.querySelector('#beCvDepMore');
+              if (!more) O.depFit = null;
+              else { const sp = document.querySelector('#beCvDep'), bt = document.querySelector('#beCvToLayers');
+                const sr = sp.getBoundingClientRect(), br = bt.getBoundingClientRect();
+                const pel = document.querySelector('#bodyEdit');
+                O.depFit = { spanW: +sr.width.toFixed(2), spanH: +sr.height.toFixed(2),
+                  sameLine: (br.top < sr.bottom - 1 && sr.top < br.bottom - 1),
+                  xClip: Math.max(0, sp.scrollWidth - sp.clientWidth),
+                  btnClip: Math.max(0, bt.scrollWidth - bt.clientWidth),
+                  panelX: Math.max(0, pel.scrollWidth - pel.clientWidth),
+                  moreOpen: more.open, panelW: +pel.getBoundingClientRect().width.toFixed(2) }; } }
           }
           HP.selectBody(-1, 'A');
           HP.loadPreset('layeredCoreDFM', false);
@@ -20665,6 +20941,9 @@ if (!FAST) {
           && ly.rootIsCore && ly.shellIsR && ly.coreKept !== 0
           && Math.abs(ly.sum2 - ly.rootM2) < 1e-9
           && ly.ngShown && ly.ngDisabled && ly.ngLayN === 0
+          && (ly.depFit === null || (!ly.depFit.sameLine && ly.depFit.spanW > ly.depFit.panelW * 0.8
+            && ly.depFit.xClip === 0 && ly.depFit.btnClip === 0 && ly.depFit.panelX === 0
+            && ly.depFit.moreOpen === false))
           && ly.tabColors.every((c) => !!c && c !== 'rgb(255, 255, 255)'),
           `🧅 の中心天体で **m 欄の上に切り替えボタン**が出る=${ly.toggleAboveM}(既定は閉じている=${ly.closedBlk === 'none'})・`
           + `押すと層ブロックが開き=${ly.shown} **粒子の編集は丸ごと隠れる**=${ly.baseHidden}(戻せる=${ly.backShown})・`
@@ -20682,7 +20961,13 @@ if (!FAST) {
           + `タブ ${JSON.stringify(ly.tabsAfter)}・**コア V2 は消えない**(coreMd=${ly.coreKept})) / `
           + `移行できない粒子(🦀 Rc≥R)は行が出て=${ly.ngShown} ボタンが disabled=${ly.ngDisabled}・`
           + `理由「${ly.ngWhy}」・層は付かない(layN=${ly.ngLayN}) / `
-          + `タブの左帯 role 色=${JSON.stringify(ly.tabColors)}`);
+          + `タブの左帯 role 色=${JSON.stringify(ly.tabColors)} / `
+          + (ly.depFit
+            ? `**説明の寸法**(第263便b): 説明の幅 ${ly.depFit.spanW}px / パネル ${ly.depFit.panelW}px・`
+              + `高さ ${ly.depFit.spanH}px・ボタンと同じ行にいない=${!ly.depFit.sameLine}・`
+              + `文字の見切れ ${ly.depFit.xClip}px・ボタン文言の見切れ ${ly.depFit.btnClip}px・`
+              + `パネルの横スクロール ${ly.depFit.panelX}px・規約文の details は既定で閉=${ly.depFit.moreOpen === false}`
+            : 'SKIP 説明の寸法(対象に第263便b の #beCvDepMore なし — root 等)'));
       } else {
         console.log('SKIP ui.bodyLayerTabs(対象に第261便b の層編集タブなし — root 等)');
       }

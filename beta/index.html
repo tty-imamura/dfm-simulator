@@ -203,7 +203,12 @@
      明示的に隠す(従来どおり最小化中はコアv2内訳ブロック全体が見えない挙動を維持) */
   #bodyEdit.min .beRow,#bodyEdit.min .beNote,#bodyEdit.min #beCoreV2>summary{display:none;}
   /* 第262便b: 層の切り替えボタンと層ブロックも最小化中は畳む(従来の「ヘッダだけ残す」挙動を維持) */
-  #bodyEdit.min #beLayToggleRow,#bodyEdit.min #beLayers,#bodyEdit.min #beLineage{display:none;}
+  /* 第263便b(第55報「『粒子の編集』を畳んだ時に、『親子コア(層)』も畳む」): このセレクタだけでは
+     畳めていなかった —— #beLayers の display は JS が**インライン**で書くので、インラインの方が
+     セレクタより強く、最小化しても層ブロックが残っていた(実測: 最小化中のパネル高 159px・
+     #beLayers の computed display が block のまま)。**状態側**(beLayMode を false に落とす)で畳み、
+     この行は !important で二重に押さえる(表示のみ — 物理には 1 bit も効かない) */
+  #bodyEdit.min #beLayToggleRow,#bodyEdit.min #beLayers,#bodyEdit.min #beLineage{display:none!important;}
   #bodyEdit.min{width:auto;min-width:120px;max-height:none;overflow:visible;}
   /* 第262便b: 層タブは狭幅で折り返す(1 行に詰め込まない)・選択中のタブが分かる */
   #beLayTabs{gap:4px;margin-top:4px;}
@@ -211,7 +216,19 @@
   #beLayers #beLayTitle{margin:2px 0;}
   #beLayers .beRow select{font-size:calc(11px*var(--uz,1));min-height:30px;background:var(--panel);
     border:1px solid var(--line);border-radius:6px;color:var(--acc);}
-  #beCvDepRow{flex-wrap:wrap;}
+  /* 第263便b(第55報「『親子コアへ移行』の説明が、狭い場所で読みづらいので修正する」):
+     説明とボタンを**同じ行に並べない**。基点では説明が flex:1 でボタン(135.6px)の隣に押し込まれ、
+     文字の入る幅が **30.4px = 1 行 2.4 文字**(41 字が 17 行・高さ 255px)になっていた(実測)。
+     説明を 1 行占有(flex-basis:100%)にすると幅 170px = 1 行 13.0 文字・3 行・高さ 55.03px になる
+     (font-size も固定 11px をやめて calc(11px*var(--uz)) にしたので、文字サイズ設定に従う)。
+     長い規約文(V2 は消さない・source 保持・裸コアの 2 段確認)は下の details に畳んで置く */
+  #beCvDepRow{flex-wrap:wrap;gap:4px;}
+  #beCvDepRow #beCvDep{flex:1 0 100%;min-width:0;font-size:calc(11px*var(--uz,1));line-height:1.45;
+    opacity:.92;overflow-wrap:anywhere;}
+  #beCvDepRow #beCvToLayers{flex:1 0 100%;}
+  #beCvDepMore{flex:1 0 100%;min-width:0;font-size:calc(10.5px*var(--uz,1));line-height:1.45;color:var(--dim);}
+  #beCvDepMore>summary{cursor:pointer;color:var(--acc);opacity:.9;}
+  #beCvDepMore>div{padding:2px 0;overflow-wrap:anywhere;white-space:pre-line;}
   #notice{position:absolute;left:50%;top:12px;transform:translateX(-50%);max-width:92%;
     background:rgba(20,24,48,.92);border:1px solid var(--line);border-radius:10px;
     padding:8px 12px;font-size:12px;display:none;pointer-events:none;text-align:center;}
@@ -611,9 +628,16 @@
              **廃止予定の告知と変換ボタン**。押すまで何も変わらない(コア V2 は消さない・
              内蔵プリセットの core:{ は 1 文字も触らない)。変換すると遠方の重力は厳密に 0 差で、
              近傍(コア半径の内側)だけが変わる — その差は 〔第261便b〕 の表にある -->
+        <!-- 第263便b(第55報「『親子コアへ移行』の説明が、狭い場所で読みづらいので修正する」):
+             説明・ボタン・詳細(details)を**それぞれ 1 行占有**にする(幅は CSS 側 #beCvDepRow)。
+             基点の inline style(説明 flex:1 + ボタン flex:0 0 auto)は、188px のパネルで説明の列を
+             30.4px まで痩せさせていたので外した。details には「V2 は消さない・元 JSON を source に
+             保持・遠方は 0 差/コア半径の内側は変わる・裸コアは 2 段確認」を畳んで置く(既定は閉) -->
         <div class="beRow" id="beCvDepRow" style="display:none">
-          <span id="beCvDep" style="flex:1;opacity:.85;font-size:11px"></span>
-          <button class="btn" id="beCvToLayers" style="flex:0 0 auto"></button></div>
+          <span id="beCvDep"></span>
+          <button class="btn" id="beCvToLayers"></button>
+          <details id="beCvDepMore"><summary id="beCvDepMoreSum"></summary>
+            <div id="beCvDepMoreBody"></div></details></div>
         <!-- 第212便(原仮定者指示「coreの数値も編集可能にする。有効によるフィールド追加や、
              無効によるフィールド無視も可能」): コアv2 の実行時編集。「コア有効」ON でコアを付与・
              OFF で除去(=フィールド無視)。数値は build と同じ式で即時再構成(S.applyCoreEdit)。
@@ -945,6 +969,13 @@ ja: {
     +(why==="kFrame"? "空間引きずり kFrame>0 — トイは kFrame=0 専用" : "空間メッシュの慣性/織り込みと排他")
     +")。値は 3 のまま保ち、力学は geoPN=2 と同じで走ります(ステップ会計の geoToy:denied)",
   geoToyOn:"測地線モード geoPN=3(トイ)が有効になりました。サンプルが lawVersion を宣言していなければ scalar を既定として使います(較正ではありません)",
+  /* 第263便a(検証仮説 (1)): 明示キー toyAllowDrag で E6′ と重ねたときの 1 行(診断・二重計上の可能性) */
+  geoToyOverlayOn:(kf)=>"⚠ geoPN=3(トイ)を kFrame="+kf+" のまま走らせています(physics.spaceMesh.toyAllowDrag:true)。"
+    +"E6′ の追従キックとトイが同じ步で重なります(**二重計上の可能性がある診断構成**・較正則ではありません)。HUD の overlay:drag を参照",
+  /* 第263便b(第55報・検証仮説 (7)): geoPN の保存は非対称である。**表示専用の 1 行**(行の直下に常設・
+     プリセット署名には入らない・力学には 1 bit も効かない) */
+  geoToySaveNote:"※ 保存の非対称: いま走っている geoPN=3 は、保存 JSON に physics.spaceMesh.lawVersion "
+    +"(scalar/local/complex)の宣言が無ければ、読み込み時に 2 へ丸められます(実行中の力学は変わりません)。",
   divUndo:"⏪ 直前の設定に戻して初めから",
   divRestored:"発散前の設定に戻し、初期配置から再開できます(▶実行)",
   
@@ -1093,8 +1124,10 @@ ja: {
     sumNotPositive:"Σ層 m が正になりません", badIndex:"粒子が選ばれていません",
     layerNotFinite:"m・r・J に有限でない値(Infinity/NaN)があります",   // 第262便b
     sumNotFinite:"Σ層 m が有限になりません"},
-  beCvDep:"コアv2 は**廃止予定**です(『コア』が根・『外殻』が層1 へ移行できます)。",
-  beCvDepNaked:(R)=>`コアv2 は**廃止予定**です(裸コア: 層は 1 つになり、観測半径 R=${R} は層に載りません)。`,
+  // 第263便b(第55報「『親子コアへ移行』の説明が、狭い場所で読みづらいので修正する」):
+  // 強調の ** はそのまま文字として出るので、188px のパネルでは 4 字ぶんの雑音になる。外した
+  beCvDep:"コアv2 は「廃止予定」です(『コア』が根・『外殻』が層1 へ移行できます)。",
+  beCvDepNaked:(R)=>`コアv2 は「廃止予定」です(裸コア: 層は 1 つになり、観測半径 R=${R} は層に載りません)。`,
   beCvToLayers:"親子コアへ移行",
   beCvConvConfirm:"確認して移行",
   beCvConvNakedAsk:(R)=>`裸コア(質量比 1)です。層は 1 つ(r=Rc)になり、観測半径 R=${R} は層に載りません(計画の observedRadius には保持します)。もう一度押すと移行します。`,
@@ -1108,12 +1141,23 @@ ja: {
     bodyMassNotDeclared:"m が宣言されていません", bodyRadiusNotDeclared:"半径 R が宣言されていません",
     valuesNotFinite:"導いた値が有限になりません",
     bodyRadiusNotPositive:"R が正ではありません"},
+  // 第263便b(第55報 W2): 移行の規約文は details に畳む(既定は閉 — 開かなければ縦に 1 行しか足さない)
+  beCvDepMoreSum:"この移行について",
+  beCvDepMore:"・移行してもコアv2 の宣言は消えません(元の core JSON は移行計画の source に残ります)。\n"
+    +"・遠方の重力は移行の前後で厳密に 0 差で、コア半径の内側だけが変わります。\n"
+    +"・裸コア(質量比 1)は 2 段確認です — 1 回目で警告が出て、もう一度押すと移行します。\n"
+    +"・移行できない粒子ではボタンが無効になり、上の行に理由が出ます(黙って消しません)。\n"
+    +"・層が運ぶのは J_z だけです。傾きθ・Kcs・pump・contract は層に載りません。",
   beDly:"親子コア(body.layers)の実行時編集(第261便b・第262便b — 実験用)。m 欄の上の切り替えボタンで、"
     +"粒子の編集(m/s/R/…)と根・層の情報が**丸ごと入れ替わり**ます(縦に足さないので見切れません)。"
     +"**根タブは最内層**(コアv2 から移行すると『コア』が根・『外殻』が層1)で、タブで根と各層を切り替え、m・r・役割・J を編集します。"
     +"単一入口 S.applyLayerEdit(i,k,cfg) が正準形(r 昇順・非重複・1〜8 層・m>0)を検証し、通らなければ 1 bit も書きません。"
     +"**Σm 契約**: 層があるあいだ根の m は派生量(= Σ層 m)です。**J は宣言値で力へは接続していません**。"
-    +"重力は従来どおり「根 1 粒子の点源 + 有限半径の球殻定理の差分」で、S._core には 1 命令も足していません。",
+    +"重力は従来どおり「根 1 粒子の点源 + 有限半径の球殻定理の差分」で、S._core には 1 命令も足していません。"
+    +"**第263便b**: パネル右上の「−」で**畳むと「親子コア(層)」も畳み**、「＋」で**再展開すると基本行(m・s・R・…)から開きます**"
+    +"(層をまた見るには切り替えボタンをもう一度押します)。「親子コアへ移行」の説明は 1 行を占有し、"
+    +"規約文(V2 は消さない・元の宣言を保持・遠方は同じでコア半径の内側だけ変わる・裸コアは 2 段確認)は"
+    +"ボタンの下の「この移行について」に畳んであります。",
   beLinTitle:"形成系譜",
   beLinSum:(n,tree,ev,ge)=>`直接吸収 ${n} 回・系譜 ${ge?"≥":""}${tree} 粒(記録 ${ev} 件)`,
   beLinRow:(t,dm,m,ls)=>`t=${t}: +${dm} → m=${m}・減光=${ls}`,
@@ -1627,6 +1671,12 @@ en: {
     +(why==="kFrame"? "frame dragging kFrame>0 — the toy is kFrame=0 only" : "exclusive with the space-mesh inertia/weave")
     +"). The value stays 3 and the dynamics run exactly as geoPN=2 (see geoToy:denied in the step accounting)",
   geoToyOn:"The geodesic mode geoPN=3 (toy) is now active. If the sample declares no lawVersion, scalar is used as the runtime default (this is not a calibration)",
+  /* Wave 263a (verification hypothesis (1)): one line when the explicit key toyAllowDrag overlays the toy on E6-prime */
+  geoToyOverlayOn:(kf)=>"⚠ geoPN=3 (toy) is running with kFrame="+kf+" (physics.spaceMesh.toyAllowDrag:true). "
+    +"The E6-prime following kick and the toy act in the SAME step — A DIAGNOSTIC CONFIGURATION THAT MAY DOUBLE-COUNT, not a calibration rule. See overlay:drag in the HUD",
+  /* Wave 263b (report 55, hypothesis 7): saving geoPN is asymmetric - one display-only line under the row */
+  geoToySaveNote:"Note - saving is asymmetric: a geoPN of 3 running now is rounded down to 2 on load "
+    +"unless the saved JSON declares physics.spaceMesh.lawVersion (scalar/local/complex). The dynamics running now do not change.",
   divUndo:"⏪ Restore last-good settings & restart",
   divRestored:"Pre-divergence settings restored — press ▶ Run to restart from the initial layout",
   
@@ -1770,6 +1820,7 @@ en: {
     sumNotPositive:"the sum of the layer masses is not positive", badIndex:"no body is selected",
     layerNotFinite:"m, r or J is not finite (Infinity/NaN)",   // 第262便b
     sumNotFinite:"the sum of the layer masses is not finite"},
+  // Wave 263b (report 55, W2): the same note, laid out one item per line
   beCvDep:"Core v2 IS DEPRECATED (the CORE becomes the ROOT and the SHELL becomes LAYER 1).",
   beCvDepNaked:(R)=>`Core v2 IS DEPRECATED (naked core: there will be a single layer, and the observed radius R=${R} is not carried by it).`,
   beCvToLayers:"migrate to layers",
@@ -1785,6 +1836,13 @@ en: {
     bodyMassNotDeclared:"m is not declared", bodyRadiusNotDeclared:"the radius R is not declared",
     valuesNotFinite:"the derived values are not finite",
     bodyRadiusNotPositive:"R is not positive"},
+  // Wave 263b (report 55, W2): the long rules go into a details block (closed by default)
+  beCvDepMoreSum:"about this migration",
+  beCvDepMore:"- Migrating does NOT delete the core v2 declaration (the original core JSON is kept in the plan's source).\n"
+    +"- The far field is identical before and after; only the inside of the core radius changes.\n"
+    +"- A naked core (mass fraction 1) asks twice: the first press warns, the second one migrates.\n"
+    +"- For a body that cannot migrate the button is disabled and the reason is shown in the line above.\n"
+    +"- The layers carry J_z only: the tilt, Kcs, pump and contract are not carried.",
   beDly:"Runtime editing of the parent-child core (body.layers, waves 261b/262b - experimental). The toggle above the m field "
     +"SWAPS the body editor (m/s/R/...) and the root/layer information WHOLESALE (nothing is stacked below, so nothing is clipped). "
     +"THE ROOT TAB IS THE INNERMOST LAYER (after migrating from core v2 the CORE is the root and the SHELL is layer 1). "
@@ -1792,7 +1850,11 @@ en: {
     +"and each layer; m, r, role and J are editable. The single entry point S.applyLayerEdit(i,k,cfg) validates the canonical "
     +"form (ascending, non-overlapping radii, 1-8 layers, m>0) and writes nothing if it fails. SUM RULE: while layers exist the "
     +"root m is a derived quantity (= the sum of the layer masses). J IS DECLARED ONLY AND IS NOT CONNECTED TO THE FORCES. "
-    +"Gravity is still 'one root point source plus the finite-radius shell-theorem difference', and S._core gains no instruction.",
+    +"Gravity is still 'one root point source plus the finite-radius shell-theorem difference', and S._core gains no instruction. "
+    +"WAVE 263b: minimizing the panel with the - button ALSO FOLDS the parent-child core, and re-expanding with + OPENS THE BASIC "
+    +"ROWS (m/s/R/...) again - press the toggle once more to go back to the layers. The note next to 'migrate to layers' now takes "
+    +"a line of its own, and the rules (the core v2 declaration is kept, the original JSON is preserved, the far field is identical "
+    +"and only the inside of the core radius changes, a naked core asks twice) are folded into 'about this migration' under the button.",
   beLinTitle:"Formation lineage",
   beLinSum:(n,tree,ev,ge)=>`absorbed ${n}× directly · lineage ${ge?"≥":""}${tree} grains (${ev} events logged)`,
   beLinRow:(t,dm,m,ls)=>`t=${t}: +${dm} → m=${m}, dimming=${ls}`,
@@ -2228,7 +2290,7 @@ en: {
     cHeat:"Heat-capacity coefficient, active only in the internal-temperature mode (samples with thermal:\"tint\"). A particle's heat energy is E=C·m·T_int, so a dissipated ΔE raises it by ΔT_int=ΔE/(C·m) (A9′/E9). Larger C means the same dissipation heats less. It does nothing in the default spin-as-heat mode (thermal omitted).",
     gravityX:"Uniform external gravity acting horizontally across the whole scene (v1.17). It does not contribute to determinacy W, so it builds a 'ground lab' without distorting clocks, light or dragging. Momentum exchange is ledgered.",
     gravityY:"Uniform external gravity acting vertically (+y is down on screen). The 'downward gravity' of ⚾ free fall, ♨️ convection and 🧪 buoyancy. Beaker-tag samples (♨️🧪) default to 0.031 (≈9.8 m/s² converted — wave 98: the beaker tag inherited the old everyday calibration); the everyday tag (⚾) uses the real value 9.8 (9.8 m/s² as-is). Set 0 for weightlessness.",
-    geoPN:"The v2.0 geodesic mode (E12). At 1, matter's motion is derived by an action principle from the same ψ=W·κ that slows clocks, enabling the 1PN correction (☿); E6′ dragging on matter is disabled (no double counting). At 2, the unified v−u geodesic law (stage 2): frame transport, vorticity Coriolis (the true face of dragging) and 1PN all follow from one equation derived with u≠0 — exactly equal to 1 when kFrame=0. 0 = legacy. AT 3, A SEPARATE TOY PATH (wave 259a, the complex determinacy field) that is EXCLUSIVE with E6-prime, 1PN and the coordinate inertia — no double application. Declaring 3 in a sample JSON requires physics.spaceMesh.lawVersion (scalar/local/complex); a JSON without that declaration is still rounded down to 2 on load, and it is rejected outright for the reality-calibration class (sampleClass:calibration). WAVE 262a: A VALUE OF 3 SET FROM THIS ROW (the UI) IS NO LONGER REWRITTEN TO 2 - samples that declare no lawVersion use the runtime default scalar, and when the entry conditions cannot hold (kFrame>0, or the space-mesh inertia/weave is on) the value stays 3, one warning line is shown, and the dynamics run exactly as geoPN=2 (geoToy:denied in the step accounting).",
+    geoPN:"The v2.0 geodesic mode (E12). At 1, matter's motion is derived by an action principle from the same ψ=W·κ that slows clocks, enabling the 1PN correction (☿); E6′ dragging on matter is disabled (no double counting). At 2, the unified v−u geodesic law (stage 2): frame transport, vorticity Coriolis (the true face of dragging) and 1PN all follow from one equation derived with u≠0 — exactly equal to 1 when kFrame=0. 0 = legacy. AT 3, A SEPARATE TOY PATH (wave 259a, the complex determinacy field) that is EXCLUSIVE with E6-prime, 1PN and the coordinate inertia — no double application. Declaring 3 in a sample JSON requires physics.spaceMesh.lawVersion (scalar/local/complex); a JSON without that declaration is still rounded down to 2 on load, and it is rejected outright for the reality-calibration class (sampleClass:calibration). WAVE 262a: A VALUE OF 3 SET FROM THIS ROW (the UI) IS NO LONGER REWRITTEN TO 2 - samples that declare no lawVersion use the runtime default scalar, and when the entry conditions cannot hold (kFrame>0, or the space-mesh inertia/weave is on) the value stays 3, one warning line is shown, and the dynamics run exactly as geoPN=2 (geoToy:denied in the step accounting). WAVE 263a: MIND THE SAVE ASYMMETRY - setting 3 from this row is still rounded down to 2 on load unless the saved JSON declares physics.spaceMesh.lawVersion (THE RUNNING VALUE AND THE SAVEABLE DECLARATION ARE DIFFERENT THINGS). And a sample that declares physics.spaceMesh.toyAllowDrag:true keeps the toy running with kFrame>0, SO THE E6-PRIME FOLLOWING KICK AND THE TOY ACT IN THE SAME STEP (a diagnostic configuration that may double-count; the HUD shows overlay:drag; rejected for sampleClass:calibration).",
     lambdaPN:"Strength of the 1PN correction in geodesic mode (geoPN≥1 — also gates the a₁ₚₙ(w) term of geoPN=2), continuous on 0–1 (integer restriction removed in wave 110). The 1PN acceleration scales as λ_PN/c₀², so the 1PN strength can be calibrated with c₀ held fixed. At 0 you recover Newtonian gravity and the ellipse closes — the A/B control for ☿ Mercury.",
     pnAlpha:"Breakdown of the 1PN correction (E12). 1.5 = full (GR's β=γ=1 — the full 42.98″/century of Mercury), 0.5 = time-rate only (advance drops to 1/3). Machine-verified in V18–V20.",
     radiusScale:"Global scale of the particle radius R=radiusScale·rMul·√m (default 1). Affects contact size and the moment of inertia I=½mR² (the I in temperature T=Is²). Per-body variation lives in the body key rMul; this knob scales every particle relatively. A discretization setting, not a law of physics.",
@@ -2577,10 +2639,10 @@ function fastParams(o){
   return {...__PARAM_TMPL, ...o};
 }
 // v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
-const APP_VERSION = "1.43";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
+const APP_VERSION = "1.44";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.44-b1";   // 第219便: v1.43.0 昇格に伴い次期プレビュー線へ
+const BETA_BUILD = "v1.45-b1";   // 第219便: v1.43.0 昇格に伴い次期プレビュー線へ
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 // 第71便 P0 → 第72便(ChatGPT Release レビュー P2: マジックナンバーの定数化):
 // E6′③反作用の1サブステップ上限(速度のみ)。較正実測(第71便): 正常域最大は 🕶️ の
@@ -2890,6 +2952,21 @@ function validateSpaceMesh(a){
       return {ok:false, err:"physics.spaceMesh.toyGain は 0〜1 の数値"};
     toyG=Number(a.toyGain);
   }
+  // 第263便a(統括が設定した検証仮説 (1)): **明示キー `toyAllowDrag`** —— geoPN=3(トイ)を
+  // **kFrame>0 のまま**走らせることを許す診断用の鍵である。第259便a の入場条件 (c) は
+  // 「トイは E6′/E12 の追従を**置換**するので kFrame=0 専用」だったが、第55報の仮説
+  // 「コンパクト連星では geoPN=3 の適用となり、引きずりが弱まって kFrame≈0.7」を**測る**には
+  // geoPN=3 ∧ kFrame>0 の走行そのものが要る。**既定は false**(内蔵 122 本は 1 bit 不変)。
+  //   ・`sampleClass:"calibration"` では**拒否**(下の geoPN 門と同じ場所で機械固定する)。
+  //   ・受理しても **E6′(kFrame の追従キック)とトイが同じ步で重なる** —— これは
+  //     **二重計上の可能性がある構成**であって、法則の宣言ではない。実行時は
+  //     `S.geoToyOverlay="drag"` を立てて HUD に出す(黙って重ねない)。
+  let tAllowDrag=false;
+  if(a.toyAllowDrag!==undefined && a.toyAllowDrag!==null){
+    if(typeof a.toyAllowDrag!=="boolean")
+      return {ok:false, err:"physics.spaceMesh.toyAllowDrag は true/false(geoPN=3 を kFrame>0 のまま許す診断キー)"};
+    tAllowDrag=a.toyAllowDrag;
+  }
   // 第259便c(第51報): **初期メッシュ貯蔵エネルギー E₀ の正名** `meshEnergyCapacity`(**宣言値**)。
   //   第258便b ⑧-3 は「E₀ の正名は無い(供給量の倍数で宣言しただけ)」を決断事項に残した。
   //   本便はそれに名前を与え、`HP.dfmToyLedger` の **E_mesh の基準**にする:
@@ -2905,7 +2982,9 @@ function validateSpaceMesh(a){
   }
   // 4 チャネル(gravity・inertia・weave・reservoir)がすべて OFF **かつ帳簿の宣言も無い** = 未宣言(1 bit 不変)
   // 第259便a: **lawVersion の宣言も 1 チャネル**である(宣言だけで力は動かないが、geoPN=3 の門になる)
-  if(grav===false && iner===false && wv===SPACE_MESH_WEAVE[0] && !res && capE===null && lawV===null)
+  // 第263便a: `toyAllowDrag` も「宣言があれば正準形を残す」側に数える(単独では力を 1 バイトも
+  // 動かさないが、黙って落とすと「宣言したのに効いていない」が見えなくなる)
+  if(grav===false && iner===false && wv===SPACE_MESH_WEAVE[0] && !res && capE===null && lawV===null && !tAllowDrag)
     return {ok:true, spaceMesh:null, warn};
   out.gravity=grav; out.inertia=iner;
   if(iner!==false){
@@ -2930,6 +3009,7 @@ function validateSpaceMesh(a){
   }
   if(capE!==null) out.meshEnergyCapacity=capE;   // 第259便c(宣言したときだけ正準形に入る)
   if(lawV!==null){ out.lawVersion=lawV; if(toyG!==1) out.toyGain=toyG; }   // 第259便a(未宣言は 1 文字も出さない)
+  if(tAllowDrag) out.toyAllowDrag=true;   // 第263便a(既定 false は 1 文字も出さない = 内蔵 122 本は署名不変)
   return {ok:true, spaceMesh:out, warn};
 }
 // ===== 第252便b(第44報): physics.periSubsteps — 近点近傍だけ刻みを細かくする薄い包み(opt-in・既定 OFF)=====
@@ -3569,7 +3649,7 @@ const PARAM_DEFS = [
   {key:"gravityY",label:"一様重力 g_y",      mode:"lin", lo:-10, hi:10, step:0.005, cat:"st", group:"法則の実験室",   /* 第79便: 同上。第94便: ⚾の g_y=9.8(実値化)がスライダー内に収まるよう CLAMPS と同じ±10へ拡大(第56便 kRep と同じ方針) */
    desc:"画面全体に働く縦方向の一様な外部重力場(+yは画面下向き)。⚾自由落下・♨️対流・🧪浮力の「下向きの重力」はこれ。ビーカータグ(♨️🧪)は 0.031(換算 ≈9.8 m/s² — 第98便: 旧日常較正を引き継ぎ)、日常タグ(⚾)は実値 9.8(そのまま 9.8 m/s²)を既定とする。0にすると無重力になる。"},
   {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:3, step:1,    cat:"dg", group:"法則の実験室",
-   desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W·κから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では 1 と厳密に同じ。0=従来(legacy)。**3=トイ(複素決定力場)**: 第259便a で足した**トイモデル専用**の別処理で、E6′・1PN・座標変換慣性のどれとも**排他**(重複適用を禁止する)。サンプル JSON で 3 を宣言するには physics.spaceMesh.lawVersion(scalar/local/complex)が要り、宣言の無い JSON は読み込み時に従来どおり 2 へ丸める。「現実較正」分類(sampleClass:calibration)の JSON では拒否する。**第262便a**: **この行(UI)で 3 にした値はもう 2 へ書き換えない** —— lawVersion の宣言が無いサンプルでは実行時の既定 scalar を使い、kFrame>0 や空間メッシュの慣性/織り込みと重なって入場条件が立たないときは、値を 3 のまま保ったうえで警告を 1 行出し、力学は geoPN=2 と同じで走る(ステップ会計の geoToy:denied)。"},
+   desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W·κから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では 1 と厳密に同じ。0=従来(legacy)。**3=トイ(複素決定力場)**: 第259便a で足した**トイモデル専用**の別処理で、E6′・1PN・座標変換慣性のどれとも**排他**(重複適用を禁止する)。サンプル JSON で 3 を宣言するには physics.spaceMesh.lawVersion(scalar/local/complex)が要り、宣言の無い JSON は読み込み時に従来どおり 2 へ丸める。「現実較正」分類(sampleClass:calibration)の JSON では拒否する。**第262便a**: **この行(UI)で 3 にした値はもう 2 へ書き換えない** —— lawVersion の宣言が無いサンプルでは実行時の既定 scalar を使い、kFrame>0 や空間メッシュの慣性/織り込みと重なって入場条件が立たないときは、値を 3 のまま保ったうえで警告を 1 行出し、力学は geoPN=2 と同じで走る(ステップ会計の geoToy:denied)。**第263便a**: **保存の非対称**に注意 —— この行で 3 にしても、保存 JSON に physics.spaceMesh.lawVersion の宣言が無ければ読み込み時に 2 へ丸められる(**実行中の値と、保存できる宣言は別物である**)。また physics.spaceMesh.toyAllowDrag:true を宣言したサンプルだけは kFrame>0 のままトイが走り、**E6′ の追従キックと同じ步で重なる**(二重計上の可能性がある診断構成・HUD に overlay:drag と出る。sampleClass:calibration では拒否する)。"},
   {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, cat:"dg", group:"法則の実験室",
    desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。"},   // 第124便(原仮定者指示): geoPN の次へ移動
   {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:0.05, cat:"dg", group:"法則の実験室",
@@ -9454,7 +9534,7 @@ const BUILTIN_PRESETS = [
   fidelity:"toy",   // 幾何は 📻 の転写だが**法則がトイ**なので現実較正(real)とは名乗らない
   notClaim:["solar_cal"],
   obsCard:[
-    {q:"**診断コピー**(これは較正候補ではない)", model:"📻 の幾何と観測質量(f=1)に geoPN=3 のトイ則を当てただけ。合わせる操作はしていない", obs:"—(Negative Claim 27: トイの慣性則は較正候補から外してある)"},
+    {q:"**所属の固定**(第263便a)— 診断コピーであり較正候補ではない", model:"「kFrame≈0.70 で f≈1.70」は**現行経路(geoPN=2+E6′/E12)の釣り合い曲線の記録**であって、この 🩻(geoPN=3)の数ではない", obs:"—(📻 の幾何と観測質量 f=1 にトイ則を当てただけ・合わせる操作はしていない。Negative Claim 27/39)"},
     {q:"公転周期(近点間・合わせていない)", model:"8842.456 秒(+0.0897%・+7.92 s = 3.16×10⁷σ)— 既定 dt・診断時間 70676 秒で近点 8 個", obs:"8834.534723278 s(Hu et al. 2022・σ=2.5056×10⁻⁷ s)"},
     {q:"離心率 proxy(合わせていない)", model:"0.650722(転写の 7.41 倍)— 半径帯 217.79〜1029.32(遠点発 r₀=955.978)", obs:"eT=0.087777036(転写)"},
     {q:"近点移動(**この構成では測れない**)", model:"既定 dt で −2.9673×10⁵ °/yr(逆行)。dt/2 では近点方位の隣接差が π/2 を超えて unwrap 不能=未測定", obs:"+16.899323 °/yr(Kramer et al. 2021)— 桁が違ううえ収束していない"},
@@ -9472,7 +9552,7 @@ const BUILTIN_PRESETS = [
     control:"ワンタップ対照A/B: B側 **geoPN=2(📻 と同じ統一測地線則)** — 同じ JSON のまま法則だけ戻すと近点間 8834.772 秒(+0.0027%)・e proxy 0.0877645・近点移動 +2.8185 °/yr になり、**軌道の形が観測へ戻る**。パラメータ行の D₀ を上げていくと χ が下がってトイが弱まり、周期は観測へ近づくが**下から交差はしない**(第262便a の掃引: 48 構成で交差 0 件)。D₀ を 0 にすると離脱が見える。timeScale=300・dispMag=1000(表示専用)・トレイルで軌道を見る。"},
   en:{name:"Double Pulsar J0737−3039A/B — geoPN=3 diagnostic (f=1, NOT a calibration candidate)",
     obsCard:[
-      {q:"A DIAGNOSTIC COPY (not a calibration candidate)", model:"📻's geometry and observed masses (f=1) with the geoPN=3 toy law applied — nothing was fitted", obs:"— (Negative Claim 27: the toy inertia law is excluded from the calibration candidates)"},
+      {q:"WHERE THE NUMBER BELONGS (wave 263a) — a diagnostic copy, not a calibration candidate", model:"'kFrame about 0.70 with f about 1.70' IS A RECORD OF THE CURRENT PATH (geoPN=2 with E6-prime/E12) balance curve — it is NOT a number of this 🩻 (geoPN=3) sample", obs:"— (📻's geometry and observed masses f=1 with the toy law applied; nothing was fitted. Negative Claims 27/39)"},
       {q:"Orbital period (periastron-to-periastron, never fitted)", model:"8842.456 s (+0.0897%, +7.92 s = 3.16e7 sigma) — default dt, 8 periastra over a 70676 s diagnostic window", obs:"8834.534723278 s (Hu et al. 2022; sigma=2.5056e-7 s)"},
       {q:"Eccentricity proxy (never fitted)", model:"0.650722 (7.41x the transcribed value) — radius band 217.79 to 1029.32 (started at apoapsis r0=955.978)", obs:"eT=0.087777036 (transcribed)"},
       {q:"Periastron advance (NOT MEASURABLE in this configuration)", model:"-2.9673e5 deg/yr (retrograde) at the default dt; at dt/2 successive periastron azimuths jump past pi/2 and cannot be unwrapped", obs:"+16.899323 deg/yr (Kramer et al. 2021) — orders apart AND not converged"},
@@ -13573,21 +13653,34 @@ function validatePreset(obj){
   // 受理された geoPN=3 は **`S._core` からは 0 に見える**(`geoCoreDispatch` が `_core` の呼び出しの
   // 間だけ `p.geoPN` を 0 にする —— `S._core` には 1 命令も足していない)。したがって
   // `geo=(p.geoPN||0)>0`・`geo2=(p.geoPN||0)>=2`・kKind の特別化②(pairCorePN)のどれも立たない。
+  // ===== 第263便a(第55報・統括が設定した検証仮説 (1)): **明示キーで (c) だけを開ける** =====
+  //   第55報の仮説「コンパクト連星では空間メッシュの影響が強まるので geoPN=3 の適用となり、
+  //   引きずりが弱まるので kFrame≈0.7」を**測る**には geoPN=3 ∧ kFrame>0 の走行が要る。
+  //   `physics.spaceMesh.toyAllowDrag:true` を宣言した宇宙だけ (c) を迂回する。
+  //   **(a) は迂回しない** —— `sampleClass:"calibration"` では geoPN=3 も toyAllowDrag も拒否する。
+  //   受理しても **E6′ とトイは同じ步で重なる**(二重計上の可能性)ので警告 1 行を必ず出す。
+  //   **これは法則の宣言ではなく診断の構成である**(Negative Claim 27 を維持する)。
   if(ph.geoPN>=3){
     const sm3=ph[SPACE_MESH_KEY];
+    const tad3=!!(sm3 && sm3.toyAllowDrag===true);
     if(p.sampleClass==="calibration")
       bad('physics.geoPN=3(トイの測地線モード)は sampleClass:"calibration" では使えません(現実較正にトイを混ぜない)');
     else if(!sm3 || sm3.lawVersion===undefined){
       warnings.push('physics.geoPN=3 は physics.spaceMesh.lawVersion("scalar"/"local"/"complex")の宣言が要る — 従来どおり 2 へ丸めた');
       ph.geoPN=2;
     }
+    else if(ph.kFrame>0 && !tad3)
+      bad("physics.geoPN=3(トイ)は kFrame=0 専用です(E6′/E12 の追従を置換するので、追従の結合が立っていてはならない)。診断で重ねるなら physics.spaceMesh.toyAllowDrag:true を明示してください");
     else if(ph.kFrame>0)
-      bad("physics.geoPN=3(トイ)は kFrame=0 専用です(E6′/E12 の追従を置換するので、追従の結合が立っていてはならない)");
+      warnings.push('physics.spaceMesh.toyAllowDrag:true — geoPN=3 を kFrame>0(='+ph.kFrame+')のまま走らせます。**E6′ の追従キックとトイが同じ步で重なる**(二重計上の可能性がある診断構成)。較正則ではありません');
     else if(sm3.inertia!==false)
       bad('physics.geoPN=3(トイ)は physics.spaceMesh.inertia と排他です(重複適用禁止 — inertia は false にしてください)');
     else if(sm3.weave!==undefined)
       bad('physics.geoPN=3(トイ)は physics.spaceMesh.weave と排他です(重複適用禁止)');
   }
+  // 第263便a: **診断キーは現実較正クラスへ入れない**(geoPN が 3 でなくても宣言そのものを拒否する)
+  if(p.sampleClass==="calibration" && ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].toyAllowDrag===true)
+    bad('physics.spaceMesh.toyAllowDrag(geoPN=3 を kFrame>0 のまま許す診断キー)は sampleClass:"calibration" では使えません');
   // 第240便: contact は ∇u 勾配(geoPN=2)と両立しない(フレーム重み w′ の勾配を持たない)→ interior へ落とす
   if(ph[DRAG_REF_KEY]===DRAG_CONTACT && ph.geoPN===2){ warnings.push('physics.dragRef:"contact" は geoPN=2 と併用不可 — "interior" に修正'); ph[DRAG_REF_KEY]="interior"; }
   // 第242便: contact(接触=完全引きずり)は share のフレーム重みで定義した opt-in — 既定 pull と併用しない(合成は裁定事項)
@@ -16471,6 +16564,10 @@ function makeSim(){
     S.geoToyMeshPx=0; S.geoToyMeshPy=0; S.geoToyMeshL=0;
     S.geoToyN=0; S.geoToyDv=0; S.geoToyChi=0; S.geoToyStop=null;
     S.geoToyDeny=null;   // 第262便a: 3 のまま入場条件を満たさない理由("kFrame"/"meshChannel")
+    // 第263便a: `S.geoToyOverlay`(明示キー toyAllowDrag で E6′ と重ねたとき "drag")は**ここで初期化しない**。
+    // このリセット塊は `S.build` の中で **`S.updateRadii()` より後**に走るので(呼び出しは 16377 行)、
+    // ここで null を書くと門が立てた値を上書きしてしまう。**読み口の正本は `updateRadii` の 1 か所**である
+    // (if/else の両枝で必ず代入するので、build 直後もパラメータ変更後も値は確定している)。
     S.meshJ=0; S.meshQ=0; S.meshRotorL=0; S.meshRotorE=0; S.meshOmega=0; S.meshOmegaMesh=0;
     S.meshRotorStop=null;
     S.wallEin=0; S.wallEout=0; S.wallKE=0;   // 第37便 C1(台帳4-70): 壁帳簿もリセット
@@ -16569,12 +16666,18 @@ function makeSim(){
     //      `S.geoToyDeny` と `S.geoToyStop="denied"` を立てる(**黙って 2 に書き換えない**)。
     //      このとき `_core` が受け取る値は `geoCoreDispatch` が 2 にするので、**力学は第259便a の
     //      丸めと 1 bit 同じ**である(3 を保つのは UI・保存・読み口の側だけ)。
+    // 第263便a(検証仮説 (1)): **明示キー `toyAllowDrag`** が立っている宇宙だけ kFrame の条件を
+    // 迂回する(`S.geoToyDeny=null`)。代わりに `S.geoToyOverlay="drag"` を立て、HUD に
+    // 「E6′ とトイの重畳(二重計上の可能性・診断)」を出す。**既定(未宣言)は従来どおり denied。**
     if(S.params.geoPN>=3){
-      const okToy=!(S.params.kFrame>0)
+      const __tad=!!(__sm && __sm.toyAllowDrag===true);
+      const __kf=(S.params.kFrame>0);
+      const okToy=(!__kf || __tad)
         && !(__sm && __sm.inertia!==false) && !(__sm && __sm.weave!==undefined);
-      S.geoToyDeny=okToy? null : ((S.params.kFrame>0)? "kFrame" : "meshChannel");
+      S.geoToyDeny=okToy? null : (__kf? "kFrame" : "meshChannel");
       if(!okToy) S.geoToyStop="denied";
-    } else S.geoToyDeny=null;
+      S.geoToyOverlay=(okToy && __tad && __kf)? "drag" : null;
+    } else { S.geoToyDeny=null; S.geoToyOverlay=null; }
     S.hasGeoToy=(S.params.geoPN>=3 && !S.geoToyDeny);
     // 第252便b: 近点サブステップ(physics.periSubsteps)の有無フラグと発火しきい値も同じ場所で張る。
     // validatePeriSubsteps が n<=1 を null へ正規化しているので、キーの有無だけで判定できる
@@ -20886,7 +20989,9 @@ function stepDiagText(){
   // 2 体だけの系では非頂点が 1 つも無いので既定は no-op である(mesh:noTargets)—— 表示のみ
   if(sim && sim.hasCoordInertia) out+="  mesh:"+(sim.meshCoordStop||"on")+" N="+sim.meshCoordN;
   // 第262便a: **入場条件を満たさない 3 も出す**(黙って 2 に丸めなくなったので、denied はここに出る)
-  if(sim && sim.params && sim.params.geoPN>=3) out+="  geoToy:"+(sim.geoToyStop||"on")+" N="+sim.geoToyN;
+  // 第263便a: **明示キーで E6′ と重ねた診断構成**は HUD にも出す(黙って重ねない = 二重計上の可能性の表示)
+  if(sim && sim.params && sim.params.geoPN>=3) out+="  geoToy:"+(sim.geoToyStop||"on")+" N="+sim.geoToyN
+    +(sim.geoToyOverlay? (" overlay:"+sim.geoToyOverlay+"(kF="+fmt(sim.params.kFrame)+" 二重計上の可能性)") : "");
   // 第260便b: 親子コアの層差分と**重なった拡張体の対**(ΔF を当てた組 / 停止した組)
   if(sim && sim.hasBodyLayers) out+="  layer:"+(sim.layerStop||"on")+" N="+sim.layerN+" pair="+(sim.layerPairN||0)+"/"+(sim.layerStopN||0)
     // 第261便b(検証仮説 (6)・案A): 停止したら理由と対を出す(時刻は進んでいない)
@@ -26299,10 +26404,12 @@ function buildParamRows(){
         // 第262便a: **3 はもう 2 へ書き換えない**。入場条件が立たなかったとき(S.geoToyDeny)と
         // 立ったときの**変化のときだけ** 1 行知らせる(スライダーを動かすたびに出さない)
         else if(key==="geoPN" || key==="kFrame"){
-          const dy0=S.geoToyDeny, gt0=S.hasGeoToy;
+          const dy0=S.geoToyDeny, gt0=S.hasGeoToy, ov0=S.geoToyOverlay;
           S.updateRadii();
           if(S===sim && S.params.geoPN>=3){
             if(S.geoToyDeny && S.geoToyDeny!==dy0) notify(T("geoToyDenied")(S.geoToyDeny),5000);
+            // 第263便a: **重畳(toyAllowDrag)へ入った/kFrame が動いた**ときも 1 行知らせる
+            else if(S.geoToyOverlay && (S.geoToyOverlay!==ov0 || !gt0)) notify(T("geoToyOverlayOn")(fmt(S.params.kFrame)),6000);
             else if(S.hasGeoToy && !gt0) notify(T("geoToyOn"),4000);
           }
         }
@@ -26424,7 +26531,13 @@ function buildParamRows(){
       const cb=document.createElement("input"); cb.type="checkbox"; cb.id="qLockCb"; cb.checked=qLockOn;
       cb.addEventListener("change",()=>setQLock(cb.checked));
       qlRow.appendChild(lab); qlRow.appendChild(cb); }
-    for(const def of catDefs("dg")){ if(def.key==="q") g.appendChild(qlRow); mkParamRow(def,g); } }
+    // 第263便b(第55報・検証仮説 (7)「geoPN=3 の保存非対称の UI 注記」): geoPN 行の直下に
+    // **表示専用の 1 行**を常設する(実行中の 3 は、lawVersion の宣言が無い保存 JSON では
+    // 読み込み時に 2 へ丸められる)。プリセット署名にも力学にも 1 bit も効かない
+    for(const def of catDefs("dg")){ if(def.key==="q") g.appendChild(qlRow); mkParamRow(def,g);
+      if(def.key==="geoPN"){ const nt=document.createElement("div"); nt.id="geoToySaveNote";
+        nt.className="note"; nt.style.cssText="font-size:calc(10.5px*var(--uz,1));line-height:1.45;padding:0 4px 4px;";
+        nt.textContent=T("geoToySaveNote"); g.appendChild(nt); } } }
   { const g=mkCat(T("grpSpinHeat"),T("grpSpinHeatDesc"));  for(const def of catDefs("sh")) mkParamRow(def,g); }
   // 実験箱: 伝熱壁4面(天井/左/右/底)+壁別反発係数。
   // 第95便(原仮定者指示): 編集対象が無いとき(箱境界でも伝熱壁でもない)はカテゴリごと出さない
@@ -29607,6 +29720,8 @@ function applyLang(){
   $("#beLlyM").textContent=T("beLyM"); $("#beLlyR").textContent=T("beLyR"); $("#beLlyJ").textContent=T("beLyJ");
   $("#beLyAdd").textContent=T("beLyAdd"); $("#beLyDel").textContent=T("beLyDel");
   $("#beCvDep").textContent=T("beCvDep"); $("#beCvToLayers").textContent=T("beCvToLayers");
+  // 第263便b(第55報「『親子コアへ移行』の説明が、狭い場所で読みづらいので修正する」): 規約文の details
+  $("#beCvDepMoreSum").textContent=T("beCvDepMoreSum"); $("#beCvDepMoreBody").textContent=T("beCvDepMore");
   // 第262便b: m の上の切り替えボタン(実際の文言は updateBodyEdit が状態に合わせて上書きする)
   $("#beLayToggle").textContent=T("beLayToggleOn");
   { const sel=$("#beLyRole"); sel.textContent="";
@@ -30563,8 +30678,19 @@ $("#beCvToLayers").addEventListener("click",()=>{
 });
 // 第26便(原仮定者指示): ✕(選択解除)→ 最小化トグルへ変更。選択解除は粒子の再タップ/空白タップで可能
 let beMin=false;
+// 第263便b(第55報「『粒子の編集』を畳んだ時に、『親子コア(層)』も畳む」): 畳みは**状態側**で行う。
+// 基点では CSS(#bodyEdit.min #beLayers)だけで隠そうとしていたが、#beLayers の display は
+// updateBodyEdit がインラインで書くのでセレクタが負けていた(実測: 最小化しても層ブロックが残り、
+// パネル高 159px)。ここで beLayMode を落とし、再展開の既定は**案B(基本行で開く)**にする。
+// beMinKeepLay=true なら**案A(畳む前の層モードを復元)**になる —— 両案を同じ html で測るための
+// 表示専用スイッチ(HP.beMinKeepLayerMode)。物理配列へは 1 bit も書かない
+let beLayModeSaved=false, beMinKeepLay=false;
 function applyBeMin(){ $("#bodyEdit").classList.toggle("min",beMin); $("#beClose").textContent=beMin?"＋":"−";
-  $("#beClose").setAttribute("aria-label",beMin?"expand":"minimize"); }
+  $("#beClose").setAttribute("aria-label",beMin?"expand":"minimize");
+  if(beMin){ beLayModeSaved=beLayMode; beLayMode=false; beCvConfirm=false; beLayMsg=""; }
+  else if(beMinKeepLay && beLayModeSaved) beLayMode=true;
+  if(!beMin) beLayModeSaved=false;
+  updateBodyEdit(); }
 $("#beClose").addEventListener("click",()=>{ beMin=!beMin; applyBeMin(); });
 // 第23便(原仮定者指示): 粒子編集のパラメータ名タップで説明を表示(同じ名前を再タップで元に戻る)
 let beDescShown=null;
@@ -31572,7 +31698,12 @@ function dfmInternalEntrainment(o){
 // 「同じ観測軌道を支える重力質量はニュートン換算の f 倍」。円軌道・一定 χ の一次近似。4 連星の台帳 f を
 // 追加フィットなしで 1% 以内に再現する — QA behavior.dragChannels が機械固定)。chi-law v1(f_i=C·2χ_i)の因果側の基準則
 // 第242便: 第 6 引数 p(0/未指定=share の分率 1/√(a²+ε²)・2/3/4=pull の引き 1/(a²+ε²)^{p/2}。D0 は対応する背景 D₀/D0pull)
+// 第263便b(第55報・検証仮説 (9)): 第 6 引数 0(旧 share の番兵)は**非推奨**である。値は従来どおり
+// p=1 と同じ核(1/√s)で返す(1 bit も変えない)が、セッションに 1 度だけ console.warn を出す
+let chiP0Warned=false;
 function dfmBinaryChi(mA,mB,a,D0,eps,p){
+  if(p===0 && !chiP0Warned){ chiP0Warned=true;
+    console.warn("dfmBinaryChi: the 6th argument 0 is deprecated (kept as the same kernel as p=1, 1/sqrt(a^2+eps^2)); pass 1 for share"); }
   // 第262便d: 第 6 引数は **0/未指定(旧 share の番兵)と 1(新しい share の指数)を同じ核**として扱う。
   // p=1 は数学的に s^{−1/2}=1/√s だが `Math.pow(x,-0.5)` と `1/Math.sqrt(x)` の最下位ビットは
   // 一致が保証されないので、**分岐は p>1 で切る**(既存の値は 1 bit も動かない)。
@@ -35433,6 +35564,84 @@ function dfmFieldSnapshot(S){
     timeDerivativeComplete:false,      // **ax/ay が無い**(捏造しない)ので時間微分は不完全である
     note:"diagnostic snapshot: all sources / static background / not disk-affine" };
 }
+// ===== 第263便a(第55報・統括が設定した検証仮説 (4)): **支配度の器** `HP.dfmDominance(bodies, opts)` =====
+// 原仮定者(第55報)「**geoPN=2 と kFrame=1 の組み合わせが安定していたのは、支配天体が 1 つだったからである**」。
+// これを**測れる形**にするための純関数である。**力へは 1 バイトも接続しない**(物差しであって法則ではない)。
+// **法則の自動分岐は実装していない**(この数でモデルを切り替える経路はどこにも無い)。
+//
+// **3 つの軸を別々に返す**(1 つの数に畳まない —— 畳むと系ごとの順序が「畳み方」で変わるからである):
+//   ① `massRatio` = m₁/(m₁+m₂)(質量上位 2 体)。0.5=等質量・1=単独支配。
+//   ② `chiBias`  = χ₂/(χ₁+χ₂)。χ_i=Σ_{j≠i}w_j/(D₀+Σ_{j≠i}w_j)、w_j=m_j/(d_ij²+ε²)^{p/2} は
+//      **エンジンの pull 重みと同じ式**(第258便a)。「軽いほうがどれだけ一方的に追従しているか」。
+//   ③ `uAlign`   = (u₂·v₁)/|v₁|²。u₂ は**自己を除外した正規化平均**(D₀ 込み)で、
+//      **二体・D₀=0 では厳密に v₁**(第262便a ②)なので 1 になる。「相手速度成分の比」。
+//   ④ `chiMassWeighted` = Σᵢ (mᵢ/M)·χᵢ(全粒子)・`chiMassWeightedTop2`(上位 2 体だけ)。
+//      **自分の質量割合で重み付けた追従比**である。「支配天体が 1 つ」なら、大きな χ を持つのは
+//      **軽いほう**なので重みが小さく、この量は 0 へ寄る(裸の質量比では見えない差である)。
+// **二体では ③ は χ₂ と恒等に一致する**(u₂=χ₂·v₁)—— それも**そのまま数で出す**(隠さない)。
+// `dominance` は**① の別名**であり、②③ を混ぜた合成指標ではない(混ぜない、と宣言しておく)。
+//
+// 入力: bodies=[{m,x,y,vx,vy}]、opts={p, eps, D0, pinned}。**m≤0 の源は拒否**(null —— 0 で埋めない)。
+function dfmDominance(bodies,opts){
+  const o=opts||{};
+  if(!Array.isArray(bodies) || bodies.length<2) return null;
+  const pw=(o.p===undefined || o.p===null)? 2 : Number(o.p);
+  const eps=(o.eps===undefined || o.eps===null)? 0 : Number(o.eps);
+  const D0=(o.D0===undefined || o.D0===null)? 0 : Number(o.D0);
+  if(![pw,eps,D0].every(Number.isFinite) || !(D0>=0) || !(eps>=0)) return null;
+  const B=[];
+  for(let i=0;i<bodies.length;i++){
+    const b=bodies[i]; if(!b) return null;
+    const m=Number(b.m), x=Number(b.x), y=Number(b.y);
+    const vx=Number(b.vx||0), vy=Number(b.vy||0);
+    if(![m,x,y,vx,vy].every(Number.isFinite) || !(m>0)) return null;   // 負・0 質量の源は拒否
+    B.push({i,m,x,y,vx,vy});
+  }
+  const n=B.length;
+  const order=B.slice().sort((a,b)=>b.m-a.m);
+  const t=order[0], s=order[1];
+  const mTot=B.reduce((a,b)=>a+b.m,0);
+  // χ_i と u_i(自己除外・D₀ 正規化)。**エンジンの pull 重みと同じ式**である
+  const eps2=eps*eps;
+  const stat=(k)=>{
+    let W=0, ux=0, uy=0, wTop=0;
+    for(let j=0;j<n;j++){
+      if(j===k) continue;
+      const dx=B[k].x-B[j].x, dy=B[k].y-B[j].y;
+      const w=B[j].m/Math.pow(dx*dx+dy*dy+eps2,pw/2);
+      if(!Number.isFinite(w)) return null;
+      W+=w; ux+=w*B[j].vx; uy+=w*B[j].vy;
+      if(B[j]===t) wTop=w;
+    }
+    const den=D0+W;
+    if(!(den>0)) return null;
+    return { chi:W/den, u:[ux/den,uy/den], W, wTopShare:(W>0)? wTop/W : null };
+  };
+  const st=[]; for(let k=0;k<n;k++){ const z=stat(k); if(!z) return null; st.push(z); }
+  // **④ 自分の質量割合で重み付けた追従比** χ_eff = Σᵢ (mᵢ/M)·χᵢ。
+  // 「支配天体が 1 つ」なら、大きな χ を持つのは**軽いほう**なので重みが小さく、χ_eff は 0 へ寄る。
+  // **これは物差しであって法則ではない**(この数でモデルを切り替える経路は実装していない)。
+  let chiW=0; for(let k=0;k<n;k++) chiW+=(B[k].m/mTot)*st[k].chi;
+  const chiW2=(t.m*st[B.indexOf(t)].chi + s.m*st[B.indexOf(s)].chi)/(t.m+s.m);
+  const iT=B.indexOf(t), iS=B.indexOf(s);
+  const chiT=st[iT].chi, chiS=st[iS].chi;
+  const v1sq=t.vx*t.vx+t.vy*t.vy;
+  const uAlign=(v1sq>0)? (st[iS].u[0]*t.vx+st[iS].u[1]*t.vy)/v1sq : null;
+  const massRatio=t.m/(t.m+s.m);
+  return {
+    n, topIndex:t.i, secondIndex:s.i,
+    massRatio, massFracTotal:t.m/mTot,
+    dominance:massRatio,          // **① の別名**(②③ とは混ぜない)
+    chiTop:chiT, chiSecond:chiS,
+    chiBias:(chiT+chiS>0)? chiS/(chiT+chiS) : null,
+    chiMassWeighted:chiW, chiMassWeightedTop2:chiW2,
+    wTopShareSecond:st[iS].wTopShare,   // 二次体から見た「支配天体由来の重みの割合」(二体では 1)
+    uAlign, uSecond:st[iS].u.slice(), uMagRatio:(v1sq>0)? Math.hypot(st[iS].u[0],st[iS].u[1])/Math.sqrt(v1sq) : null,
+    chi:st.map((z)=>z.chi),
+    opts:{p:pw, eps, D0},
+    note:"3 つの軸は別物である(1 つの数に畳まない)。二体では uAlign は χ₂ と恒等に一致する。"
+      +"**これは物差しであって法則ではない** —— この数でモデルを切り替える経路は実装していない。" };
+}
 // ===== 第259便a(第51報): **geoPN=3 のトイ積分器** `HP.dfmGeoToyStep(S,dt)` =====
 // 原仮定者(第51報):「例えば『測地線モード geoPN=3』などとして、トイモデル用に明確に処理を分ける事を
 // 検討する」。**`S._core` の外**(`S.step` の `_meshCoordForce` と同じ位置)に置く別の則である。
@@ -36419,6 +36628,10 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // トイは `S._core` の外(`_meshCoordForce` と同じ位置)に置き、`geoCoreDispatch` が
   // `_core` の呼び出しの間だけ p.geoPN を 0 にして dispatch から外す(`_core` は 1 命令も増えない)
   dfmGeoToyStep, SPACE_MESH_INERTIA_REMOVAL, SPACE_MESH_SUPPORT_LEGACY,
+  // 第263便a(第55報・検証仮説 (4)): **支配度の器**(質量比・χ の偏り・自己除外並進平均の相手速度成分比を
+  // **3 軸のまま**返す純関数)。**力へは 1 バイトも接続せず、法則の自動分岐も実装していない**。
+  // QA behavior.geoToyOverlay が二体の恒等(uAlign≡χ₂・D₀=0 で 1)と負質量拒否を機械固定する
+  dfmDominance,
   // 第259便b(第51報 W2): 親子コア(同心層)の純関数と 3D スピン参照場・歳差/粘性緩和。
   // dfmLayerGravity=球殻定理(内側 0・遠方は点源)/ dfmLayerKernel=慣性核 r^−p の有限半径積分
   // (**重力の球殻積分とは別物**・力へは接続していない)/ dfmLayerMerge=融合の層合成則 2 案/
@@ -36731,6 +36944,11 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第12便: 粒子選択のQA用(A/B比較中の編集検証 — world: "A"|"B")
   selectBody:(i,world)=>{ selWorld=(world==="B")?"B":"A"; selIdx=i; updateBodyEdit(); },
   selInfo:()=>({selIdx, selWorld}), selSimRef,
+  // 第263便b(第55報「『粒子の編集』を畳んだ時に、『親子コア(層)』も畳む」): 畳み連動の読み口と、
+  // 再展開の 2 案を同じ html で比べるための表示専用スイッチ(QA bodyedit.minimize / 実験器が読む)。
+  // beMinKeepLayerMode(true)=案A(畳む前の層モードを復元)・既定 false=案B(基本行で開く)
+  beLayModeNow:()=>beLayMode, beMinNow:()=>beMin,
+  beMinKeepLayerMode:(v)=>{ if(v!==undefined) beMinKeepLay=!!v; return beMinKeepLay; },
   wavelengthColor,  // 第36便 B3(原仮定者指示): 光線の波長色計算のQA用(色関数そのものを公開・重複実装しない)
   rayLambda0:()=>rayLambda0, setRayLambda0,  // 第37便 A3(原仮定者指示): 光線の基準波長λ0のQA用
   rayBandColor, rayLambda0FromRaw,  // 第38便(原仮定者指示): 可視光外の記号色/既定移行ロジックのQA用

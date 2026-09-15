@@ -115,13 +115,21 @@ for (const [id, emoji] of SOLAR) {
     else if (!csvRow) cut = 'csv-quantity-missing';                   // (A') 天体はあるが量の行が無い
     else if (csvRow.sigma === null) cut = 'csv-sigma-empty';          // (B) 行はあるが sigma 列が空
     else if (!UNIT_OK[kind] || !UNIT_OK[kind](csvRow.unit)) cut = 'unit-not-convertible';
+    // 第263便c(第55報 W3): **σ はあるが一次表の照合が済んでいない**(note の `sigma_primary=unverified`)。
+    // 配線は繋がっていて値も換算できるが、門(calaudit の sourceVerified)はこの σ を通さない。
+    // **この状態は「σ 未登録」とは別である** —— `sigma_primary=verified` に変わった時点で、
+    // ここは自動で `connected` になり判定へ入る(器の側は 1 行も変えなくてよい)。
+    else if (!csvRow.primaryVerified) cut = 'csv-sigma-unverified';
     else cut = null;                                                  // σ が門へ届く
     // σ 以前に**観測参照 obs が無い**量(σ を繋いでも比べる相手がいない)
     const obsMissing = !(typeof q.obs === 'number' && Number.isFinite(q.obs));
     const measMissing = !(typeof q.meas === 'number' && Number.isFinite(q.meas));
-    const sigma = (cut === null) ? csvRow.sigma : null;
+    // 第263便c: `csv-sigma-unverified` の行は **σ を数として持つ**(接続数に数える)。
+    // 判定へは入れない —— 状態名は「保留(σ 未確認)」で、`保留(σ 未登録)` とは別に数える。
+    const sigma = (cut === null || cut === 'csv-sigma-unverified') ? csvRow.sigma : null;
     let verdict = null, resid = null, nSig = null, numOk = null;
     if (condMismatch) verdict = '条件不一致(対照の走行が別)';
+    else if (cut === 'csv-sigma-unverified') verdict = '保留(σ 未確認)';
     else if (cut !== null) verdict = (cut === 'kind-not-gated') ? '門外(来歴の欄)' : '保留(σ 未登録)';
     else if (obsMissing || measMissing) verdict = '保留(観測参照または実測が無い)';
     else {
@@ -155,6 +163,26 @@ for (const [id, emoji] of SOLAR) {
     four });
 }
 
+// ---------------------------------------------------------------- 第263便c(第55報 W3)
+// **判定に足りないものの一覧**(天体 × 量)。2026-09-14 の観測レコード intake は太陽系にも
+// σ を 19 行入れたが、**入ったのは半径・GM・候補行**であって、門が読む量(公転周期・離心率・
+// 近点移動・自転)の σ は 1 件も無い。ここで出すのは「**何が来れば判定が増えるか**」の表である
+// (推測で埋めない —— 器は CSV に無いものを無いと書くだけである)。
+const missingForJudgement = (() => {
+  const m = new Map();
+  for (const r of rows) {
+    if (!['csv-body-missing', 'csv-quantity-missing', 'csv-sigma-empty'].includes(r.cut)) continue;
+    const key = (r.csvBody || r.target) + '|' + (r.csvQuantity || r.kind);
+    const e = m.get(key) || { body: r.csvBody, target: r.target, quantity: r.csvQuantity, kind: r.kind,
+      cut: r.cut, presets: [], nQuantities: 0, obsPresent: 0 };
+    if (!e.presets.includes(r.emoji)) e.presets.push(r.emoji);
+    e.nQuantities++;
+    if (r.obs !== null) e.obsPresent++;
+    m.set(key, e);
+  }
+  return [...m.entries()].map(([key, e]) => Object.assign({ key }, e))
+    .sort((a, b) => (a.cut === b.cut ? b.nQuantities - a.nQuantities : a.cut.localeCompare(b.cut)));
+})();
 const cutTally = rows.reduce((m, r) => { m[r.cut || 'connected'] = (m[r.cut || 'connected'] || 0) + 1; return m; }, {});
 const fourTally = presets.reduce((m, p) => { if (p.four) m[p.four] = (m[p.four] || 0) + 1; return m; }, {});
 // σ を持つ CSV 行の全数(**太陽系には 1 行も無い**ことを数で残す)
@@ -164,7 +192,7 @@ const solarSigmaRows = sigmaRows.filter((r) => solarBodiesUsed.includes(r.body))
 
 const out = {
   when: new Date().toISOString(),
-  wave: '第262便d(第54報 W4)',
+  wave: '第262便d(第54報 W4)→ 第263便c(第55報 W3)で σ 未確認の状態名と不足一覧を足した',
   inputs: { calaudit: path.relative(ROOT, CAL), csv: 'paper/data/solar-observations.csv',
     calauditWhen: (cal.meta && cal.meta.when) || null },
   gate: GATE,
@@ -174,18 +202,28 @@ const out = {
     rowsWithSigma: sigmaRows.length,
     sigmaBodies: [...new Set(sigmaRows.map((r) => r.body))],
     solarRowsWithSigma: solarSigmaRows.length,
+    // 第263便c: 太陽系の σ 行を**量ごと**に割る(門が読む量に入っているかどうかが本質だから)
+    solarSigmaQuantities: solarSigmaRows.reduce((m, r) => { m[r.quantity] = (m[r.quantity] || 0) + 1; return m; }, {}),
+    solarSigmaGated: solarSigmaRows.filter((r) => Object.values(KIND_QUANT).includes(r.quantity)).length,
     finding: solarSigmaRows.length === 0
       ? '**太陽系の body には σ が 1 行も入っていない**(21 個の σ は恒星連星と NS 連星の行だけ)'
-      : '太陽系の body に σ がある行が現れた(表を更新すること)' },
-  cutTally, fourTally, presets, rows,
+      : '太陽系の body にも σ の行が入った(2026-09-14 の観測レコード intake)。**ただし門が読む量'
+        + '(公転周期・離心率・近点移動・自転)の σ は '
+        + solarSigmaRows.filter((r) => Object.values(KIND_QUANT).includes(r.quantity)).length
+        + ' 件である** —— 入ったのは半径・GM・候補行の σ で、判定量の σ ではない' },
+  cutTally, fourTally, presets, rows, missingForJudgement,
   conclusion: {
     connected: cutTally.connected || 0,
+    unverified: cutTally['csv-sigma-unverified'] || 0,
+    missingForJudgement: missingForJudgement.length,
     note: (cutTally.connected || 0) === 0
       ? '**対応表を繋いでも 3σ の判定は 1 件も出ない** —— 切断点は対応表ではなく **CSV の sigma 列と行そのもの**である。'
         + 'したがって太陽系 16 本は「保留(σ 未登録)」のままである(**否定ではない**)。'
+        + '2026-09-14 の観測レコード intake でも**この数は動かない**: 入った σ は半径・GM・候補行のもので、'
+        + '門が読む量(公転周期・離心率・近点移動・自転)の σ ではない。'
       : '接続後に判定が出た量がある(表を読むこと)',
     doNotWrite: ['太陽系の現実較正を完了した', 'σ を繋いだので合格した', '保留は否定である',
-      '±1% の目安を σ として読んだ'] },
+      '±1% の目安を σ として読んだ', '観測レコードが入ったので判定が出た(σ は unverified のままである)'] },
 };
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
@@ -196,6 +234,9 @@ console.log('  CSV: ' + csv.rows.size + ' 行 / σ を持つ行 ' + sigmaRows.le
   + ' 行(天体: ' + [...new Set(sigmaRows.map((r) => r.body))].join(', ') + ')');
 console.log('  → 太陽系の body で σ を持つ行: ' + solarSigmaRows.length + ' 行');
 console.log('  切断点の内訳: ' + JSON.stringify(cutTally));
+console.log('  判定に足りないもの(天体×量): ' + missingForJudgement.length + ' 組 —— '
+  + missingForJudgement.slice(0, 8).map((e) => e.key + '(' + e.cut + ')').join(' , ')
+  + (missingForJudgement.length > 8 ? ' …' : ''));
 console.log('  4 値の内訳: ' + JSON.stringify(fourTally));
 for (const p of presets) {
   if (p.missing) { console.log('  ' + pad(p.id, 20) + ' (calaudit JSON に無い)'); continue; }

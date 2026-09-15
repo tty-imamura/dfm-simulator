@@ -57,6 +57,13 @@ const OUT = path.join(ROOT, 'tests', 'out', 'calaudit-w249.json');
 const argv = process.argv.slice(2);
 const FAST = argv.includes('--fast');
 const MERGE = argv.includes('--merge');   // --only で一部だけ回して既存 JSON へ差し替える(再判定用)
+// 第263便c(第55報 W3): **--regate**。**エンジンを 1 步も走らせず**、既存の出力 JSON
+// (tests/out/calaudit-w249.json)を読み直し、**CSV の σ の転写と門(assessObservation)だけを
+// 掛け直す**。観測レコードの intake で CSV が動いたときに「門の σ が動いたかどうか」を
+// 数で確かめるための経路である。**測定値は 1 bit も作らない・書き換えない** ——
+// 動くのは q.obsSigmaCsv / q.sigmaSource / q.gate と、そこから作る集計だけである
+// (--merge と違って走行の差し替えが無いので、dt3 の段・観測次数・過去の走行はそのまま残る)。
+const REGATE = argv.includes('--regate');
 const ONLY = (() => { const i = argv.indexOf('--only'); return (i >= 0 && argv[i + 1]) ? argv[i + 1].split(',') : null; })();
 const DT3 = argv.includes('--dt3');       // 第255便d(N8): dt/4 段を足して 3 段+観測次数を出す
 // 第258便d(第50報 W4): **h8 検査点**。--dt8 id1,id2 で指定した系にだけ dt/8=0.002 の 4 段目を足す。
@@ -363,6 +370,9 @@ function spearman(xs, ys) {
 }
 
 // ================================================================ ブラウザ
+// 第263便c: --regate では**ブラウザも走行も無い**(既存 JSON を読み直して門だけ掛け直す)。
+let decls = [], out = null, report = [];
+if (!REGATE) {
 let browser;
 try { const { chromium } = await import('playwright'); browser = await chromium.launch(); }
 catch { const { chromium } = await import('playwright-core');
@@ -579,7 +589,7 @@ await pg.evaluate((PERI_WINDOW) => {   // 第252便b: 近点間周期の固定�
 }, PERI_WINDOW);
 
 // ---------------------------------------------------------------- サンプル一覧と宣言の読み出し
-const decls = await pg.evaluate(() => HP.allPresets().filter((p) => p.sampleClass === 'calibration').map((p) => ({
+decls = await pg.evaluate(() => HP.allPresets().filter((p) => p.sampleClass === 'calibration').map((p) => ({
   id: p.id, emoji: p.emoji || null, name: p.name || null,
   obsCard: p.obsCard || [], claims: (p.claims || []).map((c) => ({ id: c.id, role: c.role, metric: c.metric,
     expected: c.expected || null })),
@@ -595,7 +605,7 @@ const ids = decls.map((d) => d.id).filter((x) => !ONLY || ONLY.includes(x));
 console.error(`[w249b] 現実較正サンプル ${decls.length} 本 / 走行対象 ${ids.length} 本`);
 
 // ================================================================ 走行
-const out = { meta: {
+out = { meta: {
   wave: '第249便b', target: TARGET, dtBase: DT0,
   budgetSecLight: BUDGET_LIGHT, budgetSecHeavy: BUDGET_HEAVY, orbMax: ORB_MAX,
   budgetNote: '第257便d(第49報): 1 段あたりの計算時間予算の**既定を 30 s → ' + BUDGET_DEFAULT + ' s** にした。'
@@ -757,6 +767,14 @@ out.massFloat32 = { note: '第257便d: S.m は Float32Array である(stateCarry
 
 out.pageErrors = pageErrors;
 await browser.close();
+} else {
+  // ---- --regate: 既存 JSON を正本として読み直す(走行しない)----
+  if (!fs.existsSync(OUT)) { console.error('[w249b] --regate: ' + OUT + ' が無い'); process.exit(1); }
+  out = JSON.parse(fs.readFileSync(OUT, 'utf8'));
+  out.presets = out.presets || [];
+  decls = out.presets.map((p) => ({ id: p.id }));
+  console.error('[w249b] --regate: 既存 ' + out.presets.length + ' 本を読み直す(走行なし・門だけ掛け直す)');
+}
 
 // ================================================================ 判定・相関(node 側)
 const VER = { OK: '合', WIN: '窓', NG: '否', DEP: '従', TR: '転' };
@@ -849,8 +867,8 @@ function classify(q) {
   return null;
 }
 
-const report = [];
-for (const P of out.presets) {
+if (REGATE) report = out.presets;   // 第263便c: 判定済みの表をそのまま持ち込む(作り直さない)
+for (const P of (REGATE ? [] : out.presets)) {
   const d = P.decl, cfg = P.cfg;
   const base = P.runs.find((r) => r.tag === 'dt') || P.runs[0];
   const half = P.runs.find((r) => r.tag === 'dt/2') || null;
@@ -1467,6 +1485,43 @@ const pairs = [];
     } };
 }
 
+// ---------------------------------------------------------------- 第263便c(第55報 W3): σ の張り直し
+// **--regate 専用**。既存の行が持っている `q.sigmaSource`(= 前回の走行で決まった CSV の行の宛先
+// `body|quantity`)をそのまま使って、**CSV を読み直した σ と一次表の印を張り直す**。
+// **宛先そのものは作り直さない**(対応表 SIGMA_BODY / SIGMA_TARGET_BODY を当てるには preset の
+// 宣言と周回体の並びが要り、それは走行の側にしか無い)。だから --regate が検出できるのは
+// 「**すでに繋がっている量の σ が動いたか**」であって、「新しく繋がる量が現れたか」ではない
+// —— 後者は走行が要る。**その限界をそのまま JSON に書く**(sigmaRegate.limitation)。
+// σ の単位換算(近点移動の deg/yr → 判定量)は**線形**なので、新旧の比で送る(0 除算はしない)。
+const sigmaRegate = { on: REGATE, checked: 0, unchanged: 0, changed: [], verifiedFlips: [], noSource: 0,
+  limitation: '既存の `sigmaSource` の宛先だけを見る。**新しく繋がる量(対応表に無い宛先)は走行が要る** '
+    + '—— --regate は「繋がっている σ が動いたか」しか答えない。' };
+if (REGATE) {
+  for (const r of merged) for (const q of (r.quantities || [])) {
+    const src = q.sigmaSource || null;
+    if (!src || !src.body || !src.quantity) { sigmaRegate.noSource++; continue; }
+    sigmaRegate.checked++;
+    const row = SIGMA_TABLE.get(src.body + '|' + src.quantity) || null;
+    const oldSig = (typeof src.sigma === 'number') ? src.sigma : null;
+    const newSig = row ? row.sigma : null;
+    const oldVer = !!q.sigmaPrimaryVerified, newVer = !!(row && row.primaryVerified);
+    const key = `${r.id}|${q.target}|${q.kind}`;
+    if (!row) { sigmaRegate.changed.push({ key, from: oldSig, to: null, reason: 'CSV の行が消えた' }); continue; }
+    // 一次表の印(sigma_primary)
+    if (oldVer !== newVer) sigmaRegate.verifiedFlips.push({ key, from: oldVer, to: newVer });
+    q.sigmaPrimaryVerified = newVer;
+    q.sigmaSource = { body: row.body, quantity: row.quantity, unit: row.unit, sigma: row.sigma,
+      source: String(row.source).slice(0, 90), primaryVerified: row.primaryVerified };
+    if (oldSig === newSig) { sigmaRegate.unchanged++; continue; }
+    sigmaRegate.changed.push({ key, from: oldSig, to: newSig });
+    if (Number.isFinite(q.obsSigmaCsv) && Number.isFinite(oldSig) && oldSig > 0 && Number.isFinite(newSig) && newSig > 0)
+      q.obsSigmaCsv = q.obsSigmaCsv * (newSig / oldSig);   // 換算は線形(比で送る)
+    else if (!Number.isFinite(newSig)) delete q.obsSigmaCsv;
+  }
+  console.error('[w249b] --regate: σ の宛先 ' + sigmaRegate.checked + ' 件 / 変化 '
+    + sigmaRegate.changed.length + ' 件 / 一次表の印の反転 ' + sigmaRegate.verifiedFlips.length + ' 件');
+}
+
 // ---------------------------------------------------------------- 第250便c: I2 の機械門を掛ける
 // 5 区分(合/窓/否/従/転)は**不変**。門は別欄 q.gate に入れる。--merge で持ち越した過去分にも
 // 同じ門を掛けるため、量そのものに残っている値(meas/obs/obsErr/detail/numBoundDt2)だけで判定する。
@@ -1620,6 +1675,7 @@ for (const r of merged) for (const q of (r.quantities || [])) {
 }
 
 out.presets = merged;   // decl/run の生データは残さず、判定済みの表を正本にする
+out.sigmaRegate = sigmaRegate;   // 第263便c: --regate で σ を張り直した記録(既定は on:false)
 // ---- 第250便c: 量の総数と、I2 の機械門の集計(5 区分の tally はそのまま残す)----
 const allQ = merged.flatMap((r) => r.quantities || []);
 const gateStatus = {}; for (const v of Object.values(GATE)) gateStatus[v] = 0;

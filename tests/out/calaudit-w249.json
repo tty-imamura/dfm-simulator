@@ -36967,12 +36967,17 @@
   "unmatchedKeys": [],
   "file": null,
   "fields": [
+   "dataset",
    "usedForFit:false",
    "validation:\"held-out\"",
-   "dataset",
+   "units",
+   "covariance",
+   "extractor",
+   "codeHash",
    "frozenProtocol:{commit,harness,window}",
    "recordedAt"
   ],
+  "declaredBefore": "**宣言は測定前にブリーフで行う**(器は記録するだけである)。後から「これは fit に使っていない」と書き足すのは**後付けの hold-out** であって宣言ではない。",
   "note": "**記録器あり・記録 0 件**。第258便d の「宣言が無いので 0 件」は、**宣言する場所が無かった**ことと区別が付かなかった —— 第259便d で枠を作り、区別が付くようにした。**中身は空のまま出荷する**: 過去に測った値を後から「fit に使っていない」と宣言すると**後付けの hold-out** になるからである(hold-out は観測値を見る前に手順を凍結したことに意味がある)。宣言は**測る前**に `--record-evidence` で入れる。**「予測が 0 件」ではなく「記録が 0 件」である** —— この 2 つを台帳でも混ぜない。"
  },
  "conditionMismatch": {
@@ -38395,5 +38400,14 @@
   },
   "rule": "**4 値**(合/量限定合/否/保留)。「合」は**その系の σ を持つ判定量がすべて 3σ を通った**ときだけ。「量限定合」は一部の量だけが通った系。「否」は 3σ を外した量がある系。「保留」は**判定できない**系(σ 未接続・写像未確定・数値精度・未測定・条件不一致)——**保留は否定ではない**(物理仮説が否定されたという意味ではまったくない)。",
   "note": "docs/CALIBRATION_VERDICT_v1.44.md はこの欄の転記である(QA docs.calibration-verdict-sync が照合する)。"
+ },
+ "sigmaRegate": {
+  "on": true,
+  "checked": 35,
+  "unchanged": 35,
+  "changed": [],
+  "verifiedFlips": [],
+  "noSource": 279,
+  "limitation": "既存の `sigmaSource` の宛先だけを見る。**新しく繋がる量(対応表に無い宛先)は走行が要る** —— --regate は「繋がっている σ が動いたか」しか答えない。"
  }
 }

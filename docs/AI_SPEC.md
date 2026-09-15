@@ -970,6 +970,21 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 - **geoPN=3(トイの測地線モード・第259便a)**: `CLAMPS.geoPN` の上限が 3 になったが、**3 は宣言だけでは通らない**。
   - **受理条件**: (a) `sampleClass:"calibration"` では**拒否**、(b) `physics.spaceMesh.lawVersion` の宣言が無ければ
     **従来どおり 2 へ丸めて警告**、(c) `kFrame>0` は拒否、(d) `spaceMesh.inertia`・`weave` との併用は拒否(**重複適用禁止**)。
+  - **第263便a — 明示キー `physics.spaceMesh.toyAllowDrag`(true/false・既定 false)**: 受理条件 **(c) だけ**を開ける
+    診断用の鍵である(第55報の仮説「コンパクト連星では geoPN=3 の適用となり引きずりが弱まって kFrame≈0.7」を**測る**ため)。
+    - **(a) は開かない**: `sampleClass:"calibration"` では **geoPN の値に依らず**この鍵そのものを拒否する。
+    - 受理すると**警告 1 行**が必ず出る —— **E6′ の追従キックとトイが同じ步で重なる**(`_core` から見た geoPN は 0 なので
+      legacy E6′ が走る)。**二重計上の可能性がある診断構成**であって、法則の宣言ではない。
+    - 実行時の読み口は **`S.geoToyOverlay==="drag"`**(重畳中)/ `null`(重畳なし)で、**ステップ会計(HUD)に `overlay:drag` が出る**。
+      `S.geoToyDeny` は重畳中は `null` になる(= 入場した)。
+    - **既定(未宣言)は 1 bit 不変**: 内蔵プリセットで宣言する本は 0 本・正準形(physics 署名)にも出ない。
+      **`toyGain:0` との組み合わせは legacy E6′ だけの走行と状態ビット同一**であり、これが重畳の対照である。
+    - **較正候補ではない**(Negative Claim 27/39 を維持する)。QA `behavior.geoToyOverlay` が門と対照と読み口を機械固定する。
+  - **保存の非対称(第263便b — 契約は変えていない・読み口を足しただけ)**: **UI で 3 にした値は実行中は 3 のまま**
+    走る(第262便a)が、**保存 JSON に `physics.spaceMesh.lawVersion` の宣言が無ければ、読み込み時に 2 へ丸められる**
+    (上の受理条件 (b))。この非対称を、パラメータタブの geoPN 行の直下に**表示専用の 1 行**(`geoToySaveNote`・
+    ja/en)として常設した。**プリセット署名(presetSig)にも `S.params` にも 1 bit も効かない**
+    (QA `ui.geoToySaveNote` が「geoPN 行の直後にある・ja/en で別の文言・署名不変・『較正』を名乗らない」を機械固定する)。
   - **dispatch**: 受理された 3 は **`S._core` から見ると 0**(`geoCoreDispatch` が `_core` の呼び出しの間だけ
     `S.params.geoPN` を 0 にして戻す)。よって `geo`・`geo2`・特別化②(pairCorePN)のどれも立たず、**`S._g2` も確保されない**。
     **`S.params.geoPN` は `_core` の外では 3 のまま**なので、保存・エクスポート・UI は宣言値をそのまま読む。
@@ -979,6 +994,13 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     **粒子とメッシュの運動量を同時更新する契約**で、ΔP・ΔL・離散仕事の厳密な負を同じ步にメッシュ帳簿
     (`S.geoToyMeshPx/Py/L`・`S.geoToyEmesh`)とリザーバへ記帳する。読み口は `S.geoToyStop`/`N`/`Chi`/`Dv`/`E`。
     **`lawVersion:"complex"` は接続しない**(`S.geoToyStop="complexNotVelocity"` —— A は速度ではない)。
+- **支配度の器(第263便a — `HP.dfmDominance(bodies, opts)`)**: 「支配天体が 1 つかどうか」を**測れる形**にした純関数。
+  `bodies=[{m,x,y,vx,vy}]`・`opts={p, eps, D0}`(既定 p=2・eps=0・D₀=0)。**3 つの軸を別々に返す**(1 つの数に畳まない):
+  **①`massRatio`=m₁/(m₁+m₂)**(質量上位 2 体)・**②`chiBias`=χ₂/(χ₁+χ₂)**(χ_i=Σ_{j≠i}w_j/(D₀+Σ_{j≠i}w_j)・
+  w_j=m_j/(d_ij²+ε²)^{p/2} は**エンジンの pull 重みと同じ式**)・**③`uAlign`=(u₂·v₁)/|v₁|²**(u₂ は自己除外の正規化平均)。
+  併せて `chiTop`/`chiSecond`/`massFracTotal`/`uMagRatio`/`chi[]` を返す。`dominance` は **① の別名**であって合成指標ではない。
+  **二体では ③ は χ₂ と恒等に一致し、D₀=0 では厳密に 1 になる**(u₂=v₁ —— 〔第262便a ②〕)。
+  **m≤0 の源と n<2 は null**(0 で埋めない)。**力へは 1 バイトも接続せず、この数で法則を分岐する経路は実装していない。**
 - **除去の段階(第259便a — `physics.spaceMesh.inertiaRemoval`)**: `"post"`(既定 = 第258便a・`S._core` の後で引く)/
   `"inStep"`(**当てた段階で引く** —— `dragHookKick` は `_core` が速度へ書く直前、`dragHookApply` は ③/③′ が
   書く直前に呼ばれるので、そこで先に引く/取り分を 0 にする)。実測では **η=0(除去だけ)が kFrame=0(支えなし)と
@@ -1092,6 +1114,25 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     **`Math.fround` 後**(Σm は Float32 の `S.m` に入る)で検査し、通らなければ
     `layerNotFinite`/`sumNotFinite` で拒否する。**検査は書き込みの前**なので、拒否時は元の状態が
     1 bit も動かない(旧実装は Infinity を受理して根の m を Infinity にしていた)。
+  - **負質量の粒子は層に写せない(規約 —— 第263便b で恒久規約に上げた)**: `coreV2MigrationPlan` は
+    `m<0` を **`bodyMassNegative`** で拒否する(第262便b の実装)。理由は層の側の契約である ——
+    `applyLayerEdit` は `layerNotPositive`/`sumNotPositive` で正の m しか受けず、
+    **Σ層 m = 根の m**(Σm 契約)は符号ごと成り立たなければならない(旧実装は |m| を使ったので
+    負質量の粒子を移行すると Σ層 m>0 になり、**重力の符号が黙って反転**した)。
+    **負 m の粒子そのものは従来どおり受理する** —— 変わったのは「層へ写せない」ことだけである
+    (`m<0` は JSON でも `#beM` 欄でも書ける)。将来これを緩めるなら**明示キーの opt-in**
+    (例 `body.layersAllowNegativeMass:true`)を立てて、Σm 契約と重力符号の扱いを宣言の側に
+    引き受けさせる形にする —— **本便では実装していない**(そのキーは未定義で、書いても検証器は無視する)。
+  - **`coreOutsideShell` は「観測半径 = コア半径」の別名である(規約 —— 第263便b で明文化)**:
+    `Rc ≥ R` のときの拒否理由コードで、**等号(Rc=R)を含む**。「コアが殻の外に出ている」場合だけを
+    指す名前ではない。層の正準形は r 昇順・非重複なので、Rc=R では 2 層に分けられない
+    (1 層に潰すと外殻の m が 0 になり、観測半径 R が層に載らない)。内蔵でこれに当たるのは
+    **🦀 crabRemnant(Rc=R=0.01)の 1 本だけ**である(第262便b の移行レポートの「拒否 1」)。
+  - **`HP.dfmBinaryChi` の第 6 引数 0 は非推奨である(第263便b)**: 0(旧 share の番兵)は
+    **1 と同じ核**(w=1/√(a²+ε²))で計算し、**返り値は 1 bit も変わらない**
+    (QA `behavior.framePull` が p=0 と p=1 の `Object.is` を見る)。第263便b からは、0 が来たときに
+    **セッションに 1 度だけ `console.warn` を 1 行**出す(値も経路も変えない・`console.error` ではない)。
+    新しい呼び出しは **share なら 1・pull なら 2/3/4** を渡す。
   - **`body.core`(コア V2)は廃止予定である。新しい宇宙では `body.layers`(親子コア)が正である。**
     **ただしコア V2 を消してはいない** —— 内蔵プリセットの `core:{…}`(**121 本のうち 33 本・75 の body 宣言**)は
     1 文字も変わっておらず、検証器も従来どおり受理する。移行は**編集パネルの明示操作と上の純関数でだけ**起きる。
@@ -1481,6 +1522,18 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     (門(4)・読み口は `gates.g4.methodMissing` / `gates.g4.methodSameAsExtractor`)。
     (c) `systematic` は**非負の有限数として明示宣言**する(省略は 0 ではない。門(5)・読み口は
     `gates.g5.systematicDeclared`)。
+  - **第263便d: 上の必須入力 3 つを恒久契約にする(2026-09-14・第55報)**。第262便c は
+    「本便から必須にする」と書いたが、**これを版をまたいで守る規約として固定する**:
+    **① 門は厳しくなる方向にしか動かない。** 欠落した欄を 0 や `false` と読み替える緩和は
+    **今後も入れない**(「宣言していない」と「0 であると宣言した」は別である)。
+    **② 3 つの必須入力は撤回しない** —— `excluded` の **5 鍵すべて**の明示・
+    `independent.method` が**空でなく `fixed.extractor` と別名**であること・
+    `systematic` の**非負有限数としての明示**。鍵を増やすことはあっても、減らさない。
+    **③ 緩めるときは「門を緩めた」と明記して別の関数名にする**(同じ `dfmForecastGate` の名前で
+    判定が甘くなることを禁じる)。**④ 通る件数は増えない**: 第262便c の実測で **NS 4 系は
+    独立推定を入れても 1 件も通らない**(`tests/out/independent-w262c.json`)。
+    **この契約は「門を通れば観測と合った」を意味しない**(門(5) を通ることは
+    「精度向上で合格見込み」の宣言資格であって、3σ の合格そのものではない)。
   - **生成 AI はこれらを使わない**(`calibrationForecast` は台帳の宣言で、生成対象の物理キーではない。
     `dfmForecastGate` は器の純関数である)。QA `behavior.calibrationForecast` が
     合成データの合格例・**否定対照 13 本**(第262便c で 6 本追加 —— 除外欄なし / 除外欄が 4 鍵だけ /
