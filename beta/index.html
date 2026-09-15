@@ -35617,6 +35617,16 @@ function dfmField(state,px,py,opts){
 //   **抽出法(fixed.extractor)と同じ名前は独立と認めない**(同じ抽出器を別名で通さない)、
 //   (c) `systematic` は**非負の有限数として宣言**すること(省略は 0 ではない)。
 //   **これは誤認定を防ぐ修正であって、通る件数を増やす変更ではない**(門は厳しくなる方向にしか動かない)。
+// ■ 第264便d(第56報・統括の裁定): **欠損の観測値を 0 と読まない・文字列の σ を受け取らない**
+//   門(5) は `Number(S.yObs)` と `Number(S.sigma)` で読んでいた。JavaScript の `Number` は
+//   **`null` も `""` も 0 に変える**ので、**観測値を宣言し忘れた系列が「y_obs=0」として判定に入り**、
+//   `|y∞−0|+U∞ ≤ 3σ` を偶然通る道が空いていた(欠損が合格になりうる = 検査が空振りする)。
+//   文字列の `"1e-3"` も同じ経路で σ になっていた(**σ は宣言された数であって、字面ではない**)。
+//   本便で **`typeof v === "number"` かつ有限**でなければ受け取らないようにする:
+//     ・`yObs` が `null` / `undefined` / `""` / 文字列 / NaN → **門(5) は通らない**(`yObsDeclared:false`)。
+//     ・`sigma` が数でない、または ≤0 → 同じく通らない(`sigmaDeclared:false`)。
+//   **門は厳しくなる方向にしか動かない**(恒久契約 4 項)。通っていた系列が落ちることはあっても、
+//   落ちていた系列が通ることはない。
 // ■ 出力
 //   { ok, verdict, gates:{g1..g5}, p, pShifts, yInf, uInf, residual, distanceSigma, failed[] }
 function dfmForecastGate(series){
@@ -35680,20 +35690,26 @@ function dfmForecastGate(series){
     methodMissing:(ind!==null&&indM===null), methodSameAsExtractor:indSameName,
     what:"Richardson を段をずらして比較し、独立推定(**別名で宣言された**別積分法/別抽出法)と照合する"};
   // ---- 門(5): |y∞−y_obs| + U∞ ≤ 3σ
-  const yObs=Number(S.yObs), sg=Number(S.sigma);
+  // 第264便d: **宣言された数だけを受け取る**(`Number(null)===0` / `Number("")===0` を踏まない)。
+  const numDecl=(v)=>((typeof v==="number"&&Number.isFinite(v))?v:NaN);
+  const yObs=numDecl(S.yObs), sg=numDecl(S.sigma);
+  const yObsDeclared=Number.isFinite(yObs), sigmaDeclared=(Number.isFinite(sg)&&sg>0);
   // 第262便c(検証仮説 (5)): 系統幅は **非負の有限数として宣言**されていなければならない(省略は 0 ではない)
   const sysOk=(Number.isFinite(S.systematic)&&Number(S.systematic)>=0);
   const sys=sysOk?Number(S.systematic):0;
   const u=(extSpread===null&&indDiff===null)?null:((extSpread||0)+(indDiff||0)+sys);
   out.uInf=u;
-  const dist=(out.yInf!==null&&Number.isFinite(yObs))?Math.abs(out.yInf-yObs):null;
+  const dist=(out.yInf!==null&&yObsDeclared)?Math.abs(out.yInf-yObs):null;
   out.residual=dist;
-  out.distanceSigma=(dist!==null&&Number.isFinite(sg)&&sg>0)?((dist+(u||0))/sg):null;
-  out.gates.g5={pass:(sysOk&&dist!==null&&u!==null&&Number.isFinite(sg)&&sg>0&&(dist+u)<=3*sg),
-    residual:dist, uInf:u, sigma:(Number.isFinite(sg)&&sg>0)?sg:null, nSigma:out.distanceSigma,
-    systematicDeclared:sysOk,
+  out.distanceSigma=(dist!==null&&sigmaDeclared)?((dist+(u||0))/sg):null;
+  out.gates.g5={pass:(sysOk&&yObsDeclared&&sigmaDeclared&&dist!==null&&u!==null&&(dist+u)<=3*sg),
+    residual:dist, uInf:u, sigma:sigmaDeclared?sg:null, nSigma:out.distanceSigma,
+    systematicDeclared:sysOk, yObsDeclared:yObsDeclared, sigmaDeclared:sigmaDeclared,
+    yObsKind:(S.yObs===undefined?"undefined":(S.yObs===null?"null":typeof S.yObs)),
+    sigmaKind:(S.sigma===undefined?"undefined":(S.sigma===null?"null":typeof S.sigma)),
     uParts:{extrapolationSpread:extSpread, independentDiff:indDiff, systematic:sys},
-    what:"|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない・系統幅は非負有限の**明示宣言**)"};
+    what:"|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない・系統幅は非負有限の**明示宣言**・"
+      +"**y_obs と σ は宣言された有限の数**でなければならない —— 欠損を 0 と読まない・文字列を受け取らない)"};
   const keys=["g1","g2","g3","g4","g5"];
   out.failed=keys.filter((k)=>!out.gates[k].pass);
   out.ok=(out.failed.length===0);

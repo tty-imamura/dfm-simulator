@@ -49,6 +49,11 @@ import { GATE, VERDICT_CONDITION, VERDICTS6, YEAR_SEC, enforceAllConditions,
   // 第259便d(第51報 W4): 証拠付き予測の**記録器**(枠だけ — 中身は空で出荷する)
   emptyEvidenceRegistry, recordEvidence, applyEvidenceRegistry,
   validatePredictionEvidence } from './lib-w258d-evidence.mjs';
+// 第264便d(第56報 W4・統括の裁定 X6/X7/⑥): `sigma_primary` の印の**厳密読み**(語境界+凡例除外+先頭一致)・
+// `verified_by` の規約読み・`sigma_kind`(informational な尺度)を **1 本の純関数**にまとめた。
+// 門・σ 接続器・会計器の 3 器が**同じ 1 本**を読む(読み方が器ごとに違わないようにする)。
+import { isSigmaPrimaryVerified, legacyIsSigmaPrimaryVerified, readSigmaMark,
+  readVerifiedBy, readSigmaKind } from './lib-w264d-sigmamark.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -183,9 +188,17 @@ const ECC_TIMING_BINARY = new Set([
 // (J1757/J1946 の 2026 年版)は**最初の行**だけを採る — プリセットが使っているのがその行だから。
 // sigma_primary=verified/unverified は CSV の note に書いてある機械可読な印で、門の sourceVerified
 // (一次表の照合が済んでいるか)へそのまま渡す。
+// 第264便d(X6): `primaryVerified` は **`lib-w264d-sigmamark.mjs` の厳密読み**で決める
+// (語境界 + 第251便c の凡例文を除外 + 先頭一致)。旧読み(部分一致)との差は `sigmaMarkAudit` に残す。
+const sigmaMarkAudit = { rows: 353, legacyVerified: 0, strictVerified: 0, flips: [],
+  verifiedByMissing: [], legendRows: 0,
+  rule: '語境界つきの `sigma_primary=<語>` を全部拾い、直後が `means` の出現(第251便c の凡例)を除いた'
+    + '**最初の出現**を行の印とする。無印は verified ではない。',
+  note: '**印を上げ下げしていない** —— 読み方を直しただけである(`verified` にするのは原仮定者の照合)。' };
 function loadSigmaTable() {
   const txt = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8');
   const m = new Map();
+  sigmaMarkAudit.rows = 0;
   for (const line of txt.split('\n')) {
     if (!line.trim() || line.startsWith('body,')) continue;
     const cols = []; let cur = '', inQ = false;
@@ -196,12 +209,31 @@ function loadSigmaTable() {
       else cur += ch;
     }
     cols.push(cur);
+    const note = cols[7] || '';
+    // ---- 第264便d(X6): 厳密読みと旧読みの差を全行で数える(**判定の前に数える**)----
+    sigmaMarkAudit.rows++;
+    const mk = readSigmaMark(note), lg = legacyIsSigmaPrimaryVerified(note);
+    if (mk.legend.length) sigmaMarkAudit.legendRows++;
+    if (lg) sigmaMarkAudit.legacyVerified++;
+    if (mk.verified) sigmaMarkAudit.strictVerified++;
+    if (mk.verified !== lg) sigmaMarkAudit.flips.push({ body: cols[0], quantity: cols[1],
+      legacy: lg ? 'verified' : 'unverified', strict: mk.mark, hasSigma: (cols[8] || '').trim() !== '' });
+    // ---- 第264便d(X7): `verified` なのに `verified_by=` が無い行(**警告**であって拒否ではない)----
+    const vb = readVerifiedBy(note);
+    if (vb.warn) sigmaMarkAudit.verifiedByMissing.push({ body: cols[0], quantity: cols[1],
+      hasSigma: (cols[8] || '').trim() !== '' });
     const key = cols[0] + '|' + cols[1];
     if (m.has(key)) continue;                       // **最初の行**を採る(別版レコードは混ぜない)
     const sg = (cols[8] !== undefined && cols[8].trim() !== '') ? Number(cols[8]) : null;
+    const kind = readSigmaKind(note);
     m.set(key, { body: cols[0], quantity: cols[1], value: Number(cols[2]), unit: cols[3],
+      // 第264便d: **空欄の value を 0 と読ませない**(`Number('')` は 0 である)。
+      valueRaw: (cols[2] !== undefined && String(cols[2]).trim() !== '') ? Number(cols[2]) : null,
       source: cols[4], sigma: (Number.isFinite(sg) && sg > 0) ? sg : null,
-      primaryVerified: /sigma_primary=verified/.test(cols[7] || '') });
+      primaryVerified: isSigmaPrimaryVerified(note),
+      verifiedBy: vb.present ? vb.who : null, verifiedAt: vb.at, verifiedValue: vb.value,
+      sigmaKind: kind.kind, infoScale: kind.scale, infoScaleKind: kind.scaleKind,
+      digits: kind.digits, note });
   }
   return m;
 }
@@ -238,8 +270,26 @@ const SIGMA_QUANT = { period: 'orbital_period', ecc: 'eccentricity', precession:
 // `obsSigmaCsv` は 1 件も立たない = 門の判定は 1 bit も変わらない。
 // **切れているのは対応表ではなく CSV の sigma 列と行そのものである**ことを、
 // `tests/exp-w262d-solarsigma.mjs` が数で示す(合 0 / 量限定合 0 / 否 0 / 保留 16)。
+// ---------------------------------------------------------------- 第264便d(第56報 W4・統括の読み (E))
+// **2026-09-15 intake で CSV に行が入った天体を宣言表へ足した**(月・地球・水星・ガリレオ 4 衛星・
+// 土星系 4 対象)。第262便d と同じ理由で **値は 1 つも動かない**: ここで繋がる CSV 行は
+// **sigma 列が全部空欄**なので、`applySigma` は `sigmaSource` と `sigmaNote` を書くだけで
+// `obsSigmaCsv` は 1 件も立たない = 門の判定は 1 bit も変わらない。
+// **宣言であって推測ではない** —— CSV に行が無い対象はここに書かない。
 const SIGMA_TARGET_BODY = {
   'venusReal|金星': 'Venus', 'solarInner|金星': 'Venus', 'solarInner|火星': 'Mars',
+  // 第264便d: 2026-09-15 intake で行が入った対象
+  'earthMoonReal|月': 'Moon', 'earthMoonRealKF1|月': 'Moon', 'emAuditDFM|月': 'Moon',
+  'emAuditSolar|月': 'Moon',
+  'mercuryReal|水星': 'Mercury', 'mercuryRealKF1|水星': 'Mercury', 'solarInner|水星': 'Mercury',
+  'solarInner|地球': 'Earth',
+  'jupiterGalilean|イオ': 'Io', 'jupiterGalilean|エウロパ': 'Europa',
+  'jupiterGalilean|ガニメデ': 'Ganymede', 'jupiterGalilean|カリスト': 'Callisto',
+  'saturnZonalD68|D68': 'Saturn ring feature D68',
+  'saturnRingReal|ミマス': 'Mimas', 'saturnRingRealKF1|ミマス': 'Mimas',
+  'saturnRingReal|タイタン': 'Titan', 'saturnRingRealKF1|タイタン': 'Titan',
+  'saturnRingReal|C環内縁': 'Saturn ring C inner edge',
+  'saturnRingRealKF1|C環内縁': 'Saturn ring C inner edge',
   'marsMoonsReal|フォボス': 'Phobos', 'marsMoonsReal|ダイモス': 'Deimos',
   'plutoCharonReal|カロン': 'Charon',
   'uranusReal|ミランダ': 'Miranda', 'uranusReal|アリエル': 'Ariel',
@@ -1527,6 +1577,74 @@ if (REGATE) {
     + sigmaRegate.changed.length + ' 件 / 一次表の印の反転 ' + sigmaRegate.verifiedFlips.length + ' 件');
 }
 
+// ---------------------------------------------------------------- 第264便d(第56報 W4・統括の裁定 ⑥)
+// **informational 距離**。σ を持たない宛先でも、note に「同じ量の別転写との隔たり」(`spread=`)や
+// 「古い版の 1σ」(`older_sigma=`)が書いてあることがある。**それは σ ではない**ので門には入れない。
+// だが「どのくらい外れているか」の目盛りとしては読めるので、**別欄**に距離を出す。
+//
+// **絶対規約**: この欄は 4 値にも `q.gate` にも 1 bit も触らない。`spread` を σ として判定しない。
+//
+// 尺度の出どころ(**宣言** — 上から順に見て最初に見つかったものを使う):
+//   ① 宛先の行そのものの note(`spread=` / `older_sigma=`)
+//   ② 2026-09-15 intake の**候補行** `<body>|<量>_candidate` の note
+//      (既存の採用レコードは 1 バイトも動かさない約束なので、隔たりは候補行の側に書いてある)
+// 単位橋(**線形**): 尺度は CSV の単位で書いてあるので、判定量の単位へは
+//   `scale × |q.obs| / |row.value|` で送る(同じ測定量の単位換算 —— 比が定義できないときは出さない)。
+const infoDistance = { on: true, rows: [], byTier: {}, skipped: {},
+  rule: '尺度は ① 宛先の行の note、② 2026-09-15 intake の候補行 の順に探す。'
+    + '単位橋は `scale × |obs| / |csv value|`(線形)。',
+  doNotWrite: ['spread を σ として判定した', 'informational 距離で合格した', '太陽系の較正が進んだ'],
+  note: '**judgement は informational** —— 4 値・`q.gate`・合否には 1 bit も入らない。' };
+{
+  const bump = (m, k) => { m[k] = (m[k] || 0) + 1; };
+  // 宛先の解き方(**宣言表のまま** — 推測で当てない)。`q.sigmaSource` があればそれを使い、
+  // 無ければ第262便d の `SIGMA_TARGET_BODY` / 第251便c の `SIGMA_BODY` と量の対応表で解く
+  // (--regate は走行しないので `sigmaSource` が入っていない行がある —— 太陽系がまさにそれである)。
+  const INFO_QUANT = Object.assign({ spin: 'rotation_period' }, SIGMA_QUANT);
+  for (const r of merged) for (const q of (r.quantities || [])) {
+    let src = q.sigmaSource || null;
+    if (!src || !src.body || !src.quantity) {
+      const b = SIGMA_TARGET_BODY[r.id + '|' + q.target] || SIGMA_BODY[r.id] || null;
+      const qq = INFO_QUANT[q.kind] || null;
+      if (!b || !qq) { bump(infoDistance.skipped, 'no-declared-destination'); continue; }
+      src = { body: b, quantity: qq, resolvedFrom: 'declaration-table' };
+    }
+    const row = SIGMA_TABLE.get(src.body + '|' + src.quantity) || null;
+    if (!row) { bump(infoDistance.skipped, 'csv-row-missing'); continue; }
+    if (row.sigma !== null) { bump(infoDistance.skipped, 'has-primary-sigma'); continue; }
+    let scale = row.infoScale, scaleKind = row.infoScaleKind, from = 'destination-row';
+    if (scale === null) {
+      const cand = SIGMA_TABLE.get(src.body + '|' + src.quantity + '_candidate') || null;
+      if (cand && cand.infoScale !== null) {
+        scale = cand.infoScale; scaleKind = cand.infoScaleKind; from = 'intake-candidate-row';
+      }
+    }
+    if (scale === null) { bump(infoDistance.skipped, 'no-informational-scale'); continue; }
+    if (!(Number.isFinite(q.obs) && Number.isFinite(q.meas))) {
+      bump(infoDistance.skipped, 'no-obs-or-meas'); continue; }
+    const rv = Number(row.valueRaw);
+    if (!(Number.isFinite(rv) && rv !== 0)) { bump(infoDistance.skipped, 'no-unit-bridge'); continue; }
+    const bridge = Math.abs(q.obs / rv);
+    const scaleJudged = scale * bridge;
+    if (!(Number.isFinite(scaleJudged) && scaleJudged > 0)) {
+      bump(infoDistance.skipped, 'scale-not-convertible'); continue; }
+    const dist = Math.abs(q.meas - q.obs) / scaleJudged;
+    infoDistance.rows.push({ id: r.id, emoji: r.emoji, target: q.target, kind: q.kind, name: q.name,
+      csvBody: src.body, csvQuantity: src.quantity, scale, scaleKind, scaleFrom: from,
+      unitBridge: bridge, scaleInJudgedUnit: scaleJudged,
+      residual: Math.abs(q.meas - q.obs), infoDistance: dist,
+      gateStatus: (q.gate || {}).status || null,
+      judgement: 'informational' });
+    q.infoDistance = { value: dist, scale: scaleJudged, scaleKind, scaleFrom: from,
+      judgement: 'informational',
+      why: '**σ ではない尺度**(同じ量の別転写との隔たり/古い版の 1σ)で割った距離。門には入らない。' };
+  }
+  console.error('[w249b] informational 距離: ' + infoDistance.rows.length + ' 量'
+    + '(尺度なし ' + (infoDistance.skipped['no-informational-scale'] || 0)
+    + ' / obs か実測なし ' + (infoDistance.skipped['no-obs-or-meas'] || 0)
+    + ' / 一次 σ あり ' + (infoDistance.skipped['has-primary-sigma'] || 0) + ')');
+}
+
 // ---------------------------------------------------------------- 第250便c: I2 の機械門を掛ける
 // 5 区分(合/窓/否/従/転)は**不変**。門は別欄 q.gate に入れる。--merge で持ち越した過去分にも
 // 同じ門を掛けるため、量そのものに残っている値(meas/obs/obsErr/detail/numBoundDt2)だけで判定する。
@@ -1681,6 +1799,9 @@ for (const r of merged) for (const q of (r.quantities || [])) {
 
 out.presets = merged;   // decl/run の生データは残さず、判定済みの表を正本にする
 out.sigmaRegate = sigmaRegate;   // 第263便c: --regate で σ を張り直した記録(既定は on:false)
+// 第264便d(X6/X7/⑥): 印の厳密読みの会計・`verified_by` の欠けている行・informational 距離
+out.sigmaMarkAudit = sigmaMarkAudit;
+out.infoDistance = infoDistance;
 // ---- 第250便c: 量の総数と、I2 の機械門の集計(5 区分の tally はそのまま残す)----
 const allQ = merged.flatMap((r) => r.quantities || []);
 const gateStatus = {}; for (const v of Object.values(GATE)) gateStatus[v] = 0;

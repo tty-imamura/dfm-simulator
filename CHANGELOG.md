@@ -33,8 +33,11 @@
   **内蔵 122 本 × 600 步は基点 99286dc とビット同一**・`S._core` は 35197 字のまま 1 命令も増えていない・jitprobe A/B 比 galaxyGeo2 ×0.98・bhCore ×1.01・galaxyMeshSpiral ×1.10・gw150914DFM ×1.19(門 1.5× 内)。
   QA 新設 `behavior.layerRotationSource`・`behavior.coreV2ReplaceReport`・`ui.bodyLayerNumbers`。
   **「コア V2 を廃止できる」「層 J をベクトル化した」「K_cs・熱・能動系を層へ移した」とは書かない。**
+- **第264便d(2026-09-15・第56報 W4)**: 原仮定者が提供した観測レコード(2026-09-15 intake・2 系統)の**照合と転写**。2 系統を機械で突き合わせ(鍵 106 組 = 一致 50 / 片方のみ 26 / 食い違い 30)、`paper/data/solar-observations.csv` へ **154 行を追記**(既存行は 1 バイトも変えていない — 既存の鍵と同じものは `<量>_candidate` の候補行)。**一次資料に印字された 1σ を持つ行は 10 行**で、印はすべて `sigma_primary=unverified`(**verified は 1 行も増えていない**)。第263便c の不足表 68 組は「σ つきで埋まった 3 / 埋まった(σ なし)53 / 定義違い 8 / 定義不能 1 / 代替 3 / 未取得 0」。`sigma_primary` の印を**厳密読み**(語境界+凡例文の除外+先頭一致)に統一し、3 器が同じ 1 本(`tests/lib-w264d-sigmamark.mjs`)を読むようにした(**旧読みで verified と読まれていた 3 行が unverified へ**・門の σ 宛先 35→35・4 値も門の内訳も 1 件も動かない)。`HP.dfmForecastGate` の門(5) が**欠損の観測値を 0 と読まない・文字列の σ を受け取らない**ようになった(門は厳しくなる方向のみ)。calaudit に **informational 距離**(`spread`/`older_sigma` を尺度にした距離・**σ ではない**・判定に使わない)を別欄で追加(太陽系 17 量)。perf の凍結参照を **99286dc(タグ v1.44.0)**へ付け替え(退行なし: 自己対照 ×0.863/×0.844・凍結基準対候補 ×0.993/×0.896)。夜間/手動 yaml `.github/workflows/nightly.yml` を新設(**`ci.yml` は 1 文字も変えていない**)。新 QA 4 件(`lint.sigmaMark` / `docs.intakeA-sync` / `behavior.forecastGateMissing` / `version.promote-check`)。**全内蔵 122 本 × 600 步はビット同一**・`S._core` は 35197 字のまま。**「太陽系の σ が揃った」「Release した」とは書かない。**
 
 ## v1.44.0(RC・2026-09-14)
+
+タグ v1.44.0(99286dca69ac0dc6ae180475077ad699fac3a2a3・2026-09-15 発行)。**検証版(RC)のタグである**(HOLD 6 項の解除宣言は行っていない)。
 
 **更新前の注意**: β版とルート版は同一オリジンで localStorage(セーブ・APIキー)を共有する。
 大きな更新の前にはセーブタブから JSON エクスポートでのバックアップを推奨する。

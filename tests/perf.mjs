@@ -36,6 +36,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { execSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
@@ -513,18 +514,55 @@ const abJitFreshCell = async (target, pid, mode) => {
   try { return await abJitCell(page, pid, mode); }
   finally { await page.close(); }
 };
+// ---- 第264便d(第56報 W4・統括の裁定 X11): **凍結参照を昇格コミットへ付け替える** ----
+// 〔第261便d〕〔第262便d〕までの凍結参照は **09899d2**(第261便の基点)だった。第263便で
+// v1.44 検証版(RC)が root へ昇格し、**root `index.html` ≡ `beta/index.html` ≡ `99286dc:beta/index.html`**
+// になったので、凍結参照を **99286dc(タグ v1.44.0)** へ付け替える。
+// **SHA と sha256 をここに宣言として固定する**(QA `lint.perfAbJit` が値を機械で見る)。
+//
+// **書かないこと**: 「root-fallback を凍結扱いにした」。付け替えたのは**参照する SHA** であって、
+// 判定の格ではない —— `root-fallback` は今までどおり `informational` のままである
+// (root は次の昇格で動くので、「凍結」と呼べるのは `git show <SHA>` で取り出した側だけである)。
+//
+// **今この時点では root と凍結 html の中身が一致している**(昇格直後だから)。それは偶然の一致で
+// あって、`root-fallback` を凍結扱いしてよい理由にはならない。
+const ABJIT_FROZEN_REF = {
+  sha: '99286dc', tag: 'v1.44.0',
+  fullSha: '99286dca69ac0dc6ae180475077ad699fac3a2a3',
+  // 昇格コミットの root `index.html`(= `beta/index.html`)の sha256
+  rootSha256: 'f68b9cb87ef233184938b4e049432651b93296da6ff6be058f888126dccc99ad',
+  previous: '09899d2',
+  how: 'tests/ci-frozen-baseline.sh 99286dc tests/perf-baseline/index.html',
+  judgementWhenPresent: 'gate', judgementWhenAbsent: 'informational(root-fallback)',
+  note: '**凍結参照の SHA を付け替えただけ**で、しきい値(自己対照 4 / 対 html 1.5)は 1 つも動かしていない。',
+};
 // (b) の基準 html を決める(**決め方そのものを JSON に残す**)
 const abJitBaseline = (() => {
   const envPath = process.env.PERF_ABJIT_BASELINE || '';
   const cand = envPath ? [envPath] : [path.join('tests', 'perf-baseline', 'index.html')];
   for (const c of cand) {
     const abs = path.isAbsolute(c) ? c : path.join(ROOT, c);
-    if (fs.existsSync(abs)) return { target: path.relative(ROOT, abs), kind: 'frozen-file',
-      note: '凍結 html(固定 SHA の beta/index.html を取り出したもの)。**CI では再現できない**ので opt-in である。' };
+    if (fs.existsSync(abs)) {
+      let sha = null;
+      try { sha = crypto.createHash('sha256').update(fs.readFileSync(abs)).digest('hex'); } catch { sha = null; }
+      return { target: path.relative(ROOT, abs), kind: 'frozen-file', sha256: sha,
+        frozenRef: ABJIT_FROZEN_REF.sha,
+        matchesFrozenRef: (sha !== null && sha === ABJIT_FROZEN_REF.rootSha256),
+        note: '凍結 html(固定 SHA ' + ABJIT_FROZEN_REF.sha + ' の beta/index.html を取り出したもの)。'
+          + '**CI では再現できない**ので opt-in である。' };
+    }
   }
-  return { target: 'index.html', kind: 'root-fallback',
+  let rootSha = null;
+  try { rootSha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, 'index.html'))).digest('hex'); }
+  catch { rootSha = null; }
+  return { target: 'index.html', kind: 'root-fallback', sha256: rootSha,
+    frozenRef: ABJIT_FROZEN_REF.sha,
+    // **今の root が凍結参照と同じ中身か**を数で残す(同じでも凍結扱いにはしない)
+    matchesFrozenRef: (rootSha !== null && rootSha === ABJIT_FROZEN_REF.rootSha256),
     note: 'root(`index.html`)は昇格したときしか動かない凍結内容で、チェックアウトに必ず在る。'
-      + '**CI の既定はこちら**。root は別世代なので比は 1.00 ではない —— 見るのは比の急変である。' };
+      + '**CI の既定はこちら**。root は別世代なので比は 1.00 ではない —— 見るのは比の急変である。'
+      + '**昇格直後は凍結参照 ' + ABJIT_FROZEN_REF.sha + ' と中身が一致するが、それでも凍結扱いにしない**'
+      + '(root は次の昇格で動く)。' };
 })();
 const abJitRows = [];
 for (const pid of ABJIT_PRESETS) {
@@ -624,6 +662,8 @@ fs.writeFileSync(path.join(OUT_DIR, ABJIT_ONLY ? 'perf-abjit-only.json' : 'perf-
           + '崖があると 10 倍級へ跳ねる(〔第258便e〕: 素 ×1.5 対 A/B ×15〜20)。'
           + '**両ページに共通して効く遅化は、この系統では見えない**(そのための (b) である)。' },
       { arm: 'cross-html', baselineKind: abJitBaseline.kind, baselineTarget: abJitBaseline.target,
+        frozenRef: ABJIT_FROZEN_REF, baselineSha256: abJitBaseline.sha256,
+        matchesFrozenRef: abJitBaseline.matchesFrozenRef,
         warnRatio: ABJIT_WARN, judgement: 'informational',
         note: '**凍結基準 html 対 候補**(どちらも A/B 走行)。' + abJitBaseline.note
           + ' 固定値は採らない(絶対 ms/步 は機種依存)。前回値も判定には使わない'
