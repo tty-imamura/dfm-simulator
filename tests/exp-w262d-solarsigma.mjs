@@ -22,6 +22,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+// 第264便d(第56報 W4・統括の裁定 X6): `sigma_primary` の印は **3 器共通の厳密読み**を使う
+// (語境界 + 第251便c の凡例文を除外 + 先頭一致)。読み方を器ごとに変えないための 1 本である。
+import { isSigmaPrimaryVerified, legacyIsSigmaPrimaryVerified,
+  readSigmaKind } from './lib-w264d-sigmamark.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const argv = process.argv.slice(2);
@@ -52,9 +56,14 @@ function loadCsv() {
     const key = c[0] + '|' + c[1];
     if (rows.has(key)) continue;
     const sg = (c[8] !== undefined && c[8].trim() !== '') ? Number(c[8]) : null;
+    const kind = readSigmaKind(c[7] || '');
     rows.set(key, { body: c[0], quantity: c[1], value: Number(c[2]), unit: c[3], source: c[4],
       sigma: (Number.isFinite(sg) && sg > 0) ? sg : null,
-      primaryVerified: /sigma_primary=verified/.test(c[7] || '') });
+      // 第264便d(X6): 厳密読み。旧読み(部分一致)との差は `markAudit` に数で残す。
+      primaryVerified: isSigmaPrimaryVerified(c[7] || ''),
+      primaryVerifiedLegacy: legacyIsSigmaPrimaryVerified(c[7] || ''),
+      sigmaKind: kind.kind, infoScale: kind.scale, infoScaleKind: kind.scaleKind,
+      intake2026_09_15: /intake_row=2026-09-15/.test(c[7] || '') });
   }
   return { rows, bodies };
 }
@@ -69,16 +78,21 @@ const SOLAR = [
 ];
 // **target ラベル → CSV の body 名**。宣言であって推測ではない(CSV に無い対象は null を明示する)。
 // null は「CSV にその天体の行が無い」= 切断点 (A) である。
+// 第264便d(第56報 W4): **2026-09-15 intake で CSV に行が入った**ので、null だった 11 対象を
+// 宣言した(月・地球・水星・ガリレオ 4 衛星・D68・C 環内縁・ミマス・タイタン)。
+// **これは「較正が進んだ」ことではない** —— 切断点が (A) 行が無い から (B) sigma 列が空 へ
+// 移るだけで、**4 値は 1 本も動かない**(入った行の sigma 列は全部空欄である)。
 const TARGET_BODY = {
-  月: null, 地球: null,                       // CSV に Moon / Earth の行が無い
-  水星: null,                                 // CSV に Mercury の行が無い
+  月: 'Moon', 地球: 'Earth',
+  水星: 'Mercury',
   金星: 'Venus', 火星: 'Mars',
   フォボス: 'Phobos', ダイモス: 'Deimos',
   カロン: 'Charon',
   ミランダ: 'Miranda', アリエル: 'Ariel', ウンブリエル: 'Umbriel', チタニア: 'Titania', オベロン: 'Oberon',
   トリトン: 'Triton',
-  イオ: null, エウロパ: null, ガニメデ: null, カリスト: null,   // CSV に木星衛星の行が無い
-  D68: null, C環内縁: null, ミマス: null, タイタン: null,        // CSV に土星系の行が無い
+  イオ: 'Io', エウロパ: 'Europa', ガニメデ: 'Ganymede', カリスト: 'Callisto',
+  D68: 'Saturn ring feature D68', C環内縁: 'Saturn ring C inner edge',
+  ミマス: 'Mimas', タイタン: 'Titan',
 };
 const KIND_QUANT = { period: 'orbital_period', ecc: 'eccentricity', precession: 'periastron_advance',
   spin: 'rotation_period' };

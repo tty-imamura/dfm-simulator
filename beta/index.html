@@ -575,6 +575,15 @@
         <div id="beLayTitle" class="tappable" style="color:var(--acc);font-weight:700;cursor:pointer">親子コア(層)</div>
         <div class="rowBtns" id="beLayTabs" style="flex-wrap:wrap"></div>
         <div id="beLayRoot" style="font-size:11.5px;opacity:.92;padding:2px 0"></div>
+        <!-- 第264便c(第56報「親子コアで、軸の傾きなどの、『選択粒子の編集』のコアV2で確認できた
+             数値を、確認出来る様にする」): **読み取り専用の数値行**。V2 を持つ粒子は V2 の主変数
+             (coreJ/coreJx/coreJy/coreJm/coreIS/coreKcs)から、層だけの粒子は層(根+層)の
+             m・r・J から導く。**表示専用**で presetSig にも S.params にも 1 bit も効かない -->
+        <div id="beLayNums" style="font-size:11.5px;opacity:.92;padding:2px 0;line-height:1.3">
+          <div id="beLyNumHead" style="color:var(--acc);font-weight:700"></div>
+          <div id="beLyNumSrc"></div><div id="beLyNumOm"></div><div id="beLyNumJ"></div>
+          <div id="beLyNumJ2"></div><div id="beLyNumE"></div><div id="beLyNumM"></div><div id="beLyNumM2"></div>
+        </div>
         <!-- 第262便b(第54報「表示が見切れない様に調整する」): 役割の select は 1 行占有にする
              (188px 幅で「役割 + select + m + 数値」を 1 行に詰めると select が 2 文字で切れていた) -->
         <div id="beLayEdit">
@@ -1118,6 +1127,18 @@ ja: {
   beLyRootInfo:(n,sum,m,R)=>`層 ${n}・Σ層 m=${sum}(根の m=${m}・観測半径 R=${R})`,
   beLyNote:"層を編集すると**根の m は Σ層 m に追随**します(層が主・根が従)。r は昇順(同心・非重複)が必要で、"
     +"通らない編集は 1 bit も書きません。**J は宣言値で力には接続していません**(表示・保存のみ)。",
+  // 第264便c(第56報「親子コアで、軸の傾きなどの、『選択粒子の編集』のコアV2で確認できた数値を、
+  // 確認出来る様にする」): 層モードの**読み取り専用の数値行**(表示専用 — 署名にも params にも効かない)
+  beLyNumHead:"数値(読み取り専用)",
+  beLyNumSrc:(who,q)=>`Q=${q}(源: ${who})`,
+  beLyNumSrcV2:"コアv2", beLyNumSrcLay:"層", beLyNumSrcNone:"従来式",
+  beLyNumOm:(om,th)=>`ω=${om} / θ=${th}°`,
+  beLyNumJ:(jm,jz)=>`|J|=${jm} / Jz=${jz}`,
+  beLyNumJ2:(jx,jy)=>`Jx=${jx} / Jy=${jy}`,
+  beLyNumE:(er,ic)=>`E_r=${er} / I_c=${ic}`,
+  beLyNumM:(mc,ms)=>`M_c=${mc} / M_s=${ms}`,
+  beLyNumM2:(kcs,ro)=>`K_cs=${kcs} / 観測半径=${ro}`,
+  beLyNumNA:"—",
   beLyErr:(why)=>"編集は適用されていません: "+why,
   beLyErrWhy:{radiusNotAscending:"r が昇順(同心・非重複)になりません", layerNotPositive:"m・r は正の数値が必要",
     tooManyLayers:"層は 8 までです", unknownRole:"役割が不正です", noSuchLayer:"その層はありません",
@@ -1140,6 +1161,13 @@ ja: {
     bodyMassNegative:"根の m が負です(層は正質量しか受けません)",   // 第262便b
     bodyMassNotDeclared:"m が宣言されていません", bodyRadiusNotDeclared:"半径 R が宣言されていません",
     valuesNotFinite:"導いた値が有限になりません",
+    // 第264便c(API の穴): 非有限・null を 0 に読み替えずに拒否する(理由を出す)
+    coreOmegaNotFinite:"コアの ω が有限ではありません(0 には読み替えません)",
+    coreTiltNotFinite:"コアの傾き θ が有限ではありません(0 には読み替えません)",
+    coreJNotFinite:"コアの J・|J| が有限ではありません(0 には読み替えません)",
+    inertiaScaleNotPositive:"慣性倍率 ζ が正の有限数ではありません",
+    rotationEnergyNotFinite:"回転エネルギーが有限になりません",
+    bodySpinNotFinite:"殻のスピン s が有限ではありません",
     bodyRadiusNotPositive:"R が正ではありません"},
   // 第263便b(第55報 W2): 移行の規約文は details に畳む(既定は閉 — 開かなければ縦に 1 行しか足さない)
   beCvDepMoreSum:"この移行について",
@@ -1157,7 +1185,11 @@ ja: {
     +"**第263便b**: パネル右上の「−」で**畳むと「親子コア(層)」も畳み**、「＋」で**再展開すると基本行(m・s・R・…)から開きます**"
     +"(層をまた見るには切り替えボタンをもう一度押します)。「親子コアへ移行」の説明は 1 行を占有し、"
     +"規約文(V2 は消さない・元の宣言を保持・遠方は同じでコア半径の内側だけ変わる・裸コアは 2 段確認)は"
-    +"ボタンの下の「この移行について」に畳んであります。",
+    +"ボタンの下の「この移行について」に畳んであります。"
+    +"**第264便c**: 層モードに**読み取り専用の数値行**が出ます(Q・ω・傾き θ・|J|・Jz・Jx・Jy・E_r・I_c・M_c・M_s・K_cs・観測半径)。"
+    +"**コア V2 を持つ粒子は V2 の値・層だけの粒子は層から導いた値**で、これは回転場の源の所有者規約と同じです"
+    +"(V2 があれば V2・無ければ層)。層の J は**回転場の源としてだけ**読まれ(射影は V2 と同じ z 成分)、"
+    +"面内成分 Jx/Jy は**数値として持つだけ**です(重力・引きずり・歳差・熱へは接続していません)。",
   beLinTitle:"形成系譜",
   beLinSum:(n,tree,ev,ge)=>`直接吸収 ${n} 回・系譜 ${ge?"≥":""}${tree} 粒(記録 ${ev} 件)`,
   beLinRow:(t,dm,m,ls)=>`t=${t}: +${dm} → m=${m}・減光=${ls}`,
@@ -1813,6 +1845,17 @@ en: {
   beLyNote:"Editing a layer makes THE ROOT m FOLLOW the sum of the layer masses (the layers are primary). "
     +"Radii must stay ascending (concentric, non-overlapping); an edit that fails writes nothing at all. "
     +"J IS A DECLARED VALUE AND IS NOT CONNECTED TO THE FORCES (display and save only).",
+  // Wave 264c (report 56): read-only numbers in the layer mode (display only)
+  beLyNumHead:"numbers (read-only)",
+  beLyNumSrc:(who,q)=>`Q=${q} (source: ${who})`,
+  beLyNumSrcV2:"core v2", beLyNumSrcLay:"layers", beLyNumSrcNone:"legacy",
+  beLyNumOm:(om,th)=>`omega=${om} / theta=${th} deg`,
+  beLyNumJ:(jm,jz)=>`|J|=${jm} / Jz=${jz}`,
+  beLyNumJ2:(jx,jy)=>`Jx=${jx} / Jy=${jy}`,
+  beLyNumE:(er,ic)=>`E_rot=${er} / I_c=${ic}`,
+  beLyNumM:(mc,ms)=>`M_core=${mc} / M_shell=${ms}`,
+  beLyNumM2:(kcs,ro)=>`K_cs=${kcs} / obs. radius=${ro}`,
+  beLyNumNA:"n/a",
   beLyErr:(why)=>"the edit was not applied: "+why,
   beLyErrWhy:{radiusNotAscending:"the radii would not stay ascending (concentric, non-overlapping)",
     layerNotPositive:"m and r must be positive numbers", tooManyLayers:"at most 8 layers",
@@ -1835,6 +1878,13 @@ en: {
     bodyMassNegative:"the root m is negative (layers only accept positive masses)",   // 第262便b
     bodyMassNotDeclared:"m is not declared", bodyRadiusNotDeclared:"the radius R is not declared",
     valuesNotFinite:"the derived values are not finite",
+    // Wave 264c (API holes): non-finite and null are REJECTED, never silently read as 0
+    coreOmegaNotFinite:"the core omega is not finite (it is not read as 0)",
+    coreTiltNotFinite:"the core tilt is not finite (it is not read as 0)",
+    coreJNotFinite:"the core J or |J| is not finite (it is not read as 0)",
+    inertiaScaleNotPositive:"the inertia scale is not a positive finite number",
+    rotationEnergyNotFinite:"the rotation energy is not finite",
+    bodySpinNotFinite:"the shell spin s is not finite",
     bodyRadiusNotPositive:"R is not positive"},
   // Wave 263b (report 55, W2): the long rules go into a details block (closed by default)
   beCvDepMoreSum:"about this migration",
@@ -1854,7 +1904,11 @@ en: {
     +"WAVE 263b: minimizing the panel with the - button ALSO FOLDS the parent-child core, and re-expanding with + OPENS THE BASIC "
     +"ROWS (m/s/R/...) again - press the toggle once more to go back to the layers. The note next to 'migrate to layers' now takes "
     +"a line of its own, and the rules (the core v2 declaration is kept, the original JSON is preserved, the far field is identical "
-    +"and only the inside of the core radius changes, a naked core asks twice) are folded into 'about this migration' under the button.",
+    +"and only the inside of the core radius changes, a naked core asks twice) are folded into 'about this migration' under the button. "
+    +"WAVE 264c: the layer mode now shows READ-ONLY NUMBERS (Q, omega, tilt theta, |J|, Jz, Jx, Jy, E_rot, I_c, M_core, M_shell, K_cs, observed radius). "
+    +"A body WITH core v2 shows the core v2 values; a body WITH LAYERS ONLY shows values derived from the layers - the same OWNERSHIP RULE as the "
+    +"rotation-field source (core v2 if present, otherwise the layers). The layer J is read ONLY as the rotation-field source (same z projection as core v2), "
+    +"and Jx/Jy are CARRIED AS NUMBERS ONLY (not connected to gravity, drag, precession or heat).",
   beLinTitle:"Formation lineage",
   beLinSum:(n,tree,ev,ge)=>`absorbed ${n}× directly · lineage ${ge?"≥":""}${tree} grains (${ev} events logged)`,
   beLinRow:(t,dm,m,ls)=>`t=${t}: +${dm} → m=${m}, dimming=${ls}`,
@@ -2967,6 +3021,23 @@ function validateSpaceMesh(a){
       return {ok:false, err:"physics.spaceMesh.toyAllowDrag は true/false(geoPN=3 を kFrame>0 のまま許す診断キー)"};
     tAllowDrag=a.toyAllowDrag;
   }
+  // 第264便b(統括の読み (B)(ii)): **源の閉包** `toyClosure`("gravity" 既定 = 現状 /"iterate" = 固定点反復)。
+  // **既定は 1 文字も正準形に出さない**(内蔵 122 本は署名も力学もビット不変)。"iterate" は
+  // **診断であって採用則ではない** —— 宣言すると警告を 1 行出し、`sampleClass:"calibration"` では拒否する。
+  let tClosure=SPACE_MESH_TOY_CLOSURE[0], tClosureN=GEO_TOY_CLOSURE_ITERS_DEFAULT;
+  if(a.toyClosure!==undefined && a.toyClosure!==null){
+    if(SPACE_MESH_TOY_CLOSURE.indexOf(a.toyClosure)<0)
+      return {ok:false, err:'physics.spaceMesh.toyClosure は "gravity"/"iterate"(geoPN=3 の源の加速度の閉包)'};
+    tClosure=a.toyClosure;
+    if(tClosure==="iterate")
+      warn.push('physics.spaceMesh.toyClosure:"iterate" — **診断モード**です(源の加速度に自分のトイ項を戻す固定点反復)。'
+        +'二体では行列式 1−η²χ₀χ₁ が 0 に近づくと収束しません(HUD の closure: 行に反復数と残差が出ます)。採用則ではありません');
+  }
+  if(a.toyClosureIters!==undefined && a.toyClosureIters!==null){
+    if(!isNum(a.toyClosureIters) || !(a.toyClosureIters>=1) || !(a.toyClosureIters<=64))
+      return {ok:false, err:"physics.spaceMesh.toyClosureIters は 1〜64 の整数(固定点反復の最大回数)"};
+    tClosureN=Math.round(Number(a.toyClosureIters));
+  }
   // 第259便c(第51報): **初期メッシュ貯蔵エネルギー E₀ の正名** `meshEnergyCapacity`(**宣言値**)。
   //   第258便b ⑧-3 は「E₀ の正名は無い(供給量の倍数で宣言しただけ)」を決断事項に残した。
   //   本便はそれに名前を与え、`HP.dfmToyLedger` の **E_mesh の基準**にする:
@@ -2984,7 +3055,9 @@ function validateSpaceMesh(a){
   // 第259便a: **lawVersion の宣言も 1 チャネル**である(宣言だけで力は動かないが、geoPN=3 の門になる)
   // 第263便a: `toyAllowDrag` も「宣言があれば正準形を残す」側に数える(単独では力を 1 バイトも
   // 動かさないが、黙って落とすと「宣言したのに効いていない」が見えなくなる)
-  if(grav===false && iner===false && wv===SPACE_MESH_WEAVE[0] && !res && capE===null && lawV===null && !tAllowDrag)
+  // 第264便b: `toyClosure`(既定以外)も「宣言があれば正準形を残す」側に数える
+  if(grav===false && iner===false && wv===SPACE_MESH_WEAVE[0] && !res && capE===null && lawV===null
+    && !tAllowDrag && tClosure===SPACE_MESH_TOY_CLOSURE[0])
     return {ok:true, spaceMesh:null, warn};
   out.gravity=grav; out.inertia=iner;
   if(iner!==false){
@@ -3010,6 +3083,11 @@ function validateSpaceMesh(a){
   if(capE!==null) out.meshEnergyCapacity=capE;   // 第259便c(宣言したときだけ正準形に入る)
   if(lawV!==null){ out.lawVersion=lawV; if(toyG!==1) out.toyGain=toyG; }   // 第259便a(未宣言は 1 文字も出さない)
   if(tAllowDrag) out.toyAllowDrag=true;   // 第263便a(既定 false は 1 文字も出さない = 内蔵 122 本は署名不変)
+  // 第264便b(既定 "gravity" は 1 文字も出さない = 内蔵 122 本は署名不変。反復数は "iterate" のときだけ)
+  if(tClosure!==SPACE_MESH_TOY_CLOSURE[0]){
+    out.toyClosure=tClosure;
+    if(tClosureN!==GEO_TOY_CLOSURE_ITERS_DEFAULT) out.toyClosureIters=tClosureN;
+  }
   return {ok:true, spaceMesh:out, warn};
 }
 // ===== 第252便b(第44報): physics.periSubsteps — 近点近傍だけ刻みを細かくする薄い包み(opt-in・既定 OFF)=====
@@ -3140,6 +3218,28 @@ const LAYER_MERGE_RTOL = 1e-9;
 // 正質量の層しか受けない)。J(コアの自転)は layers 側では**宣言値として運ばれるだけ**で
 // 力へは接続していない(第261便b — 書かないこと: 「親子コアで較正の自由度が増えて合った」)
 const CORE_V2_TO_LAYER_ROLE = { rigid:["core","shell"], differential:["core","shell"], active:["core","shell"] };
+// 第264便c(第56報「親子コアが、コアV2を完全に置き換え可能な状態かを確認する」):
+// **回転場の源を層から取る**。基点では層だけの粒子(コア V2 を消した粒子)の Q は
+// ½m R² spin へ落ちるだけで、層が持つ J は 1 度も読まれなかった(統括の予備測定: 層変換後に
+// V2 を消すと spinDipoleMoment が 0 になる)。ここで層の宣言 J を**回転場の源**として読む。
+//   **所有者規約(二重計上を構造的に防ぐ)**: **コア V2 があれば V2・無ければ層**。
+//   両方ある粒子では層の J を 1 度も読まない(= 基点とビット同一)。
+//   **射影はコア V2 と同じ z 成分だけ**(V2 も S.coreJ=J_z しか源にしない)。層の面内成分
+//   Jx/Jy は数値として持つが、この関数は読まない。
+//   **宣言が 1 つも無い層(J=Jx=Jy=0)は「未宣言」**として従来式へ落ちる —— 🧅 のように
+//   J を書いていない内蔵プリセットは 1 bit も変わらない(既定経路不変の根拠)。
+function layerDipoleMoment(S, i){
+  if(!S.layN || !S.layJ || !(S.layN[i]>0)) return null;
+  const LM=BODY_LAYER_MAX, b0=i*LM, nl=S.layN[i], Jx=S.layJx, Jy=S.layJy;
+  let sum=0, dec=false;
+  for(let q=0;q<nl;q++){
+    const j=S.layJ[b0+q];
+    if(j!==0) dec=true;
+    if(Jx && (Jx[b0+q]!==0 || Jy[b0+q]!==0)) dec=true;   // 面内だけの宣言も「宣言あり」と読む
+    sum+=j;
+  }
+  return dec? sum : null;
+}
 // スピン双極子モーメント Q_i(z 成分・上式そのもの)。表示・QA・監査が同じ量を読むための純関数
 function spinDipoleMoment(S, i){
   if(!(i>=0 && i<S.n)) return 0;
@@ -3150,9 +3250,11 @@ function spinDipoleMoment(S, i){
   // 未 build の S 等)は従来どおり「0=未宣言」に落とす(後方互換)
   const ov=S.ssQov, dc=S.ssDec;
   if(ov && (dc? dc[i]!==0 : ov[i]!==0)) return ov[i];
+  const md=S.coreMd[i];
+  // 第264便c: 所有者規約 —— V2 を持たない粒子だけが層から源を取る(両方ある粒子は V2 のまま)
+  if(md===0 && S.layN && S.layN[i]>0){ const ql=layerDipoleMoment(S,i); if(ql!==null) return ql; }
   const R=S.R[i];
   let Q=0.5*S.m[i]*R*R*S.spin[i];
-  const md=S.coreMd[i];
   if(md===2 || md===3){   // differential / active のみ(rigid=殻と共回転・cavity=慣性0)
     const Mc=S.coreMF[i]*Math.abs(S.m[i]), Rc=S.RcV[i], Ic=0.5*Mc*Rc*Rc*S.coreIS[i];
     if(Ic>1e-12) Q+=0.5*Mc*Rc*Rc*(S.coreJ[i]/Ic);   // =J_c/ζ(幾何慣性で読み直したコアの寄与)
@@ -13681,6 +13783,9 @@ function validatePreset(obj){
   // 第263便a: **診断キーは現実較正クラスへ入れない**(geoPN が 3 でなくても宣言そのものを拒否する)
   if(p.sampleClass==="calibration" && ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].toyAllowDrag===true)
     bad('physics.spaceMesh.toyAllowDrag(geoPN=3 を kFrame>0 のまま許す診断キー)は sampleClass:"calibration" では使えません');
+  // 第264便b: 源の閉包 "iterate" も同じ扱い(**診断であって採用則ではない**)
+  if(p.sampleClass==="calibration" && ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].toyClosure==="iterate")
+    bad('physics.spaceMesh.toyClosure:"iterate"(源の加速度に自分のトイ項を戻す固定点反復の診断キー)は sampleClass:"calibration" では使えません');
   // 第240便: contact は ∇u 勾配(geoPN=2)と両立しない(フレーム重み w′ の勾配を持たない)→ interior へ落とす
   if(ph[DRAG_REF_KEY]===DRAG_CONTACT && ph.geoPN===2){ warnings.push('physics.dragRef:"contact" は geoPN=2 と併用不可 — "interior" に修正'); ph[DRAG_REF_KEY]="interior"; }
   // 第242便: contact(接触=完全引きずり)は share のフレーム重みで定義した opt-in — 既定 pull と併用しない(合成は裁定事項)
@@ -13899,7 +14004,14 @@ function validatePreset(obj){
           if(!isNum(L.J)){ warnings.push(atk+".J は数値が必要 — J を無視します"); }
           else o2.J=clamp(L.J, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);
         }
-        for(const k2 of Object.keys(L)) if(["role","m","r","J"].indexOf(k2)<0)
+        // 第264便c(第56報「親子コアが、コアV2を完全に置き換え可能な状態かを確認する」):
+        // 層の **面内成分 Jx/Jy**(省略可・正準形には宣言されたときだけ出る = 既定の署名は不変)。
+        // **数値として運ぶだけ**で、回転場の源は z 成分(J)しか読まない(コア V2 と同じ射影)
+        for(const kj of ["Jx","Jy"]) if(L[kj]!==undefined){
+          if(!isNum(L[kj])){ warnings.push(atk+"."+kj+" は数値が必要 — "+kj+" を無視します"); }
+          else o2[kj]=clamp(L[kj], -BODY_LAYER_JCAP, BODY_LAYER_JCAP);
+        }
+        for(const k2 of Object.keys(L)) if(["role","m","r","J","Jx","Jy"].indexOf(k2)<0)
           warnings.push(atk+" の未知キー("+String(k2).slice(0,20)+")— 無視");
         out.push(o2);
       }
@@ -15944,6 +16056,12 @@ function makeSim(){
     // 編集可能にする」): 層ごとのスピン角運動量 J。**宣言値を運ぶだけで力へは 1 バイトも
     // 接続していない**(表示・保存・編集の対象。未宣言は 0 で、どの経路も読まない)
     S.layJ=new Float64Array(n*BODY_LAYER_MAX);
+    // 第264便c(第56報「親子コアが、コアV2を完全に置き換え可能な状態かを確認する」): 層の J の
+    // **面内成分 Jx/Jy を数値として持つ**(表示・保存・復元・正準形)。**回転場の源が読むのは
+    // 従来どおり z 成分だけ**(コア V2 が S.coreJ=J_z しか読まないのと同じ射影)で、
+    // Jx/Jy は 1 バイトも力へ接続していない。**「層 J をベクトル化した」とは書かない** ——
+    // 数値として保持し、回転場は z 射影で読む、という 2 点だけである
+    S.layJx=new Float64Array(n*BODY_LAYER_MAX); S.layJy=new Float64Array(n*BODY_LAYER_MAX);
     S.hasBodyLayers=false; S.layerN=0; S.layerStop=null; S.layerPairN=0; S.layerStopN=0;
     S.layerHalt=null; S.layerDF=0;   // 第261便b(検証仮説 (6)): 実停止の理由と最後の |ΔF| 合計
     S.shellGas=new Uint8Array(n);   // 第229便: shell:"gas" 宣言(意味論は検証器の Kcs=0 強制+表示)
@@ -16324,7 +16442,9 @@ function makeSim(){
         const nl=Math.min(o.layers.length, BODY_LAYER_MAX), b0=i*BODY_LAYER_MAX;
         for(let k=0;k<nl;k++){ const L=o.layers[k];
           S.layM[b0+k]=L.m; S.layR[b0+k]=L.r; S.layRl[b0+k]=Math.max(0,BODY_LAYER_ROLES.indexOf(L.role));
-          S.layJ[b0+k]=(L.J!==undefined)? L.J : 0; }   // 第261便b: 層の J は宣言値(力へは未接続)
+          S.layJ[b0+k]=(L.J!==undefined)? L.J : 0;     // 第261便b: 層の J は宣言値(力へは未接続)
+          // 第264便c: 面内成分(数値として運ぶだけ — 回転場の源は z 成分しか読まない)
+          S.layJx[b0+k]=(L.Jx!==undefined)? L.Jx : 0; S.layJy[b0+k]=(L.Jy!==undefined)? L.Jy : 0; }
         S.layN[i]=nl; S.hasBodyLayers=true;
       }
       S.shellGas[i]=(o.shell==="gas")?1:0;   // 第229便: 殻の相
@@ -16563,6 +16683,8 @@ function makeSim(){
     S.geoToyPx=0; S.geoToyPy=0; S.geoToyL=0; S.geoToyE=0; S.geoToyEmesh=0;
     S.geoToyMeshPx=0; S.geoToyMeshPy=0; S.geoToyMeshL=0;
     S.geoToyN=0; S.geoToyDv=0; S.geoToyChi=0; S.geoToyStop=null;
+    // 第264便b: 源の閉包の診断(既定 "gravity" では反復 1 回・残差は null —— 0 で埋めない)
+    S.geoToyClosure=null; S.geoToyIters=0; S.geoToyResid=null; S.geoToyResidRel=null; S.geoToyConverged=null;
     S.geoToyDeny=null;   // 第262便a: 3 のまま入場条件を満たさない理由("kFrame"/"meshChannel")
     // 第263便a: `S.geoToyOverlay`(明示キー toyAllowDrag で E6′ と重ねたとき "drag")は**ここで初期化しない**。
     // このリセット塊は `S.build` の中で **`S.updateRadii()` より後**に走るので(呼び出しは 16377 行)、
@@ -16857,6 +16979,9 @@ function makeSim(){
     for(let q=0;q<S.layN[i];q++){
       const o={role:BODY_LAYER_ROLES[S.layRl[b0+q]]||BODY_LAYER_ROLES[0], m:S.layM[b0+q], r:S.layR[b0+q]};
       if(S.layJ[b0+q]!==0) o.J=S.layJ[b0+q];   // 未宣言(0)は正準形に出さない = 署名不変
+      // 第264便c: 面内成分も同じ規約(0 は出さない = 既定経路の正準形・署名は 1 bit も動かない)
+      if(S.layJx && S.layJx[b0+q]!==0) o.Jx=S.layJx[b0+q];
+      if(S.layJy && S.layJy[b0+q]!==0) o.Jy=S.layJy[b0+q];
       out.push(o);
     }
     return out;
@@ -16876,6 +17001,9 @@ function makeSim(){
       // r は Float64 の layR、m の合計は **Float32 の S.m** に入るので `Math.fround` 後も見る。
       if(!Number.isFinite(L.m) || !Number.isFinite(L.r)) return {ok:false, reason:"layerNotFinite", at:q};
       if(L.J!==undefined && L.J!==null && !Number.isFinite(L.J)) return {ok:false, reason:"layerNotFinite", at:q};
+      // 第264便c: 面内成分も同じ原子的な有限性検査(1 bit も書く前に落とす)
+      if(L.Jx!==undefined && L.Jx!==null && !Number.isFinite(L.Jx)) return {ok:false, reason:"layerNotFinite", at:q};
+      if(L.Jy!==undefined && L.Jy!==null && !Number.isFinite(L.Jy)) return {ok:false, reason:"layerNotFinite", at:q};
       if(!Number.isFinite(Math.fround(L.m))) return {ok:false, reason:"layerNotFinite", at:q};
       if(!(L.r>rPrev)) return {ok:false, reason:"radiusNotAscending", at:q};
       if(BODY_LAYER_ROLES.indexOf(L.role)<0) return {ok:false, reason:"unknownRole", at:q};
@@ -16887,7 +17015,9 @@ function makeSim(){
     for(let q=0;q<LM;q++){ const L=arr[q];
       S.layM[b0+q]=L? L.m : 0; S.layR[b0+q]=L? L.r : 0;
       S.layRl[b0+q]=L? Math.max(0,BODY_LAYER_ROLES.indexOf(L.role)) : 0;
-      S.layJ[b0+q]=(L && Number.isFinite(L.J))? L.J : 0; }
+      S.layJ[b0+q]=(L && Number.isFinite(L.J))? L.J : 0;
+      S.layJx[b0+q]=(L && Number.isFinite(L.Jx))? L.Jx : 0;   // 第264便c: 面内成分(数値保持)
+      S.layJy[b0+q]=(L && Number.isFinite(L.Jy))? L.Jy : 0; }
     S.layN[i]=arr.length;
     if(arr.length>0) S.m[i]=sum;          // Σm 契約(層が主・根が従)
     let any=false; for(let k=0;k<S.n;k++) if(S.layN[k]>0){ any=true; break; }
@@ -16898,7 +17028,8 @@ function makeSim(){
   S.applyLayerEdit = function(i, k, cfg){
     if(!(i>=0 && i<S.n) || !S.layN) return {ok:false, reason:"badIndex"};
     const cur=S.bodyLayersOf(i)||[];
-    const next=cur.map((L)=>({role:L.role, m:L.m, r:L.r, J:(L.J===undefined)?0:L.J}));
+    const next=cur.map((L)=>({role:L.role, m:L.m, r:L.r, J:(L.J===undefined)?0:L.J,
+      Jx:(L.Jx===undefined)?0:L.Jx, Jy:(L.Jy===undefined)?0:L.Jy}));   // 第264便c: 面内成分も往復させる
     if(cfg===null || cfg===undefined){
       if(k<0) return S._setBodyLayers(i, []);               // 層宣言ごと外す
       if(!(k<next.length)) return {ok:false, reason:"noSuchLayer"};
@@ -16911,7 +17042,8 @@ function makeSim(){
       if(next.length>=BODY_LAYER_MAX) return {ok:false, reason:"tooManyLayers"};
       const rOut=next.length? next[next.length-1].r : 0;
       L={role:(BODY_LAYER_ROLES.indexOf(cfg.role)>=0)? cfg.role : BODY_LAYER_ROLES[Math.min(next.length,BODY_LAYER_ROLES.length-1)],
-         m:has("m")? cfg.m : 1, r:has("r")? cfg.r : (rOut>0? rOut*2 : Math.max(BODY_LAYER_RMIN, S.R[i])), J:has("J")? cfg.J : 0};
+         m:has("m")? cfg.m : 1, r:has("r")? cfg.r : (rOut>0? rOut*2 : Math.max(BODY_LAYER_RMIN, S.R[i])), J:has("J")? cfg.J : 0,
+         Jx:has("Jx")? cfg.Jx : 0, Jy:has("Jy")? cfg.Jy : 0};
       next.push(L);
     } else {
       L=next[k];
@@ -16919,10 +17051,14 @@ function makeSim(){
       if(has("m")) L.m=clamp(cfg.m, 1e-12, MASS_CAP);
       if(has("r")) L.r=clamp(cfg.r, BODY_LAYER_RMIN, 1e6);
       if(has("J")) L.J=clamp(cfg.J, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);
+      if(has("Jx")) L.Jx=clamp(cfg.Jx, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);   // 第264便c
+      if(has("Jy")) L.Jy=clamp(cfg.Jy, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);
     }
     if(L.m!==undefined) L.m=clamp(L.m, 1e-12, MASS_CAP);
     if(L.r!==undefined) L.r=clamp(L.r, BODY_LAYER_RMIN, 1e6);
     if(L.J!==undefined) L.J=clamp(L.J, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);
+    if(L.Jx!==undefined) L.Jx=clamp(L.Jx, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);   // 第264便c
+    if(L.Jy!==undefined) L.Jy=clamp(L.Jy, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);
     return S._setBodyLayers(i, next);
   };
   // 第35便(台帳4-62): 積分器の入口。既定("semi")は _core を1回呼ぶだけで現行と厳密等価
@@ -18486,7 +18622,8 @@ function makeSim(){
         // そのままでは Σ層 m ≠ m[i] になる —— 残差を layMassRes に記帳して**黙って書き換えない**)
         if(S.layN && (S.layN[i]>0 || S.layN[j]>0)){
           const LM=BODY_LAYER_MAX, rd=(k0)=>{ const a=[], b1=k0*LM;
-            for(let q=0;q<S.layN[k0];q++) a.push({role:BODY_LAYER_ROLES[S.layRl[b1+q]]||"", m:S.layM[b1+q], r:S.layR[b1+q], J:S.layJ[b1+q]});
+            for(let q=0;q<S.layN[k0];q++) a.push({role:BODY_LAYER_ROLES[S.layRl[b1+q]]||"", m:S.layM[b1+q], r:S.layR[b1+q],
+              J:S.layJ[b1+q], Jx:S.layJx[b1+q], Jy:S.layJy[b1+q]});   // 第264便c: 面内成分も運ぶ
             return a; };
           const mg=dfmLayerMerge(rd(i), rd(j), LAYER_MERGE_RULE);
           const b1=i*LM; let sumL=0;
@@ -18494,6 +18631,8 @@ function makeSim(){
             S.layM[b1+q]=L? L.m : 0; S.layR[b1+q]=L? L.r : 0;
             S.layRl[b1+q]=L? Math.max(0,BODY_LAYER_ROLES.indexOf(L.role)) : 0;
             S.layJ[b1+q]=(L && Number.isFinite(L.J))? L.J : 0;   // 第261便b: 宣言 J も層と一緒に運ぶ(力へは未接続)
+            S.layJx[b1+q]=(L && Number.isFinite(L.Jx))? L.Jx : 0;   // 第264便c
+            S.layJy[b1+q]=(L && Number.isFinite(L.Jy))? L.Jy : 0;
             if(L) sumL+=L.m; }
           S.layN[i]=Math.min(mg.length,LM);
           S.layN[j]=0;
@@ -18576,7 +18715,8 @@ function makeSim(){
     // 第259便b: 親子コアの同心層はストライド BODY_LAYER_MAX の平らな配列なので別に詰める
     if(S.layN && S.hasBodyLayers){ const LM=BODY_LAYER_MAX;
       for(let t=0;t<k;t++){ const s0=keep[t]; if(s0===t) continue;
-        for(let q=0;q<LM;q++){ S.layM[t*LM+q]=S.layM[s0*LM+q]; S.layR[t*LM+q]=S.layR[s0*LM+q]; S.layRl[t*LM+q]=S.layRl[s0*LM+q]; S.layJ[t*LM+q]=S.layJ[s0*LM+q]; } } }
+        for(let q=0;q<LM;q++){ S.layM[t*LM+q]=S.layM[s0*LM+q]; S.layR[t*LM+q]=S.layR[s0*LM+q]; S.layRl[t*LM+q]=S.layRl[s0*LM+q];
+          S.layJ[t*LM+q]=S.layJ[s0*LM+q]; S.layJx[t*LM+q]=S.layJx[s0*LM+q]; S.layJy[t*LM+q]=S.layJy[s0*LM+q]; } } }   // 第264便c: 面内成分
     // 旧 index → 新 index の写像(消えた粒子は融合先へ写す)
     const nm=new Int32Array(n).fill(-1);
     for(let t=0;t<k;t++) nm[keep[t]]=t;
@@ -18622,7 +18762,7 @@ function makeSim(){
       S.linId[i]=-1; S.linN[i]=0; }   // alloc と同じ既定値(+コアv2・第80便/第100便/第208便: ζ=1)
     // 第259便b: 親子コアの同心層(ストライド BODY_LAYER_MAX)は別に伸ばす
     if(S.layM){ const LM=BODY_LAYER_MAX;
-      for(const key of ["layM","layR","layRl","layJ"]){ const a=S[key];
+      for(const key of ["layM","layR","layRl","layJ","layJx","layJy"]){ const a=S[key];   // 第264便c: 面内成分
         const b=new a.constructor(nc*LM); b.set(a); S[key]=b; } }
     // 第247便a: framePrecision:"double" の Float64 pairD を Float32 へ落とさない(型を引き継ぐ)
     S.pairD=new (S.pairD? S.pairD.constructor : Float32Array)(Math.max(1,nc*(nc-1)/2));
@@ -20991,7 +21131,11 @@ function stepDiagText(){
   // 第262便a: **入場条件を満たさない 3 も出す**(黙って 2 に丸めなくなったので、denied はここに出る)
   // 第263便a: **明示キーで E6′ と重ねた診断構成**は HUD にも出す(黙って重ねない = 二重計上の可能性の表示)
   if(sim && sim.params && sim.params.geoPN>=3) out+="  geoToy:"+(sim.geoToyStop||"on")+" N="+sim.geoToyN
-    +(sim.geoToyOverlay? (" overlay:"+sim.geoToyOverlay+"(kF="+fmt(sim.params.kFrame)+" 二重計上の可能性)") : "");
+    +(sim.geoToyOverlay? (" overlay:"+sim.geoToyOverlay+"(kF="+fmt(sim.params.kFrame)+" 二重計上の可能性)") : "")
+    // 第264便b: 源の閉包(既定 "gravity" は 1 文字も出さない)。"iterate" は**反復数と相対残差**を必ず出す
+    +((sim.geoToyClosure==="iterate")? (" closure:iterate it="+sim.geoToyIters
+      +" res="+((sim.geoToyResidRel===null)? "—" : sim.geoToyResidRel.toExponential(2))
+      +(sim.geoToyConverged===false? " **未収束**" : "")) : "");
   // 第260便b: 親子コアの層差分と**重なった拡張体の対**(ΔF を当てた組 / 停止した組)
   if(sim && sim.hasBodyLayers) out+="  layer:"+(sim.layerStop||"on")+" N="+sim.layerN+" pair="+(sim.layerPairN||0)+"/"+(sim.layerStopN||0)
     // 第261便b(検証仮説 (6)・案A): 停止したら理由と対を出す(時刻は進んでいない)
@@ -25262,7 +25406,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
     // 第259便b: 親子コアの同心層(ストライド BODY_LAYER_MAX)と宣言フラグ
     simB.hasBodyLayers=sim.hasBodyLayers;
     if(sim.layM && simB.layM){ const LM=BODY_LAYER_MAX, cnt=Math.min(sim.n*LM, simB.layM.length);
-      for(const key of ["layM","layR","layRl","layJ"]) simB[key].set(sim[key].subarray(0,cnt)); }
+      for(const key of ["layM","layR","layRl","layJ","layJx","layJy"]) simB[key].set(sim[key].subarray(0,cnt)); }   // 第264便c
     simB.hasCoreV2=sim.hasCoreV2; simB.hasLSwAuto=sim.hasLSwAuto; simB._rsUsed=sim._rsUsed;
     simB.hasPulse=sim.hasPulse;   // 第226便
     simB.hasCoreTilt=sim.hasCoreTilt;   // 第227便
@@ -25482,7 +25626,7 @@ function applyPhaseEdits(S,o){
 let ckSnap=null;
 const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU","pinned",
   "mEff","rotAc","lSw","radOv","rMulv","lSwAuto",   // 第81便: コアv1 配列は廃止
-  "pulseOm","pulsePh","shellGas","ssQov","ssDec","layN","layM","layR","layRl","layJ",   // 第226便: パルス時計チャネル / 第229便: 殻の相 / 第246便: 観測 Q の転写 / 第247便a: 宣言フラグ
+  "pulseOm","pulsePh","shellGas","ssQov","ssDec","layN","layM","layR","layRl","layJ","layJx","layJy",   // 第226便: パルス時計チャネル / 第229便: 殻の相 / 第246便: 観測 Q の転写 / 第247便a: 宣言フラグ
   "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",
   "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx","shdBB","coreRT","coreBA","coreBare",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復 / 第247便c: 裸コア終端・rTarget・結合 E 台帳
@@ -29764,6 +29908,7 @@ function applyLang(){
   // 第146便: 監査ビューが開いていれば見出し・ラベル・宣言文も言語追随させる(件数は ja/en 同数)
   if($("#avPanel") && $("#avPanel").style.display==="block") avRender();
   renderSaves(); renderCustomList(); renderAiConfig(); updatePlayBtn();
+  updateBodyEdit();   // 第264便c: 層モードの読み取り専用の数値行(と合計行)も言語追随させる(表示専用)
   requestRender();   // v1.22: オーバーレイ内の文字列も言語追従するため再描画
 }
 $("#btnLang").addEventListener("click",()=>{
@@ -30296,7 +30441,55 @@ function beCorePlanNow(S, i){
   return coreV2MigrationPlan({ m:S.m[i], R:S.R[i], spin:S.spin[i],
     core:{ mode, massFrac:S.coreMF[i], radius:S.RcV[i], inertiaScale:S.coreIS[i],
       Kcs:S.coreKcs[i], pump:S.corePump? S.corePump[i] : 0, contract:S.coreCtr? S.coreCtr[i] : 0,
-      Jz:S.coreJ[i], Jmag:S.coreJm? S.coreJm[i] : Math.abs(S.coreJ[i]) } });
+      Jz:S.coreJ[i], Jmag:S.coreJm? S.coreJm[i] : Math.abs(S.coreJ[i]),
+      // 第264便c: 面内成分は**主変数そのまま**(coreJx/coreJy)を渡す — |J| と J_z からの復元では
+      // 符号と方位が落ちる。層には数値として載り、回転場の源は従来どおり z 成分だけを読む
+      Jx:S.coreJx? S.coreJx[i] : 0, Jy:S.coreJy? S.coreJy[i] : 0 } });
+}
+// 第264便c(第56報「親子コアで、軸の傾きなどの、『選択粒子の編集』のコアV2で確認できた数値を、
+// 確認出来る様にする」): 層モードの**読み取り専用の数値行**を埋める。**表示専用**で、物理配列にも
+// presetSig にも S.params にも 1 bit も書かない(ここから呼ぶのは fmt と T だけである)。
+//   **所有者規約は回転場の源と同じ**: コア V2 を持つ粒子は V2 の主変数を、層だけの粒子は
+//   層(根+層)の m・r・J を読む。層側の I_c は**幾何慣性 ½·M_c·r_c²**(層は ζ を持たない)で、
+//   ω=|J|/I_c・θ=acos(J_z/|J|)・E_r=|J|²/(2I_c) は V2 の読み戻しと同じ式である。
+//   K_cs は層に無いので「—」を出す(0 と書かない —— 無いことと 0 は別である)。
+function beLayNumsFill(S, i, arr){
+  const box=$("#beLayNums"); if(!box) return;
+  const NA=T("beLyNumNA");
+  const md=S.coreMd? S.coreMd[i] : 0;
+  let Ic=0, Jz=0, Jx=0, Jy=0, Jm=0, Kcs=null, Mc=0, Ms=0, who=T("beLyNumSrcLay");
+  if(md && md!==4){                      // コア V2 の主変数をそのまま読む(丸めた表示値を経由しない)
+    who=T("beLyNumSrcV2");
+    Mc=S.coreMF[i]*Math.abs(S.m[i]); Ms=S.m[i]-Mc;
+    Ic=(S.RcV[i]>0)? 0.5*Mc*S.RcV[i]*S.RcV[i]*S.coreIS[i] : 0;
+    Jz=S.coreJ[i]; Jx=S.coreJx? S.coreJx[i] : 0; Jy=S.coreJy? S.coreJy[i] : 0;
+    Jm=S.coreJm? S.coreJm[i] : Math.abs(Jz);
+    Kcs=S.coreKcs[i];
+  } else if(arr && arr.length){          // 層(根 = 最内層 = コア・それ以外の和 = 殻)
+    if(md===4) who=T("beLyNumSrcV2");    // cavity は質量も慣性も持たない(層側の数値を出す)
+    const L0=arr[0];
+    Mc=L0.m; for(let k=1;k<arr.length;k++) Ms+=arr[k].m;
+    Ic=0.5*L0.m*L0.r*L0.r;               // 層は ζ を持たない = 幾何慣性そのもの
+    Jz=(L0.J===undefined)? 0 : L0.J; Jx=(L0.Jx===undefined)? 0 : L0.Jx; Jy=(L0.Jy===undefined)? 0 : L0.Jy;
+    Jm=Math.hypot(Jz,Jx,Jy);
+  }
+  const om=(Ic>1e-12)? Jm/Ic : 0;
+  const th=(Jm>0)? Math.acos(Math.max(-1,Math.min(1,Jz/Jm)))*180/Math.PI : 0;
+  const Er=(Ic>1e-12)? (Jm*Jm)/(2*Ic) : 0;
+  const q=spinDipoleMoment(S,i);
+  // 源の所有者は spinDipoleMoment の規約そのもの(V2 があれば V2・無ければ層・宣言が無ければ従来式)
+  const ql=(md===0)? layerDipoleMoment(S,i) : null;
+  const owner=(md && md!==4)? T("beLyNumSrcV2") : ((ql!==null)? T("beLyNumSrcLay") : T("beLyNumSrcNone"));
+  $("#beLyNumHead").textContent=T("beLyNumHead");
+  $("#beLyNumSrc").textContent=T("beLyNumSrc")(owner, fmt(q));
+  $("#beLyNumOm").textContent=T("beLyNumOm")(fmt(om), fmt(th));
+  $("#beLyNumJ").textContent=T("beLyNumJ")(fmt(Jm), fmt(Jz));
+  $("#beLyNumJ2").textContent=T("beLyNumJ2")(fmt(Jx), fmt(Jy));
+  $("#beLyNumE").textContent=T("beLyNumE")(fmt(Er), fmt(Ic));
+  $("#beLyNumM").textContent=T("beLyNumM")(fmt(Mc), fmt(Ms));
+  $("#beLyNumM2").textContent=T("beLyNumM2")((Kcs===null)? NA : fmt(Kcs), fmt(S.R[i]));
+  for(const id of ["#beLyNumSrc","#beLyNumOm","#beLyNumJ","#beLyNumJ2","#beLyNumE","#beLyNumM","#beLyNumM2"])
+    $(id).title=$(id).textContent;
 }
 function updateBodyEdit(){
   const el=$("#bodyEdit");
@@ -30443,6 +30636,7 @@ function updateBodyEdit(){
         $("#beLyR").value=fmt(L.r); $("#beLyJ").value=fmt(L.J===undefined? 0 : L.J);
       }
       if(!beLayMsg) $("#beLyNote").textContent=T("beLyNote");
+      beLayNumsFill(S, i, arr);   // 第264便c: 読み取り専用の数値行(V2 があれば V2・無ければ層)
     }
     // 層モードでは根/層の情報が**丸ごと**入れ替わる(m/s/R/… とコア内訳 v2 は隠れる)ので、
     // パネルは縦に伸びない = 見切れない
@@ -30684,7 +30878,7 @@ let beMin=false;
 // パネル高 159px)。ここで beLayMode を落とし、再展開の既定は**案B(基本行で開く)**にする。
 // beMinKeepLay=true なら**案A(畳む前の層モードを復元)**になる —— 両案を同じ html で測るための
 // 表示専用スイッチ(HP.beMinKeepLayerMode)。物理配列へは 1 bit も書かない
-let beLayModeSaved=false, beMinKeepLay=false;
+let beLayModeSaved=false, beMinKeepLay=false, beMinKeepLayWarned=false;   // 第264便c(X8): 非推奨警告は 1 度だけ
 function applyBeMin(){ $("#bodyEdit").classList.toggle("min",beMin); $("#beClose").textContent=beMin?"＋":"−";
   $("#beClose").setAttribute("aria-label",beMin?"expand":"minimize");
   if(beMin){ beLayModeSaved=beLayMode; beLayMode=false; beCvConfirm=false; beLayMsg=""; }
@@ -35280,6 +35474,15 @@ const DFM_FIELD_LAWS = ["scalar","local","complex"];
 // **正準形にも presetSig にも S.params にも入らない**(サンプル JSON の宣言は今までどおり必須で、
 // 検証器は宣言なしの 3 を 2 へ丸める —— 補うのは UI/スライダー経由の実行時の値だけである)。
 const GEO_TOY_LAW_DEFAULT = "scalar";
+// 第264便b(第56報): **源の閉包**(`physics.spaceMesh.toyClosure`)。geoPN=3 のトイは ∂ₜu に
+// 源の加速度 a_i を要る(∂ₜN=Σ(∂ₜw)v+Σw·a)。第259便a〜第263便a はそこへ**重力だけ**を渡していた
+// ("gravity" = 既定・現状)。"iterate" は「源も同じトイ則で加速している」として
+// **a_i = g_i + t_i(a)** の固定点反復を回す診断モードである(**採用しない** —— 数を出すための器)。
+// 二体・単一源支配では t_0 = η·χ₀·a_1・t_1 = η·χ₁·a_0 なので、行列式 **1 − η²χ₀χ₁** が
+// 0 に近づく(η=χ=1)ほど反復が止まらない —— その特異性を数で出すのがこのモードの目的である。
+const SPACE_MESH_TOY_CLOSURE = ["gravity","iterate"];
+const GEO_TOY_CLOSURE_ITERS_DEFAULT = 8;      // 既定の最大反復数(宣言で 1〜64)
+const GEO_TOY_CLOSURE_TOL = 1e-12;            // 相対残差の停止条件(**宣言値**であって精度の主張ではない)
 const DFM_FIELD_BG = ["static","frame"];
 const DFM_FIELD_ENERGY = ["none","meshLedger","toy"];
 const DFM_FIELD_NEED = ["all","gravity"];   // 第260便a: 要求別(gravity は D・∇D・g だけ)
@@ -35414,6 +35617,16 @@ function dfmField(state,px,py,opts){
 //   **抽出法(fixed.extractor)と同じ名前は独立と認めない**(同じ抽出器を別名で通さない)、
 //   (c) `systematic` は**非負の有限数として宣言**すること(省略は 0 ではない)。
 //   **これは誤認定を防ぐ修正であって、通る件数を増やす変更ではない**(門は厳しくなる方向にしか動かない)。
+// ■ 第264便d(第56報・統括の裁定): **欠損の観測値を 0 と読まない・文字列の σ を受け取らない**
+//   門(5) は `Number(S.yObs)` と `Number(S.sigma)` で読んでいた。JavaScript の `Number` は
+//   **`null` も `""` も 0 に変える**ので、**観測値を宣言し忘れた系列が「y_obs=0」として判定に入り**、
+//   `|y∞−0|+U∞ ≤ 3σ` を偶然通る道が空いていた(欠損が合格になりうる = 検査が空振りする)。
+//   文字列の `"1e-3"` も同じ経路で σ になっていた(**σ は宣言された数であって、字面ではない**)。
+//   本便で **`typeof v === "number"` かつ有限**でなければ受け取らないようにする:
+//     ・`yObs` が `null` / `undefined` / `""` / 文字列 / NaN → **門(5) は通らない**(`yObsDeclared:false`)。
+//     ・`sigma` が数でない、または ≤0 → 同じく通らない(`sigmaDeclared:false`)。
+//   **門は厳しくなる方向にしか動かない**(恒久契約 4 項)。通っていた系列が落ちることはあっても、
+//   落ちていた系列が通ることはない。
 // ■ 出力
 //   { ok, verdict, gates:{g1..g5}, p, pShifts, yInf, uInf, residual, distanceSigma, failed[] }
 function dfmForecastGate(series){
@@ -35477,20 +35690,26 @@ function dfmForecastGate(series){
     methodMissing:(ind!==null&&indM===null), methodSameAsExtractor:indSameName,
     what:"Richardson を段をずらして比較し、独立推定(**別名で宣言された**別積分法/別抽出法)と照合する"};
   // ---- 門(5): |y∞−y_obs| + U∞ ≤ 3σ
-  const yObs=Number(S.yObs), sg=Number(S.sigma);
+  // 第264便d: **宣言された数だけを受け取る**(`Number(null)===0` / `Number("")===0` を踏まない)。
+  const numDecl=(v)=>((typeof v==="number"&&Number.isFinite(v))?v:NaN);
+  const yObs=numDecl(S.yObs), sg=numDecl(S.sigma);
+  const yObsDeclared=Number.isFinite(yObs), sigmaDeclared=(Number.isFinite(sg)&&sg>0);
   // 第262便c(検証仮説 (5)): 系統幅は **非負の有限数として宣言**されていなければならない(省略は 0 ではない)
   const sysOk=(Number.isFinite(S.systematic)&&Number(S.systematic)>=0);
   const sys=sysOk?Number(S.systematic):0;
   const u=(extSpread===null&&indDiff===null)?null:((extSpread||0)+(indDiff||0)+sys);
   out.uInf=u;
-  const dist=(out.yInf!==null&&Number.isFinite(yObs))?Math.abs(out.yInf-yObs):null;
+  const dist=(out.yInf!==null&&yObsDeclared)?Math.abs(out.yInf-yObs):null;
   out.residual=dist;
-  out.distanceSigma=(dist!==null&&Number.isFinite(sg)&&sg>0)?((dist+(u||0))/sg):null;
-  out.gates.g5={pass:(sysOk&&dist!==null&&u!==null&&Number.isFinite(sg)&&sg>0&&(dist+u)<=3*sg),
-    residual:dist, uInf:u, sigma:(Number.isFinite(sg)&&sg>0)?sg:null, nSigma:out.distanceSigma,
-    systematicDeclared:sysOk,
+  out.distanceSigma=(dist!==null&&sigmaDeclared)?((dist+(u||0))/sg):null;
+  out.gates.g5={pass:(sysOk&&yObsDeclared&&sigmaDeclared&&dist!==null&&u!==null&&(dist+u)<=3*sg),
+    residual:dist, uInf:u, sigma:sigmaDeclared?sg:null, nSigma:out.distanceSigma,
+    systematicDeclared:sysOk, yObsDeclared:yObsDeclared, sigmaDeclared:sigmaDeclared,
+    yObsKind:(S.yObs===undefined?"undefined":(S.yObs===null?"null":typeof S.yObs)),
+    sigmaKind:(S.sigma===undefined?"undefined":(S.sigma===null?"null":typeof S.sigma)),
     uParts:{extrapolationSpread:extSpread, independentDiff:indDiff, systematic:sys},
-    what:"|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない・系統幅は非負有限の**明示宣言**)"};
+    what:"|y∞−y_obs| + U∞ ≤ 3σ(U∞ は宣言であって数学的上限ではない・系統幅は非負有限の**明示宣言**・"
+      +"**y_obs と σ は宣言された有限の数**でなければならない —— 欠損を 0 と読まない・文字列を受け取らない)"};
   const keys=["g1","g2","g3","g4","g5"];
   out.failed=keys.filter((k)=>!out.gates[k].pass);
   out.ok=(out.failed.length===0);
@@ -35642,6 +35861,67 @@ function dfmDominance(bodies,opts){
     note:"3 つの軸は別物である(1 つの数に畳まない)。二体では uAlign は χ₂ と恒等に一致する。"
       +"**これは物差しであって法則ではない** —— この数でモデルを切り替える経路は実装していない。" };
 }
+// ===== 第264便a(第56報・統括が設定した検証仮説 (A)): **kFrame の候補式の評価器** =====
+// `HP.dfmFrameKCandidates(inp)`。原仮定者(第56報)「『kFrame≈0.7』を、他の観測値から**事前予測する
+// 計算式を確立する**」。—— 本関数は**候補式を同じ入力で並べて評価するだけの純関数**であって、
+// **予測式ではない**。力へは 1 バイトも接続せず、kFrame をこの数で自動的に決める経路はどこにも無い
+// (内蔵プリセットの kFrame は QA `preset.kframe-binary01` が要求する **0 か 1** のままである)。
+//
+// **候補は 3 つ**(第264便a の検証。**どれも「成立した」とは宣言していない**):
+//   H1: k = (f_ind − 1)/χ_eff。**f_ind が独立でなければ循環である** —— 較正台帳の f は
+//       生成則 f = 1 + k_F·χ_eff(`dfmBinaryInertiaFactorLinear`)そのものから作られているので、
+//       台帳の f を入れると恒等式 k=k_F が返るだけで**予測ではない**。したがって本関数は
+//       `fIndependent` に**出どころの宣言** `fIndSource` を要求し、宣言が無い/台帳由来なら
+//       `h1.circular:true` を立てて **value を返さない**(null)。
+//   H2: k = 1 − α·η_sym·χ_eff/(χ_eff + δ)。η_sym=m₁m₂/M² は対称質量比。α・δ は**自由パラメータ**で、
+//       既定は事前提案値 α=1.2・δ=0(この既定値は測って決めたものではない)。
+//   H3: 相関の候補列(圧縮度 Ξ=Gm/(Rc²)・e・P・q=m₂/m₁)。**式ではなく、突き合わせる列**であって、
+//       本関数はそれを**そのまま並べて返すだけ**である(係数も有意性もここでは出さない)。
+//
+// 入力 inp = { chiEff, etaSym | (m1, m2), alpha, delta, fIndependent, fIndSource, xi1, xi2, e, periodSec }。
+// **必要な入力が無ければ null を返す**(0 で埋めない)。
+function dfmFrameKCandidates(inp){
+  const o=inp||{};
+  let eta=(o.etaSym===undefined||o.etaSym===null)? null : Number(o.etaSym);
+  let q=null;
+  if(eta===null && Number.isFinite(Number(o.m1)) && Number.isFinite(Number(o.m2))){
+    const a=Math.max(Number(o.m1),Number(o.m2)), b=Math.min(Number(o.m1),Number(o.m2));
+    if(a>0 && b>0){ eta=a*b/((a+b)*(a+b)); q=b/a; }
+  } else if(Number.isFinite(Number(o.m1)) && Number.isFinite(Number(o.m2))){
+    const a=Math.max(Number(o.m1),Number(o.m2)), b=Math.min(Number(o.m1),Number(o.m2));
+    if(a>0 && b>0) q=b/a;
+  }
+  const chi=Number(o.chiEff);
+  if(!Number.isFinite(chi) || !(chi>0)) return null;
+  if(eta!==null && (!Number.isFinite(eta) || !(eta>0))) return null;
+  const alpha=(o.alpha===undefined||o.alpha===null)? 1.2 : Number(o.alpha);
+  const delta=(o.delta===undefined||o.delta===null)? 0 : Number(o.delta);
+  if(![alpha,delta].every(Number.isFinite) || !(delta>=0)) return null;
+  // H1
+  const fInd=(o.fIndependent===undefined||o.fIndependent===null)? null : Number(o.fIndependent);
+  const src=(typeof o.fIndSource==="string")? o.fIndSource : null;
+  const LEDGER=["ledger","massCalibration","dfmBinaryInertiaFactorLinear","fLedger"];
+  const circular=(fInd===null) || (src===null) || LEDGER.indexOf(src)>=0;
+  const h1={ value:(circular||!Number.isFinite(fInd))? null : (fInd-1)/chi,
+    circular, fIndSource:src,
+    reason: (fInd===null)? "f_ind が渡されていない"
+      : (src===null)? "f_ind の出どころが宣言されていない(循環かどうか判定できない)"
+      : (LEDGER.indexOf(src)>=0)? "f_ind が較正台帳(生成則 f=1+k_F·χ_eff)由来 —— 恒等式であって予測ではない"
+      : null };
+  // H2
+  const den=chi+delta;
+  const h2={ value:(eta!==null && den>0)? (1-alpha*eta*chi/den) : null, alpha, delta, etaSym:eta,
+    note:"α・δ は自由パラメータ。既定 α=1.2・δ=0 は**事前提案値**であって測って決めた値ではない。" };
+  // H3(突き合わせる列。**式ではない**)
+  const num=(z)=>{ const v=Number(z); return Number.isFinite(v)? v : null; };
+  const h3={ columns:{ xi1:num(o.xi1), xi2:num(o.xi2), xiMean:(Number.isFinite(Number(o.xi1))
+    && Number.isFinite(Number(o.xi2)))? (Number(o.xi1)+Number(o.xi2))/2 : null,
+    e:num(o.e), periodSec:num(o.periodSec), qRatio:(q!==null)? q : num(o.qRatio), etaSym:eta, chiEff:chi },
+    note:"**相関の候補列であって式ではない**(係数も有意性もこの関数は出さない)。" };
+  return { chiEff:chi, h1, h2, h3,
+    note:"**候補式の評価器であって予測式ではない。** 力へは接続せず、kFrame をこの数で決める経路は無い"
+      +"(内蔵プリセットの kFrame は 0 か 1 のままである)。" };
+}
 // ===== 第259便a(第51報): **geoPN=3 のトイ積分器** `HP.dfmGeoToyStep(S,dt)` =====
 // 原仮定者(第51報):「例えば『測地線モード geoPN=3』などとして、トイモデル用に明確に処理を分ける事を
 // 検討する」。**`S._core` の外**(`S.step` の `_meshCoordForce` と同じ位置)に置く別の則である。
@@ -35684,11 +35964,41 @@ function dfmGeoToyStep(S,dt){
   for(let i=0;i<n;i++) BD.push({id:i, m:m[i], x:x[i], y:y[i], vx:vx[i], vy:vy[i], ax:0, ay:0});
   // 第260便a(入場条件 (v)): **トイの g も表示と同じ `dfmField` から読む**(第259便a は
   // `dfmMeshScalarField` で作り直していた —— 同じ核なので値はビット同一で、読む関数が 1 本になる)
+  // 第264便b(統括の読み (B)(i)): **pinned 源は規定運動**である。∂ₜu の中の Σw·a_i が読むべきなのは
+  // **規定運動の加速度**であって、受けている重力加速度ではない(pinned は力を受けても速度が動かない)。
+  //   ・静止/等速の pinned … **0**
+  //   ・レール駆動(`railOmega`/`railH`)… 位置 P=C+r(t)·(cos a, sin a)・a=a₀+ωt・r=r₀e^{ht} の 2 階微分
+  //     **P̈ = (h²−ω²)(P−C) + 2hω·(−(P−C)_y, (P−C)_x)**(h=0 なら向心 −ω²(P−C))
+  //     ※ 膨張レールが値域(1〜4800)で飽和した後は ṙ=0 なので h_eff=0 とする(エンジンの規定運動と同じ)
+  // **重力(E4)は 1 バイトも変えていない**(ここで直すのは「トイが ∂ₜu に渡す源の加速度」だけである)。
   for(let i=0;i<n;i++){
+    if(pin[i]){
+      const om=S.railOmega? S.railOmega[i] : 0, hh=S.railH? S.railH[i] : 0;
+      if(om===0 && hh===0){ BD[i].ax=0; BD[i].ay=0; continue; }
+      let he=hh;
+      if(hh!==0){ const r0=S.railR[i]*Math.exp(hh*S.t); if(!(r0>1 && r0<4800)) he=0; }
+      const ex=x[i]-(S.railCx? S.railCx[i] : 0), ey=y[i]-(S.railCy? S.railCy[i] : 0);
+      BD[i].ax=(he*he-om*om)*ex-2*he*om*ey;
+      BD[i].ay=(he*he-om*om)*ey+2*he*om*ex;
+      continue;
+    }
     const f=dfmField(BD,x[i],y[i],{excludeBodyId:i, need:"gravity", G, eps, p:pw, D0:D0p,
       background:"static", energyContract:"toy"});
     if(!f){ S.geoToyStop="field"; return null; }
     BD[i].ax=f.gravity[0]; BD[i].ay=f.gravity[1];
+  }
+  // 第264便b(統括の読み (B)(ii)): **源の閉包**。既定 "gravity" は上の 1 巡(a_i=g_i)で終わり
+  // (**現状とビット同一**)。"iterate" は a_i=g_i+t_i(a) の固定点反復で、残差と反復数を診断へ出す。
+  const closure=(cf.toyClosure===undefined)? SPACE_MESH_TOY_CLOSURE[0] : cf.toyClosure;
+  if(SPACE_MESH_TOY_CLOSURE.indexOf(closure)<0){ S.geoToyStop="toyClosure"; return null; }
+  const maxIt=(closure==="iterate")
+    ? ((cf.toyClosureIters===undefined)? GEO_TOY_CLOSURE_ITERS_DEFAULT : Math.round(cf.toyClosureIters))
+    : 1;
+  let GX=null, GY=null, PREV=null, gScale=0;
+  if(closure==="iterate"){
+    GX=new Float64Array(n); GY=new Float64Array(n); PREV=new Float64Array(2*n);
+    for(let i=0;i<n;i++){ GX[i]=BD[i].ax; GY[i]=BD[i].ay;
+      const gg=Math.hypot(GX[i],GY[i]); if(gg>gScale) gScale=gg; }
   }
   // 支持半径 R とその時間微分 Ṙ(既定は上位 2 体の分離の SPACE_MESH_SUPPORT_RSEP 倍 —— **動く量**)
   let supR=null, supRd=0;
@@ -35706,15 +36016,20 @@ function dfmGeoToyStep(S,dt){
     if(!(supR>0) || !Number.isFinite(supR)){ S.geoToyStop="supportR"; return null; }
   }
   const ACC=new Float64Array(2*n);
-  let nOn=0, dvM=0, chiMax=0;
+  let nOn=0, dvM=0, chiMax=0, failWhy=null;
+  // 第264便b: **1 巡**を関数にした(閉包の反復で同じ計算を回すため)。**中身は第263便a と 1 文字も変えていない**
+  // —— ただし ACC へ入れるのは **Δv ではなく加速度**で、dt は適用の直前に掛ける(同じ 1 回の乗算なのでビット同一)。
+  const onePass=()=>{
+  nOn=0; dvM=0; chiMax=0;
   for(let i=0;i<n;i++){
+    ACC[2*i]=0; ACC[2*i+1]=0;
     if(pin[i]) continue;                                   // 規定運動へは当てない
     const px=x[i], py=y[i];
     let ubx, uby, gxx, gxy, gyx, gyy, tux, tuy, chi;
     if(boxOn){
       // 箱は**規定場**(空間一様な W_B)。χ=W_B/(D₀+W_B+W) の混合を ∇χ・∂ₜχ 込みで作る
       const fl=dfmMeshScalarField(BD,px,py,{G, eps, power:pw, exclude:i});
-      if(!fl){ S.geoToyStop="field"; return null; }
+      if(!fl){ failWhy="field"; return false; }
       let Wd=0;
       for(let j=0;j<n;j++){
         if(j===i) continue;
@@ -35725,7 +36040,7 @@ function dfmGeoToyStep(S,dt){
       const ex=px-B0.cx, ey=py-B0.cy;
       const un0=B0.vx-B0.omega*ey+bH*ex, un1=B0.vy+B0.omega*ex+bH*ey;
       const den=D0p+WB+fl.Wpull;
-      if(!(den>0)){ S.geoToyStop="den"; return null; }
+      if(!(den>0)){ failWhy="den"; return false; }
       chi=WB/den;
       const WBd=-B0.dPower*bH*WB;
       const gcx=-WB*fl.gradW[0]/(den*den), gcy=-WB*fl.gradW[1]/(den*den);
@@ -35749,11 +36064,39 @@ function dfmGeoToyStep(S,dt){
     const vxi=vx[i], vyi=vy[i], rlx=vxi-ubx, rly=vyi-uby;
     const aix=tux+gxx*vxi+gxy*vyi-(gxx*rlx+gyx*rly);
     const aiy=tuy+gyx*vxi+gyy*vyi-(gxy*rlx+gyy*rly);
-    if(!Number.isFinite(aix) || !Number.isFinite(aiy)){ S.geoToyStop="nonfinite"; return null; }
-    ACC[2*i]=aix*dt; ACC[2*i+1]=aiy*dt;
+    if(!Number.isFinite(aix) || !Number.isFinite(aiy)){ failWhy="nonfinite"; return false; }
+    ACC[2*i]=aix; ACC[2*i+1]=aiy;
     const dm=Math.hypot(aix*dt,aiy*dt); if(dm>dvM) dvM=dm;
     nOn++;
   }
+  return true;
+  };
+  // ---- 閉包の反復(既定 "gravity" は 1 巡で終わる = 第263便a とビット同一)
+  let iters=0, resid=null, residRel=null, conv=null;
+  if(!onePass()){ S.geoToyStop=failWhy; return null; }
+  iters=1;
+  if(closure==="iterate" && nOn>0){
+    for(let k=1;k<maxIt;k++){
+      PREV.set(ACC);
+      for(let i=0;i<n;i++){ if(pin[i]) continue; BD[i].ax=GX[i]+ACC[2*i]; BD[i].ay=GY[i]+ACC[2*i+1]; }
+      if(!onePass()){ S.geoToyStop=failWhy; return null; }
+      iters=k+1;
+      let d=0;
+      for(let i=0;i<n;i++){
+        const qx=ACC[2*i]-PREV[2*i], qy=ACC[2*i+1]-PREV[2*i+1];
+        const dd=Math.hypot(qx,qy); if(dd>d) d=dd;
+      }
+      // **分母は反復ごとに動かさない**(駆動項 = 源の重力加速度の最大値で割る)。
+      // 反復値そのもので割ると、**打ち消しで 0 になった步を「収束」と読んでしまう**
+      // (η=χ=1 の二体は ACC が [g,−g] と [0,0] を往復する = 特異点そのものである)。
+      resid=d; residRel=(gScale>0)? d/gScale : ((d===0)? 0 : Infinity);
+      if(!Number.isFinite(d)){ conv=false; break; }
+      conv=(residRel<=GEO_TOY_CLOSURE_TOL);
+      if(conv) break;
+    }
+  }
+  S.geoToyClosure=closure; S.geoToyIters=iters;
+  S.geoToyResid=resid; S.geoToyResidRel=residRel; S.geoToyConverged=conv;
   S.geoToyStop=nOn? null : "noTargets";
   S.geoToyN=nOn; S.geoToyDv=dvM; S.geoToyChi=chiMax;
   if(!nOn) return null;
@@ -35761,7 +36104,7 @@ function dfmGeoToyStep(S,dt){
   const carV=!!S.carVx, carVx=S.carVx, carVy=S.carVy;
   let spx=0, spy=0, sl=0, dEt=0;
   for(let i=0;i<n;i++){
-    let ddx=ACC[2*i], ddy=ACC[2*i+1];
+    let ddx=ACC[2*i]*dt, ddy=ACC[2*i+1]*dt;
     if(ddx===0 && ddy===0) continue;
     const dv2=ddx*ddx+ddy*ddy;
     if(dv2>REACTION_DV_CAP2){ const sc=REACTION_DV_CAP/Math.sqrt(dv2); ddx*=sc; ddy*=sc; S.clampRN++; }
@@ -36045,14 +36388,17 @@ function dfmLayerMerge(la, lb, rule){
     for(const L of A.concat(B)){
       const k=String(L.role||"");
       const jl=Number.isFinite(Number(L.J))? Number(L.J) : 0;   // 第261便b: 宣言 J は和で運ぶ(力へは未接続)
+      // 第264便c: 面内成分 Jx/Jy も同じ和で運ぶ(数値の保存だけ — 力へは未接続)
+      const jx=Number.isFinite(Number(L.Jx))? Number(L.Jx) : 0, jy=Number.isFinite(Number(L.Jy))? Number(L.Jy) : 0;
       const cur=map.get(k);
-      if(cur){ cur.m+=Number(L.m); cur.r=Math.sqrt(cur.r*cur.r+Number(L.r)*Number(L.r)); cur.J+=jl; }
-      else map.set(k,{role:k, m:Number(L.m), r:Number(L.r), J:jl});
+      if(cur){ cur.m+=Number(L.m); cur.r=Math.sqrt(cur.r*cur.r+Number(L.r)*Number(L.r)); cur.J+=jl; cur.Jx+=jx; cur.Jy+=jy; }
+      else map.set(k,{role:k, m:Number(L.m), r:Number(L.r), J:jl, Jx:jx, Jy:jy});
     }
     out=Array.from(map.values());
   } else {
     out=A.concat(B).map(L=>({role:String(L.role||""), m:Number(L.m), r:Number(L.r),
-      J:(Number.isFinite(Number(L.J))? Number(L.J) : 0)}));
+      J:(Number.isFinite(Number(L.J))? Number(L.J) : 0),
+      Jx:(Number.isFinite(Number(L.Jx))? Number(L.Jx) : 0), Jy:(Number.isFinite(Number(L.Jy))? Number(L.Jy) : 0)}));
   }
   out.sort((u,v)=>u.r-v.r);
   // 同一半径・上限超過は**内側から**畳む(非重複・昇順・層数 ≤ BODY_LAYER_MAX の不変量を保つ)。
@@ -36065,9 +36411,13 @@ function dfmLayerMerge(la, lb, rule){
     const rp=out[k-1].r, rk=out[k].r;
     if(rk-rp<=LAYER_MERGE_RTOL*Math.max(Math.abs(rk),Math.abs(rp))){
       out[k].m+=out[k-1].m; out[k].r=Math.max(rk,rp);
-      out[k].J=(out[k].J||0)+(out[k-1].J||0); out.splice(k-1,1); k--; }
+      out[k].J=(out[k].J||0)+(out[k-1].J||0);
+      out[k].Jx=(out[k].Jx||0)+(out[k-1].Jx||0); out[k].Jy=(out[k].Jy||0)+(out[k-1].Jy||0);   // 第264便c
+      out.splice(k-1,1); k--; }
   }
-  while(out.length>BODY_LAYER_MAX){ out[1].m+=out[0].m; out[1].J=(out[1].J||0)+(out[0].J||0); out.splice(0,1); }
+  while(out.length>BODY_LAYER_MAX){ out[1].m+=out[0].m; out[1].J=(out[1].J||0)+(out[0].J||0);
+    out[1].Jx=(out[1].Jx||0)+(out[0].Jx||0); out[1].Jy=(out[1].Jy||0)+(out[0].Jy||0);   // 第264便c
+    out.splice(0,1); }
   return out;
 }
 
@@ -36115,37 +36465,75 @@ function coreV2MigrationPlan(body){
   if(["rigid","differential","active"].indexOf(mode)<0) return { ok:false, reason:"unknownCoreMode" };
   if(!Number.isFinite(mf) || !(mf>0) || mf>1) return { ok:false, reason:"massFracOutOfRange" };
   if(!Number.isFinite(Rc) || !(Rc>0)) return { ok:false, reason:"coreRadiusNotPositive" };
-  if(!(Rc<R) && mf<1) return { ok:false, reason:"coreOutsideShell" };
+  // 第264便c(API の穴 ①): **massFrac=1(裸コア)でも Rc ≥ R は移行不可**(等号 Rc=R を含む)。
+  // 基点は `mf<1` の条件で裸コアだけを例外にしていたので、massFrac=1 にすれば Rc≥R が通った
+  // (層の r が観測半径を越える宣言を作れた)。**契約は緩めない** —— 🦀 crabRemnant(Rc=R)は
+  // massFrac をどう置いても移行不可のままである(〔第263便b〕規約文 2. の「等号を含む」の続き)
+  if(!(Rc<R)) return { ok:false, reason:"coreOutsideShell" };
   const Mc=mf*mRaw, Ms=mRaw-Mc;
-  const zeta=Number.isFinite(Number(c.inertiaScale))? Number(c.inertiaScale) : 1;
+  // 第264便c(API の穴 ②): **inertiaScale は宣言されたら正の有限数でなければならない**。
+  // 基点は `Number.isFinite(Number(c.inertiaScale))? … : 1` だったので、**null は Number(null)=0 で
+  // 「有限」と読まれ ζ=0 → I_c=0** になり、ω も E_rot も 0 の計画が黙って返っていた
+  if(c.inertiaScale!==undefined){
+    const z0=Number(c.inertiaScale);
+    if(c.inertiaScale===null || !Number.isFinite(z0) || !(z0>0)) return { ok:false, reason:"inertiaScaleNotPositive" };
+  }
+  const zeta=(c.inertiaScale===undefined)? 1 : Number(c.inertiaScale);
   const Ic=0.5*Mc*Rc*Rc*zeta;
   let om, thDeg, Jz, Jx, Jm;
   if(c.Jz!==undefined || c.J!==undefined){                 // ② 実行状態形(主変数そのまま)
-    Jz=Number.isFinite(Number(c.Jz!==undefined? c.Jz : c.J))? Number(c.Jz!==undefined? c.Jz : c.J) : 0;
-    Jm=Number.isFinite(Number(c.Jmag))? Math.abs(Number(c.Jmag)) : Math.abs(Jz);
+    // 第264便c(API の穴 ③): **J・|J| の Infinity・NaN・null を 0 に読み替えない**(拒否する)。
+    // 基点は `Number.isFinite(…)? … : 0` で、NaN も null も Infinity も**黙って 0 の計画**になった
+    const jRaw=(c.Jz!==undefined? c.Jz : c.J);
+    if(jRaw===null || !Number.isFinite(Number(jRaw))) return { ok:false, reason:"coreJNotFinite" };
+    Jz=Number(jRaw);
+    if(c.Jmag!==undefined){
+      if(c.Jmag===null || !Number.isFinite(Number(c.Jmag))) return { ok:false, reason:"coreJNotFinite" };
+      Jm=Math.abs(Number(c.Jmag));
+    } else Jm=Math.abs(Jz);
     if(Jm<Math.abs(Jz)) Jm=Math.abs(Jz);
     om=(Ic>1e-12)? Jm/Ic : 0;
     thDeg=(Jm>0)? Math.acos(Math.max(-1,Math.min(1,Jz/Jm)))*180/Math.PI : 0;
     Jx=Math.sqrt(Math.max(0, Jm*Jm-Jz*Jz));
   } else {                                                  // ① JSON 形(build と同一式)
-    om=Number.isFinite(Number(c.omega))? Number(c.omega) : 0;
-    thDeg=Number.isFinite(Number(c.tilt))? Number(c.tilt) : 0;
+    // 第264便c(API の穴 ③): omega / tilt も同じ —— 宣言されていて非有限(または null)なら拒否。
+    // **未宣言(undefined)だけが 0 である**(build の `c.omega||0` と同じ既定)
+    if(c.omega!==undefined && (c.omega===null || !Number.isFinite(Number(c.omega))))
+      return { ok:false, reason:"coreOmegaNotFinite" };
+    if(c.tilt!==undefined && (c.tilt===null || !Number.isFinite(Number(c.tilt))))
+      return { ok:false, reason:"coreTiltNotFinite" };
+    om=(c.omega===undefined)? 0 : Number(c.omega);
+    thDeg=(c.tilt===undefined)? 0 : Number(c.tilt);
     const rad=thDeg*Math.PI/180;
     Jz=Ic*om*Math.cos(rad); Jx=Ic*om*Math.sin(rad); Jm=Math.abs(Ic*om);
   }
+  // 第264便c(API の穴 ⑤): **宣言された spin が非有限・null なら拒否**(0 に読み替えない)。
+  // 未宣言(undefined)だけが「殻の J なし」である
+  if(b.spin!==undefined && (b.spin===null || !Number.isFinite(Number(b.spin))))
+    return { ok:false, reason:"bodySpinNotFinite" };
   const sp=Number(b.spin);
   const Js=(Number.isFinite(sp) && Ms>0)? 0.5*Ms*R*R*sp : 0;
-  if(![Mc,Ms,Ic,Jz,Js].every(Number.isFinite)) return { ok:false, reason:"valuesNotFinite" };
+  // 第264便c(API の穴 ④): **入力が有限でも積が溢れる**(ζ=1e300・ω=1e300 等)。基点は Jx と
+  // 回転 E を検査していなかったので、`Jx=Infinity` や `Erot=Infinity` の計画が ok:true で返った
+  if(![Mc,Ms,Ic,Jz,Jx,Jm,Js].every(Number.isFinite)) return { ok:false, reason:"valuesNotFinite" };
   // **根 = コア・層1 = 外殻**(第54報)。内部表現は従来どおり「r 昇順の layers 配列」で、
   // 最内層(配列の先頭)が「根」である —— UI のタブがその規約を見せる
-  const layers=(Ms>0)? [{role:"core", m:Mc, r:Rc, J:Jz}, {role:"shell", m:Ms, r:R, J:Js}]
-                     : [{role:"core", m:Mc, r:Rc, J:Jz}];
+  // 第264便c: **面内成分 Jx/Jy を層に数値として載せる**(0 のときは鍵を作らない = 正準形・署名不変)。
+  // 運ぶのは数値だけで、**力へは接続しない**(歳差・Kalign・熱は層に無い)。警告 `tiltNotCarried`
+  // は据え置き —— 意味は「**面内成分の力学**は運ばれない」である(数値は運ぶ)
+  const jyRaw=Number(c.Jy), jxRaw=Number(c.Jx);
+  const Jx2=Number.isFinite(jxRaw)? jxRaw : Jx, Jy2=Number.isFinite(jyRaw)? jyRaw : 0;
+  const core0={role:"core", m:Mc, r:Rc, J:Jz};
+  if(Jx2!==0) core0.Jx=Jx2;
+  if(Jy2!==0) core0.Jy=Jy2;
+  const layers=(Ms>0)? [core0, {role:"shell", m:Ms, r:R, J:Js}] : [core0];
   const warnings=["canReplaceV2:false","layerJIsDeclarationOnly"];
-  if(Math.abs(Jx)>0) warnings.push("tiltNotCarried");
+  if(Math.abs(Jx)>0 || Jx2!==0 || Jy2!==0) warnings.push("tiltNotCarried");   // 第264便c: 意味は「面内成分の力学は運ばれない」
   if(Number(c.Kcs)>0) warnings.push("KcsNotCarried");
   if(Number(c.pump)>0 || Number(c.contract)>0 || mode==="active") warnings.push("coreDynamicsNotCarried");
   if(Ms<=0) warnings.push("nakedCoreObservedRadiusKept");
   const Er=(Ic>1e-12)? (Jm*Jm)/(2*Ic) : 0, ErZ=(Ic>1e-12)? (Jz*Jz)/(2*Ic) : 0;
+  if(!Number.isFinite(Er) || !Number.isFinite(ErZ)) return { ok:false, reason:"rotationEnergyNotFinite" };
   return { ok:true, layers, mode, Mc, Ms, Rc, R, sumM:Mc+Ms,
     inertiaScale:zeta, Ic, omega:om, tiltDeg:thDeg, Jz, Jx, Jmag:Jm, Jshell:Js,
     Erot:Er, ErotZ:ErZ,
@@ -36178,12 +36566,92 @@ function coreV2MigrateReport(preset){
   return { id:p.id!==undefined? p.id : null, nBodies:bs.length, nCore:rows.length,
     counts, byReason, rows, canReplaceV2:false };
 }
+// 第264便c(第56報「**親子コアが、コアV2を完全に置き換え可能な状態かを確認する**」):
+// **置換可否レポート** `coreV2ReplaceReport(preset)` —— **変換も書き込みもしない純関数**。
+// コア V2 を宣言した body ごとに、置換の条件を **6 項**に割って可否と理由を返す。
+//   (1) `rotationSource` —— 回転場の源(`spinDipoleMoment`)が層だけで**厳密に**再現できるか。
+//       V2 の Q は `½·m·R²·spin + J_z/ζ`(differential/active。rigid は第 2 項なし)で、
+//       層の Q は `Σ J_k`(移行後は `J_z + ½·M_s·R²·spin`)である。したがって一致するのは
+//       **① 殻の項が 0(spin=0 か M_c·R²·spin=0)かつ ② ζ=1** のときだけで、
+//       差は `½·M_c·R²·spin`(殻の項が body 質量で組まれている分)と `J_z(1/ζ−1)` である。
+//       理由: `shellSpinTermDiffers` / `inertiaScaleNotUnity`。
+//   (2) `tilt` —— 面内成分が層に**数値として**載るか(第264便c で載るようになった)。
+//       ただし**傾きの力学**(Kalign の整列トルク・歳差)は層に無いので、`Kalign>0` は不可
+//       (理由 `tiltDynamicsNotCarried`)。回転場の射影は V2 と同じ z 成分である。
+//   (3) `KcsThermal` —— コア–殻の熱結合 K_cs。層は熱結合を持たない(`Kcs>0` は不可・`KcsNotCarried`)。
+//   (4) `activePumpContract` —— `mode:"active"`・`pump`・`contract`・`burst`・`shed`・`rTarget`・
+//       `sourceRate`・`internalEnergy` は層に無い(`coreDynamicsNotCarried`)。
+//   (5) `saveRestore` —— 層の値が**編集経路の値域**(m∈[1e−12,MASS_CAP]・r∈[RMIN,1e6]・|J|≤JCAP)に
+//       入るか。外れると `applyLayerEdit` の clamp が値を変えるので、保存→復元で同じ数に戻らない
+//       (`layerValueOutOfEditRange`)。
+//   (6) `migration` —— `coreV2MigrationPlan` が ok か(そうでなければその理由)。
+// **`canReplaceV2` が全項 true でも「コア V2 を廃止できる」とは書かない** —— 本関数が測るのは
+// 上の 6 項だけであり、描画・保存 JSON・AI 生成・既存セーブの互換はこの表の外である。
+function coreV2ReplaceAxes(body){
+  const b=body||{}, c=(b.core||b.coreV2||{});
+  const pl=coreV2MigrationPlan(b);
+  const axes={rotationSource:true, tilt:true, KcsThermal:true, activePumpContract:true,
+    saveRestore:true, migration:true};
+  const why={};
+  if(!pl.ok){
+    axes.migration=false; why.migration=pl.reason;
+    for(const k of ["rotationSource","tilt","KcsThermal","activePumpContract","saveRestore"]){
+      axes[k]=false; why[k]="migrationRejected"; }
+    return { canReplaceV2:false, axes, why, plan:pl, deltaQ:null, Q:null };
+  }
+  // (1) 回転場の源の差(実数で出す — 「一致した」は数で言う)
+  const sp=Number.isFinite(Number(b.spin))? Number(b.spin) : 0;
+  const md=pl.mode, mRaw=Number(b.m), R=pl.R;
+  const qV2=0.5*mRaw*R*R*sp + ((md==="differential"||md==="active")? (pl.Ic>1e-12? pl.Jz/pl.inertiaScale : 0) : 0);
+  let qLay=0; for(const L of pl.layers) qLay+=(L.J||0);
+  const dQ=qLay-qV2;
+  if(dQ!==0){
+    axes.rotationSource=false;
+    why.rotationSource=(pl.inertiaScale!==1 && (md==="differential"||md==="active"))
+      ? "inertiaScaleNotUnity" : "shellSpinTermDiffers";
+  }
+  // (2) 傾き — 数値は載る。力学(整列トルク)は載らない
+  if(Number(c.Kalign)>0){ axes.tilt=false; why.tilt="tiltDynamicsNotCarried"; }
+  // (3) 熱
+  if(Number(c.Kcs)>0){ axes.KcsThermal=false; why.KcsThermal="KcsNotCarried"; }
+  // (4) 能動系
+  if(md==="active" || Number(c.pump)>0 || Number(c.contract)>0 || c.burst || c.shed
+     || Number(c.rTarget)>0 || Number(c.sourceRate)>0 || Number(c.internalEnergy)>0){
+    axes.activePumpContract=false; why.activePumpContract="coreDynamicsNotCarried"; }
+  // (5) 保存・復元(編集経路の値域)
+  for(const L of pl.layers){
+    const js=[L.J||0, L.Jx||0, L.Jy||0];
+    if(!(L.m>=1e-12 && L.m<=MASS_CAP) || !(L.r>=BODY_LAYER_RMIN && L.r<=1e6)
+       || js.some((j)=>Math.abs(j)>BODY_LAYER_JCAP)){
+      axes.saveRestore=false; why.saveRestore="layerValueOutOfEditRange"; break; }
+  }
+  const all=Object.keys(axes).every((k)=>axes[k]);
+  return { canReplaceV2:all, axes, why, plan:pl, deltaQ:dQ, Q:{ v2:qV2, layers:qLay } };
+}
+function coreV2ReplaceReport(preset){
+  const p=preset||{}, bs=Array.isArray(p.bodies)? p.bodies : [];
+  const counts={canReplace:0, cannot:0};
+  const byAxis={rotationSource:0, tilt:0, KcsThermal:0, activePumpContract:0, saveRestore:0, migration:0};
+  const byReason={}, rows=[];
+  for(let i=0;i<bs.length;i++){
+    const b=bs[i];
+    if(!b || !b.core) continue;
+    const a=coreV2ReplaceAxes(b);
+    if(a.canReplaceV2) counts.canReplace++; else counts.cannot++;
+    for(const k of Object.keys(byAxis)) if(!a.axes[k]) byAxis[k]++;
+    for(const k of Object.keys(a.why)){ const key=k+":"+a.why[k]; byReason[key]=(byReason[key]||0)+1; }
+    rows.push({ index:i, mode:String((b.core||{}).mode||""), canReplaceV2:a.canReplaceV2,
+      axes:a.axes, why:a.why, deltaQ:a.deltaQ });
+  }
+  return { id:p.id!==undefined? p.id : null, nBodies:bs.length, nCore:rows.length,
+    counts, byAxis, byReason, rows };
+}
 function coreV2ToLayers(core, body){
   const c=core||{}, b=body||{};
   const pl=coreV2MigrationPlan({ m:b.m, R:(b.R!==undefined? b.R : b.radius), spin:b.spin,
     core:{ mode:c.mode, massFrac:c.massFrac, radius:(c.radius!==undefined? c.radius : c.Rc),
       omega:c.omega, tilt:c.tilt, inertiaScale:c.inertiaScale, Kcs:c.Kcs, pump:c.pump, contract:c.contract,
-      Jz:(c.Jz!==undefined? c.Jz : c.J), Jmag:c.Jmag } });
+      Jz:(c.Jz!==undefined? c.Jz : c.J), Jmag:c.Jmag, Jx:c.Jx, Jy:c.Jy } });   // 第264便c: 面内成分
   if(!pl.ok) return { ok:false, reason:pl.reason };
   return { ok:true, layers:pl.layers, mode:pl.mode, Mc:pl.Mc, Ms:pl.Ms, Rc:pl.Rc, R:pl.R,
     sumM:pl.sumM, observedRadius:pl.observedRadius, plan:pl, note:pl.note };
@@ -36628,10 +37096,18 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // トイは `S._core` の外(`_meshCoordForce` と同じ位置)に置き、`geoCoreDispatch` が
   // `_core` の呼び出しの間だけ p.geoPN を 0 にして dispatch から外す(`_core` は 1 命令も増えない)
   dfmGeoToyStep, SPACE_MESH_INERTIA_REMOVAL, SPACE_MESH_SUPPORT_LEGACY,
+  // 第264便b(第56報): **源の閉包**の値域("gravity" 既定 /"iterate" 診断)と反復・残差の宣言値。
+  // QA behavior.geoToyClosure が「既定は 122 本ビット不変」「iterate は反復数と残差を返す」
+  // 「特異点(det=1−η²χ₀χ₁→0)で収束しない」を機械固定する
+  SPACE_MESH_TOY_CLOSURE, GEO_TOY_CLOSURE_ITERS_DEFAULT, GEO_TOY_CLOSURE_TOL,
   // 第263便a(第55報・検証仮説 (4)): **支配度の器**(質量比・χ の偏り・自己除外並進平均の相手速度成分比を
   // **3 軸のまま**返す純関数)。**力へは 1 バイトも接続せず、法則の自動分岐も実装していない**。
   // QA behavior.geoToyOverlay が二体の恒等(uAlign≡χ₂・D₀=0 で 1)と負質量拒否を機械固定する
   dfmDominance,
+  // 第264便a(第56報・検証仮説 (A)): **kFrame の候補式の評価器**(H1 の循環判定・H2 の 2 自由パラメータ・
+  // H3 の相関候補列を**同じ入力で並べるだけ**の純関数)。**予測式ではない**し、力へも接続していない。
+  // QA behavior.kJointRoot が代数と循環判定・内蔵の二値契約を機械固定する
+  dfmFrameKCandidates,
   // 第259便b(第51報 W2): 親子コア(同心層)の純関数と 3D スピン参照場・歳差/粘性緩和。
   // dfmLayerGravity=球殻定理(内側 0・遠方は点源)/ dfmLayerKernel=慣性核 r^−p の有限半径積分
   // (**重力の球殻積分とは別物**・力へは接続していない)/ dfmLayerMerge=融合の層合成則 2 案/
@@ -36648,7 +37124,12 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第262便b(第54報「コアV2からの移行が可能な様に整備する」): coreV2MigrationPlan=**移行計画**
   // (Ic・J_z・J_x・回転 E の投影・元 JSON の `source` 保持・`canReplaceV2:false`・警告配列)・
   // coreV2MigrateReport=**プリセット 1 本の可否の表**(変換しない)。
+  // 第264便c(第56報「親子コアが、コアV2を完全に置き換え可能な状態かを確認する」):
+  // coreV2ReplaceReport=**置換可否の 6 項レポート**(変換しない)・coreV2ReplaceAxes=1 body 分。
+  // dfmLayerDipoleMoment=**層から読む回転場の源**(所有者規約: V2 があれば V2・無ければ層)
   dfmSpinPrecess, dfmTiltWork, dfmSpinRelax, coreV2ToLayers, coreV2MigrationPlan, coreV2MigrateReport,
+  coreV2ReplaceReport, coreV2ReplaceAxes,
+  dfmLayerDipoleMoment:(i,S)=>layerDipoleMoment(S||sim,i),
   BODY_LAYER_ROLES, BODY_LAYER_MAX, BODY_LAYER_KEY, LAYER_MERGE_RULE, LAYER_MERGE_RTOL,
   BODY_LAYER_JCAP, BODY_LAYER_RMIN,
   // 第254便b(第46報「銀河の空間メッシュ」): **銀河は 1 つの大域相似メッシュに乗らない**(差動回転)ので、
@@ -36948,7 +37429,13 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 再展開の 2 案を同じ html で比べるための表示専用スイッチ(QA bodyedit.minimize / 実験器が読む)。
   // beMinKeepLayerMode(true)=案A(畳む前の層モードを復元)・既定 false=案B(基本行で開く)
   beLayModeNow:()=>beLayMode, beMinNow:()=>beMin,
-  beMinKeepLayerMode:(v)=>{ if(v!==undefined) beMinKeepLay=!!v; return beMinKeepLay; },
+  // 第264便c(X8): **案A は非推奨**(恒久は案B)。true にした回にセッション 1 度だけ警告を出す。
+  // 値も経路も変えない —— 撤去は次期線である
+  beMinKeepLayerMode:(v)=>{ if(v!==undefined){
+      if(v && !beMinKeepLayWarned){ beMinKeepLayWarned=true;
+        console.warn("beMinKeepLayerMode(true) は非推奨です(第263便b で案B を恒久採用 — 再展開は基本行で開く)。撤去は次期線。"); }
+      beMinKeepLay=!!v; }
+    return beMinKeepLay; },
   wavelengthColor,  // 第36便 B3(原仮定者指示): 光線の波長色計算のQA用(色関数そのものを公開・重複実装しない)
   rayLambda0:()=>rayLambda0, setRayLambda0,  // 第37便 A3(原仮定者指示): 光線の基準波長λ0のQA用
   rayBandColor, rayLambda0FromRaw,  // 第38便(原仮定者指示): 可視光外の記号色/既定移行ロジックのQA用

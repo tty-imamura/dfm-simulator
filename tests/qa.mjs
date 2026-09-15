@@ -259,25 +259,275 @@ const add = (id, pass, detail) => {
     if (!/PR ゲートに入れるものではない/.test(src)) bad.push('⑥PR ゲートに入れない宣言が無い');
     if (!/取得失敗を合格に置き換えない/.test(src)) bad.push('⑦取得失敗を合格に置き換えない宣言が無い');
   }
-  // ⑤ **CI はまだ呼んでいない**(本便で yaml を変えていないことの機械確認)
+  // ⑤ **第264便d(統括の裁定 X13)で夜間 yaml へ繋いだ**。繋いでよい先は
+  //    `.github/workflows/nightly.yml`(schedule + workflow_dispatch)**だけ**で、
+  //    **PR ゲート(`ci.yml`)からは呼ばない**(script 自身の ⑥ の約束)。
+  //    ここで機械固定するのは「どの yaml から呼ばれているか」である。
   let wired = [];
   const WFD = path.join(ROOT, '.github', 'workflows');
   if (fs.existsSync(WFD)) for (const f of fs.readdirSync(WFD)) {
     if (!/\.ya?ml$/.test(f)) continue;
     if (fs.readFileSync(path.join(WFD, f), 'utf8').includes('ci-frozen-baseline')) wired.push(f);
   }
-  if (wired.length) bad.push('⑤本便では CI へ繋がない約束だが workflows が呼んでいる: ' + wired.join(','));
+  const wiredBad = wired.filter((f) => f !== 'nightly.yml');
+  if (wiredBad.length) bad.push('⑤PR ゲート側の yaml が呼んでいる(夜間 yaml 以外は不可): ' + wiredBad.join(','));
+  // ⑤′ 夜間 yaml そのものの形(**存在・schedule/手動・取得失敗を informational に落とす**)
+  const NIGHTLY = path.join(WFD, 'nightly.yml');
+  let nightly = '';
+  if (!fs.existsSync(NIGHTLY)) bad.push('⑤′.github/workflows/nightly.yml が無い(第264便d で足したはず)');
+  else {
+    nightly = fs.readFileSync(NIGHTLY, 'utf8');
+    if (!/schedule:/.test(nightly)) bad.push('⑤′夜間 yaml に schedule が無い');
+    if (!/workflow_dispatch:/.test(nightly)) bad.push('⑤′夜間 yaml に workflow_dispatch(手動)が無い');
+    if (!/ci-pages-collate\.sh/.test(nightly)) bad.push('⑤′夜間 yaml が ci-pages-collate.sh を呼んでいない');
+    if (!/ci-frozen-baseline\.sh/.test(nightly)) bad.push('⑤′夜間 yaml が ci-frozen-baseline.sh を呼んでいない');
+    if (!/continue-on-error: true/.test(nightly)) bad.push('⑤′取得失敗でジョブを止めない宣言が無い');
+    if (!/judgement":"informational/.test(nightly)) bad.push('⑤′取得失敗を informational として読む判定が無い');
+    if (!/match":false/.test(nightly)) bad.push('⑤′取得できた不一致を FAIL にする判定が無い');
+  }
+  // ⑤″ **ci.yml は 1 文字も変えていない**(PR ゲートに夜間の器を持ち込まない)
+  {
+    const ci = fs.readFileSync(path.join(WFD, 'ci.yml'), 'utf8');
+    if (/ci-frozen-baseline|ci-pages-collate|nightly/.test(ci))
+      bad.push('⑤\u2033ci.yml(PR ゲート)が夜間の器を呼んでいる');
+  }
   add('lint.frozenBaseline', bad.length === 0,
     '**凍結基準 html の部分 clone の器**(〔第260便d〕の決断事項「部分 clone なら別」への処置): '
     + '`git clone --filter=blob:none --no-checkout` + `git show <凍結SHA>:beta/index.html` で '
     + '**3.7 MB の 1 ファイルだけ**を取り出す。手元の実測(3 回): **合計 1.79 / 1.56 / 1.66 s**・'
     + '`.git` 2.6 MB(全履歴 448 MB の 0.6%)・取り出した html は凍結 SHA と**バイト同一**。'
-    + `**CI yaml は 1 文字も変えていない**(workflows からの参照 ${wired.length} 件 —— 有効化は次便の裁定)`
+    + `**第264便d(統括の裁定 X13)で夜間 yaml へ繋いだ**: 参照している workflows は `
+    + `${wired.length ? wired.join(',') : 'なし'}(**PR ゲート ci.yml からは呼ばない** —— 違反 ${wiredBad.length} 件)。`
+    + `夜間 yaml は schedule + workflow_dispatch で、**取得失敗は informational・取得できた不一致は FAIL**`
     + ' / **第262便d: 位置づけを文書で固定した** —— **夜間/手動ジョブの候補であって PR ゲートには入れない**。'
     + '**frozen-file を取得できたときだけ** (b) を FAIL の基準として読み、**取得失敗は root-fallback の'
     + '合格に置き換えない**(root-fallback の行は informational のままで fail を増やさない)'
     + ' —— **手元の秒数は CI の上限ではない**(ランナーの回線も GitHub 側の応答も測っていない)'
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 0a3c) 第264便d(第56報 W4・統括の裁定 X6/X7): lint.sigmaMark ----
+// ----   `paper/data/solar-observations.csv` の note に書く機械可読な印 `sigma_primary=` の
+// ----   **読み方**を 1 本(`tests/lib-w264d-sigmamark.mjs`)に固定し、**15 ケースの単体試験**で機械化する。
+// ----   経緯(〔第263便c〕⑤′ の実測): 門も σ 接続器も会計器も `/sigma_primary=verified/` の
+// ----   **部分一致**で読んでいた。第251便c が足した**凡例の文**そのものが
+// ----   「sigma_primary=verified means … ; sigma_primary=unverified means …」を含むので、
+// ----   **凡例を持つ行は自身の印が unverified でも verified と読まれていた**(該当 3 行)。
+// ----   読み方(**宣言**): 語境界つきの出現を全部拾う → 直後が `means` の出現(凡例)を除く →
+// ----   **凡例でない最初の出現**が行の印 → 無印は verified ではない → `verified` はちょうどその語のときだけ。
+// ----   ここで固定するのは 5 つ:
+// ----     ① **15 ケースの単体試験**(凡例・語境界・無印・大文字小文字・空・null 等)。
+// ----     ② **3 器が同じ 1 本を読んでいる**(calaudit / solarsigma / obsintake が import している)。
+// ----     ③ **旧読みとの差が数で残っている**(`calaudit-w249.json` の `sigmaMarkAudit`)。
+// ----     ④ **X7 の規約**: `verified_by=<確認者> <YYYY-MM-DD>; verified_at=…; verified_value=…` を
+// ----        `readVerifiedBy` が読み、`verified` なのに `verified_by` が無い行は**警告**(拒否ではない)。
+// ----     ⑤ **`sigma_kind` / `spread` / `older_sigma` / `digits` は σ ではない**(informational な尺度)。
+// ----   **印を上げ下げしていない**(`verified` にするのは原仮定者の照合であって、読み手ではない)。
+{
+  const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w264d-sigmamark.mjs'));
+  const bad = [];
+  // ① 15 ケース(note, 期待する印, 期待する verified)
+  const CASES = [
+    ['sigma_primary=verified.', 'verified', true],
+    ['sigma_primary=unverified; intake 2026-09-15', 'unverified', false],
+    ['converted to m. sigma_primary=unverified; intake 2026-09-14.', 'unverified', false],
+    ['x. sigma_primary=verified. SIGMA COLUMN: sigma_primary=verified means the number is printed; '
+      + 'sigma_primary=unverified means it was derived.', 'verified', true],
+    ['propagated. sigma_primary=unverified. SIGMA COLUMN: sigma_primary=verified means printed; '
+      + 'sigma_primary=unverified means derived.', 'unverified', false],
+    ['SIGMA COLUMN: sigma_primary=verified means printed; sigma_primary=unverified means derived.',
+      null, false],
+    ['no mark at all', null, false],
+    ['', null, false],
+    [null, null, false],
+    [undefined, null, false],
+    ['xsigma_primary=verified', null, false],
+    ['a_sigma_primary=verified', null, false],
+    ['sigma_primary=VERIFIED.', 'VERIFIED', false],
+    ['sigma_primary=verified: a web-search summary reproduced the value.', 'verified', true],
+    ['sigma_primary=unverified: disagreeing values. sigma_primary=unverified.', 'unverified', false],
+  ];
+  let nCase = 0;
+  for (const [note, mark, ver] of CASES) {
+    nCase++;
+    const r = L.readSigmaMark(note);
+    if (r.mark !== mark) bad.push(`①ケース ${nCase}: 印が ${JSON.stringify(r.mark)}(期待 ${JSON.stringify(mark)})`);
+    if (r.verified !== ver) bad.push(`①ケース ${nCase}: verified が ${r.verified}(期待 ${ver})`);
+    if (L.isSigmaPrimaryVerified(note) !== ver) bad.push(`①ケース ${nCase}: 1 行版が食い違う`);
+  }
+  // ① 凡例だけの行は「旧読みなら verified・厳密読みでは印なし」であること(穴の形をそのまま残す)
+  if (!(L.legacyIsSigmaPrimaryVerified(CASES[5][0]) === true && L.isSigmaPrimaryVerified(CASES[5][0]) === false))
+    bad.push('①凡例だけの行で旧読みと厳密読みの差が出ていない(試験が空振り)');
+  // ② 3 器が同じ 1 本を読んでいる
+  for (const f of ['exp-w249b-calaudit.mjs', 'exp-w262d-solarsigma.mjs', 'exp-w263c-obsintake.mjs']) {
+    const src = fs.readFileSync(path.join(ROOT, 'tests', f), 'utf8');
+    if (!/lib-w264d-sigmamark\.mjs/.test(src)) bad.push(`②${f} が共通の読み方を import していない`);
+    if (/\/sigma_primary=verified\/\.test/.test(src)) bad.push(`②${f} に旧読み(部分一致)が残っている`);
+  }
+  // ③ 旧読みとの差が数で残っている
+  let audit = null;
+  try {
+    const cj = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+    audit = cj.sigmaMarkAudit || null;
+    if (!audit) bad.push('③calaudit-w249.json に sigmaMarkAudit が無い(器を回すと入る)');
+    else if (!(Number.isFinite(audit.legacyVerified) && Number.isFinite(audit.strictVerified)
+      && Array.isArray(audit.flips))) bad.push('③sigmaMarkAudit の欄が欠けている');
+    else if (audit.strictVerified > audit.legacyVerified)
+      bad.push('③厳密読みのほうが verified が多い(読み方は厳しくなる方向にしか動かないはず)');
+  } catch (e) { bad.push('③calaudit-w249.json が読めない: ' + String(e).slice(0, 60)); }
+  // ④ X7 の規約
+  const vb1 = L.readVerifiedBy('sigma_primary=verified. verified_by=原仮定者 2026-09-20; '
+    + 'verified_at=Table 3 の Total 行; verified_value=575.3100 +/- 0.0015 arcsec/cy');
+  const vb2 = L.readVerifiedBy('sigma_primary=verified.');
+  const vb3 = L.readVerifiedBy('sigma_primary=unverified; verified_by=');
+  if (!(vb1.present === true && vb1.warn === false && vb1.at && vb1.value)) bad.push('④verified_by の 3 欄が読めない');
+  if (!(vb2.present === false && vb2.warn === true)) bad.push('④verified なのに verified_by が無い行が警告にならない');
+  if (vb3.warn !== false) bad.push('④unverified の行まで警告になっている(拒否も警告も出さない約束)');
+  // ⑤ informational な尺度
+  const k1 = L.readSigmaKind('sigma_kind=none; spread=0.000223 vs Standish; digits=0.00005');
+  const k2 = L.readSigmaKind('sigma_kind=older; older_sigma=1.5e-3');
+  const k3 = L.readSigmaKind('sigma_kind=none');
+  if (!(k1.kind === 'none' && k1.spread === 0.000223 && k1.scaleKind === 'spread' && k1.digits))
+    bad.push('⑤spread/digits が読めない');
+  if (!(k2.olderSigma === 1.5e-3 && k2.scaleKind === 'older_sigma')) bad.push('⑤older_sigma が読めない');
+  if (!(k3.scale === null && k3.scaleKind === null)) bad.push('⑤尺度が無い行に尺度が立っている');
+  add('lint.sigmaMark', bad.length === 0,
+    `**\`sigma_primary\` の印の厳密読み**(第263便c ⑤′ の読み違いを直した): 語境界つきの出現を拾い、`
+    + `第251便c の**凡例文**(\`sigma_primary=… means …\`)を除き、**凡例でない最初の出現**を行の印とする。`
+    + `**無印は verified ではない** / ① 単体試験 ${CASES.length} ケース全通過 / `
+    + `② 門・σ 接続器・会計器の 3 器が同じ 1 本を読む(旧読みの残骸 0 件)/ `
+    + `③ 旧読みとの差(CSV ${audit ? audit.rows : '—'} 行中): 旧読みで verified `
+    + `${audit ? audit.legacyVerified : '—'} 行 → 厳密読みで ${audit ? audit.strictVerified : '—'} 行`
+    + `(**反転 ${audit ? audit.flips.length : '—'} 行**・凡例を持つ行 ${audit ? audit.legendRows : '—'})`
+    + ` —— **厳しくなる方向にしか動いていない** / `
+    + `④ X7 の規約 \`verified_by=<確認者> <日付>; verified_at=<表/列>; verified_value=<原記載>\` を読み、`
+    + `\`verified\` なのに \`verified_by\` が無い行は**警告**(拒否はしない・該当 `
+    + `${audit && audit.verifiedByMissing ? audit.verifiedByMissing.length : '—'} 行)/ `
+    + `⑤ \`sigma_kind\` / \`spread\` / \`older_sigma\` / \`digits\` は **σ ではない**(informational な尺度)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0a3d) 第264便d(第56報 W4・統括の裁定 X5): docs.intakeA-sync ----
+// ----   観測レコード(2026-09-15 intake・2 系統)の**転写の行数**と、会計器の出力
+// ----   `tests/out/intakeA-w264d.json` が食い違っていないことを機械で見る。固定するのは 6 つ:
+// ----     ① CSV の `intake_row=2026-09-15` の行数と JSON の `transcription.rows` が一致。
+// ----     ② **σ 列に入っている転写行は、JSON が列挙している行と 1 対 1**(数も値も)。
+// ----     ③ **転写した行の印はすべて `unverified`**(`verified` は 1 行も増えていない)。
+// ----     ④ **既存行を 1 行も置き換えていない**: 既存の鍵と同じものは `<量>_candidate` になっている。
+// ----     ⑤ **派生行は判定量の名前を使っていない**(`periastron_advance_derived` であって
+// ----        `periastron_advance` ではない —— 門へ黙って入らない)。
+// ----     ⑥ 不足表 68 組の 6 分類の合計が 68。
+// ----   **「太陽系の σ が揃った」とは書かない**(σ は `unverified` のままで、門は 1 件も動かない)。
+{
+  const bad = [];
+  const CSVP = path.join(ROOT, 'paper', 'data', 'solar-observations.csv');
+  const JP = path.join(ROOT, 'tests', 'out', 'intakeA-w264d.json');
+  let j = null, rowsCsv = 0, sigmaCsv = [], cand = 0, derived = 0, marks = {};
+  try {
+    const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w264d-sigmamark.mjs'));
+    const keysBefore = new Set();
+    const lines = fs.readFileSync(CSVP, 'utf8').split('\n');
+    const parse = (line) => { const c = []; let cur = '', q = false;
+      for (const ch of line) { if (q) { if (ch === '"') q = false; else cur += ch; }
+        else if (ch === '"') q = true; else if (ch === ',') { c.push(cur); cur = ''; } else cur += ch; }
+      c.push(cur); return c; };
+    for (const line of lines) {
+      if (!line.trim() || line.startsWith('body,')) continue;
+      const c = parse(line);
+      const note = c[7] || '';
+      const isIntake = /intake_row=2026-09-15/.test(note);
+      if (!isIntake) { keysBefore.add(c[0] + '|' + c[1]); continue; }
+      rowsCsv++;
+      if ((c[8] || '').trim() !== '') sigmaCsv.push(c[0] + '|' + c[1] + '=' + c[2]);
+      if (/_candidate$/.test(c[1])) cand++;
+      if (/(?:^|[^A-Za-z0-9_])derived_from=/.test(note)) derived++;
+      const m = L.readSigmaMark(note).mark || '(印なし)';
+      marks[m] = (marks[m] || 0) + 1;
+      // ④ 既存の鍵と同じ名前の転写行が無いこと(候補行になっているはず)
+      if (keysBefore.has(c[0] + '|' + c[1]) && !/_candidate$/.test(c[1]) && !/_derived$/.test(c[1]))
+        bad.push(`④既存の鍵と同じ名前で転写している: ${c[0]}|${c[1]}`);
+      // ⑤ 派生行が判定量の名前を使っていないこと
+      if (/(?:^|[^A-Za-z0-9_])derived_from=/.test(note)
+        && ['orbital_period', 'eccentricity', 'periastron_advance', 'rotation_period'].includes(c[1]))
+        bad.push(`⑤派生行が判定量の名前を使っている: ${c[0]}|${c[1]}`);
+    }
+    j = JSON.parse(fs.readFileSync(JP, 'utf8'));
+  } catch (e) { bad.push('入力が読めない: ' + String(e).slice(0, 100)); }
+  if (j) {
+    const t = j.transcription || {};
+    if (t.rows !== rowsCsv) bad.push(`①転写行数が食い違う(CSV ${rowsCsv} ≠ JSON ${t.rows})`);
+    if ((t.sigmaRowList || []).length !== sigmaCsv.length)
+      bad.push(`②σ つき転写行の数が食い違う(CSV ${sigmaCsv.length} ≠ JSON ${(t.sigmaRowList || []).length})`);
+    else for (const r of (t.sigmaRowList || []))
+      if (!sigmaCsv.includes(r.body + '|' + r.quantity + '=' + r.value))
+        bad.push(`②σ つき転写行が CSV に無い: ${r.body}|${r.quantity}`);
+    if (t.candidateRows !== cand) bad.push(`④候補行の数が食い違う(CSV ${cand} ≠ JSON ${t.candidateRows})`);
+    if (t.derivedRows !== derived) bad.push(`⑤派生行の数が食い違う(CSV ${derived} ≠ JSON ${t.derivedRows})`);
+    const badMark = Object.keys(marks).filter((k) => k !== 'unverified');
+    if (badMark.length) bad.push(`③転写行に unverified 以外の印がある: ${badMark.join(',')}`);
+    if ((t.verifiedByFilled || 0) !== 0)
+      bad.push(`③verified_by が埋まっている転写行がある(${t.verifiedByFilled} 行 —— 埋めるのは原仮定者である)`);
+    const six = (j.missing68 || {}).tally || {};
+    const sum = Object.values(six).reduce((a, b) => a + b, 0);
+    if (sum !== 68) bad.push(`⑥不足表 6 分類の合計が 68 でない(${sum})`);
+  } else bad.push('tests/out/intakeA-w264d.json が無い(node tests/exp-w264d-intakeA.mjs を回すと入る)');
+  const six = j ? ((j.missing68 || {}).tally || {}) : {};
+  const three = j ? ((j.collate || {}).three || {}) : {};
+  add('docs.intakeA-sync', bad.length === 0,
+    `**観測レコード(2026-09-15 intake・2 系統)の転写の会計**(器 tests/exp-w264d-intakeA.mjs): `
+    + `① 転写 ${rowsCsv} 行(CSV と JSON が一致)/ ② 一次資料の 1σ を持つ行 ${sigmaCsv.length} 行 / `
+    + `③ 印はすべて \`unverified\`(**verified は 1 行も増えていない**・\`verified_by\` は空のまま `
+    + `—— 埋めるのは原仮定者の照合である)/ ④ 候補行 ${cand} 行(**既存の鍵と同じ名前の行は 1 行も無い** `
+    + `= 既存の値を 1 バイトも置き換えていない)/ ⑤ 派生行 ${derived} 行(量名は \`…_derived\` で、`
+    + `**門に入る量名ではない**)/ ⑥ 照合 ${JSON.stringify(three)} / 不足表 68 組 ${JSON.stringify(six)}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0a3e) 第264便d(第56報 W4・統括の裁定 X13): version.promote-check ----
+// ----   `tests/release-promote.mjs --check` の **7 項**を QA にする。
+// ----   〔第263便d〕はこの 7 項を「昇格した人が手で回すもの」にしていたが、昇格後の
+// ----   取り残し(SW 接頭辞・lock の版数・CHANGELOG 見出し)は**回し忘れると気づけない**。
+// ----   **root 対象のときだけ**走らせる(`--check` は**昇格直後の root** を見る器である)。
+// ----   **7 項のうち 1 項は informational である**(実測して決めた):
+// ----     `promote.root-equals-beta`(root と beta の本文が一致)は**昇格の直後だけ成り立つ**。
+// ----     beta 線が 1 行でも進めば当然外れるので、**これを gate にすると開発線が進めなくなる**
+// ----     (本便の実測: 本便の beta 変更で root 2928282 字 / beta 2929413 字 = 不一致)。
+// ----     この 1 項は**昇格の瞬間に統括が `--check` を回して見る**のが正本で、QA が機械で
+// ----     見張るのは残り **6 項**(版数同期・root SW・beta SW・CITATION・lock・CHANGELOG 見出し)である。
+// ----     **informational に落とした項も結果はそのまま印字する**(隠さない)。
+// ----   **この QA は版を切らない**(判定するだけで、1 ファイルも書かない)。
+{
+  if (TARGET !== 'index.html') {
+    console.log('SKIP version.promote-check(root 対象でない: ' + TARGET + ' — `--check` は昇格直後の root を見る器)');
+  } else {
+    let outTxt = '', code = 0;
+    try {
+      outTxt = execSync(`node ${JSON.stringify(path.join(ROOT, 'tests', 'release-promote.mjs'))} --check --json`,
+        { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+    } catch (e) { outTxt = String(e.stdout || ''); code = e.status || 1; }
+    let res = [];
+    const m = /\{"mode":"check".*\}/.exec(outTxt);
+    if (m) { try { res = JSON.parse(m[0]).res || []; } catch { res = []; } }
+    // **昇格直後だけ成り立つ項**(gate にしない・結果は印字する)
+    const INFORMATIONAL = ['promote.root-equals-beta'];
+    const gated = res.filter((r) => !INFORMATIONAL.includes(r.id));
+    const info = res.filter((r) => INFORMATIONAL.includes(r.id));
+    const bad = [];
+    if (res.length !== 7) bad.push(`--check の項目数が 7 でない(${res.length})`);
+    if (gated.length !== 6) bad.push(`gate に掛ける項目が 6 でない(${gated.length})`);
+    for (const f of gated.filter((r) => !r.pass)) bad.push(`${f.id}: ${f.msg}`);
+    add('version.promote-check', bad.length === 0,
+      `**昇格手順の 7 項**(tests/release-promote.mjs --check・root 対象のみ・**1 ファイルも書かない**): `
+      + `gate ${gated.filter((r) => r.pass).length}/${gated.length} —— `
+      + gated.map((r) => `${r.pass ? '○' : '×'}${r.id.replace(/^promote\./, '')}`).join(' ')
+      + ` / **informational ${info.length} 項**(昇格直後だけ成り立つので gate にしない): `
+      + info.map((r) => `${r.pass ? '○' : '×'}${r.id.replace(/^promote\./, '')}`).join(' ')
+      + (info.length && !info[0].pass ? `(${String(info[0].msg).slice(0, 90)})` : '')
+      + ` / 器の終了コード ${code}(**informational の項が落ちても QA は落とさない**)`
+      + ` —— **「Release した」ではない**(版を切るかどうかは統括の裁定であり、この検査は`
+      + `昇格直後の状態が揃っているかだけを見る)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+  }
 }
 
 // ---- 0a4) 第260便d(第52報 W4): lint.precisionUlp — Float32 の最小刻みと質量丸めの感度 ----
@@ -607,6 +857,8 @@ if (!TARGET.startsWith('beta/')) {
 {
   const CAL_JSON = path.join(ROOT, 'tests', 'out', 'calaudit-w249.json');
   const CAL_CSV = path.join(ROOT, 'paper', 'data', 'solar-observations.csv');
+  // 第264便d(統括の裁定 X6): 印の読み方は器と**同じ 1 本**を使う(読み方が QA と器で違わないように)
+  const SIGMA_MARK = await import('file://' + path.join(ROOT, 'tests', 'lib-w264d-sigmamark.mjs'));
   let ok = false, detail = '';
   try {
     const j = JSON.parse(fs.readFileSync(CAL_JSON, 'utf8'));
@@ -675,7 +927,9 @@ if (!TARGET.startsWith('beta/')) {
             if (!row) bad.push(`⑥${p.id}:CSV 行なし ${src.body}|${src.quantity}`);
             else if (!(row.raw && row.raw.trim() !== '' && Object.is(Number(row.raw), src.sigma)))
               bad.push(`⑥${p.id}:CSV の sigma と不一致 ${src.body}|${src.quantity}`);
-            else if (src.primaryVerified !== /sigma_primary=verified/.test(row.note))
+            // 第264便d(X6): 印の読み方は **3 器と同じ 1 本**(tests/lib-w264d-sigmamark.mjs)で照合する
+            //   —— 旧読み(部分一致)は第251便c の凡例文に引っかかるので使わない。
+            else if (src.primaryVerified !== SIGMA_MARK.isSigmaPrimaryVerified(row.note))
               bad.push(`⑥${p.id}:sigma_primary の印が不一致`);
           }
           if (g.sigma !== undefined && g.sigma !== null && g.sigmaFrom === null)
@@ -692,7 +946,8 @@ if (!TARGET.startsWith('beta/')) {
       const wd = sigCsv.get('PSR J0737-3039 B|periastron_advance');
       if (!wd) bad.push('⑥\':J0737 の ω̇ 行が CSV に無い(第256便d で足したはず)');
       else if (!(Number(wd.raw) > 0)) bad.push('⑥\':J0737 の ω̇ 行の sigma が正の数でない');
-      else if (!/sigma_primary=verified/.test(wd.note)) bad.push('⑥\':J0737 の ω̇ の sigma_primary が verified でない');
+      // 第264便d(X6): 厳密読みでも verified であること(凡例文に引っかかって verified に見えているのではない)
+      else if (!SIGMA_MARK.isSigmaPrimaryVerified(wd.note)) bad.push('⑥\':J0737 の ω̇ の sigma_primary が verified でない');
     }
     // ⑥'' sigma 列が空欄の行からは σ を作らない(空欄=未記録であって 0 ではない)
     for (const [k, v] of sigCsv) {
@@ -14726,6 +14981,375 @@ if (!FAST) {
     console.log('SKIP behavior.geoToyOverlay(対象に第263便a の geoToyOverlay / HP.dfmDominance なし — root 等)');
   }
 }
+// ---- 第264便a(第56報「較正は geoPN=2 で kFrame≈0.7 とするのが良いか・事前予測式」): behavior.kJointRoot ----
+//   統括が設定した検証仮説 (A)。**(k, f) 共同根の器**と**候補式の評価器**を機械固定する。
+//   **これは較正則ではない** —— 本ブロックが固定するのは「候補式の代数」「二値契約が動いていないこと」
+//   「診断コピーが較正サンプルを名乗らないこと」「根が探索区間に挟まれていること」の 4 点であって、
+//   「kFrame≈0.7 が正しい」でも「事前予測式が成立した」でもない(第264便a は**未確立**と結論した)。
+//     ① **候補式の代数**(`HP.dfmFrameKCandidates`): H2 は k=1−α·η_sym·χ_eff/(χ_eff+δ) で、
+//        α=1.2・δ=0・η=0.25・χ=1 を入れると 0.7 になる(**事前提案値を入れたときの値**であって
+//        測定値ではない)。H1 は **f_ind の出どころの宣言を要求**し、台帳由来(`fLedger` 等)や
+//        無宣言では `circular:true` で **value を返さない**(恒等式を予測と呼ばないための門)。
+//        χ_eff≤0・η_sym≤0・δ<0 は null(0 で埋めない)。
+//     ② **二値契約は動いていない**: 内蔵 122 本の kFrame は **0 か 1 だけ**(`preset.kframe-binary01`
+//        と同じ契約をここでも確かめる)。NS 4 系 ⚡🧮🩺🧶 は kFrame=1・geoPN=2 のままである。
+//     ③ **診断コピーは較正サンプルではない**: 共同根の器が作るコピーは `sampleClass:"principle"` で
+//        `massCalibration` と `claims` を外す。**本体は 1 bit も変わらない**(コピー後に内蔵を読み直す)。
+//     ④ **根が探索区間に挟まれている**(短い窓の実測・**根そのものは器 tests/exp-w264a-kjoint.mjs が出す**):
+//        ⚡ を 8 近点窓で (k=0.2, f=1.2) と (k=1.0, f=2.0) の 2 点だけ走らせ、
+//        ω̇ が CSV の観測値を**跨ぐ**ことを見る。**跨ぐことは根が 0.7 だという意味ではない**。
+{
+  const hasKJ = await page.evaluate(() => !!(window.HP && HP.sim)
+    && typeof HP.dfmFrameKCandidates === 'function');
+  if (hasKJ) {
+    const kjCsv = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8');
+    const kjRow = (() => {
+      for (const line of kjCsv.split('\n')) {
+        if (!line.startsWith('PSR J0737-3039 B,periastron_advance,')) continue;
+        const cols = []; let cur = '', inQ = false;
+        for (const ch of line) {
+          if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
+          else if (ch === '"') inQ = true;
+          else if (ch === ',') { cols.push(cur); cur = ''; }
+          else cur += ch;
+        }
+        cols.push(cur);
+        return { value: Number(cols[2]), unit: cols[3] };
+      }
+      return null;
+    })();
+    const r = await page.evaluate(({ wObs }) => {
+      const F = HP.dfmFrameKCandidates;
+      // ① 代数と門
+      const h2ref = F({ chiEff: 1, etaSym: 0.25 });                       // 既定 α=1.2・δ=0
+      const h2free = F({ chiEff: 0.8, etaSym: 0.24, alpha: 1, delta: 0.5 });
+      const h1led = F({ chiEff: 1, etaSym: 0.25, fIndependent: 1.7, fIndSource: 'fLedger' });
+      const h1none = F({ chiEff: 1, etaSym: 0.25, fIndependent: 1.7 });
+      const h1ok = F({ chiEff: 1, etaSym: 0.25, fIndependent: 1.7, fIndSource: 'timing-DDGR' });
+      const fromMass = F({ chiEff: 1, m1: 3, m2: 1 });                    // η=3/16・q=1/3
+      const nulls = [F({ chiEff: 0, etaSym: 0.25 }), F({ chiEff: 1, etaSym: 0 }),
+        F({ chiEff: 1, etaSym: 0.25, delta: -1 }), F(null)];
+      // ② 二値契約
+      const ks = HP.allPresets().map((q) => q.physics.kFrame);
+      const binary01 = ks.every((z) => z === 0 || z === 1);
+      const NS = ['psrDoubleABDFM', 'psrJ1757DFM', 'psrJ1946DFM', 'psrB1534DFM'];
+      const nsDecl = NS.map((id) => { const q = HP.allPresets().find((z) => z.id === id);
+        return q ? { id, kFrame: q.physics.kFrame, geoPN: q.physics.geoPN, cls: q.sampleClass } : null; });
+      // ③ 診断コピー(器と同じ作り方 —— sampleClass を principle にし台帳と claims を外す)
+      const src = HP.allPresets().find((q) => q.id === 'psrDoubleABDFM');
+      const before = JSON.stringify(src);
+      // **質量係数 f は観測質量(massCalibration.baseMass)に掛ける** —— 本体の bodies.m は
+      // 既に f≈2 が掛かった較正質量なので、そこへ掛けると f が二重に効く(第264便a の器と同じ規約)。
+      const BASE = (src.massCalibration && Array.isArray(src.massCalibration.baseMass))
+        ? src.massCalibration.baseMass : src.bodies.map((b) => b.m);
+      const cp = JSON.parse(JSON.stringify(src));
+      cp.id = 'w264aQaDiag'; cp.sampleClass = 'principle';
+      delete cp.massCalibration; delete cp.claims; delete cp.calibrationForecast;
+      cp.physics.kFrame = 0.7;
+      cp.bodies.forEach((b, i) => { b.m = BASE[i] * 1.7; if (b.core) b.core.massFrac = 0.7 / 1.7; });
+      const vcp = HP.validatePreset(cp);
+      const after = JSON.stringify(HP.allPresets().find((q) => q.id === 'psrDoubleABDFM'));
+      const copy = { ok: vcp.ok, cls: vcp.ok ? vcp.preset.sampleClass : null,
+        hasCal: vcp.ok ? (vcp.preset.massCalibration !== undefined) : null,
+        hasClaims: vcp.ok ? (vcp.preset.claims !== undefined) : null,
+        srcUntouched: before === after };
+      // ④ 根が挟まれているか(8 近点窓の実測・2 点だけ)
+      const omegaDot = (f, kF) => {
+        const p = JSON.parse(JSON.stringify(src));
+        p.id = 'w264aQaRun'; p.sampleClass = 'principle';
+        delete p.massCalibration; delete p.claims; delete p.calibrationForecast;
+        p.physics.kFrame = kF;
+        p.bodies.forEach((b, i) => { b.m = BASE[i] * f; if (b.core) b.core.massFrac = (f - 1) / f; });
+        const v = HP.validatePreset(p); if (!v.ok) return null;
+        const S = HP.sim; S.build(v.preset);
+        // 近点の**方位**(近点方向)を実時刻へ回帰する —— 累積公転角ではない。
+        // 位相制限 1.5π は tests/lib-precision-diagnostics.mjs の検出器と同じ宣言である。
+        const dt = 0.016, N = 8;
+        const wrap = (z) => { while (z > Math.PI) z -= 2 * Math.PI; while (z < -Math.PI) z += 2 * Math.PI; return z; };
+        const peri = [], ang = []; let prevRd = null, gate = 0, prevTh = null;
+        for (let i = 0; i < 4e7; i++) {
+          S.step(dt);
+          const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0];
+          const rr = Math.hypot(dx, dy), th = Math.atan2(dy, dx);
+          const rd = (dx * (S.vx[1] - S.vx[0]) + dy * (S.vy[1] - S.vy[0])) / rr;
+          if (prevTh !== null) gate += Math.abs(wrap(th - prevTh));
+          prevTh = th;
+          if (prevRd !== null && prevRd < 0 && rd >= 0 && (peri.length === 0 || gate > 1.5 * Math.PI)) {
+            peri.push(i * dt);
+            ang.push(ang.length ? ang[ang.length - 1] + wrap(th - ang[ang.length - 1]) : th);
+            gate = 0;
+            if (peri.length >= N) break;
+          }
+          prevRd = rd;
+        }
+        if (peri.length < N) return null;
+        const m = peri.length;
+        const mx = peri.reduce((a, b) => a + b, 0) / m, my = ang.reduce((a, b) => a + b, 0) / m;
+        let sxy = 0, sxx = 0;
+        for (let i = 0; i < m; i++) { sxy += (peri[i] - mx) * (ang[i] - my); sxx += (peri[i] - mx) ** 2; }
+        if (!(sxx > 0)) return null;
+        const unitSec = Math.pow(10, Number(src.scaleExp.T));
+        return sxy / sxx * 180 / Math.PI / unitSec * 31557600;
+      };
+      const wLo = omegaDot(1.2, 0.2), wHi = omegaDot(2.0, 1.0);
+      return { h2ref: h2ref && h2ref.h2.value, h2free: h2free && h2free.h2.value,
+        h1led: h1led && { v: h1led.h1.value, c: h1led.h1.circular },
+        h1none: h1none && { v: h1none.h1.value, c: h1none.h1.circular },
+        h1ok: h1ok && { v: h1ok.h1.value, c: h1ok.h1.circular },
+        fromMass: fromMass && { eta: fromMass.h2.etaSym, q: fromMass.h3.columns.qRatio },
+        nullsAllNull: nulls.every((z) => z === null),
+        binary01, kSet: Array.from(new Set(ks)).sort(), nPresets: ks.length, nsDecl, copy,
+        wLo, wHi, wObs, brackets: (wLo !== null && wHi !== null)
+          && ((wLo - wObs) * (wHi - wObs) < 0) };
+    }, { wObs: kjRow ? kjRow.value : null });
+    const near = (a, b, tol) => a !== null && Number.isFinite(a) && Math.abs(a - b) <= tol;
+    const CK = {
+      h2ref: near(r.h2ref, 0.7, 1e-12),
+      h2free: near(r.h2free, 1 - 1 * 0.24 * 0.8 / 1.3, 1e-12),
+      h1ledCircular: !!(r.h1led && r.h1led.v === null && r.h1led.c === true),
+      h1noneCircular: !!(r.h1none && r.h1none.v === null && r.h1none.c === true),
+      h1declared: !!(r.h1ok && r.h1ok.c === false && near(r.h1ok.v, 0.7, 1e-12)),
+      fromMass: !!(r.fromMass && near(r.fromMass.eta, 3 / 16, 1e-15)
+        && near(r.fromMass.q, 1 / 3, 1e-15)),
+      nulls: r.nullsAllNull === true,
+      binary01: r.binary01 === true,
+      nsUnchanged: Array.isArray(r.nsDecl) && r.nsDecl.length === 4
+        && r.nsDecl.every((z) => z && z.kFrame === 1 && z.geoPN === 2 && z.cls === 'calibration'),
+      copyPrinciple: !!(r.copy && r.copy.ok === true && r.copy.cls === 'principle'
+        && r.copy.hasCal === false && r.copy.hasClaims === false),
+      copySrcUntouched: !!(r.copy && r.copy.srcUntouched === true),
+      bracket: r.brackets === true };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    add('behavior.kJointRoot', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + `① H2(α=1.2・δ=0・η=0.25・χ=1)=${r.h2ref}(事前提案値を入れた値 — 測定値ではない)・`
+      + `自由 α/δ 版=${r.h2free === null ? '—' : r.h2free.toFixed(9)}・`
+      + `H1 台帳由来=circular ${r.h1led && r.h1led.c}(value ${r.h1led && r.h1led.v})・`
+      + `無宣言=circular ${r.h1none && r.h1none.c}・宣言つき=${r.h1ok && r.h1ok.v}・`
+      + `不正入力は null=${r.nullsAllNull} / `
+      + `② 内蔵 ${r.nPresets} 本の kFrame 集合={${r.kSet.join(',')}}(二値)・`
+      + `NS 4 系は kFrame=1/geoPN=2/calibration のまま=${CK.nsUnchanged} / `
+      + `③ 診断コピー sampleClass=${r.copy && r.copy.cls}・台帳あり=${r.copy && r.copy.hasCal}・`
+      + `本体は 1 bit 不変=${r.copy && r.copy.srcUntouched} / `
+      + `④ ⚡ 8 近点窓 ω̇: k=0.2/f=1.2 で ${r.wLo === null ? '—' : r.wLo.toFixed(4)}・`
+      + `k=1.0/f=2.0 で ${r.wHi === null ? '—' : r.wHi.toFixed(4)} が観測 ${r.wObs} °/yr を跨ぐ=${r.brackets}`
+      + `(**跨ぐことは根が 0.7 だという意味ではない** — 根は器 tests/exp-w264a-kjoint.mjs が出す)`);
+  } else {
+    console.log('SKIP behavior.kJointRoot(対象に第264便a の HP.dfmFrameKCandidates なし — root 等)');
+  }
+}
+// ---- 第264便b(第56報「geoPN=3 — 空間メッシュで引きずり計算を完全に置き換える整備」): behavior.geoToyPinned ----
+//   統括の読み (B)(i)。**pinned 源は規定運動**なので、トイの ∂ₜu へ渡す源の加速度は
+//   **規定運動の加速度**(静止なら 0・レール駆動なら向心 −ω²(P−C))でなければならない。
+//   第263便a までは**受けている重力加速度**を渡していたので、静止した pinned 源が
+//   静止した試験粒子を蹴っていた(再現器 tests/exp-w264b-pinned.mjs)。
+//     ① **静止 pinned 源 + 静止試験粒子**(D₀=0・scalar・η=1)で **トイの Δv が厳密に 0**。
+//     ② **同じ幾何で pinned を外すと 0 ではない**(自由源では重力加速度こそが正しい a_i)。
+//        しかも値は解析式 η·g_src·dt と 10⁻⁶ で一致する(**非 pinned の経路は変えていない**)。
+//     ③ **レール駆動の pinned 源**(railOmega)では、トイの加速度が **η·(−ω²(P−C))** と 10⁻⁹ で一致する
+//        (ω は `S.railOmega` が Float32 配列なので `Math.fround` を通して比べる)。
+//     ④ **内蔵で geoPN≥3 を宣言する本に pinned 粒子は 0 個**(= この修正で内蔵 122 本は 1 bit も動かない)。
+{
+  const hasPinFix = await page.evaluate(() => !!(window.HP && HP.sim)
+    && typeof HP.dfmGeoToyStep === 'function' && Array.isArray(HP.SPACE_MESH_TOY_CLOSURE));
+  if (hasPinFix) {
+    const r = await page.evaluate(() => {
+      const KEY = HP.SPACE_MESH_KEY;
+      const G = 6.674, EPS = 0.05, DT = 0.016, RSEP = 100, MSRC = 1000, MTEST = 10;
+      const mk = (bodies, sm) => {
+        const q = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'spaceMeshBinaryToy')));
+        delete q.claims; delete q.massCalibration; delete q.scaleExp; delete q.overlays;
+        q.sampleClass = 'principle';
+        q.physics = { G, D0: 0, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 0,
+          cLight: 30, bM: 1, etaRad: 0, geoPN: 3, lambdaPN: 1, radiusScale: 1, softening: EPS,
+          timeScale: 1, stateCarry: 'double', frameWeight: 'share',
+          spaceMesh: Object.assign({ mode: 'vertex', gravity: false, inertia: false,
+            lawVersion: 'scalar', toyGain: 1 }, sm || {}) };
+        q.bodies = bodies;
+        const v = HP.validatePreset(q);
+        if (!v.ok) return { err: (v.errors || []).join('|') };
+        const S = HP.sim; S.build(v.preset);
+        S.step(DT);
+        const vv = [];
+        for (let i = 0; i < S.n; i++) vv.push(S.vx[i], S.vy[i]);
+        return { px: S.geoToyPx, py: S.geoToyPy, N: S.geoToyN, chi: S.geoToyChi,
+          stop: S.geoToyStop, nan: S.hasNaN(), sx: S.x[0], sy: S.y[0], vv };
+      };
+      // **粒子ごと**のトイ Δv は η=0 の対照との速度差で取る(合計 `geoToyPx` は 2 体で打ち消し合う)
+      const dvOf = (bodies, i) => {
+        const a = mk(bodies, { toyGain: 1 }), b = mk(bodies, { toyGain: 0 });
+        if (a.err || b.err) return null;
+        return [a.vv[2 * i] - b.vv[2 * i], a.vv[2 * i + 1] - b.vv[2 * i + 1]];
+      };
+      const B = (o) => Object.assign({ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }, o);
+      const bodiesPin = [B({ m: MSRC, x: 0, y: 0, pinned: true }), B({ m: MTEST, x: RSEP, y: 0 })];
+      const bodiesFree = [B({ m: MSRC, x: 0, y: 0 }), B({ m: MTEST, x: RSEP, y: 0 })];
+      const pin = mk(bodiesPin);
+      const free = mk(bodiesFree);
+      const dvPin = dvOf(bodiesPin, 1), dvFree = dvOf(bodiesFree, 1);
+      const OM = 0.02, RR = 40, OM32 = Math.fround(OM);
+      const bodiesRail = [B({ m: MSRC, x: RR, y: 0, pinned: true, railOmega: OM }),
+        B({ m: MTEST, x: RSEP + RR, y: 0 })];
+      const rail = mk(bodiesRail);
+      // 自由源の期待値(源が受ける重力加速度 —— 位置は步の途中で動くので 10⁻⁶ で比べる)
+      const aFree = G * MTEST * RSEP / Math.pow(RSEP * RSEP + EPS * EPS, 1.5);
+      // 内蔵で geoPN≥3 の本に pinned はあるか
+      const hits = [];
+      for (const q of HP.allPresets()) {
+        if (!(q.physics && q.physics.geoPN >= 3)) continue;
+        let np = 0;
+        for (const b of (q.bodies || [])) if (b && b.pinned === true) np++;
+        hits.push(q.id + ':' + np);
+      }
+      return { pin, free, rail, aFree, dvPin, dvFree, dt: DT,
+        railExpect: [-OM32 * OM32 * rail.sx * DT, -OM32 * OM32 * rail.sy * DT], hits };
+    });
+    // 自由源の期待値: 試験粒子が受けるトイ Δv = η·a_src·dt(a_src は**源が受けている重力加速度**)
+    const relFree = r.dvFree
+      ? Math.max(Math.abs(r.dvFree[0] - r.aFree * r.dt) / (r.aFree * r.dt), Math.abs(r.dvFree[1]))
+      : null;
+    const relRail = Math.max(Math.abs(r.rail.px / 10 - r.railExpect[0]) / Math.abs(r.railExpect[0]),
+      Math.abs(r.rail.py / 10 - r.railExpect[1]) / Math.abs(r.railExpect[1]));
+    const CK = {
+      pinZero: r.pin.px === 0 && r.pin.py === 0 && r.pin.N === 1 && r.pin.stop === null
+        && !!r.dvPin && r.dvPin[0] === 0 && r.dvPin[1] === 0,
+      freeNonZero: !!r.dvFree && r.dvFree[0] > 0 && relFree !== null && relFree < 1e-5,
+      rail: relRail < 1e-9,
+      noNaN: !r.pin.nan && !r.free.nan && !r.rail.nan,
+      builtinClean: r.hits.every((z) => z.endsWith(':0')) };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    add('behavior.geoToyPinned', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + `① 静止 pinned 源での試験粒子のトイ Δv=[${r.dvPin}](**厳密 0**・N=${r.pin.N}・χ=${r.pin.chi}) / `
+      + `② 同じ幾何で pinned を外すと Δv_x=${Number(r.dvFree[0]).toExponential(6)}≠0(解析 η·a_src·dt=${
+        Number(r.aFree * r.dt).toExponential(6)} と相対 ${relFree.toExponential(2)}) / `
+      + `③ レール駆動 pinned は η·(−ω²e) と相対 ${relRail.toExponential(2)} で一致 / `
+      + `④ 内蔵で geoPN≥3 の本の pinned 数: ${r.hits.join(' ') || '(0 本)'}`);
+  } else {
+    console.log('SKIP behavior.geoToyPinned(対象に第264便b の HP.SPACE_MESH_TOY_CLOSURE なし — root 等)');
+  }
+}
+// ---- 第264便b(第56報・統括の読み (B)(ii)): behavior.geoToyClosure ----
+//   **源の閉包** `physics.spaceMesh.toyClosure`("gravity" 既定 = 現状 /"iterate" = 固定点反復の診断)。
+//   **採用則ではない**(反復が止まらない帯があること自体が測りたい結果である)。
+//     ① **既定は 1 bit 不変**: 内蔵で `toyClosure` を宣言する本は 0 本・正準形(physics 署名)にも出ない。
+//     ② **検証器**: 未知の値は拒否・`sampleClass:"calibration"` では拒否・宣言すると警告が 1 行出る。
+//        `toyClosureIters` は 1〜64 の外を拒否する。
+//     ③ **"iterate" は反復数と相対残差を返す**(`S.geoToyIters`≥2・`S.geoToyResidRel` が有限)。
+//        HUD(ステップ会計)に `closure:iterate it=… res=…` が出る。
+//     ④ **収束する側**: D₀ を上げて χ を下げると `S.geoToyConverged===true`。
+//        **特異点側**(D₀=0 ∧ η=1 ∧ 等質量二体 = det 1−η²χ₀χ₁ が 0)では **false のまま**で、
+//        HUD に「未収束」が出る。**収縮率は ρ=ηχ**(残差の比が ηχ と 10⁻⁶ で一致する)。
+//     ⑤ **質量のある箱では閉包が効かない**(箱は規定場 —— ∂ₜu に源の加速度が入らない):
+//        `boxcomoving` の geoPN=3 コピーで "gravity" と "iterate" が 40 步ビット同一・反復は 2 回で残差 0。
+{
+  const hasClosure = await page.evaluate(() => !!(window.HP && HP.sim)
+    && Array.isArray(HP.SPACE_MESH_TOY_CLOSURE) && ('geoToyClosure' in HP.sim));
+  if (hasClosure) {
+    const r = await page.evaluate(() => {
+      const KEY = HP.SPACE_MESH_KEY;
+      const G = 6.674, EPS = 0.05, DT = 0.016, MM = 500, SEP = 240;
+      const mk = (D0, eta, closure, iters, cls) => {
+        const q = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'spaceMeshBinaryToy')));
+        delete q.claims; delete q.massCalibration; delete q.scaleExp; delete q.overlays;
+        q.sampleClass = cls || 'principle';
+        const sm = { mode: 'vertex', gravity: false, inertia: false, lawVersion: 'scalar', toyGain: eta };
+        if (closure !== undefined && closure !== null) sm.toyClosure = closure;
+        if (iters !== undefined && iters !== null) sm.toyClosureIters = iters;
+        q.physics = { G, D0, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 0,
+          cLight: 30, bM: 1, etaRad: 0, geoPN: 3, lambdaPN: 1, radiusScale: 1, softening: EPS,
+          timeScale: 1, stateCarry: 'double', frameWeight: 'share', spaceMesh: sm };
+        q.bodies = [{ type: 'single', m: MM, x: -SEP / 2, y: 0, vx: 0, vy: -0.4, spin: 0, pinned: false },
+          { type: 'single', m: MM, x: SEP / 2, y: 0, vx: 0, vy: 0.4, spin: 0, pinned: false }];
+        return HP.validatePreset(q);
+      };
+      const run = (D0, eta, closure, iters) => {
+        const v = mk(D0, eta, closure, iters);
+        if (!v.ok) return { err: (v.errors || []).join('|') };
+        const S = HP.sim; S.build(v.preset);
+        S.step(DT);
+        return { chi: S.geoToyChi, iters: S.geoToyIters, resid: S.geoToyResid,
+          residRel: S.geoToyResidRel, conv: S.geoToyConverged, closure: S.geoToyClosure,
+          warn: (v.warnings || []).some((w) => w.indexOf('toyClosure') >= 0),
+          sig: JSON.stringify(v.preset.physics[KEY]),
+          hud: (typeof HP.stepDiagText === 'function') ? String(HP.stepDiagText()) : null,
+          nan: S.hasNaN() };
+      };
+      // ① 内蔵の宣言 0 本・署名にも出ない
+      const declared = [], sigHit = [];
+      for (const q of HP.allPresets()) {
+        const sm = q.physics && q.physics[KEY];
+        if (sm && sm.toyClosure !== undefined) declared.push(q.id);
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(q)));
+        if (v.ok && JSON.stringify(v.preset.physics).indexOf('toyClosure') >= 0) sigHit.push(q.id);
+      }
+      // ② 門
+      const gates = { bad: mk(0, 1, 'zzz').ok, calib: mk(0, 1, 'iterate', null, 'calibration').ok,
+        iters0: mk(0, 1, 'iterate', 0).ok, iters99: mk(0, 1, 'iterate', 99).ok,
+        okDefault: mk(0, 1, null).ok, defaultSig: mk(0, 1, null).ok
+          ? JSON.stringify(mk(0, 1, null).preset.physics[KEY]) : null };
+      // ③④ 走行
+      const grav = run(8, 1, null);
+      const conv = run(8, 1, 'iterate', 32);
+      const sing = run(0, 1, 'iterate', 32);
+      // 収縮率 ρ=ηχ(反復を 1 回ずつ増やしたときの残差の比)
+      const s7 = run(2, 0.75, 'iterate', 7), s8 = run(2, 0.75, 'iterate', 8);
+      const ratio = (s7.residRel > 0) ? s8.residRel / s7.residRel : null;
+      const rho = 0.75 * s8.chi;
+      // ⑤ 質量のある箱
+      const box = (closure) => {
+        const q = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'boxcomoving')));
+        delete q.claims; delete q.massCalibration;
+        q.sampleClass = 'principle';
+        q.physics.geoPN = 3; q.physics.kFrame = 0;
+        const sm = { mode: 'vertex', gravity: false, inertia: false, lawVersion: 'scalar', toyGain: 1 };
+        if (closure) { sm.toyClosure = closure; sm.toyClosureIters = 32; }
+        q.physics[KEY] = sm;
+        const v = HP.validatePreset(q);
+        if (!v.ok) return { err: (v.errors || []).join('|') };
+        const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < 40; k++) S.step(0.005);
+        const st = [];
+        for (let i = 0; i < S.n; i++) st.push(S.x[i], S.y[i], S.vx[i], S.vy[i]);
+        return { st, iters: S.geoToyIters, resid: S.geoToyResid, conv: S.geoToyConverged,
+          W: S.boxA ? S.boxA.W : null, N: S.geoToyN };
+      };
+      const bg = box(null), bi = box('iterate');
+      return { declared, sigHit, gates, grav, conv, sing, ratio, rho,
+        box: { same: (bg.st && bi.st) ? bg.st.every((z, i) => Object.is(z, bi.st[i])) : null,
+          iters: bi.iters, resid: bi.resid, conv: bi.conv, W: bg.W, N: bi.N } };
+    });
+    const CK = {
+      defaultClean: r.declared.length === 0 && r.sigHit.length === 0
+        && (r.gates.defaultSig || '').indexOf('toyClosure') < 0,
+      gates: r.gates.bad === false && r.gates.calib === false && r.gates.iters0 === false
+        && r.gates.iters99 === false && r.gates.okDefault === true,
+      gravityQuiet: r.grav.closure === 'gravity' && r.grav.iters === 1 && r.grav.residRel === null
+        && (r.grav.hud === null || r.grav.hud.indexOf('closure:') < 0),
+      iterateReports: r.conv.closure === 'iterate' && r.conv.iters >= 2
+        && Number.isFinite(r.conv.residRel) && r.conv.warn === true
+        && (r.conv.hud === null || r.conv.hud.indexOf('closure:iterate') >= 0),
+      converges: r.conv.conv === true,
+      singular: r.sing.conv === false && r.sing.residRel >= 0.5
+        && (r.sing.hud === null || r.sing.hud.indexOf('未収束') >= 0),
+      rho: r.ratio !== null && Math.abs(r.ratio - r.rho) / r.rho < 1e-6,
+      box: r.box.same === true && r.box.iters === 2 && r.box.resid === 0 && r.box.conv === true };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    add('behavior.geoToyClosure', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + `① 内蔵で toyClosure を宣言する本=${r.declared.length}・署名に出る本=${r.sigHit.length}(既定署名=${r.gates.defaultSig}) / `
+      + `② 門(未知値/calibration/iters=0/iters=99)=${r.gates.bad}/${r.gates.calib}/${r.gates.iters0}/${r.gates.iters99}(すべて false) / `
+      + `③ 既定 "gravity" は反復 1・残差 null / "iterate" は it=${r.conv.iters} res=${
+        Number(r.conv.residRel).toExponential(2)} 警告=${r.conv.warn} / `
+      + `④ 収束 χ=${r.conv.chi.toFixed(6)} → conv=${r.conv.conv} / **特異点**(D₀=0・η=1・χ=${
+        r.sing.chi}) → conv=${r.sing.conv} res=${Number(r.sing.residRel).toExponential(2)}・`
+      + `収縮率 実測 ${r.ratio === null ? '—' : r.ratio.toExponential(6)} 対 ρ=ηχ ${r.rho.toExponential(6)} / `
+      + `⑤ 質量のある箱(W=${r.box.W})では閉包が効かない: 40 步ビット同一=${r.box.same}・反復=${
+        r.box.iters}・残差=${r.box.resid}`);
+  } else {
+    console.log('SKIP behavior.geoToyClosure(対象に第264便b の toyClosure なし — root 等)');
+  }
+}
 // ---- 第263便b(第55報・統括が設定した検証仮説 (7)): ui.geoToySaveNote ----
 //   **geoPN の保存は非対称である**: UI で 3 にした値は実行中は 3 のまま走る(第262便a)が、
 //   保存 JSON に physics.spaceMesh.lawVersion の宣言が無ければ**読み込み時に 2 へ丸められる**
@@ -15076,6 +15700,91 @@ if (!FAST) {
       + `✨=${r.chipAlpha.join(',')}・宣言なし=${r.chipNone.length} 個・観測結果カードの宣言行 ${r.ocRows}/${r.ocDecl} 行 / `
       + `⑦ 内訳 ${JSON.stringify(r.tally)}(開発上の完了として数える ${r.counted} 件 —— **すべて部分量の実測合格であり、`
       + `「精度向上で合格見込み」は 0 件**)/ ⑧ このチップに赤は無い(赤=否は台帳の 4 値の側)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 第264便d(第56報 W4): behavior.forecastGateMissing — **欠損を 0 と読まない**門(5) ----
+//   〔第262便c〕が `excluded` / `independent.method` / `systematic` の欠落を塞いだのと同じ穴が、
+//   **観測値そのもの**に残っていた: 門(5) は `Number(S.yObs)` で読んでいて、JavaScript の
+//   `Number(null)` も `Number("")` も **0** である。つまり **観測値を宣言し忘れた系列が
+//   「y_obs=0」として判定に入り**、`|y∞−0|+U∞ ≤ 3σ` を偶然通る道が空いていた。
+//   σ も同じ経路で、文字列 `"1"` が σ になっていた(**σ は宣言された数であって字面ではない**)。
+//   固定するのは 5 つ:
+//     ① `yObs: null` / `undefined` / `""` / 文字列 / NaN は **門(5) を通さない**(`yObsDeclared:false`)。
+//     ② `sigma: "1"`(文字列)・`null`・`0`・負は通さない(`sigmaDeclared:false`)。
+//     ③ **合成の合格例(数で宣言)は今までどおり通る**(厳しくしただけで、通る道は塞いでいない)。
+//     ④ 欠損のときも **`verdict` は null**(「合格見込み」を名乗らない)。
+//     ⑤ **診断が残る**(`yObsKind` / `sigmaKind` に何が渡ったかが書いてある)。
+//   **門は厳しくなる方向にしか動かない**(恒久契約 4 項)。
+{
+  // **機能の有無で SKIP する**(root ≡ beta の今は SKIP しないが、次期線で root が古くなると
+  // root には第264便d の厳密化が入っていない —— そのときは検査ではなく SKIP になるのが正しい)。
+  const hasStrict = await page.evaluate(() => {
+    if (!(window.HP && typeof HP.dfmForecastGate === 'function')) return false;
+    const r = HP.dfmForecastGate({ fixed: {}, stages: [], yObs: null, sigma: 1 });
+    return !!(r && r.gates && r.gates.g5 && typeof r.gates.g5.yObsDeclared === 'boolean');
+  });
+  if (!hasStrict) {
+    console.log('SKIP behavior.forecastGateMissing(対象に第264便d の門(5) の厳密化〔yObsDeclared〕なし — root 等)');
+  } else {
+    const bad = [];
+    const r = await page.evaluate(() => {
+      const mk = (over) => Object.assign({
+        fixed: { quantity: '合成量', observationVersion: '合成', unit: '合成単位',
+          timeSystem: '合成', window: '合成窓', extractor: '合成抽出器', f: '固定', refitPerStage: false },
+        stages: [{ h: 0.016, y: 116 }, { h: 0.008, y: 108 }, { h: 0.004, y: 104 }, { h: 0.002, y: 102 }],
+        excluded: { duplicateEvents: 0, nan: 0, incomplete: 0, unwrapFailed: 0, roundingFloor: 0 },
+        yObs: 100, sigma: 1, systematic: 0,
+        independent: { value: 100, method: '別積分法(合成)' },
+      }, over || {});
+      const O = { base: HP.dfmForecastGate(mk()), miss: {} };
+      O.miss.yObsNull = HP.dfmForecastGate(mk({ yObs: null }));
+      O.miss.yObsUndef = HP.dfmForecastGate(mk({ yObs: undefined }));
+      O.miss.yObsEmpty = HP.dfmForecastGate(mk({ yObs: '' }));
+      O.miss.yObsString = HP.dfmForecastGate(mk({ yObs: '100' }));
+      O.miss.yObsNaN = HP.dfmForecastGate(mk({ yObs: NaN }));
+      O.miss.sigmaNull = HP.dfmForecastGate(mk({ sigma: null }));
+      O.miss.sigmaEmpty = HP.dfmForecastGate(mk({ sigma: '' }));
+      O.miss.sigmaString = HP.dfmForecastGate(mk({ sigma: '1' }));
+      O.miss.sigmaZero = HP.dfmForecastGate(mk({ sigma: 0 }));
+      O.miss.sigmaNeg = HP.dfmForecastGate(mk({ sigma: -1 }));
+      // **穴の形をそのまま残す**: 欠損を 0 と読むなら、y∞=100 は 100σ 離れるので通らないが、
+      // y∞ が 0 に近い系列なら通ってしまう。その「通ってしまう形」を否定対照にする。
+      const near0 = { stages: [{ h: 0.016, y: 0.16 }, { h: 0.008, y: 0.08 }, { h: 0.004, y: 0.04 },
+        { h: 0.002, y: 0.02 }], independent: { value: 0, method: '別積分法(合成)' } };
+      O.hole = { withNumber: HP.dfmForecastGate(mk(Object.assign({ yObs: 0 }, near0))),
+        withNull: HP.dfmForecastGate(mk(Object.assign({ yObs: null }, near0))),
+        withEmpty: HP.dfmForecastGate(mk(Object.assign({ yObs: '' }, near0))) };
+      return O;
+    });
+    if (!(r.base.ok === true && r.base.verdict === 'pass-expected-with-precision'))
+      bad.push(`③数で宣言した合成の合格例が通らない(failed=${(r.base.failed || []).join(',')})`);
+    const MISS = Object.keys(r.miss);
+    for (const k of MISS) {
+      const z = r.miss[k];
+      if (!z || z.ok !== false) { bad.push(`①②欠損 ${k} が通ってしまう`); continue; }
+      if ((z.failed || []).indexOf('g5') < 0) bad.push(`①②欠損 ${k} が門(5) で落ちない(${(z.failed || []).join(',')})`);
+      if (z.verdict !== null) bad.push(`④欠損 ${k} に verdict が立っている`);
+      const g5 = z.gates && z.gates.g5;
+      if (!g5 || typeof g5.yObsKind !== 'string' || typeof g5.sigmaKind !== 'string')
+        bad.push(`⑤欠損 ${k} に診断(yObsKind/sigmaKind)が無い`);
+      if (/^yObs/.test(k) && g5 && g5.yObsDeclared !== false) bad.push(`①${k} で yObsDeclared が false でない`);
+      if (/^sigma/.test(k) && g5 && g5.sigmaDeclared !== false) bad.push(`②${k} で sigmaDeclared が false でない`);
+    }
+    // 穴の形: **数の 0 は通る**(0 は宣言である)が、**null と "" は通らない**
+    if (r.hole.withNumber.ok !== true) bad.push('③数の 0 を宣言した系列まで落ちている(厳しくしすぎ)');
+    if (r.hole.withNull.ok !== false) bad.push('①null の yObs が 0 として通ってしまう(穴が塞がっていない)');
+    if (r.hole.withEmpty.ok !== false) bad.push('①空文字の yObs が 0 として通ってしまう(穴が塞がっていない)');
+    add('behavior.forecastGateMissing', bad.length === 0,
+      `**欠損の観測値を 0 と読まない・文字列の σ を受け取らない**(門(5))。`
+      + `① yObs の欠損 5 形(null/undefined/""/文字列/NaN)・② σ の欠損 5 形(null/""/文字列/0/負)`
+      + ` = ${MISS.length} 本がすべて門(5) で落ちる / `
+      + `③ 数で宣言した合成の合格例は通る(ok=${r.base.ok})—— **厳しくしただけで通る道は塞いでいない** / `
+      + `**穴の形**: y∞≈0 の系列で yObs を数の 0 にすると ok=${r.hole.withNumber.ok}・`
+      + `null にすると ok=${r.hole.withNull.ok}(診断 yObsKind=${(r.hole.withNull.gates.g5 || {}).yObsKind})・`
+      + `"" にすると ok=${r.hole.withEmpty.ok}(${(r.hole.withEmpty.gates.g5 || {}).yObsKind})`
+      + ` —— **第263便までは null も "" も 0 と読まれて通っていた** / `
+      + `④ 欠損時の verdict は null(「合格見込み」を名乗らない)・⑤ 何が渡ったかを診断に残す`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
@@ -16679,6 +17388,324 @@ if (!FAST) {
       + `${mg.fin.inf.why} で、根の m=${mg.fin.inf.m}・層 m=${mg.fin.inf.l0} が **1 bit も動かない**=${m7}`);
   } else {
     console.log('SKIP behavior.coreV2Migrate(対象に第262便b の移行計画・移行レポートなし — root 等)');
+  }
+}
+
+
+// ---- 第264便c(第56報「親子コアが、コアV2を完全に置き換え可能な状態かを確認する」) ----
+// ---- behavior.layerRotationSource — **回転場の源を層から取る**(等価性 3 状態・二重計上なし・傾き) ----
+//   固定するのは 5 つ:
+//   ① **所有者規約**: コア V2 があれば V2・無ければ層。層 + V2 の粒子で層の J を 10 倍にしても
+//      `spinDipoleMoment` は 1 bit も動かない(**二重計上しない**ことの直接の対照)。
+//   ② **等価性(spin=0・ζ=1)**: (i) V2 のみ / (ii) 層+V2 / (iii) 層のみ の 3 状態で Q が**同値**、
+//      600 步後の状態が**ビット同一**(opt-in の physics.spinSpin=10⁶ を宣言した 2 体の器で測る)。
+//   ③ **一致しない条件も数で置く**: spin≠0 では層の Q が **−½·M_c·R²·spin** ずれる(V2 の殻項が
+//      body 質量で組まれているため)。ζ≠1 では **J_z(1−1/ζ)** ずれる(層は ζ を持たない)。
+//      **どちらも「置換できる」とは書かない** —— `coreV2ReplaceReport` の rotationSource がそれを数える。
+//   ④ **傾き**: 移行計画は面内成分を層へ**数値として**載せる(layJx = coreJx)。回転場の源は
+//      **z 成分だけ**を読むので、Jx を動かしても Q は動かない(V2 と同じ射影)。
+//   ⑤ **宣言の無い層は従来式**: 🧅 layeredCoreDFM は J を書いていないので `layerDipoleMoment` が
+//      null を返し、Q は ½mR²s のまま(= 内蔵 122 本が 1 bit も変わらない根拠)。
+{
+  const hasLRS = await page.evaluate(() => !!(window.HP && typeof HP.dfmLayerDipoleMoment === 'function'
+    && typeof HP.coreV2MigrationPlan === 'function' && HP.sim && HP.sim._setBodyLayers));
+  if (hasLRS) {
+    const lrs = await page.evaluate(() => {
+      const mkP = (spin, zeta) => ({ id: 'qaLRS', name: 'qaLRS', emoji: '🧪',
+        description: 'QA の器(回転場の源)。', camera: { scale: 300 },
+        world: { boundary: 'none', size: 0 }, seed: 1,
+        physics: { G: 1, D0: 0, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 1 / 60,
+          cLight: 30, contactK: 0, contactCap: 0, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0,
+          geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 0.5, timeScale: 1,
+          spinSpin: 1e6 },
+        bodies: [
+          { type: 'single', m: 1000, radius: 10, x: -30, y: 0, vx: 0, vy: 0, spin, pinned: false,
+            core: { mode: 'differential', massFrac: 0.3, radius: 0.1, omega: 20, tilt: 60, inertiaScale: zeta } },
+          { type: 'single', m: 10, radius: 1, x: 30, y: 0, vx: 0, vy: 0, spin: 3, pinned: false }],
+        overlays: {} });
+      const dropV2 = (S, i) => { S.coreMd[i] = 0; S.coreMF[i] = 0; S.RcV[i] = 0; S.coreJ[i] = 0;
+        S.coreJm[i] = 0; S.coreIS[i] = 1; S.coreJx[i] = 0; S.coreJy[i] = 0; S.coreKcs[i] = 0;
+        let any = false; for (let k = 0; k < S.n; k++) if (S.coreMd[k]) { any = true; break; }
+        S.hasCoreV2 = any; };
+      const setup = (state, spin, zeta) => {
+        const v = HP.validatePreset(mkP(spin, zeta));
+        const S = HP.sim; S.build(v.preset);
+        let plan = null;
+        if (state !== 'v2') {
+          plan = HP.coreV2MigrationPlan({ m: S.m[0], R: S.R[0], spin: S.spin[0],
+            core: { mode: 'differential', massFrac: S.coreMF[0], radius: S.RcV[0], inertiaScale: S.coreIS[0],
+              Jz: S.coreJ[0], Jmag: S.coreJm[0], Jx: S.coreJx[0], Jy: S.coreJy[0] } });
+          S._setBodyLayers(0, plan.layers);
+          if (state === 'lay') dropV2(S, 0);
+        }
+        return { S, plan };
+      };
+      const run = (state, spin, zeta, steps) => {
+        const { S, plan } = setup(state, spin, zeta);
+        const o = { Q: HP.dfmSpinDipoleMoment(0, S), layQ: HP.dfmLayerDipoleMoment(0, S),
+          nLay: S.layN[0] || 0, md: S.coreMd[0],
+          layJx: S.layJx ? S.layJx[0] : null, coreJx: S.coreJx[0], planJx: plan ? plan.Jx : null };
+        for (let k = 0; k < steps; k++) S.step(0.016);
+        o.st = []; for (let i = 0; i < S.n; i++) o.st.push([S.x[i], S.y[i], S.vx[i], S.vy[i]]);
+        return o;
+      };
+      const diff = (a, b) => { let m = 0;
+        for (let i = 0; i < a.st.length; i++) for (let k = 0; k < a.st[i].length; k++)
+          m = Math.max(m, Math.abs(a.st[i][k] - b.st[i][k]));
+        return m; };
+      const O = {};
+      { const v2 = run('v2', 0, 1, 600), both = run('both', 0, 1, 600), lay = run('lay', 0, 1, 600);
+        O.eq = { qV2: v2.Q, qBoth: both.Q, qLay: lay.Q, layQ: lay.layQ,
+          nLay: lay.nLay, mdV2: v2.md, mdLay: lay.md,
+          dBoth: diff(v2, both), dLay: diff(v2, lay),
+          layJx: lay.layJx, coreJx: v2.coreJx, planJx: lay.planJx }; }
+      { const v2 = run('v2', 0.4, 1, 600), lay = run('lay', 0.4, 1, 600);
+        O.spin = { qV2: v2.Q, qLay: lay.Q, dQ: lay.Q - v2.Q, d600: diff(v2, lay),
+          expect: -0.5 * (0.3 * 1000) * 10 * 10 * 0.4 }; }
+      { const v2 = run('v2', 0, 4, 600), lay = run('lay', 0, 4, 600);
+        O.zeta = { qV2: v2.Q, qLay: lay.Q, dQ: lay.Q - v2.Q, d600: diff(v2, lay) }; }
+      // ① 二重計上しない(層 + V2 で層の J を 10 倍にしても Q は動かない)
+      { const { S } = setup('both', 0, 1);
+        const q0 = HP.dfmSpinDipoleMoment(0, S);
+        const arr = S.bodyLayersOf(0).map((L) => ({ role: L.role, m: L.m, r: L.r,
+          J: (L.J || 0) * 10, Jx: L.Jx, Jy: L.Jy }));
+        S._setBodyLayers(0, arr);
+        O.dbl = { before: q0, after: HP.dfmSpinDipoleMoment(0, S), layQ: HP.dfmLayerDipoleMoment(0, S) }; }
+      // ④ 傾き: 層のみの粒子で Jx を動かしても Q は動かない(z 射影だけを読む)
+      { const { S } = setup('lay', 0, 1);
+        const q0 = HP.dfmSpinDipoleMoment(0, S);
+        const arr = S.bodyLayersOf(0).map((L) => ({ role: L.role, m: L.m, r: L.r,
+          J: L.J, Jx: (L.Jx || 0) * 3 + 7, Jy: (L.Jy || 0) + 5 }));
+        S._setBodyLayers(0, arr);
+        O.proj = { before: q0, after: HP.dfmSpinDipoleMoment(0, S),
+          jx: S.layJx[0], jy: S.layJy[0], roundTrip: S.bodyLayersOf(0)[0].Jx }; }
+      // ⑤ 宣言の無い層(🧅)は従来式のまま
+      { HP.loadPreset('layeredCoreDFM', false);
+        const S = HP.sim;
+        O.onion = { Q: HP.dfmSpinDipoleMoment(0, S), layQ: HP.dfmLayerDipoleMoment(0, S),
+          legacy: 0.5 * S.m[0] * S.R[0] * S.R[0] * S.spin[0], nLay: S.layN[0] }; }
+      return O;
+    });
+    const e = lrs.eq;
+    const c1 = lrs.dbl.before === lrs.dbl.after && lrs.dbl.layQ !== lrs.dbl.before;
+    const c2 = e.qV2 === e.qBoth && e.qV2 === e.qLay && e.layQ === e.qV2
+      && e.nLay === 2 && e.mdLay === 0 && e.dBoth === 0 && e.dLay === 0;
+    const c3 = Math.abs(lrs.spin.dQ - lrs.spin.expect) < 1e-3 && lrs.spin.d600 > 0
+      && lrs.zeta.dQ !== 0 && lrs.zeta.d600 > 0;
+    const c4 = lrs.proj.before === lrs.proj.after && lrs.proj.jx !== 0 && lrs.proj.jy !== 0
+      && Math.abs(e.layJx - e.coreJx) < 1e-9 && Math.abs(e.planJx - e.coreJx) < 1e-9;
+    const c5 = lrs.onion.layQ === null && lrs.onion.Q === lrs.onion.legacy && lrs.onion.nLay === 2;
+    add('behavior.layerRotationSource', c1 && c2 && c3 && c4 && c5,
+      `① **所有者規約(二重計上しない)**: 層+V2 の粒子で層の J を 10 倍にしても Q=${lrs.dbl.before}→`
+      + `${lrs.dbl.after}(層側の値は ${lrs.dbl.layQ} に動いているが読まれない)=${c1} / `
+      + `② **等価性(spin=0・ζ=1)**: Q は (i) V2 のみ ${e.qV2} / (ii) 層+V2 ${e.qBoth} / `
+      + `(iii) 層のみ ${e.qLay}(層の Σ J_z=${e.layQ}・層数 ${e.nLay}・(iii) の coreMd=${e.mdLay})で、`
+      + `**600 步の状態差は (ii) ${e.dBoth} / (iii) ${e.dLay}**(ビット同一)=${c2} / `
+      + `③ **一致しない条件**: spin=0.4 で ΔQ=${lrs.spin.dQ}(予測 −½M_cR²s=${lrs.spin.expect}・`
+      + `600 步の最大差 ${lrs.spin.d600})・ζ=4 で ΔQ=${lrs.zeta.dQ}(=J_z(1−1/ζ)・600 步 ${lrs.zeta.d600})`
+      + `=${c3} / ④ **傾きは数値として載り、源は z 射影だけ**: 層の Jx=${e.layJx}=コアの Jx=${e.coreJx}`
+      + `(計画 ${e.planJx})で、Jx/Jy を動かしても Q=${lrs.proj.before}→${lrs.proj.after}(往復 `
+      + `Jx=${lrs.proj.roundTrip})=${c4} / ⑤ **宣言の無い層は従来式**: 🧅 は layerQ=${lrs.onion.layQ}・`
+      + `Q=${lrs.onion.Q}=½mR²s=${lrs.onion.legacy}(層数 ${lrs.onion.nLay})=${c5}`);
+  } else {
+    console.log('SKIP behavior.layerRotationSource(対象に第264便c の層の回転場の源なし — root 等)');
+  }
+}
+
+// ---- 第264便c: behavior.coreV2ReplaceReport — **置換可否レポート**と**移行 API の穴** ----
+//   ⓪ **API の穴(49 ケース)**: `coreV2MigrationPlan` は omega/tilt/J/|J|/spin の Infinity・NaN・null を
+//      **0 に読み替えず拒否**し、inertiaScale ≤0・非有限も拒否し、入力が有限でも J_x・回転 E が
+//      Infinity になる場合を拒否する。**massFrac=1(裸コア)でも Rc ≥ R(等号を含む)は移行不可**
+//      —— 基点は `mf<1` の条件で裸コアだけ例外にしていた(契約を緩めない)。
+//   ① **内蔵 122 本の集計**: コア宣言 75 件のうち置換可 27・不可 48。項別の不可件数と理由の集合を固定する。
+//   ② **`canReplaceV2` が全項 true の本があっても「コア V2 を廃止できる」とは言わない** ——
+//      この表が測るのは 6 項だけで、描画・保存 JSON・AI 生成・既存セーブの互換はこの表の外である。
+{
+  const hasRep = await page.evaluate(() => !!(window.HP && typeof HP.coreV2ReplaceReport === 'function'
+    && typeof HP.coreV2ReplaceAxes === 'function'));
+  if (hasRep) {
+    const rp = await page.evaluate(() => {
+      const P = HP.coreV2MigrationPlan;
+      const base = (over, cover) => ({ m: 100, radius: 10, spin: 0.5,
+        core: Object.assign({ mode: 'differential', massFrac: 0.3, radius: 5, omega: 4, tilt: 0,
+          inertiaScale: 1 }, cover || {}), ...(over || {}) });
+      const C = [];
+      const add2 = (name, body, want) => { const r = P(body);
+        C.push({ name, want, got: r.ok ? 'ok' : r.reason, pass: (r.ok ? 'ok' : r.reason) === want }); };
+      add2('baseline', base(), 'ok');
+      for (const [tag, v] of [['inf', Infinity], ['ninf', -Infinity], ['nan', NaN], ['null', null], ['str', 'abc']])
+        add2('omega:' + tag, base(null, { omega: v }), 'coreOmegaNotFinite');
+      add2('omega:numstr', base(null, { omega: '4' }), 'ok');
+      for (const [tag, v] of [['inf', Infinity], ['ninf', -Infinity], ['nan', NaN], ['null', null]])
+        add2('tilt:' + tag, base(null, { tilt: v }), 'coreTiltNotFinite');
+      for (const [tag, v] of [['0', 0], ['neg', -1], ['null', null], ['nan', NaN], ['inf', Infinity]])
+        add2('zeta:' + tag, base(null, { inertiaScale: v }), 'inertiaScaleNotPositive');
+      { const c = base(); delete c.core.inertiaScale; add2('zeta:absent', c, 'ok'); }
+      for (const [tag, v] of [['inf', Infinity], ['nan', NaN], ['null', null]])
+        add2('Jz:' + tag, base(null, { Jz: v }), 'coreJNotFinite');
+      add2('J:null', base(null, { J: null }), 'coreJNotFinite');
+      for (const [tag, v] of [['inf', Infinity], ['nan', NaN], ['null', null]])
+        add2('Jmag:' + tag, base(null, { Jz: 1, Jmag: v }), 'coreJNotFinite');
+      add2('Jz:0', base(null, { Jz: 0 }), 'ok');
+      add2('overflow:zetaOmega', base(null, { inertiaScale: 1e300, omega: 1e300 }), 'valuesNotFinite');
+      add2('overflow:zeta', base(null, { inertiaScale: 1e308 }), 'valuesNotFinite');
+      add2('overflow:Jx', base(null, { inertiaScale: 1e300, omega: 1e300, tilt: 60 }), 'valuesNotFinite');
+      add2('overflow:mass', base({ m: 1e308 }), 'valuesNotFinite');
+      add2('overflow:Erot', base(null, { omega: 1e200 / 375 }), 'rotationEnergyNotFinite');
+      add2('naked:RcEqR', base(null, { massFrac: 1, radius: 10 }), 'coreOutsideShell');
+      add2('naked:RcGtR', base(null, { massFrac: 1, radius: 12 }), 'coreOutsideShell');
+      add2('naked:ok', base(null, { massFrac: 1, radius: 5 }), 'ok');
+      add2('RcEqR', base(null, { radius: 10 }), 'coreOutsideShell');
+      add2('mf:0', base(null, { massFrac: 0 }), 'massFracOutOfRange');
+      add2('mf:1.2', base(null, { massFrac: 1.2 }), 'massFracOutOfRange');
+      add2('mf:nan', base(null, { massFrac: NaN }), 'massFracOutOfRange');
+      add2('mode:cavity', base(null, { mode: 'cavity' }), 'cavityHasNoMass');
+      add2('mode:unknown', base(null, { mode: 'zzz' }), 'unknownCoreMode');
+      add2('m:neg', base({ m: -10 }), 'bodyMassNegative');
+      add2('m:0', base({ m: 0 }), 'bodyMassNotPositive');
+      { const b = base(); delete b.m; add2('m:absent', b, 'bodyMassNotDeclared'); }
+      { const b = base(); delete b.radius; add2('R:absent', b, 'bodyRadiusNotDeclared'); }
+      add2('R:neg', base({ radius: -5 }), 'bodyRadiusNotPositive');
+      add2('Rc:0', base(null, { radius: 0 }), 'coreRadiusNotPositive');
+      add2('Rc:nan', base(null, { radius: NaN }), 'coreRadiusNotPositive');
+      for (const [tag, v] of [['inf', Infinity], ['nan', NaN], ['null', null]])
+        add2('spin:' + tag, base({ spin: v }), 'bodySpinNotFinite');
+      add2('tilt60', base(null, { tilt: 60 }), 'ok');
+      const p60 = P(base(null, { tilt: 60 }));
+      // ① 内蔵 122 本
+      const tot = { canReplace: 0, cannot: 0 }, byAxis = {}, byReason = {};
+      let nCore = 0; const ids = [];
+      for (const p of HP.allPresets()) {
+        const r = HP.coreV2ReplaceReport(p);
+        if (!r.nCore) continue;
+        nCore += r.nCore; tot.canReplace += r.counts.canReplace; tot.cannot += r.counts.cannot;
+        for (const k of Object.keys(r.byAxis)) byAxis[k] = (byAxis[k] || 0) + r.byAxis[k];
+        for (const k of Object.keys(r.byReason)) byReason[k] = (byReason[k] || 0) + r.byReason[k];
+        if (r.counts.canReplace) ids.push((p.emoji || '') + p.id);
+      }
+      return { C, p60: { jx: p60.layers[0].Jx, warn: p60.warnings },
+        rep: { nPresets: HP.allPresets().length, nCore, tot, byAxis, byReason, ids } };
+    });
+    const bad = rp.C.filter((c) => !c.pass);
+    const g0 = bad.length === 0 && rp.C.length >= 45;
+    const g1 = rp.rep.nPresets === 122 && rp.rep.nCore === 75
+      && rp.rep.tot.canReplace === 27 && rp.rep.tot.cannot === 48
+      && rp.rep.byAxis.rotationSource === 48 && rp.rep.byAxis.migration === 14
+      && rp.rep.byAxis.KcsThermal === 16 && rp.rep.byAxis.activePumpContract === 16
+      && rp.rep.byAxis.tilt === 14 && rp.rep.byAxis.saveRestore === 14;
+    const g2 = rp.rep.byReason['rotationSource:shellSpinTermDiffers'] === 29
+      && rp.rep.byReason['rotationSource:inertiaScaleNotUnity'] === 5
+      && rp.rep.byReason['KcsThermal:KcsNotCarried'] === 2
+      && rp.rep.byReason['activePumpContract:coreDynamicsNotCarried'] === 2
+      && rp.rep.byReason['migration:coreOutsideShell'] === 1;
+    const g3 = Math.abs(rp.p60.jx - 1299.038105676658) < 1e-9 && rp.p60.warn.indexOf('tiltNotCarried') >= 0;
+    add('behavior.coreV2ReplaceReport', g0 && g1 && g2 && g3,
+      `⓪ **移行 API の穴**: ${rp.C.length} ケースすべてが期待どおりの可否を返す=${g0}`
+      + (bad.length ? `(**外れ** ${JSON.stringify(bad.slice(0, 6))})` : '')
+      + `(omega/tilt/J/|J|/spin の Infinity・NaN・null は **0 に読み替えず拒否**・ζ≤0 拒否・`
+      + `入力が有限でも J_x/回転 E が Infinity なら拒否・**massFrac=1 でも Rc≥R(等号込み)は移行不可**) / `
+      + `① **内蔵 ${rp.rep.nPresets} 本の置換可否**(変換しない): コア宣言 ${rp.rep.nCore} 件 = `
+      + `**置換可 ${rp.rep.tot.canReplace}・不可 ${rp.rep.tot.cannot}**・項別の不可 `
+      + `${JSON.stringify(rp.rep.byAxis)}=${g1} / ② 理由 ${JSON.stringify(rp.rep.byReason)}=${g2} / `
+      + `置換可の本 ${JSON.stringify(rp.rep.ids)} / `
+      + `③ θ=60° の計画は層に J_x=${rp.p60.jx} を**数値として**載せ、警告 `
+      + `${JSON.stringify(rp.p60.warn)} は据え置き(面内成分の**力学**は運ばれない)=${g3} / `
+      + `**この表は 6 項だけを測る** —— 全項 true の本があっても「コア V2 を廃止できる」とは言わない`);
+  } else {
+    console.log('SKIP behavior.coreV2ReplaceReport(対象に第264便c の置換可否レポートなし — root 等)');
+  }
+}
+
+// ---- 第264便c: ui.bodyLayerNumbers — 層モードの**読み取り専用の数値行** ----
+//   第56報「親子コアで、軸の傾きなどの、『選択粒子の編集』のコアV2で確認できた数値を、
+//   確認出来る様にする」。固定するのは 5 点:
+//   ① 層モードで 7 行(見出し + Q/ω・θ/|J|・Jz/Jx・Jy/E_r・I_c/M_c・M_s/K_cs・観測半径)が出る。
+//   ② **所有者規約が見える**: コア V2 を持つ粒子は V2 の値、層だけの粒子は層から導いた値。
+//   ③ **ja / en で文言が違い、数字は同じ**。
+//   ④ **署名にも S.params にも 1 bit も効かない**(表示専用)。
+//   ⑤ **4 幅(1280×800 / 1024×768 / 800×600 / 800×420)で見切れ 0**(溢れるぶんはパネル内スクロール)。
+{
+  const hasNums = await page.evaluate(() => !!document.querySelector('#beLayNums')
+    && !!(window.HP && HP.beLayModeNow));
+  if (hasNums) {
+    const vp0 = page.viewportSize();
+    const open = async () => page.evaluate(() => {
+      HP.loadPreset('layeredCoreDFM', false);
+      HP.selectBody(0, 'A');
+      const tg = document.querySelector('#beLayToggle');
+      if (tg && !HP.beLayModeNow()) tg.click();
+    });
+    await open();
+    const nums = await page.evaluate(() => {
+      const txt = (s) => { const e = document.querySelector(s); return e ? (e.textContent || '') : null; };
+      const IDS = ['#beLyNumHead', '#beLyNumSrc', '#beLyNumOm', '#beLyNumJ', '#beLyNumJ2',
+        '#beLyNumE', '#beLyNumM', '#beLyNumM2'];
+      const O = { shown: getComputedStyle(document.querySelector('#beLayNums')).display !== 'none',
+        ja: IDS.map(txt), sig0: HP.presetSigHash(HP.currentPreset()),
+        params0: JSON.stringify(HP.sim.params) };
+      document.querySelector('#btnLang').click();
+      O.lang = HP.lang();
+      O.en = IDS.map(txt);
+      document.querySelector('#btnLang').click();
+      O.back = IDS.map(txt);
+      O.sig1 = HP.presetSigHash(HP.currentPreset());
+      O.params1 = JSON.stringify(HP.sim.params);
+      // 層だけの粒子(🧅・J 未宣言)は「従来式」、コア V2 を持つ粒子は「コアv2」と出る
+      O.onionSrc = txt('#beLyNumSrc');
+      HP.loadPreset('bhCoreTilt', false);
+      const S = HP.sim; let idx = -1;
+      for (let i = 0; i < S.n; i++) if (S.coreMd[i] && S.coreMd[i] !== 4 && !S.layN[i]) { idx = i; break; }
+      O.tiltIdx = idx;
+      if (idx >= 0) {
+        HP.selectBody(idx, 'A');
+        const cv = document.querySelector('#beCoreV2'); if (cv) cv.open = true;
+        const b = document.querySelector('#beCvToLayers');
+        O.btnOk = !!(b && !b.disabled);
+        if (O.btnOk) b.click();
+        const tg = document.querySelector('#beLayToggle');
+        if (tg && !HP.beLayModeNow()) tg.click();
+        O.v2 = [txt('#beLyNumSrc'), txt('#beLyNumJ'), txt('#beLyNumJ2'), txt('#beLyNumM2')];
+        O.layJx = S.layJx ? S.layJx[idx * HP.BODY_LAYER_MAX] : null;
+        O.coreJx = S.coreJx[idx];
+        O.md = S.coreMd[idx];
+      }
+      return O;
+    });
+    const fit = {};
+    for (const [W, H] of [[1280, 800], [1024, 768], [800, 600], [800, 420]]) {
+      await page.setViewportSize({ width: W, height: H });
+      await open();
+      fit[`${W}x${H}`] = await page.evaluate(() => {
+        const el = document.querySelector('#bodyEdit'), wrap = document.querySelector('#canvasWrap');
+        const r = el.getBoundingClientRect(), w = wrap.getBoundingClientRect();
+        const b = document.querySelector('#beLayNums');
+        return { overflowPx: +Math.max(0, r.bottom - w.bottom).toFixed(2),
+          panelH: +r.height.toFixed(2), scrollY: Math.max(0, el.scrollHeight - el.clientHeight),
+          scrollX: Math.max(0, el.scrollWidth - el.clientWidth),
+          numsH: +b.getBoundingClientRect().height.toFixed(2),
+          numsClip: Math.max(0, b.scrollWidth - b.clientWidth) };
+      });
+    }
+    if (vp0) await page.setViewportSize(vp0);
+    await page.evaluate(() => { HP.selectBody(-1, 'A'); HP.loadPreset('layeredCoreDFM', false); });
+    const n1 = nums.shown && nums.ja.every((t) => t && t.length > 0) && nums.ja.length === 8;
+    const n2 = nums.tiltIdx >= 0 && nums.btnOk && nums.md !== 0
+      && Math.abs(nums.layJx - nums.coreJx) < 1e-9 && nums.v2.every((t) => t && t.length > 0);
+    const n3 = nums.ja.join('|') !== nums.en.join('|') && nums.back.join('|') === nums.ja.join('|');
+    const n4 = nums.sig0 === nums.sig1 && nums.params0 === nums.params1;
+    const n5 = Object.values(fit).every((f) => f.overflowPx === 0 && f.scrollX === 0 && f.numsClip === 0);
+    add('ui.bodyLayerNumbers', n1 && n2 && n3 && n4 && n5,
+      `① 層モードに**読み取り専用の数値行**が出る=${nums.shown}(ja ${JSON.stringify(nums.ja)})=${n1} / `
+      + `② **所有者規約が見える**: 🧅(層のみ・J 未宣言)は「${nums.onionSrc}」、`
+      + `🪩 bhCoreTilt を移行した粒子(coreMd=${nums.md})は ${JSON.stringify(nums.v2)}`
+      + `(層の J_x=${nums.layJx}=コアの J_x=${nums.coreJx})=${n2} / `
+      + `③ ja/en で文言が違い往復で戻る=${n3}(en ${JSON.stringify(nums.en)}) / `
+      + `④ **署名 ${nums.sig0}→${nums.sig1}・S.params も不変**=${n4} / `
+      + `⑤ **4 幅で見切れ 0**: ` + Object.entries(fit).map(([k, f]) =>
+        `${k} はみ出し ${f.overflowPx}px・パネル ${f.panelH}px(数値行 ${f.numsH}px・`
+        + `送る量 ${f.scrollY}px・横 ${f.scrollX}px)`).join(' / ') + `=${n5}`);
+  } else {
+    console.log('SKIP ui.bodyLayerNumbers(対象に第264便c の層モードの数値行なし — root 等)');
   }
 }
 

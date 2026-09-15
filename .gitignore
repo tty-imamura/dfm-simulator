@@ -46,6 +46,12 @@ tests/out/*
 #   docs/CALIBRATION_VERDICT_v1.44.md §5.8 と docs/PHYSICS.md 〔第263便c〕の表がこの値そのもの
 #   なのでコミットする(**エンジンは走らせていない** —— 入力は CSV と既存の結果 JSON だけである)
 !tests/out/obsintake-w263c.json
+# 第264便d: 観測レコード(2026-09-15 intake・**2 系統**)の照合と不足表 68 組の会計
+#   (tests/exp-w264d-intakeA.mjs)の実測正本。QA `docs.intakeA-sync` が CSV の転写行数・
+#   σ つき行・候補行・派生行・6 分類の合計をこの JSON と突き合わせ、
+#   docs/CALIBRATION_VERDICT_v1.44.md §5.9 と docs/PHYSICS.md 〔第264便d〕の表がこの値そのもの
+#   なのでコミットする(**エンジンは 1 步も走らせていない** —— 入力は CSV 正本だけである)
+!tests/out/intakeA-w264d.json
 # 第262便c: 門(4) の独立推定(tests/exp-w262c-independent.mjs —— leapfrog-KDK とエンジン外 RK4 参照器・
 # 門 5 つの再判定)・📻 の E12 と標準二体相対 1PN の対照(tests/exp-w262c-e12ref.mjs)・
 # ✨🌟 の e 写像(tests/exp-w262c-emap.mjs)・🩺 観測版 v2 の差(tests/exp-w262c-v2delta.mjs)の実測正本。
@@ -69,6 +75,16 @@ tests/out/*
 #   bit / ctrl(二重計上の対照 3 走行)/ sweep(30 点の根探索)/ valley(ω̇ の谷)/ dom(支配度の 4 軸)を 1 本にまとめたもの。
 #   docs/PHYSICS.md 〔第263便a〕の表がこの値そのものなのでコミットする(**QA はこのファイルを読まない**)
 !tests/out/dragoverlay-w263a.json
+# 第264便a: NS の (k, f) 共同根と転用試験の実測正本。
+#   kjoint  : 4 系の (k*, f*) 2 次元根探索・実測ヤコビアン(tests/exp-w264a-kjoint.mjs)
+#   fixed07 : kFrame=0.7・f=1.7 を 4 系へ転用したときの 3 段残差と ω̇ 逆行の切り分け(tests/exp-w264a-fixed07.mjs)
+#   predfit : 事前予測式候補 H1/H2/H3 の検定(tests/exp-w264a-predfit.mjs — 走らせずに JSON と CSV を読む)
+#   obsdelta: 採用レコードと「判定に使う解」の差・builder 入力の出どころの機械照合(tests/exp-w264a-obsdelta.mjs)
+#   docs/PHYSICS.md 〔第264便a〕の表がこの値そのものなのでコミットする(**QA はこれらを読まない**)
+!tests/out/kjoint-w264a.json
+!tests/out/fixed07-w264a.json
+!tests/out/predfit-w264a.json
+!tests/out/obsdelta-w264a.json
 # 第134便: kF1 較正ハーネスの実測正本(論文3 再現性 — 外部レビュー P0 対応。
 # 本文の中心値〔q*=6.16/8.25/21.8・drag −5.6e-10・第122便 q*=4.59〕を提出コミットから再生成可能に)
 !tests/out/coreshell-results.json
