@@ -35845,6 +35845,67 @@ function dfmDominance(bodies,opts){
     note:"3 つの軸は別物である(1 つの数に畳まない)。二体では uAlign は χ₂ と恒等に一致する。"
       +"**これは物差しであって法則ではない** —— この数でモデルを切り替える経路は実装していない。" };
 }
+// ===== 第264便a(第56報・統括が設定した検証仮説 (A)): **kFrame の候補式の評価器** =====
+// `HP.dfmFrameKCandidates(inp)`。原仮定者(第56報)「『kFrame≈0.7』を、他の観測値から**事前予測する
+// 計算式を確立する**」。—— 本関数は**候補式を同じ入力で並べて評価するだけの純関数**であって、
+// **予測式ではない**。力へは 1 バイトも接続せず、kFrame をこの数で自動的に決める経路はどこにも無い
+// (内蔵プリセットの kFrame は QA `preset.kframe-binary01` が要求する **0 か 1** のままである)。
+//
+// **候補は 3 つ**(第264便a の検証。**どれも「成立した」とは宣言していない**):
+//   H1: k = (f_ind − 1)/χ_eff。**f_ind が独立でなければ循環である** —— 較正台帳の f は
+//       生成則 f = 1 + k_F·χ_eff(`dfmBinaryInertiaFactorLinear`)そのものから作られているので、
+//       台帳の f を入れると恒等式 k=k_F が返るだけで**予測ではない**。したがって本関数は
+//       `fIndependent` に**出どころの宣言** `fIndSource` を要求し、宣言が無い/台帳由来なら
+//       `h1.circular:true` を立てて **value を返さない**(null)。
+//   H2: k = 1 − α·η_sym·χ_eff/(χ_eff + δ)。η_sym=m₁m₂/M² は対称質量比。α・δ は**自由パラメータ**で、
+//       既定は事前提案値 α=1.2・δ=0(この既定値は測って決めたものではない)。
+//   H3: 相関の候補列(圧縮度 Ξ=Gm/(Rc²)・e・P・q=m₂/m₁)。**式ではなく、突き合わせる列**であって、
+//       本関数はそれを**そのまま並べて返すだけ**である(係数も有意性もここでは出さない)。
+//
+// 入力 inp = { chiEff, etaSym | (m1, m2), alpha, delta, fIndependent, fIndSource, xi1, xi2, e, periodSec }。
+// **必要な入力が無ければ null を返す**(0 で埋めない)。
+function dfmFrameKCandidates(inp){
+  const o=inp||{};
+  let eta=(o.etaSym===undefined||o.etaSym===null)? null : Number(o.etaSym);
+  let q=null;
+  if(eta===null && Number.isFinite(Number(o.m1)) && Number.isFinite(Number(o.m2))){
+    const a=Math.max(Number(o.m1),Number(o.m2)), b=Math.min(Number(o.m1),Number(o.m2));
+    if(a>0 && b>0){ eta=a*b/((a+b)*(a+b)); q=b/a; }
+  } else if(Number.isFinite(Number(o.m1)) && Number.isFinite(Number(o.m2))){
+    const a=Math.max(Number(o.m1),Number(o.m2)), b=Math.min(Number(o.m1),Number(o.m2));
+    if(a>0 && b>0) q=b/a;
+  }
+  const chi=Number(o.chiEff);
+  if(!Number.isFinite(chi) || !(chi>0)) return null;
+  if(eta!==null && (!Number.isFinite(eta) || !(eta>0))) return null;
+  const alpha=(o.alpha===undefined||o.alpha===null)? 1.2 : Number(o.alpha);
+  const delta=(o.delta===undefined||o.delta===null)? 0 : Number(o.delta);
+  if(![alpha,delta].every(Number.isFinite) || !(delta>=0)) return null;
+  // H1
+  const fInd=(o.fIndependent===undefined||o.fIndependent===null)? null : Number(o.fIndependent);
+  const src=(typeof o.fIndSource==="string")? o.fIndSource : null;
+  const LEDGER=["ledger","massCalibration","dfmBinaryInertiaFactorLinear","fLedger"];
+  const circular=(fInd===null) || (src===null) || LEDGER.indexOf(src)>=0;
+  const h1={ value:(circular||!Number.isFinite(fInd))? null : (fInd-1)/chi,
+    circular, fIndSource:src,
+    reason: (fInd===null)? "f_ind が渡されていない"
+      : (src===null)? "f_ind の出どころが宣言されていない(循環かどうか判定できない)"
+      : (LEDGER.indexOf(src)>=0)? "f_ind が較正台帳(生成則 f=1+k_F·χ_eff)由来 —— 恒等式であって予測ではない"
+      : null };
+  // H2
+  const den=chi+delta;
+  const h2={ value:(eta!==null && den>0)? (1-alpha*eta*chi/den) : null, alpha, delta, etaSym:eta,
+    note:"α・δ は自由パラメータ。既定 α=1.2・δ=0 は**事前提案値**であって測って決めた値ではない。" };
+  // H3(突き合わせる列。**式ではない**)
+  const num=(z)=>{ const v=Number(z); return Number.isFinite(v)? v : null; };
+  const h3={ columns:{ xi1:num(o.xi1), xi2:num(o.xi2), xiMean:(Number.isFinite(Number(o.xi1))
+    && Number.isFinite(Number(o.xi2)))? (Number(o.xi1)+Number(o.xi2))/2 : null,
+    e:num(o.e), periodSec:num(o.periodSec), qRatio:(q!==null)? q : num(o.qRatio), etaSym:eta, chiEff:chi },
+    note:"**相関の候補列であって式ではない**(係数も有意性もこの関数は出さない)。" };
+  return { chiEff:chi, h1, h2, h3,
+    note:"**候補式の評価器であって予測式ではない。** 力へは接続せず、kFrame をこの数で決める経路は無い"
+      +"(内蔵プリセットの kFrame は 0 か 1 のままである)。" };
+}
 // ===== 第259便a(第51報): **geoPN=3 のトイ積分器** `HP.dfmGeoToyStep(S,dt)` =====
 // 原仮定者(第51報):「例えば『測地線モード geoPN=3』などとして、トイモデル用に明確に処理を分ける事を
 // 検討する」。**`S._core` の外**(`S.step` の `_meshCoordForce` と同じ位置)に置く別の則である。
@@ -37027,6 +37088,10 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // **3 軸のまま**返す純関数)。**力へは 1 バイトも接続せず、法則の自動分岐も実装していない**。
   // QA behavior.geoToyOverlay が二体の恒等(uAlign≡χ₂・D₀=0 で 1)と負質量拒否を機械固定する
   dfmDominance,
+  // 第264便a(第56報・検証仮説 (A)): **kFrame の候補式の評価器**(H1 の循環判定・H2 の 2 自由パラメータ・
+  // H3 の相関候補列を**同じ入力で並べるだけ**の純関数)。**予測式ではない**し、力へも接続していない。
+  // QA behavior.kJointRoot が代数と循環判定・内蔵の二値契約を機械固定する
+  dfmFrameKCandidates,
   // 第259便b(第51報 W2): 親子コア(同心層)の純関数と 3D スピン参照場・歳差/粘性緩和。
   // dfmLayerGravity=球殻定理(内側 0・遠方は点源)/ dfmLayerKernel=慣性核 r^−p の有限半径積分
   // (**重力の球殻積分とは別物**・力へは接続していない)/ dfmLayerMerge=融合の層合成則 2 案/

@@ -69,6 +69,16 @@ tests/out/*
 #   bit / ctrl(二重計上の対照 3 走行)/ sweep(30 点の根探索)/ valley(ω̇ の谷)/ dom(支配度の 4 軸)を 1 本にまとめたもの。
 #   docs/PHYSICS.md 〔第263便a〕の表がこの値そのものなのでコミットする(**QA はこのファイルを読まない**)
 !tests/out/dragoverlay-w263a.json
+# 第264便a: NS の (k, f) 共同根と転用試験の実測正本。
+#   kjoint  : 4 系の (k*, f*) 2 次元根探索・実測ヤコビアン(tests/exp-w264a-kjoint.mjs)
+#   fixed07 : kFrame=0.7・f=1.7 を 4 系へ転用したときの 3 段残差と ω̇ 逆行の切り分け(tests/exp-w264a-fixed07.mjs)
+#   predfit : 事前予測式候補 H1/H2/H3 の検定(tests/exp-w264a-predfit.mjs — 走らせずに JSON と CSV を読む)
+#   obsdelta: 採用レコードと「判定に使う解」の差・builder 入力の出どころの機械照合(tests/exp-w264a-obsdelta.mjs)
+#   docs/PHYSICS.md 〔第264便a〕の表がこの値そのものなのでコミットする(**QA はこれらを読まない**)
+!tests/out/kjoint-w264a.json
+!tests/out/fixed07-w264a.json
+!tests/out/predfit-w264a.json
+!tests/out/obsdelta-w264a.json
 # 第134便: kF1 較正ハーネスの実測正本(論文3 再現性 — 外部レビュー P0 対応。
 # 本文の中心値〔q*=6.16/8.25/21.8・drag −5.6e-10・第122便 q*=4.59〕を提出コミットから再生成可能に)
 !tests/out/coreshell-results.json

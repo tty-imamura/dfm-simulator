@@ -14726,6 +14726,163 @@ if (!FAST) {
     console.log('SKIP behavior.geoToyOverlay(対象に第263便a の geoToyOverlay / HP.dfmDominance なし — root 等)');
   }
 }
+// ---- 第264便a(第56報「較正は geoPN=2 で kFrame≈0.7 とするのが良いか・事前予測式」): behavior.kJointRoot ----
+//   統括が設定した検証仮説 (A)。**(k, f) 共同根の器**と**候補式の評価器**を機械固定する。
+//   **これは較正則ではない** —— 本ブロックが固定するのは「候補式の代数」「二値契約が動いていないこと」
+//   「診断コピーが較正サンプルを名乗らないこと」「根が探索区間に挟まれていること」の 4 点であって、
+//   「kFrame≈0.7 が正しい」でも「事前予測式が成立した」でもない(第264便a は**未確立**と結論した)。
+//     ① **候補式の代数**(`HP.dfmFrameKCandidates`): H2 は k=1−α·η_sym·χ_eff/(χ_eff+δ) で、
+//        α=1.2・δ=0・η=0.25・χ=1 を入れると 0.7 になる(**事前提案値を入れたときの値**であって
+//        測定値ではない)。H1 は **f_ind の出どころの宣言を要求**し、台帳由来(`fLedger` 等)や
+//        無宣言では `circular:true` で **value を返さない**(恒等式を予測と呼ばないための門)。
+//        χ_eff≤0・η_sym≤0・δ<0 は null(0 で埋めない)。
+//     ② **二値契約は動いていない**: 内蔵 122 本の kFrame は **0 か 1 だけ**(`preset.kframe-binary01`
+//        と同じ契約をここでも確かめる)。NS 4 系 ⚡🧮🩺🧶 は kFrame=1・geoPN=2 のままである。
+//     ③ **診断コピーは較正サンプルではない**: 共同根の器が作るコピーは `sampleClass:"principle"` で
+//        `massCalibration` と `claims` を外す。**本体は 1 bit も変わらない**(コピー後に内蔵を読み直す)。
+//     ④ **根が探索区間に挟まれている**(短い窓の実測・**根そのものは器 tests/exp-w264a-kjoint.mjs が出す**):
+//        ⚡ を 8 近点窓で (k=0.2, f=1.2) と (k=1.0, f=2.0) の 2 点だけ走らせ、
+//        ω̇ が CSV の観測値を**跨ぐ**ことを見る。**跨ぐことは根が 0.7 だという意味ではない**。
+{
+  const hasKJ = await page.evaluate(() => !!(window.HP && HP.sim)
+    && typeof HP.dfmFrameKCandidates === 'function');
+  if (hasKJ) {
+    const kjCsv = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8');
+    const kjRow = (() => {
+      for (const line of kjCsv.split('\n')) {
+        if (!line.startsWith('PSR J0737-3039 B,periastron_advance,')) continue;
+        const cols = []; let cur = '', inQ = false;
+        for (const ch of line) {
+          if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
+          else if (ch === '"') inQ = true;
+          else if (ch === ',') { cols.push(cur); cur = ''; }
+          else cur += ch;
+        }
+        cols.push(cur);
+        return { value: Number(cols[2]), unit: cols[3] };
+      }
+      return null;
+    })();
+    const r = await page.evaluate(({ wObs }) => {
+      const F = HP.dfmFrameKCandidates;
+      // ① 代数と門
+      const h2ref = F({ chiEff: 1, etaSym: 0.25 });                       // 既定 α=1.2・δ=0
+      const h2free = F({ chiEff: 0.8, etaSym: 0.24, alpha: 1, delta: 0.5 });
+      const h1led = F({ chiEff: 1, etaSym: 0.25, fIndependent: 1.7, fIndSource: 'fLedger' });
+      const h1none = F({ chiEff: 1, etaSym: 0.25, fIndependent: 1.7 });
+      const h1ok = F({ chiEff: 1, etaSym: 0.25, fIndependent: 1.7, fIndSource: 'timing-DDGR' });
+      const fromMass = F({ chiEff: 1, m1: 3, m2: 1 });                    // η=3/16・q=1/3
+      const nulls = [F({ chiEff: 0, etaSym: 0.25 }), F({ chiEff: 1, etaSym: 0 }),
+        F({ chiEff: 1, etaSym: 0.25, delta: -1 }), F(null)];
+      // ② 二値契約
+      const ks = HP.allPresets().map((q) => q.physics.kFrame);
+      const binary01 = ks.every((z) => z === 0 || z === 1);
+      const NS = ['psrDoubleABDFM', 'psrJ1757DFM', 'psrJ1946DFM', 'psrB1534DFM'];
+      const nsDecl = NS.map((id) => { const q = HP.allPresets().find((z) => z.id === id);
+        return q ? { id, kFrame: q.physics.kFrame, geoPN: q.physics.geoPN, cls: q.sampleClass } : null; });
+      // ③ 診断コピー(器と同じ作り方 —— sampleClass を principle にし台帳と claims を外す)
+      const src = HP.allPresets().find((q) => q.id === 'psrDoubleABDFM');
+      const before = JSON.stringify(src);
+      // **質量係数 f は観測質量(massCalibration.baseMass)に掛ける** —— 本体の bodies.m は
+      // 既に f≈2 が掛かった較正質量なので、そこへ掛けると f が二重に効く(第264便a の器と同じ規約)。
+      const BASE = (src.massCalibration && Array.isArray(src.massCalibration.baseMass))
+        ? src.massCalibration.baseMass : src.bodies.map((b) => b.m);
+      const cp = JSON.parse(JSON.stringify(src));
+      cp.id = 'w264aQaDiag'; cp.sampleClass = 'principle';
+      delete cp.massCalibration; delete cp.claims; delete cp.calibrationForecast;
+      cp.physics.kFrame = 0.7;
+      cp.bodies.forEach((b, i) => { b.m = BASE[i] * 1.7; if (b.core) b.core.massFrac = 0.7 / 1.7; });
+      const vcp = HP.validatePreset(cp);
+      const after = JSON.stringify(HP.allPresets().find((q) => q.id === 'psrDoubleABDFM'));
+      const copy = { ok: vcp.ok, cls: vcp.ok ? vcp.preset.sampleClass : null,
+        hasCal: vcp.ok ? (vcp.preset.massCalibration !== undefined) : null,
+        hasClaims: vcp.ok ? (vcp.preset.claims !== undefined) : null,
+        srcUntouched: before === after };
+      // ④ 根が挟まれているか(8 近点窓の実測・2 点だけ)
+      const omegaDot = (f, kF) => {
+        const p = JSON.parse(JSON.stringify(src));
+        p.id = 'w264aQaRun'; p.sampleClass = 'principle';
+        delete p.massCalibration; delete p.claims; delete p.calibrationForecast;
+        p.physics.kFrame = kF;
+        p.bodies.forEach((b, i) => { b.m = BASE[i] * f; if (b.core) b.core.massFrac = (f - 1) / f; });
+        const v = HP.validatePreset(p); if (!v.ok) return null;
+        const S = HP.sim; S.build(v.preset);
+        // 近点の**方位**(近点方向)を実時刻へ回帰する —— 累積公転角ではない。
+        // 位相制限 1.5π は tests/lib-precision-diagnostics.mjs の検出器と同じ宣言である。
+        const dt = 0.016, N = 8;
+        const wrap = (z) => { while (z > Math.PI) z -= 2 * Math.PI; while (z < -Math.PI) z += 2 * Math.PI; return z; };
+        const peri = [], ang = []; let prevRd = null, gate = 0, prevTh = null;
+        for (let i = 0; i < 4e7; i++) {
+          S.step(dt);
+          const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0];
+          const rr = Math.hypot(dx, dy), th = Math.atan2(dy, dx);
+          const rd = (dx * (S.vx[1] - S.vx[0]) + dy * (S.vy[1] - S.vy[0])) / rr;
+          if (prevTh !== null) gate += Math.abs(wrap(th - prevTh));
+          prevTh = th;
+          if (prevRd !== null && prevRd < 0 && rd >= 0 && (peri.length === 0 || gate > 1.5 * Math.PI)) {
+            peri.push(i * dt);
+            ang.push(ang.length ? ang[ang.length - 1] + wrap(th - ang[ang.length - 1]) : th);
+            gate = 0;
+            if (peri.length >= N) break;
+          }
+          prevRd = rd;
+        }
+        if (peri.length < N) return null;
+        const m = peri.length;
+        const mx = peri.reduce((a, b) => a + b, 0) / m, my = ang.reduce((a, b) => a + b, 0) / m;
+        let sxy = 0, sxx = 0;
+        for (let i = 0; i < m; i++) { sxy += (peri[i] - mx) * (ang[i] - my); sxx += (peri[i] - mx) ** 2; }
+        if (!(sxx > 0)) return null;
+        const unitSec = Math.pow(10, Number(src.scaleExp.T));
+        return sxy / sxx * 180 / Math.PI / unitSec * 31557600;
+      };
+      const wLo = omegaDot(1.2, 0.2), wHi = omegaDot(2.0, 1.0);
+      return { h2ref: h2ref && h2ref.h2.value, h2free: h2free && h2free.h2.value,
+        h1led: h1led && { v: h1led.h1.value, c: h1led.h1.circular },
+        h1none: h1none && { v: h1none.h1.value, c: h1none.h1.circular },
+        h1ok: h1ok && { v: h1ok.h1.value, c: h1ok.h1.circular },
+        fromMass: fromMass && { eta: fromMass.h2.etaSym, q: fromMass.h3.columns.qRatio },
+        nullsAllNull: nulls.every((z) => z === null),
+        binary01, kSet: Array.from(new Set(ks)).sort(), nPresets: ks.length, nsDecl, copy,
+        wLo, wHi, wObs, brackets: (wLo !== null && wHi !== null)
+          && ((wLo - wObs) * (wHi - wObs) < 0) };
+    }, { wObs: kjRow ? kjRow.value : null });
+    const near = (a, b, tol) => a !== null && Number.isFinite(a) && Math.abs(a - b) <= tol;
+    const CK = {
+      h2ref: near(r.h2ref, 0.7, 1e-12),
+      h2free: near(r.h2free, 1 - 1 * 0.24 * 0.8 / 1.3, 1e-12),
+      h1ledCircular: !!(r.h1led && r.h1led.v === null && r.h1led.c === true),
+      h1noneCircular: !!(r.h1none && r.h1none.v === null && r.h1none.c === true),
+      h1declared: !!(r.h1ok && r.h1ok.c === false && near(r.h1ok.v, 0.7, 1e-12)),
+      fromMass: !!(r.fromMass && near(r.fromMass.eta, 3 / 16, 1e-15)
+        && near(r.fromMass.q, 1 / 3, 1e-15)),
+      nulls: r.nullsAllNull === true,
+      binary01: r.binary01 === true,
+      nsUnchanged: Array.isArray(r.nsDecl) && r.nsDecl.length === 4
+        && r.nsDecl.every((z) => z && z.kFrame === 1 && z.geoPN === 2 && z.cls === 'calibration'),
+      copyPrinciple: !!(r.copy && r.copy.ok === true && r.copy.cls === 'principle'
+        && r.copy.hasCal === false && r.copy.hasClaims === false),
+      copySrcUntouched: !!(r.copy && r.copy.srcUntouched === true),
+      bracket: r.brackets === true };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    add('behavior.kJointRoot', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + `① H2(α=1.2・δ=0・η=0.25・χ=1)=${r.h2ref}(事前提案値を入れた値 — 測定値ではない)・`
+      + `自由 α/δ 版=${r.h2free === null ? '—' : r.h2free.toFixed(9)}・`
+      + `H1 台帳由来=circular ${r.h1led && r.h1led.c}(value ${r.h1led && r.h1led.v})・`
+      + `無宣言=circular ${r.h1none && r.h1none.c}・宣言つき=${r.h1ok && r.h1ok.v}・`
+      + `不正入力は null=${r.nullsAllNull} / `
+      + `② 内蔵 ${r.nPresets} 本の kFrame 集合={${r.kSet.join(',')}}(二値)・`
+      + `NS 4 系は kFrame=1/geoPN=2/calibration のまま=${CK.nsUnchanged} / `
+      + `③ 診断コピー sampleClass=${r.copy && r.copy.cls}・台帳あり=${r.copy && r.copy.hasCal}・`
+      + `本体は 1 bit 不変=${r.copy && r.copy.srcUntouched} / `
+      + `④ ⚡ 8 近点窓 ω̇: k=0.2/f=1.2 で ${r.wLo === null ? '—' : r.wLo.toFixed(4)}・`
+      + `k=1.0/f=2.0 で ${r.wHi === null ? '—' : r.wHi.toFixed(4)} が観測 ${r.wObs} °/yr を跨ぐ=${r.brackets}`
+      + `(**跨ぐことは根が 0.7 だという意味ではない** — 根は器 tests/exp-w264a-kjoint.mjs が出す)`);
+  } else {
+    console.log('SKIP behavior.kJointRoot(対象に第264便a の HP.dfmFrameKCandidates なし — root 等)');
+  }
+}
 // ---- 第264便b(第56報「geoPN=3 — 空間メッシュで引きずり計算を完全に置き換える整備」): behavior.geoToyPinned ----
 //   統括の読み (B)(i)。**pinned 源は規定運動**なので、トイの ∂ₜu へ渡す源の加速度は
 //   **規定運動の加速度**(静止なら 0・レール駆動なら向心 −ω²(P−C))でなければならない。
