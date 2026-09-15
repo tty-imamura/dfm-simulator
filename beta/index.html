@@ -2967,6 +2967,23 @@ function validateSpaceMesh(a){
       return {ok:false, err:"physics.spaceMesh.toyAllowDrag は true/false(geoPN=3 を kFrame>0 のまま許す診断キー)"};
     tAllowDrag=a.toyAllowDrag;
   }
+  // 第264便b(統括の読み (B)(ii)): **源の閉包** `toyClosure`("gravity" 既定 = 現状 /"iterate" = 固定点反復)。
+  // **既定は 1 文字も正準形に出さない**(内蔵 122 本は署名も力学もビット不変)。"iterate" は
+  // **診断であって採用則ではない** —— 宣言すると警告を 1 行出し、`sampleClass:"calibration"` では拒否する。
+  let tClosure=SPACE_MESH_TOY_CLOSURE[0], tClosureN=GEO_TOY_CLOSURE_ITERS_DEFAULT;
+  if(a.toyClosure!==undefined && a.toyClosure!==null){
+    if(SPACE_MESH_TOY_CLOSURE.indexOf(a.toyClosure)<0)
+      return {ok:false, err:'physics.spaceMesh.toyClosure は "gravity"/"iterate"(geoPN=3 の源の加速度の閉包)'};
+    tClosure=a.toyClosure;
+    if(tClosure==="iterate")
+      warn.push('physics.spaceMesh.toyClosure:"iterate" — **診断モード**です(源の加速度に自分のトイ項を戻す固定点反復)。'
+        +'二体では行列式 1−η²χ₀χ₁ が 0 に近づくと収束しません(HUD の closure: 行に反復数と残差が出ます)。採用則ではありません');
+  }
+  if(a.toyClosureIters!==undefined && a.toyClosureIters!==null){
+    if(!isNum(a.toyClosureIters) || !(a.toyClosureIters>=1) || !(a.toyClosureIters<=64))
+      return {ok:false, err:"physics.spaceMesh.toyClosureIters は 1〜64 の整数(固定点反復の最大回数)"};
+    tClosureN=Math.round(Number(a.toyClosureIters));
+  }
   // 第259便c(第51報): **初期メッシュ貯蔵エネルギー E₀ の正名** `meshEnergyCapacity`(**宣言値**)。
   //   第258便b ⑧-3 は「E₀ の正名は無い(供給量の倍数で宣言しただけ)」を決断事項に残した。
   //   本便はそれに名前を与え、`HP.dfmToyLedger` の **E_mesh の基準**にする:
@@ -2984,7 +3001,9 @@ function validateSpaceMesh(a){
   // 第259便a: **lawVersion の宣言も 1 チャネル**である(宣言だけで力は動かないが、geoPN=3 の門になる)
   // 第263便a: `toyAllowDrag` も「宣言があれば正準形を残す」側に数える(単独では力を 1 バイトも
   // 動かさないが、黙って落とすと「宣言したのに効いていない」が見えなくなる)
-  if(grav===false && iner===false && wv===SPACE_MESH_WEAVE[0] && !res && capE===null && lawV===null && !tAllowDrag)
+  // 第264便b: `toyClosure`(既定以外)も「宣言があれば正準形を残す」側に数える
+  if(grav===false && iner===false && wv===SPACE_MESH_WEAVE[0] && !res && capE===null && lawV===null
+    && !tAllowDrag && tClosure===SPACE_MESH_TOY_CLOSURE[0])
     return {ok:true, spaceMesh:null, warn};
   out.gravity=grav; out.inertia=iner;
   if(iner!==false){
@@ -3010,6 +3029,11 @@ function validateSpaceMesh(a){
   if(capE!==null) out.meshEnergyCapacity=capE;   // 第259便c(宣言したときだけ正準形に入る)
   if(lawV!==null){ out.lawVersion=lawV; if(toyG!==1) out.toyGain=toyG; }   // 第259便a(未宣言は 1 文字も出さない)
   if(tAllowDrag) out.toyAllowDrag=true;   // 第263便a(既定 false は 1 文字も出さない = 内蔵 122 本は署名不変)
+  // 第264便b(既定 "gravity" は 1 文字も出さない = 内蔵 122 本は署名不変。反復数は "iterate" のときだけ)
+  if(tClosure!==SPACE_MESH_TOY_CLOSURE[0]){
+    out.toyClosure=tClosure;
+    if(tClosureN!==GEO_TOY_CLOSURE_ITERS_DEFAULT) out.toyClosureIters=tClosureN;
+  }
   return {ok:true, spaceMesh:out, warn};
 }
 // ===== 第252便b(第44報): physics.periSubsteps — 近点近傍だけ刻みを細かくする薄い包み(opt-in・既定 OFF)=====
@@ -13681,6 +13705,9 @@ function validatePreset(obj){
   // 第263便a: **診断キーは現実較正クラスへ入れない**(geoPN が 3 でなくても宣言そのものを拒否する)
   if(p.sampleClass==="calibration" && ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].toyAllowDrag===true)
     bad('physics.spaceMesh.toyAllowDrag(geoPN=3 を kFrame>0 のまま許す診断キー)は sampleClass:"calibration" では使えません');
+  // 第264便b: 源の閉包 "iterate" も同じ扱い(**診断であって採用則ではない**)
+  if(p.sampleClass==="calibration" && ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].toyClosure==="iterate")
+    bad('physics.spaceMesh.toyClosure:"iterate"(源の加速度に自分のトイ項を戻す固定点反復の診断キー)は sampleClass:"calibration" では使えません');
   // 第240便: contact は ∇u 勾配(geoPN=2)と両立しない(フレーム重み w′ の勾配を持たない)→ interior へ落とす
   if(ph[DRAG_REF_KEY]===DRAG_CONTACT && ph.geoPN===2){ warnings.push('physics.dragRef:"contact" は geoPN=2 と併用不可 — "interior" に修正'); ph[DRAG_REF_KEY]="interior"; }
   // 第242便: contact(接触=完全引きずり)は share のフレーム重みで定義した opt-in — 既定 pull と併用しない(合成は裁定事項)
@@ -16563,6 +16590,8 @@ function makeSim(){
     S.geoToyPx=0; S.geoToyPy=0; S.geoToyL=0; S.geoToyE=0; S.geoToyEmesh=0;
     S.geoToyMeshPx=0; S.geoToyMeshPy=0; S.geoToyMeshL=0;
     S.geoToyN=0; S.geoToyDv=0; S.geoToyChi=0; S.geoToyStop=null;
+    // 第264便b: 源の閉包の診断(既定 "gravity" では反復 1 回・残差は null —— 0 で埋めない)
+    S.geoToyClosure=null; S.geoToyIters=0; S.geoToyResid=null; S.geoToyResidRel=null; S.geoToyConverged=null;
     S.geoToyDeny=null;   // 第262便a: 3 のまま入場条件を満たさない理由("kFrame"/"meshChannel")
     // 第263便a: `S.geoToyOverlay`(明示キー toyAllowDrag で E6′ と重ねたとき "drag")は**ここで初期化しない**。
     // このリセット塊は `S.build` の中で **`S.updateRadii()` より後**に走るので(呼び出しは 16377 行)、
@@ -20991,7 +21020,11 @@ function stepDiagText(){
   // 第262便a: **入場条件を満たさない 3 も出す**(黙って 2 に丸めなくなったので、denied はここに出る)
   // 第263便a: **明示キーで E6′ と重ねた診断構成**は HUD にも出す(黙って重ねない = 二重計上の可能性の表示)
   if(sim && sim.params && sim.params.geoPN>=3) out+="  geoToy:"+(sim.geoToyStop||"on")+" N="+sim.geoToyN
-    +(sim.geoToyOverlay? (" overlay:"+sim.geoToyOverlay+"(kF="+fmt(sim.params.kFrame)+" 二重計上の可能性)") : "");
+    +(sim.geoToyOverlay? (" overlay:"+sim.geoToyOverlay+"(kF="+fmt(sim.params.kFrame)+" 二重計上の可能性)") : "")
+    // 第264便b: 源の閉包(既定 "gravity" は 1 文字も出さない)。"iterate" は**反復数と相対残差**を必ず出す
+    +((sim.geoToyClosure==="iterate")? (" closure:iterate it="+sim.geoToyIters
+      +" res="+((sim.geoToyResidRel===null)? "—" : sim.geoToyResidRel.toExponential(2))
+      +(sim.geoToyConverged===false? " **未収束**" : "")) : "");
   // 第260便b: 親子コアの層差分と**重なった拡張体の対**(ΔF を当てた組 / 停止した組)
   if(sim && sim.hasBodyLayers) out+="  layer:"+(sim.layerStop||"on")+" N="+sim.layerN+" pair="+(sim.layerPairN||0)+"/"+(sim.layerStopN||0)
     // 第261便b(検証仮説 (6)・案A): 停止したら理由と対を出す(時刻は進んでいない)
@@ -35280,6 +35313,15 @@ const DFM_FIELD_LAWS = ["scalar","local","complex"];
 // **正準形にも presetSig にも S.params にも入らない**(サンプル JSON の宣言は今までどおり必須で、
 // 検証器は宣言なしの 3 を 2 へ丸める —— 補うのは UI/スライダー経由の実行時の値だけである)。
 const GEO_TOY_LAW_DEFAULT = "scalar";
+// 第264便b(第56報): **源の閉包**(`physics.spaceMesh.toyClosure`)。geoPN=3 のトイは ∂ₜu に
+// 源の加速度 a_i を要る(∂ₜN=Σ(∂ₜw)v+Σw·a)。第259便a〜第263便a はそこへ**重力だけ**を渡していた
+// ("gravity" = 既定・現状)。"iterate" は「源も同じトイ則で加速している」として
+// **a_i = g_i + t_i(a)** の固定点反復を回す診断モードである(**採用しない** —— 数を出すための器)。
+// 二体・単一源支配では t_0 = η·χ₀·a_1・t_1 = η·χ₁·a_0 なので、行列式 **1 − η²χ₀χ₁** が
+// 0 に近づく(η=χ=1)ほど反復が止まらない —— その特異性を数で出すのがこのモードの目的である。
+const SPACE_MESH_TOY_CLOSURE = ["gravity","iterate"];
+const GEO_TOY_CLOSURE_ITERS_DEFAULT = 8;      // 既定の最大反復数(宣言で 1〜64)
+const GEO_TOY_CLOSURE_TOL = 1e-12;            // 相対残差の停止条件(**宣言値**であって精度の主張ではない)
 const DFM_FIELD_BG = ["static","frame"];
 const DFM_FIELD_ENERGY = ["none","meshLedger","toy"];
 const DFM_FIELD_NEED = ["all","gravity"];   // 第260便a: 要求別(gravity は D・∇D・g だけ)
@@ -35684,11 +35726,41 @@ function dfmGeoToyStep(S,dt){
   for(let i=0;i<n;i++) BD.push({id:i, m:m[i], x:x[i], y:y[i], vx:vx[i], vy:vy[i], ax:0, ay:0});
   // 第260便a(入場条件 (v)): **トイの g も表示と同じ `dfmField` から読む**(第259便a は
   // `dfmMeshScalarField` で作り直していた —— 同じ核なので値はビット同一で、読む関数が 1 本になる)
+  // 第264便b(統括の読み (B)(i)): **pinned 源は規定運動**である。∂ₜu の中の Σw·a_i が読むべきなのは
+  // **規定運動の加速度**であって、受けている重力加速度ではない(pinned は力を受けても速度が動かない)。
+  //   ・静止/等速の pinned … **0**
+  //   ・レール駆動(`railOmega`/`railH`)… 位置 P=C+r(t)·(cos a, sin a)・a=a₀+ωt・r=r₀e^{ht} の 2 階微分
+  //     **P̈ = (h²−ω²)(P−C) + 2hω·(−(P−C)_y, (P−C)_x)**(h=0 なら向心 −ω²(P−C))
+  //     ※ 膨張レールが値域(1〜4800)で飽和した後は ṙ=0 なので h_eff=0 とする(エンジンの規定運動と同じ)
+  // **重力(E4)は 1 バイトも変えていない**(ここで直すのは「トイが ∂ₜu に渡す源の加速度」だけである)。
   for(let i=0;i<n;i++){
+    if(pin[i]){
+      const om=S.railOmega? S.railOmega[i] : 0, hh=S.railH? S.railH[i] : 0;
+      if(om===0 && hh===0){ BD[i].ax=0; BD[i].ay=0; continue; }
+      let he=hh;
+      if(hh!==0){ const r0=S.railR[i]*Math.exp(hh*S.t); if(!(r0>1 && r0<4800)) he=0; }
+      const ex=x[i]-(S.railCx? S.railCx[i] : 0), ey=y[i]-(S.railCy? S.railCy[i] : 0);
+      BD[i].ax=(he*he-om*om)*ex-2*he*om*ey;
+      BD[i].ay=(he*he-om*om)*ey+2*he*om*ex;
+      continue;
+    }
     const f=dfmField(BD,x[i],y[i],{excludeBodyId:i, need:"gravity", G, eps, p:pw, D0:D0p,
       background:"static", energyContract:"toy"});
     if(!f){ S.geoToyStop="field"; return null; }
     BD[i].ax=f.gravity[0]; BD[i].ay=f.gravity[1];
+  }
+  // 第264便b(統括の読み (B)(ii)): **源の閉包**。既定 "gravity" は上の 1 巡(a_i=g_i)で終わり
+  // (**現状とビット同一**)。"iterate" は a_i=g_i+t_i(a) の固定点反復で、残差と反復数を診断へ出す。
+  const closure=(cf.toyClosure===undefined)? SPACE_MESH_TOY_CLOSURE[0] : cf.toyClosure;
+  if(SPACE_MESH_TOY_CLOSURE.indexOf(closure)<0){ S.geoToyStop="toyClosure"; return null; }
+  const maxIt=(closure==="iterate")
+    ? ((cf.toyClosureIters===undefined)? GEO_TOY_CLOSURE_ITERS_DEFAULT : Math.round(cf.toyClosureIters))
+    : 1;
+  let GX=null, GY=null, PREV=null, gScale=0;
+  if(closure==="iterate"){
+    GX=new Float64Array(n); GY=new Float64Array(n); PREV=new Float64Array(2*n);
+    for(let i=0;i<n;i++){ GX[i]=BD[i].ax; GY[i]=BD[i].ay;
+      const gg=Math.hypot(GX[i],GY[i]); if(gg>gScale) gScale=gg; }
   }
   // 支持半径 R とその時間微分 Ṙ(既定は上位 2 体の分離の SPACE_MESH_SUPPORT_RSEP 倍 —— **動く量**)
   let supR=null, supRd=0;
@@ -35706,15 +35778,20 @@ function dfmGeoToyStep(S,dt){
     if(!(supR>0) || !Number.isFinite(supR)){ S.geoToyStop="supportR"; return null; }
   }
   const ACC=new Float64Array(2*n);
-  let nOn=0, dvM=0, chiMax=0;
+  let nOn=0, dvM=0, chiMax=0, failWhy=null;
+  // 第264便b: **1 巡**を関数にした(閉包の反復で同じ計算を回すため)。**中身は第263便a と 1 文字も変えていない**
+  // —— ただし ACC へ入れるのは **Δv ではなく加速度**で、dt は適用の直前に掛ける(同じ 1 回の乗算なのでビット同一)。
+  const onePass=()=>{
+  nOn=0; dvM=0; chiMax=0;
   for(let i=0;i<n;i++){
+    ACC[2*i]=0; ACC[2*i+1]=0;
     if(pin[i]) continue;                                   // 規定運動へは当てない
     const px=x[i], py=y[i];
     let ubx, uby, gxx, gxy, gyx, gyy, tux, tuy, chi;
     if(boxOn){
       // 箱は**規定場**(空間一様な W_B)。χ=W_B/(D₀+W_B+W) の混合を ∇χ・∂ₜχ 込みで作る
       const fl=dfmMeshScalarField(BD,px,py,{G, eps, power:pw, exclude:i});
-      if(!fl){ S.geoToyStop="field"; return null; }
+      if(!fl){ failWhy="field"; return false; }
       let Wd=0;
       for(let j=0;j<n;j++){
         if(j===i) continue;
@@ -35725,7 +35802,7 @@ function dfmGeoToyStep(S,dt){
       const ex=px-B0.cx, ey=py-B0.cy;
       const un0=B0.vx-B0.omega*ey+bH*ex, un1=B0.vy+B0.omega*ex+bH*ey;
       const den=D0p+WB+fl.Wpull;
-      if(!(den>0)){ S.geoToyStop="den"; return null; }
+      if(!(den>0)){ failWhy="den"; return false; }
       chi=WB/den;
       const WBd=-B0.dPower*bH*WB;
       const gcx=-WB*fl.gradW[0]/(den*den), gcy=-WB*fl.gradW[1]/(den*den);
@@ -35749,11 +35826,39 @@ function dfmGeoToyStep(S,dt){
     const vxi=vx[i], vyi=vy[i], rlx=vxi-ubx, rly=vyi-uby;
     const aix=tux+gxx*vxi+gxy*vyi-(gxx*rlx+gyx*rly);
     const aiy=tuy+gyx*vxi+gyy*vyi-(gxy*rlx+gyy*rly);
-    if(!Number.isFinite(aix) || !Number.isFinite(aiy)){ S.geoToyStop="nonfinite"; return null; }
-    ACC[2*i]=aix*dt; ACC[2*i+1]=aiy*dt;
+    if(!Number.isFinite(aix) || !Number.isFinite(aiy)){ failWhy="nonfinite"; return false; }
+    ACC[2*i]=aix; ACC[2*i+1]=aiy;
     const dm=Math.hypot(aix*dt,aiy*dt); if(dm>dvM) dvM=dm;
     nOn++;
   }
+  return true;
+  };
+  // ---- 閉包の反復(既定 "gravity" は 1 巡で終わる = 第263便a とビット同一)
+  let iters=0, resid=null, residRel=null, conv=null;
+  if(!onePass()){ S.geoToyStop=failWhy; return null; }
+  iters=1;
+  if(closure==="iterate" && nOn>0){
+    for(let k=1;k<maxIt;k++){
+      PREV.set(ACC);
+      for(let i=0;i<n;i++){ if(pin[i]) continue; BD[i].ax=GX[i]+ACC[2*i]; BD[i].ay=GY[i]+ACC[2*i+1]; }
+      if(!onePass()){ S.geoToyStop=failWhy; return null; }
+      iters=k+1;
+      let d=0;
+      for(let i=0;i<n;i++){
+        const qx=ACC[2*i]-PREV[2*i], qy=ACC[2*i+1]-PREV[2*i+1];
+        const dd=Math.hypot(qx,qy); if(dd>d) d=dd;
+      }
+      // **分母は反復ごとに動かさない**(駆動項 = 源の重力加速度の最大値で割る)。
+      // 反復値そのもので割ると、**打ち消しで 0 になった步を「収束」と読んでしまう**
+      // (η=χ=1 の二体は ACC が [g,−g] と [0,0] を往復する = 特異点そのものである)。
+      resid=d; residRel=(gScale>0)? d/gScale : ((d===0)? 0 : Infinity);
+      if(!Number.isFinite(d)){ conv=false; break; }
+      conv=(residRel<=GEO_TOY_CLOSURE_TOL);
+      if(conv) break;
+    }
+  }
+  S.geoToyClosure=closure; S.geoToyIters=iters;
+  S.geoToyResid=resid; S.geoToyResidRel=residRel; S.geoToyConverged=conv;
   S.geoToyStop=nOn? null : "noTargets";
   S.geoToyN=nOn; S.geoToyDv=dvM; S.geoToyChi=chiMax;
   if(!nOn) return null;
@@ -35761,7 +35866,7 @@ function dfmGeoToyStep(S,dt){
   const carV=!!S.carVx, carVx=S.carVx, carVy=S.carVy;
   let spx=0, spy=0, sl=0, dEt=0;
   for(let i=0;i<n;i++){
-    let ddx=ACC[2*i], ddy=ACC[2*i+1];
+    let ddx=ACC[2*i]*dt, ddy=ACC[2*i+1]*dt;
     if(ddx===0 && ddy===0) continue;
     const dv2=ddx*ddx+ddy*ddy;
     if(dv2>REACTION_DV_CAP2){ const sc=REACTION_DV_CAP/Math.sqrt(dv2); ddx*=sc; ddy*=sc; S.clampRN++; }
@@ -36628,6 +36733,10 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // トイは `S._core` の外(`_meshCoordForce` と同じ位置)に置き、`geoCoreDispatch` が
   // `_core` の呼び出しの間だけ p.geoPN を 0 にして dispatch から外す(`_core` は 1 命令も増えない)
   dfmGeoToyStep, SPACE_MESH_INERTIA_REMOVAL, SPACE_MESH_SUPPORT_LEGACY,
+  // 第264便b(第56報): **源の閉包**の値域("gravity" 既定 /"iterate" 診断)と反復・残差の宣言値。
+  // QA behavior.geoToyClosure が「既定は 122 本ビット不変」「iterate は反復数と残差を返す」
+  // 「特異点(det=1−η²χ₀χ₁→0)で収束しない」を機械固定する
+  SPACE_MESH_TOY_CLOSURE, GEO_TOY_CLOSURE_ITERS_DEFAULT, GEO_TOY_CLOSURE_TOL,
   // 第263便a(第55報・検証仮説 (4)): **支配度の器**(質量比・χ の偏り・自己除外並進平均の相手速度成分比を
   // **3 軸のまま**返す純関数)。**力へは 1 バイトも接続せず、法則の自動分岐も実装していない**。
   // QA behavior.geoToyOverlay が二体の恒等(uAlign≡χ₂・D₀=0 で 1)と負質量拒否を機械固定する
