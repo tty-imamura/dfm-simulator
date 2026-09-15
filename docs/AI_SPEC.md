@@ -1068,9 +1068,26 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
        step の**前**に全対象対を検査し、ΔF が有限でない対があれば **時刻を進めずに** `S.layerHalt`
        (`{i,j,d,reason:"layerPairUndefined"}`)と `S.layerStop="halt"` を立てて戻る。
        **既定は `"define"`**(層の配列を実行時に壊さないかぎり検査は素通りする)。
-  - **`body.layers[].J`(省略可・第261便b)**: 層のスピン角運動量。**宣言値として運ばれるだけで
-    力へは 1 バイトも接続していない**(表示・保存・編集・融合の合算の対象)。未宣言の層は
-    **正準形に 1 文字も出ない**(既定経路の署名は不変)。値域は ±10¹²。
+  - **`body.layers[].J`(省略可・第261便b)**: 層のスピン角運動量の **z 成分**。表示・保存・編集・
+    融合の合算の対象で、未宣言の層は **正準形に 1 文字も出ない**(既定経路の署名は不変)。値域は ±10¹²。
+    **第264便c から、この J は「回転場の源」として読まれる**(下の `spinDipoleMoment` の所有者規約)。
+    重力・引きずり・歳差・熱へは依然として 1 バイトも接続していない。
+  - **`body.layers[].Jx` / `body.layers[].Jy`(省略可・第264便c)**: 層の角運動量の**面内成分**。
+    **数値として持つ(宣言・表示・保存・復元・融合の合算・正準形)だけ**で、**力へは 1 バイトも
+    接続していない**。0 は正準形に出ない(既定経路の署名は不変)。値域は ±10¹²。
+    **「層 J をベクトル化した」とは書かない** —— 数値として保持し、回転場は z 射影で読む、の 2 点である。
+  - **回転場の源の所有者規約(第264便c — `spinDipoleMoment` / `HP.dfmLayerDipoleMoment(i,S)`)**:
+    スピン双極子モーメント Q_i(`physics.spinSpin` の源・対ポテンシャル `U_SS` の源)は
+    **コア V2 があれば V2・無ければ層**から取る(**二重計上を構造的に防ぐ**)。
+    - コア V2 を持つ粒子: 従来式 **Q = ½·m·R²·spin + J_c/ζ**(differential/active のみ第 2 項)。
+    - コア V2 を持たない層つき粒子: **Q = Σ_k J_k**(層の宣言 J の z 成分の和)。
+    - **層が J・Jx・Jy を 1 つも宣言していなければ「未宣言」**として従来式へ落ちる
+      (🧅 layeredCoreDFM はこれに当たるので 1 bit も変わらない)。
+    - **射影はコア V2 と同じ z 成分だけ**。層の Jx/Jy を動かしても Q は動かない。
+    - `HP.dfmLayerDipoleMoment(i,S)` は層側の値(宣言が無ければ `null`)をそのまま返す読み口。
+    **等価性は条件つきである**(〔第264便c〕の表): V2 の殻項は **body 質量 m** で組まれ、移行後の
+    殻層の J は **M_s** で組まれるので、**spin≠0 では ½·M_c·R²·spin だけずれる**。
+    ζ≠1 では **J_z(1−1/ζ)** だけずれる(層は ζ を持たない)。**「層が V2 を置き換えた」とは書かない。**
   - **`S.applyLayerEdit(i, k, cfg)`(第261便b — 同心層を実行時に編集する唯一の入口)**:
     `cfg={role?,m?,r?,J?}` で層 k を編集(k = 現在の層数なら**追加**)、`cfg=null` で層 k を削除
     (`k<0` なら層宣言ごと外す)。**正準形(r 昇順・非重複・1〜8 層・m>0・role は 5 種)を検証し、
@@ -1110,6 +1127,34 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     needsResolve,rejected}, byReason, rows:[{index,mode,cls,reason,nLayers}], canReplaceV2:false}`。
     内蔵 121 本の実測(第262便b): コア宣言 **75 件**(33 本)= 移行可 61・裸コア 0・cavity 0・
     m/R 未宣言 13・拒否 1(🦀 crabRemnant の `coreOutsideShell`)。build 後の 305 粒子では 304/1。
+  - **`coreV2MigrationPlan` の入力拒否(第264便c — 「0 に読み替えない」)**: 宣言された値が
+    **Infinity・NaN・null** なら、**黙って 0 に読み替えずに拒否する**。
+    `coreOmegaNotFinite`(`core.omega`)/ `coreTiltNotFinite`(`core.tilt`)/
+    `coreJNotFinite`(`core.Jz`・`core.J`・`core.Jmag`)/ `bodySpinNotFinite`(`body.spin`)/
+    `inertiaScaleNotPositive`(`core.inertiaScale` が正の有限数でない —— **`null` は `Number(null)=0` で
+    「有限」と読まれ ζ=0 → I_c=0 の計画が返っていた**)。**未宣言(`undefined`)だけが 0 である。**
+    さらに、**入力が有限でも積が溢れる**場合を拒否する: `valuesNotFinite`(M_c・M_s・I_c・J_z・J_x・
+    |J|・J_shell のいずれかが非有限)/ `rotationEnergyNotFinite`(E_rot・E_z が非有限)。
+  - **`coreOutsideShell` は `massFrac=1`(裸コア)にも適用される(第264便c — 契約を緩めない)**:
+    基点は `Rc ≥ R かつ massFrac<1` だけを拒否していたので、`massFrac=1` にすれば
+    **Rc ≥ R(等号を含む)が通り**、層の r が観測半径を越える宣言を作れた。第264便c から
+    **massFrac に依らず `Rc ≥ R` は移行不可**である(内蔵の集計は不変 —— 裸コアは 0 件)。
+  - **`HP.coreV2ReplaceReport(preset)` / `HP.coreV2ReplaceAxes(body)`(第264便c — 置換可否レポート)**:
+    第56報「**親子コアが、コア V2 を完全に置き換え可能な状態かを確認する**」に対する**測り口**。
+    **変換も書き込みもしない純関数**で、コア V2 を宣言した body ごとに**置換の条件を 6 項**に割る:
+    `rotationSource`(回転場の源が層だけで厳密に再現できるか —— 理由 `shellSpinTermDiffers` /
+    `inertiaScaleNotUnity`)・`tilt`(面内成分は**数値としては**層に載る。**整列トルク**
+    `core.Kalign>0` は載らない —— `tiltDynamicsNotCarried`)・`KcsThermal`(`KcsNotCarried`)・
+    `activePumpContract`(`active`/`pump`/`contract`/`burst`/`shed`/`rTarget`/`sourceRate`/
+    `internalEnergy` —— `coreDynamicsNotCarried`)・`saveRestore`(層の値が編集経路の値域に入るか ——
+    `layerValueOutOfEditRange`)・`migration`(`coreV2MigrationPlan` が ok か)。
+    返り値: `{id, nBodies, nCore, counts:{canReplace,cannot}, byAxis, byReason,
+    rows:[{index,mode,canReplaceV2,axes,why,deltaQ}]}`。
+    **内蔵 122 本の実測(第264便c)**: コア宣言 **75 件** = 置換可 **27**・不可 **48**
+    (項別の不可: rotationSource 48・KcsThermal 16・activePumpContract 16・tilt 14・
+    saveRestore 14・migration 14)。
+    **`canReplaceV2` が全項 true の本があっても「コア V2 を廃止できる」とは書かない** ——
+    この表が測るのは 6 項だけで、描画・保存 JSON・AI 生成・既存セーブの互換はこの表の外である。
   - **`S._setBodyLayers(i, arr)` の有限性(第262便b)**: `m`・`r`・`J`・Σm を `Number.isFinite` と
     **`Math.fround` 後**(Σm は Float32 の `S.m` に入る)で検査し、通らなければ
     `layerNotFinite`/`sumNotFinite` で拒否する。**検査は書き込みの前**なので、拒否時は元の状態が
@@ -1128,6 +1173,7 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     指す名前ではない。層の正準形は r 昇順・非重複なので、Rc=R では 2 層に分けられない
     (1 層に潰すと外殻の m が 0 になり、観測半径 R が層に載らない)。内蔵でこれに当たるのは
     **🦀 crabRemnant(Rc=R=0.01)の 1 本だけ**である(第262便b の移行レポートの「拒否 1」)。
+    **第264便c から `massFrac=1`(裸コア)も例外にしない**(上の「契約を緩めない」)。
   - **`HP.dfmBinaryChi` の第 6 引数 0 は非推奨である(第263便b)**: 0(旧 share の番兵)は
     **1 と同じ核**(w=1/√(a²+ε²))で計算し、**返り値は 1 bit も変わらない**
     (QA `behavior.framePull` が p=0 と p=1 の `Object.is` を見る)。第263便b からは、0 が来たときに

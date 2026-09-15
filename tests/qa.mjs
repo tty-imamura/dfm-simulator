@@ -16682,6 +16682,324 @@ if (!FAST) {
   }
 }
 
+
+// ---- 第264便c(第56報「親子コアが、コアV2を完全に置き換え可能な状態かを確認する」) ----
+// ---- behavior.layerRotationSource — **回転場の源を層から取る**(等価性 3 状態・二重計上なし・傾き) ----
+//   固定するのは 5 つ:
+//   ① **所有者規約**: コア V2 があれば V2・無ければ層。層 + V2 の粒子で層の J を 10 倍にしても
+//      `spinDipoleMoment` は 1 bit も動かない(**二重計上しない**ことの直接の対照)。
+//   ② **等価性(spin=0・ζ=1)**: (i) V2 のみ / (ii) 層+V2 / (iii) 層のみ の 3 状態で Q が**同値**、
+//      600 步後の状態が**ビット同一**(opt-in の physics.spinSpin=10⁶ を宣言した 2 体の器で測る)。
+//   ③ **一致しない条件も数で置く**: spin≠0 では層の Q が **−½·M_c·R²·spin** ずれる(V2 の殻項が
+//      body 質量で組まれているため)。ζ≠1 では **J_z(1−1/ζ)** ずれる(層は ζ を持たない)。
+//      **どちらも「置換できる」とは書かない** —— `coreV2ReplaceReport` の rotationSource がそれを数える。
+//   ④ **傾き**: 移行計画は面内成分を層へ**数値として**載せる(layJx = coreJx)。回転場の源は
+//      **z 成分だけ**を読むので、Jx を動かしても Q は動かない(V2 と同じ射影)。
+//   ⑤ **宣言の無い層は従来式**: 🧅 layeredCoreDFM は J を書いていないので `layerDipoleMoment` が
+//      null を返し、Q は ½mR²s のまま(= 内蔵 122 本が 1 bit も変わらない根拠)。
+{
+  const hasLRS = await page.evaluate(() => !!(window.HP && typeof HP.dfmLayerDipoleMoment === 'function'
+    && typeof HP.coreV2MigrationPlan === 'function' && HP.sim && HP.sim._setBodyLayers));
+  if (hasLRS) {
+    const lrs = await page.evaluate(() => {
+      const mkP = (spin, zeta) => ({ id: 'qaLRS', name: 'qaLRS', emoji: '🧪',
+        description: 'QA の器(回転場の源)。', camera: { scale: 300 },
+        world: { boundary: 'none', size: 0 }, seed: 1,
+        physics: { G: 1, D0: 0, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 1 / 60,
+          cLight: 30, contactK: 0, contactCap: 0, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0,
+          geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 0.5, timeScale: 1,
+          spinSpin: 1e6 },
+        bodies: [
+          { type: 'single', m: 1000, radius: 10, x: -30, y: 0, vx: 0, vy: 0, spin, pinned: false,
+            core: { mode: 'differential', massFrac: 0.3, radius: 0.1, omega: 20, tilt: 60, inertiaScale: zeta } },
+          { type: 'single', m: 10, radius: 1, x: 30, y: 0, vx: 0, vy: 0, spin: 3, pinned: false }],
+        overlays: {} });
+      const dropV2 = (S, i) => { S.coreMd[i] = 0; S.coreMF[i] = 0; S.RcV[i] = 0; S.coreJ[i] = 0;
+        S.coreJm[i] = 0; S.coreIS[i] = 1; S.coreJx[i] = 0; S.coreJy[i] = 0; S.coreKcs[i] = 0;
+        let any = false; for (let k = 0; k < S.n; k++) if (S.coreMd[k]) { any = true; break; }
+        S.hasCoreV2 = any; };
+      const setup = (state, spin, zeta) => {
+        const v = HP.validatePreset(mkP(spin, zeta));
+        const S = HP.sim; S.build(v.preset);
+        let plan = null;
+        if (state !== 'v2') {
+          plan = HP.coreV2MigrationPlan({ m: S.m[0], R: S.R[0], spin: S.spin[0],
+            core: { mode: 'differential', massFrac: S.coreMF[0], radius: S.RcV[0], inertiaScale: S.coreIS[0],
+              Jz: S.coreJ[0], Jmag: S.coreJm[0], Jx: S.coreJx[0], Jy: S.coreJy[0] } });
+          S._setBodyLayers(0, plan.layers);
+          if (state === 'lay') dropV2(S, 0);
+        }
+        return { S, plan };
+      };
+      const run = (state, spin, zeta, steps) => {
+        const { S, plan } = setup(state, spin, zeta);
+        const o = { Q: HP.dfmSpinDipoleMoment(0, S), layQ: HP.dfmLayerDipoleMoment(0, S),
+          nLay: S.layN[0] || 0, md: S.coreMd[0],
+          layJx: S.layJx ? S.layJx[0] : null, coreJx: S.coreJx[0], planJx: plan ? plan.Jx : null };
+        for (let k = 0; k < steps; k++) S.step(0.016);
+        o.st = []; for (let i = 0; i < S.n; i++) o.st.push([S.x[i], S.y[i], S.vx[i], S.vy[i]]);
+        return o;
+      };
+      const diff = (a, b) => { let m = 0;
+        for (let i = 0; i < a.st.length; i++) for (let k = 0; k < a.st[i].length; k++)
+          m = Math.max(m, Math.abs(a.st[i][k] - b.st[i][k]));
+        return m; };
+      const O = {};
+      { const v2 = run('v2', 0, 1, 600), both = run('both', 0, 1, 600), lay = run('lay', 0, 1, 600);
+        O.eq = { qV2: v2.Q, qBoth: both.Q, qLay: lay.Q, layQ: lay.layQ,
+          nLay: lay.nLay, mdV2: v2.md, mdLay: lay.md,
+          dBoth: diff(v2, both), dLay: diff(v2, lay),
+          layJx: lay.layJx, coreJx: v2.coreJx, planJx: lay.planJx }; }
+      { const v2 = run('v2', 0.4, 1, 600), lay = run('lay', 0.4, 1, 600);
+        O.spin = { qV2: v2.Q, qLay: lay.Q, dQ: lay.Q - v2.Q, d600: diff(v2, lay),
+          expect: -0.5 * (0.3 * 1000) * 10 * 10 * 0.4 }; }
+      { const v2 = run('v2', 0, 4, 600), lay = run('lay', 0, 4, 600);
+        O.zeta = { qV2: v2.Q, qLay: lay.Q, dQ: lay.Q - v2.Q, d600: diff(v2, lay) }; }
+      // ① 二重計上しない(層 + V2 で層の J を 10 倍にしても Q は動かない)
+      { const { S } = setup('both', 0, 1);
+        const q0 = HP.dfmSpinDipoleMoment(0, S);
+        const arr = S.bodyLayersOf(0).map((L) => ({ role: L.role, m: L.m, r: L.r,
+          J: (L.J || 0) * 10, Jx: L.Jx, Jy: L.Jy }));
+        S._setBodyLayers(0, arr);
+        O.dbl = { before: q0, after: HP.dfmSpinDipoleMoment(0, S), layQ: HP.dfmLayerDipoleMoment(0, S) }; }
+      // ④ 傾き: 層のみの粒子で Jx を動かしても Q は動かない(z 射影だけを読む)
+      { const { S } = setup('lay', 0, 1);
+        const q0 = HP.dfmSpinDipoleMoment(0, S);
+        const arr = S.bodyLayersOf(0).map((L) => ({ role: L.role, m: L.m, r: L.r,
+          J: L.J, Jx: (L.Jx || 0) * 3 + 7, Jy: (L.Jy || 0) + 5 }));
+        S._setBodyLayers(0, arr);
+        O.proj = { before: q0, after: HP.dfmSpinDipoleMoment(0, S),
+          jx: S.layJx[0], jy: S.layJy[0], roundTrip: S.bodyLayersOf(0)[0].Jx }; }
+      // ⑤ 宣言の無い層(🧅)は従来式のまま
+      { HP.loadPreset('layeredCoreDFM', false);
+        const S = HP.sim;
+        O.onion = { Q: HP.dfmSpinDipoleMoment(0, S), layQ: HP.dfmLayerDipoleMoment(0, S),
+          legacy: 0.5 * S.m[0] * S.R[0] * S.R[0] * S.spin[0], nLay: S.layN[0] }; }
+      return O;
+    });
+    const e = lrs.eq;
+    const c1 = lrs.dbl.before === lrs.dbl.after && lrs.dbl.layQ !== lrs.dbl.before;
+    const c2 = e.qV2 === e.qBoth && e.qV2 === e.qLay && e.layQ === e.qV2
+      && e.nLay === 2 && e.mdLay === 0 && e.dBoth === 0 && e.dLay === 0;
+    const c3 = Math.abs(lrs.spin.dQ - lrs.spin.expect) < 1e-3 && lrs.spin.d600 > 0
+      && lrs.zeta.dQ !== 0 && lrs.zeta.d600 > 0;
+    const c4 = lrs.proj.before === lrs.proj.after && lrs.proj.jx !== 0 && lrs.proj.jy !== 0
+      && Math.abs(e.layJx - e.coreJx) < 1e-9 && Math.abs(e.planJx - e.coreJx) < 1e-9;
+    const c5 = lrs.onion.layQ === null && lrs.onion.Q === lrs.onion.legacy && lrs.onion.nLay === 2;
+    add('behavior.layerRotationSource', c1 && c2 && c3 && c4 && c5,
+      `① **所有者規約(二重計上しない)**: 層+V2 の粒子で層の J を 10 倍にしても Q=${lrs.dbl.before}→`
+      + `${lrs.dbl.after}(層側の値は ${lrs.dbl.layQ} に動いているが読まれない)=${c1} / `
+      + `② **等価性(spin=0・ζ=1)**: Q は (i) V2 のみ ${e.qV2} / (ii) 層+V2 ${e.qBoth} / `
+      + `(iii) 層のみ ${e.qLay}(層の Σ J_z=${e.layQ}・層数 ${e.nLay}・(iii) の coreMd=${e.mdLay})で、`
+      + `**600 步の状態差は (ii) ${e.dBoth} / (iii) ${e.dLay}**(ビット同一)=${c2} / `
+      + `③ **一致しない条件**: spin=0.4 で ΔQ=${lrs.spin.dQ}(予測 −½M_cR²s=${lrs.spin.expect}・`
+      + `600 步の最大差 ${lrs.spin.d600})・ζ=4 で ΔQ=${lrs.zeta.dQ}(=J_z(1−1/ζ)・600 步 ${lrs.zeta.d600})`
+      + `=${c3} / ④ **傾きは数値として載り、源は z 射影だけ**: 層の Jx=${e.layJx}=コアの Jx=${e.coreJx}`
+      + `(計画 ${e.planJx})で、Jx/Jy を動かしても Q=${lrs.proj.before}→${lrs.proj.after}(往復 `
+      + `Jx=${lrs.proj.roundTrip})=${c4} / ⑤ **宣言の無い層は従来式**: 🧅 は layerQ=${lrs.onion.layQ}・`
+      + `Q=${lrs.onion.Q}=½mR²s=${lrs.onion.legacy}(層数 ${lrs.onion.nLay})=${c5}`);
+  } else {
+    console.log('SKIP behavior.layerRotationSource(対象に第264便c の層の回転場の源なし — root 等)');
+  }
+}
+
+// ---- 第264便c: behavior.coreV2ReplaceReport — **置換可否レポート**と**移行 API の穴** ----
+//   ⓪ **API の穴(49 ケース)**: `coreV2MigrationPlan` は omega/tilt/J/|J|/spin の Infinity・NaN・null を
+//      **0 に読み替えず拒否**し、inertiaScale ≤0・非有限も拒否し、入力が有限でも J_x・回転 E が
+//      Infinity になる場合を拒否する。**massFrac=1(裸コア)でも Rc ≥ R(等号を含む)は移行不可**
+//      —— 基点は `mf<1` の条件で裸コアだけ例外にしていた(契約を緩めない)。
+//   ① **内蔵 122 本の集計**: コア宣言 75 件のうち置換可 27・不可 48。項別の不可件数と理由の集合を固定する。
+//   ② **`canReplaceV2` が全項 true の本があっても「コア V2 を廃止できる」とは言わない** ——
+//      この表が測るのは 6 項だけで、描画・保存 JSON・AI 生成・既存セーブの互換はこの表の外である。
+{
+  const hasRep = await page.evaluate(() => !!(window.HP && typeof HP.coreV2ReplaceReport === 'function'
+    && typeof HP.coreV2ReplaceAxes === 'function'));
+  if (hasRep) {
+    const rp = await page.evaluate(() => {
+      const P = HP.coreV2MigrationPlan;
+      const base = (over, cover) => ({ m: 100, radius: 10, spin: 0.5,
+        core: Object.assign({ mode: 'differential', massFrac: 0.3, radius: 5, omega: 4, tilt: 0,
+          inertiaScale: 1 }, cover || {}), ...(over || {}) });
+      const C = [];
+      const add2 = (name, body, want) => { const r = P(body);
+        C.push({ name, want, got: r.ok ? 'ok' : r.reason, pass: (r.ok ? 'ok' : r.reason) === want }); };
+      add2('baseline', base(), 'ok');
+      for (const [tag, v] of [['inf', Infinity], ['ninf', -Infinity], ['nan', NaN], ['null', null], ['str', 'abc']])
+        add2('omega:' + tag, base(null, { omega: v }), 'coreOmegaNotFinite');
+      add2('omega:numstr', base(null, { omega: '4' }), 'ok');
+      for (const [tag, v] of [['inf', Infinity], ['ninf', -Infinity], ['nan', NaN], ['null', null]])
+        add2('tilt:' + tag, base(null, { tilt: v }), 'coreTiltNotFinite');
+      for (const [tag, v] of [['0', 0], ['neg', -1], ['null', null], ['nan', NaN], ['inf', Infinity]])
+        add2('zeta:' + tag, base(null, { inertiaScale: v }), 'inertiaScaleNotPositive');
+      { const c = base(); delete c.core.inertiaScale; add2('zeta:absent', c, 'ok'); }
+      for (const [tag, v] of [['inf', Infinity], ['nan', NaN], ['null', null]])
+        add2('Jz:' + tag, base(null, { Jz: v }), 'coreJNotFinite');
+      add2('J:null', base(null, { J: null }), 'coreJNotFinite');
+      for (const [tag, v] of [['inf', Infinity], ['nan', NaN], ['null', null]])
+        add2('Jmag:' + tag, base(null, { Jz: 1, Jmag: v }), 'coreJNotFinite');
+      add2('Jz:0', base(null, { Jz: 0 }), 'ok');
+      add2('overflow:zetaOmega', base(null, { inertiaScale: 1e300, omega: 1e300 }), 'valuesNotFinite');
+      add2('overflow:zeta', base(null, { inertiaScale: 1e308 }), 'valuesNotFinite');
+      add2('overflow:Jx', base(null, { inertiaScale: 1e300, omega: 1e300, tilt: 60 }), 'valuesNotFinite');
+      add2('overflow:mass', base({ m: 1e308 }), 'valuesNotFinite');
+      add2('overflow:Erot', base(null, { omega: 1e200 / 375 }), 'rotationEnergyNotFinite');
+      add2('naked:RcEqR', base(null, { massFrac: 1, radius: 10 }), 'coreOutsideShell');
+      add2('naked:RcGtR', base(null, { massFrac: 1, radius: 12 }), 'coreOutsideShell');
+      add2('naked:ok', base(null, { massFrac: 1, radius: 5 }), 'ok');
+      add2('RcEqR', base(null, { radius: 10 }), 'coreOutsideShell');
+      add2('mf:0', base(null, { massFrac: 0 }), 'massFracOutOfRange');
+      add2('mf:1.2', base(null, { massFrac: 1.2 }), 'massFracOutOfRange');
+      add2('mf:nan', base(null, { massFrac: NaN }), 'massFracOutOfRange');
+      add2('mode:cavity', base(null, { mode: 'cavity' }), 'cavityHasNoMass');
+      add2('mode:unknown', base(null, { mode: 'zzz' }), 'unknownCoreMode');
+      add2('m:neg', base({ m: -10 }), 'bodyMassNegative');
+      add2('m:0', base({ m: 0 }), 'bodyMassNotPositive');
+      { const b = base(); delete b.m; add2('m:absent', b, 'bodyMassNotDeclared'); }
+      { const b = base(); delete b.radius; add2('R:absent', b, 'bodyRadiusNotDeclared'); }
+      add2('R:neg', base({ radius: -5 }), 'bodyRadiusNotPositive');
+      add2('Rc:0', base(null, { radius: 0 }), 'coreRadiusNotPositive');
+      add2('Rc:nan', base(null, { radius: NaN }), 'coreRadiusNotPositive');
+      for (const [tag, v] of [['inf', Infinity], ['nan', NaN], ['null', null]])
+        add2('spin:' + tag, base({ spin: v }), 'bodySpinNotFinite');
+      add2('tilt60', base(null, { tilt: 60 }), 'ok');
+      const p60 = P(base(null, { tilt: 60 }));
+      // ① 内蔵 122 本
+      const tot = { canReplace: 0, cannot: 0 }, byAxis = {}, byReason = {};
+      let nCore = 0; const ids = [];
+      for (const p of HP.allPresets()) {
+        const r = HP.coreV2ReplaceReport(p);
+        if (!r.nCore) continue;
+        nCore += r.nCore; tot.canReplace += r.counts.canReplace; tot.cannot += r.counts.cannot;
+        for (const k of Object.keys(r.byAxis)) byAxis[k] = (byAxis[k] || 0) + r.byAxis[k];
+        for (const k of Object.keys(r.byReason)) byReason[k] = (byReason[k] || 0) + r.byReason[k];
+        if (r.counts.canReplace) ids.push((p.emoji || '') + p.id);
+      }
+      return { C, p60: { jx: p60.layers[0].Jx, warn: p60.warnings },
+        rep: { nPresets: HP.allPresets().length, nCore, tot, byAxis, byReason, ids } };
+    });
+    const bad = rp.C.filter((c) => !c.pass);
+    const g0 = bad.length === 0 && rp.C.length >= 45;
+    const g1 = rp.rep.nPresets === 122 && rp.rep.nCore === 75
+      && rp.rep.tot.canReplace === 27 && rp.rep.tot.cannot === 48
+      && rp.rep.byAxis.rotationSource === 48 && rp.rep.byAxis.migration === 14
+      && rp.rep.byAxis.KcsThermal === 16 && rp.rep.byAxis.activePumpContract === 16
+      && rp.rep.byAxis.tilt === 14 && rp.rep.byAxis.saveRestore === 14;
+    const g2 = rp.rep.byReason['rotationSource:shellSpinTermDiffers'] === 29
+      && rp.rep.byReason['rotationSource:inertiaScaleNotUnity'] === 5
+      && rp.rep.byReason['KcsThermal:KcsNotCarried'] === 2
+      && rp.rep.byReason['activePumpContract:coreDynamicsNotCarried'] === 2
+      && rp.rep.byReason['migration:coreOutsideShell'] === 1;
+    const g3 = Math.abs(rp.p60.jx - 1299.038105676658) < 1e-9 && rp.p60.warn.indexOf('tiltNotCarried') >= 0;
+    add('behavior.coreV2ReplaceReport', g0 && g1 && g2 && g3,
+      `⓪ **移行 API の穴**: ${rp.C.length} ケースすべてが期待どおりの可否を返す=${g0}`
+      + (bad.length ? `(**外れ** ${JSON.stringify(bad.slice(0, 6))})` : '')
+      + `(omega/tilt/J/|J|/spin の Infinity・NaN・null は **0 に読み替えず拒否**・ζ≤0 拒否・`
+      + `入力が有限でも J_x/回転 E が Infinity なら拒否・**massFrac=1 でも Rc≥R(等号込み)は移行不可**) / `
+      + `① **内蔵 ${rp.rep.nPresets} 本の置換可否**(変換しない): コア宣言 ${rp.rep.nCore} 件 = `
+      + `**置換可 ${rp.rep.tot.canReplace}・不可 ${rp.rep.tot.cannot}**・項別の不可 `
+      + `${JSON.stringify(rp.rep.byAxis)}=${g1} / ② 理由 ${JSON.stringify(rp.rep.byReason)}=${g2} / `
+      + `置換可の本 ${JSON.stringify(rp.rep.ids)} / `
+      + `③ θ=60° の計画は層に J_x=${rp.p60.jx} を**数値として**載せ、警告 `
+      + `${JSON.stringify(rp.p60.warn)} は据え置き(面内成分の**力学**は運ばれない)=${g3} / `
+      + `**この表は 6 項だけを測る** —— 全項 true の本があっても「コア V2 を廃止できる」とは言わない`);
+  } else {
+    console.log('SKIP behavior.coreV2ReplaceReport(対象に第264便c の置換可否レポートなし — root 等)');
+  }
+}
+
+// ---- 第264便c: ui.bodyLayerNumbers — 層モードの**読み取り専用の数値行** ----
+//   第56報「親子コアで、軸の傾きなどの、『選択粒子の編集』のコアV2で確認できた数値を、
+//   確認出来る様にする」。固定するのは 5 点:
+//   ① 層モードで 7 行(見出し + Q/ω・θ/|J|・Jz/Jx・Jy/E_r・I_c/M_c・M_s/K_cs・観測半径)が出る。
+//   ② **所有者規約が見える**: コア V2 を持つ粒子は V2 の値、層だけの粒子は層から導いた値。
+//   ③ **ja / en で文言が違い、数字は同じ**。
+//   ④ **署名にも S.params にも 1 bit も効かない**(表示専用)。
+//   ⑤ **4 幅(1280×800 / 1024×768 / 800×600 / 800×420)で見切れ 0**(溢れるぶんはパネル内スクロール)。
+{
+  const hasNums = await page.evaluate(() => !!document.querySelector('#beLayNums')
+    && !!(window.HP && HP.beLayModeNow));
+  if (hasNums) {
+    const vp0 = page.viewportSize();
+    const open = async () => page.evaluate(() => {
+      HP.loadPreset('layeredCoreDFM', false);
+      HP.selectBody(0, 'A');
+      const tg = document.querySelector('#beLayToggle');
+      if (tg && !HP.beLayModeNow()) tg.click();
+    });
+    await open();
+    const nums = await page.evaluate(() => {
+      const txt = (s) => { const e = document.querySelector(s); return e ? (e.textContent || '') : null; };
+      const IDS = ['#beLyNumHead', '#beLyNumSrc', '#beLyNumOm', '#beLyNumJ', '#beLyNumJ2',
+        '#beLyNumE', '#beLyNumM', '#beLyNumM2'];
+      const O = { shown: getComputedStyle(document.querySelector('#beLayNums')).display !== 'none',
+        ja: IDS.map(txt), sig0: HP.presetSigHash(HP.currentPreset()),
+        params0: JSON.stringify(HP.sim.params) };
+      document.querySelector('#btnLang').click();
+      O.lang = HP.lang();
+      O.en = IDS.map(txt);
+      document.querySelector('#btnLang').click();
+      O.back = IDS.map(txt);
+      O.sig1 = HP.presetSigHash(HP.currentPreset());
+      O.params1 = JSON.stringify(HP.sim.params);
+      // 層だけの粒子(🧅・J 未宣言)は「従来式」、コア V2 を持つ粒子は「コアv2」と出る
+      O.onionSrc = txt('#beLyNumSrc');
+      HP.loadPreset('bhCoreTilt', false);
+      const S = HP.sim; let idx = -1;
+      for (let i = 0; i < S.n; i++) if (S.coreMd[i] && S.coreMd[i] !== 4 && !S.layN[i]) { idx = i; break; }
+      O.tiltIdx = idx;
+      if (idx >= 0) {
+        HP.selectBody(idx, 'A');
+        const cv = document.querySelector('#beCoreV2'); if (cv) cv.open = true;
+        const b = document.querySelector('#beCvToLayers');
+        O.btnOk = !!(b && !b.disabled);
+        if (O.btnOk) b.click();
+        const tg = document.querySelector('#beLayToggle');
+        if (tg && !HP.beLayModeNow()) tg.click();
+        O.v2 = [txt('#beLyNumSrc'), txt('#beLyNumJ'), txt('#beLyNumJ2'), txt('#beLyNumM2')];
+        O.layJx = S.layJx ? S.layJx[idx * HP.BODY_LAYER_MAX] : null;
+        O.coreJx = S.coreJx[idx];
+        O.md = S.coreMd[idx];
+      }
+      return O;
+    });
+    const fit = {};
+    for (const [W, H] of [[1280, 800], [1024, 768], [800, 600], [800, 420]]) {
+      await page.setViewportSize({ width: W, height: H });
+      await open();
+      fit[`${W}x${H}`] = await page.evaluate(() => {
+        const el = document.querySelector('#bodyEdit'), wrap = document.querySelector('#canvasWrap');
+        const r = el.getBoundingClientRect(), w = wrap.getBoundingClientRect();
+        const b = document.querySelector('#beLayNums');
+        return { overflowPx: +Math.max(0, r.bottom - w.bottom).toFixed(2),
+          panelH: +r.height.toFixed(2), scrollY: Math.max(0, el.scrollHeight - el.clientHeight),
+          scrollX: Math.max(0, el.scrollWidth - el.clientWidth),
+          numsH: +b.getBoundingClientRect().height.toFixed(2),
+          numsClip: Math.max(0, b.scrollWidth - b.clientWidth) };
+      });
+    }
+    if (vp0) await page.setViewportSize(vp0);
+    await page.evaluate(() => { HP.selectBody(-1, 'A'); HP.loadPreset('layeredCoreDFM', false); });
+    const n1 = nums.shown && nums.ja.every((t) => t && t.length > 0) && nums.ja.length === 8;
+    const n2 = nums.tiltIdx >= 0 && nums.btnOk && nums.md !== 0
+      && Math.abs(nums.layJx - nums.coreJx) < 1e-9 && nums.v2.every((t) => t && t.length > 0);
+    const n3 = nums.ja.join('|') !== nums.en.join('|') && nums.back.join('|') === nums.ja.join('|');
+    const n4 = nums.sig0 === nums.sig1 && nums.params0 === nums.params1;
+    const n5 = Object.values(fit).every((f) => f.overflowPx === 0 && f.scrollX === 0 && f.numsClip === 0);
+    add('ui.bodyLayerNumbers', n1 && n2 && n3 && n4 && n5,
+      `① 層モードに**読み取り専用の数値行**が出る=${nums.shown}(ja ${JSON.stringify(nums.ja)})=${n1} / `
+      + `② **所有者規約が見える**: 🧅(層のみ・J 未宣言)は「${nums.onionSrc}」、`
+      + `🪩 bhCoreTilt を移行した粒子(coreMd=${nums.md})は ${JSON.stringify(nums.v2)}`
+      + `(層の J_x=${nums.layJx}=コアの J_x=${nums.coreJx})=${n2} / `
+      + `③ ja/en で文言が違い往復で戻る=${n3}(en ${JSON.stringify(nums.en)}) / `
+      + `④ **署名 ${nums.sig0}→${nums.sig1}・S.params も不変**=${n4} / `
+      + `⑤ **4 幅で見切れ 0**: ` + Object.entries(fit).map(([k, f]) =>
+        `${k} はみ出し ${f.overflowPx}px・パネル ${f.panelH}px(数値行 ${f.numsH}px・`
+        + `送る量 ${f.scrollY}px・横 ${f.scrollX}px)`).join(' / ') + `=${n5}`);
+  } else {
+    console.log('SKIP ui.bodyLayerNumbers(対象に第264便c の層モードの数値行なし — root 等)');
+  }
+}
+
 // ---- 第257便b(第49報): behavior.chainMesh — 磁石連鎖の**有限応答連鎖メッシュ**(新しいトイ仮説) ----
 //   原仮定者(第49報)の「磁石をパチンコ玉に近付けると、複数のパチンコ玉を引きずる事が出来る。
 //   引きずられたパチンコ玉の先端では、元々の磁石の磁界より遠くまで磁力が届いている」に対し、
