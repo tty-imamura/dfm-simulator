@@ -1001,6 +1001,22 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   併せて `chiTop`/`chiSecond`/`massFracTotal`/`uMagRatio`/`chi[]` を返す。`dominance` は **① の別名**であって合成指標ではない。
   **二体では ③ は χ₂ と恒等に一致し、D₀=0 では厳密に 1 になる**(u₂=v₁ —— 〔第262便a ②〕)。
   **m≤0 の源と n<2 は null**(0 で埋めない)。**力へは 1 バイトも接続せず、この数で法則を分岐する経路は実装していない。**
+- **kFrame の候補式の評価器(第264便a — `HP.dfmFrameKCandidates(inp)`)**: 第56報「`kFrame≈0.7` を他の観測値から
+  **事前予測する計算式を確立する**」に対して、**候補式を同じ入力で並べて評価するだけの純関数**である。
+  **予測式ではない**し、力へは 1 バイトも接続しない(kFrame をこの数で決める経路はどこにも無く、内蔵プリセットの
+  kFrame は QA `preset.kframe-binary01` が要求する **0 か 1** のままである)。
+  入力 `inp={ chiEff, etaSym | (m1,m2), alpha, delta, fIndependent, fIndSource, xi1, xi2, e, periodSec, qRatio }`。
+  - **H1** `k=(f_ind−1)/χ_eff`: `fIndSource` に **f_ind の出どころの宣言を要求**する。宣言が無い、または
+    台帳由来(`ledger`/`massCalibration`/`dfmBinaryInertiaFactorLinear`/`fLedger`)なら `h1.circular:true` で
+    **`h1.value` を返さない**(null)。較正台帳の f は生成則 f=1+k_F·χ_eff そのものなので、入れれば
+    **恒等式 k=k_F が返るだけ**であり、それを予測と呼ばないための門である。
+  - **H2** `k=1−α·η_sym·χ_eff/(χ_eff+δ)`: η_sym=m₁m₂/M²。α・δ は**自由パラメータ**で、既定 α=1.2・δ=0 は
+    **事前提案値**であって測って決めた値ではない。`m1,m2` を渡すと η_sym と q=m₂/m₁ を内部で作る。
+  - **H3**: Ξ=Gm/(Rc²)・e・P・q・η_sym・χ_eff を**そのまま並べて返すだけ**の候補列である(係数も有意性も出さない)。
+  `chiEff≤0`・`etaSym≤0`・`delta<0`・入力なしは **null**(0 で埋めない)。QA `behavior.kJointRoot` が代数と循環判定、
+  内蔵の二値契約、診断コピーが `sampleClass:"principle"` であることを機械固定する。
+  **第264便a の結論は「事前予測式は未確立」である**(4 系の k\* は 0.6555〜0.9370 に散る〔幅は平均の 37.0%〕のに、
+  H2 の説明項の幅はその 1.25×10⁻³ 倍しかない —— docs/PHYSICS.md〔第264便a〕)。
 - **除去の段階(第259便a — `physics.spaceMesh.inertiaRemoval`)**: `"post"`(既定 = 第258便a・`S._core` の後で引く)/
   `"inStep"`(**当てた段階で引く** —— `dragHookKick` は `_core` が速度へ書く直前、`dragHookApply` は ③/③′ が
   書く直前に呼ばれるので、そこで先に引く/取り分を 0 にする)。実測では **η=0(除去だけ)が kFrame=0(支えなし)と

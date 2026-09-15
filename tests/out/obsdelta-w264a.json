@@ -1,0 +1,794 @@
+{
+ "meta": {
+  "wave": "第264便a(X4)",
+  "target": "beta/index.html",
+  "claim": "**builder は 1 bit も変えない**(署名が動く便は別便)。本表は差と出どころだけである。",
+  "massMatchRule": "相対差 ≤10⁻⁶ で一致とみなす。それより粗ければ `matched:false`(推測で当てない)。"
+ },
+ "systems": [
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "label": "J0737−3039A/B",
+   "judge": "Kramer2021-DDS",
+   "kFrame": 1,
+   "geoPN": 2,
+   "sampleClass": "calibration",
+   "quantities": [
+    {
+     "kind": "P",
+     "quantity": "orbital_period",
+     "adopted": {
+      "value": 8834.534723278,
+      "sigma": 2.5056e-7,
+      "source": "Hu et al. (2022) A&A 667 A149 (via device-collected record)"
+     },
+     "judge": {
+      "value": 8834.53472328672,
+      "sigma": 8.64e-8,
+      "source": "Kramer et al. 2021, Phys. Rev. X 11, 041050, Table IV"
+     },
+     "diff": 8.720235200598836e-9,
+     "diffPct": 9.870621910197491e-11,
+     "sigmaUsed": 8.64e-8,
+     "diffSigma": 0.10092864815507911,
+     "diffSigmaAdopted": 0.034802982122441074,
+     "diffSigmaJudge": 0.10092864815507911,
+     "sigmaMissing": false
+    },
+    {
+     "kind": "e",
+     "quantity": "eccentricity",
+     "adopted": {
+      "value": 0.087777036,
+      "sigma": 4.8e-8,
+      "source": "Hu et al. (2022) A&A 667 A149 (via device-collected record)"
+     },
+     "judge": {
+      "value": 0.087777023,
+      "sigma": 6.1e-8,
+      "source": "Kramer et al. 2021, Phys. Rev. X 11, 041050, Table IV"
+     },
+     "diff": -1.3000000007035162e-8,
+     "diffPct": -0.000014810251746294054,
+     "sigmaUsed": 4.8e-8,
+     "diffSigma": -0.2708333334798992,
+     "diffSigmaAdopted": -0.2708333334798992,
+     "diffSigmaJudge": -0.21311475421369117,
+     "sigmaMissing": false
+    },
+    {
+     "kind": "omegaDot",
+     "quantity": "periastron_advance",
+     "adopted": {
+      "value": 16.899323,
+      "sigma": 0.000013,
+      "source": "Kramer et al. (2021) Phys. Rev. X 11 041050 - Strong-Field G"
+     },
+     "judge": {
+      "value": 16.899323,
+      "sigma": 0.000013,
+      "source": "Kramer et al. 2021, Phys. Rev. X 11, 041050, Table IV"
+     },
+     "diff": 0,
+     "diffPct": 0,
+     "sigmaUsed": 0.000013,
+     "diffSigma": 0,
+     "diffSigmaAdopted": 0,
+     "diffSigmaJudge": 0,
+     "sigmaMissing": false
+    }
+   ],
+   "masses": [
+    {
+     "body": "PSR J0737-3039 A",
+     "adopted": {
+      "value": 2.660982861e+30,
+      "sigma": null,
+      "source": "Hu et al. (2022) A&A 667 A149 - Gravitational signal propaga"
+     },
+     "judge": {
+      "value": 2.660860262820071e+30,
+      "sigma": null,
+      "source": "Kramer et al. 2021, Phys. Rev. X 11, 041050, Table IV"
+     },
+     "diff": -1.2259817992905536e+26,
+     "diffPct": -0.004607251768731154,
+     "diffSigma": null,
+     "sigmaMissing": true
+    },
+    {
+     "body": "PSR J0737-3039 B",
+     "adopted": {
+      "value": 2.483370041e+30,
+      "sigma": null,
+      "source": "Hu et al. (2022) A&A 667 A149 (via device-collected record)"
+     },
+     "judge": {
+      "value": 2.483261458398933e+30,
+      "sigma": null,
+      "source": "Kramer et al. 2021, Phys. Rev. X 11, 041050, Table IV"
+     },
+     "diff": -1.0858260106714953e+26,
+     "diffPct": -0.004372389103293911,
+     "diffSigma": null,
+     "sigmaMissing": true
+    }
+   ],
+   "builder": {
+    "baseMassPreset": [
+     2660.982861,
+     2483.370041
+    ],
+    "bodyMass": [
+     5321.812101719132,
+     4966.596715423392
+    ],
+    "factor": 1.999942269345993,
+    "law": "inertia-law-lin-v1",
+    "separation": 955.9782718763176,
+    "vRel": 5.723806817530525,
+    "initial": [
+     {
+      "x": -461.48618600827865,
+      "y": 0,
+      "vx": 0,
+      "vy": -2.763093948239957,
+      "radius": 0.01175,
+      "hasCore": true,
+      "coreMassFrac": 0.49998556691988266
+     },
+     {
+      "x": 494.49208586803894,
+      "y": 0,
+      "vx": 0,
+      "vy": 2.9607128692905675,
+      "radius": 0.01175,
+      "hasCore": true,
+      "coreMassFrac": 0.49998556691988266
+     }
+    ],
+    "scaleExp": {
+     "L": 6,
+     "T": 1,
+     "M": 27
+    }
+   },
+   "builderSource": {
+    "presetBaseMassKg": [
+     2.660982861e+30,
+     2.483370041e+30
+    ],
+    "candidates": [
+     {
+      "tag": "adopted(CSV の最初の行)",
+      "relDiff": [
+       0,
+       0
+      ],
+      "maxRel": 0,
+      "csvKg": [
+       2.660982861e+30,
+       2.483370041e+30
+      ]
+     },
+     {
+      "tag": "Hu2022-DDS",
+      "relDiff": [
+       0.000045327325757745955,
+       0.00004532732575784938
+      ],
+      "maxRel": 0.00004532732575784938,
+      "csvKg": [
+       2.660862251229942e+30,
+       2.483257481579192e+30
+      ]
+     },
+     {
+      "tag": "Kramer2021-DDS",
+      "relDiff": [
+       0.00004607464046199916,
+       0.000043725802895180224
+      ],
+      "maxRel": 0.00004607464046199916,
+      "csvKg": [
+       2.660860262820071e+30,
+       2.483261458398933e+30
+      ]
+     }
+    ],
+    "matchedSolution": "adopted(CSV の最初の行)",
+    "matched": true,
+    "maxRel": 0,
+    "judgeDeclared": "Kramer2021-DDS",
+    "mixed": true,
+    "note": "**判定に使う解と builder 入力が別の解なら `mixed:true`**(第263便c が文章で書いた混在を機械で確かめたもの)。builder は本便で変えていない。"
+   }
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "label": "J1757−1854",
+   "judge": "Singha2026-DDH",
+   "kFrame": 1,
+   "geoPN": 2,
+   "sampleClass": "calibration",
+   "quantities": [
+    {
+     "kind": "P",
+     "quantity": "orbital_period",
+     "adopted": {
+      "value": 15857.669019168,
+      "sigma": 0.00000432,
+      "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resoluti"
+     },
+     "judge": {
+      "value": 15857.6679651744,
+      "sigma": 1.728e-7,
+      "source": "Singha et al. 2026, arXiv:2606.23926v1, Table 2"
+     },
+     "diff": -0.001053993601090042,
+     "diffPct": -0.000006646585950406861,
+     "sigmaUsed": 1.728e-7,
+     "diffSigma": -6099.5000063081125,
+     "diffSigmaAdopted": -243.98000025232452,
+     "diffSigmaJudge": -6099.5000063081125,
+     "sigmaMissing": false
+    },
+    {
+     "kind": "e",
+     "quantity": "eccentricity",
+     "adopted": {
+      "value": 0.6058142,
+      "sigma": 1e-7,
+      "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resoluti"
+     },
+     "judge": {
+      "value": 0.605817,
+      "sigma": 0.000002,
+      "source": "Singha et al. 2026, arXiv:2606.23926v1, Table 2"
+     },
+     "diff": 0.000002800000000080516,
+     "diffPct": 0.0004621879117525664,
+     "sigmaUsed": 1e-7,
+     "diffSigma": 28.00000000080516,
+     "diffSigmaAdopted": 28.00000000080516,
+     "diffSigmaJudge": 1.400000000040258,
+     "sigmaMissing": false
+    },
+    {
+     "kind": "omegaDot",
+     "quantity": "periastron_advance",
+     "adopted": {
+      "value": 10.3651,
+      "sigma": 0.0002,
+      "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resoluti"
+     },
+     "judge": {
+      "value": 10.364986,
+      "sigma": 0.000008,
+      "source": "Singha et al. 2026, arXiv:2606.23926v1, Table 2"
+     },
+     "diff": -0.00011399999999994748,
+     "diffPct": -0.0010998446710591067,
+     "sigmaUsed": 0.000008,
+     "diffSigma": -14.249999999993435,
+     "diffSigmaAdopted": -0.5699999999997374,
+     "diffSigmaJudge": -14.249999999993435,
+     "sigmaMissing": false
+    }
+   ],
+   "masses": [
+    {
+     "body": "PSR J1757-1854",
+     "adopted": {
+      "value": 2.6614084e+30,
+      "sigma": 1.78965e+27,
+      "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resoluti"
+     },
+     "judge": {
+      "value": 2.661287770942271e+30,
+      "sigma": 3.9768197414e+26,
+      "source": "Singha et al. 2026, arXiv:2606.23926v1, Table 2"
+     },
+     "diff": -1.2062905772938461e+26,
+     "diffPct": -0.004532527128470196,
+     "diffSigma": -0.30333046397249663,
+     "sigmaMissing": false
+    },
+    {
+     "body": "PSR J1757-1854 companion",
+     "adopted": {
+      "value": 2.7731621e+30,
+      "sigma": 1.78965e+27,
+      "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resoluti"
+     },
+     "judge": {
+      "value": 2.772837564688432e+30,
+      "sigma": 3.9768197414e+26,
+      "source": "Singha et al. 2026, arXiv:2606.23926v1, Table 2"
+     },
+     "diff": -3.245353115676014e+26,
+     "diffPct": -0.011702716965863677,
+     "diffSigma": -0.8160674425070923,
+     "sigmaMissing": false
+    }
+   ],
+   "builder": {
+    "baseMassPreset": [
+     2661.4084000000003,
+     2773.1621
+    ],
+    "bodyMass": [
+     5322.5391160374165,
+     5546.034855966663
+    ],
+    "factor": 1.9998956627766773,
+    "law": "inertia-law-lin-v1",
+    "separation": 2122.834096401153,
+    "vRel": 2.595184120006848,
+    "initial": [
+     {
+      "x": -1083.2434800003837,
+      "y": 0,
+      "vx": 0,
+      "vy": -1.3242750727265096,
+      "radius": 0.01175,
+      "hasCore": true,
+      "coreMassFrac": 0.4999739143333163
+     },
+     {
+      "x": 1039.5906164007697,
+      "y": 0,
+      "vx": 0,
+      "vy": 1.2709090472803386,
+      "radius": 0.01175,
+      "hasCore": true,
+      "coreMassFrac": 0.4999739143333163
+     }
+    ],
+    "scaleExp": {
+     "L": 6,
+     "T": 1,
+     "M": 27
+    }
+   },
+   "builderSource": {
+    "presetBaseMassKg": [
+     2.6614084e+30,
+     2.7731621e+30
+    ],
+    "candidates": [
+     {
+      "tag": "adopted(CSV の最初の行)",
+      "relDiff": [
+       0,
+       0
+      ],
+      "maxRel": 0,
+      "csvKg": [
+       2.6614084e+30,
+       2.7731621e+30
+      ]
+     },
+     {
+      "tag": "Cameron2018-DDH",
+      "relDiff": [
+       0.00004532732575803856,
+       0.000045327325757528775
+      ],
+      "maxRel": 0.00004532732575803856,
+      "csvKg": [
+       2.661287770942271e+30,
+       2.773036405675502e+30
+      ]
+     },
+     {
+      "tag": "Singha2026-DDH",
+      "relDiff": [
+       0.00004532732575803856,
+       0.0001170408666199917
+      ],
+      "maxRel": 0.0001170408666199917,
+      "csvKg": [
+       2.661287770942271e+30,
+       2.772837564688432e+30
+      ]
+     }
+    ],
+    "matchedSolution": "adopted(CSV の最初の行)",
+    "matched": true,
+    "maxRel": 0,
+    "judgeDeclared": "Singha2026-DDH",
+    "mixed": true,
+    "note": "**判定に使う解と builder 入力が別の解なら `mixed:true`**(第263便c が文章で書いた混在を機械で確かめたもの)。builder は本便で変えていない。"
+   }
+  },
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "label": "J1946+2052",
+   "judge": "Meng2025-DDFWHE",
+   "kFrame": 1,
+   "geoPN": 2,
+   "sampleClass": "calibration",
+   "quantities": [
+    {
+     "kind": "P",
+     "quantity": "orbital_period",
+     "adopted": {
+      "value": 6781.366656,
+      "sigma": 0.000864,
+      "source": "Meng et al. (2025) A&A 704 A153 - The double neutron star PS"
+     },
+     "judge": {
+      "value": 6781.367998656,
+      "sigma": 0.000001728,
+      "source": "Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column"
+     },
+     "diff": 0.0013426559999061283,
+     "diffPct": 0.000019799194882320315,
+     "sigmaUsed": 0.000001728,
+     "diffSigma": 776.9999999456761,
+     "diffSigmaAdopted": 1.5539999998913523,
+     "diffSigmaJudge": 776.9999999456761,
+     "sigmaMissing": false
+    },
+    {
+     "kind": "e",
+     "quantity": "eccentricity",
+     "adopted": {
+      "value": 0.063848,
+      "sigma": 0.000009,
+      "source": "Meng et al. (2025) A&A 704 A153 - The double neutron star PS"
+     },
+     "judge": {
+      "value": 0.0638363,
+      "sigma": 8e-7,
+      "source": "Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column"
+     },
+     "diff": -0.000011700000000003374,
+     "diffPct": -0.018324771331918576,
+     "sigmaUsed": 8e-7,
+     "diffSigma": -14.625000000004219,
+     "diffSigmaAdopted": -1.3000000000003749,
+     "diffSigmaJudge": -14.625000000004219,
+     "sigmaMissing": false
+    },
+    {
+     "kind": "omegaDot",
+     "quantity": "periastron_advance",
+     "adopted": {
+      "value": 25.79205,
+      "sigma": 0.0004,
+      "source": "Meng et al. (2025) A&A 704 A153 - The double neutron star PS"
+     },
+     "judge": {
+      "value": 25.79205,
+      "sigma": 0.0004,
+      "source": "Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column"
+     },
+     "diff": 0,
+     "diffPct": 0,
+     "sigmaUsed": 0.0004,
+     "diffSigma": 0,
+     "diffSigmaAdopted": 0,
+     "diffSigmaJudge": 0,
+     "sigmaMissing": false
+    }
+   ],
+   "masses": [
+    {
+     "body": "PSR J1946+2052",
+     "adopted": {
+      "value": 2.5528363e+30,
+      "sigma": 4.17585e+27,
+      "source": "Meng et al. (2025) A&A 704 A153 - The double neutron star PS"
+     },
+     "judge": {
+      "value": 2.552720592002158e+30,
+      "sigma": 4.1756607285e+27,
+      "source": "Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column"
+     },
+     "diff": -1.1570799784203033e+26,
+     "diffPct": -0.004532527128434766,
+     "diffSigma": -0.02771010514630471,
+     "sigmaMissing": false
+    },
+    {
+     "body": "PSR J1946+2052 companion",
+     "adopted": {
+      "value": 2.481648e+30,
+      "sigma": 4.17585e+27,
+      "source": "Meng et al. (2025) A&A 704 A153 - The double neutron star PS"
+     },
+     "judge": {
+      "value": 2.481535518631167e+30,
+      "sigma": 4.1756607285e+27,
+      "source": "Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column"
+     },
+     "diff": -1.1248136883322421e+26,
+     "diffPct": -0.004532527128473667,
+     "diffSigma": -0.026937382164577885,
+     "sigmaMissing": false
+    }
+   ],
+   "builder": {
+    "baseMassPreset": [
+     2552.8363000000004,
+     2481.6479999999997
+    ],
+    "bodyMass": [
+     5105.584602637203,
+     4963.210456528453
+    ],
+    "factor": 1.999965529570855,
+    "law": "inertia-law-lin-v1",
+    "separation": 778.1944809333042,
+    "vRel": 6.35769527237275,
+    "initial": [
+     {
+      "x": -383.59535200440934,
+      "y": 0,
+      "vx": 0,
+      "vy": -3.133898293672956,
+      "radius": 0.01175,
+      "hasCore": true,
+      "coreMassFrac": 0.4999913822441849
+     },
+     {
+      "x": 394.59912892889486,
+      "y": 0,
+      "vx": 0,
+      "vy": 3.2237969786997933,
+      "radius": 0.01175,
+      "hasCore": true,
+      "coreMassFrac": 0.4999913822441849
+     }
+    ],
+    "scaleExp": {
+     "L": 6,
+     "T": 1,
+     "M": 27
+    }
+   },
+   "builderSource": {
+    "presetBaseMassKg": [
+     2.5528363e+30,
+     2.4816479999999999e+30
+    ],
+    "candidates": [
+     {
+      "tag": "adopted(CSV の最初の行)",
+      "relDiff": [
+       0,
+       1.1342260333079308e-16
+      ],
+      "maxRel": 1.1342260333079308e-16,
+      "csvKg": [
+       2.5528363e+30,
+       2.481648e+30
+      ]
+     },
+     {
+      "tag": "Meng2025-DDFWHE",
+      "relDiff": [
+       0.000045327325757684216,
+       0.00004532732575795985
+      ],
+      "maxRel": 0.00004532732575795985,
+      "csvKg": [
+       2.552720592002158e+30,
+       2.481535518631167e+30
+      ]
+     },
+     {
+      "tag": "Meng2025-DDGR",
+      "relDiff": [
+       0.0002661647556392703,
+       0.00036595744032201136
+      ],
+      "maxRel": 0.00036595744032201136,
+      "csvKg": [
+       2.553515955950437e+30,
+       2.480740154682888e+30
+      ]
+     }
+    ],
+    "matchedSolution": "adopted(CSV の最初の行)",
+    "matched": true,
+    "maxRel": 1.1342260333079308e-16,
+    "judgeDeclared": "Meng2025-DDFWHE",
+    "mixed": true,
+    "note": "**判定に使う解と builder 入力が別の解なら `mixed:true`**(第263便c が文章で書いた混在を機械で確かめたもの)。builder は本便で変えていない。"
+   }
+  },
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "label": "B1534+12",
+   "judge": "Fonseca2014-DDGR",
+   "kFrame": 1,
+   "geoPN": 2,
+   "sampleClass": "calibration",
+   "quantities": [
+    {
+     "kind": "P",
+     "quantity": "orbital_period",
+     "adopted": {
+      "value": 36351.702644140794,
+      "sigma": 8.64e-7,
+      "source": "Stairs et al. (2002) ApJ 581 501 - Studies of the Relativist"
+     },
+     "judge": {
+      "value": 36351.7026233184,
+      "sigma": 1.728e-7,
+      "source": "Fonseca, Stairs & Thorsett 2014, ApJ 787, 82, Table 3 DDGR c"
+     },
+     "diff": -0.000020822393707931042,
+     "diffPct": -5.728038081673519e-8,
+     "sigmaUsed": 1.728e-7,
+     "diffSigma": -120.4999635875639,
+     "diffSigmaAdopted": -24.09999271751278,
+     "diffSigmaJudge": -120.4999635875639,
+     "sigmaMissing": false
+    },
+    {
+     "kind": "e",
+     "quantity": "eccentricity",
+     "adopted": {
+      "value": 0.2736775,
+      "sigma": 3e-7,
+      "source": "Stairs et al. (2002) ApJ 581 501 - Studies of the Relativist"
+     },
+     "judge": {
+      "value": 0.2736774,
+      "sigma": 4e-8,
+      "source": "Fonseca, Stairs & Thorsett 2014, ApJ 787, 82, Table 3 DDGR c"
+     },
+     "diff": -1.0000000000287557e-7,
+     "diffPct": -0.000036539357456449853,
+     "sigmaUsed": 4e-8,
+     "diffSigma": -2.500000000071889,
+     "diffSigmaAdopted": -0.3333333333429186,
+     "diffSigmaJudge": -2.500000000071889,
+     "sigmaMissing": false
+    },
+    {
+     "kind": "omegaDot",
+     "quantity": "periastron_advance",
+     "adopted": {
+      "value": 1.755789,
+      "sigma": 0.000009,
+      "source": "Stairs et al. (2002) ApJ 581 501 - Studies of the Relativist"
+     },
+     "judge": {
+      "value": 1.755795,
+      "sigma": null,
+      "source": "Fonseca, Stairs & Thorsett 2014, ApJ 787, 82, Table 3 DDGR c"
+     },
+     "diff": 0.000005999999999950489,
+     "diffPct": 0.0003417267108946741,
+     "sigmaUsed": 0.000009,
+     "diffSigma": 0.6666666666611655,
+     "diffSigmaAdopted": 0.6666666666611655,
+     "diffSigmaJudge": null,
+     "sigmaMissing": false
+    }
+   ],
+   "masses": [
+    {
+     "body": "PSR B1534+12",
+     "adopted": {
+      "value": 2.6506705e+30,
+      "sigma": 3.977e+26,
+      "source": "Fonseca, Stairs & Thorsett (2014) ApJ 787 82 - A Comprehensi"
+     },
+     "judge": {
+      "value": 2.650550357640502e+30,
+      "sigma": 3.9768197414e+26,
+      "source": "Fonseca, Stairs & Thorsett 2014, ApJ 787, 82, Table 3 DDGR c"
+     },
+     "diff": -1.201423594980248e+26,
+     "diffPct": -0.004532527128438815,
+     "diffSigma": -0.30210662617493916,
+     "sigmaMissing": false
+    },
+    {
+     "body": "PSR B1534+12 companion",
+     "adopted": {
+      "value": 2.67552675e+30,
+      "sigma": 3.977e+26,
+      "source": "Fonseca, Stairs & Thorsett (2014) ApJ 787 82 - A Comprehensi"
+     },
+     "judge": {
+      "value": 2.675405481024227e+30,
+      "sigma": 3.9768197414e+26,
+      "source": "Fonseca, Stairs & Thorsett 2014, ApJ 787, 82, Table 3 DDGR c"
+     },
+     "diff": -1.212689757727569e+26,
+     "diffPct": -0.004532527128452628,
+     "diffSigma": -0.30493958403572335,
+     "sigmaMissing": false
+    }
+   ],
+   "builder": {
+    "baseMassPreset": [
+     2650.6705,
+     2675.52675
+    ],
+    "bodyMass": [
+     5299.977112834566,
+     5349.676823194979
+    ],
+    "factor": 1.9994854557873434,
+    "law": "inertia-law-lin-v1",
+    "separation": 2907.7510344814455,
+    "vRel": 2.9798051313273017,
+    "initial": [
+     {
+      "x": -1460.6604505860685,
+      "y": 0,
+      "vx": 0,
+      "vy": -1.4968556297184559,
+      "radius": 0.01175,
+      "hasCore": true,
+      "coreMassFrac": 0.49987133084385105
+     },
+     {
+      "x": 1447.0905838953768,
+      "y": 0,
+      "vx": 0,
+      "vy": 1.4829495016088456,
+      "radius": 0.01175,
+      "hasCore": true,
+      "coreMassFrac": 0.49987133084385105
+     }
+    ],
+    "scaleExp": {
+     "L": 6,
+     "T": 1,
+     "M": 27
+    }
+   },
+   "builderSource": {
+    "presetBaseMassKg": [
+     2.6506705e+30,
+     2.67552675e+30
+    ],
+    "candidates": [
+     {
+      "tag": "adopted(CSV の最初の行)",
+      "relDiff": [
+       0,
+       0
+      ],
+      "maxRel": 0,
+      "csvKg": [
+       2.6506705e+30,
+       2.67552675e+30
+      ]
+     },
+     {
+      "tag": "Fonseca2014-DDGR",
+      "relDiff": [
+       0.00004532732575772472,
+       0.00004532732575786285
+      ],
+      "maxRel": 0.00004532732575786285,
+      "csvKg": [
+       2.650550357640502e+30,
+       2.675405481024227e+30
+      ]
+     }
+    ],
+    "matchedSolution": "adopted(CSV の最初の行)",
+    "matched": true,
+    "maxRel": 0,
+    "judgeDeclared": "Fonseca2014-DDGR",
+    "mixed": true,
+    "note": "**判定に使う解と builder 入力が別の解なら `mixed:true`**(第263便c が文章で書いた混在を機械で確かめたもの)。builder は本便で変えていない。"
+   }
+  }
+ ]
+}
