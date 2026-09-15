@@ -259,25 +259,275 @@ const add = (id, pass, detail) => {
     if (!/PR ゲートに入れるものではない/.test(src)) bad.push('⑥PR ゲートに入れない宣言が無い');
     if (!/取得失敗を合格に置き換えない/.test(src)) bad.push('⑦取得失敗を合格に置き換えない宣言が無い');
   }
-  // ⑤ **CI はまだ呼んでいない**(本便で yaml を変えていないことの機械確認)
+  // ⑤ **第264便d(統括の裁定 X13)で夜間 yaml へ繋いだ**。繋いでよい先は
+  //    `.github/workflows/nightly.yml`(schedule + workflow_dispatch)**だけ**で、
+  //    **PR ゲート(`ci.yml`)からは呼ばない**(script 自身の ⑥ の約束)。
+  //    ここで機械固定するのは「どの yaml から呼ばれているか」である。
   let wired = [];
   const WFD = path.join(ROOT, '.github', 'workflows');
   if (fs.existsSync(WFD)) for (const f of fs.readdirSync(WFD)) {
     if (!/\.ya?ml$/.test(f)) continue;
     if (fs.readFileSync(path.join(WFD, f), 'utf8').includes('ci-frozen-baseline')) wired.push(f);
   }
-  if (wired.length) bad.push('⑤本便では CI へ繋がない約束だが workflows が呼んでいる: ' + wired.join(','));
+  const wiredBad = wired.filter((f) => f !== 'nightly.yml');
+  if (wiredBad.length) bad.push('⑤PR ゲート側の yaml が呼んでいる(夜間 yaml 以外は不可): ' + wiredBad.join(','));
+  // ⑤′ 夜間 yaml そのものの形(**存在・schedule/手動・取得失敗を informational に落とす**)
+  const NIGHTLY = path.join(WFD, 'nightly.yml');
+  let nightly = '';
+  if (!fs.existsSync(NIGHTLY)) bad.push('⑤′.github/workflows/nightly.yml が無い(第264便d で足したはず)');
+  else {
+    nightly = fs.readFileSync(NIGHTLY, 'utf8');
+    if (!/schedule:/.test(nightly)) bad.push('⑤′夜間 yaml に schedule が無い');
+    if (!/workflow_dispatch:/.test(nightly)) bad.push('⑤′夜間 yaml に workflow_dispatch(手動)が無い');
+    if (!/ci-pages-collate\.sh/.test(nightly)) bad.push('⑤′夜間 yaml が ci-pages-collate.sh を呼んでいない');
+    if (!/ci-frozen-baseline\.sh/.test(nightly)) bad.push('⑤′夜間 yaml が ci-frozen-baseline.sh を呼んでいない');
+    if (!/continue-on-error: true/.test(nightly)) bad.push('⑤′取得失敗でジョブを止めない宣言が無い');
+    if (!/judgement":"informational/.test(nightly)) bad.push('⑤′取得失敗を informational として読む判定が無い');
+    if (!/match":false/.test(nightly)) bad.push('⑤′取得できた不一致を FAIL にする判定が無い');
+  }
+  // ⑤″ **ci.yml は 1 文字も変えていない**(PR ゲートに夜間の器を持ち込まない)
+  {
+    const ci = fs.readFileSync(path.join(WFD, 'ci.yml'), 'utf8');
+    if (/ci-frozen-baseline|ci-pages-collate|nightly/.test(ci))
+      bad.push('⑤\u2033ci.yml(PR ゲート)が夜間の器を呼んでいる');
+  }
   add('lint.frozenBaseline', bad.length === 0,
     '**凍結基準 html の部分 clone の器**(〔第260便d〕の決断事項「部分 clone なら別」への処置): '
     + '`git clone --filter=blob:none --no-checkout` + `git show <凍結SHA>:beta/index.html` で '
     + '**3.7 MB の 1 ファイルだけ**を取り出す。手元の実測(3 回): **合計 1.79 / 1.56 / 1.66 s**・'
     + '`.git` 2.6 MB(全履歴 448 MB の 0.6%)・取り出した html は凍結 SHA と**バイト同一**。'
-    + `**CI yaml は 1 文字も変えていない**(workflows からの参照 ${wired.length} 件 —— 有効化は次便の裁定)`
+    + `**第264便d(統括の裁定 X13)で夜間 yaml へ繋いだ**: 参照している workflows は `
+    + `${wired.length ? wired.join(',') : 'なし'}(**PR ゲート ci.yml からは呼ばない** —— 違反 ${wiredBad.length} 件)。`
+    + `夜間 yaml は schedule + workflow_dispatch で、**取得失敗は informational・取得できた不一致は FAIL**`
     + ' / **第262便d: 位置づけを文書で固定した** —— **夜間/手動ジョブの候補であって PR ゲートには入れない**。'
     + '**frozen-file を取得できたときだけ** (b) を FAIL の基準として読み、**取得失敗は root-fallback の'
     + '合格に置き換えない**(root-fallback の行は informational のままで fail を増やさない)'
     + ' —— **手元の秒数は CI の上限ではない**(ランナーの回線も GitHub 側の応答も測っていない)'
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 0a3c) 第264便d(第56報 W4・統括の裁定 X6/X7): lint.sigmaMark ----
+// ----   `paper/data/solar-observations.csv` の note に書く機械可読な印 `sigma_primary=` の
+// ----   **読み方**を 1 本(`tests/lib-w264d-sigmamark.mjs`)に固定し、**15 ケースの単体試験**で機械化する。
+// ----   経緯(〔第263便c〕⑤′ の実測): 門も σ 接続器も会計器も `/sigma_primary=verified/` の
+// ----   **部分一致**で読んでいた。第251便c が足した**凡例の文**そのものが
+// ----   「sigma_primary=verified means … ; sigma_primary=unverified means …」を含むので、
+// ----   **凡例を持つ行は自身の印が unverified でも verified と読まれていた**(該当 3 行)。
+// ----   読み方(**宣言**): 語境界つきの出現を全部拾う → 直後が `means` の出現(凡例)を除く →
+// ----   **凡例でない最初の出現**が行の印 → 無印は verified ではない → `verified` はちょうどその語のときだけ。
+// ----   ここで固定するのは 5 つ:
+// ----     ① **15 ケースの単体試験**(凡例・語境界・無印・大文字小文字・空・null 等)。
+// ----     ② **3 器が同じ 1 本を読んでいる**(calaudit / solarsigma / obsintake が import している)。
+// ----     ③ **旧読みとの差が数で残っている**(`calaudit-w249.json` の `sigmaMarkAudit`)。
+// ----     ④ **X7 の規約**: `verified_by=<確認者> <YYYY-MM-DD>; verified_at=…; verified_value=…` を
+// ----        `readVerifiedBy` が読み、`verified` なのに `verified_by` が無い行は**警告**(拒否ではない)。
+// ----     ⑤ **`sigma_kind` / `spread` / `older_sigma` / `digits` は σ ではない**(informational な尺度)。
+// ----   **印を上げ下げしていない**(`verified` にするのは原仮定者の照合であって、読み手ではない)。
+{
+  const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w264d-sigmamark.mjs'));
+  const bad = [];
+  // ① 15 ケース(note, 期待する印, 期待する verified)
+  const CASES = [
+    ['sigma_primary=verified.', 'verified', true],
+    ['sigma_primary=unverified; intake 2026-09-15', 'unverified', false],
+    ['converted to m. sigma_primary=unverified; intake 2026-09-14.', 'unverified', false],
+    ['x. sigma_primary=verified. SIGMA COLUMN: sigma_primary=verified means the number is printed; '
+      + 'sigma_primary=unverified means it was derived.', 'verified', true],
+    ['propagated. sigma_primary=unverified. SIGMA COLUMN: sigma_primary=verified means printed; '
+      + 'sigma_primary=unverified means derived.', 'unverified', false],
+    ['SIGMA COLUMN: sigma_primary=verified means printed; sigma_primary=unverified means derived.',
+      null, false],
+    ['no mark at all', null, false],
+    ['', null, false],
+    [null, null, false],
+    [undefined, null, false],
+    ['xsigma_primary=verified', null, false],
+    ['a_sigma_primary=verified', null, false],
+    ['sigma_primary=VERIFIED.', 'VERIFIED', false],
+    ['sigma_primary=verified: a web-search summary reproduced the value.', 'verified', true],
+    ['sigma_primary=unverified: disagreeing values. sigma_primary=unverified.', 'unverified', false],
+  ];
+  let nCase = 0;
+  for (const [note, mark, ver] of CASES) {
+    nCase++;
+    const r = L.readSigmaMark(note);
+    if (r.mark !== mark) bad.push(`①ケース ${nCase}: 印が ${JSON.stringify(r.mark)}(期待 ${JSON.stringify(mark)})`);
+    if (r.verified !== ver) bad.push(`①ケース ${nCase}: verified が ${r.verified}(期待 ${ver})`);
+    if (L.isSigmaPrimaryVerified(note) !== ver) bad.push(`①ケース ${nCase}: 1 行版が食い違う`);
+  }
+  // ① 凡例だけの行は「旧読みなら verified・厳密読みでは印なし」であること(穴の形をそのまま残す)
+  if (!(L.legacyIsSigmaPrimaryVerified(CASES[5][0]) === true && L.isSigmaPrimaryVerified(CASES[5][0]) === false))
+    bad.push('①凡例だけの行で旧読みと厳密読みの差が出ていない(試験が空振り)');
+  // ② 3 器が同じ 1 本を読んでいる
+  for (const f of ['exp-w249b-calaudit.mjs', 'exp-w262d-solarsigma.mjs', 'exp-w263c-obsintake.mjs']) {
+    const src = fs.readFileSync(path.join(ROOT, 'tests', f), 'utf8');
+    if (!/lib-w264d-sigmamark\.mjs/.test(src)) bad.push(`②${f} が共通の読み方を import していない`);
+    if (/\/sigma_primary=verified\/\.test/.test(src)) bad.push(`②${f} に旧読み(部分一致)が残っている`);
+  }
+  // ③ 旧読みとの差が数で残っている
+  let audit = null;
+  try {
+    const cj = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+    audit = cj.sigmaMarkAudit || null;
+    if (!audit) bad.push('③calaudit-w249.json に sigmaMarkAudit が無い(器を回すと入る)');
+    else if (!(Number.isFinite(audit.legacyVerified) && Number.isFinite(audit.strictVerified)
+      && Array.isArray(audit.flips))) bad.push('③sigmaMarkAudit の欄が欠けている');
+    else if (audit.strictVerified > audit.legacyVerified)
+      bad.push('③厳密読みのほうが verified が多い(読み方は厳しくなる方向にしか動かないはず)');
+  } catch (e) { bad.push('③calaudit-w249.json が読めない: ' + String(e).slice(0, 60)); }
+  // ④ X7 の規約
+  const vb1 = L.readVerifiedBy('sigma_primary=verified. verified_by=原仮定者 2026-09-20; '
+    + 'verified_at=Table 3 の Total 行; verified_value=575.3100 +/- 0.0015 arcsec/cy');
+  const vb2 = L.readVerifiedBy('sigma_primary=verified.');
+  const vb3 = L.readVerifiedBy('sigma_primary=unverified; verified_by=');
+  if (!(vb1.present === true && vb1.warn === false && vb1.at && vb1.value)) bad.push('④verified_by の 3 欄が読めない');
+  if (!(vb2.present === false && vb2.warn === true)) bad.push('④verified なのに verified_by が無い行が警告にならない');
+  if (vb3.warn !== false) bad.push('④unverified の行まで警告になっている(拒否も警告も出さない約束)');
+  // ⑤ informational な尺度
+  const k1 = L.readSigmaKind('sigma_kind=none; spread=0.000223 vs Standish; digits=0.00005');
+  const k2 = L.readSigmaKind('sigma_kind=older; older_sigma=1.5e-3');
+  const k3 = L.readSigmaKind('sigma_kind=none');
+  if (!(k1.kind === 'none' && k1.spread === 0.000223 && k1.scaleKind === 'spread' && k1.digits))
+    bad.push('⑤spread/digits が読めない');
+  if (!(k2.olderSigma === 1.5e-3 && k2.scaleKind === 'older_sigma')) bad.push('⑤older_sigma が読めない');
+  if (!(k3.scale === null && k3.scaleKind === null)) bad.push('⑤尺度が無い行に尺度が立っている');
+  add('lint.sigmaMark', bad.length === 0,
+    `**\`sigma_primary\` の印の厳密読み**(第263便c ⑤′ の読み違いを直した): 語境界つきの出現を拾い、`
+    + `第251便c の**凡例文**(\`sigma_primary=… means …\`)を除き、**凡例でない最初の出現**を行の印とする。`
+    + `**無印は verified ではない** / ① 単体試験 ${CASES.length} ケース全通過 / `
+    + `② 門・σ 接続器・会計器の 3 器が同じ 1 本を読む(旧読みの残骸 0 件)/ `
+    + `③ 旧読みとの差(CSV ${audit ? audit.rows : '—'} 行中): 旧読みで verified `
+    + `${audit ? audit.legacyVerified : '—'} 行 → 厳密読みで ${audit ? audit.strictVerified : '—'} 行`
+    + `(**反転 ${audit ? audit.flips.length : '—'} 行**・凡例を持つ行 ${audit ? audit.legendRows : '—'})`
+    + ` —— **厳しくなる方向にしか動いていない** / `
+    + `④ X7 の規約 \`verified_by=<確認者> <日付>; verified_at=<表/列>; verified_value=<原記載>\` を読み、`
+    + `\`verified\` なのに \`verified_by\` が無い行は**警告**(拒否はしない・該当 `
+    + `${audit && audit.verifiedByMissing ? audit.verifiedByMissing.length : '—'} 行)/ `
+    + `⑤ \`sigma_kind\` / \`spread\` / \`older_sigma\` / \`digits\` は **σ ではない**(informational な尺度)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0a3d) 第264便d(第56報 W4・統括の裁定 X5): docs.intakeA-sync ----
+// ----   観測レコード(2026-09-15 intake・2 系統)の**転写の行数**と、会計器の出力
+// ----   `tests/out/intakeA-w264d.json` が食い違っていないことを機械で見る。固定するのは 6 つ:
+// ----     ① CSV の `intake_row=2026-09-15` の行数と JSON の `transcription.rows` が一致。
+// ----     ② **σ 列に入っている転写行は、JSON が列挙している行と 1 対 1**(数も値も)。
+// ----     ③ **転写した行の印はすべて `unverified`**(`verified` は 1 行も増えていない)。
+// ----     ④ **既存行を 1 行も置き換えていない**: 既存の鍵と同じものは `<量>_candidate` になっている。
+// ----     ⑤ **派生行は判定量の名前を使っていない**(`periastron_advance_derived` であって
+// ----        `periastron_advance` ではない —— 門へ黙って入らない)。
+// ----     ⑥ 不足表 68 組の 6 分類の合計が 68。
+// ----   **「太陽系の σ が揃った」とは書かない**(σ は `unverified` のままで、門は 1 件も動かない)。
+{
+  const bad = [];
+  const CSVP = path.join(ROOT, 'paper', 'data', 'solar-observations.csv');
+  const JP = path.join(ROOT, 'tests', 'out', 'intakeA-w264d.json');
+  let j = null, rowsCsv = 0, sigmaCsv = [], cand = 0, derived = 0, marks = {};
+  try {
+    const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w264d-sigmamark.mjs'));
+    const keysBefore = new Set();
+    const lines = fs.readFileSync(CSVP, 'utf8').split('\n');
+    const parse = (line) => { const c = []; let cur = '', q = false;
+      for (const ch of line) { if (q) { if (ch === '"') q = false; else cur += ch; }
+        else if (ch === '"') q = true; else if (ch === ',') { c.push(cur); cur = ''; } else cur += ch; }
+      c.push(cur); return c; };
+    for (const line of lines) {
+      if (!line.trim() || line.startsWith('body,')) continue;
+      const c = parse(line);
+      const note = c[7] || '';
+      const isIntake = /intake_row=2026-09-15/.test(note);
+      if (!isIntake) { keysBefore.add(c[0] + '|' + c[1]); continue; }
+      rowsCsv++;
+      if ((c[8] || '').trim() !== '') sigmaCsv.push(c[0] + '|' + c[1] + '=' + c[2]);
+      if (/_candidate$/.test(c[1])) cand++;
+      if (/(?:^|[^A-Za-z0-9_])derived_from=/.test(note)) derived++;
+      const m = L.readSigmaMark(note).mark || '(印なし)';
+      marks[m] = (marks[m] || 0) + 1;
+      // ④ 既存の鍵と同じ名前の転写行が無いこと(候補行になっているはず)
+      if (keysBefore.has(c[0] + '|' + c[1]) && !/_candidate$/.test(c[1]) && !/_derived$/.test(c[1]))
+        bad.push(`④既存の鍵と同じ名前で転写している: ${c[0]}|${c[1]}`);
+      // ⑤ 派生行が判定量の名前を使っていないこと
+      if (/(?:^|[^A-Za-z0-9_])derived_from=/.test(note)
+        && ['orbital_period', 'eccentricity', 'periastron_advance', 'rotation_period'].includes(c[1]))
+        bad.push(`⑤派生行が判定量の名前を使っている: ${c[0]}|${c[1]}`);
+    }
+    j = JSON.parse(fs.readFileSync(JP, 'utf8'));
+  } catch (e) { bad.push('入力が読めない: ' + String(e).slice(0, 100)); }
+  if (j) {
+    const t = j.transcription || {};
+    if (t.rows !== rowsCsv) bad.push(`①転写行数が食い違う(CSV ${rowsCsv} ≠ JSON ${t.rows})`);
+    if ((t.sigmaRowList || []).length !== sigmaCsv.length)
+      bad.push(`②σ つき転写行の数が食い違う(CSV ${sigmaCsv.length} ≠ JSON ${(t.sigmaRowList || []).length})`);
+    else for (const r of (t.sigmaRowList || []))
+      if (!sigmaCsv.includes(r.body + '|' + r.quantity + '=' + r.value))
+        bad.push(`②σ つき転写行が CSV に無い: ${r.body}|${r.quantity}`);
+    if (t.candidateRows !== cand) bad.push(`④候補行の数が食い違う(CSV ${cand} ≠ JSON ${t.candidateRows})`);
+    if (t.derivedRows !== derived) bad.push(`⑤派生行の数が食い違う(CSV ${derived} ≠ JSON ${t.derivedRows})`);
+    const badMark = Object.keys(marks).filter((k) => k !== 'unverified');
+    if (badMark.length) bad.push(`③転写行に unverified 以外の印がある: ${badMark.join(',')}`);
+    if ((t.verifiedByFilled || 0) !== 0)
+      bad.push(`③verified_by が埋まっている転写行がある(${t.verifiedByFilled} 行 —— 埋めるのは原仮定者である)`);
+    const six = (j.missing68 || {}).tally || {};
+    const sum = Object.values(six).reduce((a, b) => a + b, 0);
+    if (sum !== 68) bad.push(`⑥不足表 6 分類の合計が 68 でない(${sum})`);
+  } else bad.push('tests/out/intakeA-w264d.json が無い(node tests/exp-w264d-intakeA.mjs を回すと入る)');
+  const six = j ? ((j.missing68 || {}).tally || {}) : {};
+  const three = j ? ((j.collate || {}).three || {}) : {};
+  add('docs.intakeA-sync', bad.length === 0,
+    `**観測レコード(2026-09-15 intake・2 系統)の転写の会計**(器 tests/exp-w264d-intakeA.mjs): `
+    + `① 転写 ${rowsCsv} 行(CSV と JSON が一致)/ ② 一次資料の 1σ を持つ行 ${sigmaCsv.length} 行 / `
+    + `③ 印はすべて \`unverified\`(**verified は 1 行も増えていない**・\`verified_by\` は空のまま `
+    + `—— 埋めるのは原仮定者の照合である)/ ④ 候補行 ${cand} 行(**既存の鍵と同じ名前の行は 1 行も無い** `
+    + `= 既存の値を 1 バイトも置き換えていない)/ ⑤ 派生行 ${derived} 行(量名は \`…_derived\` で、`
+    + `**門に入る量名ではない**)/ ⑥ 照合 ${JSON.stringify(three)} / 不足表 68 組 ${JSON.stringify(six)}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0a3e) 第264便d(第56報 W4・統括の裁定 X13): version.promote-check ----
+// ----   `tests/release-promote.mjs --check` の **7 項**を QA にする。
+// ----   〔第263便d〕はこの 7 項を「昇格した人が手で回すもの」にしていたが、昇格後の
+// ----   取り残し(SW 接頭辞・lock の版数・CHANGELOG 見出し)は**回し忘れると気づけない**。
+// ----   **root 対象のときだけ**走らせる(`--check` は**昇格直後の root** を見る器である)。
+// ----   **7 項のうち 1 項は informational である**(実測して決めた):
+// ----     `promote.root-equals-beta`(root と beta の本文が一致)は**昇格の直後だけ成り立つ**。
+// ----     beta 線が 1 行でも進めば当然外れるので、**これを gate にすると開発線が進めなくなる**
+// ----     (本便の実測: 本便の beta 変更で root 2928282 字 / beta 2929413 字 = 不一致)。
+// ----     この 1 項は**昇格の瞬間に統括が `--check` を回して見る**のが正本で、QA が機械で
+// ----     見張るのは残り **6 項**(版数同期・root SW・beta SW・CITATION・lock・CHANGELOG 見出し)である。
+// ----     **informational に落とした項も結果はそのまま印字する**(隠さない)。
+// ----   **この QA は版を切らない**(判定するだけで、1 ファイルも書かない)。
+{
+  if (TARGET !== 'index.html') {
+    console.log('SKIP version.promote-check(root 対象でない: ' + TARGET + ' — `--check` は昇格直後の root を見る器)');
+  } else {
+    let outTxt = '', code = 0;
+    try {
+      outTxt = execSync(`node ${JSON.stringify(path.join(ROOT, 'tests', 'release-promote.mjs'))} --check --json`,
+        { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+    } catch (e) { outTxt = String(e.stdout || ''); code = e.status || 1; }
+    let res = [];
+    const m = /\{"mode":"check".*\}/.exec(outTxt);
+    if (m) { try { res = JSON.parse(m[0]).res || []; } catch { res = []; } }
+    // **昇格直後だけ成り立つ項**(gate にしない・結果は印字する)
+    const INFORMATIONAL = ['promote.root-equals-beta'];
+    const gated = res.filter((r) => !INFORMATIONAL.includes(r.id));
+    const info = res.filter((r) => INFORMATIONAL.includes(r.id));
+    const bad = [];
+    if (res.length !== 7) bad.push(`--check の項目数が 7 でない(${res.length})`);
+    if (gated.length !== 6) bad.push(`gate に掛ける項目が 6 でない(${gated.length})`);
+    for (const f of gated.filter((r) => !r.pass)) bad.push(`${f.id}: ${f.msg}`);
+    add('version.promote-check', bad.length === 0,
+      `**昇格手順の 7 項**(tests/release-promote.mjs --check・root 対象のみ・**1 ファイルも書かない**): `
+      + `gate ${gated.filter((r) => r.pass).length}/${gated.length} —— `
+      + gated.map((r) => `${r.pass ? '○' : '×'}${r.id.replace(/^promote\./, '')}`).join(' ')
+      + ` / **informational ${info.length} 項**(昇格直後だけ成り立つので gate にしない): `
+      + info.map((r) => `${r.pass ? '○' : '×'}${r.id.replace(/^promote\./, '')}`).join(' ')
+      + (info.length && !info[0].pass ? `(${String(info[0].msg).slice(0, 90)})` : '')
+      + ` / 器の終了コード ${code}(**informational の項が落ちても QA は落とさない**)`
+      + ` —— **「Release した」ではない**(版を切るかどうかは統括の裁定であり、この検査は`
+      + `昇格直後の状態が揃っているかだけを見る)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+  }
 }
 
 // ---- 0a4) 第260便d(第52報 W4): lint.precisionUlp — Float32 の最小刻みと質量丸めの感度 ----
@@ -607,6 +857,8 @@ if (!TARGET.startsWith('beta/')) {
 {
   const CAL_JSON = path.join(ROOT, 'tests', 'out', 'calaudit-w249.json');
   const CAL_CSV = path.join(ROOT, 'paper', 'data', 'solar-observations.csv');
+  // 第264便d(統括の裁定 X6): 印の読み方は器と**同じ 1 本**を使う(読み方が QA と器で違わないように)
+  const SIGMA_MARK = await import('file://' + path.join(ROOT, 'tests', 'lib-w264d-sigmamark.mjs'));
   let ok = false, detail = '';
   try {
     const j = JSON.parse(fs.readFileSync(CAL_JSON, 'utf8'));
@@ -675,7 +927,9 @@ if (!TARGET.startsWith('beta/')) {
             if (!row) bad.push(`⑥${p.id}:CSV 行なし ${src.body}|${src.quantity}`);
             else if (!(row.raw && row.raw.trim() !== '' && Object.is(Number(row.raw), src.sigma)))
               bad.push(`⑥${p.id}:CSV の sigma と不一致 ${src.body}|${src.quantity}`);
-            else if (src.primaryVerified !== /sigma_primary=verified/.test(row.note))
+            // 第264便d(X6): 印の読み方は **3 器と同じ 1 本**(tests/lib-w264d-sigmamark.mjs)で照合する
+            //   —— 旧読み(部分一致)は第251便c の凡例文に引っかかるので使わない。
+            else if (src.primaryVerified !== SIGMA_MARK.isSigmaPrimaryVerified(row.note))
               bad.push(`⑥${p.id}:sigma_primary の印が不一致`);
           }
           if (g.sigma !== undefined && g.sigma !== null && g.sigmaFrom === null)
@@ -692,7 +946,8 @@ if (!TARGET.startsWith('beta/')) {
       const wd = sigCsv.get('PSR J0737-3039 B|periastron_advance');
       if (!wd) bad.push('⑥\':J0737 の ω̇ 行が CSV に無い(第256便d で足したはず)');
       else if (!(Number(wd.raw) > 0)) bad.push('⑥\':J0737 の ω̇ 行の sigma が正の数でない');
-      else if (!/sigma_primary=verified/.test(wd.note)) bad.push('⑥\':J0737 の ω̇ の sigma_primary が verified でない');
+      // 第264便d(X6): 厳密読みでも verified であること(凡例文に引っかかって verified に見えているのではない)
+      else if (!SIGMA_MARK.isSigmaPrimaryVerified(wd.note)) bad.push('⑥\':J0737 の ω̇ の sigma_primary が verified でない');
     }
     // ⑥'' sigma 列が空欄の行からは σ を作らない(空欄=未記録であって 0 ではない)
     for (const [k, v] of sigCsv) {
@@ -15076,6 +15331,91 @@ if (!FAST) {
       + `✨=${r.chipAlpha.join(',')}・宣言なし=${r.chipNone.length} 個・観測結果カードの宣言行 ${r.ocRows}/${r.ocDecl} 行 / `
       + `⑦ 内訳 ${JSON.stringify(r.tally)}(開発上の完了として数える ${r.counted} 件 —— **すべて部分量の実測合格であり、`
       + `「精度向上で合格見込み」は 0 件**)/ ⑧ このチップに赤は無い(赤=否は台帳の 4 値の側)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 第264便d(第56報 W4): behavior.forecastGateMissing — **欠損を 0 と読まない**門(5) ----
+//   〔第262便c〕が `excluded` / `independent.method` / `systematic` の欠落を塞いだのと同じ穴が、
+//   **観測値そのもの**に残っていた: 門(5) は `Number(S.yObs)` で読んでいて、JavaScript の
+//   `Number(null)` も `Number("")` も **0** である。つまり **観測値を宣言し忘れた系列が
+//   「y_obs=0」として判定に入り**、`|y∞−0|+U∞ ≤ 3σ` を偶然通る道が空いていた。
+//   σ も同じ経路で、文字列 `"1"` が σ になっていた(**σ は宣言された数であって字面ではない**)。
+//   固定するのは 5 つ:
+//     ① `yObs: null` / `undefined` / `""` / 文字列 / NaN は **門(5) を通さない**(`yObsDeclared:false`)。
+//     ② `sigma: "1"`(文字列)・`null`・`0`・負は通さない(`sigmaDeclared:false`)。
+//     ③ **合成の合格例(数で宣言)は今までどおり通る**(厳しくしただけで、通る道は塞いでいない)。
+//     ④ 欠損のときも **`verdict` は null**(「合格見込み」を名乗らない)。
+//     ⑤ **診断が残る**(`yObsKind` / `sigmaKind` に何が渡ったかが書いてある)。
+//   **門は厳しくなる方向にしか動かない**(恒久契約 4 項)。
+{
+  // **機能の有無で SKIP する**(root ≡ beta の今は SKIP しないが、次期線で root が古くなると
+  // root には第264便d の厳密化が入っていない —— そのときは検査ではなく SKIP になるのが正しい)。
+  const hasStrict = await page.evaluate(() => {
+    if (!(window.HP && typeof HP.dfmForecastGate === 'function')) return false;
+    const r = HP.dfmForecastGate({ fixed: {}, stages: [], yObs: null, sigma: 1 });
+    return !!(r && r.gates && r.gates.g5 && typeof r.gates.g5.yObsDeclared === 'boolean');
+  });
+  if (!hasStrict) {
+    console.log('SKIP behavior.forecastGateMissing(対象に第264便d の門(5) の厳密化〔yObsDeclared〕なし — root 等)');
+  } else {
+    const bad = [];
+    const r = await page.evaluate(() => {
+      const mk = (over) => Object.assign({
+        fixed: { quantity: '合成量', observationVersion: '合成', unit: '合成単位',
+          timeSystem: '合成', window: '合成窓', extractor: '合成抽出器', f: '固定', refitPerStage: false },
+        stages: [{ h: 0.016, y: 116 }, { h: 0.008, y: 108 }, { h: 0.004, y: 104 }, { h: 0.002, y: 102 }],
+        excluded: { duplicateEvents: 0, nan: 0, incomplete: 0, unwrapFailed: 0, roundingFloor: 0 },
+        yObs: 100, sigma: 1, systematic: 0,
+        independent: { value: 100, method: '別積分法(合成)' },
+      }, over || {});
+      const O = { base: HP.dfmForecastGate(mk()), miss: {} };
+      O.miss.yObsNull = HP.dfmForecastGate(mk({ yObs: null }));
+      O.miss.yObsUndef = HP.dfmForecastGate(mk({ yObs: undefined }));
+      O.miss.yObsEmpty = HP.dfmForecastGate(mk({ yObs: '' }));
+      O.miss.yObsString = HP.dfmForecastGate(mk({ yObs: '100' }));
+      O.miss.yObsNaN = HP.dfmForecastGate(mk({ yObs: NaN }));
+      O.miss.sigmaNull = HP.dfmForecastGate(mk({ sigma: null }));
+      O.miss.sigmaEmpty = HP.dfmForecastGate(mk({ sigma: '' }));
+      O.miss.sigmaString = HP.dfmForecastGate(mk({ sigma: '1' }));
+      O.miss.sigmaZero = HP.dfmForecastGate(mk({ sigma: 0 }));
+      O.miss.sigmaNeg = HP.dfmForecastGate(mk({ sigma: -1 }));
+      // **穴の形をそのまま残す**: 欠損を 0 と読むなら、y∞=100 は 100σ 離れるので通らないが、
+      // y∞ が 0 に近い系列なら通ってしまう。その「通ってしまう形」を否定対照にする。
+      const near0 = { stages: [{ h: 0.016, y: 0.16 }, { h: 0.008, y: 0.08 }, { h: 0.004, y: 0.04 },
+        { h: 0.002, y: 0.02 }], independent: { value: 0, method: '別積分法(合成)' } };
+      O.hole = { withNumber: HP.dfmForecastGate(mk(Object.assign({ yObs: 0 }, near0))),
+        withNull: HP.dfmForecastGate(mk(Object.assign({ yObs: null }, near0))),
+        withEmpty: HP.dfmForecastGate(mk(Object.assign({ yObs: '' }, near0))) };
+      return O;
+    });
+    if (!(r.base.ok === true && r.base.verdict === 'pass-expected-with-precision'))
+      bad.push(`③数で宣言した合成の合格例が通らない(failed=${(r.base.failed || []).join(',')})`);
+    const MISS = Object.keys(r.miss);
+    for (const k of MISS) {
+      const z = r.miss[k];
+      if (!z || z.ok !== false) { bad.push(`①②欠損 ${k} が通ってしまう`); continue; }
+      if ((z.failed || []).indexOf('g5') < 0) bad.push(`①②欠損 ${k} が門(5) で落ちない(${(z.failed || []).join(',')})`);
+      if (z.verdict !== null) bad.push(`④欠損 ${k} に verdict が立っている`);
+      const g5 = z.gates && z.gates.g5;
+      if (!g5 || typeof g5.yObsKind !== 'string' || typeof g5.sigmaKind !== 'string')
+        bad.push(`⑤欠損 ${k} に診断(yObsKind/sigmaKind)が無い`);
+      if (/^yObs/.test(k) && g5 && g5.yObsDeclared !== false) bad.push(`①${k} で yObsDeclared が false でない`);
+      if (/^sigma/.test(k) && g5 && g5.sigmaDeclared !== false) bad.push(`②${k} で sigmaDeclared が false でない`);
+    }
+    // 穴の形: **数の 0 は通る**(0 は宣言である)が、**null と "" は通らない**
+    if (r.hole.withNumber.ok !== true) bad.push('③数の 0 を宣言した系列まで落ちている(厳しくしすぎ)');
+    if (r.hole.withNull.ok !== false) bad.push('①null の yObs が 0 として通ってしまう(穴が塞がっていない)');
+    if (r.hole.withEmpty.ok !== false) bad.push('①空文字の yObs が 0 として通ってしまう(穴が塞がっていない)');
+    add('behavior.forecastGateMissing', bad.length === 0,
+      `**欠損の観測値を 0 と読まない・文字列の σ を受け取らない**(門(5))。`
+      + `① yObs の欠損 5 形(null/undefined/""/文字列/NaN)・② σ の欠損 5 形(null/""/文字列/0/負)`
+      + ` = ${MISS.length} 本がすべて門(5) で落ちる / `
+      + `③ 数で宣言した合成の合格例は通る(ok=${r.base.ok})—— **厳しくしただけで通る道は塞いでいない** / `
+      + `**穴の形**: y∞≈0 の系列で yObs を数の 0 にすると ok=${r.hole.withNumber.ok}・`
+      + `null にすると ok=${r.hole.withNull.ok}(診断 yObsKind=${(r.hole.withNull.gates.g5 || {}).yObsKind})・`
+      + `"" にすると ok=${r.hole.withEmpty.ok}(${(r.hole.withEmpty.gates.g5 || {}).yObsKind})`
+      + ` —— **第263便までは null も "" も 0 と読まれて通っていた** / `
+      + `④ 欠損時の verdict は null(「合格見込み」を名乗らない)・⑤ 何が渡ったかを診断に残す`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }

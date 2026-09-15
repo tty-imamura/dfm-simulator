@@ -1,0 +1,109 @@
+# 第264便d(第56報 W4・統括の裁定 X13): **夜間/手動ジョブ**。
+#
+# 何のためか: 〔第261便d〕〔第262便d〕〔第263便d〕が作った 2 つの器
+#   ・`tests/ci-frozen-baseline.sh` … 凍結基準 html を部分 clone で 1 ファイルだけ取り出す
+#   ・`tests/ci-pages-collate.sh`   … GitHub Pages が**配っている** HTML と git の HTML を SHA-256 照合
+# は、どちらも「**夜間/手動ジョブの候補であって PR ゲートには入れない**」と script 自身に書いてある。
+# 本 yaml はその候補をそのまま形にしたものである。**`.github/workflows/ci.yml` は 1 文字も変えていない**
+# (PR ごとの赤は再現できる原因だけに使う、という取り決めを守る)。
+#
+# 判定の取り決め(**取得失敗を合格に置き換えない**):
+#   ・**取得できなかった**(ネットワーク・CDN・Pages の反映待ち)… `informational`。ジョブは緑のまま。
+#     「取れなかった」ことを「一致した」とは書かない。
+#   ・**取得できて不一致だった** … **FAIL**。配信物と git が食い違っているのは再現できる事実である。
+#   ・凍結基準 html の取り出し(`ci-frozen-baseline.sh`)は **informational** のまま。
+#     取れたときだけ perf の A/B (b) 系統が `frozen-file` 基準になる(`root-fallback` は凍結扱いしない)。
+#
+# **書かないこと**: 「Release した」「配信を検証したので昇格してよい」。本ジョブが見るのは
+# **配られている HTML の同一性**だけで、較正にも判定にも 1 bit も触らない。
+name: Nightly collate
+
+on:
+  schedule:
+    # 毎日 18:00 UTC(= 翌 03:00 JST)。PR ゲートとは別枠で回す。
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+    inputs:
+      frozenSha:
+        description: '凍結基準の SHA(既定は v1.44.0 昇格コミット 99286dc)'
+        required: false
+        default: '99286dc'
+
+permissions:
+  contents: read
+
+jobs:
+  pages-collate:
+    name: Pages の配信物と git の照合(取得失敗は informational)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          fetch-depth: 50   # --scan で直近コミットを総当たりするため(PR ゲートではないので許容)
+      - name: root(index.html)の配信物を照合
+        id: collate-root
+        run: |
+          set -o pipefail
+          tests/ci-pages-collate.sh --path index.html --scan 20 | tee root.json
+          echo "exit=$?" >> "$GITHUB_OUTPUT"
+        continue-on-error: true
+      - name: beta(beta/index.html)の配信物を照合
+        id: collate-beta
+        run: |
+          set -o pipefail
+          tests/ci-pages-collate.sh --path beta/index.html --scan 20 | tee beta.json
+          echo "exit=$?" >> "$GITHUB_OUTPUT"
+        continue-on-error: true
+      - name: 判定(取得できた不一致だけを FAIL にする)
+        run: |
+          fail=0
+          for f in root.json beta.json; do
+            [ -s "$f" ] || { echo "INFO $f は空(器が何も返さなかった — informational)"; continue; }
+            j="$(cat "$f")"
+            case "$j" in
+              *'"judgement":"informational"'*)
+                echo "INFO $f 取得できなかった(informational — **一致に置き換えない**): $j" ;;
+              *'"match":true'*)
+                echo "PASS $f 配信物と git が一致: $j" ;;
+              *'"match":false'*)
+                echo "FAIL $f 配信物と git が不一致(取得できているので再現可能): $j"; fail=1 ;;
+              *) echo "INFO $f 判定できない形(informational): $j" ;;
+            esac
+          done
+          exit $fail
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        if: always()
+        with:
+          name: pages-collate
+          path: |
+            root.json
+            beta.json
+
+  frozen-baseline:
+    name: 凍結基準 html の部分 clone(informational)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: 24
+      - name: 凍結基準 html を取り出す(失敗しても続ける)
+        id: frozen
+        run: |
+          tests/ci-frozen-baseline.sh "${{ github.event.inputs.frozenSha || '99286dc' }}" tests/perf-baseline/index.html | tee frozen.json
+        continue-on-error: true
+      - name: Install Playwright
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: A/B JIT probe だけを回す(perf の通しは回さない)
+        run: PERF_ABJIT_ONLY=1 node tests/perf.mjs
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        if: always()
+        with:
+          name: nightly-abjit
+          path: |
+            frozen.json
+            tests/out/perf-abjit-only.json

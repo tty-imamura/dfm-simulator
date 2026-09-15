@@ -21,6 +21,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+// 第264便d(第56報 W4・統括の裁定 X6): ⑤′ が測って残した印の読み違いを本便で直した。
+// 3 器が **同じ 1 本**(tests/lib-w264d-sigmamark.mjs)を読む。
+import { readSigmaMark, isSigmaPrimaryVerified,
+  legacyIsSigmaPrimaryVerified } from './lib-w264d-sigmamark.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'tests', 'out', 'obsintake-w263c.json');
@@ -45,8 +49,10 @@ for (const line of fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-obser
   const sg = (c[8] !== undefined && c[8].trim() !== '') ? Number(c[8]) : null;
   CSV_ROWS.push({ body: c[0], quantity: c[1], value: Number(c[2]), raw: c[2], unit: c[3], source: c[4],
     note: c[7] || '', sigma: (Number.isFinite(sg) && sg > 0) ? sg : null,
-    verified: /sigma_primary=verified/.test(c[7] || ''),
+    verified: isSigmaPrimaryVerified(c[7] || ''),
+    verifiedLegacy: legacyIsSigmaPrimaryVerified(c[7] || ''),
     intakeRow: /intake_row=2026-09-14/.test(c[7] || ''),
+    intakeRow15: /intake_row=2026-09-15/.test(c[7] || ''),
     sigmaAtIntake: /sigma transcribed at the 2026-09-14 intake/.test(c[7] || ''),
     solution: (/solution=([A-Za-z0-9-]+)/.exec(c[7] || '') || [, null])[1] });
 }
@@ -192,9 +198,12 @@ const markMismatch = (() => {
   const rows = [];
   for (const r of CSV_ROWS) {
     if (r.sigma === null) continue;
-    const first = (/sigma_primary=(\w+)/.exec(r.note) || [, null])[1];
-    if (first === 'unverified' && r.verified) rows.push({ body: r.body, quantity: r.quantity,
-      firstMark: first, readAs: 'verified', tier: tierOf(r.body) });
+    // **第264便d(X6)で直した**。ここは「旧読み(部分一致)と厳密読みの差」を数え続ける欄になった
+    // —— 直したことを数で残すためで、直っていることの確認にもなる(rows が 0 なら旧読みと同じ)。
+    const strict = readSigmaMark(r.note);
+    if (r.verifiedLegacy && !strict.verified) rows.push({ body: r.body, quantity: r.quantity,
+      firstMark: strict.mark, legacyReadAs: 'verified', strictReadAs: strict.mark || '(印なし)',
+      legendOccurrences: strict.legend.length, tier: tierOf(r.body) });
   }
   // そのうち、門の σ として実際に使われている宛先はどれか
   const connected = new Set();
@@ -205,10 +214,10 @@ const markMismatch = (() => {
   return { n: rows.length, rows: rows.map((z) => Object.assign(z,
     { connectedToGate: connected.has(z.body + '|' + z.quantity) })),
     nConnected: rows.filter((z) => connected.has(z.body + '|' + z.quantity)).length,
-    note: '**印は行の note の部分一致で読まれている**。第251便c の説明文が `sigma_primary=verified` の語を'
-      + '含むため、説明文つきの行は自身の印が unverified でも verified と読まれる。'
-      + '**本便では直していない**(読み方を変えると門の σ の出所が動くので、統括の裁定事項として出す)。',
-    doNotWrite: ['この行は verified である', '印は正しく読まれている'] };
+    note: '**第264便d(統括の裁定 X6)で直した**。印は `tests/lib-w264d-sigmamark.mjs` の厳密読み'
+      + '(語境界 + 第251便c の凡例文〔`sigma_primary=… means …`〕を除外 + 先頭一致)で読む。'
+      + 'ここに残るのは「旧読み(部分一致)なら verified と読まれた行」で、**厳密読みでは verified ではない**。',
+    doNotWrite: ['この行は verified である', '印を verified へ上げた', '照合が済んだ'] };
 })();
 
 // ---------------------------------------------------------------- ⑤ 判定に足りないもの
@@ -276,7 +285,7 @@ for (const s of solutions) {
 }
 console.log('  解どうしの隔たり: ' + solutionSpread.map((z) => z.quantity.slice(0, 12) + ' ' + z.a.slice(0, 12)
   + '↔' + z.b.slice(0, 14) + ' ' + (z.nSigmaA === null ? '—' : z.nSigmaA.toExponential(2) + 'σ')).join(' / '));
-console.log('  sigma_primary の印が部分一致で verified と読まれる行: ' + markMismatch.n
+console.log('  旧読み(部分一致)なら verified・厳密読みでは verified でない行: ' + markMismatch.n
   + ' 行(うち門へ繋がっている ' + markMismatch.nConnected + ' 行): '
   + markMismatch.rows.map((z) => z.body + '|' + z.quantity).join(' , '));
 console.log('  判定に足りないもの(天体×量): ' + missingA.n + ' 組 ' + JSON.stringify(missingA.byCut));

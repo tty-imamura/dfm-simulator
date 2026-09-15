@@ -7,7 +7,12 @@
 # 本スクリプトは `git clone --filter=blob:none --no-checkout` + `git show <凍結SHA>:beta/index.html` で
 # **凍結した 1 ファイルだけ**を取り出し、**所要時間と取得量**を測る。
 #
-# **CI の yaml は本便でも 1 文字も変えていない**(〔第261便d〕⑤ と同じ —— 第262便d でも足していない)。
+# **PR ゲートの yaml(`.github/workflows/ci.yml`)は 1 文字も変えていない**(〔第261便d〕⑤ の約束)。
+# 第264便d(第56報 W4・統括の裁定 X13): **夜間/手動 yaml `.github/workflows/nightly.yml` からだけ呼ぶ**
+# ようにした(schedule + workflow_dispatch)。凍結参照の既定は **99286dc(タグ v1.44.0・v1.44 検証版の
+# 昇格コミット)**で、取り出した html の sha256 は root `index.html` と同じ
+# f68b9cb87ef233184938b4e049432651b93296da6ff6be058f888126dccc99ad である
+# (**それでも root-fallback を凍結扱いにはしない** —— root は次の昇格で動く)。
 #
 # 第262便d(第54報 W4・統括が設定した検証仮説 (8))の位置づけ:
 #   **これは「夜間/手動ジョブの候補」であって、PR ゲートに入れるものではない。**
@@ -18,15 +23,15 @@
 #     root-fallback の行は `judgement:"informational"` のままで、**fail を増やさない**
 #     (perf.mjs の `ABJIT_ROOT_FALLBACK_IS_FROZEN=false`)。
 #     **取得失敗を合格に置き換えない**というのがこの取り決めの要点である。
-#   ・想定する呼び出し方(**yaml には入れていない** —— 次便の裁定):
+#   ・呼び出し方(**第264便d で `.github/workflows/nightly.yml` に入れた** —— PR ゲートには入れない):
 #       schedule(夜間)または workflow_dispatch(手動)で
 #         tests/ci-frozen-baseline.sh <凍結SHA> tests/perf-baseline/index.html
 #         PERF_ABJIT_ONLY=1 node tests/perf.mjs
-#       取得が失敗しても**ジョブは続ける**(continue-on-error 相当)。
+#       取得が失敗しても**ジョブは続ける**(continue-on-error)。
 #
 # 使い方:
 #   tests/ci-frozen-baseline.sh <凍結SHA> [出力パス] [リポジトリURL]
-#   例) tests/ci-frozen-baseline.sh 09899d2 tests/perf-baseline/index.html
+#   例) tests/ci-frozen-baseline.sh 99286dc tests/perf-baseline/index.html   # 第264便d の凍結参照
 # 環境変数:
 #   FROZEN_SRC … clone 元(既定 origin の URL。ローカルの .git を指せばネットワーク無しでも測れる)
 #   KEEP_TMP=1 … 作業ディレクトリを消さない

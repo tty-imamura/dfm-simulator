@@ -1,0 +1,3650 @@
+{
+ "when": "2026-09-15T19:21:07.592Z",
+ "wave": "第264便d(第56報 W4)",
+ "intake": {
+  "date": "2026-09-15",
+  "streams": 2,
+  "provenance": "原仮定者が提供した観測レコード(2026-09-15 intake)。一次資料は各行の source/url にある。",
+  "rule": [
+   "既存の行の値は 1 バイトも置き換えない(既存の鍵は `<量>_candidate` の候補行で併置する)",
+   "sigma 列に入れるのは**一次資料に印字された 1σ** だけ(単位換算は可・伝播した σ は note へ)",
+   "`sigma_primary=unverified; intake 2026-09-15`(原仮定者が一次資料を確認したら verified へ)",
+   "定義の違う量は量名を変える(`apsidal_period` / `anomalistic_period` / `periastron_advance_with_precession` / `mean_motion`)",
+   "判定量への換算は `derived_from=` と換算式つきの**派生行**でだけ行い、量名も別にする(`periastron_advance_derived` —— **門に入る量名にはしない**)",
+   "プリセット・builder・本体 JSON は変えない(署名不変)"
+  ]
+ },
+ "collate": {
+  "keys": 106,
+  "tally": {
+   "partial": 14,
+   "only-1": 18,
+   "agree": 34,
+   "agree-rounding": 5,
+   "conflict": 7,
+   "agree-both-empty": 11,
+   "conflict-one-empty": 9,
+   "only-2": 8
+  },
+  "three": {
+   "食い違い": 30,
+   "片方のみ": 26,
+   "一致": 50
+  },
+  "rows": [
+   {
+    "key": "Moon|orbital_period",
+    "body": "Moon",
+    "cls": "partial",
+    "three": "食い違い",
+    "rows": 3,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "2360620.8",
+     "2360594.88",
+     "2360591.559"
+    ]
+   },
+   {
+    "key": "Moon|anomalistic_period",
+    "body": "Moon",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "2380713.111"
+    ]
+   },
+   {
+    "key": "Moon|eccentricity",
+    "body": "Moon",
+    "cls": "partial",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.0554",
+     "0.0549"
+    ]
+   },
+   {
+    "key": "Moon|apsidal_period",
+    "body": "Moon",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "5.997"
+    ]
+   },
+   {
+    "key": "Moon|periastron_advance_with_precession",
+    "body": "Moon",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "40.690137"
+    ]
+   },
+   {
+    "key": "Moon|general_precession",
+    "body": "Moon",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 1,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "0.013969"
+    ]
+   },
+   {
+    "key": "Mercury|orbital_period",
+    "body": "Mercury",
+    "cls": "partial",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "7600521.6",
+     "7600543.72"
+    ]
+   },
+   {
+    "key": "Mercury|eccentricity",
+    "body": "Mercury",
+    "cls": "partial",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.20563593",
+     "0.20563069"
+    ]
+   },
+   {
+    "key": "Mercury|periastron_advance",
+    "body": "Mercury",
+    "cls": "partial",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 1,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.00159808333333333",
+     "0.0016047689"
+    ]
+   },
+   {
+    "key": "Mercury|periastron_advance_gr",
+    "body": "Mercury",
+    "cls": "agree-rounding",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 1,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.000119388611111111"
+    ]
+   },
+   {
+    "key": "Mercury|periastron_advance_j2",
+    "body": "Mercury",
+    "cls": "agree-rounding",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 1,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.0000000794444444444444"
+    ]
+   },
+   {
+    "key": "Mercury|periastron_advance_perturb",
+    "body": "Mercury",
+    "cls": "agree-rounding",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.00147862083333333"
+    ]
+   },
+   {
+    "key": "Venus|orbital_period",
+    "body": "Venus",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "19414166.4"
+    ]
+   },
+   {
+    "key": "Venus|eccentricity",
+    "body": "Venus",
+    "cls": "partial",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.007",
+     "0.00677672"
+    ]
+   },
+   {
+    "key": "Venus|periastron_advance",
+    "body": "Venus",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.0000268329"
+    ]
+   },
+   {
+    "key": "Earth|orbital_period",
+    "body": "Earth",
+    "cls": "conflict",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "31558149.7635456",
+     "31558118.4"
+    ]
+   },
+   {
+    "key": "Earth|eccentricity",
+    "body": "Earth",
+    "cls": "conflict",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.01671123",
+     "0.01671022"
+    ]
+   },
+   {
+    "key": "Earth|periastron_advance",
+    "body": "Earth",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.0032327364"
+    ]
+   },
+   {
+    "key": "Mars|orbital_period",
+    "body": "Mars",
+    "cls": "partial",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "59355072.0",
+     "59354294.4"
+    ]
+   },
+   {
+    "key": "Mars|eccentricity",
+    "body": "Mars",
+    "cls": "conflict",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.09339410",
+     "0.09341233"
+    ]
+   },
+   {
+    "key": "Mars|periastron_advance",
+    "body": "Mars",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.0044441088"
+    ]
+   },
+   {
+    "key": "Io|orbital_period",
+    "body": "Io",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "152300.0448"
+    ]
+   },
+   {
+    "key": "Io|eccentricity",
+    "body": "Io",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.004"
+    ]
+   },
+   {
+    "key": "Io|periastron_advance",
+    "body": "Io",
+    "cls": "agree-both-empty",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     ""
+    ]
+   },
+   {
+    "key": "Io|apsidal_period",
+    "body": "Io",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "1.333"
+    ]
+   },
+   {
+    "key": "Europa|orbital_period",
+    "body": "Europa",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "304600.0032"
+    ]
+   },
+   {
+    "key": "Europa|eccentricity",
+    "body": "Europa",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.009"
+    ]
+   },
+   {
+    "key": "Europa|periastron_advance",
+    "body": "Europa",
+    "cls": "agree-both-empty",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     ""
+    ]
+   },
+   {
+    "key": "Europa|apsidal_period",
+    "body": "Europa",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "1.394"
+    ]
+   },
+   {
+    "key": "Europa|node_period",
+    "body": "Europa",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "30.202"
+    ]
+   },
+   {
+    "key": "Ganymede|orbital_period",
+    "body": "Ganymede",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "618242.8032"
+    ]
+   },
+   {
+    "key": "Ganymede|eccentricity",
+    "body": "Ganymede",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.001"
+    ]
+   },
+   {
+    "key": "Ganymede|periastron_advance",
+    "body": "Ganymede",
+    "cls": "agree-both-empty",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     ""
+    ]
+   },
+   {
+    "key": "Ganymede|apsidal_period",
+    "body": "Ganymede",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "68.301"
+    ]
+   },
+   {
+    "key": "Ganymede|node_period",
+    "body": "Ganymede",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "137.812"
+    ]
+   },
+   {
+    "key": "Callisto|orbital_period",
+    "body": "Callisto",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "1442054.0160"
+    ]
+   },
+   {
+    "key": "Callisto|eccentricity",
+    "body": "Callisto",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.007"
+    ]
+   },
+   {
+    "key": "Callisto|periastron_advance",
+    "body": "Callisto",
+    "cls": "agree-both-empty",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     ""
+    ]
+   },
+   {
+    "key": "Callisto|apsidal_period",
+    "body": "Callisto",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "277.921"
+    ]
+   },
+   {
+    "key": "Callisto|node_period",
+    "body": "Callisto",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "577.264"
+    ]
+   },
+   {
+    "key": "Mimas|orbital_period",
+    "body": "Mimas",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "81425.2608"
+    ]
+   },
+   {
+    "key": "Mimas|eccentricity",
+    "body": "Mimas",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.020"
+    ]
+   },
+   {
+    "key": "Mimas|periastron_advance",
+    "body": "Mimas",
+    "cls": "agree-both-empty",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     ""
+    ]
+   },
+   {
+    "key": "Mimas|apsidal_period",
+    "body": "Mimas",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.493"
+    ]
+   },
+   {
+    "key": "Titan|orbital_period",
+    "body": "Titan",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "1377686.7072"
+    ]
+   },
+   {
+    "key": "Titan|eccentricity",
+    "body": "Titan",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.029"
+    ]
+   },
+   {
+    "key": "Titan|periastron_advance",
+    "body": "Titan",
+    "cls": "agree-both-empty",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     ""
+    ]
+   },
+   {
+    "key": "Titan|apsidal_period",
+    "body": "Titan",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "346.680"
+    ]
+   },
+   {
+    "key": "Saturn ring C inner edge|orbital_period",
+    "body": "Saturn ring C inner edge",
+    "cls": "agree-both-empty",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     ""
+    ]
+   },
+   {
+    "key": "Saturn ring C inner edge|radius",
+    "body": "Saturn ring C inner edge",
+    "cls": "conflict",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "74658",
+     "74490"
+    ]
+   },
+   {
+    "key": "Saturn ring C inner edge|eccentricity",
+    "body": "Saturn ring C inner edge",
+    "cls": "agree-both-empty",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     ""
+    ]
+   },
+   {
+    "key": "Saturn ring C inner edge|periastron_advance",
+    "body": "Saturn ring C inner edge",
+    "cls": "agree-both-empty",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     ""
+    ]
+   },
+   {
+    "key": "Saturn ring C inner edge|mean_motion",
+    "body": "Saturn ring C inner edge",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     ""
+    ]
+   },
+   {
+    "key": "Titan ringlet|semi_major_axis",
+    "body": "Titan ringlet",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 1,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "77878.7"
+    ]
+   },
+   {
+    "key": "Titan ringlet|mean_motion",
+    "body": "Titan ringlet",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 1,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "22.5753"
+    ]
+   },
+   {
+    "key": "Saturn ring feature D68|orbital_period",
+    "body": "Saturn ring feature D68",
+    "cls": "conflict-one-empty",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "17757.4789",
+     ""
+    ]
+   },
+   {
+    "key": "Saturn ring feature D68|mean_motion",
+    "body": "Saturn ring feature D68",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "1751.6"
+    ]
+   },
+   {
+    "key": "Saturn ring feature D68|eccentricity",
+    "body": "Saturn ring feature D68",
+    "cls": "agree-both-empty",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     ""
+    ]
+   },
+   {
+    "key": "Saturn ring feature D68|radial_amplitude_ae",
+    "body": "Saturn ring feature D68",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 1,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "25"
+    ]
+   },
+   {
+    "key": "Saturn ring feature D68|semi_major_axis",
+    "body": "Saturn ring feature D68",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "67627"
+    ]
+   },
+   {
+    "key": "Saturn ring feature D68|periastron_advance",
+    "body": "Saturn ring feature D68",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 1,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "13968.25575"
+    ]
+   },
+   {
+    "key": "Phobos|orbital_period",
+    "body": "Phobos",
+    "cls": "conflict",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "27553.843872",
+     "27553.824"
+    ]
+   },
+   {
+    "key": "Phobos|eccentricity",
+    "body": "Phobos",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.0151"
+    ]
+   },
+   {
+    "key": "Phobos|periastron_advance",
+    "body": "Phobos",
+    "cls": "conflict-one-empty",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "158.9568",
+     ""
+    ]
+   },
+   {
+    "key": "Phobos|mean_motion",
+    "body": "Phobos",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "1128.844409"
+    ]
+   },
+   {
+    "key": "Deimos|orbital_period",
+    "body": "Deimos",
+    "cls": "conflict",
+    "three": "食い違い",
+    "rows": 3,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "109123.2",
+     "109092.79",
+     "109114.816"
+    ]
+   },
+   {
+    "key": "Deimos|eccentricity",
+    "body": "Deimos",
+    "cls": "conflict",
+    "three": "食い違い",
+    "rows": 3,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.00033",
+     "0.00024",
+     "0.0005"
+    ]
+   },
+   {
+    "key": "Deimos|periastron_advance",
+    "body": "Deimos",
+    "cls": "conflict-one-empty",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "6.537975",
+     ""
+    ]
+   },
+   {
+    "key": "Charon|orbital_period",
+    "body": "Charon",
+    "cls": "partial",
+    "three": "食い違い",
+    "rows": 3,
+    "sigmaRows": 2,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "551854.08",
+     "551856.43872",
+     "551856.70656"
+    ]
+   },
+   {
+    "key": "Charon|eccentricity",
+    "body": "Charon",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.0"
+    ]
+   },
+   {
+    "key": "Charon|periastron_advance",
+    "body": "Charon",
+    "cls": "agree-both-empty",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     ""
+    ]
+   },
+   {
+    "key": "Charon|mean_motion",
+    "body": "Charon",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "56.362522"
+    ]
+   },
+   {
+    "key": "Miranda|orbital_period",
+    "body": "Miranda",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "122124.5856"
+    ]
+   },
+   {
+    "key": "Miranda|eccentricity",
+    "body": "Miranda",
+    "cls": "partial",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.0013",
+     "0.00135"
+    ]
+   },
+   {
+    "key": "Miranda|periastron_advance",
+    "body": "Miranda",
+    "cls": "conflict-one-empty",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "20.0409",
+     ""
+    ]
+   },
+   {
+    "key": "Miranda|mean_motion",
+    "body": "Miranda",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "254.6906573"
+    ]
+   },
+   {
+    "key": "Ariel|orbital_period",
+    "body": "Ariel",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "217760.7456"
+    ]
+   },
+   {
+    "key": "Ariel|eccentricity",
+    "body": "Ariel",
+    "cls": "partial",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.0012",
+     "0.00122"
+    ]
+   },
+   {
+    "key": "Ariel|periastron_advance",
+    "body": "Ariel",
+    "cls": "conflict-one-empty",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "6.2308",
+     ""
+    ]
+   },
+   {
+    "key": "Ariel|mean_motion",
+    "body": "Ariel",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "142.8356506"
+    ]
+   },
+   {
+    "key": "Umbriel|orbital_period",
+    "body": "Umbriel",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "358056.8064"
+    ]
+   },
+   {
+    "key": "Umbriel|eccentricity",
+    "body": "Umbriel",
+    "cls": "partial",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.0039",
+     "0.00394"
+    ]
+   },
+   {
+    "key": "Umbriel|periastron_advance",
+    "body": "Umbriel",
+    "cls": "conflict-one-empty",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "2.8428",
+     ""
+    ]
+   },
+   {
+    "key": "Umbriel|mean_motion",
+    "body": "Umbriel",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "86.8688753"
+    ]
+   },
+   {
+    "key": "Titania|orbital_period",
+    "body": "Titania",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "752186.9088"
+    ]
+   },
+   {
+    "key": "Titania|eccentricity",
+    "body": "Titania",
+    "cls": "partial",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.0011",
+     "0.00123"
+    ]
+   },
+   {
+    "key": "Titania|periastron_advance",
+    "body": "Titania",
+    "cls": "conflict-one-empty",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.9993",
+     ""
+    ]
+   },
+   {
+    "key": "Titania|mean_motion",
+    "body": "Titania",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "41.3514187"
+    ]
+   },
+   {
+    "key": "Oberon|orbital_period",
+    "body": "Oberon",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "1163223.4176"
+    ]
+   },
+   {
+    "key": "Oberon|eccentricity",
+    "body": "Oberon",
+    "cls": "agree",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.0014"
+    ]
+   },
+   {
+    "key": "Oberon|periastron_advance",
+    "body": "Oberon",
+    "cls": "conflict-one-empty",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.2680",
+     ""
+    ]
+   },
+   {
+    "key": "Oberon|mean_motion",
+    "body": "Oberon",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "26.7394835"
+    ]
+   },
+   {
+    "key": "Miranda|rotation_period",
+    "body": "Miranda",
+    "cls": "agree-rounding",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "122124.605723514"
+    ]
+   },
+   {
+    "key": "Triton|orbital_period",
+    "body": "Triton",
+    "cls": "partial",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "507760.1856",
+     "507772.2816"
+    ]
+   },
+   {
+    "key": "Triton|eccentricity",
+    "body": "Triton",
+    "cls": "partial",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.000016",
+     "0.00001"
+    ]
+   },
+   {
+    "key": "Triton|periastron_advance",
+    "body": "Triton",
+    "cls": "conflict-one-empty",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.4081",
+     ""
+    ]
+   },
+   {
+    "key": "Triton|mean_motion",
+    "body": "Triton",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "61.2572638"
+    ]
+   },
+   {
+    "key": "Triton|rotation_period",
+    "body": "Triton",
+    "cls": "agree-rounding",
+    "three": "一致",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "507760.192363930"
+    ]
+   },
+   {
+    "key": "Moon|periastron_advance",
+    "body": "Moon",
+    "cls": "only-2",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     ""
+    ]
+   },
+   {
+    "key": "Saturn ring feature D68|radius",
+    "body": "Saturn ring feature D68",
+    "cls": "only-2",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     "67627"
+    ]
+   },
+   {
+    "key": "Phobos|apsidal_period",
+    "body": "Phobos",
+    "cls": "only-2",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     "1.1"
+    ]
+   },
+   {
+    "key": "Miranda|apsidal_period",
+    "body": "Miranda",
+    "cls": "only-2",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     "8.939"
+    ]
+   },
+   {
+    "key": "Ariel|apsidal_period",
+    "body": "Ariel",
+    "cls": "only-2",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     "28.901"
+    ]
+   },
+   {
+    "key": "Umbriel|apsidal_period",
+    "body": "Umbriel",
+    "cls": "only-2",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     "64.126"
+    ]
+   },
+   {
+    "key": "Titania|apsidal_period",
+    "body": "Titania",
+    "cls": "only-2",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     "579.928"
+    ]
+   },
+   {
+    "key": "Oberon|apsidal_period",
+    "body": "Oberon",
+    "cls": "only-2",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     "158.604"
+    ]
+   }
+  ]
+ },
+ "recheck": {
+  "on": false,
+  "note": "`--rec <記録1> --rec <記録2>` を渡すと、記録の側からも鍵を数えて CSV と突き合わせる。既定は**正本の CSV だけ**を読む(再現に外部ファイルを要らなくするため)。"
+ },
+ "missing68": {
+  "base": 68,
+  "sixClasses": [
+   "σ つきで埋まった",
+   "埋まった(σ なし)",
+   "定義違い",
+   "定義不能",
+   "代替",
+   "未取得"
+  ],
+  "tally": {
+   "σ つきで埋まった": 3,
+   "埋まった(σ なし)": 53,
+   "定義違い": 8,
+   "定義不能": 1,
+   "代替": 3,
+   "未取得": 0
+  },
+  "byCut": {
+   "csv-body-missing": {
+    "埋まった(σ なし)": 20,
+    "定義違い": 8,
+    "σ つきで埋まった": 2,
+    "代替": 3
+   },
+   "csv-quantity-missing": {
+    "埋まった(σ なし)": 12,
+    "定義不能": 1
+   },
+   "csv-sigma-empty": {
+    "埋まった(σ なし)": 21,
+    "σ つきで埋まった": 1
+   }
+  },
+  "rows": [
+   {
+    "key": "月|orbital_period",
+    "body": "Moon",
+    "quantity": "orbital_period",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "period",
+    "target": "月",
+    "presets": "🌙🌘🧲🔆",
+    "nQuantities": 6,
+    "obsPresent": 6,
+    "klass": "埋まった(σ なし)",
+    "nRows": 3,
+    "nWithValue": 3,
+    "nWithSigma": 0,
+    "nDefDiff": 2,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": {
+     "scale": 29.241,
+     "kind": "spread"
+    },
+    "defDiffQuantities": [
+     "anomalistic_period",
+     "apsidal_period"
+    ]
+   },
+   {
+    "key": "月|periastron_advance",
+    "body": "Moon",
+    "quantity": "periastron_advance",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "precession",
+    "target": "月",
+    "presets": "🌙🌘🧲🔆",
+    "nQuantities": 5,
+    "obsPresent": 3,
+    "klass": "定義違い",
+    "nRows": 1,
+    "nWithValue": 0,
+    "nWithSigma": 0,
+    "nDefDiff": 5,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "apsidal_period",
+     "periastron_advance_with_precession",
+     "general_precession",
+     "periastron_advance_derived"
+    ]
+   },
+   {
+    "key": "月|eccentricity",
+    "body": "Moon",
+    "quantity": "eccentricity",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "ecc",
+    "target": "月",
+    "presets": "🌙🌘🧲🔆",
+    "nQuantities": 4,
+    "obsPresent": 2,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 2,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": {
+     "scale": 0.0005,
+     "kind": "spread"
+    },
+    "defDiffQuantities": []
+   },
+   {
+    "key": "水星|orbital_period",
+    "body": "Mercury",
+    "quantity": "orbital_period",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "period",
+    "target": "水星",
+    "presets": "☄️🪨🌞",
+    "nQuantities": 3,
+    "obsPresent": 2,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 2,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": {
+     "scale": 22.12,
+     "kind": "spread"
+    },
+    "defDiffQuantities": []
+   },
+   {
+    "key": "水星|periastron_advance",
+    "body": "Mercury",
+    "quantity": "periastron_advance",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "precession",
+    "target": "水星",
+    "presets": "☄️🪨🌞",
+    "nQuantities": 3,
+    "obsPresent": 2,
+    "klass": "σ つきで埋まった",
+    "nRows": 2,
+    "nWithValue": 2,
+    "nWithSigma": 1,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": {
+     "scale": 0.00000668557,
+     "kind": "spread"
+    },
+    "defDiffQuantities": []
+   },
+   {
+    "key": "水星|eccentricity",
+    "body": "Mercury",
+    "quantity": "eccentricity",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "ecc",
+    "target": "水星",
+    "presets": "☄️🪨🌞",
+    "nQuantities": 3,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 2,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": {
+     "scale": 0.00000524,
+     "kind": "spread"
+    },
+    "defDiffQuantities": []
+   },
+   {
+    "key": "イオ|orbital_period",
+    "body": "Io",
+    "quantity": "orbital_period",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "period",
+    "target": "イオ",
+    "presets": "🟠",
+    "nQuantities": 3,
+    "obsPresent": 2,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 1,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "apsidal_period"
+    ]
+   },
+   {
+    "key": "エウロパ|orbital_period",
+    "body": "Europa",
+    "quantity": "orbital_period",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "period",
+    "target": "エウロパ",
+    "presets": "🟠",
+    "nQuantities": 2,
+    "obsPresent": 2,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 1,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "apsidal_period"
+    ]
+   },
+   {
+    "key": "ガニメデ|orbital_period",
+    "body": "Ganymede",
+    "quantity": "orbital_period",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "period",
+    "target": "ガニメデ",
+    "presets": "🟠",
+    "nQuantities": 2,
+    "obsPresent": 2,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 1,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "apsidal_period"
+    ]
+   },
+   {
+    "key": "カリスト|orbital_period",
+    "body": "Callisto",
+    "quantity": "orbital_period",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "period",
+    "target": "カリスト",
+    "presets": "🟠",
+    "nQuantities": 2,
+    "obsPresent": 2,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 1,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "apsidal_period"
+    ]
+   },
+   {
+    "key": "D68|orbital_period",
+    "body": "Saturn ring feature D68",
+    "quantity": "orbital_period",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "period",
+    "target": "D68",
+    "presets": "📡",
+    "nQuantities": 2,
+    "obsPresent": 2,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 1,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "mean_motion"
+    ]
+   },
+   {
+    "key": "C環内縁|orbital_period",
+    "body": "Saturn ring C inner edge",
+    "quantity": "orbital_period",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "period",
+    "target": "C環内縁",
+    "presets": "💍💿",
+    "nQuantities": 2,
+    "obsPresent": 1,
+    "klass": "代替",
+    "nRows": 1,
+    "nWithValue": 0,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 1,
+    "nNotApplicable": 0,
+    "sigmaKinds": [],
+    "infoScale": null,
+    "defDiffQuantities": []
+   },
+   {
+    "key": "タイタン|orbital_period",
+    "body": "Titan",
+    "quantity": "orbital_period",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "period",
+    "target": "タイタン",
+    "presets": "💍💿",
+    "nQuantities": 2,
+    "obsPresent": 1,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 1,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "apsidal_period"
+    ]
+   },
+   {
+    "key": "C環内縁|eccentricity",
+    "body": "Saturn ring C inner edge",
+    "quantity": "eccentricity",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "ecc",
+    "target": "C環内縁",
+    "presets": "💍💿",
+    "nQuantities": 2,
+    "obsPresent": 0,
+    "klass": "代替",
+    "nRows": 1,
+    "nWithValue": 0,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 1,
+    "nNotApplicable": 0,
+    "sigmaKinds": [],
+    "infoScale": null,
+    "defDiffQuantities": []
+   },
+   {
+    "key": "C環内縁|periastron_advance",
+    "body": "Saturn ring C inner edge",
+    "quantity": "periastron_advance",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "precession",
+    "target": "C環内縁",
+    "presets": "💍💿",
+    "nQuantities": 2,
+    "obsPresent": 1,
+    "klass": "代替",
+    "nRows": 1,
+    "nWithValue": 0,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 1,
+    "nNotApplicable": 0,
+    "sigmaKinds": [],
+    "infoScale": null,
+    "defDiffQuantities": []
+   },
+   {
+    "key": "ミマス|orbital_period",
+    "body": "Mimas",
+    "quantity": "orbital_period",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "period",
+    "target": "ミマス",
+    "presets": "💍💿",
+    "nQuantities": 2,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 1,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "apsidal_period"
+    ]
+   },
+   {
+    "key": "ミマス|eccentricity",
+    "body": "Mimas",
+    "quantity": "eccentricity",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "ecc",
+    "target": "ミマス",
+    "presets": "💍💿",
+    "nQuantities": 2,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": []
+   },
+   {
+    "key": "ミマス|periastron_advance",
+    "body": "Mimas",
+    "quantity": "periastron_advance",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "precession",
+    "target": "ミマス",
+    "presets": "💍💿",
+    "nQuantities": 2,
+    "obsPresent": 0,
+    "klass": "定義違い",
+    "nRows": 1,
+    "nWithValue": 0,
+    "nWithSigma": 0,
+    "nDefDiff": 2,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "apsidal_period",
+     "periastron_advance_derived"
+    ]
+   },
+   {
+    "key": "タイタン|eccentricity",
+    "body": "Titan",
+    "quantity": "eccentricity",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "ecc",
+    "target": "タイタン",
+    "presets": "💍💿",
+    "nQuantities": 2,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": []
+   },
+   {
+    "key": "タイタン|periastron_advance",
+    "body": "Titan",
+    "quantity": "periastron_advance",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "precession",
+    "target": "タイタン",
+    "presets": "💍💿",
+    "nQuantities": 2,
+    "obsPresent": 0,
+    "klass": "定義違い",
+    "nRows": 1,
+    "nWithValue": 0,
+    "nWithSigma": 0,
+    "nDefDiff": 2,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "apsidal_period",
+     "periastron_advance_derived"
+    ]
+   },
+   {
+    "key": "地球|orbital_period",
+    "body": "Earth",
+    "quantity": "orbital_period",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "period",
+    "target": "地球",
+    "presets": "🌞",
+    "nQuantities": 1,
+    "obsPresent": 1,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 2,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": {
+     "scale": 31.3635,
+     "kind": "spread"
+    },
+    "defDiffQuantities": []
+   },
+   {
+    "key": "地球|eccentricity",
+    "body": "Earth",
+    "quantity": "eccentricity",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "ecc",
+    "target": "地球",
+    "presets": "🌞",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 2,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": {
+     "scale": 0.00000101,
+     "kind": "spread"
+    },
+    "defDiffQuantities": []
+   },
+   {
+    "key": "地球|periastron_advance",
+    "body": "Earth",
+    "quantity": "periastron_advance",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "precession",
+    "target": "地球",
+    "presets": "🌞",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": []
+   },
+   {
+    "key": "イオ|eccentricity",
+    "body": "Io",
+    "quantity": "eccentricity",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "ecc",
+    "target": "イオ",
+    "presets": "🟠",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": []
+   },
+   {
+    "key": "イオ|periastron_advance",
+    "body": "Io",
+    "quantity": "periastron_advance",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "precession",
+    "target": "イオ",
+    "presets": "🟠",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "定義違い",
+    "nRows": 1,
+    "nWithValue": 0,
+    "nWithSigma": 0,
+    "nDefDiff": 2,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "apsidal_period",
+     "periastron_advance_derived"
+    ]
+   },
+   {
+    "key": "エウロパ|eccentricity",
+    "body": "Europa",
+    "quantity": "eccentricity",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "ecc",
+    "target": "エウロパ",
+    "presets": "🟠",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": []
+   },
+   {
+    "key": "エウロパ|periastron_advance",
+    "body": "Europa",
+    "quantity": "periastron_advance",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "precession",
+    "target": "エウロパ",
+    "presets": "🟠",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "定義違い",
+    "nRows": 1,
+    "nWithValue": 0,
+    "nWithSigma": 0,
+    "nDefDiff": 3,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "apsidal_period",
+     "node_period",
+     "periastron_advance_derived"
+    ]
+   },
+   {
+    "key": "ガニメデ|eccentricity",
+    "body": "Ganymede",
+    "quantity": "eccentricity",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "ecc",
+    "target": "ガニメデ",
+    "presets": "🟠",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": []
+   },
+   {
+    "key": "ガニメデ|periastron_advance",
+    "body": "Ganymede",
+    "quantity": "periastron_advance",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "precession",
+    "target": "ガニメデ",
+    "presets": "🟠",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "定義違い",
+    "nRows": 1,
+    "nWithValue": 0,
+    "nWithSigma": 0,
+    "nDefDiff": 3,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "apsidal_period",
+     "node_period",
+     "periastron_advance_derived"
+    ]
+   },
+   {
+    "key": "カリスト|eccentricity",
+    "body": "Callisto",
+    "quantity": "eccentricity",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "ecc",
+    "target": "カリスト",
+    "presets": "🟠",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": []
+   },
+   {
+    "key": "カリスト|periastron_advance",
+    "body": "Callisto",
+    "quantity": "periastron_advance",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "precession",
+    "target": "カリスト",
+    "presets": "🟠",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "定義違い",
+    "nRows": 1,
+    "nWithValue": 0,
+    "nWithSigma": 0,
+    "nDefDiff": 3,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "apsidal_period",
+     "node_period",
+     "periastron_advance_derived"
+    ]
+   },
+   {
+    "key": "D68|periastron_advance",
+    "body": "Saturn ring feature D68",
+    "quantity": "periastron_advance",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "precession",
+    "target": "D68",
+    "presets": "📡",
+    "nQuantities": 1,
+    "obsPresent": 1,
+    "klass": "σ つきで埋まった",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 1,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [],
+    "infoScale": null,
+    "defDiffQuantities": []
+   },
+   {
+    "key": "D68|eccentricity",
+    "body": "Saturn ring feature D68",
+    "quantity": "eccentricity",
+    "cutAtW263c": "csv-body-missing",
+    "kind": "ecc",
+    "target": "D68",
+    "presets": "📡",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "定義違い",
+    "nRows": 1,
+    "nWithValue": 0,
+    "nWithSigma": 0,
+    "nDefDiff": 1,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "radial_amplitude_ae"
+    ]
+   },
+   {
+    "key": "Venus|periastron_advance",
+    "body": "Venus",
+    "quantity": "periastron_advance",
+    "cutAtW263c": "csv-quantity-missing",
+    "kind": "precession",
+    "target": "金星",
+    "presets": "🌞🌇",
+    "nQuantities": 2,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": []
+   },
+   {
+    "key": "Mars|orbital_period",
+    "body": "Mars",
+    "quantity": "orbital_period",
+    "cutAtW263c": "csv-quantity-missing",
+    "kind": "period",
+    "target": "火星",
+    "presets": "🌞",
+    "nQuantities": 1,
+    "obsPresent": 1,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 2,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": {
+     "scale": 777.6,
+     "kind": "spread"
+    },
+    "defDiffQuantities": []
+   },
+   {
+    "key": "Mars|eccentricity",
+    "body": "Mars",
+    "quantity": "eccentricity",
+    "cutAtW263c": "csv-quantity-missing",
+    "kind": "ecc",
+    "target": "火星",
+    "presets": "🌞",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 2,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": {
+     "scale": 0.00001823,
+     "kind": "spread"
+    },
+    "defDiffQuantities": []
+   },
+   {
+    "key": "Mars|periastron_advance",
+    "body": "Mars",
+    "quantity": "periastron_advance",
+    "cutAtW263c": "csv-quantity-missing",
+    "kind": "precession",
+    "target": "火星",
+    "presets": "🌞",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": []
+   },
+   {
+    "key": "Phobos|periastron_advance",
+    "body": "Phobos",
+    "quantity": "periastron_advance",
+    "cutAtW263c": "csv-quantity-missing",
+    "kind": "precession",
+    "target": "フォボス",
+    "presets": "🥔",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 2,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "apsidal_period",
+     "periastron_advance_derived"
+    ]
+   },
+   {
+    "key": "Deimos|periastron_advance",
+    "body": "Deimos",
+    "quantity": "periastron_advance",
+    "cutAtW263c": "csv-quantity-missing",
+    "kind": "precession",
+    "target": "ダイモス",
+    "presets": "🥔",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": []
+   },
+   {
+    "key": "Charon|periastron_advance",
+    "body": "Charon",
+    "quantity": "periastron_advance",
+    "cutAtW263c": "csv-quantity-missing",
+    "kind": "precession",
+    "target": "カロン",
+    "presets": "❄️",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "定義不能",
+    "nRows": 1,
+    "nWithValue": 0,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 1,
+    "nNotApplicable": 1,
+    "sigmaKinds": [],
+    "infoScale": null,
+    "defDiffQuantities": []
+   },
+   {
+    "key": "Miranda|periastron_advance",
+    "body": "Miranda",
+    "quantity": "periastron_advance",
+    "cutAtW263c": "csv-quantity-missing",
+    "kind": "precession",
+    "target": "ミランダ",
+    "presets": "💠",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 2,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "apsidal_period",
+     "periastron_advance_derived"
+    ]
+   },
+   {
+    "key": "Ariel|periastron_advance",
+    "body": "Ariel",
+    "quantity": "periastron_advance",
+    "cutAtW263c": "csv-quantity-missing",
+    "kind": "precession",
+    "target": "アリエル",
+    "presets": "💠",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 2,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "apsidal_period",
+     "periastron_advance_derived"
+    ]
+   },
+   {
+    "key": "Umbriel|periastron_advance",
+    "body": "Umbriel",
+    "quantity": "periastron_advance",
+    "cutAtW263c": "csv-quantity-missing",
+    "kind": "precession",
+    "target": "ウンブリエル",
+    "presets": "💠",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 2,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "apsidal_period",
+     "periastron_advance_derived"
+    ]
+   },
+   {
+    "key": "Titania|periastron_advance",
+    "body": "Titania",
+    "quantity": "periastron_advance",
+    "cutAtW263c": "csv-quantity-missing",
+    "kind": "precession",
+    "target": "チタニア",
+    "presets": "💠",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 2,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "apsidal_period",
+     "periastron_advance_derived"
+    ]
+   },
+   {
+    "key": "Oberon|periastron_advance",
+    "body": "Oberon",
+    "quantity": "periastron_advance",
+    "cutAtW263c": "csv-quantity-missing",
+    "kind": "precession",
+    "target": "オベロン",
+    "presets": "💠",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 2,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "apsidal_period",
+     "periastron_advance_derived"
+    ]
+   },
+   {
+    "key": "Triton|periastron_advance",
+    "body": "Triton",
+    "quantity": "periastron_advance",
+    "cutAtW263c": "csv-quantity-missing",
+    "kind": "precession",
+    "target": "トリトン",
+    "presets": "🌊",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 1,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": []
+   },
+   {
+    "key": "Venus|orbital_period",
+    "body": "Venus",
+    "quantity": "orbital_period",
+    "cutAtW263c": "csv-sigma-empty",
+    "kind": "period",
+    "target": "金星",
+    "presets": "🌞🌇",
+    "nQuantities": 4,
+    "obsPresent": 3,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": []
+   },
+   {
+    "key": "Charon|orbital_period",
+    "body": "Charon",
+    "quantity": "orbital_period",
+    "cutAtW263c": "csv-sigma-empty",
+    "kind": "period",
+    "target": "カロン",
+    "presets": "❄️",
+    "nQuantities": 3,
+    "obsPresent": 3,
+    "klass": "σ つきで埋まった",
+    "nRows": 3,
+    "nWithValue": 3,
+    "nWithSigma": 2,
+    "nDefDiff": 1,
+    "nProxy": 1,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": {
+     "scale": 2.62656,
+     "kind": "spread"
+    },
+    "defDiffQuantities": [
+     "mean_motion"
+    ]
+   },
+   {
+    "key": "Triton|orbital_period",
+    "body": "Triton",
+    "quantity": "orbital_period",
+    "cutAtW263c": "csv-sigma-empty",
+    "kind": "period",
+    "target": "トリトン",
+    "presets": "🌊",
+    "nQuantities": 3,
+    "obsPresent": 2,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 2,
+    "nWithSigma": 0,
+    "nDefDiff": 1,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": {
+     "scale": 12.096,
+     "kind": "spread"
+    },
+    "defDiffQuantities": [
+     "mean_motion"
+    ]
+   },
+   {
+    "key": "Venus|eccentricity",
+    "body": "Venus",
+    "quantity": "eccentricity",
+    "cutAtW263c": "csv-sigma-empty",
+    "kind": "ecc",
+    "target": "金星",
+    "presets": "🌞🌇",
+    "nQuantities": 2,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 2,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": {
+     "scale": 0.000223,
+     "kind": "spread"
+    },
+    "defDiffQuantities": []
+   },
+   {
+    "key": "Phobos|orbital_period",
+    "body": "Phobos",
+    "quantity": "orbital_period",
+    "cutAtW263c": "csv-sigma-empty",
+    "kind": "period",
+    "target": "フォボス",
+    "presets": "🥔",
+    "nQuantities": 2,
+    "obsPresent": 1,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 2,
+    "nWithSigma": 0,
+    "nDefDiff": 2,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": {
+     "scale": 0.019872,
+     "kind": "spread"
+    },
+    "defDiffQuantities": [
+     "mean_motion",
+     "apsidal_period"
+    ]
+   },
+   {
+    "key": "Deimos|orbital_period",
+    "body": "Deimos",
+    "quantity": "orbital_period",
+    "cutAtW263c": "csv-sigma-empty",
+    "kind": "period",
+    "target": "ダイモス",
+    "presets": "🥔",
+    "nQuantities": 2,
+    "obsPresent": 1,
+    "klass": "埋まった(σ なし)",
+    "nRows": 3,
+    "nWithValue": 3,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": {
+     "scale": 30.41,
+     "kind": "spread"
+    },
+    "defDiffQuantities": []
+   },
+   {
+    "key": "Miranda|orbital_period",
+    "body": "Miranda",
+    "quantity": "orbital_period",
+    "cutAtW263c": "csv-sigma-empty",
+    "kind": "period",
+    "target": "ミランダ",
+    "presets": "💠",
+    "nQuantities": 2,
+    "obsPresent": 1,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 2,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "mean_motion",
+     "apsidal_period"
+    ]
+   },
+   {
+    "key": "Phobos|eccentricity",
+    "body": "Phobos",
+    "quantity": "eccentricity",
+    "cutAtW263c": "csv-sigma-empty",
+    "kind": "ecc",
+    "target": "フォボス",
+    "presets": "🥔",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": {
+     "scale": 0.00011,
+     "kind": "spread"
+    },
+    "defDiffQuantities": []
+   },
+   {
+    "key": "Deimos|eccentricity",
+    "body": "Deimos",
+    "quantity": "eccentricity",
+    "cutAtW263c": "csv-sigma-empty",
+    "kind": "ecc",
+    "target": "ダイモス",
+    "presets": "🥔",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 3,
+    "nWithValue": 3,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": {
+     "scale": 0.00026,
+     "kind": "spread"
+    },
+    "defDiffQuantities": []
+   },
+   {
+    "key": "Charon|eccentricity",
+    "body": "Charon",
+    "quantity": "eccentricity",
+    "cutAtW263c": "csv-sigma-empty",
+    "kind": "ecc",
+    "target": "カロン",
+    "presets": "❄️",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 1,
+    "nNotApplicable": 1,
+    "sigmaKinds": [],
+    "infoScale": null,
+    "defDiffQuantities": []
+   },
+   {
+    "key": "Ariel|orbital_period",
+    "body": "Ariel",
+    "quantity": "orbital_period",
+    "cutAtW263c": "csv-sigma-empty",
+    "kind": "period",
+    "target": "アリエル",
+    "presets": "💠",
+    "nQuantities": 1,
+    "obsPresent": 1,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 2,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "mean_motion",
+     "apsidal_period"
+    ]
+   },
+   {
+    "key": "Umbriel|orbital_period",
+    "body": "Umbriel",
+    "quantity": "orbital_period",
+    "cutAtW263c": "csv-sigma-empty",
+    "kind": "period",
+    "target": "ウンブリエル",
+    "presets": "💠",
+    "nQuantities": 1,
+    "obsPresent": 1,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 2,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "mean_motion",
+     "apsidal_period"
+    ]
+   },
+   {
+    "key": "Titania|orbital_period",
+    "body": "Titania",
+    "quantity": "orbital_period",
+    "cutAtW263c": "csv-sigma-empty",
+    "kind": "period",
+    "target": "チタニア",
+    "presets": "💠",
+    "nQuantities": 1,
+    "obsPresent": 1,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 2,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "mean_motion",
+     "apsidal_period"
+    ]
+   },
+   {
+    "key": "Oberon|orbital_period",
+    "body": "Oberon",
+    "quantity": "orbital_period",
+    "cutAtW263c": "csv-sigma-empty",
+    "kind": "period",
+    "target": "オベロン",
+    "presets": "💠",
+    "nQuantities": 1,
+    "obsPresent": 1,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 2,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": [
+     "mean_motion",
+     "apsidal_period"
+    ]
+   },
+   {
+    "key": "Miranda|rotation_period",
+    "body": "Miranda",
+    "quantity": "rotation_period",
+    "cutAtW263c": "csv-sigma-empty",
+    "kind": "spin",
+    "target": "ミランダ",
+    "presets": "💠",
+    "nQuantities": 1,
+    "obsPresent": 1,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": []
+   },
+   {
+    "key": "Miranda|eccentricity",
+    "body": "Miranda",
+    "quantity": "eccentricity",
+    "cutAtW263c": "csv-sigma-empty",
+    "kind": "ecc",
+    "target": "ミランダ",
+    "presets": "💠",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 2,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": {
+     "scale": 0.00005,
+     "kind": "spread"
+    },
+    "defDiffQuantities": []
+   },
+   {
+    "key": "Ariel|eccentricity",
+    "body": "Ariel",
+    "quantity": "eccentricity",
+    "cutAtW263c": "csv-sigma-empty",
+    "kind": "ecc",
+    "target": "アリエル",
+    "presets": "💠",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 2,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": {
+     "scale": 0.00002,
+     "kind": "spread"
+    },
+    "defDiffQuantities": []
+   },
+   {
+    "key": "Umbriel|eccentricity",
+    "body": "Umbriel",
+    "quantity": "eccentricity",
+    "cutAtW263c": "csv-sigma-empty",
+    "kind": "ecc",
+    "target": "ウンブリエル",
+    "presets": "💠",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 2,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": {
+     "scale": 0.00004,
+     "kind": "spread"
+    },
+    "defDiffQuantities": []
+   },
+   {
+    "key": "Titania|eccentricity",
+    "body": "Titania",
+    "quantity": "eccentricity",
+    "cutAtW263c": "csv-sigma-empty",
+    "kind": "ecc",
+    "target": "チタニア",
+    "presets": "💠",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 2,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": {
+     "scale": 0.00013,
+     "kind": "spread"
+    },
+    "defDiffQuantities": []
+   },
+   {
+    "key": "Oberon|eccentricity",
+    "body": "Oberon",
+    "quantity": "eccentricity",
+    "cutAtW263c": "csv-sigma-empty",
+    "kind": "ecc",
+    "target": "オベロン",
+    "presets": "💠",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": []
+   },
+   {
+    "key": "Triton|rotation_period",
+    "body": "Triton",
+    "quantity": "rotation_period",
+    "cutAtW263c": "csv-sigma-empty",
+    "kind": "spin",
+    "target": "トリトン",
+    "presets": "🌊",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 1,
+    "nWithValue": 1,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": null,
+    "defDiffQuantities": []
+   },
+   {
+    "key": "Triton|eccentricity",
+    "body": "Triton",
+    "quantity": "eccentricity",
+    "cutAtW263c": "csv-sigma-empty",
+    "kind": "ecc",
+    "target": "トリトン",
+    "presets": "🌊",
+    "nQuantities": 1,
+    "obsPresent": 0,
+    "klass": "埋まった(σ なし)",
+    "nRows": 2,
+    "nWithValue": 2,
+    "nWithSigma": 0,
+    "nDefDiff": 0,
+    "nProxy": 0,
+    "nNotApplicable": 0,
+    "sigmaKinds": [
+     "none"
+    ],
+    "infoScale": {
+     "scale": 0.000006,
+     "kind": "spread"
+    },
+    "defDiffQuantities": []
+   }
+  ]
+ },
+ "transcription": {
+  "rows": 154,
+  "withSigma": 10,
+  "withoutSigma": 144,
+  "candidateRows": 36,
+  "derivedRows": 14,
+  "emptyValueRows": 22,
+  "bodies": 23,
+  "newBodies": [
+   "Callisto",
+   "Earth",
+   "Europa",
+   "Ganymede",
+   "Io",
+   "Mercury",
+   "Mimas",
+   "Moon",
+   "Saturn ring C inner edge",
+   "Saturn ring feature D68",
+   "Titan",
+   "Titan ringlet"
+  ],
+  "sigmaRowList": [
+   {
+    "body": "Moon",
+    "quantity": "general_precession",
+    "value": "0.013969",
+    "unit": "deg/yr",
+    "sigma": 5.556e-9,
+    "source": "IERS EOP-PC useful constants (MHB 2000); p=5028.792(2) arcsec per century",
+    "url": "https://hpiers.obspm.fr/eop-pc/models/constants.html",
+    "mark": "unverified",
+    "verifiedBy": null
+   },
+   {
+    "body": "Mercury",
+    "quantity": "periastron_advance",
+    "value": "0.00159808333333333",
+    "unit": "deg/yr",
+    "sigma": 4.167e-9,
+    "source": "Park R.S. Folkner W.M. Konopliv A.S. Williams J.G. Smith D.E. Zuber M.T. 2017 AJ 153 121 Table 3",
+    "url": "https://doi.org/10.3847/1538-3881/aa5be2",
+    "mark": "unverified",
+    "verifiedBy": null
+   },
+   {
+    "body": "Mercury",
+    "quantity": "periastron_advance_gr",
+    "value": "0.000119388611111111",
+    "unit": "deg/yr",
+    "sigma": 2.5e-9,
+    "source": "Park R.S. et al. 2017 AJ 153 121 Table 3 (Gravitoelectric / Schwarzschild-like)",
+    "url": "https://doi.org/10.3847/1538-3881/aa5be2",
+    "mark": "unverified",
+    "verifiedBy": null
+   },
+   {
+    "body": "Mercury",
+    "quantity": "periastron_advance_j2",
+    "value": "0.0000000794444444444444",
+    "unit": "deg/yr",
+    "sigma": 3.056e-9,
+    "source": "Park R.S. et al. 2017 AJ 153 121 Table 3 (Solar Oblateness)",
+    "url": "https://doi.org/10.3847/1538-3881/aa5be2",
+    "mark": "unverified",
+    "verifiedBy": null
+   },
+   {
+    "body": "Titan ringlet",
+    "quantity": "semi_major_axis",
+    "value": "77878.7",
+    "unit": "km",
+    "sigma": 0.15,
+    "source": "Nicholson P.D. French R.G. McGhee-French C.A. Hedman M.M. Marouf E.A. Colwell J.E. Lonergan K. Sepersky T. 2014 Icarus 241 373",
+    "url": "https://doi.org/10.1016/j.icarus.2014.06.024",
+    "mark": "unverified",
+    "verifiedBy": null
+   },
+   {
+    "body": "Titan ringlet",
+    "quantity": "mean_motion",
+    "value": "22.5753",
+    "unit": "deg/day",
+    "sigma": 0.0008,
+    "source": "Nicholson et al. 2014 Icarus 241 373 (mean best-fitting pattern speed of inner and outer edges)",
+    "url": "https://doi.org/10.1016/j.icarus.2014.06.024",
+    "mark": "unverified",
+    "verifiedBy": null
+   },
+   {
+    "body": "Saturn ring feature D68",
+    "quantity": "radial_amplitude_ae",
+    "value": "25",
+    "unit": "km",
+    "sigma": 1,
+    "source": "Hedman et al. 2014 Icarus 233 147 abstract",
+    "url": "https://doi.org/10.1016/j.icarus.2014.01.022",
+    "mark": "unverified",
+    "verifiedBy": null
+   },
+   {
+    "body": "Saturn ring feature D68",
+    "quantity": "periastron_advance",
+    "value": "13968.25575",
+    "unit": "deg/yr",
+    "sigma": 2.922,
+    "source": "Hedman et al. 2014 Icarus 233 147 abstract",
+    "url": "https://doi.org/10.1016/j.icarus.2014.01.022; https://arxiv.org/abs/1401.6103",
+    "mark": "unverified",
+    "verifiedBy": null
+   },
+   {
+    "body": "Charon",
+    "quantity": "orbital_period_candidate",
+    "value": "551856.43872",
+    "unit": "s",
+    "sigma": 0.02592,
+    "source": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
+    "url": "https://doi.org/10.1088/0004-6256/144/1/15",
+    "mark": "unverified",
+    "verifiedBy": null
+   },
+   {
+    "body": "Charon",
+    "quantity": "orbital_period_candidate",
+    "value": "551856.70656",
+    "unit": "s",
+    "sigma": 0.09504,
+    "source": "Buie et al. 2006, Astronomical Journal 132, 290–298",
+    "url": "https://arxiv.org/abs/astro-ph/0512491",
+    "mark": "unverified",
+    "verifiedBy": null
+   }
+  ],
+  "derivedList": [
+   {
+    "body": "Moon",
+    "quantity": "periastron_advance_derived",
+    "value": "60.0300150075",
+    "unit": "deg/yr",
+    "sigma": null,
+    "from": "Moon|apsidal_period",
+    "formula": "360/T (T=5.997 yr)"
+   },
+   {
+    "body": "Moon",
+    "quantity": "periastron_advance_derived",
+    "value": "40.6761681217",
+    "unit": "deg/yr",
+    "sigma": null,
+    "from": "Moon|periastron_advance_with_precession",
+    "formula": "40.690137 − 一般歳差 5028.796195 arcsec/cy (IAU 2006・元期 J2000) = 40.690137 − 0.0139688783194 deg/yr"
+   },
+   {
+    "body": "Io",
+    "quantity": "periastron_advance_derived",
+    "value": "270.067516879",
+    "unit": "deg/yr",
+    "sigma": null,
+    "from": "Io|apsidal_period",
+    "formula": "360/T (T=1.333 yr)"
+   },
+   {
+    "body": "Europa",
+    "quantity": "periastron_advance_derived",
+    "value": "258.24964132",
+    "unit": "deg/yr",
+    "sigma": null,
+    "from": "Europa|apsidal_period",
+    "formula": "360/T (T=1.394 yr)"
+   },
+   {
+    "body": "Ganymede",
+    "quantity": "periastron_advance_derived",
+    "value": "5.27078666491",
+    "unit": "deg/yr",
+    "sigma": null,
+    "from": "Ganymede|apsidal_period",
+    "formula": "360/T (T=68.301 yr)"
+   },
+   {
+    "body": "Callisto",
+    "quantity": "periastron_advance_derived",
+    "value": "1.29533212676",
+    "unit": "deg/yr",
+    "sigma": null,
+    "from": "Callisto|apsidal_period",
+    "formula": "360/T (T=277.921 yr)"
+   },
+   {
+    "body": "Mimas",
+    "quantity": "periastron_advance_derived",
+    "value": "730.223123732",
+    "unit": "deg/yr",
+    "sigma": null,
+    "from": "Mimas|apsidal_period",
+    "formula": "360/T (T=0.493 yr)"
+   },
+   {
+    "body": "Titan",
+    "quantity": "periastron_advance_derived",
+    "value": "1.03842159917",
+    "unit": "deg/yr",
+    "sigma": null,
+    "from": "Titan|apsidal_period",
+    "formula": "360/T (T=346.680 yr)"
+   },
+   {
+    "body": "Phobos",
+    "quantity": "periastron_advance_derived",
+    "value": "327.272727273",
+    "unit": "deg/yr",
+    "sigma": null,
+    "from": "Phobos|apsidal_period",
+    "formula": "360/T (T=1.1 yr)"
+   },
+   {
+    "body": "Miranda",
+    "quantity": "periastron_advance_derived",
+    "value": "40.2729611813",
+    "unit": "deg/yr",
+    "sigma": null,
+    "from": "Miranda|apsidal_period",
+    "formula": "360/T (T=8.939 yr)"
+   },
+   {
+    "body": "Ariel",
+    "quantity": "periastron_advance_derived",
+    "value": "12.4563163904",
+    "unit": "deg/yr",
+    "sigma": null,
+    "from": "Ariel|apsidal_period",
+    "formula": "360/T (T=28.901 yr)"
+   },
+   {
+    "body": "Umbriel",
+    "quantity": "periastron_advance_derived",
+    "value": "5.61394754078",
+    "unit": "deg/yr",
+    "sigma": null,
+    "from": "Umbriel|apsidal_period",
+    "formula": "360/T (T=64.126 yr)"
+   },
+   {
+    "body": "Titania",
+    "quantity": "periastron_advance_derived",
+    "value": "0.620766715868",
+    "unit": "deg/yr",
+    "sigma": null,
+    "from": "Titania|apsidal_period",
+    "formula": "360/T (T=579.928 yr)"
+   },
+   {
+    "body": "Oberon",
+    "quantity": "periastron_advance_derived",
+    "value": "2.26980404025",
+    "unit": "deg/yr",
+    "sigma": null,
+    "from": "Oberon|apsidal_period",
+    "formula": "360/T (T=158.604 yr)"
+   }
+  ],
+  "tagTally": {
+   "sigma_kind": 119,
+   "digits": 21,
+   "spread": 47,
+   "not_applicable": 3,
+   "upper_limit": 1,
+   "proxy_for": 3,
+   "conflict": 17,
+   "derived_from": 14,
+   "candidate_for": 36,
+   "agree": 64,
+   "rounding_variant": 6,
+   "sigma_propagated": 1,
+   "orig_quantity": 3,
+   "record_stream": 154
+  },
+  "marks": {
+   "unverified": 154
+  },
+  "verifiedByFilled": 0
+ },
+ "doNotWrite": [
+  "太陽系の σ が揃った",
+  "spread/digits を σ として判定した",
+  "太陽系の現実較正が進んだ(接続は動いても判定は動かない)",
+  "不足が埋まったので判定が増えた",
+  "観測レコードで判定が出た(σ は unverified のままである)"
+ ]
+}
