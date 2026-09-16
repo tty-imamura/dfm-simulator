@@ -38,6 +38,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { richardson3, protocolDeclaration, nondimJacobian } from './lib-w265a-analogy.mjs';
+// 第266便a: σ の印は 3 器と同じ 1 本で読む(`sigma_primary=verified` だけが門に入る)。
+import { isSigmaPrimaryVerified } from './lib-w264d-sigmamark.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -84,15 +86,22 @@ function loadCsv(file, sigmaCol) {
       ? Number(c[sigmaCol]) : null;
     rows.push({ body: c[0], quantity: c[1], value: Number(c[2]), unit: c[3],
       source: String(c[4]).slice(0, 70), note: String(c[7] || '').slice(0, 120),
-      sigma: (Number.isFinite(sg) && sg > 0) ? sg : null });
+      sigma: (Number.isFinite(sg) && sg > 0) ? sg : null,
+      // 第266便a: **印を見る**。σ が sigma 列に在っても `sigma_primary=verified` でなければ
+      // 門には 1 bit も入らない(星団・銀河の σ はすべて unverified である)。
+      primaryVerified: isSigmaPrimaryVerified(c[7] || '') });
   }
   return rows;
 }
 const SOLAR = loadCsv('solar-observations.csv', 8);
-const CLUSTER = loadCsv('cluster-galaxy-observations.csv', null);   // **σ 列そのものが無い**
+// 第266便a(第57報 追加): 星団・銀河 CSV に **sigma 列**(9 列目)が付いたので、そこも読む。
+// **読めることと門に繋がることは別である** —— 入った σ はすべて `sigma_primary=unverified` で、
+// `gateConnected` は下の `withVerifiedSigma` で数える(**星団・銀河は門に接続していない**)。
+const CLUSTER = loadCsv('cluster-galaxy-observations.csv', 8);
 function gateCensus(rows, bodies) {
   const sel = rows.filter((r) => bodies.includes(r.body));
   return { rows: sel.length, withSigma: sel.filter((r) => r.sigma !== null).length,
+    withVerifiedSigma: sel.filter((r) => r.sigma !== null && r.primaryVerified).length,
     quantities: Array.from(new Set(sel.map((r) => r.quantity))) };
 }
 
@@ -225,7 +234,8 @@ out.gateCensus = {
   bh: gateCensus(SOLAR, ['GW150914 A', 'GW150914 B']),
   cluster: gateCensus(CLUSTER, ['47 Tuc']),
   note: '**σ を持つ行の本数**を数えた。0 なら「観測 2 量の門が繋がっていない」——'
-    + 'この状態で共同根を出さない(統括の読み (B))。星団 CSV には σ 列そのものが無い。' };
+    + 'この状態で共同根を出さない(統括の読み (B))。第266便a で星団 CSV にも sigma 列が付いたが、'
+    + '**印が `verified` の行だけ**を接続と数える(`withVerifiedSigma`)。' };
 
 const tAll = Date.now();
 
@@ -245,7 +255,7 @@ if (want('bh')) {
         + '**振幅門は NS の位相制限(1.5π)とは別の門である**' },
     observationVersion: { csv: 'paper/data/solar-observations.csv の GW150914 A/B 行' },
     quantities: ['orbital_period(派生参照値)', 'mass'],
-    gateConnected: out.gateCensus.bh.withSigma > 0 }),
+    gateConnected: out.gateCensus.bh.withVerifiedSigma > 0 }),
     columns: [] };
   out.bh = bh;
 
@@ -372,9 +382,10 @@ if (want('cluster')) {
       quantity: ['projected-half-mass-radius', 'core-radius-half-density', 'in-plane-sigma-by-band'],
       definition: '投影は x 軸・「視線」は y 成分。コア半径は面密度が中心帯の半分に落ちる R'
         + '(**King の r_c とは混用しない**)' },
-    observationVersion: { csv: 'paper/data/cluster-galaxy-observations.csv の 47 Tuc 行(**σ 列が無い**)' },
+    observationVersion: { csv: 'paper/data/cluster-galaxy-observations.csv の 47 Tuc 行'
+      + '(第266便a で **sigma 列**が付いたが、入った σ は `sigma_primary=unverified` で門には入らない)' },
     quantities: ['sigma0', 'core_radius', 'half_light_radius_projected'],
-    gateConnected: out.gateCensus.cluster.withSigma > 0 }),
+    gateConnected: out.gateCensus.cluster.withVerifiedSigma > 0 }),
     columns: [] };
   out.cluster = cl;
 

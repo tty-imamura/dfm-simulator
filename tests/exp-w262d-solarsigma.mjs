@@ -100,6 +100,16 @@ const KIND_QUANT = { period: 'orbital_period', ecc: 'eccentricity', precession: 
 const UNIT_OK = { period: (u) => u === 's', ecc: (u) => u === '1', spin: (u) => u === 's',
   precession: (u) => u === 'deg/yr' };
 
+// 第266便a: obsCard の単位と CSV の単位が**同じ**であることを見る(換算はしない)。
+// 無次元の書き方は 3 通りあるので、その集合だけを**宣言**として等価にする。
+const DIMLESS = new Set(['', '1', '-', 'dimensionless']);
+const normUnit = (u) => String(u === null || u === undefined ? '' : u).trim().toLowerCase();
+function obsUnitMatches(obsUnit, csvUnit) {
+  const a = normUnit(obsUnit), b = normUnit(csvUnit);
+  if (DIMLESS.has(a) && DIMLESS.has(b)) return true;
+  return a === b;
+}
+
 const GATE = { nSigma: 3, numBudget: 0.3 };   // 3σ の門(第249便b と同じ宣言)
 
 // ---------------------------------------------------------------- 本体
@@ -129,6 +139,14 @@ for (const [id, emoji] of SOLAR) {
     else if (!csvRow) cut = 'csv-quantity-missing';                   // (A') 天体はあるが量の行が無い
     else if (csvRow.sigma === null) cut = 'csv-sigma-empty';          // (B) 行はあるが sigma 列が空
     else if (!UNIT_OK[kind] || !UNIT_OK[kind](csvRow.unit)) cut = 'unit-not-convertible';
+    // 第266便a(第57報 追加): **obsCard 側の単位も見る**。ここまでは CSV の単位だけを見ていたので、
+    // `obs`/`meas` が deg/orbit・CSV の σ が deg/yr という宛先へ、σ を**換算せずそのまま**当てていた。
+    // σ が 1 つも `verified` でなかった間はこの穴は判定に出なかったが、第266便a で近点移動の σ が
+    // verified になった瞬間に **📡 D68 が見かけの「合(3σ)」になる**(残差 0.0247 deg/orbit に対して
+    // σ=2.922 deg/yr をそのまま当てるため)。**実測して見つけた**(本便の前後で数を残す)。
+    // 換算そのもの(deg/orbit ↔ deg/yr)は `tests/lib-w258d-evidence.mjs` の `degPerYear` にあるが、
+    // **この器は換算しない** —— 換算を入れると判定が動くので、切断点を 1 つ足して止める。
+    else if (!obsUnitMatches(q.unit, csvRow.unit)) cut = 'unit-not-converted';
     // 第263便c(第55報 W3): **σ はあるが一次表の照合が済んでいない**(note の `sigma_primary=unverified`)。
     // 配線は繋がっていて値も換算できるが、門(calaudit の sourceVerified)はこの σ を通さない。
     // **この状態は「σ 未登録」とは別である** —— `sigma_primary=verified` に変わった時点で、
@@ -144,6 +162,9 @@ for (const [id, emoji] of SOLAR) {
     let verdict = null, resid = null, nSig = null, numOk = null;
     if (condMismatch) verdict = '条件不一致(対照の走行が別)';
     else if (cut === 'csv-sigma-unverified') verdict = '保留(σ 未確認)';
+    // 第266便a: **σ は登録も確認も済んでいるが、obsCard の単位と CSV の単位が違う**宛先。
+    // 「σ 未登録」ではない —— 換算器をこの器に入れるかどうかは統括の裁定である。
+    else if (cut === 'unit-not-converted') verdict = '保留(σ の単位が obsCard と違う・未換算)';
     else if (cut !== null) verdict = (cut === 'kind-not-gated') ? '門外(来歴の欄)' : '保留(σ 未登録)';
     else if (obsMissing || measMissing) verdict = '保留(観測参照または実測が無い)';
     else {

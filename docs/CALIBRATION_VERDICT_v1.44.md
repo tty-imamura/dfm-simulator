@@ -256,13 +256,13 @@ kFrame=0 の走行そのものは行われていなかった。
 |---|---|---|---:|---:|---|---|
 | Moon | orbital_period | JPL SSD Planetary Satellite Mean Elements | 2360620.8 | — | NASA NSSDC Moon Fact Sheet 2360594.88 / IERS Conventions Delaunay  2360591.559 | 一致 |
 | Moon | eccentricity | JPL SSD Planetary Satellite Mean Elements | 0.0554 | — | NASA NSSDC Moon Fact Sheet 0.0549 | 一致 |
-| Mercury | orbital_period | JPL SSD Approximate Positions of the Planets | 7600543.72 | — | NASA NSSDC Mercury Fact Sh 7600521.6 | **不一致** |
+| Mercury | orbital_period | JPL SSD Approximate Positions of the Planets | 7600543.75658 | — | NASA NSSDC Mercury Fact Sh 7600521.6 | **不一致** |
 | Mercury | eccentricity | JPL SSD Approximate Positions of the Planets | 0.20563593 | — | NASA NSSDC Mercury Fact Sh 0.20563069 | 一致 |
 | Mercury | periastron_advance | Park R.S. Folkner W.M. | 0.00159808333333333 | 0.000000004167 | JPL SSD Approximate Positi 0.0016047689 | 一致 |
 | Venus | eccentricity | JPL SSD Approximate Positions of the Planets | 0.00677672 | — | NASA NSSDC Venus Fact Shee 0.0068 / NASA NSSDC Planetary Fact  0.007 / dfm-simulator solarInner d 0.007 | **不一致** |
 | Earth | orbital_period | IERS useful constants | 31558149.7635456 | — | NASA NSSDCA, Earth Fact Sh 31558118.4 | 一致 |
 | Earth | eccentricity | JPL SSD Approximate Positions of the Planets | 0.01671123 | — | NASA NSSDCA, Earth Fact Sh 0.01671022 | 一致 |
-| Mars | orbital_period | JPL SSD Approximate Positions of the Planets | 59354294.4 | — | NASA NSSDC Mars Fact Sheet 59355072.0 | **不一致** |
+| Mars | orbital_period | JPL SSD Approximate Positions of the Planets | 59355048.80447 | — | NASA NSSDC Mars Fact Sheet 59355072.0 | **不一致** |
 | Mars | eccentricity | JPL SSD Approximate Positions of the Planets | 0.09339410 | — | NASA NSSDCA, Mars Fact She 0.09341233 | 一致 |
 | Saturn ring C inner edge | radius | French et al. 2025 | 74490 | — | NASA NSSDC Saturnian Rings 74658 | **不一致** |
 | Saturn ring feature D68 | orbital_period | Hedman M.M. Burt J.A. | 17757.4789 | — | Hedman et al. 2014, Icarus(空) | 一致 |
@@ -303,6 +303,115 @@ kFrame=0 の走行そのものは行われていなかった。
 
 **書かないこと**: 「出典を宣言したので判定が増えた」「太陽系の σ が揃った」
 「宣言した正の値で残差が小さくなった」(**残差はこの宣言では 1 つも計算していない**)。
+
+> **第266便a(2026-09-16)で正の値が 2 つだけ動いた**(§2.3⁗′)。上の表は**訂正後**の値である。
+> 訂正前は **水星 P=7600543.72 s**・**火星 P=59354294.4 s** だった。どちらも**転写者側の換算の誤り**で、
+> 一次資料(Standish Table 1 の `L_dot`)は 1 文字も変わっていない。**行選択(判定行)は差し替えていない**。
+
+#### 2.3⁗′ intake B 後の更新(**第266便a**・第57報 追加・器 `tests/exp-w266a-intakeB.mjs` / `tests/exp-w262d-solarsigma.mjs`)
+
+原仮定者が提供した**確認記録(2026-09-16)**と**観測レコード(2026-09-16 intake B・2 系統)**を入れた後の宣言表である。
+**行選択(判定行)は 1 つも差し替えていない**(AA12 の裁定待ち)。動いたのは **印**・**正の値 2 つ**・**出典ラベル 1 件**である。
+
+**(a) 印: 原仮定者が一次資料を確認した行 21 行を `sigma_primary=verified` にした(2026-09-16)**
+
+確認記録の確認者は**原仮定者本人**である。したがって X7 の規約どおり、値と 1σ が原記載と一致した行を
+`sigma_primary=verified` に上げ、`verified_by=原仮定者 2026-09-16; verified_at=<表/列>; verified_value=<原記載>` を書いた。
+
+| 確認記録の 4 分類 | 件数 | 本便の扱い | 件数 |
+|---|---:|---|---:|
+| 一致 | **24** | `verified` へ上げた | **21** |
+| 不一致 | **0** | 値だけ確認(1σ は確認できない)→ unverified のまま | **1**(タイタン・リングレット a) |
+| 未確認(Not Found) | **1** | sigma 列が視差との**伝播値**→ unverified のまま・`sigma_kind=covariance` に直した | **2**(α Cen AB / シリウス AB の a) |
+| 別資料を見ていた(発見論文) | **3** | `value_check_note=` だけ(印は unverified) | **4** |
+
+同じ理由(視差との quadrature)で `Alpha Centauri B|semi_major_axis`・`Sirius B|semi_major_axis` も
+**unverified のまま**にし、`sigma_kind=covariance` を書いた(行番号つきの確認依頼には入っていない 2 行)。
+
+| CSV 全体の印 | 第265便d | **第266便a** |
+|---|---:|---:|
+| 行数(`paper/data/solar-observations.csv`) | 507 | **521** |
+| `sigma_primary=verified`(厳密読み) | 16 | **37** |
+| 同(旧読み・部分一致) | 19 | **40** |
+| `verified` なのに `verified_by=` が無い行(X7 の**警告**) | 16 | **16**(増えていない) |
+| 外部確認印だけで `verified` になっている行 | 0 | **0** |
+
+**(b) 判定(4 値)は 1 本も動いていない —— 理由は単位である(実測して見つけた)**
+
+| 切断点(`tests/exp-w262d-solarsigma.mjs`) | 第265便d | **第266便a** |
+|---|---:|---:|
+| `csv-sigma-empty` | 109 | **109** |
+| `kind-not-gated` | 26 | **26** |
+| `csv-sigma-unverified`(σ はあるが未確認) | **4** | **0** |
+| `unit-not-converted`(σ は確認済みだが obsCard と単位が違う) | — | **4** |
+| **接続できた量**(門へ σ が届く) | 0 | **0** |
+| **4 値**(合/量限定合/否/保留) | 0/0/0/**16** | 0/0/0/**16** |
+| 判定に足りないもの(天体 × 量) | 66 組 | **66 組** |
+
+verified になった σ の宛先は**近点移動 4 件だけ**(☄️🪨🌞 の水星 ϖ̇ と 📡 D68 の ϖ̇)で、そこは
+**obsCard が `deg/orbit`・CSV が `deg/yr`** という単位の不一致で止まっている。
+第265便d までこの穴が判定に出なかったのは、**σ が 1 つも `verified` でなかったから**である。
+
+**この穴を素通りさせるとどうなるかを測った(Failure First)**: 単位を見ないまま σ を当てると
+📡 saturnZonalD68 が **「合(3σ)」になる**(残差 0.02467 `deg/orbit` に対して σ=2.922 `deg/yr` をそのまま当てる →
+0.0084σ)。**これは換算していない σ による偽の合格である。** 本便は切断点 `unit-not-converted` を足して止めた。
+換算そのもの(`deg/orbit` ↔ `deg/yr`)は `tests/lib-w258d-evidence.mjs` の `degPerYear` に在るが、
+**器に入れると判定が動く**ので、入れるかどうかは統括の裁定に残す(**決断事項**)。
+
+**(c) 門(`tests/exp-w249b-calaudit.mjs --regate`)は 1 件も動いていない**
+
+| --regate | 基点 92a1b8f | **第266便a** |
+|---|---:|---:|
+| σ の宛先 | 46 | **46** |
+| σ が動いた宛先 | 0 | **0** |
+| 一次表の印の反転 | 0 | **0** |
+| 判定集計 | 合 56 / 窓 6 / 否 21 / 従 4 / 転 219 / 条 8 | **同じ** |
+| 門 | 合(3σ) 2 / 否(3σ) 2 / 数値未解決 27 / mapping-unresolved 13 / condition-mismatch 8 / 未判定 262 | **同じ** |
+| 4 値 | 合 0 / 量限定合 2 / 否 2 / 保留 33 | **同じ** |
+
+`--regate` は**前回の走行が記録した σ の宛先しか見ない**(器自身の `limitation` に書いてある)。
+太陽系の宛先は `sigmaSource` を持たないので、`--regate` はそこを見ていない —— **「動かなかった」ではなく
+「--regate では見えない」**である。見えている範囲では 1 件も動いていない。
+
+**カロン P(行 444・Z10 が正とした Buie et al. 2012・σ=0.02592 s)は判定行に入ったか → 入っていない(0 件)。**
+判定行は依然として**ファイル順で最初の `Charon|orbital_period`**(NSSDC の 551854.08 s・σ なし・unverified)であり、
+verified になった行は `Charon|orbital_period_candidate` という**別の鍵**である。
+**行選択を差し替えれば判定は動く** —— それは AA12 の裁定である。
+
+**(d) 正の値の訂正 2 件(転写者側の換算の誤り。一次資料は 1 文字も変わっていない)**
+
+| 行 | 天体・量 | 訂正前 | **訂正後** | 何が起きていたか | 印 |
+|---|---|---:|---:|---|---|
+| 383 | Mars \| orbital_period | 59354294.4 s | **59355048.80447 s** | note の式 `P=360×36525/L_dot` は 686.979732 d を与えるのに 686.970977 d と書かれていた(差 **−754.4 s**・2 系統が指摘)。`corrected=2026-09-16 conversion` | unverified のまま |
+| 365 | Mercury \| orbital_period | 7600543.72 s | **7600543.75658 s** | P を 87.9692565 d に**丸めてから**換算していた(差 **−0.037 s**・2 系統が指摘)。`corrected=2026-09-16 rounding` | unverified のまま |
+
+`spread`(**σ ではない** informational な尺度)も追随した: 火星 **777.6 → 23.19553 s**・水星 **22.12 → 22.15658 s**
+(旧値は note の `previous_spread=` に残してある)。§2.3‴ の表は第264便d 時点の記録なので**書き換えていない**。
+
+**(e) 出典ラベルの訂正 1 件(値・σ は不変)**
+
+CSV 行 145/146 の `PSR J1946+2052` の Pb=0.07848804(1) d・e=0.063848(9) は、確認記録が示すとおり
+**発見論文 Stovall et al. (2018) ApJL 854 L22 Table 1**(doi 10.3847/2041-8213/aaad06)の値であって、
+Meng 2025 Table 1 の値(0.07848805554(2)・0.0638363(8))ではない。source と url を訂正し、note に
+`source_corrected=2026-09-16` を書いた。**第249便a 以来「同じ論文の 2 転写が食い違う」と書かれていた矛盾は、
+「そもそも同じ論文ではなかった」で解ける**(第249便a の注記は**消していない** —— 解けた旨を追記した)。
+行 285/289/290(Meng 2025 DDFWHE)は確認記録が発見論文を見ていたので**未確認のまま**である。
+
+**(f) 正が「未確定」に戻ったもの・候補が増えたもの**
+
+| 天体・量 | 第265便d の宣言 | **第266便a** |
+|---|---|---|
+| Saturn ring C inner edge \| radius | 正 = French et al. 2025(74490 km) | **正は未確定**。2 系統とも「その論文に 74490 km ± σ の内縁フィットは無い」(2025 年の論文は 1983 年衝突の corrugation 74500–77765 km を扱う)。**値は動かさず** note に `source_check=` を足した |
+| Phobos \| orbital_period | 正 = Jacobson 2010 Table 6(27553.843872 s) | **Table 6 の読みが 2 系統で食い違う(未確定)**。Period 列 0.31891023 d = 27553.843872 s / λ̇ 列 n=1128.844409 °/d = **27553.841567549454 s**(差 0.0023 s)。両方を候補行に置いた |
+| Deimos \| orbital_period | 正 = Jacobson 2010 Table 6(109092.79 s) | **同上(未確定)**。Period 列 1.262648 d = **109092.7872 s** / λ̇ 列 n=285.161886 °/d = **109074.88527411409 s**(差 **17.90 s**)。両方を候補行に置いた |
+| Triton \| orbital_period | 正 = JPL SSD(507772.2816 s)・候補 = NSSDC 507760.1856 s | **正は変えない**。候補の出どころが分かった: NSSDC の 5.876854 d は **Jacobson 2009 Table 6 の平均運動 n=61.2572638 °/d の換算(5.876854069 d = 507760.19153503235 s)を丸めたもの**である。その換算値を候補行として置き、NSSDC 行の note にも書いた |
+| 金星 e・ダイモス e・天王星 4 衛星 e | 正はそのまま | 2 系統一致・**1σ は印字されていない**ことが確認できたので、正の行の note に `digits=`(丸め幅 — **σ ではない**)と `sigma_check=2 streams 2026-09-16` を足した。**2 系統は有効数字の数え方が違う**(例: 0.00677672 を 6 桁と数える系統と 8 桁と数える系統)ので、数えた桁数ではなく**丸め幅**を書いた |
+
+**実装上の落とし穴(本便で踏んで避けた)**: 既に `sigma_kind=none` がある行に `sigma_kind=digits` を**重ねて書かない**。
+`readSigmaKind` は**最初の出現**を採るので、重ねても読まれないうえに note が矛盾する。足したのは `digits=` と `sigma_check=` だけである。
+
+**書かないこと**: 「太陽系の σ が揃った」「判定が増えた」「カロン P が判定行に入った」
+「出典を宣言したので合格が増えた」(**4 値は 1 本も動いていない**)。
 
 ### 2.4 ブラックホール以降(3 本 — トイ)
 
@@ -1337,6 +1446,100 @@ QA ⑥ に固定した。
 **判定**: 「夜間ジョブが動いた/動かなかった」は**まだ書けない**。スケジュール窓が 1 度も来ていないので、
 実行 0 件は**故障の証拠ではない**。統括が GitHub の Actions 画面で初回実行を確認するまで、
 本書は `informational` のままにする(Z13「nightly は有効のまま遅延を記録」)。
+
+### 5.11 第266便a: 観測レコード(2026-09-16 intake B)の照合転写 —— 確認記録・換算訂正 2 件・出典ラベル訂正 1 件・星団/銀河の sigma 列・GW150914 の 90% 区間・LFBOT の記録 CSV
+
+**第57報の追加は「観測レコードの回答を添付した」である。** 原仮定者が提供したのは 2 種類:
+**確認記録(2026-09-16)**(既存の転写行に対する「一次資料の表・列と桁」の回答・行番号つき)と、
+**観測レコード(2026-09-16 intake B)**(取得の回答・**2 系統**)である。
+**4 値は 1 本も動いていない**(§2.3⁗′ の実測)。器は `tests/exp-w266a-intakeB.mjs` → `tests/out/intakeB-w266a.json`。
+
+#### 5.11.1 取得回答 2 系統の照合(3 分類)
+
+**採否は 2 系統一致が原則**である。値も出典も一致した鍵を「一致」、片方にしか無い鍵を「片方のみ」、
+値か出典が食い違う鍵を「食い違い」とした。**どちらが正しいかは決めない**(判定ではない)。
+
+| 分類 | 鍵の数 | 太陽系 CSV | 星団・銀河 CSV | 過渡天体 CSV |
+|---|---:|---:|---:|---:|
+| **一致(値・出典)** | **19** | 9 | 8 | 2 |
+| **片方のみ** | **46** | 1 | 27 | 18 |
+| **食い違い** | **7** | 3 | 1 | 3 |
+| 合計(鍵) | **72** | 13 | 36 | 23 |
+
+内訳の語(**宣言**): `agree` 19 / `only-1` 33 / `only-2` 13 / `conflict` 3 / `partial` 2 /
+`conflict-one-empty` 1 / `conflict-source` 1。
+最後の 1 語は**本便で足した**: **値は一致するが引いている一次資料が違う**(NGC 3198 の PA=215.0°。
+片方は de Blok 2008 Table 2・片方は Begeman 1989 Table 2 と書いている)。
+
+#### 5.11.2 確認記録(4 分類)と印
+
+§2.3⁗′(a) にまとめた。**原仮定者が一次資料を確認した行 21 行を `sigma_primary=verified` にした(2026-09-16)。**
+`verified` にしなかった行とその理由:
+
+| 行 | 天体・量 | 理由 |
+|---|---|---|
+| 420 | Titan ringlet \| semi_major_axis | 要旨は a=77878.7 km を書いているが**1σ が無い**。sigma 列の 0.15 km は確認できていない → **値だけの確認**を note に |
+| 421 | Titan ringlet \| mean_motion | 確認記録が「Not Found / Unconfirmed」と答えた → `value_check_note=unconfirmed 2026-09-16` |
+| 285 / 289 / 290 | PSR J1946+2052(Meng 2025 DDFWHE) | 確認記録は**発見論文 Stovall 2018** を見ており、Meng 2025 Table 1 は未確認のまま |
+| 183 / 196 | α Cen AB / Sirius AB \| semi_major_axis | sigma 列は**角半径と視差の quadrature**(記録の中で行った算術)で、**印字された 1σ ではない** → `sigma_kind=covariance` |
+| 106 / 113 | α Cen B / Sirius B \| semi_major_axis | 同じ理由(確認依頼の行表には入っていないが、同じ書式に直した) |
+
+#### 5.11.3 転写の内訳(3 つの CSV)
+
+| CSV | 追記した行 | うち一次資料の印字 1σ を持つ行 | 値が空の行(上限・下限・未公表) | 候補行 |
+|---|---:|---:|---:|---:|
+| `paper/data/solar-observations.csv` | **14** | 0 | 0 | 5 |
+| `paper/data/cluster-galaxy-observations.csv` | **46** | **18** | 0 | 38 |
+| `paper/data/transient-observations.csv`(**新設**) | **27** | 3 | 6 | 5 |
+
+**星団・銀河 CSV に `sigma` 列を足した(スキーマ変更)。既存 108 行の sigma 欄はすべて空**で、
+**既存の値は 1 文字も動かしていない**(QA `docs.clusterGalaxySigma` が機械固定する)。
+
+- **47 Tuc**: GGCD v4 の 2 系統一致 **8 量**(統括の読み (H) の列挙も 8 項目で、指示の「9 量」とは
+  **1 件食い違う** —— 見つからなかったので 8 量として数えた)。σ 列に入れたのは**印字のある 4 量だけ**
+  (M ±5000 M☉・A_rot ±0.32 km/s・d ±30 pc・M/L_V ±0.09)。
+  2018 年論文 Table 2 の 7 量は**片方のみ**の候補。
+  σ_los(r) は**混ぜていない**: GGCD の RV 6 点は**非対称 68%** なので sigma 列を空にして
+  `sigma_kind=asymmetric; sigma_plus; sigma_minus; level=68` を note に置き、
+  Watkins 2015 の HST 固有運動 7 点は**視線分光ではない**ので量名を **`sigma_pm(r=… pc)`** と分け、
+  一次単位 mas/yr で置いた(`sigma_kind=covariance`・印字の ±mas/yr は note の `pm_sigma_printed=`)。
+- **NGC 3198**: SPARC 公式の機械可読表の v(r) 10 点を、**印字 `e_Vobs` を sigma 列に入れて**候補行で置いた
+  (値は既に在る行と同じで、違うのは**出典が第三者ミラーではなく公式リリースであること**と**σ が入ったこと**)。
+  傾斜角は **73.0±3.0°(SPARC)と 71.5°(de Blok 2008・σ なし)の 2 行**で、どちらが正かは**未確定**。
+  距離 13.8±1.4 Mpc(SPARC)と 13.8 Mpc(de Blok・σ なし)、M_HI 1.0869e10(SPARC)と 1.017e10 M☉
+  (Walter 2008 Table 5)も両方置いた。
+
+#### 5.11.4 GW150914(M☉ 単位の行・90% 区間は note)
+
+既存の kg 単位の行は**不変**で、**同じ出典の source-frame 値を M☉ のまま 9 行**足した
+(m1 34.6 / m2 30.0 / M_c 27.9 / M 64.5 / M_f 61.5 / χ_f 0.68 / D_L 470 Mpc / z 0.10 / χ_eff −0.04)。
+**sigma 列は空**である —— 公表されているのは **90% 信用区間**であって対称 1σ ではないので、
+`sigma_kind=ci90; ci90_lo=…; ci90_hi=…` を note に置いた。波形は `IMRPhenomXPHM+SEOBNRv4PHM mixed (C01:Mixed)`。
+`mass_ratio` は片方の系統にしか無いので候補行(`collate=only-1`)。
+**`peak_gw_frequency`・`inspiral_time_in_band`・公転周期・Ṗ はカタログの公表量ではない**(2 系統一致)ので、
+**行を足していない**。既存の kg 行(6.8801062e31 / 5.9654100e31 kg = 34.6 / 30.0 M☉)と整合する。
+
+#### 5.11.5 LFBOT の記録 CSV(**門に接続しない**)
+
+`paper/data/transient-observations.csv` を新設した(ヘッダは 9 列・`sigma` つき)。**全行に `gate=not-connected`** を書き、
+QA `docs.transientObs` が「この CSV の天体が判定側の CSV に居ないこと」を機械固定する。
+**🐮 のプリセットと obsCard は 1 バイトも触っていない。**
+
+- AT2018cow のピーク光度は **4×10⁴⁴ erg/s(Perley 2019 Table 3)と 1.7×10⁴⁴ erg/s(Prentice 2018・UVONIR)で
+  別の行**(バンドと構成法が違う — 混ぜない)。
+- T(t)・R(t) は Perley 2019 の **corrected Table 4** の 3 時点(3.44 / 5.69 / 13.39 d)。
+  非対称誤差は印字されているが**信頼水準が書かれていない**ので `sigma_kind=none`(sigma 列は空)。
+  Prentice 2018 の T(4.1 d)=27000±2000 K は**印字 1σ** なので sigma 列に入れた。
+- QPO は **224.4±1.0 Hz**(methods の Lorentzian 中心・有意性 3.7σ・FAP≈2×10⁻⁴・FWHM 上限 16 Hz)を主の行に、
+  要旨の丸めた 224 Hz を候補行にした。
+- **エジェクタ速度は定義の違う 2 行**: 後期の輝線幅からの ~6000 km/s と、初期の広い吸収からの ~0.1c。
+  **同じ量として比べてはならない**(note に明記)。
+- 上限・下限は **value を空にして** `upper_limit=` / `lower_limit=` に置いた
+  (AT2022tsd のフレア数 **≥14**・立上り **<4 d**、AT2018cow の R(30 d) **<10¹⁴ cm** 等)。
+  AT2022tsd の T90 は **10–80 min の範囲**であって 1 個のフレアの測定ではないので、これも value を空にした。
+- z=0.2564±0.0003(AT2022tsd)は印字 1σ。
+
+**書かないこと**: 「LFBOT を観測一致させた」「🐮 を較正した」「BH 連星・星団・銀河を門に入れた」。
 
 ## 5′. NS 連星の現実較正 —— **完了定義 4 条件と現在の距離**(第260便d)
 
