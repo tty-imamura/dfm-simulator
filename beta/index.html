@@ -941,7 +941,7 @@ ja: {
   tgDragPauseDesc:"画面のドラッグ・ピンチ・ホイール操作をしている間だけ物理計算を一時停止し、その1フレームぶんの計算時間をまるごと操作の追従に回す(既定 ON・共通設定・永続)。粒子の多いサンプルほど効く。▶/⏸ のポーズ状態とは別の内部的な抑制なので、指を離せば元の再生状態へそのまま戻る(ボタン表示は変わらない)。物理の式・結果は一切変わらない — 止まっている間ステップを進めないだけ。OFF にすると操作中も計算を続けるが、ドラッグの追従は1フレームぶん(重いサンプルでは数百ms)遅れる。",
   // 第175便(レビュー第5巡 P0): step 会計の繰越化 — 診断1行と簡易ベンチ(開発者向け)
   tgStepDiag:"ステップ診断を表示",
-  tgStepDiagDesc:"HUD の末尾に、1フレームあたりのステップ会計を1行だけ追記する開発者向けの表示(既定 OFF・共通設定・永続)。「step 要求→実行 (+繰越) ms/步 trim 打切り回数/窓 fps 実効×倍率(要求×倍率) 破棄 累計」の並びで、要求した歩数のうち何步が実際に走り・何步が次フレームへ繰り越され・何步が上限超過で破棄されたかがその場で読める。実効倍率は「実行歩数×dt ÷ 壁時計」を「時間倍率×1・60fps で全要求を実行できたときの進み」で割った値なので、括弧内の要求倍率と直接比べられる(実効 < 要求 なら、その差がそのまま繰越+破棄として現れている)。**第259便a 追記**: 座標変換慣性(physics.spaceMesh の inertia:coordinate)を宣言した宇宙では行末に「mesh:<停止理由> N=<対象数>」が、トイの測地線モード(geoPN=3)では「geoToy:<停止理由> N=<対象数>」が付く。**第262便a 追記**: geoPN=3 を選んでも入場条件(kFrame=0・空間メッシュの慣性/織り込みと排他)が立たないときは、値を 3 のまま保って「geoToy:denied」と出る(力学は geoPN=2 と同じで走る)。2 体だけの系は非頂点が 0 なので mesh:noTargets と出る(黙って素通りさせないための読み口)。表示のみ・物理は一切変わらない。",
+  tgStepDiagDesc:"HUD の末尾に、1フレームあたりのステップ会計を1行だけ追記する開発者向けの表示(既定 OFF・共通設定・永続)。「step 要求→実行 (+繰越) ms/步 trim 打切り回数/窓 fps 実効×倍率(要求×倍率) 破棄 累計」の並びで、要求した歩数のうち何步が実際に走り・何步が次フレームへ繰り越され・何步が上限超過で破棄されたかがその場で読める。実効倍率は「実行歩数×dt ÷ 壁時計」を「時間倍率×1・60fps で全要求を実行できたときの進み」で割った値なので、括弧内の要求倍率と直接比べられる(実効 < 要求 なら、その差がそのまま繰越+破棄として現れている)。**第259便a 追記**: 座標変換慣性(physics.spaceMesh の inertia:coordinate)を宣言した宇宙では行末に「mesh:<停止理由> N=<対象数>」が、トイの測地線モード(geoPN=3)では「geoToy:<停止理由> N=<対象数>」が付く。**第262便a 追記**: geoPN=3 を選んでも入場条件(kFrame=0・空間メッシュの慣性/織り込みと排他)が立たないときは、値を 3 のまま保って「geoToy:denied」と出る(力学は geoPN=2 と同じで走る)。2 体だけの系は非頂点が 0 なので mesh:noTargets と出る(黙って素通りさせないための読み口)。**第265便b 追記**: 源の閉包(toyClosure:iterate)が収束しなかった步は geoToy:closureUnconverged と出る(その步はメッシュキックを当てず帳簿にも記帳しない —— 重力側の步と時刻は進む)。法則版 mesh-v2 を宣言した宇宙では meshV2:<ゲージ> λmin=… cond=… が付き、共通並進が零固有値になる配置では「構造的特異」と出る。表示のみ・物理は一切変わらない。",
   benchLabel:"物理ベンチ(200步)",
   benchDesc:"いまの状態の複製に対して、描画も HUD も通さずに 200 步だけ回し、1步あたりの所要時間を測る開発者向けの機能(共通設定)。複製で走らせるので本編の座標時間・粒子は 1 ビットも変わらない。表示される ms/步 が 16ms 近い、あるいはそれを超えるなら「重いのは物理」で、逆に ms/步 が小さいのに fps が出ないなら「重いのは描画」— この 1 行で切り分けられる。併記の「予算内 n 步」は、1フレームの物理予算(12ms)にこの ms/步 なら何步入るかの目安。",
   benchRun:"測定",
@@ -1130,12 +1130,17 @@ ja: {
   // 第264便c(第56報「親子コアで、軸の傾きなどの、『選択粒子の編集』のコアV2で確認できた数値を、
   // 確認出来る様にする」): 層モードの**読み取り専用の数値行**(表示専用 — 署名にも params にも効かない)
   beLyNumHead:"数値(読み取り専用)",
-  beLyNumSrc:(who,q)=>`Q=${q}(源: ${who})`,
+  beLyNumSrc:(who,q,law)=>`Q=${q}(源: ${who})${law}`,
   beLyNumSrcV2:"コアv2", beLyNumSrcLay:"層", beLyNumSrcNone:"従来式",
+  // 第265便c: core.shellSpinMass と ζ の読み取り専用表示。**既定(総質量・ζ=1)は行に出さない**
+  // —— 出すと 170px 幅の行が折り返して数値行が育つだけである(どちらもツールチップには常に出す)
+  beLyNumLawTotal:"総質量", beLyNumLawShell:"殻質量",
+  beLyNumLawSuf:(law)=>`・殻項: ${law}`, beLyNumLawTip:(law)=>`殻項の質量則: ${law}`,
+  beLyNumZetaSuf:(z)=>`・ζ=${z}`, beLyNumZetaTip:(z)=>`慣性倍率 ζ=${z}`,
   beLyNumOm:(om,th)=>`ω=${om} / θ=${th}°`,
   beLyNumJ:(jm,jz)=>`|J|=${jm} / Jz=${jz}`,
   beLyNumJ2:(jx,jy)=>`Jx=${jx} / Jy=${jy}`,
-  beLyNumE:(er,ic)=>`E_r=${er} / I_c=${ic}`,
+  beLyNumE:(er,ic,z)=>`E_r=${er} / I_c=${ic}${z}`,   // 第265便c: ζ≠1 のときだけ行に出す
   beLyNumM:(mc,ms)=>`M_c=${mc} / M_s=${ms}`,
   beLyNumM2:(kcs,ro)=>`K_cs=${kcs} / 観測半径=${ro}`,
   beLyNumNA:"—",
@@ -1189,7 +1194,15 @@ ja: {
     +"**第264便c**: 層モードに**読み取り専用の数値行**が出ます(Q・ω・傾き θ・|J|・Jz・Jx・Jy・E_r・I_c・M_c・M_s・K_cs・観測半径)。"
     +"**コア V2 を持つ粒子は V2 の値・層だけの粒子は層から導いた値**で、これは回転場の源の所有者規約と同じです"
     +"(V2 があれば V2・無ければ層)。層の J は**回転場の源としてだけ**読まれ(射影は V2 と同じ z 成分)、"
-    +"面内成分 Jx/Jy は**数値として持つだけ**です(重力・引きずり・歳差・熱へは接続していません)。",
+    +"面内成分 Jx/Jy は**数値として持つだけ**です(重力・引きずり・歳差・熱へは接続していません)。"
+    +"**第265便c**: 層の J に**明示的に 0 を書いた層**は「Q=0 を宣言した層」で、"
+    +"何も書かない層(従来式 ½·m·R²·s へ落ちる)とは別物です。この区別は"
+    +"読込・編集・⏮ の保存/復元・A/B の複製・融合・粒子の詰め替えの**6 経路**で残ります(Jx/Jy も同じ)。"
+    +"層は**慣性倍率 ζ(inertiaScale)**を持てます —— コアv2 の ζ と同じ意味で、"
+    +"**I=ζ·½·m·r² と回転場の源 J/ζ の双方**に効きます(既定 1)。"
+    +"コアv2 側には **core.shellSpinMass:\"total\"|\"shell\"**(殻項を総質量 m で組むか殻質量 M_s で組むか)が"
+    +"選べるようになりました(**既定は total で、内蔵サンプルは 1 本も宣言していません**)。"
+    +"数値行では ζ と殻項の質量則は**既定のとき行に出さず、ツールチップから読めます**。",
   beLinTitle:"形成系譜",
   beLinSum:(n,tree,ev,ge)=>`直接吸収 ${n} 回・系譜 ${ge?"≥":""}${tree} 粒(記録 ${ev} 件)`,
   beLinRow:(t,dm,m,ls)=>`t=${t}: +${dm} → m=${m}・減光=${ls}`,
@@ -1366,6 +1379,8 @@ ja: {
   // 誇張アナログ用の nc_solar は同画面の実単位較正・現実準拠チップと矛盾するため分離した
   nc_solar_cal:"実在天体のうち明示した観測量だけを較正した2次元モデルです。太陽系全体・3次元摂動・未掲載の観測量まで再現するものではありません。",
   nc_thermo:"熱セクターは現実の熱力学との定量対応を主張しないアナロジーである。",
+  // 第265便d(第57報 W4): LFBOT の**トイ仮説**(減光で蓄積した自光の崩壊放出)。実イベントの説明ではない
+  nc_lfbot:"実在の高速青色トランジェント(LFBOT・AT2018cow 等)の説明・再現・予測ではない(仮説を法則の内側で組み立てたトイである)。",
   // 第88便 EXT-09: Failure First(失敗を先に見せる — 宣言専用メタ failureFirst の見出し)
   ffHead:"🧪 失敗から見る(Failure First)",
   ffFail:"FAIL", ffPass:"PASS",
@@ -1666,7 +1681,7 @@ en: {
   tgDragPauseDesc:"While you drag, pinch or wheel-zoom the view, physics stepping is paused so that the whole frame budget goes into following your finger or mouse (default ON, General, persisted). The heavier the sample, the more it helps. This is an internal suppression, separate from the ▶/⏸ pause state: release the pointer and playback resumes exactly as before, and the button never changes. The physics equations and results are untouched — steps simply are not taken while it is held. Turn it OFF to keep computing during input, at the cost of one physics frame (hundreds of ms on heavy samples) of lag in the drag.",
   // wave 175 (5th review round, P0): carried-over step accounting — one-line diagnostics and a quick bench (developer-facing)
   tgStepDiag:"Show step diagnostics",
-  tgStepDiagDesc:"Appends one developer-facing line to the HUD with the per-frame step accounting (default OFF, General, persisted). It reads \"step requested→executed (+carried) ms/step trim trims/window fps eff ×rate (req ×rate) cancelled total\", so you can see at a glance how many of the requested steps actually ran, how many were carried over to the next frame, and how many were cancelled at the backlog cap. The effective rate is (executed steps × dt) / wall-clock seconds, divided by the advance you would get at time-scale ×1 and 60 fps — so it is directly comparable with the requested rate in parentheses (whenever effective < requested, the gap is exactly what shows up as carried + cancelled). WAVE 259a ADDS: when a sample declares the coordinate inertia (physics.spaceMesh with inertia set to coordinate) the line ends with mesh:<stop reason> N=<targets>, and with the toy geodesic mode (geoPN=3) it ends with geoToy:<stop reason> N=<targets>. WAVE 262a ADDS: when geoPN=3 is selected but the entry conditions do not hold (kFrame=0, exclusive with the space-mesh inertia/weave), the value stays 3 and the line reads geoToy:denied (the dynamics run exactly as geoPN=2). A two-body system has no non-vertex particles, so it reads mesh:noTargets - a read-out so that nothing passes through silently. Display only; the physics never changes.",
+  tgStepDiagDesc:"Appends one developer-facing line to the HUD with the per-frame step accounting (default OFF, General, persisted). It reads \"step requested→executed (+carried) ms/step trim trims/window fps eff ×rate (req ×rate) cancelled total\", so you can see at a glance how many of the requested steps actually ran, how many were carried over to the next frame, and how many were cancelled at the backlog cap. The effective rate is (executed steps × dt) / wall-clock seconds, divided by the advance you would get at time-scale ×1 and 60 fps — so it is directly comparable with the requested rate in parentheses (whenever effective < requested, the gap is exactly what shows up as carried + cancelled). WAVE 259a ADDS: when a sample declares the coordinate inertia (physics.spaceMesh with inertia set to coordinate) the line ends with mesh:<stop reason> N=<targets>, and with the toy geodesic mode (geoPN=3) it ends with geoToy:<stop reason> N=<targets>. WAVE 262a ADDS: when geoPN=3 is selected but the entry conditions do not hold (kFrame=0, exclusive with the space-mesh inertia/weave), the value stays 3 and the line reads geoToy:denied (the dynamics run exactly as geoPN=2). A two-body system has no non-vertex particles, so it reads mesh:noTargets - a read-out so that nothing passes through silently. WAVE 265b ADDS: a step whose source closure (toyClosure iterate) did not converge reads geoToy:closureUnconverged (no mesh kick is applied and nothing is booked to the ledger on that step, while gravity and the clock still advance), and a universe declaring the mesh-v2 law appends meshV2:<gauge> lambda_min=... cond=..., with a note when the common translation is a structural zero mode. Display only; the physics never changes.",
   benchLabel:"Physics bench (200 steps)",
   benchDesc:"Runs 200 steps on a copy of the current state with no rendering and no HUD, and reports the time per step (General, developer-facing). It runs on a copy, so the live coordinate time and bodies are not touched by a single bit. If the reported ms/step is near or above 16 ms, the cost is in the physics; if ms/step is small yet the frame rate is poor, the cost is in the rendering — this one line separates the two. The \"n steps per budget\" figure says how many steps fit into one frame's physics budget (12 ms) at this cost.",
   benchRun:"Measure",
@@ -1847,12 +1862,17 @@ en: {
     +"J IS A DECLARED VALUE AND IS NOT CONNECTED TO THE FORCES (display and save only).",
   // Wave 264c (report 56): read-only numbers in the layer mode (display only)
   beLyNumHead:"numbers (read-only)",
-  beLyNumSrc:(who,q)=>`Q=${q} (source: ${who})`,
+  beLyNumSrc:(who,q,law)=>`Q=${q} (source: ${who})${law}`,
   beLyNumSrcV2:"core v2", beLyNumSrcLay:"layers", beLyNumSrcNone:"legacy",
+  // wave 265c: the defaults (total mass, zeta=1) are NOT printed in the row (they would wrap it);
+  // both are always readable from the tooltip
+  beLyNumLawTotal:"total mass", beLyNumLawShell:"shell mass",
+  beLyNumLawSuf:(law)=>`, shell term: ${law}`, beLyNumLawTip:(law)=>`shell-term mass law: ${law}`,
+  beLyNumZetaSuf:(z)=>`, zeta=${z}`, beLyNumZetaTip:(z)=>`inertia scale zeta=${z}`,
   beLyNumOm:(om,th)=>`omega=${om} / theta=${th} deg`,
   beLyNumJ:(jm,jz)=>`|J|=${jm} / Jz=${jz}`,
   beLyNumJ2:(jx,jy)=>`Jx=${jx} / Jy=${jy}`,
-  beLyNumE:(er,ic)=>`E_rot=${er} / I_c=${ic}`,
+  beLyNumE:(er,ic,z)=>`E_rot=${er} / I_c=${ic}${z}`,   // wave 265c: printed only when zeta != 1
   beLyNumM:(mc,ms)=>`M_core=${mc} / M_shell=${ms}`,
   beLyNumM2:(kcs,ro)=>`K_cs=${kcs} / obs. radius=${ro}`,
   beLyNumNA:"n/a",
@@ -1908,7 +1928,15 @@ en: {
     +"WAVE 264c: the layer mode now shows READ-ONLY NUMBERS (Q, omega, tilt theta, |J|, Jz, Jx, Jy, E_rot, I_c, M_core, M_shell, K_cs, observed radius). "
     +"A body WITH core v2 shows the core v2 values; a body WITH LAYERS ONLY shows values derived from the layers - the same OWNERSHIP RULE as the "
     +"rotation-field source (core v2 if present, otherwise the layers). The layer J is read ONLY as the rotation-field source (same z projection as core v2), "
-    +"and Jx/Jy are CARRIED AS NUMBERS ONLY (not connected to gravity, drag, precession or heat).",
+    +"and Jx/Jy are CARRIED AS NUMBERS ONLY (not connected to gravity, drag, precession or heat). "
+    +"WAVE 265c: a layer whose J IS EXPLICITLY WRITTEN AS 0 is A LAYER THAT DECLARES Q=0 - distinct from a layer that "
+    +"declares nothing (which falls back to the legacy 1/2 m R^2 s). The distinction survives loading, editing, the "
+    +"checkpoint save/restore, the A/B clone, fusion and particle compaction - SIX PATHS (Jx/Jy behave the same). "
+    +"Layers can now carry an INERTIA SCALE zeta (inertiaScale), the same quantity as core v2's: it acts on BOTH "
+    +"I=zeta*1/2*m*r^2 AND the rotation-field source J/zeta (default 1). On the core v2 side, "
+    +"core.shellSpinMass:\"total\"|\"shell\" chooses whether the shell term uses the total mass m or the shell mass M_s "
+    +"(THE DEFAULT IS total AND NO BUILT-IN SAMPLE DECLARES IT). In the numbers rows, zeta and the shell-term law are "
+    +"NOT printed when they are at their defaults - they are always readable from the tooltip.",
   beLinTitle:"Formation lineage",
   beLinSum:(n,tree,ev,ge)=>`absorbed ${n}× directly · lineage ${ge?"≥":""}${tree} grains (${ev} events logged)`,
   beLinRow:(t,dm,m,ls)=>`t=${t}: +${dm} → m=${m}, dimming=${ls}`,
@@ -2077,6 +2105,8 @@ en: {
   // 第157便: wording reserved for the real-calibration family (fidelity:"real")
   nc_solar_cal:"A two-dimensional model calibrated only on the observables stated here for the real bodies named. It does not reproduce the solar system as a whole, three-dimensional perturbations, or any observable not listed.",
   nc_thermo:"The thermal sector is an analogy with no claimed quantitative correspondence to real thermodynamics.",
+  // wave 265d: the LFBOT TOY HYPOTHESIS (trapped self-light released at collapse)
+  nc_lfbot:"Not an explanation, reproduction or prediction of real luminous fast blue optical transients (LFBOTs such as AT2018cow) — it is a toy built from the hypothesis inside this universe's laws.",
   // 第88便 EXT-09: Failure First heading
   ffHead:"🧪 Failure First",
   ffFail:"FAIL", ffPass:"PASS",
@@ -3038,6 +3068,27 @@ function validateSpaceMesh(a){
       return {ok:false, err:"physics.spaceMesh.toyClosureIters は 1〜64 の整数(固定点反復の最大回数)"};
     tClosureN=Math.round(Number(a.toyClosureIters));
   }
+  // 第265便b(Z2・第57報 W2): **法則版 `law`**("toy" 既定 = 既存の geoPN=3 トイ /"mesh-v2" = 最小代数実装)。
+  //   **既存トイと排他**である(同じ步で両方は走らない —— `dfmGeoToyStep` の入口で分岐する)。
+  //   `meshGauge` は共通並進の扱い("inertia"=重心の慣性を独立に残す /"constraint"=拘束で解く)。
+  //   **既定 "toy" は 1 文字も正準形に出さない**(内蔵は 1 本も宣言しない = 署名も力学もビット不変)。
+  //   **候補であって確立した法則ではない** —— 宣言すると警告を 1 行出し、calibration では拒否する。
+  let mLaw=MESH_V2_LAWS[0], mGauge=MESH_V2_GAUGES[0];
+  if(a.law!==undefined && a.law!==null){
+    if(MESH_V2_LAWS.indexOf(a.law)<0)
+      return {ok:false, err:'physics.spaceMesh.law は "toy"/"mesh-v2"(geoPN=3 の法則版 — 既存トイと排他)'};
+    mLaw=a.law;
+    if(mLaw===MESH_V2_LAWS[1])
+      warn.push('physics.spaceMesh.law:"mesh-v2" — **候補の法則であって確立則ではありません**(第265便b の最小代数実装)。'
+        +'対象は 2 体・回転源なし・正の慣性・衝突なしだけで、それ以外は step が停止理由を返します(力は当たりません)');
+  }
+  if(a.meshGauge!==undefined && a.meshGauge!==null){
+    if(MESH_V2_GAUGES.indexOf(a.meshGauge)<0)
+      return {ok:false, err:'physics.spaceMesh.meshGauge は "inertia"/"constraint"(共通並進の零固有値の扱い)'};
+    mGauge=a.meshGauge;
+  }
+  if(mLaw===MESH_V2_LAWS[1] && tClosure!==SPACE_MESH_TOY_CLOSURE[0])
+    return {ok:false, err:'physics.spaceMesh.law:"mesh-v2" は toyClosure と排他です(mesh-v2 は閉包を代数的に解くので反復を持ちません)'};
   // 第259便c(第51報): **初期メッシュ貯蔵エネルギー E₀ の正名** `meshEnergyCapacity`(**宣言値**)。
   //   第258便b ⑧-3 は「E₀ の正名は無い(供給量の倍数で宣言しただけ)」を決断事項に残した。
   //   本便はそれに名前を与え、`HP.dfmToyLedger` の **E_mesh の基準**にする:
@@ -3057,7 +3108,7 @@ function validateSpaceMesh(a){
   // 動かさないが、黙って落とすと「宣言したのに効いていない」が見えなくなる)
   // 第264便b: `toyClosure`(既定以外)も「宣言があれば正準形を残す」側に数える
   if(grav===false && iner===false && wv===SPACE_MESH_WEAVE[0] && !res && capE===null && lawV===null
-    && !tAllowDrag && tClosure===SPACE_MESH_TOY_CLOSURE[0])
+    && !tAllowDrag && tClosure===SPACE_MESH_TOY_CLOSURE[0] && mLaw===MESH_V2_LAWS[0])
     return {ok:true, spaceMesh:null, warn};
   out.gravity=grav; out.inertia=iner;
   if(iner!==false){
@@ -3088,6 +3139,9 @@ function validateSpaceMesh(a){
     out.toyClosure=tClosure;
     if(tClosureN!==GEO_TOY_CLOSURE_ITERS_DEFAULT) out.toyClosureIters=tClosureN;
   }
+  // 第265便b: **"mesh-v2" のときだけ** law と meshGauge を正準形へ入れる(ゲージは既定でも明示する ——
+  // ①と②で加速度が変わるので「どちらで走ったか」が署名から読めないと再現できない)
+  if(mLaw!==MESH_V2_LAWS[0]){ out.law=mLaw; out.meshGauge=mGauge; }
   return {ok:true, spaceMesh:out, warn};
 }
 // ===== 第252便b(第44報): physics.periSubsteps — 近点近傍だけ刻みを細かくする薄い包み(opt-in・既定 OFF)=====
@@ -3228,15 +3282,24 @@ const CORE_V2_TO_LAYER_ROLE = { rigid:["core","shell"], differential:["core","sh
 //   Jx/Jy は数値として持つが、この関数は読まない。
 //   **宣言が 1 つも無い層(J=Jx=Jy=0)は「未宣言」**として従来式へ落ちる —— 🧅 のように
 //   J を書いていない内蔵プリセットは 1 bit も変わらない(既定経路不変の根拠)。
+// 第265便c(第57報 W3・統括の読み (D)): **値と宣言を分ける**。基点は「J が 1 つも 0 でない」を
+// 宣言の代わりに読んでいたので、**明示ゼロ `J:0` の宣言が失われ**、従来殻式へ戻っていた
+// (統括の予備測定: m=10・r=1・spin=2・V2 なしで `layers:[{role:"core",m:10,r:1,J:0}]` を
+// 明示しても Q=10 になる)。宣言ビット `S.layJD`(1=J・2=Jx・4=Jy)を別に持ち、
+// build・編集・保存/復元・複製・融合・粒子詰め替えの 6 経路で運ぶ。
+// **ζ(層の inertiaScale)は I と J/ζ の双方に効く**(V2 の第 2 項 J_c/ζ と同じ射影 —
+// 層に値を足すだけでは V2 と一致しない)。ζ=1(既定)では `j/1===j` なので既定経路は 1 bit 不変。
 function layerDipoleMoment(S, i){
   if(!S.layN || !S.layJ || !(S.layN[i]>0)) return null;
-  const LM=BODY_LAYER_MAX, b0=i*LM, nl=S.layN[i], Jx=S.layJx, Jy=S.layJy;
+  const LM=BODY_LAYER_MAX, b0=i*LM, nl=S.layN[i], Jx=S.layJx, Jy=S.layJy, JD=S.layJD, IS=S.layIS;
   let sum=0, dec=false;
   for(let q=0;q<nl;q++){
     const j=S.layJ[b0+q];
     if(j!==0) dec=true;
     if(Jx && (Jx[b0+q]!==0 || Jy[b0+q]!==0)) dec=true;   // 面内だけの宣言も「宣言あり」と読む
-    sum+=j;
+    if(JD && JD[b0+q]!==0) dec=true;   // 第265便c: 明示ゼロ(J:0 / Jx:0 / Jy:0)の宣言
+    const z=(IS && IS[b0+q]>0)? IS[b0+q] : 1;
+    sum+=j/z;
   }
   return dec? sum : null;
 }
@@ -3255,6 +3318,12 @@ function spinDipoleMoment(S, i){
   if(md===0 && S.layN && S.layN[i]>0){ const ql=layerDipoleMoment(S,i); if(ql!==null) return ql; }
   const R=S.R[i];
   let Q=0.5*S.m[i]*R*R*S.spin[i];
+  // 第265便c(Z6 後半): **殻項の質量則**。既定 "total"(= body 総質量 m で組む第77便以来の式)は
+  // 1 bit も変えない。opt-in の `core.shellSpinMass:"shell"` を宣言した粒子だけ、殻項を
+  // **殻質量 M_s = m − M_c** で組み直す(層へ移行したときの殻層 J = ½·M_s·R²·spin と同じ式)。
+  // `S.hasShellLaw` は宣言が 1 つも無ければ false = 既定経路は真偽値 1 つを読んで素通りする
+  if(S.hasShellLaw && S.coreSSM[i]===1 && md!==0 && md!==4)
+    Q=0.5*(S.m[i]-S.coreMF[i]*Math.abs(S.m[i]))*R*R*S.spin[i];
   if(md===2 || md===3){   // differential / active のみ(rigid=殻と共回転・cavity=慣性0)
     const Mc=S.coreMF[i]*Math.abs(S.m[i]), Rc=S.RcV[i], Ic=0.5*Mc*Rc*Rc*S.coreIS[i];
     if(Ic>1e-12) Q+=0.5*Mc*Rc*Rc*(S.coreJ[i]/Ic);   // =J_c/ζ(幾何慣性で読み直したコアの寄与)
@@ -5866,6 +5935,73 @@ const BUILTIN_PRESETS = [
     // s=0.9 は**規約**であって導出ではない(R_slip=125.3 は粒子の最外縁 251.3 に届かない)
     // 第259便c(第51報・署名便): 第 4 の鍵 **bg:"static"**(u_bg=0 → u=χ·u_n・q と kFrame にビット不変)。
     // **表示と記録が読む場の選択であって、力学の改善ではない**(力へは 1 バイトも接続していない)
+    galaxyField:{unSource:"disk",unFit:"affine",slipThreshold:0.9,bg:"static"}} },
+
+// 第265便b(第57報 W2・Z4): **銀河の geoPN=3 原理コピー**(🎠 の幾何をそのまま・法則だけトイへ)。
+// 〔第264便b ③〕は器の中だけでこの走行を測っていた(内蔵 0 本)。第57報「ブラックホール連星、星団、
+// 銀河の検証をアナロジーとして進める」を受け、**同じ手順・別窓**で回せるように内蔵へ 1 本だけ足す。
+//   ・**較正ではない**(観測回転曲線は 1 つも入力していない・claim 窓も regression window も張らない)。
+//   ・**🎠 本体の geoPN=0 / kFrame=1 は 1 bit も動かない**(このコピーだけが geoPN=3・kFrame=0)。
+//   ・**mesh-v2 ではない**(第265便b の mesh-v2 は 2 体までしか検証していないので銀河へは当てない)。
+//   ・**pinned 中心核を持つ geoPN=3 の内蔵はこの 1 本が最初**である(〔第264便b ①〕の規定運動の
+//     加速度の修正が内蔵に届く最初の経路 —— だから `behavior.geoToyPinned` ④ の契約を本便で書き換えた)。
+{ id:"galaxyMeshSpiralGeoToy", name:"銀河の空間メッシュ — geoPN=3 原理コピー(較正ではない)", emoji:"🪁",
+  group:"銀河の物語", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
+  notClaim:["galaxy","dm"],
+  obsCard:[
+    {q:"何を替えたか", model:"🎠 の初期条件・粒子・表示をそのままに、**法則だけ** geoPN=3 のトイ測地線モードへ替えた(kFrame=0・lawVersion:scalar・η=1)", obs:"—(原理サンプル — 観測転写はしない)"},
+    {q:"較正ではない", model:"観測回転曲線は**1 つも入力していない**。claim 窓も regression window も無い。**🎠 本体(geoPN=0・kFrame=1)は 1 bit も動かない**", obs:"—"},
+    {q:"pinned 中心核", model:"m=2500 の核は **pinned(規定運動)**。トイの ∂ₜu へ渡す源の加速度は**規定運動の加速度=0**(第264便b ①の修正が内蔵に届く最初の本)", obs:"—"},
+    {q:"3000 步(t=48)の実測", model:"**円盤 260 粒だけ**で保持率 0.996154・V_rms 5.223972(🎠 本体 1.000000/7.351029・geoPN=2 側 0.984615/3.905560)。**どれが正しいかは言えない**(観測量が無い)", obs:"—"},
+    {q:"円盤だけの v_φ(r)", model:"円盤 260 粒だけを 5 帯で見る(核とバルジは外す)。数は PHYSICS〔第265便b〕④ の表", obs:"—(🛞 の観測 v(r) とは窓も抽出器も揃えていない)"},
+    {q:"表示の場と力の場は別", model:"画面の蓄積格子は disk/affine の**表示の場**で、力が読むのは自己除外の正規化平均である(〔第260便a〕の |Δu| 表)。**同じ場ではない**", obs:"—"},
+    {q:"mesh-v2 は当てていない", model:"第265便b の mesh-v2(完全置換の候補)は **2 体でしか検証していない**ので、この本には当てていない(当てると notTwoBody で止まる)", obs:"—"},
+    {q:"言わないこと", model:"**銀河を較正した/回転曲線を再現した/腕が描けた=較正/引きずりを完全置換した**とは書かない(T4)", obs:"—"}],
+  descStruct:{
+    summary:"**🎠「銀河の空間メッシュ」の幾何・粒子・乱数種をそのままに、法則だけを geoPN=3 のトイ測地線モードへ替えた原理コピー**(第265便b・第57報「ブラックホール連星、星団、銀河の検証をアナロジーとして進める」)。重力(E4)はそのままで、E6′ の引きずりと E12 の 1PN は**当たらない**(geoPN=3 は E6′・1PN・座標変換慣性と排他 — 重複適用禁止)。代わりに、自己を除いた正規化平均のフレーム速度 ū=η·u を使う作用 L=½m|v−ū|²−mΦ から出る a=∂ₜū+(∇ū)v−(∇ū)ᵀ(v−ū) を、粒子とメッシュの運動量を同時更新する契約で当てる(第259便a の HP.dfmGeoToyStep)。宣言は lawVersion:\"scalar\"(大域の正規化平均)・η=toyGain=1(既定)・kFrame=0(トイの入場条件)である。**これは較正ではない**: 観測回転曲線は 1 つも入力しておらず、claim 窓も regression window も 1 つも張っていない。**🎠 本体(geoPN=0・kFrame=1)は 1 bit も動かない。****中心核は pinned(規定運動)**なので、トイが ∂ₜu へ渡す源の加速度は規定運動の加速度(静止核では厳密に 0)である — 第264便b ① の修正が**内蔵に届く最初の経路**がこの本である。第265便b の mesh-v2(引きずりの完全置換の候補・最小代数実装)は **2 体でしか検証していない**ので、この本には当てていない。",
+    observe:"実測(器 tests/exp-w265b-galaxy.mjs・dt=0.016・351 体・seed 20260910・T=48=3000 步): ①**保持率**(**指数円盤 260 粒だけ**のうち r ≤ R_ref にいる割合。R_ref=t=0 の円盤粒子の最大半径=259.5872)は 3000 步で 0.996154。🎠 本体(geoPN=0・kFrame=1)は 1.000000、同じ初期条件の geoPN=2・kFrame=0 は 0.984615 である。②**V_rms**(同じ円盤粒子)は 5.223972(本体 7.351029・geoPN=2 側 3.905560)。〔第264便b ③〕の 7.63430 等は**全粒子**の窓なので直接は比べられない(窓が違う)。**この 3 つのどれが「正しい」かは、この表からは言えない**(比べる観測量が 1 つも無い — 較正はしていない)。③**円盤だけの v_φ(r)**(中心核とバルジ 90 粒を外し、指数円盤 260 粒だけを R_ref の 0.1/0.25/0.5/0.75/1.0 倍・幅 ±12.5% の 5 帯で見る)と σ_R(同じ帯の動径速度の標準偏差)を PHYSICS〔第265便b〕④ の表に置いた。**全粒子の半質量半径は指標にしない**(中心質量が支配するので円盤の話にならない)。④**刻み依存**: 同じ終了時刻 T=9.6 を dt=0.016/0.008/0.004 で走らせると、円盤の V_rms は本サンプルで 5.377020/5.376440/5.314906、🎠 本体で 7.283439/7.231572/7.242114 と動く(**どちらも非単調**)。v_φ(0.5R_ref) は 4.1532/4.1533/4.1538(本サンプル)で 4 桁一致する。**単純外挿しない。**⑤健全性: NaN 0・トイの帳簿は E_toy+E_mesh=0(厳密)。⑥**言わないこと**: **銀河を較正した/回転曲線を再現した/腕が描けた=較正/引きずりを完全置換した**とは書かない(T4)。観測 v(r) の門を持つのは 🛞 だけで、σ は接続していない。",
+    control:"ワンタップ対照A/B: B 側は **D₀=500**(χ→0)でトイがほぼ切れる。パラメータ行の D₀ を上げるほど χ が下がってトイが弱まり、下げるほど強まる。**kFrame は動かさないこと**(geoPN=3 の入場条件なので、0 以外にするとステップ会計に geoToy:denied が出て力学は geoPN=2 と同じで走る)。比較の相手は 🎠(同じ初期条件・geoPN=0・kFrame=1)である。"},
+  en:{name:"Galaxy space mesh — geoPN=3 principle copy (NOT a calibration)",
+    obsCard:[
+      {q:"What was swapped", model:"🎠's initial conditions, particles and display are unchanged; ONLY THE LAW is swapped for the geoPN=3 toy geodesic mode (kFrame=0, lawVersion scalar, eta=1)", obs:"- (a principle sample; no observation is transcribed)"},
+      {q:"This is not a calibration", model:"NO observed rotation curve is fed in; there is no claim window and no regression window. 🎠 ITSELF (geoPN=0, kFrame=1) IS BIT-UNCHANGED", obs:"-"},
+      {q:"The pinned nucleus", model:"The m=2500 nucleus is PINNED (prescribed motion), so the source acceleration handed to the toy's d/dt u is the prescribed one (exactly 0 at rest) - wave 264b's fix reaches a built-in sample here for the first time", obs:"-"},
+      {q:"Measured at 3000 steps (t=48)", model:"Over the 260 disc particles only: retention 0.996154, V_rms 5.223972 (🎠 itself 1.000000 / 7.351029; the geoPN=2 control 0.984615 / 3.905560). WHICH ONE IS RIGHT CANNOT BE SAID from this table - there is no observable to compare against", obs:"-"},
+      {q:"v_phi(r) of the disc only", model:"Only the 260 exponential-disc particles are binned into five radial bands (the nucleus and the bulge are excluded). The numbers live in PHYSICS, wave 265b, section 4", obs:"- (the window and the extractor are NOT aligned with the observed v(r) of 🛞)"},
+      {q:"The displayed field is not the field of the force", model:"The accumulated grid on screen is the disk/affine DISPLAY field, while the force reads the self-excluded normalised average (see the |du| table of wave 260a). THEY ARE NOT THE SAME FIELD", obs:"-"},
+      {q:"mesh-v2 is NOT applied here", model:"Wave 265b's mesh-v2 (the candidate full replacement) is verified for TWO BODIES ONLY, so it is not applied to this sample (it would stop with notTwoBody)", obs:"-"},
+      {q:"What this does not claim", model:"NOT a calibrated galaxy, NOT a reproduced rotation curve, NOT 'the arms came out, therefore calibrated', NOT a complete replacement of the dragging (T4)", obs:"-"}],
+    descStruct:{
+      summary:"A PRINCIPLE COPY OF 🎠 'GALAXY SPACE MESH' WITH THE SAME GEOMETRY, PARTICLES AND RANDOM SEED, AND ONLY THE LAW SWAPPED FOR THE geoPN=3 TOY GEODESIC MODE (wave 265b, report 57: 'carry the black-hole binary, star cluster and galaxy checks forward as analogies'). Gravity (E4) is unchanged, while the E6-prime dragging and the E12 1PN term DO NOT ACT (geoPN=3 is exclusive with E6-prime, 1PN and the coordinate inertia - no double application). In their place the toy applies a = d/dt u-bar + (grad u-bar)v - (grad u-bar)^T (v - u-bar), derived from L = 1/2 m |v - u-bar|^2 - m Phi with u-bar = eta u the self-excluded normalised average frame velocity, updating the particle and mesh momenta in the same step (HP.dfmGeoToyStep, wave 259a). The declarations are lawVersion scalar, eta = toyGain = 1 (the default) and kFrame = 0 (the toy's entry condition). THIS IS NOT A CALIBRATION: no observed rotation curve is fed in, and not one claim window or regression window is declared. 🎠 ITSELF (geoPN=0, kFrame=1) IS BIT-UNCHANGED. THE NUCLEUS IS PINNED (prescribed motion), so the source acceleration handed to the toy's d/dt u is the prescribed one (exactly zero for a nucleus at rest) - this sample is THE FIRST BUILT-IN PATH on which wave 264b's fix acts at all. Wave 265b's mesh-v2 (the candidate full replacement, a minimal algebraic implementation) IS VERIFIED FOR TWO BODIES ONLY and is therefore not applied here.",
+      observe:"Measured (harness tests/exp-w265b-galaxy.mjs, dt=0.016, 351 bodies, seed 20260910, T=48 = 3000 steps). (1) RETENTION (the fraction of the 260 EXPONENTIAL-DISC particles inside R_ref, the initial maximum disc radius 259.5872) is 0.996154 at 3000 steps; 🎠 itself (geoPN=0, kFrame=1) gives 1.000000 and the geoPN=2, kFrame=0 control gives 0.984615. (2) V_rms over the same disc particles is 5.223972 against 7.351029 (🎠) and 3.905560 (geoPN=2). The 7.63430 of wave 264b section 3 uses the ALL-PARTICLE window and is not directly comparable. WHICH OF THE THREE IS 'RIGHT' CANNOT BE SAID FROM THIS TABLE - there is not one observable to compare against, and nothing is calibrated. (3) v_phi(r) OF THE DISC ONLY (the nucleus and the 90 bulge particles are excluded; only the 260 exponential-disc particles are binned at 0.1 / 0.25 / 0.5 / 0.75 / 1.0 of R_ref with a half-width of 12.5%) and sigma_R (the standard deviation of the radial velocity in the same bands) are tabulated in PHYSICS, wave 265b, section 4. THE HALF-MASS RADIUS OF ALL PARTICLES IS NOT USED as an indicator (the central mass dominates it). (4) STEP DEPENDENCE: at the same end time T=9.6 with dt = 0.016 / 0.008 / 0.004 the disc V_rms reads 5.377020 / 5.376440 / 5.314906 here and 7.283439 / 7.231572 / 7.242114 on 🎠 itself - BOTH NON-MONOTONIC - while v_phi(0.5 R_ref) holds at 4.1532 / 4.1533 / 4.1538. DO NOT EXTRAPOLATE NAIVELY. (5) Health: zero NaN; the toy ledger closes with E_toy + E_mesh = 0 exactly. (6) WHAT THIS DOES NOT CLAIM: not a calibrated galaxy, not a reproduced rotation curve, not 'the arms came out, therefore calibrated', not a complete replacement of the dragging (T4). Only 🛞 carries an observed v(r) gate, and sigma is not connected.",
+      control:"One-tap A/B: side B runs D0=500 (chi to 0), which all but switches the toy off. Raising D0 in the parameter row lowers chi and weakens the toy; lowering it strengthens the toy. DO NOT MOVE kFrame: it is the toy's entry condition, so any value other than 0 shows geoToy:denied in the step accounting and the dynamics run exactly as geoPN=2. The comparison partner is 🎠 (same initial conditions, geoPN=0, kFrame=1)."}},
+  parameterAudit:{
+    observedInputs:["**無い。** 観測回転曲線も観測質量も 1 つも入力していない(原理サンプル)"],
+    fixedConventions:["🎠 の幾何・粒子・乱数種 20260910 をそのまま(比較のため 1 バイトも変えない)",
+      "geoPN=3(第259便a のトイ測地線モード)+ physics.spaceMesh の lawVersion:\"scalar\"・inertia:false",
+      "kFrame=0(トイの入場条件 — E6′/E12 の追従を置換するので追従の結合が立っていてはならない)",
+      "toyGain η=1(既定 — 正準形には書かれない)","cLight=30(組込みプリセットの規約)"],
+    fitted:["**無い。**"],
+    derived:["χ(r)=W(r)/(W(r)+D₀)(W は frameWeight:\"share\" なので p=1 の加算形)"],
+    numerical:["ソフトニング ε=3","時間倍率 timeScale=3","測定: dt=0.016 で 3000 步(T=48)・刻み依存は dt=0.016/0.008/0.004"]},
+  activeParams:["D0","G"],
+  validT:48,
+  abQuick:{key:"D0", v:500},   // B 側は D₀ 大 = χ→0(トイがほぼ切れる対照)
+  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260910,
+  physics:{G:0.8, D0:1.5, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:3, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:3, stateCarry:"double", frameWeight:"share",
+    spaceMesh:{mode:"vertex", gravity:false, inertia:false, lawVersion:"scalar"}},
+  bodies:[
+    // 🎠 と**同一**(バルジ核 pinned + Plummer バルジ + 指数円盤)
+    {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, radius:15},
+    {type:"disk", rMul:1.2, n:90, cx:0,cy:0, radius:90, profile:"plummer", plummerScale:26,
+     mMin:0.16,mMax:0.5, spinMin:0,spinMax:0, vMode:"random", vScale:6, direction:1, bulkVx:0, bulkVy:0},
+    {type:"disk", rMul:1.2, n:260, cx:0,cy:0, radius:260, profile:"exponential", sersicRe:90,
+     mMin:0.16,mMax:0.5, spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1.05,
+     direction:1, bulkVx:0, bulkVy:0}],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,
+    spaceMesh:{mode:"mesh"},
     galaxyField:{unSource:"disk",unFit:"affine",slipThreshold:0.9,bg:"static"}} },
 
 // ===== グループ: 光の物語(第147便で「光」から改名 — 表示・分類専用)=====
@@ -12885,6 +13021,57 @@ const BUILTIN_PRESETS = [
            shed:{omegaCrit:10, frac:0.5, n:32, rLaunch:1.5, jFrac:0.3, once:true}}}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
 
+// ===== 第265便d(第57報 W4): LFBOT の**トイ仮説** — 減光で溜めた自光をコアの崩壊で一気に出す =====
+{ id:"lfbotTrap", name:"閉じ込めた光の解放 — 減光で溜めた自光をコアの崩壊で放つ(トイ仮説)", emoji:"🐮", group:"天体の物語",
+  scaleTier:"stellar", sampleClass:"principle", notClaim:["cal","lfbot"],
+  obsCard:[
+    {q:"蓄積した光 E_γ(崩壊の直前)", model:"**5.4292**(t=12.768)。蓄積中は外へ出ていないので見た目は暗い(発火の步で 5.2309)", obs:"—(原理サンプル — 観測転写はしない)"},
+    {q:"放出 E_esc(2500步の総量)", model:"**8.7605**。引き出し総量(E_in 3.0548 + E_s から 5.7378)の **99.64%** が出た", obs:"—"},
+    {q:"1 光子あたりのエネルギー ν̄", model:"蓄積でピーク **13.504**(注入時 2.008 の 6.7 倍 = 青い)→ 放出後は **2.153** へ戻る(赤い残光)", obs:"—"},
+    {q:"エジェクタ速度(最大/中央)", model:"shed 片 32 粒の速度 最大 **8.7320**・中央 **8.7296**(**v/c=0.29107**・c₀=30)", obs:"—"},
+    {q:"崩壊(shed 発火)", model:"**t=12.784 で 1 回**(Ω_c=10)。同じ步で t_esc が 40→0.4 へ切り替わり L_esc が **13.622**(直前の 145 倍)", obs:"—"},
+    {q:"保存則の残差", model:"E_s+E_γ+E_esc+Q−E_in=E_s(0) の相対残差は dt/dt2/dt4 で **5.7e−16 / 4.5e−16 / −4.5e−15**", obs:"—"},
+    {q:"帳簿の引き算", model:"E_s+E_γ+E_esc+Q−E_in=E_s(0)。E_in(減光で熱から引き取った分)を落とすと二重計上になる", obs:"—"},
+    {q:"実在の LFBOT", model:"**説明でも予測でもない**(AT2018cow 等へ σ を出さない)。「崩壊したら必ず出る」はスイッチであって予測式ではない", obs:"—"}],
+  descStruct:{
+    summary:"**減光で外へ出られなかった自分の光を溜め込み、コアの崩壊で一気に放つ**という仮説を、この宇宙の法則の内側で組み立てたトイである(第57報「『Luminous Fast Blue Optical Transient』について、『減光』で青方偏移した光が蓄積し、天体の崩壊で一気に放出した、という仮説を立てる」)。部品は既にあるものだけ: 減光 lightSweep(自光の透過 T=1−ℓ・auto なら ℓ=min(1,|s|R/c_surf))・放射冷却 E11(Λ=η_rad·T^p を (1−ℓ) 倍に抑える)・コア V2 の収縮 contract と放出 shed・重力 E4。足したのは宣言 **core.lightTrap{enable, supply, tEsc, tEscCollapse, shiftRate}** 1 つだけで、S._core には 1 命令も入れていない(実体は步の末尾の 1 パス)。**どのエネルギーが動くかを先に決めてある**: ①減光で出られなかった分 ℓ·Λ は**熱から引き取って** E_γ へ移す(radE には積まない = 二重計上しない・T は減光が無かったときと同じだけ下がる)②青方偏移の仕事 P_shift は**供給源 E_s から支払う**(光子数 N_γ は不変なので ν̄=E_γ/(h·N_γ) だけが上がる・E_s が尽きれば止まる)③脱出は L_esc=E_γ/t_esc で、崩壊(shed 発火)を境に t_esc→tEscCollapse へ切り替わる。恒等式は **E_s+E_γ+E_esc+Q−E_in=E_s(0)** である —— **E_in を落として「E_s+E_γ+E_esc+Q=一定」と書くと二重計上になる**。E_s は core.internalEnergy から**切り出して**いるので、宣言でエネルギーが増えることはない。**言わないこと**: 「AT2018cow を再現した/予測した」「LFBOT を観測一致させた」「崩壊したら必ず放出する(これはスイッチであって予測式ではない)」。**正直な限界**: 溜めるのは**自光だけ**で、井戸へ落ちてくる外来光の捕獲は入っていない。熱の引き取りは内部温度モードの宇宙でだけ働く。光線積分器の光学的深さ τ_λ とは別物である(混ぜていない)。",
+    observe:"実測(dt=0.016・2500步=t40): **①蓄積期は暗いまま青くなる** — E_γ が 0→**5.4292**(t=12.768)まで増える間、出ていく光 L_esc は 0.094 どまりで、1 光子あたりのエネルギー ν̄ は **2.008→13.504** へ上がる(供給源 E_s は 4000→3994.99 と 5.0 しか減っていない)。**②崩壊は 1 回** — contract=0.02 で自走したコアが Ω_c=10 に達した **t=12.784** で shed が発火し(32 粒・残骸 450)、同じ步で lightTrap のラッチが立って t_esc が 40→0.4 へ切り替わる。**③フラッシュ** — L_esc がピーク **13.622**(直前の定常の **145 倍**)・崩壊後の放出量の半分に達するまで **0.832**(蓄積に掛けた 12.8 の 1/15)。放出後 ν̄ は **2.153** へ戻る。**④放出総量** — 2500步で E_esc=**8.7605** = 引き出し総量(熱から 3.0548 + E_s から 5.7378)の **99.64%**。**⑤エジェクタ** — 32 粒の速度は 最大 **8.7320**・中央 **8.7296**(**v/c=0.29107**)。**⑥帳簿** — 相対残差は dt=0.016/0.008/0.004 で **5.68×10⁻¹⁶ / 4.54×10⁻¹⁶ / −4.54×10⁻¹⁵**(刻みに依らず丸め水準)。**E_in を落とすと 3.05 ずれたまま縮まない**(= 落として書くのが二重計上である証拠)。NaN 0・shed 発火 1 回・粒子 17→49。**⑦対照 4 本**(供給源は同じ 4000): ①shiftRate=0 で ν̄ が 2.000 のまま・ピーク 1/6.4・立ち上がり 10.6 倍 ②lightTrap を外すと E_esc は**厳密に 0** ③tEscCollapse=tEsc では E_γ が t=40 まで溜まり ν̄ が 1256.7 まで青くなって放出が遅い(半量まで 24.0)④refill:false では総量が 25% 減り、残った少数の光子に仕事が乗り続けて ν̄ が 5339 まで発散する。**⑧識別性** — つまみを 2 倍にすると、**爆発時刻は ±0**(決めているのは contract と shed.omegaCrit)・**エジェクタ速度は ×1.000**(lightTrap は力学へ 1 バイトも接続していない)・色と光度は shiftRate で同じ向きに動く(×12.9 と ×11.3)ので**別々には合わせられない**。色と切り離して光度を動かせるのは tEscCollapse だけ(×1.056 対 ×0.500)。**⑨観測から課す条件(記録のみ・合否は出さない)**: AT2018cow の高温維持と後期の光球縮小(Perley 2019)・AT2022tsd の数か月にわたる分スケール光学フレア(Ho 2023 — 一度で空になる貯蔵槽では足りない)・~224 Hz の X 線 QPO(Pasham 2021)。**3 つともこのトイではまだ出せていない**(ν̄ は下がる・後期は定常的な漏れでフレアにならない・周期構造は 0)。著者たちが DFM を支持したという意味ではない。QA `behavior.lightTrapLedger`・`preset.lfbotTrap` が帳簿と宣言を機械固定する。",
+    control:"ワンタップ対照は **core.lightTrap を外す**(=🎆 と同じ「溜めない」道 — 減光で抑えられた分はそのまま熱に残る)。手動の対照 4 本: ①shiftRate=0(青方偏移なし)②lightTrap なし(閉じ込めなし)③tEscCollapse を tEsc と同じにする(崩壊で脱出を変えない)④supply=0(再充填なし)。⚪(徐々に剥がれる道)・🎆(割って出す道)と並べて読む。"},
+  en:{name:"Releasing Trapped Light — Self-Light Hoarded by Dimming, Let Go at Core Collapse (toy hypothesis)", descStruct:{
+    summary:"A TOY BUILT INSIDE THIS UNIVERSE'S LAWS from the hypothesis that A BODY HOARDS THE LIGHT ITS OWN DIMMING KEEPS IN, AND LETS IT ALL GO WHEN THE CORE COLLAPSES (report 57: 'for Luminous Fast Blue Optical Transients, take the hypothesis that light blue-shifted by DIMMING accumulates and is released all at once when the body collapses'). Every part already existed: dimming lightSweep (own-light transmission T=1-l; with auto, l=min(1,|s|R/c_surf)), radiative cooling E11 (L=eta_rad*T^p, held down by the factor (1-l)), the Core-v2 contraction and shedding, and gravity E4. ONE DECLARATION is added - core.lightTrap{enable, supply, tEsc, tEscCollapse, shiftRate} - and NOT ONE INSTRUCTION goes into S._core (the work happens in a single pass at the end of the step). WHICH ENERGY MOVES IS DECIDED UP FRONT: (1) the part the dimming kept in is TAKEN OUT OF THE HEAT and moved into E_gamma (it is NOT added to radE - that would be double counting - and T falls exactly as it would have with no dimming); (2) the blue-shift work P_shift IS PAID OUT OF THE SUPPLY E_s (the photon number N_gamma does not change, so only the energy per photon rises, and it stops when E_s runs out); (3) escape is L_esc=E_gamma/t_esc, and at collapse (the shed firing) t_esc switches to tEscCollapse. THE IDENTITY IS E_s+E_gamma+E_esc+Q-E_in=E_s(0) - WRITING IT WITHOUT E_in WOULD BE DOUBLE COUNTING. E_s is CARVED OUT of core.internalEnergy, so the declaration never creates energy. WHAT IS NOT CLAIMED: that AT2018cow is reproduced or predicted, that LFBOTs are matched to observation, or that 'collapse always releases' is a prediction (it is a switch). HONEST LIMITS: only the body's OWN light is hoarded (capture of incoming light is not implemented); the heat withdrawal works only in the internal-temperature mode; and this is not the optical depth of the ray integrator.",
+    observe:"Measured (dt=0.016, 2500 steps = t40): (1) THE HOARDING PHASE IS DARK AND TURNS BLUE - E_gamma climbs 0 -> 5.4292 by t=12.768 while the escaping power stays at 0.094, and the energy per photon rises 2.008 -> 13.504 (the supply E_s falls only 4000 -> 3994.99). (2) THE COLLAPSE HAPPENS ONCE - the core spun up by contract=0.02 reaches Omega_c=10 at t=12.784, shed fires (32 grains, remnant 450), and in the same step the trap latches and t_esc switches 40 -> 0.4. (3) THE FLASH - the escaping power peaks at 13.622, 145 TIMES the level just before, and half of the post-collapse output is out within 0.832 (one fifteenth of the 12.8 it took to hoard). Afterwards the energy per photon falls back to 2.153. (4) TOTAL RELEASED - E_esc=8.7605 over 2500 steps, 99.64% of everything drawn (3.0548 from the heat plus 5.7378 from the supply). (5) EJECTA - the 32 grains reach 8.7320 at most and 8.7296 in the median (v/c=0.29107). (6) THE LEDGER - the relative residual of E_s+E_gamma+E_esc+Q-E_in=E_s(0) is 5.68e-16 / 4.54e-16 / -4.54e-15 at dt, dt/2, dt/4 (rounding level, independent of the step). DROP E_in AND IT STAYS OFF BY 3.05 AND NEVER SHRINKS - that is the evidence that dropping it is double counting. No NaN; one shed firing; 17 -> 49 particles. (7) FOUR CONTROLS (same supply, 4000): with shiftRate=0 the colour never moves (2.000) and the peak is a sixth with a ten times slower rise; removing lightTrap gives EXACTLY ZERO escape; with tEscCollapse=tEsc the reservoir keeps filling to t=40, the photons reach 1256.7 each and the release is slow (half-time 24.0); with refill:false the total drops 25% and the few remaining photons keep absorbing work until the energy per photon diverges to 5339. (8) IDENTIFIABILITY - doubling each knob leaves THE EXPLOSION TIME UNCHANGED (it is set by contract and shed.omegaCrit) and THE EJECTA SPEED UNCHANGED (the trap is not connected to the dynamics by a single byte), while colour and luminosity both move with shiftRate in the same direction (x12.9 and x11.3), SO THEY CANNOT BE TUNED SEPARATELY; only tEscCollapse moves luminosity apart from colour (x1.056 against x0.500). (9) WHAT OBSERVATION WOULD DEMAND (recorded only, no pass or fail): AT2018cow stays hot while its photosphere shrinks late (Perley 2019); AT2022tsd flares on minute timescales for months (Ho 2023 - a reservoir that empties once is not enough); a ~224 Hz X-ray QPO in AT2018cow (Pasham 2021). THIS TOY DELIVERS NONE OF THE THREE (the colour falls, the late phase is a steady leak rather than flares, and there is no periodic structure). None of this implies those authors endorse DFM.",
+    control:"The one-tap control is TO REMOVE core.lightTrap (the shape of the wave-244 road, where the light held in by dimming simply stays as heat). Four manual controls: (1) shiftRate=0 (no blue shift); (2) no lightTrap (no confinement); (3) tEscCollapse equal to tEsc (collapse does not change the escape); (4) supply=0 (no refill). Read it beside the gradual road and the splitting road."}},
+  parameterAudit:{
+    observedInputs:["なし(原理トイ — 観測値の転写はしない)"],
+    fixedConventions:["台帳 f=2 の恒星(殻 300+コア 300・massFrac 0.5・Rc=1.5)・kFrame=1・pairReduced+重心系・境界なし・融合なし","lightTrap の 5 値(enable・supply・tEsc・tEscCollapse・shiftRate)は**用量の宣言**であってフィットではない","外殻ガス環 16 粒(r=60・m=0.5・ケプラー速度)は放出を受ける相手を置くための構成"],
+    fitted:["なし(観測量に合わせて動かした数は 1 つも無い)"],
+    derived:["発火 Ω_c=10 は contract 0.02 で Ω=6 から自走した帰結(t=12.784)/ L_esc=E_γ/t_esc・ν̄=E_γ/(h·N_γ)(h≡1)・P_shift=shiftRate·ψ·E_γ / 恒等式 E_s+E_γ+E_esc+Q−E_in=E_s(0) の相対残差 5.68×10⁻¹⁶(dt=0.016)"],
+    numerical:["dt=0.016・2500步。dt/2(5000步)・dt/4(10000步)の 3 段で保存則の残差を測る"]},
+  activeParams:["etaRad","kFrame","G"],
+  thermal:"tint", validT:40,
+  massCalibration:{law:"chi-law-v1-transfer", C:1, factorUniform:2},
+  balanceFrame:"barycentric",
+  camera:{scale:320}, world:{boundary:"none",size:0}, seed:20260916,
+  physics:{G:4, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+    cLight:30, bM:1, etaRad:0.02, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
+    pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2,
+    frameReaction:"pairReduced", coupleSink:"reservoir", frameWeight:"share"},
+  bodies:[
+    // 高速自転の V2 コアを持つ恒星(殻 300+コア 300)。減光は auto(lS_eff≈1)で自光が出ない。
+    // contract=0.02 で Ω_c が自走し、omegaCrit=10 で shed が 1 回だけ発火する = 崩壊のトリガ。
+    // lightTrap の供給源 E_s=4000 は core.internalEnergy=12000 から切り出す(エネルギーは作らない)
+    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.08, pinned:false, tInt:2, lightSweep:"auto",
+     shell:"solid",
+     core:{mode:"differential", massFrac:0.5, radius:1.5, omega:6, Kcs:0, contract:0.02,
+           internalEnergy:12000,
+           shed:{omegaCrit:10, frac:0.5, n:32, rLaunch:1.5, jFrac:0.3, once:true},
+           lightTrap:{enable:true, supply:4000, tEsc:40, tEscCollapse:0.4, shiftRate:0.6}}},
+    // 外殻ガス環(放出を受ける相手 — 力学は E4 の重力だけ)
+    {type:"ring", n:16, cx:0, cy:0, rIn:60, rOut:60, mMin:0.5, mMax:0.5, spinMin:0, spinMax:0,
+     vMode:"kepler", aroundMass:600, omega:0, vNoise:0, vScale:1, direction:1,
+     bulkVx:0, bulkVy:0, pinned:false, shell:"gas"}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
+
 // ===== 第259便b(第51報 W2): 親子コア(同心層)の原理サンプル =====
 { id:"layeredCoreDFM", name:"親子コア — 観測半径は殻・質量はコア(二層天体の原理)", emoji:"🧅", group:"天体の物語",
   scaleTier:"stellar", sampleClass:"principle", notClaim:["cal"],
@@ -13786,6 +13973,16 @@ function validatePreset(obj){
   // 第264便b: 源の閉包 "iterate" も同じ扱い(**診断であって採用則ではない**)
   if(p.sampleClass==="calibration" && ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].toyClosure==="iterate")
     bad('physics.spaceMesh.toyClosure:"iterate"(源の加速度に自分のトイ項を戻す固定点反復の診断キー)は sampleClass:"calibration" では使えません');
+  // 第265便b(Z2): **mesh-v2 は principle 限定**(較正へ入れない)・**geoPN=3 でなければ意味を持たない**・
+  // **E6′/E12 と重ねない**(toyAllowDrag と排他)。宣言だけが残って力が当たらない状態を作らない。
+  if(ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].law==="mesh-v2"){
+    if(p.sampleClass==="calibration")
+      bad('physics.spaceMesh.law:"mesh-v2"(引きずりの完全置換の候補・最小代数実装)は sampleClass:"calibration" では使えません');
+    else if(!(ph.geoPN>=3))
+      bad('physics.spaceMesh.law:"mesh-v2" は physics.geoPN=3 専用です(既存の E6′/E12 の経路とは排他)');
+    else if(ph[SPACE_MESH_KEY].toyAllowDrag===true)
+      bad('physics.spaceMesh.law:"mesh-v2" は toyAllowDrag(E6′ と重ねる診断キー)と排他です');
+  }
   // 第240便: contact は ∇u 勾配(geoPN=2)と両立しない(フレーム重み w′ の勾配を持たない)→ interior へ落とす
   if(ph[DRAG_REF_KEY]===DRAG_CONTACT && ph.geoPN===2){ warnings.push('physics.dragRef:"contact" は geoPN=2 と併用不可 — "interior" に修正'); ph[DRAG_REF_KEY]="interior"; }
   // 第242便: contact(接触=完全引きずり)は share のフレーム重みで定義した opt-in — 既定 pull と併用しない(合成は裁定事項)
@@ -13834,6 +14031,18 @@ function validatePreset(obj){
         if(cav) warnings.push(at+".core.inertiaScale は cavity では無効 — 無視します");
         else if(!isNum(c.inertiaScale)){ bad(at+".core.inertiaScale が数値ではありません"); return false; }
         else oc.inertiaScale=wc(c.inertiaScale,1e-3,1e6,"core.inertiaScale");
+      }
+      // 第265便c(第57報 W3・Z6 後半): shellSpinMass — **殻スピン項の質量則**。
+      //   "total"(既定・省略時はキーを持たない = 第77便以来の式で 1 bit 不変): Q の第 1 項を
+      //     **body の総質量 m** で組む(½·m·R²·spin)。
+      //   "shell"(opt-in): 第 1 項を **殻質量 M_s = m − M_c** で組む(½·M_s·R²·spin)——
+      //     親子コアの層へ移したときの殻層 J と同じ式になるので、回転場の源が spin≠0 でも一致する。
+      // **既定を変えていない**(内蔵 122 本は 1 本もこのキーを宣言しない)。cavity は殻項を持たないので無効
+      if(c.shellSpinMass!==undefined){
+        if(cav) warnings.push(at+".core.shellSpinMass は cavity では無効 — 無視します");
+        else if(c.shellSpinMass!=="shell" && c.shellSpinMass!=="total")
+          warnings.push(at+'.core.shellSpinMass は "total"/"shell" のいずれか — 無視します(既定 total)');
+        else if(c.shellSpinMass==="shell") oc.shellSpinMass="shell";
       }
       // 第210便: tilt — コア回転軸の傾き θ[度・0〜180](opt-in。省略時はキーを持たず 1 bit 不変)。
       // 2D エンジンが見るのは z 射影 J_z=|J|cosθ だけ(面内引きずり・スポーク表示・帳簿とも)。
@@ -13969,6 +14178,40 @@ function validatePreset(obj){
           oc.shed=sd;
         }
       }
+      // ===== 第265便d(第57報 W4): core.lightTrap(opt-in・既定 off)=====
+      // 「減光で出られなかった自光が蓄積し、崩壊で一気に出る」という**トイ仮説**の宣言である
+      // (観測事実の主張ではない —— 使う本は sampleClass:"principle" + notClaim:["lfbot"])。
+      // **不正は body を落とさず lightTrap だけを落とす**(core.shed と同じ流儀)。
+      if(c.lightTrap!==undefined){
+        const LT=c.lightTrap;
+        if(cav) warnings.push(at+".core.lightTrap は cavity では無効 — 無視します");
+        else if(!LT || typeof LT!=="object" || Array.isArray(LT))
+          warnings.push(at+".core.lightTrap はオブジェクト {enable, tEsc, …} が必要 — 無視します");
+        else if(LT.enable!==true){
+          if(LT.enable!==undefined && LT.enable!==false) warnings.push(at+".core.lightTrap.enable は true/false — 無視します");
+        } else if(!isNum(LT.tEsc) || !(LT.tEsc>0))
+          warnings.push(at+".core.lightTrap.tEsc は正の数値が必要 — lightTrap を無視します");
+        else {
+          const lt={enable:true, tEsc:wc(LT.tEsc,1e-9,1e9,"core.lightTrap.tEsc")};
+          const opt=(k,lo,hi)=>{ if(LT[k]===undefined) return;
+            if(!isNum(LT[k]) || !(LT[k]>=lo)){ warnings.push(at+".core.lightTrap."+k+" は "+lo+" 以上の数値が必要 — 無視します"); return; }
+            lt[k]=wc(LT[k],lo,hi,"core.lightTrap."+k); };
+          opt("tEscCollapse",1e-9,1e9); opt("shiftRate",0,1e6); opt("supply",0,1e9);
+          opt("absRate",0,1e6); opt("collapseR",0,200);
+          if(LT.refill!==undefined){
+            if(LT.refill!==true && LT.refill!==false) warnings.push(at+".core.lightTrap.refill は true/false — true にします");
+            else if(LT.refill===false) lt.refill=false;
+          }
+          for(const k of Object.keys(LT))
+            if(["enable","tEsc","tEscCollapse","shiftRate","supply","absRate","collapseR","refill"].indexOf(k)<0)
+              warnings.push(at+".core.lightTrap の未知キー("+String(k).slice(0,20)+")— 無視");
+          // **供給源 E_s はコアの宣言内部エネルギーから切り出す**(新しいエネルギーは作らない)。
+          // 足りなければ切り出せる分だけになる —— 黙って作らないことを警告で明示する
+          if((lt.supply||0) > (oc.internalEnergy||0))
+            warnings.push(at+".core.lightTrap.supply が core.internalEnergy を超えています — 切り出せる分だけを E_s にします(エネルギーは作りません)");
+          oc.lightTrap=lt;
+        }
+      }
       return oc;
     };
     // ===== 第259便b(第51報 W2): body.layers の検証器 =====
@@ -14011,7 +14254,15 @@ function validatePreset(obj){
           if(!isNum(L[kj])){ warnings.push(atk+"."+kj+" は数値が必要 — "+kj+" を無視します"); }
           else o2[kj]=clamp(L[kj], -BODY_LAYER_JCAP, BODY_LAYER_JCAP);
         }
-        for(const k2 of Object.keys(L)) if(["role","m","r","J","Jx","Jy"].indexOf(k2)<0)
+        // 第265便c(第57報 W3・Z6 前半): 層の **inertiaScale(ζ)**。省略可・既定 1(正準形には
+        // 宣言されたときだけ出る = 既定経路の署名は 1 bit も動かない)。コア V2 の ζ と同じ値域で、
+        // **I=ζ·½·m_k·r_k² と回転場の源 J_k/ζ の双方に効く**(値を足すだけでは V2 と一致しない)
+        if(L.inertiaScale!==undefined){
+          if(!isNum(L.inertiaScale) || !(L.inertiaScale>0)){
+            warnings.push(atk+".inertiaScale は正の数値が必要 — inertiaScale を無視します"); }
+          else o2.inertiaScale=clamp(L.inertiaScale, 1e-3, 1e6);
+        }
+        for(const k2 of Object.keys(L)) if(["role","m","r","J","Jx","Jy","inertiaScale"].indexOf(k2)<0)
           warnings.push(atk+" の未知キー("+String(k2).slice(0,20)+")— 無視");
         out.push(o2);
       }
@@ -16062,6 +16313,11 @@ function makeSim(){
     // Jx/Jy は 1 バイトも力へ接続していない。**「層 J をベクトル化した」とは書かない** ——
     // 数値として保持し、回転場は z 射影で読む、という 2 点だけである
     S.layJx=new Float64Array(n*BODY_LAYER_MAX); S.layJy=new Float64Array(n*BODY_LAYER_MAX);
+    // 第265便c(第57報 W3): **宣言ビット** layJD(1=J・2=Jx・4=Jy — 値 0 の明示宣言を値と分ける)と
+    // **層の慣性倍率 ζ** layIS(既定 1。I=ζ·½·m_k·r_k² と回転場の源 J_k/ζ の双方に効く)。
+    // どちらも既定(宣言なし・ζ=1)では読まれても 1 bit も結果を変えない
+    S.layJD=new Uint8Array(n*BODY_LAYER_MAX);
+    S.layIS=new Float64Array(n*BODY_LAYER_MAX); S.layIS.fill(1);
     S.hasBodyLayers=false; S.layerN=0; S.layerStop=null; S.layerPairN=0; S.layerStopN=0;
     S.layerHalt=null; S.layerDF=0;   // 第261便b(検証仮説 (6)): 実停止の理由と最後の |ΔF| 合計
     S.shellGas=new Uint8Array(n);   // 第229便: shell:"gas" 宣言(意味論は検証器の Kcs=0 強制+表示)
@@ -16070,6 +16326,8 @@ function makeSim(){
     // (Float64 — 帳簿精度)。coreMd: 0=コアなし・1=rigid(軸固定)・
     // 2=differential(独立Ω)・3=active(differential+sourceRate)・4=cavity(空洞)。
     // RcV は updateRadii に触らせない(収縮 contract が動的に縮めるため)
+    // 第265便c: 殻項の質量則(0=既定 "total"・1="shell")。hasShellLaw は宣言が 1 つも無ければ false
+    S.coreSSM=new Uint8Array(n); S.hasShellLaw=false;
     S.coreMd=new Uint8Array(n); S.coreMF=F(); S.RcV=F(); S.coreJ=new Float64Array(n);
     S.coreKcs=F(); S.corePump=F(); S.coreCtr=F(); S.coreOmV=F(); S.hasCoreV2=false;
     S.coreKal=F();   // 第232便: 整列引きずり率(Kalign — 省略 0)
@@ -16115,6 +16373,19 @@ function makeSim(){
     // **coreMF は cavity のとき負値**(=引きずり重み −voidFraction)を格納するが、これは質量ではなく
     // 重みであり、空洞の質量・慣性はどちらも厳密に 0(負質量はどこにも生じない)
     S.coreEint=new Float64Array(n); S.coreSrc=F(); S.coreOm0=F();
+    // 第265便d(第57報 W4): **lightTrap**(減光で出られなかった自光の蓄積帳簿 — opt-in・既定 off)。
+    // 宣言 `core.lightTrap{enable,supply,tEsc,tEscCollapse,shiftRate,absRate,collapseR}` の粒子だけが
+    // `S.ltOn[i]=1` になり、`S.hasLightTrap` が立つ。**未宣言の宇宙は真偽値 1 つで素通りする**
+    // (`S._core` には 1 命令も足していない —— 実体は `S.step` の末尾で呼ぶ `dfmLightTrapStep`)。
+    // 列: E_γ(ltEg)・光子数 N_γ(ltNg)・供給源 E_s(ltEs)・放出済み E_esc(ltEe)・熱 Q(ltQ)・
+    //     **流入 E_in**(ltEi = 減光で熱から引き取った自光。これを書かずに「E_s+E_γ+E_esc+Q=一定」と
+    //     書くと二重計上になる —— 恒等式は E_s+E_γ+E_esc+Q−E_in=E_s(0) である)
+    S.ltOn=new Uint8Array(n); S.ltCo=new Uint8Array(n);
+    S.ltTe=new Float64Array(n); S.ltTc=new Float64Array(n); S.ltSr=new Float64Array(n);
+    S.ltAb=new Float64Array(n); S.ltRc=new Float64Array(n); S.ltRf=new Uint8Array(n);
+    S.ltEg=new Float64Array(n); S.ltNg=new Float64Array(n); S.ltEs=new Float64Array(n);
+    S.ltEe=new Float64Array(n); S.ltQ=new Float64Array(n); S.ltEi=new Float64Array(n);
+    S.hasLightTrap=false; S.ltEs0=0; S.ltLesc=0; S.ltColT=null; S.ltNoThermal=0;
     S.rMulv=new Float64Array(n); S.rMulv.fill(1);   // 第36便 C1: 半径倍率(既定1。倍精度で保持)
     // 第100便 EXT-10(形成系譜): 安定系譜ID(build 時 0..n-1・分裂は新ID発行)と直接吸収数。
     // 記録専用 — 物理からは一切読まれない(bit 不変)。イベント本体は S.linLog(上限400・古い順に間引く)
@@ -16444,7 +16715,10 @@ function makeSim(){
           S.layM[b0+k]=L.m; S.layR[b0+k]=L.r; S.layRl[b0+k]=Math.max(0,BODY_LAYER_ROLES.indexOf(L.role));
           S.layJ[b0+k]=(L.J!==undefined)? L.J : 0;     // 第261便b: 層の J は宣言値(力へは未接続)
           // 第264便c: 面内成分(数値として運ぶだけ — 回転場の源は z 成分しか読まない)
-          S.layJx[b0+k]=(L.Jx!==undefined)? L.Jx : 0; S.layJy[b0+k]=(L.Jy!==undefined)? L.Jy : 0; }
+          S.layJx[b0+k]=(L.Jx!==undefined)? L.Jx : 0; S.layJy[b0+k]=(L.Jy!==undefined)? L.Jy : 0;
+          // 第265便c: **宣言ビット**(明示ゼロを値と分ける)と **ζ**(既定 1)
+          S.layJD[b0+k]=((L.J!==undefined)?1:0)|((L.Jx!==undefined)?2:0)|((L.Jy!==undefined)?4:0);
+          S.layIS[b0+k]=(L.inertiaScale!==undefined && L.inertiaScale>0)? L.inertiaScale : 1; }
         S.layN[i]=nl; S.hasBodyLayers=true;
       }
       S.shellGas[i]=(o.shell==="gas")?1:0;   // 第229便: 殻の相
@@ -16475,6 +16749,9 @@ function makeSim(){
           S.coreJx[i]=0.5*Mc*c.radius*c.radius*iS*(c.omega||0)*st; S.coreJy[i]=0;
           if(S.coreJx[i]!==0) S.hasCoreTilt=true;
         }
+        // 第265便c(Z6 後半): 殻項の質量則。未宣言・"total" は 0(第77便以来の式 = 1 bit 不変)
+        S.coreSSM[i]=(c.shellSpinMass==="shell")?1:0;
+        if(S.coreSSM[i]) S.hasShellLaw=true;
         S.coreKcs[i]=c.Kcs||0; S.corePump[i]=c.pump||0; S.coreCtr[i]=c.contract||0;
         S.coreKal[i]=c.Kalign||0;   // 第232便
         // 第247便c(S4 第 2 段): 終端 rTarget と結合 E 台帳 bindLedger:"pairU"(形状係数 a=bindA)。
@@ -16499,11 +16776,28 @@ function makeSim(){
         else { S.shdOc[i]=0; S.shdFr[i]=0; S.shdNp[i]=0; S.shdRL[i]=0; S.shdJF[i]=0; S.shdDn[i]=0;
           S.shdRI[i]=0; S.shdLy[i]=0; S.shdOn[i]=1; S.shdCd[i]=0; S.shdNx[i]=0; S.shdBB[i]=0; }
         S.coreSrc[i]=c.sourceRate||0; S.coreEint[i]=c.internalEnergy||0;
+        // 第265便d: lightTrap(opt-in)。**供給源 E_s はコアの宣言内部エネルギーから切り出す**
+        // (新しいエネルギーを作らない = 二重計上しない。E_int(0) が切り出し後の値になるので
+        //  第80便の恒等式 ΣE_int − ΣE_int(0) = coreSrcE も 1 bit も変わらない)
+        ltClear(S,i);
+        if(c.lightTrap && c.lightTrap.enable===true){
+          const LT=c.lightTrap;
+          S.ltOn[i]=1; S.hasLightTrap=true;
+          S.ltTe[i]=(LT.tEsc>0)? LT.tEsc : 0;
+          S.ltTc[i]=(LT.tEscCollapse>0)? LT.tEscCollapse : S.ltTe[i];
+          S.ltSr[i]=(LT.shiftRate>0)? LT.shiftRate : 0;
+          S.ltAb[i]=(LT.absRate>0)? LT.absRate : 0;
+          S.ltRc[i]=(LT.collapseR>0)? LT.collapseR : 0;
+          S.ltRf[i]=(LT.refill===false)? 0 : 1;   // refill:false = **一度で空になる貯蔵槽**(崩壊後は溜め直さない)
+          const sup=(LT.supply>0)? Math.min(LT.supply, S.coreEint[i]) : 0;
+          S.ltEs[i]=sup; S.coreEint[i]-=sup; S.ltEs0+=sup;
+        }
         S.hasCoreV2=true;
       } else { S.coreMd[i]=0; S.coreMF[i]=0; S.RcV[i]=0; S.coreJ[i]=0; S.coreIS[i]=1; S.coreJm[i]=0;
+        ltClear(S,i);   // 第265便d
         S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0; S.coreKal[i]=0; S.coreBR[i]=0; S.coreBF[i]=0; S.coreBJ0[i]=0; S.coreBJr[i]=0;
         S.coreSrc[i]=0; S.coreEint[i]=0; S.coreOm0[i]=0;
-        S.coreRT[i]=0; S.coreBA[i]=0; S.coreBare[i]=0; S.shdBB[i]=0; }   // 第247便c
+        S.coreRT[i]=0; S.coreBA[i]=0; S.coreBare[i]=0; S.shdBB[i]=0; S.coreSSM[i]=0; }   // 第247便c / 第265便c
       S.railH[i]=o.railH||0;
       if(o.railOmega||o.railH){ S.railR[i]=o.railR; S.railAng[i]=o.railAng; S.railCx[i]=o.railCx; S.railCy[i]=o.railCy; }
       if(o.zonal) S.zonal={i, refR:o.zonal.refR, J:o.zonal.J, calib:(o.zonal.calib||1), _A:null};
@@ -16685,6 +16979,7 @@ function makeSim(){
     S.geoToyN=0; S.geoToyDv=0; S.geoToyChi=0; S.geoToyStop=null;
     // 第264便b: 源の閉包の診断(既定 "gravity" では反復 1 回・残差は null —— 0 で埋めない)
     S.geoToyClosure=null; S.geoToyIters=0; S.geoToyResid=null; S.geoToyResidRel=null; S.geoToyConverged=null;
+    S.meshV2=null;   // 第265便b(Z2): mesh-v2 の毎步診断(λ_min・cond・ゲージ・停止理由)。**未宣言は null**
     S.geoToyDeny=null;   // 第262便a: 3 のまま入場条件を満たさない理由("kFrame"/"meshChannel")
     // 第263便a: `S.geoToyOverlay`(明示キー toyAllowDrag で E6′ と重ねたとき "drag")は**ここで初期化しない**。
     // このリセット塊は `S.build` の中で **`S.updateRadii()` より後**に走るので(呼び出しは 16377 行)、
@@ -16887,6 +17182,7 @@ function makeSim(){
       S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0; S.coreSrc[i]=0; S.coreEint[i]=0; S.coreOm0[i]=0;
       S.coreJx[i]=0; S.coreJy[i]=0;   // 第227便
       S.coreRT[i]=0; S.coreBA[i]=0; S.coreBare[i]=0;   // 第247便c: 終端宣言・結合 E 台帳・裸コア終端も外す
+      ltClear(S,i);   // 第265便d: lightTrap もコアの属性なので一緒に外す(帳簿の列ごと落ちる)
     } else {
       const Mabs=Math.abs(S.m[i]);
       const has=(k)=>{ const v=cfg[k]; return v!==undefined && v!==null && typeof v==="number" && isFinite(v); };
@@ -16978,10 +17274,15 @@ function makeSim(){
     const b0=i*BODY_LAYER_MAX, out=[];
     for(let q=0;q<S.layN[i];q++){
       const o={role:BODY_LAYER_ROLES[S.layRl[b0+q]]||BODY_LAYER_ROLES[0], m:S.layM[b0+q], r:S.layR[b0+q]};
-      if(S.layJ[b0+q]!==0) o.J=S.layJ[b0+q];   // 未宣言(0)は正準形に出さない = 署名不変
+      // 第265便c: **宣言ビットがあれば値が 0 でも鍵を出す**(明示ゼロ J:0 の宣言が往復で残る)。
+      // 宣言ビットの無い層は従来どおり「0 は正準形に出さない」= 既定経路の署名は 1 bit も動かない
+      const dq=S.layJD? S.layJD[b0+q] : 0;
+      if(S.layJ[b0+q]!==0 || (dq&1)) o.J=S.layJ[b0+q];
       // 第264便c: 面内成分も同じ規約(0 は出さない = 既定経路の正準形・署名は 1 bit も動かない)
-      if(S.layJx && S.layJx[b0+q]!==0) o.Jx=S.layJx[b0+q];
-      if(S.layJy && S.layJy[b0+q]!==0) o.Jy=S.layJy[b0+q];
+      if(S.layJx && (S.layJx[b0+q]!==0 || (dq&2))) o.Jx=S.layJx[b0+q];
+      if(S.layJy && (S.layJy[b0+q]!==0 || (dq&4))) o.Jy=S.layJy[b0+q];
+      // 第265便c: 層の ζ(既定 1 は正準形に出さない)
+      if(S.layIS && S.layIS[b0+q]!==1 && S.layIS[b0+q]>0) o.inertiaScale=S.layIS[b0+q];
       out.push(o);
     }
     return out;
@@ -17004,6 +17305,11 @@ function makeSim(){
       // 第264便c: 面内成分も同じ原子的な有限性検査(1 bit も書く前に落とす)
       if(L.Jx!==undefined && L.Jx!==null && !Number.isFinite(L.Jx)) return {ok:false, reason:"layerNotFinite", at:q};
       if(L.Jy!==undefined && L.Jy!==null && !Number.isFinite(L.Jy)) return {ok:false, reason:"layerNotFinite", at:q};
+      // 第265便c: 層の ζ は宣言されたら**正の有限数**でなければならない(0 に読み替えない・
+      // 0 や負を受理すると回転場の源 J/ζ が定義できない。1 bit も書く前に落とす)
+      if(L.inertiaScale!==undefined && L.inertiaScale!==null
+         && !(Number.isFinite(L.inertiaScale) && L.inertiaScale>0))
+        return {ok:false, reason:"layerInertiaScaleNotPositive", at:q};
       if(!Number.isFinite(Math.fround(L.m))) return {ok:false, reason:"layerNotFinite", at:q};
       if(!(L.r>rPrev)) return {ok:false, reason:"radiusNotAscending", at:q};
       if(BODY_LAYER_ROLES.indexOf(L.role)<0) return {ok:false, reason:"unknownRole", at:q};
@@ -17017,7 +17323,12 @@ function makeSim(){
       S.layRl[b0+q]=L? Math.max(0,BODY_LAYER_ROLES.indexOf(L.role)) : 0;
       S.layJ[b0+q]=(L && Number.isFinite(L.J))? L.J : 0;
       S.layJx[b0+q]=(L && Number.isFinite(L.Jx))? L.Jx : 0;   // 第264便c: 面内成分(数値保持)
-      S.layJy[b0+q]=(L && Number.isFinite(L.Jy))? L.Jy : 0; }
+      S.layJy[b0+q]=(L && Number.isFinite(L.Jy))? L.Jy : 0;
+      // 第265便c: 宣言ビット(undefined/null は「未宣言」・数値 0 は「明示ゼロ」)と ζ
+      S.layJD[b0+q]=L? (((L.J!==undefined && L.J!==null && Number.isFinite(L.J))?1:0)
+        |((L.Jx!==undefined && L.Jx!==null && Number.isFinite(L.Jx))?2:0)
+        |((L.Jy!==undefined && L.Jy!==null && Number.isFinite(L.Jy))?4:0)) : 0;
+      S.layIS[b0+q]=(L && Number.isFinite(L.inertiaScale) && L.inertiaScale>0)? L.inertiaScale : 1; }
     S.layN[i]=arr.length;
     if(arr.length>0) S.m[i]=sum;          // Σm 契約(層が主・根が従)
     let any=false; for(let k=0;k<S.n;k++) if(S.layN[k]>0){ any=true; break; }
@@ -17028,8 +17339,11 @@ function makeSim(){
   S.applyLayerEdit = function(i, k, cfg){
     if(!(i>=0 && i<S.n) || !S.layN) return {ok:false, reason:"badIndex"};
     const cur=S.bodyLayersOf(i)||[];
-    const next=cur.map((L)=>({role:L.role, m:L.m, r:L.r, J:(L.J===undefined)?0:L.J,
-      Jx:(L.Jx===undefined)?0:L.Jx, Jy:(L.Jy===undefined)?0:L.Jy}));   // 第264便c: 面内成分も往復させる
+    // 第265便c: **undefined を 0 に潰さない**。基点は J:(L.J===undefined)?0:L.J と書いていたので、
+    // 別の欄(r など)を 1 つ触っただけで「未宣言」が「明示ゼロ」に化けた(🧅 のように J を
+    // 書いていない層を編集すると回転場の源が従来式から層側へ移った)。宣言は宣言のまま運ぶ
+    const next=cur.map((L)=>({role:L.role, m:L.m, r:L.r, J:L.J, Jx:L.Jx, Jy:L.Jy,
+      inertiaScale:L.inertiaScale}));   // 第264便c: 面内成分 / 第265便c: ζ も往復させる
     if(cfg===null || cfg===undefined){
       if(k<0) return S._setBodyLayers(i, []);               // 層宣言ごと外す
       if(!(k<next.length)) return {ok:false, reason:"noSuchLayer"};
@@ -17042,8 +17356,10 @@ function makeSim(){
       if(next.length>=BODY_LAYER_MAX) return {ok:false, reason:"tooManyLayers"};
       const rOut=next.length? next[next.length-1].r : 0;
       L={role:(BODY_LAYER_ROLES.indexOf(cfg.role)>=0)? cfg.role : BODY_LAYER_ROLES[Math.min(next.length,BODY_LAYER_ROLES.length-1)],
-         m:has("m")? cfg.m : 1, r:has("r")? cfg.r : (rOut>0? rOut*2 : Math.max(BODY_LAYER_RMIN, S.R[i])), J:has("J")? cfg.J : 0,
-         Jx:has("Jx")? cfg.Jx : 0, Jy:has("Jy")? cfg.Jy : 0};
+         m:has("m")? cfg.m : 1, r:has("r")? cfg.r : (rOut>0? rOut*2 : Math.max(BODY_LAYER_RMIN, S.R[i])),
+         // 第265便c: 足した層の J は**宣言されたときだけ宣言**(未指定は undefined = 未宣言・値 0)
+         J:has("J")? cfg.J : undefined, Jx:has("Jx")? cfg.Jx : undefined, Jy:has("Jy")? cfg.Jy : undefined,
+         inertiaScale:has("inertiaScale")? cfg.inertiaScale : undefined};
       next.push(L);
     } else {
       L=next[k];
@@ -17053,12 +17369,15 @@ function makeSim(){
       if(has("J")) L.J=clamp(cfg.J, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);
       if(has("Jx")) L.Jx=clamp(cfg.Jx, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);   // 第264便c
       if(has("Jy")) L.Jy=clamp(cfg.Jy, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);
+      // 第265便c: ζ(既定 1・値域は V2 の inertiaScale と同じ [1e−3, 1e6])
+      if(has("inertiaScale")) L.inertiaScale=clamp(cfg.inertiaScale, 1e-3, 1e6);
     }
     if(L.m!==undefined) L.m=clamp(L.m, 1e-12, MASS_CAP);
     if(L.r!==undefined) L.r=clamp(L.r, BODY_LAYER_RMIN, 1e6);
     if(L.J!==undefined) L.J=clamp(L.J, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);
     if(L.Jx!==undefined) L.Jx=clamp(L.Jx, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);   // 第264便c
     if(L.Jy!==undefined) L.Jy=clamp(L.Jy, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);
+    if(L.inertiaScale!==undefined) L.inertiaScale=clamp(L.inertiaScale, 1e-3, 1e6);   // 第265便c
     return S._setBodyLayers(i, next);
   };
   // 第35便(台帳4-62): 積分器の入口。既定("semi")は _core を1回呼ぶだけで現行と厳密等価
@@ -18394,6 +18713,10 @@ function makeSim(){
       // 第256便c(3 審査 v14 O7): **表示が所有する tracer は非表示のとき運ばない**(_galTracerAdvance)
       if(S.hasGalaxyTracer) _galTracerAdvance(S,dt);
     }
+    // 第265便d(第57報 W4): lightTrap の蓄積・青方偏移・脱出は**離散イベント(shed/burst)の後**に
+    // 置く(崩壊のラッチが同じ步で見えるように)。**未宣言は真偽値 1 つで素通りする**
+    // (`S._core` には 1 命令も足していない)。近点サブステップでは内側の h ごとに 1 回走る
+    if(S.hasLightTrap) dfmLightTrapStep(S,dt);
     // 第254便a: 物質線の輸送は**步の末尾で 1 度だけ**(離散位置が確定した後 = 幾何整合補間の前提)。
     // **未登録なら真偽値 1 つを読んで素通りする**(既定経路 1 bit 不変)。輸送は表示・観測の側の
     // 状態であって、力学へは 1 バイトも書き戻さない
@@ -18599,6 +18922,17 @@ function makeSim(){
             S.coreKcs[i]=S.coreKcs[src]; S.corePump[i]=S.corePump[src];
             S.coreCtr[i]=S.coreCtr[src]; S.coreSrc[i]=S.coreSrc[src];
             S.coreIS[i]=S.coreIS[src];   // 第208便: ζ は他の係数と同じ継承元(重い側/持つ側)
+            // 第265便d: lightTrap は**宣言を重い側/持つ側から継ぎ、6 列は和**にする
+            // (どちらかが宣言していれば残る = 恒等式 E_s+E_γ+E_esc+Q−E_in=E_s(0) が融合をまたいで閉じる)
+            if(S.hasLightTrap && (S.ltOn[i]||S.ltOn[j])){
+              const lsrc=(S.ltOn[i]&&S.ltOn[j])? src : (S.ltOn[i]? i : j);
+              S.ltTe[i]=S.ltTe[lsrc]; S.ltTc[i]=S.ltTc[lsrc]; S.ltSr[i]=S.ltSr[lsrc];
+              S.ltAb[i]=S.ltAb[lsrc]; S.ltRc[i]=S.ltRc[lsrc]; S.ltRf[i]=S.ltRf[lsrc];
+              S.ltCo[i]=(S.ltCo[i]||S.ltCo[j])?1:0;
+              S.ltEg[i]+=S.ltEg[j]; S.ltNg[i]+=S.ltNg[j]; S.ltEs[i]+=S.ltEs[j];
+              S.ltEe[i]+=S.ltEe[j]; S.ltQ[i]+=S.ltQ[j]; S.ltEi[i]+=S.ltEi[j];
+              S.ltOn[i]=1; ltClear(S,j); S.ltOn[j]=0;
+            }
             // 第227便: |J| はベクトル和の大きさ(第210便のスカラー容量和を置換)。逆向き対は
             // 打ち消し合い、旧実装の「隠れ容量だけが残って θ′=90° に倒れる」非保存が消える。
             // 面内ゼロ・同符号 z の対では |J_z,i+J_z,j|=|J_z,i|+|J_z,j| でビット同一
@@ -18623,7 +18957,8 @@ function makeSim(){
         if(S.layN && (S.layN[i]>0 || S.layN[j]>0)){
           const LM=BODY_LAYER_MAX, rd=(k0)=>{ const a=[], b1=k0*LM;
             for(let q=0;q<S.layN[k0];q++) a.push({role:BODY_LAYER_ROLES[S.layRl[b1+q]]||"", m:S.layM[b1+q], r:S.layR[b1+q],
-              J:S.layJ[b1+q], Jx:S.layJx[b1+q], Jy:S.layJy[b1+q]});   // 第264便c: 面内成分も運ぶ
+              J:S.layJ[b1+q], Jx:S.layJx[b1+q], Jy:S.layJy[b1+q],
+              decl:S.layJD? S.layJD[b1+q] : 0, inertiaScale:S.layIS? S.layIS[b1+q] : 1});   // 第264便c: 面内成分 / 第265便c: 宣言と ζ
             return a; };
           const mg=dfmLayerMerge(rd(i), rd(j), LAYER_MERGE_RULE);
           const b1=i*LM; let sumL=0;
@@ -18633,6 +18968,8 @@ function makeSim(){
             S.layJ[b1+q]=(L && Number.isFinite(L.J))? L.J : 0;   // 第261便b: 宣言 J も層と一緒に運ぶ(力へは未接続)
             S.layJx[b1+q]=(L && Number.isFinite(L.Jx))? L.Jx : 0;   // 第264便c
             S.layJy[b1+q]=(L && Number.isFinite(L.Jy))? L.Jy : 0;
+            S.layJD[b1+q]=L? ((Number(L.decl)||0)&7) : 0;   // 第265便c: 宣言ビットの和集合
+            S.layIS[b1+q]=(L && Number.isFinite(L.inertiaScale) && L.inertiaScale>0)? L.inertiaScale : 1;
             if(L) sumL+=L.m; }
           S.layN[i]=Math.min(mg.length,LM);
           S.layN[j]=0;
@@ -18705,8 +19042,9 @@ function makeSim(){
     const mv=(a)=>{ if(!a) return; for(let t=0;t<k;t++){ const s0=keep[t]; if(s0!==t) a[t]=a[s0]; } };
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","mEff","rotAc",
       "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",   // 第77便(コアv2)
-      "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内
+      "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy","coreSSM",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内/第265便c 殻項の質量則
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx","shdBB","coreRT","coreBA","coreBare",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復 / 第247便c: 裸コア終端・rTarget・結合 E 台帳
+      "ltOn","ltCo","ltRf","ltTe","ltTc","ltSr","ltAb","ltRc","ltEg","ltNg","ltEs","ltEe","ltQ","ltEi",   // 第265便d: lightTrap(宣言 8 + 帳簿 6)
       "lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
@@ -18716,7 +19054,8 @@ function makeSim(){
     if(S.layN && S.hasBodyLayers){ const LM=BODY_LAYER_MAX;
       for(let t=0;t<k;t++){ const s0=keep[t]; if(s0===t) continue;
         for(let q=0;q<LM;q++){ S.layM[t*LM+q]=S.layM[s0*LM+q]; S.layR[t*LM+q]=S.layR[s0*LM+q]; S.layRl[t*LM+q]=S.layRl[s0*LM+q];
-          S.layJ[t*LM+q]=S.layJ[s0*LM+q]; S.layJx[t*LM+q]=S.layJx[s0*LM+q]; S.layJy[t*LM+q]=S.layJy[s0*LM+q]; } } }   // 第264便c: 面内成分
+          S.layJ[t*LM+q]=S.layJ[s0*LM+q]; S.layJx[t*LM+q]=S.layJx[s0*LM+q]; S.layJy[t*LM+q]=S.layJy[s0*LM+q];
+          S.layJD[t*LM+q]=S.layJD[s0*LM+q]; S.layIS[t*LM+q]=S.layIS[s0*LM+q]; } } }   // 第264便c: 面内成分 / 第265便c: 宣言ビットと ζ
     // 旧 index → 新 index の写像(消えた粒子は融合先へ写す)
     const nm=new Int32Array(n).fill(-1);
     for(let t=0;t<k;t++) nm[keep[t]]=t;
@@ -18747,8 +19086,9 @@ function makeSim(){
     const nc=Math.max(need, cap+Math.max(8, cap>>1));
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","mEff","rotAc",
       "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",   // 第77便(コアv2)
-      "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内
+      "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy","coreSSM",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内/第265便c 殻項の質量則
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx","shdBB","coreRT","coreBA","coreBare",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復 / 第247便c: 裸コア終端・rTarget・結合 E 台帳
+      "ltOn","ltCo","ltRf","ltTe","ltTc","ltSr","ltAb","ltRc","ltEg","ltNg","ltEs","ltEe","ltQ","ltEi",   // 第265便d: lightTrap(宣言 8 + 帳簿 6)
       "lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
@@ -18762,8 +19102,11 @@ function makeSim(){
       S.linId[i]=-1; S.linN[i]=0; }   // alloc と同じ既定値(+コアv2・第80便/第100便/第208便: ζ=1)
     // 第259便b: 親子コアの同心層(ストライド BODY_LAYER_MAX)は別に伸ばす
     if(S.layM){ const LM=BODY_LAYER_MAX;
-      for(const key of ["layM","layR","layRl","layJ","layJx","layJy"]){ const a=S[key];   // 第264便c: 面内成分
-        const b=new a.constructor(nc*LM); b.set(a); S[key]=b; } }
+      for(const key of ["layM","layR","layRl","layJ","layJx","layJy","layJD","layIS"]){ const a=S[key];   // 第264便c: 面内成分 / 第265便c: 宣言ビットと ζ
+        if(!a) continue;
+        const b=new a.constructor(nc*LM); b.set(a); S[key]=b; }
+      // 第265便c: 伸ばした先の ζ は既定 1(Float64Array の 0 のままだと J/ζ が定義できない)
+      if(S.layIS) for(let q=cap*LM;q<nc*LM;q++) S.layIS[q]=1; }
     // 第247便a: framePrecision:"double" の Float64 pairD を Float32 へ落とさない(型を引き継ぐ)
     S.pairD=new (S.pairD? S.pairD.constructor : Float32Array)(Math.max(1,nc*(nc-1)/2));
     S.railIdx=null; S.periDet=null;     // index 依存のキャッシュは作り直させる
@@ -18902,6 +19245,7 @@ function makeSim(){
         S.RcV[j]=Math.sqrt(m2t/mT)*S.RcV[i]; S.RcV[i]=Math.sqrt(m1t/mT)*S.RcV[i];
         S.coreJ[j]=S.coreJ[i]-J1c; S.coreJ[i]=J1c;
         S.coreEint[j]=S.coreEint[i]-E1c; S.coreEint[i]=E1c;
+        ltClear(S,j);   // 第265便d: 分裂片は lightTrap を継がない(蓄積は親に残る = 恒等式が閉じる)
         S.coreKcs[j]=S.coreKcs[i]; S.corePump[j]=S.corePump[i]; S.coreCtr[j]=S.coreCtr[i]; S.coreKal[j]=S.coreKal[i]; S.dragQ[j]=S.dragQ[i];   // 第237便: q_i は両片が継ぐ
         S.dragQT[j]=S.dragQT[i]; S.coreDQ[j]=S.coreDQ[i]; S.coreDQT[j]=S.coreDQT[i];   // 第239便
         S.frameSrc[j]=S.frameSrc[i];   // 第243便
@@ -18918,6 +19262,7 @@ function makeSim(){
         S.frameSrc[j]=S.frameSrc[i];   // 第243便
         S.coreBR[j]=0; S.coreBF[j]=0; S.coreBJ0[j]=0; S.coreBJr[j]=0;   // 第234便
         S.coreEint[j]=0; S.coreSrc[j]=0; S.coreOm0[j]=0; S.coreIS[j]=1; S.coreJm[j]=0;
+        ltClear(S,j);   // 第265便d
         S.coreJx[j]=0; S.coreJy[j]=0;   // 第227便
       }
       // 材質係数は両片が親を引き継ぐ(分裂は同じ材質の2片に割れる)
@@ -19083,6 +19428,7 @@ function makeSim(){
           if(S.layN) S.layN[jj]=0;   // 第259便b: 放出片は層を持たない
           S.coreBR[jj]=0; S.coreBF[jj]=0; S.coreBJ0[jj]=0; S.coreBJr[jj]=0;
           S.coreEint[jj]=0; S.coreSrc[jj]=0; S.coreOm0[jj]=0; S.coreJx[jj]=0; S.coreJy[jj]=0;
+          ltClear(S,jj);   // 第265便d: 放出片は lightTrap を継がない
           S.shdOc[jj]=0; S.shdFr[jj]=0; S.shdNp[jj]=0; S.shdRL[jj]=0; S.shdJF[jj]=0; S.shdDn[jj]=0;
           S.shdRI[jj]=0; S.shdLy[jj]=0; S.shdOn[jj]=1; S.shdCd[jj]=0; S.shdNx[jj]=0;   // 第246便: 放出片は shed を継がない
           S.shdBB[jj]=0; S.coreRT[jj]=0; S.coreBA[jj]=0; S.coreBare[jj]=0;   // 第247便c: 放出片は終端宣言も台帳も継がない
@@ -21135,7 +21481,11 @@ function stepDiagText(){
     // 第264便b: 源の閉包(既定 "gravity" は 1 文字も出さない)。"iterate" は**反復数と相対残差**を必ず出す
     +((sim.geoToyClosure==="iterate")? (" closure:iterate it="+sim.geoToyIters
       +" res="+((sim.geoToyResidRel===null)? "—" : sim.geoToyResidRel.toExponential(2))
-      +(sim.geoToyConverged===false? " **未収束**" : "")) : "");
+      +(sim.geoToyConverged===false? " **未収束**" : "")) : "")
+    // 第265便b(Z2): mesh-v2 は λ_min・cond・ゲージを出す(**特異点近傍で止まったことが読めないと使えない**)
+    +(sim.meshV2? (" meshV2:"+sim.meshV2.gauge+" λmin="+sim.meshV2.minEig.toExponential(2)
+      +" cond="+sim.meshV2.cond.toExponential(2)
+      +(sim.meshV2.structural? " 構造的特異" : "")) : "");
   // 第260便b: 親子コアの層差分と**重なった拡張体の対**(ΔF を当てた組 / 停止した組)
   if(sim && sim.hasBodyLayers) out+="  layer:"+(sim.layerStop||"on")+" N="+sim.layerN+" pair="+(sim.layerPairN||0)+"/"+(sim.layerStopN||0)
     // 第261便b(検証仮説 (6)・案A): 停止したら理由と対を出す(時刻は進んでいない)
@@ -25394,8 +25744,9 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
     for(const k of ["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy",
       "mEff","rotAc",                          // 第81便: コアv1(coreMR/coreSR/Rc)は廃止
       "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",   // 第77便(コアv2)
-      "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内
+      "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy","coreSSM",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内/第265便c 殻項の質量則
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx","shdBB","coreRT","coreBA","coreBare",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復 / 第247便c: 裸コア終端・rTarget・結合 E 台帳
+      "ltOn","ltCo","ltRf","ltTe","ltTc","ltSr","ltAb","ltRc","ltEg","ltNg","ltEs","ltEe","ltQ","ltEi",   // 第265便d: lightTrap(宣言 8 + 帳簿 6)
       "lSw","radOv",                           // 観測系(第22便 — obsT/coreOT は第61便で廃止)
       "rMulv","lSwAuto",                       // 第36便 C1/C2: 半径倍率・掻出の自動算出フラグ
       // 第45便 45B: 転写長は「A 側の生存粒子数 sim.n」に固定する(分裂で確保長が A 側だけ
@@ -25406,8 +25757,10 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
     // 第259便b: 親子コアの同心層(ストライド BODY_LAYER_MAX)と宣言フラグ
     simB.hasBodyLayers=sim.hasBodyLayers;
     if(sim.layM && simB.layM){ const LM=BODY_LAYER_MAX, cnt=Math.min(sim.n*LM, simB.layM.length);
-      for(const key of ["layM","layR","layRl","layJ","layJx","layJy"]) simB[key].set(sim[key].subarray(0,cnt)); }   // 第264便c
+      for(const key of ["layM","layR","layRl","layJ","layJx","layJy","layJD","layIS"])   // 第264便c / 第265便c: 宣言ビットと ζ
+        if(sim[key] && simB[key]) simB[key].set(sim[key].subarray(0,cnt)); }
     simB.hasCoreV2=sim.hasCoreV2; simB.hasLSwAuto=sim.hasLSwAuto; simB._rsUsed=sim._rsUsed;
+    simB.hasShellLaw=sim.hasShellLaw;   // 第265便c: 殻項の質量則の宣言フラグ
     simB.hasPulse=sim.hasPulse;   // 第226便
     simB.hasCoreTilt=sim.hasCoreTilt;   // 第227便
     // 第36便 D(台帳4-51): 内部温度モードの状態も転写(同一プリセットで build 済みなので
@@ -25441,6 +25794,9 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   // 第80便(コアv2): コアの外部仕事・外部注入の帳簿も複製する(coreEint 配列は上で転写済みなので、
   // 帳簿を 0 のままにすると B 側だけ Σ(E_int−E_int0)=coreSrcE の恒等式が破れる)
   simB.coreWork=sim.coreWork; simB.coreSrcE=sim.coreSrcE; simB.alignE=sim.alignE;   // 第232便
+  // 第265便d: lightTrap のスカラー(配列は上の転写リストに入っている)。B 側だけ恒等式が破れないようにする
+  simB.hasLightTrap=sim.hasLightTrap; simB.ltEs0=sim.ltEs0; simB.ltLesc=sim.ltLesc;
+  simB.ltColT=sim.ltColT; simB.ltNoThermal=sim.ltNoThermal;
   simB.burstE=sim.burstE; simB.burstK=sim.burstK; simB.burstL=sim.burstL; simB.burstRes=sim.burstRes;   // 第234便
   // 第244便: envelopeShed 帳簿(放出済みの粒子は上の配列転写で B 側へ渡っているので、帳簿も揃える)
   simB.shedE=sim.shedE; simB.shedK=sim.shedK; simB.shedU=sim.shedU; simB.shedL=sim.shedL;
@@ -25627,14 +25983,17 @@ let ckSnap=null;
 const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU","pinned",
   "mEff","rotAc","lSw","radOv","rMulv","lSwAuto",   // 第81便: コアv1 配列は廃止
   "pulseOm","pulsePh","shellGas","ssQov","ssDec","layN","layM","layR","layRl","layJ","layJx","layJy",   // 第226便: パルス時計チャネル / 第229便: 殻の相 / 第246便: 観測 Q の転写 / 第247便a: 宣言フラグ
+  "layJD","layIS",   // 第265便c: 層の宣言ビット・層の ζ
   "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",
-  "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内
+  "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy","coreSSM",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内/第265便c 殻項の質量則
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx","shdBB","coreRT","coreBA","coreBare",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復 / 第247便c: 裸コア終端・rTarget・結合 E 台帳
+      "ltOn","ltCo","ltRf","ltTe","ltTc","ltSr","ltAb","ltRc","ltEg","ltNg","ltEs","ltEe","ltQ","ltEi",   // 第265便d: lightTrap(宣言 8 + 帳簿 6)
   "railR","railAng","railOmega","railCx","railCy","railH",
   "Tint","coordN","coordAcc","shPrev","_phNbrPrev","_phNbrPrevN","_phProf"];
 const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat","coreWork","coreSrcE","alignE","burstE","burstK","burstL","burstRes",
   "shedE","shedK","shedU","shedL","shedM","shedRes","shedNev","shedOm","shedT","shedSkip",   // 第244便: envelopeShed 帳簿
   "bindRel","bindRot","bindHold","bindStop","bareN","bareM",   // 第247便c: 結合 E 台帳・裸コア終端
+  "ltEs0","ltLesc","ltColT","ltNoThermal",   // 第265便d: lightTrap のスカラー帳簿
   "clampVN","clampSN","clampHN","clampAN","clampRN","clampTN","angOvfN","_phAcc","_phNbrInit",
   "fusN","fusU","fusPx","fusPy","fusL","fisN","aEffRef","_bhLastA","_bhLastT","_bhAcc"];
 function ckInvalidate(){ ckSnap=null; $("#btnCkLoad").disabled=true; }
@@ -30440,6 +30799,7 @@ function beCorePlanNow(S, i){
   const mode=(md===1)?"rigid":((md===3)?"active":((md===4)?"cavity":"differential"));
   return coreV2MigrationPlan({ m:S.m[i], R:S.R[i], spin:S.spin[i],
     core:{ mode, massFrac:S.coreMF[i], radius:S.RcV[i], inertiaScale:S.coreIS[i],
+      shellSpinMass:(S.coreSSM && S.coreSSM[i]===1)? "shell" : undefined,   // 第265便c
       Kcs:S.coreKcs[i], pump:S.corePump? S.corePump[i] : 0, contract:S.coreCtr? S.coreCtr[i] : 0,
       Jz:S.coreJ[i], Jmag:S.coreJm? S.coreJm[i] : Math.abs(S.coreJ[i]),
       // 第264便c: 面内成分は**主変数そのまま**(coreJx/coreJy)を渡す — |J| と J_z からの復元では
@@ -30457,10 +30817,11 @@ function beLayNumsFill(S, i, arr){
   const box=$("#beLayNums"); if(!box) return;
   const NA=T("beLyNumNA");
   const md=S.coreMd? S.coreMd[i] : 0;
-  let Ic=0, Jz=0, Jx=0, Jy=0, Jm=0, Kcs=null, Mc=0, Ms=0, who=T("beLyNumSrcLay");
+  let Ic=0, Jz=0, Jx=0, Jy=0, Jm=0, Kcs=null, Mc=0, Ms=0, who=T("beLyNumSrcLay"), zeta=1;
   if(md && md!==4){                      // コア V2 の主変数をそのまま読む(丸めた表示値を経由しない)
     who=T("beLyNumSrcV2");
     Mc=S.coreMF[i]*Math.abs(S.m[i]); Ms=S.m[i]-Mc;
+    zeta=S.coreIS[i];
     Ic=(S.RcV[i]>0)? 0.5*Mc*S.RcV[i]*S.RcV[i]*S.coreIS[i] : 0;
     Jz=S.coreJ[i]; Jx=S.coreJx? S.coreJx[i] : 0; Jy=S.coreJy? S.coreJy[i] : 0;
     Jm=S.coreJm? S.coreJm[i] : Math.abs(Jz);
@@ -30469,7 +30830,9 @@ function beLayNumsFill(S, i, arr){
     if(md===4) who=T("beLyNumSrcV2");    // cavity は質量も慣性も持たない(層側の数値を出す)
     const L0=arr[0];
     Mc=L0.m; for(let k=1;k<arr.length;k++) Ms+=arr[k].m;
-    Ic=0.5*L0.m*L0.r*L0.r;               // 層は ζ を持たない = 幾何慣性そのもの
+    // 第265便c: 層も ζ を持つようになった(既定 1)。I=ζ·½·m·r² は V2 の読み戻しと同式である
+    zeta=(L0.inertiaScale>0)? L0.inertiaScale : 1;
+    Ic=0.5*L0.m*L0.r*L0.r*zeta;
     Jz=(L0.J===undefined)? 0 : L0.J; Jx=(L0.Jx===undefined)? 0 : L0.Jx; Jy=(L0.Jy===undefined)? 0 : L0.Jy;
     Jm=Math.hypot(Jz,Jx,Jy);
   }
@@ -30480,16 +30843,26 @@ function beLayNumsFill(S, i, arr){
   // 源の所有者は spinDipoleMoment の規約そのもの(V2 があれば V2・無ければ層・宣言が無ければ従来式)
   const ql=(md===0)? layerDipoleMoment(S,i) : null;
   const owner=(md && md!==4)? T("beLyNumSrcV2") : ((ql!==null)? T("beLyNumSrcLay") : T("beLyNumSrcNone"));
+  // 第265便c: 殻項の質量則(core.shellSpinMass — 読み取り専用。既定 "total")
+  const lawIsShell=!!(S.coreSSM && S.coreSSM[i]===1);
+  const law=T(lawIsShell? "beLyNumLawShell" : "beLyNumLawTotal");
+  // **既定(総質量・ζ=1)は行に出さない**(170px 幅で折り返すと数値行が育ち、狭い幅で
+  // 「読むために送る量」が増えるだけである)。どちらもツールチップからは常に読める
+  const lawSuf=lawIsShell? T("beLyNumLawSuf")(law) : "";
+  const zSuf=(zeta!==1)? T("beLyNumZetaSuf")(fmt(zeta)) : "";
   $("#beLyNumHead").textContent=T("beLyNumHead");
-  $("#beLyNumSrc").textContent=T("beLyNumSrc")(owner, fmt(q));
+  $("#beLyNumSrc").textContent=T("beLyNumSrc")(owner, fmt(q), lawSuf);
   $("#beLyNumOm").textContent=T("beLyNumOm")(fmt(om), fmt(th));
   $("#beLyNumJ").textContent=T("beLyNumJ")(fmt(Jm), fmt(Jz));
   $("#beLyNumJ2").textContent=T("beLyNumJ2")(fmt(Jx), fmt(Jy));
-  $("#beLyNumE").textContent=T("beLyNumE")(fmt(Er), fmt(Ic));
+  $("#beLyNumE").textContent=T("beLyNumE")(fmt(Er), fmt(Ic), zSuf);
   $("#beLyNumM").textContent=T("beLyNumM")(fmt(Mc), fmt(Ms));
   $("#beLyNumM2").textContent=T("beLyNumM2")((Kcs===null)? NA : fmt(Kcs), fmt(S.R[i]));
   for(const id of ["#beLyNumSrc","#beLyNumOm","#beLyNumJ","#beLyNumJ2","#beLyNumE","#beLyNumM","#beLyNumM2"])
     $(id).title=$(id).textContent;
+  // 第265便c: 法則と ζ は**既定でも**ツールチップから読める(行の高さは増やさない)
+  $("#beLyNumSrc").title+=" / "+T("beLyNumLawTip")(law);
+  $("#beLyNumE").title+=" / "+T("beLyNumZetaTip")(fmt(zeta));
 }
 function updateBodyEdit(){
   const el=$("#bodyEdit");
@@ -34870,7 +35243,14 @@ function dfmToyLedger(S,opts){
       notes.push("W_drag の回転ぶん: coupleSink を宣言した宇宙では残余トルクの受け先が殻スピンではない(未定義)"); }
   } else { und.push("Wdrag");
     notes.push("W_drag(引きずりが粒子にした仕事): physics.ledger.dragWork 未宣言 —— **記録していない**(0 ではない)"); }
+  // 第265便d: lightTrap の列。**宣言した宇宙にだけ鍵を足す**(未宣言では terms の鍵集合が 1 つも増えない)。
+  //   Elight = Σ(E_s + E_γ)(系の中に在る)・Elesc = Σ E_esc(系から出た)。
+  //   **radE(Eescaped)には積まない** —— 蓄積した光を輻射帳簿と二重に数えないための分離である。
+  const ltRec=(S.hasLightTrap)? dfmLightTrapLedger(S) : null;
   const terms={ K, U, Eshell, Ecore, Emesh, Q, Eescaped:Eesc };
+  if(ltRec){ terms.Elight=ltRec.Es+ltRec.Eg; terms.Elesc=ltRec.Eesc;
+    notes.push("lightTrap: E_light=E_s+E_γ("+(ltRec.Es+ltRec.Eg)+")と E_esc("+ltRec.Eesc
+      +")を**別の列**に置いた(radE には積んでいない)。恒等式の残差(相対)="+ltRec.relResidual); }
   let Etot=0;
   for(const k of Object.keys(terms)) if(terms[k]!==null) Etot+=terms[k];
   // ---- 容量(観測した事実が無いエネルギーの**初期容量と下限**)
@@ -34958,6 +35338,7 @@ function dfmToyLedger(S,opts){
     parts:{ wext:wparts, hidden, meshQ, pinHeat, radE:Eesc, radL:Number(S.radL||0),
       resPx:Number(S.resPx||0), resPy:Number(S.resPy||0), resL:Number(S.resL||0),
       nPair, n, t:S.t, hasSpinSpin:!!S.hasSpinSpin, reservoir:rv? {Imesh:rv.Imesh,gamma:rv.gamma} : null },
+    lightTrap:ltRec,   // 第265便d(宣言しない宇宙では null)
     closed:(und.length===0),
     note:"E_tot=K+U+E_shell+E_core+E_mesh+Q+E_escaped・ΔE_tot=W_ext。**未定義の項は 0 で埋めていない**。"
       +"Q を重力波と読まない。減光は観測写像であって帳簿の項ではない" };
@@ -35922,6 +36303,64 @@ function dfmFrameKCandidates(inp){
     note:"**候補式の評価器であって予測式ではない。** 力へは接続せず、kFrame をこの数で決める経路は無い"
       +"(内蔵プリセットの kFrame は 0 か 1 のままである)。" };
 }
+// ===== 第265便a(第57報): **共同補正プロトコル**の記帳器 `HP.dfmJointCalProtocol(inp)` =====
+// 原仮定者(第57報)「『geoPN=2』と『kFrame=1』で成立しない場合は、観測質量に対する補正が必要な
+// 状況と判断し、質量補正 f と kFrame を同時に補正する」。—— これは**手順**であって「0.7 を採る」ではない。
+// 本関数は手順の**記帳だけ**を行う純関数である。**力へは 1 バイトも接続せず**、kFrame や質量を
+// この返り値で自動的に決める経路はどこにも無い(内蔵プリセットの kFrame は QA `preset.kframe-binary01`
+// が要求する **0 か 1** のままである)。
+//
+// **手順は 4 段**:
+//   ① 基準走行(geoPN=2・kFrame=1・**f=1 = 観測質量そのもの**)で P と ω̇ を測る。
+//   ② **判定は σ で**行う。2 量とも nσ(既定 3σ)以内なら `correction-not-required`(補正しない)。
+//      どちらかが外れたら `correction-required`(「観測質量に対する補正が要る系」)。
+//      **σ が無い/量が測れていないなら `undecidable`** —— 0 で埋めない。
+//   ③ 外れた系では **(k, f) 平面で共同根**を取る(f だけ・k だけの 1 次元で止めない)。
+//      根には `rootCheck` を必ず付ける。**停止条件(|ΔP|<pTolSec・|Δω̇|/ω̇<wTolRel)は探索許容であって
+//      σ ではない** —— だから `observationalPass` は**常に null**(この関数は 3σ の合否を出さない)。
+//      **共同 fit は事前予測ではない**ので `isPrediction` は**常に false**(hold-out 系での検定と
+//      台帳を通らない独立な f_ind が揃うまで「事前予測式」とは呼ばない)。
+//   ④ 得た (k*, f*) は**その系・その窓・その観測版・その刻みの記録**であり、他系へ固定転用しない。
+//
+// **この関数が言わないこと**: 「kFrame≈0.7 を採った」「共同根が 3σ に入った」
+// 「f≠1 だから観測質量が誤っている」。**f≠1 から観測質量の誤りや未観測質量の存在は確定しない**
+// (初期条件・力則・数値誤差も同じ不一致に寄与しうる)。
+//
+// 入力 inp = { residualP, sigmaP, residualW, sigmaW, omegaDotObs, nSigma, pTolSec, wTolRel, measurementResolved }。
+// **必要な入力が無ければ null を返す**(0 で埋めない)。
+function dfmJointCalProtocol(inp){
+  const o=inp||{};
+  const n=(o.nSigma===undefined||o.nSigma===null)? 3 : Number(o.nSigma);
+  const pTol=(o.pTolSec===undefined||o.pTolSec===null)? 1e-3 : Number(o.pTolSec);
+  const wTol=(o.wTolRel===undefined||o.wTolRel===null)? 5e-4 : Number(o.wTolRel);
+  if(![n,pTol,wTol].every(Number.isFinite) || !(n>0) || !(pTol>0) || !(wTol>0)) return null;
+  const num=(z)=>{ const v=Number(z); return Number.isFinite(v)? v : null; };
+  const rP=num(o.residualP), rW=num(o.residualW);
+  const sP=num(o.sigmaP), sW=num(o.sigmaW), wObs=num(o.omegaDotObs);
+  const one=(r,s)=>{ if(r===null) return { nSigma:null, inside:null, why:"量が測れていない" };
+    if(s===null||!(s>0)) return { nSigma:null, inside:null, why:"σ が無い" };
+    const z=r/s; return { nSigma:z, inside:Math.abs(z)<=n, why:null }; };
+  const bP=one(rP,sP), bW=one(rW,sW);
+  const verdict=(bP.inside===null||bW.inside===null)? "undecidable"
+    : ((bP.inside&&bW.inside)? "correction-not-required" : "correction-required");
+  const resolved=(o.measurementResolved===false)? false : true;
+  let status;
+  if(!resolved || rP===null || rW===null || wObs===null || !(Math.abs(wObs)>0)) status="measurement-unresolved";
+  else if(Math.abs(rP)<pTol && Math.abs(rW)/Math.abs(wObs)<wTol) status="fit-search-tolerance-met";
+  else status="fit-search-unresolved";
+  return { nSigmaGate:n,
+    baseline:{ verdict, P:bP, omegaDot:bW,
+      note:"verdict は「補正が要る系か」という判定であって、**観測質量が誤っていることの確定ではない**。" },
+    rootCheck:{ converged:(status==="fit-search-tolerance-met"), status,
+      residualP:rP, residualW:rW,
+      observationalPass:null,   // **常に null**(この関数は 3σ の合否を出さない)
+      isPrediction:false,       // **常に false**(共同 fit は事前予測ではない)
+      tolerance:{ pTolSec:pTol, wTolRel:wTol,
+        note:"**停止条件は探索許容であって σ ではない。**" } },
+    note:"**手順の記帳器であって較正則ではない。** 力へは接続せず、kFrame や質量をこの返り値で"
+      +"決める経路は無い(内蔵プリセットの kFrame は 0 か 1 のままである)。"
+      +"得た (k*, f*) はその系・その窓・その観測版・その刻みの記録であり、他系へ固定転用しない。" };
+}
 // ===== 第259便a(第51報): **geoPN=3 のトイ積分器** `HP.dfmGeoToyStep(S,dt)` =====
 // 原仮定者(第51報):「例えば『測地線モード geoPN=3』などとして、トイモデル用に明確に処理を分ける事を
 // 検討する」。**`S._core` の外**(`S.step` の `_meshCoordForce` と同じ位置)に置く別の則である。
@@ -35948,6 +36387,9 @@ function dfmGeoToyStep(S,dt){
   // 第262便a: **宣言が無ければ実行時の既定 "scalar"**(GEO_TOY_LAW_DEFAULT)。宣言があればそちらが勝つ。
   // 内蔵プリセットは全本が geoPN≤2 なのでこの関数を通らない —— 既定経路は 1 bit 不変である。
   const cf=p[SPACE_MESH_KEY]||{}, law=(cf.lawVersion===undefined)? GEO_TOY_LAW_DEFAULT : cf.lawVersion;
+  // 第265便b(Z2): **mesh-v2 は既存トイと排他**である。宣言があればここで別経路へ分岐し、
+  // 以下(外場の ∂ₜu・∇u を流用する式)を **1 行も通らない**。
+  if(cf.law===MESH_V2_LAWS[1]) return dfmMeshV2Step(S,dt,cf);
   if(DFM_FIELD_LAWS.indexOf(law)<0){ S.geoToyStop="lawVersion"; return null; }
   if(law==="complex"){ S.geoToyStop="complexNotVelocity"; return null; }
   const eta=(cf.toyGain===undefined)? 1 : cf.toyGain;
@@ -36097,9 +36539,19 @@ function dfmGeoToyStep(S,dt){
   }
   S.geoToyClosure=closure; S.geoToyIters=iters;
   S.geoToyResid=resid; S.geoToyResidRel=residRel; S.geoToyConverged=conv;
-  S.geoToyStop=nOn? null : "noTargets";
-  S.geoToyN=nOn; S.geoToyDv=dvM; S.geoToyChi=chiMax;
-  if(!nOn) return null;
+  // 第265便b(Z3・統括の読み (C)): **未収束の最終反復を力として適用してはならない。**
+  //   〔第264便b ②〕で測ったとおり、η=χ=1 の二体では反復値が [g,−g] と [0,0] を**往復する**ので、
+  //   「上限で打ち切った最後の 1 巡」は**反復上限の偶奇で符号も大きさも変わる**(統括の予備測定:
+  //   等質量 500・分離 240・D₀=0・η=1・dt=0.016 で上限 2 回と 3 回の粒子 0 の vx が
+  //   9.269×10⁻⁴ と −2.25×10⁻¹⁰)。**打ち切り値は解ではない**ので、メッシュキックを当てず、
+  //   帳簿にも 1 バイトも記帳せず、`geoToyStop="closureUnconverged"` を返す。
+  //   **重力側の步と時刻は進む**(`_core` は既に走り終えている —— これは**原子的停止ではない**)。
+  //   診断の残差・反復数・収束判定・χ はそのまま読める(消すと「なぜ止まったか」が見えなくなる)。
+  //   既定 "gravity" は 1 巡で終わるので**この分岐に入らない**(内蔵は toyClosure を 1 本も宣言しない)。
+  const unconv=(closure!==SPACE_MESH_TOY_CLOSURE[0] && nOn>0 && conv!==true);
+  S.geoToyStop=unconv? "closureUnconverged" : (nOn? null : "noTargets");
+  S.geoToyN=unconv? 0 : nOn; S.geoToyDv=unconv? 0 : dvM; S.geoToyChi=chiMax;
+  if(unconv || !nOn) return null;
   // ---- 適用と**同時**のメッシュ側記帳(粒子が受け取った ΔP・ΔL・離散仕事の厳密な負)
   const carV=!!S.carVx, carVx=S.carVx, carVy=S.carVy;
   let spx=0, spy=0, sl=0, dEt=0;
@@ -36122,6 +36574,285 @@ function dfmGeoToyStep(S,dt){
   S.resPx-=spx; S.resPy-=spy; S.resL-=sl;
   return { n:nOn, dv:dvM, chi:chiMax, dP:[spx,spy], dL:sl, dE:dEt, lawVersion:law, R:supR, Rdot:supRd };
 }
+// ===== 第265便b(第57報 W2・Z2): **mesh-v2 —— 引きずりの「完全置換」の最小代数実装** =====
+// 原仮定者(第56報)「導入時は、空間メッシュの導入により、引きずり計算を完全に置き換えるものを想定していた」。
+// 〔第264便b ④〕は設計だけを書いた(実装 0 行)。本便はその (2)「場を粒子から**代数的に**求める」道を、
+// **2 体・回転源なし・正の慣性・衝突なし**に限って実装する。**候補であって確立した法則ではない。**
+//
+// **則(全粒子で変分する — 外場の式の流用ではない)**
+//   u_i(q,v) = Σ_j W_ij(q) v_j + u_bg、 W_ij = η·w_ij/(D₀+Σ_k w_ik)、 w_ij = m_j(|q_i−q_j|²+ε²)^{−p/2}(j≠i)
+//   L = Σ_i ½m_i|v_i − u_i|² − U(q) = ½ vᵀH(q)v − U(q)、 **H = (I−W)ᵀ M (I−W)**(u_bg≡0)
+//   Euler–Lagrange:  **H(q)·a = F(q) + ½(vᵀ∂_k H v)_k − (Σ_l v_l ∂_l H)v**   (F = −∂U/∂q = 重力)
+//   ∂_k H は**中心差分**で作る(最小実装の宣言 —— 解析微分ではない。刻み幅は `S.meshV2.fdStep`)。
+//
+// **構造的特異性**(〔第264便b ④(3)〕): D₀=0 かつ η=1 では行和 Σ_j W_ij = ηχ_i = 1 なので **H·1 = 0**、
+// すなわち**共通並進が零固有値**である(重心が慣性を持たない)。これは反復回数では治らない。
+// 公理(自由粒子・共通並進)へ合わせる道は 2 つあり、**どちらが正しいかは本便では決めない**ので両方実装する:
+//   ① `meshGauge:"inertia"` … **重心運動の慣性を独立に残す**。L へ「失われた重心の慣性」だけを戻す:
+//        K(q) = δ(q)·(m mᵀ)/M_tot²、 δ = M_tot − 1ᵀH1 = Σ m_i(1−(1−ηχ_i)²) ≥ 0  →  **H′ = H + K**
+//      δ は η=0 で厳密に 0 になるので、**η=0 は Newton へ戻る**(二重計上しない)。H′ は正定値である。
+//   ② `meshGauge:"constraint"` … **拘束/ゲージとして解く**。構造的零方向(共通並進 1)を射影で外し、
+//      擬似逆で解く(ゲージ条件 Σ_i a_i = 0)。駆動項が零方向に成分を持てば `rhsNotInRange` で止める。
+// **①と②は加速度が共通並進ぶんだけ違う**(相対運動は同じはず)—— それを 2 体で測るのが本便である。
+const MESH_V2_LAWS = ["toy","mesh-v2"];          // physics.spaceMesh.law(既定 "toy" = 既存トイ)
+const MESH_V2_GAUGES = ["inertia","constraint"]; // physics.spaceMesh.meshGauge
+const MESH_V2_COND_MAX = 1e12;   // **宣言値**: これを超えたら特異点近傍として止める(精度の主張ではない)
+const MESH_V2_NULL_TOL = 1e-12;  // **宣言値**: λ_min/λ_max がこれ以下なら「構造的零」とみなす
+const MESH_V2_FD_REL   = 1e-6;   // **宣言値**: ∂_k H の中心差分の相対刻み(代表長 × これ)
+
+// (a) 行正規化した重み行列 W と χ(**自己除外**・支持半径なし = "scalar" 相当の大域平均)
+function meshV2Weights(mm,X,Y,o){
+  const n=mm.length, eps2=o.eps*o.eps, pw=o.p, D0=o.D0, eta=o.eta;
+  const W=new Float64Array(n*n), chi=new Float64Array(n), rowSum=new Float64Array(n);
+  for(let i=0;i<n;i++){
+    let s=0;
+    for(let j=0;j<n;j++){
+      if(j===i) continue;
+      const dx=X[i]-X[j], dy=Y[i]-Y[j];
+      const w=mm[j]*Math.pow(dx*dx+dy*dy+eps2,-pw/2);
+      W[i*n+j]=w; s+=w;
+    }
+    const den=D0+s;
+    chi[i]=(den>0)? s/den : 0;
+    let rs=0;
+    for(let j=0;j<n;j++){ const z=(den>0)? eta*W[i*n+j]/den : 0; W[i*n+j]=z; rs+=z; }
+    rowSum[i]=rs;
+  }
+  return {W, chi, rowSum};
+}
+// (b) 質量行列 H = (I−W)ᵀ M (I−W)(+ ゲージ①の K)。**位置だけの関数**(速度に依らない)
+function meshV2Hessian(mm,X,Y,o){
+  const n=mm.length, w=meshV2Weights(mm,X,Y,o);
+  const A=new Float64Array(n*n);
+  for(let i=0;i<n;i++) for(let j=0;j<n;j++) A[i*n+j]=((i===j)?1:0)-w.W[i*n+j];
+  const H=new Float64Array(n*n);
+  for(let a=0;a<n;a++) for(let c=0;c<n;c++){
+    let s=0;
+    for(let i=0;i<n;i++) s+=A[i*n+a]*mm[i]*A[i*n+c];
+    H[a*n+c]=s;
+  }
+  let Mtot=0; for(let i=0;i<n;i++) Mtot+=mm[i];
+  // 1ᵀH1 = Σ m_i(1−ηχ_i)²(= H が重心並進へ与えている慣性)
+  let h11=0; for(let i=0;i<n;i++) h11+=mm[i]*(1-w.rowSum[i])*(1-w.rowSum[i]);
+  const delta=Mtot-h11;
+  const Hg=Float64Array.from(H);
+  if(o.gauge===MESH_V2_GAUGES[0] && Mtot>0 && delta!==0){
+    for(let a=0;a<n;a++) for(let c=0;c<n;c++) Hg[a*n+c]+=delta*mm[a]*mm[c]/(Mtot*Mtot);
+  }
+  return {H, Hg, A, W:w.W, chi:w.chi, rowSum:w.rowSum, Mtot, h11, delta, n};
+}
+// (c) 対称行列の固有分解(Jacobi 回転。**n は小さい** —— 診断のためだけに回す)
+function meshV2Eig(Hin,n){
+  const a=Float64Array.from(Hin), V=new Float64Array(n*n);
+  for(let i=0;i<n;i++) V[i*n+i]=1;
+  for(let sweep=0;sweep<60;sweep++){
+    let off=0;
+    for(let i=0;i<n;i++) for(let j=i+1;j<n;j++) off+=a[i*n+j]*a[i*n+j];
+    if(!(off>0)) break;
+    for(let p=0;p<n-1;p++) for(let q=p+1;q<n;q++){
+      const apq=a[p*n+q];
+      if(apq===0) continue;
+      const th=(a[q*n+q]-a[p*n+p])/(2*apq);
+      const t=(th>=0?1:-1)/(Math.abs(th)+Math.sqrt(th*th+1));
+      const c=1/Math.sqrt(t*t+1), s=t*c;
+      for(let k=0;k<n;k++){ const akp=a[k*n+p], akq=a[k*n+q]; a[k*n+p]=c*akp-s*akq; a[k*n+q]=s*akp+c*akq; }
+      for(let k=0;k<n;k++){ const apk=a[p*n+k], aqk=a[q*n+k]; a[p*n+k]=c*apk-s*aqk; a[q*n+k]=s*apk+c*aqk; }
+      for(let k=0;k<n;k++){ const vkp=V[k*n+p], vkq=V[k*n+q]; V[k*n+p]=c*vkp-s*vkq; V[k*n+q]=s*vkp+c*vkq; }
+    }
+  }
+  const val=[]; for(let i=0;i<n;i++) val.push(a[i*n+i]);
+  return {values:val, vectors:V};
+}
+// (d) **共通場 API と同じ核の重力**(F_i = m_i·Σ_j G m_j (r_j−r_i)/(|r|²+ε²)^{3/2} —— E4 の対和と同じ核)
+function meshV2Gravity(mm,X,Y,o){
+  const n=mm.length, eps2=o.eps*o.eps, G=o.G;
+  const Fx=new Float64Array(n), Fy=new Float64Array(n);
+  for(let i=0;i<n;i++){
+    let gx=0, gy=0;
+    for(let j=0;j<n;j++){
+      if(j===i) continue;
+      const dx=X[j]-X[i], dy=Y[j]-Y[i], s=dx*dx+dy*dy+eps2, k=G*mm[j]/(s*Math.sqrt(s));
+      gx+=k*dx; gy+=k*dy;
+    }
+    Fx[i]=mm[i]*gx; Fy[i]=mm[i]*gy;
+  }
+  return {Fx, Fy};
+}
+// (e) **純関数の本体** `HP.dfmMeshV2Solve(bodies, opts)` —— S を 1 バイトも読み書きしない。
+//     返り値は「加速度」と「H 検査 4 項」と「停止理由」。**停止したら加速度は null** である。
+function dfmMeshV2Solve(state,opts){
+  const bodies=Array.isArray(state)? state : ((state && Array.isArray(state.bodies))? state.bodies : null);
+  if(!bodies || bodies.length<1) return null;
+  const qo=opts||{};
+  const o={ G:(qo.G===undefined)?1:Number(qo.G), eps:(qo.eps===undefined)?0:Number(qo.eps),
+    p:(qo.p===undefined)?1:Number(qo.p), D0:(qo.D0===undefined)?0:Number(qo.D0),
+    eta:(qo.eta===undefined)?1:Number(qo.eta),
+    gauge:(MESH_V2_GAUGES.indexOf(qo.gauge)>=0)? qo.gauge : MESH_V2_GAUGES[0],
+    condMax:(qo.condMax===undefined)? MESH_V2_COND_MAX : Number(qo.condMax),
+    fdRel:(qo.fdRel===undefined)? MESH_V2_FD_REL : Number(qo.fdRel) };
+  const n=bodies.length;
+  const mm=new Float64Array(n), X=new Float64Array(n), Y=new Float64Array(n),
+        VX=new Float64Array(n), VY=new Float64Array(n);
+  for(let i=0;i<n;i++){
+    const b=bodies[i]||{};
+    mm[i]=Number(b.m); X[i]=Number(b.x); Y[i]=Number(b.y);
+    VX[i]=Number(b.vx||0); VY[i]=Number(b.vy||0);
+    if(!Number.isFinite(mm[i]) || !(mm[i]>0)) return {stop:"massNotPositive", n, i};
+    if(!Number.isFinite(X[i]) || !Number.isFinite(Y[i])) return {stop:"nonfinite", n, i};
+  }
+  const base=meshV2Hessian(mm,X,Y,o);
+  // ---- H 検査 ①対称性 ②正定値性 ③構造的特異性 ④共通並進(④は呼び出し側が速度を足して測る)
+  let sym=0, scale=0;
+  for(let a=0;a<n;a++) for(let c=0;c<n;c++){
+    const d=Math.abs(base.Hg[a*n+c]-base.Hg[c*n+a]); if(d>sym) sym=d;
+    const z=Math.abs(base.Hg[a*n+c]); if(z>scale) scale=z;
+  }
+  const eg=meshV2Eig(base.Hg,n), egH=meshV2Eig(base.H,n);
+  const vals=eg.values.slice().sort((a,b)=>a-b);
+  const valsH=egH.values.slice().sort((a,b)=>a-b);
+  const minEig=vals[0], maxEig=vals[n-1];
+  const minEigH=valsH[0], maxEigH=valsH[n-1];
+  const cond=(minEig!==0)? Math.abs(maxEig/minEig) : Infinity;
+  const condH=(minEigH!==0)? Math.abs(maxEigH/minEigH) : Infinity;
+  // 構造的特異性: **D₀=0 かつ η=1** のとき行和が厳密に 1 → H·1=0(共通並進が零固有値)
+  let rowDev=0; for(let i=0;i<n;i++) rowDev=Math.max(rowDev,Math.abs(base.rowSum[i]-1));
+  const structural=(o.D0===0 && o.eta===1 && rowDev<=1e-14);
+  const out={ n, chi:Array.from(base.chi), rowSum:Array.from(base.rowSum), rowDev,
+    H:Array.from(base.H), Hg:Array.from(base.Hg), Mtot:base.Mtot, h11:base.h11, delta:base.delta,
+    eig:vals, eigH:valsH, minEig, maxEig, cond, minEigH, maxEigH, condH,
+    symAbs:sym, symRel:(scale>0)? sym/scale : 0, structural, gauge:o.gauge,
+    condMax:o.condMax, nullTol:MESH_V2_NULL_TOL, stop:null, accel:null };
+  if(!(minEig>=-Math.abs(maxEig)*1e-12)){ out.stop="notPositive"; return out; }
+  // ---- 駆動項(重力 + 計量の微分項)
+  const gr=meshV2Gravity(mm,X,Y,o);
+  let L=0;
+  for(let i=0;i<n;i++) for(let j=i+1;j<n;j++) L=Math.max(L,Math.hypot(X[i]-X[j],Y[i]-Y[j]));
+  if(!(L>0)) L=1;
+  const fd=o.fdRel*L;   // **中心差分の刻み**(既定 MESH_V2_FD_REL·代表長。opts.fdRel で刻み依存を測れる)
+  out.fdStep=fd;
+  // ∂_k H(2n 個の座標・中心差分)。k=(2*i) が x_i・(2*i+1) が y_i
+  const B=[];
+  for(let k=0;k<2*n;k++){
+    const i=k>>1, isX=(k&1)===0;
+    const Xp=Float64Array.from(X), Yp=Float64Array.from(Y), Xm=Float64Array.from(X), Ym=Float64Array.from(Y);
+    if(isX){ Xp[i]+=fd; Xm[i]-=fd; } else { Yp[i]+=fd; Ym[i]-=fd; }
+    const hp=meshV2Hessian(mm,Xp,Yp,o).Hg, hm=meshV2Hessian(mm,Xm,Ym,o).Hg;
+    const b=new Float64Array(n*n);
+    for(let z=0;z<n*n;z++) b[z]=(hp[z]-hm[z])/(2*fd);
+    B.push(b);
+  }
+  // Ḣ = Σ_k v_k ∂_k H
+  const Hdot=new Float64Array(n*n);
+  for(let k=0;k<2*n;k++){
+    const i=k>>1, vk=((k&1)===0)? VX[i] : VY[i];
+    if(vk===0) continue;
+    const b=B[k];
+    for(let z=0;z<n*n;z++) Hdot[z]+=vk*b[z];
+  }
+  const quad=(Mx,u1,u2)=>{ let s=0; for(let a=0;a<n;a++) for(let c=0;c<n;c++) s+=u1[a]*Mx[a*n+c]*u2[c]; return s; };
+  const mul=(Mx,u)=>{ const r=new Float64Array(n); for(let a=0;a<n;a++){ let s=0; for(let c=0;c<n;c++) s+=Mx[a*n+c]*u[c]; r[a]=s; } return r; };
+  const HdVx=mul(Hdot,VX), HdVy=mul(Hdot,VY);
+  const RX=new Float64Array(n), RY=new Float64Array(n);
+  for(let i=0;i<n;i++){
+    RX[i]=gr.Fx[i]+0.5*(quad(B[2*i],VX,VX)+quad(B[2*i],VY,VY))-HdVx[i];
+    RY[i]=gr.Fy[i]+0.5*(quad(B[2*i+1],VX,VX)+quad(B[2*i+1],VY,VY))-HdVy[i];
+  }
+  out.rhs={x:Array.from(RX), y:Array.from(RY)};
+  // ---- 解く(ゲージで分かれる)
+  const solve=(R)=>{
+    if(o.gauge===MESH_V2_GAUGES[1] && structural){
+      // ② 拘束/ゲージ: 共通並進(1 方向)を射影で外し、残りを固有基底で解く(Σ_i a_i = 0)
+      let rNull=0, rAll=0;
+      for(let i=0;i<n;i++){ rNull+=R[i]; rAll+=R[i]*R[i]; }
+      rNull/=Math.sqrt(n); rAll=Math.sqrt(rAll);
+      if(rAll>0 && Math.abs(rNull)/rAll>1e-8) return {err:"rhsNotInRange", rNull:Math.abs(rNull)/rAll};
+      const a=new Float64Array(n);
+      const tol=Math.abs(maxEig)*MESH_V2_NULL_TOL;
+      let lmin=Infinity;
+      for(let e=0;e<n;e++){
+        const lam=eg.values[e];
+        if(!(Math.abs(lam)>tol)) continue;
+        let d=0; for(let i=0;i<n;i++) d+=eg.vectors[i*n+e]*R[i];
+        for(let i=0;i<n;i++) a[i]+=eg.vectors[i*n+e]*d/lam;
+        if(Math.abs(lam)<lmin) lmin=Math.abs(lam);
+      }
+      return {a, condRed:(lmin<Infinity)? Math.abs(maxEig)/lmin : null,
+        rNull:(rAll>0)? Math.abs(rNull)/rAll : 0};
+    }
+    // ①(および ② の非特異側): 固有基底で素直に解く
+    if(!(cond<=o.condMax)) return {err:"illConditioned", condRed:cond};
+    const a=new Float64Array(n);
+    for(let e=0;e<n;e++){
+      const lam=eg.values[e];
+      if(lam===0) return {err:"singular"};
+      let d=0; for(let i=0;i<n;i++) d+=eg.vectors[i*n+e]*R[i];
+      for(let i=0;i<n;i++) a[i]+=eg.vectors[i*n+e]*d/lam;
+    }
+    return {a, condRed:cond};
+  };
+  const sx=solve(RX), sy=solve(RY);
+  if(sx.err || sy.err){ out.stop=sx.err||sy.err;
+    out.condRed=(sx.condRed===undefined)? null : sx.condRed;
+    out.rhsNull=(sx.rNull===undefined)? null : sx.rNull; return out; }
+  out.condRed=(sx.condRed===undefined)? null : sx.condRed;
+  out.rhsNull=(sx.rNull===undefined)? null : sx.rNull;
+  out.accel={x:Array.from(sx.a), y:Array.from(sy.a)};
+  out.gravAccel={x:Array.from(gr.Fx).map((z,i)=>z/mm[i]), y:Array.from(gr.Fy).map((z,i)=>z/mm[i])};
+  return out;
+}
+// (f) **積分器側**(`dfmGeoToyStep` から分岐 —— `S._core` には 1 命令も足していない)。
+//     `_core` は既に Newton(E4)を当て終えているので、mesh-v2 が当てるのは**差分**
+//     Δa = a_mesh − a_grav(同じ核の重力)であり、**η=0 では Δa が丸めの桁になる**(実測を PHYSICS に載せる)。
+//     **原子的停止ではない**: 止めた步も重力側は進んでいる。
+function dfmMeshV2Step(S,dt,cf){
+  const p=S.params, n=S.n;
+  S.geoToyN=0; S.geoToyDv=0; S.geoToyChi=0;
+  S.meshV2=null;
+  if(n!==2){ S.geoToyStop="meshV2:notTwoBody"; return null; }
+  if(S.pinned[0] || S.pinned[1]){ S.geoToyStop="meshV2:pinned"; return null; }
+  if(S.box && S.boxA && S.boxA.W>0){ S.geoToyStop="meshV2:box"; return null; }
+  const pw=frameWeightPow(p);
+  const D0p=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;
+  const eta=(cf.toyGain===undefined)? 1 : cf.toyGain;
+  const gauge=(MESH_V2_GAUGES.indexOf(cf.meshGauge)>=0)? cf.meshGauge : MESH_V2_GAUGES[0];
+  const bodies=[];
+  for(let i=0;i<n;i++) bodies.push({m:S.mEff[i], x:S.x[i], y:S.y[i], vx:S.vx[i], vy:S.vy[i]});
+  const r=dfmMeshV2Solve(bodies,{G:p.G, eps:p.softening, p:pw, D0:D0p, eta, gauge});
+  if(!r){ S.geoToyStop="meshV2:solve"; return null; }
+  S.meshV2={ gauge, eta, D0:D0p, p:pw, chi:r.chi, minEig:r.minEig, maxEig:r.maxEig, cond:r.cond,
+    condRed:(r.condRed===undefined)? null : r.condRed, symRel:r.symRel, structural:r.structural,
+    delta:r.delta, rowDev:r.rowDev, fdStep:(r.fdStep===undefined)? null : r.fdStep,
+    rhsNull:(r.rhsNull===undefined)? null : r.rhsNull, stop:r.stop||null };
+  if(r.stop || !r.accel){ S.geoToyStop="meshV2:"+(r.stop||"noAccel"); return null; }
+  let chiMax=0; for(let i=0;i<n;i++) if(r.chi[i]>chiMax) chiMax=r.chi[i];
+  S.geoToyChi=chiMax;
+  const carV=!!S.carVx, carVx=S.carVx, carVy=S.carVy;
+  let spx=0, spy=0, sl=0, dEt=0, nOn=0, dvM=0;
+  for(let i=0;i<n;i++){
+    let ddx=(r.accel.x[i]-r.gravAccel.x[i])*dt, ddy=(r.accel.y[i]-r.gravAccel.y[i])*dt;
+    if(!Number.isFinite(ddx) || !Number.isFinite(ddy)){ S.geoToyStop="meshV2:nonfinite"; return null; }
+    const dm=Math.hypot(ddx,ddy); if(dm>dvM) dvM=dm;
+    nOn++;
+    if(ddx===0 && ddy===0) continue;
+    const dv2=ddx*ddx+ddy*ddy;
+    if(dv2>REACTION_DV_CAP2){ const sc=REACTION_DV_CAP/Math.sqrt(dv2); ddx*=sc; ddy*=sc; S.clampRN++; }
+    const mi=S.mEff[i];
+    spx+=mi*ddx; spy+=mi*ddy; sl+=mi*(S.x[i]*ddy-S.y[i]*ddx);
+    const q0x=S.vx[i], q0y=S.vy[i];
+    if(carV){
+      const addX=ddx+carVx[i], v0x=S.vx[i]; S.vx[i]=v0x+addX; carVx[i]=addX-(S.vx[i]-v0x);
+      const addY=ddy+carVy[i], v0y=S.vy[i]; S.vy[i]=v0y+addY; carVy[i]=addY-(S.vy[i]-v0y);
+    } else { S.vx[i]+=ddx; S.vy[i]+=ddy; }
+    dEt+=0.5*mi*((S.vx[i]*S.vx[i]+S.vy[i]*S.vy[i])-(q0x*q0x+q0y*q0y));
+  }
+  S.geoToyN=nOn; S.geoToyDv=dvM; S.geoToyStop=null;
+  S.geoToyClosure="mesh-v2"; S.geoToyIters=1;
+  S.geoToyResid=null; S.geoToyResidRel=null; S.geoToyConverged=null;
+  S.geoToyPx+=spx; S.geoToyPy+=spy; S.geoToyL+=sl; S.geoToyE+=dEt;
+  S.geoToyMeshPx-=spx; S.geoToyMeshPy-=spy; S.geoToyMeshL-=sl; S.geoToyEmesh-=dEt;
+  S.resPx-=spx; S.resPy-=spy; S.resL-=sl;
+  return { n:nOn, dv:dvM, chi:chiMax, dP:[spx,spy], dL:sl, dE:dEt, law:"mesh-v2", gauge };
+}
 // 第259便a: **geoPN=3 の dispatch 除外**(`S._core` には 1 命令も足さない)。
 // `S._core` は入口で `const n=S.n, p=S.params;` と読むだけなので、**`_core` を呼んでいる間だけ**
 // `S.params.geoPN` を 0 にして戻す。これで `geo=(p.geoPN||0)>0`・`geo2=(p.geoPN||0)>=2`・
@@ -36135,6 +36866,123 @@ function geoCoreDispatch(S,dt,mode){
   const p=S.params;
   if(p.geoPN>=3){ const g=p.geoPN; p.geoPN=S.hasGeoToy?0:2; try{ S._core(dt,mode); } finally{ p.geoPN=g; } }
   else S._core(dt,mode);
+}
+// ===== 第265便d(第57報 W4): LFBOT の**トイ仮説** —— 減光で出られなかった自光の蓄積と、崩壊での放出 =====
+// 原仮定者(第57報)「『Luminous Fast Blue Optical Transient』について、『減光』で青方偏移した光が
+// 蓄積し、天体の崩壊で一気に放出した、という仮説を立てる」。**観測事実の主張ではない**(sampleClass は
+// principle・`notClaim:["lfbot"]`)。実在イベント(AT2018cow 等)へ 3σ を出さない。
+//
+// ■ **どのエネルギーが動くかを先に決める**(二重計上の禁止)
+//   既存の E11 は `dE=η·T^p·(1−ℓ)·dt` だけを `radE` へ出す ——「出られなかった分 ℓ·η·T^p·dt」は
+//   **熱として天体に残る**。lightTrap を宣言した粒子ではこの残った分を**熱から引き取って** E_γ へ移す
+//   (= T は減光が無かったときと同じだけ下がる)。**`radE` には 1 bit も積まない**(積むと二重計上)。
+//   青方偏移の仕事 P_shift は**供給源 E_s から支払う**(光子数 N_γ は不変・E_s が尽きれば止まる・
+//   N_γ=0 なら仕事しない) —— 往復だけでエネルギーは増えない。
+//
+// ■ 帳簿(粒子ごと)
+//   Ė_in=ℓ·η·T^p (熱→E_γ)・Ė_s=−P_shift・Ė_γ=Ė_in+P_shift−L_esc−Q_abs・Ė_esc=L_esc・Q̇=Q_abs
+//   L_esc=E_γ/t_esc・ν̄=E_γ/(h·N_γ)(**h≡1 のシミュレータ単位** = 光子 1 個あたりのエネルギー)
+//   **恒等式**: E_s + E_γ + E_esc + Q − E_in = E_s(0)(E_in を落として書いてはならない)
+//   光子の注入数は Wien の変位則に倣って dN=dE_in/(b_m·T)(井戸で青くなるのは P_shift の側)。
+//
+// ■ 崩壊(t_esc の切り替え)
+//   `collapseR`(コア半径がこの値以下)・`shed` の発火・`burst` の放出のいずれかで**一度だけ**ラッチし、
+//   以後 t_esc→tEscCollapse になる。**「崩壊したら必ず放出する」スイッチであって予測式ではない**。
+//
+// ■ 正直な限界
+//   ・熱の引き取りは `thermal:"tint"` の宇宙でだけ働く(スピン=熱の既定モードは未接続 —— `ltNoThermal`)。
+//   ・`S._core` の**後**で `Tint` を読むので、E11 本体との差は O(dt²) である(帳簿の恒等式は厳密)。
+//   ・外来光(井戸へ落ちてくる光)の捕獲は本便では足していない —— 蓄積するのは**自光だけ**である。
+function ltClear(S,i){
+  if(!S.ltOn) return;
+  S.ltOn[i]=0; S.ltCo[i]=0; S.ltRf[i]=0; S.ltTe[i]=0; S.ltTc[i]=0; S.ltSr[i]=0; S.ltAb[i]=0; S.ltRc[i]=0;
+  S.ltEg[i]=0; S.ltNg[i]=0; S.ltEs[i]=0; S.ltEe[i]=0; S.ltQ[i]=0; S.ltEi[i]=0;
+}
+function dfmLightTrapStep(S,dt){
+  if(!S.hasLightTrap || !(dt>0)) return;
+  const p=S.params, n=S.n, tint=(S.thermal==="tint");
+  const etaRad=p.etaRad, pRad=p.pRad, cHeat=p.cHeat, bM=p.bM, kap=p.kappaT;
+  const eps2=p.softening*p.softening;
+  if(!tint) S.ltNoThermal=1;
+  let lesc=0;
+  for(let i=0;i<n;i++){
+    if(!S.ltOn[i]) continue;
+    const mi=S.m[i], ls=S.lSw[i], Ri=S.R[i];
+    // (i) 減光で出なかった自光を**熱から** E_γ へ移す(radE には積まない)
+    // refill:false を宣言した粒子は**崩壊のラッチが立った後は溜め直さない**(一度で空になる貯蔵槽)
+    if(tint && etaRad>0 && ls>0 && mi>0 && S.Tint && S.Tint[i]>0 && !(S.ltRf[i]===0 && S.ltCo[i])){
+      const T0=S.Tint[i], cm=cHeat*mi;
+      const aU=(S.arep && S.arep[i]>0)? S.arep[i] : 0;
+      let dIn=etaRad*Math.pow(T0,pRad)*ls*dt;
+      const lim=0.5*cm*T0 + aU*Math.sqrt(T0)*(1-Math.SQRT1_2);
+      if(dIn>lim) dIn=lim;
+      if(dIn>0 && cm>0){
+        S.Tint[i]=solveTintE(T0, cm, aU, -dIn);
+        S.ltEi[i]+=dIn; S.ltEg[i]+=dIn;
+        const nu0=bM*T0; if(nu0>0) S.ltNg[i]+=dIn/nu0;
+      }
+    }
+    // (ii) 青方偏移の仕事(**E_s から支払う** —— 光子数は不変 = ν̄ が上がる)
+    if(S.ltSr[i]>0 && S.ltNg[i]>0 && S.ltEs[i]>0 && S.ltEg[i]>0){
+      const psi=(S.sumW[i] + Math.abs(mi)/Math.sqrt(Ri*Ri+eps2))*kap;
+      if(psi>0){
+        let dW=S.ltSr[i]*psi*S.ltEg[i]*dt;
+        if(dW>S.ltEs[i]) dW=S.ltEs[i];
+        if(dW>0){ S.ltEs[i]-=dW; S.ltEg[i]+=dW; }
+      }
+    }
+    // (iii) 崩壊のラッチ(コア半径・shed の発火・burst の放出)—— **一度立ったら戻らない**
+    if(!S.ltCo[i]){
+      const col=(S.ltRc[i]>0 && S.RcV[i]>0 && S.RcV[i]<=S.ltRc[i])
+        || (S.shdDn && S.shdDn[i]===1) || (S.coreBJr && S.coreBJr[i]>0);
+      if(col){ S.ltCo[i]=1; if(S.ltColT===null) S.ltColT=S.t; }
+    }
+    // (iv) 脱出 L_esc=E_γ/t_esc(崩壊後は tEscCollapse)
+    const te=(S.ltCo[i] && S.ltTc[i]>0)? S.ltTc[i] : S.ltTe[i];
+    if(te>0 && S.ltEg[i]>0){
+      let dE=S.ltEg[i]/te*dt;
+      if(dE>S.ltEg[i]) dE=S.ltEg[i];
+      if(dE>0){
+        const fr=dE/S.ltEg[i];
+        S.ltEg[i]-=dE; S.ltNg[i]-=S.ltNg[i]*fr; S.ltEe[i]+=dE; lesc+=dE/dt;
+      }
+    }
+    // (v) 吸収(既定 0 —— 宣言したときだけ熱へ戻す)
+    if(S.ltAb[i]>0 && S.ltEg[i]>0 && tint && S.Tint){
+      let dQ=S.ltAb[i]*S.ltEg[i]*dt;
+      if(dQ>S.ltEg[i]) dQ=S.ltEg[i];
+      if(dQ>0){
+        const fr=dQ/S.ltEg[i], cm=cHeat*mi;
+        const aU=(S.arep && S.arep[i]>0)? S.arep[i] : 0;
+        S.ltEg[i]-=dQ; S.ltNg[i]-=S.ltNg[i]*fr; S.ltQ[i]+=dQ;
+        if(cm>0) S.Tint[i]=solveTintE(S.Tint[i], cm, aU, dQ);
+      }
+    }
+  }
+  S.ltLesc=lesc;
+}
+// 帳簿の読み(**純関数 —— 1 バイトも書かない**)。恒等式 E_s+E_γ+E_esc+Q−E_in=E_s(0) の残差を返す。
+function dfmLightTrapLedger(S){
+  // **宣言していない宇宙では null を返す**(0 の帳簿を作らない —— 無いことと 0 は別である)
+  if(!S || !S.ltOn || !S.hasLightTrap) return null;
+  const n=S.n, bodies=[];
+  let Eg=0, Ng=0, Es=0, Ee=0, Q=0, Ei=0, nOn=0, nCol=0;
+  for(let i=0;i<n;i++){
+    if(!S.ltOn[i]) continue;
+    nOn++; if(S.ltCo[i]) nCol++;
+    Eg+=S.ltEg[i]; Ng+=S.ltNg[i]; Es+=S.ltEs[i]; Ee+=S.ltEe[i]; Q+=S.ltQ[i]; Ei+=S.ltEi[i];
+    bodies.push({ i, Eg:S.ltEg[i], Ng:S.ltNg[i], Es:S.ltEs[i], Eesc:S.ltEe[i], Q:S.ltQ[i], Ein:S.ltEi[i],
+      nuBar:(S.ltNg[i]>0)? S.ltEg[i]/S.ltNg[i] : null, collapsed:!!S.ltCo[i], refill:(S.ltRf[i]!==0),
+      tEsc:(S.ltCo[i] && S.ltTc[i]>0)? S.ltTc[i] : S.ltTe[i] });
+  }
+  const sum=Es+Eg+Ee+Q-Ei, res=sum-Number(S.ltEs0||0);
+  const den=Math.max(Math.abs(S.ltEs0||0), Math.abs(Es)+Math.abs(Eg)+Math.abs(Ee)+Math.abs(Q)+Math.abs(Ei));
+  return { n:nOn, collapsed:nCol, t:S.t, Eg, Ng, Es, Eesc:Ee, Q, Ein:Ei,
+    nuBar:(Ng>0)? Eg/Ng : null, Lesc:Number(S.ltLesc||0), collapseT:S.ltColT,
+    Es0:Number(S.ltEs0||0), invariant:sum, residual:res,
+    relResidual:(den>0)? res/den : null, thermalWired:(S.thermal==="tint"),
+    note:"恒等式は E_s+E_γ+E_esc+Q−E_in=E_s(0)。**E_in(減光で熱から引き取った自光)を落として書くと二重計上になる**。"
+      +"E_esc は radE とは別の列である(既存の項と重ねない)。ν̄ は h≡1 のシミュレータ単位(光子 1 個あたりのエネルギー)" };
 }
 // ===== 第259便b(第51報 W2): 親子コア・3D スピン参照場・歳差/緩和の**純関数**(S を 1 バイトも読み書きしない)=====
 // 原仮定者(第51報)「観測半径は外殻が担うが、質量は半径の小さなコアが大半を担う」「天体の自転による
@@ -36378,10 +37226,23 @@ function dfmLayerKernel(layer, d, opts){
 
 // (3) **層の合成則**(融合 body 単位)。"role"=同 role を合算(m は和・r は √(r_i²+r_j²) —— 殻とコア v2 の
 //     既存則と同型)/ "add"=小さい方の層を層として追加(r 昇順に並べ直す)。**どちらも Σm は厳密和**。
+// 第265便c: 返り値に **`decl`(宣言ビット 1=J・2=Jx・4=Jy)** と **`inertiaScale`(ζ)** が付く。
+//   ・`decl` は入力の `decl`(実行状態から渡すとき)か、鍵の有無(純関数として使うとき)で読む。
+//     **和は宣言の和集合**である(片方が明示ゼロを宣言していれば、合成後も宣言が残る)。
+//   ・ζ は **回転場の源 Σ J/ζ を保つ**ように合成する: ζ′=(J_a+J_b)/(J_a/ζ_a+J_b/ζ_b)。
+//     等しい ζ どうしならそのまま ζ が残り、J が打ち消し合う(和が 0)などで定義できないときだけ
+//     ζ′=1 へ落とす(**融合は宣言の合成であって保存則ではない** —— そのことを表に出す)。
 function dfmLayerMerge(la, lb, rule){
   const A=Array.isArray(la)? la : [], B=Array.isArray(lb)? lb : [];
   if(!A.length && !B.length) return [];
   const RL=(rule==="add")? "add" : "role";
+  const dclOf=(L)=>{ if(L.decl!==undefined) return (Number(L.decl)||0)&7;
+    return ((L.J!==undefined && L.J!==null)?1:0)|((L.Jx!==undefined && L.Jx!==null)?2:0)
+      |((L.Jy!==undefined && L.Jy!==null)?4:0); };
+  const zOf=(L)=>{ const z=Number(L.inertiaScale); return (Number.isFinite(z) && z>0)? z : 1; };
+  const zMerge=(ja,za,jb,zb)=>{ const jn=ja+jb, qn=ja/za+jb/zb;
+    if(jn!==0 && qn!==0){ const z=jn/qn; if(Number.isFinite(z) && z>0) return z; }
+    return (za===zb)? za : 1; };
   let out=[];
   if(RL==="role"){
     const map=new Map();
@@ -36390,15 +37251,19 @@ function dfmLayerMerge(la, lb, rule){
       const jl=Number.isFinite(Number(L.J))? Number(L.J) : 0;   // 第261便b: 宣言 J は和で運ぶ(力へは未接続)
       // 第264便c: 面内成分 Jx/Jy も同じ和で運ぶ(数値の保存だけ — 力へは未接続)
       const jx=Number.isFinite(Number(L.Jx))? Number(L.Jx) : 0, jy=Number.isFinite(Number(L.Jy))? Number(L.Jy) : 0;
+      const dc=dclOf(L), z=zOf(L);
       const cur=map.get(k);
-      if(cur){ cur.m+=Number(L.m); cur.r=Math.sqrt(cur.r*cur.r+Number(L.r)*Number(L.r)); cur.J+=jl; cur.Jx+=jx; cur.Jy+=jy; }
-      else map.set(k,{role:k, m:Number(L.m), r:Number(L.r), J:jl, Jx:jx, Jy:jy});
+      if(cur){ cur.m+=Number(L.m); cur.r=Math.sqrt(cur.r*cur.r+Number(L.r)*Number(L.r));
+        const zn=zMerge(cur.J, cur.inertiaScale, jl, z);
+        cur.J+=jl; cur.inertiaScale=zn; cur.Jx+=jx; cur.Jy+=jy; cur.decl|=dc; }
+      else map.set(k,{role:k, m:Number(L.m), r:Number(L.r), J:jl, Jx:jx, Jy:jy, decl:dc, inertiaScale:z});
     }
     out=Array.from(map.values());
   } else {
     out=A.concat(B).map(L=>({role:String(L.role||""), m:Number(L.m), r:Number(L.r),
       J:(Number.isFinite(Number(L.J))? Number(L.J) : 0),
-      Jx:(Number.isFinite(Number(L.Jx))? Number(L.Jx) : 0), Jy:(Number.isFinite(Number(L.Jy))? Number(L.Jy) : 0)}));
+      Jx:(Number.isFinite(Number(L.Jx))? Number(L.Jx) : 0), Jy:(Number.isFinite(Number(L.Jy))? Number(L.Jy) : 0),
+      decl:dclOf(L), inertiaScale:zOf(L)}));
   }
   out.sort((u,v)=>u.r-v.r);
   // 同一半径・上限超過は**内側から**畳む(非重複・昇順・層数 ≤ BODY_LAYER_MAX の不変量を保つ)。
@@ -36411,12 +37276,17 @@ function dfmLayerMerge(la, lb, rule){
     const rp=out[k-1].r, rk=out[k].r;
     if(rk-rp<=LAYER_MERGE_RTOL*Math.max(Math.abs(rk),Math.abs(rp))){
       out[k].m+=out[k-1].m; out[k].r=Math.max(rk,rp);
+      out[k].inertiaScale=zMerge(out[k].J||0, zOf(out[k]), out[k-1].J||0, zOf(out[k-1]));   // 第265便c
       out[k].J=(out[k].J||0)+(out[k-1].J||0);
       out[k].Jx=(out[k].Jx||0)+(out[k-1].Jx||0); out[k].Jy=(out[k].Jy||0)+(out[k-1].Jy||0);   // 第264便c
+      out[k].decl=(out[k].decl||0)|(out[k-1].decl||0);   // 第265便c: 宣言は和集合
       out.splice(k-1,1); k--; }
   }
-  while(out.length>BODY_LAYER_MAX){ out[1].m+=out[0].m; out[1].J=(out[1].J||0)+(out[0].J||0);
+  while(out.length>BODY_LAYER_MAX){ out[1].m+=out[0].m;
+    out[1].inertiaScale=zMerge(out[1].J||0, zOf(out[1]), out[0].J||0, zOf(out[0]));   // 第265便c
+    out[1].J=(out[1].J||0)+(out[0].J||0);
     out[1].Jx=(out[1].Jx||0)+(out[0].Jx||0); out[1].Jy=(out[1].Jy||0)+(out[0].Jy||0);   // 第264便c
+    out[1].decl=(out[1].decl||0)|(out[0].decl||0);   // 第265便c
     out.splice(0,1); }
   return out;
 }
@@ -36526,6 +37396,10 @@ function coreV2MigrationPlan(body){
   const core0={role:"core", m:Mc, r:Rc, J:Jz};
   if(Jx2!==0) core0.Jx=Jx2;
   if(Jy2!==0) core0.Jy=Jy2;
+  // 第265便c(Z6 前半): **ζ を層へ運ぶ**。層の ζ は I=ζ·½·m·r² と回転場の源 J/ζ の双方に効くので、
+  // これを運ばないと (V2 のみ) と (層のみ) の Q が J_z(1−1/ζ) だけずれる(〔第264便c〕§2 の 3 行目)。
+  // **ζ=1 のときは鍵を作らない**(正準形・署名は 1 bit も動かない)
+  if(zeta!==1) core0.inertiaScale=zeta;
   const layers=(Ms>0)? [core0, {role:"shell", m:Ms, r:R, J:Js}] : [core0];
   const warnings=["canReplaceV2:false","layerJIsDeclarationOnly"];
   if(Math.abs(Jx)>0 || Jx2!==0 || Jy2!==0) warnings.push("tiltNotCarried");   // 第264便c: 意味は「面内成分の力学は運ばれない」
@@ -36535,6 +37409,7 @@ function coreV2MigrationPlan(body){
   const Er=(Ic>1e-12)? (Jm*Jm)/(2*Ic) : 0, ErZ=(Ic>1e-12)? (Jz*Jz)/(2*Ic) : 0;
   if(!Number.isFinite(Er) || !Number.isFinite(ErZ)) return { ok:false, reason:"rotationEnergyNotFinite" };
   return { ok:true, layers, mode, Mc, Ms, Rc, R, sumM:Mc+Ms,
+    shellSpinMass:(c.shellSpinMass==="shell")? "shell" : "total",   // 第265便c: V2 側の殻項の質量則(層側は常に M_s)
     inertiaScale:zeta, Ic, omega:om, tiltDeg:thDeg, Jz, Jx, Jmag:Jm, Jshell:Js,
     Erot:Er, ErotZ:ErZ,
     observedRadius:(Ms>0)? undefined : R,     // 裸コア(massFrac=1)の観測半径は層に載らないので別欄で保持する
@@ -36602,13 +37477,20 @@ function coreV2ReplaceAxes(body){
   // (1) 回転場の源の差(実数で出す — 「一致した」は数で言う)
   const sp=Number.isFinite(Number(b.spin))? Number(b.spin) : 0;
   const md=pl.mode, mRaw=Number(b.m), R=pl.R;
-  const qV2=0.5*mRaw*R*R*sp + ((md==="differential"||md==="active")? (pl.Ic>1e-12? pl.Jz/pl.inertiaScale : 0) : 0);
-  let qLay=0; for(const L of pl.layers) qLay+=(L.J||0);
+  // 第265便c: 殻項の質量則 —— 既定 "total" は body 総質量 m・opt-in "shell" は殻質量 M_s。
+  // 層側は **常に ½·M_s·R²·spin**(殻層の J そのもの)なので、"shell" を宣言した粒子は
+  // spin≠0 でも殻項が一致する。ζ は層へ運ばれるようになったので qLay は **Σ J_k/ζ_k** で読む
+  const mShell=(pl.shellSpinMass==="shell")? pl.Ms : mRaw;
+  const qV2=0.5*mShell*R*R*sp + ((md==="differential"||md==="active")? (pl.Ic>1e-12? pl.Jz/pl.inertiaScale : 0) : 0);
+  let qLay=0; for(const L of pl.layers){ const z=(L.inertiaScale>0)? L.inertiaScale : 1; qLay+=(L.J||0)/z; }
   const dQ=qLay-qV2;
+  // 第265便c: 理由の割り当ては**差の出どころ**で決める(ζ を層へ運ぶようになったので、
+  // ζ≠1 だけでは差が出ない)。殻項の差 = ½(M_s−M_shellLaw)R²spin・残りがコア項の差である
+  const dShell=0.5*(pl.Ms-mShell)*R*R*sp;
   if(dQ!==0){
     axes.rotationSource=false;
-    why.rotationSource=(pl.inertiaScale!==1 && (md==="differential"||md==="active"))
-      ? "inertiaScaleNotUnity" : "shellSpinTermDiffers";
+    why.rotationSource=(dShell!==0)? "shellSpinTermDiffers"
+      : ((pl.inertiaScale!==1)? "inertiaScaleNotUnity" : "shellSpinTermDiffers");
   }
   // (2) 傾き — 数値は載る。力学(整列トルク)は載らない
   if(Number(c.Kalign)>0){ axes.tilt=false; why.tilt="tiltDynamicsNotCarried"; }
@@ -36621,8 +37503,9 @@ function coreV2ReplaceAxes(body){
   // (5) 保存・復元(編集経路の値域)
   for(const L of pl.layers){
     const js=[L.J||0, L.Jx||0, L.Jy||0];
+    const z=(L.inertiaScale===undefined)? 1 : L.inertiaScale;   // 第265便c: ζ も編集経路の値域に入るか
     if(!(L.m>=1e-12 && L.m<=MASS_CAP) || !(L.r>=BODY_LAYER_RMIN && L.r<=1e6)
-       || js.some((j)=>Math.abs(j)>BODY_LAYER_JCAP)){
+       || js.some((j)=>Math.abs(j)>BODY_LAYER_JCAP) || !(z>=1e-3 && z<=1e6)){
       axes.saveRestore=false; why.saveRestore="layerValueOutOfEditRange"; break; }
   }
   const all=Object.keys(axes).every((k)=>axes[k]);
@@ -36650,7 +37533,8 @@ function coreV2ToLayers(core, body){
   const c=core||{}, b=body||{};
   const pl=coreV2MigrationPlan({ m:b.m, R:(b.R!==undefined? b.R : b.radius), spin:b.spin,
     core:{ mode:c.mode, massFrac:c.massFrac, radius:(c.radius!==undefined? c.radius : c.Rc),
-      omega:c.omega, tilt:c.tilt, inertiaScale:c.inertiaScale, Kcs:c.Kcs, pump:c.pump, contract:c.contract,
+      omega:c.omega, tilt:c.tilt, inertiaScale:c.inertiaScale, shellSpinMass:c.shellSpinMass,   // 第265便c
+      Kcs:c.Kcs, pump:c.pump, contract:c.contract,
       Jz:(c.Jz!==undefined? c.Jz : c.J), Jmag:c.Jmag, Jx:c.Jx, Jy:c.Jy } });   // 第264便c: 面内成分
   if(!pl.ok) return { ok:false, reason:pl.reason };
   return { ok:true, layers:pl.layers, mode:pl.mode, Mc:pl.Mc, Ms:pl.Ms, Rc:pl.Rc, R:pl.R,
@@ -37100,6 +37984,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // QA behavior.geoToyClosure が「既定は 122 本ビット不変」「iterate は反復数と残差を返す」
   // 「特異点(det=1−η²χ₀χ₁→0)で収束しない」を機械固定する
   SPACE_MESH_TOY_CLOSURE, GEO_TOY_CLOSURE_ITERS_DEFAULT, GEO_TOY_CLOSURE_TOL,
+  // 第265便b(Z2): mesh-v2 の読み口(**純関数** dfmMeshV2Solve と宣言値 3 つ・積分器は dfmMeshV2Step)
+  dfmMeshV2Solve, dfmMeshV2Step, MESH_V2_LAWS, MESH_V2_GAUGES,
+  MESH_V2_COND_MAX, MESH_V2_NULL_TOL, MESH_V2_FD_REL,
   // 第263便a(第55報・検証仮説 (4)): **支配度の器**(質量比・χ の偏り・自己除外並進平均の相手速度成分比を
   // **3 軸のまま**返す純関数)。**力へは 1 バイトも接続せず、法則の自動分岐も実装していない**。
   // QA behavior.geoToyOverlay が二体の恒等(uAlign≡χ₂・D₀=0 で 1)と負質量拒否を機械固定する
@@ -37108,6 +37995,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // H3 の相関候補列を**同じ入力で並べるだけ**の純関数)。**予測式ではない**し、力へも接続していない。
   // QA behavior.kJointRoot が代数と循環判定・内蔵の二値契約を機械固定する
   dfmFrameKCandidates,
+  dfmJointCalProtocol,
   // 第259便b(第51報 W2): 親子コア(同心層)の純関数と 3D スピン参照場・歳差/粘性緩和。
   // dfmLayerGravity=球殻定理(内側 0・遠方は点源)/ dfmLayerKernel=慣性核 r^−p の有限半径積分
   // (**重力の球殻積分とは別物**・力へは接続していない)/ dfmLayerMerge=融合の層合成則 2 案/
@@ -37130,6 +38018,18 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   dfmSpinPrecess, dfmTiltWork, dfmSpinRelax, coreV2ToLayers, coreV2MigrationPlan, coreV2MigrateReport,
   coreV2ReplaceReport, coreV2ReplaceAxes,
   dfmLayerDipoleMoment:(i,S)=>layerDipoleMoment(S||sim,i),
+  // 第265便c(第57報 W3): 層の**宣言ビット**(1=J・2=Jx・4=Jy — 明示ゼロの宣言を値と分ける)と
+  // **層の ζ**(I と J/ζ の双方に効く)の読み出し口。どちらも読み取り専用(力へは書かない)。
+  // ckSnapOne/ckRestoreOne/cloneSimStateNow は「保存/復元」「複製」経路を器から踏むための口である
+  dfmLayerJDeclared:(i,k,S)=>{ const T=S||sim;
+    return (T.layJD && i>=0 && i<T.n && k>=0 && k<BODY_LAYER_MAX)? T.layJD[i*BODY_LAYER_MAX+k] : 0; },
+  dfmLayerInertiaScale:(i,k,S)=>{ const T=S||sim;
+    return (T.layIS && i>=0 && i<T.n && k>=0 && k<BODY_LAYER_MAX)? T.layIS[i*BODY_LAYER_MAX+k] : 1; },
+  dfmShellSpinMassOf:(i,S)=>{ const T=S||sim;
+    return (T.coreSSM && i>=0 && i<T.n && T.coreSSM[i]===1)? "shell" : "total"; },
+  SHELL_SPIN_MASS_MODES:["total","shell"],
+  ckSnapOne:(S)=>ckSnapOne(S||sim), ckRestoreOne:(S,o)=>ckRestoreOne(S||sim,o),
+  cloneSimStateNow:()=>cloneSimState(),
   BODY_LAYER_ROLES, BODY_LAYER_MAX, BODY_LAYER_KEY, LAYER_MERGE_RULE, LAYER_MERGE_RTOL,
   BODY_LAYER_JCAP, BODY_LAYER_RMIN,
   // 第254便b(第46報「銀河の空間メッシュ」): **銀河は 1 つの大域相似メッシュに乗らない**(差動回転)ので、
@@ -37159,6 +38059,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第258便b(第50報): 最小の閉鎖系(K+U+有限 E_mesh+Q)と引きずり仕事の opt-in 鍵
   dfmChainMeshClosed, dfmChainMeshClosedStep, dfmChainMeshClosedEnergy, LEDGER_KEY,
   CHAIN_RINGS_MAX, CHAIN_SUPPORT_PAD, dfmToyLedger,
+  // 第265便d(第57報 W4): LFBOT のトイ仮説 —— 減光で出られなかった自光の蓄積帳簿の読み(**純関数**)。
+  // 恒等式 E_s+E_γ+E_esc+Q−E_in=E_s(0)。**E_in を落として書くと二重計上**になる。
+  dfmLightTrapLedger:(S)=>dfmLightTrapLedger(S||sim),
   dfmLedgerRelative, LEDGER_ACTIVE_FLOOR_REL,   // 第261便d(第53報): 規格化の分母の併記
   // 第262便d(第54報): **活動部分を正本**にした 1e−3 の門の状態名(純関数・FAIL を出さない)
   dfmLedgerGateState, LEDGER_GATE_THRESHOLD,

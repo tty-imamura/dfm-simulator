@@ -1,0 +1,3637 @@
+{
+ "meta": {
+  "wave": "第265便a",
+  "target": "beta/index.html",
+  "dt0": 0.016,
+  "divs": [
+   1,
+   2,
+   4
+  ],
+  "periWindow": 20,
+  "pTolSec": 0.001,
+  "wTolRel": 0.0005,
+  "jacStep": {
+   "dk": 0.02,
+   "df": 0.01
+  },
+  "newtonMax": 5,
+  "base": "第264便a の主列(採用レコード)の (k\\*, f\\*) を出発点にする(tests/out/kjoint-w264a.json)。",
+  "metric": "近点間 P = 位相制限(1.5π)の最初の 20 近点(19 区間)の平均間隔。ω̇ は採用近点の方位を実時刻に回帰した傾き(°/年)。",
+  "method": "1 点の評価 = 3 刻み(h, h/2, h/4)+ Richardson 外挿。ヤコビアンは**外挿値**の中心差分(各点 3 刻み)。Newton は**外挿値の残差**に対して回す。**停止条件は探索許容であって σ ではない。**",
+  "prelimSource": "PRELIM は**統括の予備測定**(保存主列を 3 刻みで測り直した値)。照合のためだけに置いた定数で、観測値ではない。",
+  "touched": "**本体 ⚡🧮🩺🧶 の JSON は 1 bit も書き換えていない**。`S._core` には 1 命令も足していない。",
+  "claim": "**この表は較正則ではない。**「kFrame≈0.7 を採った」「事前予測式」とは書かない。**f≠1 は観測質量の誤りの確定ではない。**",
+  "spentSec": 937.5,
+  "evals": 99
+ },
+ "builtinK": [
+  {
+   "id": "psrDoubleABDFM",
+   "kFrame": 1,
+   "geoPN": 2,
+   "sampleClass": "calibration"
+  },
+  {
+   "id": "psrJ1757DFM",
+   "kFrame": 1,
+   "geoPN": 2,
+   "sampleClass": "calibration"
+  },
+  {
+   "id": "psrJ1946DFM",
+   "kFrame": 1,
+   "geoPN": 2,
+   "sampleClass": "calibration"
+  },
+  {
+   "id": "psrB1534DFM",
+   "kFrame": 1,
+   "geoPN": 2,
+   "sampleClass": "calibration"
+  }
+ ],
+ "systems": [
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "label": "J0737−3039A/B",
+   "unitSec": 10,
+   "obs": {
+    "adopted": {
+     "P": 8834.534723278,
+     "sP": 2.5056e-7,
+     "W": 16.899323,
+     "sW": 0.000013
+    },
+    "solution": {
+     "P": 8834.53472328672,
+     "sP": 8.64e-8,
+     "W": 16.899323,
+     "sW": 0.000013
+    }
+   },
+   "saved264": {
+    "kStar": 0.6984041891605106,
+    "fStar": 1.6897241515237045,
+    "P": 8834.533849084308,
+    "omegaDot": 16.89172973202822,
+    "residP": -0.000874193692652625,
+    "residW": -0.0075932679717780616,
+    "jacobianAtH": {
+     "dPdk": 9242.377612730252,
+     "dWdk": 0.9705415379694493,
+     "dPdf": -9357.519558480908,
+     "dWdf": 50.34579354418138,
+     "dk": 0.02,
+     "df": 0.01,
+     "det": 474396.6965717485
+    }
+   },
+   "declaration": {
+    "systemKind": "ns-binary",
+    "id": "psrDoubleABDFM",
+    "sampleClass": "calibration",
+    "calibrationClass": "calibration",
+    "window": {
+     "nPeriastron": 20,
+     "phaseGate": "1.5π"
+    },
+    "extractor": {
+     "name": "radial-crossing/orbit-phase-1.5pi-v1",
+     "quantity": [
+      "periastron-interval-P",
+      "periastron-azimuth-slope-omegaDot"
+     ],
+     "definition": "最初の 20 近点(19 区間)の平均間隔・方位の実時刻回帰・**3 刻みの Richardson 外挿値**"
+    },
+    "observationVersion": {
+     "adopted": "CSV の最初の行",
+     "solution": "Kramer2021-DDS"
+    },
+    "quantities": [
+     "orbital_period",
+     "periastron_advance"
+    ],
+    "gateConnected": true,
+    "sameWindowAsNS": false,
+    "evidence": [],
+    "note": "窓・抽出器・観測版は系種ごとに違う。**NS と揃えたとは書かない**(裁定 (B))。"
+   },
+   "evals": [
+    {
+     "tag": "saved-root",
+     "k": 0.6984041891605106,
+     "f": 1.6897241515237045,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1076954,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.08824588641597055,
+       "P": 8834.533849084308,
+       "omegaDot": 16.89172973202822
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 2163356,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.08568101021134476,
+       "P": 8874.300844382486,
+       "omegaDot": 16.643914143329233
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 4336161,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.08440722736543055,
+       "P": 8894.186177837031,
+       "omegaDot": 16.541700251526027
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9998668048641697,
+       "ext": 8914.075183580539,
+       "monotone": true,
+       "d1": -39.76699529817779,
+       "d2": -19.885333454545616,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.27767565718746,
+       "ext": 16.46994504605589,
+       "monotone": true,
+       "d1": 0.24781558869898745,
+       "d2": 0.10221389180320628,
+       "note": null
+      }
+     },
+     "Pext": 8914.075183580539,
+     "omegaDotExt": 16.46994504605589,
+     "resolved": true
+    },
+    {
+     "tag": "jac+k",
+     "k": 0.7184041891605106,
+     "f": 1.6897241515237045,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1099764,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.07746706269622741,
+       "P": 9021.665001668864,
+       "omegaDot": 16.915410798191072
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 2209085,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.07489422632025429,
+       "P": 9061.892370891192,
+       "omegaDot": 16.65741044188744
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 4427728,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.07361644346969409,
+       "P": 9082.007474182976,
+       "omegaDot": 16.553536855128296
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9998982458282789,
+       "ext": 9102.125415236284,
+       "monotone": true,
+       "d1": -40.22736922232798,
+       "d2": -20.11510329178418,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.3125442093428006,
+       "ext": 16.483531352138144,
+       "monotone": true,
+       "d1": 0.2580003563036328,
+       "d2": 0.10387358675914271,
+       "note": null
+      }
+     },
+     "Pext": 9102.125415236284,
+     "omegaDotExt": 16.483531352138144,
+     "resolved": true
+    },
+    {
+     "tag": "jac−k",
+     "k": 0.6784041891605106,
+     "f": 1.6897241515237045,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1054701,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.09902190101240883,
+       "P": 8651.969897159654,
+       "omegaDot": 16.876589136672294
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 2118743,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.096466428504424,
+       "P": 8691.282625928661,
+       "omegaDot": 16.636407877663984
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 4246826,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.09519735851359905,
+       "P": 8710.941302486224,
+       "omegaDot": 16.535241763268044
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9998303061357652,
+       "ext": 8730.604604477954,
+       "monotone": true,
+       "d1": -39.31272876900766,
+       "d2": -19.658676557563012,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.2473974440161364,
+       "ext": 16.46161969330933,
+       "monotone": true,
+       "d1": 0.24018125900830967,
+       "d2": 0.10116611439594081,
+       "note": null
+      }
+     },
+     "Pext": 8730.604604477954,
+     "omegaDotExt": 16.46161969330933,
+     "resolved": true
+    },
+    {
+     "tag": "jac+f",
+     "k": 0.6984041891605106,
+     "f": 1.6997241515237045,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1065688,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.09367440620239689,
+       "P": 8742.083933149526,
+       "omegaDot": 17.39851129356246
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 2140849,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.0910918545899349,
+       "P": 8781.961182862655,
+       "omegaDot": 17.147933908541972
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 4291173,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.08980939237149303,
+       "P": 8801.901909415179,
+       "omegaDot": 17.043629654532374
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9998479360253099,
+       "ext": 8821.84684024586,
+       "monotone": true,
+       "d1": -39.87724971312855,
+       "d2": -19.94072655252421,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.2644582163445208,
+       "ext": 16.96925251274761,
+       "monotone": true,
+       "d1": 0.2505773850204882,
+       "d2": 0.1043042540095982,
+       "note": null
+      }
+     },
+     "Pext": 8821.84684024586,
+     "omegaDotExt": 16.96925251274761,
+     "resolved": true
+    },
+    {
+     "tag": "jac−f",
+     "k": 0.6984041891605106,
+     "f": 1.6797241515237045,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1088496,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.08275309509749165,
+       "P": 8929.234324319144,
+       "omegaDot": 16.391595422678833
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 2186414,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.0802058965703404,
+       "P": 8968.897128675319,
+       "omegaDot": 16.145864391233182
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 4382251,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.07894079823579149,
+       "P": 8988.730121539267,
+       "omegaDot": 16.045535339214425
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9998842854099762,
+       "ext": 9008.566296285338,
+       "monotone": true,
+       "d1": -39.66280435617409,
+       "d2": -19.832992863948675,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.2923406320108095,
+       "ext": 15.976307129814128,
+       "monotone": true,
+       "d1": 0.24573103144565067,
+       "d2": 0.10032905201875764,
+       "note": null
+      }
+     },
+     "Pext": 9008.566296285338,
+     "omegaDotExt": 15.976307129814128,
+     "resolved": true
+    },
+    {
+     "tag": "adopted#1",
+     "k": 0.6985322227613524,
+     "f": 1.6983713102820501,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1067338,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.09287508626978787,
+       "P": 8755.627104350548,
+       "omegaDot": 17.329665087387358
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 2144147,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.09029487090056296,
+       "P": 8795.491952443945,
+       "omegaDot": 17.07944781158717
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 4297767,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.08901355461711569,
+       "P": 8815.426437934877,
+       "omegaDot": 16.97543083677875
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9998508018098108,
+       "ext": 8835.365047167157,
+       "monotone": true,
+       "d1": -39.864848093397086,
+       "d2": -19.934485490932275,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.2663624163747138,
+       "ext": 16.901425988807166,
+       "monotone": true,
+       "d1": 0.25021727580018904,
+       "d2": 0.10401697480842031,
+       "note": null
+      }
+     },
+     "Pext": 8835.365047167157,
+     "omegaDotExt": 16.901425988807166,
+     "resolved": true
+    },
+    {
+     "tag": "adopted#2",
+     "k": 0.6984016958024034,
+     "f": 1.6983303918732984,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1067239,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.09292295097220013,
+       "P": 8754.814538891114,
+       "omegaDot": 17.32748164308472
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 2143948,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.09034286476245011,
+       "P": 8794.676008600452,
+       "omegaDot": 17.077327041166825
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 4297368,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.08906161269088438,
+       "P": 8814.608806902246,
+       "omegaDot": 16.973325708703754
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9998506442003002,
+       "ext": 8834.5457329529,
+       "monotone": true,
+       "d1": -39.86146970933805,
+       "d2": -19.93279830179381,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.2662179805526705,
+       "ext": 16.899319309842884,
+       "monotone": true,
+       "d1": 0.2501546019178953,
+       "d2": 0.10400133246307064,
+       "note": null
+      }
+     },
+     "Pext": 8834.5457329529,
+     "omegaDotExt": 16.899319309842884,
+     "resolved": true
+    },
+    {
+     "tag": "adopted#3",
+     "k": 0.6984005973334266,
+     "f": 1.6983304783209343,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1067238,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.0929235924738411,
+       "P": 8754.803675445362,
+       "omegaDot": 17.327485466778846
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 2143946,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.09034350596220786,
+       "P": 8794.665121659786,
+       "omegaDot": 17.07733127478105
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 4297363,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.08906225346659599,
+       "P": 8814.597908242913,
+       "omegaDot": 16.973329983177738
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9998506420284402,
+       "ext": 8834.534822632508,
+       "monotone": true,
+       "d1": -39.86144621442327,
+       "d2": -19.93278658312738,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.2662161832561463,
+       "ext": 16.899323455589425,
+       "monotone": true,
+       "d1": 0.2501541919977974,
+       "d2": 0.10400129160331062,
+       "note": null
+      }
+     },
+     "Pext": 8834.534822632508,
+     "omegaDotExt": 16.899323455589425,
+     "resolved": true
+    }
+   ],
+   "stepDependence": {
+    "P": [
+     8834.533849084308,
+     8874.300844382486,
+     8894.186177837031
+    ],
+    "omegaDot": [
+     16.89172973202822,
+     16.643914143329233,
+     16.541700251526027
+    ],
+    "e": [
+     0.08824588641597055,
+     0.08568101021134476,
+     0.08440722736543055
+    ],
+    "richardson": {
+     "P": {
+      "p": 0.9998668048641697,
+      "ext": 8914.075183580539,
+      "monotone": true,
+      "d1": -39.76699529817779,
+      "d2": -19.885333454545616,
+      "note": null
+     },
+     "omegaDot": {
+      "p": 1.27767565718746,
+      "ext": 16.46994504605589,
+      "monotone": true,
+      "d1": 0.24781558869898745,
+      "d2": 0.10221389180320628,
+      "note": null
+     }
+    },
+    "prelim": {
+     "P": [
+      8834.53,
+      8874.3,
+      8894.19
+     ],
+     "omegaDotH": 16.89,
+     "omegaDotH2": 16.64,
+     "omegaDotH4": 16.54
+    },
+    "prelimDeltaP": [
+     0.003849084307148587,
+     0.0008443824863206828,
+     -0.003822162969299825
+    ],
+    "residualVsObs": {
+     "adopted": {
+      "P": 79.54046030253812,
+      "omegaDot": -0.42937795394410827
+     },
+     "atH": {
+      "P": -0.000874193692652625,
+      "omegaDot": -0.0075932679717780616
+     }
+    },
+    "note": "**第264便a の根は h の測定値に対する根である**。3 刻みで測り直すと P も ω̇ も動く。"
+   },
+   "rootCheckSavedAtExtrapolated": {
+    "converged": false,
+    "status": "fit-search-unresolved",
+    "residualP": 79.54046030253812,
+    "residualW": -0.42937795394410827,
+    "observationalPass": null,
+    "isPrediction": false,
+    "tolerance": {
+     "pTolSec": 0.001,
+     "wTolRel": 0.0005,
+     "note": "**停止条件は探索許容であって σ ではない。**"
+    }
+   },
+   "jacobianExt": {
+    "dPdk": 9288.020268958235,
+    "dWdk": 0.5477914707203269,
+    "dPdf": -9335.972801973912,
+    "dWdf": 49.647269146674056,
+    "dk": 0.02,
+    "df": 0.01,
+    "det": 466239.0084045317,
+    "ratioWk_over_Wf": 0.011033667714974897
+   },
+   "sensitivityExt": {
+    "matrix": [
+     [
+      0.7277022160186221,
+      -1.769697741670525
+     ],
+     [
+      0.023228969912628277,
+      5.093531854523234
+     ]
+    ],
+    "det": 3.74768267349371,
+    "sv": [
+     5.396640608088025,
+     0.6944473322675979
+    ],
+    "cond": 7.771130159671326,
+    "note": "**無次元化した行列の条件数**で識別性を見る(次元付き行列式では見ない)。"
+   },
+   "sensitivityAtH": {
+    "matrix": [
+     [
+      0.7306458215905952,
+      -1.7897522457236932
+     ],
+     [
+      0.04012793755437146,
+      5.036222141177658
+     ]
+    ],
+    "det": 3.751513730407693,
+    "sv": [
+     5.348858211712571,
+     0.7013672043489351
+    ],
+    "cond": 7.626330656104469,
+    "note": "**無次元化した行列の条件数**で識別性を見る(次元付き行列式では見ない)。"
+   },
+   "ratioWk_over_Wf_atH": 0.019277509989344833,
+   "columns": {
+    "adopted": {
+     "tag": "adopted",
+     "kStar": 0.6984005973334266,
+     "fStar": 1.6983304783209343,
+     "Pext": 8834.534822632508,
+     "omegaDotExt": 16.899323455589425,
+     "residP": 0.00009935450725606643,
+     "residW": 4.5558942574075445e-7,
+     "steps": [
+      {
+       "it": 0,
+       "k": 0.6984041891605106,
+       "f": 1.6897241515237045,
+       "Pext": 8914.075183580539,
+       "omegaDotExt": 16.46994504605589,
+       "residP": 79.54046030253812,
+       "residW": -0.42937795394410827,
+       "resolved": true
+      },
+      {
+       "it": 1,
+       "k": 0.6985322227613524,
+       "f": 1.6983713102820501,
+       "Pext": 8835.365047167157,
+       "omegaDotExt": 16.901425988807166,
+       "residP": 0.8303238891567162,
+       "residW": 0.002102988807166639,
+       "resolved": true
+      },
+      {
+       "it": 2,
+       "k": 0.6984016958024034,
+       "f": 1.6983303918732984,
+       "Pext": 8834.5457329529,
+       "omegaDotExt": 16.899319309842884,
+       "residP": 0.011009674899469246,
+       "residW": -0.000003690157114988324,
+       "resolved": true
+      },
+      {
+       "it": 3,
+       "k": 0.6984005973334266,
+       "f": 1.6983304783209343,
+       "Pext": 8834.534822632508,
+       "omegaDotExt": 16.899323455589425,
+       "residP": 0.00009935450725606643,
+       "residW": 4.5558942574075445e-7,
+       "resolved": true
+      }
+     ],
+     "how": "newton(外挿値・実測ヤコビアン)",
+     "searchInterval": {
+      "k": [
+       -0.5,
+       1.7
+      ],
+      "f": [
+       1,
+       2.6
+      ]
+     },
+     "rootCheck": {
+      "converged": true,
+      "status": "fit-search-tolerance-met",
+      "residualP": 0.00009935450725606643,
+      "residualW": 4.5558942574075445e-7,
+      "observationalPass": null,
+      "isPrediction": false,
+      "tolerance": {
+       "pTolSec": 0.001,
+       "wTolRel": 0.0005,
+       "note": "**停止条件は探索許容であって σ ではない。**"
+      }
+     },
+     "deltaFrom264a": {
+      "dK": -0.000003591827083981869,
+      "dF": 0.008606326797229835
+     }
+    },
+    "solution": {
+     "tag": "solution",
+     "kStar": 0.6984005973334266,
+     "fStar": 1.6983304783209343,
+     "Pext": 8834.534822632508,
+     "omegaDotExt": 16.899323455589425,
+     "residP": 0.00009934578702086583,
+     "residW": 4.5558942574075445e-7,
+     "steps": [
+      {
+       "it": 0,
+       "k": 0.6984005973334266,
+       "f": 1.6983304783209343,
+       "Pext": 8834.534822632508,
+       "omegaDotExt": 16.899323455589425,
+       "residP": 0.00009934578702086583,
+       "residW": 4.5558942574075445e-7,
+       "resolved": true
+      }
+     ],
+     "how": "newton(外挿値・実測ヤコビアン)",
+     "searchInterval": {
+      "k": [
+       -0.5,
+       1.7
+      ],
+      "f": [
+       1,
+       2.6
+      ]
+     },
+     "rootCheck": {
+      "converged": true,
+      "status": "fit-search-tolerance-met",
+      "residualP": 0.00009934578702086583,
+      "residualW": 4.5558942574075445e-7,
+      "observationalPass": null,
+      "isPrediction": false,
+      "tolerance": {
+       "pTolSec": 0.001,
+       "wTolRel": 0.0005,
+       "note": "**停止条件は探索許容であって σ ではない。**"
+      }
+     },
+     "deltaFrom264a": {
+      "dK": -0.000003591827083981869,
+      "dF": 0.008606326797229835
+     }
+    }
+   },
+   "residualSigma": {
+    "adopted": {
+     "PSigma": 396.5298022671872,
+     "WSigma": 0.0350453404415965
+    },
+    "solution": {
+     "PSigma": 1149.8354979266878,
+     "WSigma": 0.0350453404415965
+    },
+    "note": "**探索許容と σ は別物である。** この欄は記録であって合否ではない。"
+   },
+   "chi": {
+    "ok": true,
+    "qExp": 3.1789,
+    "D0pull": 3.24204e-7,
+    "chiEffP2": 0.999932017477443,
+    "chiEffPq": 0.8184571184912703,
+    "massRatio": 0.5172628922804798,
+    "chiBias": 0.5000011721778826
+   }
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "label": "J1757−1854",
+   "unitSec": 10,
+   "obs": {
+    "adopted": {
+     "P": 15857.669019168,
+     "sP": 0.00000432,
+     "W": 10.3651,
+     "sW": 0.0002
+    },
+    "solution": {
+     "P": 15857.6679651744,
+     "sP": 1.728e-7,
+     "W": 10.364986,
+     "sW": 0.000008
+    }
+   },
+   "saved264": {
+    "kStar": 0.7556851713028542,
+    "fStar": 1.7196103408131762,
+    "P": 15857.668395433036,
+    "omegaDot": 10.3609151001354,
+    "residP": -0.0006237349643924972,
+    "residW": -0.004184899864599245,
+    "jacobianAtH": {
+     "dPdk": 8186.687896778312,
+     "dWdk": 11.574929834825953,
+     "dPdf": -8579.04683444367,
+     "dWdf": 26.03340465989694,
+     "dk": 0.02,
+     "df": 0.01,
+     "det": 312429.2239994816
+    }
+   },
+   "declaration": {
+    "systemKind": "ns-binary",
+    "id": "psrJ1757DFM",
+    "sampleClass": "calibration",
+    "calibrationClass": "calibration",
+    "window": {
+     "nPeriastron": 20,
+     "phaseGate": "1.5π"
+    },
+    "extractor": {
+     "name": "radial-crossing/orbit-phase-1.5pi-v1",
+     "quantity": [
+      "periastron-interval-P",
+      "periastron-azimuth-slope-omegaDot"
+     ],
+     "definition": "最初の 20 近点(19 区間)の平均間隔・方位の実時刻回帰・**3 刻みの Richardson 外挿値**"
+    },
+    "observationVersion": {
+     "adopted": "CSV の最初の行",
+     "solution": "Singha2026-DDH"
+    },
+    "quantities": [
+     "orbital_period",
+     "periastron_advance"
+    ],
+    "gateConnected": true,
+    "sameWindowAsNS": false,
+    "evidence": [],
+    "note": "窓・抽出器・観測版は系種ごとに違う。**NS と揃えたとは書かない**(裁定 (B))。"
+   },
+   "evals": [
+    {
+     "tag": "saved-root",
+     "k": 0.7556851713028542,
+     "f": 1.7196103408131762,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1933548,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.6001865756630997,
+       "P": 15857.668395433036,
+       "omegaDot": 10.3609151001354
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 3901041,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.5989158027669506,
+       "P": 16000.583193591754,
+       "omegaDot": 10.181661966172696
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 7836277,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.5982853255094547,
+       "P": 16072.564992834394,
+       "omegaDot": 10.093660639664039
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9894512393477506,
+       "ext": 16145.611099743504,
+       "monotone": true,
+       "d1": -142.91479815871753,
+       "d2": -71.98179924263968,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.0264011666013633,
+       "ext": 10.008794008707902,
+       "monotone": true,
+       "d1": 0.17925313396270504,
+       "d2": 0.08800132650865677,
+       "note": null
+      }
+     },
+     "Pext": 16145.611099743504,
+     "omegaDotExt": 10.008794008707902,
+     "resolved": true
+    },
+    {
+     "tag": "jac+k",
+     "k": 0.7756851713028542,
+     "f": 1.7196103408131762,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1953545,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.595617551093091,
+       "P": 16021.80564248043,
+       "omegaDot": 10.595707147526523
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 3940757,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.5943411648900925,
+       "P": 16163.552318965456,
+       "omegaDot": 10.419181275699334
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 7915422,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.5937078536080045,
+       "P": 16234.930113602146,
+       "omegaDot": 10.332651473362995
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9897676767234145,
+       "ext": 16307.331286299166,
+       "monotone": true,
+       "d1": -141.7466764850251,
+       "d2": -71.37779463668994,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.0286106298034148,
+       "ext": 10.249454432261919,
+       "monotone": true,
+       "d1": 0.17652587182718982,
+       "d2": 0.08652980233633834,
+       "note": null
+      }
+     },
+     "Pext": 16307.331286299166,
+     "omegaDotExt": 10.249454432261919,
+     "resolved": true
+    },
+    {
+     "tag": "jac−k",
+     "k": 0.7356851713028542,
+     "f": 1.7196103408131762,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1913650,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.6047544742039446,
+       "P": 15694.338126609298,
+       "omegaDot": 10.132709954133485
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 3861516,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.6034899140753459,
+       "P": 15838.398581935491,
+       "omegaDot": 9.950828536818642
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 7757509,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.6028625683776991,
+       "P": 15910.973658458988,
+       "omegaDot": 9.861390364766631
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9891282761288651,
+       "ext": 15984.65504366825,
+       "monotone": true,
+       "d1": -144.06045532619282,
+       "d2": -72.57507652349705,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.024035543848555,
+       "ext": 9.774859579339722,
+       "monotone": true,
+       "d1": 0.18188141731484286,
+       "d2": 0.08943817205201121,
+       "note": null
+      }
+     },
+     "Pext": 15984.65504366825,
+     "omegaDotExt": 9.774859579339722,
+     "resolved": true
+    },
+    {
+     "tag": "jac+f",
+     "k": 0.7556851713028542,
+     "f": 1.7296103408131762,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1923172,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.6025257523806274,
+       "P": 15772.444141298536,
+       "omegaDot": 10.622410988771511
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 3880689,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.6012480673520663,
+       "P": 15917.040302741389,
+       "omegaDot": 10.43743859043594
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 7795979,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.600614223436134,
+       "P": 15989.881359783338,
+       "omegaDot": 10.346627916479703
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9892054905171446,
+       "ext": 16063.824804438429,
+       "monotone": true,
+       "d1": -144.59616144285246,
+       "d2": -72.84105704194917,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.026376219122734,
+       "ext": 10.259049034946432,
+       "monotone": true,
+       "d1": 0.1849723983355709,
+       "d2": 0.09081067395623776,
+       "note": null
+      }
+     },
+     "Pext": 16063.824804438429,
+     "omegaDotExt": 10.259049034946432,
+     "resolved": true
+    },
+    {
+     "tag": "jac−f",
+     "k": 0.7556851713028542,
+     "f": 1.7096103408131762,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1944062,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.5978201549163253,
+       "P": 15944.02507798741,
+       "omegaDot": 10.101742895573572
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 3921673,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.5965563075648519,
+       "P": 16085.270689368848,
+       "omegaDot": 9.92805987322618
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 7877135,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.5959292029449264,
+       "P": 16156.399826823472,
+       "omegaDot": 9.842794830458821
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9896934685288332,
+       "ext": 16228.556253290659,
+       "monotone": true,
+       "d1": -141.24561138143872,
+       "d2": -71.12913745462356,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.0264304491773595,
+       "ext": 9.760570292501143,
+       "monotone": true,
+       "d1": 0.17368302234739197,
+       "d2": 0.08526504276735913,
+       "note": null
+      }
+     },
+     "Pext": 16228.556253290659,
+     "omegaDotExt": 9.760570292501143,
+     "resolved": true
+    },
+    {
+     "tag": "adopted#1",
+     "k": 0.741487968727895,
+     "f": 1.7406645575052322,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1897953,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.6082836351267258,
+       "P": 15565.37788822464,
+       "omegaDot": 10.753301937195294
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 3830896,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.6070027539133184,
+       "P": 15712.690755660587,
+       "omegaDot": 10.559836858434783
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 7697057,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.606367431720229,
+       "P": 15786.926789092839,
+       "omegaDot": 10.464746979096109
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9886919201410914,
+       "ext": 15862.340410042476,
+       "monotone": true,
+       "d1": -147.31286743594683,
+       "d2": -74.23603343225113,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.0247094728910795,
+       "ext": 10.372832703894787,
+       "monotone": true,
+       "d1": 0.19346507876051078,
+       "d2": 0.09508987933867452,
+       "note": null
+      }
+     },
+     "Pext": 15862.340410042476,
+     "omegaDotExt": 10.372832703894787,
+     "resolved": true
+    },
+    {
+     "tag": "adopted#2",
+     "k": 0.7408851256487838,
+     "f": 1.7406412847642405,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1897387,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.6084143390686807,
+       "P": 15560.731773523872,
+       "omegaDot": 10.745921776041724
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 3829771,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.6071336680312838,
+       "P": 15708.07620326959,
+       "omegaDot": 10.552387350217876
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 7694815,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.6064984522971559,
+       "P": 15782.328634827049,
+       "omegaDot": 10.457258659447833
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9886823454160508,
+       "ext": 15857.759923187707,
+       "monotone": true,
+       "d1": -147.3444297457172,
+       "d2": -74.2524315574592,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.024637787197656,
+       "ext": 10.365297882947617,
+       "monotone": true,
+       "d1": 0.19353442582384872,
+       "d2": 0.09512869077004282,
+       "note": null
+      }
+     },
+     "Pext": 15857.759923187707,
+     "omegaDotExt": 10.365297882947617,
+     "resolved": true
+    },
+    {
+     "tag": "adopted#3",
+     "k": 0.740872087630829,
+     "f": 1.7406395519504374,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1897376,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.6084168919192235,
+       "P": 15560.641232643611,
+       "omegaDot": 10.745730212124798
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 3829749,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.6071362260127358,
+       "P": 15707.986138270888,
+       "omegaDot": 10.552195011501327
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 7694772,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.606501013315409,
+       "P": 15782.238818714333,
+       "omegaDot": 10.457065840303882
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9886821691655219,
+       "ext": 15857.670378489258,
+       "monotone": true,
+       "d1": -147.3449056272766,
+       "d2": -74.25268044344557,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.0246362768916712,
+       "ext": 10.365104410038922,
+       "monotone": true,
+       "d1": 0.19353520062347052,
+       "d2": 0.09512917119744557,
+       "note": null
+      }
+     },
+     "Pext": 15857.670378489258,
+     "omegaDotExt": 10.365104410038922,
+     "resolved": true
+    },
+    {
+     "tag": "adopted#4",
+     "k": 0.740871852668369,
+     "f": 1.7406394868628245,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1897376,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.6084169458162362,
+       "P": 15560.639347022243,
+       "omegaDot": 10.745727582081054
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 3829749,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.6071362798269448,
+       "P": 15707.984266503301,
+       "omegaDot": 10.552192346760169
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 7694771,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.60650106643702,
+       "P": 15782.236954126709,
+       "omegaDot": 10.457063155224569
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9886821653084329,
+       "ext": 15857.668521602129,
+       "monotone": true,
+       "d1": -147.34491948105824,
+       "d2": -74.25268762340784,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.0246362271000233,
+       "ext": 10.36510169905667,
+       "monotone": true,
+       "d1": 0.19353523532088523,
+       "d2": 0.09512919153559984,
+       "note": null
+      }
+     },
+     "Pext": 15857.668521602129,
+     "omegaDotExt": 10.36510169905667,
+     "resolved": true
+    }
+   ],
+   "stepDependence": {
+    "P": [
+     15857.668395433036,
+     16000.583193591754,
+     16072.564992834394
+    ],
+    "omegaDot": [
+     10.3609151001354,
+     10.181661966172696,
+     10.093660639664039
+    ],
+    "e": [
+     0.6001865756630997,
+     0.5989158027669506,
+     0.5982853255094547
+    ],
+    "richardson": {
+     "P": {
+      "p": 0.9894512393477506,
+      "ext": 16145.611099743504,
+      "monotone": true,
+      "d1": -142.91479815871753,
+      "d2": -71.98179924263968,
+      "note": null
+     },
+     "omegaDot": {
+      "p": 1.0264011666013633,
+      "ext": 10.008794008707902,
+      "monotone": true,
+      "d1": 0.17925313396270504,
+      "d2": 0.08800132650865677,
+      "note": null
+     }
+    },
+    "prelim": {
+     "P": [
+      15857.67,
+      16000.58,
+      16072.56
+     ]
+    },
+    "prelimDeltaP": [
+     -0.0016045669635786908,
+     0.0031935917540977243,
+     0.004992834394215606
+    ],
+    "residualVsObs": {
+     "adopted": {
+      "P": 287.9420805755035,
+      "omegaDot": -0.35630599129209806
+     },
+     "atH": {
+      "P": -0.0006237349643924972,
+      "omegaDot": -0.004184899864599245
+     }
+    },
+    "note": "**第264便a の根は h の測定値に対する根である**。3 刻みで測り直すと P も ω̇ も動く。"
+   },
+   "rootCheckSavedAtExtrapolated": {
+    "converged": false,
+    "status": "fit-search-unresolved",
+    "residualP": 287.9420805755035,
+    "residualW": -0.35630599129209806,
+    "observationalPass": null,
+    "isPrediction": false,
+    "tolerance": {
+     "pTolSec": 0.001,
+     "wTolRel": 0.0005,
+     "note": "**停止条件は探索許容であって σ ではない。**"
+    }
+   },
+   "jacobianExt": {
+    "dPdk": 8066.906065772901,
+    "dWdk": 11.864871323054915,
+    "dPdf": -8236.572442611487,
+    "dWdf": 24.923937122264483,
+    "dk": 0.02,
+    "df": 0.01,
+    "det": 298784.93172914314,
+    "ratioWk_over_Wf": 0.4760432216167027
+   },
+   "sensitivityExt": {
+    "matrix": [
+     [
+      0.3775664640091865,
+      -0.8772473867772378
+     ],
+     [
+      0.8958229443475745,
+      4.282180247883471
+     ]
+    ],
+    "det": 2.4026659913873445,
+    "sv": [
+     4.44516962396903,
+     0.5405116552654825
+    ],
+    "cond": 8.224003276646645,
+    "note": "**無次元化した行列の条件数**で識別性を見る(次元付き行列式では見ない)。"
+   },
+   "sensitivityAtH": {
+    "matrix": [
+     [
+      0.3901304082926613,
+      -0.9303144247283285
+     ],
+     [
+      0.8442307219499038,
+      4.320787442718035
+     ]
+    ],
+    "det": 2.471070587602197,
+    "sv": [
+     4.482829652181801,
+     0.5512300888791347
+    ],
+    "cond": 8.132411025125892,
+    "note": "**無次元化した行列の条件数**で識別性を見る(次元付き行列式では見ない)。"
+   },
+   "ratioWk_over_Wf_atH": 0.4446183657513114,
+   "columns": {
+    "adopted": {
+     "tag": "adopted",
+     "kStar": 0.740871852668369,
+     "fStar": 1.7406394868628245,
+     "Pext": 15857.668521602129,
+     "omegaDotExt": 10.36510169905667,
+     "residP": -0.000497565872137784,
+     "residW": 0.0000016990566695795906,
+     "steps": [
+      {
+       "it": 0,
+       "k": 0.7556851713028542,
+       "f": 1.7196103408131762,
+       "Pext": 16145.611099743504,
+       "omegaDotExt": 10.008794008707902,
+       "residP": 287.9420805755035,
+       "residW": -0.35630599129209806,
+       "resolved": true
+      },
+      {
+       "it": 1,
+       "k": 0.741487968727895,
+       "f": 1.7406645575052322,
+       "Pext": 15862.340410042476,
+       "omegaDotExt": 10.372832703894787,
+       "residP": 4.671390874475037,
+       "residW": 0.007732703894786752,
+       "resolved": true
+      },
+      {
+       "it": 2,
+       "k": 0.7408851256487838,
+       "f": 1.7406412847642405,
+       "Pext": 15857.759923187707,
+       "omegaDotExt": 10.365297882947617,
+       "residP": 0.09090401970570383,
+       "residW": 0.000197882947617245,
+       "resolved": true
+      },
+      {
+       "it": 3,
+       "k": 0.740872087630829,
+       "f": 1.7406395519504374,
+       "Pext": 15857.670378489258,
+       "omegaDotExt": 10.365104410038922,
+       "residP": 0.0013593212570413016,
+       "residW": 0.000004410038922486592,
+       "resolved": true
+      },
+      {
+       "it": 4,
+       "k": 0.740871852668369,
+       "f": 1.7406394868628245,
+       "Pext": 15857.668521602129,
+       "omegaDotExt": 10.36510169905667,
+       "residP": -0.000497565872137784,
+       "residW": 0.0000016990566695795906,
+       "resolved": true
+      }
+     ],
+     "how": "newton(外挿値・実測ヤコビアン)",
+     "searchInterval": {
+      "k": [
+       -0.5,
+       1.7
+      ],
+      "f": [
+       1,
+       2.6
+      ]
+     },
+     "rootCheck": {
+      "converged": true,
+      "status": "fit-search-tolerance-met",
+      "residualP": -0.000497565872137784,
+      "residualW": 0.0000016990566695795906,
+      "observationalPass": null,
+      "isPrediction": false,
+      "tolerance": {
+       "pTolSec": 0.001,
+       "wTolRel": 0.0005,
+       "note": "**停止条件は探索許容であって σ ではない。**"
+      }
+     },
+     "deltaFrom264a": {
+      "dK": -0.014813318634485206,
+      "dF": 0.02102914604964834
+     }
+    },
+    "solution": {
+     "tag": "solution",
+     "kStar": 0.740871852668369,
+     "fStar": 1.7406394868628245,
+     "Pext": 15857.668521602129,
+     "omegaDotExt": 10.36510169905667,
+     "residP": 0.0005564277289522579,
+     "residW": 0.00011569905666952707,
+     "steps": [
+      {
+       "it": 0,
+       "k": 0.740871852668369,
+       "f": 1.7406394868628245,
+       "Pext": 15857.668521602129,
+       "omegaDotExt": 10.36510169905667,
+       "residP": 0.0005564277289522579,
+       "residW": 0.00011569905666952707,
+       "resolved": true
+      }
+     ],
+     "how": "newton(外挿値・実測ヤコビアン)",
+     "searchInterval": {
+      "k": [
+       -0.5,
+       1.7
+      ],
+      "f": [
+       1,
+       2.6
+      ]
+     },
+     "rootCheck": {
+      "converged": true,
+      "status": "fit-search-tolerance-met",
+      "residualP": 0.0005564277289522579,
+      "residualW": 0.00011569905666952707,
+      "observationalPass": null,
+      "isPrediction": false,
+      "tolerance": {
+       "pTolSec": 0.001,
+       "wTolRel": 0.0005,
+       "note": "**停止条件は探索許容であって σ ではない。**"
+      }
+     },
+     "deltaFrom264a": {
+      "dK": -0.014813318634485206,
+      "dF": 0.02102914604964834
+     }
+    }
+   },
+   "residualSigma": {
+    "adopted": {
+     "PSigma": -115.17728521707963,
+     "WSigma": 0.008495283347897953
+    },
+    "solution": {
+     "PSigma": 3220.067875881122,
+     "WSigma": 14.462382083690883
+    },
+    "note": "**探索許容と σ は別物である。** この欄は記録であって合否ではない。"
+   },
+   "chi": {
+    "ok": true,
+    "qExp": 3.1726,
+    "D0pull": 3.24204e-7,
+    "chiEffP2": 0.9996909424163332,
+    "chiEffPq": 0.28889914873577316,
+    "massRatio": 0.5102817416758141,
+    "chiBias": 0.5000031763079444
+   }
+  },
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "label": "J1946+2052",
+   "unitSec": 10,
+   "obs": {
+    "adopted": {
+     "P": 6781.366656,
+     "sP": 0.000864,
+     "W": 25.79205,
+     "sW": 0.0004
+    },
+    "solution": {
+     "P": 6781.367998656,
+     "sP": 0.000001728,
+     "W": 25.79205,
+     "sW": 0.0004
+    }
+   },
+   "saved264": {
+    "kStar": 0.6555139568622774,
+    "fStar": 1.6454634090794067,
+    "P": 6781.366846908637,
+    "omegaDot": 25.787745929649397,
+    "residP": 0.00019090863679593895,
+    "residW": -0.004304070350602984,
+    "jacobianAtH": {
+     "dPdk": 7546.577577370908,
+     "dWdk": -3.6818159096111636,
+     "dPdf": -7662.892836504034,
+     "dWdf": 71.87786543583118,
+     "dk": 0.02,
+     "df": 0.01,
+     "det": 514218.5268482411
+    }
+   },
+   "declaration": {
+    "systemKind": "ns-binary",
+    "id": "psrJ1946DFM",
+    "sampleClass": "calibration",
+    "calibrationClass": "calibration",
+    "window": {
+     "nPeriastron": 20,
+     "phaseGate": "1.5π"
+    },
+    "extractor": {
+     "name": "radial-crossing/orbit-phase-1.5pi-v1",
+     "quantity": [
+      "periastron-interval-P",
+      "periastron-azimuth-slope-omegaDot"
+     ],
+     "definition": "最初の 20 近点(19 区間)の平均間隔・方位の実時刻回帰・**3 刻みの Richardson 外挿値**"
+    },
+    "observationVersion": {
+     "adopted": "CSV の最初の行",
+     "solution": "Meng2025-DDFWHE"
+    },
+    "quantities": [
+     "orbital_period",
+     "periastron_advance"
+    ],
+    "gateConnected": true,
+    "sameWindowAsNS": false,
+    "evidence": [],
+    "note": "窓・抽出器・観測版は系種ごとに違う。**NS と揃えたとは書かない**(裁定 (B))。"
+   },
+   "evals": [
+    {
+     "tag": "saved-root",
+     "k": 0.6555139568622774,
+     "f": 1.6454634090794067,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 826713,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.06467434960372383,
+       "P": 6781.366846908637,
+       "omegaDot": 25.787745929649397
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1662428,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.061395258002244504,
+       "P": 6819.257405277759,
+       "omegaDot": 25.27008941522676
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 3333859,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.05976955531325166,
+       "P": 6838.203831294501,
+       "omegaDot": 25.07160260728737
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9999126706443446,
+       "ext": 6857.152551253309,
+       "monotone": true,
+       "d1": -37.89055836912212,
+       "d2": -18.946426016741498,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.38295200565054,
+       "ext": 24.948166666702466,
+       "monotone": true,
+       "d1": 0.5176565144226366,
+       "d2": 0.1984868079393891,
+       "note": null
+      }
+     },
+     "Pext": 6857.152551253309,
+     "omegaDotExt": 24.948166666702466,
+     "resolved": true
+    },
+    {
+     "tag": "jac+k",
+     "k": 0.6755139568622774,
+     "f": 1.6454634090794067,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 845359,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.05332476552277935,
+       "P": 6934.319874644985,
+       "omegaDot": 25.726796774129557
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1699850,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.05003198306337713,
+       "P": 6972.763510039129,
+       "omegaDot": 25.152648999356146
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 3408832,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.04839943527429063,
+       "P": 6991.986149509586,
+       "omegaDot": 24.941703461713708
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9999383230522924,
+       "ext": 7011.210432667348,
+       "monotone": true,
+       "d1": -38.44363539414371,
+       "d2": -19.22263947045667,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.4445515380981497,
+       "ext": 24.81918764186976,
+       "monotone": true,
+       "d1": 0.5741477747734116,
+       "d2": 0.21094553764243784,
+       "note": null
+      }
+     },
+     "Pext": 7011.210432667348,
+     "omegaDotExt": 24.81918764186976,
+     "resolved": true
+    },
+    {
+     "tag": "jac−k",
+     "k": 0.6355139568622774,
+     "f": 1.6454634090794067,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 808561,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.07601973267735526,
+       "P": 6632.456771550149,
+       "omegaDot": 25.874069410514004
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1625994,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.072756468301143,
+       "P": 6669.801727219921,
+       "omegaDot": 25.394412089727638
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 3260862,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.07113866637174311,
+       "P": 6688.475760618994,
+       "omegaDot": 25.203897557392956
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9998798171681881,
+       "ext": 6707.152905664847,
+       "monotone": true,
+       "d1": -37.34495566977239,
+       "d2": -18.67403339907287,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.3321030265034464,
+       "ext": 25.07836861985638,
+       "monotone": true,
+       "d1": 0.4796573207863659,
+       "d2": 0.19051453233468152,
+       "note": null
+      }
+     },
+     "Pext": 6707.152905664847,
+     "omegaDotExt": 25.07836861985638,
+     "resolved": true
+    },
+    {
+     "tag": "jac+f",
+     "k": 0.6555139568622774,
+     "f": 1.6554634090794067,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 817493,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.0704095807892107,
+       "P": 6705.709538664189,
+       "omegaDot": 26.513652768531493
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1644006,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.06710698164184117,
+       "P": 6743.678465910147,
+       "omegaDot": 26.00058481330192
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 3297033,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.06546978414980431,
+       "P": 6762.664295275045,
+       "omegaDot": 25.800668940557518
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9998962162817214,
+       "ext": 6781.652856516817,
+       "monotone": true,
+       "d1": -37.968927245958184,
+       "d2": -18.985829364898564,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.3597568992391338,
+       "ext": 25.67304291342724,
+       "monotone": true,
+       "d1": 0.5130679552295732,
+       "d2": 0.19991587274440192,
+       "note": null
+      }
+     },
+     "Pext": 6781.652856516817,
+     "omegaDotExt": 25.67304291342724,
+     "resolved": true
+    },
+    {
+     "tag": "jac−f",
+     "k": 0.6555139568622774,
+     "f": 1.6354634090794067,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 836171,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.058869546125381964,
+       "P": 6858.967395394269,
+       "omegaDot": 25.07609545981487
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1681326,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.05561396263196195,
+       "P": 6896.786212649011,
+       "omegaDot": 24.549883010259595
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 3371636,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.05399976003206683,
+       "P": 6915.69657571587,
+       "omegaDot": 24.351780634078
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9999271827906573,
+       "ext": 6934.6088478544125,
+       "monotone": true,
+       "d1": -37.81881725474159,
+       "d2": -18.910363066858736,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.4093991962940748,
+       "ext": 24.232172750524548,
+       "monotone": true,
+       "d1": 0.526212449555274,
+       "d2": 0.19810237618159476,
+       "note": null
+      }
+     },
+     "Pext": 6934.6088478544125,
+     "omegaDotExt": 24.232172750524548,
+     "resolved": true
+    },
+    {
+     "tag": "adopted#1",
+     "k": 0.6575095569507458,
+     "f": 1.6573564150548574,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 817570,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.07036344306772588,
+       "P": 6706.335265225949,
+       "omegaDot": 26.643561389181542
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1644176,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.06705491258347672,
+       "P": 6744.373087463255,
+       "omegaDot": 26.127238790151512
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 3297389,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.06541479964311524,
+       "P": 6763.393366817974,
+       "omegaDot": 25.92617453470343
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9998962150684786,
+       "ext": 6782.416383038584,
+       "monotone": true,
+       "d1": -38.03782223730559,
+       "d2": -19.020279354719605,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.3606161183090277,
+       "ext": 25.79794054616069,
+       "monotone": true,
+       "d1": 0.5163225990300297,
+       "d2": 0.20106425544808104,
+       "note": null
+      }
+     },
+     "Pext": 6782.416383038584,
+     "omegaDotExt": 25.79794054616069,
+     "resolved": true
+    },
+    {
+     "tag": "adopted#2",
+     "k": 0.6572672752009594,
+     "f": 1.6572528607322792,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 817445,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.07044098597435762,
+       "P": 6705.316411502436,
+       "omegaDot": 26.63704925253907
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1643926,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.06713288284801908,
+       "P": 6743.346909781057,
+       "omegaDot": 26.121159717902927
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 3296887,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.06549297793593731,
+       "P": 6762.363529791197,
+       "omegaDot": 25.920211386723185
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9998959951959827,
+       "ext": 6781.382891938348,
+       "monotone": true,
+       "d1": -38.03049827862105,
+       "d2": -19.016620010140286,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.3602375839319183,
+       "ext": 25.79199624256053,
+       "monotone": true,
+       "d1": 0.5158895346361447,
+       "d2": 0.20094833117974176,
+       "note": null
+      }
+     },
+     "Pext": 6781.382891938348,
+     "omegaDotExt": 25.79199624256053,
+     "resolved": true
+    },
+    {
+     "tag": "adopted#3",
+     "k": 0.6572657522175487,
+     "f": 1.6572534699368051,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 817443,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.07044217460918076,
+       "P": 6705.300810208481,
+       "omegaDot": 26.637098780358052
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1643922,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.06713407164502007,
+       "P": 6743.331272511032,
+       "omegaDot": 26.121212342409684
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 3296880,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.06549416715400999,
+       "P": 6762.347874578271,
+       "omegaDot": 25.9202645008735
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9998959916734632,
+       "ext": 6781.367218872817,
+       "monotone": true,
+       "d1": -38.030462302550404,
+       "d2": -19.016602067239546,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.3602324393260916,
+       "ext": 25.792048920191853,
+       "monotone": true,
+       "d1": 0.5158864379483674,
+       "d2": 0.20094784153618406,
+       "note": null
+      }
+     },
+     "Pext": 6781.367218872817,
+     "omegaDotExt": 25.792048920191853,
+     "resolved": true
+    }
+   ],
+   "stepDependence": {
+    "P": [
+     6781.366846908637,
+     6819.257405277759,
+     6838.203831294501
+    ],
+    "omegaDot": [
+     25.787745929649397,
+     25.27008941522676,
+     25.07160260728737
+    ],
+    "e": [
+     0.06467434960372383,
+     0.061395258002244504,
+     0.05976955531325166
+    ],
+    "richardson": {
+     "P": {
+      "p": 0.9999126706443446,
+      "ext": 6857.152551253309,
+      "monotone": true,
+      "d1": -37.89055836912212,
+      "d2": -18.946426016741498,
+      "note": null
+     },
+     "omegaDot": {
+      "p": 1.38295200565054,
+      "ext": 24.948166666702466,
+      "monotone": true,
+      "d1": 0.5176565144226366,
+      "d2": 0.1984868079393891,
+      "note": null
+     }
+    },
+    "prelim": {
+     "P": [
+      6781.37,
+      6819.26,
+      6838.2
+     ]
+    },
+    "prelimDeltaP": [
+     -0.003153091362946725,
+     -0.002594722241155978,
+     0.003831294500741933
+    ],
+    "residualVsObs": {
+     "adopted": {
+      "P": 75.78589525330881,
+      "omegaDot": -0.8438833332975335
+     },
+     "atH": {
+      "P": 0.00019090863679593895,
+      "omegaDot": -0.004304070350602984
+     }
+    },
+    "note": "**第264便a の根は h の測定値に対する根である**。3 刻みで測り直すと P も ω̇ も動く。"
+   },
+   "rootCheckSavedAtExtrapolated": {
+    "converged": false,
+    "status": "fit-search-unresolved",
+    "residualP": 75.78589525330881,
+    "residualW": -0.8438833332975335,
+    "observationalPass": null,
+    "isPrediction": false,
+    "tolerance": {
+     "pTolSec": 0.001,
+     "wTolRel": 0.0005,
+     "note": "**停止条件は探索許容であって σ ではない。**"
+    }
+   },
+   "jacobianExt": {
+    "dPdk": 7601.438175062526,
+    "dWdk": -6.479524449665508,
+    "dPdf": -7647.799566879758,
+    "dWdf": 72.04350814513454,
+    "dk": 0.02,
+    "df": 0.01,
+    "det": 498080.16880011506,
+    "ratioWk_over_Wf": -0.0899390467856208
+   },
+   "sensitivityExt": {
+    "matrix": [
+     [
+      0.7266644250270429,
+      -1.8351894978585415
+     ],
+     [
+      -0.17024973286934963,
+      4.751650014938826
+     ]
+    ],
+    "det": 3.140414504260209,
+    "sv": [
+     5.11132400262569,
+     0.6144033331964424
+    ],
+    "cond": 8.319167111340285,
+    "note": "**無次元化した行列の条件数**で識別性を見る(次元付き行列式では見ない)。"
+   },
+   "sensitivityAtH": {
+    "matrix": [
+     [
+      0.7294822769786652,
+      -1.859361107401534
+     ],
+     [
+      -0.09359025491920968,
+      4.586379818540489
+     ]
+    ],
+    "det": 3.1716647130893394,
+    "sv": [
+     4.962307206509662,
+     0.639151221618984
+    ],
+    "cond": 7.763901622436126,
+    "note": "**無次元化した行列の条件数**で識別性を見る(次元付き行列式では見ない)。"
+   },
+   "ratioWk_over_Wf_atH": -0.05122322271656908,
+   "columns": {
+    "adopted": {
+     "tag": "adopted",
+     "kStar": 0.6572657522175487,
+     "fStar": 1.6572534699368051,
+     "Pext": 6781.367218872817,
+     "omegaDotExt": 25.792048920191853,
+     "residP": 0.000562872816772142,
+     "residW": -0.0000010798081468976761,
+     "steps": [
+      {
+       "it": 0,
+       "k": 0.6555139568622774,
+       "f": 1.6454634090794067,
+       "Pext": 6857.152551253309,
+       "omegaDotExt": 24.948166666702466,
+       "residP": 75.78589525330881,
+       "residW": -0.8438833332975335,
+       "resolved": true
+      },
+      {
+       "it": 1,
+       "k": 0.6575095569507458,
+       "f": 1.6573564150548574,
+       "Pext": 6782.416383038584,
+       "omegaDotExt": 25.79794054616069,
+       "residP": 1.0497270385840238,
+       "residW": 0.00589054616068907,
+       "resolved": true
+      },
+      {
+       "it": 2,
+       "k": 0.6572672752009594,
+       "f": 1.6572528607322792,
+       "Pext": 6781.382891938348,
+       "omegaDotExt": 25.79199624256053,
+       "residP": 0.016235938347563206,
+       "residW": -0.000053757439470558666,
+       "resolved": true
+      },
+      {
+       "it": 3,
+       "k": 0.6572657522175487,
+       "f": 1.6572534699368051,
+       "Pext": 6781.367218872817,
+       "omegaDotExt": 25.792048920191853,
+       "residP": 0.000562872816772142,
+       "residW": -0.0000010798081468976761,
+       "resolved": true
+      }
+     ],
+     "how": "newton(外挿値・実測ヤコビアン)",
+     "searchInterval": {
+      "k": [
+       -0.5,
+       1.7
+      ],
+      "f": [
+       1,
+       2.6
+      ]
+     },
+     "rootCheck": {
+      "converged": true,
+      "status": "fit-search-tolerance-met",
+      "residualP": 0.000562872816772142,
+      "residualW": -0.0000010798081468976761,
+      "observationalPass": null,
+      "isPrediction": false,
+      "tolerance": {
+       "pTolSec": 0.001,
+       "wTolRel": 0.0005,
+       "note": "**停止条件は探索許容であって σ ではない。**"
+      }
+     },
+     "deltaFrom264a": {
+      "dK": 0.0017517953552712573,
+      "dF": 0.011790060857398421
+     }
+    },
+    "solution": {
+     "tag": "solution",
+     "kStar": 0.6572657522175487,
+     "fStar": 1.6572534699368051,
+     "Pext": 6781.367218872817,
+     "omegaDotExt": 25.792048920191853,
+     "residP": -0.0007797831831339863,
+     "residW": -0.0000010798081468976761,
+     "steps": [
+      {
+       "it": 0,
+       "k": 0.6572657522175487,
+       "f": 1.6572534699368051,
+       "Pext": 6781.367218872817,
+       "omegaDotExt": 25.792048920191853,
+       "residP": -0.0007797831831339863,
+       "residW": -0.0000010798081468976761,
+       "resolved": true
+      }
+     ],
+     "how": "newton(外挿値・実測ヤコビアン)",
+     "searchInterval": {
+      "k": [
+       -0.5,
+       1.7
+      ],
+      "f": [
+       1,
+       2.6
+      ]
+     },
+     "rootCheck": {
+      "converged": true,
+      "status": "fit-search-tolerance-met",
+      "residualP": -0.0007797831831339863,
+      "residualW": -0.0000010798081468976761,
+      "observationalPass": null,
+      "isPrediction": false,
+      "tolerance": {
+       "pTolSec": 0.001,
+       "wTolRel": 0.0005,
+       "note": "**停止条件は探索許容であって σ ではない。**"
+      }
+     },
+     "deltaFrom264a": {
+      "dK": 0.0017517953552712573,
+      "dF": 0.011790060857398421
+     }
+    }
+   },
+   "residualSigma": {
+    "adopted": {
+     "PSigma": 0.6514731675603496,
+     "WSigma": -0.0026995203672441903
+    },
+    "solution": {
+     "PSigma": -451.2634161655013,
+     "WSigma": -0.0026995203672441903
+    },
+    "note": "**探索許容と σ は別物である。** この欄は記録であって合否ではない。"
+   },
+   "chi": {
+    "ok": true,
+    "qExp": 3.1856,
+    "D0pull": 3.24204e-7,
+    "chiEffP2": 0.9999529202715847,
+    "chiEffPq": 0.8880655394243524,
+    "massRatio": 0.5070700687258078,
+    "chiBias": 0.5000003327903825
+   }
+  },
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "label": "B1534+12",
+   "unitSec": 10,
+   "obs": {
+    "adopted": {
+     "P": 36351.702644140794,
+     "sP": 8.64e-7,
+     "W": 1.755789,
+     "sW": 0.000009
+    },
+    "solution": {
+     "P": 36351.7026233184,
+     "sP": 1.728e-7,
+     "W": 1.755795,
+     "sW": null
+    }
+   },
+   "saved264": {
+    "kStar": 0.9369664135013948,
+    "fStar": 1.9313566016041464,
+    "P": 36351.70162742167,
+    "omegaDot": 1.7551459138315821,
+    "residP": -0.001016719121253118,
+    "residW": -0.0006430861684179057,
+    "jacobianAtH": {
+     "dPdk": 25554.59750020691,
+     "dWdk": 21.99115552630193,
+     "dPdf": -25701.620415227444,
+     "dWdf": 6.279013659814292,
+     "dk": 0.02,
+     "df": 0.01,
+     "det": 725665.9986040989
+    }
+   },
+   "declaration": {
+    "systemKind": "ns-binary",
+    "id": "psrB1534DFM",
+    "sampleClass": "calibration",
+    "calibrationClass": "calibration",
+    "window": {
+     "nPeriastron": 20,
+     "phaseGate": "1.5π"
+    },
+    "extractor": {
+     "name": "radial-crossing/orbit-phase-1.5pi-v1",
+     "quantity": [
+      "periastron-interval-P",
+      "periastron-azimuth-slope-omegaDot"
+     ],
+     "definition": "最初の 20 近点(19 区間)の平均間隔・方位の実時刻回帰・**3 刻みの Richardson 外挿値**"
+    },
+    "observationVersion": {
+     "adopted": "CSV の最初の行",
+     "solution": "Fonseca2014-DDGR"
+    },
+    "quantities": [
+     "orbital_period",
+     "periastron_advance"
+    ],
+    "gateConnected": true,
+    "sameWindowAsNS": false,
+    "evidence": [],
+    "note": "窓・抽出器・観測版は系種ごとに違う。**NS と揃えたとは書かない**(裁定 (B))。"
+   },
+   "evals": [
+    {
+     "tag": "saved-root",
+     "k": 0.9369664135013948,
+     "f": 1.9313566016041464,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 4430720,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.2733538548421978,
+       "P": 36351.70162742167,
+       "omegaDot": 1.7551459138315821
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 8875102,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.27269423813879334,
+       "P": 36409.213895967274,
+       "omegaDot": 1.7457771858559095
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 17763871,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.27236512604309693,
+       "P": 36437.97927847289,
+       "omegaDot": 1.7412834688941983
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9995360908235372,
+       "ext": 36466.763169345235,
+       "monotone": true,
+       "d1": -57.51226854560082,
+       "d2": -28.765382505618618,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.0599439227851226,
+       "ext": 1.7371412234563646,
+       "monotone": true,
+       "d1": 0.009368727975672675,
+       "d2": 0.004493716961711192,
+       "note": null
+      }
+     },
+     "Pext": 36466.763169345235,
+     "omegaDotExt": 1.7371412234563646,
+     "resolved": true
+    },
+    {
+     "tag": "jac+k",
+     "k": 0.9569664135013948,
+     "f": 1.9313566016041464,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 4493441,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.2658478644659216,
+       "P": 36866.34230294146,
+       "omegaDot": 2.200151095868823
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 9000518,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.2651883604933697,
+       "P": 36923.74457951496,
+       "omegaDot": 2.191155159050173
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 18014677,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.26485929816806764,
+       "P": 36952.45432951121,
+       "omegaDot": 2.1868515113692166
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9995671876519946,
+       "ext": 36981.181313265246,
+       "monotone": true,
+       "d1": -57.402276573498966,
+       "d2": -28.70974999624741,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.0637135524524894,
+       "ext": 2.182904315700258,
+       "monotone": true,
+       "d1": 0.008995936818649852,
+       "d2": 0.0043036476809565904,
+       "note": null
+      }
+     },
+     "Pext": 36981.181313265246,
+     "omegaDotExt": 2.182904315700258,
+     "resolved": true
+    },
+    {
+     "tag": "jac−k",
+     "k": 0.9169664135013947,
+     "f": 1.9313566016041464,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 4368864,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.2808597465498167,
+       "P": 35844.158402933186,
+       "omegaDot": 1.3205048748167458
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 8751417,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.28020019254681056,
+       "P": 35901.783906447534,
+       "omegaDot": 1.310763617266994
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 17516528,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.27987111819324584,
+       "P": 35930.606574938196,
+       "omegaDot": 1.3060797083976887
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.999503540624667,
+       "ext": 35959.44909055305,
+       "monotone": true,
+       "d1": -57.625503514347656,
+       "d2": -28.82266849066218,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.056395022495028,
+       "ext": 1.3017416641610353,
+       "monotone": true,
+       "d1": 0.009741257549751747,
+       "d2": 0.004683908869305364,
+       "note": null
+      }
+     },
+     "Pext": 35959.44909055305,
+     "omegaDotExt": 1.3017416641610353,
+     "resolved": true
+    },
+    {
+     "tag": "jac+f",
+     "k": 0.9369664135013948,
+     "f": 1.9413566016041464,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 4399669,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.2771076811901393,
+       "P": 36096.90444776865,
+       "omegaDot": 1.8181936954860543
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 8813089,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.2764443896967599,
+       "P": 36154.79279043642,
+       "omegaDot": 1.8085686785776007
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 17639935,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.2761134512877514,
+       "P": 36183.74664639145,
+       "omegaDot": 1.8039493519675387
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9995173598932748,
+       "ext": 36212.71988455489,
+       "monotone": true,
+       "d1": -57.88834266777121,
+       "d2": -28.95385595503467,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.059106519381984,
+       "ext": 1.7996865676044542,
+       "monotone": true,
+       "d1": 0.009625016908453521,
+       "d2": 0.004619326610062036,
+       "note": null
+      }
+     },
+     "Pext": 36212.71988455489,
+     "omegaDotExt": 1.7996865676044542,
+     "resolved": true
+    },
+    {
+     "tag": "jac−f",
+     "k": 0.9369664135013948,
+     "f": 1.9213566016041463,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 4462312,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.26956100309840136,
+       "P": 36610.9368560732,
+       "omegaDot": 1.6926134222897684
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 8938198,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.26890506456326785,
+       "P": 36668.07739392285,
+       "omegaDot": 1.6834949731209599
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 17889974,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.2685777805957732,
+       "P": 36696.65648819192,
+       "omegaDot": 1.6791239237889246
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9995544209154787,
+       "ext": 36725.25324405741,
+       "monotone": true,
+       "d1": -57.14053784965654,
+       "d2": -28.579094269065536,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.0608088165672411,
+       "ext": 1.6750993897450275,
+       "monotone": true,
+       "d1": 0.009118449168808551,
+       "d2": 0.004371049332035248,
+       "note": null
+      }
+     },
+     "Pext": 36725.25324405741,
+     "omegaDotExt": 1.6750993897450275,
+     "resolved": true
+    },
+    {
+     "tag": "adopted#1",
+     "k": 0.9366363189352152,
+     "f": 1.935517455404482,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 4416712,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.27504407644408096,
+       "P": 36236.761071518646,
+       "omegaDot": 1.7740751958359902
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 8847125,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.2743829302061727,
+       "P": 36294.43119455814,
+       "omegaDot": 1.7645943728878268
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 17707954,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.2740530578955193,
+       "P": 36323.275695134966,
+       "omegaDot": 1.7600455948145852
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9995278160770378,
+       "ext": 36352.13908618935,
+       "monotone": true,
+       "d1": -57.67012303949741,
+       "d2": -28.84450057682261,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.0595332425936737,
+       "ext": 1.7558503000667993,
+       "monotone": true,
+       "d1": 0.009480822948163325,
+       "d2": 0.0045487780732416105,
+       "note": null
+      }
+     },
+     "Pext": 36352.13908618935,
+     "omegaDotExt": 1.7558503000667993,
+     "resolved": true
+    },
+    {
+     "tag": "adopted#2",
+     "k": 0.93663039111002,
+     "f": 1.9355285776384972,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 4416659,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.2750504977577261,
+       "P": 36236.32512376917,
+       "omegaDot": 1.7740156940843677
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 8847019,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.27438934736380743,
+       "P": 36293.995701363514,
+       "omegaDot": 1.7645344762061963
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 17707742,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.2740594730055159,
+       "P": 36322.84042989633,
+       "omegaDot": 1.7599854959448136
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9995277858588373,
+       "ext": 36351.70405026553,
+       "monotone": true,
+       "d1": -57.67057759434101,
+       "d2": -28.84472853281477,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.0595292129973024,
+       "ext": 1.7557899921945455,
+       "monotone": true,
+       "d1": 0.009481217878171355,
+       "d2": 0.004548980261382729,
+       "note": null
+      }
+     },
+     "Pext": 36351.70405026553,
+     "omegaDotExt": 1.7557899921945455,
+     "resolved": true
+    },
+    {
+     "tag": "adopted#3",
+     "k": 0.9366303438690935,
+     "f": 1.9355285854208322,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 4416659,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.27505051550279425,
+       "P": 36236.32392296303,
+       "omegaDot": 1.774014657716327
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 8847018,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.27438936499822214,
+       "P": 36293.99450081422,
+       "omegaDot": 1.7645334375290136
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 17707741,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.2740594906875184,
+       "P": 36322.83922948769,
+       "omegaDot": 1.7599844591102465
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9995277852490193,
+       "ext": 36351.70285002205,
+       "monotone": true,
+       "d1": -57.67057785118959,
+       "d2": -28.844728673473583,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.0595301487442945,
+       "ext": 1.7557889622904488,
+       "monotone": true,
+       "d1": 0.009481220187313344,
+       "d2": 0.004548978418767113,
+       "note": null
+      }
+     },
+     "Pext": 36351.70285002205,
+     "omegaDotExt": 1.7557889622904488,
+     "resolved": true
+    }
+   ],
+   "stepDependence": {
+    "P": [
+     36351.70162742167,
+     36409.213895967274,
+     36437.97927847289
+    ],
+    "omegaDot": [
+     1.7551459138315821,
+     1.7457771858559095,
+     1.7412834688941983
+    ],
+    "e": [
+     0.2733538548421978,
+     0.27269423813879334,
+     0.27236512604309693
+    ],
+    "richardson": {
+     "P": {
+      "p": 0.9995360908235372,
+      "ext": 36466.763169345235,
+      "monotone": true,
+      "d1": -57.51226854560082,
+      "d2": -28.765382505618618,
+      "note": null
+     },
+     "omegaDot": {
+      "p": 1.0599439227851226,
+      "ext": 1.7371412234563646,
+      "monotone": true,
+      "d1": 0.009368727975672675,
+      "d2": 0.004493716961711192,
+      "note": null
+     }
+    },
+    "prelim": {
+     "P": [
+      36351.7,
+      36409.21,
+      36437.98
+     ]
+    },
+    "prelimDeltaP": [
+     0.0016274216759484261,
+     0.003895967274729628,
+     -0.0007215271107270382
+    ],
+    "residualVsObs": {
+     "adopted": {
+      "P": 115.06052520444064,
+      "omegaDot": -0.018647776543635475
+     },
+     "atH": {
+      "P": -0.001016719121253118,
+      "omegaDot": -0.0006430861684179057
+     }
+    },
+    "note": "**第264便a の根は h の測定値に対する根である**。3 刻みで測り直すと P も ω̇ も動く。"
+   },
+   "rootCheckSavedAtExtrapolated": {
+    "converged": false,
+    "status": "fit-search-unresolved",
+    "residualP": 115.06052520444064,
+    "residualW": -0.018647776543635475,
+    "observationalPass": null,
+    "isPrediction": false,
+    "tolerance": {
+     "pTolSec": 0.001,
+     "wTolRel": 0.0005,
+     "note": "**停止条件は探索許容であって σ ではない。**"
+    }
+   },
+   "jacobianExt": {
+    "dPdk": 25543.305567804964,
+    "dWdk": 22.029066288480568,
+    "dPdf": -25626.667975125747,
+    "dWdf": 6.229358892971337,
+    "dk": 0.02,
+    "df": 0.01,
+    "det": 723649.9852716173,
+    "ratioWk_over_Wf": 3.5363296074233634
+   },
+   "sensitivityExt": {
+    "matrix": [
+     [
+      0.6563022688823454,
+      -1.3572423234010145
+     ],
+     [
+      11.881875206457899,
+      6.92581193701889
+     ]
+    ],
+    "det": 20.67200999969176,
+    "sv": [
+     13.753529007402685,
+     1.5030331479698968
+    ],
+    "cond": 9.150516092063024,
+    "note": "**無次元化した行列の条件数**で識別性を見る(次元付き行列式では見ない)。"
+   },
+   "sensitivityAtH": {
+    "matrix": [
+     [
+      0.6586706672949452,
+      -1.3655205131698311
+     ],
+     [
+      11.739749931815458,
+      6.909405302360868
+     ]
+    ],
+    "det": 20.581891952495404,
+    "sv": [
+     13.622680397502826,
+     1.5108547915627697
+    ],
+    "cond": 9.016538500971397,
+    "note": "**無次元化した行列の条件数**で識別性を見る(次元付き行列式では見ない)。"
+   },
+   "ratioWk_over_Wf_atH": 3.50232643496946,
+   "columns": {
+    "adopted": {
+     "tag": "adopted",
+     "kStar": 0.9366303438690935,
+     "fStar": 1.9355285854208322,
+     "Pext": 36351.70285002205,
+     "omegaDotExt": 1.7557889622904488,
+     "residP": 0.0002058812533505261,
+     "residW": -3.770955125936837e-8,
+     "steps": [
+      {
+       "it": 0,
+       "k": 0.9369664135013948,
+       "f": 1.9313566016041464,
+       "Pext": 36466.763169345235,
+       "omegaDotExt": 1.7371412234563646,
+       "residP": 115.06052520444064,
+       "residW": -0.018647776543635475,
+       "resolved": true
+      },
+      {
+       "it": 1,
+       "k": 0.9366363189352152,
+       "f": 1.935517455404482,
+       "Pext": 36352.13908618935,
+       "omegaDotExt": 1.7558503000667993,
+       "residP": 0.4364420485580922,
+       "residW": 0.00006130006679927469,
+       "resolved": true
+      },
+      {
+       "it": 2,
+       "k": 0.93663039111002,
+       "f": 1.9355285776384972,
+       "Pext": 36351.70405026553,
+       "omegaDotExt": 1.7557899921945455,
+       "residP": 0.0014061247347854078,
+       "residW": 9.921945454127723e-7,
+       "resolved": true
+      },
+      {
+       "it": 3,
+       "k": 0.9366303438690935,
+       "f": 1.9355285854208322,
+       "Pext": 36351.70285002205,
+       "omegaDotExt": 1.7557889622904488,
+       "residP": 0.0002058812533505261,
+       "residW": -3.770955125936837e-8,
+       "resolved": true
+      }
+     ],
+     "how": "newton(外挿値・実測ヤコビアン)",
+     "searchInterval": {
+      "k": [
+       -0.5,
+       1.7
+      ],
+      "f": [
+       1,
+       2.6
+      ]
+     },
+     "rootCheck": {
+      "converged": true,
+      "status": "fit-search-tolerance-met",
+      "residualP": 0.0002058812533505261,
+      "residualW": -3.770955125936837e-8,
+      "observationalPass": null,
+      "isPrediction": false,
+      "tolerance": {
+       "pTolSec": 0.001,
+       "wTolRel": 0.0005,
+       "note": "**停止条件は探索許容であって σ ではない。**"
+      }
+     },
+     "deltaFrom264a": {
+      "dK": -0.0003360696323012613,
+      "dF": 0.00417198381668582
+     }
+    },
+    "solution": {
+     "tag": "solution",
+     "kStar": 0.9366303438690935,
+     "fStar": 1.9355285854208322,
+     "Pext": 36351.70285002205,
+     "omegaDotExt": 1.7557889622904488,
+     "residP": 0.00022670364705845714,
+     "residW": -0.000006037709551209858,
+     "steps": [
+      {
+       "it": 0,
+       "k": 0.9366303438690935,
+       "f": 1.9355285854208322,
+       "Pext": 36351.70285002205,
+       "omegaDotExt": 1.7557889622904488,
+       "residP": 0.00022670364705845714,
+       "residW": -0.000006037709551209858,
+       "resolved": true
+      }
+     ],
+     "how": "newton(外挿値・実測ヤコビアン)",
+     "searchInterval": {
+      "k": [
+       -0.5,
+       1.7
+      ],
+      "f": [
+       1,
+       2.6
+      ]
+     },
+     "rootCheck": {
+      "converged": true,
+      "status": "fit-search-tolerance-met",
+      "residualP": 0.00022670364705845714,
+      "residualW": -0.000006037709551209858,
+      "observationalPass": null,
+      "isPrediction": false,
+      "tolerance": {
+       "pTolSec": 0.001,
+       "wTolRel": 0.0005,
+       "note": "**停止条件は探索許容であって σ ではない。**"
+      }
+     },
+     "deltaFrom264a": {
+      "dK": -0.0003360696323012613,
+      "dF": 0.00417198381668582
+     }
+    }
+   },
+   "residualSigma": {
+    "adopted": {
+     "PSigma": 238.28848767422002,
+     "WSigma": -0.004189950139929818
+    },
+    "solution": {
+     "PSigma": 1311.9424019586638,
+     "WSigma": null
+    },
+    "note": "**探索許容と σ は別物である。** この欄は記録であって合否ではない。"
+   },
+   "chi": {
+    "ok": true,
+    "qExp": 3.1652,
+    "D0pull": 3.24204e-7,
+    "chiEffP2": 0.9994684624217085,
+    "chiEffPq": 0.1476183650346638,
+    "massRatio": 0.5023333955572148,
+    "chiBias": 0.5000012402604409
+   }
+  }
+ ],
+ "pageErrors": []
+}

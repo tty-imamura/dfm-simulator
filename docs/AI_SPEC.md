@@ -999,7 +999,10 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     渡すべきなのは**規定運動の加速度**で、`dfmGeoToyStep` はこれを
     **静止/等速の pinned は 0**・**レール駆動(`railOmega`/`railH`)は P̈=(h²−ω²)(P−C)+2hω·(−(P−C)_y,(P−C)_x)**
     として作る(**重力 E4 は 1 バイトも変えていない**)。内蔵で geoPN≥3 を宣言する本(🩻)に pinned 粒子は
-    **0 個**なので、**内蔵 122 本は 1 bit も動かない**。QA `behavior.geoToyPinned`。
+    **0 個**なので、この修正が内蔵に届く経路は無かった。**第265便b で pinned 中心核を持つ geoPN=3 の
+    原理コピー 🪁 `galaxyMeshSpiralGeoToy` が内蔵へ入った**ので、QA `behavior.geoToyPinned` ④ は
+    「pinned 数 0」ではなく**「geoPN≥3 の内蔵の顔ぶれと各本の pinned 数(🪁:1・🩻:0)+ pinned を持つ本で
+    トイが実際に走ること」**を固定する形へ書き換えた。**基点 3042e17 の内蔵 122 本は 1 bit も動かない**。
   - **第264便b — 源の閉包 `physics.spaceMesh.toyClosure`("gravity" 既定 /"iterate")+`toyClosureIters`(1〜64・既定 8)**:
     `"gravity"` は上の a_i=g_i(**現状とビット同一**)。`"iterate"` は「源も同じトイ則で加速している」として
     **a_i = g_i + t_i(a)** の固定点を Jacobi 反復で解く**診断モード**である(**採用則ではない**)。
@@ -1013,6 +1016,37 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     - **質量のある箱(`universeBox`)の宇宙では閉包は効かない**(箱は規定場で、∂ₜu に源の加速度が入らない)——
       "gravity" と "iterate" がビット同一で、反復は 2 回目に残差 0 で止まる。
     - QA `behavior.geoToyClosure` が門・既定不変・反復数と残差・特異点・箱の不変を機械固定する。
+    - **第265便b — 未収束ガード**: **打ち切った最後の 1 巡を力として当ててはならない**(反復上限の偶奇で
+      符号も大きさも変わる)。`"iterate"` で対象が 1 つ以上あり、かつ収束していない步は、**メッシュキックを
+      当てず・帳簿にも記帳せず** `S.geoToyStop="closureUnconverged"`・`S.geoToyN=0`・`S.geoToyDv=0` を返す。
+      **残差・反復数・収束判定・χ は残る**(診断)。**重力側の步と時刻は進む**(**原子的停止ではない**)。
+      QA `behavior.geoToyClosureGuard`。
+  - **第265便b — 法則版 `physics.spaceMesh.law`("toy" 既定 /"mesh-v2")+ `meshGauge`("inertia" 既定 /"constraint")**:
+    引きずりの「完全置換」の**候補**である(**確立した法則ではない**)。場を粒子から代数的に求め、
+    u_i=Σ_j W_ij(q)v_j + u_bg(W_ij=η·w_ij/(D₀+Σ_k w_ik)・自己除外)から
+    **L=½vᵀH(q)v−U(q)・H=(I−W)ᵀM(I−W)** を変分する: **H·a = F + ½(vᵀ∂_k H v)_k − (Σ_l v_l ∂_l H)v**
+    (F は重力・∂_k H は**中心差分**〔`MESH_V2_FD_REL`=10⁻⁶×代表長・`opts.fdRel` で振れる〕)。
+    - **`meshGauge`** は **D₀=0 かつ η=1 で共通並進が零固有値になる**(行和が厳密に 1)ことへの 2 案である:
+      **"inertia"** = 失われた重心の慣性だけを戻す(K=δ·mmᵀ/M²・δ=M−1ᵀH1)/
+      **"constraint"** = 零方向を射影して擬似逆で解く(ゲージ条件 Σ_i a_i = 0)。
+      **両案で加速度が変わる**ので、`law:"mesh-v2"` のときは `meshGauge` を**既定でも正準形に出す**。
+    - **門**: `physics.geoPN=3` 専用・`sampleClass:"calibration"` では**拒否**・`toyClosure` と排他・
+      `toyAllowDrag` と排他・未知の値と未知のゲージは拒否。宣言すると**警告 1 行**。
+      **既定 "toy" は正準形に 1 文字も出ない**(内蔵で `law` を宣言する本は 0 本)。
+    - **対象は 2 体・回転源なし・正の慣性・衝突なしだけ**である。それ以外は力を当てずに停止理由を返す:
+      `S.geoToyStop` = `"meshV2:notTwoBody"` / `"meshV2:pinned"` / `"meshV2:box"` /
+      `"meshV2:illConditioned"`(cond > `MESH_V2_COND_MAX`=10¹²・**宣言値**)/ `"meshV2:notPositive"` /
+      `"meshV2:rhsNotInRange"` / `"meshV2:nonfinite"` / `"meshV2:massNotPositive"`。
+      毎步の診断は **`S.meshV2`**(`{gauge, eta, D0, p, chi, minEig, maxEig, cond, condRed, symRel,
+      structural, delta, rowDev, fdStep, rhsNull, stop}`)で、HUD に `meshV2:<gauge> λmin=… cond=…` が出る。
+    - **純関数** `HP.dfmMeshV2Solve(bodies, {G, eps, p, D0, eta, gauge, condMax, fdRel})` が正本である
+      (`bodies=[{m,x,y,vx,vy}]`・**S を 1 バイトも読み書きしない**)。返り値は `H`/`Hg`/`eig`/`minEig`/
+      `maxEig`/`cond`/`symRel`/`structural`/`rowSum`/`delta`/`rhs`/`accel`/`gravAccel`/`stop`。
+      **停止したら `accel` は null** である。定数は `HP.MESH_V2_LAWS`/`MESH_V2_GAUGES`/`MESH_V2_COND_MAX`/
+      `MESH_V2_NULL_TOL`/`MESH_V2_FD_REL`。
+    - **η=0 は geoPN=0 の Newton と 600 步ビット同一**(両ゲージとも)。
+    - **書かないこと**: 「引きずりを完全置換した」「mesh-v2 を銀河へ当てた」(3 体以上は止まる)。
+      QA `behavior.meshV2`。
 - **支配度の器(第263便a — `HP.dfmDominance(bodies, opts)`)**: 「支配天体が 1 つかどうか」を**測れる形**にした純関数。
   `bodies=[{m,x,y,vx,vy}]`・`opts={p, eps, D0}`(既定 p=2・eps=0・D₀=0)。**3 つの軸を別々に返す**(1 つの数に畳まない):
   **①`massRatio`=m₁/(m₁+m₂)**(質量上位 2 体)・**②`chiBias`=χ₂/(χ₁+χ₂)**(χ_i=Σ_{j≠i}w_j/(D₀+Σ_{j≠i}w_j)・
@@ -1036,6 +1070,25 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   内蔵の二値契約、診断コピーが `sampleClass:"principle"` であることを機械固定する。
   **第264便a の結論は「事前予測式は未確立」である**(4 系の k\* は 0.6555〜0.9370 に散る〔幅は平均の 37.0%〕のに、
   H2 の説明項の幅はその 1.25×10⁻³ 倍しかない —— docs/PHYSICS.md〔第264便a〕)。
+- **共同補正プロトコルの記帳器(第265便a — `HP.dfmJointCalProtocol(inp)`)**: 第57報「『geoPN=2』と『kFrame=1』で
+  成立しない場合は、観測質量に対する補正が必要な状況と判断し、**質量補正 f と kFrame を同時に補正する**」に対して、
+  **手順の記帳だけを行う純関数**である。**力へは 1 バイトも接続しない**(kFrame や質量をこの返り値で決める経路は
+  どこにも無く、内蔵プリセットの kFrame は QA `preset.kframe-binary01` が要求する **0 か 1** のままである)。
+  入力 `inp={ residualP, sigmaP, residualW, sigmaW, omegaDotObs, nSigma, pTolSec, wTolRel, measurementResolved }`。
+  - **`baseline.verdict`**(手順の第 2 段・**判定は σ で行う**): 2 量とも nσ(既定 3σ)以内なら
+    `"correction-not-required"`・どちらかが外れたら `"correction-required"`・
+    **σ が無い/量が測れていないなら `"undecidable"`**(0 で埋めない)。
+  - **`rootCheck`**(手順の第 3 段): `{converged, status, residualP, residualW, observationalPass, isPrediction, tolerance}`。
+    `status` は `"fit-search-tolerance-met"` / `"fit-search-unresolved"` / `"measurement-unresolved"` の 3 値。
+    **`observationalPass` は常に null**(この関数は 3σ の合否を出さない)・**`isPrediction` は常に false**
+    (**共同 fit は事前予測ではない** —— 裁定 Z15・docs/CALIBRATION_VERDICT_v1.44.md §6′.1)。
+    **停止条件(`pTolSec`・`wTolRel`)は探索許容であって σ ではない。**
+  - `nSigma≤0`・`pTolSec≤0`・`wTolRel≤0`・非有限は **null**。**空入力は null ではなく**
+    `undecidable` / `measurement-unresolved`(「測れていない」という記録である)。
+  - **生成 AI はこの関数を使わない**(プリセット JSON からは呼べない)。QA `behavior.jointCalProtocol` が
+    代数・二値契約・`kFrame` の値域 [0,1]・基準走行の判定を機械固定する。
+  **第265便a の結論は「4 系とも補正が要る」である**(f=1 でも現行台帳 f≈2 でも 3σ に入らない)。
+  **`f≠1` から観測質量の誤りや未観測質量の存在が確定するわけではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。
 - **除去の段階(第259便a — `physics.spaceMesh.inertiaRemoval`)**: `"post"`(既定 = 第258便a・`S._core` の後で引く)/
   `"inStep"`(**当てた段階で引く** —— `dragHookKick` は `_core` が速度へ書く直前、`dragHookApply` は ③/③′ が
   書く直前に呼ばれるので、そこで先に引く/取り分を 0 にする)。実測では **η=0(除去だけ)が kFrame=0(支えなし)と
@@ -1107,6 +1160,23 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     融合の合算の対象で、未宣言の層は **正準形に 1 文字も出ない**(既定経路の署名は不変)。値域は ±10¹²。
     **第264便c から、この J は「回転場の源」として読まれる**(下の `spinDipoleMoment` の所有者規約)。
     重力・引きずり・歳差・熱へは依然として 1 バイトも接続していない。
+  - **明示ゼロ `J:0` は「未宣言」ではない(第265便c)**: 値と宣言は別に持つ。
+    `layers:[{role:"core",m:10,r:1,J:0}]` と**明示的に 0 を書いた層は「Q=0 を宣言した層」**であり、
+    回転場の源は **0**(従来殻式 ½mR²s へは戻らない)。何も書かない層だけが「未宣言」で従来式へ落ちる。
+    **`Jx:0`・`Jy:0` も同じ契約**である(面内だけの明示ゼロでも「宣言あり」と読む)。
+    宣言は **build / 編集(`applyLayerEdit`)/ 保存・復元(チェックポイント)/ 複製(A/B)/ 融合 /
+    粒子詰め替え**の 6 経路すべてを往復する。読み口は
+    **`HP.dfmLayerJDeclared(i,k,S?)`** → 宣言ビット(1=J・2=Jx・4=Jy・0=未宣言)。
+    **正準形には「宣言された 0」だけが出る**ので、宣言していない宇宙の署名は 1 bit も動かない。
+  - **`body.layers[].inertiaScale`(ζ・省略可・第265便c)**: 層の**有効慣性倍率**。既定 1・値域 [10⁻³,10⁶]
+    (コア V2 の `core.inertiaScale` と同じ値域)。**I = ζ·½·m_k·r_k² と回転場の源 J_k/ζ_k の双方に効く**
+    —— コア V2 の第 2 項が `J_c/ζ` である以上、層に J の値を足すだけでは V2 と一致しない。
+    ζ=1 は正準形に出ない(署名不変)。宣言されて正の有限数でなければ
+    **`layerInertiaScaleNotPositive`** で拒否し、1 bit も書かない(0 に読み替えない)。
+    読み口は **`HP.dfmLayerInertiaScale(i,k,S?)`**。
+    **融合では「源 Σ J/ζ を保つ」合成則**を使う(ζ′=(J_a+J_b)/(J_a/ζ_a+J_b/ζ_b)。等しい ζ どうしは
+    その ζ が残る。J の和か源の和が 0 で定義できないときだけ ζ′=1 へ落ちる ——
+    **融合は宣言の合成であって保存則ではない**)。
   - **`body.layers[].Jx` / `body.layers[].Jy`(省略可・第264便c)**: 層の角運動量の**面内成分**。
     **数値として持つ(宣言・表示・保存・復元・融合の合算・正準形)だけ**で、**力へは 1 バイトも
     接続していない**。0 は正準形に出ない(既定経路の署名は不変)。値域は ±10¹²。
@@ -1114,15 +1184,27 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   - **回転場の源の所有者規約(第264便c — `spinDipoleMoment` / `HP.dfmLayerDipoleMoment(i,S)`)**:
     スピン双極子モーメント Q_i(`physics.spinSpin` の源・対ポテンシャル `U_SS` の源)は
     **コア V2 があれば V2・無ければ層**から取る(**二重計上を構造的に防ぐ**)。
-    - コア V2 を持つ粒子: 従来式 **Q = ½·m·R²·spin + J_c/ζ**(differential/active のみ第 2 項)。
-    - コア V2 を持たない層つき粒子: **Q = Σ_k J_k**(層の宣言 J の z 成分の和)。
+    - コア V2 を持つ粒子: 従来式 **Q = ½·M_shell·R²·spin + J_c/ζ**(differential/active のみ第 2 項)。
+      **M_shell は既定で body 質量 m**(第77便以来)で、`core.shellSpinMass:"shell"` を宣言した粒子だけ
+      **殻質量 M_s = m − M_c** になる(第265便c・下の項)。
+    - コア V2 を持たない層つき粒子: **Q = Σ_k J_k/ζ_k**(層の宣言 J の z 成分を層の ζ で割った和 ——
+      第265便c から ζ が効く。ζ=1 の層では `J/1===J` なので基点とビット同一)。
     - **層が J・Jx・Jy を 1 つも宣言していなければ「未宣言」**として従来式へ落ちる
-      (🧅 layeredCoreDFM はこれに当たるので 1 bit も変わらない)。
+      (🧅 layeredCoreDFM はこれに当たるので 1 bit も変わらない)。**明示ゼロは宣言である**(第265便c)。
     - **射影はコア V2 と同じ z 成分だけ**。層の Jx/Jy を動かしても Q は動かない。
     - `HP.dfmLayerDipoleMoment(i,S)` は層側の値(宣言が無ければ `null`)をそのまま返す読み口。
-    **等価性は条件つきである**(〔第264便c〕の表): V2 の殻項は **body 質量 m** で組まれ、移行後の
-    殻層の J は **M_s** で組まれるので、**spin≠0 では ½·M_c·R²·spin だけずれる**。
-    ζ≠1 では **J_z(1−1/ζ)** だけずれる(層は ζ を持たない)。**「層が V2 を置き換えた」とは書かない。**
+    **等価性(第265便c の実測)**: ζ は層へ運ばれるようになったので **ζ≠1 だけの差は 0**
+    (基点の +J_z(1−1/ζ) は消えた)。残るのは**殻項の質量差 −½·M_c·R²·spin** だけで、
+    これも `core.shellSpinMass:"shell"` を宣言すれば 0 になる(600 步ビット同一を実測)。
+    **それでも「層が V2 を置き換えた」とは書かない** —— 一致するのは**回転場の源**だけで、
+    K_cs・熱・能動系(pump/contract/burst/shed)・整列トルク・歳差は層に無い。
+  - **`body.core.shellSpinMass`(省略可・第265便c)**: `"total"`(既定)/`"shell"` の 2 値。
+    コア V2 の Q の**第 1 項をどの質量で組むか**を宣言する。`"total"` は ½·m·R²·spin(第77便以来の式 ——
+    **既定を変えていない**ので内蔵 122 本の Q は 1 つも動いていない)、`"shell"` は ½·M_s·R²·spin で、
+    層へ移した殻層の J と**同じ式**になる。`"total"` を明示宣言しても正準形に鍵は作らない
+    (未宣言と 1 bit 同一)。cavity では無効。読み口は **`HP.dfmShellSpinMassOf(i,S?)`**・
+    受理値の集合は **`HP.SHELL_SPIN_MASS_MODES`**。**この宣言は Q の定義を変えるので、
+    較正済みの本へ後から足してはならない**(足すと Q が変わる —— 変化率は〔第265便c〕の表)。
   - **`S.applyLayerEdit(i, k, cfg)`(第261便b — 同心層を実行時に編集する唯一の入口)**:
     `cfg={role?,m?,r?,J?}` で層 k を編集(k = 現在の層数なら**追加**)、`cfg=null` で層 k を削除
     (`k<0` なら層宣言ごと外す)。**正準形(r 昇順・非重複・1〜8 層・m>0・role は 5 種)を検証し、
@@ -1185,11 +1267,35 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     `layerValueOutOfEditRange`)・`migration`(`coreV2MigrationPlan` が ok か)。
     返り値: `{id, nBodies, nCore, counts:{canReplace,cannot}, byAxis, byReason,
     rows:[{index,mode,canReplaceV2,axes,why,deltaQ}]}`。
-    **内蔵 122 本の実測(第264便c)**: コア宣言 **75 件** = 置換可 **27**・不可 **48**
-    (項別の不可: rotationSource 48・KcsThermal 16・activePumpContract 16・tilt 14・
-    saveRestore 14・migration 14)。
+    **内蔵 124 本の実測(第265便b で 🪁・第265便d で 🐮 lfbotTrap が加わり、第265便c で ζ を層へ運んだ後)**:
+    コア宣言 **76 件**(🐮 の 1 件増)= 置換可 **31**・不可 **45**
+    (項別の不可: rotationSource 44・KcsThermal 17・activePumpContract 17・tilt 15・
+    saveRestore 15・migration 15)。第264便c の 27/48 から動いたのは **`inertiaScaleNotUnity` の 5 件が
+    消えた**ぶん(−4)と、🐮 の `body.radius` 非宣言による `migrationRejected`(+1)だけで、
+    **既存の内蔵プリセットの JSON は 1 バイトも変わっていない**。
+    残る `rotationSource` 44 は `shellSpinTermDiffers` 29 + `migrationRejected` 15 で、
+    前者は `core.shellSpinMass:"shell"` を宣言すれば 0 になる(複製の上で強制した実測 —— 置換可 57・
+    不可 18 は第265便c 時点の 122 本に対する値。**既定の変更ではない**)。`rotationSource` の理由は**差の出どころ**で割り当てる
+    (殻項の差があれば `shellSpinTermDiffers`・無くて ζ≠1 なら `inertiaScaleNotUnity`)。
     **`canReplaceV2` が全項 true の本があっても「コア V2 を廃止できる」とは書かない** ——
     この表が測るのは 6 項だけで、描画・保存 JSON・AI 生成・既存セーブの互換はこの表の外である。
+  - **`core.lightTrap`(第265便d・opt-in・既定 off — **SYSTEM_PROMPT には載せていない**)**:
+    減光 `lightSweep` が外へ出さなかった自光を蓄積し、コアの崩壊で放つ**トイ仮説**の宣言である
+    (第57報「『Luminous Fast Blue Optical Transient』について、『減光』で青方偏移した光が蓄積し、
+    天体の崩壊で一気に放出した、という仮説を立てる」)。受理形は
+    `{enable:true, tEsc>0, tEscCollapse?, shiftRate?, supply?, absRate?, collapseR?, refill?}` で、
+    `enable!==true` か `tEsc` が無ければ**警告つきで lightTrap だけを落とす**(`core.shed` と同じ流儀)。
+    `cavity` では無効。状態は粒子ごとに E_γ・N_γ・E_s・E_esc・Q・E_in の 6 列で、恒等式は
+    **E_s + E_γ + E_esc + Q − E_in = E_s(0)**(`E_in` = 減光で**熱から引き取った**自光。
+    **落として書くと二重計上になる**)。供給源 E_s は `core.internalEnergy` から build 時に
+    **切り出す**ので、宣言でエネルギーは増えない。読みは純関数 **`HP.dfmLightTrapLedger(S)`**
+    (宣言しない宇宙では **null**)。`HP.dfmToyLedger` には `Elight`(=E_s+E_γ)と `Elesc`(=E_esc)が
+    **宣言した宇宙でだけ**足される(`radE` には積まない)。**`S._core` には 1 命令も足していない**
+    (実体は `S.step` 末尾の 1 パス)。**内蔵で宣言しているのは 🐮 `lfbotTrap` の 1 本だけ**である。
+    **実行時 LLM 向けの SYSTEM_PROMPT には載せていない** —— 既定 off の opt-in であり、
+    生成物に出す前に段を分ける(次便の判断)。
+  - **`notClaim:"lfbot"`(第265便d)**: 表示文 `nc_lfbot`(ja/en)は「実在の高速青色トランジェント
+    (LFBOT・AT2018cow 等)の説明・再現・予測ではない」である。**実イベントへ σ を出さない**。
   - **`S._setBodyLayers(i, arr)` の有限性(第262便b)**: `m`・`r`・`J`・Σm を `Number.isFinite` と
     **`Math.fround` 後**(Σm は Float32 の `S.m` に入る)で検査し、通らなければ
     `layerNotFinite`/`sumNotFinite` で拒否する。**検査は書き込みの前**なので、拒否時は元の状態が

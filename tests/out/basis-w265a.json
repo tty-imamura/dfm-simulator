@@ -1,0 +1,2404 @@
+{
+ "meta": {
+  "wave": "第265便a",
+  "target": "beta/index.html",
+  "dt0": 0.016,
+  "divs": [
+   1,
+   2,
+   4
+  ],
+  "periWindow": 20,
+  "escapeFactor": 60,
+  "yearSec": 31557600,
+  "question": "**基準走行(geoPN=2・kFrame=1・f=1)で P と ω̇ が 3σ に入るか**(共同補正プロトコルの第 1 段)。",
+  "metric": "近点間 P = 位相制限(1.5π)の最初の 20 近点(19 区間)の平均間隔。ω̇ は採用近点の方位を実時刻に回帰した傾き(°/年)。",
+  "conditions": "A: f=1(観測質量そのもの)・kFrame=1 / B: 現行台帳 f(f≈2)・kFrame=1。どちらも geoPN=2。",
+  "touched": "**本体 ⚡🧮🩺🧶 の JSON は 1 bit も書き換えていない**(走行用のコピーをページ内で作る)。`S._core` には 1 命令も足していない。",
+  "claim": "**この表は較正則ではない。** 判定は「補正が要るか要らないか」の 1 段だけである。**f≠1 から観測質量の誤りや未観測質量の存在が確定するわけではない。**",
+  "spentSec": 1156
+ },
+ "rows": [
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "label": "J0737−3039A/B",
+   "unitSec": 10,
+   "ledger": {
+    "ratios": [
+     1.9999422693459927,
+     1.9999422693459932
+    ],
+    "f": 1.9999422693459927,
+    "spread": 4.440892098500626e-16,
+    "declaredFactor": 1.999942269345993,
+    "law": "inertia-law-lin-v1",
+    "kFrame": 1,
+    "geoPN": 2,
+    "sampleClass": "calibration"
+   },
+   "obs": {
+    "adopted": {
+     "P": 8834.534723278,
+     "sP": 2.5056e-7,
+     "W": 16.899323,
+     "sW": 0.000013,
+     "e": 0.087777036
+    },
+    "solution": {
+     "P": 8834.53472328672,
+     "sP": 8.64e-8,
+     "W": 16.899323,
+     "sW": 0.000013,
+     "e": 0.087777023
+    }
+   },
+   "declaration": {
+    "systemKind": "ns-binary",
+    "id": "psrDoubleABDFM",
+    "sampleClass": "calibration",
+    "calibrationClass": "calibration",
+    "window": {
+     "nPeriastron": 20,
+     "phaseGate": "1.5π",
+     "why": "第252便b 以来の宣言(段をまたいで同じ)"
+    },
+    "extractor": {
+     "name": "radial-crossing/orbit-phase-1.5pi-v1",
+     "quantity": [
+      "periastron-interval-P",
+      "periastron-azimuth-slope-omegaDot"
+     ],
+     "definition": "最初の 20 近点(19 区間)の平均間隔・方位の実時刻回帰"
+    },
+    "observationVersion": {
+     "adopted": "CSV の最初の行",
+     "solution": "Kramer2021-DDS"
+    },
+    "quantities": [
+     "orbital_period",
+     "periastron_advance"
+    ],
+    "gateConnected": true,
+    "sameWindowAsNS": false,
+    "evidence": [],
+    "note": "窓・抽出器・観測版は系種ごとに違う。**NS と揃えたとは書かない**(裁定 (B))。"
+   },
+   "conditions": [
+    {
+     "tag": "A_f1",
+     "label": "f=1(観測質量そのもの)・kFrame=1・コア v2 なし",
+     "f": 1,
+     "kFrame": 1,
+     "keepCore": false,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 22341764,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.8234939384796348,
+       "rMaxOverR0": 10.307522660967633,
+       "rMinOverR0": 0.9977221149614643,
+       "mHeld": [
+        2660.98291015625,
+        2483.3701171875
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 37302.80000000005,
+       "errors": null,
+       "P": 188141.16831651717,
+       "omegaDot": 0.7418534850649549,
+       "seOmegaDot": 0.003740062295576037
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 44919477,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.8233425764358221,
+       "rMaxOverR0": 10.309602227076269,
+       "rMinOverR0": 0.9988620849116167,
+       "mHeld": [
+        2660.98291015625,
+        2483.3701171875
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 76304.69999999995,
+       "errors": null,
+       "P": 189134.63912577022,
+       "omegaDot": 0.7446937930351645,
+       "seOmegaDot": 0.00186007724925138
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 90076537,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.8232670551990768,
+       "rMaxOverR0": 10.310642212108977,
+       "rMinOverR0": 0.9994312987439802,
+       "mHeld": [
+        2660.98291015625,
+        2483.3701171875
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 152453.80000000005,
+       "errors": null,
+       "P": 189634.813286739,
+       "omegaDot": 0.7461165156829286,
+       "seOmegaDot": 0.0009275531580599678
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9900470482588218,
+       "ext": 190141.9608462672,
+       "monotone": true,
+       "d1": -993.4708092530491,
+       "d2": -500.17416096877423,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 0.9973929238814668,
+       "ext": 0.7475443942736641,
+       "monotone": true,
+       "d1": -0.0028403079702096212,
+       "d2": -0.0014227226477641075,
+       "note": null
+      },
+      "e": {
+       "p": 1.003049178595577,
+       "ext": 0.8231918521860807,
+       "monotone": true,
+       "d1": 0.00015136204381271945,
+       "d2": 0.00007552123674525735,
+       "note": null
+      }
+     },
+     "verdict": {
+      "adopted": {
+       "onExtrapolated": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 723608820733.5138,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": -1242444.508132795,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 721584764381.6292,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": -1242554.344947467,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": 2052.2577792949824,
+        "omegaDot": -95.57648318649413
+       },
+       "residPctFinest": {
+        "P": 2046.5172669147219,
+        "omegaDot": -95.58493251071106
+       }
+      },
+      "solution": {
+       "onExtrapolated": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 2098465580127.0889,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": -1242444.508132795,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 2092595816706.6233,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": -1242554.344947467,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": 2052.257779292858,
+        "omegaDot": -95.57648318649413
+       },
+       "residPctFinest": {
+        "P": 2046.5172669126027,
+        "omegaDot": -95.58493251071106
+       }
+      }
+     }
+    },
+    {
+     "tag": "B_ledger",
+     "label": "現行台帳 f・kFrame=1・族A(コア v2 あり)",
+     "f": 1.9999422693459927,
+     "kFrame": 1,
+     "keepCore": true,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1065169,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.09445021096190238,
+       "rMaxOverR0": 0.9999999844691362,
+       "rMinOverR0": 0.827401526267922,
+       "mHeld": [
+        5321.81201171875,
+        4966.5966796875
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 2177.6999999999534,
+       "errors": null,
+       "P": 8737.372557379043,
+       "omegaDot": 34.61785873573114,
+       "seOmegaDot": 0.03462796321435375
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 2141850,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.09111141182555736,
+       "rMaxOverR0": 0.999999996117284,
+       "rMinOverR0": 0.8329933816060169,
+       "mHeld": [
+        5321.81201171875,
+        4966.5966796875
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 4392.899999999907,
+       "errors": null,
+       "P": 8785.83868574628,
+       "omegaDot": 34.066930381387586,
+       "seOmegaDot": 0.0389841244394408
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 4295214,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.0894550064892002,
+       "rMaxOverR0": 0.9999999990293209,
+       "rMinOverR0": 0.8357802637129642,
+       "mHeld": [
+        5321.81201171875,
+        4966.5966796875
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 8426.09999999986,
+       "errors": null,
+       "P": 8810.076512361618,
+       "omegaDot": 33.91656886423957,
+       "seOmegaDot": 0.00955239067932426
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9997165005001694,
+       "ext": 8834.323867584906,
+       "monotone": true,
+       "d1": -48.4661283672358,
+       "d2": -24.237826615339145,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.8734293378874516,
+       "ext": 33.86012738247004,
+       "monotone": true,
+       "d1": 0.5509283543435544,
+       "d2": 0.1503615171480135,
+       "note": null
+      },
+      "e": {
+       "p": 1.0112735471448855,
+       "ext": 0.08782418816454143,
+       "monotone": true,
+       "d1": 0.003338799136345022,
+       "d2": 0.001656405336357164,
+       "note": null
+      }
+     },
+     "verdict": {
+      "adopted": {
+       "onExtrapolated": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": -841537.7278669582,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": 1304677.2601900033,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": -97614187.8846667,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": 1309018.9126338135,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": -0.002386720972851735,
+        "omegaDot": 100.36380973646129
+       },
+       "residPctFinest": {
+        "P": -0.27684775353180135,
+        "omegaDot": 100.69779638059806
+       }
+      },
+      "solution": {
+       "onExtrapolated": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": -2440459.5117428266,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": 1304677.2601900033,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": -283081144.966462,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": 1309018.9126338135,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": -0.0023867210715555983,
+        "omegaDot": 100.36380973646129
+       },
+       "residPctFinest": {
+        "P": -0.2768477536302343,
+        "omegaDot": 100.69779638059806
+       }
+      }
+     }
+    },
+    {
+     "tag": "C_f1core",
+     "label": "対照: f=1・コア v2 あり(massFrac が 0.01 へ切り上がる)",
+     "f": 1,
+     "kFrame": 1,
+     "keepCore": true,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 22341764,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.823493938479667,
+       "rMaxOverR0": 10.307522660967768,
+       "rMinOverR0": 0.9977221149612782,
+       "mHeld": [
+        2660.98291015625,
+        2483.3701171875
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 44017.09999999986,
+       "errors": null,
+       "P": 188141.16831642212,
+       "omegaDot": 0.7418534849179869,
+       "seOmegaDot": 0.003740062292269453
+      }
+     ],
+     "richardson": {
+      "P": {
+       "ext": null
+      },
+      "omegaDot": {
+       "ext": null
+      },
+      "note": "3 段が揃っていない(対照列)"
+     },
+     "verdict": {
+      "adopted": {
+       "onExtrapolated": {
+        "verdict": "undecidable",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": null,
+         "inside": null,
+         "why": "量が測れていない"
+        },
+        "omegaDot": {
+         "nSigma": null,
+         "inside": null,
+         "why": "量が測れていない"
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 715623537648.2445,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": -1242882.270390924,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": null,
+        "omegaDot": null
+       },
+       "residPctFinest": {
+        "P": 2029.6103780167552,
+        "omegaDot": -95.6101585553576
+       }
+      },
+      "solution": {
+       "onExtrapolated": {
+        "verdict": "undecidable",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": null,
+         "inside": null,
+         "why": "量が測れていない"
+        },
+        "omegaDot": {
+         "nSigma": null,
+         "inside": null,
+         "why": "量が測れていない"
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 2075308259179.8076,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": -1242882.270390924,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": null,
+        "omegaDot": null
+       },
+       "residPctFinest": {
+        "P": 2029.6103780146532,
+        "omegaDot": -95.6101585553576
+       }
+      }
+     }
+    }
+   ],
+   "coreControl": {
+    "dt": 0.016,
+    "P_A": 188141.16831651717,
+    "P_C": 188141.16831642212,
+    "dP": -9.505311027169228e-8,
+    "dPrel": -5.052222813445102e-13,
+    "W_A": 0.7418534850649549,
+    "W_C": 0.7418534849179869,
+    "dW": -1.4696799333080435e-10,
+    "note": "f=1 でコア v2 を残すと massFrac=(f−1)/f=0 が実行値域 0.01 へ切り上がる。**その差をここに数で残す**。"
+   }
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "label": "J1757−1854",
+   "unitSec": 10,
+   "ledger": {
+    "ratios": [
+     1.9998956627766773,
+     1.9998956627766775
+    ],
+    "f": 1.9998956627766773,
+    "spread": 2.220446049250313e-16,
+    "declaredFactor": 1.9998956627766773,
+    "law": "inertia-law-lin-v1",
+    "kFrame": 1,
+    "geoPN": 2,
+    "sampleClass": "calibration"
+   },
+   "obs": {
+    "adopted": {
+     "P": 15857.669019168,
+     "sP": 0.00000432,
+     "W": 10.3651,
+     "sW": 0.0002,
+     "e": 0.6058142
+    },
+    "solution": {
+     "P": 15857.6679651744,
+     "sP": 1.728e-7,
+     "W": 10.364986,
+     "sW": 0.000008,
+     "e": 0.605817
+    }
+   },
+   "declaration": {
+    "systemKind": "ns-binary",
+    "id": "psrJ1757DFM",
+    "sampleClass": "calibration",
+    "calibrationClass": "calibration",
+    "window": {
+     "nPeriastron": 20,
+     "phaseGate": "1.5π",
+     "why": "第252便b 以来の宣言(段をまたいで同じ)"
+    },
+    "extractor": {
+     "name": "radial-crossing/orbit-phase-1.5pi-v1",
+     "quantity": [
+      "periastron-interval-P",
+      "periastron-azimuth-slope-omegaDot"
+     ],
+     "definition": "最初の 20 近点(19 区間)の平均間隔・方位の実時刻回帰"
+    },
+    "observationVersion": {
+     "adopted": "CSV の最初の行",
+     "solution": "Singha2026-DDH"
+    },
+    "quantities": [
+     "orbital_period",
+     "periastron_advance"
+    ],
+    "gateConnected": true,
+    "sameWindowAsNS": false,
+    "evidence": [],
+    "note": "窓・抽出器・観測版は系種ごとに違う。**NS と揃えたとは書かない**(裁定 (B))。"
+   },
+   "conditions": [
+    {
+     "tag": "A_f1",
+     "label": "f=1(観測質量そのもの)・kFrame=1・コア v2 なし",
+     "f": 1,
+     "kFrame": 1,
+     "keepCore": false,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 4153288,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.21379288948244185,
+       "rMaxOverR0": 0.9999999992207003,
+       "rMinOverR0": 0.6477275626817223,
+       "mHeld": [
+        2661.408447265625,
+        2773.162109375
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 7145.100000000093,
+       "errors": null,
+       "P": 34075.50246055285,
+       "omegaDot": 2.487940561388411,
+       "seOmegaDot": 0.0007342177367726082
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 8319470,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.21298916979099627,
+       "rMaxOverR0": 0.9999999998051752,
+       "rMinOverR0": 0.648819337926389,
+       "mHeld": [
+        2661.408447265625,
+        2773.162109375
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 14158.300000000047,
+       "errors": null,
+       "P": 34129.78105218526,
+       "omegaDot": 2.480705548888386,
+       "seOmegaDot": 0.00036519316499860824
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 16651837,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.21258813102643973,
+       "rMaxOverR0": 0.9999999999512938,
+       "rMinOverR0": 0.6493646513500629,
+       "mHeld": [
+        2661.408447265625,
+        2773.162109375
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 28479.399999999907,
+       "errors": null,
+       "P": 34156.9257861413,
+       "omegaDot": 2.477397739590597,
+       "seOmegaDot": 0.00018216847535494556
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9997109434419909,
+       "ext": 34184.081400736635,
+       "monotone": true,
+       "d1": -54.27859163240646,
+       "d2": -27.14473395604,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.1291194468398715,
+       "ext": 2.474611634113726,
+       "monotone": true,
+       "d1": 0.0072350125000251175,
+       "d2": 0.003307809297788733,
+       "note": null
+      },
+      "e": {
+       "p": 1.0029507340639954,
+       "ext": 0.2121887277273573,
+       "monotone": true,
+       "d1": 0.0008037196914455758,
+       "d2": 0.0004010387645565494,
+       "note": null
+      }
+     },
+     "verdict": {
+      "adopted": {
+       "onExtrapolated": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 4242225088.326072,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": -39452.441829431365,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 4235939066.4290037,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": -39438.511302047016,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": 115.56813526260721,
+        "omegaDot": -76.12554018664821
+       },
+       "residPctFinest": {
+        "P": 115.39688932121119,
+        "omegaDot": -76.0986605089136
+       }
+      },
+      "solution": {
+       "onExtrapolated": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 106055633307.65182,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": -986296.7957357842,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 105898482760.22511,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": -985948.5325511754,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": 115.56814959052957,
+        "omegaDot": -76.12527760178618
+       },
+       "residPctFinest": {
+        "P": 115.39690363775156,
+        "omegaDot": -76.09839762841362
+       }
+      }
+     }
+    },
+    {
+     "tag": "B_ledger",
+     "label": "現行台帳 f・kFrame=1・族A(コア v2 あり)",
+     "f": 1.9998956627766773,
+     "kFrame": 1,
+     "keepCore": true,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1891125,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.6094560341931163,
+       "rMaxOverR0": 0.9999999982502167,
+       "rMinOverR0": 0.24265587678467487,
+       "mHeld": [
+        5322.5390625,
+        5546.03466796875
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 3671.5,
+       "errors": null,
+       "P": 15508.038974810872,
+       "omegaDot": 21.359639524248152,
+       "seOmegaDot": 0.03914722198558549
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 3823266,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.6076799524574098,
+       "rMaxOverR0": 0.9999999995625541,
+       "rMinOverR0": 0.244028699102264,
+       "mHeld": [
+        5322.5390625,
+        5546.03466796875
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 7462.899999999907,
+       "errors": null,
+       "P": 15680.724196643438,
+       "omegaDot": 21.029000627886038,
+       "seOmegaDot": 0.019206773003596852
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 7687928,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.6067983839042853,
+       "rMaxOverR0": 0.9999999998906387,
+       "rMinOverR0": 0.24471123445947907,
+       "mHeld": [
+        5322.5390625,
+        5546.03466796875
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 15055.09999999986,
+       "errors": null,
+       "P": 15767.86577935108,
+       "omegaDot": 20.8685745126045,
+       "seOmegaDot": 0.00951581806670753
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9867114027316336,
+       "ext": 15856.63515501095,
+       "monotone": true,
+       "d1": -172.68522183256573,
+       "d2": -87.14158270764165,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.0433474404011374,
+       "ext": 20.717372362560653,
+       "monotone": true,
+       "d1": 0.33063889636211385,
+       "d2": 0.16042611528153827,
+       "note": null
+      },
+      "e": {
+       "p": 1.0105533095481078,
+       "ext": 0.605929572657016,
+       "monotone": true,
+       "d1": 0.0017760817357065362,
+       "d2": 0.0008815685531244899,
+       "note": null
+      }
+     },
+     "verdict": {
+      "adopted": {
+       "onExtrapolated": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": -239320.4067246828,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": 51761.36181280326,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": -20787786.994657785,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": 52517.372563022494,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": -0.006519647722505392,
+        "omegaDot": 99.87624202912325
+       },
+       "residPctFinest": {
+        "P": -0.5663079466999326,
+        "omegaDot": 101.33500412542571
+       }
+      },
+      "solution": {
+       "onExtrapolated": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": -5976910.668110762,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": 1294048.2953200818,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": -519688575.36643827,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": 1312948.5640755626,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": -0.0065130015694472325,
+        "omegaDot": 99.87844038149836
+       },
+       "residPctFinest": {
+        "P": -0.5663013377536872,
+        "omegaDot": 101.33721852209447
+       }
+      }
+     }
+    },
+    {
+     "tag": "C_f1core",
+     "label": "対照: f=1・コア v2 あり(massFrac が 0.01 へ切り上がる)",
+     "f": 1,
+     "kFrame": 1,
+     "keepCore": true,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 4153288,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.2137928894824641,
+       "rMaxOverR0": 0.9999999992207003,
+       "rMinOverR0": 0.6477275626816921,
+       "mHeld": [
+        2661.408447265625,
+        2773.162109375
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 8133,
+       "errors": null,
+       "P": 34075.50246055012,
+       "omegaDot": 2.4879405623653654,
+       "seOmegaDot": 0.0007342175997048448
+      }
+     ],
+     "richardson": {
+      "P": {
+       "ext": null
+      },
+      "omegaDot": {
+       "ext": null
+      },
+      "note": "3 段が揃っていない(対照列)"
+     },
+     "verdict": {
+      "adopted": {
+       "onExtrapolated": {
+        "verdict": "undecidable",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": null,
+         "inside": null,
+         "why": "量が測れていない"
+        },
+        "omegaDot": {
+         "nSigma": null,
+         "inside": null,
+         "why": "量が測れていない"
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 4217091074.3940077,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": -39385.79718817317,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": null,
+        "omegaDot": null
+       },
+       "residPctFinest": {
+        "P": 114.8834259269837,
+        "omegaDot": -75.99694588218769
+       }
+      },
+      "solution": {
+       "onExtrapolated": {
+        "verdict": "undecidable",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": null,
+         "inside": null,
+         "why": "量が測れていない"
+        },
+        "omegaDot": {
+         "nSigma": null,
+         "inside": null,
+         "why": "量が測れていない"
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 105427282959.35022,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": -984630.6797043295,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": null,
+        "omegaDot": null
+       },
+       "residPctFinest": {
+        "P": 114.88344020939627,
+        "omegaDot": -75.9966818829725
+       }
+      }
+     }
+    }
+   ],
+   "coreControl": {
+    "dt": 0.016,
+    "P_A": 34075.50246055285,
+    "P_C": 34075.50246055012,
+    "dP": -2.735760062932968e-9,
+    "dPrel": -8.028524498208037e-14,
+    "W_A": 2.487940561388411,
+    "W_C": 2.4879405623653654,
+    "dW": 9.769545172844118e-10,
+    "note": "f=1 でコア v2 を残すと massFrac=(f−1)/f=0 が実行値域 0.01 へ切り上がる。**その差をここに数で残す**。"
+   }
+  },
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "label": "J1946+2052",
+   "unitSec": 10,
+   "ledger": {
+    "ratios": [
+     1.999965529570855,
+     1.999965529570855
+    ],
+    "f": 1.999965529570855,
+    "spread": 0,
+    "declaredFactor": 1.999965529570855,
+    "law": "inertia-law-lin-v1",
+    "kFrame": 1,
+    "geoPN": 2,
+    "sampleClass": "calibration"
+   },
+   "obs": {
+    "adopted": {
+     "P": 6781.366656,
+     "sP": 0.000864,
+     "W": 25.79205,
+     "sW": 0.0004,
+     "e": 0.063848
+    },
+    "solution": {
+     "P": 6781.367998656,
+     "sP": 0.000001728,
+     "W": 25.79205,
+     "sW": 0.0004,
+     "e": 0.0638363
+    }
+   },
+   "declaration": {
+    "systemKind": "ns-binary",
+    "id": "psrJ1946DFM",
+    "sampleClass": "calibration",
+    "calibrationClass": "calibration",
+    "window": {
+     "nPeriastron": 20,
+     "phaseGate": "1.5π",
+     "why": "第252便b 以来の宣言(段をまたいで同じ)"
+    },
+    "extractor": {
+     "name": "radial-crossing/orbit-phase-1.5pi-v1",
+     "quantity": [
+      "periastron-interval-P",
+      "periastron-azimuth-slope-omegaDot"
+     ],
+     "definition": "最初の 20 近点(19 区間)の平均間隔・方位の実時刻回帰"
+    },
+    "observationVersion": {
+     "adopted": "CSV の最初の行",
+     "solution": "Meng2025-DDFWHE"
+    },
+    "quantities": [
+     "orbital_period",
+     "periastron_advance"
+    ],
+    "gateConnected": true,
+    "sameWindowAsNS": false,
+    "evidence": [],
+    "note": "窓・抽出器・観測版は系種ごとに違う。**NS と揃えたとは書かない**(裁定 (B))。"
+   },
+   "conditions": [
+    {
+     "tag": "A_f1",
+     "label": "f=1(観測質量そのもの)・kFrame=1・コア v2 なし",
+     "f": 1,
+     "kFrame": 1,
+     "keepCore": false,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 26426131,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.8714150244586398,
+       "rMaxOverR0": 14.511631139149584,
+       "rMinOverR0": 0.9970945571694206,
+       "mHeld": [
+        2552.836181640625,
+        2481.64794921875
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 46656.39999999991,
+       "errors": null,
+       "P": 222535.83529578595,
+       "omegaDot": 0.7307493431969716,
+       "seOmegaDot": 0.004367217709232778
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 53346701,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.8712819862164152,
+       "rMaxOverR0": 14.51674637096372,
+       "rMinOverR0": 0.9985490018255385,
+       "mHeld": [
+        2552.836181640625,
+        2481.64794921875
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 90126.3999999999,
+       "errors": null,
+       "P": 224617.68742611227,
+       "omegaDot": 0.7339532330470142,
+       "seOmegaDot": 0.0021625014227202814
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 107194355,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.8712156734881028,
+       "rMaxOverR0": 14.5193049703831,
+       "rMinOverR0": 0.9992749304766431,
+       "mHeld": [
+        2552.836181640625,
+        2481.64794921875
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 181568,
+       "errors": null,
+       "P": 225672.32428408778,
+       "omegaDot": 0.7355649770397634,
+       "seOmegaDot": 0.0010759780394118922
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9811212778776366,
+       "ext": 226755.11474888978,
+       "monotone": true,
+       "d1": -2081.852130326326,
+       "d2": -1054.6368579755072,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 0.9912019423217029,
+       "ext": 0.7371965604064904,
+       "monotone": true,
+       "d1": -0.003203889850042607,
+       "d2": -0.001611743992749215,
+       "note": null
+      },
+      "e": {
+       "p": 1.0044832938771124,
+       "ext": 0.8711497709917652,
+       "monotone": true,
+       "d1": 0.000133038242224659,
+       "d2": 0.00006631272831236767,
+       "note": null
+      }
+     },
+     "verdict": {
+      "adopted": {
+       "onExtrapolated": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 254599245.4778817,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": -62637.13359898377,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 253346015.77324975,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": -62641.212557400584,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": 3243.796704286178,
+        "omegaDot": -97.14176825647247
+       },
+       "residPctFinest": {
+        "P": 3227.8295619721134,
+        "omegaDot": -97.14809417227492
+       }
+      },
+      "solution": {
+       "onExtrapolated": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 127299621961.94084,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": -62637.13359898377,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 126673007109.62486,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": -62641.212557400584,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": 3243.7960422414826,
+        "omegaDot": -97.14176825647247
+       },
+       "residPctFinest": {
+        "P": 3227.828903088784,
+        "omegaDot": -97.14809417227492
+       }
+      }
+     }
+    },
+    {
+     "tag": "B_ledger",
+     "label": "現行台帳 f・kFrame=1・族A(コア v2 あり)",
+     "f": 1.999965529570855,
+     "kFrame": 1,
+     "keepCore": true,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 815110,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.07266974373084664,
+       "rMaxOverR0": 0.9999999720408691,
+       "rMinOverR0": 0.8645067466119286,
+       "mHeld": [
+        5105.58447265625,
+        4963.21044921875
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 1716.5,
+       "errors": null,
+       "P": 6685.642291994065,
+       "omegaDot": 54.9325154801378,
+       "seOmegaDot": 0.9510818731435642
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1641607,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.06823520773006991,
+       "rMaxOverR0": 0.999999993010217,
+       "rMinOverR0": 0.8722468413459576,
+       "mHeld": [
+        5105.58447265625,
+        4963.21044921875
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 3425.7000000001863,
+       "errors": null,
+       "P": 6733.570007117497,
+       "omegaDot": 52.5746915478453,
+       "seOmegaDot": 0.15221213306629536
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 3294602,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.06604050091618927,
+       "rMaxOverR0": 0.9999999982525541,
+       "rMinOverR0": 0.8761013269656195,
+       "mHeld": [
+        5105.58447265625,
+        4963.21044921875
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 6557.09999999986,
+       "errors": null,
+       "P": 6757.54080649197,
+       "omegaDot": 51.82549019640166,
+       "seOmegaDot": 0.025476313390109438
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9995821428774139,
+       "ext": 6781.525497537863,
+       "monotone": true,
+       "d1": -47.92771512343188,
+       "d2": -23.970799374473245,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.6540305837024443,
+       "ext": 51.476556474043505,
+       "monotone": true,
+       "d1": 2.3578239322925043,
+       "d2": 0.749201351443638,
+       "note": null
+      },
+      "e": {
+       "p": 1.0147549326434908,
+       "ext": 0.06389000746469126,
+       "monotone": true,
+       "d1": 0.004434536000776729,
+       "d2": 0.002194706813880648,
+       "note": null
+      }
+     },
+     "verdict": {
+      "adopted": {
+       "onExtrapolated": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 183.8443725264201,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": 64211.26618510876,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": -27576.214708367977,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": 65083.600491004145,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": 0.0023423233976338316,
+        "omegaDot": 99.58303614502726
+       },
+       "residPctFinest": {
+        "P": -0.35134288878111847,
+        "omegaDot": 100.93590930694405
+       }
+      },
+      "solution": {
+       "onExtrapolated": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 91145.18626326436,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": 64211.26618510876,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": -13788884.354183935,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": 65083.600491004145,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": 0.002322523742910509,
+        "omegaDot": 99.58303614502726
+       },
+       "residPctFinest": {
+        "P": -0.3513626184090312,
+        "omegaDot": 100.93590930694405
+       }
+      }
+     }
+    },
+    {
+     "tag": "C_f1core",
+     "label": "対照: f=1・コア v2 あり(massFrac が 0.01 へ切り上がる)",
+     "f": 1,
+     "kFrame": 1,
+     "keepCore": true,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 26426131,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.8714150244586079,
+       "rMaxOverR0": 14.511631139149051,
+       "rMinOverR0": 0.9970945571696513,
+       "mHeld": [
+        2552.836181640625,
+        2481.64794921875
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 52028.80000000028,
+       "errors": null,
+       "P": 222535.83529590885,
+       "omegaDot": 0.7307493432324618,
+       "seOmegaDot": 0.004367217715363571
+      }
+     ],
+     "richardson": {
+      "P": {
+       "ext": null
+      },
+      "omegaDot": {
+       "ext": null
+      },
+      "note": "3 段が揃っていない(対照列)"
+     },
+     "verdict": {
+      "adopted": {
+       "onExtrapolated": {
+        "verdict": "undecidable",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": null,
+         "inside": null,
+         "why": "量が測れていない"
+        },
+        "omegaDot": {
+         "nSigma": null,
+         "inside": null,
+         "why": "量が測れていない"
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 249715820.1850797,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": -62653.25164191885,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": null,
+        "omegaDot": null
+       },
+       "residPctFinest": {
+        "P": 3181.5779854494986,
+        "omegaDot": -97.1667651728635
+       }
+      },
+      "solution": {
+       "onExtrapolated": {
+        "verdict": "undecidable",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": null,
+         "inside": null,
+         "why": "量が測れていない"
+        },
+        "omegaDot": {
+         "nSigma": null,
+         "inside": null,
+         "why": "量が測れていない"
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 124857909315.53984,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": -62653.25164191885,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": null,
+        "omegaDot": null
+       },
+       "residPctFinest": {
+        "P": 3181.5773357236067,
+        "omegaDot": -97.1667651728635
+       }
+      }
+     }
+    }
+   ],
+   "coreControl": {
+    "dt": 0.016,
+    "P_A": 222535.83529578595,
+    "P_C": 222535.83529590885,
+    "dP": 1.2290547601878643e-7,
+    "dPrel": 5.522952105912527e-13,
+    "W_A": 0.7307493431969716,
+    "W_C": 0.7307493432324618,
+    "dW": 3.549016636128499e-11,
+    "note": "f=1 でコア v2 を残すと massFrac=(f−1)/f=0 が実行値域 0.01 へ切り上がる。**その差をここに数で残す**。"
+   }
+  },
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "label": "B1534+12",
+   "unitSec": 10,
+   "ledger": {
+    "ratios": [
+     1.9994854557873434,
+     1.9994854557873432
+    ],
+    "f": 1.9994854557873434,
+    "spread": 2.220446049250313e-16,
+    "declaredFactor": 1.9994854557873434,
+    "law": "inertia-law-lin-v1",
+    "kFrame": 1,
+    "geoPN": 2,
+    "sampleClass": "calibration"
+   },
+   "obs": {
+    "adopted": {
+     "P": 36351.702644140794,
+     "sP": 8.64e-7,
+     "W": 1.755789,
+     "sW": 0.000009,
+     "e": 0.2736775
+    },
+    "solution": {
+     "P": 36351.7026233184,
+     "sP": 1.728e-7,
+     "W": 1.755795,
+     "sW": null,
+     "e": 0.2736774
+    }
+   },
+   "declaration": {
+    "systemKind": "ns-binary",
+    "id": "psrB1534DFM",
+    "sampleClass": "calibration",
+    "calibrationClass": "calibration",
+    "window": {
+     "nPeriastron": 20,
+     "phaseGate": "1.5π",
+     "why": "第252便b 以来の宣言(段をまたいで同じ)"
+    },
+    "extractor": {
+     "name": "radial-crossing/orbit-phase-1.5pi-v1",
+     "quantity": [
+      "periastron-interval-P",
+      "periastron-azimuth-slope-omegaDot"
+     ],
+     "definition": "最初の 20 近点(19 区間)の平均間隔・方位の実時刻回帰"
+    },
+    "observationVersion": {
+     "adopted": "CSV の最初の行",
+     "solution": "Fonseca2014-DDGR"
+    },
+    "quantities": [
+     "orbital_period",
+     "periastron_advance"
+    ],
+    "gateConnected": true,
+    "sameWindowAsNS": false,
+    "evidence": [],
+    "note": "窓・抽出器・観測版は系種ごとに違う。**NS と揃えたとは書かない**(裁定 (B))。"
+   },
+   "conditions": [
+    {
+     "tag": "A_f1",
+     "label": "f=1(観測質量そのもの)・kFrame=1・コア v2 なし",
+     "f": 1,
+     "kFrame": 1,
+     "keepCore": false,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 21393335,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.4494796728627078,
+       "rMaxOverR0": 2.631046001043373,
+       "rMinOverR0": 0.9992856970163638,
+       "mHeld": [
+        2650.67041015625,
+        2675.52685546875
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 36474.60000000009,
+       "errors": null,
+       "P": 180154.38859409103,
+       "omegaDot": 1.1115700122758239,
+       "seOmegaDot": 0.0003405145087618409
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 42807114,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.44934489327010374,
+       "rMaxOverR0": 2.631097662926419,
+       "rMinOverR0": 0.9996429222078341,
+       "mHeld": [
+        2650.67041015625,
+        2675.52685546875
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 73395.20000000019,
+       "errors": null,
+       "P": 180240.47823706252,
+       "omegaDot": 1.1123941301796925,
+       "seOmegaDot": 0.00017017122714167534
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 85634679,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.44927753694443295,
+       "rMaxOverR0": 2.631123493987279,
+       "rMinOverR0": 0.9998214795125201,
+       "mHeld": [
+        2650.67041015625,
+        2675.52685546875
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 151359.8999999999,
+       "errors": null,
+       "P": 180283.533505393,
+       "omegaDot": 1.1128076723682923,
+       "seOmegaDot": 0.00008506414523689274
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9996499048680926,
+       "ext": 180326.60967755705,
+       "monotone": true,
+       "d1": -86.08964297149214,
+       "d2": -43.055268330470426,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 0.9948162366088988,
+       "ext": 1.1132242024634538,
+       "monotone": true,
+       "d1": -0.0008241179038686042,
+       "d2": -0.0004135421885997914,
+       "note": null
+      },
+      "e": {
+       "p": 1.0007167243700943,
+       "ext": 0.4492102474935619,
+       "monotone": true,
+       "d1": 0.0001347795926040507,
+       "d2": 0.00006735632567078653,
+       "note": null
+      }
+     },
+     "verdict": {
+      "adopted": {
+       "onExtrapolated": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 166637623881.26883,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": -71396.0886151718,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 166587767200.52338,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": -71442.36973685642,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": 396.06097255700973,
+        "omegaDot": -36.59692580011301
+       },
+       "residPctFinest": {
+        "P": 395.9424741950878,
+        "omegaDot": -36.62064904334791
+       }
+      },
+      "solution": {
+       "onExtrapolated": {
+        "verdict": "undecidable",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 833188119526.844,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": null,
+         "inside": null,
+         "why": "σ が無い"
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "undecidable",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 832938836123.1168,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": null,
+         "inside": null,
+         "why": "σ が無い"
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": 396.0609728411554,
+        "omegaDot": -36.59714246461268
+       },
+       "residPctFinest": {
+        "P": 395.9424744791655,
+        "omegaDot": -36.62086562677919
+       }
+      }
+     }
+    },
+    {
+     "tag": "B_ledger",
+     "label": "現行台帳 f・kFrame=1・族A(コア v2 あり)",
+     "f": 1.9994854557873434,
+     "kFrame": 1,
+     "keepCore": true,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 4414258,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.27545031744461834,
+       "rMaxOverR0": 0.9999999993943304,
+       "rMinOverR0": 0.5680736224741304,
+       "mHeld": [
+        5299.97705078125,
+        5349.6767578125
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 8681.5,
+       "errors": null,
+       "P": 36216.52357279872,
+       "omegaDot": 3.575964103961328,
+       "seOmegaDot": 0.0011069453320120383
+      },
+      {
+       "div": 2,
+       "dt": 0.008,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 8842686,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.27470858041017576,
+       "rMaxOverR0": 0.9999999998485826,
+       "rMinOverR0": 0.5689860652280369,
+       "mHeld": [
+        5299.97705078125,
+        5349.6767578125
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 17531.299999999814,
+       "errors": null,
+       "P": 36276.168955904745,
+       "omegaDot": 3.5660297220888233,
+       "seOmegaDot": 0.0005509621513713781
+      },
+      {
+       "div": 4,
+       "dt": 0.004,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 17699545,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.27433844598595986,
+       "rMaxOverR0": 0.9999999999621455,
+       "rMinOverR0": 0.5694417807705109,
+       "mHeld": [
+        5299.97705078125,
+        5349.6767578125
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 35443.10000000009,
+       "errors": null,
+       "P": 36306.001766365924,
+       "omegaDot": 3.561282305434385,
+       "seOmegaDot": 0.0002748897264098801
+      }
+     ],
+     "richardson": {
+      "P": {
+       "p": 0.9995105732656265,
+       "ext": 36335.85482838157,
+       "monotone": true,
+       "d1": -59.64538310602802,
+       "d2": -29.83281046117918,
+       "note": null
+      },
+      "omegaDot": {
+       "p": 1.065287531623993,
+       "ext": 3.556937189563483,
+       "monotone": true,
+       "d1": 0.009934381872504616,
+       "d2": 0.004747416654438119,
+       "note": null
+      },
+      "e": {
+       "p": 1.0028584844287793,
+       "ext": 0.2739697739470146,
+       "monotone": true,
+       "d1": 0.00074173703444258,
+       "d2": 0.0003701344242159066,
+       "note": null
+      }
+     },
+     "verdict": {
+      "adopted": {
+       "onExtrapolated": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": -18342379.350955255,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": 200127.57661816478,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": -52894534.461655796,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": 200610.36727048724,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": -0.04359580048936087,
+        "omegaDot": 102.5834077764175
+       },
+       "residPctFinest": {
+        "P": -0.1257186718934518,
+        "omegaDot": 102.83088146892281
+       }
+      },
+      "solution": {
+       "onExtrapolated": {
+        "verdict": "undecidable",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": -91711776.25481269,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": null,
+         "inside": null,
+         "why": "σ が無い"
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "undecidable",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": -264472551.80831537,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": null,
+         "inside": null,
+         "why": "σ が無い"
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": -0.043595743233951864,
+        "omegaDot": 102.582715497167
+       },
+       "residPctFinest": {
+        "P": -0.12571861468508308,
+        "omegaDot": 102.83018834399147
+       }
+      }
+     }
+    },
+    {
+     "tag": "C_f1core",
+     "label": "対照: f=1・コア v2 あり(massFrac が 0.01 へ切り上がる)",
+     "f": 1,
+     "kFrame": 1,
+     "keepCore": true,
+     "stages": [
+      {
+       "div": 1,
+       "dt": 0.016,
+       "ok": true,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 21393335,
+       "unwrapFailed": false,
+       "clamp": 0,
+       "e": 0.44947967286293544,
+       "rMaxOverR0": 2.6310460010433485,
+       "rMinOverR0": 0.9992856970157845,
+       "mHeld": [
+        2650.67041015625,
+        2675.52685546875
+       ],
+       "kFrame": 1,
+       "geoPN": 2,
+       "sampleClass": "principle",
+       "hasMassCal": false,
+       "elapsedMs": 41621.30000000028,
+       "errors": null,
+       "P": 180154.38859410567,
+       "omegaDot": 1.111570012395938,
+       "seOmegaDot": 0.00034051451129844633
+      }
+     ],
+     "richardson": {
+      "P": {
+       "ext": null
+      },
+      "omegaDot": {
+       "ext": null
+      },
+      "note": "3 段が揃っていない(対照列)"
+     },
+     "verdict": {
+      "adopted": {
+       "onExtrapolated": {
+        "verdict": "undecidable",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": null,
+         "inside": null,
+         "why": "量が測れていない"
+        },
+        "omegaDot": {
+         "nSigma": null,
+         "inside": null,
+         "why": "量が測れていない"
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "correction-required",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 166438293923.57043,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": -71579.88751156245,
+         "inside": false,
+         "why": null
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": null,
+        "omegaDot": null
+       },
+       "residPctFinest": {
+        "P": 395.5872090991125,
+        "omegaDot": -36.691139288608255
+       }
+      },
+      "solution": {
+       "onExtrapolated": {
+        "verdict": "undecidable",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": null,
+         "inside": null,
+         "why": "量が測れていない"
+        },
+        "omegaDot": {
+         "nSigma": null,
+         "inside": null,
+         "why": "量が測れていない"
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "onFinestStage": {
+        "verdict": "undecidable",
+        "nSigmaGate": 3,
+        "P": {
+         "nSigma": 832191469738.352,
+         "inside": false,
+         "why": null
+        },
+        "omegaDot": {
+         "nSigma": null,
+         "inside": null,
+         "why": "σ が無い"
+        },
+        "note": "verdict=\"correction-required\" は「観測質量に対する補正が要る系」という**判定**であって、**観測質量が誤っていることの確定ではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。"
+       },
+       "residPctExtrapolated": {
+        "P": null,
+        "omegaDot": null
+       },
+       "residPctFinest": {
+        "P": 395.58720938298677,
+        "omegaDot": -36.69135563115637
+       }
+      }
+     }
+    }
+   ],
+   "coreControl": {
+    "dt": 0.016,
+    "P_A": 180154.38859409103,
+    "P_C": 180154.38859410567,
+    "dP": 1.4639226719737053e-8,
+    "dPrel": 8.125934002485473e-14,
+    "W_A": 1.1115700122758239,
+    "W_C": 1.111570012395938,
+    "dW": 1.2011414085577599e-10,
+    "note": "f=1 でコア v2 を残すと massFrac=(f−1)/f=0 が実行値域 0.01 へ切り上がる。**その差をここに数で残す**。"
+   }
+  }
+ ],
+ "pageErrors": []
+}

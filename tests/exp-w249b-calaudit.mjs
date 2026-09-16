@@ -29,6 +29,8 @@
 //   1 公転が予算に収まらない対象は接触要素だけを出し、`method:"osculating"` と記録する。
 //
 // 実行: node tests/exp-w249b-calaudit.mjs [--fast] [--only id1,id2] [--budget 80] [--dt3] [--merge]
+//       [--dt3-registry]  … 第265便a(Z14): 3 段の**恒久登録表**の系だけを --dt3 で回す。
+//                            **--merge と併用する**(単独だと登録外の系が出力から落ちる)。
 //       --budget … 1 段あたりの**計算時間**の予算(秒・既定 80 — 第257便d で 30 から上げた)。
 //                  重いサンプルは ×3。精度条件ではない(窓が埋まらなければ「未測定」のまま)。
 //       --fast   … dt/2 段を全部省く
@@ -69,8 +71,11 @@ const MERGE = argv.includes('--merge');   // --only で一部だけ回して既�
 // 動くのは q.obsSigmaCsv / q.sigmaSource / q.gate と、そこから作る集計だけである
 // (--merge と違って走行の差し替えが無いので、dt3 の段・観測次数・過去の走行はそのまま残る)。
 const REGATE = argv.includes('--regate');
-const ONLY = (() => { const i = argv.indexOf('--only'); return (i >= 0 && argv[i + 1]) ? argv[i + 1].split(',') : null; })();
-const DT3 = argv.includes('--dt3');       // 第255便d(N8): dt/4 段を足して 3 段+観測次数を出す
+let ONLY = (() => { const i = argv.indexOf('--only'); return (i >= 0 && argv[i + 1]) ? argv[i + 1].split(',') : null; })();
+let DT3 = argv.includes('--dt3');         // 第255便d(N8): dt/4 段を足して 3 段+観測次数を出す
+// 第265便a(裁定 Z14): **--dt3-registry** —— 下の `THREE_STAGE_REGISTRY` に登録した系だけを 3 段で回す。
+// 「どれが 3 段対象だったか」を次の便が探し直さないための近道である(--only を手で並べるのと同値)。
+const DT3_REGISTRY = argv.includes('--dt3-registry');
 // 第258便d(第50報 W4): **h8 検査点**。--dt8 id1,id2 で指定した系にだけ dt/8=0.002 の 4 段目を足す。
 // 目的は 2 つ: (a) 3 段で出した観測次数 p_obs が h をもう 1 段細かくしても同じか(漸近域に居るか)、
 // (b) |Q_h−Q_{h/4}|/(1−4^−p) という**推定誤差**が、実際に測った |Q_{h/2}−Q_{h/8}| と整合するか。
@@ -149,6 +154,34 @@ const CFG = {
   saturnRingReal:     { c: 0, o: [[4, 'ミマス'], [9, 'タイタン']], ringInner: 'C環内縁' },
   saturnRingRealKF1:  { c: 0, o: [[4, 'ミマス'], [9, 'タイタン']], ringInner: 'C環内縁' },
 };
+
+// ---------------------------------------------------------------- 第265便a(第57報 W1・裁定 Z14)
+// **3 段(dt/4)の恒久登録表**。`--dt3` を付けた走行で 3 段を走らせる対象として**宣言列挙**する
+// (自動判定はしない —— 対象は宣言である)。`since` は登録した便で、**登録は合格の宣言ではない**。
+// 走行のたびに out.threeStageRegistry が「3 段で走ったか・σ の宛先が立ったか・3σ を通ったか」を数える。
+const THREE_STAGE_REGISTRY = [
+  { id: 'psrDoubleABDFM', since: '第255便d', why: 'NS 4 系(第47報 N8)' },
+  { id: 'psrJ1757DFM', since: '第255便d', why: 'NS 4 系(第47報 N8)' },
+  { id: 'psrJ1946DFM', since: '第255便d', why: 'NS 4 系(第47報 N8)' },
+  { id: 'psrB1534DFM', since: '第255便d', why: 'NS 4 系(第47報 N8)' },
+  { id: 'alphaCenAB', since: '第256便d', why: '恒星 4 系(第48報)' },
+  { id: 'alphaCenABDFM', since: '第256便d', why: '恒星 4 系(第48報)' },
+  { id: 'siriusAB', since: '第256便d', why: '恒星 4 系(第48報)' },
+  { id: 'siriusABDFM', since: '第256便d', why: '恒星 4 系(第48報)' },
+  { id: 'psrDoubleAB', since: '第256便d', why: '📻 観測版(第48報)' },
+  // 第264便a(X14)で σ の宛先を足して 3 段を走らせた 5 本。**本便で恒久登録する**(裁定 Z14)。
+  { id: 'psrDoubleABCF', since: '第265便a(Z14)', why: 'X14 の 5 本(第264便a で σ 宛先を接続)' },
+  { id: 'psrJ1757CF', since: '第265便a(Z14)', why: 'X14 の 5 本(第264便a で σ 宛先を接続)' },
+  { id: 'psrJ1946CF', since: '第265便a(Z14)', why: 'X14 の 5 本(第264便a で σ 宛先を接続)' },
+  { id: 'psrB1534', since: '第265便a(Z14)', why: 'X14 の 5 本(第264便a で σ 宛先を接続)' },
+  { id: 'psrB1534CF', since: '第265便a(Z14)', why: 'X14 の 5 本(第264便a で σ 宛先を接続)' },
+];
+const THREE_STAGE_IDS = new Set(THREE_STAGE_REGISTRY.map((z) => z.id));
+if (DT3_REGISTRY) {
+  DT3 = true;
+  ONLY = ONLY ? ONLY.filter((z) => THREE_STAGE_IDS.has(z)) : Array.from(THREE_STAGE_IDS);
+  console.error('[w265a] --dt3-registry: 登録表の ' + ONLY.length + ' 本を 3 段で回す(--merge の併用を推奨)');
+}
 
 // 理論対照(観測較正ではない — preset 側の referenceKind 宣言と同じ集合)
 const THEORY_CONTROL = ['qLockRadialAudit', 'qLockRadialAuditQ3', 'emAuditNewton'];
@@ -2046,9 +2079,49 @@ out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
     note: 'docs/CALIBRATION_VERDICT_v1.44.md はこの欄の転記である(QA docs.calibration-verdict-sync が照合する)。' };
 }
 
+// (e) 第265便a(第57報 W1・裁定 Z14): **3 段(dt/4)の恒久登録表**の点検
+//   第264便a は 🪝🪄🩹📿🪤 の 5 本について「対応表に宛先があるのに σ が繋がっていない」を解き、
+//   **その場限りの `--only … --dt3 --merge`** で 3 段を走らせた。恒久化しないと、次の便で
+//   「どれが 3 段対象だったか」が失われる。本便は **登録表 `THREE_STAGE_REGISTRY` を器に置き**、
+//   走行のたびに「登録した系が 3 段で走っているか・σ の宛先が立っているか」を機械で数える。
+//   **登録は「3 段で走らせる対象である」という宣言であって、合格の宣言ではない。**
+//   登録しただけでは σ も 3σ も 1 件も動かない(下の census がそれを数で示す)。
+{
+  const reg = THREE_STAGE_REGISTRY;
+  const rows = reg.map((z) => {
+    const r = merged.find((m) => m.id === z.id) || null;
+    const qs = r ? (r.quantities || []) : [];
+    const withSig = qs.filter((q) => q.gate && Number.isFinite(q.gate.sigma) && q.gate.sigma > 0);
+    const fromCsv = qs.filter((q) => q.gate && q.gate.sigmaFrom === 'csv');
+    const ok = qs.filter((q) => q.gate && q.gate.status === GATE.OK);
+    return { id: z.id, emoji: r ? r.emoji : null, registeredBy: z.since, why: z.why,
+      present: !!r,
+      hasQuarter: !!(r && r.run && r.run.dtQuarter),
+      hasHalf: !!(r && r.run && r.run.dtHalf),
+      nQuantities: qs.length, withSigma: withSig.length, sigmaFromCsv: fromCsv.length,
+      pass3Sigma: ok.length,
+      sigmaTargets: qs.filter((q) => q.sigmaSource)
+        .map((q) => ({ target: q.target, kind: q.kind, quantity: q.sigmaSource.quantity,
+          primaryVerified: q.sigmaSource.primaryVerified === true })),
+      verdict4: (out.verdictLedger.rows.find((v) => v.id === z.id) || {}).verdict4 || null,
+      tally: r ? r.tally : null };
+  });
+  out.threeStageRegistry = { n: rows.length, rows,
+    registeredThisWave: reg.filter((z) => z.since.indexOf('第265便a') === 0).map((z) => z.id),
+    quarterRun: rows.filter((z) => z.hasQuarter).length,
+    sigmaFromCsvTotal: rows.reduce((a, z) => a + z.sigmaFromCsv, 0),
+    pass3SigmaTotal: rows.reduce((a, z) => a + z.pass3Sigma, 0),
+    rule: '**登録表は「3 段(dt/4)で走らせる対象である」という宣言**である。'
+      + '登録しても σ は 1 件も増えず、3σ も 1 件も動かない —— `pass3SigmaTotal` がそれを数える。',
+    note: '**新しく繋がった量が 3σ を通らないことを隠さない**(第264便a の 11 件は 0 件のままである)。' };
+}
+
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
 console.error(`[w249b] wrote ${OUT}`);
+console.error('[w265a] 3 段登録表 ' + out.threeStageRegistry.n + ' 本(3 段済み '
+  + out.threeStageRegistry.quarterRun + ' / σ 宛先 ' + out.threeStageRegistry.sigmaFromCsvTotal
+  + ' / 3σ ' + out.threeStageRegistry.pass3SigmaTotal + ')');
 console.error('[w249b] 判定集計 ' + JSON.stringify(out.summary.tally));
 console.error('[w258d] 条件不一致 ' + out.conditionMismatch.n + ' 行 / 証拠付き予測 '
   + out.summary.stages['④予測(証拠付き)'] + ' 件(従属量でない③ は '

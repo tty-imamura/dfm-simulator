@@ -238,6 +238,72 @@ kFrame=0 の走行そのものは行われていなかった。
 「模型の残差が、観測表どうしの食い違いと同じ程度である」としか言えない。
 **`spread` を σ として判定してはならない**(4 値は 1 bit も動いていない)。
 
+#### 2.3⁗ 判定に使う出典の宣言(太陽系・**Z10**・第265便d・器 `tests/exp-w265d-srcdecl.mjs`)
+
+第264便d が数えた**食い違い 30 組**について、**どの行を「正(judgement source)」とし、どれを
+「候補」とするか**を宣言する。**値は 1 つも動かしていない**(宣言は帳簿の**別の層**である)。
+
+**宣言の規則(先に書いて、例外を作らない)**
+
+① **正** = 一次資料の解(査読論文の表・IERS/JPL の解の表)で、**宣言した量の定義**
+(慣性系・sidereal・ϖ̇)と合うもの。
+② **候補** = ファクトシート(NSSDC 等の丸めた compilation・1σ 非公表)・Wikipedia・
+同じ一次資料の別版・**定義が違う行**(equinox-of-date の ϖ̇ 等)・値が空の記録行。
+③ 統括が名指しした 2 件(Z10)は①と同じ向きである: **カロン P は Buie et al. 2012 を正**
+(2006 と NSSDC は候補)・**地球 P は IERS を正**(NSSDC は候補)。
+
+| 天体 | 量 | 正(judgement source) | 正の値 | 1σ | 候補 | 現行の器の行と一致 |
+|---|---|---|---:|---:|---|---|
+| Moon | orbital_period | JPL SSD Planetary Satellite Mean Elements | 2360620.8 | — | NASA NSSDC Moon Fact Sheet 2360594.88 / IERS Conventions Delaunay  2360591.559 | 一致 |
+| Moon | eccentricity | JPL SSD Planetary Satellite Mean Elements | 0.0554 | — | NASA NSSDC Moon Fact Sheet 0.0549 | 一致 |
+| Mercury | orbital_period | JPL SSD Approximate Positions of the Planets | 7600543.72 | — | NASA NSSDC Mercury Fact Sh 7600521.6 | **不一致** |
+| Mercury | eccentricity | JPL SSD Approximate Positions of the Planets | 0.20563593 | — | NASA NSSDC Mercury Fact Sh 0.20563069 | 一致 |
+| Mercury | periastron_advance | Park R.S. Folkner W.M. | 0.00159808333333333 | 0.000000004167 | JPL SSD Approximate Positi 0.0016047689 | 一致 |
+| Venus | eccentricity | JPL SSD Approximate Positions of the Planets | 0.00677672 | — | NASA NSSDC Venus Fact Shee 0.0068 / NASA NSSDC Planetary Fact  0.007 / dfm-simulator solarInner d 0.007 | **不一致** |
+| Earth | orbital_period | IERS useful constants | 31558149.7635456 | — | NASA NSSDCA, Earth Fact Sh 31558118.4 | 一致 |
+| Earth | eccentricity | JPL SSD Approximate Positions of the Planets | 0.01671123 | — | NASA NSSDCA, Earth Fact Sh 0.01671022 | 一致 |
+| Mars | orbital_period | JPL SSD Approximate Positions of the Planets | 59354294.4 | — | NASA NSSDC Mars Fact Sheet 59355072.0 | **不一致** |
+| Mars | eccentricity | JPL SSD Approximate Positions of the Planets | 0.09339410 | — | NASA NSSDCA, Mars Fact She 0.09341233 | 一致 |
+| Saturn ring C inner edge | radius | French et al. 2025 | 74490 | — | NASA NSSDC Saturnian Rings 74658 | **不一致** |
+| Saturn ring feature D68 | orbital_period | Hedman M.M. Burt J.A. | 17757.4789 | — | Hedman et al. 2014, Icarus(空) | 一致 |
+| Phobos | orbital_period | Jacobson R.A. 2010 AJ 139 668 Table 6 | 27553.843872 | — | NASA NSSDC Mars Fact Sheet 27553.824 / NASA NSSDCA, Mars Fact She 27553.824 / Wikipedia 27553.843872 | **不一致** |
+| Phobos | periastron_advance | Jacobson R.A. 2010 AJ 139 668 Table 6 | 158.9568 | — | JPL Solar System Dynamics,(空) | 一致 |
+| Deimos | orbital_period | Jacobson R.A. 2010 AJ 139 668 Table 6 | 109092.79 | — | NASA NSSDC Mars Fact Sheet 109074.816 / NASA NSSDCA, Mars Fact She 109114.816 / user-held value 1.263 d 109123.2 / Wikipedia 109123.2 | **不一致** |
+| Deimos | eccentricity | Jacobson R.A. 2010 AJ 139 668 Table 6 | 0.00024 | — | NASA NSSDC Mars Fact Sheet 0.0005 / NASA NSSDCA, Mars Fact She 0.0005 / user-held value; Jacobson 0.00033 / Wikipedia 0.00033 | **不一致** |
+| Deimos | periastron_advance | Jacobson R.A. 2010 AJ 139 668 Table 6 | 6.537975 | — | JPL Solar System Dynamics,(空) | 一致 |
+| Charon | orbital_period | Buie M.W. Tholen D.J. Grundy W.M. 2012 | 551856.43872 | 0.02592 | Buie et al. 2006 551856.70656 / NASA NSSDC Pluto Fact Shee 551854.08 | **不一致** |
+| Miranda | eccentricity | Jacobson R.A. 2014 AJ 148 76 Table 2 | 0.00135 | — | NASA NSSDC Uranian Satelli 0.0013 | **不一致** |
+| Miranda | periastron_advance | Jacobson R.A. 2014 AJ 148 76 Table 2 | 20.0409 | — | JPL Solar System Dynamics,(空) | 一致 |
+| Ariel | eccentricity | Jacobson R.A. 2014 AJ 148 76 Table 2 | 0.00122 | — | NASA NSSDC Uranian Satelli 0.0012 | **不一致** |
+| Ariel | periastron_advance | Jacobson R.A. 2014 AJ 148 76 Table 2 | 6.2308 | — | JPL Solar System Dynamics,(空) | 一致 |
+| Umbriel | eccentricity | Jacobson R.A. 2014 AJ 148 76 Table 2 | 0.00394 | — | NASA NSSDC Uranian Satelli 0.0039 | **不一致** |
+| Umbriel | periastron_advance | Jacobson R.A. 2014 AJ 148 76 Table 2 | 2.8428 | — | JPL Solar System Dynamics,(空) | 一致 |
+| Titania | eccentricity | Jacobson R.A. 2014 AJ 148 76 Table 2 | 0.00123 | — | NASA NSSDC Uranian Satelli 0.0011 | **不一致** |
+| Titania | periastron_advance | Jacobson R.A. 2014 AJ 148 76 Table 2 | 0.9993 | — | JPL Solar System Dynamics,(空) | 一致 |
+| Oberon | periastron_advance | Jacobson R.A. 2014 AJ 148 76 Table 2 | 0.2680 | — | JPL Solar System Dynamics,(空) | 一致 |
+| Triton | orbital_period | JPL SSD Planetary Satellite Mean Elements | 507772.2816 | — | NASA NSSDC Neptunian Satel 507760.1856 / user-held value 5.876854 d 507760.1856 | **不一致** |
+| Triton | eccentricity | Jacobson R.A. 2009 AJ 137 4322 Table 6 | 0.00001 | — | NASA NSSDC Neptunian Satel 0.000016 / user-held value; Jacobson  0.000016 | **不一致** |
+| Triton | periastron_advance | Jacobson R.A. 2009 AJ 137 4322 Table 6 | 0.4081 | — | JPL Solar System Dynamics,(空) | 一致 |
+
+**この表の読み方(重要)**
+
+- **判定(4 値)は 1 本も動いていない。** 宣言しただけであり、σ は依然 `sigma_primary=unverified` である。
+- **現行の器は行選択を差し替えていない。** `tests/exp-w249b-calaudit.mjs` は
+  **ファイル順の最初の `body|quantity` 行**を採る(`_candidate` は別の鍵なので採られない)。
+  その結果、**宣言した「正」と現行の器が採る行が食い違うのは 30 組中 14 組**である
+  (水星 P・金星 e・火星 P・土星 C 環内縁・フォボス P・ダイモス P/e・カロン P・
+  ミランダ e・アリエル e・ウンブリエル e・ティタニア e・トリトン P/e)。
+  **差し替えは判定を動かす**ので、本便ではしない(統括の裁定を待つ)。
+- 目立つ 3 つ: **フォボス・ダイモスの判定行は Wikipedia 由来**である(値はフォボスでは
+  Jacobson 2010 と一致するが、ダイモスでは P も e も**正と違う**)。**金星 e の判定行は
+  シミュレータ自身の宣言値 0.007** であって観測行ではない。**カロン P の判定行は NSSDC の
+  6.3872 d** で、Z10 が正とした Buie 2012 の 6.3872273 d ではない。
+- **正が一次資料の 1σ を持つのは 30 組中 2 組だけ**(水星 ϖ̇ の Park 2017・カロン P の Buie 2012)。
+  残り 28 組は**σ が無い**ので、宣言しても門へは 1 bit も入らない。
+
+**書かないこと**: 「出典を宣言したので判定が増えた」「太陽系の σ が揃った」
+「宣言した正の値で残差が小さくなった」(**残差はこの宣言では 1 つも計算していない**)。
+
 ### 2.4 ブラックホール以降(3 本 — トイ)
 
 | ID | 絵文字 | 版 | 判定 | 門(合/否/数/写/条/σ) | 代表残差 | 足りない要素 | 対策 | 分類変更の提案 |
@@ -1232,6 +1298,46 @@ verified_by=<確認者> <YYYY-MM-DD>; verified_at=<URL の表/列>; verified_val
 **動かなかった**: 門の内訳(2/2/17/12/8/273)・4 値(0/2/2/33)・太陽系 16 本の保留・
 `verified` の行数(**1 行も増えていない**)・プリセット・署名・力学。
 
+### 5.10 第265便d: 観測レコードの**小修正**(Z11 の外部確認印・月の一般歳差の換算丸めの訂正・Z13 夜間ジョブ)
+
+**4 値は 1 本も動いていない**(保留 16 のまま)。動いたのは**印の欄**と**転写の丸め**だけである。
+
+| # | 対象 | 何をしたか | 印 | 判定への影響 |
+|---|---|---|---|---:|
+| (i) | `Charon\|orbital_period_candidate` 551856.70656 s(Buie et al. 2006) | note に **`value_checked_by=external review 2026-09-16; value_checked_at=arXiv astro-ph/0512491v2 Table 3 Period Charon and section 3 1-sigma DeltaChi2=1; value_checked_value=6.3872304(11) d; conversion=86400 s/d`** を足した。**値・σ は 1 文字も動かしていない** | `sigma_primary=unverified` **のまま** | **0**(候補行であり門に入らない) |
+| (ii) | `Moon\|general_precession` | **値 0.013969 → 0.0139688666666667**・**σ 0.000000005556 → 0.00000000555555555555556**。これは**転写者側の換算の丸めの訂正**である(5028.792″/cy ÷3600 ÷100 の厳密値。旧値の不足 1.333×10⁻⁷ °/yr は**記載 1σ 5.556×10⁻⁹ の 24 倍**)。note に `corrected=2026-09-16 rounding` と外部確認印を足した | `sigma_primary=unverified` **のまま** | **0**(この行は判定の宛先ではない) |
+| (iii) | 同上の注記 | この一般歳差は **IERS MHB2000 の値**であり、派生行の換算に使った **IAU 2006 の 5028.796195″/cy とは別モデル**である旨を note に明記した。**派生行を機械的に置換しない** | — | **0** |
+| (iv) | `tests/lib-w264d-sigmamark.mjs` | **`readValueChecked`** を足した。**外部確認印は `sigma_primary` を 1 bit も上げない**・`verified_by=`(X7)の語境界つき読みは `value_checked_by=` を拾わない。QA `lint.sigmaMark` ⑥ が機械固定する | — | **0** |
+
+**(i)(ii) の位置づけ(Z11)**: 外部確認印は「一次資料の表・列と桁を**外から照合した**」という記録である。
+**原仮定者が確認して `verified_by=` を書くまで `verified` にはならない**(X7 の規約と同じ)。
+`value_checked_by` を `verified_by` と読む実装は**無い**ことを QA が固定した ——
+読み違えると門の σ の出所が黙って増える。
+
+**実装上の落とし穴(本便で踏んで直した)**: note に説明として `sigma_primary=` + `verified` という
+**語そのもの**を書くと、`readSigmaMark` の「凡例でない最初の出現」規則がそれを**行の印**として拾う
+(〔第264便d〕X6 が直した凡例の穴と同じ形が、別の書き方で再発する)。
+**note には印の語をそのまま書かない**。本便では該当 2 行を書き直し、実測で `unverified` に戻したうえで
+QA ⑥ に固定した。
+
+#### 5.10.1 Z13: 夜間ジョブ(`.github/workflows/nightly.yml`)の運用観測
+
+**この worktree から確認できることだけを書く**(実行結果は GitHub 上にしか無い)。
+
+| 観測できたこと | 値 |
+|---|---|
+| `nightly.yml` が main に入ったコミット | **3042e17**(第264便・PR #266・commit 日時 2026-09-16T07:20:54+09:00 = 2026-09-15T22:20:54Z) |
+| その後の変更 | **0 件**(履歴に載っているのは 3042e17 の 1 件だけ) |
+| スケジュール | `cron: '0 18 * * *'`(UTC・= 翌 03:00 JST) |
+| 本便の作業時刻(UTC) | 2026-09-16T05:53Z |
+| **経過したスケジュール窓** | **0 回**(次の発火は 2026-09-16T18:00Z —— まだ来ていない) |
+| `workflow_dispatch` の手動実行 | **この worktree からは分からない**(推測で書かない) |
+| `ci.yml` の変更 | **0 件**(夜間ジョブは PR ゲートに入れない取り決めのまま) |
+
+**判定**: 「夜間ジョブが動いた/動かなかった」は**まだ書けない**。スケジュール窓が 1 度も来ていないので、
+実行 0 件は**故障の証拠ではない**。統括が GitHub の Actions 画面で初回実行を確認するまで、
+本書は `informational` のままにする(Z13「nightly は有効のまま遅延を記録」)。
+
 ## 5′. NS 連星の現実較正 —— **完了定義 4 条件と現在の距離**(第260便d)
 
 第52報の指示は「**中性子星連星までの現実較正を終える**」である。
@@ -1261,6 +1367,92 @@ verified_by=<確認者> <YYYY-MM-DD>; verified_at=<URL の表/列>; verified_val
   「優先した」と「終えた」が後で混ざる。
 - **条件 2 の「比 ≈2」を合格条件にしない。** 比が 2 に近いことは**較正質量 f がそのまま 1PN チャネルへ
   入った帰結**であって、独立な予言ではない(〔第256便d〕以来の宣言)。
+
+## 5″. 共同補正プロトコル —— **手順の正本**(第265便a・第57報)
+
+**第57報の原文**: 「『geoPN=2』と『kFrame=1』で成立しない場合は、観測質量に対する補正が必要な状況と判断し、
+**質量補正 f と kFrame を同時に補正する**」。
+
+**これは「kFrame≈0.7 を採る」ではなく、手順である。** 本節はその手順を 4 段で書き下す。
+記帳器は `HP.dfmJointCalProtocol(inp)`(**力へは 1 バイトも接続しない純関数**)で、
+QA `behavior.jointCalProtocol` が代数を機械固定する。器は `tests/exp-w265a-basis.mjs`
+(第 1〜2 段)・`tests/exp-w265a-kjoint2.mjs`(第 3 段)・`tests/lib-w265a-analogy.mjs`(共通部品)。
+
+### 5″.1 4 段
+
+| 段 | やること | 返り値 | やってはいけないこと |
+|---:|---|---|---|
+| **①** | **基準走行**: geoPN=2・**kFrame=1**・**f=1(観測質量そのもの)**で、宣言した窓・抽出器で P と ω̇ を測る。dt を 3 段(h, h/2, h/4)走らせ、**見かけの次数が正のときだけ** Richardson 外挿を作る | 3 段の値・p_obs・外挿値 | **差の符号が反転している量に外挿を書かない**(単調に収束していない) |
+| **②** | **判定**: 外挿値の残差を**観測 σ で割る**。2 量とも 3σ 以内なら `correction-not-required`(補正しない)。どちらかが外れたら `correction-required`。σ が無い/量が測れていないなら `undecidable` | `baseline.verdict` | **σ が無いのに合否を出さない**(0 で埋めない) |
+| **③** | **(k, f) 平面で共同根**: 外れた系だけ、**収束先(外挿値)に対して** P=P_obs かつ ω̇=ω̇_obs を同時に満たす (k\*, f\*) を 2 次元で取る。感度は**無次元化して条件数を保存**する | (k\*, f\*)・`rootCheck`・無次元ヤコビアン・条件数 | **f だけ・k だけの 1 次元で止めない**。**次元付き行列式で識別性を判断しない** |
+| **④** | **記録**: 得た (k\*, f\*) は**その系・その窓・その観測版・その刻みの記録**として台帳/診断 JSON に置く | 系ごとの行 | **他系へ固定転用しない**(第264便a の実測: 0.7/1.7 を写すと 🧮 −14%・🩺 +11%・🧶 は ω̇ が逆行) |
+
+### 5″.2 停止条件は**探索許容であって σ ではない**
+
+共同根の探索は |ΔP| < 10⁻³ s・|Δω̇|/ω̇_obs < 5×10⁻⁴ で止める。**これは根探索の許容であって、観測誤差でも合格条件でもない。**
+したがって `rootCheck` の **`observationalPass` は常に null**(この経路は 3σ の合否を出さない)。
+また **共同 fit は事前予測ではない**ので **`isPrediction` は常に false**(裁定 Z15 —— §6′ に恒久規約)。
+
+```json
+{ "rootCheck": { "converged": false, "status": "fit-search-unresolved",
+  "residualP": 0.011, "residualW": -3.7e-6, "observationalPass": null, "isPrediction": false,
+  "tolerance": { "pTolSec": 1e-3, "wTolRel": 5e-4 } } }
+```
+
+`status` は 3 値である: `fit-search-tolerance-met`(探索許容を満たした)/ `fit-search-unresolved`(根探索が許容に届かない)/
+`measurement-unresolved`(量が測れていない —— 外挿が付かない・走行が未完)。
+
+### 5″.3 **f≠1 は観測質量の誤りの確定ではない**
+
+補正 f が 1 から離れたとき、**「観測質量が誤っている」「未観測の質量がある」と書いてはならない。**
+同じ不一致には**初期条件・力則・数値誤差**も寄与しうる(本便の実測では、刻みを 4 倍細かくするだけで
+近点間 P が ⚡ +59.5 s・🧮 +215 s 動く —— 観測 σ の 10⁸ 倍の桁である)。
+判定 `correction-required` が言っているのは「**この窓・この抽出器・この刻みで、観測質量そのままでは 3σ に入らない**」までである。
+
+### 5″.4 本体プリセットの kFrame は **{0, 1} のまま**
+
+共同根の (k\*, f\*) は**診断 JSON と台帳の列**にだけ置く。**内蔵プリセットの kFrame は二値契約のまま**で、
+QA `preset.kframe-binary01` と `behavior.jointCalProtocol` が機械固定する。
+**連続 k の内蔵化と `preset.kframe-binary01` の改訂は本便では行わない。**
+
+**測っておくべき器の値域(第265便a の実測)**: `CLAMPS.kFrame` は **[0, 1]** である ——
+診断コピーに `kFrame=1.2` を宣言しても `validatePreset` を通ると **1.0** になり、走行は k=1.0 と**ビット同一**である
+(🎻 の周期・Ṗ・🍇 の投影半質量半径・σ が 4 量とも一致)。
+**連続 k の探索は 1 より上へは出られない** —— 第264便a の宣言区間 [0, 1.2] は実効的に [0, 1] だった
+(4 系の根はすべて 1 未満なので、根の値そのものは影響を受けていない。本便の全評価点の最大 k は 0.9570 である)。
+
+### 5″.5 第 1〜2 段の実測(器 `tests/exp-w265a-basis.mjs`・4 系・20 近点・3 刻み)
+
+**判定は 4 系とも `correction-required` である**(条件 A・B のどちらでも)。
+
+| 系 | 条件 | P 外挿 [s] | P 残差 [%] | P 残差 [σ] | ω̇ 外挿 [°/yr] | ω̇ 残差 [%] | ω̇ 残差 [σ] | e(h/4) | 判定 |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---|
+| ⚡ J0737 | **A: f=1** | 190141.96 | +2052.26 | +7.2×10¹¹ | 0.747544 | −95.58 | −1.24×10⁶ | 0.82327 | **correction-required** |
+| ⚡ | B: 台帳 f=1.99994227 | 8834.3239 | −0.00239 | −8.4×10⁵ | 33.86013 | +100.36 | +1.30×10⁶ | 0.08946 | **correction-required** |
+| 🧮 J1757 | **A: f=1** | 34184.08 | +115.57 | +4.2×10⁹ | 2.474612 | −76.13 | −3.9×10⁴ | 0.21259 | **correction-required** |
+| 🧮 | B: 台帳 f=1.99989566 | 15856.635 | −0.00652 | −2.4×10⁵ | 20.71737 | +99.88 | +5.2×10⁴ | 0.60680 | **correction-required** |
+| 🩺 J1946 | **A: f=1** | 226755.11 | +3243.80 | +2.5×10⁸ | 0.737197 | −97.14 | −6.3×10⁴ | 0.87122 | **correction-required** |
+| 🩺 | B: 台帳 f=1.99996553 | 6781.5255 | +0.00234 | +183.8 | 51.47656 | +99.58 | +6.4×10⁴ | 0.06604 | **correction-required** |
+| 🧶 B1534 | **A: f=1** | 180326.61 | +396.06 | +1.7×10¹¹ | 1.113224 | −36.60 | −7.1×10⁴ | 0.44928 | **correction-required** |
+| 🧶 | B: 台帳 f=1.99948546 | 36335.855 | −0.04360 | −1.8×10⁷ | 3.556937 | +102.58 | +2.0×10⁵ | 0.27434 | **correction-required** |
+
+σ は採用レコード(CSV の最初の行)側である。
+**読み方**: 条件 B(現行台帳 f≈2・kFrame=1)では **近点間 P は観測へ 0.05% 以内まで寄る**が
+**ω̇ が観測の約 2 倍**(+99.6〜+102.6%)で外れる —— これは §6 の「比 ≈2」を共同補正の言葉で言い直したものである。
+条件 A(観測質量そのもの)では **P も ω̇ も桁で外れる**。**どちらの条件でも「補正が要る」**であって、
+**どちらかが合格に近い、とは書かない。**
+
+**コア v2 の扱いは判定を変えていない**(対照 C・h のみ): f=1 でコア v2 を残すと `massFrac=(f−1)/f=0` が
+実行値域 `CORE_RUN_CLAMPS.massFrac=[0.01, 0.999]` に当たって 0.01 へ切り上がるが、
+条件 A との差は **P で相対 8×10⁻¹⁴〜5.5×10⁻¹³**(⚡ −9.51×10⁻⁸ s・🧮 −2.74×10⁻⁹ s・🩺 +1.23×10⁻⁷ s・🧶 +1.46×10⁻⁸ s)、
+ω̇ で **10⁻¹⁰ °/yr 台**であった。**コアの扱いで判定は動かない。**
+
+### 5″.6 アナロジー(BH 連星・星団)は **同じ手順・別窓**である
+
+**較正クラスへは上げない**(principle のまま)。**窓・抽出器・観測版を NS と揃えたとは書かない。**
+**共同根は観測 2 量の門が繋がってから**であって、本便は出していない ——
+器が CSV を数えた結果、**σ を持つ行は GW150914 で 0/7 本・47 Tuc で 0/29 本**(星団 CSV には σ 列そのものが無い)。
+測った量と数は §〔第265便a〕にある。
 
 ## 6. 群別の総括
 
@@ -1312,6 +1504,32 @@ covariance, extractor, codeHash, frozenProtocol, recordedAt}` を記録する。
 枠はあり、書式もあり、**中身を入れていない**。中身は**次に測る量から**入れる。
 検証(`validatePredictionEvidence`)を通らない宣言は `invalid` へ回り、**件数には入らない**。
 
+### 6′.1 第265便a(裁定 Z15): **「事前予測式」と呼べる条件**(恒久規約)
+
+**共同 fit は事前予測ではない。** 本規約は、共同補正プロトコル(§5″)で得た (k\*, f\*) や、
+そこから作った関係式を「事前予測式」と呼ぶための条件を**先に**書き下す。
+
+| # | 条件 | 満たしていないとどうなるか |
+|---:|---|---|
+| **1** | **hold-out 系での検定**: 式を作るのに使っていない系で、測る前に宣言してから当てる | fit に使った系での残差の小ささを「予測が当たった」と読んでしまう |
+| **2** | **台帳を通らない独立な f_ind**(f を逆算する型の式に限る): 較正台帳の f は生成則 f=1+k_F·χ_eff から作られているので、台帳の f を入れた式は**恒等式**である | H1 型(k=(f_ind−1)/χ_eff)が循環のまま「式」として通る |
+| **3** | §6′ の 9 欄(dataset / usedForFit:false / validation:"held-out" / units / covariance / extractor / codeHash / frozenProtocol / recordedAt)を**測る前に**記録する | 後付けの hold-out と区別が付かない |
+
+**共同 fit そのものは許容する** —— (k, f) を同時に動かして観測 2 量に合わせることは手順として正しい。
+**ただしその結果を「事前予測」と呼ばない。** `HP.dfmJointCalProtocol` の `rootCheck.isPrediction` は
+**常に false** であって、呼ぶ側が true にする経路は無い。
+独立な f_ind の要求は **f を逆算する H1 型に限る**(H2/H3 のような k を直接与える式には 2 は掛からないが、
+1 と 3 は掛かる)。**記録は現在も 0 件である。**
+`HP.dfmFrameKCandidates` は条件 2 を機械で止める(`fIndSource` の宣言が無い/台帳由来なら `circular:true` で値を返さない)。
+`HP.dfmJointCalProtocol` は条件 1・3 を**止めはしない**(止めるのは記録器の仕事である)が、
+**`isPrediction:false` を固定して「予測と呼ばない」ことだけは機械で守る**。
+`preset.kframe-binary01` は本便でも**改訂していない**(内蔵の kFrame は 0 か 1 のまま)。
+`behavior.jointCalProtocol` がこの 3 点(isPrediction・observationalPass・二値契約)を機械固定する。
+`tests/exp-w249b-calaudit.mjs` の `THREE_STAGE_REGISTRY`(裁定 Z14)は、
+**3 段で走らせる対象の恒久登録表**であって**合格の宣言ではない**(登録しても 3σ は 1 件も動かない ——
+`threeStageRegistry.pass3SigmaTotal` がそれを数える)。
+`tests/exp-w265a-basis.mjs` / `tests/exp-w265a-kjoint2.mjs` / `tests/exp-w265a-analogy.mjs` /
+`tests/lib-w265a-analogy.mjs` が §5″ の 4 段を実行する器である。
 
 ## 7. 書いてよいこと・いけないこと
 
