@@ -1185,11 +1185,29 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     `layerValueOutOfEditRange`)・`migration`(`coreV2MigrationPlan` が ok か)。
     返り値: `{id, nBodies, nCore, counts:{canReplace,cannot}, byAxis, byReason,
     rows:[{index,mode,canReplaceV2,axes,why,deltaQ}]}`。
-    **内蔵 122 本の実測(第264便c)**: コア宣言 **75 件** = 置換可 **27**・不可 **48**
-    (項別の不可: rotationSource 48・KcsThermal 16・activePumpContract 16・tilt 14・
-    saveRestore 14・migration 14)。
+    **内蔵 123 本の実測(第264便c → 第265便d で 🐮 lfbotTrap が 1 件加わった)**:
+    コア宣言 **76 件** = 置換可 **27**・不可 **49**
+    (項別の不可: rotationSource 49・KcsThermal 17・activePumpContract 17・tilt 15・
+    saveRestore 15・migration 15。増えた 1 件は `body.radius` 非宣言による `migrationRejected` である)。
     **`canReplaceV2` が全項 true の本があっても「コア V2 を廃止できる」とは書かない** ——
     この表が測るのは 6 項だけで、描画・保存 JSON・AI 生成・既存セーブの互換はこの表の外である。
+  - **`core.lightTrap`(第265便d・opt-in・既定 off — **SYSTEM_PROMPT には載せていない**)**:
+    減光 `lightSweep` が外へ出さなかった自光を蓄積し、コアの崩壊で放つ**トイ仮説**の宣言である
+    (第57報「『Luminous Fast Blue Optical Transient』について、『減光』で青方偏移した光が蓄積し、
+    天体の崩壊で一気に放出した、という仮説を立てる」)。受理形は
+    `{enable:true, tEsc>0, tEscCollapse?, shiftRate?, supply?, absRate?, collapseR?, refill?}` で、
+    `enable!==true` か `tEsc` が無ければ**警告つきで lightTrap だけを落とす**(`core.shed` と同じ流儀)。
+    `cavity` では無効。状態は粒子ごとに E_γ・N_γ・E_s・E_esc・Q・E_in の 6 列で、恒等式は
+    **E_s + E_γ + E_esc + Q − E_in = E_s(0)**(`E_in` = 減光で**熱から引き取った**自光。
+    **落として書くと二重計上になる**)。供給源 E_s は `core.internalEnergy` から build 時に
+    **切り出す**ので、宣言でエネルギーは増えない。読みは純関数 **`HP.dfmLightTrapLedger(S)`**
+    (宣言しない宇宙では **null**)。`HP.dfmToyLedger` には `Elight`(=E_s+E_γ)と `Elesc`(=E_esc)が
+    **宣言した宇宙でだけ**足される(`radE` には積まない)。**`S._core` には 1 命令も足していない**
+    (実体は `S.step` 末尾の 1 パス)。**内蔵で宣言しているのは 🐮 `lfbotTrap` の 1 本だけ**である。
+    **実行時 LLM 向けの SYSTEM_PROMPT には載せていない** —— 既定 off の opt-in であり、
+    生成物に出す前に段を分ける(次便の判断)。
+  - **`notClaim:"lfbot"`(第265便d)**: 表示文 `nc_lfbot`(ja/en)は「実在の高速青色トランジェント
+    (LFBOT・AT2018cow 等)の説明・再現・予測ではない」である。**実イベントへ σ を出さない**。
   - **`S._setBodyLayers(i, arr)` の有限性(第262便b)**: `m`・`r`・`J`・Σm を `Number.isFinite` と
     **`Math.fround` 後**(Σm は Float32 の `S.m` に入る)で検査し、通らなければ
     `layerNotFinite`/`sumNotFinite` で拒否する。**検査は書き込みの前**なので、拒否時は元の状態が

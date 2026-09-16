@@ -238,6 +238,72 @@ kFrame=0 の走行そのものは行われていなかった。
 「模型の残差が、観測表どうしの食い違いと同じ程度である」としか言えない。
 **`spread` を σ として判定してはならない**(4 値は 1 bit も動いていない)。
 
+#### 2.3⁗ 判定に使う出典の宣言(太陽系・**Z10**・第265便d・器 `tests/exp-w265d-srcdecl.mjs`)
+
+第264便d が数えた**食い違い 30 組**について、**どの行を「正(judgement source)」とし、どれを
+「候補」とするか**を宣言する。**値は 1 つも動かしていない**(宣言は帳簿の**別の層**である)。
+
+**宣言の規則(先に書いて、例外を作らない)**
+
+① **正** = 一次資料の解(査読論文の表・IERS/JPL の解の表)で、**宣言した量の定義**
+(慣性系・sidereal・ϖ̇)と合うもの。
+② **候補** = ファクトシート(NSSDC 等の丸めた compilation・1σ 非公表)・Wikipedia・
+同じ一次資料の別版・**定義が違う行**(equinox-of-date の ϖ̇ 等)・値が空の記録行。
+③ 統括が名指しした 2 件(Z10)は①と同じ向きである: **カロン P は Buie et al. 2012 を正**
+(2006 と NSSDC は候補)・**地球 P は IERS を正**(NSSDC は候補)。
+
+| 天体 | 量 | 正(judgement source) | 正の値 | 1σ | 候補 | 現行の器の行と一致 |
+|---|---|---|---:|---:|---|---|
+| Moon | orbital_period | JPL SSD Planetary Satellite Mean Elements | 2360620.8 | — | NASA NSSDC Moon Fact Sheet 2360594.88 / IERS Conventions Delaunay  2360591.559 | 一致 |
+| Moon | eccentricity | JPL SSD Planetary Satellite Mean Elements | 0.0554 | — | NASA NSSDC Moon Fact Sheet 0.0549 | 一致 |
+| Mercury | orbital_period | JPL SSD Approximate Positions of the Planets | 7600543.72 | — | NASA NSSDC Mercury Fact Sh 7600521.6 | **不一致** |
+| Mercury | eccentricity | JPL SSD Approximate Positions of the Planets | 0.20563593 | — | NASA NSSDC Mercury Fact Sh 0.20563069 | 一致 |
+| Mercury | periastron_advance | Park R.S. Folkner W.M. | 0.00159808333333333 | 0.000000004167 | JPL SSD Approximate Positi 0.0016047689 | 一致 |
+| Venus | eccentricity | JPL SSD Approximate Positions of the Planets | 0.00677672 | — | NASA NSSDC Venus Fact Shee 0.0068 / NASA NSSDC Planetary Fact  0.007 / dfm-simulator solarInner d 0.007 | **不一致** |
+| Earth | orbital_period | IERS useful constants | 31558149.7635456 | — | NASA NSSDCA, Earth Fact Sh 31558118.4 | 一致 |
+| Earth | eccentricity | JPL SSD Approximate Positions of the Planets | 0.01671123 | — | NASA NSSDCA, Earth Fact Sh 0.01671022 | 一致 |
+| Mars | orbital_period | JPL SSD Approximate Positions of the Planets | 59354294.4 | — | NASA NSSDC Mars Fact Sheet 59355072.0 | **不一致** |
+| Mars | eccentricity | JPL SSD Approximate Positions of the Planets | 0.09339410 | — | NASA NSSDCA, Mars Fact She 0.09341233 | 一致 |
+| Saturn ring C inner edge | radius | French et al. 2025 | 74490 | — | NASA NSSDC Saturnian Rings 74658 | **不一致** |
+| Saturn ring feature D68 | orbital_period | Hedman M.M. Burt J.A. | 17757.4789 | — | Hedman et al. 2014, Icarus(空) | 一致 |
+| Phobos | orbital_period | Jacobson R.A. 2010 AJ 139 668 Table 6 | 27553.843872 | — | NASA NSSDC Mars Fact Sheet 27553.824 / NASA NSSDCA, Mars Fact She 27553.824 / Wikipedia 27553.843872 | **不一致** |
+| Phobos | periastron_advance | Jacobson R.A. 2010 AJ 139 668 Table 6 | 158.9568 | — | JPL Solar System Dynamics,(空) | 一致 |
+| Deimos | orbital_period | Jacobson R.A. 2010 AJ 139 668 Table 6 | 109092.79 | — | NASA NSSDC Mars Fact Sheet 109074.816 / NASA NSSDCA, Mars Fact She 109114.816 / user-held value 1.263 d 109123.2 / Wikipedia 109123.2 | **不一致** |
+| Deimos | eccentricity | Jacobson R.A. 2010 AJ 139 668 Table 6 | 0.00024 | — | NASA NSSDC Mars Fact Sheet 0.0005 / NASA NSSDCA, Mars Fact She 0.0005 / user-held value; Jacobson 0.00033 / Wikipedia 0.00033 | **不一致** |
+| Deimos | periastron_advance | Jacobson R.A. 2010 AJ 139 668 Table 6 | 6.537975 | — | JPL Solar System Dynamics,(空) | 一致 |
+| Charon | orbital_period | Buie M.W. Tholen D.J. Grundy W.M. 2012 | 551856.43872 | 0.02592 | Buie et al. 2006 551856.70656 / NASA NSSDC Pluto Fact Shee 551854.08 | **不一致** |
+| Miranda | eccentricity | Jacobson R.A. 2014 AJ 148 76 Table 2 | 0.00135 | — | NASA NSSDC Uranian Satelli 0.0013 | **不一致** |
+| Miranda | periastron_advance | Jacobson R.A. 2014 AJ 148 76 Table 2 | 20.0409 | — | JPL Solar System Dynamics,(空) | 一致 |
+| Ariel | eccentricity | Jacobson R.A. 2014 AJ 148 76 Table 2 | 0.00122 | — | NASA NSSDC Uranian Satelli 0.0012 | **不一致** |
+| Ariel | periastron_advance | Jacobson R.A. 2014 AJ 148 76 Table 2 | 6.2308 | — | JPL Solar System Dynamics,(空) | 一致 |
+| Umbriel | eccentricity | Jacobson R.A. 2014 AJ 148 76 Table 2 | 0.00394 | — | NASA NSSDC Uranian Satelli 0.0039 | **不一致** |
+| Umbriel | periastron_advance | Jacobson R.A. 2014 AJ 148 76 Table 2 | 2.8428 | — | JPL Solar System Dynamics,(空) | 一致 |
+| Titania | eccentricity | Jacobson R.A. 2014 AJ 148 76 Table 2 | 0.00123 | — | NASA NSSDC Uranian Satelli 0.0011 | **不一致** |
+| Titania | periastron_advance | Jacobson R.A. 2014 AJ 148 76 Table 2 | 0.9993 | — | JPL Solar System Dynamics,(空) | 一致 |
+| Oberon | periastron_advance | Jacobson R.A. 2014 AJ 148 76 Table 2 | 0.2680 | — | JPL Solar System Dynamics,(空) | 一致 |
+| Triton | orbital_period | JPL SSD Planetary Satellite Mean Elements | 507772.2816 | — | NASA NSSDC Neptunian Satel 507760.1856 / user-held value 5.876854 d 507760.1856 | **不一致** |
+| Triton | eccentricity | Jacobson R.A. 2009 AJ 137 4322 Table 6 | 0.00001 | — | NASA NSSDC Neptunian Satel 0.000016 / user-held value; Jacobson  0.000016 | **不一致** |
+| Triton | periastron_advance | Jacobson R.A. 2009 AJ 137 4322 Table 6 | 0.4081 | — | JPL Solar System Dynamics,(空) | 一致 |
+
+**この表の読み方(重要)**
+
+- **判定(4 値)は 1 本も動いていない。** 宣言しただけであり、σ は依然 `sigma_primary=unverified` である。
+- **現行の器は行選択を差し替えていない。** `tests/exp-w249b-calaudit.mjs` は
+  **ファイル順の最初の `body|quantity` 行**を採る(`_candidate` は別の鍵なので採られない)。
+  その結果、**宣言した「正」と現行の器が採る行が食い違うのは 30 組中 14 組**である
+  (水星 P・金星 e・火星 P・土星 C 環内縁・フォボス P・ダイモス P/e・カロン P・
+  ミランダ e・アリエル e・ウンブリエル e・ティタニア e・トリトン P/e)。
+  **差し替えは判定を動かす**ので、本便ではしない(統括の裁定を待つ)。
+- 目立つ 3 つ: **フォボス・ダイモスの判定行は Wikipedia 由来**である(値はフォボスでは
+  Jacobson 2010 と一致するが、ダイモスでは P も e も**正と違う**)。**金星 e の判定行は
+  シミュレータ自身の宣言値 0.007** であって観測行ではない。**カロン P の判定行は NSSDC の
+  6.3872 d** で、Z10 が正とした Buie 2012 の 6.3872273 d ではない。
+- **正が一次資料の 1σ を持つのは 30 組中 2 組だけ**(水星 ϖ̇ の Park 2017・カロン P の Buie 2012)。
+  残り 28 組は**σ が無い**ので、宣言しても門へは 1 bit も入らない。
+
+**書かないこと**: 「出典を宣言したので判定が増えた」「太陽系の σ が揃った」
+「宣言した正の値で残差が小さくなった」(**残差はこの宣言では 1 つも計算していない**)。
+
 ### 2.4 ブラックホール以降(3 本 — トイ)
 
 | ID | 絵文字 | 版 | 判定 | 門(合/否/数/写/条/σ) | 代表残差 | 足りない要素 | 対策 | 分類変更の提案 |
@@ -1231,6 +1297,46 @@ verified_by=<確認者> <YYYY-MM-DD>; verified_at=<URL の表/列>; verified_val
 印の読み方(verified 19 → 16 行)・informational 距離 12 宛先 17 量。
 **動かなかった**: 門の内訳(2/2/17/12/8/273)・4 値(0/2/2/33)・太陽系 16 本の保留・
 `verified` の行数(**1 行も増えていない**)・プリセット・署名・力学。
+
+### 5.10 第265便d: 観測レコードの**小修正**(Z11 の外部確認印・月の一般歳差の換算丸めの訂正・Z13 夜間ジョブ)
+
+**4 値は 1 本も動いていない**(保留 16 のまま)。動いたのは**印の欄**と**転写の丸め**だけである。
+
+| # | 対象 | 何をしたか | 印 | 判定への影響 |
+|---|---|---|---|---:|
+| (i) | `Charon\|orbital_period_candidate` 551856.70656 s(Buie et al. 2006) | note に **`value_checked_by=external review 2026-09-16; value_checked_at=arXiv astro-ph/0512491v2 Table 3 Period Charon and section 3 1-sigma DeltaChi2=1; value_checked_value=6.3872304(11) d; conversion=86400 s/d`** を足した。**値・σ は 1 文字も動かしていない** | `sigma_primary=unverified` **のまま** | **0**(候補行であり門に入らない) |
+| (ii) | `Moon\|general_precession` | **値 0.013969 → 0.0139688666666667**・**σ 0.000000005556 → 0.00000000555555555555556**。これは**転写者側の換算の丸めの訂正**である(5028.792″/cy ÷3600 ÷100 の厳密値。旧値の不足 1.333×10⁻⁷ °/yr は**記載 1σ 5.556×10⁻⁹ の 24 倍**)。note に `corrected=2026-09-16 rounding` と外部確認印を足した | `sigma_primary=unverified` **のまま** | **0**(この行は判定の宛先ではない) |
+| (iii) | 同上の注記 | この一般歳差は **IERS MHB2000 の値**であり、派生行の換算に使った **IAU 2006 の 5028.796195″/cy とは別モデル**である旨を note に明記した。**派生行を機械的に置換しない** | — | **0** |
+| (iv) | `tests/lib-w264d-sigmamark.mjs` | **`readValueChecked`** を足した。**外部確認印は `sigma_primary` を 1 bit も上げない**・`verified_by=`(X7)の語境界つき読みは `value_checked_by=` を拾わない。QA `lint.sigmaMark` ⑥ が機械固定する | — | **0** |
+
+**(i)(ii) の位置づけ(Z11)**: 外部確認印は「一次資料の表・列と桁を**外から照合した**」という記録である。
+**原仮定者が確認して `verified_by=` を書くまで `verified` にはならない**(X7 の規約と同じ)。
+`value_checked_by` を `verified_by` と読む実装は**無い**ことを QA が固定した ——
+読み違えると門の σ の出所が黙って増える。
+
+**実装上の落とし穴(本便で踏んで直した)**: note に説明として `sigma_primary=` + `verified` という
+**語そのもの**を書くと、`readSigmaMark` の「凡例でない最初の出現」規則がそれを**行の印**として拾う
+(〔第264便d〕X6 が直した凡例の穴と同じ形が、別の書き方で再発する)。
+**note には印の語をそのまま書かない**。本便では該当 2 行を書き直し、実測で `unverified` に戻したうえで
+QA ⑥ に固定した。
+
+#### 5.10.1 Z13: 夜間ジョブ(`.github/workflows/nightly.yml`)の運用観測
+
+**この worktree から確認できることだけを書く**(実行結果は GitHub 上にしか無い)。
+
+| 観測できたこと | 値 |
+|---|---|
+| `nightly.yml` が main に入ったコミット | **3042e17**(第264便・PR #266・commit 日時 2026-09-16T07:20:54+09:00 = 2026-09-15T22:20:54Z) |
+| その後の変更 | **0 件**(履歴に載っているのは 3042e17 の 1 件だけ) |
+| スケジュール | `cron: '0 18 * * *'`(UTC・= 翌 03:00 JST) |
+| 本便の作業時刻(UTC) | 2026-09-16T05:53Z |
+| **経過したスケジュール窓** | **0 回**(次の発火は 2026-09-16T18:00Z —— まだ来ていない) |
+| `workflow_dispatch` の手動実行 | **この worktree からは分からない**(推測で書かない) |
+| `ci.yml` の変更 | **0 件**(夜間ジョブは PR ゲートに入れない取り決めのまま) |
+
+**判定**: 「夜間ジョブが動いた/動かなかった」は**まだ書けない**。スケジュール窓が 1 度も来ていないので、
+実行 0 件は**故障の証拠ではない**。統括が GitHub の Actions 画面で初回実行を確認するまで、
+本書は `informational` のままにする(Z13「nightly は有効のまま遅延を記録」)。
 
 ## 5′. NS 連星の現実較正 —— **完了定義 4 条件と現在の距離**(第260便d)
 
