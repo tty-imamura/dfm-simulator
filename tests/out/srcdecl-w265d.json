@@ -1,0 +1,971 @@
+{
+  "wave": "第265便d",
+  "at": "2026-09-16T05:53:29.847Z",
+  "rule": "Z10",
+  "n": 30,
+  "primaryMissing": 0,
+  "gateMismatch": 14,
+  "primaryWithSigma": 2,
+  "gateRule": "現行の器はファイル順の最初の `body|quantity` を採る(行選択は本便では差し替えない)",
+  "doNotWrite": [
+    "太陽系の σ が揃った",
+    "判定(4 値)が動いた",
+    "出典を宣言したので合格が増えた"
+  ],
+  "rows": [
+    {
+      "body": "Moon",
+      "quantity": "orbital_period",
+      "why": "①解の表",
+      "note": "IERS Delaunay の行は equinox-of-date を含む**定義違い**なので候補に置く",
+      "primarySource": "JPL SSD Planetary Satellite Mean Elements",
+      "primaryRow": {
+        "ln": 355,
+        "quantity": "orbital_period",
+        "value": "2360620.8",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "NASA NSSDC Moon Fact Sheet",
+          "ln": 356,
+          "value": "2360594.88",
+          "sigma": null
+        },
+        {
+          "key": "IERS Conventions Delaunay arguments",
+          "ln": 357,
+          "value": "2360591.559",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 355,
+        "value": "2360620.8",
+        "source": "JPL SSD Planetary Satellite Mean Elements (Moon;"
+      },
+      "gateIsPrimary": true
+    },
+    {
+      "body": "Moon",
+      "quantity": "eccentricity",
+      "why": "①解の表",
+      "note": "",
+      "primarySource": "JPL SSD Planetary Satellite Mean Elements",
+      "primaryRow": {
+        "ln": 359,
+        "quantity": "eccentricity",
+        "value": "0.0554",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "NASA NSSDC Moon Fact Sheet",
+          "ln": 360,
+          "value": "0.0549",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 359,
+        "value": "0.0554",
+        "source": "JPL SSD Planetary Satellite Mean Elements (Moon;"
+      },
+      "gateIsPrimary": true
+    },
+    {
+      "body": "Mercury",
+      "quantity": "orbital_period",
+      "why": "①解の表",
+      "note": "",
+      "primarySource": "JPL SSD Approximate Positions of the Planets",
+      "primaryRow": {
+        "ln": 365,
+        "quantity": "orbital_period",
+        "value": "7600543.72",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "NASA NSSDC Mercury Fact Sheet",
+          "ln": 364,
+          "value": "7600521.6",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 364,
+        "value": "7600521.6",
+        "source": "NASA NSSDC Mercury Fact Sheet"
+      },
+      "gateIsPrimary": false
+    },
+    {
+      "body": "Mercury",
+      "quantity": "eccentricity",
+      "why": "①解の表",
+      "note": "",
+      "primarySource": "JPL SSD Approximate Positions of the Planets",
+      "primaryRow": {
+        "ln": 366,
+        "quantity": "eccentricity",
+        "value": "0.20563593",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "NASA NSSDC Mercury Fact Sheet",
+          "ln": 367,
+          "value": "0.20563069",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 366,
+        "value": "0.20563593",
+        "source": "JPL SSD Approximate Positions of the Planets / S"
+      },
+      "gateIsPrimary": true
+    },
+    {
+      "body": "Mercury",
+      "quantity": "periastron_advance",
+      "why": "①査読論文の表(1σ つき)",
+      "note": "Standish の varpi̇ は equinox-of-date を含む**定義違い**",
+      "primarySource": "Park R.S. Folkner W.M.",
+      "primaryRow": {
+        "ln": 368,
+        "quantity": "periastron_advance",
+        "value": "0.00159808333333333",
+        "sigma": "0.000000004167",
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "JPL SSD Approximate Positions of the Planets",
+          "ln": 369,
+          "value": "0.0016047689",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 368,
+        "value": "0.00159808333333333",
+        "source": "Park R.S. Folkner W.M. Konopliv A.S. Williams J."
+      },
+      "gateIsPrimary": true
+    },
+    {
+      "body": "Venus",
+      "quantity": "eccentricity",
+      "why": "①解の表",
+      "note": "現行の判定行はシミュレータ自身の宣言値 0.007 である(観測行ではない)",
+      "primarySource": "JPL SSD Approximate Positions of the Planets",
+      "primaryRow": {
+        "ln": 375,
+        "quantity": "eccentricity_candidate",
+        "value": "0.00677672",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "NASA NSSDC Venus Fact Sheet",
+          "ln": 335,
+          "value": "0.0068",
+          "sigma": null
+        },
+        {
+          "key": "NASA NSSDC Planetary Fact Sheet rounded compilation",
+          "ln": 374,
+          "value": "0.007",
+          "sigma": null
+        },
+        {
+          "key": "dfm-simulator solarInner declaration",
+          "ln": 31,
+          "value": "0.007",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 31,
+        "value": "0.007",
+        "source": "dfm-simulator solarInner declaration (committed)"
+      },
+      "gateIsPrimary": false
+    },
+    {
+      "body": "Earth",
+      "quantity": "orbital_period",
+      "why": "③Z10 が名指し(=①と同じ向き)",
+      "note": "",
+      "primarySource": "IERS useful constants",
+      "primaryRow": {
+        "ln": 377,
+        "quantity": "orbital_period",
+        "value": "31558149.7635456",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "NASA NSSDCA, Earth Fact Sheet",
+          "ln": 378,
+          "value": "31558118.4",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 377,
+        "value": "31558149.7635456",
+        "source": "IERS useful constants (sidereal year from Simon "
+      },
+      "gateIsPrimary": true
+    },
+    {
+      "body": "Earth",
+      "quantity": "eccentricity",
+      "why": "①解の表",
+      "note": "",
+      "primarySource": "JPL SSD Approximate Positions of the Planets",
+      "primaryRow": {
+        "ln": 379,
+        "quantity": "eccentricity",
+        "value": "0.01671123",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "NASA NSSDCA, Earth Fact Sheet",
+          "ln": 380,
+          "value": "0.01671022",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 379,
+        "value": "0.01671123",
+        "source": "JPL SSD Approximate Positions of the Planets / S"
+      },
+      "gateIsPrimary": true
+    },
+    {
+      "body": "Mars",
+      "quantity": "orbital_period",
+      "why": "①解の表",
+      "note": "",
+      "primarySource": "JPL SSD Approximate Positions of the Planets",
+      "primaryRow": {
+        "ln": 383,
+        "quantity": "orbital_period",
+        "value": "59354294.4",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "NASA NSSDC Mars Fact Sheet",
+          "ln": 382,
+          "value": "59355072.0",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 382,
+        "value": "59355072.0",
+        "source": "NASA NSSDC Mars Fact Sheet"
+      },
+      "gateIsPrimary": false
+    },
+    {
+      "body": "Mars",
+      "quantity": "eccentricity",
+      "why": "①解の表",
+      "note": "",
+      "primarySource": "JPL SSD Approximate Positions of the Planets",
+      "primaryRow": {
+        "ln": 384,
+        "quantity": "eccentricity",
+        "value": "0.09339410",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "NASA NSSDCA, Mars Fact Sheet",
+          "ln": 385,
+          "value": "0.09341233",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 384,
+        "value": "0.09339410",
+        "source": "JPL SSD Approximate Positions of the Planets / S"
+      },
+      "gateIsPrimary": true
+    },
+    {
+      "body": "Saturn ring C inner edge",
+      "quantity": "radius",
+      "why": "①査読論文",
+      "note": "",
+      "primarySource": "French et al. 2025",
+      "primaryRow": {
+        "ln": 416,
+        "quantity": "radius",
+        "value": "74490",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "NASA NSSDC Saturnian Rings Fact Sheet",
+          "ln": 415,
+          "value": "74658",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 415,
+        "value": "74658",
+        "source": "NASA NSSDC Saturnian Rings Fact Sheet (C inner e"
+      },
+      "gateIsPrimary": false
+    },
+    {
+      "body": "Saturn ring feature D68",
+      "quantity": "orbital_period",
+      "why": "①査読論文",
+      "note": "候補側は**値が空の記録行**である",
+      "primarySource": "Hedman M.M. Burt J.A.",
+      "primaryRow": {
+        "ln": 422,
+        "quantity": "orbital_period",
+        "value": "17757.4789",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "Hedman et al. 2014, Icarus 233, 147",
+          "ln": 423,
+          "value": "",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 422,
+        "value": "17757.4789",
+        "source": "Hedman M.M. Burt J.A. Burns J.A. Showalter M.R. "
+      },
+      "gateIsPrimary": true
+    },
+    {
+      "body": "Phobos",
+      "quantity": "orbital_period",
+      "why": "①査読論文の表",
+      "note": "",
+      "primarySource": "Jacobson R.A. 2010 AJ 139 668 Table 6",
+      "primaryRow": {
+        "ln": 429,
+        "quantity": "orbital_period_candidate",
+        "value": "27553.843872",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "NASA NSSDC Mars Fact Sheet",
+          "ln": 317,
+          "value": "27553.824",
+          "sigma": null
+        },
+        {
+          "key": "NASA NSSDCA, Mars Fact Sheet",
+          "ln": 430,
+          "value": "27553.824",
+          "sigma": null
+        },
+        {
+          "key": "Wikipedia",
+          "ln": 9,
+          "value": "27553.843872",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 9,
+        "value": "27553.843872",
+        "source": "Wikipedia"
+      },
+      "gateIsPrimary": false
+    },
+    {
+      "body": "Phobos",
+      "quantity": "periastron_advance",
+      "why": "①査読論文の表",
+      "note": "候補側は**値が空**",
+      "primarySource": "Jacobson R.A. 2010 AJ 139 668 Table 6",
+      "primaryRow": {
+        "ln": 432,
+        "quantity": "periastron_advance",
+        "value": "158.9568",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "JPL Solar System Dynamics, Planetary Satellite Mean Elements",
+          "ln": 433,
+          "value": "",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 432,
+        "value": "158.9568",
+        "source": "Jacobson R.A. 2010 AJ 139 668 Table 6 (varpi-dot"
+      },
+      "gateIsPrimary": true
+    },
+    {
+      "body": "Deimos",
+      "quantity": "orbital_period",
+      "why": "①査読論文の表",
+      "note": "",
+      "primarySource": "Jacobson R.A. 2010 AJ 139 668 Table 6",
+      "primaryRow": {
+        "ln": 436,
+        "quantity": "orbital_period_candidate",
+        "value": "109092.79",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "NASA NSSDC Mars Fact Sheet",
+          "ln": 323,
+          "value": "109074.816",
+          "sigma": null
+        },
+        {
+          "key": "NASA NSSDCA, Mars Fact Sheet",
+          "ln": 437,
+          "value": "109114.816",
+          "sigma": null
+        },
+        {
+          "key": "user-held value 1.263 d",
+          "ln": 435,
+          "value": "109123.2",
+          "sigma": null
+        },
+        {
+          "key": "Wikipedia",
+          "ln": 14,
+          "value": "109123.2",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 14,
+        "value": "109123.2",
+        "source": "Wikipedia"
+      },
+      "gateIsPrimary": false
+    },
+    {
+      "body": "Deimos",
+      "quantity": "eccentricity",
+      "why": "①査読論文の表",
+      "note": "",
+      "primarySource": "Jacobson R.A. 2010 AJ 139 668 Table 6",
+      "primaryRow": {
+        "ln": 439,
+        "quantity": "eccentricity_candidate",
+        "value": "0.00024",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "NASA NSSDC Mars Fact Sheet",
+          "ln": 322,
+          "value": "0.0005",
+          "sigma": null
+        },
+        {
+          "key": "NASA NSSDCA, Mars Fact Sheet",
+          "ln": 440,
+          "value": "0.0005",
+          "sigma": null
+        },
+        {
+          "key": "user-held value; Jacobson",
+          "ln": 438,
+          "value": "0.00033",
+          "sigma": null
+        },
+        {
+          "key": "Wikipedia",
+          "ln": 13,
+          "value": "0.00033",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 13,
+        "value": "0.00033",
+        "source": "Wikipedia"
+      },
+      "gateIsPrimary": false
+    },
+    {
+      "body": "Deimos",
+      "quantity": "periastron_advance",
+      "why": "①査読論文の表",
+      "note": "候補側は**値が空**",
+      "primarySource": "Jacobson R.A. 2010 AJ 139 668 Table 6",
+      "primaryRow": {
+        "ln": 441,
+        "quantity": "periastron_advance",
+        "value": "6.537975",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "JPL Solar System Dynamics, Planetary Satellite Mean Elements",
+          "ln": 442,
+          "value": "",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 441,
+        "value": "6.537975",
+        "source": "Jacobson R.A. 2010 AJ 139 668 Table 6 (varpi-dot"
+      },
+      "gateIsPrimary": true
+    },
+    {
+      "body": "Charon",
+      "quantity": "orbital_period",
+      "why": "③Z10 が名指し(=①と同じ向き)",
+      "note": "2006 は外部確認印つきの候補(`value_checked_by` — `sigma_primary` は unverified のまま)",
+      "primarySource": "Buie M.W. Tholen D.J. Grundy W.M. 2012",
+      "primaryRow": {
+        "ln": 444,
+        "quantity": "orbital_period_candidate",
+        "value": "551856.43872",
+        "sigma": "0.02592",
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "Buie et al. 2006",
+          "ln": 445,
+          "value": "551856.70656",
+          "sigma": "0.09504"
+        },
+        {
+          "key": "NASA NSSDC Pluto Fact Sheet",
+          "ln": 22,
+          "value": "551854.08",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 22,
+        "value": "551854.08",
+        "source": "NASA NSSDC Pluto Fact Sheet (archived)"
+      },
+      "gateIsPrimary": false
+    },
+    {
+      "body": "Miranda",
+      "quantity": "eccentricity",
+      "why": "①査読論文の表",
+      "note": "",
+      "primarySource": "Jacobson R.A. 2014 AJ 148 76 Table 2",
+      "primaryRow": {
+        "ln": 451,
+        "quantity": "eccentricity_candidate",
+        "value": "0.00135",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "NASA NSSDC Uranian Satellite Fact Sheet",
+          "ln": 40,
+          "value": "0.0013",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 40,
+        "value": "0.0013",
+        "source": "NASA NSSDC Uranian Satellite Fact Sheet (archive"
+      },
+      "gateIsPrimary": false
+    },
+    {
+      "body": "Miranda",
+      "quantity": "periastron_advance",
+      "why": "①査読論文の表",
+      "note": "候補側は**値が空**",
+      "primarySource": "Jacobson R.A. 2014 AJ 148 76 Table 2",
+      "primaryRow": {
+        "ln": 452,
+        "quantity": "periastron_advance",
+        "value": "20.0409",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "JPL Solar System Dynamics, Planetary Satellite Mean Elements",
+          "ln": 453,
+          "value": "",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 452,
+        "value": "20.0409",
+        "source": "Jacobson R.A. 2014 AJ 148 76 Table 2 (dot-varpi)"
+      },
+      "gateIsPrimary": true
+    },
+    {
+      "body": "Ariel",
+      "quantity": "eccentricity",
+      "why": "①査読論文の表",
+      "note": "",
+      "primarySource": "Jacobson R.A. 2014 AJ 148 76 Table 2",
+      "primaryRow": {
+        "ln": 457,
+        "quantity": "eccentricity_candidate",
+        "value": "0.00122",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "NASA NSSDC Uranian Satellite Fact Sheet",
+          "ln": 46,
+          "value": "0.0012",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 46,
+        "value": "0.0012",
+        "source": "NASA NSSDC Uranian Satellite Fact Sheet (archive"
+      },
+      "gateIsPrimary": false
+    },
+    {
+      "body": "Ariel",
+      "quantity": "periastron_advance",
+      "why": "①査読論文の表",
+      "note": "候補側は**値が空**",
+      "primarySource": "Jacobson R.A. 2014 AJ 148 76 Table 2",
+      "primaryRow": {
+        "ln": 458,
+        "quantity": "periastron_advance",
+        "value": "6.2308",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "JPL Solar System Dynamics, Planetary Satellite Mean Elements",
+          "ln": 459,
+          "value": "",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 458,
+        "value": "6.2308",
+        "source": "Jacobson R.A. 2014 AJ 148 76 Table 2 (dot-varpi)"
+      },
+      "gateIsPrimary": true
+    },
+    {
+      "body": "Umbriel",
+      "quantity": "eccentricity",
+      "why": "①査読論文の表",
+      "note": "",
+      "primarySource": "Jacobson R.A. 2014 AJ 148 76 Table 2",
+      "primaryRow": {
+        "ln": 463,
+        "quantity": "eccentricity_candidate",
+        "value": "0.00394",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "NASA NSSDC Uranian Satellite Fact Sheet",
+          "ln": 52,
+          "value": "0.0039",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 52,
+        "value": "0.0039",
+        "source": "NASA NSSDC Uranian Satellite Fact Sheet (archive"
+      },
+      "gateIsPrimary": false
+    },
+    {
+      "body": "Umbriel",
+      "quantity": "periastron_advance",
+      "why": "①査読論文の表",
+      "note": "候補側は**値が空**",
+      "primarySource": "Jacobson R.A. 2014 AJ 148 76 Table 2",
+      "primaryRow": {
+        "ln": 464,
+        "quantity": "periastron_advance",
+        "value": "2.8428",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "JPL Solar System Dynamics, Planetary Satellite Mean Elements",
+          "ln": 465,
+          "value": "",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 464,
+        "value": "2.8428",
+        "source": "Jacobson R.A. 2014 AJ 148 76 Table 2 (dot-varpi)"
+      },
+      "gateIsPrimary": true
+    },
+    {
+      "body": "Titania",
+      "quantity": "eccentricity",
+      "why": "①査読論文の表",
+      "note": "",
+      "primarySource": "Jacobson R.A. 2014 AJ 148 76 Table 2",
+      "primaryRow": {
+        "ln": 469,
+        "quantity": "eccentricity_candidate",
+        "value": "0.00123",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "NASA NSSDC Uranian Satellite Fact Sheet",
+          "ln": 58,
+          "value": "0.0011",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 58,
+        "value": "0.0011",
+        "source": "NASA NSSDC Uranian Satellite Fact Sheet (archive"
+      },
+      "gateIsPrimary": false
+    },
+    {
+      "body": "Titania",
+      "quantity": "periastron_advance",
+      "why": "①査読論文の表",
+      "note": "候補側は**値が空**",
+      "primarySource": "Jacobson R.A. 2014 AJ 148 76 Table 2",
+      "primaryRow": {
+        "ln": 470,
+        "quantity": "periastron_advance",
+        "value": "0.9993",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "JPL Solar System Dynamics, Planetary Satellite Mean Elements",
+          "ln": 471,
+          "value": "",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 470,
+        "value": "0.9993",
+        "source": "Jacobson R.A. 2014 AJ 148 76 Table 2 (dot-varpi)"
+      },
+      "gateIsPrimary": true
+    },
+    {
+      "body": "Oberon",
+      "quantity": "periastron_advance",
+      "why": "①査読論文の表",
+      "note": "候補側は**値が空**",
+      "primarySource": "Jacobson R.A. 2014 AJ 148 76 Table 2",
+      "primaryRow": {
+        "ln": 475,
+        "quantity": "periastron_advance",
+        "value": "0.2680",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "JPL Solar System Dynamics, Planetary Satellite Mean Elements",
+          "ln": 476,
+          "value": "",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 475,
+        "value": "0.2680",
+        "source": "Jacobson R.A. 2014 AJ 148 76 Table 2 (dot-varpi)"
+      },
+      "gateIsPrimary": true
+    },
+    {
+      "body": "Triton",
+      "quantity": "orbital_period",
+      "why": "①解の表",
+      "note": "",
+      "primarySource": "JPL SSD Planetary Satellite Mean Elements",
+      "primaryRow": {
+        "ln": 480,
+        "quantity": "orbital_period_candidate",
+        "value": "507772.2816",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "NASA NSSDC Neptunian Satellite Fact Sheet",
+          "ln": 83,
+          "value": "507760.1856",
+          "sigma": null
+        },
+        {
+          "key": "user-held value 5.876854 d",
+          "ln": 479,
+          "value": "507760.1856",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 83,
+        "value": "507760.1856",
+        "source": "NASA NSSDC Neptunian Satellite Fact Sheet (archi"
+      },
+      "gateIsPrimary": false
+    },
+    {
+      "body": "Triton",
+      "quantity": "eccentricity",
+      "why": "①査読論文の表",
+      "note": "",
+      "primarySource": "Jacobson R.A. 2009 AJ 137 4322 Table 6",
+      "primaryRow": {
+        "ln": 482,
+        "quantity": "eccentricity_candidate",
+        "value": "0.00001",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "NASA NSSDC Neptunian Satellite Fact Sheet",
+          "ln": 84,
+          "value": "0.000016",
+          "sigma": null
+        },
+        {
+          "key": "user-held value; Jacobson 2009",
+          "ln": 481,
+          "value": "0.000016",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 84,
+        "value": "0.000016",
+        "source": "NASA NSSDC Neptunian Satellite Fact Sheet (archi"
+      },
+      "gateIsPrimary": false
+    },
+    {
+      "body": "Triton",
+      "quantity": "periastron_advance",
+      "why": "①査読論文の表",
+      "note": "候補側は**値が空**",
+      "primarySource": "Jacobson R.A. 2009 AJ 137 4322 Table 6",
+      "primaryRow": {
+        "ln": 483,
+        "quantity": "periastron_advance",
+        "value": "0.4081",
+        "sigma": null,
+        "mark": "unverified",
+        "verifiedBy": false
+      },
+      "candidates": [
+        {
+          "key": "JPL Solar System Dynamics, Planetary Satellite Mean Elements",
+          "ln": 484,
+          "value": "",
+          "sigma": null
+        }
+      ],
+      "gateRow": {
+        "ln": 483,
+        "value": "0.4081",
+        "source": "Jacobson R.A. 2009 AJ 137 4322 Table 6 (dot-varp"
+      },
+      "gateIsPrimary": true
+    }
+  ]
+}

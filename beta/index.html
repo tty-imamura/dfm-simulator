@@ -1379,6 +1379,8 @@ ja: {
   // 誇張アナログ用の nc_solar は同画面の実単位較正・現実準拠チップと矛盾するため分離した
   nc_solar_cal:"実在天体のうち明示した観測量だけを較正した2次元モデルです。太陽系全体・3次元摂動・未掲載の観測量まで再現するものではありません。",
   nc_thermo:"熱セクターは現実の熱力学との定量対応を主張しないアナロジーである。",
+  // 第265便d(第57報 W4): LFBOT の**トイ仮説**(減光で蓄積した自光の崩壊放出)。実イベントの説明ではない
+  nc_lfbot:"実在の高速青色トランジェント(LFBOT・AT2018cow 等)の説明・再現・予測ではない(仮説を法則の内側で組み立てたトイである)。",
   // 第88便 EXT-09: Failure First(失敗を先に見せる — 宣言専用メタ failureFirst の見出し)
   ffHead:"🧪 失敗から見る(Failure First)",
   ffFail:"FAIL", ffPass:"PASS",
@@ -2103,6 +2105,8 @@ en: {
   // 第157便: wording reserved for the real-calibration family (fidelity:"real")
   nc_solar_cal:"A two-dimensional model calibrated only on the observables stated here for the real bodies named. It does not reproduce the solar system as a whole, three-dimensional perturbations, or any observable not listed.",
   nc_thermo:"The thermal sector is an analogy with no claimed quantitative correspondence to real thermodynamics.",
+  // wave 265d: the LFBOT TOY HYPOTHESIS (trapped self-light released at collapse)
+  nc_lfbot:"Not an explanation, reproduction or prediction of real luminous fast blue optical transients (LFBOTs such as AT2018cow) — it is a toy built from the hypothesis inside this universe's laws.",
   // 第88便 EXT-09: Failure First heading
   ffHead:"🧪 Failure First",
   ffFail:"FAIL", ffPass:"PASS",
@@ -13017,6 +13021,57 @@ const BUILTIN_PRESETS = [
            shed:{omegaCrit:10, frac:0.5, n:32, rLaunch:1.5, jFrac:0.3, once:true}}}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
 
+// ===== 第265便d(第57報 W4): LFBOT の**トイ仮説** — 減光で溜めた自光をコアの崩壊で一気に出す =====
+{ id:"lfbotTrap", name:"閉じ込めた光の解放 — 減光で溜めた自光をコアの崩壊で放つ(トイ仮説)", emoji:"🐮", group:"天体の物語",
+  scaleTier:"stellar", sampleClass:"principle", notClaim:["cal","lfbot"],
+  obsCard:[
+    {q:"蓄積した光 E_γ(崩壊の直前)", model:"**5.4292**(t=12.768)。蓄積中は外へ出ていないので見た目は暗い(発火の步で 5.2309)", obs:"—(原理サンプル — 観測転写はしない)"},
+    {q:"放出 E_esc(2500步の総量)", model:"**8.7605**。引き出し総量(E_in 3.0548 + E_s から 5.7378)の **99.64%** が出た", obs:"—"},
+    {q:"1 光子あたりのエネルギー ν̄", model:"蓄積でピーク **13.504**(注入時 2.008 の 6.7 倍 = 青い)→ 放出後は **2.153** へ戻る(赤い残光)", obs:"—"},
+    {q:"エジェクタ速度(最大/中央)", model:"shed 片 32 粒の速度 最大 **8.7320**・中央 **8.7296**(**v/c=0.29107**・c₀=30)", obs:"—"},
+    {q:"崩壊(shed 発火)", model:"**t=12.784 で 1 回**(Ω_c=10)。同じ步で t_esc が 40→0.4 へ切り替わり L_esc が **13.622**(直前の 145 倍)", obs:"—"},
+    {q:"保存則の残差", model:"E_s+E_γ+E_esc+Q−E_in=E_s(0) の相対残差は dt/dt2/dt4 で **5.7e−16 / 4.5e−16 / −4.5e−15**", obs:"—"},
+    {q:"帳簿の引き算", model:"E_s+E_γ+E_esc+Q−E_in=E_s(0)。E_in(減光で熱から引き取った分)を落とすと二重計上になる", obs:"—"},
+    {q:"実在の LFBOT", model:"**説明でも予測でもない**(AT2018cow 等へ σ を出さない)。「崩壊したら必ず出る」はスイッチであって予測式ではない", obs:"—"}],
+  descStruct:{
+    summary:"**減光で外へ出られなかった自分の光を溜め込み、コアの崩壊で一気に放つ**という仮説を、この宇宙の法則の内側で組み立てたトイである(第57報「『Luminous Fast Blue Optical Transient』について、『減光』で青方偏移した光が蓄積し、天体の崩壊で一気に放出した、という仮説を立てる」)。部品は既にあるものだけ: 減光 lightSweep(自光の透過 T=1−ℓ・auto なら ℓ=min(1,|s|R/c_surf))・放射冷却 E11(Λ=η_rad·T^p を (1−ℓ) 倍に抑える)・コア V2 の収縮 contract と放出 shed・重力 E4。足したのは宣言 **core.lightTrap{enable, supply, tEsc, tEscCollapse, shiftRate}** 1 つだけで、S._core には 1 命令も入れていない(実体は步の末尾の 1 パス)。**どのエネルギーが動くかを先に決めてある**: ①減光で出られなかった分 ℓ·Λ は**熱から引き取って** E_γ へ移す(radE には積まない = 二重計上しない・T は減光が無かったときと同じだけ下がる)②青方偏移の仕事 P_shift は**供給源 E_s から支払う**(光子数 N_γ は不変なので ν̄=E_γ/(h·N_γ) だけが上がる・E_s が尽きれば止まる)③脱出は L_esc=E_γ/t_esc で、崩壊(shed 発火)を境に t_esc→tEscCollapse へ切り替わる。恒等式は **E_s+E_γ+E_esc+Q−E_in=E_s(0)** である —— **E_in を落として「E_s+E_γ+E_esc+Q=一定」と書くと二重計上になる**。E_s は core.internalEnergy から**切り出して**いるので、宣言でエネルギーが増えることはない。**言わないこと**: 「AT2018cow を再現した/予測した」「LFBOT を観測一致させた」「崩壊したら必ず放出する(これはスイッチであって予測式ではない)」。**正直な限界**: 溜めるのは**自光だけ**で、井戸へ落ちてくる外来光の捕獲は入っていない。熱の引き取りは内部温度モードの宇宙でだけ働く。光線積分器の光学的深さ τ_λ とは別物である(混ぜていない)。",
+    observe:"実測(dt=0.016・2500步=t40): **①蓄積期は暗いまま青くなる** — E_γ が 0→**5.4292**(t=12.768)まで増える間、出ていく光 L_esc は 0.094 どまりで、1 光子あたりのエネルギー ν̄ は **2.008→13.504** へ上がる(供給源 E_s は 4000→3994.99 と 5.0 しか減っていない)。**②崩壊は 1 回** — contract=0.02 で自走したコアが Ω_c=10 に達した **t=12.784** で shed が発火し(32 粒・残骸 450)、同じ步で lightTrap のラッチが立って t_esc が 40→0.4 へ切り替わる。**③フラッシュ** — L_esc がピーク **13.622**(直前の定常の **145 倍**)・崩壊後の放出量の半分に達するまで **0.832**(蓄積に掛けた 12.8 の 1/15)。放出後 ν̄ は **2.153** へ戻る。**④放出総量** — 2500步で E_esc=**8.7605** = 引き出し総量(熱から 3.0548 + E_s から 5.7378)の **99.64%**。**⑤エジェクタ** — 32 粒の速度は 最大 **8.7320**・中央 **8.7296**(**v/c=0.29107**)。**⑥帳簿** — 相対残差は dt=0.016/0.008/0.004 で **5.68×10⁻¹⁶ / 4.54×10⁻¹⁶ / −4.54×10⁻¹⁵**(刻みに依らず丸め水準)。**E_in を落とすと 3.05 ずれたまま縮まない**(= 落として書くのが二重計上である証拠)。NaN 0・shed 発火 1 回・粒子 17→49。**⑦対照 4 本**(供給源は同じ 4000): ①shiftRate=0 で ν̄ が 2.000 のまま・ピーク 1/6.4・立ち上がり 10.6 倍 ②lightTrap を外すと E_esc は**厳密に 0** ③tEscCollapse=tEsc では E_γ が t=40 まで溜まり ν̄ が 1256.7 まで青くなって放出が遅い(半量まで 24.0)④refill:false では総量が 25% 減り、残った少数の光子に仕事が乗り続けて ν̄ が 5339 まで発散する。**⑧識別性** — つまみを 2 倍にすると、**爆発時刻は ±0**(決めているのは contract と shed.omegaCrit)・**エジェクタ速度は ×1.000**(lightTrap は力学へ 1 バイトも接続していない)・色と光度は shiftRate で同じ向きに動く(×12.9 と ×11.3)ので**別々には合わせられない**。色と切り離して光度を動かせるのは tEscCollapse だけ(×1.056 対 ×0.500)。**⑨観測から課す条件(記録のみ・合否は出さない)**: AT2018cow の高温維持と後期の光球縮小(Perley 2019)・AT2022tsd の数か月にわたる分スケール光学フレア(Ho 2023 — 一度で空になる貯蔵槽では足りない)・~224 Hz の X 線 QPO(Pasham 2021)。**3 つともこのトイではまだ出せていない**(ν̄ は下がる・後期は定常的な漏れでフレアにならない・周期構造は 0)。著者たちが DFM を支持したという意味ではない。QA `behavior.lightTrapLedger`・`preset.lfbotTrap` が帳簿と宣言を機械固定する。",
+    control:"ワンタップ対照は **core.lightTrap を外す**(=🎆 と同じ「溜めない」道 — 減光で抑えられた分はそのまま熱に残る)。手動の対照 4 本: ①shiftRate=0(青方偏移なし)②lightTrap なし(閉じ込めなし)③tEscCollapse を tEsc と同じにする(崩壊で脱出を変えない)④supply=0(再充填なし)。⚪(徐々に剥がれる道)・🎆(割って出す道)と並べて読む。"},
+  en:{name:"Releasing Trapped Light — Self-Light Hoarded by Dimming, Let Go at Core Collapse (toy hypothesis)", descStruct:{
+    summary:"A TOY BUILT INSIDE THIS UNIVERSE'S LAWS from the hypothesis that A BODY HOARDS THE LIGHT ITS OWN DIMMING KEEPS IN, AND LETS IT ALL GO WHEN THE CORE COLLAPSES (report 57: 'for Luminous Fast Blue Optical Transients, take the hypothesis that light blue-shifted by DIMMING accumulates and is released all at once when the body collapses'). Every part already existed: dimming lightSweep (own-light transmission T=1-l; with auto, l=min(1,|s|R/c_surf)), radiative cooling E11 (L=eta_rad*T^p, held down by the factor (1-l)), the Core-v2 contraction and shedding, and gravity E4. ONE DECLARATION is added - core.lightTrap{enable, supply, tEsc, tEscCollapse, shiftRate} - and NOT ONE INSTRUCTION goes into S._core (the work happens in a single pass at the end of the step). WHICH ENERGY MOVES IS DECIDED UP FRONT: (1) the part the dimming kept in is TAKEN OUT OF THE HEAT and moved into E_gamma (it is NOT added to radE - that would be double counting - and T falls exactly as it would have with no dimming); (2) the blue-shift work P_shift IS PAID OUT OF THE SUPPLY E_s (the photon number N_gamma does not change, so only the energy per photon rises, and it stops when E_s runs out); (3) escape is L_esc=E_gamma/t_esc, and at collapse (the shed firing) t_esc switches to tEscCollapse. THE IDENTITY IS E_s+E_gamma+E_esc+Q-E_in=E_s(0) - WRITING IT WITHOUT E_in WOULD BE DOUBLE COUNTING. E_s is CARVED OUT of core.internalEnergy, so the declaration never creates energy. WHAT IS NOT CLAIMED: that AT2018cow is reproduced or predicted, that LFBOTs are matched to observation, or that 'collapse always releases' is a prediction (it is a switch). HONEST LIMITS: only the body's OWN light is hoarded (capture of incoming light is not implemented); the heat withdrawal works only in the internal-temperature mode; and this is not the optical depth of the ray integrator.",
+    observe:"Measured (dt=0.016, 2500 steps = t40): (1) THE HOARDING PHASE IS DARK AND TURNS BLUE - E_gamma climbs 0 -> 5.4292 by t=12.768 while the escaping power stays at 0.094, and the energy per photon rises 2.008 -> 13.504 (the supply E_s falls only 4000 -> 3994.99). (2) THE COLLAPSE HAPPENS ONCE - the core spun up by contract=0.02 reaches Omega_c=10 at t=12.784, shed fires (32 grains, remnant 450), and in the same step the trap latches and t_esc switches 40 -> 0.4. (3) THE FLASH - the escaping power peaks at 13.622, 145 TIMES the level just before, and half of the post-collapse output is out within 0.832 (one fifteenth of the 12.8 it took to hoard). Afterwards the energy per photon falls back to 2.153. (4) TOTAL RELEASED - E_esc=8.7605 over 2500 steps, 99.64% of everything drawn (3.0548 from the heat plus 5.7378 from the supply). (5) EJECTA - the 32 grains reach 8.7320 at most and 8.7296 in the median (v/c=0.29107). (6) THE LEDGER - the relative residual of E_s+E_gamma+E_esc+Q-E_in=E_s(0) is 5.68e-16 / 4.54e-16 / -4.54e-15 at dt, dt/2, dt/4 (rounding level, independent of the step). DROP E_in AND IT STAYS OFF BY 3.05 AND NEVER SHRINKS - that is the evidence that dropping it is double counting. No NaN; one shed firing; 17 -> 49 particles. (7) FOUR CONTROLS (same supply, 4000): with shiftRate=0 the colour never moves (2.000) and the peak is a sixth with a ten times slower rise; removing lightTrap gives EXACTLY ZERO escape; with tEscCollapse=tEsc the reservoir keeps filling to t=40, the photons reach 1256.7 each and the release is slow (half-time 24.0); with refill:false the total drops 25% and the few remaining photons keep absorbing work until the energy per photon diverges to 5339. (8) IDENTIFIABILITY - doubling each knob leaves THE EXPLOSION TIME UNCHANGED (it is set by contract and shed.omegaCrit) and THE EJECTA SPEED UNCHANGED (the trap is not connected to the dynamics by a single byte), while colour and luminosity both move with shiftRate in the same direction (x12.9 and x11.3), SO THEY CANNOT BE TUNED SEPARATELY; only tEscCollapse moves luminosity apart from colour (x1.056 against x0.500). (9) WHAT OBSERVATION WOULD DEMAND (recorded only, no pass or fail): AT2018cow stays hot while its photosphere shrinks late (Perley 2019); AT2022tsd flares on minute timescales for months (Ho 2023 - a reservoir that empties once is not enough); a ~224 Hz X-ray QPO in AT2018cow (Pasham 2021). THIS TOY DELIVERS NONE OF THE THREE (the colour falls, the late phase is a steady leak rather than flares, and there is no periodic structure). None of this implies those authors endorse DFM.",
+    control:"The one-tap control is TO REMOVE core.lightTrap (the shape of the wave-244 road, where the light held in by dimming simply stays as heat). Four manual controls: (1) shiftRate=0 (no blue shift); (2) no lightTrap (no confinement); (3) tEscCollapse equal to tEsc (collapse does not change the escape); (4) supply=0 (no refill). Read it beside the gradual road and the splitting road."}},
+  parameterAudit:{
+    observedInputs:["なし(原理トイ — 観測値の転写はしない)"],
+    fixedConventions:["台帳 f=2 の恒星(殻 300+コア 300・massFrac 0.5・Rc=1.5)・kFrame=1・pairReduced+重心系・境界なし・融合なし","lightTrap の 5 値(enable・supply・tEsc・tEscCollapse・shiftRate)は**用量の宣言**であってフィットではない","外殻ガス環 16 粒(r=60・m=0.5・ケプラー速度)は放出を受ける相手を置くための構成"],
+    fitted:["なし(観測量に合わせて動かした数は 1 つも無い)"],
+    derived:["発火 Ω_c=10 は contract 0.02 で Ω=6 から自走した帰結(t=12.784)/ L_esc=E_γ/t_esc・ν̄=E_γ/(h·N_γ)(h≡1)・P_shift=shiftRate·ψ·E_γ / 恒等式 E_s+E_γ+E_esc+Q−E_in=E_s(0) の相対残差 5.68×10⁻¹⁶(dt=0.016)"],
+    numerical:["dt=0.016・2500步。dt/2(5000步)・dt/4(10000步)の 3 段で保存則の残差を測る"]},
+  activeParams:["etaRad","kFrame","G"],
+  thermal:"tint", validT:40,
+  massCalibration:{law:"chi-law-v1-transfer", C:1, factorUniform:2},
+  balanceFrame:"barycentric",
+  camera:{scale:320}, world:{boundary:"none",size:0}, seed:20260916,
+  physics:{G:4, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+    cLight:30, bM:1, etaRad:0.02, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
+    pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2,
+    frameReaction:"pairReduced", coupleSink:"reservoir", frameWeight:"share"},
+  bodies:[
+    // 高速自転の V2 コアを持つ恒星(殻 300+コア 300)。減光は auto(lS_eff≈1)で自光が出ない。
+    // contract=0.02 で Ω_c が自走し、omegaCrit=10 で shed が 1 回だけ発火する = 崩壊のトリガ。
+    // lightTrap の供給源 E_s=4000 は core.internalEnergy=12000 から切り出す(エネルギーは作らない)
+    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.08, pinned:false, tInt:2, lightSweep:"auto",
+     shell:"solid",
+     core:{mode:"differential", massFrac:0.5, radius:1.5, omega:6, Kcs:0, contract:0.02,
+           internalEnergy:12000,
+           shed:{omegaCrit:10, frac:0.5, n:32, rLaunch:1.5, jFrac:0.3, once:true},
+           lightTrap:{enable:true, supply:4000, tEsc:40, tEscCollapse:0.4, shiftRate:0.6}}},
+    // 外殻ガス環(放出を受ける相手 — 力学は E4 の重力だけ)
+    {type:"ring", n:16, cx:0, cy:0, rIn:60, rOut:60, mMin:0.5, mMax:0.5, spinMin:0, spinMax:0,
+     vMode:"kepler", aroundMass:600, omega:0, vNoise:0, vScale:1, direction:1,
+     bulkVx:0, bulkVy:0, pinned:false, shell:"gas"}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
+
 // ===== 第259便b(第51報 W2): 親子コア(同心層)の原理サンプル =====
 { id:"layeredCoreDFM", name:"親子コア — 観測半径は殻・質量はコア(二層天体の原理)", emoji:"🧅", group:"天体の物語",
   scaleTier:"stellar", sampleClass:"principle", notClaim:["cal"],
@@ -14121,6 +14176,40 @@ function validatePreset(obj){
             if(["omegaCrit","frac","n","rLaunch","jFrac","once","rInner","layers","cooldown","bare","bareBelow"].indexOf(k)<0)
               warnings.push(at+".core.shed の未知キー("+String(k).slice(0,20)+")— 無視");
           oc.shed=sd;
+        }
+      }
+      // ===== 第265便d(第57報 W4): core.lightTrap(opt-in・既定 off)=====
+      // 「減光で出られなかった自光が蓄積し、崩壊で一気に出る」という**トイ仮説**の宣言である
+      // (観測事実の主張ではない —— 使う本は sampleClass:"principle" + notClaim:["lfbot"])。
+      // **不正は body を落とさず lightTrap だけを落とす**(core.shed と同じ流儀)。
+      if(c.lightTrap!==undefined){
+        const LT=c.lightTrap;
+        if(cav) warnings.push(at+".core.lightTrap は cavity では無効 — 無視します");
+        else if(!LT || typeof LT!=="object" || Array.isArray(LT))
+          warnings.push(at+".core.lightTrap はオブジェクト {enable, tEsc, …} が必要 — 無視します");
+        else if(LT.enable!==true){
+          if(LT.enable!==undefined && LT.enable!==false) warnings.push(at+".core.lightTrap.enable は true/false — 無視します");
+        } else if(!isNum(LT.tEsc) || !(LT.tEsc>0))
+          warnings.push(at+".core.lightTrap.tEsc は正の数値が必要 — lightTrap を無視します");
+        else {
+          const lt={enable:true, tEsc:wc(LT.tEsc,1e-9,1e9,"core.lightTrap.tEsc")};
+          const opt=(k,lo,hi)=>{ if(LT[k]===undefined) return;
+            if(!isNum(LT[k]) || !(LT[k]>=lo)){ warnings.push(at+".core.lightTrap."+k+" は "+lo+" 以上の数値が必要 — 無視します"); return; }
+            lt[k]=wc(LT[k],lo,hi,"core.lightTrap."+k); };
+          opt("tEscCollapse",1e-9,1e9); opt("shiftRate",0,1e6); opt("supply",0,1e9);
+          opt("absRate",0,1e6); opt("collapseR",0,200);
+          if(LT.refill!==undefined){
+            if(LT.refill!==true && LT.refill!==false) warnings.push(at+".core.lightTrap.refill は true/false — true にします");
+            else if(LT.refill===false) lt.refill=false;
+          }
+          for(const k of Object.keys(LT))
+            if(["enable","tEsc","tEscCollapse","shiftRate","supply","absRate","collapseR","refill"].indexOf(k)<0)
+              warnings.push(at+".core.lightTrap の未知キー("+String(k).slice(0,20)+")— 無視");
+          // **供給源 E_s はコアの宣言内部エネルギーから切り出す**(新しいエネルギーは作らない)。
+          // 足りなければ切り出せる分だけになる —— 黙って作らないことを警告で明示する
+          if((lt.supply||0) > (oc.internalEnergy||0))
+            warnings.push(at+".core.lightTrap.supply が core.internalEnergy を超えています — 切り出せる分だけを E_s にします(エネルギーは作りません)");
+          oc.lightTrap=lt;
         }
       }
       return oc;
@@ -16284,6 +16373,19 @@ function makeSim(){
     // **coreMF は cavity のとき負値**(=引きずり重み −voidFraction)を格納するが、これは質量ではなく
     // 重みであり、空洞の質量・慣性はどちらも厳密に 0(負質量はどこにも生じない)
     S.coreEint=new Float64Array(n); S.coreSrc=F(); S.coreOm0=F();
+    // 第265便d(第57報 W4): **lightTrap**(減光で出られなかった自光の蓄積帳簿 — opt-in・既定 off)。
+    // 宣言 `core.lightTrap{enable,supply,tEsc,tEscCollapse,shiftRate,absRate,collapseR}` の粒子だけが
+    // `S.ltOn[i]=1` になり、`S.hasLightTrap` が立つ。**未宣言の宇宙は真偽値 1 つで素通りする**
+    // (`S._core` には 1 命令も足していない —— 実体は `S.step` の末尾で呼ぶ `dfmLightTrapStep`)。
+    // 列: E_γ(ltEg)・光子数 N_γ(ltNg)・供給源 E_s(ltEs)・放出済み E_esc(ltEe)・熱 Q(ltQ)・
+    //     **流入 E_in**(ltEi = 減光で熱から引き取った自光。これを書かずに「E_s+E_γ+E_esc+Q=一定」と
+    //     書くと二重計上になる —— 恒等式は E_s+E_γ+E_esc+Q−E_in=E_s(0) である)
+    S.ltOn=new Uint8Array(n); S.ltCo=new Uint8Array(n);
+    S.ltTe=new Float64Array(n); S.ltTc=new Float64Array(n); S.ltSr=new Float64Array(n);
+    S.ltAb=new Float64Array(n); S.ltRc=new Float64Array(n); S.ltRf=new Uint8Array(n);
+    S.ltEg=new Float64Array(n); S.ltNg=new Float64Array(n); S.ltEs=new Float64Array(n);
+    S.ltEe=new Float64Array(n); S.ltQ=new Float64Array(n); S.ltEi=new Float64Array(n);
+    S.hasLightTrap=false; S.ltEs0=0; S.ltLesc=0; S.ltColT=null; S.ltNoThermal=0;
     S.rMulv=new Float64Array(n); S.rMulv.fill(1);   // 第36便 C1: 半径倍率(既定1。倍精度で保持)
     // 第100便 EXT-10(形成系譜): 安定系譜ID(build 時 0..n-1・分裂は新ID発行)と直接吸収数。
     // 記録専用 — 物理からは一切読まれない(bit 不変)。イベント本体は S.linLog(上限400・古い順に間引く)
@@ -16674,8 +16776,25 @@ function makeSim(){
         else { S.shdOc[i]=0; S.shdFr[i]=0; S.shdNp[i]=0; S.shdRL[i]=0; S.shdJF[i]=0; S.shdDn[i]=0;
           S.shdRI[i]=0; S.shdLy[i]=0; S.shdOn[i]=1; S.shdCd[i]=0; S.shdNx[i]=0; S.shdBB[i]=0; }
         S.coreSrc[i]=c.sourceRate||0; S.coreEint[i]=c.internalEnergy||0;
+        // 第265便d: lightTrap(opt-in)。**供給源 E_s はコアの宣言内部エネルギーから切り出す**
+        // (新しいエネルギーを作らない = 二重計上しない。E_int(0) が切り出し後の値になるので
+        //  第80便の恒等式 ΣE_int − ΣE_int(0) = coreSrcE も 1 bit も変わらない)
+        ltClear(S,i);
+        if(c.lightTrap && c.lightTrap.enable===true){
+          const LT=c.lightTrap;
+          S.ltOn[i]=1; S.hasLightTrap=true;
+          S.ltTe[i]=(LT.tEsc>0)? LT.tEsc : 0;
+          S.ltTc[i]=(LT.tEscCollapse>0)? LT.tEscCollapse : S.ltTe[i];
+          S.ltSr[i]=(LT.shiftRate>0)? LT.shiftRate : 0;
+          S.ltAb[i]=(LT.absRate>0)? LT.absRate : 0;
+          S.ltRc[i]=(LT.collapseR>0)? LT.collapseR : 0;
+          S.ltRf[i]=(LT.refill===false)? 0 : 1;   // refill:false = **一度で空になる貯蔵槽**(崩壊後は溜め直さない)
+          const sup=(LT.supply>0)? Math.min(LT.supply, S.coreEint[i]) : 0;
+          S.ltEs[i]=sup; S.coreEint[i]-=sup; S.ltEs0+=sup;
+        }
         S.hasCoreV2=true;
       } else { S.coreMd[i]=0; S.coreMF[i]=0; S.RcV[i]=0; S.coreJ[i]=0; S.coreIS[i]=1; S.coreJm[i]=0;
+        ltClear(S,i);   // 第265便d
         S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0; S.coreKal[i]=0; S.coreBR[i]=0; S.coreBF[i]=0; S.coreBJ0[i]=0; S.coreBJr[i]=0;
         S.coreSrc[i]=0; S.coreEint[i]=0; S.coreOm0[i]=0;
         S.coreRT[i]=0; S.coreBA[i]=0; S.coreBare[i]=0; S.shdBB[i]=0; S.coreSSM[i]=0; }   // 第247便c / 第265便c
@@ -17063,6 +17182,7 @@ function makeSim(){
       S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0; S.coreSrc[i]=0; S.coreEint[i]=0; S.coreOm0[i]=0;
       S.coreJx[i]=0; S.coreJy[i]=0;   // 第227便
       S.coreRT[i]=0; S.coreBA[i]=0; S.coreBare[i]=0;   // 第247便c: 終端宣言・結合 E 台帳・裸コア終端も外す
+      ltClear(S,i);   // 第265便d: lightTrap もコアの属性なので一緒に外す(帳簿の列ごと落ちる)
     } else {
       const Mabs=Math.abs(S.m[i]);
       const has=(k)=>{ const v=cfg[k]; return v!==undefined && v!==null && typeof v==="number" && isFinite(v); };
@@ -18593,6 +18713,10 @@ function makeSim(){
       // 第256便c(3 審査 v14 O7): **表示が所有する tracer は非表示のとき運ばない**(_galTracerAdvance)
       if(S.hasGalaxyTracer) _galTracerAdvance(S,dt);
     }
+    // 第265便d(第57報 W4): lightTrap の蓄積・青方偏移・脱出は**離散イベント(shed/burst)の後**に
+    // 置く(崩壊のラッチが同じ步で見えるように)。**未宣言は真偽値 1 つで素通りする**
+    // (`S._core` には 1 命令も足していない)。近点サブステップでは内側の h ごとに 1 回走る
+    if(S.hasLightTrap) dfmLightTrapStep(S,dt);
     // 第254便a: 物質線の輸送は**步の末尾で 1 度だけ**(離散位置が確定した後 = 幾何整合補間の前提)。
     // **未登録なら真偽値 1 つを読んで素通りする**(既定経路 1 bit 不変)。輸送は表示・観測の側の
     // 状態であって、力学へは 1 バイトも書き戻さない
@@ -18798,6 +18922,17 @@ function makeSim(){
             S.coreKcs[i]=S.coreKcs[src]; S.corePump[i]=S.corePump[src];
             S.coreCtr[i]=S.coreCtr[src]; S.coreSrc[i]=S.coreSrc[src];
             S.coreIS[i]=S.coreIS[src];   // 第208便: ζ は他の係数と同じ継承元(重い側/持つ側)
+            // 第265便d: lightTrap は**宣言を重い側/持つ側から継ぎ、6 列は和**にする
+            // (どちらかが宣言していれば残る = 恒等式 E_s+E_γ+E_esc+Q−E_in=E_s(0) が融合をまたいで閉じる)
+            if(S.hasLightTrap && (S.ltOn[i]||S.ltOn[j])){
+              const lsrc=(S.ltOn[i]&&S.ltOn[j])? src : (S.ltOn[i]? i : j);
+              S.ltTe[i]=S.ltTe[lsrc]; S.ltTc[i]=S.ltTc[lsrc]; S.ltSr[i]=S.ltSr[lsrc];
+              S.ltAb[i]=S.ltAb[lsrc]; S.ltRc[i]=S.ltRc[lsrc]; S.ltRf[i]=S.ltRf[lsrc];
+              S.ltCo[i]=(S.ltCo[i]||S.ltCo[j])?1:0;
+              S.ltEg[i]+=S.ltEg[j]; S.ltNg[i]+=S.ltNg[j]; S.ltEs[i]+=S.ltEs[j];
+              S.ltEe[i]+=S.ltEe[j]; S.ltQ[i]+=S.ltQ[j]; S.ltEi[i]+=S.ltEi[j];
+              S.ltOn[i]=1; ltClear(S,j); S.ltOn[j]=0;
+            }
             // 第227便: |J| はベクトル和の大きさ(第210便のスカラー容量和を置換)。逆向き対は
             // 打ち消し合い、旧実装の「隠れ容量だけが残って θ′=90° に倒れる」非保存が消える。
             // 面内ゼロ・同符号 z の対では |J_z,i+J_z,j|=|J_z,i|+|J_z,j| でビット同一
@@ -18909,6 +19044,7 @@ function makeSim(){
       "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",   // 第77便(コアv2)
       "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy","coreSSM",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内/第265便c 殻項の質量則
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx","shdBB","coreRT","coreBA","coreBare",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復 / 第247便c: 裸コア終端・rTarget・結合 E 台帳
+      "ltOn","ltCo","ltRf","ltTe","ltTc","ltSr","ltAb","ltRc","ltEg","ltNg","ltEs","ltEe","ltQ","ltEi",   // 第265便d: lightTrap(宣言 8 + 帳簿 6)
       "lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
@@ -18952,6 +19088,7 @@ function makeSim(){
       "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",   // 第77便(コアv2)
       "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy","coreSSM",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内/第265便c 殻項の質量則
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx","shdBB","coreRT","coreBA","coreBare",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復 / 第247便c: 裸コア終端・rTarget・結合 E 台帳
+      "ltOn","ltCo","ltRf","ltTe","ltTc","ltSr","ltAb","ltRc","ltEg","ltNg","ltEs","ltEe","ltQ","ltEi",   // 第265便d: lightTrap(宣言 8 + 帳簿 6)
       "lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
@@ -19108,6 +19245,7 @@ function makeSim(){
         S.RcV[j]=Math.sqrt(m2t/mT)*S.RcV[i]; S.RcV[i]=Math.sqrt(m1t/mT)*S.RcV[i];
         S.coreJ[j]=S.coreJ[i]-J1c; S.coreJ[i]=J1c;
         S.coreEint[j]=S.coreEint[i]-E1c; S.coreEint[i]=E1c;
+        ltClear(S,j);   // 第265便d: 分裂片は lightTrap を継がない(蓄積は親に残る = 恒等式が閉じる)
         S.coreKcs[j]=S.coreKcs[i]; S.corePump[j]=S.corePump[i]; S.coreCtr[j]=S.coreCtr[i]; S.coreKal[j]=S.coreKal[i]; S.dragQ[j]=S.dragQ[i];   // 第237便: q_i は両片が継ぐ
         S.dragQT[j]=S.dragQT[i]; S.coreDQ[j]=S.coreDQ[i]; S.coreDQT[j]=S.coreDQT[i];   // 第239便
         S.frameSrc[j]=S.frameSrc[i];   // 第243便
@@ -19124,6 +19262,7 @@ function makeSim(){
         S.frameSrc[j]=S.frameSrc[i];   // 第243便
         S.coreBR[j]=0; S.coreBF[j]=0; S.coreBJ0[j]=0; S.coreBJr[j]=0;   // 第234便
         S.coreEint[j]=0; S.coreSrc[j]=0; S.coreOm0[j]=0; S.coreIS[j]=1; S.coreJm[j]=0;
+        ltClear(S,j);   // 第265便d
         S.coreJx[j]=0; S.coreJy[j]=0;   // 第227便
       }
       // 材質係数は両片が親を引き継ぐ(分裂は同じ材質の2片に割れる)
@@ -19289,6 +19428,7 @@ function makeSim(){
           if(S.layN) S.layN[jj]=0;   // 第259便b: 放出片は層を持たない
           S.coreBR[jj]=0; S.coreBF[jj]=0; S.coreBJ0[jj]=0; S.coreBJr[jj]=0;
           S.coreEint[jj]=0; S.coreSrc[jj]=0; S.coreOm0[jj]=0; S.coreJx[jj]=0; S.coreJy[jj]=0;
+          ltClear(S,jj);   // 第265便d: 放出片は lightTrap を継がない
           S.shdOc[jj]=0; S.shdFr[jj]=0; S.shdNp[jj]=0; S.shdRL[jj]=0; S.shdJF[jj]=0; S.shdDn[jj]=0;
           S.shdRI[jj]=0; S.shdLy[jj]=0; S.shdOn[jj]=1; S.shdCd[jj]=0; S.shdNx[jj]=0;   // 第246便: 放出片は shed を継がない
           S.shdBB[jj]=0; S.coreRT[jj]=0; S.coreBA[jj]=0; S.coreBare[jj]=0;   // 第247便c: 放出片は終端宣言も台帳も継がない
@@ -25606,6 +25746,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
       "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",   // 第77便(コアv2)
       "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy","coreSSM",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内/第265便c 殻項の質量則
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx","shdBB","coreRT","coreBA","coreBare",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復 / 第247便c: 裸コア終端・rTarget・結合 E 台帳
+      "ltOn","ltCo","ltRf","ltTe","ltTc","ltSr","ltAb","ltRc","ltEg","ltNg","ltEs","ltEe","ltQ","ltEi",   // 第265便d: lightTrap(宣言 8 + 帳簿 6)
       "lSw","radOv",                           // 観測系(第22便 — obsT/coreOT は第61便で廃止)
       "rMulv","lSwAuto",                       // 第36便 C1/C2: 半径倍率・掻出の自動算出フラグ
       // 第45便 45B: 転写長は「A 側の生存粒子数 sim.n」に固定する(分裂で確保長が A 側だけ
@@ -25653,6 +25794,9 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   // 第80便(コアv2): コアの外部仕事・外部注入の帳簿も複製する(coreEint 配列は上で転写済みなので、
   // 帳簿を 0 のままにすると B 側だけ Σ(E_int−E_int0)=coreSrcE の恒等式が破れる)
   simB.coreWork=sim.coreWork; simB.coreSrcE=sim.coreSrcE; simB.alignE=sim.alignE;   // 第232便
+  // 第265便d: lightTrap のスカラー(配列は上の転写リストに入っている)。B 側だけ恒等式が破れないようにする
+  simB.hasLightTrap=sim.hasLightTrap; simB.ltEs0=sim.ltEs0; simB.ltLesc=sim.ltLesc;
+  simB.ltColT=sim.ltColT; simB.ltNoThermal=sim.ltNoThermal;
   simB.burstE=sim.burstE; simB.burstK=sim.burstK; simB.burstL=sim.burstL; simB.burstRes=sim.burstRes;   // 第234便
   // 第244便: envelopeShed 帳簿(放出済みの粒子は上の配列転写で B 側へ渡っているので、帳簿も揃える)
   simB.shedE=sim.shedE; simB.shedK=sim.shedK; simB.shedU=sim.shedU; simB.shedL=sim.shedL;
@@ -25843,11 +25987,13 @@ const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU",
   "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",
   "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy","coreSSM",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内/第265便c 殻項の質量則
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx","shdBB","coreRT","coreBA","coreBare",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復 / 第247便c: 裸コア終端・rTarget・結合 E 台帳
+      "ltOn","ltCo","ltRf","ltTe","ltTc","ltSr","ltAb","ltRc","ltEg","ltNg","ltEs","ltEe","ltQ","ltEi",   // 第265便d: lightTrap(宣言 8 + 帳簿 6)
   "railR","railAng","railOmega","railCx","railCy","railH",
   "Tint","coordN","coordAcc","shPrev","_phNbrPrev","_phNbrPrevN","_phProf"];
 const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat","coreWork","coreSrcE","alignE","burstE","burstK","burstL","burstRes",
   "shedE","shedK","shedU","shedL","shedM","shedRes","shedNev","shedOm","shedT","shedSkip",   // 第244便: envelopeShed 帳簿
   "bindRel","bindRot","bindHold","bindStop","bareN","bareM",   // 第247便c: 結合 E 台帳・裸コア終端
+  "ltEs0","ltLesc","ltColT","ltNoThermal",   // 第265便d: lightTrap のスカラー帳簿
   "clampVN","clampSN","clampHN","clampAN","clampRN","clampTN","angOvfN","_phAcc","_phNbrInit",
   "fusN","fusU","fusPx","fusPy","fusL","fisN","aEffRef","_bhLastA","_bhLastT","_bhAcc"];
 function ckInvalidate(){ ckSnap=null; $("#btnCkLoad").disabled=true; }
@@ -35097,7 +35243,14 @@ function dfmToyLedger(S,opts){
       notes.push("W_drag の回転ぶん: coupleSink を宣言した宇宙では残余トルクの受け先が殻スピンではない(未定義)"); }
   } else { und.push("Wdrag");
     notes.push("W_drag(引きずりが粒子にした仕事): physics.ledger.dragWork 未宣言 —— **記録していない**(0 ではない)"); }
+  // 第265便d: lightTrap の列。**宣言した宇宙にだけ鍵を足す**(未宣言では terms の鍵集合が 1 つも増えない)。
+  //   Elight = Σ(E_s + E_γ)(系の中に在る)・Elesc = Σ E_esc(系から出た)。
+  //   **radE(Eescaped)には積まない** —— 蓄積した光を輻射帳簿と二重に数えないための分離である。
+  const ltRec=(S.hasLightTrap)? dfmLightTrapLedger(S) : null;
   const terms={ K, U, Eshell, Ecore, Emesh, Q, Eescaped:Eesc };
+  if(ltRec){ terms.Elight=ltRec.Es+ltRec.Eg; terms.Elesc=ltRec.Eesc;
+    notes.push("lightTrap: E_light=E_s+E_γ("+(ltRec.Es+ltRec.Eg)+")と E_esc("+ltRec.Eesc
+      +")を**別の列**に置いた(radE には積んでいない)。恒等式の残差(相対)="+ltRec.relResidual); }
   let Etot=0;
   for(const k of Object.keys(terms)) if(terms[k]!==null) Etot+=terms[k];
   // ---- 容量(観測した事実が無いエネルギーの**初期容量と下限**)
@@ -35185,6 +35338,7 @@ function dfmToyLedger(S,opts){
     parts:{ wext:wparts, hidden, meshQ, pinHeat, radE:Eesc, radL:Number(S.radL||0),
       resPx:Number(S.resPx||0), resPy:Number(S.resPy||0), resL:Number(S.resL||0),
       nPair, n, t:S.t, hasSpinSpin:!!S.hasSpinSpin, reservoir:rv? {Imesh:rv.Imesh,gamma:rv.gamma} : null },
+    lightTrap:ltRec,   // 第265便d(宣言しない宇宙では null)
     closed:(und.length===0),
     note:"E_tot=K+U+E_shell+E_core+E_mesh+Q+E_escaped・ΔE_tot=W_ext。**未定義の項は 0 で埋めていない**。"
       +"Q を重力波と読まない。減光は観測写像であって帳簿の項ではない" };
@@ -36655,6 +36809,123 @@ function geoCoreDispatch(S,dt,mode){
   if(p.geoPN>=3){ const g=p.geoPN; p.geoPN=S.hasGeoToy?0:2; try{ S._core(dt,mode); } finally{ p.geoPN=g; } }
   else S._core(dt,mode);
 }
+// ===== 第265便d(第57報 W4): LFBOT の**トイ仮説** —— 減光で出られなかった自光の蓄積と、崩壊での放出 =====
+// 原仮定者(第57報)「『Luminous Fast Blue Optical Transient』について、『減光』で青方偏移した光が
+// 蓄積し、天体の崩壊で一気に放出した、という仮説を立てる」。**観測事実の主張ではない**(sampleClass は
+// principle・`notClaim:["lfbot"]`)。実在イベント(AT2018cow 等)へ 3σ を出さない。
+//
+// ■ **どのエネルギーが動くかを先に決める**(二重計上の禁止)
+//   既存の E11 は `dE=η·T^p·(1−ℓ)·dt` だけを `radE` へ出す ——「出られなかった分 ℓ·η·T^p·dt」は
+//   **熱として天体に残る**。lightTrap を宣言した粒子ではこの残った分を**熱から引き取って** E_γ へ移す
+//   (= T は減光が無かったときと同じだけ下がる)。**`radE` には 1 bit も積まない**(積むと二重計上)。
+//   青方偏移の仕事 P_shift は**供給源 E_s から支払う**(光子数 N_γ は不変・E_s が尽きれば止まる・
+//   N_γ=0 なら仕事しない) —— 往復だけでエネルギーは増えない。
+//
+// ■ 帳簿(粒子ごと)
+//   Ė_in=ℓ·η·T^p (熱→E_γ)・Ė_s=−P_shift・Ė_γ=Ė_in+P_shift−L_esc−Q_abs・Ė_esc=L_esc・Q̇=Q_abs
+//   L_esc=E_γ/t_esc・ν̄=E_γ/(h·N_γ)(**h≡1 のシミュレータ単位** = 光子 1 個あたりのエネルギー)
+//   **恒等式**: E_s + E_γ + E_esc + Q − E_in = E_s(0)(E_in を落として書いてはならない)
+//   光子の注入数は Wien の変位則に倣って dN=dE_in/(b_m·T)(井戸で青くなるのは P_shift の側)。
+//
+// ■ 崩壊(t_esc の切り替え)
+//   `collapseR`(コア半径がこの値以下)・`shed` の発火・`burst` の放出のいずれかで**一度だけ**ラッチし、
+//   以後 t_esc→tEscCollapse になる。**「崩壊したら必ず放出する」スイッチであって予測式ではない**。
+//
+// ■ 正直な限界
+//   ・熱の引き取りは `thermal:"tint"` の宇宙でだけ働く(スピン=熱の既定モードは未接続 —— `ltNoThermal`)。
+//   ・`S._core` の**後**で `Tint` を読むので、E11 本体との差は O(dt²) である(帳簿の恒等式は厳密)。
+//   ・外来光(井戸へ落ちてくる光)の捕獲は本便では足していない —— 蓄積するのは**自光だけ**である。
+function ltClear(S,i){
+  if(!S.ltOn) return;
+  S.ltOn[i]=0; S.ltCo[i]=0; S.ltRf[i]=0; S.ltTe[i]=0; S.ltTc[i]=0; S.ltSr[i]=0; S.ltAb[i]=0; S.ltRc[i]=0;
+  S.ltEg[i]=0; S.ltNg[i]=0; S.ltEs[i]=0; S.ltEe[i]=0; S.ltQ[i]=0; S.ltEi[i]=0;
+}
+function dfmLightTrapStep(S,dt){
+  if(!S.hasLightTrap || !(dt>0)) return;
+  const p=S.params, n=S.n, tint=(S.thermal==="tint");
+  const etaRad=p.etaRad, pRad=p.pRad, cHeat=p.cHeat, bM=p.bM, kap=p.kappaT;
+  const eps2=p.softening*p.softening;
+  if(!tint) S.ltNoThermal=1;
+  let lesc=0;
+  for(let i=0;i<n;i++){
+    if(!S.ltOn[i]) continue;
+    const mi=S.m[i], ls=S.lSw[i], Ri=S.R[i];
+    // (i) 減光で出なかった自光を**熱から** E_γ へ移す(radE には積まない)
+    // refill:false を宣言した粒子は**崩壊のラッチが立った後は溜め直さない**(一度で空になる貯蔵槽)
+    if(tint && etaRad>0 && ls>0 && mi>0 && S.Tint && S.Tint[i]>0 && !(S.ltRf[i]===0 && S.ltCo[i])){
+      const T0=S.Tint[i], cm=cHeat*mi;
+      const aU=(S.arep && S.arep[i]>0)? S.arep[i] : 0;
+      let dIn=etaRad*Math.pow(T0,pRad)*ls*dt;
+      const lim=0.5*cm*T0 + aU*Math.sqrt(T0)*(1-Math.SQRT1_2);
+      if(dIn>lim) dIn=lim;
+      if(dIn>0 && cm>0){
+        S.Tint[i]=solveTintE(T0, cm, aU, -dIn);
+        S.ltEi[i]+=dIn; S.ltEg[i]+=dIn;
+        const nu0=bM*T0; if(nu0>0) S.ltNg[i]+=dIn/nu0;
+      }
+    }
+    // (ii) 青方偏移の仕事(**E_s から支払う** —— 光子数は不変 = ν̄ が上がる)
+    if(S.ltSr[i]>0 && S.ltNg[i]>0 && S.ltEs[i]>0 && S.ltEg[i]>0){
+      const psi=(S.sumW[i] + Math.abs(mi)/Math.sqrt(Ri*Ri+eps2))*kap;
+      if(psi>0){
+        let dW=S.ltSr[i]*psi*S.ltEg[i]*dt;
+        if(dW>S.ltEs[i]) dW=S.ltEs[i];
+        if(dW>0){ S.ltEs[i]-=dW; S.ltEg[i]+=dW; }
+      }
+    }
+    // (iii) 崩壊のラッチ(コア半径・shed の発火・burst の放出)—— **一度立ったら戻らない**
+    if(!S.ltCo[i]){
+      const col=(S.ltRc[i]>0 && S.RcV[i]>0 && S.RcV[i]<=S.ltRc[i])
+        || (S.shdDn && S.shdDn[i]===1) || (S.coreBJr && S.coreBJr[i]>0);
+      if(col){ S.ltCo[i]=1; if(S.ltColT===null) S.ltColT=S.t; }
+    }
+    // (iv) 脱出 L_esc=E_γ/t_esc(崩壊後は tEscCollapse)
+    const te=(S.ltCo[i] && S.ltTc[i]>0)? S.ltTc[i] : S.ltTe[i];
+    if(te>0 && S.ltEg[i]>0){
+      let dE=S.ltEg[i]/te*dt;
+      if(dE>S.ltEg[i]) dE=S.ltEg[i];
+      if(dE>0){
+        const fr=dE/S.ltEg[i];
+        S.ltEg[i]-=dE; S.ltNg[i]-=S.ltNg[i]*fr; S.ltEe[i]+=dE; lesc+=dE/dt;
+      }
+    }
+    // (v) 吸収(既定 0 —— 宣言したときだけ熱へ戻す)
+    if(S.ltAb[i]>0 && S.ltEg[i]>0 && tint && S.Tint){
+      let dQ=S.ltAb[i]*S.ltEg[i]*dt;
+      if(dQ>S.ltEg[i]) dQ=S.ltEg[i];
+      if(dQ>0){
+        const fr=dQ/S.ltEg[i], cm=cHeat*mi;
+        const aU=(S.arep && S.arep[i]>0)? S.arep[i] : 0;
+        S.ltEg[i]-=dQ; S.ltNg[i]-=S.ltNg[i]*fr; S.ltQ[i]+=dQ;
+        if(cm>0) S.Tint[i]=solveTintE(S.Tint[i], cm, aU, dQ);
+      }
+    }
+  }
+  S.ltLesc=lesc;
+}
+// 帳簿の読み(**純関数 —— 1 バイトも書かない**)。恒等式 E_s+E_γ+E_esc+Q−E_in=E_s(0) の残差を返す。
+function dfmLightTrapLedger(S){
+  // **宣言していない宇宙では null を返す**(0 の帳簿を作らない —— 無いことと 0 は別である)
+  if(!S || !S.ltOn || !S.hasLightTrap) return null;
+  const n=S.n, bodies=[];
+  let Eg=0, Ng=0, Es=0, Ee=0, Q=0, Ei=0, nOn=0, nCol=0;
+  for(let i=0;i<n;i++){
+    if(!S.ltOn[i]) continue;
+    nOn++; if(S.ltCo[i]) nCol++;
+    Eg+=S.ltEg[i]; Ng+=S.ltNg[i]; Es+=S.ltEs[i]; Ee+=S.ltEe[i]; Q+=S.ltQ[i]; Ei+=S.ltEi[i];
+    bodies.push({ i, Eg:S.ltEg[i], Ng:S.ltNg[i], Es:S.ltEs[i], Eesc:S.ltEe[i], Q:S.ltQ[i], Ein:S.ltEi[i],
+      nuBar:(S.ltNg[i]>0)? S.ltEg[i]/S.ltNg[i] : null, collapsed:!!S.ltCo[i], refill:(S.ltRf[i]!==0),
+      tEsc:(S.ltCo[i] && S.ltTc[i]>0)? S.ltTc[i] : S.ltTe[i] });
+  }
+  const sum=Es+Eg+Ee+Q-Ei, res=sum-Number(S.ltEs0||0);
+  const den=Math.max(Math.abs(S.ltEs0||0), Math.abs(Es)+Math.abs(Eg)+Math.abs(Ee)+Math.abs(Q)+Math.abs(Ei));
+  return { n:nOn, collapsed:nCol, t:S.t, Eg, Ng, Es, Eesc:Ee, Q, Ein:Ei,
+    nuBar:(Ng>0)? Eg/Ng : null, Lesc:Number(S.ltLesc||0), collapseT:S.ltColT,
+    Es0:Number(S.ltEs0||0), invariant:sum, residual:res,
+    relResidual:(den>0)? res/den : null, thermalWired:(S.thermal==="tint"),
+    note:"恒等式は E_s+E_γ+E_esc+Q−E_in=E_s(0)。**E_in(減光で熱から引き取った自光)を落として書くと二重計上になる**。"
+      +"E_esc は radE とは別の列である(既存の項と重ねない)。ν̄ は h≡1 のシミュレータ単位(光子 1 個あたりのエネルギー)" };
+}
 // ===== 第259便b(第51報 W2): 親子コア・3D スピン参照場・歳差/緩和の**純関数**(S を 1 バイトも読み書きしない)=====
 // 原仮定者(第51報)「観測半径は外殻が担うが、質量は半径の小さなコアが大半を担う」「天体の自転による
 // 空間メッシュへの影響を、赤道面だけで無く、軸が歳差運動で傾いた場合や、歳差運動が潮汐ロックで公転と
@@ -37729,6 +38000,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第258便b(第50報): 最小の閉鎖系(K+U+有限 E_mesh+Q)と引きずり仕事の opt-in 鍵
   dfmChainMeshClosed, dfmChainMeshClosedStep, dfmChainMeshClosedEnergy, LEDGER_KEY,
   CHAIN_RINGS_MAX, CHAIN_SUPPORT_PAD, dfmToyLedger,
+  // 第265便d(第57報 W4): LFBOT のトイ仮説 —— 減光で出られなかった自光の蓄積帳簿の読み(**純関数**)。
+  // 恒等式 E_s+E_γ+E_esc+Q−E_in=E_s(0)。**E_in を落として書くと二重計上**になる。
+  dfmLightTrapLedger:(S)=>dfmLightTrapLedger(S||sim),
   dfmLedgerRelative, LEDGER_ACTIVE_FLOOR_REL,   // 第261便d(第53報): 規格化の分母の併記
   // 第262便d(第54報): **活動部分を正本**にした 1e−3 の門の状態名(純関数・FAIL を出さない)
   dfmLedgerGateState, LEDGER_GATE_THRESHOLD,

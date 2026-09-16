@@ -115,5 +115,29 @@ export function readSigmaKind(note) {
     scale, scaleKind: (spread !== null) ? 'spread' : (older !== null ? 'older_sigma' : null) };
 }
 
+// 第265便d(第57報 W4・統括の裁定 Z11): **外部確認印** `value_checked_by=<確認者> <日付>;
+// value_checked_at=<表/列>; value_checked_value=<原記載>`。
+//   **これは `sigma_primary` の印ではない。** 一次資料の表・列と桁を**外から照合した**という
+//   記録であって、`sigma_primary=unverified` を `verified` へ上げる力は 1 bit も無い
+//   (上げるのは原仮定者の照合だけである — X7 の `verified_by=` と同じ規約)。
+//   `verified_by=` の正規表現は語境界つきなので `value_checked_by=` を拾わない(QA ⑥ が固定する)。
+const VC_BY_RE = /(?:^|[^A-Za-z0-9_])value_checked_by=([^;]*)/;
+const VC_AT_RE = /(?:^|[^A-Za-z0-9_])value_checked_at=([^;]*)/;
+const VC_VALUE_RE = /(?:^|[^A-Za-z0-9_])value_checked_value=([^;]*)/;
+
+/**
+ * 外部確認印を読む。**印(sigma_primary)は 1 bit も動かさない**。
+ * @returns {{present:boolean, who:string, at:(string|null), value:(string|null),
+ *            promotesMark:false, mark:(string|null)}}
+ */
+export function readValueChecked(note) {
+  const s = (typeof note === 'string') ? note : '';
+  const b = VC_BY_RE.exec(s), a = VC_AT_RE.exec(s), v = VC_VALUE_RE.exec(s);
+  const who = b ? String(b[1]).trim() : '';
+  return { present: !!b && who !== '', who,
+    at: a ? String(a[1]).trim() : null, value: v ? String(v[1]).trim() : null,
+    promotesMark: false, mark: readSigmaMark(s).mark };
+}
+
 export default { readSigmaMark, isSigmaPrimaryVerified, legacyIsSigmaPrimaryVerified,
-  readVerifiedBy, readSigmaKind };
+  readVerifiedBy, readSigmaKind, readValueChecked };

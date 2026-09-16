@@ -391,6 +391,42 @@ const add = (id, pass, detail) => {
     bad.push('⑤spread/digits が読めない');
   if (!(k2.olderSigma === 1.5e-3 && k2.scaleKind === 'older_sigma')) bad.push('⑤older_sigma が読めない');
   if (!(k3.scale === null && k3.scaleKind === null)) bad.push('⑤尺度が無い行に尺度が立っている');
+  // ⑥ 第265便d(Z11): **外部確認印 `value_checked_by=` は `sigma_primary` を上げない**。
+  //    `verified_by=` の語境界つき正規表現が `value_checked_by=` を拾わないことも同時に固定する
+  //    (拾うと「原仮定者が確認した」ことになってしまい、門の σ の出所が黙って増える)。
+  const VCN = 'kind=observed; orig 6.3872304 d; value_checked_by=external review 2026-09-16; '
+    + 'value_checked_at=arXiv astro-ph/0512491v2 Table 3; value_checked_value=6.3872304(11) d; '
+    + 'sigma_primary=unverified; verified_by=; record_stream=2';
+  const vc1 = L.readValueChecked(VCN);
+  if (!(vc1.present === true && vc1.at && vc1.value && vc1.promotesMark === false))
+    bad.push('⑥value_checked_by の 3 欄が読めない');
+  if (L.readSigmaMark(VCN).mark !== 'unverified')
+    bad.push('⑥value_checked_by のある行の印が unverified で読めない(= 印が黙って上がっている)');
+  if (L.readVerifiedBy(VCN).present !== false)
+    bad.push('⑥`verified_by=` の読みが `value_checked_by=` を拾っている(X7 の確認者が水増しされる)');
+  if (L.readValueChecked('sigma_primary=unverified; intake 2026-09-15').present !== false)
+    bad.push('⑥印だけの行に外部確認印が立っている');
+  // ⑥ 実体: Z11 の 2 行(カロン 2006 P・月の一般歳差)が **印は unverified のまま・外部確認印つき**
+  const vcRows = [];
+  try {
+    const csv = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8').split('\n');
+    for (const line of csv) {
+      if (!line.trim() || line.startsWith('body,')) continue;
+      const cols = []; let cur = '', inQ = false;
+      for (const ch of line) {
+        if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
+        else if (ch === '"') inQ = true;
+        else if (ch === ',') { cols.push(cur); cur = ''; }
+        else cur += ch;
+      }
+      cols.push(cur);
+      const vc = L.readValueChecked(cols[7] || '');
+      if (vc.present) vcRows.push({ body: cols[0], quantity: cols[1], mark: vc.mark });
+    }
+  } catch (e) { bad.push('⑥CSV が読めない: ' + String(e).slice(0, 60)); }
+  if (vcRows.length < 2) bad.push(`⑥外部確認印つきの行が ${vcRows.length} 行(Z11 の 2 行が入っていない)`);
+  for (const r of vcRows) if (r.mark === 'verified')
+    bad.push(`⑥${r.body}|${r.quantity} が外部確認印だけで verified になっている`);
   add('lint.sigmaMark', bad.length === 0,
     `**\`sigma_primary\` の印の厳密読み**(第263便c ⑤′ の読み違いを直した): 語境界つきの出現を拾い、`
     + `第251便c の**凡例文**(\`sigma_primary=… means …\`)を除き、**凡例でない最初の出現**を行の印とする。`
@@ -403,7 +439,9 @@ const add = (id, pass, detail) => {
     + `④ X7 の規約 \`verified_by=<確認者> <日付>; verified_at=<表/列>; verified_value=<原記載>\` を読み、`
     + `\`verified\` なのに \`verified_by\` が無い行は**警告**(拒否はしない・該当 `
     + `${audit && audit.verifiedByMissing ? audit.verifiedByMissing.length : '—'} 行)/ `
-    + `⑤ \`sigma_kind\` / \`spread\` / \`older_sigma\` / \`digits\` は **σ ではない**(informational な尺度)`
+    + `⑤ \`sigma_kind\` / \`spread\` / \`older_sigma\` / \`digits\` は **σ ではない**(informational な尺度)/ `
+    + `⑥ 第265便d(Z11): **外部確認印 \`value_checked_by=\` は印を上げない**(該当 ${vcRows.length} 行 —— `
+    + `いずれも \`sigma_primary=unverified\` のまま・\`verified_by=\` の読みも拾わない)`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 
@@ -480,6 +518,79 @@ const add = (id, pass, detail) => {
     + `—— 埋めるのは原仮定者の照合である)/ ④ 候補行 ${cand} 行(**既存の鍵と同じ名前の行は 1 行も無い** `
     + `= 既存の値を 1 バイトも置き換えていない)/ ⑤ 派生行 ${derived} 行(量名は \`…_derived\` で、`
     + `**門に入る量名ではない**)/ ⑥ 照合 ${JSON.stringify(three)} / 不足表 68 組 ${JSON.stringify(six)}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 第265便d(第57報 W4・統括の裁定 Z10): docs.solarSourceDeclaration ----
+// ----   `docs/CALIBRATION_VERDICT_v1.44.md` §2.3⁗ の**判定に使う出典の宣言**が、
+// ----   `paper/data/solar-observations.csv` の実体と食い違っていないことを機械で見る。
+// ----   固定するのは 4 つ(**値も σ も 1 文字も動かさない**):
+// ----     ① 宣言表の行数 = **30**(第264便d が数えた食い違い 30 組)。
+// ----     ② 宣言した**正の値**が、その天体の `<量>` か `<量>_candidate` の行として CSV に在る。
+// ----     ③ 宣言した**正の出典**が、その行の source に含まれる(出典キーが空振りしていない)。
+// ----     ④ 「現行の器の行と一致/**不一致**」の印が、**ファイル順の最初の `body|quantity` 行の
+// ----        source に正の出典キーが含まれるか**と一致する(現行の器の行選択を書き換えていない)。
+// ----   **判定(4 値)は動いていない**(宣言は帳簿の別の層である)。
+{
+  const md = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
+  const sec0 = md.split('#### 2.3⁗')[1];
+  const sec = sec0 ? sec0.split(/\n#{2,4} /)[0] : null;   // 次の見出しまでで切る(後続の表を拾わない)
+  const bad = [];
+  let rows = [];
+  if (!sec) bad.push('§2.3⁗(判定に使う出典の宣言)が無い');
+  else {
+    rows = sec.split('\n').filter((l) => /^\|/.test(l) && !/^\|---/.test(l) && !/^\| 天体 /.test(l))
+      .map((l) => l.split('|').slice(1, -1).map((c) => c.trim()))
+      .filter((c) => c.length === 7);
+  }
+  // CSV を読む(列の意味は 0=body 1=quantity 2=value 4=source)
+  const csvRows = [];
+  {
+    const lines = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8').split('\n');
+    for (const line of lines) {
+      if (!line.trim() || line.startsWith('body,')) continue;
+      const cols = []; let cur = '', inQ = false;
+      for (const ch of line) {
+        if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
+        else if (ch === '"') inQ = true;
+        else if (ch === ',') { cols.push(cur); cur = ''; }
+        else cur += ch;
+      }
+      cols.push(cur);
+      if (cols.length < 9) continue;
+      csvRows.push({ body: cols[0], quantity: cols[1], value: cols[2], source: cols[4] });
+    }
+  }
+  if (rows.length !== 30) bad.push(`①宣言表が ${rows.length} 行(食い違いは 30 組)`);
+  let mismatchDoc = 0, mismatchCalc = 0;
+  for (const [body, quantity, srcKey, value, , , gateMark] of rows) {
+    const prim = csvRows.find((r) => r.body === body
+      && (r.quantity === quantity || r.quantity === quantity + '_candidate')
+      && r.value === value && r.source.indexOf(srcKey) >= 0);
+    if (!prim) {
+      const anyVal = csvRows.some((r) => r.body === body
+        && (r.quantity === quantity || r.quantity === quantity + '_candidate') && r.value === value);
+      bad.push(anyVal ? `③${body}|${quantity} の出典キー「${srcKey}」が空振り`
+        : `②${body}|${quantity} の正の値 ${value} が CSV に無い`);
+      continue;
+    }
+    const gate = csvRows.find((r) => r.body === body && r.quantity === quantity) || null;
+    const calc = !!(gate && gate.source.indexOf(srcKey) >= 0);
+    const doc = !/不一致/.test(gateMark);
+    if (!doc) mismatchDoc++;
+    if (!calc) mismatchCalc++;
+    if (doc !== calc) bad.push(`④${body}|${quantity} の印が実体と食い違う(表 ${doc ? '一致' : '不一致'})`);
+  }
+  if (mismatchDoc !== mismatchCalc) bad.push(`④不一致の件数が違う(表 ${mismatchDoc} / 実体 ${mismatchCalc})`);
+  if ((sec || '').indexOf('判定(4 値)は 1 本も動いていない') < 0)
+    bad.push('§2.3⁗ に「判定(4 値)は 1 本も動いていない」の明記が無い');
+  add('docs.solarSourceDeclaration', bad.length === 0,
+    `**判定に使う出典の宣言(Z10)**: 食い違い ${rows.length} 組について「正(judgement source)」と「候補」を宣言した`
+    + `(規則: ①一次資料の解 ②ファクトシート/Wikipedia/別版/定義違い/空の記録行は候補 ③Z10 が名指しした`
+    + `カロン P=Buie 2012・地球 P=IERS は①と同じ向き)/ `
+    + `**現行の器が採る行(ファイル順の最初の \`body|quantity\`)と宣言した正が食い違うのは ${mismatchCalc} 組**`
+    + `(行選択は本便では差し替えない —— 差し替えは判定を動かすので統括の裁定を待つ)/ `
+    + `**値・σ・\`sigma_primary\` の印は 1 文字も動かしていない**`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 
@@ -14991,7 +15102,7 @@ if (!FAST) {
 //        測定値ではない)。H1 は **f_ind の出どころの宣言を要求**し、台帳由来(`fLedger` 等)や
 //        無宣言では `circular:true` で **value を返さない**(恒等式を予測と呼ばないための門)。
 //        χ_eff≤0・η_sym≤0・δ<0 は null(0 で埋めない)。
-//     ② **二値契約は動いていない**: 内蔵 123 本の kFrame は **0 か 1 だけ**(`preset.kframe-binary01`
+//     ② **二値契約は動いていない**: 内蔵 124 本(第265便b で 🪁・第265便d で 🐮 が加わり 122→124)の kFrame は **0 か 1 だけ**(`preset.kframe-binary01`
 //        と同じ契約をここでも確かめる)。NS 4 系 ⚡🧮🩺🧶 は kFrame=1・geoPN=2 のままである。
 //     ③ **診断コピーは較正サンプルではない**: 共同根の器が作るコピーは `sampleClass:"principle"` で
 //        `massCalibration` と `claims` を外す。**本体は 1 bit も変わらない**(コピー後に内蔵を読み直す)。
@@ -15479,7 +15590,7 @@ if (!FAST) {
 //   確立した法則ではない。場を粒子から代数的に求め、L=½vᵀH(q)v−U(q)・**H=(I−W)ᵀM(I−W)** を変分する。
 //     ① **排他と門**: 既定は "toy"(正準形に 1 文字も出ない)。"mesh-v2" は geoPN=3 専用・
 //        `sampleClass:"calibration"` で拒否・`toyClosure`/`toyAllowDrag` と排他・未知値は拒否。
-//        **内蔵で law を宣言する本は 0 本**(= 内蔵 123 本は署名も力学もビット不変)。
+//        **内蔵で law を宣言する本は 0 本**(= 内蔵 124 本は署名も力学もビット不変)。
 //     ② **H 検査 4 項**(2 体・等質量): 対称性(厳密 0)・正定値性(λ≥0)・
 //        **構造的特異性**(D₀=0 ∧ η=1 で λ_min=0 厳密・行和=1)・解析値 λ=m(1∓ηχ)² と 10⁻¹⁴ 一致。
 //     ③ **静止 2 体では相対加速度が Newton の μ/M 倍**(D₀=0・η=1)。〔第264便b ④(3)〕の
@@ -17614,8 +17725,8 @@ if (!FAST) {
 //      負の m=`bodyMassNegative`(第262便b で直した穴 —— 旧実装は |m| を使い符号を黙って反転させた)。
 //   ④ **massFrac=1(裸コア)は 1 層**(r=Rc)で、観測半径 R は層に載らず `observedRadius` に残る。
 //   ⑤ **元 JSON を保持**(`source`)・**`canReplaceV2:false`**(コア V2 は消さない)。
-//   ⑥ **内蔵 123 本の移行レポート**(第262便a で 🩻 が加わり 121→122・第265便b で 🪁 が加わり 122→123。
-//      🪁 は core を 1 つも宣言しないので nCore=75 と内訳は動かない)(`coreV2MigrateReport` — 変換しない): 件数が固定値と一致する。
+//   ⑥ **内蔵 124 本の移行レポート**(第262便a で 🩻 が加わり 121→122・第265便b で 🪁 が加わり 122→123・第265便d で 🐮 が加わり 123→124。
+//      🪁 は core を宣言しないが 🐮 は 1 件宣言するので nCore=76・needsResolve 14)(`coreV2MigrateReport` — 変換しない): 件数が固定値と一致する。
 //   ⑦ **非有限の拒否**(統括が設定した検証仮説 (4)): `_setBodyLayers` に Infinity/1e300 を渡すと
 //      `layerNotFinite` で拒否し、**元の状態が 1 bit も動かない**(基点は受理して根の m が Infinity になった)。
 {
@@ -17713,8 +17824,10 @@ if (!FAST) {
       && mg.naked.observedRadius === 8 && mg.naked.warnings.indexOf('nakedCoreObservedRadiusKept') >= 0;
     const m5 = mg.p0.canReplaceV2 === false && mg.p0.source && mg.p0.source.massFrac === 0.3
       && mg.p0.warnings.indexOf('canReplaceV2:false') >= 0;
-    const m6 = mg.rep.nPresets === 123 && mg.rep.nCore === 75 && mg.rep.tot.convertible === 61
-      && mg.rep.tot.needsResolve === 13 && mg.rep.tot.rejected === 1
+    // 第265便d: 🐮 lfbotTrap(コア宣言 1 件・body.radius 非宣言)が入って 75→76 宣言(内蔵は 🪁 と合わせ 124 本)。
+    // 増えた 1 件は `bodyRadiusNotDeclared` の **needsResolve**(13→14)である(🎆 と同じ理由)
+    const m6 = mg.rep.nPresets === 124 && mg.rep.nCore === 76 && mg.rep.tot.convertible === 61
+      && mg.rep.tot.needsResolve === 14 && mg.rep.tot.rejected === 1
       && mg.rep.tot.cavity === 0 && mg.rep.tot.naked === 0;
     const m7 = !mg.fin.inf.ok && mg.fin.inf.why === 'layerNotFinite' && mg.fin.inf.m === 1000
       && !mg.fin.big.ok && mg.fin.big.m === 1000 && !mg.fin.rInf.ok && !mg.fin.jInf.ok
@@ -17758,7 +17871,7 @@ if (!FAST) {
 //   ④ **傾き**: 移行計画は面内成分を層へ**数値として**載せる(layJx = coreJx)。回転場の源は
 //      **z 成分だけ**を読むので、Jx を動かしても Q は動かない(V2 と同じ射影)。
 //   ⑤ **宣言の無い層は従来式**: 🧅 layeredCoreDFM は J を書いていないので `layerDipoleMoment` が
-//      null を返し、Q は ½mR²s のまま(= 内蔵 123 本が 1 bit も変わらない根拠)。
+//      null を返し、Q は ½mR²s のまま(= 内蔵 124 本が 1 bit も変わらない根拠)。
 {
   const hasLRS = await page.evaluate(() => !!(window.HP && typeof HP.dfmLayerDipoleMoment === 'function'
     && typeof HP.coreV2MigrationPlan === 'function' && HP.sim && HP.sim._setBodyLayers));
@@ -17873,7 +17986,7 @@ if (!FAST) {
 //      **0 に読み替えず拒否**し、inertiaScale ≤0・非有限も拒否し、入力が有限でも J_x・回転 E が
 //      Infinity になる場合を拒否する。**massFrac=1(裸コア)でも Rc ≥ R(等号を含む)は移行不可**
 //      —— 基点は `mf<1` の条件で裸コアだけ例外にしていた(契約を緩めない)。
-//   ① **内蔵 123 本の集計**(第265便b で 🪁 が加わった。**core 宣言は 0 件増**): コア宣言 75 件のうち置換可 **31**・不可 **44**(第265便c で ζ を層へ運んだ分だけ 27/48 から動いた)。項別の不可件数と理由の集合を固定する。
+//   ① **内蔵 124 本の集計**(第265便b で 🪁〔core 宣言なし〕・第265便d で 🐮〔core 宣言 1 件〕が加わった): コア宣言 76 件のうち置換可 **31**・不可 **45**(第265便c で ζ を層へ運んだ分 27→31・🐮 の migrationRejected で不可 +1)。項別の不可件数と理由の集合を固定する。
 //   ② **`canReplaceV2` が全項 true の本があっても「コア V2 を廃止できる」とは言わない** ——
 //      この表が測るのは 6 項だけで、描画・保存 JSON・AI 生成・既存セーブの互換はこの表の外である。
 {
@@ -17928,7 +18041,7 @@ if (!FAST) {
         add2('spin:' + tag, base({ spin: v }), 'bodySpinNotFinite');
       add2('tilt60', base(null, { tilt: 60 }), 'ok');
       const p60 = P(base(null, { tilt: 60 }));
-      // ① 内蔵 123 本
+      // ① 内蔵 124 本
       const tot = { canReplace: 0, cannot: 0 }, byAxis = {}, byReason = {};
       let nCore = 0; const ids = [];
       for (const p of HP.allPresets()) {
@@ -17947,12 +18060,13 @@ if (!FAST) {
     // 第265便c: ζ を層へ運ぶようになったので `inertiaScaleNotUnity` の 5 件が消え、
     // 置換可が **27 → 31**・不可が **48 → 44**・rotationSource 軸の不可が **48 → 43** へ動いた
     // (残る 43 は shellSpinTermDiffers 29 + migrationRejected 14。**内蔵の JSON は 1 バイトも変えていない**)
-    // 第265便b で内蔵 123 本(🪁 は core 宣言なし)。
-    const g1 = rp.rep.nPresets === 123 && rp.rep.nCore === 75
-      && rp.rep.tot.canReplace === 31 && rp.rep.tot.cannot === 44
-      && rp.rep.byAxis.rotationSource === 43 && rp.rep.byAxis.migration === 14
-      && rp.rep.byAxis.KcsThermal === 16 && rp.rep.byAxis.activePumpContract === 16
-      && rp.rep.byAxis.tilt === 14 && rp.rep.byAxis.saveRestore === 14;
+    // 第265便d: 🐮 lfbotTrap が入って 76 宣言。増えた 1 件は `migrationRejected`(body.radius 非宣言)で
+    // 不可 44→45・rotationSource 43→44・migration 14→15・各項 +1。内蔵は 🪁 と合わせ 124 本。
+    const g1 = rp.rep.nPresets === 124 && rp.rep.nCore === 76
+      && rp.rep.tot.canReplace === 31 && rp.rep.tot.cannot === 45
+      && rp.rep.byAxis.rotationSource === 44 && rp.rep.byAxis.migration === 15
+      && rp.rep.byAxis.KcsThermal === 17 && rp.rep.byAxis.activePumpContract === 17
+      && rp.rep.byAxis.tilt === 15 && rp.rep.byAxis.saveRestore === 15;
     const g2 = rp.rep.byReason['rotationSource:shellSpinTermDiffers'] === 29
       && rp.rep.byReason['rotationSource:inertiaScaleNotUnity'] === undefined
       && rp.rep.byReason['KcsThermal:KcsNotCarried'] === 2
@@ -17973,6 +18087,141 @@ if (!FAST) {
       + `**この表は 6 項だけを測る** —— 全項 true の本があっても「コア V2 を廃止できる」とは言わない`);
   } else {
     console.log('SKIP behavior.coreV2ReplaceReport(対象に第264便c の置換可否レポートなし — root 等)');
+  }
+}
+
+// ---- 第265便d(第57報 W4): behavior.lightTrapLedger — **LFBOT トイの帳簿** ----
+//   原仮定者(第57報)「『減光』で青方偏移した光が蓄積し、天体の崩壊で一気に放出した、という仮説」。
+//   固定するのは 5 つ:
+//   ① **保存則 3 段**: E_s+E_γ+E_esc+Q−E_in=E_s(0) の相対残差が dt・dt/2・dt/4 で 1e−10 未満。
+//   ② **E_in を落とすと合わない**(= 落として「E_s+E_γ+E_esc+Q=一定」と書くのは**二重計上**である)。
+//   ③ **既定は off**: `core.lightTrap` を宣言しない本では `S.hasLightTrap` が立たず、帳簿は null。
+//      供給源 E_s は `core.internalEnergy` から**切り出す**(宣言でエネルギーが増えない)。
+//   ④ **対照 4 本のどれかが本体と違う**: ①shiftRate=0 ②lightTrap なし ③tEscCollapse=tEsc
+//      ④refill:false。**②は E_esc が厳密に 0**(閉じ込めが無ければ溜まらない)。
+//   ⑤ **崩壊のラッチは一度だけ**で、`shed` の発火で立ち、t_esc が tEscCollapse へ切り替わる。
+//   **実イベント(AT2018cow 等)へ σ は出さない**(principle のトイである)。
+{
+  const hasTrap = await page.evaluate(() => !!(window.HP && typeof HP.dfmLightTrapLedger === 'function'
+    && HP.allPresets().some((z) => z.id === 'lfbotTrap')));
+  if (hasTrap) {
+    const lt = await page.evaluate(() => {
+      const run = (o) => {
+        const q = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'lfbotTrap')));
+        const b = q.bodies[0];
+        if (o.lightTrap === null) delete b.core.lightTrap;
+        else if (o.lightTrap) Object.assign(b.core.lightTrap, o.lightTrap);
+        const v = HP.validatePreset(q);
+        if (!v.ok) return { err: (v.errors || []).join('|') };
+        const S = HP.sim; S.build(v.preset);
+        const eint0 = S.coreEint[0], es0 = S.ltEs ? S.ltEs[0] : 0;
+        const dt = o.dt || 0.016, steps = o.steps || 2500;
+        let peakL = 0, fire = null, nLatch = 0, prevCol = 0;
+        for (let k = 0; k < steps; k++) {
+          S.step(dt);
+          const z = HP.dfmLightTrapLedger(S);
+          if (z) {
+            if (z.Lesc > peakL) peakL = z.Lesc;
+            if (z.collapsed > prevCol) { nLatch++; prevCol = z.collapsed; if (fire === null) fire = z.collapseT; }
+          }
+        }
+        const z = HP.dfmLightTrapLedger(S);
+        return { has: !!S.hasLightTrap, eint0, es0, dt, peakL, fire, nLatch,
+          Eg: z ? z.Eg : 0, Eesc: z ? z.Eesc : 0, Es: z ? z.Es : 0, Ein: z ? z.Ein : 0,
+          Q: z ? z.Q : 0, Es0: z ? z.Es0 : 0, rel: z ? z.relResidual : null,
+          noEin: z ? (z.Es + z.Eg + z.Eesc + z.Q) - z.Es0 : null,
+          nu: z ? z.nuBar : null, nan: S.hasNaN() };
+      };
+      const cons = [run({ dt: 0.016, steps: 2500 }), run({ dt: 0.008, steps: 5000 }),
+        run({ dt: 0.004, steps: 10000 })];
+      const base = cons[0];
+      const ctrl = { shift0: run({ lightTrap: { shiftRate: 0 } }),
+        off: run({ lightTrap: null }),
+        noSwitch: run({ lightTrap: { tEscCollapse: null } }),
+        noRefill: run({ lightTrap: { refill: false } }) };
+      // 既定 off: lightTrap を宣言しない本
+      const q2 = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'envelopeShedDFM')));
+      const v2 = HP.validatePreset(q2); const S2 = HP.sim; S2.build(v2.preset);
+      S2.step(0.016);
+      const offBuiltin = { has: !!S2.hasLightTrap, led: HP.dfmLightTrapLedger(S2) };
+      return { cons, ctrl, offBuiltin };
+    });
+    const c1 = lt.cons.every((z) => z.rel !== null && Math.abs(z.rel) < 1e-10 && !z.nan && !z.err);
+    const c2 = Math.abs(lt.cons[0].noEin) > 1e-3 && lt.cons.every((z) => Math.abs(z.noEin) > 1e-3);
+    const c3 = lt.offBuiltin.has === false && lt.offBuiltin.led === null
+      && lt.cons[0].es0 > 0 && Math.abs(lt.cons[0].eint0 + lt.cons[0].es0 - 12000) < 1e-9;
+    const c4 = lt.ctrl.off.Eesc === 0 && lt.ctrl.off.has === false
+      && lt.ctrl.shift0.peakL < lt.cons[0].peakL
+      && lt.ctrl.noSwitch.peakL !== lt.cons[0].peakL
+      && lt.ctrl.noRefill.Eesc !== lt.cons[0].Eesc;
+    const c5 = lt.cons[0].nLatch === 1 && lt.cons[0].fire !== null && lt.cons[0].fire > 0;
+    add('behavior.lightTrapLedger', c1 && c2 && c3 && c4 && c5,
+      `① **保存則 3 段** E_s+E_γ+E_esc+Q−E_in=E_s(0) の相対残差: `
+      + lt.cons.map((z) => `dt=${z.dt} ${z.rel}`).join(' / ') + `=${c1} / `
+      + `② **E_in を落とすと合わない**(二重計上の証拠): ${lt.cons.map((z) => z.noEin).join(' / ')}=${c2} / `
+      + `③ **既定 off**: 🎆 は hasLightTrap=${lt.offBuiltin.has}・帳簿 null。🐮 の E_s(0)=${lt.cons[0].es0} は `
+      + `core.internalEnergy から切り出され残り E_int=${lt.cons[0].eint0}(和は宣言値 12000)=${c3} / `
+      + `④ **対照 4 本**: ①shiftRate=0 peakL=${lt.ctrl.shift0.peakL} / ②lightTrap なし E_esc=${lt.ctrl.off.Eesc}(厳密 0) / `
+      + `③tEscCollapse=tEsc peakL=${lt.ctrl.noSwitch.peakL} / ④refill:false E_esc=${lt.ctrl.noRefill.Eesc}`
+      + `(本体 peakL=${lt.cons[0].peakL}・E_esc=${lt.cons[0].Eesc})=${c4} / `
+      + `⑤ **崩壊のラッチは 1 回**(t=${lt.cons[0].fire}・回数 ${lt.cons[0].nLatch})=${c5} / `
+      + `**実イベントへ σ は出さない**(principle のトイである)`);
+  } else {
+    console.log('SKIP behavior.lightTrapLedger(対象に第265便d の lightTrap なし — root 等)');
+  }
+}
+
+// ---- 第265便d(第57報 W4): preset.lfbotTrap — 🐮 の**宣言の形** ----
+//   ① `sampleClass:"principle"`・`notClaim` に `lfbot` を含む(表示文 `nc_lfbot` が ja/en 双方にある)。
+//   ② obsCard は 8 行以内・ja の各欄 120 字以内。
+//   ③ 絵文字 🐮 は内蔵で 1 本だけ(重複しない)。
+//   ④ `core.lightTrap` を宣言しているのは**この 1 本だけ**(既定経路は 1 bit 不変の根拠)。
+//   ⑤ **説明文に実イベントの「再現」「予測」を書いていない**(禁止語の機械検査)。
+{
+  const hasLf = await page.evaluate(() => !!(window.HP && HP.allPresets().some((z) => z.id === 'lfbotTrap')));
+  if (hasLf) {
+    const lf = await page.evaluate(() => {
+      const all = HP.allPresets();
+      const p = all.find((z) => z.id === 'lfbotTrap');
+      const nTrap = all.filter((z) => (z.bodies || []).some((b) => b.core && b.core.lightTrap)).length;
+      // nc_lfbot の表示文が ja/en 双方にあること(DOM を経由して確かめる)
+      HP.loadPreset('lfbotTrap', false);
+      const jaLines = [...document.querySelectorAll('#helpBody .notClaimLine')].map((e) => e.textContent);
+      HP.setLang('en');
+      const enLines = [...document.querySelectorAll('#helpBody .notClaimLine')].map((e) => e.textContent);
+      HP.setLang('ja');
+      HP.loadPreset('saturn', false);
+      const ncJa = jaLines.length === 2 && jaLines.some((t) => t.indexOf('LFBOT') >= 0);
+      const ncEn = enLines.length === 2 && enLines.some((t) => t.toLowerCase().indexOf('lfbot') >= 0)
+        && enLines.join('') !== jaLines.join('');
+      return { cls: p.sampleClass, nc: p.notClaim, emoji: p.emoji, group: p.group,
+        jaLines, enLines,
+        nEmoji: all.filter((z) => z.emoji === '🐮').length, nTrap,
+        card: p.obsCard.length,
+        maxLen: Math.max(...p.obsCard.map((r) => Math.max(r.q.length, r.model.length, r.obs.length))),
+        sum: p.descStruct.summary, obs: p.descStruct.observe, ncJa, ncEn,
+        hasTrap: !!p.bodies[0].core.lightTrap };
+    });
+    // 禁止語は「**言わないこと**: …」の**前**と `observe` の全体で見る(否定の引用まで拾わない)
+    const banned = ['再現した', '予測した', '観測一致'];
+    const cut = lf.sum.indexOf('言わないこと');
+    const head = (cut >= 0) ? lf.sum.slice(0, cut) : lf.sum;
+    const hit = banned.filter((w) => (head + lf.obs).indexOf(w) >= 0);
+    const hasNotSay = cut >= 0;
+    const p1 = lf.cls === 'principle' && Array.isArray(lf.nc) && lf.nc.indexOf('lfbot') >= 0
+      && lf.ncJa && lf.ncEn;
+    const p2 = lf.card <= 8 && lf.maxLen <= 120;
+    const p3 = lf.nEmoji === 1 && lf.emoji === '🐮';
+    const p4 = lf.nTrap === 1 && lf.hasTrap;
+    const p5 = hit.length === 0 && hasNotSay;
+    add('preset.lfbotTrap', p1 && p2 && p3 && p4 && p5,
+      `① sampleClass=${lf.cls}・notClaim=${JSON.stringify(lf.nc)}(nc_lfbot は ja ${lf.ncJa}/en ${lf.ncEn})=${p1} / `
+      + `② obsCard ${lf.card} 行・最長欄 ${lf.maxLen} 字=${p2} / ③ 絵文字 ${lf.emoji} は内蔵で ${lf.nEmoji} 本=${p3} / `
+      + `④ core.lightTrap を宣言する本は ${lf.nTrap} 本=${p4} / `
+      + `⑤ 説明文に実イベントの「再現/予測/観測一致」の断定が無い(「言わないこと」節あり=${hasNotSay})=${p5}`
+      + (hit.length ? `(**検出** ${JSON.stringify(hit)})` : '') + ` / group=${lf.group}`);
+  } else {
+    console.log('SKIP preset.lfbotTrap(対象に第265便d の 🐮 なし — root 等)');
   }
 }
 
@@ -18360,7 +18609,7 @@ if (!FAST) {
 //   (〔第264便c〕§2)。本便はその第 1 項を **殻質量 M_s** で組む法則版を
 //   `core.shellSpinMass:"shell"` として置いた。**既定は "total" のまま**である。
 //   固定するのは 4 つ:
-//   ① **内蔵 122 本は 1 本もこのキーを宣言していない**(= 既定 Q は変わっていない)。
+//   ① **内蔵 124 本は 1 本もこのキーを宣言していない**(= 既定 Q は変わっていない)。
 //   ② **"shell" を宣言すると spin≠0 でも層と一致**: Q が同値・600 步ビット同一。
 //   ③ **"total" を明示宣言しても未宣言と 1 bit 同一**(正準形に鍵を作らない)。
 //   ④ **強制したときの再集計**: 全コア宣言へ "shell" を複製の上で強制すると
@@ -18431,7 +18680,7 @@ if (!FAST) {
         O.tally = { asIs: tally(false), forced: tally(true) }; }
       return O;
     }, 600);
-    const s1 = lw.builtins.nDeclared === 0 && lw.builtins.nCore === 75 && lw.builtins.nPresets === 123;
+    const s1 = lw.builtins.nDeclared === 0 && lw.builtins.nCore === 76 && lw.builtins.nPresets === 124;
     const s2 = lw.match.shell.qV2 === lw.match.shell.qLay && lw.match.shell.d600 === 0
       && lw.match.shell.law === 'shell'
       && lw.match.total.dQ !== 0 && lw.match.total.d600 > 0 && lw.match.total.law === 'total';
