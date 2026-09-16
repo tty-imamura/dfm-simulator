@@ -17992,9 +17992,12 @@ if (!FAST) {
     const m5 = mg.p0.canReplaceV2 === false && mg.p0.source && mg.p0.source.massFrac === 0.3
       && mg.p0.warnings.indexOf('canReplaceV2:false') >= 0;
     // 第265便d: 🐮 lfbotTrap(コア宣言 1 件・body.radius 非宣言)が入って 75→76 宣言(内蔵は 🪁 と合わせ 124 本)。
-    // 増えた 1 件は `bodyRadiusNotDeclared` の **needsResolve**(13→14)である(🎆 と同じ理由)
-    const m6 = mg.rep.nPresets === 124 && mg.rep.nCore === 76 && mg.rep.tot.convertible === 61
-      && mg.rep.tot.needsResolve === 14 && mg.rep.tot.rejected === 1
+    // 増えた 1 件は `bodyRadiusNotDeclared` の **needsResolve**(13→14)である(🎆 と同じ理由)。
+    // root(99286dc・v1.44.0 RC)は 🪁🐮 を持たないので 122/75/13 のまま —— 対象の内蔵に 🐮 が居るかで期待値を切り替える。
+    const has265 = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'lfbotTrap'));
+    const exp6 = has265 ? { n: 124, core: 76, res: 14 } : { n: 122, core: 75, res: 13 };
+    const m6 = mg.rep.nPresets === exp6.n && mg.rep.nCore === exp6.core && mg.rep.tot.convertible === 61
+      && mg.rep.tot.needsResolve === exp6.res && mg.rep.tot.rejected === 1
       && mg.rep.tot.cavity === 0 && mg.rep.tot.naked === 0;
     const m7 = !mg.fin.inf.ok && mg.fin.inf.why === 'layerNotFinite' && mg.fin.inf.m === 1000
       && !mg.fin.big.ok && mg.fin.big.m === 1000 && !mg.fin.rInf.ok && !mg.fin.jInf.ok
@@ -34921,7 +34924,9 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
           decl.push(p.emoji + ':' + JSON.stringify(v.preset.overlays.spaceMesh));
       }
       o.decl = decl;
-      o.declOk = decl.length === 4 && decl.every((z) => /"mode":"mesh"/.test(z)); // 第265便b で 🪁 が加わり 3→4 本
+      // 第265便b で 🪁 が加わり 3→4 本(root 99286dc は 🪁 を持たないので 3 本のまま — 対象で切り替える)
+      const hasGeoCopy = HP.allPresets().some((q) => q.id === 'galaxyMeshSpiralGeoToy');
+      o.declOk = decl.length === (hasGeoCopy ? 4 : 3) && decl.every((z) => /"mode":"mesh"/.test(z));
       // ⑨ 1 フレームの描画時間
       const bench = (fn, n) => { fn(); let best = Infinity;
         for (let r2 = 0; r2 < 3; r2++) { const t0 = performance.now();
@@ -35177,7 +35182,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `原点規則=${r.galaxy.rule}(ずれ ${e(r.galaxy.ruleGap)}・第257便c の全粒子重心との差 ${r.galaxy.bcGap.toFixed(4)}・` +
       `重心と最大質量源の差 ${r.galaxy.maxMassGap.toFixed(3)})=${r.galaxyOk} / ` +
       `⑦gain がキャッシュ鍵: builds ${r.cache.b0}→(30 回)${r.cache.b1}→(gain 変更)${r.cache.b2}=${r.cacheOk} / ` +
-      `⑧宣言 4 本=[${r.decl.join(' ')}]=${r.declOk} / ` +
+      `⑧宣言 ${r.decl.length} 本=[${r.decl.join(' ')}]=${r.declOk} / ` +
       `⑨1 フレーム ms: ` + Object.keys(r.frame).map((k) =>
         `${k}(${r.frame[k].K}×${r.frame[k].K}・標本 ${r.frame[k].samples}) off ${f(r.frame[k].off)}・mesh ${f(r.frame[k].mesh)}・` +
         `lines ${f(r.frame[k].lines)}・guide ${f(r.frame[k].guide)}・transport ${f(r.frame[k].transport)}・tracer ${f(r.frame[k].tracer)}` +
