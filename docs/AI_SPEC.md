@@ -999,7 +999,10 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     渡すべきなのは**規定運動の加速度**で、`dfmGeoToyStep` はこれを
     **静止/等速の pinned は 0**・**レール駆動(`railOmega`/`railH`)は P̈=(h²−ω²)(P−C)+2hω·(−(P−C)_y,(P−C)_x)**
     として作る(**重力 E4 は 1 バイトも変えていない**)。内蔵で geoPN≥3 を宣言する本(🩻)に pinned 粒子は
-    **0 個**なので、**内蔵 122 本は 1 bit も動かない**。QA `behavior.geoToyPinned`。
+    **0 個**なので、この修正が内蔵に届く経路は無かった。**第265便b で pinned 中心核を持つ geoPN=3 の
+    原理コピー 🪁 `galaxyMeshSpiralGeoToy` が内蔵へ入った**ので、QA `behavior.geoToyPinned` ④ は
+    「pinned 数 0」ではなく**「geoPN≥3 の内蔵の顔ぶれと各本の pinned 数(🪁:1・🩻:0)+ pinned を持つ本で
+    トイが実際に走ること」**を固定する形へ書き換えた。**基点 3042e17 の内蔵 122 本は 1 bit も動かない**。
   - **第264便b — 源の閉包 `physics.spaceMesh.toyClosure`("gravity" 既定 /"iterate")+`toyClosureIters`(1〜64・既定 8)**:
     `"gravity"` は上の a_i=g_i(**現状とビット同一**)。`"iterate"` は「源も同じトイ則で加速している」として
     **a_i = g_i + t_i(a)** の固定点を Jacobi 反復で解く**診断モード**である(**採用則ではない**)。
@@ -1013,6 +1016,37 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     - **質量のある箱(`universeBox`)の宇宙では閉包は効かない**(箱は規定場で、∂ₜu に源の加速度が入らない)——
       "gravity" と "iterate" がビット同一で、反復は 2 回目に残差 0 で止まる。
     - QA `behavior.geoToyClosure` が門・既定不変・反復数と残差・特異点・箱の不変を機械固定する。
+    - **第265便b — 未収束ガード**: **打ち切った最後の 1 巡を力として当ててはならない**(反復上限の偶奇で
+      符号も大きさも変わる)。`"iterate"` で対象が 1 つ以上あり、かつ収束していない步は、**メッシュキックを
+      当てず・帳簿にも記帳せず** `S.geoToyStop="closureUnconverged"`・`S.geoToyN=0`・`S.geoToyDv=0` を返す。
+      **残差・反復数・収束判定・χ は残る**(診断)。**重力側の步と時刻は進む**(**原子的停止ではない**)。
+      QA `behavior.geoToyClosureGuard`。
+  - **第265便b — 法則版 `physics.spaceMesh.law`("toy" 既定 /"mesh-v2")+ `meshGauge`("inertia" 既定 /"constraint")**:
+    引きずりの「完全置換」の**候補**である(**確立した法則ではない**)。場を粒子から代数的に求め、
+    u_i=Σ_j W_ij(q)v_j + u_bg(W_ij=η·w_ij/(D₀+Σ_k w_ik)・自己除外)から
+    **L=½vᵀH(q)v−U(q)・H=(I−W)ᵀM(I−W)** を変分する: **H·a = F + ½(vᵀ∂_k H v)_k − (Σ_l v_l ∂_l H)v**
+    (F は重力・∂_k H は**中心差分**〔`MESH_V2_FD_REL`=10⁻⁶×代表長・`opts.fdRel` で振れる〕)。
+    - **`meshGauge`** は **D₀=0 かつ η=1 で共通並進が零固有値になる**(行和が厳密に 1)ことへの 2 案である:
+      **"inertia"** = 失われた重心の慣性だけを戻す(K=δ·mmᵀ/M²・δ=M−1ᵀH1)/
+      **"constraint"** = 零方向を射影して擬似逆で解く(ゲージ条件 Σ_i a_i = 0)。
+      **両案で加速度が変わる**ので、`law:"mesh-v2"` のときは `meshGauge` を**既定でも正準形に出す**。
+    - **門**: `physics.geoPN=3` 専用・`sampleClass:"calibration"` では**拒否**・`toyClosure` と排他・
+      `toyAllowDrag` と排他・未知の値と未知のゲージは拒否。宣言すると**警告 1 行**。
+      **既定 "toy" は正準形に 1 文字も出ない**(内蔵で `law` を宣言する本は 0 本)。
+    - **対象は 2 体・回転源なし・正の慣性・衝突なしだけ**である。それ以外は力を当てずに停止理由を返す:
+      `S.geoToyStop` = `"meshV2:notTwoBody"` / `"meshV2:pinned"` / `"meshV2:box"` /
+      `"meshV2:illConditioned"`(cond > `MESH_V2_COND_MAX`=10¹²・**宣言値**)/ `"meshV2:notPositive"` /
+      `"meshV2:rhsNotInRange"` / `"meshV2:nonfinite"` / `"meshV2:massNotPositive"`。
+      毎步の診断は **`S.meshV2`**(`{gauge, eta, D0, p, chi, minEig, maxEig, cond, condRed, symRel,
+      structural, delta, rowDev, fdStep, rhsNull, stop}`)で、HUD に `meshV2:<gauge> λmin=… cond=…` が出る。
+    - **純関数** `HP.dfmMeshV2Solve(bodies, {G, eps, p, D0, eta, gauge, condMax, fdRel})` が正本である
+      (`bodies=[{m,x,y,vx,vy}]`・**S を 1 バイトも読み書きしない**)。返り値は `H`/`Hg`/`eig`/`minEig`/
+      `maxEig`/`cond`/`symRel`/`structural`/`rowSum`/`delta`/`rhs`/`accel`/`gravAccel`/`stop`。
+      **停止したら `accel` は null** である。定数は `HP.MESH_V2_LAWS`/`MESH_V2_GAUGES`/`MESH_V2_COND_MAX`/
+      `MESH_V2_NULL_TOL`/`MESH_V2_FD_REL`。
+    - **η=0 は geoPN=0 の Newton と 600 步ビット同一**(両ゲージとも)。
+    - **書かないこと**: 「引きずりを完全置換した」「mesh-v2 を銀河へ当てた」(3 体以上は止まる)。
+      QA `behavior.meshV2`。
 - **支配度の器(第263便a — `HP.dfmDominance(bodies, opts)`)**: 「支配天体が 1 つかどうか」を**測れる形**にした純関数。
   `bodies=[{m,x,y,vx,vy}]`・`opts={p, eps, D0}`(既定 p=2・eps=0・D₀=0)。**3 つの軸を別々に返す**(1 つの数に畳まない):
   **①`massRatio`=m₁/(m₁+m₂)**(質量上位 2 体)・**②`chiBias`=χ₂/(χ₁+χ₂)**(χ_i=Σ_{j≠i}w_j/(D₀+Σ_{j≠i}w_j)・
