@@ -92,6 +92,15 @@ tests/out/*
 #   コミットする(**QA はこの 2 本を読まない** —— 読むのは器の中で走らせた値と CSV 正本である)
 !tests/out/lfbot-w265d.json
 !tests/out/srcdecl-w265d.json
+# 第265便a: 共同補正プロトコルの実測正本。
+#   basis   : 基準走行(kFrame=1・f=1 と台帳 f)の 3 刻み+判定(tests/exp-w265a-basis.mjs)
+#   kjoint2 : **収束先(Richardson 外挿値)に対して取り直した (k*, f*)** と rootCheck・無次元感度(tests/exp-w265a-kjoint2.mjs)
+#   analogy : BH 連星 🎻🎐 と星団 🍇🫐 の基準走行・3 刻み・感度(tests/exp-w265a-analogy.mjs)
+#   docs/PHYSICS.md 〔第265便a〕と docs/CALIBRATION_VERDICT_v1.44.md §5″ の表がこの値そのものなのでコミットする
+#   (**QA はこれらを読まない**)
+!tests/out/basis-w265a.json
+!tests/out/kjoint2-w265a.json
+!tests/out/analogy-w265a.json
 # 第134便: kF1 較正ハーネスの実測正本(論文3 再現性 — 外部レビュー P0 対応。
 # 本文の中心値〔q*=6.16/8.25/21.8・drag −5.6e-10・第122便 q*=4.59〕を提出コミットから再生成可能に)
 !tests/out/coreshell-results.json

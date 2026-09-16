@@ -15249,6 +15249,173 @@ if (!FAST) {
     console.log('SKIP behavior.kJointRoot(対象に第264便a の HP.dfmFrameKCandidates なし — root 等)');
   }
 }
+// ---- 第265便a(第57報「geoPN=2 と kFrame=1 で成立しない場合は f と kFrame を同時に補正する」):
+//      behavior.jointCalProtocol ----
+//   統括の読み (A)。**共同補正プロトコルは「0.7 の採用」ではなく「手順」である**。本ブロックが機械固定
+//   するのは次の 5 点であって、「kFrame≈0.7 が正しい」でも「共同根が 3σ に入った」でもない。
+//     ① **記帳器の代数**(`HP.dfmJointCalProtocol`): 2σ の残差は `correction-not-required`・
+//        4σ は `correction-required`・σ が無ければ `undecidable`(0 で埋めない)。
+//        `rootCheck.observationalPass` は**常に null**・`isPrediction` は**常に false**・
+//        探索許容を満たせば `fit-search-tolerance-met`・満たさなければ `fit-search-unresolved`・
+//        量が測れていなければ `measurement-unresolved`。不正入力は null。
+//     ② **二値契約は動いていない**: 内蔵の kFrame は **0 か 1 だけ**。NS 4 系 ⚡🧮🩺🧶 は
+//        kFrame=1・geoPN=2・calibration のままである(**本便も kFrame を連続値にしていない**)。
+//     ③ **kFrame は検証器の値域 [0,1] に当たる**: 診断コピーに kFrame=1.2 を宣言しても
+//        `validatePreset` を通ると 1 になる(**連続 k の探索は 1 より上へは出られない**という実測。
+//        これは合否ではなく、器の値域の記録である)。
+//     ④ **基準走行(kFrame=1・f=1)は 🧮 で「補正が要る」を返す**(短い窓の実測・4 近点):
+//        近点間 P を CSV の σ で割ると 3σ をはるかに超える。**この 1 点は較正ではない**
+//        (20 近点・3 刻みの表は器 tests/exp-w265a-basis.mjs が出す)。
+//     ⑤ **台帳 f(f≈2)でも「補正が要る」**: 同じ 🧮 を台帳 f・kFrame=1 で走らせると
+//        近点間 P は観測へ寄るが ω̇ が約 2 倍で、判定は `correction-required` のままである。
+{
+  const hasJC = await page.evaluate(() => !!(window.HP && HP.sim)
+    && typeof HP.dfmJointCalProtocol === 'function');
+  if (hasJC) {
+    const jcCsv = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8');
+    const jcRow = (body, q) => {
+      for (const line of jcCsv.split('\n')) {
+        if (!line.startsWith(body + ',' + q + ',')) continue;
+        const cols = []; let cur = '', inQ = false;
+        for (const ch of line) {
+          if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
+          else if (ch === '"') inQ = true;
+          else if (ch === ',') { cols.push(cur); cur = ''; }
+          else cur += ch;
+        }
+        cols.push(cur);
+        const sg = (cols[8] !== undefined && cols[8].trim() !== '') ? Number(cols[8]) : null;
+        return { value: Number(cols[2]), unit: cols[3],
+          sigma: (Number.isFinite(sg) && sg > 0) ? sg : null };
+      }
+      return null;
+    };
+    const obsP = jcRow('PSR J1757-1854', 'orbital_period');
+    const obsW = jcRow('PSR J1757-1854', 'periastron_advance');
+    const r = await page.evaluate(({ obsP, obsW }) => {
+      const F = HP.dfmJointCalProtocol;
+      // ① 代数
+      const inside = F({ residualP: 2, sigmaP: 1, residualW: 2, sigmaW: 1, omegaDotObs: 10 });
+      const outside = F({ residualP: 4, sigmaP: 1, residualW: 0, sigmaW: 1, omegaDotObs: 10 });
+      const noSigma = F({ residualP: 4, sigmaP: null, residualW: 0, sigmaW: 1, omegaDotObs: 10 });
+      const tolMet = F({ residualP: 1e-6, sigmaP: 1, residualW: 1e-6, sigmaW: 1, omegaDotObs: 10 });
+      const tolMiss = F({ residualP: 1, sigmaP: 1, residualW: 1, sigmaW: 1, omegaDotObs: 10 });
+      const unres = F({ residualP: 1e-6, sigmaP: 1, residualW: 1e-6, sigmaW: 1, omegaDotObs: 10,
+        measurementResolved: false });
+      // **不正な門の宣言は null**(0 で埋めない)。ただし **空入力は null ではない** ——
+      // 「量が渡されていない」は `undecidable` / `measurement-unresolved` という**測れていない記録**である。
+      const nulls = [F({ nSigma: 0 }), F({ pTolSec: -1 }), F({ wTolRel: 0 }), F({ nSigma: 'x' })]
+        .every((z) => z === null);
+      const emptyIn = F(null);
+      const emptyOk = !!(emptyIn && emptyIn.baseline.verdict === 'undecidable'
+        && emptyIn.rootCheck.status === 'measurement-unresolved');
+      // ② 二値契約
+      const ks = HP.allPresets().map((q) => q.physics.kFrame);
+      const binary01 = ks.every((z) => z === 0 || z === 1);
+      const NS = ['psrDoubleABDFM', 'psrJ1757DFM', 'psrJ1946DFM', 'psrB1534DFM'];
+      const nsUnchanged = NS.every((id) => { const q = HP.allPresets().find((z) => z.id === id);
+        return !!q && q.physics.kFrame === 1 && q.physics.geoPN === 2 && q.sampleClass === 'calibration'; });
+      // ③ kFrame の値域 [0,1]
+      const src = HP.allPresets().find((q) => q.id === 'psrJ1757DFM');
+      const before = JSON.stringify(src);
+      const BASE = (src.massCalibration && Array.isArray(src.massCalibration.baseMass))
+        ? src.massCalibration.baseMass : src.bodies.map((b) => b.m);
+      const mk = (f, kF) => { const p = JSON.parse(JSON.stringify(src));
+        p.id = 'w265aQaDiag'; p.sampleClass = 'principle';
+        delete p.massCalibration; delete p.claims; delete p.calibrationForecast;
+        p.physics.kFrame = kF;
+        p.bodies.forEach((b, i) => { b.m = BASE[i] * f;
+          if (b.core) { if (f > 1) b.core.massFrac = (f - 1) / f; else delete b.core; } });
+        if (f <= 1 && p.physics.coupleSink === 'core') p.physics.coupleSink = 'reservoir';
+        return p; };
+      const vHi = HP.validatePreset(mk(1.7, 1.2));
+      const kClamped = vHi.ok ? vHi.preset.physics.kFrame : null;
+      // ④⑤ 短い窓の実測(**較正ではない**)
+      const measure = (f, kF, N) => {
+        const v = HP.validatePreset(mk(f, kF)); if (!v.ok) return null;
+        const S = HP.sim; S.build(v.preset);
+        const dt = 0.016;
+        const wrap = (z) => { while (z > Math.PI) z -= 2 * Math.PI; while (z < -Math.PI) z += 2 * Math.PI; return z; };
+        const peri = [], ang = []; let prevRd = null, gate = 0, prevTh = null;
+        for (let i = 0; i < 4e7; i++) {
+          S.step(dt);
+          const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0];
+          const rr = Math.hypot(dx, dy), th = Math.atan2(dy, dx);
+          const rd = (dx * (S.vx[1] - S.vx[0]) + dy * (S.vy[1] - S.vy[0])) / rr;
+          if (prevTh !== null) gate += Math.abs(wrap(th - prevTh));
+          prevTh = th;
+          if (prevRd !== null && prevRd < 0 && rd >= 0 && (peri.length === 0 || gate > 1.5 * Math.PI)) {
+            peri.push(i * dt);
+            ang.push(ang.length ? ang[ang.length - 1] + wrap(th - ang[ang.length - 1]) : th);
+            gate = 0;
+            if (peri.length >= N) break;
+          }
+          prevRd = rd;
+        }
+        if (peri.length < N) return null;
+        const unitSec = Math.pow(10, Number(src.scaleExp.T));
+        const P = (peri[N - 1] - peri[0]) / (N - 1) * unitSec;
+        const m = peri.length;
+        const mx = peri.reduce((a, b) => a + b, 0) / m, my = ang.reduce((a, b) => a + b, 0) / m;
+        let sxy = 0, sxx = 0;
+        for (let i = 0; i < m; i++) { sxy += (peri[i] - mx) * (ang[i] - my); sxx += (peri[i] - mx) ** 2; }
+        const W = (sxx > 0) ? sxy / sxx * 180 / Math.PI / unitSec * 31557600 : null;
+        return { P, W };
+      };
+      const fLedger = src.bodies[0].m / BASE[0];
+      const base = measure(1, 1, 4);
+      const led = measure(fLedger, 1, 6);
+      const after = JSON.stringify(HP.allPresets().find((q) => q.id === 'psrJ1757DFM'));
+      const verd = (z) => (z === null) ? null : F({ residualP: z.P - obsP.value, sigmaP: obsP.sigma,
+        residualW: (z.W === null) ? null : z.W - obsW.value, sigmaW: obsW.sigma,
+        omegaDotObs: obsW.value });
+      return { inside: inside && inside.baseline.verdict, outside: outside && outside.baseline.verdict,
+        noSigma: noSigma && noSigma.baseline.verdict,
+        tolMet: tolMet && tolMet.rootCheck.status, tolMiss: tolMiss && tolMiss.rootCheck.status,
+        unres: unres && unres.rootCheck.status,
+        passAlwaysNull: [inside, outside, tolMet, tolMiss, unres]
+          .every((z) => z && z.rootCheck.observationalPass === null && z.rootCheck.isPrediction === false),
+        nulls, emptyOk, binary01, kSet: Array.from(new Set(ks)).sort(), nPresets: ks.length, nsUnchanged,
+        kDeclared: 1.2, kClamped, srcUntouched: before === after,
+        fLedger, base, led, vBase: verd(base), vLed: verd(led),
+        obsP: obsP.value, sigP: obsP.sigma, obsW: obsW.value, sigW: obsW.sigma };
+    }, { obsP, obsW });
+    const CK = {
+      algebraBaseline: r.inside === 'correction-not-required' && r.outside === 'correction-required'
+        && r.noSigma === 'undecidable',
+      algebraRoot: r.tolMet === 'fit-search-tolerance-met' && r.tolMiss === 'fit-search-unresolved'
+        && r.unres === 'measurement-unresolved',
+      passAlwaysNull: r.passAlwaysNull === true,
+      nulls: r.nulls === true,
+      emptyIsUndecidable: r.emptyOk === true,
+      binary01: r.binary01 === true,
+      nsUnchanged: r.nsUnchanged === true,
+      kClampedTo1: r.kClamped === 1,
+      srcUntouched: r.srcUntouched === true,
+      baselineNeedsCorrection: !!(r.vBase && r.vBase.baseline.verdict === 'correction-required'),
+      ledgerNeedsCorrection: !!(r.vLed && r.vLed.baseline.verdict === 'correction-required'),
+      ledgerOmegaAboutTwice: !!(r.led && r.led.W !== null && r.led.W / r.obsW > 1.5 && r.led.W / r.obsW < 2.5),
+    };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    add('behavior.jointCalProtocol', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + `① 2σ=${r.inside}・4σ=${r.outside}・σ なし=${r.noSigma}・`
+      + `根 ${r.tolMet}/${r.tolMiss}/${r.unres}・observationalPass は常に null かつ isPrediction=false=`
+      + `${r.passAlwaysNull}・不正な門の宣言は null=${r.nulls}・空入力は undecidable=${r.emptyOk} / `
+      + `② 内蔵 ${r.nPresets} 本の kFrame 集合={${r.kSet.join(',')}}・NS 4 系は kFrame=1/geoPN=2/calibration=`
+      + `${r.nsUnchanged} / ③ kFrame=1.2 の宣言は検証器で ${r.kClamped} になる(値域 [0,1] の実測)・`
+      + `本体は 1 bit 不変=${r.srcUntouched} / `
+      + `④ 🧮 基準走行(f=1・kFrame=1・4 近点)P=${r.base ? r.base.P.toFixed(2) : '—'} s 対 観測 ${r.obsP} s`
+      + `(${r.vBase && r.vBase.baseline.P.nSigma !== null ? r.vBase.baseline.P.nSigma.toExponential(2) : '—'}σ)`
+      + ` → ${r.vBase && r.vBase.baseline.verdict} / `
+      + `⑤ 台帳 f=${r.fLedger.toFixed(6)}(6 近点)P=${r.led ? r.led.P.toFixed(2) : '—'} s・`
+      + `ω̇=${r.led && r.led.W !== null ? r.led.W.toFixed(4) : '—'} °/yr は観測 ${r.obsW} の`
+      + `${r.led && r.led.W !== null ? (r.led.W / r.obsW).toFixed(3) : '—'} 倍 → ${r.vLed && r.vLed.baseline.verdict}`
+      + `(**この 2 点は較正ではない** — 20 近点・3 刻みの表は器 tests/exp-w265a-basis.mjs が出す)`);
+  } else {
+    console.log('SKIP behavior.jointCalProtocol(対象に第265便a の HP.dfmJointCalProtocol なし — root 等)');
+  }
+}
 // ---- 第264便b(第56報「geoPN=3 — 空間メッシュで引きずり計算を完全に置き換える整備」): behavior.geoToyPinned ----
 //   統括の読み (B)(i)。**pinned 源は規定運動**なので、トイの ∂ₜu へ渡す源の加速度は
 //   **規定運動の加速度**(静止なら 0・レール駆動なら向心 −ω²(P−C))でなければならない。

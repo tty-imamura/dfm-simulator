@@ -1070,6 +1070,25 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   内蔵の二値契約、診断コピーが `sampleClass:"principle"` であることを機械固定する。
   **第264便a の結論は「事前予測式は未確立」である**(4 系の k\* は 0.6555〜0.9370 に散る〔幅は平均の 37.0%〕のに、
   H2 の説明項の幅はその 1.25×10⁻³ 倍しかない —— docs/PHYSICS.md〔第264便a〕)。
+- **共同補正プロトコルの記帳器(第265便a — `HP.dfmJointCalProtocol(inp)`)**: 第57報「『geoPN=2』と『kFrame=1』で
+  成立しない場合は、観測質量に対する補正が必要な状況と判断し、**質量補正 f と kFrame を同時に補正する**」に対して、
+  **手順の記帳だけを行う純関数**である。**力へは 1 バイトも接続しない**(kFrame や質量をこの返り値で決める経路は
+  どこにも無く、内蔵プリセットの kFrame は QA `preset.kframe-binary01` が要求する **0 か 1** のままである)。
+  入力 `inp={ residualP, sigmaP, residualW, sigmaW, omegaDotObs, nSigma, pTolSec, wTolRel, measurementResolved }`。
+  - **`baseline.verdict`**(手順の第 2 段・**判定は σ で行う**): 2 量とも nσ(既定 3σ)以内なら
+    `"correction-not-required"`・どちらかが外れたら `"correction-required"`・
+    **σ が無い/量が測れていないなら `"undecidable"`**(0 で埋めない)。
+  - **`rootCheck`**(手順の第 3 段): `{converged, status, residualP, residualW, observationalPass, isPrediction, tolerance}`。
+    `status` は `"fit-search-tolerance-met"` / `"fit-search-unresolved"` / `"measurement-unresolved"` の 3 値。
+    **`observationalPass` は常に null**(この関数は 3σ の合否を出さない)・**`isPrediction` は常に false**
+    (**共同 fit は事前予測ではない** —— 裁定 Z15・docs/CALIBRATION_VERDICT_v1.44.md §6′.1)。
+    **停止条件(`pTolSec`・`wTolRel`)は探索許容であって σ ではない。**
+  - `nSigma≤0`・`pTolSec≤0`・`wTolRel≤0`・非有限は **null**。**空入力は null ではなく**
+    `undecidable` / `measurement-unresolved`(「測れていない」という記録である)。
+  - **生成 AI はこの関数を使わない**(プリセット JSON からは呼べない)。QA `behavior.jointCalProtocol` が
+    代数・二値契約・`kFrame` の値域 [0,1]・基準走行の判定を機械固定する。
+  **第265便a の結論は「4 系とも補正が要る」である**(f=1 でも現行台帳 f≈2 でも 3σ に入らない)。
+  **`f≠1` から観測質量の誤りや未観測質量の存在が確定するわけではない**(初期条件・力則・数値誤差も同じ不一致に寄与しうる)。
 - **除去の段階(第259便a — `physics.spaceMesh.inertiaRemoval`)**: `"post"`(既定 = 第258便a・`S._core` の後で引く)/
   `"inStep"`(**当てた段階で引く** —— `dragHookKick` は `_core` が速度へ書く直前、`dragHookApply` は ③/③′ が
   書く直前に呼ばれるので、そこで先に引く/取り分を 0 にする)。実測では **η=0(除去だけ)が kFrame=0(支えなし)と
