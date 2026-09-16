@@ -18751,7 +18751,7 @@ if (!FAST) {
       && zt.range.zetaRt === 4 && zt.range.layQ === 1 && zt.range.zetaAfterEdit === 4
       && zt.range.rAfterEdit === 3 && zt.range.zetaClamped === 1e6
       && zt.vBad.hasLayers && zt.vBad.key === false && zt.vBad.warn >= 1;
-    const z5 = zt.rep.nCore === 75 && zt.rep.zetaReason === 0 && zt.rep.can === 31 && zt.rep.cannot === 44;
+    const z5 = zt.rep.nCore === 76 && zt.rep.zetaReason === 0 && zt.rep.can === 31 && zt.rep.cannot === 45; // 第265便d の 🐮(コア宣言 +1・migrationRejected)で 75→76・44→45
     add('behavior.layerInertiaScale', z1 && z2 && z3 && z4 && z5,
       `① **移行計画が ζ を層へ運ぶ**: ζ=4 の計画で layers[0].inertiaScale=${zt.plan.zeta4}`
       + `(I_c=${zt.plan.Ic4}・J_z=${zt.plan.Jz4})・ζ=1 では鍵を作らない(${zt.plan.zeta1Key})=${z1} / `
@@ -34921,7 +34921,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
           decl.push(p.emoji + ':' + JSON.stringify(v.preset.overlays.spaceMesh));
       }
       o.decl = decl;
-      o.declOk = decl.length === 3 && decl.every((z) => /"mode":"mesh"/.test(z));
+      o.declOk = decl.length === 4 && decl.every((z) => /"mode":"mesh"/.test(z)); // 第265便b で 🪁 が加わり 3→4 本
       // ⑨ 1 フレームの描画時間
       const bench = (fn, n) => { fn(); let best = Infinity;
         for (let r2 = 0; r2 < 3; r2++) { const t0 = performance.now();
@@ -35177,7 +35177,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `原点規則=${r.galaxy.rule}(ずれ ${e(r.galaxy.ruleGap)}・第257便c の全粒子重心との差 ${r.galaxy.bcGap.toFixed(4)}・` +
       `重心と最大質量源の差 ${r.galaxy.maxMassGap.toFixed(3)})=${r.galaxyOk} / ` +
       `⑦gain がキャッシュ鍵: builds ${r.cache.b0}→(30 回)${r.cache.b1}→(gain 変更)${r.cache.b2}=${r.cacheOk} / ` +
-      `⑧宣言 3 本=[${r.decl.join(' ')}]=${r.declOk} / ` +
+      `⑧宣言 4 本=[${r.decl.join(' ')}]=${r.declOk} / ` +
       `⑨1 フレーム ms: ` + Object.keys(r.frame).map((k) =>
         `${k}(${r.frame[k].K}×${r.frame[k].K}・標本 ${r.frame[k].samples}) off ${f(r.frame[k].off)}・mesh ${f(r.frame[k].mesh)}・` +
         `lines ${f(r.frame[k].lines)}・guide ${f(r.frame[k].guide)}・transport ${f(r.frame[k].transport)}・tracer ${f(r.frame[k].tracer)}` +
