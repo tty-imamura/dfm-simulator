@@ -37959,18 +37959,7 @@
   "checked": 46,
   "unchanged": 46,
   "changed": [],
-  "verifiedFlips": [
-   {
-    "key": "psrJ1946DFM|B|ecc",
-    "from": true,
-    "to": false
-   },
-   {
-    "key": "psrJ1946PN|B|ecc",
-    "from": true,
-    "to": false
-   }
-  ],
+  "verifiedFlips": [],
   "noSource": 268,
   "limitation": "既存の `sigmaSource` の宛先だけを見る。**新しく繋がる量(対応表に無い宛先)は走行が要る** —— --regate は「繋がっている σ が動いたか」しか答えない。"
  },
@@ -40105,5 +40094,574 @@
    "太陽系の較正が進んだ"
   ],
   "note": "**judgement は informational** —— 4 値・`q.gate`・合否には 1 bit も入らない。"
+ },
+ "threeStageRegistry": {
+  "n": 14,
+  "rows": [
+   {
+    "id": "psrDoubleABDFM",
+    "emoji": "⚡",
+    "registeredBy": "第255便d",
+    "why": "NS 4 系(第47報 N8)",
+    "present": true,
+    "hasQuarter": true,
+    "hasHalf": true,
+    "nQuantities": 8,
+    "withSigma": 3,
+    "sigmaFromCsv": 3,
+    "pass3Sigma": 0,
+    "sigmaTargets": [
+     {
+      "target": "B",
+      "kind": "period",
+      "quantity": "orbital_period",
+      "primaryVerified": true
+     },
+     {
+      "target": "B",
+      "kind": "ecc",
+      "quantity": "eccentricity",
+      "primaryVerified": true
+     },
+     {
+      "target": "B",
+      "kind": "precession",
+      "quantity": "periastron_advance",
+      "primaryVerified": true
+     }
+    ],
+    "verdict4": "保留",
+    "tally": {
+     "合": 2,
+     "窓": 1,
+     "否": 0,
+     "従": 1,
+     "転": 4,
+     "条": 0
+    }
+   },
+   {
+    "id": "psrJ1757DFM",
+    "emoji": "🧮",
+    "registeredBy": "第255便d",
+    "why": "NS 4 系(第47報 N8)",
+    "present": true,
+    "hasQuarter": true,
+    "hasHalf": true,
+    "nQuantities": 8,
+    "withSigma": 4,
+    "sigmaFromCsv": 4,
+    "pass3Sigma": 0,
+    "sigmaTargets": [
+     {
+      "target": "B",
+      "kind": "precession",
+      "quantity": "periastron_advance",
+      "primaryVerified": true
+     },
+     {
+      "target": "B",
+      "kind": "period",
+      "quantity": "orbital_period",
+      "primaryVerified": true
+     },
+     {
+      "target": "B",
+      "kind": "ecc",
+      "quantity": "eccentricity",
+      "primaryVerified": true
+     },
+     {
+      "target": "B",
+      "kind": "period",
+      "quantity": "orbital_period",
+      "primaryVerified": true
+     }
+    ],
+    "verdict4": "保留",
+    "tally": {
+     "合": 1,
+     "窓": 0,
+     "否": 1,
+     "従": 1,
+     "転": 5,
+     "条": 0
+    }
+   },
+   {
+    "id": "psrJ1946DFM",
+    "emoji": "🩺",
+    "registeredBy": "第255便d",
+    "why": "NS 4 系(第47報 N8)",
+    "present": true,
+    "hasQuarter": true,
+    "hasHalf": true,
+    "nQuantities": 8,
+    "withSigma": 4,
+    "sigmaFromCsv": 4,
+    "pass3Sigma": 0,
+    "sigmaTargets": [
+     {
+      "target": "B",
+      "kind": "precession",
+      "quantity": "periastron_advance",
+      "primaryVerified": true
+     },
+     {
+      "target": "B",
+      "kind": "period",
+      "quantity": "orbital_period",
+      "primaryVerified": true
+     },
+     {
+      "target": "B",
+      "kind": "ecc",
+      "quantity": "eccentricity",
+      "primaryVerified": false
+     },
+     {
+      "target": "B",
+      "kind": "period",
+      "quantity": "orbital_period",
+      "primaryVerified": true
+     }
+    ],
+    "verdict4": "保留",
+    "tally": {
+     "合": 1,
+     "窓": 0,
+     "否": 1,
+     "従": 1,
+     "転": 5,
+     "条": 0
+    }
+   },
+   {
+    "id": "psrB1534DFM",
+    "emoji": "🧶",
+    "registeredBy": "第255便d",
+    "why": "NS 4 系(第47報 N8)",
+    "present": true,
+    "hasQuarter": true,
+    "hasHalf": true,
+    "nQuantities": 8,
+    "withSigma": 3,
+    "sigmaFromCsv": 3,
+    "pass3Sigma": 0,
+    "sigmaTargets": [
+     {
+      "target": "B",
+      "kind": "precession",
+      "quantity": "periastron_advance",
+      "primaryVerified": true
+     },
+     {
+      "target": "B",
+      "kind": "period",
+      "quantity": "orbital_period",
+      "primaryVerified": true
+     },
+     {
+      "target": "B",
+      "kind": "ecc",
+      "quantity": "eccentricity",
+      "primaryVerified": true
+     }
+    ],
+    "verdict4": "保留",
+    "tally": {
+     "合": 2,
+     "窓": 0,
+     "否": 0,
+     "従": 1,
+     "転": 5,
+     "条": 0
+    }
+   },
+   {
+    "id": "alphaCenAB",
+    "emoji": "✨",
+    "registeredBy": "第256便d",
+    "why": "恒星 4 系(第48報)",
+    "present": true,
+    "hasQuarter": true,
+    "hasHalf": true,
+    "nQuantities": 7,
+    "withSigma": 2,
+    "sigmaFromCsv": 2,
+    "pass3Sigma": 1,
+    "sigmaTargets": [
+     {
+      "target": "B",
+      "kind": "period",
+      "quantity": "orbital_period",
+      "primaryVerified": true
+     },
+     {
+      "target": "B",
+      "kind": "ecc",
+      "quantity": "eccentricity",
+      "primaryVerified": true
+     }
+    ],
+    "verdict4": "量限定合",
+    "tally": {
+     "合": 2,
+     "窓": 0,
+     "否": 0,
+     "従": 0,
+     "転": 5,
+     "条": 0
+    }
+   },
+   {
+    "id": "alphaCenABDFM",
+    "emoji": "✴️",
+    "registeredBy": "第256便d",
+    "why": "恒星 4 系(第48報)",
+    "present": true,
+    "hasQuarter": true,
+    "hasHalf": true,
+    "nQuantities": 8,
+    "withSigma": 2,
+    "sigmaFromCsv": 2,
+    "pass3Sigma": 0,
+    "sigmaTargets": [
+     {
+      "target": "B",
+      "kind": "period",
+      "quantity": "orbital_period",
+      "primaryVerified": true
+     },
+     {
+      "target": "B",
+      "kind": "ecc",
+      "quantity": "eccentricity",
+      "primaryVerified": true
+     }
+    ],
+    "verdict4": "否",
+    "tally": {
+     "合": 1,
+     "窓": 2,
+     "否": 0,
+     "従": 0,
+     "転": 5,
+     "条": 0
+    }
+   },
+   {
+    "id": "siriusAB",
+    "emoji": "🌟",
+    "registeredBy": "第256便d",
+    "why": "恒星 4 系(第48報)",
+    "present": true,
+    "hasQuarter": true,
+    "hasHalf": true,
+    "nQuantities": 9,
+    "withSigma": 2,
+    "sigmaFromCsv": 2,
+    "pass3Sigma": 1,
+    "sigmaTargets": [
+     {
+      "target": "B",
+      "kind": "period",
+      "quantity": "orbital_period",
+      "primaryVerified": true
+     },
+     {
+      "target": "B",
+      "kind": "ecc",
+      "quantity": "eccentricity",
+      "primaryVerified": true
+     }
+    ],
+    "verdict4": "量限定合",
+    "tally": {
+     "合": 2,
+     "窓": 0,
+     "否": 0,
+     "従": 0,
+     "転": 7,
+     "条": 0
+    }
+   },
+   {
+    "id": "siriusABDFM",
+    "emoji": "💫",
+    "registeredBy": "第256便d",
+    "why": "恒星 4 系(第48報)",
+    "present": true,
+    "hasQuarter": true,
+    "hasHalf": true,
+    "nQuantities": 9,
+    "withSigma": 2,
+    "sigmaFromCsv": 2,
+    "pass3Sigma": 0,
+    "sigmaTargets": [
+     {
+      "target": "B",
+      "kind": "period",
+      "quantity": "orbital_period",
+      "primaryVerified": true
+     },
+     {
+      "target": "B",
+      "kind": "ecc",
+      "quantity": "eccentricity",
+      "primaryVerified": true
+     }
+    ],
+    "verdict4": "否",
+    "tally": {
+     "合": 0,
+     "窓": 2,
+     "否": 0,
+     "従": 0,
+     "転": 7,
+     "条": 0
+    }
+   },
+   {
+    "id": "psrDoubleAB",
+    "emoji": "📻",
+    "registeredBy": "第256便d",
+    "why": "📻 観測版(第48報)",
+    "present": true,
+    "hasQuarter": true,
+    "hasHalf": true,
+    "nQuantities": 8,
+    "withSigma": 3,
+    "sigmaFromCsv": 3,
+    "pass3Sigma": 0,
+    "sigmaTargets": [
+     {
+      "target": "B",
+      "kind": "period",
+      "quantity": "orbital_period",
+      "primaryVerified": true
+     },
+     {
+      "target": "B",
+      "kind": "ecc",
+      "quantity": "eccentricity",
+      "primaryVerified": true
+     },
+     {
+      "target": "B",
+      "kind": "precession",
+      "quantity": "periastron_advance",
+      "primaryVerified": true
+     }
+    ],
+    "verdict4": "保留",
+    "tally": {
+     "合": 2,
+     "窓": 1,
+     "否": 0,
+     "従": 0,
+     "転": 5,
+     "条": 0
+    }
+   },
+   {
+    "id": "psrDoubleABCF",
+    "emoji": "🪝",
+    "registeredBy": "第265便a(Z14)",
+    "why": "X14 の 5 本(第264便a で σ 宛先を接続)",
+    "present": true,
+    "hasQuarter": true,
+    "hasHalf": true,
+    "nQuantities": 9,
+    "withSigma": 2,
+    "sigmaFromCsv": 2,
+    "pass3Sigma": 0,
+    "sigmaTargets": [
+     {
+      "target": "B",
+      "kind": "precession",
+      "quantity": "periastron_advance",
+      "primaryVerified": true
+     },
+     {
+      "target": "B",
+      "kind": "period",
+      "quantity": "orbital_period",
+      "primaryVerified": true
+     }
+    ],
+    "verdict4": "保留",
+    "tally": {
+     "合": 0,
+     "窓": 0,
+     "否": 2,
+     "従": 0,
+     "転": 7,
+     "条": 0
+    }
+   },
+   {
+    "id": "psrJ1757CF",
+    "emoji": "🪄",
+    "registeredBy": "第265便a(Z14)",
+    "why": "X14 の 5 本(第264便a で σ 宛先を接続)",
+    "present": true,
+    "hasQuarter": true,
+    "hasHalf": true,
+    "nQuantities": 8,
+    "withSigma": 2,
+    "sigmaFromCsv": 2,
+    "pass3Sigma": 0,
+    "sigmaTargets": [
+     {
+      "target": "B",
+      "kind": "precession",
+      "quantity": "periastron_advance",
+      "primaryVerified": true
+     },
+     {
+      "target": "B",
+      "kind": "period",
+      "quantity": "orbital_period",
+      "primaryVerified": true
+     }
+    ],
+    "verdict4": "保留",
+    "tally": {
+     "合": 0,
+     "窓": 0,
+     "否": 2,
+     "従": 0,
+     "転": 6,
+     "条": 0
+    }
+   },
+   {
+    "id": "psrJ1946CF",
+    "emoji": "🩹",
+    "registeredBy": "第265便a(Z14)",
+    "why": "X14 の 5 本(第264便a で σ 宛先を接続)",
+    "present": true,
+    "hasQuarter": true,
+    "hasHalf": true,
+    "nQuantities": 9,
+    "withSigma": 2,
+    "sigmaFromCsv": 2,
+    "pass3Sigma": 0,
+    "sigmaTargets": [
+     {
+      "target": "B",
+      "kind": "precession",
+      "quantity": "periastron_advance",
+      "primaryVerified": true
+     },
+     {
+      "target": "B",
+      "kind": "period",
+      "quantity": "orbital_period",
+      "primaryVerified": true
+     }
+    ],
+    "verdict4": "保留",
+    "tally": {
+     "合": 0,
+     "窓": 0,
+     "否": 2,
+     "従": 0,
+     "転": 7,
+     "条": 0
+    }
+   },
+   {
+    "id": "psrB1534",
+    "emoji": "📿",
+    "registeredBy": "第265便a(Z14)",
+    "why": "X14 の 5 本(第264便a で σ 宛先を接続)",
+    "present": true,
+    "hasQuarter": true,
+    "hasHalf": true,
+    "nQuantities": 8,
+    "withSigma": 3,
+    "sigmaFromCsv": 3,
+    "pass3Sigma": 0,
+    "sigmaTargets": [
+     {
+      "target": "B",
+      "kind": "period",
+      "quantity": "orbital_period",
+      "primaryVerified": true
+     },
+     {
+      "target": "B",
+      "kind": "ecc",
+      "quantity": "eccentricity",
+      "primaryVerified": true
+     },
+     {
+      "target": "B",
+      "kind": "precession",
+      "quantity": "periastron_advance",
+      "primaryVerified": true
+     }
+    ],
+    "verdict4": "保留",
+    "tally": {
+     "合": 2,
+     "窓": 0,
+     "否": 1,
+     "従": 0,
+     "転": 5,
+     "条": 0
+    }
+   },
+   {
+    "id": "psrB1534CF",
+    "emoji": "🪤",
+    "registeredBy": "第265便a(Z14)",
+    "why": "X14 の 5 本(第264便a で σ 宛先を接続)",
+    "present": true,
+    "hasQuarter": true,
+    "hasHalf": true,
+    "nQuantities": 9,
+    "withSigma": 2,
+    "sigmaFromCsv": 2,
+    "pass3Sigma": 0,
+    "sigmaTargets": [
+     {
+      "target": "B",
+      "kind": "precession",
+      "quantity": "periastron_advance",
+      "primaryVerified": true
+     },
+     {
+      "target": "B",
+      "kind": "period",
+      "quantity": "orbital_period",
+      "primaryVerified": true
+     }
+    ],
+    "verdict4": "保留",
+    "tally": {
+     "合": 1,
+     "窓": 0,
+     "否": 1,
+     "従": 0,
+     "転": 7,
+     "条": 0
+    }
+   }
+  ],
+  "registeredThisWave": [
+   "psrDoubleABCF",
+   "psrJ1757CF",
+   "psrJ1946CF",
+   "psrB1534",
+   "psrB1534CF"
+  ],
+  "quarterRun": 14,
+  "sigmaFromCsvTotal": 36,
+  "pass3SigmaTotal": 2,
+  "rule": "**登録表は「3 段(dt/4)で走らせる対象である」という宣言**である。登録しても σ は 1 件も増えず、3σ も 1 件も動かない —— `pass3SigmaTotal` がそれを数える。",
+  "note": "**新しく繋がった量が 3σ を通らないことを隠さない**(第264便a の 11 件は 0 件のままである)。"
  }
 }

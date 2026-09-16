@@ -1,0 +1,2307 @@
+{
+ "meta": {
+  "wave": "第265便a",
+  "target": "beta/index.html",
+  "dt0": 0.016,
+  "divs": [
+   1,
+   2,
+   4
+  ],
+  "bhWindow": {
+   "tShort": 240,
+   "tLong": 130000,
+   "minimaWanted": 20
+  },
+  "clusterWindow": {
+   "tEnd": 9.6
+  },
+  "claim": "**アナロジーは「同じ手順・別窓」である。** 窓・抽出器・観測版を NS と揃えたとは書かない。**較正クラスへは上げない**(principle のまま)。**共同根は観測 2 量の門が繋がってから**。",
+  "prelimSource": "PRELIM は**統括の予備測定**(照合のためだけの定数)。観測値ではない。",
+  "touched": "**本体 🎻🎐🍇🫐 の JSON は 1 bit も書き換えていない**。`S._core` には 1 命令も足していない。",
+  "spentSec": 105.5
+ },
+ "presetFacts": [
+  {
+   "id": "gw150914",
+   "emoji": "🎐",
+   "sampleClass": "calibration",
+   "kFrame": 0,
+   "geoPN": 0,
+   "scaleExp": {
+    "L": 4,
+    "T": -3,
+    "M": 29
+   },
+   "notClaim": [
+    "solar_cal"
+   ],
+   "hasMassCal": false,
+   "baseMass": null,
+   "bodyMass": [
+    688.01062,
+    596.541
+   ]
+  },
+  {
+   "id": "gw150914DFM",
+   "emoji": "🎻",
+   "sampleClass": "calibration",
+   "kFrame": 1,
+   "geoPN": 0,
+   "scaleExp": {
+    "L": 4,
+    "T": -3,
+    "M": 29
+   },
+   "notClaim": [
+    "solar_cal"
+   ],
+   "hasMassCal": true,
+   "baseMass": [
+    688.01062,
+    596.541
+   ],
+   "bodyMass": [
+    1376.0212399923937,
+    1193.081999993405
+   ]
+  },
+  {
+   "id": "tuc47",
+   "emoji": "🍇",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "geoPN": 0,
+   "scaleExp": {
+    "L": 16,
+    "T": 12,
+    "M": 35
+   },
+   "notClaim": [
+    "cal",
+    "dm"
+   ],
+   "hasMassCal": false,
+   "baseMass": null,
+   "bodyMass": [
+    0.07375
+   ]
+  },
+  {
+   "id": "tuc47DFM",
+   "emoji": "🫐",
+   "sampleClass": "principle",
+   "kFrame": 1,
+   "geoPN": 0,
+   "scaleExp": {
+    "L": 16,
+    "T": 12,
+    "M": 35
+   },
+   "notClaim": [
+    "cal",
+    "dm"
+   ],
+   "hasMassCal": true,
+   "baseMass": null,
+   "bodyMass": [
+    0.1470133497888785
+   ]
+  }
+ ],
+ "gateCensus": {
+  "bh": {
+   "rows": 7,
+   "withSigma": 0,
+   "quantities": [
+    "mass",
+    "radius",
+    "semi_major_axis",
+    "eccentricity",
+    "orbital_period"
+   ]
+  },
+  "cluster": {
+   "rows": 29,
+   "withSigma": 0,
+   "quantities": [
+    "distance",
+    "galactocentric_distance",
+    "total_mass",
+    "sigma0",
+    "core_radius",
+    "half_light_radius_projected",
+    "half_mass_radius_3d",
+    "tidal_radius",
+    "mass_to_light_V",
+    "rotation_amplitude",
+    "v_rot_over_sigma0",
+    "imbh_mass_upper_limit",
+    "estimated_number_of_stars",
+    "sigma_los(r=0.106 pc)",
+    "sigma_los(r=0.262 pc)",
+    "sigma_los(r=0.541 pc)",
+    "sigma_los(r=0.879 pc)",
+    "sigma_los(r=1.517 pc)",
+    "sigma_los(r=2.122 pc)",
+    "sigma_los(r=3.696 pc)",
+    "sigma_los(r=5.794 pc)",
+    "sigma_los(r=8.441 pc)",
+    "sigma_los(r=11.406 pc)",
+    "sigma_los(r=14.019 pc)",
+    "sigma_los(r=17.851 pc)",
+    "sigma_los(r=21.379 pc)",
+    "sigma_los(r=25.745 pc)",
+    "sigma_los(r=35.529 pc)",
+    "sigma_los(r=54.711 pc)"
+   ]
+  },
+  "note": "**σ を持つ行の本数**を数えた。0 なら「観測 2 量の門が繋がっていない」——この状態で共同根を出さない(統括の読み (B))。星団 CSV には σ 列そのものが無い。"
+ },
+ "bh": {
+  "declaration": {
+   "systemKind": "bh-binary",
+   "id": "gw150914DFM",
+   "sampleClass": "calibration",
+   "calibrationClass": "principle-analogy",
+   "window": {
+    "tStart": 0,
+    "tEndShort": 240,
+    "tEndLong": 130000,
+    "unit": "sim time",
+    "why": "inspiral 窓。**合体には達しない**(基準状態のスナップショットから数十公転で合体する系である)"
+   },
+   "extractor": {
+    "name": "separation-minima-v1",
+    "quantity": [
+     "final-separation",
+     "minima-interval-period",
+     "period-drift",
+     "final-total-mass"
+    ],
+    "amplitudeGate": 0.001,
+    "definition": "分離 r の**ヒステリシス極小検出**(極小 → 相対 1×10⁻³ 上昇で確定 → 極大 → 相対 1×10⁻³ 下降で極小探索へ)。門が無いと 🎻 では 2 步周期の ṙ 交差を極小として採る(実測)。周期は極小間隔の平均。周期変化は前半窓と後半窓の平均間隔の差を窓中心の時間差で割った無次元量。最終質量は窓の終端での総質量(**合体に達したかどうかを別に記録する**)。**振幅門は NS の位相制限(1.5π)とは別の門である**"
+   },
+   "observationVersion": {
+    "csv": "paper/data/solar-observations.csv の GW150914 A/B 行"
+   },
+   "quantities": [
+    "orbital_period(派生参照値)",
+    "mass"
+   ],
+   "gateConnected": false,
+   "sameWindowAsNS": false,
+   "evidence": [],
+   "note": "窓・抽出器・観測版は系種ごとに違う。**NS と揃えたとは書かない**(裁定 (B))。"
+  },
+  "columns": [
+   {
+    "tag": "asIs_gw150914(🎐・内蔵のまま)",
+    "srcId": "gw150914",
+    "f": 1,
+    "kFrame": 0,
+    "asIs": true,
+    "stages": [
+     {
+      "div": 1,
+      "dt": 0.016,
+      "unitSec": 0.001,
+      "shortRun": {
+       "steps": 15000,
+       "stopped": "time",
+       "separationEnd": 187.1607361987052,
+       "massTotalEnd": 1284.5516357421875,
+       "merged": false,
+       "nan": false,
+       "clamp": 0
+      },
+      "longRun": {
+       "steps": 221670,
+       "stopped": "minima",
+       "nMinima": 20,
+       "rawCross": 20,
+       "separationEnd": 177.5646190085261,
+       "massTotalEnd": 1284.5516357421875,
+       "merged": false,
+       "nan": false,
+       "clamp": 0
+      },
+      "period": 0.18168168421052633,
+      "periodFirstHalf": 0.18168177777777778,
+      "periodSecondHalf": 0.18168177777777778,
+      "periodDrift": 0,
+      "kFrame": 0,
+      "geoPN": 0,
+      "sampleClass": "calibration",
+      "errors": null
+     },
+     {
+      "div": 2,
+      "dt": 0.008,
+      "unitSec": 0.001,
+      "shortRun": {
+       "steps": 30000,
+       "stopped": "time",
+       "separationEnd": 187.186296353483,
+       "massTotalEnd": 1284.5516357421875,
+       "merged": false,
+       "nan": false,
+       "clamp": 0
+      },
+      "longRun": {
+       "steps": 443347,
+       "stopped": "minima",
+       "nMinima": 20,
+       "rawCross": 20,
+       "separationEnd": 177.56448871779196,
+       "massTotalEnd": 1284.5516357421875,
+       "merged": false,
+       "nan": false,
+       "clamp": 0
+      },
+      "period": 0.18168126315789473,
+      "periodFirstHalf": 0.18168177777777778,
+      "periodSecondHalf": 0.1816808888888889,
+      "periodDrift": -4.892574954830824e-7,
+      "kFrame": 0,
+      "geoPN": 0,
+      "sampleClass": "calibration",
+      "errors": null
+     },
+     {
+      "div": 4,
+      "dt": 0.004,
+      "unitSec": 0.001,
+      "shortRun": {
+       "steps": 60000,
+       "stopped": "time",
+       "separationEnd": 187.19908541914523,
+       "massTotalEnd": 1284.5516357421875,
+       "merged": false,
+       "nan": false,
+       "clamp": 0
+      },
+      "longRun": {
+       "steps": 886701,
+       "stopped": "minima",
+       "nMinima": 20,
+       "rawCross": 20,
+       "separationEnd": 177.56441231255695,
+       "massTotalEnd": 1284.5516357421875,
+       "merged": false,
+       "nan": false,
+       "clamp": 0
+      },
+      "period": 0.18168147368421053,
+      "periodFirstHalf": 0.18168133333333333,
+      "periodSecondHalf": 0.18168133333333333,
+      "periodDrift": 0,
+      "kFrame": 0,
+      "geoPN": 0,
+      "sampleClass": "calibration",
+      "errors": null
+     }
+    ],
+    "richardson": {
+     "separationEnd": {
+      "p": 0.9989857041436928,
+      "ext": 187.21189248665792,
+      "monotone": true,
+      "d1": -0.025560154777792832,
+      "d2": -0.012789065662246912,
+      "note": null
+     },
+     "period": {
+      "p": null,
+      "ext": null,
+      "monotone": false,
+      "d1": 4.2105263159397666e-7,
+      "d2": -2.1052631579698833e-7,
+      "sameSign": false,
+      "note": "**差の符号が反転している**(h→h/2 と h/2→h/4 で向きが違う)—— 単調に収束していないので外挿しない"
+     },
+     "periodDrift": {
+      "p": null,
+      "ext": null,
+      "monotone": false,
+      "d1": 4.892574954830824e-7,
+      "d2": -4.892574954830824e-7,
+      "sameSign": false,
+      "note": "**差の符号が反転している**(h→h/2 と h/2→h/4 で向きが違う)—— 単調に収束していないので外挿しない"
+     }
+    },
+    "referenceCheck": {
+     "refValue": 0.181818,
+     "refUnit": "s",
+     "refSigma": null,
+     "note": "**派生参照値**(ニュートン換算の基準状態)であって σ を持つ観測量ではない。σ 判定はしない —— % だけを記録する。",
+     "pctByStage": [
+      -0.07497375918428253,
+      -0.07520533836323841,
+      -0.07508954877376048
+     ],
+     "pctExtrapolated": null
+    }
+   },
+   {
+    "tag": "asIs_gw150914DFM(🎻・内蔵のまま)",
+    "srcId": "gw150914DFM",
+    "f": 1,
+    "kFrame": 1,
+    "asIs": true,
+    "stages": [
+     {
+      "div": 1,
+      "dt": 0.016,
+      "unitSec": 0.001,
+      "shortRun": {
+       "steps": 15000,
+       "stopped": "time",
+       "separationEnd": 185.95410388563542,
+       "massTotalEnd": 2569.103271484375,
+       "merged": false,
+       "nan": false,
+       "clamp": 0
+      },
+      "longRun": {
+       "steps": 210203,
+       "stopped": "minima",
+       "nMinima": 20,
+       "rawCross": 194,
+       "separationEnd": 165.83949685399494,
+       "massTotalEnd": 2569.103271484375,
+       "merged": false,
+       "nan": false,
+       "clamp": 0
+      },
+      "period": 0.1720303157894737,
+      "periodFirstHalf": 0.17685333333333336,
+      "periodSecondHalf": 0.1672071111111111,
+      "periodDrift": -0.005607277680120636,
+      "kFrame": 1,
+      "geoPN": 0,
+      "sampleClass": "calibration",
+      "errors": null
+     },
+     {
+      "div": 2,
+      "dt": 0.008,
+      "unitSec": 0.001,
+      "shortRun": {
+       "steps": 30000,
+       "stopped": "time",
+       "separationEnd": 186.5831973271165,
+       "massTotalEnd": 2569.103271484375,
+       "merged": false,
+       "nan": false,
+       "clamp": 0
+      },
+      "longRun": {
+       "steps": 431874,
+       "stopped": "minima",
+       "nMinima": 20,
+       "rawCross": 186,
+       "separationEnd": 171.7646906870481,
+       "massTotalEnd": 2569.103271484375,
+       "merged": false,
+       "nan": false,
+       "clamp": 0
+      },
+      "period": 0.17685305263157894,
+      "periodFirstHalf": 0.17926577777777777,
+      "periodSecondHalf": 0.17444088888888892,
+      "periodDrift": -0.002728194797531535,
+      "kFrame": 1,
+      "geoPN": 0,
+      "sampleClass": "calibration",
+      "errors": null
+     },
+     {
+      "div": 4,
+      "dt": 0.004,
+      "unitSec": 0.001,
+      "shortRun": {
+       "steps": 60000,
+       "stopped": "time",
+       "separationEnd": 186.89754953165928,
+       "massTotalEnd": 2569.103271484375,
+       "merged": false,
+       "nan": false,
+       "clamp": 0
+      },
+      "longRun": {
+       "steps": 875230,
+       "stopped": "minima",
+       "nMinima": 20,
+       "rawCross": 256,
+       "separationEnd": 174.6831370527575,
+       "massTotalEnd": 2569.103271484375,
+       "merged": false,
+       "nan": false,
+       "clamp": 0
+      },
+      "period": 0.1792677894736842,
+      "periodFirstHalf": 0.18047466666666664,
+      "periodSecondHalf": 0.17806133333333335,
+      "periodDrift": -0.0013462183536418714,
+      "kFrame": 1,
+      "geoPN": 0,
+      "sampleClass": "calibration",
+      "errors": null
+     }
+    ],
+    "richardson": {
+     "separationEnd": {
+      "p": 1.000892440904367,
+      "ext": 187.2115131846657,
+      "monotone": true,
+      "d1": -0.6290934414810749,
+      "d2": -0.3143522045427858,
+      "note": null
+     },
+     "period": {
+      "p": 0.9979861172218927,
+      "ext": 0.1816892820055034,
+      "monotone": true,
+      "d1": -0.004822736842105241,
+      "d2": -0.002414736842105275,
+      "note": null
+     },
+     "periodDrift": {
+      "p": 1.0588762967162662,
+      "ext": -0.00007051821496298892,
+      "monotone": true,
+      "d1": -0.002879082882589101,
+      "d2": -0.0013819764438896636,
+      "note": null
+     }
+    },
+    "referenceCheck": {
+     "refValue": 0.181818,
+     "refUnit": "s",
+     "refSigma": null,
+     "note": "**派生参照値**(ニュートン換算の基準状態)であって σ を持つ観測量ではない。σ 判定はしない —— % だけを記録する。",
+     "pctByStage": [
+      -5.383231699021169,
+      -2.730723783355371,
+      -1.4026171920908785
+     ],
+     "pctExtrapolated": -0.07079496776809589
+    }
+   },
+   {
+    "tag": "baseline(kFrame=1・f=1)",
+    "srcId": "gw150914DFM",
+    "f": 1,
+    "kFrame": 1,
+    "asIs": false,
+    "stages": [
+     {
+      "div": 1,
+      "dt": 0.016,
+      "unitSec": 0.001,
+      "shortRun": {
+       "steps": 15000,
+       "stopped": "time",
+       "separationEnd": 778.8131262668466,
+       "massTotalEnd": 1284.5516357421875,
+       "merged": false,
+       "nan": false,
+       "clamp": 0
+      },
+      "longRun": {
+       "steps": 5058336,
+       "stopped": "minima",
+       "nMinima": 20,
+       "rawCross": 1226,
+       "separationEnd": 206.1582048883802,
+       "massTotalEnd": 1284.5516357421875,
+       "merged": false,
+       "nan": false,
+       "clamp": 0
+      },
+      "period": 4.25953347368421,
+      "periodFirstHalf": 4.385895111111112,
+      "periodSecondHalf": 4.133507555555556,
+      "periodDrift": -0.005925449557089684,
+      "kFrame": 1,
+      "geoPN": 0,
+      "sampleClass": "principle",
+      "errors": null
+     },
+     {
+      "div": 2,
+      "dt": 0.008,
+      "unitSec": 0.001,
+      "shortRun": {
+       "steps": 30000,
+       "stopped": "time",
+       "separationEnd": 778.9183055849768,
+       "massTotalEnd": 1284.5516357421875,
+       "merged": false,
+       "nan": false,
+       "clamp": 0
+      },
+      "longRun": {
+       "steps": 10401526,
+       "stopped": "minima",
+       "nMinima": 20,
+       "rawCross": 1283,
+       "separationEnd": 207.3414796987799,
+       "massTotalEnd": 1284.5516357421875,
+       "merged": false,
+       "nan": false,
+       "clamp": 0
+      },
+      "period": 4.379472000000001,
+      "periodFirstHalf": 4.445308444444444,
+      "periodSecondHalf": 4.313719111111111,
+      "periodDrift": -0.0030047106844055585,
+      "kFrame": 1,
+      "geoPN": 0,
+      "sampleClass": "principle",
+      "errors": null
+     },
+     {
+      "div": 4,
+      "dt": 0.004,
+      "unitSec": 0.001,
+      "shortRun": {
+       "steps": 60000,
+       "stopped": "time",
+       "separationEnd": 778.9690386703982,
+       "massTotalEnd": 1284.5516357421875,
+       "merged": false,
+       "nan": false,
+       "clamp": 0
+      },
+      "longRun": {
+       "steps": 21096277,
+       "stopped": "minima",
+       "nMinima": 20,
+       "rawCross": 1467,
+       "separationEnd": 207.98826442019728,
+       "massTotalEnd": 1284.5516357421875,
+       "merged": false,
+       "nan": false,
+       "clamp": 0
+      },
+      "period": 4.441203578947369,
+      "periodFirstHalf": 4.475261333333333,
+      "periodSecondHalf": 4.407192444444445,
+      "periodDrift": -0.0015326748530647685,
+      "kFrame": 1,
+      "geoPN": 0,
+      "sampleClass": "principle",
+      "errors": null
+     }
+    ],
+    "richardson": {
+     "separationEnd": {
+      "p": 1.0518522408026512,
+      "ext": 779.0163118393267,
+      "monotone": true,
+      "d1": -0.10517931813024006,
+      "d2": -0.05073308542137056,
+      "note": null
+     },
+     "period": {
+      "p": 0.9582145539741597,
+      "ext": 4.506673218081933,
+      "monotone": true,
+      "d1": -0.11993852631579038,
+      "d2": -0.06173157894736825,
+      "note": null
+     },
+     "periodDrift": {
+      "p": 0.988520591477219,
+      "ext": -0.00003693043415205254,
+      "monotone": true,
+      "d1": -0.002920738872684125,
+      "d2": -0.00147203583134079,
+      "note": null
+     }
+    },
+    "referenceCheck": {
+     "refValue": 0.181818,
+     "refUnit": "s",
+     "refSigma": null,
+     "note": "**派生参照値**(ニュートン換算の基準状態)であって σ を持つ観測量ではない。σ 判定はしない —— % だけを記録する。",
+     "pctByStage": [
+      2242.745753272069,
+      2308.7120087120093,
+      2342.664411085464
+     ],
+     "pctExtrapolated": 2378.672748617812
+    }
+   }
+  ],
+  "clampProbe": {
+   "k12": {
+    "f": 1,
+    "k": 1.2,
+    "P": 4.25953347368421,
+    "Pdrift": -0.005925449557089684
+   },
+   "k10": {
+    "f": 1,
+    "k": 1,
+    "P": 4.25953347368421,
+    "Pdrift": -0.005925449557089684
+   },
+   "identical": true,
+   "note": "**kFrame は検証器の値域 [0,1] に当たる**(`CLAMPS.kFrame=[0,1]`)。k=1.2 の宣言は黙って 1.0 になる —— この 2 行が同じ値なら、それが実測の証拠である。"
+  },
+  "sensitivityNondim": {
+   "matrix": [
+    [
+     3.1086366562307983,
+     -6.813543800991501
+    ],
+    [
+     2.1574611729874853,
+     -3.8786378915768425
+    ]
+   ],
+   "det": 2.6426802750872227,
+   "sv": [
+    8.700241881895948,
+    0.30374790850198746
+   ],
+   "cond": 28.642968851385593,
+   "note": "**無次元化した行列の条件数**で識別性を見る(次元付き行列式では見ない)。"
+  },
+  "sensitivityAtH": {
+   "dPdk": 14.712602105263157,
+   "dPdf": -29.022517894736843,
+   "dWdk": -0.014204363724352093,
+   "dWdf": 0.022982673176755265,
+   "dk": 0.1,
+   "df": 0.05,
+   "det": -0.07411147460845491
+  },
+  "sensitivityCenter": {
+   "k": 0.9,
+   "f": 1,
+   "why": "**k=1 は値域の端**(kFrame∈[0,1])なので中心差分が取れない —— 中心を 0.9 にした"
+  },
+  "sensitivityPoints": {
+   "pk": {
+    "f": 1,
+    "k": 1,
+    "P": 4.25953347368421,
+    "Pdrift": -0.005925449557089684
+   },
+   "mk": {
+    "f": 1,
+    "k": 0.8,
+    "P": 1.3170130526315789,
+    "Pdrift": -0.003084576812219265
+   },
+   "pf": {
+    "f": 1.05,
+    "k": 0.9,
+    "P": 1.3693818947368424,
+    "Pdrift": -0.0033363549941952393
+   },
+   "mf": {
+    "f": 0.95,
+    "k": 0.9,
+    "P": 4.271633684210527,
+    "Pdrift": -0.005634622311870766
+   }
+  },
+  "jointRoot": {
+   "attempted": false,
+   "why": "**観測 2 量の門が繋がっていない**(CSV の GW150914 行で σ を持つ行は 0 本)。共同根は門が繋がってから。"
+  },
+  "prelimCheck": {
+   "prelim": [
+    187.1607,
+    187.1863,
+    187.1991
+   ],
+   "measuredAsIs_gw150914": [
+    187.1607361987052,
+    187.186296353483,
+    187.19908541914523
+   ],
+   "delta": [
+    0.00003619870520310542,
+    -0.00000364651700124341,
+    -0.000014580854752921368
+   ]
+  }
+ },
+ "cluster": {
+  "declaration": {
+   "systemKind": "cluster",
+   "id": "tuc47",
+   "sampleClass": "principle",
+   "calibrationClass": "principle-analogy",
+   "window": {
+    "tStart": 0,
+    "tEnd": 9.6,
+    "unit": "sim time",
+    "why": "**統括の予備測定と同じ終了時刻**で照合するため"
+   },
+   "extractor": {
+    "name": "projected-x-axis-v1",
+    "quantity": [
+     "projected-half-mass-radius",
+     "core-radius-half-density",
+     "in-plane-sigma-by-band"
+    ],
+    "definition": "投影は x 軸・「視線」は y 成分。コア半径は面密度が中心帯の半分に落ちる R(**King の r_c とは混用しない**)"
+   },
+   "observationVersion": {
+    "csv": "paper/data/cluster-galaxy-observations.csv の 47 Tuc 行(**σ 列が無い**)"
+   },
+   "quantities": [
+    "sigma0",
+    "core_radius",
+    "half_light_radius_projected"
+   ],
+   "gateConnected": false,
+   "sameWindowAsNS": false,
+   "evidence": [],
+   "note": "窓・抽出器・観測版は系種ごとに違う。**NS と揃えたとは書かない**(裁定 (B))。"
+  },
+  "columns": [
+   {
+    "tag": "asIs_tuc47(🍇・内蔵のまま kFrame=0・f=1)",
+    "srcId": "tuc47",
+    "f": 1,
+    "kFrame": 0,
+    "asIs": true,
+    "stages": [
+     {
+      "div": 1,
+      "dt": 0.016,
+      "ok": true,
+      "steps": 600,
+      "nan": false,
+      "n": 240,
+      "clamp": 0,
+      "massTotal": 17.69999921321869,
+      "scaled": null,
+      "kFrame": 0,
+      "geoPN": 0,
+      "sampleClass": "principle",
+      "start": {
+       "n": 240,
+       "mTotal": 17.69999921321869,
+       "projectedHalfMassRadius": 6.924437999725342,
+       "halfMassRadius2D": 13.006801728014219,
+       "rMax": 156.68988037109375,
+       "coreRadiusHalfDensity": 10.151186166536338,
+       "coreWindowParticles": 24,
+       "sigmaInPlaneProxyAll": 1.1662459590687504,
+       "bands": [
+        {
+         "i": 0,
+         "rLo": 0.018499454483389854,
+         "rHi": 2.7678163051605225,
+         "rMid": 1.3931578798219562,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.01609884169495975,
+         "sigmaInPlaneProxy": 1.224617476463355
+        },
+        {
+         "i": 1,
+         "rLo": 2.8359484672546387,
+         "rHi": 5.3965959548950195,
+         "rMid": 4.116272211074829,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.05203244090080261,
+         "sigmaInPlaneProxy": 1.2582448228091292
+        },
+        {
+         "i": 2,
+         "rLo": 5.486330986022949,
+         "rHi": 8.982087135314941,
+         "rMid": 7.234209060668945,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.20085551768230894,
+         "sigmaInPlaneProxy": 1.0828490353064484
+        },
+        {
+         "i": 3,
+         "rLo": 9.153422355651855,
+         "rHi": 16.295284271240234,
+         "rMid": 12.724353313446045,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.16814368786678338,
+         "sigmaInPlaneProxy": 0.9099537215973984
+        },
+        {
+         "i": 4,
+         "rLo": 17.413606643676758,
+         "rHi": 156.68988037109375,
+         "rMid": 87.05174350738525,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.11146912538970355,
+         "sigmaInPlaneProxy": 1.3255917590039938
+        }
+       ],
+       "caveat": "**投影は x 軸・「視線」は y 成分と宣言した面内の 1 成分である。2D の面内分散を視線速度分散へ直接対応させない。**コア半径は線密度が半分に落ちる R であって King の r_c ではない。投影半質量半径(|x|)と面内 2D 半質量半径(√(x²+y²))は**別の量**である。"
+      },
+      "end": {
+       "n": 240,
+       "mTotal": 17.69999921321869,
+       "projectedHalfMassRadius": 4.32158899307251,
+       "halfMassRadius2D": 7.417587937593405,
+       "rMax": 162.22377014160156,
+       "coreRadiusHalfDensity": 3.081144871350859,
+       "coreWindowParticles": 24,
+       "sigmaInPlaneProxyAll": 1.8812670609513202,
+       "bands": [
+        {
+         "i": 0,
+         "rLo": 0.06394579261541367,
+         "rHi": 1.4566367864608765,
+         "rMid": 0.7602912895381451,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.2728119798315068,
+         "sigmaInPlaneProxy": 2.39430951565224
+        },
+        {
+         "i": 1,
+         "rLo": 1.5547761917114258,
+         "rHi": 3.526553153991699,
+         "rMid": 2.5406646728515625,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.011162152513861656,
+         "sigmaInPlaneProxy": 1.9295355700105645
+        },
+        {
+         "i": 2,
+         "rLo": 3.529038906097412,
+         "rHi": 5.57407808303833,
+         "rMid": 4.551558494567871,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.17442531728496155,
+         "sigmaInPlaneProxy": 2.1396419939086577
+        },
+        {
+         "i": 3,
+         "rLo": 5.65770149230957,
+         "rHi": 12.869025230407715,
+         "rMid": 9.263363361358643,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.08225859282538295,
+         "sigmaInPlaneProxy": 1.521700489727987
+        },
+        {
+         "i": 4,
+         "rLo": 12.90744686126709,
+         "rHi": 162.22377014160156,
+         "rMid": 87.56560850143433,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.2265624483115971,
+         "sigmaInPlaneProxy": 1.2210883321250243
+        }
+       ],
+       "caveat": "**投影は x 軸・「視線」は y 成分と宣言した面内の 1 成分である。2D の面内分散を視線速度分散へ直接対応させない。**コア半径は線密度が半分に落ちる R であって King の r_c ではない。投影半質量半径(|x|)と面内 2D 半質量半径(√(x²+y²))は**別の量**である。"
+      },
+      "errors": null
+     },
+     {
+      "div": 2,
+      "dt": 0.008,
+      "ok": true,
+      "steps": 1200,
+      "nan": false,
+      "n": 240,
+      "clamp": 0,
+      "massTotal": 17.69999921321869,
+      "scaled": null,
+      "kFrame": 0,
+      "geoPN": 0,
+      "sampleClass": "principle",
+      "start": {
+       "n": 240,
+       "mTotal": 17.69999921321869,
+       "projectedHalfMassRadius": 6.924437999725342,
+       "halfMassRadius2D": 13.006801728014219,
+       "rMax": 156.68988037109375,
+       "coreRadiusHalfDensity": 10.151186166536338,
+       "coreWindowParticles": 24,
+       "sigmaInPlaneProxyAll": 1.1662459590687504,
+       "bands": [
+        {
+         "i": 0,
+         "rLo": 0.018499454483389854,
+         "rHi": 2.7678163051605225,
+         "rMid": 1.3931578798219562,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.01609884169495975,
+         "sigmaInPlaneProxy": 1.224617476463355
+        },
+        {
+         "i": 1,
+         "rLo": 2.8359484672546387,
+         "rHi": 5.3965959548950195,
+         "rMid": 4.116272211074829,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.05203244090080261,
+         "sigmaInPlaneProxy": 1.2582448228091292
+        },
+        {
+         "i": 2,
+         "rLo": 5.486330986022949,
+         "rHi": 8.982087135314941,
+         "rMid": 7.234209060668945,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.20085551768230894,
+         "sigmaInPlaneProxy": 1.0828490353064484
+        },
+        {
+         "i": 3,
+         "rLo": 9.153422355651855,
+         "rHi": 16.295284271240234,
+         "rMid": 12.724353313446045,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.16814368786678338,
+         "sigmaInPlaneProxy": 0.9099537215973984
+        },
+        {
+         "i": 4,
+         "rLo": 17.413606643676758,
+         "rHi": 156.68988037109375,
+         "rMid": 87.05174350738525,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.11146912538970355,
+         "sigmaInPlaneProxy": 1.3255917590039938
+        }
+       ],
+       "caveat": "**投影は x 軸・「視線」は y 成分と宣言した面内の 1 成分である。2D の面内分散を視線速度分散へ直接対応させない。**コア半径は線密度が半分に落ちる R であって King の r_c ではない。投影半質量半径(|x|)と面内 2D 半質量半径(√(x²+y²))は**別の量**である。"
+      },
+      "end": {
+       "n": 240,
+       "mTotal": 17.69999921321869,
+       "projectedHalfMassRadius": 4.409515857696533,
+       "halfMassRadius2D": 7.370095141938997,
+       "rMax": 162.22393798828125,
+       "coreRadiusHalfDensity": 5.635947186076264,
+       "coreWindowParticles": 24,
+       "sigmaInPlaneProxyAll": 1.9021447800729312,
+       "bands": [
+        {
+         "i": 0,
+         "rLo": 0.011197524145245552,
+         "rHi": 1.478609561920166,
+         "rMid": 0.7449035430327058,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.15509979965766738,
+         "sigmaInPlaneProxy": 2.4302589292710035
+        },
+        {
+         "i": 1,
+         "rLo": 1.5369402170181274,
+         "rHi": 3.676441192626953,
+         "rMid": 2.6066907048225403,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.00860551162622869,
+         "sigmaInPlaneProxy": 1.9798968258899088
+        },
+        {
+         "i": 2,
+         "rLo": 3.7187998294830322,
+         "rHi": 5.689538478851318,
+         "rMid": 4.704169154167175,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.21494982849496105,
+         "sigmaInPlaneProxy": 2.145525979188909
+        },
+        {
+         "i": 3,
+         "rLo": 5.690673351287842,
+         "rHi": 12.858379364013672,
+         "rMid": 9.274526357650757,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.07330538398430993,
+         "sigmaInPlaneProxy": 1.5352787968211234
+        },
+        {
+         "i": 4,
+         "rLo": 12.943621635437012,
+         "rHi": 162.22393798828125,
+         "rMid": 87.58377981185913,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.22644621599465609,
+         "sigmaInPlaneProxy": 1.2216924370399067
+        }
+       ],
+       "caveat": "**投影は x 軸・「視線」は y 成分と宣言した面内の 1 成分である。2D の面内分散を視線速度分散へ直接対応させない。**コア半径は線密度が半分に落ちる R であって King の r_c ではない。投影半質量半径(|x|)と面内 2D 半質量半径(√(x²+y²))は**別の量**である。"
+      },
+      "errors": null
+     },
+     {
+      "div": 4,
+      "dt": 0.004,
+      "ok": true,
+      "steps": 2400,
+      "nan": false,
+      "n": 240,
+      "clamp": 0,
+      "massTotal": 17.69999921321869,
+      "scaled": null,
+      "kFrame": 0,
+      "geoPN": 0,
+      "sampleClass": "principle",
+      "start": {
+       "n": 240,
+       "mTotal": 17.69999921321869,
+       "projectedHalfMassRadius": 6.924437999725342,
+       "halfMassRadius2D": 13.006801728014219,
+       "rMax": 156.68988037109375,
+       "coreRadiusHalfDensity": 10.151186166536338,
+       "coreWindowParticles": 24,
+       "sigmaInPlaneProxyAll": 1.1662459590687504,
+       "bands": [
+        {
+         "i": 0,
+         "rLo": 0.018499454483389854,
+         "rHi": 2.7678163051605225,
+         "rMid": 1.3931578798219562,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.01609884169495975,
+         "sigmaInPlaneProxy": 1.224617476463355
+        },
+        {
+         "i": 1,
+         "rLo": 2.8359484672546387,
+         "rHi": 5.3965959548950195,
+         "rMid": 4.116272211074829,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.05203244090080261,
+         "sigmaInPlaneProxy": 1.2582448228091292
+        },
+        {
+         "i": 2,
+         "rLo": 5.486330986022949,
+         "rHi": 8.982087135314941,
+         "rMid": 7.234209060668945,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.20085551768230894,
+         "sigmaInPlaneProxy": 1.0828490353064484
+        },
+        {
+         "i": 3,
+         "rLo": 9.153422355651855,
+         "rHi": 16.295284271240234,
+         "rMid": 12.724353313446045,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.16814368786678338,
+         "sigmaInPlaneProxy": 0.9099537215973984
+        },
+        {
+         "i": 4,
+         "rLo": 17.413606643676758,
+         "rHi": 156.68988037109375,
+         "rMid": 87.05174350738525,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.11146912538970355,
+         "sigmaInPlaneProxy": 1.3255917590039938
+        }
+       ],
+       "caveat": "**投影は x 軸・「視線」は y 成分と宣言した面内の 1 成分である。2D の面内分散を視線速度分散へ直接対応させない。**コア半径は線密度が半分に落ちる R であって King の r_c ではない。投影半質量半径(|x|)と面内 2D 半質量半径(√(x²+y²))は**別の量**である。"
+      },
+      "end": {
+       "n": 240,
+       "mTotal": 17.69999921321869,
+       "projectedHalfMassRadius": 4.305429458618164,
+       "halfMassRadius2D": 7.3895010765744855,
+       "rMax": 162.22381591796875,
+       "coreRadiusHalfDensity": 5.572675389740999,
+       "coreWindowParticles": 24,
+       "sigmaInPlaneProxyAll": 1.9084223005533834,
+       "bands": [
+        {
+         "i": 0,
+         "rLo": 0.017290670424699783,
+         "rHi": 1.4426409006118774,
+         "rMid": 0.7299657855182886,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.4920732665147322,
+         "sigmaInPlaneProxy": 2.401833381959133
+        },
+        {
+         "i": 1,
+         "rLo": 1.4735172986984253,
+         "rHi": 3.219886064529419,
+         "rMid": 2.346701681613922,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.33760525410374004,
+         "sigmaInPlaneProxy": 1.9101072216690802
+        },
+        {
+         "i": 2,
+         "rLo": 3.2325847148895264,
+         "rHi": 5.6407976150512695,
+         "rMid": 4.436691164970398,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.16199277807027102,
+         "sigmaInPlaneProxy": 2.193814089417211
+        },
+        {
+         "i": 3,
+         "rLo": 5.664324760437012,
+         "rHi": 12.858396530151367,
+         "rMid": 9.26136064529419,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.012716383828471104,
+         "sigmaInPlaneProxy": 1.5376375067989996
+        },
+        {
+         "i": 4,
+         "rLo": 12.964380264282227,
+         "rHi": 162.22381591796875,
+         "rMid": 87.59409809112549,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.2267880189077308,
+         "sigmaInPlaneProxy": 1.2217721230466214
+        }
+       ],
+       "caveat": "**投影は x 軸・「視線」は y 成分と宣言した面内の 1 成分である。2D の面内分散を視線速度分散へ直接対応させない。**コア半径は線密度が半分に落ちる R であって King の r_c ではない。投影半質量半径(|x|)と面内 2D 半質量半径(√(x²+y²))は**別の量**である。"
+      },
+      "errors": null
+     }
+    ],
+    "richardson": {
+     "projectedHalfMassRadius": {
+      "p": null,
+      "ext": null,
+      "monotone": false,
+      "d1": -0.08792686462402344,
+      "d2": 0.10408639907836914,
+      "sameSign": false,
+      "note": "**差の符号が反転している**(h→h/2 と h/2→h/4 で向きが違う)—— 単調に収束していないので外挿しない"
+     },
+     "halfMassRadius2D": {
+      "p": null,
+      "ext": null,
+      "monotone": false,
+      "d1": 0.047492795654408226,
+      "d2": -0.019405934635488897,
+      "sameSign": false,
+      "note": "**差の符号が反転している**(h→h/2 と h/2→h/4 で向きが違う)—— 単調に収束していないので外挿しない"
+     },
+     "coreRadiusHalfDensity": {
+      "p": null,
+      "ext": null,
+      "monotone": false,
+      "d1": -2.5548023147254053,
+      "d2": 0.06327179633526558,
+      "sameSign": false,
+      "note": "**差の符号が反転している**(h→h/2 と h/2→h/4 で向きが違う)—— 単調に収束していないので外挿しない"
+     },
+     "sigmaInPlaneProxyAll": {
+      "p": 1.7336973715229216,
+      "ext": 1.9111213914596814,
+      "monotone": true,
+      "d1": -0.02087771912161096,
+      "d2": -0.006277520480452159,
+      "note": null
+     }
+    }
+   },
+   {
+    "tag": "asIs_tuc47DFM(🫐・内蔵のまま kFrame=1・台帳 f)",
+    "srcId": "tuc47DFM",
+    "f": 1,
+    "kFrame": 1,
+    "asIs": true,
+    "stages": [
+     {
+      "div": 1,
+      "dt": 0.016,
+      "ok": true,
+      "steps": 600,
+      "nan": false,
+      "n": 240,
+      "clamp": 9782,
+      "massTotal": 35.283204317092896,
+      "scaled": null,
+      "kFrame": 1,
+      "geoPN": 0,
+      "sampleClass": "principle",
+      "start": {
+       "n": 240,
+       "mTotal": 35.283204317092896,
+       "projectedHalfMassRadius": 6.924437999725342,
+       "halfMassRadius2D": 13.006801728014219,
+       "rMax": 156.68988037109375,
+       "coreRadiusHalfDensity": 10.151186166536338,
+       "coreWindowParticles": 24,
+       "sigmaInPlaneProxyAll": 1.929854015043185,
+       "bands": [
+        {
+         "i": 0,
+         "rLo": 0.018499454483389854,
+         "rHi": 2.7678163051605225,
+         "rMid": 1.3931578798219562,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": -0.025731089835365612,
+         "sigmaInPlaneProxy": 2.0248081902959534
+        },
+        {
+         "i": 1,
+         "rLo": 2.8359484672546387,
+         "rHi": 5.3965959548950195,
+         "rMid": 4.116272211074829,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": 0.08511254998544852,
+         "sigmaInPlaneProxy": 2.0924303963470745
+        },
+        {
+         "i": 2,
+         "rLo": 5.486330986022949,
+         "rHi": 8.982087135314941,
+         "rMid": 7.234209060668945,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": -0.3302685021578024,
+         "sigmaInPlaneProxy": 1.781431006012703
+        },
+        {
+         "i": 3,
+         "rLo": 9.153422355651855,
+         "rHi": 16.295284271240234,
+         "rMid": 12.724353313446045,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": -0.28505537336847436,
+         "sigmaInPlaneProxy": 1.5063767270934045
+        },
+        {
+         "i": 4,
+         "rLo": 17.413606643676758,
+         "rHi": 156.68988037109375,
+         "rMid": 87.05174350738525,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": 0.1858280064382901,
+         "sigmaInPlaneProxy": 2.1927430493454145
+        }
+       ],
+       "caveat": "**投影は x 軸・「視線」は y 成分と宣言した面内の 1 成分である。2D の面内分散を視線速度分散へ直接対応させない。**コア半径は線密度が半分に落ちる R であって King の r_c ではない。投影半質量半径(|x|)と面内 2D 半質量半径(√(x²+y²))は**別の量**である。"
+      },
+      "end": {
+       "n": 240,
+       "mTotal": 35.283204317092896,
+       "projectedHalfMassRadius": 5.295178413391113,
+       "halfMassRadius2D": 8.568519786355088,
+       "rMax": 165.80128479003906,
+       "coreRadiusHalfDensity": 5.580983202409578,
+       "coreWindowParticles": 24,
+       "sigmaInPlaneProxyAll": 2.6043178634309214,
+       "bands": [
+        {
+         "i": 0,
+         "rLo": 0.01952788606286049,
+         "rHi": 1.7020156383514404,
+         "rMid": 0.8607717622071505,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": -0.9607271139199535,
+         "sigmaInPlaneProxy": 3.1883743801916724
+        },
+        {
+         "i": 1,
+         "rLo": 1.7973917722702026,
+         "rHi": 3.8312129974365234,
+         "rMid": 2.814302384853363,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": 0.1174450774366657,
+         "sigmaInPlaneProxy": 3.1330181985599346
+        },
+        {
+         "i": 2,
+         "rLo": 3.9278666973114014,
+         "rHi": 6.750669956207275,
+         "rMid": 5.339268326759338,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": 0.8148831726866774,
+         "sigmaInPlaneProxy": 2.1622894275349998
+        },
+        {
+         "i": 3,
+         "rLo": 7.0141987800598145,
+         "rHi": 12.939537048339844,
+         "rMid": 9.976867914199829,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": 0.19369469940041503,
+         "sigmaInPlaneProxy": 2.006580303823406
+        },
+        {
+         "i": 4,
+         "rLo": 13.153974533081055,
+         "rHi": 165.80128479003906,
+         "rMid": 89.47762966156006,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": -0.5359400543384254,
+         "sigmaInPlaneProxy": 1.9666498011336804
+        }
+       ],
+       "caveat": "**投影は x 軸・「視線」は y 成分と宣言した面内の 1 成分である。2D の面内分散を視線速度分散へ直接対応させない。**コア半径は線密度が半分に落ちる R であって King の r_c ではない。投影半質量半径(|x|)と面内 2D 半質量半径(√(x²+y²))は**別の量**である。"
+      },
+      "errors": null
+     },
+     {
+      "div": 2,
+      "dt": 0.008,
+      "ok": true,
+      "steps": 1200,
+      "nan": false,
+      "n": 240,
+      "clamp": 17982,
+      "massTotal": 35.283204317092896,
+      "scaled": null,
+      "kFrame": 1,
+      "geoPN": 0,
+      "sampleClass": "principle",
+      "start": {
+       "n": 240,
+       "mTotal": 35.283204317092896,
+       "projectedHalfMassRadius": 6.924437999725342,
+       "halfMassRadius2D": 13.006801728014219,
+       "rMax": 156.68988037109375,
+       "coreRadiusHalfDensity": 10.151186166536338,
+       "coreWindowParticles": 24,
+       "sigmaInPlaneProxyAll": 1.929854015043185,
+       "bands": [
+        {
+         "i": 0,
+         "rLo": 0.018499454483389854,
+         "rHi": 2.7678163051605225,
+         "rMid": 1.3931578798219562,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": -0.025731089835365612,
+         "sigmaInPlaneProxy": 2.0248081902959534
+        },
+        {
+         "i": 1,
+         "rLo": 2.8359484672546387,
+         "rHi": 5.3965959548950195,
+         "rMid": 4.116272211074829,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": 0.08511254998544852,
+         "sigmaInPlaneProxy": 2.0924303963470745
+        },
+        {
+         "i": 2,
+         "rLo": 5.486330986022949,
+         "rHi": 8.982087135314941,
+         "rMid": 7.234209060668945,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": -0.3302685021578024,
+         "sigmaInPlaneProxy": 1.781431006012703
+        },
+        {
+         "i": 3,
+         "rLo": 9.153422355651855,
+         "rHi": 16.295284271240234,
+         "rMid": 12.724353313446045,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": -0.28505537336847436,
+         "sigmaInPlaneProxy": 1.5063767270934045
+        },
+        {
+         "i": 4,
+         "rLo": 17.413606643676758,
+         "rHi": 156.68988037109375,
+         "rMid": 87.05174350738525,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": 0.1858280064382901,
+         "sigmaInPlaneProxy": 2.1927430493454145
+        }
+       ],
+       "caveat": "**投影は x 軸・「視線」は y 成分と宣言した面内の 1 成分である。2D の面内分散を視線速度分散へ直接対応させない。**コア半径は線密度が半分に落ちる R であって King の r_c ではない。投影半質量半径(|x|)と面内 2D 半質量半径(√(x²+y²))は**別の量**である。"
+      },
+      "end": {
+       "n": 240,
+       "mTotal": 35.283204317092896,
+       "projectedHalfMassRadius": 4.776196002960205,
+       "halfMassRadius2D": 8.60156114600152,
+       "rMax": 165.799560546875,
+       "coreRadiusHalfDensity": 3.094036613020425,
+       "coreWindowParticles": 24,
+       "sigmaInPlaneProxyAll": 2.5956781160747737,
+       "bands": [
+        {
+         "i": 0,
+         "rLo": 0.005284115672111511,
+         "rHi": 1.3940688371658325,
+         "rMid": 0.699676476418972,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": -0.7095445629286891,
+         "sigmaInPlaneProxy": 3.414079152663253
+        },
+        {
+         "i": 1,
+         "rLo": 1.4436041116714478,
+         "rHi": 2.976513385772705,
+         "rMid": 2.2100587487220764,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": -0.20219880163980028,
+         "sigmaInPlaneProxy": 2.828947128321582
+        },
+        {
+         "i": 2,
+         "rLo": 3.0536201000213623,
+         "rHi": 6.436896800994873,
+         "rMid": 4.745258450508118,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": 0.7202719291672111,
+         "sigmaInPlaneProxy": 2.2105227668746057
+        },
+        {
+         "i": 3,
+         "rLo": 6.458449840545654,
+         "rHi": 13.379382133483887,
+         "rMid": 9.91891598701477,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": 0.3605973651477446,
+         "sigmaInPlaneProxy": 2.0988521884011013
+        },
+        {
+         "i": 4,
+         "rLo": 13.808578491210938,
+         "rHi": 165.799560546875,
+         "rMid": 89.80406951904297,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": -0.5398735570100447,
+         "sigmaInPlaneProxy": 1.9551284577138817
+        }
+       ],
+       "caveat": "**投影は x 軸・「視線」は y 成分と宣言した面内の 1 成分である。2D の面内分散を視線速度分散へ直接対応させない。**コア半径は線密度が半分に落ちる R であって King の r_c ではない。投影半質量半径(|x|)と面内 2D 半質量半径(√(x²+y²))は**別の量**である。"
+      },
+      "errors": null
+     },
+     {
+      "div": 4,
+      "dt": 0.004,
+      "ok": true,
+      "steps": 2400,
+      "nan": false,
+      "n": 240,
+      "clamp": 34305,
+      "massTotal": 35.283204317092896,
+      "scaled": null,
+      "kFrame": 1,
+      "geoPN": 0,
+      "sampleClass": "principle",
+      "start": {
+       "n": 240,
+       "mTotal": 35.283204317092896,
+       "projectedHalfMassRadius": 6.924437999725342,
+       "halfMassRadius2D": 13.006801728014219,
+       "rMax": 156.68988037109375,
+       "coreRadiusHalfDensity": 10.151186166536338,
+       "coreWindowParticles": 24,
+       "sigmaInPlaneProxyAll": 1.929854015043185,
+       "bands": [
+        {
+         "i": 0,
+         "rLo": 0.018499454483389854,
+         "rHi": 2.7678163051605225,
+         "rMid": 1.3931578798219562,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": -0.025731089835365612,
+         "sigmaInPlaneProxy": 2.0248081902959534
+        },
+        {
+         "i": 1,
+         "rLo": 2.8359484672546387,
+         "rHi": 5.3965959548950195,
+         "rMid": 4.116272211074829,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": 0.08511254998544852,
+         "sigmaInPlaneProxy": 2.0924303963470745
+        },
+        {
+         "i": 2,
+         "rLo": 5.486330986022949,
+         "rHi": 8.982087135314941,
+         "rMid": 7.234209060668945,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": -0.3302685021578024,
+         "sigmaInPlaneProxy": 1.781431006012703
+        },
+        {
+         "i": 3,
+         "rLo": 9.153422355651855,
+         "rHi": 16.295284271240234,
+         "rMid": 12.724353313446045,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": -0.28505537336847436,
+         "sigmaInPlaneProxy": 1.5063767270934045
+        },
+        {
+         "i": 4,
+         "rLo": 17.413606643676758,
+         "rHi": 156.68988037109375,
+         "rMid": 87.05174350738525,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": 0.1858280064382901,
+         "sigmaInPlaneProxy": 2.1927430493454145
+        }
+       ],
+       "caveat": "**投影は x 軸・「視線」は y 成分と宣言した面内の 1 成分である。2D の面内分散を視線速度分散へ直接対応させない。**コア半径は線密度が半分に落ちる R であって King の r_c ではない。投影半質量半径(|x|)と面内 2D 半質量半径(√(x²+y²))は**別の量**である。"
+      },
+      "end": {
+       "n": 240,
+       "mTotal": 35.283204317092896,
+       "projectedHalfMassRadius": 4.923824310302734,
+       "halfMassRadius2D": 8.748610665343639,
+       "rMax": 165.79776000976562,
+       "coreRadiusHalfDensity": 2.652646585996531,
+       "coreWindowParticles": 24,
+       "sigmaInPlaneProxyAll": 2.5785260799967666,
+       "bands": [
+        {
+         "i": 0,
+         "rLo": 0.0038723701145499945,
+         "rHi": 1.283200979232788,
+         "rMid": 0.643536674673669,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": -0.9965712642297149,
+         "sigmaInPlaneProxy": 3.241315875786083
+        },
+        {
+         "i": 1,
+         "rLo": 1.3053797483444214,
+         "rHi": 3.729191303253174,
+         "rMid": 2.5172855257987976,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": 0.1707550905024012,
+         "sigmaInPlaneProxy": 2.9168899635076424
+        },
+        {
+         "i": 2,
+         "rLo": 3.7592618465423584,
+         "rHi": 6.339746952056885,
+         "rMid": 5.049504399299622,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": 0.7675497263359526,
+         "sigmaInPlaneProxy": 2.179759335222201
+        },
+        {
+         "i": 3,
+         "rLo": 6.398353576660156,
+         "rHi": 12.903573036193848,
+         "rMid": 9.650963306427002,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": 0.20981920277699828,
+         "sigmaInPlaneProxy": 2.0651976727528987
+        },
+        {
+         "i": 4,
+         "rLo": 13.263959884643555,
+         "rHi": 165.79776000976562,
+         "rMid": 89.53085994720459,
+         "n": 48,
+         "mass": 7.056640863418579,
+         "vMean": -0.5222776850375036,
+         "sigmaInPlaneProxy": 1.9590493795064352
+        }
+       ],
+       "caveat": "**投影は x 軸・「視線」は y 成分と宣言した面内の 1 成分である。2D の面内分散を視線速度分散へ直接対応させない。**コア半径は線密度が半分に落ちる R であって King の r_c ではない。投影半質量半径(|x|)と面内 2D 半質量半径(√(x²+y²))は**別の量**である。"
+      },
+      "errors": null
+     }
+    ],
+    "richardson": {
+     "projectedHalfMassRadius": {
+      "p": null,
+      "ext": null,
+      "monotone": false,
+      "d1": 0.5189824104309082,
+      "d2": -0.1476283073425293,
+      "sameSign": false,
+      "note": "**差の符号が反転している**(h→h/2 と h/2→h/4 で向きが違う)—— 単調に収束していないので外挿しない"
+     },
+     "halfMassRadius2D": {
+      "p": -2.1539571087721456,
+      "ext": null,
+      "monotone": false,
+      "d1": -0.03304135964643251,
+      "d2": -0.14704951934211863,
+      "note": "**見かけの次数が正でない**(h/2→h/4 の差が h→h/2 の差より大きい)—— 漸近域に居ないので外挿しない"
+     },
+     "coreRadiusHalfDensity": {
+      "p": 2.4942495858593,
+      "ext": 2.5574034822170497,
+      "monotone": true,
+      "d1": 2.4869465893891527,
+      "d2": 0.44139002702389396,
+      "note": null
+     },
+     "sigmaInPlaneProxyAll": {
+      "p": -0.9893188147414463,
+      "ext": null,
+      "monotone": false,
+      "d1": 0.008639747356147698,
+      "d2": 0.017152036078007082,
+      "note": "**見かけの次数が正でない**(h/2→h/4 の差が h→h/2 の差より大きい)—— 漸近域に居ないので外挿しない"
+     }
+    }
+   },
+   {
+    "tag": "baseline(🍇 に kFrame=1・f=1)",
+    "srcId": "tuc47",
+    "f": 1,
+    "kFrame": 1,
+    "asIs": false,
+    "stages": [
+     {
+      "div": 1,
+      "dt": 0.016,
+      "ok": true,
+      "steps": 600,
+      "nan": false,
+      "n": 240,
+      "clamp": 14356,
+      "massTotal": 17.69999921321869,
+      "scaled": [
+       "mMin",
+       "mMax"
+      ],
+      "kFrame": 1,
+      "geoPN": 0,
+      "sampleClass": "principle",
+      "start": {
+       "n": 240,
+       "mTotal": 17.69999921321869,
+       "projectedHalfMassRadius": 6.924437999725342,
+       "halfMassRadius2D": 13.006801728014219,
+       "rMax": 156.68988037109375,
+       "coreRadiusHalfDensity": 10.151186166536338,
+       "coreWindowParticles": 24,
+       "sigmaInPlaneProxyAll": 1.1662459590687504,
+       "bands": [
+        {
+         "i": 0,
+         "rLo": 0.018499454483389854,
+         "rHi": 2.7678163051605225,
+         "rMid": 1.3931578798219562,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.01609884169495975,
+         "sigmaInPlaneProxy": 1.224617476463355
+        },
+        {
+         "i": 1,
+         "rLo": 2.8359484672546387,
+         "rHi": 5.3965959548950195,
+         "rMid": 4.116272211074829,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.05203244090080261,
+         "sigmaInPlaneProxy": 1.2582448228091292
+        },
+        {
+         "i": 2,
+         "rLo": 5.486330986022949,
+         "rHi": 8.982087135314941,
+         "rMid": 7.234209060668945,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.20085551768230894,
+         "sigmaInPlaneProxy": 1.0828490353064484
+        },
+        {
+         "i": 3,
+         "rLo": 9.153422355651855,
+         "rHi": 16.295284271240234,
+         "rMid": 12.724353313446045,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.16814368786678338,
+         "sigmaInPlaneProxy": 0.9099537215973984
+        },
+        {
+         "i": 4,
+         "rLo": 17.413606643676758,
+         "rHi": 156.68988037109375,
+         "rMid": 87.05174350738525,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.11146912538970355,
+         "sigmaInPlaneProxy": 1.3255917590039938
+        }
+       ],
+       "caveat": "**投影は x 軸・「視線」は y 成分と宣言した面内の 1 成分である。2D の面内分散を視線速度分散へ直接対応させない。**コア半径は線密度が半分に落ちる R であって King の r_c ではない。投影半質量半径(|x|)と面内 2D 半質量半径(√(x²+y²))は**別の量**である。"
+      },
+      "end": {
+       "n": 240,
+       "mTotal": 17.69999921321869,
+       "projectedHalfMassRadius": 4.383636951446533,
+       "halfMassRadius2D": 6.855259533738343,
+       "rMax": 162.19227600097656,
+       "coreRadiusHalfDensity": 5.826604738284453,
+       "coreWindowParticles": 24,
+       "sigmaInPlaneProxyAll": 1.9146413337134052,
+       "bands": [
+        {
+         "i": 0,
+         "rLo": 0.00019282620633020997,
+         "rHi": 1.4029170274734497,
+         "rMid": 0.70155492683989,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.13280734606087208,
+         "sigmaInPlaneProxy": 2.120896349656167
+        },
+        {
+         "i": 1,
+         "rLo": 1.4772013425827026,
+         "rHi": 3.3967204093933105,
+         "rMid": 2.4369608759880066,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.25777105474844575,
+         "sigmaInPlaneProxy": 2.382625353082719
+        },
+        {
+         "i": 2,
+         "rLo": 3.4194116592407227,
+         "rHi": 5.24901008605957,
+         "rMid": 4.3342108726501465,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.1526760639001926,
+         "sigmaInPlaneProxy": 2.043613904526807
+        },
+        {
+         "i": 3,
+         "rLo": 5.30610990524292,
+         "rHi": 12.456218719482422,
+         "rMid": 8.881164312362671,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.03892819078949591,
+         "sigmaInPlaneProxy": 1.6269192951971145
+        },
+        {
+         "i": 4,
+         "rLo": 12.917895317077637,
+         "rHi": 162.19227600097656,
+         "rMid": 87.5550856590271,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.2333363164604331,
+         "sigmaInPlaneProxy": 1.219082581232761
+        }
+       ],
+       "caveat": "**投影は x 軸・「視線」は y 成分と宣言した面内の 1 成分である。2D の面内分散を視線速度分散へ直接対応させない。**コア半径は線密度が半分に落ちる R であって King の r_c ではない。投影半質量半径(|x|)と面内 2D 半質量半径(√(x²+y²))は**別の量**である。"
+      },
+      "errors": null
+     },
+     {
+      "div": 2,
+      "dt": 0.008,
+      "ok": true,
+      "steps": 1200,
+      "nan": false,
+      "n": 240,
+      "clamp": 27407,
+      "massTotal": 17.69999921321869,
+      "scaled": [
+       "mMin",
+       "mMax"
+      ],
+      "kFrame": 1,
+      "geoPN": 0,
+      "sampleClass": "principle",
+      "start": {
+       "n": 240,
+       "mTotal": 17.69999921321869,
+       "projectedHalfMassRadius": 6.924437999725342,
+       "halfMassRadius2D": 13.006801728014219,
+       "rMax": 156.68988037109375,
+       "coreRadiusHalfDensity": 10.151186166536338,
+       "coreWindowParticles": 24,
+       "sigmaInPlaneProxyAll": 1.1662459590687504,
+       "bands": [
+        {
+         "i": 0,
+         "rLo": 0.018499454483389854,
+         "rHi": 2.7678163051605225,
+         "rMid": 1.3931578798219562,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.01609884169495975,
+         "sigmaInPlaneProxy": 1.224617476463355
+        },
+        {
+         "i": 1,
+         "rLo": 2.8359484672546387,
+         "rHi": 5.3965959548950195,
+         "rMid": 4.116272211074829,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.05203244090080261,
+         "sigmaInPlaneProxy": 1.2582448228091292
+        },
+        {
+         "i": 2,
+         "rLo": 5.486330986022949,
+         "rHi": 8.982087135314941,
+         "rMid": 7.234209060668945,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.20085551768230894,
+         "sigmaInPlaneProxy": 1.0828490353064484
+        },
+        {
+         "i": 3,
+         "rLo": 9.153422355651855,
+         "rHi": 16.295284271240234,
+         "rMid": 12.724353313446045,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.16814368786678338,
+         "sigmaInPlaneProxy": 0.9099537215973984
+        },
+        {
+         "i": 4,
+         "rLo": 17.413606643676758,
+         "rHi": 156.68988037109375,
+         "rMid": 87.05174350738525,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.11146912538970355,
+         "sigmaInPlaneProxy": 1.3255917590039938
+        }
+       ],
+       "caveat": "**投影は x 軸・「視線」は y 成分と宣言した面内の 1 成分である。2D の面内分散を視線速度分散へ直接対応させない。**コア半径は線密度が半分に落ちる R であって King の r_c ではない。投影半質量半径(|x|)と面内 2D 半質量半径(√(x²+y²))は**別の量**である。"
+      },
+      "end": {
+       "n": 240,
+       "mTotal": 17.69999921321869,
+       "projectedHalfMassRadius": 4.46054744720459,
+       "halfMassRadius2D": 6.623604178960035,
+       "rMax": 162.193115234375,
+       "coreRadiusHalfDensity": 3.9355799494201835,
+       "coreWindowParticles": 24,
+       "sigmaInPlaneProxyAll": 1.922926024492311,
+       "bands": [
+        {
+         "i": 0,
+         "rLo": 0.0027674888260662556,
+         "rHi": 1.5152608156204224,
+         "rMid": 0.7590141522232443,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.08370468866390486,
+         "sigmaInPlaneProxy": 2.135935619472267
+        },
+        {
+         "i": 1,
+         "rLo": 1.5589430332183838,
+         "rHi": 3.35595703125,
+         "rMid": 2.457450032234192,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.10118137098227938,
+         "sigmaInPlaneProxy": 2.3688258208888198
+        },
+        {
+         "i": 2,
+         "rLo": 3.3683793544769287,
+         "rHi": 5.45958137512207,
+         "rMid": 4.4139803647994995,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.26041011419147253,
+         "sigmaInPlaneProxy": 2.0907250391745413
+        },
+        {
+         "i": 3,
+         "rLo": 5.465673923492432,
+         "rHi": 12.456086158752441,
+         "rMid": 8.960880041122437,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.08521311171352863,
+         "sigmaInPlaneProxy": 1.623616899026873
+        },
+        {
+         "i": 4,
+         "rLo": 12.92660140991211,
+         "rHi": 162.193115234375,
+         "rMid": 87.55985832214355,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.2318304794219633,
+         "sigmaInPlaneProxy": 1.2177862061717437
+        }
+       ],
+       "caveat": "**投影は x 軸・「視線」は y 成分と宣言した面内の 1 成分である。2D の面内分散を視線速度分散へ直接対応させない。**コア半径は線密度が半分に落ちる R であって King の r_c ではない。投影半質量半径(|x|)と面内 2D 半質量半径(√(x²+y²))は**別の量**である。"
+      },
+      "errors": null
+     },
+     {
+      "div": 4,
+      "dt": 0.004,
+      "ok": true,
+      "steps": 2400,
+      "nan": false,
+      "n": 240,
+      "clamp": 52343,
+      "massTotal": 17.69999921321869,
+      "scaled": [
+       "mMin",
+       "mMax"
+      ],
+      "kFrame": 1,
+      "geoPN": 0,
+      "sampleClass": "principle",
+      "start": {
+       "n": 240,
+       "mTotal": 17.69999921321869,
+       "projectedHalfMassRadius": 6.924437999725342,
+       "halfMassRadius2D": 13.006801728014219,
+       "rMax": 156.68988037109375,
+       "coreRadiusHalfDensity": 10.151186166536338,
+       "coreWindowParticles": 24,
+       "sigmaInPlaneProxyAll": 1.1662459590687504,
+       "bands": [
+        {
+         "i": 0,
+         "rLo": 0.018499454483389854,
+         "rHi": 2.7678163051605225,
+         "rMid": 1.3931578798219562,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.01609884169495975,
+         "sigmaInPlaneProxy": 1.224617476463355
+        },
+        {
+         "i": 1,
+         "rLo": 2.8359484672546387,
+         "rHi": 5.3965959548950195,
+         "rMid": 4.116272211074829,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.05203244090080261,
+         "sigmaInPlaneProxy": 1.2582448228091292
+        },
+        {
+         "i": 2,
+         "rLo": 5.486330986022949,
+         "rHi": 8.982087135314941,
+         "rMid": 7.234209060668945,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.20085551768230894,
+         "sigmaInPlaneProxy": 1.0828490353064484
+        },
+        {
+         "i": 3,
+         "rLo": 9.153422355651855,
+         "rHi": 16.295284271240234,
+         "rMid": 12.724353313446045,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.16814368786678338,
+         "sigmaInPlaneProxy": 0.9099537215973984
+        },
+        {
+         "i": 4,
+         "rLo": 17.413606643676758,
+         "rHi": 156.68988037109375,
+         "rMid": 87.05174350738525,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.11146912538970355,
+         "sigmaInPlaneProxy": 1.3255917590039938
+        }
+       ],
+       "caveat": "**投影は x 軸・「視線」は y 成分と宣言した面内の 1 成分である。2D の面内分散を視線速度分散へ直接対応させない。**コア半径は線密度が半分に落ちる R であって King の r_c ではない。投影半質量半径(|x|)と面内 2D 半質量半径(√(x²+y²))は**別の量**である。"
+      },
+      "end": {
+       "n": 240,
+       "mTotal": 17.69999921321869,
+       "projectedHalfMassRadius": 4.345132827758789,
+       "halfMassRadius2D": 6.895054859984465,
+       "rMax": 162.19322204589844,
+       "coreRadiusHalfDensity": 1.6393070614819554,
+       "coreWindowParticles": 24,
+       "sigmaInPlaneProxyAll": 1.9121941684191397,
+       "bands": [
+        {
+         "i": 0,
+         "rLo": 0.10458246618509293,
+         "rHi": 1.282851219177246,
+         "rMid": 0.6937168426811695,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.0093057823056976,
+         "sigmaInPlaneProxy": 2.069684480496383
+        },
+        {
+         "i": 1,
+         "rLo": 1.3094691038131714,
+         "rHi": 3.2406249046325684,
+         "rMid": 2.27504700422287,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.04058876788864533,
+         "sigmaInPlaneProxy": 2.4126371525899444
+        },
+        {
+         "i": 2,
+         "rLo": 3.2976207733154297,
+         "rHi": 5.520427703857422,
+         "rMid": 4.409024238586426,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.03070992553451409,
+         "sigmaInPlaneProxy": 2.1153813307582054
+        },
+        {
+         "i": 3,
+         "rLo": 5.54208517074585,
+         "rHi": 12.456448554992676,
+         "rMid": 8.999266862869263,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": 0.0723401980746227,
+         "sigmaInPlaneProxy": 1.5745608941257214
+        },
+        {
+         "i": 4,
+         "rLo": 12.934626579284668,
+         "rHi": 162.19322204589844,
+         "rMid": 87.56392431259155,
+         "n": 48,
+         "mass": 3.539999842643738,
+         "vMean": -0.23242127324920148,
+         "sigmaInPlaneProxy": 1.2173564164022368
+        }
+       ],
+       "caveat": "**投影は x 軸・「視線」は y 成分と宣言した面内の 1 成分である。2D の面内分散を視線速度分散へ直接対応させない。**コア半径は線密度が半分に落ちる R であって King の r_c ではない。投影半質量半径(|x|)と面内 2D 半質量半径(√(x²+y²))は**別の量**である。"
+      },
+      "errors": null
+     }
+    ],
+    "richardson": {
+     "projectedHalfMassRadius": {
+      "p": null,
+      "ext": null,
+      "monotone": false,
+      "d1": -0.07691049575805664,
+      "d2": 0.11541461944580078,
+      "sameSign": false,
+      "note": "**差の符号が反転している**(h→h/2 と h/2→h/4 で向きが違う)—— 単調に収束していないので外挿しない"
+     },
+     "halfMassRadius2D": {
+      "p": null,
+      "ext": null,
+      "monotone": false,
+      "d1": 0.231655354778308,
+      "d2": -0.2714506810244304,
+      "sameSign": false,
+      "note": "**差の符号が反転している**(h→h/2 と h/2→h/4 で向きが違う)—— 単調に収束していないので外挿しない"
+     },
+     "coreRadiusHalfDensity": {
+      "p": -0.2801258261107992,
+      "ext": null,
+      "monotone": false,
+      "d1": 1.8910247888642693,
+      "d2": 2.296272887938228,
+      "note": "**見かけの次数が正でない**(h/2→h/4 の差が h→h/2 の差より大きい)—— 漸近域に居ないので外挿しない"
+     },
+     "sigmaInPlaneProxyAll": {
+      "p": null,
+      "ext": null,
+      "monotone": false,
+      "d1": -0.008284690778905812,
+      "d2": 0.010731856073171286,
+      "sameSign": false,
+      "note": "**差の符号が反転している**(h→h/2 と h/2→h/4 で向きが違う)—— 単調に収束していないので外挿しない"
+     }
+    }
+   }
+  ],
+  "clampProbe": {
+   "k12": {
+    "f": 1,
+    "k": 1.2,
+    "rHalf": 4.383636951446533,
+    "rHalf2D": 6.855259533738343,
+    "rCore": 5.826604738284453,
+    "sigma": 1.9146413337134052
+   },
+   "k10": {
+    "f": 1,
+    "k": 1,
+    "rHalf": 4.383636951446533,
+    "rHalf2D": 6.855259533738343,
+    "rCore": 5.826604738284453,
+    "sigma": 1.9146413337134052
+   },
+   "identical": true,
+   "note": "**kFrame は検証器の値域 [0,1] に当たる**(`CLAMPS.kFrame=[0,1]`)。k=1.2 は黙って 1.0 になる。"
+  },
+  "sensitivityCenter": {
+   "k": 0.8,
+   "f": 1,
+   "why": "**k=1 は値域の端**(kFrame∈[0,1])なので中心差分が取れない —— 中心を 0.8 にした"
+  },
+  "sensitivityAtH": {
+   "dRhalf_dk": -0.2131485939025879,
+   "dRhalf_df": 2.5792348384857178,
+   "dSigma_dk": 0.06572611379787652,
+   "dSigma_df": 0.2730178553005769,
+   "dk": 0.2,
+   "df": 0.1,
+   "points": {
+    "pk": {
+     "f": 1,
+     "k": 1,
+     "rHalf": 4.383636951446533,
+     "rHalf2D": 6.855259533738343,
+     "rCore": 5.826604738284453,
+     "sigma": 1.9146413337134052
+    },
+    "mk": {
+     "f": 1,
+     "k": 0.6000000000000001,
+     "rHalf": 4.468896389007568,
+     "rHalf2D": 7.19779725289743,
+     "rCore": 6.179563963410487,
+     "sigma": 1.8883508881942546
+    },
+    "pf": {
+     "f": 1.1,
+     "k": 0.8,
+     "rHalf": 4.349392414093018,
+     "rHalf2D": 7.2274601819988264,
+     "rCore": 4.352125557236673,
+     "sigma": 1.9530461516700057
+    },
+    "mf": {
+     "f": 0.9,
+     "k": 0.8,
+     "rHalf": 3.833545446395874,
+     "rHalf2D": 6.990678946035982,
+     "rCore": 4.404740116822132,
+     "sigma": 1.8984425806098904
+    }
+   }
+  },
+  "sensitivityNondim": {
+   "matrix": [
+    [
+     -0.038898950120812736,
+     0.5883778394637835
+    ],
+    [
+     0.02746252789618916,
+     0.14259477767100362
+    ]
+   ],
+   "det": -0.021705129973886413,
+   "sv": [
+    0.6062236856845757,
+    0.03580383031285881
+   ],
+   "cond": 16.931810937190505,
+   "note": "**無次元化した行列の条件数**で識別性を見る(次元付き行列式では見ない)。"
+  },
+  "jointRoot": {
+   "attempted": false,
+   "why": "**観測 2 量の門が繋がっていない**(星団 CSV に σ 列そのものが無い)。さらに星団の共通 f は多体で一意でない(X15)—— 対象・動かす質量・初期値固定法の宣言が先。"
+  },
+  "prelimCheck": {
+   "prelim": [
+    7.637,
+    7.627,
+    7.441
+   ],
+   "measuredAsIs_tuc47_projected": [
+    4.32158899307251,
+    4.409515857696533,
+    4.305429458618164
+   ],
+   "measuredAsIs_tuc47_2D": [
+    7.417587937593405,
+    7.370095141938997,
+    7.3895010765744855
+   ],
+   "deltaProjected": [
+    -3.31541100692749,
+    -3.2174841423034666,
+    -3.1355705413818358
+   ],
+   "delta2D": [
+    -0.21941206240659472,
+    -0.25690485806100316,
+    -0.05149892342551432
+   ],
+   "note": "**h/2→h/4 の差が h→h/2 の差より大きいなら単純外挿しない**(`richardson3` の monotone を見る)。"
+  }
+ },
+ "pageErrors": []
+}

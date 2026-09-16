@@ -35922,6 +35922,64 @@ function dfmFrameKCandidates(inp){
     note:"**候補式の評価器であって予測式ではない。** 力へは接続せず、kFrame をこの数で決める経路は無い"
       +"(内蔵プリセットの kFrame は 0 か 1 のままである)。" };
 }
+// ===== 第265便a(第57報): **共同補正プロトコル**の記帳器 `HP.dfmJointCalProtocol(inp)` =====
+// 原仮定者(第57報)「『geoPN=2』と『kFrame=1』で成立しない場合は、観測質量に対する補正が必要な
+// 状況と判断し、質量補正 f と kFrame を同時に補正する」。—— これは**手順**であって「0.7 を採る」ではない。
+// 本関数は手順の**記帳だけ**を行う純関数である。**力へは 1 バイトも接続せず**、kFrame や質量を
+// この返り値で自動的に決める経路はどこにも無い(内蔵プリセットの kFrame は QA `preset.kframe-binary01`
+// が要求する **0 か 1** のままである)。
+//
+// **手順は 4 段**:
+//   ① 基準走行(geoPN=2・kFrame=1・**f=1 = 観測質量そのもの**)で P と ω̇ を測る。
+//   ② **判定は σ で**行う。2 量とも nσ(既定 3σ)以内なら `correction-not-required`(補正しない)。
+//      どちらかが外れたら `correction-required`(「観測質量に対する補正が要る系」)。
+//      **σ が無い/量が測れていないなら `undecidable`** —— 0 で埋めない。
+//   ③ 外れた系では **(k, f) 平面で共同根**を取る(f だけ・k だけの 1 次元で止めない)。
+//      根には `rootCheck` を必ず付ける。**停止条件(|ΔP|<pTolSec・|Δω̇|/ω̇<wTolRel)は探索許容であって
+//      σ ではない** —— だから `observationalPass` は**常に null**(この関数は 3σ の合否を出さない)。
+//      **共同 fit は事前予測ではない**ので `isPrediction` は**常に false**(hold-out 系での検定と
+//      台帳を通らない独立な f_ind が揃うまで「事前予測式」とは呼ばない)。
+//   ④ 得た (k*, f*) は**その系・その窓・その観測版・その刻みの記録**であり、他系へ固定転用しない。
+//
+// **この関数が言わないこと**: 「kFrame≈0.7 を採った」「共同根が 3σ に入った」
+// 「f≠1 だから観測質量が誤っている」。**f≠1 から観測質量の誤りや未観測質量の存在は確定しない**
+// (初期条件・力則・数値誤差も同じ不一致に寄与しうる)。
+//
+// 入力 inp = { residualP, sigmaP, residualW, sigmaW, omegaDotObs, nSigma, pTolSec, wTolRel, measurementResolved }。
+// **必要な入力が無ければ null を返す**(0 で埋めない)。
+function dfmJointCalProtocol(inp){
+  const o=inp||{};
+  const n=(o.nSigma===undefined||o.nSigma===null)? 3 : Number(o.nSigma);
+  const pTol=(o.pTolSec===undefined||o.pTolSec===null)? 1e-3 : Number(o.pTolSec);
+  const wTol=(o.wTolRel===undefined||o.wTolRel===null)? 5e-4 : Number(o.wTolRel);
+  if(![n,pTol,wTol].every(Number.isFinite) || !(n>0) || !(pTol>0) || !(wTol>0)) return null;
+  const num=(z)=>{ const v=Number(z); return Number.isFinite(v)? v : null; };
+  const rP=num(o.residualP), rW=num(o.residualW);
+  const sP=num(o.sigmaP), sW=num(o.sigmaW), wObs=num(o.omegaDotObs);
+  const one=(r,s)=>{ if(r===null) return { nSigma:null, inside:null, why:"量が測れていない" };
+    if(s===null||!(s>0)) return { nSigma:null, inside:null, why:"σ が無い" };
+    const z=r/s; return { nSigma:z, inside:Math.abs(z)<=n, why:null }; };
+  const bP=one(rP,sP), bW=one(rW,sW);
+  const verdict=(bP.inside===null||bW.inside===null)? "undecidable"
+    : ((bP.inside&&bW.inside)? "correction-not-required" : "correction-required");
+  const resolved=(o.measurementResolved===false)? false : true;
+  let status;
+  if(!resolved || rP===null || rW===null || wObs===null || !(Math.abs(wObs)>0)) status="measurement-unresolved";
+  else if(Math.abs(rP)<pTol && Math.abs(rW)/Math.abs(wObs)<wTol) status="fit-search-tolerance-met";
+  else status="fit-search-unresolved";
+  return { nSigmaGate:n,
+    baseline:{ verdict, P:bP, omegaDot:bW,
+      note:"verdict は「補正が要る系か」という判定であって、**観測質量が誤っていることの確定ではない**。" },
+    rootCheck:{ converged:(status==="fit-search-tolerance-met"), status,
+      residualP:rP, residualW:rW,
+      observationalPass:null,   // **常に null**(この関数は 3σ の合否を出さない)
+      isPrediction:false,       // **常に false**(共同 fit は事前予測ではない)
+      tolerance:{ pTolSec:pTol, wTolRel:wTol,
+        note:"**停止条件は探索許容であって σ ではない。**" } },
+    note:"**手順の記帳器であって較正則ではない。** 力へは接続せず、kFrame や質量をこの返り値で"
+      +"決める経路は無い(内蔵プリセットの kFrame は 0 か 1 のままである)。"
+      +"得た (k*, f*) はその系・その窓・その観測版・その刻みの記録であり、他系へ固定転用しない。" };
+}
 // ===== 第259便a(第51報): **geoPN=3 のトイ積分器** `HP.dfmGeoToyStep(S,dt)` =====
 // 原仮定者(第51報):「例えば『測地線モード geoPN=3』などとして、トイモデル用に明確に処理を分ける事を
 // 検討する」。**`S._core` の外**(`S.step` の `_meshCoordForce` と同じ位置)に置く別の則である。
@@ -37108,6 +37166,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // H3 の相関候補列を**同じ入力で並べるだけ**の純関数)。**予測式ではない**し、力へも接続していない。
   // QA behavior.kJointRoot が代数と循環判定・内蔵の二値契約を機械固定する
   dfmFrameKCandidates,
+  dfmJointCalProtocol,
   // 第259便b(第51報 W2): 親子コア(同心層)の純関数と 3D スピン参照場・歳差/粘性緩和。
   // dfmLayerGravity=球殻定理(内側 0・遠方は点源)/ dfmLayerKernel=慣性核 r^−p の有限半径積分
   // (**重力の球殻積分とは別物**・力へは接続していない)/ dfmLayerMerge=融合の層合成則 2 案/
