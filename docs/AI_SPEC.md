@@ -1107,6 +1107,23 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     融合の合算の対象で、未宣言の層は **正準形に 1 文字も出ない**(既定経路の署名は不変)。値域は ±10¹²。
     **第264便c から、この J は「回転場の源」として読まれる**(下の `spinDipoleMoment` の所有者規約)。
     重力・引きずり・歳差・熱へは依然として 1 バイトも接続していない。
+  - **明示ゼロ `J:0` は「未宣言」ではない(第265便c)**: 値と宣言は別に持つ。
+    `layers:[{role:"core",m:10,r:1,J:0}]` と**明示的に 0 を書いた層は「Q=0 を宣言した層」**であり、
+    回転場の源は **0**(従来殻式 ½mR²s へは戻らない)。何も書かない層だけが「未宣言」で従来式へ落ちる。
+    **`Jx:0`・`Jy:0` も同じ契約**である(面内だけの明示ゼロでも「宣言あり」と読む)。
+    宣言は **build / 編集(`applyLayerEdit`)/ 保存・復元(チェックポイント)/ 複製(A/B)/ 融合 /
+    粒子詰め替え**の 6 経路すべてを往復する。読み口は
+    **`HP.dfmLayerJDeclared(i,k,S?)`** → 宣言ビット(1=J・2=Jx・4=Jy・0=未宣言)。
+    **正準形には「宣言された 0」だけが出る**ので、宣言していない宇宙の署名は 1 bit も動かない。
+  - **`body.layers[].inertiaScale`(ζ・省略可・第265便c)**: 層の**有効慣性倍率**。既定 1・値域 [10⁻³,10⁶]
+    (コア V2 の `core.inertiaScale` と同じ値域)。**I = ζ·½·m_k·r_k² と回転場の源 J_k/ζ_k の双方に効く**
+    —— コア V2 の第 2 項が `J_c/ζ` である以上、層に J の値を足すだけでは V2 と一致しない。
+    ζ=1 は正準形に出ない(署名不変)。宣言されて正の有限数でなければ
+    **`layerInertiaScaleNotPositive`** で拒否し、1 bit も書かない(0 に読み替えない)。
+    読み口は **`HP.dfmLayerInertiaScale(i,k,S?)`**。
+    **融合では「源 Σ J/ζ を保つ」合成則**を使う(ζ′=(J_a+J_b)/(J_a/ζ_a+J_b/ζ_b)。等しい ζ どうしは
+    その ζ が残る。J の和か源の和が 0 で定義できないときだけ ζ′=1 へ落ちる ——
+    **融合は宣言の合成であって保存則ではない**)。
   - **`body.layers[].Jx` / `body.layers[].Jy`(省略可・第264便c)**: 層の角運動量の**面内成分**。
     **数値として持つ(宣言・表示・保存・復元・融合の合算・正準形)だけ**で、**力へは 1 バイトも
     接続していない**。0 は正準形に出ない(既定経路の署名は不変)。値域は ±10¹²。
@@ -1114,15 +1131,27 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   - **回転場の源の所有者規約(第264便c — `spinDipoleMoment` / `HP.dfmLayerDipoleMoment(i,S)`)**:
     スピン双極子モーメント Q_i(`physics.spinSpin` の源・対ポテンシャル `U_SS` の源)は
     **コア V2 があれば V2・無ければ層**から取る(**二重計上を構造的に防ぐ**)。
-    - コア V2 を持つ粒子: 従来式 **Q = ½·m·R²·spin + J_c/ζ**(differential/active のみ第 2 項)。
-    - コア V2 を持たない層つき粒子: **Q = Σ_k J_k**(層の宣言 J の z 成分の和)。
+    - コア V2 を持つ粒子: 従来式 **Q = ½·M_shell·R²·spin + J_c/ζ**(differential/active のみ第 2 項)。
+      **M_shell は既定で body 質量 m**(第77便以来)で、`core.shellSpinMass:"shell"` を宣言した粒子だけ
+      **殻質量 M_s = m − M_c** になる(第265便c・下の項)。
+    - コア V2 を持たない層つき粒子: **Q = Σ_k J_k/ζ_k**(層の宣言 J の z 成分を層の ζ で割った和 ——
+      第265便c から ζ が効く。ζ=1 の層では `J/1===J` なので基点とビット同一)。
     - **層が J・Jx・Jy を 1 つも宣言していなければ「未宣言」**として従来式へ落ちる
-      (🧅 layeredCoreDFM はこれに当たるので 1 bit も変わらない)。
+      (🧅 layeredCoreDFM はこれに当たるので 1 bit も変わらない)。**明示ゼロは宣言である**(第265便c)。
     - **射影はコア V2 と同じ z 成分だけ**。層の Jx/Jy を動かしても Q は動かない。
     - `HP.dfmLayerDipoleMoment(i,S)` は層側の値(宣言が無ければ `null`)をそのまま返す読み口。
-    **等価性は条件つきである**(〔第264便c〕の表): V2 の殻項は **body 質量 m** で組まれ、移行後の
-    殻層の J は **M_s** で組まれるので、**spin≠0 では ½·M_c·R²·spin だけずれる**。
-    ζ≠1 では **J_z(1−1/ζ)** だけずれる(層は ζ を持たない)。**「層が V2 を置き換えた」とは書かない。**
+    **等価性(第265便c の実測)**: ζ は層へ運ばれるようになったので **ζ≠1 だけの差は 0**
+    (基点の +J_z(1−1/ζ) は消えた)。残るのは**殻項の質量差 −½·M_c·R²·spin** だけで、
+    これも `core.shellSpinMass:"shell"` を宣言すれば 0 になる(600 步ビット同一を実測)。
+    **それでも「層が V2 を置き換えた」とは書かない** —— 一致するのは**回転場の源**だけで、
+    K_cs・熱・能動系(pump/contract/burst/shed)・整列トルク・歳差は層に無い。
+  - **`body.core.shellSpinMass`(省略可・第265便c)**: `"total"`(既定)/`"shell"` の 2 値。
+    コア V2 の Q の**第 1 項をどの質量で組むか**を宣言する。`"total"` は ½·m·R²·spin(第77便以来の式 ——
+    **既定を変えていない**ので内蔵 122 本の Q は 1 つも動いていない)、`"shell"` は ½·M_s·R²·spin で、
+    層へ移した殻層の J と**同じ式**になる。`"total"` を明示宣言しても正準形に鍵は作らない
+    (未宣言と 1 bit 同一)。cavity では無効。読み口は **`HP.dfmShellSpinMassOf(i,S?)`**・
+    受理値の集合は **`HP.SHELL_SPIN_MASS_MODES`**。**この宣言は Q の定義を変えるので、
+    較正済みの本へ後から足してはならない**(足すと Q が変わる —— 変化率は〔第265便c〕の表)。
   - **`S.applyLayerEdit(i, k, cfg)`(第261便b — 同心層を実行時に編集する唯一の入口)**:
     `cfg={role?,m?,r?,J?}` で層 k を編集(k = 現在の層数なら**追加**)、`cfg=null` で層 k を削除
     (`k<0` なら層宣言ごと外す)。**正準形(r 昇順・非重複・1〜8 層・m>0・role は 5 種)を検証し、
@@ -1185,9 +1214,14 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     `layerValueOutOfEditRange`)・`migration`(`coreV2MigrationPlan` が ok か)。
     返り値: `{id, nBodies, nCore, counts:{canReplace,cannot}, byAxis, byReason,
     rows:[{index,mode,canReplaceV2,axes,why,deltaQ}]}`。
-    **内蔵 122 本の実測(第264便c)**: コア宣言 **75 件** = 置換可 **27**・不可 **48**
-    (項別の不可: rotationSource 48・KcsThermal 16・activePumpContract 16・tilt 14・
-    saveRestore 14・migration 14)。
+    **内蔵 122 本の実測(第265便c で ζ を層へ運んだ後)**: コア宣言 **75 件** = 置換可 **31**・不可 **44**
+    (項別の不可: rotationSource 43・KcsThermal 16・activePumpContract 16・tilt 14・
+    saveRestore 14・migration 14)。第264便c の 27/48 から動いたのは **`inertiaScaleNotUnity` の 5 件が
+    消えた**ぶんだけで、**内蔵プリセットの JSON は 1 バイトも変わっていない**。
+    残る `rotationSource` 43 は `shellSpinTermDiffers` 29 + `migrationRejected` 14 で、
+    前者は `core.shellSpinMass:"shell"` を宣言すれば 0 になる(複製の上で強制した実測 —— 置換可 57・
+    不可 18。**既定の変更ではない**)。`rotationSource` の理由は**差の出どころ**で割り当てる
+    (殻項の差があれば `shellSpinTermDiffers`・無くて ζ≠1 なら `inertiaScaleNotUnity`)。
     **`canReplaceV2` が全項 true の本があっても「コア V2 を廃止できる」とは書かない** ——
     この表が測るのは 6 項だけで、描画・保存 JSON・AI 生成・既存セーブの互換はこの表の外である。
   - **`S._setBodyLayers(i, arr)` の有限性(第262便b)**: `m`・`r`・`J`・Σm を `Number.isFinite` と
