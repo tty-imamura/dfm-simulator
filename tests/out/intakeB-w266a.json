@@ -1,0 +1,2113 @@
+{
+ "when": "2026-09-16T20:37:45.130Z",
+ "wave": "第266便a(第57報 追加・W1)",
+ "intake": {
+  "date": "2026-09-16",
+  "streams": 2,
+  "provenance": "原仮定者が提供した観測レコード(2026-09-16 intake B)と確認記録(2026-09-16)。一次資料は各行の source/url にある。",
+  "rule": [
+   "既存の行の値は**換算訂正 2 件と出典ラベル訂正 1 件を除いて** 1 バイトも置き換えない",
+   "既存の鍵と同じ量は `<量>_candidate` の候補行で併置する",
+   "sigma 列に入れるのは**一次資料に印字された対称 1σ** だけ(単位換算は可)",
+   "`sigma_primary=unverified` のまま —— **外部確認印は印を 1 bit も上げない**(Z11)",
+   "非対称区間・90% 区間・丸め幅は σ ではない(`sigma_kind=asymmetric|ci90|digits|none`)",
+   "上限・下限は value を空にして `upper_limit=` / `lower_limit=` に置く",
+   "プリセット・builder・本体 JSON は変えない(署名不変)"
+  ]
+ },
+ "confirmRecord": {
+  "n": 28,
+  "classes": [
+   "agree",
+   "disagree",
+   "unchecked",
+   "other-source"
+  ],
+  "tally": {
+   "agree": 24,
+   "disagree": 0,
+   "unchecked": 1,
+   "other-source": 3
+  },
+  "acts": [
+   "verified",
+   "value-only",
+   "covariance",
+   "note-only"
+  ],
+  "actTally": {
+   "verified": 21,
+   "value-only": 1,
+   "covariance": 2,
+   "note-only": 4
+  },
+  "promotedToVerified": 21,
+  "verifiedRowsInCsv": 37,
+  "markCensus": {
+   "(印なし)": 128,
+   "unverified": 356,
+   "verified": 37
+  },
+  "verifiedRows": [
+   {
+    "ln": 107,
+    "body": "Alpha Centauri B",
+    "quantity": "eccentricity",
+    "sigma": 0.00015,
+    "verifiedBy": null
+   },
+   {
+    "ln": 108,
+    "body": "Alpha Centauri B",
+    "quantity": "orbital_period",
+    "sigma": 599594.4,
+    "verifiedBy": null
+   },
+   {
+    "ln": 114,
+    "body": "Sirius B",
+    "quantity": "eccentricity",
+    "sigma": 0.00037,
+    "verifiedBy": null
+   },
+   {
+    "ln": 115,
+    "body": "Sirius B",
+    "quantity": "orbital_period",
+    "sigma": 135697.68,
+    "verifiedBy": null
+   },
+   {
+    "ln": 123,
+    "body": "PSR J0737-3039 B",
+    "quantity": "eccentricity",
+    "sigma": 4.8e-8,
+    "verifiedBy": null
+   },
+   {
+    "ln": 124,
+    "body": "PSR J0737-3039 B",
+    "quantity": "orbital_period",
+    "sigma": 2.5056e-7,
+    "verifiedBy": null
+   },
+   {
+    "ln": 125,
+    "body": "PSR J0737-3039 B",
+    "quantity": "periastron_advance",
+    "sigma": 0.000013,
+    "verifiedBy": null
+   },
+   {
+    "ln": 136,
+    "body": "PSR J1757-1854",
+    "quantity": "orbital_period",
+    "sigma": 0.00000432,
+    "verifiedBy": null
+   },
+   {
+    "ln": 137,
+    "body": "PSR J1757-1854",
+    "quantity": "eccentricity",
+    "sigma": 1e-7,
+    "verifiedBy": null
+   },
+   {
+    "ln": 139,
+    "body": "PSR J1757-1854",
+    "quantity": "periastron_advance",
+    "sigma": 0.0002,
+    "verifiedBy": null
+   },
+   {
+    "ln": 145,
+    "body": "PSR J1946+2052",
+    "quantity": "orbital_period",
+    "sigma": 0.000864,
+    "verifiedBy": null
+   },
+   {
+    "ln": 148,
+    "body": "PSR J1946+2052",
+    "quantity": "periastron_advance",
+    "sigma": 0.0004,
+    "verifiedBy": null
+   },
+   {
+    "ln": 171,
+    "body": "PSR B1534+12",
+    "quantity": "orbital_period",
+    "sigma": 8.64e-7,
+    "verifiedBy": null
+   },
+   {
+    "ln": 172,
+    "body": "PSR B1534+12",
+    "quantity": "eccentricity",
+    "sigma": 3e-7,
+    "verifiedBy": null
+   },
+   {
+    "ln": 173,
+    "body": "PSR B1534+12",
+    "quantity": "periastron_advance",
+    "sigma": 0.000009,
+    "verifiedBy": null
+   },
+   {
+    "ln": 180,
+    "body": "PSR J1946+2052",
+    "quantity": "periastron_advance",
+    "sigma": 0.0004,
+    "verifiedBy": null
+   },
+   {
+    "ln": 181,
+    "body": "Alpha Centauri AB",
+    "quantity": "orbital_period",
+    "sigma": 599594.4,
+    "verifiedBy": "原仮定者 2026-09-16"
+   },
+   {
+    "ln": 182,
+    "body": "Alpha Centauri AB",
+    "quantity": "eccentricity",
+    "sigma": 0.00015,
+    "verifiedBy": "原仮定者 2026-09-16"
+   },
+   {
+    "ln": 194,
+    "body": "Sirius AB",
+    "quantity": "orbital_period",
+    "sigma": 135697.68,
+    "verifiedBy": "原仮定者 2026-09-16"
+   },
+   {
+    "ln": 195,
+    "body": "Sirius AB",
+    "quantity": "eccentricity",
+    "sigma": 0.00037,
+    "verifiedBy": "原仮定者 2026-09-16"
+   },
+   {
+    "ln": 207,
+    "body": "PSR J0737-3039 B",
+    "quantity": "orbital_period",
+    "sigma": 8.64e-8,
+    "verifiedBy": "原仮定者 2026-09-16"
+   },
+   {
+    "ln": 210,
+    "body": "PSR J0737-3039 B",
+    "quantity": "eccentricity",
+    "sigma": 6.1e-8,
+    "verifiedBy": "原仮定者 2026-09-16"
+   },
+   {
+    "ln": 211,
+    "body": "PSR J0737-3039 B",
+    "quantity": "periastron_advance",
+    "sigma": 0.000013,
+    "verifiedBy": "原仮定者 2026-09-16"
+   },
+   {
+    "ln": 239,
+    "body": "PSR B1534+12",
+    "quantity": "periastron_advance",
+    "sigma": 0.0000019,
+    "verifiedBy": "原仮定者 2026-09-16"
+   },
+   {
+    "ln": 247,
+    "body": "PSR B1534+12",
+    "quantity": "orbital_period",
+    "sigma": 1.728e-7,
+    "verifiedBy": "原仮定者 2026-09-16"
+   },
+   {
+    "ln": 249,
+    "body": "PSR B1534+12",
+    "quantity": "eccentricity",
+    "sigma": 4e-8,
+    "verifiedBy": "原仮定者 2026-09-16"
+   },
+   {
+    "ln": 273,
+    "body": "PSR J1757-1854",
+    "quantity": "orbital_period",
+    "sigma": 1.728e-7,
+    "verifiedBy": "原仮定者 2026-09-16"
+   },
+   {
+    "ln": 275,
+    "body": "PSR J1757-1854",
+    "quantity": "eccentricity",
+    "sigma": 0.000002,
+    "verifiedBy": "原仮定者 2026-09-16"
+   },
+   {
+    "ln": 276,
+    "body": "PSR J1757-1854",
+    "quantity": "periastron_advance",
+    "sigma": 0.000008,
+    "verifiedBy": "原仮定者 2026-09-16"
+   },
+   {
+    "ln": 363,
+    "body": "Moon",
+    "quantity": "general_precession",
+    "sigma": 5.55555555555556e-9,
+    "verifiedBy": "原仮定者 2026-09-16"
+   },
+   {
+    "ln": 368,
+    "body": "Mercury",
+    "quantity": "periastron_advance",
+    "sigma": 4.167e-9,
+    "verifiedBy": "原仮定者 2026-09-16"
+   },
+   {
+    "ln": 370,
+    "body": "Mercury",
+    "quantity": "periastron_advance_gr",
+    "sigma": 2.5e-9,
+    "verifiedBy": "原仮定者 2026-09-16"
+   },
+   {
+    "ln": 371,
+    "body": "Mercury",
+    "quantity": "periastron_advance_j2",
+    "sigma": 3.056e-9,
+    "verifiedBy": "原仮定者 2026-09-16"
+   },
+   {
+    "ln": 426,
+    "body": "Saturn ring feature D68",
+    "quantity": "radial_amplitude_ae",
+    "sigma": 1,
+    "verifiedBy": "原仮定者 2026-09-16"
+   },
+   {
+    "ln": 428,
+    "body": "Saturn ring feature D68",
+    "quantity": "periastron_advance",
+    "sigma": 2.922,
+    "verifiedBy": "原仮定者 2026-09-16"
+   },
+   {
+    "ln": 444,
+    "body": "Charon",
+    "quantity": "orbital_period_candidate",
+    "sigma": 0.02592,
+    "verifiedBy": "原仮定者 2026-09-16"
+   },
+   {
+    "ln": 445,
+    "body": "Charon",
+    "quantity": "orbital_period_candidate",
+    "sigma": 0.09504,
+    "verifiedBy": "原仮定者 2026-09-16"
+   }
+  ],
+  "propagated": [
+   {
+    "ln": 106,
+    "body": "Alpha Centauri B",
+    "quantity": "semi_major_axis",
+    "markNow": "unverified",
+    "sigmaKind": "covariance",
+    "sigma": 2602100000
+   },
+   {
+    "ln": 113,
+    "body": "Sirius B",
+    "quantity": "semi_major_axis",
+    "markNow": "unverified",
+    "sigmaKind": "covariance",
+    "sigma": 10979400000
+   }
+  ],
+  "externalOnlyVerified": [],
+  "note": "確認者は**原仮定者本人**である(統括の追加指示 2026-09-16)。したがって一致した行は X7 の規約どおり `sigma_primary=verified` へ上がっている。**器が上げたのではない**。伝播値の a(視差との quadrature)と 1σ が確認できなかった行は unverified のままである。",
+  "rows": [
+   {
+    "ln": 181,
+    "body": "Alpha Centauri AB",
+    "quantity": "orbital_period",
+    "klass": "agree",
+    "act": "verified",
+    "at": "Table 8 Period (yr) Present work column",
+    "value": "79.762 +/- 0.019 yr",
+    "markNow": "verified",
+    "sigma": 599594.4,
+    "verifiedBy": "原仮定者 2026-09-16",
+    "verifiedAt": "Table 8 Period (yr) Present work column",
+    "verifiedValue": "79.762 +/- 0.019 yr",
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 182,
+    "body": "Alpha Centauri AB",
+    "quantity": "eccentricity",
+    "klass": "agree",
+    "act": "verified",
+    "at": "Table 8 Eccentricity Present work column",
+    "value": "0.51947 +/- 0.00015",
+    "markNow": "verified",
+    "sigma": 0.00015,
+    "verifiedBy": "原仮定者 2026-09-16",
+    "verifiedAt": "Table 8 Eccentricity Present work column",
+    "verifiedValue": "0.51947 +/- 0.00015",
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 183,
+    "body": "Alpha Centauri AB",
+    "quantity": "semi_major_axis",
+    "klass": "agree",
+    "act": "covariance",
+    "at": "Table 8 Semimajor axis (arcsec) and Parallax (mas) Present work column",
+    "value": "17.4930 +/- 0.0096 arcsec and parallax 750.81 +/- 0.38 mas",
+    "markNow": "unverified",
+    "sigma": 2602049091.4275913,
+    "verifiedBy": null,
+    "verifiedAt": null,
+    "verifiedValue": null,
+    "valueCheckedPresent": true,
+    "valueCheckedBy": "original hypothesis author 2026-09-16 (confirmation record)"
+   },
+   {
+    "ln": 194,
+    "body": "Sirius AB",
+    "quantity": "orbital_period",
+    "klass": "agree",
+    "act": "verified",
+    "at": "Table 4 Orbital period P (year)",
+    "value": "50.1284 +/- 0.0043 yr",
+    "markNow": "verified",
+    "sigma": 135697.68,
+    "verifiedBy": "原仮定者 2026-09-16",
+    "verifiedAt": "Table 4 Orbital period P (year)",
+    "verifiedValue": "50.1284 +/- 0.0043 yr",
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 195,
+    "body": "Sirius AB",
+    "quantity": "eccentricity",
+    "klass": "agree",
+    "act": "verified",
+    "at": "Table 4 Eccentricity e",
+    "value": "0.59142 +/- 0.00037",
+    "markNow": "verified",
+    "sigma": 0.00037,
+    "verifiedBy": "原仮定者 2026-09-16",
+    "verifiedAt": "Table 4 Eccentricity e",
+    "verifiedValue": "0.59142 +/- 0.00037",
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 196,
+    "body": "Sirius AB",
+    "quantity": "semi_major_axis",
+    "klass": "agree",
+    "act": "covariance",
+    "at": "Table 4 Semimajor axis a (arcsec) and Table 5 weighted-mean parallax",
+    "value": "7.4957 +/- 0.0025 arcsec and parallax 0.3789 +/- 0.0014 arcsec",
+    "markNow": "unverified",
+    "sigma": 10979399076.091833,
+    "verifiedBy": null,
+    "verifiedAt": null,
+    "verifiedValue": null,
+    "valueCheckedPresent": true,
+    "valueCheckedBy": "original hypothesis author 2026-09-16 (confirmation record)"
+   },
+   {
+    "ln": 207,
+    "body": "PSR J0737-3039 B",
+    "quantity": "orbital_period",
+    "klass": "agree",
+    "act": "verified",
+    "at": "Table IV Orbital period (day)",
+    "value": "0.102 251 559 297 3(10) d",
+    "markNow": "verified",
+    "sigma": 8.64e-8,
+    "verifiedBy": "原仮定者 2026-09-16",
+    "verifiedAt": "Table IV Orbital period (day)",
+    "verifiedValue": "0.102 251 559 297 3(10) d",
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 210,
+    "body": "PSR J0737-3039 B",
+    "quantity": "eccentricity",
+    "klass": "agree",
+    "act": "verified",
+    "at": "Table IV Eccentricity (Kepler equation)",
+    "value": "0.087 777 023(61)",
+    "markNow": "verified",
+    "sigma": 6.1e-8,
+    "verifiedBy": "原仮定者 2026-09-16",
+    "verifiedAt": "Table IV Eccentricity (Kepler equation)",
+    "verifiedValue": "0.087 777 023(61)",
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 211,
+    "body": "PSR J0737-3039 B",
+    "quantity": "periastron_advance",
+    "klass": "agree",
+    "act": "verified",
+    "at": "Table IV Periastron advance (deg/yr)",
+    "value": "16.899 323(13)",
+    "markNow": "verified",
+    "sigma": 0.000013,
+    "verifiedBy": "原仮定者 2026-09-16",
+    "verifiedAt": "Table IV Periastron advance (deg/yr)",
+    "verifiedValue": "16.899 323(13)",
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 239,
+    "body": "PSR B1534+12",
+    "quantity": "periastron_advance",
+    "klass": "agree",
+    "act": "verified",
+    "at": "Table 3 Rate of periastron advance DD Model column",
+    "value": "1.7557950(19) deg/yr",
+    "markNow": "verified",
+    "sigma": 0.0000019,
+    "verifiedBy": "原仮定者 2026-09-16",
+    "verifiedAt": "Table 3 Rate of periastron advance DD Model column",
+    "verifiedValue": "1.7557950(19) deg/yr",
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 247,
+    "body": "PSR B1534+12",
+    "quantity": "orbital_period",
+    "klass": "agree",
+    "act": "verified",
+    "at": "Table 3 Orbital period Pb DDGR Model column",
+    "value": "0.420737298881(2) d",
+    "markNow": "verified",
+    "sigma": 1.728e-7,
+    "verifiedBy": "原仮定者 2026-09-16",
+    "verifiedAt": "Table 3 Orbital period Pb DDGR Model column",
+    "verifiedValue": "0.420737298881(2) d",
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 249,
+    "body": "PSR B1534+12",
+    "quantity": "eccentricity",
+    "klass": "agree",
+    "act": "verified",
+    "at": "Table 3 Eccentricity e DDGR Model column",
+    "value": "0.27367740(4)",
+    "markNow": "verified",
+    "sigma": 4e-8,
+    "verifiedBy": "原仮定者 2026-09-16",
+    "verifiedAt": "Table 3 Eccentricity e DDGR Model column",
+    "verifiedValue": "0.27367740(4)",
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 273,
+    "body": "PSR J1757-1854",
+    "quantity": "orbital_period",
+    "klass": "agree",
+    "act": "verified",
+    "at": "Table 2 Orbital period Pb (d)",
+    "value": "0.183537823671(2) d",
+    "markNow": "verified",
+    "sigma": 1.728e-7,
+    "verifiedBy": "原仮定者 2026-09-16",
+    "verifiedAt": "Table 2 Orbital period Pb (d)",
+    "verifiedValue": "0.183537823671(2) d",
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 275,
+    "body": "PSR J1757-1854",
+    "quantity": "eccentricity",
+    "klass": "agree",
+    "act": "verified",
+    "at": "Table 2 Eccentricity e",
+    "value": "0.605817(2)",
+    "markNow": "verified",
+    "sigma": 0.000002,
+    "verifiedBy": "原仮定者 2026-09-16",
+    "verifiedAt": "Table 2 Eccentricity e",
+    "verifiedValue": "0.605817(2)",
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 276,
+    "body": "PSR J1757-1854",
+    "quantity": "periastron_advance",
+    "klass": "agree",
+    "act": "verified",
+    "at": "Table 2 Periastron advance (deg/yr)",
+    "value": "10.364986(8)",
+    "markNow": "verified",
+    "sigma": 0.000008,
+    "verifiedBy": "原仮定者 2026-09-16",
+    "verifiedAt": "Table 2 Periastron advance (deg/yr)",
+    "verifiedValue": "10.364986(8)",
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 285,
+    "body": "PSR J1946+2052",
+    "quantity": "orbital_period",
+    "klass": "other-source",
+    "act": "note-only",
+    "at": "the discovery paper Table 1 (Stovall 2018) not Meng 2025 Table 1",
+    "value": "0.07848804(1) d",
+    "markNow": "unverified",
+    "sigma": 0.000001728,
+    "verifiedBy": null,
+    "verifiedAt": null,
+    "verifiedValue": null,
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 289,
+    "body": "PSR J1946+2052",
+    "quantity": "eccentricity",
+    "klass": "other-source",
+    "act": "note-only",
+    "at": "the discovery paper Table 1 (Stovall 2018) not Meng 2025 Table 1",
+    "value": "0.063848(9)",
+    "markNow": "unverified",
+    "sigma": 8e-7,
+    "verifiedBy": null,
+    "verifiedAt": null,
+    "verifiedValue": null,
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 290,
+    "body": "PSR J1946+2052",
+    "quantity": "periastron_advance",
+    "klass": "other-source",
+    "act": "note-only",
+    "at": "the discovery paper Table 1 (Stovall 2018) not Meng 2025 Table 1",
+    "value": "25.6(3) deg/yr",
+    "markNow": "unverified",
+    "sigma": 0.0004,
+    "verifiedBy": null,
+    "verifiedAt": null,
+    "verifiedValue": null,
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 363,
+    "body": "Moon",
+    "quantity": "general_precession",
+    "klass": "agree",
+    "act": "verified",
+    "at": "IERS EOP-PC Earth rotation constants General precession in longitude row",
+    "value": "5028.792(2) arcsec per century",
+    "markNow": "verified",
+    "sigma": 5.55555555555556e-9,
+    "verifiedBy": "原仮定者 2026-09-16",
+    "verifiedAt": "IERS EOP-PC Earth rotation constants General precession in longitude row",
+    "verifiedValue": "5028.792(2) arcsec per century",
+    "valueCheckedPresent": true,
+    "valueCheckedBy": "external review 2026-09-16 (answer B)"
+   },
+   {
+    "ln": 368,
+    "body": "Mercury",
+    "quantity": "periastron_advance",
+    "klass": "agree",
+    "act": "verified",
+    "at": "Table 3 Total row",
+    "value": "575.3100 +/- 0.0015 arcsec per Julian century",
+    "markNow": "verified",
+    "sigma": 4.167e-9,
+    "verifiedBy": "原仮定者 2026-09-16",
+    "verifiedAt": "Table 3 Total row",
+    "verifiedValue": "575.3100 +/- 0.0015 arcsec per Julian century",
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 370,
+    "body": "Mercury",
+    "quantity": "periastron_advance_gr",
+    "klass": "agree",
+    "act": "verified",
+    "at": "Table 3 Gravitoelectric (Schwarzschild-like) row",
+    "value": "42.9799 +/- 0.0009 arcsec per Julian century",
+    "markNow": "verified",
+    "sigma": 2.5e-9,
+    "verifiedBy": "原仮定者 2026-09-16",
+    "verifiedAt": "Table 3 Gravitoelectric (Schwarzschild-like) row",
+    "verifiedValue": "42.9799 +/- 0.0009 arcsec per Julian century",
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 371,
+    "body": "Mercury",
+    "quantity": "periastron_advance_j2",
+    "klass": "agree",
+    "act": "verified",
+    "at": "Table 3 Solar Oblateness row",
+    "value": "0.0286 +/- 0.0011 arcsec per Julian century",
+    "markNow": "verified",
+    "sigma": 3.056e-9,
+    "verifiedBy": "原仮定者 2026-09-16",
+    "verifiedAt": "Table 3 Solar Oblateness row",
+    "verifiedValue": "0.0286 +/- 0.0011 arcsec per Julian century",
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 420,
+    "body": "Titan ringlet",
+    "quantity": "semi_major_axis",
+    "klass": "agree",
+    "act": "value-only",
+    "at": "abstract Titan (Colombo) ringlet semimajor-axis statement",
+    "value": "a = 77878.7 km (the quoted abstract prints no 1-sigma)",
+    "markNow": "unverified",
+    "sigma": 0.15,
+    "verifiedBy": null,
+    "verifiedAt": null,
+    "verifiedValue": null,
+    "valueCheckedPresent": true,
+    "valueCheckedBy": "original hypothesis author 2026-09-16 (confirmation record)"
+   },
+   {
+    "ln": 421,
+    "body": "Titan ringlet",
+    "quantity": "mean_motion",
+    "klass": "unchecked",
+    "act": "note-only",
+    "at": "Not Found",
+    "value": "Unconfirmed",
+    "markNow": "unverified",
+    "sigma": 0.0008,
+    "verifiedBy": null,
+    "verifiedAt": null,
+    "verifiedValue": null,
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 426,
+    "body": "Saturn ring feature D68",
+    "quantity": "radial_amplitude_ae",
+    "klass": "agree",
+    "act": "verified",
+    "at": "abstract a*e statement for the D68 ringlet",
+    "value": "ae=25 +/- 1 km",
+    "markNow": "verified",
+    "sigma": 1,
+    "verifiedBy": "原仮定者 2026-09-16",
+    "verifiedAt": "abstract a*e statement for the D68 ringlet",
+    "verifiedValue": "ae=25 +/- 1 km",
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 428,
+    "body": "Saturn ring feature D68",
+    "quantity": "periastron_advance",
+    "klass": "agree",
+    "act": "verified",
+    "at": "abstract pericenter-precession statement for the D68 ringlet",
+    "value": "38.243 +/- 0.008 deg/day",
+    "markNow": "verified",
+    "sigma": 2.922,
+    "verifiedBy": "原仮定者 2026-09-16",
+    "verifiedAt": "abstract pericenter-precession statement for the D68 ringlet",
+    "verifiedValue": "38.243 +/- 0.008 deg/day",
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 444,
+    "body": "Charon",
+    "quantity": "orbital_period_candidate",
+    "klass": "agree",
+    "act": "verified",
+    "at": "Table 5 P (days) two-body orbit fit to Charon astrometry",
+    "value": "6.3872273(3) d",
+    "markNow": "verified",
+    "sigma": 0.02592,
+    "verifiedBy": "原仮定者 2026-09-16",
+    "verifiedAt": "Table 5 P (days) two-body orbit fit to Charon astrometry",
+    "verifiedValue": "6.3872273(3) d",
+    "valueCheckedPresent": false,
+    "valueCheckedBy": null
+   },
+   {
+    "ln": 445,
+    "body": "Charon",
+    "quantity": "orbital_period_candidate",
+    "klass": "agree",
+    "act": "verified",
+    "at": "arXiv astro-ph/0512491v2 Table 3 Period (days) Charon column",
+    "value": "6.3872304(11) d",
+    "markNow": "verified",
+    "sigma": 0.09504,
+    "verifiedBy": "原仮定者 2026-09-16",
+    "verifiedAt": "arXiv astro-ph/0512491v2 Table 3 Period (days) Charon column",
+    "verifiedValue": "6.3872304(11) d",
+    "valueCheckedPresent": true,
+    "valueCheckedBy": "external review 2026-09-16 (answer B)"
+   }
+  ]
+ },
+ "collate": {
+  "keys": 72,
+  "tally": {
+   "conflict": 3,
+   "agree": 19,
+   "only-1": 33,
+   "only-2": 13,
+   "conflict-source": 1,
+   "partial": 2,
+   "conflict-one-empty": 1
+  },
+  "three": {
+   "一致(値・出典)": 19,
+   "片方のみ": 46,
+   "食い違い": 7
+  },
+  "byFile": {
+   "paper/data/solar-observations.csv": {
+    "食い違い": 3,
+    "一致(値・出典)": 9,
+    "片方のみ": 1
+   },
+   "paper/data/cluster-galaxy-observations.csv": {
+    "一致(値・出典)": 8,
+    "片方のみ": 27,
+    "食い違い": 1
+   },
+   "paper/data/transient-observations.csv": {
+    "食い違い": 3,
+    "片方のみ": 18,
+    "一致(値・出典)": 2
+   }
+  },
+  "vocabulary": {
+   "agree": "一致(値・出典)",
+   "agree-rounding": "一致(値・出典)",
+   "agree-multi": "一致(値・出典)",
+   "agree-both-empty": "一致(値・出典)",
+   "partial": "食い違い",
+   "conflict": "食い違い",
+   "conflict-one-empty": "食い違い",
+   "conflict-source": "食い違い",
+   "only-1": "片方のみ",
+   "only-2": "片方のみ"
+  },
+  "rows": [
+   {
+    "key": "Phobos|orbital_period",
+    "file": "paper/data/solar-observations.csv",
+    "body": "Phobos",
+    "cls": "conflict",
+    "three": "食い違い",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     "27553.841567549454"
+    ]
+   },
+   {
+    "key": "Deimos|orbital_period",
+    "file": "paper/data/solar-observations.csv",
+    "body": "Deimos",
+    "cls": "conflict",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "109092.7872",
+     "109074.88527411409"
+    ]
+   },
+   {
+    "key": "Triton|orbital_period",
+    "file": "paper/data/solar-observations.csv",
+    "body": "Triton",
+    "cls": "conflict",
+    "three": "食い違い",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     "507760.19153503235"
+    ]
+   },
+   {
+    "key": "GW150914 A|component_mass",
+    "file": "paper/data/solar-observations.csv",
+    "body": "GW150914 A",
+    "cls": "agree",
+    "three": "一致(値・出典)",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "34.6"
+    ]
+   },
+   {
+    "key": "GW150914 B|component_mass",
+    "file": "paper/data/solar-observations.csv",
+    "body": "GW150914 B",
+    "cls": "agree",
+    "three": "一致(値・出典)",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "30.0"
+    ]
+   },
+   {
+    "key": "GW150914|chirp_mass",
+    "file": "paper/data/solar-observations.csv",
+    "body": "GW150914",
+    "cls": "agree",
+    "three": "一致(値・出典)",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "27.9"
+    ]
+   },
+   {
+    "key": "GW150914|total_mass",
+    "file": "paper/data/solar-observations.csv",
+    "body": "GW150914",
+    "cls": "agree",
+    "three": "一致(値・出典)",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "64.5"
+    ]
+   },
+   {
+    "key": "GW150914|final_mass",
+    "file": "paper/data/solar-observations.csv",
+    "body": "GW150914",
+    "cls": "agree",
+    "three": "一致(値・出典)",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "61.5"
+    ]
+   },
+   {
+    "key": "GW150914|final_spin",
+    "file": "paper/data/solar-observations.csv",
+    "body": "GW150914",
+    "cls": "agree",
+    "three": "一致(値・出典)",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.68"
+    ]
+   },
+   {
+    "key": "GW150914|luminosity_distance",
+    "file": "paper/data/solar-observations.csv",
+    "body": "GW150914",
+    "cls": "agree",
+    "three": "一致(値・出典)",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "470"
+    ]
+   },
+   {
+    "key": "GW150914|redshift",
+    "file": "paper/data/solar-observations.csv",
+    "body": "GW150914",
+    "cls": "agree",
+    "three": "一致(値・出典)",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "0.10"
+    ]
+   },
+   {
+    "key": "GW150914|effective_inspiral_spin",
+    "file": "paper/data/solar-observations.csv",
+    "body": "GW150914",
+    "cls": "agree",
+    "three": "一致(値・出典)",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "-0.04"
+    ]
+   },
+   {
+    "key": "GW150914|mass_ratio",
+    "file": "paper/data/solar-observations.csv",
+    "body": "GW150914",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "0.875233"
+    ]
+   },
+   {
+    "key": "47 Tuc|total_mass",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "47 Tuc",
+    "cls": "agree",
+    "three": "一致(値・出典)",
+    "rows": 2,
+    "sigmaRows": 2,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "1.69616e+36",
+     "1.54902e+36"
+    ]
+   },
+   {
+    "key": "47 Tuc|core_radius",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "47 Tuc",
+    "cls": "agree",
+    "three": "一致(値・出典)",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "1.8823e+16",
+     "1.5120e+16"
+    ]
+   },
+   {
+    "key": "47 Tuc|half_mass_radius_3d",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "47 Tuc",
+    "cls": "agree",
+    "three": "一致(値・出典)",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "1.9872e+17",
+     "1.7342e+17"
+    ]
+   },
+   {
+    "key": "47 Tuc|half_light_radius_projected",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "47 Tuc",
+    "cls": "agree",
+    "three": "一致(値・出典)",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "1.2435e+17",
+     "1.1016e+17"
+    ]
+   },
+   {
+    "key": "47 Tuc|sigma0",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "47 Tuc",
+    "cls": "agree",
+    "three": "一致(値・出典)",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "1.1900e+04",
+     "1.2200e+04"
+    ]
+   },
+   {
+    "key": "47 Tuc|rotation_amplitude",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "47 Tuc",
+    "cls": "agree",
+    "three": "一致(値・出典)",
+    "rows": 1,
+    "sigmaRows": 1,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "5.000e+03"
+    ]
+   },
+   {
+    "key": "47 Tuc|distance",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "47 Tuc",
+    "cls": "agree",
+    "three": "一致(値・出典)",
+    "rows": 2,
+    "sigmaRows": 1,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "1.39473e+20",
+     "1.36078e+20"
+    ]
+   },
+   {
+    "key": "47 Tuc|mass_to_light_V",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "47 Tuc",
+    "cls": "agree",
+    "three": "一致(値・出典)",
+    "rows": 2,
+    "sigmaRows": 2,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "1.87",
+     "1.77"
+    ]
+   },
+   {
+    "key": "47 Tuc|sigma_los(r=0.1413 pc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "47 Tuc",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "1.1540e+04"
+    ]
+   },
+   {
+    "key": "47 Tuc|sigma_los(r=0.9368 pc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "47 Tuc",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "1.1060e+04"
+    ]
+   },
+   {
+    "key": "47 Tuc|sigma_los(r=2.4072 pc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "47 Tuc",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "9.380e+03"
+    ]
+   },
+   {
+    "key": "47 Tuc|sigma_los(r=4.2668 pc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "47 Tuc",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "9.050e+03"
+    ]
+   },
+   {
+    "key": "47 Tuc|sigma_los(r=7.3318 pc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "47 Tuc",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "8.120e+03"
+    ]
+   },
+   {
+    "key": "47 Tuc|sigma_los(r=10.2433 pc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "47 Tuc",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "7.290e+03"
+    ]
+   },
+   {
+    "key": "47 Tuc|sigma_pm(r=0.173 pc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "47 Tuc",
+    "cls": "only-2",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     "0.597"
+    ]
+   },
+   {
+    "key": "47 Tuc|sigma_pm(r=0.294 pc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "47 Tuc",
+    "cls": "only-2",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     "0.593"
+    ]
+   },
+   {
+    "key": "47 Tuc|sigma_pm(r=0.367 pc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "47 Tuc",
+    "cls": "only-2",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     "0.579"
+    ]
+   },
+   {
+    "key": "47 Tuc|sigma_pm(r=0.415 pc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "47 Tuc",
+    "cls": "only-2",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     "0.568"
+    ]
+   },
+   {
+    "key": "47 Tuc|sigma_pm(r=0.562 pc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "47 Tuc",
+    "cls": "only-2",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     "0.559"
+    ]
+   },
+   {
+    "key": "47 Tuc|sigma_pm(r=0.718 pc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "47 Tuc",
+    "cls": "only-2",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     "0.579"
+    ]
+   },
+   {
+    "key": "47 Tuc|sigma_pm(r=0.833 pc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "47 Tuc",
+    "cls": "only-2",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     "0.565"
+    ]
+   },
+   {
+    "key": "NGC 3198|v_rot(r=0.32 kpc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "NGC 3198",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 1,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "2.4400e+04"
+    ]
+   },
+   {
+    "key": "NGC 3198|v_rot(r=0.64 kpc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "NGC 3198",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 1,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "4.3300e+04"
+    ]
+   },
+   {
+    "key": "NGC 3198|v_rot(r=8.04 kpc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "NGC 3198",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 1,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "1.4700e+05"
+    ]
+   },
+   {
+    "key": "NGC 3198|v_rot(r=12.05 kpc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "NGC 3198",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 1,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "1.5600e+05"
+    ]
+   },
+   {
+    "key": "NGC 3198|v_rot(r=18.13 kpc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "NGC 3198",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 1,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "1.5300e+05"
+    ]
+   },
+   {
+    "key": "NGC 3198|v_rot(r=24.03 kpc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "NGC 3198",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 1,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "1.5000e+05"
+    ]
+   },
+   {
+    "key": "NGC 3198|v_rot(r=32.14 kpc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "NGC 3198",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 1,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "1.4700e+05"
+    ]
+   },
+   {
+    "key": "NGC 3198|v_rot(r=38.19 kpc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "NGC 3198",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 1,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "1.4900e+05"
+    ]
+   },
+   {
+    "key": "NGC 3198|v_rot(r=42.17 kpc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "NGC 3198",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 1,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "1.5000e+05"
+    ]
+   },
+   {
+    "key": "NGC 3198|v_rot(r=44.08 kpc)",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "NGC 3198",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 1,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "1.4900e+05"
+    ]
+   },
+   {
+    "key": "NGC 3198|inclination",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "NGC 3198",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 2,
+    "sigmaRows": 1,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "73.0",
+     "71.5"
+    ]
+   },
+   {
+    "key": "NGC 3198|distance",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "NGC 3198",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 2,
+    "sigmaRows": 1,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "4.25824e+23",
+     "4.25824e+23"
+    ]
+   },
+   {
+    "key": "NGC 3198|hi_mass",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "NGC 3198",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "2.16127e+40",
+     "2.02227e+40"
+    ]
+   },
+   {
+    "key": "NGC 3198|disk_scale_length",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "NGC 3198",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "9.6890e+19"
+    ]
+   },
+   {
+    "key": "NGC 3198|position_angle",
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "body": "NGC 3198",
+    "cls": "conflict-source",
+    "three": "食い違い",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "215.0"
+    ]
+   },
+   {
+    "key": "AT2018cow|peak_bolometric_luminosity",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2018cow",
+    "cls": "partial",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "4e44",
+     "1.7e44"
+    ]
+   },
+   {
+    "key": "AT2018cow|rise_time_to_peak",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2018cow",
+    "cls": "conflict-one-empty",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "2.5",
+     ""
+    ]
+   },
+   {
+    "key": "AT2018cow|blackbody_temperature(t=3.44 d)",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2018cow",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "31390"
+    ]
+   },
+   {
+    "key": "AT2018cow|photospheric_radius(t=3.44 d)",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2018cow",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "52.77"
+    ]
+   },
+   {
+    "key": "AT2018cow|blackbody_temperature(t=5.69 d)",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2018cow",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "25420"
+    ]
+   },
+   {
+    "key": "AT2018cow|photospheric_radius(t=5.69 d)",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2018cow",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "44.29"
+    ]
+   },
+   {
+    "key": "AT2018cow|blackbody_temperature(t=13.39 d)",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2018cow",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "20910"
+    ]
+   },
+   {
+    "key": "AT2018cow|photospheric_radius(t=13.39 d)",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2018cow",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "24.51"
+    ]
+   },
+   {
+    "key": "AT2018cow|blackbody_temperature(t=4.1 d)",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2018cow",
+    "cls": "only-2",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 1,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     "27000"
+    ]
+   },
+   {
+    "key": "AT2018cow|blackbody_temperature(t=~0 d peak)",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2018cow",
+    "cls": "only-2",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     "30000"
+    ]
+   },
+   {
+    "key": "AT2018cow|blackbody_temperature(t=20 d)",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2018cow",
+    "cls": "only-2",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     "15000"
+    ]
+   },
+   {
+    "key": "AT2018cow|photospheric_radius(t=early)",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2018cow",
+    "cls": "only-2",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     "8e14"
+    ]
+   },
+   {
+    "key": "AT2018cow|photospheric_radius(t=30 d)",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2018cow",
+    "cls": "only-2",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     ""
+    ]
+   },
+   {
+    "key": "AT2018cow|ejecta_velocity",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2018cow",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 2,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "6000",
+     "0.1"
+    ]
+   },
+   {
+    "key": "AT2018cow|qpo_frequency",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2018cow",
+    "cls": "partial",
+    "three": "食い違い",
+    "rows": 2,
+    "sigmaRows": 1,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     "224.4",
+     "224"
+    ]
+   },
+   {
+    "key": "AT2018cow|redshift",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2018cow",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "0.0140"
+    ]
+   },
+   {
+    "key": "AT2018cow|distance",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2018cow",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "60"
+    ]
+   },
+   {
+    "key": "AT2022tsd|optical_flare_duration_T90",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2022tsd",
+    "cls": "agree",
+    "three": "一致(値・出典)",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     ""
+    ]
+   },
+   {
+    "key": "AT2022tsd|flare_count",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2022tsd",
+    "cls": "agree",
+    "three": "一致(値・出典)",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1",
+     "2"
+    ],
+    "values": [
+     ""
+    ]
+   },
+   {
+    "key": "AT2022tsd|rise_time_to_peak",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2022tsd",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     ""
+    ]
+   },
+   {
+    "key": "AT2022tsd|redshift",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2022tsd",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 1,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "0.2564"
+    ]
+   },
+   {
+    "key": "AT2022tsd|distance",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2022tsd",
+    "cls": "only-1",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "1"
+    ],
+    "values": [
+     "1.34"
+    ]
+   },
+   {
+    "key": "AT2022tsd|qpo_frequency",
+    "file": "paper/data/transient-observations.csv",
+    "body": "AT2022tsd",
+    "cls": "only-2",
+    "three": "片方のみ",
+    "rows": 1,
+    "sigmaRows": 0,
+    "streams": [
+     "2"
+    ],
+    "values": [
+     ""
+    ]
+   }
+  ]
+ },
+ "corrections": {
+  "n": 4,
+  "rows": [
+   {
+    "ln": 383,
+    "body": "Mars",
+    "quantity": "orbital_period",
+    "before": "59354294.4",
+    "after": "59355048.80447",
+    "key": "corrected",
+    "why": "換算(転写者が 686.970977 d と書いたが、同じ note の式 P=360*36525/L_dot は 686.979732 d を与える。差 -754.4 s・2 系統が指摘)",
+    "inCsvNow": "59355048.80447",
+    "applied": true,
+    "previousValueInNote": "59354294.4 s",
+    "markNow": "unverified",
+    "sigmaNow": null
+   },
+   {
+    "ln": 365,
+    "body": "Mercury",
+    "quantity": "orbital_period",
+    "before": "7600543.72",
+    "after": "7600543.75658",
+    "key": "corrected",
+    "why": "丸め(P を 87.9692565 d に丸めてから換算していた。差 -0.037 s・2 系統が指摘)",
+    "inCsvNow": "7600543.75658",
+    "applied": true,
+    "previousValueInNote": "7600543.72 s",
+    "markNow": "unverified",
+    "sigmaNow": null
+   },
+   {
+    "ln": 145,
+    "body": "PSR J1946+2052",
+    "quantity": "orbital_period",
+    "before": "Meng et al. (2025) A&A 704 A153",
+    "after": "Stovall et al. (2018) ApJL 854 L22 Table 1",
+    "key": "source_corrected",
+    "why": "出典ラベル(値 Pb=0.07848804(1) d・e=0.063848(9) は発見論文 Stovall 2018 Table 1 のもので、Meng 2025 Table 1 の値ではない。第249便a の「同じ論文の 2 転写が食い違う」注記はこれで解ける)",
+    "inCsvNow": "Stovall et al. (2018) ApJL 854 L22 Table 1 - PSR J1946+2052 discovery timing solution",
+    "applied": true,
+    "previousValueInNote": null,
+    "markNow": "verified",
+    "sigmaNow": 0.000864
+   },
+   {
+    "ln": 146,
+    "body": "PSR J1946+2052",
+    "quantity": "eccentricity",
+    "before": "Meng et al. (2025) A&A 704 A153",
+    "after": "Stovall et al. (2018) ApJL 854 L22 Table 1",
+    "key": "source_corrected",
+    "why": "同上(e=0.063848(9))",
+    "inCsvNow": "Stovall et al. (2018) ApJL 854 L22 Table 1 - PSR J1946+2052 discovery timing solution",
+    "applied": true,
+    "previousValueInNote": null,
+    "markNow": "unverified",
+    "sigmaNow": 0.000009
+   }
+  ]
+ },
+ "transcription": {
+  "solar": {
+   "file": "paper/data/solar-observations.csv",
+   "rowsTotal": 521,
+   "intakeB": 14,
+   "withSigma": 0,
+   "emptyValue": 0,
+   "candidateRows": 5,
+   "bodies": [
+    "Deimos",
+    "GW150914",
+    "GW150914 A",
+    "GW150914 B",
+    "Phobos",
+    "Triton"
+   ],
+   "marks": {
+    "unverified": 14
+   },
+   "sigmaKinds": {
+    "none": 4,
+    "ci90": 10
+   },
+   "verifiedByFilled": 0
+  },
+  "cluster": {
+   "file": "paper/data/cluster-galaxy-observations.csv",
+   "rowsTotal": 154,
+   "intakeB": 46,
+   "withSigma": 18,
+   "emptyValue": 0,
+   "candidateRows": 32,
+   "bodies": [
+    "47 Tuc",
+    "NGC 3198"
+   ],
+   "marks": {
+    "unverified": 46
+   },
+   "sigmaKinds": {
+    "(なし)": 18,
+    "digits": 15,
+    "asymmetric": 6,
+    "covariance": 7
+   },
+   "verifiedByFilled": 0
+  },
+  "transient": {
+   "file": "paper/data/transient-observations.csv",
+   "rowsTotal": 27,
+   "intakeB": 27,
+   "withSigma": 3,
+   "emptyValue": 6,
+   "candidateRows": 4,
+   "bodies": [
+    "AT2018cow",
+    "AT2022tsd"
+   ],
+   "marks": {
+    "unverified": 27
+   },
+   "sigmaKinds": {
+    "digits": 12,
+    "none": 12,
+    "(なし)": 3
+   },
+   "verifiedByFilled": 0
+  }
+ },
+ "clusterSigma": {
+  "header": "body,quantity,value,unit,source,url,retrieved,note,sigma",
+  "rows": 154,
+  "legacyRows": 108,
+  "legacyWithSigma": 0,
+  "intakeBWithSigma": 18
+ },
+ "transientGate": {
+  "rows": 27,
+  "notConnected": 27,
+  "bodies": [
+   "AT2018cow",
+   "AT2022tsd"
+  ],
+  "inSolarCsv": 0
+ },
+ "gate": {
+  "touched": false,
+  "why": "本器は門の行選択にも σ の昇格にも触れていない。**4 値は 1 本も動いていない**。星団・銀河・LFBOT は門に接続していない。"
+ },
+ "violations": [],
+ "doNotWrite": [
+  "verified にした",
+  "太陽系の σ が揃った",
+  "BH 連星・星団・銀河を較正した",
+  "BH 連星・星団・銀河を門に入れた",
+  "LFBOT を観測一致させた",
+  "現実較正を完了した"
+ ]
+}

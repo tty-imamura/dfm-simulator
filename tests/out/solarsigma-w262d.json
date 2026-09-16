@@ -1,5 +1,5 @@
 {
- "when": "2026-09-15T19:21:07.343Z",
+ "when": "2026-09-16T20:18:01.422Z",
  "wave": "第262便d(第54報 W4)→ 第263便c(第55報 W3)で σ 未確認の状態名と不足一覧を足した",
  "inputs": {
   "calaudit": "tests/out/calaudit-w249.json",
@@ -44,8 +44,8 @@
   "note": "**宣言表であって自動判定ではない**。CSV に行が無い対象は null を明示する(推測で当てない)"
  },
  "csvSummary": {
-  "rows": 379,
-  "bodies": 65,
+  "rows": 389,
+  "bodies": 66,
   "rowsWithSigma": 118,
   "sigmaBodies": [
    "Phobos",
@@ -98,7 +98,7 @@
  "cutTally": {
   "csv-sigma-empty": 109,
   "kind-not-gated": 26,
-  "csv-sigma-unverified": 4
+  "unit-not-converted": 4
  },
  "fourTally": {
   "保留": 16
@@ -162,10 +162,10 @@
    "nQuantities": 4,
    "nGatable": 3,
    "nCondMismatch": 0,
-   "nSigmaConnected": 1,
+   "nSigmaConnected": 0,
    "cuts": {
     "csv-sigma-empty": 2,
-    "csv-sigma-unverified": 1,
+    "unit-not-converted": 1,
     "kind-not-gated": 1
    },
    "four": "保留"
@@ -176,9 +176,9 @@
    "nQuantities": 5,
    "nGatable": 3,
    "nCondMismatch": 0,
-   "nSigmaConnected": 1,
+   "nSigmaConnected": 0,
    "cuts": {
-    "csv-sigma-unverified": 1,
+    "unit-not-converted": 1,
     "kind-not-gated": 2,
     "csv-sigma-empty": 2
    },
@@ -190,11 +190,11 @@
    "nQuantities": 14,
    "nGatable": 12,
    "nCondMismatch": 0,
-   "nSigmaConnected": 1,
+   "nSigmaConnected": 0,
    "cuts": {
     "csv-sigma-empty": 11,
     "kind-not-gated": 2,
-    "csv-sigma-unverified": 1
+    "unit-not-converted": 1
    },
    "four": "保留"
   },
@@ -282,9 +282,9 @@
    "nQuantities": 5,
    "nGatable": 4,
    "nCondMismatch": 0,
-   "nSigmaConnected": 1,
+   "nSigmaConnected": 0,
    "cuts": {
-    "csv-sigma-unverified": 1,
+    "unit-not-converted": 1,
     "csv-sigma-empty": 3,
     "kind-not-gated": 1
    },
@@ -898,16 +898,16 @@
     "value": 0.00159808333333333,
     "unit": "deg/yr",
     "sigma": 4.167e-9,
-    "primaryVerified": false
+    "primaryVerified": true
    },
-   "cut": "csv-sigma-unverified",
+   "cut": "unit-not-converted",
    "condMismatch": false,
-   "sigma": 4.167e-9,
+   "sigma": null,
    "residual": null,
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未確認)"
+   "verdict": "保留(σ の単位が obsCard と違う・未換算)"
   },
   {
    "id": "mercuryReal",
@@ -974,16 +974,16 @@
     "value": 0.00159808333333333,
     "unit": "deg/yr",
     "sigma": 4.167e-9,
-    "primaryVerified": false
+    "primaryVerified": true
    },
-   "cut": "csv-sigma-unverified",
+   "cut": "unit-not-converted",
    "condMismatch": false,
-   "sigma": 4.167e-9,
+   "sigma": null,
    "residual": null,
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未確認)"
+   "verdict": "保留(σ の単位が obsCard と違う・未換算)"
   },
   {
    "id": "mercuryRealKF1",
@@ -1278,16 +1278,16 @@
     "value": 0.00159808333333333,
     "unit": "deg/yr",
     "sigma": 4.167e-9,
-    "primaryVerified": false
+    "primaryVerified": true
    },
-   "cut": "csv-sigma-unverified",
+   "cut": "unit-not-converted",
    "condMismatch": false,
-   "sigma": 4.167e-9,
+   "sigma": null,
    "residual": null,
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未確認)"
+   "verdict": "保留(σ の単位が obsCard と違う・未換算)"
   },
   {
    "id": "solarInner",
@@ -3253,16 +3253,16 @@
     "value": 13968.25575,
     "unit": "deg/yr",
     "sigma": 2.922,
-    "primaryVerified": false
+    "primaryVerified": true
    },
-   "cut": "csv-sigma-unverified",
+   "cut": "unit-not-converted",
    "condMismatch": false,
-   "sigma": 2.922,
+   "sigma": null,
    "residual": null,
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未確認)"
+   "verdict": "保留(σ の単位が obsCard と違う・未換算)"
   },
   {
    "id": "saturnZonalD68",
@@ -4829,7 +4829,7 @@
  ],
  "conclusion": {
   "connected": 0,
-  "unverified": 4,
+  "unverified": 0,
   "missingForJudgement": 66,
   "note": "**対応表を繋いでも 3σ の判定は 1 件も出ない** —— 切断点は対応表ではなく **CSV の sigma 列と行そのもの**である。したがって太陽系 16 本は「保留(σ 未登録)」のままである(**否定ではない**)。2026-09-14 の観測レコード intake でも**この数は動かない**: 入った σ は半径・GM・候補行のもので、門が読む量(公転周期・離心率・近点移動・自転)の σ ではない。",
   "doNotWrite": [

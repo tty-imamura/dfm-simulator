@@ -1,5 +1,5 @@
 {
- "when": "2026-09-16T06:03:58.247Z",
+ "when": "2026-09-16T20:21:37.072Z",
  "wave": "第264便d(第56報 W4)",
  "intake": {
   "date": "2026-09-15",
@@ -135,7 +135,7 @@
     ],
     "values": [
      "7600521.6",
-     "7600543.72"
+     "7600543.75658"
     ]
    },
    {
@@ -321,7 +321,7 @@
     ],
     "values": [
      "59355072.0",
-     "59354294.4"
+     "59355048.80447"
     ]
    },
    {
@@ -3388,8 +3388,8 @@
     "sigma": 5.55555555555556e-9,
     "source": "IERS EOP-PC useful constants (MHB 2000); p=5028.792(2) arcsec per century",
     "url": "https://hpiers.obspm.fr/eop-pc/models/constants.html",
-    "mark": "unverified",
-    "verifiedBy": null
+    "mark": "verified",
+    "verifiedBy": "原仮定者 2026-09-16"
    },
    {
     "body": "Mercury",
@@ -3399,8 +3399,8 @@
     "sigma": 4.167e-9,
     "source": "Park R.S. Folkner W.M. Konopliv A.S. Williams J.G. Smith D.E. Zuber M.T. 2017 AJ 153 121 Table 3",
     "url": "https://doi.org/10.3847/1538-3881/aa5be2",
-    "mark": "unverified",
-    "verifiedBy": null
+    "mark": "verified",
+    "verifiedBy": "原仮定者 2026-09-16"
    },
    {
     "body": "Mercury",
@@ -3410,8 +3410,8 @@
     "sigma": 2.5e-9,
     "source": "Park R.S. et al. 2017 AJ 153 121 Table 3 (Gravitoelectric / Schwarzschild-like)",
     "url": "https://doi.org/10.3847/1538-3881/aa5be2",
-    "mark": "unverified",
-    "verifiedBy": null
+    "mark": "verified",
+    "verifiedBy": "原仮定者 2026-09-16"
    },
    {
     "body": "Mercury",
@@ -3421,8 +3421,8 @@
     "sigma": 3.056e-9,
     "source": "Park R.S. et al. 2017 AJ 153 121 Table 3 (Solar Oblateness)",
     "url": "https://doi.org/10.3847/1538-3881/aa5be2",
-    "mark": "unverified",
-    "verifiedBy": null
+    "mark": "verified",
+    "verifiedBy": "原仮定者 2026-09-16"
    },
    {
     "body": "Titan ringlet",
@@ -3454,8 +3454,8 @@
     "sigma": 1,
     "source": "Hedman et al. 2014 Icarus 233 147 abstract",
     "url": "https://doi.org/10.1016/j.icarus.2014.01.022",
-    "mark": "unverified",
-    "verifiedBy": null
+    "mark": "verified",
+    "verifiedBy": "原仮定者 2026-09-16"
    },
    {
     "body": "Saturn ring feature D68",
@@ -3465,8 +3465,8 @@
     "sigma": 2.922,
     "source": "Hedman et al. 2014 Icarus 233 147 abstract",
     "url": "https://doi.org/10.1016/j.icarus.2014.01.022; https://arxiv.org/abs/1401.6103",
-    "mark": "unverified",
-    "verifiedBy": null
+    "mark": "verified",
+    "verifiedBy": "原仮定者 2026-09-16"
    },
    {
     "body": "Charon",
@@ -3476,8 +3476,8 @@
     "sigma": 0.02592,
     "source": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
     "url": "https://doi.org/10.1088/0004-6256/144/1/15",
-    "mark": "unverified",
-    "verifiedBy": null
+    "mark": "verified",
+    "verifiedBy": "原仮定者 2026-09-16"
    },
    {
     "body": "Charon",
@@ -3487,8 +3487,8 @@
     "sigma": 0.09504,
     "source": "Buie et al. 2006, Astronomical Journal 132, 290–298",
     "url": "https://arxiv.org/abs/astro-ph/0512491",
-    "mark": "unverified",
-    "verifiedBy": null
+    "mark": "verified",
+    "verifiedBy": "原仮定者 2026-09-16"
    }
   ],
   "derivedList": [
@@ -3621,7 +3621,7 @@
   ],
   "tagTally": {
    "sigma_kind": 119,
-   "digits": 21,
+   "digits": 27,
    "spread": 47,
    "not_applicable": 3,
    "upper_limit": 1,
@@ -3636,9 +3636,10 @@
    "record_stream": 154
   },
   "marks": {
-   "unverified": 154
+   "unverified": 146,
+   "verified": 8
   },
-  "verifiedByFilled": 0
+  "verifiedByFilled": 8
  },
  "doNotWrite": [
   "太陽系の σ が揃った",

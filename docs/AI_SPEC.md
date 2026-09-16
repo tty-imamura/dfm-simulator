@@ -1741,3 +1741,20 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   差し戻される系に限り kFrame=0 で採用し、引きずりは A/B の**測定側**として保持する
   (適用第1号: ✨ αケンタウリAB。転写ミスは従来どおり差し戻し — docs/PHYSICS.md の該当節参照)。
 
+- **コミット済み出典表(`paper/data/*.csv`)のスキーマ — `sigma` 列を持つのは 3 本になった(第266便a)**:
+  列は `body,quantity,value,unit,source,url,retrieved,note,sigma` の **9 列**で、
+  `sigma` に入れるのは**一次資料に印字された対称 1σ だけ**(単位換算は可・**値と同じ単位**)。
+  **空欄は「誤差が記録されていない」であって「誤差 0」ではない。**
+  非対称区間・信用区間・丸め幅・伝播値は σ ではないので note へ置く
+  (`sigma_kind=asymmetric|ci90|covariance|digits|none`・`sigma_plus`/`sigma_minus`/`level`・
+  `ci90_lo`/`ci90_hi`・`digits`)。上限・下限は **value を空にして** `upper_limit=` / `lower_limit=` に置く。
+  印は `sigma_primary=verified|unverified` で、**`verified` にできるのは原仮定者が一次資料の表・列・桁を
+  確認したときだけ**である(X7: `verified_by=<確認者> <日付>; verified_at=<表/列>; verified_value=<原記載>`)。
+  外部の転写照合は `value_checked_by=` に置き、**印は 1 bit も上げない**(Z11)。
+  - `paper/data/solar-observations.csv` …… 判定(門)が σ を読む正本。
+  - `paper/data/cluster-galaxy-observations.csv` …… **第266便a で `sigma` 列を足した**(既存 108 行は空欄のまま)。
+    量名は `sigma_los(r=… pc)`(視線分光)と `sigma_pm(r=… pc)`(固有運動・一次単位 mas/yr)を**分ける**。
+  - `paper/data/transient-observations.csv` …… **第266便a 新設**。LFBOT(AT2018cow / AT2022tsd)の**記録**で、
+    全行に `gate=not-connected` が入っている(**門には 1 行も繋がっていない**)。
+  - `paper/data/supernova-observations.csv` と `paper/data/jovian-satellites.csv` は **sigma 列を持たない**(従来どおり)。
+  - **生成 AI はこれらの CSV を書かない**(取込経路は `ObservationRecord` であって CSV ではない)。
