@@ -1,0 +1,2450 @@
+{
+ "meta": {
+  "measuredAt": "2026-09-17T15:56:11.064Z",
+  "codeVersion": "tests/exp-w269c-bh90.mjs 第269便c",
+  "declarationVersion": "compare-v1 / 第59報「完成=比較サンプル v1」",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4027358,
+    "sha256": "645fcddd40430bea69cef9f1948af50d14a8b4b1b2283dd53acad43f5bb0b350",
+    "mtime": "2026-09-17T15:44:48.159Z"
+   },
+   {
+    "file": "paper/data/solar-observations.csv",
+    "bytes": 414277,
+    "sha256": "fef7f7d255dce6f5d3f9b6897fc301caa5dc2483b47d98ce141d5c5a5458d9e1",
+    "mtime": "2026-09-17T15:44:48.219Z"
+   },
+   {
+    "file": "tests/lib-w269c-compare.mjs",
+    "bytes": 11746,
+    "sha256": "be1a52683ab7f048be1c3a8503869409435f5ff0608761f217a3cf5f552666dd",
+    "mtime": "2026-09-17T15:50:44.855Z"
+   }
+  ],
+  "vocabulary": [
+   "comparable",
+   "inside-interval",
+   "outside-interval",
+   "numerically-unresolved",
+   "mapping-unresolved",
+   "not-measurable",
+   "not-applicable"
+  ],
+  "contract": [
+   "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。",
+   "**周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。",
+   "**χ² の p 値は出さない。** 残差は観測誤差単位の診断表示にとどめ、全点が区間内であることを系全体の合格と呼ばない。",
+   "**観測量が得られないときは `not-measurable`(値 null)** —— 0 や最後の値で補わない。",
+   "**「完成」は比較サンプル v1 である。観測一致は別段階で、現時点で未達である。**"
+  ],
+  "spentSec": 11.1
+ },
+ "declaration": {
+  "systemKind": "bh-binary",
+  "sample": [
+   "🎐 gw150914",
+   "🎻 gw150914DFM",
+   "⏰ gw150914Merge4s"
+  ],
+  "dynamicsUsed": "重力 E4 +(🎻⏰ のみ)空間引きずり E6′(kFrame=1)。geoPN=0(1PN 偶力は無い)。",
+  "externalModel": "⏰ だけ **外部 Peters 放射オーバーレイ**(petersGW・用量 petersScale=0.1313・方向 tangential・玩具スピン–スピン λ=1)。**DFM の帰結ではない外部物理**である。",
+  "transcribedInputs": "2 体の質量(GWTC-2.1 source frame 34.6 / 30.0 M☉)・a=1.928116×10⁶ m・e=0.08(10 Hz 基準状態)・半径は Schwarzschild 換算 proxy。🎻⏰ は質量較正 f≈2 の二層で、**殻質量が転写した観測質量**(massFrac=(f−1)/f)である。",
+  "fittedTargets": "⏰ の用量 a=0.1313 は「約 4 秒」へ寄せた**合わせ込みの 1 ノブ**。🎻 の f≈2 は χ-law 由来(C=1)の宣言。**本便では 1 つも動かしていない。**",
+  "unusedChecks": "チャープ波形・周波数位相・振幅・リングダウン・remnant スピン・光度距離・赤方偏移・χ_eff。",
+  "window": {
+   "short": {
+    "tStart": 0,
+    "tEnd": 240,
+    "unit": "sim time(1 単位 = 10⁻³ s)",
+    "why": "第265便a と**同じ短時間窓**(最終分離の照合)"
+   },
+   "period": {
+    "minimaWanted": 20,
+    "capSimTime": 8000,
+    "why": "極小 20 個の周期窓。⏰ は窓の途中で合体して止まる(それも記録する)"
+   }
+  },
+  "extractor": {
+   "name": "separation-minima-v1(第265便a と同じ)",
+   "amplitudeGate": 0.001,
+   "definition": "分離 r のヒステリシス極小検出(極小 → 相対 1×10⁻³ 上昇で確定 → 極大 → 相対 1×10⁻³ 下降で極小探索へ)。周期は極小間隔の平均。周期ドリフトは前半窓と後半窓の平均間隔の差を窓中心の時間差で割った無次元量。合体は `S.n<2`(融合)で検出し、接触は r ≤ R₀+R₁ の初回で記録する。"
+  },
+  "units": {
+   "massUnitKg": 1e+29,
+   "msunKg": 1.98847e+30,
+   "timeUnitSec": 0.001,
+   "lengthUnitM": 10000,
+   "note": "質量 M☉ = 器の質量単位 / 19.8847(1 M☉ = 1.98847×10³⁰ kg = 19.8847 単位)"
+  },
+  "observationVersion": {
+   "csv": "paper/data/solar-observations.csv",
+   "rows": "GW150914 の `sigma_kind=ci90` 行(note 欄の `ci90_lo=`/`ci90_hi=` が区間の正本)",
+   "caveat": "**GWTC-2.1 の公表値は波形モデルに基づく推論値**である。**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+  },
+  "presetFacts": [
+   {
+    "id": "gw150914",
+    "emoji": "🎐",
+    "sampleClass": "calibration",
+    "scaleExp": {
+     "L": 4,
+     "T": -3,
+     "M": 29
+    },
+    "kFrame": 0,
+    "geoPN": 0,
+    "petersGW": null,
+    "petersScale": null,
+    "petersDirection": null,
+    "spinSpin": null,
+    "notClaim": [
+     "solar_cal"
+    ],
+    "bodies": [
+     {
+      "m": 688.01062,
+      "radius": 10.218554,
+      "coreMassFrac": null
+     },
+     {
+      "m": 596.541,
+      "radius": 8.8600181,
+      "coreMassFrac": null
+     }
+    ]
+   },
+   {
+    "id": "gw150914DFM",
+    "emoji": "🎻",
+    "sampleClass": "calibration",
+    "scaleExp": {
+     "L": 4,
+     "T": -3,
+     "M": 29
+    },
+    "kFrame": 1,
+    "geoPN": 0,
+    "petersGW": null,
+    "petersScale": null,
+    "petersDirection": null,
+    "spinSpin": null,
+    "notClaim": [
+     "solar_cal"
+    ],
+    "bodies": [
+     {
+      "m": 1376.0212399923937,
+      "radius": 10.218554,
+      "coreMassFrac": 0.4999999999972361
+     },
+     {
+      "m": 1193.081999993405,
+      "radius": 8.8600181,
+      "coreMassFrac": 0.4999999999972361
+     }
+    ]
+   },
+   {
+    "id": "gw150914Merge4s",
+    "emoji": "⏰",
+    "sampleClass": "calibration",
+    "scaleExp": {
+     "L": 4,
+     "T": -3,
+     "M": 29
+    },
+    "kFrame": 1,
+    "geoPN": 0,
+    "petersGW": true,
+    "petersScale": 0.1313,
+    "petersDirection": "tangential",
+    "spinSpin": 1,
+    "notClaim": [
+     "cal",
+     "solar_cal"
+    ],
+    "bodies": [
+     {
+      "m": 1376.0212399923937,
+      "radius": 10.218554,
+      "coreMassFrac": 0.4999999999972361
+     },
+     {
+      "m": 1193.081999993405,
+      "radius": 8.8600181,
+      "coreMassFrac": 0.4999999999972361
+     }
+    ]
+   }
+  ]
+ },
+ "columns": [
+  {
+   "tag": "🎐 gw150914(観測質量の基準状態・kFrame=0)",
+   "id": "gw150914",
+   "emoji": "🎐",
+   "sampleClass": "calibration",
+   "stages": [
+    {
+     "div": 1,
+     "dt": 0.016,
+     "short": {
+      "steps": 15000,
+      "stopped": "time",
+      "separationEnd": 187.1607361987052,
+      "merged": false,
+      "nan": false,
+      "clamp": 0
+     },
+     "period": {
+      "steps": 221670,
+      "stopped": "minima",
+      "nMinima": 20,
+      "rawCross": 20,
+      "periodSec": 0.18168168421052633,
+      "periodFirstHalfSec": 0.18168177777777778,
+      "periodSecondHalfSec": 0.18168177777777778,
+      "periodDrift": 0,
+      "nan": false,
+      "clamp": 0
+     },
+     "merge": {
+      "steps": 500000,
+      "stopped": "time",
+      "capSimTime": 8000,
+      "separationEnd": 207.94180015350125,
+      "merged": false,
+      "fusN": 0,
+      "nBodies": 2,
+      "contactSec": null,
+      "mergeSec": null,
+      "lagSec": null,
+      "remnant": null,
+      "radE": 0,
+      "radL": 0,
+      "nan": false,
+      "clamp": 0
+     },
+     "bodyMassUnits": [
+      688.0106201171875,
+      596.541015625
+     ],
+     "bodyCoreMF": [
+      0,
+      0
+     ],
+     "errors": null
+    },
+    {
+     "div": 2,
+     "dt": 0.008,
+     "short": {
+      "steps": 30000,
+      "stopped": "time",
+      "separationEnd": 187.186296353483,
+      "merged": false,
+      "nan": false,
+      "clamp": 0
+     },
+     "period": {
+      "steps": 443347,
+      "stopped": "minima",
+      "nMinima": 20,
+      "rawCross": 20,
+      "periodSec": 0.18168126315789473,
+      "periodFirstHalfSec": 0.18168177777777778,
+      "periodSecondHalfSec": 0.1816808888888889,
+      "periodDrift": -4.892574954830824e-7,
+      "nan": false,
+      "clamp": 0
+     },
+     "merge": {
+      "steps": 1000000,
+      "stopped": "time",
+      "capSimTime": 8000,
+      "separationEnd": 207.94647966782563,
+      "merged": false,
+      "fusN": 0,
+      "nBodies": 2,
+      "contactSec": null,
+      "mergeSec": null,
+      "lagSec": null,
+      "remnant": null,
+      "radE": 0,
+      "radL": 0,
+      "nan": false,
+      "clamp": 0
+     },
+     "bodyMassUnits": [
+      688.0106201171875,
+      596.541015625
+     ],
+     "bodyCoreMF": [
+      0,
+      0
+     ],
+     "errors": null
+    },
+    {
+     "div": 4,
+     "dt": 0.004,
+     "short": {
+      "steps": 60000,
+      "stopped": "time",
+      "separationEnd": 187.19908541914523,
+      "merged": false,
+      "nan": false,
+      "clamp": 0
+     },
+     "period": {
+      "steps": 886701,
+      "stopped": "minima",
+      "nMinima": 20,
+      "rawCross": 20,
+      "periodSec": 0.18168147368421053,
+      "periodFirstHalfSec": 0.18168133333333333,
+      "periodSecondHalfSec": 0.18168133333333333,
+      "periodDrift": 0,
+      "nan": false,
+      "clamp": 0
+     },
+     "merge": {
+      "steps": 2000000,
+      "stopped": "time",
+      "capSimTime": 8000,
+      "separationEnd": 207.9488333572286,
+      "merged": false,
+      "fusN": 0,
+      "nBodies": 2,
+      "contactSec": null,
+      "mergeSec": null,
+      "lagSec": null,
+      "remnant": null,
+      "radE": 0,
+      "radL": 0,
+      "nan": false,
+      "clamp": 0
+     },
+     "bodyMassUnits": [
+      688.0106201171875,
+      596.541015625
+     ],
+     "bodyCoreMF": [
+      0,
+      0
+     ],
+     "errors": null
+    }
+   ],
+   "rows": [
+    {
+     "quantity": "component_mass A",
+     "sim": {
+      "value": 34.6,
+      "unit": "M_sun",
+      "window": "t=0(初期条件 —— 走行に依存しない)",
+      "extractor": "宣言された body の m",
+      "stages": {
+       "h": 34.6,
+       "h2": 34.6,
+       "h4": 34.6
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 34.6,
+      "lower": 32,
+      "upper": 39,
+      "unit": "M_sun",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "転写の確認(**独立検証に数えない**)",
+      "verifiedMark": "unverified",
+      "upperWidth": 4.399999999999999,
+      "lowerWidth": 2.6000000000000014,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "inside-interval",
+     "reason": "公表区間の内側(**合格とは言わない**) —— **転写の確認であって独立検証ではない**(この質量は CSV から手で置いた入力である)。",
+     "diagnostics": {
+      "layerTotalMsun": null,
+      "shellMsun": [
+       34.6,
+       30
+      ],
+      "twoLayer": false,
+      "offsetInWidths": 0,
+      "stepIndependent": "**刻みに依らない**(初期条件の量なので h/h2/h4 は同値である)。"
+     }
+    },
+    {
+     "quantity": "component_mass B",
+     "sim": {
+      "value": 30,
+      "unit": "M_sun",
+      "window": "t=0(初期条件 —— 走行に依存しない)",
+      "extractor": "宣言された body の m",
+      "stages": {
+       "h": 30,
+       "h2": 30,
+       "h4": 30
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 30,
+      "lower": 25.4,
+      "upper": 32.9,
+      "unit": "M_sun",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "転写の確認(**独立検証に数えない**)",
+      "verifiedMark": "unverified",
+      "upperWidth": 2.8999999999999986,
+      "lowerWidth": 4.600000000000001,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "inside-interval",
+     "reason": "公表区間の内側(**合格とは言わない**) —— **転写の確認であって独立検証ではない**(この質量は CSV から手で置いた入力である)。",
+     "diagnostics": {
+      "layerTotalMsun": null,
+      "shellMsun": [
+       34.6,
+       30
+      ],
+      "twoLayer": false,
+      "offsetInWidths": 0,
+      "stepIndependent": "**刻みに依らない**(初期条件の量なので h/h2/h4 は同値である)。"
+     }
+    },
+    {
+     "quantity": "chirp_mass",
+     "sim": {
+      "value": 28.033150493997724,
+      "unit": "M_sun",
+      "window": "t=0(初期条件 —— 走行に依存しない)",
+      "extractor": "宣言された body の m",
+      "stages": {
+       "h": 28.033150493997724,
+       "h2": 28.033150493997724,
+       "h4": 28.033150493997724
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 27.9,
+      "lower": 26.4,
+      "upper": 29.6,
+      "unit": "M_sun",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "転写した 2 質量からの派生(**独立検証に数えない**)",
+      "verifiedMark": "unverified",
+      "upperWidth": 1.7000000000000028,
+      "lowerWidth": 1.5,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "inside-interval",
+     "reason": "公表区間の内側(**合格とは言わない**) —— **転写の確認であって独立検証ではない**(この質量は CSV から手で置いた入力である)。",
+     "diagnostics": {
+      "layerTotalMsun": null,
+      "shellMsun": [
+       34.6,
+       30
+      ],
+      "twoLayer": false,
+      "offsetInWidths": 0,
+      "stepIndependent": "**刻みに依らない**(初期条件の量なので h/h2/h4 は同値である)。"
+     }
+    },
+    {
+     "quantity": "total_mass",
+     "sim": {
+      "value": 64.6,
+      "unit": "M_sun",
+      "window": "t=0(初期条件 —— 走行に依存しない)",
+      "extractor": "宣言された body の m",
+      "stages": {
+       "h": 64.6,
+       "h2": 64.6,
+       "h4": 64.6
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 64.5,
+      "lower": 61.3,
+      "upper": 68.2,
+      "unit": "M_sun",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "転写した 2 質量からの派生(**独立検証に数えない**)",
+      "verifiedMark": "unverified",
+      "upperWidth": 3.700000000000003,
+      "lowerWidth": 3.200000000000003,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "inside-interval",
+     "reason": "公表区間の内側(**合格とは言わない**) —— **転写の確認であって独立検証ではない**(この質量は CSV から手で置いた入力である)。",
+     "diagnostics": {
+      "layerTotalMsun": null,
+      "shellMsun": [
+       34.6,
+       30
+      ],
+      "twoLayer": false,
+      "offsetInWidths": 0,
+      "stepIndependent": "**刻みに依らない**(初期条件の量なので h/h2/h4 は同値である)。"
+     }
+    },
+    {
+     "quantity": "mass_ratio",
+     "sim": {
+      "value": 0.8670520231213873,
+      "unit": "M_sun",
+      "window": "t=0(初期条件 —— 走行に依存しない)",
+      "extractor": "宣言された body の m",
+      "stages": {
+       "h": 0.8670520231213873,
+       "h2": 0.8670520231213873,
+       "h4": 0.8670520231213873
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 0.875233,
+      "lower": 0.659588,
+      "upper": 0.984286,
+      "unit": "1",
+      "confidence": 0.9,
+      "frame": "ratio is frame invariant",
+      "source": "GWTC-2.1 posterior release C01:Mixed/posterior_samples mass_ratio column (5/50/95 percentiles)",
+      "role": "転写した 2 質量からの派生(**独立検証に数えない**)",
+      "verifiedMark": "unverified",
+      "upperWidth": 0.10905299999999996,
+      "lowerWidth": 0.2156450000000001,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "inside-interval",
+     "reason": "公表区間の内側(**合格とは言わない**) —— **転写の確認であって独立検証ではない**(この質量は CSV から手で置いた入力である)。",
+     "diagnostics": {
+      "layerTotalMsun": null,
+      "shellMsun": [
+       34.6,
+       30
+      ],
+      "twoLayer": false,
+      "offsetInWidths": 0,
+      "stepIndependent": "**刻みに依らない**(初期条件の量なので h/h2/h4 は同値である)。"
+     }
+    },
+    {
+     "quantity": "orbital_period",
+     "sim": {
+      "value": 0.18168168421052633,
+      "unit": "s",
+      "window": "周期窓(極小 20 個)",
+      "extractor": "separation-minima-v1",
+      "stages": {
+       "h": 0.18168168421052633,
+       "h2": 0.18168126315789473,
+       "h4": 0.18168147368421053
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 0.181818,
+      "unit": "s",
+      "lower": null,
+      "upper": null,
+      "confidence": null,
+      "frame": "source frame",
+      "source": "Newtonian-equivalent reference state (source frame; via device-collected record)",
+      "role": "**派生参照値**(f_GW,det=10 Hz の基準状態からのニュートン換算)—— 独立観測量ではない",
+      "verifiedMark": "unverified"
+     },
+     "state": "not-applicable",
+     "reason": "CSV の 0.181818 s は **f_GW,det=10 Hz からの派生参照値**であって独立観測量ではない(区間も持たない)—— 区間比較の対象外。並置は転写の確認にとどめる。",
+     "diagnostics": {
+      "relDiffPercentByStage": [
+       -0.07497375918428253,
+       -0.07520533836323841,
+       -0.07508954877376048
+      ]
+     }
+    },
+    {
+     "quantity": "final_mass",
+     "sim": {
+      "value": null,
+      "unit": "M_sun",
+      "window": "周期窓(極小 20 個・上限 t=8000)",
+      "extractor": "合体検出(S.n<2)・上限 t=8000(=8 s)—— **合体していない**",
+      "stages": {
+       "h": null,
+       "h2": null,
+       "h4": null
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 61.5,
+      "lower": 58.6,
+      "upper": 64.9,
+      "unit": "M_sun",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "remnant 量(**合体を検出したモデルだけ**)",
+      "verifiedMark": "unverified",
+      "upperWidth": 3.4000000000000057,
+      "lowerWidth": 2.8999999999999986,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "not-applicable",
+     "reason": "**`merged:false`** —— この走行は窓の中で合体に達していない。**終端の 2 体総質量を remnant に代入しない。**",
+     "diagnostics": {
+      "merged": false,
+      "stoppedByStage": [
+       "time",
+       "time",
+       "time"
+      ],
+      "separationEndByStage": [
+       207.94180015350125,
+       207.94647966782563,
+       207.9488333572286
+      ]
+     }
+    },
+    {
+     "quantity": "final_spin",
+     "sim": {
+      "value": null,
+      "unit": "1",
+      "window": "周期窓(極小 20 個・上限 t=8000)",
+      "extractor": "—",
+      "stages": {
+       "h": null,
+       "h2": null,
+       "h4": null
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 0.68,
+      "lower": 0.63,
+      "upper": 0.73,
+      "unit": "1",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "remnant 量(**合体を検出したモデルだけ**)",
+      "verifiedMark": "unverified",
+      "upperWidth": 0.04999999999999993,
+      "lowerWidth": 0.050000000000000044,
+      "asymmetric": false,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "not-applicable",
+     "reason": "**`merged:false`** —— remnant が存在しない。",
+     "diagnostics": {
+      "merged": false
+     }
+    },
+    {
+     "quantity": "luminosity_distance",
+     "sim": {
+      "value": null,
+      "unit": "Mpc",
+      "window": "—",
+      "extractor": "—",
+      "stages": {
+       "h": null,
+       "h2": null,
+       "h4": null
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 470,
+      "lower": 310,
+      "upper": 610,
+      "unit": "Mpc",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "器に無い量(検出器側の推論値)",
+      "verifiedMark": "unverified",
+      "upperWidth": 140,
+      "lowerWidth": 160,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "not-measurable",
+     "reason": "**器に光度距離が無い**(2 体力学だけで、検出器・宇宙論を持たない)。",
+     "diagnostics": null
+    },
+    {
+     "quantity": "redshift",
+     "sim": {
+      "value": null,
+      "unit": "1",
+      "window": "—",
+      "extractor": "—",
+      "stages": {
+       "h": null,
+       "h2": null,
+       "h4": null
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 0.1,
+      "lower": 0.07,
+      "upper": 0.13,
+      "unit": "1",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "器に無い量(検出器側の推論値)",
+      "verifiedMark": "unverified",
+      "upperWidth": 0.03,
+      "lowerWidth": 0.03,
+      "asymmetric": false,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "not-measurable",
+     "reason": "**器に赤方偏移が無い**(source frame の質量を直接置いている)。",
+     "diagnostics": null
+    },
+    {
+     "quantity": "effective_inspiral_spin",
+     "sim": {
+      "value": null,
+      "unit": "1",
+      "window": "—",
+      "extractor": "—",
+      "stages": {
+       "h": null,
+       "h2": null,
+       "h4": null
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": -0.04,
+      "lower": -0.18,
+      "upper": 0.08,
+      "unit": "1",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "器に無い量(波形モデルの推論値)",
+      "verifiedMark": "unverified",
+      "upperWidth": 0.12,
+      "lowerWidth": 0.13999999999999999,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "not-measurable",
+     "reason": "**器に χ_eff を測る抽出器が無い**(🎐🎻 は spin=0 宣言・⏰ は χ=0.7 の**宣言**であって測定値ではない)。",
+     "diagnostics": null
+    }
+   ],
+   "richardson": {
+    "separationEnd": {
+     "p": 0.9989857041436928,
+     "ext": 187.21189248665792,
+     "monotone": true,
+     "d1": -0.025560154777792832,
+     "d2": -0.012789065662246912,
+     "note": null
+    },
+    "periodSec": {
+     "p": null,
+     "ext": null,
+     "monotone": false,
+     "d1": 4.2105263159397666e-7,
+     "d2": -2.1052631579698833e-7,
+     "sameSign": false,
+     "note": "**差の符号が反転している**(h→h/2 と h/2→h/4 で向きが違う)—— 単調に収束していないので外挿しない"
+    },
+    "periodDrift": {
+     "p": null,
+     "ext": null,
+     "monotone": false,
+     "d1": 4.892574954830824e-7,
+     "d2": -4.892574954830824e-7,
+     "sameSign": false,
+     "note": "**差の符号が反転している**(h→h/2 と h/2→h/4 で向きが違う)—— 単調に収束していないので外挿しない"
+    },
+    "mergeSec": {
+     "p": null,
+     "ext": null,
+     "monotone": null,
+     "d1": null,
+     "d2": null,
+     "note": "3 段が揃っていない"
+    },
+    "lagSec": {
+     "p": null,
+     "ext": null,
+     "monotone": null,
+     "d1": null,
+     "d2": null,
+     "note": "3 段が揃っていない"
+    }
+   },
+   "stateTally": {
+    "comparable": 0,
+    "inside-interval": 5,
+    "outside-interval": 0,
+    "numerically-unresolved": 0,
+    "mapping-unresolved": 0,
+    "not-measurable": 3,
+    "not-applicable": 3
+   },
+   "numericalDiagnostics": {
+    "separationEndByStage": [
+     187.1607361987052,
+     187.186296353483,
+     187.19908541914523
+    ],
+    "periodSecByStage": [
+     0.18168168421052633,
+     0.18168126315789473,
+     0.18168147368421053
+    ],
+    "periodDriftByStage": [
+     0,
+     -4.892574954830824e-7,
+     0
+    ],
+    "mergeSecByStage": [
+     null,
+     null,
+     null
+    ],
+    "lagSecByStage": [
+     null,
+     null,
+     null
+    ],
+    "clampByStage": [
+     0,
+     0,
+     0
+    ],
+    "nanByStage": [
+     false,
+     false,
+     false
+    ],
+    "mergeClampByStage": [
+     0,
+     0,
+     0
+    ],
+    "mergeNanByStage": [
+     false,
+     false,
+     false
+    ],
+    "fusNByStage": [
+     0,
+     0,
+     0
+    ],
+    "driftReading": "**周期ドリフトは有限刻みの縮みであって物理的放射ではない。** 刻みを半分にするたび大きさがほぼ半分になり(見かけの次数 ≈1)、外挿は 0 の側へ向かう —— この器の 🎻 には放射チャネルが無い(petersGW 未宣言)ので、**周期が縮んで見えるのは積分誤差である**。",
+    "lastStage": 4
+   }
+  },
+  {
+   "tag": "🎻 gw150914DFM(DFM 版・kFrame=1・放射なし)",
+   "id": "gw150914DFM",
+   "emoji": "🎻",
+   "sampleClass": "calibration",
+   "stages": [
+    {
+     "div": 1,
+     "dt": 0.016,
+     "short": {
+      "steps": 15000,
+      "stopped": "time",
+      "separationEnd": 185.95410388563542,
+      "merged": false,
+      "nan": false,
+      "clamp": 0
+     },
+     "period": {
+      "steps": 210203,
+      "stopped": "minima",
+      "nMinima": 20,
+      "rawCross": 194,
+      "periodSec": 0.1720303157894737,
+      "periodFirstHalfSec": 0.17685333333333336,
+      "periodSecondHalfSec": 0.1672071111111111,
+      "periodDrift": -0.005607277680120636,
+      "nan": false,
+      "clamp": 0
+     },
+     "merge": {
+      "steps": 500000,
+      "stopped": "time",
+      "capSimTime": 8000,
+      "separationEnd": 165.56969608548684,
+      "merged": false,
+      "fusN": 0,
+      "nBodies": 2,
+      "contactSec": null,
+      "mergeSec": null,
+      "lagSec": null,
+      "remnant": null,
+      "radE": 0,
+      "radL": 0,
+      "nan": false,
+      "clamp": 0
+     },
+     "bodyMassUnits": [
+      1376.021240234375,
+      1193.08203125
+     ],
+     "bodyCoreMF": [
+      0.5,
+      0.5
+     ],
+     "errors": null
+    },
+    {
+     "div": 2,
+     "dt": 0.008,
+     "short": {
+      "steps": 30000,
+      "stopped": "time",
+      "separationEnd": 186.5831973271165,
+      "merged": false,
+      "nan": false,
+      "clamp": 0
+     },
+     "period": {
+      "steps": 431874,
+      "stopped": "minima",
+      "nMinima": 20,
+      "rawCross": 186,
+      "periodSec": 0.17685305263157894,
+      "periodFirstHalfSec": 0.17926577777777777,
+      "periodSecondHalfSec": 0.17444088888888892,
+      "periodDrift": -0.002728194797531535,
+      "nan": false,
+      "clamp": 0
+     },
+     "merge": {
+      "steps": 1000000,
+      "stopped": "time",
+      "capSimTime": 8000,
+      "separationEnd": 189.31835169364396,
+      "merged": false,
+      "fusN": 0,
+      "nBodies": 2,
+      "contactSec": null,
+      "mergeSec": null,
+      "lagSec": null,
+      "remnant": null,
+      "radE": 0,
+      "radL": 0,
+      "nan": false,
+      "clamp": 0
+     },
+     "bodyMassUnits": [
+      1376.021240234375,
+      1193.08203125
+     ],
+     "bodyCoreMF": [
+      0.5,
+      0.5
+     ],
+     "errors": null
+    },
+    {
+     "div": 4,
+     "dt": 0.004,
+     "short": {
+      "steps": 60000,
+      "stopped": "time",
+      "separationEnd": 186.89754953165928,
+      "merged": false,
+      "nan": false,
+      "clamp": 0
+     },
+     "period": {
+      "steps": 875230,
+      "stopped": "minima",
+      "nMinima": 20,
+      "rawCross": 256,
+      "periodSec": 0.1792677894736842,
+      "periodFirstHalfSec": 0.18047466666666664,
+      "periodSecondHalfSec": 0.17806133333333335,
+      "periodDrift": -0.0013462183536418714,
+      "nan": false,
+      "clamp": 0
+     },
+     "merge": {
+      "steps": 2000000,
+      "stopped": "time",
+      "capSimTime": 8000,
+      "separationEnd": 173.6992731140984,
+      "merged": false,
+      "fusN": 0,
+      "nBodies": 2,
+      "contactSec": null,
+      "mergeSec": null,
+      "lagSec": null,
+      "remnant": null,
+      "radE": 0,
+      "radL": 0,
+      "nan": false,
+      "clamp": 0
+     },
+     "bodyMassUnits": [
+      1376.021240234375,
+      1193.08203125
+     ],
+     "bodyCoreMF": [
+      0.5,
+      0.5
+     ],
+     "errors": null
+    }
+   ],
+   "rows": [
+    {
+     "quantity": "component_mass A",
+     "sim": {
+      "value": 34.6,
+      "unit": "M_sun",
+      "window": "t=0(初期条件 —— 走行に依存しない)",
+      "extractor": "宣言された**殻質量** m(1−massFrac)(二層の総質量ではない)",
+      "stages": {
+       "h": 34.6,
+       "h2": 34.6,
+       "h4": 34.6
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 34.6,
+      "lower": 32,
+      "upper": 39,
+      "unit": "M_sun",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "転写の確認(**独立検証に数えない**)",
+      "verifiedMark": "unverified",
+      "upperWidth": 4.399999999999999,
+      "lowerWidth": 2.6000000000000014,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "inside-interval",
+     "reason": "公表区間の内側(**合格とは言わない**) —— **転写の確認であって独立検証ではない**(この質量は CSV から手で置いた入力である)。",
+     "diagnostics": {
+      "layerTotalMsun": [
+       69.19999999961748,
+       59.999999999668326
+      ],
+      "shellMsun": [
+       34.6,
+       30
+      ],
+      "twoLayer": true,
+      "offsetInWidths": 0,
+      "stepIndependent": "**刻みに依らない**(初期条件の量なので h/h2/h4 は同値である)。"
+     }
+    },
+    {
+     "quantity": "component_mass B",
+     "sim": {
+      "value": 30,
+      "unit": "M_sun",
+      "window": "t=0(初期条件 —— 走行に依存しない)",
+      "extractor": "宣言された**殻質量** m(1−massFrac)(二層の総質量ではない)",
+      "stages": {
+       "h": 30,
+       "h2": 30,
+       "h4": 30
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 30,
+      "lower": 25.4,
+      "upper": 32.9,
+      "unit": "M_sun",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "転写の確認(**独立検証に数えない**)",
+      "verifiedMark": "unverified",
+      "upperWidth": 2.8999999999999986,
+      "lowerWidth": 4.600000000000001,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "inside-interval",
+     "reason": "公表区間の内側(**合格とは言わない**) —— **転写の確認であって独立検証ではない**(この質量は CSV から手で置いた入力である)。",
+     "diagnostics": {
+      "layerTotalMsun": [
+       69.19999999961748,
+       59.999999999668326
+      ],
+      "shellMsun": [
+       34.6,
+       30
+      ],
+      "twoLayer": true,
+      "offsetInWidths": 0,
+      "stepIndependent": "**刻みに依らない**(初期条件の量なので h/h2/h4 は同値である)。"
+     }
+    },
+    {
+     "quantity": "chirp_mass",
+     "sim": {
+      "value": 28.033150493997724,
+      "unit": "M_sun",
+      "window": "t=0(初期条件 —— 走行に依存しない)",
+      "extractor": "宣言された**殻質量** m(1−massFrac)(二層の総質量ではない)",
+      "stages": {
+       "h": 28.033150493997724,
+       "h2": 28.033150493997724,
+       "h4": 28.033150493997724
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 27.9,
+      "lower": 26.4,
+      "upper": 29.6,
+      "unit": "M_sun",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "転写した 2 質量からの派生(**独立検証に数えない**)",
+      "verifiedMark": "unverified",
+      "upperWidth": 1.7000000000000028,
+      "lowerWidth": 1.5,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "inside-interval",
+     "reason": "公表区間の内側(**合格とは言わない**) —— **転写の確認であって独立検証ではない**(この質量は CSV から手で置いた入力である)。",
+     "diagnostics": {
+      "layerTotalMsun": [
+       69.19999999961748,
+       59.999999999668326
+      ],
+      "shellMsun": [
+       34.6,
+       30
+      ],
+      "twoLayer": true,
+      "offsetInWidths": 0,
+      "stepIndependent": "**刻みに依らない**(初期条件の量なので h/h2/h4 は同値である)。"
+     }
+    },
+    {
+     "quantity": "total_mass",
+     "sim": {
+      "value": 64.6,
+      "unit": "M_sun",
+      "window": "t=0(初期条件 —— 走行に依存しない)",
+      "extractor": "宣言された**殻質量** m(1−massFrac)(二層の総質量ではない)",
+      "stages": {
+       "h": 64.6,
+       "h2": 64.6,
+       "h4": 64.6
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 64.5,
+      "lower": 61.3,
+      "upper": 68.2,
+      "unit": "M_sun",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "転写した 2 質量からの派生(**独立検証に数えない**)",
+      "verifiedMark": "unverified",
+      "upperWidth": 3.700000000000003,
+      "lowerWidth": 3.200000000000003,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "inside-interval",
+     "reason": "公表区間の内側(**合格とは言わない**) —— **転写の確認であって独立検証ではない**(この質量は CSV から手で置いた入力である)。",
+     "diagnostics": {
+      "layerTotalMsun": [
+       69.19999999961748,
+       59.999999999668326
+      ],
+      "shellMsun": [
+       34.6,
+       30
+      ],
+      "twoLayer": true,
+      "offsetInWidths": 0,
+      "stepIndependent": "**刻みに依らない**(初期条件の量なので h/h2/h4 は同値である)。"
+     }
+    },
+    {
+     "quantity": "mass_ratio",
+     "sim": {
+      "value": 0.8670520231213873,
+      "unit": "M_sun",
+      "window": "t=0(初期条件 —— 走行に依存しない)",
+      "extractor": "宣言された**殻質量** m(1−massFrac)(二層の総質量ではない)",
+      "stages": {
+       "h": 0.8670520231213873,
+       "h2": 0.8670520231213873,
+       "h4": 0.8670520231213873
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 0.875233,
+      "lower": 0.659588,
+      "upper": 0.984286,
+      "unit": "1",
+      "confidence": 0.9,
+      "frame": "ratio is frame invariant",
+      "source": "GWTC-2.1 posterior release C01:Mixed/posterior_samples mass_ratio column (5/50/95 percentiles)",
+      "role": "転写した 2 質量からの派生(**独立検証に数えない**)",
+      "verifiedMark": "unverified",
+      "upperWidth": 0.10905299999999996,
+      "lowerWidth": 0.2156450000000001,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "inside-interval",
+     "reason": "公表区間の内側(**合格とは言わない**) —— **転写の確認であって独立検証ではない**(この質量は CSV から手で置いた入力である)。",
+     "diagnostics": {
+      "layerTotalMsun": [
+       69.19999999961748,
+       59.999999999668326
+      ],
+      "shellMsun": [
+       34.6,
+       30
+      ],
+      "twoLayer": true,
+      "offsetInWidths": 0,
+      "stepIndependent": "**刻みに依らない**(初期条件の量なので h/h2/h4 は同値である)。"
+     }
+    },
+    {
+     "quantity": "orbital_period",
+     "sim": {
+      "value": 0.1720303157894737,
+      "unit": "s",
+      "window": "周期窓(極小 20 個)",
+      "extractor": "separation-minima-v1",
+      "stages": {
+       "h": 0.1720303157894737,
+       "h2": 0.17685305263157894,
+       "h4": 0.1792677894736842
+      },
+      "order": 0.9979861172218927,
+      "extrapolated": 0.1816892820055034
+     },
+     "obs": {
+      "value": 0.181818,
+      "unit": "s",
+      "lower": null,
+      "upper": null,
+      "confidence": null,
+      "frame": "source frame",
+      "source": "Newtonian-equivalent reference state (source frame; via device-collected record)",
+      "role": "**派生参照値**(f_GW,det=10 Hz の基準状態からのニュートン換算)—— 独立観測量ではない",
+      "verifiedMark": "unverified"
+     },
+     "state": "not-applicable",
+     "reason": "CSV の 0.181818 s は **f_GW,det=10 Hz からの派生参照値**であって独立観測量ではない(区間も持たない)—— 区間比較の対象外。並置は転写の確認にとどめる。",
+     "diagnostics": {
+      "relDiffPercentByStage": [
+       -5.383231699021169,
+       -2.730723783355371,
+       -1.4026171920908785
+      ]
+     }
+    },
+    {
+     "quantity": "final_mass",
+     "sim": {
+      "value": null,
+      "unit": "M_sun",
+      "window": "周期窓(極小 20 個・上限 t=8000)",
+      "extractor": "合体検出(S.n<2)・上限 t=8000(=8 s)—— **合体していない**",
+      "stages": {
+       "h": null,
+       "h2": null,
+       "h4": null
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 61.5,
+      "lower": 58.6,
+      "upper": 64.9,
+      "unit": "M_sun",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "remnant 量(**合体を検出したモデルだけ**)",
+      "verifiedMark": "unverified",
+      "upperWidth": 3.4000000000000057,
+      "lowerWidth": 2.8999999999999986,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "not-applicable",
+     "reason": "**`merged:false`** —— この走行は窓の中で合体に達していない。**終端の 2 体総質量を remnant に代入しない。**",
+     "diagnostics": {
+      "merged": false,
+      "stoppedByStage": [
+       "time",
+       "time",
+       "time"
+      ],
+      "separationEndByStage": [
+       165.56969608548684,
+       189.31835169364396,
+       173.6992731140984
+      ]
+     }
+    },
+    {
+     "quantity": "final_spin",
+     "sim": {
+      "value": null,
+      "unit": "1",
+      "window": "周期窓(極小 20 個・上限 t=8000)",
+      "extractor": "—",
+      "stages": {
+       "h": null,
+       "h2": null,
+       "h4": null
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 0.68,
+      "lower": 0.63,
+      "upper": 0.73,
+      "unit": "1",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "remnant 量(**合体を検出したモデルだけ**)",
+      "verifiedMark": "unverified",
+      "upperWidth": 0.04999999999999993,
+      "lowerWidth": 0.050000000000000044,
+      "asymmetric": false,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "not-applicable",
+     "reason": "**`merged:false`** —— remnant が存在しない。",
+     "diagnostics": {
+      "merged": false
+     }
+    },
+    {
+     "quantity": "luminosity_distance",
+     "sim": {
+      "value": null,
+      "unit": "Mpc",
+      "window": "—",
+      "extractor": "—",
+      "stages": {
+       "h": null,
+       "h2": null,
+       "h4": null
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 470,
+      "lower": 310,
+      "upper": 610,
+      "unit": "Mpc",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "器に無い量(検出器側の推論値)",
+      "verifiedMark": "unverified",
+      "upperWidth": 140,
+      "lowerWidth": 160,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "not-measurable",
+     "reason": "**器に光度距離が無い**(2 体力学だけで、検出器・宇宙論を持たない)。",
+     "diagnostics": null
+    },
+    {
+     "quantity": "redshift",
+     "sim": {
+      "value": null,
+      "unit": "1",
+      "window": "—",
+      "extractor": "—",
+      "stages": {
+       "h": null,
+       "h2": null,
+       "h4": null
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 0.1,
+      "lower": 0.07,
+      "upper": 0.13,
+      "unit": "1",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "器に無い量(検出器側の推論値)",
+      "verifiedMark": "unverified",
+      "upperWidth": 0.03,
+      "lowerWidth": 0.03,
+      "asymmetric": false,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "not-measurable",
+     "reason": "**器に赤方偏移が無い**(source frame の質量を直接置いている)。",
+     "diagnostics": null
+    },
+    {
+     "quantity": "effective_inspiral_spin",
+     "sim": {
+      "value": null,
+      "unit": "1",
+      "window": "—",
+      "extractor": "—",
+      "stages": {
+       "h": null,
+       "h2": null,
+       "h4": null
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": -0.04,
+      "lower": -0.18,
+      "upper": 0.08,
+      "unit": "1",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "器に無い量(波形モデルの推論値)",
+      "verifiedMark": "unverified",
+      "upperWidth": 0.12,
+      "lowerWidth": 0.13999999999999999,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "not-measurable",
+     "reason": "**器に χ_eff を測る抽出器が無い**(🎐🎻 は spin=0 宣言・⏰ は χ=0.7 の**宣言**であって測定値ではない)。",
+     "diagnostics": null
+    }
+   ],
+   "richardson": {
+    "separationEnd": {
+     "p": 1.000892440904367,
+     "ext": 187.2115131846657,
+     "monotone": true,
+     "d1": -0.6290934414810749,
+     "d2": -0.3143522045427858,
+     "note": null
+    },
+    "periodSec": {
+     "p": 0.9979861172218927,
+     "ext": 0.1816892820055034,
+     "monotone": true,
+     "d1": -0.004822736842105241,
+     "d2": -0.002414736842105275,
+     "note": null
+    },
+    "periodDrift": {
+     "p": 1.0588762967162662,
+     "ext": -0.00007051821496298892,
+     "monotone": true,
+     "d1": -0.002879082882589101,
+     "d2": -0.0013819764438896636,
+     "note": null
+    },
+    "mergeSec": {
+     "p": null,
+     "ext": null,
+     "monotone": null,
+     "d1": null,
+     "d2": null,
+     "note": "3 段が揃っていない"
+    },
+    "lagSec": {
+     "p": null,
+     "ext": null,
+     "monotone": null,
+     "d1": null,
+     "d2": null,
+     "note": "3 段が揃っていない"
+    }
+   },
+   "stateTally": {
+    "comparable": 0,
+    "inside-interval": 5,
+    "outside-interval": 0,
+    "numerically-unresolved": 0,
+    "mapping-unresolved": 0,
+    "not-measurable": 3,
+    "not-applicable": 3
+   },
+   "numericalDiagnostics": {
+    "separationEndByStage": [
+     185.95410388563542,
+     186.5831973271165,
+     186.89754953165928
+    ],
+    "periodSecByStage": [
+     0.1720303157894737,
+     0.17685305263157894,
+     0.1792677894736842
+    ],
+    "periodDriftByStage": [
+     -0.005607277680120636,
+     -0.002728194797531535,
+     -0.0013462183536418714
+    ],
+    "mergeSecByStage": [
+     null,
+     null,
+     null
+    ],
+    "lagSecByStage": [
+     null,
+     null,
+     null
+    ],
+    "clampByStage": [
+     0,
+     0,
+     0
+    ],
+    "nanByStage": [
+     false,
+     false,
+     false
+    ],
+    "mergeClampByStage": [
+     0,
+     0,
+     0
+    ],
+    "mergeNanByStage": [
+     false,
+     false,
+     false
+    ],
+    "fusNByStage": [
+     0,
+     0,
+     0
+    ],
+    "driftReading": "**周期ドリフトは有限刻みの縮みであって物理的放射ではない。** 刻みを半分にするたび大きさがほぼ半分になり(見かけの次数 ≈1)、外挿は 0 の側へ向かう —— この器の 🎻 には放射チャネルが無い(petersGW 未宣言)ので、**周期が縮んで見えるのは積分誤差である**。",
+    "lastStage": 4
+   }
+  },
+  {
+   "tag": "⏰ gw150914Merge4s(外部 Peters 放射 a=0.1313・接線)",
+   "id": "gw150914Merge4s",
+   "emoji": "⏰",
+   "sampleClass": "calibration",
+   "stages": [
+    {
+     "div": 1,
+     "dt": 0.016,
+     "short": {
+      "steps": 15000,
+      "stopped": "time",
+      "separationEnd": 183.31875073199276,
+      "merged": false,
+      "nan": false,
+      "clamp": 0
+     },
+     "period": {
+      "steps": 168664,
+      "stopped": "minima",
+      "nMinima": 20,
+      "rawCross": 187,
+      "periodSec": 0.13702736842105265,
+      "periodFirstHalfSec": 0.16076444444444446,
+      "periodSecondHalfSec": 0.11315555555555555,
+      "periodDrift": -0.03472870629733376,
+      "nan": false,
+      "clamp": 0
+     },
+     "merge": {
+      "steps": 201175,
+      "stopped": "merged",
+      "capSimTime": 8000,
+      "separationEnd": 13.47606425888239,
+      "merged": true,
+      "fusN": 1,
+      "nBodies": 1,
+      "contactSec": 3.2181120000095413,
+      "mergeSec": 3.2188160000095447,
+      "lagSec": 0.0007040000000033616,
+      "remnant": {
+       "m": 2569.103271484375,
+       "coreMF": 0.5,
+       "radius": 13.52474594116211,
+       "spin": 0.0005105228046886623,
+       "coreOmega": null
+      },
+      "radE": 453754.518425739,
+      "radL": 1494592.1369890452,
+      "nan": false,
+      "clamp": 0
+     },
+     "bodyMassUnits": [
+      1376.021240234375,
+      1193.08203125
+     ],
+     "bodyCoreMF": [
+      0.5,
+      0.5
+     ],
+     "errors": null
+    },
+    {
+     "div": 2,
+     "dt": 0.008,
+     "short": {
+      "steps": 30000,
+      "stopped": "time",
+      "separationEnd": 183.9456924224321,
+      "merged": false,
+      "nan": false,
+      "clamp": 0
+     },
+     "period": {
+      "steps": 350040,
+      "stopped": "minima",
+      "nMinima": 20,
+      "rawCross": 160,
+      "periodSec": 0.1423722105263158,
+      "periodFirstHalfSec": 0.16325511111111113,
+      "periodSecondHalfSec": 0.12137600000000001,
+      "periodDrift": -0.02940469748686388,
+      "nan": false,
+      "clamp": 0
+     },
+     "merge": {
+      "steps": 445345,
+      "stopped": "merged",
+      "capSimTime": 8000,
+      "separationEnd": 13.377880233804017,
+      "merged": true,
+      "fusN": 1,
+      "nBodies": 1,
+      "contactSec": 3.5620559999710637,
+      "mergeSec": 3.562767999971047,
+      "lagSec": 0.0007119999999831635,
+      "remnant": {
+       "m": 2569.103271484375,
+       "coreMF": 0.5,
+       "radius": 13.52474594116211,
+       "spin": 0.0000012829427760152612,
+       "coreOmega": null
+      },
+      "radE": 461119.3120421611,
+      "radL": 1560692.0865967178,
+      "nan": false,
+      "clamp": 0
+     },
+     "bodyMassUnits": [
+      1376.021240234375,
+      1193.08203125
+     ],
+     "bodyCoreMF": [
+      0.5,
+      0.5
+     ],
+     "errors": null
+    },
+    {
+     "div": 4,
+     "dt": 0.004,
+     "short": {
+      "steps": 60000,
+      "stopped": "time",
+      "separationEnd": 184.25788818454598,
+      "merged": false,
+      "nan": false,
+      "clamp": 0
+     },
+     "period": {
+      "steps": 712723,
+      "stopped": "minima",
+      "nMinima": 20,
+      "rawCross": 163,
+      "periodSec": 0.14502989473684214,
+      "periodFirstHalfSec": 0.16449955555555557,
+      "periodSecondHalfSec": 0.1254577777777778,
+      "periodDrift": -0.026911258773179406,
+      "nan": false,
+      "clamp": 0
+     },
+     "merge": {
+      "steps": 941261,
+      "stopped": "merged",
+      "capSimTime": 8000,
+      "separationEnd": 13.365008925030446,
+      "merged": true,
+      "fusN": 1,
+      "nBodies": 1,
+      "contactSec": 3.7643159999386335,
+      "mergeSec": 3.7650479999386164,
+      "lagSec": 0.0007319999999826905,
+      "remnant": {
+       "m": 2569.103271484375,
+       "coreMF": 0.5,
+       "radius": 13.52474594116211,
+       "spin": 2.226947959371728e-9,
+       "coreOmega": null
+      },
+      "radE": 467705.7255939741,
+      "radL": 1597646.7016161971,
+      "nan": false,
+      "clamp": 0
+     },
+     "bodyMassUnits": [
+      1376.021240234375,
+      1193.08203125
+     ],
+     "bodyCoreMF": [
+      0.5,
+      0.5
+     ],
+     "errors": null
+    }
+   ],
+   "rows": [
+    {
+     "quantity": "component_mass A",
+     "sim": {
+      "value": 34.6,
+      "unit": "M_sun",
+      "window": "t=0(初期条件 —— 走行に依存しない)",
+      "extractor": "宣言された**殻質量** m(1−massFrac)(二層の総質量ではない)",
+      "stages": {
+       "h": 34.6,
+       "h2": 34.6,
+       "h4": 34.6
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 34.6,
+      "lower": 32,
+      "upper": 39,
+      "unit": "M_sun",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "転写の確認(**独立検証に数えない**)",
+      "verifiedMark": "unverified",
+      "upperWidth": 4.399999999999999,
+      "lowerWidth": 2.6000000000000014,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "inside-interval",
+     "reason": "公表区間の内側(**合格とは言わない**) —— **転写の確認であって独立検証ではない**(この質量は CSV から手で置いた入力である)。",
+     "diagnostics": {
+      "layerTotalMsun": [
+       69.19999999961748,
+       59.999999999668326
+      ],
+      "shellMsun": [
+       34.6,
+       30
+      ],
+      "twoLayer": true,
+      "offsetInWidths": 0,
+      "stepIndependent": "**刻みに依らない**(初期条件の量なので h/h2/h4 は同値である)。"
+     }
+    },
+    {
+     "quantity": "component_mass B",
+     "sim": {
+      "value": 30,
+      "unit": "M_sun",
+      "window": "t=0(初期条件 —— 走行に依存しない)",
+      "extractor": "宣言された**殻質量** m(1−massFrac)(二層の総質量ではない)",
+      "stages": {
+       "h": 30,
+       "h2": 30,
+       "h4": 30
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 30,
+      "lower": 25.4,
+      "upper": 32.9,
+      "unit": "M_sun",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "転写の確認(**独立検証に数えない**)",
+      "verifiedMark": "unverified",
+      "upperWidth": 2.8999999999999986,
+      "lowerWidth": 4.600000000000001,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "inside-interval",
+     "reason": "公表区間の内側(**合格とは言わない**) —— **転写の確認であって独立検証ではない**(この質量は CSV から手で置いた入力である)。",
+     "diagnostics": {
+      "layerTotalMsun": [
+       69.19999999961748,
+       59.999999999668326
+      ],
+      "shellMsun": [
+       34.6,
+       30
+      ],
+      "twoLayer": true,
+      "offsetInWidths": 0,
+      "stepIndependent": "**刻みに依らない**(初期条件の量なので h/h2/h4 は同値である)。"
+     }
+    },
+    {
+     "quantity": "chirp_mass",
+     "sim": {
+      "value": 28.033150493997724,
+      "unit": "M_sun",
+      "window": "t=0(初期条件 —— 走行に依存しない)",
+      "extractor": "宣言された**殻質量** m(1−massFrac)(二層の総質量ではない)",
+      "stages": {
+       "h": 28.033150493997724,
+       "h2": 28.033150493997724,
+       "h4": 28.033150493997724
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 27.9,
+      "lower": 26.4,
+      "upper": 29.6,
+      "unit": "M_sun",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "転写した 2 質量からの派生(**独立検証に数えない**)",
+      "verifiedMark": "unverified",
+      "upperWidth": 1.7000000000000028,
+      "lowerWidth": 1.5,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "inside-interval",
+     "reason": "公表区間の内側(**合格とは言わない**) —— **転写の確認であって独立検証ではない**(この質量は CSV から手で置いた入力である)。",
+     "diagnostics": {
+      "layerTotalMsun": [
+       69.19999999961748,
+       59.999999999668326
+      ],
+      "shellMsun": [
+       34.6,
+       30
+      ],
+      "twoLayer": true,
+      "offsetInWidths": 0,
+      "stepIndependent": "**刻みに依らない**(初期条件の量なので h/h2/h4 は同値である)。"
+     }
+    },
+    {
+     "quantity": "total_mass",
+     "sim": {
+      "value": 64.6,
+      "unit": "M_sun",
+      "window": "t=0(初期条件 —— 走行に依存しない)",
+      "extractor": "宣言された**殻質量** m(1−massFrac)(二層の総質量ではない)",
+      "stages": {
+       "h": 64.6,
+       "h2": 64.6,
+       "h4": 64.6
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 64.5,
+      "lower": 61.3,
+      "upper": 68.2,
+      "unit": "M_sun",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "転写した 2 質量からの派生(**独立検証に数えない**)",
+      "verifiedMark": "unverified",
+      "upperWidth": 3.700000000000003,
+      "lowerWidth": 3.200000000000003,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "inside-interval",
+     "reason": "公表区間の内側(**合格とは言わない**) —— **転写の確認であって独立検証ではない**(この質量は CSV から手で置いた入力である)。",
+     "diagnostics": {
+      "layerTotalMsun": [
+       69.19999999961748,
+       59.999999999668326
+      ],
+      "shellMsun": [
+       34.6,
+       30
+      ],
+      "twoLayer": true,
+      "offsetInWidths": 0,
+      "stepIndependent": "**刻みに依らない**(初期条件の量なので h/h2/h4 は同値である)。"
+     }
+    },
+    {
+     "quantity": "mass_ratio",
+     "sim": {
+      "value": 0.8670520231213873,
+      "unit": "M_sun",
+      "window": "t=0(初期条件 —— 走行に依存しない)",
+      "extractor": "宣言された**殻質量** m(1−massFrac)(二層の総質量ではない)",
+      "stages": {
+       "h": 0.8670520231213873,
+       "h2": 0.8670520231213873,
+       "h4": 0.8670520231213873
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 0.875233,
+      "lower": 0.659588,
+      "upper": 0.984286,
+      "unit": "1",
+      "confidence": 0.9,
+      "frame": "ratio is frame invariant",
+      "source": "GWTC-2.1 posterior release C01:Mixed/posterior_samples mass_ratio column (5/50/95 percentiles)",
+      "role": "転写した 2 質量からの派生(**独立検証に数えない**)",
+      "verifiedMark": "unverified",
+      "upperWidth": 0.10905299999999996,
+      "lowerWidth": 0.2156450000000001,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "inside-interval",
+     "reason": "公表区間の内側(**合格とは言わない**) —— **転写の確認であって独立検証ではない**(この質量は CSV から手で置いた入力である)。",
+     "diagnostics": {
+      "layerTotalMsun": [
+       69.19999999961748,
+       59.999999999668326
+      ],
+      "shellMsun": [
+       34.6,
+       30
+      ],
+      "twoLayer": true,
+      "offsetInWidths": 0,
+      "stepIndependent": "**刻みに依らない**(初期条件の量なので h/h2/h4 は同値である)。"
+     }
+    },
+    {
+     "quantity": "orbital_period",
+     "sim": {
+      "value": 0.13702736842105265,
+      "unit": "s",
+      "window": "周期窓(極小 20 個)",
+      "extractor": "separation-minima-v1",
+      "stages": {
+       "h": 0.13702736842105265,
+       "h2": 0.1423722105263158,
+       "h4": 0.14502989473684214
+      },
+      "order": 1.0079776372693054,
+      "extrapolated": 0.14765842854079742
+     },
+     "obs": {
+      "value": 0.181818,
+      "unit": "s",
+      "lower": null,
+      "upper": null,
+      "confidence": null,
+      "frame": "source frame",
+      "source": "Newtonian-equivalent reference state (source frame; via device-collected record)",
+      "role": "**派生参照値**(f_GW,det=10 Hz の基準状態からのニュートン換算)—— 独立観測量ではない",
+      "verifiedMark": "unverified"
+     },
+     "state": "not-applicable",
+     "reason": "CSV の 0.181818 s は **f_GW,det=10 Hz からの派生参照値**であって独立観測量ではない(区間も持たない)—— 区間比較の対象外。並置は転写の確認にとどめる。",
+     "diagnostics": {
+      "relDiffPercentByStage": [
+       -24.63487200329305,
+       -21.69520590573222,
+       -20.23347812821496
+      ]
+     }
+    },
+    {
+     "quantity": "final_mass",
+     "sim": {
+      "value": null,
+      "unit": "M_sun",
+      "window": "合体(融合)時刻までの走行",
+      "extractor": "融合後に残った 1 体の質量(**総質量**と**殻質量**の 2 通りが取れる)",
+      "stages": {
+       "h": null,
+       "h2": null,
+       "h4": null
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 61.5,
+      "lower": 58.6,
+      "upper": 64.9,
+      "unit": "M_sun",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "remnant 量(**合体を検出したモデルだけ**)",
+      "verifiedMark": "unverified",
+      "upperWidth": 3.4000000000000057,
+      "lowerWidth": 2.8999999999999986,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "mapping-unresolved",
+     "reason": "**観測 final_mass が器のどの層に対応するかが未宣言である。** 🎻⏰ は質量較正 f≈2 の二層で、**初期の殻質量が転写した観測質量**という宣言を持つ(massFrac=(f−1)/f)。しかし**融合後の remnant について殻/核の対応則は宣言されていない**ので、総質量と殻質量のどちらを観測 remnant に当てるかが決まらない。**数値の不一致ではなく対応の未宣言である。**(どちらも数値としては下の diagnostics に出す —— **片方を選んで状態を付けない**)",
+     "diagnostics": {
+      "merged": true,
+      "remnantTotalMsunByStage": [
+       129.20000158334673,
+       129.20000158334673,
+       129.20000158334673
+      ],
+      "remnantShellMsunByStage": [
+       64.60000079167337,
+       64.60000079167337,
+       64.60000079167337
+      ],
+      "remnantCoreMassFracByStage": [
+       0.5,
+       0.5,
+       0.5
+      ],
+      "ifTotal": {
+       "value": 129.20000158334673,
+       "wouldBe": "outside-interval"
+      },
+      "ifShell": {
+       "value": 64.60000079167337,
+       "wouldBe": "inside-interval"
+      },
+      "note": "**この 2 つの「もし〜なら」は状態ではない**(対応が決まるまで判定しない)。合体は **外部 Peters 放射オーバーレイ**(用量 a=0.1313 の合わせ込み)が駆動したもので、**DFM 由来の合体ではない**。"
+     }
+    },
+    {
+     "quantity": "merger_time",
+     "sim": {
+      "value": 3.7650479999386164,
+      "unit": "s",
+      "window": "合体窓(上限 t=8000)",
+      "extractor": "融合(S.n<2)の時刻",
+      "stages": {
+       "h": 3.2188160000095447,
+       "h2": 3.562767999971047,
+       "h4": 3.7650479999386164
+      },
+      "order": 0.765853561088654,
+      "extrapolated": 4.053864409593539
+     },
+     "obs": {
+      "value": 4,
+      "unit": "s",
+      "lower": null,
+      "upper": null,
+      "confidence": null,
+      "frame": "source frame",
+      "source": "10 Hz 基準状態からの Peters 換算(⏰ の obsCard の宣言)",
+      "role": "**モデル換算目標**(検出器が 4 秒全体を直接測った値ではない)—— 区間を持たない",
+      "verifiedMark": "n/a"
+     },
+     "state": "not-applicable",
+     "reason": "**「約 4.0 秒」は観測の 90% 区間ではなくモデル換算目標である**ので区間比較の対象外。しかも合体は**用量 a=0.1313 を 4 秒へ寄せた合わせ込み**で駆動されており、**この一致は fit の再現であって独立検証ではない**。",
+     "diagnostics": {
+      "note": "3 段は単調(見かけの次数 0.766)で外挿は 4.053864 s —— **外挿値を実走値と混同しない**。"
+     }
+    },
+    {
+     "quantity": "post_contact_lag",
+     "sim": {
+      "value": 0.0007319999999826905,
+      "unit": "s",
+      "window": "合体窓(上限 t=8000)",
+      "extractor": "接触(r ≤ R₀+R₁)から融合までの時間",
+      "stages": {
+       "h": 0.0007040000000033616,
+       "h2": 0.0007119999999831635,
+       "h4": 0.0007319999999826905
+      },
+      "order": -1.3219280984956985,
+      "extrapolated": null
+     },
+     "obs": null,
+     "state": "numerically-unresolved",
+     "reason": "**3 段(dt=0.016/0.008/0.004)で収束していない** —— 差が縮まず(見かけの次数が正でないので外挿しない)、遅延は ~0.7 ms の水準に留まるが**この刻み集合では数値的に未解決である**。観測側に対応する量も無い。",
+     "diagnostics": {
+      "lagSecByStage": [
+       0.0007040000000033616,
+       0.0007119999999831635,
+       0.0007319999999826905
+      ],
+      "richardson": {
+       "p": -1.3219280984956985,
+       "ext": null,
+       "monotone": false,
+       "d1": -0.000007999999979801942,
+       "d2": -0.000019999999999527015,
+       "note": "**見かけの次数が正でない**(h/2→h/4 の差が h→h/2 の差より大きい)—— 漸近域に居ないので外挿しない"
+      }
+     }
+    },
+    {
+     "quantity": "final_spin",
+     "sim": {
+      "value": null,
+      "unit": "1",
+      "window": "合体(融合)時刻までの走行",
+      "extractor": "—(**この器には remnant の Kerr χ を測る抽出器が無い**)",
+      "stages": {
+       "h": null,
+       "h2": null,
+       "h4": null
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 0.68,
+      "lower": 0.63,
+      "upper": 0.73,
+      "unit": "1",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "remnant 量(**合体を検出したモデルだけ**)",
+      "verifiedMark": "unverified",
+      "upperWidth": 0.04999999999999993,
+      "lowerWidth": 0.050000000000000044,
+      "asymmetric": false,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "not-measurable",
+     "reason": "**remnant の無次元スピン χ=cJ/(Gm²) を測る抽出器が無い。** 器が持つのは融合後の body の角速度と宣言半径だけで、J を作るには慣性モーメント則と地平線半径の対応を宣言する必要がある(未宣言)。**0 や最後の値で補わない。**",
+     "diagnostics": {
+      "rawSpinByStage": [
+       0.0005105228046886623,
+       0.0000012829427760152612,
+       2.226947959371728e-9
+      ],
+      "rawRadiusByStage": [
+       13.52474594116211,
+       13.52474594116211,
+       13.52474594116211
+      ],
+      "coreOmegaByStage": [
+       null,
+       null,
+       null
+      ]
+     }
+    },
+    {
+     "quantity": "luminosity_distance",
+     "sim": {
+      "value": null,
+      "unit": "Mpc",
+      "window": "—",
+      "extractor": "—",
+      "stages": {
+       "h": null,
+       "h2": null,
+       "h4": null
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 470,
+      "lower": 310,
+      "upper": 610,
+      "unit": "Mpc",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "器に無い量(検出器側の推論値)",
+      "verifiedMark": "unverified",
+      "upperWidth": 140,
+      "lowerWidth": 160,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "not-measurable",
+     "reason": "**器に光度距離が無い**(2 体力学だけで、検出器・宇宙論を持たない)。",
+     "diagnostics": null
+    },
+    {
+     "quantity": "redshift",
+     "sim": {
+      "value": null,
+      "unit": "1",
+      "window": "—",
+      "extractor": "—",
+      "stages": {
+       "h": null,
+       "h2": null,
+       "h4": null
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": 0.1,
+      "lower": 0.07,
+      "upper": 0.13,
+      "unit": "1",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "器に無い量(検出器側の推論値)",
+      "verifiedMark": "unverified",
+      "upperWidth": 0.03,
+      "lowerWidth": 0.03,
+      "asymmetric": false,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "not-measurable",
+     "reason": "**器に赤方偏移が無い**(source frame の質量を直接置いている)。",
+     "diagnostics": null
+    },
+    {
+     "quantity": "effective_inspiral_spin",
+     "sim": {
+      "value": null,
+      "unit": "1",
+      "window": "—",
+      "extractor": "—",
+      "stages": {
+       "h": null,
+       "h2": null,
+       "h4": null
+      },
+      "order": null,
+      "extrapolated": null
+     },
+     "obs": {
+      "value": -0.04,
+      "lower": -0.18,
+      "upper": 0.08,
+      "unit": "1",
+      "confidence": 0.9,
+      "frame": "source",
+      "source": "GWOSC GWTC-2.1-confident GW150914-v4 (C01:Mixed)",
+      "role": "器に無い量(波形モデルの推論値)",
+      "verifiedMark": "unverified",
+      "upperWidth": 0.12,
+      "lowerWidth": 0.13999999999999999,
+      "asymmetric": true,
+      "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
+     },
+     "state": "not-measurable",
+     "reason": "**器に χ_eff を測る抽出器が無い**(🎐🎻 は spin=0 宣言・⏰ は χ=0.7 の**宣言**であって測定値ではない)。",
+     "diagnostics": null
+    }
+   ],
+   "richardson": {
+    "separationEnd": {
+     "p": 1.0058803158059797,
+     "ext": 184.56755444266219,
+     "monotone": true,
+     "d1": -0.6269416904393381,
+     "d2": -0.31219576211387334,
+     "note": null
+    },
+    "periodSec": {
+     "p": 1.0079776372693054,
+     "ext": 0.14765842854079742,
+     "monotone": true,
+     "d1": -0.005344842105263148,
+     "d2": -0.00265768421052634,
+     "note": null
+    },
+    "periodDrift": {
+     "p": 1.0943762153168604,
+     "ext": -0.024714797846116972,
+     "monotone": true,
+     "d1": -0.00532400881046988,
+     "d2": -0.0024934387136844732,
+     "note": null
+    },
+    "mergeSec": {
+     "p": 0.765853561088654,
+     "ext": 4.053864409593539,
+     "monotone": true,
+     "d1": -0.34395199996150216,
+     "d2": -0.2022799999675695,
+     "note": null
+    },
+    "lagSec": {
+     "p": -1.3219280984956985,
+     "ext": null,
+     "monotone": false,
+     "d1": -0.000007999999979801942,
+     "d2": -0.000019999999999527015,
+     "note": "**見かけの次数が正でない**(h/2→h/4 の差が h→h/2 の差より大きい)—— 漸近域に居ないので外挿しない"
+    }
+   },
+   "stateTally": {
+    "comparable": 0,
+    "inside-interval": 5,
+    "outside-interval": 0,
+    "numerically-unresolved": 1,
+    "mapping-unresolved": 1,
+    "not-measurable": 4,
+    "not-applicable": 2
+   },
+   "numericalDiagnostics": {
+    "separationEndByStage": [
+     183.31875073199276,
+     183.9456924224321,
+     184.25788818454598
+    ],
+    "periodSecByStage": [
+     0.13702736842105265,
+     0.1423722105263158,
+     0.14502989473684214
+    ],
+    "periodDriftByStage": [
+     -0.03472870629733376,
+     -0.02940469748686388,
+     -0.026911258773179406
+    ],
+    "mergeSecByStage": [
+     3.2188160000095447,
+     3.562767999971047,
+     3.7650479999386164
+    ],
+    "lagSecByStage": [
+     0.0007040000000033616,
+     0.0007119999999831635,
+     0.0007319999999826905
+    ],
+    "clampByStage": [
+     0,
+     0,
+     0
+    ],
+    "nanByStage": [
+     false,
+     false,
+     false
+    ],
+    "mergeClampByStage": [
+     0,
+     0,
+     0
+    ],
+    "mergeNanByStage": [
+     false,
+     false,
+     false
+    ],
+    "fusNByStage": [
+     1,
+     1,
+     1
+    ],
+    "driftReading": "**周期ドリフトは有限刻みの縮みであって物理的放射ではない。** 刻みを半分にするたび大きさがほぼ半分になり(見かけの次数 ≈1)、外挿は 0 の側へ向かう —— この器の 🎻 には放射チャネルが無い(petersGW 未宣言)ので、**周期が縮んで見えるのは積分誤差である**。",
+    "lastStage": 4
+   }
+  }
+ ],
+ "pageErrors": [],
+ "summary": {
+  "stateTallyAll": {
+   "comparable": 0,
+   "inside-interval": 15,
+   "outside-interval": 0,
+   "numerically-unresolved": 1,
+   "mapping-unresolved": 1,
+   "not-measurable": 10,
+   "not-applicable": 8
+  },
+  "independentVerification": "**0 件**。区間内に入った質量系の行はすべて**転写の確認**であり、**独立検証には数えない**(初期質量は CSV から手で置いた入力である)。",
+  "notSaid": [
+   "「BH 連星を完成した(観測一致版)」",
+   "「観測と合った」",
+   "「合体を再現した」",
+   "「較正した」",
+   "「区間の内側だから合格」",
+   "「複数の周辺区間の内側だから同時 90% 領域の中」"
+  ]
+ }
+}

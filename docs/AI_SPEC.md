@@ -1777,9 +1777,91 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   ```
   - `quantity` は**門が読む量**(`orbital_period` / `eccentricity` / `periastron_advance`)、
     `csvQuantity` は **CSV 上の鍵**(候補行は `<quantity>_candidate` という**別の鍵**である)。
-  - `value`・`sigma`・`source` は **CSV の行から 1 文字も変えずに写す**。器は「body・鍵・value・sigma が
-    完全一致する行が**ちょうど 1 件**」であることを毎回確かめ、決まらなければ**従来の行を使って理由を残す**
-    (黙って差し替えない・推測で当てない)。`sigma` が `null` の宣言は**行選択だけ**を決める(門へは入らない)。
-  - **宣言は行選択であって、単位の一致・観測量対応・数値収束の宣言ではない。** 宣言で動いた数は
-    「**宣言後の初判定**」として 4 値の**横の欄**(`declaredFirst`)に置き、**据え置きの 4 値は上書きしない**。
+  - `value`・`sigma`・`source`・`unit` は **CSV の行から 1 文字も変えずに写す**。
+    **第269便a: `body` / `quantity` / `source` / `unit` は必須**(非空の文字列)・`value` は有限・
+    `sigma` は `null` か**正の数**である。器は「body・鍵・**source**・**unit**・value・sigma が
+    完全一致する行が**ちょうど 1 件**」であることを毎回確かめる —— **同じ数値・同じ σ の別論文や、
+    同じ数値の別単位(s と day)を当てないため**である。**欠損値を 0 に変換しない**
+    (`Number(null)===0` なので、空欄の value に宣言値 0 が当たってしまう)。
+    **不正スキーマ(`schemaVersion≠1`・必須欄欠け・`sigma≤0`)・同じ key の重複宣言・宣言の解決失敗は
+    入力エラーとして器を止める**(`loadJudgementSources` が `ok:false` を返し、器は throw する ——
+    **別の解に戻して走行を続けない**)。`sigma` が `null` の宣言は**行選択だけ**を決める(門へは入らない)。
+  - **宣言は行選択であって、単位の一致・観測量対応・数値収束の宣言ではない。**
+    **第269便a: 宣言は AD5(署名便)までは診断欄だけに置く** —— `q.judgementSource`
+    (`applied:false`・`mode:"diagnostic-only-until-AD5"`・宣言行の value/σ は別欄 `declaredRow`)であり、
+    **門が読む `q.obsSigmaCsv` は従来行(ファイル順の最初)から採る**。中心値だけ旧参照・σ だけ新解、
+    という混在を作らないためである。σ 接続器側の「**宣言後の初判定**」は 4 値の**横の欄**
+    (`declaredFirst`)に置き、**据え置きの 4 値は上書きしない**。
   - **生成 AI はこのファイルを書かない**(採用解の宣言は原仮定者と統括の裁定である)。
+- **星団の内部診断 JSON のスキーマ(第269便d — `tests/out/cluster-w269d.json`)**: 器 `tests/exp-w269d-cluster.mjs` が出す
+  **比較サンプル v1a(内部診断)**の出力である。**観測値は 1 つも入っておらず、47 Tuc の公表値との比較も 1 つも入っていない。**
+  ```json
+  { "meta": { "wave": "<便>", "when": "<ISO8601>", "codeCommit": "<12 桁>", "target": "beta/index.html",
+      "inputs": [ { "file": "<相対パス>", "bytes": 0, "mtime": "<ISO8601>", "sha256_16": "<16 桁>" } ],
+      "declarationVersion": "v1a-2026-09-17",
+      "window": { "tStart": 0, "tEnd": 9.6, "unit": "sim time", "why": "<窓の理由>" },
+      "grid": { "dt0": 0.016, "divs": [1,2,4], "seeds": [<2 本>], "nVariants": [<2 種>] },
+      "claim": "<主張の限定>", "doNotSay": ["<書かない言い方>"], "touched": "<触っていないもの>" },
+    "states": ["comparable","inside-interval","outside-interval","numerically-unresolved",
+               "mapping-unresolved","not-measurable","not-applicable"],
+    "presetFacts": [ { "id": "tuc47", "emoji": "🍇", "seed": 0, "n": 240, "plummerScale": 12.34,
+      "vMode": "random", "massCalibration": null } ],
+    "contracts": { "declaration": {…}, "commonF": {…}, "virialInit": {…}, "center": {…}, "boundFraction": {…} },
+    "geometry": { "theory": { "closedFormUntruncated": { "R1": 0, "R2": 0, "ratio": 1.7320508075688772 },
+      "truncatedNumeric": {…}, "derivation": "<導出>" }, "measured": { "perColumn": [ … ] } },
+    "columns": [ { "tag": "<列名>", "srcId": "tuc47", "seed": null, "n": null,
+      "stages": [ { "div": 1, "dt": 0.016, "ok": true, "nan": false, "clamp": 0,
+        "start": { "origin": {…}, "massCentroid": {…}, "densityPeak": {…},
+                   "centers": {…}, "centerDelta": {…}, "bound": {…} }, "end": { … } } ],
+      "richardson": { "origin": {…}, "massCentroid": {…}, "densityPeak": {…} },
+      "numerical":  { "<中心>": { "<量>": { "status": "numerically-unresolved|order-estimated" } } },
+      "boundFraction": {…}, "geometryRatio": {…} } ],
+    "virialCheck": { "rows": [ … ], "note": "<宣言と実測のずれ>" },
+    "centerContractCheck": { "savedW265a": {…}, "measuredOrigin": {…},
+      "bitIdentical": { "projected": true, "twoD": true, "core": true, "sigma": true }, "prelim": {…} },
+    "observationStates": { "rows": [ { "quantity": "sigma0", "state": "not-applicable",
+      "why": "<理由>", "comparisonWithheld": true, "csvRow": 5 } ], "tally": {…}, "comparableCount": 0 },
+    "v1bDesign": { "status": "declared-not-implemented", "items": [ { "id": "v1b-1", "title": "…",
+      "design": "…", "openQuestion": "…" } ], "doNotSay": [ … ] } }
+  ```
+  - **`states` は 7 語で固定**(`tests/lib-w269d-state.mjs` の `STATES`)。`observationStates.rows` は
+    **`comparable` 系以外の状態に `value` / `ratio` / `nSigma` / `residual` を持てない**(器が throw する)。
+    **`comparableCount` は 0 である**(47 Tuc の観測量と値の比較を出していない)。
+  - **`origin` の欄は第265便a(`tests/out/analogy-w265a.json`)の保存値と `Object.is` で同一**でなければならない
+    (QA `behavior.clusterCenterContract`)。中心オプションは**新しい欄を足しただけ**である。
+  - **`numerical` の `status` は 2 語だけ**で、`order-estimated` は「見かけの次数が推定できた」であって
+    **「収束した」ではない**。`monotone:false` は消さずに残す。
+  - **生成 AI はこのファイルを書かない**(内部診断の出力であって観測レコードではない)。
+
+- **比較サンプル v1 の比較 JSON(第269便c — `tests/lib-w269c-compare.mjs` が作る)**: BH 連星・銀河の
+  比較器(`tests/out/bh90-w269c.json`・`tests/out/sparc-w269c.json`)が書き出す**読み取り専用の記録**である。
+  ```json
+  { "meta": { "measuredAt": "<ISO8601>", "codeVersion": "<器の名前と便>",
+      "declarationVersion": "compare-v1 / 第59報「完成=比較サンプル v1」",
+      "inputs": [ { "file": "paper/data/…csv", "bytes": 0, "sha256": "<64 hex>", "mtime": "<ISO8601>" } ],
+      "vocabulary": [ "comparable", "inside-interval", "outside-interval", "numerically-unresolved",
+        "mapping-unresolved", "not-measurable", "not-applicable" ],
+      "contract": [ "<非対称区間を対称 1σ に換算しない>", "<周辺区間の AND を同時 90% 領域と呼ばない>", "…" ] },
+    "columns": [ { "tag": "<走行の名前>", "id": "<プリセット id>", "emoji": "<絵文字>",
+      "rows": [ { "quantity": "<量の名前>",
+        "sim": { "value": 0, "unit": "<単位>", "window": "<評価窓>", "extractor": "<抽出器>",
+          "stages": { "h": 0, "h2": 0, "h4": 0 }, "order": 0, "extrapolated": 0 },
+        "obs": { "value": 0, "lower": 0, "upper": 0, "unit": "<単位>", "confidence": 0.9,
+          "frame": "<座標系・時刻系>", "source": "<出典>", "role": "<この行の役割>",
+          "verifiedMark": "verified|unverified", "upperWidth": 0, "lowerWidth": 0, "asymmetric": true },
+        "state": "<7 語のどれか>", "reason": "<その状態にした理由>",
+        "diagnostics": { } } ],
+      "stateTally": { } } ],
+    "summary": { "stateTallyAll": { }, "notSaid": [ "…" ] } }
+  ```
+  - **`state` は 7 語だけ**(増やさない)。`not-measurable` の行は **`sim.value` が必ず `null`** である
+    —— **観測量が得られないときに 0 や最後の値で補わない**ことの機械的な表現で、
+    器は値つきの `not-measurable` を作ろうとすると throw する。
+  - **`obs` は 90% 区間を `lower`/`upper` のまま運ぶ。** `sigma` の欄は**持てない**(対称 1σ への
+    換算の入口を塞ぐため)。`upperWidth`・`lowerWidth` が非対称を残す。**複数行が区間内でも
+    「同時 90% 領域の中」とは書かない。**
+  - **`pValue`・`chi2p`・`p_value` などの鍵は置けない**(器が throw する)。残差は
+    `diagnostics` の中で**観測誤差単位の診断表示**にとどめる。
+  - `sim.stages` は **h/h2/h4(同じ物理時刻の 3 刻み)**、`order` は見かけの次数、`extrapolated` は
+    **差が単調なときだけ**入る(`null` は「外挿しない」であって 0 ではない)。
+  - **生成 AI はこのファイルを書かない・読んで主張を作らない**(比較の記録は器と統括の裁定である)。

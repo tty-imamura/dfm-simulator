@@ -145,13 +145,75 @@ export function baselineVerdict(inp) {
 //     固定幅のビンは N=240 では数えの揺らぎで刻みごとに跳ねる。**King の r_c とは混用しない**)。
 //   ・帯別の速度分散 = **粒子数で 5 等分した帯**(等幅ではない —— 外側が空にならないため)の
 //     v_y の標準偏差(**面内の 1 成分** —— 視線速度分散ではない)。
+//   ・**第269便d(第59報 W4・統括の読み (D))**: **中心の契約**を足した。
+//     `opt.center` は `'origin'`(第265便a の基準 —— 中心を引かない)/ `'mass-centroid'`(既定 ——
+//     質量重心と重心速度を引く)/ **中心の物体**(`{x, y, vx, vy, definition}` —— `centerOf` が
+//     `'density-peak'` 等で作ったものを呼ぶ側が渡す)/ **関数**(arr を受け取り中心を返す)を取る。
+//     **返り値の従来の欄(`projectedHalfMassRadius` 等)は原点基準のまま 1 bit 動かさない** ——
+//     宣言した中心での量は **`centered` 欄に別に返す**(第265便a の保存値がそのまま再現できる)。
 export function projectedStats(pts, opt) {
   const o = opt || {};
   const nBand = (o.bands === undefined) ? 5 : o.bands;
   const arr = (pts || []).filter((p) => Number.isFinite(p.x) && Number.isFinite(p.y)
     && Number.isFinite(p.vy) && Number.isFinite(p.m) && p.m > 0);
   if (arr.length < 2) return null;
-  const R = arr.map((p) => ({ R: Math.abs(p.x), r2: Math.hypot(p.x, p.y), v: p.vy, m: p.m }));
+  const base = _projStatsAbout(arr, { x: 0, y: 0, vy: 0 }, nBand);
+  // **中心の契約**(第269便d)。既定は質量重心 —— 走行中に群が並進しても量が動かない、が理由。
+  const cSpec = (o.center === undefined) ? 'mass-centroid' : o.center;
+  let ctr;
+  if (typeof cSpec === 'function') ctr = cSpec(arr);
+  else if (cSpec && typeof cSpec === 'object') ctr = cSpec;
+  else if (String(cSpec) === 'origin') {
+    ctr = { mode: 'origin', x: 0, y: 0, vx: 0, vy: 0,
+      definition: '**原点**(第265便a の基準 —— 中心を引かない)' };
+  } else if (String(cSpec) === 'mass-centroid') {
+    let M = 0, cx = 0, cy = 0, cvx = 0, cvy = 0;
+    for (const p of arr) { M += p.m; cx += p.m * p.x; cy += p.m * p.y;
+      cvx += p.m * (p.vx || 0); cvy += p.m * p.vy; }
+    ctr = (Math.abs(M) > 0)
+      ? { mode: 'mass-centroid', x: cx / M, y: cy / M, vx: cvx / M, vy: cvy / M, mass: M,
+        definition: '**質量重心**(Σm r/Σm)と**重心速度**(Σm v/Σm)を引く' }
+      : { mode: 'mass-centroid', x: 0, y: 0, vx: 0, vy: 0, degenerate: true,
+        definition: '質量重心(総質量 0 のため原点)' };
+  } else {
+    // **知らない中心は黙って原点に落とさない**(呼ぶ側が渡す物体か関数にする)
+    throw new Error('projectedStats: 未知の中心モード: ' + String(cSpec)
+      + '(物体か関数で渡す —— lib-w269d-state.mjs の centerOf を使う)');
+  }
+  const centered = (ctr.mode === 'origin') ? base : _projStatsAbout(arr, ctr, nBand);
+  const mTot = base.mTotal;
+  const dl = (a, b) => ((a === null || a === undefined || b === null || b === undefined) ? null : a - b);
+  return { n: arr.length, mTotal: mTot,
+    // ---- 従来の欄(**原点基準・第265便a と同じ数**)
+    projectedHalfMassRadius: base.projectedHalfMassRadius, halfMassRadius2D: base.halfMassRadius2D,
+    rMax: base.rMax, coreRadiusHalfDensity: base.coreRadiusHalfDensity,
+    coreWindowParticles: base.coreWindowParticles,
+    sigmaInPlaneProxyAll: base.sigmaInPlaneProxyAll, bands: base.bands,
+    // ---- 第269便d: **中心の契約**
+    centerContract: { requested: (typeof cSpec === 'string') ? cSpec : 'object-or-function',
+      used: centered.center, origin: base.center,
+      note: '**従来の欄は原点基準のまま**(第265便a の保存値の再現に使う)。'
+        + '宣言した中心での量は `centered` に別に入っている。' },
+    centered,
+    centerDelta: {
+      projectedHalfMassRadius: dl(centered.projectedHalfMassRadius, base.projectedHalfMassRadius),
+      halfMassRadius2D: dl(centered.halfMassRadius2D, base.halfMassRadius2D),
+      coreRadiusHalfDensity: dl(centered.coreRadiusHalfDensity, base.coreRadiusHalfDensity),
+      sigmaInPlaneProxyAll: dl(centered.sigmaInPlaneProxyAll, base.sigmaInPlaneProxyAll),
+      note: '**中心の取り方の差**(宣言した中心 − 原点)。'
+        + '分散の差が小さいのは、一様な重心速度の引き算が標準偏差を変えないからである'
+        + '(帯分けが半径で決まるので厳密には 0 ではない)。' },
+    caveat: '**投影は x 軸・「視線」は y 成分と宣言した面内の 1 成分である。'
+      + '2D の面内分散を視線速度分散へ直接対応させない。**コア半径は線密度が半分に落ちる R であって '
+      + 'King の r_c ではない。投影半質量半径(|x|)と面内 2D 半質量半径(√(x²+y²))は**別の量**である。'
+      + '**中心を引いても 3D の量にはならない**(z/vz はエンジンに無い —— 統括の読み (D))。' };
+}
+
+// 第269便d: 上の本体を**中心 c を引いた座標**で回す内部関数(`c={x,y,vy}`)。
+//   **c=原点のときは第265便a と 1 命令も違わない**(x−0 は x・vy−0 は vy)—— 保存値の再現で機械照合する。
+function _projStatsAbout(arr, c, nBand) {
+  const R = arr.map((p) => ({ R: Math.abs(p.x - c.x), r2: Math.hypot(p.x - c.x, p.y - c.y),
+    v: p.vy - (c.vy || 0), m: p.m }));
   const mTot = R.reduce((s, z) => s + z.m, 0);
   const halfOf = (key) => {
     const s = R.slice().sort((a, b) => a[key] - b[key]);
@@ -206,6 +268,9 @@ export function projectedStats(pts, opt) {
   const mAll = all.reduce((s, v) => s + v, 0) / all.length;
   const sdAll = Math.sqrt(all.reduce((s, v) => s + (v - mAll) * (v - mAll), 0) / (all.length - 1));
   return { n: arr.length, mTotal: mTot,
+    center: { mode: c.mode === undefined ? 'origin' : c.mode, x: c.x, y: c.y,
+      vx: c.vx === undefined ? 0 : c.vx, vy: c.vy === undefined ? 0 : c.vy,
+      definition: c.definition === undefined ? null : c.definition },
     projectedHalfMassRadius: rHalf, halfMassRadius2D: rHalf2D, rMax,
     coreRadiusHalfDensity: rCore, coreWindowParticles: kWin,
     sigmaInPlaneProxyAll: sdAll, bands,

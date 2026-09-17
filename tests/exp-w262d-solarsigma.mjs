@@ -130,6 +130,10 @@ const GATE = { nSigma: 3, numBudget: 0.3 };   // 3σ の門(第249便b と同じ
 //     値差・σ 倍。**宣言前の判定行は 1 行も差し替えていない**(既定の列は不変である)。
 // どちらも**正式判定ではない** —— 3 段の収束(`convergence.ok`)が揃うまでは「数値未解決」である。
 const JS = loadJudgementSources(path.join(ROOT, 'paper', 'data', 'judgement-sources.json'));
+// 第269便a(統括の読み (F)): **不正スキーマ・重複宣言は入力エラーとして器を止める**(黙って続けない)。
+if (!JS.ok) {
+  throw new Error('[w262d] judgement-sources.json が不正: ' + (JS.error || '(理由なし)'));
+}
 
 // ---------------------------------------------------------------- 本体
 const csv = loadCsv();
@@ -213,8 +217,17 @@ for (const [id, emoji] of SOLAR) {
           simDegPerYear: v, residual: (v === null) ? null : v - obsV,
           nSigma: (v === null) ? null : (v - obsV) / obsS };
       };
-      const primary = mk('近点間周期(判定に使う換算 — 分子と同じ窓)', det.pPeriSec || null, 'periastron');
-      const controls = [mk('同方向 1 周の周期行(**使わない** — 定義が違う)', det.pRevSec || null, 'revolution')];
+      // 第269便a(統括の読み (E)): **分子と同じ近点集合**の周期(`pPeriSameWindowSec`)で換算する。
+      // 第268便a はここに `pPeriSec`(第252便b の 20 近点固定窓)を入れていた —— 傾きは 58 近点、
+      // 周期は 20 近点で、**同じ窓ではなかった**。旧契約の値は下の controls / previous に残す。
+      // **代替(silent fallback)はしない**: 同じ窓の周期が無ければ「換算不能」と書く。
+      const primary = mk('近点間周期(**傾きと同じ ' + (det.pPeriSameWindowN || '—') + ' 近点('
+        + ((det.pPeriSameWindowN || 1) - 1) + ' 区間)**の平均 — 第269便a の新契約)',
+      det.pPeriSameWindowSec || null, 'periastron-same-window');
+      const legacyWin = mk('近点間周期(**旧契約: 最初の ' + (det.pPeriWindow || 20)
+        + ' 近点の固定窓** — 傾きと同じ近点集合ではない)', det.pPeriSec || null, 'periastron-20window');
+      const controls = [legacyWin,
+        mk('同方向 1 周の周期行(**使わない** — 定義が違う)', det.pRevSec || null, 'revolution')];
       // 丸めた観測周期の対照(obsCard が持っているときだけ — 手で数字を打たない)
       const pObs = (() => {
         const pq = (byId.get(id).quantities || []).find((z) => z.kind === 'period' && z.target === target
@@ -226,15 +239,23 @@ for (const [id, emoji] of SOLAR) {
       converted = { from: q.unit, to: csvRow.unit, yearSec: YEAR_SEC,
         obsValue: obsV, obsSigma: obsS,
         primary, controls,
+        // **旧契約(第268便a)の記録**。対照であって新値ではない —— **旧値を新値として写さない**。
+        previous: { contract: '20-periastron period window(第268便a)',
+          periodSec: legacyWin.periodSec, simDegPerYear: legacyWin.simDegPerYear,
+          residual: legacyWin.residual, nSigma: legacyWin.nSigma,
+          why: '傾きは ' + (det.pPeriSameWindowN || '—') + ' 近点・周期は '
+            + (det.pPeriWindow || 20) + ' 近点で、**同じ近点集合ではなかった**(換算契約の未達)' },
         // 観測側を deg/orbit へ写しても**同じ σ 倍**になる(同じ正の係数で両辺を割るだけ)
         inverseCheck: (() => {
-          const o = degPerYearToPerOrbit({ degPerYear: obsV, pPeriSec: det.pPeriSec || null });
-          const os = degPerYearToPerOrbit({ degPerYear: obsS, pPeriSec: det.pPeriSec || null });
+          const P = det.pPeriSameWindowSec || null;   // 第269便a: 逆向きも**同じ窓**の周期で写す
+          const o = degPerYearToPerOrbit({ degPerYear: obsV, pPeriSec: P });
+          const os = degPerYearToPerOrbit({ degPerYear: obsS, pPeriSec: P });
           return (o === null || os === null || !(os > 0)) ? null
             : { obsDegPerOrbit: o, sigmaDegPerOrbit: os, nSigma: (q.meas - o) / os };
         })(),
         guards: g2,
-        verdict: (primary.simDegPerYear === null) ? '換算不能(同じ窓の近点間周期が未測定)'
+        verdict: (primary.simDegPerYear === null)
+          ? '換算不能(**傾きと同じ窓の近点間周期が未測定** — 短い窓へ置換しない)'
           : (!g2.ok ? g2.verdict : '換算後も判定せず(3 段の収束を先に見る)'),
         note: '**正式判定は「数値未解決」**(3 段の収束の前に否とも合とも言わない)。'
           + '既定の 4 値と切断点 `unit-not-converted` は**据え置き**である。' };
@@ -346,7 +367,8 @@ const out = {
       + 'deg/orbit → deg/yr に換算したときの残差 σ 倍。**対照**として周期行(revolution)と'
       + '丸めた観測周期でも換算し、**どの P を使うかで符号まで変わる**ことを数で置く。',
     yearSec: YEAR_SEC,
-    contract: ['分子の Δϖ と同じ近点・同じ窓の時刻から作った周期(`pPeriSec`)を使う',
+    contract: ['**第269便a**: 分子の Δϖ と**同じ近点集合**(傾き fit と同じ最初の nFit 近点)の'
+      + '平均間隔 `pPeriSameWindowSec` を使う —— `pPeriSec`(第252便b の 20 近点固定窓)は**同じ窓ではない**',
       '観測値と観測 σ は同じ係数で同じ単位へ写す(逆向きに写しても σ 倍は同じ)',
       '換算係数の数値誤差は σ に混ぜない —— 換算後の量そのものを h/h2/h4 で検査する',
       'obsCard の表示単位と内部判定単位は分けてよい'],
@@ -354,7 +376,9 @@ const out = {
       target: r.target, measDegPerOrbit: r.meas,
       obs: r.unitConvertedFirst.obsValue, sigma: r.unitConvertedFirst.obsSigma,
       primary: r.unitConvertedFirst.primary, controls: r.unitConvertedFirst.controls,
-      inverseCheck: r.unitConvertedFirst.inverseCheck, verdict: r.unitConvertedFirst.verdict })),
+      inverseCheck: r.unitConvertedFirst.inverseCheck,
+      // 第269便a: **旧契約(20 近点窓)の記録**を行にも載せる(**新値として写さない**ための対照)
+      previous: r.unitConvertedFirst.previous, verdict: r.unitConvertedFirst.verdict })),
     cutPreserved: (cutTally['unit-not-converted'] || 0),
     note: '**既定の 4 値・切断点は据え置き**である(この欄は横に並べた記録であって判定ではない)。'
       + '**正式判定は「数値未解決」** —— 3 段の収束(`convergence.ok`)が揃う前に否とも合とも言わない。',
