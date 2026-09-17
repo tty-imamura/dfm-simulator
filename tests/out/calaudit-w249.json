@@ -20804,12 +20804,12 @@
       "body": "PSR J1757-1854",
       "quantity": "eccentricity",
       "unit": "1",
-      "sigma": 1e-7,
+      "sigma": 0.000001,
       "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Universe Pulsar Survey XIII",
       "primaryVerified": true
      },
      "sigmaPrimaryVerified": true,
-     "obsSigmaCsv": 1e-7,
+     "obsSigmaCsv": 0.000001,
      "sigmaNote": "σ=1e-7 を CSV(PSR J1757-1854|eccentricity・1)から転写(sigma_primary=verified)",
      "guideTolerance": true,
      "toleranceUsedPct": 1,
@@ -20838,8 +20838,8 @@
      },
      "gate": {
       "residual": 0.0001966574497560547,
-      "nSigma": 1966.5744975605471,
-      "sigma": 1e-7,
+      "nSigma": 196.65744975605472,
+      "sigma": 0.000001,
       "status": "mapping-unresolved",
       "reason": "観測量対応が未確定(タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない)",
       "key": "psrJ1757DFM|B|ecc",
@@ -20850,19 +20850,19 @@
       "mappingNote": "タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない",
       "orbitNoiseIndicator": {
        "abRelPct": null,
-       "sigmaRelPct": 0.000016506711133545565,
+       "sigmaRelPct": 0.00016506711133545566,
        "ratio": null,
        "meaning": "検出器 A(正本)と B(距離極小の放物線頂点)の相対差 [%]。**これは定義の一致度ではない** —— 第256便d ③ の合成軌道検定で、定義も推定器も 10⁻¹¹ 台で一致し、シミュレータ側の A−B は**軌道側の位置雑音 ε≈10⁻¹⁰〜10⁻⁸ に対する検出器 B の感度**だと同定された。したがってこの欄は「**軌道側の相対 1e−10〜1e−8 の雑音に対する検出器差の感度**」であって、門(3σ)には入らない。ratio は σ_rel を 1 とした目盛り(>1 = 雑音が観測精度より大きい)",
        "gate": "none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)"
       },
-      "sigmaRelPct": 0.000016506711133545565,
+      "sigmaRelPct": 0.00016506711133545566,
       "numBound": 0.00006734106835393217,
       "sigmaFrom": "csv",
       "sigmaSource": {
        "body": "PSR J1757-1854",
        "quantity": "eccentricity",
        "unit": "1",
-       "sigma": 1e-7,
+       "sigma": 0.000001,
        "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Universe Pulsar Survey XIII",
        "primaryVerified": true
       },
@@ -24010,12 +24010,12 @@
       "body": "PSR J1757-1854",
       "quantity": "eccentricity",
       "unit": "1",
-      "sigma": 1e-7,
+      "sigma": 0.000001,
       "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Universe Pulsar Survey XIII",
       "primaryVerified": true
      },
      "sigmaPrimaryVerified": true,
-     "obsSigmaCsv": 1e-7,
+     "obsSigmaCsv": 0.000001,
      "sigmaNote": "σ=1e-7 を CSV(PSR J1757-1854|eccentricity・1)から転写(sigma_primary=verified)",
      "guideTolerance": true,
      "toleranceUsedPct": 1,
@@ -24037,8 +24037,8 @@
      },
      "gate": {
       "residual": 0.00019245716617810604,
-      "nSigma": 1924.5716617810606,
-      "sigma": 1e-7,
+      "nSigma": 192.45716617810606,
+      "sigma": 0.000001,
       "status": "mapping-unresolved",
       "reason": "観測量対応が未確定(タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない)",
       "key": "psrJ1757PN|B|ecc",
@@ -24049,19 +24049,19 @@
       "mappingNote": "タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない",
       "orbitNoiseIndicator": {
        "abRelPct": null,
-       "sigmaRelPct": 0.000016506711133545565,
+       "sigmaRelPct": 0.00016506711133545566,
        "ratio": null,
        "meaning": "検出器 A(正本)と B(距離極小の放物線頂点)の相対差 [%]。**これは定義の一致度ではない** —— 第256便d ③ の合成軌道検定で、定義も推定器も 10⁻¹¹ 台で一致し、シミュレータ側の A−B は**軌道側の位置雑音 ε≈10⁻¹⁰〜10⁻⁸ に対する検出器 B の感度**だと同定された。したがってこの欄は「**軌道側の相対 1e−10〜1e−8 の雑音に対する検出器差の感度**」であって、門(3σ)には入らない。ratio は σ_rel を 1 とした目盛り(>1 = 雑音が観測精度より大きい)",
        "gate": "none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)"
       },
-      "sigmaRelPct": 0.000016506711133545565,
+      "sigmaRelPct": 0.00016506711133545566,
       "numBound": 0.00004489441672017591,
       "sigmaFrom": "csv",
       "sigmaSource": {
        "body": "PSR J1757-1854",
        "quantity": "eccentricity",
        "unit": "1",
-       "sigma": 1e-7,
+       "sigma": 0.000001,
        "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Universe Pulsar Survey XIII",
        "primaryVerified": true
       },
@@ -37957,20 +37957,20 @@
  "sigmaRegate": {
   "on": true,
   "checked": 46,
-  "unchanged": 46,
-  "changed": [],
-  "verifiedFlips": [
+  "unchanged": 44,
+  "changed": [
    {
-    "key": "psrJ1946DFM|B|ecc",
-    "from": false,
-    "to": true
+    "key": "psrJ1757DFM|B|ecc",
+    "from": 1e-7,
+    "to": 0.000001
    },
    {
-    "key": "psrJ1946PN|B|ecc",
-    "from": false,
-    "to": true
+    "key": "psrJ1757PN|B|ecc",
+    "from": 1e-7,
+    "to": 0.000001
    }
   ],
+  "verifiedFlips": [],
   "noSource": 268,
   "limitation": "既存の `sigmaSource` の宛先だけを見る。**新しく繋がる量(対応表に無い宛先)は走行が要る** —— --regate は「繋がっている σ が動いたか」しか答えない。"
  },

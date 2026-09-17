@@ -223,7 +223,8 @@ const NOT_FOUND = [
   [SOLAR_F, 205, 'Sirius A', 'radius_candidate', 'シリウス A の半径'],
   [SOLAR_F, 206, 'Sirius B', 'radius_candidate', 'シリウス B の半径'],
   [SOLAR_F, 420, 'Titan ringlet', 'semi_major_axis', 'タイタン・リングレット a の 1σ'],
-  [SOLAR_F, 421, 'Titan ringlet', 'mean_motion', 'タイタン・リングレット n'],
+  // 第268便b: quantity を `pattern_speed_m1` へ改名(強制 m=1 のパターン速度・値と印は不変)
+  [SOLAR_F, 421, 'Titan ringlet', 'pattern_speed_m1', 'タイタン・リングレット n(強制 m=1 のパターン速度)'],
   [CLUSTER_F, 138, 'NGC 3198', 'v_rot(r=0.32 kpc)_candidate', 'SPARC v(r) の原記載'],
   [CLUSTER_F, 139, 'NGC 3198', 'v_rot(r=0.64 kpc)_candidate', 'SPARC v(r) の原記載'],
   [CLUSTER_F, 140, 'NGC 3198', 'v_rot(r=8.04 kpc)_candidate', 'SPARC v(r) の原記載'],
