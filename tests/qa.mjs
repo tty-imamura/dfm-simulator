@@ -1149,6 +1149,228 @@ const add = (id, pass, detail) => {
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 
+// ---- 0a3g2) 第269便d(第59報 W4・統括の読み (D)): behavior.clusterCenterContract ----
+// ----   **`projectedStats` は中心の引き算をしていなかった**(原点基準)。第269便d で
+// ----   `center` オプション(`origin` / `mass-centroid`(既定) / 中心の物体・関数)を足した。
+// ----   固定するのは 3 つ:
+// ----     ① **従来の欄は原点基準のまま 1 bit 動いていない** —— `tests/out/cluster-w269d.json` の
+// ----        `measuredOrigin` が `tests/out/analogy-w265a.json`(第265便a)の 4 量 × 3 段と
+// ----        **Object.is で同一**である(中心オプションは新しい欄を足しただけ、の機械照合)。
+// ----     ② **中心の位置と速度が記録されている**(質量重心・密度ピークとも定義文字列つき)。
+// ----     ③ **両者の差が JSON にある**(`centerDelta` —— 中心の取り方で量が動くことを隠さない)。
+// ----   純関数側(`tests/lib-w269d-state.mjs` の `centerOf`)も 3 モードで見る。
+{
+  const bad = [];
+  const cases = [];
+  let real = null;
+  const htmlCC = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(htmlCC.includes('id:"tuc47"') && htmlCC.includes('id:"tuc47DFM"'))) {
+    console.log('SKIP behavior.clusterCenterContract(対象に 🍇🫐 なし — 第228便前の版)');
+  } else {
+    try {
+      const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w269d-state.mjs'));
+      // 純関数: 中心の 3 モード(**値まで決め打ちで見る**)
+      const pts = [{ x: 0, y: 0, vx: 0, vy: 0, m: 1 }, { x: 4, y: 2, vx: 2, vy: 6, m: 3 }];
+      const o0 = L.centerOf(pts, 'origin');
+      const mc = L.centerOf(pts, 'mass-centroid');
+      const dp = L.centerOf(pts, 'density-peak', { kDensity: 2 });
+      cases.push(`origin=(${o0.x},${o0.y})`, `mass-centroid=(${mc.x},${mc.y},v${mc.vy})`,
+        `density-peak k=${dp.kWindow}`);
+      if (!(o0.x === 0 && o0.y === 0 && o0.vx === 0 && o0.vy === 0)) bad.push('origin が原点でない');
+      if (!(mc.x === 3 && mc.y === 1.5 && mc.vx === 1.5 && mc.vy === 4.5)) {
+        bad.push(`質量重心が合わない(${mc.x},${mc.y},${mc.vx},${mc.vy})`);
+      }
+      if (!(dp.mode === 'density-peak' && dp.kWindow === 2 && String(dp.definition).length > 20)) {
+        bad.push('密度ピークの定義が返り値に無い');
+      }
+      let threw = false;
+      try { L.centerOf(pts, 'no-such-center'); } catch { threw = true; }
+      if (!threw) bad.push('未知の中心モードが黙って通る');
+      // 実体: 原点基準の再現(**第265便a の保存 JSON と Object.is で同一**)
+      const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'cluster-w269d.json'), 'utf8'));
+      const A = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'analogy-w265a.json'), 'utf8'));
+      const aCol = (A.cluster.columns || []).find((c) => /asIs_tuc47\(/.test(c.tag));
+      const cCol = (C.columns || []).find((c) => c.tag === 'tuc47_asIs');
+      if (!aCol || !cCol) bad.push('照合する列が無い');
+      else {
+        const KEYS = ['projectedHalfMassRadius', 'halfMassRadius2D',
+          'coreRadiusHalfDensity', 'sigmaInPlaneProxyAll'];
+        let same = 0, tot = 0;
+        for (const k of KEYS) {
+          for (let i = 0; i < 3; i++) {
+            tot++;
+            const a = aCol.stages[i] && aCol.stages[i].end ? aCol.stages[i].end[k] : null;
+            const c = cCol.stages[i] && cCol.stages[i].end && cCol.stages[i].end.origin
+              ? cCol.stages[i].end.origin[k] : null;
+            if (Object.is(a, c)) same++; else bad.push(`原点基準が動いた: ${k} 第${i + 1}段(${a} → ${c})`);
+          }
+        }
+        real = { same, tot };
+        const bi = C.centerContractCheck ? C.centerContractCheck.bitIdentical : null;
+        if (!bi || !Object.values(bi).every((z) => z === true)) bad.push('器の自己照合 bitIdentical が全て true でない');
+        const ctr = cCol.stages[0].end.centers;
+        if (!(ctr && ctr.massCentroid && Number.isFinite(ctr.massCentroid.x)
+          && Number.isFinite(ctr.massCentroid.vy) && String(ctr.massCentroid.definition).length > 10)) {
+          bad.push('質量重心の位置・速度・定義が JSON に無い');
+        }
+        if (!(ctr.densityPeak && Number.isFinite(ctr.densityPeak.x) && ctr.densityPeak.kWindow > 0)) {
+          bad.push('密度ピークの中心が JSON に無い');
+        }
+        const dl = cCol.stages[0].end.centerDelta;
+        if (!dl || !Number.isFinite(dl.projectedHalfMassRadius) || dl.projectedHalfMassRadius === 0) {
+          bad.push('中心の取り方の差(centerDelta)が JSON に無い/0 である');
+        }
+      }
+    } catch (e) { bad.push('中心の契約が読めない: ' + String(e).slice(0, 90)); }
+    add('behavior.clusterCenterContract', bad.length === 0,
+      `**星団の中心の契約**(第269便d・統括の読み (D)): 純関数 ${cases.join(' / ')} —— `
+      + `\`projectedStats\` に \`center\` を足したが、**従来の欄は原点基準のまま**で `
+      + `第265便a の保存値と **${real ? real.same : '—'}/${real ? real.tot : '—'} が Object.is で同一** / `
+      + `既定は質量重心(位置と速度を記録・\`centerDelta\` に差)・原点は対照として温存 —— `
+      + `**中心を引いても 3D の量にはならない**(z/vz はエンジンに無い)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 0a3g3) 第269便d(第59報 W4・統括の読み (A)(D)): behavior.clusterV1a ----
+// ----   **比較サンプル v1a = 内部診断の完成**(観測一致版ではない)。固定するのは 5 つ:
+// ----     ① 明示状態の語彙が 7 語ちょうどで、`stateRecord` が **withheld な状態に値を付けると throw** する。
+// ----     ② 表が **🍇🫐 × 3 刻み × seed 2 本 × N 2 本 = 10 列**そろい、NaN 0 である。
+// ----     ③ **47 Tuc の観測量に値の比較が 1 つも無い**(`comparableCount=0`・全行 `comparisonWithheld`)。
+// ----     ④ **`monotone:false` が温存されている**(非単調を「収束済み」に書き換えていない)。
+// ----     ⑤ 束縛率と幾何比が JSON にあり、幾何比の理論値が **√3**(円対称・Plummer 面密度の閉形式)である。
+{
+  const bad = [];
+  const cases = [];
+  let tally = null, cols = null, unres = null;
+  const htmlV1 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(htmlV1.includes('id:"tuc47"') && htmlV1.includes('id:"tuc47DFM"'))) {
+    console.log('SKIP behavior.clusterV1a(対象に 🍇🫐 なし — 第228便前の版)');
+  } else {
+    try {
+      const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w269d-state.mjs'));
+      const WANT = ['comparable', 'inside-interval', 'outside-interval', 'numerically-unresolved',
+        'mapping-unresolved', 'not-measurable', 'not-applicable'];
+      if (L.STATES.length !== 7 || !WANT.every((w) => L.STATES.includes(w))) {
+        bad.push('語彙が 7 語でない: ' + L.STATES.join(','));
+      }
+      let threw = false;
+      try { L.stateRecord({ quantity: 'sigma0', state: 'mapping-unresolved', ratio: 1.7 }); }
+      catch { threw = true; }
+      cases.push('withheld+値=' + (threw ? 'throw' : '通る'));
+      if (!threw) bad.push('**未対応の状態に比較の数を付けても止まらない**');
+      const okRec = L.stateRecord({ quantity: 'x', state: 'outside-interval', nSigma: 4 });
+      if (okRec.nSigma !== 4 || okRec.comparisonWithheld !== false) bad.push('区間外の行に nσ が残らない');
+      let threw2 = false;
+      try { L.stateRecord({ quantity: 'x', state: 'unknown-state' }); } catch { threw2 = true; }
+      if (!threw2) bad.push('語彙に無い状態が通る');
+      const th = L.halfRadiusRatioTheory({ plummerScale: 12.34, truncationRadius: 419 });
+      cases.push('理論比=' + th.closedFormUntruncated.ratio.toFixed(6));
+      if (Math.abs(th.closedFormUntruncated.ratio - Math.sqrt(3)) > 1e-12) bad.push('閉形式の比が √3 でない');
+      if (Math.abs(th.truncatedNumeric.ratio - Math.sqrt(3)) > 0.01) bad.push('打切り数値解が √3 から離れすぎ');
+      const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'cluster-w269d.json'), 'utf8'));
+      cols = (C.columns || []).length;
+      if (cols !== 10) bad.push(`列が 10 でない(${cols})`);
+      let mono = 0, nanN = 0, stg = 0;
+      for (const c of (C.columns || [])) {
+        if (c.stages.length !== 3) bad.push(`3 段でない列: ${c.tag}`);
+        for (const s of c.stages) {
+          stg++; if (s.nan) nanN++;
+          if (!s.ok) bad.push(`走行が ok でない: ${c.tag} dt/${s.div}`);
+          if (!(s.end && s.end.bound && s.end.bound.countFraction > 0
+            && s.end.bound.countFraction <= 1)) bad.push(`束縛率が無い: ${c.tag} dt/${s.div}`);
+        }
+        for (const ck of ['origin', 'massCentroid', 'densityPeak']) {
+          for (const q of Object.keys(c.richardson[ck] || {})) {
+            const r = c.richardson[ck][q];
+            if (r && r.monotone === false) mono++;
+          }
+          for (const q of Object.keys(c.numerical[ck] || {})) {
+            const st = c.numerical[ck][q].status;
+            if (st !== 'numerically-unresolved' && st !== 'order-estimated') {
+              bad.push(`未知の数値状態 ${st}(${c.tag}/${ck}/${q})`);
+            }
+          }
+        }
+      }
+      if (nanN !== 0) bad.push(`NaN が出た走行 ${nanN} 件`);
+      if (mono < 1) bad.push('**`monotone:false` が 1 つも残っていない**(非単調を消していないか)');
+      unres = mono;
+      cases.push(`列 ${cols}・段 ${stg}・monotone:false ${mono} 件`);
+      const os = C.observationStates || {};
+      tally = os.tally || {};
+      if (os.comparableCount !== 0) bad.push(`47 Tuc の観測量に比較が出ている(${os.comparableCount} 件)`);
+      for (const r of (os.rows || [])) {
+        if (r.comparisonWithheld !== true) bad.push(`比較が出ている行: ${r.quantity}`);
+        for (const k of ['value', 'ratio', 'nSigma', 'residual']) {
+          if (r[k] !== undefined) bad.push(`観測量に ${k} が入っている: ${r.quantity}`);
+        }
+        if (!L.STATES.includes(r.state)) bad.push(`語彙に無い状態: ${r.state}`);
+      }
+      if (!(C.geometry && C.geometry.measured && C.geometry.measured.perColumn.length === cols)) {
+        bad.push('幾何比の実測が JSON に無い');
+      }
+    } catch (e) { bad.push('v1a が読めない: ' + String(e).slice(0, 90)); }
+    add('behavior.clusterV1a', bad.length === 0,
+      `**星団 47 Tuc の比較サンプル v1a**(第269便d・統括の読み (A)(D)・**内部診断の完成であって`
+      + `観測一致版ではない**): ${cases.join(' / ')} —— `
+      + `47 Tuc の観測量は ${Object.entries(tally || {}).map(([k, v]) => `${k} ${v}`).join(' / ')} で`
+      + `**値の比較は 0 件**(開口・重み・視線・中心が未定義/3D 量/転写入力)—— `
+      + `**非単調(\`monotone:false\` ${unres} 件)はそのまま残す**(「収束済み」とは書かない)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 0a3g4) 第269便d(第59報 W4・統括の読み (D)): docs.clusterV1bDesign ----
+// ----   **v1b(観測比較用の別抽出器)は設計宣言だけで、実装していない**。
+// ----   5 項(光度重みの半光半径/同じ環状開口の RV/PM の 4.74047 換算と共通距離誤差/
+// ----   3D 化か球対称前向きモデルかの決断/GGCD の構造量は N-body fit の出力)が
+// ----   **JSON と docs/PHYSICS.md の両方**にあり、CALIBRATION_VERDICT に §5.15 がある。
+{
+  const bad = [];
+  const cases = [];
+  try {
+    const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'cluster-w269d.json'), 'utf8'));
+    const d = C.v1bDesign || {};
+    if (d.status !== 'declared-not-implemented') bad.push(`status が declared-not-implemented でない(${d.status})`);
+    const ids = (d.items || []).map((z) => z.id);
+    cases.push('項 ' + ids.length);
+    for (let i = 1; i <= 5; i++) if (!ids.includes('v1b-' + i)) bad.push(`v1b-${i} が無い`);
+    for (const it of (d.items || [])) {
+      if (!(String(it.design).length > 40 && String(it.openQuestion).length > 5)) {
+        bad.push(`設計/未決が薄い: ${it.id}`);
+      }
+    }
+    const phys = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+    const i0 = phys.indexOf('〔第269便d');
+    if (i0 < 0) bad.push('docs/PHYSICS.md に〔第269便d〕の節が無い');
+    else {
+      // 節の終わりは**行頭の**〔第… か ## —— 節の本文中に出てくる〔第269便d〕の引用で切らない
+      const m1 = phys.slice(i0 + 10).match(/\n(?:〔第|## )/);
+      const sec = phys.slice(i0, m1 ? i0 + 10 + m1.index : phys.length);
+      cases.push('PHYSICS 節 ' + sec.length + ' 字');
+      for (const w of ['光度重み', '環状開口', '4.74047', '3D 化', 'N-body fit',
+        'mass-centroid', '束縛率', '言わないこと']) {
+        if (sec.indexOf(w) < 0) bad.push(`〔第269便d〕節に「${w}」が無い`);
+      }
+      for (const w of ['視線速度分散を測った', '観測と合った', '収束済み']) {
+        if (sec.indexOf(w) < 0) bad.push(`「言わないこと」に「${w}」が無い`);
+      }
+    }
+    const cal = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
+    if (cal.indexOf('5.15') < 0) bad.push('CALIBRATION_VERDICT に §5.15 が無い');
+    const ai = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+    if (ai.indexOf('cluster-w269d.json') < 0) bad.push('AI_SPEC に cluster JSON のスキーマが無い');
+  } catch (e) { bad.push('v1b 設計宣言が読めない: ' + String(e).slice(0, 90)); }
+  add('docs.clusterV1bDesign', bad.length === 0,
+    `**星団 v1b の設計宣言**(第269便d・**実装していない**): ${cases.join(' / ')} —— `
+    + `投影面半光半径は光度重み(M/L の宣言が要る)/ RV は観測と同じ環状開口(候補 6 点は非対称 σ)/ `
+    + `PM は v=4.74047·D[kpc]·μ[mas/yr](**距離の不確かさは全点共通の系統要因**)/ `
+    + `**現行 2D エンジンに z/vz が無い**ので 3D 化か球対称+速度異方性の前向きモデルかは**決断事項** / `
+    + `GGCD の構造量の多くは **N-body fit の出力**で独立観測ではない`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
 // ---- 0a3h) 第268便a(第58報 W1・統括の読み (B)): behavior.solarsigmaGuards ----
 // ----   **σ が門へ届いただけでは判定しない**。正本の門が既に持っている 3 欄
 // ----   `definitionDeclared`・`mappingResolved`・`convergence.ok` を**必須**にした
