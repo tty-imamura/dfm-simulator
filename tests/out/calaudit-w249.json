@@ -21931,9 +21931,9 @@
       "unit": "1",
       "sigma": 0.000009,
       "source": "Stovall et al. (2018) ApJL 854 L22 Table 1 - PSR J1946+2052 discovery timing solution",
-      "primaryVerified": false
+      "primaryVerified": true
      },
-     "sigmaPrimaryVerified": false,
+     "sigmaPrimaryVerified": true,
      "obsSigmaCsv": 0.000009,
      "sigmaNote": "σ=0.000009 を CSV(PSR J1946+2052|eccentricity・1)から転写(sigma_primary=verified)",
      "guideTolerance": true,
@@ -21989,7 +21989,7 @@
        "unit": "1",
        "sigma": 0.000009,
        "source": "Stovall et al. (2018) ApJL 854 L22 Table 1 - PSR J1946+2052 discovery timing solution",
-       "primaryVerified": false
+       "primaryVerified": true
       },
       "sigmaCardVsCsvRel": null,
       "detSpreadPct": null,
@@ -24898,9 +24898,9 @@
       "unit": "1",
       "sigma": 0.000009,
       "source": "Stovall et al. (2018) ApJL 854 L22 Table 1 - PSR J1946+2052 discovery timing solution",
-      "primaryVerified": false
+      "primaryVerified": true
      },
-     "sigmaPrimaryVerified": false,
+     "sigmaPrimaryVerified": true,
      "obsSigmaCsv": 0.000009,
      "sigmaNote": "σ=0.000009 を CSV(PSR J1946+2052|eccentricity・1)から転写(sigma_primary=verified)",
      "guideTolerance": true,
@@ -24949,7 +24949,7 @@
        "unit": "1",
        "sigma": 0.000009,
        "source": "Stovall et al. (2018) ApJL 854 L22 Table 1 - PSR J1946+2052 discovery timing solution",
-       "primaryVerified": false
+       "primaryVerified": true
       },
       "sigmaCardVsCsvRel": null,
       "detSpreadPct": null,
@@ -37959,7 +37959,18 @@
   "checked": 46,
   "unchanged": 46,
   "changed": [],
-  "verifiedFlips": [],
+  "verifiedFlips": [
+   {
+    "key": "psrJ1946DFM|B|ecc",
+    "from": false,
+    "to": true
+   },
+   {
+    "key": "psrJ1946PN|B|ecc",
+    "from": false,
+    "to": true
+   }
+  ],
   "noSource": 268,
   "limitation": "既存の `sigmaSource` の宛先だけを見る。**新しく繋がる量(対応表に無い宛先)は走行が要る** —— --regate は「繋がっている σ が動いたか」しか答えない。"
  },
@@ -38081,7 +38092,7 @@
     "obsCard": 0,
     "csv": 46
    },
-   "sourceVerified": 44,
+   "sourceVerified": 46,
    "arithOnlyPass": 4,
    "note": "5 区分(合/窓/否/従/転)は来歴・解釈の欄として不変(**CSV の σ は 5 区分の経路へ入れない** — 第251便c: σ が効くのは門だけ)。門は別欄であり、第251便c で観測 σ の転写(paper/data/solar-observations.csv の sigma 列)と一次表の照合印(sigma_primary)が入った。定義の一致は**同じ定義の検出器 A/B の広がり**だけで見る(定義違いの広がりは σ と比較しない)。**第253便b(第45報)**: ε_num は dt 2 段の差であり、これは**感度診断**であって誤差上限ではない(旧文言「上限としての宣言」は撤回)。門は 3 段+正の実測次数が揃うまで「収束済み」としない保留条件を持つ。これは判定を甘くする条件ではなく、**「まだ言えない」を言えるようにする条件**である。 **第256便d(第48報)**: 恒星 4 系 ✨✴️🌟💫 と 📻 を --dt3 で走らせ、保留を外した(3 段が揃った量は 29 件)。**収束したことは合ったことではない** —— 保留が外れた 4 件のうち2 件は「合(3σ)」、2 件(DFM 版 ✴️💫)は「否(3σ)」である。"
   },
@@ -39658,8 +39669,8 @@
  },
  "sigmaMarkAudit": {
   "rows": 521,
-  "legacyVerified": 40,
-  "strictVerified": 37,
+  "legacyVerified": 51,
+  "strictVerified": 49,
   "flips": [
    {
     "body": "Alpha Centauri B",
@@ -39674,43 +39685,16 @@
     "legacy": "verified",
     "strict": "unverified",
     "hasSigma": true
-   },
-   {
-    "body": "PSR J1946+2052",
-    "quantity": "eccentricity",
-    "legacy": "verified",
-    "strict": "unverified",
-    "hasSigma": true
    }
   ],
   "verifiedByMissing": [
    {
-    "body": "Alpha Centauri B",
-    "quantity": "eccentricity",
-    "hasSigma": true
-   },
-   {
-    "body": "Alpha Centauri B",
-    "quantity": "orbital_period",
-    "hasSigma": true
-   },
-   {
     "body": "Sirius B",
     "quantity": "eccentricity",
     "hasSigma": true
    },
    {
     "body": "Sirius B",
-    "quantity": "orbital_period",
-    "hasSigma": true
-   },
-   {
-    "body": "PSR J0737-3039 B",
-    "quantity": "eccentricity",
-    "hasSigma": true
-   },
-   {
-    "body": "PSR J0737-3039 B",
     "quantity": "orbital_period",
     "hasSigma": true
    },
@@ -39732,11 +39716,6 @@
    {
     "body": "PSR J1757-1854",
     "quantity": "periastron_advance",
-    "hasSigma": true
-   },
-   {
-    "body": "PSR J1946+2052",
-    "quantity": "orbital_period",
     "hasSigma": true
    },
    {
@@ -40217,7 +40196,7 @@
       "target": "B",
       "kind": "ecc",
       "quantity": "eccentricity",
-      "primaryVerified": false
+      "primaryVerified": true
      },
      {
       "target": "B",
