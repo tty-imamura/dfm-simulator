@@ -1,5 +1,5 @@
 {
- "when": "2026-09-17T10:27:49.229Z",
+ "when": "2026-09-17T16:51:24.689Z",
  "wave": "第262便d(第54報 W4)→ 第263便c(第55報 W3)で σ 未確認の状態名と不足一覧を足した",
  "inputs": {
   "calaudit": "tests/out/calaudit-w249.json",
@@ -100,7 +100,7 @@
   "what": "切断点 `unit-not-converted` の行を、**分子の Δϖ と同じ近点窓の近点間周期**で deg/orbit → deg/yr に換算したときの残差 σ 倍。**対照**として周期行(revolution)と丸めた観測周期でも換算し、**どの P を使うかで符号まで変わる**ことを数で置く。",
   "yearSec": 31557600,
   "contract": [
-   "分子の Δϖ と同じ近点・同じ窓の時刻から作った周期(`pPeriSec`)を使う",
+   "**第269便a**: 分子の Δϖ と**同じ近点集合**(傾き fit と同じ最初の nFit 近点)の平均間隔 `pPeriSameWindowSec` を使う —— `pPeriSec`(第252便b の 20 近点固定窓)は**同じ窓ではない**",
    "観測値と観測 σ は同じ係数で同じ単位へ写す(逆向きに写しても σ 倍は同じ)",
    "換算係数の数値誤差は σ に混ぜない —— 換算後の量そのものを h/h2/h4 で検査する",
    "obsCard の表示単位と内部判定単位は分けてよい"
@@ -114,14 +114,22 @@
     "obs": 0.00159808333333333,
     "sigma": 4.167e-9,
     "primary": {
-     "label": "近点間周期(判定に使う換算 — 分子と同じ窓)",
-     "periodSec": 7600537.079004313,
-     "periodDef": "periastron",
-     "simDegPerYear": 0.00009348135957835153,
-     "residual": -0.0015046019737549785,
-     "nSigma": -361075.5876541825
+     "label": "近点間周期(**傾きと同じ 59 近点(58 区間)**の平均 — 第269便a の新契約)",
+     "periodSec": 7600537.104389077,
+     "periodDef": "periastron-same-window",
+     "simDegPerYear": 0.00009348135926613646,
+     "residual": -0.0015046019740671936,
+     "nSigma": -361075.5877291081
     },
     "controls": [
+     {
+      "label": "近点間周期(**旧契約: 最初の 20 近点の固定窓** — 傾きと同じ近点集合ではない)",
+      "periodSec": 7600537.079004313,
+      "periodDef": "periastron-20window",
+      "simDegPerYear": 0.00009348135957835153,
+      "residual": -0.0015046019737549785,
+      "nSigma": -361075.5876541825
+     },
      {
       "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
       "periodSec": 7600536.760786635,
@@ -140,9 +148,17 @@
      }
     ],
     "inverseCheck": {
-     "obsDegPerOrbit": 0.0003848927557969803,
-     "sigmaDegPerOrbit": 1.0036073088007633e-9,
-     "nSigma": -361075.5876541826
+     "obsDegPerOrbit": 0.00038489275708246986,
+     "sigmaDegPerOrbit": 1.003607312152676e-9,
+     "nSigma": -361075.58772910805
+    },
+    "previous": {
+     "contract": "20-periastron period window(第268便a)",
+     "periodSec": 7600537.079004313,
+     "simDegPerYear": 0.00009348135957835153,
+     "residual": -0.0015046019737549785,
+     "nSigma": -361075.5876541825,
+     "why": "傾きは 59 近点・周期は 20 近点で、**同じ近点集合ではなかった**(換算契約の未達)"
     },
     "verdict": "保留(数値収束が未確認)"
    },
@@ -154,14 +170,22 @@
     "obs": 0.00159808333333333,
     "sigma": 4.167e-9,
     "primary": {
-     "label": "近点間周期(判定に使う換算 — 分子と同じ窓)",
-     "periodSec": 7600537.078758849,
-     "periodDef": "periastron",
-     "simDegPerYear": 0.00009336278475685393,
-     "residual": -0.001504720548576476,
-     "nSigma": -361104.0433348875
+     "label": "近点間周期(**傾きと同じ 59 近点(58 区間)**の平均 — 第269便a の新契約)",
+     "periodSec": 7600537.104157787,
+     "periodDef": "periastron-same-window",
+     "simDegPerYear": 0.00009336278444486077,
+     "residual": -0.0015047205488884694,
+     "nSigma": -361104.0434097599
     },
     "controls": [
+     {
+      "label": "近点間周期(**旧契約: 最初の 20 近点の固定窓** — 傾きと同じ近点集合ではない)",
+      "periodSec": 7600537.078758849,
+      "periodDef": "periastron-20window",
+      "simDegPerYear": 0.00009336278475685393,
+      "residual": -0.001504720548576476,
+      "nSigma": -361104.0433348875
+     },
      {
       "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
       "periodSec": 7600536.760922814,
@@ -172,9 +196,17 @@
      }
     ],
     "inverseCheck": {
-     "obsDegPerOrbit": 0.0003848927557845499,
-     "sigmaDegPerOrbit": 1.0036073087683513e-9,
-     "nSigma": -361104.04333488754
+     "obsDegPerOrbit": 0.00038489275707075734,
+     "sigmaDegPerOrbit": 1.0036073121221354e-9,
+     "nSigma": -361104.0434097598
+    },
+    "previous": {
+     "contract": "20-periastron period window(第268便a)",
+     "periodSec": 7600537.078758849,
+     "simDegPerYear": 0.00009336278475685393,
+     "residual": -0.001504720548576476,
+     "nSigma": -361104.0433348875,
+     "why": "傾きは 59 近点・周期は 20 近点で、**同じ近点集合ではなかった**(換算契約の未達)"
     },
     "verdict": "保留(数値収束が未確認)"
    },
@@ -182,37 +214,57 @@
     "id": "solarInner",
     "emoji": "🌞",
     "target": "水星",
-    "measDegPerOrbit": -2.327025246470399,
+    "measDegPerOrbit": -0.32575336783925,
     "obs": 0.00159808333333333,
     "sigma": 4.167e-9,
     "primary": {
-     "label": "近点間周期(判定に使う換算 — 分子と同じ窓)",
-     "periodSec": null,
-     "periodDef": "periastron",
-     "simDegPerYear": null,
-     "residual": null,
-     "nSigma": null
+     "label": "近点間周期(**傾きと同じ 9 近点(8 区間)**の平均 — 第269便a の新契約)",
+     "periodSec": 14229247.946863765,
+     "periodDef": "periastron-same-window",
+     "simDegPerYear": -0.7224552217596086,
+     "residual": -0.724053305092942,
+     "nSigma": -173758892.5109052
     },
     "controls": [
+     {
+      "label": "近点間周期(**旧契約: 最初の 20 近点の固定窓** — 傾きと同じ近点集合ではない)",
+      "periodSec": null,
+      "periodDef": "periastron-20window",
+      "simDegPerYear": null,
+      "residual": null,
+      "nSigma": null
+     },
      {
       "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
       "periodSec": 7600499.003331359,
       "periodDef": "revolution",
-      "simDegPerYear": -9.661909288564736,
-      "residual": -9.663507371898069,
-      "nSigma": -2319056244.755956
+      "simDegPerYear": -1.3525420470969227,
+      "residual": -1.354140130430256,
+      "nSigma": -324967633.89255005
      },
      {
       "label": "丸めた観測周期(**使わない** — 観測の丸め幅が入る)",
       "periodSec": 7600521.6,
       "periodDef": "observed-rounded",
-      "simDegPerYear": -9.66188056330427,
-      "residual": -9.663478646637603,
-      "nSigma": -2319049351.244925
+      "simDegPerYear": -1.352538025932841,
+      "residual": -1.3541361092661743,
+      "nSigma": -324966668.8903706
      }
     ],
-    "inverseCheck": null,
-    "verdict": "換算不能(同じ窓の近点間周期が未測定)"
+    "inverseCheck": {
+     "obsDegPerOrbit": 0.0007205720330364314,
+     "sigmaDegPerOrbit": 1.878890542835365e-9,
+     "nSigma": -173758892.51090518
+    },
+    "previous": {
+     "contract": "20-periastron period window(第268便a)",
+     "periodSec": null,
+     "simDegPerYear": null,
+     "residual": null,
+     "nSigma": null,
+     "why": "傾きは 9 近点・周期は 20 近点で、**同じ近点集合ではなかった**(換算契約の未達)"
+    },
+    "verdict": "保留(数値収束が未確認)"
    },
    {
     "id": "saturnZonalD68",
@@ -222,14 +274,22 @@
     "obs": 13968.25575,
     "sigma": 2.922,
     "primary": {
-     "label": "近点間周期(判定に使う換算 — 分子と同じ窓)",
-     "periodSec": 18224.858223651565,
-     "periodDef": "periastron",
-     "simDegPerYear": 13925.529966286234,
-     "residual": -42.72578371376585,
-     "nSigma": -14.622102571446218
+     "label": "近点間周期(**傾きと同じ 58 近点(57 区間)**の平均 — 第269便a の新契約)",
+     "periodSec": 18224.862222665284,
+     "periodDef": "periastron-same-window",
+     "simDegPerYear": 13925.526910658999,
+     "residual": -42.72883934100173,
+     "nSigma": -14.623148302875334
     },
     "controls": [
+     {
+      "label": "近点間周期(**旧契約: 最初の 20 近点の固定窓** — 傾きと同じ近点集合ではない)",
+      "periodSec": 18224.858223651565,
+      "periodDef": "periastron-20window",
+      "simDegPerYear": 13925.529966286234,
+      "residual": -42.72578371376585,
+      "nSigma": -14.622102571446218
+     },
      {
       "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
       "periodSec": 17865.949830569363,
@@ -248,9 +308,17 @@
      }
     ],
     "inverseCheck": {
-     "obsDegPerOrbit": 8.066820058415587,
-     "sigmaDegPerOrbit": 0.0016874868725603302,
-     "nSigma": -14.622102571445408
+     "obsDegPerOrbit": 8.066821828488292,
+     "sigmaDegPerOrbit": 0.0016874872428393783,
+     "nSigma": -14.623148302875121
+    },
+    "previous": {
+     "contract": "20-periastron period window(第268便a)",
+     "periodSec": 18224.858223651565,
+     "simDegPerYear": 13925.529966286234,
+     "residual": -42.72578371376585,
+     "nSigma": -14.622102571446218,
+     "why": "傾きは 58 近点・周期は 20 近点で、**同じ近点集合ではなかった**(換算契約の未達)"
     },
     "verdict": "保留(数値収束が未確認)"
    }
@@ -813,7 +881,7 @@
    "target": "月",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": -0.00003668913598356589,
+   "meas": -0.0000366891347754969,
    "sigmaCard": null,
    "csvBody": "Moon",
    "csvQuantity": "periastron_advance",
@@ -903,7 +971,7 @@
    "target": "月",
    "unit": "s",
    "obs": 279284760,
-   "meas": null,
+   "meas": 314652382.79521143,
    "sigmaCard": null,
    "csvBody": "Moon",
    "csvQuantity": "periastron_advance",
@@ -933,7 +1001,7 @@
    "target": "月",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": 2.8956582162653417,
+   "meas": 2.719343565284297,
    "sigmaCard": null,
    "csvBody": "Moon",
    "csvQuantity": "periastron_advance",
@@ -1018,7 +1086,7 @@
    "target": "月",
    "unit": "s",
    "obs": 279284760,
-   "meas": 326453183.0857023,
+   "meas": 343687191.44003934,
    "sigmaCard": null,
    "csvBody": "Moon",
    "csvQuantity": "periastron_advance",
@@ -1349,7 +1417,7 @@
    "residual": null,
    "nSigma": null,
    "numOk": null,
-   "gateStatusBefore": "未判定",
+   "gateStatusBefore": "数値未解決",
    "verdict": "保留(σ の単位が obsCard と違う・未換算)",
    "guards": null,
    "unitConvertedFirst": {
@@ -1359,14 +1427,22 @@
     "obsValue": 0.00159808333333333,
     "obsSigma": 4.167e-9,
     "primary": {
-     "label": "近点間周期(判定に使う換算 — 分子と同じ窓)",
-     "periodSec": 7600537.079004313,
-     "periodDef": "periastron",
-     "simDegPerYear": 0.00009348135957835153,
-     "residual": -0.0015046019737549785,
-     "nSigma": -361075.5876541825
+     "label": "近点間周期(**傾きと同じ 59 近点(58 区間)**の平均 — 第269便a の新契約)",
+     "periodSec": 7600537.104389077,
+     "periodDef": "periastron-same-window",
+     "simDegPerYear": 0.00009348135926613646,
+     "residual": -0.0015046019740671936,
+     "nSigma": -361075.5877291081
     },
     "controls": [
+     {
+      "label": "近点間周期(**旧契約: 最初の 20 近点の固定窓** — 傾きと同じ近点集合ではない)",
+      "periodSec": 7600537.079004313,
+      "periodDef": "periastron-20window",
+      "simDegPerYear": 0.00009348135957835153,
+      "residual": -0.0015046019737549785,
+      "nSigma": -361075.5876541825
+     },
      {
       "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
       "periodSec": 7600536.760786635,
@@ -1384,10 +1460,18 @@
       "nSigma": -361075.5419662881
      }
     ],
+    "previous": {
+     "contract": "20-periastron period window(第268便a)",
+     "periodSec": 7600537.079004313,
+     "simDegPerYear": 0.00009348135957835153,
+     "residual": -0.0015046019737549785,
+     "nSigma": -361075.5876541825,
+     "why": "傾きは 59 近点・周期は 20 近点で、**同じ近点集合ではなかった**(換算契約の未達)"
+    },
     "inverseCheck": {
-     "obsDegPerOrbit": 0.0003848927557969803,
-     "sigmaDegPerOrbit": 1.0036073088007633e-9,
-     "nSigma": -361075.5876541826
+     "obsDegPerOrbit": 0.00038489275708246986,
+     "sigmaDegPerOrbit": 1.003607312152676e-9,
+     "nSigma": -361075.58772910805
     },
     "guards": {
      "ok": false,
@@ -1484,7 +1568,7 @@
    "residual": null,
    "nSigma": null,
    "numOk": null,
-   "gateStatusBefore": "未判定",
+   "gateStatusBefore": "数値未解決",
    "verdict": "保留(σ の単位が obsCard と違う・未換算)",
    "guards": null,
    "unitConvertedFirst": {
@@ -1494,14 +1578,22 @@
     "obsValue": 0.00159808333333333,
     "obsSigma": 4.167e-9,
     "primary": {
-     "label": "近点間周期(判定に使う換算 — 分子と同じ窓)",
-     "periodSec": 7600537.078758849,
-     "periodDef": "periastron",
-     "simDegPerYear": 0.00009336278475685393,
-     "residual": -0.001504720548576476,
-     "nSigma": -361104.0433348875
+     "label": "近点間周期(**傾きと同じ 59 近点(58 区間)**の平均 — 第269便a の新契約)",
+     "periodSec": 7600537.104157787,
+     "periodDef": "periastron-same-window",
+     "simDegPerYear": 0.00009336278444486077,
+     "residual": -0.0015047205488884694,
+     "nSigma": -361104.0434097599
     },
     "controls": [
+     {
+      "label": "近点間周期(**旧契約: 最初の 20 近点の固定窓** — 傾きと同じ近点集合ではない)",
+      "periodSec": 7600537.078758849,
+      "periodDef": "periastron-20window",
+      "simDegPerYear": 0.00009336278475685393,
+      "residual": -0.001504720548576476,
+      "nSigma": -361104.0433348875
+     },
      {
       "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
       "periodSec": 7600536.760922814,
@@ -1511,10 +1603,18 @@
       "nSigma": -361104.0423979531
      }
     ],
+    "previous": {
+     "contract": "20-periastron period window(第268便a)",
+     "periodSec": 7600537.078758849,
+     "simDegPerYear": 0.00009336278475685393,
+     "residual": -0.001504720548576476,
+     "nSigma": -361104.0433348875,
+     "why": "傾きは 59 近点・周期は 20 近点で、**同じ近点集合ではなかった**(換算契約の未達)"
+    },
     "inverseCheck": {
-     "obsDegPerOrbit": 0.0003848927557845499,
-     "sigmaDegPerOrbit": 1.0036073087683513e-9,
-     "nSigma": -361104.04333488754
+     "obsDegPerOrbit": 0.00038489275707075734,
+     "sigmaDegPerOrbit": 1.0036073121221354e-9,
+     "nSigma": -361104.0434097598
     },
     "guards": {
      "ok": false,
@@ -1710,7 +1810,7 @@
    "target": "地球",
    "unit": "s",
    "obs": 31558118.4,
-   "meas": 31558333.341581333,
+   "meas": 31558311.799095467,
    "sigmaCard": null,
    "csvBody": "Earth",
    "csvQuantity": "orbital_period",
@@ -1740,7 +1840,7 @@
    "target": "火星",
    "unit": "s",
    "obs": 59355072,
-   "meas": 59354173.76001175,
+   "meas": 59353327.93005379,
    "sigmaCard": null,
    "csvBody": "Mars",
    "csvQuantity": "orbital_period",
@@ -1850,7 +1950,7 @@
    "target": "水星",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": -2.327025246470399,
+   "meas": -0.32575336783925,
    "sigmaCard": null,
    "csvBody": "Mercury",
    "csvQuantity": "periastron_advance",
@@ -1876,32 +1976,52 @@
     "obsValue": 0.00159808333333333,
     "obsSigma": 4.167e-9,
     "primary": {
-     "label": "近点間周期(判定に使う換算 — 分子と同じ窓)",
-     "periodSec": null,
-     "periodDef": "periastron",
-     "simDegPerYear": null,
-     "residual": null,
-     "nSigma": null
+     "label": "近点間周期(**傾きと同じ 9 近点(8 区間)**の平均 — 第269便a の新契約)",
+     "periodSec": 14229247.946863765,
+     "periodDef": "periastron-same-window",
+     "simDegPerYear": -0.7224552217596086,
+     "residual": -0.724053305092942,
+     "nSigma": -173758892.5109052
     },
     "controls": [
+     {
+      "label": "近点間周期(**旧契約: 最初の 20 近点の固定窓** — 傾きと同じ近点集合ではない)",
+      "periodSec": null,
+      "periodDef": "periastron-20window",
+      "simDegPerYear": null,
+      "residual": null,
+      "nSigma": null
+     },
      {
       "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
       "periodSec": 7600499.003331359,
       "periodDef": "revolution",
-      "simDegPerYear": -9.661909288564736,
-      "residual": -9.663507371898069,
-      "nSigma": -2319056244.755956
+      "simDegPerYear": -1.3525420470969227,
+      "residual": -1.354140130430256,
+      "nSigma": -324967633.89255005
      },
      {
       "label": "丸めた観測周期(**使わない** — 観測の丸め幅が入る)",
       "periodSec": 7600521.6,
       "periodDef": "observed-rounded",
-      "simDegPerYear": -9.66188056330427,
-      "residual": -9.663478646637603,
-      "nSigma": -2319049351.244925
+      "simDegPerYear": -1.352538025932841,
+      "residual": -1.3541361092661743,
+      "nSigma": -324966668.8903706
      }
     ],
-    "inverseCheck": null,
+    "previous": {
+     "contract": "20-periastron period window(第268便a)",
+     "periodSec": null,
+     "simDegPerYear": null,
+     "residual": null,
+     "nSigma": null,
+     "why": "傾きは 9 近点・周期は 20 近点で、**同じ近点集合ではなかった**(換算契約の未達)"
+    },
+    "inverseCheck": {
+     "obsDegPerOrbit": 0.0007205720330364314,
+     "sigmaDegPerOrbit": 1.878890542835365e-9,
+     "nSigma": -173758892.51090518
+    },
     "guards": {
      "ok": false,
      "missing": [
@@ -1913,7 +2033,7 @@
      "verdict": "保留(数値収束が未確認)",
      "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
     },
-    "verdict": "換算不能(同じ窓の近点間周期が未測定)",
+    "verdict": "保留(数値収束が未確認)",
     "note": "**正式判定は「数値未解決」**(3 段の収束の前に否とも合とも言わない)。既定の 4 値と切断点 `unit-not-converted` は**据え置き**である。"
    },
    "declaredFirst": null
@@ -1988,7 +2108,7 @@
    "target": "金星",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": -4.539540703077882,
+   "meas": 3.7921551009153394,
    "sigmaCard": null,
    "csvBody": "Venus",
    "csvQuantity": "periastron_advance",
@@ -2048,7 +2168,7 @@
    "target": "地球",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": 77.97496188175242,
+   "meas": 26.743730362912988,
    "sigmaCard": null,
    "csvBody": "Earth",
    "csvQuantity": "periastron_advance",
@@ -2108,7 +2228,7 @@
    "target": "火星",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": null,
+   "meas": 7.803886264219639,
    "sigmaCard": null,
    "csvBody": "Mars",
    "csvQuantity": "periastron_advance",
@@ -3573,7 +3693,7 @@
    "target": "ウンブリエル",
    "unit": "s",
    "obs": 358056.8064,
-   "meas": 358093.10038479563,
+   "meas": 358079.59246302873,
    "sigmaCard": null,
    "csvBody": "Umbriel",
    "csvQuantity": "orbital_period",
@@ -3603,7 +3723,7 @@
    "target": "チタニア",
    "unit": "s",
    "obs": 752186.9088,
-   "meas": 752327.4922677963,
+   "meas": 752215.2982110824,
    "sigmaCard": null,
    "csvBody": "Titania",
    "csvQuantity": "orbital_period",
@@ -3633,7 +3753,7 @@
    "target": "オベロン",
    "unit": "s",
    "obs": 1163223.4176,
-   "meas": 1163705.2425546409,
+   "meas": 1163316.6195162511,
    "sigmaCard": null,
    "csvBody": "Oberon",
    "csvQuantity": "orbital_period",
@@ -3778,7 +3898,7 @@
    "target": "ミランダ",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": -0.1539473749829545,
+   "meas": 0.0032046725808195153,
    "sigmaCard": null,
    "csvBody": "Miranda",
    "csvQuantity": "periastron_advance",
@@ -3838,7 +3958,7 @@
    "target": "アリエル",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": -0.5860777810910747,
+   "meas": -0.09566272978840441,
    "sigmaCard": null,
    "csvBody": "Ariel",
    "csvQuantity": "periastron_advance",
@@ -3898,7 +4018,7 @@
    "target": "ウンブリエル",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": null,
+   "meas": -0.17427685196516668,
    "sigmaCard": null,
    "csvBody": "Umbriel",
    "csvQuantity": "periastron_advance",
@@ -3928,7 +4048,7 @@
    "target": "チタニア",
    "unit": "-",
    "obs": null,
-   "meas": 0.0011242084954970093,
+   "meas": 0.0011514841142058945,
    "sigmaCard": null,
    "csvBody": "Titania",
    "csvQuantity": "eccentricity",
@@ -3958,7 +4078,7 @@
    "target": "チタニア",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": null,
+   "meas": -1.1612469373896093,
    "sigmaCard": null,
    "csvBody": "Titania",
    "csvQuantity": "periastron_advance",
@@ -4269,7 +4389,7 @@
    "residual": null,
    "nSigma": null,
    "numOk": null,
-   "gateStatusBefore": "未判定",
+   "gateStatusBefore": "数値未解決",
    "verdict": "保留(σ の単位が obsCard と違う・未換算)",
    "guards": null,
    "unitConvertedFirst": {
@@ -4279,14 +4399,22 @@
     "obsValue": 13968.25575,
     "obsSigma": 2.922,
     "primary": {
-     "label": "近点間周期(判定に使う換算 — 分子と同じ窓)",
-     "periodSec": 18224.858223651565,
-     "periodDef": "periastron",
-     "simDegPerYear": 13925.529966286234,
-     "residual": -42.72578371376585,
-     "nSigma": -14.622102571446218
+     "label": "近点間周期(**傾きと同じ 58 近点(57 区間)**の平均 — 第269便a の新契約)",
+     "periodSec": 18224.862222665284,
+     "periodDef": "periastron-same-window",
+     "simDegPerYear": 13925.526910658999,
+     "residual": -42.72883934100173,
+     "nSigma": -14.623148302875334
     },
     "controls": [
+     {
+      "label": "近点間周期(**旧契約: 最初の 20 近点の固定窓** — 傾きと同じ近点集合ではない)",
+      "periodSec": 18224.858223651565,
+      "periodDef": "periastron-20window",
+      "simDegPerYear": 13925.529966286234,
+      "residual": -42.72578371376585,
+      "nSigma": -14.622102571446218
+     },
      {
       "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
       "periodSec": 17865.949830569363,
@@ -4304,10 +4432,18 @@
       "nSigma": 64.29093510665182
      }
     ],
+    "previous": {
+     "contract": "20-periastron period window(第268便a)",
+     "periodSec": 18224.858223651565,
+     "simDegPerYear": 13925.529966286234,
+     "residual": -42.72578371376585,
+     "nSigma": -14.622102571446218,
+     "why": "傾きは 58 近点・周期は 20 近点で、**同じ近点集合ではなかった**(換算契約の未達)"
+    },
     "inverseCheck": {
-     "obsDegPerOrbit": 8.066820058415587,
-     "sigmaDegPerOrbit": 0.0016874868725603302,
-     "nSigma": -14.622102571445408
+     "obsDegPerOrbit": 8.066821828488292,
+     "sigmaDegPerOrbit": 0.0016874872428393783,
+     "nSigma": -14.623148302875121
     },
     "guards": {
      "ok": false,
@@ -4478,7 +4614,7 @@
    "target": "タイタン",
    "unit": "s",
    "obs": 1377648,
-   "meas": 1377386.5396477252,
+   "meas": 1377957.166140806,
    "sigmaCard": null,
    "csvBody": "Titan",
    "csvQuantity": "orbital_period",
@@ -4563,7 +4699,7 @@
    "target": "C環内縁",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": -2.275704242043395,
+   "meas": -0.23503598912113716,
    "sigmaCard": null,
    "csvBody": "Saturn ring C inner edge",
    "csvQuantity": "periastron_advance",
@@ -4653,7 +4789,7 @@
    "target": "ミマス",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": 24.939007178942713,
+   "meas": 22.24648518144112,
    "sigmaCard": null,
    "csvBody": "Mimas",
    "csvQuantity": "periastron_advance",
@@ -4683,7 +4819,7 @@
    "target": "タイタン",
    "unit": "-",
    "obs": null,
-   "meas": 0.00001772023852490983,
+   "meas": 0.000022198582972927165,
    "sigmaCard": null,
    "csvBody": "Titan",
    "csvQuantity": "eccentricity",
@@ -4713,7 +4849,7 @@
    "target": "タイタン",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": null,
+   "meas": -1.4304408492694973,
    "sigmaCard": null,
    "csvBody": "Titan",
    "csvQuantity": "periastron_advance",
@@ -4743,7 +4879,7 @@
    "target": "C環内縁",
    "unit": "deg/orbit",
    "obs": 0,
-   "meas": null,
+   "meas": 2.0825643211498095,
    "sigmaCard": null,
    "csvBody": "Saturn ring C inner edge",
    "csvQuantity": "periastron_advance",
@@ -4908,7 +5044,7 @@
    "target": "ミマス",
    "unit": "s",
    "obs": null,
-   "meas": 81508.62124525849,
+   "meas": 81512.02662179699,
    "sigmaCard": null,
    "csvBody": "Mimas",
    "csvQuantity": "orbital_period",
@@ -4968,7 +5104,7 @@
    "target": "ミマス",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": null,
+   "meas": 23.520550759425586,
    "sigmaCard": null,
    "csvBody": "Mimas",
    "csvQuantity": "periastron_advance",
@@ -4998,7 +5134,7 @@
    "target": "タイタン",
    "unit": "s",
    "obs": null,
-   "meas": 1377430.132315744,
+   "meas": 1377401.1323484175,
    "sigmaCard": null,
    "csvBody": "Titan",
    "csvQuantity": "orbital_period",
@@ -5028,7 +5164,7 @@
    "target": "タイタン",
    "unit": "-",
    "obs": null,
-   "meas": 0.000002022253346698775,
+   "meas": 0.00000643206368175186,
    "sigmaCard": null,
    "csvBody": "Titan",
    "csvQuantity": "eccentricity",

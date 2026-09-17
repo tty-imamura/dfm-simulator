@@ -1777,9 +1777,19 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   ```
   - `quantity` は**門が読む量**(`orbital_period` / `eccentricity` / `periastron_advance`)、
     `csvQuantity` は **CSV 上の鍵**(候補行は `<quantity>_candidate` という**別の鍵**である)。
-  - `value`・`sigma`・`source` は **CSV の行から 1 文字も変えずに写す**。器は「body・鍵・value・sigma が
-    完全一致する行が**ちょうど 1 件**」であることを毎回確かめ、決まらなければ**従来の行を使って理由を残す**
-    (黙って差し替えない・推測で当てない)。`sigma` が `null` の宣言は**行選択だけ**を決める(門へは入らない)。
-  - **宣言は行選択であって、単位の一致・観測量対応・数値収束の宣言ではない。** 宣言で動いた数は
-    「**宣言後の初判定**」として 4 値の**横の欄**(`declaredFirst`)に置き、**据え置きの 4 値は上書きしない**。
+  - `value`・`sigma`・`source`・`unit` は **CSV の行から 1 文字も変えずに写す**。
+    **第269便a: `body` / `quantity` / `source` / `unit` は必須**(非空の文字列)・`value` は有限・
+    `sigma` は `null` か**正の数**である。器は「body・鍵・**source**・**unit**・value・sigma が
+    完全一致する行が**ちょうど 1 件**」であることを毎回確かめる —— **同じ数値・同じ σ の別論文や、
+    同じ数値の別単位(s と day)を当てないため**である。**欠損値を 0 に変換しない**
+    (`Number(null)===0` なので、空欄の value に宣言値 0 が当たってしまう)。
+    **不正スキーマ(`schemaVersion≠1`・必須欄欠け・`sigma≤0`)・同じ key の重複宣言・宣言の解決失敗は
+    入力エラーとして器を止める**(`loadJudgementSources` が `ok:false` を返し、器は throw する ——
+    **別の解に戻して走行を続けない**)。`sigma` が `null` の宣言は**行選択だけ**を決める(門へは入らない)。
+  - **宣言は行選択であって、単位の一致・観測量対応・数値収束の宣言ではない。**
+    **第269便a: 宣言は AD5(署名便)までは診断欄だけに置く** —— `q.judgementSource`
+    (`applied:false`・`mode:"diagnostic-only-until-AD5"`・宣言行の value/σ は別欄 `declaredRow`)であり、
+    **門が読む `q.obsSigmaCsv` は従来行(ファイル順の最初)から採る**。中心値だけ旧参照・σ だけ新解、
+    という混在を作らないためである。σ 接続器側の「**宣言後の初判定**」は 4 値の**横の欄**
+    (`declaredFirst`)に置き、**据え置きの 4 値は上書きしない**。
   - **生成 AI はこのファイルを書かない**(採用解の宣言は原仮定者と統括の裁定である)。
