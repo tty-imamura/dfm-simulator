@@ -130,6 +130,12 @@ tests/out/*
 # QA `behavior.unitConvertedFirst` が「3 段が揃っている・見かけの次数が正・h 段が σ 接続器の換算後と
 # 一致する」を機械固定し、docs/PHYSICS.md〔第268便a〕§3 の表がこの値そのものなのでコミットする
 !tests/out/d68-w268a.json
+# 第269便d: 星団 47 Tuc の**比較サンプル v1a**(内部診断)の実測正本(tests/exp-w269d-cluster.mjs)。
+# QA `behavior.clusterCenterContract` が「原点基準の 12 値が第265便a の analogy-w265a.json と
+# Object.is で同一であること」、`behavior.clusterV1a` が「10 列 × 3 段・NaN 0・monotone:false の温存・
+# 47 Tuc の観測量に値の比較が 1 つも無いこと」、`docs.clusterV1bDesign` が「v1b の設計宣言 5 項が
+# JSON と PHYSICS の両方にあること」を突き合わせるのでコミットする
+!tests/out/cluster-w269d.json
 # 第134便: kF1 較正ハーネスの実測正本(論文3 再現性 — 外部レビュー P0 対応。
 # 本文の中心値〔q*=6.16/8.25/21.8・drag −5.6e-10・第122便 q*=4.59〕を提出コミットから再生成可能に)
 !tests/out/coreshell-results.json

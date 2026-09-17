@@ -1783,3 +1783,42 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   - **宣言は行選択であって、単位の一致・観測量対応・数値収束の宣言ではない。** 宣言で動いた数は
     「**宣言後の初判定**」として 4 値の**横の欄**(`declaredFirst`)に置き、**据え置きの 4 値は上書きしない**。
   - **生成 AI はこのファイルを書かない**(採用解の宣言は原仮定者と統括の裁定である)。
+- **星団の内部診断 JSON のスキーマ(第269便d — `tests/out/cluster-w269d.json`)**: 器 `tests/exp-w269d-cluster.mjs` が出す
+  **比較サンプル v1a(内部診断)**の出力である。**観測値は 1 つも入っておらず、47 Tuc の公表値との比較も 1 つも入っていない。**
+  ```json
+  { "meta": { "wave": "<便>", "when": "<ISO8601>", "codeCommit": "<12 桁>", "target": "beta/index.html",
+      "inputs": [ { "file": "<相対パス>", "bytes": 0, "mtime": "<ISO8601>", "sha256_16": "<16 桁>" } ],
+      "declarationVersion": "v1a-2026-09-17",
+      "window": { "tStart": 0, "tEnd": 9.6, "unit": "sim time", "why": "<窓の理由>" },
+      "grid": { "dt0": 0.016, "divs": [1,2,4], "seeds": [<2 本>], "nVariants": [<2 種>] },
+      "claim": "<主張の限定>", "doNotSay": ["<書かない言い方>"], "touched": "<触っていないもの>" },
+    "states": ["comparable","inside-interval","outside-interval","numerically-unresolved",
+               "mapping-unresolved","not-measurable","not-applicable"],
+    "presetFacts": [ { "id": "tuc47", "emoji": "🍇", "seed": 0, "n": 240, "plummerScale": 12.34,
+      "vMode": "random", "massCalibration": null } ],
+    "contracts": { "declaration": {…}, "commonF": {…}, "virialInit": {…}, "center": {…}, "boundFraction": {…} },
+    "geometry": { "theory": { "closedFormUntruncated": { "R1": 0, "R2": 0, "ratio": 1.7320508075688772 },
+      "truncatedNumeric": {…}, "derivation": "<導出>" }, "measured": { "perColumn": [ … ] } },
+    "columns": [ { "tag": "<列名>", "srcId": "tuc47", "seed": null, "n": null,
+      "stages": [ { "div": 1, "dt": 0.016, "ok": true, "nan": false, "clamp": 0,
+        "start": { "origin": {…}, "massCentroid": {…}, "densityPeak": {…},
+                   "centers": {…}, "centerDelta": {…}, "bound": {…} }, "end": { … } } ],
+      "richardson": { "origin": {…}, "massCentroid": {…}, "densityPeak": {…} },
+      "numerical":  { "<中心>": { "<量>": { "status": "numerically-unresolved|order-estimated" } } },
+      "boundFraction": {…}, "geometryRatio": {…} } ],
+    "virialCheck": { "rows": [ … ], "note": "<宣言と実測のずれ>" },
+    "centerContractCheck": { "savedW265a": {…}, "measuredOrigin": {…},
+      "bitIdentical": { "projected": true, "twoD": true, "core": true, "sigma": true }, "prelim": {…} },
+    "observationStates": { "rows": [ { "quantity": "sigma0", "state": "not-applicable",
+      "why": "<理由>", "comparisonWithheld": true, "csvRow": 5 } ], "tally": {…}, "comparableCount": 0 },
+    "v1bDesign": { "status": "declared-not-implemented", "items": [ { "id": "v1b-1", "title": "…",
+      "design": "…", "openQuestion": "…" } ], "doNotSay": [ … ] } }
+  ```
+  - **`states` は 7 語で固定**(`tests/lib-w269d-state.mjs` の `STATES`)。`observationStates.rows` は
+    **`comparable` 系以外の状態に `value` / `ratio` / `nSigma` / `residual` を持てない**(器が throw する)。
+    **`comparableCount` は 0 である**(47 Tuc の観測量と値の比較を出していない)。
+  - **`origin` の欄は第265便a(`tests/out/analogy-w265a.json`)の保存値と `Object.is` で同一**でなければならない
+    (QA `behavior.clusterCenterContract`)。中心オプションは**新しい欄を足しただけ**である。
+  - **`numerical` の `status` は 2 語だけ**で、`order-estimated` は「見かけの次数が推定できた」であって
+    **「収束した」ではない**。`monotone:false` は消さずに残す。
+  - **生成 AI はこのファイルを書かない**(内部診断の出力であって観測レコードではない)。
