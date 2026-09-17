@@ -1030,6 +1030,11 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
       **"inertia"** = 失われた重心の慣性だけを戻す(K=δ·mmᵀ/M²・δ=M−1ᵀH1)/
       **"constraint"** = 零方向を射影して擬似逆で解く(ゲージ条件 Σ_i a_i = 0)。
       **両案で加速度が変わる**ので、`law:"mesh-v2"` のときは `meshGauge` を**既定でも正準形に出す**。
+      **第268便b(既定の追認 —— 変更ではない)**: `MESH_V2_GAUGES` の先頭が `"inertia"` であり、
+      `meshGauge` を宣言しない `law:"mesh-v2"` は**基点から既に `"inertia"` で解いている**
+      (第265便b の統括推奨と実装が一致していることの確認であって、本便は 1 バイトも変えていない)。
+      **`geoPN=3` 全体の既定法則が `mesh-v2` になったわけではない** —— `law` の既定は `"toy"` のままで、
+      内蔵で `law` を宣言する本は依然として 0 本である。
     - **門**: `physics.geoPN=3` 専用・`sampleClass:"calibration"` では**拒否**・`toyClosure` と排他・
       `toyAllowDrag` と排他・未知の値と未知のゲージは拒否。宣言すると**警告 1 行**。
       **既定 "toy" は正準形に 1 文字も出ない**(内蔵で `law` を宣言する本は 0 本)。
