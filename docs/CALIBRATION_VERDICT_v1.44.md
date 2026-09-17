@@ -550,6 +550,116 @@ DDGR 列の ω̇ は `[25.7918222]` と**角括弧つきの GR 導出値**であ
 
 QA `docs.transcriptionCorrections`(新設)と `lint.sigmaMark` ⑧(追加)が上の表を機械固定する。
 
+#### 2.3⁗⁗ 第 3 回の確認記録の反映(**第269便b**・第59報 W2・器 `tests/exp-w269b-confirm3.mjs` / `tests/exp-w249b-calaudit.mjs --regate` / `tests/exp-w262d-solarsigma.mjs`)
+
+第59報(2026-09-17)の観測レコードの回答は「**J1946+2052 の判定解 5 行: A&A 版の表単体で確認**」
+「**追認 2 件: 確認**」「**タイタン環 2 行: 有料版の PDF でしか閲覧できないことを確認。目視では未確認だが、
+把握している数値を信用して進める**」「**X7 警告の残り: 同じ印を付けてよい**」の 4 つである。
+**動かしたのは印と note と DOI の url 欄だけ**で、**value・unit・source(出典ラベル)・sigma 列は
+1 バイトも動いていない**。**行選択(判定行)も 1 つも差し替えていない。**
+
+**(a) `verified-new` —— J1946+2052 の判定解 5 行(§2.3⁗‴(c) の 5 行が上がった)**
+
+| 行 | 解 | 量 | 原記載(A&A 版 Table 1 —— 表単体で確認) | 器の再現(値/σ の相対差) | 印 |
+|---:|---|---|---|---:|---|
+| 285 | DDFWHE | Pb | `0.07848805554(2) d` | 0.0e+0 / 1.1e−16 | `unverified` → **`verified`** |
+| 289 | DDFWHE | e | `0.0638363(8)` | 0.0e+0 / 0.0e+0 | `unverified` → **`verified`** |
+| 290 | DDFWHE | ω̇ | `25.79205(40) deg/yr` | 0.0e+0 / 0.0e+0 | `unverified` → **`verified`** |
+| 300 | DDGR | Pb | `0.078488055530(8) d` | 0.0e+0 / 1.1e−16 | `unverified` → **`verified`** |
+| 302 | DDGR | e | `0.0638365(4)` | 0.0e+0 / 0.0e+0 | `unverified` → **`verified`** |
+
+印を上げたのは `verified_by=原仮定者 2026-09-17; verified_at=Meng 2025 A&A 704 A153 Table 1
+<DDFWHE|DDGR> column (A&A table view); verified_value=<原記載>; confirmation_round=3` である。
+**第268便b の外部照合印はそのまま残している**(履歴。**印を上げたのは外部照合ではない**)。
+DDGR 列の ω̇ が角括弧つきの GR 導出値である旨(行 303)も不変である。
+
+**(b) `same-mark-copied` —— X7 警告の残りに同じ印を写した 5 行(印そのものは動いていない)**
+
+| 行 | 写す元 | 同じ表 | `verified_at`(写す元と一致) | 確認者(写す元の日付) | 印 before → after |
+|---:|---:|---|---|---|---|
+| 114 | 195 | Bond 2017 Table 4 | `Table 4 Eccentricity e` | 原仮定者 2026-09-16 | `verified` → `verified` |
+| 115 | 194 | Bond 2017 Table 4 | `Table 4 Orbital period P (year)` | 原仮定者 2026-09-16 | `verified` → `verified` |
+| 125 | 211 | Kramer 2021 Table IV | `Table IV Periastron advance (deg/yr)` | 原仮定者 2026-09-16 | `verified` → `verified` |
+| 148 | 290 | Meng 2025 Table 1 DDFWHE | `Meng 2025 A&A 704 A153 Table 1 DDFWHE column (A&A table view)` | 原仮定者 2026-09-17 | `verified` → `verified` |
+| 180 | 290 | 同上(併置行) | 同上 | 原仮定者 2026-09-17 | `verified` → `verified` |
+
+**規約(QA `lint.sigmaMark` ⑨ が機械固定する)**: ①写す元が実在して `verified`・②写す元が X7 の
+`verified_by=` を持つ(**確認者のいない行からは写さない**)・③`verified_at` が**写す元と一致**する・
+④確認者と**日付が写す元のもの**である(確認日を新しく作らない)。行 115 は行 194 と **4.16 s 離れている**
+(§2.3⁗‴(b)⑤)—— 印は写すが、**「完全に同一値」とは書かない**。
+
+**(c) 写す元が無いので印不変の 6 行(理由を note に)**
+
+| 行 | 表 | 写す元の候補 | 候補の状態 | 印 |
+|---:|---|---|---|---|
+| 136 / 137 / 139 | Cameron 2018 Table 2 | 併置行 260 / 262 / 263 | **自身が未確認**(`confirmation_2=not-found-by-author`) | **不変**(X7 警告のまま) |
+| 171 / 172 / 173 | Stairs 2002 Table 1 | **この表を転写した併置行がファイルに無い** | — | **不変**(X7 警告のまま) |
+
+**(d) タイタン環 2 行の裁定 —— 値と σ を残し、印は `unverified` のまま**
+
+| 行 | 量 | 値 | σ | 印 | 足した注記 |
+|---:|---|---|---|---|---|
+| 420 | Titan ringlet \| semi_major_axis | `77878.7` km(**不変**) | `0.15`(**不変**) | `unverified`(**不変**) | `confirmation_3=paywalled-not-viewed-by-author 2026-09-17` / `author_decision=trust-transcribed-values-and-proceed 2026-09-17` / `secondary_location=Nicholson 2014 Icarus 241 373 Table 7`(統括の予備測定・二次取得・未確認) |
+| 421 | Titan ringlet \| pattern_speed_m1 | `22.5753` deg/day(**不変**) | `0.0008`(**不変**) | `unverified`(**不変**) | 同上 + `acknowledgement_pending=2026-09-17`(量名の改名は追認 2 件に含まれない) |
+
+**値と σ を空欄にする隔離は採らない**(原仮定者の裁定)。**目視していないものを確認とは書かない**ので
+X7 の確認者は入れない。**C 環内縁の観測門へは転送しない**(AB3 は閉じたまま・行 418/419 は空のまま)。
+門に入る行ではないので **4 値は動かない**。
+
+**(e) 追認 2 件と、追認に含まれないもの**
+
+| 追認の対象 | 行 | 印 |
+|---|---:|---|
+| 行 137 の σ 訂正(`1.0e-7` → `1.0e-6`) | 137 | `acknowledged_by=原仮定者 2026-09-17` |
+| 行 136/137/139 の DOI 訂正(`slx185` → `sly003`) | 136 / 137 / 139 | `acknowledged_by=原仮定者 2026-09-17` |
+| **行 421 の量名改名**(`mean_motion` → `pattern_speed_m1`) | 421 | **未追認**(`acknowledgement_pending=2026-09-17`・決断事項) |
+
+**(f) AD7 —— §2.3⁗‴(a)② の「残り 5 行」を訂正した**
+
+| 行 | body \| quantity | url before | url after |
+|---:|---|---|---|
+| 133 | PSR J1757−1854 \| mass | `…/slx185` | **`…/sly003`** |
+| 134 | PSR J1757−1854 companion \| mass | `…/slx185` | **`…/sly003`** |
+| 135 | PSR J1757−1854 \| rotation_period | `…/slx185` | **`…/sly003`** |
+| 138 | PSR J1757−1854 \| semi_major_axis | `…/slx185` | **`…/sly003`** |
+| 140 | PSR J1757−1854 \| orbital_period_derivative | `…/slx185` | **`…/sly003`** |
+| **141** | PSR J1757−1854 \| radius | `…/science.abb4317` | **対象外**(Dietrich 2020 の半径 proxy) |
+
+**照合は行番号ではなく body・quantity・旧 URL で行った。** 訂正後、CSV 全体で旧 DOI は
+**url 欄に 0 件・note の `previous_url=` に 8 件**である。
+
+§2.3⁗‴(a)② は残りを「134/135/138/140/141」と書いたが、**行番号で数えた見込みであって照合の結果ではなかった**。
+body・quantity・旧 URL で照合すると**残っていたのは 133/134/135/138/140 の 5 行**で、**141 は別の論文**である
+(その記述は消していない —— 本節が訂正の記録である)。
+
+**(g) SPARC 10 点(星団/銀河 CSV 行 138〜147)—— 外部照合印だけ(`verified` にしない)**
+
+`value_checked_by=external review 2026-09-17; value_checked_at=SPARC MassModels_Lelli2016c.mrt
+NGC3198 (43 points, matched 10/10)` を 10 行に置いた。**印は 10 行とも `unverified` のまま**で
+X7 の `verified_by=` は空である。`e_Vobs` は非円運動のランダム誤差で**傾斜の系統誤差を含まない**ので
+**独立 Gaussian の全誤差と見なさない**。**10 点は 🌃 の独立 hold-out ではない**(🌃 の NFW は同じ 43 点へ fit 済み)。
+
+**(h) 4 値・切断点・印の census は動いていない(または宣言どおりにだけ動いた)**
+
+| | 第268便b | **第269便b** |
+|---|---:|---:|
+| 切断点 `csv-sigma-empty` / `kind-not-gated` / `unit-not-converted` | 109 / 26 / 4 | **109 / 26 / 4** |
+| 接続できた量(門へ σ が届く) | 0 | **0** |
+| 太陽系の **4 値**(合/量限定合/否/保留) | 0/0/0/**16** | **0/0/0/16** |
+| 全体の **4 値** | 0/2/2/**33** | **0/2/2/33** |
+| `--regate` の σ 宛先 / σ の値の変化 / 一次表の印の反転 | 46 / 0 / 0 | **46 / 0 / 0** |
+| `solar-observations.csv`(521 行)の `verified`(厳密読み) | 49 | **54**((a) の 5 行だけ) |
+| 同・旧読み(部分一致)の `verified` | 51 | **56**(反転は 2 行のまま) |
+| 同・**X7 警告**(`verified` なのに確認者が無い行) | 11 | **6**((b) の 5 行が解けた) |
+| `cluster-galaxy-observations.csv` の `verified` | 6 | **6**((g) は印を上げない) |
+| 2026-09-17 の外部照合印を持つ太陽系の行 | 5(すべて `unverified`) | **5(すべて `verified` —— 上げたのは (a) の確認であって外部照合ではない)** |
+
+QA `docs.confirm3-sync`(新設)・`lint.sigmaMark` ⑨(追加)・`docs.transcriptionCorrections` ②(8 行へ更新)・
+`docs.clusterGalaxySigma` ⑥(追加)が上の表を機械固定する。
+
+**書かないこと。** 「タイタン環の σ を原仮定者が確認した」「判定が増えた」「太陽系の σ が揃った」
+「J1946 を判定解に昇格した」「星団・銀河を門に入れた」。
+
 ## 3. 条件不一致 8 行(隔離した理由と、元の証拠)
 
 obsCard の行が「**kFrame=0 対照**」と明記しているのに、割り当てられている測定値は

@@ -311,7 +311,18 @@ const pending = PENDING.map((p) => {
   else {
     if (!o.noteTag) bad.push(`行 ${p.ln} に same_table_as_verified_row= が無い`);
     if (o.round2) bad.push(`行 ${p.ln} に本便の確認印が付いている(明示の回答が無い行である)`);
-    if (readVerifiedBy(r.note).present) bad.push(`行 ${p.ln} に verified_by が付いている`);
+    // 第269便b(第59報「**X7 警告の残り: 同じ印を付けてよい**」): この 3 行は**第 3 回の確認記録で
+    // 解けた**。原仮定者が「同じ表・同じ値の verified 行と同じ印を付けてよい」と裁定したので、
+    // `verified_by=` は**写す元の行の確認者と日付**を持つ形で入りうる。**印そのものは第267便a の
+    // 時点から 1 bit も動いていない**(この 3 行は本便の前から `verified` である)。
+    // ここで固定し直すのは「`verified_by=` が入る場合は `same_mark_as=` と `confirmation_round=3` を
+    // 伴う」ことで、第 2 回の確認印(`confirmation_round=2`)が付いていないことは上の行が見る。
+    // 第 3 回の突き合わせそのものは `tests/exp-w269b-confirm3.mjs` が数える。
+    o.round3 = has(r.note, 'confirmation_round=3');
+    o.sameMarkAs = /(?:^|[^A-Za-z0-9_])same_mark_as=(\d+)/.exec(r.note);
+    o.sameMarkAs = o.sameMarkAs ? o.sameMarkAs[1] : null;
+    if (readVerifiedBy(r.note).present && !(o.round3 && o.sameMarkAs === p.sameAs))
+      bad.push(`行 ${p.ln} に verified_by が付いている(第 3 回の同印写しの記録が無い)`);
   }
   return o;
 });
@@ -358,9 +369,22 @@ const after = { solar: census(SOLAR_F), cluster: census(CLUSTER_F), transient: c
 const round2Total = after.solar.round2 + after.cluster.round2 + after.transient.round2;
 if (round2Total !== CONFIRM2.length)
   bad.push(`${ROUND_TAG} を持つ行が ${round2Total}(宣言は ${CONFIRM2.length})`);
-if (after.solar.verified - BEFORE.solar.verified
+// 第269便b: **後の便で上がった行はこの増分に数えない**。第 3 回の確認記録
+// (`confirmation_round=3` —— 第269便b)で `unverified` → `verified` になった行は、第267便a の
+// 宣言表とは別の回の結果である。便を跨いで固定値が黙って増えるのを防ぐため、**回で分ける**
+// (第 3 回の突き合わせは `tests/exp-w269b-confirm3.mjs` が数える)。
+let round3Verified = 0;
+for (const r of CSV[SOLAR_F]) {
+  if (!/(?:^|[^A-Za-z0-9_])confirmation_round=3\b/.test(r.note)) continue;
+  if (!readSigmaMark(r.note).verified) continue;
+  // 第 2 回で既に verified だった行(同印写しの 114/115/125)は増分に入っていないので除く
+  if (/(?:^|[^A-Za-z0-9_])same_mark_as=/.test(r.note)) continue;
+  round3Verified++;
+}
+if (after.solar.verified - round3Verified - BEFORE.solar.verified
   !== CONFIRM2.filter((d) => d.file === SOLAR_F).length - 5)
-  bad.push('太陽系 CSV の verified の増分が宣言と合わない(既に verified だった 5 行を除く)');
+  bad.push('太陽系 CSV の verified の増分が宣言と合わない(既に verified だった 5 行と'
+    + `第 3 回で上がった ${round3Verified} 行を除く)`);
 // **外部確認印だけで verified になっている行は 1 つも無い**(Z11 —— 第266便a と同じ検査)
 const externalOnlyVerified = [];
 for (const f of [SOLAR_F, CLUSTER_F, TRANSIENT_F]) for (const r of CSV[f]) {

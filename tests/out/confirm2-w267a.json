@@ -1,5 +1,5 @@
 {
- "when": "2026-09-17T10:03:40.992Z",
+ "when": "2026-09-17T16:05:19.097Z",
  "wave": "第267便a(第57報 追加 3・4・W1)",
  "provenance": "原仮定者が提供した確認記録(2026-09-17・第 2 回)。確認日は記録の記載どおり 2026-09-16。一次資料は各行の source/url にある。**器は印を上げない** —— 上げるのは原仮定者の照合である。",
  "rule": [
@@ -562,7 +562,9 @@
    "why": "Bond 2017 Table 4 の e —— 194/195 と同じ表・同じ値だが、確認記録に明示が無い",
    "mark": "verified",
    "noteTag": true,
-   "round2": false
+   "round2": false,
+   "round3": true,
+   "sameMarkAs": "195"
   },
   {
    "file": "paper/data/solar-observations.csv",
@@ -573,7 +575,9 @@
    "why": "Bond 2017 Table 4 の P —— 同上",
    "mark": "verified",
    "noteTag": true,
-   "round2": false
+   "round2": false,
+   "round3": true,
+   "sameMarkAs": "194"
   },
   {
    "file": "paper/data/solar-observations.csv",
@@ -584,7 +588,9 @@
    "why": "Kramer 2021 Table IV の ω̇ —— 211 と同じ表・同じ値だが、確認記録に明示が無い",
    "mark": "verified",
    "noteTag": true,
-   "round2": false
+   "round2": false,
+   "round3": true,
+   "sameMarkAs": "211"
   }
  ],
  "notFound": [
@@ -594,7 +600,7 @@
    "body": "PSR J1946+2052",
    "quantity": "orbital_period",
    "what": "Meng 2025 Table 1 DDFWHE",
-   "mark": "unverified",
+   "mark": "verified",
    "tag": true,
    "round2": false
   },
@@ -604,7 +610,7 @@
    "body": "PSR J1946+2052",
    "quantity": "eccentricity",
    "what": "Meng 2025 Table 1 DDFWHE",
-   "mark": "unverified",
+   "mark": "verified",
    "tag": true,
    "round2": false
   },
@@ -614,7 +620,7 @@
    "body": "PSR J1946+2052",
    "quantity": "periastron_advance",
    "what": "Meng 2025 Table 1 DDFWHE",
-   "mark": "unverified",
+   "mark": "verified",
    "tag": true,
    "round2": false
   },
@@ -624,7 +630,7 @@
    "body": "PSR J1946+2052",
    "quantity": "orbital_period",
    "what": "Meng 2025 Table 1 DDGR",
-   "mark": "unverified",
+   "mark": "verified",
    "tag": true,
    "round2": false
   },
@@ -634,7 +640,7 @@
    "body": "PSR J1946+2052",
    "quantity": "eccentricity",
    "what": "Meng 2025 Table 1 DDGR",
-   "mark": "unverified",
+   "mark": "verified",
    "tag": true,
    "round2": false
   },
@@ -1075,9 +1081,9 @@
   "after": {
    "solar": {
     "rows": 521,
-    "verified": 49,
-    "verifiedBy": 38,
-    "verifiedWithoutBy": 11,
+    "verified": 54,
+    "verifiedBy": 48,
+    "verifiedWithoutBy": 6,
     "round2": 17,
     "round2Verified": 17
    },
@@ -1116,14 +1122,14 @@
    "sigmaRegate": {
     "checked": 46,
     "changed": 0,
-    "verifiedFlips": 2
+    "verifiedFlips": 0
    },
    "sigmaMarkAudit": {
     "rows": 521,
-    "legacyVerified": 51,
-    "strictVerified": 49,
+    "legacyVerified": 56,
+    "strictVerified": 54,
     "flips": 2,
-    "verifiedByMissing": 11
+    "verifiedByMissing": 6
    }
   },
   "solarsigma": {

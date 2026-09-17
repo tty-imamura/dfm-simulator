@@ -65,6 +65,13 @@ tests/out/*
 #   突き合わせ、docs/CALIBRATION_VERDICT_v1.44.md §2.3⁗″ §5.12 と docs/PHYSICS.md 〔第267便a〕の
 #   表がこの値そのものなのでコミットする(**エンジンは 1 步も走らせていない**)
 !tests/out/confirm2-w267a.json
+# 第269便b: 確認記録(2026-09-17・第 3 回)の突き合わせ(tests/exp-w269b-confirm3.mjs)の実測正本。
+#   QA `docs.confirm3-sync` が「原記載から value と σ が再現できた行だけに印が付いていること」
+#   「同印写しは印そのものを動かさないこと」「タイタン環は値と σ を残したまま unverified であること」
+#   「写す元が無い行の印が不変であること」「SPARC 10 点を verified にしていないこと」をこの JSON と
+#   突き合わせ、docs/CALIBRATION_VERDICT_v1.44.md §2.3⁗⁗ と docs/PHYSICS.md 〔第269便b〕の表が
+#   この値そのものなのでコミットする(**エンジンは 1 步も走らせていない**)
+!tests/out/confirm3-w269b.json
 # 第268便b: 層融合の ζ 合成則の**反例**の実測正本(tests/exp-w268b-zetamerge.mjs)。
 #   docs/PHYSICS.md 〔第268便b〕§3 と docs/RELEASE_NOTES_v1.44.md の Negative Claim 42 の表が
 #   この値そのものなのでコミットする(**QA `behavior.zetaMergeCounterexample` はこのファイルを読まない**

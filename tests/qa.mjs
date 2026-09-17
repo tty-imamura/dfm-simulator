@@ -457,8 +457,12 @@ const add = (id, pass, detail) => {
   //   外部照合は「一次表の列と桁を外から突き合わせた」記録であって、`sigma_primary` を
   //   `verified` へ上げる力は 1 bit も無い(上げるのは原仮定者の照合だけである)。
   //   ここで固定するのは 3 つ: (i) 2026-09-17 の外部照合印が読めること、
-  //   (ii) その印を持つ CSV の行が **5 行**で、**そのすべてが `unverified` のまま**であること、
-  //   (iii) その 5 行に X7 の `verified_by=` が**入っていない**こと(確認者が水増しされない)。
+  //   (ii) その印を持つ CSV の行が **5 行**であること、
+  //   (iii) **第269便b(第59報)で更新**: その 5 行は原仮定者が A&A 版の表単体で確認した行なので
+  //         `verified` へ**上がった**。上げたのは外部照合ではなく X7 の `verified_by=原仮定者
+  //         2026-09-17` である —— 固定するのは「**外部照合印だけで上がった行は 0**」の形のままで、
+  //         (a) 5 行すべてが X7 の 3 欄を持つこと、(b) 外部照合印そのものは読んでも印を上げないこと
+  //         (単体試験 `VCD` は `verified_by=` を持たない note なので `unverified` のまま)。
   const VCD = 'intake_row=2026-09-14. solution=Meng2025-DDFWHE. sigma_primary=unverified; '
     + 'intake 2026-09-14. orig 0.0638363(8); value_checked_by=external review 2026-09-17; '
     + 'value_checked_at=arXiv:2510.12506 Table 1 DDFWHE e; value_checked_value=0.0638363(8); '
@@ -474,9 +478,55 @@ const add = (id, pass, detail) => {
   if (ext17.length !== 5)
     bad.push(`⑧2026-09-17 の外部照合印を持つ行が ${ext17.length} 行(第268便b の 5 行のはず)`);
   for (const r of ext17) {
-    if (r.mark !== 'unverified') bad.push(`⑧${r.body}|${r.quantity} の印が unverified でない(${r.mark})`);
-    if (r.verifiedBy) bad.push(`⑧${r.body}|${r.quantity} に X7 の verified_by が入っている(外部照合は確認者ではない)`);
+    // 第269便b: この 5 行は原仮定者の第 3 回の確認で `verified` へ上がった。**上げたのは X7 の
+    // 確認者であって外部照合印ではない** —— 印だけが上がっている行が 0 であることは ⑥ が見る。
+    if (r.mark !== 'verified') bad.push(`⑧${r.body}|${r.quantity} の印が verified でない(${r.mark})`);
+    if (!r.verifiedBy) bad.push(`⑧${r.body}|${r.quantity} に X7 の verified_by が無い(外部照合だけでは印は上がらない)`);
   }
+  // ⑨ 第269便b(第59報「**X7 警告の残り: 同じ印を付けてよい**」): **同印写しの規約**。
+  //   `same_mark_as=<行>` を持つ行は「**原仮定者が確認済みの同一表の行**と同じ印を写した行」である。
+  //   固定するのは 4 つ: (i) 写す元の行が実在して `verified` であること、
+  //   (ii) 写す元が X7 の `verified_by=` を持つこと(**確認者のいない行から写さない**)、
+  //   (iii) 写した行の `verified_at` が**写す元の行と一致**すること(別の表の印を写さない)、
+  //   (iv) 写した行の `verified_by` の**日付が写す元の行の日付**であること(確認日を新しく作らない)。
+  //   **印そのものは同印写しでは動かない**(写す側は写す前から `verified` である)。
+  const SAME_RE = /(?:^|[^A-Za-z0-9_])same_mark_as=(\d+)/;
+  const sameMarkRows = [];
+  try {
+    const lines = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8')
+      .split('\n');
+    const parse = (line) => { const c = []; let cur = '', q = false;
+      for (let i = 0; i < line.length; i++) { const ch = line[i];
+        if (q) { if (ch === '"') { if (line[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += ch; }
+        else if (ch === '"') q = true; else if (ch === ',') { c.push(cur); cur = ''; } else cur += ch; }
+      c.push(cur); return c; };
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      if (!line.trim() || line.startsWith('body,')) continue;
+      const c = parse(line);
+      if (c.length < 9) continue;
+      const m = SAME_RE.exec(c[7] || '');
+      if (!m) continue;
+      const src = parse(lines[Number(m[1]) - 1] || '');
+      const here = L.readVerifiedBy(c[7] || ''), there = L.readVerifiedBy(src[7] || '');
+      sameMarkRows.push({ ln: i + 1, body: c[0], quantity: c[1], sameAs: Number(m[1]) });
+      if (!L.readSigmaMark(src[7] || '').verified)
+        bad.push(`⑨行 ${i + 1} の写す元 ${m[1]} が verified でない`);
+      if (!there.present || there.who.indexOf('原仮定者') < 0)
+        bad.push(`⑨行 ${i + 1} の写す元 ${m[1]} に原仮定者の確認が無い(確認者のいない行から写している)`);
+      if (!here.present) bad.push(`⑨行 ${i + 1} に X7 の verified_by が無い`);
+      if (here.at !== there.at)
+        bad.push(`⑨行 ${i + 1} の verified_at が写す元 ${m[1]} と違う(${here.at} / ${there.at})`);
+      if (here.who !== there.who)
+        bad.push(`⑨行 ${i + 1} の verified_by が写す元 ${m[1]} と違う(${here.who} / ${there.who})`);
+      if (!L.readSigmaMark(c[7] || '').verified)
+        bad.push(`⑨行 ${i + 1} は same_mark_as= を持つのに verified でない`);
+      if (!/(?:^|[^A-Za-z0-9_])confirmation_round=3\b/.test(c[7] || ''))
+        bad.push(`⑨行 ${i + 1} に confirmation_round=3 が無い(同印写しは第 3 回の裁定である)`);
+    }
+  } catch (e) { bad.push('⑨CSV が読めない: ' + String(e).slice(0, 60)); }
+  if (sameMarkRows.length !== 5)
+    bad.push(`⑨same_mark_as= を持つ行が ${sameMarkRows.length}(第269便b の 5 行のはず)`);
   add('lint.sigmaMark', bad.length === 0,
     `**\`sigma_primary\` の印の厳密読み**(第263便c ⑤′ の読み違いを直した): 語境界つきの出現を拾い、`
     + `第251便c の**凡例文**(\`sigma_primary=… means …\`)を除き、**凡例でない最初の出現**を行の印とする。`
@@ -495,9 +545,15 @@ const add = (id, pass, detail) => {
     + `**いずれも X7 の \`verified_by=\` を持っている** —— 印だけが上がっている行は 0)/ `
     + `⑦ 第266便a: \`value_checked_by=\` への \`(answer B)\` の追記は**重複させない**`
     + `(出現は 1 つのまま)・\`verified_by=\` の読みは \`value_checked_by=\` を拾わない / `
-    + `⑧ 第268便b: **2026-09-17 の外部照合印を持つ行は ${vcRows.filter((r) => /external review 2026-09-17/.test(r.who || '')).length} 行`
-    + `(J1946+2052 の判定解 5 行)で、そのすべてが \`unverified\` のまま**`
-    + `(X7 の \`verified_by=\` は 1 行も付いていない —— **外部照合は確認者ではない**)`
+    + `⑧ 第268便b+第269便b: **2026-09-17 の外部照合印を持つ行は ${vcRows.filter((r) => /external review 2026-09-17/.test(r.who || '')).length} 行`
+    + `(J1946+2052 の判定解 5 行)で、そのすべてが \`verified\`** —— ただし**上げたのは外部照合ではない**。`
+    + `第 3 回の確認記録(第59報)で原仮定者が A&A 版の Table 1 を表単体で読んだ記録`
+    + `(X7 の \`verified_by=原仮定者 2026-09-17\`)が印を上げており、外部照合印そのものは`
+    + `⑥ の単体試験どおり印を 1 bit も動かさない / `
+    + `⑨ 第269便b: **同印写し**(\`same_mark_as=<行>\`)は ${sameMarkRows.length} 行 —— `
+    + `写す元は実在して \`verified\` で X7 の確認者を持ち、写した行の \`verified_at\` と確認者・日付は`
+    + `**写す元と一致**する(別の表の印も、確認者のいない行の印も写さない)。`
+    + `**同印写しでは印そのものは動かない**(写す側は写す前から \`verified\` である)`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 
@@ -704,7 +760,9 @@ const add = (id, pass, detail) => {
       if (!line.trim() || line.startsWith('body,')) continue;
       const c = parse(line);
       if (c.length < 9) continue;
-      if (/(?:^|[^A-Za-z0-9_])confirmation_round=2\b/.test(c[7] || '')) continue;
+      // 第269便b: **第 3 回の確認記録の同印写し**(`confirmation_round=3` + `same_mark_as=`)も
+      // 写す元の行の日付(2026-09-16)を持つので、同じ理由でここでは数えない(**回で分ける**)。
+      if (/(?:^|[^A-Za-z0-9_])confirmation_round=[23]\b/.test(c[7] || '')) continue;
       const vb = L.readVerifiedBy(c[7] || '');
       if (vb.present && /原仮定者 2026-09-16/.test(vb.who)) {
         verifiedByNew++;
@@ -749,8 +807,9 @@ const add = (id, pass, detail) => {
     + `③ **原仮定者が一次資料(表・列・桁)を確認した行 ${(cr.actTally || {}).verified} 行を `
     + `\`sigma_primary=verified\` にした(2026-09-16)** —— そのすべてに X7 の 3 欄が入っている`
     + `(CSV 側で数えて ${verifiedByNew} 行 —— **第267便a の第 2 回の確認記録で上がった行`
-    + `(\`confirmation_round=2\`)はここでは数えない**。確認者も確認日も同じなので、`
-    + `日付ではなく回で分ける。第 2 回は \`docs.confirm2-sync\` が数える)。`
+    + `(\`confirmation_round=2\`)と、第269便b の第 3 回の同印写し(\`confirmation_round=3\`)は`
+    + `ここでは数えない**。確認者も確認日も同じなので、日付ではなく回で分ける。`
+    + `第 2 回は \`docs.confirm2-sync\`・第 3 回は \`docs.confirm3-sync\` が数える)。`
     + `**1σ を確認できなかった行(値だけの確認 `
     + `${(cr.actTally || {})['value-only']} 行)・sigma 列が視差との伝播値である行 `
     + `${(cr.actTally || {}).covariance} 行・別資料を見ていた行 ${(cr.tally || {})['other-source']} 行・`
@@ -781,6 +840,7 @@ const add = (id, pass, detail) => {
       else if (ch === '"') q = true; else if (ch === ',') { c.push(cur); cur = ''; } else cur += ch; }
     c.push(cur); return c; };
   let header = '', legacy = 0, legacySigma = 0, intakeB = 0, intakeBSigma = 0, verified = 0;
+  let sparcChecked = 0;   // 第269便b: SPARC 10 点の外部照合印(**verified にしない**)
   const bodies = new Set(), widths = new Set();
   try {
     const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w264d-sigmamark.mjs'));
@@ -795,6 +855,23 @@ const add = (id, pass, detail) => {
       const hasSigma = (c[8] || '').trim() !== '';
       if (isB) { intakeB++; if (hasSigma) intakeBSigma++; }
       else { legacy++; if (hasSigma) legacySigma++; }
+      // ⑥ 第269便b(統括の読み (C)): **SPARC 公式 MassModels 表(43 点)との外部照合**を
+      //   NGC 3198 の候補 10 点に注記した。**外部照合は印を 1 bit も上げない** ——
+      //   この 10 行は `unverified` のままで X7 の `verified_by=` は空である。
+      const vc = L.readValueChecked(c[7] || '');
+      if (vc.present && /external review 2026-09-17/.test(vc.who)) {
+        sparcChecked++;
+        if (c[0] !== 'NGC 3198') bad.push(`⑥${c[0]} に SPARC の外部照合印が付いている`);
+        if (!/^v_rot\(r=/.test(c[1] || '')) bad.push(`⑥${c[1]} に SPARC の外部照合印が付いている`);
+        if (L.readSigmaMark(c[7] || '').verified)
+          bad.push(`⑥${c[0]}|${c[1]} が外部照合で verified になっている(外部照合は印を上げない)`);
+        if (L.readVerifiedBy(c[7] || '').present)
+          bad.push(`⑥${c[0]}|${c[1]} に X7 の verified_by が入っている(外部照合は確認者ではない)`);
+        if (!vc.at || vc.at.indexOf('MassModels_Lelli2016c.mrt') < 0)
+          bad.push(`⑥${c[0]}|${c[1]} の value_checked_at が SPARC 公式表でない`);
+        if (!vc.value) bad.push(`⑥${c[0]}|${c[1]} の value_checked_value が欠けている`);
+        if (!hasSigma) bad.push(`⑥${c[0]}|${c[1]} は σ が空なのに外部照合の対象になっている`);
+      }
       if (L.readSigmaMark(c[7] || '').verified) {
         verified++;
         // 第267便a: verified なのは第 2 回の確認記録で答えのあった行だけで、そのすべてに
@@ -827,6 +904,8 @@ const add = (id, pass, detail) => {
     bad.push(`④body が 2 つ(47 Tuc / NGC 3198)でない: ${bodyList.join(' , ')}`);
   if (verified !== 6) bad.push(`⑤verified の印がある行が 6 でない(${verified} 行 —— 第267便a で `
     + `原仮定者が第 2 回の確認記録で答えた 47 Tuc の 6 量だけが verified である)`);
+  if (sparcChecked !== 10) bad.push(`⑥SPARC の外部照合印を持つ行が ${sparcChecked}`
+    + '(第269便b の NGC 3198 候補 10 点のはず)');
   add('docs.clusterGalaxySigma', bad.length === 0,
     `**星団・銀河の観測レコードに sigma 列が付いた**(第266便a): 既存 ${legacy} 行の sigma は**すべて空**`
     + `(既存の値は 1 文字も動かしていない)/ intake B で足した ${intakeB} 行のうち `
@@ -838,7 +917,11 @@ const add = (id, pass, detail) => {
     + `答えた 47 Tuc の 6 量。すべてに \`confirmation_round=2\` と X7 の 3 欄と σ がある)で、`
     + `残りは \`unverified\` のまま / **印が \`verified\` であることは門に繋がっていることではない** ——`
     + `門の宛先表(\`tests/lib-sigma-destinations.mjs\`)に \`47 Tuc\` も \`NGC 3198\` も 1 行も無い`
-    + `(**星団・銀河は門に接続していない**。第268便a で**器のソース文字列検索から宣言表の読み取りへ**変えた)`
+    + `(**星団・銀河は門に接続していない**。第268便a で**器のソース文字列検索から宣言表の読み取りへ**変えた)/ `
+    + `⑥ 第269便b: NGC 3198 の候補 **${sparcChecked} 点**に SPARC 公式 MassModels 表`
+    + `(この銀河は 43 点)との**外部照合の注記**が入った —— **印は 1 行も上がっていない**`
+    + `(\`unverified\` のまま・X7 の \`verified_by=\` は空)。e_Vobs は傾斜の系統誤差を含まないので`
+    + `**独立 Gaussian の全誤差と見なさない**`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 
@@ -990,13 +1073,24 @@ const add = (id, pass, detail) => {
       if (row.mark !== r.mark) bad.push(`④${r.file}:${r.ln} の印が器の記録と違う(${row.mark} / ${r.mark})`);
     }
     // ⑤ 同じ表だが明示の回答が無い行
+    //   第269便b(第59報「**X7 警告の残り: 同じ印を付けてよい**」): この 3 行は**第 3 回の確認記録で
+    //   解けた**。`verified_by=` は**写す元の行の確認者と日付**で入りうるが、そのときは
+    //   `same_mark_as=<写す元>` と `confirmation_round=3` を伴う(同印写しの規約は `lint.sigmaMark` ⑨)。
+    //   **第 2 回の確認印(`confirmation_round=2`)は依然として付いていない**。
+    //   **印そのものはこの 3 行では 1 bit も動いていない**(第267便a の時点から `verified` である)。
     for (const p of (j.pending || [])) {
       const row = (csv[p.file] || new Map()).get(p.ln);
       if (!row) { bad.push(`⑤${p.file}:${p.ln} が CSV に無い`); continue; }
       if (!/(?:^|[^A-Za-z0-9_])same_table_as_verified_row=/.test(row.note))
         bad.push(`⑤${p.file}:${p.ln} に注記が無い`);
-      if (row.round2 || row.vbWho)
-        bad.push(`⑤${p.file}:${p.ln} に確認印が付いている(明示の回答が無い行である)`);
+      if (row.round2)
+        bad.push(`⑤${p.file}:${p.ln} に第 2 回の確認印が付いている(明示の回答が無かった行である)`);
+      const sm = /(?:^|[^A-Za-z0-9_])same_mark_as=(\d+)/.exec(row.note);
+      const r3 = /(?:^|[^A-Za-z0-9_])confirmation_round=3\b/.test(row.note);
+      if (row.vbWho && !(r3 && sm && sm[1] === String(p.sameAs)))
+        bad.push(`⑤${p.file}:${p.ln} に確認印が付いている(第 3 回の同印写しの記録が無い)`);
+      if (row.mark !== p.mark)
+        bad.push(`⑤${p.file}:${p.ln} の印が第267便a の記録と違う(${row.mark} / ${p.mark})`);
     }
     // ⑥ 訂正 3 件の追認(4 行)・値は動いていない
     const ack = j.ack || [];
@@ -1032,6 +1126,180 @@ const add = (id, pass, detail) => {
     + `(\`same_table_as_verified_row=\` の注記だけ —— 統括の裁定待ち)/ `
     + `⑥ 訂正 3 件の追認印 ${(j && j.ack || []).length} 行(**値は 1 バイトも動いていない**)/ `
     + `**判定(4 値)は 1 本も動いていない** —— \`--regate\` は σ の値の変化 0 件・印の反転 2 件`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 第269便b(第59報 W2): docs.confirm3-sync ----
+// ----   **確認記録(2026-09-17・第 3 回)の印**が、器の出力 `tests/out/confirm3-w269b.json` と
+// ----   CSV の実体で食い違っていないことを機械で見る。固定するのは 7 つ:
+// ----     ① 器が自分で数えた違反が 0 件・**分類ごとの件数**が宣言どおり
+// ----        (verified-new 5 / same-mark-copied 5 / acknowledged 3 / trust-and-proceed 2 /
+// ----         unchanged-no-source-mark 6 / doi-corrected 5 / external-checked 10)。
+// ----     ② **原記載から value と σ が再現できた行だけが印を持つ**(器が毎回換算をやり直す・10/10)。
+// ----     ③ `verified-new` の 5 行(J1946+2052 の判定解)は `unverified` → `verified` で、
+// ----        X7 の 3 欄と `confirmation_round=3` と σ を持つ。**第268便b の外部照合印は残っている**
+// ----        (印を上げたのは外部照合ではなく原仮定者の照合である)。
+// ----     ④ `same-mark-copied` の 5 行は**印が動いていない**(写す前から `verified`)。
+// ----        同印写しの規約(写す元・`verified_at`・確認者の日付の一致)は `lint.sigmaMark` ⑨ が見る。
+// ----     ⑤ **タイタン環 2 行は `unverified` のまま**で、**値も σ も空欄にしていない**
+// ----        (原仮定者の裁定は「把握している数値を信用して進める」——**目視の確認ではない**)。
+// ----     ⑥ **写す元が無い 6 行の印は 1 bit も動いていない**(理由が note にある)。
+// ----        併置行 260/262/263 が写す元として使えないことも器が確かめている。
+// ----     ⑦ **SPARC 10 点は `verified` にしていない**(外部照合印だけ)。
+// ----   **書かないこと**: 「タイタン環の σ を原仮定者が確認した」「判定が増えた」
+// ----   「太陽系の σ が揃った」「J1946 を判定解に昇格した」。**4 値は 1 本も動いていない**。
+{
+  const bad = [];
+  const JP = path.join(ROOT, 'tests', 'out', 'confirm3-w269b.json');
+  const parse = (line) => { const c = []; let cur = '', q = false;
+    for (let i = 0; i < line.length; i++) { const ch = line[i];
+      if (q) { if (ch === '"') { if (line[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += ch; }
+      else if (ch === '"') q = true; else if (ch === ',') { c.push(cur); cur = ''; } else cur += ch; }
+    c.push(cur); return c; };
+  const EXPECT = { 'verified-new': 5, 'same-mark-copied': 5, acknowledged: 3,
+    'acknowledgement-pending': 1, 'trust-and-proceed': 2, 'unchanged-no-source-mark': 6,
+    'doi-corrected': 5, 'doi-excluded': 1, 'external-checked': 10 };
+  let j = null, round3Csv = 0, verifiedRound3 = 0;
+  const csv = {};
+  try {
+    const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w264d-sigmamark.mjs'));
+    for (const f of ['paper/data/solar-observations.csv', 'paper/data/cluster-galaxy-observations.csv']) {
+      const rows = new Map();
+      let ln = 0;
+      for (const line of fs.readFileSync(path.join(ROOT, f), 'utf8').split('\n')) {
+        ln++;
+        if (!line.trim() || line.startsWith('body,')) continue;
+        const c = parse(line);
+        if (c.length < 9) continue;
+        const note = c[7] || '';
+        const mk = L.readSigmaMark(note), vb = L.readVerifiedBy(note), vc = L.readValueChecked(note);
+        rows.set(ln, { body: c[0], quantity: c[1], value: c[2], unit: c[3], url: c[5], note,
+          sigma: (c[8] || '').trim(), mark: mk.mark, verified: mk.verified,
+          vbWho: vb.present ? vb.who : null, vbAt: vb.at, vbValue: vb.value,
+          vcWho: vc.present ? vc.who : null,
+          round3: /(?:^|[^A-Za-z0-9_])confirmation_round=3\b/.test(note) });
+        if (f.indexOf('solar') >= 0 && /(?:^|[^A-Za-z0-9_])confirmation_round=3\b/.test(note)) {
+          round3Csv++;
+          if (mk.verified) verifiedRound3++;
+          if (!mk.verified) bad.push(`③${f}:${ln} は confirmation_round=3 なのに verified でない`);
+          if (!vb.present || vb.who.indexOf('原仮定者') < 0 || !vb.at || !vb.value)
+            bad.push(`③${f}:${ln} の X7 の 3 欄が欠けている`);
+          if ((c[8] || '').trim() === '') bad.push(`③${f}:${ln} は σ が空なのに verified である`);
+        }
+      }
+      csv[f] = rows;
+    }
+    j = JSON.parse(fs.readFileSync(JP, 'utf8'));
+  } catch (e) { bad.push('入力が読めない: ' + String(e).slice(0, 110)); }
+  if (j) {
+    // ① 器の違反と分類の件数
+    if ((j.violations || []).length)
+      bad.push(`①器が違反を出している: ${(j.violations || []).slice(0, 3).join(' , ')}`);
+    for (const k of Object.keys(EXPECT)) if ((j.classes || {})[k] !== EXPECT[k])
+      bad.push(`①分類 ${k} が ${(j.classes || {})[k]}(宣言は ${EXPECT[k]})`);
+    // ② 原記載からの再現
+    const rep = j.reproduction || {};
+    if (!(rep.checked === 10 && rep.reproduced === 10 && rep.notReproduced === 0))
+      bad.push(`②原記載からの再現が ${rep.reproduced}/${rep.checked}(不一致 ${rep.notReproduced})`);
+    // ③ verified-new(印が上がった行)
+    for (const r of (j.verifiedNew || [])) {
+      const row = (csv[r.file] || new Map()).get(r.ln);
+      if (!row) { bad.push(`③${r.file}:${r.ln} が CSV に無い`); continue; }
+      if (row.body !== r.body || row.quantity !== r.quantity)
+        bad.push(`③${r.file}:${r.ln} が ${r.body}|${r.quantity} でない`);
+      if (!(r.markBefore === 'unverified' && r.markAfter === 'verified' && row.verified))
+        bad.push(`③${r.file}:${r.ln} の印の前後が unverified → verified でない`);
+      if (!r.reproduced) bad.push(`③${r.file}:${r.ln} が原記載から再現できていない`);
+      if (!row.round3) bad.push(`③${r.file}:${r.ln} に confirmation_round=3 が無い`);
+      if (row.vbAt !== r.at) bad.push(`③${r.file}:${r.ln} の verified_at が器の宣言と違う`);
+      if (row.vcWho !== 'external review 2026-09-17')
+        bad.push(`③${r.file}:${r.ln} の外部照合印が消えている(印を上げたのは外部照合ではない)`);
+    }
+    // ④ same-mark-copied(印は動いていない)
+    for (const r of (j.sameMark || [])) {
+      const row = (csv[r.file] || new Map()).get(r.ln);
+      if (!row) { bad.push(`④${r.file}:${r.ln} が CSV に無い`); continue; }
+      if (!(r.markBefore === 'verified' && r.markAfter === 'verified' && row.verified))
+        bad.push(`④${r.file}:${r.ln} の印が動いている(${r.markBefore} → ${r.markAfter})`);
+      if (!/(?:^|[^A-Za-z0-9_])same_mark_as=/.test(row.note))
+        bad.push(`④${r.file}:${r.ln} に same_mark_as= が無い`);
+      if (row.vbWho !== r.who) bad.push(`④${r.file}:${r.ln} の確認者が写す元の日付でない`);
+      if (r.sourceMark !== 'verified') bad.push(`④${r.file}:${r.ln} の写す元が verified でない`);
+    }
+    // ⑤ タイタン環(値と σ を残す・印は unverified のまま)
+    for (const r of (j.trust || [])) {
+      const row = (csv[r.file] || new Map()).get(r.ln);
+      if (!row) { bad.push(`⑤${r.file}:${r.ln} が CSV に無い`); continue; }
+      if (row.mark !== 'unverified') bad.push(`⑤${r.file}:${r.ln} の印が unverified でない`);
+      if (row.vbWho) bad.push(`⑤${r.file}:${r.ln} に X7 の verified_by が付いている`);
+      if (row.value !== r.value || row.sigma !== r.sigma)
+        bad.push(`⑤${r.file}:${r.ln} の値か σ が動いている`);
+      if (row.value === '' || row.sigma === '')
+        bad.push(`⑤${r.file}:${r.ln} の値か σ が空欄になっている(隔離は採らない裁定である)`);
+      if (!/(?:^|[^A-Za-z0-9_])author_decision=trust-transcribed-values-and-proceed\b/.test(row.note))
+        bad.push(`⑤${r.file}:${r.ln} に裁定の記録が無い`);
+      if (row.round3) bad.push(`⑤${r.file}:${r.ln} に確認の回の印が付いている(裁定は確認ではない)`);
+    }
+    // ⑥ 写す元が無い行(印不変)
+    for (const r of (j.noSource || [])) {
+      const row = (csv[r.file] || new Map()).get(r.ln);
+      if (!row) { bad.push(`⑥${r.file}:${r.ln} が CSV に無い`); continue; }
+      if (row.mark !== r.markBefore || row.mark !== r.markAfter)
+        bad.push(`⑥${r.file}:${r.ln} の印が動いている`);
+      if (row.vbWho) bad.push(`⑥${r.file}:${r.ln} に X7 の verified_by が付いている`);
+      if (!/(?:^|[^A-Za-z0-9_])same_mark_not_available=2026-09-17\b/.test(row.note))
+        bad.push(`⑥${r.file}:${r.ln} に「写す元が無い」の記録が無い`);
+    }
+    for (const p of (j.partners || [])) if (p.usableAsSource)
+      bad.push(`⑥併置行 ${p.ln} は写す元として使える(写していないのは誤り)`);
+    // ⑦ SPARC 10 点(verified にしない)
+    for (const r of (j.sparc || [])) {
+      const row = (csv[r.file] || new Map()).get(r.ln);
+      if (!row) { bad.push(`⑦${r.file}:${r.ln} が CSV に無い`); continue; }
+      if (row.mark !== 'unverified') bad.push(`⑦${r.file}:${r.ln} の印が unverified でない`);
+      if (row.vbWho) bad.push(`⑦${r.file}:${r.ln} に X7 の verified_by が付いている`);
+      if (row.vcWho !== 'external review 2026-09-17')
+        bad.push(`⑦${r.file}:${r.ln} に 2026-09-17 の外部照合印が無い`);
+    }
+    // ⑥′ AD7: 旧 DOI は url 欄に 0 件
+    if ((j.oldDoi || {}).inUrlColumn !== 0)
+      bad.push(`⑥旧 DOI が url 欄に ${(j.oldDoi || {}).inUrlColumn} 件残っている`);
+    // CSV 側の回の記録が器の宣言と合う
+    const declared = ((j.classes || {})['verified-new'] || 0) + ((j.classes || {})['same-mark-copied'] || 0);
+    if (round3Csv !== declared)
+      bad.push(`③CSV の confirmation_round=3 が ${round3Csv}(器の宣言は ${declared})`);
+    if (verifiedRound3 !== round3Csv) bad.push(`③そのうち verified が ${verifiedRound3}(全行のはず)`);
+    if (((j.census || {}).externalOnlyVerified || []).length)
+      bad.push('外部照合印だけで verified になっている行がある');
+  } else bad.push('tests/out/confirm3-w269b.json が無い(node tests/exp-w269b-confirm3.mjs を回すと入る)');
+  const cls = j ? (j.classes || {}) : {};
+  const cen = j ? ((j.census || {}).after || {}) : {};
+  const bef = j ? ((j.census || {}).before || {}) : {};
+  add('docs.confirm3-sync', bad.length === 0,
+    `**確認記録(2026-09-17・第 3 回)の突き合わせ**(器 tests/exp-w269b-confirm3.mjs): `
+    + `① 器の違反 ${j ? (j.violations || []).length : '—'} 件 / 分類 ${JSON.stringify(cls)} / `
+    + `② **印を付ける前に原記載から value と σ を再現する** —— `
+    + `${(j && j.reproduction || {}).reproduced}/${(j && j.reproduction || {}).checked} 行で再現できた`
+    + `(再現できない行には印を付けない)/ `
+    + `③ **J1946+2052 の判定解 5 行**(原仮定者が A&A 版の Table 1 を表単体で読んだ記録)が `
+    + `\`unverified\` → \`verified\`。X7 の 3 欄と \`confirmation_round=3\` と σ を持ち、`
+    + `第268便b の外部照合印は残っている(**印を上げたのは外部照合ではない**)/ `
+    + `④ **同印写し 5 行**(114/115 ← 194/195・125 ← 211・148/180 ← 290)は`
+    + `**印そのものが動いていない**(写す前から \`verified\`。足したのは X7 の 3 欄と \`same_mark_as=\`)/ `
+    + `⑤ **タイタン環 2 行は \`unverified\` のまま**で、**値も σ も空欄にしていない** ——`
+    + `原仮定者の裁定は「把握している数値を信用して進める」であって**目視の確認ではない**`
+    + `(閲覧できたという記録ではない。C 環内縁の観測門へも転送しない)/ `
+    + `⑥ **写す元(原仮定者確認済みの同一表の行)が無い 6 行**(Cameron 2018 Table 2 の 3 行・`
+    + `Stairs 2002 Table 1 の 3 行)は**印不変**で、理由を note に残した / `
+    + `⑦ SPARC の候補 10 点は**外部照合の注記だけ**(\`verified\` にしていない)/ `
+    + `CSV 全体の \`verified\`(厳密読み): 太陽系 ${(bef.solar || {}).verified} → `
+    + `${(cen.solar || {}).verified} 行・星団/銀河 ${(bef.cluster || {}).verified} → `
+    + `${(cen.cluster || {}).verified} 行。**X7 警告**(\`verified\` なのに確認者が無い行)は `
+    + `${(bef.solar || {}).x7Warn} → ${(cen.solar || {}).x7Warn} 行 / `
+    + `**判定(4 値)は 1 本も動いていない** —— \`--regate\` は σ の宛先 `
+    + `${((j && j.gate || {}).calaudit || {}).sigmaRegate ? j.gate.calaudit.sigmaRegate.checked : '—'} 件・`
+    + `変化 ${((j && j.gate || {}).calaudit || {}).sigmaRegate ? j.gate.calaudit.sigmaRegate.changed : '—'} 件・`
+    + `印の反転 ${((j && j.gate || {}).calaudit || {}).sigmaRegate ? j.gate.calaudit.sigmaRegate.verifiedFlips : '—'} 件`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 
@@ -1331,8 +1599,11 @@ const add = (id, pass, detail) => {
 // ----   機械で固定する。**訂正したのは転写者側の誤りだけ**で、一次資料の値は 1 バイトも動いていない。
 // ----     ① 行 137 の **σ 1.0e-7 → 1.0e-6**(原表 e=0.6058142(10) の最終桁・行 262 と一致)。
 // ----        `corrected=2026-09-17` と **旧値 `previous_sigma=1.0e-7`** が note に残っている。
-// ----     ② 行 136/137/139 の **DOI `slx185` → `sly003`**(arXiv:1711.07697 の書誌・行 260/262/263 と一致)。
+// ----     ② **DOI `slx185` → `sly003`**(arXiv:1711.07697 の書誌・行 260/262/263 と一致)。
 // ----        `url_corrected=2026-09-17` と **旧 URL `previous_url=`** が note に残っている。
+// ----        第268便b の 3 行(136/137/139)に、**第269便b(AD7)が残っていた 5 行
+// ----        (133/134/135/138/140)を足して 8 行**にした。照合は行番号ではなく body・quantity・
+// ----        旧 URL で、**行 141(Dietrich 2020 の半径 proxy)は対象外**である。
 // ----     ③ 行 421 の **quantity `mean_motion` → `pattern_speed_m1`**(note どおり **forced m=1 pattern speed**
 // ----        であって粒子の公転平均運動ではない)。`quantity_corrected=` と `previous_quantity=` つき。
 // ----     ④ 行 420 の `proxy_for` は**説明に限定**(`proxy_for_scope=`)—— **C 環内縁の観測門へ転送しない**。
@@ -1360,6 +1631,13 @@ const add = (id, pass, detail) => {
   // 宣言表: [行, body, quantity, value, unit, source の先頭 24 字]。**この 6 つは動かしていない。**
   const FROZEN = [
     [115, 'Sirius B', 'orbital_period', '1.581932e9', 's', 'Bond et al. (2017) ApJ'],
+    // 第269便b(AD7): 旧 DOI が url 欄に残っていた 5 行。**url 欄だけ**を訂正した。
+    [133, 'PSR J1757-1854', 'mass', '2.6614084e30', 'kg', 'Cameron et al. (2018) '],
+    [134, 'PSR J1757-1854 companion', 'mass', '2.7731621e30', 'kg', 'Cameron et al. (2018) '],
+    [135, 'PSR J1757-1854', 'rotation_period', '2.14972318900292e-2', 's', 'Cameron et al. (2018) '],
+    [138, 'PSR J1757-1854', 'semi_major_axis', '1.3219674457986195e9', 'm', 'Cameron et al. (2018) '],
+    [140, 'PSR J1757-1854', 'orbital_period_derivative', '-5.3e-12', '1', 'Cameron et al. (2018) '],
+    [141, 'PSR J1757-1854', 'radius', '1.175e4', 'm', 'Dietrich et al. (2020) '],
     [136, 'PSR J1757-1854', 'orbital_period', '15857.669019168', 's', 'Cameron et al. (2018) '],
     [137, 'PSR J1757-1854', 'eccentricity', '0.6058142', '1', 'Cameron et al. (2018) '],
     [139, 'PSR J1757-1854', 'periastron_advance', '10.3651', 'deg/yr', 'Cameron et al. (2018) '],
@@ -1390,15 +1668,34 @@ const add = (id, pass, detail) => {
   if (!(r262 && r137 && r262[8] === r137[8])) bad.push('①行 262(同じ Table 2 の併置行)と σ が揃っていない');
   // ② DOI の訂正(**旧 URL を残す**)
   const NEWDOI = 'https://doi.org/10.1093/mnrasl/sly003';
-  for (const ln of [136, 137, 139]) {
+  const OLDDOI = 'https://doi.org/10.1093/mnrasl/slx185';
+  // 第269便b(AD7): 第268便b が直したのは 136/137/139 の 3 行で、**同じ論文を引く 5 行に旧 DOI が
+  // 残っていた**。body・quantity・旧 URL で照合して 133/134/135/138/140 を訂正し、**8 行**にした。
+  for (const ln of [133, 134, 135, 136, 137, 138, 139, 140]) {
     const r = at(ln);
     if (!(r && r[5] === NEWDOI)) bad.push(`②行 ${ln} の url が sly003 でない`);
     if (!has(ln, 'url_corrected=2026-09-17')) bad.push(`②行 ${ln} に url_corrected=2026-09-17 が無い`);
-    if (!has(ln, 'previous_url=https://doi.org/10.1093/mnrasl/slx185'))
-      bad.push(`②行 ${ln} に旧 URL previous_url= が残っていない`);
+    if (!has(ln, 'previous_url=' + OLDDOI)) bad.push(`②行 ${ln} に旧 URL previous_url= が残っていない`);
   }
   for (const ln of [260, 262, 263]) { const r = at(ln);
     if (!(r && r[5] === NEWDOI)) bad.push(`②併置行 ${ln} の url が sly003 でない(訂正の突き合わせ先)`); }
+  // **行 141 は対象外**(Dietrich et al. 2020 の半径 proxy —— 同じ系だが別の論文・別の DOI)。
+  { const r = at(141);
+    if (!(r && r[5] === 'https://doi.org/10.1126/science.abb4317'))
+      bad.push('②行 141 の url が Dietrich 2020 でない(行番号でなく出典で照合する)');
+    if (has(141, 'url_corrected=2026-09-17')) bad.push('②行 141 を訂正している(対象外の行である)'); }
+  // **CSV 全体で旧 DOI は url 欄に 0 件**・note の `previous_url=` にだけ残る。
+  let oldInUrl = 0, oldInNote = 0;
+  for (let i = 1; i < lines.length; i++) {
+    const l = lines[i];
+    if (!l.trim() || l.startsWith('body,')) continue;
+    const c = parse(l);
+    if (c.length < 9) continue;
+    if ((c[5] || '').indexOf('slx185') >= 0) oldInUrl++;
+    if ((c[7] || '').indexOf('slx185') >= 0) oldInNote++;
+  }
+  if (oldInUrl !== 0) bad.push(`②旧 DOI が url 欄に ${oldInUrl} 件残っている`);
+  if (oldInNote !== 8) bad.push(`②旧 DOI を note に残している行が ${oldInNote}(訂正した 8 行のはず)`);
   // ③ quantity の改名
   if (!has(421, 'quantity_corrected=2026-09-17')) bad.push('③行 421 に quantity_corrected= が無い');
   if (!has(421, 'previous_quantity=mean_motion')) bad.push('③行 421 に previous_quantity=mean_motion が無い');
@@ -1425,9 +1722,15 @@ const add = (id, pass, detail) => {
     if (!has(ln, 'solution_mix=P/e Stovall2018-DD, omega_dot Meng2025-DDFWHE (X4)'))
       bad.push(`⑥行 ${ln} に solution_mix= の注記が無い`);
   // 印は 1 bit も動かしていない(宣言表)
+  // 第269便b(第59報): **J1946+2052 の判定解 5 行(285/289/290/300/302)は `verified` へ上がった**
+  // —— 上げたのは原仮定者が A&A 版の Table 1 を表単体で読んだ第 3 回の確認記録であって、
+  // 第268便b の外部照合印でも、本ブロックが見る転写訂正でもない(`docs.confirm3-sync` が数える)。
+  // **タイタン環の 2 行(420/421)は `unverified` のまま**である(有料版 PDF のため目視できておらず、
+  // 原仮定者の裁定は「値を信用して進める」——**確認ではない**)。
   const MARKS = { 115: 'verified', 136: 'verified', 137: 'verified', 139: 'verified',
-    145: 'verified', 146: 'verified', 148: 'verified', 285: 'unverified', 289: 'unverified',
-    290: 'unverified', 300: 'unverified', 302: 'unverified', 420: 'unverified', 421: 'unverified' };
+    145: 'verified', 146: 'verified', 148: 'verified', 285: 'verified', 289: 'verified',
+    290: 'verified', 300: 'verified', 302: 'verified', 420: 'unverified', 421: 'unverified',
+    133: 'unverified', 134: 'unverified' };
   for (const k of Object.keys(MARKS)) { const r = at(Number(k));
     const m = r ? L.readSigmaMark(r[7] || '').mark : null;
     if (m !== MARKS[k]) bad.push(`印が動いた: 行 ${k} が ${m}(宣言 ${MARKS[k]})`); }
@@ -1438,15 +1741,20 @@ const add = (id, pass, detail) => {
     + `**一次資料の値は 1 バイトも動いていない**(宣言表 ${FROZEN.length} 行の value/unit/source を機械固定)/ `
     + `① 行 137 の **σ 1.0e-7 → ${r137 ? r137[8] : '—'}**(原表 e=0.6058142(10) の最終桁 —— `
     + `同じ Cameron 2018 Table 2 の併置行 262 と揃った。旧値は \`previous_sigma=\` に残す)/ `
-    + `② 行 136/137/139 の **DOI \`slx185\` → \`sly003\`**(arXiv:1711.07697 の書誌・行 260/262/263 と一致。`
-    + `旧 URL は \`previous_url=\` に残す)/ `
+    + `② **DOI \`slx185\` → \`sly003\`**(arXiv:1711.07697 の書誌・行 260/262/263 と一致。`
+    + `旧 URL は \`previous_url=\` に残す)—— 第268便b の 3 行(136/137/139)に**第269便b(AD7)が`
+    + `残っていた 5 行(133/134/135/138/140)を足して 8 行**にした。照合は行番号ではなく`
+    + `**body・quantity・旧 URL**で行い、同じ系の**行 141(Dietrich 2020 の半径 proxy)は対象外**。`
+    + `旧 DOI は url 欄に ${oldInUrl} 件・note の \`previous_url=\` に ${oldInNote} 件 / `
     + `③ 行 421 の **quantity \`mean_motion\` → \`pattern_speed_m1\`**`
     + `(note どおり **forced m=1 pattern speed** であって粒子の公転平均運動ではない)/ `
     + `④ 行 420 の \`proxy_for\` は**説明に限定**し、**C 環内縁の観測門へ転送しない**/ `
     + `⑤ 行 115 と行 194 は **4.16 s 離れている**(共通 σ 135697.68 s の 3.07×10⁻⁵)—— `
     + `**「完全に同一値」とは書かない**/ `
     + `⑥ 行 145/146/148 は **採用レコードの混在**(P/e=Stovall 2018・ω̇=Meng 2025 DDFWHE・X4)/ `
-    + `⑦ **印(\`sigma_primary\`)は 1 bit も動いていない**(宣言表 ${Object.keys(MARKS).length} 行)・`
+    + `⑦ **転写訂正では印(\`sigma_primary\`)を 1 bit も動かしていない**`
+    + `(宣言表 ${Object.keys(MARKS).length} 行 —— 第269便b で印が動いた 5 行は`
+    + `**原仮定者の第 3 回の確認記録**で上がったもので、DOI の訂正でも外部照合でもない)・`
     + `\`*_corrected=2026-09-17\` を持つ行は ${nCorr} 行`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }

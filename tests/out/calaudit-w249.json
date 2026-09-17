@@ -37957,19 +37957,8 @@
  "sigmaRegate": {
   "on": true,
   "checked": 46,
-  "unchanged": 44,
-  "changed": [
-   {
-    "key": "psrJ1757DFM|B|ecc",
-    "from": 1e-7,
-    "to": 0.000001
-   },
-   {
-    "key": "psrJ1757PN|B|ecc",
-    "from": 1e-7,
-    "to": 0.000001
-   }
-  ],
+  "unchanged": 46,
+  "changed": [],
   "verifiedFlips": [],
   "noSource": 268,
   "limitation": "既存の `sigmaSource` の宛先だけを見る。**新しく繋がる量(対応表に無い宛先)は走行が要る** —— --regate は「繋がっている σ が動いたか」しか答えない。"
@@ -39669,8 +39658,8 @@
  },
  "sigmaMarkAudit": {
   "rows": 521,
-  "legacyVerified": 51,
-  "strictVerified": 49,
+  "legacyVerified": 56,
+  "strictVerified": 54,
   "flips": [
    {
     "body": "Alpha Centauri B",
@@ -39689,21 +39678,6 @@
   ],
   "verifiedByMissing": [
    {
-    "body": "Sirius B",
-    "quantity": "eccentricity",
-    "hasSigma": true
-   },
-   {
-    "body": "Sirius B",
-    "quantity": "orbital_period",
-    "hasSigma": true
-   },
-   {
-    "body": "PSR J0737-3039 B",
-    "quantity": "periastron_advance",
-    "hasSigma": true
-   },
-   {
     "body": "PSR J1757-1854",
     "quantity": "orbital_period",
     "hasSigma": true
@@ -39719,11 +39693,6 @@
     "hasSigma": true
    },
    {
-    "body": "PSR J1946+2052",
-    "quantity": "periastron_advance",
-    "hasSigma": true
-   },
-   {
     "body": "PSR B1534+12",
     "quantity": "orbital_period",
     "hasSigma": true
@@ -39735,11 +39704,6 @@
    },
    {
     "body": "PSR B1534+12",
-    "quantity": "periastron_advance",
-    "hasSigma": true
-   },
-   {
-    "body": "PSR J1946+2052",
     "quantity": "periastron_advance",
     "hasSigma": true
    }
