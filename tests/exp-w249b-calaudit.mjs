@@ -291,6 +291,11 @@ const SIGMA_ROWS_ALL = SIGMA_LOAD.all;
 // 第268便a(統括の読み (D)・AB2): **採用観測解の宣言表**(`paper/data/judgement-sources.json`)。
 // 宣言の無い body|quantity は**従来どおりファイル順の最初の行**を採る(後方互換)。
 const JUDGEMENT_SOURCES = loadJudgementSources(path.join(ROOT, 'paper', 'data', 'judgement-sources.json'));
+// 第269便a(統括の読み (F)): **不正スキーマ・重複宣言は入力エラーとして器を止める**。
+// 黙って「宣言なし」に落として走行を続けると、**どの行で判定したかが JSON から読めなくなる**。
+if (!JUDGEMENT_SOURCES.ok) {
+  throw new Error('[w249b] judgement-sources.json が不正: ' + (JUDGEMENT_SOURCES.error || '(理由なし)'));
+}
 // ---------------------------------------------------------------- 第268便a(第58報 W1・統括の読み (C))
 // **3 つの宣言表(`SIGMA_BODY` / `SIGMA_QUANT` / `SIGMA_TARGET_BODY`)は
 // `tests/lib-sigma-destinations.mjs` へ移した**(中身は 1 文字も変えていない — コメントごと移した)。
@@ -614,6 +619,10 @@ await pg.evaluate((PERI_WINDOW) => {   // 第252便b: 近点間周期の固定�
         residDeg: resid === null ? null : resid * 180 / Math.PI, timeFit,
         perMean: measured ? (win[PERI_WINDOW - 1].k - win[0].k) * dt / (PERI_WINDOW - 1) : null,
         perMeanAll: perAll.length ? perAll.reduce((a, b) => a + b, 0) / perAll.length : null,
+        // 第269便a(統括の読み (E)): **傾き fit に使ったのと同じ近点集合**(n 個・n−1 区間)の平均。
+        // 換算 ϖ̇ = Δϖ × YEAR / P で「分子と同じ窓の周期で割る」ための分母である。
+        // **判定量(周期)はこれまでどおり perMean(20 近点窓)のまま** —— この欄は換算の診断専用。
+        perMeanFit: (n >= 2) ? (use[n - 1].k - use[0].k) * dt / (n - 1) : null, perFitN: n,
         perWindow: PERI_WINDOW, perFound: use.length, perUnmeasured: !measured,
         perFirst: perAll.length ? perAll[0] : null, perN: measured ? PERI_WINDOW - 1 : 0 };
     };
@@ -1064,20 +1073,43 @@ for (const P of (REGATE ? [] : out.presets)) {
     const body = SIGMA_TARGET_BODY[d.id + '|' + t.label]
       || ((sigBody && t.label === cfg.orbiters[0][1]) ? sigBody : null);
     if (!body) return q;
-    // 第268便a(統括の読み (D)・AB2): **採用観測解の明示宣言**が在る body|quantity は、宣言された行を
-    // 採る。**宣言の無い対象は従来どおりファイル順の最初の行**である(後方互換 —— 他の判定は動かない)。
-    // 宣言が CSV の行に当たらなければ**宣言を無視せず止めもせず**、従来の行を使って注記を残す
-    // (推測で当てない・黙って差し替えない)。
+    // 第268便a(統括の読み (D)・AB2): **採用観測解の明示宣言**。
+    // **第269便a(統括の読み (G))で直したところ** —— 第268便a の経路は、宣言が当たると
+    // `q.obsSigmaCsv` に**宣言行の σ** を入れ、正式 `assessObservation` は `reference: q.obs`
+    // (= obsCard の従来値)で判定していた。つまり**中心値は旧参照・σ だけ新解**という混在が
+    // 通常走行で起きる(カロンでは 551854.08 s に Buie の 0.02592 s が付く)。
+    // さらに解決失敗時は `picked.row || SIGMA_TABLE.get(...)` で**旧行へ黙って戻って**いた。
+    // 最小修正:
+    //   ・**AD5(署名便)までは旧正式経路を一貫して保つ** —— `q.obsSigmaCsv` は
+    //     **従来行(ファイル順の最初)**からだけ採る。
+    //   ・宣言は**診断欄** `q.judgementSource`(`applied:false`・`mode:'diagnostic-only-until-AD5'`)
+    //     にだけ置き、宣言行の value/sigma は**別欄** `declaredRow` に入れる。
+    //   ・**宣言の解決失敗は入力エラーとして throw**(旧行へ黙って戻さない)。
+    // AD5 の署名便で、中心値・σ・単位変換・解 ID・verified 状態・測定定義を**同時に**切り替える。
     const declKey = body + '|' + SIGMA_QUANT[kind];
     const decl = JUDGEMENT_SOURCES.byKey.get(declKey) || null;
     const picked = decl ? pickDeclaredRow(decl, SIGMA_ROWS_ALL) : { row: null, reason: null };
-    const row = picked.row || SIGMA_TABLE.get(declKey);
+    if (decl && !picked.row) {
+      throw new Error('[w249b] 宣言 ' + declKey + ' が CSV の 1 行に解決できない(' + picked.reason
+        + ')— **旧行へ黙って戻さない**。judgement-sources.json か CSV を直すこと');
+    }
+    const row = SIGMA_TABLE.get(declKey);   // **従来行(ファイル順の最初)**が正式経路である
     if (decl) {
       q.judgementSource = { declared: true, key: declKey, source: decl.source,
-        solution: decl.solution || null, value: decl.value, sigma: decl.sigma === undefined ? null : decl.sigma,
+        solution: decl.solution || null, unit: decl.unit || null,
         csvQuantity: decl.csvQuantity || decl.quantity, declaredAt: decl.declared || null,
-        applied: !!picked.row, fallbackReason: picked.row ? null : picked.reason,
-        note: '**宣言後の判定は「宣言後の初判定」として別欄に記録する** —— 宣言前の 4 値は据え置く' };
+        // **宣言行の値と σ は「別欄」**(判定には 1 bit も入らない)
+        declaredRow: { value: decl.value, sigma: decl.sigma === undefined ? null : decl.sigma,
+          unit: decl.unit || null, csvSigma: picked.row.sigma, csvUnit: picked.row.unit,
+          primaryVerified: !!picked.row.primaryVerified },
+        candidateResolved: true, resolveReason: null,
+        applied: false, mode: 'diagnostic-only-until-AD5',
+        // 正式経路が使っている行(= 従来行)を並べて、**混ざっていないこと**を JSON で見せる
+        officialRow: row ? { body: row.body, quantity: row.quantity, unit: row.unit, sigma: row.sigma,
+          source: String(row.source).slice(0, 90), primaryVerified: !!row.primaryVerified } : null,
+        note: '**宣言は診断欄のみ**(第269便a・統括の読み (G))—— `q.obs` も `q.obsSigmaCsv` も'
+          + '従来行のままで、中心値と σ が別の解から来る混在を作らない。'
+          + '切り替えは AD5 の署名便で**中心値・σ・単位・解 ID・verified 状態・測定定義を同時に**行う' };
     }
     if (!row) { q.sigmaNote = `CSV に ${body}|${SIGMA_QUANT[kind]} の行が無い`; return q; }
     q.sigmaSource = { body: row.body, quantity: row.quantity, unit: row.unit, sigma: row.sigma,
@@ -1152,7 +1184,13 @@ for (const P of (REGATE ? [] : out.presets)) {
       pRevSec: pRevSec(t), revN: t.revN,
       // 第250便c: °/日 ⇄ °/周 の換算に使う周期を明示する(近点間 = slopeDeg と同じ間隔)
       pPeriSec: (Number.isFinite(t.A.perMean) && t.A.perMean > 0) ? t.A.perMean * P.toSec : null,
-      convPeriod: 'periastron' };
+      convPeriod: 'periastron',
+      // 第269便a(統括の読み (E)): **傾きと同じ近点集合**の近点間周期。上の `pPeriSec` は
+      // 第252便b の固定窓(最初の 20 近点)なので、**同じ窓ではない**(それが窓の不一致だった)。
+      pPeriSameWindowSec: (Number.isFinite(t.A.perMeanFit) && t.A.perMeanFit > 0)
+        ? t.A.perMeanFit * P.toSec : null,
+      pPeriSameWindowN: (t.A.perFitN === undefined) ? null : t.A.perFitN,
+      pPeriWindow: t.A.perWindow || null };
     const ee = eMeas(t);
     q.detail.eMeasured = ee;
     if (q.detail.floorDeg !== null && q.meas !== null && Math.abs(q.meas) < q.detail.floorDeg) {
@@ -1565,7 +1603,17 @@ const pairs = [];
 // σ の単位換算(近点移動の deg/yr → 判定量)は**線形**なので、新旧の比で送る(0 除算はしない)。
 const sigmaRegate = { on: REGATE, checked: 0, unchanged: 0, changed: [], verifiedFlips: [], noSource: 0,
   limitation: '既存の `sigmaSource` の宛先だけを見る。**新しく繋がる量(対応表に無い宛先)は走行が要る** '
-    + '—— --regate は「繋がっている σ が動いたか」しか答えない。' };
+    + '—— --regate は「繋がっている σ が動いたか」しか答えない。',
+  // 第269便a(統括の読み (G)): **--regate は `applySigma` を通らない**(既存の宛先を張り直すだけ)。
+  // だから「宣言が σ だけを差し替える経路」の検査に --regate の結果を使ってはならない —— 通常走行が要る。
+  limitationApplySigma: '--regate は `applySigma` を通らない(既存宛先の張り直し)。'
+    + '**宣言の扱いを検査するには通常走行が要る**。',
+  // **AD5 で検査すること**(本便では注記に留める): 下の「CSV の行が消えた」経路は
+  // `changed` に積んで `continue` するだけで、**その量が持っている旧 σ(q.obsSigmaCsv)を消さない**。
+  // 参照行が消えたのに旧判定を再利用するのは、AD5(中心値・σ・解 ID を同時に切り替える便)では
+  // 誤りになる。**「行消失時に旧判定を再利用しない」検査を AD5 で入れる**。
+  limitationAD5: '参照 CSV 行が消えた宛先は `changed` に積んで continue するだけで、'
+    + '**旧 σ(q.obsSigmaCsv)はその量に残る**。AD5 で「行消失時に旧判定を再利用しない」検査を入れる。' };
 if (REGATE) {
   for (const r of merged) for (const q of (r.quantities || [])) {
     const src = q.sigmaSource || null;
@@ -1821,10 +1869,17 @@ out.judgementSources = { file: 'paper/data/judgement-sources.json', ok: JUDGEMEN
   error: JUDGEMENT_SOURCES.error || null, schemaVersion: JUDGEMENT_SOURCES.schemaVersion || null,
   declared: JUDGEMENT_SOURCES.declarations.map((d) => ({ key: d.body + '|' + d.quantity,
     source: String(d.source).slice(0, 90), value: d.value,
-    sigma: d.sigma === undefined ? null : d.sigma })),
+    sigma: d.sigma === undefined ? null : d.sigma, unit: d.unit || null })),
   notDeclared: (JUDGEMENT_SOURCES.notDeclared || []).map((d) => d.body + '|' + d.quantity),
+  // 第269便a(統括の読み (F)(G))
+  mode: 'diagnostic-only-until-AD5',
+  identity: '同定は body・csvQuantity・**source**・**unit**・value・sigma の完全一致。'
+    + '欠損値を 0 に変換しない。重複宣言・不正スキーマ・解決失敗は**器を止める**(throw)。',
+  appliedToJudgement: false,
   note: '**宣言の無い body|quantity は従来どおりファイル順の最初の行**である(後方互換)。'
-    + '宣言後の判定は「**宣言後の初判定**」として別欄に置き、宣言前の 4 値は据え置く。' };
+    + '**第269便a 以降、宣言は診断欄だけに置く**(`q.judgementSource.applied=false`)—— '
+    + '`q.obs` も `q.obsSigmaCsv` も従来行のままで、中心値と σ が別の解から来る混在を作らない。'
+    + '切り替えは AD5 の署名便で同時に行う。' };
 out.infoDistance = infoDistance;
 // ---- 第250便c: 量の総数と、I2 の機械門の集計(5 区分の tally はそのまま残す)----
 const allQ = merged.flatMap((r) => r.quantities || []);

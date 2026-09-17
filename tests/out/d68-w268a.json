@@ -1,6 +1,6 @@
 {
- "when": "2026-09-17T10:10:28.192Z",
- "wave": "第268便a(第58報 W1・統括の読み (A))",
+ "when": "2026-09-17T15:50:38.638Z",
+ "wave": "第269便a(第59報 W1・統括の読み (E)) — 第268便a の器を**同じ近点窓**へ直して再走",
  "target": "beta/index.html",
  "id": "saturnZonalD68",
  "label": "D68",
@@ -11,9 +11,11 @@
    "why": "第249便b の h 段(dt=0.016・668676 步)と同じ終了時刻。**步数ではなく時刻を揃える**"
   },
   "extractor": {
-   "name": "periastron-detectorA-v1",
+   "name": "periastron-detectorA-v2-samewindow",
    "definition": "近点 = ṙ の −→+ 交差(線形内挿)。近点方位を unwrap して**近点番号**に線形 fit した傾きが Δϖ [deg/周]。3 段とも**最初の 58 近点**で fit する",
-   "periodWindow": "P_peri = 最初の 20 近点(19 区間)の平均"
+   "periodWindow": "P_peri = **同じ最初の 58 近点(57 区間)**の平均(第269便a の新契約 —— 傾きと同じ近点集合)",
+   "incomplete": "窓不足(nFitUsed<58)・unwrap 中断(jump>0)では**短い窓へ自動置換せず** perMeanSim=null・windowComplete=false",
+   "module": "tests/lib-w269a-periwindow.mjs(純関数)"
   },
   "conversion": "ϖ̇ [deg/yr] = Δϖ [deg/周] × 31557600 / P_peri [s](**分子の Δϖ と同じ近点窓の周期で割る** —— 周期行・丸めた観測周期は使わない)"
  },
@@ -33,7 +35,7 @@
    "div": 1,
    "steps": 668676,
    "tEnd": 10698.816,
-   "wallSec": 2.894,
+   "wallSec": 2.993,
    "nan": false,
    "clamp": 0,
    "nPeriFound": 58,
@@ -42,11 +44,15 @@
    "jump": 0,
    "slopeDegPerOrbit": 8.042145452277042,
    "residDeg": 0.0019737441411050213,
-   "pPeriSec": 18224.858223651565,
+   "pPeriSec": 18224.862222665284,
    "toSec": 100,
-   "degPerYear": 13925.529966286234,
-   "residualDegPerYear": -42.72578371376585,
-   "nSigma": -14.622102571446218
+   "periodWindow": 58,
+   "periodIntervals": 57,
+   "windowComplete": true,
+   "windowNote": "周期は**傾き fit と同じ最初の 58 近点(57 区間)**の平均",
+   "degPerYear": 13925.526910658999,
+   "residualDegPerYear": -42.72883934100173,
+   "nSigma": -14.623148302875334
   },
   {
    "tag": "h/2",
@@ -54,7 +60,7 @@
    "div": 2,
    "steps": 1337352,
    "tEnd": 10698.816,
-   "wallSec": 5.467,
+   "wallSec": 5.59,
    "nan": false,
    "clamp": 0,
    "nPeriFound": 58,
@@ -63,11 +69,15 @@
    "jump": 0,
    "slopeDegPerOrbit": 8.042170763288139,
    "residDeg": 0.001976202596108271,
-   "pPeriSec": 18224.855567811646,
+   "pPeriSec": 18224.85937143462,
    "toSec": 100,
-   "degPerYear": 13925.575823370757,
-   "residualDegPerYear": -42.67992662924371,
-   "nSigma": -14.606408839576902
+   "periodWindow": 58,
+   "periodIntervals": 57,
+   "windowComplete": true,
+   "windowNote": "周期は**傾き fit と同じ最初の 58 近点(57 区間)**の平均",
+   "degPerYear": 13925.572917030628,
+   "residualDegPerYear": -42.68283296937261,
+   "nSigma": -14.6074034802781
   },
   {
    "tag": "h/4",
@@ -75,7 +85,7 @@
    "div": 4,
    "steps": 2674704,
    "tEnd": 10698.816,
-   "wallSec": 11.104,
+   "wallSec": 11.123,
    "nan": false,
    "clamp": 0,
    "nPeriFound": 58,
@@ -84,22 +94,26 @@
    "jump": 0,
    "slopeDegPerOrbit": 8.042177157993406,
    "residDeg": 0.001977448679882769,
-   "pPeriSec": 18224.854891330033,
+   "pPeriSec": 18224.85859672282,
    "toSec": 100,
-   "degPerYear": 13925.587413144622,
-   "residualDegPerYear": -42.668336855378584,
-   "nSigma": -14.602442455639487
+   "periodWindow": 58,
+   "periodIntervals": 57,
+   "windowComplete": true,
+   "windowNote": "周期は**傾き fit と同じ最初の 58 近点(57 区間)**の平均",
+   "degPerYear": 13925.58458185949,
+   "residualDegPerYear": -42.67116814051042,
+   "nSigma": -14.603411410167835
   }
  ],
  "convergence": {
   "degPerYear": {
    "ok": true,
-   "d1": -0.04585708452214021,
-   "d2": -0.011589773865125608,
-   "ratio": 3.9566850100610846,
-   "order": 1.9842922175696525,
-   "factor": 0.33821661644618006,
-   "extrapolated": 13925.591332998723
+   "d1": -0.0460063716291188,
+   "d2": -0.011664828862194554,
+   "ratio": 3.944024569295175,
+   "order": 1.9796685390104243,
+   "factor": 0.3396710783019751,
+   "extrapolated": 13925.588544064487
   },
   "slopeDegPerOrbit": {
    "ok": true,
@@ -112,32 +126,95 @@
   },
   "pPeriSec": {
    "ok": true,
-   "d1": 0.002655839918588754,
-   "d2": 0.000676481613481883,
-   "ratio": 3.925960241430687,
-   "order": 1.9730455625694374,
-   "factor": 0.3417681436132696,
-   "extrapolated": 18224.854660130168
+   "d1": 0.002851230663509341,
+   "d2": 0.0007747117997496389,
+   "ratio": 3.680375933903116,
+   "order": 1.8798531386401867,
+   "factor": 0.3730819947125169,
+   "extrapolated": 18224.858307691797
   }
  },
  "convergenceProposal": {
-  "rule": "3 段(h, h/2, h/4)が走り、見かけの次数 order>0 で、**|Q_{h/2}−Q_{h/4}| ≤ 0.3σ**",
+  "rule": "**AD4**: ①3 段すべて窓充足(windowComplete ∧ nFitUsed=58) ②NaN 0・クランプ 0・重複 0・unwrap 中断 0 ③見かけの次数 order>0 ④**判定段 h/4 の Richardson 推定誤差 ε̂ = |Q_{h/2}−Q_{h/4}|/(2^p−1) ≤ 0.3σ** ⑤**最終 2 段差 |Q_{h/2}−Q_{h/4}| ≤ 0.3σ**",
   "sigma": 2.922,
   "budget": 0.8766,
   "stagesRun": 3,
+  "judgedStage": "h/4",
+  "windowsComplete": true,
+  "extractionClean": true,
   "orderPositive": true,
-  "order": 1.9842922175696525,
-  "lastStageDiff": 0.011589773865125608,
-  "lastStageDiffInSigma": 0.00396638393741465,
+  "order": 1.9796685390104243,
+  "lastStageDiff": 0.011664828862194554,
+  "lastStageDiffInSigma": 0.003992070110265076,
+  "epsHat": 0.003962204997829626,
+  "epsHatInSigma": 0.0013559907590108232,
+  "epsHatOk": true,
+  "lastDiffOk": true,
+  "judgedEstimate": 13925.58458185949,
+  "refinedEstimate": 13925.588544064487,
+  "coarseEstimate": 0.06163340548846463,
   "ok": true,
-  "decision": "**閾値 0.3σ は決断事項**(門の ε_num 予算と同じ数を仮に置いた)。ここで ok になっても**判定は門の仕事**であり、本器は合否を言わない。"
+  "caveats": [
+   "**ε̂ は漸近形 Q_h = Q + C h^p からの推定であって厳密な上界ではない**",
+   "**次数が不安定なら h/8 を足す**(本器の 3 段だけで次数を確定したとは書かない)",
+   "**ok になっても合否は言わない** —— 判定は門(tests/exp-w249b-calaudit.mjs)の仕事であり、📡 は THREE_STAGE_REGISTRY に登録されていない(登録は次便の署名便)"
+  ],
+  "decision": "**閾値 0.3σ は決断事項**(門の ε_num 予算と同じ数を採った)。ここで ok になっても**判定は門の仕事**であり、本器は合否を言わない。"
  },
- "verdict": "**数値未解決**(3 段の収束が宣言の条件を満たすまで、否とも合とも言わない)",
+ "previous": {
+  "contract": "20-periastron period window(第268便a: 周期だけ最初の 20 近点 = 19 区間・傾きは 58 近点)",
+  "why": "**同じ走行・同じ検出器でも同じ近点集合ではない**ため、換算契約(分子と同じ窓)を満たしていなかった。ここに残すのは**旧契約の記録**であり、**新値として写してはならない**",
+  "stages": [
+   {
+    "tag": "h",
+    "dt": 0.016,
+    "div": 1,
+    "periodWindow": 20,
+    "pPeriSec": 18224.858223651565,
+    "degPerYear": 13925.529966286234,
+    "residualDegPerYear": -42.72578371376585,
+    "nSigma": -14.622102571446218
+   },
+   {
+    "tag": "h/2",
+    "dt": 0.008,
+    "div": 2,
+    "periodWindow": 20,
+    "pPeriSec": 18224.855567811646,
+    "degPerYear": 13925.575823370757,
+    "residualDegPerYear": -42.67992662924371,
+    "nSigma": -14.606408839576902
+   },
+   {
+    "tag": "h/4",
+    "dt": 0.004,
+    "div": 4,
+    "periodWindow": 20,
+    "pPeriSec": 18224.854891330033,
+    "degPerYear": 13925.587413144622,
+    "residualDegPerYear": -42.668336855378584,
+    "nSigma": -14.602442455639487
+   }
+  ],
+  "convergence": {
+   "ok": true,
+   "d1": -0.04585708452214021,
+   "d2": -0.011589773865125608,
+   "ratio": 3.9566850100610846,
+   "order": 1.9842922175696525,
+   "factor": 0.33821661644618006,
+   "extrapolated": 13925.591332998723
+  },
+  "note": "旧契約の 3 段は**この走行から作り直した**もので、第268便a の JSON の値と同じ手続きである"
+ },
+ "verdict": "**数値未解決**(3 段の収束が宣言の条件を満たしても、判定は門の仕事であり、📡 は THREE_STAGE_REGISTRY に登録されていない)",
  "doNotWrite": [
   "D68 が合(3σ)",
+  "D68 が否(3σ)",
   "換算したら判定が増えた",
   "太陽系の σ が揃った",
-  "3 段を走らせたので収束した(条件は上の数で見る)"
+  "3 段を走らせたので収束した(条件は上の数で見る)",
+  "窓を直したので判定が確定した"
  ],
  "pageErrors": []
 }

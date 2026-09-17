@@ -7,12 +7,22 @@
 //   **+64.2909σ** —— **どの P を使うかで符号まで変わる**)。本器はその**手前の条件**を測る:
 //   **換算後の量 ϖ̇ [deg/yr] が刻みに対して収束しているか**(2 段の |Q_h−Q_{h/2}| は誤差上限ではない)。
 //
+// ■ 第269便a(第59報 W1・統括の読み (E))で直したもの —— **窓の不一致(契約未達)**
+//   第268便a のこの器は、**分子 Δϖ を最初の 58 近点**から、**分母 P_peri を最初の 20 近点**から
+//   作っていた。同じ走行・同じ検出器でも**同じ近点集合ではない**ので、この器が自分で宣言した
+//   換算契約(「分子と同じ窓の周期で割る」)を満たしていなかった。第269便a で
+//   **周期も傾きと同じ最初の nFit 近点(57 区間)の平均**に直し(`tests/lib-w269a-periwindow.mjs`)、
+//   **h/h2/h4 を新契約で再走**した。旧契約(20 近点窓)の 3 段は `previous` 欄に**対照として**残す
+//   —— **旧値を新値として写さない**ためである。
+//
 // ■ 宣言(窓と抽出器 —— 3 段で同じものを使う)
 //   ・窓: t ∈ [0, T]、**T = 10698.816(シミュレータ時間)**。これは第249便b の h 段(dt=0.016・
 //     668676 步)と同じ終了時刻である。**步数ではなく時刻を揃える**。
 //   ・抽出器: 近点 = ṙ の −→+ 交差(検出器 A・線形内挿)。近点方位を unwrap して**近点番号**に
 //     線形 fit した傾きが Δϖ [deg/周]。**3 段とも最初の N=58 近点**で fit する(同じ窓)。
-//   ・近点間周期 P_peri = **最初の 20 近点(19 区間)**の平均(第252便b の固定窓)× 10^scaleExp.T。
+//   ・近点間周期 P_peri = **その 58 近点(57 区間)**の平均 × 10^scaleExp.T(第269便a の新契約)。
+//     窓が埋まらない・unwrap が中断したときは**短い窓へ置換せず** `perMeanSim=null`・
+//     `windowComplete=false` にする(未測定と書く)。
 //   ・換算: ϖ̇ = Δϖ × 31557600 / P_peri [deg/yr](**分子と同じ窓の周期で割る**)。
 //
 // ■ この器が**しないこと**
@@ -27,6 +37,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { precessionDegPerYear, YEAR_SEC } from './lib-w268a-judgement.mjs';
+import { fitPeriastronStage } from './lib-w269a-periwindow.mjs';
 import { isSigmaPrimaryVerified } from './lib-w264d-sigmamark.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -38,8 +49,8 @@ const arg = (k, d) => { const i = argv.indexOf(k); return (i >= 0 && argv[i + 1]
 const DT0 = 0.016;
 const T_END = Number(arg('--t', 10698.816));      // 第249便b の h 段(668676 步 × 0.016)と同じ終了時刻
 const DIVS = String(arg('--divs', '1,2,4')).split(',').map(Number);
-const PERI_WINDOW = 20;                            // 第252便b の固定窓(P_peri)
-const FIT_PERI = Number(arg('--fit-peri', 58));    // 3 段で共通の fit 窓(h 段で採れた近点数)
+const LEGACY_WINDOW = 20;                          // 第252便b の固定窓(**旧契約の対照としてだけ残す**)
+const FIT_PERI = Number(arg('--fit-peri', 58));    // 3 段で共通の fit 窓(傾きも周期もこの窓で作る)
 const ID = 'saturnZonalD68', LABEL = 'D68';
 
 // ---- 観測(CSV が正本 —— この器に観測数値を 1 つも書かない)
@@ -123,70 +134,49 @@ await pg.evaluate(() => {
   };
 });
 
-// ---- node 側の fit(第249便b の `fit` と同じ手続き)
-function fitStage(raw, rMin, rMax, pRef, dt, nFit) {
-  const mid = 0.5 * (rMin + rMax);
-  const peri = raw.filter((p) => p.r <= mid);
-  const keep = [];
-  let dup = 0;
-  for (const p of peri) {
-    if (keep.length && (p.k - keep[keep.length - 1].k) * dt < 0.5 * pRef) { dup++; continue; }
-    keep.push(p);
-  }
-  const use = keep.slice(0, nFit);
-  const ang = [];
-  let jump = 0;
-  for (let i = 0; i < use.length; i++) {
-    let a = use[i].ang;
-    if (i) { let z = a - ang[i - 1];
-      while (z > Math.PI) z -= 2 * Math.PI; while (z < -Math.PI) z += 2 * Math.PI;
-      if (Math.abs(z) > Math.PI / 2) { jump++; break; }
-      a = ang[i - 1] + z; }
-    ang.push(a);
-  }
-  const n = ang.length;
-  let slope = null, resid = null;
-  if (n >= 2) {
-    const mx = (n - 1) / 2, my = ang.reduce((a, b) => a + b, 0) / n;
-    let sxy = 0, sxx = 0;
-    for (let i = 0; i < n; i++) { sxy += (i - mx) * (ang[i] - my); sxx += (i - mx) * (i - mx); }
-    slope = sxy / sxx;
-    resid = Math.sqrt(ang.reduce((s, a, i) => s + (a - (my + slope * (i - mx))) ** 2, 0) / n);
-  }
-  const win = keep.slice(0, PERI_WINDOW);
-  const perMean = (win.length >= PERI_WINDOW)
-    ? (win[PERI_WINDOW - 1].k - win[0].k) * dt / (PERI_WINDOW - 1) : null;
-  return { nPeriFound: keep.length, nFitUsed: n, dup, jump,
-    slopeDegPerOrbit: (slope === null) ? null : slope * 180 / Math.PI,
-    residDeg: (resid === null) ? null : resid * 180 / Math.PI,
-    perMeanSim: perMean, periWindow: PERI_WINDOW };
-}
+// ---- node 側の fit は **純関数モジュール** `tests/lib-w269a-periwindow.mjs` に置いた(第269便a)。
+// ----   傾きと周期を**同じ近点集合**から作る。旧契約(20 近点窓)の周期は `legacy` 欄に併記される。
 
-// ---- 3 段
+// ---- 3 段(新契約。旧契約の値は同じ走行から `previous` 欄へ —— **旧値を新値として写さない**)
 const stages = [];
+const previousStages = [];
 for (const div of DIVS) {
   const dt = DT0 / div;
   const t0 = Date.now();
   const r = await pg.evaluate(({ id, dt, t }) => window.__w268aRun(id, dt, t), { id: ID, dt, t: T_END });
   if (!r.ok) { console.error('[w268a-d68] 走行できない: ' + r.error); await browser.close(); process.exit(2); }
-  const f = fitStage(r.A, r.rMin, r.rMax, r.pRef, dt, FIT_PERI);
+  const f = fitPeriastronStage({ raw: r.A, rMin: r.rMin, rMax: r.rMax, pRef: r.pRef, dt,
+    nFit: FIT_PERI, legacyWindow: LEGACY_WINDOW });
   const toSec = Math.pow(10, r.scaleExpT);
   const pPeriSec = (f.perMeanSim !== null) ? f.perMeanSim * toSec : null;
   const degPerYear = precessionDegPerYear({ degPerOrbit: f.slopeDegPerOrbit, pPeriSec });
-  stages.push({ tag: div === 1 ? 'h' : ('h/' + div), dt, div, steps: r.steps, tEnd: r.tEnd,
+  const tag = div === 1 ? 'h' : ('h/' + div);
+  stages.push({ tag, dt, div, steps: r.steps, tEnd: r.tEnd,
     wallSec: (Date.now() - t0) / 1000, nan: r.nan, clamp: r.clamp,
     nPeriFound: f.nPeriFound, nFitUsed: f.nFitUsed, dup: f.dup, jump: f.jump,
     slopeDegPerOrbit: f.slopeDegPerOrbit, residDeg: f.residDeg,
     pPeriSec, toSec,
+    // 第269便a: **窓の充足**を段ごとに記録する(短い窓へ自動置換しない契約の証拠)
+    periodWindow: f.periodWindow, periodIntervals: f.periodIntervals,
+    windowComplete: f.windowComplete, windowNote: f.windowNote,
     degPerYear,
     residualDegPerYear: (degPerYear === null) ? null : degPerYear - OBS.value,
     nSigma: (degPerYear === null) ? null : (degPerYear - OBS.value) / OBS.sigma });
-  console.log('[w268a-d68] ' + stages[stages.length - 1].tag + ' dt=' + dt
+  // 旧契約(第268便a: 周期だけ最初の 20 近点)を**同じ走行から**作り直して対照に置く
+  const pPrevSec = (f.legacy.perMeanSim !== null) ? f.legacy.perMeanSim * toSec : null;
+  const degPrev = precessionDegPerYear({ degPerOrbit: f.slopeDegPerOrbit, pPeriSec: pPrevSec });
+  previousStages.push({ tag, dt, div, periodWindow: LEGACY_WINDOW,
+    pPeriSec: pPrevSec, degPerYear: degPrev,
+    residualDegPerYear: (degPrev === null) ? null : degPrev - OBS.value,
+    nSigma: (degPrev === null) ? null : (degPrev - OBS.value) / OBS.sigma });
+  console.log('[w268a-d68] ' + tag + ' dt=' + dt
     + ' 步 ' + r.steps + ' 近点 ' + f.nPeriFound + '(fit ' + f.nFitUsed + ')'
+    + ' 窓充足=' + f.windowComplete
     + ' Δϖ=' + (f.slopeDegPerOrbit === null ? '—' : f.slopeDegPerOrbit.toPrecision(12)) + ' deg/周'
     + ' P_peri=' + (pPeriSec === null ? '—' : pPeriSec.toPrecision(12)) + ' s'
     + ' → ϖ̇=' + (degPerYear === null ? '—' : degPerYear.toPrecision(12)) + ' deg/yr'
     + ' (' + (degPerYear === null ? '—' : ((degPerYear - OBS.value) / OBS.sigma).toFixed(4) + 'σ') + ')'
+    + ' [旧契約 ' + (degPrev === null ? '—' : ((degPrev - OBS.value) / OBS.sigma).toFixed(4) + 'σ') + ']'
     + '  [' + ((Date.now() - t0) / 1000).toFixed(1) + 's]');
 }
 
@@ -208,44 +198,92 @@ const conv = {
   slopeDegPerOrbit: richardson(stages.map((s) => s.slopeDegPerOrbit)),
   pPeriSec: richardson(stages.map((s) => s.pPeriSec)),
 };
-// **`convergence.ok` の候補規約**(第268便a が宣言する — 閾値そのものは決断事項である)。
-//   ① 3 段が走っていること(h / h/2 / h/4)
-//   ② 見かけの次数 order が正であること(漸近域に居ること)
-//   ③ **最後の 2 段の差** |Q_{h/2} − Q_{h/4}| が **0.3σ 以下**であること(門の ε_num 予算と同じ数)
+// **AD4 の収束規約**(第269便a・第59報「決断事項は概ね同意」で確定した形。閾値 0.3σ は
+// 「数値誤差の予算」として採る —— 門の ε_num 予算と同じ数である)。
+//   ① 3 段すべてで**窓が充足**(`windowComplete` かつ `nFitUsed === FIT_PERI`)
+//   ② NaN 0・クランプ 0・重複除去 0・unwrap 中断 0(抽出の異常が 1 件も無い)
+//   ③ 見かけの次数 order が**正**(漸近域に居る)
+//   ④ **判定段(h/4)の Richardson 推定誤差** ε̂ = |Q_{h/2} − Q_{h/4}| / (2^p − 1) ≤ 0.3σ
+//   ⑤ **最終 2 段差** |Q_{h/2} − Q_{h/4}| ≤ 0.3σ
+// 第268便a は ⑤ だけを見ていた。⑤ は「差」であって推定誤差ではない —— 次数 p が小さいほど
+// 外挿までの残りは大きくなるので、**判定段の推定誤差 ε̂ も同じ予算で見る**(AD4)。
+// **ε̂ は漸近形(Q_h = Q + C h^p)からの推定であって厳密な上界ではない**。
+// **次数が不安定なら h/8 を足す**(3 段の比 d1/d2 が 2^p から離れるとき —— 閾値は決断事項)。
 const lastDiff = (conv.degPerYear.d2 === undefined) ? null : Math.abs(conv.degPerYear.d2);
 const budget = 0.3 * OBS.sigma;
+const windowsComplete = stages.every((s) => s.windowComplete === true && s.nFitUsed === FIT_PERI);
+const extractionClean = stages.every((s) => s.nan === false && s.clamp === 0 && s.dup === 0 && s.jump === 0);
+const order4 = (conv.degPerYear.order === undefined) ? null : conv.degPerYear.order;
+const epsHat = (lastDiff === null || order4 === null || !(order4 > 0))
+  ? null : lastDiff / (Math.pow(2, order4) - 1);
+const judged = stages[stages.length - 1] || null;
 const convergenceProposal = {
-  rule: '3 段(h, h/2, h/4)が走り、見かけの次数 order>0 で、**|Q_{h/2}−Q_{h/4}| ≤ 0.3σ**',
+  rule: '**AD4**: ①3 段すべて窓充足(windowComplete ∧ nFitUsed=' + FIT_PERI + ')'
+    + ' ②NaN 0・クランプ 0・重複 0・unwrap 中断 0 ③見かけの次数 order>0'
+    + ' ④**判定段 h/4 の Richardson 推定誤差 ε̂ = |Q_{h/2}−Q_{h/4}|/(2^p−1) ≤ 0.3σ**'
+    + ' ⑤**最終 2 段差 |Q_{h/2}−Q_{h/4}| ≤ 0.3σ**',
   sigma: OBS.sigma, budget,
   stagesRun: stages.length,
+  judgedStage: judged ? judged.tag : null,
+  windowsComplete, extractionClean,
   orderPositive: !!conv.degPerYear.ok,
-  order: conv.degPerYear.order === undefined ? null : conv.degPerYear.order,
+  order: order4,
   lastStageDiff: lastDiff,
   lastStageDiffInSigma: (lastDiff === null) ? null : lastDiff / OBS.sigma,
-  ok: !!(stages.length >= 3 && conv.degPerYear.ok && lastDiff !== null && lastDiff <= budget),
-  decision: '**閾値 0.3σ は決断事項**(門の ε_num 予算と同じ数を仮に置いた)。'
+  epsHat, epsHatInSigma: (epsHat === null) ? null : epsHat / OBS.sigma,
+  epsHatOk: (epsHat !== null && epsHat <= budget),
+  lastDiffOk: (lastDiff !== null && lastDiff <= budget),
+  // 判定に使う値そのもの(**外挿は参考であり、判定段は h/4 である**)
+  judgedEstimate: judged ? judged.degPerYear : null,
+  refinedEstimate: (conv.degPerYear.extrapolated === undefined) ? null : conv.degPerYear.extrapolated,
+  coarseEstimate: (conv.degPerYear.extrapolated === undefined || !stages.length) ? null
+    : Math.abs(conv.degPerYear.extrapolated - stages[0].degPerYear),
+  ok: !!(stages.length >= 3 && windowsComplete && extractionClean && conv.degPerYear.ok
+    && epsHat !== null && epsHat <= budget && lastDiff !== null && lastDiff <= budget),
+  caveats: [
+    '**ε̂ は漸近形 Q_h = Q + C h^p からの推定であって厳密な上界ではない**',
+    '**次数が不安定なら h/8 を足す**(本器の 3 段だけで次数を確定したとは書かない)',
+    '**ok になっても合否は言わない** —— 判定は門(tests/exp-w249b-calaudit.mjs)の仕事であり、'
+      + '📡 は THREE_STAGE_REGISTRY に登録されていない(登録は次便の署名便)',
+  ],
+  decision: '**閾値 0.3σ は決断事項**(門の ε_num 予算と同じ数を採った)。'
     + 'ここで ok になっても**判定は門の仕事**であり、本器は合否を言わない。',
 };
 
 const out = {
   when: new Date().toISOString(),
-  wave: '第268便a(第58報 W1・統括の読み (A))',
+  wave: '第269便a(第59報 W1・統括の読み (E)) — 第268便a の器を**同じ近点窓**へ直して再走',
   target: TARGET, id: ID, label: LABEL,
   declaration: {
     window: { tEnd: T_END, unit: 'sim time',
       why: '第249便b の h 段(dt=0.016・668676 步)と同じ終了時刻。**步数ではなく時刻を揃える**' },
-    extractor: { name: 'periastron-detectorA-v1',
+    extractor: { name: 'periastron-detectorA-v2-samewindow',
       definition: '近点 = ṙ の −→+ 交差(線形内挿)。近点方位を unwrap して**近点番号**に線形 fit した'
         + '傾きが Δϖ [deg/周]。3 段とも**最初の ' + FIT_PERI + ' 近点**で fit する',
-      periodWindow: 'P_peri = 最初の ' + PERI_WINDOW + ' 近点(' + (PERI_WINDOW - 1) + ' 区間)の平均' },
+      periodWindow: 'P_peri = **同じ最初の ' + FIT_PERI + ' 近点(' + (FIT_PERI - 1)
+        + ' 区間)**の平均(第269便a の新契約 —— 傾きと同じ近点集合)',
+      incomplete: '窓不足(nFitUsed<' + FIT_PERI + ')・unwrap 中断(jump>0)では'
+        + '**短い窓へ自動置換せず** perMeanSim=null・windowComplete=false',
+      module: 'tests/lib-w269a-periwindow.mjs(純関数)' },
     conversion: 'ϖ̇ [deg/yr] = Δϖ [deg/周] × ' + YEAR_SEC + ' / P_peri [s]'
       + '(**分子の Δϖ と同じ近点窓の周期で割る** —— 周期行・丸めた観測周期は使わない)',
   },
   observation: OBS,
   stages, convergence: conv, convergenceProposal,
-  verdict: '**数値未解決**(3 段の収束が宣言の条件を満たすまで、否とも合とも言わない)',
-  doNotWrite: ['D68 が合(3σ)', '換算したら判定が増えた', '太陽系の σ が揃った',
-    '3 段を走らせたので収束した(条件は上の数で見る)'],
+  // ---- 旧契約(第268便a)の 3 段。**対照の記録であって新値ではない** ----
+  previous: {
+    contract: '20-periastron period window(第268便a: 周期だけ最初の ' + LEGACY_WINDOW + ' 近点 = '
+      + (LEGACY_WINDOW - 1) + ' 区間・傾きは ' + FIT_PERI + ' 近点)',
+    why: '**同じ走行・同じ検出器でも同じ近点集合ではない**ため、換算契約(分子と同じ窓)を'
+      + '満たしていなかった。ここに残すのは**旧契約の記録**であり、**新値として写してはならない**',
+    stages: previousStages,
+    convergence: richardson(previousStages.map((s) => s.degPerYear)),
+    note: '旧契約の 3 段は**この走行から作り直した**もので、第268便a の JSON の値と同じ手続きである',
+  },
+  verdict: '**数値未解決**(3 段の収束が宣言の条件を満たしても、判定は門の仕事であり、'
+    + '📡 は THREE_STAGE_REGISTRY に登録されていない)',
+  doNotWrite: ['D68 が合(3σ)', 'D68 が否(3σ)', '換算したら判定が増えた', '太陽系の σ が揃った',
+    '3 段を走らせたので収束した(条件は上の数で見る)', '窓を直したので判定が確定した'],
   pageErrors,
 };
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
@@ -255,9 +293,16 @@ console.log('[w268a-d68] 見かけの次数 ϖ̇: '
   + ' / 外挿 ' + (conv.degPerYear.extrapolated === undefined ? '—'
     : conv.degPerYear.extrapolated.toPrecision(12) + ' deg/yr('
       + ((conv.degPerYear.extrapolated - OBS.value) / OBS.sigma).toFixed(4) + 'σ)'));
-console.log('[w268a-d68] convergence 候補規約: |Q_{h/2}−Q_{h/4}| = '
-  + (lastDiff === null ? '—' : lastDiff.toPrecision(6)) + ' deg/yr = '
+console.log('[w268a-d68] AD4: 判定段 ' + convergenceProposal.judgedStage
+  + ' / 窓充足 ' + windowsComplete + ' / 抽出異常なし ' + extractionClean
+  + ' / ε̂ = ' + (epsHat === null ? '—' : epsHat.toPrecision(6)) + ' deg/yr = '
+  + (epsHat === null ? '—' : (epsHat / OBS.sigma).toPrecision(6)) + 'σ'
+  + ' / 2 段差 = ' + (lastDiff === null ? '—' : lastDiff.toPrecision(6)) + ' deg/yr = '
   + (lastDiff === null ? '—' : (lastDiff / OBS.sigma).toPrecision(6)) + 'σ'
-  + ' / 予算 0.3σ = ' + budget.toPrecision(6) + ' → ok=' + convergenceProposal.ok);
+  + ' / 予算 0.3σ = ' + budget.toPrecision(6) + ' → ok=' + convergenceProposal.ok
+  + '(**合否は言わない**)');
+console.log('[w268a-d68] 旧契約(20 近点窓)の 3 段: '
+  + previousStages.map((s) => (s.nSigma === null ? '—' : s.nSigma.toFixed(4) + 'σ')).join(' / ')
+  + ' —— **対照の記録であり新値ではない**');
 console.log('→ ' + path.relative(ROOT, OUT));
 await browser.close();

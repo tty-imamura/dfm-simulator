@@ -64,28 +64,75 @@ export function degPerYearToPerOrbit({ degPerYear, pPeriSec, yearSec = YEAR_SEC 
 
 // ---------------------------------------------------------------- (3) 採用観測解の明示宣言(統括の読み (D))
 // 宣言ファイルのスキーマは `docs/AI_SPEC.md` の「judgement-sources.json」節にある。
+//
+// **第269便a(第59報 W1・統括の読み (F))で塞いだ穴**(第268便a の同定は body・quantity・value・sigma
+// だけを見ていた —— 現行の 2 件の選択が誤っていたのではなく、**拡張に対して開いていた穴**である):
+//   ① 同じ数値・同じ σ の**別論文**が一致してしまう → 一致条件に `source` を足す。
+//   ② 同じ数値の**別単位**(s と day)が一致してしまう → 一致条件に `unit` を足す。
+//   ③ `Number(null) === 0` なので、**空欄の value に宣言値 0 が当たる** → 双方が有限でなければ不一致。
+//   ④ 同じ key の宣言が 2 件あると**後勝ち**で黙って上書きされる → `ok:false` で**器を止める**。
+//   ⑤ 不正スキーマ(schemaVersion≠1・必須欄欠け・σ≤0)も `ok:false` で**器を止める**。
+// **止める**というのは「別の解に戻して走行を続けない」という意味である(黙って旧行へ戻らない)。
+// 将来は `record_id` / `solution_id` で同定する(**決断事項** —— 文字列出典より安定である)。
+
+// 宣言オブジェクト(ファイルの中身)の検証。**純関数**(ファイルを読まない)。
+export function validateJudgementSources(j, file = null) {
+  const errors = [];
+  if (!j || typeof j !== 'object') errors.push('schema: 宣言ファイルがオブジェクトでない');
+  const decls = (j && Array.isArray(j.declarations)) ? j.declarations : [];
+  if (j && j.schemaVersion !== 1) errors.push('schema: schemaVersion が 1 でない(' + String(j.schemaVersion) + ')');
+  if (j && !Array.isArray(j.declarations)) errors.push('schema: declarations が配列でない');
+  const str = (v) => (typeof v === 'string' && v.trim() !== '');
+  const byKey = new Map();
+  for (let i = 0; i < decls.length; i++) {
+    const d = decls[i] || {};
+    const where = '宣言[' + i + '] ' + String(d.body) + '|' + String(d.quantity);
+    for (const k of ['body', 'quantity', 'source', 'unit'])
+      if (!str(d[k])) errors.push(where + ': 必須欄 `' + k + '` が文字列でない(非空の文字列が要る)');
+    if (!Number.isFinite(Number(d.value))) errors.push(where + ': `value` が有限でない');
+    if (!('sigma' in d)) errors.push(where + ': `sigma` 欄が無い(null か正の数を書く)');
+    else if (!(d.sigma === null || (Number.isFinite(Number(d.sigma)) && Number(d.sigma) > 0)))
+      errors.push(where + ': `sigma` が null でも正の数でもない(' + String(d.sigma) + ')');
+    const key = String(d.body) + '|' + String(d.quantity);
+    if (byKey.has(key)) errors.push(where + ': **同じ key の宣言が 2 件ある**(後勝ちで黙って上書きしない)');
+    else byKey.set(key, d);
+  }
+  return { file, ok: errors.length === 0, errors,
+    schemaVersion: (j && j.schemaVersion) || null, wave: (j && j.wave) || null,
+    declarations: decls, notDeclared: (j && Array.isArray(j.notDeclared)) ? j.notDeclared : [],
+    byKey: errors.length === 0 ? byKey : new Map() };   // **不正なら 1 件も配らない**(黙って使わせない)
+}
+
 export function loadJudgementSources(file) {
   let j = null;
   try { j = JSON.parse(fs.readFileSync(file, 'utf8')); }
   catch (e) { return { file, ok: false, error: String(e && e.message || e).slice(0, 140),
-    declarations: [], byKey: new Map() }; }
-  const decls = Array.isArray(j.declarations) ? j.declarations : [];
-  const byKey = new Map();
-  for (const d of decls) byKey.set(d.body + '|' + d.quantity, d);
-  return { file, ok: true, schemaVersion: j.schemaVersion || null, wave: j.wave || null,
-    declarations: decls, notDeclared: Array.isArray(j.notDeclared) ? j.notDeclared : [], byKey };
+    errors: ['read: ' + String(e && e.message || e).slice(0, 140)],
+    declarations: [], notDeclared: [], byKey: new Map() }; }
+  const v = validateJudgementSources(j, file);
+  return Object.assign(v, { error: v.ok ? null : v.errors.join(' / ').slice(0, 300) });
 }
 
 // 宣言(1 件)に対応する CSV の行を、**全行の一覧から**選ぶ。
-//   一致条件は「body・CSV 上の鍵(`csvQuantity`)・value・sigma がすべて宣言と一致」。
+//   一致条件は「body・CSV 上の鍵(`csvQuantity`)・**source**・**unit**・value・sigma が
+//   すべて宣言と一致」(第269便a で source と unit を足した)。
 //   1 件に決まらなければ `null` を返し、理由を `reason` に置く(**推測で当てない**)。
 export function pickDeclaredRow(decl, allRows) {
   if (!decl) return { row: null, reason: 'declaration-missing' };
   const key = decl.csvQuantity || decl.quantity;
   const same = (a, b) => (a === null || a === undefined) ? (b === null || b === undefined) : (a === b);
-  const hits = (allRows || []).filter((r) => r.body === decl.body && r.quantity === key
-    && Number(r.valueRaw !== undefined ? r.valueRaw : r.value) === Number(decl.value)
-    && same(r.sigma === undefined ? null : r.sigma, decl.sigma === undefined ? null : decl.sigma));
+  const declV = Number(decl.value);
+  const hits = (allRows || []).filter((r) => {
+    if (r.body !== decl.body || r.quantity !== key) return false;
+    // **別論文・別単位を当てない**(同じ数値・同じ σ の別解があり得る)
+    if (String(r.source) !== String(decl.source)) return false;
+    if (String(r.unit) !== String(decl.unit)) return false;
+    // **空欄を 0 に変換しない**(`Number(null) === 0` の穴)
+    const rowV = (r.valueRaw !== undefined) ? r.valueRaw : r.value;
+    if (!Number.isFinite(Number(rowV)) || rowV === null || !Number.isFinite(declV)) return false;
+    if (Number(rowV) !== declV) return false;
+    return same(r.sigma === undefined ? null : r.sigma, decl.sigma === undefined ? null : decl.sigma);
+  });
   if (hits.length === 1) return { row: hits[0], reason: null };
   if (hits.length === 0) return { row: null, reason: 'csv-row-not-found' };
   return { row: null, reason: 'csv-row-ambiguous(' + hits.length + ')' };
