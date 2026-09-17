@@ -1981,6 +1981,250 @@ const add = (id, pass, detail) => {
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 
+// ---- 0a3k) 第269便c(第59報 W3・統括の読み (A)): behavior.compareStates ----
+// ----   **明示状態の語彙**(7 語)と比較行の形を機械固定する。要点は 4 つ:
+// ----     ① 語彙は `comparable / inside-interval / outside-interval / numerically-unresolved /
+// ----        mapping-unresolved / not-measurable / not-applicable` の **7 語だけ**(増やさない)。
+// ----     ② **`not-measurable` の行に値を置けない**(0 や最後の値での補完の機械的禁止)。
+// ----     ③ **手で書いた区間判定は再計算と照合**する(食い違ったら器が止まる)。
+// ----     ④ **非対称区間に対称 σ を同時に持たせない**・**p 値の鍵を置けない**。
+// ----   実体(beta 対象のときだけ): 2 つの比較 JSON の全行が語彙の中にあり、
+// ----   `not-measurable` の行の値が 1 つ残らず null で、全行に理由が書かれている。
+{
+  const bad = [];
+  const cases = [];
+  let real = null;
+  try {
+    const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w269c-compare.mjs'));
+    if (L.STATES.length !== 7) bad.push(`①語彙が 7 語でない(${L.STATES.length})`);
+    for (const w of ['comparable', 'inside-interval', 'outside-interval', 'numerically-unresolved',
+      'mapping-unresolved', 'not-measurable', 'not-applicable'])
+      if (L.STATES.indexOf(w) < 0) bad.push(`①語彙に ${w} が無い`);
+    const throws = (tag, fn) => { let t = false; try { fn(); } catch { t = true; }
+      cases.push(`${tag}=${t ? 'throw' : '通過'}`); if (!t) bad.push(`${tag} で止まらない`); };
+    const ok90 = L.interval({ value: 34.6, lower: 32.0, upper: 39.0, unit: 'M_sun', confidence: 0.90 });
+    if (!(ok90.asymmetric === true)) bad.push('④非対称の 90% 区間が asymmetric=true にならない');
+    if (!(Math.abs(ok90.upperWidth - 4.4) < 1e-9 && Math.abs(ok90.lowerWidth - 2.6) < 1e-9))
+      bad.push('④上側/下側の幅が保たれていない');
+    throws('②値つき not-measurable', () => L.compareRow({ quantity: 'q', state: 'not-measurable',
+      reason: 'r', sim: { value: 0 } }));
+    throws('①語彙外の状態', () => L.compareRow({ quantity: 'q', state: 'pass', reason: 'r', sim: {} }));
+    throws('①理由なし', () => L.compareRow({ quantity: 'q', state: 'not-applicable', sim: {} }));
+    throws('③食い違う区間判定', () => L.compareRow({ quantity: 'q', state: 'inside-interval',
+      reason: 'r', sim: { value: 100 }, obs: ok90 }));
+    throws('④対称 σ の同時宣言', () => L.interval({ value: 1, lower: 0, upper: 2, sigma: 1 }));
+    throws('④p 値の鍵', () => L.compareRow({ quantity: 'q', state: 'comparable', reason: 'r',
+      sim: { value: 1, diag: { pValue: 0.3 } } }));
+    // 値を持てる状態は止まらない(**禁止は not-measurable だけ**)
+    const okRow = L.compareRow({ quantity: 'q', state: 'mapping-unresolved', reason: 'r',
+      sim: { value: null, stages: { h: 1, h2: 2, h4: 3 } } });
+    if (okRow.sim.stages.h4 !== 3) bad.push('③段の欄が運ばれない');
+    if (L.intervalState(33, ok90).state !== 'inside-interval') bad.push('③区間内の判定が違う');
+    if (L.intervalState(40, ok90).state !== 'outside-interval') bad.push('③区間外の判定が違う');
+    if (L.intervalState(null, ok90).state !== 'not-measurable') bad.push('③値が無いのに判定した');
+    // 実体
+    if (TARGET.startsWith('beta/')) {
+      const files = ['bh90-w269c.json', 'sparc-w269c.json'];
+      let nRows = 0, nNM = 0;
+      for (const f of files) {
+        const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', f), 'utf8'));
+        if (!J.meta || !Array.isArray(J.meta.vocabulary) || J.meta.vocabulary.length !== 7)
+          bad.push(`実体: ${f} の meta に語彙が無い`);
+        if (!J.meta || !Array.isArray(J.meta.inputs) || !J.meta.inputs.some((z) => z.sha256))
+          bad.push(`実体: ${f} の meta に入力の SHA が無い`);
+        for (const c of (J.columns || [])) for (const r of (c.rows || [])) {
+          nRows++;
+          if (L.STATES.indexOf(r.state) < 0) bad.push(`実体: ${f} に語彙外 ${r.state}`);
+          if (!r.reason || !String(r.reason).trim()) bad.push(`実体: ${f} の ${r.quantity} に理由が無い`);
+          if (r.state === 'not-measurable') { nNM++;
+            if (r.sim.value !== null) bad.push(`実体: ${f} の ${r.quantity} が not-measurable なのに値を持つ`); }
+        }
+      }
+      real = { rows: nRows, notMeasurable: nNM };
+      if (nRows < 40) bad.push(`実体: 比較行が ${nRows} 行しかない`);
+    }
+  } catch (e) { bad.push('比較ライブラリが読めない: ' + String(e).slice(0, 90)); }
+  add('behavior.compareStates', bad.length === 0,
+    `**明示状態の語彙と比較行の形**(第269便c・統括の読み (A)・tests/lib-w269c-compare.mjs): `
+    + `語彙は **7 語**(comparable / inside-interval / outside-interval / numerically-unresolved / `
+    + `mapping-unresolved / not-measurable / not-applicable)—— ${cases.join(' / ')} / `
+    + (real ? `実体: 比較行 **${real.rows} 行**・うち \`not-measurable\` **${real.notMeasurable} 行**は`
+      + `**すべて値 null**(0 や最後の値で補わない) / ` : '実体: beta 対象のときだけ照合する / ')
+    + `**「完成」は比較サンプル v1 であって観測一致ではない**(観測一致は別段階・現時点で未達)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0a3l) 第269便c(第59報 W3・統括の読み (B)): behavior.bh90Intervals ----
+// ----   GW150914 の **90% 区間比較器**を機械固定する:
+// ----     ① 観測側は `lower/upper/confidence=0.90/frame/source/role/verifiedMark` を持ち、
+// ----        **非対称のまま**(上側幅 ≠ 下側幅)運ばれる。**対称 σ の欄は無い。**
+// ----     ② `orbital_period` は **派生参照値**なので 3 本とも `not-applicable`。
+// ----     ③ 🎐🎻 は `merged:false` → `final_mass`・`final_spin` は **`not-applicable`・値 null**
+// ----        (**終端の 2 体総質量を remnant に代入しない**)。
+// ----     ④ ⏰ は合体を検出するが、**観測 final_mass がどの層に当たるかが未宣言**なので
+// ----        `mapping-unresolved`(片方を選んで内/外を書かない)・remnant スピンは `not-measurable`。
+// ----     ⑤ 区間内に入った質量系の行は**転写の確認**であって**独立検証には数えない**。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP behavior.bh90Intervals(beta 対象でない: ' + TARGET + ' — 比較 JSON は beta 線の実測)');
+  } else {
+    const hasAll = await page.evaluate(() => ['gw150914', 'gw150914DFM', 'gw150914Merge4s']
+      .every((id) => HP.allPresets().some((q) => q.id === id)));
+    if (!hasAll) {
+      console.log('SKIP behavior.bh90Intervals(対象に 🎐🎻⏰ が揃っていない)');
+    } else {
+      const bad = [];
+      let seen = null;
+      try {
+        const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'bh90-w269c.json'), 'utf8'));
+        const col = (emoji) => J.columns.find((c) => c.emoji === emoji);
+        const row = (c, q) => (c ? c.rows.find((r) => r.quantity === q) : null);
+        const m1 = row(col('🎐'), 'component_mass A');
+        if (!m1) bad.push('① 🎐 の component_mass A が無い');
+        else {
+          const o = m1.obs;
+          for (const k of ['lower', 'upper', 'confidence', 'frame', 'source', 'role', 'verifiedMark'])
+            if (o[k] === undefined || o[k] === null) bad.push(`① obs に ${k} が無い`);
+          if (o.confidence !== 0.90) bad.push(`① confidence が 0.90 でない(${o.confidence})`);
+          if (o.sigma !== undefined) bad.push('① obs に対称 σ の欄がある(換算の入口)');
+          if (!(o.asymmetric === true && Math.abs(o.upperWidth - o.lowerWidth) > 1e-9))
+            bad.push('① 90% 区間が非対称のまま運ばれていない');
+        }
+        for (const e of ['🎐', '🎻', '⏰']) {
+          const c = col(e);
+          if (!c) { bad.push(`列 ${e} が無い`); continue; }
+          const p = row(c, 'orbital_period');
+          if (!p || p.state !== 'not-applicable')
+            bad.push(`② ${e} の orbital_period が not-applicable でない(${p && p.state})`);
+          const fm = row(c, 'final_mass'), fsp = row(c, 'final_spin');
+          if (!fm || !fsp) { bad.push(`③ ${e} に remnant 行が無い`); continue; }
+          if (fm.sim.value !== null || fsp.sim.value !== null)
+            bad.push(`③ ${e} の remnant 行に値が入っている(2 体総質量の代入を疑う)`);
+          if (e === '⏰') {
+            if (fm.state !== 'mapping-unresolved') bad.push(`④ ⏰ の final_mass が ${fm.state}`);
+            if (fsp.state !== 'not-measurable') bad.push(`④ ⏰ の final_spin が ${fsp.state}`);
+            const d = fm.diagnostics || {};
+            if (!(d.merged === true)) bad.push('④ ⏰ が合体を検出していない');
+            if (!d.ifTotal || !d.ifShell) bad.push('④ ⏰ の 2 通りの読みが残っていない');
+          } else {
+            if (fm.state !== 'not-applicable') bad.push(`③ ${e} の final_mass が ${fm.state}`);
+            if (fsp.state !== 'not-applicable') bad.push(`③ ${e} の final_spin が ${fsp.state}`);
+            if ((fm.diagnostics || {}).merged !== false) bad.push(`③ ${e} が merged:false でない`);
+          }
+        }
+        if (!/0 件/.test(String((J.summary || {}).independentVerification || '')))
+          bad.push('⑤ 独立検証 0 件の宣言が無い');
+        seen = { tally: J.summary.stateTallyAll,
+          merge: (col('⏰').numericalDiagnostics || {}).mergeSecByStage,
+          ifTotal: (row(col('⏰'), 'final_mass').diagnostics || {}).ifTotal,
+          ifShell: (row(col('⏰'), 'final_mass').diagnostics || {}).ifShell,
+          drift: (col('🎻').numericalDiagnostics || {}).periodDriftByStage };
+      } catch (e) { bad.push('比較 JSON が読めない: ' + String(e).slice(0, 90)); }
+      add('behavior.bh90Intervals', bad.length === 0,
+        `**GW150914 の 90% 区間比較器**(第269便c・統括の読み (B)・器 tests/exp-w269c-bh90.mjs): `
+        + `① 区間は \`lower/upper/confidence=0.90/frame/source/role\` で**非対称のまま**運ぶ`
+        + `(**対称 1σ に換算しない・周辺区間の AND を同時 90% 領域と呼ばない**)/ `
+        + `② \`orbital_period\`(0.181818 s)は**派生参照値**なので 3 本とも \`not-applicable\` / `
+        + `③ 🎐🎻 は \`merged:false\` → remnant 量は \`not-applicable\`・**値 null**`
+        + `(**終端の 2 体総質量を remnant に代入しない**)/ `
+        + `④ ⏰ は合体を検出するが(3 段 ${seen ? JSON.stringify(seen.merge) : '—'} s)、`
+        + `**観測 final_mass がどの層に当たるかが未宣言**なので \`mapping-unresolved\``
+        + `(総 ${seen && seen.ifTotal ? seen.ifTotal.value.toFixed(2) : '—'} M☉ / `
+        + `殻 ${seen && seen.ifShell ? seen.ifShell.value.toFixed(2) : '—'} M☉ の**両方を残す**)・`
+        + `remnant スピンは \`not-measurable\` / `
+        + `⑤ 🎻 の周期ドリフト ${seen ? JSON.stringify(seen.drift) : '—'} は`
+        + `**有限刻みの縮みであって物理的放射ではない** / 状態の集計 `
+        + `${seen ? JSON.stringify(seen.tally) : '—'} —— **区間内の行は転写の確認であって独立検証ではない**`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
+// ---- 0a3m) 第269便c(第59報 W3・統括の読み (C)): behavior.sparc10 ----
+// ----   NGC 3198 の **SPARC 10 点比較器**の契約を機械固定する:
+// ----     ① 契約 6 項(傾斜・中心・星と HI・ビン端・窓・数値)が JSON に載っている。
+// ----     ② **ビン端は事前宣言**(全 43 点の間隔から。最内点は −0.16 kpc)。
+// ----     ③ **44.08 kpc は初期 HI 打切りを越える** → 4 本とも `mapping-unresolved`。
+// ----     ④ **🌃 の 10 点は独立 hold-out ではない**(NFW の 2 ノブは同じ 43 点に fit 済み)。
+// ----     ⑤ **p 値の鍵がどこにも無い**(χ² の p 値は出さない)。
+// ----     ⑥ **🛞 の中心核質量を動かした対照は 1 本も無い**(対照が触るのは kFrame・seed・
+// ----        softening・ハローの有無だけ)。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP behavior.sparc10(beta 対象でない: ' + TARGET + ' — 比較 JSON は beta 線の実測)');
+  } else {
+    const hasAll = await page.evaluate(() => ['ngc3198', 'ngc3198DFM']
+      .every((id) => HP.allPresets().some((q) => q.id === id)));
+    if (!hasAll) {
+      console.log('SKIP behavior.sparc10(対象に 🌃🛞 が揃っていない)');
+    } else {
+      const bad = [];
+      let seen = null;
+      try {
+        const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'sparc-w269c.json'), 'utf8'));
+        for (const k of ['①傾斜', '②中心', '③星と HI', '④ビン端', '⑤窓', '⑥数値',
+          'holdOut', 'sigmaReading', 'centralMass'])
+          if (!J.contract || !J.contract[k]) bad.push(`① 契約に ${k} が無い`);
+        if (!/sin i を再びかけない/.test(String(J.contract['①傾斜'] || ''))) bad.push('① 傾斜の規約文が違う');
+        if (!/hold-out ではな/.test(String(J.contract.holdOut || '')))
+          bad.push('④ 🌃 が hold-out でない宣言が無い');
+        if (J.points.length !== 10) bad.push(`② 点が 10 でない(${J.points.length})`);
+        if (J.observationVersion.fullPoints !== 43) bad.push('② 43 点の一覧が読めていない');
+        for (const p of J.points) {
+          if (!p.bin || !Number.isFinite(p.bin.loKpc) || !Number.isFinite(p.bin.hiKpc))
+            bad.push(`② ${p.rKpc} kpc にビン端が無い`);
+          if (!p.bin.rule) bad.push(`② ${p.rKpc} kpc にビン端の規則が無い`);
+        }
+        const inner = J.points[0];
+        if (Math.abs(inner.bin.loKpc - (inner.rKpc - 0.16)) > 1e-9)
+          bad.push('② 最内点の内側端が −0.16 kpc でない');
+        if (J.columns.length !== 4) bad.push(`③ 走行が 4 本でない(${J.columns.length})`);
+        for (const c of J.columns) {
+          const r = c.rows.find((z) => /44\.08/.test(z.quantity));
+          if (!r || r.state !== 'mapping-unresolved')
+            bad.push(`③ ${c.emoji} の 44.08 kpc が mapping-unresolved でない(${r && r.state})`);
+          if (!(c.initialCutoff.hiKpc < 44.08))
+            bad.push(`③ ${c.emoji} の初期 HI 打切りが 44.08 kpc 未満でない`);
+          if (c.rows.length !== 10) bad.push(`③ ${c.emoji} の行が 10 でない`);
+          // ⑥ 対照が触ってよい鍵だけか(**中心核質量は動かさない**)
+          const keys = Object.keys(c.patch || {});
+          for (const k of keys) if (['id', 'dropHalo', 'physics', 'seed'].indexOf(k) < 0)
+            bad.push(`⑥ 対照が ${k} を触っている`);
+          for (const k of Object.keys((c.patch && c.patch.physics) || {}))
+            if (['kFrame', 'softening'].indexOf(k) < 0) bad.push(`⑥ 対照が physics.${k} を触っている`);
+        }
+        for (const s of (J.sensitivity || [])) {
+          for (const k of Object.keys(s.patch || {}))
+            if (['id', 'dropHalo', 'physics', 'seed'].indexOf(k) < 0)
+              bad.push(`⑥ 感度が ${k} を触っている`);
+          for (const k of Object.keys((s.patch && s.patch.physics) || {}))
+            if (['kFrame', 'softening'].indexOf(k) < 0) bad.push(`⑥ 感度が physics.${k} を触っている`);
+        }
+        const src = JSON.stringify(J);
+        for (const k of ['"pValue"', '"pvalue"', '"chi2p"', '"p_value"'])
+          if (src.indexOf(k) >= 0) bad.push(`⑤ ${k} の鍵がある(χ² の p 値は出さない)`);
+        seen = { cutoff: J.columns.map((c) => +c.initialCutoff.hiKpc.toFixed(2)),
+          tally: J.summary.stateTallyAll,
+          occ: J.columns.map((c) => c.binOccupancyAtJudgement.max) };
+      } catch (e) { bad.push('SPARC 比較 JSON が読めない: ' + String(e).slice(0, 90)); }
+      add('behavior.sparc10', bad.length === 0,
+        `**NGC 3198 の SPARC 10 点比較器**(第269便c・統括の読み (C)・器 tests/exp-w269c-sparc.mjs): `
+        + `① 契約 6 項(傾斜補正済み → **sin i を再びかけない**/共通の中心位置・中心速度/`
+        + `**星と HI を区別**/ビン端の事前宣言/窓/h・h2・h4 と N・softening・seed)が JSON にある / `
+        + `② **ビン端は全 43 点の半径間隔から事前宣言**(最内点の内側端は −0.16 kpc)/ `
+        + `③ 初期 HI 打切り(t=0 実測)は 4 本で ${seen ? JSON.stringify(seen.cutoff) : '—'} kpc —— `
+        + `**42.17・44.08 kpc はどの走行でも打切りの外**なので \`mapping-unresolved\`(0 で補わない)/ `
+        + `④ **🌃 の NFW は同じ 43 点への自前 fit なので、10 点は独立 hold-out ではない**`
+        + `(fit の再現確認。🛞 は未使用予測)/ ⑤ **χ² の p 値の鍵はどこにも無い** / `
+        + `⑥ **対照が触るのは kFrame・seed・softening・ハローの有無だけ**`
+        + `(**🛞 の中心核質量は増やしても調整してもいない**)/ `
+        + `帯の最大粒子数 ${seen ? JSON.stringify(seen.occ) : '—'}・状態 `
+        + `${seen ? JSON.stringify(seen.tally) : '—'} —— **回転曲線を再現したとは書かない**`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
 // ---- 0a3e) 第264便d(第56報 W4・統括の裁定 X13): version.promote-check ----
 // ----   `tests/release-promote.mjs --check` の **7 項**を QA にする。
 // ----   〔第263便d〕はこの 7 項を「昇格した人が手で回すもの」にしていたが、昇格後の

@@ -255,6 +255,19 @@ out.presetFacts = await pg.evaluate((ids) => window.__w265aPresetFacts(ids),
 out.gateCensus = {
   bh: gateCensus(SOLAR, ['GW150914 A', 'GW150914 B']),
   cluster: gateCensus(CLUSTER, ['47 Tuc']),
+  // 第269便c(第59報 W3・統括の読み (C)): **銀河も同じ 1 本で数える**。
+  //   NGC 3198 の候補 10 点(`_candidate` 行)は sigma 列に e_Vobs を持つが、
+  //   ① 行は `_candidate` で採用行ではない ② 印は `sigma_primary=unverified` のまま
+  //   ③ 門の対応表(`tests/lib-sigma-destinations.mjs`)に **NGC 3198 の宛先が 1 行も無い**
+  //   —— したがって `withWiredVerifiedSigma` は 0 である。
+  galaxy: gateCensus(CLUSTER, ['NGC 3198']),
+  sparcNote: '**SPARC の 10 点は門に繋がっていない。** 候補行(`_candidate`)は sigma 列に e_Vobs を'
+    + '持つが、印は `sigma_primary=unverified` で、門の対応表に NGC 3198 の宛先が無い。'
+    + '**外部照合の注記(`value_checked_by=external review`)が行に付いても、この数は 1 つも動かない** '
+    + '—— 接続を決めるのは `sigma_primary=verified` の印と門の宛先であって、'
+    + '外部照合の注記ではない(この器は注記の有無を読まない)。'
+    + 'さらに **e_Vobs は非円運動のランダム誤差で傾斜の系統誤差を含まない**ので、'
+    + 'σ 列に値があること自体が「独立 Gaussian の全誤差が揃った」ことを意味しない。',
   note: '**σ を持つ行の本数**を数えた。0 なら「観測 2 量の門が繋がっていない」——'
     + 'この状態で共同根を出さない(統括の読み (B))。第266便a で星団 CSV にも sigma 列が付いたが、'
     + '**印が `verified` の行だけ**を接続と数える(`withVerifiedSigma`)。'
