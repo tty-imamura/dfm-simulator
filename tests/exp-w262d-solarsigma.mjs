@@ -26,6 +26,11 @@ import { fileURLToPath } from 'node:url';
 // (語境界 + 第251便c の凡例文を除外 + 先頭一致)。読み方を器ごとに変えないための 1 本である。
 import { isSigmaPrimaryVerified, legacyIsSigmaPrimaryVerified,
   readSigmaKind } from './lib-w264d-sigmamark.mjs';
+// 第268便a(第58報 W1・統括の読み (A)(B)(D)): **必須ガード**(定義宣言・観測量対応・数値収束)・
+// **単位換算**(deg/orbit → deg/yr を**同じ近点窓の近点間周期**で)・**採用観測解の明示宣言**。
+// **既定の 4 値は動かさない** —— 換算後と宣言後は**別の欄**に置く。
+import { requiredGuards, precessionDegPerYear, degPerYearToPerOrbit, YEAR_SEC,
+  loadJudgementSources, pickDeclaredRow } from './lib-w268a-judgement.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const argv = process.argv.slice(2);
@@ -48,24 +53,28 @@ function parseCsvLine(line) {
 function loadCsv() {
   const txt = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8');
   const rows = new Map();   // "body|quantity" → row(**最初の行**を採る — calaudit と同じ規約)
+  const all = [];           // 第268便a: 宣言表は候補行(別の鍵・2 行目以降)を指すので全行も持つ
   const bodies = new Set();
   for (const line of txt.split('\n')) {
     if (!line.trim() || line.startsWith('body,')) continue;
     const c = parseCsvLine(line);
     bodies.add(c[0]);
     const key = c[0] + '|' + c[1];
-    if (rows.has(key)) continue;
     const sg = (c[8] !== undefined && c[8].trim() !== '') ? Number(c[8]) : null;
     const kind = readSigmaKind(c[7] || '');
-    rows.set(key, { body: c[0], quantity: c[1], value: Number(c[2]), unit: c[3], source: c[4],
+    const rec = { body: c[0], quantity: c[1], value: Number(c[2]), unit: c[3], source: c[4],
+      valueRaw: (c[2] !== undefined && String(c[2]).trim() !== '') ? Number(c[2]) : null,
       sigma: (Number.isFinite(sg) && sg > 0) ? sg : null,
       // 第264便d(X6): 厳密読み。旧読み(部分一致)との差は `markAudit` に数で残す。
       primaryVerified: isSigmaPrimaryVerified(c[7] || ''),
       primaryVerifiedLegacy: legacyIsSigmaPrimaryVerified(c[7] || ''),
       sigmaKind: kind.kind, infoScale: kind.scale, infoScaleKind: kind.scaleKind,
-      intake2026_09_15: /intake_row=2026-09-15/.test(c[7] || '') });
+      intake2026_09_15: /intake_row=2026-09-15/.test(c[7] || '') };
+    all.push(rec);
+    if (rows.has(key)) continue;
+    rows.set(key, rec);
   }
-  return { rows, bodies };
+  return { rows, bodies, all };
 }
 
 // ---------------------------------------------------------------- 宣言表(自動判定ではない)
@@ -111,6 +120,16 @@ function obsUnitMatches(obsUnit, csvUnit) {
 }
 
 const GATE = { nSigma: 3, numBudget: 0.3 };   // 3σ の門(第249便b と同じ宣言)
+
+// ---------------------------------------------------------------- 第268便a(第58報 W1)
+// **既定の 4 値は据え置く**。本便で足すのは**横に並べる 2 列**である:
+//   ・`unitConvertedFirst` … 統括の読み (A)。切断点 `unit-not-converted` の行を、**同じ近点窓の
+//     近点間周期 `pPeriSec`** で deg/orbit → deg/yr に換算したら残差が σ の何倍になるか。
+//     **対照として、周期行(`periodDef=revolution`)と丸めた観測周期でも換算する**(符号が変わる)。
+//   ・`declaredFirst` … 統括の読み (D)。`paper/data/judgement-sources.json` の宣言行で読んだときの
+//     値差・σ 倍。**宣言前の判定行は 1 行も差し替えていない**(既定の列は不変である)。
+// どちらも**正式判定ではない** —— 3 段の収束(`convergence.ok`)が揃うまでは「数値未解決」である。
+const JS = loadJudgementSources(path.join(ROOT, 'paper', 'data', 'judgement-sources.json'));
 
 // ---------------------------------------------------------------- 本体
 const csv = loadCsv();
@@ -159,7 +178,7 @@ for (const [id, emoji] of SOLAR) {
     // 第263便c: `csv-sigma-unverified` の行は **σ を数として持つ**(接続数に数える)。
     // 判定へは入れない —— 状態名は「保留(σ 未確認)」で、`保留(σ 未登録)` とは別に数える。
     const sigma = (cut === null || cut === 'csv-sigma-unverified') ? csvRow.sigma : null;
-    let verdict = null, resid = null, nSig = null, numOk = null;
+    let verdict = null, resid = null, nSig = null, numOk = null, guards = null;
     if (condMismatch) verdict = '条件不一致(対照の走行が別)';
     else if (cut === 'csv-sigma-unverified') verdict = '保留(σ 未確認)';
     // 第266便a: **σ は登録も確認も済んでいるが、obsCard の単位と CSV の単位が違う**宛先。
@@ -172,8 +191,80 @@ for (const [id, emoji] of SOLAR) {
       nSig = resid / sigma;
       const numBound = (q.gate && Number.isFinite(q.gate.numBound)) ? q.gate.numBound : null;
       numOk = (numBound === null) ? null : (numBound <= GATE.numBudget * sigma);
-      verdict = (numOk !== true) ? '保留(数値精度 ε_num > 0.3σ)'
+      // 第268便a(統括の読み (B)): **必須ガード**。σ が門へ届いても、判定量の定義が宣言されて
+      // いない/観測量対応が確定していない/数値収束が確認されていない量は**判定しない**。
+      // (第266便a まで、この器が見ていたのは `numBound<=0.3σ` だけだった —— 正本の 3 欄を見ていない。)
+      guards = requiredGuards(q.gate);
+      verdict = (!guards.ok) ? guards.verdict
+        : (numOk !== true) ? '保留(数値精度 ε_num > 0.3σ)'
         : (resid <= GATE.nSigma * sigma + numBound) ? '合(3σ)' : '否(3σ)';
+    }
+    // ---- 第268便a(統括の読み (A)・AB1): **換算後の欄**(既定の欄は上のまま動かさない)----
+    // 切断点 `unit-not-converted`(obsCard が deg/orbit・CSV が deg/yr)の行を、**分子の Δϖ と
+    // 同じ近点窓の近点間周期**で deg/yr へ写す。**周期行と丸めた観測周期は対照として並べる**。
+    let converted = null;
+    if (cut === 'unit-not-converted' && kind === 'precession' && csvRow && csvRow.sigma !== null
+      && typeof q.meas === 'number' && Number.isFinite(q.meas)) {
+      const det = q.detail || {};
+      const obsV = csvRow.value, obsS = csvRow.sigma;
+      const mk = (label, P, periodDef) => {
+        const v = precessionDegPerYear({ degPerOrbit: q.meas, pPeriSec: P });
+        return { label, periodSec: P, periodDef,
+          simDegPerYear: v, residual: (v === null) ? null : v - obsV,
+          nSigma: (v === null) ? null : (v - obsV) / obsS };
+      };
+      const primary = mk('近点間周期(判定に使う換算 — 分子と同じ窓)', det.pPeriSec || null, 'periastron');
+      const controls = [mk('同方向 1 周の周期行(**使わない** — 定義が違う)', det.pRevSec || null, 'revolution')];
+      // 丸めた観測周期の対照(obsCard が持っているときだけ — 手で数字を打たない)
+      const pObs = (() => {
+        const pq = (byId.get(id).quantities || []).find((z) => z.kind === 'period' && z.target === target
+          && typeof z.obs === 'number' && Number.isFinite(z.obs));
+        return pq ? pq.obs : null;
+      })();
+      if (pObs !== null) controls.push(mk('丸めた観測周期(**使わない** — 観測の丸め幅が入る)', pObs, 'observed-rounded'));
+      const g2 = requiredGuards(q.gate);
+      converted = { from: q.unit, to: csvRow.unit, yearSec: YEAR_SEC,
+        obsValue: obsV, obsSigma: obsS,
+        primary, controls,
+        // 観測側を deg/orbit へ写しても**同じ σ 倍**になる(同じ正の係数で両辺を割るだけ)
+        inverseCheck: (() => {
+          const o = degPerYearToPerOrbit({ degPerYear: obsV, pPeriSec: det.pPeriSec || null });
+          const os = degPerYearToPerOrbit({ degPerYear: obsS, pPeriSec: det.pPeriSec || null });
+          return (o === null || os === null || !(os > 0)) ? null
+            : { obsDegPerOrbit: o, sigmaDegPerOrbit: os, nSigma: (q.meas - o) / os };
+        })(),
+        guards: g2,
+        verdict: (primary.simDegPerYear === null) ? '換算不能(同じ窓の近点間周期が未測定)'
+          : (!g2.ok ? g2.verdict : '換算後も判定せず(3 段の収束を先に見る)'),
+        note: '**正式判定は「数値未解決」**(3 段の収束の前に否とも合とも言わない)。'
+          + '既定の 4 値と切断点 `unit-not-converted` は**据え置き**である。' };
+    }
+    // ---- 第268便a(統括の読み (D)・AB2): **宣言後の初判定**の欄(既定の行選択は差し替えない)----
+    let declaredFirst = null;
+    if (body && quant) {
+      const decl = JS.byKey.get(body + '|' + quant) || null;
+      if (decl) {
+        const pick = pickDeclaredRow(decl, csv.all);
+        const dRow = pick.row;
+        const dSigma = (dRow && dRow.sigma !== null) ? dRow.sigma : null;
+        const measOk = (typeof q.meas === 'number' && Number.isFinite(q.meas));
+        const g3 = requiredGuards(q.gate);
+        const resid2 = (dRow && measOk && dRow.valueRaw !== null) ? Math.abs(q.meas - dRow.valueRaw) : null;
+        declaredFirst = { key: body + '|' + quant, declaredSource: String(decl.source).slice(0, 90),
+          declaredValue: decl.value, declaredSigma: decl.sigma === undefined ? null : decl.sigma,
+          applied: !!dRow, fallbackReason: dRow ? null : pick.reason,
+          previousRow: csvRow ? { value: csvRow.value, sigma: csvRow.sigma, unit: csvRow.unit,
+            source: String(csvRow.source).slice(0, 60), primaryVerified: csvRow.primaryVerified } : null,
+          valueDelta: (dRow && csvRow && dRow.valueRaw !== null && Number.isFinite(csvRow.value))
+            ? dRow.valueRaw - csvRow.value : null,
+          residual: resid2, nSigma: (resid2 !== null && dSigma) ? resid2 / dSigma : null,
+          primaryVerified: dRow ? dRow.primaryVerified : null,
+          guards: g3,
+          verdict: !dRow ? '宣言が CSV の行に当たらない(' + pick.reason + ')'
+            : (dSigma === null) ? '保留(σ 未登録 — 宣言行にも 1σ が印字されていない)'
+            : (!g3.ok ? g3.verdict : '宣言後も判定せず(3 段の収束を先に見る)'),
+          note: '**「宣言後の初判定」は別欄である** —— 宣言前の 4 値と判定内訳は据え置く(上書きしない)。' };
+      }
     }
     qrows.push({ id, emoji, name: q.name, kind, target, unit: q.unit,
       obs: (typeof q.obs === 'number') ? q.obs : null, meas: q.meas, sigmaCard: q.obsErr || null,
@@ -181,7 +272,9 @@ for (const [id, emoji] of SOLAR) {
       csvRow: csvRow ? { value: csvRow.value, unit: csvRow.unit, sigma: csvRow.sigma,
         primaryVerified: csvRow.primaryVerified } : null,
       cut, condMismatch, sigma, residual: resid, nSigma: nSig, numOk,
-      gateStatusBefore: q.gate ? q.gate.status : null, verdict });
+      gateStatusBefore: q.gate ? q.gate.status : null, verdict,
+      // 第268便a: 既定の欄(上)を動かさず、横に 3 つ足す
+      guards, unitConvertedFirst: converted, declaredFirst });
   }
   rows.push(...qrows);
   // 系の 4 値(§1 の定義そのまま — σ を持つ判定量が 1 つも無ければ「保留」)
@@ -246,6 +339,38 @@ const out = {
         + '(公転周期・離心率・近点移動・自転)の σ は '
         + solarSigmaRows.filter((r) => Object.values(KIND_QUANT).includes(r.quantity)).length
         + ' 件である** —— 入ったのは半径・GM・候補行の σ で、判定量の σ ではない' },
+  // ---- 第268便a(第58報 W1): **据え置き欄の横に並べる 2 列**(4 値は 1 本も動かさない)----
+  guardsRule: requiredGuards({}).rule,
+  unitConvertedFirst: {
+    what: '切断点 `unit-not-converted` の行を、**分子の Δϖ と同じ近点窓の近点間周期**で '
+      + 'deg/orbit → deg/yr に換算したときの残差 σ 倍。**対照**として周期行(revolution)と'
+      + '丸めた観測周期でも換算し、**どの P を使うかで符号まで変わる**ことを数で置く。',
+    yearSec: YEAR_SEC,
+    contract: ['分子の Δϖ と同じ近点・同じ窓の時刻から作った周期(`pPeriSec`)を使う',
+      '観測値と観測 σ は同じ係数で同じ単位へ写す(逆向きに写しても σ 倍は同じ)',
+      '換算係数の数値誤差は σ に混ぜない —— 換算後の量そのものを h/h2/h4 で検査する',
+      'obsCard の表示単位と内部判定単位は分けてよい'],
+    rows: rows.filter((r) => r.unitConvertedFirst).map((r) => ({ id: r.id, emoji: r.emoji,
+      target: r.target, measDegPerOrbit: r.meas,
+      obs: r.unitConvertedFirst.obsValue, sigma: r.unitConvertedFirst.obsSigma,
+      primary: r.unitConvertedFirst.primary, controls: r.unitConvertedFirst.controls,
+      inverseCheck: r.unitConvertedFirst.inverseCheck, verdict: r.unitConvertedFirst.verdict })),
+    cutPreserved: (cutTally['unit-not-converted'] || 0),
+    note: '**既定の 4 値・切断点は据え置き**である(この欄は横に並べた記録であって判定ではない)。'
+      + '**正式判定は「数値未解決」** —— 3 段の収束(`convergence.ok`)が揃う前に否とも合とも言わない。',
+    doNotWrite: ['換算したら D68 が合(3σ) になった', '換算で判定が増えた', '太陽系の σ が揃った'],
+  },
+  declaredFirst: {
+    what: '**採用観測解の明示宣言**(`paper/data/judgement-sources.json`)で判定行を読んだときの'
+      + '値差と σ 倍。**宣言前の判定行は 1 行も差し替えていない**(既定の列は不変)。',
+    file: 'paper/data/judgement-sources.json', ok: JS.ok,
+    declared: JS.declarations.map((d) => d.body + '|' + d.quantity),
+    notDeclared: (JS.notDeclared || []).map((d) => d.body + '|' + d.quantity + '(' + d.why + ')'),
+    rows: rows.filter((r) => r.declaredFirst).map((r) => Object.assign({ id: r.id, emoji: r.emoji,
+      target: r.target, kind: r.kind, meas: r.meas }, r.declaredFirst)),
+    note: '**「宣言後の初判定」は 4 値の横に置く**(上書きしない)。σ の無い宣言は行選択を決めるだけで、'
+      + '門へは 1 bit も入らない。',
+  },
   cutTally, fourTally, presets, rows, missingForJudgement,
   conclusion: {
     connected: cutTally.connected || 0,
@@ -272,7 +397,23 @@ console.log('  切断点の内訳: ' + JSON.stringify(cutTally));
 console.log('  判定に足りないもの(天体×量): ' + missingForJudgement.length + ' 組 —— '
   + missingForJudgement.slice(0, 8).map((e) => e.key + '(' + e.cut + ')').join(' , ')
   + (missingForJudgement.length > 8 ? ' …' : ''));
-console.log('  4 値の内訳: ' + JSON.stringify(fourTally));
+console.log('  4 値の内訳: ' + JSON.stringify(fourTally) + '(**据え置き欄** — 本便で 1 本も動かしていない)');
+// ---- 第268便a: 横に並べた 2 列(判定ではない)----
+for (const r of out.unitConvertedFirst.rows) {
+  const c = r.primary;
+  console.log('  換算後 ' + r.emoji + ' ' + pad(r.id, 20) + ' ' + pad(r.target, 6)
+    + ' Δϖ=' + r.measDegPerOrbit.toPrecision(10) + ' deg/周 → '
+    + (c.simDegPerYear === null ? '換算不能(近点間周期が未測定)'
+      : c.simDegPerYear.toPrecision(10) + ' deg/yr(' + c.nSigma.toFixed(4) + 'σ)')
+    + r.controls.map((z) => ' / 対照 ' + z.periodDef + ' '
+      + (z.nSigma === null ? '—' : z.nSigma.toFixed(4) + 'σ')).join(''));
+}
+for (const r of out.declaredFirst.rows) {
+  console.log('  宣言後 ' + r.emoji + ' ' + pad(r.id, 20) + ' ' + pad(r.key, 26)
+    + ' 値差 ' + (r.valueDelta === null ? '—' : String(r.valueDelta))
+    + ' / σ 倍 ' + (r.nSigma === null ? '—' : r.nSigma.toPrecision(8))
+    + ' / ' + r.verdict);
+}
 for (const p of presets) {
   if (p.missing) { console.log('  ' + pad(p.id, 20) + ' (calaudit JSON に無い)'); continue; }
   console.log('  ' + p.emoji + ' ' + pad(p.id, 20) + ' 量 ' + pad(p.nQuantities, 3)

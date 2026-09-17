@@ -37959,18 +37959,7 @@
   "checked": 46,
   "unchanged": 46,
   "changed": [],
-  "verifiedFlips": [
-   {
-    "key": "psrJ1946DFM|B|ecc",
-    "from": false,
-    "to": true
-   },
-   {
-    "key": "psrJ1946PN|B|ecc",
-    "from": false,
-    "to": true
-   }
-  ],
+  "verifiedFlips": [],
   "noSource": 268,
   "limitation": "既存の `sigmaSource` の宛先だけを見る。**新しく繋がる量(対応表に無い宛先)は走行が要る** —— --regate は「繋がっている σ が動いたか」しか答えない。"
  },
@@ -40642,5 +40631,36 @@
   "pass3SigmaTotal": 2,
   "rule": "**登録表は「3 段(dt/4)で走らせる対象である」という宣言**である。登録しても σ は 1 件も増えず、3σ も 1 件も動かない —— `pass3SigmaTotal` がそれを数える。",
   "note": "**新しく繋がった量が 3σ を通らないことを隠さない**(第264便a の 11 件は 0 件のままである)。"
+ },
+ "judgementSources": {
+  "file": "paper/data/judgement-sources.json",
+  "ok": true,
+  "error": null,
+  "schemaVersion": 1,
+  "declared": [
+   {
+    "key": "Charon|orbital_period",
+    "source": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
+    "value": 551856.43872,
+    "sigma": 0.02592
+   },
+   {
+    "key": "Venus|eccentricity",
+    "source": "JPL SSD Approximate Positions of the Planets / Standish Keplerian elements Table 1",
+    "value": 0.00677672,
+    "sigma": null
+   }
+  ],
+  "notDeclared": [
+   "Phobos|orbital_period",
+   "Deimos|orbital_period",
+   "Deimos|eccentricity",
+   "Mercury|orbital_period",
+   "Mars|orbital_period",
+   "Triton|orbital_period",
+   "Triton|eccentricity",
+   "Mercury|periastron_advance"
+  ],
+  "note": "**宣言の無い body|quantity は従来どおりファイル順の最初の行**である(後方互換)。宣言後の判定は「**宣言後の初判定**」として別欄に置き、宣言前の 4 値は据え置く。"
  }
 }

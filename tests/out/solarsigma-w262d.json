@@ -1,5 +1,5 @@
 {
- "when": "2026-09-17T03:52:32.966Z",
+ "when": "2026-09-17T10:08:10.712Z",
  "wave": "第262便d(第54報 W4)→ 第263便c(第55報 W3)で σ 未確認の状態名と不足一覧を足した",
  "inputs": {
   "calaudit": "tests/out/calaudit-w249.json",
@@ -94,6 +94,383 @@
   },
   "solarSigmaGated": 2,
   "finding": "太陽系の body にも σ の行が入った(2026-09-14 の観測レコード intake)。**ただし門が読む量(公転周期・離心率・近点移動・自転)の σ は 2 件である** —— 入ったのは半径・GM・候補行の σ で、判定量の σ ではない"
+ },
+ "guardsRule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)",
+ "unitConvertedFirst": {
+  "what": "切断点 `unit-not-converted` の行を、**分子の Δϖ と同じ近点窓の近点間周期**で deg/orbit → deg/yr に換算したときの残差 σ 倍。**対照**として周期行(revolution)と丸めた観測周期でも換算し、**どの P を使うかで符号まで変わる**ことを数で置く。",
+  "yearSec": 31557600,
+  "contract": [
+   "分子の Δϖ と同じ近点・同じ窓の時刻から作った周期(`pPeriSec`)を使う",
+   "観測値と観測 σ は同じ係数で同じ単位へ写す(逆向きに写しても σ 倍は同じ)",
+   "換算係数の数値誤差は σ に混ぜない —— 換算後の量そのものを h/h2/h4 で検査する",
+   "obsCard の表示単位と内部判定単位は分けてよい"
+  ],
+  "rows": [
+   {
+    "id": "mercuryReal",
+    "emoji": "☄️",
+    "target": "水星",
+    "measDegPerOrbit": 0.000022514656997711987,
+    "obs": 0.00159808333333333,
+    "sigma": 4.167e-9,
+    "primary": {
+     "label": "近点間周期(判定に使う換算 — 分子と同じ窓)",
+     "periodSec": 7600537.079004313,
+     "periodDef": "periastron",
+     "simDegPerYear": 0.00009348135957835153,
+     "residual": -0.0015046019737549785,
+     "nSigma": -361075.5876541825
+    },
+    "controls": [
+     {
+      "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
+      "periodSec": 7600536.760786635,
+      "periodDef": "revolution",
+      "simDegPerYear": 0.00009348136349220947,
+      "residual": -0.0015046019698411205,
+      "nSigma": -361075.5867149317
+     },
+     {
+      "label": "丸めた観測周期(**使わない** — 観測の丸め幅が入る)",
+      "periodSec": 7600521.6,
+      "periodDef": "observed-rounded",
+      "simDegPerYear": 0.00009348154995980747,
+      "residual": -0.0015046017833735227,
+      "nSigma": -361075.5419662881
+     }
+    ],
+    "inverseCheck": {
+     "obsDegPerOrbit": 0.0003848927557969803,
+     "sigmaDegPerOrbit": 1.0036073088007633e-9,
+     "nSigma": -361075.5876541826
+    },
+    "verdict": "保留(数値収束が未確認)"
+   },
+   {
+    "id": "mercuryRealKF1",
+    "emoji": "🪨",
+    "target": "水星",
+    "measDegPerOrbit": 0.000022486098667853376,
+    "obs": 0.00159808333333333,
+    "sigma": 4.167e-9,
+    "primary": {
+     "label": "近点間周期(判定に使う換算 — 分子と同じ窓)",
+     "periodSec": 7600537.078758849,
+     "periodDef": "periastron",
+     "simDegPerYear": 0.00009336278475685393,
+     "residual": -0.001504720548576476,
+     "nSigma": -361104.0433348875
+    },
+    "controls": [
+     {
+      "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
+      "periodSec": 7600536.760922814,
+      "periodDef": "revolution",
+      "simDegPerYear": 0.00009336278866105941,
+      "residual": -0.0015047205446722706,
+      "nSigma": -361104.0423979531
+     }
+    ],
+    "inverseCheck": {
+     "obsDegPerOrbit": 0.0003848927557845499,
+     "sigmaDegPerOrbit": 1.0036073087683513e-9,
+     "nSigma": -361104.04333488754
+    },
+    "verdict": "保留(数値収束が未確認)"
+   },
+   {
+    "id": "solarInner",
+    "emoji": "🌞",
+    "target": "水星",
+    "measDegPerOrbit": -2.327025246470399,
+    "obs": 0.00159808333333333,
+    "sigma": 4.167e-9,
+    "primary": {
+     "label": "近点間周期(判定に使う換算 — 分子と同じ窓)",
+     "periodSec": null,
+     "periodDef": "periastron",
+     "simDegPerYear": null,
+     "residual": null,
+     "nSigma": null
+    },
+    "controls": [
+     {
+      "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
+      "periodSec": 7600499.003331359,
+      "periodDef": "revolution",
+      "simDegPerYear": -9.661909288564736,
+      "residual": -9.663507371898069,
+      "nSigma": -2319056244.755956
+     },
+     {
+      "label": "丸めた観測周期(**使わない** — 観測の丸め幅が入る)",
+      "periodSec": 7600521.6,
+      "periodDef": "observed-rounded",
+      "simDegPerYear": -9.66188056330427,
+      "residual": -9.663478646637603,
+      "nSigma": -2319049351.244925
+     }
+    ],
+    "inverseCheck": null,
+    "verdict": "換算不能(同じ窓の近点間周期が未測定)"
+   },
+   {
+    "id": "saturnZonalD68",
+    "emoji": "📡",
+    "target": "D68",
+    "measDegPerOrbit": 8.042145452277042,
+    "obs": 13968.25575,
+    "sigma": 2.922,
+    "primary": {
+     "label": "近点間周期(判定に使う換算 — 分子と同じ窓)",
+     "periodSec": 18224.858223651565,
+     "periodDef": "periastron",
+     "simDegPerYear": 13925.529966286234,
+     "residual": -42.72578371376585,
+     "nSigma": -14.622102571446218
+    },
+    "controls": [
+     {
+      "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
+      "periodSec": 17865.949830569363,
+      "periodDef": "revolution",
+      "simDegPerYear": 14205.27941316233,
+      "residual": 237.0236631623302,
+      "nSigma": 81.11692784473996
+     },
+     {
+      "label": "丸めた観測周期(**使わない** — 観測の丸め幅が入る)",
+      "periodSec": 17928,
+      "periodDef": "observed-rounded",
+      "simDegPerYear": 14156.113862381637,
+      "residual": 187.8581123816366,
+      "nSigma": 64.29093510665182
+     }
+    ],
+    "inverseCheck": {
+     "obsDegPerOrbit": 8.066820058415587,
+     "sigmaDegPerOrbit": 0.0016874868725603302,
+     "nSigma": -14.622102571445408
+    },
+    "verdict": "保留(数値収束が未確認)"
+   }
+  ],
+  "cutPreserved": 4,
+  "note": "**既定の 4 値・切断点は据え置き**である(この欄は横に並べた記録であって判定ではない)。**正式判定は「数値未解決」** —— 3 段の収束(`convergence.ok`)が揃う前に否とも合とも言わない。",
+  "doNotWrite": [
+   "換算したら D68 が合(3σ) になった",
+   "換算で判定が増えた",
+   "太陽系の σ が揃った"
+  ]
+ },
+ "declaredFirst": {
+  "what": "**採用観測解の明示宣言**(`paper/data/judgement-sources.json`)で判定行を読んだときの値差と σ 倍。**宣言前の判定行は 1 行も差し替えていない**(既定の列は不変)。",
+  "file": "paper/data/judgement-sources.json",
+  "ok": true,
+  "declared": [
+   "Charon|orbital_period",
+   "Venus|eccentricity"
+  ],
+  "notDeclared": [
+   "Phobos|orbital_period(AB4 未解決 — Jacobson 2010 Table 6 の Period 列と λ̇ 列で読みが食い違う(周期定義の照合が先))",
+   "Deimos|orbital_period(同上(ダイモスは 17.90 s 差))",
+   "Deimos|eccentricity(同上(採用解を決める前に周期定義の照合が要る))",
+   "Mercury|orbital_period(周期定義(恒星周期/近点間/平均運動からの換算)の照合が先)",
+   "Mars|orbital_period(同上)",
+   "Triton|orbital_period(NSSDC 値が Jacobson 2009 の平均運動の換算と判明している — 周期定義の照合が先)",
+   "Triton|eccentricity(同上)",
+   "Mercury|periastron_advance(現行の判定行が既に Park 2017 Table 3 で、宣言しても行は動かない(宣言の必要が無い))"
+  ],
+  "rows": [
+   {
+    "id": "solarInner",
+    "emoji": "🌞",
+    "target": "金星",
+    "kind": "ecc",
+    "meas": 0.00002443857485710003,
+    "key": "Venus|eccentricity",
+    "declaredSource": "JPL SSD Approximate Positions of the Planets / Standish Keplerian elements Table 1",
+    "declaredValue": 0.00677672,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "previousRow": {
+     "value": 0.007,
+     "sigma": null,
+     "unit": "1",
+     "source": "dfm-simulator solarInner declaration (committed)",
+     "primaryVerified": false
+    },
+    "valueDelta": -0.00022328000000000018,
+    "residual": 0.0067522814251429,
+    "nSigma": null,
+    "primaryVerified": false,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "観測量対応が未確定",
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": false,
+     "convergenceOk": false,
+     "verdict": "保留(観測量対応が未確定/数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**「宣言後の初判定」は別欄である** —— 宣言前の 4 値と判定内訳は据え置く(上書きしない)。"
+   },
+   {
+    "id": "venusReal",
+    "emoji": "🌇",
+    "target": "金星",
+    "kind": "ecc",
+    "meas": 0.007008166125620266,
+    "key": "Venus|eccentricity",
+    "declaredSource": "JPL SSD Approximate Positions of the Planets / Standish Keplerian elements Table 1",
+    "declaredValue": 0.00677672,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "previousRow": {
+     "value": 0.007,
+     "sigma": null,
+     "unit": "1",
+     "source": "dfm-simulator solarInner declaration (committed)",
+     "primaryVerified": false
+    },
+    "valueDelta": -0.00022328000000000018,
+    "residual": 0.00023144612562026566,
+    "nSigma": null,
+    "primaryVerified": false,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "観測量対応が未確定",
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": false,
+     "convergenceOk": false,
+     "verdict": "保留(観測量対応が未確定/数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**「宣言後の初判定」は別欄である** —— 宣言前の 4 値と判定内訳は据え置く(上書きしない)。"
+   },
+   {
+    "id": "plutoCharonReal",
+    "emoji": "❄️",
+    "target": "カロン",
+    "kind": "period",
+    "meas": 553210.6340099995,
+    "key": "Charon|orbital_period",
+    "declaredSource": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
+    "declaredValue": 551856.43872,
+    "declaredSigma": 0.02592,
+    "applied": true,
+    "fallbackReason": null,
+    "previousRow": {
+     "value": 551854.08,
+     "sigma": null,
+     "unit": "s",
+     "source": "NASA NSSDC Pluto Fact Sheet (archived)",
+     "primaryVerified": false
+    },
+    "valueDelta": 2.3587200000183657,
+    "residual": 1354.1952899994794,
+    "nSigma": 52245.18865738733,
+    "primaryVerified": true,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(数値収束が未確認)",
+    "note": "**「宣言後の初判定」は別欄である** —— 宣言前の 4 値と判定内訳は据え置く(上書きしない)。"
+   },
+   {
+    "id": "plutoCharonReal",
+    "emoji": "❄️",
+    "target": "カロン",
+    "kind": "period",
+    "meas": 553210.6340099995,
+    "key": "Charon|orbital_period",
+    "declaredSource": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
+    "declaredValue": 551856.43872,
+    "declaredSigma": 0.02592,
+    "applied": true,
+    "fallbackReason": null,
+    "previousRow": {
+     "value": 551854.08,
+     "sigma": null,
+     "unit": "s",
+     "source": "NASA NSSDC Pluto Fact Sheet (archived)",
+     "primaryVerified": false
+    },
+    "valueDelta": 2.3587200000183657,
+    "residual": 1354.1952899994794,
+    "nSigma": 52245.18865738733,
+    "primaryVerified": true,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(数値収束が未確認)",
+    "note": "**「宣言後の初判定」は別欄である** —— 宣言前の 4 値と判定内訳は据え置く(上書きしない)。"
+   },
+   {
+    "id": "plutoCharonReal",
+    "emoji": "❄️",
+    "target": "カロン",
+    "kind": "period",
+    "meas": 553210.6340099995,
+    "key": "Charon|orbital_period",
+    "declaredSource": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
+    "declaredValue": 551856.43872,
+    "declaredSigma": 0.02592,
+    "applied": true,
+    "fallbackReason": null,
+    "previousRow": {
+     "value": 551854.08,
+     "sigma": null,
+     "unit": "s",
+     "source": "NASA NSSDC Pluto Fact Sheet (archived)",
+     "primaryVerified": false
+    },
+    "valueDelta": 2.3587200000183657,
+    "residual": 1354.1952899994794,
+    "nSigma": 52245.18865738733,
+    "primaryVerified": true,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(数値収束が未確認)",
+    "note": "**「宣言後の初判定」は別欄である** —— 宣言前の 4 値と判定内訳は据え置く(上書きしない)。"
+   }
+  ],
+  "note": "**「宣言後の初判定」は 4 値の横に置く**(上書きしない)。σ の無い宣言は行選択を決めるだけで、門へは 1 bit も入らない。"
  },
  "cutTally": {
   "csv-sigma-empty": 109,
@@ -343,7 +720,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "earthMoonReal",
@@ -365,7 +745,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "earthMoonReal",
@@ -387,7 +770,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "earthMoonReal",
@@ -414,7 +800,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "earthMoonReal",
@@ -441,7 +830,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "earthMoonRealKF1",
@@ -468,7 +860,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "earthMoonRealKF1",
@@ -495,7 +890,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "earthMoonRealKF1",
@@ -522,7 +920,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "earthMoonRealKF1",
@@ -549,7 +950,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "earthMoonRealKF1",
@@ -571,7 +975,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "earthMoonRealKF1",
@@ -598,7 +1005,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "emAuditDFM",
@@ -625,7 +1035,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "emAuditDFM",
@@ -652,7 +1065,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "emAuditDFM",
@@ -679,7 +1095,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "emAuditDFM",
@@ -701,7 +1120,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "emAuditDFM",
@@ -728,7 +1150,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "emAuditSolar",
@@ -755,7 +1180,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "emAuditSolar",
@@ -777,7 +1205,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "emAuditSolar",
@@ -804,7 +1235,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "emAuditSolar",
@@ -831,7 +1265,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "emAuditSolar",
@@ -853,7 +1290,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "mercuryReal",
@@ -880,7 +1320,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "mercuryReal",
@@ -907,7 +1350,60 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ の単位が obsCard と違う・未換算)"
+   "verdict": "保留(σ の単位が obsCard と違う・未換算)",
+   "guards": null,
+   "unitConvertedFirst": {
+    "from": "deg/orbit",
+    "to": "deg/yr",
+    "yearSec": 31557600,
+    "obsValue": 0.00159808333333333,
+    "obsSigma": 4.167e-9,
+    "primary": {
+     "label": "近点間周期(判定に使う換算 — 分子と同じ窓)",
+     "periodSec": 7600537.079004313,
+     "periodDef": "periastron",
+     "simDegPerYear": 0.00009348135957835153,
+     "residual": -0.0015046019737549785,
+     "nSigma": -361075.5876541825
+    },
+    "controls": [
+     {
+      "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
+      "periodSec": 7600536.760786635,
+      "periodDef": "revolution",
+      "simDegPerYear": 0.00009348136349220947,
+      "residual": -0.0015046019698411205,
+      "nSigma": -361075.5867149317
+     },
+     {
+      "label": "丸めた観測周期(**使わない** — 観測の丸め幅が入る)",
+      "periodSec": 7600521.6,
+      "periodDef": "observed-rounded",
+      "simDegPerYear": 0.00009348154995980747,
+      "residual": -0.0015046017833735227,
+      "nSigma": -361075.5419662881
+     }
+    ],
+    "inverseCheck": {
+     "obsDegPerOrbit": 0.0003848927557969803,
+     "sigmaDegPerOrbit": 1.0036073088007633e-9,
+     "nSigma": -361075.5876541826
+    },
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(数値収束が未確認)",
+    "note": "**正式判定は「数値未解決」**(3 段の収束の前に否とも合とも言わない)。既定の 4 値と切断点 `unit-not-converted` は**据え置き**である。"
+   },
+   "declaredFirst": null
   },
   {
    "id": "mercuryReal",
@@ -929,7 +1425,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "mercuryReal",
@@ -956,7 +1455,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "mercuryRealKF1",
@@ -983,7 +1485,52 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ の単位が obsCard と違う・未換算)"
+   "verdict": "保留(σ の単位が obsCard と違う・未換算)",
+   "guards": null,
+   "unitConvertedFirst": {
+    "from": "deg/orbit",
+    "to": "deg/yr",
+    "yearSec": 31557600,
+    "obsValue": 0.00159808333333333,
+    "obsSigma": 4.167e-9,
+    "primary": {
+     "label": "近点間周期(判定に使う換算 — 分子と同じ窓)",
+     "periodSec": 7600537.078758849,
+     "periodDef": "periastron",
+     "simDegPerYear": 0.00009336278475685393,
+     "residual": -0.001504720548576476,
+     "nSigma": -361104.0433348875
+    },
+    "controls": [
+     {
+      "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
+      "periodSec": 7600536.760922814,
+      "periodDef": "revolution",
+      "simDegPerYear": 0.00009336278866105941,
+      "residual": -0.0015047205446722706,
+      "nSigma": -361104.0423979531
+     }
+    ],
+    "inverseCheck": {
+     "obsDegPerOrbit": 0.0003848927557845499,
+     "sigmaDegPerOrbit": 1.0036073087683513e-9,
+     "nSigma": -361104.04333488754
+    },
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(数値収束が未確認)",
+    "note": "**正式判定は「数値未解決」**(3 段の収束の前に否とも合とも言わない)。既定の 4 値と切断点 `unit-not-converted` は**据え置き**である。"
+   },
+   "declaredFirst": null
   },
   {
    "id": "mercuryRealKF1",
@@ -1005,7 +1552,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "mercuryRealKF1",
@@ -1027,7 +1577,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "mercuryRealKF1",
@@ -1054,7 +1607,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "mercuryRealKF1",
@@ -1081,7 +1637,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "solarInner",
@@ -1108,7 +1667,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "solarInner",
@@ -1135,7 +1697,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "solarInner",
@@ -1162,7 +1727,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "solarInner",
@@ -1189,7 +1757,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "solarInner",
@@ -1211,7 +1782,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "solarInner",
@@ -1233,7 +1807,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "solarInner",
@@ -1260,7 +1837,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "solarInner",
@@ -1287,7 +1867,56 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ の単位が obsCard と違う・未換算)"
+   "verdict": "保留(σ の単位が obsCard と違う・未換算)",
+   "guards": null,
+   "unitConvertedFirst": {
+    "from": "deg/orbit",
+    "to": "deg/yr",
+    "yearSec": 31557600,
+    "obsValue": 0.00159808333333333,
+    "obsSigma": 4.167e-9,
+    "primary": {
+     "label": "近点間周期(判定に使う換算 — 分子と同じ窓)",
+     "periodSec": null,
+     "periodDef": "periastron",
+     "simDegPerYear": null,
+     "residual": null,
+     "nSigma": null
+    },
+    "controls": [
+     {
+      "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
+      "periodSec": 7600499.003331359,
+      "periodDef": "revolution",
+      "simDegPerYear": -9.661909288564736,
+      "residual": -9.663507371898069,
+      "nSigma": -2319056244.755956
+     },
+     {
+      "label": "丸めた観測周期(**使わない** — 観測の丸め幅が入る)",
+      "periodSec": 7600521.6,
+      "periodDef": "observed-rounded",
+      "simDegPerYear": -9.66188056330427,
+      "residual": -9.663478646637603,
+      "nSigma": -2319049351.244925
+     }
+    ],
+    "inverseCheck": null,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "換算不能(同じ窓の近点間周期が未測定)",
+    "note": "**正式判定は「数値未解決」**(3 段の収束の前に否とも合とも言わない)。既定の 4 値と切断点 `unit-not-converted` は**据え置き**である。"
+   },
+   "declaredFirst": null
   },
   {
    "id": "solarInner",
@@ -1314,7 +1943,42 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": {
+    "key": "Venus|eccentricity",
+    "declaredSource": "JPL SSD Approximate Positions of the Planets / Standish Keplerian elements Table 1",
+    "declaredValue": 0.00677672,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "previousRow": {
+     "value": 0.007,
+     "sigma": null,
+     "unit": "1",
+     "source": "dfm-simulator solarInner declaration (committed)",
+     "primaryVerified": false
+    },
+    "valueDelta": -0.00022328000000000018,
+    "residual": 0.0067522814251429,
+    "nSigma": null,
+    "primaryVerified": false,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "観測量対応が未確定",
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": false,
+     "convergenceOk": false,
+     "verdict": "保留(観測量対応が未確定/数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**「宣言後の初判定」は別欄である** —— 宣言前の 4 値と判定内訳は据え置く(上書きしない)。"
+   }
   },
   {
    "id": "solarInner",
@@ -1341,7 +2005,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "solarInner",
@@ -1368,7 +2035,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "solarInner",
@@ -1395,7 +2065,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "solarInner",
@@ -1422,7 +2095,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "solarInner",
@@ -1449,7 +2125,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "jupiterGalilean",
@@ -1476,7 +2155,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "condition-mismatch",
-   "verdict": "条件不一致(対照の走行が別)"
+   "verdict": "条件不一致(対照の走行が別)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "jupiterGalilean",
@@ -1503,7 +2185,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "condition-mismatch",
-   "verdict": "条件不一致(対照の走行が別)"
+   "verdict": "条件不一致(対照の走行が別)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "jupiterGalilean",
@@ -1530,7 +2215,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "condition-mismatch",
-   "verdict": "条件不一致(対照の走行が別)"
+   "verdict": "条件不一致(対照の走行が別)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "jupiterGalilean",
@@ -1557,7 +2245,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "condition-mismatch",
-   "verdict": "条件不一致(対照の走行が別)"
+   "verdict": "条件不一致(対照の走行が別)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "jupiterGalilean",
@@ -1584,7 +2275,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "jupiterGalilean",
@@ -1611,7 +2305,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "jupiterGalilean",
@@ -1638,7 +2335,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "jupiterGalilean",
@@ -1665,7 +2365,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "jupiterGalilean",
@@ -1692,7 +2395,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "jupiterGalilean",
@@ -1714,7 +2420,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "jupiterGalilean",
@@ -1736,7 +2445,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "jupiterGalilean",
@@ -1758,7 +2470,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "jupiterGalilean",
@@ -1780,7 +2495,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "jupiterGalilean",
@@ -1807,7 +2525,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "jupiterGalilean",
@@ -1834,7 +2555,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "jupiterGalilean",
@@ -1861,7 +2585,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "jupiterGalilean",
@@ -1888,7 +2615,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "jupiterGalilean",
@@ -1915,7 +2645,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "jupiterGalilean",
@@ -1942,7 +2675,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "jupiterGalilean",
@@ -1969,7 +2705,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "jupiterGalilean",
@@ -1996,7 +2735,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "venusReal",
@@ -2023,7 +2765,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "venusReal",
@@ -2050,7 +2795,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "condition-mismatch",
-   "verdict": "条件不一致(対照の走行が別)"
+   "verdict": "条件不一致(対照の走行が別)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "venusReal",
@@ -2077,7 +2825,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "venusReal",
@@ -2099,7 +2850,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "venusReal",
@@ -2126,7 +2880,42 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": {
+    "key": "Venus|eccentricity",
+    "declaredSource": "JPL SSD Approximate Positions of the Planets / Standish Keplerian elements Table 1",
+    "declaredValue": 0.00677672,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "previousRow": {
+     "value": 0.007,
+     "sigma": null,
+     "unit": "1",
+     "source": "dfm-simulator solarInner declaration (committed)",
+     "primaryVerified": false
+    },
+    "valueDelta": -0.00022328000000000018,
+    "residual": 0.00023144612562026566,
+    "nSigma": null,
+    "primaryVerified": false,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "観測量対応が未確定",
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": false,
+     "convergenceOk": false,
+     "verdict": "保留(観測量対応が未確定/数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**「宣言後の初判定」は別欄である** —— 宣言前の 4 値と判定内訳は据え置く(上書きしない)。"
+   }
   },
   {
    "id": "venusReal",
@@ -2153,7 +2942,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "marsMoonsReal",
@@ -2180,7 +2972,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "marsMoonsReal",
@@ -2207,7 +3002,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "marsMoonsReal",
@@ -2234,7 +3032,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "marsMoonsReal",
@@ -2261,7 +3062,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "condition-mismatch",
-   "verdict": "条件不一致(対照の走行が別)"
+   "verdict": "条件不一致(対照の走行が別)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "marsMoonsReal",
@@ -2283,7 +3087,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "marsMoonsReal",
@@ -2310,7 +3117,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "marsMoonsReal",
@@ -2337,7 +3147,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "marsMoonsReal",
@@ -2364,7 +3177,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "marsMoonsReal",
@@ -2391,7 +3207,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "plutoCharonReal",
@@ -2418,7 +3237,41 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "condition-mismatch",
-   "verdict": "条件不一致(対照の走行が別)"
+   "verdict": "条件不一致(対照の走行が別)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": {
+    "key": "Charon|orbital_period",
+    "declaredSource": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
+    "declaredValue": 551856.43872,
+    "declaredSigma": 0.02592,
+    "applied": true,
+    "fallbackReason": null,
+    "previousRow": {
+     "value": 551854.08,
+     "sigma": null,
+     "unit": "s",
+     "source": "NASA NSSDC Pluto Fact Sheet (archived)",
+     "primaryVerified": false
+    },
+    "valueDelta": 2.3587200000183657,
+    "residual": 1354.1952899994794,
+    "nSigma": 52245.18865738733,
+    "primaryVerified": true,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(数値収束が未確認)",
+    "note": "**「宣言後の初判定」は別欄である** —— 宣言前の 4 値と判定内訳は据え置く(上書きしない)。"
+   }
   },
   {
    "id": "plutoCharonReal",
@@ -2445,7 +3298,41 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": {
+    "key": "Charon|orbital_period",
+    "declaredSource": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
+    "declaredValue": 551856.43872,
+    "declaredSigma": 0.02592,
+    "applied": true,
+    "fallbackReason": null,
+    "previousRow": {
+     "value": 551854.08,
+     "sigma": null,
+     "unit": "s",
+     "source": "NASA NSSDC Pluto Fact Sheet (archived)",
+     "primaryVerified": false
+    },
+    "valueDelta": 2.3587200000183657,
+    "residual": 1354.1952899994794,
+    "nSigma": 52245.18865738733,
+    "primaryVerified": true,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(数値収束が未確認)",
+    "note": "**「宣言後の初判定」は別欄である** —— 宣言前の 4 値と判定内訳は据え置く(上書きしない)。"
+   }
   },
   {
    "id": "plutoCharonReal",
@@ -2472,7 +3359,41 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": {
+    "key": "Charon|orbital_period",
+    "declaredSource": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
+    "declaredValue": 551856.43872,
+    "declaredSigma": 0.02592,
+    "applied": true,
+    "fallbackReason": null,
+    "previousRow": {
+     "value": 551854.08,
+     "sigma": null,
+     "unit": "s",
+     "source": "NASA NSSDC Pluto Fact Sheet (archived)",
+     "primaryVerified": false
+    },
+    "valueDelta": 2.3587200000183657,
+    "residual": 1354.1952899994794,
+    "nSigma": 52245.18865738733,
+    "primaryVerified": true,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(数値収束が未確認)",
+    "note": "**「宣言後の初判定」は別欄である** —— 宣言前の 4 値と判定内訳は据え置く(上書きしない)。"
+   }
   },
   {
    "id": "plutoCharonReal",
@@ -2494,7 +3415,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "plutoCharonReal",
@@ -2516,7 +3440,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "plutoCharonReal",
@@ -2543,7 +3470,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "plutoCharonReal",
@@ -2570,7 +3500,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "uranusReal",
@@ -2597,7 +3530,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "uranusReal",
@@ -2624,7 +3560,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "uranusReal",
@@ -2651,7 +3590,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "uranusReal",
@@ -2678,7 +3620,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "uranusReal",
@@ -2705,7 +3650,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "uranusReal",
@@ -2732,7 +3680,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "uranusReal",
@@ -2759,7 +3710,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "uranusReal",
@@ -2781,7 +3735,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "uranusReal",
@@ -2808,7 +3765,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "uranusReal",
@@ -2835,7 +3795,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "uranusReal",
@@ -2862,7 +3825,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "uranusReal",
@@ -2889,7 +3855,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "uranusReal",
@@ -2916,7 +3885,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "uranusReal",
@@ -2943,7 +3915,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "uranusReal",
@@ -2970,7 +3945,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "uranusReal",
@@ -2997,7 +3975,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "uranusReal",
@@ -3024,7 +4005,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "uranusReal",
@@ -3051,7 +4035,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "neptuneReal",
@@ -3078,7 +4065,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "condition-mismatch",
-   "verdict": "条件不一致(対照の走行が別)"
+   "verdict": "条件不一致(対照の走行が別)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "neptuneReal",
@@ -3105,7 +4095,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "neptuneReal",
@@ -3132,7 +4125,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "neptuneReal",
@@ -3159,7 +4155,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "neptuneReal",
@@ -3181,7 +4180,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "neptuneReal",
@@ -3208,7 +4210,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "neptuneReal",
@@ -3235,7 +4240,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnZonalD68",
@@ -3262,7 +4270,60 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ の単位が obsCard と違う・未換算)"
+   "verdict": "保留(σ の単位が obsCard と違う・未換算)",
+   "guards": null,
+   "unitConvertedFirst": {
+    "from": "deg/orbit",
+    "to": "deg/yr",
+    "yearSec": 31557600,
+    "obsValue": 13968.25575,
+    "obsSigma": 2.922,
+    "primary": {
+     "label": "近点間周期(判定に使う換算 — 分子と同じ窓)",
+     "periodSec": 18224.858223651565,
+     "periodDef": "periastron",
+     "simDegPerYear": 13925.529966286234,
+     "residual": -42.72578371376585,
+     "nSigma": -14.622102571446218
+    },
+    "controls": [
+     {
+      "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
+      "periodSec": 17865.949830569363,
+      "periodDef": "revolution",
+      "simDegPerYear": 14205.27941316233,
+      "residual": 237.0236631623302,
+      "nSigma": 81.11692784473996
+     },
+     {
+      "label": "丸めた観測周期(**使わない** — 観測の丸め幅が入る)",
+      "periodSec": 17928,
+      "periodDef": "observed-rounded",
+      "simDegPerYear": 14156.113862381637,
+      "residual": 187.8581123816366,
+      "nSigma": 64.29093510665182
+     }
+    ],
+    "inverseCheck": {
+     "obsDegPerOrbit": 8.066820058415587,
+     "sigmaDegPerOrbit": 0.0016874868725603302,
+     "nSigma": -14.622102571445408
+    },
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(数値収束が未確認)",
+    "note": "**正式判定は「数値未解決」**(3 段の収束の前に否とも合とも言わない)。既定の 4 値と切断点 `unit-not-converted` は**据え置き**である。"
+   },
+   "declaredFirst": null
   },
   {
    "id": "saturnZonalD68",
@@ -3289,7 +4350,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnZonalD68",
@@ -3316,7 +4380,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnZonalD68",
@@ -3338,7 +4405,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnZonalD68",
@@ -3365,7 +4435,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnRingReal",
@@ -3392,7 +4465,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnRingReal",
@@ -3419,7 +4495,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnRingReal",
@@ -3441,7 +4520,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnRingReal",
@@ -3468,7 +4550,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnRingReal",
@@ -3495,7 +4580,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnRingReal",
@@ -3522,7 +4610,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnRingReal",
@@ -3549,7 +4640,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnRingReal",
@@ -3576,7 +4670,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnRingReal",
@@ -3603,7 +4700,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnRingReal",
@@ -3630,7 +4730,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnRingRealKF1",
@@ -3657,7 +4760,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnRingRealKF1",
@@ -3679,7 +4785,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnRingRealKF1",
@@ -3701,7 +4810,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnRingRealKF1",
@@ -3723,7 +4835,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)"
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnRingRealKF1",
@@ -3750,7 +4865,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnRingRealKF1",
@@ -3777,7 +4895,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnRingRealKF1",
@@ -3804,7 +4925,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnRingRealKF1",
@@ -3831,7 +4955,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnRingRealKF1",
@@ -3858,7 +4985,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnRingRealKF1",
@@ -3885,7 +5015,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnRingRealKF1",
@@ -3912,7 +5045,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   },
   {
    "id": "saturnRingRealKF1",
@@ -3939,7 +5075,10 @@
    "nSigma": null,
    "numOk": null,
    "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)"
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
   }
  ],
  "missingForJudgement": [

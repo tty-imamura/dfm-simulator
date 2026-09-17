@@ -783,9 +783,12 @@ const add = (id, pass, detail) => {
     }
     // ⑤ **印が verified であることは門に繋がっていることではない**: 門の対応表(SIGMA_BODY /
     //    SIGMA_TARGET_BODY)に星団・銀河の body が 1 つも書かれていないことを機械で見る。
-    const calSrc = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w249b-calaudit.mjs'), 'utf8');
-    for (const b of ['47 Tuc', 'NGC 3198']) if (calSrc.indexOf(`'${b}'`) >= 0)
-      bad.push(`⑤門の器に ${b} の宛先が書かれている(星団・銀河は門に接続しない約束である)`);
+    // 第268便a(統括の読み (C)): **器のソース文字列検索をやめ、宣言表そのものを読む**
+    //   (`tests/lib-sigma-destinations.mjs`)。文字列検索は**コメント中の body 名**にも当たるし、
+    //   **値ではなく鍵**に書かれた名前にも当たる —— 表の**値**を見れば曖昧さが無い。
+    const DEST = await import('file://' + path.join(ROOT, 'tests', 'lib-sigma-destinations.mjs'));
+    for (const b of ['47 Tuc', 'NGC 3198']) if (DEST.isWiredBody(b))
+      bad.push(`⑤門の宛先表に ${b} が入っている(星団・銀河は門に接続しない約束である)`);
   } catch (e) { bad.push('CSV が読めない: ' + String(e).slice(0, 80)); }
   if (!/,sigma$/.test(header)) bad.push('①ヘッダの最後が sigma でない: ' + header.slice(-40));
   if (!(widths.size === 1 && widths.has(9))) bad.push(`①列数が 9 で揃っていない: ${[...widths].join(',')}`);
@@ -807,7 +810,8 @@ const add = (id, pass, detail) => {
     + `**印は ${verified} 行が \`verified\`**(第267便a —— 原仮定者が第 2 回の確認記録で表・列・桁を`
     + `答えた 47 Tuc の 6 量。すべてに \`confirmation_round=2\` と X7 の 3 欄と σ がある)で、`
     + `残りは \`unverified\` のまま / **印が \`verified\` であることは門に繋がっていることではない** ——`
-    + `門の器の対応表に \`47 Tuc\` も \`NGC 3198\` も 1 行も無い(**星団・銀河は門に接続していない**)`
+    + `門の宛先表(\`tests/lib-sigma-destinations.mjs\`)に \`47 Tuc\` も \`NGC 3198\` も 1 行も無い`
+    + `(**星団・銀河は門に接続していない**。第268便a で**器のソース文字列検索から宣言表の読み取りへ**変えた)`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 
@@ -1001,6 +1005,297 @@ const add = (id, pass, detail) => {
     + `(\`same_table_as_verified_row=\` の注記だけ —— 統括の裁定待ち)/ `
     + `⑥ 訂正 3 件の追認印 ${(j && j.ack || []).length} 行(**値は 1 バイトも動いていない**)/ `
     + `**判定(4 値)は 1 本も動いていない** —— \`--regate\` は σ の値の変化 0 件・印の反転 2 件`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0a3f) 第268便a(第58報 W1・統括の読み (C)): lint.sigmaDestinations ----
+// ----   **σ の宛先表 3 つ**(`SIGMA_BODY` / `SIGMA_QUANT` / `SIGMA_TARGET_BODY`)を
+// ----   `tests/exp-w249b-calaudit.mjs` から **`tests/lib-sigma-destinations.mjs` へ移した**。
+// ----   移設で**中身が 1 文字も変わっていないこと**を機械で固定する(旧定義との diff 0):
+// ----     ① 3 表を正規化(鍵でソートして `key=value` を並べる)した文字列の SHA-256 が、
+// ----        基点 fa7cd6c の定義から作った値と**一致**する。件数も 18 / 3 / 31 で一致。
+// ----     ② **器のソース文字列検索が 1 つも残っていない**(`CAL_SRC.indexOf` / `calSrc.indexOf`)。
+// ----        calaudit 側に古い定義が残っていない・3 器が共通モジュールを import している。
+// ----     ③ 星団・銀河・BH 連星の body は**宛先に 1 つも無い**(`isWiredBody` で見る ——
+// ----        コメント中の名前に当たる文字列検索ではなく、**表の値**を見る)。
+// ----   **書かないこと**: 「宛先表を直した」(1 文字も変えていない)「接続が増えた」。
+{
+  const bad = [];
+  // 基点 fa7cd6c の 3 表から作った凍結値(**この数を変えるときは表を変えたということである**)
+  const FROZEN = { sha256: 'bdf6d605b02691b24c881d857f9d961d6ccf6cc5998424a4fd382a5797e55487',
+    body: 18, quant: 3, target: 31, wired: 28 };
+  let fp = '—', n = { body: 0, quant: 0, target: 0, wired: 0 };
+  try {
+    const M = await import('file://' + path.join(ROOT, 'tests', 'lib-sigma-destinations.mjs'));
+    const ser = (o) => Object.keys(o).sort().map((k) => k + '=' + o[k]).join(';');
+    const all = ['BODY|' + ser(M.SIGMA_BODY), 'QUANT|' + ser(M.SIGMA_QUANT),
+      'TARGET|' + ser(M.SIGMA_TARGET_BODY)].join('\n');
+    fp = crypto.createHash('sha256').update(all).digest('hex');
+    n = { body: Object.keys(M.SIGMA_BODY).length, quant: Object.keys(M.SIGMA_QUANT).length,
+      target: Object.keys(M.SIGMA_TARGET_BODY).length, wired: M.wiredBodies().length };
+    if (fp !== FROZEN.sha256) bad.push(`①3 表の正規化 SHA-256 が基点と違う(${fp.slice(0, 12)}…)`);
+    for (const k of ['body', 'quant', 'target', 'wired'])
+      if (n[k] !== FROZEN[k]) bad.push(`①${k} の件数が ${FROZEN[k]} でない(${n[k]})`);
+    // ③ 星団・銀河・BH 連星は宛先に無い(**値**を見る)
+    for (const b of ['47 Tuc', 'NGC 3198', 'GW150914 A', 'GW150914 B'])
+      if (M.isWiredBody(b)) bad.push(`③${b} が門の宛先表に入っている(接続しない約束である)`);
+    // ② ソース文字列検索が残っていない・共通モジュールを読んでいる
+    const calSource = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w249b-calaudit.mjs'), 'utf8');
+    const anaSrc = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w265a-analogy.mjs'), 'utf8');
+    const qaSrc = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8');
+    if (/^const SIGMA_(?:BODY|QUANT|TARGET_BODY) =/m.test(calSource))
+      bad.push('②calaudit に古い宛先表の定義が残っている(移設したはずである)');
+    for (const [name, src] of [['calaudit', calSource], ['analogy', anaSrc], ['qa', qaSrc]])
+      if (src.indexOf('lib-sigma-destinations.mjs') < 0)
+        bad.push(`②${name} が共通モジュールを読んでいない`);
+    // **呼び出しの形**(`… .indexOf(`)を探す —— 説明文の中の名前は当てない
+    if (/CAL_SRC\s*\.\s*indexOf\s*\(/.test(anaSrc))
+      bad.push('②アナロジー器に器のソース文字列検索が残っている');
+    if (/calSrc\s*\.\s*indexOf\s*\(/.test(qaSrc))
+      bad.push('②QA に器のソース文字列検索が残っている');
+  } catch (e) { bad.push('共通モジュールが読めない: ' + String(e).slice(0, 90)); }
+  add('lint.sigmaDestinations', bad.length === 0,
+    `**σ の宛先表を共通モジュールへ移した**(第268便a・統括の読み (C)・`
+    + `tests/lib-sigma-destinations.mjs): 正規化 SHA-256 \`${fp.slice(0, 16)}…\` が基点 fa7cd6c の`
+    + `定義から作った値と**一致**(= **旧定義との diff 0**・件数 SIGMA_BODY ${n.body} / `
+    + `SIGMA_QUANT ${n.quant} / SIGMA_TARGET_BODY ${n.target}・宛先 body ${n.wired} 個)/ `
+    + `**器のソース文字列検索(\`CAL_SRC.indexOf\` / \`calSrc.indexOf\`)は 3 器とも廃止**`
+    + `(コメント中の body 名に当たる読み方だった)/ **47 Tuc・NGC 3198・GW150914 A/B は宛先に無い**`
+    + `(星団・銀河・BH 連星は門に接続していない)—— **中身は 1 文字も変えていない**`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0a3g) 第268便a(第58報 W1・統括の読み (C)): behavior.analogyGateWiring ----
+// ----   **アナロジー器の「門に繋がった」判定**を純関数 `gateWiringCensus` で機械固定する。
+// ----   第267便a は body 単位で「宛先がある **かつ** verified σ がある」を見ていたが、これだと
+// ----   **別の量の verified σ**でも接続扱いになりうる。第268便a は
+// ----   **「同じ body・同じ quantity の行に、配線と verified σ(σ>0)が揃う」**に変えた。
+// ----   5 ケース(誤接続の 4 つを 1 つずつ落とす):
+// ----     ① 配線あり・門が読む量・verified の σ>0 → **接続候補 1**
+// ----     ② 候補行(`_candidate` という**別の鍵**)だけ → 0(門はこの鍵を読まない)
+// ----     ③ 配線の無い body(47 Tuc)の verified σ → 0
+// ----     ④ σ が空/0 → 0(**印があっても数えない**)
+// ----     ⑤ 印が `unverified` → 0
+// ----   **接続候補の判定であって、採用解・単位の一致・観測量対応・必要 2 量の充足ではない。**
+{
+  const bad = [];
+  let real = null;
+  const cases = [];
+  try {
+    const M = await import('file://' + path.join(ROOT, 'tests', 'lib-sigma-destinations.mjs'));
+    const C = (rows, bodies) => M.gateWiringCensus(rows, bodies);
+    const push = (tag, got, want) => { cases.push(`${tag}=${got}`);
+      if (got !== want) bad.push(`${tag} が ${want} でない(${got})`); };
+    push('①配線+門の量+verified σ',
+      C([{ body: 'Charon', quantity: 'orbital_period', sigma: 0.02592, primaryVerified: true }],
+        ['Charon']).withWiredVerifiedSigma, 1);
+    push('②候補行だけ',
+      C([{ body: 'Charon', quantity: 'orbital_period_candidate', sigma: 0.02592, primaryVerified: true }],
+        ['Charon']).withWiredVerifiedSigma, 0);
+    push('③配線の無い body',
+      C([{ body: '47 Tuc', quantity: 'orbital_period', sigma: 1, primaryVerified: true }],
+        ['47 Tuc']).withWiredVerifiedSigma, 0);
+    push('④σ が 0/空',
+      C([{ body: 'Charon', quantity: 'orbital_period', sigma: 0, primaryVerified: true },
+        { body: 'Charon', quantity: 'eccentricity', sigma: null, primaryVerified: true }],
+        ['Charon']).withWiredVerifiedSigma, 0);
+    push('⑤印が unverified',
+      C([{ body: 'Charon', quantity: 'orbital_period', sigma: 0.02592, primaryVerified: false }],
+        ['Charon']).withWiredVerifiedSigma, 0);
+    // 実体(器の出力)でも見る: 47 Tuc は verified σ を持つが**接続していない**
+    const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'analogy-w265a.json'), 'utf8'));
+    const cl = (J.gateCensus || {}).cluster || {};
+    real = { withVerifiedSigma: cl.withVerifiedSigma, wiredToGate: cl.wiredToGate,
+      withWiredVerifiedSigma: cl.withWiredVerifiedSigma };
+    if (cl.withVerifiedSigma !== 6) bad.push(`実体: 47 Tuc の verified σ が 6 でない(${cl.withVerifiedSigma})`);
+    if (cl.wiredToGate !== 0) bad.push(`実体: 47 Tuc に門の宛先がある(${cl.wiredToGate})`);
+    if (cl.withWiredVerifiedSigma !== 0) bad.push(`実体: 47 Tuc が接続扱いになっている(${cl.withWiredVerifiedSigma})`);
+  } catch (e) { bad.push('接続判定が読めない: ' + String(e).slice(0, 90)); }
+  add('behavior.analogyGateWiring', bad.length === 0,
+    `**アナロジー器の接続判定**(第268便a・統括の読み (C)): 5 ケース ${cases.join(' / ')} —— `
+    + `接続は「**同じ body・同じ quantity の行に、配線と \`verified\` の σ(σ>0)が揃うこと**」で`
+    + `決める(候補行 \`_candidate\`・別の body・σ=0・印 unverified はどれも数えない)/ `
+    + `実体: 47 Tuc は **verified σ ${real ? real.withVerifiedSigma : '—'} 行**を持つが`
+    + `**門の宛先 ${real ? real.wiredToGate : '—'}・接続 ${real ? real.withWiredVerifiedSigma : '—'}**`
+    + `(**印は接続ではない**)—— **接続候補の判定であって、採用解・単位の一致・観測量対応・`
+    + `必要 2 量の充足ではない**`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0a3h) 第268便a(第58報 W1・統括の読み (B)): behavior.solarsigmaGuards ----
+// ----   **σ が門へ届いただけでは判定しない**。正本の門が既に持っている 3 欄
+// ----   `definitionDeclared`・`mappingResolved`・`convergence.ok` を**必須**にした
+// ----   (第266便a までの σ 接続器は `numBound<=0.3σ` しか見ていなかった)。4 ケース:
+// ----     ① 3 欄そろい → ok(判定へ進んでよい)
+// ----     ② 定義が未宣言 → 保留(判定量の定義が未宣言)
+// ----     ③ 観測量対応が未確定 → 保留(観測量対応が未確定)
+// ----     ④ 数値収束が未確認 → 保留(数値収束が未確認)
+// ----   **保留は否定ではない**(判定の前提が揃っていない、という状態の名前である)。
+{
+  const bad = [];
+  const cases = [];
+  let connected = null, cut = null;
+  try {
+    const G = await import('file://' + path.join(ROOT, 'tests', 'lib-w268a-judgement.mjs'));
+    const base = { definitionDeclared: true, mappingResolved: true, convergence: { ok: true } };
+    const t = (tag, gate, wantOk, wantWord) => {
+      const r = G.requiredGuards(gate);
+      cases.push(`${tag}=${r.ok ? 'ok' : r.verdict}`);
+      if (r.ok !== wantOk) bad.push(`${tag} の ok が ${wantOk} でない`);
+      if (wantWord && String(r.verdict || '').indexOf(wantWord) < 0)
+        bad.push(`${tag} の状態名に「${wantWord}」が無い(${r.verdict})`);
+    };
+    t('①3 欄そろい', base, true, null);
+    t('②定義未宣言', Object.assign({}, base, { definitionDeclared: false }), false, '定義が未宣言');
+    t('③対応未確定', Object.assign({}, base, { mappingResolved: false }), false, '観測量対応が未確定');
+    t('④収束未確認', Object.assign({}, base, { convergence: { ok: false } }), false, '数値収束が未確認');
+    if (G.requiredGuards({}).missing.length !== 3) bad.push('3 欄とも欠けた門で理由が 3 つ出ない');
+    // 実体: σ 接続器の出力に規約が書かれていて、**接続できた量は 0 のまま**である
+    const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8'));
+    connected = (J.cutTally || {}).connected || 0;
+    cut = (J.cutTally || {})['unit-not-converted'];
+    if (!J.guardsRule) bad.push('σ 接続器の出力にガードの規約が無い');
+    if (connected !== 0) bad.push(`σ が門へ届いた量が 0 でない(${connected})—— ガードの効きを別に測ること`);
+  } catch (e) { bad.push('ガードが読めない: ' + String(e).slice(0, 90)); }
+  add('behavior.solarsigmaGuards', bad.length === 0,
+    `**σ 接続器の必須ガード**(第268便a・統括の読み (B)・tests/lib-w268a-judgement.mjs): `
+    + `4 ケース ${cases.join(' / ')} —— \`definitionDeclared\` ∧ \`mappingResolved\` ∧ `
+    + `\`convergence.ok\` の**どれか 1 つでも欠けたら判定しない**(合とも否とも言わない)/ `
+    + `実体: 門へ σ が届いた量は **${connected} 件**・切断点 \`unit-not-converted\` は `
+    + `**${cut} 件のまま**(**4 値は 1 本も動いていない**)—— **保留は否定ではない**`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0a3i) 第268便a(第58報 W1・統括の読み (A)): behavior.unitConvertedFirst ----
+// ----   **換算後の欄**(`unitConvertedFirst`)と **3 段**(`tests/out/d68-w268a.json`)を機械固定する。
+// ----     ① 切断点 `unit-not-converted` は **4 件のまま**・**4 値は 保留 16 のまま**(据え置き)。
+// ----     ② 📡 D68 の換算は**同じ近点窓の近点間周期**で行い、**−14.6221σ**(統括の予備測定の再現)。
+// ----        **対照**: 同方向 1 周の周期行なら **+81.1169σ**・丸めた観測周期なら **+64.2909σ** ——
+// ----        **どの P を使うかで符号まで変わる**(だから「P は判定行の値」では足りない)。
+// ----     ③ 観測側を deg/orbit へ写す逆向きの換算でも**同じ σ 倍**になる(同じ正の係数で割るだけ)。
+// ----     ④ 3 段(h / h/2 / h/4)が同じ窓・同じ抽出器で走り、**見かけの次数が正**である。
+// ----   **書かないこと**: 「D68 が合(3σ)」「換算で判定が増えた」。**正式判定は「数値未解決」**である。
+{
+  const bad = [];
+  let d68 = null, st = null, ord = null;
+  const near = (a, b, tol) => Number.isFinite(a) && Math.abs(a - b) <= tol;
+  try {
+    const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8'));
+    const u = J.unitConvertedFirst || {};
+    if ((J.cutTally || {})['unit-not-converted'] !== 4)
+      bad.push(`①切断点 unit-not-converted が 4 でない(${(J.cutTally || {})['unit-not-converted']})`);
+    if ((J.fourTally || {})['保留'] !== 16) bad.push(`①4 値の保留が 16 でない(${(J.fourTally || {})['保留']})`);
+    if (Object.keys(J.fourTally || {}).length !== 1) bad.push('①4 値に保留以外が出ている(据え置きのはず)');
+    d68 = (u.rows || []).find((r) => r.id === 'saturnZonalD68') || null;
+    if (!d68) bad.push('②D68 の換算後の行が無い');
+    else {
+      if (!near(d68.primary.nSigma, -14.6221, 5e-4)) bad.push(`②D68 の換算後が −14.6221σ でない(${d68.primary.nSigma})`);
+      if (d68.primary.periodDef !== 'periastron') bad.push('②換算に近点間周期を使っていない');
+      const rev = (d68.controls || []).find((c) => c.periodDef === 'revolution');
+      const rnd = (d68.controls || []).find((c) => c.periodDef === 'observed-rounded');
+      if (!rev || !near(rev.nSigma, 81.1169, 5e-4)) bad.push(`②対照(周期行)が +81.1169σ でない(${rev && rev.nSigma})`);
+      if (!rnd || !near(rnd.nSigma, 64.2909, 5e-4)) bad.push(`②対照(丸めた観測周期)が +64.2909σ でない(${rnd && rnd.nSigma})`);
+      if (!(rev && rnd && rev.nSigma > 0 && d68.primary.nSigma < 0))
+        bad.push('②「どの P を使うかで符号まで変わる」が再現していない');
+      if (!d68.inverseCheck || !near(d68.inverseCheck.nSigma, d68.primary.nSigma, 1e-6))
+        bad.push('③逆向きの換算で σ 倍が変わる(同じ係数で割るだけのはず)');
+    }
+    const D = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'd68-w268a.json'), 'utf8'));
+    st = (D.stages || []).length;
+    ord = (D.convergence && D.convergence.degPerYear) ? D.convergence.degPerYear.order : null;
+    if (st !== 3) bad.push(`④3 段が揃っていない(${st} 段)`);
+    if (!(ord > 0)) bad.push(`④見かけの次数が正でない(${ord})`);
+    if (!near((D.stages[0] || {}).nSigma, -14.6221, 5e-4)) bad.push('④h 段が σ 接続器の換算後と一致しない');
+    if (new Set((D.stages || []).map((s) => s.nFitUsed)).size !== 1)
+      bad.push('④3 段で fit の窓(近点の本数)が違う');
+    if (String(D.verdict || '').indexOf('数値未解決') < 0) bad.push('④正式判定が「数値未解決」でない');
+  } catch (e) { bad.push('換算後の欄が読めない: ' + String(e).slice(0, 90)); }
+  add('behavior.unitConvertedFirst', bad.length === 0,
+    `**換算後の欄と 3 段**(第268便a・統括の読み (A)・器 tests/exp-w268a-d68.mjs): `
+    + `📡 D68 の Δϖ を**分子と同じ近点窓の近点間周期**で deg/yr へ写すと `
+    + `**${d68 ? d68.primary.nSigma.toFixed(4) : '—'}σ**、**対照**は同方向 1 周の周期行 `
+    + `**${d68 ? ((d68.controls || [])[0] || {}).nSigma.toFixed(4) : '—'}σ**・丸めた観測周期 `
+    + `**${d68 && (d68.controls || [])[1] ? d68.controls[1].nSigma.toFixed(4) : '—'}σ** —— `
+    + `**どの P を使うかで符号まで変わる** / 逆向きの換算でも σ 倍は同じ / `
+    + `3 段 ${st} 段・見かけの次数 ${ord === null ? '—' : ord.toFixed(4)} / `
+    + `**切断点 \`unit-not-converted\` 4 件・4 値 保留 16 は据え置き** —— `
+    + `**正式判定は「数値未解決」**(3 段の収束の前に否とも合とも言わない)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0a3j) 第268便a(第58報 W1・統括の読み (D)): docs.judgementSources ----
+// ----   **採用観測解の明示宣言** `paper/data/judgement-sources.json` を機械固定する。
+// ----     ① 宣言は 2 件だけ(カロン P・金星 e)で、どちらも **CSV の行に 1 件で当たる**
+// ----        (body・鍵・value・sigma が完全一致 —— 宣言に新しい数値を書いていない)。
+// ----     ② **宣言の無い対象は従来どおりファイル順の最初の行**である(`notDeclared` に理由つきで
+// ----        列挙した対象が宣言表に 1 件も入っていない)。
+// ----     ③ 宣言後の判定は**別欄**(`declaredFirst`)にあり、**4 値(保留 16)は据え置き**である。
+// ----     ④ 器(calaudit)が同じファイルを読んでいて、宣言の件数が一致する。
+// ----   **書かないこと**: 「宣言したので判定が増えた」「宣言した値のほうが観測に近い」。
+{
+  const bad = [];
+  let decl = [], hits = [], four = null;
+  const parse = (line) => { const c = []; let cur = '', q = false;
+    for (const ch of line) { if (q) { if (ch === '"') q = false; else cur += ch; }
+      else if (ch === '"') q = true; else if (ch === ',') { c.push(cur); cur = ''; } else cur += ch; }
+    c.push(cur); return c; };
+  try {
+    const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data', 'judgement-sources.json'), 'utf8'));
+    decl = J.declarations || [];
+    if (J.schemaVersion !== 1) bad.push(`①schemaVersion が 1 でない(${J.schemaVersion})`);
+    if (decl.length !== 2) bad.push(`①宣言が 2 件でない(${decl.length})`);
+    const keys = decl.map((d) => d.body + '|' + d.quantity).sort();
+    if (keys.join(' , ') !== 'Charon|orbital_period , Venus|eccentricity')
+      bad.push(`①宣言の対象が違う(${keys.join(' , ')})`);
+    // ① 宣言が CSV の行に 1 件で当たる(値も σ も CSV から 1 文字も変えずに写している)
+    const rows = [];
+    for (const line of fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8').split('\n')) {
+      if (!line.trim() || line.startsWith('body,')) continue;
+      const c = parse(line);
+      const sg = (c[8] || '').trim() !== '' ? Number(c[8]) : null;
+      rows.push({ body: c[0], quantity: c[1], value: (String(c[2]).trim() === '') ? null : Number(c[2]),
+        sigma: (Number.isFinite(sg) && sg > 0) ? sg : null });
+    }
+    for (const d of decl) {
+      const key = d.csvQuantity || d.quantity;
+      const hit = rows.filter((r) => r.body === d.body && r.quantity === key
+        && r.value === Number(d.value)
+        && ((r.sigma === null) ? (d.sigma === null || d.sigma === undefined) : r.sigma === d.sigma));
+      hits.push(`${d.body}|${key}=${hit.length}`);
+      if (hit.length !== 1) bad.push(`①${d.body}|${key} が CSV の 1 行に当たらない(${hit.length} 行)`);
+    }
+    // ② 宣言しないと決めた対象が宣言表に入っていない
+    for (const nd of (J.notDeclared || [])) {
+      if (!nd.why) bad.push(`②${nd.body}|${nd.quantity} に理由が書かれていない`);
+      if (keys.includes(nd.body + '|' + nd.quantity))
+        bad.push(`②${nd.body}|${nd.quantity} は宣言しないと書いてあるのに宣言表にある`);
+    }
+    // ③ 宣言後の判定は別欄・4 値は据え置き
+    const S = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8'));
+    four = JSON.stringify(S.fourTally || {});
+    if ((S.fourTally || {})['保留'] !== 16) bad.push('③4 値の保留が 16 でない(宣言で判定を動かしていないはず)');
+    const dRows = (S.declaredFirst || {}).rows || [];
+    if (!dRows.length) bad.push('③宣言後の初判定の欄が空である');
+    for (const r of dRows) {
+      if (!keys.includes(r.key)) bad.push(`③宣言していない対象が宣言後の欄にある(${r.key})`);
+      if (r.applied !== true) bad.push(`③宣言行が CSV に当たっていない(${r.key}: ${r.fallbackReason})`);
+    }
+    // ④ 門の器が同じファイルを読んでいる
+    const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+    const js = C.judgementSources || {};
+    if (js.ok !== true) bad.push('④門の器が宣言ファイルを読めていない');
+    if ((js.declared || []).length !== decl.length)
+      bad.push(`④門の器が読んだ宣言の件数が違う(${(js.declared || []).length})`);
+  } catch (e) { bad.push('宣言表が読めない: ' + String(e).slice(0, 90)); }
+  add('docs.judgementSources', bad.length === 0,
+    `**採用観測解の明示宣言**(第268便a・統括の読み (D)・paper/data/judgement-sources.json): `
+    + `宣言 ${decl.length} 件(**カロン P = Buie 2012 の 551856.43872 s ± 0.02592**・`
+    + `**金星 e = JPL SSD Table 1 の 0.00677672(σ の印字なし)**)で、どちらも CSV の行に`
+    + `**1 件で当たる**(${hits.join(' / ')} —— 宣言に新しい数値は 1 つも書いていない)/ `
+    + `**宣言の無い対象は従来どおりファイル順の最初の行**(フォボス・ダイモス・水星 P・火星 P・`
+    + `トリトン P/e は**周期定義の照合が先**なので宣言しない)/ `
+    + `**宣言後の判定は別欄**(\`declaredFirst\`)で、**4 値は ${four} のまま据え置き** —— `
+    + `**「宣言したので判定が増えた」とは書かない**`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 

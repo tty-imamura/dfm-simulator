@@ -114,6 +114,10 @@ tests/out/*
 !tests/out/basis-w265a.json
 !tests/out/kjoint2-w265a.json
 !tests/out/analogy-w265a.json
+# 第268便a: 📡 D68 の 3 段(h/h2/h4・同じ窓・同じ抽出器)の実測正本(tests/exp-w268a-d68.mjs)。
+# QA `behavior.unitConvertedFirst` が「3 段が揃っている・見かけの次数が正・h 段が σ 接続器の換算後と
+# 一致する」を機械固定し、docs/PHYSICS.md〔第268便a〕§3 の表がこの値そのものなのでコミットする
+!tests/out/d68-w268a.json
 # 第134便: kF1 較正ハーネスの実測正本(論文3 再現性 — 外部レビュー P0 対応。
 # 本文の中心値〔q*=6.16/8.25/21.8・drag −5.6e-10・第122便 q*=4.59〕を提出コミットから再生成可能に)
 !tests/out/coreshell-results.json

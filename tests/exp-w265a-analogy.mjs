@@ -40,6 +40,8 @@ import { createRequire } from 'node:module';
 import { richardson3, protocolDeclaration, nondimJacobian } from './lib-w265a-analogy.mjs';
 // 第266便a: σ の印は 3 器と同じ 1 本で読む(`sigma_primary=verified` だけが門に入る)。
 import { isSigmaPrimaryVerified } from './lib-w264d-sigmamark.mjs';
+// 第268便a(第58報 W1・統括の読み (C)): 門の宛先表は**共通モジュール**から読む(ソース文字列検索を廃止)。
+import { gateWiringCensus } from './lib-sigma-destinations.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -104,17 +106,14 @@ const CLUSTER = loadCsv('cluster-galaxy-observations.csv', 8);
 // と出てしまう**(繋がっていないのに)。門(`tests/exp-w249b-calaudit.mjs`)の対応表
 // `SIGMA_BODY` / `SIGMA_TARGET_BODY` に **47 Tuc も NGC 3198 も GW150914 も 1 行も無い**ので、
 // 接続は**対応表に宛先があるか**で決める(器のソースを読んで数える —— 推測ではない)。
-const CAL_SRC = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w249b-calaudit.mjs'), 'utf8');
-function gateCensus(rows, bodies) {
-  const sel = rows.filter((r) => bodies.includes(r.body));
-  const wired = bodies.filter((b) => CAL_SRC.indexOf(`'${b}'`) >= 0);
-  return { rows: sel.length, withSigma: sel.filter((r) => r.sigma !== null).length,
-    withVerifiedSigma: sel.filter((r) => r.sigma !== null && r.primaryVerified).length,
-    wiredToGate: wired.length, wiredBodies: wired,
-    quantities: Array.from(new Set(sel.map((r) => r.quantity))) };
-}
-// **接続の定義(第267便a)**: 門の対応表に宛先があり、かつその body の行に `verified` の σ がある。
-const gateConnected = (c) => c.wiredToGate > 0 && c.withVerifiedSigma > 0;
+// 第268便a(第58報 W1・統括の読み (C)): **器のソース文字列検索(`CAL_SRC.indexOf`)は廃止した**。
+// 宛先表そのものを共通モジュールから読む(コメント中の body 名に当たる・鍵と値を区別しない、という
+// 文字列検索の曖昧さが消える)。**接続は「同じ body・同じ quantity の行に、配線と `verified` の
+// σ(σ>0)が揃うこと」**で決める —— 候補行(`_candidate`)・別の body・σ=0 の誤接続を防ぐ。
+// **これは接続候補の判定であって、採用解・単位の一致・観測量対応・必要 2 量の充足ではない。**
+function gateCensus(rows, bodies) { return gateWiringCensus(rows, bodies); }
+// **接続の定義(第268便a)**: 同じ body・quantity の行に配線と verified σ が揃っている行が 1 本以上。
+const gateConnected = (c) => c.withWiredVerifiedSigma > 0;
 
 const LIB_ANALOGY = fs.readFileSync(path.join(ROOT, 'tests', 'lib-w265a-analogy.mjs'), 'utf8')
   .replace(/^export /gm, '');
@@ -230,7 +229,19 @@ await pg.evaluate(() => {
   });
 });
 
-const out = { meta: { wave: '第265便a', target: TARGET, dt0: DT0, divs: DIVS,
+// 第268便a(AC5): **測定日時と入力版**を JSON に残す(この出力が「いつ・何を読んで」作られたかを、
+// 再走のたびに書き直す —— 接続定義が変わったのに古い出力が残る、という状態を見えるようにする)。
+const srcStamp = (rel) => { try { const st = fs.statSync(path.join(ROOT, rel));
+  return { file: rel, bytes: st.size, mtime: st.mtime.toISOString() }; }
+  catch { return { file: rel, missing: true }; } };
+const out = { meta: { wave: '第265便a(第268便a で接続定義を差し替えて再走)',
+  when: new Date().toISOString(),
+  rerun: '第268便a(第58報 W1・統括の読み (C)): `gateConnected` を **同じ body・同じ quantity の行に'
+    + '配線と `verified` の σ が揃うこと**(`withWiredVerifiedSigma`)に変えて再走した。'
+    + '**BH 連星・星団の測定値そのものは作り直していない**(再走で更新されるのは census と刻印である)。',
+  inputs: [srcStamp(TARGET), srcStamp('tests/lib-sigma-destinations.mjs'),
+    srcStamp('paper/data/solar-observations.csv'), srcStamp('paper/data/cluster-galaxy-observations.csv')],
+  target: TARGET, dt0: DT0, divs: DIVS,
   bhWindow: { tShort: BH_T_SHORT, tLong: BH_T, minimaWanted: BH_MIN },
   clusterWindow: { tEnd: CL_T },
   claim: '**アナロジーは「同じ手順・別窓」である。** 窓・抽出器・観測版を NS と揃えたとは書かない。'
@@ -248,7 +259,11 @@ out.gateCensus = {
     + 'この状態で共同根を出さない(統括の読み (B))。第266便a で星団 CSV にも sigma 列が付いたが、'
     + '**印が `verified` の行だけ**を接続と数える(`withVerifiedSigma`)。'
     + '第267便a: **印は接続ではない** —— 接続は「門の対応表に宛先があること(`wiredToGate`)」と'
-    + '「`verified` の σ があること」の両方で決める(47 Tuc は前者が 0 なので接続していない)。' };
+    + '「`verified` の σ があること」の両方で決める(47 Tuc は前者が 0 なので接続していない)。'
+    + '第268便a(統括の読み (C)): 判定を **`withWiredVerifiedSigma`(同じ body・同じ quantity の行に'
+    + '配線と verified σ が揃う本数)**にした —— body 単位の「両方 >0」だと、別の量の verified σ で'
+    + '接続扱いになりうる。宛先表は `tests/lib-sigma-destinations.mjs` から読む(ソース文字列検索は廃止)。'
+    + '**接続候補の判定であって、採用解・単位・観測量対応・必要 2 量の充足ではない。**' };
 
 const tAll = Date.now();
 
@@ -394,7 +409,10 @@ if (want('cluster')) {
     extractor: { name: 'projected-x-axis-v1',
       quantity: ['projected-half-mass-radius', 'core-radius-half-density', 'in-plane-sigma-by-band'],
       definition: '投影は x 軸・「視線」は y 成分。コア半径は面密度が中心帯の半分に落ちる R'
-        + '(**King の r_c とは混用しない**)' },
+        + '(**King の r_c とは混用しない**)。'
+        + '第268便a(統括の読み (G)): **この「投影半質量半径」は R=|x| の一次元帯への射影**であって、'
+        + '**天空面の円形開口の中の半径ではない**。47 Tuc の公表値と比べるには、開口・視線方向・'
+        + '重み・中心の決め方を定義し直す必要がある —— 本器の量は **DFM の内部診断の正本**に限る' },
     observationVersion: { csv: 'paper/data/cluster-galaxy-observations.csv の 47 Tuc 行'
       + '(第266便a で **sigma 列**が付き、第267便a で原仮定者の確認により 6 行が `sigma_primary=verified` '
       + 'になったが、**門の対応表に 47 Tuc の宛先が無いので門には入らない** —— 印は接続ではない)' },
