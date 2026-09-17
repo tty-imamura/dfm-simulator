@@ -56,6 +56,14 @@ import { GATE, VERDICT_CONDITION, VERDICTS6, YEAR_SEC, enforceAllConditions,
 // 門・σ 接続器・会計器の 3 器が**同じ 1 本**を読む(読み方が器ごとに違わないようにする)。
 import { isSigmaPrimaryVerified, legacyIsSigmaPrimaryVerified, readSigmaMark,
   readVerifiedBy, readSigmaKind } from './lib-w264d-sigmamark.mjs';
+// 第268便a(第58報 W1・統括の読み (C)): **σ の宛先表 3 つ**(`SIGMA_BODY` / `SIGMA_QUANT` /
+// `SIGMA_TARGET_BODY`)は、本器の中で定義するのをやめて **副作用の無い共通モジュール**へ移した。
+// 中身は 1 文字も変えていない(コメントごと移した)。アナロジー器と QA が**この表そのもの**を
+// 読むようになり、器のソース文字列検索(`CAL_SRC.indexOf("'47 Tuc'")`)は廃止した。
+import { SIGMA_BODY, SIGMA_QUANT, SIGMA_TARGET_BODY } from './lib-sigma-destinations.mjs';
+// 第268便a(統括の読み (D)・AB2): **採用観測解の明示宣言**(body|quantity → 採用行)。
+// 宣言の無い対象は従来どおり**ファイル順の最初**の行を採る(後方互換)。
+import { loadJudgementSources, pickDeclaredRow } from './lib-w268a-judgement.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -231,6 +239,7 @@ const sigmaMarkAudit = { rows: 353, legacyVerified: 0, strictVerified: 0, flips:
 function loadSigmaTable() {
   const txt = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8');
   const m = new Map();
+  const all = [];
   sigmaMarkAudit.rows = 0;
   for (const line of txt.split('\n')) {
     if (!line.trim() || line.startsWith('body,')) continue;
@@ -256,79 +265,38 @@ function loadSigmaTable() {
     if (vb.warn) sigmaMarkAudit.verifiedByMissing.push({ body: cols[0], quantity: cols[1],
       hasSigma: (cols[8] || '').trim() !== '' });
     const key = cols[0] + '|' + cols[1];
-    if (m.has(key)) continue;                       // **最初の行**を採る(別版レコードは混ぜない)
     const sg = (cols[8] !== undefined && cols[8].trim() !== '') ? Number(cols[8]) : null;
     const kind = readSigmaKind(note);
-    m.set(key, { body: cols[0], quantity: cols[1], value: Number(cols[2]), unit: cols[3],
+    const rec = { body: cols[0], quantity: cols[1], value: Number(cols[2]), unit: cols[3],
       // 第264便d: **空欄の value を 0 と読ませない**(`Number('')` は 0 である)。
       valueRaw: (cols[2] !== undefined && String(cols[2]).trim() !== '') ? Number(cols[2]) : null,
       source: cols[4], sigma: (Number.isFinite(sg) && sg > 0) ? sg : null,
       primaryVerified: isSigmaPrimaryVerified(note),
       verifiedBy: vb.present ? vb.who : null, verifiedAt: vb.at, verifiedValue: vb.value,
       sigmaKind: kind.kind, infoScale: kind.scale, infoScaleKind: kind.scaleKind,
-      digits: kind.digits, note });
+      digits: kind.digits, note };
+    // 第268便a: **採用観測解の明示宣言**は候補行(`_candidate` という別の鍵・同じ鍵の 2 行目以降)を
+    // 指すことがあるので、全行の一覧も残す(**判定の既定はこれまでどおり「最初の行」である**)。
+    all.push(rec);
+    if (m.has(key)) continue;                       // **最初の行**を採る(別版レコードは混ぜない)
+    m.set(key, rec);
   }
-  return m;
+  return { map: m, all };
 }
-const SIGMA_TABLE = (() => { try { return loadSigmaTable(); }
-  catch (e) { console.error('[w249b] sigma 表が読めない: ' + String(e).slice(0, 140)); return new Map(); } })();
-// preset id → CSV の body 名(**相対軌道の要素を持つ行** = 伴星側の行)
-const SIGMA_BODY = {
-  psrDoubleAB: 'PSR J0737-3039 B', psrDoubleABDFM: 'PSR J0737-3039 B',
-  psrDoubleABSpinCal: 'PSR J0737-3039 B', psrDoubleABPN: 'PSR J0737-3039 B',
-  psrJ1757DFM: 'PSR J1757-1854', psrJ1757PN: 'PSR J1757-1854',
-  psrJ1946DFM: 'PSR J1946+2052', psrJ1946PN: 'PSR J1946+2052',
-  alphaCenAB: 'Alpha Centauri B', alphaCenABDFM: 'Alpha Centauri B',
-  siriusAB: 'Sirius B', siriusABDFM: 'Sirius B',
-  // 第256便d(第48報): **🧶 B1534+12 の 3 本を足した**。σ は第251便c で CSV に入っていたのに、
-  // この対応表に行が無いせいで門からは「σ 無し」に見えていた(第255便d ⑤ の表の「—」の正体)。
-  // 値そのものは 1 つも動かない —— 読める σ を読むようにしただけである。
-  psrB1534: 'PSR B1534+12', psrB1534DFM: 'PSR B1534+12', psrB1534CF: 'PSR B1534+12',
-  // 第264便a(第56報 W1・統括の裁定 X14): **案K variant 3 本の宛先が抜けていた**。
-  // 🪝🪄🩹 は同じ系の DFM 版(⚡🧮🩺)と同じ body を見ているのに、この表に行が無いせいで
-  // 門からは「σ 無し」に見えていた(📿🪤 は行があったが**走行が σ 転写より前**だった — §5.8.4)。
-  // **値は 1 つも動かない**: 読める σ を読むようにしただけである(CSV は 1 bit も触っていない)。
-  psrDoubleABCF: 'PSR J0737-3039 B', psrJ1757CF: 'PSR J1757-1854', psrJ1946CF: 'PSR J1946+2052',
-  // 第256便d: ⚡ の ω̇ 行(periastron_advance)が CSV へ入ったので、近点移動にも σ が付く
-  // (第251便c ⑥′ が保留していた行 —— 保留の理由だった 📻 の経路等価は QA 側で解いた)。
-};
-const SIGMA_QUANT = { period: 'orbital_period', ecc: 'eccentricity', precession: 'periastron_advance' };
-// ---------------------------------------------------------------- 第262便d(第54報 W4・統括の読み (A)・検証仮説 (10))
-// **太陽系 16 本の σ 接続**。`SIGMA_BODY` は「preset → CSV の body 名」で、しかも
-// **最初の周回体にしか当たらない**(applySigma の `t.label !== cfg.orbiters[0][1]`)。太陽系は
-// 1 本の preset が複数の周回体を持つので、**target ラベルごとの宣言表**を別に置く。
-// **宣言であって自動判定ではない** —— CSV に行が無い天体は、ここに書かない(推測で当てない)。
-// **値は 1 つも動かない**: ここで繋がる CSV 行は**全部 sigma 列が空欄**なので、
-// `applySigma` は `sigmaSource` と `sigmaNote`(診断の文字列)を書くだけで、
-// `obsSigmaCsv` は 1 件も立たない = 門の判定は 1 bit も変わらない。
-// **切れているのは対応表ではなく CSV の sigma 列と行そのものである**ことを、
-// `tests/exp-w262d-solarsigma.mjs` が数で示す(合 0 / 量限定合 0 / 否 0 / 保留 16)。
-// ---------------------------------------------------------------- 第264便d(第56報 W4・統括の読み (E))
-// **2026-09-15 intake で CSV に行が入った天体を宣言表へ足した**(月・地球・水星・ガリレオ 4 衛星・
-// 土星系 4 対象)。第262便d と同じ理由で **値は 1 つも動かない**: ここで繋がる CSV 行は
-// **sigma 列が全部空欄**なので、`applySigma` は `sigmaSource` と `sigmaNote` を書くだけで
-// `obsSigmaCsv` は 1 件も立たない = 門の判定は 1 bit も変わらない。
-// **宣言であって推測ではない** —— CSV に行が無い対象はここに書かない。
-const SIGMA_TARGET_BODY = {
-  'venusReal|金星': 'Venus', 'solarInner|金星': 'Venus', 'solarInner|火星': 'Mars',
-  // 第264便d: 2026-09-15 intake で行が入った対象
-  'earthMoonReal|月': 'Moon', 'earthMoonRealKF1|月': 'Moon', 'emAuditDFM|月': 'Moon',
-  'emAuditSolar|月': 'Moon',
-  'mercuryReal|水星': 'Mercury', 'mercuryRealKF1|水星': 'Mercury', 'solarInner|水星': 'Mercury',
-  'solarInner|地球': 'Earth',
-  'jupiterGalilean|イオ': 'Io', 'jupiterGalilean|エウロパ': 'Europa',
-  'jupiterGalilean|ガニメデ': 'Ganymede', 'jupiterGalilean|カリスト': 'Callisto',
-  'saturnZonalD68|D68': 'Saturn ring feature D68',
-  'saturnRingReal|ミマス': 'Mimas', 'saturnRingRealKF1|ミマス': 'Mimas',
-  'saturnRingReal|タイタン': 'Titan', 'saturnRingRealKF1|タイタン': 'Titan',
-  'saturnRingReal|C環内縁': 'Saturn ring C inner edge',
-  'saturnRingRealKF1|C環内縁': 'Saturn ring C inner edge',
-  'marsMoonsReal|フォボス': 'Phobos', 'marsMoonsReal|ダイモス': 'Deimos',
-  'plutoCharonReal|カロン': 'Charon',
-  'uranusReal|ミランダ': 'Miranda', 'uranusReal|アリエル': 'Ariel',
-  'uranusReal|ウンブリエル': 'Umbriel', 'uranusReal|チタニア': 'Titania', 'uranusReal|オベロン': 'Oberon',
-  'neptuneReal|トリトン': 'Triton',
-};
+const SIGMA_LOAD = (() => { try { return loadSigmaTable(); }
+  catch (e) { console.error('[w249b] sigma 表が読めない: ' + String(e).slice(0, 140));
+    return { map: new Map(), all: [] }; } })();
+const SIGMA_TABLE = SIGMA_LOAD.map;
+const SIGMA_ROWS_ALL = SIGMA_LOAD.all;
+// 第268便a(統括の読み (D)・AB2): **採用観測解の宣言表**(`paper/data/judgement-sources.json`)。
+// 宣言の無い body|quantity は**従来どおりファイル順の最初の行**を採る(後方互換)。
+const JUDGEMENT_SOURCES = loadJudgementSources(path.join(ROOT, 'paper', 'data', 'judgement-sources.json'));
+// ---------------------------------------------------------------- 第268便a(第58報 W1・統括の読み (C))
+// **3 つの宣言表(`SIGMA_BODY` / `SIGMA_QUANT` / `SIGMA_TARGET_BODY`)は
+// `tests/lib-sigma-destinations.mjs` へ移した**(中身は 1 文字も変えていない — コメントごと移した)。
+// 移設の理由: 同じ表を**器のソースの文字列検索**で読んでいた場所が 2 つあり(アナロジー器と QA)、
+// コメント中の body 名にも当たる読み方だった。宣言表そのものを import すればその曖昧さは消える。
+// **接続候補の判定**(`gateWiringCensus`)も同じモジュールに置いてある。
 
 // ---------------------------------------------------------------- 第257便d(第49報・3 審査 v15)
 // **観測量対応の宣言表**(自動判定ではない — 宣言である)。
@@ -1096,7 +1064,21 @@ for (const P of (REGATE ? [] : out.presets)) {
     const body = SIGMA_TARGET_BODY[d.id + '|' + t.label]
       || ((sigBody && t.label === cfg.orbiters[0][1]) ? sigBody : null);
     if (!body) return q;
-    const row = SIGMA_TABLE.get(body + '|' + SIGMA_QUANT[kind]);
+    // 第268便a(統括の読み (D)・AB2): **採用観測解の明示宣言**が在る body|quantity は、宣言された行を
+    // 採る。**宣言の無い対象は従来どおりファイル順の最初の行**である(後方互換 —— 他の判定は動かない)。
+    // 宣言が CSV の行に当たらなければ**宣言を無視せず止めもせず**、従来の行を使って注記を残す
+    // (推測で当てない・黙って差し替えない)。
+    const declKey = body + '|' + SIGMA_QUANT[kind];
+    const decl = JUDGEMENT_SOURCES.byKey.get(declKey) || null;
+    const picked = decl ? pickDeclaredRow(decl, SIGMA_ROWS_ALL) : { row: null, reason: null };
+    const row = picked.row || SIGMA_TABLE.get(declKey);
+    if (decl) {
+      q.judgementSource = { declared: true, key: declKey, source: decl.source,
+        solution: decl.solution || null, value: decl.value, sigma: decl.sigma === undefined ? null : decl.sigma,
+        csvQuantity: decl.csvQuantity || decl.quantity, declaredAt: decl.declared || null,
+        applied: !!picked.row, fallbackReason: picked.row ? null : picked.reason,
+        note: '**宣言後の判定は「宣言後の初判定」として別欄に記録する** —— 宣言前の 4 値は据え置く' };
+    }
     if (!row) { q.sigmaNote = `CSV に ${body}|${SIGMA_QUANT[kind]} の行が無い`; return q; }
     q.sigmaSource = { body: row.body, quantity: row.quantity, unit: row.unit, sigma: row.sigma,
       source: String(row.source).slice(0, 90), primaryVerified: row.primaryVerified };
@@ -1834,6 +1816,15 @@ out.presets = merged;   // decl/run の生データは残さず、判定済み�
 out.sigmaRegate = sigmaRegate;   // 第263便c: --regate で σ を張り直した記録(既定は on:false)
 // 第264便d(X6/X7/⑥): 印の厳密読みの会計・`verified_by` の欠けている行・informational 距離
 out.sigmaMarkAudit = sigmaMarkAudit;
+// 第268便a(統括の読み (D)・AB2): **採用観測解の宣言表**の読み取り記録(宣言は行選択である)。
+out.judgementSources = { file: 'paper/data/judgement-sources.json', ok: JUDGEMENT_SOURCES.ok,
+  error: JUDGEMENT_SOURCES.error || null, schemaVersion: JUDGEMENT_SOURCES.schemaVersion || null,
+  declared: JUDGEMENT_SOURCES.declarations.map((d) => ({ key: d.body + '|' + d.quantity,
+    source: String(d.source).slice(0, 90), value: d.value,
+    sigma: d.sigma === undefined ? null : d.sigma })),
+  notDeclared: (JUDGEMENT_SOURCES.notDeclared || []).map((d) => d.body + '|' + d.quantity),
+  note: '**宣言の無い body|quantity は従来どおりファイル順の最初の行**である(後方互換)。'
+    + '宣言後の判定は「**宣言後の初判定**」として別欄に置き、宣言前の 4 値は据え置く。' };
 out.infoDistance = infoDistance;
 // ---- 第250便c: 量の総数と、I2 の機械門の集計(5 区分の tally はそのまま残す)----
 const allQ = merged.flatMap((r) => r.quantities || []);

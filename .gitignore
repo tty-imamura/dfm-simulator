@@ -65,6 +65,11 @@ tests/out/*
 #   突き合わせ、docs/CALIBRATION_VERDICT_v1.44.md §2.3⁗″ §5.12 と docs/PHYSICS.md 〔第267便a〕の
 #   表がこの値そのものなのでコミットする(**エンジンは 1 步も走らせていない**)
 !tests/out/confirm2-w267a.json
+# 第268便b: 層融合の ζ 合成則の**反例**の実測正本(tests/exp-w268b-zetamerge.mjs)。
+#   docs/PHYSICS.md 〔第268便b〕§3 と docs/RELEASE_NOTES_v1.44.md の Negative Claim 42 の表が
+#   この値そのものなのでコミットする(**QA `behavior.zetaMergeCounterexample` はこのファイルを読まない**
+#   —— 読むのは器の中で走らせた値である)
+!tests/out/zetamerge-w268b.json
 # 第262便c: 門(4) の独立推定(tests/exp-w262c-independent.mjs —— leapfrog-KDK とエンジン外 RK4 参照器・
 # 門 5 つの再判定)・📻 の E12 と標準二体相対 1PN の対照(tests/exp-w262c-e12ref.mjs)・
 # ✨🌟 の e 写像(tests/exp-w262c-emap.mjs)・🩺 観測版 v2 の差(tests/exp-w262c-v2delta.mjs)の実測正本。
@@ -114,6 +119,10 @@ tests/out/*
 !tests/out/basis-w265a.json
 !tests/out/kjoint2-w265a.json
 !tests/out/analogy-w265a.json
+# 第268便a: 📡 D68 の 3 段(h/h2/h4・同じ窓・同じ抽出器)の実測正本(tests/exp-w268a-d68.mjs)。
+# QA `behavior.unitConvertedFirst` が「3 段が揃っている・見かけの次数が正・h 段が σ 接続器の換算後と
+# 一致する」を機械固定し、docs/PHYSICS.md〔第268便a〕§3 の表がこの値そのものなのでコミットする
+!tests/out/d68-w268a.json
 # 第134便: kF1 較正ハーネスの実測正本(論文3 再現性 — 外部レビュー P0 対応。
 # 本文の中心値〔q*=6.16/8.25/21.8・drag −5.6e-10・第122便 q*=4.59〕を提出コミットから再生成可能に)
 !tests/out/coreshell-results.json

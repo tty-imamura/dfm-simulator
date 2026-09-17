@@ -1,0 +1,143 @@
+{
+ "when": "2026-09-17T10:10:28.192Z",
+ "wave": "第268便a(第58報 W1・統括の読み (A))",
+ "target": "beta/index.html",
+ "id": "saturnZonalD68",
+ "label": "D68",
+ "declaration": {
+  "window": {
+   "tEnd": 10698.816,
+   "unit": "sim time",
+   "why": "第249便b の h 段(dt=0.016・668676 步)と同じ終了時刻。**步数ではなく時刻を揃える**"
+  },
+  "extractor": {
+   "name": "periastron-detectorA-v1",
+   "definition": "近点 = ṙ の −→+ 交差(線形内挿)。近点方位を unwrap して**近点番号**に線形 fit した傾きが Δϖ [deg/周]。3 段とも**最初の 58 近点**で fit する",
+   "periodWindow": "P_peri = 最初の 20 近点(19 区間)の平均"
+  },
+  "conversion": "ϖ̇ [deg/yr] = Δϖ [deg/周] × 31557600 / P_peri [s](**分子の Δϖ と同じ近点窓の周期で割る** —— 周期行・丸めた観測周期は使わない)"
+ },
+ "observation": {
+  "body": "Saturn ring feature D68",
+  "quantity": "periastron_advance",
+  "value": 13968.25575,
+  "unit": "deg/yr",
+  "source": "Hedman et al. 2014 Icarus 233 147 abstract",
+  "sigma": 2.922,
+  "primaryVerified": true
+ },
+ "stages": [
+  {
+   "tag": "h",
+   "dt": 0.016,
+   "div": 1,
+   "steps": 668676,
+   "tEnd": 10698.816,
+   "wallSec": 2.894,
+   "nan": false,
+   "clamp": 0,
+   "nPeriFound": 58,
+   "nFitUsed": 58,
+   "dup": 0,
+   "jump": 0,
+   "slopeDegPerOrbit": 8.042145452277042,
+   "residDeg": 0.0019737441411050213,
+   "pPeriSec": 18224.858223651565,
+   "toSec": 100,
+   "degPerYear": 13925.529966286234,
+   "residualDegPerYear": -42.72578371376585,
+   "nSigma": -14.622102571446218
+  },
+  {
+   "tag": "h/2",
+   "dt": 0.008,
+   "div": 2,
+   "steps": 1337352,
+   "tEnd": 10698.816,
+   "wallSec": 5.467,
+   "nan": false,
+   "clamp": 0,
+   "nPeriFound": 58,
+   "nFitUsed": 58,
+   "dup": 0,
+   "jump": 0,
+   "slopeDegPerOrbit": 8.042170763288139,
+   "residDeg": 0.001976202596108271,
+   "pPeriSec": 18224.855567811646,
+   "toSec": 100,
+   "degPerYear": 13925.575823370757,
+   "residualDegPerYear": -42.67992662924371,
+   "nSigma": -14.606408839576902
+  },
+  {
+   "tag": "h/4",
+   "dt": 0.004,
+   "div": 4,
+   "steps": 2674704,
+   "tEnd": 10698.816,
+   "wallSec": 11.104,
+   "nan": false,
+   "clamp": 0,
+   "nPeriFound": 58,
+   "nFitUsed": 58,
+   "dup": 0,
+   "jump": 0,
+   "slopeDegPerOrbit": 8.042177157993406,
+   "residDeg": 0.001977448679882769,
+   "pPeriSec": 18224.854891330033,
+   "toSec": 100,
+   "degPerYear": 13925.587413144622,
+   "residualDegPerYear": -42.668336855378584,
+   "nSigma": -14.602442455639487
+  }
+ ],
+ "convergence": {
+  "degPerYear": {
+   "ok": true,
+   "d1": -0.04585708452214021,
+   "d2": -0.011589773865125608,
+   "ratio": 3.9566850100610846,
+   "order": 1.9842922175696525,
+   "factor": 0.33821661644618006,
+   "extrapolated": 13925.591332998723
+  },
+  "slopeDegPerOrbit": {
+   "ok": true,
+   "d1": -0.000025311011096817992,
+   "d2": -0.000006394705266643541,
+   "ratio": 3.9581200448513023,
+   "order": 1.9848153681927372,
+   "factor": 0.3380525417623028,
+   "extrapolated": 8.042179319739775
+  },
+  "pPeriSec": {
+   "ok": true,
+   "d1": 0.002655839918588754,
+   "d2": 0.000676481613481883,
+   "ratio": 3.925960241430687,
+   "order": 1.9730455625694374,
+   "factor": 0.3417681436132696,
+   "extrapolated": 18224.854660130168
+  }
+ },
+ "convergenceProposal": {
+  "rule": "3 段(h, h/2, h/4)が走り、見かけの次数 order>0 で、**|Q_{h/2}−Q_{h/4}| ≤ 0.3σ**",
+  "sigma": 2.922,
+  "budget": 0.8766,
+  "stagesRun": 3,
+  "orderPositive": true,
+  "order": 1.9842922175696525,
+  "lastStageDiff": 0.011589773865125608,
+  "lastStageDiffInSigma": 0.00396638393741465,
+  "ok": true,
+  "decision": "**閾値 0.3σ は決断事項**(門の ε_num 予算と同じ数を仮に置いた)。ここで ok になっても**判定は門の仕事**であり、本器は合否を言わない。"
+ },
+ "verdict": "**数値未解決**(3 段の収束が宣言の条件を満たすまで、否とも合とも言わない)",
+ "doNotWrite": [
+  "D68 が合(3σ)",
+  "換算したら判定が増えた",
+  "太陽系の σ が揃った",
+  "3 段を走らせたので収束した(条件は上の数で見る)"
+ ],
+ "pageErrors": []
+}

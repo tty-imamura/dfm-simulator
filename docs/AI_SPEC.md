@@ -1030,6 +1030,11 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
       **"inertia"** = 失われた重心の慣性だけを戻す(K=δ·mmᵀ/M²・δ=M−1ᵀH1)/
       **"constraint"** = 零方向を射影して擬似逆で解く(ゲージ条件 Σ_i a_i = 0)。
       **両案で加速度が変わる**ので、`law:"mesh-v2"` のときは `meshGauge` を**既定でも正準形に出す**。
+      **第268便b(既定の追認 —— 変更ではない)**: `MESH_V2_GAUGES` の先頭が `"inertia"` であり、
+      `meshGauge` を宣言しない `law:"mesh-v2"` は**基点から既に `"inertia"` で解いている**
+      (第265便b の統括推奨と実装が一致していることの確認であって、本便は 1 バイトも変えていない)。
+      **`geoPN=3` 全体の既定法則が `mesh-v2` になったわけではない** —— `law` の既定は `"toy"` のままで、
+      内蔵で `law` を宣言する本は依然として 0 本である。
     - **門**: `physics.geoPN=3` 専用・`sampleClass:"calibration"` では**拒否**・`toyClosure` と排他・
       `toyAllowDrag` と排他・未知の値と未知のゲージは拒否。宣言すると**警告 1 行**。
       **既定 "toy" は正準形に 1 文字も出ない**(内蔵で `law` を宣言する本は 0 本)。
@@ -1758,3 +1763,23 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     全行に `gate=not-connected` が入っている(**門には 1 行も繋がっていない**)。
   - `paper/data/supernova-observations.csv` と `paper/data/jovian-satellites.csv` は **sigma 列を持たない**(従来どおり)。
   - **生成 AI はこれらの CSV を書かない**(取込経路は `ObservationRecord` であって CSV ではない)。
+- **判定に使う採用観測解の宣言(第268便a — `paper/data/judgement-sources.json`)**: 門(`tests/exp-w249b-calaudit.mjs`)と
+  σ 接続器(`tests/exp-w262d-solarsigma.mjs`)が**どの CSV 行を判定に採るか**の宣言表である。
+  **宣言の無い `body|quantity` は、従来どおり CSV のファイル順で最初の行**を採る(後方互換)。
+  スキーマ:
+  ```json
+  { "schemaVersion": 1, "wave": "<便>", "what": "<何の表か>", "rule": ["<規約>"], "doNotWrite": ["<禁止の言い方>"],
+    "declarations": [ { "body": "Charon", "quantity": "orbital_period",
+      "csvQuantity": "orbital_period_candidate", "source": "<CSV の source 列そのまま>",
+      "solution": "<解の説明(表・列・fit の種類)>", "value": 551856.43872, "unit": "s",
+      "sigma": 0.02592, "declared": "YYYY-MM-DD", "reason": "<なぜこの行を採るか>" } ],
+    "notDeclared": [ { "body": "Phobos", "quantity": "orbital_period", "why": "<宣言しない理由>" } ] }
+  ```
+  - `quantity` は**門が読む量**(`orbital_period` / `eccentricity` / `periastron_advance`)、
+    `csvQuantity` は **CSV 上の鍵**(候補行は `<quantity>_candidate` という**別の鍵**である)。
+  - `value`・`sigma`・`source` は **CSV の行から 1 文字も変えずに写す**。器は「body・鍵・value・sigma が
+    完全一致する行が**ちょうど 1 件**」であることを毎回確かめ、決まらなければ**従来の行を使って理由を残す**
+    (黙って差し替えない・推測で当てない)。`sigma` が `null` の宣言は**行選択だけ**を決める(門へは入らない)。
+  - **宣言は行選択であって、単位の一致・観測量対応・数値収束の宣言ではない。** 宣言で動いた数は
+    「**宣言後の初判定**」として 4 値の**横の欄**(`declaredFirst`)に置き、**据え置きの 4 値は上書きしない**。
+  - **生成 AI はこのファイルを書かない**(採用解の宣言は原仮定者と統括の裁定である)。

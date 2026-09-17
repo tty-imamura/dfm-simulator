@@ -1,0 +1,251 @@
+{
+ "when": "2026-09-17T10:06:49.786Z",
+ "wave": "第268便b(第58報 W2・統括の読み (F))",
+ "target": "beta/index.html",
+ "pure": [
+  {
+   "ja": 10,
+   "za": 1,
+   "jb": -10,
+   "zb": 2,
+   "before": 5,
+   "Jafter": 0,
+   "zAfter": 1,
+   "after": 0,
+   "delta": -5,
+   "preserved": false
+  },
+  {
+   "ja": 10,
+   "za": 1,
+   "jb": -15,
+   "zb": 2,
+   "before": 2.5,
+   "Jafter": -5,
+   "zAfter": 1,
+   "after": -5,
+   "delta": -7.5,
+   "preserved": false
+  },
+  {
+   "ja": 10,
+   "za": 2,
+   "jb": 20,
+   "zb": 2,
+   "before": 15,
+   "Jafter": 30,
+   "zAfter": 2,
+   "after": 15,
+   "delta": 0,
+   "preserved": true
+  },
+  {
+   "ja": 10,
+   "za": 2,
+   "jb": 20,
+   "zb": 4,
+   "before": 10,
+   "Jafter": 30,
+   "zAfter": 3,
+   "after": 10,
+   "delta": 0,
+   "preserved": true
+  },
+  {
+   "ja": 10,
+   "za": 1,
+   "jb": -10,
+   "zb": 1,
+   "before": 0,
+   "Jafter": 0,
+   "zAfter": 1,
+   "after": 0,
+   "delta": 0,
+   "preserved": true
+  },
+  {
+   "ja": 10,
+   "za": 1,
+   "jb": -5,
+   "zb": 2,
+   "before": 7.5,
+   "Jafter": 5,
+   "zAfter": 0.6666666666666666,
+   "after": 7.5,
+   "delta": 0,
+   "preserved": true
+  },
+  {
+   "ja": 10,
+   "za": 1,
+   "jb": -20,
+   "zb": 2,
+   "before": 0,
+   "Jafter": -10,
+   "zAfter": 1,
+   "after": -10,
+   "delta": -10,
+   "preserved": false
+  },
+  {
+   "ja": 10,
+   "za": 4,
+   "jb": -10,
+   "zb": 1,
+   "before": -7.5,
+   "Jafter": 0,
+   "zAfter": 1,
+   "after": 0,
+   "delta": 7.5,
+   "preserved": false
+  }
+ ],
+ "scan": [
+  {
+   "rule": "role",
+   "n": 2025,
+   "ok": 1653,
+   "broken": 372,
+   "signFlip": 164,
+   "vanish": 160,
+   "born": 44,
+   "other": 4,
+   "otherRows": [
+    {
+     "ja": -15,
+     "za": 0.25,
+     "jb": -5,
+     "zb": 4,
+     "before": -61.25,
+     "after": -61.25000000000001,
+     "rel": 2.220446049250313e-16
+    },
+    {
+     "ja": -5,
+     "za": 4,
+     "jb": -15,
+     "zb": 0.25,
+     "before": -61.25,
+     "after": -61.25000000000001,
+     "rel": 2.220446049250313e-16
+    },
+    {
+     "ja": 5,
+     "za": 4,
+     "jb": 15,
+     "zb": 0.25,
+     "before": 61.25,
+     "after": 61.25000000000001,
+     "rel": 2.220446049250313e-16
+    },
+    {
+     "ja": 15,
+     "za": 0.25,
+     "jb": 5,
+     "zb": 4,
+     "before": 61.25,
+     "after": 61.25000000000001,
+     "rel": 2.220446049250313e-16
+    }
+   ],
+   "worstRel": "Infinity",
+   "worstAt": {
+    "ja": -20,
+    "za": 0.5,
+    "jb": 10,
+    "zb": 0.25,
+    "before": 0,
+    "after": -10
+   }
+  },
+  {
+   "rule": "add",
+   "n": 2025,
+   "ok": 1653,
+   "broken": 372,
+   "signFlip": 164,
+   "vanish": 160,
+   "born": 44,
+   "other": 4,
+   "otherRows": [
+    {
+     "ja": -15,
+     "za": 0.25,
+     "jb": -5,
+     "zb": 4,
+     "before": -61.25,
+     "after": -61.25000000000001,
+     "rel": 2.220446049250313e-16
+    },
+    {
+     "ja": -5,
+     "za": 4,
+     "jb": -15,
+     "zb": 0.25,
+     "before": -61.25,
+     "after": -61.25000000000001,
+     "rel": 2.220446049250313e-16
+    },
+    {
+     "ja": 5,
+     "za": 4,
+     "jb": 15,
+     "zb": 0.25,
+     "before": 61.25,
+     "after": 61.25000000000001,
+     "rel": 2.220446049250313e-16
+    },
+    {
+     "ja": 15,
+     "za": 0.25,
+     "jb": 5,
+     "zb": 4,
+     "before": 61.25,
+     "after": 61.25000000000001,
+     "rel": 2.220446049250313e-16
+    }
+   ],
+   "worstRel": "Infinity",
+   "worstAt": {
+    "ja": -20,
+    "za": 0.5,
+    "jb": 10,
+    "zb": 0.25,
+    "before": 0,
+    "after": -10
+   }
+  }
+ ],
+ "engine": {
+  "n": 1,
+  "fusedAt": 149,
+  "steps": 600,
+  "dt": 0.016,
+  "before": {
+   "qA": 10,
+   "qB": -5,
+   "sum": 5
+  },
+  "after": {
+   "q": 0,
+   "spinQ": 0,
+   "layers": [
+    {
+     "role": "core",
+     "m": 135,
+     "r": 2.5,
+     "J": 0
+    },
+    {
+     "role": "shell",
+     "m": 15,
+     "r": 12.806248474865697,
+     "J": 0
+    }
+   ]
+  },
+  "nan": 0,
+  "delta": -5
+ },
+ "violations": []
+}

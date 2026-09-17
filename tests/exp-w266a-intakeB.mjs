@@ -117,7 +117,9 @@ const CONFIRM = [
   [370, 'Mercury', 'periastron_advance_gr', 'agree', 'verified', 'Table 3 Gravitoelectric (Schwarzschild-like) row', '42.9799 +/- 0.0009 arcsec per Julian century'],
   [371, 'Mercury', 'periastron_advance_j2', 'agree', 'verified', 'Table 3 Solar Oblateness row', '0.0286 +/- 0.0011 arcsec per Julian century'],
   [420, 'Titan ringlet', 'semi_major_axis', 'agree', 'value-only', 'abstract Titan (Colombo) ringlet semimajor-axis statement', 'a = 77878.7 km (the quoted abstract prints no 1-sigma)'],
-  [421, 'Titan ringlet', 'mean_motion', 'unchecked', 'note-only', 'Not Found', 'Unconfirmed'],
+  // 第268便b: 行 421 の quantity は `mean_motion` → `pattern_speed_m1` へ改名した(強制 m=1 のパターン速度
+  // であって粒子の公転平均運動ではない。値・σ・出典・印は 1 バイトも動いていない)。
+  [421, 'Titan ringlet', 'pattern_speed_m1', 'unchecked', 'note-only', 'Not Found', 'Unconfirmed'],
   [426, 'Saturn ring feature D68', 'radial_amplitude_ae', 'agree', 'verified', 'abstract a*e statement for the D68 ringlet', 'ae=25 +/- 1 km'],
   [428, 'Saturn ring feature D68', 'periastron_advance', 'agree', 'verified', 'abstract pericenter-precession statement for the D68 ringlet', '38.243 +/- 0.008 deg/day'],
   [444, 'Charon', 'orbital_period_candidate', 'agree', 'verified', 'Table 5 P (days) two-body orbit fit to Charon astrometry', '6.3872273(3) d'],

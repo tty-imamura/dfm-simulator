@@ -1,6 +1,30 @@
 {
  "meta": {
-  "wave": "第265便a",
+  "wave": "第265便a(第268便a で接続定義を差し替えて再走)",
+  "when": "2026-09-17T10:14:36.124Z",
+  "rerun": "第268便a(第58報 W1・統括の読み (C)): `gateConnected` を **同じ body・同じ quantity の行に配線と `verified` の σ が揃うこと**(`withWiredVerifiedSigma`)に変えて再走した。**BH 連星・星団の測定値そのものは作り直していない**(再走で更新されるのは census と刻印である)。",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4027166,
+    "mtime": "2026-09-17T09:55:48.145Z"
+   },
+   {
+    "file": "tests/lib-sigma-destinations.mjs",
+    "bytes": 8797,
+    "mtime": "2026-09-17T10:01:54.494Z"
+   },
+   {
+    "file": "paper/data/solar-observations.csv",
+    "bytes": 406621,
+    "mtime": "2026-09-17T09:55:49.329Z"
+   },
+   {
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "bytes": 84895,
+    "mtime": "2026-09-17T09:55:49.325Z"
+   }
+  ],
   "target": "beta/index.html",
   "dt0": 0.016,
   "divs": [
@@ -19,7 +43,7 @@
   "claim": "**アナロジーは「同じ手順・別窓」である。** 窓・抽出器・観測版を NS と揃えたとは書かない。**較正クラスへは上げない**(principle のまま)。**共同根は観測 2 量の門が繋がってから**。",
   "prelimSource": "PRELIM は**統括の予備測定**(照合のためだけの定数)。観測値ではない。",
   "touched": "**本体 🎻🎐🍇🫐 の JSON は 1 bit も書き換えていない**。`S._core` には 1 命令も足していない。",
-  "spentSec": 105.5
+  "spentSec": 72.7
  },
  "presetFacts": [
   {
@@ -112,19 +136,31 @@
  ],
  "gateCensus": {
   "bh": {
-   "rows": 7,
+   "rows": 9,
    "withSigma": 0,
+   "withVerifiedSigma": 0,
+   "withWiredVerifiedSigma": 0,
+   "connectedQuantities": [],
+   "wiredToGate": 0,
+   "wiredBodies": [],
    "quantities": [
     "mass",
     "radius",
     "semi_major_axis",
     "eccentricity",
-    "orbital_period"
-   ]
+    "orbital_period",
+    "component_mass"
+   ],
+   "note": "**接続候補の判定である** —— 採用解・単位の一致・観測量対応・必要 2 量の充足は別に見る"
   },
   "cluster": {
-   "rows": 29,
-   "withSigma": 0,
+   "rows": 57,
+   "withSigma": 6,
+   "withVerifiedSigma": 6,
+   "withWiredVerifiedSigma": 0,
+   "connectedQuantities": [],
+   "wiredToGate": 0,
+   "wiredBodies": [],
    "quantities": [
     "distance",
     "galactocentric_distance",
@@ -154,10 +190,32 @@
     "sigma_los(r=21.379 pc)",
     "sigma_los(r=25.745 pc)",
     "sigma_los(r=35.529 pc)",
-    "sigma_los(r=54.711 pc)"
-   ]
+    "sigma_los(r=54.711 pc)",
+    "total_mass_candidate",
+    "core_radius_candidate",
+    "half_mass_radius_3d_candidate",
+    "half_light_radius_projected_candidate",
+    "sigma0_candidate",
+    "rotation_amplitude_candidate",
+    "distance_candidate",
+    "mass_to_light_V_candidate",
+    "sigma_los(r=0.1413 pc)",
+    "sigma_los(r=0.9368 pc)",
+    "sigma_los(r=2.4072 pc)",
+    "sigma_los(r=4.2668 pc)",
+    "sigma_los(r=7.3318 pc)",
+    "sigma_los(r=10.2433 pc)",
+    "sigma_pm(r=0.173 pc)",
+    "sigma_pm(r=0.294 pc)",
+    "sigma_pm(r=0.367 pc)",
+    "sigma_pm(r=0.415 pc)",
+    "sigma_pm(r=0.562 pc)",
+    "sigma_pm(r=0.718 pc)",
+    "sigma_pm(r=0.833 pc)"
+   ],
+   "note": "**接続候補の判定である** —— 採用解・単位の一致・観測量対応・必要 2 量の充足は別に見る"
   },
-  "note": "**σ を持つ行の本数**を数えた。0 なら「観測 2 量の門が繋がっていない」——この状態で共同根を出さない(統括の読み (B))。星団 CSV には σ 列そのものが無い。"
+  "note": "**σ を持つ行の本数**を数えた。0 なら「観測 2 量の門が繋がっていない」——この状態で共同根を出さない(統括の読み (B))。第266便a で星団 CSV にも sigma 列が付いたが、**印が `verified` の行だけ**を接続と数える(`withVerifiedSigma`)。第267便a: **印は接続ではない** —— 接続は「門の対応表に宛先があること(`wiredToGate`)」と「`verified` の σ があること」の両方で決める(47 Tuc は前者が 0 なので接続していない)。第268便a(統括の読み (C)): 判定を **`withWiredVerifiedSigma`(同じ body・同じ quantity の行に配線と verified σ が揃う本数)**にした —— body 単位の「両方 >0」だと、別の量の verified σ で接続扱いになりうる。宛先表は `tests/lib-sigma-destinations.mjs` から読む(ソース文字列検索は廃止)。**接続候補の判定であって、採用解・単位・観測量対応・必要 2 量の充足ではない。**"
  },
  "bh": {
   "declaration": {
@@ -753,10 +811,10 @@
      "core-radius-half-density",
      "in-plane-sigma-by-band"
     ],
-    "definition": "投影は x 軸・「視線」は y 成分。コア半径は面密度が中心帯の半分に落ちる R(**King の r_c とは混用しない**)"
+    "definition": "投影は x 軸・「視線」は y 成分。コア半径は面密度が中心帯の半分に落ちる R(**King の r_c とは混用しない**)。第268便a(統括の読み (G)): **この「投影半質量半径」は R=|x| の一次元帯への射影**であって、**天空面の円形開口の中の半径ではない**。47 Tuc の公表値と比べるには、開口・視線方向・重み・中心の決め方を定義し直す必要がある —— 本器の量は **DFM の内部診断の正本**に限る"
    },
    "observationVersion": {
-    "csv": "paper/data/cluster-galaxy-observations.csv の 47 Tuc 行(**σ 列が無い**)"
+    "csv": "paper/data/cluster-galaxy-observations.csv の 47 Tuc 行(第266便a で **sigma 列**が付き、第267便a で原仮定者の確認により 6 行が `sigma_primary=verified` になったが、**門の対応表に 47 Tuc の宛先が無いので門には入らない** —— 印は接続ではない)"
    },
    "quantities": [
     "sigma0",
