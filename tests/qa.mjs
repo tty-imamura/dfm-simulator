@@ -2331,8 +2331,10 @@ const add = (id, pass, detail) => {
   if (!TARGET.startsWith('beta/')) {
     console.log('SKIP behavior.bh90Intervals(beta 対象でない: ' + TARGET + ' — 比較 JSON は beta 線の実測)');
   } else {
-    const hasAll = await page.evaluate(() => ['gw150914', 'gw150914DFM', 'gw150914Merge4s']
-      .every((id) => HP.allPresets().some((q) => q.id === id)));
+    // 統括の統合(第269便): このブロックは `page` の生成より前に走るので、内蔵の有無は html の文字列で見る
+    // (第269便d の `behavior.clusterV1a` と同じ書き方)。
+    const htmlBH = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+    const hasAll = ['gw150914', 'gw150914DFM', 'gw150914Merge4s'].every((id) => htmlBH.includes('id:"' + id + '"'));
     if (!hasAll) {
       console.log('SKIP behavior.bh90Intervals(対象に 🎐🎻⏰ が揃っていない)');
     } else {
@@ -2416,8 +2418,9 @@ const add = (id, pass, detail) => {
   if (!TARGET.startsWith('beta/')) {
     console.log('SKIP behavior.sparc10(beta 対象でない: ' + TARGET + ' — 比較 JSON は beta 線の実測)');
   } else {
-    const hasAll = await page.evaluate(() => ['ngc3198', 'ngc3198DFM']
-      .every((id) => HP.allPresets().some((q) => q.id === id)));
+    // 統括の統合(第269便): `page` の生成より前に走るので、内蔵の有無は html の文字列で見る。
+    const htmlGal = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+    const hasAll = ['ngc3198', 'ngc3198DFM'].every((id) => htmlGal.includes('id:"' + id + '"'));
     if (!hasAll) {
       console.log('SKIP behavior.sparc10(対象に 🌃🛞 が揃っていない)');
     } else {
