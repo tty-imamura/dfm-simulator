@@ -59,6 +59,12 @@ tests/out/*
 #   docs/PHYSICS.md 〔第266便a〕の表がこの値そのものなのでコミットする
 #   (**エンジンは 1 步も走らせていない** —— 入力は CSV 正本だけである)
 !tests/out/intakeB-w266a.json
+# 第267便a: 確認記録(2026-09-17・第 2 回)の突き合わせ(tests/exp-w267a-confirm2.mjs)の実測正本。
+#   QA `docs.confirm2-sync` が「回答があり**原記載から換算で再現できた**行だけが verified になって
+#   いること」「未回答の行の印が 1 bit も動いていないこと」「訂正 3 件の追認印」をこの JSON と
+#   突き合わせ、docs/CALIBRATION_VERDICT_v1.44.md §2.3⁗″ §5.12 と docs/PHYSICS.md 〔第267便a〕の
+#   表がこの値そのものなのでコミットする(**エンジンは 1 步も走らせていない**)
+!tests/out/confirm2-w267a.json
 # 第262便c: 門(4) の独立推定(tests/exp-w262c-independent.mjs —— leapfrog-KDK とエンジン外 RK4 参照器・
 # 門 5 つの再判定)・📻 の E12 と標準二体相対 1PN の対照(tests/exp-w262c-e12ref.mjs)・
 # ✨🌟 の e 写像(tests/exp-w262c-emap.mjs)・🩺 観測版 v2 の差(tests/exp-w262c-v2delta.mjs)の実測正本。

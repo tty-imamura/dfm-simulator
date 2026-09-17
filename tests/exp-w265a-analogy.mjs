@@ -98,12 +98,23 @@ const SOLAR = loadCsv('solar-observations.csv', 8);
 // **読めることと門に繋がることは別である** —— 入った σ はすべて `sigma_primary=unverified` で、
 // `gateConnected` は下の `withVerifiedSigma` で数える(**星団・銀河は門に接続していない**)。
 const CLUSTER = loadCsv('cluster-galaxy-observations.csv', 8);
+// 第267便a(第57報 追加 3・4): **印が `verified` であることは門に繋がっていることではない**。
+// 第266便a は `gateConnected` を `withVerifiedSigma > 0` で決めていたが、第267便a で原仮定者の
+// 第 2 回の確認記録により 47 Tuc の 6 行が `verified` になったので、**この式のままだと「門に繋がった」
+// と出てしまう**(繋がっていないのに)。門(`tests/exp-w249b-calaudit.mjs`)の対応表
+// `SIGMA_BODY` / `SIGMA_TARGET_BODY` に **47 Tuc も NGC 3198 も GW150914 も 1 行も無い**ので、
+// 接続は**対応表に宛先があるか**で決める(器のソースを読んで数える —— 推測ではない)。
+const CAL_SRC = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w249b-calaudit.mjs'), 'utf8');
 function gateCensus(rows, bodies) {
   const sel = rows.filter((r) => bodies.includes(r.body));
+  const wired = bodies.filter((b) => CAL_SRC.indexOf(`'${b}'`) >= 0);
   return { rows: sel.length, withSigma: sel.filter((r) => r.sigma !== null).length,
     withVerifiedSigma: sel.filter((r) => r.sigma !== null && r.primaryVerified).length,
+    wiredToGate: wired.length, wiredBodies: wired,
     quantities: Array.from(new Set(sel.map((r) => r.quantity))) };
 }
+// **接続の定義(第267便a)**: 門の対応表に宛先があり、かつその body の行に `verified` の σ がある。
+const gateConnected = (c) => c.wiredToGate > 0 && c.withVerifiedSigma > 0;
 
 const LIB_ANALOGY = fs.readFileSync(path.join(ROOT, 'tests', 'lib-w265a-analogy.mjs'), 'utf8')
   .replace(/^export /gm, '');
@@ -235,7 +246,9 @@ out.gateCensus = {
   cluster: gateCensus(CLUSTER, ['47 Tuc']),
   note: '**σ を持つ行の本数**を数えた。0 なら「観測 2 量の門が繋がっていない」——'
     + 'この状態で共同根を出さない(統括の読み (B))。第266便a で星団 CSV にも sigma 列が付いたが、'
-    + '**印が `verified` の行だけ**を接続と数える(`withVerifiedSigma`)。' };
+    + '**印が `verified` の行だけ**を接続と数える(`withVerifiedSigma`)。'
+    + '第267便a: **印は接続ではない** —— 接続は「門の対応表に宛先があること(`wiredToGate`)」と'
+    + '「`verified` の σ があること」の両方で決める(47 Tuc は前者が 0 なので接続していない)。' };
 
 const tAll = Date.now();
 
@@ -255,7 +268,7 @@ if (want('bh')) {
         + '**振幅門は NS の位相制限(1.5π)とは別の門である**' },
     observationVersion: { csv: 'paper/data/solar-observations.csv の GW150914 A/B 行' },
     quantities: ['orbital_period(派生参照値)', 'mass'],
-    gateConnected: out.gateCensus.bh.withVerifiedSigma > 0 }),
+    gateConnected: gateConnected(out.gateCensus.bh) }),
     columns: [] };
   out.bh = bh;
 
@@ -383,9 +396,10 @@ if (want('cluster')) {
       definition: '投影は x 軸・「視線」は y 成分。コア半径は面密度が中心帯の半分に落ちる R'
         + '(**King の r_c とは混用しない**)' },
     observationVersion: { csv: 'paper/data/cluster-galaxy-observations.csv の 47 Tuc 行'
-      + '(第266便a で **sigma 列**が付いたが、入った σ は `sigma_primary=unverified` で門には入らない)' },
+      + '(第266便a で **sigma 列**が付き、第267便a で原仮定者の確認により 6 行が `sigma_primary=verified` '
+      + 'になったが、**門の対応表に 47 Tuc の宛先が無いので門には入らない** —— 印は接続ではない)' },
     quantities: ['sigma0', 'core_radius', 'half_light_radius_projected'],
-    gateConnected: out.gateCensus.cluster.withVerifiedSigma > 0 }),
+    gateConnected: gateConnected(out.gateCensus.cluster) }),
     columns: [] };
   out.cluster = cl;
 
