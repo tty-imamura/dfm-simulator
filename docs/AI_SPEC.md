@@ -1783,3 +1783,36 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   - **宣言は行選択であって、単位の一致・観測量対応・数値収束の宣言ではない。** 宣言で動いた数は
     「**宣言後の初判定**」として 4 値の**横の欄**(`declaredFirst`)に置き、**据え置きの 4 値は上書きしない**。
   - **生成 AI はこのファイルを書かない**(採用解の宣言は原仮定者と統括の裁定である)。
+
+- **比較サンプル v1 の比較 JSON(第269便c — `tests/lib-w269c-compare.mjs` が作る)**: BH 連星・銀河の
+  比較器(`tests/out/bh90-w269c.json`・`tests/out/sparc-w269c.json`)が書き出す**読み取り専用の記録**である。
+  ```json
+  { "meta": { "measuredAt": "<ISO8601>", "codeVersion": "<器の名前と便>",
+      "declarationVersion": "compare-v1 / 第59報「完成=比較サンプル v1」",
+      "inputs": [ { "file": "paper/data/…csv", "bytes": 0, "sha256": "<64 hex>", "mtime": "<ISO8601>" } ],
+      "vocabulary": [ "comparable", "inside-interval", "outside-interval", "numerically-unresolved",
+        "mapping-unresolved", "not-measurable", "not-applicable" ],
+      "contract": [ "<非対称区間を対称 1σ に換算しない>", "<周辺区間の AND を同時 90% 領域と呼ばない>", "…" ] },
+    "columns": [ { "tag": "<走行の名前>", "id": "<プリセット id>", "emoji": "<絵文字>",
+      "rows": [ { "quantity": "<量の名前>",
+        "sim": { "value": 0, "unit": "<単位>", "window": "<評価窓>", "extractor": "<抽出器>",
+          "stages": { "h": 0, "h2": 0, "h4": 0 }, "order": 0, "extrapolated": 0 },
+        "obs": { "value": 0, "lower": 0, "upper": 0, "unit": "<単位>", "confidence": 0.9,
+          "frame": "<座標系・時刻系>", "source": "<出典>", "role": "<この行の役割>",
+          "verifiedMark": "verified|unverified", "upperWidth": 0, "lowerWidth": 0, "asymmetric": true },
+        "state": "<7 語のどれか>", "reason": "<その状態にした理由>",
+        "diagnostics": { } } ],
+      "stateTally": { } } ],
+    "summary": { "stateTallyAll": { }, "notSaid": [ "…" ] } }
+  ```
+  - **`state` は 7 語だけ**(増やさない)。`not-measurable` の行は **`sim.value` が必ず `null`** である
+    —— **観測量が得られないときに 0 や最後の値で補わない**ことの機械的な表現で、
+    器は値つきの `not-measurable` を作ろうとすると throw する。
+  - **`obs` は 90% 区間を `lower`/`upper` のまま運ぶ。** `sigma` の欄は**持てない**(対称 1σ への
+    換算の入口を塞ぐため)。`upperWidth`・`lowerWidth` が非対称を残す。**複数行が区間内でも
+    「同時 90% 領域の中」とは書かない。**
+  - **`pValue`・`chi2p`・`p_value` などの鍵は置けない**(器が throw する)。残差は
+    `diagnostics` の中で**観測誤差単位の診断表示**にとどめる。
+  - `sim.stages` は **h/h2/h4(同じ物理時刻の 3 刻み)**、`order` は見かけの次数、`extrapolated` は
+    **差が単調なときだけ**入る(`null` は「外挿しない」であって 0 ではない)。
+  - **生成 AI はこのファイルを書かない・読んで主張を作らない**(比較の記録は器と統括の裁定である)。

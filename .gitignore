@@ -123,6 +123,13 @@ tests/out/*
 # QA `behavior.unitConvertedFirst` が「3 段が揃っている・見かけの次数が正・h 段が σ 接続器の換算後と
 # 一致する」を機械固定し、docs/PHYSICS.md〔第268便a〕§3 の表がこの値そのものなのでコミットする
 !tests/out/d68-w268a.json
+# 第269便c: **比較サンプル v1** の実測正本(BH 連星 tests/exp-w269c-bh90.mjs・銀河 tests/exp-w269c-sparc.mjs)。
+# QA `behavior.compareStates` が「全行が 7 語の語彙の中にあり `not-measurable` の行の値がすべて null」、
+# `behavior.bh90Intervals` が 90% 区間の非対称の温存・`merged:false` の remnant 行・⏰ の対応未宣言、
+# `behavior.sparc10` が契約 6 項・ビン端の事前宣言・打切り超え・p 値の不在をこの 2 本と突き合わせ、
+# docs/PHYSICS.md 〔第269便c〕と docs/CALIBRATION_VERDICT_v1.44.md §5.14 の表がこの値そのものなのでコミットする
+!tests/out/bh90-w269c.json
+!tests/out/sparc-w269c.json
 # 第134便: kF1 較正ハーネスの実測正本(論文3 再現性 — 外部レビュー P0 対応。
 # 本文の中心値〔q*=6.16/8.25/21.8・drag −5.6e-10・第122便 q*=4.59〕を提出コミットから再生成可能に)
 !tests/out/coreshell-results.json
