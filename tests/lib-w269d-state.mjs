@@ -32,8 +32,10 @@
 //   「47 Tuc と比べられる投影半径を作った」「視線速度分散を測った」「観測と合った」「収束済み」。
 
 // ---------------------------------------------------------------- (1) 語彙
-export const STATES = ['comparable', 'inside-interval', 'outside-interval',
-  'numerically-unresolved', 'mapping-unresolved', 'not-measurable', 'not-applicable'];
+// 第269便(統括の統合): 語彙の正本は `tests/lib-w269c-compare.mjs` の `STATES` 1 か所である。
+//   本モジュールは同じ配列を**再輸出**する(枝では同名の内部モジュールに置いたものを、統合で 1 本に寄せた)。
+import { STATES as SHARED_STATES } from './lib-w269c-compare.mjs';
+export const STATES = SHARED_STATES;
 // **値を並べてよい状態**(これ以外では比較の数を作らない)
 export const COMPARABLE_STATES = ['comparable', 'inside-interval', 'outside-interval'];
 export function isState(s) { return STATES.indexOf(String(s)) >= 0; }
