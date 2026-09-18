@@ -5161,10 +5161,15 @@ const add = (id, pass, detail) => {
       const R = C.parameterAuditRestatement;
       if (!R) bad.push('① 言い換えの欄が無い');
       else {
-        if (R.htmlUntouched !== true) bad.push('① html を触らない宣言が無い');
-        if (!R.legacyFoundInPreset || R.legacyFoundInPreset.fitted !== true
-          || R.legacyFoundInPreset.derived !== true)
-          bad.push('② 言い換え先が preset の実在の文を指していない');
+        // 第272便(統括・AG23): 第272便d が言い換え文を html へ移したので、契約は
+        //   「html は不変」→「**preset が言い換え文そのものを持つ**」へ(旧表現は fitted 側に履歴として引用)。
+        if (typeof R.htmlRestatedBy !== 'string' || !R.htmlRestatedBy)
+          bad.push('① html へ言い換え文を移した便の宣言(htmlRestatedBy)が無い');
+        if (!R.presetCarriesRestatement || R.presetCarriesRestatement.fitted !== true
+          || R.presetCarriesRestatement.derived !== true)
+          bad.push('② preset の parameterAudit が言い換え文(rendered.ja)そのものを持っていない');
+        if (!R.legacyFoundInPreset || R.legacyFoundInPreset.fitted !== true)
+          bad.push('② 旧表現が fitted 側に履歴として引用されていない');
         const st = R.state || {};
         if (st.comparisonState !== 'not-applicable')
           bad.push(`③ 状態が not-applicable でない(${st.comparisonState})`);
@@ -5187,14 +5192,15 @@ const add = (id, pass, detail) => {
           if (enT.indexOf('NOT-APPLICABLE') < 0) bad.push('④ en に比較器の語彙が出ていない');
         }
         real = { ratio: qn.ratio, state: st.comparisonState,
-          legacy: !!(R.legacyFoundInPreset && R.legacyFoundInPreset.derived) };
+          legacy: !!(R.legacyFoundInPreset && R.legacyFoundInPreset.fitted),
+          carries: !!(R.presetCarriesRestatement && R.presetCarriesRestatement.derived) };
         cases.push('1 つの状態から ja/en と JSON');
       }
       // **html は触っていない** = beta の preset 側に旧表現が残っている
       const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
       if (html.indexOf('σ hold-out ×1.70 不成立') < 0)
-        bad.push('⑤ preset 側の旧表現が消えている(html を触った? — 触るなら決断事項として別便)');
-      cases.push('preset 側の旧表現はそのまま(html 不変)');
+        bad.push('⑤ 旧表現の引用(履歴)が html から消えている');
+      cases.push('preset は言い換え文を持ち・旧表現は履歴として引用(第272便d)');
       const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
       if (P.indexOf('parameterAudit') < 0) bad.push('⑥ PHYSICS に parameterAudit の記述が無い');
     } catch (e) { bad.push('言い換えの JSON が読めない: ' + String(e).slice(0, 90)); }
@@ -5202,10 +5208,10 @@ const add = (id, pass, detail) => {
       `**🫐 parameterAudit の言い換え(AF11)**(第271便d): ${cases.join(' / ')} —— `
       + `第270便e は 🫐 の \`descStruct\`/\`obsCard\` だけを直したので、`
       + `**同じサンプルの \`parameterAudit.fitted\`/\`derived\` には旧表現「σ hold-out ×1.70 不成立」が残っている**。`
-      + `**本便は html を触らない**指示なので、**器の出力側**で比較器の語彙`
+      + `第271便d は**器の出力側**で比較器の語彙`
       + `(面内 proxy と中央視線分散の対応未宣言・v1a では \`not-applicable\`・旧値は履歴)へ言い換え、`
       + `**表示(ja/en)と JSON を同じ状態から作った**。**数値は 1 つも変えていない**`
-      + (real ? ` / 実体: 比 ${real.ratio}・状態 ${real.state}・旧表現の実在照合 ${real.legacy}` : '')
+      + (real ? ` / 実体: 比 ${real.ratio}・状態 ${real.state}・preset が言い換え文を持つ ${real.carries}・旧表現の履歴引用 ${real.legacy}(第272便d が html へ移した — AG23)` : '')
       + ` / **html の \`parameterAudit\` を直すかどうかは決断事項**`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }

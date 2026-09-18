@@ -666,17 +666,26 @@ out.v1bDesign = {
       + 'The old measurement is KEPT AS HISTORY: the former random start (the observed sigma placed in '
       + 'advance) read ' + state.quantities.legacyRandomInit.value.toFixed(3) + ' (x'
       + state.quantities.legacyRandomInit.ratio.toFixed(2) + ').'] } };
+  // 第272便(統括の統合・AG23): 第272便d が **同じ文字列のまま** 言い換え文を html の `parameterAudit` へ
+  //   移したので、契約は「html は不変」から「**preset が言い換え文そのものを持つ**」へ変わる。
+  //   旧表現は fitted 側に**履歴として引用**されたまま残る(derived 側の旧文は言い換え文に置き換わった)。
+  const carryF = pa ? findIn(pa.parameterAudit && pa.parameterAudit.fitted, render.ja.fitted[0]) : { index: -1 };
+  const carryD = pa ? findIn(pa.parameterAudit && pa.parameterAudit.derived, render.ja.derived[0]) : { index: -1 };
   out.parameterAuditRestatement = {
-    scope: '**器の出力だけ**(`beta/index.html` は 1 bit も触っていない)。'
-      + 'html の `parameterAudit` を直すかどうかは**決断事項**である(第270便e が「残った不整合」として'
-      + '記録した箇所 —— 直すなら `presetSig` への影響と `behavior.tuc47` の固定値を同じ便で見る)。',
+    scope: '第271便d は**器の出力だけ**で言い換え、第272便d(AG23)が同じ文字列を html の `parameterAudit` へ移した'
+      + '(`presetSig` は `parameterAudit` を見ない・`behavior.tuc47` の力学値は不変・数値は 1 つも変えていない)。',
     state,
     rendered: render,
+    presetCarriesRestatement: { fitted: carryF.index >= 0, derived: carryD.index >= 0,
+      fittedIndex: carryF.index, derivedIndex: carryD.index,
+      note: '**preset の文が言い換え文(rendered.ja)そのものであることの機械照合**'
+        + '(html 側の文が変われば false になり、この欄の更新が必要だと分かる)。' },
     legacyFoundInPreset: { fitted: hitF.index >= 0, derived: hitD.index >= 0,
       fittedIndex: hitF.index, derivedIndex: hitD.index,
-      note: '**言い換え先が実在の文を指していることの機械照合**である'
-        + '(preset の文が変われば false になり、この欄の更新が必要だと分かる)。' },
-    htmlUntouched: true,
+      note: '旧表現の実在(履歴としての引用)。第272便d 以後は fitted 側に引用として残り、derived 側は言い換え文に'
+        + '置き換わったので false が正常である。' },
+    htmlRestatedBy: '第272便d(AG23)',
+    htmlUntouched: false,
     doNotSay: ['σ hold-out が成立した', 'σ hold-out の不成立が確定した', '観測と合った',
       '対応を宣言した', 'html を直した'] };
   fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
