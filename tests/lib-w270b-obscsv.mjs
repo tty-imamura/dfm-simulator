@@ -17,6 +17,9 @@
 //     枝番は行の挿入で動きうる —— 安定なのは「同じ 5 つ組の 1 件目」までである。これは規約であって
 //     推測ではない(**同名異解は unit か source が違うので別 ID になる**)。
 //   ・`solution_id` は**本便では作らない**(空欄可 —— 決断事項)。
+//     → **第271便b(AF4)で作った**。置き場所は `record_id` の**直後**(ヘッダ末尾)で、規約は
+//       この下の `solutionTag()` と `paper/data/solutions.json` の冒頭にある。**空欄は
+//       「解が無い」ではなく「台帳に登録していない」**である。
 //   ・ID は**同定の鍵**であって、印(`sigma_primary`)でも σ でも判定でもない。
 //     `record_id` を足したことで判定(4 値)は 1 本も動かない(QA `lint.recordId` が数で固定する)。
 //
@@ -99,6 +102,21 @@ export function assignRecordIds(file, rows) {
 }
 
 /**
+ * 第271便b(AF4): note の中の**解タグ**を**語境界で**読む。
+ *   綴りは `<著者><西暦4桁>-<モデル>`(例 `Meng2025-DDFWHE`)。`solution=DDFWHE (TEMPO)` のような
+ *   **モデル名だけの記載は当たらない**(西暦 4 桁が要る)。`adopted_solution=` は別の鍵であり、
+ *   `key='solution'` では**当たらない**(直前の文字が `_` なので語境界に掛からない)。
+ * @param {string} note CSV の note 欄
+ * @param {string} key `'solution'`(既定)か `'adopted_solution'`
+ * @returns {string} 解タグ(無ければ空文字)
+ */
+export function solutionTag(note, key = 'solution') {
+  const m = new RegExp('(?:^|[^A-Za-z0-9_])' + key + '=([A-Za-z][A-Za-z0-9]*\\d{4}-[A-Za-z0-9]+)'
+    + '(?![A-Za-z0-9_-])').exec(String(note || ''));
+  return m ? m[1] : '';
+}
+
+/**
  * 観測 CSV を**ヘッダ名で**読む。各行は名前つきの欄と、生の列配列 `cells` と、
  * 名前引きの `cell(name)` を持つ(**列位置は 1 つも書かない**)。
  * @param {string} fp 絶対パス
@@ -125,10 +143,14 @@ export function loadObsCsv(fp) {
       retrieved: cell(c, 'retrieved'), note: cell(c, 'note'),
       rawSigma: sgRaw, sigma: (Number.isFinite(sg) && sg > 0) ? sg : null,
       recordId: String(cell(c, 'record_id')).trim(),
+      // 第271便b(AF4): 欄そのもの(空欄可)と、note の解タグ(欄を作る前の唯一の手掛かり)。
+      solutionId: String(cell(c, 'solution_id')).trim(),
+      solutionTag: solutionTag(cell(c, 'note')),
+      adoptedSolutionTag: solutionTag(cell(c, 'note'), 'adopted_solution'),
     });
   }
   return out;
 }
 
 export default { parseCsvLine, headerIndex, idPrefix, baseRecordId, assignRecordIds, loadObsCsv,
-  REQUIRED_COLUMNS };
+  solutionTag, REQUIRED_COLUMNS };

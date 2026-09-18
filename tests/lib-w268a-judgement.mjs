@@ -93,10 +93,14 @@ export function validateJudgementSources(j, file = null) {
     const where = '宣言[' + i + '] ' + String(d.body) + '|' + String(d.quantity);
     for (const k of ['body', 'quantity', 'source', 'unit'])
       if (!str(d[k])) errors.push(where + ': 必須欄 `' + k + '` が文字列でない(非空の文字列が要る)');
-    if (!Number.isFinite(Number(d.value))) errors.push(where + ': `value` が有限でない');
+    // 第271便b(R1): **`value` / `sigma` は有限の number だけ**。`Number(v)` を通すと
+    //   `null`(→0)・`""`(→0)・`"1.5"`(→1.5)が黙って通る。宣言は数値の複写なので、
+    //   **数でないものは不正**として器を止める(黙って 0 として照合しない)。
+    if (typeof d.value !== 'number' || !Number.isFinite(d.value))
+      errors.push(where + ': `value` が有限の number でない(' + JSON.stringify(d.value) + ')');
     if (!('sigma' in d)) errors.push(where + ': `sigma` 欄が無い(null か正の数を書く)');
-    else if (!(d.sigma === null || (Number.isFinite(Number(d.sigma)) && Number(d.sigma) > 0)))
-      errors.push(where + ': `sigma` が null でも正の数でもない(' + String(d.sigma) + ')');
+    else if (!(d.sigma === null || (typeof d.sigma === 'number' && Number.isFinite(d.sigma) && d.sigma > 0)))
+      errors.push(where + ': `sigma` が null でも正の number でもない(' + JSON.stringify(d.sigma) + ')');
     // 第270便b(AE2): `record_id` は**あれば非空の文字列**(欄を置いて空にするのは宣言ではない)。
     //   `solution_id` は**空文字でよい**(本便では作らない — 決断事項)。
     if ('record_id' in d && !str(d.record_id))
@@ -123,6 +127,44 @@ export function loadJudgementSources(file) {
   return Object.assign(v, { error: v.ok ? null : v.errors.join(' / ').slice(0, 300) });
 }
 
+// ---------------------------------------------------------------- 第271便b(R1): 内容照合
+// **`record_id` は候補行を一意に定める鍵であって、宣言内容の一致条件ではない。**
+//   第270便b の `pickDeclaredRow` は record_id が 1 件に当たった時点で行を返していたので、
+//   **次にレコードが訂正されたとき(値・σ・出典・単位・天体・量が動いたとき)に混在を検出できない**。
+//   本関数は「ID で定まった行」と「宣言の内容」を突き合わせ、**食い違った欄の名前**を返す。
+//   1 つでも食い違えば `pickDeclaredRow` は理由つきで `null` を返す(**別出典へ落ちない**)。
+//
+// 照合する欄: `body` / `quantity`(= `csvQuantity`)/ `source` / `unit` / `value` / `sigma` /
+//   `solution_id`(宣言に欄があるときだけ — 第271便b AF4)。
+// **`value` は双方が有限の数でなければ不一致**(`Number(null) === 0` の穴を塞ぐ)。
+// **`sigma` は「両方 null」か「両方同じ数」だけが一致**(片方だけ null は不一致)。
+export function declaredContentMismatch(decl, row) {
+  const miss = [];
+  if (!decl || !row) return ['declaration-or-row-missing'];
+  const key = decl.csvQuantity || decl.quantity;
+  if (String(row.body) !== String(decl.body)) miss.push('body');
+  if (String(row.quantity) !== String(key)) miss.push('quantity');
+  if (String(row.source) !== String(decl.source)) miss.push('source');
+  if (String(row.unit) !== String(decl.unit)) miss.push('unit');
+  const rowVraw = (row.valueRaw !== undefined) ? row.valueRaw
+    : ((row.rawValue !== undefined) ? row.rawValue : row.value);
+  const rowV = (rowVraw === null || rowVraw === undefined || String(rowVraw).trim() === '')
+    ? null : Number(rowVraw);
+  const declV = (typeof decl.value === 'number') ? decl.value : null;
+  if (rowV === null || declV === null || !Number.isFinite(rowV) || !Number.isFinite(declV)
+    || rowV !== declV) miss.push('value');
+  const rowS = (row.sigma === undefined || row.sigma === '') ? null : row.sigma;
+  const declS = (decl.sigma === undefined) ? null : decl.sigma;
+  if ((rowS === null) !== (declS === null)) miss.push('sigma');
+  else if (rowS !== null && Number(rowS) !== Number(declS)) miss.push('sigma');
+  if (typeof decl.solution_id === 'string') {
+    const rowSid = String((row.solutionId !== undefined) ? row.solutionId
+      : (row.solution_id || '')).trim();
+    if (rowSid !== decl.solution_id.trim()) miss.push('solution_id');
+  }
+  return miss;
+}
+
 // 宣言(1 件)に対応する CSV の行を、**全行の一覧から**選ぶ。
 //   一致条件は「body・CSV 上の鍵(`csvQuantity`)・**source**・**unit**・value・sigma が
 //   すべて宣言と一致」(第269便a で source と unit を足した)。
@@ -134,7 +176,15 @@ export function pickDeclaredRow(decl, allRows) {
   const rid = (typeof decl.record_id === 'string') ? decl.record_id.trim() : '';
   if (rid !== '') {
     const byId = (allRows || []).filter((r) => String(r.recordId || r.record_id || '').trim() === rid);
-    if (byId.length === 1) return { row: byId[0], reason: null, matchedBy: 'record_id' };
+    if (byId.length === 1) {
+      // 第271便b(R1): **ID は鍵、宣言内容は一致条件**。ID で 1 行に定まっても、その行の
+      //   body/quantity/source/unit/value/sigma/solution_id が宣言と食い違えば**採らない**
+      //   (レコード訂正で中身が動いたことを、ここで止める)。**別出典へ落ちない**。
+      const miss = declaredContentMismatch(decl, byId[0]);
+      if (miss.length === 0) return { row: byId[0], reason: null, matchedBy: 'record_id' };
+      return { row: null, matchedBy: 'record_id', mismatch: miss,
+        reason: 'record-id-content-mismatch(' + miss.join(',') + ')' };
+    }
     return { row: null, matchedBy: 'record_id',
       reason: byId.length === 0 ? 'record-id-not-found' : ('record-id-ambiguous(' + byId.length + ')') };
   }

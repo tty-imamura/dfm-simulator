@@ -20756,6 +20756,189 @@ CSV のヘッダ名読みと欠損 null・`validateWindow` の 5 ケース・`nu
 
 **言わないこと。** 「D68 が合(3σ)」(否である)「較正を完了した」「判定が増えた」(旧新を並べて理由を書く)「✴️💫 が良くなった」(残差不変)「カロンが否」(保留)「太陽系の σ が揃った」「J1946 の共同根を再検証した」「採用解を揃えたので観測に近づいた」「ζ 合成則の時間発展則が決まった」「LFBOT の上限制御が完成した」「観測と合った」「比較できる点が増えた」(減った)「観測一致版が完成した」「現実較正を完了した」「v1.45.0 RC を切った」。
 
+〔第271便b — 記録便: **`record_id` は鍵・宣言内容は一致条件**(R1)/ 書込器が後続列を捨てていた(R7)・既存 ID は正本(AF15)/ **`solution_id` 欄**と公表解の台帳(AF4)/ 外部名の中立化(AF10)/ 確認記録を**回で分ける**(AF9)/ 実体凍結の試み(AB6・**8 件中 0 件**)/ J1946 の a の導出行(AF14)(第61報)〕
+
+第61報(2026-09-18)で原仮定者が示したのは「実機確認: 済み」「提示された指摘を参考に改善する」
+「決断事項: 概ね同意」である。本枝で動かしたのは**記録の側だけ**である ——
+**観測値・σ・印(`sigma_primary`)・来歴は 1 文字も動かしていない**(例外は 2 つだけで、
+太陽系 CSV 行 66 の note の外部名 1 語〔AF10〕と、末尾に**足した** 1 行〔AF14〕である)。
+`beta/index.html`・`S._core`・root・`package.json` には**1 バイトも触っていない**ので、
+既定経路の署名ビットは基点 ef2cd45 と同じである(本枝は html を変えていないので
+`exp-w258e-jitprobe` の対象外)。**判定(4 値)は 1 本も動いていない** ——
+太陽系 4 値 `{保留 15・否 1}`・切断点 `csv-sigma-empty 106 / kind-not-gated 26 /
+unit-not-converted 3 / connected 4`・門 `2/1/35/14/8/254` は基点と同じ実測値である。
+
+### 1. R1 —— `record_id` は候補行を一意に定める鍵であって、宣言内容の一致条件ではない
+
+第270便b の `pickDeclaredRow` は、`record_id` が 1 件に当たった時点で行を返していた ——
+**内容照合(`body`/`quantity`/`source`/`unit`/`value`/`sigma`)を飛ばして**返す。したがって
+**次に観測レコードが訂正されて同じ ID の行の中身が動いても、宣言との食い違いを 1 件も検出できない**。
+
+本便で `tests/lib-w268a-judgement.mjs` に `declaredContentMismatch()` を足し、ID で 1 行に定まった後に
+**`body` / `quantity`(= `csvQuantity`)/ `source` / `unit` / `value` / `sigma` / `solution_id`** を
+突き合わせるようにした。1 つでも食い違えば
+
+```
+{ row: null, matchedBy: 'record_id', mismatch: ['<欄名>', …],
+  reason: 'record-id-content-mismatch(<欄名,…>)' }
+```
+
+を返す —— **文字列出典の一致条件へ黙って落ちない**。`value` は**双方が有限の数**でなければ不一致
+(`Number(null) === 0` の穴)、`sigma` は「両方 `null`」か「両方同じ数」だけが一致である。
+併せて `validateJudgementSources` は **`value`/`sigma` を有限の `number` だけ**受けるようにした
+(`null`・文字列・`NaN`・`0`・負は不正 —— **不正なら宣言を 1 件も配らない**)。
+
+器 `tests/exp-w271b-declmatch.mjs`(QA `behavior.declaredContentMatch`)の実測:
+
+| 検査 | 件数 | 結果 |
+|---|---:|---|
+| 現行の宣言が内容照合つきで一致 | 4 | 4/4(`matchedBy:'record_id'`・行 444 / 375 / 285 / 289) |
+| 内容改変を拒否(宣言 4 件 × 7 種) | 28 | **28/28** —— `record-id-content-mismatch(unit / source / value / sigma / body / quantity / solution_id)` |
+| 当たらない ID / 重複 ID | 2 | `record-id-not-found` / `record-id-ambiguous(2)` |
+| schema(`value` null・文字列・NaN / `sigma` 文字列・0・負 / `record_id: null` / `sigma: null` / 無改変) | 9 | 9/9(不正は `ok:false` で**配布 0 件**) |
+
+**内容照合は止めるための条件であって、判定を増やすものではない。** 本便で 4 値は 1 本も動いていない。
+
+### 2. R7 / AF15 —— 書込器が後続列を捨てていた・既存 ID は正本である
+
+`tests/exp-w270b-recordid.mjs --write` は `line.slice(0, <record_id の開始>) + id` と書いていた ——
+**`record_id` より後ろの列を捨てる**。本便で `solution_id` を足したので、このままだと欄が
+**1 回の `--write` で消える**。直したのは 3 点である。
+
+- **(R7-a) セルだけを置換する**(`line.slice(0, start) + id + line.slice(end)`)。純関数
+  `rewriteRecordIdColumn()` に切り出し、**擬似 CSV(メモリ上の文字列)で自己テスト**する
+  ——「後続列の保持」「`record_id` 以外の全列の不変」「欄が無い CSV への末尾追加」
+  「**空セルだけの採番**」の **4/4 PASS**。実データでも `--write` が**冪等**である
+  (書いた後の `solar-observations.csv` は書く前とバイト一致し、`solution_id` 欄も残る)。
+- **(R7-b) 違反が 1 件でもあれば書かない**(従来は `bad` が非空でも書いていた)。
+- **(R7-c) 突き合わせを全列へ**。従来は必須 8 列 + `sigma` だけを比べていた。`diffAllColumns()` が
+  **ヘッダに現れる全列**(`record_id` を除く)を名前で比べる。
+
+**(AF15) 既存の ID は正本である。** 振り直しと食い違っても**振り直さず**、`driftedKeys` として
+報告するだけにした(ID を振り直すと、その ID で同定している宣言・過去のハンドオフ・外部の引用が
+全部ずれる)。採番するのは**セルが空の行だけ**で、採番先が既存 ID と衝突しないことを検査する。
+本便の実測は **`driftedKeys` 0 件**(既存 702 件は 1 件も動いていない)。
+
+### 3. AF4 —— `solution_id` 欄と公表タイミング解の台帳
+
+3 つの観測 CSV のヘッダ**末尾**(`record_id` の**直後**)に `solution_id` を足した(**11 列**)。
+**行の diff は末尾の `,<id>` だけ**で、**`record_id` 以外の全列が 1 文字も動いていない**。
+
+- 値は `paper/data/solutions.json` の台帳の id で、**その行の note が語境界で `solution=<同じ id>` を
+  持つ行にだけ**入る(読取器は `tests/lib-w270b-obscsv.mjs` の `solutionTag()` —— 綴りは
+  `<著者><西暦4桁>-<モデル>` で、`solution=DDFWHE (TEMPO)` のようなモデル名だけの記載には当たらない)。
+- **`adopted_solution=<id>` は「この系の採用解は `<id>` である」という指し先**であって、
+  **その行の値がその解から来たという意味ではない**。太陽系 CSV の 145/146 は
+  `adopted_solution=Meng2025-DDFWHE` を持つが、値は **Stovall 2018 の転写**である(147 は導出行)。
+  したがって**指し先だけの 4 行には `solution_id` を入れない**。
+- **空欄は「解が無い」ではなく「台帳に登録していない」**である。
+
+| ファイル | 行 | `solution_id` 付与 | 内訳 |
+|---|---:|---:|---|
+| `solar-observations.csv` | 522 | **55** | `Kramer2021-DDS` 15(207〜221)/ `Fonseca2014-DDGR` 13(247〜259)/ `Singha2026-DDH` 12(273〜284)/ `Meng2025-DDFWHE` 15(285〜299) |
+| `cluster-galaxy-observations.csv` | 154 | 0 | 解タグを持つ行が無い |
+| `transient-observations.csv` | 27 | 0 | 同上 |
+
+台帳外の解タグを持つ行は**太陽系 50 行**(`Hu2022-DDS` 14 / `Fonseca2014-DD` 11 /
+`Cameron2018-DDH` 13 / `Meng2025-DDGR` 12)で、**空欄のまま**である —— 登録するかは決断事項。
+台帳の各件は `printedRecord`(原記載の文字列)を持ち、器が **`exampleRecordId` の行の note に
+そのまま現れること**を毎回照合する(4/4)。宣言 `judgement-sources.json` の 4 件にも
+`solution_id` を書き(J1946 の 2 件が `Meng2025-DDFWHE`・カロン P と金星 e は `""`)、
+**R1 の一致条件に入れた**。器は `tests/exp-w271b-solutionid.mjs`、QA は `lint.solutionId`。
+
+### 4. AF10 —— 太陽系 行 66 の外部名を中立表現へ
+
+第270便b(AE7)が 171〜173 を直した時点で、`paper/data/*.csv` に残る外部の生成系の実名は
+**1 件**(行 66 = `record_id` **SOL-3c8c1f88**・Uranus ring 1986U2R の取込経路の記述)だった。
+本便でこれを中立表現(`the device-accepted real-system approximation set by the coordinator
+(wave 185 OUTPUT-B rules)`)へ書き換え、`external_name_neutralised=2026-09-18` を note に記録した。
+**value・unit・source・url・retrieved・sigma・印・来歴は 1 文字も動いていない**(動いたのは note の 1 語)。
+`paper/data/` の 8 本を走査した残数は **0 件**(検出語は**平文で置かず** base64 で持つ ——
+`tests/exp-w270b-confirm4.mjs` と同じ方式)。**歴史文書(CHANGELOG の過去便・本書の過去節)は触らない。**
+QA は `lint.externalNamesCsv`。
+
+### 5. AF9 —— 確認記録を「回」で分ける(閾値は緩めない)
+
+`tests/exp-w266a-intakeB.mjs` の宣言表 `CONFIRM` は**第 1 回(2026-09-16)の確認記録に対する宣言**
+である。ところが器は**いつも現行の CSV** に突き合わせるので、第 2〜4 回で印が動いた行が
+「上げない約束の行が verified になっている」という違反に見える。本便で**回の表**を足した
+(各回の基点 commit と `solar-observations.csv` の SHA-256 は実測値である)。
+
+| 回 | 日 | 便 | 器 | 基点 commit | solar CSV の SHA-256(先頭 16) |
+|---:|---|---|---|---|---|
+| 1 | 2026-09-16 | 第266便a | `exp-w266a-intakeB.mjs` | `4d1571a` | `d8d22b0b44812b65` |
+| 2 | 2026-09-17 | 第267便a | `exp-w267a-confirm2.mjs` | `fa7cd6c` | `950da5e06cf74629` |
+| 3 | 2026-09-17 | 第269便b | `exp-w269b-confirm3.mjs` | `f6c19b4` | `e426aa7d8a675106` |
+| 4 | 2026-09-18 | 第270便b | `exp-w270b-confirm4.mjs` | `ef2cd45` | `ad99c37f7405a662` |
+
+第 1 回の宣言と現行 CSV の食い違いは **3 件**(行 285/289/290 = PSR J1946+2052 の P・e・ω̇)で、
+**3 件とも note の `confirmation_round=3` で第 3 回(2026-09-17・第269便b)に帰属する**。
+**閾値は 1 つも緩めていない** —— 宣言も再現条件もそのままで、**帰属先を分けただけ**である
+(根拠を note で示せない食い違いは従来どおり違反として残る。本便の `unexplained` は **0 件**)。
+**旧 JSON を「現行の成功結果」として再利用しない**: 器は毎回、現行の CSV を読み直す
+(公開 tree の `tests/out/intakeB-w266a.json` は第266便a 当時の内容で止まっており、
+本便で回し直して初めてこの 3 件が見えた)。QA `docs.intakeB-sync` ⑦ が固定する。
+
+### 6. AB6 —— 実体凍結の試み(**8 件中 0 件**・捏造しない)
+
+観測 CSV が `source` 欄で引いている外部データ表の実体を `paper/data/sources-manifest.json` に
+並べ、器 `tests/exp-w271b-manifest.mjs --fetch` で実際に取りに行った。
+**`sha256` は取得できたバイト列からしか書かない** —— 取れなければ
+`"sha256": null, "frozen": false, "reason": "<実測した失敗の理由>"` を書く。
+
+| 実体 | 依存する行 | 凍結 | 理由(実測) |
+|---|---:|---|---|
+| SPARC `MassModels_Lelli2016c.mrt` | 10 | 否 | HTTP 403(`astroweb.cwru.edu` が egress の許可リストに無い) |
+| SPARC `SPARC_Lelli2016c.mrt` | 4 | 否 | 同上 |
+| SPARC 配布サイト(表未特定・rotmod の写しを含む) | 54 | 否 | 同上 |
+| Baumgardt GGCD v4 `parameter.html` | 8 | 否 | HTTP 403(`people.smp.uq.edu.au`) |
+| Baumgardt GGCD V2 `newdata/parameter.html` | 10 | 否 | 同上 |
+| Baumgardt 速度分散表 `veldis.html` | 6 | 否 | 同上 |
+| Baumgardt `ngc104_kin.txt` | 16 | 否 | 同上 |
+| Harris (1996, 2010 ed.) `mwgc.dat` | **0** | 否 | HTTP 403(`physwww.mcmaster.ca`)。**`source` 欄でこの表を引いている行は 1 つも無い**(note の本文に 9 行の言及があるだけ —— 言及は依存ではない) |
+
+**`frozen: false` は「この環境で実体を固定できていない」という状態の名前**であって、
+観測値が疑わしいという意味ではない。**凍結できたとは書かない。**
+
+### 7. AF14 —— PSR J1946+2052 の a の導出行(不確かさは作らない)
+
+採用解(Meng 2025 A&A 704 A153 Table 1 DDFWHE 列)の Pb と総質量から相対軌道の a を導いた行を
+太陽系 CSV の**末尾に 1 行足した**(`record_id` **SOL-cd3cea83**・行 523)。
+**行 147(第248便の Pb から導いた a)は 1 文字も動かしていない**し、
+`PSR J1946+2052|semi_major_axis` の**第一致行も 147 のまま**なので、プリセット入力は変わらない。
+
+- 式 `a³ = G M Pb² / (4π²)`。入力は `derived_from=SOL-dd4b7894;SOL-5199beef` の**並び**から読む
+  (1 件目が採用 Pb の行 285、2 件目が DDFWHE 総質量の行 297)。
+- 定数は **(GM)☉ = 1.3271244e20 m³ s⁻²**(IAU 2015 Resolution B3・nominal)。質量行の kg 値は
+  **同じ (GM)☉ と CODATA の G = 6.67430e-11** で換算されているので、`M[kg]·G` と `M[M☉]·(GM)☉` は
+  同じ積になる —— 器の実測で **2 経路の相対差 0**(同じ double)。
+- **committed solar mass 1.9885e30 kg とは混ぜない。** 混ぜると
+  a = 7.315014375170277e8 m になり、**相対差 1.511e−5**(約 11 052 m)ずれる(実測)。
+
+| 量 | 値 |
+|---|---|
+| Pb(採用・SOL-dd4b7894) | 6781.367998656 s |
+| M(DDFWHE 総質量・SOL-5199beef の原記載) | 2.531858(60) M☉ |
+| **a(本便の導出行)** | **7.314903855163476e8 m**(CSV の値と相対差 **0**) |
+| a(行 147・第248便の Pb 6781.366656 s から同じ式) | 7.314902889635589e8 m(相対差 **0** で再現) |
+
+**σ 欄は空である。** 公表表に Pb と M の**共分散が印字されていない**ので、印字された 1σ だけから
+a の 1σ は作れない —— **空は「不確かさが 0」ではない**。印は `sigma_primary=unverified`、
+`solution_id` も**空欄**である(この数は表のどの列にも印字されていない —— 導出値である)。
+器は `tests/exp-w271b-derived.mjs`(違反 0 件)。
+
+**副産物(規約の穴)**: `derived_from` は `;` 区切りの**並び**なので、既定の鍵読み
+`<鍵>=([^;]*)` では **1 件目で切れる**(実測: `SOL-dd4b7894`)。並びの鍵は専用の読取器で読む ——
+AE15(`;` を値に入れない)は X7 の 6 鍵についての規約だが、**並びを持つ鍵をどう綴るかは決まっていない**。
+
+### 8. 書かないこと(本便)
+
+「観測レコードの同定が完成した」「解の混在が全部解けた」「出典を凍結した」
+「一次資料を再取得して確認した」「`solution_id` を足したので判定が増えた」
+「a の不確かさが求まった」「採用解で軌道が決まった」「確認記録の齟齬が解消した」
+(**回に帰属させただけで、第 1 回の宣言と現行 CSV は依然として食い違っている**)
+「4 値が動いた」(**1 本も動いていない**)。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、

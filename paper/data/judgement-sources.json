@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "wave": "第268便a(2026-09-17・第58報 W1・統括の読み (D)・AB2)/ 第270便b(2026-09-18・第60報 W2・AE2 で record_id を追加)/ 第270便c(2026-09-18・第60報・AD9 で PSR J1946+2052 の 2 件を追加・統括の統合で record_id を付与)",
+  "wave": "第268便a(2026-09-17・第58報 W1・統括の読み (D)・AB2)/ 第270便b(2026-09-18・第60報 W2・AE2 で record_id を追加)/ 第270便c(2026-09-18・第60報・AD9 で PSR J1946+2052 の 2 件を追加・統括の統合で record_id を付与)/ 第271便b(2026-09-18・第61報・AF4 で solution_id を記入・R1 で内容照合を一致条件に追加)",
   "what": "判定(3σ の門)に採る観測解の明示宣言。body|quantity → 採用行(source/solution/value/sigma)。宣言の無い body|quantity は従来どおり CSV のファイル順で最初の行を採る(後方互換)。",
   "doNotWrite": [
     "宣言したので判定が増えた(宣言後の判定は『宣言後の初判定』欄に別に置く)",
@@ -10,7 +10,7 @@
   "rule": [
     "value・sigma・source は paper/data/*.csv の行から 1 文字も変えずに写す(ここで新しい数値を作らない)",
     "第270便b(AE2): record_id を照合キーに**足した**(文字列出典は残す)。record_id があれば器はそれで厳密に同定し、1 件に決まらなければ理由つきで止まる",
-    "solution_id は空欄でよい(本便では作らない — 決断事項)",
+    "第271便b(AF4): solution_id は `paper/data/solutions.json` の台帳の id を書く。**空欄は『解が無い』ではなく『台帳に登録していない』**である。宣言の solution_id は同定の**一致条件**に入る(record_id で 1 行に定まった後、内容照合で突き合わせる)",
     "csvQuantity は CSV 上の鍵(候補行は `<quantity>_candidate` という別の鍵である)",
     "sigma が null の宣言は『どの行を読むか』だけを決める(σ が無いので門へは 1 bit も入らない)",
     "宣言は行選択であって、単位の一致・観測量対応・数値収束を宣言するものではない"
@@ -49,7 +49,7 @@
       "quantity": "orbital_period",
       "csvQuantity": "orbital_period",
       "record_id": "SOL-dd4b7894",
-      "solution_id": "",
+      "solution_id": "Meng2025-DDFWHE",
       "source": "Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column",
       "solution": "Meng2025-DDFWHE (TEMPO ephemeris fit; T0 57953.2123884 MJD; DE440; TT(BIPM2023); span 57953-60460 MJD)",
       "value": 6781.367998656,
@@ -63,7 +63,7 @@
       "quantity": "eccentricity",
       "csvQuantity": "eccentricity",
       "record_id": "SOL-ae8d8ac9",
-      "solution_id": "",
+      "solution_id": "Meng2025-DDFWHE",
       "source": "Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column",
       "solution": "Meng2025-DDFWHE (TEMPO ephemeris fit; T0 57953.2123884 MJD; DE440; TT(BIPM2023); span 57953-60460 MJD)",
       "value": 0.0638363,

@@ -824,6 +824,32 @@ const add = (id, pass, detail) => {
     const tg = j.transientGate || {};
     if (tg.notConnected !== tg.rows) bad.push(`⑥LFBOT の記録行に gate=not-connected が無いものがある`);
     if (tg.inSolarCsv !== 0) bad.push('⑥LFBOT の天体が判定側の CSV にも居る');
+    // ⑦ 第271便b(AF9): **回で分ける**。`CONFIRM` は第 1 回の宣言なので、第 2〜4 回の確認で
+    //   印が動いた行は「宣言と食い違う」。**閾値は緩めない** —— 食い違いは 1 件も減らさず、
+    //   note の `confirmation_round=` で**どの回が上書きしたか**を示せることを要求する。
+    //   示せない食い違い(`unexplained`)は器の `violations` に残り、①で落ちる。
+    const rd = j.rounds || {};
+    const rt = rd.table || [];
+    if (rd.declaredIn !== 1) bad.push(`⑦CONFIRM の宣言回が 1 でない(${rd.declaredIn})`);
+    if (rt.length !== 4) bad.push(`⑦回の表が 4 件でない(${rt.length})`);
+    for (const r of rt) {
+      if (!/^[0-9a-f]{7,40}$/.test(String(r.commit || ''))) bad.push(`⑦第 ${r.round} 回に基点 commit が無い`);
+      if (!/^[0-9a-f]{64}$/.test(String(r.solarCsvSha256 || '')))
+        bad.push(`⑦第 ${r.round} 回に solar CSV の sha256 が無い`);
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(String(r.date || ''))) bad.push(`⑦第 ${r.round} 回に日付が無い`);
+    }
+    if ([...new Set(rt.map((r) => r.solarCsvSha256))].length !== rt.length)
+      bad.push('⑦回ごとの solar CSV の sha256 が重複している(CSV が動いていないことになる)');
+    const at2 = rd.attribution || {};
+    if (at2.unexplained !== 0)
+      bad.push(`⑦印の根拠が note に無い食い違いが ${at2.unexplained} 件ある`);
+    if ((at2.total || 0) !== (rd.supersededByLaterRound || []).length)
+      bad.push(`⑦食い違い ${at2.total} 件と上書き ${(rd.supersededByLaterRound || []).length} 件が合わない`);
+    for (const r of (rd.rows || [])) {
+      if (r.raisedInRound === null) continue;
+      if (!(r.raisedInRound > 1)) bad.push(`⑦行 ${r.ln} の帰属先が第 1 回より後でない`);
+      if (!r.evidenceKey) bad.push(`⑦行 ${r.ln} に根拠の鍵(confirmation_round=)が無い`);
+    }
   } else bad.push('tests/out/intakeB-w266a.json が無い(node tests/exp-w266a-intakeB.mjs を回すと入る)');
   const cr = j ? (j.confirmRecord || {}) : {};
   const three = j ? ((j.collate || {}).three || {}) : {};
@@ -843,7 +869,14 @@ const add = (id, pass, detail) => {
     + `未確認 ${(cr.tally || {}).unchecked} 行は unverified のまま** / `
     + `④ 訂正 4 行(火星 P と水星 P の**換算訂正**・J1946+2052 の**出典ラベル訂正** 2 行 —— `
     + `旧値は note に残してある)/ ⑤ 取得回答 2 系統の照合 ${JSON.stringify(three)} / `
-    + `⑥ **星団・銀河・LFBOT は門に繋がっていない**(記録である)`
+    + `⑥ **星団・銀河・LFBOT は門に繋がっていない**(記録である)/ `
+    + `⑦ **回で分ける**(第271便b・AF9): \`CONFIRM\` は**第 1 回(2026-09-16)の宣言**であり、`
+    + `各回に基点 commit と solar CSV の sha256 が付いている`
+    + `(${(j ? ((j.rounds || {}).table || []) : []).map((r) => '第' + r.round + '回 ' + r.commit).join(' / ')})。`
+    + `現行 CSV との食い違い ${j ? ((j.rounds || {}).attribution || {}).total : '—'} 件は`
+    + `**すべて後の回の確認記録に帰属する**`
+    + `(根拠の無い食い違い ${j ? ((j.rounds || {}).attribution || {}).unexplained : '—'} 件)—— `
+    + `**閾値は緩めていない**(宣言も再現条件もそのまま・帰属先を分けただけ)`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 
@@ -923,9 +956,10 @@ const add = (id, pass, detail) => {
   } catch (e) { bad.push('CSV が読めない: ' + String(e).slice(0, 80)); }
   // 第270便b(AE2): **ヘッダ末尾に `record_id` を足した**(`sigma` はその 1 つ手前に移った)。
   //   固定するのは「列位置」ではなく「**ヘッダ名がある**」ことである —— 読取器はすべて名前で引く。
-  if (!/,sigma,record_id$/.test(header))
-    bad.push('①ヘッダの最後が sigma,record_id でない: ' + header.slice(-40));
-  if (!(widths.size === 1 && widths.has(10))) bad.push(`①列数が 10 で揃っていない: ${[...widths].join(',')}`);
+  // 第271便b(AF4): さらに `solution_id` を **`record_id` の直後**に足した(**11 列**)。
+  if (!/,sigma,record_id,solution_id$/.test(header))
+    bad.push('①ヘッダの最後が sigma,record_id,solution_id でない: ' + header.slice(-40));
+  if (!(widths.size === 1 && widths.has(11))) bad.push(`①列数が 11 で揃っていない: ${[...widths].join(',')}`);
   if (legacy !== 108) bad.push(`②既存行が 108 でない(${legacy})`);
   if (legacySigma !== 0) bad.push(`②既存行に σ が入っている(${legacySigma} 行 —— 既存は空のままにする)`);
   if (intakeBSigma === 0) bad.push('③intake B の行に σ が 1 つも入っていない');
@@ -1000,10 +1034,11 @@ const add = (id, pass, detail) => {
     for (const b of bodies) if (solarBodies.has(b))
       bad.push(`③${b} が判定側の CSV にも居る(門の σ の出所になってしまう)`);
   } catch (e) { bad.push('CSV が読めない: ' + String(e).slice(0, 80)); }
-  // 第270便b(AE2): ヘッダ末尾に `record_id` を足した(**10 列**)。
-  if (header !== 'body,quantity,value,unit,source,url,retrieved,note,sigma,record_id')
-    bad.push('①ヘッダが 10 列の規約どおりでない: ' + header.slice(0, 90));
-  if (!(widths.size === 1 && widths.has(10))) bad.push(`①列数が 10 で揃っていない: ${[...widths].join(',')}`);
+  // 第270便b(AE2): ヘッダ末尾に `record_id` を足した(10 列)。
+  // 第271便b(AF4): さらに `solution_id` を **`record_id` の直後**に足した(**11 列**)。
+  if (header !== 'body,quantity,value,unit,source,url,retrieved,note,sigma,record_id,solution_id')
+    bad.push('①ヘッダが 11 列の規約どおりでない: ' + header.slice(0, 110));
+  if (!(widths.size === 1 && widths.has(11))) bad.push(`①列数が 11 で揃っていない: ${[...widths].join(',')}`);
   if (gated !== rows) bad.push(`②gate=not-connected が無い行がある(${rows - gated} 行)`);
   if (verified !== 0) bad.push(`⑤verified の印がある(${verified} 行)`);
   add('docs.transientObs', bad.length === 0,
@@ -1602,14 +1637,244 @@ const add = (id, pass, detail) => {
     + `③ **列追加で集計が不変** —— ヘッダ名で読んだ値と**列位置で読んだ従来の値が全行で一致**し`
     + `(食い違い ${FILES.reduce((a, f) => a + (tally[f] ? tally[f].legacyDiff : 0), 0)} 行)、`
     + `\`body\`〜\`sigma\` のヘッダ位置は 0〜8 のまま・\`record_id\` は末尾 / `
-    + `④ 宣言 2 件が \`record_id\` を持ち CSV に 1 件で当たる(\`pickDeclaredRow\` は`
+    + `④ 宣言 4 件が \`record_id\` を持ち CSV に 1 件で当たる(\`pickDeclaredRow\` は`
     + `**record_id を最優先で厳密一致**し、当たらなければ理由つきで null=${pickOk})。`
-    + `\`solution_id\` は**空欄**(本便では作らない —— 決断事項)/ `
+    + `\`solution_id\` は第271便b(AF4)で**欄になった**(\`lint.solutionId\` が固定する)/ `
     + `⑤ AE15: \`value_checked_at=\` 等の値に \`;\` を含む行 `
     + `${j ? ((j.ae15 || {}).offenders || []).length : '—'} 件(検査 `
     + `${j ? (j.ae15 || {}).checked : '—'} 件)/ `
     + `⑥ 器 tests/exp-w270b-recordid.mjs の違反 ${j ? (j.violations || []).length : '—'} 件。`
     + `**\`record_id\` は同定の鍵であって、印でも σ でも判定でもない**(4 値は 1 本も動かない)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 第271便b(第61報・統括の検証項目 R1): behavior.declaredContentMatch ----
+// ----   **`record_id` は候補行を一意に定める鍵であって、宣言内容の一致条件ではない。**
+// ----   第270便b の `pickDeclaredRow` は ID が 1 件に当たった時点で行を返していたので、
+// ----   次に観測レコードが訂正されても(値・σ・出典・単位・天体・量・解が動いても)
+// ----   混在を 1 件も検出できなかった。本ブロックはそれを機械で固定する:
+// ----     ① 現行の宣言 4 件が**内容照合つきで**一致する(`matchedBy:'record_id'`・`reason:null`)。
+// ----     ② 7 種の内容改変(単位 day / 別論文 / value 99 / σ 99 / 別天体 / 別量 / 別 solution_id)を
+// ----        擬似行に入れると `record-id-content-mismatch(<欄名>)` で**理由つきで拒否**され、
+// ----        **文字列出典へ黙って落ちない**(`row` は必ず null)。
+// ----     ③ 当たらない ID は `record-id-not-found`・重複 ID は `record-id-ambiguous(n)`。
+// ----     ④ `validateJudgementSources` は `value`/`sigma` を**有限の number だけ**受ける
+// ----        (null・文字列・NaN・0・負は不正)。不正なら**宣言を 1 件も配らない**。
+// ----   **書かないこと**: 「内容照合を入れたので判定が増えた」「混在が全部なくなった」。
+{
+  const bad = [];
+  let live = 0, mutOk = 0, mutN = 0, idOk = 0, schemaOk = 0;
+  try {
+    const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+    const G = await import('file://' + path.join(ROOT, 'tests', 'lib-w268a-judgement.mjs'));
+    const SOLAR = OB.loadObsCsv(path.join(ROOT, 'paper', 'data', 'solar-observations.csv')).rows;
+    const decl = G.loadJudgementSources(path.join(ROOT, 'paper', 'data', 'judgement-sources.json'));
+    if (!decl.ok) bad.push(`宣言ファイルが ok:false(${(decl.errors || []).join(' / ').slice(0, 80)})`);
+    // ① 現行の 4 件
+    for (const d of (decl.declarations || [])) {
+      const p = G.pickDeclaredRow(d, SOLAR);
+      if (p.row && p.matchedBy === 'record_id' && !p.reason) live++;
+      else bad.push(`①${d.body}|${d.quantity} が内容照合つきで一致しない(${p.reason})`);
+    }
+    // ② 7 種の内容改変
+    const MUT = [['unit-day', 'unit', (r) => Object.assign({}, r, { unit: 'day' })],
+      ['other-paper', 'source', (r) => Object.assign({}, r, { source: 'Another Author et al. 1999' })],
+      ['value-99', 'value', (r) => Object.assign({}, r, { value: 99, rawValue: '99' })],
+      ['sigma-99', 'sigma', (r) => Object.assign({}, r, { sigma: 99, rawSigma: '99' })],
+      ['other-body', 'body', (r) => Object.assign({}, r, { body: 'Some Other Body' })],
+      ['other-quantity', 'quantity', (r) => Object.assign({}, r, { quantity: 'other_quantity' })],
+      ['other-solution', 'solution_id', (r) => Object.assign({}, r, { solutionId: 'Someone1999-XYZ' })]];
+    for (const d of (decl.declarations || [])) for (const [nm, field, f] of MUT) {
+      mutN++;
+      const rows = SOLAR.map((r) => (r.recordId === d.record_id ? f(r) : r));
+      const p = G.pickDeclaredRow(d, rows);
+      if (p.row === null && p.matchedBy === 'record_id'
+        && /^record-id-content-mismatch\(/.test(String(p.reason))
+        && (p.mismatch || []).indexOf(field) >= 0) mutOk++;
+      else bad.push(`②${d.body}|${d.quantity} の改変 ${nm} が拒否されない(${p.reason})`);
+    }
+    // ③ ID の欠落・重複
+    const d0 = (decl.declarations || [])[0] || {};
+    const g1 = G.pickDeclaredRow(Object.assign({}, d0, { record_id: 'SOL-00000000' }), SOLAR);
+    if (g1.row === null && g1.reason === 'record-id-not-found') idOk++;
+    else bad.push(`③当たらない ID が拒否されない(${g1.reason})`);
+    const base = SOLAR.find((r) => r.recordId === d0.record_id);
+    const g2 = G.pickDeclaredRow(d0, SOLAR.concat([Object.assign({}, base, { ln: 99999 })]));
+    if (g2.row === null && g2.reason === 'record-id-ambiguous(2)') idOk++;
+    else bad.push(`③重複 ID が拒否されない(${g2.reason})`);
+    // ④ value/sigma は有限の number だけ
+    const CASES = [['value-null', { value: null }, true], ['value-string', { value: '1.5' }, true],
+      ['value-NaN', { value: NaN }, true], ['sigma-string', { sigma: '1e-6' }, true],
+      ['sigma-zero', { sigma: 0 }, true], ['sigma-negative', { sigma: -1 }, true],
+      ['record-id-null', { record_id: null }, true],
+      ['sigma-null', { sigma: null }, false], ['unchanged', {}, false]];
+    for (const [nm, patch, shouldFail] of CASES) {
+      const v = G.validateJudgementSources({ schemaVersion: 1,
+        declarations: [Object.assign({}, d0, patch)] });
+      const failed = (v.ok === false);
+      if (failed === shouldFail && (!failed || v.byKey.size === 0)) schemaOk++;
+      else bad.push(`④schema ${nm} の判定が期待と違う(ok:${v.ok}・配布 ${v.byKey.size})`);
+    }
+  } catch (e) { bad.push('入力が読めない: ' + String(e).slice(0, 110)); }
+  add('behavior.declaredContentMatch', bad.length === 0,
+    `**宣言の内容照合**(第271便b・R1): \`record_id\` は**候補行を一意に定める鍵**であって、`
+    + `宣言内容(body/quantity/source/unit/value/σ/solution_id)は**一致条件**である / `
+    + `① 現行の宣言 ${live} 件が内容照合つきで一致(\`matchedBy:'record_id'\`)/ `
+    + `② 内容改変 ${mutOk}/${mutN} 件が \`record-id-content-mismatch(<欄名>)\` で拒否され、`
+    + `**文字列出典へ黙って落ちない**(単位 day・別論文・value 99・σ 99・別天体・別量・別 solution_id)/ `
+    + `③ 当たらない ID / 重複 ID = ${idOk}/2 件が理由つきで null / `
+    + `④ \`value\`/\`sigma\` は**有限の number だけ** ${schemaOk}/9 件`
+    + `(null・文字列・NaN・0・負・\`record_id:null\` は schema で不正 —— **宣言を 1 件も配らない**)。`
+    + `**内容照合は止めるための条件であって、判定を増やすものではない**`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 第271便b(第61報・AF4): lint.solutionId ----
+// ----   観測 CSV に足した **`solution_id` 欄**(`record_id` の直後・ヘッダ末尾)を機械で固定する:
+// ----     ① 3 CSV のヘッダ位置が `record_id`=9・`solution_id`=10(既存 9 列は 0〜8 のまま)。
+// ----     ② 値が入っている行は、その行の note が**語境界で** `solution=<同じ id>` を持つ。
+// ----        値は `paper/data/solutions.json` の台帳にある id だけである。
+// ----     ③ `adopted_solution=` **だけ**の行(指し先だけの行)には `solution_id` が**入っていない**
+// ----        —— 指し先は出所ではない(太陽系 CSV 行 145/146 の値は Stovall 2018 の転写である)。
+// ----     ④ 付与数は **太陽系 55 / 星団・銀河 0 / 過渡天体 0**(台帳 4 件)。
+// ----     ⑤ 台帳の `printedRecord` が `exampleRecordId` の行の note に**そのまま現れる**。
+// ----     ⑥ 宣言 4 件の `solution_id` が、その `record_id` の行の欄と**一致**する。
+// ----   **`solution_id` は出所の鍵であって、印でも σ でも判定でもない**(4 値は 1 本も動かない)。
+{
+  const bad = [];
+  const FILES = ['solar-observations.csv', 'cluster-galaxy-observations.csv',
+    'transient-observations.csv'];
+  const EXPECT = { 'solar-observations.csv': 55, 'cluster-galaxy-observations.csv': 0,
+    'transient-observations.csv': 0 };
+  const LEDGER_N = 4;
+  const tally = {};
+  let ledgerIds = [];
+  try {
+    const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+    const led = JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solutions.json'), 'utf8'));
+    if (led.schemaVersion !== 1) bad.push('solutions.json の schemaVersion が 1 でない');
+    ledgerIds = (led.solutions || []).map((s) => s.id);
+    if (ledgerIds.length !== LEDGER_N)
+      bad.push(`④台帳の件数が ${ledgerIds.length}(${LEDGER_N} のはず)`);
+    const known = new Set(ledgerIds);
+    const allRows = [];
+    for (const f of FILES) {
+      const L = OB.loadObsCsv(path.join(ROOT, 'paper', 'data', f));
+      const H = L.header;
+      if (H.record_id !== 9) bad.push(`①${f} の record_id の位置が ${H.record_id}(9 のはず)`);
+      if (H.solution_id !== 10) bad.push(`①${f} の solution_id の位置が ${H.solution_id}(10 のはず)`);
+      let assigned = 0, adoptedOnly = 0, tagOnly = 0;
+      for (const r of L.rows) {
+        allRows.push(r);
+        if (r.solutionId !== '') {
+          assigned++;
+          if (!known.has(r.solutionId)) bad.push(`②${f}:${r.ln} の solution_id が台帳に無い(${r.solutionId})`);
+          if (r.solutionTag !== r.solutionId)
+            bad.push(`②${f}:${r.ln} の solution_id が note の解タグと違う(${r.solutionTag})`);
+        } else {
+          if (r.solutionTag && known.has(r.solutionTag))
+            bad.push(`②${f}:${r.ln} は台帳にある解タグを持つのに solution_id が空`);
+          if (r.solutionTag) tagOnly++;
+          if (!r.solutionTag && r.adoptedSolutionTag) adoptedOnly++;
+        }
+        // ③ 指し先だけの行に欄が入っていないこと(上の else 側で担保 —— 逆を明示で見る)
+        if (r.solutionId !== '' && !r.solutionTag)
+          bad.push(`③${f}:${r.ln} は解タグが無いのに solution_id が入っている`);
+      }
+      tally[f] = { rows: L.rows.length, assigned, adoptedOnly, unregisteredTagRows: tagOnly };
+      if (assigned !== EXPECT[f]) bad.push(`④${f} の付与数が ${assigned}(${EXPECT[f]} のはず)`);
+    }
+    // ⑤ 台帳の原記載
+    for (const s of (led.solutions || [])) {
+      const hits = allRows.filter((r) => r.recordId === s.exampleRecordId);
+      if (hits.length !== 1) { bad.push(`⑤台帳 ${s.id} の exampleRecordId が ${hits.length} 件`); continue; }
+      if (String(hits[0].note).indexOf(s.printedRecord) < 0)
+        bad.push(`⑤台帳 ${s.id} の printedRecord が行 ${hits[0].ln} の note に無い`);
+      if (hits[0].solutionId !== s.id)
+        bad.push(`⑤台帳 ${s.id} の例の行の solution_id が ${hits[0].solutionId}`);
+    }
+    // ⑥ 宣言
+    const decls = (JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data',
+      'judgement-sources.json'), 'utf8')).declarations || []);
+    for (const d of decls) {
+      if (typeof d.solution_id !== 'string') { bad.push(`⑥宣言 ${d.body}|${d.quantity} に solution_id 欄が無い`); continue; }
+      const hits = allRows.filter((r) => r.recordId === d.record_id);
+      if (hits.length !== 1) { bad.push(`⑥宣言 ${d.body}|${d.quantity} の record_id が ${hits.length} 件`); continue; }
+      if (hits[0].solutionId !== d.solution_id)
+        bad.push(`⑥宣言 ${d.body}|${d.quantity} の solution_id が行と違う("${d.solution_id}" / "${hits[0].solutionId}")`);
+    }
+  } catch (e) { bad.push('入力が読めない: ' + String(e).slice(0, 110)); }
+  add('lint.solutionId', bad.length === 0,
+    `**観測 CSV の \`solution_id\` 欄**(第271便b・AF4): `
+    + FILES.map((f) => `${f.replace('-observations.csv', '')} 付与 ${tally[f] ? tally[f].assigned : '—'}`
+      + `/${tally[f] ? tally[f].rows : '—'} 行`).join(' / ')
+    + ` / ① 位置は \`record_id\`=9・\`solution_id\`=10(既存 9 列は 0〜8 のまま)/ `
+    + `② 値が入る行は note が**語境界で** \`solution=<同じ id>\` を持ち、id は台帳 `
+    + `\`paper/data/solutions.json\`(${ledgerIds.length} 件: ${ledgerIds.join(' / ')})にある / `
+    + `③ \`adopted_solution=\` **だけ**の行(太陽系 ${tally['solar-observations.csv']
+      ? tally['solar-observations.csv'].adoptedOnly : '—'} 行)には**入れない** —— `
+    + `**指し先は出所ではない** / `
+    + `④ 台帳外の解タグを持つ行(太陽系 ${tally['solar-observations.csv']
+      ? tally['solar-observations.csv'].unregisteredTagRows : '—'} 行)は**空欄のまま**`
+    + `(空欄は「解が無い」ではなく「台帳に登録していない」)/ `
+    + `⑤ 台帳の \`printedRecord\` が例の行の note にそのまま現れる / `
+    + `⑥ 宣言 4 件の \`solution_id\` が行の欄と一致。`
+    + `**\`solution_id\` は出所の鍵であって、印でも σ でも判定でもない**(4 値は 1 本も動かない)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 第271便b(第61報・AF10): lint.externalNamesCsv ----
+// ----   `paper/data/` の観測レコードに**外部の生成系の実名**が残っていないことを数で固定する。
+// ----   第270便b(AE7)が 171〜173 を中立表現へ直した時点で**残り 1 件**(太陽系 行 66 の
+// ----   取込経路の記述)だったものを、第271便b(AF10)で中立表現へ直した(**値・σ・出典・URL・
+// ----   印・来歴は不変**・`external_name_neutralised=2026-09-18` を note に記録)。
+// ----   検出語は**公開ファイルに平文で置かない**(語彙規約) —— base64 で持ち、実行時に復号して数える
+// ----   (`tests/exp-w270b-confirm4.mjs` と同じ方式)。
+// ----   **歴史文書(CHANGELOG の過去便・docs/PHYSICS.md の過去節)は触らない**(過去便の記録である)。
+{
+  const bad = [];
+  const NAMES = Buffer.from('Q2hhdEdQVCxHcm9rLEdlbWluaSxDb2RleA==', 'base64').toString('utf8').split(',');
+  const TARGETS = ['paper/data/solar-observations.csv', 'paper/data/cluster-galaxy-observations.csv',
+    'paper/data/transient-observations.csv', 'paper/data/supernova-observations.csv',
+    'paper/data/jovian-satellites.csv', 'paper/data/judgement-sources.json',
+    'paper/data/solutions.json', 'paper/data/sources-manifest.json'];
+  const perFile = {};
+  let total = 0, scanned = 0;
+  for (const rel of TARGETS) {
+    let txt = null;
+    try { txt = fs.readFileSync(path.join(ROOT, rel), 'utf8'); } catch { txt = null; }
+    if (txt === null) { bad.push(`${rel} が読めない`); continue; }
+    scanned++;
+    let n = 0;
+    for (const nm of NAMES) n += (txt.match(new RegExp(nm, 'g')) || []).length;
+    perFile[rel] = n; total += n;
+    if (n) bad.push(`${rel} に外部名が ${n} 件残っている`);
+  }
+  // AF10 の行が中立表現になっていて、記録が残っていること
+  try {
+    const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+    const L = OB.loadObsCsv(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'));
+    const r = L.rows.find((x) => x.recordId === 'SOL-3c8c1f88');
+    if (!r) bad.push('AF10 の行(SOL-3c8c1f88)が見つからない');
+    else {
+      if (r.note.indexOf('real-system approximation set by the coordinator') < 0)
+        bad.push('AF10 の行が中立表現になっていない');
+      if (r.note.indexOf('external_name_neutralised=2026-09-18') < 0)
+        bad.push('AF10 の行に中立化の記録が無い');
+      if (r.rawValue !== '3.7e7-3.95e7' || r.unit !== 'm' || r.rawSigma !== '')
+        bad.push('AF10 の行の値・単位・σ が動いた');
+      if (r.source.indexOf('NASA NTRS Passage to a Ringed World Appendix D') < 0)
+        bad.push('AF10 の行の出典が動いた');
+    }
+  } catch (e) { bad.push('入力が読めない: ' + String(e).slice(0, 110)); }
+  add('lint.externalNamesCsv', bad.length === 0,
+    `**観測レコードの外部名**(第271便b・AF10): \`paper/data/\` の ${scanned} 本を走査し `
+    + `**残り ${total} 件**(検出語は base64 で持ち、平文で置かない —— `
+    + `\`tests/exp-w270b-confirm4.mjs\` と同じ方式)/ `
+    + `太陽系 行 66(\`SOL-3c8c1f88\`・Uranus ring 1986U2R)の取込経路の記述を中立表現へ`
+    + `(\`external_name_neutralised=2026-09-18\`)—— **value・unit・source・url・retrieved・sigma・`
+    + `印・来歴は 1 文字も動いていない**(動いたのは note の 1 語)/ `
+    + `**歴史文書(CHANGELOG の過去便・docs/PHYSICS.md の過去節)は触らない**(過去便の記録である)`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 
