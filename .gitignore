@@ -19,6 +19,11 @@ tests/out/*
 # 第249便b: 現実較正 31 本の棚卸し(第41報 W2)の結果正本 — QA `docs.calaudit-sync` が
 # 「列挙 id = sampleClass:"calibration" の集合」と「判定語彙が 5 区分」を機械固定するのでコミットする
 !tests/out/calaudit-w249.json
+# 第271便a(第61報・AF16): 正本 calaudit-w249.json から**移した**重い診断
+# (machineIndependence / stageHealth.rows / deprecatedKeys / predictionEligibleReasons)。
+# **削ったのではなく分けた**ので、正本と 2 つで 1 組である(正本の `diagnosticsSplit` に
+# 相対パスと SHA-256 がある)。QA `lint.calauditDiagSplit` が両方を読むのでコミットする
+!tests/out/calaudit-w249-diag.json
 # 第259便d: 条件不一致 8 行の **kFrame=0 対照走行**(tests/exp-w259d-kf0.mjs)と、🧶 h8・⚡ h16 の
 # 精度検査点(tests/exp-w259d-precision.mjs)の実測正本。QA `behavior.calauditMapping` が
 # 「8 行に対照条件の走行があること」「kFrame=1 の再現が棚卸しの記録と一致すること」を機械照合し、

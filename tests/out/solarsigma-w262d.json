@@ -1,10 +1,10 @@
 {
- "when": "2026-09-18T03:38:09.862Z",
+ "when": "2026-09-18T10:53:45.064Z",
  "wave": "第262便d(第54報 W4)→ 第263便c(第55報 W3)で σ 未確認の状態名と不足一覧を足した",
  "inputs": {
   "calaudit": "tests/out/calaudit-w249.json",
   "csv": "paper/data/solar-observations.csv",
-  "calauditWhen": "2026-09-18T03:30:01.678Z"
+  "calauditWhen": "2026-09-18T10:39:59.176Z"
  },
  "gate": {
   "nSigma": 3,
@@ -277,7 +277,7 @@
     "meas": 13925.526910658999,
     "obs": 13968.25575,
     "sigma": 2.922,
-    "nSigma": 14.623148302875334,
+    "nSigma": 14.603411410167835,
     "verdict": "否(3σ)",
     "previousUnit": {
      "unit": "deg/orbit",
@@ -345,6 +345,7 @@
     "valueDelta": -0.00022328000000000018,
     "residual": 0.0067522814251429,
     "nSigma": null,
+    "assessedStage": "h",
     "primaryVerified": false,
     "guards": {
      "ok": false,
@@ -385,6 +386,7 @@
     "valueDelta": -0.00022328000000000018,
     "residual": 0.00023144612562026566,
     "nSigma": null,
+    "assessedStage": "h",
     "primaryVerified": false,
     "guards": {
      "ok": false,
@@ -423,8 +425,9 @@
      "primaryVerified": false
     },
     "valueDelta": 2.3587200000183657,
-    "residual": 1354.1952899994794,
-    "nSigma": 52245.18865738733,
+    "residual": 1354.6121744329575,
+    "nSigma": 52261.27216176534,
+    "assessedStage": "h4",
     "primaryVerified": true,
     "guards": {
      "ok": false,
@@ -462,8 +465,9 @@
      "primaryVerified": false
     },
     "valueDelta": 2.3587200000183657,
-    "residual": 1354.1952899994794,
-    "nSigma": 52245.18865738733,
+    "residual": 1354.6121744329575,
+    "nSigma": 52261.27216176534,
+    "assessedStage": "h4",
     "primaryVerified": true,
     "guards": {
      "ok": false,
@@ -501,8 +505,9 @@
      "primaryVerified": false
     },
     "valueDelta": 2.3587200000183657,
-    "residual": 1354.1952899994794,
-    "nSigma": 52245.18865738733,
+    "residual": 1354.6121744329575,
+    "nSigma": 52261.27216176534,
+    "assessedStage": "h4",
     "primaryVerified": true,
     "guards": {
      "ok": false,
@@ -2231,6 +2236,7 @@
     "valueDelta": -0.00022328000000000018,
     "residual": 0.0067522814251429,
     "nSigma": null,
+    "assessedStage": "h",
     "primaryVerified": false,
     "guards": {
      "ok": false,
@@ -3300,6 +3306,7 @@
     "valueDelta": -0.00022328000000000018,
     "residual": 0.00023144612562026566,
     "nSigma": null,
+    "assessedStage": "h",
     "primaryVerified": false,
     "guards": {
      "ok": false,
@@ -3707,8 +3714,9 @@
      "primaryVerified": false
     },
     "valueDelta": 2.3587200000183657,
-    "residual": 1354.1952899994794,
-    "nSigma": 52245.18865738733,
+    "residual": 1354.6121744329575,
+    "nSigma": 52261.27216176534,
+    "assessedStage": "h4",
     "primaryVerified": true,
     "guards": {
      "ok": false,
@@ -3756,8 +3764,8 @@
    "cut": null,
    "condMismatch": false,
    "sigma": 0.02592,
-   "residual": 1354.1952899994794,
-   "nSigma": 52245.18865738733,
+   "residual": 1354.6121744329575,
+   "nSigma": 52261.27216176534,
    "numOk": false,
    "gateStatusBefore": "数値未解決",
    "verdict": "保留(数値収束が未確認)",
@@ -3790,8 +3798,9 @@
      "primaryVerified": false
     },
     "valueDelta": 2.3587200000183657,
-    "residual": 1354.1952899994794,
-    "nSigma": 52245.18865738733,
+    "residual": 1354.6121744329575,
+    "nSigma": 52261.27216176534,
+    "assessedStage": "h4",
     "primaryVerified": true,
     "guards": {
      "ok": false,
@@ -3839,8 +3848,8 @@
    "cut": null,
    "condMismatch": false,
    "sigma": 0.02592,
-   "residual": 1354.1952899994794,
-   "nSigma": 52245.18865738733,
+   "residual": 1354.6121744329575,
+   "nSigma": 52261.27216176534,
    "numOk": false,
    "gateStatusBefore": "数値未解決",
    "verdict": "保留(数値収束が未確認)",
@@ -3873,8 +3882,9 @@
      "primaryVerified": false
     },
     "valueDelta": 2.3587200000183657,
-    "residual": 1354.1952899994794,
-    "nSigma": 52245.18865738733,
+    "residual": 1354.6121744329575,
+    "nSigma": 52261.27216176534,
+    "assessedStage": "h4",
     "primaryVerified": true,
     "guards": {
      "ok": false,
@@ -4892,8 +4902,8 @@
    "cut": null,
    "condMismatch": false,
    "sigma": 2.922,
-   "residual": 42.72883934100173,
-   "nSigma": 14.623148302875334,
+   "residual": 42.67116814051042,
+   "nSigma": 14.603411410167835,
    "numOk": true,
    "gateStatusBefore": "否(3σ)",
    "verdict": "否(3σ)",
@@ -6642,6 +6652,22 @@
   }
  ],
  "history": [
+  {
+   "wave": "第270便(第60報・PR #272)",
+   "commit": "ef2cd45",
+   "fourTally": {
+    "否": 1,
+    "保留": 15
+   },
+   "cutTally": {
+    "csv-sigma-empty": 106,
+    "kind-not-gated": 26,
+    "unit-not-converted": 3,
+    "connected": 4
+   },
+   "judgementMode": "applied-AD5",
+   "reason": "**本便の基点**。判定値は **h 段**だった(第271便a の R3 で 3 段登録系を h/4 へ統一)・❄️ カロンは 3 段登録が無く「数値収束が未確認」の保留だった(第271便a の AF2 で登録した)。"
+  },
   {
    "wave": "第269便(第59報・PR #271)",
    "commit": "f6c19b4",

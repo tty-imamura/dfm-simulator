@@ -2453,13 +2453,19 @@ const add = (id, pass, detail) => {
     // (数を下げたのではなく、1 行が正式判定へ移ったことによる)。
     if ((J.cutTally || {})['unit-not-converted'] !== 3)
       bad.push(`①切断点 unit-not-converted が 3 でない(${(J.cutTally || {})['unit-not-converted']})`);
-    const h0 = (J.history || [])[0] || null;
-    if (!h0) bad.push('①基点の履歴(history)が無い');
+    // 第271便a: history は**積む**(先頭が直前の便 ef2cd45)。基点 f6c19b4 は commit で引く。
+    const h0 = (J.history || []).find((z) => z.commit === 'f6c19b4') || null;
+    const hPrev = (J.history || [])[0] || null;
+    if (!h0) bad.push('①基点 f6c19b4 の履歴(history)が無い');
     else {
       if ((h0.cutTally || {})['unit-not-converted'] !== 4)
         bad.push('①履歴の切断点が 4 件でない(旧値を残していない)');
       if ((h0.fourTally || {})['保留'] !== 16) bad.push('①履歴の 4 値(保留 16)が残っていない');
     }
+    if (!hPrev || hPrev.commit !== 'ef2cd45')
+      bad.push('①直前の便(ef2cd45)の履歴が先頭に無い');
+    else if (!((hPrev.fourTally || {})['否'] === 1 && (hPrev.fourTally || {})['保留'] === 15))
+      bad.push('①直前の便の太陽系 4 値が 否 1/保留 15 でない');
     if ((J.fourTally || {})['保留'] !== 15)
       bad.push(`①太陽系 4 値の保留が 15 でない(${(J.fourTally || {})['保留']})`);
     if ((J.fourTally || {})['否'] !== 1)
@@ -2580,7 +2586,8 @@ const add = (id, pass, detail) => {
     const S = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8'));
     four = JSON.stringify(S.fourTally || {});
     // 第270便a(AD5/AD8): 4 値は動いた(署名便)。**旧値は history で照合**する。
-    const sh0 = (S.history || [])[0] || null;
+    // 第271便a: history は**積む**(先頭が直前の便)。基点 f6c19b4 の行は commit で引く。
+    const sh0 = (S.history || []).find((z) => z.commit === 'f6c19b4') || null;
     if (!sh0 || (sh0.fourTally || {})['保留'] !== 16)
       bad.push('③基点の 4 値(保留 16)が history に残っていない');
     const dRows = (S.declaredFirst || {}).rows || [];
@@ -2919,7 +2926,14 @@ const add = (id, pass, detail) => {
     if (!(nPresets > 0)) bad.push('①走行 JSON に preset が無い');
     if (rc.n !== rc.ok) bad.push(`②宣言から再計算できない段がある(${rc.n - rc.ok} 段)`);
     if (!(rep.compared > 0)) bad.push('③基点と突き合わせた段が 0 である');
-    if (rep.differing !== 0) bad.push(`③基点と步数・近点数が違う段がある(${rep.differing} 段)`);
+    // 第271便a(AF2): **違ってよい段は宣言列挙**(`BASE_REPLAY_EXCEPTIONS`)。宣言に無い差は落とす。
+    if (rep.differingUndeclared === undefined)
+      bad.push('③宣言例外の会計(differingUndeclared)が照合器に無い');
+    else if (rep.differingUndeclared !== 0)
+      bad.push(`③基点と步数・近点数が違う段が宣言の外にある(${rep.differingUndeclared} 段)`);
+    if ((rep.differingDeclared || 0) !== ((rep.declaredExceptions || []).length))
+      bad.push(`③宣言した例外 ${(rep.declaredExceptions || []).length} 段のうち `
+        + `${rep.differingDeclared} 段しか差が出ていない(宣言が実態と合っていない)`);
     if ((res.exceeded || []).length !== 0)
       bad.push(`④資源上限を超えた段がある(${(res.exceeded || []).length} 段)`);
     let legacyReason = 0;
@@ -2945,7 +2959,10 @@ const add = (id, pass, detail) => {
     + `**同じ入力でも機種が違えば近点の本数が変わり、判定が動いた**(🌘 の 26 近点は `
     + `40,000,000 步まで走れたときの数である)/ preset ${nPresets} 本に宣言あり / `
     + `**基点 f6c19b4 との照合 ${rep ? rep.identical : '—'}/${rep ? rep.compared : '—'} 段が同じ步数・同じ近点数**`
-    + `(違い ${rep ? rep.differing : '—'} 段)/ 宣言から再計算できた段 ${rc ? rc.ok : '—'}/${rc ? rc.n : '—'} / `
+    + `(違い ${rep ? rep.differing : '—'} 段 = **宣言した例外 ${rep ? rep.differingDeclared : '—'} 段**`
+    + `〔第271便a: ❄️ の dt/2 — 步数上限を階級から preset 宣言へ移したので基点より長く走る〕`
+    + `+ 宣言の無い差 ${rep ? rep.differingUndeclared : '—'} 段)/ `
+    + `宣言から再計算できた段 ${rc ? rc.ok : '—'}/${rc ? rc.n : '—'} / `
     + `資源上限 ${res ? res.ceilingSec : '—'} s の超過 ${res ? (res.exceeded || []).length : '—'} 段`
     + `(最長 ${res ? res.maxWallSec.toFixed(1) : '—'} s —— **現行では効いていない上限**である)/ `
     + `近点不足は **unmeasured**(max-steps / window / resource-limit)であって「否」ではない`
@@ -3112,9 +3129,26 @@ const add = (id, pass, detail) => {
     const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
     const S = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8'));
     const fv = C.fourValues || {};
-    cur = fv.current || null; hist = (fv.history || [])[0] || null;
+    // 第271便a: 履歴は**積む**(先頭が直前の便)。基点 f6c19b4 の行は**消さずに後ろへ残す**。
+    cur = fv.current || null;
+    const prev = (fv.history || [])[0] || null;
+    hist = (fv.history || []).find((z) => z.commit === 'f6c19b4') || null;
     if (!cur) bad.push('①fourValues.current が無い');
-    if (!hist) bad.push('①fourValues.history が無い');
+    if (!prev) bad.push('①fourValues.history が無い');
+    else {
+      const pc = prev.counts || {};
+      if (!(pc['合'] === 0 && pc['量限定合'] === 2 && pc['否'] === 1 && pc['保留'] === 34))
+        bad.push(`①直前の便(ef2cd45)の 4 値が 0/2/1/34 でない(${JSON.stringify(pc)})`);
+      const pg = prev.gate || {};
+      if (!(pg['合(3σ)'] === 2 && pg['否(3σ)'] === 1 && pg['数値未解決'] === 35
+        && pg['mapping-unresolved'] === 14 && pg['condition-mismatch'] === 8 && pg['未判定'] === 254))
+        bad.push(`①直前の便の門が 2/1/35/14/8/254 でない(${JSON.stringify(pg)})`);
+      const pt = prev.tally || {};
+      if (!(pt['合'] === 57 && pt['窓'] === 6 && pt['否'] === 25 && pt['従'] === 4
+        && pt['転'] === 214 && pt['条'] === 8))
+        bad.push(`①直前の便の 5 区分が 57/6/25/4/214/8 でない(${JSON.stringify(pt)})`);
+    }
+    if (!hist) bad.push('①基点 f6c19b4 の履歴が消えている(履歴は積む)');
     else {
       const h = hist.counts || {};
       if (!(h['合'] === 0 && h['量限定合'] === 2 && h['否'] === 2 && h['保留'] === 33))
@@ -3130,16 +3164,21 @@ const add = (id, pass, detail) => {
       for (const k of ['commit', 'csvSha', 'judgementSourcesVersion', 'reason'])
         if (!hist[k]) bad.push(`②履歴に ${k} が無い`);
     }
-    const sh = (S.history || [])[0] || null;
-    if (!sh) bad.push('③σ 接続器に履歴が無い');
+    const sh = (S.history || []).find((z) => z.commit === 'f6c19b4') || null;
+    const sp = (S.history || [])[0] || null;
+    if (!sh) bad.push('③σ 接続器に基点 f6c19b4 の履歴が無い');
     else {
       if ((sh.fourTally || {})['保留'] !== 16) bad.push('③履歴の太陽系 4 値が 保留 16 でない');
       const c = sh.cutTally || {};
       if (!(c['csv-sigma-empty'] === 109 && c['kind-not-gated'] === 26 && c['unit-not-converted'] === 4))
         bad.push(`③履歴の切断点が 109/26/4 でない(${JSON.stringify(c)})`);
     }
+    if (!sp) bad.push('③σ 接続器に直前の便の履歴が無い');
+    else if (!((sp.fourTally || {})['否'] === 1 && (sp.fourTally || {})['保留'] === 15))
+      bad.push(`③直前の便(ef2cd45)の太陽系 4 値が 否 1/保留 15 でない(${JSON.stringify(sp.fourTally)})`);
     const md = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
     if (!/### 5\.16 /.test(md)) bad.push('④§5.16 が無い');
+    if (!/### 5\.17 /.test(md)) bad.push('④§5.17(第271便a の署名便の節)が無い');
     if (!/--dt3-registry --merge/.test(md)) bad.push('④再現手順(--dt3-registry --merge)が無い');
     if (!/--regate/.test(md) || !/正本にしない/.test(md))
       bad.push('④`--regate` の産物を正本にしないという規約が無い');
@@ -3156,6 +3195,15 @@ const add = (id, pass, detail) => {
       if (/判定が増えた|較正を完了|D68 が合\(3σ\)/.test(bare))
         bad.push(`⑤禁止語(§5.16): ${line.slice(0, 40)}`);
     }
+    // 第271便a: 本便が書いた §5.17 にも同じ禁止語を掛ける(「カロンが合/否」も見る)。
+    const i17 = md.indexOf('### 5.17 ');
+    const sec17 = (i17 < 0) ? '' : md.slice(i17, (() => {
+      const j = md.indexOf('\n## ', i17); return (j < 0) ? md.length : j; })());
+    for (const line of sec17.split('\n')) {
+      const bare = line.replace(/[「『][^」』]*[」』]/g, '');
+      if (/判定が増えた|較正を完了|D68 が合\(3σ\)|カロンが合|較正した/.test(bare))
+        bad.push(`⑤禁止語(§5.17): ${line.slice(0, 40)}`);
+    }
   } catch (e) { bad.push('4 値の履歴が読めない: ' + String(e).slice(0, 90)); }
   add('docs.fourValuesHistory', bad.length === 0,
     `**4 値の履歴**(第270便a・署名便): 本便は既定経路の結果が動く便なので、`
@@ -3165,6 +3213,319 @@ const add = (id, pass, detail) => {
     + `門 ${cur ? Object.values(cur.gate || {}).join('/') : '—'} / `
     + `履歴には commit・入力 CSV の SHA・宣言版・理由が付く(数字だけを残さない)/ `
     + `**「判定が増えた」「較正を完了した」とは書かない**`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0a3s) 第271便a(第61報・R3): docs.assessedStageH4 ----
+// ----   **3 段登録系の正式判定段が h/4 である**ことを機械固定する(fs のみ)。
+// ----   統括の検証項目 R3: docs/CALIBRATION_VERDICT_v1.44.md §5.13′.2 は「判定段 h/4・
+// ----   ε̂=|Q_{h/2}−Q_{h/4}|/(2^p−1)」と書いていたのに、器の正式門は `value: q.meas`(**h 段**)・
+// ----   ε_num=|Q_h−Q_{h/4}| で判定していた(**文書とコードの不一致**)。AD4 の既決どおり h/4 へ統一した。
+// ----     ① 3 段登録表の preset で 3 段が揃った量は `assessedStage==='h4'` で、
+// ----        判定値 `gate.assessedValue` が **Q_{h/4}** である(σ 倍もその値から出ている)。
+// ----     ② h 段の値は `gate.coarseValue`・|Q_h−Q_{h/4}| は `gate.coarseNumBound` に**履歴として残る**。
+// ----     ③ 門が読む ε_num は **|Q_{h/2}−Q_{h/4}|**(最終 2 段差)で、
+// ----        **ε̂ = 最終 2 段差 / (2^p−1)** が定義どおり再計算できる。
+// ----     ④ **登録表の外(2 段だけ)の系の扱いは変えていない**(判定段は h のまま)。
+// ----     ⑤ **次数推定の適用条件**: 連続 2 段差が同符号でない列・3 段完全一致の列は
+// ----        `orderNotEstimable(…)` で**保留**(convergence.ok が立たない)。
+// ----     ⑥ 文書(§5.17)に h/4 の宣言と旧新の値が並記され、§5.16.3 の「判定値は h 段」が訂正済み。
+// ----   **書かないこと**: 「判定段を変えたので判定が増えた」「h/4 にしたので収束した」。
+{
+  const bad = [];
+  let nH4 = 0, nOther = 0, moved = [];
+  try {
+    const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+    const regIds = new Set(((C.threeStageRegistry || {}).rows || []).map((z) => z.id));
+    if (!regIds.size) bad.push('①3 段登録表が読めない');
+    for (const p of (C.presets || [])) for (const q of (p.quantities || [])) {
+      const g = q.gate; const ds = q.dtStages;
+      if (!g || !ds || !Number.isFinite(ds.dtQuarter)) continue;
+      if (regIds.has(p.id)) {
+        if (q.assessedStage !== 'h4' || g.assessedStage !== 'h4') {
+          bad.push(`①${p.id}|${q.kind} の判定段が h4 でない(${g.assessedStage})`); continue;
+        }
+        nH4++;
+        if (!(Math.abs(g.assessedValue - ds.dtQuarter) <= Math.abs(ds.dtQuarter) * 1e-15))
+          bad.push(`①${p.id}|${q.kind} の判定値が Q_{h/4} でない`);
+        if (!(Math.abs(g.coarseValue - ds.dt) <= Math.abs(ds.dt) * 1e-15))
+          bad.push(`②${p.id}|${q.kind} の coarseValue が Q_h でない`);
+        const coarse = Math.abs(ds.dt - ds.dtQuarter);
+        if (!(Math.abs(g.coarseNumBound - coarse) <= coarse * 1e-9 + 1e-300))
+          bad.push(`②${p.id}|${q.kind} の coarseNumBound が |Q_h−Q_{h/4}| でない`);
+        const last = Math.abs(ds.dtHalf - ds.dtQuarter);
+        const c = g.convergence || {};
+        if (!(Math.abs(c.lastDiff - last) <= last * 1e-9 + 1e-300))
+          bad.push(`③${p.id}|${q.kind} の最終 2 段差が |Q_{h/2}−Q_{h/4}| でない`);
+        if (Number.isFinite(c.order) && c.order > 0 && Number.isFinite(c.epsHat)) {
+          const eps = last / (Math.pow(2, c.order) - 1);
+          if (!(Math.abs(c.epsHat - eps) <= Math.abs(eps) * 1e-9 + 1e-300))
+            bad.push(`③${p.id}|${q.kind} の ε̂ が定義と合わない`);
+        }
+        // 第271便a(AF16): 文言は正本の辞書(`contracts.texts`)へまとめたので、**鍵が解けること**を見る。
+        const rRef = c.orderEstimableRuleRef || null;
+        const texts = (C.contracts || {}).texts || {};
+        if (!(c.orderEstimableRule || (rRef && texts[rRef])))
+          bad.push(`⑤${p.id}|${q.kind} に次数推定の適用条件が無い`);
+        else if (rRef && String(texts[rRef]).indexOf('同符号') < 0)
+          bad.push(`⑤${p.id}|${q.kind} の適用条件に「同符号」が書かれていない`);
+        if (c.orderEstimable === false && c.ok === true)
+          bad.push(`⑤${p.id}|${q.kind} は次数不明なのに収束済みになっている`);
+        if (Number.isFinite(g.nSigma) && Number.isFinite(g.sigma) && Number.isFinite(q.obs)
+          && !(Math.abs(Math.abs(g.assessedValue - q.obs) / g.sigma - g.nSigma) <= 1e-6 * (1 + g.nSigma)))
+          bad.push(`①${p.id}|${q.kind} の σ 倍が判定段の値から出ていない`);
+      } else {
+        nOther++;
+        if (q.assessedStage === 'h4' || (g.assessedStage && g.assessedStage !== 'h'))
+          bad.push(`④登録表の外の系で判定段が動いている(${p.id}|${q.kind})`);
+      }
+    }
+    if (!(nH4 > 0)) bad.push('①h/4 で判定した量が 1 つも無い');
+    const md = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
+    const head = md.indexOf('### 5.17 ');
+    const sec = (head >= 0) ? md.slice(head, (() => {
+      const j = md.indexOf('\n### ', head + 5); return (j < 0) ? md.length : j; })()) : '';
+    if (!sec) bad.push('⑥§5.17(第271便a の節)が無い');
+    else {
+      if (sec.indexOf('h/4') < 0) bad.push('⑥§5.17 に判定段 h/4 の宣言が無い');
+      if (sec.indexOf('13925.5846') < 0) bad.push('⑥§5.17 に 📡 の h/4 段の値(13925.5846)が無い');
+      if (sec.indexOf('13925.5269') < 0) bad.push('⑥§5.17 に h 段の旧値(13925.5269)が並記されていない');
+    }
+    const i163 = md.indexOf('#### 5.16.3'), i164 = md.indexOf('#### 5.16.4');
+    if (i163 >= 0 && i164 > i163 && /判定値は h 段/.test(md.slice(i163, i164)))
+      bad.push('⑥§5.16.3 に「判定値は h 段」が残っている(訂正されていない)');
+    moved = ((C.fourValues || {}).whatMoved || []).filter((z) => /R3/.test(z));
+    if (!moved.length) bad.push('①fourValues.whatMoved に R3 の記録が無い');
+  } catch (e) { bad.push('判定段が読めない: ' + String(e).slice(0, 90)); }
+  add('docs.assessedStageH4', bad.length === 0,
+    `**3 段登録系の正式判定段は h/4**(第271便a・統括の検証項目 R3 —— 文書 §5.13′.2 は h/4 と`
+    + `書いていたのに器は h 段で判定していた。**AD4 の既決どおり h/4 へ統一した**): `
+    + `判定値 = Q_{h/4}・最終 2 段差 = |Q_{h/2}−Q_{h/4}|・ε̂ = 最終 2 段差/(2^p−1)(p の定義は不変)/ `
+    + `**h 段の値は \`coarseValue\`・|Q_h−Q_{h/4}| は \`coarseNumBound\` に履歴として残す** / `
+    + `**登録表の外(2 段だけ)の系の扱いは変えていない** / `
+    + `次数は**連続 2 段差が同符号のときだけ**推定する(非単調列・3 段完全一致は `
+    + `\`orderNotEstimable\` で保留)/ 判定段 h/4 の量 ${nH4} 件・登録外の 3 段の量 ${nOther} 件`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0a3t) 第271便a(第61報・AF2): behavior.charonRegistered ----
+// ----   **❄️ カロンの公転周期を 3 段登録した**ことを機械固定する(fs のみ)。
+// ----     ① `THREE_STAGE_REGISTRY` に `plutoCharonReal` があり、**3 段(dt/4)で走っている**。
+// ----     ② 3 段とも步数上限の出所が **preset 宣言**で、步数は 20,694,498 / 41,388,996 / 82,777,992
+// ----        (刻みに反比例 = 同じ 60 公転の窓)である。
+// ----     ③ 3 段で**検出できた近点の本数が同じ**(`sameFitWindow`)—— 階級上限 40e6 のままだと
+// ----        h/4 が 29 公転で切れて窓が揃わない、というのが宣言を足した理由である。
+// ----     ④ 判定行に 3 段の記録(`convergence.steps===3`)があり、**判定段は h/4** である。
+// ----     ⑤ **旧状態(3 段登録が無く「数値未解決=保留」だった)が履歴に残っている**。
+// ----   **この QA は合否を固定しない** —— 登録は合格の宣言ではないので、門が何を出したかは
+// ----   `fourValues` と門の JSON を読む(「カロンが合」「カロンが否」とは書かない)。
+{
+  const bad = [];
+  let reg = null, st = [], statusList = [];
+  try {
+    const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+    reg = ((C.threeStageRegistry || {}).rows || []).find((z) => z.id === 'plutoCharonReal') || null;
+    if (!reg) bad.push('①THREE_STAGE_REGISTRY に plutoCharonReal が無い');
+    else if (reg.hasQuarter !== true) bad.push('①❄️ が 3 段(dt/4)で走っていない');
+    const P = (C.presets || []).find((z) => z.id === 'plutoCharonReal') || null;
+    if (!P) bad.push('①走行 JSON に ❄️ が無い');
+    else {
+      const stages = ((P.run || {}).stopRuleStages || []);
+      if (stages.length !== 3) bad.push(`②3 段の停止条件の記録が無い(${stages.length} 段)`);
+      const want = { 'dt': 20694498, 'dt/2': 41388996, 'dt/4': 82777992 };
+      for (const s of stages) {
+        if (s.maxStepsSource !== 'preset')
+          bad.push(`②${s.tag} の步数上限が preset 宣言でない(${s.maxStepsSource})`);
+        if (want[s.tag] !== undefined && s.maxSteps !== want[s.tag])
+          bad.push(`②${s.tag} の步数が ${want[s.tag]} でない(${s.maxSteps})`);
+        if (s.periastraOk !== true) bad.push(`②${s.tag} が必要近点数に届いていない`);
+      }
+      st = stages.map((s) => (s.periFoundA || []).join('/'));
+      const q = (P.quantities || []).find((z) => z.kind === 'period' && z.gate
+        && z.gate.status !== 'condition-mismatch' && z.dtStages) || null;
+      if (!q) bad.push('④❄️ の周期に 3 段の判定行が無い');
+      else {
+        const c = q.gate.convergence || {};
+        if (c.steps !== 3) bad.push(`④3 段になっていない(${c.steps})`);
+        if (q.gate.assessedStage !== 'h4') bad.push(`④判定段が h/4 でない(${q.gate.assessedStage})`);
+        if (q.stageHealth && q.stageHealth.sameFitWindow !== true)
+          bad.push('③3 段で fit の窓(近点の本数)が揃っていない');
+      }
+      for (const z of (P.quantities || [])) if (z.gate && z.kind === 'period')
+        statusList.push(z.gate.status);
+    }
+    const h = ((C.fourValues || {}).history || [])[0] || null;
+    if (!h || !/カロン/.test(String(h.reason || '')))
+      bad.push('⑤旧状態(カロンが未登録で保留だった)が履歴に書かれていない');
+  } catch (e) { bad.push('カロンの 3 段が読めない: ' + String(e).slice(0, 90)); }
+  add('behavior.charonRegistered', bad.length === 0,
+    `**❄️ カロンの公転周期を 3 段登録した**(第271便a・AF2): 走らせる前に步数を計算し、`
+    + `**dt/2(41,388,996)と dt/4(82,777,992)が階級上限 40e6 を超える**ことを確かめてから、`
+    + `60 公転ぶんの步数を \`PRESET_MAX_STEPS\` に宣言した(AF3・版 w271a-1)—— `
+    + `そうしないと h/4 が 29 公転で切れて **3 段の窓が揃わない** / `
+    + `3 段の近点 ${st.join(' , ') || '—'}(3 段とも同じ窓)/ 判定段は h/4 / `
+    + `周期行の門 ${statusList.join(' , ') || '—'} —— **登録は合格の宣言ではない**`
+    + `(登録した結果どちらへ動くかは走らせて測った。旧状態は \`fourValues.history\` にある)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0a3u) 第271便a(第61報・AF3): docs.stopRuleVersion ----
+// ----   **停止条件を版つきの既定規約として恒久化した**ことを機械固定する。
+// ----     ① `STOP_RULE_SPEC.version` = `STOP_RULE_VERSION` = 走行 JSON の版 = 照合器の版。
+// ----     ② 規約の表(階級上限・preset 宣言・必要近点数・資源上限)が**実際の定数と同じ**である
+// ----        (版を上げずに中身を変えたらここで落ちる)。
+// ----     ③ 版の履歴に **w270a-1(preset 宣言 4 本)と w271a-1(5 本)**が並んでいて、
+// ----        最新の件数が実際の宣言の本数と一致する。
+// ----     ④ 未完走の語彙が **max-steps / window / resource-limit** の 3 語だけである。
+// ----     ⑤ **全系一律の步数にはしない**という宣言が規約に書いてある。
+// ----     ⑥ docs/CALIBRATION_VERDICT_v1.44.md に版 `w271a-1` と宣言表が書いてある。
+// ----   **書かないこと**: 「停止条件を恒久化したので判定が確定した」。
+{
+  const bad = [];
+  let ver = null, nPreset = null, hist = null;
+  try {
+    const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w270a-stoprule.mjs'));
+    const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+    const S = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'stoprule-w270a.json'), 'utf8'));
+    const spec = L.STOP_RULE_SPEC || {};
+    ver = L.STOP_RULE_VERSION;
+    if (ver !== 'w271a-1') bad.push(`①版が w271a-1 でない(${ver})`);
+    if (spec.version !== ver) bad.push('①規約の版が定数と違う');
+    if (((C.meta || {}).stopRule || {}).version !== ver) bad.push('①走行 JSON の版が違う');
+    if (S.version !== ver) bad.push('①照合器の版が違う');
+    if (JSON.stringify(spec.classMaxSteps) !== JSON.stringify(L.CLASS_MAX_STEPS))
+      bad.push('②階級表が定数と違う');
+    if (JSON.stringify(spec.presetMaxSteps) !== JSON.stringify(L.PRESET_MAX_STEPS))
+      bad.push('②preset 宣言表が定数と違う');
+    if (JSON.stringify(spec.presetNeedPeriastra) !== JSON.stringify(L.PRESET_NEED_PERIASTRA))
+      bad.push('②必要近点数の宣言表が定数と違う');
+    if (spec.needPeriastraDefault !== 20) bad.push(`②必要近点数の既定が 20 でない(${spec.needPeriastraDefault})`);
+    if (spec.wallCeilingSec !== L.WALL_CEILING_SEC_DEFAULT || spec.wallCeilingSec !== 900)
+      bad.push('②資源上限が 900 s でない');
+    if (!(L.CLASS_MAX_STEPS[0].maxSteps === 40000000 && L.CLASS_MAX_STEPS[1].maxSteps === 20000000))
+      bad.push('②階級上限が 40e6 / 20e6 でない');
+    if ((L.PRESET_NEED_PERIASTRA.saturnZonalD68 || {}).needPeriastra !== 58)
+      bad.push('②📡 の必要近点数 58 の宣言が無い');
+    nPreset = Object.keys(L.PRESET_MAX_STEPS).length;
+    if (nPreset !== 5) bad.push(`②preset 宣言が 5 本でない(${nPreset})`);
+    for (const id of ['solarInner', 'uranusReal', 'saturnRingReal', 'saturnRingRealKF1', 'plutoCharonReal'])
+      if (!L.PRESET_MAX_STEPS[id]) bad.push(`②preset 宣言に ${id} が無い`);
+    hist = spec.history || [];
+    if (hist.length < 2) bad.push('③版の履歴が 2 件以上ない');
+    else {
+      if (hist[0].version !== 'w270a-1' || hist[0].presetMaxSteps !== 4)
+        bad.push('③初版(w270a-1・preset 宣言 4 本)の履歴が無い');
+      const last = hist[hist.length - 1];
+      if (last.version !== ver) bad.push('③履歴の最新が現行版でない');
+      if (last.presetMaxSteps !== nPreset) bad.push('③履歴の宣言本数が実際と違う');
+    }
+    if (JSON.stringify(spec.unmeasuredVocabulary)
+      !== JSON.stringify(['max-steps', 'window', 'resource-limit']))
+      bad.push('④未完走の語彙が 3 語でない');
+    if (!spec.notUniform || spec.notUniform.indexOf('一律') < 0)
+      bad.push('⑤「全系一律にはしない」という宣言が無い');
+    const md = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
+    if (md.indexOf('w271a-1') < 0) bad.push('⑥文書に版 w271a-1 が無い');
+    if (md.indexOf('82,777,992') < 0) bad.push('⑥文書にカロンの dt/4 の步数宣言が無い');
+  } catch (e) { bad.push('停止条件の版が読めない: ' + String(e).slice(0, 90)); }
+  add('docs.stopRuleVersion', bad.length === 0,
+    `**停止条件の版つき既定規約**(第271便a・AF3): 版 **${ver}** —— `
+    + `步数 = min(宣言した步数上限, 60 公転ぶんの步数)・階級上限 40,000,000(n≤3)/ 20,000,000(n≤12)・`
+    + `preset 宣言 **${nPreset} 本**(🌞 866,426・💠 1,075,028・💍 2,042,988・💿 254,730・`
+    + `❄️ 20,694,498 —— いずれも刻みに反比例)・必要近点は既定 20(📡 58)・`
+    + `**壁時計 900 s は資源上限だけ**(未完走は max-steps / window / resource-limit の 3 語)/ `
+    + `版の履歴 ${hist ? hist.map((z) => z.version).join(' → ') : '—'} —— `
+    + `**中身を変えるときは版を上げる**(版を上げずに宣言を変えたらこのブロックが落ちる)/ `
+    + `**全系一律の步数にはしない**(系ごとに 60 公転ぶんの步数が違うので、一律の步数は`
+    + `「同じ窓を見ている」ことを意味しない)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0a3v) 第271便a(第61報・AF16): lint.calauditDiagSplit ----
+// ----   **正本 JSON から重い診断を別ファイルへ分けた**ことを機械固定する(fs のみ)。
+// ----     ① 正本に `diagnosticsSplit`(相対パス・SHA-256・バイト数・移した欄の数)がある。
+// ----     ② `tests/out/calaudit-w249-diag.json` が実在し、**SHA-256 が一致する**
+// ----        (単独配布で参照先が欠けたら、ここで落ちる)。
+// ----     ③ 宣言した欄が**正本から消えていて**、代わりに `…Moved` の印が立っている。
+// ----     ④ **削っていない**: 移した欄の数と、別ファイルに入っている欄の数が一致する。
+// ----     ⑤ 正本は分離後のほうが小さい(前後のバイト数が記録されている)。
+// ----     ⑥ 門が読む数(収束の欄)と走行の記録(步数・近点数)は**正本に残っている**。
+// ----   **書かないこと**: 「診断を削った」「JSON を軽くしたので速くなった」。
+{
+  const bad = [];
+  let ds = null, diagBytes = null, nDiag = 0;
+  try {
+    const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+    ds = C.diagnosticsSplit || null;
+    if (!ds) bad.push('①正本に diagnosticsSplit が無い');
+    else {
+      for (const k of ['file', 'relPath', 'sha256', 'bytes', 'movedFields', 'fields'])
+        if (ds[k] === undefined || ds[k] === null) bad.push(`①diagnosticsSplit に ${k} が無い`);
+      const f = path.join(ROOT, 'tests', 'out', 'calaudit-w249-diag.json');
+      if (!fs.existsSync(f)) bad.push('②別ファイルが存在しない(参照先が欠けている)');
+      else {
+        const text = fs.readFileSync(f, 'utf8');
+        diagBytes = Buffer.byteLength(text);
+        const sha = crypto.createHash('sha256').update(text).digest('hex');
+        if (sha !== ds.sha256) bad.push('②別ファイルの SHA-256 が正本の記録と違う');
+        if (diagBytes !== ds.bytes) bad.push('②別ファイルのバイト数が記録と違う');
+        const D = JSON.parse(text);
+        for (const [, b] of Object.entries(D.presets || {})) {
+          if (b.stopRule) nDiag++;
+          nDiag += Object.keys(b.stopRuleStages || {}).length;
+          for (const [, q] of Object.entries(b.quantities || {})) nDiag += Object.keys(q).length;
+        }
+        if (nDiag !== ds.movedFields)
+          bad.push(`④移した欄の数が合わない(正本 ${ds.movedFields} / 別ファイル ${nDiag})`);
+      }
+      if (!(ds.bytesBeforeSplit > ds.bytesAfterSplit))
+        bad.push(`⑤分離後のほうが小さくない(${ds.bytesBeforeSplit} → ${ds.bytesAfterSplit})`);
+      // ② 参照先の欠落(`--merge` で持ち越した preset の記録が別ファイルに無い)は 0 でなければならない
+      if ((ds.missingReferences || []).length !== 0)
+        bad.push(`②参照先が欠けている preset がある(${(ds.missingReferences || []).length} 本)`);
+      // ⑦ 文言の辞書(`contracts`)—— **正本の中に 1 部だけ残す**。鍵が解けない行があってはならない。
+      const ct = C.contracts || null;
+      if (!ct) bad.push('⑦正本に contracts(文言の辞書)が無い');
+      else {
+        if (!(ct.hoisted > 0)) bad.push('⑦辞書化した文言が 0 件');
+        if ((ct.danglingN || 0) !== 0)
+          bad.push(`⑦参照先の無い文言の鍵がある(${ct.danglingN} 件: ${(ct.dangling || []).slice(0, 2).join(' , ')})`);
+        if (!ct.texts || !Object.keys(ct.texts).length) bad.push('⑦辞書の本文が無い');
+      }
+    }
+    let leftover = 0, marks = 0, gateOk = 0, runOk = 0;
+    for (const p of (C.presets || [])) {
+      const run = p.run || {};
+      if (run.stopRule) {
+        if (run.stopRule.machineIndependence) leftover++;
+        if (run.stopRule.machineIndependenceMoved) marks++;
+        if (Number.isFinite(run.stopRule.maxSteps) && Number.isFinite(run.stopRule.minPeriastra)) runOk++;
+      }
+      for (const s of (run.stopRuleStages || [])) if (s.machineIndependence) leftover++;
+      for (const q of (p.quantities || [])) {
+        if (q.predictionEligibleReasons) leftover++;
+        if (q.gate && q.gate.deprecatedKeys) leftover++;
+        if (q.stageHealth && q.stageHealth.rows) leftover++;
+        if (q.stageHealth && q.stageHealth.rowsMoved) marks++;
+        if (q.gate && q.gate.convergence && Number.isFinite(q.gate.convergence.steps)) gateOk++;
+      }
+    }
+    if (leftover) bad.push(`③宣言した欄が正本に ${leftover} 件残っている`);
+    if (!(marks > 0)) bad.push('③`…Moved` の印が 1 つも無い(欠けたことが分からない)');
+    if (!(gateOk > 0)) bad.push('⑥門の収束欄が正本から消えている');
+    if (!(runOk > 0)) bad.push('⑥走行の記録(步数・近点数)が正本から消えている');
+  } catch (e) { bad.push('診断の分離が読めない: ' + String(e).slice(0, 90)); }
+  add('lint.calauditDiagSplit', bad.length === 0,
+    `**正本 JSON の重い診断を別ファイルへ分けた**(第271便a・AF16 —— **削ったのではない**): `
+    + `\`tests/out/calaudit-w249.json\` から \`machineIndependence\` / \`stageHealth.rows\` / `
+    + `\`gate.deprecatedKeys\` / \`predictionEligibleReasons\` を `
+    + `\`tests/out/calaudit-w249-diag.json\`(${diagBytes === null ? '—' : diagBytes} B)へ移し、`
+    + `正本には**要約 + 相対パス + SHA-256**を残した(移した欄 ${ds ? ds.movedFields : '—'} 件)/ `
+    + `正本 ${ds ? ds.bytesBeforeSplit : '—'} → ${ds ? ds.bytesAfterSplit : '—'} B / `
+    + `あわせて**何百行にも複製されていた文言を正本の中の辞書へ 1 か所化**した`
+    + `(\`contracts.texts\` ${ds ? ds.contractsTexts : '—'} 本・置換 ${ds ? ds.contractsHoisted : '—'} 箇所・`
+    + `参照先の欠落 ${ds ? ds.contractsDangling : '—'} 件)—— **数は 1 つも辞書化していない** / `
+    + `**単独で配ると参照先が欠ける** —— 欠けたことが分かるように \`…Moved\` の印を残してある`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 
