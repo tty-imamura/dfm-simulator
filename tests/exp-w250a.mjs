@@ -20,6 +20,17 @@
 //   TIDE : **ラグビーボール尺度**。HP.dfmTidalSpinScale を J0737 A/B・J1757・J1946 の転写値(SI)で。
 //
 // 実行: node tests/exp-w250a.mjs [--ch] [--cond] [--axis] [--tide] [--fast]
+// ■ 第271便e(AF13): **凍結した器である**(来歴印 `recordBasis:'legacy-w249a'`)
+//   本器は **第249便a 時点の採用レコード**を基準に組まれている —— PSR J1946+2052 は
+//   Stovall 2018 ApJL 854 L22 の Pb/e と Meng 2025 の ω̇ を**混ぜた**組(第270便c が X4 と呼んだ混在)
+//   である。第270便c(AD9)で 🩺 psrJ1946DFM・🪀 psrJ1946PN・🩹 psrJ1946CF の初期条件が
+//   **Meng 2025 A&A 704 A153 Table 1 DDFWHE 列の一組**へ動いたので、
+//   **本器の表に載っている数値は現行の採用解では再現しない**(器そのものは走るが、比べている基準が違う)。
+//   **過去便の比較点として凍結する** —— 数値も手続きも書き換えず、一括置換もしない。
+//   現行の採用解での J1946 の再走は `tests/exp-w270c-j1946adopt.mjs`
+//   (結果 `tests/out/j1946adopt-w270c.json`・入力 html の sha256 つき)である。
+//   **「この器が現行解で再検証済み」とは書かない。**
+//
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -166,7 +177,8 @@ await pg.evaluate(() => {
   };
 });
 
-const out = { target: TARGET, node: process.version, fast: FAST, at: new Date().toISOString() };
+const out = { target: TARGET, node: process.version, fast: FAST, at: new Date().toISOString(),
+  recordBasis: 'legacy-w249a' };
 
 // ============================================================ CH: 2 チャネルを同じ器で
 if (want('ch')) {

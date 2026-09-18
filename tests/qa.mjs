@@ -1613,6 +1613,170 @@ const add = (id, pass, detail) => {
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 
+// ---- 第271便e(統括の検証項目 R8): lint.qaFullResultsSaved ----
+// ----   **フル走行(QA_FAST でない走行)の結果 JSON を別名で残す**契約を機械で固定する。
+// ----   背景: 保存先は `tests/out/qa-results.json`(beta 対象なら `-beta.json` も)の 1 組だけで、
+// ----   短い走行(QA_FAST=1)が同じファイルを上書きしていた。公開 tree に残っているのは
+// ----   **fast:true の保存物だけ**で、フル走行の件数・内訳が 1 つも読めない。
+// ----   本便で `qa-results-full.json`(beta 対象なら `qa-results-full-beta.json`)を**追加**し、
+// ----   **QA_FAST はこの 2 本を書かない**ことにした。固定するのは 4 つ:
+// ----     ① 保存経路に full 版の書き出しがあり、**`!FAST` の内側**にある(fast が上書きしない)。
+// ----     ② `.gitignore` に 2 本の例外行がある(除外されたままだと公開 tree に出ない)。
+// ----     ③ ファイルが**あれば**中身が整合する: `fast:false`・`results.length === total`・
+// ----        `failed` が実数と一致・`target` と 64 桁の `targetSha256` がある。
+// ----     ④ ファイルが**無くても FAIL にしない**(フルゲートをまだ回していない tree があるため)。
+// ----        ただし①②は常に見る —— **契約はコードと .gitignore の側にある**。
+{
+  const bad = [];
+  const seen = {};
+  let guarded = null, ignoreOk = null;
+  try {
+    const src = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8');
+    // **正規表現で探す**(平文で書くと本ブロック自身の文字列に当たってしまうため)
+    const guardRe = /if\s*\(\s*!\s*FAST\s*\)\s*\{\s*fs\.writeFileSync\(\s*path\.join\(\s*OUT_DIR\s*,\s*'qa-results-full\.json'\s*\)/;
+    const betaRe = /TARGET\.startsWith\('beta\/'\)\)\s*fs\.writeFileSync\(\s*path\.join\(\s*OUT_DIR\s*,\s*'qa-results-full-beta\.json'\s*\)/;
+    guarded = guardRe.test(src);
+    if (!guarded) bad.push('① full 版の保存が `if (!FAST) {` の直後に無い(QA_FAST が上書きしうる)');
+    if (!betaRe.test(src))
+      bad.push('① beta 対象の full 版(-full-beta.json)の保存が `beta/` 判定の下に無い');
+  } catch (e) { bad.push('① tests/qa.mjs が読めない: ' + String(e).slice(0, 60)); }
+  try {
+    const gi = fs.readFileSync(path.join(ROOT, '.gitignore'), 'utf8').split('\n').map((z) => z.trim());
+    ignoreOk = gi.includes('!tests/out/qa-results-full.json')
+      && gi.includes('!tests/out/qa-results-full-beta.json');
+    if (!ignoreOk) bad.push('② .gitignore に full 版 2 本の例外行が無い(tests/out/* に飲まれる)');
+  } catch (e) { bad.push('② .gitignore が読めない: ' + String(e).slice(0, 60)); }
+  for (const f of ['qa-results-full.json', 'qa-results-full-beta.json']) {
+    const p = path.join(OUT_DIR, f);
+    if (!fs.existsSync(p)) { seen[f] = null; continue; }   // ④ 無くても FAIL にしない
+    try {
+      const j = JSON.parse(fs.readFileSync(p, 'utf8'));
+      const failed = (j.results || []).filter((r) => !r.pass).length;
+      seen[f] = { total: j.total, failed: j.failed, fast: j.fast, target: j.target,
+        pass: j.pass, date: String(j.date || '').slice(0, 10) };
+      if (j.fast !== false) bad.push(`③${f} が fast:${j.fast}(フル走行の保存物ではない)`);
+      if (!Array.isArray(j.results) || j.results.length !== j.total)
+        bad.push(`③${f} の results 件数 ${(j.results || []).length} が total ${j.total} と違う`);
+      if (j.failed !== failed) bad.push(`③${f} の failed ${j.failed} が実数 ${failed} と違う`);
+      if (typeof j.target !== 'string' || !j.target) bad.push(`③${f} に target が無い`);
+      if (!/^[0-9a-f]{64}$/.test(String(j.targetSha256 || '')))
+        bad.push(`③${f} の targetSha256 が 64 桁の 16 進ではない`);
+      if (f.endsWith('-beta.json') && !String(j.target).startsWith('beta/'))
+        bad.push(`③${f} の target が beta/ ではない(${j.target})`);
+    } catch (e) { bad.push(`③${f} が JSON として読めない: ` + String(e).slice(0, 60)); }
+  }
+  add('lint.qaFullResultsSaved', bad.length === 0,
+    `**フル走行の結果 JSON を別名で残す**(第271便e・統括の検証項目 R8): `
+    + `① 保存経路に \`qa-results-full.json\` があり \`!FAST\` の内側=${guarded} / `
+    + `② .gitignore の例外行 2 本=${ignoreOk} / `
+    + `③ 保存物: `
+    + ['qa-results-full.json', 'qa-results-full-beta.json'].map((f) => seen[f]
+      ? `${f}(${seen[f].total} 件・失敗 ${seen[f].failed}・fast=${seen[f].fast}・${seen[f].target})`
+      : `${f} は**未生成**`).join(' / ')
+    + ` / ④ 未生成でも FAIL にしない(フルゲートは統括だけが回すため)。`
+    + `**QA_FAST の走行はこの 2 本を読み書きしない**(従来どおり qa-results.json だけを上書きする)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 第271便e(統括の検証項目 R8): docs.j1946adoptPublished ----
+// ----   第270便c の J1946 専用再走(`tests/exp-w270c-j1946adopt.mjs`)の結果 JSON は
+// ----   `.gitignore` の `tests/out/*` に飲まれて**公開されていなかった**。例外行を足して
+// ----   公開物にしたので、**その JSON がどの html を走らせた結果か**を機械で固定する。
+// ----     ① `tests/out/j1946adopt-w270c.json` が存在し、`.gitignore` に例外行がある。
+// ----     ② `meta.targetSha256` が**現行 beta/index.html の sha256 と一致**する
+// ----        (統合で html が動いたらここが FAIL になる = **統括が再走して入れ替える合図**)。
+// ----     ③ 採用入力が CSV の DDFWHE 行そのもの(P・e・ω̇・自転の中心値と σ が一致)。
+// ----     ④ 刻み・窓・段が入っている(dt0=0.016・20 近点窓・4 段 h/1,2,4,8 が 3 本とも揃う)。
+// ----     ⑤ 共同根の探索条件が入っている(刻み・出発 2 点を含む履歴・目標 ω̇ = 採用レコード)。
+// ----     ⑥ `build.adoptedCheck` が全欄 0 —— **宣言リテラルが採用レコードの転写から再現できる**。
+// ----   root(旧 html)は対象外なので SKIP する(JSON は beta 線の走行である)。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.j1946adoptPublished(J1946 再走 JSON は beta 線の走行 — root は対象外)');
+  } else {
+    const bad = [];
+    const JP = path.join(OUT_DIR, 'j1946adopt-w270c.json');
+    let j = null, shaMatch = null, ignoreOk = null, htmlSha = null;
+    try {
+      const gi = fs.readFileSync(path.join(ROOT, '.gitignore'), 'utf8').split('\n').map((z) => z.trim());
+      ignoreOk = gi.includes('!tests/out/j1946adopt-w270c.json');
+      if (!ignoreOk) bad.push('① .gitignore に例外行が無い(tests/out/* に飲まれて公開されない)');
+    } catch (e) { bad.push('① .gitignore が読めない: ' + String(e).slice(0, 60)); }
+    try { j = JSON.parse(fs.readFileSync(JP, 'utf8')); }
+    catch { bad.push('① tests/out/j1946adopt-w270c.json が無い'
+      + '(PLAYWRIGHT_CORE_DIR=… node tests/exp-w270c-j1946adopt.mjs で入る)'); }
+    if (j) {
+      const m = j.meta || {};
+      htmlSha = crypto.createHash('sha256')
+        .update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      shaMatch = (m.targetSha256 === htmlSha);
+      if (m.target !== TARGET) bad.push(`② JSON の target が ${m.target}(検査対象は ${TARGET})`);
+      if (!shaMatch) bad.push(`② JSON の入力 hash ${String(m.targetSha256).slice(0, 8)}… が`
+        + ` 現行 ${TARGET} の ${htmlSha.slice(0, 8)}… と不一致 —— **統合後は再走して入れ替える**`);
+      // ③ 採用入力が CSV の DDFWHE 行そのもの
+      try {
+        const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+        const rows = OB.loadObsCsv(path.join(ROOT, 'paper', 'data', 'solar-observations.csv')).rows;
+        const SRC = 'Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column';
+        const hit = (q, unit) => rows.filter((r) => r.body === 'PSR J1946+2052'
+          && r.quantity === q && r.unit === unit && r.source === SRC);
+        const ad = ((j.build || {}).records || {}).adopted || {};
+        for (const [k, q, unit] of [['P', 'orbital_period', 's'], ['e', 'eccentricity', '1'],
+          ['w', 'periastron_advance', 'deg/yr'], ['spin', 'rotation_period', 's']]) {
+          const z = hit(q, unit);
+          if (z.length !== 1) { bad.push(`③CSV の ${q} が 1 件に決まらない(${z.length} 件)`); continue; }
+          if (Number(z[0].rawValue) !== ad[k])
+            bad.push(`③採用入力 ${k}=${ad[k]} が CSV の ${z[0].rawValue} と違う`);
+          const sg = (String(z[0].rawSigma).trim() === '') ? null : Number(z[0].rawSigma);
+          const adSig = (ad[k + 'sigma'] !== undefined) ? ad[k + 'sigma'] : ad[k + 'Sigma'];
+          if (k !== 'spin' && sg !== adSig)
+            bad.push(`③採用入力 ${k} の σ が CSV(${sg})と違う(JSON ${adSig})`);
+        }
+      } catch (e) { bad.push('③CSV 照合が回らない: ' + String(e).slice(0, 70)); }
+      // ④ 刻み・窓・段
+      if (m.dt0 !== 0.016) bad.push(`④刻み dt0 が ${m.dt0}(0.016 のはず)`);
+      if (m.periWindow !== 20) bad.push(`④窓が ${m.periWindow} 近点(20 のはず)`);
+      if (JSON.stringify(m.divs) !== '[1,2,4,8]') bad.push(`④段が ${JSON.stringify(m.divs)}(4 段のはず)`);
+      for (const id of ['psrJ1946DFM', 'psrJ1946PN', 'psrJ1946CF']) {
+        const r = (j.run3 || {})[id];
+        if (!r) { bad.push(`④run3 に ${id} が無い`); continue; }
+        if ((r.stages || []).length !== 4) bad.push(`④${id} の段が ${(r.stages || []).length} 本`);
+        for (const s of (r.stages || [])) {
+          if (s.dt !== 0.016 / s.div) bad.push(`④${id} h/${s.div} の刻みが ${s.dt}`);
+          if (s.measured !== true) bad.push(`④${id} h/${s.div} が measured:false(${s.stopped})`);
+        }
+      }
+      // ⑤ 共同根の探索条件
+      for (const id of ['psrJ1946CF', 'psrJ1946PN']) {
+        const r = (j.roots || {})[id];
+        if (!r) { bad.push(`⑤roots に ${id} が無い`); continue; }
+        if (!(r.dt > 0)) bad.push(`⑤${id} の探索刻みが無い`);
+        if ((r.history || []).length < 2) bad.push(`⑤${id} の探索履歴が 2 点未満`);
+        if (!Number.isFinite(r.targetOmegaDot)) bad.push(`⑤${id} の目標 ω̇ が無い`);
+      }
+      // ⑥ 宣言リテラルが採用レコードの転写から戻る
+      const ac = (j.build || {}).adoptedCheck || null;
+      if (!ac) bad.push('⑥build.adoptedCheck が無い');
+      else for (const [k, v] of Object.entries(ac)) {
+        if (k === 'note') continue;
+        if (v !== 0) bad.push(`⑥adoptedCheck.${k} が ${v}(0 のはず)`);
+      }
+    }
+    add('docs.j1946adoptPublished', bad.length === 0,
+      `**J1946 専用再走の結果 JSON を公開物にする**(第271便e・統括の検証項目 R8): `
+      + `① .gitignore の例外行=${ignoreOk}・ファイル=${j ? 'あり' : '**無し**'} / `
+      + `② 入力 hash ${j ? String((j.meta || {}).targetSha256).slice(0, 12) : '—'}… が`
+      + ` 現行 ${TARGET}(${htmlSha ? htmlSha.slice(0, 12) : '—'}…)と一致=${shaMatch} / `
+      + `③ 採用入力は CSV の Meng 2025 DDFWHE 行そのもの / `
+      + `④ 刻み h=${j ? (j.meta || {}).dt0 : '—'}・窓 ${j ? (j.meta || {}).periWindow : '—'} 近点・`
+      + `段 ${j ? JSON.stringify((j.meta || {}).divs) : '—'} / `
+      + `⑤ 共同根の探索条件(刻み・履歴・目標 ω̇)つき / `
+      + `⑥ 宣言リテラルが採用レコードの転写から相対差 0 で戻る。`
+      + `**本ブロックは JSON の来歴を見るだけで、合否も σ 倍も判定しない**`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
 // ---- 0a3f) 第268便a(第58報 W1・統括の読み (C)): lint.sigmaDestinations ----
 // ----   **σ の宛先表 3 つ**(`SIGMA_BODY` / `SIGMA_QUANT` / `SIGMA_TARGET_BODY`)を
 // ----   `tests/exp-w249b-calaudit.mjs` から **`tests/lib-sigma-destinations.mjs` へ移した**。
@@ -39432,6 +39596,14 @@ const QA_OUT = JSON.stringify({
 }, null, 1);
 fs.writeFileSync(path.join(OUT_DIR, 'qa-results.json'), QA_OUT);
 if (TARGET.startsWith('beta/')) fs.writeFileSync(path.join(OUT_DIR, 'qa-results-beta.json'), QA_OUT);
+// 第271便e(統括の検証項目 R8): **フル走行の保存物を別名で残す**。従来は QA_FAST=1 の短い走行が
+// 同じ qa-results.json を上書きするので、公開 tree には fast:true の結果しか残らなかった
+// (フル走行の件数・内訳が 1 つも読めない)。**FAST でないときだけ**追加で書き、QA_FAST は
+// この 2 本を読み書きしない。QA `lint.qaFullResultsSaved` がこの契約を機械固定する。
+if (!FAST) {
+  fs.writeFileSync(path.join(OUT_DIR, 'qa-results-full.json'), QA_OUT);
+  if (TARGET.startsWith('beta/')) fs.writeFileSync(path.join(OUT_DIR, 'qa-results-full-beta.json'), QA_OUT);
+}
 // 第251便b: 指紋の記録(コミットする)。target ごとに 1 区画で、他の target の記録は保持する
 if (FP_ON && fpDigests) {
   fpNext.runs = fpDigests.runs;
@@ -39444,5 +39616,6 @@ if (FP_ON && fpDigests) {
   fs.writeFileSync(FP_PATH, JSON.stringify(all, null, 1));
 }
 console.log(`\n${pass ? 'ALL PASS' : 'FAILED'} (${results.filter(r => r.pass).length}/${results.length}) → tests/out/qa-results.json${TARGET.startsWith('beta/') ? ' (+qa-results-beta.json)' : ''}`
+  + (FAST ? '' : ` / フル走行の保存物: tests/out/qa-results-full.json${TARGET.startsWith('beta/') ? ' (+qa-results-full-beta.json)' : ''}`)
   + (FP_ON ? ` / 指紋キャッシュ: cached=${fpCachedIds.length}件(省略 ${(fpSavedMs / 1000).toFixed(1)}s・記録 tests/out/qa-fingerprints.json)` : ' / 指紋キャッシュ: 無効'));
 process.exit(pass ? 0 : 1);

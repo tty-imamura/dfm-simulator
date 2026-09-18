@@ -4,6 +4,14 @@ node_modules/
 tests/out/*
 !tests/out/qa-results.json
 !tests/out/qa-results-beta.json
+# 第271便e(統括の検証項目 R8): **フル走行(QA_FAST でない走行)の保存物**。従来は短い走行が
+#   qa-results.json を上書きするので、公開 tree には fast:true の結果しか残らなかった。
+#   tests/qa.mjs は FAST でないときだけこの 2 本を別名で書く(QA_FAST は読み書きしない)。
+#   QA `lint.qaFullResultsSaved` が「保存経路が `!FAST` の内側にあること」「この例外行があること」
+#   「ファイルがあれば fast:false・件数・failed・target・targetSha256 が整合すること」を機械固定する。
+#   **統括がフルゲート後にコミットする**(枝は生成しない)。
+!tests/out/qa-results-full.json
+!tests/out/qa-results-full-beta.json
 !tests/out/perf-results.json
 # 第251便b: QA 指紋キャッシュ(固定 seed 指紋 + 前回の判定/detail)。コミットして手元の
 #           フルゲートで再利用する(CI は QA_CACHE=0 で従来どおり全実行)
@@ -303,6 +311,14 @@ paper/*Notes.bib
 #   docs/PHYSICS.md〔第270便d〕§2/§3/§4/§5 の表がこの値そのものなのでコミットする
 !tests/out/zetaq-w270d.json
 !tests/out/numax-w270d.json
+# 第270便c(AD9)/ 第271便e(統括の検証項目 R8): PSR J1946+2052 の**採用レコードを一組へ**揃えた
+#   ときの専用再走(tests/exp-w270c-j1946adopt.mjs)の実測正本。転写の自己点検・採用点検・
+#   🩺🪀🩹 の 4 段(h=0.016/1,2,4,8・20 近点窓)・共同根の 1 次元探索・presetSig を 1 本に持つ。
+#   **第270便c の時点では tests/out/* に飲まれて公開されていなかった**ので例外行を足した。
+#   QA `docs.j1946adoptPublished` が「meta.targetSha256 が現行 beta/index.html と一致すること」
+#   「採用入力が CSV の DDFWHE 行そのものであること」「刻み・窓・段・共同根の探索条件が入っていること」
+#   「宣言リテラルが採用レコードの転写から相対差 0 で戻ること」を突き合わせるのでコミットする。
+!tests/out/j1946adopt-w270c.json
 # 第221便: セッション内スクラッチ実測ハーネス(コミット対象外 — 実測値は claims/QA が機械固定する)
 _scratch-*.mjs
 _scratch-*/
