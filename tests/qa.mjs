@@ -22178,6 +22178,189 @@ if (!FAST) {
   }
 }
 
+// ---- 第271便c(第61報・統括の検証項目 R2/R4/R5・AF17): 独立 Q の保存・編集境界・ζ_eff 分類 ----
+// ----   第270便d は層の回転源 Q を J と独立の状態にしたが、**書込経路は J のままだった**:
+// ----     (R2) `validatePreset`・`S.applyLayerEdit`・正準化が **Q を J の帯 ±BODY_LAYER_JCAP(1e12)で
+// ----          切っていた**ので、融合で保存した独立 Q(例 Q′=5×10¹⁴)が**半径だけの編集**で 10¹² に
+// ----          縮んだ。また `dfmLayerMerge` の `qOf` は `Number(null)=0` で **`Q:null` を明示ゼロ扱い**に
+// ----          していて、`dclOf`(null を未宣言と読む)と食い違っていた。
+// ----     (R4) 既定 zetaConst は **J₀=0 で ζ が読めない**ので Q₀ を据え置く —— (J,Q)=(10,5)→J=0→J=10 の
+// ----          往復で Q=5 に戻らない。**戻らないこと自体は本便でも変わらない**(時間発展則は決めていない)。
+// ----          変えたのは「黙って据え置く」を「Q か ζ の明示が無ければ**編集を拒否する**」にした点である。
+// ----          `dfmCoreQ` は状態 Q があると `omega=Q/I` を返していた(**源の率**と**機械的な角速度**の混同)。
+// ----     (R5/AF17) ζ_eff が表せない組の**内訳**を分ける。J=Q=0 は「不定」であって「不可」ではない。
+// ----   器は tests/exp-w271c-qsplit.mjs → tests/out/qsplit-w271c.json。
+// ----   **書かないこと**: 「ζ の時間発展則が決まった」「Q の全経路が閉じた」——
+// ----   Negative Claim 42 は維持で、固定したのは**書込経路の境界と診断の分類**だけである。力へは未接続。
+{
+  const hasSplit = await page.evaluate(() => !!(window.HP && typeof HP.dfmLayerZetaEff === 'function'
+    && Array.isArray(HP.LAYER_ZETA_CLASSES) && typeof HP.dfmCoreQ === 'function'
+    && HP.sim && HP.sim._setBodyLayers && HP.sim.applyLayerEdit));
+  if (hasSplit) {
+    const ww = await page.evaluate(() => {
+      const O = {};
+      const S = HP.sim;
+      const mk = (layers, m) => ({ id: 'qaQC', name: 'qaQC', emoji: '🧪', description: 'QA の器(独立 Q の境界)。',
+        camera: { scale: 300 }, world: { boundary: 'none', size: 0 }, seed: 1,
+        physics: { G: 1, D0: 0, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 1 / 60,
+          cLight: 30, contactK: 0, contactCap: 0, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0,
+          geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 0.5, timeScale: 1, spinSpin: 1e6 },
+        bodies: [{ type: 'single', m: (m === undefined) ? 10 : m, radius: 1, x: 0, y: 0, vx: 0, vy: 0,
+          spin: 0, pinned: true, layers }], overlays: {} });
+      // ① R2: Q を J の帯で切らない(宣言 5e14 = 帯の 500 倍)
+      { const BIG = 5e14;
+        const v = HP.validatePreset(mk([{ role: 'core', m: 10, r: 1, J: 10, Q: BIG }]));
+        S.build(v.preset);
+        const a = { jcap: HP.BODY_LAYER_JCAP, declared: BIG, build: HP.dfmLayerQ(0, 0, S) };
+        S.applyLayerEdit(0, 0, { r: 2 }); a.radius = HP.dfmLayerQ(0, 0, S);
+        S.applyLayerEdit(0, 0, { m: 12 }); a.mass = HP.dfmLayerQ(0, 0, S);
+        const rt = S.bodyLayersOf(0); S._setBodyLayers(0, rt);
+        a.roundTrip = HP.dfmLayerQ(0, 0, S);
+        const rt2 = JSON.parse(JSON.stringify(S.bodyLayersOf(0)));
+        const pr2 = mk(rt2, rt2.reduce((s2, L) => s2 + L.m, 0));
+        S.build(HP.validatePreset(JSON.parse(JSON.stringify(pr2))).preset);
+        a.json = HP.dfmLayerQ(0, 0, S);
+        // 融合(純関数)→ エンジンへ戻す → 半径だけの編集(R2 の筋書き)
+        const mg = HP.dfmLayerMerge([{ role: 'core', m: 10, r: 1, J: 10, Q: 2.5e14 }],
+          [{ role: 'core', m: 10, r: 1, J: -10, Q: 2.5e14 }], 'role');
+        a.mergedJ = mg[0].J; a.mergedQ = mg[0].Q;
+        S._setBodyLayers(0, [{ role: 'core', m: 10, r: 1, J: mg[0].J, Q: mg[0].Q }]);
+        a.engine = HP.dfmLayerQ(0, 0, S);
+        S.applyLayerEdit(0, 0, { r: 3 }); a.engineRadius = HP.dfmLayerQ(0, 0, S);
+        // 原子的拒否(非有限の宣言・導出のオーバーフロー・非数値のプリセット宣言)
+        const q0 = HP.dfmLayerQ(0, 0, S);
+        a.rejInf = S.applyLayerEdit(0, 0, { Q: Infinity }); a.rejInfQ = HP.dfmLayerQ(0, 0, S);
+        a.rejNaN = S.applyLayerEdit(0, 0, { Q: NaN }); a.rejNaNQ = HP.dfmLayerQ(0, 0, S);
+        S._setBodyLayers(0, [{ role: 'core', m: 10, r: 1, J: 1e-300, Q: 5e14 }]);
+        a.rejOv = S.applyLayerEdit(0, 0, { J: 1e12 });
+        a.qBefore = q0;
+        const vbad = HP.validatePreset(mk([{ role: 'core', m: 10, r: 1, J: 10, Q: '1e20' }]));
+        a.presetBadLayers = !!(vbad.preset.bodies[0].layers);
+        a.presetBadWarn = (vbad.warnings || []).filter((w) => w.indexOf('.Q ') >= 0).length;
+        O.clamp = a; }
+      // ② R2: null / 未定義 / 明示 0 の三分(`qOf` と `dclOf` の整合)
+      { const probe = (L) => { const out = HP.dfmLayerMerge([L], [], 'role');
+          return { Q: out[0].Q, decl: out[0].decl, qBit: (out[0].decl & 8) === 8 }; };
+        O.nullQ = { undef: probe({ role: 'core', m: 10, r: 1, J: 10, inertiaScale: 2 }),
+          nul: probe({ role: 'core', m: 10, r: 1, J: 10, inertiaScale: 2, Q: null }),
+          zero: probe({ role: 'core', m: 10, r: 1, J: 10, inertiaScale: 2, Q: 0 }),
+          three: probe({ role: 'core', m: 10, r: 1, J: 10, inertiaScale: 2, Q: 3 }) }; }
+      // ③ R4: J=0 をまたぐ編集の境界
+      { S.build(HP.validatePreset(mk([{ role: 'core', m: 10, r: 1, J: 10, Q: 5 }])).preset);
+        const rows = [];
+        const read = (tag, r) => { const L = S.bodyLayersOf(0)[0];
+          rows.push({ tag, ok: !!(r && r.ok), reason: (r && r.reason) || null,
+            J: (L.J === undefined) ? 0 : L.J, Q: HP.dfmLayerQ(0, 0, S) }); };
+        read('{J:0}', S.applyLayerEdit(0, 0, { J: 0 }));
+        read('{J:10}', S.applyLayerEdit(0, 0, { J: 10 }));
+        read('{J:10,Q:5}', S.applyLayerEdit(0, 0, { J: 10, Q: 5 }));
+        S.applyLayerEdit(0, 0, { J: 0 });
+        read('{J:10,zeta:2}', S.applyLayerEdit(0, 0, { J: 10, inertiaScale: 2 }));
+        // 未宣言の層(独立 Q が無い)は J=0 からでも通る(曖昧さが無い)
+        S.build(HP.validatePreset(mk([{ role: 'core', m: 10, r: 1, J: 0 }])).preset);
+        read('未宣言の層 {J:10}', S.applyLayerEdit(0, 0, { J: 10 }));
+        O.editJ0 = rows;
+        O.updateAtJ0 = HP.dfmLayerQUpdate({ J0: 0, Q0: 5, J1: 10, mode: 'zetaConst' }); }
+      // ④ R4: dfmCoreQ の omega(機械的 Ω=J/(ζI))と sourceRate(Q/I)
+      { O.coreQ = { derived: HP.dfmCoreQ({ Mc: 10, Rc: 1, J: 10, zeta: 2 }),
+          state: HP.dfmCoreQ({ Mc: 10, Rc: 1, J: 10, zeta: 2, Q: 50 }),
+          zeroQ: HP.dfmCoreQ({ Mc: 10, Rc: 1, J: 0, zeta: 1, Q: 5 }) }; }
+      // ⑤ R5/AF17: ζ_eff の分類(単体 6 例 + 2025 組の内訳)
+      { O.table = [[10, 5], [0, 0], [0, 5], [10, 0], [10, -5], [Infinity, 1]]
+          .map(([j, q]) => HP.dfmLayerZetaEff(j, q).classification);
+        O.classes = HP.LAYER_ZETA_CLASSES;
+        const JS = [-20, -15, -10, -5, 0, 5, 10, 15, 20], ZS = [0.25, 0.5, 1, 2, 4];
+        const zOf = (L) => { const z = Number(L.inertiaScale); return (Number.isFinite(z) && z > 0) ? z : 1; };
+        const scan = (rule) => { const cls = {}; for (const k of HP.LAYER_ZETA_CLASSES) cls[k] = 0;
+          let n = 0, sumOk = 0;
+          for (const ja of JS) for (const za of ZS) for (const jb of JS) for (const zb of ZS) {
+            const A = [{ role: 'core', m: 10, r: 1, J: ja, inertiaScale: za }];
+            const B = [{ role: (rule === 'add') ? 'shell' : 'core', m: 10, r: 1, J: jb, inertiaScale: zb }];
+            const out = HP.dfmLayerMerge(A, B, rule);
+            const before = ja / zOf(A[0]) + jb / zOf(B[0]);
+            const qn = out.reduce((s2, L) => s2 + L.Q, 0), Jn = out.reduce((s2, L) => s2 + L.J, 0);
+            n++; if (Object.is(qn, before)) sumOk++;
+            cls[HP.dfmLayerZetaEff(Jn, qn).classification]++; }
+          return { rule, n, sumPreserved: sumOk, cls }; };
+        O.scan = [scan('role'), scan('add')]; }
+      return O;
+    });
+    const C = ww.clamp;
+    const w1 = C.build === C.declared && C.radius === C.declared && C.mass === C.declared
+      && C.roundTrip === C.declared && C.json === C.declared
+      && C.mergedJ === 0 && C.mergedQ === 5e14 && C.engine === 5e14 && C.engineRadius === 5e14
+      && C.rejInf.ok === false && C.rejInf.reason === 'qNotFinite' && C.rejInfQ === C.qBefore
+      && C.rejNaN.ok === false && C.rejNaNQ === C.qBefore
+      && C.rejOv.ok === false && C.rejOv.reason === 'qNotFinite'
+      && C.presetBadLayers === false && C.presetBadWarn === 1;
+    add('behavior.layerQNoClamp', w1,
+      `**独立 Q に J の帯(±${C.jcap})を掛けない**(第271便c・統括の検証項目 R2。器 tests/exp-w271c-qsplit.mjs)/ `
+      + `宣言 Q=${C.declared} → 読み込み ${C.build}・**半径だけの編集 ${C.radius}**・m だけの編集 ${C.mass}・`
+      + `往復 ${C.roundTrip}・JSON 往復 ${C.json}(基点はすべて ${C.jcap} へ切られていた)/ `
+      + `融合(純関数)J′=${C.mergedJ}・Q′=${C.mergedQ} → エンジンへ戻す ${C.engine} → 半径だけの編集 ${C.engineRadius} / `
+      + `**原子的拒否**: cfg.Q=Infinity → ${C.rejInf.reason}(値 ${C.rejInfQ} のまま)・cfg.Q=NaN → 同・`
+      + `ζ 一定の導出が発散する編集 → ${C.rejOv.reason}・非数値の Q を宣言したプリセットは layers ごと無視`
+      + `(警告 ${C.presetBadWarn} 件)=${w1} —— **Q の全経路が閉じたとは書かない**(固定したのは書込経路の境界である)`);
+    const N = ww.nullQ;
+    const w2 = N.undef.Q === 5 && N.undef.qBit === false && N.nul.Q === 5 && N.nul.qBit === false
+      && N.zero.Q === 0 && N.zero.qBit === true && N.three.Q === 3 && N.three.qBit === true;
+    add('behavior.layerQNullDerive', w2,
+      `**Q:null・未定義は「未宣言」・明示 0 は「値」**(第271便c・統括の検証項目 R2)—— dfmLayerMerge の qOf は `
+      + `基点では Number(null)=0 で null を**明示ゼロ扱い**にしていて、dclOf(null を未宣言と読む)と`
+      + `食い違っていた / J=10・ζ=2 の層で: Q 未指定 → Q=${N.undef.Q}(宣言ビット ${N.undef.decl})・`
+      + `**Q:null → Q=${N.nul.Q}**(宣言ビット ${N.nul.decl}・8 は立たない)・Q:0 → Q=${N.zero.Q}`
+      + `(宣言ビット ${N.zero.decl}・8 が立つ)・Q:3 → Q=${N.three.Q}(${N.three.decl})=${w2}`);
+    const E = ww.editJ0;
+    const w3 = E[0].ok === true && E[0].Q === 0
+      && E[1].ok === false && E[1].reason === 'qAmbiguousAtJ0' && E[1].J === 0 && E[1].Q === 0
+      && E[2].ok === true && E[2].J === 10 && E[2].Q === 5
+      && E[3].ok === true && E[3].J === 10 && E[3].Q === 5
+      && E[4].ok === true && E[4].J === 10 && E[4].Q === 10
+      && ww.updateAtJ0.reason === 'zetaUndefinedAtJ0' && ww.updateAtJ0.Q === 5;
+    add('behavior.layerEditJ0Ambiguous', w3,
+      `**J₀=0 の層で「ζ 一定」は定義できない**(第271便c・統括の検証項目 R4)—— 独立 Q を宣言した層へ`
+      + `非ゼロ J を編集するとき、cfg.Q も cfg.inertiaScale も無ければ**編集そのものを拒否**する`
+      + `(1 bit も書かない)/ (J,Q)=(10,5) から: {J:0} → ok=${E[0].ok}・Q=${E[0].Q} / `
+      + `**{J:10} → ok=${E[1].ok}・理由 ${E[1].reason}**(状態は J=${E[1].J}・Q=${E[1].Q} のまま。`
+      + `基点は通って J=10・Q=0 になっていた)/ {J:10,Q:5} → J=${E[2].J}・Q=${E[2].Q} / `
+      + `{J:10,ζ:2} → Q=${E[3].Q}(=J/ζ)/ **独立 Q を持たない層は J=0 からでも通る** → Q=${E[4].Q} / `
+      + `純関数 dfmLayerQUpdate は据え置き ${ww.updateAtJ0.Q}・理由 ${ww.updateAtJ0.reason} のまま`
+      + `(**本便では変えていない**)=${w3} —— **往復で Q=5 に戻らないことは事実として残る**。`
+      + `**ζ の時間発展則が決まったとは書かない**(Negative Claim 42 は維持)`);
+    const Q4 = ww.coreQ;
+    const w4 = Q4.derived.omega === 1 && Q4.derived.sourceRate === 1 && Q4.derived.Q === 5
+      && Q4.state.Q === 50 && Q4.state.omega === 1 && Q4.state.sourceRate === 10
+      && Q4.zeroQ.omega === 0 && Q4.zeroQ.sourceRate === 1;
+    add('behavior.coreQOmegaSeparate', w4,
+      `**dfmCoreQ の omega は機械的 Ω=J/(ζ·I) に固定し、状態 Q の率は sourceRate=Q/I へ分ける**`
+      + `(第271便c・統括の検証項目 R4)—— 基点は状態 Q があると omega=Q/I を返していて、`
+      + `**源の率**と**機械的な角速度**が同じ欄に載っていた / 導出(J=10・ζ=2・I=${Q4.derived.I}): `
+      + `Q=${Q4.derived.Q}・omega=${Q4.derived.omega}・sourceRate=${Q4.derived.sourceRate}(**両者は 1 bit 同じ**)/ `
+      + `状態 Q=50: omega=${Q4.state.omega}(基点は 10)・sourceRate=${Q4.state.sourceRate} / `
+      + `J=0・Q=5: omega=${Q4.zeroQ.omega}・sourceRate=${Q4.zeroQ.sourceRate}=${w4} —— `
+      + `**診断 API の分離であって、力・回転エネルギー則の導入ではない**(力へは 1 バイトも接続していない)`);
+    const T = ww.table;
+    const w5 = ww.classes.length === 6
+      && T.join(',') === 'representable,undefinedBothZero,sourceWithoutJ,JWithoutSource,signMismatch,notFinite'
+      && ww.scan.every((s) => s.n === 2025 && s.sumPreserved === 2025
+        && s.cls.representable === 1592 && s.cls.undefinedBothZero === 65
+        && s.cls.sourceWithoutJ === 160 && s.cls.JWithoutSource === 44
+        && s.cls.signMismatch === 164 && s.cls.notFinite === 0);
+    add('behavior.zetaEffClassification', w5,
+      `**ζ_eff が表せない理由を 1 種類にまとめない**(第271便c・統括の検証項目 R5・AF17)—— `
+      + `dfmLayerZetaEff に classification を足した(値域 HP.LAYER_ZETA_CLASSES の ${ww.classes.length} 種: `
+      + `${ww.classes.join(' / ')})。**J=Q=0 は「不定」であって「不可」ではない** / `
+      + `(10,5)→${T[0]}・(0,0)→${T[1]}・(0,5)→${T[2]}・(10,0)→${T[3]}・(10,−5)→${T[4]}・(∞,1)→${T[5]} / `
+      + `**2025 組の内訳**(第270便d の「表せない 433」の分解): `
+      + ww.scan.map((s) => `rule=${s.rule} 表せる ${s.cls.representable}・不定(J=Q=0) ${s.cls.undefinedBothZero}・`
+        + `源だけ(J=0,Q≠0) ${s.cls.sourceWithoutJ}・角運動量だけ(Q=0,J≠0) ${s.cls.JWithoutSource}・`
+        + `符号不一致 ${s.cls.signMismatch}・非有限 ${s.cls.notFinite}(ΣQ 保存 ${s.sumPreserved}/${s.n})`).join(' / ')
+      + `=${w5} —— UI(層監査の数値行)は ζ_eff を 0 や 1.0 で補完せず「—」+理由を出す`);
+  } else {
+    console.log('SKIP behavior.layerQNoClamp / layerQNullDerive / layerEditJ0Ambiguous / coreQOmegaSeparate / zetaEffClassification(対象に第271便c の独立 Q の境界なし — root 等)');
+  }
+}
+
 // ---- 第270便d(第60報 W4・AD2・統括の読み (C)): behavior.lightTrapNuMax ----
 // ----   **ν̄ の受理前上限帳簿** `core.lightTrap.nuMax`。ν̄=E_γ/N_γ は規格化平均量(h≡1)で、
 // ----   上限は**青方偏移の仕事を受理する前**に切る:

@@ -1183,8 +1183,14 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     融合後の `inertiaScale` は診断値 ζ_eff の器にすぎない(§`body.layers[].Q`)。
     〔第265便c〕の合成則 ζ′=(J_a+J_b)/(J_a/ζ_a+J_b/ζ_b) は**同方向のときだけ源を保つ**
     (Negative Claim 42・**融合は宣言の合成であって保存則ではない**)。
-  - **`body.layers[].Q`(省略可・第270便d・AD1 法則 (a))**: 層の**回転場の源**そのもの。
-    **J とは独立の状態**で、値域は ±10¹²(J と同じ `BODY_LAYER_JCAP`)。
+  - **`body.layers[].Q`(省略可・第270便d・AD1 法則 (a)/ 第271便c で書込経路を改訂)**: 層の**回転場の源**そのもの。
+    **J とは独立の状態**である。**第271便c(統括の検証項目 R2)から `Q` に J の帯(`BODY_LAYER_JCAP`)は
+    掛からない** —— 融合は Q′=ΣQ なので独立 Q は容易に ±10¹² を越え、帯で切ると**保存した源が
+    半径だけの編集で黙って縮んでいた**。受理するのは**有限の数値だけ**で、非有限は**書込前に拒否**する
+    (プリセット宣言が非数値なら **layers ごと無視**・編集は **`qNotFinite`**・未宣言の層で導く Q=J/ζ が
+    有限でなければ **`qDeriveNotFinite`** —— いずれも 1 bit も書かない)。**`Q:null` は「未宣言」**で、
+    `Q:0` の明示だけが「値としての 0」である(`dfmLayerMerge` の `qOf` も第271便c から同じ規約)。
+    **新しい物理的上限は置いていない**(置くなら根拠・作用経路・帳簿が要る — 決断事項)。
     - **初期化は `Q = J/ζ`(ζJ ではない)**。`dfmCoreQ` が Q=J/ζ=½M_cR_c²Ω を定めるからである。
       宣言に `Q` が無ければ**読み込み(build / `_setBodyLayers`)で 1 度だけ**導出し、以後は
       **(J, Q) を別々に保存**する。**`Q:0` の明示宣言は値**で、宣言ビット `layJD` の **8=Q** が
@@ -1194,12 +1200,29 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     - **ζ_eff は診断値**である: **`HP.dfmLayerZetaEff(J,Q)`** は J≠0 かつ Q と同符号のときだけ
       `{zetaEff:J/Q, representable:true}` を返し、それ以外は `zetaEff:null` と理由
       (`bothZero`/`JZeroQNonzero`/`QZeroJNonzero`/`signMismatch`/`notFinite`)を返す。
+      **第271便c(統括の検証項目 R5・AF17)から `classification` 欄が付く**(値域は
+      **`HP.LAYER_ZETA_CLASSES`** の 6 種 `representable`/`undefinedBothZero`/`sourceWithoutJ`/
+      `JWithoutSource`/`signMismatch`/`notFinite`)—— **「表せない」を 1 種類にまとめない**。
+      **J=Q=0 は「不定」であって「不可」ではない**(源も角運動量も宣言されていないだけである)。
+      層モードの数値行はこの分類を読み、**ζ_eff を 0 や 1.0 で補完せず「—」+理由**を出す。
       **Q/J を代わりに返さない**し、**表せないことを 1 に丸めて隠さない**
       (`dfmLayerMerge` の返り値に `zetaRepresentable` が立つ)。
     - **更新則は追加仮定**である: **`HP.dfmLayerQUpdate({J0,Q0,J1,Q,Q1,zeta,mode})`** の 7 モード
       (`HP.LAYER_Q_MODES`)—— `derive`(Q=J/ζ)/ `declared`(宣言値)/ `zetaConst`(既定・
       Q₁=Q₀·(J₁/J₀)= ζ 一定。**J₀=0 では ζ が読めない**ので Q₀ を据え置き `zetaUndefinedAtJ0` を返す)/
       `zetaDeclared`(Q₁=J₁/ζ_new)/ `qConst`(Q 一定)/ `sum`(融合)/ `carry`(保存・複製・分割)。
+      **第271便c(統括の検証項目 R4)**: 更新則そのものは 1 文字も変えていないが、**編集 UI は
+      J₀=0 の層へ非ゼロ J を書く編集を黙って据え置かない** —— 独立 Q を宣言した層で `cfg.Q` も
+      `cfg.inertiaScale` も無ければ **`qAmbiguousAtJ0` で編集を拒否**する(1 bit も書かない)。
+      独立 Q を持たない層(Q 鍵なし)は曖昧さが無いのでそのまま通る。
+      **(10,5)→J=0→J=10 の往復で Q=5 に戻らないことは事実として残る**
+      (戻す規則を決めるには時間発展則が要る — Negative Claim 42 は維持)。
+    - **`HP.dfmCoreQ({Mc,Rc,J,zeta,Q})`**(台帳枠の純関数)は `{Q, source:"state"|"derived", I, omega,
+      sourceRate}` を返す。**第271便c(統括の検証項目 R4)から `omega` は機械的な角速度
+      Ω=J/(ζ·I) に固定**で(状態 Q が渡されても J から読む)、**状態 Q の率は別欄 `sourceRate`=Q/I**
+      である —— Q を J と独立にした以上、Q/I は「源の率」であって角速度ではない。
+      導出形(Q=J/ζ)では両者は 1 bit 同じ値になる。**診断 API の分離であって、力・回転
+      エネルギー則の導入ではない**。
     - 読み口は **`HP.dfmLayerQ(i,k,S?)`**。**力へは 1 バイトも接続していない**
       (回転場の源の数値であって、新しい力を足していない)。
       **「ζ 合成則の時間発展則が決まった」とは書かない**(Negative Claim 42 は消していない)。
