@@ -62,14 +62,23 @@ export function stateRecord(spec) {
 // ---------------------------------------------------------------- (3) 3 刻みの状態
 export function numericalVerdict(rich) {
   const r = rich || {};
-  if (r.p === null || r.p === undefined || !(r.p > 0)) {
-    return { status: 'numerically-unresolved', p: (r.p === undefined ? null : r.p),
-      monotone: (r.monotone === undefined ? null : r.monotone), ext: null,
-      why: (r.monotone === false) ? '差が単調でない(符号反転 または h/2→h/4 の差が大きい)'
-        : (r.p === null || r.p === undefined) ? '3 段が揃っていない/差が 0' : '見かけの次数が正でない' };
+  // 第270便e(F7): **有限な次数・単調な差・有限な外挿**の 3 つを**すべて**要求する。
+  //   旧版は `r.p > 0` だけを見ていたので、`p` が有限でも `ext` が NaN/Infinity の行や、
+  //   `monotone` が false のまま `p>0` になった行が `order-estimated` に落ちる余地があった。
+  const p = Number.isFinite(r.p) ? r.p : null;
+  const ext = Number.isFinite(r.ext) ? r.ext : null;
+  const why = [];
+  if (p === null) why.push(r.p === null || r.p === undefined
+    ? '3 段が揃っていない/差が 0' : '見かけの次数が有限でない');
+  else if (!(p > 0)) why.push('見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい)');
+  if (r.monotone !== true) why.push('差が単調でない(符号反転 または h/2→h/4 の差が大きい)');
+  if (ext === null) why.push('外挿が有限でない');
+  if (why.length) {
+    return { status: 'numerically-unresolved', p, monotone: (r.monotone === undefined ? null : r.monotone),
+      ext: null, why: why.join(' / ') };
   }
-  return { status: 'order-estimated', p: r.p, monotone: r.monotone === true, ext: r.ext,
-    why: '**見かけの次数が正で差が単調**なので外挿が付く —— これは「次数が推定できた」であって'
+  return { status: 'order-estimated', p, monotone: true, ext,
+    why: '**見かけの次数が正で差が単調・外挿が有限**なので外挿が付く —— これは「次数が推定できた」であって'
       + '**「収束済み」ではない**(段を増やすまで次数は確定しない)' };
 }
 
@@ -160,6 +169,51 @@ export function boundFraction(pts, opt) {
     caveat: '**ニュートン力学のエネルギーによる診断である。** kFrame=1 の走行には空間引きずりが'
       + '入るので、この E は**その走行の保存量ではない**(束縛率は「この定義での割合」であって'
       + '「脱出しないことの証明」ではない)。潮汐場・外部ポテンシャルも入れていない。' };
+}
+
+// ---------------------------------------------------------------- (5′) U と W_vir(第270便e・AE14)
+//   **軟化ポテンシャル U とビリアル項 W_vir は ε>0 では一般に別物である。**
+//     U     = −G Σ_{i<j} m_i m_j / √(d²+ε²)                  …… エンジンの `vMode:"virial"` が使う W
+//     W_vir = Σ_i r_i·F_i = −G Σ_{i<j} m_i m_j d²/(d²+ε²)^{3/2}  …… 同じ軟化**力**のビリアル項
+//   ε→0 では両者とも −G Σ m_i m_j/d に一致するが、**ε が効く対では |W_vir| < |U|** になる。
+//   ビリアル定理 2K + W_vir = 0 が参照するのは **W_vir** の方であって U ではない。
+//   **この関数は診断だけを返す**(速度を書き換えない・再正規化しない)。
+export function virialTerms(pts, opt) {
+  const o = opt || {};
+  const G = Number.isFinite(o.G) ? o.G : null;
+  if (G === null) return null;
+  const eps2 = (Number.isFinite(o.softening) ? o.softening : 0) ** 2;
+  const arr = (pts || []).filter((p) => Number.isFinite(p.x) && Number.isFinite(p.y)
+    && Number.isFinite(p.vx) && Number.isFinite(p.vy) && Number.isFinite(p.m));
+  if (arr.length < 2) return null;
+  const cvx = Number.isFinite(o.cvx) ? o.cvx : 0, cvy = Number.isFinite(o.cvy) ? o.cvy : 0;
+  let U = 0, W = 0, K = 0, M = 0;
+  for (let i = 0; i < arr.length; i++) {
+    const a = arr[i];
+    M += a.m;
+    const dvx = a.vx - cvx, dvy = a.vy - cvy;
+    K += 0.5 * a.m * (dvx * dvx + dvy * dvy);
+    for (let j = i + 1; j < arr.length; j++) {
+      const dx = arr[j].x - a.x, dy = arr[j].y - a.y, d2 = dx * dx + dy * dy;
+      const s = Math.sqrt(d2 + eps2);
+      U -= G * a.m * arr[j].m / s;
+      W -= G * a.m * arr[j].m * d2 / (s * s * s);
+    }
+  }
+  return { n: arr.length, massTotal: M, softening: Math.sqrt(eps2), G,
+    K, U, W_vir: W,
+    twoKoverAbsU: (U !== 0) ? (2 * K) / Math.abs(U) : null,
+    twoKoverAbsWvir: (W !== 0) ? (2 * K) / Math.abs(W) : null,
+    WvirOverU: (U !== 0) ? W / U : null,
+    definition: '**U = −G Σ_{i<j} m_i m_j/√(d²+ε²)**(軟化ポテンシャル —— エンジンの '
+      + '`vMode:"virial"` が ⟨v²⟩=−U/M に使っている量)。'
+      + '**W_vir = Σ_i r_i·F_i = −G Σ_{i<j} m_i m_j d²/(d²+ε²)^{3/2}**(同じ軟化**力**のビリアル項)。'
+      + '**ε>0 では一般に U ≠ W_vir** であり、ビリアル定理 2K+W_vir=0 が参照するのは W_vir の方である。',
+    caveat: '**エンジンの `vMode:"virial"` は期待値の正規化である**: 単位乱数 u∼U(0,1) に '
+      + '√(3(−U/M))·vScale を掛けるので ⟨v²⟩=−U/M は **E[u²]=1/3 を通した期待値**であって、'
+      + '**有限標本の K は測っていない**。したがって t=0 の 2K/|U| は 1 にならない(標本ゆらぎ)。'
+      + '**毎ステップの再正規化は採らない**(引きずりのある走行で保存量でない量を固定しにいかない)。'
+      + '1 回だけのスケール √(K_target/K_actual) は**明示 variant として別便**にする。' };
 }
 
 // ---------------------------------------------------------------- (6) 幾何比の理論

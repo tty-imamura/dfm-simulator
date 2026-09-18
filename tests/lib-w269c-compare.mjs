@@ -31,6 +31,17 @@
 //
 // ■ ここに無いもの(意図的に)
 //   観測値(CSV が正本)・合否の閾値・力学(エンジンには触れない)。`S._core` には 1 命令も足していない。
+//
+// ■ 第270便e(第60報 W5)の修正 —— 統括の読み (F) の F4/F5/F6/F7。**穴を塞いだだけで、法則は足していない。**
+//   **F4** `Number(null)=0`・`Number('')=0`・`Number(true)=1` が「測れていないもの」を 0 や 1 に
+//     化かす経路を `finiteNumber` で塞ぐ(**数値と、空でない数値文字列だけ**を通す)。
+//     比較状態(`comparable`/`inside-interval`/`outside-interval`)では**有限な測定値**と
+//     **空でない明示単位**を必須にし、観測側に単位があるときは**同一の明示単位**でなければ throw する。
+//     p 値の禁止は `sim` と `obs` だけでなく **row 全体(`diagnostics` を含む)**へ広げた。
+//   **F6** `validateWindow` —— 判定窓 T は**正**かつ **dt の整数倍**、チェックポイントは
+//     **T 以下・昇順・重複なし・dt の整数倍**。破れば throw する(短い窓を黙って受けない)。
+//   **F4(CSV)** `loadObsCsv` は**ヘッダ名で読む**(列位置に依存しない —— 第270便b が `record_id` 欄を
+//     足しても壊れない)。**欠損は null**(`Number('')=0` にしない)。
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 // 第270便b(AE2): 観測 CSV の**ヘッダ名読み**(列位置で読まない)。
@@ -38,6 +49,8 @@ import { loadObsCsv as loadObsCsvByHeader } from './lib-w270b-obscsv.mjs';
 
 export const STATES = ['comparable', 'inside-interval', 'outside-interval',
   'numerically-unresolved', 'mapping-unresolved', 'not-measurable', 'not-applicable'];
+// **値(比較の数)を出してよい状態**。これ以外の状態の行には `sim.value` を置かない。
+export const COMPARABLE_STATES = ['comparable', 'inside-interval', 'outside-interval'];
 
 export const MARGINAL_AND_NOTE
   = '**周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。';
@@ -57,20 +70,64 @@ function assertNoPValue(o, where) {
   }
 }
 
+// ---------------------------------------------------------------- F4) 数値の入口
+//   **`Number(null)=0` / `Number('')=0` / `Number(true)=1` / `Number([])=0` を塞ぐ。**
+//   通すのは **有限な数値**と、**空でない数値文字列**だけ。それ以外(null・undefined・真偽値・
+//   配列・オブジェクト・空文字・数値でない文字列)は **null**(= 測れていない)を返す。
+//   **「測れていない」を 0 に化かさない**ことが、この比較器の ④(0 補完の禁止)の入口である。
+export function finiteNumber(v) {
+  if (typeof v === 'number') return Number.isFinite(v) ? v : null;
+  if (typeof v === 'string') {
+    const t = v.trim();
+    if (t === '') return null;
+    const z = Number(t);
+    return Number.isFinite(z) ? z : null;
+  }
+  return null;
+}
+
+// ---------------------------------------------------------------- F6) 判定窓の検査
+//   **T は正・dt の整数倍**、**チェックポイントは T 以下・昇順・重複なし・dt の整数倍**。
+//   破れば throw する(`--T 1` のような短い窓や、T を越えるチェックポイントを黙って受けない)。
+export function validateWindow(spec) {
+  const s = spec || {};
+  const T = finiteNumber(s.T), dt = finiteNumber(s.dt);
+  if (dt === null || !(dt > 0)) throw new Error('窓: dt が正の有限値でない: ' + String(s.dt));
+  if (T === null || !(T > 0)) throw new Error('窓: T が正の有限値でない: ' + String(s.T));
+  const mult = (z) => { const k = z / dt; return Math.abs(k - Math.round(k)) <= 1e-9 * Math.max(1, Math.abs(k)); };
+  if (!mult(T)) throw new Error(`窓: T=${T} が dt=${dt} の整数倍でない(步数が整数にならない)`);
+  const cps = Array.isArray(s.checkpoints) ? s.checkpoints.slice() : [];
+  let prev = -Infinity;
+  for (const c of cps) {
+    const z = finiteNumber(c);
+    if (z === null) throw new Error('窓: チェックポイントに有限でない値がある: ' + String(c));
+    if (z < 0) throw new Error('窓: チェックポイントが負である: ' + z);
+    if (z > T + 1e-12) throw new Error(`窓: チェックポイント ${z} が T=${T} を越えている`);
+    if (!(z > prev)) throw new Error(`窓: チェックポイントが昇順でない/重複している(${prev} → ${z})`);
+    if (!mult(z)) throw new Error(`窓: チェックポイント ${z} が dt=${dt} の整数倍でない`);
+    prev = z;
+  }
+  return { T, dt, steps: Math.round(T / dt), checkpoints: cps.map((z) => finiteNumber(z)),
+    note: '**T は正かつ dt の整数倍**・**チェックポイントは T 以下の昇順(重複なし・dt の整数倍)**。'
+      + '**主判定窓を短い側へ移して成功を選ばない**(第270便e・AE4)。' };
+}
+
 // ---------------------------------------------------------------- 観測側(区間)
 //   CSV の `sigma_kind=ci90` 行から作る。**中央値は「区間の代表値」であって σ ではない。**
 export function interval(spec) {
   const s = spec || {};
-  const lo = Number(s.lower), hi = Number(s.upper);
-  if (!Number.isFinite(lo) || !Number.isFinite(hi) || !(hi > lo))
+  const lo = finiteNumber(s.lower), hi = finiteNumber(s.upper);
+  if (lo === null || hi === null || !(hi > lo))
     throw new Error('区間が成立していない(lower < upper が要る): ' + JSON.stringify([s.lower, s.upper]));
+  if (typeof s.unit !== 'string' || !s.unit.trim())
+    throw new Error('区間に**明示単位**が無い(単位なしの区間は作らない): ' + JSON.stringify(s.lower));
   if (s.sigma !== undefined && s.sigma !== null)
     throw new Error('**非対称区間に対称 σ を同時に持たせない**(換算の入口を塞ぐ)');
   assertNoPValue(s, 'obs');
-  const mid = Number.isFinite(Number(s.value)) ? Number(s.value) : null;
+  const mid = finiteNumber(s.value);
   return { value: mid,
-    lower: lo, upper: hi, unit: String(s.unit || ''),
-    confidence: Number.isFinite(Number(s.confidence)) ? Number(s.confidence) : null,
+    lower: lo, upper: hi, unit: String(s.unit).trim(),
+    confidence: finiteNumber(s.confidence),
     frame: s.frame === undefined ? null : s.frame,
     source: s.source === undefined ? null : s.source,
     role: s.role === undefined ? null : s.role,
@@ -84,15 +141,16 @@ export function interval(spec) {
 
 // 区間の**内/外だけ**を返す(合否ではない)。値が無ければ判定しない。
 export function intervalState(value, obs) {
-  if (!obs || !Number.isFinite(obs.lower) || !Number.isFinite(obs.upper))
+  if (!obs || finiteNumber(obs.lower) === null || finiteNumber(obs.upper) === null)
     return { state: 'mapping-unresolved', reason: '観測側に区間が無い' };
-  if (!Number.isFinite(value)) return { state: 'not-measurable', reason: '器の値が得られていない' };
-  const inside = value >= obs.lower && value <= obs.upper;
+  const v0 = finiteNumber(value);
+  if (v0 === null) return { state: 'not-measurable', reason: '器の値が得られていない' };
+  const inside = v0 >= obs.lower && v0 <= obs.upper;
   return { state: inside ? 'inside-interval' : 'outside-interval',
     reason: inside ? '公表区間の内側(**合格とは言わない**)' : '公表区間の外側(**棄却とは言わない**)',
     // **区間の外へどれだけ出たか**は区間幅で測る(σ 倍ではない —— 非対称なので σ は無い)
     offsetInWidths: inside ? 0
-      : (value < obs.lower ? (value - obs.lower) : (value - obs.upper)) / (obs.upper - obs.lower) };
+      : (v0 < obs.lower ? (v0 - obs.lower) : (v0 - obs.upper)) / (obs.upper - obs.lower) };
 }
 
 // ---------------------------------------------------------------- 1 行を作る
@@ -105,17 +163,25 @@ export function compareRow(spec) {
   if (typeof s.reason !== 'string' || !s.reason.trim())
     throw new Error('reason が無い(状態には必ず理由を書く): ' + s.quantity);
   const sim = s.sim || {};
-  assertNoPValue(sim, 'sim'); assertNoPValue(s.obs, 'obs');
-  const v = (sim.value === undefined || sim.value === null) ? null
-    : (Number.isFinite(Number(sim.value)) ? Number(sim.value) : null);
+  // F4) **p 値の禁止は row 全体へ**(`diagnostics` の奥に隠しても止める)
+  assertNoPValue(s, 'row');
+  const v = finiteNumber(sim.value);
   // ④ **0 や最後の値で補わない**の機械化
   if (s.state === 'not-measurable' && v !== null)
     throw new Error('`not-measurable` の行に値を置けない(0 補完の禁止): ' + s.quantity);
-  const st = { h: null, h2: null, h4: null };
-  for (const k of ['h', 'h2', 'h4']) {
-    const z = (sim.stages || {})[k];
-    st[k] = (z === undefined || z === null || !Number.isFinite(Number(z))) ? null : Number(z);
+  // F4) **比較状態は「有限な測定値」+「空でない明示単位」+「観測と同一の単位」を必須にする**
+  const simUnit = (typeof sim.unit === 'string') ? sim.unit.trim() : '';
+  if (COMPARABLE_STATES.indexOf(s.state) >= 0) {
+    if (v === null)
+      throw new Error(`状態 ${s.state} には**有限な測定値**が要る(測れていないなら別の状態): ${s.quantity}`);
+    if (!simUnit)
+      throw new Error(`状態 ${s.state} には**空でない明示単位**が要る(単位なしの比較は作らない): ${s.quantity}`);
+    const obsUnit = (s.obs && typeof s.obs.unit === 'string') ? s.obs.unit.trim() : '';
+    if (obsUnit && obsUnit !== simUnit)
+      throw new Error(`単位が一致しない(暗黙換算を作らない): ${s.quantity} —— sim "${simUnit}" / obs "${obsUnit}"`);
   }
+  const st = { h: null, h2: null, h4: null };
+  for (const k of ['h', 'h2', 'h4']) st[k] = finiteNumber((sim.stages || {})[k]);
   // ⑤ **状態と区間判定を食い違わせない**(手で書いた inside/outside を再計算で照合する)
   if (s.state === 'inside-interval' || s.state === 'outside-interval') {
     const chk = intervalState(v, s.obs);
@@ -123,14 +189,12 @@ export function compareRow(spec) {
       throw new Error(`状態が区間判定と食い違う: ${s.quantity}(書かれた ${s.state} / 実際 ${chk.state})`);
   }
   return { quantity: String(s.quantity),
-    sim: { value: v, unit: String(sim.unit || ''),
+    sim: { value: v, unit: simUnit,
       window: sim.window === undefined ? null : sim.window,
       extractor: sim.extractor === undefined ? null : sim.extractor,
       stages: st,
-      order: (sim.order === undefined || sim.order === null || !Number.isFinite(Number(sim.order)))
-        ? null : Number(sim.order),
-      extrapolated: (sim.extrapolated === undefined || sim.extrapolated === null
-        || !Number.isFinite(Number(sim.extrapolated))) ? null : Number(sim.extrapolated) },
+      order: finiteNumber(sim.order),
+      extrapolated: finiteNumber(sim.extrapolated) },
     obs: s.obs === undefined ? null : s.obs,
     state: s.state, reason: s.reason,
     diagnostics: s.diagnostics === undefined ? null : s.diagnostics };
@@ -182,14 +246,26 @@ export function noteField(note, key) {
   return m ? m[1].trim() : null;
 }
 
+// F4) **ヘッダ名で読む**(列位置に依存しない —— 第270便b がヘッダ末尾に `record_id` を足しても、
+//   列を増やしても壊れない)。**欠損は null**(`Number('')=0` にしない —— `finiteNumber` が入口)。
+//   返す行は `col(名前)` で生の文字列も引ける(未知の欄を落とさない)。
 export function loadObsCsv(fp) {
   const rows = [];
   if (!fs.existsSync(fp)) return rows;
-  for (const r of loadObsCsvByHeader(fp).rows) {
-    rows.push({ body: r.body, quantity: r.quantity, value: Number(r.rawValue), unit: r.unit,
-      source: r.source, url: r.url, note: r.note || '', ln: r.ln,
-      recordId: r.recordId || null,
-      sigmaCol: (r.rawSigma !== '') ? Number(r.rawSigma) : null });
+  // 統括の統合(第270便): 読みの正本は lib-w270b-obscsv(ヘッダ名読み・record_id)に 1 本化し、
+  // 第270便e の**欠損ガード**(`finiteNumber`・空欄→null・非列挙の `col`/`header`)をその上に重ねる。
+  const loaded = loadObsCsvByHeader(fp);
+  for (const r of loaded.rows) {
+    const str = (name) => { const z = r.cell(name); return (z === null || z === undefined || String(z).trim() === '') ? null : String(z); };
+    rows.push({ body: str('body'), quantity: str('quantity'),
+      value: finiteNumber(r.rawValue), unit: str('unit'),
+      source: str('source'), url: str('url'), retrieved: str('retrieved'),
+      note: str('note') || '', ln: r.ln,
+      sigmaCol: finiteNumber(r.rawSigma),
+      recordId: str('record_id'), solutionId: str('solution_id') });
+    // **生の欄は非列挙**(JSON へ漏らさない)。`col('任意の欄名')` で引ける。
+    Object.defineProperty(rows[rows.length - 1], 'col', { value: (name) => str(name), enumerable: false });
+    Object.defineProperty(rows[rows.length - 1], 'header', { value: (loaded.header && loaded.header.names) ? loaded.header.names.slice() : (loaded.header ? Object.keys(loaded.header).filter((k) => typeof loaded.header[k] === 'number') : null), enumerable: false });
   }
   return rows;
 }

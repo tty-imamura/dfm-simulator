@@ -273,16 +273,23 @@ async function runColumn(tag, id) {
   // **観測質量に対応するのは殻質量**である(🎻⏰ の JSON が massFrac=(f−1)/f でそう宣言している)。
   const mapped = shellU.map(toMsun);
   const layerTotal = layerTotalU.map(toMsun);
-  const mkMassRow = (qName, obs, value, extra) => {
+  // 第270便e(F5): **`mass_ratio` の単位は `'1'`**(無次元)であって `'M_sun'` ではない。
+  //   `compareRow` は比較状態のとき観測側と**同一の明示単位**を要求するので、
+  //   ここを直さないと器が止まる(= 単位の取り違えが機械で捕まるようになった)。
+  const mkMassRow = (qName, obs, value, extra, unitOverride) => {
     const st = intervalState(value, obs);
     return compareRow({ quantity: qName,
-      sim: { value, unit: 'M_sun', window: 't=0(初期条件 —— 走行に依存しない)',
+      sim: { value, unit: unitOverride || 'M_sun', window: 't=0(初期条件 —— 走行に依存しない)',
         extractor: isTwoLayer
           ? '宣言された**殻質量** m(1−massFrac)(二層の総質量ではない)' : '宣言された body の m',
         stages: { h: value, h2: value, h4: value }, order: null, extrapolated: null },
       obs, state: st.state,
       reason: st.reason + ' —— **転写の確認であって独立検証ではない**'
-        + '(この質量は CSV から手で置いた入力である)。',
+        + '(この質量は CSV から手で置いた入力である)。'
+        + '**相関した派生量の区間内を独立証拠に数えない**(第270便e・統括の読み (F)): '
+        + '`chirp_mass`・`total_mass`・`mass_ratio` は**同じ 2 つの転写質量から作った関数**であり、'
+        + '`component_mass` A/B と**独立ではない**。したがって「区間内の行が n 件」は'
+        + '**n 件の証拠ではなく、1 組の転写の言い換えである**。',
       diagnostics: Object.assign({ layerTotalMsun: isTwoLayer ? layerTotal : null,
         shellMsun: mapped, twoLayer: isTwoLayer, offsetInWidths: st.offsetInWidths,
         stepIndependent: '**刻みに依らない**(初期条件の量なので h/h2/h4 は同値である)。' },
@@ -292,9 +299,13 @@ async function runColumn(tag, id) {
   if (OBS.m1) col.rows.push(mkMassRow('component_mass A', OBS.m1, mapped[0]));
   if (OBS.m2) col.rows.push(mkMassRow('component_mass B', OBS.m2, mapped[1]));
   const mc = (a, b) => Math.pow(a * b, 0.6) / Math.pow(a + b, 0.2);
-  if (OBS.mChirp) col.rows.push(mkMassRow('chirp_mass', OBS.mChirp, mc(mapped[0], mapped[1])));
-  if (OBS.mTot) col.rows.push(mkMassRow('total_mass', OBS.mTot, mapped[0] + mapped[1]));
-  if (OBS.q) col.rows.push(mkMassRow('mass_ratio', OBS.q, mapped[1] / mapped[0]));
+  const derived = { derivedFrom: ['component_mass A', 'component_mass B'],
+    independence: '**独立ではない**(同じ 2 質量の関数)' };
+  if (OBS.mChirp) col.rows.push(mkMassRow('chirp_mass', OBS.mChirp, mc(mapped[0], mapped[1]), derived));
+  if (OBS.mTot) col.rows.push(mkMassRow('total_mass', OBS.mTot, mapped[0] + mapped[1], derived));
+  if (OBS.q) col.rows.push(mkMassRow('mass_ratio', OBS.q, mapped[1] / mapped[0],
+    { derivedFrom: ['component_mass A', 'component_mass B'],
+      independence: '**独立ではない**(同じ 2 質量の比)' }, '1'));
 
   // ---- 周期(**派生参照値** —— 区間比較の対象外)
   const Ps = g((s) => s.period.periodSec);
@@ -350,7 +361,25 @@ async function runColumn(tag, id) {
         remnantCoreMassFracByStage: rem.map((r) => (r ? r.coreMF : null)),
         ifTotal: { value: remTot[2], wouldBe: totState.state },
         ifShell: { value: remShell[2], wouldBe: shellState.state },
+        // 第270便e(AE10): **区間内になる方を選ばない。** 何を導けば対応が決まるかを宣言する。
+        requiredDerivation: {
+          status: 'declared-not-derived',
+          items: [
+            '**GW の final_mass は遠方場で定義された重力質量**(漸近質量・Bondi/ADM 的な量)である。'
+              + '器の remnant は**融合後の 1 体の慣性質量**(運動方程式に入る m)であって、同じ量だとは'
+              + '宣言していない。**まず「器のどの量が遠方場の重力質量に当たるか」を導く必要がある。**',
+            '**放射損失の帳簿**: 観測の final_mass は初期総質量から**放射された分だけ減っている**。'
+              + '器の合体は**外部 Peters 放射オーバーレイ**(用量 a=0.1313 の合わせ込み)で駆動されており、'
+              + '**放射した分を質量から引く経路は宣言されていない**(m は融合で足し合わされるだけである)。'
+              + 'したがって**総質量と観測 final_mass の差を「放射損失」と読むこともできない**。',
+            '**二層の対応**: 🎻⏰ は f≈2 の二層で、**初期の殻質量が転写した観測質量**という宣言を持つ'
+              + '(massFrac=(f−1)/f)。しかし**融合後の remnant について殻/核の対応則は未宣言**である。',
+            '**慣性と重力の関係**: DFM は質量を「軌道から計算式で出る量」として扱う線なので、'
+              + '**慣性質量・重力質量・遠方場の質量の 3 つが一致するかは宣言事項**であって自明ではない。'],
+          rule: '**総質量と殻質量の両方を出し、区間内になる方を選ばない。** '
+            + '上の 4 つが導かれるまで状態は `mapping-unresolved` のままにする。' },
         note: '**この 2 つの「もし〜なら」は状態ではない**(対応が決まるまで判定しない)。'
+          + '**区間内に入る方を選んで状態を付けることはしない**(第270便e・AE10)。'
           + '合体は **外部 Peters 放射オーバーレイ**(用量 a=0.1313 の合わせ込み)が駆動したもので、'
           + '**DFM 由来の合体ではない**。' } }));
     // **合体時刻**: CSV に区間を持つ観測行が無い(「約 4.0 秒」は 10 Hz からの**モデル換算目標**)
@@ -434,8 +463,29 @@ out.summary = {
   stateTallyAll: tallyStates(out.columns.reduce((a, c) => a.concat(c.rows), [])),
   independentVerification: '**0 件**。区間内に入った質量系の行はすべて**転写の確認**であり、'
     + '**独立検証には数えない**(初期質量は CSV から手で置いた入力である)。',
+  // 第270便e(統括の読み (F)): 区間内の行の**独立性**をはっきり書く。
+  insideIntervalRows: (() => {
+    const rows = out.columns.reduce((a, c) => a.concat(c.rows.map((r) => ({ col: c.emoji, r }))), [])
+      .filter((z) => z.r.state === 'inside-interval');
+    return { count: rows.length,
+      quantities: rows.map((z) => z.col + ' ' + z.r.quantity),
+      independentDegreesOfFreedom: 2,
+      note: '**区間内の ' + rows.length + ' 行は独立な ' + rows.length + ' 件の証拠ではない。** '
+        + '1 列あたり `component_mass A`・`component_mass B` の **2 つの転写値**と、'
+        + 'そこから作った `chirp_mass`・`total_mass`・`mass_ratio` の**関数 3 つ**である'
+        + '(**相関した派生量の区間内を独立証拠に数えない**)。列をまたいだ 3 本も'
+        + '**同じ CSV 行を写した同じ 2 質量**なので、独立な自由度は**転写 1 組ぶん**しかない。'
+        + 'さらに**この行は「転写の確認」であって検証ではない**。' };
+  })(),
+  ae10RemnantMapping: '**⏰ の remnant は `mapping-unresolved` のままである。** '
+    + '総質量と殻質量の**両方**を出し、**区間内になる方を選ばない**。'
+    + '対応を決めるのに必要な導出(遠方場の重力質量と器の慣性質量の関係・放射損失の帳簿・'
+    + '融合後の二層の対応則・慣性/重力/遠方場の 3 質量の一致の宣言)は '
+    + '`final_mass` 行の `diagnostics.requiredDerivation` に宣言してある。',
   notSaid: ['「BH 連星を完成した(観測一致版)」', '「観測と合った」', '「合体を再現した」',
-    '「較正した」', '「区間の内側だから合格」', '「複数の周辺区間の内側だから同時 90% 領域の中」'] };
+    '「較正した」', '「区間の内側だから合格」', '「複数の周辺区間の内側だから同時 90% 領域の中」',
+    '「区間内の行が 15 件ある」(**独立な 15 件ではない** —— 転写 1 組の言い換えである)',
+    '「remnant は殻質量の方が観測に近い」(**区間内になる方を選ばない**)'] };
 out.meta.spentSec = +((Date.now() - tA) / 1000).toFixed(1);
 out.pageErrors = pageErrors;
 await browser.close();
