@@ -5622,6 +5622,282 @@ if (!TARGET.startsWith('beta/')) {
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 
+// ---- 0e3b) 第272便c ①: docs.nsLockBranch — 潮汐ロック枝(kFrame=0・f=1・λ_PN=1)の走行の来歴 ----
+//   **原仮定者の仮説(第62報)**「互いに潮汐ロックした天体は kFrame≈0 とみなせる」を、NS 4 系+恒星 2 系の
+//   **診断コピー**で測った走行(`tests/exp-w272c-nslock.mjs` → `tests/out/nslock-w272c.json`)の
+//   **来歴と契約**だけを機械固定する。**合否も σ 倍も判定しない**(σ 倍は記録である)。
+//     ① 器の版・3 段(div 1/2/4)・6 系が揃っている
+//     ② 入力の hash(観測 CSV / 対象 html)が現行ファイルと一致する(対象 html は走行対象と違えば SKIP)
+//     ③ **仮説列 `lock` は kFrame=0・λ_PN=1・f=1 の診断コピー**で走っている(sampleClass:"principle")
+//     ④ **内蔵の kFrame は {0,1} のまま**(本便は内蔵を 1 bit も変えていない)
+//     ⑤ **旧共同根の列が NS 4 系にあり**、k\*/f\* が第265便a の保存値と一致する(消していない)
+//     ⑥ 2D の限界(面外の自転軸を持てない)が各系の宣言に載っている
+//     ⑦ 断定語("観測と合った"/"証明"/"確定")が JSON 本文に無い ----
+{
+  const bad = [];
+  let nSys = 0, nVarTotal = 0, jointWithin = [], hashChecked = false;
+  let nSpinRows = 0; const syncFlag = [];
+  try {
+    const P = path.join(ROOT, 'tests', 'out', 'nslock-w272c.json');
+    const J = JSON.parse(fs.readFileSync(P, 'utf8'));
+    const M = J.meta || {};
+    if (M.harness !== 'w272c-nslock-1') bad.push(`①器の版が違う(${M.harness})`);
+    if (M.periWindow !== 20) bad.push(`①窓が 20 近点でない(${M.periWindow})`);
+    if (JSON.stringify(M.divs) !== JSON.stringify([1, 2, 4])) bad.push('①3 段(1/2/4)でない');
+    const sysList = J.systems || [];
+    nSys = sysList.length;
+    if (nSys !== 6) bad.push(`①系が 6 本でない(${nSys})`);
+    const NS = ['psrDoubleABDFM', 'psrJ1757DFM', 'psrJ1946DFM', 'psrB1534DFM'];
+    for (const id of NS.concat(['alphaCenAB', 'siriusAB'])) {
+      if (!sysList.some((s) => s.id === id)) bad.push(`①${id} が無い`);
+    }
+    // ② 入力 hash
+    const csvSha = crypto.createHash('sha256')
+      .update(fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'))).digest('hex');
+    if (M.csvSha256 !== csvSha) bad.push('②観測 CSV の hash が走行時と違う(CSV が動いた — 器を再走する)');
+    if (TARGET === M.target) {
+      hashChecked = true;
+      const htmlSha = crypto.createHash('sha256')
+        .update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      if (M.targetSha256 !== htmlSha) bad.push('②対象 html の hash が走行時と違う(器を再走する)');
+    } else {
+      console.log(`SKIP docs.nsLockBranch ②(走行対象は ${M.target} — 今の QA_TARGET は ${TARGET})`);
+    }
+    // ③〜⑥
+    for (const s of sysList) {
+      nVarTotal += (s.variants || []).length;
+      for (const v of (s.variants || [])) {
+        if ((v.stages || []).length !== 3) bad.push(`①${s.id}/${v.tag} が 3 段でない`);
+      }
+      const lock = (s.variants || []).find((v) => v.tag === 'lock');
+      if (!lock) { bad.push(`③${s.id} に仮説列 lock が無い`); } else {
+        for (const st of lock.stages) {
+          const u = st.used || {};
+          if (u.kFrame !== 0) bad.push(`③${s.id}/lock の kFrame が 0 でない(${u.kFrame})`);
+          if (u.lambdaPN !== 1) bad.push(`③${s.id}/lock の λ_PN が 1 でない(${u.lambdaPN})`);
+          if (u.sampleClass !== 'principle') bad.push(`③${s.id}/lock が診断コピーでない(${u.sampleClass})`);
+          if ((u.hasCore || []).some((z) => z)) bad.push(`③${s.id}/lock にコア殻が残っている`);
+        }
+      }
+      const bi = s.builtin || {};
+      if (!(bi.kFrame === 0 || bi.kFrame === 1)) bad.push(`④${s.id} の内蔵 kFrame が {0,1} でない(${bi.kFrame})`);
+      const d = s.lockDeclaration || {};
+      if (d.dimensionality !== '2D' || d.inPlaneAxisRepresentable !== false)
+        bad.push(`⑥${s.id} の宣言に「2D では面外の自転軸を持てない」が無い`);
+      if (d.connectedToForce !== false) bad.push(`⑥${s.id} の宣言が力へ接続されている`);
+      const j = ((s.variants || []).find((v) => v.tag === 'lock') || {}).jointWithin3Sigma;
+      if (j) jointWithin.push(`${s.emoji}${j.stateExt}`);
+      // ⑧ 観測の自転周期は CSV から読んでいる(手書きの注記を置かない)。**同期は仮説である**ので、
+      //    P_spin/P_orb を数として持たせ、転写行が無い天体は null のままにする(0 や 1 で埋めない)。
+      const sy = s.spinSynchrony;
+      if (!sy || !Array.isArray(sy.rows)) bad.push(`⑧${s.id} に自転周期の照合欄が無い`);
+      else {
+        for (const r of sy.rows) {
+          if (r.transcribed && !(Number.isFinite(r.value) && Number.isFinite(r.ratioToOrbit)))
+            bad.push(`⑧${s.id}/${r.body} の自転周期が数になっていない`);
+          if (!r.transcribed && (r.value !== null || r.ratioToOrbit !== null))
+            bad.push(`⑧${s.id}/${r.body} は転写行が無いのに値が入っている`);
+          if (r.transcribed) nSpinRows++;
+        }
+        if (sy.allWithin1Percent === true) syncFlag.push(s.emoji);
+      }
+    }
+    // ⑤ 旧共同根(第265便a)を消していない
+    const K = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'kjoint2-w265a.json'), 'utf8'));
+    for (const id of NS) {
+      const s = sysList.find((z) => z.id === id);
+      const saved = ((K.systems || []).find((z) => z.id === id) || {});
+      const a = saved.columns && saved.columns.adopted;
+      if (!s || !a) { bad.push(`⑤${id} の旧共同根が読めない`); continue; }
+      if (!s.savedRoot || Math.abs(s.savedRoot.kStar - a.kStar) > 0
+        || Math.abs(s.savedRoot.fStar - a.fStar) > 0) bad.push(`⑤${id} の k*/f* が第265便a と違う`);
+      if (!(s.variants || []).some((v) => v.tag === 'root')) bad.push(`⑤${id} に旧共同根の列が無い`);
+    }
+    // ⑦ 断定語。**「…」で囲んだ「とは書かない」の列挙は禁止語ではない**ので、
+    //    直前が `「` でない出現だけを数える(否定文を自分で踏まないため)。
+    const txt = fs.readFileSync(P, 'utf8');
+    const asserted = (s, w) => { let i = -1, n = 0;
+      while ((i = s.indexOf(w, i + 1)) >= 0) { if (s[i - 1] !== '「') n++; } return n; };
+    for (const w of ['観測と合った', '潮汐ロックを証明', '引きずり式が確定', '共同根を再検証', '較正を完了'])
+      if (asserted(txt, w) > 0) bad.push(`⑦断定語「${w}」が JSON にある`);
+  } catch (e) { bad.push('走行 JSON が読めない: ' + String(e).slice(0, 90)); }
+  add('docs.nsLockBranch', bad.length === 0,
+    `**潮汐ロック枝の走行の来歴**(第272便c §1・**原仮定者の仮説(第62報)**): `
+    + `系 **${nSys} 本**(NS 4 + 恒星 2)× 列 ${nVarTotal} × 3 段(h/h2/h4・20 近点窓)/ `
+    + `仮説列 \`lock\` は **kFrame=0・λ_PN=1・f=1 の診断コピー**(sampleClass:"principle"・コア殻なし)/ `
+    + `**内蔵の kFrame は {0,1} のまま**(本便は内蔵を 1 bit も変えていない)/ `
+    + `**旧共同根(第265便a の k\\*/f\\*)の列は消さずに並べてある**/ `
+    + `2D では面外の自転軸を持てないことが 6 系の宣言に載っている / `
+    + `入力 hash: CSV 照合済み・対象 html ${hashChecked ? '照合済み' : 'SKIP'} / `
+    + `仮説列の P と ω̇ の同時 3σ: ${jointWithin.join(' ')} `
+    + `(**数え上げであって合否ではない**・σ の宛先が無い量は undecidable)/ `
+    + `観測の自転周期は CSV の \`rotation_period\` 行から読んだ **${nSpinRows} 天体**で、`
+    + `**P_spin/P_orb が 1% 以内の系は ${syncFlag.length} 本**`
+    + `(**「潮汐ロックしている」は観測事実ではなく仮説である**・転写行が無い天体は null のまま)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0e3c) 第272便c ②: docs.twoBodyMesh — 2 天体思考実験のメッシュ応答 ----
+//   **原仮定者の仮説(第62報)**「距離が変われば空間メッシュが拡縮し、距離が変わらない方向に動けば
+//   メッシュが他方を中心に回転して、他方が逆方向に自転したのと同じ状態になる」を測った走行
+//   (`tests/exp-w272c-twobody.mjs` → `tests/out/twobody-w272c.json`)を機械固定する。
+//     ① 径方向の変位では回転 Ω が**厳密に 0**・接線方向では拡縮 H が**厳密に 0**(分解が混ざらない)
+//     ② **せん断は回転(拡縮)と同じ大きさ**である —— ∇u が階数 1 なので、メッシュは
+//        相手のまわりを**剛体回転しない**(比 = 1)
+//     ③ 応答係数が **−(p/2)·χ(1−χ)** と一致する(自己除外・相対差 ≤1e-6)
+//     ④ **D₀=0 の極では応答が消える**(χ=1 で ∇χ=0 —— 完全随伴)
+//     ⑤ 帳簿: **kFrame=0 の対照ではメッシュが回っても自転 spin は 1 bit も動かない**
+//        (メッシュの回転は相対座標の量・J を変えるにはトルクが要る)
+//     ⑥ 合体極限の会計(軌道項 μ r×v と自転項)が 4 行ある ----
+{
+  const bad = [];
+  let nRows = 0, nLedger = 0, maxCoefDiff = 0, shearRatio = [];
+  try {
+    const P = path.join(ROOT, 'tests', 'out', 'twobody-w272c.json');
+    const J = JSON.parse(fs.readFileSync(P, 'utf8'));
+    if ((J.meta || {}).harness !== 'w272c-twobody-1') bad.push('①器の版が違う');
+    const rows = ((J.fieldResponse || {}).rows) || [];
+    nRows = rows.length;
+    if (nRows < 20) bad.push(`①場の応答の行が少ない(${nRows})`);
+    for (const r of rows) {
+      if (r.stop) continue;
+      if (r.dir === 'radial' && r.rotation !== 0) bad.push(`①径方向で Ω≠0(D0=${r.D0})`);
+      if (r.dir === 'tangential' && r.expansion !== 0) bad.push(`①接線方向で H≠0(D0=${r.D0})`);
+      const amp = Math.abs(r.dir === 'radial' ? r.expansion : r.rotation);
+      if (amp > 0) {
+        const q = r.shearMagnitude / amp;
+        shearRatio.push(q);
+        if (Math.abs(q - 1) > 1e-12) bad.push(`②せん断/回転 が 1 でない(${q})`);
+      }
+      if (r.exclude && r.coefficientRelDiff !== null && Number.isFinite(r.coefficientRelDiff)) {
+        if (r.coefficientRelDiff > maxCoefDiff) maxCoefDiff = r.coefficientRelDiff;
+        if (r.coefficientRelDiff > 1e-6) bad.push(`③応答係数が −(p/2)χ(1−χ) と合わない(D0=${r.D0})`);
+      }
+      if (r.exclude && r.D0 === 0) {
+        if (!(r.expansion === 0 && r.rotation === 0 && r.shearMagnitude === 0))
+          bad.push('④D₀=0 の自己除外で応答が 0 でない');
+      }
+    }
+    const led = ((J.ledger || {}).rows) || [];
+    nLedger = led.length;
+    if (nLedger !== 12) bad.push(`⑤帳簿の行が 12 でない(${nLedger})`);
+    let kf0 = 0, kf1Spin = 0;
+    for (const r of led) {
+      if (r.stop) { bad.push(`⑤帳簿の行が止まっている(${r.mode})`); continue; }
+      if (r.dP[0] !== 0 || r.dP[1] !== 0) bad.push(`⑤運動量が動いた(kF=${r.kFrame}/${r.mode})`);
+      if (r.kFrame === 0) {
+        kf0++;
+        if ((r.dSpin || []).some((z) => z !== 0))
+          bad.push(`⑤kFrame=0 で自転が動いた(${r.mode}・D0=${r.D0})`);
+        if (Math.abs(r.dL) / Math.abs(r.t0.L) > 1e-12)
+          bad.push(`⑤kFrame=0 で角運動量が動いた(${r.mode}・D0=${r.D0})`);
+      } else if ((r.dSpin || []).some((z) => z !== 0)) kf1Spin++;
+    }
+    if (kf0 !== 6) bad.push(`⑤kFrame=0 の対照が 6 行でない(${kf0})`);
+    if (kf1Spin !== 6) bad.push(`⑤kFrame=1 で自転が動いた行が 6 でない(${kf1Spin})`);
+    const mg = ((J.mergerLimit || {}).rows) || [];
+    if (mg.length !== 4) bad.push(`⑥合体極限の行が 4 でない(${mg.length})`);
+    for (let i = 1; i < mg.length; i++) {
+      if (!(mg[i].spinOverOrbital > mg[i - 1].spinOverOrbital))
+        bad.push('⑥自転/軌道の比が単調に増えていない');
+    }
+    const txt = fs.readFileSync(P, 'utf8');
+    const asserted = (s, w) => { let i = -1, n = 0;
+      while ((i = s.indexOf(w, i + 1)) >= 0) { if (s[i - 1] !== '「') n++; } return n; };
+    for (const w of ['観測と合った', '潮汐ロックを証明', '引きずり式が確定'])
+      if (asserted(txt, w) > 0) bad.push(`⑦断定語「${w}」が JSON にある`);
+  } catch (e) { bad.push('走行 JSON が読めない: ' + String(e).slice(0, 90)); }
+  add('docs.twoBodyMesh', bad.length === 0,
+    `**2 天体思考実験のメッシュ応答**(第272便c §2・**原仮定者の仮説(第62報)**): `
+    + `場の応答 ${nRows} 行 —— **径方向の変位は回転を 1 bit も立てず(Ω=0 厳密)、`
+    + `接線方向の変位は拡縮を 1 bit も立てない(H=0 厳密)**/ `
+    + `**ただしせん断は回転(拡縮)と同じ大きさで必ず同時に立つ**(比 = 1・∇u は階数 1)ので、`
+    + `**メッシュは相手のまわりを剛体回転しない**/ `
+    + `応答係数は **−(p/2)·χ(1−χ)**(実測との相対差 ≤ ${maxCoefDiff.toExponential(1)})で、`
+    + `**χ→1(D₀→0)でも χ→0 でも 0 に落ちる**/ `
+    + `帳簿 ${nLedger} 行 —— **kFrame=0 の対照ではメッシュが回っても自転 spin は 1 bit も動かない**`
+    + `(**メッシュの回転は相対座標の量であって J ではない**)・kFrame=1 では引きずりが自転を動かす / `
+    + `合体極限は軌道項 μ r×v と自転項を分けた会計である`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0e3d) 第272便c ③: docs.meshV2Rpar — AA7 の静止 2 体の相対加速度比 R∥ ----
+//   mesh-v2(第265便b・**候補の則であって確立則ではない**)の 2 粒子の運動方程式から
+//   **R∥ = −(a₂−a₁)·n̂ /(G(m₁+m₂)/r²)** を作り、**独立に導いた解析式**と突き合わせた走行
+//   (`tests/exp-w272c-rpar.mjs` → `tests/out/rpar-w272c.json`)を機械固定する。
+//     ① 実装(`HP.dfmMeshV2Solve`)と解析(`lib-w272c-binlock.restTwoBodyAnalytic`)が一致する
+//     ② **D₀=0・η=1 の極では R∥ = μ/M = m₁m₂/(m₁+m₂)²**(同質量で 1/4 —— Newton の 1 ではない)
+//     ③ **粒子交換(ラベル 1↔2)で R∥ は厳密に不変**
+//     ④ **η→0 で Newton へ戻る**(軟化の帳簿ぶんだけ 1 から外れる)
+//     ⑤ χ を保つように D₀ を換算した単位変更で R∥ が不変(無次元量である)
+//     ⑥ **Σm_i a_i の不均衡を記録する**(χ₁≠χ₂ かつ η>0 の静止 2 体では 0 にならない)----
+{
+  const bad = [];
+  let nCase = 0, maxRel = 0, imbalanced = 0, rEqual = null, rEta0 = null;
+  try {
+    const P = path.join(ROOT, 'tests', 'out', 'rpar-w272c.json');
+    const J = JSON.parse(fs.readFileSync(P, 'utf8'));
+    if ((J.meta || {}).harness !== 'w272c-rpar-1') bad.push('①器の版が違う');
+    const cs = (J.cases || []).filter((z) => z.kind !== 'derived');
+    nCase = cs.length;
+    if (nCase < 40) bad.push(`①行が少ない(${nCase})`);
+    for (const c of cs) {
+      if (c.stop) continue;
+      if (c.relDiff === null || !(c.relDiff <= 1e-12))
+        bad.push(`①実装と解析が合わない(${c.tag}: ${c.relDiff})`);
+      if (c.relDiff > maxRel) maxRel = c.relDiff;
+      if (c.momentumImbalance !== null && c.momentumImbalance > 1e-12) imbalanced++;
+    }
+    // ② D₀=0・同質量
+    const eq = cs.find((c) => c.tag === 'equal/D0=0/inertia');
+    if (!eq) bad.push('②同質量・D₀=0 の行が無い'); else {
+      rEqual = eq.rParImpl;
+      const want = eq.muOverM / eq.softeningDenominatorRatio;
+      if (!(Math.abs(rEqual - want) / want <= 1e-12)) bad.push(`②R∥ が μ/M(軟化補正つき)でない(${rEqual})`);
+    }
+    for (const c of cs) {
+      if (!/^ratio\/.*\/D0=0\/inertia$/.test(c.tag)) continue;
+      const want = c.muOverM / c.softeningDenominatorRatio;
+      if (!(Math.abs(c.rParImpl - want) / want <= 1e-9)) bad.push(`②${c.tag} が μ/M でない`);
+    }
+    // ③ 粒子交換
+    const sw = (J.cases || []).filter((z) => z.kind === 'derived');
+    if (sw.length !== 4) bad.push(`③粒子交換の対が 4 組でない(${sw.length})`);
+    for (const z of sw) if (z.absDiff !== 0) bad.push(`③粒子交換で R∥ が動いた(${z.tag}: ${z.absDiff})`);
+    // ④ η→0
+    const e0 = cs.find((c) => c.tag === 'eta=0');
+    if (!e0) bad.push('④η=0 の行が無い'); else {
+      rEta0 = e0.rParImpl;
+      const want = 1 / e0.softeningDenominatorRatio;
+      if (!(Math.abs(rEta0 - want) / want <= 1e-12)) bad.push(`④η=0 が Newton に戻らない(${rEta0})`);
+    }
+    // ⑤ 単位変更(D₀ を換算した 4 点)
+    const un = cs.filter((c) => /^units\/.*D0-scaled$/.test(c.tag));
+    if (un.length !== 4) bad.push(`⑤単位変更(D₀ 換算)の行が 4 でない(${un.length})`);
+    for (const c of un) {
+      if (!(Math.abs(c.rParImpl - un[0].rParImpl) / Math.abs(un[0].rParImpl) <= 1e-12))
+        bad.push(`⑤単位変更で R∥ が動いた(${c.tag})`);
+    }
+    if (imbalanced === 0) bad.push('⑥Σm_i a_i の不均衡が 1 行も無い(記録が空振りしている)');
+    const txt = fs.readFileSync(P, 'utf8');
+    const asserted = (s, w) => { let i = -1, n = 0;
+      while ((i = s.indexOf(w, i + 1)) >= 0) { if (s[i - 1] !== '「') n++; } return n; };
+    for (const w of ['引きずり式が確定', '観測と合った', 'Newton が破れ'])
+      if (asserted(txt, w) > 0) bad.push(`断定語「${w}」が JSON にある`);
+  } catch (e) { bad.push('走行 JSON が読めない: ' + String(e).slice(0, 90)); }
+  add('docs.meshV2Rpar', bad.length === 0,
+    `**AA7: 静止 2 体の相対加速度比 R∥**(第272便c §3・**mesh-v2 は候補の則であって確立則ではない**): `
+    + `${nCase} 行で実装(\`HP.dfmMeshV2Solve\`)と**独立に導いた解析式**が一致`
+    + `(最大相対差 ${maxRel.toExponential(1)})/ `
+    + `**D₀=0・η=1 の極では R∥ = μ/M = m₁m₂/(m₁+m₂)²**(同質量で ${rEqual === null ? '—' : rEqual.toFixed(9)}`
+    + ` = 1/4 —— **Newton の 1 ではない**)/ **粒子交換で R∥ は厳密に不変**/ `
+    + `**η→0 で Newton へ戻る**(${rEta0 === null ? '—' : rEta0.toFixed(9)} = 軟化の帳簿 (1+ε²/r²)^{−3/2})/ `
+    + `χ を保つ単位変更で R∥ 不変 / `
+    + `**Σm_i a_i の不均衡が ${imbalanced} 行**(χ₁≠χ₂ かつ η>0 の静止 2 体では重心が加速する —— `
+    + `**測って書いた否定結果であって、採用の宣言ではない**)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
 // ---- 0e4) 第250便d: docs.period-definitions — 周期の 2 定義の併記と推定器つき宣言(裁定 I6/I7)----
 //   第249便b の棚卸しで、kF1 サンプルの公転周期は「同方向1周」と「近点間」で残差が符号ごと割れる
 //   ことが分かった(定義依存)。裁定 I6 は obsCard の周期欄に **2 定義を併記**し判定は近点間で行う
