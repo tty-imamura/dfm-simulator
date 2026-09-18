@@ -152,7 +152,19 @@ for (const [id, emoji] of SOLAR) {
     const declared = Object.prototype.hasOwnProperty.call(TARGET_BODY, target);
     const body = declared ? TARGET_BODY[target] : null;
     const quant = KIND_QUANT[kind] || null;
-    const csvRow = (body && quant) ? (csv.rows.get(body + '|' + quant) || null) : null;
+    // ---------------------------------------------------------------- 第270便a(第60報 W1・AD5)
+    // **宣言が正式経路に入った**ので、切断点と σ の分類も**宣言行**で行う(門の器と同じ行を見る)。
+    // 宣言の無い body|quantity は従来どおり**ファイル順の最初の行**である(後方互換)。
+    // 宣言が CSV の 1 行に解決できないときは**器を止める**(旧行へ黙って戻さない — 第269便a)。
+    const csvRowLegacy = (body && quant) ? (csv.rows.get(body + '|' + quant) || null) : null;
+    const declHere = (body && quant) ? (JS.byKey.get(body + '|' + quant) || null) : null;
+    const pickHere = declHere ? pickDeclaredRow(declHere, csv.all) : { row: null, reason: null };
+    if (declHere && !pickHere.row) {
+      throw new Error('[w262d] 宣言 ' + body + '|' + quant + ' が CSV の 1 行に解決できない('
+        + pickHere.reason + ')—— **旧行へ黙って戻さない**');
+    }
+    const declaredApplied = !!(declHere && pickHere.row);
+    const csvRow = declaredApplied ? pickHere.row : csvRowLegacy;
     const condMismatch = !!(q.gate && q.gate.status === 'condition-mismatch');
     // 切断点の分類(**どこで切れているか**を 1 つだけ返す — 上から順に見る)
     let cut = null;
@@ -263,9 +275,9 @@ for (const [id, emoji] of SOLAR) {
     // ---- 第268便a(統括の読み (D)・AB2): **宣言後の初判定**の欄(既定の行選択は差し替えない)----
     let declaredFirst = null;
     if (body && quant) {
-      const decl = JS.byKey.get(body + '|' + quant) || null;
+      const decl = declHere;
       if (decl) {
-        const pick = pickDeclaredRow(decl, csv.all);
+        const pick = pickHere;
         const dRow = pick.row;
         const dSigma = (dRow && dRow.sigma !== null) ? dRow.sigma : null;
         const measOk = (typeof q.meas === 'number' && Number.isFinite(q.meas));
@@ -274,17 +286,23 @@ for (const [id, emoji] of SOLAR) {
         declaredFirst = { key: body + '|' + quant, declaredSource: String(decl.source).slice(0, 90),
           declaredValue: decl.value, declaredSigma: decl.sigma === undefined ? null : decl.sigma,
           applied: !!dRow, fallbackReason: dRow ? null : pick.reason,
-          previousRow: csvRow ? { value: csvRow.value, sigma: csvRow.sigma, unit: csvRow.unit,
-            source: String(csvRow.source).slice(0, 60), primaryVerified: csvRow.primaryVerified } : null,
-          valueDelta: (dRow && csvRow && dRow.valueRaw !== null && Number.isFinite(csvRow.value))
-            ? dRow.valueRaw - csvRow.value : null,
+          // 第270便a(AD5): **`previousRow` は AD5 前の正式行(ファイル順の最初)**である。
+          // 現在の正式行は `declaredValue`/`declaredSigma` の側であり、この欄は**履歴**である。
+          appliedToJudgement: true, appliedSince: '第270便a(AD5)',
+          previousRow: csvRowLegacy ? { value: csvRowLegacy.value, sigma: csvRowLegacy.sigma,
+            unit: csvRowLegacy.unit, source: String(csvRowLegacy.source).slice(0, 60),
+            primaryVerified: csvRowLegacy.primaryVerified } : null,
+          valueDelta: (dRow && csvRowLegacy && dRow.valueRaw !== null && Number.isFinite(csvRowLegacy.value))
+            ? dRow.valueRaw - csvRowLegacy.value : null,
           residual: resid2, nSigma: (resid2 !== null && dSigma) ? resid2 / dSigma : null,
           primaryVerified: dRow ? dRow.primaryVerified : null,
           guards: g3,
           verdict: !dRow ? '宣言が CSV の行に当たらない(' + pick.reason + ')'
             : (dSigma === null) ? '保留(σ 未登録 — 宣言行にも 1σ が印字されていない)'
             : (!g3.ok ? g3.verdict : '宣言後も判定せず(3 段の収束を先に見る)'),
-          note: '**「宣言後の初判定」は別欄である** —— 宣言前の 4 値と判定内訳は据え置く(上書きしない)。' };
+          note: '**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)も'
+            + 'この宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。'
+            + '「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。' };
       }
     }
     qrows.push({ id, emoji, name: q.name, kind, target, unit: q.unit,
@@ -292,6 +310,14 @@ for (const [id, emoji] of SOLAR) {
       csvBody: body, csvQuantity: quant,
       csvRow: csvRow ? { value: csvRow.value, unit: csvRow.unit, sigma: csvRow.sigma,
         primaryVerified: csvRow.primaryVerified } : null,
+      // 第270便a(AD5/AD8): どの行で分類したか・判定量が換算後かどうかを行に残す
+      declaredApplied,
+      csvRowLegacy: (declaredApplied && csvRowLegacy) ? { value: csvRowLegacy.value,
+        unit: csvRowLegacy.unit, sigma: csvRowLegacy.sigma,
+        primaryVerified: csvRowLegacy.primaryVerified,
+        source: String(csvRowLegacy.source).slice(0, 60) } : null,
+      ad8Converted: !!(q.ad8 && q.ad8.converted),
+      previousUnit: q.previousUnit || null,
       cut, condMismatch, sigma, residual: resid, nSigma: nSig, numOk,
       gateStatusBefore: q.gate ? q.gate.status : null, verdict,
       // 第268便a: 既定の欄(上)を動かさず、横に 3 つ足す
@@ -380,9 +406,17 @@ const out = {
       // 第269便a: **旧契約(20 近点窓)の記録**を行にも載せる(**新値として写さない**ための対照)
       previous: r.unitConvertedFirst.previous, verdict: r.unitConvertedFirst.verdict })),
     cutPreserved: (cutTally['unit-not-converted'] || 0),
-    note: '**既定の 4 値・切断点は据え置き**である(この欄は横に並べた記録であって判定ではない)。'
-      + '**正式判定は「数値未解決」** —— 3 段の収束(`convergence.ok`)が揃う前に否とも合とも言わない。',
-    doNotWrite: ['換算したら D68 が合(3σ) になった', '換算で判定が増えた', '太陽系の σ が揃った'],
+    // 第270便a(AD8): **📡 はこの欄から抜けた**(判定量を deg/yr へ写して正式判定へ繋いだため)。
+    // 残っている行は**換算していない水星の 3 行**で、切断点 `unit-not-converted` の**対照**である。
+    movedToOfficial: rows.filter((r) => r.ad8Converted).map((r) => ({ id: r.id, emoji: r.emoji,
+      target: r.target, unit: r.unit, meas: r.meas, obs: r.obs, sigma: r.sigma,
+      nSigma: r.nSigma, verdict: r.verdict, previousUnit: r.previousUnit })),
+    note: '**第270便a(AD8)で 📡 D68 はこの欄から正式判定へ移った**(`movedToOfficial`)。'
+      + 'ここに残るのは**換算していない行の対照**である —— 切断点 `unit-not-converted` は'
+      + '**消していない**(状態の名前として残り、水星の 3 行がそれを使っている)。'
+      + '**旧値(基点の切断点 4 件・4 値 保留 16)は `history` に残す**。',
+    doNotWrite: ['換算したら D68 が合(3σ) になった', '換算で判定が増えた', '太陽系の σ が揃った',
+      '切断点が無くなった'],
   },
   declaredFirst: {
     what: '**採用観測解の明示宣言**(`paper/data/judgement-sources.json`)で判定行を読んだときの'
@@ -396,6 +430,25 @@ const out = {
       + '門へは 1 bit も入らない。',
   },
   cutTally, fourTally, presets, rows, missingForJudgement,
+  // ---------------------------------------------------------------- 第270便a(第60報 W1・署名便)
+  // **旧値を履歴として残す**(新値は再集計して測った値である)。「1 回」は訂正禁止の意味ではない。
+  history: [{
+    wave: '第269便(第59報・PR #271)', commit: 'f6c19b4',
+    fourTally: { '保留': 16 },
+    cutTally: { 'csv-sigma-empty': 109, 'kind-not-gated': 26, 'unit-not-converted': 4 },
+    csvSha: 'e426aa7d8a6751068699933074c7885ee66234936e11aafd319bc091a670afd4',
+    judgementMode: 'diagnostic-only-until-AD5',
+    reason: '**基点**。宣言は診断欄のみ(切断点も旧行=ファイル順の最初で分類)・📡 は換算前(°/周)'
+      + 'なので切断点 `unit-not-converted` に留まっていた。',
+  }],
+  moved: {
+    what: ['AD5: 宣言 2 件(カロン P・金星 e)を正式経路へ —— **切断点の分類も宣言行で行う**',
+      'AD8: 📡 D68 の判定量を ϖ̇ [deg/yr] へ写した —— 切断点 `unit-not-converted` から外れる'],
+    cutPreservedNote: '**切断点 `unit-not-converted` は消していない** —— 換算していない水星の 3 行'
+      + '(☄️🪨🌞)が**対照として残る**。この区分は「σ の単位が obsCard と違う」状態の名前であって、'
+      + '📡 を換算したから不要になったのではない。',
+    doNotWrite: ['換算で判定が増えた', '太陽系の σ が揃った', 'D68 が合(3σ)', '較正を完了した'],
+  },
   conclusion: {
     connected: cutTally.connected || 0,
     unverified: cutTally['csv-sigma-unverified'] || 0,
@@ -405,9 +458,14 @@ const out = {
         + 'したがって太陽系 16 本は「保留(σ 未登録)」のままである(**否定ではない**)。'
         + '2026-09-14 の観測レコード intake でも**この数は動かない**: 入った σ は半径・GM・候補行のもので、'
         + '門が読む量(公転周期・離心率・近点移動・自転)の σ ではない。'
-      : '接続後に判定が出た量がある(表を読むこと)',
+      : '**接続後に判定が出た量がある**(表を読むこと)。第270便a(AD5/AD8)で σ が門へ届いた行は '
+        + (cutTally.connected || 0) + ' 件で、そのうち 3σ の合否が出たのは '
+        + rows.filter((r) => r.verdict === '合(3σ)' || r.verdict === '否(3σ)').length + ' 件である。'
+        + '**残りは「保留」である**(数値収束・写像・σ 未登録)—— 保留は否定ではない。'
+        + '**合否が出たことは較正が進んだことではない** —— 出た合否の中身は 4 値の表を読むこと。',
     doNotWrite: ['太陽系の現実較正を完了した', 'σ を繋いだので合格した', '保留は否定である',
-      '±1% の目安を σ として読んだ', '観測レコードが入ったので判定が出た(σ は unverified のままである)'] },
+      '±1% の目安を σ として読んだ', '観測レコードが入ったので判定が出た(σ は unverified のままである)',
+      '判定が増えた', '較正を完了した'] },
 };
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
@@ -421,7 +479,9 @@ console.log('  切断点の内訳: ' + JSON.stringify(cutTally));
 console.log('  判定に足りないもの(天体×量): ' + missingForJudgement.length + ' 組 —— '
   + missingForJudgement.slice(0, 8).map((e) => e.key + '(' + e.cut + ')').join(' , ')
   + (missingForJudgement.length > 8 ? ' …' : ''));
-console.log('  4 値の内訳: ' + JSON.stringify(fourTally) + '(**据え置き欄** — 本便で 1 本も動かしていない)');
+console.log('  4 値の内訳: ' + JSON.stringify(fourTally) + ' / **基点 f6c19b4 は '
+  + JSON.stringify(out.history[0].fourTally) + '・切断点 ' + JSON.stringify(out.history[0].cutTally)
+  + '**(第270便a の AD5/AD8 で動いた —— 旧値は history に残す)');
 // ---- 第268便a: 横に並べた 2 列(判定ではない)----
 for (const r of out.unitConvertedFirst.rows) {
   const c = r.primary;

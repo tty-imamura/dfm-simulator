@@ -1,10 +1,10 @@
 {
- "when": "2026-09-17T16:58:51.916Z",
+ "when": "2026-09-18T01:46:56.128Z",
  "wave": "第262便d(第54報 W4)→ 第263便c(第55報 W3)で σ 未確認の状態名と不足一覧を足した",
  "inputs": {
   "calaudit": "tests/out/calaudit-w249.json",
   "csv": "paper/data/solar-observations.csv",
-  "calauditWhen": null
+  "calauditWhen": "2026-09-18T01:36:14.199Z"
  },
  "gate": {
   "nSigma": 3,
@@ -265,70 +265,39 @@
      "why": "傾きは 9 近点・周期は 20 近点で、**同じ近点集合ではなかった**(換算契約の未達)"
     },
     "verdict": "保留(数値収束が未確認)"
-   },
+   }
+  ],
+  "cutPreserved": 3,
+  "movedToOfficial": [
    {
     "id": "saturnZonalD68",
     "emoji": "📡",
     "target": "D68",
-    "measDegPerOrbit": 8.042145452277042,
+    "unit": "deg/yr",
+    "meas": 13925.526910658999,
     "obs": 13968.25575,
     "sigma": 2.922,
-    "primary": {
-     "label": "近点間周期(**傾きと同じ 58 近点(57 区間)**の平均 — 第269便a の新契約)",
-     "periodSec": 18224.862222665284,
-     "periodDef": "periastron-same-window",
-     "simDegPerYear": 13925.526910658999,
-     "residual": -42.72883934100173,
-     "nSigma": -14.623148302875334
-    },
-    "controls": [
-     {
-      "label": "近点間周期(**旧契約: 最初の 20 近点の固定窓** — 傾きと同じ近点集合ではない)",
-      "periodSec": 18224.858223651565,
-      "periodDef": "periastron-20window",
-      "simDegPerYear": 13925.529966286234,
-      "residual": -42.72578371376585,
-      "nSigma": -14.622102571446218
-     },
-     {
-      "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
-      "periodSec": 17865.949830569363,
-      "periodDef": "revolution",
-      "simDegPerYear": 14205.27941316233,
-      "residual": 237.0236631623302,
-      "nSigma": 81.11692784473996
-     },
-     {
-      "label": "丸めた観測周期(**使わない** — 観測の丸め幅が入る)",
-      "periodSec": 17928,
-      "periodDef": "observed-rounded",
-      "simDegPerYear": 14156.113862381637,
-      "residual": 187.8581123816366,
-      "nSigma": 64.29093510665182
-     }
-    ],
-    "inverseCheck": {
-     "obsDegPerOrbit": 8.066821828488292,
-     "sigmaDegPerOrbit": 0.0016874872428393783,
-     "nSigma": -14.623148302875121
-    },
-    "previous": {
-     "contract": "20-periastron period window(第268便a)",
-     "periodSec": 18224.858223651565,
-     "simDegPerYear": 13925.529966286234,
-     "residual": -42.72578371376585,
-     "nSigma": -14.622102571446218,
-     "why": "傾きは 58 近点・周期は 20 近点で、**同じ近点集合ではなかった**(換算契約の未達)"
-    },
-    "verdict": "保留(数値収束が未確認)"
+    "nSigma": 14.623148302875334,
+    "verdict": "否(3σ)",
+    "previousUnit": {
+     "unit": "deg/orbit",
+     "meas": 8.042145452277042,
+     "obs": 8.066820058415589,
+     "obsErr": null,
+     "obsSigmaCsv": 0.00168748687256033,
+     "sigmaNote": "σ=0.00168748687256033 を CSV(Saturn ring feature D68|periastron_advance・deg/yr)から転写(sigma_primary=verified)",
+     "residualPct": null,
+     "cut": "unit-not-converted",
+     "why": "第266便a〜第269便a の切断点(obsCard が °/周・CSV が deg/yr で、換算しないまま σ を当てると見かけの「合(3σ)」になる)。**第270便a(AD8)で換算を入れて正式接続した** —— この欄は**換算前の記録**であって、新しい判定値ではない。"
+    }
    }
   ],
-  "cutPreserved": 4,
-  "note": "**既定の 4 値・切断点は据え置き**である(この欄は横に並べた記録であって判定ではない)。**正式判定は「数値未解決」** —— 3 段の収束(`convergence.ok`)が揃う前に否とも合とも言わない。",
+  "note": "**第270便a(AD8)で 📡 D68 はこの欄から正式判定へ移った**(`movedToOfficial`)。ここに残るのは**換算していない行の対照**である —— 切断点 `unit-not-converted` は**消していない**(状態の名前として残り、水星の 3 行がそれを使っている)。**旧値(基点の切断点 4 件・4 値 保留 16)は `history` に残す**。",
   "doNotWrite": [
    "換算したら D68 が合(3σ) になった",
    "換算で判定が増えた",
-   "太陽系の σ が揃った"
+   "太陽系の σ が揃った",
+   "切断点が無くなった"
   ]
  },
  "declaredFirst": {
@@ -362,6 +331,8 @@
     "declaredSigma": null,
     "applied": true,
     "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
     "previousRow": {
      "value": 0.007,
      "sigma": null,
@@ -386,7 +357,7 @@
      "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
     },
     "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
-    "note": "**「宣言後の初判定」は別欄である** —— 宣言前の 4 値と判定内訳は据え置く(上書きしない)。"
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
    },
    {
     "id": "venusReal",
@@ -400,6 +371,8 @@
     "declaredSigma": null,
     "applied": true,
     "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
     "previousRow": {
      "value": 0.007,
      "sigma": null,
@@ -424,7 +397,7 @@
      "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
     },
     "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
-    "note": "**「宣言後の初判定」は別欄である** —— 宣言前の 4 値と判定内訳は据え置く(上書きしない)。"
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
    },
    {
     "id": "plutoCharonReal",
@@ -438,6 +411,8 @@
     "declaredSigma": 0.02592,
     "applied": true,
     "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
     "previousRow": {
      "value": 551854.08,
      "sigma": null,
@@ -461,7 +436,7 @@
      "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
     },
     "verdict": "保留(数値収束が未確認)",
-    "note": "**「宣言後の初判定」は別欄である** —— 宣言前の 4 値と判定内訳は据え置く(上書きしない)。"
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
    },
    {
     "id": "plutoCharonReal",
@@ -475,6 +450,8 @@
     "declaredSigma": 0.02592,
     "applied": true,
     "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
     "previousRow": {
      "value": 551854.08,
      "sigma": null,
@@ -498,7 +475,7 @@
      "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
     },
     "verdict": "保留(数値収束が未確認)",
-    "note": "**「宣言後の初判定」は別欄である** —— 宣言前の 4 値と判定内訳は据え置く(上書きしない)。"
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
    },
    {
     "id": "plutoCharonReal",
@@ -512,6 +489,8 @@
     "declaredSigma": 0.02592,
     "applied": true,
     "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
     "previousRow": {
      "value": 551854.08,
      "sigma": null,
@@ -535,18 +514,20 @@
      "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
     },
     "verdict": "保留(数値収束が未確認)",
-    "note": "**「宣言後の初判定」は別欄である** —— 宣言前の 4 値と判定内訳は据え置く(上書きしない)。"
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
    }
   ],
   "note": "**「宣言後の初判定」は 4 値の横に置く**(上書きしない)。σ の無い宣言は行選択を決めるだけで、門へは 1 bit も入らない。"
  },
  "cutTally": {
-  "csv-sigma-empty": 109,
+  "csv-sigma-empty": 106,
   "kind-not-gated": 26,
-  "unit-not-converted": 4
+  "unit-not-converted": 3,
+  "connected": 4
  },
  "fourTally": {
-  "保留": 16
+  "保留": 15,
+  "否": 1
  },
  "presets": [
   {
@@ -688,10 +669,11 @@
    "nQuantities": 7,
    "nGatable": 5,
    "nCondMismatch": 1,
-   "nSigmaConnected": 0,
+   "nSigmaConnected": 3,
    "cuts": {
-    "csv-sigma-empty": 5,
-    "kind-not-gated": 2
+    "connected": 3,
+    "kind-not-gated": 2,
+    "csv-sigma-empty": 2
    },
    "four": "保留"
   },
@@ -727,13 +709,13 @@
    "nQuantities": 5,
    "nGatable": 4,
    "nCondMismatch": 0,
-   "nSigmaConnected": 0,
+   "nSigmaConnected": 1,
    "cuts": {
-    "unit-not-converted": 1,
+    "connected": 1,
     "csv-sigma-empty": 3,
     "kind-not-gated": 1
    },
-   "four": "保留"
+   "four": "否"
   },
   {
    "id": "saturnRingReal",
@@ -781,6 +763,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -806,6 +792,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -831,6 +821,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -861,6 +855,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -891,6 +889,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -921,6 +923,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -951,6 +957,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -981,6 +991,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -1011,6 +1025,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -1036,6 +1054,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -1066,6 +1088,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -1096,6 +1122,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -1126,6 +1156,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -1156,6 +1190,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -1181,6 +1219,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -1211,6 +1253,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -1241,6 +1287,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -1266,6 +1316,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -1296,6 +1350,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -1326,6 +1384,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -1351,6 +1413,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -1381,6 +1447,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -1411,6 +1481,10 @@
     "sigma": 4.167e-9,
     "primaryVerified": true
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "unit-not-converted",
    "condMismatch": false,
    "sigma": null,
@@ -1502,6 +1576,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -1532,6 +1610,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -1562,6 +1644,10 @@
     "sigma": 4.167e-9,
     "primaryVerified": true
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "unit-not-converted",
    "condMismatch": false,
    "sigma": null,
@@ -1645,6 +1731,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -1670,6 +1760,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -1700,6 +1794,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -1730,6 +1828,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -1760,6 +1862,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -1790,6 +1896,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -1820,6 +1930,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -1850,6 +1964,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -1875,6 +1993,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -1900,6 +2022,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -1930,6 +2056,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -1960,6 +2090,10 @@
     "sigma": 4.167e-9,
     "primaryVerified": true
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "unit-not-converted",
    "condMismatch": false,
    "sigma": null,
@@ -2045,17 +2179,27 @@
    "kind": "ecc",
    "target": "金星",
    "unit": "-",
-   "obs": null,
+   "obs": 0.00677672,
    "meas": 0.00002443857485710003,
    "sigmaCard": null,
    "csvBody": "Venus",
    "csvQuantity": "eccentricity",
    "csvRow": {
-    "value": 0.007,
+    "value": 0.00677672,
     "unit": "1",
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": true,
+   "csvRowLegacy": {
+    "value": 0.007,
+    "unit": "1",
+    "sigma": null,
+    "primaryVerified": false,
+    "source": "dfm-simulator solarInner declaration (committed)"
+   },
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -2073,6 +2217,8 @@
     "declaredSigma": null,
     "applied": true,
     "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
     "previousRow": {
      "value": 0.007,
      "sigma": null,
@@ -2097,7 +2243,7 @@
      "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
     },
     "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
-    "note": "**「宣言後の初判定」は別欄である** —— 宣言前の 4 値と判定内訳は据え置く(上書きしない)。"
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
    }
   },
   {
@@ -2118,6 +2264,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -2148,6 +2298,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -2178,6 +2332,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -2208,6 +2366,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -2238,6 +2400,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -2268,6 +2434,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": true,
    "sigma": null,
@@ -2298,6 +2468,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": true,
    "sigma": null,
@@ -2328,6 +2502,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": true,
    "sigma": null,
@@ -2358,6 +2536,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": true,
    "sigma": null,
@@ -2388,6 +2570,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -2418,6 +2604,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -2448,6 +2638,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -2478,6 +2672,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -2508,6 +2706,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -2533,6 +2735,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -2558,6 +2764,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -2583,6 +2793,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -2608,6 +2822,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -2638,6 +2856,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -2668,6 +2890,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -2698,6 +2924,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -2728,6 +2958,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -2758,6 +2992,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -2788,6 +3026,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -2818,6 +3060,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -2848,6 +3094,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -2878,6 +3128,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -2908,6 +3162,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": true,
    "sigma": null,
@@ -2938,6 +3196,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -2963,6 +3225,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -2982,17 +3248,27 @@
    "kind": "ecc",
    "target": "金星",
    "unit": "-",
-   "obs": null,
+   "obs": 0.00677672,
    "meas": 0.007008166125620266,
    "sigmaCard": null,
    "csvBody": "Venus",
    "csvQuantity": "eccentricity",
    "csvRow": {
-    "value": 0.007,
+    "value": 0.00677672,
     "unit": "1",
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": true,
+   "csvRowLegacy": {
+    "value": 0.007,
+    "unit": "1",
+    "sigma": null,
+    "primaryVerified": false,
+    "source": "dfm-simulator solarInner declaration (committed)"
+   },
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -3010,6 +3286,8 @@
     "declaredSigma": null,
     "applied": true,
     "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
     "previousRow": {
      "value": 0.007,
      "sigma": null,
@@ -3034,7 +3312,7 @@
      "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
     },
     "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
-    "note": "**「宣言後の初判定」は別欄である** —— 宣言前の 4 値と判定内訳は据え置く(上書きしない)。"
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
    }
   },
   {
@@ -3055,6 +3333,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -3085,6 +3367,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -3115,6 +3401,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -3145,6 +3435,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -3175,6 +3469,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": true,
    "sigma": null,
@@ -3200,6 +3498,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -3230,6 +3532,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -3260,6 +3566,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -3290,6 +3600,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -3320,6 +3634,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -3339,20 +3657,30 @@
    "kind": "period",
    "target": "カロン",
    "unit": "s",
-   "obs": 551854.08,
+   "obs": 551856.43872,
    "meas": 553210.6340099995,
    "sigmaCard": null,
    "csvBody": "Charon",
    "csvQuantity": "orbital_period",
    "csvRow": {
+    "value": 551856.43872,
+    "unit": "s",
+    "sigma": 0.02592,
+    "primaryVerified": true
+   },
+   "declaredApplied": true,
+   "csvRowLegacy": {
     "value": 551854.08,
     "unit": "s",
     "sigma": null,
-    "primaryVerified": false
+    "primaryVerified": false,
+    "source": "NASA NSSDC Pluto Fact Sheet (archived)"
    },
-   "cut": "csv-sigma-empty",
+   "ad8Converted": false,
+   "previousUnit": null,
+   "cut": null,
    "condMismatch": true,
-   "sigma": null,
+   "sigma": 0.02592,
    "residual": null,
    "nSigma": null,
    "numOk": null,
@@ -3367,6 +3695,8 @@
     "declaredSigma": 0.02592,
     "applied": true,
     "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
     "previousRow": {
      "value": 551854.08,
      "sigma": null,
@@ -3390,7 +3720,7 @@
      "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
     },
     "verdict": "保留(数値収束が未確認)",
-    "note": "**「宣言後の初判定」は別欄である** —— 宣言前の 4 値と判定内訳は据え置く(上書きしない)。"
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
    }
   },
   {
@@ -3400,26 +3730,46 @@
    "kind": "period",
    "target": "カロン",
    "unit": "s",
-   "obs": 551854.08,
+   "obs": 551856.43872,
    "meas": 553210.6340099995,
    "sigmaCard": null,
    "csvBody": "Charon",
    "csvQuantity": "orbital_period",
    "csvRow": {
+    "value": 551856.43872,
+    "unit": "s",
+    "sigma": 0.02592,
+    "primaryVerified": true
+   },
+   "declaredApplied": true,
+   "csvRowLegacy": {
     "value": 551854.08,
     "unit": "s",
     "sigma": null,
-    "primaryVerified": false
+    "primaryVerified": false,
+    "source": "NASA NSSDC Pluto Fact Sheet (archived)"
    },
-   "cut": "csv-sigma-empty",
+   "ad8Converted": false,
+   "previousUnit": null,
+   "cut": null,
    "condMismatch": false,
-   "sigma": null,
-   "residual": null,
-   "nSigma": null,
-   "numOk": null,
-   "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)",
-   "guards": null,
+   "sigma": 0.02592,
+   "residual": 1354.1952899994794,
+   "nSigma": 52245.18865738733,
+   "numOk": false,
+   "gateStatusBefore": "数値未解決",
+   "verdict": "保留(数値収束が未確認)",
+   "guards": {
+    "ok": false,
+    "missing": [
+     "数値収束が未確認"
+    ],
+    "definitionDeclared": true,
+    "mappingResolved": true,
+    "convergenceOk": false,
+    "verdict": "保留(数値収束が未確認)",
+    "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+   },
    "unitConvertedFirst": null,
    "declaredFirst": {
     "key": "Charon|orbital_period",
@@ -3428,6 +3778,8 @@
     "declaredSigma": 0.02592,
     "applied": true,
     "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
     "previousRow": {
      "value": 551854.08,
      "sigma": null,
@@ -3451,7 +3803,7 @@
      "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
     },
     "verdict": "保留(数値収束が未確認)",
-    "note": "**「宣言後の初判定」は別欄である** —— 宣言前の 4 値と判定内訳は据え置く(上書きしない)。"
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
    }
   },
   {
@@ -3461,26 +3813,46 @@
    "kind": "period",
    "target": "カロン",
    "unit": "s",
-   "obs": 551854.08,
+   "obs": 551856.43872,
    "meas": 553210.6340099995,
    "sigmaCard": null,
    "csvBody": "Charon",
    "csvQuantity": "orbital_period",
    "csvRow": {
+    "value": 551856.43872,
+    "unit": "s",
+    "sigma": 0.02592,
+    "primaryVerified": true
+   },
+   "declaredApplied": true,
+   "csvRowLegacy": {
     "value": 551854.08,
     "unit": "s",
     "sigma": null,
-    "primaryVerified": false
+    "primaryVerified": false,
+    "source": "NASA NSSDC Pluto Fact Sheet (archived)"
    },
-   "cut": "csv-sigma-empty",
+   "ad8Converted": false,
+   "previousUnit": null,
+   "cut": null,
    "condMismatch": false,
-   "sigma": null,
-   "residual": null,
-   "nSigma": null,
-   "numOk": null,
-   "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)",
-   "guards": null,
+   "sigma": 0.02592,
+   "residual": 1354.1952899994794,
+   "nSigma": 52245.18865738733,
+   "numOk": false,
+   "gateStatusBefore": "数値未解決",
+   "verdict": "保留(数値収束が未確認)",
+   "guards": {
+    "ok": false,
+    "missing": [
+     "数値収束が未確認"
+    ],
+    "definitionDeclared": true,
+    "mappingResolved": true,
+    "convergenceOk": false,
+    "verdict": "保留(数値収束が未確認)",
+    "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+   },
    "unitConvertedFirst": null,
    "declaredFirst": {
     "key": "Charon|orbital_period",
@@ -3489,6 +3861,8 @@
     "declaredSigma": 0.02592,
     "applied": true,
     "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
     "previousRow": {
      "value": 551854.08,
      "sigma": null,
@@ -3512,7 +3886,7 @@
      "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
     },
     "verdict": "保留(数値収束が未確認)",
-    "note": "**「宣言後の初判定」は別欄である** —— 宣言前の 4 値と判定内訳は据え置く(上書きしない)。"
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
    }
   },
   {
@@ -3528,6 +3902,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -3553,6 +3931,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -3583,6 +3965,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -3613,6 +3999,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -3643,6 +4033,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -3673,6 +4067,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -3703,6 +4101,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -3733,6 +4135,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -3763,6 +4169,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -3793,6 +4203,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -3823,6 +4237,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -3848,6 +4266,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -3878,6 +4300,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -3908,6 +4334,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -3938,6 +4368,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -3968,6 +4402,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -3998,6 +4436,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4028,6 +4470,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4058,6 +4504,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4088,6 +4538,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4118,6 +4572,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4148,6 +4606,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4178,6 +4640,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": true,
    "sigma": null,
@@ -4208,6 +4674,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4238,6 +4708,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4268,6 +4742,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4293,6 +4771,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -4323,6 +4805,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4353,6 +4839,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4371,9 +4861,9 @@
    "name": "D68 リングレットの近点移動(推定器つき宣言 — 第250便d)",
    "kind": "precession",
    "target": "D68",
-   "unit": "deg/orbit",
-   "obs": 8.066820058415589,
-   "meas": 8.042145452277042,
+   "unit": "deg/yr",
+   "obs": 13968.25575,
+   "meas": 13925.526910658999,
    "sigmaCard": null,
    "csvBody": "Saturn ring feature D68",
    "csvQuantity": "periastron_advance",
@@ -4383,82 +4873,38 @@
     "sigma": 2.922,
     "primaryVerified": true
    },
-   "cut": "unit-not-converted",
-   "condMismatch": false,
-   "sigma": null,
-   "residual": null,
-   "nSigma": null,
-   "numOk": null,
-   "gateStatusBefore": "数値未解決",
-   "verdict": "保留(σ の単位が obsCard と違う・未換算)",
-   "guards": null,
-   "unitConvertedFirst": {
-    "from": "deg/orbit",
-    "to": "deg/yr",
-    "yearSec": 31557600,
-    "obsValue": 13968.25575,
-    "obsSigma": 2.922,
-    "primary": {
-     "label": "近点間周期(**傾きと同じ 58 近点(57 区間)**の平均 — 第269便a の新契約)",
-     "periodSec": 18224.862222665284,
-     "periodDef": "periastron-same-window",
-     "simDegPerYear": 13925.526910658999,
-     "residual": -42.72883934100173,
-     "nSigma": -14.623148302875334
-    },
-    "controls": [
-     {
-      "label": "近点間周期(**旧契約: 最初の 20 近点の固定窓** — 傾きと同じ近点集合ではない)",
-      "periodSec": 18224.858223651565,
-      "periodDef": "periastron-20window",
-      "simDegPerYear": 13925.529966286234,
-      "residual": -42.72578371376585,
-      "nSigma": -14.622102571446218
-     },
-     {
-      "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
-      "periodSec": 17865.949830569363,
-      "periodDef": "revolution",
-      "simDegPerYear": 14205.27941316233,
-      "residual": 237.0236631623302,
-      "nSigma": 81.11692784473996
-     },
-     {
-      "label": "丸めた観測周期(**使わない** — 観測の丸め幅が入る)",
-      "periodSec": 17928,
-      "periodDef": "observed-rounded",
-      "simDegPerYear": 14156.113862381637,
-      "residual": 187.8581123816366,
-      "nSigma": 64.29093510665182
-     }
-    ],
-    "previous": {
-     "contract": "20-periastron period window(第268便a)",
-     "periodSec": 18224.858223651565,
-     "simDegPerYear": 13925.529966286234,
-     "residual": -42.72578371376585,
-     "nSigma": -14.622102571446218,
-     "why": "傾きは 58 近点・周期は 20 近点で、**同じ近点集合ではなかった**(換算契約の未達)"
-    },
-    "inverseCheck": {
-     "obsDegPerOrbit": 8.066821828488292,
-     "sigmaDegPerOrbit": 0.0016874872428393783,
-     "nSigma": -14.623148302875121
-    },
-    "guards": {
-     "ok": false,
-     "missing": [
-      "数値収束が未確認"
-     ],
-     "definitionDeclared": true,
-     "mappingResolved": true,
-     "convergenceOk": false,
-     "verdict": "保留(数値収束が未確認)",
-     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
-    },
-    "verdict": "保留(数値収束が未確認)",
-    "note": "**正式判定は「数値未解決」**(3 段の収束の前に否とも合とも言わない)。既定の 4 値と切断点 `unit-not-converted` は**据え置き**である。"
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": true,
+   "previousUnit": {
+    "unit": "deg/orbit",
+    "meas": 8.042145452277042,
+    "obs": 8.066820058415589,
+    "obsErr": null,
+    "obsSigmaCsv": 0.00168748687256033,
+    "sigmaNote": "σ=0.00168748687256033 を CSV(Saturn ring feature D68|periastron_advance・deg/yr)から転写(sigma_primary=verified)",
+    "residualPct": null,
+    "cut": "unit-not-converted",
+    "why": "第266便a〜第269便a の切断点(obsCard が °/周・CSV が deg/yr で、換算しないまま σ を当てると見かけの「合(3σ)」になる)。**第270便a(AD8)で換算を入れて正式接続した** —— この欄は**換算前の記録**であって、新しい判定値ではない。"
    },
+   "cut": null,
+   "condMismatch": false,
+   "sigma": 2.922,
+   "residual": 42.72883934100173,
+   "nSigma": 14.623148302875334,
+   "numOk": true,
+   "gateStatusBefore": "否(3σ)",
+   "verdict": "否(3σ)",
+   "guards": {
+    "ok": true,
+    "missing": [],
+    "definitionDeclared": true,
+    "mappingResolved": true,
+    "convergenceOk": true,
+    "verdict": null,
+    "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+   },
+   "unitConvertedFirst": null,
    "declaredFirst": null
   },
   {
@@ -4479,6 +4925,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4509,6 +4959,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4534,6 +4988,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -4564,6 +5022,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4594,6 +5056,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4624,6 +5090,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4649,6 +5119,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -4679,6 +5153,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4709,6 +5187,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4739,6 +5221,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4769,6 +5255,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4799,6 +5289,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4829,6 +5323,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4859,6 +5357,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4889,6 +5391,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -4914,6 +5420,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -4939,6 +5449,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -4964,6 +5478,10 @@
    "csvBody": null,
    "csvQuantity": null,
    "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "kind-not-gated",
    "condMismatch": false,
    "sigma": null,
@@ -4994,6 +5512,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -5024,6 +5546,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -5054,6 +5580,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -5084,6 +5614,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -5114,6 +5648,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -5144,6 +5682,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -5174,6 +5716,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -5204,6 +5750,10 @@
     "sigma": null,
     "primaryVerified": false
    },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
    "cut": "csv-sigma-empty",
    "condMismatch": false,
    "sigma": null,
@@ -5324,19 +5874,6 @@
    "obsPresent": 2
   },
   {
-   "key": "Charon|orbital_period",
-   "body": "Charon",
-   "target": "カロン",
-   "quantity": "orbital_period",
-   "kind": "period",
-   "cut": "csv-sigma-empty",
-   "presets": [
-    "❄️"
-   ],
-   "nQuantities": 3,
-   "obsPresent": 3
-  },
-  {
    "key": "Triton|orbital_period",
    "body": "Triton",
    "target": "トリトン",
@@ -5361,7 +5898,7 @@
     "🌇"
    ],
    "nQuantities": 2,
-   "obsPresent": 0
+   "obsPresent": 2
   },
   {
    "key": "Venus|periastron_advance",
@@ -6102,17 +6639,49 @@
    "obsPresent": 0
   }
  ],
+ "history": [
+  {
+   "wave": "第269便(第59報・PR #271)",
+   "commit": "f6c19b4",
+   "fourTally": {
+    "保留": 16
+   },
+   "cutTally": {
+    "csv-sigma-empty": 109,
+    "kind-not-gated": 26,
+    "unit-not-converted": 4
+   },
+   "csvSha": "e426aa7d8a6751068699933074c7885ee66234936e11aafd319bc091a670afd4",
+   "judgementMode": "diagnostic-only-until-AD5",
+   "reason": "**基点**。宣言は診断欄のみ(切断点も旧行=ファイル順の最初で分類)・📡 は換算前(°/周)なので切断点 `unit-not-converted` に留まっていた。"
+  }
+ ],
+ "moved": {
+  "what": [
+   "AD5: 宣言 2 件(カロン P・金星 e)を正式経路へ —— **切断点の分類も宣言行で行う**",
+   "AD8: 📡 D68 の判定量を ϖ̇ [deg/yr] へ写した —— 切断点 `unit-not-converted` から外れる"
+  ],
+  "cutPreservedNote": "**切断点 `unit-not-converted` は消していない** —— 換算していない水星の 3 行(☄️🪨🌞)が**対照として残る**。この区分は「σ の単位が obsCard と違う」状態の名前であって、📡 を換算したから不要になったのではない。",
+  "doNotWrite": [
+   "換算で判定が増えた",
+   "太陽系の σ が揃った",
+   "D68 が合(3σ)",
+   "較正を完了した"
+  ]
+ },
  "conclusion": {
-  "connected": 0,
+  "connected": 4,
   "unverified": 0,
-  "missingForJudgement": 66,
-  "note": "**対応表を繋いでも 3σ の判定は 1 件も出ない** —— 切断点は対応表ではなく **CSV の sigma 列と行そのもの**である。したがって太陽系 16 本は「保留(σ 未登録)」のままである(**否定ではない**)。2026-09-14 の観測レコード intake でも**この数は動かない**: 入った σ は半径・GM・候補行のもので、門が読む量(公転周期・離心率・近点移動・自転)の σ ではない。",
+  "missingForJudgement": 65,
+  "note": "**接続後に判定が出た量がある**(表を読むこと)。第270便a(AD5/AD8)で σ が門へ届いた行は 4 件で、そのうち 3σ の合否が出たのは 1 件である。**残りは「保留」である**(数値収束・写像・σ 未登録)—— 保留は否定ではない。**合否が出たことは較正が進んだことではない** —— 出た合否の中身は 4 値の表を読むこと。",
   "doNotWrite": [
    "太陽系の現実較正を完了した",
    "σ を繋いだので合格した",
    "保留は否定である",
    "±1% の目安を σ として読んだ",
-   "観測レコードが入ったので判定が出た(σ は unverified のままである)"
+   "観測レコードが入ったので判定が出た(σ は unverified のままである)",
+   "判定が増えた",
+   "較正を完了した"
   ]
  }
 }
