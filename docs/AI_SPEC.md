@@ -2055,3 +2055,24 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     - 星団の JSON は **`virialTermsAE14`**(列ごとの **K・U・W_vir・2K/|U|・2K/|W_vir|・W_vir/U** と、
       **`vMode:"virial"` の列だけ**の範囲 `rangeVirialOnly`)を持つ。
       **`vMode:"virial"` は期待値の正規化であって有限標本の K を測っていない**(規約)。
+
+## 8. 表示だけの side table(第272便d — **プリセットの鍵ではない**)
+
+第272便d(第62報「サンプル整理」)で足した 2 つの読み口は、**どちらもプリセットの鍵ではない**。
+したがって **SYSTEM_PROMPT・検証器(`validatePreset`)・保存 JSON・エクスポート・`presetSig` はいずれも 1 バイトも変わっていない**
+(AI 生成のサンプルにこれらを書いても、検証器は未知キーとして従来どおり落とす)。
+
+- **`MASS_BASIS`(質量の由来)** —— `beta/index.html` の中に**プリセット配列の外**で持つ表である。
+  `preset id → {kind, records, solutionId, inferenceModel, conversion, note/noteEn}` で、
+  `kind` は `observed-solution` / `dfm-calibrated` / `mixed` / `undeclared` の 4 つだけ(それ以外は落とす)。
+  `records` は `paper/data/*.csv` の **`record_id`**、`solutionId` は `paper/data/solutions.json` の **id** を指す。
+  DFM 版の質量補正 f は**この表には書かない** —— 当該サンプルの `massCalibration.factor`(または `factorUniform`)を
+  実行時に読む(数値を二重に持たない)。**自動判定はしない**: `massCalibration` の有無・f=1・`fidelity:"real"` は
+  「観測解の質量を入力した」の根拠にしない。**AI 生成のサンプルはこの表に載らない**ので、チップは出ない。
+- **`meshChipState(p,S)`(空間メッシュ/複素決定力場)** —— 既存の宣言
+  (`physics.spaceMesh` の `lawVersion` / `law` / `toyAllowDrag`・`physics.geoPN`)と、
+  既存の実行時読み口(`S.hasGeoToy` / `S.geoToyDeny` / `S.geoToyStop` / `S.geoToyOverlay` / `S.geoToyConverged`)を
+  読むだけの純関数である。**新しい鍵は 1 つも足していない。**
+  **`geoPN=3` であることだけを根拠に「複素決定力場」と表示しない**(`lawVersion` は scalar / local / complex の 3 つがあり、
+  法則版 `law:"mesh-v2"` は別にあり、**選択と作動も別**である)。較正クラス(`sampleClass:"calibration"`)の受理条件は不変で、
+  `geoPN=3` は従来どおり拒否される。

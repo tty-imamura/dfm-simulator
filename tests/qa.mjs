@@ -27803,7 +27803,14 @@ if (!FAST) {
       const wantW220 = hasBox
         ? ['熱の実験室', '空間と時間', '光の物語', '天体の物語', '現実との照合・太陽系',
            '現実との照合・太陽系外', '銀河の物語', 'ローターの物語', '箱宇宙'] : null;
-      const cands = [want, wantNew, wantW149, wantW151, wantW220].filter(Boolean);
+      // 第272便d(第62報 原仮定者の指示「グループの表示順を論文の順番に合わせる」): GROUP_ORDER を
+      // 論文順(論文1 実験1 相対回転→2 銀河→3 近点→4 時計→5 光→6 熱 / 論文2 箱宇宙+付録の減光 /
+      // 論文3 太陽系)へ差し替え、**新グループ「実在天体のアナロジー」**(11 本)を太陽系外の直後に置いた。
+      // 候補を追加して世代ごとに**厳密一致**で判定する(候補数=6 — 弱体化なし)
+      const wantW272 = hasBox
+        ? ['空間と時間', '銀河の物語', '天体の物語', '光の物語', '熱の実験室', '箱宇宙',
+           'ローターの物語', '現実との照合・太陽系', '現実との照合・太陽系外', '実在天体のアナロジー'] : null;
+      const cands = [want, wantNew, wantW149, wantW151, wantW220, wantW272].filter(Boolean);
       const hit = cands.find((c) => JSON.stringify(labels.slice(0, c.length)) === JSON.stringify(c));
       res.groups = labels.slice(0, (hit || want).length);
       res.groupsOk = !!hit;
@@ -27811,6 +27818,7 @@ if (!FAST) {
       res.wave147 = !!wantW149 && hit === wantW149;
       res.wave151 = !!wantW151 && hit === wantW151;
       res.wave220 = !!wantW220 && hit === wantW220;
+      res.wave272 = !!wantW272 && hit === wantW272;
       // 第149便: グループ跨ぎファミリーの分割(表示専用)。天体の物語側の 🌍🌕 / 🪐🎯 は
       // それぞれ earthmoonToy / saturnToy として自グループ内で完結し、☿ は単独(familyId なし)。
       // 現実との照合側の既存ファミリー(mercury / earthmoon / saturn)は id 名ごと不変。
@@ -27871,10 +27879,11 @@ if (!FAST) {
       return res;
     });
     add('groups.reorder', r.groupsOk,
-      `optgroups=${JSON.stringify(r.groups)}(${r.wave220 ? '第220便 再編順(「現実との照合」を太陽系/太陽系外へ分割)'
+      `optgroups=${JSON.stringify(r.groups)}(${r.wave272 ? '第272便d 論文順(+新グループ「実在天体のアナロジー」)'
+        : (r.wave220 ? '第220便 再編順(「現実との照合」を太陽系/太陽系外へ分割)'
         : (r.wave151 ? '第151便 再編順(銀河の物語の直後へ「ローターの物語」を新設)'
         : (r.wave147 ? '第147便 再編順(第149便で「現実との照合」へ改称)'
-          : (r.scaleOrder ? '第79便 スケール準拠順' : '従来順')))})`);
+          : (r.scaleOrder ? '第79便 スケール準拠順' : '従来順'))))})`);
     // 第149便(原仮定者裁定): グループ跨ぎファミリーの分割。本便未適用の対象は自動 SKIP
     {
       const eq = (a, b) => JSON.stringify(a) === JSON.stringify(b);
@@ -41010,6 +41019,303 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     (rdErr.length ? ` / pageErrors=[${rdErr.slice(0, 2).join(' | ')}]` : ''));
   await rd.close();
   }
+}
+
+// ---- 第272便d(第62報「サンプル整理」): 表示だけの 5 件 ----
+// ----   ① ui.massBasisChip      : 「質量の由来」チップ(宣言専用の side table・presetSig の外・自動判定しない)
+// ----   ② ui.meshChipState      : 空間メッシュ/複素決定力場チップ(**宣言と作動を分ける**)
+// ----   ③ preset.groupAnalogies : 新グループ「実在天体のアナロジー」11 本(group 文字列だけの移動)
+// ----   ④ ui.groupOrderPaper    : 表示順を論文順へ(GROUP_ORDER の差し替えだけ・配列は不変)
+// ----   ⑤ docs.rotorDimmingScope: ローターの物語=減光の検証用(群の達成条件の明文化)
+// **いずれも root(第272便d 未適用)では自動 SKIP** する。
+{
+  const mp = await browser.newPage();
+  await mp.goto(INDEX, { waitUntil: 'load' });
+  await mp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const hasMB = await mp.evaluate(() => !!(window.HP && typeof HP.massBasisOf === 'function'));
+  if (!hasMB) {
+    console.log('SKIP ui.massBasisChip(第272便d 未適用 — HP.massBasisOf なし)');
+  } else {
+    const r = await mp.evaluate(() => {
+      const o = {}, ps = HP.allPresets();
+      // ① 宣言のある本だけにチップが出る(自動判定しない)
+      const decl = ps.map((p) => [p.id, HP.massBasisOf(p)]).filter((x) => x[1]);
+      o.n = decl.length;
+      o.kinds = {};
+      for (const [, m] of decl) o.kinds[m.kind] = (o.kinds[m.kind] || 0) + 1;
+      o.kindsOk = decl.every((x) => HP.MASS_BASIS_KINDS.indexOf(x[1].kind) >= 0
+        && x[1].kind !== 'undeclared');
+      // ② **undeclared は宣言してもチップを出さない**(NGC 3198 の NFW ハロー等)
+      o.undeclared = Object.keys(HP.MASS_BASIS).filter((k) => HP.MASS_BASIS[k].kind === 'undeclared');
+      o.undeclaredNoChip = o.undeclared.every((k) => HP.massBasisOf(ps.find((p) => p.id === k)) === null);
+      // ③ **自動認定しない**: massCalibration を持つのに表に無い本にはチップが出ない
+      o.mcNoEntry = ps.filter((p) => p.massCalibration && !HP.MASS_BASIS[p.id]).map((p) => p.id);
+      o.mcNoEntryNoChip = o.mcNoEntry.every((id) => HP.massBasisOf(ps.find((p) => p.id === id)) === null);
+      // ④ f は**当該サンプルの massCalibration 台帳から読む**(side table に数値を二重に持たない)
+      o.fFromLedger = decl.filter((x) => x[1].kind === 'dfm-calibrated').every(([id, m]) => {
+        const p = ps.find((q) => q.id === id), mc = p.massCalibration || {};
+        const f = (typeof mc.factor === 'number') ? mc.factor : mc.factorUniform;
+        return Object.is(m.factor, f);
+      });
+      o.noFactorInTable = Object.keys(HP.MASS_BASIS).every((k) => !('factor' in HP.MASS_BASIS[k]));
+      // ⑤ **presetSig はこの表を見ない**(group と同じく宣言の外)
+      o.sigClean = ps.every((p) => presetSig(p).indexOf('SOL-') < 0
+        && presetSig(p).indexOf('observed-solution') < 0);
+      // ⑥ チップが実際に出る(ja/en とも)。f は**丸めない**
+      const chipsOf = (id, lang) => { HP.setLang(lang); HP.loadPreset(id, false);
+        const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click();
+        return [...document.querySelectorAll('#classChips .classChip')]
+          .filter((c) => String(c.dataset.g).indexOf('massbasis-') === 0)
+          .map((c) => c.textContent); };
+      o.jaObs = chipsOf('psrDoubleAB', 'ja');
+      o.jaDfm = chipsOf('gw150914DFM', 'ja');
+      o.enDfm = chipsOf('gw150914DFM', 'en');
+      o.jaMixed = chipsOf('marsMoonsReal', 'ja');
+      o.noneOnNgc = chipsOf('ngc3198', 'ja');
+      HP.setLang('ja');
+      const fExact = String((ps.find((p) => p.id === 'gw150914DFM').massCalibration || {}).factor);
+      o.chipOk = o.jaObs.length === 1 && o.jaObs[0] === '観測解の質量を入力'
+        && o.jaDfm.length === 1 && o.jaDfm[0] === 'DFM 質量補正 f=' + fExact
+        && o.enDfm.length === 1 && o.enDfm[0] === 'DFM mass correction f=' + fExact
+        && o.jaMixed.length === 1 && o.jaMixed[0] === '観測解と模型値の混在'
+        && o.noneOnNgc.length === 0;
+      o.fExact = fExact;
+      return o;
+    });
+    add('ui.massBasisChip',
+      r.kindsOk && r.undeclaredNoChip && r.mcNoEntryNoChip && r.fFromLedger && r.noFactorInTable
+      && r.sigClean && r.chipOk && r.n > 0 && r.undeclared.length > 0,
+      `**質量の由来チップ(宣言専用)**: 宣言 ${r.n} 本(${JSON.stringify(r.kinds)})/ `
+      + `**意図して宣言しない** ${r.undeclared.length} 本=${JSON.stringify(r.undeclared)}(チップ無し=${r.undeclaredNoChip})/ `
+      + `**自動認定しない**: massCalibration を持つが表に無い ${r.mcNoEntry.length} 本にもチップ無し=${r.mcNoEntryNoChip} / `
+      + `f は台帳から読む=${r.fFromLedger}(side table に factor を持たない=${r.noFactorInTable}・🎻 f=${r.fExact} を丸めずに出す)/ `
+      + `**presetSig はこの表を見ない**=${r.sigClean} / ja/en 表示=${r.chipOk}`
+      + `(ja ${JSON.stringify(r.jaObs.concat(r.jaDfm, r.jaMixed))} / en ${JSON.stringify(r.enDfm)}・🌃 は 0 件)`);
+  }
+  await mp.close();
+}
+{
+  const xp = await browser.newPage();
+  await xp.goto(INDEX, { waitUntil: 'load' });
+  await xp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const hasMesh = await xp.evaluate(() => !!(window.HP && typeof HP.meshChipState === 'function'));
+  if (!hasMesh) {
+    console.log('SKIP ui.meshChipState(第272便d 未適用 — HP.meshChipState なし)');
+  } else {
+    const r = await xp.evaluate(() => {
+      const o = {}, ps = HP.allPresets();
+      o.rows = [];
+      for (const p of ps) {
+        HP.loadPreset(p.id, false);
+        const st = HP.meshChipState(p, HP.sim);
+        if (st) o.rows.push([p.id, p.emoji, st.key, st.law, st.acting, HP.meshChipLabel(p, HP.sim)]);
+      }
+      // ① **geoPN=3 だけでは「複素決定力場」と出さない** —— 内蔵で complex を宣言する本は 0 本
+      o.complexDecl = ps.filter((p) => ((p.physics || {}).spaceMesh || {}).lawVersion === 'complex').map((p) => p.id);
+      o.noComplexChip = o.rows.every((x) => x[2] !== 'complex');
+      o.geo3 = ps.filter((p) => (p.physics || {}).geoPN === 3).map((p) => p.emoji).join('');
+      // ② 宣言だけで走っていない本は「宣言のみ」(🪟 spaceMeshBinaryToy = geoPN≠3)
+      o.declaredOnly = o.rows.filter((x) => x[2] === 'declared').map((x) => x[0]);
+      // ③ **画面の選択値だけを根拠にしない**: 実行情報が「入場条件が立たない」と言っていれば
+      //    「メッシュ未作動: 理由」と出す(engine の読み口をそのまま渡す純関数として確かめる。
+      //     **内蔵の宣言は 1 bit も触らない** —— 複製と、engine が返す形の診断オブジェクトを使う)
+      const clone = JSON.parse(JSON.stringify(ps.find((p) => p.id === 'psrDoubleABGeoToy')));
+      clone.id = 'w272d_probe'; clone.physics.kFrame = 1;
+      const Sdeny = { params: { geoPN: 3, kFrame: 1 }, hasGeoToy: false,
+        geoToyDeny: 'kFrame', geoToyStop: 'denied', geoToyOverlay: null, geoToyConverged: null };
+      const stDeny = HP.meshChipState(clone, Sdeny);
+      o.denyKey = stDeny ? stDeny.key : null;
+      o.denyReason = stDeny ? stDeny.reason : null;
+      o.denyLabel = stDeny ? HP.meshChipLabel(clone, Sdeny) : null;
+      // 引きずり重畳(toyAllowDrag)の読み口も**別の接尾辞**として出る
+      const Sdrag = { params: { geoPN: 3, kFrame: 1 }, hasGeoToy: true, geoToyDeny: null,
+        geoToyStop: null, geoToyOverlay: 'drag', geoToyConverged: true };
+      o.dragLabel = HP.meshChipLabel(clone, Sdrag);
+      // ④ **complex を宣言した複製**では complex と出る(実行中の toy が立っているとき)
+      HP.loadPreset('psrDoubleABGeoToy', false);
+      const c2 = JSON.parse(JSON.stringify(ps.find((p) => p.id === 'psrDoubleABGeoToy')));
+      c2.physics.spaceMesh.lawVersion = 'complex';
+      const st2 = HP.meshChipState(c2, HP.sim);
+      o.complexKey = st2 ? st2.key : null;
+      o.complexLabel = st2 ? HP.meshChipLabel(c2, HP.sim) : null;
+      // ⑤ **メッシュの宣言も geoPN=3 も無い本にはチップが出ない**(実行中の宇宙も geoPN<3 のとき)
+      HP.loadPreset('saturn', false);
+      o.plainNull = HP.meshChipState(ps.find((p) => p.id === 'saturn'), HP.sim) === null;
+      HP.setLang('en');
+      HP.loadPreset('galaxyMeshSpiralGeoToy', false);
+      o.enLabel = HP.meshChipLabel(ps.find((p) => p.id === 'galaxyMeshSpiralGeoToy'), HP.sim);
+      HP.setLang('ja'); HP.loadPreset('saturn', false);
+      return o;
+    });
+    add('ui.meshChipState',
+      r.noComplexChip && r.complexDecl.length === 0 && r.rows.length === 3
+      && r.declaredOnly.length === 1 && r.denyKey === 'stopped' && r.denyReason === 'kFrame'
+      && /メッシュ未作動: kFrame>0 と重なる/.test(String(r.denyLabel))
+      && r.complexKey === 'complex' && /引きずり重畳|dragging overlaid/.test(String(r.dragLabel))
+      && r.plainNull && /Space mesh: scalar/.test(String(r.enLabel)),
+      `**空間メッシュ/複素決定力場チップ(宣言と作動を分ける)**: 宣言のある本 ${r.rows.length} 件=`
+      + `${JSON.stringify(r.rows)} / **geoPN=3 だけでは「複素決定力場」と書かない**: `
+      + `geoPN=3 の内蔵=${r.geo3}・**lawVersion:"complex" を宣言する内蔵は ${r.complexDecl.length} 本**なので`
+      + `「複素決定力場」チップは ${r.noComplexChip ? '1 件も出ない' : '出てしまっている'} / `
+      + `宣言のみ(測地線トイ未選択)=${JSON.stringify(r.declaredOnly)} / `
+      + `**作動状態を読む**(画面の選択値だけを根拠にしない): 実行情報が deny=${r.denyReason} を返す状態では`
+      + `「${r.denyLabel}」・重畳(toyAllowDrag)では「${r.dragLabel}」/ complex を宣言した複製では「${r.complexLabel}」/ `
+      + `宣言の無い本はチップ無し=${r.plainNull} / en=「${r.enLabel}」`);
+  }
+  await xp.close();
+}
+{
+  const gp = await browser.newPage();
+  await gp.goto(INDEX, { waitUntil: 'load' });
+  await gp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const hasAG = await gp.evaluate(() => HP.allPresets().some((p) => p.group === '実在天体のアナロジー'));
+  if (!hasAG) {
+    console.log('SKIP preset.groupAnalogies(第272便d 未適用 — 対象にグループ「実在天体のアナロジー」なし)');
+  } else {
+    const r = await gp.evaluate(() => {
+      const o = {}, ps = HP.allPresets(), G = '実在天体のアナロジー';
+      const WANT = ['gw150914', 'gw150914DFM', 'gw150914Merge4s', 'gw150914SpinDipole',
+        'tuc47', 'tuc47DFM', 'ngc3198', 'ngc3198DFM', 'supernovaProg', 'supernovaProgDFM', 'crabRemnant'];
+      o.members = ps.filter((p) => p.group === G).map((p) => p.id);
+      o.exact = JSON.stringify(o.members.slice().sort()) === JSON.stringify(WANT.slice().sort());
+      o.n = o.members.length;
+      o.gid = groupIdOf(G);
+      // ① **psrDoubleABGeoToy は psr family に残す・lfbotTrap は入れない**
+      o.psrToy = (ps.find((p) => p.id === 'psrDoubleABGeoToy') || {}).group;
+      o.lfbot = (ps.find((p) => p.id === 'lfbotTrap') || {}).group;
+      // ② ファミリーはグループを跨がない(family-invariant を新グループでも保つ)
+      const fids = [...new Set(ps.filter((p) => p.familyId).map((p) => p.familyId))];
+      o.cross = fids.filter((f) => new Set(ps.filter((p) => p.familyId === f)
+        .map((p) => p.group || '内蔵')).size > 1);
+      // ③ **較正 37 本の母集団は不変**(group は sampleClass に触らない)
+      o.calN = ps.filter((p) => p.sampleClass === 'calibration').length;
+      // ④ **presetSig は group を見ない**: group を書き換えた複製の署名が 1 文字も変わらない
+      o.sigSame = WANT.every((id) => { const p = ps.find((q) => q.id === id);
+        const c = JSON.parse(JSON.stringify(p)); c.group = '別のグループ';
+        return presetSig(c) === presetSig(p); });
+      o.sigNoGroup = ps.every((p) => presetSig(p).indexOf(G) < 0);
+      // ⑤ グループ数・各群の本数(移動元は 30→19)
+      const gc = {};
+      for (const p of ps) gc[p.group || '内蔵'] = (gc[p.group || '内蔵'] || 0) + 1;
+      o.counts = gc; o.total = ps.length;
+      // ⑥ 群の説明(ja/en)があり、「観測一致版ではない」を言う
+      o.noteJa = (I18N.ja.groupNotes || {})[G] || '';
+      o.noteEn = (I18N.en.groupNotes || {})[G] || '';
+      o.noteOk = /観測一致版ではない/.test(o.noteJa) && /NOT OBSERVATION-MATCHING/.test(o.noteEn);
+      o.enName = I18N.en.groups[G];
+      return o;
+    });
+    add('preset.groupAnalogies',
+      r.exact && r.n === 11 && r.gid === 'realAnalogy' && r.psrToy === '現実との照合・太陽系外'
+      && r.lfbot === '天体の物語' && r.cross.length === 0 && r.calN === 37
+      && r.sigSame && r.sigNoGroup && r.total === 124 && r.counts['現実との照合・太陽系外'] === 19
+      && r.noteOk && r.enName === 'Real-object Analogies',
+      `**新グループ「実在天体のアナロジー」**(id=${r.gid}・en=${r.enName}): ${r.n} 本=${JSON.stringify(r.members)} / `
+      + `🩻 psrDoubleABGeoToy は psr family に残す=${r.psrToy}・🐮 lfbotTrap は入れない=${r.lfbot} / `
+      + `グループを跨ぐファミリー=${JSON.stringify(r.cross)}(0 件)/ **較正の母集団は不変** ${r.calN} 本 / `
+      + `**presetSig は group を見ない**=${r.sigSame && r.sigNoGroup}(group を書き換えた複製の署名が同一)/ `
+      + `内蔵 ${r.total} 本・群別 ${JSON.stringify(r.counts)}(移動元「現実との照合・太陽系外」は 30→${r.counts['現実との照合・太陽系外']})/ `
+      + `群の説明 ja/en=${r.noteOk}(**観測一致版ではない**と明記)`);
+  }
+  await gp.close();
+}
+{
+  const op = await browser.newPage();
+  await op.goto(INDEX, { waitUntil: 'load' });
+  await op.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const hasPO = await op.evaluate(() => typeof GROUP_ORDER !== 'undefined'
+    && GROUP_ORDER.indexOf('実在天体のアナロジー') >= 0);
+  if (!hasPO) {
+    console.log('SKIP ui.groupOrderPaper(第272便d 未適用 — GROUP_ORDER に新グループなし)');
+  } else {
+    const r = await op.evaluate(() => {
+      const o = {};
+      // ① GROUP_ORDER そのもの(論文順・統括の裁定)
+      o.order = GROUP_ORDER.slice();
+      o.orderOk = JSON.stringify(o.order) === JSON.stringify(['法則の実験室', '空間と時間', '銀河の物語',
+        '天体の物語', '光の物語', '熱の実験室', '箱宇宙', 'ローターの物語', '現実との照合・太陽系',
+        '現実との照合・太陽系外', '実在天体のアナロジー', 'シミュレーション', '現実との照合']);
+      // ② 実際に出る並び(存在する群だけ)
+      o.seen = orderedGroups();
+      o.seenOk = JSON.stringify(o.seen) === JSON.stringify(['空間と時間', '銀河の物語', '天体の物語',
+        '光の物語', '熱の実験室', '箱宇宙', 'ローターの物語', '現実との照合・太陽系',
+        '現実との照合・太陽系外', '実在天体のアナロジー']);
+      // ③ **実測**: 「法則の実験室」「シミュレーション」「サフィックス無しの現実との照合」を
+      //    group に宣言する内蔵は 0 本(前 2 つは PARAM_DEFS のパラメータ群の名前である)
+      const ps = HP.allPresets();
+      o.zero = ['法則の実験室', 'シミュレーション', '現実との照合']
+        .map((g) => [g, ps.filter((p) => p.group === g).length]);
+      o.zeroOk = o.zero.every((x) => x[1] === 0);
+      o.paramGroups = [...new Set(PARAM_DEFS.map((d) => d.group).filter(Boolean))];
+      o.paramHasLawLab = o.paramGroups.indexOf('法則の実験室') >= 0
+        && o.paramGroups.indexOf('シミュレーション') >= 0;
+      // ④ **配列は動かしていない**: グループ内の順は BUILTIN_PRESETS の配列順のまま
+      o.inGroupOk = o.seen.every((g) => {
+        const byOrder = orderedBuiltins().filter((p) => (p.group || '内蔵') === g).map((p) => p.id);
+        const byArray = ps.filter((p) => (p.group || '内蔵') === g).map((p) => p.id);
+        return JSON.stringify(byOrder) === JSON.stringify(byArray);
+      });
+      // ⑤ **保存 id は維持**(開閉の記憶が飛ばない)+ 新群だけ id を足した
+      o.ids = o.seen.map((g) => groupIdOf(g));
+      o.idsOk = JSON.stringify(o.ids) === JSON.stringify(['spacetime', 'galaxy', 'celestial', 'light',
+        'heat', 'boxUniverse', 'rotor', 'realitySolar', 'realityBeyond', 'realAnalogy']);
+      return o;
+    });
+    add('ui.groupOrderPaper',
+      r.orderOk && r.seenOk && r.zeroOk && r.paramHasLawLab && r.inGroupOk && r.idsOk,
+      `**表示順を論文順へ**(第272便d・GROUP_ORDER の差し替えだけ): 表=${JSON.stringify(r.order)} / `
+      + `実際の並び=${JSON.stringify(r.seen)} / **実測**: group に宣言する内蔵が 0 本の名前=`
+      + `${JSON.stringify(r.zero)}(「法則の実験室」「シミュレーション」は **PARAM_DEFS の**パラメータ群=`
+      + `${r.paramHasLawLab} —— サンプル群ではないので並びは 1 つも動かない)/ `
+      + `**グループ内の順は配列順のまま**=${r.inGroupOk} / 開閉記憶の id=${JSON.stringify(r.ids)}`);
+  }
+  await op.close();
+}
+{
+  const rp = await browser.newPage();
+  await rp.goto(INDEX, { waitUntil: 'load' });
+  await rp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const hasRD = await rp.evaluate(() => /減光を確認する実験群/.test((I18N.ja.groupNotes || {})['ローターの物語'] || ''));
+  if (!hasRD) {
+    console.log('SKIP docs.rotorDimmingScope(第272便d 未適用 — 群の説明が旧文)');
+  } else {
+    const r = await rp.evaluate(() => {
+      const o = {}, ps = HP.allPresets(), G = 'ローターの物語';
+      o.ja = (I18N.ja.groupNotes || {})[G] || '';
+      o.en = (I18N.en.groupNotes || {})[G] || '';
+      // ① 群の達成条件の明文化(ja/en とも): 減光の検証用であること+**含めない**こと
+      o.jaOk = /減光を確認する実験群/.test(o.ja)
+        && /銀河の不足質量や観測ブラックホールの再現を、この群の達成条件に含めない/.test(o.ja);
+      o.enOk = /CHECK DIMMING BY ROTATION STATE/.test(o.en)
+        && /NOT PART OF THIS GROUP'S SUCCESS CRITERIA/.test(o.en);
+      // ② **暗さ=隠れた質量**の循環を避ける宣言。第272便d の**実測**では 10 本のうち
+      //    ⏳ nebulaBipolar("nebula")・⚫ bhCore("bh")・🪩 bhCoreTilt("toy")の 3 本に "dm" が無かったので
+      //    足した(宣言専用・presetSig は notClaim を見ない)。🌱 starSeed は主題が圧縮で
+      //    「暗さ=質量」の循環に乗らないので**足していない** —— 例外として名前で固定する
+      o.members = ps.filter((p) => p.group === G).map((p) => [p.id, (p.notClaim || []).join('+')]);
+      o.noDm = o.members.filter((x) => x[1].split('+').indexOf('dm') < 0).map((x) => x[0]);
+      o.allDm = JSON.stringify(o.noDm) === JSON.stringify(['starSeed']);
+      o.n = o.members.length;
+      return o;
+    });
+    const docsOk = [];
+    try {
+      const rm = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8');
+      if (!/減光を確認する実験群/.test(rm)) docsOk.push('README に群の位置付けが無い');
+      const ph = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      if (ph.indexOf('第272便d') < 0) docsOk.push('PHYSICS.md に〔第272便d〕節が無い');
+      const sr = fs.readFileSync(path.join(ROOT, 'docs', 'SAMPLE_RANKING.md'), 'utf8');
+      if (sr.indexOf('実在天体のアナロジー') < 0) docsOk.push('SAMPLE_RANKING.md に新グループの記載が無い');
+    } catch (e) { docsOk.push('docs が読めない: ' + String(e).slice(0, 80)); }
+    add('docs.rotorDimmingScope', r.jaOk && r.enOk && r.allDm && r.n === 10 && docsOk.length === 0,
+      `**ローターの物語=減光の検証用**(第272便d): 群の説明 ja=${r.jaOk}・en=${r.enOk}`
+      + `(**銀河の不足質量・観測ブラックホールの再現をこの群の達成条件に含めない**と明記)/ `
+      + `群の ${r.n} 本のうち **"dm" の宣言が無いのは 🌱 starSeed だけ**=${r.allDm}`
+      + `(無い本=${JSON.stringify(r.noDm)}・第272便d で ⏳⚫🪩 の 3 本に "dm" を足した)`
+      + `(${JSON.stringify(r.members)})/ `
+      + `docs=${docsOk.length === 0 ? 'README・PHYSICS・SAMPLE_RANKING に記載あり' : JSON.stringify(docsOk)}`);
+  }
+  await rp.close();
 }
 
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
