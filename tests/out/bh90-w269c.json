@@ -1,6 +1,38 @@
 {
  "meta": {
-  "measuredAt": "2026-09-18T11:05:08.412Z",
+  "provenanceVersion": "w272e-1",
+  "wave": "第269便c(来歴は第272便e で共通化)",
+  "target": "beta/index.html",
+  "targetSha256": "8cc68428c164dc517e120e27c4edcfbd815aa83247d056ddfbac1b0a36edab66",
+  "generatedAt": "2026-09-18T17:00:20.288Z",
+  "code": [
+   {
+    "file": "tests/exp-w269c-bh90.mjs",
+    "bytes": 35680,
+    "sha256": "7dc200452d5a7a42ae768bb96fd6c16f207e9e61a9ec5b30d5b38b97c3627b45",
+    "mtime": "2026-09-18T16:50:13.191Z"
+   },
+   {
+    "file": "tests/lib-w269c-compare.mjs",
+    "bytes": 23302,
+    "sha256": "4ad9ab853706f86d499f8283be599df247040009ced2e1ee08754785a4fc79ef",
+    "mtime": "2026-09-18T16:50:05.175Z"
+   },
+   {
+    "file": "tests/lib-w270b-obscsv.mjs",
+    "bytes": 11382,
+    "sha256": "d8803279fafdcdec19f79f71a296f72c9cc8c8bd406b81744a919f3391175248",
+    "mtime": "2026-09-18T16:51:42.091Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-18T16:49:38.419Z"
+   }
+  ],
+  "codeSha256": "db889933a3f2b749adafe441646891f6f122267aa2cd4ab130451e9dc64af02d",
+  "measuredAt": "2026-09-18T17:00:20.288Z",
   "codeVersion": "tests/exp-w269c-bh90.mjs 第269便c",
   "declarationVersion": "compare-v1 / 第59報「完成=比較サンプル v1」",
   "inputs": [
@@ -8,19 +40,19 @@
     "file": "beta/index.html",
     "bytes": 4067091,
     "sha256": "8cc68428c164dc517e120e27c4edcfbd815aa83247d056ddfbac1b0a36edab66",
-    "mtime": "2026-09-18T11:04:14.550Z"
+    "mtime": "2026-09-18T16:39:51.339Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
-    "bytes": 448894,
-    "sha256": "90616d1492887268d046067937bab6534a0a8f675dc2e326a86e12508f58366c",
-    "mtime": "2026-09-18T09:19:35.127Z"
+    "bytes": 449309,
+    "sha256": "26e3220b653c9953d669d42b0b2335bdc8b08b45fd98de7550d31bfd92030456",
+    "mtime": "2026-09-18T16:52:13.195Z"
    },
    {
     "file": "tests/lib-w269c-compare.mjs",
-    "bytes": 22096,
-    "sha256": "764553e0286f2599065fe6b7a46e886f60ede74210df5207677d19fabe773fa7",
-    "mtime": "2026-09-18T09:21:36.546Z"
+    "bytes": 23302,
+    "sha256": "4ad9ab853706f86d499f8283be599df247040009ced2e1ee08754785a4fc79ef",
+    "mtime": "2026-09-18T16:50:05.175Z"
    }
   ],
   "vocabulary": [
@@ -39,7 +71,7 @@
    "**観測量が得られないときは `not-measurable`(値 null)** —— 0 や最後の値で補わない。",
    "**「完成」は比較サンプル v1 である。観測一致は別段階で、現時点で未達である。**"
   ],
-  "spentSec": 10.8
+  "spentSec": 12.1
  },
  "declaration": {
   "systemKind": "bh-binary",

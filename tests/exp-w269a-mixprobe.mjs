@@ -12,6 +12,15 @@
 //   ・これは**旧コードを走らせた結果ではなく、旧経路の算術をデータから再現したもの**である
 //     (第269便a の走行 JSON は既に診断欄だけになっているので、旧経路そのものは走らない)。
 //
+// ■ 第272便e(AG12): **凍結した器である**(来歴印 `recordBasis:'legacy-fixedColumns-w269a'`)
+//   本器は CSV を**列位置**(`c[0]`〜`c[8]`)で読み、`record_id` 欄を 1 つも見ていない。
+//   第270便b(AE2)で読取は**ヘッダ名引き**(`tests/lib-w270b-obscsv.mjs`)に移り、
+//   第271便b(R1)で**同定の鍵は `record_id`・宣言内容は一致条件**になった。したがって本器は
+//   **現行の採用解では宣言を解決できない**(`pickDeclaredRow` に渡す行が「ファイル順の最初」
+//   のままで、宣言が指す行と一致する保証がない)。**過去便の比較点として凍結する** ——
+//   数値も手続きも書き換えず、一括置換もしない。**「この器が現行解で再測定済み」とは書かない。**
+//   ヘッダ名読みの新器を別名で作るかは**決断事項**である(本便は凍結印だけを足した)。
+//
 // 実行: node tests/exp-w269a-mixprobe.mjs
 // 出力: tests/out/mixprobe-w269a.json(**.gitignore の対象** —— 数は文書側に転記する)
 import fs from 'node:fs';
@@ -83,6 +92,10 @@ for (const p of (cal.presets || [])) {
   }
 }
 const out = { when: new Date().toISOString(), wave: '第269便a(第59報 W1・統括の読み (G))',
+  // 第272便e(AG12): 凍結印。**固定列読み・`record_id` 欄を見ない**器であることを出力にも残す。
+  recordBasis: 'legacy-fixedColumns-w269a',
+  frozen: '第272便e(AG12)で凍結。列位置読み(c[0]〜c[8])のままで `record_id` を見ないため、'
+    + '**現行の採用解では宣言を解決できない**。ヘッダ名読みの新器を別名で作るかは決断事項。',
   what: '「中心値は旧参照・σ だけ新解」の混在経路の大きさ(**エンジンは 1 步も走らせていない**)',
   how: '入力は tests/out/calaudit-w249.json と paper/data/solar-observations.csv と '
     + 'paper/data/judgement-sources.json だけ。**旧コードを走らせた結果ではなく、旧経路の算術の再現**である',

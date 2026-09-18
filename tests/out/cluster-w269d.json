@@ -1,38 +1,101 @@
 {
  "meta": {
-  "wave": "第269便d(第59報 W4)— 星団 47 Tuc **比較サンプル v1a**(内部診断の完成)",
-  "when": "2026-09-18T11:07:38.309Z",
-  "codeCommit": "186289393f54",
+  "provenanceVersion": "w272e-1",
+  "wave": "第269便d(来歴は第272便e で共通化)",
   "target": "beta/index.html",
+  "targetSha256": "8cc68428c164dc517e120e27c4edcfbd815aa83247d056ddfbac1b0a36edab66",
+  "generatedAt": "2026-09-18T17:03:40.988Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 4067091,
-    "mtime": "2026-09-18T11:04:14.550Z",
+    "sha256": "8cc68428c164dc517e120e27c4edcfbd815aa83247d056ddfbac1b0a36edab66",
+    "mtime": "2026-09-18T16:39:51.339Z"
+   },
+   {
+    "file": "tests/lib-w265a-analogy.mjs",
+    "bytes": 21069,
+    "sha256": "7a01c2081dd68c90139820c7aeefaf452b35a770e944c6e8c6e5ea1443c4a384",
+    "mtime": "2026-09-18T16:39:51.299Z"
+   },
+   {
+    "file": "tests/lib-w269d-state.mjs",
+    "bytes": 20068,
+    "sha256": "10bf14263bd3852a4ebf0dbada52ce3b414976c28d44b4272e75710bcc9e1126",
+    "mtime": "2026-09-18T16:39:51.303Z"
+   },
+   {
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "bytes": 94818,
+    "sha256": "6fe0e68c2f539813d5339962dead965d2d7ef7f5ba6709deef5fceb22ec18461",
+    "mtime": "2026-09-18T16:39:51.471Z"
+   },
+   {
+    "file": "tests/out/analogy-w265a.json",
+    "bytes": 76360,
+    "sha256": "f18a43cd746df5691a9f589f5a98a67e1967f82a26068a22a3d1a445198c9341",
+    "mtime": "2026-09-18T16:39:51.292Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w269d-cluster.mjs",
+    "bytes": 49407,
+    "sha256": "b2377f8405952e06897d4b13c03e4f982b1d27e37d7700aaba7a092cae378d32",
+    "mtime": "2026-09-18T16:50:39.723Z"
+   },
+   {
+    "file": "tests/lib-w265a-analogy.mjs",
+    "bytes": 21069,
+    "sha256": "7a01c2081dd68c90139820c7aeefaf452b35a770e944c6e8c6e5ea1443c4a384",
+    "mtime": "2026-09-18T16:39:51.299Z"
+   },
+   {
+    "file": "tests/lib-w269d-state.mjs",
+    "bytes": 20068,
+    "sha256": "10bf14263bd3852a4ebf0dbada52ce3b414976c28d44b4272e75710bcc9e1126",
+    "mtime": "2026-09-18T16:39:51.303Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-18T16:49:38.419Z"
+   }
+  ],
+  "codeSha256": "757f46937bd8dcb9b068b22d49b6eafc2b51aea49b9d4e03a090f761206d6804",
+  "waveFull": "第269便d(第59報 W4)— 星団 47 Tuc **比較サンプル v1a**(内部診断の完成)",
+  "when": "2026-09-18T17:03:40.988Z",
+  "codeCommit": "743ad9b08cdd",
+  "legacyInputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4067091,
+    "mtime": "2026-09-18T16:39:51.339Z",
     "sha256_16": "8cc68428c164dc51"
    },
    {
     "file": "tests/lib-w265a-analogy.mjs",
     "bytes": 21069,
-    "mtime": "2026-09-17T16:20:05.144Z",
+    "mtime": "2026-09-18T16:39:51.299Z",
     "sha256_16": "7a01c2081dd68c90"
    },
    {
     "file": "tests/lib-w269d-state.mjs",
     "bytes": 20068,
-    "mtime": "2026-09-18T01:06:02.965Z",
+    "mtime": "2026-09-18T16:39:51.303Z",
     "sha256_16": "10bf14263bd3852a"
    },
    {
     "file": "paper/data/cluster-galaxy-observations.csv",
     "bytes": 94818,
-    "mtime": "2026-09-18T09:19:35.127Z",
+    "mtime": "2026-09-18T16:39:51.471Z",
     "sha256_16": "6fe0e68c2f539813"
    },
    {
     "file": "tests/out/analogy-w265a.json",
     "bytes": 76360,
-    "mtime": "2026-09-17T16:20:18.326Z",
+    "mtime": "2026-09-18T16:39:51.292Z",
     "sha256_16": "f18a43cd746df569"
    }
   ],
@@ -71,7 +134,7 @@
    "3D の半質量半径を測った"
   ],
   "touched": "**🍇🫐 の JSON・入力は 1 bit も書き換えていない**(新版 GGCD は採らない)。新プリセットは足していない。エンジンは 3D 化していない。`S._core` には 1 命令も足していない。",
-  "spentSec": 59.1
+  "spentSec": 68.9
  },
  "states": [
   "comparable",

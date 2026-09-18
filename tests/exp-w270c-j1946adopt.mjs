@@ -30,6 +30,8 @@ import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import crypto from 'node:crypto';
 import { shiftedRichardson } from './lib-w262c-refint.mjs';
+// 第272便e(AG11): 来歴(inputs・code・codeSha256)は共通の 1 本で作る。
+import { provenanceMeta } from './lib-w272e-provenance.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -139,7 +141,14 @@ await pg.waitForFunction(() => window.HP && HP.sim);
 // ファイル自身に持たせる(QA `docs.j1946adoptPublished` が現行 html の sha256 と突き合わせる)。
 const TARGET_SHA256 = crypto.createHash('sha256')
   .update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
-const out = { meta: { wave: '第270便c', target: TARGET, targetSha256: TARGET_SHA256,
+// 第272便e(AG11): 来歴を 6 本の正本で**同じ形**にした(`inputs`・`code`・`codeSha256` を追加。
+//   `wave`・`target`・`targetSha256`・`generatedAt` は第271便e の綴りのまま)。
+const PROV = provenanceMeta({ root: ROOT, wave: '第270便c(来歴は第272便e で共通化)', target: TARGET,
+  code: ['tests/exp-w270c-j1946adopt.mjs', 'tests/lib-w270b-obscsv.mjs', 'tests/lib-w272e-provenance.mjs'],
+  inputs: [TARGET, 'paper/data/solar-observations.csv'] });
+const out = { meta: { provenanceVersion: PROV.provenanceVersion,
+  inputs: PROV.inputs, code: PROV.code, codeSha256: PROV.codeSha256,
+  wave: '第270便c', target: TARGET, targetSha256: TARGET_SHA256,
   generatedAt: new Date().toISOString(), dt0: DT0, periWindow: PERI_WINDOW, divs: DIVS,
   sections: only.length ? only.slice() : ['build', 'run3', 'root', 'sig'],
   what: 'AD9: PSR J1946+2052 の採用レコードを Meng 2025 A&A 704 A153 Table 1 DDFWHE の一組へ',

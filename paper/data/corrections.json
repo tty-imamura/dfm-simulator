@@ -1,0 +1,478 @@
+{
+  "schema": "corrections-v1",
+  "wave": "第272便e(2026-09-18・AG18)",
+  "what": "観測レコードの訂正履歴の台帳。record_id -> 訂正(revision)の並び。",
+  "contract": [
+    "**この台帳は値を作らない。** 現行値は CSV が正本であり、台帳の `current` は CSV と一致していなければならない(検査器 tests/exp-w272e-corrections.mjs・QA docs.correctionsLedger)。",
+    "**訂正したのは転写者側の誤り・記法・印だけである。** 一次資料の値は 1 バイトも動いていない。",
+    "**`previous` は履歴であって現行値ではない。** 引用するときは必ず `revision` と `wave` を添える。",
+    "**`sourceHash` は測定値である**: その便のコミットにおける当該 CSV ファイルの完全 SHA-256(`previousSourceHash` は親コミットのもの)。台帳を書くときに git から読み出した実測値で、推定値ではない。",
+    "**`previousRecordId` は、その訂正で record_id が変わった行にだけ入る**(`record_id` の鍵は `file|body|quantity|unit|source` なので、quantity と source の訂正では ID が変わる)。旧 ID は履歴であり、CSV には存在しない。",
+    "**`previousSolutionId` は台帳側で持つ**(CSV の `solution_id` 欄は現行解だけを載せ、旧出典で上書きしない)。空欄は「解が無い」ではなく「台帳に登録していない」である。",
+    "**外部の生成系の実名は書かない**(`previousRedacted:true` の行は、旧文言に実名が含まれていたので説明に置き換えてある)。",
+    "**書かないこと**: 「訂正で観測と合った」「訂正で判定が増えた」「較正した」「再検証済み」。訂正は 4 値(合/量限定合/否/保留)を 1 本も動かしていない。"
+  ],
+  "fields": {
+    "revision": "その record_id の中での連番(1 から)。",
+    "date": "note に記録されている訂正日(YYYY-MM-DD)。",
+    "wave": "訂正を入れた便。",
+    "commit": "その便の main コミット(短縮)。",
+    "field": "value | sigma | unit | source | url | quantity | mark | note | added のいずれか。",
+    "previous": "訂正前の値(`added` は null・`previousRedacted:true` は説明文)。",
+    "current": "訂正後の値 = **現行の CSV と一致していなければならない**(`note` は note に含まれていること)。",
+    "reason": "なぜ直したか(一次資料の側の変更ではないことを含む)。",
+    "markKey": "note に残っている機械可読な印の鍵。",
+    "sourceHash": "訂正後の CSV ファイルの完全 SHA-256(その便のコミット)。",
+    "previousSourceHash": "訂正前の CSV ファイルの完全 SHA-256(親コミット)。"
+  },
+  "waves": {
+    "第265便d": { "commit": "92a1b8f", "parent": "3042e17" },
+    "第266便a": { "commit": "4d1571a", "parent": "92a1b8f" },
+    "第268便b": { "commit": "4945764", "parent": "fa7cd6c" },
+    "第269便b": { "commit": "f6c19b4", "parent": "4945764" },
+    "第270便b": { "commit": "ef2cd45", "parent": "f6c19b4" },
+    "第271便b": { "commit": "743ad9b", "parent": "ef2cd45" },
+    "第272便e": { "commit": null, "parent": "743ad9b", "note": "本便(コミット前に書いた台帳なので commit は null)" }
+  },
+  "records": {
+    "SOL-85cf149a": {
+      "file": "solar-observations.csv",
+      "body": "Moon",
+      "quantity": "general_precession",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第265便d", "commit": "92a1b8f",
+          "field": "value", "previous": "0.013969", "current": "0.0139688666666667",
+          "markKey": "corrected",
+          "reason": "転写者側の換算の丸め。5028.792 arcsec/cy ÷ 360000 = 0.0139688666666667 deg/yr で、旧値の不足 1.333e-7 deg/yr は記載 1σ 5.556e-9 の 24 倍だった。**一次資料(IERS EOP-PC・MHB2000)の値は動いていない。**",
+          "sourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795",
+          "previousSourceHash": "91df4118d1d978433981eae8d84e433961be81ccd5c81bd0f3f58585690db9d2"
+        },
+        {
+          "revision": 2, "date": "2026-09-16", "wave": "第265便d", "commit": "92a1b8f",
+          "field": "sigma", "previous": "0.000000005556", "current": "0.00000000555555555555556",
+          "markKey": "corrected",
+          "reason": "同じ換算(2 arcsec/cy ÷ 360000)を丸めずに書き直したもの。記載 1σ 5028.792(2) arcsec/cy は不変。",
+          "sourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795",
+          "previousSourceHash": "91df4118d1d978433981eae8d84e433961be81ccd5c81bd0f3f58585690db9d2"
+        }
+      ]
+    },
+    "SOL-13dda3e6": {
+      "file": "solar-observations.csv",
+      "body": "Mercury",
+      "quantity": "orbital_period",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "value", "previous": "7600543.72", "current": "7600543.75658",
+          "markKey": "corrected",
+          "reason": "転写者が P を 87.9692565 d へ丸めてから換算していた(差 −0.037 s)。360×36525/149472.67411175 から P=87.96925644194627 d。**JPL の元表は動いていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-c974e476": {
+      "file": "solar-observations.csv",
+      "body": "Mars",
+      "quantity": "orbital_period",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "value", "previous": "59354294.4", "current": "59355048.80447",
+          "markKey": "corrected",
+          "reason": "転写者が 686.970977 d と書いていたが、同じ note の式は 686.979732 d を与える(差 −754.4 s)。**JPL の元表は動いていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-cb34a1f4": {
+      "file": "solar-observations.csv",
+      "body": "PSR J1946+2052",
+      "quantity": "orbital_period",
+      "previousRecordId": "SOL-dc56c459",
+      "previousSolutionId": null,
+      "solutionIdNote": "この行の `solution_id` 欄は空のままである(第271便b/AF4 の台帳に Stovall 2018 の発見解を登録していない)。旧出典ラベルが指していた Meng 2025 A&A 704 A153 は**この行の数値の出所ではない**ので、`solution_id` へは書かない。",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "source",
+          "previous": "Meng et al. (2025) A&A 704 A153 - The double neutron star PSR J1946+2052 I. Masses and tests of general relativity [arXiv:2510.12506]",
+          "current": "Stovall et al. (2018) ApJL 854 L22 Table 1 - PSR J1946+2052 discovery timing solution",
+          "markKey": "source_corrected",
+          "reason": "出典ラベルの誤り。値 Pb=0.07848804(1) d は Stovall 2018 Table 1 の発見解であり、Meng 2025 の表の値ではない。**value・unit・sigma・印は動いていない。** この訂正で record_id が SOL-dc56c459 から変わった(鍵に source が入るため)。",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        },
+        {
+          "revision": 2, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "url",
+          "previous": "https://doi.org/10.1051/0004-6361/202555689",
+          "current": "https://doi.org/10.3847/2041-8213/aaad06",
+          "markKey": "source_corrected",
+          "reason": "出典ラベルの訂正に伴う DOI の差し替え(Stovall 2018 ApJL 854 L22 の書誌)。",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-efbb5491": {
+      "file": "solar-observations.csv",
+      "body": "PSR J1946+2052",
+      "quantity": "eccentricity",
+      "previousRecordId": "SOL-1ac71cc3",
+      "previousSolutionId": null,
+      "solutionIdNote": "SOL-cb34a1f4 と同じ。旧出典ラベルは履歴であり、現行解では上書きしない。",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "source",
+          "previous": "Meng et al. (2025) A&A 704 A153 - The double neutron star PSR J1946+2052 I. Masses and tests of general relativity [arXiv:2510.12506]",
+          "current": "Stovall et al. (2018) ApJL 854 L22 Table 1 - PSR J1946+2052 discovery timing solution",
+          "markKey": "source_corrected",
+          "reason": "出典ラベルの誤り。値 e=0.063848(9) は Stovall 2018 Table 1 の発見解である(第249便a が記録した「同じ論文の 2 転写が食い違う」は、2 つが同じ論文でなかったことで解けた)。**value・unit・sigma・印は動いていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        },
+        {
+          "revision": 2, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "url",
+          "previous": "https://doi.org/10.1051/0004-6361/202555689",
+          "current": "https://doi.org/10.3847/2041-8213/aaad06",
+          "markKey": "source_corrected",
+          "reason": "出典ラベルの訂正に伴う DOI の差し替え。",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-251ef664": {
+      "file": "solar-observations.csv",
+      "body": "PSR J1757-1854",
+      "quantity": "eccentricity",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第268便b", "commit": "4945764",
+          "field": "sigma", "previous": "1.0e-7", "current": "1.0e-6",
+          "markKey": "corrected",
+          "reason": "原表の記載 e = 0.6058142(10) の最終桁 (10) は 7 桁目の 10 = 1.0e-6。同じ Cameron 2018 Table 2 を別系統で転写した併置行 262 は基点から 1.0e-6 を持っていた(**2 転写の食い違いが根拠**)。**value 0.6058142 は動いていない。**",
+          "sourceHash": "fef7f7d255dce6f5d3f9b6897fc301caa5dc2483b47d98ce141d5c5a5458d9e1",
+          "previousSourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298"
+        },
+        {
+          "revision": 2, "date": "2026-09-17", "wave": "第268便b", "commit": "4945764",
+          "field": "url",
+          "previous": "https://doi.org/10.1093/mnrasl/slx185",
+          "current": "https://doi.org/10.1093/mnrasl/sly003",
+          "markKey": "url_corrected",
+          "reason": "Cameron et al. 2018 MNRAS Letters 475 L57 の書誌 DOI(arXiv:1711.07697)。併置行 260/262/263 は基点から sly003 を持っていた。**値・単位・σ・出典ラベル・印は不変。**",
+          "sourceHash": "fef7f7d255dce6f5d3f9b6897fc301caa5dc2483b47d98ce141d5c5a5458d9e1",
+          "previousSourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298"
+        }
+      ]
+    },
+    "SOL-7cc2400b": {
+      "file": "solar-observations.csv",
+      "body": "PSR J1757-1854",
+      "quantity": "orbital_period",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第268便b", "commit": "4945764",
+          "field": "url",
+          "previous": "https://doi.org/10.1093/mnrasl/slx185",
+          "current": "https://doi.org/10.1093/mnrasl/sly003",
+          "markKey": "url_corrected",
+          "reason": "Cameron et al. 2018 の書誌 DOI。**値・単位・σ・出典ラベル・印は不変。**",
+          "sourceHash": "fef7f7d255dce6f5d3f9b6897fc301caa5dc2483b47d98ce141d5c5a5458d9e1",
+          "previousSourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298"
+        }
+      ]
+    },
+    "SOL-f141dc30": {
+      "file": "solar-observations.csv",
+      "body": "PSR J1757-1854",
+      "quantity": "periastron_advance",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第268便b", "commit": "4945764",
+          "field": "url",
+          "previous": "https://doi.org/10.1093/mnrasl/slx185",
+          "current": "https://doi.org/10.1093/mnrasl/sly003",
+          "markKey": "url_corrected",
+          "reason": "Cameron et al. 2018 の書誌 DOI。**値・単位・σ・出典ラベル・印は不変。**",
+          "sourceHash": "fef7f7d255dce6f5d3f9b6897fc301caa5dc2483b47d98ce141d5c5a5458d9e1",
+          "previousSourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298"
+        }
+      ]
+    },
+    "SOL-753080c4": {
+      "file": "solar-observations.csv",
+      "body": "Titan ringlet",
+      "quantity": "pattern_speed_m1",
+      "previousRecordId": "SOL-944b74c6",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第268便b", "commit": "4945764",
+          "field": "quantity", "previous": "mean_motion", "current": "pattern_speed_m1",
+          "markKey": "quantity_corrected",
+          "reason": "改名であって値の訂正ではない。この行の note は基点から「this is the forced m=1 pattern speed not a free varpi_dot」と書いており、量名だけが実体と食い違っていた。**値 22.5753 deg/day・σ 0.0008・出典・印はすべて不変。** 鍵に quantity が入るので record_id は SOL-944b74c6 から変わった。",
+          "sourceHash": "fef7f7d255dce6f5d3f9b6897fc301caa5dc2483b47d98ce141d5c5a5458d9e1",
+          "previousSourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298"
+        }
+      ]
+    },
+    "SOL-1223c836": {
+      "file": "solar-observations.csv",
+      "body": "Titan ringlet",
+      "quantity": "semi_major_axis",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第268便b", "commit": "4945764",
+          "field": "note",
+          "previous": "(proxy_for=Saturn ring C inner edge に適用範囲の宣言が無く、観測門への転送先として読めた)",
+          "current": "proxy_for_scope=explanatory only 2026-09-17",
+          "markKey": "proxy_for_scope",
+          "reason": "AB3 の裁定。タイタン・リングレットを C 環内縁の「正」にしない —— proxy_for は説明の指し先に限り、C 環内縁の観測門へは転送しない。**値・単位・σ・出典・印は 1 文字も動いていない**(足したのは注記だけ)。",
+          "sourceHash": "fef7f7d255dce6f5d3f9b6897fc301caa5dc2483b47d98ce141d5c5a5458d9e1",
+          "previousSourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298"
+        }
+      ]
+    },
+    "SOL-c5f3dbda": {
+      "file": "solar-observations.csv",
+      "body": "PSR J1757-1854",
+      "quantity": "mass",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第269便b", "commit": "f6c19b4",
+          "field": "url",
+          "previous": "https://doi.org/10.1093/mnrasl/slx185",
+          "current": "https://doi.org/10.1093/mnrasl/sly003",
+          "markKey": "url_corrected",
+          "reason": "AD7。第268便b が直した 3 行(136/137/139)と同じ論文を引きながら旧 DOI が残っていた 5 行のうちの 1 行。照合は body・quantity・旧 URL で行った。**値・単位・σ・出典ラベル・印は不変。**",
+          "sourceHash": "e426aa7d8a6751068699933074c7885ee66234936e11aafd319bc091a670afd4",
+          "previousSourceHash": "fef7f7d255dce6f5d3f9b6897fc301caa5dc2483b47d98ce141d5c5a5458d9e1"
+        }
+      ]
+    },
+    "SOL-60e0bee8": {
+      "file": "solar-observations.csv",
+      "body": "PSR J1757-1854 companion",
+      "quantity": "mass",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第269便b", "commit": "f6c19b4",
+          "field": "url",
+          "previous": "https://doi.org/10.1093/mnrasl/slx185",
+          "current": "https://doi.org/10.1093/mnrasl/sly003",
+          "markKey": "url_corrected",
+          "reason": "AD7(同上)。**値・単位・σ・出典ラベル・印は不変。**",
+          "sourceHash": "e426aa7d8a6751068699933074c7885ee66234936e11aafd319bc091a670afd4",
+          "previousSourceHash": "fef7f7d255dce6f5d3f9b6897fc301caa5dc2483b47d98ce141d5c5a5458d9e1"
+        }
+      ]
+    },
+    "SOL-73484635": {
+      "file": "solar-observations.csv",
+      "body": "PSR J1757-1854",
+      "quantity": "rotation_period",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第269便b", "commit": "f6c19b4",
+          "field": "url",
+          "previous": "https://doi.org/10.1093/mnrasl/slx185",
+          "current": "https://doi.org/10.1093/mnrasl/sly003",
+          "markKey": "url_corrected",
+          "reason": "AD7(同上)。**値・単位・σ・出典ラベル・印は不変。**",
+          "sourceHash": "e426aa7d8a6751068699933074c7885ee66234936e11aafd319bc091a670afd4",
+          "previousSourceHash": "fef7f7d255dce6f5d3f9b6897fc301caa5dc2483b47d98ce141d5c5a5458d9e1"
+        }
+      ]
+    },
+    "SOL-e46adab3": {
+      "file": "solar-observations.csv",
+      "body": "PSR J1757-1854",
+      "quantity": "semi_major_axis",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第269便b", "commit": "f6c19b4",
+          "field": "url",
+          "previous": "https://doi.org/10.1093/mnrasl/slx185",
+          "current": "https://doi.org/10.1093/mnrasl/sly003",
+          "markKey": "url_corrected",
+          "reason": "AD7(同上)。**値・単位・σ・出典ラベル・印は不変。**",
+          "sourceHash": "e426aa7d8a6751068699933074c7885ee66234936e11aafd319bc091a670afd4",
+          "previousSourceHash": "fef7f7d255dce6f5d3f9b6897fc301caa5dc2483b47d98ce141d5c5a5458d9e1"
+        }
+      ]
+    },
+    "SOL-8d3ef8ce": {
+      "file": "solar-observations.csv",
+      "body": "PSR J1757-1854",
+      "quantity": "orbital_period_derivative",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第269便b", "commit": "f6c19b4",
+          "field": "url",
+          "previous": "https://doi.org/10.1093/mnrasl/slx185",
+          "current": "https://doi.org/10.1093/mnrasl/sly003",
+          "markKey": "url_corrected",
+          "reason": "AD7(同上)。**値・単位・σ・出典ラベル・印は不変。**",
+          "sourceHash": "e426aa7d8a6751068699933074c7885ee66234936e11aafd319bc091a670afd4",
+          "previousSourceHash": "fef7f7d255dce6f5d3f9b6897fc301caa5dc2483b47d98ce141d5c5a5458d9e1"
+        }
+      ]
+    },
+    "SOL-450a261d": {
+      "file": "solar-observations.csv",
+      "body": "PSR B1534+12",
+      "quantity": "orbital_period",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-18", "wave": "第270便b", "commit": "ef2cd45",
+          "field": "note",
+          "previous": "(第256便d の note に書かれていた査読者ラベルに外部の生成系の実名が入っていた)",
+          "previousRedacted": true,
+          "current": "外部レビュー O5.2",
+          "markKey": "external_name_neutralised",
+          "reason": "AE7。語彙規約により、公開ファイルに外部の生成系の実名を残さない。**value・sigma・source・url・retrieved・印は不変**(動いたのはラベルの文字列だけで、旧文言は git 履歴に残る)。",
+          "sourceHash": "ad99c37f7405a662f095f4e86d69182be1cb6467791086070cc38668c4d14cbf",
+          "previousSourceHash": "e426aa7d8a6751068699933074c7885ee66234936e11aafd319bc091a670afd4"
+        }
+      ]
+    },
+    "SOL-ae4a0c44": {
+      "file": "solar-observations.csv",
+      "body": "PSR B1534+12",
+      "quantity": "eccentricity",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-18", "wave": "第270便b", "commit": "ef2cd45",
+          "field": "note",
+          "previous": "(同上 —— 外部の生成系の実名)",
+          "previousRedacted": true,
+          "current": "外部レビュー O5.2",
+          "markKey": "external_name_neutralised",
+          "reason": "AE7(同上)。**値・σ・出典・印は不変。**",
+          "sourceHash": "ad99c37f7405a662f095f4e86d69182be1cb6467791086070cc38668c4d14cbf",
+          "previousSourceHash": "e426aa7d8a6751068699933074c7885ee66234936e11aafd319bc091a670afd4"
+        }
+      ]
+    },
+    "SOL-033838b1": {
+      "file": "solar-observations.csv",
+      "body": "PSR B1534+12",
+      "quantity": "periastron_advance",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-18", "wave": "第270便b", "commit": "ef2cd45",
+          "field": "note",
+          "previous": "(同上 —— 外部の生成系の実名)",
+          "previousRedacted": true,
+          "current": "外部レビュー O5.2",
+          "markKey": "external_name_neutralised",
+          "reason": "AE7(同上)。**値・σ・出典・印は不変。**",
+          "sourceHash": "ad99c37f7405a662f095f4e86d69182be1cb6467791086070cc38668c4d14cbf",
+          "previousSourceHash": "e426aa7d8a6751068699933074c7885ee66234936e11aafd319bc091a670afd4"
+        }
+      ]
+    },
+    "SOL-7f931145": {
+      "file": "solar-observations.csv",
+      "body": "PSR J1757-1854",
+      "quantity": "orbital_period",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-18", "wave": "第270便b", "commit": "ef2cd45",
+          "field": "mark", "previous": "unverified", "current": "verified",
+          "markKey": "previous_mark",
+          "reason": "確認記録(第 4 回)が Cameron et al. 2018 Table 2 を覆っており、同じ表を転写した併置行なので印が上がった。**動いたのは印と確認者の欄だけ**で、value・unit・source・sigma は不変である。**印の変更は訂正ではないが、来歴としてこの台帳に載せる。**",
+          "sourceHash": "ad99c37f7405a662f095f4e86d69182be1cb6467791086070cc38668c4d14cbf",
+          "previousSourceHash": "e426aa7d8a6751068699933074c7885ee66234936e11aafd319bc091a670afd4"
+        }
+      ]
+    },
+    "SOL-4683b411": {
+      "file": "solar-observations.csv",
+      "body": "PSR J1757-1854",
+      "quantity": "eccentricity",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-18", "wave": "第270便b", "commit": "ef2cd45",
+          "field": "mark", "previous": "unverified", "current": "verified",
+          "markKey": "previous_mark",
+          "reason": "同上(確認記録 第 4 回)。**値・単位・出典・σ は不変。**",
+          "sourceHash": "ad99c37f7405a662f095f4e86d69182be1cb6467791086070cc38668c4d14cbf",
+          "previousSourceHash": "e426aa7d8a6751068699933074c7885ee66234936e11aafd319bc091a670afd4"
+        }
+      ]
+    },
+    "SOL-0372e267": {
+      "file": "solar-observations.csv",
+      "body": "PSR J1757-1854",
+      "quantity": "periastron_advance",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-18", "wave": "第270便b", "commit": "ef2cd45",
+          "field": "mark", "previous": "unverified", "current": "verified",
+          "markKey": "previous_mark",
+          "reason": "同上(確認記録 第 4 回)。**値・単位・出典・σ は不変。**",
+          "sourceHash": "ad99c37f7405a662f095f4e86d69182be1cb6467791086070cc38668c4d14cbf",
+          "previousSourceHash": "e426aa7d8a6751068699933074c7885ee66234936e11aafd319bc091a670afd4"
+        }
+      ]
+    },
+    "SOL-3c8c1f88": {
+      "file": "solar-observations.csv",
+      "body": "Uranus ring 1986U2R",
+      "quantity": "ring_radial_extent",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-18", "wave": "第271便b", "commit": "743ad9b",
+          "field": "note",
+          "previous": "(取込経路の記述に外部の生成系の実名が 1 語入っていた)",
+          "previousRedacted": true,
+          "current": "the device-accepted real-system approximation set by the coordinator (wave 185 OUTPUT-B rules)",
+          "markKey": "external_name_neutralised",
+          "reason": "AF10。paper/data に残っていた最後の 1 件を中立表現へ。**value・unit・source・url・retrieved・sigma・印・来歴は 1 文字も動いていない**(動いたのは note の 1 語)。",
+          "sourceHash": "90616d1492887268d046067937bab6534a0a8f675dc2e326a86e12508f58366c",
+          "previousSourceHash": "ad99c37f7405a662f095f4e86d69182be1cb6467791086070cc38668c4d14cbf"
+        }
+      ]
+    },
+    "SOL-cd3cea83": {
+      "file": "solar-observations.csv",
+      "body": "PSR J1946+2052",
+      "quantity": "semi_major_axis",
+      "previousSolutionId": null,
+      "solutionIdNote": "`solution_id` 欄は空のままである。この値は公表表のどの列にも印字されておらず、この記録の中で導出したものだからである(note の `derived_solution=Meng2025-DDFWHE` は導出に使った解の宣言であって、印字された解 ID ではない)。",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-18", "wave": "第271便b", "commit": "743ad9b",
+          "field": "added", "previous": null, "current": "7.314903855163476e8",
+          "markKey": null,
+          "reason": "AF14。採用解(Meng 2025 A&A 704 A153 Table 1 DDFWHE 列)の Pb と総質量から a を導いた行を末尾に追加した。**行 147(SOL-38fb216a・第248便の Pb から導いた a)は 1 文字も動かしておらず、第一致行も 147 のままである。** σ 欄は空(共分散が印字されていないので 1σ を作れない —— 空は 0 ではない)。",
+          "sourceHash": "90616d1492887268d046067937bab6534a0a8f675dc2e326a86e12508f58366c",
+          "previousSourceHash": "ad99c37f7405a662f095f4e86d69182be1cb6467791086070cc38668c4d14cbf"
+        },
+        {
+          "revision": 2, "date": "2026-09-18", "wave": "第272便e", "commit": null,
+          "field": "note",
+          "previous": "derived_from=SOL-dd4b7894;SOL-5199beef",
+          "current": "derived_from=SOL-dd4b7894|SOL-5199beef",
+          "markKey": "list_separator_corrected",
+          "reason": "AG19。並び鍵の区切りを `|` に改めた(`;` は鍵の区切り専用)。旧綴りでは既定の鍵読み `<鍵>=([^;]*)` が 1 件目で切れていた。**2 つの record_id そのもの・value・unit・source・url・sigma・印は 1 文字も動いていない**(動いたのは区切り 1 文字と、それを説明する文である)。",
+          "sourceHash": "26e3220b653c9953d669d42b0b2335bdc8b08b45fd98de7550d31bfd92030456",
+          "sourceHashNote": "本便の worktree で訂正を入れた直後の実測値(commit はまだ無い)。",
+          "previousSourceHash": "90616d1492887268d046067937bab6534a0a8f675dc2e326a86e12508f58366c"
+        }
+      ]
+    }
+  },
+  "notInThisLedger": [
+    "**値も印も動かさない注記**(第268便b の ⑤ 行 115 の丸め差 4.16 s・⑥ 行 145/146/148 の `solution_mix=`・⑦ 行 285/289/290/300/302 の外部照合印)は訂正ではないので載せていない。",
+    "**確認記録による印の一括更新**(第266便a の 21 行・第267便a の 23 行)は `verified_by=` で CSV 側に残っている。ここに載せたのは `previous_mark=` を持つ 3 行だけである(**未解決** —— 印の履歴をすべて台帳へ移すかは決断事項)。"
+  ]
+}

@@ -1,0 +1,591 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第272便e(第62報・AG18)",
+  "target": "paper/data/solar-observations.csv",
+  "targetSha256": "26e3220b653c9953d669d42b0b2335bdc8b08b45fd98de7550d31bfd92030456",
+  "generatedAt": "2026-09-18T17:11:16.202Z",
+  "inputs": [
+   {
+    "file": "paper/data/corrections.json",
+    "bytes": 28311,
+    "sha256": "b370cd77501b920bfc837fddc9d205b50555bd497d0bc52d93b3e77ec494a256",
+    "mtime": "2026-09-18T16:57:28.027Z"
+   },
+   {
+    "file": "paper/data/solar-observations.csv",
+    "bytes": 449309,
+    "sha256": "26e3220b653c9953d669d42b0b2335bdc8b08b45fd98de7550d31bfd92030456",
+    "mtime": "2026-09-18T16:52:13.195Z"
+   },
+   {
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "bytes": 94818,
+    "sha256": "6fe0e68c2f539813d5339962dead965d2d7ef7f5ba6709deef5fceb22ec18461",
+    "mtime": "2026-09-18T16:39:51.471Z"
+   },
+   {
+    "file": "paper/data/transient-observations.csv",
+    "bytes": 21528,
+    "sha256": "0b30b785a8378626537e8714e35dbd9d812c6bfc16397605a3a99bde1ef13a63",
+    "mtime": "2026-09-18T16:39:51.475Z"
+   },
+   {
+    "file": "paper/data/supernova-observations.csv",
+    "bytes": 6800,
+    "sha256": "db9a6ab7e4a0f616ba63bb2b6f970ad97977c42624601fcaecf77ba3feba3986",
+    "mtime": "2026-09-18T16:39:51.475Z"
+   },
+   {
+    "file": "paper/data/jovian-satellites.csv",
+    "bytes": 8138,
+    "sha256": "81bcb3807281b2e2ab6b8ad0525b86f62c954f97fee202da76865fe5c2f1437d",
+    "mtime": "2026-09-18T16:39:51.471Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w272e-corrections.mjs",
+    "bytes": 8884,
+    "sha256": "c3a6f463ae35dec4671de761560519f4323ce22a8edae381805b2b1481a76103",
+    "mtime": "2026-09-18T16:57:05.087Z"
+   },
+   {
+    "file": "tests/lib-w270b-obscsv.mjs",
+    "bytes": 11382,
+    "sha256": "d8803279fafdcdec19f79f71a296f72c9cc8c8bd406b81744a919f3391175248",
+    "mtime": "2026-09-18T16:51:42.091Z"
+   },
+   {
+    "file": "tests/lib-w264d-sigmamark.mjs",
+    "bytes": 8862,
+    "sha256": "a6b63351e348c728d5da295acfdb0071ccacd3a75974f80aa9152fb5be11cf09",
+    "mtime": "2026-09-18T16:39:51.299Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-18T16:49:38.419Z"
+   }
+  ],
+  "codeSha256": "0273c0ab4b550aa05c18b4b62b5ea896e1ebda46b6da627f664092b9e567485f"
+ },
+ "what": "訂正履歴の台帳(paper/data/corrections.json)と観測 CSV の突き合わせ",
+ "markKeys": [
+  "corrected",
+  "url_corrected",
+  "source_corrected",
+  "quantity_corrected",
+  "unit_corrected",
+  "value_corrected",
+  "sigma_corrected",
+  "previous_mark",
+  "external_name_neutralised",
+  "proxy_for_scope",
+  "list_separator_corrected"
+ ],
+ "tally": {
+  "records": 23,
+  "revisions": 28,
+  "markedRowsInCsv": 23,
+  "missingFromLedger": 0
+ },
+ "byField": {
+  "value": 3,
+  "sigma": 2,
+  "source": 2,
+  "url": 10,
+  "quantity": 1,
+  "note": 6,
+  "mark": 3,
+  "added": 1
+ },
+ "byWave": {
+  "第265便d": 2,
+  "第266便a": 6,
+  "第268便b": 6,
+  "第269便b": 5,
+  "第270便b": 6,
+  "第271便b": 2,
+  "第272便e": 1
+ },
+ "checked": [
+  {
+   "record_id": "SOL-85cf149a",
+   "ln": 363,
+   "revision": 1,
+   "field": "value",
+   "wave": "第265便d",
+   "date": "2026-09-16",
+   "markKey": "corrected",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-85cf149a",
+   "ln": 363,
+   "revision": 2,
+   "field": "sigma",
+   "wave": "第265便d",
+   "date": "2026-09-16",
+   "markKey": "corrected",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-13dda3e6",
+   "ln": 365,
+   "revision": 1,
+   "field": "value",
+   "wave": "第266便a",
+   "date": "2026-09-16",
+   "markKey": "corrected",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-c974e476",
+   "ln": 383,
+   "revision": 1,
+   "field": "value",
+   "wave": "第266便a",
+   "date": "2026-09-16",
+   "markKey": "corrected",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-cb34a1f4",
+   "ln": 145,
+   "revision": 1,
+   "field": "source",
+   "wave": "第266便a",
+   "date": "2026-09-16",
+   "markKey": "source_corrected",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-cb34a1f4",
+   "ln": 145,
+   "revision": 2,
+   "field": "url",
+   "wave": "第266便a",
+   "date": "2026-09-16",
+   "markKey": "source_corrected",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-efbb5491",
+   "ln": 146,
+   "revision": 1,
+   "field": "source",
+   "wave": "第266便a",
+   "date": "2026-09-16",
+   "markKey": "source_corrected",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-efbb5491",
+   "ln": 146,
+   "revision": 2,
+   "field": "url",
+   "wave": "第266便a",
+   "date": "2026-09-16",
+   "markKey": "source_corrected",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-251ef664",
+   "ln": 137,
+   "revision": 1,
+   "field": "sigma",
+   "wave": "第268便b",
+   "date": "2026-09-17",
+   "markKey": "corrected",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-251ef664",
+   "ln": 137,
+   "revision": 2,
+   "field": "url",
+   "wave": "第268便b",
+   "date": "2026-09-17",
+   "markKey": "url_corrected",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-7cc2400b",
+   "ln": 136,
+   "revision": 1,
+   "field": "url",
+   "wave": "第268便b",
+   "date": "2026-09-17",
+   "markKey": "url_corrected",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-f141dc30",
+   "ln": 139,
+   "revision": 1,
+   "field": "url",
+   "wave": "第268便b",
+   "date": "2026-09-17",
+   "markKey": "url_corrected",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-753080c4",
+   "ln": 421,
+   "revision": 1,
+   "field": "quantity",
+   "wave": "第268便b",
+   "date": "2026-09-17",
+   "markKey": "quantity_corrected",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-1223c836",
+   "ln": 420,
+   "revision": 1,
+   "field": "note",
+   "wave": "第268便b",
+   "date": "2026-09-17",
+   "markKey": "proxy_for_scope",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-c5f3dbda",
+   "ln": 133,
+   "revision": 1,
+   "field": "url",
+   "wave": "第269便b",
+   "date": "2026-09-17",
+   "markKey": "url_corrected",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-60e0bee8",
+   "ln": 134,
+   "revision": 1,
+   "field": "url",
+   "wave": "第269便b",
+   "date": "2026-09-17",
+   "markKey": "url_corrected",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-73484635",
+   "ln": 135,
+   "revision": 1,
+   "field": "url",
+   "wave": "第269便b",
+   "date": "2026-09-17",
+   "markKey": "url_corrected",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-e46adab3",
+   "ln": 138,
+   "revision": 1,
+   "field": "url",
+   "wave": "第269便b",
+   "date": "2026-09-17",
+   "markKey": "url_corrected",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-8d3ef8ce",
+   "ln": 140,
+   "revision": 1,
+   "field": "url",
+   "wave": "第269便b",
+   "date": "2026-09-17",
+   "markKey": "url_corrected",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-450a261d",
+   "ln": 171,
+   "revision": 1,
+   "field": "note",
+   "wave": "第270便b",
+   "date": "2026-09-18",
+   "markKey": "external_name_neutralised",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-ae4a0c44",
+   "ln": 172,
+   "revision": 1,
+   "field": "note",
+   "wave": "第270便b",
+   "date": "2026-09-18",
+   "markKey": "external_name_neutralised",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-033838b1",
+   "ln": 173,
+   "revision": 1,
+   "field": "note",
+   "wave": "第270便b",
+   "date": "2026-09-18",
+   "markKey": "external_name_neutralised",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-7f931145",
+   "ln": 260,
+   "revision": 1,
+   "field": "mark",
+   "wave": "第270便b",
+   "date": "2026-09-18",
+   "markKey": "previous_mark",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-4683b411",
+   "ln": 262,
+   "revision": 1,
+   "field": "mark",
+   "wave": "第270便b",
+   "date": "2026-09-18",
+   "markKey": "previous_mark",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-0372e267",
+   "ln": 263,
+   "revision": 1,
+   "field": "mark",
+   "wave": "第270便b",
+   "date": "2026-09-18",
+   "markKey": "previous_mark",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-3c8c1f88",
+   "ln": 66,
+   "revision": 1,
+   "field": "note",
+   "wave": "第271便b",
+   "date": "2026-09-18",
+   "markKey": "external_name_neutralised",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-cd3cea83",
+   "ln": 523,
+   "revision": 1,
+   "field": "added",
+   "wave": "第271便b",
+   "date": "2026-09-18",
+   "markKey": null,
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-cd3cea83",
+   "ln": 523,
+   "revision": 2,
+   "field": "note",
+   "wave": "第272便e",
+   "date": "2026-09-18",
+   "markKey": "list_separator_corrected",
+   "currentMatches": true
+  }
+ ],
+ "markedRows": [
+  {
+   "file": "solar-observations.csv",
+   "ln": 66,
+   "record_id": "SOL-3c8c1f88",
+   "keys": [
+    "external_name_neutralised"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 133,
+   "record_id": "SOL-c5f3dbda",
+   "keys": [
+    "url_corrected"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 134,
+   "record_id": "SOL-60e0bee8",
+   "keys": [
+    "url_corrected"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 135,
+   "record_id": "SOL-73484635",
+   "keys": [
+    "url_corrected"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 136,
+   "record_id": "SOL-7cc2400b",
+   "keys": [
+    "url_corrected"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 137,
+   "record_id": "SOL-251ef664",
+   "keys": [
+    "corrected",
+    "url_corrected"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 138,
+   "record_id": "SOL-e46adab3",
+   "keys": [
+    "url_corrected"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 139,
+   "record_id": "SOL-f141dc30",
+   "keys": [
+    "url_corrected"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 140,
+   "record_id": "SOL-8d3ef8ce",
+   "keys": [
+    "url_corrected"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 145,
+   "record_id": "SOL-cb34a1f4",
+   "keys": [
+    "source_corrected"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 146,
+   "record_id": "SOL-efbb5491",
+   "keys": [
+    "source_corrected"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 171,
+   "record_id": "SOL-450a261d",
+   "keys": [
+    "external_name_neutralised"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 172,
+   "record_id": "SOL-ae4a0c44",
+   "keys": [
+    "external_name_neutralised"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 173,
+   "record_id": "SOL-033838b1",
+   "keys": [
+    "external_name_neutralised"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 260,
+   "record_id": "SOL-7f931145",
+   "keys": [
+    "previous_mark"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 262,
+   "record_id": "SOL-4683b411",
+   "keys": [
+    "previous_mark"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 263,
+   "record_id": "SOL-0372e267",
+   "keys": [
+    "previous_mark"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 363,
+   "record_id": "SOL-85cf149a",
+   "keys": [
+    "corrected"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 365,
+   "record_id": "SOL-13dda3e6",
+   "keys": [
+    "corrected"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 383,
+   "record_id": "SOL-c974e476",
+   "keys": [
+    "corrected"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 420,
+   "record_id": "SOL-1223c836",
+   "keys": [
+    "proxy_for_scope"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 421,
+   "record_id": "SOL-753080c4",
+   "keys": [
+    "quantity_corrected"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 523,
+   "record_id": "SOL-cd3cea83",
+   "keys": [
+    "list_separator_corrected"
+   ]
+  }
+ ],
+ "missingFromLedger": [],
+ "violations": [],
+ "doNotWrite": [
+  "訂正で観測と合った",
+  "訂正で判定が増えた",
+  "較正した",
+  "旧値を再検証済み",
+  "観測レコードが確定した"
+ ]
+}

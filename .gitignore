@@ -338,6 +338,11 @@ paper/*Notes.bib
 #   「採用入力が CSV の DDFWHE 行そのものであること」「刻み・窓・段・共同根の探索条件が入っていること」
 #   「宣言リテラルが採用レコードの転写から相対差 0 で戻ること」を突き合わせるのでコミットする。
 !tests/out/j1946adopt-w270c.json
+# 第272便e(AG18): **訂正履歴の台帳**(paper/data/corrections.json)と観測 CSV の突き合わせ
+#   (tests/exp-w272e-corrections.mjs)。台帳の record_id が CSV に在るか・各 revision の
+#   `current` が現行値と一致するか・訂正の印を持つ行が 1 行残らず台帳に載っているかの実測。
+#   QA `docs.correctionsLedger` がこの JSON の件数と違反 0 を突き合わせるのでコミットする。
+!tests/out/corrections-w272e.json
 # 第221便: セッション内スクラッチ実測ハーネス(コミット対象外 — 実測値は claims/QA が機械固定する)
 _scratch-*.mjs
 _scratch-*/

@@ -21645,6 +21645,165 @@ X4 と呼んだ混在)を基準に組まれている。実例として `exp-w253
 
 **言わないこと。** 「D68 が合(3σ)」「カロンが否」(保留のまま)「カロンの残差が悪くなった」(段が変わっただけ)「較正した/較正を完了した」「判定が増えた」「準定常窓を見つけた」(窓なし)「clamp は数値誤差/物理飽和」(断定していない)「N を増やせば収束する」(頭打ち・SD は単調でない)「ζ の時間発展則が決まった」「Q の全経路が閉じた」「観測と合った」「比較できる点が増えた」「再検証済み」「実体を凍結した」(0 件)「v1.45.0 RC を切った」。
 
+〔第272便e — 来歴・記録便: **正本 JSON の来歴を 1 つの形に**(AG11)・旧器の凍結印を QA で固定(AG12)・
+note の並び鍵を `|` へ(AG19)・**訂正履歴の台帳**(AG18)。統括の検証項目 R11〕
+
+**本枝はエンジンを 1 步も変えていない。** `beta/index.html`(sha256 `8cc68428…`)・`S._core`・root・`package.json`・
+内蔵 124 本・判定器・宣言表・**観測値と σ と印**は **1 バイトも触っていない**。動かしたのは
+`paper/data/solar-observations.csv` の **1 行の note の区切り 1 文字**(下の §3)・`.gitignore` の例外 1 行・
+`tests/qa.mjs` の**新設 QA ブロック 4 つ**・実験器 8 本と lib 2 本(来歴の欄・読取の一本化・凍結印)・
+新設の台帳 1 本(`paper/data/corrections.json`)と新設の器 2 本(`tests/lib-w272e-provenance.mjs`・
+`tests/exp-w272e-corrections.mjs`)・`docs/AI_SPEC.md` の星団 JSON スキーマ節である。
+**4 値 0/2/1/34・門 2/1/35/14/8/254・5 区分 57/6/25/4/214/8・太陽系 0/0/1/15・切断点 106/26/3/4 は 1 本も動かない**
+(本枝はそれらを読まない・書かない)。
+
+### ① AG11 —— 正本 JSON の来歴を 1 つの形にする(統括の検証項目 R11)
+
+**穴**: 公開している正本 JSON の刻印が器ごとに別々だった —— `meta.measuredAt`+`inputs[].sha256`(比較器 3 本)・
+`meta.when`+`inputs[].sha256_16`(星団)・**刻印そのものが無い**(qsplit)・`meta.targetSha256` だけ(j1946adopt)。
+`--merge` の鍵(`tests/exp-w249b-calaudit.mjs`)も `target:` が**パス文字列**で、
+**html の内容 hash も測定コードの hash も持っていない**。この状態では「ソースが変わった走行の混在」を防げない。
+
+**入れたもの**: `tests/lib-w272e-provenance.mjs`(版 `w272e-1`)。返す形は
+
+```
+meta = { provenanceVersion, wave, target, targetSha256(完全 64 桁), generatedAt(ISO),
+         inputs: [{file, bytes, sha256(64 桁), mtime}], code: [同じ形], codeSha256(64 桁) }
+```
+
+`codeSha256` は **`file\nsha256\n` を連ねた文字列の sha256** で、器か lib が 1 本でも変われば変わる。
+短縮 hash は**表示用**で、**判定は完全値**で行う。欠けているファイルは `{file, missing:true}` として残す
+(**黙って落とさない**)。既存の欄は 1 つも消していない —— 比較器の `measurementStamp` は
+`measuredAt`/`codeVersion`/`declarationVersion`/`inputs`/`vocabulary`/`contract` をそのまま返し、
+星団の旧 `inputs`(短縮 hash)は `legacyInputs` として残してある。
+
+| 正本 JSON | target | inputs | code |
+|---|---|---:|---:|
+| `tests/out/bh90-w269c.json` | `beta/index.html` | 3 | 4 |
+| `tests/out/sparc-w269c.json` | `beta/index.html` | 3 | 4 |
+| `tests/out/cluster-w269d.json` | `beta/index.html` | 5 | 4 |
+| `tests/out/galaxydiag-w271d.json` | `beta/index.html` | 3 | 4 |
+| `tests/out/qsplit-w271c.json` | `beta/index.html` | 1 | 2 |
+| `tests/out/j1946adopt-w270c.json` | `beta/index.html` | 2 | 3 |
+| `tests/out/corrections-w272e.json` | `paper/data/solar-observations.csv` | 6 | 4 |
+
+QA `lint.provenanceMeta` が、この 7 本について ① 版が現行であること ② `targetSha256` が
+**`target` が指すファイルの現行 sha256 と一致**すること ③④ `inputs[]`・`code[]` の各ファイルの現行 sha256 が
+刻印と一致し `codeSha256` が並びの hash と一致すること ⑤ `generatedAt` が ISO 日時であることを見る。
+**不一致は FAIL のままにする**(AG10)—— これは「走らせ直せば直る種類の FAIL」であり、
+**html や器を変えた枝の統合後は統括が再走する**。
+
+**やっていないこと**: `--merge` の鍵そのもの(`tests/exp-w249b-calaudit.mjs`)には触っていない(枝 a の担当)。
+`meta` を持たせただけでは**混在は防げない** —— 防ぐのは「鍵に hash を入れる」側の変更で、**本便では入れていない**。
+
+### ② AG12 —— 旧い採用レコードを基準にした器の凍結印を QA で固定する
+
+第271便e が 4 本(`exp-w249a` / `exp-w250a` / `exp-w252a-boxbinary` / `exp-w253b-a0sweep`)に
+`recordBasis:'legacy-w249a'` を置いたが、**機械照合はしていなかった**(印が消えても誰も気づかない)。
+本便で QA `lint.legacyRecordBasis` を新設し、4 本に `recordBasis` と `legacy-w249a` の綴りと
+**凍結の理由**が本文にあることを固定した。
+
+併せて `tests/exp-w269a-mixprobe.mjs` に凍結印 **`legacy-fixedColumns-w269a`** を足した。この器は CSV を
+**列位置**(`c[0]`〜`c[8]`)で読み `record_id` 欄を 1 つも見ない。第270便b(AE2)で読取がヘッダ名引きへ移り、
+第271便b(R1)で**同定の鍵が `record_id`・宣言内容は一致条件**になった以上、
+**現行の採用解ではこの器は宣言を解決できない**(渡す行が「ファイル順の最初」のままである)。
+**「この器が現行解で再測定済み」とは書かない。凍結は直したことではない。**
+ヘッダ名読みの新器を別名で作るかは**決断事項**(本便は凍結印だけ)。
+
+### ③ AG19 —— note の並び鍵の綴りを `|` にする(値・σ・印は不変)
+
+note は `<鍵>=<値>; <鍵>=<値>; …` なので、既定の鍵読み `<鍵>=([^;]*)` は**最初の `;` で切れる**。
+第271便b が足した `derived_from=<Pb の record_id>;<質量行の record_id>` は、この読みでは 1 件目しか返らなかった
+(第271便b が実測して記録した「規約の穴」)。本便で区切りを **`|`** に改め(**`;` は鍵の区切り専用**)、
+読取を `tests/lib-w270b-obscsv.mjs` の `listKey()` / `recordIdItems()` / `legacySemicolonList()` の 1 本に揃えた。
+器側の自前正規表現(`exp-w271b-derived.mjs`)は撤去した。
+
+- **書き換えた行は 1 行**: `SOL-cd3cea83`(太陽系 CSV 行 523・PSR J1946+2052 \| semi_major_axis)。
+  `derived_from=SOL-dd4b7894;SOL-5199beef` → **`derived_from=SOL-dd4b7894|SOL-5199beef`**。
+  **2 つの record_id そのもの・value 7.314903855163476e8・unit・source・url・sigma 欄(空)・印は 1 文字も動いていない。**
+  印 `list_separator_corrected=2026-09-18` を note に残した(台帳 §④ の revision 2)。
+- **再走**: `node tests/exp-w271b-derived.mjs` は違反 0。既定の鍵読みが**並びを最後まで返す**ようになり、
+  a = 731490385.5163476 m の再現(M☉ 経路と kg 経路の相対差 **0**)・行 147 の不変・第一致行 147 は**すべて不変**である。
+- **未解決(決断事項)**: `derived_from=Moon|apsidal_period` のように、**参照 1 件の中に `|` を含む**綴りの行が
+  **14 行**ある(2026-09-15 intake の派生行)。並びの区切りと記法が衝突しており、`|` で割ると 2 件に見える。
+  **本便は 1 行も書き換えていない** —— QA `lint.listKeys` が件数を出すだけにしてある。
+
+QA `lint.listKeys` の実測(`paper/data/` の 5 本を走査): 並び鍵を持つ行 **15 行**・`;` 区切りの旧綴り **0 件**・
+`record_id` の並びを持つ行 **1 行**(参照 **2 件**がいずれも CSV に実在)・記法が衝突している行 **14 行**。
+
+### ④ AG18 —— 訂正履歴の台帳
+
+`paper/data/corrections.json`(schema `corrections-v1`)を新設した。形は
+`record_id → {file, body, quantity, previousRecordId?, previousSolutionId?, revisions:[{revision, date, wave,
+commit, field, previous, current, reason, markKey, sourceHash, previousSourceHash}]}` である。
+
+**台帳は値を作らない。** 現行値の正本は CSV であり、**旧値の正本は git 履歴**である。`sourceHash` は
+**その便のコミットにおける当該 CSV ファイルの完全 SHA-256**(`previousSourceHash` は親コミットのもの)で、
+台帳を書くときに git から読み出した**実測値**である(推定値ではない)。
+
+既存の訂正を**遡って**載せた(値は 1 つも動かしていない)。**record 23 件・revision 28 件**:
+
+| 便 | commit | revision | 内容 |
+|---|---|---:|---|
+| 第265便d | `92a1b8f` | 2 | 月の一般歳差の換算の丸め(value + sigma) |
+| 第266便a | `4d1571a` | 6 | 水星 P・火星 P の換算(value 2)/ J1946 の出典ラベル 2 行(source + url 各 2) |
+| 第268便b | `4945764` | 6 | J1757 の σ 1.0e-7→1.0e-6(1)・DOI slx185→sly003(3)・タイタン環の量名改名(1)・`proxy_for` の適用範囲(1) |
+| 第269便b | `f6c19b4` | 5 | AD7: 旧 DOI が残っていた 5 行の url |
+| 第270便b | `ef2cd45` | 6 | 外部名の中立化 3 行(note)・確認記録 第 4 回で印が上がった 3 行(mark) |
+| 第271便b | `743ad9b` | 2 | AF10 の中立化 1 行(note)・AF14 の**追加行** 1 行(added) |
+| 第272便e | (本便) | 1 | AG19 の並び鍵の区切り(note) |
+
+欄別の内訳は **url 10・note 6・value 3・mark 3・sigma 2・source 2・quantity 1・added 1**。
+
+- **`record_id` が変わった訂正を明示した**: 鍵は `file|body|quantity|unit|source` なので、
+  **quantity と source の訂正では ID が変わる**。台帳は旧 ID を `previousRecordId` に持つ ——
+  `SOL-753080c4 ← SOL-944b74c6`(タイタン環の改名)・`SOL-cb34a1f4 ← SOL-dc56c459`・
+  `SOL-efbb5491 ← SOL-1ac71cc3`(J1946 の出典ラベル)。**旧 ID は履歴であり、CSV には存在しない。**
+- **`previous_solution_id` は台帳側で持つ**。J1946 の旧 145〜148 行の**旧出典は履歴として記載**し、
+  CSV の `solution_id` 欄は**現行解だけを載せて上書きしない**(該当 3 行は空欄のまま ——
+  空欄は「解が無い」ではなく「台帳に登録していない」である)。
+- **外部の生成系の実名は書かない**。旧文言に実名があった 4 件は `previousRedacted:true` で説明に置き換えた。
+
+検査器 `tests/exp-w272e-corrections.mjs` が ① 台帳の record_id が CSV に実在 ② 各 revision の `current` が
+**現行の CSV と一致**(`value`/`sigma`/`unit`/`source`/`url`/`quantity` は欄・`mark` は `sigma_primary` の厳密読み・
+`note` は含有・`added` は追加行の value) ③ `markKey` が note に残っている ④ **取りこぼしが無い**
+(CSV で訂正の印を持つ行 **23 行**が 1 行残らず台帳にある) ⑤ `previous ≠ current` ⑥ `revision` が 1 から連番、
+を見る。**実測: 違反 0 件**。QA は `docs.correctionsLedger`。
+
+**この器がしないこと**: `previous` が正しいかを**再検証しない**(旧値は git 履歴が正本で、`previousSourceHash` が
+その commit の CSV を指す)。**「旧値を再検証済み」とは書かない。**
+
+**まだ台帳に無いもの(未解決)**: 値も印も動かさない注記(第268便b の行 115 の丸め差・行 145/146/148 の
+`solution_mix=`・行 285/289/290/300/302 の外部照合印)は訂正ではないので載せていない。確認記録による
+**印の一括更新**(第266便a の 21 行・第267便a の 23 行)は `verified_by=` で CSV 側に残っており、
+台帳に載せたのは `previous_mark=` を持つ 3 行だけである —— **印の履歴をすべて台帳へ移すかは決断事項**。
+
+### ⑤ 新設した QA ブロック(4)と、本枝が固定した数
+
+| QA ブロック | 固定する数 |
+|---|---|
+| `lint.provenanceMeta` | 正本 **7 本**の来歴の形・`targetSha256` と現行ファイルの一致・`inputs[]`/`code[]` の一致・`codeSha256` |
+| `lint.legacyRecordBasis` | 凍結印 **5 本**(`legacy-w249a` 4 + `legacy-fixedColumns-w269a` 1)と理由の記載 |
+| `lint.listKeys` | `;` 区切りの旧綴り **0 件**・`record_id` の参照がすべて実在・記法が衝突している行 **14 行** |
+| `docs.correctionsLedger` | 台帳 **record 23 件・revision 28 件**・CSV の印つき行 **23 行**・違反 **0 件** |
+
+既存ブロックで数が変わったものは **`lint.externalNamesCsv` の走査本数 8 → 9 本**(`paper/data/corrections.json` を
+走査対象に足した。外部名の残数は **0 件**のまま)である。
+
+**本枝で回した検証**(QA_FAST の通し・フル QA・perf は**回していない** —— 統括の担当):
+`tests/exp-w258c-qapart.mjs` で **23 ブロックを単体実行し全 PASS**(新設 4 + `docs.j1946adoptPublished`・
+`lint.externalNamesCsv`・`lint.sigmaMark`・`docs.intakeA-sync`・`lint.recordId`・`lint.solutionId`・
+`docs.transcriptionCorrections`・比較器 12 本)。正本 6 本は**この枝のツリーで実走して**作り直した
+(bh90 / sparc / cluster / galaxydiag 272.3 s・pageErrors 0 / qsplit 違反 0・ζ_eff 分類 1592/65/160/44/164 は
+〔第271便c〕と同じ / j1946adopt 4 段 12/12 measured)。`node --check` は `tests/qa.mjs` と実験器・lib 12 本すべて通過し、
+`beta/index.html` は**1 バイトも変えていない**(sha256 `8cc68428…`・inline script の構文エラー 0)。
+
+**言わないこと。** 「来歴を入れたので混在を防いだ」(防ぐのは鍵に hash を入れる側で、本便では入れていない)・
+「旧器を直した」(**凍結しただけ**)・「並び鍵の規約が片付いた」(**記法の衝突が 14 行残っている**)・
+「訂正で観測と合った」「訂正で判定が増えた」「較正した」「旧値を再検証済み」「観測レコードが確定した」・
+「v1.45.0 RC を切った」。
+
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、

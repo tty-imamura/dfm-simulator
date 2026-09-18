@@ -405,6 +405,10 @@ const out = {
   meta: measurementStamp({
     codeVersion: 'tests/exp-w271d-galaxydiag.mjs 第271便d',
     declarationVersion: 'compare-v1 / 第61報「提示された指摘を参考に改善/決断事項は概ね同意」',
+    // 第272便e(AG11): 来歴を共通の形で。
+    root: ROOT, wave: '第271便d(来歴は第272便e で共通化)', target: TARGET,
+    code: ['tests/exp-w271d-galaxydiag.mjs', 'tests/lib-w269c-compare.mjs',
+      'tests/lib-w270b-obscsv.mjs', 'tests/lib-w272e-provenance.mjs'],
     inputs: [fileStamp(path.join(ROOT, TARGET), TARGET), fileStamp(CSV, CSV_REL),
       fileStamp(path.join(ROOT, 'tests', 'lib-w269c-compare.mjs'), 'tests/lib-w269c-compare.mjs')] }),
   declaration: {

@@ -1837,7 +1837,10 @@ const add = (id, pass, detail) => {
   const TARGETS = ['paper/data/solar-observations.csv', 'paper/data/cluster-galaxy-observations.csv',
     'paper/data/transient-observations.csv', 'paper/data/supernova-observations.csv',
     'paper/data/jovian-satellites.csv', 'paper/data/judgement-sources.json',
-    'paper/data/solutions.json', 'paper/data/sources-manifest.json'];
+    'paper/data/solutions.json', 'paper/data/sources-manifest.json',
+    // 第272便e(AG18): 訂正履歴の台帳も走査対象(旧文言に実名があった revision は
+    //   `previousRedacted:true` で説明に置き換えてあり、実名は 1 語も入れていない)。
+    'paper/data/corrections.json'];
   const perFile = {};
   let total = 0, scanned = 0;
   for (const rel of TARGETS) {
@@ -1875,6 +1878,263 @@ const add = (id, pass, detail) => {
     + `(\`external_name_neutralised=2026-09-18\`)—— **value・unit・source・url・retrieved・sigma・`
     + `印・来歴は 1 文字も動いていない**(動いたのは note の 1 語)/ `
     + `**歴史文書(CHANGELOG の過去便・docs/PHYSICS.md の過去節)は触らない**(過去便の記録である)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 第272便e(第62報・AG11): lint.provenanceMeta ----
+// ----   公開している**正本 JSON の来歴を 1 つの形に固定**する(統括の検証項目 R11)。
+// ----   背景: 器ごとに刻印がばらばらで、`target:` はパス文字列にすぎなかった。**中身が変わった
+// ----   html やコードで作った JSON が混ざっても気づけない**。第272便e で共通の
+// ----   `tests/lib-w272e-provenance.mjs` を入れ、6 本の正本 + 訂正台帳の突き合わせ 1 本に
+// ----   同じ形(`provenanceVersion`・`wave`・`target`・`targetSha256`・`generatedAt`・
+// ----   `inputs[]`・`code[]`・`codeSha256`)を持たせた。固定するのは 5 つ:
+// ----     ① 7 本すべてに `meta` があり、`provenanceVersion` が現行版である。
+// ----     ② `meta.targetSha256` が **`meta.target` が指すファイルの現行 sha256 と一致**する。
+// ----     ③ `meta.inputs[]` の各ファイルの現行 sha256 が刻印と一致する(欠けている行は `missing`)。
+// ----     ④ `meta.code[]` の各ファイルの現行 sha256 が刻印と一致し、`codeSha256` が並びの hash と一致。
+// ----     ⑤ `generatedAt` が ISO 日時である。
+// ----   **不一致は FAIL のままにする**(AG10)—— 走らせ直せば直る種類の FAIL であり、
+// ----   html や器を変えた枝の統合後は**統括が再走する**。短縮 hash は表示用で、判定は完全値で行う。
+{
+  const bad = [];
+  const rows = [];
+  let PV = null;
+  try {
+    const P = await import('file://' + path.join(ROOT, 'tests', 'lib-w272e-provenance.mjs'));
+    PV = P.PROVENANCE_VERSION;
+    const CANON = ['tests/out/bh90-w269c.json', 'tests/out/sparc-w269c.json',
+      'tests/out/cluster-w269d.json', 'tests/out/galaxydiag-w271d.json',
+      'tests/out/qsplit-w271c.json', 'tests/out/j1946adopt-w270c.json',
+      'tests/out/corrections-w272e.json'];
+    const HEX64 = /^[0-9a-f]{64}$/;
+    for (const rel of CANON) {
+      const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
+        code: 0, codeOk: 0, digestOk: null };
+      let J = null;
+      try { J = JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8')); }
+      catch (e) { bad.push(`${rel} が読めない: ` + String(e).slice(0, 60)); rows.push(r); continue; }
+      const m = J.meta || null;
+      if (!m) { bad.push(`①${rel} に meta が無い`); rows.push(r); continue; }
+      if (m.provenanceVersion !== PV)
+        bad.push(`①${rel} の provenanceVersion が ${PV} でない(${m.provenanceVersion})`);
+      if (typeof m.wave !== 'string' || !m.wave) bad.push(`①${rel} に wave が無い`);
+      if (!m.generatedAt || Number.isNaN(Date.parse(m.generatedAt)))
+        bad.push(`⑤${rel} の generatedAt が日時でない(${m.generatedAt})`);
+      r.target = m.target || null;
+      if (!m.target || !HEX64.test(String(m.targetSha256 || ''))) {
+        bad.push(`②${rel} の target / targetSha256(64 桁)が無い`);
+      } else {
+        const now = P.sha256File(path.join(ROOT, m.target));
+        r.targetOk = (now === m.targetSha256);
+        if (!r.targetOk) bad.push(`②${rel} の targetSha256 が現行 ${m.target} と一致しない`
+          + `(刻印 ${String(m.targetSha256).slice(0, 12)} ≠ 現行 ${String(now).slice(0, 12)})`
+          + ' —— **器を走らせ直すこと**');
+      }
+      for (const key of ['inputs', 'code']) {
+        const arr = Array.isArray(m[key]) ? m[key] : null;
+        if (!arr || !arr.length) { bad.push(`①${rel} の meta.${key} が無い`); continue; }
+        r[key] = arr.length;
+        for (const s of arr) {
+          if (s.missing) continue;
+          if (!HEX64.test(String(s.sha256 || ''))) { bad.push(`③${rel} の ${key} ${s.file} に完全な sha256 が無い`); continue; }
+          const now = P.sha256File(path.join(ROOT, s.file));
+          if (now === s.sha256) r[key === 'inputs' ? 'inputsOk' : 'codeOk']++;
+          else bad.push(`${key === 'inputs' ? '③' : '④'}${rel} の ${s.file} が刻印と違う`
+            + ' —— **器を走らせ直すこと**');
+        }
+      }
+      if (Array.isArray(m.code) && m.code.length) {
+        r.digestOk = (P.digestOfStamps(m.code) === m.codeSha256);
+        if (!r.digestOk) bad.push(`④${rel} の codeSha256 が code[] の並びの hash と一致しない`);
+      }
+      rows.push(r);
+    }
+  } catch (e) { bad.push('来歴の器が読めない: ' + String(e).slice(0, 110)); }
+  add('lint.provenanceMeta', bad.length === 0,
+    `**正本 JSON の来歴**(第272便e・AG11・統括の検証項目 R11): 版 \`${PV}\` を `
+    + `**${rows.length} 本**に同じ形で持たせた(\`provenanceVersion\`・\`wave\`・\`target\`・`
+    + `**完全 64 桁の \`targetSha256\`**・\`generatedAt\`・\`inputs[]\`・\`code[]\`・\`codeSha256\`)/ `
+    + rows.map((r) => `${r.file.replace('tests/out/', '')}(target ${r.targetOk === null ? '—' : (r.targetOk ? '一致' : '**不一致**')}`
+      + `・入力 ${r.inputsOk}/${r.inputs}・コード ${r.codeOk}/${r.code}）`).join(' / ')
+    + ` / **不一致は FAIL のまま**(AG10 —— 走らせ直せば直る種類の FAIL で、html や器を変えた枝の`
+    + `統合後は統括が再走する)。短縮 hash は表示用で、**判定は完全値**で行う`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 第272便e(第62報・AG12): lint.legacyRecordBasis ----
+// ----   **旧い採用レコードを基準に組まれた器**に凍結印が残っていることを機械で固定する。
+// ----   第270便c(AD9)で PSR J1946+2052 の初期条件が一組(Meng 2025 Table 1 DDFWHE 列)へ動いた
+// ----   ので、第249便a 時点の**混在した組**を基準にした 4 本(w249a/w250a/w252a/w253b)の表は
+// ----   **現行の採用解では再現しない**。第271便e がこの 4 本に `recordBasis:'legacy-w249a'` を
+// ----   置いたが、**機械照合はしていなかった**(印が消えても誰も気づかない)。
+// ----   さらに `exp-w269a-mixprobe.mjs` は CSV を**列位置**で読み `record_id` を見ないので、
+// ----   第271便b(R1)の「同定の鍵は record_id」の下では宣言を解決できない —— 本便で
+// ----   `recordBasis:'legacy-fixedColumns-w269a'` の凍結印を足した。固定するのは 3 つ:
+// ----     ① 4 本の器に `recordBasis` と `legacy-w249a` の綴りがある。
+// ----     ② mixprobe に `legacy-fixedColumns-w269a` の綴りがある。
+// ----     ③ 5 本とも凍結の理由(現行解では再現しない/宣言を解決できない)が本文に書いてある。
+// ----   **「この器が現行解で再測定済み」とは書かない。** 凍結は「直した」ことではない。
+{
+  const bad = [];
+  const seen = {};
+  const LEGACY = ['tests/exp-w249a.mjs', 'tests/exp-w250a.mjs',
+    'tests/exp-w252a-boxbinary.mjs', 'tests/exp-w253b-a0sweep.mjs'];
+  const MIX = 'tests/exp-w269a-mixprobe.mjs';
+  const readSrc = (rel) => { try { return fs.readFileSync(path.join(ROOT, rel), 'utf8'); } catch { return null; } };
+  for (const rel of LEGACY) {
+    const s = readSrc(rel);
+    if (s === null) { bad.push(`${rel} が読めない`); continue; }
+    const hasField = /recordBasis/.test(s), hasTag = s.indexOf('legacy-w249a') >= 0;
+    const hasWhy = s.indexOf('凍結') >= 0;
+    seen[rel] = { field: hasField, tag: hasTag, why: hasWhy };
+    if (!hasField) bad.push(`①${rel} に recordBasis が無い`);
+    if (!hasTag) bad.push(`①${rel} に印 legacy-w249a が無い`);
+    if (!hasWhy) bad.push(`③${rel} に凍結の理由が書かれていない`);
+  }
+  const ms = readSrc(MIX);
+  if (ms === null) bad.push(`${MIX} が読めない`);
+  else {
+    const hasTag = ms.indexOf('legacy-fixedColumns-w269a') >= 0;
+    const hasWhy = ms.indexOf('凍結') >= 0;
+    seen[MIX] = { field: /recordBasis/.test(ms), tag: hasTag, why: hasWhy };
+    if (!hasTag) bad.push(`②${MIX} に印 legacy-fixedColumns-w269a が無い`);
+    if (!hasWhy) bad.push(`③${MIX} に凍結の理由が書かれていない`);
+  }
+  add('lint.legacyRecordBasis', bad.length === 0,
+    `**旧採用レコード基準の器の凍結印**(第272便e・AG12): `
+    + `\`legacy-w249a\` ${LEGACY.length} 本(w249a / w250a / w252a / w253b —— 第249便a 時点の`
+    + `**混在した組**が基準で、第270便c(AD9)の一組では表の数値が再現しない)+ `
+    + `\`legacy-fixedColumns-w269a\` 1 本(mixprobe —— CSV を**列位置**で読み \`record_id\` を`
+    + `見ないので、現行の採用解では宣言を解決できない)= **${Object.keys(seen).length} 本**に`
+    + `凍結印と理由がある / **「現行解で再測定済み」とは書かない**(凍結は直したことではない)。`
+    + `ヘッダ名読みの新器を別名で作るかは**決断事項**`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 第272便e(第62報・AG19): lint.listKeys ----
+// ----   観測 CSV の note の**並び鍵**の綴りを固定する。
+// ----   note は `<鍵>=<値>; <鍵>=<値>; …` なので、既定の鍵読み `<鍵>=([^;]*)` は**最初の `;` で
+// ----   切れる**。第271便b が足した `derived_from=<Pb の id>;<質量行の id>` はこの読みで 1 件目
+// ----   しか返らなかった(第271便b が実測して記録した「規約の穴」)。本便で区切りを **`|`** に
+// ----   改め(`;` は鍵の区切り専用)、読取を `tests/lib-w270b-obscsv.mjs` の `listKey()` 1 本にした。
+// ----   **値・単位・出典・σ・印は 1 文字も動いていない**(動いたのは区切り 1 文字である)。
+// ----   固定するのは 3 つ:
+// ----     ① `;` 区切りの旧綴り(`<鍵>=…;<record_id>`)が **0 件**である。
+// ----     ② `record_id` の形をした項目は**すべて CSV に実在する**(宛先の無い参照を作らない)。
+// ----     ③ **未解決を数で出す**: `derived_from=<body>|<quantity>` という**参照 1 件の中に `|` を
+// ----        含む**綴りの行(2026-09-15 intake の派生行)は記法が衝突している。**本便は書き換えて
+// ----        いない** —— 件数を出すだけで、改名するかは決断事項である。
+{
+  const bad = [];
+  let legacyRows = 0, idRows = 0, idItems = 0, ambiguous = 0, scanned = 0, keyRows = 0;
+  const ambiguousIds = [], legacyIds = [];
+  try {
+    const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+    const FILES = ['solar-observations.csv', 'cluster-galaxy-observations.csv',
+      'transient-observations.csv', 'supernova-observations.csv', 'jovian-satellites.csv'];
+    const all = new Map();
+    const loaded = [];
+    for (const f of FILES) {
+      const L = OB.loadObsCsv(path.join(ROOT, 'paper', 'data', f));
+      loaded.push([f, L.rows]);
+      scanned++;
+      for (const r of L.rows) if (r.recordId) all.set(r.recordId, r);
+    }
+    for (const [f, rows] of loaded) {
+      for (const r of rows) {
+        for (const key of OB.LIST_KEYS) {
+          if (!new RegExp('(?:^|[^A-Za-z0-9_])' + key + '=').test(r.note)) continue;
+          keyRows++;
+          const legacy = OB.legacySemicolonList(r.note, key);
+          if (legacy) { legacyRows++; legacyIds.push(r.recordId || (f + ':' + r.ln));
+            bad.push(`①旧綴り(\`;\` 区切り)が残っている: ${f} 行 ${r.ln} ${key}=${legacy.head};${legacy.next}`); }
+          const ids = OB.recordIdItems(r.note, key);
+          const items = OB.listKey(r.note, key);
+          if (ids.length) {
+            idRows++; idItems += ids.length;
+            for (const id of ids) if (!all.has(id))
+              bad.push(`②${key} の参照先が CSV に無い: ${f} 行 ${r.ln} → ${id}`);
+          } else if (items.length > 1) {
+            ambiguous++; ambiguousIds.push(r.recordId || (f + ':' + r.ln));
+          }
+        }
+      }
+    }
+  } catch (e) { bad.push('入力が読めない: ' + String(e).slice(0, 110)); }
+  add('lint.listKeys', bad.length === 0,
+    `**note の並び鍵**(第272便e・AG19): \`paper/data/\` の ${scanned} 本を走査し、`
+    + `並び鍵を持つ行 **${keyRows} 行**/ ① \`;\` 区切りの旧綴り **${legacyRows} 件**`
+    + `(区切りは \`|\` で、\`;\` は鍵の区切り専用)/ ② \`record_id\` の並びを持つ行 ${idRows} 行・`
+    + `参照 ${idItems} 件がすべて CSV に実在 / ③ **未解決**: 参照 1 件の中に \`|\` を含む`
+    + `\`<body>|<quantity>\` 形の行が **${ambiguous} 行**(2026-09-15 intake の派生行)—— `
+    + `並びの区切りと記法が衝突している。**本便は書き換えていない**(改名は決断事項)/ `
+    + `**値・単位・出典・σ・印は 1 文字も動いていない**`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 第272便e(第62報・AG18): docs.correctionsLedger ----
+// ----   **訂正履歴の台帳**(`paper/data/corrections.json`)と観測 CSV が食い違っていないことを
+// ----   機械で見る。台帳は `record_id → [{revision, date, field, previous, current, reason,
+// ----   sourceHash}]` で、**値は作らない**(現行値の正本は CSV である)。固定するのは 5 つ:
+// ----     ① 台帳の schema が `corrections-v1`・record **23 件**・revision **28 件**。
+// ----     ② 突き合わせ器 `tests/exp-w272e-corrections.mjs` の出力 `tests/out/corrections-w272e.json`
+// ----        の違反が **0 件**(各 revision の `current` が現行の CSV と一致している)。
+// ----     ③ CSV の中で訂正の印を持つ行 **23 行**が 1 行残らず台帳に載っている(取りこぼし 0)。
+// ----     ④ 台帳の件数と突き合わせ器の件数が一致する。
+// ----     ⑤ **外部の生成系の実名を書かない** —— 旧文言に実名があった revision は
+// ----        `previousRedacted:true` で説明に置き換えてある。
+// ----   **書かないこと**: 「訂正で観測と合った」「訂正で判定が増えた」「旧値を再検証済み」。
+// ----   訂正は 4 値(合/量限定合/否/保留)を 1 本も動かしていない。
+{
+  const bad = [];
+  const EXPECT = { records: 23, revisions: 28, markedRows: 23 };
+  let lg = null, J = null, redacted = 0;
+  try { lg = JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data', 'corrections.json'), 'utf8')); }
+  catch (e) { bad.push('①台帳が読めない: ' + String(e).slice(0, 80)); }
+  try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'corrections-w272e.json'), 'utf8')); }
+  catch (e) { bad.push('②突き合わせ器の出力が無い(node tests/exp-w272e-corrections.mjs を回すと入る): '
+    + String(e).slice(0, 60)); }
+  let nRec = 0, nRev = 0;
+  if (lg) {
+    if (lg.schema !== 'corrections-v1') bad.push(`①schema が corrections-v1 でない(${lg.schema})`);
+    const recs = lg.records || {};
+    nRec = Object.keys(recs).length;
+    for (const [id, r] of Object.entries(recs)) {
+      const revs = Array.isArray(r.revisions) ? r.revisions : [];
+      nRev += revs.length;
+      for (const rv of revs) {
+        if (rv.previousRedacted) redacted++;
+        for (const k of ['revision', 'date', 'field', 'current', 'reason'])
+          if (rv[k] === undefined) bad.push(`①${id} rev${rv.revision} に ${k} が無い`);
+        if (!('sourceHash' in rv)) bad.push(`①${id} rev${rv.revision} に sourceHash が無い`);
+      }
+    }
+    if (nRec !== EXPECT.records) bad.push(`①台帳の record が ${EXPECT.records} 件でない(${nRec})`);
+    if (nRev !== EXPECT.revisions) bad.push(`①台帳の revision が ${EXPECT.revisions} 件でない(${nRev})`);
+  }
+  if (J) {
+    const t = J.tally || {};
+    if ((J.violations || []).length !== 0)
+      bad.push(`②突き合わせ器の違反が 0 でない(${(J.violations || []).length} 件: `
+        + (J.violations || []).slice(0, 2).join(' , ') + ')');
+    if (t.markedRowsInCsv !== EXPECT.markedRows)
+      bad.push(`③CSV の印つき行が ${EXPECT.markedRows} 行でない(${t.markedRowsInCsv})`);
+    if ((J.missingFromLedger || []).length !== 0)
+      bad.push(`③台帳に無い印つき行がある: ${(J.missingFromLedger || []).slice(0, 3).join(' , ')}`);
+    if (lg && t.records !== nRec) bad.push(`④台帳と器の record 件数が食い違う(${nRec} ≠ ${t.records})`);
+    if (lg && t.revisions !== nRev) bad.push(`④台帳と器の revision 件数が食い違う(${nRev} ≠ ${t.revisions})`);
+  }
+  const byField = J ? (J.byField || {}) : {};
+  const byWave = J ? (J.byWave || {}) : {};
+  add('docs.correctionsLedger', bad.length === 0,
+    `**訂正履歴の台帳**(第272便e・AG18・\`paper/data/corrections.json\`): `
+    + `record **${nRec} 件**・revision **${nRev} 件**(欄別 ${JSON.stringify(byField)} / `
+    + `便別 ${JSON.stringify(byWave)})/ ② 突き合わせ器 \`tests/exp-w272e-corrections.mjs\` の`
+    + `違反 ${J ? (J.violations || []).length : '—'} 件(各 revision の \`current\` が**現行の CSV と一致**)/ `
+    + `③ CSV の印つき行 ${J ? (J.tally || {}).markedRowsInCsv : '—'} 行の**取りこぼし 0**/ `
+    + `⑤ 旧文言に外部の生成系の実名があった ${redacted} 件は \`previousRedacted\` で説明に置換 / `
+    + `**台帳は値を作らない**(現行値の正本は CSV・旧値は git 履歴で \`previousSourceHash\` が指す)。`
+    + `**訂正は 4 値を 1 本も動かしていない**`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 

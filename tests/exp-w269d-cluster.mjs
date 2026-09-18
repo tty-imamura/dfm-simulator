@@ -33,6 +33,8 @@ import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { richardson3, protocolDeclaration } from './lib-w265a-analogy.mjs';
 import { STATES, stateRecord, numericalVerdict, halfRadiusRatioTheory } from './lib-w269d-state.mjs';
+// 第272便e(AG11): 来歴(targetSha256・codeSha256・generatedAt・wave)は共通の 1 本で作る。
+import { provenanceMeta } from './lib-w272e-provenance.mjs';
 // 第270便e(F1): 注入文字列の `import` を **Node 側で解決した配列**に差し替えるための実体。
 const SHARED_STATES_RESOLVED = STATES.slice();
 
@@ -270,11 +272,17 @@ const facts = await pg.evaluate((ids) => window.__w269dFacts(ids), ['tuc47', 'tu
 
 const out = {
   meta: {
-    wave: '第269便d(第59報 W4)— 星団 47 Tuc **比較サンプル v1a**(内部診断の完成)',
+    // 第272便e(AG11): 共通の来歴を**先に**置く(`inputs` は完全な sha256 を持つ形へ揃えた ——
+    //   旧 `sha256_16` の欄も `legacyInputs` として残してある)。
+    ...provenanceMeta({ root: ROOT, wave: '第269便d(来歴は第272便e で共通化)', target: TARGET,
+      code: ['tests/exp-w269d-cluster.mjs', 'tests/lib-w265a-analogy.mjs',
+        'tests/lib-w269d-state.mjs', 'tests/lib-w272e-provenance.mjs'],
+      inputs: [TARGET, 'tests/lib-w265a-analogy.mjs', 'tests/lib-w269d-state.mjs',
+        CSV_REL, 'tests/out/analogy-w265a.json'] }),
+    waveFull: '第269便d(第59報 W4)— 星団 47 Tuc **比較サンプル v1a**(内部診断の完成)',
     when: new Date().toISOString(),
     codeCommit: headSha,
-    target: TARGET,
-    inputs: [stamp(TARGET), stamp('tests/lib-w265a-analogy.mjs'), stamp('tests/lib-w269d-state.mjs'),
+    legacyInputs: [stamp(TARGET), stamp('tests/lib-w265a-analogy.mjs'), stamp('tests/lib-w269d-state.mjs'),
       stamp(CSV_REL), stamp('tests/out/analogy-w265a.json')],
     declarationVersion: 'v1a-2026-09-17',
     window: { tStart: 0, tEnd: CL_T, unit: 'sim time',

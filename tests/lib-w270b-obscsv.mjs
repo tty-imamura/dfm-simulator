@@ -116,6 +116,54 @@ export function solutionTag(note, key = 'solution') {
   return m ? m[1] : '';
 }
 
+// ---------------------------------------------------------------- 第272便e(AG19): 並び鍵
+// ■ 規約(**`;` は鍵の区切り専用・並びの区切りは `|`**)
+//   note は `<鍵>=<値>; <鍵>=<値>; …` である。したがって既定の鍵読み(`<鍵>=([^;]*)`)は
+//   **最初の `;` で切れる**。第271便b の `derived_from=SOL-dd4b7894;SOL-5199beef` は
+//   この読みでは 1 件目しか返らない(第271便b が実測して記録した「規約の穴」)。
+//   本便でこれを **`|` 区切り**に改めた。**値・単位・出典・σ・印は 1 文字も動いていない**
+//   (動いたのは note の区切り 1 文字である)。
+// ■ 既知の未解決(**書き換えていない・決断事項**)
+//   `derived_from=Moon|apsidal_period` のように、**1 件の参照そのものが `<body>|<quantity>`**
+//   という綴りの行が 14 行ある(2026-09-15 intake の派生行)。この 14 行は `|` で割ると
+//   2 件に見えるが、意味は 1 件の参照である。**記法が衝突している** —— 本便は
+//   `listKey()` が返す生の並びと、`recordIdItems()` が返す record_id 形の項目を**分けて**数え、
+//   衝突している行数を QA `lint.listKeys` が表示するだけにした(改名はしていない)。
+/** `<PFX>-<8 桁>`(+出現順の枝番)= `record_id` の形。 */
+export const RECORD_ID_RE = /^(?:SOL|CLG|TRN|OBS)-[0-9a-f]{8}(?:-\d+)?$/;
+/** 並びとして読む鍵(ここに無い鍵は 1 値の鍵である)。 */
+export const LIST_KEYS = ['derived_from'];
+
+/** 鍵の生値(既定の読み方 —— **最初の `;` で切れる**)。 */
+export function rawKey(note, key) {
+  const m = new RegExp('(?:^|[^A-Za-z0-9_])' + key + '=([^;]*)').exec(String(note || ''));
+  return m ? m[1].trim() : null;
+}
+
+/** 並び鍵を**項目の配列**として読む(区切りは `|`)。鍵が無ければ空配列。 */
+export function listKey(note, key) {
+  const raw = rawKey(note, key);
+  if (raw === null) return [];
+  return raw.split('|').map((s) => s.trim()).filter((s) => s !== '');
+}
+
+/** 並びのうち **`record_id` の形をした項目**だけ。 */
+export function recordIdItems(note, key) {
+  return listKey(note, key).filter((s) => RECORD_ID_RE.test(s));
+}
+
+/**
+ * **旧綴り(`;` 区切りの並び)の検出**。`<鍵>=…;<record_id>` の形なら旧綴りとみなす
+ * (`;` の直後が `record_id` の形の語であることが条件 —— 別の鍵が続くだけの行は当たらない)。
+ * @returns {{head:string,next:string}|null}
+ */
+export function legacySemicolonList(note, key) {
+  const m = new RegExp('(?:^|[^A-Za-z0-9_])' + key
+    + '=([^;]*);\\s*((?:SOL|CLG|TRN|OBS)-[0-9a-f]{8}(?:-\\d+)?)(?![A-Za-z0-9_])')
+    .exec(String(note || ''));
+  return m ? { head: m[1].trim(), next: m[2] } : null;
+}
+
 /**
  * 観測 CSV を**ヘッダ名で**読む。各行は名前つきの欄と、生の列配列 `cells` と、
  * 名前引きの `cell(name)` を持つ(**列位置は 1 つも書かない**)。
@@ -153,4 +201,5 @@ export function loadObsCsv(fp) {
 }
 
 export default { parseCsvLine, headerIndex, idPrefix, baseRecordId, assignRecordIds, loadObsCsv,
-  solutionTag, REQUIRED_COLUMNS };
+  solutionTag, REQUIRED_COLUMNS, RECORD_ID_RE, LIST_KEYS, rawKey, listKey, recordIdItems,
+  legacySemicolonList };
