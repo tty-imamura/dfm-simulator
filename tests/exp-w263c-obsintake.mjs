@@ -48,7 +48,8 @@ const CSV_ROWS = [];
       intakeRow: /intake_row=2026-09-14/.test(note),
       intakeRow15: /intake_row=2026-09-15/.test(note),
       sigmaAtIntake: /sigma transcribed at the 2026-09-14 intake/.test(note),
-      solution: (/solution=([A-Za-z0-9-]+)/.exec(note) || [, null])[1] });
+      // 第270便c(AD9): 語境界つき —— `adopted_solution=` の部分文字列に当てない(統括の統合で b のヘッダ読みに重ねた)
+      solution: (/(?<![A-Za-z0-9_-])solution=([A-Za-z0-9-]+)/.exec(note) || [, null])[1] });
   }
 }
 

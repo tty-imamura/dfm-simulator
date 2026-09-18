@@ -2083,9 +2083,13 @@ const add = (id, pass, detail) => {
     const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data', 'judgement-sources.json'), 'utf8'));
     decl = J.declarations || [];
     if (J.schemaVersion !== 1) bad.push(`①schemaVersion が 1 でない(${J.schemaVersion})`);
-    if (decl.length !== 2) bad.push(`①宣言が 2 件でない(${decl.length})`);
+    // 第270便c(AD9): **PSR J1946+2052 の P と e を宣言に足した**(2 件 → 4 件)。
+    //   宣言は**行選択**であって、残差が縮むという主張ではない(σ は P で 500 倍・e で 11.25 倍
+    //   きつくなるので σ 倍の距離はむしろ増える —— `docs.j1946Adopted` が数で置く)。
+    if (decl.length !== 4) bad.push(`①宣言が 4 件でない(${decl.length})`);
     const keys = decl.map((d) => d.body + '|' + d.quantity).sort();
-    if (keys.join(' , ') !== 'Charon|orbital_period , Venus|eccentricity')
+    if (keys.join(' , ') !== 'Charon|orbital_period , PSR J1946+2052|eccentricity , '
+      + 'PSR J1946+2052|orbital_period , Venus|eccentricity')
       bad.push(`①宣言の対象が違う(${keys.join(' , ')})`);
     // ① 宣言が CSV の行に 1 件で当たる(値も σ も CSV から 1 文字も変えずに写している)
     const rows = [];
@@ -2094,11 +2098,16 @@ const add = (id, pass, detail) => {
       const c = parse(line);
       const sg = (c[8] || '').trim() !== '' ? Number(c[8]) : null;
       rows.push({ body: c[0], quantity: c[1], value: (String(c[2]).trim() === '') ? null : Number(c[2]),
+        unit: c[3], source: String(c[4]),
         sigma: (Number.isFinite(sg) && sg > 0) ? sg : null });
     }
+    // 第270便c(AD9): 同定条件を **器(`pickDeclaredRow`)と同じ**にする —— body・鍵・**source**・
+    //   **unit**・value・sigma の完全一致。第269便a が器側へ足した source/unit をこの QA が見て
+    //   いなかったので、**同じ数値・同じ σ の別版行(例: J1946 の 178/285)が 2 件当たっていた**。
     for (const d of decl) {
       const key = d.csvQuantity || d.quantity;
       const hit = rows.filter((r) => r.body === d.body && r.quantity === key
+        && String(r.source) === String(d.source) && String(r.unit) === String(d.unit)
         && r.value === Number(d.value)
         && ((r.sigma === null) ? (d.sigma === null || d.sigma === undefined) : r.sigma === d.sigma));
       hits.push(`${d.body}|${key}=${hit.length}`);
@@ -2128,9 +2137,11 @@ const add = (id, pass, detail) => {
       bad.push(`④門の器が読んだ宣言の件数が違う(${(js.declared || []).length})`);
   } catch (e) { bad.push('宣言表が読めない: ' + String(e).slice(0, 90)); }
   add('docs.judgementSources', bad.length === 0,
-    `**採用観測解の明示宣言**(第268便a・統括の読み (D)・paper/data/judgement-sources.json): `
+    `**採用観測解の明示宣言**(第268便a・第270便c/AD9・paper/data/judgement-sources.json): `
     + `宣言 ${decl.length} 件(**カロン P = Buie 2012 の 551856.43872 s ± 0.02592**・`
-    + `**金星 e = JPL SSD Table 1 の 0.00677672(σ の印字なし)**)で、どちらも CSV の行に`
+    + `**金星 e = JPL SSD Table 1 の 0.00677672(σ の印字なし)**・`
+    + `**PSR J1946+2052 の P = 6781.367998656 s ± 1.728e-6 と e = 0.0638363 ± 8e-7`
+    + `(Meng 2025 Table 1 DDFWHE — 第270便c/AD9 で採用解を一組へ揃えた)**)で、どれも CSV の行に`
     + `**1 件で当たる**(${hits.join(' / ')} —— 宣言に新しい数値は 1 つも書いていない)/ `
     + `**宣言の無い対象は従来どおりファイル順の最初の行**(フォボス・ダイモス・水星 P・火星 P・`
     + `トリトン P/e は**周期定義の照合が先**なので宣言しない)/ `
@@ -3560,6 +3571,127 @@ if (!TARGET.startsWith('beta/')) {
   add('docs.calaudit-period', ok, detail);
 }
 
+// ---- 0a3k) 第270便c(第60報・統括の読み (A)(D)・AD9): docs.j1946Adopted ----
+// ----   **PSR J1946+2052 の採用レコードを一組へ揃えた**ことを機械固定する(署名便)。
+// ----     ① 採用行(CSV 285/289/290)は Meng 2025 Table 1 DDFWHE 列で、注記に
+// ----        `adopted_solution=Meng2025-DDFWHE 2026-09-18` があり、**値・単位・出典は 1 文字も動いていない**。
+// ----     ② 旧採用行(145/146/148)は **previous** として残り、`solution_mix=` の履歴も消していない。
+// ----        値・単位・出典は不変で、足したのは `adopted_solution=` の注記だけである。
+// ----     ③ `judgement-sources.json` の 2 件の宣言が CSV の**その行**に 1 件で当たる
+// ----        (body・鍵・source・unit・value・sigma の完全一致)。
+// ----     ④ `adopted_solution=` が `solution=<tag>` の**部分文字列として拾われない**
+// ----        (語境界つきの照合。旧行が解タグ行として当たると (k,f) 共同根の観測側が旧値に戻る)。
+// ----     ⑤ 対象 html の 🩺🪀🩹 は **同じ bodies リテラル**を 3 本とも持ち、旧リテラルは 0 件である。
+// ----   **書かないこと**: 「J1946 の共同根を再検証した」「揃えたので観測に近づいた」「較正した」。
+// ----   σ は P で 500 倍・e で 11.25 倍きつくなるので、**σ 倍の距離はむしろ増える**。
+{
+  const bad = [];
+  const CSV = path.join(ROOT, 'paper', 'data', 'solar-observations.csv');
+  const parse = (line) => { const c = []; let cur = '', q = false;
+    for (let i = 0; i < line.length; i++) { const ch = line[i];
+      if (q) { if (ch === '"') { if (line[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += ch; }
+      else if (ch === '"') q = true; else if (ch === ',') { c.push(cur); cur = ''; } else cur += ch; }
+    c.push(cur); return c; };
+  let lines = [];
+  try { lines = fs.readFileSync(CSV, 'utf8').split('\n'); } catch (e) { bad.push('CSV が読めない'); }
+  const at = (ln) => { const l = lines[ln - 1]; return l ? parse(l) : null; };
+  const ADOPT = 'adopted_solution=Meng2025-DDFWHE 2026-09-18';
+  // ① 採用行(値・単位・出典の宣言つき固定)
+  const ADOPTED = [
+    [285, 'orbital_period', '6781.36799865600', 's', '1.728e-6'],
+    [289, 'eccentricity', '0.0638363', '1', '8e-7'],
+    [290, 'periastron_advance', '25.79205', 'deg/yr', '0.00040'],
+  ];
+  for (const [ln, q, v, u, sg] of ADOPTED) {
+    const r = at(ln);
+    if (!r) { bad.push(`①行 ${ln} が無い`); continue; }
+    if (r[0] !== 'PSR J1946+2052' || r[1] !== q) bad.push(`①行 ${ln} が PSR J1946+2052|${q} でない`);
+    if (r[2] !== v) bad.push(`①行 ${ln} の value が動いている(${r[2]} ≠ ${v})`);
+    if (r[3] !== u) bad.push(`①行 ${ln} の unit が動いている`);
+    if (r[8] !== sg) bad.push(`①行 ${ln} の sigma が動いている(${r[8]} ≠ ${sg})`);
+    if (r[4] !== 'Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column')
+      bad.push(`①行 ${ln} の出典が DDFWHE 列でない`);
+    if ((r[7] || '').indexOf(ADOPT) < 0) bad.push(`①行 ${ln} に ${ADOPT} の注記が無い`);
+  }
+  // ② 旧採用行は previous(値・単位・出典不変・solution_mix の履歴も残す)
+  const PREVIOUS = [[145, 'orbital_period', '6781.366656'], [146, 'eccentricity', '0.063848'],
+    [148, 'periastron_advance', '25.79205']];
+  for (const [ln, q, v] of PREVIOUS) {
+    const r = at(ln);
+    if (!r) { bad.push(`②行 ${ln} が無い`); continue; }
+    if (r[1] !== q || r[2] !== v) bad.push(`②行 ${ln} の value/quantity が動いている`);
+    if ((r[7] || '').indexOf(ADOPT) < 0) bad.push(`②行 ${ln} に previous の注記が無い`);
+    if ((r[7] || '').indexOf('previous') < 0) bad.push(`②行 ${ln} に previous の語が無い`);
+    if ((r[7] || '').indexOf('solution_mix=') < 0) bad.push(`②行 ${ln} から solution_mix= の履歴が消えている`);
+  }
+  // ③ 宣言が CSV のその行に 1 件で当たる
+  let decl = [];
+  try {
+    const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data', 'judgement-sources.json'), 'utf8'));
+    decl = (J.declarations || []).filter((d) => d.body === 'PSR J1946+2052');
+    if (decl.length !== 2) bad.push(`③J1946 の宣言が 2 件でない(${decl.length})`);
+    for (const d of decl) {
+      const key = d.csvQuantity || d.quantity;
+      let hit = 0;
+      for (let i = 1; i < lines.length; i++) {
+        const l = lines[i];
+        if (!l.trim() || l.startsWith('body,')) continue;
+        const c = parse(l);
+        if (c[0] !== d.body || c[1] !== key) continue;
+        if (String(c[4]) !== String(d.source) || String(c[3]) !== String(d.unit)) continue;
+        if (Number(c[2]) !== Number(d.value)) continue;
+        const sg = (c[8] || '').trim() !== '' ? Number(c[8]) : null;
+        if (sg !== d.sigma) continue;
+        hit++;
+      }
+      if (hit !== 1) bad.push(`③${d.body}|${key} が CSV の 1 行に当たらない(${hit} 行)`);
+    }
+  } catch (e) { bad.push('③宣言表が読めない: ' + String(e).slice(0, 60)); }
+  // ④ `adopted_solution=` を `solution=<tag>` として拾わない(語境界)
+  {
+    const tagged = (note, tag) => new RegExp('(?:^|[^A-Za-z0-9_-])solution='
+      + tag + '(?![A-Za-z0-9_])').test(String(note || ''));
+    const r145 = at(145), r285 = at(285);
+    if (r145 && tagged(r145[7], 'Meng2025-DDFWHE'))
+      bad.push('④旧行 145 が solution=Meng2025-DDFWHE の解タグ行として拾われる(語境界が効いていない)');
+    if (r285 && !tagged(r285[7], 'Meng2025-DDFWHE'))
+      bad.push('④採用行 285 が解タグ行として拾われない');
+    for (const f of ['exp-w265a-kjoint2.mjs', 'exp-w265a-basis.mjs', 'exp-w264a-kjoint.mjs', 'exp-w264a-fixed07.mjs'])
+      if (!fs.readFileSync(path.join(ROOT, 'tests', f), 'utf8').includes('solutionTagged'))
+        bad.push(`④tests/${f} が語境界つきの照合を使っていない`);
+  }
+  // ⑤ 対象 html の 3 本(🩺🪀🩹)が同じ bodies リテラルを持ち、旧リテラルが残っていない
+  let nNew = 0, nOld = 0;
+  {
+    const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+    const NEWLIT = ['x:-383.5911839269213', 'vy:-3.1339349037260904', 'm:5105.5846026139725',
+      'dragQ:3.185591845293206', 'factor:1.9999655295617553'];
+    const OLDLIT = ['x:-383.59535200440934', 'vy:-3.133898293672956', 'm:5105.584602637203',
+      'dragQ:3.1855918475117373', 'factor:1.999965529570855'];
+    nNew = NEWLIT.filter((z) => html.includes(z)).length;
+    nOld = OLDLIT.filter((z) => html.includes(z)).length;
+    if (nNew === 0) {
+      console.log('SKIP docs.j1946Adopted ⑤(対象に第270便c の採用レコードが入っていない — root 等)');
+    } else {
+      for (const z of NEWLIT) { const c = html.split(z).length - 1;
+        if (c !== 3) bad.push(`⑤新リテラル ${z} が 3 件でない(${c})`); }
+      if (nOld !== 0) bad.push(`⑤旧リテラルが ${nOld} 種類残っている`);
+    }
+  }
+  add('docs.j1946Adopted', bad.length === 0,
+    `**PSR J1946+2052 の採用レコードを一組へ**(第270便c/AD9・署名便): `
+    + `採用行は **CSV 285/289/290 = Meng 2025 A&A 704 A153 Table 1 DDFWHE 列**`
+    + `(Pb 6781.367998656 s ± 1.728×10⁻⁶・e 0.0638363 ± 8×10⁻⁷・ω̇ 25.79205 ± 4×10⁻⁴)で、`
+    + `**値・単位・出典・印は 1 文字も動かしていない**(足したのは \`adopted_solution=\` の注記だけ)/ `
+    + `旧採用行 145/146/148(Stovall 2018 の P/e + Meng の ω̇ = 混在 X4)は **previous** として残り、`
+    + `\`solution_mix=\` の履歴も消していない / 宣言 ${decl.length} 件が CSV の**その行**に 1 件で当たる / `
+    + `\`adopted_solution=\` は \`solution=<tag>\` の**部分文字列として拾わない**(語境界つき照合を器 4 本へ)/ `
+    + `対象 html の 🩺🪀🩹 は新リテラル ${nNew}/5 種を 3 本とも共有(旧リテラル残存 ${nOld} 種)。`
+    + `**σ は P で 500 倍・e で 11.25 倍きつくなるので σ 倍の距離はむしろ増える** —— `
+    + `「揃えたので観測に近づいた」とは書かない`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
 // ---- 0e4) 第250便d: docs.period-definitions — 周期の 2 定義の併記と推定器つき宣言(裁定 I6/I7)----
 //   第249便b の棚卸しで、kF1 サンプルの公転周期は「同方向1周」と「近点間」で残差が符号ごと割れる
 //   ことが分かった(定義依存)。裁定 I6 は obsCard の周期欄に **2 定義を併記**し判定は近点間で行う
@@ -3581,8 +3713,12 @@ if (!TARGET.startsWith('beta/')) {
     const PERI = {
       earthMoonRealKF1: '27.5228', emAuditDFM: '27.5325', plutoCharonReal: '6.43719',
       saturnZonalD68: '5.0625', alphaCenABDFM: '79.796', siriusABDFM: '50.151',
-      psrDoubleABDFM: '8737.37', psrJ1757DFM: '15853.35', psrJ1946DFM: '6780.92',   // 第254便d: ⚡ は framePrecision:"double" 本体化で 8712.96(可変窓・native)→ 8737.37(窓 20 近点・double)
-      psrDoubleABPN: '8833.27', psrJ1757PN: '15852.64', psrJ1946PN: '6780.50',
+      psrDoubleABDFM: '8737.37', psrJ1757DFM: '15853.35', psrJ1946DFM: '6781.524',   // 第254便d: ⚡ は framePrecision:"double" 本体化で 8712.96(可変窓・native)→ 8737.37(窓 20 近点・double)
+      // 第270便c(AD9・署名便): 🩺🪀 は採用レコードを Meng 2025 Table 1 DDFWHE の一組へ揃えたので
+      //   初期条件が動いた。値は **20 近点窓・dt 0.016/0.008/0.004/0.002 の 4 段 Richardson 外挿**
+      //   (tests/exp-w270c-j1946adopt.mjs)。旧値 6780.92 / 6780.50 は第248便a/第249便a の器
+      //   (dt=0.001/0.0005・4〜5 近点の位相 fit)の値で、**器と窓が違う**(履歴として docs に残す)。
+      psrDoubleABPN: '8833.27', psrJ1757PN: '15852.64', psrJ1946PN: '6781.254',
       gw150914DFM: '0.178304',
     };
     const EST = { mercuryReal: '600公転', mercuryRealKF1: '600公転', saturnZonalD68: '60公転' };

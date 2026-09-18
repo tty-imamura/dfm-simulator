@@ -31,20 +31,9 @@
   "dt3": {
    "on": true,
    "only": [
-    "psrDoubleABDFM",
-    "psrJ1757DFM",
     "psrJ1946DFM",
-    "psrB1534DFM",
-    "alphaCenAB",
-    "alphaCenABDFM",
-    "siriusAB",
-    "siriusABDFM",
-    "psrDoubleAB",
-    "psrDoubleABCF",
-    "psrJ1757CF",
-    "psrJ1946CF",
-    "psrB1534",
-    "psrB1534CF"
+    "psrJ1946PN",
+    "psrJ1946CF"
    ],
    "note": "3 段(dt, dt/2, dt/4)を走らせた系だけ numBoundDecl.steps=3・order=p_obs になる。2 段のままの系の値・文言は第253便b から 1 文字も動いていない。"
   }
@@ -24534,14 +24523,14 @@
    "referenceKind": null,
    "massCalibration": {
     "law": "inertia-law-lin-v1",
-    "factor": 1.999965529570855
+    "factor": 1.9999655295617553
    },
    "scaleExpT": 1,
    "run": {
     "n": 2,
     "dt": 0.016,
-    "steps": 1040661,
-    "wallSec": 1.416,
+    "steps": 1040650,
+    "wallSec": 1.374,
     "orbits": [
      {
       "label": "B",
@@ -24555,11 +24544,11 @@
     "warnings": 0,
     "dtHalf": {
      "dt": 0.008,
-     "steps": 2081321
+     "steps": 2081299
     },
     "dtQuarter": {
      "dt": 0.004,
-     "steps": 4162642
+     "steps": 4162598
     },
     "dtEighth": null,
     "timeBudget": [
@@ -24567,11 +24556,11 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 1.416,
+      "wallSec": 1.374,
       "budgetHit": false,
-      "maxSteps": 1040661,
-      "stepsRun": 1040661,
-      "rateStepsPerSec": 800000,
+      "maxSteps": 1040650,
+      "stepsRun": 1040650,
+      "rateStepsPerSec": 540541,
       "dt": 0.016,
       "periFoundA": [
        25
@@ -24586,11 +24575,11 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 2.783,
+      "wallSec": 2.883,
       "budgetHit": false,
-      "maxSteps": 2081321,
-      "stepsRun": 2081321,
-      "rateStepsPerSec": 800000,
+      "maxSteps": 2081299,
+      "stepsRun": 2081299,
+      "rateStepsPerSec": 714286,
       "dt": 0.008,
       "periFoundA": [
        25
@@ -24605,11 +24594,11 @@
       "tag": "dt/4",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 5.413,
+      "wallSec": 5.116,
       "budgetHit": false,
-      "maxSteps": 4162642,
-      "stepsRun": 4162642,
-      "rateStepsPerSec": 800000,
+      "maxSteps": 4162598,
+      "stepsRun": 4162598,
+      "rateStepsPerSec": 1052632,
       "dt": 0.004,
       "periFoundA": [
        25
@@ -24624,17 +24613,17 @@
    },
    "correlates": {
     "nu": 0.24995001412821236,
-    "chiA": 0.9999604437791544,
-    "chiB": 0.9999615468000705,
-    "chi": 0.9999609952896125,
-    "GMac2": 0.000005104888785792157,
-    "aOverR": 62240.70912744479,
-    "e": 0.06408356529024434,
+    "chiA": 0.9999604446387369,
+    "chiB": 0.9999615476356847,
+    "chi": 0.9999609961372108,
+    "GMac2": 0.000005104888125060068,
+    "aOverR": 62240.717183338034,
+    "e": 0.06407186542629564,
     "spinRatio": 0,
     "kFrame": 1,
     "frameWeight": "pull",
     "D0eff": 3.24204e-7,
-    "massFactor": 1.999965529570855,
+    "massFactor": 1.9999655295617553,
     "mainTarget": "B"
    },
    "quantities": [
@@ -24643,35 +24632,35 @@
      "kind": "precession",
      "version": "dfm",
      "target": "B",
-     "declaredModel": "+0.011069°/周(dt=0.001・引きずり場 倍精度・近点検出 2 方式の差 6×10⁻⁷)",
-     "declaredObs": "+0.0055424°/周(ω̇=25.79205°/yr と P=6781.367 s からの換算)",
-     "model": 0.011069,
+     "declaredModel": "**+0.0110920°/周**(20 近点窓・dt 0.016/0.008/0.004/0.002 の 4 段 Richardson 外挿・見かけの次数 1.65→2.19)。旧レコードで同じ器を回すと +0.011",
+     "declaredObs": "+0.0055424°/周(**採用レコード** Meng 2025 Table 1 DDFWHE の ω̇=25.79205(40)°/yr と Pb=6781.367998656 s からの換算)",
+     "model": 0.011092,
      "obs": 0.0055424,
      "obsErr": null,
-     "meas": 0.011550082459468905,
+     "meas": 0.011551476018374147,
      "unit": "deg/orbit",
      "residualPct": null,
-     "modelResidualPct": 4.346214287369271,
+     "modelResidualPct": 4.1424091090348725,
      "verdict": "従",
      "method": "近点移動 検出器A(ṙ 交差・近点 25 個の直線 fit)",
      "note": "較正の従属量(第248便b の現行判定)— 較正質量 f≈2 が ω̇ の式に入る帰結で、独立な予言ではない",
      "standard": false,
      "detail": {
-      "detectorA": 0.011550082459468905,
-      "residA": 0.004539576161803352,
+      "detectorA": 0.011551476018374147,
+      "residA": 0.00454270650977066,
       "nPeriA": 25,
-      "detectorB": 0.011756109585144612,
-      "residB": 0.004935692975485302,
+      "detectorB": 0.011757710364952271,
+      "residB": 0.004942108036857866,
       "nPeriB": 25,
-      "floorDeg": 0.002723745697082011,
-      "pRevSec": 6766.895975341459,
+      "floorDeg": 0.0027256239058623963,
+      "pRevSec": 6766.897401055188,
       "revN": 24,
-      "pPeriSec": 6685.642291994065,
+      "pPeriSec": 6685.64411532186,
       "convPeriod": "periastron",
-      "pPeriSameWindowSec": 6661.666933412738,
+      "pPeriSameWindowSec": 6661.668853816655,
       "pPeriSameWindowN": 25,
       "pPeriWindow": 20,
-      "eMeasured": 0.06408356529024434
+      "eMeasured": 0.06407186542629564
      },
      "sigmaSource": {
       "body": "PSR J1946+2052",
@@ -24682,29 +24671,29 @@
       "primaryVerified": true
      },
      "sigmaPrimaryVerified": true,
-     "obsSigmaCsv": 8.47420880167575e-8,
-     "sigmaNote": "σ=8.47420880167575e-8 を CSV(PSR J1946+2052|periastron_advance・deg/yr)から転写(sigma_primary=verified)",
+     "obsSigmaCsv": 8.474211112786601e-8,
+     "sigmaNote": "σ=8.474211112786601e-8 を CSV(PSR J1946+2052|periastron_advance・deg/yr)から転写(sigma_primary=verified)",
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "numBoundDt2": 0.0004445201807836783,
-     "numBoundDt3": 0.0004445201807836783,
-     "pObs": 1.7269654255965945,
+     "numBoundDt2": 0.0004457696170894823,
+     "numBoundDt3": 0.0004457696170894823,
+     "pObs": 1.7268537207275256,
      "dtStages": {
-      "dt": 0.011550082459468905,
-      "dtHalf": 0.011208691843408917,
-      "dtQuarter": 0.011105562278685227
+      "dt": 0.011551476018374147,
+      "dtHalf": 0.01120913198762372,
+      "dtQuarter": 0.011105706401284665
      },
      "numBoundDecl": {
-      "value": 0.0004445201807836783,
+      "value": 0.0004457696170894823,
       "steps": 3,
-      "order": 1.7269654255965945,
+      "order": 1.7268537207275256,
       "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
       "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.727 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。3 段+正の次数が揃ったので、この量は収束の保留条件を満たす",
       "estimate": {
-       "raw": 0.0004445201807836783,
-       "order": 1.7269654255965945,
-       "factor": 1.1004203737407061,
-       "refined": 0.0004891590634732616,
+       "raw": 0.0004457696170894823,
+       "order": 1.7268537207275256,
+       "factor": 1.100437487617362,
+       "refined": 0.0004905415974861034,
        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.1004 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
       }
      },
@@ -24713,44 +24702,44 @@
       "unit": "deg/yr",
       "yearSec": 31557600,
       "yearNote": "年の長さは**単位の約束**(ユリウス年 365.25 d = 3.15576×10⁷ s)であって観測ではない",
-      "meas": 54.718644453894484,
+      "meas": 54.72526065908833,
       "stages": {
-       "dt": 54.718644453894484,
-       "dtHalf": 52.62451485638202,
-       "dtQuarter": 51.90869841918206,
+       "dt": 54.72526065908833,
+       "dtHalf": 52.62657407641216,
+       "dtQuarter": 51.9093616122217,
        "dtEighth": null
       },
       "nStages": 3,
-      "numBound": 2.809946034712425,
-      "pObs": 1.5486891501339253,
+      "numBound": 2.815899046866626,
+      "pObs": 1.5490142653622698,
       "converged": true,
       "numBoundEstimate": {
-       "raw": 2.809946034712425,
-       "order": 1.5486891501339253,
-       "factor": 1.1322992710955162,
-       "refined": 3.1816998469226148,
-       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.1323 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+       "raw": 2.815899046866626,
+       "order": 1.5490142653622698,
+       "factor": 1.132231773594687,
+       "refined": 3.1882503720973885,
+       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.1322 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
       },
       "obs": 25.79205,
       "sigma": 0.0004,
       "timeFit": {
        "nPeri": 25,
-       "t0": 339.03900331287497,
-       "t1": 16327.039643503447,
-       "tSpanSim": 15988.000640190572,
-       "tSpanSec": 159880.00640190573,
-       "tSpanYr": 0.005066291682571099,
-       "slopeDegPerSimTime": 0.000017339292105196366,
-       "seSlopeDegPerTime": 1.9195621058014882e-7,
-       "seDegPerYr": 0.6057677311004104,
-       "varSlope": 1.1224294963410991e-17,
-       "varIntercept": 1.0467077976900087e-9,
-       "covSlopeIntercept": -9.402778663257177e-14,
-       "residRmsDeg": 0.004422362708797364,
+       "t0": 339.0390149294543,
+       "t1": 16327.04426408943,
+       "tSpanSim": 15988.005249159976,
+       "tSpanSec": 159880.05249159975,
+       "tSpanYr": 0.005066293143065371,
+       "slopeDegPerSimTime": 0.000017341388654108146,
+       "seSlopeDegPerTime": 1.9205718769467737e-7,
+       "seDegPerYr": 0.6060863906393551,
+       "varSlope": 1.1236106980558442e-17,
+       "varIntercept": 1.0478098661398254e-9,
+       "covSlopeIntercept": -9.412676201223795e-14,
+       "residRmsDeg": 0.004424690328758245,
        "note": "**横軸は時刻**(k·dt)であって近点番号ではない。共分散は fit の残差分散から作った 2×2(傾き・切片)である — 観測の誤差ではなく**この fit の内的な散らばり**である"
       },
       "degPerOrbit": {
-       "meas": 0.011550082459468905,
+       "meas": 0.011551476018374147,
        "obs": 0.0055424,
        "unit": "deg/orbit",
        "note": "**別欄として残す**(第250便c 以来の判定量)。°/周 は周期を 1 つ選ばないと作れない"
@@ -24761,24 +24750,24 @@
        "separated": true,
        "note": "ω̇ と P_b の**来歴を分ける**。⚡ では ω̇ が Kramer et al. (2021) PRX 11 041050 Table IV、P_b は Hu et al. (2022) A&A 667 A149 の**別解**である。deg/yr の門は ω̇ の一次表だけを使うので、°/周 への換算が持っていた「2 つの解をまたぐ」問題が無い"
       },
-      "ratioToObs": 2.1215314197163266,
+      "ratioToObs": 2.121787940822398,
       "gate": {
-       "residual": 28.926594453894484,
-       "nSigma": 72316.4861347362,
+       "residual": 28.933210659088328,
+       "nSigma": 72333.02664772082,
        "sigma": 0.0004,
-       "ratio": 2.1215314197163266,
+       "ratio": 2.121787940822398,
        "status": "数値未解決",
-       "numBound": 2.809946034712425,
+       "numBound": 2.815899046866626,
        "reason": "数値誤差幅が予算(0.3σ)を超える/収束未確認(dt 3 段+正の実測次数が無い)"
       }
      },
      "gate": {
-      "residual": 0.006007682459468905,
-      "nSigma": 70893.72707315053,
-      "sigma": 8.47420880167575e-8,
+      "residual": 0.006009076018374147,
+      "nSigma": 70910.15244247513,
+      "sigma": 8.474211112786601e-8,
       "status": "数値未解決",
       "reason": "数値誤差幅が予算(0.3σ)を超える/収束未確認(dt 3 段+正の実測次数が無い)",
-      "numBound": 0.0004445201807836783,
+      "numBound": 0.0004457696170894823,
       "key": "psrJ1946DFM|B|precession",
       "detectorCanonical": "A",
       "definitionDeclared": true,
@@ -24786,13 +24775,13 @@
       "mappingResolved": true,
       "mappingNote": null,
       "orbitNoiseIndicator": {
-       "abRelPct": 1.7525111022786761,
-       "sigmaRelPct": 0.0015289782046903413,
-       "ratio": 1146.197569659671,
+       "abRelPct": 1.7540349283723882,
+       "sigmaRelPct": 0.001528978621677721,
+       "ratio": 1147.1938871504408,
        "meaning": "検出器 A(正本)と B(距離極小の放物線頂点)の相対差 [%]。**これは定義の一致度ではない** —— 第256便d ③ の合成軌道検定で、定義も推定器も 10⁻¹¹ 台で一致し、シミュレータ側の A−B は**軌道側の位置雑音 ε≈10⁻¹⁰〜10⁻⁸ に対する検出器 B の感度**だと同定された。したがってこの欄は「**軌道側の相対 1e−10〜1e−8 の雑音に対する検出器差の感度**」であって、門(3σ)には入らない。ratio は σ_rel を 1 とした目盛り(>1 = 雑音が観測精度より大きい)",
        "gate": "none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)"
       },
-      "sigmaRelPct": 0.0015289782046903413,
+      "sigmaRelPct": 0.001528978621677721,
       "sigmaFrom": "csv",
       "sigmaSource": {
        "body": "PSR J1946+2052",
@@ -24803,9 +24792,9 @@
        "primaryVerified": true
       },
       "sigmaCardVsCsvRel": null,
-      "detSpreadPct": 1.7525111022786761,
+      "detSpreadPct": 1.7540349283723882,
       "defSpreadCrossDefPct": null,
-      "defSpreadPct": 1.7525111022786761,
+      "defSpreadPct": 1.7540349283723882,
       "defMeta": true,
       "definitionNote": "検出器 A/B(同じ近点方位 fit)の広がり=1.75e+0%",
       "deprecatedKeys": {
@@ -24814,23 +24803,23 @@
        "defMeta": "definitionDeclared(A 正本)"
       },
       "numBoundDecl": {
-       "value": 0.0004445201807836783,
+       "value": 0.0004457696170894823,
        "steps": 3,
-       "order": 1.7269654255965945,
+       "order": 1.7268537207275256,
        "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
        "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.727 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。3 段+正の次数が揃ったので、この量は収束の保留条件を満たす",
        "estimate": {
-        "raw": 0.0004445201807836783,
-        "order": 1.7269654255965945,
-        "factor": 1.1004203737407061,
-        "refined": 0.0004891590634732616,
+        "raw": 0.0004457696170894823,
+        "order": 1.7268537207275256,
+        "factor": 1.100437487617362,
+        "refined": 0.0004905415974861034,
         "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.1004 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
        }
       },
       "convergence": {
        "ok": true,
        "steps": 3,
-       "order": 1.7269654255965945,
+       "order": 1.7268537207275256,
        "rule": "3 段(dt, dt/2, dt/4)かつ実測次数 order>0 が揃うまで収束済みとしない(第253便b)",
        "hold": null
       },
@@ -24845,7 +24834,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -24860,7 +24849,7 @@
      "kind": "other",
      "version": "dfm",
      "target": null,
-     "model": "DFM/観測=**2.0023**(h/4・3段収束・窓20近点)。⚡ 2.0014・🧮 2.0020・🧶 2.0258 — 4 連星で同じ比。**3σ 一致は主張しない**(ε_num が σ の 10⁴倍超)",
+     "model": "DFM/観測=**2.00125**(20 近点窓・4 段外挿)。旧レコードでも 2.00128 で **10⁻⁵ しか動かない**。⚡ 2.0014・🧮 2.0020・🧶 2.0258 は各便の器。**3σ 一致は",
      "obs": "較正質量 fM がそのまま E12 の 1PN チャネルへ入る**較正の従属量**であって、独立な hold-out ではない。λ_PN=1/f の候補は variant 🪀 で",
      "obsErr": null,
      "meas": null,
@@ -24923,7 +24912,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -24937,15 +24926,15 @@
      "kind": "period",
      "version": "dfm",
      "target": "B",
-     "declaredModel": "近点間 6780.92 秒(−0.0066%・dt=0.001 — 判定)/ 同方向1周は既定 dt で 6766.90 秒(−0.213% — 履歴)",
-     "declaredObs": "6781.366656 s(Pb=0.07848804 d・Meng et al. 2025)",
-     "model": 6780.92,
-     "obs": 6781.366656,
+     "declaredModel": "近点間 6769.530 秒(dt=0.002)→ **4 段外挿 6781.524 秒**(採用レコードの **+0.0023%** — 判定)/ 同方向1周は別量で、既定 dt の 6766.90 秒は履歴",
+     "declaredObs": "**6781.367998656 s**(σ 1.728×10⁻⁶・Meng 2025 Table 1 DDFWHE。旧採用行 6781.366656 s〔Stovall 2018〕は **previous**)",
+     "model": 6769.53,
+     "obs": 6781.367998656,
      "obsErr": null,
-     "meas": 6685.642291994065,
+     "meas": 6685.64411532186,
      "unit": "s",
-     "residualPct": -1.4115792414975867,
-     "modelResidualPct": -1.4050852687531334,
+     "residualPct": -1.411571873891984,
+     "modelResidualPct": -1.2391685195004605,
      "verdict": "否",
      "method": "近点間周期(検出器A・ṙ の −→+ 交差。**窓=最初の 20 近点(19 区間)** — 第251便c の定義契約 + 第252便b の窓固定。検出できた近点は 25 個)",
      "note": "**周期の定義依存**: 同方向1周 -0.2134% / 近点間 -1.4116%(判定に採ったのは **近点間**)",
@@ -24953,33 +24942,63 @@
      "periodDef": "periastron",
      "detail": {
       "revSec": [
-       6776.326112754463,
-       6766.895975341459,
-       6757.30600208921,
-       6747.716193000899,
-       6738.126548071746,
-       6728.537067301054
+       6776.327495427794,
+       6766.897401055188,
+       6757.30747078206,
+       6747.717704610022,
+       6738.128102535356,
+       6728.538664557846
       ],
-      "periASec": 6685.642291994065,
-      "periBSec": 6685.6455819087805,
-      "oscSec": 2568.6414863539862,
+      "periASec": 6685.64411532186,
+      "periBSec": 6685.6474157925095,
+      "oscSec": 2568.6406084085884,
       "periWindow": 20,
       "periFoundA": 25,
       "periFoundB": 25,
       "periUnmeasuredA": false,
-      "periAllSec": 6661.666933412738,
+      "periAllSec": 6661.668853816655,
       "revN": 24,
-      "aOscMean": 482.3570826038844,
-      "aOsc0": 507.98772157193116,
+      "aOscMean": 482.3570118487217,
+      "aOsc0": 507.98414176612243,
       "periodDef": "periastron",
       "detPairSec": [
-       6685.642291994065,
-       6685.6455819087805
+       6685.64411532186,
+       6685.6474157925095
       ]
      },
-     "residualPctPeri": -1.4115792414975867,
-     "residualPctRev": -0.2133888549697808,
-     "defDiffPct": -1.2007526588776039,
+     "residualPctPeri": -1.411571873891984,
+     "residualPctRev": -0.2133875879273868,
+     "defDiffPct": -1.2007465300221332,
+     "judgementSource": {
+      "declared": true,
+      "key": "PSR J1946+2052|orbital_period",
+      "source": "Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column",
+      "solution": "Meng2025-DDFWHE (TEMPO ephemeris fit; T0 57953.2123884 MJD; DE440; TT(BIPM2023); span 57953-60460 MJD)",
+      "unit": "s",
+      "csvQuantity": "orbital_period",
+      "declaredAt": "2026-09-18",
+      "declaredRow": {
+       "value": 6781.367998656,
+       "sigma": 0.000001728,
+       "unit": "s",
+       "csvSigma": 0.000001728,
+       "csvUnit": "s",
+       "primaryVerified": true
+      },
+      "candidateResolved": true,
+      "resolveReason": null,
+      "applied": false,
+      "mode": "diagnostic-only-until-AD5",
+      "officialRow": {
+       "body": "PSR J1946+2052",
+       "quantity": "orbital_period",
+       "unit": "s",
+       "sigma": 0.000864,
+       "source": "Stovall et al. (2018) ApJL 854 L22 Table 1 - PSR J1946+2052 discovery timing solution",
+       "primaryVerified": true
+      },
+      "note": "**宣言は診断欄のみ**(第269便a・統括の読み (G))—— `q.obs` も `q.obsSigmaCsv` も従来行のままで、中心値と σ が別の解から来る混在を作らない。切り替えは AD5 の署名便で**中心値・σ・単位・解 ID・verified 状態・測定定義を同時に**行う"
+     },
      "sigmaSource": {
       "body": "PSR J1946+2052",
       "quantity": "orbital_period",
@@ -24994,36 +25013,36 @@
      "guideTolerance": true,
      "toleranceUsedPct": 1,
      "strictOK": false,
-     "numBoundDt2": 71.89851449790513,
+     "numBoundDt2": 71.89816914940275,
      "numBoundDef": "periastron",
-     "numBoundDt3": 71.89851449790513,
-     "pObs": 0.9995821428774139,
+     "numBoundDt3": 71.89816914940275,
+     "pObs": 0.9995828194435408,
      "dtStages": {
-      "dt": 6685.642291994065,
-      "dtHalf": 6733.570007117497,
-      "dtQuarter": 6757.54080649197
+      "dt": 6685.64411532186,
+      "dtHalf": 6733.571607728655,
+      "dtQuarter": 6757.542284471263
      },
      "numBoundDecl": {
-      "value": 71.89851449790513,
+      "value": 71.89816914940275,
       "steps": 3,
-      "order": 0.9995821428774139,
+      "order": 0.9995828194435408,
       "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
       "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.000 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。3 段+正の次数が揃ったので、この量は収束の保留条件を満たす",
       "estimate": {
-       "raw": 71.89851449790513,
-       "order": 0.9995821428774139,
-       "factor": 1.3335909123211611,
-       "refined": 95.88320554379753,
+       "raw": 71.89816914940275,
+       "order": 0.9995828194435408,
+       "factor": 1.3335904950655304,
+       "refined": 95.88271499025726,
        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3336 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
       }
      },
      "gate": {
-      "residual": -95.72436400593506,
-      "nSigma": 110792.08796983225,
+      "residual": -95.72388333413983,
+      "nSigma": 110791.53163673592,
       "sigma": 0.000864,
       "status": "数値未解決",
       "reason": "数値誤差幅が予算(0.3σ)を超える/収束未確認(dt 3 段+正の実測次数が無い)",
-      "numBound": 71.89851449790513,
+      "numBound": 71.89816914940275,
       "key": "psrJ1946DFM|B|period",
       "detectorCanonical": "A",
       "definitionDeclared": true,
@@ -25031,13 +25050,13 @@
       "mappingResolved": true,
       "mappingNote": null,
       "orbitNoiseIndicator": {
-       "abRelPct": 0.00004920863176364581,
-       "sigmaRelPct": 0.000012740794648458541,
-       "ratio": 3.8622890582103033,
+       "abRelPct": 0.000049366507744164646,
+       "sigmaRelPct": 0.00001274079212588428,
+       "ratio": 3.874681201639835,
        "meaning": "検出器 A(正本)と B(距離極小の放物線頂点)の相対差 [%]。**これは定義の一致度ではない** —— 第256便d ③ の合成軌道検定で、定義も推定器も 10⁻¹¹ 台で一致し、シミュレータ側の A−B は**軌道側の位置雑音 ε≈10⁻¹⁰〜10⁻⁸ に対する検出器 B の感度**だと同定された。したがってこの欄は「**軌道側の相対 1e−10〜1e−8 の雑音に対する検出器差の感度**」であって、門(3σ)には入らない。ratio は σ_rel を 1 とした目盛り(>1 = 雑音が観測精度より大きい)",
        "gate": "none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)"
       },
-      "sigmaRelPct": 0.000012740794648458541,
+      "sigmaRelPct": 0.00001274079212588428,
       "sigmaFrom": "csv",
       "sigmaSource": {
        "body": "PSR J1946+2052",
@@ -25048,34 +25067,34 @@
        "primaryVerified": true
       },
       "sigmaCardVsCsvRel": null,
-      "detSpreadPct": 0.00004920863176364581,
-      "defSpreadCrossDefPct": 62.04106734145013,
-      "defSpreadPct": 0.00004920863176364581,
+      "detSpreadPct": 0.000049366507744164646,
+      "defSpreadCrossDefPct": 62.041088313115985,
+      "defSpreadPct": 0.000049366507744164646,
       "defMeta": true,
-      "definitionNote": "判定した定義=periastron・検出器 A/B(同じ定義)の広がり=4.92e-5%(定義違いの広がり 6.20e+1% は σ と比較しない)",
+      "definitionNote": "判定した定義=periastron・検出器 A/B(同じ定義)の広がり=4.94e-5%(定義違いの広がり 6.20e+1% は σ と比較しない)",
       "deprecatedKeys": {
        "defSpreadPct": "orbitNoiseIndicator.abRelPct",
        "detSpreadPct": "orbitNoiseIndicator.abRelPct",
        "defMeta": "definitionDeclared(A 正本)"
       },
       "numBoundDecl": {
-       "value": 71.89851449790513,
+       "value": 71.89816914940275,
        "steps": 3,
-       "order": 0.9995821428774139,
+       "order": 0.9995828194435408,
        "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
        "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.000 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。3 段+正の次数が揃ったので、この量は収束の保留条件を満たす",
        "estimate": {
-        "raw": 71.89851449790513,
-        "order": 0.9995821428774139,
-        "factor": 1.3335909123211611,
-        "refined": 95.88320554379753,
+        "raw": 71.89816914940275,
+        "order": 0.9995828194435408,
+        "factor": 1.3335904950655304,
+        "refined": 95.88271499025726,
         "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3336 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
        }
       },
       "convergence": {
        "ok": true,
        "steps": 3,
-       "order": 0.9995821428774139,
+       "order": 0.9995828194435408,
        "rule": "3 段(dt, dt/2, dt/4)かつ実測次数 order>0 が揃うまで収束済みとしない(第253便b)",
        "hold": null
       },
@@ -25090,7 +25109,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -25104,26 +25123,56 @@
      "kind": "ecc",
      "version": "dfm",
      "target": "B",
-     "declaredModel": "実測 0.063986(転写比 +0.216%)",
-     "declaredObs": "0.063848(転写)",
-     "model": 0.063986,
-     "obs": 0.063848,
+     "declaredModel": "4 段外挿 0.0638562(採用レコード比 **+0.031%**)",
+     "declaredObs": "**0.0638363(8)**(採用レコードの転写。旧採用行 0.063848(9)〔Stovall 2018〕は **previous**)",
+     "model": 4,
+     "obs": 0.0638363,
      "obsErr": null,
-     "meas": 0.06408356529024434,
+     "meas": 0.06407186542629564,
      "unit": "-",
-     "residualPct": 0.3689470151677979,
-     "modelResidualPct": 0.15247912081445372,
+     "residualPct": 0.36901484938137813,
+     "modelResidualPct": -98.3982033643426,
      "verdict": "合",
      "method": "1周目の半径比 proxy (r_max−r_min)/(r_max+r_min)",
      "note": null,
      "standard": false,
      "detail": {
-      "rMin1": 684.4622053192896,
-      "rMax1": 778.1944591756629,
-      "eProxyAll": 0.07496759273823136,
-      "eOscMean": 0.5024963085858656,
-      "eOsc0": 0.5319159260882091,
+      "rMin1": 684.4708503531901,
+      "rMax1": 778.1860034552537,
+      "eProxyAll": 0.07495597104447162,
+      "eOscMean": 0.5024953838145093,
+      "eOsc0": 0.5319100759873017,
       "revN": 24
+     },
+     "judgementSource": {
+      "declared": true,
+      "key": "PSR J1946+2052|eccentricity",
+      "source": "Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column",
+      "solution": "Meng2025-DDFWHE (TEMPO ephemeris fit; T0 57953.2123884 MJD; DE440; TT(BIPM2023); span 57953-60460 MJD)",
+      "unit": "1",
+      "csvQuantity": "eccentricity",
+      "declaredAt": "2026-09-18",
+      "declaredRow": {
+       "value": 0.0638363,
+       "sigma": 8e-7,
+       "unit": "1",
+       "csvSigma": 8e-7,
+       "csvUnit": "1",
+       "primaryVerified": true
+      },
+      "candidateResolved": true,
+      "resolveReason": null,
+      "applied": false,
+      "mode": "diagnostic-only-until-AD5",
+      "officialRow": {
+       "body": "PSR J1946+2052",
+       "quantity": "eccentricity",
+       "unit": "1",
+       "sigma": 0.000009,
+       "source": "Stovall et al. (2018) ApJL 854 L22 Table 1 - PSR J1946+2052 discovery timing solution",
+       "primaryVerified": true
+      },
+      "note": "**宣言は診断欄のみ**(第269便a・統括の読み (G))—— `q.obs` も `q.obsSigmaCsv` も従来行のままで、中心値と σ が別の解から来る混在を作らない。切り替えは AD5 の署名便で**中心値・σ・単位・解 ID・verified 状態・測定定義を同時に**行う"
      },
      "sigmaSource": {
       "body": "PSR J1946+2052",
@@ -25139,31 +25188,31 @@
      "guideTolerance": true,
      "toleranceUsedPct": 1,
      "strictOK": false,
-     "numBoundDt2": 0.00016725802409645052,
-     "numBoundDt3": 0.00016725802409645052,
-     "pObs": 1.0007141722968338,
+     "numBoundDt2": 0.0001672592413008711,
+     "numBoundDt3": 0.0001672592413008711,
+     "pObs": 1.0007142563309923,
      "dtStages": {
-      "dt": 0.06408356529024434,
-      "dtHalf": 0.06397204154299685,
-      "dtQuarter": 0.06391630726614789
+      "dt": 0.06407186542629564,
+      "dtHalf": 0.06396034086528,
+      "dtQuarter": 0.06390460618499477
      },
      "numBoundDecl": {
-      "value": 0.00016725802409645052,
+      "value": 0.0001672592413008711,
       "steps": 3,
-      "order": 1.0007141722968338,
+      "order": 1.0007142563309923,
       "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
       "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.001 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。3 段+正の次数が揃ったので、この量は収束の保留条件を満たす",
       "estimate": {
-       "raw": 0.00016725802409645052,
-       "order": 1.0007141722968338,
-       "factor": 1.3328936725408427,
-       "refined": 0.0002229371619998427,
+       "raw": 0.0001672592413008711,
+       "order": 1.0007142563309923,
+       "factor": 1.3328936208501543,
+       "refined": 0.00022293877575816777,
        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3329 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
       }
      },
      "gate": {
-      "residual": 0.0002355652902443356,
-      "nSigma": 26.17392113825951,
+      "residual": 0.0002355654262956447,
+      "nSigma": 26.17393625507163,
       "sigma": 0.000009,
       "status": "mapping-unresolved",
       "reason": "観測量対応が未確定(タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない)",
@@ -25175,13 +25224,13 @@
       "mappingNote": "タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない",
       "orbitNoiseIndicator": {
        "abRelPct": null,
-       "sigmaRelPct": 0.01409597794762561,
+       "sigmaRelPct": 0.01409856147677732,
        "ratio": null,
        "meaning": "検出器 A(正本)と B(距離極小の放物線頂点)の相対差 [%]。**これは定義の一致度ではない** —— 第256便d ③ の合成軌道検定で、定義も推定器も 10⁻¹¹ 台で一致し、シミュレータ側の A−B は**軌道側の位置雑音 ε≈10⁻¹⁰〜10⁻⁸ に対する検出器 B の感度**だと同定された。したがってこの欄は「**軌道側の相対 1e−10〜1e−8 の雑音に対する検出器差の感度**」であって、門(3σ)には入らない。ratio は σ_rel を 1 とした目盛り(>1 = 雑音が観測精度より大きい)",
        "gate": "none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)"
       },
-      "sigmaRelPct": 0.01409597794762561,
-      "numBound": 0.00016725802409645052,
+      "sigmaRelPct": 0.01409856147677732,
+      "numBound": 0.0001672592413008711,
       "sigmaFrom": "csv",
       "sigmaSource": {
        "body": "PSR J1946+2052",
@@ -25193,7 +25242,7 @@
       },
       "sigmaCardVsCsvRel": null,
       "detSpreadPct": null,
-      "defSpreadCrossDefPct": 87.24695799843994,
+      "defSpreadCrossDefPct": 87.24926288080151,
       "defSpreadPct": null,
       "defMeta": false,
       "definitionNote": "離心率は**同じ定義の 2 検出器が無い**(1周目の半径比・全窓・接触要素は別の量)— 定義違いの広がり 8.72e+1% は σ と比較しない",
@@ -25203,23 +25252,23 @@
        "defMeta": "definitionDeclared(A 正本)"
       },
       "numBoundDecl": {
-       "value": 0.00016725802409645052,
+       "value": 0.0001672592413008711,
        "steps": 3,
-       "order": 1.0007141722968338,
+       "order": 1.0007142563309923,
        "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
        "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.001 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。3 段+正の次数が揃ったので、この量は収束の保留条件を満たす",
        "estimate": {
-        "raw": 0.00016725802409645052,
-        "order": 1.0007141722968338,
-        "factor": 1.3328936725408427,
-        "refined": 0.0002229371619998427,
+        "raw": 0.0001672592413008711,
+        "order": 1.0007142563309923,
+        "factor": 1.3328936208501543,
+        "refined": 0.00022293877575816777,
         "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3329 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
        }
       },
       "convergence": {
        "ok": true,
        "steps": 3,
-       "order": 1.0007141722968338,
+       "order": 1.0007142563309923,
        "rule": "3 段(dt, dt/2, dt/4)かつ実測次数 order>0 が揃うまで収束済みとしない(第253便b)",
        "hold": null
       },
@@ -25234,7 +25283,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -25249,7 +25298,7 @@
      "version": "dfm",
      "target": null,
      "model": "f=1.9999655(不動点・fit ノブなし)→ A 2.5676・B 2.4960 M☉。殻質量=観測値",
-     "obs": "—(観測 1.2838 / 1.2480 M☉。DDGR 由来の条件つき参照値・実在質量の主張ではない)",
+     "obs": "—(観測 1.2838 / 1.2480 M☉ = Meng 2025 Table 1 が 1PN の ω̇ と γ から **GR を仮定して**導いた値。**GR 依存の条件つき参照値**で実在質量の主張ではない)",
      "obsErr": null,
      "meas": null,
      "unit": null,
@@ -25311,7 +25360,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -25393,7 +25442,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -25470,7 +25519,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -25484,12 +25533,12 @@
      "kind": "period",
      "version": "dfm",
      "target": "B",
-     "declaredModel": "dt 0.008→0.004→0.002→0.001 で 0.012434→0.010997→0.011076→0.011069(dt≤0.002 で 3 桁安定)",
+     "declaredModel": "dt 0.016→0.008→0.004→0.002 で 0.0116399→0.0112188→0.0110978→0.0110822°/周(見かけの次数 1.65→2.19)。NaN 0・クランプ 0",
      "declaredObs": "—(1公転が 678 単位しかないため、⚡🧮 より細かい刻みが要る — 宣言)",
      "model": null,
      "obs": null,
      "obsErr": null,
-     "meas": 6685.642291994065,
+     "meas": 6685.64411532186,
      "unit": "s",
      "residualPct": null,
      "modelResidualPct": null,
@@ -25500,29 +25549,59 @@
      "periodDef": "periastron",
      "detail": {
       "revSec": [
-       6776.326112754463,
-       6766.895975341459,
-       6757.30600208921,
-       6747.716193000899,
-       6738.126548071746,
-       6728.537067301054
+       6776.327495427794,
+       6766.897401055188,
+       6757.30747078206,
+       6747.717704610022,
+       6738.128102535356,
+       6728.538664557846
       ],
-      "periASec": 6685.642291994065,
-      "periBSec": 6685.6455819087805,
-      "oscSec": 2568.6414863539862,
+      "periASec": 6685.64411532186,
+      "periBSec": 6685.6474157925095,
+      "oscSec": 2568.6406084085884,
       "periWindow": 20,
       "periFoundA": 25,
       "periFoundB": 25,
       "periUnmeasuredA": false,
-      "periAllSec": 6661.666933412738,
+      "periAllSec": 6661.668853816655,
       "revN": 24,
-      "aOscMean": 482.3570826038844,
-      "aOsc0": 507.98772157193116,
+      "aOscMean": 482.3570118487217,
+      "aOsc0": 507.98414176612243,
       "periodDef": "periastron",
       "detPairSec": [
-       6685.642291994065,
-       6685.6455819087805
+       6685.64411532186,
+       6685.6474157925095
       ]
+     },
+     "judgementSource": {
+      "declared": true,
+      "key": "PSR J1946+2052|orbital_period",
+      "source": "Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column",
+      "solution": "Meng2025-DDFWHE (TEMPO ephemeris fit; T0 57953.2123884 MJD; DE440; TT(BIPM2023); span 57953-60460 MJD)",
+      "unit": "s",
+      "csvQuantity": "orbital_period",
+      "declaredAt": "2026-09-18",
+      "declaredRow": {
+       "value": 6781.367998656,
+       "sigma": 0.000001728,
+       "unit": "s",
+       "csvSigma": 0.000001728,
+       "csvUnit": "s",
+       "primaryVerified": true
+      },
+      "candidateResolved": true,
+      "resolveReason": null,
+      "applied": false,
+      "mode": "diagnostic-only-until-AD5",
+      "officialRow": {
+       "body": "PSR J1946+2052",
+       "quantity": "orbital_period",
+       "unit": "s",
+       "sigma": 0.000864,
+       "source": "Stovall et al. (2018) ApJL 854 L22 Table 1 - PSR J1946+2052 discovery timing solution",
+       "primaryVerified": true
+      },
+      "note": "**宣言は診断欄のみ**(第269便a・統括の読み (G))—— `q.obs` も `q.obsSigmaCsv` も従来行のままで、中心値と σ が別の解から来る混在を作らない。切り替えは AD5 の署名便で**中心値・σ・単位・解 ID・verified 状態・測定定義を同時に**行う"
      },
      "sigmaSource": {
       "body": "PSR J1946+2052",
@@ -25537,26 +25616,26 @@
      "sigmaNote": "σ=0.000864 を CSV(PSR J1946+2052|orbital_period・s)から転写(sigma_primary=verified)",
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "numBoundDt2": 71.89851449790513,
+     "numBoundDt2": 71.89816914940275,
      "numBoundDef": "periastron",
-     "numBoundDt3": 71.89851449790513,
-     "pObs": 0.9995821428774139,
+     "numBoundDt3": 71.89816914940275,
+     "pObs": 0.9995828194435408,
      "dtStages": {
-      "dt": 6685.642291994065,
-      "dtHalf": 6733.570007117497,
-      "dtQuarter": 6757.54080649197
+      "dt": 6685.64411532186,
+      "dtHalf": 6733.571607728655,
+      "dtQuarter": 6757.542284471263
      },
      "numBoundDecl": {
-      "value": 71.89851449790513,
+      "value": 71.89816914940275,
       "steps": 3,
-      "order": 0.9995821428774139,
+      "order": 0.9995828194435408,
       "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
       "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.000 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。3 段+正の次数が揃ったので、この量は収束の保留条件を満たす",
       "estimate": {
-       "raw": 71.89851449790513,
-       "order": 0.9995821428774139,
-       "factor": 1.3335909123211611,
-       "refined": 95.88320554379753,
+       "raw": 71.89816914940275,
+       "order": 0.9995828194435408,
+       "factor": 1.3335904950655304,
+       "refined": 95.88271499025726,
        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3336 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
       }
      },
@@ -25570,14 +25649,14 @@
       "mappingResolved": true,
       "mappingNote": null,
       "orbitNoiseIndicator": {
-       "abRelPct": 0.00004920863176364581,
+       "abRelPct": 0.000049366507744164646,
        "sigmaRelPct": null,
        "ratio": null,
        "meaning": "検出器 A(正本)と B(距離極小の放物線頂点)の相対差 [%]。**これは定義の一致度ではない** —— 第256便d ③ の合成軌道検定で、定義も推定器も 10⁻¹¹ 台で一致し、シミュレータ側の A−B は**軌道側の位置雑音 ε≈10⁻¹⁰〜10⁻⁸ に対する検出器 B の感度**だと同定された。したがってこの欄は「**軌道側の相対 1e−10〜1e−8 の雑音に対する検出器差の感度**」であって、門(3σ)には入らない。ratio は σ_rel を 1 とした目盛り(>1 = 雑音が観測精度より大きい)",
        "gate": "none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)"
       },
       "sigmaRelPct": null,
-      "numBound": 71.89851449790513,
+      "numBound": 71.89816914940275,
       "sigma": 0.000864,
       "sigmaFrom": "csv",
       "sigmaSource": {
@@ -25589,34 +25668,34 @@
        "primaryVerified": true
       },
       "sigmaCardVsCsvRel": null,
-      "detSpreadPct": 0.00004920863176364581,
-      "defSpreadCrossDefPct": 62.04106734145013,
-      "defSpreadPct": 0.00004920863176364581,
+      "detSpreadPct": 0.000049366507744164646,
+      "defSpreadCrossDefPct": 62.041088313115985,
+      "defSpreadPct": 0.000049366507744164646,
       "defMeta": true,
-      "definitionNote": "判定した定義=periastron・検出器 A/B(同じ定義)の広がり=4.92e-5%(定義違いの広がり 6.20e+1% は σ と比較しない)",
+      "definitionNote": "判定した定義=periastron・検出器 A/B(同じ定義)の広がり=4.94e-5%(定義違いの広がり 6.20e+1% は σ と比較しない)",
       "deprecatedKeys": {
        "defSpreadPct": "orbitNoiseIndicator.abRelPct",
        "detSpreadPct": "orbitNoiseIndicator.abRelPct",
        "defMeta": "definitionDeclared(A 正本)"
       },
       "numBoundDecl": {
-       "value": 71.89851449790513,
+       "value": 71.89816914940275,
        "steps": 3,
-       "order": 0.9995821428774139,
+       "order": 0.9995828194435408,
        "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
        "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.000 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。3 段+正の次数が揃ったので、この量は収束の保留条件を満たす",
        "estimate": {
-        "raw": 71.89851449790513,
-        "order": 0.9995821428774139,
-        "factor": 1.3335909123211611,
-        "refined": 95.88320554379753,
+        "raw": 71.89816914940275,
+        "order": 0.9995828194435408,
+        "factor": 1.3335904950655304,
+        "refined": 95.88271499025726,
         "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3336 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
        }
       },
       "convergence": {
        "ok": true,
        "steps": 3,
-       "order": 0.9995821428774139,
+       "order": 0.9995828194435408,
        "rule": "3 段(dt, dt/2, dt/4)かつ実測次数 order>0 が揃うまで収束済みとしない(第253便b)",
        "hold": null
       },
@@ -25631,7 +25710,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -25650,8 +25729,8 @@
     "条": 0
    },
    "notes": [
-    "**dt 3 段(第255便d N8)**: dt/4=0.004 まで走らせた。近点移動 1.1550e-2 → 1.1106e-2 °/周(h → h/4) / ε_num=|Q_h−Q_{h/4}| と観測次数 p_obs は各量の numBoundDecl へ入れた",
-    "dt 収束(主対象 B): 周期 6766.89598 → 6774.08829 s(0.1063%) / 近点移動 1.1550e-2 → 1.1209e-2 °/周"
+    "**dt 3 段(第255便d N8)**: dt/4=0.004 まで走らせた。近点移動 1.1551e-2 → 1.1106e-2 °/周(h → h/4) / ε_num=|Q_h−Q_{h/4}| と観測次数 p_obs は各量の numBoundDecl へ入れた",
+    "dt 収束(主対象 B): 周期 6766.89740 → 6774.08969 s(0.1063%) / 近点移動 1.1551e-2 → 1.1209e-2 °/周"
    ]
   },
   {
@@ -27652,14 +27731,14 @@
    "referenceKind": null,
    "massCalibration": {
     "law": "inertia-law-lin-v1",
-    "factor": 1.999965529570855
+    "factor": 1.9999655295617553
    },
    "scaleExpT": 1,
    "run": {
     "n": 2,
     "dt": 0.016,
-    "steps": 1040661,
-    "wallSec": 1.391,
+    "steps": 1040650,
+    "wallSec": 1.318,
     "orbits": [
      {
       "label": "B",
@@ -27673,20 +27752,23 @@
     "warnings": 0,
     "dtHalf": {
      "dt": 0.008,
-     "steps": 2081321
+     "steps": 2081299
     },
-    "dtQuarter": null,
+    "dtQuarter": {
+     "dt": 0.004,
+     "steps": 4162598
+    },
     "dtEighth": null,
     "timeBudget": [
      {
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 1.391,
+      "wallSec": 1.318,
       "budgetHit": false,
-      "maxSteps": 1040661,
-      "stepsRun": 1040661,
-      "rateStepsPerSec": 689655,
+      "maxSteps": 1040650,
+      "stepsRun": 1040650,
+      "rateStepsPerSec": 1000000,
       "dt": 0.016,
       "periFoundA": [
        25
@@ -27701,12 +27783,31 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 2.863,
+      "wallSec": 2.553,
       "budgetHit": false,
-      "maxSteps": 2081321,
-      "stepsRun": 2081321,
-      "rateStepsPerSec": 800000,
+      "maxSteps": 2081299,
+      "stepsRun": 2081299,
+      "rateStepsPerSec": 909091,
       "dt": 0.008,
+      "periFoundA": [
+       25
+      ],
+      "periWindow": 20,
+      "windowFilledA": [
+       true
+      ],
+      "note": "機種依存の量である(この行の数値は計算機の速さで変わる)。dt・近点数は別欄。"
+     },
+     {
+      "tag": "dt/4",
+      "budgetSec": 80,
+      "heavy": false,
+      "wallSec": 4.604,
+      "budgetHit": false,
+      "maxSteps": 4162598,
+      "stepsRun": 4162598,
+      "rateStepsPerSec": 833333,
+      "dt": 0.004,
       "periFoundA": [
        25
       ],
@@ -27720,17 +27821,17 @@
    },
    "correlates": {
     "nu": 0.24995001412821236,
-    "chiA": 0.9999604437791544,
-    "chiB": 0.9999615468000705,
-    "chi": 0.9999609952896125,
-    "GMac2": 0.0000051120165239621,
-    "aOverR": 62240.01257837391,
-    "e": 0.06409547380928876,
+    "chiA": 0.9999604446387369,
+    "chiB": 0.9999615476356847,
+    "chi": 0.9999609961372108,
+    "GMac2": 0.000005112015865714754,
+    "aOverR": 62240.02059269236,
+    "e": 0.06408377452364346,
     "spinRatio": 0,
     "kFrame": 1,
     "frameWeight": "pull",
     "D0eff": 3.24204e-7,
-    "massFactor": 1.999965529570855,
+    "massFactor": 1.9999655295617553,
     "mainTarget": "B"
    },
    "quantities": [
@@ -27739,35 +27840,35 @@
      "kind": "precession",
      "version": "dfm",
      "target": "B",
-     "declaredModel": "+0.0055409°/周(dt=0.0005・引きずり場 倍精度・検出器 2 方式の差 1×10⁻⁷)= 観測の −0.027%",
-     "declaredObs": "+0.0055424°/周(ω̇=25.79205°/yr と P=6781.367 s の換算)",
-     "model": 0.0055409,
+     "declaredModel": "**+0.0055514°/周**(20 近点窓・4 段外挿)= 採用レコードの **+0.165%**。旧レコードでも +0.167%。第249便a の器(dt=0.0005・5 近点)では −0.027% — **器",
+     "declaredObs": "+0.0055424°/周(**採用レコード** Meng 2025 Table 1 DDFWHE の ω̇=25.79205(40)°/yr と Pb=6781.367998656 s の換算)",
+     "model": 0.0055514,
      "obs": 0.0055424,
      "obsErr": null,
-     "meas": 0.005958620113763342,
+     "meas": 0.005960003593932494,
      "unit": "deg/orbit",
-     "residualPct": 7.509745124194243,
-     "modelResidualPct": 7.538849532807711,
+     "residualPct": 7.534706876668832,
+     "modelResidualPct": 7.360370247730192,
      "verdict": "否",
      "method": "近点移動 検出器A(ṙ 交差・近点 25 個の直線 fit)",
      "note": null,
      "standard": false,
      "detail": {
-      "detectorA": 0.005958620113763342,
-      "residA": 0.0031842348989410078,
+      "detectorA": 0.005960003593932494,
+      "residA": 0.0031928751483716383,
       "nPeriA": 25,
-      "detectorB": 0.006070385108276795,
-      "residB": 0.0038707869276151585,
+      "detectorB": 0.006071980946121619,
+      "residB": 0.00387502627225573,
       "nPeriB": 25,
-      "floorDeg": 0.0019105409393646046,
-      "pRevSec": 6766.744252193997,
+      "floorDeg": 0.0019157250890229828,
+      "pRevSec": 6766.7456682026805,
       "revN": 24,
-      "pPeriSec": 6685.366405169151,
+      "pPeriSec": 6685.368221330618,
       "convPeriod": "periastron",
-      "pPeriSameWindowSec": 6661.3921898412955,
+      "pPeriSameWindowSec": 6661.3941031741115,
       "pPeriSameWindowN": 25,
       "pPeriWindow": 20,
-      "eMeasured": 0.06409547380928876
+      "eMeasured": 0.06408377452364346
      },
      "sigmaSource": {
       "body": "PSR J1946+2052",
@@ -27778,24 +27879,31 @@
       "primaryVerified": true
      },
      "sigmaPrimaryVerified": true,
-     "obsSigmaCsv": 8.473859108638364e-8,
-     "sigmaNote": "σ=8.473859108638364e-8 を CSV(PSR J1946+2052|periastron_advance・deg/yr)から転写(sigma_primary=verified)",
+     "obsSigmaCsv": 8.473861410665728e-8,
+     "sigmaNote": "σ=8.473861410665728e-8 を CSV(PSR J1946+2052|periastron_advance・deg/yr)から転写(sigma_primary=verified)",
      "guideTolerance": true,
      "toleranceUsedPct": 1,
      "strictOK": false,
-     "numBoundDt2": 0.00030140083967477183,
+     "numBoundDt2": 0.00039162231181174775,
+     "numBoundDt3": 0.00039162231181174775,
+     "pObs": 1.7666631297028097,
+     "dtStages": {
+      "dt": 0.005960003593932494,
+      "dtHalf": 0.005657332571789839,
+      "dtQuarter": 0.005568381282120746
+     },
      "numBoundDecl": {
-      "value": 0.00030140083967477183,
-      "steps": 2,
-      "order": null,
-      "basis": "dt=0.016 と dt/2=0.008 の同じ検出器の差(**感度診断** — dt/4 は走らせておらず、誤差上限は未確認。漸近域でも粗い側の誤差は 2^p/(2^p−1)|Q_h−Q_{h/2}| で、この値より大きい)",
-      "orderNote": "dt/4 を走らせていないので**収束次数は未測定**(order:null)。次数 p が実測されるまでは |Q_h−Q_{h/2}| を誤差の上限として使えない —— 真の誤差は 2^p/(2^p−1) 倍で、p が小さいほど大きい(p=1 で 2 倍)。3 段+正の次数が揃うまでこの量は診断値である",
+      "value": 0.00039162231181174775,
+      "steps": 3,
+      "order": 1.7666631297028097,
+      "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
+      "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.767 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。3 段+正の次数が揃ったので、この量は収束の保留条件を満たす",
       "estimate": {
-       "raw": 0.00030140083967477183,
-       "order": null,
-       "factor": null,
-       "refined": null,
-       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)"
+       "raw": 0.00039162231181174775,
+       "order": 1.7666631297028097,
+       "factor": 1.0945349610447648,
+       "refined": 0.00042864431180313203,
+       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0945 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
       }
      },
      "degYear": {
@@ -27803,44 +27911,44 @@
       "unit": "deg/yr",
       "yearSec": 31557600,
       "yearNote": "年の長さは**単位の約束**(ユリウス年 365.25 d = 3.15576×10⁷ s)であって観測ではない",
-      "meas": 28.232573025622283,
+      "meas": 28.23914933801552,
       "stages": {
-       "dt": 28.232573025622283,
-       "dtHalf": 26.561928840867928,
-       "dtQuarter": null,
+       "dt": 28.23914933801552,
+       "dtHalf": 26.56245640069488,
+       "dtQuarter": 26.028326843326536,
        "dtEighth": null
       },
-      "nStages": 2,
-      "numBound": 1.6706441847543552,
-      "pObs": null,
-      "converged": false,
+      "nStages": 3,
+      "numBound": 2.2108224946889834,
+      "pObs": 1.6503568772114952,
+      "converged": true,
       "numBoundEstimate": {
-       "raw": 1.6706441847543552,
-       "order": null,
-       "factor": null,
-       "refined": null,
-       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)"
+       "raw": 2.2108224946889834,
+       "order": 1.6503568772114952,
+       "factor": 1.112942929312342,
+       "refined": 2.460519263428777,
+       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.1129 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
       },
       "obs": 25.79205,
       "sigma": 0.0004,
       "timeFit": {
        "nPeri": 25,
-       "t0": 339.0370247103549,
-       "t1": 16326.378280329463,
-       "tSpanSim": 15987.341255619109,
-       "tSpanSec": 159873.4125561911,
-       "tSpanYr": 0.005066082736209062,
-       "slopeDegPerSimTime": 0.000008946362532519039,
-       "seSlopeDegPerTime": 1.341132416354229e-7,
-       "seDegPerYr": 0.42322920342340214,
-       "varSlope": 5.4789590564478425e-18,
-       "varIntercept": 5.108923723000109e-10,
-       "covSlopeIntercept": -4.5896303925839977e-14,
-       "residRmsDeg": 0.0030896284346634386,
+       "t0": 339.03703666911593,
+       "t1": 16326.382884286983,
+       "tSpanSim": 15987.345847617866,
+       "tSpanSec": 159873.45847617867,
+       "tSpanYr": 0.00506608419132566,
+       "slopeDegPerSimTime": 0.000008948446440165133,
+       "seSlopeDegPerTime": 1.3447090773593943e-7,
+       "seDegPerYr": 0.42435791179676824,
+       "varSlope": 5.5082216553111176e-18,
+       "varIntercept": 5.136212700512263e-10,
+       "covSlopeIntercept": -4.6141443508418624e-14,
+       "residRmsDeg": 0.003097869038661471,
        "note": "**横軸は時刻**(k·dt)であって近点番号ではない。共分散は fit の残差分散から作った 2×2(傾き・切片)である — 観測の誤差ではなく**この fit の内的な散らばり**である"
       },
       "degPerOrbit": {
-       "meas": 0.005958620113763342,
+       "meas": 0.005960003593932494,
        "obs": 0.0055424,
        "unit": "deg/orbit",
        "note": "**別欄として残す**(第250便c 以来の判定量)。°/周 は周期を 1 つ選ばないと作れない"
@@ -27851,24 +27959,24 @@
        "separated": true,
        "note": "ω̇ と P_b の**来歴を分ける**。⚡ では ω̇ が Kramer et al. (2021) PRX 11 041050 Table IV、P_b は Hu et al. (2022) A&A 667 A149 の**別解**である。deg/yr の門は ω̇ の一次表だけを使うので、°/周 への換算が持っていた「2 つの解をまたぐ」問題が無い"
       },
-      "ratioToObs": 1.0946230728314454,
+      "ratioToObs": 1.0948780472283328,
       "gate": {
-       "residual": 2.4405230256222836,
-       "nSigma": 6101.307564055709,
+       "residual": 2.4470993380155193,
+       "nSigma": 6117.748345038798,
        "sigma": 0.0004,
-       "ratio": 1.0946230728314454,
+       "ratio": 1.0948780472283328,
        "status": "数値未解決",
-       "numBound": 1.6706441847543552,
+       "numBound": 2.2108224946889834,
        "reason": "数値誤差幅が予算(0.3σ)を超える/収束未確認(dt 3 段+正の実測次数が無い)"
       }
      },
      "gate": {
-      "residual": 0.00041622011376334176,
-      "nSigma": 4911.813005470453,
-      "sigma": 8.473859108638364e-8,
+      "residual": 0.00041760359393249336,
+      "nSigma": 4928.138114306089,
+      "sigma": 8.473861410665728e-8,
       "status": "数値未解決",
       "reason": "数値誤差幅が予算(0.3σ)を超える/収束未確認(dt 3 段+正の実測次数が無い)",
-      "numBound": 0.00030140083967477183,
+      "numBound": 0.00039162231181174775,
       "key": "psrJ1946PN|B|precession",
       "detectorCanonical": "A",
       "definitionDeclared": true,
@@ -27876,13 +27984,13 @@
       "mappingResolved": true,
       "mappingNote": null,
       "orbitNoiseIndicator": {
-       "abRelPct": 1.841151632390908,
-       "sigmaRelPct": 0.001528915110536656,
-       "ratio": 1204.2209666857539,
+       "abRelPct": 1.844165078624776,
+       "sigmaRelPct": 0.001528915525885127,
+       "ratio": 1206.1916092827585,
        "meaning": "検出器 A(正本)と B(距離極小の放物線頂点)の相対差 [%]。**これは定義の一致度ではない** —— 第256便d ③ の合成軌道検定で、定義も推定器も 10⁻¹¹ 台で一致し、シミュレータ側の A−B は**軌道側の位置雑音 ε≈10⁻¹⁰〜10⁻⁸ に対する検出器 B の感度**だと同定された。したがってこの欄は「**軌道側の相対 1e−10〜1e−8 の雑音に対する検出器差の感度**」であって、門(3σ)には入らない。ratio は σ_rel を 1 とした目盛り(>1 = 雑音が観測精度より大きい)",
        "gate": "none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)"
       },
-      "sigmaRelPct": 0.001528915110536656,
+      "sigmaRelPct": 0.001528915525885127,
       "sigmaFrom": "csv",
       "sigmaSource": {
        "body": "PSR J1946+2052",
@@ -27893,9 +28001,9 @@
        "primaryVerified": true
       },
       "sigmaCardVsCsvRel": null,
-      "detSpreadPct": 1.841151632390908,
+      "detSpreadPct": 1.844165078624776,
       "defSpreadCrossDefPct": null,
-      "defSpreadPct": 1.841151632390908,
+      "defSpreadPct": 1.844165078624776,
       "defMeta": true,
       "definitionNote": "検出器 A/B(同じ近点方位 fit)の広がり=1.84e+0%",
       "deprecatedKeys": {
@@ -27904,25 +28012,25 @@
        "defMeta": "definitionDeclared(A 正本)"
       },
       "numBoundDecl": {
-       "value": 0.00030140083967477183,
-       "steps": 2,
-       "order": null,
-       "basis": "dt=0.016 と dt/2=0.008 の同じ検出器の差(**感度診断** — dt/4 は走らせておらず、誤差上限は未確認。漸近域でも粗い側の誤差は 2^p/(2^p−1)|Q_h−Q_{h/2}| で、この値より大きい)",
-       "orderNote": "dt/4 を走らせていないので**収束次数は未測定**(order:null)。次数 p が実測されるまでは |Q_h−Q_{h/2}| を誤差の上限として使えない —— 真の誤差は 2^p/(2^p−1) 倍で、p が小さいほど大きい(p=1 で 2 倍)。3 段+正の次数が揃うまでこの量は診断値である",
+       "value": 0.00039162231181174775,
+       "steps": 3,
+       "order": 1.7666631297028097,
+       "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
+       "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.767 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。3 段+正の次数が揃ったので、この量は収束の保留条件を満たす",
        "estimate": {
-        "raw": 0.00030140083967477183,
-        "order": null,
-        "factor": null,
-        "refined": null,
-        "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)"
+        "raw": 0.00039162231181174775,
+        "order": 1.7666631297028097,
+        "factor": 1.0945349610447648,
+        "refined": 0.00042864431180313203,
+        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0945 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
        }
       },
       "convergence": {
-       "ok": false,
-       "steps": 2,
-       "order": null,
+       "ok": true,
+       "steps": 3,
+       "order": 1.7666631297028097,
        "rule": "3 段(dt, dt/2, dt/4)かつ実測次数 order>0 が揃うまで収束済みとしない(第253便b)",
-       "hold": "dt 3 段が走っていない(2 段は感度診断)"
+       "hold": null
       },
       "arithOnly": false
      },
@@ -27935,7 +28043,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -28012,7 +28120,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -28089,7 +28197,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -28099,12 +28207,12 @@
      ]
     },
     {
-     "name": "新しい観測表との比較(第249便a で CSV へ別版追加)",
+     "name": "**採用レコードを一組へ揃えた**(第270便c/AD9)",
      "kind": "other",
      "version": "dfm",
      "target": null,
-     "model": "Meng et al. 2025 DDFWHE 表の Pb=0.07848805554 d 換算 0.0055424°/周に対しても −0.027%(ω̇ は同値)",
-     "obs": "—(ω̇=25.79205(40)°/yr は照合済み。Pb・e の 2025 表の桁は未確認 — CSV の note 参照)",
+     "model": "Pb・e・ω̇ をすべて Meng 2025 Table 1 DDFWHE 列(CSV 行 285/289/290)から採る。旧採用行〔Stovall 2018 の Pb/e〕は **previous**",
+     "obs": "—(3 行とも原仮定者の第 3 回確認記録で印が上がっている。σ は P で 500 倍・e で 11.25 倍きつくなるので **σ 倍の距離はむしろ増える**)",
      "obsErr": null,
      "meas": null,
      "unit": null,
@@ -28166,7 +28274,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -28180,7 +28288,7 @@
      "kind": "other",
      "version": "dfm",
      "target": null,
-     "model": "λ_PN=1 に戻すと +0.0110679°/周(観測の +99.7%)— 差の全部が λ_PN の 1 本",
+     "model": "λ_PN=1 に戻すと +0.0110679°/周(第249便a の器・dt=0.0005 — 履歴)。差の全部が λ_PN の 1 本",
      "obs": "—(第248便b の監査: 較正質量 f≈2 が E12 の 1PN チャネルへ入っていた)",
      "obsErr": null,
      "meas": null,
@@ -28243,7 +28351,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -28257,15 +28365,15 @@
      "kind": "period",
      "version": "dfm",
      "target": "B",
-     "declaredModel": "近点間 6780.50 秒(−0.0128% — 判定)・同方向1周 6780.23 秒(−0.0168% — 履歴)(dt=0.0005。既定 dt では −1.769%/−0.216%)",
-     "declaredObs": "6781.366656 s(Pb=0.07848804 d・Meng et al. 2025)",
-     "model": 6780.5,
-     "obs": 6781.366656,
+     "declaredModel": "近点間 6769.261 秒(dt=0.002)→ **4 段外挿 6781.254 秒**(採用レコードの **−0.0017%** — 判定)・同方向1周は別量(第249便a の 6780.23 秒は履歴)",
+     "declaredObs": "**6781.367998656 s**(σ 1.728×10⁻⁶・Meng 2025 Table 1 DDFWHE。旧採用行〔Stovall 2018〕は **previous**)",
+     "model": 6769.261,
+     "obs": 6781.367998656,
      "obsErr": null,
-     "meas": 6685.366405169151,
+     "meas": 6685.368221330618,
      "unit": "s",
-     "residualPct": -1.4156475486531916,
-     "modelResidualPct": -1.4030468967015528,
+     "residualPct": -1.4156402859188284,
+     "modelResidualPct": -1.2393196047453643,
      "verdict": "否",
      "method": "近点間周期(検出器A・ṙ の −→+ 交差。**窓=最初の 20 近点(19 区間)** — 第251便c の定義契約 + 第252便b の窓固定。検出できた近点は 25 個)",
      "note": "**周期の定義依存**: 同方向1周 -0.2156% / 近点間 -1.4156%(判定に採ったのは **近点間**)",
@@ -28273,33 +28381,63 @@
      "periodDef": "periastron",
      "detail": {
       "revSec": [
-       6776.174682143797,
-       6766.744252193997,
-       6757.1539863233875,
-       6747.563884529527,
-       6737.973946810248,
-       6728.384173163072
+       6776.176055093601,
+       6766.7456682026805,
+       6757.155445328737,
+       6747.565386470271,
+       6737.975491624188,
+       6728.38576078816
       ],
-      "periASec": 6685.366405169151,
-      "periBSec": 6685.36968273512,
-      "oscSec": 2568.6227457338055,
+      "periASec": 6685.368221330618,
+      "periBSec": 6685.371509446896,
+      "oscSec": 2568.6218640209718,
       "periWindow": 20,
       "periFoundA": 25,
       "periFoundB": 25,
       "periUnmeasuredA": false,
-      "periAllSec": 6661.3921898412955,
+      "periAllSec": 6661.394103174112,
       "revN": 24,
-      "aOscMean": 482.35470425162947,
-      "aOsc0": 507.98772157193116,
+      "aOscMean": 482.3546330272674,
+      "aOsc0": 507.98414176612243,
       "periodDef": "periastron",
       "detPairSec": [
-       6685.366405169151,
-       6685.36968273512
+       6685.368221330618,
+       6685.371509446896
       ]
      },
-     "residualPctPeri": -1.4156475486531916,
-     "residualPctRev": -0.21562620851749875,
-     "defDiffPct": -1.2026144921682373,
+     "residualPctPeri": -1.4156402859188284,
+     "residualPctRev": -0.21562508414552334,
+     "defDiffPct": -1.202608326990319,
+     "judgementSource": {
+      "declared": true,
+      "key": "PSR J1946+2052|orbital_period",
+      "source": "Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column",
+      "solution": "Meng2025-DDFWHE (TEMPO ephemeris fit; T0 57953.2123884 MJD; DE440; TT(BIPM2023); span 57953-60460 MJD)",
+      "unit": "s",
+      "csvQuantity": "orbital_period",
+      "declaredAt": "2026-09-18",
+      "declaredRow": {
+       "value": 6781.367998656,
+       "sigma": 0.000001728,
+       "unit": "s",
+       "csvSigma": 0.000001728,
+       "csvUnit": "s",
+       "primaryVerified": true
+      },
+      "candidateResolved": true,
+      "resolveReason": null,
+      "applied": false,
+      "mode": "diagnostic-only-until-AD5",
+      "officialRow": {
+       "body": "PSR J1946+2052",
+       "quantity": "orbital_period",
+       "unit": "s",
+       "sigma": 0.000864,
+       "source": "Stovall et al. (2018) ApJL 854 L22 Table 1 - PSR J1946+2052 discovery timing solution",
+       "primaryVerified": true
+      },
+      "note": "**宣言は診断欄のみ**(第269便a・統括の読み (G))—— `q.obs` も `q.obsSigmaCsv` も従来行のままで、中心値と σ が別の解から来る混在を作らない。切り替えは AD5 の署名便で**中心値・σ・単位・解 ID・verified 状態・測定定義を同時に**行う"
+     },
      "sigmaSource": {
       "body": "PSR J1946+2052",
       "quantity": "orbital_period",
@@ -28314,29 +28452,36 @@
      "guideTolerance": true,
      "toleranceUsedPct": 1,
      "strictOK": false,
-     "numBoundDt2": 47.934987831567014,
+     "numBoundDt2": 71.90510512866604,
      "numBoundDef": "periastron",
+     "numBoundDt3": 71.90510512866604,
+     "pObs": 0.9998220120757322,
+     "dtStages": {
+      "dt": 6685.368221330618,
+      "dtHalf": 6733.302986694917,
+      "dtQuarter": 6757.273326459284
+     },
      "numBoundDecl": {
-      "value": 47.934987831567014,
-      "steps": 2,
-      "order": null,
-      "basis": "dt=0.016 と dt/2=0.008 の同じ検出器の差(**感度診断** — dt/4 は走らせておらず、誤差上限は未確認。漸近域でも粗い側の誤差は 2^p/(2^p−1)|Q_h−Q_{h/2}| で、この値より大きい)",
-      "orderNote": "dt/4 を走らせていないので**収束次数は未測定**(order:null)。次数 p が実測されるまでは |Q_h−Q_{h/2}| を誤差の上限として使えない —— 真の誤差は 2^p/(2^p−1) 倍で、p が小さいほど大きい(p=1 で 2 倍)。3 段+正の次数が揃うまでこの量は診断値である",
+      "value": 71.90510512866604,
+      "steps": 3,
+      "order": 0.9998220120757322,
+      "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
+      "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.000 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。3 段+正の次数が揃ったので、この量は収束の保留条件を満たす",
       "estimate": {
-       "raw": 47.934987831567014,
-       "order": null,
-       "factor": null,
-       "refined": null,
-       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)"
+       "raw": 71.90510512866604,
+       "order": 0.9998220120757322,
+       "factor": 1.3334430197334672,
+       "refined": 95.88136051702087,
+       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3334 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
       }
      },
      "gate": {
-      "residual": -96.00025083084893,
-      "nSigma": 111111.40142459367,
+      "residual": -95.99977732538173,
+      "nSigma": 111110.85338585849,
       "sigma": 0.000864,
       "status": "数値未解決",
       "reason": "数値誤差幅が予算(0.3σ)を超える/収束未確認(dt 3 段+正の実測次数が無い)",
-      "numBound": 47.934987831567014,
+      "numBound": 71.90510512866604,
       "key": "psrJ1946PN|B|period",
       "detectorCanonical": "A",
       "definitionDeclared": true,
@@ -28344,13 +28489,13 @@
       "mappingResolved": true,
       "mappingNote": null,
       "orbitNoiseIndicator": {
-       "abRelPct": 0.00004902594955684917,
-       "sigmaRelPct": 0.000012740794648458541,
-       "ratio": 3.8479506898559603,
+       "abRelPct": 0.00004918374802695467,
+       "sigmaRelPct": 0.00001274079212588428,
+       "ratio": 3.8603367468049834,
        "meaning": "検出器 A(正本)と B(距離極小の放物線頂点)の相対差 [%]。**これは定義の一致度ではない** —— 第256便d ③ の合成軌道検定で、定義も推定器も 10⁻¹¹ 台で一致し、シミュレータ側の A−B は**軌道側の位置雑音 ε≈10⁻¹⁰〜10⁻⁸ に対する検出器 B の感度**だと同定された。したがってこの欄は「**軌道側の相対 1e−10〜1e−8 の雑音に対する検出器差の感度**」であって、門(3σ)には入らない。ratio は σ_rel を 1 とした目盛り(>1 = 雑音が観測精度より大きい)",
        "gate": "none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)"
       },
-      "sigmaRelPct": 0.000012740794648458541,
+      "sigmaRelPct": 0.00001274079212588428,
       "sigmaFrom": "csv",
       "sigmaSource": {
        "body": "PSR J1946+2052",
@@ -28361,36 +28506,36 @@
        "primaryVerified": true
       },
       "sigmaCardVsCsvRel": null,
-      "detSpreadPct": 0.00004902594955684917,
-      "defSpreadCrossDefPct": 62.04049318250834,
-      "defSpreadPct": 0.00004902594955684917,
+      "detSpreadPct": 0.00004918374802695467,
+      "defSpreadCrossDefPct": 62.04051415599864,
+      "defSpreadPct": 0.00004918374802695467,
       "defMeta": true,
-      "definitionNote": "判定した定義=periastron・検出器 A/B(同じ定義)の広がり=4.90e-5%(定義違いの広がり 6.20e+1% は σ と比較しない)",
+      "definitionNote": "判定した定義=periastron・検出器 A/B(同じ定義)の広がり=4.92e-5%(定義違いの広がり 6.20e+1% は σ と比較しない)",
       "deprecatedKeys": {
        "defSpreadPct": "orbitNoiseIndicator.abRelPct",
        "detSpreadPct": "orbitNoiseIndicator.abRelPct",
        "defMeta": "definitionDeclared(A 正本)"
       },
       "numBoundDecl": {
-       "value": 47.934987831567014,
-       "steps": 2,
-       "order": null,
-       "basis": "dt=0.016 と dt/2=0.008 の同じ検出器の差(**感度診断** — dt/4 は走らせておらず、誤差上限は未確認。漸近域でも粗い側の誤差は 2^p/(2^p−1)|Q_h−Q_{h/2}| で、この値より大きい)",
-       "orderNote": "dt/4 を走らせていないので**収束次数は未測定**(order:null)。次数 p が実測されるまでは |Q_h−Q_{h/2}| を誤差の上限として使えない —— 真の誤差は 2^p/(2^p−1) 倍で、p が小さいほど大きい(p=1 で 2 倍)。3 段+正の次数が揃うまでこの量は診断値である",
+       "value": 71.90510512866604,
+       "steps": 3,
+       "order": 0.9998220120757322,
+       "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
+       "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.000 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。3 段+正の次数が揃ったので、この量は収束の保留条件を満たす",
        "estimate": {
-        "raw": 47.934987831567014,
-        "order": null,
-        "factor": null,
-        "refined": null,
-        "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)"
+        "raw": 71.90510512866604,
+        "order": 0.9998220120757322,
+        "factor": 1.3334430197334672,
+        "refined": 95.88136051702087,
+        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3334 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
        }
       },
       "convergence": {
-       "ok": false,
-       "steps": 2,
-       "order": null,
+       "ok": true,
+       "steps": 3,
+       "order": 0.9998220120757322,
        "rule": "3 段(dt, dt/2, dt/4)かつ実測次数 order>0 が揃うまで収束済みとしない(第253便b)",
-       "hold": "dt 3 段が走っていない(2 段は感度診断)"
+       "hold": null
       },
       "arithOnly": false
      },
@@ -28403,7 +28548,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -28417,26 +28562,56 @@
      "kind": "ecc",
      "version": "dfm",
      "target": "B",
-     "declaredModel": "実測 0.063949(転写比 +0.158%)",
-     "declaredObs": "0.063848(転写)",
-     "model": 0.063949,
-     "obs": 0.063848,
+     "declaredModel": "4 段外挿 0.0638681(採用レコード比 **+0.050%**)",
+     "declaredObs": "**0.0638363(8)**(採用レコードの転写。旧採用行 0.063848(9)〔Stovall 2018〕は **previous**)",
+     "model": 4,
+     "obs": 0.0638363,
      "obsErr": null,
-     "meas": 0.06409547380928876,
+     "meas": 0.06408377452364346,
      "unit": "-",
-     "residualPct": 0.3875983731499171,
-     "modelResidualPct": 0.22904784951876525,
+     "residualPct": 0.3876705317248328,
+     "modelResidualPct": -98.39790563690892,
      "verdict": "合",
      "method": "1周目の半径比 proxy (r_max−r_min)/(r_max+r_min)",
      "note": null,
      "standard": false,
      "detail": {
-      "rMin1": 684.4458364166367,
-      "rMax1": 778.1944591751504,
-      "eProxyAll": 0.0749796597667889,
-      "eOscMean": 0.502490782406823,
-      "eOsc0": 0.5319159260882091,
+      "rMin1": 684.4544804735292,
+      "rMax1": 778.1860034547412,
+      "eProxyAll": 0.07496803875641624,
+      "eOscMean": 0.5024898573048877,
+      "eOsc0": 0.5319100759873017,
       "revN": 24
+     },
+     "judgementSource": {
+      "declared": true,
+      "key": "PSR J1946+2052|eccentricity",
+      "source": "Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column",
+      "solution": "Meng2025-DDFWHE (TEMPO ephemeris fit; T0 57953.2123884 MJD; DE440; TT(BIPM2023); span 57953-60460 MJD)",
+      "unit": "1",
+      "csvQuantity": "eccentricity",
+      "declaredAt": "2026-09-18",
+      "declaredRow": {
+       "value": 0.0638363,
+       "sigma": 8e-7,
+       "unit": "1",
+       "csvSigma": 8e-7,
+       "csvUnit": "1",
+       "primaryVerified": true
+      },
+      "candidateResolved": true,
+      "resolveReason": null,
+      "applied": false,
+      "mode": "diagnostic-only-until-AD5",
+      "officialRow": {
+       "body": "PSR J1946+2052",
+       "quantity": "eccentricity",
+       "unit": "1",
+       "sigma": 0.000009,
+       "source": "Stovall et al. (2018) ApJL 854 L22 Table 1 - PSR J1946+2052 discovery timing solution",
+       "primaryVerified": true
+      },
+      "note": "**宣言は診断欄のみ**(第269便a・統括の読み (G))—— `q.obs` も `q.obsSigmaCsv` も従来行のままで、中心値と σ が別の解から来る混在を作らない。切り替えは AD5 の署名便で**中心値・σ・単位・解 ID・verified 状態・測定定義を同時に**行う"
      },
      "sigmaSource": {
       "body": "PSR J1946+2052",
@@ -28452,24 +28627,31 @@
      "guideTolerance": true,
      "toleranceUsedPct": 1,
      "strictOK": false,
-     "numBoundDt2": 0.0001115253938772931,
+     "numBoundDt2": 0.0001672616944468075,
+     "numBoundDt3": 0.0001672616944468075,
+     "pObs": 1.0007144479632393,
+     "dtStages": {
+      "dt": 0.06408377452364346,
+      "dtHalf": 0.06397224832199097,
+      "dtQuarter": 0.06391651282919665
+     },
      "numBoundDecl": {
-      "value": 0.0001115253938772931,
-      "steps": 2,
-      "order": null,
-      "basis": "dt=0.016 と dt/2=0.008 の同じ検出器の差(**感度診断** — dt/4 は走らせておらず、誤差上限は未確認。漸近域でも粗い側の誤差は 2^p/(2^p−1)|Q_h−Q_{h/2}| で、この値より大きい)",
-      "orderNote": "dt/4 を走らせていないので**収束次数は未測定**(order:null)。次数 p が実測されるまでは |Q_h−Q_{h/2}| を誤差の上限として使えない —— 真の誤差は 2^p/(2^p−1) 倍で、p が小さいほど大きい(p=1 で 2 倍)。3 段+正の次数が揃うまでこの量は診断値である",
+      "value": 0.0001672616944468075,
+      "steps": 3,
+      "order": 1.0007144479632393,
+      "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
+      "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.001 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。3 段+正の次数が揃ったので、この量は収束の保留条件を満たす",
       "estimate": {
-       "raw": 0.0001115253938772931,
-       "order": null,
-       "factor": null,
-       "refined": null,
-       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)"
+       "raw": 0.0001672616944468075,
+       "order": 1.0007144479632393,
+       "factor": 1.3328935029742832,
+       "refined": 0.00022294202582461947,
+       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3329 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
       }
      },
      "gate": {
-      "residual": 0.00024747380928875906,
-      "nSigma": 27.497089920973227,
+      "residual": 0.00024747452364345945,
+      "nSigma": 27.497169293717718,
       "sigma": 0.000009,
       "status": "mapping-unresolved",
       "reason": "観測量対応が未確定(タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない)",
@@ -28481,13 +28663,13 @@
       "mappingNote": "タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない",
       "orbitNoiseIndicator": {
        "abRelPct": null,
-       "sigmaRelPct": 0.01409597794762561,
+       "sigmaRelPct": 0.01409856147677732,
        "ratio": null,
        "meaning": "検出器 A(正本)と B(距離極小の放物線頂点)の相対差 [%]。**これは定義の一致度ではない** —— 第256便d ③ の合成軌道検定で、定義も推定器も 10⁻¹¹ 台で一致し、シミュレータ側の A−B は**軌道側の位置雑音 ε≈10⁻¹⁰〜10⁻⁸ に対する検出器 B の感度**だと同定された。したがってこの欄は「**軌道側の相対 1e−10〜1e−8 の雑音に対する検出器差の感度**」であって、門(3σ)には入らない。ratio は σ_rel を 1 とした目盛り(>1 = 雑音が観測精度より大きい)",
        "gate": "none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)"
       },
-      "sigmaRelPct": 0.01409597794762561,
-      "numBound": 0.0001115253938772931,
+      "sigmaRelPct": 0.01409856147677732,
+      "numBound": 0.0001672616944468075,
       "sigmaFrom": "csv",
       "sigmaSource": {
        "body": "PSR J1946+2052",
@@ -28499,7 +28681,7 @@
       },
       "sigmaCardVsCsvRel": null,
       "detSpreadPct": null,
-      "defSpreadCrossDefPct": 87.24444784792166,
+      "defSpreadCrossDefPct": 87.24675262753406,
       "defSpreadPct": null,
       "defMeta": false,
       "definitionNote": "離心率は**同じ定義の 2 検出器が無い**(1周目の半径比・全窓・接触要素は別の量)— 定義違いの広がり 8.72e+1% は σ と比較しない",
@@ -28509,25 +28691,25 @@
        "defMeta": "definitionDeclared(A 正本)"
       },
       "numBoundDecl": {
-       "value": 0.0001115253938772931,
-       "steps": 2,
-       "order": null,
-       "basis": "dt=0.016 と dt/2=0.008 の同じ検出器の差(**感度診断** — dt/4 は走らせておらず、誤差上限は未確認。漸近域でも粗い側の誤差は 2^p/(2^p−1)|Q_h−Q_{h/2}| で、この値より大きい)",
-       "orderNote": "dt/4 を走らせていないので**収束次数は未測定**(order:null)。次数 p が実測されるまでは |Q_h−Q_{h/2}| を誤差の上限として使えない —— 真の誤差は 2^p/(2^p−1) 倍で、p が小さいほど大きい(p=1 で 2 倍)。3 段+正の次数が揃うまでこの量は診断値である",
+       "value": 0.0001672616944468075,
+       "steps": 3,
+       "order": 1.0007144479632393,
+       "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
+       "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.001 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。3 段+正の次数が揃ったので、この量は収束の保留条件を満たす",
        "estimate": {
-        "raw": 0.0001115253938772931,
-        "order": null,
-        "factor": null,
-        "refined": null,
-        "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)"
+        "raw": 0.0001672616944468075,
+        "order": 1.0007144479632393,
+        "factor": 1.3328935029742832,
+        "refined": 0.00022294202582461947,
+        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3329 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
        }
       },
       "convergence": {
-       "ok": false,
-       "steps": 2,
-       "order": null,
+       "ok": true,
+       "steps": 3,
+       "order": 1.0007144479632393,
        "rule": "3 段(dt, dt/2, dt/4)かつ実測次数 order>0 が揃うまで収束済みとしない(第253便b)",
-       "hold": "dt 3 段が走っていない(2 段は感度診断)"
+       "hold": null
       },
       "arithOnly": false
      },
@@ -28540,7 +28722,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -28554,8 +28736,8 @@
      "kind": "other",
      "version": "dfm",
      "target": null,
-     "model": "dt 0.002→0.001→0.0005 で 0.0055436→0.0055417→0.0055409・3 点の一次外挿 0.0055400。NaN・clamp とも 0",
-     "obs": "—(3 点の傾向であって収束の証明ではない)",
+     "model": "dt 0.016→0.008→0.004→0.002 で 0.0060601→0.0056778→0.0055668→0.0055490°/周(4 段 Richardson 外挿 0.0055514)。NaN・clamp",
+     "obs": "—(4 点の傾向であって収束の証明ではない)",
      "obsErr": null,
      "meas": null,
      "unit": null,
@@ -28617,7 +28799,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -28636,7 +28818,8 @@
     "条": 0
    },
    "notes": [
-    "dt 収束(主対象 B): 周期 6766.74425 → 6773.93679 s(0.1063%) / 近点移動 5.9586e-3 → 5.6572e-3 °/周"
+    "**dt 3 段(第255便d N8)**: dt/4=0.004 まで走らせた。近点移動 5.9600e-3 → 5.5684e-3 °/周(h → h/4) / ε_num=|Q_h−Q_{h/4}| と観測次数 p_obs は各量の numBoundDecl へ入れた",
+    "dt 収束(主対象 B): 周期 6766.74567 → 6773.93817 s(0.1063%) / 近点移動 5.9600e-3 → 5.6573e-3 °/周"
    ]
   },
   {
@@ -30760,14 +30943,14 @@
    "referenceKind": null,
    "massCalibration": {
     "law": "inertia-law-lin-v1",
-    "factor": 1.999965529570855
+    "factor": 1.9999655295617553
    },
    "scaleExpT": 1,
    "run": {
     "n": 2,
     "dt": 0.016,
-    "steps": 1040661,
-    "wallSec": 1.815,
+    "steps": 1040650,
+    "wallSec": 1.852,
     "orbits": [
      {
       "label": "B",
@@ -30781,11 +30964,11 @@
     "warnings": 0,
     "dtHalf": {
      "dt": 0.008,
-     "steps": 2081321
+     "steps": 2081299
     },
     "dtQuarter": {
      "dt": 0.004,
-     "steps": 4162642
+     "steps": 4162598
     },
     "dtEighth": null,
     "timeBudget": [
@@ -30793,11 +30976,11 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 1.815,
+      "wallSec": 1.852,
       "budgetHit": false,
-      "maxSteps": 1040661,
-      "stepsRun": 1040661,
-      "rateStepsPerSec": 540541,
+      "maxSteps": 1040650,
+      "stepsRun": 1040650,
+      "rateStepsPerSec": 357143,
       "dt": 0.016,
       "periFoundA": [
        25
@@ -30812,10 +30995,10 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 3.538,
+      "wallSec": 3.569,
       "budgetHit": false,
-      "maxSteps": 2081321,
-      "stepsRun": 2081321,
+      "maxSteps": 2081299,
+      "stepsRun": 2081299,
       "rateStepsPerSec": 588235,
       "dt": 0.008,
       "periFoundA": [
@@ -30831,11 +31014,11 @@
       "tag": "dt/4",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 7.418,
+      "wallSec": 6.915,
       "budgetHit": false,
-      "maxSteps": 4162642,
-      "stepsRun": 4162642,
-      "rateStepsPerSec": 571429,
+      "maxSteps": 4162598,
+      "stepsRun": 4162598,
+      "rateStepsPerSec": 769231,
       "dt": 0.004,
       "periFoundA": [
        25
@@ -30850,17 +31033,17 @@
    },
    "correlates": {
     "nu": 0.24995001412821236,
-    "chiA": 0.9999604437791544,
-    "chiB": 0.9999615468000705,
-    "chi": 0.9999609952896125,
-    "GMac2": 0.00000511188954137444,
-    "aOverR": 62241.55865987455,
-    "e": 0.06406904165871294,
+    "chiA": 0.9999604446387369,
+    "chiB": 0.9999615476356847,
+    "chi": 0.9999609961372108,
+    "GMac2": 0.0000051118888783006415,
+    "aOverR": 62241.5667333573,
+    "e": 0.064057341655632,
     "spinRatio": 0,
     "kFrame": 1,
     "frameWeight": "pull",
     "D0eff": 3.24204e-7,
-    "massFactor": 1.999965529570855,
+    "massFactor": 1.9999655295617553,
     "mainTarget": "B"
    },
    "quantities": [
@@ -30869,35 +31052,35 @@
      "kind": "precession",
      "version": "dfm",
      "target": "B",
-     "declaredModel": "+0.0055345°/周(dt=0.0005)= 観測の **−0.143%**。dt=0.004 では +0.0054762(−1.19%)",
-     "declaredObs": "+0.0055424°/周(ω̇=25.79205°/yr と P=6781.367 s の換算)",
-     "model": 0.0055345,
+     "declaredModel": "**+0.0055414°/周**(20 近点窓・4 段外挿)= 採用レコードの **−0.022%**。旧レコードでも −0.019%。第251便a の器(dt=0.0005)では −0.143% — **器と窓が違う",
+     "declaredObs": "+0.0055424°/周(**採用レコード** Meng 2025 Table 1 DDFWHE の ω̇=25.79205(40)°/yr と Pb=6781.367998656 s の換算)",
+     "model": 0.0055414,
      "obs": 0.0055424,
      "obsErr": null,
-     "meas": 0.005999987466138654,
+     "meas": 0.006001372922687124,
      "unit": "deg/orbit",
-     "residualPct": 8.256124894245335,
-     "modelResidualPct": 8.410650756864275,
+     "residualPct": 8.281122305988813,
+     "modelResidualPct": 8.300662696919986,
      "verdict": "否",
      "method": "近点移動 検出器A(ṙ 交差・近点 25 個の直線 fit)",
      "note": null,
      "standard": false,
      "detail": {
-      "detectorA": 0.005999987466138654,
-      "residA": 0.0048851732133715475,
+      "detectorA": 0.006001372922687124,
+      "residA": 0.004890581453842589,
       "nPeriA": 25,
-      "detectorB": 0.006053785807311718,
-      "residB": 0.0023488198510379214,
+      "detectorB": 0.006055415097660295,
+      "residB": 0.0023590797461887163,
       "nPeriB": 25,
-      "floorDeg": 0.0029311039280229285,
-      "pRevSec": 6767.101247137399,
+      "floorDeg": 0.002934348872305553,
+      "pRevSec": 6767.102672861284,
       "revN": 24,
-      "pPeriSec": 6685.732966750206,
+      "pPeriSec": 6685.7347929910575,
       "convPeriod": "periastron",
-      "pPeriSameWindowSec": 6661.75757099577,
+      "pPeriSameWindowSec": 6661.759494261836,
       "pPeriSameWindowN": 25,
       "pPeriWindow": 20,
-      "eMeasured": 0.06406904165871294
+      "eMeasured": 0.064057341655632
      },
      "sigmaSource": {
       "body": "PSR J1946+2052",
@@ -30908,31 +31091,31 @@
       "primaryVerified": true
      },
      "sigmaPrimaryVerified": true,
-     "obsSigmaCsv": 8.474323734061153e-8,
-     "sigmaNote": "σ=8.474323734061153e-8 を CSV(PSR J1946+2052|periastron_advance・deg/yr)から転写(sigma_primary=verified)",
+     "obsSigmaCsv": 8.474326048864371e-8,
+     "sigmaNote": "σ=8.474326048864371e-8 を CSV(PSR J1946+2052|periastron_advance・deg/yr)から転写(sigma_primary=verified)",
      "guideTolerance": true,
      "toleranceUsedPct": 1,
      "strictOK": false,
-     "numBoundDt2": 0.0004343453687716634,
-     "numBoundDt3": 0.0004343453687716634,
-     "pObs": 1.8688981791301116,
+     "numBoundDt2": 0.0004355800049229402,
+     "numBoundDt3": 0.0004355800049229402,
+     "pObs": 1.8676893406611597,
      "dtStages": {
-      "dt": 0.005999987466138654,
-      "dtHalf": 0.005658998804944926,
-      "dtQuarter": 0.00556564209736699
+      "dt": 0.006001372922687124,
+      "dtHalf": 0.005659476593777275,
+      "dtQuarter": 0.005565792917764184
      },
      "numBoundDecl": {
-      "value": 0.0004343453687716634,
+      "value": 0.0004355800049229402,
       "steps": 3,
-      "order": 1.8688981791301116,
+      "order": 1.8676893406611597,
       "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
-      "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.869 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。3 段+正の次数が揃ったので、この量は収束の保留条件を満たす",
+      "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.868 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。3 段+正の次数が揃ったので、この量は収束の保留条件を満たす",
       "estimate": {
-       "raw": 0.0004343453687716634,
-       "order": 1.8688981791301116,
-       "factor": 1.081030622426136,
-       "refined": 0.00046954064435114086,
-       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0810 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+       "raw": 0.0004355800049229402,
+       "order": 1.8676893406611597,
+       "factor": 1.0811775603416607,
+       "refined": 0.000470939327056193,
+       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0812 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
       }
      },
      "degYear": {
@@ -30940,44 +31123,44 @@
       "unit": "deg/yr",
       "yearSec": 31557600,
       "yearNote": "年の長さは**単位の約束**(ユリウス年 365.25 d = 3.15576×10⁷ s)であって観測ではない",
-      "meas": 28.428468881091177,
+      "meas": 28.43505426528248,
       "stages": {
-       "dt": 28.428468881091177,
-       "dtHalf": 26.568975327922683,
-       "dtQuarter": 26.0141768679771,
+       "dt": 28.43505426528248,
+       "dtHalf": 26.571217797577596,
+       "dtQuarter": 26.014877060312656,
        "dtEighth": null
       },
       "nStages": 3,
-      "numBound": 2.4142920131140784,
-      "pObs": 1.7448740581300044,
+      "numBound": 2.420177204969825,
+      "pObs": 1.7442346301574425,
       "converged": true,
       "numBoundEstimate": {
-       "raw": 2.4142920131140784,
-       "order": 1.7448740581300044,
-       "factor": 1.0977173468860042,
-       "refined": 2.650210223243656,
-       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0977 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+       "raw": 2.420177204969825,
+       "order": 1.7442346301574425,
+       "factor": 1.0978124816883523,
+       "refined": 2.6569007435135035,
+       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0978 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
       },
       "obs": 25.79205,
       "sigma": 0.0004,
       "timeFit": {
        "nPeri": 25,
-       "t0": 339.03964635527655,
-       "t1": 16327.257816745127,
-       "tSpanSim": 15988.21817038985,
-       "tSpanSec": 159882.1817038985,
-       "tSpanYr": 0.005066360613731669,
-       "slopeDegPerSimTime": 0.000009008438183224066,
-       "seSlopeDegPerTime": 2.0850278815781383e-7,
-       "seDegPerYr": 0.6579847587569025,
-       "varSlope": 1.3242758796730932e-17,
-       "varIntercept": 1.2349698603955476e-9,
-       "covSlopeIntercept": -1.1093825381345062e-13,
-       "residRmsDeg": 0.004803634088742833,
+       "t0": 339.0396578644681,
+       "t1": 16327.262444092874,
+       "tSpanSim": 15988.222786228405,
+       "tSpanSec": 159882.22786228405,
+       "tSpanYr": 0.005066362076402643,
+       "slopeDegPerSimTime": 0.000009010524965549498,
+       "seSlopeDegPerTime": 2.0872247802399093e-7,
+       "seDegPerYr": 0.6586780472489897,
+       "varSlope": 1.3270680079048684e-17,
+       "varIntercept": 1.2375743487377867e-9,
+       "covSlopeIntercept": -1.1117218668754261e-13,
+       "residRmsDeg": 0.004808696840030502,
        "note": "**横軸は時刻**(k·dt)であって近点番号ではない。共分散は fit の残差分散から作った 2×2(傾き・切片)である — 観測の誤差ではなく**この fit の内的な散らばり**である"
       },
       "degPerOrbit": {
-       "meas": 0.005999987466138654,
+       "meas": 0.006001372922687124,
        "obs": 0.0055424,
        "unit": "deg/orbit",
        "note": "**別欄として残す**(第250便c 以来の判定量)。°/周 は周期を 1 つ選ばないと作れない"
@@ -30988,24 +31171,24 @@
        "separated": true,
        "note": "ω̇ と P_b の**来歴を分ける**。⚡ では ω̇ が Kramer et al. (2021) PRX 11 041050 Table IV、P_b は Hu et al. (2022) A&A 667 A149 の**別解**である。deg/yr の門は ω̇ の一次表だけを使うので、°/周 への換算が持っていた「2 つの解をまたぐ」問題が無い"
       },
-      "ratioToObs": 1.102218275828838,
+      "ratioToObs": 1.1024736019541868,
       "gate": {
-       "residual": 2.6364188810911777,
-       "nSigma": 6591.047202727944,
+       "residual": 2.6430042652824817,
+       "nSigma": 6607.510663206204,
        "sigma": 0.0004,
-       "ratio": 1.102218275828838,
+       "ratio": 1.1024736019541868,
        "status": "数値未解決",
-       "numBound": 2.4142920131140784,
+       "numBound": 2.420177204969825,
        "reason": "数値誤差幅が予算(0.3σ)を超える/収束未確認(dt 3 段+正の実測次数が無い)"
       }
      },
      "gate": {
-      "residual": 0.00045758746613865347,
-      "nSigma": 5399.693007944171,
-      "sigma": 8.474323734061153e-8,
+      "residual": 0.00045897292268712395,
+      "nSigma": 5416.040402984378,
+      "sigma": 8.474326048864371e-8,
       "status": "数値未解決",
       "reason": "数値誤差幅が予算(0.3σ)を超える/収束未確認(dt 3 段+正の実測次数が無い)",
-      "numBound": 0.0004343453687716634,
+      "numBound": 0.0004355800049229402,
       "key": "psrJ1946CF|B|precession",
       "detectorCanonical": "A",
       "definitionDeclared": true,
@@ -31013,13 +31196,13 @@
       "mappingResolved": true,
       "mappingNote": null,
       "orbitNoiseIndicator": {
-       "abRelPct": 0.8886726898742808,
-       "sigmaRelPct": 0.0015289989416247748,
-       "ratio": 581.2121026911517,
+       "abRelPct": 0.8924602872237793,
+       "sigmaRelPct": 0.001528999359278358,
+       "ratio": 583.6891178587504,
        "meaning": "検出器 A(正本)と B(距離極小の放物線頂点)の相対差 [%]。**これは定義の一致度ではない** —— 第256便d ③ の合成軌道検定で、定義も推定器も 10⁻¹¹ 台で一致し、シミュレータ側の A−B は**軌道側の位置雑音 ε≈10⁻¹⁰〜10⁻⁸ に対する検出器 B の感度**だと同定された。したがってこの欄は「**軌道側の相対 1e−10〜1e−8 の雑音に対する検出器差の感度**」であって、門(3σ)には入らない。ratio は σ_rel を 1 とした目盛り(>1 = 雑音が観測精度より大きい)",
        "gate": "none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)"
       },
-      "sigmaRelPct": 0.0015289989416247748,
+      "sigmaRelPct": 0.001528999359278358,
       "sigmaFrom": "csv",
       "sigmaSource": {
        "body": "PSR J1946+2052",
@@ -31030,34 +31213,34 @@
        "primaryVerified": true
       },
       "sigmaCardVsCsvRel": null,
-      "detSpreadPct": 0.8886726898742808,
+      "detSpreadPct": 0.8924602872237793,
       "defSpreadCrossDefPct": null,
-      "defSpreadPct": 0.8886726898742808,
+      "defSpreadPct": 0.8924602872237793,
       "defMeta": true,
-      "definitionNote": "検出器 A/B(同じ近点方位 fit)の広がり=8.89e-1%",
+      "definitionNote": "検出器 A/B(同じ近点方位 fit)の広がり=8.92e-1%",
       "deprecatedKeys": {
        "defSpreadPct": "orbitNoiseIndicator.abRelPct",
        "detSpreadPct": "orbitNoiseIndicator.abRelPct",
        "defMeta": "definitionDeclared(A 正本)"
       },
       "numBoundDecl": {
-       "value": 0.0004343453687716634,
+       "value": 0.0004355800049229402,
        "steps": 3,
-       "order": 1.8688981791301116,
+       "order": 1.8676893406611597,
        "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
-       "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.869 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。3 段+正の次数が揃ったので、この量は収束の保留条件を満たす",
+       "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.868 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。3 段+正の次数が揃ったので、この量は収束の保留条件を満たす",
        "estimate": {
-        "raw": 0.0004343453687716634,
-        "order": 1.8688981791301116,
-        "factor": 1.081030622426136,
-        "refined": 0.00046954064435114086,
-        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0810 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+        "raw": 0.0004355800049229402,
+        "order": 1.8676893406611597,
+        "factor": 1.0811775603416607,
+        "refined": 0.000470939327056193,
+        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0812 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
        }
       },
       "convergence": {
        "ok": true,
        "steps": 3,
-       "order": 1.8688981791301116,
+       "order": 1.8676893406611597,
        "rule": "3 段(dt, dt/2, dt/4)かつ実測次数 order>0 が揃うまで収束済みとしない(第253便b)",
        "hold": null
       },
@@ -31072,7 +31255,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -31149,7 +31332,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -31163,7 +31346,7 @@
      "kind": "other",
      "version": "dfm",
      "target": null,
-     "model": "compactForce を外すと +0.0110834°/周(観測の +100.0%)",
+     "model": "compactForce を外すと +0.0110834°/周(第251便a の器 — 履歴。観測の約 +100%)",
      "obs": "—",
      "obsErr": null,
      "meas": null,
@@ -31226,7 +31409,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -31303,7 +31486,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -31317,8 +31500,8 @@
      "kind": "other",
      "version": "dfm",
      "target": null,
-     "model": "作用原理・保存則は未導出。compactWorkE=0.914。残差 −0.143% は 3 系で最大",
-     "obs": "—(claim 窓は付けない)",
+     "model": "作用原理・保存則は未導出。compactWorkE=0.914。第270便c の器では残差 −0.022%(第251便a の器の −0.143% は履歴)",
+     "obs": "—(claim 窓は付けない。**採用解を一組へ揃えても残差は縮んでいない** — 動いたのは 10⁻⁵ 相対以下で、σ が 500 倍きつくなる分だけ σ 倍の距離は増える)",
      "obsErr": null,
      "meas": null,
      "unit": null,
@@ -31380,7 +31563,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -31394,15 +31577,15 @@
      "kind": "period",
      "version": "dfm",
      "target": "B",
-     "declaredModel": "近点間 6780.86 秒(−0.0075% — 判定)・同方向1周は 🪀 と同水準(履歴)。dt=0.004 では 6774.41 秒(−0.103%)",
-     "declaredObs": "6781.366656 s(Meng et al. 2025 の Pb 換算)",
-     "model": 6780.86,
-     "obs": 6781.366656,
+     "declaredModel": "近点間 6769.618 秒(dt=0.002)→ **4 段外挿 6781.609 秒**(採用レコードの **+0.0036%** — 判定)・同方向1周は別量で 🪀 と同水準(履歴)",
+     "declaredObs": "**6781.367998656 s**(σ 1.728×10⁻⁶・Meng 2025 Table 1 DDFWHE。旧採用行〔Stovall 2018〕は **previous**)",
+     "model": 6769.618,
+     "obs": 6781.367998656,
      "obsErr": null,
-     "meas": 6685.732966750206,
+     "meas": 6685.7347929910575,
      "unit": "s",
-     "residualPct": -1.4102421252385657,
-     "modelResidualPct": -1.4028756418771866,
+     "residualPct": -1.41023471494094,
+     "modelResidualPct": -1.239112857017086,
      "verdict": "否",
      "method": "近点間周期(検出器A・ṙ の −→+ 交差。**窓=最初の 20 近点(19 区間)** — 第251便c の定義契約 + 第252便b の窓固定。検出できた近点は 25 個)",
      "note": "**周期の定義依存**: 同方向1周 -0.2104% / 近点間 -1.4102%(判定に採ったのは **近点間**)",
@@ -31410,33 +31593,63 @@
      "periodDef": "periastron",
      "detail": {
       "revSec": [
-       6776.531479606825,
-       6767.101247137399,
-       6757.5111786804155,
-       6747.92127423407,
-       6738.3315337962085,
-       6728.741957365078
+       6776.532862288176,
+       6767.102672861284,
+       6757.512647384456,
+       6747.922785855844,
+       6738.333088274439,
+       6728.743554638136
       ],
-      "periASec": 6685.732966750206,
-      "periBSec": 6685.72189791908,
-      "oscSec": 2568.6722482753844,
+      "periASec": 6685.7347929910575,
+      "periBSec": 6685.723734233352,
+      "oscSec": 2568.6713720249963,
       "periWindow": 20,
       "periFoundA": 25,
       "periFoundB": 25,
       "periUnmeasuredA": false,
-      "periAllSec": 6661.757570995771,
+      "periAllSec": 6661.759494261836,
       "revN": 24,
-      "aOscMean": 482.3609799598727,
-      "aOsc0": 507.98772157193116,
+      "aOscMean": 482.3609094101088,
+      "aOsc0": 507.98414176612243,
       "periodDef": "periastron",
       "detPairSec": [
-       6685.732966750206,
-       6685.72189791908
+       6685.7347929910575,
+       6685.723734233352
       ]
      },
-     "residualPctPeri": -1.4102421252385657,
-     "residualPctRev": -0.21036185751701908,
-     "defDiffPct": -1.2024096790573762,
+     "residualPctPeri": -1.41023471494094,
+     "residualPctRev": -0.21036059092417797,
+     "defDiffPct": -1.2024035071396741,
+     "judgementSource": {
+      "declared": true,
+      "key": "PSR J1946+2052|orbital_period",
+      "source": "Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column",
+      "solution": "Meng2025-DDFWHE (TEMPO ephemeris fit; T0 57953.2123884 MJD; DE440; TT(BIPM2023); span 57953-60460 MJD)",
+      "unit": "s",
+      "csvQuantity": "orbital_period",
+      "declaredAt": "2026-09-18",
+      "declaredRow": {
+       "value": 6781.367998656,
+       "sigma": 0.000001728,
+       "unit": "s",
+       "csvSigma": 0.000001728,
+       "csvUnit": "s",
+       "primaryVerified": true
+      },
+      "candidateResolved": true,
+      "resolveReason": null,
+      "applied": false,
+      "mode": "diagnostic-only-until-AD5",
+      "officialRow": {
+       "body": "PSR J1946+2052",
+       "quantity": "orbital_period",
+       "unit": "s",
+       "sigma": 0.000864,
+       "source": "Stovall et al. (2018) ApJL 854 L22 Table 1 - PSR J1946+2052 discovery timing solution",
+       "primaryVerified": true
+      },
+      "note": "**宣言は診断欄のみ**(第269便a・統括の読み (G))—— `q.obs` も `q.obsSigmaCsv` も従来行のままで、中心値と σ が別の解から来る混在を作らない。切り替えは AD5 の署名便で**中心値・σ・単位・解 ID・verified 状態・測定定義を同時に**行う"
+     },
      "sigmaSource": {
       "body": "PSR J1946+2052",
       "quantity": "orbital_period",
@@ -31451,36 +31664,36 @@
      "guideTolerance": true,
      "toleranceUsedPct": 1,
      "strictOK": false,
-     "numBoundDt2": 71.89631928640574,
+     "numBoundDt2": 71.89597402876461,
      "numBoundDef": "periastron",
-     "numBoundDt3": 71.89631928640574,
-     "pObs": 0.9996217538899527,
+     "numBoundDt3": 71.89597402876461,
+     "pObs": 0.9996224315516112,
      "dtStages": {
-      "dt": 6685.732966750206,
-      "dtHalf": 6733.659657248532,
-      "dtQuarter": 6757.629286036612
+      "dt": 6685.7347929910575,
+      "dtHalf": 6733.661260843044,
+      "dtQuarter": 6757.630767019822
      },
      "numBoundDecl": {
-      "value": 71.89631928640574,
+      "value": 71.89597402876461,
       "steps": 3,
-      "order": 0.9996217538899527,
+      "order": 0.9996224315516112,
       "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
       "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.000 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。3 段+正の次数が揃ったので、この量は収束の保留条件を満たす",
       "estimate": {
-       "raw": 71.89631928640574,
-       "order": 0.9996217538899527,
-       "factor": 1.3335664842959325,
-       "refined": 95.87852174458995,
+       "raw": 71.89597402876461,
+       "order": 0.9996224315516112,
+       "factor": 1.333566066402919,
+       "refined": 95.87803127574605,
        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3336 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
       }
      },
      "gate": {
-      "residual": -95.63368924979386,
-      "nSigma": 110687.14033540957,
+      "residual": -95.63320566494258,
+      "nSigma": 110686.58063072058,
       "sigma": 0.000864,
       "status": "数値未解決",
       "reason": "数値誤差幅が予算(0.3σ)を超える/収束未確認(dt 3 段+正の実測次数が無い)",
-      "numBound": 71.89631928640574,
+      "numBound": 71.89597402876461,
       "key": "psrJ1946CF|B|period",
       "detectorCanonical": "A",
       "definitionDeclared": true,
@@ -31488,13 +31701,13 @@
       "mappingResolved": true,
       "mappingNote": null,
       "orbitNoiseIndicator": {
-       "abRelPct": 0.00016555897731954593,
-       "sigmaRelPct": 0.000012740794648458541,
-       "ratio": 12.994399634215615,
+       "abRelPct": 0.00016540826173862865,
+       "sigmaRelPct": 0.00001274079212588428,
+       "ratio": 12.982572834116343,
        "meaning": "検出器 A(正本)と B(距離極小の放物線頂点)の相対差 [%]。**これは定義の一致度ではない** —— 第256便d ③ の合成軌道検定で、定義も推定器も 10⁻¹¹ 台で一致し、シミュレータ側の A−B は**軌道側の位置雑音 ε≈10⁻¹⁰〜10⁻⁸ に対する検出器 B の感度**だと同定された。したがってこの欄は「**軌道側の相対 1e−10〜1e−8 の雑音に対する検出器差の感度**」であって、門(3σ)には入らない。ratio は σ_rel を 1 とした目盛り(>1 = 雑音が観測精度より大きい)",
        "gate": "none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)"
       },
-      "sigmaRelPct": 0.000012740794648458541,
+      "sigmaRelPct": 0.00001274079212588428,
       "sigmaFrom": "csv",
       "sigmaSource": {
        "body": "PSR J1946+2052",
@@ -31505,34 +31718,34 @@
        "primaryVerified": true
       },
       "sigmaCardVsCsvRel": null,
-      "detSpreadPct": 0.00016555897731954593,
-      "defSpreadCrossDefPct": 62.04176419908041,
-      "defSpreadPct": 0.00016555897731954593,
+      "detSpreadPct": 0.00016540826173862865,
+      "defSpreadCrossDefPct": 62.041785144972486,
+      "defSpreadPct": 0.00016540826173862865,
       "defMeta": true,
-      "definitionNote": "判定した定義=periastron・検出器 A/B(同じ定義)の広がり=1.66e-4%(定義違いの広がり 6.20e+1% は σ と比較しない)",
+      "definitionNote": "判定した定義=periastron・検出器 A/B(同じ定義)の広がり=1.65e-4%(定義違いの広がり 6.20e+1% は σ と比較しない)",
       "deprecatedKeys": {
        "defSpreadPct": "orbitNoiseIndicator.abRelPct",
        "detSpreadPct": "orbitNoiseIndicator.abRelPct",
        "defMeta": "definitionDeclared(A 正本)"
       },
       "numBoundDecl": {
-       "value": 71.89631928640574,
+       "value": 71.89597402876461,
        "steps": 3,
-       "order": 0.9996217538899527,
+       "order": 0.9996224315516112,
        "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
        "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.000 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。3 段+正の次数が揃ったので、この量は収束の保留条件を満たす",
        "estimate": {
-        "raw": 71.89631928640574,
-        "order": 0.9996217538899527,
-        "factor": 1.3335664842959325,
-        "refined": 95.87852174458995,
+        "raw": 71.89597402876461,
+        "order": 0.9996224315516112,
+        "factor": 1.333566066402919,
+        "refined": 95.87803127574605,
         "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3336 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
        }
       },
       "convergence": {
        "ok": true,
        "steps": 3,
-       "order": 0.9996217538899527,
+       "order": 0.9996224315516112,
        "rule": "3 段(dt, dt/2, dt/4)かつ実測次数 order>0 が揃うまで収束済みとしない(第253便b)",
        "hold": null
       },
@@ -31547,7 +31760,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -31561,8 +31774,8 @@
      "kind": "other",
      "version": "dfm",
      "target": null,
-     "model": "dt 0.008→0.004→0.0005 で +2.46%→−1.19%→−0.143%。**単調ではない**(0.008 と 0.004 で符号が変わる)",
-     "obs": "—(3 点の傾向であって収束の証明ではない)",
+     "model": "dt 0.016→0.008→0.004→0.002 で 0.0061298→0.0056847→0.0055664→0.0055425(外挿 0.0055414)。第251便a の非単調(+2.46%→−1.19%)は",
+     "obs": "—(4 点の傾向であって収束の証明ではない)",
      "obsErr": null,
      "meas": null,
      "unit": null,
@@ -31624,7 +31837,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -31701,7 +31914,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -31720,7 +31933,7 @@
      "model": null,
      "obs": null,
      "obsErr": null,
-     "meas": 0.06406904165871294,
+     "meas": 0.064057341655632,
      "unit": "-",
      "residualPct": null,
      "modelResidualPct": null,
@@ -31729,34 +31942,34 @@
      "note": "obsCard に対応する観測行が無い(**観測台帳の欠け** — 外部レビュー指摘) / 観測欄に照合できる数値が無い(入力の転写・規約・帳簿量・理論値)",
      "standard": true,
      "detail": {
-      "rMin1": 684.4821693310039,
-      "rMax1": 778.194459176048,
-      "eProxyAll": 0.07495284959122551,
-      "eOscMean": 0.5025025955211871,
-      "eOsc0": 0.5319159260882091,
+      "rMin1": 684.4908147782575,
+      "rMax1": 778.1860034556389,
+      "eProxyAll": 0.07494122785303853,
+      "eOscMean": 0.5025016709910228,
+      "eOsc0": 0.5319100759873017,
       "revN": 24
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "numBoundDt2": 0.00016725490945970756,
-     "numBoundDt3": 0.00016725490945970756,
-     "pObs": 1.0007146855000941,
+     "numBoundDt2": 0.00016725612509342624,
+     "numBoundDt3": 0.00016725612509342624,
+     "pObs": 1.0007147968578138,
      "dtStages": {
-      "dt": 0.06406904165871294,
-      "dtHalf": 0.06395751997501321,
-      "dtQuarter": 0.06390178674925323
+      "dt": 0.064057341655632,
+      "dtHalf": 0.06394581915850756,
+      "dtQuarter": 0.06389008553053857
      },
      "numBoundDecl": {
-      "value": 0.00016725490945970756,
+      "value": 0.00016725612509342624,
       "steps": 3,
-      "order": 1.0007146855000941,
+      "order": 1.0007147968578138,
       "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
       "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.001 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。3 段+正の次数が揃ったので、この量は収束の保留条件を満たす",
       "estimate": {
-       "raw": 0.00016725490945970756,
-       "order": 1.0007146855000941,
-       "factor": 1.3328933568618713,
-       "refined": 0.00022293295772137796,
+       "raw": 0.00016725612509342624,
+       "order": 1.0007147968578138,
+       "factor": 1.3328932883641282,
+       "refined": 0.0002229345665748189,
        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3329 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
       }
      },
@@ -31777,13 +31990,13 @@
        "gate": "none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)"
       },
       "sigmaRelPct": null,
-      "numBound": 0.00016725490945970756,
+      "numBound": 0.00016725612509342624,
       "sigma": null,
       "sigmaFrom": null,
       "sigmaSource": null,
       "sigmaCardVsCsvRel": null,
       "detSpreadPct": null,
-      "defSpreadCrossDefPct": 87.25000781493245,
+      "defSpreadCrossDefPct": 87.25231270787627,
       "defSpreadPct": null,
       "defMeta": false,
       "definitionNote": "離心率は**同じ定義の 2 検出器が無い**(1周目の半径比・全窓・接触要素は別の量)— 定義違いの広がり 8.73e+1% は σ と比較しない",
@@ -31793,23 +32006,23 @@
        "defMeta": "definitionDeclared(A 正本)"
       },
       "numBoundDecl": {
-       "value": 0.00016725490945970756,
+       "value": 0.00016725612509342624,
        "steps": 3,
-       "order": 1.0007146855000941,
+       "order": 1.0007147968578138,
        "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
        "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.001 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。3 段+正の次数が揃ったので、この量は収束の保留条件を満たす",
        "estimate": {
-        "raw": 0.00016725490945970756,
-        "order": 1.0007146855000941,
-        "factor": 1.3328933568618713,
-        "refined": 0.00022293295772137796,
+        "raw": 0.00016725612509342624,
+        "order": 1.0007147968578138,
+        "factor": 1.3328932883641282,
+        "refined": 0.0002229345665748189,
         "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、粗い側の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3329 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
        }
       },
       "convergence": {
        "ok": true,
        "steps": 3,
-       "order": 1.0007146855000941,
+       "order": 1.0007147968578138,
        "rule": "3 段(dt, dt/2, dt/4)かつ実測次数 order>0 が揃うまで収束済みとしない(第253便b)",
        "hold": null
       },
@@ -31824,7 +32037,7 @@
       "kFrame": 1,
       "source": "run(preset physics)",
       "dt": 0.016,
-      "steps": 1040661
+      "steps": 1040650
      },
      "conditionMatch": true,
      "predictionEligible": false,
@@ -31843,8 +32056,8 @@
     "条": 0
    },
    "notes": [
-    "**dt 3 段(第255便d N8)**: dt/4=0.004 まで走らせた。近点移動 6.0000e-3 → 5.5656e-3 °/周(h → h/4) / ε_num=|Q_h−Q_{h/4}| と観測次数 p_obs は各量の numBoundDecl へ入れた",
-    "dt 収束(主対象 B): 周期 6767.10125 → 6774.29364 s(0.1063%) / 近点移動 6.0000e-3 → 5.6590e-3 °/周"
+    "**dt 3 段(第255便d N8)**: dt/4=0.004 まで走らせた。近点移動 6.0014e-3 → 5.5658e-3 °/周(h → h/4) / ε_num=|Q_h−Q_{h/4}| と観測次数 p_obs は各量の numBoundDecl へ入れた",
+    "dt 収束(主対象 B): 周期 6767.10267 → 6774.29503 s(0.1063%) / 近点移動 6.0014e-3 → 5.6595e-3 °/周"
    ]
   },
   {
@@ -41516,14 +41729,14 @@
     "bodies": [
      {
       "i": 0,
-      "declaredMass": 5105.584602637203,
+      "declaredMass": 5105.5846026139725,
       "heldMass": 5105.58447265625,
       "ulp32": 0.00048828125,
-      "absDiff": -0.00012998095280636335,
-      "relDiff": -2.5458583673106483e-8,
+      "absDiff": -0.00012995772249269066,
+      "relDiff": -2.545403369207799e-8,
       "heldIsFroundOfDeclared": true,
       "baseMass": 2552.8363000000004,
-      "factor": 1.999965529570855,
+      "factor": 1.9999655295617553,
       "fResolution": {
        "dF": 1e-7,
        "movesHeldMass": true,
@@ -41533,14 +41746,14 @@
      },
      {
       "i": 1,
-      "declaredMass": 4963.210456528453,
+      "declaredMass": 4963.210456505871,
       "heldMass": 4963.21044921875,
       "ulp32": 0.00048828125,
-      "absDiff": -0.000007309702596103307,
-      "relDiff": -1.472777078491272e-9,
+      "absDiff": -0.000007287120752152987,
+      "relDiff": -1.4682272323553981e-9,
       "heldIsFroundOfDeclared": true,
       "baseMass": 2481.6479999999997,
-      "factor": 1.999965529570855,
+      "factor": 1.9999655295617553,
       "fResolution": {
        "dF": 1e-7,
        "movesHeldMass": true,
@@ -41901,19 +42114,19 @@
    {
     "id": "psrJ1946DFM",
     "emoji": "🩺",
-    "residPct": 1.4115792414975867,
+    "residPct": 1.411571873891984,
     "nu": 0.24995001412821236,
-    "chiA": 0.9999604437791544,
-    "chiB": 0.9999615468000705,
-    "chi": 0.9999609952896125,
-    "GMac2": 0.000005104888785792157,
-    "aOverR": 62240.70912744479,
-    "e": 0.06408356529024434,
+    "chiA": 0.9999604446387369,
+    "chiB": 0.9999615476356847,
+    "chi": 0.9999609961372108,
+    "GMac2": 0.000005104888125060068,
+    "aOverR": 62240.717183338034,
+    "e": 0.06407186542629564,
     "spinRatio": 0,
     "kFrame": 1,
     "frameWeight": "pull",
     "D0eff": 3.24204e-7,
-    "massFactor": 1.999965529570855,
+    "massFactor": 1.9999655295617553,
     "mainTarget": "B"
    },
    {
@@ -41955,19 +42168,19 @@
    {
     "id": "psrJ1946PN",
     "emoji": "🪀",
-    "residPct": 1.4156475486531916,
+    "residPct": 1.4156402859188284,
     "nu": 0.24995001412821236,
-    "chiA": 0.9999604437791544,
-    "chiB": 0.9999615468000705,
-    "chi": 0.9999609952896125,
-    "GMac2": 0.0000051120165239621,
-    "aOverR": 62240.01257837391,
-    "e": 0.06409547380928876,
+    "chiA": 0.9999604446387369,
+    "chiB": 0.9999615476356847,
+    "chi": 0.9999609961372108,
+    "GMac2": 0.000005112015865714754,
+    "aOverR": 62240.02059269236,
+    "e": 0.06408377452364346,
     "spinRatio": 0,
     "kFrame": 1,
     "frameWeight": "pull",
     "D0eff": 3.24204e-7,
-    "massFactor": 1.999965529570855,
+    "massFactor": 1.9999655295617553,
     "mainTarget": "B"
    },
    {
@@ -42009,19 +42222,19 @@
    {
     "id": "psrJ1946CF",
     "emoji": "🩹",
-    "residPct": 1.4102421252385657,
+    "residPct": 1.41023471494094,
     "nu": 0.24995001412821236,
-    "chiA": 0.9999604437791544,
-    "chiB": 0.9999615468000705,
-    "chi": 0.9999609952896125,
-    "GMac2": 0.00000511188954137444,
-    "aOverR": 62241.55865987455,
-    "e": 0.06406904165871294,
+    "chiA": 0.9999604446387369,
+    "chiB": 0.9999615476356847,
+    "chi": 0.9999609961372108,
+    "GMac2": 0.0000051118888783006415,
+    "aOverR": 62241.5667333573,
+    "e": 0.064057341655632,
     "spinRatio": 0,
     "kFrame": 1,
     "frameWeight": "pull",
     "D0eff": 3.24204e-7,
-    "massFactor": 1.999965529570855,
+    "massFactor": 1.9999655295617553,
     "mainTarget": "B"
    },
    {
@@ -42278,12 +42491,12 @@
   }
  },
  "sigmaRegate": {
-  "on": true,
-  "checked": 96,
-  "unchanged": 96,
+  "on": false,
+  "checked": 0,
+  "unchanged": 0,
   "changed": [],
   "verifiedFlips": [],
-  "noSource": 218,
+  "noSource": 0,
   "limitation": "既存の `sigmaSource` の宛先だけを見る。**新しく繋がる量(対応表に無い宛先)は走行が要る** —— --regate は「繋がっている σ が動いたか」しか答えない。",
   "limitationApplySigma": "--regate は `applySigma` を通らない(既存宛先の張り直し)。**宣言の扱いを検査するには通常走行が要る**。",
   "limitationAD5": "参照 CSV 行が消えた宛先は `changed` に積んで continue するだけで、**旧 σ(q.obsSigmaCsv)はその量に残る**。AD5 で「行消失時に旧判定を再利用しない」検査を入れる。"
@@ -42331,6 +42544,20 @@
     "source": "JPL SSD Approximate Positions of the Planets / Standish Keplerian elements Table 1",
     "value": 0.00677672,
     "sigma": null,
+    "unit": "1"
+   },
+   {
+    "key": "PSR J1946+2052|orbital_period",
+    "source": "Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column",
+    "value": 6781.367998656,
+    "sigma": 0.000001728,
+    "unit": "s"
+   },
+   {
+    "key": "PSR J1946+2052|eccentricity",
+    "source": "Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column",
+    "value": 0.0638363,
+    "sigma": 8e-7,
     "unit": "1"
    }
   ],
@@ -42679,7 +42906,7 @@
   "nPresets": 37,
   "stages": {
    "note": "第258便d(第50報・3 審査 v16): 段は**階段ではない**。**①(数値収束)と ②(観測量対応)は独立な集合**である —— 数値が収束していなくても観測量対応は宣言できるし、その逆もある(①∩② が空でないだけで、①→② という順序は無い)。**④ ⊆ ③ だけが包含である**。第258便d で ④ は「③ のうち従属量でないもの」から「**証拠付き予測**」へ狭めた ——`usedForFit:false` / `validation:\"held-out\"` / `dataset` / `frozenProtocol` の 4 つが宣言として揃った量だけを数える。**現行は 0 件である**(宣言が無い)。**3σ は 1 mm も緩めていない**。",
-   "①数値収束": 44,
+   "①数値収束": 47,
    "②観測量対応": 37,
    "③観測適合(3σ)": 2,
    "④予測(従属量でない③)": 2,
@@ -43488,20 +43715,20 @@
     "id": "psrJ1946DFM",
     "emoji": "🩺",
     "target": "B",
-    "measDegPerYr": 54.718644453894484,
+    "measDegPerYr": 54.72526065908833,
     "obsDegPerYr": 25.79205,
     "sigmaDegPerYr": 0.0004,
-    "ratio": 2.1215314197163266,
-    "nSigma": 72316.4861347362,
+    "ratio": 2.121787940822398,
+    "nSigma": 72333.02664772082,
     "statusDegYear": "数値未解決",
     "statusDegPerOrbit": "数値未解決",
     "moved": false,
-    "measDegPerOrbit": 0.011550082459468905,
+    "measDegPerOrbit": 0.011551476018374147,
     "obsDegPerOrbit": 0.0055424,
-    "ratioDegPerOrbit": 2.0839496354411273,
-    "tSpanYr": 0.005066291682571099,
+    "ratioDegPerOrbit": 2.084201071444527,
+    "tSpanYr": 0.005066293143065371,
     "nPeri": 25,
-    "seDegPerYr": 0.6057677311004104,
+    "seDegPerYr": 0.6060863906393551,
     "provenanceSeparated": true
    },
    {
@@ -43548,20 +43775,20 @@
     "id": "psrJ1946PN",
     "emoji": "🪀",
     "target": "B",
-    "measDegPerYr": 28.232573025622283,
+    "measDegPerYr": 28.23914933801552,
     "obsDegPerYr": 25.79205,
     "sigmaDegPerYr": 0.0004,
-    "ratio": 1.0946230728314454,
-    "nSigma": 6101.307564055709,
+    "ratio": 1.0948780472283328,
+    "nSigma": 6117.748345038798,
     "statusDegYear": "数値未解決",
     "statusDegPerOrbit": "数値未解決",
     "moved": false,
-    "measDegPerOrbit": 0.005958620113763342,
+    "measDegPerOrbit": 0.005960003593932494,
     "obsDegPerOrbit": 0.0055424,
-    "ratioDegPerOrbit": 1.0750974512419424,
-    "tSpanYr": 0.005066082736209062,
+    "ratioDegPerOrbit": 1.0753470687666884,
+    "tSpanYr": 0.00506608419132566,
     "nPeri": 25,
-    "seDegPerYr": 0.42322920342340214,
+    "seDegPerYr": 0.42435791179676824,
     "provenanceSeparated": true
    },
    {
@@ -43608,20 +43835,20 @@
     "id": "psrJ1946CF",
     "emoji": "🩹",
     "target": "B",
-    "measDegPerYr": 28.428468881091177,
+    "measDegPerYr": 28.43505426528248,
     "obsDegPerYr": 25.79205,
     "sigmaDegPerYr": 0.0004,
-    "ratio": 1.102218275828838,
-    "nSigma": 6591.047202727944,
+    "ratio": 1.1024736019541868,
+    "nSigma": 6607.510663206204,
     "statusDegYear": "数値未解決",
     "statusDegPerOrbit": "数値未解決",
     "moved": false,
-    "measDegPerOrbit": 0.005999987466138654,
+    "measDegPerOrbit": 0.006001372922687124,
     "obsDegPerOrbit": 0.0055424,
-    "ratioDegPerOrbit": 1.0825612489424534,
-    "tSpanYr": 0.005066360613731669,
+    "ratioDegPerOrbit": 1.082811223059888,
+    "tSpanYr": 0.005066362076402643,
     "nPeri": 25,
-    "seDegPerYr": 0.6579847587569025,
+    "seDegPerYr": 0.6586780472489897,
     "provenanceSeparated": true
    },
    {
@@ -44513,7 +44740,7 @@
     },
     "representative": {
      "kind": "precession",
-     "nSigma": 70893.72707315053,
+     "nSigma": 70910.15244247513,
      "residualPct": null
     },
     "missing": [
@@ -44521,10 +44748,10 @@
      "数値精度"
     ],
     "comparedCount": 3,
-    "residualPeriodPct": -1.4115792414975867,
+    "residualPeriodPct": -1.411571873891984,
     "residualWorst": {
      "kind": "period",
-     "pct": -1.4115792414975867
+     "pct": -1.411571873891984
     },
     "classProposal": null,
     "classProposalReason": null,
@@ -44615,18 +44842,18 @@
     },
     "representative": {
      "kind": "precession",
-     "nSigma": 4911.813005470453,
-     "residualPct": 7.509745124194243
+     "nSigma": 4928.138114306089,
+     "residualPct": 7.534706876668832
     },
     "missing": [
      "写像未確定",
      "数値精度"
     ],
     "comparedCount": 3,
-    "residualPeriodPct": -1.4156475486531916,
+    "residualPeriodPct": -1.4156402859188284,
     "residualWorst": {
      "kind": "precession",
-     "pct": 7.509745124194243
+     "pct": 7.534706876668832
     },
     "classProposal": null,
     "classProposalReason": null,
@@ -44715,17 +44942,17 @@
     },
     "representative": {
      "kind": "precession",
-     "nSigma": 5399.693007944171,
-     "residualPct": 8.256124894245335
+     "nSigma": 5416.040402984378,
+     "residualPct": 8.281122305988813
     },
     "missing": [
      "数値精度"
     ],
     "comparedCount": 2,
-    "residualPeriodPct": -1.4102421252385657,
+    "residualPeriodPct": -1.41023471494094,
     "residualWorst": {
      "kind": "precession",
-     "pct": 8.256124894245335
+     "pct": 8.281122305988813
     },
     "classProposal": null,
     "classProposalReason": null,
