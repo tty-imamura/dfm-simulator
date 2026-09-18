@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "wave": "第268便a(2026-09-17・第58報 W1・統括の読み (D)・AB2)",
+  "wave": "第270便c(2026-09-18・第60報・統括の読み (A)(D)・AD9)— 第268便a 新設・第270便c で PSR J1946+2052 の 2 件を追加",
   "what": "判定(3σ の門)に採る観測解の明示宣言。body|quantity → 採用行(source/solution/value/sigma)。宣言の無い body|quantity は従来どおり CSV のファイル順で最初の行を採る(後方互換)。",
   "doNotWrite": [
     "宣言したので判定が増えた(宣言後の判定は『宣言後の初判定』欄に別に置く)",
@@ -37,6 +37,30 @@
       "sigma": null,
       "declared": "2026-09-17",
       "reason": "従来の判定行はシミュレータ自身の宣言値 0.007(観測行ではない)。一次資料の要素表を判定行にする。1σ は印字されていないので sigma は null のまま(門へは入らない)。"
+    },
+    {
+      "body": "PSR J1946+2052",
+      "quantity": "orbital_period",
+      "csvQuantity": "orbital_period",
+      "source": "Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column",
+      "solution": "Meng2025-DDFWHE (TEMPO ephemeris fit; T0 57953.2123884 MJD; DE440; TT(BIPM2023); span 57953-60460 MJD)",
+      "value": 6781.367998656,
+      "unit": "s",
+      "sigma": 0.000001728,
+      "declared": "2026-09-18",
+      "reason": "AD9(第270便c): PSR J1946+2052 の採用レコードを**一組**へ揃えた。従来の判定行は発見論文 Stovall 2018 Table 1 の Pb=0.07848804(1) d で、同じ系の ω̇ だけが Meng 2025 DDFWHE 列から来ていた(混在 X4)。採用解を Meng 2025 Table 1 DDFWHE の一組にすると、P・e・ω̇ が同じ公表解の同じ列から来る。旧行(Stovall P/e)は previous として CSV に残す。"
+    },
+    {
+      "body": "PSR J1946+2052",
+      "quantity": "eccentricity",
+      "csvQuantity": "eccentricity",
+      "source": "Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column",
+      "solution": "Meng2025-DDFWHE (TEMPO ephemeris fit; T0 57953.2123884 MJD; DE440; TT(BIPM2023); span 57953-60460 MJD)",
+      "value": 0.0638363,
+      "unit": "1",
+      "sigma": 8e-7,
+      "declared": "2026-09-18",
+      "reason": "同上(同じ列の e)。**宣言は行選択であって、残差が縮むという主張ではない** —— σ は旧行の 9×10⁻⁶ から 8×10⁻⁷ へ 11.25 倍きつくなるので、σ 倍の距離はむしろ増える。"
     }
   ],
   "notDeclared": [

@@ -1786,6 +1786,14 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     **不正スキーマ(`schemaVersion≠1`・必須欄欠け・`sigma≤0`)・同じ key の重複宣言・宣言の解決失敗は
     入力エラーとして器を止める**(`loadJudgementSources` が `ok:false` を返し、器は throw する ——
     **別の解に戻して走行を続けない**)。`sigma` が `null` の宣言は**行選択だけ**を決める(門へは入らない)。
+  - **第270便c(AD9): 宣言は 4 件になった** —— カロン P・金星 e に加えて
+    **`PSR J1946+2052|orbital_period`(CSV 285 = Meng 2025 A&A 704 A153 Table 1 DDFWHE 列・6781.367998656 s ± 1.728e-6)**と
+    **`|eccentricity`(CSV 289 = 同列・0.0638363 ± 8e-7)**。`csvQuantity` は候補鍵ではなく `orbital_period` / `eccentricity` そのものである。
+    **注記の鍵名に注意**: 第270便c が採用行/旧行に足した `adopted_solution=<解 ID>` は、
+    解タグを `note.includes('solution=' + tag)` で読む器に**部分文字列として当たる**。
+    解タグの照合は**語境界つき**(直前が英数字・`_`・`-` なら別の鍵)で行う —— 器 6 本を直した
+    (`exp-w265a-kjoint2` / `exp-w265a-basis` / `exp-w264a-kjoint` / `exp-w264a-fixed07` /
+    `exp-w263c-obsintake` / `exp-w264a-obsdelta`)。QA `docs.j1946Adopted` ④ が機械固定する。
   - **宣言は行選択であって、単位の一致・観測量対応・数値収束の宣言ではない。**
     **第269便a: 宣言は AD5(署名便)までは診断欄だけに置く** —— `q.judgementSource`
     (`applied:false`・`mode:"diagnostic-only-until-AD5"`・宣言行の value/σ は別欄 `declaredRow`)であり、

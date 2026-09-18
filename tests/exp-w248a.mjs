@@ -39,8 +39,13 @@ await pg.evaluate(() => {
   window.__W248 = {
     J1757: { name: 'PSR J1757-1854', mAsun: 1.3384, mBsun: 1.3946, Mtot: 2.73295,
       Pd: 0.18353783587, e: 0.6058142, PspinS: 21.4972318900292e-3, omegaDotDegYr: 10.3651 },
+    // 第270便c(AD9): **採用レコードを一組へ揃えた** —— Meng 2025 A&A 704 A153 Table 1 DDFWHE 列
+    //   (CSV 行 285/289/290/298)。previous(第248便a〜第269便): Pd 0.07848804 / e 0.063848 は
+    //   発見論文 Stovall 2018 Table 1・ω̇ だけ Meng 2025 という**混在**(X4)だった。
+    //   質量は M☉ 表示が DDFWHE 列でも同じ(1.2838 / 1.2480・総質量 2.531858)なので動かない ——
+    //   ただし **1PN の ω̇ と γ から GR を仮定して**導いた model-derived 値である(GR 依存)。
     J1946: { name: 'PSR J1946+2052', mAsun: 1.2838, mBsun: 1.2480, Mtot: 2.531858,
-      Pd: 0.07848804, e: 0.063848, PspinS: 16.96017532298e-3, omegaDotDegYr: 25.79205 },
+      Pd: 0.07848805554, e: 0.0638363, PspinS: 16.960175323294e-3, omegaDotDegYr: 25.79205 },
   };
   window.__w248build = (key, opt) => {
     const s = window.__W248[key], o = opt || {};

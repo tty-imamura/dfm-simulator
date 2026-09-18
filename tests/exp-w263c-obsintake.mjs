@@ -54,7 +54,8 @@ for (const line of fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-obser
     intakeRow: /intake_row=2026-09-14/.test(c[7] || ''),
     intakeRow15: /intake_row=2026-09-15/.test(c[7] || ''),
     sigmaAtIntake: /sigma transcribed at the 2026-09-14 intake/.test(c[7] || ''),
-    solution: (/solution=([A-Za-z0-9-]+)/.exec(c[7] || '') || [, null])[1] });
+    // 第270便c(AD9): 語境界つき —— `adopted_solution=` の部分文字列に当てない
+    solution: (/(?<![A-Za-z0-9_-])solution=([A-Za-z0-9-]+)/.exec(c[7] || '') || [, null])[1] });
 }
 
 // **階層の宣言**(body 名の規約であって推測ではない)
