@@ -1,10 +1,10 @@
 {
- "when": "2026-09-18T02:50:23.138Z",
+ "when": "2026-09-18T03:38:09.862Z",
  "wave": "第262便d(第54報 W4)→ 第263便c(第55報 W3)で σ 未確認の状態名と不足一覧を足した",
  "inputs": {
   "calaudit": "tests/out/calaudit-w249.json",
   "csv": "paper/data/solar-observations.csv",
-  "calauditWhen": "2026-09-18T02:40:54.861Z"
+  "calauditWhen": "2026-09-18T03:30:01.678Z"
  },
  "gate": {
   "nSigma": 3,
@@ -3759,7 +3759,7 @@
    "residual": 1354.1952899994794,
    "nSigma": 52245.18865738733,
    "numOk": false,
-   "gateStatusBefore": "未判定",
+   "gateStatusBefore": "数値未解決",
    "verdict": "保留(数値収束が未確認)",
    "guards": {
     "ok": false,
@@ -3842,7 +3842,7 @@
    "residual": 1354.1952899994794,
    "nSigma": 52245.18865738733,
    "numOk": false,
-   "gateStatusBefore": "未判定",
+   "gateStatusBefore": "数値未解決",
    "verdict": "保留(数値収束が未確認)",
    "guards": {
     "ok": false,
