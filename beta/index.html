@@ -3289,17 +3289,22 @@ const CORE_V2_TO_LAYER_ROLE = { rigid:["core","shell"], differential:["core","sh
 // build・編集・保存/復元・複製・融合・粒子詰め替えの 6 経路で運ぶ。
 // **ζ(層の inertiaScale)は I と J/ζ の双方に効く**(V2 の第 2 項 J_c/ζ と同じ射影 —
 // 層に値を足すだけでは V2 と一致しない)。ζ=1(既定)では `j/1===j` なので既定経路は 1 bit 不変。
+// 第270便d(AD1・法則 (a)): **源は状態 Q の和**である。Q は読み込みで 1 度だけ Q=J/ζ として
+// 導出され(宣言があればその値)、以後 J と独立に保存される —— 融合では Q′=ΣQ なので、
+// ζ′>0 では表せない組(源の符号が J の和と違う組)でも**源が消えない**。層の Q 配列が無い
+// 状態(旧セーブ・未 build)だけ従来どおり j/ζ に落とす(後方互換)。
+// **既定経路は 1 bit 不変**: 未宣言の層の Q は同じ除算 j/ζ の結果そのものである。
 function layerDipoleMoment(S, i){
   if(!S.layN || !S.layJ || !(S.layN[i]>0)) return null;
-  const LM=BODY_LAYER_MAX, b0=i*LM, nl=S.layN[i], Jx=S.layJx, Jy=S.layJy, JD=S.layJD, IS=S.layIS;
+  const LM=BODY_LAYER_MAX, b0=i*LM, nl=S.layN[i], Jx=S.layJx, Jy=S.layJy, JD=S.layJD, IS=S.layIS, QA=S.layQ;
   let sum=0, dec=false;
   for(let q=0;q<nl;q++){
     const j=S.layJ[b0+q];
     if(j!==0) dec=true;
     if(Jx && (Jx[b0+q]!==0 || Jy[b0+q]!==0)) dec=true;   // 面内だけの宣言も「宣言あり」と読む
-    if(JD && JD[b0+q]!==0) dec=true;   // 第265便c: 明示ゼロ(J:0 / Jx:0 / Jy:0)の宣言
-    const z=(IS && IS[b0+q]>0)? IS[b0+q] : 1;
-    sum+=j/z;
+    if(JD && JD[b0+q]!==0) dec=true;   // 第265便c: 明示ゼロ(J:0 / Jx:0 / Jy:0)・第270便d: Q:0 の宣言
+    if(QA){ if(QA[b0+q]!==0) dec=true; sum+=QA[b0+q]; }
+    else { const z=(IS && IS[b0+q]>0)? IS[b0+q] : 1; sum+=j/z; }
   }
   return dec? sum : null;
 }
@@ -14198,12 +14203,16 @@ function validatePreset(obj){
             lt[k]=wc(LT[k],lo,hi,"core.lightTrap."+k); };
           opt("tEscCollapse",1e-9,1e9); opt("shiftRate",0,1e6); opt("supply",0,1e9);
           opt("absRate",0,1e6); opt("collapseR",0,200);
+          // 第270便d(AD2): **ν_max**(1 光子あたりのエネルギーの上限・h≡1 のシミュレータ単位)。
+          // **省略時は上限なし**(既定経路 124 本は 1 本も宣言しない = ビット同一)。0 は
+          // 「受理しない」の明示宣言であって未宣言ではない(値と未指定を分ける)
+          opt("nuMax",0,1e12);
           if(LT.refill!==undefined){
             if(LT.refill!==true && LT.refill!==false) warnings.push(at+".core.lightTrap.refill は true/false — true にします");
             else if(LT.refill===false) lt.refill=false;
           }
           for(const k of Object.keys(LT))
-            if(["enable","tEsc","tEscCollapse","shiftRate","supply","absRate","collapseR","refill"].indexOf(k)<0)
+            if(["enable","tEsc","tEscCollapse","shiftRate","supply","absRate","collapseR","refill","nuMax"].indexOf(k)<0)
               warnings.push(at+".core.lightTrap の未知キー("+String(k).slice(0,20)+")— 無視");
           // **供給源 E_s はコアの宣言内部エネルギーから切り出す**(新しいエネルギーは作らない)。
           // 足りなければ切り出せる分だけになる —— 黙って作らないことを警告で明示する
@@ -14262,7 +14271,14 @@ function validatePreset(obj){
             warnings.push(atk+".inertiaScale は正の数値が必要 — inertiaScale を無視します"); }
           else o2.inertiaScale=clamp(L.inertiaScale, 1e-3, 1e6);
         }
-        for(const k2 of Object.keys(L)) if(["role","m","r","J","Jx","Jy","inertiaScale"].indexOf(k2)<0)
+        // 第270便d(AD1・法則 (a)): 層の **Q(回転場の源)は J と独立の状態**である。省略可で、
+        // **省略したときだけ読み込みで Q=J/ζ を 1 度導出する**(ζJ ではない)。宣言された Q は
+        // 値 0 でも「Q=0 の宣言」として運ぶ。正準形には宣言されたときだけ出る(既定の署名は不変)
+        if(L.Q!==undefined){
+          if(!isNum(L.Q)){ warnings.push(atk+".Q は数値が必要 — Q を無視します"); }
+          else o2.Q=clamp(L.Q, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);
+        }
+        for(const k2 of Object.keys(L)) if(["role","m","r","J","Jx","Jy","inertiaScale","Q"].indexOf(k2)<0)
           warnings.push(atk+" の未知キー("+String(k2).slice(0,20)+")— 無視");
         out.push(o2);
       }
@@ -16318,6 +16334,12 @@ function makeSim(){
     // どちらも既定(宣言なし・ζ=1)では読まれても 1 bit も結果を変えない
     S.layJD=new Uint8Array(n*BODY_LAYER_MAX);
     S.layIS=new Float64Array(n*BODY_LAYER_MAX); S.layIS.fill(1);
+    // 第270便d(AD1・統括の読み (B)): **層の回転源 Q を J と独立の状態にする**(法則 (a))。
+    // 現行コードの Q は **Q=J/ζ**(`dfmCoreQ`: I=ζ·½MR²・J=IΩ・Q=J/ζ=½MR²Ω)なので、
+    // 宣言に Q が無い層は**読み込み時に 1 度だけ** Q=J/ζ を導出し、以後は (J,Q) を別々に保存する。
+    // 合成は **J′=ΣJ・Q′=ΣQ**。ζ_eff=J′/Q′ は **J′≠0 かつ同符号のときだけの診断値**であって
+    // 状態の正本にしない(Q′/J′ でもない)。宣言ビット layJD に **8=Q** を足す(値 0 と未指定を分ける)
+    S.layQ=new Float64Array(n*BODY_LAYER_MAX);
     S.hasBodyLayers=false; S.layerN=0; S.layerStop=null; S.layerPairN=0; S.layerStopN=0;
     S.layerHalt=null; S.layerDF=0;   // 第261便b(検証仮説 (6)): 実停止の理由と最後の |ΔF| 合計
     S.shellGas=new Uint8Array(n);   // 第229便: shell:"gas" 宣言(意味論は検証器の Kcs=0 強制+表示)
@@ -16385,6 +16407,10 @@ function makeSim(){
     S.ltAb=new Float64Array(n); S.ltRc=new Float64Array(n); S.ltRf=new Uint8Array(n);
     S.ltEg=new Float64Array(n); S.ltNg=new Float64Array(n); S.ltEs=new Float64Array(n);
     S.ltEe=new Float64Array(n); S.ltQ=new Float64Array(n); S.ltEi=new Float64Array(n);
+    // 第270便d(AD2・統括の読み (C)): **ν̄ の受理前上限帳簿**。ltNu=ν_max(**省略時は Infinity=上限なし**
+    // なので既定経路は比較 1 回だけ増えてビット同一)・ltWx=**受理されなかった仕事**の累計
+    // (供給してから戻す方式は採らない —— 受理分だけ動かすので、断られた分は E_s に残る)
+    S.ltNu=new Float64Array(n); S.ltNu.fill(Infinity); S.ltWx=new Float64Array(n);
     S.hasLightTrap=false; S.ltEs0=0; S.ltLesc=0; S.ltColT=null; S.ltNoThermal=0;
     S.rMulv=new Float64Array(n); S.rMulv.fill(1);   // 第36便 C1: 半径倍率(既定1。倍精度で保持)
     // 第100便 EXT-10(形成系譜): 安定系譜ID(build 時 0..n-1・分裂は新ID発行)と直接吸収数。
@@ -16717,8 +16743,12 @@ function makeSim(){
           // 第264便c: 面内成分(数値として運ぶだけ — 回転場の源は z 成分しか読まない)
           S.layJx[b0+k]=(L.Jx!==undefined)? L.Jx : 0; S.layJy[b0+k]=(L.Jy!==undefined)? L.Jy : 0;
           // 第265便c: **宣言ビット**(明示ゼロを値と分ける)と **ζ**(既定 1)
-          S.layJD[b0+k]=((L.J!==undefined)?1:0)|((L.Jx!==undefined)?2:0)|((L.Jy!==undefined)?4:0);
-          S.layIS[b0+k]=(L.inertiaScale!==undefined && L.inertiaScale>0)? L.inertiaScale : 1; }
+          S.layJD[b0+k]=((L.J!==undefined)?1:0)|((L.Jx!==undefined)?2:0)|((L.Jy!==undefined)?4:0)
+            |((L.Q!==undefined)?8:0);   // 第270便d: 8=Q の宣言ビット
+          S.layIS[b0+k]=(L.inertiaScale!==undefined && L.inertiaScale>0)? L.inertiaScale : 1;
+          // 第270便d(AD1): **Q の初期化は読み込みで 1 度だけ**。宣言があればその値(0 も値)、
+          // 無ければ **Q=J/ζ**(ζJ ではない)。以後 Q は J と独立に保存される
+          S.layQ[b0+k]=(L.Q!==undefined)? L.Q : (S.layJ[b0+k]/S.layIS[b0+k]); }
         S.layN[i]=nl; S.hasBodyLayers=true;
       }
       S.shellGas[i]=(o.shell==="gas")?1:0;   // 第229便: 殻の相
@@ -16788,6 +16818,8 @@ function makeSim(){
           S.ltSr[i]=(LT.shiftRate>0)? LT.shiftRate : 0;
           S.ltAb[i]=(LT.absRate>0)? LT.absRate : 0;
           S.ltRc[i]=(LT.collapseR>0)? LT.collapseR : 0;
+          // 第270便d(AD2): ν_max(**未宣言=Infinity=上限なし**。0 の明示宣言は「受理しない」)
+          S.ltNu[i]=(LT.nuMax!==undefined && LT.nuMax>=0)? LT.nuMax : Infinity; S.ltWx[i]=0;
           S.ltRf[i]=(LT.refill===false)? 0 : 1;   // refill:false = **一度で空になる貯蔵槽**(崩壊後は溜め直さない)
           const sup=(LT.supply>0)? Math.min(LT.supply, S.coreEint[i]) : 0;
           S.ltEs[i]=sup; S.coreEint[i]-=sup; S.ltEs0+=sup;
@@ -17283,6 +17315,11 @@ function makeSim(){
       if(S.layJy && (S.layJy[b0+q]!==0 || (dq&4))) o.Jy=S.layJy[b0+q];
       // 第265便c: 層の ζ(既定 1 は正準形に出さない)
       if(S.layIS && S.layIS[b0+q]!==1 && S.layIS[b0+q]>0) o.inertiaScale=S.layIS[b0+q];
+      // 第270便d(AD1): **Q は J/ζ から外れた瞬間に鍵として出す**(= 読戻しで独立の Q が落ちない)。
+      // 宣言されていない・かつ Q が導出値 J/ζ と 1 bit 同じ層では鍵を作らない
+      // (既定経路 124 本の正準形・署名は 1 bit も動かない)
+      if(S.layQ){ const zq=(S.layIS && S.layIS[b0+q]>0)? S.layIS[b0+q] : 1;
+        if((dq&8) || !Object.is(S.layQ[b0+q], S.layJ[b0+q]/zq)) o.Q=S.layQ[b0+q]; }
       out.push(o);
     }
     return out;
@@ -17310,6 +17347,8 @@ function makeSim(){
       if(L.inertiaScale!==undefined && L.inertiaScale!==null
          && !(Number.isFinite(L.inertiaScale) && L.inertiaScale>0))
         return {ok:false, reason:"layerInertiaScaleNotPositive", at:q};
+      // 第270便d(AD1): 独立の Q も同じ原子的な有限性検査(1 bit も書く前に落とす)
+      if(L.Q!==undefined && L.Q!==null && !Number.isFinite(L.Q)) return {ok:false, reason:"layerNotFinite", at:q};
       if(!Number.isFinite(Math.fround(L.m))) return {ok:false, reason:"layerNotFinite", at:q};
       if(!(L.r>rPrev)) return {ok:false, reason:"radiusNotAscending", at:q};
       if(BODY_LAYER_ROLES.indexOf(L.role)<0) return {ok:false, reason:"unknownRole", at:q};
@@ -17325,10 +17364,14 @@ function makeSim(){
       S.layJx[b0+q]=(L && Number.isFinite(L.Jx))? L.Jx : 0;   // 第264便c: 面内成分(数値保持)
       S.layJy[b0+q]=(L && Number.isFinite(L.Jy))? L.Jy : 0;
       // 第265便c: 宣言ビット(undefined/null は「未宣言」・数値 0 は「明示ゼロ」)と ζ
+      const qDec=(L && L.Q!==undefined && L.Q!==null && Number.isFinite(L.Q));
       S.layJD[b0+q]=L? (((L.J!==undefined && L.J!==null && Number.isFinite(L.J))?1:0)
         |((L.Jx!==undefined && L.Jx!==null && Number.isFinite(L.Jx))?2:0)
-        |((L.Jy!==undefined && L.Jy!==null && Number.isFinite(L.Jy))?4:0)) : 0;
-      S.layIS[b0+q]=(L && Number.isFinite(L.inertiaScale) && L.inertiaScale>0)? L.inertiaScale : 1; }
+        |((L.Jy!==undefined && L.Jy!==null && Number.isFinite(L.Jy))?4:0)
+        |(qDec?8:0)) : 0;   // 第270便d: 8=Q の宣言ビット
+      S.layIS[b0+q]=(L && Number.isFinite(L.inertiaScale) && L.inertiaScale>0)? L.inertiaScale : 1;
+      // 第270便d(AD1・"derive"/"declared"): Q は宣言があればその値、無ければ **Q=J/ζ** を 1 度導出
+      S.layQ[b0+q]=qDec? L.Q : (S.layJ[b0+q]/S.layIS[b0+q]); }
     S.layN[i]=arr.length;
     if(arr.length>0) S.m[i]=sum;          // Σm 契約(層が主・根が従)
     let any=false; for(let k=0;k<S.n;k++) if(S.layN[k]>0){ any=true; break; }
@@ -17343,7 +17386,7 @@ function makeSim(){
     // 別の欄(r など)を 1 つ触っただけで「未宣言」が「明示ゼロ」に化けた(🧅 のように J を
     // 書いていない層を編集すると回転場の源が従来式から層側へ移った)。宣言は宣言のまま運ぶ
     const next=cur.map((L)=>({role:L.role, m:L.m, r:L.r, J:L.J, Jx:L.Jx, Jy:L.Jy,
-      inertiaScale:L.inertiaScale}));   // 第264便c: 面内成分 / 第265便c: ζ も往復させる
+      inertiaScale:L.inertiaScale, Q:L.Q}));   // 第264便c: 面内成分 / 第265便c: ζ / 第270便d: 独立の Q
     if(cfg===null || cfg===undefined){
       if(k<0) return S._setBodyLayers(i, []);               // 層宣言ごと外す
       if(!(k<next.length)) return {ok:false, reason:"noSuchLayer"};
@@ -17359,10 +17402,17 @@ function makeSim(){
          m:has("m")? cfg.m : 1, r:has("r")? cfg.r : (rOut>0? rOut*2 : Math.max(BODY_LAYER_RMIN, S.R[i])),
          // 第265便c: 足した層の J は**宣言されたときだけ宣言**(未指定は undefined = 未宣言・値 0)
          J:has("J")? cfg.J : undefined, Jx:has("Jx")? cfg.Jx : undefined, Jy:has("Jy")? cfg.Jy : undefined,
-         inertiaScale:has("inertiaScale")? cfg.inertiaScale : undefined};
+         inertiaScale:has("inertiaScale")? cfg.inertiaScale : undefined,
+         Q:has("Q")? cfg.Q : undefined};   // 第270便d: 足した層の Q も**宣言されたときだけ宣言**
       next.push(L);
     } else {
       L=next[k];
+      // 第270便d(AD1・編集 UI の更新則): **Q を明示した編集**は Q をそのまま置く("declared")/
+      // **ζ を宣言し直した編集**は Q=J/ζ_new を導出し直す("zetaDeclared" —— ζ の宣言は (J,Q) の
+      // 関係そのものの宣言である)/ **J だけの編集**は ζ 一定 = Q は J と同じ比で動く("zetaConst")。
+      // Q が独立でも宣言でもない層(cur が Q 鍵を持たない)は L.Q=undefined のまま _setBodyLayers が
+      // Q=J₁/ζ を導出するので、**丸めを 1 度も通さない厳密な ζ 一定**になる
+      const J0=Number(L.J)||0, Q0=Number(L.Q);
       if(BODY_LAYER_ROLES.indexOf(cfg.role)>=0) L.role=cfg.role;
       if(has("m")) L.m=clamp(cfg.m, 1e-12, MASS_CAP);
       if(has("r")) L.r=clamp(cfg.r, BODY_LAYER_RMIN, 1e6);
@@ -17371,6 +17421,13 @@ function makeSim(){
       if(has("Jy")) L.Jy=clamp(cfg.Jy, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);
       // 第265便c: ζ(既定 1・値域は V2 の inertiaScale と同じ [1e−3, 1e6])
       if(has("inertiaScale")) L.inertiaScale=clamp(cfg.inertiaScale, 1e-3, 1e6);
+      if(has("Q")) L.Q=clamp(cfg.Q, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);
+      else if(Number.isFinite(Q0)){
+        if(has("inertiaScale"))
+          L.Q=(Number(L.J)||0)/((Number.isFinite(L.inertiaScale) && L.inertiaScale>0)? L.inertiaScale : 1);
+        else if(has("J"))
+          L.Q=dfmLayerQUpdate({J0, Q0, J1:Number(L.J)||0, mode:"zetaConst"}).Q;
+      }
     }
     if(L.m!==undefined) L.m=clamp(L.m, 1e-12, MASS_CAP);
     if(L.r!==undefined) L.r=clamp(L.r, BODY_LAYER_RMIN, 1e6);
@@ -17378,6 +17435,7 @@ function makeSim(){
     if(L.Jx!==undefined) L.Jx=clamp(L.Jx, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);   // 第264便c
     if(L.Jy!==undefined) L.Jy=clamp(L.Jy, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);
     if(L.inertiaScale!==undefined) L.inertiaScale=clamp(L.inertiaScale, 1e-3, 1e6);   // 第265便c
+    if(L.Q!==undefined && L.Q!==null) L.Q=clamp(L.Q, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);   // 第270便d
     return S._setBodyLayers(i, next);
   };
   // 第35便(台帳4-62): 積分器の入口。既定("semi")は _core を1回呼ぶだけで現行と厳密等価
@@ -18931,6 +18989,9 @@ function makeSim(){
               S.ltCo[i]=(S.ltCo[i]||S.ltCo[j])?1:0;
               S.ltEg[i]+=S.ltEg[j]; S.ltNg[i]+=S.ltNg[j]; S.ltEs[i]+=S.ltEs[j];
               S.ltEe[i]+=S.ltEe[j]; S.ltQ[i]+=S.ltQ[j]; S.ltEi[i]+=S.ltEi[j];
+              // 第270便d(AD2): ν_max は他の宣言と同じ継承元(重い側/持つ側)・断られた仕事は和。
+              // **融合の直後は上限を超えていることがある**(E_γ は和・N_γ も和だが ν̄ は加重平均)
+              if(S.ltNu){ S.ltNu[i]=S.ltNu[lsrc]; S.ltWx[i]+=S.ltWx[j]; }
               S.ltOn[i]=1; ltClear(S,j); S.ltOn[j]=0;
             }
             // 第227便: |J| はベクトル和の大きさ(第210便のスカラー容量和を置換)。逆向き対は
@@ -18957,8 +19018,8 @@ function makeSim(){
         if(S.layN && (S.layN[i]>0 || S.layN[j]>0)){
           const LM=BODY_LAYER_MAX, rd=(k0)=>{ const a=[], b1=k0*LM;
             for(let q=0;q<S.layN[k0];q++) a.push({role:BODY_LAYER_ROLES[S.layRl[b1+q]]||"", m:S.layM[b1+q], r:S.layR[b1+q],
-              J:S.layJ[b1+q], Jx:S.layJx[b1+q], Jy:S.layJy[b1+q],
-              decl:S.layJD? S.layJD[b1+q] : 0, inertiaScale:S.layIS? S.layIS[b1+q] : 1});   // 第264便c: 面内成分 / 第265便c: 宣言と ζ
+              J:S.layJ[b1+q], Jx:S.layJx[b1+q], Jy:S.layJy[b1+q], Q:S.layQ? S.layQ[b1+q] : undefined,
+              decl:S.layJD? S.layJD[b1+q] : 0, inertiaScale:S.layIS? S.layIS[b1+q] : 1});   // 第264便c: 面内成分 / 第265便c: 宣言と ζ / 第270便d: 独立の Q
             return a; };
           const mg=dfmLayerMerge(rd(i), rd(j), LAYER_MERGE_RULE);
           const b1=i*LM; let sumL=0;
@@ -18968,8 +19029,10 @@ function makeSim(){
             S.layJ[b1+q]=(L && Number.isFinite(L.J))? L.J : 0;   // 第261便b: 宣言 J も層と一緒に運ぶ(力へは未接続)
             S.layJx[b1+q]=(L && Number.isFinite(L.Jx))? L.Jx : 0;   // 第264便c
             S.layJy[b1+q]=(L && Number.isFinite(L.Jy))? L.Jy : 0;
-            S.layJD[b1+q]=L? ((Number(L.decl)||0)&7) : 0;   // 第265便c: 宣言ビットの和集合
+            S.layJD[b1+q]=L? ((Number(L.decl)||0)&15) : 0;   // 第265便c: 宣言ビットの和集合 / 第270便d: 8=Q
             S.layIS[b1+q]=(L && Number.isFinite(L.inertiaScale) && L.inertiaScale>0)? L.inertiaScale : 1;
+            // 第270便d(AD1・"sum"): **Q′=ΣQ をそのまま状態へ書く**(ζ′ から作り直さない)
+            S.layQ[b1+q]=(L && Number.isFinite(L.Q))? L.Q : 0;
             if(L) sumL+=L.m; }
           S.layN[i]=Math.min(mg.length,LM);
           S.layN[j]=0;
@@ -19045,6 +19108,7 @@ function makeSim(){
       "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy","coreSSM",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内/第265便c 殻項の質量則
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx","shdBB","coreRT","coreBA","coreBare",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復 / 第247便c: 裸コア終端・rTarget・結合 E 台帳
       "ltOn","ltCo","ltRf","ltTe","ltTc","ltSr","ltAb","ltRc","ltEg","ltNg","ltEs","ltEe","ltQ","ltEi",   // 第265便d: lightTrap(宣言 8 + 帳簿 6)
+      "ltNu","ltWx",   // 第270便d(AD2): ν_max(未宣言=Infinity)と**受理されなかった仕事**の累計
       "lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
@@ -19055,7 +19119,8 @@ function makeSim(){
       for(let t=0;t<k;t++){ const s0=keep[t]; if(s0===t) continue;
         for(let q=0;q<LM;q++){ S.layM[t*LM+q]=S.layM[s0*LM+q]; S.layR[t*LM+q]=S.layR[s0*LM+q]; S.layRl[t*LM+q]=S.layRl[s0*LM+q];
           S.layJ[t*LM+q]=S.layJ[s0*LM+q]; S.layJx[t*LM+q]=S.layJx[s0*LM+q]; S.layJy[t*LM+q]=S.layJy[s0*LM+q];
-          S.layJD[t*LM+q]=S.layJD[s0*LM+q]; S.layIS[t*LM+q]=S.layIS[s0*LM+q]; } } }   // 第264便c: 面内成分 / 第265便c: 宣言ビットと ζ
+          S.layJD[t*LM+q]=S.layJD[s0*LM+q]; S.layIS[t*LM+q]=S.layIS[s0*LM+q];
+          S.layQ[t*LM+q]=S.layQ[s0*LM+q]; } } }   // 第264便c: 面内成分 / 第265便c: 宣言ビットと ζ / 第270便d: 独立の Q
     // 旧 index → 新 index の写像(消えた粒子は融合先へ写す)
     const nm=new Int32Array(n).fill(-1);
     for(let t=0;t<k;t++) nm[keep[t]]=t;
@@ -19089,6 +19154,7 @@ function makeSim(){
       "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy","coreSSM",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内/第265便c 殻項の質量則
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx","shdBB","coreRT","coreBA","coreBare",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復 / 第247便c: 裸コア終端・rTarget・結合 E 台帳
       "ltOn","ltCo","ltRf","ltTe","ltTc","ltSr","ltAb","ltRc","ltEg","ltNg","ltEs","ltEe","ltQ","ltEi",   // 第265便d: lightTrap(宣言 8 + 帳簿 6)
+      "ltNu","ltWx",   // 第270便d(AD2): ν_max(未宣言=Infinity)と**受理されなかった仕事**の累計
       "lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
@@ -19102,11 +19168,13 @@ function makeSim(){
       S.linId[i]=-1; S.linN[i]=0; }   // alloc と同じ既定値(+コアv2・第80便/第100便/第208便: ζ=1)
     // 第259便b: 親子コアの同心層(ストライド BODY_LAYER_MAX)は別に伸ばす
     if(S.layM){ const LM=BODY_LAYER_MAX;
-      for(const key of ["layM","layR","layRl","layJ","layJx","layJy","layJD","layIS"]){ const a=S[key];   // 第264便c: 面内成分 / 第265便c: 宣言ビットと ζ
+      for(const key of ["layM","layR","layRl","layJ","layJx","layJy","layJD","layIS","layQ"]){ const a=S[key];   // 第264便c: 面内成分 / 第265便c: 宣言ビットと ζ / 第270便d: 独立の Q
         if(!a) continue;
         const b=new a.constructor(nc*LM); b.set(a); S[key]=b; }
       // 第265便c: 伸ばした先の ζ は既定 1(Float64Array の 0 のままだと J/ζ が定義できない)
       if(S.layIS) for(let q=cap*LM;q<nc*LM;q++) S.layIS[q]=1; }
+    // 第270便d(AD2): 伸ばした先の ν_max は **Infinity=上限なし**(0 のままだと「受理しない」になる)
+    if(S.ltNu) for(let i=cap;i<nc;i++) S.ltNu[i]=Infinity;
     // 第247便a: framePrecision:"double" の Float64 pairD を Float32 へ落とさない(型を引き継ぐ)
     S.pairD=new (S.pairD? S.pairD.constructor : Float32Array)(Math.max(1,nc*(nc-1)/2));
     S.railIdx=null; S.periDet=null;     // index 依存のキャッシュは作り直させる
@@ -25747,6 +25815,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
       "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy","coreSSM",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内/第265便c 殻項の質量則
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx","shdBB","coreRT","coreBA","coreBare",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復 / 第247便c: 裸コア終端・rTarget・結合 E 台帳
       "ltOn","ltCo","ltRf","ltTe","ltTc","ltSr","ltAb","ltRc","ltEg","ltNg","ltEs","ltEe","ltQ","ltEi",   // 第265便d: lightTrap(宣言 8 + 帳簿 6)
+      "ltNu","ltWx",   // 第270便d(AD2): ν_max(未宣言=Infinity)と**受理されなかった仕事**の累計
       "lSw","radOv",                           // 観測系(第22便 — obsT/coreOT は第61便で廃止)
       "rMulv","lSwAuto",                       // 第36便 C1/C2: 半径倍率・掻出の自動算出フラグ
       // 第45便 45B: 転写長は「A 側の生存粒子数 sim.n」に固定する(分裂で確保長が A 側だけ
@@ -25757,7 +25826,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
     // 第259便b: 親子コアの同心層(ストライド BODY_LAYER_MAX)と宣言フラグ
     simB.hasBodyLayers=sim.hasBodyLayers;
     if(sim.layM && simB.layM){ const LM=BODY_LAYER_MAX, cnt=Math.min(sim.n*LM, simB.layM.length);
-      for(const key of ["layM","layR","layRl","layJ","layJx","layJy","layJD","layIS"])   // 第264便c / 第265便c: 宣言ビットと ζ
+      for(const key of ["layM","layR","layRl","layJ","layJx","layJy","layJD","layIS","layQ"])   // 第264便c / 第265便c: 宣言ビットと ζ / 第270便d: 独立の Q
         if(sim[key] && simB[key]) simB[key].set(sim[key].subarray(0,cnt)); }
     simB.hasCoreV2=sim.hasCoreV2; simB.hasLSwAuto=sim.hasLSwAuto; simB._rsUsed=sim._rsUsed;
     simB.hasShellLaw=sim.hasShellLaw;   // 第265便c: 殻項の質量則の宣言フラグ
@@ -25983,11 +26052,12 @@ let ckSnap=null;
 const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU","pinned",
   "mEff","rotAc","lSw","radOv","rMulv","lSwAuto",   // 第81便: コアv1 配列は廃止
   "pulseOm","pulsePh","shellGas","ssQov","ssDec","layN","layM","layR","layRl","layJ","layJx","layJy",   // 第226便: パルス時計チャネル / 第229便: 殻の相 / 第246便: 観測 Q の転写 / 第247便a: 宣言フラグ
-  "layJD","layIS",   // 第265便c: 層の宣言ビット・層の ζ
+  "layJD","layIS","layQ",   // 第265便c: 層の宣言ビット・層の ζ / 第270便d: 層の独立 Q
   "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",
   "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy","coreSSM",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内/第265便c 殻項の質量則
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx","shdBB","coreRT","coreBA","coreBare",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復 / 第247便c: 裸コア終端・rTarget・結合 E 台帳
       "ltOn","ltCo","ltRf","ltTe","ltTc","ltSr","ltAb","ltRc","ltEg","ltNg","ltEs","ltEe","ltQ","ltEi",   // 第265便d: lightTrap(宣言 8 + 帳簿 6)
+      "ltNu","ltWx",   // 第270便d(AD2): ν_max(未宣言=Infinity)と**受理されなかった仕事**の累計
   "railR","railAng","railOmega","railCx","railCy","railH",
   "Tint","coordN","coordAcc","shPrev","_phNbrPrev","_phNbrPrevN","_phProf"];
 const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat","coreWork","coreSrcE","alignE","burstE","burstK","burstL","burstRes",
@@ -32411,14 +32481,20 @@ function dfmContractBudget(o){
 // ④ dfmCoreQ({Mc,Rc,J,zeta}) — 収縮するコアのスピン双極子モーメント。**Q=J/ζ**(ζ=inertiaScale)。
 //    Q=½McRc²·Ω・Ω=J/(ζ·½McRc²) なので Mc も Rc も約分で消える = **J が保存する収縮では
 //    Ω がいくら上がっても Q は 1 も増えない**。spinDipoleMoment(S,i) のコア項と同一の量。
+// 第270便d(AD1): **Q が状態として渡されたらそれを返す**(J/ζ で作り直さない)。渡されなければ
+//   従来どおり読み込みの導出式 Q=J/ζ を使う。`source:"state"|"derived"` でどちらかを明示する。
 function dfmCoreQ(o){
   if(!o || typeof o!=="object") return null;
   const J=Number(o.J), z=(o.zeta===undefined)?1:Number(o.zeta);
   const Mc=Number(o.Mc), Rc=Number(o.Rc);
   if(!(z>0) || !Number.isFinite(J) || !Number.isFinite(z)) return null;
-  const out={ Q:J/z };
+  const qState=Number(o.Q);
+  const out=(o.Q!==undefined && o.Q!==null && Number.isFinite(qState))
+    ? { Q:qState, source:"state" } : { Q:J/z, source:"derived" };
   if(Mc>0 && Rc>0 && Number.isFinite(Mc) && Number.isFinite(Rc)){
-    out.I=0.5*Mc*Rc*Rc; out.omega=J/(out.I*z);
+    out.I=0.5*Mc*Rc*Rc;
+    // 第270便d: 導出形は従来式のまま(1 bit も動かさない)。状態 Q が来たときだけ Ω=Q/I を使う
+    out.omega=(out.source==="state")? out.Q/out.I : J/(out.I*z);
   }
   return out;
 }
@@ -36897,6 +36973,7 @@ function ltClear(S,i){
   if(!S.ltOn) return;
   S.ltOn[i]=0; S.ltCo[i]=0; S.ltRf[i]=0; S.ltTe[i]=0; S.ltTc[i]=0; S.ltSr[i]=0; S.ltAb[i]=0; S.ltRc[i]=0;
   S.ltEg[i]=0; S.ltNg[i]=0; S.ltEs[i]=0; S.ltEe[i]=0; S.ltQ[i]=0; S.ltEi[i]=0;
+  if(S.ltNu){ S.ltNu[i]=Infinity; S.ltWx[i]=0; }   // 第270便d(AD2): ν_max の既定は**上限なし**
 }
 function dfmLightTrapStep(S,dt){
   if(!S.hasLightTrap || !(dt>0)) return;
@@ -36928,6 +37005,15 @@ function dfmLightTrapStep(S,dt){
       if(psi>0){
         let dW=S.ltSr[i]*psi*S.ltEg[i]*dt;
         if(dW>S.ltEs[i]) dW=S.ltEs[i];
+        // 第270便d(AD2・統括の読み (C)): **受理前の上限帳簿**。ν̄=E_γ/N_γ に上限 ν_max を宣言した
+        // 粒子では、受け入れられる余地 **C=max(0, ν_max·N_γ − E_γ)** を先に測り、
+        // **W_accept=min(W_req, E_s, C)** だけを動かす(**供給してから削って戻す方式は採らない**)。
+        // 断られた分は E_s に残る(ltWx に累計)。未宣言(ν_max=Infinity)は比較 1 回で素通りする
+        const nuM=S.ltNu? S.ltNu[i] : Infinity;
+        if(nuM<Infinity){
+          const room=nuM*S.ltNg[i]-S.ltEg[i], cap=(room>0)? room : 0;
+          if(dW>cap){ S.ltWx[i]+=dW-cap; dW=cap; }
+        }
         if(dW>0){ S.ltEs[i]-=dW; S.ltEg[i]+=dW; }
       }
     }
@@ -36966,13 +37052,21 @@ function dfmLightTrapLedger(S){
   // **宣言していない宇宙では null を返す**(0 の帳簿を作らない —— 無いことと 0 は別である)
   if(!S || !S.ltOn || !S.hasLightTrap) return null;
   const n=S.n, bodies=[];
-  let Eg=0, Ng=0, Es=0, Ee=0, Q=0, Ei=0, nOn=0, nCol=0;
+  let Eg=0, Ng=0, Es=0, Ee=0, Q=0, Ei=0, nOn=0, nCol=0, Wx=0, nCap=0, nOver=0;
   for(let i=0;i<n;i++){
     if(!S.ltOn[i]) continue;
     nOn++; if(S.ltCo[i]) nCol++;
     Eg+=S.ltEg[i]; Ng+=S.ltNg[i]; Es+=S.ltEs[i]; Ee+=S.ltEe[i]; Q+=S.ltQ[i]; Ei+=S.ltEi[i];
+    // 第270便d(AD2): ν_max(未宣言=Infinity=上限なし)・受理されなかった仕事・**上限超過中か**
+    const nuM=S.ltNu? S.ltNu[i] : Infinity, wx=S.ltWx? S.ltWx[i] : 0;
+    const nub=(S.ltNg[i]>0)? S.ltEg[i]/S.ltNg[i] : null;
+    const over=(nuM<Infinity && nub!==null && nub>nuM);
+    if(nuM<Infinity) nCap++;
+    if(over) nOver++;
+    Wx+=wx;
     bodies.push({ i, Eg:S.ltEg[i], Ng:S.ltNg[i], Es:S.ltEs[i], Eesc:S.ltEe[i], Q:S.ltQ[i], Ein:S.ltEi[i],
-      nuBar:(S.ltNg[i]>0)? S.ltEg[i]/S.ltNg[i] : null, collapsed:!!S.ltCo[i], refill:(S.ltRf[i]!==0),
+      nuBar:nub, collapsed:!!S.ltCo[i], refill:(S.ltRf[i]!==0),
+      nuMax:(nuM<Infinity)? nuM : null, workRejected:wx, overCap:over,
       tEsc:(S.ltCo[i] && S.ltTc[i]>0)? S.ltTc[i] : S.ltTe[i] });
   }
   const sum=Es+Eg+Ee+Q-Ei, res=sum-Number(S.ltEs0||0);
@@ -36981,8 +37075,15 @@ function dfmLightTrapLedger(S){
     nuBar:(Ng>0)? Eg/Ng : null, Lesc:Number(S.ltLesc||0), collapseT:S.ltColT,
     Es0:Number(S.ltEs0||0), invariant:sum, residual:res,
     relResidual:(den>0)? res/den : null, thermalWired:(S.thermal==="tint"),
+    nCapped:nCap, nOverCap:nOver, workRejected:Wx,
     note:"恒等式は E_s+E_γ+E_esc+Q−E_in=E_s(0)。**E_in(減光で熱から引き取った自光)を落として書くと二重計上になる**。"
-      +"E_esc は radE とは別の列である(既存の項と重ねない)。ν̄ は h≡1 のシミュレータ単位(光子 1 個あたりのエネルギー)" };
+      +"E_esc は radE とは別の列である(既存の項と重ねない)。ν̄ は h≡1 のシミュレータ単位(光子 1 個あたりのエネルギー)",
+    capNote:"第270便d(AD2): ν_max は**青方偏移の仕事の受理前**に効く上限である(C=max(0,ν_max·N_γ−E_γ)・"
+      +"W_accept=min(W_req,E_s,C))。断られた仕事は E_s に残り workRejected に積む(**供給してから戻す方式は採らない**)。"
+      +"N_γ=0 では ν̄ は null(未定義)で、平均が無い状態に上限を当てない。**上限条件は経路で変わる**: "
+      +"初期状態で既に超えている・N_γ が脱出/吸収で減る・融合で 2 体の E_γ と N_γ が和になる・"
+      +"refill が止まって光子が増えない、のいずれでも ν̄>ν_max のまま滞在しうる(overCap がそれを数える)。"
+      +"外来光の捕獲はまだ無い。**「全経路の上限制御が完成した」とは書かない** —— 止めているのは仕事の受理だけである。" };
 }
 // ===== 第259便b(第51報 W2): 親子コア・3D スピン参照場・歳差/緩和の**純関数**(S を 1 バイトも読み書きしない)=====
 // 原仮定者(第51報)「観測半径は外殻が担うが、質量は半径の小さなコアが大半を担う」「天体の自転による
@@ -37224,8 +37325,56 @@ function dfmLayerKernel(layer, d, opts){
   return { point, value, ratio:(point!==0)? value/point : null, shape, method, p:pw, eps, d, R, m, nodes };
 }
 
+// (2z) 第270便d(AD1): **ζ_eff は診断値**(状態の正本ではない)。J≠0 かつ Q と同符号(= J/Q が正の
+//   有限数)のときだけ ζ_eff=J/Q を返す。それ以外は null と理由を返す —— **Q/J を代わりに返さない**
+//   (Q/J は 1/ζ であって ζ ではない)し、**表せないことを 1 に丸めて隠さない**。
+function dfmLayerZetaEff(J, Q){
+  const j=Number(J), q=Number(Q);
+  if(!Number.isFinite(j) || !Number.isFinite(q)) return { zetaEff:null, representable:false, reason:"notFinite" };
+  if(j===0 && q===0) return { zetaEff:null, representable:false, reason:"bothZero" };
+  if(j===0) return { zetaEff:null, representable:false, reason:"JZeroQNonzero" };
+  if(q===0) return { zetaEff:null, representable:false, reason:"QZeroJNonzero" };
+  const z=j/q;
+  if(!(Number.isFinite(z) && z>0)) return { zetaEff:null, representable:false, reason:"signMismatch" };
+  return { zetaEff:z, representable:true, reason:null };
+}
+// (2q) 第270便d(AD1・法則 (a)): **J が変わるとき Q をどう変えるか**の更新則を 1 本にまとめた純関数。
+//   **これは表現の規約ではなく追加仮定である**(Negative Claim 42 の追記どおり、実系検証まで暫定)。
+//   mode(経路 → 既定):
+//     "derive"      読み込み(宣言に Q が無い)           Q = J/ζ  ← **1 度だけ**(ζJ ではない)
+//     "declared"    Q を明示した宣言・編集               Q = 宣言値(値 0 も値)
+//     "zetaConst"   外部トルク・減衰・質量移動・J だけの編集  Q₁ = Q₀·(J₁/J₀)(ζ 一定)
+//     "zetaDeclared" ζ を宣言し直す編集                  Q₁ = J₁/ζ_new
+//     "qConst"      Q を保つ宣言経路(明示 variant)       Q₁ = Q₀(ζ_eff が動く)
+//     "sum"         合体・同半径圧縮・層数上限の畳み込み    J′=ΣJ・Q′=ΣQ(dfmLayerMerge が実装)
+//     "carry"       保存/復元/複製/詰め替え/分割          (J,Q) をそのまま運ぶ(分割片は層を持たない)
+//   **J₀=0 の "zetaConst" は ζ₀ が状態から読めない**(0/0)ので Q₀ を据え置き、理由を返す
+//   (「ζ 一定」の意味が定義できない点を黙って 0 や 1 で埋めない)。
+function dfmLayerQUpdate(st){
+  const o=st||{}, mode=String(o.mode||"zetaConst");
+  const J0=Number(o.J0), Q0=Number(o.Q0), J1=Number(o.J1);
+  const zeta=(Number.isFinite(Number(o.zeta)) && Number(o.zeta)>0)? Number(o.zeta) : 1;
+  const done=(J,Q,reason)=>{ const d=dfmLayerZetaEff(J,Q);
+    return { mode, J, Q, zetaEff:d.zetaEff, representable:d.representable, reason:reason||d.reason }; };
+  if(mode==="derive") return done(Number.isFinite(J1)? J1 : J0, (Number.isFinite(J1)? J1 : J0)/zeta, null);
+  if(mode==="declared") return done(Number.isFinite(J1)? J1 : J0, Number(o.Q), null);
+  if(mode==="zetaDeclared") return done(J1, J1/zeta, null);
+  if(mode==="qConst" || mode==="carry") return done(Number.isFinite(J1)? J1 : J0, Q0, null);
+  if(mode==="sum") return done(J0+J1, Q0+Number(o.Q1), null);
+  // 既定 "zetaConst"
+  if(!Number.isFinite(J0) || !Number.isFinite(Q0) || !Number.isFinite(J1)) return done(J1, Q0, "notFinite");
+  if(J0===0) return done(J1, Q0, "zetaUndefinedAtJ0");
+  return done(J1, Q0*(J1/J0), null);
+}
 // (3) **層の合成則**(融合 body 単位)。"role"=同 role を合算(m は和・r は √(r_i²+r_j²) —— 殻とコア v2 の
 //     既存則と同型)/ "add"=小さい方の層を層として追加(r 昇順に並べ直す)。**どちらも Σm は厳密和**。
+// 第270便d(AD1・法則 (a)・統括の読み (B)): **状態は (J, Q) を別々に保存し、合成は J′=ΣJ・Q′=ΣQ** である。
+//   返り値には **`Q`** と **`zetaRepresentable`** が付き、`decl` に **8=Q** が加わる。
+//   `inertiaScale` は**表示互換のための診断値 ζ_eff=J′/Q′**(J′≠0 かつ Q′ と同符号のときだけ)で、
+//   表せないときは従来の落とし方((ζ_a===ζ_b? ζ_a : 1))のままにするが、**その ζ で Q を作り直さない**。
+//   これで〔第268便b〕の反例 (J,ζ)=(10,1)+(−10,2) は J′=0・**Q′=5 が残る**(旧則は Q′=J′/ζ′=0)。
+//   **書かないこと**: 「ζ 合成則の時間発展則が決まった」 —— 決まったのは**表現(状態の取り方)**であって、
+//   トルク・減衰で Q がどう動くかは `dfmLayerQUpdate` に置いた**追加仮定**である。
 // 第265便c: 返り値に **`decl`(宣言ビット 1=J・2=Jx・4=Jy)** と **`inertiaScale`(ζ)** が付く。
 //   ・`decl` は入力の `decl`(実行状態から渡すとき)か、鍵の有無(純関数として使うとき)で読む。
 //     **和は宣言の和集合**である(片方が明示ゼロを宣言していれば、合成後も宣言が残る)。
@@ -37236,13 +37385,22 @@ function dfmLayerMerge(la, lb, rule){
   const A=Array.isArray(la)? la : [], B=Array.isArray(lb)? lb : [];
   if(!A.length && !B.length) return [];
   const RL=(rule==="add")? "add" : "role";
-  const dclOf=(L)=>{ if(L.decl!==undefined) return (Number(L.decl)||0)&7;
+  const dclOf=(L)=>{ if(L.decl!==undefined) return (Number(L.decl)||0)&15;
     return ((L.J!==undefined && L.J!==null)?1:0)|((L.Jx!==undefined && L.Jx!==null)?2:0)
-      |((L.Jy!==undefined && L.Jy!==null)?4:0); };
+      |((L.Jy!==undefined && L.Jy!==null)?4:0)|((L.Q!==undefined && L.Q!==null)?8:0); };
   const zOf=(L)=>{ const z=Number(L.inertiaScale); return (Number.isFinite(z) && z>0)? z : 1; };
-  const zMerge=(ja,za,jb,zb)=>{ const jn=ja+jb, qn=ja/za+jb/zb;
+  // 第270便d(AD1・法則 (a)): **Q は独立の状態**である。入力に Q が無ければ読み込みと同じ
+  // **Q=J/ζ**(ζJ ではない)で 1 度導出する。合成は **J′=ΣJ・Q′=ΣQ**。
+  const qOf=(L)=>{ const q=Number(L.Q); if(Number.isFinite(q)) return q;
+    const j=Number.isFinite(Number(L.J))? Number(L.J) : 0; return j/zOf(L); };
+  // ζ_eff は **診断値**である(状態の正本にしない)。J′≠0 かつ Q′ と同符号のときだけ J′/Q′ を返し、
+  // 表せないときは従来どおり (ζ_a===ζ_b? ζ_a : 1) に落として `zetaRepresentable:false` を立てる
+  // —— **落とした ζ で Q を作り直さない**(Q は Q のまま運ぶ)のが旧則との違いである。
+  const zMerge=(jn,qn,za,zb)=>{
     if(jn!==0 && qn!==0){ const z=jn/qn; if(Number.isFinite(z) && z>0) return z; }
     return (za===zb)? za : 1; };
+  const zRep=(jn,qn)=>{ if(!(jn!==0 && qn!==0)) return false;
+    const z=jn/qn; return Number.isFinite(z) && z>0; };
   let out=[];
   if(RL==="role"){
     const map=new Map();
@@ -37251,19 +37409,23 @@ function dfmLayerMerge(la, lb, rule){
       const jl=Number.isFinite(Number(L.J))? Number(L.J) : 0;   // 第261便b: 宣言 J は和で運ぶ(力へは未接続)
       // 第264便c: 面内成分 Jx/Jy も同じ和で運ぶ(数値の保存だけ — 力へは未接続)
       const jx=Number.isFinite(Number(L.Jx))? Number(L.Jx) : 0, jy=Number.isFinite(Number(L.Jy))? Number(L.Jy) : 0;
-      const dc=dclOf(L), z=zOf(L);
+      const dc=dclOf(L), z=zOf(L), ql=qOf(L);
       const cur=map.get(k);
       if(cur){ cur.m+=Number(L.m); cur.r=Math.sqrt(cur.r*cur.r+Number(L.r)*Number(L.r));
-        const zn=zMerge(cur.J, cur.inertiaScale, jl, z);
-        cur.J+=jl; cur.inertiaScale=zn; cur.Jx+=jx; cur.Jy+=jy; cur.decl|=dc; }
-      else map.set(k,{role:k, m:Number(L.m), r:Number(L.r), J:jl, Jx:jx, Jy:jy, decl:dc, inertiaScale:z});
+        const jn=cur.J+jl, qn=cur.Q+ql;   // 第270便d: J′=ΣJ・Q′=ΣQ(和が正本)
+        cur.inertiaScale=zMerge(jn, qn, cur.inertiaScale, z);
+        cur.zetaRepresentable=zRep(jn, qn);
+        cur.J=jn; cur.Q=qn; cur.Jx+=jx; cur.Jy+=jy; cur.decl|=dc; }
+      else map.set(k,{role:k, m:Number(L.m), r:Number(L.r), J:jl, Q:ql, Jx:jx, Jy:jy, decl:dc,
+        inertiaScale:z, zetaRepresentable:zRep(jl, ql)});
     }
     out=Array.from(map.values());
   } else {
     out=A.concat(B).map(L=>({role:String(L.role||""), m:Number(L.m), r:Number(L.r),
-      J:(Number.isFinite(Number(L.J))? Number(L.J) : 0),
+      J:(Number.isFinite(Number(L.J))? Number(L.J) : 0), Q:qOf(L),
       Jx:(Number.isFinite(Number(L.Jx))? Number(L.Jx) : 0), Jy:(Number.isFinite(Number(L.Jy))? Number(L.Jy) : 0),
-      decl:dclOf(L), inertiaScale:zOf(L)}));
+      decl:dclOf(L), inertiaScale:zOf(L),
+      zetaRepresentable:zRep(Number.isFinite(Number(L.J))? Number(L.J) : 0, qOf(L))}));
   }
   out.sort((u,v)=>u.r-v.r);
   // 同一半径・上限超過は**内側から**畳む(非重複・昇順・層数 ≤ BODY_LAYER_MAX の不変量を保つ)。
@@ -37275,16 +37437,23 @@ function dfmLayerMerge(la, lb, rule){
   for(let k=1;k<out.length;k++){
     const rp=out[k-1].r, rk=out[k].r;
     if(rk-rp<=LAYER_MERGE_RTOL*Math.max(Math.abs(rk),Math.abs(rp))){
+      // 第270便d: **同半径圧縮も和**(J′=ΣJ・Q′=ΣQ)。ζ は診断値として組み直す
+      const jn=(out[k].J||0)+(out[k-1].J||0), qn=qOf(out[k])+qOf(out[k-1]);
       out[k].m+=out[k-1].m; out[k].r=Math.max(rk,rp);
-      out[k].inertiaScale=zMerge(out[k].J||0, zOf(out[k]), out[k-1].J||0, zOf(out[k-1]));   // 第265便c
-      out[k].J=(out[k].J||0)+(out[k-1].J||0);
+      out[k].inertiaScale=zMerge(jn, qn, zOf(out[k]), zOf(out[k-1]));   // 第265便c / 第270便d
+      out[k].zetaRepresentable=zRep(jn, qn);
+      out[k].J=jn; out[k].Q=qn;
       out[k].Jx=(out[k].Jx||0)+(out[k-1].Jx||0); out[k].Jy=(out[k].Jy||0)+(out[k-1].Jy||0);   // 第264便c
       out[k].decl=(out[k].decl||0)|(out[k-1].decl||0);   // 第265便c: 宣言は和集合
       out.splice(k-1,1); k--; }
   }
-  while(out.length>BODY_LAYER_MAX){ out[1].m+=out[0].m;
-    out[1].inertiaScale=zMerge(out[1].J||0, zOf(out[1]), out[0].J||0, zOf(out[0]));   // 第265便c
-    out[1].J=(out[1].J||0)+(out[0].J||0);
+  while(out.length>BODY_LAYER_MAX){
+    // 第270便d: **層数上限の畳み込みも和**
+    const jn=(out[1].J||0)+(out[0].J||0), qn=qOf(out[1])+qOf(out[0]);
+    out[1].m+=out[0].m;
+    out[1].inertiaScale=zMerge(jn, qn, zOf(out[1]), zOf(out[0]));   // 第265便c / 第270便d
+    out[1].zetaRepresentable=zRep(jn, qn);
+    out[1].J=jn; out[1].Q=qn;
     out[1].Jx=(out[1].Jx||0)+(out[0].Jx||0); out[1].Jy=(out[1].Jy||0)+(out[0].Jy||0);   // 第264便c
     out[1].decl=(out[1].decl||0)|(out[0].decl||0);   // 第265便c
     out.splice(0,1); }
@@ -38025,6 +38194,15 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
     return (T.layJD && i>=0 && i<T.n && k>=0 && k<BODY_LAYER_MAX)? T.layJD[i*BODY_LAYER_MAX+k] : 0; },
   dfmLayerInertiaScale:(i,k,S)=>{ const T=S||sim;
     return (T.layIS && i>=0 && i<T.n && k>=0 && k<BODY_LAYER_MAX)? T.layIS[i*BODY_LAYER_MAX+k] : 1; },
+  // 第270便d(AD1): 層の**独立 Q**(状態)・その更新則・ζ_eff の診断。読み取り専用(力へは書かない)。
+  // 第270便d(AD2): lightTrap の ν_max(未宣言は null=上限なし)と**受理されなかった仕事**の累計
+  dfmLayerQ:(i,k,S)=>{ const T=S||sim;
+    return (T.layQ && i>=0 && i<T.n && k>=0 && k<BODY_LAYER_MAX)? T.layQ[i*BODY_LAYER_MAX+k] : 0; },
+  dfmLayerQUpdate, dfmLayerZetaEff, LAYER_Q_MODES:["derive","declared","zetaConst","zetaDeclared","qConst","sum","carry"],
+  dfmLightTrapNuMax:(i,S)=>{ const T=S||sim;
+    const v=(T.ltNu && i>=0 && i<T.n)? T.ltNu[i] : Infinity; return (v<Infinity)? v : null; },
+  dfmLightTrapWorkRejected:(i,S)=>{ const T=S||sim;
+    return (T.ltWx && i>=0 && i<T.n)? T.ltWx[i] : 0; },
   dfmShellSpinMassOf:(i,S)=>{ const T=S||sim;
     return (T.coreSSM && i>=0 && i<T.n && T.coreSSM[i]===1)? "shell" : "total"; },
   SHELL_SPIN_MASS_MODES:["total","shell"],

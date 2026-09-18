@@ -1179,9 +1179,30 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     ζ=1 は正準形に出ない(署名不変)。宣言されて正の有限数でなければ
     **`layerInertiaScaleNotPositive`** で拒否し、1 bit も書かない(0 に読み替えない)。
     読み口は **`HP.dfmLayerInertiaScale(i,k,S?)`**。
-    **融合では「源 Σ J/ζ を保つ」合成則**を使う(ζ′=(J_a+J_b)/(J_a/ζ_a+J_b/ζ_b)。等しい ζ どうしは
-    その ζ が残る。J の和か源の和が 0 で定義できないときだけ ζ′=1 へ落ちる ——
-    **融合は宣言の合成であって保存則ではない**)。
+    **第270便d(AD1)から ζ は「Q の初期化に 1 度だけ使う量」である** —— 状態の正本は下の `Q` で、
+    融合後の `inertiaScale` は診断値 ζ_eff の器にすぎない(§`body.layers[].Q`)。
+    〔第265便c〕の合成則 ζ′=(J_a+J_b)/(J_a/ζ_a+J_b/ζ_b) は**同方向のときだけ源を保つ**
+    (Negative Claim 42・**融合は宣言の合成であって保存則ではない**)。
+  - **`body.layers[].Q`(省略可・第270便d・AD1 法則 (a))**: 層の**回転場の源**そのもの。
+    **J とは独立の状態**で、値域は ±10¹²(J と同じ `BODY_LAYER_JCAP`)。
+    - **初期化は `Q = J/ζ`(ζJ ではない)**。`dfmCoreQ` が Q=J/ζ=½M_cR_c²Ω を定めるからである。
+      宣言に `Q` が無ければ**読み込み(build / `_setBodyLayers`)で 1 度だけ**導出し、以後は
+      **(J, Q) を別々に保存**する。**`Q:0` の明示宣言は値**で、宣言ビット `layJD` の **8=Q** が
+      未指定と区別する(1=J・2=Jx・4=Jy と同じ流儀)。
+    - **合成は和**: `J′=ΣJ`・`Q′=ΣQ`(role / add・同半径圧縮・層数上限の畳み込みのすべて)。
+    - **正準形には Q が J/ζ から外れたときか宣言されたときだけ出る**(既定経路の署名は 1 bit も動かない)。
+    - **ζ_eff は診断値**である: **`HP.dfmLayerZetaEff(J,Q)`** は J≠0 かつ Q と同符号のときだけ
+      `{zetaEff:J/Q, representable:true}` を返し、それ以外は `zetaEff:null` と理由
+      (`bothZero`/`JZeroQNonzero`/`QZeroJNonzero`/`signMismatch`/`notFinite`)を返す。
+      **Q/J を代わりに返さない**し、**表せないことを 1 に丸めて隠さない**
+      (`dfmLayerMerge` の返り値に `zetaRepresentable` が立つ)。
+    - **更新則は追加仮定**である: **`HP.dfmLayerQUpdate({J0,Q0,J1,Q,Q1,zeta,mode})`** の 7 モード
+      (`HP.LAYER_Q_MODES`)—— `derive`(Q=J/ζ)/ `declared`(宣言値)/ `zetaConst`(既定・
+      Q₁=Q₀·(J₁/J₀)= ζ 一定。**J₀=0 では ζ が読めない**ので Q₀ を据え置き `zetaUndefinedAtJ0` を返す)/
+      `zetaDeclared`(Q₁=J₁/ζ_new)/ `qConst`(Q 一定)/ `sum`(融合)/ `carry`(保存・複製・分割)。
+    - 読み口は **`HP.dfmLayerQ(i,k,S?)`**。**力へは 1 バイトも接続していない**
+      (回転場の源の数値であって、新しい力を足していない)。
+      **「ζ 合成則の時間発展則が決まった」とは書かない**(Negative Claim 42 は消していない)。
   - **`body.layers[].Jx` / `body.layers[].Jy`(省略可・第264便c)**: 層の角運動量の**面内成分**。
     **数値として持つ(宣言・表示・保存・復元・融合の合算・正準形)だけ**で、**力へは 1 バイトも
     接続していない**。0 は正準形に出ない(既定経路の署名は不変)。値域は ±10¹²。
@@ -1192,8 +1213,9 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     - コア V2 を持つ粒子: 従来式 **Q = ½·M_shell·R²·spin + J_c/ζ**(differential/active のみ第 2 項)。
       **M_shell は既定で body 質量 m**(第77便以来)で、`core.shellSpinMass:"shell"` を宣言した粒子だけ
       **殻質量 M_s = m − M_c** になる(第265便c・下の項)。
-    - コア V2 を持たない層つき粒子: **Q = Σ_k J_k/ζ_k**(層の宣言 J の z 成分を層の ζ で割った和 ——
-      第265便c から ζ が効く。ζ=1 の層では `J/1===J` なので基点とビット同一)。
+    - コア V2 を持たない層つき粒子: **Q = Σ_k Q_k**(第270便d — 層の**独立 Q** の和。
+      Q は読み込みで 1 度だけ `Q_k=J_k/ζ_k` として導出されるので、**未宣言の層では第265便c の
+      Σ J_k/ζ_k と 1 bit 同じ値**である。融合後だけ和の Q が J′/ζ′ から外れる)。
     - **層が J・Jx・Jy を 1 つも宣言していなければ「未宣言」**として従来式へ落ちる
       (🧅 layeredCoreDFM はこれに当たるので 1 bit も変わらない)。**明示ゼロは宣言である**(第265便c)。
     - **射影はコア V2 と同じ z 成分だけ**。層の Jx/Jy を動かしても Q は動かない。
@@ -1288,7 +1310,7 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     減光 `lightSweep` が外へ出さなかった自光を蓄積し、コアの崩壊で放つ**トイ仮説**の宣言である
     (第57報「『Luminous Fast Blue Optical Transient』について、『減光』で青方偏移した光が蓄積し、
     天体の崩壊で一気に放出した、という仮説を立てる」)。受理形は
-    `{enable:true, tEsc>0, tEscCollapse?, shiftRate?, supply?, absRate?, collapseR?, refill?}` で、
+    `{enable:true, tEsc>0, tEscCollapse?, shiftRate?, supply?, absRate?, collapseR?, refill?, nuMax?}` で、
     `enable!==true` か `tEsc` が無ければ**警告つきで lightTrap だけを落とす**(`core.shed` と同じ流儀)。
     `cavity` では無効。状態は粒子ごとに E_γ・N_γ・E_s・E_esc・Q・E_in の 6 列で、恒等式は
     **E_s + E_γ + E_esc + Q − E_in = E_s(0)**(`E_in` = 減光で**熱から引き取った**自光。
@@ -1297,6 +1319,26 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     (宣言しない宇宙では **null**)。`HP.dfmToyLedger` には `Elight`(=E_s+E_γ)と `Elesc`(=E_esc)が
     **宣言した宇宙でだけ**足される(`radE` には積まない)。**`S._core` には 1 命令も足していない**
     (実体は `S.step` 末尾の 1 パス)。**内蔵で宣言しているのは 🐮 `lfbotTrap` の 1 本だけ**である。
+    - **`nuMax`(省略可・第270便d・AD2)**: 1 光子あたりのエネルギー ν̄=E_γ/N_γ(**h≡1 の
+      シミュレータ単位**)の上限。**省略時は上限なし**で、値域は [0, 10¹²]。**`nuMax:0` の明示宣言は
+      「仕事を受理しない」の宣言**であって未指定ではない。負・非数値は警告つきで `nuMax` だけ落とす。
+      効くのは**青方偏移の仕事を受理する前**である:
+      **C = max(0, ν_max·N_γ − E_γ)・W_accept = min(W_req, E_s, C)・E_s′=E_s−W_accept・E_γ′=E_γ+W_accept**。
+      **供給してから削って戻す方式は採らない**ので、**断られた分 (W_req−W_accept) は E_s に残る**
+      (帳簿の `workRejected` / 粒子ごとの `HP.dfmLightTrapWorkRejected(i,S?)` に積む)。
+      **N_γ=0 では ν̄ は null(未定義)**で、平均が無い状態に上限を当てない。
+      恒等式 E_s+E_γ+E_esc+Q−E_in=E_s(0) は保つ。読み口は **`HP.dfmLightTrapNuMax(i,S?)`**
+      (未宣言は **null**)。帳簿には `nuMax` / `workRejected` / `overCap`(粒子)と
+      `nCapped` / `nOverCap` / `workRejected`(全体)が付く。
+      **内蔵 124 本は 1 本も宣言していない**(🐮 も宣言しない = 既定経路はビット同一)。
+      **「全経路の上限制御が完成した」とは書かない** —— 止めているのは**仕事の受理**だけで、
+      初期超過・N_γ の減少(脱出/吸収)・融合での E_γ と N_γ の和・refill 停止のいずれでも
+      ν̄>ν_max のまま滞在しうる(`overCap` が数える)。**外来光の捕獲はまだ無い。**
+    - **`collapseR`(省略可・第265便d・AA11 第270便d)**: コア半径がこの値以下になったら崩壊の
+      ラッチを立てる(`shed` の発火・`burst` の放出と **or**・一度立ったら戻らない)。
+      **内蔵 124 本のどれも宣言していない**。🐮 の診断コピーでは 1.2 で崩壊が t=12.784→**11.168** へ
+      動き E_esc が 8.7605→6.8025 になるが、**shed 発火までに到達しない 1.0 / 0.8 は基点と同じ数**である
+      (QA `behavior.collapseRControl`)。**未使用ならキー削除は次便。**
     **実行時 LLM 向けの SYSTEM_PROMPT には載せていない** —— 既定 off の opt-in であり、
     生成物に出す前に段を分ける(次便の判断)。
   - **`notClaim:"lfbot"`(第265便d)**: 表示文 `nc_lfbot`(ja/en)は「実在の高速青色トランジェント
