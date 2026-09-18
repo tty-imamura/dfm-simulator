@@ -1,26 +1,26 @@
 {
  "meta": {
-  "measuredAt": "2026-09-18T09:10:34.120Z",
+  "measuredAt": "2026-09-18T11:05:08.412Z",
   "codeVersion": "tests/exp-w269c-bh90.mjs 第269便c",
   "declarationVersion": "compare-v1 / 第59報「完成=比較サンプル v1」",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4054450,
-    "sha256": "ea6952a493efcf01f3447500658f632c912f4ed8cbc48da8e58878938b12d4f6",
-    "mtime": "2026-09-18T08:41:50.589Z"
+    "bytes": 4067091,
+    "sha256": "8cc68428c164dc517e120e27c4edcfbd815aa83247d056ddfbac1b0a36edab66",
+    "mtime": "2026-09-18T11:04:14.550Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
-    "bytes": 445185,
-    "sha256": "ad99c37f7405a662f095f4e86d69182be1cb6467791086070cc38668c4d14cbf",
-    "mtime": "2026-09-18T08:41:50.705Z"
+    "bytes": 448894,
+    "sha256": "90616d1492887268d046067937bab6534a0a8f675dc2e326a86e12508f58366c",
+    "mtime": "2026-09-18T09:19:35.127Z"
    },
    {
     "file": "tests/lib-w269c-compare.mjs",
     "bytes": 22096,
     "sha256": "764553e0286f2599065fe6b7a46e886f60ede74210df5207677d19fabe773fa7",
-    "mtime": "2026-09-18T08:47:43.717Z"
+    "mtime": "2026-09-18T09:21:36.546Z"
    }
   ],
   "vocabulary": [
@@ -39,7 +39,7 @@
    "**観測量が得られないときは `not-measurable`(値 null)** —— 0 や最後の値で補わない。",
    "**「完成」は比較サンプル v1 である。観測一致は別段階で、現時点で未達である。**"
   ],
-  "spentSec": 10.6
+  "spentSec": 10.8
  },
  "declaration": {
   "systemKind": "bh-binary",
