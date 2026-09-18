@@ -4,6 +4,14 @@ node_modules/
 tests/out/*
 !tests/out/qa-results.json
 !tests/out/qa-results-beta.json
+# 第271便e(統括の検証項目 R8): **フル走行(QA_FAST でない走行)の保存物**。従来は短い走行が
+#   qa-results.json を上書きするので、公開 tree には fast:true の結果しか残らなかった。
+#   tests/qa.mjs は FAST でないときだけこの 2 本を別名で書く(QA_FAST は読み書きしない)。
+#   QA `lint.qaFullResultsSaved` が「保存経路が `!FAST` の内側にあること」「この例外行があること」
+#   「ファイルがあれば fast:false・件数・failed・target・targetSha256 が整合すること」を機械固定する。
+#   **統括がフルゲート後にコミットする**(枝は生成しない)。
+!tests/out/qa-results-full.json
+!tests/out/qa-results-full-beta.json
 !tests/out/perf-results.json
 # 第251便b: QA 指紋キャッシュ(固定 seed 指紋 + 前回の判定/detail)。コミットして手元の
 #           フルゲートで再利用する(CI は QA_CACHE=0 で従来どおり全実行)
@@ -11,6 +19,11 @@ tests/out/*
 # 第249便b: 現実較正 31 本の棚卸し(第41報 W2)の結果正本 — QA `docs.calaudit-sync` が
 # 「列挙 id = sampleClass:"calibration" の集合」と「判定語彙が 5 区分」を機械固定するのでコミットする
 !tests/out/calaudit-w249.json
+# 第271便a(第61報・AF16): 正本 calaudit-w249.json から**移した**重い診断
+# (machineIndependence / stageHealth.rows / deprecatedKeys / predictionEligibleReasons)。
+# **削ったのではなく分けた**ので、正本と 2 つで 1 組である(正本の `diagnosticsSplit` に
+# 相対パスと SHA-256 がある)。QA `lint.calauditDiagSplit` が両方を読むのでコミットする
+!tests/out/calaudit-w249-diag.json
 # 第259便d: 条件不一致 8 行の **kFrame=0 対照走行**(tests/exp-w259d-kf0.mjs)と、🧶 h8・⚡ h16 の
 # 精度検査点(tests/exp-w259d-precision.mjs)の実測正本。QA `behavior.calauditMapping` が
 # 「8 行に対照条件の走行があること」「kFrame=1 の再現が棚卸しの記録と一致すること」を機械照合し、
@@ -159,6 +172,14 @@ tests/out/*
 # docs/PHYSICS.md 〔第269便c〕と docs/CALIBRATION_VERDICT_v1.44.md §5.14 の表がこの値そのものなのでコミットする
 !tests/out/bh90-w269c.json
 !tests/out/sparc-w269c.json
+# 第271便d: 銀河の器の診断 3 本の実測正本(tests/exp-w271d-galaxydiag.mjs)。
+#   AF5 準定常窓 variant の評価(事前基準は第270便e の宣言のまま・**窓なし**)/
+#   AF7 `clampSN` の切り分け(dt/dt2/dt4 の作動率・飽和粒子の点呼・帳簿の動き・kFrame=0 の床)/
+#   AF19 N・seed 系列(**engine の粒子総数上限 N_CAP=600** の実測と、上限直下の ×1/×1.5/×1.99)。
+#   QA `docs.quasiSteadyVariant`・`docs.clampSNSeparation`・`docs.nSeedSeries` がこの JSON を読んで
+#   「基準を緩めていない」「主判定窓 T=40 が不変」「上限 ±40 を変えていない」「SE=SD/√k・空帯は
+#   分母から外す」を機械固定するのでコミットする(**主判定の正本は sparc-w269c.json のままである**)
+!tests/out/galaxydiag-w271d.json
 # 第134便: kF1 較正ハーネスの実測正本(論文3 再現性 — 外部レビュー P0 対応。
 # 本文の中心値〔q*=6.16/8.25/21.8・drag −5.6e-10・第122便 q*=4.59〕を提出コミットから再生成可能に)
 !tests/out/coreshell-results.json
@@ -303,6 +324,20 @@ paper/*Notes.bib
 #   docs/PHYSICS.md〔第270便d〕§2/§3/§4/§5 の表がこの値そのものなのでコミットする
 !tests/out/zetaq-w270d.json
 !tests/out/numax-w270d.json
+# 第271便c(統括の検証項目 R2/R4/R5・AF17): 独立 Q の**書込経路の境界**の実測正本。
+#   qsplit: J の帯で切らない 7 経路・非有限の原子的拒否・`Q:null`/明示 0 の三分・
+#           (10,5)→J=0→J=10 の往復・`dfmCoreQ` の omega と sourceRate・2025 組の ζ_eff 分類
+#           (tests/exp-w271c-qsplit.mjs — **同じ器が基点 html でも走る**ので旧列も実測である)
+#   docs/PHYSICS.md〔第271便c〕§1〜§5 の表がこの値そのものなのでコミットする
+!tests/out/qsplit-w271c.json
+# 第270便c(AD9)/ 第271便e(統括の検証項目 R8): PSR J1946+2052 の**採用レコードを一組へ**揃えた
+#   ときの専用再走(tests/exp-w270c-j1946adopt.mjs)の実測正本。転写の自己点検・採用点検・
+#   🩺🪀🩹 の 4 段(h=0.016/1,2,4,8・20 近点窓)・共同根の 1 次元探索・presetSig を 1 本に持つ。
+#   **第270便c の時点では tests/out/* に飲まれて公開されていなかった**ので例外行を足した。
+#   QA `docs.j1946adoptPublished` が「meta.targetSha256 が現行 beta/index.html と一致すること」
+#   「採用入力が CSV の DDFWHE 行そのものであること」「刻み・窓・段・共同根の探索条件が入っていること」
+#   「宣言リテラルが採用レコードの転写から相対差 0 で戻ること」を突き合わせるのでコミットする。
+!tests/out/j1946adopt-w270c.json
 # 第221便: セッション内スクラッチ実測ハーネス(コミット対象外 — 実測値は claims/QA が機械固定する)
 _scratch-*.mjs
 _scratch-*/

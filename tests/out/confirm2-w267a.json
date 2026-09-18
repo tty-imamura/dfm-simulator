@@ -1,5 +1,5 @@
 {
- "when": "2026-09-18T00:48:28.567Z",
+ "when": "2026-09-18T11:12:58.568Z",
  "wave": "第267便a(第57報 追加 3・4・W1)",
  "provenance": "原仮定者が提供した確認記録(2026-09-17・第 2 回)。確認日は記録の記載どおり 2026-09-16。一次資料は各行の source/url にある。**器は印を上げない** —— 上げるのは原仮定者の照合である。",
  "rule": [
@@ -1080,7 +1080,7 @@
   },
   "after": {
    "solar": {
-    "rows": 521,
+    "rows": 522,
     "verified": 57,
     "verifiedBy": 57,
     "verifiedWithoutBy": 0,
@@ -1111,16 +1111,16 @@
   "calaudit": {
    "byStatus": {
     "合(3σ)": 2,
-    "否(3σ)": 2,
-    "数値未解決": 31,
-    "mapping-unresolved": 13,
+    "否(3σ)": 1,
+    "数値未解決": 35,
+    "mapping-unresolved": 14,
     "condition-mismatch": 8,
-    "未判定": 258
+    "未判定": 254
    },
-   "withSigma": 50,
-   "sourceVerified": 50,
+   "withSigma": 54,
+   "sourceVerified": 54,
    "sigmaRegate": {
-    "checked": 96,
+    "checked": 0,
     "changed": 0,
     "verifiedFlips": 0
    },
@@ -1134,9 +1134,10 @@
   },
   "solarsigma": {
    "cuts": {
-    "csv-sigma-empty": 109,
+    "csv-sigma-empty": 106,
     "kind-not-gated": 26,
-    "unit-not-converted": 4
+    "unit-not-converted": 3,
+    "connected": 4
    },
    "four": null,
    "missing": null

@@ -1,0 +1,1056 @@
+{
+ "meta": {
+  "wave": "第270便c",
+  "target": "beta/index.html",
+  "targetSha256": "8cc68428c164dc517e120e27c4edcfbd815aa83247d056ddfbac1b0a36edab66",
+  "generatedAt": "2026-09-18T11:56:44.158Z",
+  "dt0": 0.016,
+  "periWindow": 20,
+  "divs": [
+   1,
+   2,
+   4,
+   8
+  ],
+  "sections": [
+   "build",
+   "run3",
+   "root",
+   "sig"
+  ],
+  "what": "AD9: PSR J1946+2052 の採用レコードを Meng 2025 A&A 704 A153 Table 1 DDFWHE の一組へ",
+  "doNotWrite": [
+   "共同根を再検証した",
+   "観測と合った",
+   "較正した",
+   "判定が増えた"
+  ]
+ },
+ "build": {
+  "records": {
+   "previous": {
+    "P": 6781.366656,
+    "Psigma": 0.000864,
+    "Psrc": "Stovall et al. (2018) ApJL 854 L22 Table 1 - PSR J1946+2052 discovery ",
+    "Pline": 145,
+    "e": 0.063848,
+    "eSigma": 0.000009,
+    "eSrc": "Stovall et al. (2018) ApJL 854 L22 Table 1 - PSR J1946+2052 discovery ",
+    "eLine": 146,
+    "w": 25.79205,
+    "wSigma": 0.0004,
+    "wSrc": "Meng et al. (2025) A&A 704 A153 - The double neutron star PSR J1946+20",
+    "wLine": 148,
+    "spin": 0.01696017532298,
+    "spinLine": 144
+   },
+   "adopted": {
+    "P": 6781.367998656,
+    "Psigma": 0.000001728,
+    "Psrc": "Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column",
+    "Pline": 285,
+    "e": 0.0638363,
+    "eSigma": 8e-7,
+    "eSrc": "Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column",
+    "eLine": 289,
+    "w": 25.79205,
+    "wSigma": 0.0004,
+    "wSrc": "Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column",
+    "wLine": 290,
+    "spin": 0.016960175323294,
+    "spinLine": 298,
+    "totalMassMsun": 2.531858,
+    "totalMassLine": 297
+   },
+   "massUnchanged": {
+    "A": 2.5528363e+30,
+    "ALine": 142,
+    "B": 2.481648e+30,
+    "BLine": 143,
+    "why": "Table 1 の DDFWHE 列の M☉ 表示(1.2838 / 1.2480・総質量 2.531858)は要旨の組と同じ値で、**採用解の切替で質量は動かない**。kg 換算の規約だけが行 142/143(1.9885e30)と行 295/296(GM☉/G)で 4.5×10⁻⁵ 相対に違うが、**本便は換算規約を変えない**。質量は 1PN の ω̇ と γ から **GR を仮定して**導いた model-derived 値である(GR 依存の条件つき参照値)。"
+   },
+   "delta": {
+    "P": 0.0013426559999061283,
+    "Prel": 1.9799194882320314e-7,
+    "e": -0.000011700000000003374,
+    "eRel": -0.00018324771331918577,
+    "w": 0,
+    "sigmaRatioP": 500,
+    "sigmaRatioE": 11.25
+   }
+  },
+  "previous": {
+   "Psec": 6781.366656,
+   "ecc": 0.063848,
+   "spinSec": 0.01696017532298,
+   "aSI": 731490288.9635589,
+   "a": 731.4902889635589,
+   "sep": 778.1944809333041,
+   "vrel": 6.357695272372749,
+   "mA": 2552.8363000000004,
+   "mB": 2481.6479999999997,
+   "f": 1.999965529570855,
+   "chi": [
+    0.9999650491589958,
+    0.9999660237637594
+   ],
+   "fQuad": 1.9999310591419883,
+   "chiQuad": [
+    0.9999650485566108,
+    0.9999660231781714
+   ],
+   "mAc": 5105.584602637203,
+   "mBc": 4963.210456528453,
+   "massFrac": 0.4999913822441849,
+   "qA": 3.1855918475117373,
+   "qB": 3.1881538689544264,
+   "x0": -383.59535200440934,
+   "x1": 394.59912892889486,
+   "vy0": -3.133898293672956,
+   "vy1": 3.2237969786997933,
+   "spinOmega": 3704.670021108953,
+   "lambdaPN": 0.5000086177558152
+  },
+  "adopted": {
+   "Psec": 6781.367998656,
+   "ecc": 0.0638363,
+   "spinSec": 0.016960175323294,
+   "aSI": 731490385.5163476,
+   "a": 731.4903855163476,
+   "sep": 778.1860252132848,
+   "vrel": 6.357769542671246,
+   "mA": 2552.8363000000004,
+   "mB": 2481.6479999999997,
+   "f": 1.9999655295617553,
+   "chi": [
+    0.9999650491497694,
+    0.9999660237547902
+   ],
+   "fQuad": 1.9999310591237889,
+   "chiQuad": [
+    0.999965048547384,
+    0.9999660231692019
+   ],
+   "mAc": 5105.5846026139725,
+   "mBc": 4963.210456505871,
+   "massFrac": 0.49999138224190987,
+   "qA": 3.185591845293206,
+   "qB": 3.188153866705261,
+   "x0": -383.5911839269213,
+   "x1": 394.5948412863635,
+   "vy0": -3.1339349037260904,
+   "vy1": 3.2238346389451564,
+   "spinOmega": 3704.670021040365,
+   "lambdaPN": 0.5000086177580901
+  },
+  "selfCheck": {
+   "note": "**旧レコードからプリセットの現在値が戻るか**(戻らなければ転写手続きの読み違い)",
+   "x0": 0.000010865936608245952,
+   "x1": 0.00001086593660830221,
+   "vy0": -0.000011681816712545866,
+   "vy1": -0.0000116818167123597,
+   "m0": 4.54998114433176e-12,
+   "m1": 4.5498461425747775e-12,
+   "dragQ0": 6.964266749537849e-10,
+   "dragQ1": 7.054757682619864e-10,
+   "massFrac": 4.5501054452373025e-12,
+   "factor": 4.549883395453656e-12,
+   "spinOmega": 1.8513855095126845e-11,
+   "lambdaPN": -4.5498375807195764e-12,
+   "aFromCsvRow": 0
+  },
+  "adoptedCheck": {
+   "note": "**採用レコードの転写からプリセットの宣言リテラルが戻るか**(採用後の tree では ~0 になる)",
+   "x0": 0,
+   "x1": 0,
+   "vy0": 0,
+   "vy1": 0,
+   "m0": 0,
+   "m1": 0,
+   "dragQ0": 0,
+   "dragQ1": 0,
+   "massFrac": 0,
+   "factor": 0,
+   "spinOmega": 0,
+   "lambdaPN": 0
+  },
+  "declared": {
+   "psrJ1946DFM": {
+    "bodies": [
+     {
+      "type": "single",
+      "dragQ": 3.185591845293206,
+      "m": 5105.5846026139725,
+      "radius": 0.01175,
+      "x": -383.5911839269213,
+      "y": 0,
+      "vx": 0,
+      "vy": -3.1339349037260904,
+      "spin": 0,
+      "pinned": false,
+      "pnSource": true,
+      "pulse": {
+       "omega": 3704.670021040365,
+       "source": "observed"
+      },
+      "spinDipole": {
+       "omega": 3704.670021040365,
+       "radius": 0.01175,
+       "source": "observed"
+      },
+      "core": {
+       "mode": "differential",
+       "massFrac": 0.49999138224190987,
+       "radius": 0.01,
+       "omega": 0,
+       "Kcs": 0,
+       "inertiaScale": 1000000
+      }
+     },
+     {
+      "type": "single",
+      "dragQ": 3.188153866705261,
+      "m": 4963.210456505871,
+      "radius": 0.01175,
+      "x": 394.5948412863635,
+      "y": 0,
+      "vx": 0,
+      "vy": 3.2238346389451564,
+      "spin": 0,
+      "pinned": false,
+      "pnSource": true,
+      "core": {
+       "mode": "differential",
+       "massFrac": 0.49999138224190987,
+       "radius": 0.01,
+       "omega": 0,
+       "Kcs": 0,
+       "inertiaScale": 1000000
+      }
+     }
+    ],
+    "physicsQ": 3.1856,
+    "lambdaPN": 1,
+    "massCalibration": {
+     "law": "inertia-law-lin-v1",
+     "fitDt": 0.016,
+     "baseMass": [
+      2552.8363000000004,
+      2481.6479999999997
+     ],
+     "factor": 1.9999655295617553,
+     "factorByBody": [
+      1.9999655295617553,
+      1.9999655295617553
+     ],
+     "chi": [
+      0.9999650491497694,
+      0.9999660237547902
+     ],
+     "factorQuad": 1.9999310591237889,
+     "chiQuad": [
+      0.999965048547384,
+      0.9999660231692019
+     ]
+    }
+   },
+   "psrJ1946PN": {
+    "bodies": [
+     {
+      "type": "single",
+      "dragQ": 3.185591845293206,
+      "m": 5105.5846026139725,
+      "radius": 0.01175,
+      "x": -383.5911839269213,
+      "y": 0,
+      "vx": 0,
+      "vy": -3.1339349037260904,
+      "spin": 0,
+      "pinned": false,
+      "pnSource": true,
+      "pulse": {
+       "omega": 3704.670021040365,
+       "source": "observed"
+      },
+      "spinDipole": {
+       "omega": 3704.670021040365,
+       "radius": 0.01175,
+       "source": "observed"
+      },
+      "core": {
+       "mode": "differential",
+       "massFrac": 0.49999138224190987,
+       "radius": 0.01,
+       "omega": 0,
+       "Kcs": 0,
+       "inertiaScale": 1000000
+      }
+     },
+     {
+      "type": "single",
+      "dragQ": 3.188153866705261,
+      "m": 4963.210456505871,
+      "radius": 0.01175,
+      "x": 394.5948412863635,
+      "y": 0,
+      "vx": 0,
+      "vy": 3.2238346389451564,
+      "spin": 0,
+      "pinned": false,
+      "pnSource": true,
+      "core": {
+       "mode": "differential",
+       "massFrac": 0.49999138224190987,
+       "radius": 0.01,
+       "omega": 0,
+       "Kcs": 0,
+       "inertiaScale": 1000000
+      }
+     }
+    ],
+    "physicsQ": 3.1856,
+    "lambdaPN": 0.5000086177580901,
+    "massCalibration": {
+     "law": "inertia-law-lin-v1",
+     "fitDt": 0.016,
+     "baseMass": [
+      2552.8363000000004,
+      2481.6479999999997
+     ],
+     "factor": 1.9999655295617553,
+     "factorByBody": [
+      1.9999655295617553,
+      1.9999655295617553
+     ],
+     "chi": [
+      0.9999650491497694,
+      0.9999660237547902
+     ],
+     "factorQuad": 1.9999310591237889,
+     "chiQuad": [
+      0.999965048547384,
+      0.9999660231692019
+     ]
+    }
+   },
+   "psrJ1946CF": {
+    "bodies": [
+     {
+      "type": "single",
+      "dragQ": 3.185591845293206,
+      "m": 5105.5846026139725,
+      "radius": 0.01175,
+      "x": -383.5911839269213,
+      "y": 0,
+      "vx": 0,
+      "vy": -3.1339349037260904,
+      "spin": 0,
+      "pinned": false,
+      "pnSource": true,
+      "pulse": {
+       "omega": 3704.670021040365,
+       "source": "observed"
+      },
+      "spinDipole": {
+       "omega": 3704.670021040365,
+       "radius": 0.01175,
+       "source": "observed"
+      },
+      "core": {
+       "mode": "differential",
+       "massFrac": 0.49999138224190987,
+       "radius": 0.01,
+       "omega": 0,
+       "Kcs": 0,
+       "inertiaScale": 1000000
+      }
+     },
+     {
+      "type": "single",
+      "dragQ": 3.188153866705261,
+      "m": 4963.210456505871,
+      "radius": 0.01175,
+      "x": 394.5948412863635,
+      "y": 0,
+      "vx": 0,
+      "vy": 3.2238346389451564,
+      "spin": 0,
+      "pinned": false,
+      "pnSource": true,
+      "core": {
+       "mode": "differential",
+       "massFrac": 0.49999138224190987,
+       "radius": 0.01,
+       "omega": 0,
+       "Kcs": 0,
+       "inertiaScale": 1000000
+      }
+     }
+    ],
+    "physicsQ": 3.1856,
+    "lambdaPN": 1,
+    "massCalibration": {
+     "law": "inertia-law-lin-v1",
+     "fitDt": 0.016,
+     "baseMass": [
+      2552.8363000000004,
+      2481.6479999999997
+     ],
+     "factor": 1.9999655295617553,
+     "factorByBody": [
+      1.9999655295617553,
+      1.9999655295617553
+     ],
+     "chi": [
+      0.9999650491497694,
+      0.9999660237547902
+     ],
+     "factorQuad": 1.9999310591237889,
+     "chiQuad": [
+      0.999965048547384,
+      0.9999660231692019
+     ]
+    }
+   }
+  },
+  "deltaLiterals": {
+   "a": 0.00009655278870468464,
+   "aRel": 1.3199462817406544e-7,
+   "sep": -0.008455720019355795,
+   "sepRel": -0.000010865818540905971,
+   "vrel": 0.0000742702984970478,
+   "vrelRel": 0.000011681953178817497,
+   "f": -9.099609954432708e-12,
+   "qA": -2.2185311365774396e-9,
+   "qB": -2.2491652984513166e-9
+  }
+ },
+ "run3": {
+  "psrJ1946DFM": {
+   "stages": [
+    {
+     "steps": 815111,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "unwrapFailed": false,
+     "nan": false,
+     "clampVN": 0,
+     "clampSN": 0,
+     "perMeanSim": 668.564411532186,
+     "slopeRadPerSimTime": 3.038656658808582e-7,
+     "eProxy": 0.0721679072028504,
+     "dt": 0.016,
+     "perMeanSec": 6685.64411532186,
+     "degPerYear": 54.942476479119506,
+     "degPerOrbit": 0.011639853618584273,
+     "wallSec": 1.1,
+     "div": 1
+    },
+    {
+     "steps": 1641608,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "unwrapFailed": false,
+     "nan": false,
+     "clampVN": 0,
+     "clampSN": 0,
+     "perMeanSim": 673.3571607728655,
+     "slopeRadPerSimTime": 2.907880447947936e-7,
+     "eProxy": 0.06797835060353066,
+     "dt": 0.008,
+     "perMeanSec": 6733.571607728655,
+     "degPerYear": 52.57788919729853,
+     "degPerOrbit": 0.011218754971646532,
+     "wallSec": 2.2,
+     "div": 2
+    },
+    {
+     "steps": 3294602,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "unwrapFailed": false,
+     "nan": false,
+     "clampVN": 0,
+     "clampSN": 0,
+     "perMeanSim": 675.7542284471263,
+     "slopeRadPerSimTime": 2.8663275513650487e-7,
+     "eProxy": 0.06590620135633164,
+     "dt": 0.004,
+     "perMeanSec": 6757.542284471263,
+     "degPerYear": 51.826564089038456,
+     "degPerOrbit": 0.011097808397677175,
+     "wallSec": 4.3,
+     "div": 4
+    },
+    {
+     "steps": 6600593,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "unwrapFailed": false,
+     "nan": false,
+     "clampVN": 0,
+     "clampSN": 0,
+     "perMeanSim": 676.9530421578729,
+     "slopeRadPerSimTime": 2.8572402099131423e-7,
+     "eProxy": 0.06487570260360807,
+     "dt": 0.002,
+     "perMeanSec": 6769.530421578729,
+     "degPerYear": 51.66225429690325,
+     "degPerOrbit": 0.011082249667599024,
+     "wallSec": 8.1,
+     "div": 8
+    }
+   ],
+   "richardsonP": {
+    "triples": [
+     {
+      "p": 0.9995828194435408,
+      "yInf": 6781.526830312117
+     },
+     {
+      "p": 0.9996631508181621,
+      "yInf": 6781.524158773299
+     }
+    ],
+    "extrapolations": [
+     6781.526830312117,
+     6781.524158773299
+    ],
+    "yInf": 6781.524158773299,
+    "spread": 0.0026715388185039046
+   },
+   "richardsonW": {
+    "triples": [
+     {
+      "p": 1.6540791745612973,
+      "yInf": 51.47665852033846
+     },
+     {
+      "p": 2.1930188548920535,
+      "yInf": 51.61626280903248
+     }
+    ],
+    "extrapolations": [
+     51.47665852033846,
+     51.61626280903248
+    ],
+    "yInf": 51.61626280903248,
+    "spread": 0.13960428869401653
+   },
+   "richardsonE": {
+    "triples": [
+     {
+      "p": 1.0156696474039233,
+      "yInf": 0.06387834285363639
+     },
+     {
+      "p": 1.0077851586341469,
+      "yInf": 0.06385623620389251
+     }
+    ],
+    "extrapolations": [
+     0.06387834285363639,
+     0.06385623620389251
+    ],
+    "yInf": 0.06385623620389251,
+    "spread": 0.00002210664974387766
+   },
+   "declaredFirst": {
+    "mode": "declared-first-verdict(AD9)",
+    "P": {
+     "yInf": 6781.524158773299,
+     "obs": 6781.367998656,
+     "sigma": 0.000001728,
+     "nSigma": 90370.4382516758,
+     "residualPct": 0.002302781936179325
+    },
+    "e": {
+     "yInf": 0.06385623620389251,
+     "obs": 0.0638363,
+     "sigma": 8e-7,
+     "nSigma": 24.920254865640203,
+     "residualPct": 0.031230199576905555
+    },
+    "w": {
+     "yInf": 51.61626280903248,
+     "obs": 25.79205,
+     "sigma": 0.0004,
+     "nSigma": 64560.53202258119,
+     "residualPct": 100.12470047566005
+    }
+   },
+   "againstPrevious": {
+    "P": {
+     "obs": 6781.366656,
+     "sigma": 0.000864,
+     "nSigma": 182.29487650324296
+    },
+    "e": {
+     "obs": 0.063848,
+     "sigma": 0.000009,
+     "nSigma": 0.9151337658343096
+    },
+    "w": {
+     "obs": 25.79205,
+     "sigma": 0.0004,
+     "nSigma": 64560.53202258119
+    },
+    "note": "**旧レコードは previous** —— 採用解から外れた行に対する距離は履歴として並べるだけである"
+   },
+   "note": "**合否は宣言しない**。σ 倍は「採用レコードに対する距離」であって、門の必須ガード(定義宣言・観測量対応・数値収束)は本器では見ていない"
+  },
+  "psrJ1946PN": {
+   "stages": [
+    {
+     "steps": 815078,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "unwrapFailed": false,
+     "nan": false,
+     "clampVN": 0,
+     "clampSN": 0,
+     "perMeanSim": 668.5368221330618,
+     "slopeRadPerSimTime": 1.5820857423404052e-7,
+     "eProxy": 0.07217992118594406,
+     "dt": 0.016,
+     "perMeanSec": 6685.368221330618,
+     "degPerYear": 28.605965874594634,
+     "degPerOrbit": 0.006060074758488703,
+     "wallSec": 1.1,
+     "div": 1
+    },
+    {
+     "steps": 1641542,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "unwrapFailed": false,
+     "nan": false,
+     "clampVN": 0,
+     "clampSN": 0,
+     "perMeanSim": 673.3302986694918,
+     "slopeRadPerSimTime": 1.471725333901364e-7,
+     "eProxy": 0.06799030912606759,
+     "dt": 0.008,
+     "perMeanSec": 6733.302986694917,
+     "degPerYear": 26.61052024656983,
+     "degPerOrbit": 0.0056777668597654506,
+     "wallSec": 2.1,
+     "div": 2
+    },
+    {
+     "steps": 3294471,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "unwrapFailed": false,
+     "nan": false,
+     "clampVN": 0,
+     "clampSN": 0,
+     "perMeanSim": 675.7273326459284,
+     "slopeRadPerSimTime": 1.437837913113291e-7,
+     "eProxy": 0.06591813357835342,
+     "dt": 0.004,
+     "perMeanSec": 6757.273326459284,
+     "degPerYear": 25.99779593163629,
+     "degPerOrbit": 0.005566779888064289,
+     "wallSec": 3.9,
+     "div": 4
+    },
+    {
+     "steps": 6600330,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "unwrapFailed": false,
+     "nan": false,
+     "clampVN": 0,
+     "clampSN": 0,
+     "perMeanSim": 676.9260992400395,
+     "slopeRadPerSimTime": 1.4307064368073992e-7,
+     "eProxy": 0.0648876214649163,
+     "dt": 0.002,
+     "perMeanSec": 6769.2609924003955,
+     "degPerYear": 25.868850475405814,
+     "degPerOrbit": 0.005548996135365269,
+     "wallSec": 7.6,
+     "div": 8
+    }
+   ],
+   "richardsonP": {
+    "triples": [
+     {
+      "p": 0.9998220120757322,
+      "yInf": 6781.249581847639
+     },
+     {
+      "p": 0.9996995723095792,
+      "yInf": 6781.253652539135
+     }
+    ],
+    "extrapolations": [
+     6781.249581847639,
+     6781.253652539135
+    ],
+    "yInf": 6781.253652539135,
+    "spread": 0.004070691496053769
+   },
+   "richardsonW": {
+    "triples": [
+     {
+      "p": 1.703400960288438,
+      "yInf": 25.726279840464276
+     },
+     {
+      "p": 2.2484771669246,
+      "yInf": 25.834481609583403
+     }
+    ],
+    "extrapolations": [
+     25.726279840464276,
+     25.834481609583403
+    ],
+    "yInf": 25.834481609583403,
+    "spread": 0.10820176911912682
+   },
+   "richardsonE": {
+    "triples": [
+     {
+      "p": 1.0156704342771337,
+      "yInf": 0.06389025152574843
+     },
+     {
+      "p": 1.0077847649221674,
+      "yInf": 0.06386814129407045
+     }
+    ],
+    "extrapolations": [
+     0.06389025152574843,
+     0.06386814129407045
+    ],
+    "yInf": 0.06386814129407045,
+    "spread": 0.000022110231677974213
+   },
+   "declaredFirst": {
+    "mode": "declared-first-verdict(AD9)",
+    "P": {
+     "yInf": 6781.253652539135,
+     "obs": 6781.367998656,
+     "sigma": 0.000001728,
+     "nSigma": -66172.52133385894,
+     "residualPct": -0.0016861806775206791
+    },
+    "e": {
+     "yInf": 0.06386814129407045,
+     "obs": 0.0638363,
+     "sigma": 8e-7,
+     "nSigma": 39.80161758806653,
+     "residualPct": 0.0498796046613811
+    },
+    "w": {
+     "yInf": 25.834481609583403,
+     "obs": 25.79205,
+     "sigma": 0.0004,
+     "nSigma": 106.07902395850743,
+     "residualPct": 0.16451429639521858
+    }
+   },
+   "againstPrevious": {
+    "P": {
+     "obs": 6781.366656,
+     "sigma": 0.000864,
+     "nSigma": -130.79104266782653
+    },
+    "e": {
+     "obs": 0.063848,
+     "sigma": 0.000009,
+     "nSigma": 2.237921563383316
+    },
+    "w": {
+     "obs": 25.79205,
+     "sigma": 0.0004,
+     "nSigma": 106.07902395850743
+    },
+    "note": "**旧レコードは previous** —— 採用解から外れた行に対する距離は履歴として並べるだけである"
+   },
+   "note": "**合否は宣言しない**。σ 倍は「採用レコードに対する距離」であって、門の必須ガード(定義宣言・観測量対応・数値収束)は本器では見ていない"
+  },
+  "psrJ1946CF": {
+   "stages": [
+    {
+     "steps": 815121,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "unwrapFailed": false,
+     "nan": false,
+     "clampVN": 0,
+     "clampSN": 0,
+     "perMeanSim": 668.5734792991058,
+     "slopeRadPerSimTime": 1.6001911080003554e-7,
+     "eProxy": 0.07215322550875387,
+     "dt": 0.016,
+     "perMeanSec": 6685.7347929910575,
+     "degPerYear": 28.933332121792734,
+     "degPerOrbit": 0.006129762252003811,
+     "wallSec": 1.5,
+     "div": 1
+    },
+    {
+     "steps": 1641629,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "unwrapFailed": false,
+     "nan": false,
+     "clampVN": 0,
+     "clampSN": 0,
+     "perMeanSim": 673.3661260843044,
+     "slopeRadPerSimTime": 1.473445697249888e-7,
+     "eProxy": 0.06796375354633687,
+     "dt": 0.008,
+     "perMeanSec": 6733.661260843044,
+     "degPerYear": 26.641626433752194,
+     "degPerOrbit": 0.005684706309821062,
+     "wallSec": 2.9,
+     "div": 2
+    },
+    {
+     "steps": 3294645,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "unwrapFailed": false,
+     "nan": false,
+     "clampVN": 0,
+     "clampSN": 0,
+     "perMeanSim": 675.7630767019822,
+     "slopeRadPerSimTime": 1.4376654594495203e-7,
+     "eProxy": 0.06589164389739055,
+     "dt": 0.004,
+     "perMeanSec": 6757.630767019822,
+     "degPerYear": 25.994677767121722,
+     "degPerOrbit": 0.005566406642389405,
+     "wallSec": 5.5,
+     "div": 4
+    },
+    {
+     "steps": 6600678,
+     "stopped": "window",
+     "measured": true,
+     "nPeri": 20,
+     "unwrapFailed": false,
+     "nan": false,
+     "clampVN": 0,
+     "clampSN": 0,
+     "perMeanSim": 676.9617812398712,
+     "slopeRadPerSimTime": 1.4289500351660536e-7,
+     "eProxy": 0.06486116411584383,
+     "dt": 0.002,
+     "perMeanSec": 6769.617812398712,
+     "degPerYear": 25.83709267361936,
+     "degPerOrbit": 0.005542476068646851,
+     "wallSec": 11.1,
+     "div": 8
+    }
+   ],
+   "richardsonP": {
+    "triples": [
+     {
+      "p": 0.9996224315516112,
+      "yInf": 6781.612824266804
+     },
+     {
+      "p": 0.9997240861045494,
+      "yInf": 6781.6094441127
+     }
+    ],
+    "extrapolations": [
+     6781.612824266804,
+     6781.6094441127
+    ],
+    "yInf": 6781.6094441127,
+    "spread": 0.0033801541039792937
+   },
+   "richardsonW": {
+    "triples": [
+     {
+      "p": 1.8246986296003518,
+      "yInf": 25.740207002256938
+     },
+     {
+      "p": 2.0375201714530444,
+      "yInf": 25.786347045914766
+     }
+    ],
+    "extrapolations": [
+     25.740207002256938,
+     25.786347045914766
+    ],
+    "yInf": 25.786347045914766,
+    "spread": 0.046140043657828755
+   },
+   "richardsonE": {
+    "triples": [
+     {
+      "p": 1.0156680717672943,
+      "yInf": 0.0638638197645342
+     },
+     {
+      "p": 1.0077841486630412,
+      "yInf": 0.06384171506449554
+     }
+    ],
+    "extrapolations": [
+     0.0638638197645342,
+     0.06384171506449554
+    ],
+    "yInf": 0.06384171506449554,
+    "spread": 0.00002210470003866094
+   },
+   "declaredFirst": {
+    "mode": "declared-first-verdict(AD9)",
+    "P": {
+     "yInf": 6781.6094441127,
+     "obs": 6781.367998656,
+     "sigma": 0.000001728,
+     "nSigma": 139725.380034545,
+     "residualPct": 0.0035604240434606387
+    },
+    "e": {
+     "yInf": 0.06384171506449554,
+     "obs": 0.0638363,
+     "sigma": 8e-7,
+     "nSigma": 6.768830619428152,
+     "residualPct": 0.0084827355212356
+    },
+    "w": {
+     "yInf": 25.786347045914766,
+     "obs": 25.79205,
+     "sigma": 0.0004,
+     "nSigma": -14.257385213083396,
+     "residualPct": -0.022111286560135227
+    }
+   },
+   "againstPrevious": {
+    "P": {
+     "obs": 6781.366656,
+     "sigma": 0.000864,
+     "nSigma": 281.00476006898134
+    },
+    "e": {
+     "obs": 0.063848,
+     "sigma": 0.000009,
+     "nSigma": -0.698326167162317
+    },
+    "w": {
+     "obs": 25.79205,
+     "sigma": 0.0004,
+     "nSigma": -14.257385213083396
+    },
+    "note": "**旧レコードは previous** —— 採用解から外れた行に対する距離は履歴として並べるだけである"
+   },
+   "note": "**合否は宣言しない**。σ 倍は「採用レコードに対する距離」であって、門の必須ガード(定義宣言・観測量対応・数値収束)は本器では見ていない"
+  }
+ },
+ "roots": {
+  "psrJ1946CF": {
+   "label": "k*(compactForce.kappa)",
+   "key": "kappa",
+   "dt": 0.004,
+   "history": [
+    {
+     "v": 12.015360249506628,
+     "degPerYear": 25.994677767121722,
+     "steps": 3294645,
+     "stopped": "window",
+     "nPeri": 20
+    },
+    {
+     "v": 12.00302,
+     "degPerYear": 26.021282003180858,
+     "steps": 3294645,
+     "stopped": "window",
+     "nPeri": 20
+    },
+    {
+     "v": 12.109348184273673,
+     "degPerYear": 25.79109972467037,
+     "steps": 3294645,
+     "stopped": "window",
+     "nPeri": 20
+    },
+    {
+     "v": 12.108909223242383,
+     "degPerYear": 25.792060003453887,
+     "steps": 3294645,
+     "stopped": "window",
+     "nPeri": 20
+    }
+   ],
+   "root": 12.108909223242383,
+   "residualAtRoot": 0.00001000345388746382,
+   "targetOmegaDot": 25.79205,
+   "note": "**旧共同根は初期条件が変わったので無効**である(旧値は履歴として並べるだけで、「再検証済み」とは書かない)。本欄は**採用レコード一組に対する根の位置**である"
+  },
+  "psrJ1946PN": {
+   "label": "f*(λ_PN=1/f の f)",
+   "key": "lambdaPN",
+   "dt": 0.004,
+   "history": [
+    {
+     "v": 1.999965529570855,
+     "degPerYear": 25.997795933158258,
+     "steps": 3294471,
+     "stopped": "window",
+     "nPeri": 20
+    },
+    {
+     "v": 2.0006,
+     "degPerYear": 25.98950011229938,
+     "steps": 3294471,
+     "stopped": "window",
+     "nPeri": 20
+    },
+    {
+     "v": 2.015701128582257,
+     "degPerYear": 25.793591100386276,
+     "steps": 3294470,
+     "stopped": "window",
+     "nPeri": 20
+    },
+    {
+     "v": 2.0158199202338714,
+     "degPerYear": 25.79206165789,
+     "steps": 3294470,
+     "stopped": "window",
+     "nPeri": 20
+    }
+   ],
+   "root": 2.0158199202338714,
+   "residualAtRoot": 0.000011657889999128201,
+   "targetOmegaDot": 25.79205,
+   "note": "**旧共同根は初期条件が変わったので無効**である(旧値は履歴として並べるだけで、「再検証済み」とは書かない)。本欄は**採用レコード一組に対する根の位置**である"
+  }
+ },
+ "presetSig": {
+  "psrJ1946DFM": {
+   "length": 1829,
+   "fnv1a": "3bc590f2"
+  },
+  "psrJ1946PN": {
+   "length": 1851,
+   "fnv1a": "cc595e3c"
+  },
+  "psrJ1946CF": {
+   "length": 1917,
+   "fnv1a": "f8600f7c"
+  }
+ },
+ "pageErrors": []
+}

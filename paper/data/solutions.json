@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "wave": "第271便b(2026-09-18・第61報・AF4)",
+  "what": "観測 CSV の `solution_id` 欄が指す**公表タイミング解の台帳**。1 件 = 1 つの公表解(論文・表・モデル・元期・時系)。`solution_id` は行の値が**どの公表解のどの列から来たか**を機械可読にする鍵であって、印(`sigma_primary`)でも σ でも判定でもない。",
+  "rule": [
+    "台帳の欄はすべて **CSV の行の note に既に書かれている記載**の写しである(ここで新しい数値を作らない)",
+    "`printedRecord` は `exampleRecordId` の行の note に**そのまま現れる文字列**でなければならない(器が照合する)",
+    "`solution_id` を付けるのは、その行の note が**語境界で** `solution=<id>` を持つ行だけである。`adopted_solution=<id>` は『この系の採用解は <id> である』という**指し先**であって、その行の値がその解から来たという意味ではない(例: 太陽系 CSV 行 145/146 の値は Stovall 2018 の転写である)",
+    "台帳に無い解タグの行は `solution_id` を**空欄のまま**にする(空欄は『解が無い』ではなく『台帳に登録していない』である)",
+    "時系・天体暦・元期が論文に印字されていない場合は `not published` と書く(**推定値を入れない**)"
+  ],
+  "doNotWrite": [
+    "solution_id を足したので判定が増えた",
+    "採用解が決まったので残差が縮んだ",
+    "解の混在が全部解けた"
+  ],
+  "solutions": [
+    {
+      "id": "Kramer2021-DDS",
+      "body": "PSR J0737-3039A/B",
+      "paper": "Kramer et al. 2021, Phys. Rev. X 11, 041050",
+      "table": "Table IV",
+      "model": "DDS (TEMPO ephemeris fit)",
+      "epoch": "T0 55700.233017540 MJD (spin epoch 55700.0 MJD)",
+      "timeScale": "TDB",
+      "ephemeris": "DE436",
+      "span": "52760-58640 MJD (30-s ToA data set)",
+      "frame": "J2000 astrometry",
+      "printedRecord": "0.1022515592973(10) d",
+      "printedRecordAt": "Table IV Orbital period (day)",
+      "exampleRecordId": "SOL-e35438ab"
+    },
+    {
+      "id": "Fonseca2014-DDGR",
+      "body": "PSR B1534+12",
+      "paper": "Fonseca, Stairs & Thorsett 2014, ApJ 787, 82",
+      "table": "Table 3 DDGR column",
+      "model": "DDGR (TEMPO ephemeris fit; assumes GR)",
+      "epoch": "T0 52076.827113271 MJD",
+      "timeScale": "not published",
+      "ephemeris": "DE421",
+      "span": "1990-2012 (22 yr)",
+      "frame": "J2000 astrometry",
+      "printedRecord": "0.420737298881(2) d",
+      "printedRecordAt": "Table 3 Orbital period Pb DDGR Model column",
+      "exampleRecordId": "SOL-9a098c54"
+    },
+    {
+      "id": "Singha2026-DDH",
+      "body": "PSR J1757-1854",
+      "paper": "Singha et al. 2026, arXiv:2606.23926v1",
+      "table": "Table 2",
+      "model": "DDH (TEMPO ephemeris fit)",
+      "epoch": "T0 60004.142219871 MJD (spin epoch 60000.104420185 MJD)",
+      "timeScale": "not published",
+      "ephemeris": "not published",
+      "span": "57405-60757 MJD (Table 1 min/max)",
+      "frame": "J2000 astrometry",
+      "printedRecord": "0.183537823671(2) d",
+      "printedRecordAt": "Table 2 Orbital period Pb (d)",
+      "exampleRecordId": "SOL-73e1ba36"
+    },
+    {
+      "id": "Meng2025-DDFWHE",
+      "body": "PSR J1946+2052",
+      "paper": "Meng et al. 2025, A&A 704, A153",
+      "table": "Table 1 DDFWHE column",
+      "model": "DDFWHE (TEMPO ephemeris fit; theory-independent)",
+      "epoch": "T0 57953.2123884 MJD (spin epoch 57982.080242 MJD)",
+      "timeScale": "TDB",
+      "ephemeris": "DE440",
+      "span": "57953-60460 MJD",
+      "frame": "J2000.0 astrometry",
+      "printedRecord": "0.07848805554(2) d",
+      "printedRecordAt": "Meng 2025 A&A 704 A153 Table 1 DDFWHE column (A&A table view)",
+      "exampleRecordId": "SOL-dd4b7894"
+    }
+  ],
+  "notRegistered": [
+    {
+      "tag": "Hu2022-DDS",
+      "why": "第271便b では登録しない(AF4 が挙げた 4 件の外側)。該当行の `solution_id` は空欄のままである —— 決断事項"
+    },
+    {
+      "tag": "Fonseca2014-DD",
+      "why": "同上(同じ論文の DD 列。DDGR 列とは別の解である)"
+    },
+    {
+      "tag": "Cameron2018-DDH",
+      "why": "同上(PSR J1757-1854 のもう 1 つの公表解)"
+    },
+    {
+      "tag": "Meng2025-DDGR",
+      "why": "同上(同じ論文の DDGR 列。DDFWHE 列とは別の解である)"
+    }
+  ]
+}

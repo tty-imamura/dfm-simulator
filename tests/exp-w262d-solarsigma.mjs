@@ -61,6 +61,7 @@ function loadCsv() {
       sigma: r.sigma,
       // 第270便b(AE2): **同定の鍵**(印でも σ でもない)。
       recordId: r.recordId || null, ln: r.ln,
+      solutionId: (r.solutionId !== undefined && r.solutionId !== null) ? String(r.solutionId).trim() : '',   // 第271便(統括の統合): 宣言照合の条件(AF4)
       // 第264便d(X6): 厳密読み。旧読み(部分一致)との差は `markAudit` に数で残す。
       primaryVerified: isSigmaPrimaryVerified(note),
       primaryVerifiedLegacy: legacyIsSigmaPrimaryVerified(note),
@@ -199,7 +200,12 @@ for (const [id, emoji] of SOLAR) {
     else if (cut !== null) verdict = (cut === 'kind-not-gated') ? '門外(来歴の欄)' : '保留(σ 未登録)';
     else if (obsMissing || measMissing) verdict = '保留(観測参照または実測が無い)';
     else {
-      resid = Math.abs(q.meas - q.obs);
+      // 第271便a(第61報・R3): **判定値は 3 段登録系では h/4 段**である(門と同じ値を使う)。
+      // 正本の門(`tests/exp-w249b-calaudit.mjs`)は `gate.assessedValue` を判定値にしたので、
+      // この器も同じ欄を読む —— **器ごとに違う段で判定しない**(それが R3 の不一致そのものだった)。
+      // 登録外の系では `assessedValue` が無いので従来どおり `q.meas`(h 段)である。
+      const assessed = (q.gate && Number.isFinite(q.gate.assessedValue)) ? q.gate.assessedValue : q.meas;
+      resid = Math.abs(assessed - q.obs);
       nSig = resid / sigma;
       const numBound = (q.gate && Number.isFinite(q.gate.numBound)) ? q.gate.numBound : null;
       numOk = (numBound === null) ? null : (numBound <= GATE.numBudget * sigma);
@@ -276,9 +282,11 @@ for (const [id, emoji] of SOLAR) {
         const pick = pickHere;
         const dRow = pick.row;
         const dSigma = (dRow && dRow.sigma !== null) ? dRow.sigma : null;
-        const measOk = (typeof q.meas === 'number' && Number.isFinite(q.meas));
+        // 第271便a(R3): この診断欄も**門と同じ判定段**(3 段登録系は h/4)の値で作る。
+        const assessed3 = (q.gate && Number.isFinite(q.gate.assessedValue)) ? q.gate.assessedValue : q.meas;
+        const measOk = (typeof assessed3 === 'number' && Number.isFinite(assessed3));
         const g3 = requiredGuards(q.gate);
-        const resid2 = (dRow && measOk && dRow.valueRaw !== null) ? Math.abs(q.meas - dRow.valueRaw) : null;
+        const resid2 = (dRow && measOk && dRow.valueRaw !== null) ? Math.abs(assessed3 - dRow.valueRaw) : null;
         declaredFirst = { key: body + '|' + quant, declaredSource: String(decl.source).slice(0, 90),
           declaredValue: decl.value, declaredSigma: decl.sigma === undefined ? null : decl.sigma,
           applied: !!dRow, fallbackReason: dRow ? null : pick.reason,
@@ -291,6 +299,7 @@ for (const [id, emoji] of SOLAR) {
           valueDelta: (dRow && csvRowLegacy && dRow.valueRaw !== null && Number.isFinite(csvRowLegacy.value))
             ? dRow.valueRaw - csvRowLegacy.value : null,
           residual: resid2, nSigma: (resid2 !== null && dSigma) ? resid2 / dSigma : null,
+          assessedStage: (q.gate && q.gate.assessedStage) ? q.gate.assessedStage : 'h',
           primaryVerified: dRow ? dRow.primaryVerified : null,
           guards: g3,
           verdict: !dRow ? '宣言が CSV の行に当たらない(' + pick.reason + ')'
@@ -429,6 +438,13 @@ const out = {
   // ---------------------------------------------------------------- 第270便a(第60報 W1・署名便)
   // **旧値を履歴として残す**(新値は再集計して測った値である)。「1 回」は訂正禁止の意味ではない。
   history: [{
+    wave: '第270便(第60報・PR #272)', commit: 'ef2cd45',
+    fourTally: { '否': 1, '保留': 15 },
+    cutTally: { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
+    judgementMode: 'applied-AD5',
+    reason: '**本便の基点**。判定値は **h 段**だった(第271便a の R3 で 3 段登録系を h/4 へ統一)・'
+      + '❄️ カロンは 3 段登録が無く「数値収束が未確認」の保留だった(第271便a の AF2 で登録した)。',
+  }, {
     wave: '第269便(第59報・PR #271)', commit: 'f6c19b4',
     fourTally: { '保留': 16 },
     cutTally: { 'csv-sigma-empty': 109, 'kind-not-gated': 26, 'unit-not-converted': 4 },

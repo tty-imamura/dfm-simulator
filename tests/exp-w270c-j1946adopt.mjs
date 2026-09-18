@@ -28,6 +28,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
+import crypto from 'node:crypto';
 import { shiftedRichardson } from './lib-w262c-refint.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -134,7 +135,13 @@ pg.on('pageerror', (e) => pageErrors.push(String(e.message || e)));
 await pg.goto('file://' + path.join(ROOT, TARGET), { waitUntil: 'load' });
 await pg.waitForFunction(() => window.HP && HP.sim);
 
-const out = { meta: { wave: '第270便c', target: TARGET, divs: DIVS,
+// 第271便e(統括の検証項目 R8): 本 JSON を公開物にするため、**どの html を走らせた結果か**を
+// ファイル自身に持たせる(QA `docs.j1946adoptPublished` が現行 html の sha256 と突き合わせる)。
+const TARGET_SHA256 = crypto.createHash('sha256')
+  .update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+const out = { meta: { wave: '第270便c', target: TARGET, targetSha256: TARGET_SHA256,
+  generatedAt: new Date().toISOString(), dt0: DT0, periWindow: PERI_WINDOW, divs: DIVS,
+  sections: only.length ? only.slice() : ['build', 'run3', 'root', 'sig'],
   what: 'AD9: PSR J1946+2052 の採用レコードを Meng 2025 A&A 704 A153 Table 1 DDFWHE の一組へ',
   doNotWrite: ['共同根を再検証した', '観測と合った', '較正した', '判定が増えた'] } };
 
@@ -179,6 +186,21 @@ async function buildSection() {
     lambdaPN: rel(prev.lambdaPN, declared.psrJ1946PN.lambdaPN),
     aFromCsvRow: rel(prev.aSI, PREV.a.value),
   };
+  // 第271便e(統括の検証項目 R8): **採用後の tree で回すと `selfCheck` は 0 にならない**
+  //   —— 旧レコードの転写と現行プリセット(= 既に採用リテラルへ更新済み)を比べているためである。
+  //   採用後に 0 になるべきなのはこちら(採用レコードの転写 ↔ 宣言リテラル)なので、
+  //   公開する JSON には**両方**を載せる(どちらが 0 かで、その JSON が採用前後どちらの tree で
+  //   生成されたかが読み取れる)。
+  const adoptedCheck = {
+    note: '**採用レコードの転写からプリセットの宣言リテラルが戻るか**(採用後の tree では ~0 になる)',
+    x0: rel(now.x0, d0.x), x1: rel(now.x1, d1.x), vy0: rel(now.vy0, d0.vy), vy1: rel(now.vy1, d1.vy),
+    m0: rel(now.mAc, d0.m), m1: rel(now.mBc, d1.m),
+    dragQ0: rel(now.qA, d0.dragQ), dragQ1: rel(now.qB, d1.dragQ),
+    massFrac: rel(now.massFrac, d0.core.massFrac),
+    factor: rel(now.f, declared.psrJ1946DFM.massCalibration.factor),
+    spinOmega: rel(now.spinOmega, d0.spinDipole.omega),
+    lambdaPN: rel(now.lambdaPN, declared.psrJ1946PN.lambdaPN),
+  };
   out.build = { records: {
     previous: { P: PREV.P.value, Psigma: PREV.P.sigma, Psrc: PREV.P.source.slice(0, 70), Pline: PREV.P.line,
       e: PREV.e.value, eSigma: PREV.e.sigma, eSrc: PREV.e.source.slice(0, 70), eLine: PREV.e.line,
@@ -199,14 +221,15 @@ async function buildSection() {
       w: REC.w.value - PREV.w.value,
       sigmaRatioP: (PREV.P.sigma && REC.P.sigma) ? PREV.P.sigma / REC.P.sigma : null,
       sigmaRatioE: (PREV.e.sigma && REC.e.sigma) ? PREV.e.sigma / REC.e.sigma : null } },
-    previous: prev, adopted: now, selfCheck, declared,
+    previous: prev, adopted: now, selfCheck, adoptedCheck, declared,
     deltaLiterals: { a: now.a - prev.a, aRel: (now.a - prev.a) / prev.a,
       sep: now.sep - prev.sep, sepRel: (now.sep - prev.sep) / prev.sep,
       vrel: now.vrel - prev.vrel, vrelRel: (now.vrel - prev.vrel) / prev.vrel,
       f: now.f - prev.f, qA: now.qA - prev.qA, qB: now.qB - prev.qB } };
-  console.error('[w270c-build] 自己点検(旧→現プリセット)相対差: '
-    + Object.entries(selfCheck).filter(([k]) => k !== 'note')
-      .map(([k, v]) => k + ' ' + (v === null ? '—' : v.toExponential(2))).join(' / '));
+  const fmt = (o) => Object.entries(o).filter(([k]) => k !== 'note')
+    .map(([k, v]) => k + ' ' + (v === null ? '—' : v.toExponential(2))).join(' / ');
+  console.error('[w270c-build] 自己点検(旧→現プリセット)相対差: ' + fmt(selfCheck));
+  console.error('[w270c-build] 採用点検(採用→現プリセット)相対差: ' + fmt(adoptedCheck));
   console.error('[w270c-build] 新リテラル: a=' + now.a + ' sep=' + now.sep + ' vrel=' + now.vrel);
   console.error('  m0=' + now.mAc + ' m1=' + now.mBc + ' f=' + now.f + ' 1/f=' + now.lambdaPN);
   console.error('  x0=' + now.x0 + ' x1=' + now.x1 + ' vy0=' + now.vy0 + ' vy1=' + now.vy1);

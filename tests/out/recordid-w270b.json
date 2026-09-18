@@ -1,10 +1,45 @@
 {
- "when": "2026-09-18T01:11:31.142Z",
- "wave": "第270便b(第60報・W2・AE2)",
- "base": "main f6c19b4",
+ "when": "2026-09-18T11:12:58.307Z",
+ "wave": "第270便b(第60報・W2・AE2)/ 第271便b(第61報・R7・AF15 で書込器を直した)",
+ "base": "main ef2cd45",
  "wrote": false,
+ "selfTest": {
+  "cases": [
+   {
+    "case": "trailing-column-kept",
+    "ok": true,
+    "got": {
+     "record_id": "SOL-cccccccc",
+     "solution_id": "Sol1999-X"
+    }
+   },
+   {
+    "case": "other-columns-frozen",
+    "ok": true,
+    "diffs": []
+   },
+   {
+    "case": "append-column",
+    "ok": true
+   },
+   {
+    "case": "fill-empty-only",
+    "ok": true,
+    "got": [
+     "SOL-aaaaaaaa",
+     "SOL-88888888"
+    ]
+   }
+  ],
+  "passed": 4,
+  "n": 4
+ },
+ "driftedKeys": [],
  "rule": [
-  "`record_id` は**ヘッダ末尾**の 1 欄で、行の diff は `,<id>` だけである",
+  "`record_id` は**ヘッダ末尾側**の 1 欄で、行の diff は `,<id>` だけである",
+  "第271便b(R7): `--write` は **`record_id` のセルだけ**を置換する(後続の `solution_id` を捨てない)",
+  "第271便b(R7): **違反が 1 件でもあれば書かない**・`record_id` 以外の**全列**の不変を検査する",
+  "第271便b(AF15): **既存の ID は正本**(振り直しと食い違っても振り直さず `driftedKeys` に報告する)。採番するのは**セルが空の行**だけで、既存 ID との衝突を検査する",
   "ID = `<PFX>-<sha256(file\\nbody\\nquantity\\nunit\\nsource) の先頭 8 桁>`(PFX = SOL / CLG / TRN)",
   "同じ 5 つ組の 2 件目以降は**出現順の枝番** `-2`(併置行の重複転写を分ける)",
   "**値・単位・出典・σ・note を 1 文字も変えない**(`record_id` は同定の鍵であって印でも σ でもない)",
@@ -14,10 +49,10 @@
  "files": [
   {
    "file": "solar-observations.csv",
-   "rows": 521,
+   "rows": 522,
    "hadColumn": true,
    "wrote": false,
-   "idsAssigned": 521,
+   "idsAssigned": 522,
    "duplicated": 0,
    "branched": [
     {
@@ -116,8 +151,8 @@
   }
  ],
  "totals": {
-  "rows": 702,
-  "ids": 702,
+  "rows": 703,
+  "ids": 703,
   "duplicated": 0
  },
  "declared": [
@@ -175,7 +210,7 @@
    "stringRecordIds": [
     "SOL-dd4b7894"
    ],
-   "solutionId": "",
+   "solutionId": "Meng2025-DDFWHE",
    "agrees": true
   },
   {
@@ -194,7 +229,7 @@
    "stringRecordIds": [
     "SOL-ae8d8ac9"
    ],
-   "solutionId": "",
+   "solutionId": "Meng2025-DDFWHE",
    "agrees": true
   }
  ],

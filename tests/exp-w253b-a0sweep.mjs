@@ -30,6 +30,17 @@
 //
 // 実行: node tests/exp-w253b-a0sweep.mjs [--sweep] [--h] [--ctrl] [--fpdry] [--sys <id>] [--dt 0.004] [--np 20] [--fast]
 // 出力: tests/out/a0sweep-w253.json(.gitignore の既定どおり**未コミット** —— 数値は docs/PHYSICS.md へ全載する)
+// ■ 第271便e(AF13): **凍結した器である**(来歴印 `recordBasis:'legacy-w249a'`)
+//   本器は **第249便a 時点の採用レコード**を基準に組まれている —— PSR J1946+2052 は
+//   Stovall 2018 ApJL 854 L22 の Pb/e と Meng 2025 の ω̇ を**混ぜた**組(第270便c が X4 と呼んだ混在)
+//   である。第270便c(AD9)で 🩺 psrJ1946DFM・🪀 psrJ1946PN・🩹 psrJ1946CF の初期条件が
+//   **Meng 2025 A&A 704 A153 Table 1 DDFWHE 列の一組**へ動いたので、
+//   **本器の表に載っている数値は現行の採用解では再現しない**(器そのものは走るが、比べている基準が違う)。
+//   **過去便の比較点として凍結する** —— 数値も手続きも書き換えず、一括置換もしない。
+//   現行の採用解での J1946 の再走は `tests/exp-w270c-j1946adopt.mjs`
+//   (結果 `tests/out/j1946adopt-w270c.json`・入力 html の sha256 つき)である。
+//   **「この器が現行解で再検証済み」とは書かない。**
+//
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -416,6 +427,7 @@ store.window = { nPeri: NPERI, dtBase: DT, lambdaPN: 0, framePrecision: 'double'
   note: '全行 λ_PN=0(非 1PN 基線 A0)・framePrecision:"double" で数値床を平準化・近点 20 個の固定窓。'
     + '合成系は作っていない・κ/f の再 fit はしていない・プリセットの bodies/massCalibration は 1 bit 触っていない。' };
 store.scales = SCALES;
+store.recordBasis = 'legacy-w249a';   // 第271便e(AF13): 第249便a 時点の採用レコードを基準にした器
 store.derived = derive(store.rows);
 store.pageErrors = pageErrors;
 fs.mkdirSync(path.dirname(OUT), { recursive: true });

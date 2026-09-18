@@ -1183,8 +1183,14 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     融合後の `inertiaScale` は診断値 ζ_eff の器にすぎない(§`body.layers[].Q`)。
     〔第265便c〕の合成則 ζ′=(J_a+J_b)/(J_a/ζ_a+J_b/ζ_b) は**同方向のときだけ源を保つ**
     (Negative Claim 42・**融合は宣言の合成であって保存則ではない**)。
-  - **`body.layers[].Q`(省略可・第270便d・AD1 法則 (a))**: 層の**回転場の源**そのもの。
-    **J とは独立の状態**で、値域は ±10¹²(J と同じ `BODY_LAYER_JCAP`)。
+  - **`body.layers[].Q`(省略可・第270便d・AD1 法則 (a)/ 第271便c で書込経路を改訂)**: 層の**回転場の源**そのもの。
+    **J とは独立の状態**である。**第271便c(統括の検証項目 R2)から `Q` に J の帯(`BODY_LAYER_JCAP`)は
+    掛からない** —— 融合は Q′=ΣQ なので独立 Q は容易に ±10¹² を越え、帯で切ると**保存した源が
+    半径だけの編集で黙って縮んでいた**。受理するのは**有限の数値だけ**で、非有限は**書込前に拒否**する
+    (プリセット宣言が非数値なら **layers ごと無視**・編集は **`qNotFinite`**・未宣言の層で導く Q=J/ζ が
+    有限でなければ **`qDeriveNotFinite`** —— いずれも 1 bit も書かない)。**`Q:null` は「未宣言」**で、
+    `Q:0` の明示だけが「値としての 0」である(`dfmLayerMerge` の `qOf` も第271便c から同じ規約)。
+    **新しい物理的上限は置いていない**(置くなら根拠・作用経路・帳簿が要る — 決断事項)。
     - **初期化は `Q = J/ζ`(ζJ ではない)**。`dfmCoreQ` が Q=J/ζ=½M_cR_c²Ω を定めるからである。
       宣言に `Q` が無ければ**読み込み(build / `_setBodyLayers`)で 1 度だけ**導出し、以後は
       **(J, Q) を別々に保存**する。**`Q:0` の明示宣言は値**で、宣言ビット `layJD` の **8=Q** が
@@ -1194,12 +1200,29 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     - **ζ_eff は診断値**である: **`HP.dfmLayerZetaEff(J,Q)`** は J≠0 かつ Q と同符号のときだけ
       `{zetaEff:J/Q, representable:true}` を返し、それ以外は `zetaEff:null` と理由
       (`bothZero`/`JZeroQNonzero`/`QZeroJNonzero`/`signMismatch`/`notFinite`)を返す。
+      **第271便c(統括の検証項目 R5・AF17)から `classification` 欄が付く**(値域は
+      **`HP.LAYER_ZETA_CLASSES`** の 6 種 `representable`/`undefinedBothZero`/`sourceWithoutJ`/
+      `JWithoutSource`/`signMismatch`/`notFinite`)—— **「表せない」を 1 種類にまとめない**。
+      **J=Q=0 は「不定」であって「不可」ではない**(源も角運動量も宣言されていないだけである)。
+      層モードの数値行はこの分類を読み、**ζ_eff を 0 や 1.0 で補完せず「—」+理由**を出す。
       **Q/J を代わりに返さない**し、**表せないことを 1 に丸めて隠さない**
       (`dfmLayerMerge` の返り値に `zetaRepresentable` が立つ)。
     - **更新則は追加仮定**である: **`HP.dfmLayerQUpdate({J0,Q0,J1,Q,Q1,zeta,mode})`** の 7 モード
       (`HP.LAYER_Q_MODES`)—— `derive`(Q=J/ζ)/ `declared`(宣言値)/ `zetaConst`(既定・
       Q₁=Q₀·(J₁/J₀)= ζ 一定。**J₀=0 では ζ が読めない**ので Q₀ を据え置き `zetaUndefinedAtJ0` を返す)/
       `zetaDeclared`(Q₁=J₁/ζ_new)/ `qConst`(Q 一定)/ `sum`(融合)/ `carry`(保存・複製・分割)。
+      **第271便c(統括の検証項目 R4)**: 更新則そのものは 1 文字も変えていないが、**編集 UI は
+      J₀=0 の層へ非ゼロ J を書く編集を黙って据え置かない** —— 独立 Q を宣言した層で `cfg.Q` も
+      `cfg.inertiaScale` も無ければ **`qAmbiguousAtJ0` で編集を拒否**する(1 bit も書かない)。
+      独立 Q を持たない層(Q 鍵なし)は曖昧さが無いのでそのまま通る。
+      **(10,5)→J=0→J=10 の往復で Q=5 に戻らないことは事実として残る**
+      (戻す規則を決めるには時間発展則が要る — Negative Claim 42 は維持)。
+    - **`HP.dfmCoreQ({Mc,Rc,J,zeta,Q})`**(台帳枠の純関数)は `{Q, source:"state"|"derived", I, omega,
+      sourceRate}` を返す。**第271便c(統括の検証項目 R4)から `omega` は機械的な角速度
+      Ω=J/(ζ·I) に固定**で(状態 Q が渡されても J から読む)、**状態 Q の率は別欄 `sourceRate`=Q/I**
+      である —— Q を J と独立にした以上、Q/I は「源の率」であって角速度ではない。
+      導出形(Q=J/ζ)では両者は 1 bit 同じ値になる。**診断 API の分離であって、力・回転
+      エネルギー則の導入ではない**。
     - 読み口は **`HP.dfmLayerQ(i,k,S?)`**。**力へは 1 バイトも接続していない**
       (回転場の源の数値であって、新しい力を足していない)。
       **「ζ 合成則の時間発展則が決まった」とは書かない**(Negative Claim 42 は消していない)。
@@ -1811,7 +1834,13 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     **欠損も重複も許さない**(QA `lint.recordId`)。**同名異解は unit か source が違うので別 ID**になる。
     **`record_id` は同定の鍵であって、印(`sigma_primary`)でも σ でも判定でもない。**
     CSV を読む器は**列位置でなくヘッダ名で読む**(共通の読み方は `tests/lib-w270b-obscsv.mjs`)。
-    `solution_id` は**まだ作っていない**(空欄可 —— 決断事項)。
+    **第271便b(AF4): `solution_id` を `record_id` の直後に足した**(ヘッダは 11 列 ——
+    `body,quantity,value,unit,source,url,retrieved,note,sigma,record_id,solution_id`)。
+    値は `paper/data/solutions.json` の台帳の id で、**その行の note が語境界で `solution=<同じ id>` を
+    持つ行にだけ**入る。**`adopted_solution=<id>` は「この系の採用解」という指し先であって、
+    その行の値がその解から来たという意味ではない** —— 指し先だけの行(太陽系 CSV 145〜148)は
+    **空欄のまま**である。**空欄は「解が無い」ではなく「台帳に登録していない」**。
+    QA `lint.solutionId` が位置・台帳・付与数(太陽系 55 / 星団・銀河 0 / 過渡天体 0)を機械固定する。
   - **`verified_by=` / `verified_at=` / `verified_value=` / `value_checked_*=` の値に `;` を書かない**
     (第270便b・AE15): 読取器は値を `;` まで(`/…=([^;]*)/`)で切るので、`;` を入れると値が途中で切れる。
     補足は**別の鍵**へ置く。
@@ -1843,7 +1872,21 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   - **第270便b(AE2): `record_id` を照合キーに足した**(文字列の `source`/`unit`/`value`/`sigma` は**残す**)。
     `record_id` があるとき `pickDeclaredRow` は**それで厳密に同定し**、1 件に決まらなければ
     **理由つきで `null`**(`record-id-not-found` / `record-id-ambiguous(n)`)を返す ——
-    **文字列出典の一致条件へ黙って落ちない**。`solution_id` は**空欄でよい**(未作成は `""`)。
+    **文字列出典の一致条件へ黙って落ちない**。
+  - **第271便b(R1): `record_id` は候補行を一意に定める鍵であって、宣言内容は一致条件である。**
+    第270便b の `pickDeclaredRow` は ID が 1 件に当たった時点で行を返していたので、
+    **次にレコードが訂正されて同じ ID の行の中身が動いても、食い違いを 1 件も検出できなかった**。
+    ID で 1 行に定まった後、`declaredContentMismatch()` が
+    **`body` / `quantity`(= `csvQuantity`)/ `source` / `unit` / `value` / `sigma` / `solution_id`** を
+    突き合わせ、1 つでも食い違えば
+    `{ row: null, matchedBy: "record_id", mismatch: ["<欄名>", …], reason: "record-id-content-mismatch(<欄名,…>)" }`
+    を返す(**別出典へ落ちない**)。`value` は**双方が有限の数**でなければ不一致、
+    `sigma` は「両方 `null`」か「両方同じ数」だけが一致である。
+    併せて `validateJudgementSources` は **`value`/`sigma` を有限の `number` だけ**受ける
+    (`null`・文字列・`NaN`・`0`・負は不正 —— **不正なら宣言を 1 件も配らない**)。
+    QA `behavior.declaredContentMatch` と器 `tests/exp-w271b-declmatch.mjs` が固定する。
+  - **第271便b(AF4): 宣言の `solution_id` は台帳の id を書く**(J1946 の 2 件は `Meng2025-DDFWHE`・
+    カロン P と金星 e は `""`)。**宣言の `solution_id` は上の一致条件に入る**。
   - **第270便c(AD9): 宣言は 4 件になった** —— カロン P・金星 e に加えて
     **`PSR J1946+2052|orbital_period`(CSV 285 = Meng 2025 A&A 704 A153 Table 1 DDFWHE 列・6781.367998656 s ± 1.728e-6)**と
     **`|eccentricity`(CSV 289 = 同列・0.0638363 ± 8e-7)**。`csvQuantity` は候補鍵ではなく `orbital_period` / `eccentricity` そのものである。
@@ -1868,6 +1911,36 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     - σ 接続器の `declaredFirst` は**履歴の欄**になった(`appliedToJudgement:true`・
       AD5 前の行は `previousRow`)。**4 値が動いたときは旧値を `history` に残す**(`fourValues.history`)。
   - **生成 AI はこのファイルを書かない**(採用解の宣言は原仮定者と統括の裁定である)。
+- **公表タイミング解の台帳(第271便b・AF4 — `paper/data/solutions.json`)**: 観測 CSV の
+  `solution_id` 欄が指す先である。**1 件 = 1 つの公表解**(論文・表・モデル・元期・時系)。
+  ```json
+  { "schemaVersion": 1, "wave": "<便>", "what": "<何の台帳か>", "rule": ["<規約>"], "doNotWrite": ["<禁止の言い方>"],
+    "solutions": [ { "id": "Meng2025-DDFWHE", "body": "PSR J1946+2052",
+      "paper": "Meng et al. 2025, A&A 704, A153", "table": "Table 1 DDFWHE column",
+      "model": "DDFWHE (TEMPO ephemeris fit; theory-independent)",
+      "epoch": "T0 57953.2123884 MJD (spin epoch 57982.080242 MJD)", "timeScale": "TDB",
+      "ephemeris": "DE440", "span": "57953-60460 MJD", "frame": "J2000.0 astrometry",
+      "printedRecord": "0.07848805554(2) d", "printedRecordAt": "<どの列の記載か>",
+      "exampleRecordId": "SOL-dd4b7894" } ],
+    "notRegistered": [ { "tag": "Meng2025-DDGR", "why": "<登録しない理由>" } ] }
+  ```
+  - 欄はすべて **CSV の行の note に既に書かれている記載の写し**である(ここで新しい数値を作らない)。
+  - **`printedRecord` は `exampleRecordId` の行の note にそのまま現れなければならない**
+    (器 `tests/exp-w271b-solutionid.mjs` と QA `lint.solutionId` ⑤ が照合する)。
+  - 時系・天体暦・元期が論文に印字されていなければ **`not published`** と書く(**推定値を入れない**)。
+  - 台帳に無い解タグ(`Hu2022-DDS` / `Fonseca2014-DD` / `Cameron2018-DDH` / `Meng2025-DDGR`)の行は
+    `solution_id` を**空欄のまま**にする —— **登録するかどうかは決断事項**である。
+  - **生成 AI はこのファイルを書かない**(公表解の同定は原仮定者と統括の裁定である)。
+- **外部データ表の実体の台帳(第271便b・AB6 — `paper/data/sources-manifest.json`)**: 観測 CSV が
+  `source` 欄で引いている**外部の表の実体**(URL・表・版・取得 UTC・SHA-256)と、それに依存する
+  `record_id` の並びである。器は `tests/exp-w271b-manifest.mjs`(`--fetch` を付けたときだけ外に出る)。
+  - **`sha256` は実際に取得できたバイト列からしか書かない。** 取れなければ
+    `"sha256": null, "frozen": false, "reason": "<実測した失敗の理由>"` を書く
+    (**推測のハッシュを置かない**)。`frozen: false` は「この環境で実体を固定できていない」という
+    **状態の名前**であって、観測値が疑わしいという意味ではない。
+  - `dependsOn` は正本の CSV の **`source` 欄から数えて**入れる(**note の中の言及は依存ではない**)。
+  - 2026-09-18 の実測は **8 件中 0 件が凍結できた**(SPARC の 3 件・Baumgardt GGCD の 4 件・
+    Harris 2010 —— いずれも egress のホスト許可リストに無く、ゲートウェイが CONNECT に 403 を返す)。
 - **星団の内部診断 JSON のスキーマ(第269便d — `tests/out/cluster-w269d.json`)**: 器 `tests/exp-w269d-cluster.mjs` が出す
   **比較サンプル v1a(内部診断)**の出力である。**観測値は 1 つも入っておらず、47 Tuc の公表値との比較も 1 つも入っていない。**
   ```json

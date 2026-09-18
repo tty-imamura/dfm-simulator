@@ -1,5 +1,5 @@
 {
- "when": "2026-09-17T10:03:40.869Z",
+ "when": "2026-09-18T11:12:58.427Z",
  "wave": "第266便a(第57報 追加・W1)",
  "intake": {
   "date": "2026-09-16",
@@ -14,6 +14,108 @@
    "上限・下限は value を空にして `upper_limit=` / `lower_limit=` に置く",
    "プリセット・builder・本体 JSON は変えない(署名不変)"
   ]
+ },
+ "rounds": {
+  "declaredIn": 1,
+  "table": [
+   {
+    "round": 1,
+    "date": "2026-09-16",
+    "wave": "第266便a",
+    "tool": "tests/exp-w266a-intakeB.mjs",
+    "commit": "4d1571a",
+    "solarCsvSha256": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+    "what": "観測レコード(intake B)の取得回答 2 系統と、既存転写行に対する第 1 回の確認記録"
+   },
+   {
+    "round": 2,
+    "date": "2026-09-17",
+    "wave": "第267便a",
+    "tool": "tests/exp-w267a-confirm2.mjs",
+    "commit": "fa7cd6c",
+    "solarCsvSha256": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298",
+    "what": "訂正 3 件の追認と「原記載を見付けられなかった」行の記録(印は上げない)"
+   },
+   {
+    "round": 3,
+    "date": "2026-09-17",
+    "wave": "第269便b",
+    "tool": "tests/exp-w269b-confirm3.mjs",
+    "commit": "f6c19b4",
+    "solarCsvSha256": "e426aa7d8a6751068699933074c7885ee66234936e11aafd319bc091a670afd4",
+    "what": "J1946+2052 の判定解 5 行を A&A 版の表単体で確認(第 1 回の note-only を**上書き**した)"
+   },
+   {
+    "round": 4,
+    "date": "2026-09-18",
+    "wave": "第270便b",
+    "tool": "tests/exp-w270b-confirm4.mjs",
+    "commit": "ef2cd45",
+    "solarCsvSha256": "ad99c37f7405a662f095f4e86d69182be1cb6467791086070cc38668c4d14cbf",
+    "what": "Cameron 2018 / Stairs 2002 の目視確認(X7 警告 6 → 0・併置行 3 行が verified)"
+   }
+  ],
+  "rule": [
+   "`CONFIRM` は**第 1 回(2026-09-16)の確認記録に対する宣言**である",
+   "本器は**毎回、現行の CSV を読み直す**(旧 JSON を現行の成功結果として再利用しない)",
+   "第 2〜4 回で印が動いた行は違反として**そのまま数え**、`roundAttribution` でどの回の確認が上書きしたかを示す(**閾値を緩めない**)",
+   "各回の `solarCsvSha256` は `git show <commit>:paper/data/solar-observations.csv` の実測値"
+  ],
+  "attribution": {
+   "total": 3,
+   "unexplained": 0,
+   "round3": 3
+  },
+  "rows": [
+   {
+    "ln": 285,
+    "body": "PSR J1946+2052",
+    "quantity": "orbital_period",
+    "klass": "other-source",
+    "declaredRound": 1,
+    "declaredAct": "note-only",
+    "markNow": "verified",
+    "raisedInRound": 3,
+    "raisedInWave": "第269便b",
+    "raisedOn": "2026-09-17",
+    "evidenceKey": "confirmation_round=3",
+    "why": "第 1 回の宣言(note-only・印は上げない)を第 3 回の確認が上書きした"
+   },
+   {
+    "ln": 289,
+    "body": "PSR J1946+2052",
+    "quantity": "eccentricity",
+    "klass": "other-source",
+    "declaredRound": 1,
+    "declaredAct": "note-only",
+    "markNow": "verified",
+    "raisedInRound": 3,
+    "raisedInWave": "第269便b",
+    "raisedOn": "2026-09-17",
+    "evidenceKey": "confirmation_round=3",
+    "why": "第 1 回の宣言(note-only・印は上げない)を第 3 回の確認が上書きした"
+   },
+   {
+    "ln": 290,
+    "body": "PSR J1946+2052",
+    "quantity": "periastron_advance",
+    "klass": "other-source",
+    "declaredRound": 1,
+    "declaredAct": "note-only",
+    "markNow": "verified",
+    "raisedInRound": 3,
+    "raisedInWave": "第269便b",
+    "raisedOn": "2026-09-17",
+    "evidenceKey": "confirmation_round=3",
+    "why": "第 1 回の宣言(note-only・印は上げない)を第 3 回の確認が上書きした"
+   }
+  ],
+  "supersededByLaterRound": [
+   "行 285 は第 1 回の宣言では note-only(印を上げない)だが、第 3 回(2026-09-17・第269便b)の確認で verified になっている",
+   "行 289 は第 1 回の宣言では note-only(印を上げない)だが、第 3 回(2026-09-17・第269便b)の確認で verified になっている",
+   "行 290 は第 1 回の宣言では note-only(印を上げない)だが、第 3 回(2026-09-17・第269便b)の確認で verified になっている"
+  ],
+  "note": "`violations` は**説明のつかない食い違い**だけを数える。第 2〜4 回の確認記録が `confirmation_round=` で上書きしたと示せる食い違いは `supersededByLaterRound` に入る —— **宣言も再現条件も 1 つも緩めていない**(回の帰属を分けただけである)。"
  },
  "confirmRecord": {
   "n": 28,
@@ -42,11 +144,11 @@
    "note-only": 4
   },
   "promotedToVerified": 21,
-  "verifiedRowsInCsv": 49,
+  "verifiedRowsInCsv": 57,
   "markCensus": {
    "(印なし)": 128,
-   "unverified": 344,
-   "verified": 49
+   "unverified": 337,
+   "verified": 57
   },
   "verifiedRows": [
    {
@@ -68,14 +170,14 @@
     "body": "Sirius B",
     "quantity": "eccentricity",
     "sigma": 0.00037,
-    "verifiedBy": null
+    "verifiedBy": "原仮定者 2026-09-16"
    },
    {
     "ln": 115,
     "body": "Sirius B",
     "quantity": "orbital_period",
     "sigma": 135697.68,
-    "verifiedBy": null
+    "verifiedBy": "原仮定者 2026-09-16"
    },
    {
     "ln": 123,
@@ -96,28 +198,28 @@
     "body": "PSR J0737-3039 B",
     "quantity": "periastron_advance",
     "sigma": 0.000013,
-    "verifiedBy": null
+    "verifiedBy": "原仮定者 2026-09-16"
    },
    {
     "ln": 136,
     "body": "PSR J1757-1854",
     "quantity": "orbital_period",
     "sigma": 0.00000432,
-    "verifiedBy": null
+    "verifiedBy": "原仮定者 2026-09-18"
    },
    {
     "ln": 137,
     "body": "PSR J1757-1854",
     "quantity": "eccentricity",
     "sigma": 0.000001,
-    "verifiedBy": null
+    "verifiedBy": "原仮定者 2026-09-18"
    },
    {
     "ln": 139,
     "body": "PSR J1757-1854",
     "quantity": "periastron_advance",
     "sigma": 0.0002,
-    "verifiedBy": null
+    "verifiedBy": "原仮定者 2026-09-18"
    },
    {
     "ln": 145,
@@ -138,7 +240,7 @@
     "body": "PSR J1946+2052",
     "quantity": "periastron_advance",
     "sigma": 0.0004,
-    "verifiedBy": null
+    "verifiedBy": "原仮定者 2026-09-17"
    },
    {
     "ln": 153,
@@ -152,28 +254,28 @@
     "body": "PSR B1534+12",
     "quantity": "orbital_period",
     "sigma": 8.64e-7,
-    "verifiedBy": null
+    "verifiedBy": "原仮定者 2026-09-18"
    },
    {
     "ln": 172,
     "body": "PSR B1534+12",
     "quantity": "eccentricity",
     "sigma": 3e-7,
-    "verifiedBy": null
+    "verifiedBy": "原仮定者 2026-09-18"
    },
    {
     "ln": 173,
     "body": "PSR B1534+12",
     "quantity": "periastron_advance",
     "sigma": 0.000009,
-    "verifiedBy": null
+    "verifiedBy": "原仮定者 2026-09-18"
    },
    {
     "ln": 180,
     "body": "PSR J1946+2052",
     "quantity": "periastron_advance",
     "sigma": 0.0004,
-    "verifiedBy": null
+    "verifiedBy": "原仮定者 2026-09-17"
    },
    {
     "ln": 181,
@@ -316,6 +418,27 @@
     "verifiedBy": "原仮定者 2026-09-16"
    },
    {
+    "ln": 260,
+    "body": "PSR J1757-1854",
+    "quantity": "orbital_period",
+    "sigma": 0.00000432,
+    "verifiedBy": "原仮定者 2026-09-18"
+   },
+   {
+    "ln": 262,
+    "body": "PSR J1757-1854",
+    "quantity": "eccentricity",
+    "sigma": 0.000001,
+    "verifiedBy": "原仮定者 2026-09-18"
+   },
+   {
+    "ln": 263,
+    "body": "PSR J1757-1854",
+    "quantity": "periastron_advance",
+    "sigma": 0.0002,
+    "verifiedBy": "原仮定者 2026-09-18"
+   },
+   {
     "ln": 273,
     "body": "PSR J1757-1854",
     "quantity": "orbital_period",
@@ -335,6 +458,41 @@
     "quantity": "periastron_advance",
     "sigma": 0.000008,
     "verifiedBy": "原仮定者 2026-09-16"
+   },
+   {
+    "ln": 285,
+    "body": "PSR J1946+2052",
+    "quantity": "orbital_period",
+    "sigma": 0.000001728,
+    "verifiedBy": "原仮定者 2026-09-17"
+   },
+   {
+    "ln": 289,
+    "body": "PSR J1946+2052",
+    "quantity": "eccentricity",
+    "sigma": 8e-7,
+    "verifiedBy": "原仮定者 2026-09-17"
+   },
+   {
+    "ln": 290,
+    "body": "PSR J1946+2052",
+    "quantity": "periastron_advance",
+    "sigma": 0.0004,
+    "verifiedBy": "原仮定者 2026-09-17"
+   },
+   {
+    "ln": 300,
+    "body": "PSR J1946+2052",
+    "quantity": "orbital_period",
+    "sigma": 6.912e-7,
+    "verifiedBy": "原仮定者 2026-09-17"
+   },
+   {
+    "ln": 302,
+    "body": "PSR J1946+2052",
+    "quantity": "eccentricity",
+    "sigma": 4e-7,
+    "verifiedBy": "原仮定者 2026-09-17"
    },
    {
     "ln": 363,
@@ -662,11 +820,11 @@
     "act": "note-only",
     "at": "the discovery paper Table 1 (Stovall 2018) not Meng 2025 Table 1",
     "value": "0.07848804(1) d",
-    "markNow": "unverified",
+    "markNow": "verified",
     "sigma": 0.000001728,
-    "verifiedBy": null,
-    "verifiedAt": null,
-    "verifiedValue": null,
+    "verifiedBy": "原仮定者 2026-09-17",
+    "verifiedAt": "Meng 2025 A&A 704 A153 Table 1 DDFWHE column (A&A table view)",
+    "verifiedValue": "0.07848805554(2) d",
     "valueCheckedPresent": true,
     "valueCheckedBy": "external review 2026-09-17"
    },
@@ -678,11 +836,11 @@
     "act": "note-only",
     "at": "the discovery paper Table 1 (Stovall 2018) not Meng 2025 Table 1",
     "value": "0.063848(9)",
-    "markNow": "unverified",
+    "markNow": "verified",
     "sigma": 8e-7,
-    "verifiedBy": null,
-    "verifiedAt": null,
-    "verifiedValue": null,
+    "verifiedBy": "原仮定者 2026-09-17",
+    "verifiedAt": "Meng 2025 A&A 704 A153 Table 1 DDFWHE column (A&A table view)",
+    "verifiedValue": "0.0638363(8)",
     "valueCheckedPresent": true,
     "valueCheckedBy": "external review 2026-09-17"
    },
@@ -694,11 +852,11 @@
     "act": "note-only",
     "at": "the discovery paper Table 1 (Stovall 2018) not Meng 2025 Table 1",
     "value": "25.6(3) deg/yr",
-    "markNow": "unverified",
+    "markNow": "verified",
     "sigma": 0.0004,
-    "verifiedBy": null,
-    "verifiedAt": null,
-    "verifiedValue": null,
+    "verifiedBy": "原仮定者 2026-09-17",
+    "verifiedAt": "Meng 2025 A&A 704 A153 Table 1 DDFWHE column (A&A table view)",
+    "verifiedValue": "25.79205(40) deg/yr",
     "valueCheckedPresent": true,
     "valueCheckedBy": "external review 2026-09-17"
    },
@@ -2099,7 +2257,7 @@
  "transcription": {
   "solar": {
    "file": "paper/data/solar-observations.csv",
-   "rowsTotal": 521,
+   "rowsTotal": 522,
    "intakeB": 14,
    "withSigma": 0,
    "emptyValue": 0,
@@ -2167,7 +2325,7 @@
   }
  },
  "clusterSigma": {
-  "header": "body,quantity,value,unit,source,url,retrieved,note,sigma",
+  "header": "body,quantity,value,unit,source,url,retrieved,note,sigma,record_id,solution_id",
   "rows": 154,
   "legacyRows": 108,
   "legacyWithSigma": 0,

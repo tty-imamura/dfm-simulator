@@ -126,6 +126,31 @@ const PROPAGATED = [
   [106, 'Alpha Centauri B', 'semi_major_axis'],
   [113, 'Sirius B', 'semi_major_axis'],
 ];
+// ================================================================ AF9(第271便b): **回で分ける**
+// 第266便a の `CONFIRM` は**第 1 回(2026-09-16)の確認記録に対する宣言**である。ところが本器は
+// **いつも現行の CSV** に対して突き合わせるので、第 2〜4 回の確認で印が上がった行は
+// 「上げない約束の行が verified になっている」という違反に見える。**閾値は緩めない** ——
+// 違反は違反のまま数え、**それがどの回の印によるものか**を `roundAttribution` で示す。
+// (旧 JSON を「現行の成功結果」として再利用しない —— 本器は毎回、現行の CSV を読み直す。)
+//
+// 各回の基点 commit と CSV の sha256 は**実測値**である(`git show <commit>:paper/data/solar-observations.csv
+// | sha256sum` を 2026-09-18 に回した値)。CSV が動いたことをこの欄が示す。
+const ROUNDS = [
+  { round: 1, date: '2026-09-16', wave: '第266便a', tool: 'tests/exp-w266a-intakeB.mjs',
+    commit: '4d1571a', solarCsvSha256: 'd8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6',
+    what: '観測レコード(intake B)の取得回答 2 系統と、既存転写行に対する第 1 回の確認記録' },
+  { round: 2, date: '2026-09-17', wave: '第267便a', tool: 'tests/exp-w267a-confirm2.mjs',
+    commit: 'fa7cd6c', solarCsvSha256: '950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298',
+    what: '訂正 3 件の追認と「原記載を見付けられなかった」行の記録(印は上げない)' },
+  { round: 3, date: '2026-09-17', wave: '第269便b', tool: 'tests/exp-w269b-confirm3.mjs',
+    commit: 'f6c19b4', solarCsvSha256: 'e426aa7d8a6751068699933074c7885ee66234936e11aafd319bc091a670afd4',
+    what: 'J1946+2052 の判定解 5 行を A&A 版の表単体で確認(第 1 回の note-only を**上書き**した)' },
+  { round: 4, date: '2026-09-18', wave: '第270便b', tool: 'tests/exp-w270b-confirm4.mjs',
+    commit: 'ef2cd45', solarCsvSha256: 'ad99c37f7405a662f095f4e86d69182be1cb6467791086070cc38668c4d14cbf',
+    what: 'Cameron 2018 / Stairs 2002 の目視確認(X7 警告 6 → 0・併置行 3 行が verified)' },
+];
+const THIS_ROUND = 1;   // `CONFIRM` は第 1 回の宣言である
+
 const CONFIRM_CLASSES = ['agree', 'disagree', 'unchecked', 'other-source'];
 const CONFIRM_ACTS = ['verified', 'value-only', 'covariance', 'note-only'];
 const confirmRows = [];
@@ -133,6 +158,41 @@ const confirmTally = {}, actTally = {};
 for (const k of CONFIRM_CLASSES) confirmTally[k] = 0;
 for (const k of CONFIRM_ACTS) actTally[k] = 0;
 const confirmBad = [];
+// 第271便b(AF9): **後の回の確認で上書きされた食い違い**(説明のついた食い違い)。
+// `confirmBad`(=違反)とは別の箱に入れる —— **閾値を緩めるのではなく、帰属先を分ける**。
+const supersededBad = [];
+// ---------------------------------------------------------------- AF9: 食い違いを**回に帰属させる**
+// **閾値は緩めない** —— `confirmBad` は 1 件も減らさない。ここでやるのは
+// 「第 1 回の宣言と現行 CSV が食い違う行は、**どの回の確認で動いたのか**」を note の
+// `confirmation_round=` から読み、回ごとに数えることだけである。
+// 根拠が note に無い食い違いは `raisedInRound: null` で残り、**説明のつかない食い違い**として見える。
+const roundAttribution = [];
+for (const [ln, body, quantity, klass, act] of CONFIRM) {
+  const row = SOLAR.find((r) => r.ln === ln);
+  if (!row) continue;
+  const mk = readSigmaMark(row.note);
+  if (mk.verified === (act === 'verified')) continue;      // 宣言どおり ⇒ 帰属の対象外
+  const m = /(?:^|[^A-Za-z0-9_])confirmation_round=(\d+)/.exec(row.note);
+  const rr = m ? Number(m[1]) : null;
+  const meta = ROUNDS.find((x) => x.round === rr) || null;
+  roundAttribution.push({ ln, body, quantity, klass,
+    declaredRound: THIS_ROUND, declaredAct: act, markNow: mk.mark,
+    raisedInRound: rr, raisedInWave: meta ? meta.wave : null, raisedOn: meta ? meta.date : null,
+    evidenceKey: m ? ('confirmation_round=' + rr) : null,
+    why: rr === null
+      ? '**現行 CSV の印の根拠が note に無い**(説明のつかない食い違い)'
+      : `第 ${THIS_ROUND} 回の宣言(${act}・印は上げない)を第 ${rr} 回の確認が上書きした` });
+}
+const attributionTally = { total: roundAttribution.length, unexplained: 0 };
+for (const a of roundAttribution) {
+  const k = (a.raisedInRound === null) ? 'unexplained' : ('round' + a.raisedInRound);
+  attributionTally[k] = (attributionTally[k] || 0) + 1;
+}
+if (attributionTally.unexplained)
+  confirmBad.push(`印の根拠が note に無い食い違いが ${attributionTally.unexplained} 件ある`);
+// 行番号 → 帰属(後の回で上書きされたか)
+const attributedBy = new Map(roundAttribution.map((a) => [a.ln, a]));
+
 for (const [ln, body, quantity, klass, act, at, value] of CONFIRM) {
   confirmTally[klass]++;
   actTally[act]++;
@@ -150,7 +210,16 @@ for (const [ln, body, quantity, klass, act, at, value] of CONFIRM) {
     if (!vb.at || !vb.value) confirmBad.push('行 ' + ln + ' の verified_at / verified_value が欠けている');
     if (row && row.sigma === null) confirmBad.push('行 ' + ln + ' に σ が無いのに verified になっている');
   } else {
-    if (mk.verified) confirmBad.push('行 ' + ln + ' が verified になっている(上げない約束の行である)');
+    if (mk.verified) {
+      // AF9: 後の回の確認記録が上書きしたと **note の `confirmation_round=` で示せる**ものは
+      //   `supersededBad` へ。示せないものは従来どおり**違反**である(閾値は緩めない)。
+      const att = attributedBy.get(ln);
+      if (att && att.raisedInRound !== null && att.raisedInRound > THIS_ROUND)
+        supersededBad.push('行 ' + ln + ' は第 ' + THIS_ROUND + ' 回の宣言では '
+          + act + '(印を上げない)だが、第 ' + att.raisedInRound + ' 回(' + att.raisedOn + '・'
+          + att.raisedInWave + ')の確認で verified になっている');
+      else confirmBad.push('行 ' + ln + ' が verified になっている(上げない約束の行である)');
+    }
     if (act === 'note-only' && !has(row ? row.note : '', 'value_check_note'))
       confirmBad.push('行 ' + ln + ' に value_check_note= が無い');
     if (act === 'value-only' && !vc.present) confirmBad.push('行 ' + ln + ' に値の確認印が無い');
@@ -301,6 +370,17 @@ const out = { when: new Date().toISOString(), wave: '第266便a(第57報 追加�
       '非対称区間・90% 区間・丸め幅は σ ではない(`sigma_kind=asymmetric|ci90|digits|none`)',
       '上限・下限は value を空にして `upper_limit=` / `lower_limit=` に置く',
       'プリセット・builder・本体 JSON は変えない(署名不変)'] },
+  rounds: { declaredIn: THIS_ROUND, table: ROUNDS,
+    rule: ['`CONFIRM` は**第 1 回(2026-09-16)の確認記録に対する宣言**である',
+      '本器は**毎回、現行の CSV を読み直す**(旧 JSON を現行の成功結果として再利用しない)',
+      '第 2〜4 回で印が動いた行は違反として**そのまま数え**、`roundAttribution` でどの回の'
+        + '確認が上書きしたかを示す(**閾値を緩めない**)',
+      '各回の `solarCsvSha256` は `git show <commit>:paper/data/solar-observations.csv` の実測値'],
+    attribution: attributionTally, rows: roundAttribution,
+    supersededByLaterRound: supersededBad,
+    note: '`violations` は**説明のつかない食い違い**だけを数える。第 2〜4 回の確認記録が '
+      + '`confirmation_round=` で上書きしたと示せる食い違いは `supersededByLaterRound` に入る —— '
+      + '**宣言も再現条件も 1 つも緩めていない**(回の帰属を分けただけである)。' },
   confirmRecord: { n: CONFIRM.length, classes: CONFIRM_CLASSES, tally: confirmTally,
     acts: CONFIRM_ACTS, actTally,
     promotedToVerified: actTally.verified,
@@ -330,6 +410,17 @@ console.log('  ① 確認記録 ' + CONFIRM.length + ' 行 → ' + JSON.stringif
 console.log('     **原仮定者が確認した行 ' + actTally.verified + ' 行を verified にした**(X7 の 3 欄つき)。'
   + 'CSV 全体の印: ' + JSON.stringify(markCensus)
   + ' / 外部確認印だけで verified の行 ' + externalOnlyVerified.length + ' 件');
+console.log('     AF9(回で分ける): `CONFIRM` は**第 ' + THIS_ROUND + ' 回(' + ROUNDS[0].date
+  + ')の宣言**。現行 CSV との食い違い ' + roundAttribution.length + ' 件の帰属 '
+  + JSON.stringify(attributionTally) + ' / 後の回が上書き ' + supersededBad.length + ' 件');
+for (const a of roundAttribution)
+  console.log('        行 ' + pad(a.ln, 5) + pad(a.body + '|' + a.quantity, 34)
+    + '宣言 ' + pad(a.declaredAct, 11) + ' 現行 ' + pad(a.markNow, 11)
+    + ' ← ' + (a.raisedInRound === null ? '**根拠なし**'
+      : ('第 ' + a.raisedInRound + ' 回(' + a.raisedOn + '・' + a.raisedInWave + ')')));
+for (const r of ROUNDS)
+  console.log('        第 ' + r.round + ' 回 ' + r.date + ' ' + pad(r.wave, 9) + ' 基点 ' + r.commit
+    + ' / solar CSV sha256 ' + r.solarCsvSha256.slice(0, 16) + '…');
 console.log('  ② 取得回答 2 系統: 鍵 ' + collate.length + ' 組 → ' + JSON.stringify(threeTally));
 console.log('     内訳: ' + JSON.stringify(collateTally));
 for (const f of Object.keys(collateByFile))

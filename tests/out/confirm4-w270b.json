@@ -1,5 +1,5 @@
 {
- "when": "2026-09-18T01:11:30.993Z",
+ "when": "2026-09-18T11:12:59.027Z",
  "wave": "第270便b(第60報・W2)",
  "base": "main f6c19b4",
  "provenance": "原仮定者が提供した観測レコードの確認記録(2026-09-18・第 4 回)。一次資料は各行の source/url にある。**器は印を上げない** —— 上げるのは原仮定者の照合である。",
@@ -310,13 +310,13 @@
   },
   "after": {
    "solar": {
-    "rows": 521,
+    "rows": 522,
     "verified": 57,
     "verifiedBy": 57,
     "x7Warn": 0,
     "round4": 9,
     "round4Verified": 9,
-    "withRecordId": 521
+    "withRecordId": 522
    },
    "cluster": {
     "rows": 154,
@@ -340,7 +340,7 @@
   "externalOnlyVerified": []
  },
  "ae7": {
-  "csvNamesLeft": 1,
+  "csvNamesLeft": 0,
   "cleaned": [
    171,
    172,
@@ -350,10 +350,8 @@
   "csv": [
    {
     "file": "paper/data/solar-observations.csv",
-    "total": 1,
-    "byName": {
-     "ChatGPT": 1
-    }
+    "total": 0,
+    "byName": {}
    },
    {
     "file": "paper/data/cluster-galaxy-observations.csv",
@@ -462,28 +460,30 @@
   "calaudit": {
    "byStatus": {
     "合(3σ)": 2,
-    "否(3σ)": 2,
-    "数値未解決": 31,
-    "mapping-unresolved": 13,
+    "否(3σ)": 1,
+    "数値未解決": 35,
+    "mapping-unresolved": 14,
     "condition-mismatch": 8,
-    "未判定": 258
+    "未判定": 254
    },
-   "withSigma": 50,
-   "sourceVerified": 50,
+   "withSigma": 54,
+   "sourceVerified": 54,
    "sigmaRegate": {
-    "checked": 96,
+    "checked": 0,
     "changed": 0,
     "verifiedFlips": 0
    }
   },
   "solarsigma": {
    "cutTally": {
-    "csv-sigma-empty": 109,
+    "csv-sigma-empty": 106,
     "kind-not-gated": 26,
-    "unit-not-converted": 4
+    "unit-not-converted": 3,
+    "connected": 4
    },
    "fourTally": {
-    "保留": 16
+    "保留": 15,
+    "否": 1
    }
   },
   "why": "**印が `verified` であることは門に繋がっていることではない。** 本便は門の行選択を 1 件も差し替えていない(併置行 260/262/263 は「採用行を置き換えない」規約の行である)。タイタン環は C 環内縁の観測門へ転送しない(AB3 は閉じたまま)。"
