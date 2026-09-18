@@ -41,6 +41,18 @@
 //                  第253便b の保留条件(3 段+正の次数)を満たした量だけが「数値未解決」から出る。
 //                  時間予算が 3 倍以上になるので、`--only` で系を絞って `--merge` するのが標準。
 // 出力: tests/out/calaudit-w249.json(QA `docs.calaudit-sync` が id 集合と verdict 語彙を照合する)
+//
+// ■ **再現手順**(第270便a・AE8 —— 正本はここと docs/CALIBRATION_VERDICT_v1.44.md §5.16 である)
+//     ① 通常走行(**全プリセット・--merge なし**):
+//          PLAYWRIGHT_CORE_DIR=/opt/node22/lib/node_modules/playwright node tests/exp-w249b-calaudit.mjs
+//     ② 3 段の登録表だけを 3 段で回して**差し替える**:
+//          PLAYWRIGHT_CORE_DIR=… node tests/exp-w249b-calaudit.mjs --dt3-registry --merge
+//     ③ σ 接続器を掛け直す: node tests/exp-w262d-solarsigma.mjs
+//   **`--regate` の産物を正本にしない**。--regate は「既に繋がっている σ が動いたか」だけを答える
+//   再判定専用の経路で、`applySigma` を通らない(= 宣言・単位換算・新しい宛先は反映されない)。
+//   元測定の来歴は `--regate` の前の走行にしかないので、**判定を動かす変更のあとは ① から回す**。
+//   **--merge の鍵**(`out.mergeKey`)は preset id だけではない: 入力 CSV の SHA・宣言ファイルの SHA・
+//   近点窓・基準刻み・停止条件の版・抽出器の版・対象 HTML を持ち、**1 つでも違う記録が混ざれば器を止める**。
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -63,7 +75,16 @@ import { isSigmaPrimaryVerified, legacyIsSigmaPrimaryVerified, readSigmaMark,
 import { SIGMA_BODY, SIGMA_QUANT, SIGMA_TARGET_BODY } from './lib-sigma-destinations.mjs';
 // 第268便a(統括の読み (D)・AB2): **採用観測解の明示宣言**(body|quantity → 採用行)。
 // 宣言の無い対象は従来どおり**ファイル順の最初**の行を採る(後方互換)。
-import { loadJudgementSources, pickDeclaredRow } from './lib-w268a-judgement.mjs';
+// 第270便a(AD5): 宣言は**正式経路**へ入った(`mode:'applied-AD5'`)。
+// 第270便a(AD8): 換算 ϖ̇ = Δϖ × YEAR / P_peri は `precessionDegPerYear`(同じ近点集合の周期で割る)。
+import { loadJudgementSources, pickDeclaredRow, precessionDegPerYear } from './lib-w268a-judgement.mjs';
+// 第270便b(第60報 W2・AE2): CSV は**列位置でなくヘッダ名**で読む(`record_id` の列追加で壊れない)。
+import { loadObsCsv as loadObsCsvByHeader } from './lib-w270b-obscsv.mjs';
+// 第270便a(AE9): **走行の停止条件**(步数上限と必要近点数の宣言)。壁時計は資源上限にだけ残す。
+import { stopRuleFor, stopDecision, machineIndependenceProbe, STOP_RULE_VERSION,
+  WALL_CEILING_SEC_DEFAULT, PRESET_MAX_STEPS, PRESET_NEED_PERIASTRA,
+  CLASS_MAX_STEPS } from './lib-w270a-stoprule.mjs';
+import crypto from 'node:crypto';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -103,9 +124,17 @@ const EVIDENCE_FILE = (() => { const i = argv.indexOf('--record-evidence');
 // 「窓が埋まらない」が既定値の副作用として現れていた。予算・dt・近点数は**別の欄**でログし
 // (timeBudget)、窓が埋まらずに終わった行は `unmeasuredReason:"time-budget"` を立てる
 // (= **機種依存の時間で結果が変わった**ことを、数値の性質と混ぜずに記録する)。
+// 第270便a(第60報 W1・AE9): **この時間予算は走行長を決めるのをやめた**。
+// 走行長は `tests/lib-w270a-stoprule.mjs` の**宣言**(步数上限 + 必要近点数)で決まり、
+// **步/秒も壁時計も入らない**(機種が違っても同じ步数・同じ近点数になる)。
+// 壁時計はここから下では**資源上限**(`--wall-ceiling` 既定 900 s)としてだけ効く ——
+// 超えた段は `resource-limit` で unmeasured にし、**途中までの軌道を最終判定へ流さない**。
+// 旧欄(`budgetSecLight` / `timeBudget`)は**記録として残す**(機種依存の量であることを明記する)。
 const BUDGET_DEFAULT = 80;
 const BUDGET_LIGHT = (() => { const i = argv.indexOf('--budget'); return (i >= 0 && argv[i + 1]) ? Number(argv[i + 1]) : BUDGET_DEFAULT; })();
 const BUDGET_HEAVY = BUDGET_LIGHT * 3;
+const WALL_CEILING_SEC = (() => { const i = argv.indexOf('--wall-ceiling');
+  return (i >= 0 && argv[i + 1]) ? Number(argv[i + 1]) : WALL_CEILING_SEC_DEFAULT; })();
 const ORB_MAX = 60;            // 直接法(近点間・同方向1周)で数える上限公転数
 // 第252便b(第44報): **近点間周期の窓は「最初の 20 近点(19 区間)」に固定**する(宣言であって
 // 自動判定ではない)。走行長で窓が変わっていたのが第251便 統括の残した窓感度 0.66pt の源である。
@@ -183,8 +212,22 @@ const THREE_STAGE_REGISTRY = [
   { id: 'psrJ1946CF', since: '第265便a(Z14)', why: 'X14 の 5 本(第264便a で σ 宛先を接続)' },
   { id: 'psrB1534', since: '第265便a(Z14)', why: 'X14 の 5 本(第264便a で σ 宛先を接続)' },
   { id: 'psrB1534CF', since: '第265便a(Z14)', why: 'X14 の 5 本(第264便a で σ 宛先を接続)' },
+  // 第270便a(第60報 W1・AD8): **📡 D68 を登録する**。第269便a の器(tests/exp-w268a-d68.mjs)が
+  // AD4 の収束規約(3 段・窓充足・抽出健全・次数>0・ε̂ と 2 段差 ≤0.3σ)を満たしたので、
+  // **換算後(傾きと同じ近点集合の P_peri で割った ϖ̇ [deg/yr])の判定を正式な門へ繋ぐ**。
+  // **登録は合格の宣言ではない** —— 登録した結果どちらへ動くかは走らせて測る。
+  { id: 'saturnZonalD68', since: '第270便a(AD8)',
+    why: 'AD4 の収束規約を満たした換算後判定の正式接続' },
 ];
 const THREE_STAGE_IDS = new Set(THREE_STAGE_REGISTRY.map((z) => z.id));
+// ---------------------------------------------------------------- 第270便a(第60報 W1・AD8)
+// **換算後の量で正式判定する系の宣言表**(自動判定ではない)。近点移動の判定量を
+// °/周 から **ϖ̇ [deg/yr]** へ写し、CSV の deg/yr の値と σ を**換算せずそのまま**門へ渡す。
+// 換算の分母は **傾き fit と同じ近点集合**の近点間周期(第269便a の契約・`pPeriSameWindowSec`)で、
+// 窓が足りない段は**換算しない**(短い窓へ置換しない = 未測定)。
+// **換算前の行(°/周)は `q.previousUnit` に温存する** —— σ 接続器の切断点 `unit-not-converted` は
+// 換算していない他の系(☄️🪨🌞 の水星)で**対照として残る**。
+const AD8_CONVERT = new Set(['saturnZonalD68']);
 if (DT3_REGISTRY) {
   DT3 = true;
   ONLY = ONLY ? ONLY.filter((z) => THREE_STAGE_IDS.has(z)) : Array.from(THREE_STAGE_IDS);
@@ -237,40 +280,37 @@ const sigmaMarkAudit = { rows: 353, legacyVerified: 0, strictVerified: 0, flips:
     + '**最初の出現**を行の印とする。無印は verified ではない。',
   note: '**印を上げ下げしていない** —— 読み方を直しただけである(`verified` にするのは原仮定者の照合)。' };
 function loadSigmaTable() {
-  const txt = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8');
+  // 第270便b(AE2): **ヘッダ名で読む**(列位置で読まない)。`record_id` 欄が末尾に付いても
+  // 中間に列が挿さっても、読む欄は名前で決まる。読み方そのものは 1 つも変えていない。
+  const loaded = loadObsCsvByHeader(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'));
+  if (loaded.missing.length)
+    throw new Error('[w249b] solar-observations.csv に必須列が無い: ' + loaded.missing.join(','));
   const m = new Map();
   const all = [];
   sigmaMarkAudit.rows = 0;
-  for (const line of txt.split('\n')) {
-    if (!line.trim() || line.startsWith('body,')) continue;
-    const cols = []; let cur = '', inQ = false;
-    for (const ch of line) {
-      if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
-      else if (ch === '"') inQ = true;
-      else if (ch === ',') { cols.push(cur); cur = ''; }
-      else cur += ch;
-    }
-    cols.push(cur);
-    const note = cols[7] || '';
+  for (const r of loaded.rows) {
+    const note = r.note || '';
+    const hasSigmaCell = r.rawSigma !== '';
     // ---- 第264便d(X6): 厳密読みと旧読みの差を全行で数える(**判定の前に数える**)----
     sigmaMarkAudit.rows++;
     const mk = readSigmaMark(note), lg = legacyIsSigmaPrimaryVerified(note);
     if (mk.legend.length) sigmaMarkAudit.legendRows++;
     if (lg) sigmaMarkAudit.legacyVerified++;
     if (mk.verified) sigmaMarkAudit.strictVerified++;
-    if (mk.verified !== lg) sigmaMarkAudit.flips.push({ body: cols[0], quantity: cols[1],
-      legacy: lg ? 'verified' : 'unverified', strict: mk.mark, hasSigma: (cols[8] || '').trim() !== '' });
+    if (mk.verified !== lg) sigmaMarkAudit.flips.push({ body: r.body, quantity: r.quantity,
+      legacy: lg ? 'verified' : 'unverified', strict: mk.mark, hasSigma: hasSigmaCell });
     // ---- 第264便d(X7): `verified` なのに `verified_by=` が無い行(**警告**であって拒否ではない)----
     const vb = readVerifiedBy(note);
-    if (vb.warn) sigmaMarkAudit.verifiedByMissing.push({ body: cols[0], quantity: cols[1],
-      hasSigma: (cols[8] || '').trim() !== '' });
-    const key = cols[0] + '|' + cols[1];
-    const sg = (cols[8] !== undefined && cols[8].trim() !== '') ? Number(cols[8]) : null;
+    if (vb.warn) sigmaMarkAudit.verifiedByMissing.push({ body: r.body, quantity: r.quantity,
+      hasSigma: hasSigmaCell });
+    const key = r.body + '|' + r.quantity;
     const kind = readSigmaKind(note);
-    const rec = { body: cols[0], quantity: cols[1], value: Number(cols[2]), unit: cols[3],
+    const rec = { body: r.body, quantity: r.quantity, value: Number(r.rawValue), unit: r.unit,
       // 第264便d: **空欄の value を 0 と読ませない**(`Number('')` は 0 である)。
-      valueRaw: (cols[2] !== undefined && String(cols[2]).trim() !== '') ? Number(cols[2]) : null,
-      source: cols[4], sigma: (Number.isFinite(sg) && sg > 0) ? sg : null,
+      valueRaw: (String(r.rawValue).trim() !== '') ? Number(r.rawValue) : null,
+      source: r.source, sigma: r.sigma,
+      // 第270便b(AE2): **同定の鍵**(印でも σ でもない)。宣言の `record_id` はこれに当たる。
+      recordId: r.recordId || null, ln: r.ln,
       primaryVerified: isSigmaPrimaryVerified(note),
       verifiedBy: vb.present ? vb.who : null, verifiedAt: vb.at, verifiedValue: vb.value,
       sigmaKind: kind.kind, infoScale: kind.scale, infoScaleKind: kind.scaleKind,
@@ -671,8 +711,30 @@ console.error(`[w249b] 現実較正サンプル ${decls.length} 本 / 走行対�
 
 // ================================================================ 走行
 out = { meta: {
-  wave: '第249便b', target: TARGET, dtBase: DT0,
+  wave: '第249便b', when: new Date().toISOString(), target: TARGET, dtBase: DT0,
   budgetSecLight: BUDGET_LIGHT, budgetSecHeavy: BUDGET_HEAVY, orbMax: ORB_MAX,
+  // ---------------------------------------------------------------- 第270便a(第60報 W1・AE9)
+  // **停止条件の宣言**。走行長は「步数上限 × 必要近点数」で決まり、**步/秒も壁時計も入らない**。
+  stopRule: {
+    version: STOP_RULE_VERSION,
+    module: 'tests/lib-w270a-stoprule.mjs(純関数・副作用なし)',
+    rule: '1 段の步数 = **min(宣言した步数上限, ' + ORB_MAX + ' 公転ぶんの步数)**。'
+      + '公転ぶんの步数は t=0 の接触要素(刻みと質量だけで決まる量)から作る。'
+      + '近点は宣言した本数(既定 ' + PERI_WINDOW + ')だけ要り、足りなければ **unmeasured** である'
+      + '(「否」ではない)。',
+    classMaxSteps: CLASS_MAX_STEPS,
+    presetMaxSteps: PRESET_MAX_STEPS,
+    presetNeedPeriastra: PRESET_NEED_PERIASTRA,
+    wallCeilingSec: WALL_CEILING_SEC,
+    wallClock: '**壁時計は資源上限にだけ残す**。超えた段は `resource-limit` として unmeasured にし、'
+      + '**途中までの軌道を最終判定へ流さない**。判定・走行長には 1 bit も入らない。',
+    why: '第257便d までは走行長が `実測した步/秒 × 時間予算` で決まっていたので、'
+      + '**同じコード・同じ入力でも機種が違えば近点の本数が変わり、判定が動いた**'
+      + '(🌘 earthMoonRealKF1 の 26 近点は 40,000,000 步まで走れたときの数である)。',
+    defaultsFrom: '既定値は**基点 f6c19b4 の走行から逆算した**(tests/data-w270a-stoprule-base.json '
+      + 'の 84 段と同じ步数・同じ近点数が埋まる)。照合は tests/exp-w270a-stoprule.mjs が行う。',
+    doNotWrite: ['步数を宣言したので収束した', '停止条件を入れたので判定が確定した'],
+  },
   budgetNote: '第257便d(第49報): 1 段あたりの計算時間予算の**既定を 30 s → ' + BUDGET_DEFAULT + ' s** にした。'
     + 'これは**計算時間の予算**であって精度条件ではない(第256便d は 🧶 の dt/4 を --budget 80 で'
     + '走らせて初めて 20 近点窓が埋まった)。予算で切れて窓が埋まらなかった行は '
@@ -746,14 +808,14 @@ for (const id of ids) {
       { targets, G });
     const stepsPerOrbit = osc0.map((o) => (Number.isFinite(o.P) && o.P > 0) ? o.P / lv.dt : Infinity);
     const orbMax = cfg.orbMax || ORB_MAX;
-    const wantSteps = Math.max(...stepsPerOrbit.filter((s) => Number.isFinite(s)).map((s) => s * orbMax), 1);
-    // 「1 公転が時間予算に入る」対象については **最低 5 公転** を保証する(判定に足る窓を確保するため)。
-    // 入らない対象(重い環の外側衛星など)は接触要素だけで出す。上限は実行時 n による step 天井。
-    const budgetSteps = rate * budget;
-    const feasible = stepsPerOrbit.filter((s) => Number.isFinite(s) && s <= budgetSteps);
-    const floorSteps = feasible.length ? 5 * Math.max(...feasible) : 0;
-    const hardCap = (b0.n <= 3) ? 40e6 : (b0.n <= 12) ? 20e6 : budgetSteps * 2;
-    const maxSteps = Math.max(2000, Math.round(Math.min(Math.max(budgetSteps, floorSteps), wantSteps, hardCap)));
+    // 第270便a(第60報 W1・AE9): **走行長は宣言で決める**。
+    // 步数 = min(宣言した步数上限, orbMax 公転ぶんの步数)。**步/秒も壁時計も入らない** ——
+    // t=0 の接触要素(刻みと質量だけで決まる量)から作るので、機種が違っても同じ步数になる。
+    // 旧規則 `min(max(rate×予算, 5 公転), orbMax 公転, hardCap)` は rate(機種依存)で走行長が
+    // 変わり、**🌘 の近点数が 26 か 13 かで period 行が 合↔転 に動いた**。
+    const stopRule = stopRuleFor({ id, n: b0.n, dt: lv.dt, dtBase: DT0, stepsPerOrbit, orbMax });
+    const wantSteps = stopRule.wantSteps;
+    const maxSteps = stopRule.maxSteps;
     const t0 = Date.now();
     const r = await pg.evaluate(({ id, dt, maxSteps, targets, orbMax, G }) =>
       window.__w249run(id, dt, maxSteps, targets, orbMax, G), { id, dt: lv.dt, maxSteps, targets, orbMax, G });
@@ -767,10 +829,26 @@ for (const id of ids) {
       rateStepsPerSec: Math.round(rate), dt: lv.dt,
       periFoundA: r.targets.map((t) => t.A.perFound), periWindow: PERI_WINDOW,
       windowFilledA: r.targets.map((t) => !t.A.perUnmeasured),
-      note: '機種依存の量である(この行の数値は計算機の速さで変わる)。dt・近点数は別欄。' };
+      note: '**第270便a(AE9)以降、この欄は記録である** —— 走行長はここではなく `run.stopRule`'
+        + 'の宣言(步数上限と必要近点数)で決まる。壁時計と步/秒は機種依存の量なので、'
+        + '**判定にも走行長にも入らない**(壁時計は資源上限 `stopRule.wallCeilingSec` にだけ効く)。' };
+    // 第270便a(AE9): **停止条件の宣言と、その段がそれを満たしたか**を機械可読で残す。
+    r.stopRule = Object.assign({}, stopRule, stopDecision({
+      stepsRun: r.steps, maxSteps, periFound: r.targets.map((t) => t.A.perFound),
+      needPeriastra: stopRule.needPeriastra, wallSec: r.wallSec, wallCeilingSec: WALL_CEILING_SEC,
+      boundBy: stopRule.boundBy }),
+    { stepsPerOrbit0: stepsPerOrbit.map((s) => Number.isFinite(s) ? Math.round(s) : null),
+      periFoundA: r.targets.map((t) => t.A.perFound),
+      periFitN: r.targets.map((t) => (t.A.perFitN === undefined) ? null : t.A.perFitN),
+      windowFilledA: r.targets.map((t) => !t.A.perUnmeasured),
+      rateStepsPerSec: Math.round(rate),
+      rateNote: '**步/秒は記録であって停止条件ではない**(第270便a・AE9)',
+      machineIndependence: machineIndependenceProbe({ id, n: b0.n, dt: lv.dt, stepsPerOrbit, orbMax }) });
     rows.push(r);
-    console.error(`  ${d.emoji} ${id} [${lv.tag}=${lv.dt}] n=${r.n} steps=${r.steps}`
-      + ` orbits=${r.targets.map((t) => t.revN).join('/')} ${r.wallSec.toFixed(1)}s`);
+    console.error(`  ${d.emoji} ${id} [${lv.tag}=${lv.dt}] n=${r.n} steps=${r.steps}/${maxSteps}`
+      + `(${r.stopRule.stoppedBy}) orbits=${r.targets.map((t) => t.revN).join('/')}`
+      + ` peri=${r.stopRule.periFoundA.join('/')}≥${r.stopRule.needPeriastra}?${r.stopRule.periastraOk}`
+      + ` ${r.wallSec.toFixed(1)}s`);
   }
   out.presets.push({ decl: d, cfg: { center: cfg.c, orbiters: cfg.o, ringInner: cfg.ringInner || null,
     note: cfg.note || null }, runs: rows, toSec, G, c, heavy });
@@ -1093,23 +1171,78 @@ for (const P of (REGATE ? [] : out.presets)) {
       throw new Error('[w249b] 宣言 ' + declKey + ' が CSV の 1 行に解決できない(' + picked.reason
         + ')— **旧行へ黙って戻さない**。judgement-sources.json か CSV を直すこと');
     }
-    const row = SIGMA_TABLE.get(declKey);   // **従来行(ファイル順の最初)**が正式経路である
+    const legacyRow = SIGMA_TABLE.get(declKey);   // 従来行(ファイル順の最初)= AD5 **前**の正式経路
+    // ---------------------------------------------------------------- 第270便a(第60報 W1・AD5)
+    // **宣言を正式経路へ入れる**(第269便a の `diagnostic-only-until-AD5` を終える)。
+    // 切り替えるのは **6 つ同時**である —— 中心値(`q.obs`)・σ(`q.obsSigmaCsv`)・単位・解 ID
+    // (`solution`)・verified 状態(`sigmaPrimaryVerified`)・測定定義(`measurementDefinition`)。
+    // **1 つでも欠けたら切り替えない**(中心値だけ新解・σ だけ新解という混在を作らないため)。
+    // 旧経路(従来行での参照値と σ)は `judgementSource.previous` に**温存する**(履歴は消さない)。
+    // 5 区分(合/窓/否/従/転)の許容は従来どおり **obsCard の ±** で決める —— 第251便c の
+    // 「CSV の σ は 5 区分の経路へ入れない」という規約は AD5 でも変えない(σ が効くのは門だけ)。
+    let row = legacyRow;
     if (decl) {
+      const dRow = picked.row;
+      const judgedUnit = q.unit;   // fillPeriod/fillEcc/fillPrec が入れた判定量の単位
+      const unitOkPeriod = (kind === 'period' && decl.unit === 's' && judgedUnit === 's');
+      const unitOkEcc = (kind === 'ecc' && decl.unit === '1');
+      const unitOkPrec = (kind === 'precession' && decl.unit === 'deg/yr'
+        && typeof toJudgedUnit === 'function');
+      const unitOk = unitOkPeriod || unitOkEcc || unitOkPrec;
+      const centerRaw = Number(decl.value);
+      const center = !unitOk ? null
+        : (unitOkPrec ? toJudgedUnit(centerRaw) : centerRaw);
+      const sigmaRaw = (decl.sigma === undefined || decl.sigma === null) ? null : Number(decl.sigma);
+      const sigmaJudged = (sigmaRaw === null || !unitOk) ? null
+        : (unitOkPrec ? toJudgedUnit(sigmaRaw) : sigmaRaw);
+      const previous = { mode: 'diagnostic-only-until-AD5', since: '第269便a',
+        obs: (Number.isFinite(q.obs) ? q.obs : null),
+        obsSigmaCsv: (Number.isFinite(q.obsSigmaCsv) ? q.obsSigmaCsv : null),
+        officialRow: legacyRow ? { body: legacyRow.body, quantity: legacyRow.quantity,
+          unit: legacyRow.unit, sigma: legacyRow.sigma,
+          source: String(legacyRow.source).slice(0, 90),
+          primaryVerified: !!legacyRow.primaryVerified } : null,
+        note: '**AD5 前の正式経路**(中心値は obsCard 由来・σ は従来行)。**旧値は履歴として残す** —— '
+          + '新値として写してはならない。' };
       q.judgementSource = { declared: true, key: declKey, source: decl.source,
         solution: decl.solution || null, unit: decl.unit || null,
         csvQuantity: decl.csvQuantity || decl.quantity, declaredAt: decl.declared || null,
-        // **宣言行の値と σ は「別欄」**(判定には 1 bit も入らない)
-        declaredRow: { value: decl.value, sigma: decl.sigma === undefined ? null : decl.sigma,
-          unit: decl.unit || null, csvSigma: picked.row.sigma, csvUnit: picked.row.unit,
-          primaryVerified: !!picked.row.primaryVerified },
+        declaredRow: { value: decl.value, sigma: sigmaRaw,
+          unit: decl.unit || null, csvSigma: dRow.sigma, csvUnit: dRow.unit,
+          primaryVerified: !!dRow.primaryVerified },
         candidateResolved: true, resolveReason: null,
-        applied: false, mode: 'diagnostic-only-until-AD5',
-        // 正式経路が使っている行(= 従来行)を並べて、**混ざっていないこと**を JSON で見せる
-        officialRow: row ? { body: row.body, quantity: row.quantity, unit: row.unit, sigma: row.sigma,
-          source: String(row.source).slice(0, 90), primaryVerified: !!row.primaryVerified } : null,
-        note: '**宣言は診断欄のみ**(第269便a・統括の読み (G))—— `q.obs` も `q.obsSigmaCsv` も'
-          + '従来行のままで、中心値と σ が別の解から来る混在を作らない。'
-          + '切り替えは AD5 の署名便で**中心値・σ・単位・解 ID・verified 状態・測定定義を同時に**行う' };
+        applied: unitOk, mode: unitOk ? 'applied-AD5' : 'not-applied(unit-mismatch)',
+        unitOk, judgedUnit,
+        centerApplied: center, sigmaApplied: sigmaJudged,
+        // **測定定義**(どの推定器のどの窓で測った量を、この解と比べているのか)を同時に宣言する
+        measurementDefinition: (kind === 'period')
+          ? `検出器 A(ṙ の −→+ 交差)の近点間周期・窓=最初の ${PERI_WINDOW} 近点`
+            + `(${PERI_WINDOW - 1} 区間)/ 非タイミング連星は同方向 1 周(2 周目)`
+          : (kind === 'ecc') ? '1 周目の距離の極値の比 eProxy=(r_max−r_min)/(r_max+r_min)'
+            : '近点方位の直線 fit の傾き(検出器 A)',
+        officialRow: dRow ? { body: dRow.body, quantity: dRow.quantity, unit: dRow.unit,
+          sigma: dRow.sigma, source: String(dRow.source).slice(0, 90),
+          primaryVerified: !!dRow.primaryVerified } : null,
+        previous,
+        note: unitOk
+          ? '**AD5(第270便a)で正式経路へ入れた** —— 中心値・σ・単位・解 ID・verified 状態・'
+            + '測定定義を**同時に**宣言行から採っている(混在を作らない)。旧経路は `previous` に温存。'
+            + ' 5 区分の許容は従来どおり obsCard の ± である(CSV の σ は門だけ)。'
+          : '**単位が判定量と一致しないので切り替えない**(黙って換算しない)。旧経路のままである。' };
+      if (unitOk) {
+        // **6 つ同時**に切り替える(どれか 1 つだけを動かさない)
+        if (Number.isFinite(center)) q.obs = center;
+        q.obsUnitDeclared = decl.unit;
+        q.declaredSolution = decl.solution || null;
+        q.measurementDefinition = q.judgementSource.measurementDefinition;
+        row = dRow;   // σ・verified 状態・出典もこの行から採る(下の共通経路がそのまま使う)
+        if (q.kind === 'period' && q.detail && Number.isFinite(q.obs)) {
+          // 中心値が動いたので、同じ定義の残差欄も宣言行に対して作り直す(古い残差を残さない)
+          if (Number.isFinite(q.detail.periASec)) q.residualPctPeri = pct(q.detail.periASec, q.obs);
+          const rev1 = Array.isArray(q.detail.revSec) ? q.detail.revSec[1] : null;
+          if (Number.isFinite(rev1)) q.residualPctRev = pct(rev1, q.obs);
+        }
+      }
     }
     if (!row) { q.sigmaNote = `CSV に ${body}|${SIGMA_QUANT[kind]} の行が無い`; return q; }
     q.sigmaSource = { body: row.body, quantity: row.quantity, unit: row.unit, sigma: row.sigma,
@@ -1128,6 +1261,74 @@ for (const P of (REGATE ? [] : out.presets)) {
     } else q.sigmaNote = `CSV の σ の単位(${row.unit})が判定量へ換算できない — 転写しない`;
     return q;
   };
+  // ---------------------------------------------------------------- 第270便a(第60報 W1・AD8)
+  // **換算後の量を正式判定へ繋ぐ**(`AD8_CONVERT` に宣言した系だけ)。
+  //   ϖ̇ [deg/yr] = Δϖ [deg/周] × YEAR_SEC / P_peri、P_peri は**傾きと同じ近点集合**の平均間隔。
+  //   観測値と σ は CSV の deg/yr の行を**換算せずそのまま**使う(両辺を同じ係数で割るのと同値)。
+  //   窓が足りない(近点が宣言本数に届かない)段は**換算しない**:「未測定」と書いて判定へ流さない。
+  // **これは合否の宣言ではない** —— どちらへ動くかは走らせて測る。
+  const applyAD8 = (q, t) => {
+    if (!AD8_CONVERT.has(d.id) || q.kind !== 'precession' || q.unit !== 'deg/orbit') return q;
+    const body = SIGMA_TARGET_BODY[d.id + '|' + t.label]
+      || ((sigBody && t.label === cfg.orbiters[0][1]) ? sigBody : null);
+    const row = body ? SIGMA_TABLE.get(body + '|' + SIGMA_QUANT.precession) : null;
+    const det = q.detail || {};
+    const pSame = Number.isFinite(det.pPeriSameWindowSec) ? det.pPeriSameWindowSec : null;
+    const nSame = Number.isFinite(det.pPeriSameWindowN) ? det.pPeriSameWindowN : null;
+    const need = (base.stopRule && Number.isFinite(base.stopRule.needPeriastra))
+      ? base.stopRule.needPeriastra : PERI_WINDOW;
+    const ok = !!(row && row.unit === 'deg/yr' && Number.isFinite(row.value)
+      && Number.isFinite(q.meas) && pSame !== null && pSame > 0 && nSame !== null && nSame >= need);
+    const converted = ok ? precessionDegPerYear({ degPerOrbit: q.meas, pPeriSec: pSame }) : null;
+    q.ad8 = { converted: ok && Number.isFinite(converted), since: '第270便a(AD8)',
+      registry: THREE_STAGE_IDS.has(d.id),
+      needPeriastra: need, periastraUsed: nSame, pPeriSec: pSame,
+      periodDef: 'periastron-same-window', yearSec: YEAR_SEC,
+      contract: 'ϖ̇ [deg/yr] = Δϖ [deg/周] × ' + YEAR_SEC + ' / P_peri。P_peri は**傾き fit と'
+        + '同じ近点集合**(' + (nSame === null ? '—' : nSame) + ' 近点・'
+        + ((nSame || 1) - 1) + ' 区間)の平均間隔である(第269便a の契約)。'
+        + '**観測値と σ は CSV の deg/yr をそのまま使う**(換算係数を σ に混ぜない)。',
+      reason: ok ? null
+        : (!row ? 'CSV に deg/yr の行が無い'
+          : (pSame === null ? '**傾きと同じ窓の近点間周期が未測定**(短い窓へ置換しない)'
+            : (nSame !== null && nSame < need)
+              ? `近点が ${nSame} 本で宣言 ${need} 本に足りない(換算しない)`
+              : '実測が有限でない')),
+      note: '**換算は判定ではない** —— 合否は門(assessObservation)が決める。'
+        + '換算前(°/周)の行は `previousUnit` に温存する(切断点 `unit-not-converted` の対照は'
+        + '換算していない系に残る)。' };
+    if (!q.ad8.converted) return q;
+    // **換算前の行を温存**(旧値を新値として写さないため・履歴は消さない)
+    q.previousUnit = { unit: 'deg/orbit', meas: q.meas, obs: q.obs,
+      obsErr: (Number.isFinite(q.obsErr) ? q.obsErr : null),
+      obsSigmaCsv: (Number.isFinite(q.obsSigmaCsv) ? q.obsSigmaCsv : null),
+      sigmaNote: q.sigmaNote || null,
+      residualPct: Number.isFinite(q.residualPct) ? q.residualPct : null,
+      cut: 'unit-not-converted',
+      why: '第266便a〜第269便a の切断点(obsCard が °/周・CSV が deg/yr で、換算しないまま σ を'
+        + '当てると見かけの「合(3σ)」になる)。**第270便a(AD8)で換算を入れて正式接続した** —— '
+        + 'この欄は**換算前の記録**であって、新しい判定値ではない。' };
+    const f = YEAR_SEC / pSame;   // deg/周 → deg/yr の係数(正)
+    q.meas = converted;
+    q.obs = row.value;
+    q.obsErr = Number.isFinite(q.obsErr) ? q.obsErr * f : q.obsErr;
+    q.unit = 'deg/yr';
+    q.method = (q.method || '') + ` / **換算後 ϖ̇ [deg/yr]**(傾きと同じ ${nSame} 近点`
+      + `(${nSame - 1} 区間)の近点間周期 ${pSame.toPrecision(10)} s で割った — 第270便a AD8)`;
+    if (Number.isFinite(row.sigma) && row.sigma > 0) {
+      q.obsSigmaCsv = row.sigma;   // **換算しない**(観測側は既に deg/yr である)
+      q.sigmaNote = `σ=${row.sigma} を CSV(${row.body}|${row.quantity}・${row.unit})から`
+        + '**換算せずそのまま**転写(判定量を deg/yr へ写したので単位が一致する — 第270便a AD8)'
+        + `(sigma_primary=${row.primaryVerified ? 'verified' : 'unverified'})`;
+      q.sigmaSource = { body: row.body, quantity: row.quantity, unit: row.unit, sigma: row.sigma,
+        source: String(row.source).slice(0, 90), primaryVerified: row.primaryVerified };
+      q.sigmaPrimaryVerified = !!row.primaryVerified;
+    }
+    q.detail = Object.assign({}, q.detail, { degPerYearFromSameWindow: converted,
+      degPerYearFactor: f, degPerOrbitBeforeAD8: q.previousUnit.meas });
+    return q;
+  };
+
   const fillPeriod = (q, t) => {
     const revs = revSecOf(t);
     const pRev = pRevSec(t), pOsc = pOscSec(t);
@@ -1298,6 +1499,8 @@ for (const P of (REGATE ? [] : out.presets)) {
           q.model = conv(modRate);
           fillPrec(q, t);
         }
+        // 第270便a(AD8): 宣言した系だけ、判定量を **ϖ̇ [deg/yr]** へ写して正式判定へ繋ぐ
+        applyAD8(q, t);
       } else if (kind === 'spin') {
         const obsList = noObs ? [] : parseAllUnits(row.obs);
         if (!obsList.length) { q.method = 'declaration'; q.note = '観測欄が周期の数値ではない(帳簿・上限・比・宣言)'; }
@@ -1339,21 +1542,60 @@ for (const P of (REGATE ? [] : out.presets)) {
       if (kind === 'period') fillPeriod(q, t);
       else if (kind === 'ecc') fillEcc(q, t);
       else fillPrec(q, t);
+      // ---------------------------------------------------------------- 第270便a(第60報 W1・AD5)
+      // **宣言のある鍵だけ**、obsCard に行が無い量(標準検出器の行)でも宣言行を判定の参照にする。
+      // 宣言は「この量はどの解と比べるか」の宣言なので、obsCard に行が無いという理由で
+      // **宣言が宙に浮くのをやめる**(第269便a まで金星 e の宣言はどの量にも届いていなかった)。
+      // **宣言の無い鍵はここを通らない**(標準検出器の行に σ 宛先を一斉に引く変更ではない)。
+      const bodyStd = SIGMA_TARGET_BODY[d.id + '|' + t.label]
+        || ((sigBody && t.label === cfg.orbiters[0][1]) ? sigBody : null);
+      if (bodyStd && kind !== 'precession'
+        && JUDGEMENT_SOURCES.byKey.has(bodyStd + '|' + SIGMA_QUANT[kind])) {
+        applySigma(q, t, kind);
+        q.declaredOnlyRow = true;
+      }
       quantities.push(finish(q, kind));
     }
   }
 
-  // ---- 第257便d: 未測定の**理由**を分ける(時間予算か・窓そのものか)
+  // ---- 第257便d → **第270便a(AE9)**: 未測定の**理由**を分ける。
+  // 旧: `time-budget`(壁時計で切れた=機種依存)/ `window`。
+  // 新: `max-steps`(**宣言した步数上限**で止まった)/ `window`(步数は余っているのに近点が出ない)/
+  //     `resource-limit`(壁時計の**資源上限**を超えた段 —— 途中軌道を判定へ流さない)。
+  const sr0 = base.stopRule || null;
   for (const q of quantities) {
     if (q.kind !== 'period' || q.periodDef !== 'unmeasured') continue;
     const bt = base.timeBudget || {};
-    q.unmeasuredReason = bt.budgetHit ? 'time-budget' : 'window';
-    q.unmeasuredNote = bt.budgetHit
-      ? `**unmeasured/time-budget**: 与えた計算時間 ${bt.budgetSec} s を使い切って(実 ${(bt.wallSec || 0).toFixed(1)} s)`
-        + `20 近点窓が埋まらなかった(検出できた近点 ${JSON.stringify(bt.periFoundA)})。`
-        + '**機種依存の打ち切り**であって、数値が収束しないという意味ではない'
-      : `**unmeasured/window**: 計算時間は余っている(${(bt.wallSec || 0).toFixed(1)} / ${bt.budgetSec} s)のに`
-        + `20 近点窓が埋まらない(検出できた近点 ${JSON.stringify(bt.periFoundA)})— 軌道そのものの性質`;
+    q.unmeasuredReason = sr0 ? (sr0.resourceExceeded ? 'resource-limit'
+      : (sr0.cappedByDeclaration ? 'max-steps' : 'window')) : 'window';
+    q.unmeasuredNote = (q.unmeasuredReason === 'resource-limit')
+      ? `**unmeasured/resource-limit**: 壁時計の資源上限 ${sr0.wallCeilingSec} s を超えた`
+        + `(実 ${(sr0.wallSec || 0).toFixed(1)} s)。**途中までの軌道を判定へ流さない**`
+      : (q.unmeasuredReason === 'max-steps')
+        ? `**unmeasured/max-steps**: **宣言した步数上限 ${sr0.maxSteps} 步**(${sr0.maxStepsSource})`
+          + `まで走って ${PERI_WINDOW} 近点窓が埋まらなかった(検出できた近点 `
+          + `${JSON.stringify(sr0.periFoundA)})。**機種には依存しない打ち切り**であって、`
+          + '数値が収束しないという意味ではない'
+        : `**unmeasured/window**: 步数は余っている(${sr0 ? sr0.stepsRun : bt.stepsRun} / `
+          + `${sr0 ? sr0.maxSteps : bt.maxSteps} 步)のに ${PERI_WINDOW} 近点窓が埋まらない`
+          + `(検出できた近点 ${JSON.stringify(sr0 ? sr0.periFoundA : bt.periFoundA)})— 軌道そのものの性質`;
+  }
+  // ---- 第270便a(AE9)④: **資源上限を超えた段の測定は最終判定へ流さない**。
+  // 現行の走行では 1 段も超えない(超えていないことを `out.stopRuleCensus` が数で残す)。
+  // 超えた場合にだけ効く経路である —— 打ち切った軌道から作った値で合否を言わないためにある。
+  if (sr0 && sr0.resourceExceeded) {
+    for (const q of quantities) {
+      q.resourceExceeded = true;
+      q.measBeforeResourceLimit = q.meas;
+      q.meas = null;
+      q.unmeasuredReason = 'resource-limit';
+      q.verdict = VER.TR;
+      q.note = (q.note ? q.note + ' / ' : '')
+        + `**資源上限(壁時計 ${sr0.wallCeilingSec} s)を超えた段の測定である** —— `
+        + '途中までの軌道を最終判定へ流さない(unmeasured/resource-limit)';
+    }
+    notes.push(`**資源上限超過**: dt 段の壁時計 ${(sr0.wallSec || 0).toFixed(1)} s > `
+      + `${sr0.wallCeilingSec} s。この preset の量は judgement へ流していない`);
   }
 
   // ---- 宣言値と再実測の差(model 欄が読めた行だけ)
@@ -1403,6 +1645,14 @@ for (const P of (REGATE ? [] : out.presets)) {
       const a = pRevSec(t); return (a !== null) ? a : pOscSec(t); }
     if (q.kind === 'ecc') return eMeas(t);
     if (q.kind === 'precession') {
+      // 第270便a(AD8): 換算後の量は**各段それぞれの**「傾きと同じ近点集合の周期」で写す
+      // (h の周期で h/2・h/4 を割らない —— 段ごとに窓が同じ本数であることも確かめる)。
+      if (q.ad8 && q.ad8.converted) {
+        const nF = (t.A.perFitN === undefined) ? null : t.A.perFitN;
+        const pS = (Number.isFinite(t.A.perMeanFit) && t.A.perMeanFit > 0) ? t.A.perMeanFit * P.toSec : null;
+        if (!(Number.isFinite(nF) && nF >= q.ad8.needPeriastra) || pS === null) return null;
+        return precessionDegPerYear({ degPerOrbit: t.A.slopeDeg, pPeriSec: pS });
+      }
       if (q.unit === 's') { const sl = t.A.slopeDeg;
         const pS = (Number.isFinite(t.A.perMean) && t.A.perMean > 0) ? t.A.perMean * P.toSec : null;
         return (sl && pS) ? Math.abs(360 / sl) * pS : null; }
@@ -1410,6 +1660,38 @@ for (const P of (REGATE ? [] : out.presets)) {
     return null; };
   for (const q of quantities) {
     const t = base.targets.find((z) => z.label === q.target) || null;
+    // ---------------------------------------------------------------- 第270便a(第60報 W1・AD4/AE3)
+    // **段ごとの抽出の健全さ**を量に残す(収束規約が読む欄 —— 走行の中にしか無い情報である)。
+    //   ・`nan` / `clamp` … その段の走行そのものの異常
+    //   ・`dup` / `jump`  … 近点の重複除去と unwrap の中断(抽出器の異常)
+    //   ・`nPeri` / `perFound` / `perUnmeasured` … 段ごとの**窓の充足**(3 段で同じ窓か)
+    // **1 つでも欠けたら「収束済み」とは書かない**(第269便a の AD4 規約をそのまま門へ入れる)。
+    if (t) {
+      const stageOf = (run, tt) => (run && tt) ? {
+        tag: run.tag, nan: run.nan === true, clamp: run.clamp || 0,
+        dup: (tt.A && tt.A.rej) ? tt.A.rej.dup : null,
+        jump: (tt.A && tt.A.rej) ? tt.A.rej.jump : null,
+        nPeri: (tt.A && Number.isFinite(tt.A.nPeri)) ? tt.A.nPeri : null,
+        perFitN: (tt.A && tt.A.perFitN !== undefined) ? tt.A.perFitN : null,
+        perFound: (tt.A && tt.A.perFound !== undefined) ? tt.A.perFound : null,
+        perUnmeasured: (tt.A) ? tt.A.perUnmeasured === true : null,
+      } : null;
+      const sH = [stageOf(base, t), stageOf(half, halfOf(t)), stageOf(quarter, quarterOf(t))]
+        .filter(Boolean);
+      const fitSet = new Set(sH.map((z) => z.perFitN));
+      q.stageHealth = { stages: sH.length, rows: sH,
+        nan: sH.some((z) => z.nan), clamp: sH.reduce((a, z) => a + (z.clamp || 0), 0),
+        dup: sH.reduce((a, z) => a + (z.dup || 0), 0),
+        jump: sH.reduce((a, z) => a + (z.jump || 0), 0),
+        sameFitWindow: fitSet.size === 1,
+        fitWindows: [...fitSet],
+        periodWindowFilled: sH.every((z) => z.perUnmeasured === false),
+        extractionClean: !sH.some((z) => z.nan) && sH.reduce((a, z) => a + (z.clamp || 0), 0) === 0
+          && sH.reduce((a, z) => a + (z.dup || 0), 0) === 0
+          && sH.reduce((a, z) => a + (z.jump || 0), 0) === 0,
+        rule: '**AD4**(第269便a): ①3 段すべて窓充足 ②NaN 0・クランプ 0・重複 0・unwrap 中断 0 —— '
+          + '抽出の異常が 1 件でもあれば「収束済み」とは書かない' };
+    }
     const mHalf = rawMeas(q, halfOf(t));
     q.numBoundDt2 = (Number.isFinite(mHalf) && Number.isFinite(q.meas)) ? Math.abs(q.meas - mHalf) : null;
     // 第251便c: ε_num を作った**定義**を記録する(dt 2 段で定義が食い違っていないことの機械確認)
@@ -1474,7 +1756,14 @@ for (const P of (REGATE ? [] : out.presets)) {
   const degYearRow = sigBody ? SIGMA_TABLE.get(sigBody + '|periastron_advance') : null;
   const periodRow = sigBody ? SIGMA_TABLE.get(sigBody + '|orbital_period') : null;
   for (const q of quantities) {
-    if (q.kind !== 'precession' || q.unit !== 'deg/orbit') continue;
+    if (q.kind !== 'precession') continue;
+    // 第270便a(AD8): 判定量を deg/yr へ写した行でも、この**診断欄**(実時刻 fit)は残す。
+    // 判定に使う換算は「近点番号の傾き × YEAR / 同じ窓の近点間周期」であって、この欄の
+    // 「近点角の実時刻 fit」とは**別の推定器**である —— 2 つを並べて置く(混ぜない)。
+    const perOrbit = (q.unit === 'deg/orbit') ? { meas: q.meas, obs: q.obs }
+      : ((q.ad8 && q.ad8.converted && q.previousUnit)
+        ? { meas: q.previousUnit.meas, obs: q.previousUnit.obs } : null);
+    if (!perOrbit) continue;
     const t = base.targets.find((z) => z.label === q.target) || null;
     if (!t) continue;
     const tfOf = (x) => (x && x.A && x.A.timeFit && Number.isFinite(x.A.timeFit.slopeDegPerTime))
@@ -1511,8 +1800,12 @@ for (const P of (REGATE ? [] : out.presets)) {
         residRmsDeg: f0.residRmsDeg,
         note: '**横軸は時刻**(k·dt)であって近点番号ではない。共分散は fit の残差分散から作った '
           + '2×2(傾き・切片)である — 観測の誤差ではなく**この fit の内的な散らばり**である' },
-      degPerOrbit: { meas: q.meas, obs: q.obs, unit: 'deg/orbit',
-        note: '**別欄として残す**(第250便c 以来の判定量)。°/周 は周期を 1 つ選ばないと作れない' },
+      degPerOrbit: { meas: perOrbit.meas, obs: perOrbit.obs, unit: 'deg/orbit',
+        fromAD8Previous: !!(q.ad8 && q.ad8.converted),
+        note: '**別欄として残す**(第250便c 以来の判定量)。°/周 は周期を 1 つ選ばないと作れない'
+          + ((q.ad8 && q.ad8.converted)
+            ? ' / **この行は第270便a(AD8)で判定量を deg/yr へ写した** —— ここの °/周 は'
+              + '`previousUnit`(換算前)の記録である' : '') },
       provenance: {
         omegaDot: degYearRow ? String(degYearRow.source).slice(0, 110) : null,
         orbitalPeriod: periodRow ? String(periodRow.source).slice(0, 110) : null,
@@ -1539,7 +1832,12 @@ for (const P of (REGATE ? [] : out.presets)) {
       dtQuarter: quarter ? { dt: quarter.dt, steps: quarter.steps } : null,   // 第255便d(N8)
       dtEighth: eighth ? { dt: eighth.dt, steps: eighth.steps, wallSec: eighth.wallSec } : null,  // 第258便d(W4)
       // 第257便d: 段ごとの**計算時間予算**(機種依存の欄 — dt・近点数とは分けて置く)
-      timeBudget: P.runs.map((z) => Object.assign({ tag: z.tag }, z.timeBudget || {})) },
+      timeBudget: P.runs.map((z) => Object.assign({ tag: z.tag }, z.timeBudget || {})),
+      // 第270便a(AE9): **停止条件の宣言と結果**。dt 段を `stopRule`・全段を `stopRuleStages` に置く
+      // (走行長が步/秒・壁時計に依らないことを、段ごとに後から数えられるようにする)。
+      stopRule: base.stopRule || null,
+      stopRuleStages: P.runs.map((z) => Object.assign({ tag: z.tag }, z.stopRule || {})),
+      stepsPerOrbit0: (base.stopRule && base.stopRule.stepsPerOrbit0) || base.stepsPerOrbit0 || null },
     correlates, quantities, tally, notes });
 }
 
@@ -1547,6 +1845,30 @@ for (const P of (REGATE ? [] : out.presets)) {
 // --only で一部だけ回し直したとき、既存の結果へその preset だけを差し替える(物理の再実行を減らす)。
 let merged = report;
 if (MERGE && fs.existsSync(OUT)) {
+  {
+    // ---------------------------------------------------------------- 第270便a(第60報 W1・AE8)
+    // **--merge の鍵は preset id だけではない**。入力 CSV・宣言ファイル・窓・基準刻み・停止条件の版・
+    // 抽出器・門の規約・対象 HTML が**同じ記録どうし**でなければ差し替えてはならない。
+    // 1 つでも違えば**器を止める**(黙って混ぜない)。旧版の JSON(鍵そのものが無い)も止める ——
+    // 再現手順 ① の通常走行からやり直す。
+    const prev0 = JSON.parse(fs.readFileSync(OUT, 'utf8'));
+    const sha0 = (p) => { try { return crypto.createHash('sha256')
+      .update(fs.readFileSync(path.join(ROOT, p))).digest('hex'); } catch (e) { return null; } };
+    const now = { csvSha: sha0('paper/data/solar-observations.csv'),
+      judgementSourcesSha: sha0('paper/data/judgement-sources.json'), target: TARGET,
+      periWindow: PERI_WINDOW, dtBase: DT0, orbMax: ORB_MAX, stopRuleVersion: STOP_RULE_VERSION };
+    const old = prev0.mergeKey || null;
+    if (!old) {
+      throw new Error('[w249b] --merge の相手に `mergeKey` が無い(第270便a より前の JSON である)。'
+        + '**条件の違う記録を混ぜない** —— 再現手順 ① の通常走行からやり直すこと');
+    }
+    const diff = Object.keys(now).filter((k) => String(old[k]) !== String(now[k]));
+    if (diff.length) {
+      throw new Error('[w249b] --merge の鍵が一致しない(' + diff.map((k) =>
+        k + ': 既存=' + String(old[k]).slice(0, 16) + ' / 今回=' + String(now[k]).slice(0, 16)).join(' / ')
+        + ')。**異なる条件の記録を混ぜない** —— 再現手順 ① からやり直すこと');
+    }
+  }
   try {
     const prev = JSON.parse(fs.readFileSync(OUT, 'utf8'));
     const byId = new Map((prev.presets || []).map((r) => [r.id, r]));
@@ -1619,7 +1941,19 @@ if (REGATE) {
     const src = q.sigmaSource || null;
     if (!src || !src.body || !src.quantity) { sigmaRegate.noSource++; continue; }
     sigmaRegate.checked++;
-    const row = SIGMA_TABLE.get(src.body + '|' + src.quantity) || null;
+    // 統括の統合(第270便・AD5): **宣言のある鍵は宣言行を張り直す**(ファイル順の最初の行に戻さない)。
+    //   通常走行が `applied-AD5` で宣言行の σ を採った量を、--regate が従来行の σ で上書きすると
+    //   宣言前の状態へ黙って戻る(統合ツリーで実測: カロン 0.02592→null・J1946 1.728e-6→8.64e-4)。
+    //   宣言は body|quantity と body|csvQuantity のどちらの鍵でも引く。
+    const declRegate = (() => {
+      const k1 = src.body + '|' + src.quantity;
+      for (const d of (JUDGEMENT_SOURCES.declarations || [])) {
+        if ((d.body + '|' + d.quantity) === k1 || (d.body + '|' + (d.csvQuantity || d.quantity)) === k1) return d;
+      }
+      return null;
+    })();
+    const declaredRow = declRegate ? (pickDeclaredRow(declRegate, SIGMA_ROWS_ALL).row || null) : null;
+    const row = declaredRow || SIGMA_TABLE.get(src.body + '|' + src.quantity) || null;
     const oldSig = (typeof src.sigma === 'number') ? src.sigma : null;
     const newSig = row ? row.sigma : null;
     const oldVer = !!q.sigmaPrimaryVerified, newVer = !!(row && row.primaryVerified);
@@ -1783,9 +2117,33 @@ for (const r of merged) for (const q of (r.quantities || [])) {
       (q.numBoundDecl.steps >= 3) ? 4 : 2);
   }
   const nbd = q.numBoundDecl || null;
-  const convOK = numBound !== null && !!nbd
+  // ---------------------------------------------------------------- 第270便a(第60報 W1・AD4/AE3)
+  // **収束規約を門の `convergence.ok` に入れる**。第269便a までの条件は「3 段+次数>0」だけで、
+  // 第269便a の器(tests/exp-w268a-d68.mjs)が宣言した AD4 の 5 条件のうち 3 つが門に無かった。
+  //   ① 3 段(dt, dt/2, dt/4)     ② 実測次数 order>0
+  //   ③ **|p−2| ≤ 0.5 の次数ガード(AE3)** …… スキームは 2 次であると宣言しているので、
+  //      観測次数がそこから離れている量は**漸近域に居ない**(「収束済み」と書けない)。
+  //   ④ **窓充足**(3 段で同じ fit 窓・周期の窓が埋まっている)
+  //   ⑤ **抽出健全**(NaN 0・クランプ 0・重複除去 0・unwrap 中断 0)
+  //   ⑥ **ε̂ = |Q_h−Q_{h/4}|/(2^p−1) ≤ 0.3σ** と **最終段差 ≤ 0.3σ**(σ がある量だけ評価できる)
+  // **これは判定を甘くする条件ではない** —— 「まだ言えない」を言えるようにする条件である。
+  // 旧規約での成否は `convergence.okLegacy` に残す(**何がどこで動いたかを後から数えるため**)。
+  const convOKLegacy = numBound !== null && !!nbd
     && Number.isFinite(nbd.steps) && nbd.steps >= 3
     && Number.isFinite(nbd.order) && nbd.order > 0;
+  const sh = q.stageHealth || null;
+  const ord = (nbd && Number.isFinite(nbd.order)) ? nbd.order : null;
+  const orderGuard = (ord !== null) ? (Math.abs(ord - 2) <= 0.5) : false;
+  const epsHat = (numBound !== null && ord !== null && ord > 0)
+    ? numBound / (Math.pow(2, ord) - 1) : null;
+  const convBudget = (sig !== null && sig > 0) ? 0.3 * sig : null;
+  const epsHatOk = (epsHat === null || convBudget === null) ? null : (epsHat <= convBudget);
+  const lastDiffOk = (numBound === null || convBudget === null) ? null : (numBound <= convBudget);
+  const windowsComplete = sh ? (sh.sameFitWindow === true
+    && (q.kind !== 'period' || sh.periodWindowFilled === true)) : false;
+  const extractionClean = sh ? (sh.extractionClean === true) : false;
+  const budgetOK = (convBudget === null) ? true : (epsHatOk === true && lastDiffOk === true);
+  const convOK = convOKLegacy && orderGuard && windowsComplete && extractionClean && budgetOK;
   // 第257便d: 観測量対応の宣言(自動判定ではない)
   const mapNote = MAPPING_UNRESOLVED(q.kind, r.id);
   const g = assessObservation({ value: q.meas, reference: q.obs, sigma: sig, numBound,
@@ -1821,10 +2179,31 @@ for (const r of merged) for (const q of (r.quantities || [])) {
     detSpreadPct: 'orbitNoiseIndicator.abRelPct', defMeta: 'definitionDeclared(A 正本)' };
   g.numBoundDecl = q.numBoundDecl || null;   // ε_num は「感度診断」である(dt/4 は走らせていない)
   // 第253便b: 保留の理由を機械可読で残す(なぜ「数値未解決」なのかが JSON から辿れるように)
-  g.convergence = { ok: convOK, steps: nbd ? nbd.steps : null, order: nbd ? nbd.order : null,
-    rule: '3 段(dt, dt/2, dt/4)かつ実測次数 order>0 が揃うまで収束済みとしない(第253便b)',
-    hold: convOK ? null : ((!nbd || !(nbd.steps >= 3)) ? 'dt 3 段が走っていない(2 段は感度診断)'
-      : '収束次数が未測定または非正') };
+  g.convergence = { ok: convOK, okLegacy: convOKLegacy,
+    steps: nbd ? nbd.steps : null, order: nbd ? nbd.order : null,
+    orderGuard, orderGuardRule: '|p−2| ≤ 0.5(AE3 —— スキームは 2 次であると宣言しているので、'
+      + '観測次数がそこから離れている量は**漸近域に居ない**)',
+    epsHat, epsHatInSigma: (epsHat !== null && sig) ? epsHat / sig : null, epsHatOk,
+    lastDiff: numBound, lastDiffInSigma: (numBound !== null && sig) ? numBound / sig : null, lastDiffOk,
+    budget: convBudget, windowsComplete, extractionClean,
+    fitWindows: sh ? sh.fitWindows : null,
+    rule: '**AD4+AE3(第270便a)**: ①3 段(dt, dt/2, dt/4)②実測次数 order>0 '
+      + '③**|p−2| ≤ 0.5**(次数ガード)④窓充足(3 段で同じ fit 窓・周期窓が埋まっている)'
+      + '⑤抽出健全(NaN 0・クランプ 0・重複 0・unwrap 中断 0)⑥ε̂=|Q_h−Q_{h/4}|/(2^p−1) と'
+      + '最終段差がどちらも **≤0.3σ**(σ を持つ量だけ評価できる)。'
+      + '**判定を甘くする条件ではない** —— 「まだ言えない」を言えるようにする条件である。',
+    hold: convOK ? null
+      : ((!nbd || !(nbd.steps >= 3)) ? 'dt 3 段が走っていない(2 段は感度診断)'
+        : (!(ord > 0) ? '収束次数が未測定または非正'
+          : (!orderGuard ? `**次数ガード(AE3)で保留**: 観測次数 p=${ord.toFixed(4)} が 2 から `
+            + `${Math.abs(ord - 2).toFixed(4)} 離れている(|p−2|≤0.5 を満たさない)= 漸近域に居ない`
+            : (!windowsComplete ? '3 段で窓が揃っていない(fit 窓が違う/周期窓が埋まっていない)'
+              : (!extractionClean ? '抽出に異常がある(NaN/クランプ/重複/unwrap 中断)'
+                : '数値誤差幅が 0.3σ の予算を超える'))))),
+    previous: { rule: '3 段かつ order>0(第253便b〜第269便a)', ok: convOKLegacy,
+      note: '**旧規約での成否**。第270便a で AD4+AE3 を門へ入れたので、'
+        + '**旧規約で「収束済み」だった量のうち次数ガードを満たさないものは「数値未解決」へ戻る** —— '
+        + 'これは測定が悪くなったのではなく、収束したと言える条件を満たしていなかったということである。' } };
   // 参考(判定ではない): 来歴・定義の条件を外し、3σ+ε_num の算術だけを見たときの成否
   g.arithOnly = (sig !== null && numBound !== null && Number.isFinite(q.meas) && Number.isFinite(q.obs))
     ? (Math.abs(q.meas - q.obs) <= 3 * sig + numBound) : null;
@@ -1871,15 +2250,26 @@ out.judgementSources = { file: 'paper/data/judgement-sources.json', ok: JUDGEMEN
     source: String(d.source).slice(0, 90), value: d.value,
     sigma: d.sigma === undefined ? null : d.sigma, unit: d.unit || null })),
   notDeclared: (JUDGEMENT_SOURCES.notDeclared || []).map((d) => d.body + '|' + d.quantity),
-  // 第269便a(統括の読み (F)(G))
-  mode: 'diagnostic-only-until-AD5',
+  // 第269便a(統括の読み (F)(G))→ **第270便a(AD5)で正式経路へ**
+  mode: 'applied-AD5',
   identity: '同定は body・csvQuantity・**source**・**unit**・value・sigma の完全一致。'
     + '欠損値を 0 に変換しない。重複宣言・不正スキーマ・解決失敗は**器を止める**(throw)。',
-  appliedToJudgement: false,
+  appliedToJudgement: true,
+  appliedSince: '第270便a(2026-09-18・AD5)',
+  appliedWhat: ['中心値 q.obs', 'σ q.obsSigmaCsv', '単位', '解 ID(solution)',
+    'verified 状態(sigmaPrimaryVerified)', '測定定義(measurementDefinition)'],
+  appliedRule: '**6 つを同時に**宣言行から採る(1 つでも欠けたら切り替えない —— 中心値だけ新解・'
+    + 'σ だけ新解という混在を作らない)。単位が判定量と一致しない宣言は**黙って換算せず**'
+    + '`mode:"not-applied(unit-mismatch)"` で止める。旧経路(AD5 前の参照値と σ)は'
+    + '`q.judgementSource.previous` に**温存する**。',
+  fiveValueRule: '5 区分(合/窓/否/従/転)の許容は従来どおり **obsCard の ±**(無ければ目安 ±1%)'
+    + 'で決める —— 第251便c の「CSV の σ は 5 区分の経路へ入れない」規約は AD5 でも変えない'
+    + '(σ が効くのは門だけ)。**中心値は宣言行へ動く**ので、5 区分の残差は宣言行に対する残差である。',
+  declaredOnlyStandardRows: '**宣言のある鍵だけ**、obsCard に行が無い量(標準検出器の行)でも'
+    + '宣言行を参照にする(第269便a まで金星 e の宣言はどの量にも届いていなかった)。'
+    + '**宣言の無い鍵には σ 宛先を引かない**。',
   note: '**宣言の無い body|quantity は従来どおりファイル順の最初の行**である(後方互換)。'
-    + '**第269便a 以降、宣言は診断欄だけに置く**(`q.judgementSource.applied=false`)—— '
-    + '`q.obs` も `q.obsSigmaCsv` も従来行のままで、中心値と σ が別の解から来る混在を作らない。'
-    + '切り替えは AD5 の署名便で同時に行う。' };
+    + '**「宣言したので判定が増えた」とは書かない** —— 動いた行は旧値と並べて理由を残す。' };
 out.infoDistance = infoDistance;
 // ---- 第250便c: 量の総数と、I2 の機械門の集計(5 区分の tally はそのまま残す)----
 const allQ = merged.flatMap((r) => r.quantities || []);
@@ -2029,8 +2419,13 @@ out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
       statusDegYear: q.degYear.gate ? q.degYear.gate.status : null,
       statusDegPerOrbit: q.gate ? q.gate.status : null,
       moved: !!(q.gate && q.degYear.gate && q.gate.status !== q.degYear.gate.status),
-      measDegPerOrbit: q.meas, obsDegPerOrbit: q.obs,
-      ratioDegPerOrbit: (Number.isFinite(q.meas) && Number.isFinite(q.obs) && q.obs !== 0) ? q.meas / q.obs : null,
+      // 第270便a(AD8): 判定量を deg/yr へ写した行では、**°/周 は換算前の記録**である
+      // (`q.meas` はもう °/周 ではない)。欄の意味を取り違えないよう degYear.degPerOrbit から採る。
+      ad8Converted: !!(q.ad8 && q.ad8.converted),
+      measDegPerOrbit: q.degYear.degPerOrbit.meas, obsDegPerOrbit: q.degYear.degPerOrbit.obs,
+      ratioDegPerOrbit: (Number.isFinite(q.degYear.degPerOrbit.meas)
+        && Number.isFinite(q.degYear.degPerOrbit.obs) && q.degYear.degPerOrbit.obs !== 0)
+        ? q.degYear.degPerOrbit.meas / q.degYear.degPerOrbit.obs : null,
       tSpanYr: q.degYear.timeFit ? q.degYear.timeFit.tSpanYr : null,
       nPeri: q.degYear.timeFit ? q.degYear.timeFit.nPeri : null,
       seDegPerYr: q.degYear.timeFit ? q.degYear.timeFit.seDegPerYr : null,
@@ -2160,6 +2555,89 @@ out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
     rule: '**登録表は「3 段(dt/4)で走らせる対象である」という宣言**である。'
       + '登録しても σ は 1 件も増えず、3σ も 1 件も動かない —— `pass3SigmaTotal` がそれを数える。',
     note: '**新しく繋がった量が 3σ を通らないことを隠さない**(第264便a の 11 件は 0 件のままである)。' };
+}
+
+// ---------------------------------------------------------------- 第270便a(第60報 W1・AE8/AE9/(A))
+// (f) **4 値の履歴**・**再現手順**・**--merge の鍵**・**停止条件の点検**。
+// 本便は**署名便**である —— 既定経路の結果が動く。**旧値を履歴として残し、新値は再集計して測る**。
+{
+  const sha = (p) => { try { return crypto.createHash('sha256')
+    .update(fs.readFileSync(path.join(ROOT, p))).digest('hex'); } catch (e) { return null; } };
+  const csvSha = sha('paper/data/solar-observations.csv');
+  const jsSha = sha('paper/data/judgement-sources.json');
+  out.mergeKey = { csvSha, judgementSourcesSha: jsSha, target: TARGET,
+    periWindow: PERI_WINDOW, dtBase: DT0, orbMax: ORB_MAX,
+    stopRuleVersion: STOP_RULE_VERSION,
+    extractor: 'periastron-detectorA(ṙ の −→+ 交差・線形内挿)+ 第269便a の同窓周期',
+    gateRule: 'AD4+AE3(3 段・order>0・|p−2|≤0.5・窓充足・抽出健全・ε̂ と 2 段差 ≤0.3σ)',
+    judgementMode: 'applied-AD5',
+    rule: '**--merge はこの鍵が一致する記録どうしでしか行えない**(preset id だけを鍵にしない)。'
+      + '入力 CSV・宣言・窓・刻み・停止条件の版・抽出器・門の規約のどれか 1 つでも違えば器を止める。' };
+  out.reproduce = {
+    step1: 'PLAYWRIGHT_CORE_DIR=… node tests/exp-w249b-calaudit.mjs(通常走行・全プリセット)',
+    step2: 'PLAYWRIGHT_CORE_DIR=… node tests/exp-w249b-calaudit.mjs --dt3-registry --merge',
+    step3: 'node tests/exp-w262d-solarsigma.mjs',
+    regate: '**`--regate` の産物を正本にしない** —— 再判定専用(`applySigma` を通らないので'
+      + '宣言・単位換算・新しい宛先は反映されない)。元測定の来歴は --regate の前の走行にある。',
+    note: '**この順序が正本である**(第270便a・AE8)。docs/CALIBRATION_VERDICT_v1.44.md §5.16 と同じ。' };
+  const counts = out.verdictLedger.counts;
+  out.fourValues = {
+    current: { counts, gate: out.summary.gate.byStatus, tally: out.summary.tally,
+      commit: '第270便a(署名便)', csvSha, judgementSourcesSha: jsSha, when: out.meta.when || null },
+    history: [{
+      wave: '第269便(第59報・PR #271)', commit: 'f6c19b4',
+      counts: { '合': 0, '量限定合': 2, '否': 2, '保留': 33 },
+      gate: { '合(3σ)': 2, '否(3σ)': 2, '数値未解決': 31, 'mapping-unresolved': 13,
+        'condition-mismatch': 8, '未判定': 258 },
+      tally: { '合': 56, '窓': 6, '否': 22, '従': 4, '転': 218, '条': 8 },
+      solarFour: { '保留': 16 }, solarCut: { 'csv-sigma-empty': 109, 'kind-not-gated': 26,
+        'unit-not-converted': 4 },
+      csvSha: 'e426aa7d8a6751068699933074c7885ee66234936e11aafd319bc091a670afd4',
+      judgementSourcesVersion: '第268便a(2026-09-17)・mode=diagnostic-only-until-AD5',
+      reason: '**基点**。宣言は診断欄のみ・📡 は 3 段登録に無く換算前(°/周)で判定・'
+        + '収束規約は「3 段+order>0」だけ・走行長は步/秒×時間予算(機種依存)。',
+    }],
+    whatMoved: ['AD5: 宣言 2 件(カロン P・金星 e)を正式経路へ(中心値・σ・単位・解 ID・'
+      + 'verified 状態・測定定義を同時に切り替え)',
+    'AD8: 📡 D68 を 3 段登録し、**換算後(同じ近点集合の P_peri)の ϖ̇ [deg/yr]** を正式判定へ',
+    'AD4+AE3: 収束規約に次数ガード |p−2|≤0.5・窓充足・抽出健全・ε̂ と 2 段差の予算を入れた',
+    'AE9: 走行長を「步数上限+必要近点数の宣言」へ(壁時計は資源上限だけ)'],
+    doNotWrite: ['判定が増えた', '較正を完了した', 'D68 が合(3σ)', '太陽系の σ が揃った',
+      '模型が較正された'],
+    note: '**「1 回」は以後の訂正禁止の意味ではない** —— 旧値は履歴として残し、'
+      + '動いた行は理由・分母・入力の SHA・宣言版を添えて並べる。',
+  };
+  // (g) **AE3 の反実仮想**(次数ガードを入れなかったときの門)。**どの行がどちらへ動いたか**を数で残す。
+  const cf = { rule: '第269便a の規約(3 段+order>0)だけで判定したときの門', moved: [], byStatus: {} };
+  for (const r of merged) for (const q of (r.quantities || [])) {
+    const g = q.gate; if (!g) continue;
+    const c = g.convergence || {};
+    let st = g.status;
+    if (c.okLegacy === true && c.ok === false && g.status === GATE.NUM) {
+      // 旧規約なら収束済みとして 3σ の算術に入っていた行
+      st = (g.arithOnly === true) ? GATE.OK : ((g.arithOnly === false) ? GATE.NG : g.status);
+      if (st !== g.status) cf.moved.push({ key: g.key, now: g.status, legacy: st,
+        order: c.order, orderGuard: c.orderGuard, nSigma: g.nSigma });
+    }
+    cf.byStatus[st] = (cf.byStatus[st] || 0) + 1;
+  }
+  cf.n = cf.moved.length;
+  cf.note = '**AE3(次数ガード |p−2|≤0.5)を入れたことで「数値未解決」へ戻った行**が '
+    + cf.n + ' 件ある。**測定が悪くなったのではない** —— 観測次数が 2 から離れている量は'
+    + '漸近域に居ないので、「収束した」と書ける条件を満たしていなかったということである。';
+  out.ae3Counterfactual = cf;
+  // (h) **停止条件の点検**(AE9): 資源上限を超えた段・步数上限で止まった段・近点不足の段を数える。
+  const srRows = [];
+  for (const r of merged) {
+    const tb = (r.run && r.run.timeBudget) || [];
+    srRows.push({ id: r.id, emoji: r.emoji, stages: tb.map((z) => z.tag) });
+  }
+  out.stopRuleCensus = { version: STOP_RULE_VERSION,
+    presets: srRows.length,
+    wallCeilingSec: WALL_CEILING_SEC,
+    note: '段ごとの宣言と結果は `presets[].run.stopRule`(走行した preset)にある。'
+      + '**壁時計は資源上限にだけ効く** —— 現行の走行で超えた段があるかどうかは '
+      + 'tests/exp-w270a-stoprule.mjs が全段を数えて記録する。' };
 }
 
 fs.mkdirSync(path.dirname(OUT), { recursive: true });

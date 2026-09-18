@@ -55,7 +55,8 @@ const ROWS = (() => {
     const c = parseCsvLine(line);
     const sg = (c[8] !== undefined && c[8].trim() !== '') ? Number(c[8]) : null;
     const note = String(c[7] || '');
-    const sol = (note.match(/solution=([A-Za-z0-9+_-]+)/) || [null, null])[1];
+    // 第270便c(AD9): 語境界つき —— `adopted_solution=` の部分文字列に当てない
+    const sol = (note.match(/(?<![A-Za-z0-9_-])solution=([A-Za-z0-9+_-]+)/) || [null, null])[1];
     r.push({ body: c[0], quantity: c[1], value: Number(c[2]), unit: c[3], source: String(c[4]),
       note, solution: sol, sigma: (Number.isFinite(sg) && sg > 0) ? sg : null });
   }

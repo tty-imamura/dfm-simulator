@@ -73,7 +73,11 @@ export function degPerYearToPerOrbit({ degPerYear, pPeriSec, yearSec = YEAR_SEC 
 //   ④ 同じ key の宣言が 2 件あると**後勝ち**で黙って上書きされる → `ok:false` で**器を止める**。
 //   ⑤ 不正スキーマ(schemaVersion≠1・必須欄欠け・σ≤0)も `ok:false` で**器を止める**。
 // **止める**というのは「別の解に戻して走行を続けない」という意味である(黙って旧行へ戻らない)。
-// 将来は `record_id` / `solution_id` で同定する(**決断事項** —— 文字列出典より安定である)。
+//
+// **第270便b(第60報 W2・統括の読み (G) AE2)**: CSV に `record_id` 欄が付いたので、宣言にも
+//   `record_id` を**足した**(文字列の `source`/`unit`/`value`/`sigma` は**残す**)。
+//   `record_id` があるときは**それで厳密に同定する**(1 件に決まらなければ理由つきで `null` ——
+//   **文字列出典へ黙って落ちない**)。`solution_id` は**空欄でよい**(本便では作らない — 決断事項)。
 
 // 宣言オブジェクト(ファイルの中身)の検証。**純関数**(ファイルを読まない)。
 export function validateJudgementSources(j, file = null) {
@@ -93,6 +97,12 @@ export function validateJudgementSources(j, file = null) {
     if (!('sigma' in d)) errors.push(where + ': `sigma` 欄が無い(null か正の数を書く)');
     else if (!(d.sigma === null || (Number.isFinite(Number(d.sigma)) && Number(d.sigma) > 0)))
       errors.push(where + ': `sigma` が null でも正の数でもない(' + String(d.sigma) + ')');
+    // 第270便b(AE2): `record_id` は**あれば非空の文字列**(欄を置いて空にするのは宣言ではない)。
+    //   `solution_id` は**空文字でよい**(本便では作らない — 決断事項)。
+    if ('record_id' in d && !str(d.record_id))
+      errors.push(where + ': `record_id` 欄があるのに非空の文字列でない');
+    if ('solution_id' in d && typeof d.solution_id !== 'string')
+      errors.push(where + ': `solution_id` が文字列でない(空欄可 —— 未作成は "" と書く)');
     const key = String(d.body) + '|' + String(d.quantity);
     if (byKey.has(key)) errors.push(where + ': **同じ key の宣言が 2 件ある**(後勝ちで黙って上書きしない)');
     else byKey.set(key, d);
@@ -119,6 +129,15 @@ export function loadJudgementSources(file) {
 //   1 件に決まらなければ `null` を返し、理由を `reason` に置く(**推測で当てない**)。
 export function pickDeclaredRow(decl, allRows) {
   if (!decl) return { row: null, reason: 'declaration-missing' };
+  // 第270便b(AE2): **`record_id` があれば最優先で厳密一致**。1 件に決まらなければ
+  // **理由つきで null**(文字列出典の一致条件へ黙って落ちない —— それでは鍵を足した意味が無い)。
+  const rid = (typeof decl.record_id === 'string') ? decl.record_id.trim() : '';
+  if (rid !== '') {
+    const byId = (allRows || []).filter((r) => String(r.recordId || r.record_id || '').trim() === rid);
+    if (byId.length === 1) return { row: byId[0], reason: null, matchedBy: 'record_id' };
+    return { row: null, matchedBy: 'record_id',
+      reason: byId.length === 0 ? 'record-id-not-found' : ('record-id-ambiguous(' + byId.length + ')') };
+  }
   const key = decl.csvQuantity || decl.quantity;
   const same = (a, b) => (a === null || a === undefined) ? (b === null || b === undefined) : (a === b);
   const declV = Number(decl.value);

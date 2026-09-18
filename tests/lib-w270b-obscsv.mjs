@@ -1,0 +1,134 @@
+// 第270便b(第60報 W2・統括の読み (G) AE2): **観測 CSV をヘッダ名で読む 1 本**と **`record_id` の規約**。
+//
+// ■ なぜ要るか(第270便b で足した `record_id` 欄の前提)
+//   `paper/data/*.csv` を読む器は、これまで**列位置**(`c[0]`〜`c[8]`)で読んでいた。列を 1 本足すと
+//   位置がずれた瞬間に「値が別の欄から入る」事故が起きる(今回は末尾に足したので既存の位置は動かない
+//   が、**次に誰かが中間へ足したら壊れる**)。そこで**ヘッダ行の名前から位置を引く**形に直す。
+//   ここで配るのは「名前 → 列位置」の対応 `headerIndex()` だけで、**各器の読み方は変えていない**
+//   (`c[7]` が `c[H.note]` になっただけで、同じ行の同じ文字列を読む)。
+//
+// ■ `record_id` の規約(**値・単位・出典・σ・note を 1 文字も変えない**)
+//   ・置き場所は**ヘッダ末尾**(`body,quantity,value,unit,source,url,retrieved,note,sigma,record_id`)。
+//     CSV の diff は各行末尾の `,<id>` だけである。
+//   ・ID は `<PFX>-<sha256(file\nbody\nquantity\nunit\nsource) の先頭 8 桁>`。
+//     `PFX` は `SOL`(太陽系)・`CLG`(星団/銀河)・`TRN`(突発天体)。
+//   ・**同じ `body|quantity|unit|source` の行が複数あるとき**(併置行の重複転写)は、
+//     ファイル順の 2 件目以降に `-2`, `-3`, … を付ける(**出現順の枝番**)。
+//     枝番は行の挿入で動きうる —— 安定なのは「同じ 5 つ組の 1 件目」までである。これは規約であって
+//     推測ではない(**同名異解は unit か source が違うので別 ID になる**)。
+//   ・`solution_id` は**本便では作らない**(空欄可 —— 決断事項)。
+//   ・ID は**同定の鍵**であって、印(`sigma_primary`)でも σ でも判定でもない。
+//     `record_id` を足したことで判定(4 値)は 1 本も動かない(QA `lint.recordId` が数で固定する)。
+//
+// ■ この器がしないこと
+//   ・CSV を書かない(書くのは `tests/exp-w270b-recordid.mjs` の `--write` だけ)。
+//   ・値・単位・出典・σ・note を 1 文字も触らない。
+//   ・印を上げ下げしない。
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+
+/** RFC4180 風の 1 行分解(二重引用符のエスケープ `""` に対応)。 */
+export function parseCsvLine(line) {
+  const c = []; let cur = '', q = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (q) { if (ch === '"') { if (line[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += ch; }
+    else if (ch === '"') q = true;
+    else if (ch === ',') { c.push(cur); cur = ''; }
+    else cur += ch;
+  }
+  c.push(cur); return c;
+}
+
+/** 観測 CSV の必須列(この 8 つが無いファイルは観測 CSV として読まない)。 */
+export const REQUIRED_COLUMNS = ['body', 'quantity', 'value', 'unit', 'source', 'url', 'retrieved', 'note'];
+
+/**
+ * ヘッダ行から「名前 → 列位置」を作る。**列位置を書かない**ための 1 本。
+ * @param {string} headerLine CSV の 1 行目
+ * @returns {{[name:string]: number}} 名前 → 位置(`missing` に欠けている必須列を入れる)
+ */
+export function headerIndex(headerLine) {
+  const names = parseCsvLine(String(headerLine || '')).map((s) => s.trim());
+  const H = {};
+  names.forEach((n, i) => { if (n !== '' && !(n in H)) H[n] = i; });
+  Object.defineProperty(H, 'names', { value: names, enumerable: false });
+  Object.defineProperty(H, 'missing', {
+    value: REQUIRED_COLUMNS.filter((n) => !(n in H)), enumerable: false });
+  return H;
+}
+
+/** ファイル名 → `record_id` の接頭辞(未知のファイルは `OBS`)。 */
+export function idPrefix(file) {
+  const b = path.basename(String(file || ''));
+  if (b.indexOf('solar-observations') >= 0) return 'SOL';
+  if (b.indexOf('cluster-galaxy-observations') >= 0) return 'CLG';
+  if (b.indexOf('transient-observations') >= 0) return 'TRN';
+  return 'OBS';
+}
+
+/**
+ * `record_id` の素(枝番の付かない形)。**行番号も値も σ も使わない**。
+ * @param {string} file CSV のファイル名(basename でよい)
+ */
+export function baseRecordId(file, body, quantity, unit, source) {
+  const key = [path.basename(String(file || '')), String(body), String(quantity),
+    String(unit), String(source)].join('\n');
+  return idPrefix(file) + '-' + crypto.createHash('sha256').update(key, 'utf8').digest('hex').slice(0, 8);
+}
+
+/**
+ * 1 ファイル分の `record_id` を**ファイル順**で作る(重複には出現順の枝番)。
+ * @param {Array<{body:string,quantity:string,unit:string,source:string}>} rows
+ * @returns {{ids:string[], collisions:Array<{id:string,lns:number[]}>}}
+ */
+export function assignRecordIds(file, rows) {
+  const seen = new Map(), ids = [], groups = new Map();
+  rows.forEach((r, i) => {
+    const b = baseRecordId(file, r.body, r.quantity, r.unit, r.source);
+    const k = (seen.get(b) || 0) + 1;
+    seen.set(b, k);
+    const id = (k === 1) ? b : (b + '-' + k);
+    ids.push(id);
+    groups.set(b, (groups.get(b) || []).concat(r.ln === undefined ? i + 2 : r.ln));
+  });
+  const collisions = [...groups.entries()].filter(([, lns]) => lns.length > 1)
+    .map(([id, lns]) => ({ id, lns }));
+  return { ids, collisions };
+}
+
+/**
+ * 観測 CSV を**ヘッダ名で**読む。各行は名前つきの欄と、生の列配列 `cells` と、
+ * 名前引きの `cell(name)` を持つ(**列位置は 1 つも書かない**)。
+ * @param {string} fp 絶対パス
+ */
+export function loadObsCsv(fp) {
+  const out = { file: path.basename(fp), path: fp, header: null, rows: [], missing: [] };
+  if (!fs.existsSync(fp)) return out;
+  const lines = fs.readFileSync(fp, 'utf8').split('\n');
+  const H = headerIndex(lines[0] || '');
+  out.header = H; out.missing = H.missing.slice();
+  const cell = (c, n) => ((n in H) && c[H[n]] !== undefined) ? c[H[n]] : '';
+  for (let i = 1; i < lines.length; i++) {
+    const L = lines[i];
+    if (!L.trim()) continue;
+    const c = parseCsvLine(L);
+    const sgRaw = String(cell(c, 'sigma')).trim();
+    const sg = (sgRaw !== '') ? Number(sgRaw) : null;
+    const vRaw = String(cell(c, 'value')).trim();
+    out.rows.push({
+      ln: i + 1, file: out.file, cells: c, cell: (n) => cell(c, n),
+      body: cell(c, 'body'), quantity: cell(c, 'quantity'),
+      rawValue: cell(c, 'value'), value: (vRaw !== '') ? Number(vRaw) : null,
+      unit: cell(c, 'unit'), source: cell(c, 'source'), url: cell(c, 'url'),
+      retrieved: cell(c, 'retrieved'), note: cell(c, 'note'),
+      rawSigma: sgRaw, sigma: (Number.isFinite(sg) && sg > 0) ? sg : null,
+      recordId: String(cell(c, 'record_id')).trim(),
+    });
+  }
+  return out;
+}
+
+export default { parseCsvLine, headerIndex, idPrefix, baseRecordId, assignRecordIds, loadObsCsv,
+  REQUIRED_COLUMNS };

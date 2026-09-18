@@ -1,0 +1,211 @@
+{
+ "when": "2026-09-18T01:11:31.142Z",
+ "wave": "第270便b(第60報・W2・AE2)",
+ "base": "main f6c19b4",
+ "wrote": false,
+ "rule": [
+  "`record_id` は**ヘッダ末尾**の 1 欄で、行の diff は `,<id>` だけである",
+  "ID = `<PFX>-<sha256(file\\nbody\\nquantity\\nunit\\nsource) の先頭 8 桁>`(PFX = SOL / CLG / TRN)",
+  "同じ 5 つ組の 2 件目以降は**出現順の枝番** `-2`(併置行の重複転写を分ける)",
+  "**値・単位・出典・σ・note を 1 文字も変えない**(`record_id` は同定の鍵であって印でも σ でもない)",
+  "`solution_id` は本便では作らない(**空欄可** —— 決断事項)",
+  "CSV を読む器は**列位置でなくヘッダ名**で読む(`tests/lib-w270b-obscsv.mjs`)"
+ ],
+ "files": [
+  {
+   "file": "solar-observations.csv",
+   "rows": 521,
+   "hadColumn": true,
+   "wrote": false,
+   "idsAssigned": 521,
+   "duplicated": 0,
+   "branched": [
+    {
+     "id": "SOL-c25ebbd9",
+     "lns": [
+      167,
+      179
+     ]
+    },
+    {
+     "id": "SOL-b134a027",
+     "lns": [
+      168,
+      180
+     ]
+    }
+   ],
+   "sample": [
+    {
+     "ln": 2,
+     "body": "Mars",
+     "quantity": "mass",
+     "id": "SOL-546fa429"
+    },
+    {
+     "ln": 3,
+     "body": "Mars",
+     "quantity": "radius",
+     "id": "SOL-115bcbaf"
+    },
+    {
+     "ln": 4,
+     "body": "Mars",
+     "quantity": "rotation_period",
+     "id": "SOL-8155e0b9"
+    }
+   ]
+  },
+  {
+   "file": "cluster-galaxy-observations.csv",
+   "rows": 154,
+   "hadColumn": true,
+   "wrote": false,
+   "idsAssigned": 154,
+   "duplicated": 0,
+   "branched": [],
+   "sample": [
+    {
+     "ln": 2,
+     "body": "47 Tuc",
+     "quantity": "distance",
+     "id": "CLG-9da41b4b"
+    },
+    {
+     "ln": 3,
+     "body": "47 Tuc",
+     "quantity": "galactocentric_distance",
+     "id": "CLG-43b9345a"
+    },
+    {
+     "ln": 4,
+     "body": "47 Tuc",
+     "quantity": "total_mass",
+     "id": "CLG-7457de7c"
+    }
+   ]
+  },
+  {
+   "file": "transient-observations.csv",
+   "rows": 27,
+   "hadColumn": true,
+   "wrote": false,
+   "idsAssigned": 27,
+   "duplicated": 0,
+   "branched": [],
+   "sample": [
+    {
+     "ln": 2,
+     "body": "AT2018cow",
+     "quantity": "peak_bolometric_luminosity",
+     "id": "TRN-bcb10173"
+    },
+    {
+     "ln": 3,
+     "body": "AT2018cow",
+     "quantity": "peak_bolometric_luminosity_candidate",
+     "id": "TRN-b94c6f42"
+    },
+    {
+     "ln": 4,
+     "body": "AT2018cow",
+     "quantity": "rise_time_to_peak",
+     "id": "TRN-b42dc7e2"
+    }
+   ]
+  }
+ ],
+ "totals": {
+  "rows": 702,
+  "ids": 702,
+  "duplicated": 0
+ },
+ "declared": [
+  {
+   "body": "Charon",
+   "quantity": "orbital_period",
+   "csvQuantity": "orbital_period_candidate",
+   "declaredRecordId": "SOL-25d4320f",
+   "hitsByRecordId": 1,
+   "hitLines": [
+    444
+   ],
+   "hitsByString": 1,
+   "stringLines": [
+    444
+   ],
+   "stringRecordIds": [
+    "SOL-25d4320f"
+   ],
+   "solutionId": "",
+   "agrees": true
+  },
+  {
+   "body": "Venus",
+   "quantity": "eccentricity",
+   "csvQuantity": "eccentricity_candidate",
+   "declaredRecordId": "SOL-72c6db74",
+   "hitsByRecordId": 1,
+   "hitLines": [
+    375
+   ],
+   "hitsByString": 1,
+   "stringLines": [
+    375
+   ],
+   "stringRecordIds": [
+    "SOL-72c6db74"
+   ],
+   "solutionId": "",
+   "agrees": true
+  },
+  {
+   "body": "PSR J1946+2052",
+   "quantity": "orbital_period",
+   "csvQuantity": "orbital_period",
+   "declaredRecordId": "SOL-dd4b7894",
+   "hitsByRecordId": 1,
+   "hitLines": [
+    285
+   ],
+   "hitsByString": 1,
+   "stringLines": [
+    285
+   ],
+   "stringRecordIds": [
+    "SOL-dd4b7894"
+   ],
+   "solutionId": "",
+   "agrees": true
+  },
+  {
+   "body": "PSR J1946+2052",
+   "quantity": "eccentricity",
+   "csvQuantity": "eccentricity",
+   "declaredRecordId": "SOL-ae8d8ac9",
+   "hitsByRecordId": 1,
+   "hitLines": [
+    289
+   ],
+   "hitsByString": 1,
+   "stringLines": [
+    289
+   ],
+   "stringRecordIds": [
+    "SOL-ae8d8ac9"
+   ],
+   "solutionId": "",
+   "agrees": true
+  }
+ ],
+ "ae15": {
+  "checked": 476,
+  "offenders": []
+ },
+ "violations": [],
+ "doNotWrite": [
+  "record_id を足したので判定が増えた",
+  "観測レコードの同定が完成した",
+  "太陽系の σ が揃った"
+ ]
+}

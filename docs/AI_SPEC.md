@@ -1179,9 +1179,30 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     ζ=1 は正準形に出ない(署名不変)。宣言されて正の有限数でなければ
     **`layerInertiaScaleNotPositive`** で拒否し、1 bit も書かない(0 に読み替えない)。
     読み口は **`HP.dfmLayerInertiaScale(i,k,S?)`**。
-    **融合では「源 Σ J/ζ を保つ」合成則**を使う(ζ′=(J_a+J_b)/(J_a/ζ_a+J_b/ζ_b)。等しい ζ どうしは
-    その ζ が残る。J の和か源の和が 0 で定義できないときだけ ζ′=1 へ落ちる ——
-    **融合は宣言の合成であって保存則ではない**)。
+    **第270便d(AD1)から ζ は「Q の初期化に 1 度だけ使う量」である** —— 状態の正本は下の `Q` で、
+    融合後の `inertiaScale` は診断値 ζ_eff の器にすぎない(§`body.layers[].Q`)。
+    〔第265便c〕の合成則 ζ′=(J_a+J_b)/(J_a/ζ_a+J_b/ζ_b) は**同方向のときだけ源を保つ**
+    (Negative Claim 42・**融合は宣言の合成であって保存則ではない**)。
+  - **`body.layers[].Q`(省略可・第270便d・AD1 法則 (a))**: 層の**回転場の源**そのもの。
+    **J とは独立の状態**で、値域は ±10¹²(J と同じ `BODY_LAYER_JCAP`)。
+    - **初期化は `Q = J/ζ`(ζJ ではない)**。`dfmCoreQ` が Q=J/ζ=½M_cR_c²Ω を定めるからである。
+      宣言に `Q` が無ければ**読み込み(build / `_setBodyLayers`)で 1 度だけ**導出し、以後は
+      **(J, Q) を別々に保存**する。**`Q:0` の明示宣言は値**で、宣言ビット `layJD` の **8=Q** が
+      未指定と区別する(1=J・2=Jx・4=Jy と同じ流儀)。
+    - **合成は和**: `J′=ΣJ`・`Q′=ΣQ`(role / add・同半径圧縮・層数上限の畳み込みのすべて)。
+    - **正準形には Q が J/ζ から外れたときか宣言されたときだけ出る**(既定経路の署名は 1 bit も動かない)。
+    - **ζ_eff は診断値**である: **`HP.dfmLayerZetaEff(J,Q)`** は J≠0 かつ Q と同符号のときだけ
+      `{zetaEff:J/Q, representable:true}` を返し、それ以外は `zetaEff:null` と理由
+      (`bothZero`/`JZeroQNonzero`/`QZeroJNonzero`/`signMismatch`/`notFinite`)を返す。
+      **Q/J を代わりに返さない**し、**表せないことを 1 に丸めて隠さない**
+      (`dfmLayerMerge` の返り値に `zetaRepresentable` が立つ)。
+    - **更新則は追加仮定**である: **`HP.dfmLayerQUpdate({J0,Q0,J1,Q,Q1,zeta,mode})`** の 7 モード
+      (`HP.LAYER_Q_MODES`)—— `derive`(Q=J/ζ)/ `declared`(宣言値)/ `zetaConst`(既定・
+      Q₁=Q₀·(J₁/J₀)= ζ 一定。**J₀=0 では ζ が読めない**ので Q₀ を据え置き `zetaUndefinedAtJ0` を返す)/
+      `zetaDeclared`(Q₁=J₁/ζ_new)/ `qConst`(Q 一定)/ `sum`(融合)/ `carry`(保存・複製・分割)。
+    - 読み口は **`HP.dfmLayerQ(i,k,S?)`**。**力へは 1 バイトも接続していない**
+      (回転場の源の数値であって、新しい力を足していない)。
+      **「ζ 合成則の時間発展則が決まった」とは書かない**(Negative Claim 42 は消していない)。
   - **`body.layers[].Jx` / `body.layers[].Jy`(省略可・第264便c)**: 層の角運動量の**面内成分**。
     **数値として持つ(宣言・表示・保存・復元・融合の合算・正準形)だけ**で、**力へは 1 バイトも
     接続していない**。0 は正準形に出ない(既定経路の署名は不変)。値域は ±10¹²。
@@ -1192,8 +1213,9 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     - コア V2 を持つ粒子: 従来式 **Q = ½·M_shell·R²·spin + J_c/ζ**(differential/active のみ第 2 項)。
       **M_shell は既定で body 質量 m**(第77便以来)で、`core.shellSpinMass:"shell"` を宣言した粒子だけ
       **殻質量 M_s = m − M_c** になる(第265便c・下の項)。
-    - コア V2 を持たない層つき粒子: **Q = Σ_k J_k/ζ_k**(層の宣言 J の z 成分を層の ζ で割った和 ——
-      第265便c から ζ が効く。ζ=1 の層では `J/1===J` なので基点とビット同一)。
+    - コア V2 を持たない層つき粒子: **Q = Σ_k Q_k**(第270便d — 層の**独立 Q** の和。
+      Q は読み込みで 1 度だけ `Q_k=J_k/ζ_k` として導出されるので、**未宣言の層では第265便c の
+      Σ J_k/ζ_k と 1 bit 同じ値**である。融合後だけ和の Q が J′/ζ′ から外れる)。
     - **層が J・Jx・Jy を 1 つも宣言していなければ「未宣言」**として従来式へ落ちる
       (🧅 layeredCoreDFM はこれに当たるので 1 bit も変わらない)。**明示ゼロは宣言である**(第265便c)。
     - **射影はコア V2 と同じ z 成分だけ**。層の Jx/Jy を動かしても Q は動かない。
@@ -1288,7 +1310,7 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     減光 `lightSweep` が外へ出さなかった自光を蓄積し、コアの崩壊で放つ**トイ仮説**の宣言である
     (第57報「『Luminous Fast Blue Optical Transient』について、『減光』で青方偏移した光が蓄積し、
     天体の崩壊で一気に放出した、という仮説を立てる」)。受理形は
-    `{enable:true, tEsc>0, tEscCollapse?, shiftRate?, supply?, absRate?, collapseR?, refill?}` で、
+    `{enable:true, tEsc>0, tEscCollapse?, shiftRate?, supply?, absRate?, collapseR?, refill?, nuMax?}` で、
     `enable!==true` か `tEsc` が無ければ**警告つきで lightTrap だけを落とす**(`core.shed` と同じ流儀)。
     `cavity` では無効。状態は粒子ごとに E_γ・N_γ・E_s・E_esc・Q・E_in の 6 列で、恒等式は
     **E_s + E_γ + E_esc + Q − E_in = E_s(0)**(`E_in` = 減光で**熱から引き取った**自光。
@@ -1297,6 +1319,26 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     (宣言しない宇宙では **null**)。`HP.dfmToyLedger` には `Elight`(=E_s+E_γ)と `Elesc`(=E_esc)が
     **宣言した宇宙でだけ**足される(`radE` には積まない)。**`S._core` には 1 命令も足していない**
     (実体は `S.step` 末尾の 1 パス)。**内蔵で宣言しているのは 🐮 `lfbotTrap` の 1 本だけ**である。
+    - **`nuMax`(省略可・第270便d・AD2)**: 1 光子あたりのエネルギー ν̄=E_γ/N_γ(**h≡1 の
+      シミュレータ単位**)の上限。**省略時は上限なし**で、値域は [0, 10¹²]。**`nuMax:0` の明示宣言は
+      「仕事を受理しない」の宣言**であって未指定ではない。負・非数値は警告つきで `nuMax` だけ落とす。
+      効くのは**青方偏移の仕事を受理する前**である:
+      **C = max(0, ν_max·N_γ − E_γ)・W_accept = min(W_req, E_s, C)・E_s′=E_s−W_accept・E_γ′=E_γ+W_accept**。
+      **供給してから削って戻す方式は採らない**ので、**断られた分 (W_req−W_accept) は E_s に残る**
+      (帳簿の `workRejected` / 粒子ごとの `HP.dfmLightTrapWorkRejected(i,S?)` に積む)。
+      **N_γ=0 では ν̄ は null(未定義)**で、平均が無い状態に上限を当てない。
+      恒等式 E_s+E_γ+E_esc+Q−E_in=E_s(0) は保つ。読み口は **`HP.dfmLightTrapNuMax(i,S?)`**
+      (未宣言は **null**)。帳簿には `nuMax` / `workRejected` / `overCap`(粒子)と
+      `nCapped` / `nOverCap` / `workRejected`(全体)が付く。
+      **内蔵 124 本は 1 本も宣言していない**(🐮 も宣言しない = 既定経路はビット同一)。
+      **「全経路の上限制御が完成した」とは書かない** —— 止めているのは**仕事の受理**だけで、
+      初期超過・N_γ の減少(脱出/吸収)・融合での E_γ と N_γ の和・refill 停止のいずれでも
+      ν̄>ν_max のまま滞在しうる(`overCap` が数える)。**外来光の捕獲はまだ無い。**
+    - **`collapseR`(省略可・第265便d・AA11 第270便d)**: コア半径がこの値以下になったら崩壊の
+      ラッチを立てる(`shed` の発火・`burst` の放出と **or**・一度立ったら戻らない)。
+      **内蔵 124 本のどれも宣言していない**。🐮 の診断コピーでは 1.2 で崩壊が t=12.784→**11.168** へ
+      動き E_esc が 8.7605→6.8025 になるが、**shed 発火までに到達しない 1.0 / 0.8 は基点と同じ数**である
+      (QA `behavior.collapseRControl`)。**未使用ならキー削除は次便。**
     **実行時 LLM 向けの SYSTEM_PROMPT には載せていない** —— 既定 off の opt-in であり、
     生成物に出す前に段を分ける(次便の判断)。
   - **`notClaim:"lfbot"`(第265便d)**: 表示文 `nc_lfbot`(ja/en)は「実在の高速青色トランジェント
@@ -1746,8 +1788,8 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   差し戻される系に限り kFrame=0 で採用し、引きずりは A/B の**測定側**として保持する
   (適用第1号: ✨ αケンタウリAB。転写ミスは従来どおり差し戻し — docs/PHYSICS.md の該当節参照)。
 
-- **コミット済み出典表(`paper/data/*.csv`)のスキーマ — `sigma` 列を持つのは 3 本になった(第266便a)**:
-  列は `body,quantity,value,unit,source,url,retrieved,note,sigma` の **9 列**で、
+- **コミット済み出典表(`paper/data/*.csv`)のスキーマ — `sigma` 列を持つのは 3 本(第266便a)・`record_id` 列を足した(第270便b)**:
+  列は `body,quantity,value,unit,source,url,retrieved,note,sigma,record_id` の **10 列**で、
   `sigma` に入れるのは**一次資料に印字された対称 1σ だけ**(単位換算は可・**値と同じ単位**)。
   **空欄は「誤差が記録されていない」であって「誤差 0」ではない。**
   非対称区間・信用区間・丸め幅・伝播値は σ ではないので note へ置く
@@ -1761,7 +1803,18 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     量名は `sigma_los(r=… pc)`(視線分光)と `sigma_pm(r=… pc)`(固有運動・一次単位 mas/yr)を**分ける**。
   - `paper/data/transient-observations.csv` …… **第266便a 新設**。LFBOT(AT2018cow / AT2022tsd)の**記録**で、
     全行に `gate=not-connected` が入っている(**門には 1 行も繋がっていない**)。
-  - `paper/data/supernova-observations.csv` と `paper/data/jovian-satellites.csv` は **sigma 列を持たない**(従来どおり)。
+  - `paper/data/supernova-observations.csv` と `paper/data/jovian-satellites.csv` は **sigma 列も `record_id` 列も持たない**(従来どおり —— 上の 10 列は **σ 列を持つ 3 本**のスキーマである)。
+  - **`record_id`(第270便b・AE2)**: 観測レコードの**同定の鍵**。ヘッダ**末尾**の 1 欄で、
+    ID は `<PFX>-<sha256(ファイル名, body, quantity, unit, source) の先頭 8 桁>`
+    (`PFX` は `SOL`=太陽系 / `CLG`=星団・銀河 / `TRN`=突発天体)。**同じ 5 つ組の重複転写**だけ
+    ファイル順の枝番 `-2` を付ける(**枝番は行の挿入で動きうる** —— 安定なのは 1 件目まで)。
+    **欠損も重複も許さない**(QA `lint.recordId`)。**同名異解は unit か source が違うので別 ID**になる。
+    **`record_id` は同定の鍵であって、印(`sigma_primary`)でも σ でも判定でもない。**
+    CSV を読む器は**列位置でなくヘッダ名で読む**(共通の読み方は `tests/lib-w270b-obscsv.mjs`)。
+    `solution_id` は**まだ作っていない**(空欄可 —— 決断事項)。
+  - **`verified_by=` / `verified_at=` / `verified_value=` / `value_checked_*=` の値に `;` を書かない**
+    (第270便b・AE15): 読取器は値を `;` まで(`/…=([^;]*)/`)で切るので、`;` を入れると値が途中で切れる。
+    補足は**別の鍵**へ置く。
   - **生成 AI はこれらの CSV を書かない**(取込経路は `ObservationRecord` であって CSV ではない)。
 - **判定に使う採用観測解の宣言(第268便a — `paper/data/judgement-sources.json`)**: 門(`tests/exp-w249b-calaudit.mjs`)と
   σ 接続器(`tests/exp-w262d-solarsigma.mjs`)が**どの CSV 行を判定に採るか**の宣言表である。
@@ -1770,7 +1823,8 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   ```json
   { "schemaVersion": 1, "wave": "<便>", "what": "<何の表か>", "rule": ["<規約>"], "doNotWrite": ["<禁止の言い方>"],
     "declarations": [ { "body": "Charon", "quantity": "orbital_period",
-      "csvQuantity": "orbital_period_candidate", "source": "<CSV の source 列そのまま>",
+      "csvQuantity": "orbital_period_candidate", "record_id": "SOL-25d4320f", "solution_id": "",
+      "source": "<CSV の source 列そのまま>",
       "solution": "<解の説明(表・列・fit の種類)>", "value": 551856.43872, "unit": "s",
       "sigma": 0.02592, "declared": "YYYY-MM-DD", "reason": "<なぜこの行を採るか>" } ],
     "notDeclared": [ { "body": "Phobos", "quantity": "orbital_period", "why": "<宣言しない理由>" } ] }
@@ -1786,12 +1840,33 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     **不正スキーマ(`schemaVersion≠1`・必須欄欠け・`sigma≤0`)・同じ key の重複宣言・宣言の解決失敗は
     入力エラーとして器を止める**(`loadJudgementSources` が `ok:false` を返し、器は throw する ——
     **別の解に戻して走行を続けない**)。`sigma` が `null` の宣言は**行選択だけ**を決める(門へは入らない)。
+  - **第270便b(AE2): `record_id` を照合キーに足した**(文字列の `source`/`unit`/`value`/`sigma` は**残す**)。
+    `record_id` があるとき `pickDeclaredRow` は**それで厳密に同定し**、1 件に決まらなければ
+    **理由つきで `null`**(`record-id-not-found` / `record-id-ambiguous(n)`)を返す ——
+    **文字列出典の一致条件へ黙って落ちない**。`solution_id` は**空欄でよい**(未作成は `""`)。
+  - **第270便c(AD9): 宣言は 4 件になった** —— カロン P・金星 e に加えて
+    **`PSR J1946+2052|orbital_period`(CSV 285 = Meng 2025 A&A 704 A153 Table 1 DDFWHE 列・6781.367998656 s ± 1.728e-6)**と
+    **`|eccentricity`(CSV 289 = 同列・0.0638363 ± 8e-7)**。`csvQuantity` は候補鍵ではなく `orbital_period` / `eccentricity` そのものである。
+    **注記の鍵名に注意**: 第270便c が採用行/旧行に足した `adopted_solution=<解 ID>` は、
+    解タグを `note.includes('solution=' + tag)` で読む器に**部分文字列として当たる**。
+    解タグの照合は**語境界つき**(直前が英数字・`_`・`-` なら別の鍵)で行う —— 器 6 本を直した
+    (`exp-w265a-kjoint2` / `exp-w265a-basis` / `exp-w264a-kjoint` / `exp-w264a-fixed07` /
+    `exp-w263c-obsintake` / `exp-w264a-obsdelta`)。QA `docs.j1946Adopted` ④ が機械固定する。
   - **宣言は行選択であって、単位の一致・観測量対応・数値収束の宣言ではない。**
-    **第269便a: 宣言は AD5(署名便)までは診断欄だけに置く** —— `q.judgementSource`
-    (`applied:false`・`mode:"diagnostic-only-until-AD5"`・宣言行の value/σ は別欄 `declaredRow`)であり、
-    **門が読む `q.obsSigmaCsv` は従来行(ファイル順の最初)から採る**。中心値だけ旧参照・σ だけ新解、
-    という混在を作らないためである。σ 接続器側の「**宣言後の初判定**」は 4 値の**横の欄**
-    (`declaredFirst`)に置き、**据え置きの 4 値は上書きしない**。
+    第269便a は宣言を診断欄だけに置いていた(`applied:false`・`mode:"diagnostic-only-until-AD5"`)。
+  - **第270便a(AD5): 宣言は正式経路へ入った**(`mode:"applied-AD5"`・`appliedToJudgement:true`)。
+    切り替えるのは **6 つ同時**である —— **中心値 `q.obs`・σ `q.obsSigmaCsv`・単位・解 ID(`solution`)・
+    verified 状態(`sigmaPrimaryVerified`)・測定定義(`measurementDefinition`)**。
+    **1 つでも欠けたら切り替えない**(中心値だけ新解・σ だけ新解という混在を作らないため)。
+    宣言の単位が判定量と一致しないときは **`mode:"not-applied(unit-mismatch)"` で止める**
+    (黙って換算しない)。**AD5 前の中心値と σ は `q.judgementSource.previous` に温存する**(履歴を消さない)。
+    - **5 区分(合/窓/否/従/転)の許容は従来どおり obsCard の ±(無ければ目安 ±1%)である** ——
+      第251便c の「CSV の σ は 5 区分の経路へ入れない」規約は AD5 でも変えない(σ が効くのは門だけ)。
+      **中心値は宣言行へ動く**ので、5 区分の残差は宣言行に対する残差になる。
+    - **宣言のある鍵は、obsCard に行が無い量(標準検出器の行)でも参照になる** ——
+      宣言は「この量をどの解と比べるか」の宣言だからである。**宣言の無い鍵には σ 宛先を引かない。**
+    - σ 接続器の `declaredFirst` は**履歴の欄**になった(`appliedToJudgement:true`・
+      AD5 前の行は `previousRow`)。**4 値が動いたときは旧値を `history` に残す**(`fourValues.history`)。
   - **生成 AI はこのファイルを書かない**(採用解の宣言は原仮定者と統括の裁定である)。
 - **星団の内部診断 JSON のスキーマ(第269便d — `tests/out/cluster-w269d.json`)**: 器 `tests/exp-w269d-cluster.mjs` が出す
   **比較サンプル v1a(内部診断)**の出力である。**観測値は 1 つも入っておらず、47 Tuc の公表値との比較も 1 つも入っていない。**
@@ -1865,3 +1940,34 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   - `sim.stages` は **h/h2/h4(同じ物理時刻の 3 刻み)**、`order` は見かけの次数、`extrapolated` は
     **差が単調なときだけ**入る(`null` は「外挿しない」であって 0 ではない)。
   - **生成 AI はこのファイルを書かない・読んで主張を作らない**(比較の記録は器と統括の裁定である)。
+  - **第270便e(F4〜F8)で足した必須の欄と機械ガード。**
+    - **`finiteNumber` を通した値だけが数値になる。** `null`・空文字・真偽値・配列・数値でない文字列は
+      **`null`(測れていない)**であって **0 ではない**(`Number(null)=0` の経路を塞いだ)。
+    - **`comparable`/`inside-interval`/`outside-interval` の行は、有限な `sim.value` と空でない `sim.unit` を持ち、
+      `obs.unit` があるときは同一でなければならない**(器が throw する —— 暗黙の単位換算を作らない)。
+      `interval()` も**単位なしでは作れない**。銀河の器では**値を持つのは `comparable` の行だけ**にしてある。
+    - **p 値の鍵は row 全体で禁止**(`diagnostics` の奥に置いても throw する)。
+    - **CSV はヘッダ名で読む**(`loadObsCsv`)。列位置に依存しないので `record_id` 欄が増えても壊れない。
+      行は `recordId`・`solutionId`・`retrieved` を持ち、**欠損は `null`**。`row.col('<欄名>')` で未宣言の欄も引ける
+      (生ヘッダは**非列挙**なので JSON へ漏れない)。
+    - **`validateWindow({T, dt, checkpoints})`** —— T は**正かつ dt の整数倍**、チェックポイントは
+      **T 以下の昇順(重複なし・dt の整数倍)**。破れば throw する。
+    - 銀河の列は **`declaredSupportRadius`(宣言支持半径)/ `sampledMaxRadius`(標本最大半径・判定の分岐に使う)/
+      `binOccupancyAtJudgement`(帯の占有)**の **3 量**を別々に持つ(旧 `initialCutoff` は
+      `sampledMaxRadius` の別名として互換のため残っている)。
+    - 銀河の行の `diagnostics` は **`numericConditions`(7 条件)**・**`failedConditions`(欠けた条件名)**・
+      **`health`(段ごとの NaN・全クランプ・`clampByKind`・`tActual`)**・`vtKmsByStage` を持つ。
+    - 列は **`clampByKindAtJudgement`**(速度・自転・H・力上限・E6′ 反作用・傾き容量・角度溢れの**種類別**と、
+      判定時刻に速度上限へ張り付いている粒子の点呼)を持つ。**発動回数の粒子別内訳は取れない**
+      (帳簿カウンタは `S._core` の中で増える)。
+    - 銀河の JSON は **`windowVariants`**(`primary` = T=40 の採用窓・`quasiSteady` =
+      `declared-not-evaluated` の準定常窓の事前基準)と **`seedEnsemble`**
+      (**事前宣言した 4 本の seed**・生成法・停止条件・**対照は同一 seed で対**・
+      各点の **`sdBetweenSeedsKms`(標本間 SD)と `seMeanKms`(平均の SE)を別の欄**に持つ。
+      **どちらも観測 σ には足さない**)を持つ。
+    - BH の JSON は `summary.insideIntervalRows`(**区間内の行は独立な件数ではない** —— 転写 1 組の言い換え)と、
+      ⏰ の `final_mass` 行の `diagnostics.requiredDerivation`(**remnant の対応を決めるのに要る導出 4 件**・
+      `declared-not-derived`・**区間内になる方を選ばない**)を持つ。
+    - 星団の JSON は **`virialTermsAE14`**(列ごとの **K・U・W_vir・2K/|U|・2K/|W_vir|・W_vir/U** と、
+      **`vMode:"virial"` の列だけ**の範囲 `rangeVirialOnly`)を持つ。
+      **`vMode:"virial"` は期待値の正規化であって有限標本の K を測っていない**(規約)。

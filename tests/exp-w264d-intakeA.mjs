@@ -40,20 +40,13 @@ const argv = process.argv.slice(2);
 const RECS = argv.reduce((a, v, i) => (argv[i - 1] === '--rec' ? a.concat([v]) : a), []);
 const INTAKE = '2026-09-15';
 
-function parseCsvLine(line) {
-  const cols = []; let cur = '', inQ = false;
-  for (const ch of line) {
-    if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
-    else if (ch === '"') inQ = true;
-    else if (ch === ',') { cols.push(cur); cur = ''; }
-    else cur += ch;
-  }
-  cols.push(cur);
-  return cols;
-}
+// 第270便b(第60報 W2・AE2): **列位置でなくヘッダ名で読む**(`record_id` の列追加で壊れない)。
+import { parseCsvLine, headerIndex } from './lib-w270b-obscsv.mjs';
 function loadCsv(file, cutAtProse) {
   const rows = [];
   const lines = fs.readFileSync(file, 'utf8').split('\n');
+  const H = headerIndex(lines[0] || '');
+  const cell = (c, n) => ((n in H) && c[H[n]] !== undefined) ? c[H[n]] : '';
   // 記録の側は CSV の後ろに散文が続くことがある。**最初の空行/見出し/箇条書きで切る**
   // (散文を行として読まない —— 読むと鍵の数が水増しされる)。正本の CSV には掛けない。
   let cut = lines.length;
@@ -65,11 +58,15 @@ function loadCsv(file, cutAtProse) {
     if (!line.trim() || line.startsWith('body,')) continue;
     const c = parseCsvLine(line);
     if (c.length < 9) continue;
-    const sgRaw = (c[8] === undefined) ? '' : String(c[8]).trim();
+    const sgRaw = String(cell(c, 'sigma')).trim();
     const sg = sgRaw !== '' ? Number(sgRaw) : null;
-    rows.push({ body: c[0], quantity: c[1], valueRaw: c[2], unit: c[3], source: c[4], url: c[5],
-      retrieved: c[6], note: c[7] || '', sigma: (Number.isFinite(sg) && sg > 0) ? sg : null,
-      hasValue: String(c[2]).trim() !== '' });
+    const v = cell(c, 'value');
+    rows.push({ body: cell(c, 'body'), quantity: cell(c, 'quantity'), valueRaw: v,
+      unit: cell(c, 'unit'), source: cell(c, 'source'), url: cell(c, 'url'),
+      retrieved: cell(c, 'retrieved'), note: cell(c, 'note') || '',
+      recordId: String(cell(c, 'record_id')).trim() || null,
+      sigma: (Number.isFinite(sg) && sg > 0) ? sg : null,
+      hasValue: String(v).trim() !== '' });
   }
   return rows;
 }

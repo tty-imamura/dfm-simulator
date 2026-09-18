@@ -72,6 +72,18 @@ tests/out/*
 #   突き合わせ、docs/CALIBRATION_VERDICT_v1.44.md §2.3⁗⁗ と docs/PHYSICS.md 〔第269便b〕の表が
 #   この値そのものなのでコミットする(**エンジンは 1 步も走らせていない**)
 !tests/out/confirm3-w269b.json
+# 第270便b: 確認記録(2026-09-18・第 4 回)の突き合わせ(tests/exp-w270b-confirm4.mjs)の実測正本。
+#   QA `docs.confirm4-sync` が「原記載から value と σ が再現できた行だけに印が付いていること」
+#   「X7 の 3 欄を埋めただけの行は印そのものを動かさないこと」「併置行の旧印が note に残っていること」
+#   「421 の追認で印も値も動いていないこと」「X7 警告が 0 になったこと」をこの JSON と突き合わせ、
+#   docs/CALIBRATION_VERDICT_v1.44.md §2.3⁗⁗′ と docs/PHYSICS.md 〔第270便b〕の表が
+#   この値そのものなのでコミットする(**エンジンは 1 步も走らせていない**)
+!tests/out/confirm4-w270b.json
+# 第270便b(AE2): 観測 CSV の `record_id` 欄の生成と検査(tests/exp-w270b-recordid.mjs)の実測正本。
+#   QA `lint.recordId` が「全行に ID・欠損 0・重複 0」「ID が素から作り直せる」「列追加で集計が不変」
+#   「宣言の record_id が CSV に 1 件で当たる」「AE15(`;` を値に入れない)」をこの JSON と
+#   突き合わせるのでコミットする(**エンジンは 1 步も走らせていない**)
+!tests/out/recordid-w270b.json
 # 第268便b: 層融合の ζ 合成則の**反例**の実測正本(tests/exp-w268b-zetamerge.mjs)。
 #   docs/PHYSICS.md 〔第268便b〕§3 と docs/RELEASE_NOTES_v1.44.md の Negative Claim 42 の表が
 #   この値そのものなのでコミットする(**QA `behavior.zetaMergeCounterexample` はこのファイルを読まない**
@@ -130,6 +142,10 @@ tests/out/*
 # QA `behavior.unitConvertedFirst` が「3 段が揃っている・見かけの次数が正・h 段が σ 接続器の換算後と
 # 一致する」を機械固定し、docs/PHYSICS.md〔第268便a〕§3 の表がこの値そのものなのでコミットする
 !tests/out/d68-w268a.json
+# 第270便a: **停止条件の宣言**(AE9)の照合結果(tests/exp-w270a-stoprule.mjs)。QA
+# `behavior.stopRuleDeclared` が「基点 f6c19b4 の 84 段と步数・近点数が同じ」「各段の步数上限が
+# 宣言と t=0 の接触要素だけから再計算できる」「資源上限を超えた段が無い」を機械固定するのでコミットする
+!tests/out/stoprule-w270a.json
 # 第269便d: 星団 47 Tuc の**比較サンプル v1a**(内部診断)の実測正本(tests/exp-w269d-cluster.mjs)。
 # QA `behavior.clusterCenterContract` が「原点基準の 12 値が第265便a の analogy-w265a.json と
 # Object.is で同一であること」、`behavior.clusterV1a` が「10 列 × 3 段・NaN 0・monotone:false の温存・
@@ -278,6 +294,15 @@ paper/*.log
 paper/*.out
 paper/*.pdf
 paper/*Notes.bib
+# 第270便d: 親子コアの**独立 Q**(AD1・法則 (a))と LFBOT の **ν̄ 受理前上限帳簿**(AD2)・
+#           `collapseR` の対照(AA11)の実測正本。
+#   zetaq : 反例の保存・総当たり 2025 組・読戻し 3 経路・6 経路の更新則・**融合が起きる内蔵の洗い出し**
+#           (tests/exp-w270d-zetaq.mjs)
+#   numax : 受理前上限の表・恒等式 3 段・対照④・N_γ=0 の未定義・collapseR の対照
+#           (tests/exp-w270d-numax.mjs)
+#   docs/PHYSICS.md〔第270便d〕§2/§3/§4/§5 の表がこの値そのものなのでコミットする
+!tests/out/zetaq-w270d.json
+!tests/out/numax-w270d.json
 # 第221便: セッション内スクラッチ実測ハーネス(コミット対象外 — 実測値は claims/QA が機械固定する)
 _scratch-*.mjs
 _scratch-*/

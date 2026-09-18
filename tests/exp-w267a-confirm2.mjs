@@ -44,29 +44,27 @@ const ROUND_TAG = 'confirmation_round=2';
 const ACK_TAG = 'acknowledged_by=原仮定者 2026-09-17';
 const NOT_FOUND_TAG = 'confirmation_2=not-found-by-author';
 
-function parseCsvLine(line) {
-  const c = []; let cur = '', q = false;
-  for (const ch of line) {
-    if (q) { if (ch === '"') q = false; else cur += ch; }
-    else if (ch === '"') q = true;
-    else if (ch === ',') { c.push(cur); cur = ''; }
-    else cur += ch;
-  }
-  c.push(cur);
-  return c;
-}
+// 第270便b(第60報 W2・AE2): **列位置でなくヘッダ名で読む**(`record_id` の列追加で壊れない)。
+import { parseCsvLine, headerIndex } from './lib-w270b-obscsv.mjs';
 function loadCsv(rel) {
   const rows = [];
+  const lines = fs.readFileSync(path.join(ROOT, rel), 'utf8').split('\n');
+  const H = headerIndex(lines[0] || '');
+  if (H.missing.length) throw new Error('[w267a] ' + rel + ' に必須列が無い: ' + H.missing.join(','));
+  const cell = (c, n) => ((n in H) && c[H[n]] !== undefined) ? c[H[n]] : '';
   let ln = 0;
-  for (const L of fs.readFileSync(path.join(ROOT, rel), 'utf8').split('\n')) {
+  for (const L of lines) {
     ln++;
     if (!L.trim() || L.startsWith('body,')) continue;
     const c = parseCsvLine(L);
     if (c.length < 9) continue;
-    const sgRaw = String(c[8] === undefined ? '' : c[8]).trim();
+    const sgRaw = String(cell(c, 'sigma')).trim();
     const sg = sgRaw !== '' ? Number(sgRaw) : null;
-    rows.push({ file: rel, ln, body: c[0], quantity: c[1], value: Number(c[2]), rawValue: c[2],
-      unit: c[3], source: c[4], note: c[7] || '', sigma: Number.isFinite(sg) ? sg : null });
+    rows.push({ file: rel, ln, body: cell(c, 'body'), quantity: cell(c, 'quantity'),
+      value: Number(cell(c, 'value')), rawValue: cell(c, 'value'),
+      unit: cell(c, 'unit'), source: cell(c, 'source'), note: cell(c, 'note') || '',
+      recordId: String(cell(c, 'record_id')).trim() || null,
+      sigma: Number.isFinite(sg) ? sg : null });
   }
   return rows;
 }
@@ -381,10 +379,20 @@ for (const r of CSV[SOLAR_F]) {
   if (/(?:^|[^A-Za-z0-9_])same_mark_as=/.test(r.note)) continue;
   round3Verified++;
 }
-if (after.solar.verified - round3Verified - BEFORE.solar.verified
+// 第270便b: **第 4 回の確認記録**(`confirmation_round=4` —— Cameron 2018 Table 2 の併置行
+// 260/262/263)で `unverified` → `verified` になった行も、同じ理由でこの増分に数えない。
+// 印が動いた行だけを数えるので、X7 の 3 欄を埋めただけの 6 行(`previous_mark=` を持たない)は入らない。
+let round4Verified = 0;
+for (const r of CSV[SOLAR_F]) {
+  if (!/(?:^|[^A-Za-z0-9_])confirmation_round=4\b/.test(r.note)) continue;
+  if (!/(?:^|[^A-Za-z0-9_])previous_mark=unverified\b/.test(r.note)) continue;
+  if (!readSigmaMark(r.note).verified) continue;
+  round4Verified++;
+}
+if (after.solar.verified - round3Verified - round4Verified - BEFORE.solar.verified
   !== CONFIRM2.filter((d) => d.file === SOLAR_F).length - 5)
   bad.push('太陽系 CSV の verified の増分が宣言と合わない(既に verified だった 5 行と'
-    + `第 3 回で上がった ${round3Verified} 行を除く)`);
+    + `第 3 回で上がった ${round3Verified} 行・第 4 回で上がった ${round4Verified} 行を除く)`);
 // **外部確認印だけで verified になっている行は 1 つも無い**(Z11 —— 第266便a と同じ検査)
 const externalOnlyVerified = [];
 for (const f of [SOLAR_F, CLUSTER_F, TRANSIENT_F]) for (const r of CSV[f]) {

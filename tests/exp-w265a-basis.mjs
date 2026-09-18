@@ -84,8 +84,13 @@ const OBS_ROWS = (() => {
   return rows;
 })();
 const firstRow = (b, q) => OBS_ROWS.find((r) => r.body === b && r.quantity === q) || null;
+// 第270便c(AD9): `note.includes('solution=' + t)` は **`adopted_solution=` の部分文字列にも当たる**
+// (第270便c が採用解の注記 `adopted_solution=Meng2025-DDFWHE` を旧行へ足したとき、旧行が解タグ行として
+// 当たってしまった)。**語境界つきの照合**にする —— 直前が英数字・`_`・`-` なら別の鍵である。
+const solutionTagged = (note, tag) => new RegExp('(?:^|[^A-Za-z0-9_-])solution='
+  + String(tag).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![A-Za-z0-9_])').test(String(note || ''));
 const solRow = (b, q, t) => OBS_ROWS.find((r) => r.body === b && r.quantity === q
-  && r.note.includes('solution=' + t)) || null;
+  && solutionTagged(r.note, t)) || null;
 const toSec = (r) => (!r ? null : (r.unit === 's' ? r.value : (r.unit === 'd' ? r.value * 86400 : null)));
 const sigSec = (r) => (!r || r.sigma === null ? null
   : (r.unit === 's' ? r.sigma : (r.unit === 'd' ? r.sigma * 86400 : null)));

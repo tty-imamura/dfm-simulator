@@ -96,8 +96,13 @@ const OBS_ROWS = loadObs();
 // 採用レコード = その body|quantity の**最初の行**(calaudit と同じ規約)
 const firstRow = (body, q) => OBS_ROWS.find((r) => r.body === body && r.quantity === q) || null;
 // 解タグ行 = note に `solution=<tag>` を持つ行(第263便c の転写規約)
+// 第270便c(AD9): `note.includes('solution=' + t)` は **`adopted_solution=` の部分文字列にも当たる**
+// (第270便c が採用解の注記 `adopted_solution=Meng2025-DDFWHE` を旧行へ足したとき、旧行が解タグ行として
+// 当たってしまった)。**語境界つきの照合**にする —— 直前が英数字・`_`・`-` なら別の鍵である。
+const solutionTagged = (note, tag) => new RegExp('(?:^|[^A-Za-z0-9_-])solution='
+  + String(tag).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![A-Za-z0-9_])').test(String(note || ''));
 const solRow = (body, q, tag) => OBS_ROWS.find((r) => r.body === body && r.quantity === q
-  && r.note.includes('solution=' + tag)) || null;
+  && solutionTagged(r.note, tag)) || null;
 // 周期は s / d の両方があるので、判定単位(秒)へ**単位換算だけ**する(値の読み替えはしない)
 const toSec = (row) => { if (!row) return null;
   if (row.unit === 's') return row.value;

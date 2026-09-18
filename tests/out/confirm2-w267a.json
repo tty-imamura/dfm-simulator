@@ -1,5 +1,5 @@
 {
- "when": "2026-09-17T16:05:19.097Z",
+ "when": "2026-09-18T00:48:28.567Z",
  "wave": "第267便a(第57報 追加 3・4・W1)",
  "provenance": "原仮定者が提供した確認記録(2026-09-17・第 2 回)。確認日は記録の記載どおり 2026-09-16。一次資料は各行の source/url にある。**器は印を上げない** —— 上げるのは原仮定者の照合である。",
  "rule": [
@@ -700,7 +700,7 @@
    "body": "PSR J1757-1854",
    "quantity": "orbital_period",
    "what": "Cameron 2018 Table 2(併置行)",
-   "mark": "unverified",
+   "mark": "verified",
    "tag": true,
    "round2": false
   },
@@ -710,7 +710,7 @@
    "body": "PSR J1757-1854",
    "quantity": "eccentricity",
    "what": "Cameron 2018 Table 2(併置行)",
-   "mark": "unverified",
+   "mark": "verified",
    "tag": true,
    "round2": false
   },
@@ -720,7 +720,7 @@
    "body": "PSR J1757-1854",
    "quantity": "periastron_advance",
    "what": "Cameron 2018 Table 2(併置行)",
-   "mark": "unverified",
+   "mark": "verified",
    "tag": true,
    "round2": false
   },
@@ -1081,9 +1081,9 @@
   "after": {
    "solar": {
     "rows": 521,
-    "verified": 54,
-    "verifiedBy": 48,
-    "verifiedWithoutBy": 6,
+    "verified": 57,
+    "verifiedBy": 57,
+    "verifiedWithoutBy": 0,
     "round2": 17,
     "round2Verified": 17
    },
@@ -1112,24 +1112,24 @@
    "byStatus": {
     "合(3σ)": 2,
     "否(3σ)": 2,
-    "数値未解決": 27,
+    "数値未解決": 31,
     "mapping-unresolved": 13,
     "condition-mismatch": 8,
-    "未判定": 262
+    "未判定": 258
    },
-   "withSigma": 46,
-   "sourceVerified": 46,
+   "withSigma": 50,
+   "sourceVerified": 50,
    "sigmaRegate": {
-    "checked": 46,
+    "checked": 96,
     "changed": 0,
     "verifiedFlips": 0
    },
    "sigmaMarkAudit": {
     "rows": 521,
-    "legacyVerified": 56,
-    "strictVerified": 54,
+    "legacyVerified": 59,
+    "strictVerified": 57,
     "flips": 2,
-    "verifiedByMissing": 6
+    "verifiedByMissing": 0
    }
   },
   "solarsigma": {

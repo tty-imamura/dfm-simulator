@@ -1,0 +1,4036 @@
+{
+ "when": "2026-09-18T01:45:44.323Z",
+ "wave": "第270便a(第60報 W1・AE9)",
+ "what": "**停止条件を「步数上限と必要近点数の宣言」にした**ことの照合。走行はしない(JSON を読むだけ)。",
+ "version": "w270a-1",
+ "declaration": {
+  "classMaxSteps": [
+   {
+    "maxN": 3,
+    "maxSteps": 40000000,
+    "why": "第249便b の hardCap(n≤3)の宣言値"
+   },
+   {
+    "maxN": 12,
+    "maxSteps": 20000000,
+    "why": "第249便b の hardCap(n≤12)の宣言値"
+   }
+  ],
+  "presetMaxSteps": {
+   "solarInner": {
+    "maxSteps": 866426,
+    "scalesWithDt": true,
+    "why": "基点 f6c19b4 の 🌞 dt 段が走った步数(近点 9/5/3/2・20 近点窓は未充足のまま)"
+   },
+   "uranusReal": {
+    "maxSteps": 1075028,
+    "scalesWithDt": true,
+    "why": "基点 f6c19b4 の 💠 dt 段が走った步数(近点 14/7/4/2/1)"
+   },
+   "saturnRingReal": {
+    "maxSteps": 2042988,
+    "scalesWithDt": true,
+    "why": "基点 f6c19b4 の 💍 dt 段が走った步数(近点 63/36/3)"
+   },
+   "saturnRingRealKF1": {
+    "maxSteps": 254730,
+    "scalesWithDt": true,
+    "why": "基点 f6c19b4 の 💿 dt 段が走った步数(近点 13/2/1)"
+   }
+  },
+  "presetNeedPeriastra": {
+   "saturnZonalD68": {
+    "needPeriastra": 58,
+    "why": "第270便a(AD8)の換算判定の fit 窓(58 近点・57 区間)"
+   }
+  },
+  "wallCeilingSec": 900,
+  "rule": "步数 = min(宣言した步数上限, orbMax 公転ぶんの步数)。**步/秒も壁時計も入らない**。",
+  "wallClock": "壁時計は**資源上限**にだけ効く(超えた段は unmeasured/resource-limit で、途中までの軌道を最終判定へ流さない)。"
+ },
+ "machineIndependence": {
+  "synthetic": [
+   {
+    "id": "psrJ1946DFM",
+    "declared": 2497560,
+    "rates": [
+     {
+      "rate": 1000,
+      "maxSteps": 208130
+     },
+     {
+      "rate": 100000,
+      "maxSteps": 2497560
+     },
+     {
+      "rate": 10000000,
+      "maxSteps": 2497560
+     }
+    ],
+    "declaredStable": true,
+    "legacyStable": false,
+    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
+   },
+   {
+    "id": "earthMoonRealKF1",
+    "declared": 40000000,
+    "rates": [
+     {
+      "rate": 1000,
+      "maxSteps": 80000
+     },
+     {
+      "rate": 100000,
+      "maxSteps": 8000000
+     },
+     {
+      "rate": 10000000,
+      "maxSteps": 40000000
+     }
+    ],
+    "declaredStable": true,
+    "legacyStable": false,
+    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
+   },
+   {
+    "id": "solarInner",
+    "declared": 866426,
+    "rates": [
+     {
+      "rate": 1000,
+      "maxSteps": 480000
+     },
+     {
+      "rate": 100000,
+      "maxSteps": 19548000
+     },
+     {
+      "rate": 10000000,
+      "maxSteps": 19548000
+     }
+    ],
+    "declaredStable": true,
+    "legacyStable": false,
+    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
+   },
+   {
+    "id": "saturnZonalD68",
+    "declared": 699360,
+    "rates": [
+     {
+      "rate": 1000,
+      "maxSteps": 80000
+     },
+     {
+      "rate": 100000,
+      "maxSteps": 699360
+     },
+     {
+      "rate": 10000000,
+      "maxSteps": 699360
+     }
+    ],
+    "declaredStable": true,
+    "legacyStable": false,
+    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
+   }
+  ],
+  "legacyRateDependent": [
+   "psrJ1946DFM",
+   "earthMoonRealKF1",
+   "solarInner",
+   "saturnZonalD68"
+  ],
+  "finding": "**旧規則では 4 例で走行長が步/秒で変わった**(同じ入力・同じコードでも機種が違えば近点の本数が変わる)。新しい規則は步/秒を入力に取らないので、定義上この揺れが無い。"
+ },
+ "replay": {
+  "nStages": 85,
+  "compared": 84,
+  "identical": 84,
+  "differing": 0,
+  "newStages": 1,
+  "differingRows": [],
+  "newStageRows": [
+   {
+    "id": "saturnZonalD68",
+    "tag": "dt/4",
+    "maxSteps": 2797603,
+    "stepsRun": 2674708,
+    "periFoundA": [
+     58
+    ]
+   }
+  ],
+  "rows": [
+   {
+    "id": "earthMoonReal",
+    "emoji": "🌙",
+    "tag": "dt",
+    "baseMaxSteps": 40000000,
+    "nowMaxSteps": 40000000,
+    "baseStepsRun": 40000000,
+    "nowStepsRun": 40000000,
+    "basePeriFoundA": [
+     27
+    ],
+    "nowPeriFoundA": [
+     27
+    ],
+    "baseWallSec": 21.322,
+    "nowWallSec": 20.447,
+    "baseRate": 1428571,
+    "nowRate": 1333333,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "earthMoonReal",
+    "emoji": "🌙",
+    "tag": "dt/2",
+    "baseMaxSteps": 40000000,
+    "nowMaxSteps": 40000000,
+    "baseStepsRun": 40000000,
+    "nowStepsRun": 40000000,
+    "basePeriFoundA": [
+     13
+    ],
+    "nowPeriFoundA": [
+     13
+    ],
+    "baseWallSec": 21.994,
+    "nowWallSec": 21.573,
+    "baseRate": 1428571,
+    "nowRate": 1333333,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "earthMoonRealKF1",
+    "emoji": "🌘",
+    "tag": "dt",
+    "baseMaxSteps": 40000000,
+    "nowMaxSteps": 40000000,
+    "baseStepsRun": 40000000,
+    "nowStepsRun": 40000000,
+    "basePeriFoundA": [
+     26
+    ],
+    "nowPeriFoundA": [
+     26
+    ],
+    "baseWallSec": 40.069,
+    "nowWallSec": 36.988,
+    "baseRate": 500000,
+    "nowRate": 434783,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "earthMoonRealKF1",
+    "emoji": "🌘",
+    "tag": "dt/2",
+    "baseMaxSteps": 40000000,
+    "nowMaxSteps": 40000000,
+    "baseStepsRun": 40000000,
+    "nowStepsRun": 40000000,
+    "basePeriFoundA": [
+     13
+    ],
+    "nowPeriFoundA": [
+     13
+    ],
+    "baseWallSec": 42.356,
+    "nowWallSec": 35.245,
+    "baseRate": 1052632,
+    "nowRate": 1428571,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "emAuditDFM",
+    "emoji": "🧲",
+    "tag": "dt",
+    "baseMaxSteps": 40000000,
+    "nowMaxSteps": 40000000,
+    "baseStepsRun": 40000000,
+    "nowStepsRun": 40000000,
+    "basePeriFoundA": [
+     26
+    ],
+    "nowPeriFoundA": [
+     26
+    ],
+    "baseWallSec": 35.988,
+    "nowWallSec": 33.112,
+    "baseRate": 1111111,
+    "nowRate": 800000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "emAuditDFM",
+    "emoji": "🧲",
+    "tag": "dt/2",
+    "baseMaxSteps": 40000000,
+    "nowMaxSteps": 40000000,
+    "baseStepsRun": 40000000,
+    "nowStepsRun": 40000000,
+    "basePeriFoundA": [
+     13
+    ],
+    "nowPeriFoundA": [
+     13
+    ],
+    "baseWallSec": 36.308,
+    "nowWallSec": 33.183,
+    "baseRate": 1000000,
+    "nowRate": 1333333,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "emAuditSolar",
+    "emoji": "🔆",
+    "tag": "dt",
+    "baseMaxSteps": 890906,
+    "nowMaxSteps": 890906,
+    "baseStepsRun": 885179,
+    "nowStepsRun": 885179,
+    "basePeriFoundA": [
+     59
+    ],
+    "nowPeriFoundA": [
+     59
+    ],
+    "baseWallSec": 0.635,
+    "nowWallSec": 0.655,
+    "baseRate": 1000000,
+    "nowRate": 1052632,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "emAuditSolar",
+    "emoji": "🔆",
+    "tag": "dt/2",
+    "baseMaxSteps": 1781813,
+    "nowMaxSteps": 1781813,
+    "baseStepsRun": 1770360,
+    "nowStepsRun": 1770360,
+    "basePeriFoundA": [
+     59
+    ],
+    "nowPeriFoundA": [
+     59
+    ],
+    "baseWallSec": 1.234,
+    "nowWallSec": 1.135,
+    "baseRate": 1538462,
+    "nowRate": 1428571,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "mercuryReal",
+    "emoji": "☄️",
+    "tag": "dt",
+    "baseMaxSteps": 2850199,
+    "nowMaxSteps": 2850199,
+    "baseStepsRun": 2850199,
+    "nowStepsRun": 2850199,
+    "basePeriFoundA": [
+     59
+    ],
+    "nowPeriFoundA": [
+     59
+    ],
+    "baseWallSec": 1.509,
+    "nowWallSec": 1.391,
+    "baseRate": 1818182,
+    "nowRate": 2000000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "mercuryReal",
+    "emoji": "☄️",
+    "tag": "dt/2",
+    "baseMaxSteps": 5700398,
+    "nowMaxSteps": 5700398,
+    "baseStepsRun": 5700398,
+    "nowStepsRun": 5700398,
+    "basePeriFoundA": [
+     59
+    ],
+    "nowPeriFoundA": [
+     59
+    ],
+    "baseWallSec": 2.986,
+    "nowWallSec": 3.106,
+    "baseRate": 2000000,
+    "nowRate": 2000000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "mercuryRealKF1",
+    "emoji": "🪨",
+    "tag": "dt",
+    "baseMaxSteps": 2850199,
+    "nowMaxSteps": 2850199,
+    "baseStepsRun": 2850199,
+    "nowStepsRun": 2850199,
+    "basePeriFoundA": [
+     59
+    ],
+    "nowPeriFoundA": [
+     59
+    ],
+    "baseWallSec": 2.866,
+    "nowWallSec": 2.634,
+    "baseRate": 800000,
+    "nowRate": 869565,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "mercuryRealKF1",
+    "emoji": "🪨",
+    "tag": "dt/2",
+    "baseMaxSteps": 5700398,
+    "nowMaxSteps": 5700398,
+    "baseStepsRun": 5700398,
+    "nowStepsRun": 5700398,
+    "basePeriFoundA": [
+     59
+    ],
+    "nowPeriFoundA": [
+     59
+    ],
+    "baseWallSec": 5.513,
+    "nowWallSec": 5.104,
+    "baseRate": 1250000,
+    "nowRate": 1111111,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "solarInner",
+    "emoji": "🌞",
+    "tag": "dt",
+    "baseMaxSteps": 866426,
+    "nowMaxSteps": 866426,
+    "baseStepsRun": 866426,
+    "nowStepsRun": 866426,
+    "basePeriFoundA": [
+     9,
+     5,
+     3,
+     2
+    ],
+    "nowPeriFoundA": [
+     9,
+     5,
+     3,
+     2
+    ],
+    "baseWallSec": 486.966,
+    "nowWallSec": 448.537,
+    "baseRate": 1805,
+    "nowRate": 2053,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "jupiterGalilean",
+    "emoji": "🟠",
+    "tag": "dt",
+    "baseMaxSteps": 5407442,
+    "nowMaxSteps": 5407442,
+    "baseStepsRun": 5407442,
+    "nowStepsRun": 5407442,
+    "basePeriFoundA": [
+     63,
+     63,
+     63,
+     59
+    ],
+    "nowPeriFoundA": [
+     63,
+     63,
+     63,
+     59
+    ],
+    "baseWallSec": 12.67,
+    "nowWallSec": 11.997,
+    "baseRate": 444444,
+    "nowRate": 454545,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "jupiterGalilean",
+    "emoji": "🟠",
+    "tag": "dt/2",
+    "baseMaxSteps": 10814883,
+    "nowMaxSteps": 10814883,
+    "baseStepsRun": 10814883,
+    "nowStepsRun": 10814883,
+    "basePeriFoundA": [
+     63,
+     63,
+     63,
+     59
+    ],
+    "nowPeriFoundA": [
+     63,
+     63,
+     63,
+     59
+    ],
+    "baseWallSec": 25.383,
+    "nowWallSec": 21.155,
+    "baseRate": 434783,
+    "nowRate": 454545,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "venusReal",
+    "emoji": "🌇",
+    "tag": "dt",
+    "baseMaxSteps": 7280208,
+    "nowMaxSteps": 7280208,
+    "baseStepsRun": 7280208,
+    "nowStepsRun": 7280208,
+    "basePeriFoundA": [
+     59
+    ],
+    "nowPeriFoundA": [
+     59
+    ],
+    "baseWallSec": 7.116,
+    "nowWallSec": 6.725,
+    "baseRate": 833333,
+    "nowRate": 1000000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "venusReal",
+    "emoji": "🌇",
+    "tag": "dt/2",
+    "baseMaxSteps": 14560415,
+    "nowMaxSteps": 14560415,
+    "baseStepsRun": 14560415,
+    "nowStepsRun": 14560415,
+    "basePeriFoundA": [
+     59
+    ],
+    "nowPeriFoundA": [
+     59
+    ],
+    "baseWallSec": 14.764,
+    "nowWallSec": 12.633,
+    "baseRate": 952381,
+    "nowRate": 1250000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "marsMoonsReal",
+    "emoji": "🥔",
+    "tag": "dt",
+    "baseMaxSteps": 4091814,
+    "nowMaxSteps": 4091814,
+    "baseStepsRun": 4091814,
+    "nowStepsRun": 4091814,
+    "basePeriFoundA": [
+     63,
+     59
+    ],
+    "nowPeriFoundA": [
+     63,
+     59
+    ],
+    "baseWallSec": 4.835,
+    "nowWallSec": 4.654,
+    "baseRate": 833333,
+    "nowRate": 869565,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "marsMoonsReal",
+    "emoji": "🥔",
+    "tag": "dt/2",
+    "baseMaxSteps": 8183629,
+    "nowMaxSteps": 8183629,
+    "baseStepsRun": 8183629,
+    "nowStepsRun": 8183629,
+    "basePeriFoundA": [
+     63,
+     59
+    ],
+    "nowPeriFoundA": [
+     63,
+     59
+    ],
+    "baseWallSec": 9.655,
+    "nowWallSec": 8.757,
+    "baseRate": 800000,
+    "nowRate": 909091,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "plutoCharonReal",
+    "emoji": "❄️",
+    "tag": "dt",
+    "baseMaxSteps": 20694498,
+    "nowMaxSteps": 20694498,
+    "baseStepsRun": 20694498,
+    "nowStepsRun": 20694498,
+    "basePeriFoundA": [
+     59
+    ],
+    "nowPeriFoundA": [
+     59
+    ],
+    "baseWallSec": 19.802,
+    "nowWallSec": 18.104,
+    "baseRate": 952381,
+    "nowRate": 1000000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "plutoCharonReal",
+    "emoji": "❄️",
+    "tag": "dt/2",
+    "baseMaxSteps": 40000000,
+    "nowMaxSteps": 40000000,
+    "baseStepsRun": 40000000,
+    "nowStepsRun": 40000000,
+    "basePeriFoundA": [
+     57
+    ],
+    "nowPeriFoundA": [
+     57
+    ],
+    "baseWallSec": 37.934,
+    "nowWallSec": 35.674,
+    "baseRate": 909091,
+    "nowRate": 1000000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "uranusReal",
+    "emoji": "💠",
+    "tag": "dt",
+    "baseMaxSteps": 1075028,
+    "nowMaxSteps": 1075028,
+    "baseStepsRun": 1075028,
+    "nowStepsRun": 1075028,
+    "basePeriFoundA": [
+     14,
+     7,
+     4,
+     2,
+     1
+    ],
+    "nowPeriFoundA": [
+     14,
+     7,
+     4,
+     2,
+     1
+    ],
+    "baseWallSec": 480.828,
+    "nowWallSec": 441.463,
+    "baseRate": 2240,
+    "nowRate": 2454,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "neptuneReal",
+    "emoji": "🌊",
+    "tag": "dt",
+    "baseMaxSteps": 1904169,
+    "nowMaxSteps": 1904169,
+    "baseStepsRun": 1904169,
+    "nowStepsRun": 1904169,
+    "basePeriFoundA": [
+     59
+    ],
+    "nowPeriFoundA": [
+     59
+    ],
+    "baseWallSec": 1.713,
+    "nowWallSec": 1.857,
+    "baseRate": 1000000,
+    "nowRate": 952381,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "neptuneReal",
+    "emoji": "🌊",
+    "tag": "dt/2",
+    "baseMaxSteps": 3808338,
+    "nowMaxSteps": 3808338,
+    "baseStepsRun": 3808338,
+    "nowStepsRun": 3808338,
+    "basePeriFoundA": [
+     59
+    ],
+    "nowPeriFoundA": [
+     59
+    ],
+    "baseWallSec": 3.482,
+    "nowWallSec": 3.63,
+    "baseRate": 1052632,
+    "nowRate": 1000000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "alphaCenAB",
+    "emoji": "✨",
+    "tag": "dt",
+    "baseMaxSteps": 9439328,
+    "nowMaxSteps": 9439328,
+    "baseStepsRun": 9439328,
+    "nowStepsRun": 9439328,
+    "basePeriFoundA": [
+     60
+    ],
+    "nowPeriFoundA": [
+     60
+    ],
+    "baseWallSec": 5.567,
+    "nowWallSec": 5.099,
+    "baseRate": 1176471,
+    "nowRate": 1250000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "alphaCenAB",
+    "emoji": "✨",
+    "tag": "dt/2",
+    "baseMaxSteps": 18878657,
+    "nowMaxSteps": 18878657,
+    "baseStepsRun": 18878657,
+    "nowStepsRun": 18878657,
+    "basePeriFoundA": [
+     60
+    ],
+    "nowPeriFoundA": [
+     60
+    ],
+    "baseWallSec": 10.857,
+    "nowWallSec": 10.568,
+    "baseRate": 1250000,
+    "nowRate": 1428571,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "alphaCenAB",
+    "emoji": "✨",
+    "tag": "dt/4",
+    "baseMaxSteps": 37757313,
+    "nowMaxSteps": 37757313,
+    "baseStepsRun": 37757313,
+    "nowStepsRun": 37757313,
+    "basePeriFoundA": [
+     60
+    ],
+    "nowPeriFoundA": [
+     60
+    ],
+    "baseWallSec": 22.101,
+    "nowWallSec": 19.085,
+    "baseRate": 2000000,
+    "nowRate": 1818182,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "alphaCenABDFM",
+    "emoji": "✴️",
+    "tag": "dt",
+    "baseMaxSteps": 9437344,
+    "nowMaxSteps": 9437344,
+    "baseStepsRun": 9393477,
+    "nowStepsRun": 9393477,
+    "basePeriFoundA": [
+     60
+    ],
+    "nowPeriFoundA": [
+     60
+    ],
+    "baseWallSec": 10.59,
+    "nowWallSec": 10.553,
+    "baseRate": 625000,
+    "nowRate": 833333,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "alphaCenABDFM",
+    "emoji": "✴️",
+    "tag": "dt/2",
+    "baseMaxSteps": 18874688,
+    "nowMaxSteps": 18874688,
+    "baseStepsRun": 18787833,
+    "nowStepsRun": 18787833,
+    "basePeriFoundA": [
+     60
+    ],
+    "nowPeriFoundA": [
+     60
+    ],
+    "baseWallSec": 21.311,
+    "nowWallSec": 20.924,
+    "baseRate": 869565,
+    "nowRate": 952381,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "alphaCenABDFM",
+    "emoji": "✴️",
+    "tag": "dt/4",
+    "baseMaxSteps": 37749376,
+    "nowMaxSteps": 37749376,
+    "baseStepsRun": 37576543,
+    "nowStepsRun": 37576543,
+    "basePeriFoundA": [
+     60
+    ],
+    "nowPeriFoundA": [
+     60
+    ],
+    "baseWallSec": 42.624,
+    "nowWallSec": 40.416,
+    "baseRate": 909091,
+    "nowRate": 952381,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "siriusAB",
+    "emoji": "🌟",
+    "tag": "dt",
+    "baseMaxSteps": 5932383,
+    "nowMaxSteps": 5932383,
+    "baseStepsRun": 5932383,
+    "nowStepsRun": 5932383,
+    "basePeriFoundA": [
+     60
+    ],
+    "nowPeriFoundA": [
+     60
+    ],
+    "baseWallSec": 3.576,
+    "nowWallSec": 3.45,
+    "baseRate": 1666667,
+    "nowRate": 1666667,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "siriusAB",
+    "emoji": "🌟",
+    "tag": "dt/2",
+    "baseMaxSteps": 11864765,
+    "nowMaxSteps": 11864765,
+    "baseStepsRun": 11864765,
+    "nowStepsRun": 11864765,
+    "basePeriFoundA": [
+     60
+    ],
+    "nowPeriFoundA": [
+     60
+    ],
+    "baseWallSec": 7.197,
+    "nowWallSec": 6.405,
+    "baseRate": 2000000,
+    "nowRate": 2000000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "siriusAB",
+    "emoji": "🌟",
+    "tag": "dt/4",
+    "baseMaxSteps": 23729530,
+    "nowMaxSteps": 23729530,
+    "baseStepsRun": 23729530,
+    "nowStepsRun": 23729530,
+    "basePeriFoundA": [
+     60
+    ],
+    "nowPeriFoundA": [
+     60
+    ],
+    "baseWallSec": 14.045,
+    "nowWallSec": 13.681,
+    "baseRate": 1818182,
+    "nowRate": 1818182,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "siriusABDFM",
+    "emoji": "💫",
+    "tag": "dt",
+    "baseMaxSteps": 5930404,
+    "nowMaxSteps": 5930404,
+    "baseStepsRun": 5888550,
+    "nowStepsRun": 5888550,
+    "basePeriFoundA": [
+     60
+    ],
+    "nowPeriFoundA": [
+     60
+    ],
+    "baseWallSec": 6.557,
+    "nowWallSec": 6.559,
+    "baseRate": 1052632,
+    "nowRate": 952381,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "siriusABDFM",
+    "emoji": "💫",
+    "tag": "dt/2",
+    "baseMaxSteps": 11860808,
+    "nowMaxSteps": 11860808,
+    "baseStepsRun": 11780426,
+    "nowStepsRun": 11780426,
+    "basePeriFoundA": [
+     60
+    ],
+    "nowPeriFoundA": [
+     60
+    ],
+    "baseWallSec": 12.856,
+    "nowWallSec": 12.256,
+    "baseRate": 952381,
+    "nowRate": 1176471,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "siriusABDFM",
+    "emoji": "💫",
+    "tag": "dt/4",
+    "baseMaxSteps": 23721616,
+    "nowMaxSteps": 23721616,
+    "baseStepsRun": 23564167,
+    "nowStepsRun": 23564167,
+    "basePeriFoundA": [
+     60
+    ],
+    "nowPeriFoundA": [
+     60
+    ],
+    "baseWallSec": 26.134,
+    "nowWallSec": 23.194,
+    "baseRate": 952381,
+    "nowRate": 1176471,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrDoubleAB",
+    "emoji": "📻",
+    "tag": "dt",
+    "baseMaxSteps": 3312950,
+    "nowMaxSteps": 3312950,
+    "baseStepsRun": 3312950,
+    "nowStepsRun": 3312950,
+    "basePeriFoundA": [
+     60
+    ],
+    "nowPeriFoundA": [
+     60
+    ],
+    "baseWallSec": 2.064,
+    "nowWallSec": 1.7,
+    "baseRate": 1250000,
+    "nowRate": 1250000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrDoubleAB",
+    "emoji": "📻",
+    "tag": "dt/2",
+    "baseMaxSteps": 6625899,
+    "nowMaxSteps": 6625899,
+    "baseStepsRun": 6625899,
+    "nowStepsRun": 6625899,
+    "basePeriFoundA": [
+     60
+    ],
+    "nowPeriFoundA": [
+     60
+    ],
+    "baseWallSec": 3.951,
+    "nowWallSec": 3.674,
+    "baseRate": 1818182,
+    "nowRate": 2500000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrDoubleAB",
+    "emoji": "📻",
+    "tag": "dt/4",
+    "baseMaxSteps": 13251799,
+    "nowMaxSteps": 13251799,
+    "baseStepsRun": 13251799,
+    "nowStepsRun": 13251799,
+    "basePeriFoundA": [
+     60
+    ],
+    "nowPeriFoundA": [
+     60
+    ],
+    "baseWallSec": 7.836,
+    "nowWallSec": 7.009,
+    "baseRate": 2000000,
+    "nowRate": 2000000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrDoubleABDFM",
+    "emoji": "⚡",
+    "tag": "dt",
+    "baseMaxSteps": 1385472,
+    "nowMaxSteps": 1385472,
+    "baseStepsRun": 1385472,
+    "nowStepsRun": 1385472,
+    "basePeriFoundA": [
+     25
+    ],
+    "nowPeriFoundA": [
+     25
+    ],
+    "baseWallSec": 1.918,
+    "nowWallSec": 1.816,
+    "baseRate": 606061,
+    "nowRate": 400000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrDoubleABDFM",
+    "emoji": "⚡",
+    "tag": "dt/2",
+    "baseMaxSteps": 2770943,
+    "nowMaxSteps": 2770943,
+    "baseStepsRun": 2770943,
+    "nowStepsRun": 2770943,
+    "basePeriFoundA": [
+     25
+    ],
+    "nowPeriFoundA": [
+     25
+    ],
+    "baseWallSec": 3.68,
+    "nowWallSec": 3.549,
+    "baseRate": 769231,
+    "nowRate": 800000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrDoubleABDFM",
+    "emoji": "⚡",
+    "tag": "dt/4",
+    "baseMaxSteps": 5541886,
+    "nowMaxSteps": 5541886,
+    "baseStepsRun": 5541886,
+    "nowStepsRun": 5541886,
+    "basePeriFoundA": [
+     25
+    ],
+    "nowPeriFoundA": [
+     25
+    ],
+    "baseWallSec": 7.461,
+    "nowWallSec": 6.572,
+    "baseRate": 740741,
+    "nowRate": 833333,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrDoubleABSpinCal",
+    "emoji": "🧿",
+    "tag": "dt",
+    "baseMaxSteps": 1385490,
+    "nowMaxSteps": 1385490,
+    "baseStepsRun": 1385490,
+    "nowStepsRun": 1385490,
+    "basePeriFoundA": [
+     25
+    ],
+    "nowPeriFoundA": [
+     25
+    ],
+    "baseWallSec": 1.963,
+    "nowWallSec": 1.965,
+    "baseRate": 540541,
+    "nowRate": 540541,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrDoubleABSpinCal",
+    "emoji": "🧿",
+    "tag": "dt/2",
+    "baseMaxSteps": 2770980,
+    "nowMaxSteps": 2770980,
+    "baseStepsRun": 2770980,
+    "nowStepsRun": 2770980,
+    "basePeriFoundA": [
+     25
+    ],
+    "nowPeriFoundA": [
+     25
+    ],
+    "baseWallSec": 3.909,
+    "nowWallSec": 3.441,
+    "baseRate": 540541,
+    "nowRate": 740741,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrJ1757DFM",
+    "emoji": "🧮",
+    "tag": "dt",
+    "baseMaxSteps": 3534675,
+    "nowMaxSteps": 3534675,
+    "baseStepsRun": 3534675,
+    "nowStepsRun": 3534675,
+    "basePeriFoundA": [
+     37
+    ],
+    "nowPeriFoundA": [
+     37
+    ],
+    "baseWallSec": 4.691,
+    "nowWallSec": 3.759,
+    "baseRate": 833333,
+    "nowRate": 952381,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrJ1757DFM",
+    "emoji": "🧮",
+    "tag": "dt/2",
+    "baseMaxSteps": 7069351,
+    "nowMaxSteps": 7069351,
+    "baseStepsRun": 7069351,
+    "nowStepsRun": 7069351,
+    "basePeriFoundA": [
+     36
+    ],
+    "nowPeriFoundA": [
+     36
+    ],
+    "baseWallSec": 9.219,
+    "nowWallSec": 9.023,
+    "baseRate": 833333,
+    "nowRate": 1052632,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrJ1757DFM",
+    "emoji": "🧮",
+    "tag": "dt/4",
+    "baseMaxSteps": 14138701,
+    "nowMaxSteps": 14138701,
+    "baseStepsRun": 14138701,
+    "nowStepsRun": 14138701,
+    "basePeriFoundA": [
+     36
+    ],
+    "nowPeriFoundA": [
+     36
+    ],
+    "baseWallSec": 18.363,
+    "nowWallSec": 16.315,
+    "baseRate": 588235,
+    "nowRate": 800000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrJ1946DFM",
+    "emoji": "🩺",
+    "tag": "dt",
+    "baseMaxSteps": 1040661,
+    "nowMaxSteps": 1040661,
+    "baseStepsRun": 1040661,
+    "nowStepsRun": 1040661,
+    "basePeriFoundA": [
+     25
+    ],
+    "nowPeriFoundA": [
+     25
+    ],
+    "baseWallSec": 1.416,
+    "nowWallSec": 1.296,
+    "baseRate": 800000,
+    "nowRate": 869565,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrJ1946DFM",
+    "emoji": "🩺",
+    "tag": "dt/2",
+    "baseMaxSteps": 2081321,
+    "nowMaxSteps": 2081321,
+    "baseStepsRun": 2081321,
+    "nowStepsRun": 2081321,
+    "basePeriFoundA": [
+     25
+    ],
+    "nowPeriFoundA": [
+     25
+    ],
+    "baseWallSec": 2.783,
+    "nowWallSec": 2.556,
+    "baseRate": 800000,
+    "nowRate": 800000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrJ1946DFM",
+    "emoji": "🩺",
+    "tag": "dt/4",
+    "baseMaxSteps": 4162642,
+    "nowMaxSteps": 4162642,
+    "baseStepsRun": 4162642,
+    "nowStepsRun": 4162642,
+    "basePeriFoundA": [
+     25
+    ],
+    "nowPeriFoundA": [
+     25
+    ],
+    "baseWallSec": 5.413,
+    "nowWallSec": 5.509,
+    "baseRate": 800000,
+    "nowRate": 800000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrDoubleABPN",
+    "emoji": "🪶",
+    "tag": "dt",
+    "baseMaxSteps": 1385472,
+    "nowMaxSteps": 1385472,
+    "baseStepsRun": 1385472,
+    "nowStepsRun": 1385472,
+    "basePeriFoundA": [
+     25
+    ],
+    "nowPeriFoundA": [
+     25
+    ],
+    "baseWallSec": 1.832,
+    "nowWallSec": 1.623,
+    "baseRate": 833333,
+    "nowRate": 1052632,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrDoubleABPN",
+    "emoji": "🪶",
+    "tag": "dt/2",
+    "baseMaxSteps": 2770943,
+    "nowMaxSteps": 2770943,
+    "baseStepsRun": 2770943,
+    "nowStepsRun": 2770943,
+    "basePeriFoundA": [
+     25
+    ],
+    "nowPeriFoundA": [
+     25
+    ],
+    "baseWallSec": 3.81,
+    "nowWallSec": 3.551,
+    "baseRate": 769231,
+    "nowRate": 1000000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrJ1757PN",
+    "emoji": "🪃",
+    "tag": "dt",
+    "baseMaxSteps": 3534675,
+    "nowMaxSteps": 3534675,
+    "baseStepsRun": 3534675,
+    "nowStepsRun": 3534675,
+    "basePeriFoundA": [
+     37
+    ],
+    "nowPeriFoundA": [
+     37
+    ],
+    "baseWallSec": 4.661,
+    "nowWallSec": 4.04,
+    "baseRate": 833333,
+    "nowRate": 833333,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrJ1757PN",
+    "emoji": "🪃",
+    "tag": "dt/2",
+    "baseMaxSteps": 7069351,
+    "nowMaxSteps": 7069351,
+    "baseStepsRun": 7069351,
+    "nowStepsRun": 7069351,
+    "basePeriFoundA": [
+     36
+    ],
+    "nowPeriFoundA": [
+     36
+    ],
+    "baseWallSec": 9.314,
+    "nowWallSec": 9.085,
+    "baseRate": 800000,
+    "nowRate": 769231,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrJ1946PN",
+    "emoji": "🪀",
+    "tag": "dt",
+    "baseMaxSteps": 1040661,
+    "nowMaxSteps": 1040661,
+    "baseStepsRun": 1040661,
+    "nowStepsRun": 1040661,
+    "basePeriFoundA": [
+     25
+    ],
+    "nowPeriFoundA": [
+     25
+    ],
+    "baseWallSec": 1.391,
+    "nowWallSec": 1.377,
+    "baseRate": 689655,
+    "nowRate": 952381,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrJ1946PN",
+    "emoji": "🪀",
+    "tag": "dt/2",
+    "baseMaxSteps": 2081321,
+    "nowMaxSteps": 2081321,
+    "baseStepsRun": 2081321,
+    "nowStepsRun": 2081321,
+    "basePeriFoundA": [
+     25
+    ],
+    "nowPeriFoundA": [
+     25
+    ],
+    "baseWallSec": 2.863,
+    "nowWallSec": 2.447,
+    "baseRate": 800000,
+    "nowRate": 740741,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrDoubleABCF",
+    "emoji": "🪝",
+    "tag": "dt",
+    "baseMaxSteps": 1385472,
+    "nowMaxSteps": 1385472,
+    "baseStepsRun": 1385472,
+    "nowStepsRun": 1385472,
+    "basePeriFoundA": [
+     25
+    ],
+    "nowPeriFoundA": [
+     25
+    ],
+    "baseWallSec": 2.483,
+    "nowWallSec": 2.513,
+    "baseRate": 294118,
+    "nowRate": 285714,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrDoubleABCF",
+    "emoji": "🪝",
+    "tag": "dt/2",
+    "baseMaxSteps": 2770943,
+    "nowMaxSteps": 2770943,
+    "baseStepsRun": 2770943,
+    "nowStepsRun": 2770943,
+    "basePeriFoundA": [
+     25
+    ],
+    "nowPeriFoundA": [
+     25
+    ],
+    "baseWallSec": 4.862,
+    "nowWallSec": 3.997,
+    "baseRate": 571429,
+    "nowRate": 714286,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrDoubleABCF",
+    "emoji": "🪝",
+    "tag": "dt/4",
+    "baseMaxSteps": 5541886,
+    "nowMaxSteps": 5541886,
+    "baseStepsRun": 5541886,
+    "nowStepsRun": 5541886,
+    "basePeriFoundA": [
+     25
+    ],
+    "nowPeriFoundA": [
+     25
+    ],
+    "baseWallSec": 9.727,
+    "nowWallSec": 8.491,
+    "baseRate": 625000,
+    "nowRate": 769231,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrJ1757CF",
+    "emoji": "🪄",
+    "tag": "dt",
+    "baseMaxSteps": 3534675,
+    "nowMaxSteps": 3534675,
+    "baseStepsRun": 3534675,
+    "nowStepsRun": 3534675,
+    "basePeriFoundA": [
+     37
+    ],
+    "nowPeriFoundA": [
+     37
+    ],
+    "baseWallSec": 6.016,
+    "nowWallSec": 5.631,
+    "baseRate": 606061,
+    "nowRate": 625000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrJ1757CF",
+    "emoji": "🪄",
+    "tag": "dt/2",
+    "baseMaxSteps": 7069351,
+    "nowMaxSteps": 7069351,
+    "baseStepsRun": 7069351,
+    "nowStepsRun": 7069351,
+    "basePeriFoundA": [
+     36
+    ],
+    "nowPeriFoundA": [
+     36
+    ],
+    "baseWallSec": 11.939,
+    "nowWallSec": 11.563,
+    "baseRate": 666667,
+    "nowRate": 588235,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrJ1757CF",
+    "emoji": "🪄",
+    "tag": "dt/4",
+    "baseMaxSteps": 14138701,
+    "nowMaxSteps": 14138701,
+    "baseStepsRun": 14138701,
+    "nowStepsRun": 14138701,
+    "basePeriFoundA": [
+     36
+    ],
+    "nowPeriFoundA": [
+     36
+    ],
+    "baseWallSec": 24.707,
+    "nowWallSec": 20.846,
+    "baseRate": 625000,
+    "nowRate": 588235,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrJ1946CF",
+    "emoji": "🩹",
+    "tag": "dt",
+    "baseMaxSteps": 1040661,
+    "nowMaxSteps": 1040661,
+    "baseStepsRun": 1040661,
+    "nowStepsRun": 1040661,
+    "basePeriFoundA": [
+     25
+    ],
+    "nowPeriFoundA": [
+     25
+    ],
+    "baseWallSec": 1.815,
+    "nowWallSec": 1.501,
+    "baseRate": 540541,
+    "nowRate": 714286,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrJ1946CF",
+    "emoji": "🩹",
+    "tag": "dt/2",
+    "baseMaxSteps": 2081321,
+    "nowMaxSteps": 2081321,
+    "baseStepsRun": 2081321,
+    "nowStepsRun": 2081321,
+    "basePeriFoundA": [
+     25
+    ],
+    "nowPeriFoundA": [
+     25
+    ],
+    "baseWallSec": 3.538,
+    "nowWallSec": 3.596,
+    "baseRate": 588235,
+    "nowRate": 689655,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrJ1946CF",
+    "emoji": "🩹",
+    "tag": "dt/4",
+    "baseMaxSteps": 4162642,
+    "nowMaxSteps": 4162642,
+    "baseStepsRun": 4162642,
+    "nowStepsRun": 4162642,
+    "basePeriFoundA": [
+     25
+    ],
+    "nowPeriFoundA": [
+     25
+    ],
+    "baseWallSec": 7.418,
+    "nowWallSec": 6.854,
+    "baseRate": 571429,
+    "nowRate": 606061,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrB1534",
+    "emoji": "📿",
+    "tag": "dt",
+    "baseMaxSteps": 13631888,
+    "nowMaxSteps": 13631888,
+    "baseStepsRun": 13631888,
+    "nowStepsRun": 13631888,
+    "basePeriFoundA": [
+     60
+    ],
+    "nowPeriFoundA": [
+     60
+    ],
+    "baseWallSec": 10.416,
+    "nowWallSec": 10.14,
+    "baseRate": 1250000,
+    "nowRate": 1818182,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrB1534",
+    "emoji": "📿",
+    "tag": "dt/2",
+    "baseMaxSteps": 27263777,
+    "nowMaxSteps": 27263777,
+    "baseStepsRun": 27263777,
+    "nowStepsRun": 27263777,
+    "basePeriFoundA": [
+     60
+    ],
+    "nowPeriFoundA": [
+     60
+    ],
+    "baseWallSec": 20.695,
+    "nowWallSec": 20.71,
+    "baseRate": 1428571,
+    "nowRate": 1428571,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrB1534",
+    "emoji": "📿",
+    "tag": "dt/4",
+    "baseMaxSteps": 40000000,
+    "nowMaxSteps": 40000000,
+    "baseStepsRun": 40000000,
+    "nowStepsRun": 40000000,
+    "basePeriFoundA": [
+     44
+    ],
+    "nowPeriFoundA": [
+     44
+    ],
+    "baseWallSec": 30.447,
+    "nowWallSec": 28.257,
+    "baseRate": 1428571,
+    "nowRate": 1428571,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrB1534DFM",
+    "emoji": "🧶",
+    "tag": "dt",
+    "baseMaxSteps": 6617813,
+    "nowMaxSteps": 6617813,
+    "baseStepsRun": 6617813,
+    "nowStepsRun": 6617813,
+    "basePeriFoundA": [
+     29
+    ],
+    "nowPeriFoundA": [
+     29
+    ],
+    "baseWallSec": 8.587,
+    "nowWallSec": 7.437,
+    "baseRate": 800000,
+    "nowRate": 833333,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrB1534DFM",
+    "emoji": "🧶",
+    "tag": "dt/2",
+    "baseMaxSteps": 13235625,
+    "nowMaxSteps": 13235625,
+    "baseStepsRun": 13235625,
+    "nowStepsRun": 13235625,
+    "basePeriFoundA": [
+     29
+    ],
+    "nowPeriFoundA": [
+     29
+    ],
+    "baseWallSec": 17.402,
+    "nowWallSec": 15.912,
+    "baseRate": 769231,
+    "nowRate": 769231,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrB1534DFM",
+    "emoji": "🧶",
+    "tag": "dt/4",
+    "baseMaxSteps": 26471251,
+    "nowMaxSteps": 26471251,
+    "baseStepsRun": 26471251,
+    "nowStepsRun": 26471251,
+    "basePeriFoundA": [
+     29
+    ],
+    "nowPeriFoundA": [
+     29
+    ],
+    "baseWallSec": 34.461,
+    "nowWallSec": 28.973,
+    "baseRate": 800000,
+    "nowRate": 769231,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrB1534CF",
+    "emoji": "🪤",
+    "tag": "dt",
+    "baseMaxSteps": 6617813,
+    "nowMaxSteps": 6617813,
+    "baseStepsRun": 6617813,
+    "nowStepsRun": 6617813,
+    "basePeriFoundA": [
+     29
+    ],
+    "nowPeriFoundA": [
+     29
+    ],
+    "baseWallSec": 11.657,
+    "nowWallSec": 10.844,
+    "baseRate": 512821,
+    "nowRate": 540541,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrB1534CF",
+    "emoji": "🪤",
+    "tag": "dt/2",
+    "baseMaxSteps": 13235625,
+    "nowMaxSteps": 13235625,
+    "baseStepsRun": 13235625,
+    "nowStepsRun": 13235625,
+    "basePeriFoundA": [
+     29
+    ],
+    "nowPeriFoundA": [
+     29
+    ],
+    "baseWallSec": 23.621,
+    "nowWallSec": 22.171,
+    "baseRate": 606061,
+    "nowRate": 588235,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "psrB1534CF",
+    "emoji": "🪤",
+    "tag": "dt/4",
+    "baseMaxSteps": 26471251,
+    "nowMaxSteps": 26471251,
+    "baseStepsRun": 26471251,
+    "nowStepsRun": 26471251,
+    "basePeriFoundA": [
+     29
+    ],
+    "nowPeriFoundA": [
+     29
+    ],
+    "baseWallSec": 45.717,
+    "nowWallSec": 40.255,
+    "baseRate": 465116,
+    "nowRate": 625000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "gw150914",
+    "emoji": "🎐",
+    "tag": "dt",
+    "baseMaxSteps": 681306,
+    "nowMaxSteps": 681306,
+    "baseStepsRun": 681306,
+    "nowStepsRun": 681306,
+    "basePeriFoundA": [
+     60
+    ],
+    "nowPeriFoundA": [
+     60
+    ],
+    "baseWallSec": 0.413,
+    "nowWallSec": 0.414,
+    "baseRate": 2000000,
+    "nowRate": 1818182,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "gw150914",
+    "emoji": "🎐",
+    "tag": "dt/2",
+    "baseMaxSteps": 1362611,
+    "nowMaxSteps": 1362611,
+    "baseStepsRun": 1362611,
+    "nowStepsRun": 1362611,
+    "basePeriFoundA": [
+     60
+    ],
+    "nowPeriFoundA": [
+     60
+    ],
+    "baseWallSec": 0.783,
+    "nowWallSec": 0.714,
+    "baseRate": 1538462,
+    "nowRate": 2222222,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "gw150914DFM",
+    "emoji": "🎻",
+    "tag": "dt",
+    "baseMaxSteps": 282932,
+    "nowMaxSteps": 282932,
+    "baseStepsRun": 282932,
+    "nowStepsRun": 282932,
+    "basePeriFoundA": [
+     7
+    ],
+    "nowPeriFoundA": [
+     7
+    ],
+    "baseWallSec": 0.321,
+    "nowWallSec": 0.304,
+    "baseRate": 666667,
+    "nowRate": 512821,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "gw150914DFM",
+    "emoji": "🎻",
+    "tag": "dt/2",
+    "baseMaxSteps": 565863,
+    "nowMaxSteps": 565863,
+    "baseStepsRun": 565863,
+    "nowStepsRun": 565863,
+    "basePeriFoundA": [
+     6
+    ],
+    "nowPeriFoundA": [
+     6
+    ],
+    "baseWallSec": 0.564,
+    "nowWallSec": 0.582,
+    "baseRate": 1052632,
+    "nowRate": 1111111,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "gw150914Merge4s",
+    "emoji": "⏰",
+    "tag": "dt",
+    "baseMaxSteps": 14147,
+    "nowMaxSteps": 14147,
+    "baseStepsRun": 14147,
+    "nowStepsRun": 14147,
+    "basePeriFoundA": [
+     1
+    ],
+    "nowPeriFoundA": [
+     1
+    ],
+    "baseWallSec": 0.03,
+    "nowWallSec": 0.03,
+    "baseRate": 588235,
+    "nowRate": 588235,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "gw150914Merge4s",
+    "emoji": "⏰",
+    "tag": "dt/2",
+    "baseMaxSteps": 28293,
+    "nowMaxSteps": 28293,
+    "baseStepsRun": 28293,
+    "nowStepsRun": 28293,
+    "basePeriFoundA": [
+     1
+    ],
+    "nowPeriFoundA": [
+     1
+    ],
+    "baseWallSec": 0.056,
+    "nowWallSec": 0.029,
+    "baseRate": 666667,
+    "nowRate": 400000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "saturnZonalD68",
+    "emoji": "📡",
+    "tag": "dt",
+    "baseMaxSteps": 699401,
+    "nowMaxSteps": 699401,
+    "baseStepsRun": 668676,
+    "nowStepsRun": 668676,
+    "basePeriFoundA": [
+     58
+    ],
+    "nowPeriFoundA": [
+     58
+    ],
+    "baseWallSec": 3.08,
+    "nowWallSec": 2.433,
+    "baseRate": 134228,
+    "nowRate": 149254,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "saturnZonalD68",
+    "emoji": "📡",
+    "tag": "dt/2",
+    "baseMaxSteps": 1398802,
+    "nowMaxSteps": 1398802,
+    "baseStepsRun": 1337353,
+    "nowStepsRun": 1337353,
+    "basePeriFoundA": [
+     58
+    ],
+    "nowPeriFoundA": [
+     58
+    ],
+    "baseWallSec": 5.778,
+    "nowWallSec": 5.536,
+    "baseRate": 229885,
+    "nowRate": 307692,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "saturnZonalD68",
+    "emoji": "📡",
+    "tag": "dt/4",
+    "baseMaxSteps": null,
+    "nowMaxSteps": 2797603,
+    "baseStepsRun": null,
+    "nowStepsRun": 2674708,
+    "basePeriFoundA": null,
+    "nowPeriFoundA": [
+     58
+    ],
+    "baseWallSec": null,
+    "nowWallSec": 10.741,
+    "baseRate": null,
+    "nowRate": 240964,
+    "inBase": false,
+    "same": null
+   },
+   {
+    "id": "saturnRingReal",
+    "emoji": "💍",
+    "tag": "dt",
+    "baseMaxSteps": 2042988,
+    "nowMaxSteps": 2042988,
+    "baseStepsRun": 2042988,
+    "nowStepsRun": 2042988,
+    "basePeriFoundA": [
+     63,
+     36,
+     3
+    ],
+    "nowPeriFoundA": [
+     63,
+     36,
+     3
+    ],
+    "baseWallSec": 459.582,
+    "nowWallSec": 406.834,
+    "baseRate": 4256,
+    "nowRate": 5278,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "saturnRingRealKF1",
+    "emoji": "💿",
+    "tag": "dt",
+    "baseMaxSteps": 254730,
+    "nowMaxSteps": 254730,
+    "baseStepsRun": 254730,
+    "nowStepsRun": 254730,
+    "basePeriFoundA": [
+     13,
+     2,
+     1
+    ],
+    "nowPeriFoundA": [
+     13,
+     2,
+     1
+    ],
+    "baseWallSec": 422.773,
+    "nowWallSec": 392.478,
+    "baseRate": 603,
+    "nowRate": 616,
+    "inBase": true,
+    "same": true
+   }
+  ],
+  "finding": "**基点 f6c19b4 の 84 段すべてで、步数も近点数も同じである** —— 宣言した既定値は基点の走行を再現する(走行長の決め方を機種依存の量から宣言へ移しただけで、**測っている中身は変えていない**)。"
+ },
+ "recalc": {
+  "n": 85,
+  "ok": 85,
+  "bad": [],
+  "rows": [
+   {
+    "id": "earthMoonReal",
+    "emoji": "🌙",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 40000000,
+    "recomputed": 40000000,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "declared-max-steps",
+    "stoppedBy": "declared-max-steps",
+    "tol": 0,
+    "periFoundA": [
+     27
+    ],
+    "periastraOk": true,
+    "wallSec": 20.447,
+    "resourceExceeded": false
+   },
+   {
+    "id": "earthMoonReal",
+    "emoji": "🌙",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 40000000,
+    "recomputed": 40000000,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "declared-max-steps",
+    "stoppedBy": "declared-max-steps",
+    "tol": 0,
+    "periFoundA": [
+     13
+    ],
+    "periastraOk": false,
+    "wallSec": 21.573,
+    "resourceExceeded": false
+   },
+   {
+    "id": "earthMoonRealKF1",
+    "emoji": "🌘",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 40000000,
+    "recomputed": 40000000,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "declared-max-steps",
+    "stoppedBy": "declared-max-steps",
+    "tol": 0,
+    "periFoundA": [
+     26
+    ],
+    "periastraOk": true,
+    "wallSec": 36.988,
+    "resourceExceeded": false
+   },
+   {
+    "id": "earthMoonRealKF1",
+    "emoji": "🌘",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 40000000,
+    "recomputed": 40000000,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "declared-max-steps",
+    "stoppedBy": "declared-max-steps",
+    "tol": 0,
+    "periFoundA": [
+     13
+    ],
+    "periastraOk": false,
+    "wallSec": 35.245,
+    "resourceExceeded": false
+   },
+   {
+    "id": "emAuditDFM",
+    "emoji": "🧲",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 40000000,
+    "recomputed": 40000000,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "declared-max-steps",
+    "stoppedBy": "declared-max-steps",
+    "tol": 0,
+    "periFoundA": [
+     26
+    ],
+    "periastraOk": true,
+    "wallSec": 33.112,
+    "resourceExceeded": false
+   },
+   {
+    "id": "emAuditDFM",
+    "emoji": "🧲",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 40000000,
+    "recomputed": 40000000,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "declared-max-steps",
+    "stoppedBy": "declared-max-steps",
+    "tol": 0,
+    "periFoundA": [
+     13
+    ],
+    "periastraOk": false,
+    "wallSec": 33.183,
+    "resourceExceeded": false
+   },
+   {
+    "id": "emAuditSolar",
+    "emoji": "🔆",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 890906,
+    "recomputed": 890880,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+    "tol": 31,
+    "periFoundA": [
+     59
+    ],
+    "periastraOk": true,
+    "wallSec": 0.655,
+    "resourceExceeded": false
+   },
+   {
+    "id": "emAuditSolar",
+    "emoji": "🔆",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 1781813,
+    "recomputed": 1781820,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+    "tol": 31,
+    "periFoundA": [
+     59
+    ],
+    "periastraOk": true,
+    "wallSec": 1.135,
+    "resourceExceeded": false
+   },
+   {
+    "id": "mercuryReal",
+    "emoji": "☄️",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 2850199,
+    "recomputed": 2850180,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     59
+    ],
+    "periastraOk": true,
+    "wallSec": 1.391,
+    "resourceExceeded": false
+   },
+   {
+    "id": "mercuryReal",
+    "emoji": "☄️",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 5700398,
+    "recomputed": 5700420,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     59
+    ],
+    "periastraOk": true,
+    "wallSec": 3.106,
+    "resourceExceeded": false
+   },
+   {
+    "id": "mercuryRealKF1",
+    "emoji": "🪨",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 2850199,
+    "recomputed": 2850180,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     59
+    ],
+    "periastraOk": true,
+    "wallSec": 2.634,
+    "resourceExceeded": false
+   },
+   {
+    "id": "mercuryRealKF1",
+    "emoji": "🪨",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 5700398,
+    "recomputed": 5700420,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     59
+    ],
+    "periastraOk": true,
+    "wallSec": 5.104,
+    "resourceExceeded": false
+   },
+   {
+    "id": "solarInner",
+    "emoji": "🌞",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 866426,
+    "source": "preset",
+    "recorded": 866426,
+    "recomputed": 866426,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "declared-max-steps",
+    "stoppedBy": "declared-max-steps",
+    "tol": 0,
+    "periFoundA": [
+     9,
+     5,
+     3,
+     2
+    ],
+    "periastraOk": false,
+    "wallSec": 448.537,
+    "resourceExceeded": false
+   },
+   {
+    "id": "jupiterGalilean",
+    "emoji": "🟠",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 20000000,
+    "source": "class(n<=12)",
+    "recorded": 5407442,
+    "recomputed": 5407440,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     63,
+     63,
+     63,
+     59
+    ],
+    "periastraOk": true,
+    "wallSec": 11.997,
+    "resourceExceeded": false
+   },
+   {
+    "id": "jupiterGalilean",
+    "emoji": "🟠",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 20000000,
+    "source": "class(n<=12)",
+    "recorded": 10814883,
+    "recomputed": 10814880,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     63,
+     63,
+     63,
+     59
+    ],
+    "periastraOk": true,
+    "wallSec": 21.155,
+    "resourceExceeded": false
+   },
+   {
+    "id": "venusReal",
+    "emoji": "🌇",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 7280208,
+    "recomputed": 7280220,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     59
+    ],
+    "periastraOk": true,
+    "wallSec": 6.725,
+    "resourceExceeded": false
+   },
+   {
+    "id": "venusReal",
+    "emoji": "🌇",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 14560415,
+    "recomputed": 14560440,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     59
+    ],
+    "periastraOk": true,
+    "wallSec": 12.633,
+    "resourceExceeded": false
+   },
+   {
+    "id": "marsMoonsReal",
+    "emoji": "🥔",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 4091814,
+    "recomputed": 4091820,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     63,
+     59
+    ],
+    "periastraOk": true,
+    "wallSec": 4.654,
+    "resourceExceeded": false
+   },
+   {
+    "id": "marsMoonsReal",
+    "emoji": "🥔",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 8183629,
+    "recomputed": 8183640,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     63,
+     59
+    ],
+    "periastraOk": true,
+    "wallSec": 8.757,
+    "resourceExceeded": false
+   },
+   {
+    "id": "plutoCharonReal",
+    "emoji": "❄️",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 20694498,
+    "recomputed": 20694480,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     59
+    ],
+    "periastraOk": true,
+    "wallSec": 18.104,
+    "resourceExceeded": false
+   },
+   {
+    "id": "plutoCharonReal",
+    "emoji": "❄️",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 40000000,
+    "recomputed": 40000000,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "declared-max-steps",
+    "stoppedBy": "declared-max-steps",
+    "tol": 0,
+    "periFoundA": [
+     57
+    ],
+    "periastraOk": true,
+    "wallSec": 35.674,
+    "resourceExceeded": false
+   },
+   {
+    "id": "uranusReal",
+    "emoji": "💠",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 1075028,
+    "source": "preset",
+    "recorded": 1075028,
+    "recomputed": 1075028,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "declared-max-steps",
+    "stoppedBy": "declared-max-steps",
+    "tol": 0,
+    "periFoundA": [
+     14,
+     7,
+     4,
+     2,
+     1
+    ],
+    "periastraOk": false,
+    "wallSec": 441.463,
+    "resourceExceeded": false
+   },
+   {
+    "id": "neptuneReal",
+    "emoji": "🌊",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 1904169,
+    "recomputed": 1904160,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     59
+    ],
+    "periastraOk": true,
+    "wallSec": 1.857,
+    "resourceExceeded": false
+   },
+   {
+    "id": "neptuneReal",
+    "emoji": "🌊",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 3808338,
+    "recomputed": 3808320,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     59
+    ],
+    "periastraOk": true,
+    "wallSec": 3.63,
+    "resourceExceeded": false
+   },
+   {
+    "id": "alphaCenAB",
+    "emoji": "✨",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 9439328,
+    "recomputed": 9439320,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     60
+    ],
+    "periastraOk": true,
+    "wallSec": 5.099,
+    "resourceExceeded": false
+   },
+   {
+    "id": "alphaCenAB",
+    "emoji": "✨",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 18878657,
+    "recomputed": 18878640,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     60
+    ],
+    "periastraOk": true,
+    "wallSec": 10.568,
+    "resourceExceeded": false
+   },
+   {
+    "id": "alphaCenAB",
+    "emoji": "✨",
+    "tag": "dt/4",
+    "dt": 0.004,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 37757313,
+    "recomputed": 37757340,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     60
+    ],
+    "periastraOk": true,
+    "wallSec": 19.085,
+    "resourceExceeded": false
+   },
+   {
+    "id": "alphaCenABDFM",
+    "emoji": "✴️",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 9437344,
+    "recomputed": 9437340,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+    "tol": 31,
+    "periFoundA": [
+     60
+    ],
+    "periastraOk": true,
+    "wallSec": 10.553,
+    "resourceExceeded": false
+   },
+   {
+    "id": "alphaCenABDFM",
+    "emoji": "✴️",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 18874688,
+    "recomputed": 18874680,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+    "tol": 31,
+    "periFoundA": [
+     60
+    ],
+    "periastraOk": true,
+    "wallSec": 20.924,
+    "resourceExceeded": false
+   },
+   {
+    "id": "alphaCenABDFM",
+    "emoji": "✴️",
+    "tag": "dt/4",
+    "dt": 0.004,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 37749376,
+    "recomputed": 37749360,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+    "tol": 31,
+    "periFoundA": [
+     60
+    ],
+    "periastraOk": true,
+    "wallSec": 40.416,
+    "resourceExceeded": false
+   },
+   {
+    "id": "siriusAB",
+    "emoji": "🌟",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 5932383,
+    "recomputed": 5932380,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     60
+    ],
+    "periastraOk": true,
+    "wallSec": 3.45,
+    "resourceExceeded": false
+   },
+   {
+    "id": "siriusAB",
+    "emoji": "🌟",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 11864765,
+    "recomputed": 11864760,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     60
+    ],
+    "periastraOk": true,
+    "wallSec": 6.405,
+    "resourceExceeded": false
+   },
+   {
+    "id": "siriusAB",
+    "emoji": "🌟",
+    "tag": "dt/4",
+    "dt": 0.004,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 23729530,
+    "recomputed": 23729520,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     60
+    ],
+    "periastraOk": true,
+    "wallSec": 13.681,
+    "resourceExceeded": false
+   },
+   {
+    "id": "siriusABDFM",
+    "emoji": "💫",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 5930404,
+    "recomputed": 5930400,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+    "tol": 31,
+    "periFoundA": [
+     60
+    ],
+    "periastraOk": true,
+    "wallSec": 6.559,
+    "resourceExceeded": false
+   },
+   {
+    "id": "siriusABDFM",
+    "emoji": "💫",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 11860808,
+    "recomputed": 11860800,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+    "tol": 31,
+    "periFoundA": [
+     60
+    ],
+    "periastraOk": true,
+    "wallSec": 12.256,
+    "resourceExceeded": false
+   },
+   {
+    "id": "siriusABDFM",
+    "emoji": "💫",
+    "tag": "dt/4",
+    "dt": 0.004,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 23721616,
+    "recomputed": 23721600,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+    "tol": 31,
+    "periFoundA": [
+     60
+    ],
+    "periastraOk": true,
+    "wallSec": 23.194,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrDoubleAB",
+    "emoji": "📻",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 3312950,
+    "recomputed": 3312960,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     60
+    ],
+    "periastraOk": true,
+    "wallSec": 1.7,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrDoubleAB",
+    "emoji": "📻",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 6625899,
+    "recomputed": 6625920,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     60
+    ],
+    "periastraOk": true,
+    "wallSec": 3.674,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrDoubleAB",
+    "emoji": "📻",
+    "tag": "dt/4",
+    "dt": 0.004,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 13251799,
+    "recomputed": 13251780,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     60
+    ],
+    "periastraOk": true,
+    "wallSec": 7.009,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrDoubleABDFM",
+    "emoji": "⚡",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 1385472,
+    "recomputed": 1385460,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     25
+    ],
+    "periastraOk": true,
+    "wallSec": 1.816,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrDoubleABDFM",
+    "emoji": "⚡",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 2770943,
+    "recomputed": 2770920,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     25
+    ],
+    "periastraOk": true,
+    "wallSec": 3.549,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrDoubleABDFM",
+    "emoji": "⚡",
+    "tag": "dt/4",
+    "dt": 0.004,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 5541886,
+    "recomputed": 5541900,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     25
+    ],
+    "periastraOk": true,
+    "wallSec": 6.572,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrDoubleABSpinCal",
+    "emoji": "🧿",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 1385490,
+    "recomputed": 1385520,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     25
+    ],
+    "periastraOk": true,
+    "wallSec": 1.965,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrDoubleABSpinCal",
+    "emoji": "🧿",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 2770980,
+    "recomputed": 2770980,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     25
+    ],
+    "periastraOk": true,
+    "wallSec": 3.441,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrJ1757DFM",
+    "emoji": "🧮",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 3534675,
+    "recomputed": 3534660,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     37
+    ],
+    "periastraOk": true,
+    "wallSec": 3.759,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrJ1757DFM",
+    "emoji": "🧮",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 7069351,
+    "recomputed": 7069380,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     36
+    ],
+    "periastraOk": true,
+    "wallSec": 9.023,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrJ1757DFM",
+    "emoji": "🧮",
+    "tag": "dt/4",
+    "dt": 0.004,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 14138701,
+    "recomputed": 14138700,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     36
+    ],
+    "periastraOk": true,
+    "wallSec": 16.315,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrJ1946DFM",
+    "emoji": "🩺",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 1040661,
+    "recomputed": 1040640,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     25
+    ],
+    "periastraOk": true,
+    "wallSec": 1.296,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrJ1946DFM",
+    "emoji": "🩺",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 2081321,
+    "recomputed": 2081340,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     25
+    ],
+    "periastraOk": true,
+    "wallSec": 2.556,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrJ1946DFM",
+    "emoji": "🩺",
+    "tag": "dt/4",
+    "dt": 0.004,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 4162642,
+    "recomputed": 4162620,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     25
+    ],
+    "periastraOk": true,
+    "wallSec": 5.509,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrDoubleABPN",
+    "emoji": "🪶",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 1385472,
+    "recomputed": 1385460,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     25
+    ],
+    "periastraOk": true,
+    "wallSec": 1.623,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrDoubleABPN",
+    "emoji": "🪶",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 2770943,
+    "recomputed": 2770920,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     25
+    ],
+    "periastraOk": true,
+    "wallSec": 3.551,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrJ1757PN",
+    "emoji": "🪃",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 3534675,
+    "recomputed": 3534660,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     37
+    ],
+    "periastraOk": true,
+    "wallSec": 4.04,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrJ1757PN",
+    "emoji": "🪃",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 7069351,
+    "recomputed": 7069380,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     36
+    ],
+    "periastraOk": true,
+    "wallSec": 9.085,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrJ1946PN",
+    "emoji": "🪀",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 1040661,
+    "recomputed": 1040640,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     25
+    ],
+    "periastraOk": true,
+    "wallSec": 1.377,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrJ1946PN",
+    "emoji": "🪀",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 2081321,
+    "recomputed": 2081340,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     25
+    ],
+    "periastraOk": true,
+    "wallSec": 2.447,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrDoubleABCF",
+    "emoji": "🪝",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 1385472,
+    "recomputed": 1385460,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     25
+    ],
+    "periastraOk": true,
+    "wallSec": 2.513,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrDoubleABCF",
+    "emoji": "🪝",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 2770943,
+    "recomputed": 2770920,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     25
+    ],
+    "periastraOk": true,
+    "wallSec": 3.997,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrDoubleABCF",
+    "emoji": "🪝",
+    "tag": "dt/4",
+    "dt": 0.004,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 5541886,
+    "recomputed": 5541900,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     25
+    ],
+    "periastraOk": true,
+    "wallSec": 8.491,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrJ1757CF",
+    "emoji": "🪄",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 3534675,
+    "recomputed": 3534660,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     37
+    ],
+    "periastraOk": true,
+    "wallSec": 5.631,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrJ1757CF",
+    "emoji": "🪄",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 7069351,
+    "recomputed": 7069380,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     36
+    ],
+    "periastraOk": true,
+    "wallSec": 11.563,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrJ1757CF",
+    "emoji": "🪄",
+    "tag": "dt/4",
+    "dt": 0.004,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 14138701,
+    "recomputed": 14138700,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     36
+    ],
+    "periastraOk": true,
+    "wallSec": 20.846,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrJ1946CF",
+    "emoji": "🩹",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 1040661,
+    "recomputed": 1040640,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     25
+    ],
+    "periastraOk": true,
+    "wallSec": 1.501,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrJ1946CF",
+    "emoji": "🩹",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 2081321,
+    "recomputed": 2081340,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     25
+    ],
+    "periastraOk": true,
+    "wallSec": 3.596,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrJ1946CF",
+    "emoji": "🩹",
+    "tag": "dt/4",
+    "dt": 0.004,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 4162642,
+    "recomputed": 4162620,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     25
+    ],
+    "periastraOk": true,
+    "wallSec": 6.854,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrB1534",
+    "emoji": "📿",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 13631888,
+    "recomputed": 13631880,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     60
+    ],
+    "periastraOk": true,
+    "wallSec": 10.14,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrB1534",
+    "emoji": "📿",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 27263777,
+    "recomputed": 27263760,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     60
+    ],
+    "periastraOk": true,
+    "wallSec": 20.71,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrB1534",
+    "emoji": "📿",
+    "tag": "dt/4",
+    "dt": 0.004,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 40000000,
+    "recomputed": 40000000,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "declared-max-steps",
+    "stoppedBy": "declared-max-steps",
+    "tol": 0,
+    "periFoundA": [
+     44
+    ],
+    "periastraOk": true,
+    "wallSec": 28.257,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrB1534DFM",
+    "emoji": "🧶",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 6617813,
+    "recomputed": 6617820,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     29
+    ],
+    "periastraOk": true,
+    "wallSec": 7.437,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrB1534DFM",
+    "emoji": "🧶",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 13235625,
+    "recomputed": 13235640,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     29
+    ],
+    "periastraOk": true,
+    "wallSec": 15.912,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrB1534DFM",
+    "emoji": "🧶",
+    "tag": "dt/4",
+    "dt": 0.004,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 26471251,
+    "recomputed": 26471280,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     29
+    ],
+    "periastraOk": true,
+    "wallSec": 28.973,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrB1534CF",
+    "emoji": "🪤",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 6617813,
+    "recomputed": 6617820,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     29
+    ],
+    "periastraOk": true,
+    "wallSec": 10.844,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrB1534CF",
+    "emoji": "🪤",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 13235625,
+    "recomputed": 13235640,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     29
+    ],
+    "periastraOk": true,
+    "wallSec": 22.171,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrB1534CF",
+    "emoji": "🪤",
+    "tag": "dt/4",
+    "dt": 0.004,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 26471251,
+    "recomputed": 26471280,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     29
+    ],
+    "periastraOk": true,
+    "wallSec": 40.255,
+    "resourceExceeded": false
+   },
+   {
+    "id": "gw150914",
+    "emoji": "🎐",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 681306,
+    "recomputed": 681300,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     60
+    ],
+    "periastraOk": true,
+    "wallSec": 0.414,
+    "resourceExceeded": false
+   },
+   {
+    "id": "gw150914",
+    "emoji": "🎐",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 1362611,
+    "recomputed": 1362600,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     60
+    ],
+    "periastraOk": true,
+    "wallSec": 0.714,
+    "resourceExceeded": false
+   },
+   {
+    "id": "gw150914DFM",
+    "emoji": "🎻",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 282932,
+    "recomputed": 282960,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     7
+    ],
+    "periastraOk": false,
+    "wallSec": 0.304,
+    "resourceExceeded": false
+   },
+   {
+    "id": "gw150914DFM",
+    "emoji": "🎻",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 565863,
+    "recomputed": 565860,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     6
+    ],
+    "periastraOk": false,
+    "wallSec": 0.582,
+    "resourceExceeded": false
+   },
+   {
+    "id": "gw150914Merge4s",
+    "emoji": "⏰",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 14147,
+    "recomputed": 14148,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 3,
+    "periFoundA": [
+     1
+    ],
+    "periastraOk": false,
+    "wallSec": 0.03,
+    "resourceExceeded": false
+   },
+   {
+    "id": "gw150914Merge4s",
+    "emoji": "⏰",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 28293,
+    "recomputed": 28293,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 3,
+    "periFoundA": [
+     1
+    ],
+    "periastraOk": false,
+    "wallSec": 0.029,
+    "resourceExceeded": false
+   },
+   {
+    "id": "saturnZonalD68",
+    "emoji": "📡",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 20000000,
+    "source": "class(n<=12)",
+    "recorded": 699401,
+    "recomputed": 699420,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 58,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+    "tol": 31,
+    "periFoundA": [
+     58
+    ],
+    "periastraOk": true,
+    "wallSec": 2.433,
+    "resourceExceeded": false
+   },
+   {
+    "id": "saturnZonalD68",
+    "emoji": "📡",
+    "tag": "dt/2",
+    "dt": 0.008,
+    "declared": 20000000,
+    "source": "class(n<=12)",
+    "recorded": 1398802,
+    "recomputed": 1398780,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 58,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+    "tol": 31,
+    "periFoundA": [
+     58
+    ],
+    "periastraOk": true,
+    "wallSec": 5.536,
+    "resourceExceeded": false
+   },
+   {
+    "id": "saturnZonalD68",
+    "emoji": "📡",
+    "tag": "dt/4",
+    "dt": 0.004,
+    "declared": 20000000,
+    "source": "class(n<=12)",
+    "recorded": 2797603,
+    "recomputed": 2797620,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 58,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+    "tol": 31,
+    "periFoundA": [
+     58
+    ],
+    "periastraOk": true,
+    "wallSec": 10.741,
+    "resourceExceeded": false
+   },
+   {
+    "id": "saturnRingReal",
+    "emoji": "💍",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 2042988,
+    "source": "preset",
+    "recorded": 2042988,
+    "recomputed": 2042988,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "declared-max-steps",
+    "stoppedBy": "declared-max-steps",
+    "tol": 0,
+    "periFoundA": [
+     63,
+     36,
+     3
+    ],
+    "periastraOk": false,
+    "wallSec": 406.834,
+    "resourceExceeded": false
+   },
+   {
+    "id": "saturnRingRealKF1",
+    "emoji": "💿",
+    "tag": "dt",
+    "dt": 0.016,
+    "declared": 254730,
+    "source": "preset",
+    "recorded": 254730,
+    "recomputed": 254730,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "declared-max-steps",
+    "stoppedBy": "declared-max-steps",
+    "tol": 0,
+    "periFoundA": [
+     13,
+     2,
+     1
+    ],
+    "periastraOk": false,
+    "wallSec": 392.478,
+    "resourceExceeded": false
+   }
+  ],
+  "finding": "各段の `maxSteps` は、**宣言した步数上限**と **t=0 の接触要素から作った 1 公転の步数**だけで再計算できる(走行の記録に依らない)。**宣言した上限で決まった段は厳密一致**で、窓で決まった段は記録した `stepsPerOrbit0` の丸め(1 步単位)が ×orbMax されるので ±orbMax/2 步の許容を置いた(**丸めは記録の側の都合であって、規則の曖昧さではない**)。"
+ },
+ "resource": {
+  "ceilingSec": 900,
+  "exceeded": [],
+  "maxWallSec": 448.537,
+  "stages": 85,
+  "finding": "**資源上限を超えた段は 0 である**(最長 448.5 s < 900 s)—— 現行の走行では**効いていない上限**である。効いていないことを隠さずに書く(上限があること自体は、打ち切った軌道を判定へ流さないための宣言として要る)。"
+ },
+ "shortPeriastra": {
+  "n": 11,
+  "rows": [
+   {
+    "id": "earthMoonReal",
+    "emoji": "🌙",
+    "tag": "dt/2",
+    "found": [
+     13
+    ],
+    "need": 20,
+    "reason": "max-steps",
+    "stoppedBy": "declared-max-steps"
+   },
+   {
+    "id": "earthMoonRealKF1",
+    "emoji": "🌘",
+    "tag": "dt/2",
+    "found": [
+     13
+    ],
+    "need": 20,
+    "reason": "max-steps",
+    "stoppedBy": "declared-max-steps"
+   },
+   {
+    "id": "emAuditDFM",
+    "emoji": "🧲",
+    "tag": "dt/2",
+    "found": [
+     13
+    ],
+    "need": 20,
+    "reason": "max-steps",
+    "stoppedBy": "declared-max-steps"
+   },
+   {
+    "id": "solarInner",
+    "emoji": "🌞",
+    "tag": "dt",
+    "found": [
+     9,
+     5,
+     3,
+     2
+    ],
+    "need": 20,
+    "reason": "max-steps",
+    "stoppedBy": "declared-max-steps"
+   },
+   {
+    "id": "uranusReal",
+    "emoji": "💠",
+    "tag": "dt",
+    "found": [
+     14,
+     7,
+     4,
+     2,
+     1
+    ],
+    "need": 20,
+    "reason": "max-steps",
+    "stoppedBy": "declared-max-steps"
+   },
+   {
+    "id": "gw150914DFM",
+    "emoji": "🎻",
+    "tag": "dt",
+    "found": [
+     7
+    ],
+    "need": 20,
+    "reason": "window",
+    "stoppedBy": "orbit-window(走り切った)"
+   },
+   {
+    "id": "gw150914DFM",
+    "emoji": "🎻",
+    "tag": "dt/2",
+    "found": [
+     6
+    ],
+    "need": 20,
+    "reason": "window",
+    "stoppedBy": "orbit-window(走り切った)"
+   },
+   {
+    "id": "gw150914Merge4s",
+    "emoji": "⏰",
+    "tag": "dt",
+    "found": [
+     1
+    ],
+    "need": 20,
+    "reason": "window",
+    "stoppedBy": "orbit-window(走り切った)"
+   },
+   {
+    "id": "gw150914Merge4s",
+    "emoji": "⏰",
+    "tag": "dt/2",
+    "found": [
+     1
+    ],
+    "need": 20,
+    "reason": "window",
+    "stoppedBy": "orbit-window(走り切った)"
+   },
+   {
+    "id": "saturnRingReal",
+    "emoji": "💍",
+    "tag": "dt",
+    "found": [
+     63,
+     36,
+     3
+    ],
+    "need": 20,
+    "reason": "max-steps",
+    "stoppedBy": "declared-max-steps"
+   },
+   {
+    "id": "saturnRingRealKF1",
+    "emoji": "💿",
+    "tag": "dt",
+    "found": [
+     13,
+     2,
+     1
+    ],
+    "need": 20,
+    "reason": "max-steps",
+    "stoppedBy": "declared-max-steps"
+   }
+  ],
+  "note": "近点が宣言本数に届かなかった段。`max-steps` は**宣言した步数上限**で止まったもの、`window` は**步数は余っているのに近点が出ない**もの(軌道そのものの性質)である。**どちらも「否」ではない**(未測定である)。"
+ },
+ "doNotWrite": [
+  "停止条件を入れたので判定が確定した",
+  "步数を宣言したので収束した",
+  "機種依存を全部なくした(**この器が見たのは走行長だけ**である)"
+ ]
+}
