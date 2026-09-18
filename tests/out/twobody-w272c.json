@@ -1,0 +1,1939 @@
+{
+ "meta": {
+  "wave": "第272便c",
+  "section": "2 天体思考実験(メッシュ応答)",
+  "harness": "w272c-twobody-1",
+  "target": "beta/index.html",
+  "targetSha256": "69d78fa3195e883be9fa14473fa590f98304142e5b466fb2a80e4f70f418d44d",
+  "libSha256": "2df3c481bafe279804244bb9ecfff4689c78aa72ed5242b07dae95ccc823b0f0",
+  "at": "2026-09-18T18:58:14.078Z",
+  "steps": 200000,
+  "hypothesis": "**原仮定者の仮説(第62報)**を測れる形にしただけである(正しさの主張ではない)。",
+  "decomposition": "∇u = H·I + Ω·ε + 伸縮(対称トレースレス)。H=½(∂ₓu_x+∂_yu_y) が拡縮・Ω=½(∂ₓu_y−∂_yu_x) が回転。",
+  "claim": "**Ω は相対座標の量であって自転ではない。** 物理的な自転 J を変えるにはトルクが要る。**2D では面外の自転軸を持てない。**",
+  "touched": "内蔵プリセットは 1 bit も動かしていない(🪟 の診断コピーだけ)。"
+ },
+ "fieldResponse": {
+  "params": {
+   "G": 6.674,
+   "eps": 0.05,
+   "p": 2,
+   "m": 500,
+   "separation": 240,
+   "perturbationSpeed": 0.001
+  },
+  "definition": "B の位置での ∇u。excludeBodyId:1 は「E6′ が B に当てる自己除外の場」、false は「表示のメッシュ(全源)」である。",
+  "coefficientLaw": "自己除外(源 1 個)では ∇u=v_A⊗∇χ が**階数 1** で、**H/(v_r/r) も Ω/(v_t/r) も −(p/2)·χ(1−χ)**(軟化を無視した極限)。**χ→1(D₀→0)でも χ→0(D₀→∞)でも 0 に落ち、χ=1/2 で最大 p/4** である。**階数 1 なので、回転と同じ大きさのせん断が必ず同時に立つ**(剛体回転ではない)。",
+  "rows": [
+   {
+    "D0": 0,
+    "dir": "radial",
+    "exclude": true,
+    "chi": 1,
+    "u": [
+     0.001,
+     0
+    ],
+    "gradU": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "expansion": 0,
+    "rotation": 0,
+    "shearMagnitude": 0,
+    "omegaRigid": 0,
+    "rotationOverRigid": null,
+    "shearOverRotation": null,
+    "expansionOverRadialRate": 0,
+    "predictedCoefficient": 0,
+    "uQuantity": "velocity",
+    "measuredCoefficient": 0,
+    "coefficientRelDiff": null
+   },
+   {
+    "D0": 0,
+    "dir": "radial",
+    "exclude": false,
+    "chi": 1,
+    "u": [
+     4.340277401017587e-11,
+     0
+    ],
+    "gradU": [
+     -3.6168975202145246e-13,
+     0,
+     0,
+     0
+    ],
+    "expansion": -1.8084487601072623e-13,
+    "rotation": 0,
+    "shearMagnitude": 1.8084487601072623e-13,
+    "omegaRigid": 0,
+    "rotationOverRigid": null,
+    "shearOverRotation": null,
+    "expansionOverRadialRate": -4.3402770242574296e-8,
+    "predictedCoefficient": 0,
+    "uQuantity": "velocity",
+    "measuredCoefficient": -4.3402770242574296e-8,
+    "coefficientRelDiff": null
+   },
+   {
+    "D0": 0,
+    "dir": "tangential",
+    "exclude": true,
+    "chi": 1,
+    "u": [
+     0,
+     0.001
+    ],
+    "gradU": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "expansion": 0,
+    "rotation": 0,
+    "shearMagnitude": 0,
+    "omegaRigid": 0.000004166666666666667,
+    "rotationOverRigid": 0,
+    "shearOverRotation": null,
+    "expansionOverRadialRate": null,
+    "predictedCoefficient": 0,
+    "uQuantity": "velocity",
+    "measuredCoefficient": 0,
+    "coefficientRelDiff": null
+   },
+   {
+    "D0": 0,
+    "dir": "tangential",
+    "exclude": false,
+    "chi": 1,
+    "u": [
+     0,
+     4.340277401017587e-11
+    ],
+    "gradU": [
+     0,
+     0,
+     -3.6168975202145246e-13,
+     0
+    ],
+    "expansion": 0,
+    "rotation": -1.8084487601072623e-13,
+    "shearMagnitude": 1.8084487601072623e-13,
+    "omegaRigid": 0.000004166666666666667,
+    "rotationOverRigid": -4.3402770242574296e-8,
+    "shearOverRotation": 1,
+    "expansionOverRadialRate": null,
+    "predictedCoefficient": 0,
+    "uQuantity": "velocity",
+    "measuredCoefficient": -4.3402770242574296e-8,
+    "coefficientRelDiff": null
+   },
+   {
+    "D0": 1e-12,
+    "dir": "radial",
+    "exclude": true,
+    "chi": 0.9999999998847999,
+    "u": [
+     0.0009999999998848,
+     0
+    ],
+    "gradU": [
+     -9.600002483263848e-16,
+     0,
+     0,
+     0
+    ],
+    "expansion": -4.800001241631924e-16,
+    "rotation": 0,
+    "shearMagnitude": 4.800001241631924e-16,
+    "omegaRigid": 0,
+    "rotationOverRigid": null,
+    "shearOverRotation": null,
+    "expansionOverRadialRate": -1.1520002979916617e-10,
+    "predictedCoefficient": -1.1520007169090907e-10,
+    "uQuantity": "velocity",
+    "measuredCoefficient": -1.1520002979916617e-10,
+    "coefficientRelDiff": 3.636433751814244e-7
+   },
+   {
+    "D0": 1e-12,
+    "dir": "radial",
+    "exclude": false,
+    "chi": 1,
+    "u": [
+     4.340277401017587e-11,
+     0
+    ],
+    "gradU": [
+     -3.6168975202145246e-13,
+     0,
+     0,
+     0
+    ],
+    "expansion": -1.8084487601072623e-13,
+    "rotation": 0,
+    "shearMagnitude": 1.8084487601072623e-13,
+    "omegaRigid": 0,
+    "rotationOverRigid": null,
+    "shearOverRotation": null,
+    "expansionOverRadialRate": -4.3402770242574296e-8,
+    "predictedCoefficient": 0,
+    "uQuantity": "velocity",
+    "measuredCoefficient": -4.3402770242574296e-8,
+    "coefficientRelDiff": null
+   },
+   {
+    "D0": 1e-12,
+    "dir": "tangential",
+    "exclude": true,
+    "chi": 0.9999999998847999,
+    "u": [
+     0,
+     0.0009999999998848
+    ],
+    "gradU": [
+     0,
+     0,
+     -9.600002483263848e-16,
+     0
+    ],
+    "expansion": 0,
+    "rotation": -4.800001241631924e-16,
+    "shearMagnitude": 4.800001241631924e-16,
+    "omegaRigid": 0.000004166666666666667,
+    "rotationOverRigid": -1.1520002979916617e-10,
+    "shearOverRotation": 1,
+    "expansionOverRadialRate": null,
+    "predictedCoefficient": -1.1520007169090907e-10,
+    "uQuantity": "velocity",
+    "measuredCoefficient": -1.1520002979916617e-10,
+    "coefficientRelDiff": 3.636433751814244e-7
+   },
+   {
+    "D0": 1e-12,
+    "dir": "tangential",
+    "exclude": false,
+    "chi": 1,
+    "u": [
+     0,
+     4.340277401017587e-11
+    ],
+    "gradU": [
+     0,
+     0,
+     -3.6168975202145246e-13,
+     0
+    ],
+    "expansion": 0,
+    "rotation": -1.8084487601072623e-13,
+    "shearMagnitude": 1.8084487601072623e-13,
+    "omegaRigid": 0.000004166666666666667,
+    "rotationOverRigid": -4.3402770242574296e-8,
+    "shearOverRotation": 1,
+    "expansionOverRadialRate": null,
+    "predictedCoefficient": 0,
+    "uQuantity": "velocity",
+    "measuredCoefficient": -4.3402770242574296e-8,
+    "coefficientRelDiff": null
+   },
+   {
+    "D0": 0.0001,
+    "dir": "radial",
+    "exclude": true,
+    "chi": 0.9886111984989862,
+    "u": [
+     0.0009886111984989863,
+     0
+    ],
+    "gradU": [
+     -9.382580177256867e-8,
+     0,
+     0,
+     0
+    ],
+    "expansion": -4.6912900886284334e-8,
+    "rotation": 0,
+    "shearMagnitude": 4.6912900886284334e-8,
+    "omegaRigid": 0,
+    "rotationOverRigid": null,
+    "shearOverRotation": null,
+    "expansionOverRadialRate": -0.01125909621270824,
+    "predictedCoefficient": -0.01125909670138435,
+    "uQuantity": "velocity",
+    "measuredCoefficient": -0.01125909621270824,
+    "coefficientRelDiff": 4.3402781142662406e-8
+   },
+   {
+    "D0": 0.0001,
+    "dir": "radial",
+    "exclude": false,
+    "chi": 0.9999999995,
+    "u": [
+     4.3402773988474484e-11,
+     0
+    ],
+    "gradU": [
+     -3.616897518406076e-13,
+     0,
+     0,
+     0
+    ],
+    "expansion": -1.808448759203038e-13,
+    "rotation": 0,
+    "shearMagnitude": 1.808448759203038e-13,
+    "omegaRigid": 0,
+    "rotationOverRigid": null,
+    "shearOverRotation": null,
+    "expansionOverRadialRate": -4.340277022087291e-8,
+    "predictedCoefficient": -5.000000411201855e-10,
+    "uQuantity": "velocity",
+    "measuredCoefficient": -4.340277022087291e-8,
+    "coefficientRelDiff": null
+   },
+   {
+    "D0": 0.0001,
+    "dir": "tangential",
+    "exclude": true,
+    "chi": 0.9886111984989862,
+    "u": [
+     0,
+     0.0009886111984989863
+    ],
+    "gradU": [
+     0,
+     0,
+     -9.382580177256867e-8,
+     0
+    ],
+    "expansion": 0,
+    "rotation": -4.6912900886284334e-8,
+    "shearMagnitude": 4.6912900886284334e-8,
+    "omegaRigid": 0.000004166666666666667,
+    "rotationOverRigid": -0.01125909621270824,
+    "shearOverRotation": 1,
+    "expansionOverRadialRate": null,
+    "predictedCoefficient": -0.01125909670138435,
+    "uQuantity": "velocity",
+    "measuredCoefficient": -0.01125909621270824,
+    "coefficientRelDiff": 4.3402781142662406e-8
+   },
+   {
+    "D0": 0.0001,
+    "dir": "tangential",
+    "exclude": false,
+    "chi": 0.9999999995,
+    "u": [
+     0,
+     4.3402773988474484e-11
+    ],
+    "gradU": [
+     0,
+     0,
+     -3.616897518406076e-13,
+     0
+    ],
+    "expansion": 0,
+    "rotation": -1.808448759203038e-13,
+    "shearMagnitude": 1.808448759203038e-13,
+    "omegaRigid": 0.000004166666666666667,
+    "rotationOverRigid": -4.340277022087291e-8,
+    "shearOverRotation": 1,
+    "expansionOverRadialRate": null,
+    "predictedCoefficient": -5.000000411201855e-10,
+    "uQuantity": "velocity",
+    "measuredCoefficient": -4.340277022087291e-8,
+    "coefficientRelDiff": null
+   },
+   {
+    "D0": 0.01,
+    "dir": "radial",
+    "exclude": true,
+    "chi": 0.46468400407332705,
+    "u": [
+     0.00046468400407332706,
+     0
+    ],
+    "gradU": [
+     -0.0000020729397469595507,
+     0,
+     0,
+     0
+    ],
+    "expansion": -0.0000010364698734797754,
+    "rotation": 0,
+    "shearMagnitude": 0.0000010364698734797754,
+    "omegaRigid": 0,
+    "rotationOverRigid": null,
+    "shearOverRotation": null,
+    "expansionOverRadialRate": -0.2487527696351461,
+    "predictedCoefficient": -0.2487527804317072,
+    "uQuantity": "velocity",
+    "measuredCoefficient": -0.2487527696351461,
+    "coefficientRelDiff": 4.340277563377219e-8
+   },
+   {
+    "D0": 0.01,
+    "dir": "radial",
+    "exclude": false,
+    "chi": 0.9999999500000046,
+    "u": [
+     4.3402771840037374e-11,
+     0
+    ],
+    "gradU": [
+     -3.616897339369673e-13,
+     0,
+     0,
+     0
+    ],
+    "expansion": -1.8084486696848366e-13,
+    "rotation": 0,
+    "shearMagnitude": 1.8084486696848366e-13,
+    "omegaRigid": 0,
+    "rotationOverRigid": null,
+    "shearOverRotation": null,
+    "expansionOverRadialRate": -4.3402768072436074e-8,
+    "predictedCoefficient": -4.9999992866257116e-8,
+    "uQuantity": "velocity",
+    "measuredCoefficient": -4.3402768072436074e-8,
+    "coefficientRelDiff": null
+   },
+   {
+    "D0": 0.01,
+    "dir": "tangential",
+    "exclude": true,
+    "chi": 0.46468400407332705,
+    "u": [
+     0,
+     0.00046468400407332706
+    ],
+    "gradU": [
+     0,
+     0,
+     -0.0000020729397469595507,
+     0
+    ],
+    "expansion": 0,
+    "rotation": -0.0000010364698734797754,
+    "shearMagnitude": 0.0000010364698734797754,
+    "omegaRigid": 0.000004166666666666667,
+    "rotationOverRigid": -0.2487527696351461,
+    "shearOverRotation": 1,
+    "expansionOverRadialRate": null,
+    "predictedCoefficient": -0.2487527804317072,
+    "uQuantity": "velocity",
+    "measuredCoefficient": -0.2487527696351461,
+    "coefficientRelDiff": 4.340277563377219e-8
+   },
+   {
+    "D0": 0.01,
+    "dir": "tangential",
+    "exclude": false,
+    "chi": 0.9999999500000046,
+    "u": [
+     0,
+     4.3402771840037374e-11
+    ],
+    "gradU": [
+     0,
+     0,
+     -3.616897339369673e-13,
+     0
+    ],
+    "expansion": 0,
+    "rotation": -1.8084486696848366e-13,
+    "shearMagnitude": 1.8084486696848366e-13,
+    "omegaRigid": 0.000004166666666666667,
+    "rotationOverRigid": -4.3402768072436074e-8,
+    "shearOverRotation": 1,
+    "expansionOverRadialRate": null,
+    "predictedCoefficient": -4.9999992866257116e-8,
+    "uQuantity": "velocity",
+    "measuredCoefficient": -4.3402768072436074e-8,
+    "coefficientRelDiff": null
+   },
+   {
+    "D0": 1,
+    "dir": "radial",
+    "exclude": true,
+    "chi": 0.00860585160904253,
+    "u": [
+     0.00000860585160904253,
+     0
+    ],
+    "gradU": [
+     -7.10982546401855e-8,
+     0,
+     0,
+     0
+    ],
+    "expansion": -3.554912732009275e-8,
+    "rotation": 0,
+    "shearMagnitude": 3.554912732009275e-8,
+    "omegaRigid": 0,
+    "rotationOverRigid": null,
+    "shearOverRotation": null,
+    "expansionOverRadialRate": -0.00853179055682226,
+    "predictedCoefficient": -0.00853179092712567,
+    "uQuantity": "velocity",
+    "measuredCoefficient": -0.00853179055682226,
+    "coefficientRelDiff": 4.340277608317276e-8
+   },
+   {
+    "D0": 1,
+    "dir": "radial",
+    "exclude": false,
+    "chi": 0.9999950000252169,
+    "u": [
+     4.3402556997400303e-11,
+     0
+    ],
+    "gradU": [
+     -3.616879435818915e-13,
+     0,
+     0,
+     0
+    ],
+    "expansion": -1.8084397179094576e-13,
+    "rotation": 0,
+    "shearMagnitude": 1.8084397179094576e-13,
+    "omegaRigid": 0,
+    "rotationOverRigid": null,
+    "shearOverRotation": null,
+    "expansionOverRadialRate": -4.340255322982698e-8,
+    "predictedCoefficient": -0.000004999949783345277,
+    "uQuantity": "velocity",
+    "measuredCoefficient": -4.340255322982698e-8,
+    "coefficientRelDiff": null
+   },
+   {
+    "D0": 1,
+    "dir": "tangential",
+    "exclude": true,
+    "chi": 0.00860585160904253,
+    "u": [
+     0,
+     0.00000860585160904253
+    ],
+    "gradU": [
+     0,
+     0,
+     -7.10982546401855e-8,
+     0
+    ],
+    "expansion": 0,
+    "rotation": -3.554912732009275e-8,
+    "shearMagnitude": 3.554912732009275e-8,
+    "omegaRigid": 0.000004166666666666667,
+    "rotationOverRigid": -0.00853179055682226,
+    "shearOverRotation": 1,
+    "expansionOverRadialRate": null,
+    "predictedCoefficient": -0.00853179092712567,
+    "uQuantity": "velocity",
+    "measuredCoefficient": -0.00853179055682226,
+    "coefficientRelDiff": 4.340277608317276e-8
+   },
+   {
+    "D0": 1,
+    "dir": "tangential",
+    "exclude": false,
+    "chi": 0.9999950000252169,
+    "u": [
+     0,
+     4.3402556997400303e-11
+    ],
+    "gradU": [
+     0,
+     0,
+     -3.616879435818915e-13,
+     0
+    ],
+    "expansion": 0,
+    "rotation": -1.8084397179094576e-13,
+    "shearMagnitude": 1.8084397179094576e-13,
+    "omegaRigid": 0.000004166666666666667,
+    "rotationOverRigid": -4.340255322982698e-8,
+    "shearOverRotation": 1,
+    "expansionOverRadialRate": null,
+    "predictedCoefficient": -0.000004999949783345277,
+    "uQuantity": "velocity",
+    "measuredCoefficient": -4.340255322982698e-8,
+    "coefficientRelDiff": null
+   }
+  ]
+ },
+ "fieldResponseCrossCheck": {
+  "rows": [
+   {
+    "D0": 0,
+    "dir": "radial",
+    "exclude": true,
+    "libExpansion": 0,
+    "libRotation": 0,
+    "libShear": 0,
+    "relDiffExpansion": null,
+    "relDiffRotation": null
+   },
+   {
+    "D0": 0,
+    "dir": "radial",
+    "exclude": false,
+    "libExpansion": -1.8091721396238788e-13,
+    "libRotation": 0,
+    "libShear": 1.8091721396238788e-13,
+    "relDiffExpansion": 0.0004000000069526821,
+    "relDiffRotation": null
+   },
+   {
+    "D0": 0,
+    "dir": "tangential",
+    "exclude": true,
+    "libExpansion": 0,
+    "libRotation": 0,
+    "libShear": 0,
+    "relDiffExpansion": null,
+    "relDiffRotation": null
+   },
+   {
+    "D0": 0,
+    "dir": "tangential",
+    "exclude": false,
+    "libExpansion": 0,
+    "libRotation": -1.8091721396238788e-13,
+    "libShear": 1.8091721396238788e-13,
+    "relDiffExpansion": null,
+    "relDiffRotation": 0.0004000000069526821
+   },
+   {
+    "D0": 1e-12,
+    "dir": "radial",
+    "exclude": true,
+    "libExpansion": -4.87890977618477e-16,
+    "libRotation": 0,
+    "libShear": 4.87890977618477e-16,
+    "relDiffExpansion": 0.016439273779441394,
+    "relDiffRotation": null
+   },
+   {
+    "D0": 1e-12,
+    "dir": "radial",
+    "exclude": false,
+    "libExpansion": -1.8091721396238788e-13,
+    "libRotation": 0,
+    "libShear": 1.8091721396238788e-13,
+    "relDiffExpansion": 0.0004000000069526821,
+    "relDiffRotation": null
+   },
+   {
+    "D0": 1e-12,
+    "dir": "tangential",
+    "exclude": true,
+    "libExpansion": 0,
+    "libRotation": -4.87890977618477e-16,
+    "libShear": 4.87890977618477e-16,
+    "relDiffExpansion": null,
+    "relDiffRotation": 0.016439273779441394
+   },
+   {
+    "D0": 1e-12,
+    "dir": "tangential",
+    "exclude": false,
+    "libExpansion": 0,
+    "libRotation": -1.8091721396238788e-13,
+    "libShear": 1.8091721396238788e-13,
+    "relDiffExpansion": null,
+    "relDiffRotation": 0.0004000000069526821
+   },
+   {
+    "D0": 0.0001,
+    "dir": "radial",
+    "exclude": true,
+    "libExpansion": -4.6912900864351514e-8,
+    "libRotation": 0,
+    "libShear": 4.6912900864351514e-8,
+    "relDiffExpansion": 4.675221369588981e-10,
+    "relDiffRotation": null
+   },
+   {
+    "D0": 0.0001,
+    "dir": "radial",
+    "exclude": false,
+    "libExpansion": -1.80917213871915e-13,
+    "libRotation": 0,
+    "libShear": 1.80917213871915e-13,
+    "relDiffExpansion": 0.00040000000687378775,
+    "relDiffRotation": null
+   },
+   {
+    "D0": 0.0001,
+    "dir": "tangential",
+    "exclude": true,
+    "libExpansion": 0,
+    "libRotation": -4.6912900864351514e-8,
+    "libShear": 4.6912900864351514e-8,
+    "relDiffExpansion": null,
+    "relDiffRotation": 4.675221369588981e-10
+   },
+   {
+    "D0": 0.0001,
+    "dir": "tangential",
+    "exclude": false,
+    "libExpansion": 0,
+    "libRotation": -1.80917213871915e-13,
+    "libShear": 1.80917213871915e-13,
+    "relDiffExpansion": null,
+    "relDiffRotation": 0.00040000000687378775
+   },
+   {
+    "D0": 0.01,
+    "dir": "radial",
+    "exclude": true,
+    "libExpansion": -0.0000010364698734829448,
+    "libRotation": 0,
+    "libShear": 0.0000010364698734829448,
+    "relDiffExpansion": 3.0578655602869506e-12,
+    "relDiffRotation": null
+   },
+   {
+    "D0": 0.01,
+    "dir": "radial",
+    "exclude": false,
+    "libExpansion": -1.8091720491186876e-13,
+    "libRotation": 0,
+    "libShear": 1.8091720491186876e-13,
+    "relDiffExpansion": 0.000399999981186649,
+    "relDiffRotation": null
+   },
+   {
+    "D0": 0.01,
+    "dir": "tangential",
+    "exclude": true,
+    "libExpansion": 0,
+    "libRotation": -0.0000010364698734829448,
+    "libShear": 0.0000010364698734829448,
+    "relDiffExpansion": null,
+    "relDiffRotation": 3.0578655602869506e-12
+   },
+   {
+    "D0": 0.01,
+    "dir": "tangential",
+    "exclude": false,
+    "libExpansion": 0,
+    "libRotation": -1.8091720491186876e-13,
+    "libShear": 1.8091720491186876e-13,
+    "relDiffExpansion": null,
+    "relDiffRotation": 0.000399999981186649
+   },
+   {
+    "D0": 1,
+    "dir": "radial",
+    "exclude": true,
+    "libExpansion": -3.554912732143284e-8,
+    "libRotation": 0,
+    "libShear": 3.554912732143284e-8,
+    "relDiffExpansion": 3.7696720930127514e-11,
+    "relDiffRotation": null
+   },
+   {
+    "D0": 1,
+    "dir": "radial",
+    "exclude": false,
+    "libExpansion": -1.809163090187198e-13,
+    "libRotation": 0,
+    "libShear": 1.809163090187198e-13,
+    "relDiffExpansion": 0.0003999980041229903,
+    "relDiffRotation": null
+   },
+   {
+    "D0": 1,
+    "dir": "tangential",
+    "exclude": true,
+    "libExpansion": 0,
+    "libRotation": -3.554912732143284e-8,
+    "libShear": 3.554912732143284e-8,
+    "relDiffExpansion": null,
+    "relDiffRotation": 3.7696720930127514e-11
+   },
+   {
+    "D0": 1,
+    "dir": "tangential",
+    "exclude": false,
+    "libExpansion": 0,
+    "libRotation": -1.809163090187198e-13,
+    "libShear": 1.809163090187198e-13,
+    "relDiffExpansion": null,
+    "relDiffRotation": 0.0003999980041229903
+   }
+  ],
+  "note": "**lib-w272c-binlock は独立計算**(中心差分 h=1e-3)であって実装の写しではない。差は中心差分の刻みぶんである。"
+ },
+ "apparentCounterSpin": {
+  "rows": [
+   {
+    "D0": 0,
+    "exclude": true,
+    "omegaMesh": 0,
+    "omegaBody": 0,
+    "relative": 0,
+    "apparentBodySpinInMeshFrame": 0,
+    "note": "**これは相対座標の記述である。** 物理的な自転 J を変えるにはトルクが要る —— メッシュが回ったこと自体は J を変えない(帳簿で分けて示す)。",
+    "omegaRigid": 0.000004166666666666667,
+    "rotationOverRigid": 0,
+    "shearOverRotation": null
+   },
+   {
+    "D0": 0,
+    "exclude": false,
+    "omegaMesh": -1.8084487601072623e-13,
+    "omegaBody": 0,
+    "relative": -1.8084487601072623e-13,
+    "apparentBodySpinInMeshFrame": 1.8084487601072623e-13,
+    "note": "**これは相対座標の記述である。** 物理的な自転 J を変えるにはトルクが要る —— メッシュが回ったこと自体は J を変えない(帳簿で分けて示す)。",
+    "omegaRigid": 0.000004166666666666667,
+    "rotationOverRigid": -4.3402770242574296e-8,
+    "shearOverRotation": 1
+   },
+   {
+    "D0": 1e-12,
+    "exclude": true,
+    "omegaMesh": -4.800001241631924e-16,
+    "omegaBody": 0,
+    "relative": -4.800001241631924e-16,
+    "apparentBodySpinInMeshFrame": 4.800001241631924e-16,
+    "note": "**これは相対座標の記述である。** 物理的な自転 J を変えるにはトルクが要る —— メッシュが回ったこと自体は J を変えない(帳簿で分けて示す)。",
+    "omegaRigid": 0.000004166666666666667,
+    "rotationOverRigid": -1.1520002979916617e-10,
+    "shearOverRotation": 1
+   },
+   {
+    "D0": 1e-12,
+    "exclude": false,
+    "omegaMesh": -1.8084487601072623e-13,
+    "omegaBody": 0,
+    "relative": -1.8084487601072623e-13,
+    "apparentBodySpinInMeshFrame": 1.8084487601072623e-13,
+    "note": "**これは相対座標の記述である。** 物理的な自転 J を変えるにはトルクが要る —— メッシュが回ったこと自体は J を変えない(帳簿で分けて示す)。",
+    "omegaRigid": 0.000004166666666666667,
+    "rotationOverRigid": -4.3402770242574296e-8,
+    "shearOverRotation": 1
+   },
+   {
+    "D0": 0.0001,
+    "exclude": true,
+    "omegaMesh": -4.6912900886284334e-8,
+    "omegaBody": 0,
+    "relative": -4.6912900886284334e-8,
+    "apparentBodySpinInMeshFrame": 4.6912900886284334e-8,
+    "note": "**これは相対座標の記述である。** 物理的な自転 J を変えるにはトルクが要る —— メッシュが回ったこと自体は J を変えない(帳簿で分けて示す)。",
+    "omegaRigid": 0.000004166666666666667,
+    "rotationOverRigid": -0.01125909621270824,
+    "shearOverRotation": 1
+   },
+   {
+    "D0": 0.0001,
+    "exclude": false,
+    "omegaMesh": -1.808448759203038e-13,
+    "omegaBody": 0,
+    "relative": -1.808448759203038e-13,
+    "apparentBodySpinInMeshFrame": 1.808448759203038e-13,
+    "note": "**これは相対座標の記述である。** 物理的な自転 J を変えるにはトルクが要る —— メッシュが回ったこと自体は J を変えない(帳簿で分けて示す)。",
+    "omegaRigid": 0.000004166666666666667,
+    "rotationOverRigid": -4.340277022087291e-8,
+    "shearOverRotation": 1
+   },
+   {
+    "D0": 0.01,
+    "exclude": true,
+    "omegaMesh": -0.0000010364698734797754,
+    "omegaBody": 0,
+    "relative": -0.0000010364698734797754,
+    "apparentBodySpinInMeshFrame": 0.0000010364698734797754,
+    "note": "**これは相対座標の記述である。** 物理的な自転 J を変えるにはトルクが要る —— メッシュが回ったこと自体は J を変えない(帳簿で分けて示す)。",
+    "omegaRigid": 0.000004166666666666667,
+    "rotationOverRigid": -0.2487527696351461,
+    "shearOverRotation": 1
+   },
+   {
+    "D0": 0.01,
+    "exclude": false,
+    "omegaMesh": -1.8084486696848366e-13,
+    "omegaBody": 0,
+    "relative": -1.8084486696848366e-13,
+    "apparentBodySpinInMeshFrame": 1.8084486696848366e-13,
+    "note": "**これは相対座標の記述である。** 物理的な自転 J を変えるにはトルクが要る —— メッシュが回ったこと自体は J を変えない(帳簿で分けて示す)。",
+    "omegaRigid": 0.000004166666666666667,
+    "rotationOverRigid": -4.3402768072436074e-8,
+    "shearOverRotation": 1
+   },
+   {
+    "D0": 1,
+    "exclude": true,
+    "omegaMesh": -3.554912732009275e-8,
+    "omegaBody": 0,
+    "relative": -3.554912732009275e-8,
+    "apparentBodySpinInMeshFrame": 3.554912732009275e-8,
+    "note": "**これは相対座標の記述である。** 物理的な自転 J を変えるにはトルクが要る —— メッシュが回ったこと自体は J を変えない(帳簿で分けて示す)。",
+    "omegaRigid": 0.000004166666666666667,
+    "rotationOverRigid": -0.00853179055682226,
+    "shearOverRotation": 1
+   },
+   {
+    "D0": 1,
+    "exclude": false,
+    "omegaMesh": -1.8084397179094576e-13,
+    "omegaBody": 0,
+    "relative": -1.8084397179094576e-13,
+    "apparentBodySpinInMeshFrame": 1.8084397179094576e-13,
+    "note": "**これは相対座標の記述である。** 物理的な自転 J を変えるにはトルクが要る —— メッシュが回ったこと自体は J を変えない(帳簿で分けて示す)。",
+    "omegaRigid": 0.000004166666666666667,
+    "rotationOverRigid": -4.340255322982698e-8,
+    "shearOverRotation": 1
+   }
+  ],
+  "note": "**B は自転していない**(ω_B=0)。メッシュが Ω で回るので、メッシュ座標では B が −Ω で自転しているように見える —— **これは相対座標の記述であって、B の J は変わっていない**。せん断/回転の比が 0 でなければ、メッシュは B のまわりを**剛体回転していない**。"
+ },
+ "ledger": {
+  "rows": [
+   {
+    "kFrame": 1,
+    "D0": 0,
+    "mode": "none",
+    "steps": 200000,
+    "dt": 0.004,
+    "t0": {
+     "px": 0,
+     "py": 0,
+     "L": 94920.49304549572,
+     "spinSum": 0,
+     "spins": [
+      0,
+      0
+     ],
+     "kinetic": 312.84375000000006,
+     "sep": 240,
+     "angle": 3.141592653589793
+    },
+    "t1": {
+     "px": 0,
+     "py": 0,
+     "L": -61226.01003422251,
+     "spinSum": 80,
+     "spins": [
+      40,
+      40
+     ],
+     "kinetic": 72.51655831999778,
+     "sep": 770.3891086665327,
+     "angle": -1.1756966533756266
+    },
+    "dP": [
+     0,
+     0
+    ],
+    "dL": -156146.50307971824,
+    "dSpin": [
+     40,
+     40
+    ],
+    "meshAngleIntegrated": -4.9015651637518955e-19,
+    "sample": [
+     {
+      "k": 0,
+      "sep": 240,
+      "omega": 0
+     },
+     {
+      "k": 2000,
+      "sep": 240.16660600597103,
+      "omega": 0
+     },
+     {
+      "k": 4000,
+      "sep": 240.66582373381272,
+      "omega": 0
+     },
+     {
+      "k": 6000,
+      "sep": 241.49473512963482,
+      "omega": 0
+     },
+     {
+      "k": 8000,
+      "sep": 242.64829548706172,
+      "omega": 0
+     },
+     {
+      "k": 10000,
+      "sep": 244.11982435112407,
+      "omega": 0
+     }
+    ],
+    "clamp": 392462,
+    "nan": false,
+    "resP": [
+     0,
+     0
+    ],
+    "resL": 1432.5694969409324
+   },
+   {
+    "kFrame": 1,
+    "D0": 0,
+    "mode": "radial",
+    "steps": 200000,
+    "dt": 0.004,
+    "t0": {
+     "px": 0,
+     "py": 0,
+     "L": 95315.99509985195,
+     "spinSum": 0,
+     "spins": [
+      0,
+      0
+     ],
+     "kinetic": 312.84375000000006,
+     "sep": 241,
+     "angle": 3.141592653589793
+    },
+    "t1": {
+     "px": 0,
+     "py": 0,
+     "L": -61407.56523003259,
+     "spinSum": 80,
+     "spins": [
+      40,
+      40
+     ],
+     "kinetic": 73.20706851176418,
+     "sep": 773.0931309463579,
+     "angle": -1.1815222139072823
+    },
+    "dP": [
+     0,
+     0
+    ],
+    "dL": -156723.56032988452,
+    "dSpin": [
+     40,
+     40
+    ],
+    "meshAngleIntegrated": -1.019297275714327e-18,
+    "sample": [
+     {
+      "k": 0,
+      "sep": 241,
+      "omega": 0
+     },
+     {
+      "k": 2000,
+      "sep": 241.16660499546072,
+      "omega": 0
+     },
+     {
+      "k": 4000,
+      "sep": 241.66582329455042,
+      "omega": 0
+     },
+     {
+      "k": 6000,
+      "sep": 242.49450384228834,
+      "omega": 0
+     },
+     {
+      "k": 8000,
+      "sep": 243.64740407270176,
+      "omega": 0
+     },
+     {
+      "k": 10000,
+      "sep": 245.11789627516268,
+      "omega": 0
+     }
+    ],
+    "clamp": 392430,
+    "nan": false,
+    "resP": [
+     0,
+     0
+    ],
+    "resL": 1442.6632486576502
+   },
+   {
+    "kFrame": 1,
+    "D0": 0,
+    "mode": "tangential",
+    "steps": 200000,
+    "dt": 0.004,
+    "t0": {
+     "px": 0,
+     "py": 0,
+     "L": 94919.66908407456,
+     "spinSum": 0,
+     "spins": [
+      0,
+      0
+     ],
+     "kinetic": 312.84375000000006,
+     "sep": 239.99999999999997,
+     "angle": -3.1374259869231267
+    },
+    "t1": {
+     "px": 0,
+     "py": 0,
+     "L": -61415.082117114536,
+     "spinSum": 80,
+     "spins": [
+      40,
+      40
+     ],
+     "kinetic": 72.53421515725022,
+     "sep": 771.3366759954713,
+     "angle": -1.1791062759864137
+    },
+    "dP": [
+     0,
+     0
+    ],
+    "dL": -156334.7512011891,
+    "dSpin": [
+     40,
+     40
+    ],
+    "meshAngleIntegrated": -5.3869076837471e-19,
+    "sample": [
+     {
+      "k": 0,
+      "sep": 239.99999999999997,
+      "omega": 0
+     },
+     {
+      "k": 2000,
+      "sep": 240.2192848819266,
+      "omega": 0
+     },
+     {
+      "k": 4000,
+      "sep": 240.77087869801102,
+      "omega": 0
+     },
+     {
+      "k": 6000,
+      "sep": 241.65155767621567,
+      "omega": 0
+     },
+     {
+      "k": 8000,
+      "sep": 242.85598961966465,
+      "omega": 0
+     },
+     {
+      "k": 10000,
+      "sep": 244.37724716305712,
+      "omega": 0
+     }
+    ],
+    "clamp": 392462,
+    "nan": false,
+    "resP": [
+     0,
+     0
+    ],
+    "resL": 1436.054638185372
+   },
+   {
+    "kFrame": 1,
+    "D0": 0.0001,
+    "mode": "none",
+    "steps": 200000,
+    "dt": 0.004,
+    "t0": {
+     "px": 0,
+     "py": 0,
+     "L": 94920.49304549572,
+     "spinSum": 0,
+     "spins": [
+      0,
+      0
+     ],
+     "kinetic": 312.84375000000006,
+     "sep": 240,
+     "angle": 3.141592653589793
+    },
+    "t1": {
+     "px": 0,
+     "py": 0,
+     "L": 99987.23456100175,
+     "spinSum": -20.131351470947266,
+     "spins": [
+      -10.065675735473633,
+      -10.065675735473633
+     ],
+     "kinetic": 106.4428762859751,
+     "sep": 794.92563461039,
+     "angle": -1.161178115987418
+    },
+    "dP": [
+     0,
+     0
+    ],
+    "dL": 5066.74151550603,
+    "dSpin": [
+     -10.065675735473633,
+     -10.065675735473633
+    ],
+    "meshAngleIntegrated": 0.028008078874243156,
+    "sample": [
+     {
+      "k": 0,
+      "sep": 240,
+      "omega": 0.00003710829735267147
+     },
+     {
+      "k": 2000,
+      "sep": 240.1656517039838,
+      "omega": 0.00003710740670267464
+     },
+     {
+      "k": 4000,
+      "sep": 240.6620386140555,
+      "omega": 0.0000371047604098466
+     },
+     {
+      "k": 6000,
+      "sep": 241.48647289376328,
+      "omega": 0.0000371003625846895
+     },
+     {
+      "k": 8000,
+      "sep": 242.634545269621,
+      "omega": 0.00003709421998038367
+     },
+     {
+      "k": 10000,
+      "sep": 244.10022735195597,
+      "omega": 0.00003708634190544054
+     }
+    ],
+    "clamp": 0,
+    "nan": false,
+    "resP": [
+     0,
+     0
+    ],
+    "resL": -33.9419472550242
+   },
+   {
+    "kFrame": 1,
+    "D0": 0.0001,
+    "mode": "radial",
+    "steps": 200000,
+    "dt": 0.004,
+    "t0": {
+     "px": 0,
+     "py": 0,
+     "L": 95315.99509985195,
+     "spinSum": 0,
+     "spins": [
+      0,
+      0
+     ],
+     "kinetic": 312.84375000000006,
+     "sep": 241,
+     "angle": 3.141592653589793
+    },
+    "t1": {
+     "px": 0,
+     "py": 0,
+     "L": 100444.61107799817,
+     "spinSum": -20.376134872436523,
+     "spins": [
+      -10.188067436218262,
+      -10.188067436218262
+     ],
+     "kinetic": 107.52905431526868,
+     "sep": 798.3338425322711,
+     "angle": -1.1673656057105883
+    },
+    "dP": [
+     0,
+     0
+    ],
+    "dL": 5128.615978146219,
+    "dSpin": [
+     -10.188067436218262,
+     -10.188067436218262
+    ],
+    "meshAngleIntegrated": 0.028108284367650786,
+    "sample": [
+     {
+      "k": 0,
+      "sep": 241,
+      "omega": 0.000037255828535097825
+     },
+     {
+      "k": 2000,
+      "sep": 241.1656507381096,
+      "omega": 0.000037254930911274904
+     },
+     {
+      "k": 4000,
+      "sep": 241.66203771635776,
+      "omega": 0.00003725226347772106
+     },
+     {
+      "k": 6000,
+      "sep": 242.48649004967925,
+      "omega": 0.00003724783033325672
+     },
+     {
+      "k": 8000,
+      "sep": 243.63462591724794,
+      "omega": 0.00003724163821257828
+     },
+     {
+      "k": 10000,
+      "sep": 245.10045374037816,
+      "omega": 0.00003723369639970142
+     }
+    ],
+    "clamp": 0,
+    "nan": false,
+    "resP": [
+     0,
+     0
+    ],
+    "resL": -34.49965369725164
+   },
+   {
+    "kFrame": 1,
+    "D0": 0.0001,
+    "mode": "tangential",
+    "steps": 200000,
+    "dt": 0.004,
+    "t0": {
+     "px": 0,
+     "py": 0,
+     "L": 94919.66908407456,
+     "spinSum": 0,
+     "spins": [
+      0,
+      0
+     ],
+     "kinetic": 312.84375000000006,
+     "sep": 239.99999999999997,
+     "angle": -3.1374259869231267
+    },
+    "t1": {
+     "px": 0,
+     "py": 0,
+     "L": 99999.45512964713,
+     "spinSum": -20.182819366455078,
+     "spins": [
+      -10.091409683227539,
+      -10.091409683227539
+     ],
+     "kinetic": 106.34685689026033,
+     "sep": 795.9107541006239,
+     "angle": -1.1645760076421556
+    },
+    "dP": [
+     0,
+     0
+    ],
+    "dL": 5079.786045572575,
+    "dSpin": [
+     -10.091409683227539,
+     -10.091409683227539
+    ],
+    "meshAngleIntegrated": 0.028000782319160145,
+    "sample": [
+     {
+      "k": 0,
+      "sep": 239.99999999999997,
+      "omega": 0.00003710797523250091
+     },
+     {
+      "k": 2000,
+      "sep": 240.21833147242774,
+      "omega": 0.000037106805350608345
+     },
+     {
+      "k": 4000,
+      "sep": 240.76710038631998,
+      "omega": 0.00003710388030679488
+     },
+     {
+      "k": 6000,
+      "sep": 241.64333974564127,
+      "omega": 0.000037099204613271196
+     },
+     {
+      "k": 8000,
+      "sep": 242.84237477247797,
+      "omega": 0.00003709278543643059
+     },
+     {
+      "k": 10000,
+      "sep": 244.3579309428384,
+      "omega": 0.00003708463248138342
+     }
+    ],
+    "clamp": 0,
+    "nan": false,
+    "resP": [
+     0,
+     0
+    ],
+    "resL": -34.06536620239973
+   },
+   {
+    "kFrame": 0,
+    "D0": 0,
+    "mode": "none",
+    "steps": 200000,
+    "dt": 0.004,
+    "t0": {
+     "px": 0,
+     "py": 0,
+     "L": 94920.49304549572,
+     "spinSum": 0,
+     "spins": [
+      0,
+      0
+     ],
+     "kinetic": 312.84375000000006,
+     "sep": 240,
+     "angle": 3.141592653589793
+    },
+    "t1": {
+     "px": 0,
+     "py": 0,
+     "L": 94920.4930454954,
+     "spinSum": 0,
+     "spins": [
+      0,
+      0
+     ],
+     "kinetic": 312.8367465064993,
+     "sep": 240.00268643606933,
+     "angle": 2.131779610415623
+    },
+    "dP": [
+     0,
+     0
+    ],
+    "dL": -3.2014213502407074e-10,
+    "dSpin": [
+     0,
+     0
+    ],
+    "meshAngleIntegrated": -1.4880375434954044e-18,
+    "sample": [
+     {
+      "k": 0,
+      "sep": 240,
+      "omega": 0
+     },
+     {
+      "k": 2000,
+      "sep": 239.99983324910826,
+      "omega": 0
+     },
+     {
+      "k": 4000,
+      "sep": 239.99966700537337,
+      "omega": 0
+     },
+     {
+      "k": 6000,
+      "sep": 239.9995017309873,
+      "omega": 0
+     },
+     {
+      "k": 8000,
+      "sep": 239.999337885449,
+      "omega": 0
+     },
+     {
+      "k": 10000,
+      "sep": 239.9991759242866,
+      "omega": 0
+     }
+    ],
+    "clamp": 0,
+    "nan": false,
+    "resP": [
+     0,
+     0
+    ],
+    "resL": -8.265585612552144e-14
+   },
+   {
+    "kFrame": 0,
+    "D0": 0,
+    "mode": "radial",
+    "steps": 200000,
+    "dt": 0.004,
+    "t0": {
+     "px": 0,
+     "py": 0,
+     "L": 95315.99509985195,
+     "spinSum": 0,
+     "spins": [
+      0,
+      0
+     ],
+     "kinetic": 312.84375000000006,
+     "sep": 241,
+     "angle": 3.141592653589793
+    },
+    "t1": {
+     "px": 0,
+     "py": 0,
+     "L": 95315.99509984998,
+     "spinSum": 0,
+     "spins": [
+      0,
+      0
+     ],
+     "kinetic": 311.46356755318374,
+     "sep": 241.5350021797732,
+     "angle": 2.0589246734673705
+    },
+    "dP": [
+     0,
+     0
+    ],
+    "dL": -1.964508555829525e-9,
+    "dSpin": [
+     0,
+     0
+    ],
+    "meshAngleIntegrated": 1.5013106946608725e-18,
+    "sample": [
+     {
+      "k": 0,
+      "sep": 241,
+      "omega": 0
+     },
+     {
+      "k": 2000,
+      "sep": 241.0012132122643,
+      "omega": 0
+     },
+     {
+      "k": 4000,
+      "sep": 241.00518025945874,
+      "omega": 0
+     },
+     {
+      "k": 6000,
+      "sep": 241.0118901140688,
+      "omega": -1.2300344305564851e-20
+     },
+     {
+      "k": 8000,
+      "sep": 241.0213241266492,
+      "omega": 0
+     },
+     {
+      "k": 10000,
+      "sep": 241.03345608144002,
+      "omega": 0
+     }
+    ],
+    "clamp": 0,
+    "nan": false,
+    "resP": [
+     0,
+     0
+    ],
+    "resL": -8.789985692888985e-14
+   },
+   {
+    "kFrame": 0,
+    "D0": 0,
+    "mode": "tangential",
+    "steps": 200000,
+    "dt": 0.004,
+    "t0": {
+     "px": 0,
+     "py": 0,
+     "L": 94919.66908407456,
+     "spinSum": 0,
+     "spins": [
+      0,
+      0
+     ],
+     "kinetic": 312.84375000000006,
+     "sep": 239.99999999999997,
+     "angle": -3.1374259869231267
+    },
+    "t1": {
+     "px": 0,
+     "py": 0,
+     "L": 94919.66908407498,
+     "spinSum": 0,
+     "spins": [
+      0,
+      0
+     ],
+     "kinetic": 315.05470712463574,
+     "sep": 239.15490547856422,
+     "angle": 2.1320375781083634
+    },
+    "dP": [
+     0,
+     0
+    ],
+    "dL": 4.220055416226387e-10,
+    "dSpin": [
+     0,
+     0
+    ],
+    "meshAngleIntegrated": -3.730064080336344e-19,
+    "sample": [
+     {
+      "k": 0,
+      "sep": 239.99999999999997,
+      "omega": 0
+     },
+     {
+      "k": 2000,
+      "sep": 240.05253648389774,
+      "omega": 0
+     },
+     {
+      "k": 4000,
+      "sep": 240.10491548526642,
+      "omega": 0
+     },
+     {
+      "k": 6000,
+      "sep": 240.156991674139,
+      "omega": 0
+     },
+     {
+      "k": 8000,
+      "sep": 240.20862074909482,
+      "omega": 0
+     },
+     {
+      "k": 10000,
+      "sep": 240.25965983281495,
+      "omega": 0
+     }
+    ],
+    "clamp": 0,
+    "nan": false,
+    "resP": [
+     0,
+     0
+    ],
+    "resL": 2.0460983117787237e-14
+   },
+   {
+    "kFrame": 0,
+    "D0": 0.0001,
+    "mode": "none",
+    "steps": 200000,
+    "dt": 0.004,
+    "t0": {
+     "px": 0,
+     "py": 0,
+     "L": 94920.49304549572,
+     "spinSum": 0,
+     "spins": [
+      0,
+      0
+     ],
+     "kinetic": 312.84375000000006,
+     "sep": 240,
+     "angle": 3.141592653589793
+    },
+    "t1": {
+     "px": 0,
+     "py": 0,
+     "L": 94920.4930454954,
+     "spinSum": 0,
+     "spins": [
+      0,
+      0
+     ],
+     "kinetic": 312.8367465064993,
+     "sep": 240.00268643606933,
+     "angle": 2.131779610415623
+    },
+    "dP": [
+     0,
+     0
+    ],
+    "dL": -3.2014213502407074e-10,
+    "dSpin": [
+     0,
+     0
+    ],
+    "meshAngleIntegrated": 0.029686639436785626,
+    "sample": [
+     {
+      "k": 0,
+      "sep": 240,
+      "omega": 0.00003710829735267147
+     },
+     {
+      "k": 2000,
+      "sep": 239.99983324910826,
+      "omega": 0.000037108298527206296
+     },
+     {
+      "k": 4000,
+      "sep": 239.99966700537337,
+      "omega": 0.00003710829969816805
+     },
+     {
+      "k": 6000,
+      "sep": 239.9995017309873,
+      "omega": 0.00003710830086230086
+     },
+     {
+      "k": 8000,
+      "sep": 239.999337885449,
+      "omega": 0.00003710830201636896
+     },
+     {
+      "k": 10000,
+      "sep": 239.9991759242866,
+      "omega": 0.00003710830315716346
+     }
+    ],
+    "clamp": 0,
+    "nan": false,
+    "resP": [
+     0,
+     0
+    ],
+    "resL": -8.171452049020744e-14
+   },
+   {
+    "kFrame": 0,
+    "D0": 0.0001,
+    "mode": "radial",
+    "steps": 200000,
+    "dt": 0.004,
+    "t0": {
+     "px": 0,
+     "py": 0,
+     "L": 95315.99509985195,
+     "spinSum": 0,
+     "spins": [
+      0,
+      0
+     ],
+     "kinetic": 312.84375000000006,
+     "sep": 241,
+     "angle": 3.141592653589793
+    },
+    "t1": {
+     "px": 0,
+     "py": 0,
+     "L": 95315.99509984998,
+     "spinSum": 0,
+     "spins": [
+      0,
+      0
+     ],
+     "kinetic": 311.46356755318374,
+     "sep": 241.5350021797732,
+     "angle": 2.0589246734673705
+    },
+    "dP": [
+     0,
+     0
+    ],
+    "dL": -1.964508555829525e-9,
+    "dSpin": [
+     0,
+     0
+    ],
+    "meshAngleIntegrated": 0.029797951496317407,
+    "sample": [
+     {
+      "k": 0,
+      "sep": 241,
+      "omega": 0.000037255828535097825
+     },
+     {
+      "k": 2000,
+      "sep": 241.0012132122643,
+      "omega": 0.00003725581992073213
+     },
+     {
+      "k": 4000,
+      "sep": 241.00518025945874,
+      "omega": 0.00003725579175258978
+     },
+     {
+      "k": 6000,
+      "sep": 241.0118901140688,
+      "omega": 0.00003725574410807424
+     },
+     {
+      "k": 8000,
+      "sep": 241.0213241266492,
+      "omega": 0.00003725567711810254
+     },
+     {
+      "k": 10000,
+      "sep": 241.03345608144002,
+      "omega": 0.000037255590966726735
+     }
+    ],
+    "clamp": 0,
+    "nan": false,
+    "resP": [
+     0,
+     0
+    ],
+    "resL": -8.687890334954408e-14
+   },
+   {
+    "kFrame": 0,
+    "D0": 0.0001,
+    "mode": "tangential",
+    "steps": 200000,
+    "dt": 0.004,
+    "t0": {
+     "px": 0,
+     "py": 0,
+     "L": 94919.66908407456,
+     "spinSum": 0,
+     "spins": [
+      0,
+      0
+     ],
+     "kinetic": 312.84375000000006,
+     "sep": 239.99999999999997,
+     "angle": -3.1374259869231267
+    },
+    "t1": {
+     "px": 0,
+     "py": 0,
+     "L": 94919.66908407498,
+     "spinSum": 0,
+     "spins": [
+      0,
+      0
+     ],
+     "kinetic": 315.05470712463574,
+     "sep": 239.15490547856422,
+     "angle": 2.1320375781083634
+    },
+    "dP": [
+     0,
+     0
+    ],
+    "dL": 4.220055416226387e-10,
+    "dSpin": [
+     0,
+     0
+    ],
+    "meshAngleIntegrated": 0.029685837798963565,
+    "sample": [
+     {
+      "k": 0,
+      "sep": 239.99999999999997,
+      "omega": 0.00003710797523250091
+     },
+     {
+      "k": 2000,
+      "sep": 240.05253648389774,
+      "omega": 0.00003710760514936257
+     },
+     {
+      "k": 4000,
+      "sep": 240.10491548526642,
+      "omega": 0.000037107236100453074
+     },
+     {
+      "k": 6000,
+      "sep": 240.156991674139,
+      "omega": 0.00003710686911072177
+     },
+     {
+      "k": 8000,
+      "sep": 240.20862074909482,
+      "omega": 0.00003710650519868852
+     },
+     {
+      "k": 10000,
+      "sep": 240.25965983281495,
+      "omega": 0.00003710614537363365
+     }
+    ],
+    "clamp": 0,
+    "nan": false,
+    "resP": [
+     0,
+     0
+    ],
+    "resL": 2.0229949042704946e-14
+   }
+  ],
+  "note": "変位は**初期条件の変更**として記帳した(走行中に外から押していない)。基準は**円軌道の 2 体**である(静止 2 体は落下して接触するので帳簿が接触則に汚れる)。**kFrame=0 の対照**では引きずりチャネルが無いので、メッシュの Ω(運動学)が立っていても自転 spin は動かない —— 「メッシュが回ったこと」と「J が変わったこと」を分ける列である。"
+ },
+ "mergerLimit": {
+  "params": {
+   "G": 6.674,
+   "m": 500,
+   "M": 1000,
+   "mu": 250,
+   "R": 1,
+   "inertiaLaw": "2/5 m R²(**宣言**であって測定ではない)"
+  },
+  "rows": [
+   {
+    "sep": 240,
+    "vRel": 5.273360724749762,
+    "omegaOrbit": 0.021972336353124008,
+    "Lorbital": 316401.6434849857,
+    "Jspin": 8.788934541249603,
+    "spinOverOrbital": 0.00002777777777777778,
+    "total": 316410.4324195269
+   },
+   {
+    "sep": 24,
+    "vRel": 16.675830813885504,
+    "omegaOrbit": 0.694826283911896,
+    "Lorbital": 100054.98488331302,
+    "Jspin": 277.9305135647584,
+    "spinOverOrbital": 0.002777777777777778,
+    "total": 100332.91539687778
+   },
+   {
+    "sep": 2.4,
+    "vRel": 52.733607247497616,
+    "omegaOrbit": 21.972336353124007,
+    "Lorbital": 31640.16434849857,
+    "Jspin": 8788.934541249602,
+    "spinOverOrbital": 0.2777777777777778,
+    "total": 40429.09888974817
+   },
+   {
+    "sep": 0.24,
+    "vRel": 166.75830813885506,
+    "omegaOrbit": 694.8262839118961,
+    "Lorbital": 10005.498488331303,
+    "Jspin": 277930.51356475847,
+    "spinOverOrbital": 27.777777777777782,
+    "total": 287936.0120530898
+   }
+  ],
+  "note": "**k_int=0(内部の引きずりを切る)は軌道角運動量 μ r×v を消さない。** 接近するほど Ω が上がるので自転項は増えるが、この玩具の半径宣言では軌道項が支配する。**これは遠方近似の会計であって、合体の力学を解いたものではない。**"
+ },
+ "pageErrors": []
+}

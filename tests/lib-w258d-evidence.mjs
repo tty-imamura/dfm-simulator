@@ -241,17 +241,33 @@ export function applyEvidenceRegistry(presets, registry) {
 
 // ---------------------------------------------------------------- ③ ε_num の推定誤差欄
 // |Q_h − Q_{h/4}| は**上限ではない**。漸近形なら粗い側の真の誤差は /(1 − 4^−p) 倍である。
-export function refinedNumBound(value, order, ratio = 4) {
+// 第272便a(第62報・統括の検証項目 R13): **どちらの段の誤差を推定しているのか**を引数にした。
+//   `side:'coarse'`(既定・第258便d の元の意味)…… 差 |Q_h − Q_{h/r}| から**粗い側 Q_h** の誤差を
+//     推定する。E(h)−E(h/r) = E(h)(1−r^−p) なので E(h) = 差/(1−r^−p)。
+//   `side:'fine'` …… 同じ差から**細かい側 Q_{h/r}** の誤差を推定する。
+//     E(h)−E(h/r) = E(h/r)(r^p−1) なので **E(h/r) = 差/(r^p−1)**。
+// **判定段が h/4 や h/8 のとき、誤差を知りたいのは細かい側である**。第271便a(R3)が判定段を
+// h/4 へ移したあとも、診断欄 `numBoundDecl.estimate` は粗い側の式(1/(1−4^−p))を
+// **最終 2 段差**に掛けていた —— ❄️ では正式門の ε̂ 0.300542 s に対し診断欄が 0.281894 s で、
+// **同じ量に 2 つの数が並んでいた**。`side:'fine'`・`ratio:2` は正式 ε̂ の定義
+// (最終 2 段差/(2^p−1))と**同じ式**である(門の数は 1 つに揃う・門は緩めも締めもしない)。
+export function refinedNumBound(value, order, ratio = 4, side = 'coarse') {
   if (!Number.isFinite(value)) return null;
   if (!Number.isFinite(order) || !(order > 0)) {
     return { raw: value, order: Number.isFinite(order) ? order : null, factor: null, refined: null,
+      side,
       note: '**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)' };
   }
-  const f = 1 / (1 - Math.pow(ratio, -order));
-  return { raw: value, order, factor: f, refined: value * f,
-    note: '漸近形 E(h)=C·h^p なら Q_h−Q_{h/' + ratio + '} = C·h^p·(1−' + ratio + '^−p) なので、'
-      + '粗い側の誤差は |Q_h−Q_{h/' + ratio + '}|/(1−' + ratio + '^−p) = ' + f.toFixed(4)
-      + ' 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である' };
+  const fine = (side === 'fine');
+  const f = fine ? (1 / (Math.pow(ratio, order) - 1)) : (1 / (1 - Math.pow(ratio, -order)));
+  return { raw: value, order, factor: f, refined: value * f, side,
+    note: fine
+      ? '漸近形 E(h)=C·h^p なら Q_h−Q_{h/' + ratio + '} = E(h/' + ratio + ')·(' + ratio + '^p−1) なので、'
+        + '**細かい側(判定段)**の誤差は 差/(' + ratio + '^p−1) = ' + f.toFixed(4) + ' 倍である。'
+        + '**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)'
+      : '漸近形 E(h)=C·h^p なら Q_h−Q_{h/' + ratio + '} = C·h^p·(1−' + ratio + '^−p) なので、'
+        + '**粗い側**の誤差は |Q_h−Q_{h/' + ratio + '}|/(1−' + ratio + '^−p) = ' + f.toFixed(4)
+        + ' 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である' };
 }
 
 // ---------------------------------------------------------------- ④ deg/yr の門

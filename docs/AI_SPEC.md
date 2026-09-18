@@ -1944,8 +1944,14 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 - **星団の内部診断 JSON のスキーマ(第269便d — `tests/out/cluster-w269d.json`)**: 器 `tests/exp-w269d-cluster.mjs` が出す
   **比較サンプル v1a(内部診断)**の出力である。**観測値は 1 つも入っておらず、47 Tuc の公表値との比較も 1 つも入っていない。**
   ```json
-  { "meta": { "wave": "<便>", "when": "<ISO8601>", "codeCommit": "<12 桁>", "target": "beta/index.html",
-      "inputs": [ { "file": "<相対パス>", "bytes": 0, "mtime": "<ISO8601>", "sha256_16": "<16 桁>" } ],
+  { "meta": {
+      "provenanceVersion": "w272e-1", "wave": "<便>", "target": "beta/index.html",
+      "targetSha256": "<完全 64 桁>", "generatedAt": "<ISO8601>",
+      "inputs": [ { "file": "<相対パス>", "bytes": 0, "sha256": "<完全 64 桁>", "mtime": "<ISO8601>" } ],
+      "code":   [ { "file": "<相対パス>", "bytes": 0, "sha256": "<完全 64 桁>", "mtime": "<ISO8601>" } ],
+      "codeSha256": "<完全 64 桁>",
+      "waveFull": "<便の長い名前>", "when": "<ISO8601>", "codeCommit": "<12 桁>",
+      "legacyInputs": [ { "file": "<相対パス>", "bytes": 0, "mtime": "<ISO8601>", "sha256_16": "<16 桁>" } ],
       "declarationVersion": "v1a-2026-09-17",
       "window": { "tStart": 0, "tEnd": 9.6, "unit": "sim time", "why": "<窓の理由>" },
       "grid": { "dt0": 0.016, "divs": [1,2,4], "seeds": [<2 本>], "nVariants": [<2 種>] },
@@ -1980,6 +1986,11 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   - **`numerical` の `status` は 2 語だけ**で、`order-estimated` は「見かけの次数が推定できた」であって
     **「収束した」ではない**。`monotone:false` は消さずに残す。
   - **生成 AI はこのファイルを書かない**(内部診断の出力であって観測レコードではない)。
+  - **来歴の欄は 7 本の正本で共通である**(第272便e・AG11 —— `tests/lib-w272e-provenance.mjs` 版 `w272e-1`)。
+    `targetSha256` と `inputs[].sha256` / `code[].sha256` は**完全 64 桁**で、短縮 hash は表示用である。
+    `codeSha256` は `code[]` の `file\nsha256\n` を連ねた文字列の sha256 で、器か lib が 1 本でも変われば変わる。
+    QA `lint.provenanceMeta` が現行ファイルの sha256 と突き合わせ、**不一致は FAIL のまま**にする
+    (走らせ直せば直る種類の FAIL である)。旧い短縮 hash の欄は `legacyInputs` に残してある。
 
 - **比較サンプル v1 の比較 JSON(第269便c — `tests/lib-w269c-compare.mjs` が作る)**: BH 連星・銀河の
   比較器(`tests/out/bh90-w269c.json`・`tests/out/sparc-w269c.json`)が書き出す**読み取り専用の記録**である。
@@ -2044,3 +2055,24 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     - 星団の JSON は **`virialTermsAE14`**(列ごとの **K・U・W_vir・2K/|U|・2K/|W_vir|・W_vir/U** と、
       **`vMode:"virial"` の列だけ**の範囲 `rangeVirialOnly`)を持つ。
       **`vMode:"virial"` は期待値の正規化であって有限標本の K を測っていない**(規約)。
+
+## 8. 表示だけの side table(第272便d — **プリセットの鍵ではない**)
+
+第272便d(第62報「サンプル整理」)で足した 2 つの読み口は、**どちらもプリセットの鍵ではない**。
+したがって **SYSTEM_PROMPT・検証器(`validatePreset`)・保存 JSON・エクスポート・`presetSig` はいずれも 1 バイトも変わっていない**
+(AI 生成のサンプルにこれらを書いても、検証器は未知キーとして従来どおり落とす)。
+
+- **`MASS_BASIS`(質量の由来)** —— `beta/index.html` の中に**プリセット配列の外**で持つ表である。
+  `preset id → {kind, records, solutionId, inferenceModel, conversion, note/noteEn}` で、
+  `kind` は `observed-solution` / `dfm-calibrated` / `mixed` / `undeclared` の 4 つだけ(それ以外は落とす)。
+  `records` は `paper/data/*.csv` の **`record_id`**、`solutionId` は `paper/data/solutions.json` の **id** を指す。
+  DFM 版の質量補正 f は**この表には書かない** —— 当該サンプルの `massCalibration.factor`(または `factorUniform`)を
+  実行時に読む(数値を二重に持たない)。**自動判定はしない**: `massCalibration` の有無・f=1・`fidelity:"real"` は
+  「観測解の質量を入力した」の根拠にしない。**AI 生成のサンプルはこの表に載らない**ので、チップは出ない。
+- **`meshChipState(p,S)`(空間メッシュ/複素決定力場)** —— 既存の宣言
+  (`physics.spaceMesh` の `lawVersion` / `law` / `toyAllowDrag`・`physics.geoPN`)と、
+  既存の実行時読み口(`S.hasGeoToy` / `S.geoToyDeny` / `S.geoToyStop` / `S.geoToyOverlay` / `S.geoToyConverged`)を
+  読むだけの純関数である。**新しい鍵は 1 つも足していない。**
+  **`geoPN=3` であることだけを根拠に「複素決定力場」と表示しない**(`lawVersion` は scalar / local / complex の 3 つがあり、
+  法則版 `law:"mesh-v2"` は別にあり、**選択と作動も別**である)。較正クラス(`sampleClass:"calibration"`)の受理条件は不変で、
+  `geoPN=3` は従来どおり拒否される。

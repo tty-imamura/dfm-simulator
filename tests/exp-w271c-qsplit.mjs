@@ -32,6 +32,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
+// 第272便e(AG11): 来歴(targetSha256・codeSha256・generatedAt・wave)は共通の 1 本で作る。
+import { provenanceMeta } from './lib-w272e-provenance.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.argv[2] || 'beta/index.html';
@@ -281,7 +283,12 @@ for (const s of R.classScan) {
 if (R.builtinQDeclared.length) bad.push('§6 Q を宣言する内蔵がある: ' + R.builtinQDeclared.join(', '));
 if (pageErrors.length) bad.push('pageerror: ' + pageErrors.slice(0, 2).join(' / '));
 
-const out = { when: new Date().toISOString(), wave: '第271便c(第61報・統括の検証項目 R2/R4/R5・AF17)',
+const out = {
+  // 第272便e(AG11): 来歴の欄(**この JSON はどの html を走らせた結果か**)。
+  meta: provenanceMeta({ root: ROOT, wave: '第271便c(来歴は第272便e で共通化)', target: TARGET,
+    code: ['tests/exp-w271c-qsplit.mjs', 'tests/lib-w272e-provenance.mjs'],
+    inputs: [TARGET] }),
+  when: new Date().toISOString(), wave: '第271便c(第61報・統括の検証項目 R2/R4/R5・AF17)',
   target: TARGET, ...R, violations: bad };
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify(out, null, 1));

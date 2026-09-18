@@ -1,0 +1,2585 @@
+{
+ "meta": {
+  "wave": "第272便c",
+  "section": "AA7 / R∥",
+  "harness": "w272c-rpar-1",
+  "target": "beta/index.html",
+  "targetSha256": "69d78fa3195e883be9fa14473fa590f98304142e5b466fb2a80e4f70f418d44d",
+  "libSha256": "2df3c481bafe279804244bb9ecfff4689c78aa72ed5242b07dae95ccc823b0f0",
+  "at": "2026-09-18T18:58:19.758Z",
+  "definition": "R∥ = −(a₂−a₁)·n̂ /(G(m₁+m₂)/r²)、n̂ は 1→2。静止(v=0)なので計量の微分項は落ちる。",
+  "claim": "**「比が 1 になる」と先に結論していない。** 実装(HP.dfmMeshV2Solve)と独立な解析式(lib-w272c-binlock.restTwoBodyAnalytic)の 2 列を並べた記録である。**mesh-v2 は候補の則であって確立則ではない**(第265便b)。",
+  "touched": "内蔵プリセットは 1 bit も動かしていない。`S._core` には 1 命令も足していない。"
+ },
+ "cases": [
+  {
+   "tag": "equal/D0=0/inertia",
+   "m1": 500,
+   "m2": 500,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 0,
+   "accel": {
+    "x": [
+     0.014483506001507844,
+     -0.014483506001507844
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    1,
+    1
+   ],
+   "rowSum": [
+    1,
+    1
+   ],
+   "rowDev": 0,
+   "delta": 1000,
+   "minEig": 500,
+   "cond": 4,
+   "structural": true,
+   "symRel": 0,
+   "rParImpl": 0.24999998372395918,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    0,
+    0
+   ],
+   "rParAnalytic": 0.24999998372395918,
+   "relDiff": 0,
+   "rParAnalyticSoftDen": 0.24999999999999997,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.25,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "equal/D0=0/constraint",
+   "m1": 500,
+   "m2": 500,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0,
+    "eta": 1,
+    "gauge": "constraint"
+   },
+   "stop": null,
+   "momentumImbalance": 0,
+   "accel": {
+    "x": [
+     0.014483506001507848,
+     -0.014483506001507848
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    1,
+    1
+   ],
+   "rowSum": [
+    1,
+    1
+   ],
+   "rowDev": 0,
+   "delta": 1000,
+   "minEig": 0,
+   "cond": null,
+   "structural": true,
+   "symRel": 0,
+   "rParImpl": 0.24999998372395926,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    0,
+    0
+   ],
+   "rParAnalytic": 0.24999998372395918,
+   "relDiff": 3.330669290715907e-16,
+   "rParAnalyticSoftDen": 0.24999999999999997,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.25,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "equal/D0=0.000001/inertia",
+   "m1": 500,
+   "m2": 500,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.000001,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 0,
+   "accel": {
+    "x": [
+     0.014483512953590046,
+     -0.014483512953590046
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.99999952000022,
+    0.99999952000022
+   ],
+   "rowSum": [
+    0.99999952000022,
+    0.99999952000022
+   ],
+   "rowDev": 4.799997800342126e-7,
+   "delta": 999.9999999997696,
+   "minEig": 500,
+   "cond": 3.9999980800011095,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.25000010372393966,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    0,
+    0
+   ],
+   "rParAnalytic": 0.25000010372393966,
+   "relDiff": 0,
+   "rParAnalyticSoftDen": 0.2500001199999883,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.25,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "equal/D0=0.000001/constraint",
+   "m1": 500,
+   "m2": 500,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.000001,
+    "eta": 1,
+    "gauge": "constraint"
+   },
+   "stop": "illConditioned",
+   "momentumImbalance": null,
+   "accel": null,
+   "chi": [
+    0.99999952000022,
+    0.99999952000022
+   ],
+   "rowSum": [
+    0.99999952000022,
+    0.99999952000022
+   ],
+   "rowDev": 4.799997800342126e-7,
+   "delta": 999.9999999997696,
+   "minEig": 1.152774443905297e-10,
+   "cond": 17349439437823.441,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": null,
+   "rPerpImpl": null,
+   "sumMassAccel": null,
+   "rParAnalytic": 0.2499622953872396,
+   "relDiff": null,
+   "rParAnalyticSoftDen": 0.24996231166082672,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.25,
+   "newtonRatio": null
+  },
+  {
+   "tag": "equal/D0=0.5/inertia",
+   "m1": 500,
+   "m2": 500,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 0,
+   "accel": {
+    "x": [
+     0.017753379234244027,
+     -0.017753379234244027
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.8064516095159123,
+    0.8064516095159123
+   ],
+   "rowSum": [
+    0.8064516095159123,
+    0.8064516095159123
+   ],
+   "rowDev": 0.19354839048408767,
+   "delta": 962.5390205410191,
+   "minEig": 499.99999999999983,
+   "cond": 3.2632674175226306,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.3064413077292346,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    0,
+    0
+   ],
+   "rParAnalytic": 0.30644130772923456,
+   "relDiff": 1.811477429156071e-16,
+   "rParAnalyticSoftDen": 0.3064413276798407,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.25,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "equal/D0=0.5/constraint",
+   "m1": 500,
+   "m2": 500,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "constraint"
+   },
+   "stop": null,
+   "momentumImbalance": 0,
+   "accel": {
+    "x": [
+     0.017753379234244027,
+     -0.017753379234244027
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.8064516095159123,
+    0.8064516095159123
+   ],
+   "rowSum": [
+    0.8064516095159123,
+    0.8064516095159123
+   ],
+   "rowDev": 0.19354839048408767,
+   "delta": 962.5390205410191,
+   "minEig": 18.730489729490458,
+   "cond": 87.11110773533957,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.3064413077292346,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    0,
+    0
+   ],
+   "rParAnalytic": 0.3064413077292339,
+   "relDiff": 2.3549206579028976e-15,
+   "rParAnalyticSoftDen": 0.30644132767984006,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.25,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "equal/D0=8/inertia",
+   "m1": 500,
+   "m2": 500,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 8,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 0,
+   "accel": {
+    "x": [
+     0.039792271086214324,
+     -0.039792271086214324
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.20661156669057223,
+    0.20661156669057223
+   ],
+   "rowSum": [
+    0.20661156669057223,
+    0.20661156669057223
+   ],
+   "rowDev": 0.7933884333094278,
+   "delta": 370.53479389081167,
+   "minEig": 499.9999999999999,
+   "cond": 1.4559114728714773,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.6868549039754106,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    0,
+    0
+   ],
+   "rParAnalytic": 0.6868549039754105,
+   "relDiff": 1.616386544231331e-16,
+   "rParAnalyticSoftDen": 0.6868549486925271,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.25,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "equal/D0=8/constraint",
+   "m1": 500,
+   "m2": 500,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 8,
+    "eta": 1,
+    "gauge": "constraint"
+   },
+   "stop": null,
+   "momentumImbalance": 0,
+   "accel": {
+    "x": [
+     0.039792271086214324,
+     -0.039792271086214324
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.20661156669057223,
+    0.20661156669057223
+   ],
+   "rowSum": [
+    0.20661156669057223,
+    0.20661156669057223
+   ],
+   "rowDev": 0.7933884333094278,
+   "delta": 370.53479389081167,
+   "minEig": 314.7326030545941,
+   "cond": 2.3129339933984085,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.6868549039754106,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    0,
+    0
+   ],
+   "rParAnalytic": 0.6868549039754105,
+   "relDiff": 1.616386544231331e-16,
+   "rParAnalyticSoftDen": 0.6868549486925271,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.25,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "equal/D0=10000/inertia",
+   "m1": 500,
+   "m2": 500,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 10000,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 0,
+   "accel": {
+    "x": [
+     0.057909897396090176,
+     -0.057909897396090176
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.00020828993507667818,
+    0.00020828993507667818
+   ],
+   "rowSum": [
+    0.00020828993507667818,
+    0.00020828993507667818
+   ],
+   "rowDev": 0.9997917100649233,
+   "delta": 0.41653648545627675,
+   "minEig": 500,
+   "cond": 1.0004166232548504,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.9995834851707504,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    0,
+    0
+   ],
+   "rParAnalytic": 0.9995834851707502,
+   "relDiff": 1.110685641665545e-16,
+   "rParAnalyticSoftDen": 0.9995835502478008,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.25,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "equal/D0=10000/constraint",
+   "m1": 500,
+   "m2": 500,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 10000,
+    "eta": 1,
+    "gauge": "constraint"
+   },
+   "stop": null,
+   "momentumImbalance": 0,
+   "accel": {
+    "x": [
+     0.05790989739609018,
+     -0.05790989739609018
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.00020828993507667818,
+    0.00020828993507667818
+   ],
+   "rowSum": [
+    0.00020828993507667818,
+    0.00020828993507667818
+   ],
+   "rowDev": 0.9997917100649233,
+   "delta": 0.41653648545627675,
+   "minEig": 499.79173175727175,
+   "cond": 1.0008335069263523,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.9995834851707506,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    0,
+    0
+   ],
+   "rParAnalytic": 0.9995834851707502,
+   "relDiff": 3.332056924996635e-16,
+   "rParAnalyticSoftDen": 0.9995835502478008,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.25,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "ratio/500:500/D0=0/inertia",
+   "m1": 500,
+   "m2": 500,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 0,
+   "accel": {
+    "x": [
+     0.014483506001507844,
+     -0.014483506001507844
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    1,
+    1
+   ],
+   "rowSum": [
+    1,
+    1
+   ],
+   "rowDev": 0,
+   "delta": 1000,
+   "minEig": 500,
+   "cond": 4,
+   "structural": true,
+   "symRel": 0,
+   "rParImpl": 0.24999998372395918,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    0,
+    0
+   ],
+   "rParAnalytic": 0.24999998372395918,
+   "relDiff": 0,
+   "rParAnalyticSoftDen": 0.24999999999999997,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.25,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "ratio/500:500/D0=0/constraint",
+   "m1": 500,
+   "m2": 500,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0,
+    "eta": 1,
+    "gauge": "constraint"
+   },
+   "stop": null,
+   "momentumImbalance": 0,
+   "accel": {
+    "x": [
+     0.014483506001507848,
+     -0.014483506001507848
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    1,
+    1
+   ],
+   "rowSum": [
+    1,
+    1
+   ],
+   "rowDev": 0,
+   "delta": 1000,
+   "minEig": 0,
+   "cond": null,
+   "structural": true,
+   "symRel": 0,
+   "rParImpl": 0.24999998372395926,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    0,
+    0
+   ],
+   "rParAnalytic": 0.24999998372395918,
+   "relDiff": 3.330669290715907e-16,
+   "rParAnalyticSoftDen": 0.24999999999999997,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.25,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "ratio/500:500/D0=0.5/inertia",
+   "m1": 500,
+   "m2": 500,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 0,
+   "accel": {
+    "x": [
+     0.017753379234244027,
+     -0.017753379234244027
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.8064516095159123,
+    0.8064516095159123
+   ],
+   "rowSum": [
+    0.8064516095159123,
+    0.8064516095159123
+   ],
+   "rowDev": 0.19354839048408767,
+   "delta": 962.5390205410191,
+   "minEig": 499.99999999999983,
+   "cond": 3.2632674175226306,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.3064413077292346,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    0,
+    0
+   ],
+   "rParAnalytic": 0.30644130772923456,
+   "relDiff": 1.811477429156071e-16,
+   "rParAnalyticSoftDen": 0.3064413276798407,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.25,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "ratio/500:500/D0=0.5/constraint",
+   "m1": 500,
+   "m2": 500,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "constraint"
+   },
+   "stop": null,
+   "momentumImbalance": 0,
+   "accel": {
+    "x": [
+     0.017753379234244027,
+     -0.017753379234244027
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.8064516095159123,
+    0.8064516095159123
+   ],
+   "rowSum": [
+    0.8064516095159123,
+    0.8064516095159123
+   ],
+   "rowDev": 0.19354839048408767,
+   "delta": 962.5390205410191,
+   "minEig": 18.730489729490458,
+   "cond": 87.11110773533957,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.3064413077292346,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    0,
+    0
+   ],
+   "rParAnalytic": 0.3064413077292339,
+   "relDiff": 2.3549206579028976e-15,
+   "rParAnalyticSoftDen": 0.30644132767984006,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.25,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "ratio/1000:100/D0=0/inertia",
+   "m1": 1000,
+   "m2": 100,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 0,
+   "accel": {
+    "x": [
+     0.0009575871736534113,
+     -0.009575871736534113
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    1,
+    1
+   ],
+   "rowSum": [
+    1,
+    1
+   ],
+   "rowDev": 0,
+   "delta": 1100,
+   "minEig": 454.2088055115645,
+   "cond": 5.865084472921843,
+   "structural": true,
+   "symRel": 0,
+   "rParImpl": 0.0826446227186642,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    0,
+    0
+   ],
+   "rParAnalytic": 0.0826446227186642,
+   "relDiff": 0,
+   "rParAnalyticSoftDen": 0.08264462809917354,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958368
+  },
+  {
+   "tag": "ratio/1000:100/D0=0/constraint",
+   "m1": 1000,
+   "m2": 100,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0,
+    "eta": 1,
+    "gauge": "constraint"
+   },
+   "stop": null,
+   "momentumImbalance": 0.8181818181818182,
+   "accel": {
+    "x": [
+     0.005266729455093762,
+     -0.005266729455093762
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    1,
+    1
+   ],
+   "rowSum": [
+    1,
+    1
+   ],
+   "rowDev": 0,
+   "delta": 1100,
+   "minEig": 0,
+   "cond": null,
+   "structural": true,
+   "symRel": 0,
+   "rParImpl": 0.08264462271866418,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    4.740056509584385,
+    0
+   ],
+   "rParAnalytic": 0.08264462271866417,
+   "relDiff": 1.6792124340692703e-16,
+   "rParAnalyticSoftDen": 0.08264462809917351,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958368
+  },
+  {
+   "tag": "ratio/1000:100/D0=0.5/inertia",
+   "m1": 1000,
+   "m2": 100,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 1,
+   "accel": {
+    "x": [
+     -0.005997796428336326,
+     -0.04613604699332822
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.454545449164945,
+    0.8928571407811172
+   ],
+   "rowSum": [
+    0.454545449164945,
+    0.8928571407811172
+   ],
+   "rowDev": 0.545454550835055,
+   "delta": 801.3313737451687,
+   "minEig": 168.28401834660565,
+   "cond": 11.212751275753151,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.3149213000985552,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -10.611401127669147,
+    0
+   ],
+   "rParAnalytic": 0.31492130009855507,
+   "relDiff": 3.5253983273843674e-16,
+   "rParAnalyticSoftDen": 0.31492132060124406,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958368
+  },
+  {
+   "tag": "ratio/1000:100/D0=0.5/constraint",
+   "m1": 1000,
+   "m2": 100,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "constraint"
+   },
+   "stop": null,
+   "momentumImbalance": 1,
+   "accel": {
+    "x": [
+     -0.07785983896618724,
+     -0.1758883802487682
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.454545449164945,
+    0.8928571407811172
+   ],
+   "rowSum": [
+    0.454545449164945,
+    0.8928571407811172
+   ],
+   "rowDev": 0.545454550835055,
+   "delta": 801.3313737451687,
+   "minEig": 25.95017361247463,
+   "cond": 52.42280068887536,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.769123597389689,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -95.44867699106406,
+    0
+   ],
+   "rParAnalytic": 0.7691235973896884,
+   "relDiff": 8.660946264499891e-16,
+   "rParAnalyticSoftDen": 0.7691236474628397,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958368
+  },
+  {
+   "tag": "ratio/10000:1/D0=0/inertia",
+   "m1": 10000,
+   "m2": 1,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 5.993324684901274e-13,
+   "accel": {
+    "x": [
+     1.1584487787789954e-8,
+     -0.0001158448778780384
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    1,
+    1
+   ],
+   "rowSum": [
+    1,
+    1
+   ],
+   "rowDev": 0,
+   "delta": 10001,
+   "minEig": 3820.383720908786,
+   "cond": 6.852876148483695,
+   "structural": true,
+   "symRel": 0,
+   "rParImpl": 0.00009997999649048564,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -1.3885919324108098e-16,
+    0
+   ],
+   "rParAnalytic": 0.00009997999649048564,
+   "relDiff": 0,
+   "rParAnalyticSoftDen": 0.00009998000299960007,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.00009998000299960005,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "ratio/10000:1/D0=0/constraint",
+   "m1": 10000,
+   "m2": 1,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0,
+    "eta": 1,
+    "gauge": "constraint"
+   },
+   "stop": null,
+   "momentumImbalance": 0.9998000199980003,
+   "accel": {
+    "x": [
+     0.00005792823118291309,
+     -0.00005792823118291309
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    1,
+    1
+   ],
+   "rowSum": [
+    1,
+    1
+   ],
+   "rowDev": 0,
+   "delta": 10001,
+   "minEig": 0,
+   "cond": null,
+   "structural": true,
+   "symRel": 0,
+   "rParImpl": 0.00009997999649048563,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    0.579224383597948,
+    0
+   ],
+   "rParAnalytic": 0.00009997999649048561,
+   "relDiff": 1.3555238679527764e-16,
+   "rParAnalyticSoftDen": 0.00009998000299960004,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.00009998000299960005,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "ratio/10000:1/D0=0.5/inertia",
+   "m1": 10000,
+   "m2": 1,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 1,
+   "accel": {
+    "x": [
+     -0.009381995308068564,
+     -1.1545751452176052
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.008264462632049274,
+    0.9881422922358412
+   ],
+   "rowSum": [
+    0.008264462632049274,
+    0.9881422922358412
+   ],
+   "rowDev": 0.9917355373679507,
+   "delta": 165.60609860978548,
+   "minEig": 0.9952344968329233,
+   "cond": 10215.921192931673,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.9882608597814075,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -94.97452822590326,
+    0
+   ],
+   "rParAnalytic": 0.9882608597814078,
+   "relDiff": 2.2468218054709268e-16,
+   "rParAnalyticSoftDen": 0.9882609241213081,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.00009998000299960005,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "ratio/10000:1/D0=0.5/constraint",
+   "m1": 10000,
+   "m2": 1,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "constraint"
+   },
+   "stop": null,
+   "momentumImbalance": 1,
+   "accel": {
+    "x": [
+     -0.009652365858009418,
+     -1.168103908239031
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.008264462632049274,
+    0.9881422922358412
+   ],
+   "rowSum": [
+    0.008264462632049274,
+    0.9881422922358412
+   ],
+   "rowDev": 0.9917355373679507,
+   "delta": 165.60609860978548,
+   "minEig": 0.9835689277175435,
+   "cond": 10168.759491922652,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.9997023797941879,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -97.69176248833321,
+    0
+   ],
+   "rParAnalytic": 0.9997023797941875,
+   "relDiff": 3.331660643401856e-16,
+   "rParAnalyticSoftDen": 0.9997024448789785,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.00009998000299960005,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "ratio/1000000:0.01/D0=0/inertia",
+   "m1": 1000000,
+   "m2": 0.01,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 1.331916472883987e-8,
+   "accel": {
+    "x": [
+     1.1586804878123305e-14,
+     -0.0000011586804569470183
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    1,
+    1
+   ],
+   "rowSum": [
+    1,
+    1
+   ],
+   "rowDev": 0,
+   "delta": 1000000.01,
+   "minEig": 381966.01848617324,
+   "cond": 6.854101843639783,
+   "structural": true,
+   "symRel": 0,
+   "rParImpl": 9.999999148958385e-9,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    3.086531215942976e-16,
+    0
+   ],
+   "rParAnalytic": 9.999999148958385e-9,
+   "relDiff": 0,
+   "rParAnalyticSoftDen": 9.999999800000003e-9,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 9.999999800000003e-9,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "ratio/1000000:0.01/D0=0/constraint",
+   "m1": 1000000,
+   "m2": 0.01,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0,
+    "eta": 1,
+    "gauge": "constraint"
+   },
+   "stop": null,
+   "momentumImbalance": 0.9999999800000003,
+   "accel": {
+    "x": [
+     5.793402342669116e-7,
+     -5.793402342669116e-7
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    1,
+    1
+   ],
+   "rowSum": [
+    1,
+    1
+   ],
+   "rowDev": 0,
+   "delta": 1000000.01,
+   "minEig": 0,
+   "cond": null,
+   "structural": true,
+   "symRel": 0,
+   "rParImpl": 9.999999148958385e-9,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    0.5793402284735093,
+    0
+   ],
+   "rParAnalytic": 9.999999148958382e-9,
+   "relDiff": 3.3087227317981856e-16,
+   "rParAnalyticSoftDen": 9.9999998e-9,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 9.999999800000003e-9,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "ratio/1000000:0.01/D0=0.5/inertia",
+   "m1": 1000000,
+   "m2": 0.01,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 1,
+   "accel": {
+    "x": [
+     -0.00965294351115954,
+     -115.86428942690655
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.00008332638765939674,
+    0.9998800143956686
+   ],
+   "rowSum": [
+    0.00008332638765939674,
+    0.9998800143956686
+   ],
+   "rowDev": 0.9999166736123406,
+   "delta": 166.65583203185815,
+   "minEig": 0.009999491074047998,
+   "cond": 100021757.6438325,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.999884176612422,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -9654.10215405381,
+    0
+   ],
+   "rParAnalytic": 0.9998841766124221,
+   "relDiff": 1.110351629312266e-16,
+   "rParAnalyticSoftDen": 0.999884241709049,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 9.999999800000003e-9,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "ratio/1000000:0.01/D0=0.5/constraint",
+   "m1": 1000000,
+   "m2": 0.01,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "constraint"
+   },
+   "stop": null,
+   "momentumImbalance": 1,
+   "accel": {
+    "x": [
+     -0.009655670125992057,
+     -115.87770136510589
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.00008332638765939674,
+    0.9998800143956686
+   ],
+   "rowSum": [
+    0.00008332638765939674,
+    0.9998800143956686
+   ],
+   "rowDev": 0.9999166736123406,
+   "delta": 166.65583203185815,
+   "minEig": 0.009998333572225059,
+   "cond": 100016668.74973154,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.9999999048982392,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -9656.828903005708,
+    0
+   ],
+   "rParAnalytic": 0.9999999048982394,
+   "relDiff": 2.2204462604186616e-16,
+   "rParAnalyticSoftDen": 0.9999999700024006,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 9.999999800000003e-9,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "swapA/1000:100/D0=0",
+   "m1": 1000,
+   "m2": 100,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 0,
+   "accel": {
+    "x": [
+     0.0009575871736534113,
+     -0.009575871736534113
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    1,
+    1
+   ],
+   "rowSum": [
+    1,
+    1
+   ],
+   "rowDev": 0,
+   "delta": 1100,
+   "minEig": 454.2088055115645,
+   "cond": 5.865084472921843,
+   "structural": true,
+   "symRel": 0,
+   "rParImpl": 0.0826446227186642,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    0,
+    0
+   ],
+   "rParAnalytic": 0.0826446227186642,
+   "relDiff": 0,
+   "rParAnalyticSoftDen": 0.08264462809917354,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958368
+  },
+  {
+   "tag": "swapB/100:1000/D0=0",
+   "m1": 100,
+   "m2": 1000,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 1.1593962985003287e-16,
+   "accel": {
+    "x": [
+     0.009575871736534115,
+     -0.0009575871736534113
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    1,
+    1
+   ],
+   "rowSum": [
+    1,
+    1
+   ],
+   "rowDev": 0,
+   "delta": 1100,
+   "minEig": 454.2088055115645,
+   "cond": 5.865084472921843,
+   "structural": true,
+   "symRel": 0,
+   "rParImpl": 0.0826446227186642,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    2.220446049250313e-16,
+    0
+   ],
+   "rParAnalytic": 0.0826446227186642,
+   "relDiff": 0,
+   "rParAnalyticSoftDen": 0.08264462809917354,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958368
+  },
+  {
+   "tag": "swapDiff/1000:100/D0=0",
+   "kind": "derived",
+   "rParA": 0.0826446227186642,
+   "rParB": 0.0826446227186642,
+   "absDiff": 0,
+   "relDiff": 0
+  },
+  {
+   "tag": "swapA/1000:100/D0=0.5",
+   "m1": 1000,
+   "m2": 100,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 1,
+   "accel": {
+    "x": [
+     -0.005997796428336326,
+     -0.04613604699332822
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.454545449164945,
+    0.8928571407811172
+   ],
+   "rowSum": [
+    0.454545449164945,
+    0.8928571407811172
+   ],
+   "rowDev": 0.545454550835055,
+   "delta": 801.3313737451687,
+   "minEig": 168.28401834660565,
+   "cond": 11.212751275753151,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.3149213000985552,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -10.611401127669147,
+    0
+   ],
+   "rParAnalytic": 0.31492130009855507,
+   "relDiff": 3.5253983273843674e-16,
+   "rParAnalyticSoftDen": 0.31492132060124406,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958368
+  },
+  {
+   "tag": "swapB/100:1000/D0=0.5",
+   "m1": 100,
+   "m2": 1000,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 1,
+   "accel": {
+    "x": [
+     0.04613604699332822,
+     0.005997796428336327
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.8928571407811172,
+    0.454545449164945
+   ],
+   "rowSum": [
+    0.8928571407811172,
+    0.454545449164945
+   ],
+   "rowDev": 0.545454550835055,
+   "delta": 801.3313737451687,
+   "minEig": 168.28401834660565,
+   "cond": 11.212751275753151,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.3149213000985552,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    10.611401127669149,
+    0
+   ],
+   "rParAnalytic": 0.31492130009855507,
+   "relDiff": 3.5253983273843674e-16,
+   "rParAnalyticSoftDen": 0.31492132060124406,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958368
+  },
+  {
+   "tag": "swapDiff/1000:100/D0=0.5",
+   "kind": "derived",
+   "rParA": 0.3149213000985552,
+   "rParB": 0.3149213000985552,
+   "absDiff": 0,
+   "relDiff": 0
+  },
+  {
+   "tag": "swapA/10000:1/D0=0",
+   "m1": 10000,
+   "m2": 1,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 5.993324684901274e-13,
+   "accel": {
+    "x": [
+     1.1584487787789954e-8,
+     -0.0001158448778780384
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    1,
+    1
+   ],
+   "rowSum": [
+    1,
+    1
+   ],
+   "rowDev": 0,
+   "delta": 10001,
+   "minEig": 3820.383720908786,
+   "cond": 6.852876148483695,
+   "structural": true,
+   "symRel": 0,
+   "rParImpl": 0.00009997999649048564,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -1.3885919324108098e-16,
+    0
+   ],
+   "rParAnalytic": 0.00009997999649048564,
+   "relDiff": 0,
+   "rParAnalyticSoftDen": 0.00009998000299960007,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.00009998000299960005,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "swapB/1:10000/D0=0",
+   "m1": 1,
+   "m2": 10000,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 5.993324684901274e-13,
+   "accel": {
+    "x": [
+     0.0001158448778780384,
+     -1.1584487787789954e-8
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    1,
+    1
+   ],
+   "rowSum": [
+    1,
+    1
+   ],
+   "rowDev": 0,
+   "delta": 10001,
+   "minEig": 3820.383720908786,
+   "cond": 6.852876148483695,
+   "structural": true,
+   "symRel": 0,
+   "rParImpl": 0.00009997999649048564,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    1.3885919324108098e-16,
+    0
+   ],
+   "rParAnalytic": 0.00009997999649048564,
+   "relDiff": 0,
+   "rParAnalyticSoftDen": 0.00009998000299960007,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.00009998000299960005,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "swapDiff/10000:1/D0=0",
+   "kind": "derived",
+   "rParA": 0.00009997999649048564,
+   "rParB": 0.00009997999649048564,
+   "absDiff": 0,
+   "relDiff": 0
+  },
+  {
+   "tag": "swapA/10000:1/D0=0.5",
+   "m1": 10000,
+   "m2": 1,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 1,
+   "accel": {
+    "x": [
+     -0.009381995308068564,
+     -1.1545751452176052
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.008264462632049274,
+    0.9881422922358412
+   ],
+   "rowSum": [
+    0.008264462632049274,
+    0.9881422922358412
+   ],
+   "rowDev": 0.9917355373679507,
+   "delta": 165.60609860978548,
+   "minEig": 0.9952344968329233,
+   "cond": 10215.921192931673,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.9882608597814075,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -94.97452822590326,
+    0
+   ],
+   "rParAnalytic": 0.9882608597814078,
+   "relDiff": 2.2468218054709268e-16,
+   "rParAnalyticSoftDen": 0.9882609241213081,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.00009998000299960005,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "swapB/1:10000/D0=0.5",
+   "m1": 1,
+   "m2": 10000,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 1,
+   "accel": {
+    "x": [
+     1.1545751452176052,
+     0.009381995308068564
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.9881422922358412,
+    0.008264462632049274
+   ],
+   "rowSum": [
+    0.9881422922358412,
+    0.008264462632049274
+   ],
+   "rowDev": 0.9917355373679507,
+   "delta": 165.60609860978548,
+   "minEig": 0.9952344968329233,
+   "cond": 10215.921192931673,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.9882608597814075,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    94.97452822590326,
+    0
+   ],
+   "rParAnalytic": 0.9882608597814078,
+   "relDiff": 2.2468218054709268e-16,
+   "rParAnalyticSoftDen": 0.9882609241213081,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.00009998000299960005,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "swapDiff/10000:1/D0=0.5",
+   "kind": "derived",
+   "rParA": 0.9882608597814075,
+   "rParB": 0.9882608597814075,
+   "absDiff": 0,
+   "relDiff": 0
+  },
+  {
+   "tag": "eta=1",
+   "m1": 1000,
+   "m2": 100,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 1,
+   "accel": {
+    "x": [
+     -0.005997796428336326,
+     -0.04613604699332822
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.454545449164945,
+    0.8928571407811172
+   ],
+   "rowSum": [
+    0.454545449164945,
+    0.8928571407811172
+   ],
+   "rowDev": 0.545454550835055,
+   "delta": 801.3313737451687,
+   "minEig": 168.28401834660565,
+   "cond": 11.212751275753151,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.3149213000985552,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -10.611401127669147,
+    0
+   ],
+   "rParAnalytic": 0.31492130009855507,
+   "relDiff": 3.5253983273843674e-16,
+   "rParAnalyticSoftDen": 0.31492132060124406,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958368
+  },
+  {
+   "tag": "eta=0.5",
+   "m1": 1000,
+   "m2": 100,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 0.5,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 1,
+   "accel": {
+    "x": [
+     -0.005426103864119127,
+     -0.08261006723432616
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.454545449164945,
+    0.8928571407811172
+   ],
+   "rowSum": [
+    0.2272727245824725,
+    0.4464285703905586
+   ],
+   "rowDev": 0.7727272754175275,
+   "delta": 472.24842505782055,
+   "minEig": 113.72278690821211,
+   "cond": 12.768336275369116,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.6055788119601064,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -13.687110587551743,
+    0
+   ],
+   "rParAnalytic": 0.6055788119601063,
+   "relDiff": 1.8333254114879676e-16,
+   "rParAnalyticSoftDen": 0.6055788513858106,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958368
+  },
+  {
+   "tag": "eta=0.1",
+   "m1": 1000,
+   "m2": 100,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 0.1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 0.29062110645950157,
+   "accel": {
+    "x": [
+     0.006039473176234743,
+     -0.10988022936856054
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.454545449164945,
+    0.8928571407811172
+   ],
+   "rowSum": [
+    0.0454545449164945,
+    0.08928571407811171
+   ],
+   "rowDev": 0.9545454550835055,
+   "delta": 105.90292312120187,
+   "minEig": 100.83279239939097,
+   "cond": 10.81422817825158,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.9094961269758094,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -4.94854976062131,
+    0
+   ],
+   "rParAnalytic": 0.9094961269758094,
+   "relDiff": 0,
+   "rParAnalyticSoftDen": 0.9094961861877974,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958368
+  },
+  {
+   "tag": "eta=0.01",
+   "m1": 1000,
+   "m2": 100,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 0.01,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 0.024869010719625707,
+   "accel": {
+    "x": [
+     0.010965004679919314,
+     -0.11524291220749891
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.454545449164945,
+    0.8928571407811172
+   ],
+   "rowSum": [
+    0.00454545449164945,
+    0.008928571407811172
+   ],
+   "rowDev": 0.9954545455083506,
+   "delta": 10.847990169587092,
+   "minEig": 100.08761826583691,
+   "cond": 10.081126579440735,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.9902165816758778,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -0.5592865408305769,
+    0
+   ],
+   "rParAnalytic": 0.9902165816758776,
+   "relDiff": 2.2423842322377106e-16,
+   "rParAnalyticSoftDen": 0.9902166461431035,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958368
+  },
+  {
+   "tag": "eta=0.0001",
+   "m1": 1000,
+   "m2": 100,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 0.0001,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 0.00024476309809725113,
+   "accel": {
+    "x": [
+     0.011580504378786135,
+     -0.11586174726936677
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.454545449164945,
+    0.8928571407811172
+   ],
+   "rowSum": [
+    0.000045454544916494504,
+    0.00008928571407811171
+   ],
+   "rowDev": 0.9999545454550836,
+   "delta": 0.10876336933893072,
+   "minEig": 100.00089864754936,
+   "cond": 10.000809029661534,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.9999010672260885,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -0.005670348150541571,
+    0
+   ],
+   "rParAnalytic": 0.9999010672260885,
+   "relDiff": 0,
+   "rParAnalyticSoftDen": 0.9999011323238148,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958368
+  },
+  {
+   "tag": "eta=1e-8",
+   "m1": 1000,
+   "m2": 100,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1e-8,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 2.4472402659199773e-8,
+   "accel": {
+    "x": [
+     0.011586804171079736,
+     -0.11586804738193623
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.454545449164945,
+    0.8928571407811172
+   ],
+   "rowSum": [
+    4.54545449164945e-9,
+    8.928571407811172e-9
+   ],
+   "rowDev": 0.9999999954545455,
+   "delta": 0.000010876623036892852,
+   "minEig": 100.00000008988943,
+   "cond": 10.000000080900504,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.9999999250079984,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -5.67113888294557e-7,
+    0
+   ],
+   "rParAnalytic": 0.9999999250079984,
+   "relDiff": 0,
+   "rParAnalyticSoftDen": 0.9999999901121608,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958368
+  },
+  {
+   "tag": "eta=0",
+   "m1": 1000,
+   "m2": 100,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 0,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 7.665430072729445e-17,
+   "accel": {
+    "x": [
+     0.01158680480120628,
+     -0.11586804801206277
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.454545449164945,
+    0.8928571407811172
+   ],
+   "rowSum": [
+    0,
+    0
+   ],
+   "rowDev": 1,
+   "delta": 0,
+   "minEig": 100,
+   "cond": 10,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.9999999348958368,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    1.7763568394002505e-15,
+    0
+   ],
+   "rParAnalytic": 0.9999999348958368,
+   "relDiff": 0,
+   "rParAnalyticSoftDen": 0.9999999999999998,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958368
+  },
+  {
+   "tag": "units/L×1/M×1/D0-scaled",
+   "m1": 1000,
+   "m2": 100,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 1,
+   "accel": {
+    "x": [
+     -0.005997796428336326,
+     -0.04613604699332822
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.454545449164945,
+    0.8928571407811172
+   ],
+   "rowSum": [
+    0.454545449164945,
+    0.8928571407811172
+   ],
+   "rowDev": 0.545454550835055,
+   "delta": 801.3313737451687,
+   "minEig": 168.28401834660565,
+   "cond": 11.212751275753151,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.3149213000985552,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -10.611401127669147,
+    0
+   ],
+   "rParAnalytic": 0.31492130009855507,
+   "relDiff": 3.5253983273843674e-16,
+   "rParAnalyticSoftDen": 0.31492132060124406,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958368
+  },
+  {
+   "tag": "units/L×1/M×1/D0-fixed",
+   "m1": 1000,
+   "m2": 100,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 1,
+   "accel": {
+    "x": [
+     -0.005997796428336326,
+     -0.04613604699332822
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.454545449164945,
+    0.8928571407811172
+   ],
+   "rowSum": [
+    0.454545449164945,
+    0.8928571407811172
+   ],
+   "rowDev": 0.545454550835055,
+   "delta": 801.3313737451687,
+   "minEig": 168.28401834660565,
+   "cond": 11.212751275753151,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.3149213000985552,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -10.611401127669147,
+    0
+   ],
+   "rParAnalytic": 0.31492130009855507,
+   "relDiff": 3.5253983273843674e-16,
+   "rParAnalyticSoftDen": 0.31492132060124406,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958368
+  },
+  {
+   "tag": "units/L×10/M×1/D0-scaled",
+   "m1": 1000,
+   "m2": 100,
+   "r": 2400,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.5,
+    "p": 1,
+    "D0": 0.05,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 1,
+   "accel": {
+    "x": [
+     -0.000059977964283363253,
+     -0.00046136046993328214
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.454545449164945,
+    0.8928571407811172
+   ],
+   "rowSum": [
+    0.454545449164945,
+    0.8928571407811172
+   ],
+   "rowDev": 0.545454550835055,
+   "delta": 801.3313737451687,
+   "minEig": 168.28401834660565,
+   "cond": 11.212751275753151,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.3149213000985551,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -0.10611401127669146,
+    0
+   ],
+   "rParAnalytic": 0.3149213000985551,
+   "relDiff": 0,
+   "rParAnalyticSoftDen": 0.31492132060124417,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958368
+  },
+  {
+   "tag": "units/L×10/M×1/D0-fixed",
+   "m1": 1000,
+   "m2": 100,
+   "r": 2400,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.5,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 0.9403058773869959,
+   "accel": {
+    "x": [
+     0.0000032994022354138915,
+     -0.0010724421884446547
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.07692307538214996,
+    0.45454544916494505
+   ],
+   "rowSum": [
+    0.07692307538214996,
+    0.45454544916494505
+   ],
+   "rowDev": 0.9230769246178501,
+   "delta": 218.17692453538473,
+   "minEig": 97.84994422383491,
+   "cond": 12.374488349502936,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.8440177026612354,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -0.10394481660905158,
+    0
+   ],
+   "rParAnalytic": 0.8440177026612355,
+   "relDiff": 1.3154025337674323e-16,
+   "rParAnalyticSoftDen": 0.8440177576103054,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958368
+  },
+  {
+   "tag": "units/L×1/M×1000/D0-scaled",
+   "m1": 1000000,
+   "m2": 100000,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 500,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 1,
+   "accel": {
+    "x": [
+     -5.997796428336333,
+     -46.136046993328215
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.45454544916494505,
+    0.8928571407811172
+   ],
+   "rowSum": [
+    0.45454544916494505,
+    0.8928571407811172
+   ],
+   "rowDev": 0.545454550835055,
+   "delta": 801331.3737451687,
+   "minEig": 168284.01834660565,
+   "cond": 11.212751275753151,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.31492130009855507,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -10611401.127669154,
+    0
+   ],
+   "rParAnalytic": 0.31492130009855507,
+   "relDiff": 0,
+   "rParAnalyticSoftDen": 0.3149213206012441,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958368
+  },
+  {
+   "tag": "units/L×1/M×1000/D0-fixed",
+   "m1": 1000000,
+   "m2": 100000,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 0.006553871632447541,
+   "accel": {
+    "x": [
+     0.9481175687759427,
+     -9.606272372134985
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.9988014382480919,
+    0.9998800143956686
+   ],
+   "rowSum": [
+    0.9988014382480919,
+    0.9998800143956686
+   ],
+   "rowDev": 0.0011985617519081337,
+   "delta": 1099998.5620100724,
+   "minEig": 453620.0031119187,
+   "cond": 5.86865859941518,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.08280884580549613,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -12509.668437555782,
+    0
+   ],
+   "rParAnalytic": 0.08280884580549616,
+   "relDiff": 3.3517645784874264e-16,
+   "rParAnalyticSoftDen": 0.08280885119669712,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958368
+  },
+  {
+   "tag": "units/L×10/M×1000/D0-scaled",
+   "m1": 1000000,
+   "m2": 100000,
+   "r": 2400,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.5,
+    "p": 1,
+    "D0": 50,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 1,
+   "accel": {
+    "x": [
+     -0.05997796428336338,
+     -0.46136046993328234
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.454545449164945,
+    0.8928571407811171
+   ],
+   "rowSum": [
+    0.454545449164945,
+    0.8928571407811171
+   ],
+   "rowDev": 0.545454550835055,
+   "delta": 801331.3737451687,
+   "minEig": 168284.01834660553,
+   "cond": 11.212751275753158,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.31492130009855523,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -106114.01127669163,
+    0
+   ],
+   "rParAnalytic": 0.31492130009855523,
+   "relDiff": 0,
+   "rParAnalyticSoftDen": 0.3149213206012443,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958369
+  },
+  {
+   "tag": "units/L×10/M×1000/D0-fixed",
+   "m1": 1000000,
+   "m2": 100000,
+   "r": 2400,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.5,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "momentumImbalance": 0.06737526264218761,
+   "accel": {
+    "x": [
+     0.008633543070043555,
+     -0.0988096276325217
+    ],
+    "y": [
+     0,
+     0
+    ]
+   },
+   "chi": [
+    0.9881422922358412,
+    0.9988014382480919
+   ],
+   "rowSum": [
+    0.9881422922358412,
+    0.9988014382480919
+   ],
+   "rowDev": 0.011857707764158842,
+   "delta": 1099859.2511115526,
+   "minEig": 448333.80015851994,
+   "cond": 5.901665574819808,
+   "structural": false,
+   "symRel": 0,
+   "rParImpl": 0.084298997908679,
+   "rPerpImpl": 0,
+   "sumMassAccel": [
+    -1247.4196932086143,
+    0
+   ],
+   "rParAnalytic": 0.08429899790867897,
+   "relDiff": 3.2925154870401315e-16,
+   "rParAnalyticSoftDen": 0.08429900339689503,
+   "softeningDenominatorRatio": 1.0000000651041674,
+   "muOverM": 0.08264462809917356,
+   "newtonRatio": 0.9999999348958369
+  }
+ ],
+ "pageErrors": []
+}

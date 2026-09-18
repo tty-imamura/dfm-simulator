@@ -1,5 +1,35 @@
 {
- "when": "2026-09-18T11:12:58.172Z",
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第271便c(来歴は第272便e で共通化)",
+  "target": "beta/index.html",
+  "targetSha256": "69d78fa3195e883be9fa14473fa590f98304142e5b466fb2a80e4f70f418d44d",
+  "generatedAt": "2026-09-18T18:49:47.150Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4093334,
+    "sha256": "69d78fa3195e883be9fa14473fa590f98304142e5b466fb2a80e4f70f418d44d",
+    "mtime": "2026-09-18T17:16:37.683Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w271c-qsplit.mjs",
+    "bytes": 21889,
+    "sha256": "7801c0f9154aa60420ee964f74502302248280f9a2a27a922a37baab5476aeb4",
+    "mtime": "2026-09-18T17:14:55.947Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-18T17:14:55.948Z"
+   }
+  ],
+  "codeSha256": "23d0fc196801e13e1cfdf437d4df6fea6437fd16cfa82cf9a921de0792c02ce9"
+ },
+ "when": "2026-09-18T18:49:47.151Z",
  "wave": "第271便c(第61報・統括の検証項目 R2/R4/R5・AF17)",
  "target": "beta/index.html",
  "clamp": {

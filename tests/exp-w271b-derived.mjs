@@ -7,7 +7,8 @@
 //
 // ■ 規約(**不確かさを作らない**)
 //   ・a は `a^3 = G M Pb^2 / (4 pi^2)`。入力は**引用した 2 行の record_id** から読む
-//     (`derived_from=<Pb の record_id>;<質量行の record_id>` —— `;` 区切りの**並び**である)。
+//     (`derived_from=<Pb の record_id>|<質量行の record_id>` —— **`|` 区切りの並び**である。
+//      第272便e/AG19 で `;` から改めた。`;` は鍵の区切り専用で、旧綴りは 1 件目で切れていた)。
 //   ・定数は `(GM)_sun = 1.3271244e20 m^3 s^-2`(IAU 2015 Resolution B3・nominal)。質量行の kg 値は
 //     **同じ (GM)_sun と CODATA の G** で換算されているので、`M[kg]*G` と `M[M_sun]*(GM)_sun` は
 //     同じ積になる。**committed solar mass 1.9885e30 kg とは混ぜない**(本器が 2 経路を突き合わせる)。
@@ -22,7 +23,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadObsCsv } from './lib-w270b-obscsv.mjs';
+import { loadObsCsv, listKey, recordIdItems, legacySemicolonList } from './lib-w270b-obscsv.mjs';
 import { readSigmaMark } from './lib-w264d-sigmamark.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -53,12 +54,15 @@ if (!drow) bad.push('導出行 ' + DERIVED_ID + ' が CSV に無い');
 if (!prow) bad.push('従前の導出行 ' + PREVIOUS_ID + ' が CSV に無い');
 
 // ---------------------------------------------------------------- `derived_from` を**並び**として読む
-// **既定の鍵読み(`([^;]*)`)では読めない** —— `;` が値の区切りだからである。並びを読む鍵は
-// 専用の読取器を持つ(これが `derived_from` を `;` 区切りにしたことの代償である)。
-const rawFrom = drow ? (/(?:^|[^A-Za-z0-9_])derived_from=([A-Za-z0-9;_-]+)/.exec(drow.note) || [])[1] : null;
-const fromIds = String(rawFrom || '').split(';').map((s) => s.trim()).filter(Boolean);
-// 既定の鍵読みだと何が起きるかも実測して残す(**規約の穴を数で示す**)
+// 第272便e(AG19): 区切りを **`|`** に改めた(`;` は鍵の区切り専用)。これで**既定の鍵読みで
+// 並びが最後まで読める** —— 第271便b が記録した「規約の穴」はこの行で閉じた。
+// 読取は `tests/lib-w270b-obscsv.mjs` の `listKey()` 1 本にした(器ごとの自前正規表現をやめる)。
+const rawFrom = drow ? listKey(drow.note, 'derived_from').join('|') : null;
+const fromIds = drow ? recordIdItems(drow.note, 'derived_from') : [];
+// 既定の鍵読みが**並びを最後まで返す**ことを実測で残す(旧綴りでは 1 件目で切れていた)。
 const naiveFrom = drow ? tag(drow.note, 'derived_from') : null;
+const legacyForm = drow ? legacySemicolonList(drow.note, 'derived_from') : null;
+if (legacyForm) bad.push('derived_from が旧綴り(`;` 区切り)のまま: ' + JSON.stringify(legacyForm));
 if (fromIds.length !== 2) bad.push('derived_from が 2 件の record_id になっていない(' + rawFrom + ')');
 const pbRow = fromIds[0] ? byId(fromIds[0]) : null;
 const mRow = fromIds[1] ? byId(fromIds[1]) : null;
@@ -116,15 +120,18 @@ if (!prevReproduced) bad.push('行 147 が同じ式で再現できない');
 
 const out = { when: new Date().toISOString(), wave: '第271便b(2026-09-18・第61報・AF14)',
   base: 'main ef2cd45',
-  rule: ['a は `a^3 = G M Pb^2 / (4 pi^2)`。入力は `derived_from=<Pb の record_id>;<質量行>` の**並び**から読む',
+  rule: ['a は `a^3 = G M Pb^2 / (4 pi^2)`。入力は `derived_from=<Pb の record_id>|<質量行>` の**並び**から読む'
+    + '(第272便e/AG19 で区切りを `|` に —— `;` は鍵の区切り専用)',
     '定数は `(GM)_sun = 1.3271244e20 m^3 s^-2`(IAU 2015 Resolution B3・nominal)。'
       + '質量行の kg 値は同じ (GM)_sun と CODATA の G で換算されているので 2 経路は同じ積になる',
     '**committed solar mass 1.9885e30 kg とは混ぜない**(混ぜた場合の値も本器が出す)',
     '**共分散が印字されていないので a の 1σ は作らない**(sigma 欄は空 —— 空は 0 ではない)',
     '**行 147 は 1 文字も動かさない**。第一致行も 147 のままで、プリセット入力は変わらない'],
   derivedFrom: { raw: rawFrom, ids: fromIds, naiveSingleValueRead: naiveFrom,
-    note: '`derived_from` は `;` 区切りの**並び**である。既定の鍵読み(`<鍵>=([^;]*)`)は '
-      + '1 件目で切れる(実測: "' + naiveFrom + '")—— 並びの鍵は専用の読取器で読む。' },
+    legacySemicolonForm: legacyForm,
+    note: '第272便e(AG19)で `derived_from` の区切りを **`|`** にした(`;` は鍵の区切り専用)。'
+      + '既定の鍵読み(`<鍵>=([^;]*)`)で**並びが最後まで返る**(実測: "' + naiveFrom + '")。'
+      + '**値・単位・出典・σ・印は 1 文字も動いていない**(動いたのは区切り 1 文字)。' },
   inputs: { pb: { record_id: fromIds[0] || null, ln: pbRow ? pbRow.ln : null,
       value: Pb, unit: pbRow ? pbRow.unit : null, sigma: pbRow ? pbRow.sigma : null,
       source: pbRow ? pbRow.source : null },

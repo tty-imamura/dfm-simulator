@@ -264,6 +264,10 @@ const out = {
   meta: measurementStamp({
     codeVersion: 'tests/exp-w269c-sparc.mjs 第269便c',
     declarationVersion: 'compare-v1 / 第59報「完成=比較サンプル v1」',
+    // 第272便e(AG11): 来歴を共通の形で。
+    root: ROOT, wave: '第269便c(来歴は第272便e で共通化)', target: TARGET,
+    code: ['tests/exp-w269c-sparc.mjs', 'tests/lib-w269c-compare.mjs',
+      'tests/lib-w270b-obscsv.mjs', 'tests/lib-w272e-provenance.mjs'],
     inputs: [fileStamp(path.join(ROOT, TARGET), TARGET), fileStamp(CSV, CSV_REL),
       fileStamp(path.join(ROOT, 'tests', 'lib-w269c-compare.mjs'), 'tests/lib-w269c-compare.mjs')] }),
   contract: {

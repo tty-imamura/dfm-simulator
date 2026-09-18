@@ -46,6 +46,8 @@ import fs from 'node:fs';
 import crypto from 'node:crypto';
 // 第270便b(AE2): 観測 CSV の**ヘッダ名読み**(列位置で読まない)。
 import { loadObsCsv as loadObsCsvByHeader } from './lib-w270b-obscsv.mjs';
+// 第272便e(AG11): 来歴の欄(targetSha256・codeSha256・generatedAt・wave)は 1 本の器で作る。
+import { provenanceMeta } from './lib-w272e-provenance.mjs';
 
 export const STATES = ['comparable', 'inside-interval', 'outside-interval',
   'numerically-unresolved', 'mapping-unresolved', 'not-measurable', 'not-applicable'];
@@ -271,9 +273,16 @@ export function fileStamp(abs, rel) {
   } catch { return { file: rel || abs, missing: true }; }
 }
 
+// 第272便e(AG11): **来歴の欄を同じ形で足す**(既存の欄は 1 つも消していない ——
+//   `measuredAt`・`codeVersion`・`declarationVersion`・`inputs`・`vocabulary`・`contract` はそのまま)。
+//   呼び側が `root`/`wave`/`code`(器と lib の相対パス)を渡すと
+//   `provenanceVersion`・`target`・`targetSha256`・`generatedAt`・`code`・`codeSha256` が載る。
+//   **渡さなかったときは載せない**(古い呼び側を壊さない)。
 export function measurementStamp(o) {
   const s = o || {};
-  return { measuredAt: new Date().toISOString(),
+  const prov = (s.root && s.wave) ? provenanceMeta({ root: s.root, wave: s.wave,
+    target: s.target, code: s.code || [], inputs: [] }) : null;
+  const base = { measuredAt: new Date().toISOString(),
     codeVersion: s.codeVersion === undefined ? null : s.codeVersion,
     declarationVersion: s.declarationVersion === undefined ? null : s.declarationVersion,
     inputs: Array.isArray(s.inputs) ? s.inputs : [],
@@ -281,6 +290,11 @@ export function measurementStamp(o) {
     contract: [ASYMMETRIC_NOTE, MARGINAL_AND_NOTE, NO_PVALUE_NOTE,
       '**観測量が得られないときは `not-measurable`(値 null)** —— 0 や最後の値で補わない。',
       '**「完成」は比較サンプル v1 である。観測一致は別段階で、現時点で未達である。**'] };
+  if (!prov) return base;
+  // 来歴は**先頭**に置く(読む人が最初に「どの html か」を見る)。`inputs` は呼び側の刻印を使う。
+  return Object.assign({ provenanceVersion: prov.provenanceVersion, wave: prov.wave,
+    target: prov.target, targetSha256: prov.targetSha256, generatedAt: prov.generatedAt,
+    code: prov.code, codeSha256: prov.codeSha256 }, base);
 }
 
 // ---------------------------------------------------------------- CSV 読み(共通)

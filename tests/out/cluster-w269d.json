@@ -1,15 +1,78 @@
 {
  "meta": {
-  "wave": "第269便d(第59報 W4)— 星団 47 Tuc **比較サンプル v1a**(内部診断の完成)",
-  "when": "2026-09-18T11:07:38.309Z",
-  "codeCommit": "186289393f54",
+  "provenanceVersion": "w272e-1",
+  "wave": "第269便d(来歴は第272便e で共通化)",
   "target": "beta/index.html",
+  "targetSha256": "69d78fa3195e883be9fa14473fa590f98304142e5b466fb2a80e4f70f418d44d",
+  "generatedAt": "2026-09-18T20:15:08.336Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4067091,
-    "mtime": "2026-09-18T11:04:14.550Z",
-    "sha256_16": "8cc68428c164dc51"
+    "bytes": 4093334,
+    "sha256": "69d78fa3195e883be9fa14473fa590f98304142e5b466fb2a80e4f70f418d44d",
+    "mtime": "2026-09-18T17:16:37.683Z"
+   },
+   {
+    "file": "tests/lib-w265a-analogy.mjs",
+    "bytes": 21069,
+    "sha256": "7a01c2081dd68c90139820c7aeefaf452b35a770e944c6e8c6e5ea1443c4a384",
+    "mtime": "2026-09-17T16:20:05.144Z"
+   },
+   {
+    "file": "tests/lib-w269d-state.mjs",
+    "bytes": 20068,
+    "sha256": "10bf14263bd3852a4ebf0dbada52ce3b414976c28d44b4272e75710bcc9e1126",
+    "mtime": "2026-09-18T01:06:02.965Z"
+   },
+   {
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "bytes": 94818,
+    "sha256": "6fe0e68c2f539813d5339962dead965d2d7ef7f5ba6709deef5fceb22ec18461",
+    "mtime": "2026-09-18T09:19:35.127Z"
+   },
+   {
+    "file": "tests/out/analogy-w265a.json",
+    "bytes": 76360,
+    "sha256": "f18a43cd746df5691a9f589f5a98a67e1967f82a26068a22a3d1a445198c9341",
+    "mtime": "2026-09-17T16:20:18.326Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w269d-cluster.mjs",
+    "bytes": 50393,
+    "sha256": "cd0dcdef24bddee86e74db83f8c6ea5701ce6ce56aa9e202cc094eadb8c94bf0",
+    "mtime": "2026-09-18T20:14:52.706Z"
+   },
+   {
+    "file": "tests/lib-w265a-analogy.mjs",
+    "bytes": 21069,
+    "sha256": "7a01c2081dd68c90139820c7aeefaf452b35a770e944c6e8c6e5ea1443c4a384",
+    "mtime": "2026-09-17T16:20:05.144Z"
+   },
+   {
+    "file": "tests/lib-w269d-state.mjs",
+    "bytes": 20068,
+    "sha256": "10bf14263bd3852a4ebf0dbada52ce3b414976c28d44b4272e75710bcc9e1126",
+    "mtime": "2026-09-18T01:06:02.965Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-18T17:14:55.948Z"
+   }
+  ],
+  "codeSha256": "761266aec4135bdf50250c3ead3fff8bd64e03add0c2b2e18699377dfd8960c6",
+  "waveFull": "第269便d(第59報 W4)— 星団 47 Tuc **比較サンプル v1a**(内部診断の完成)",
+  "when": "2026-09-18T20:15:08.336Z",
+  "codeCommit": "f1ef721f8e06",
+  "legacyInputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4093334,
+    "mtime": "2026-09-18T17:16:37.683Z",
+    "sha256_16": "69d78fa3195e883b"
    },
    {
     "file": "tests/lib-w265a-analogy.mjs",
@@ -71,7 +134,7 @@
    "3D の半質量半径を測った"
   ],
   "touched": "**🍇🫐 の JSON・入力は 1 bit も書き換えていない**(新版 GGCD は採らない)。新プリセットは足していない。エンジンは 3D 化していない。`S._core` には 1 命令も足していない。",
-  "spentSec": 59.1
+  "spentSec": 58.7
  },
  "states": [
   "comparable",
@@ -17447,7 +17510,7 @@
   ]
  },
  "parameterAuditRestatement": {
-  "scope": "**器の出力だけ**(`beta/index.html` は 1 bit も触っていない)。html の `parameterAudit` を直すかどうかは**決断事項**である(第270便e が「残った不整合」として記録した箇所 —— 直すなら `presetSig` への影響と `behavior.tuc47` の固定値を同じ便で見る)。",
+  "scope": "第271便d は**器の出力だけ**で言い換え、第272便d(AG23)が同じ文字列を html の `parameterAudit` へ移した(`presetSig` は `parameterAudit` を見ない・`behavior.tuc47` の力学値は不変・数値は 1 つも変えていない)。",
   "state": {
    "id": "tuc47DFM.parameterAudit.sigmaCorrespondence",
    "sample": "🫐 tuc47DFM",
@@ -17484,8 +17547,8 @@
    },
    "legacyKept": true,
    "legacyText": {
-    "fitted": "なし(C=1 のゼロフィット — σ hold-out ×1.70 不成立は正直な記録)",
-    "derived": "σ hold-out: 実測 2.107(21.1 km/s)vs 観測 1.24(12.4 km/s)— ×1.70 不成立(旧 random 初期化 2.446=×1.97)"
+    "fitted": "なし(C=1 のゼロフィット)—— **fit ノブが 0 であることが記録**であり、σ の比 1.70 は fit の結果ではない。**旧表現「σ hold-out ×1.70 不成立」は履歴**(この欄の言い換え前の文)。",
+    "derived": null
    }
   },
   "rendered": {
@@ -17506,14 +17569,22 @@
     ]
    }
   },
-  "legacyFoundInPreset": {
+  "presetCarriesRestatement": {
    "fitted": true,
    "derived": true,
    "fittedIndex": 0,
    "derivedIndex": 4,
-   "note": "**言い換え先が実在の文を指していることの機械照合**である(preset の文が変われば false になり、この欄の更新が必要だと分かる)。"
+   "note": "**preset の文が言い換え文(rendered.ja)そのものであることの機械照合**(html 側の文が変われば false になり、この欄の更新が必要だと分かる)。"
   },
-  "htmlUntouched": true,
+  "legacyFoundInPreset": {
+   "fitted": true,
+   "derived": false,
+   "fittedIndex": 0,
+   "derivedIndex": -1,
+   "note": "旧表現の実在(履歴としての引用)。第272便d 以後は fitted 側に引用として残り、derived 側は言い換え文に置き換わったので false が正常である。"
+  },
+  "htmlRestatedBy": "第272便d(AG23)",
+  "htmlUntouched": false,
   "doNotSay": [
    "σ hold-out が成立した",
    "σ hold-out の不成立が確定した",

@@ -1065,6 +1065,36 @@ ja: {
   "bdgCF_calibration-recheckTip":"宣言時の署名(presetSig)や単位が変わったので、較正の現在地を宣言し直す必要がある。**自動で立つ**(宣言のハッシュと現在の署名を突き合わせる)。**否定ではない**(第261便c)",
   cfScope:(s)=>"(範囲: "+s+")",
   cfTipTail:"**模型差(連続極限でも残る差)はこのチップの赤にしない** — このチップに赤は無い。判定の 4 値(合/量限定合/否/保留)は docs/CALIBRATION_VERDICT_v1.44.md の台帳が正本である。",
+  // ===== 第272便d(第62報「サンプル整理」・原仮定者の指示): **質量の由来チップ**(宣言専用) =====
+  // **自動判定はしない**(massCalibration が無い・f=1・fidelity:"real" のどれも認定の根拠にしない)。
+  // 短い表示は「観測解の質量を入力」——「真の質量」ではない、という読み口を表示名で先に立てる。
+  bdgMB_head:"質量の由来",
+  "bdgMB_observed-solution":"観測解の質量を入力",
+  "bdgMB_observed-solutionTip":"bodies の質量が、**公表された観測解から換算した値**であることの**宣言**である(side table `MASS_BASIS` — `presetSig` はこの表を見ないので署名・保存 JSON・力学は 1 bit も変わらない)。**「真の質量」ではない**: 観測解は推定モデル(ケプラー軌道・GR タイミング・波形推定 など)を通した量で、モデルが変われば値が変わる。由来(観測記録の record_id / 公表解の solution_id / 推定モデル / 換算)はこの下に出す。**この宣言は較正の合否とは無関係**である(第272便d)",
+  "bdgMB_dfm-calibrated":(f)=>"DFM 質量補正 f="+f,
+  "bdgMB_dfm-calibratedTip":"bodies の質量が、観測解の質量に**この模型の質量補正 f を掛けた値**であることの**宣言**である(f は当該サンプルの `massCalibration` 台帳の値をそのまま読む — ここで新しい数値は作らない)。**実在質量の主張ではない**(条件つき較正)。元になった観測記録・公表解・推定モデル・換算はこの下に出す。宣言専用で `presetSig` の外(第272便d)",
+  bdgMB_mixed:"観測解と模型値の混在",
+  bdgMB_mixedTip:"同じサンプルの中に、**観測解から換算した質量**と、**観測解を使っていない質量**(下限へ落とした粒・proxy・設計上の値)が混在している、という**宣言**である。どの粒がどちらかは下の内訳で読む。宣言専用で `presetSig` の外(第272便d)",
+  bdgMB_srcRecords:"観測記録",
+  bdgMB_srcSolution:"公表解",
+  bdgMB_srcModel:"推定モデル",
+  bdgMB_srcConv:"換算",
+  bdgMB_none:"—",
+  // ===== 第272便d: **空間メッシュ/複素決定力場チップ**(**宣言と作動状態を分ける**) =====
+  // 画面の選択値だけを根拠にしない —— 実行情報(S.hasGeoToy / S.geoToyDeny / S.geoToyStop /
+  // S.geoToyOverlay / 閉包の収束)を読んでから状態を決める。**geoPN=3 だけでは「複素決定力場」と出さない**
+  bdgMesh_complex:"複素決定力場・実験",
+  bdgMesh_law:(v)=>"空間メッシュ: "+v+"・実験",
+  bdgMesh_v2:"空間メッシュ: v2・実験",
+  bdgMesh_declared:"空間メッシュ: 宣言のみ(測地線トイは未選択)",
+  bdgMesh_stopped:(r)=>"メッシュ未作動: "+r,
+  bdgMesh_dragOverlay:" +引きずり重畳",
+  bdgMeshStop_denied:"入場条件を満たさない(kFrame>0 か、メッシュの慣性/織り込みと重なる)",
+  bdgMeshStop_kFrame:"kFrame>0 と重なる(トイの入場条件は kFrame=0)",
+  bdgMeshStop_meshChannel:"空間メッシュの慣性/織り込みと重なる(重複適用は禁止)",
+  bdgMeshStop_closureUnconverged:"源の閉包が収束しない",
+  bdgMesh_closureUnconverged:"源の閉包が未収束の步がある",
+  bdgMeshTip:"**空間メッシュの宣言と、いま走っている状態**を分けて出すチップである。`physics.spaceMesh.lawVersion` が **complex** で geoPN=3 が実際に作動しているときだけ「複素決定力場」と書く —— **geoPN=3 であることだけを根拠に「複素決定力場」とは書かない**(lawVersion は scalar / local / complex の 3 つがあり、法則版 `law:\"mesh-v2\"` も別にある。選択と作動も別である)。入場条件が立たない步では値を 3 のまま保って力学は geoPN=2 と同じで走るので、その場合は「メッシュ未作動: 理由」と出す。**これは表示だけの読み口**で、較正クラスの受理条件は 1 つも変えていない(第272便d)",
   // 第82便B: E水準タグ(創発の水準の宣言 — sampleClass と同方針の宣言専用メタ・自動判定しない)
   bdgE_E0:"E0 規定", bdgE_E0Tip:"創発の主張をしないサンプル(構造・運動が初期条件や外部規定でほぼ決まっている)。E水準は宣言専用のメタで、物理には一切影響しない(第82便)",
   bdgE_E1:"E1 外部駆動下の自己組織化", bdgE_E1Tip:"外部から駆動(伝熱壁・規定レール・pinned など)されている系で、局所則から構造・秩序が自発的に生じる。E水準は宣言専用のメタで、物理には一切影響しない(第82便)",
@@ -1442,9 +1472,13 @@ ja: {
     "光の物語":"重力レンズと光子捕捉・回る星のレンズ・連星重力レンズ・暗黒雲の赤化など、光の見え方が主題。",
     "天体の物語":"物語・トイ系。実単位で現実へ較正したサンプルは「現実との照合・太陽系/太陽系外」へ移してある。",
     "現実との照合・太陽系":"スケール換算込みで数値を現実の太陽系天体へ較正したサンプルと、その較正を監査する対照群。",
-    "現実との照合・太陽系外":"太陽系の外の実在系(恒星連星・中性子星連星)へ較正したサンプル。観測値再現版(観測安定則)と DFM 版(kF1 質量較正)の対で構成する(第220便で「現実との照合」から分割 — 今後の現実較正の増加に備えた区分)。",
+    "現実との照合・太陽系外":"太陽系の外の実在系(恒星連星・中性子星連星)へ較正したサンプル。観測値再現版(観測安定則)と DFM 版(kF1 質量較正)の対で構成する(第220便で「現実との照合」から分割 — 今後の現実較正の増加に備えた区分)。第272便d で、実在天体の**模型**として置いてある 11 本を「実在天体のアナロジー」へ移した。",
+    // 第272便d(第62報「実在天体アナロジーサンプルを新グループへ」): **表示・分類だけの新グループ**。
+    // 「観測と一致した」という意味は持たない —— 比較器の状態(comparable/inside/…)で並べるだけである
+    "実在天体のアナロジー":"実在天体の**模型**を、比較 v1 の状態(comparable / inside / not-applicable など)で観測と並べるサンプル群。**観測一致版ではない**(この群に入っていることは合否を意味しない)。較正クラスの母集団・比較器の導線・旧較正の履歴はそのまま残している。",
     "銀河の物語":"銀河の回転曲線・銀河合体・自己重力雲の崩壊など、銀河スケールの構造が主題。",
-    "ローターの物語":"ダークローター(高スピンで自光を掻き出す天体)を中心に据えた系 — 暗い中心の銀河・ローター星雲・自己形成・星の種など、スピンが作る暗さと構造が主題。実在のダークマターについての主張ではない。",
+    // 第272便d(第62報「ダークローターは『減光』の検証用という位置付けにとどめる」): 群の達成条件を書く
+    "ローターの物語":"**自転状態による減光を確認する実験群**。表示輝度・脱出光・吸収・放射エネルギーを比較する。**銀河の不足質量や観測ブラックホールの再現を、この群の達成条件に含めない**(暗さを「隠れた質量の証拠」として読まない — 暗さと質量は別々に測る)。実在のダークマターについての主張ではない。",
     "箱宇宙":"箱そのものを宇宙に見立てた系(並進・回転・膨張・呼吸・光の赤方偏移)。正本は docs/BOX_UNIVERSE.md。",
     "AI生成":"AI追加で作ったサンプル(この端末のローカル保存)。",
     "保存一覧":"「保存」で残した状態(この端末のローカル保存)。"},
@@ -1818,6 +1852,32 @@ en: {
   cfScope:(s)=>"(scope: "+s+")",
   cfTipTail:"A MODEL DIFFERENCE (a residual that survives the continuum limit) IS NEVER PAINTED RED HERE - this chip has no red. The four-valued verdict (pass / partial pass / fails / held) lives in docs/CALIBRATION_VERDICT_v1.44.md.",
   // Dispatch 82B: emergence-level tag (a declaration-only tag, same policy as sampleClass — never auto-detected)
+  // ===== Wave 272d (report 62, sample tidy-up): WHERE THE MASSES CAME FROM - a declaration-only chip =====
+  bdgMB_head:"Where the masses came from",
+  "bdgMB_observed-solution":"Masses entered from an observed solution",
+  "bdgMB_observed-solutionTip":"A DECLARATION that the bodies' masses were converted from A PUBLISHED OBSERVED SOLUTION (the side table MASS_BASIS; presetSig never reads it, so the signature, the saved JSON and the dynamics do not move by one bit). THEY ARE NOT \"THE TRUE MASSES\": an observed solution is a quantity read through an inference model (a Keplerian orbit, GR timing, waveform inference, ...) and it changes when the model changes. The provenance (observation record_id, published solution_id, inference model, conversion) is listed below. THIS DECLARATION SAYS NOTHING ABOUT WHETHER A CALIBRATION PASSES (wave 272d)",
+  "bdgMB_dfm-calibrated":(f)=>"DFM mass correction f=" + f,
+  "bdgMB_dfm-calibratedTip":"A DECLARATION that the bodies' masses are the observed-solution masses MULTIPLIED BY THIS MODEL'S MASS CORRECTION f (f is read straight from that sample's own massCalibration ledger - no new number is made here). NOT A CLAIM ABOUT REAL MASSES (a conditional calibration). The underlying records, published solution, inference model and conversion are listed below. Declaration only, outside presetSig (wave 272d)",
+  bdgMB_mixed:"Observed-solution and model values mixed",
+  bdgMB_mixedTip:"A DECLARATION that this sample mixes masses converted from an observed solution with masses that DO NOT come from one (grains demoted to a floor, proxies, design values). The breakdown below says which is which. Declaration only, outside presetSig (wave 272d)",
+  bdgMB_srcRecords:"Records",
+  bdgMB_srcSolution:"Published solution",
+  bdgMB_srcModel:"Inference model",
+  bdgMB_srcConv:"Conversion",
+  bdgMB_none:"-",
+  // ===== Wave 272d: the SPACE MESH / COMPLEX DETERMINACY FIELD chip - declaration and running state apart =====
+  bdgMesh_complex:"Complex determinacy field - experimental",
+  bdgMesh_law:(v)=>"Space mesh: " + v + " - experimental",
+  bdgMesh_v2:"Space mesh: v2 - experimental",
+  bdgMesh_declared:"Space mesh: declared only (the geodesic toy is not selected)",
+  bdgMesh_stopped:(r)=>"Mesh not acting: " + r,
+  bdgMesh_dragOverlay:" + dragging overlaid",
+  bdgMeshStop_denied:"the entry conditions do not hold (kFrame>0, or it overlaps the mesh inertia/weave)",
+  bdgMeshStop_kFrame:"it overlaps kFrame>0 (the toy's entry condition is kFrame=0)",
+  bdgMeshStop_meshChannel:"it overlaps the space-mesh inertia/weave (double application is forbidden)",
+  bdgMeshStop_closureUnconverged:"the source closure does not converge",
+  bdgMesh_closureUnconverged:"some steps left the source closure unconverged",
+  bdgMeshTip:"This chip keeps THE DECLARATION and THE STATE ACTUALLY RUNNING apart. It says \"complex determinacy field\" only when physics.spaceMesh.lawVersion is COMPLEX and geoPN=3 is really acting - GEOPN=3 ON ITS OWN IS NEVER A REASON TO PRINT \"COMPLEX DETERMINACY FIELD\" (lawVersion has three values, scalar / local / complex, the law version law:\"mesh-v2\" is a separate thing again, and selecting is not the same as acting). On a step where the entry conditions do not hold, the value stays 3 while the dynamics run exactly as geoPN=2, and the chip reads \"Mesh not acting: <reason>\". THIS IS A READ-OUT ONLY: not one acceptance condition of the calibration class was changed (wave 272d)",
   bdgE_E0:"E0 Prescribed", bdgE_E0Tip:"A sample that makes no emergence claim: its structure and motion are essentially fixed by the initial conditions or by external prescription. The E level is declaration-only metadata and never touches the physics (dispatch 82)",
   bdgE_E1:"E1 Driven self-organization", bdgE_E1Tip:"Structure/order arises spontaneously from local rules, but the system is externally driven (thermal walls, prescribed rails, pinned bodies…). The E level is declaration-only metadata and never touches the physics (dispatch 82)",
   bdgE_E2:"E2 Closed-system emergence", bdgE_E2Tip:"Structure is generated from local rules alone with no external drive (closed system) — the target shape is not embedded in the initial conditions. The E level is declaration-only metadata and never touches the physics (dispatch 82)",
@@ -2186,9 +2246,10 @@ en: {
     "光の物語":"The subject is how light appears: gravitational lensing and photon capture, the lens of a spinning star, binary lensing, reddening by a dark cloud.",
     "天体の物語":"Narrative / toy systems. Samples calibrated to reality in real units live under \"Reality Checks — Solar System / Beyond the Solar System\".",
     "現実との照合・太陽系":"Samples whose numbers are calibrated — unit conversion included — against real solar-system counterparts, plus the controls that audit that calibration.",
-    "現実との照合・太陽系外":"Samples calibrated against real systems beyond the solar system (stellar binaries and the double neutron-star binary). Built as pairs: an observation build (the observation-stability rule) and a DFM build (the kF1 mass calibration). Split out of \"Reality Checks\" in wave 220, anticipating more reality calibrations.",
+    "現実との照合・太陽系外":"Samples calibrated against real systems beyond the solar system (stellar binaries and the double neutron-star binary). Built as pairs: an observation build (the observation-stability rule) and a DFM build (the kF1 mass calibration). Split out of \"Reality Checks\" in wave 220, anticipating more reality calibrations. Wave 272d moved the 11 samples that stand as MODELS of real objects to \"Real-object Analogies\".",
+    "実在天体のアナロジー":"MODELS of real astronomical objects, placed beside the observations through the v1 comparison state (comparable / inside / not-applicable and so on). THEY ARE NOT OBSERVATION-MATCHING BUILDS — membership of this group says nothing about pass or fail. The calibration-class population, the comparison links and the older calibration history are all kept unchanged.",
     "銀河の物語":"The subject is structure on galactic scales: rotation curves, galaxy mergers, collapse of self-gravitating clouds.",
-    "ローターの物語":"Systems built around dark rotors (bodies whose high spin sweeps out their own light): galaxies with a dark centre, rotor nebulae, self-assembly from seeds, star seeds — the subject is the darkness and the structure that spin produces. Not a claim about real dark matter.",
+    "ローターの物語":"EXPERIMENTS THAT CHECK DIMMING BY ROTATION STATE: they compare displayed brightness, escaping light, absorption and radiated energy. REPRODUCING A GALAXY'S MISSING MASS OR AN OBSERVED BLACK HOLE IS NOT PART OF THIS GROUP'S SUCCESS CRITERIA — darkness is never read as evidence of hidden mass; darkness and mass are measured separately. Not a claim about real dark matter.",
     "箱宇宙":"Systems in which the box itself stands for a universe (translation, rotation, expansion, breathing, redshift of light). The reference document is docs/BOX_UNIVERSE.md.",
     "AI生成":"Samples created with the AI-add tab (stored locally on this device).",
     "保存一覧":"States kept with \"Save\" (stored locally on this device)."},
@@ -2383,7 +2444,7 @@ en: {
   // 第149便(原仮定者裁定): グループ名を「現実較正」→「現実との照合」(en: Reality Calibration →
   // Reality Checks)へ改称。分類チップ(sampleClass calibration)と現実準拠チップ「📏 現実較正」は不変
   // 第151便(原仮定者指示): 新グループ「ローターの物語」(en: Rotor Stories)を銀河の物語の直後へ新設
-  groups:{"空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河の物語":"Galaxy Stories","ローターの物語":"Rotor Stories","光の物語":"Light Stories","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","現実との照合・太陽系":"Reality Checks — Solar System","現実との照合・太陽系外":"Reality Checks — Beyond the Solar System","法則の実験室":"Law Lab","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
+  groups:{"空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河の物語":"Galaxy Stories","ローターの物語":"Rotor Stories","光の物語":"Light Stories","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","現実との照合・太陽系":"Reality Checks — Solar System","現実との照合・太陽系外":"Reality Checks — Beyond the Solar System","実在天体のアナロジー":"Real-object Analogies","シミュレーション":"Simulation","現実との照合":"Reality Checks","法則の実験室":"Law Lab","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
   params:{dispMag:"Particle display magnification",   // 第254便c: 英訳が欠けていた(ja「粒子表示倍率」のまま出ていた)
     G:"Gravity G", D0:"Background determinacy D₀", kFrame:"Frame dragging kFrame",
     q:"Drag falloff q", kRep:"Spin repulsion kRep", muF:"Friction→spin muF",
@@ -2707,6 +2768,131 @@ function calibrationCompletion(p){
     sigChanged:b.sigChanged,
     note:"**判定の 4 値(合/量限定合/否/保留)とは別の軸である。**「収束確認・未完」「測定再検証」は"
       +"否定ではない(まだ言えない)。**模型差はこのチップの赤にしない** —— このチップに赤は無い。"};
+}
+// ===== 第272便d(第62報「『観測質量』採用チップ」・原仮定者の指示): **質量の由来**の宣言 =====
+// **プリセットの外に置く side table** である。`presetSig` は preset オブジェクトの鍵しか見ないので、
+// この表をいくら足しても**署名・保存 JSON・力学・600 步の状態は 1 bit も変わらない**(実測で確認する)。
+// **自動判定はしない** —— `massCalibration` が無いこと・f=1 であること・`fidelity:"real"` であることの
+// どれも「観測解の質量を入力した」の根拠にしない(宣言した本だけにチップを出す)。
+//   kind: "observed-solution" 公表された観測解から換算した質量をそのまま入れている
+//         "dfm-calibrated"    観測解の質量にこの模型の質量補正 f を掛けた値を入れている(f は当該サンプルの
+//                             `massCalibration` 台帳から**実行時に読む** —— ここで数値を二重に持たない)
+//         "mixed"             同じサンプルに観測解由来と非由来が混ざっている(内訳を note に書く)
+//         "undeclared"        **意図して宣言しない**(チップは出さない)。NGC 3198 の NFW ハローのように、
+//                             観測から来た量と模型の量が同じ粒に載っていて「観測質量」と呼べないもの
+//   records: paper/data/*.csv の `record_id`(質量の行)/ solutionId: paper/data/solutions.json の id
+//   inferenceModel: 観測解を作った推定モデル / conversion: 換算に使った定数
+const MASS_BASIS_KINDS=["observed-solution","dfm-calibrated","mixed","undeclared"];
+const MSUN_KG_2019=1.9885e30;   // 観測 CSV が M☉→kg の換算に使っている値(新しい数値ではない)
+const MASS_BASIS={
+  // --- 太陽系(実単位)---
+  plutoCharonReal:{kind:"observed-solution", records:["SOL-801bc9a8","SOL-66c9d628"], solutionId:null,
+    inferenceModel:"N-body", conversion:{unit:"kg"},
+    note:"冥王星 1.303×10²² kg・カロン 1.586×10²¹ kg(NASA NSSDC Pluto Fact Sheet のアーカイブ版)。",
+    noteEn:"Pluto 1.303e22 kg and Charon 1.586e21 kg (archived NASA NSSDC Pluto Fact Sheet)."},
+  marsMoonsReal:{kind:"mixed", records:["SOL-546fa429","SOL-e0be1c6f","SOL-bef7042a"], solutionId:null,
+    inferenceModel:"N-body", conversion:{unit:"kg"},
+    note:"**火星だけ**が観測解の質量(6.4171×10²³ kg)。フォボス・ダイモスは観測質量を**宣言に置いたまま**、粒としては下限 m=1e-6 のテスト粒子へ落としてある(観測質量を入れていない)。",
+    noteEn:"ONLY MARS carries an observed-solution mass (6.4171e23 kg). Phobos and Deimos keep their observed masses IN THE DECLARATION ONLY and run as test particles at the m=1e-6 floor."},
+  // --- 恒星・中性子星・BH 連星の観測版 ---
+  alphaCenAB:{kind:"observed-solution", records:["SOL-f31c9224","SOL-0347b3c6"], solutionId:null,
+    inferenceModel:"Kepler", conversion:{msunKg:MSUN_KG_2019, unit:"kg"},
+    note:"Akeson et al. (2021) AJ 162 14 の軌道解から。", noteEn:"From the orbital solution of Akeson et al. (2021) AJ 162 14."},
+  siriusAB:{kind:"observed-solution", records:["SOL-48a6939f","SOL-62054200"], solutionId:null,
+    inferenceModel:"Kepler", conversion:{msunKg:MSUN_KG_2019, unit:"kg"},
+    note:"Bond et al. (2017) ApJ 840 70 の軌道解から。", noteEn:"From the orbital solution of Bond et al. (2017) ApJ 840 70."},
+  psrDoubleAB:{kind:"observed-solution", records:["SOL-7ba92aa0","SOL-3b7d7d41"], solutionId:null,
+    inferenceModel:"GR-timing", conversion:{msunKg:MSUN_KG_2019, unit:"kg"},
+    note:"Hu et al. (2022) A&A 667 A149。**GR を仮定したタイミング解**なので、質量は条件つきの量である。",
+    noteEn:"Hu et al. (2022) A&A 667 A149. A TIMING SOLUTION THAT ASSUMES GR, so the masses are conditional quantities."},
+  psrB1534:{kind:"observed-solution", records:["SOL-998afc17","SOL-fe273801"], solutionId:null,
+    inferenceModel:"GR-timing", conversion:{msunKg:MSUN_KG_2019, unit:"kg"},
+    note:"Fonseca, Stairs & Thorsett (2014) ApJ 787 82。**GR 由来の条件つき質量**である。",
+    noteEn:"Fonseca, Stairs & Thorsett (2014) ApJ 787 82 - CONDITIONAL MASSES DERIVED UNDER GR."},
+  gw150914:{kind:"observed-solution", records:["SOL-1dffa22e","SOL-45febe79"], solutionId:null,
+    inferenceModel:"GW-waveform", conversion:{msunKg:MSUN_KG_2019, unit:"kg"},
+    note:"GWOSC GWTC-2.1(GW150914-v4)の**波形推定**の中央値。事前分布と波形模型に依存する。",
+    noteEn:"Median values of the GWOSC GWTC-2.1 (GW150914-v4) WAVEFORM INFERENCE; they depend on the priors and the waveform model."},
+  // --- 同じ観測解に模型の質量補正 f を掛けた DFM 版(f は各サンプルの massCalibration から実行時に読む)---
+  alphaCenABDFM:{kind:"dfm-calibrated", records:["SOL-f31c9224","SOL-0347b3c6"], solutionId:null,
+    inferenceModel:"Kepler", conversion:{msunKg:MSUN_KG_2019, unit:"kg"}},
+  siriusABDFM:{kind:"dfm-calibrated", records:["SOL-48a6939f","SOL-62054200"], solutionId:null,
+    inferenceModel:"Kepler", conversion:{msunKg:MSUN_KG_2019, unit:"kg"}},
+  psrDoubleABDFM:{kind:"dfm-calibrated", records:["SOL-7ba92aa0","SOL-3b7d7d41"], solutionId:null,
+    inferenceModel:"GR-timing", conversion:{msunKg:MSUN_KG_2019, unit:"kg"}},
+  psrJ1757DFM:{kind:"dfm-calibrated", records:["SOL-c5f3dbda","SOL-60e0bee8"], solutionId:null,
+    inferenceModel:"GR-timing", conversion:{msunKg:MSUN_KG_2019, unit:"kg"}},
+  psrJ1946DFM:{kind:"dfm-calibrated", records:["SOL-37a72768","SOL-3185b6e2"], solutionId:"Meng2025-DDFWHE",
+    inferenceModel:"GR-timing", conversion:{msunKg:MSUN_KG_2019, unit:"kg"},
+    note:"採用レコードは第270便c で Meng et al. (2025) A&A 704 A153 Table 1 DDFWHE 列の**一組**へ揃えた(旧レコードは CSV に previous として残る)。",
+    noteEn:"Wave 270c aligned the adopted records to ONE SET, the DDFWHE column of Meng et al. (2025) A&A 704 A153 Table 1 (the older records stay in the CSV as previous)."},
+  psrB1534DFM:{kind:"dfm-calibrated", records:["SOL-998afc17","SOL-fe273801"], solutionId:null,
+    inferenceModel:"GR-timing", conversion:{msunKg:MSUN_KG_2019, unit:"kg"}},
+  gw150914DFM:{kind:"dfm-calibrated", records:["SOL-1dffa22e","SOL-45febe79"], solutionId:null,
+    inferenceModel:"GW-waveform", conversion:{msunKg:MSUN_KG_2019, unit:"kg"}},
+  // --- **意図して宣言しない**(チップを出さない)---
+  ngc3198:{kind:"undeclared", note:"**NFW ハローは観測質量ではない**(回転曲線に当てた模型の質量である)。恒星円盤の質量も観測から直接読んだ 1 粒の質量ではないので、この群では「観測解の質量を入力」と表示しない。",
+    noteEn:"THE NFW HALO IS NOT AN OBSERVED MASS (it is a model mass fitted to the rotation curve), and the stellar-disk mass is not one body's directly observed mass either, so this group never prints \"masses entered from an observed solution\"."},
+  ngc3198DFM:{kind:"undeclared", note:"🌃 と同じ理由(NFW ハロー・円盤質量は模型の量)。", noteEn:"Same reason as the observation build (the NFW halo and the disk mass are model quantities)."},
+  tuc47:{kind:"undeclared", note:"星団の全質量は観測転写だが、**1 粒 1 粒の質量は観測されていない**(Plummer 形の設計値)。", noteEn:"The cluster's total mass is transcribed from observation, but THE INDIVIDUAL GRAIN MASSES ARE NOT OBSERVED (they are Plummer design values)."},
+  tuc47DFM:{kind:"undeclared", note:"🍇 と同じ理由。平均場 χ-law の f は**質量補正であって観測質量ではない**。", noteEn:"Same reason as the observation build. The mean-field chi-law f is a MASS CORRECTION, not an observed mass."}
+};
+// 宣言を読む(**未宣言と \"undeclared\" は null** —— チップを出さない)。f は preset 側の台帳から読む
+function massBasisOf(p){
+  if(!p) return null;
+  const e=MASS_BASIS[p.id]; if(!e) return null;
+  if(MASS_BASIS_KINDS.indexOf(e.kind)<0) return null;   // 未知の kind は落とす
+  if(e.kind==="undeclared") return null;
+  let factor=null;
+  if(e.kind==="dfm-calibrated"){
+    const mc=(p.massCalibration&&typeof p.massCalibration==="object")?p.massCalibration:{};
+    factor=isNum(mc.factor)? mc.factor : (isNum(mc.factorUniform)? mc.factorUniform : null);
+    if(factor===null) return null;   // 台帳に f が無い本は DFM 版として出さない(数値をここで作らない)
+  }
+  return {kind:e.kind, records:Array.isArray(e.records)?e.records.slice():[],
+    solutionId:e.solutionId||null, inferenceModel:e.inferenceModel||null,
+    conversion:e.conversion||null, factor,
+    note:((LANG==="en"&&e.noteEn)?e.noteEn:e.note)||null};
+}
+// ===== 第272便d: **空間メッシュ/複素決定力場**の状態(**宣言と作動を分ける**)=====
+// 画面の選択値だけを根拠にしない —— 実行情報(S.hasGeoToy / S.geoToyDeny / S.geoToyStop /
+// S.geoToyOverlay)を読む。**geoPN=3 であることだけでは「複素決定力場」と出さない**(R16)。
+function meshChipState(p,S){
+  if(!p) return null;
+  const ph=p.physics||{}, sm=(ph.spaceMesh&&typeof ph.spaceMesh==="object")?ph.spaceMesh:null;
+  const declaredGeo3=(ph.geoPN===3);
+  const runGeo3=!!(S && S.params && S.params.geoPN>=3);
+  if(!sm && !declaredGeo3 && !runGeo3) return null;
+  const law=sm? (sm.lawVersion||null) : null;
+  const meshV2=!!(sm && sm.law==="mesh-v2");
+  const overlay=!!(S && S.geoToyOverlay==="drag");
+  // 走っているか: hasGeoToy は「geoPN>=3 かつ入場条件が立っている」(第262便a)
+  const acting=!!(S && S.hasGeoToy);
+  const deny=(S && S.geoToyDeny)? String(S.geoToyDeny) : null;
+  const unconverged=!!(S && S.geoToyConverged===false);
+  if((declaredGeo3||runGeo3) && !acting)
+    return {key:"stopped", reason:deny||((S&&S.geoToyStop)?String(S.geoToyStop):"denied"),
+      law, meshV2, overlay, acting:false, unconverged};
+  if(meshV2 && acting) return {key:"v2", law, meshV2, overlay, acting:true, unconverged};
+  if(law==="complex" && acting) return {key:"complex", law, meshV2, overlay, acting:true, unconverged};
+  if(acting) return {key:"law", law:law||"scalar", meshV2, overlay, acting:true, unconverged};
+  return {key:"declared", law, meshV2, overlay, acting:false, unconverged};
+}
+function meshChipLabel(st){
+  if(!st) return null;
+  let s;
+  if(st.key==="complex") s=T("bdgMesh_complex");
+  else if(st.key==="v2") s=T("bdgMesh_v2");
+  else if(st.key==="law") s=T("bdgMesh_law")(st.law);
+  else if(st.key==="declared") s=T("bdgMesh_declared");
+  else {
+    // 停止理由は engine の読み口の語(denied / kFrame / meshChannel / closureUnconverged …)。
+    // 表に無い理由は**そのまま出す**(黙って一般化しない)
+    const k="bdgMeshStop_"+st.reason;
+    s=T("bdgMesh_stopped")((k in I18N.ja)? T(k) : st.reason);
+  }
+  if(st.overlay) s+=T("bdgMesh_dragOverlay");
+  return s;
 }
 function paramLabel(def){ return (LANG==="en" && I18N.en.params[def.key]) || def.label; }
 // v1.21: パラメータ名タップの説明文(ja=PARAM_DEFS.desc / en=I18N.en.paramDescs)
@@ -5371,7 +5557,9 @@ const BUILTIN_PRESETS = [
 { id:"nebulaBipolar", catalog:"extended", name:"双極星雲 — 暗黒トーラスと極方向ローブ", emoji:"⏳", group:"ローターの物語",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"composite",
-  notClaim:["nebula"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
+  // 第272便d(第62報「ダークローターは減光の検証用という位置付けにとどめる」): **暗さ=隠れた質量**の
+  // 循環を避けるため "dm" を足した(宣言専用・**presetSig は notClaim を見ない**ので署名・力学は不変)
+  notClaim:["nebula","dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"rotorform", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   // 第84便B: E水準(創発の標準試験を展開した実測に基づく宣言 — docs/PHYSICS.md「創発水準と標準試験」)。
   // 24 body 定義のうち **22体(赤道ダークアーク)が pinned** で、ローブを立てている「赤道を塞ぐ幾何」
@@ -5463,7 +5651,8 @@ const BUILTIN_PRESETS = [
 { id:"bhCore", catalog:"extended", name:"DFM版ブラックホール — 自由な5層の中心", emoji:"⚫", group:"ローターの物語",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",
-  notClaim:["bh"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
+  // 第272便d(第62報): **暗さ=隠れた質量**の循環を避けるため "dm" を足した(宣言専用・署名は不変)
+  notClaim:["bh","dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"darkcenter", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
     summary:"銀河の中心にひそむ、暗くて重い天体の正体を探るサンプル。「銀河中心の暗い天体は、コアの高速スピンが外殻へ伝わって銀河を回している」という仮説を、5つの層に分けて1画面で検証する。層0=中心コア(コアv2 の独立 J_core・初期Ω=20)/層1=重い内殻(m=2500 が引力を担う)/層2=外殻と擬似地平面(2層減光で真っ暗)/層3=決定フレーム(kFrame の空間引きずり)/層4=降着円盤(赤道面の高温ガス120体)。外側には測定用の恒星ディスク200体を置く。コアと外殻は τ_cs(K_cs=0.02)で結ばれており、コアに貯めた角運動量が外殻へ流れ出す。中心天体は**固定していない**(支配天体も他の粒子と同じ法則で動く自由な系)— 固定中心は座標を止めるだけでなく E6′ 引きずりの反作用を受け取る外部リザーバでもあるため、それを外すには反作用を換算質量 μ=m_im_j/(m_i+m_j) による対称インパルス J_ij=μ(φ_ij d_i−φ_ji d_j) へ置き換えた E6′-R(physics.frameReaction:\"pairReduced\")が要る。初期配置は重心系(balanceFrame)へ移してあり、観測はすべて中心天体基準の相対座標で行う。実在のブラックホール物理(事象の地平面・降着円盤の磁気流体・相対論的ジェット)の再現主張ではない — この宇宙の法則で「暗くて重い回転体」を組むとどうなるかのトイモデルである(Negative Claims)。",
@@ -5515,7 +5704,8 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:true} },
 // 第229便: ⚫ の横倒し変種 — 第210便の「tilt×Kcs は併用不可」の tilt 側を実サンプル化
 { id:"bhCoreTilt", name:"DFM版ブラックホール(横倒し)— エッジオンの暗い中心", emoji:"🪩", group:"ローターの物語",
-  scaleTier:"galactic", sampleClass:"principle", notClaim:["toy"],
+  // 第272便d(第62報): ⚫ と同じく **暗さ=隠れた質量**の循環を避けるため "dm" を足した(宣言専用・署名は不変)
+  scaleTier:"galactic", sampleClass:"principle", notClaim:["toy","dm"],
   descStruct:{
     summary:"⚫ bhCore の**軸を横倒し(tilt=90°)にした変種**(第229便 — 3天体雛形③)。構成は ⚫ と同一(自由な中心 m=2500+降着円盤+恒星ディスク)で、コアだけ Kcs=0・tilt=90 に替える(第210便の併用不可則に従い自走〔Kcs〕は捨て、z 射影だけを見る)。tilt=90 では **J_z=0 — 「回っているのに引きずらない」**: コアの角運動量 |J| は面内(J_x)にあり、2D の空間引きずり(A8/E6′)は z 射影しか使わないため、外縁の回転曲線は重力(E4)のケプラー則側に落ちる。それでも**減光は消えない** — 第227便のベクトル差ノルム化 |Ω_c−Ω_s ẑ| の帰結で、横倒しでも中心は真っ暗のまま(旧 cosθ 実装なら 90° で見えてしまった)。スポーク描画はエッジオンの横棒。実在のブラックホール(地平面・ジェット)の再現ではない。",
     observe:"実測(1500步): 外縁帯(150〜280)の平均接線速度 vt=3.2659 — ⚫ 基準(同窓 3.2441)と同水準で、コアの z 引きずりを失っても外縁はケプラー則+殻スピンで保たれる。**J_z=2.6×10⁻¹¹(機械ゼロ)**・|J| ドリフト 9.7×10⁻¹⁶(1500步 — 歳差は仕事0)・**減光 1.000 のまま**(tilt 90° でも効く — 第227便の機械固定と同じ帰結)・NaN 0。⚫ 対照では Kcs 自走で J_z が 4.2×10⁵→2.7×10⁵ へ移る(JmRel −0.352)— 「自走する ⚫/射影だけの 🪩」の対。QA behavior.templates229 が機械固定。",
@@ -11466,7 +11656,7 @@ const BUILTIN_PRESETS = [
 // 半径は Schwarzschild 換算 r_s=2GM/c²(宣言つき代理値)・自転は上限値のみで spin=0 宣言。
 // **本サンプルは基準状態(f_GW,det=10Hz)のスナップショット** — 実系はここから約4.0秒・数十公転で
 // 合体する(Peters 換算)。DFM は合体・チャープを再現しない(🎻 の宣言参照)。
-{ id:"gw150914", name:"GW150914(実単位)— 連星ブラックホールの基準状態", emoji:"🎐", group:"現実との照合・太陽系外",
+{ id:"gw150914", name:"GW150914(実単位)— 連星ブラックホールの基準状態", emoji:"🎐", group:"実在天体のアナロジー",
   familyId:"gw150914", familyRole:"variant",   // ✨✴️🌟💫📻⚡ と同じ建付け: DFM 版 🎻 が仲間のメイン
   scaleTier:"planetary",   // L=4 は everyday(0)と planetary(8)の等距離 — 天体系として planetary を宣言(表示のみ)
   scaleExp:{L:4, T:-3, M:29},   // 第223便: 合体連星族(1単位=10⁴m/10⁻³s/10²⁹kg・c₀=30・G=6.674)
@@ -11600,7 +11790,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"gw150914DFM", name:"GW150914(DFM版)— pull 重み・kF1 質量較正(f≈2)", emoji:"🎻", group:"現実との照合・太陽系外",
+{ id:"gw150914DFM", name:"GW150914(DFM版)— pull 重み・kF1 質量較正(f≈2)", emoji:"🎻", group:"実在天体のアナロジー",
   familyId:"gw150914", familyRole:"primary",   // ✴️💫⚡ と同じ建付け: DFM 版が仲間のメイン
   scaleTier:"planetary",
   scaleExp:{L:4, T:-3, M:29},   // 🎐 と同じ単位系(1単位=10⁴m/10⁻³s/10²⁹kg — L−T=7 合体連星族)
@@ -11762,7 +11952,7 @@ const BUILTIN_PRESETS = [
 // ===== 第247便b(第39報「コンパクト天体連星が解決しないと星団や銀河に進めない」): GW150914 の
 // ===== 合体(放射の**方向**と**用量**)と Kerr Q の原理サンプル。**🎻 本体は 1 bit も書き換えない**
 // ===== (petersScale 未宣言=1・petersDirection 未宣言=従来方向で、既定経路は完全に不変)。
-{ id:"gw150914Merge4s", name:"GW150914 の合体(約4秒)— 放射の方向と用量の較正 variant", emoji:"⏰", group:"現実との照合・太陽系外",
+{ id:"gw150914Merge4s", name:"GW150914 の合体(約4秒)— 放射の方向と用量の較正 variant", emoji:"⏰", group:"実在天体のアナロジー",
   familyId:"gw150914", familyRole:"variant",   // 仲間のメインは 🎻(primary)のまま
   scaleTier:"planetary",
   scaleExp:{L:4, T:-3, M:29},   // 🎐🎻 と同じ単位系(1単位=10⁴m/10⁻³s/10²⁹kg — L−T=7 合体連星族)
@@ -11853,7 +12043,7 @@ const BUILTIN_PRESETS = [
 // 第247便b(Grok v5 §5B): Kerr の Q=χGm²/c を λ=1(=G/c² の物理係数)で見る**原理サンプル**。
 // **較正には足さない**(claim 窓にしない・🎻 の台帳には入れない)。質量は f≈2 の較正値ではなく
 // **観測質量**を使う — η は質量の比で決まるので、較正質量を使うと GR 比が 4 倍に歪むため(第38報)。
-{ id:"gw150914SpinDipole", name:"BH 合体直前のスピン双極子 — λ=1 の届く場所(原理)", emoji:"⚛️", group:"現実との照合・太陽系外",
+{ id:"gw150914SpinDipole", name:"BH 合体直前のスピン双極子 — λ=1 の届く場所(原理)", emoji:"⚛️", group:"実在天体のアナロジー",
   familyId:"gw150914", familyRole:"variant",
   scaleTier:"planetary",
   scaleExp:{L:4, T:-3, M:29},
@@ -11949,7 +12139,7 @@ const BUILTIN_PRESETS = [
 // **投影半光半径 4.00 pc の直接転写 = Plummer a** を第1基準にする(King 生成器自体は汎用実装
 // 済み — QA gen.profile)。v1 は「形の転写+実測の記録」であり fidelity:"real"(較正級)への
 // 昇格は較正が閉じてから(宣言)。
-{ id:"tuc47", name:"球状星団 47 Tuc(観測転写)— Plummer 形の第一号", emoji:"🍇", group:"現実との照合・太陽系外",
+{ id:"tuc47", name:"球状星団 47 Tuc(観測転写)— Plummer 形の第一号", emoji:"🍇", group:"実在天体のアナロジー",
   familyId:"tuc47", familyRole:"variant",
   scaleTier:"stellar",
   scaleExp:{L:16, T:12, M:35},   // 第228便: 星団族(1単位=10¹⁶m≈0.324pc/10¹²s/10³⁵kg — 標準規約 L−T=4・c₀=3×10⁴)
@@ -11986,7 +12176,7 @@ const BUILTIN_PRESETS = [
       mMin:0.07375, mMax:0.07375, spinMin:0, spinMax:0, vMode:"random", vScale:3.0374, direction:1, rMul:0.4}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false} },
 
-{ id:"tuc47DFM", name:"球状星団 47 Tuc(DFM版)— χ-law 平均場の質量 hold-out", emoji:"🫐", group:"現実との照合・太陽系外",
+{ id:"tuc47DFM", name:"球状星団 47 Tuc(DFM版)— χ-law 平均場の質量 hold-out", emoji:"🫐", group:"実在天体のアナロジー",
   familyId:"tuc47", familyRole:"primary",
   scaleTier:"stellar",
   scaleExp:{L:16, T:12, M:35},
@@ -12009,8 +12199,14 @@ const BUILTIN_PRESETS = [
   parameterAudit:{
     observedInputs:["🍇 と同一(CSV 転写)"],
     fixedConventions:["🍇 と同一の配置(seed 2509719581 共有 — t=0 位置ビット同一)+kFrame=1(E6′-R)。f は全恒星粒に一様・中心 IMBH は置かない(578 M☉ 上限=解像度未満の設計判断)・粒子別核なし","初期速度=配置の実ポテンシャルのビリアル平衡解(vMode virial・vScale 1 — 第235便。観測 σ を先置きしない)"],
-    fitted:["なし(C=1 のゼロフィット — σ hold-out ×1.70 不成立は正直な記録)"],
-    derived:["平均場 chiMean=0.9967006765347696(自己無撞着・全対 W)","f=C·2χ̄=1.9934013530695391(C=1)— mMin=0.07375×f=0.1470133497888785","lightSweep=(f−1)/f=0.498344877482826(測光相殺 — 見掛け質量=観測側)","virial 初期化: W=−297.76・M=35.28 → ⟨v²⟩=8.44・σ₀=1.915(=√f×観測換算)","σ hold-out: 実測 2.107(21.1 km/s)vs 観測 1.24(12.4 km/s)— ×1.70 不成立(旧 random 初期化 2.446=×1.97)","kF1/kF0 の分離(f=2): 半光 12.97 vs 11.81・σ 2.107 vs 2.227"],
+    // 第272便d(第62報「サンプル整理」・AG23): 第271便d が**器の出力側**で作った言い換え(比較器の語彙
+    // compare-v1・`tests/out/cluster-w269d.json` の `parameterAuditRestatement.rendered.ja`)を、
+    // **同じ文字列のまま**この欄へ移した。**数値は 1 つも変えていない**(2.107 / 1.240 / 1.70 / 2.446 は
+    // 第230便の実測のまま)。旧表現は**履歴として引用のまま残す**ので、
+    // QA `docs.paramAuditRestated` ⑤(旧表現が html に実在すること)は従来どおり通る。
+    // `presetSig` は `parameterAudit` を見ないので署名・力学・600 步の状態は 1 bit も変わらない
+    fitted:["なし(C=1 のゼロフィット)—— **fit ノブが 0 であることが記録**であり、σ の比 1.70 は fit の結果ではない。**旧表現「σ hold-out ×1.70 不成立」は履歴**(この欄の言い換え前の文)。"],
+    derived:["平均場 chiMean=0.9967006765347696(自己無撞着・全対 W)","f=C·2χ̄=1.9934013530695391(C=1)— mMin=0.07375×f=0.1470133497888785","lightSweep=(f−1)/f=0.498344877482826(測光相殺 — 見掛け質量=観測側)","virial 初期化: W=−297.76・M=35.28 → ⟨v²⟩=8.44・σ₀=1.915(=√f×観測換算)","σ の対応: **面内 1 成分分散 proxy** 2.107(21.1 km/s) と**観測の中心 1D 視線分散** 1.240(12.4 km/s) の比 1.70 —— **面内 proxy と中央視線分散の対応は未宣言**(方向・開口・重み)なので、比較サンプル **v1a では `not-applicable`**(数値の不一致ではなく対応の未宣言)。**旧測定は履歴**: 旧 random 初期化(観測 σ の先置き)は 2.446(×1.97)だった。","kF1/kF0 の分離(f=2): 半光 12.97 vs 11.81・σ 2.107 vs 2.227"],
     numerical:["🍇 と同一(dt=0.016・5交差=3125步)"]},
   massCalibration:{law:"chi-law-v1-meanfield", C:1, meanChi:0.9967006765347696, factorUniform:1.9934013530695391},   // 第230便: 平均場台帳(QA が bodies の m と三者一致を照合)
   activeParams:["kFrame","G","softening"],
@@ -12027,7 +12223,7 @@ const BUILTIN_PRESETS = [
       spinMin:0, spinMax:0, vMode:"virial", vScale:1, direction:1, rMul:0.4}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false} },
 
-{ id:"ngc3198", name:"渦巻銀河 NGC 3198(観測転写)— 指数円盤+NFW 対照", emoji:"🌃", group:"現実との照合・太陽系外",
+{ id:"ngc3198", name:"渦巻銀河 NGC 3198(観測転写)— 指数円盤+NFW 対照", emoji:"🌃", group:"実在天体のアナロジー",
   familyId:"ngc3198", familyRole:"variant",
   scaleTier:"galactic",
   scaleExp:{L:19, T:15, M:38},   // 第228便: 銀河族(1単位=10¹⁹m≈0.324kpc/10¹⁵s/10³⁸kg — 標準規約 L−T=4)
@@ -12067,7 +12263,7 @@ const BUILTIN_PRESETS = [
       mMin:2.875, mMax:2.875, spinMin:0, spinMax:0, vMode:"flat", vScale:15.01, direction:1, rMul:0.2}],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false} },
 
-{ id:"ngc3198DFM", name:"NGC 3198(DFM版)— 恒星質量×2+自由中心核の hold-out", emoji:"🛞", group:"現実との照合・太陽系外",
+{ id:"ngc3198DFM", name:"NGC 3198(DFM版)— 恒星質量×2+自由中心核の hold-out", emoji:"🛞", group:"実在天体のアナロジー",
   familyId:"ngc3198", familyRole:"primary",
   scaleTier:"galactic",
   scaleExp:{L:19, T:15, M:38},
@@ -12119,7 +12315,7 @@ const BUILTIN_PRESETS = [
 // 観測レコードは paper/data/supernova-observations.csv(ベテルギウス7行+かに星雲/パルサー10行 —
 // モデル依存値は note に宣言)。前駆星と残骸は6桁違う時空スケールなので別族(宣言)。爆発の
 // 瞬間そのものはどの族でも解像しない — 原理は 🎇 が、前後の観測状態はこの2本が担当する。
-{ id:"supernovaProg", name:"超新星前駆星 — ベテルギウス(観測転写)", emoji:"🥀", group:"現実との照合・太陽系外",
+{ id:"supernovaProg", name:"超新星前駆星 — ベテルギウス(観測転写)", emoji:"🥀", group:"実在天体のアナロジー",
   scaleTier:"stellar",
   scaleExp:{L:10, T:6, M:29},   // 恒星族(1単位=10¹⁰m/10⁶s/10²⁹kg — ✨ と同族・標準規約 L−T=4・c₀=3×10⁴)
   sampleClass:"principle",
@@ -12157,7 +12353,7 @@ const BUILTIN_PRESETS = [
      core:{mode:"differential", massFrac:0.07887323943661971, radius:26.57575, omega:0, Kcs:0}}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
 
-{ id:"supernovaProgDFM", name:"超新星前駆星(DFM版)— 質量台帳 f=2・光球半径=コアの引きずり外縁", emoji:"🌹", group:"現実との照合・太陽系外",
+{ id:"supernovaProgDFM", name:"超新星前駆星(DFM版)— 質量台帳 f=2・光球半径=コアの引きずり外縁", emoji:"🌹", group:"実在天体のアナロジー",
   scaleTier:"stellar",
   scaleExp:{L:10, T:6, M:29},
   sampleClass:"principle",
@@ -12195,7 +12391,7 @@ const BUILTIN_PRESETS = [
      core:{mode:"differential", massFrac:0.5, radius:10.6303, omega:0.1953545025834873, Kcs:0}}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
 
-{ id:"crabRemnant", name:"超新星残骸 SN 1054 — かに星雲とパルサー(観測転写)", emoji:"🦀", group:"現実との照合・太陽系外",
+{ id:"crabRemnant", name:"超新星残骸 SN 1054 — かに星雲とパルサー(観測転写)", emoji:"🦀", group:"実在天体のアナロジー",
   scaleTier:"galactic",
   scaleExp:{L:14, T:9, M:35},   // 残骸族(1単位=10¹⁴m/10⁹s/10³⁵kg — L−T=5・c₀=3×10³・M=11+3L−2T の標準 G 関係で G=6.674)
   sampleClass:"principle",
@@ -25220,7 +25416,19 @@ function allPresets(){ return BUILTIN_PRESETS.concat(getCustomPresets()); }
 //   表示・分類専用 — physics・claims・BUILTIN_PRESETS の配列順は bit 不変
 // 第220便(第19報 原仮定者指示): 「現実との照合」を**太陽系/太陽系外**の2グループへ分割
 // (表示・分類専用 — 配列順・物理・claims は不変。今後の現実較正の増加に備えた区分)
-const GROUP_ORDER=["熱の実験室","空間と時間","光の物語","天体の物語","現実との照合・太陽系","現実との照合・太陽系外","銀河の物語","ローターの物語","箱宇宙"];
+// 第272便d(第62報「サンプル整理」・原仮定者の指示): **表示順を論文の順番へ合わせる**(統括の裁定)。
+//   論文1 の数値実験の順(実験1 相対回転〔Mach〕→ 2 銀河外側速度 → 3 近点運動 → 4 時計 → 5 光 → 6 熱)
+//   → 論文2(箱宇宙の膨張・赤方偏移。減光は付録)→ 論文3(太陽系: 水星→月→qLock/木星→環)の順に
+//   グループを並べ直した。**GROUP_ORDER の差し替えだけ**で、BUILTIN_PRESETS の配列・physics・claims・
+//   group 宣言の内容は 1 bit も変えていない(グループ内の順は配列順のまま)。
+//   併せて**新グループ「実在天体のアナロジー」**(11 本)を「現実との照合・太陽系外」の直後に置く。
+//   **実測(第272便d)**: 「法則の実験室」と「シミュレーション」は **PARAM_DEFS の**パラメータ群の名前で、
+//   これを `group` に宣言している内蔵サンプルは **0 本**である(サフィックス無しの「現実との照合」も 0 本)。
+//   orderedGroups() は実在するグループだけを拾うので、この 3 つを表に置いても現在の並びは 1 つも動かない
+//   —— 将来その名前のサンプルが現れたときの置き場所として、統括の裁定どおりの位置に載せてある。
+const GROUP_ORDER=["法則の実験室","空間と時間","銀河の物語","天体の物語","光の物語","熱の実験室",
+  "箱宇宙","ローターの物語","現実との照合・太陽系","現実との照合・太陽系外","実在天体のアナロジー",
+  "シミュレーション","現実との照合"];
 function orderedGroups(){
   const seen=[];
   BUILTIN_PRESETS.forEach(p=>{ const g=p.group||"内蔵"; if(!seen.includes(g)) seen.push(g); });
@@ -25400,6 +25608,10 @@ const GROUP_IDS={"熱の実験室":"heat", "空間と時間":"spacetime", "光�
   "天体の物語":"celestial", "現実との照合・太陽系":"realitySolar",
   "現実との照合・太陽系外":"realityBeyond", "銀河の物語":"galaxy", "ローターの物語":"rotor",
   "箱宇宙":"boxUniverse", "法則の実験室":"lawLab",
+  // 第272便d: 新グループ。**id を足すだけ**で既存 id は 1 つも変えない(開閉の記憶は id 鍵なので
+  // 既存グループの記憶は飛ばない。新グループには記憶がまだ無いので既定〔畳んだ状態〕で出る)
+  "実在天体のアナロジー":"realAnalogy", "シミュレーション":"simulation",
+  "現実との照合":"realityLegacy",
   "AI生成":"aiGenerated", "保存一覧":"saves", "内蔵":"builtin"};
 const _GROUP_ID_SET=new Set(Object.values(GROUP_IDS));
 function groupIdOf(g){
@@ -30456,6 +30668,32 @@ function renderHelp(){
     SCALE_EMOJI[cls.scaleTier]+" "+T("scaleName_"+cls.scaleTier), T("bdgScaleTip"));
   // 第92便: 現実準拠チップ — fidelity:"real" 宣言のあるプリセットにだけ表示(宣言なし=トイが既定)
   if(cls.fidelity==="real") addChip("fid-real", T("bdgFidReal"), T("bdgFidRealTip"));
+  // 第272便d(第62報): **質量の由来チップ**(宣言専用・side table `MASS_BASIS`・presetSig の外)。
+  // 宣言のある本にだけ出す(`fidelity:"real"` や f=1 を根拠に自動で立てない)。
+  {
+    const mb=massBasisOf(currentPreset);
+    if(mb){
+      // f は**丸めない**(1.9999999999889444 を「2」と出すと「ちょうど 2 に合わせた」に読める)
+      const fTxt=(mb.factor!==null)? String(mb.factor) : "";
+      const label=(mb.kind==="dfm-calibrated")? T("bdgMB_dfm-calibrated")(fTxt)
+        : (mb.kind==="mixed")? T("bdgMB_mixed") : T("bdgMB_observed-solution");
+      const tip=((mb.kind==="dfm-calibrated")? T("bdgMB_dfm-calibratedTip")
+        : (mb.kind==="mixed")? T("bdgMB_mixedTip") : T("bdgMB_observed-solutionTip"))
+        +"\n"+T("bdgMB_srcRecords")+": "+(mb.records.length? mb.records.join(" / ") : T("bdgMB_none"))
+        +"\n"+T("bdgMB_srcSolution")+": "+(mb.solutionId||T("bdgMB_none"))
+        +"\n"+T("bdgMB_srcModel")+": "+(mb.inferenceModel||T("bdgMB_none"))
+        +"\n"+T("bdgMB_srcConv")+": "+(mb.conversion? JSON.stringify(mb.conversion) : T("bdgMB_none"))
+        +(mb.note? "\n"+mb.note : "");
+      addChip("massbasis-"+mb.kind, label, tip);
+    }
+  }
+  // 第272便d(第62報): **空間メッシュ/複素決定力場チップ**(宣言と作動状態を分ける)。
+  // 実行情報を読むので、いま走っている状態が「未作動」ならその理由を出す
+  {
+    const ms=meshChipState(currentPreset, sim);
+    if(ms) addChip("mesh-"+ms.key, meshChipLabel(ms),
+      T("bdgMeshTip")+(ms.unconverged? "\n"+T("bdgMesh_closureUnconverged") : ""));
+  }
   // 第261便c: 較正の現在地チップ — calibrationForecast 宣言のあるサンプルにだけ出す。
   // **署名が宣言時と変わっていれば自動的に「較正要再確認」**へ倒す(calibrationReviewBadge)。
   // **赤は使わない**(赤=否は台帳の 4 値の側・模型差をこのチップの赤にしない)
@@ -38358,6 +38596,11 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // **力にも表示の物理にも接続していない**。QA behavior.calibrationForecast が契約を機械固定する
   dfmForecastGate, CALIBRATION_FORECAST_STATES, CALIBRATION_FORECAST_COUNTED,
   calibrationForecastOf, calibrationReviewBadge, calibrationCompletion, presetSigHash,
+  // 第272便d(第62報): **質量の由来**の side table(`presetSig` の外)と、**空間メッシュの宣言/作動**の
+  // 読み。どちらも**表示だけ**で、力にも保存 JSON にも 1 バイトも接続していない
+  MASS_BASIS, MASS_BASIS_KINDS, massBasisOf, meshChipState,
+  meshChipLabel:(p,S)=>meshChipLabel(meshChipState(p,S||sim)),
+  presetSig,   // 第272便d: 全内蔵の署名を外から突き合わせるため(器 tests/exp-w272d-sigsame.mjs)
   meshFieldApi:(S)=>_smFieldApi(S||sim), meshFieldApiLive:(S)=>_smFieldApiLive(S||sim),
   // 第260便a(第52報): 同じ点で**現行の表示場**と**共通場 API の場**を両方読む診断口。
   // **一致の主張ではない**(銀河の disk/affine 場と全源 scalar 場は別の場である)

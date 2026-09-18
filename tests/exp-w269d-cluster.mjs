@@ -33,6 +33,8 @@ import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { richardson3, protocolDeclaration } from './lib-w265a-analogy.mjs';
 import { STATES, stateRecord, numericalVerdict, halfRadiusRatioTheory } from './lib-w269d-state.mjs';
+// 第272便e(AG11): 来歴(targetSha256・codeSha256・generatedAt・wave)は共通の 1 本で作る。
+import { provenanceMeta } from './lib-w272e-provenance.mjs';
 // 第270便e(F1): 注入文字列の `import` を **Node 側で解決した配列**に差し替えるための実体。
 const SHARED_STATES_RESOLVED = STATES.slice();
 
@@ -270,11 +272,17 @@ const facts = await pg.evaluate((ids) => window.__w269dFacts(ids), ['tuc47', 'tu
 
 const out = {
   meta: {
-    wave: '第269便d(第59報 W4)— 星団 47 Tuc **比較サンプル v1a**(内部診断の完成)',
+    // 第272便e(AG11): 共通の来歴を**先に**置く(`inputs` は完全な sha256 を持つ形へ揃えた ——
+    //   旧 `sha256_16` の欄も `legacyInputs` として残してある)。
+    ...provenanceMeta({ root: ROOT, wave: '第269便d(来歴は第272便e で共通化)', target: TARGET,
+      code: ['tests/exp-w269d-cluster.mjs', 'tests/lib-w265a-analogy.mjs',
+        'tests/lib-w269d-state.mjs', 'tests/lib-w272e-provenance.mjs'],
+      inputs: [TARGET, 'tests/lib-w265a-analogy.mjs', 'tests/lib-w269d-state.mjs',
+        CSV_REL, 'tests/out/analogy-w265a.json'] }),
+    waveFull: '第269便d(第59報 W4)— 星団 47 Tuc **比較サンプル v1a**(内部診断の完成)',
     when: new Date().toISOString(),
     codeCommit: headSha,
-    target: TARGET,
-    inputs: [stamp(TARGET), stamp('tests/lib-w265a-analogy.mjs'), stamp('tests/lib-w269d-state.mjs'),
+    legacyInputs: [stamp(TARGET), stamp('tests/lib-w265a-analogy.mjs'), stamp('tests/lib-w269d-state.mjs'),
       stamp(CSV_REL), stamp('tests/out/analogy-w265a.json')],
     declarationVersion: 'v1a-2026-09-17',
     window: { tStart: 0, tEnd: CL_T, unit: 'sim time',
@@ -658,17 +666,26 @@ out.v1bDesign = {
       + 'The old measurement is KEPT AS HISTORY: the former random start (the observed sigma placed in '
       + 'advance) read ' + state.quantities.legacyRandomInit.value.toFixed(3) + ' (x'
       + state.quantities.legacyRandomInit.ratio.toFixed(2) + ').'] } };
+  // 第272便(統括の統合・AG23): 第272便d が **同じ文字列のまま** 言い換え文を html の `parameterAudit` へ
+  //   移したので、契約は「html は不変」から「**preset が言い換え文そのものを持つ**」へ変わる。
+  //   旧表現は fitted 側に**履歴として引用**されたまま残る(derived 側の旧文は言い換え文に置き換わった)。
+  const carryF = pa ? findIn(pa.parameterAudit && pa.parameterAudit.fitted, render.ja.fitted[0]) : { index: -1 };
+  const carryD = pa ? findIn(pa.parameterAudit && pa.parameterAudit.derived, render.ja.derived[0]) : { index: -1 };
   out.parameterAuditRestatement = {
-    scope: '**器の出力だけ**(`beta/index.html` は 1 bit も触っていない)。'
-      + 'html の `parameterAudit` を直すかどうかは**決断事項**である(第270便e が「残った不整合」として'
-      + '記録した箇所 —— 直すなら `presetSig` への影響と `behavior.tuc47` の固定値を同じ便で見る)。',
+    scope: '第271便d は**器の出力だけ**で言い換え、第272便d(AG23)が同じ文字列を html の `parameterAudit` へ移した'
+      + '(`presetSig` は `parameterAudit` を見ない・`behavior.tuc47` の力学値は不変・数値は 1 つも変えていない)。',
     state,
     rendered: render,
+    presetCarriesRestatement: { fitted: carryF.index >= 0, derived: carryD.index >= 0,
+      fittedIndex: carryF.index, derivedIndex: carryD.index,
+      note: '**preset の文が言い換え文(rendered.ja)そのものであることの機械照合**'
+        + '(html 側の文が変われば false になり、この欄の更新が必要だと分かる)。' },
     legacyFoundInPreset: { fitted: hitF.index >= 0, derived: hitD.index >= 0,
       fittedIndex: hitF.index, derivedIndex: hitD.index,
-      note: '**言い換え先が実在の文を指していることの機械照合**である'
-        + '(preset の文が変われば false になり、この欄の更新が必要だと分かる)。' },
-    htmlUntouched: true,
+      note: '旧表現の実在(履歴としての引用)。第272便d 以後は fitted 側に引用として残り、derived 側は言い換え文に'
+        + '置き換わったので false が正常である。' },
+    htmlRestatedBy: '第272便d(AG23)',
+    htmlUntouched: false,
     doNotSay: ['σ hold-out が成立した', 'σ hold-out の不成立が確定した', '観測と合った',
       '対応を宣言した', 'html を直した'] };
   fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
