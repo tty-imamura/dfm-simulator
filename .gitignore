@@ -338,6 +338,13 @@ paper/*Notes.bib
 #   「採用入力が CSV の DDFWHE 行そのものであること」「刻み・窓・段・共同根の探索条件が入っていること」
 #   「宣言リテラルが採用レコードの転写から相対差 0 で戻ること」を突き合わせるのでコミットする。
 !tests/out/j1946adopt-w270c.json
+# 第272便b(第62報「カロン」): ❄️ 冥王星–カロンの**対照系列 C0〜C7/S(診断のみ)**の実測正本
+#   (tests/exp-w272b-charon.mjs)。kFrame<1・geoPN=3・f≠1 は**器の中の診断コピーだけ**で、
+#   内蔵 124 本は 1 bit も変えていない。列 × 段(h / h/2 / h/4)・走行前に固定した契約
+#   (近点窓 20・ORB_MAX 60・判定は 2 周目・h 段 20,700,000 步)・observation は calaudit 正本からの引き。
+#   QA `docs.charonSeries` が「meta.targetSha256 が現行 beta/index.html と一致」「9 系列 38 列」
+#   「NaN 0」「C0 が棚卸し正本の同方向 1 周を再現」を突き合わせるのでコミットする
+!tests/out/charon-w272b.json
 # 第272便e(AG18): **訂正履歴の台帳**(paper/data/corrections.json)と観測 CSV の突き合わせ
 #   (tests/exp-w272e-corrections.mjs)。台帳の record_id が CSV に在るか・各 revision の
 #   `current` が現行値と一致するか・訂正の印を持つ行が 1 行残らず台帳に載っているかの実測。
