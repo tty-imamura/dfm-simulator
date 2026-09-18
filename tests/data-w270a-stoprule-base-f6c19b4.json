@@ -1,21 +1,12 @@
 {
- "what": "基点 743ad9b の tests/out/calaudit-w249.json から、**走行長に関する欄だけ**を機械抽出した表である(手で打った数字は 1 つも無い)。停止条件の宣言(第270便a・AE9 /第271便a・AF3)が、基点と**同じ步数・同じ近点数**を再現することを照合するための入力として使う。",
+ "what": "基点 f6c19b4(第269便・PR #271)の tests/out/calaudit-w249.json から、**走行長に関する欄だけ**を機械抽出した表である(手で打った数字は 1 つも無い)。第270便a(AE9)の「步数上限と必要近点数の宣言」が、基点と**同じ步数・同じ近点数**を再現することを照合するための入力として使う。",
  "source": {
-  "commit": "743ad9b",
+  "commit": "f6c19b4",
   "file": "tests/out/calaudit-w249.json",
-  "usedBy": "tests/exp-w270a-stoprule.mjs",
-  "sourceSha256": "58a52a850cbefcf50f04767397941aedabdd5558208db875f704d5bab89ae612"
+  "usedBy": "tests/exp-w270a-stoprule.mjs"
  },
  "note": "`rateStepsPerSec`・`wallSec` は**機種依存の記録**である —— AE9 以降、步数の決定にはこの 2 つを使わない(壁時計は資源上限にだけ残す)。",
- "history": [
-  {
-   "commit": "f6c19b4",
-   "wave": "第270便a(AE9)で作った初版",
-   "file": "tests/data-w270a-stoprule-base-f6c19b4.json",
-   "why": "第270便c(AD9)の採用レコード一組化で 🩺🪀🩹 の導出 a が動き(60 公転ぶんの步数 1,040,661 → 1,040,650 步)、第271便a(AF2)で ❄️ の步数宣言が入ったので、この基点とは 9 段が一致しない。第271便a は `BASE_REPLAY_EXCEPTIONS` の**宣言例外**で通していた。**旧基点は履歴として残す**(差が無かったことにはならない)。"
-  }
- ],
- "nRows": 86,
+ "nRows": 84,
  "rows": [
   {
    "id": "earthMoonReal",
@@ -26,7 +17,7 @@
    "maxSteps": 40000000,
    "stepsRun": 40000000,
    "rateStepsPerSec": 1428571,
-   "wallSec": 21.129,
+   "wallSec": 21.322,
    "periFoundA": [
     27
    ],
@@ -40,11 +31,11 @@
    "emoji": "🌙",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 40000000,
    "stepsRun": 40000000,
-   "rateStepsPerSec": 1666667,
-   "wallSec": 21.962,
+   "rateStepsPerSec": 1428571,
+   "wallSec": 21.994,
    "periFoundA": [
     13
    ],
@@ -61,8 +52,8 @@
    "n": 2,
    "maxSteps": 40000000,
    "stepsRun": 40000000,
-   "rateStepsPerSec": 769231,
-   "wallSec": 37.502,
+   "rateStepsPerSec": 500000,
+   "wallSec": 40.069,
    "periFoundA": [
     26
    ],
@@ -76,11 +67,11 @@
    "emoji": "🌘",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 40000000,
    "stepsRun": 40000000,
-   "rateStepsPerSec": 1176471,
-   "wallSec": 37.332,
+   "rateStepsPerSec": 1052632,
+   "wallSec": 42.356,
    "periFoundA": [
     13
    ],
@@ -97,8 +88,8 @@
    "n": 2,
    "maxSteps": 40000000,
    "stepsRun": 40000000,
-   "rateStepsPerSec": 952381,
-   "wallSec": 34.812,
+   "rateStepsPerSec": 1111111,
+   "wallSec": 35.988,
    "periFoundA": [
     26
    ],
@@ -112,11 +103,11 @@
    "emoji": "🧲",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 40000000,
    "stepsRun": 40000000,
-   "rateStepsPerSec": 1333333,
-   "wallSec": 34.394,
+   "rateStepsPerSec": 1000000,
+   "wallSec": 36.308,
    "periFoundA": [
     13
    ],
@@ -133,8 +124,8 @@
    "n": 3,
    "maxSteps": 890906,
    "stepsRun": 885179,
-   "rateStepsPerSec": 869565,
-   "wallSec": 0.698,
+   "rateStepsPerSec": 1000000,
+   "wallSec": 0.635,
    "periFoundA": [
     59
    ],
@@ -148,11 +139,11 @@
    "emoji": "🔆",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 3,
+   "n": null,
    "maxSteps": 1781813,
    "stepsRun": 1770360,
-   "rateStepsPerSec": 1428571,
-   "wallSec": 1.183,
+   "rateStepsPerSec": 1538462,
+   "wallSec": 1.234,
    "periFoundA": [
     59
    ],
@@ -169,8 +160,8 @@
    "n": 2,
    "maxSteps": 2850199,
    "stepsRun": 2850199,
-   "rateStepsPerSec": 2222222,
-   "wallSec": 1.276,
+   "rateStepsPerSec": 1818182,
+   "wallSec": 1.509,
    "periFoundA": [
     59
    ],
@@ -184,11 +175,11 @@
    "emoji": "☄️",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 5700398,
    "stepsRun": 5700398,
-   "rateStepsPerSec": 1538462,
-   "wallSec": 3.106,
+   "rateStepsPerSec": 2000000,
+   "wallSec": 2.986,
    "periFoundA": [
     59
    ],
@@ -205,8 +196,8 @@
    "n": 2,
    "maxSteps": 2850199,
    "stepsRun": 2850199,
-   "rateStepsPerSec": 869565,
-   "wallSec": 2.661,
+   "rateStepsPerSec": 800000,
+   "wallSec": 2.866,
    "periFoundA": [
     59
    ],
@@ -220,11 +211,11 @@
    "emoji": "🪨",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 5700398,
    "stepsRun": 5700398,
    "rateStepsPerSec": 1250000,
-   "wallSec": 5.305,
+   "wallSec": 5.513,
    "periFoundA": [
     59
    ],
@@ -241,8 +232,8 @@
    "n": 105,
    "maxSteps": 866426,
    "stepsRun": 866426,
-   "rateStepsPerSec": 1804,
-   "wallSec": 463.498,
+   "rateStepsPerSec": 1805,
+   "wallSec": 486.966,
    "periFoundA": [
     9,
     5,
@@ -265,8 +256,8 @@
    "n": 5,
    "maxSteps": 5407442,
    "stepsRun": 5407442,
-   "rateStepsPerSec": 425532,
-   "wallSec": 11.709,
+   "rateStepsPerSec": 444444,
+   "wallSec": 12.67,
    "periFoundA": [
     63,
     63,
@@ -286,11 +277,11 @@
    "emoji": "🟠",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 5,
+   "n": null,
    "maxSteps": 10814883,
    "stepsRun": 10814883,
-   "rateStepsPerSec": 454545,
-   "wallSec": 23.7,
+   "rateStepsPerSec": 434783,
+   "wallSec": 25.383,
    "periFoundA": [
     63,
     63,
@@ -314,7 +305,7 @@
    "maxSteps": 7280208,
    "stepsRun": 7280208,
    "rateStepsPerSec": 833333,
-   "wallSec": 6.877,
+   "wallSec": 7.116,
    "periFoundA": [
     59
    ],
@@ -328,11 +319,11 @@
    "emoji": "🌇",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 14560415,
    "stepsRun": 14560415,
-   "rateStepsPerSec": 1000000,
-   "wallSec": 13.486,
+   "rateStepsPerSec": 952381,
+   "wallSec": 14.764,
    "periFoundA": [
     59
    ],
@@ -349,8 +340,8 @@
    "n": 3,
    "maxSteps": 4091814,
    "stepsRun": 4091814,
-   "rateStepsPerSec": 952381,
-   "wallSec": 4.632,
+   "rateStepsPerSec": 833333,
+   "wallSec": 4.835,
    "periFoundA": [
     63,
     59
@@ -366,11 +357,11 @@
    "emoji": "🥔",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 3,
+   "n": null,
    "maxSteps": 8183629,
    "stepsRun": 8183629,
-   "rateStepsPerSec": 1000000,
-   "wallSec": 8.781,
+   "rateStepsPerSec": 800000,
+   "wallSec": 9.655,
    "periFoundA": [
     63,
     59
@@ -390,7 +381,7 @@
    "maxSteps": 20694498,
    "stepsRun": 20694498,
    "rateStepsPerSec": 952381,
-   "wallSec": 18.676,
+   "wallSec": 19.802,
    "periFoundA": [
     59
    ],
@@ -404,31 +395,13 @@
    "emoji": "❄️",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
-   "maxSteps": 41388996,
-   "stepsRun": 41388996,
-   "rateStepsPerSec": 952381,
-   "wallSec": 35.57,
+   "n": null,
+   "maxSteps": 40000000,
+   "stepsRun": 40000000,
+   "rateStepsPerSec": 909091,
+   "wallSec": 37.934,
    "periFoundA": [
-    59
-   ],
-   "periWindow": 20,
-   "windowFilledA": [
-    true
-   ]
-  },
-  {
-   "id": "plutoCharonReal",
-   "emoji": "❄️",
-   "tag": "dt/4",
-   "dt": 0.004,
-   "n": 2,
-   "maxSteps": 82777992,
-   "stepsRun": 82777992,
-   "rateStepsPerSec": 1000000,
-   "wallSec": 76.959,
-   "periFoundA": [
-    59
+    57
    ],
    "periWindow": 20,
    "windowFilledA": [
@@ -443,8 +416,8 @@
    "n": 94,
    "maxSteps": 1075028,
    "stepsRun": 1075028,
-   "rateStepsPerSec": 2190,
-   "wallSec": 468.879,
+   "rateStepsPerSec": 2240,
+   "wallSec": 480.828,
    "periFoundA": [
     14,
     7,
@@ -470,7 +443,7 @@
    "maxSteps": 1904169,
    "stepsRun": 1904169,
    "rateStepsPerSec": 1000000,
-   "wallSec": 1.846,
+   "wallSec": 1.713,
    "periFoundA": [
     59
    ],
@@ -484,11 +457,11 @@
    "emoji": "🌊",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 3808338,
    "stepsRun": 3808338,
-   "rateStepsPerSec": 1000000,
-   "wallSec": 3.602,
+   "rateStepsPerSec": 1052632,
+   "wallSec": 3.482,
    "periFoundA": [
     59
    ],
@@ -506,7 +479,7 @@
    "maxSteps": 9439328,
    "stepsRun": 9439328,
    "rateStepsPerSec": 1176471,
-   "wallSec": 5.762,
+   "wallSec": 5.567,
    "periFoundA": [
     60
    ],
@@ -520,11 +493,11 @@
    "emoji": "✨",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 18878657,
    "stepsRun": 18878657,
-   "rateStepsPerSec": 1666667,
-   "wallSec": 11.685,
+   "rateStepsPerSec": 1250000,
+   "wallSec": 10.857,
    "periFoundA": [
     60
    ],
@@ -538,11 +511,11 @@
    "emoji": "✨",
    "tag": "dt/4",
    "dt": 0.004,
-   "n": 2,
+   "n": null,
    "maxSteps": 37757313,
    "stepsRun": 37757313,
-   "rateStepsPerSec": 1818182,
-   "wallSec": 22.453,
+   "rateStepsPerSec": 2000000,
+   "wallSec": 22.101,
    "periFoundA": [
     60
    ],
@@ -559,8 +532,8 @@
    "n": 2,
    "maxSteps": 9437344,
    "stepsRun": 9393477,
-   "rateStepsPerSec": 714286,
-   "wallSec": 10.793,
+   "rateStepsPerSec": 625000,
+   "wallSec": 10.59,
    "periFoundA": [
     60
    ],
@@ -574,11 +547,11 @@
    "emoji": "✴️",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 18874688,
    "stepsRun": 18787833,
-   "rateStepsPerSec": 909091,
-   "wallSec": 21.225,
+   "rateStepsPerSec": 869565,
+   "wallSec": 21.311,
    "periFoundA": [
     60
    ],
@@ -592,11 +565,11 @@
    "emoji": "✴️",
    "tag": "dt/4",
    "dt": 0.004,
-   "n": 2,
+   "n": null,
    "maxSteps": 37749376,
    "stepsRun": 37576543,
-   "rateStepsPerSec": 1052632,
-   "wallSec": 42.124,
+   "rateStepsPerSec": 909091,
+   "wallSec": 42.624,
    "periFoundA": [
     60
    ],
@@ -613,8 +586,8 @@
    "n": 2,
    "maxSteps": 5932383,
    "stepsRun": 5932383,
-   "rateStepsPerSec": 2000000,
-   "wallSec": 3.672,
+   "rateStepsPerSec": 1666667,
+   "wallSec": 3.576,
    "periFoundA": [
     60
    ],
@@ -628,11 +601,11 @@
    "emoji": "🌟",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 11864765,
    "stepsRun": 11864765,
-   "rateStepsPerSec": 1666667,
-   "wallSec": 7.295,
+   "rateStepsPerSec": 2000000,
+   "wallSec": 7.197,
    "periFoundA": [
     60
    ],
@@ -646,11 +619,11 @@
    "emoji": "🌟",
    "tag": "dt/4",
    "dt": 0.004,
-   "n": 2,
+   "n": null,
    "maxSteps": 23729530,
    "stepsRun": 23729530,
    "rateStepsPerSec": 1818182,
-   "wallSec": 14.438,
+   "wallSec": 14.045,
    "periFoundA": [
     60
    ],
@@ -668,7 +641,7 @@
    "maxSteps": 5930404,
    "stepsRun": 5888550,
    "rateStepsPerSec": 1052632,
-   "wallSec": 6.583,
+   "wallSec": 6.557,
    "periFoundA": [
     60
    ],
@@ -682,11 +655,11 @@
    "emoji": "💫",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 11860808,
    "stepsRun": 11780426,
-   "rateStepsPerSec": 1000000,
-   "wallSec": 12.982,
+   "rateStepsPerSec": 952381,
+   "wallSec": 12.856,
    "periFoundA": [
     60
    ],
@@ -700,11 +673,11 @@
    "emoji": "💫",
    "tag": "dt/4",
    "dt": 0.004,
-   "n": 2,
+   "n": null,
    "maxSteps": 23721616,
    "stepsRun": 23564167,
    "rateStepsPerSec": 952381,
-   "wallSec": 25.324,
+   "wallSec": 26.134,
    "periFoundA": [
     60
    ],
@@ -721,8 +694,8 @@
    "n": 2,
    "maxSteps": 3312950,
    "stepsRun": 3312950,
-   "rateStepsPerSec": 1111111,
-   "wallSec": 2.037,
+   "rateStepsPerSec": 1250000,
+   "wallSec": 2.064,
    "periFoundA": [
     60
    ],
@@ -736,11 +709,11 @@
    "emoji": "📻",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 6625899,
    "stepsRun": 6625899,
-   "rateStepsPerSec": 2000000,
-   "wallSec": 4.003,
+   "rateStepsPerSec": 1818182,
+   "wallSec": 3.951,
    "periFoundA": [
     60
    ],
@@ -754,11 +727,11 @@
    "emoji": "📻",
    "tag": "dt/4",
    "dt": 0.004,
-   "n": 2,
+   "n": null,
    "maxSteps": 13251799,
    "stepsRun": 13251799,
-   "rateStepsPerSec": 1818182,
-   "wallSec": 8.007,
+   "rateStepsPerSec": 2000000,
+   "wallSec": 7.836,
    "periFoundA": [
     60
    ],
@@ -775,8 +748,8 @@
    "n": 2,
    "maxSteps": 1385472,
    "stepsRun": 1385472,
-   "rateStepsPerSec": 588235,
-   "wallSec": 1.924,
+   "rateStepsPerSec": 606061,
+   "wallSec": 1.918,
    "periFoundA": [
     25
    ],
@@ -790,11 +763,11 @@
    "emoji": "⚡",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 2770943,
    "stepsRun": 2770943,
    "rateStepsPerSec": 769231,
-   "wallSec": 3.603,
+   "wallSec": 3.68,
    "periFoundA": [
     25
    ],
@@ -808,11 +781,11 @@
    "emoji": "⚡",
    "tag": "dt/4",
    "dt": 0.004,
-   "n": 2,
+   "n": null,
    "maxSteps": 5541886,
    "stepsRun": 5541886,
-   "rateStepsPerSec": 769231,
-   "wallSec": 7.175,
+   "rateStepsPerSec": 740741,
+   "wallSec": 7.461,
    "periFoundA": [
     25
    ],
@@ -829,8 +802,8 @@
    "n": 2,
    "maxSteps": 1385490,
    "stepsRun": 1385490,
-   "rateStepsPerSec": 434783,
-   "wallSec": 2.112,
+   "rateStepsPerSec": 540541,
+   "wallSec": 1.963,
    "periFoundA": [
     25
    ],
@@ -844,11 +817,11 @@
    "emoji": "🧿",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 2770980,
    "stepsRun": 2770980,
-   "rateStepsPerSec": 625000,
-   "wallSec": 4.005,
+   "rateStepsPerSec": 540541,
+   "wallSec": 3.909,
    "periFoundA": [
     25
    ],
@@ -865,8 +838,8 @@
    "n": 2,
    "maxSteps": 3534675,
    "stepsRun": 3534675,
-   "rateStepsPerSec": 769231,
-   "wallSec": 4.82,
+   "rateStepsPerSec": 833333,
+   "wallSec": 4.691,
    "periFoundA": [
     37
    ],
@@ -880,11 +853,11 @@
    "emoji": "🧮",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 7069351,
    "stepsRun": 7069351,
-   "rateStepsPerSec": 800000,
-   "wallSec": 9.279,
+   "rateStepsPerSec": 833333,
+   "wallSec": 9.219,
    "periFoundA": [
     36
    ],
@@ -898,11 +871,11 @@
    "emoji": "🧮",
    "tag": "dt/4",
    "dt": 0.004,
-   "n": 2,
+   "n": null,
    "maxSteps": 14138701,
    "stepsRun": 14138701,
-   "rateStepsPerSec": 740741,
-   "wallSec": 18.429,
+   "rateStepsPerSec": 588235,
+   "wallSec": 18.363,
    "periFoundA": [
     36
    ],
@@ -917,10 +890,10 @@
    "tag": "dt",
    "dt": 0.016,
    "n": 2,
-   "maxSteps": 1040650,
-   "stepsRun": 1040650,
-   "rateStepsPerSec": 833333,
-   "wallSec": 1.31,
+   "maxSteps": 1040661,
+   "stepsRun": 1040661,
+   "rateStepsPerSec": 800000,
+   "wallSec": 1.416,
    "periFoundA": [
     25
    ],
@@ -934,11 +907,11 @@
    "emoji": "🩺",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
-   "maxSteps": 2081299,
-   "stepsRun": 2081299,
-   "rateStepsPerSec": 869565,
-   "wallSec": 2.707,
+   "n": null,
+   "maxSteps": 2081321,
+   "stepsRun": 2081321,
+   "rateStepsPerSec": 800000,
+   "wallSec": 2.783,
    "periFoundA": [
     25
    ],
@@ -952,11 +925,11 @@
    "emoji": "🩺",
    "tag": "dt/4",
    "dt": 0.004,
-   "n": 2,
-   "maxSteps": 4162598,
-   "stepsRun": 4162598,
-   "rateStepsPerSec": 769231,
-   "wallSec": 5.499,
+   "n": null,
+   "maxSteps": 4162642,
+   "stepsRun": 4162642,
+   "rateStepsPerSec": 800000,
+   "wallSec": 5.413,
    "periFoundA": [
     25
    ],
@@ -973,8 +946,8 @@
    "n": 2,
    "maxSteps": 1385472,
    "stepsRun": 1385472,
-   "rateStepsPerSec": 869565,
-   "wallSec": 1.858,
+   "rateStepsPerSec": 833333,
+   "wallSec": 1.832,
    "periFoundA": [
     25
    ],
@@ -988,11 +961,11 @@
    "emoji": "🪶",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 2770943,
    "stepsRun": 2770943,
-   "rateStepsPerSec": 740741,
-   "wallSec": 3.776,
+   "rateStepsPerSec": 769231,
+   "wallSec": 3.81,
    "periFoundA": [
     25
    ],
@@ -1009,8 +982,8 @@
    "n": 2,
    "maxSteps": 3534675,
    "stepsRun": 3534675,
-   "rateStepsPerSec": 800000,
-   "wallSec": 5.043,
+   "rateStepsPerSec": 833333,
+   "wallSec": 4.661,
    "periFoundA": [
     37
    ],
@@ -1024,11 +997,11 @@
    "emoji": "🪃",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 7069351,
    "stepsRun": 7069351,
-   "rateStepsPerSec": 740741,
-   "wallSec": 9.997,
+   "rateStepsPerSec": 800000,
+   "wallSec": 9.314,
    "periFoundA": [
     36
    ],
@@ -1043,10 +1016,10 @@
    "tag": "dt",
    "dt": 0.016,
    "n": 2,
-   "maxSteps": 1040650,
-   "stepsRun": 1040650,
-   "rateStepsPerSec": 769231,
-   "wallSec": 1.414,
+   "maxSteps": 1040661,
+   "stepsRun": 1040661,
+   "rateStepsPerSec": 689655,
+   "wallSec": 1.391,
    "periFoundA": [
     25
    ],
@@ -1060,11 +1033,11 @@
    "emoji": "🪀",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
-   "maxSteps": 2081299,
-   "stepsRun": 2081299,
-   "rateStepsPerSec": 740741,
-   "wallSec": 2.946,
+   "n": null,
+   "maxSteps": 2081321,
+   "stepsRun": 2081321,
+   "rateStepsPerSec": 800000,
+   "wallSec": 2.863,
    "periFoundA": [
     25
    ],
@@ -1081,8 +1054,8 @@
    "n": 2,
    "maxSteps": 1385472,
    "stepsRun": 1385472,
-   "rateStepsPerSec": 285714,
-   "wallSec": 2.515,
+   "rateStepsPerSec": 294118,
+   "wallSec": 2.483,
    "periFoundA": [
     25
    ],
@@ -1096,11 +1069,11 @@
    "emoji": "🪝",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 2770943,
    "stepsRun": 2770943,
-   "rateStepsPerSec": 555556,
-   "wallSec": 4.852,
+   "rateStepsPerSec": 571429,
+   "wallSec": 4.862,
    "periFoundA": [
     25
    ],
@@ -1114,11 +1087,11 @@
    "emoji": "🪝",
    "tag": "dt/4",
    "dt": 0.004,
-   "n": 2,
+   "n": null,
    "maxSteps": 5541886,
    "stepsRun": 5541886,
-   "rateStepsPerSec": 666667,
-   "wallSec": 10.228,
+   "rateStepsPerSec": 625000,
+   "wallSec": 9.727,
    "periFoundA": [
     25
    ],
@@ -1135,8 +1108,8 @@
    "n": 2,
    "maxSteps": 3534675,
    "stepsRun": 3534675,
-   "rateStepsPerSec": 540541,
-   "wallSec": 6.496,
+   "rateStepsPerSec": 606061,
+   "wallSec": 6.016,
    "periFoundA": [
     37
    ],
@@ -1150,11 +1123,11 @@
    "emoji": "🪄",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 7069351,
    "stepsRun": 7069351,
-   "rateStepsPerSec": 571429,
-   "wallSec": 13.15,
+   "rateStepsPerSec": 666667,
+   "wallSec": 11.939,
    "periFoundA": [
     36
    ],
@@ -1168,11 +1141,11 @@
    "emoji": "🪄",
    "tag": "dt/4",
    "dt": 0.004,
-   "n": 2,
+   "n": null,
    "maxSteps": 14138701,
    "stepsRun": 14138701,
-   "rateStepsPerSec": 555556,
-   "wallSec": 26.079,
+   "rateStepsPerSec": 625000,
+   "wallSec": 24.707,
    "periFoundA": [
     36
    ],
@@ -1187,10 +1160,10 @@
    "tag": "dt",
    "dt": 0.016,
    "n": 2,
-   "maxSteps": 1040650,
-   "stepsRun": 1040650,
-   "rateStepsPerSec": 476190,
-   "wallSec": 2.169,
+   "maxSteps": 1040661,
+   "stepsRun": 1040661,
+   "rateStepsPerSec": 540541,
+   "wallSec": 1.815,
    "periFoundA": [
     25
    ],
@@ -1204,11 +1177,11 @@
    "emoji": "🩹",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
-   "maxSteps": 2081299,
-   "stepsRun": 2081299,
-   "rateStepsPerSec": 476190,
-   "wallSec": 3.997,
+   "n": null,
+   "maxSteps": 2081321,
+   "stepsRun": 2081321,
+   "rateStepsPerSec": 588235,
+   "wallSec": 3.538,
    "periFoundA": [
     25
    ],
@@ -1222,11 +1195,11 @@
    "emoji": "🩹",
    "tag": "dt/4",
    "dt": 0.004,
-   "n": 2,
-   "maxSteps": 4162598,
-   "stepsRun": 4162598,
-   "rateStepsPerSec": 266667,
-   "wallSec": 7.149,
+   "n": null,
+   "maxSteps": 4162642,
+   "stepsRun": 4162642,
+   "rateStepsPerSec": 571429,
+   "wallSec": 7.418,
    "periFoundA": [
     25
    ],
@@ -1243,8 +1216,8 @@
    "n": 2,
    "maxSteps": 13631888,
    "stepsRun": 13631888,
-   "rateStepsPerSec": 1538462,
-   "wallSec": 10.023,
+   "rateStepsPerSec": 1250000,
+   "wallSec": 10.416,
    "periFoundA": [
     60
    ],
@@ -1258,11 +1231,11 @@
    "emoji": "📿",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 27263777,
    "stepsRun": 27263777,
-   "rateStepsPerSec": 1538462,
-   "wallSec": 21.148,
+   "rateStepsPerSec": 1428571,
+   "wallSec": 20.695,
    "periFoundA": [
     60
    ],
@@ -1276,11 +1249,11 @@
    "emoji": "📿",
    "tag": "dt/4",
    "dt": 0.004,
-   "n": 2,
+   "n": null,
    "maxSteps": 40000000,
    "stepsRun": 40000000,
    "rateStepsPerSec": 1428571,
-   "wallSec": 30.679,
+   "wallSec": 30.447,
    "periFoundA": [
     44
    ],
@@ -1297,8 +1270,8 @@
    "n": 2,
    "maxSteps": 6617813,
    "stepsRun": 6617813,
-   "rateStepsPerSec": 833333,
-   "wallSec": 8.832,
+   "rateStepsPerSec": 800000,
+   "wallSec": 8.587,
    "periFoundA": [
     29
    ],
@@ -1312,11 +1285,11 @@
    "emoji": "🧶",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 13235625,
    "stepsRun": 13235625,
-   "rateStepsPerSec": 800000,
-   "wallSec": 17.209,
+   "rateStepsPerSec": 769231,
+   "wallSec": 17.402,
    "periFoundA": [
     29
    ],
@@ -1330,11 +1303,11 @@
    "emoji": "🧶",
    "tag": "dt/4",
    "dt": 0.004,
-   "n": 2,
+   "n": null,
    "maxSteps": 26471251,
    "stepsRun": 26471251,
    "rateStepsPerSec": 800000,
-   "wallSec": 34.683,
+   "wallSec": 34.461,
    "periFoundA": [
     29
    ],
@@ -1351,8 +1324,8 @@
    "n": 2,
    "maxSteps": 6617813,
    "stepsRun": 6617813,
-   "rateStepsPerSec": 476190,
-   "wallSec": 12.858,
+   "rateStepsPerSec": 512821,
+   "wallSec": 11.657,
    "periFoundA": [
     29
    ],
@@ -1366,11 +1339,11 @@
    "emoji": "🪤",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 13235625,
    "stepsRun": 13235625,
-   "rateStepsPerSec": 540541,
-   "wallSec": 26.171,
+   "rateStepsPerSec": 606061,
+   "wallSec": 23.621,
    "periFoundA": [
     29
    ],
@@ -1384,11 +1357,11 @@
    "emoji": "🪤",
    "tag": "dt/4",
    "dt": 0.004,
-   "n": 2,
+   "n": null,
    "maxSteps": 26471251,
    "stepsRun": 26471251,
-   "rateStepsPerSec": 526316,
-   "wallSec": 53.718,
+   "rateStepsPerSec": 465116,
+   "wallSec": 45.717,
    "periFoundA": [
     29
    ],
@@ -1405,8 +1378,8 @@
    "n": 2,
    "maxSteps": 681306,
    "stepsRun": 681306,
-   "rateStepsPerSec": 1666667,
-   "wallSec": 0.439,
+   "rateStepsPerSec": 2000000,
+   "wallSec": 0.413,
    "periFoundA": [
     60
    ],
@@ -1420,11 +1393,11 @@
    "emoji": "🎐",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 1362611,
    "stepsRun": 1362611,
-   "rateStepsPerSec": 2222222,
-   "wallSec": 0.819,
+   "rateStepsPerSec": 1538462,
+   "wallSec": 0.783,
    "periFoundA": [
     60
    ],
@@ -1442,7 +1415,7 @@
    "maxSteps": 282932,
    "stepsRun": 282932,
    "rateStepsPerSec": 666667,
-   "wallSec": 0.311,
+   "wallSec": 0.321,
    "periFoundA": [
     7
    ],
@@ -1456,11 +1429,11 @@
    "emoji": "🎻",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 565863,
    "stepsRun": 565863,
-   "rateStepsPerSec": 1111111,
-   "wallSec": 0.585,
+   "rateStepsPerSec": 1052632,
+   "wallSec": 0.564,
    "periFoundA": [
     6
    ],
@@ -1477,7 +1450,7 @@
    "n": 2,
    "maxSteps": 14147,
    "stepsRun": 14147,
-   "rateStepsPerSec": 540541,
+   "rateStepsPerSec": 588235,
    "wallSec": 0.03,
    "periFoundA": [
     1
@@ -1492,11 +1465,11 @@
    "emoji": "⏰",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 2,
+   "n": null,
    "maxSteps": 28293,
    "stepsRun": 28293,
-   "rateStepsPerSec": 800000,
-   "wallSec": 0.051,
+   "rateStepsPerSec": 666667,
+   "wallSec": 0.056,
    "periFoundA": [
     1
    ],
@@ -1513,8 +1486,8 @@
    "n": 11,
    "maxSteps": 699401,
    "stepsRun": 668676,
-   "rateStepsPerSec": 137931,
-   "wallSec": 2.927,
+   "rateStepsPerSec": 134228,
+   "wallSec": 3.08,
    "periFoundA": [
     58
    ],
@@ -1528,29 +1501,11 @@
    "emoji": "📡",
    "tag": "dt/2",
    "dt": 0.008,
-   "n": 11,
+   "n": null,
    "maxSteps": 1398802,
    "stepsRun": 1337353,
-   "rateStepsPerSec": 238095,
-   "wallSec": 5.281,
-   "periFoundA": [
-    58
-   ],
-   "periWindow": 20,
-   "windowFilledA": [
-    true
-   ]
-  },
-  {
-   "id": "saturnZonalD68",
-   "emoji": "📡",
-   "tag": "dt/4",
-   "dt": 0.004,
-   "n": 11,
-   "maxSteps": 2797603,
-   "stepsRun": 2674708,
-   "rateStepsPerSec": 240964,
-   "wallSec": 11.188,
+   "rateStepsPerSec": 229885,
+   "wallSec": 5.778,
    "periFoundA": [
     58
    ],
@@ -1567,8 +1522,8 @@
    "n": 127,
    "maxSteps": 2042988,
    "stepsRun": 2042988,
-   "rateStepsPerSec": 4832,
-   "wallSec": 435.531,
+   "rateStepsPerSec": 4256,
+   "wallSec": 459.582,
    "periFoundA": [
     63,
     36,
@@ -1589,8 +1544,8 @@
    "n": 127,
    "maxSteps": 254730,
    "stepsRun": 254730,
-   "rateStepsPerSec": 670,
-   "wallSec": 409.715,
+   "rateStepsPerSec": 603,
+   "wallSec": 422.773,
    "periFoundA": [
     13,
     2,

@@ -1,10 +1,10 @@
 {
- "when": "2026-09-18T12:52:10.336Z",
+ "when": "2026-09-18T18:18:41.850Z",
  "wave": "第262便d(第54報 W4)→ 第263便c(第55報 W3)で σ 未確認の状態名と不足一覧を足した",
  "inputs": {
   "calaudit": "tests/out/calaudit-w249.json",
   "csv": "paper/data/solar-observations.csv",
-  "calauditWhen": "2026-09-18T12:40:31.692Z"
+  "calauditWhen": "2026-09-18T18:00:49.405Z"
  },
  "gate": {
   "nSigma": 3,
@@ -425,9 +425,9 @@
      "primaryVerified": false
     },
     "valueDelta": 2.3587200000183657,
-    "residual": 1354.6121744329575,
-    "nSigma": 52261.27216176534,
-    "assessedStage": "h4",
+    "residual": 1354.817083647591,
+    "nSigma": 52269.177609860766,
+    "assessedStage": "h8",
     "primaryVerified": true,
     "guards": {
      "ok": false,
@@ -465,9 +465,9 @@
      "primaryVerified": false
     },
     "valueDelta": 2.3587200000183657,
-    "residual": 1354.6121744329575,
-    "nSigma": 52261.27216176534,
-    "assessedStage": "h4",
+    "residual": 1354.817083647591,
+    "nSigma": 52269.177609860766,
+    "assessedStage": "h8",
     "primaryVerified": true,
     "guards": {
      "ok": false,
@@ -488,7 +488,7 @@
     "emoji": "❄️",
     "target": "カロン",
     "kind": "period",
-    "meas": 553210.6340099995,
+    "meas": 556266.4212066433,
     "key": "Charon|orbital_period",
     "declaredSource": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
     "declaredValue": 551856.43872,
@@ -505,22 +505,23 @@
      "primaryVerified": false
     },
     "valueDelta": 2.3587200000183657,
-    "residual": 1354.6121744329575,
-    "nSigma": 52261.27216176534,
-    "assessedStage": "h4",
+    "residual": 4415.395429558121,
+    "nSigma": 170347.04589344602,
+    "assessedStage": "h8",
     "primaryVerified": true,
     "guards": {
      "ok": false,
      "missing": [
+      "観測量対応が未確定",
       "数値収束が未確認"
      ],
      "definitionDeclared": true,
-     "mappingResolved": true,
+     "mappingResolved": false,
      "convergenceOk": false,
-     "verdict": "保留(数値収束が未確認)",
+     "verdict": "保留(観測量対応が未確定/数値収束が未確認)",
      "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
     },
-    "verdict": "保留(数値収束が未確認)",
+    "verdict": "保留(観測量対応が未確定/数値収束が未確認)",
     "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
    }
   ],
@@ -954,7 +955,7 @@
    "target": "月",
    "unit": "s",
    "obs": 2360594.88,
-   "meas": 2360445.7808343223,
+   "meas": 2376799.8123764712,
    "sigmaCard": null,
    "csvBody": "Moon",
    "csvQuantity": "orbital_period",
@@ -1187,7 +1188,7 @@
    "target": "月",
    "unit": "s",
    "obs": 2360594.88,
-   "meas": 2361401.626774688,
+   "meas": 2376719.372815859,
    "sigmaCard": null,
    "csvBody": "Moon",
    "csvQuantity": "orbital_period",
@@ -3714,9 +3715,9 @@
      "primaryVerified": false
     },
     "valueDelta": 2.3587200000183657,
-    "residual": 1354.6121744329575,
-    "nSigma": 52261.27216176534,
-    "assessedStage": "h4",
+    "residual": 1354.817083647591,
+    "nSigma": 52269.177609860766,
+    "assessedStage": "h8",
     "primaryVerified": true,
     "guards": {
      "ok": false,
@@ -3764,8 +3765,8 @@
    "cut": null,
    "condMismatch": false,
    "sigma": 0.02592,
-   "residual": 1354.6121744329575,
-   "nSigma": 52261.27216176534,
+   "residual": 1354.817083647591,
+   "nSigma": 52269.177609860766,
    "numOk": false,
    "gateStatusBefore": "数値未解決",
    "verdict": "保留(数値収束が未確認)",
@@ -3798,9 +3799,9 @@
      "primaryVerified": false
     },
     "valueDelta": 2.3587200000183657,
-    "residual": 1354.6121744329575,
-    "nSigma": 52261.27216176534,
-    "assessedStage": "h4",
+    "residual": 1354.817083647591,
+    "nSigma": 52269.177609860766,
+    "assessedStage": "h8",
     "primaryVerified": true,
     "guards": {
      "ok": false,
@@ -3825,7 +3826,7 @@
    "target": "カロン",
    "unit": "s",
    "obs": 551856.43872,
-   "meas": 553210.6340099995,
+   "meas": 556266.4212066433,
    "sigmaCard": null,
    "csvBody": "Charon",
    "csvQuantity": "orbital_period",
@@ -3848,20 +3849,21 @@
    "cut": null,
    "condMismatch": false,
    "sigma": 0.02592,
-   "residual": 1354.6121744329575,
-   "nSigma": 52261.27216176534,
+   "residual": 4415.395429558121,
+   "nSigma": 170347.04589344602,
    "numOk": false,
-   "gateStatusBefore": "数値未解決",
-   "verdict": "保留(数値収束が未確認)",
+   "gateStatusBefore": "mapping-unresolved",
+   "verdict": "保留(観測量対応が未確定/数値収束が未確認)",
    "guards": {
     "ok": false,
     "missing": [
+     "観測量対応が未確定",
      "数値収束が未確認"
     ],
     "definitionDeclared": true,
-    "mappingResolved": true,
+    "mappingResolved": false,
     "convergenceOk": false,
-    "verdict": "保留(数値収束が未確認)",
+    "verdict": "保留(観測量対応が未確定/数値収束が未確認)",
     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
    },
    "unitConvertedFirst": null,
@@ -3882,22 +3884,23 @@
      "primaryVerified": false
     },
     "valueDelta": 2.3587200000183657,
-    "residual": 1354.6121744329575,
-    "nSigma": 52261.27216176534,
-    "assessedStage": "h4",
+    "residual": 4415.395429558121,
+    "nSigma": 170347.04589344602,
+    "assessedStage": "h8",
     "primaryVerified": true,
     "guards": {
      "ok": false,
      "missing": [
+      "観測量対応が未確定",
       "数値収束が未確認"
      ],
      "definitionDeclared": true,
-     "mappingResolved": true,
+     "mappingResolved": false,
      "convergenceOk": false,
-     "verdict": "保留(数値収束が未確認)",
+     "verdict": "保留(観測量対応が未確定/数値収束が未確認)",
      "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
     },
-    "verdict": "保留(数値収束が未確認)",
+    "verdict": "保留(観測量対応が未確定/数値収束が未確認)",
     "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
    }
   },
@@ -4961,7 +4964,7 @@
    "target": "D68",
    "unit": "s",
    "obs": 17928,
-   "meas": 17865.949830569363,
+   "meas": 18224.858223651565,
    "sigmaCard": null,
    "csvBody": "Saturn ring feature D68",
    "csvQuantity": "orbital_period",

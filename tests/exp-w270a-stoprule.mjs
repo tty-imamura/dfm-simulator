@@ -128,7 +128,9 @@ for (const p of (cal.presets || [])) {
 
 const out = {
   when: new Date().toISOString(),
-  wave: '第271便a(第61報・AF3)— 初版は第270便a(第60報 W1・AE9)',
+  wave: '第272便a(第62報・AG27)— 初版は第270便a(第60報 W1・AE9)・版つき規約は第271便a(AF3)',
+  baseSource: (base.source || null),
+  baseHistory: (base.history || null),
   what: '**停止条件を「步数上限と必要近点数の宣言」にした**ことの照合。走行はしない(JSON を読むだけ)。',
   version: STOP_RULE_VERSION,
   spec: STOP_RULE_SPEC,
@@ -152,7 +154,7 @@ const out = {
       maxSteps: r.nowMaxSteps, stepsRun: r.nowStepsRun, periFoundA: r.nowPeriFoundA })),
     rows,
     finding: (compared.length && differing.length === 0)
-      ? '**基点 f6c19b4 の ' + compared.length + ' 段すべてで、步数も近点数も同じである** —— '
+      ? '**基点 ' + ((base.source && base.source.commit) || '?') + ' の ' + compared.length + ' 段すべてで、步数も近点数も同じである** —— '
         + '宣言した既定値は基点の走行を再現する(走行長の決め方を機種依存の量から宣言へ移しただけで、'
         + '**測っている中身は変えていない**)。'
       : '**' + differing.length + ' 段で基点と違う**(うち宣言した例外 ' + differingDeclared.length
