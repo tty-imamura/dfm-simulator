@@ -140,9 +140,23 @@ export function interval(spec) {
 }
 
 // 区間の**内/外だけ**を返す(合否ではない)。値が無ければ判定しない。
+// 第271便d(統括の検証項目 R6): **`interval()` は逆転区間を弾くのに `intervalState()` は弾いていなかった**
+//   —— 手で組んだ `{lower, upper}`(CSV の note からそのまま作った帯・外から渡された診断欄)が
+//   upper ≤ lower のまま入ると、`offsetInWidths` の分母 `upper−lower` が **0 か負**になり、
+//   「区間の外へどれだけ出たか」が符号ごと反転した有限値として出ていた。
+//   **裁定(この便で決めた片方)**: **throw する**(`mapping-unresolved` を返さない)。
+//   理由は 2 つ —— ① `mapping-unresolved` は「器の量と観測量の**対応が決まっていない**」という
+//   **物理の状態**であって、**壊れた入力の受け皿ではない**(状態の集計に混ぜると、対応未宣言の件数が
+//   入力ミスで水増しされる)。② `interval()` が同じ条件で throw する以上、同じ契約を
+//   `intervalState()` だけ緩めると、**`interval()` を通さない経路が抜け道になる**。
 export function intervalState(value, obs) {
   if (!obs || finiteNumber(obs.lower) === null || finiteNumber(obs.upper) === null)
     return { state: 'mapping-unresolved', reason: '観測側に区間が無い' };
+  const lo0 = finiteNumber(obs.lower), hi0 = finiteNumber(obs.upper);
+  if (!(hi0 > lo0))
+    throw new Error('区間が逆転している/幅が 0 である(lower < upper が要る): '
+      + JSON.stringify([obs.lower, obs.upper])
+      + ' —— **壊れた区間を `mapping-unresolved` にして集計へ流さない**(第271便d・R6)');
   const v0 = finiteNumber(value);
   if (v0 === null) return { state: 'not-measurable', reason: '器の値が得られていない' };
   const inside = v0 >= obs.lower && v0 <= obs.upper;
@@ -176,9 +190,31 @@ export function compareRow(spec) {
       throw new Error(`状態 ${s.state} には**有限な測定値**が要る(測れていないなら別の状態): ${s.quantity}`);
     if (!simUnit)
       throw new Error(`状態 ${s.state} には**空でない明示単位**が要る(単位なしの比較は作らない): ${s.quantity}`);
-    const obsUnit = (s.obs && typeof s.obs.unit === 'string') ? s.obs.unit.trim() : '';
-    if (obsUnit && obsUnit !== simUnit)
+    // 第271便d(統括の検証項目 R6): **観測側の入口ガード。**
+    //   旧版は「**obs 単位があるときだけ**照合する」だったので、**obs が null・空・単位なしでも
+    //   comparable 系の状態が通っていた**(= 何と並べたのかが JSON に無いまま「比較の前提が揃った」と
+    //   書ける経路が残っていた)。比較状態は**相手が居て初めて成立する**ので、
+    //   **① obs が存在すること ② obs に空でない明示単位があり sim と一致すること
+    //   ③ 有限な観測値か、有効な区間(lower < upper)のどちらかを持つこと**を必須にする。
+    //   **数値が合うかどうかは一切見ない**(合否ではなく「並べられる形か」だけを見る門である)。
+    if (!s.obs || typeof s.obs !== 'object')
+      throw new Error(`状態 ${s.state} には**観測側の行**が要る(obs が無い比較状態は作らない): ${s.quantity}`);
+    const obsUnit = (typeof s.obs.unit === 'string') ? s.obs.unit.trim() : '';
+    if (!obsUnit)
+      throw new Error(`状態 ${s.state} の obs に**空でない明示単位**が無い`
+        + `(単位なしの観測と並べない): ${s.quantity}`);
+    if (obsUnit !== simUnit)
       throw new Error(`単位が一致しない(暗黙換算を作らない): ${s.quantity} —— sim "${simUnit}" / obs "${obsUnit}"`);
+    const obsV = finiteNumber(s.obs.value);
+    const obsLo = finiteNumber(s.obs.lower), obsHi = finiteNumber(s.obs.upper);
+    const hasInterval = (obsLo !== null && obsHi !== null);
+    if (hasInterval && !(obsHi > obsLo))
+      throw new Error(`obs の区間が逆転している/幅が 0 である: ${s.quantity} —— `
+        + JSON.stringify([s.obs.lower, s.obs.upper]));
+    if (obsV === null && !hasInterval)
+      throw new Error(`状態 ${s.state} の obs に**有限な観測値も有効な区間も無い**`
+        + `(空欄・null・単位だけの行と並べない —— `
+        + `\`Number(null)=0\` の穴は F4 で塞いだが、**そもそも相手が居ない**のはここで止める): ${s.quantity}`);
   }
   const st = { h: null, h2: null, h4: null };
   for (const k of ['h', 'h2', 'h4']) st[k] = finiteNumber((sim.stages || {})[k]);
@@ -198,6 +234,19 @@ export function compareRow(spec) {
     obs: s.obs === undefined ? null : s.obs,
     state: s.state, reason: s.reason,
     diagnostics: s.diagnostics === undefined ? null : s.diagnostics };
+}
+
+// ---------------------------------------------------------------- 保存行の再検証(第271便d・R6)
+//   **保存 JSON の比較行を、そのまま入口ガードへ通し直す。** 器を走らせずに
+//   「今のガードなら、この行は作れるのか」を機械で言えるようにする(QA `behavior.compareObsRequired`)。
+//   返すのは `{ok, error}` だけで、**行を書き換えない・状態を付け替えない**。
+export function recheckSavedRow(row) {
+  const r = row || {};
+  try {
+    compareRow({ quantity: r.quantity, state: r.state, reason: r.reason,
+      sim: r.sim || {}, obs: r.obs, diagnostics: r.diagnostics });
+    return { ok: true, error: null };
+  } catch (e) { return { ok: false, error: String((e && e.message) || e) }; }
 }
 
 // 状態の集計(**「合格数」ではない** —— 状態ごとの本数である)
