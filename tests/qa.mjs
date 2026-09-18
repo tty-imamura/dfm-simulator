@@ -4065,12 +4065,14 @@ if (!TARGET.startsWith('beta/')) {
     const PERI = {
       earthMoonRealKF1: '27.5228', emAuditDFM: '27.5325', plutoCharonReal: '6.43719',
       saturnZonalD68: '5.0625', alphaCenABDFM: '79.796', siriusABDFM: '50.151',
-      psrDoubleABDFM: '8737.37', psrJ1757DFM: '15853.35', psrJ1946DFM: '6781.524',   // 第254便d: ⚡ は framePrecision:"double" 本体化で 8712.96(可変窓・native)→ 8737.37(窓 20 近点・double)
+      // 統括の統合(第270便): root(v1.44.0 RC・99286dc)は AD9 前の記録なので、採用レコードの
+      //   Meng リテラルの有無で 🩺🪀 の期待値を対象ごとに切り替える(root は旧値 6780.92 / 6780.50)。
+      psrDoubleABDFM: '8737.37', psrJ1757DFM: '15853.35', psrJ1946DFM: (html.includes('6781.367998656') ? '6781.524' : '6780.92'),   // 第254便d: ⚡ は framePrecision:"double" 本体化で 8712.96(可変窓・native)→ 8737.37(窓 20 近点・double)
       // 第270便c(AD9・署名便): 🩺🪀 は採用レコードを Meng 2025 Table 1 DDFWHE の一組へ揃えたので
       //   初期条件が動いた。値は **20 近点窓・dt 0.016/0.008/0.004/0.002 の 4 段 Richardson 外挿**
       //   (tests/exp-w270c-j1946adopt.mjs)。旧値 6780.92 / 6780.50 は第248便a/第249便a の器
       //   (dt=0.001/0.0005・4〜5 近点の位相 fit)の値で、**器と窓が違う**(履歴として docs に残す)。
-      psrDoubleABPN: '8833.27', psrJ1757PN: '15852.64', psrJ1946PN: '6781.254',
+      psrDoubleABPN: '8833.27', psrJ1757PN: '15852.64', psrJ1946PN: (html.includes('6781.367998656') ? '6781.254' : '6780.50'),
       gw150914DFM: '0.178304',
     };
     const EST = { mercuryReal: '600公転', mercuryRealKF1: '600公転', saturnZonalD68: '60公転' };
