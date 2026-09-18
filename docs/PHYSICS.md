@@ -22186,7 +22186,7 @@ commit, field, previous, current, reason, markKey, sourceHash, previousSourceHas
 
 **来歴(〔第272便e〕)。** 正本 7 本の来歴を 1 つの形へ(`targetSha256`・inputs/code・`codeSha256`・不一致は FAIL)・旧器 5 本の凍結印を QA 固定・並び鍵 `derived_from` を `|` へ(1 行・**記法衝突 14 行は未変更**)・訂正履歴の台帳 `paper/data/corrections.json`(record 23・revision 28)。
 
-**統合ツリーの再集計(統括)。** 完了順 e→d→b→c→a で統合(文書は a→e・qa.mjs は自動併合)。統合ツリーで正本を再生成(calaudit 通常+`--dt3-registry --dt8-registry --merge`・solarsigma・stoprule・issues・charon・bh90/sparc/cluster/galaxydiag・qsplit・j1946adopt・corrections・nslock/twobody/rpar・記録系): __TALLY272__
+**統合ツリーの再集計(統括)。** 完了順 e→d→b→c→a で統合(文書は a→e・qa.mjs は自動併合)。統合ツリーで正本を再生成(calaudit 通常+`--dt3-registry --dt8-registry --merge`・solarsigma・stoprule・issues・charon・bh90/sparc/cluster/galaxydiag・qsplit・j1946adopt・corrections・nslock/twobody/rpar・記録系): **4 値 0/2/1/34(不変)・門 2/1/34/15/8/254(基点 35/14 → 行契約で ❄️ 近点間が mapping-unresolved へ)・5 区分 56/6/26/4/214/8(基点 57/25 → 📡 近点間周期が 合 → 否〔σ なし・門は未判定〕)・4 段 ①/②/③/④ 11/39/2/2・太陽系 0/0/1/15(不変)・切断点 106/26/3/4(不変)・3 段登録 16・h/8 欄 32(❄️📡⚡🩺🧮 系 9 本)・stoprule 86/86(宣言例外 0・版 w272a-1)・正本 JSON 2,532,734 B+診断 277,365 B・merge 鍵 targetSha256=69d78fa3…/measurementCodeSha256=645c6180…**。枝 a の実測(4 値・門・5 区分・4 段)と統合ツリーの再集計は完全一致。カロン系列 38 列(C0/C1/C6_scalar/S_e0.025_k0 は h/h2/h4)・nslock 102 段・twobody・rpar 53 行・bh90/sparc/cluster/galaxydiag・qsplit・j1946adopt・corrections・記録系 8 本を統合ツリーで再生成し、来歴 lint が要求する targetSha256 をすべて統合 html(69d78fa3…)に揃えた。
 
 **言わないこと。** 「カロンが合/否」「新発見」「潮汐ロックを証明した」「kFrame≈0 を法則として内蔵した」「引きずり式が確定した」「kFrame の最良値は 0」「geoPN=3 が複素決定力場である」「観測質量チップで較正完了」「複素決定力場を採用した」「メッシュが剛体回転する」「R∥ は 1」「観測と合った」「判定が増えた」「再検証済み」「v1.45.0 RC を切った」。
 
