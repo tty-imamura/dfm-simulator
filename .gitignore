@@ -167,6 +167,14 @@ tests/out/*
 # docs/PHYSICS.md 〔第269便c〕と docs/CALIBRATION_VERDICT_v1.44.md §5.14 の表がこの値そのものなのでコミットする
 !tests/out/bh90-w269c.json
 !tests/out/sparc-w269c.json
+# 第271便d: 銀河の器の診断 3 本の実測正本(tests/exp-w271d-galaxydiag.mjs)。
+#   AF5 準定常窓 variant の評価(事前基準は第270便e の宣言のまま・**窓なし**)/
+#   AF7 `clampSN` の切り分け(dt/dt2/dt4 の作動率・飽和粒子の点呼・帳簿の動き・kFrame=0 の床)/
+#   AF19 N・seed 系列(**engine の粒子総数上限 N_CAP=600** の実測と、上限直下の ×1/×1.5/×1.99)。
+#   QA `docs.quasiSteadyVariant`・`docs.clampSNSeparation`・`docs.nSeedSeries` がこの JSON を読んで
+#   「基準を緩めていない」「主判定窓 T=40 が不変」「上限 ±40 を変えていない」「SE=SD/√k・空帯は
+#   分母から外す」を機械固定するのでコミットする(**主判定の正本は sparc-w269c.json のままである**)
+!tests/out/galaxydiag-w271d.json
 # 第134便: kF1 較正ハーネスの実測正本(論文3 再現性 — 外部レビュー P0 対応。
 # 本文の中心値〔q*=6.16/8.25/21.8・drag −5.6e-10・第122便 q*=4.59〕を提出コミットから再生成可能に)
 !tests/out/coreshell-results.json

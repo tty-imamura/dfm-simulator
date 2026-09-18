@@ -1,38 +1,38 @@
 {
  "meta": {
   "wave": "第269便d(第59報 W4)— 星団 47 Tuc **比較サンプル v1a**(内部診断の完成)",
-  "when": "2026-09-18T00:49:57.975Z",
-  "codeCommit": "f6c19b46b735",
+  "when": "2026-09-18T09:10:45.507Z",
+  "codeCommit": "ef2cd45df33c",
   "target": "beta/index.html",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4028447,
-    "mtime": "2026-09-18T00:46:52.888Z",
-    "sha256_16": "14f6aec179f01db2"
+    "bytes": 4054450,
+    "mtime": "2026-09-18T08:41:50.589Z",
+    "sha256_16": "ea6952a493efcf01"
    },
    {
     "file": "tests/lib-w265a-analogy.mjs",
     "bytes": 21069,
-    "mtime": "2026-09-18T00:26:12.892Z",
+    "mtime": "2026-09-18T08:41:50.553Z",
     "sha256_16": "7a01c2081dd68c90"
    },
    {
     "file": "tests/lib-w269d-state.mjs",
     "bytes": 20068,
-    "mtime": "2026-09-18T00:32:30.064Z",
+    "mtime": "2026-09-18T08:41:50.553Z",
     "sha256_16": "10bf14263bd3852a"
    },
    {
     "file": "paper/data/cluster-galaxy-observations.csv",
-    "bytes": 92640,
-    "mtime": "2026-09-18T00:26:12.968Z",
-    "sha256_16": "137ff4210ca7cf53"
+    "bytes": 94652,
+    "mtime": "2026-09-18T08:41:50.701Z",
+    "sha256_16": "43ee5180b0e8bee0"
    },
    {
     "file": "tests/out/analogy-w265a.json",
     "bytes": 76360,
-    "mtime": "2026-09-18T00:26:12.886Z",
+    "mtime": "2026-09-18T08:41:50.543Z",
     "sha256_16": "f18a43cd746df569"
    }
   ],
@@ -71,7 +71,7 @@
    "3D の半質量半径を測った"
   ],
   "touched": "**🍇🫐 の JSON・入力は 1 bit も書き換えていない**(新版 GGCD は採らない)。新プリセットは足していない。エンジンは 3D 化していない。`S._core` には 1 命令も足していない。",
-  "spentSec": 58.4
+  "spentSec": 56.8
  },
  "states": [
   "comparable",
@@ -17444,6 +17444,82 @@
    "観測と合った",
    "v1b を実装した",
    "3D 化した"
+  ]
+ },
+ "parameterAuditRestatement": {
+  "scope": "**器の出力だけ**(`beta/index.html` は 1 bit も触っていない)。html の `parameterAudit` を直すかどうかは**決断事項**である(第270便e が「残った不整合」として記録した箇所 —— 直すなら `presetSig` への影響と `behavior.tuc47` の固定値を同じ便で見る)。",
+  "state": {
+   "id": "tuc47DFM.parameterAudit.sigmaCorrespondence",
+   "sample": "🫐 tuc47DFM",
+   "fields": [
+    "fitted",
+    "derived"
+   ],
+   "vocabulary": "compare-v1(明示状態 7 語)",
+   "comparisonState": "not-applicable",
+   "why": "**面内 1 成分分散 proxy と中央視線分散の対応が未宣言**である(方向〔視線 vs 面内〕・開口・重みのどれも宣言されていない)。**数値の不一致ではなく対応の未宣言**なので、比較サンプル v1a では `not-applicable`。",
+   "quantities": {
+    "inPlaneProxy": {
+     "value": 2.107,
+     "unitSim": "速度単位",
+     "kms": 21.1,
+     "what": "旧診断の**面内 1 成分分散 proxy**(5 交差・virial 初期化)"
+    },
+    "observedCentralLos": {
+     "value": 1.24,
+     "unitSim": "速度単位",
+     "kms": 12.4,
+     "what": "観測の**中心 1D 視線分散**(CSV — GGCD の N-body fit 由来)"
+    },
+    "ratio": 1.7,
+    "legacyRandomInit": {
+     "value": 2.446,
+     "ratio": 1.97,
+     "what": "旧 random 初期化(観測 σ の先置き)の値 —— **履歴**"
+    }
+   },
+   "fitKnobs": {
+    "count": 0,
+    "note": "C=1 のゼロフィット。**σ の比は fit の結果ではない**"
+   },
+   "legacyKept": true,
+   "legacyText": {
+    "fitted": "なし(C=1 のゼロフィット — σ hold-out ×1.70 不成立は正直な記録)",
+    "derived": "σ hold-out: 実測 2.107(21.1 km/s)vs 観測 1.24(12.4 km/s)— ×1.70 不成立(旧 random 初期化 2.446=×1.97)"
+   }
+  },
+  "rendered": {
+   "ja": {
+    "fitted": [
+     "なし(C=1 のゼロフィット)—— **fit ノブが 0 であることが記録**であり、σ の比 1.70 は fit の結果ではない。**旧表現「σ hold-out ×1.70 不成立」は履歴**(この欄の言い換え前の文)。"
+    ],
+    "derived": [
+     "σ の対応: **面内 1 成分分散 proxy** 2.107(21.1 km/s) と**観測の中心 1D 視線分散** 1.240(12.4 km/s) の比 1.70 —— **面内 proxy と中央視線分散の対応は未宣言**(方向・開口・重み)なので、比較サンプル **v1a では `not-applicable`**(数値の不一致ではなく対応の未宣言)。**旧測定は履歴**: 旧 random 初期化(観測 σ の先置き)は 2.446(×1.97)だった。"
+    ]
+   },
+   "en": {
+    "fitted": [
+     "None (C=1, a zero fit) — THE RECORD IS THAT THERE ARE NO FIT KNOBS, so the ratio 1.70 is not the result of a fit. The former wording (\"sigma hold-out x1.70 fails\") is KEPT AS HISTORY."
+    ],
+    "derived": [
+     "Sigma correspondence: the IN-PLANE one-component dispersion PROXY 2.107 (21.1 km/s) against the OBSERVED CENTRAL 1D LINE-OF-SIGHT dispersion 1.240 (12.4 km/s) gives 1.70 — THE CORRESPONDENCE BETWEEN THE IN-PLANE PROXY AND THE CENTRAL LINE-OF-SIGHT DISPERSION IS UNDECLARED (direction, aperture, weighting), so in the v1a comparison sample this is NOT-APPLICABLE (an unresolved mapping, not a numerical disagreement). The old measurement is KEPT AS HISTORY: the former random start (the observed sigma placed in advance) read 2.446 (x1.97)."
+    ]
+   }
+  },
+  "legacyFoundInPreset": {
+   "fitted": true,
+   "derived": true,
+   "fittedIndex": 0,
+   "derivedIndex": 4,
+   "note": "**言い換え先が実在の文を指していることの機械照合**である(preset の文が変われば false になり、この欄の更新が必要だと分かる)。"
+  },
+  "htmlUntouched": true,
+  "doNotSay": [
+   "σ hold-out が成立した",
+   "σ hold-out の不成立が確定した",
+   "観測と合った",
+   "対応を宣言した",
+   "html を直した"
   ]
  },
  "pageErrors": [],

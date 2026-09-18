@@ -292,7 +292,8 @@ const out = {
   states: STATES,
   presetFacts: facts,
   contracts: null, geometry: null, columns: [],
-  centerContractCheck: null, observationStates: null, v1bDesign: null, pageErrors: [],
+  centerContractCheck: null, observationStates: null, v1bDesign: null,
+  parameterAuditRestatement: null, pageErrors: [],
 };
 
 // ---- 診断の契約(共通 f・virial 初期化・中心・抽出器)
@@ -584,6 +585,94 @@ out.v1bDesign = {
   doNotSay: ['視線速度分散を測った', '47 Tuc の半光半径と比べた', '観測と合った',
     'v1b を実装した', '3D 化した'],
 };
+
+// ---- 第271便d(AF11): 🫐 `parameterAudit.fitted`/`derived` の**旧 proxy 表現の言い換え**。
+//   第270便e は 🫐 の `descStruct`/`obsCard` だけを直したので、**同じサンプルの `parameterAudit` には
+//   旧表現「σ hold-out ×1.70 不成立」が残っている**(第270便e が「残った不整合」として記録した)。
+//   **html は触らない**(指示)。**器の出力側**で、比較器の語彙に言い換えた版を
+//   **1 つの状態から ja/en と JSON を作って**並べる。**旧表現は履歴として同じ欄に残す**(消さない)。
+//   **数値は 1 つも変えていない**(2.107 / 1.24 / 1.70 / 2.446 は preset の宣言のままである)。
+{
+  const pa = await pg.evaluate(() => {
+    const p = HP.allPresets().find((q) => q.id === 'tuc47DFM');
+    if (!p) return null;
+    return { parameterAudit: p.parameterAudit || null,
+      enParameterAudit: (p.en && p.en.parameterAudit) ? p.en.parameterAudit : null };
+  });
+  const MARKERS = {
+    fitted: 'σ hold-out ×1.70 不成立',
+    derived: 'σ hold-out: 実測 2.107(21.1 km/s)vs 観測 1.24(12.4 km/s)— ×1.70 不成立' };
+  const findIn = (arr, needle) => {
+    const a = Array.isArray(arr) ? arr : [];
+    const i = a.findIndex((z) => String(z).indexOf(needle) >= 0);
+    return { index: i, text: i >= 0 ? String(a[i]) : null };
+  };
+  const hitF = pa ? findIn(pa.parameterAudit && pa.parameterAudit.fitted, MARKERS.fitted)
+    : { index: -1, text: null };
+  const hitD = pa ? findIn(pa.parameterAudit && pa.parameterAudit.derived, MARKERS.derived)
+    : { index: -1, text: null };
+  // **1 つの状態**(表示 ja/en と JSON はここからだけ作る)
+  const state = {
+    id: 'tuc47DFM.parameterAudit.sigmaCorrespondence',
+    sample: '🫐 tuc47DFM', fields: ['fitted', 'derived'],
+    vocabulary: 'compare-v1(明示状態 7 語)',
+    comparisonState: 'not-applicable',
+    why: '**面内 1 成分分散 proxy と中央視線分散の対応が未宣言**である'
+      + '(方向〔視線 vs 面内〕・開口・重みのどれも宣言されていない)。'
+      + '**数値の不一致ではなく対応の未宣言**なので、比較サンプル v1a では `not-applicable`。',
+    quantities: {
+      inPlaneProxy: { value: 2.107, unitSim: '速度単位', kms: 21.1,
+        what: '旧診断の**面内 1 成分分散 proxy**(5 交差・virial 初期化)' },
+      observedCentralLos: { value: 1.24, unitSim: '速度単位', kms: 12.4,
+        what: '観測の**中心 1D 視線分散**(CSV — GGCD の N-body fit 由来)' },
+      ratio: 1.70,
+      legacyRandomInit: { value: 2.446, ratio: 1.97,
+        what: '旧 random 初期化(観測 σ の先置き)の値 —— **履歴**' } },
+    fitKnobs: { count: 0, note: 'C=1 のゼロフィット。**σ の比は fit の結果ではない**' },
+    legacyKept: true,
+    legacyText: { fitted: hitF.text, derived: hitD.text } };
+  const kms = (z) => z.value.toFixed(3) + '(' + z.kms.toFixed(1) + ' km/s)';
+  const render = {
+    ja: { fitted: ['なし(C=1 のゼロフィット)—— **fit ノブが 0 であることが記録**であり、'
+      + 'σ の比 ' + state.quantities.ratio.toFixed(2) + ' は fit の結果ではない。'
+      + '**旧表現「' + MARKERS.fitted + '」は履歴**(この欄の言い換え前の文)。'],
+    derived: ['σ の対応: **面内 1 成分分散 proxy** ' + kms(state.quantities.inPlaneProxy)
+      + ' と**観測の中心 1D 視線分散** ' + kms(state.quantities.observedCentralLos)
+      + ' の比 ' + state.quantities.ratio.toFixed(2) + ' —— '
+      + '**面内 proxy と中央視線分散の対応は未宣言**(方向・開口・重み)なので、'
+      + '比較サンプル **v1a では `not-applicable`**(数値の不一致ではなく対応の未宣言)。'
+      + '**旧測定は履歴**: 旧 random 初期化(観測 σ の先置き)は '
+      + state.quantities.legacyRandomInit.value.toFixed(3)
+      + '(×' + state.quantities.legacyRandomInit.ratio.toFixed(2) + ')だった。'] },
+    en: { fitted: ['None (C=1, a zero fit) — THE RECORD IS THAT THERE ARE NO FIT KNOBS, '
+      + 'so the ratio ' + state.quantities.ratio.toFixed(2) + ' is not the result of a fit. '
+      + 'The former wording ("sigma hold-out x1.70 fails") is KEPT AS HISTORY.'],
+    derived: ['Sigma correspondence: the IN-PLANE one-component dispersion PROXY '
+      + state.quantities.inPlaneProxy.value.toFixed(3) + ' (' + state.quantities.inPlaneProxy.kms.toFixed(1)
+      + ' km/s) against the OBSERVED CENTRAL 1D LINE-OF-SIGHT dispersion '
+      + state.quantities.observedCentralLos.value.toFixed(3) + ' ('
+      + state.quantities.observedCentralLos.kms.toFixed(1) + ' km/s) gives '
+      + state.quantities.ratio.toFixed(2) + ' — THE CORRESPONDENCE BETWEEN THE IN-PLANE PROXY AND THE '
+      + 'CENTRAL LINE-OF-SIGHT DISPERSION IS UNDECLARED (direction, aperture, weighting), so in the v1a '
+      + 'comparison sample this is NOT-APPLICABLE (an unresolved mapping, not a numerical disagreement). '
+      + 'The old measurement is KEPT AS HISTORY: the former random start (the observed sigma placed in '
+      + 'advance) read ' + state.quantities.legacyRandomInit.value.toFixed(3) + ' (x'
+      + state.quantities.legacyRandomInit.ratio.toFixed(2) + ').'] } };
+  out.parameterAuditRestatement = {
+    scope: '**器の出力だけ**(`beta/index.html` は 1 bit も触っていない)。'
+      + 'html の `parameterAudit` を直すかどうかは**決断事項**である(第270便e が「残った不整合」として'
+      + '記録した箇所 —— 直すなら `presetSig` への影響と `behavior.tuc47` の固定値を同じ便で見る)。',
+    state,
+    rendered: render,
+    legacyFoundInPreset: { fitted: hitF.index >= 0, derived: hitD.index >= 0,
+      fittedIndex: hitF.index, derivedIndex: hitD.index,
+      note: '**言い換え先が実在の文を指していることの機械照合**である'
+        + '(preset の文が変われば false になり、この欄の更新が必要だと分かる)。' },
+    htmlUntouched: true,
+    doNotSay: ['σ hold-out が成立した', 'σ hold-out の不成立が確定した', '観測と合った',
+      '対応を宣言した', 'html を直した'] };
+  fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
+}
 
 out.meta.spentSec = +((Date.now() - tAll) / 1000).toFixed(1);
 out.pageErrors = pageErrors;
