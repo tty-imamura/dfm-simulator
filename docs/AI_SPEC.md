@@ -1865,3 +1865,34 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   - `sim.stages` は **h/h2/h4(同じ物理時刻の 3 刻み)**、`order` は見かけの次数、`extrapolated` は
     **差が単調なときだけ**入る(`null` は「外挿しない」であって 0 ではない)。
   - **生成 AI はこのファイルを書かない・読んで主張を作らない**(比較の記録は器と統括の裁定である)。
+  - **第270便e(F4〜F8)で足した必須の欄と機械ガード。**
+    - **`finiteNumber` を通した値だけが数値になる。** `null`・空文字・真偽値・配列・数値でない文字列は
+      **`null`(測れていない)**であって **0 ではない**(`Number(null)=0` の経路を塞いだ)。
+    - **`comparable`/`inside-interval`/`outside-interval` の行は、有限な `sim.value` と空でない `sim.unit` を持ち、
+      `obs.unit` があるときは同一でなければならない**(器が throw する —— 暗黙の単位換算を作らない)。
+      `interval()` も**単位なしでは作れない**。銀河の器では**値を持つのは `comparable` の行だけ**にしてある。
+    - **p 値の鍵は row 全体で禁止**(`diagnostics` の奥に置いても throw する)。
+    - **CSV はヘッダ名で読む**(`loadObsCsv`)。列位置に依存しないので `record_id` 欄が増えても壊れない。
+      行は `recordId`・`solutionId`・`retrieved` を持ち、**欠損は `null`**。`row.col('<欄名>')` で未宣言の欄も引ける
+      (生ヘッダは**非列挙**なので JSON へ漏れない)。
+    - **`validateWindow({T, dt, checkpoints})`** —— T は**正かつ dt の整数倍**、チェックポイントは
+      **T 以下の昇順(重複なし・dt の整数倍)**。破れば throw する。
+    - 銀河の列は **`declaredSupportRadius`(宣言支持半径)/ `sampledMaxRadius`(標本最大半径・判定の分岐に使う)/
+      `binOccupancyAtJudgement`(帯の占有)**の **3 量**を別々に持つ(旧 `initialCutoff` は
+      `sampledMaxRadius` の別名として互換のため残っている)。
+    - 銀河の行の `diagnostics` は **`numericConditions`(7 条件)**・**`failedConditions`(欠けた条件名)**・
+      **`health`(段ごとの NaN・全クランプ・`clampByKind`・`tActual`)**・`vtKmsByStage` を持つ。
+    - 列は **`clampByKindAtJudgement`**(速度・自転・H・力上限・E6′ 反作用・傾き容量・角度溢れの**種類別**と、
+      判定時刻に速度上限へ張り付いている粒子の点呼)を持つ。**発動回数の粒子別内訳は取れない**
+      (帳簿カウンタは `S._core` の中で増える)。
+    - 銀河の JSON は **`windowVariants`**(`primary` = T=40 の採用窓・`quasiSteady` =
+      `declared-not-evaluated` の準定常窓の事前基準)と **`seedEnsemble`**
+      (**事前宣言した 4 本の seed**・生成法・停止条件・**対照は同一 seed で対**・
+      各点の **`sdBetweenSeedsKms`(標本間 SD)と `seMeanKms`(平均の SE)を別の欄**に持つ。
+      **どちらも観測 σ には足さない**)を持つ。
+    - BH の JSON は `summary.insideIntervalRows`(**区間内の行は独立な件数ではない** —— 転写 1 組の言い換え)と、
+      ⏰ の `final_mass` 行の `diagnostics.requiredDerivation`(**remnant の対応を決めるのに要る導出 4 件**・
+      `declared-not-derived`・**区間内になる方を選ばない**)を持つ。
+    - 星団の JSON は **`virialTermsAE14`**(列ごとの **K・U・W_vir・2K/|U|・2K/|W_vir|・W_vir/U** と、
+      **`vMode:"virial"` の列だけ**の範囲 `rangeVirialOnly`)を持つ。
+      **`vMode:"virial"` は期待値の正規化であって有限標本の K を測っていない**(規約)。

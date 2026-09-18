@@ -33,6 +33,8 @@ import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { richardson3, protocolDeclaration } from './lib-w265a-analogy.mjs';
 import { STATES, stateRecord, numericalVerdict, halfRadiusRatioTheory } from './lib-w269d-state.mjs';
+// 第270便e(F1): 注入文字列の `import` を **Node 側で解決した配列**に差し替えるための実体。
+const SHARED_STATES_RESOLVED = STATES.slice();
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -81,15 +83,24 @@ function parseCsvLine(line) {
 const CSV_REL = 'paper/data/cluster-galaxy-observations.csv';
 const tucRows = [];
 {
+  // 第270便e(AE2 の受け側): **列位置ではなくヘッダ名で読む**(第270便b が `record_id` 欄を
+  //   足しても、列を増やしても壊れない)。**欠損は null**(空欄を 0 にしない)。
   const lines = fs.readFileSync(path.join(ROOT, CSV_REL), 'utf8').split('\n');
+  let head = null;
   lines.forEach((line, i) => {
-    if (!line.trim() || line.startsWith('body,')) return;
+    if (!line.trim()) return;
+    if (head === null) { head = parseCsvLine(line).map((z) => String(z).trim());
+      if (head.indexOf('body') < 0) throw new Error('CSV の 1 行目がヘッダでない: ' + CSV_REL);
+      return; }
     const c = parseCsvLine(line);
-    if (c[0] !== '47 Tuc') return;
-    const note = c[7] || '';
-    tucRows.push({ row: i + 1, quantity: c[1], unit: c[3],
-      source: String(c[4]).slice(0, 60),
-      sigmaPresent: !!(c[8] && c[8].trim()),
+    const at = (name) => { const k = head.indexOf(name);
+      return (k < 0 || c[k] === undefined || String(c[k]).trim() === '') ? null : String(c[k]); };
+    if (at('body') !== '47 Tuc') return;
+    const note = at('note') || '';
+    tucRows.push({ row: i + 1, quantity: at('quantity'), unit: at('unit'),
+      source: String(at('source') || '').slice(0, 60),
+      recordId: at('record_id'),
+      sigmaPresent: at('sigma') !== null,
       sigmaKind: (note.match(/sigma_kind=([a-z-]+)/) || [])[1] || null,
       sigmaPrimary: (note.match(/sigma_primary=([a-z]+)/) || [])[1] || null });
   });
@@ -130,8 +141,25 @@ function stateForQuantity(q) {
 // ---- ページ
 const LIB_ANALOGY = fs.readFileSync(path.join(ROOT, 'tests', 'lib-w265a-analogy.mjs'), 'utf8')
   .replace(/^export /gm, '');
-const LIB_STATE = fs.readFileSync(path.join(ROOT, 'tests', 'lib-w269d-state.mjs'), 'utf8')
-  .replace(/^export /gm, '');
+// 第270便e(F1・**統括の統合で壊れていた箇所**): `lib-w269d-state.mjs` は第269便の統合で
+//   語彙を `lib-w269c-compare.mjs` から**再輸出**する形になり、冒頭に
+//   `import { STATES as SHARED_STATES } from './lib-w269c-compare.mjs';` が入った。
+//   この器は同ファイルを**文字列で読んで `export ` を落とし classic script として注入**するので、
+//   残った `import` 行がブラウザで **SyntaxError** になり、星団器は**実ブラウザで走らなくなっていた**
+//   (QA は保存 JSON を読むので気づけなかった)。
+//   → **Node 側で解決した配列を `const SHARED_STATES = <JSON>` に差し替えてから** `export ` を落とす。
+const LIB_STATE = injectableLibState();
+function injectableLibState() {
+  const src = fs.readFileSync(path.join(ROOT, 'tests', 'lib-w269d-state.mjs'), 'utf8');
+  const RE_IMPORT = /^\s*import\s+\{\s*STATES as SHARED_STATES\s*\}\s+from\s+'\.\/lib-w269c-compare\.mjs';\s*$/m;
+  if (!RE_IMPORT.test(src))
+    throw new Error('[w269d/F1] 期待した import 行が見つからない(注入の差し替え規則を更新すること)');
+  const resolved = 'const SHARED_STATES = ' + JSON.stringify(SHARED_STATES_RESOLVED) + ';';
+  const out = src.replace(RE_IMPORT, resolved).replace(/^export /gm, '');
+  if (/^\s*(import|export)\s/m.test(out))
+    throw new Error('[w269d/F1] 注入文字列に import/export が残っている(classic script として走らない)');
+  return out;
+}
 const PW_DIR = process.env.PLAYWRIGHT_CORE_DIR || '/home/user/dfm-simulator';
 const req = createRequire(path.join(PW_DIR, 'noop.js'));
 const EXE = process.env.CHROMIUM_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
@@ -147,8 +175,13 @@ await pg.addScriptTag({ content: LIB_ANALOGY });
 await pg.addScriptTag({ content: LIB_STATE });
 const libOk = await pg.evaluate(() => typeof projectedStats === 'function'
   && typeof centerOf === 'function' && typeof boundFraction === 'function'
-  && typeof clusterDiagCopy === 'function');
-if (!libOk) { console.error('[w269d] lib がページへ入っていない'); await browser.close(); process.exit(2); }
+  && typeof virialTerms === 'function' && typeof clusterDiagCopy === 'function');
+if (!libOk) {
+  // 第270便e(F1): ここで落ちたら**注入文字列がブラウザで構文解析できていない**
+  //   (第269便の統合で `import` が残っていたのがこれ)。pageErrors をそのまま出す。
+  console.error('[w269d] lib がページへ入っていない —— pageErrors: ' + JSON.stringify(pageErrors));
+  await browser.close(); process.exit(2);
+}
 
 await pg.evaluate(() => {
   // **診断コピーを 1 回走らせ、t=0 と t=T の内部診断を返す。**
@@ -195,7 +228,14 @@ await pg.evaluate(() => {
           { G: S.params.G, softening: S.params.softening, cvx: cMc.vx, cvy: cMc.vy });
           return b ? { n: b.n, nBound: b.nBound, countFraction: b.countFraction,
             massFraction: b.massFraction, massTotal: b.massTotal, kineticTotal: b.kineticTotal,
-            potentialTotal: b.potentialTotal, virialRatio: b.virialRatio } : null; })() };
+            potentialTotal: b.potentialTotal, virialRatio: b.virialRatio } : null; })(),
+        // 第270便e(AE14): **U(軟化ポテンシャル)と W_vir(軟化力のビリアル項)を別々に**出す。
+        //   速度は書き換えない(診断だけ)。
+        virial: (() => { const t = virialTerms(pts,
+          { G: S.params.G, softening: S.params.softening, cvx: cMc.vx, cvy: cMc.vy });
+          return t ? { n: t.n, massTotal: t.massTotal, softening: t.softening,
+            K: t.K, U: t.U, W_vir: t.W_vir, twoKoverAbsU: t.twoKoverAbsU,
+            twoKoverAbsWvir: t.twoKoverAbsWvir, WvirOverU: t.WvirOverU } : null; })() };
     };
     const start = shot();
     const nSteps = Math.round(spec.tEnd / spec.dt);
@@ -382,8 +422,44 @@ for (const spec of COLUMNS) {
     + '本器の独立な帳簿では **t=0 の 2K/|U| は 1.000 ではない**(🫐 の既定 seed で 0.869)。'
     + 'ポテンシャル自体は一致する(エンジンの W と本器の ½Σm_iΦ_i が 7 桁一致 —— 実行時は Float32)ので、'
     + 'ずれは**単位乱数速度の実現**(規約 ⟨v²⟩=vScale²/3 に対する有限 N の標本ゆらぎ)に由来すると読めるが、'
-    + '**本便では機構を確定させない**(seed 3 本・N 3 種で 0.632〜1.032 の幅がある、という記録にとどめる)。'
+    + '**本便では機構を確定させない**(**🫐(`vMode:"virial"`)だけの範囲**は `virialTermsAE14.rangeVirialOnly` に'
+    + '実測して置く —— 第269便の「0.632〜1.032」は 🍇 `vMode:"random"` の混入だった、という訂正。第270便e・AE14)。'
     + '🍇 は `vMode:"random"`(観測 σ の規約転写)なので t=0 でビリアル平衡にないことは設計どおりである。' };
+  // ---- 第270便e(AE14): **U(軟化ポテンシャル)と W_vir(軟化力のビリアル項)を別々に**出す。
+  //   **🫐(virial)と 🍇(random)は別行**に分ける(混ぜて 1 つの幅を作らない)。
+  out.virialTermsAE14 = {
+    convention: '**`vMode:"virial"` は期待値の正規化である。** エンジンは単位乱数 u∼U(0,1) の速度に '
+      + '√(3(−U/M))·vScale を掛ける(⟨v²⟩=vScale²/3 の規約)ので、⟨v²⟩=−U/M は **E[u²]=1/3 を通した'
+      + '期待値**であって、**有限標本の K は測っていない**。したがって t=0 の 2K/|U| は 1 にならない。',
+    definitions: {
+      U: 'U = −G Σ_{i<j} m_i m_j/√(d²+ε²)(**軟化ポテンシャル** —— エンジンの `eqInit.W` と同じ量)',
+      W_vir: 'W_vir = Σ_i r_i·F_i = −G Σ_{i<j} m_i m_j d²/(d²+ε²)^{3/2}(**同じ軟化力のビリアル項**)',
+      why: '**ε>0 では一般に U ≠ W_vir** であり、ビリアル定理 2K+W_vir=0 が参照するのは W_vir の方である。'
+        + 'エンジンが正規化に使っているのは U なので、**2K/|U| と 2K/|W_vir| は別の数**になる。' },
+    notAdopted: ['**毎ステップの再正規化**(引きずりのある走行で保存量でない量を固定しにいかない)',
+      '**1 回のスケール `sqrt(K_target/K_actual)`**(採るなら**明示 variant として別便**)',
+      '**🫐 の JSON を書き換えて 2K/|U| を 1 に合わせること**(本便は入力を 1 bit も触っていない)'],
+    rows: out.columns.map((c) => { const s0 = c.stages[0];
+      const v0 = (s0.start && s0.start.virial) || null, vT = (s0.end && s0.end.virial) || null;
+      const pick = (z) => (z ? { K: z.K, U: z.U, W_vir: z.W_vir, twoKoverAbsU: z.twoKoverAbsU,
+        twoKoverAbsWvir: z.twoKoverAbsWvir, WvirOverU: z.WvirOverU } : null);
+      return { tag: c.tag, emoji: c.emoji, vMode: s0.vMode, seedUsed: s0.seedUsed, n: s0.n,
+        t0: pick(v0), tEnd: pick(vT),
+        engineW: s0.eqInit ? s0.eqInit.W : null,
+        engineWminusU: (s0.eqInit && v0) ? s0.eqInit.W - v0.U : null }; }),
+    rangeVirialOnly: (() => {
+      const zs = out.columns.filter((c) => c.stages[0].vMode === 'virial'
+        && c.stages[0].start && c.stages[0].start.virial);
+      const u = zs.map((c) => c.stages[0].start.virial.twoKoverAbsU);
+      const w = zs.map((c) => c.stages[0].start.virial.twoKoverAbsWvir);
+      return { columns: zs.length, tags: zs.map((c) => c.tag),
+        twoKoverAbsU: u.length ? { min: Math.min(...u), max: Math.max(...u) } : null,
+        twoKoverAbsWvir: w.length ? { min: Math.min(...w), max: Math.max(...w) } : null,
+        note: '**🫐(`vMode:"virial"`)だけの範囲**である。🍇 は `vMode:"random"`(観測 σ の規約転写)'
+          + 'なので同じ幅に混ぜない —— 第269便の「0.632〜1.032」は 🍇 の混入だった(訂正)。' };
+    })(),
+    doNotSay: ['ビリアル平衡に置いた', '2K/|U|=1 を満たしている', '初期化を較正した',
+      '有限標本の K を合わせた'] };
   fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
 }
 

@@ -1,39 +1,39 @@
 {
  "meta": {
   "wave": "第269便d(第59報 W4)— 星団 47 Tuc **比較サンプル v1a**(内部診断の完成)",
-  "when": "2026-09-17T16:04:38.077Z",
-  "codeCommit": "494576491d33",
+  "when": "2026-09-18T00:49:57.975Z",
+  "codeCommit": "f6c19b46b735",
   "target": "beta/index.html",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4027358,
-    "mtime": "2026-09-17T15:44:58.971Z",
-    "sha256_16": "645fcddd40430bea"
+    "bytes": 4028447,
+    "mtime": "2026-09-18T00:46:52.888Z",
+    "sha256_16": "14f6aec179f01db2"
    },
    {
     "file": "tests/lib-w265a-analogy.mjs",
     "bytes": 21069,
-    "mtime": "2026-09-17T15:54:04.297Z",
+    "mtime": "2026-09-18T00:26:12.892Z",
     "sha256_16": "7a01c2081dd68c90"
    },
    {
     "file": "tests/lib-w269d-state.mjs",
-    "bytes": 16176,
-    "mtime": "2026-09-17T15:54:42.202Z",
-    "sha256_16": "d8a26d67b5bf1223"
+    "bytes": 20068,
+    "mtime": "2026-09-18T00:32:30.064Z",
+    "sha256_16": "10bf14263bd3852a"
    },
    {
     "file": "paper/data/cluster-galaxy-observations.csv",
-    "bytes": 84895,
-    "mtime": "2026-09-17T15:44:59.027Z",
-    "sha256_16": "57693ce10cd35899"
+    "bytes": 92640,
+    "mtime": "2026-09-18T00:26:12.968Z",
+    "sha256_16": "137ff4210ca7cf53"
    },
    {
     "file": "tests/out/analogy-w265a.json",
-    "bytes": 72723,
-    "mtime": "2026-09-17T15:44:58.945Z",
-    "sha256_16": "e0d62bbcc3e0ba9a"
+    "bytes": 76360,
+    "mtime": "2026-09-18T00:26:12.886Z",
+    "sha256_16": "f18a43cd746df569"
    }
   ],
   "declarationVersion": "v1a-2026-09-17",
@@ -71,7 +71,7 @@
    "3D の半質量半径を測った"
   ],
   "touched": "**🍇🫐 の JSON・入力は 1 bit も書き換えていない**(新版 GGCD は採らない)。新プリセットは足していない。エンジンは 3D 化していない。`S._core` には 1 命令も足していない。",
-  "spentSec": 59.4
+  "spentSec": 58.4
  },
  "states": [
   "comparable",
@@ -652,6 +652,17 @@
        "kineticTotal": 23.68139153622442,
        "potentialTotal": -74.93322289165057,
        "virialRatio": 0.6320665419787548
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 23.68139153622442,
+       "U": -74.93322289165097,
+       "W_vir": -72.96975949640685,
+       "twoKoverAbsU": 0.6320665419787513,
+       "twoKoverAbsWvir": 0.6490741287804445,
+       "WvirOverU": 0.9737971580632109
       }
      },
      "end": {
@@ -850,6 +861,17 @@
        "kineticTotal": 62.603736720820656,
        "potentialTotal": -113.65667935317492,
        "virialRatio": 1.1016288189502144
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 62.603736720820656,
+       "U": -113.6566793531746,
+       "W_vir": -107.92195862156534,
+       "twoKoverAbsU": 1.1016288189502177,
+       "twoKoverAbsWvir": 1.1601668005367531,
+       "WvirOverU": 0.9495434780934493
       }
      },
      "errors": null
@@ -1069,6 +1091,17 @@
        "kineticTotal": 23.68139153622442,
        "potentialTotal": -74.93322289165057,
        "virialRatio": 0.6320665419787548
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 23.68139153622442,
+       "U": -74.93322289165097,
+       "W_vir": -72.96975949640685,
+       "twoKoverAbsU": 0.6320665419787513,
+       "twoKoverAbsWvir": 0.6490741287804445,
+       "WvirOverU": 0.9737971580632109
       }
      },
      "end": {
@@ -1267,6 +1300,17 @@
        "kineticTotal": 63.336988273071746,
        "potentialTotal": -114.6274486277808,
        "virialRatio": 1.1050928731518772
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 63.336988273071746,
+       "U": -114.6274486277805,
+       "W_vir": -108.59188293891256,
+       "twoKoverAbsU": 1.10509287315188,
+       "twoKoverAbsWvir": 1.1665142284843044,
+       "WvirOverU": 0.9473462441926394
       }
      },
      "errors": null
@@ -1486,6 +1530,17 @@
        "kineticTotal": 23.68139153622442,
        "potentialTotal": -74.93322289165057,
        "virialRatio": 0.6320665419787548
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 23.68139153622442,
+       "U": -74.93322289165097,
+       "W_vir": -72.96975949640685,
+       "twoKoverAbsU": 0.6320665419787513,
+       "twoKoverAbsWvir": 0.6490741287804445,
+       "WvirOverU": 0.9737971580632109
       }
      },
      "end": {
@@ -1684,6 +1739,17 @@
        "kineticTotal": 64.36122758678393,
        "potentialTotal": -115.64355793728976,
        "virialRatio": 1.1130966347764084
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 64.36122758678393,
+       "U": -115.64355793728974,
+       "W_vir": -109.1549376348032,
+       "twoKoverAbsU": 1.1130966347764086,
+       "twoKoverAbsWvir": 1.1792636958323515,
+       "WvirOverU": 0.9438912083109279
       }
      },
      "errors": null
@@ -1817,28 +1883,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "order-estimated",
       "p": 1.7336973715229216,
       "monotone": true,
       "ext": 1.9111213914596814,
-      "why": "**見かけの次数が正で差が単調**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
+      "why": "**見かけの次数が正で差が単調・外挿が有限**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
      }
     },
     "massCentroid": {
@@ -1847,28 +1913,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": -4.16101617246868,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "order-estimated",
       "p": 1.7336973715231103,
       "monotone": true,
       "ext": 1.9111213914596796,
-      "why": "**見かけの次数が正で差が単調**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
+      "why": "**見かけの次数が正で差が単調・外挿が有限**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
      }
     },
     "densityPeak": {
@@ -1877,28 +1943,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "order-estimated",
       "p": 0.7328939215611945,
       "monotone": true,
       "ext": 7.552434083060671,
-      "why": "**見かけの次数が正で差が単調**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
+      "why": "**見かけの次数が正で差が単調・外挿が有限**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "order-estimated",
       "p": 1.7336973715229724,
       "monotone": true,
       "ext": 1.911121391459681,
-      "why": "**見かけの次数が正で差が単調**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
+      "why": "**見かけの次数が正で差が単調・外挿が有限**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
      }
     }
    },
@@ -2182,6 +2248,17 @@
        "kineticTotal": 129.35202897608644,
        "potentialTotal": -297.75835547311243,
        "virialRatio": 0.8688389534564509
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 129.35202897608644,
+       "U": -297.758355473115,
+       "W_vir": -289.95624034929494,
+       "twoKoverAbsU": 0.8688389534564435,
+       "twoKoverAbsWvir": 0.8922175899388328,
+       "WvirOverU": 0.9737971580632118
       }
      },
      "end": {
@@ -2380,6 +2457,17 @@
        "kineticTotal": 234.35870419160142,
        "potentialTotal": -418.65180245172814,
        "virialRatio": 1.1195876994635594
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 234.35870419160142,
+       "U": -418.6518024517282,
+       "W_vir": -393.1925311886837,
+       "twoKoverAbsU": 1.1195876994635592,
+       "twoKoverAbsWvir": 1.1920811592381864,
+       "WvirOverU": 0.9391874796335553
       }
      },
      "errors": null
@@ -2603,6 +2691,17 @@
        "kineticTotal": 129.35202897608644,
        "potentialTotal": -297.75835547311243,
        "virialRatio": 0.8688389534564509
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 129.35202897608644,
+       "U": -297.758355473115,
+       "W_vir": -289.95624034929494,
+       "twoKoverAbsU": 0.8688389534564435,
+       "twoKoverAbsWvir": 0.8922175899388328,
+       "WvirOverU": 0.9737971580632118
       }
      },
      "end": {
@@ -2801,6 +2900,17 @@
        "kineticTotal": 242.05796371208012,
        "potentialTotal": -426.73950031895976,
        "virialRatio": 1.134453049371608
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 242.05796371208012,
+       "U": -426.7395003189608,
+       "W_vir": -400.5090183740657,
+       "twoKoverAbsU": 1.1344530493716054,
+       "twoKoverAbsWvir": 1.2087516265913587,
+       "WvirOverU": 0.9385328006306202
       }
      },
      "errors": null
@@ -3024,6 +3134,17 @@
        "kineticTotal": 129.35202897608644,
        "potentialTotal": -297.75835547311243,
        "virialRatio": 0.8688389534564509
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 129.35202897608644,
+       "U": -297.758355473115,
+       "W_vir": -289.95624034929494,
+       "twoKoverAbsU": 0.8688389534564435,
+       "twoKoverAbsWvir": 0.8922175899388328,
+       "WvirOverU": 0.9737971580632118
       }
      },
      "end": {
@@ -3222,6 +3343,17 @@
        "kineticTotal": 239.16217756512242,
        "potentialTotal": -424.4297861408752,
        "virialRatio": 1.1269811185482659
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 239.16217756512242,
+       "U": -424.4297861408756,
+       "W_vir": -399.7069881385572,
+       "twoKoverAbsU": 1.126981118548265,
+       "twoKoverAbsWvir": 1.1966874969031944,
+       "WvirOverU": 0.9417505584914051
       }
      },
      "errors": null
@@ -3353,28 +3485,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": -2.1539571087721456,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "order-estimated",
       "p": 2.4942495858593,
       "monotone": true,
       "ext": 2.5574034822170497,
-      "why": "**見かけの次数が正で差が単調**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
+      "why": "**見かけの次数が正で差が単調・外挿が有限**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": -0.9893188147414463,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     },
     "massCentroid": {
@@ -3383,28 +3515,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "order-estimated",
       "p": 1.6846819280153877,
       "monotone": true,
       "ext": 9.319273058261667,
-      "why": "**見かけの次数が正で差が単調**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
+      "why": "**見かけの次数が正で差が単調・外挿が有限**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": -0.9893188147412607,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     },
     "densityPeak": {
@@ -3413,28 +3545,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": -1.3960031888795408,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": -0.9893188147416321,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     }
    },
@@ -3718,6 +3850,17 @@
        "kineticTotal": 28.020504435983767,
        "potentialTotal": -70.48192837195438,
        "virialRatio": 0.7951117423493613
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 28.020504435983767,
+       "U": -70.4819283719551,
+       "W_vir": -68.49016199419903,
+       "twoKoverAbsU": 0.7951117423493532,
+       "twoKoverAbsWvir": 0.818234433095867,
+       "WvirOverU": 0.971740750802888
       }
      },
      "end": {
@@ -3916,6 +4059,17 @@
        "kineticTotal": 53.17011260270325,
        "potentialTotal": -95.59864027929574,
        "virialRatio": 1.1123612730759427
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 53.17011260270325,
+       "U": -95.59864027929542,
+       "W_vir": -91.32238183063029,
+       "twoKoverAbsU": 1.1123612730759462,
+       "twoKoverAbsWvir": 1.1644486605992037,
+       "WvirOverU": 0.9552686268740658
       }
      },
      "errors": null
@@ -4139,6 +4293,17 @@
        "kineticTotal": 28.020504435983767,
        "potentialTotal": -70.48192837195438,
        "virialRatio": 0.7951117423493613
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 28.020504435983767,
+       "U": -70.4819283719551,
+       "W_vir": -68.49016199419903,
+       "twoKoverAbsU": 0.7951117423493532,
+       "twoKoverAbsWvir": 0.818234433095867,
+       "WvirOverU": 0.971740750802888
       }
      },
      "end": {
@@ -4337,6 +4502,17 @@
        "kineticTotal": 53.23382817759709,
        "potentialTotal": -95.70957735103163,
        "virialRatio": 1.1124033696722473
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 53.23382817759709,
+       "U": -95.70957735103127,
+       "W_vir": -91.11864669127215,
+       "twoKoverAbsU": 1.1124033696722515,
+       "twoKoverAbsWvir": 1.1684508080538936,
+       "WvirOverU": 0.9520326932076912
       }
      },
      "errors": null
@@ -4560,6 +4736,17 @@
        "kineticTotal": 28.020504435983767,
        "potentialTotal": -70.48192837195438,
        "virialRatio": 0.7951117423493613
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 28.020504435983767,
+       "U": -70.4819283719551,
+       "W_vir": -68.49016199419903,
+       "twoKoverAbsU": 0.7951117423493532,
+       "twoKoverAbsWvir": 0.818234433095867,
+       "WvirOverU": 0.971740750802888
       }
      },
      "end": {
@@ -4758,6 +4945,17 @@
        "kineticTotal": 52.92544221278943,
        "potentialTotal": -95.42139603932652,
        "virialRatio": 1.109299264307074
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 52.92544221278943,
+       "U": -95.42139603932571,
+       "W_vir": -91.01029891480685,
+       "twoKoverAbsU": 1.1092992643070834,
+       "twoKoverAbsWvir": 1.163064902409166,
+       "WvirOverU": 0.9537724524308895
       }
      },
      "errors": null
@@ -4892,28 +5090,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": -0.840713579132379,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     },
     "massCentroid": {
@@ -4922,28 +5120,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "order-estimated",
       "p": 4.326890186806282,
       "monotone": true,
       "ext": 9.37828891909934,
-      "why": "**見かけの次数が正で差が単調**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
+      "why": "**見かけの次数が正で差が単調・外挿が有限**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     },
     "densityPeak": {
@@ -4952,28 +5150,28 @@
       "p": 0.8158842652759103,
       "monotone": true,
       "ext": 6.460394757061112,
-      "why": "**見かけの次数が正で差が単調**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
+      "why": "**見かけの次数が正で差が単調・外挿が有限**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": -0.5980292367619716,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     }
    },
@@ -5261,6 +5459,17 @@
        "kineticTotal": 144.49075208103775,
        "potentialTotal": -280.0704717178963,
        "virialRatio": 1.0318171079925733
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 144.49075208103775,
+       "U": -280.07047171789566,
+       "W_vir": -272.1558904648692,
+       "twoKoverAbsU": 1.0318171079925755,
+       "twoKoverAbsWvir": 1.061823441221377,
+       "WvirOverU": 0.971740750802896
       }
      },
      "end": {
@@ -5459,6 +5668,17 @@
        "kineticTotal": 176.72366550625705,
        "potentialTotal": -315.8237283365412,
        "virialRatio": 1.1191284862417976
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 176.72366550625705,
+       "U": -315.82372833654085,
+       "W_vir": -302.7912862985326,
+       "twoKoverAbsU": 1.119128486241799,
+       "twoKoverAbsWvir": 1.1672969038614867,
+       "WvirOverU": 0.9587350763457491
       }
      },
      "errors": null
@@ -5686,6 +5906,17 @@
        "kineticTotal": 144.49075208103775,
        "potentialTotal": -280.0704717178963,
        "virialRatio": 1.0318171079925733
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 144.49075208103775,
+       "U": -280.07047171789566,
+       "W_vir": -272.1558904648692,
+       "twoKoverAbsU": 1.0318171079925755,
+       "twoKoverAbsWvir": 1.061823441221377,
+       "WvirOverU": 0.971740750802896
       }
      },
      "end": {
@@ -5884,6 +6115,17 @@
        "kineticTotal": 178.25618203996834,
        "potentialTotal": -316.83647226133724,
        "virialRatio": 1.1252251407024676
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 178.25618203996834,
+       "U": -316.8364722613372,
+       "W_vir": -303.7447924064743,
+       "twoKoverAbsU": 1.1252251407024678,
+       "twoKoverAbsWvir": 1.1737233789438875,
+       "WvirOverU": 0.9586800100334899
       }
      },
      "errors": null
@@ -6111,6 +6353,17 @@
        "kineticTotal": 144.49075208103775,
        "potentialTotal": -280.0704717178963,
        "virialRatio": 1.0318171079925733
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 144.49075208103775,
+       "U": -280.07047171789566,
+       "W_vir": -272.1558904648692,
+       "twoKoverAbsU": 1.0318171079925755,
+       "twoKoverAbsWvir": 1.061823441221377,
+       "WvirOverU": 0.971740750802896
       }
      },
      "end": {
@@ -6309,6 +6562,17 @@
        "kineticTotal": 173.42811824137016,
        "potentialTotal": -313.1771084213224,
        "virialRatio": 1.1075401974020045
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 173.42811824137016,
+       "U": -313.17710842132277,
+       "W_vir": -301.2415650270084,
+       "twoKoverAbsU": 1.107540197402003,
+       "twoKoverAbsWvir": 1.1514222363425919,
+       "WvirOverU": 0.9618888383813249
       }
      },
      "errors": null
@@ -6442,28 +6706,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": -2.767125419302396,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     },
     "massCentroid": {
@@ -6472,28 +6736,28 @@
       "p": -0.9141052399247748,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": -2.767125419302396,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     },
     "densityPeak": {
@@ -6502,28 +6766,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "order-estimated",
       "p": 3.559553080935376,
       "monotone": true,
       "ext": 0.7362387449423503,
-      "why": "**見かけの次数が正で差が単調**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
+      "why": "**見かけの次数が正で差が単調・外挿が有限**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": -2.767125419302384,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     }
    },
@@ -6807,6 +7071,17 @@
        "kineticTotal": 26.572294360483696,
        "potentialTotal": -72.9863686248246,
        "virialRatio": 0.728144031855443
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 26.572294360483696,
+       "U": -72.98636862482465,
+       "W_vir": -71.1490546646025,
+       "twoKoverAbsU": 0.7281440318554425,
+       "twoKoverAbsWvir": 0.7469472218779521,
+       "WvirOverU": 0.9748266149578344
       }
      },
      "end": {
@@ -7005,6 +7280,17 @@
        "kineticTotal": 61.670370593743655,
        "potentialTotal": -108.12657309870121,
        "virialRatio": 1.1407070218982909
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 61.670370593743655,
+       "U": -108.12657309870097,
+       "W_vir": -102.13395047126735,
+       "twoKoverAbsU": 1.1407070218982933,
+       "twoKoverAbsWvir": 1.2076370356611823,
+       "WvirOverU": 0.9445777068883577
       }
      },
      "errors": null
@@ -7228,6 +7514,17 @@
        "kineticTotal": 26.572294360483696,
        "potentialTotal": -72.9863686248246,
        "virialRatio": 0.728144031855443
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 26.572294360483696,
+       "U": -72.98636862482465,
+       "W_vir": -71.1490546646025,
+       "twoKoverAbsU": 0.7281440318554425,
+       "twoKoverAbsWvir": 0.7469472218779521,
+       "WvirOverU": 0.9748266149578344
       }
      },
      "end": {
@@ -7426,6 +7723,17 @@
        "kineticTotal": 62.25776142441633,
        "potentialTotal": -108.68992757309574,
        "virialRatio": 1.1456031449196977
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 62.25776142441633,
+       "U": -108.68992757309589,
+       "W_vir": -102.71199695467298,
+       "twoKoverAbsU": 1.1456031449196964,
+       "twoKoverAbsWvir": 1.212278278493423,
+       "WvirOverU": 0.945000141669957
       }
      },
      "errors": null
@@ -7649,6 +7957,17 @@
        "kineticTotal": 26.572294360483696,
        "potentialTotal": -72.9863686248246,
        "virialRatio": 0.728144031855443
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 26.572294360483696,
+       "U": -72.98636862482465,
+       "W_vir": -71.1490546646025,
+       "twoKoverAbsU": 0.7281440318554425,
+       "twoKoverAbsWvir": 0.7469472218779521,
+       "WvirOverU": 0.9748266149578344
       }
      },
      "end": {
@@ -7847,6 +8166,17 @@
        "kineticTotal": 61.93869452151402,
        "potentialTotal": -108.39052833093703,
        "virialRatio": 1.1428802031927243
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 61.93869452151402,
+       "U": -108.39052833093696,
+       "W_vir": -102.366716351581,
+       "twoKoverAbsU": 1.142880203192725,
+       "twoKoverAbsWvir": 1.2101334638650332,
+       "WvirOverU": 0.9444249228035487
       }
      },
      "errors": null
@@ -7983,28 +8313,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     },
     "massCentroid": {
@@ -8013,28 +8343,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     },
     "densityPeak": {
@@ -8043,28 +8373,28 @@
       "p": 0.7902625494152183,
       "monotone": true,
       "ext": 4.214710104682919,
-      "why": "**見かけの次数が正で差が単調**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
+      "why": "**見かけの次数が正で差が単調・外挿が有限**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": -1.5814832016665417,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     }
    },
@@ -8352,6 +8682,17 @@
        "kineticTotal": 141.39637246589572,
        "potentialTotal": -290.0222392023079,
        "virialRatio": 0.975072621015544
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 141.39637246589572,
+       "U": -290.022239202309,
+       "W_vir": -282.721397704079,
+       "twoKoverAbsU": 0.9750726210155405,
+       "twoKoverAbsWvir": 1.000252358782504,
+       "WvirOverU": 0.9748266149578371
       }
      },
      "end": {
@@ -8550,6 +8891,17 @@
        "kineticTotal": 173.70704710835483,
        "potentialTotal": -327.1005591023752,
        "virialRatio": 1.062101804931421
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 173.70704710835483,
+       "U": -327.10055910237884,
+       "W_vir": -312.1798189130102,
+       "twoKoverAbsU": 1.0621018049314093,
+       "twoKoverAbsWvir": 1.1128653204630041,
+       "WvirOverU": 0.9543848526877674
       }
      },
      "errors": null
@@ -8777,6 +9129,17 @@
        "kineticTotal": 141.39637246589572,
        "potentialTotal": -290.0222392023079,
        "virialRatio": 0.975072621015544
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 141.39637246589572,
+       "U": -290.022239202309,
+       "W_vir": -282.721397704079,
+       "twoKoverAbsU": 0.9750726210155405,
+       "twoKoverAbsWvir": 1.000252358782504,
+       "WvirOverU": 0.9748266149578371
       }
      },
      "end": {
@@ -8975,6 +9338,17 @@
        "kineticTotal": 177.33180838458782,
        "potentialTotal": -330.86855527274383,
        "virialRatio": 1.071916962543681
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 177.33180838458782,
+       "U": -330.8685552727439,
+       "W_vir": -315.9169653075171,
+       "twoKoverAbsU": 1.0719169625436809,
+       "twoKoverAbsWvir": 1.1226482136657083,
+       "WvirOverU": 0.9548110881890792
       }
      },
      "errors": null
@@ -9202,6 +9576,17 @@
        "kineticTotal": 141.39637246589572,
        "potentialTotal": -290.0222392023079,
        "virialRatio": 0.975072621015544
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 141.39637246589572,
+       "U": -290.022239202309,
+       "W_vir": -282.721397704079,
+       "twoKoverAbsU": 0.9750726210155405,
+       "twoKoverAbsWvir": 1.000252358782504,
+       "WvirOverU": 0.9748266149578371
       }
      },
      "end": {
@@ -9400,6 +9785,17 @@
        "kineticTotal": 181.47186461828312,
        "potentialTotal": -334.9097831192577,
        "virialRatio": 1.0837059636067004
+      },
+      "virial": {
+       "n": 240,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 181.47186461828312,
+       "U": -334.9097831192572,
+       "W_vir": -319.4312858357224,
+       "twoKoverAbsU": 1.0837059636067021,
+       "twoKoverAbsWvir": 1.1362184774324875,
+       "WvirOverU": 0.9537830840909681
       }
      },
      "errors": null
@@ -9533,28 +9929,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": -5.489494144281931,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": -3.682766849320954,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "order-estimated",
       "p": 1.5136022594421763,
       "monotone": true,
       "ext": 2.2964764171309855,
-      "why": "**見かけの次数が正で差が単調**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
+      "why": "**見かけの次数が正で差が単調・外挿が有限**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
      }
     },
     "massCentroid": {
@@ -9563,28 +9959,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "order-estimated",
       "p": 0.5690693386364842,
       "monotone": true,
       "ext": 6.213965746638951,
-      "why": "**見かけの次数が正で差が単調**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
+      "why": "**見かけの次数が正で差が単調・外挿が有限**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
      },
      "sigmaInPlaneProxyAll": {
       "status": "order-estimated",
       "p": 1.5136022594422034,
       "monotone": true,
       "ext": 2.296476417130985,
-      "why": "**見かけの次数が正で差が単調**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
+      "why": "**見かけの次数が正で差が単調・外挿が有限**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
      }
     },
     "densityPeak": {
@@ -9593,28 +9989,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "order-estimated",
       "p": 1.5136022594421512,
       "monotone": true,
       "ext": 2.2964764171309864,
-      "why": "**見かけの次数が正で差が単調**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
+      "why": "**見かけの次数が正で差が単調・外挿が有限**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
      }
     }
    },
@@ -9898,6 +10294,17 @@
        "kineticTotal": 23.199206100028473,
        "potentialTotal": -69.51433961136611,
        "virialRatio": 0.6674653382231147
+      },
+      "virial": {
+       "n": 120,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 23.199206100028473,
+       "U": -69.51433961136614,
+       "W_vir": -67.67254035553155,
+       "twoKoverAbsU": 0.6674653382231145,
+       "twoKoverAbsWvir": 0.6856313056417475,
+       "WvirOverU": 0.9735047579228755
       }
      },
      "end": {
@@ -10096,6 +10503,17 @@
        "kineticTotal": 76.83059508918514,
        "potentialTotal": -123.43824867529716,
        "virialRatio": 1.2448425980392366
+      },
+      "virial": {
+       "n": 120,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 76.83059508918514,
+       "U": -123.43824867529699,
+       "W_vir": -115.29534595892869,
+       "twoKoverAbsU": 1.2448425980392384,
+       "twoKoverAbsWvir": 1.3327614302238056,
+       "WvirOverU": 0.9340325806323766
       }
      },
      "errors": null
@@ -10319,6 +10737,17 @@
        "kineticTotal": 23.199206100028473,
        "potentialTotal": -69.51433961136611,
        "virialRatio": 0.6674653382231147
+      },
+      "virial": {
+       "n": 120,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 23.199206100028473,
+       "U": -69.51433961136614,
+       "W_vir": -67.67254035553155,
+       "twoKoverAbsU": 0.6674653382231145,
+       "twoKoverAbsWvir": 0.6856313056417475,
+       "WvirOverU": 0.9735047579228755
       }
      },
      "end": {
@@ -10517,6 +10946,17 @@
        "kineticTotal": 76.18946676105328,
        "potentialTotal": -122.6348790257326,
        "virialRatio": 1.2425415569589524
+      },
+      "virial": {
+       "n": 120,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 76.18946676105328,
+       "U": -122.6348790257328,
+       "W_vir": -114.14483910820232,
+       "twoKoverAbsU": 1.2425415569589504,
+       "twoKoverAbsWvir": 1.3349612186816495,
+       "WvirOverU": 0.9307697778561922
       }
      },
      "errors": null
@@ -10740,6 +11180,17 @@
        "kineticTotal": 23.199206100028473,
        "potentialTotal": -69.51433961136611,
        "virialRatio": 0.6674653382231147
+      },
+      "virial": {
+       "n": 120,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 23.199206100028473,
+       "U": -69.51433961136614,
+       "W_vir": -67.67254035553155,
+       "twoKoverAbsU": 0.6674653382231145,
+       "twoKoverAbsWvir": 0.6856313056417475,
+       "WvirOverU": 0.9735047579228755
       }
      },
      "end": {
@@ -10938,6 +11389,17 @@
        "kineticTotal": 78.09345928203173,
        "potentialTotal": -124.84609213435533,
        "virialRatio": 1.2510357023909098
+      },
+      "virial": {
+       "n": 120,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 78.09345928203173,
+       "U": -124.84609213435547,
+       "W_vir": -114.14602148560472,
+       "twoKoverAbsU": 1.2510357023909084,
+       "twoKoverAbsWvir": 1.3683080367699074,
+       "WvirOverU": 0.9142939080765486
       }
      },
      "errors": null
@@ -11070,28 +11532,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "order-estimated",
       "p": 6.106165330049126,
       "monotone": true,
       "ext": 2.455498662221278,
-      "why": "**見かけの次数が正で差が単調**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
+      "why": "**見かけの次数が正で差が単調・外挿が有限**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": -0.5801697597236072,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     },
     "massCentroid": {
@@ -11100,28 +11562,28 @@
       "p": 0.495083464428539,
       "monotone": true,
       "ext": 4.82462670398192,
-      "why": "**見かけの次数が正で差が単調**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
+      "why": "**見かけの次数が正で差が単調・外挿が有限**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": -2.297405998365549,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": -0.5801697597234803,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     },
     "densityPeak": {
@@ -11130,28 +11592,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": -0.5801697597235332,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     }
    },
@@ -11439,6 +11901,17 @@
        "kineticTotal": 117.52945785291108,
        "potentialTotal": -276.2256132291107,
        "virialRatio": 0.8509671241488257
+      },
+      "virial": {
+       "n": 120,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 117.52945785291108,
+       "U": -276.22561322911116,
+       "W_vir": -268.90694873870245,
+       "twoKoverAbsU": 0.8509671241488242,
+       "twoKoverAbsWvir": 0.8741273396182465,
+       "WvirOverU": 0.973504757922871
       }
      },
      "end": {
@@ -11637,6 +12110,17 @@
        "kineticTotal": 219.48604914604505,
        "potentialTotal": -401.7960061053374,
        "virialRatio": 1.0925247927352626
+      },
+      "virial": {
+       "n": 120,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 219.48604914604505,
+       "U": -401.79600610533646,
+       "W_vir": -380.918315542362,
+       "twoKoverAbsU": 1.0925247927352653,
+       "twoKoverAbsWvir": 1.1524048080152554,
+       "WvirOverU": 0.9480390789213045
       }
      },
      "errors": null
@@ -11864,6 +12348,17 @@
        "kineticTotal": 117.52945785291108,
        "potentialTotal": -276.2256132291107,
        "virialRatio": 0.8509671241488257
+      },
+      "virial": {
+       "n": 120,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 117.52945785291108,
+       "U": -276.22561322911116,
+       "W_vir": -268.90694873870245,
+       "twoKoverAbsU": 0.8509671241488242,
+       "twoKoverAbsWvir": 0.8741273396182465,
+       "WvirOverU": 0.973504757922871
       }
      },
      "end": {
@@ -12062,6 +12557,17 @@
        "kineticTotal": 215.07404920580757,
        "potentialTotal": -393.6849238565514,
        "virialRatio": 1.0926201953528452
+      },
+      "virial": {
+       "n": 120,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 215.07404920580757,
+       "U": -393.68492385655185,
+       "W_vir": -373.9975870187487,
+       "twoKoverAbsU": 1.0926201953528438,
+       "twoKoverAbsWvir": 1.1501360258510214,
+       "WvirOverU": 0.9499921494454364
       }
      },
      "errors": null
@@ -12289,6 +12795,17 @@
        "kineticTotal": 117.52945785291108,
        "potentialTotal": -276.2256132291107,
        "virialRatio": 0.8509671241488257
+      },
+      "virial": {
+       "n": 120,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 117.52945785291108,
+       "U": -276.22561322911116,
+       "W_vir": -268.90694873870245,
+       "twoKoverAbsU": 0.8509671241488242,
+       "twoKoverAbsWvir": 0.8741273396182465,
+       "WvirOverU": 0.973504757922871
       }
      },
      "end": {
@@ -12487,6 +13004,17 @@
        "kineticTotal": 211.80930012863004,
        "potentialTotal": -391.26798135192945,
        "virialRatio": 1.0826814880010143
+      },
+      "virial": {
+       "n": 120,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 211.80930012863004,
+       "U": -391.26798135192934,
+       "W_vir": -374.2414858488202,
+       "twoKoverAbsU": 1.0826814880010145,
+       "twoKoverAbsWvir": 1.13193917904758,
+       "WvirOverU": 0.9564838005801591
       }
      },
      "errors": null
@@ -12622,28 +13150,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "order-estimated",
       "p": 1.0674235701795054,
       "monotone": true,
       "ext": 8.986907392551146,
-      "why": "**見かけの次数が正で差が単調**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
+      "why": "**見かけの次数が正で差が単調・外挿が有限**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     },
     "massCentroid": {
@@ -12652,28 +13180,28 @@
       "p": 4.614829192622203,
       "monotone": true,
       "ext": 6.445149394088849,
-      "why": "**見かけの次数が正で差が単調**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
+      "why": "**見かけの次数が正で差が単調・外挿が有限**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     },
     "densityPeak": {
@@ -12682,28 +13210,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": -4.828790403507117,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     }
    },
@@ -12987,6 +13515,17 @@
        "kineticTotal": 25.01311801083667,
        "potentialTotal": -74.5948859160088,
        "virialRatio": 0.6706389507452443
+      },
+      "virial": {
+       "n": 480,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 25.01311801083667,
+       "U": -74.59488591600883,
+       "W_vir": -72.6636765537548,
+       "twoKoverAbsU": 0.6706389507452439,
+       "twoKoverAbsWvir": 0.6884627697673014,
+       "WvirOverU": 0.974110700237165
       }
      },
      "end": {
@@ -13185,6 +13724,17 @@
        "kineticTotal": 63.85948420322729,
        "potentialTotal": -113.41116863309121,
        "virialRatio": 1.1261586486217428
+      },
+      "virial": {
+       "n": 480,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 63.85948420322729,
+       "U": -113.41116863309134,
+       "W_vir": -107.4934793431822,
+       "twoKoverAbsU": 1.1261586486217414,
+       "twoKoverAbsWvir": 1.1881554973088253,
+       "WvirOverU": 0.9478209301497096
       }
      },
      "errors": null
@@ -13408,6 +13958,17 @@
        "kineticTotal": 25.01311801083667,
        "potentialTotal": -74.5948859160088,
        "virialRatio": 0.6706389507452443
+      },
+      "virial": {
+       "n": 480,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 25.01311801083667,
+       "U": -74.59488591600883,
+       "W_vir": -72.6636765537548,
+       "twoKoverAbsU": 0.6706389507452439,
+       "twoKoverAbsWvir": 0.6884627697673014,
+       "WvirOverU": 0.974110700237165
       }
      },
      "end": {
@@ -13606,6 +14167,17 @@
        "kineticTotal": 63.93393228358017,
        "potentialTotal": -113.50037364273813,
        "virialRatio": 1.1265854064026817
+      },
+      "virial": {
+       "n": 480,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 63.93393228358017,
+       "U": -113.50037364273965,
+       "W_vir": -107.44129105846548,
+       "twoKoverAbsU": 1.1265854064026666,
+       "twoKoverAbsWvir": 1.1901184666291797,
+       "WvirOverU": 0.9466161882132117
       }
      },
      "errors": null
@@ -13829,6 +14401,17 @@
        "kineticTotal": 25.01311801083667,
        "potentialTotal": -74.5948859160088,
        "virialRatio": 0.6706389507452443
+      },
+      "virial": {
+       "n": 480,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 25.01311801083667,
+       "U": -74.59488591600883,
+       "W_vir": -72.6636765537548,
+       "twoKoverAbsU": 0.6706389507452439,
+       "twoKoverAbsWvir": 0.6884627697673014,
+       "WvirOverU": 0.974110700237165
       }
      },
      "end": {
@@ -14027,6 +14610,17 @@
        "kineticTotal": 64.17726195685727,
        "potentialTotal": -113.80479677555456,
        "virialRatio": 1.1278481008744727
+      },
+      "virial": {
+       "n": 480,
+       "massTotal": 17.69999921321869,
+       "softening": 0.5,
+       "K": 64.17726195685727,
+       "U": -113.80479677555537,
+       "W_vir": -107.5656149041537,
+       "twoKoverAbsU": 1.1278481008744647,
+       "twoKoverAbsWvir": 1.19326723533431,
+       "WvirOverU": 0.9451764596205332
       }
      },
      "errors": null
@@ -14163,28 +14757,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "order-estimated",
       "p": 0.14886700129382738,
       "monotone": true,
       "ext": 6.874445511287671,
-      "why": "**見かけの次数が正で差が単調**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
+      "why": "**見かけの次数が正で差が単調・外挿が有限**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     },
     "massCentroid": {
@@ -14193,28 +14787,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     },
     "densityPeak": {
@@ -14223,28 +14817,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": -2.0500438229946436,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     }
    },
@@ -14532,6 +15126,17 @@
        "kineticTotal": 136.10920330568783,
        "potentialTotal": -296.41392295606295,
        "virialRatio": 0.9183725376210693
+      },
+      "virial": {
+       "n": 480,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 136.10920330568783,
+       "U": -296.4139229560585,
+       "W_vir": -288.73997405077444,
+       "twoKoverAbsU": 0.9183725376210831,
+       "twoKoverAbsWvir": 0.9427804636551865,
+       "WvirOverU": 0.9741107002371758
       }
      },
      "end": {
@@ -14730,6 +15335,17 @@
        "kineticTotal": 213.0681518962405,
        "potentialTotal": -384.22763520425076,
        "virialRatio": 1.1090724996028776
+      },
+      "virial": {
+       "n": 480,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 213.0681518962405,
+       "U": -384.22763520424763,
+       "W_vir": -366.58125492328094,
+       "twoKoverAbsU": 1.1090724996028867,
+       "twoKoverAbsWvir": 1.1624607043305144,
+       "WvirOverU": 0.9540731101457962
       }
      },
      "errors": null
@@ -14957,6 +15573,17 @@
        "kineticTotal": 136.10920330568783,
        "potentialTotal": -296.41392295606295,
        "virialRatio": 0.9183725376210693
+      },
+      "virial": {
+       "n": 480,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 136.10920330568783,
+       "U": -296.4139229560585,
+       "W_vir": -288.73997405077444,
+       "twoKoverAbsU": 0.9183725376210831,
+       "twoKoverAbsWvir": 0.9427804636551865,
+       "WvirOverU": 0.9741107002371758
       }
      },
      "end": {
@@ -15155,6 +15782,17 @@
        "kineticTotal": 214.22105028872195,
        "potentialTotal": -387.0838765527758,
        "virialRatio": 1.1068456387101138
+      },
+      "virial": {
+       "n": 480,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 214.22105028872195,
+       "U": -387.0838765527755,
+       "W_vir": -368.7143077714156,
+       "twoKoverAbsU": 1.1068456387101144,
+       "twoKoverAbsWvir": 1.1619893547582552,
+       "WvirOverU": 0.9525436994561683
       }
      },
      "errors": null
@@ -15382,6 +16020,17 @@
        "kineticTotal": 136.10920330568783,
        "potentialTotal": -296.41392295606295,
        "virialRatio": 0.9183725376210693
+      },
+      "virial": {
+       "n": 480,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 136.10920330568783,
+       "U": -296.4139229560585,
+       "W_vir": -288.73997405077444,
+       "twoKoverAbsU": 0.9183725376210831,
+       "twoKoverAbsWvir": 0.9427804636551865,
+       "WvirOverU": 0.9741107002371758
       }
      },
      "end": {
@@ -15580,6 +16229,17 @@
        "kineticTotal": 214.45526698410438,
        "potentialTotal": -386.9686981890929,
        "virialRatio": 1.1083856032164672
+      },
+      "virial": {
+       "n": 480,
+       "massTotal": 35.283204317092896,
+       "softening": 0.5,
+       "K": 214.45526698410438,
+       "U": -386.9686981890892,
+       "W_vir": -368.85120635848546,
+       "twoKoverAbsU": 1.1083856032164778,
+       "twoKoverAbsWvir": 1.162828063388118,
+       "WvirOverU": 0.9531809887585513
       }
      },
      "errors": null
@@ -15714,28 +16374,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "order-estimated",
       "p": 1.9910911327084897,
       "monotone": true,
       "ext": 10.195059136296875,
-      "why": "**見かけの次数が正で差が単調**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
+      "why": "**見かけの次数が正で差が単調・外挿が有限**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
      },
      "coreRadiusHalfDensity": {
       "status": "order-estimated",
       "p": 1.123020935053113,
       "monotone": true,
       "ext": 9.14242497333696,
-      "why": "**見かけの次数が正で差が単調**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
+      "why": "**見かけの次数が正で差が単調・外挿が有限**なので外挿が付く —— これは「次数が推定できた」であって**「収束済み」ではない**(段を増やすまで次数は確定しない)"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": -0.1327885536566851,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     },
     "massCentroid": {
@@ -15744,28 +16404,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": -0.13278855365660344,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     },
     "densityPeak": {
@@ -15774,28 +16434,28 @@
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "halfMassRadius2D": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "coreRadiusHalfDensity": {
       "status": "numerically-unresolved",
       "p": null,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "3 段が揃っていない/差が 0 / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      },
      "sigmaInPlaneProxyAll": {
       "status": "numerically-unresolved",
       "p": -0.1327885536569459,
       "monotone": false,
       "ext": null,
-      "why": "差が単調でない(符号反転 または h/2→h/4 の差が大きい)"
+      "why": "見かけの次数が正でない(h/2→h/4 の差が h→h/2 の差より大きい) / 差が単調でない(符号反転 または h/2→h/4 の差が大きい) / 外挿が有限でない"
      }
     }
    },
@@ -16970,6 +17630,296 @@
     ]
    }
   ],
-  "note": "**エンジンの `vMode:\"virial\"` は ⟨v²⟩=−W/M(2K=−W)を宣言する**が、本器の独立な帳簿では **t=0 の 2K/|U| は 1.000 ではない**(🫐 の既定 seed で 0.869)。ポテンシャル自体は一致する(エンジンの W と本器の ½Σm_iΦ_i が 7 桁一致 —— 実行時は Float32)ので、ずれは**単位乱数速度の実現**(規約 ⟨v²⟩=vScale²/3 に対する有限 N の標本ゆらぎ)に由来すると読めるが、**本便では機構を確定させない**(seed 3 本・N 3 種で 0.632〜1.032 の幅がある、という記録にとどめる)。🍇 は `vMode:\"random\"`(観測 σ の規約転写)なので t=0 でビリアル平衡にないことは設計どおりである。"
+  "note": "**エンジンの `vMode:\"virial\"` は ⟨v²⟩=−W/M(2K=−W)を宣言する**が、本器の独立な帳簿では **t=0 の 2K/|U| は 1.000 ではない**(🫐 の既定 seed で 0.869)。ポテンシャル自体は一致する(エンジンの W と本器の ½Σm_iΦ_i が 7 桁一致 —— 実行時は Float32)ので、ずれは**単位乱数速度の実現**(規約 ⟨v²⟩=vScale²/3 に対する有限 N の標本ゆらぎ)に由来すると読めるが、**本便では機構を確定させない**(**🫐(`vMode:\"virial\"`)だけの範囲**は `virialTermsAE14.rangeVirialOnly` に実測して置く —— 第269便の「0.632〜1.032」は 🍇 `vMode:\"random\"` の混入だった、という訂正。第270便e・AE14)。🍇 は `vMode:\"random\"`(観測 σ の規約転写)なので t=0 でビリアル平衡にないことは設計どおりである。"
+ },
+ "virialTermsAE14": {
+  "convention": "**`vMode:\"virial\"` は期待値の正規化である。** エンジンは単位乱数 u∼U(0,1) の速度に √(3(−U/M))·vScale を掛ける(⟨v²⟩=vScale²/3 の規約)ので、⟨v²⟩=−U/M は **E[u²]=1/3 を通した期待値**であって、**有限標本の K は測っていない**。したがって t=0 の 2K/|U| は 1 にならない。",
+  "definitions": {
+   "U": "U = −G Σ_{i<j} m_i m_j/√(d²+ε²)(**軟化ポテンシャル** —— エンジンの `eqInit.W` と同じ量)",
+   "W_vir": "W_vir = Σ_i r_i·F_i = −G Σ_{i<j} m_i m_j d²/(d²+ε²)^{3/2}(**同じ軟化力のビリアル項**)",
+   "why": "**ε>0 では一般に U ≠ W_vir** であり、ビリアル定理 2K+W_vir=0 が参照するのは W_vir の方である。エンジンが正規化に使っているのは U なので、**2K/|U| と 2K/|W_vir| は別の数**になる。"
+  },
+  "notAdopted": [
+   "**毎ステップの再正規化**(引きずりのある走行で保存量でない量を固定しにいかない)",
+   "**1 回のスケール `sqrt(K_target/K_actual)`**(採るなら**明示 variant として別便**)",
+   "**🫐 の JSON を書き換えて 2K/|U| を 1 に合わせること**(本便は入力を 1 bit も触っていない)"
+  ],
+  "rows": [
+   {
+    "tag": "tuc47_asIs",
+    "emoji": "🍇",
+    "vMode": "random",
+    "seedUsed": 2509719581,
+    "n": 240,
+    "t0": {
+     "K": 23.68139153622442,
+     "U": -74.93322289165097,
+     "W_vir": -72.96975949640685,
+     "twoKoverAbsU": 0.6320665419787513,
+     "twoKoverAbsWvir": 0.6490741287804445,
+     "WvirOverU": 0.9737971580632109
+    },
+    "tEnd": {
+     "K": 62.603736720820656,
+     "U": -113.6566793531746,
+     "W_vir": -107.92195862156534,
+     "twoKoverAbsU": 1.1016288189502177,
+     "twoKoverAbsWvir": 1.1601668005367531,
+     "WvirOverU": 0.9495434780934493
+    },
+    "engineW": null,
+    "engineWminusU": null
+   },
+   {
+    "tag": "tuc47DFM_asIs",
+    "emoji": "🫐",
+    "vMode": "virial",
+    "seedUsed": 2509719581,
+    "n": 240,
+    "t0": {
+     "K": 129.35202897608644,
+     "U": -297.758355473115,
+     "W_vir": -289.95624034929494,
+     "twoKoverAbsU": 0.8688389534564435,
+     "twoKoverAbsWvir": 0.8922175899388328,
+     "WvirOverU": 0.9737971580632118
+    },
+    "tEnd": {
+     "K": 234.35870419160142,
+     "U": -418.6518024517282,
+     "W_vir": -393.1925311886837,
+     "twoKoverAbsU": 1.1195876994635592,
+     "twoKoverAbsWvir": 1.1920811592381864,
+     "WvirOverU": 0.9391874796335553
+    },
+    "engineW": -297.7583490528156,
+    "engineWminusU": 0.000006420299371256988
+   },
+   {
+    "tag": "tuc47_seed269104001",
+    "emoji": "🍇",
+    "vMode": "random",
+    "seedUsed": 269104001,
+    "n": 240,
+    "t0": {
+     "K": 28.020504435983767,
+     "U": -70.4819283719551,
+     "W_vir": -68.49016199419903,
+     "twoKoverAbsU": 0.7951117423493532,
+     "twoKoverAbsWvir": 0.818234433095867,
+     "WvirOverU": 0.971740750802888
+    },
+    "tEnd": {
+     "K": 53.17011260270325,
+     "U": -95.59864027929542,
+     "W_vir": -91.32238183063029,
+     "twoKoverAbsU": 1.1123612730759462,
+     "twoKoverAbsWvir": 1.1644486605992037,
+     "WvirOverU": 0.9552686268740658
+    },
+    "engineW": null,
+    "engineWminusU": null
+   },
+   {
+    "tag": "tuc47DFM_seed269104001",
+    "emoji": "🫐",
+    "vMode": "virial",
+    "seedUsed": 269104001,
+    "n": 240,
+    "t0": {
+     "K": 144.49075208103775,
+     "U": -280.07047171789566,
+     "W_vir": -272.1558904648692,
+     "twoKoverAbsU": 1.0318171079925755,
+     "twoKoverAbsWvir": 1.061823441221377,
+     "WvirOverU": 0.971740750802896
+    },
+    "tEnd": {
+     "K": 176.72366550625705,
+     "U": -315.82372833654085,
+     "W_vir": -302.7912862985326,
+     "twoKoverAbsU": 1.119128486241799,
+     "twoKoverAbsWvir": 1.1672969038614867,
+     "WvirOverU": 0.9587350763457491
+    },
+    "engineW": -280.07046625111263,
+    "engineWminusU": 0.000005466783022711752
+   },
+   {
+    "tag": "tuc47_seed269104002",
+    "emoji": "🍇",
+    "vMode": "random",
+    "seedUsed": 269104002,
+    "n": 240,
+    "t0": {
+     "K": 26.572294360483696,
+     "U": -72.98636862482465,
+     "W_vir": -71.1490546646025,
+     "twoKoverAbsU": 0.7281440318554425,
+     "twoKoverAbsWvir": 0.7469472218779521,
+     "WvirOverU": 0.9748266149578344
+    },
+    "tEnd": {
+     "K": 61.670370593743655,
+     "U": -108.12657309870097,
+     "W_vir": -102.13395047126735,
+     "twoKoverAbsU": 1.1407070218982933,
+     "twoKoverAbsWvir": 1.2076370356611823,
+     "WvirOverU": 0.9445777068883577
+    },
+    "engineW": null,
+    "engineWminusU": null
+   },
+   {
+    "tag": "tuc47DFM_seed269104002",
+    "emoji": "🫐",
+    "vMode": "virial",
+    "seedUsed": 269104002,
+    "n": 240,
+    "t0": {
+     "K": 141.39637246589572,
+     "U": -290.022239202309,
+     "W_vir": -282.721397704079,
+     "twoKoverAbsU": 0.9750726210155405,
+     "twoKoverAbsWvir": 1.000252358782504,
+     "WvirOverU": 0.9748266149578371
+    },
+    "tEnd": {
+     "K": 173.70704710835483,
+     "U": -327.10055910237884,
+     "W_vir": -312.1798189130102,
+     "twoKoverAbsU": 1.0621018049314093,
+     "twoKoverAbsWvir": 1.1128653204630041,
+     "WvirOverU": 0.9543848526877674
+    },
+    "engineW": -290.02223271260243,
+    "engineWminusU": 0.000006489706549928087
+   },
+   {
+    "tag": "tuc47_N120",
+    "emoji": "🍇",
+    "vMode": "random",
+    "seedUsed": 2509719581,
+    "n": 120,
+    "t0": {
+     "K": 23.199206100028473,
+     "U": -69.51433961136614,
+     "W_vir": -67.67254035553155,
+     "twoKoverAbsU": 0.6674653382231145,
+     "twoKoverAbsWvir": 0.6856313056417475,
+     "WvirOverU": 0.9735047579228755
+    },
+    "tEnd": {
+     "K": 76.83059508918514,
+     "U": -123.43824867529699,
+     "W_vir": -115.29534595892869,
+     "twoKoverAbsU": 1.2448425980392384,
+     "twoKoverAbsWvir": 1.3327614302238056,
+     "WvirOverU": 0.9340325806323766
+    },
+    "engineW": null,
+    "engineWminusU": null
+   },
+   {
+    "tag": "tuc47DFM_N120",
+    "emoji": "🫐",
+    "vMode": "virial",
+    "seedUsed": 2509719581,
+    "n": 120,
+    "t0": {
+     "K": 117.52945785291108,
+     "U": -276.22561322911116,
+     "W_vir": -268.90694873870245,
+     "twoKoverAbsU": 0.8509671241488242,
+     "twoKoverAbsWvir": 0.8741273396182465,
+     "WvirOverU": 0.973504757922871
+    },
+    "tEnd": {
+     "K": 219.48604914604505,
+     "U": -401.79600610533646,
+     "W_vir": -380.918315542362,
+     "twoKoverAbsU": 1.0925247927352653,
+     "twoKoverAbsWvir": 1.1524048080152554,
+     "WvirOverU": 0.9480390789213045
+    },
+    "engineW": -276.2256062994865,
+    "engineWminusU": 0.0000069296246465455624
+   },
+   {
+    "tag": "tuc47_N480",
+    "emoji": "🍇",
+    "vMode": "random",
+    "seedUsed": 2509719581,
+    "n": 480,
+    "t0": {
+     "K": 25.01311801083667,
+     "U": -74.59488591600883,
+     "W_vir": -72.6636765537548,
+     "twoKoverAbsU": 0.6706389507452439,
+     "twoKoverAbsWvir": 0.6884627697673014,
+     "WvirOverU": 0.974110700237165
+    },
+    "tEnd": {
+     "K": 63.85948420322729,
+     "U": -113.41116863309134,
+     "W_vir": -107.4934793431822,
+     "twoKoverAbsU": 1.1261586486217414,
+     "twoKoverAbsWvir": 1.1881554973088253,
+     "WvirOverU": 0.9478209301497096
+    },
+    "engineW": null,
+    "engineWminusU": null
+   },
+   {
+    "tag": "tuc47DFM_N480",
+    "emoji": "🫐",
+    "vMode": "virial",
+    "seedUsed": 2509719581,
+    "n": 480,
+    "t0": {
+     "K": 136.10920330568783,
+     "U": -296.4139229560585,
+     "W_vir": -288.73997405077444,
+     "twoKoverAbsU": 0.9183725376210831,
+     "twoKoverAbsWvir": 0.9427804636551865,
+     "WvirOverU": 0.9741107002371758
+    },
+    "tEnd": {
+     "K": 213.0681518962405,
+     "U": -384.22763520424763,
+     "W_vir": -366.58125492328094,
+     "twoKoverAbsU": 1.1090724996028867,
+     "twoKoverAbsWvir": 1.1624607043305144,
+     "WvirOverU": 0.9540731101457962
+    },
+    "engineW": -296.41391681951535,
+    "engineWminusU": 0.000006136543163393071
+   }
+  ],
+  "rangeVirialOnly": {
+   "columns": 5,
+   "tags": [
+    "tuc47DFM_asIs",
+    "tuc47DFM_seed269104001",
+    "tuc47DFM_seed269104002",
+    "tuc47DFM_N120",
+    "tuc47DFM_N480"
+   ],
+   "twoKoverAbsU": {
+    "min": 0.8509671241488242,
+    "max": 1.0318171079925755
+   },
+   "twoKoverAbsWvir": {
+    "min": 0.8741273396182465,
+    "max": 1.061823441221377
+   },
+   "note": "**🫐(`vMode:\"virial\"`)だけの範囲**である。🍇 は `vMode:\"random\"`(観測 σ の規約転写)なので同じ幅に混ぜない —— 第269便の「0.632〜1.032」は 🍇 の混入だった(訂正)。"
+  },
+  "doNotSay": [
+   "ビリアル平衡に置いた",
+   "2K/|U|=1 を満たしている",
+   "初期化を較正した",
+   "有限標本の K を合わせた"
+  ]
  }
 }

@@ -33,7 +33,7 @@
 //   「銀河を完成した(観測一致版)」「回転曲線を再現した」「観測と合った」「較正した」
 //   「全点が誤差内だから系全体が 3σ で合った」。
 //
-// 実行: node tests/exp-w269c-sparc.mjs [--T 40] [--only main,sens]
+// 実行: node tests/exp-w269c-sparc.mjs [--T 40] [--only main,sens,seeds]
 // 出力: tests/out/sparc-w269c.json
 import fs from 'node:fs';
 import path from 'node:path';
@@ -41,7 +41,7 @@ import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { richardson3 } from './lib-w265a-analogy.mjs';
 import { compareRow, tallyStates, measurementStamp, fileStamp, loadObsCsv, noteField,
-  NO_PVALUE_NOTE } from './lib-w269c-compare.mjs';
+  finiteNumber, validateWindow, NO_PVALUE_NOTE } from './lib-w269c-compare.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -50,11 +50,15 @@ const OUT = path.join(ROOT, 'tests', 'out', 'sparc-w269c.json');
 const argv = process.argv.slice(2);
 const arg = (k, d) => { const i = argv.indexOf(k); return (i >= 0 && argv[i + 1]) ? argv[i + 1] : d; };
 const T_END = Number(arg('--T', 40));
-const PARTS = String(arg('--only', 'main,sens')).split(',');
+const PARTS = String(arg('--only', 'main,sens,seeds')).split(',');
 const want = (k) => PARTS.indexOf(k) >= 0;
 const CHECKPOINTS = [0, 10, 20, T_END];
 const DIVS = [1, 2, 4];
 const DT0 = 0.016;
+// 第270便e(F6): **窓を機械で検査する。** T は正かつ dt=0.016 の整数倍、チェックポイントは
+//   T 以下の昇順(重複なし・dt の整数倍)。`--T 1` のような短い窓は**ここで throw する**
+//   —— **主判定窓を短い側へ移して成功を選ばない**(AE4)。
+const WINDOW = validateWindow({ T: T_END, dt: DT0, checkpoints: CHECKPOINTS });
 
 // ---- 単位(銀河族 L19/T15/M38 —— プリセットの scaleExp から確かめる)
 const KPC_M = 3.0856775814913673e19;
@@ -175,6 +179,32 @@ await pg.evaluate(() => {
       stars: fin(acc.stars), hi: fin(acc.hi), mixed: fin(acc.mixed),
       componentInfo: info };
   };
+  // 第270便e(F2): **クランプは種類別に記録する**(合算件数だけにしない)。
+  //   読むのはエンジンの帳簿カウンタだけで、**器はカウンタを 1 つも足していない**
+  //   (`S._core` には 1 命令も足せない —— 第258便e の JIT 崖)。
+  W269.CLAMP_KINDS = { clampVN: '速度上限(|v|>100 を 100 へ)', clampSN: '自転の上限',
+    clampHN: 'H クランプ', clampAN: '力の上限(8/maxInv)', clampRN: 'E6′ 反作用の Δv 上限',
+    clampTN: 'coupleSink:"tilt" の容量到達', angOvfN: '角度の溢れ' };
+  W269.clampSnap = (S) => { const byKind = {}; let total = 0;
+    for (const k of Object.keys(W269.CLAMP_KINDS)) { const z = S[k] || 0; byKind[k] = z; total += z; }
+    return { byKind, total }; };
+  // **粒子別**は「判定時刻に速度上限へ張り付いている粒子」の点呼で見る(規則は |v|=100 へ落とす)。
+  //   **限界の明示**: 帳簿カウンタは `S._core` の中で増えるので、**どの粒子がいつ何回クランプされたか**は
+  //   器から取れない。これは発動回数の粒子別内訳**ではない**。
+  W269.saturated = (S, seg) => {
+    const CAP = 100, tol = 1e-6;
+    const which = (i) => ((seg.stars && i >= seg.stars.from && i < seg.stars.to) ? 'stars'
+      : ((seg.hi && i >= seg.hi.from && i < seg.hi.to) ? 'hi' : 'other'));
+    const cnt = { stars: 0, hi: 0, other: 0 }, sample = [];
+    for (let i = 0; i < S.n; i++) {
+      const v = Math.hypot(S.vx[i], S.vy[i]);
+      if (v >= CAP * (1 - tol)) { cnt[which(i)]++;
+        if (sample.length < 40) sample.push({ i, component: which(i), speed: v }); }
+    }
+    return { cap: CAP, countByComponent: cnt, total: cnt.stars + cnt.hi + cnt.other, sample,
+      caveat: '**判定時刻に速度上限へ張り付いている粒子の点呼**であって、**発動回数の粒子別内訳ではない**'
+        + '(帳簿カウンタは `S._core` の中で増えるので器からは粒子別に取れない —— 限界の明示)。' };
+  };
   // 同一物理時刻のチェックポイントで統計を採る
   W269.run = (id, patch, dt, checkpoints, bins, seg) => {
     const p = W269.copy(id, patch);
@@ -190,9 +220,9 @@ await pg.evaluate(() => {
       const nSteps = Math.round((cp - t) / dt);
       for (let k = 0; k < nSteps; k++) S.step(dt);
       t = cp;
+      const ck = W269.clampSnap(S);
       out.at.push({ t: cp, tActual: S.t, stats: W269.stats(S, bins, seg), nan: S.hasNaN(),
-        clamp: (S.clampVN || 0) + (S.clampSN || 0) + (S.clampHN || 0) + (S.clampRN || 0)
-          + (S.clampTN || 0) });
+        clamp: ck.total, clampByKind: ck.byKind, saturated: W269.saturated(S, seg) });
       if (S.hasNaN()) break;
     }
     return out;
@@ -263,8 +293,22 @@ const out = {
       + '独立 Gaussian の全誤差と見なさない。残差は**誤差単位の診断表示**にとどめる。' + NO_PVALUE_NOTE,
     centralMass: '**🛞 の中心核質量は増やさない・調整しない。**(本便で触れたのは kFrame・seed・'
       + 'softening・ハローの有無だけで、いずれも診断コピーの中である)',
+    '⑦第270便e の修正': '**F2** comparable の条件を 7 つに増やした(同時刻・NaN 0・**全クランプ 0**・'
+      + '有限な 3 段・単調差・正の有限次数・**最終 2 段差と h/4 外挿誤差の両方が e_Vobs 以下**)—— '
+      + '旧版は「最終 2 段差 ≤ e_Vobs」1 つだけで、**非単調な 3 段(20.91/36.20/26.74 km/s)を'
+      + '唯一の comparable として通していた**。**D68 の 0.3σ は別の系の基準なので転用しない。** / '
+      + '**F3** 恒星列(r ≤ ' + TRACER_SPLIT_KPC + ' kpc を `tracer:\'stars\'` と宣言した帯)は'
+      + '**ガス(Hα/HI)の回転曲線に直接対応しない**ので `mapping-unresolved`(値は診断に残す)。 / '
+      + '**F8** 「打切り」を**宣言支持半径・標本最大半径・帯の占有**の 3 量に分けた。 / '
+      + '**F2** クランプを**種類別**(速度・自転・H・力上限・E6′ 反作用・傾き容量・角度溢れ)に記録し、'
+      + '判定時刻の**飽和粒子の点呼**を付けた(発動回数の粒子別内訳は `S._core` の外からは取れない)。 / '
+      + '**F6** 窓(T とチェックポイント)を `validateWindow` で機械検査する。 / '
+      + '**AE4** 主判定窓は **T=' + T_END + ' のまま**・準定常窓は `windowVariants.quasiSteady` に'
+      + '**定義の宣言だけ**。 / **AE11/AE12** **事前固定 seed 集合 4 本**の診断を `seedEnsemble` に'
+      + '(**標本間 SD と平均の SE は別の欄**・**観測 σ に足さない**・**対照は同一 seed で対**)。',
     notSaid: ['「銀河を完成した(観測一致版)」', '「回転曲線を再現した」', '「観測と合った」',
-      '「較正した」', '「全点が誤差内だから系全体が 3σ で合った」'] },
+      '「較正した」', '「全点が誤差内だから系全体が 3σ で合った」',
+      '「seed を増やして誤差が縮んだ」', '「準定常窓で合った」'] },
   units: { kpcPerUnit: KPC_PER_UNIT, kmsPerUnit: KMS_PER_UNIT,
     note: '銀河族 L19/T15/M38: 1 長さ単位 = 10¹⁹ m = ' + KPC_PER_UNIT.toFixed(7) + ' kpc・'
       + '1 速度単位 = 10 km/s。プリセットの scaleExp と突き合わせる。' },
@@ -306,11 +350,28 @@ if (want('main')) {
         + `  [${((Date.now() - tA) / 1000).toFixed(0)} s]`);
       nowrite();
     }
-    // ---- 初期打切り(t=0 の各成分の最大半径)
+    // ---- 第270便e(F8): **「初期打切り」を 3 つの別の量に分ける。**
+    //   旧版は `initialCutoff` 1 つに混ぜていたので、「宣言支持域の外」と「標本の外」と
+    //   「帯に粒子が居ない」が同じ名前で語られていた。**判定に使うのは標本最大半径**である
+    //   (宣言支持半径 130 単位=42.13 kpc は生成の指定であって、置かれた最外粒子ではない)。
     const s0 = col.stages[0].run.at[0].stats.componentInfo;
-    col.initialCutoff = { starsKpc: toKpc(s0.stars.rMax), hiKpc: toKpc(s0.hi.rMax),
+    const layout = (SEG[c.id].layout || []);
+    const declUnit = { stars: (layout[0] || {}).radiusUnit, hi: (layout[1] || {}).radiusUnit };
+    col.declaredSupportRadius = { starsUnit: declUnit.stars, hiUnit: declUnit.hi,
+      starsKpc: declUnit.stars === undefined ? null : toKpc(declUnit.stars),
+      hiKpc: declUnit.hi === undefined ? null : toKpc(declUnit.hi),
+      note: '**プリセットが宣言した生成半径**(星 60 単位・HI 130 単位)。'
+        + '**生成の指定であって、置かれた最外粒子の半径ではない。**' };
+    col.sampledMaxRadius = { starsKpc: toKpc(s0.stars.rMax), hiKpc: toKpc(s0.hi.rMax),
       starsUnit: s0.stars.rMax, hiUnit: s0.hi.rMax,
-      note: '**t=0 の実測**(生成器が置いた最外粒子の半径)。宣言半径ではない。' };
+      note: '**t=0 の実測**(生成器が実際に置いた最外粒子の半径)。**判定の分岐に使うのはこちら。**' };
+    // 旧欄は互換のため残すが、**中身は標本最大半径**であることを明記する(混同の再発防止)
+    col.initialCutoff = Object.assign({}, col.sampledMaxRadius,
+      { deprecated: '**第270便e で `sampledMaxRadius` に改名した**(宣言支持半径 '
+        + '`declaredSupportRadius` と別の量である)。旧名は互換のために残している。' });
+    col.beyondDeclaredSupport = POINTS.filter((p) => {
+      const d = (p.tracer === 'hi') ? col.declaredSupportRadius.hiKpc : col.declaredSupportRadius.starsKpc;
+      return Number.isFinite(d) && p.bin.loKpc > d; }).map((p) => p.rKpc);
     // ---- 10 点 × チェックポイント × 3 段
     col.table = POINTS.map((p, bi) => {
       const per = {};
@@ -328,12 +389,28 @@ if (want('main')) {
       return { rKpc: p.rKpc, tracer: p.tracer, binKpc: p.bin, byComponent: per };
     });
     // ---- 主判定窓(T_END)の比較行
+    //   第270便e(F2/F3/F8): **状態の分岐を宣言順に固定する。**
+    //     (1) 帯の内側端が**標本最大半径**の外 → `mapping-unresolved`(転写された円盤がそこに無い)
+    //     (2) **空ビン**(3 段のどれかに粒子が居ない)→ `not-measurable`(0 で補わない)
+    //     (3) **恒星列**(r ≤ 7.06 kpc を `tracer:'stars'` と宣言した帯)→ `mapping-unresolved`
+    //         —— 観測 10 点は**ガス(Hα/HI)の回転曲線**であり、**恒星の平均接線速度を直接当てない**
+    //         (非対称ドリフト・速度分散・トレーサの空間分布の対応が未宣言)。**値は診断に残す。**
+    //     (4) **数値条件**(下の 7 つを**すべて**満たすこと)を欠く → `numerically-unresolved`
+    //     (5) すべて満たす → `comparable`
+    //   数値条件(旧版は「最終 2 段差 ≤ e_Vobs」1 つだけだった —— それが唯一の comparable を通していた):
+    //     ①同時刻(3 段の tActual が判定窓 T で一致)②チェックポイントの健全性(NaN 0・**全クランプ 0**)
+    //     ③有限な 3 段 ④差が単調(符号反転なし・|d2|<|d1|)⑤見かけの次数が**正で有限**
+    //     ⑥|Q_{h/2}−Q_{h/4}| ≤ e_Vobs ⑦|Q_ext−Q_{h/4}| ≤ e_Vobs(**h/4 外挿誤差も**)
+    //   **D68 の 0.3σ を転用しない**(あれは別の系・別の量の基準である)。
     const ciLast = CHECKPOINTS.length - 1;
-    const cut = col.initialCutoff;
+    const samp = col.sampledMaxRadius;
+    const decl = col.declaredSupportRadius;
     for (let bi = 0; bi < POINTS.length; bi++) {
       const p = POINTS[bi];
       const tr = p.tracer;
-      const cutKpc = (tr === 'hi') ? cut.hiKpc : cut.starsKpc;
+      const sampKpc = (tr === 'hi') ? samp.hiKpc : samp.starsKpc;
+      const sampUnit = (tr === 'hi') ? samp.hiUnit : samp.starsUnit;
+      const declKpc = (tr === 'hi') ? decl.hiKpc : decl.starsKpc;
       const perStage = col.stages.map((st) => {
         const at = st.run.at && st.run.at[ciLast];
         if (!at) return null;
@@ -344,49 +421,105 @@ if (want('main')) {
       const vs = perStage.map((z) => (z ? z.vtKms : null));
       const ns = perStage.map((z) => (z ? z.n : 0));
       const rich = richardson3(vs[0], vs[1], vs[2]);
+      // ---- チェックポイントの健全性(判定窓まで・3 段すべて)
+      const health = col.stages.map((st, si) => {
+        const ats = (st.run.at || []).slice(0, ciLast + 1);
+        const nanAny = ats.some((a) => a.nan === true);
+        const clampSum = ats.reduce((a, z) => a + (z.clamp || 0), 0);
+        const last = ats[ats.length - 1] || null;
+        return { div: st.div, checkpoints: ats.length, nanAny, clampTotalAtJudgement: clampSum,
+          clampByKind: last ? last.clampByKind : null,
+          tActual: last ? last.tActual : null,
+          saturatedTotal: last && last.saturated ? last.saturated.total : null };
+      });
+      const tTol = 1e-9 * Math.max(1, Math.abs(T_END));
+      const cond = {
+        sameTime: health.every((h) => h.checkpoints === ciLast + 1
+          && Number.isFinite(h.tActual) && Math.abs(h.tActual - T_END) <= tTol),
+        noNaN: health.every((h) => h.nanAny === false),
+        noClamp: health.every((h) => h.clampTotalAtJudgement === 0),
+        finiteStages: vs.every((z) => Number.isFinite(z)),
+        monotoneDiff: rich.monotone === true,
+        positiveOrder: Number.isFinite(rich.p) && rich.p > 0,
+        budgetDeclared: Number.isFinite(p.sigmaKms) && p.sigmaKms > 0,
+        lastPairWithinEVobs: (Number.isFinite(vs[1]) && Number.isFinite(vs[2])
+          && Number.isFinite(p.sigmaKms) && p.sigmaKms > 0)
+          ? Math.abs(vs[1] - vs[2]) <= p.sigmaKms : false,
+        extrapolationWithinEVobs: (Number.isFinite(rich.ext) && Number.isFinite(vs[2])
+          && Number.isFinite(p.sigmaKms) && p.sigmaKms > 0)
+          ? Math.abs(rich.ext - vs[2]) <= p.sigmaKms : false,
+      };
+      const failed = Object.keys(cond).filter((k) => cond[k] !== true);
       const obs = { value: p.vObsKms, unit: 'km/s', lower: null, upper: null, confidence: null,
         sigma: p.sigmaKms, sigmaKind: 'e_Vobs(非円運動のランダム誤差 —— **傾斜の系統誤差を含まない**)',
         frame: '傾斜補正済みの円盤面(sin i を再びかけない)', source: p.source,
+        tracerObserved: (p.rKpc <= TRACER_SPLIT_KPC)
+          ? '**Hα 優勢(ガス)**と記録側が推定している内側点' : '**HI(ガス)**の外側点',
         role: (col.id === 'ngc3198') ? '**🌃 の NFW を fit した 43 点の一部** —— hold-out ではない'
           : '**🛞 は fit に使っていない** —— 未使用予測としての比較',
         verifiedMark: p.sigmaPrimary,
         valueCheckedBy: p.valueCheckedBy, valueCheckedAt: p.valueCheckedAt };
       let state, reason;
-      if (p.binLoUnit > (tr === 'hi' ? cut.hiUnit : cut.starsUnit)) {
+      if (Number.isFinite(sampUnit) && p.binLoUnit > sampUnit) {
         state = 'mapping-unresolved';
-        reason = `**ビンの内側端 ${p.bin.loKpc.toFixed(3)} kpc が初期 ${tr === 'hi' ? 'HI' : '星'} 打切り `
-          + `${cutKpc.toFixed(3)} kpc を越えている。** この帯には転写された円盤が最初から存在しないので、`
-          + `t=${T_END} にそこで見つかる粒子は**散逸で入ってきたもの**であり、観測の同半径のトレーサと`
-          + `対応づけられていない。**0 や内側の値で補わない。**`;
+        reason = `**ビンの内側端 ${p.bin.loKpc.toFixed(3)} kpc が t=0 の**標本最大半径** `
+          + `${sampKpc.toFixed(3)} kpc(${tr === 'hi' ? 'HI' : '星'})を越えている。** `
+          + `この帯には転写された円盤が最初から存在しないので、t=${T_END} にそこで見つかる粒子は`
+          + `**散逸で入ってきたもの**であり、観測の同半径のトレーサと対応づけられていない。`
+          + `**0 や内側の値で補わない。**`
+          + ((Number.isFinite(declKpc) && p.bin.loKpc > declKpc)
+            ? ` なお**宣言支持半径 ${declKpc.toFixed(3)} kpc も越えている**(2 つは別の量である)。` : '');
       } else if (!ns.every((n) => n > 0)) {
         state = 'not-measurable';
         reason = `**空ビン**(3 段の粒子数 ${JSON.stringify(ns)})—— この半径帯に ${tr === 'hi' ? 'HI' : '星'} `
           + `粒子が居ない。**0 や最後の値で補わない。**`;
-      } else if (p.sigmaKms !== null && Number.isFinite(vs[1]) && Number.isFinite(vs[2])
-        && Math.abs(vs[1] - vs[2]) > p.sigmaKms) {
+      } else if (tr === 'stars') {
+        state = 'mapping-unresolved';
+        reason = `**恒星列をガスの回転曲線に直接当てない**(第270便e・F3)。観測 10 点は `
+          + `**Hα/HI というガスのトレーサ**の回転速度で、本器の \`tracer:'stars'\` 帯が出すのは`
+          + `**恒星粒子の平均接線速度**である。両者を同じ量にするには**非対称ドリフト(恒星の速度分散が`
+          + `平均回転を下げる量)・トレーサの空間分布・速度分散の異方性**の対応を宣言する必要があり、`
+          + `**未宣言である**。**数値の不一致ではなく対応の未宣言**なので、値は diagnostics に残して`
+          + `比較には使わない(r ≤ ${TRACER_SPLIT_KPC} kpc を恒星列と宣言したのは器側の割り当てである)。`;
+      } else if (failed.length) {
         state = 'numerically-unresolved';
-        reason = `**最終 2 段の差 |h/2 − h/4| = ${Math.abs(vs[1] - vs[2]).toFixed(3)} km/s が `
-          + `e_Vobs = ${p.sigmaKms.toFixed(3)} km/s を超えている**(宣言した数値予算 ⑥)—— `
-          + `この点は刻み依存が観測誤差より大きく、比較に使えない。`;
+        reason = `**数値条件を満たしていない**(欠けた条件: ${failed.join(', ')})。`
+          + `3 段 ${JSON.stringify(vs.map((z) => (z === null ? null : +z.toFixed(3))))} km/s・`
+          + `最終 2 段差 ${(Number.isFinite(vs[1]) && Number.isFinite(vs[2]))
+            ? Math.abs(vs[1] - vs[2]).toFixed(3) : '—'} km/s・`
+          + `見かけの次数 ${Number.isFinite(rich.p) ? rich.p.toFixed(3) : '—'}・`
+          + `外挿 ${Number.isFinite(rich.ext) ? rich.ext.toFixed(3) : '—'} km/s・`
+          + `e_Vobs ${Number.isFinite(p.sigmaKms) ? p.sigmaKms.toFixed(3) : '—'} km/s・`
+          + `判定窓までの全クランプ ${JSON.stringify(health.map((h) => h.clampTotalAtJudgement))}。`
+          + `**刻み依存・健全性のどちらかが判定幅より大きいので比較に使えない**`
+          + `(**D68 の 0.3σ は別の系の基準なので転用しない**)。`;
       } else {
         state = 'comparable';
-        reason = `比較の前提(定義・単位・座標系・窓・抽出器・数値精度)が揃って数値が並んだ。`
+        reason = `比較の前提(定義・単位・座標系・窓・抽出器・数値精度)が**7 条件すべて**揃って数値が並んだ`
+          + `(同時刻・NaN 0・クランプ 0・有限な 3 段・単調差・正の有限次数・`
+          + `最終 2 段差と h/4 外挿誤差の**両方**が e_Vobs 以下)。`
           + `**e_Vobs は独立 Gaussian の全誤差ではない**ので、残差は誤差単位の診断表示にとどめる`
           + `(区間判定も p 値も出さない)。`;
       }
-      const v = (state === 'not-measurable') ? null : vs[2];
+      // **値(比較の数)を持つのは comparable のときだけ**にする(第270便e・F4)。
+      //   それ以外の状態では `sim.value` は null で、3 段の数値は `sim.stages` と diagnostics に残す。
+      const v = (state === 'comparable') ? vs[2] : null;
       col.rows.push(compareRow({ quantity: `v_rot(r=${p.rKpc} kpc)[${tr}]`,
         sim: { value: v, unit: 'km/s',
-          window: `主判定窓 t=${T_END}(宣言した最終窓 —— 観測から決まる時刻ではない)`,
+          window: `主判定窓 t=${T_END}(宣言した最終窓 —— 観測から決まる時刻ではない。`
+            + `**早期窓へ移して成功を選ばない** —— AE4)`,
           extractor: `帯 [${p.bin.loKpc.toFixed(3)}, ${p.bin.hiKpc.toFixed(3)}] kpc の `
             + `v_t=(dx·dv_y−dy·dv_x)/r の粒子平均(${tr === 'hi' ? 'HI' : '星'} 成分のみ)`,
           stages: { h: vs[0], h2: vs[1], h4: vs[2] },
           order: rich.p, extrapolated: rich.monotone === true ? rich.ext : null },
         obs, state, reason,
         diagnostics: { nByStage: ns, coverageByStage: perStage.map((z) => (z ? z.coverage : null)),
+          vtKmsByStage: vs,
+          numericConditions: cond, failedConditions: failed, health,
           residualInSigmaByStage: vs.map((x) => ((x === null || p.sigmaKms === null || !(p.sigmaKms > 0))
             ? null : (x - p.vObsKms) / p.sigmaKms)),
-          richardson: rich, initialCutoffKpc: cutKpc,
+          richardson: rich,
+          sampledMaxRadiusKpc: sampKpc, declaredSupportRadiusKpc: declKpc,
           mixedAtLastStage: (() => { const at = col.stages[2].run.at[ciLast];
             const z = at ? at.stats.mixed[bi] : null;
             return z ? { n: z.n, vtKms: z.vtMean === null ? null : z.vtMean * KMS_PER_UNIT } : null; })(),
@@ -412,12 +545,21 @@ if (want('main')) {
     }
     col.binOccupancyAtJudgement = { nByPoint: occ, max: Math.max(...occ),
       empty: occ.filter((n) => n === 0).length,
+      nByPointByStage: POINTS.map((pt, bi) => col.stages.map((st) => {
+        const at = st.run.at && st.run.at[CHECKPOINTS.length - 1];
+        return at ? at.stats[pt.tracer][bi].n : null; })),
       note: '**N=300(星 200・HI 100)を 10 本の細い帯に切ると 1 帯あたり数粒**しか入らない。'
-        + 'これがこの比較の**解像度の上限**である(観測 e_Vobs は 2〜3 km/s しかない)。' };
+        + 'これがこの比較の**解像度の上限**である(観測 e_Vobs は 2〜3 km/s しかない)。'
+        + '**帯の占有は「宣言支持半径」でも「標本最大半径」でもない第 3 の量**である(第270便e・F8)。' };
     col.stateTally = tallyStates(col.rows);
     col.checkpointSummary = CHECKPOINTS.map((cp, ci) => {
       const at = col.stages[2].run.at[ci];
-      return { t: cp, nan: at ? at.nan : null, clamp: at ? at.clamp : null,
+      return { t: cp, tActual: at ? at.tActual : null, nan: at ? at.nan : null,
+        clamp: at ? at.clamp : null,
+        // 第270便e(F2): **種類別**のクランプ(合算だけにしない)+ 判定時刻の飽和粒子の点呼
+        clampByKind: at ? at.clampByKind : null,
+        saturated: at ? (at.saturated ? { total: at.saturated.total,
+          countByComponent: at.saturated.countByComponent } : null) : null,
         center: at ? { kind: at.stats.centerKind, x: at.stats.cx, y: at.stats.cy,
           vx: at.stats.cvx, vy: at.stats.cvy,
           driftKpc: at ? toKpc(Math.hypot(at.stats.cx, at.stats.cy)) : null } : null,
@@ -425,6 +567,16 @@ if (want('main')) {
         starsRMaxKpc: at ? toKpc(at.stats.componentInfo.stars.rMax) : null,
         hiRMaxKpc: at ? toKpc(at.stats.componentInfo.hi.rMax) : null };
     });
+    // 第270便e(F2): **クランプの種類別・段別の一覧**(判定窓での累計)。
+    col.clampByKindAtJudgement = { stages: col.stages.map((st) => {
+      const at = st.run.at && st.run.at[CHECKPOINTS.length - 1];
+      return { div: st.div, dt: st.dt, byKind: at ? at.clampByKind : null,
+        total: at ? at.clamp : null,
+        saturatedByComponent: (at && at.saturated) ? at.saturated.countByComponent : null,
+        saturatedSample: (at && at.saturated) ? at.saturated.sample : null }; }),
+      limitation: '**発動回数の粒子別内訳は取れない**(帳簿カウンタは `S._core` の中で増える'
+        + '—— そこには 1 命令も足さない規約)。粒子別に出せるのは**判定時刻に速度上限へ張り付いている'
+        + '粒子の点呼**までである。**「刻みか飽和か」の切り分けは決断事項として次便へ。**' };
     nowrite();
   }
 }
@@ -474,11 +626,122 @@ if (want('sens')) {
   nowrite();
 }
 
+// ---------------------------------------------------------------- AE11/AE12: **事前固定 seed 集合**
+//   統括の読み (F) AE11/AE12: **N を増やす前に、本数・生成法・停止条件を先に宣言した seed 集合**で
+//   標本ゆらぎを測る。**標本間 SD と平均の SE を別の欄に置き、観測 σ には足さない。**
+//   **対照は同一 seed で対**にする(🛞 kFrame=1 と kFrame=0 を同じ seed で走らせる)。
+//   **帯統合(複数の帯を 1 つに束ねる解析)は別解析**であり、ここでは宣言だけ。
+if (want('seeds')) {
+  const ENS = out.seedEnsemble = {
+    declaredBefore: '**走行前の宣言**(本数・生成法・停止条件を先に固定し、後から増やさない)',
+    n: 4,
+    rule: 'seed_k = 270105001 + 1000·k(k=0,1,2,3)—— **等差列**(採用値を後から選ばない)',
+    seeds: [0, 1, 2, 3].map((k) => 270105001 + 1000 * k),
+    stopping: `dt=${DT0} の 1 段のみ・主判定窓 T=${T_END} まで走って停止(NaN が出たらその時点で止め、`
+      + `その seed は \`nan:true\` として残す)。**3 刻みは回さない**(これは刻みの診断ではなく標本の診断)。`,
+    pairing: '**対照は同一 seed で対**にする(🛞 kFrame=1 と kFrame=0 を同じ seed で走らせ、差を seed ごとに取る)。',
+    statistics: '各点で **標本間 SD**(不偏・n−1)と **平均の SE = SD/√n** を**別の欄**に出す。'
+      + '**どちらも観測 σ(e_Vobs)には足さない** —— これは器の標本ゆらぎであって観測の誤差ではない。',
+    bandIntegration: { status: 'declared-not-implemented',
+      what: '**帯統合**(複数の細い帯を 1 本に束ねて比較する解析)は**別解析**である。'
+        + '観測側も同じ窓・同じ重みで再集約し、**束ねた点の間の共分散**を持たなければ'
+        + '「点数が増えた」と読めない。**本便は実装しない。**' },
+    columns: [], doNotSay: ['seed を増やして誤差が縮んだ', 'SD を観測 σ に足した', '本数を後から足した'] };
+  const ENS_COLS = [
+    { tag: '🛞 ngc3198DFM(kFrame=1)', id: 'ngc3198DFM', kF: 1 },
+    { tag: '🛞 kFrame=0 対照(同一 seed で対)', id: 'ngc3198DFM', kF: 0 } ];
+  for (const ec of ENS_COLS) {
+    const runs = [];
+    for (const sd of ENS.seeds) {
+      const patch = { id: 'ngc3198DFMEnsW270e' + sd + 'k' + ec.kF, seed: sd };
+      if (ec.kF === 0) patch.physics = { kFrame: 0 };
+      const r = await pg.evaluate(({ id, patch, dt, cps, bins, seg }) =>
+        W269.run(id, patch, dt, cps, bins, seg),
+      { id: ec.id, patch, dt: DT0, cps: CHECKPOINTS, bins: BINS, seg: SEG[ec.id] });
+      const at = r.at ? r.at[CHECKPOINTS.length - 1] : null;
+      runs.push({ seed: sd, patch, nan: at ? at.nan : null, clamp: at ? at.clamp : null,
+        clampByKind: at ? at.clampByKind : null,
+        saturated: (at && at.saturated) ? at.saturated.countByComponent : null,
+        sampledMaxRadiusKpc: r.at ? { stars: toKpc(r.at[0].stats.componentInfo.stars.rMax),
+          hi: toKpc(r.at[0].stats.componentInfo.hi.rMax) } : null,
+        byPoint: POINTS.map((pt, bi) => { const z = at ? at.stats[pt.tracer][bi] : null;
+          return { rKpc: pt.rKpc, tracer: pt.tracer, n: z ? z.n : null,
+            vtKms: (z && z.vtMean !== null) ? z.vtMean * KMS_PER_UNIT : null }; }) });
+      console.error(`  seed 集合 ${ec.tag} seed=${sd}: NaN=${at ? at.nan : '—'}`
+        + `  [${((Date.now() - tA) / 1000).toFixed(0)} s]`);
+      nowrite();
+    }
+    const stat = POINTS.map((pt, bi) => {
+      const xs = runs.map((z) => z.byPoint[bi].vtKms).filter((z) => Number.isFinite(z));
+      const ns = runs.map((z) => z.byPoint[bi].n);
+      const k = xs.length;
+      const mean = k ? xs.reduce((a, b) => a + b, 0) / k : null;
+      const sd = (k > 1) ? Math.sqrt(xs.reduce((a, b) => a + (b - mean) * (b - mean), 0) / (k - 1)) : null;
+      return { rKpc: pt.rKpc, tracer: pt.tracer, eVobsKms: pt.sigmaKms,
+        seedsWithValue: k, seedsTotal: runs.length, nBySeed: ns,
+        meanKms: mean, sdBetweenSeedsKms: sd, seMeanKms: (sd === null) ? null : sd / Math.sqrt(k),
+        note: '**SD は標本間ばらつき・SE は平均の不確かさ**で別の量である。'
+          + '**どちらも e_Vobs には足さない。** 空ビンの seed は分母から外し、本数を併記する'
+          + '(**0 で補わない**)。' };
+    });
+    ENS.columns.push({ tag: ec.tag, id: ec.id, kFrame: ec.kF, dt: DT0, T: T_END, runs, stat });
+    nowrite();
+  }
+  // **対照は同一 seed で対**: seed ごとに kF1 − kF0 の差を取る(平均どうしの差にしない)
+  if (ENS.columns.length === 2) {
+    const [a, b] = ENS.columns;
+    ENS.pairedDelta = POINTS.map((pt, bi) => {
+      const ds = ENS.seeds.map((sd, si) => {
+        const x = a.runs[si].byPoint[bi].vtKms, y = b.runs[si].byPoint[bi].vtKms;
+        return (Number.isFinite(x) && Number.isFinite(y)) ? x - y : null; });
+      const ok = ds.filter((z) => z !== null);
+      const m = ok.length ? ok.reduce((u, v) => u + v, 0) / ok.length : null;
+      const sd = (ok.length > 1)
+        ? Math.sqrt(ok.reduce((u, v) => u + (v - m) * (v - m), 0) / (ok.length - 1)) : null;
+      return { rKpc: pt.rKpc, tracer: pt.tracer, deltaBySeed: ds, pairsUsed: ok.length,
+        meanDeltaKms: m, sdDeltaKms: sd, seDeltaKms: (sd === null) ? null : sd / Math.sqrt(ok.length) };
+    });
+    ENS.pairedNote = '**同一 seed で対にした差**である(平均どうしの差ではない)。'
+      + '**引きずりの効果と読む前に、帯の粒子数が数粒であること・クランプが出ていることを見る。**';
+  }
+  nowrite();
+}
+
+// ---------------------------------------------------------------- AE4: 判定窓の variant(**宣言だけ**)
+out.windowVariants = {
+  primary: { id: 'final-T40', T: T_END, dt: DT0, checkpoints: CHECKPOINTS, status: 'adopted',
+    why: '**宣言した最終窓**である。**早期窓(散逸前)へ主判定を移して成功を選ばない。**'
+      + '窓の整合は `validateWindow` が機械で検査する(T は正・dt の整数倍・チェックポイントは'
+      + 'T 以下の昇順)。', validated: WINDOW },
+  quasiSteady: { id: 'quasi-steady-v0', status: 'declared-not-evaluated',
+    what: '**準定常窓**: 「構造と速度のドリフトが事前基準より小さい区間」を**先に定義**し、'
+      + 'その区間で別途評価する **variant** である。**主判定窓の置き換えではない。**',
+    criteria: [
+      '**構造ドリフト**: HI 成分の面内半質量半径 R_half,HI の対数ドリフト |d ln R_half,HI/dt| が'
+        + '窓の全域で **0.02 /時間単位以下**(h/4 段で測る)',
+      '**速度ドリフト**: 判定に使う各帯の平均接線速度の |d⟨v_t⟩/dt| が **0.25 km/s /時間単位以下**',
+      '**健全性**: 窓の全域で NaN 0・**全クランプ 0**(種類別に 0)',
+      '**窓長**: 10 時間単位以上・候補は事前宣言した [10,20] / [20,30] / [30,40] の 3 つだけ',
+      '**選び方**: 基準を満たした候補を**すべて併記**する(**基準を満たす中で結果の良いものを選ばない**)'],
+    whyNotNow: '**本便は定義の宣言までである。** 評価するには R_half,HI の時系列(現行は'
+      + 'チェックポイント 4 点しか無い)と、各帯の速度の時系列が要る —— **器の出力を増やす便が別に要る**。',
+    doNotSay: ['準定常窓で合った', '早期窓の方が良かった', '主判定窓を移した'] },
+  note: '**主判定窓は T=' + T_END + ' のままである**(AE4)。'
+    + '準定常窓は「構造・速度ドリフトの事前基準」で定義した**別 variant** であり、'
+    + '**評価は次便**(決断事項)。' };
+
 out.summary = {
   stateTallyAll: tallyStates(out.columns.reduce((a, c) => a.concat(c.rows), [])),
   perColumn: out.columns.map((c) => ({ tag: c.tag, tally: c.stateTally })),
-  beyondCutoff: POINTS.filter((p) => p.tracer === 'hi').map((p) => p.rKpc)
-    .filter((r) => out.columns.length && r > out.columns[0].initialCutoff.hiKpc),
+  beyondSampledMaxRadius: POINTS.filter((p) => p.tracer === 'hi').map((p) => p.rKpc)
+    .filter((r) => out.columns.length && r > out.columns[0].sampledMaxRadius.hiKpc),
+  beyondDeclaredSupportRadius: POINTS.filter((p) => p.tracer === 'hi').map((p) => p.rKpc)
+    .filter((r) => out.columns.length && Number.isFinite(out.columns[0].declaredSupportRadius.hiKpc)
+      && r > out.columns[0].declaredSupportRadius.hiKpc),
+  cutoffNote: '**「打切り」は 3 つの別の量である**(第270便e・F8): '
+    + '**宣言支持半径**(生成の指定 —— HI 130 単位 = 42.13 kpc)/ '
+    + '**標本最大半径**(t=0 に実際に置かれた最外粒子 —— 走行ごとに違う。**判定の分岐に使うのはこれ**)/ '
+    + '**帯の占有**(判定時刻にその帯に居る粒子数)。**44.08 kpc は宣言支持域も越える。**',
   holdOutNote: '**🌃 の 10 点は独立 hold-out ではない**(NFW の 2 ノブは同じ 43 点に fit 済み)。'
     + '🛞 は未使用予測としての比較である。',
   notSaid: ['「銀河を完成した(観測一致版)」', '「回転曲線を再現した」', '「観測と合った」',
