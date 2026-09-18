@@ -338,6 +338,11 @@ paper/*Notes.bib
 #   「採用入力が CSV の DDFWHE 行そのものであること」「刻み・窓・段・共同根の探索条件が入っていること」
 #   「宣言リテラルが採用レコードの転写から相対差 0 で戻ること」を突き合わせるのでコミットする。
 !tests/out/j1946adopt-w270c.json
+# 第272便a(第62報・原仮定者の仮説(第62報)「現実較正サンプルで起きている問題を一覧で整理」):
+#   問題一覧の機械可読版(tests/exp-w272a-issues.mjs が正本 JSON から生成)。
+#   docs/CALIBRATION_ISSUES_v1.45.md の件数と一致することを QA `docs.issuesSync` が機械固定するので
+#   コミットする(**数えただけ**であって、直した記録ではない)。
+!tests/out/issues-w272a.json
 # 第221便: セッション内スクラッチ実測ハーネス(コミット対象外 — 実測値は claims/QA が機械固定する)
 _scratch-*.mjs
 _scratch-*/

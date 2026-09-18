@@ -1,10 +1,24 @@
 {
- "when": "2026-09-18T12:52:10.416Z",
- "wave": "第271便a(第61報・AF3)— 初版は第270便a(第60報 W1・AE9)",
+ "when": "2026-09-18T18:21:18.343Z",
+ "wave": "第272便a(第62報・AG27)— 初版は第270便a(第60報 W1・AE9)・版つき規約は第271便a(AF3)",
+ "baseSource": {
+  "commit": "743ad9b",
+  "file": "tests/out/calaudit-w249.json",
+  "usedBy": "tests/exp-w270a-stoprule.mjs",
+  "sourceSha256": "58a52a850cbefcf50f04767397941aedabdd5558208db875f704d5bab89ae612"
+ },
+ "baseHistory": [
+  {
+   "commit": "f6c19b4",
+   "wave": "第270便a(AE9)で作った初版",
+   "file": "tests/data-w270a-stoprule-base-f6c19b4.json",
+   "why": "第270便c(AD9)の採用レコード一組化で 🩺🪀🩹 の導出 a が動き(60 公転ぶんの步数 1,040,661 → 1,040,650 步)、第271便a(AF2)で ❄️ の步数宣言が入ったので、この基点とは 9 段が一致しない。第271便a は `BASE_REPLAY_EXCEPTIONS` の**宣言例外**で通していた。**旧基点は履歴として残す**(差が無かったことにはならない)。"
+  }
+ ],
  "what": "**停止条件を「步数上限と必要近点数の宣言」にした**ことの照合。走行はしない(JSON を読むだけ)。",
- "version": "w271a-1",
+ "version": "w272a-1",
  "spec": {
-  "version": "w271a-1",
+  "version": "w272a-1",
   "rule": "1 段の步数 = min(**宣言した步数上限**, 60 公転ぶんの步数)。60 公転ぶんは t=0 の接触要素(刻みと質量だけで決まる量)から作る —— **步/秒も壁時計も入らない**。",
   "classMaxSteps": [
    {
@@ -73,6 +87,12 @@
     "wave": "第271便a(AF3・AF2)",
     "presetMaxSteps": 5,
     "note": "❄️ plutoCharonReal を preset 宣言へ(3 段で同じ 60 公転の窓を覆うため)。階級上限・必要近点の既定・資源上限は**変えていない**。"
+   },
+   {
+    "version": "w272a-1",
+    "wave": "第272便a(AG27)",
+    "presetMaxSteps": 5,
+    "note": "**照合の基点を 743ad9b へ切り直し、宣言例外(BASE_REPLAY_EXCEPTIONS)を空にした**。階級上限 40e6/20e6・preset 宣言 5 本・必要近点 20(📡 58)・資源上限 900 s は**1 つも変えていない**。第272便aの条件つき h/8(AG1)はこの規約の`scalesWithDt` をそのまま使う(❄️ は 20,694,498 × 8 = 165,555,984 步)—— **階級上限を上げていない**ので、上限を超える系の h/8 は**未走行**である。"
    }
   ],
   "says": "停止条件は**どこで止めるか**を機種に依らず決めるだけである —— 「停止条件を入れたので判定が確定した」「步数を宣言したので収束した」とは言わない。"
@@ -223,302 +243,93 @@
   "finding": "**旧規則では 4 例で走行長が步/秒で変わった**(同じ入力・同じコードでも機種が違えば近点の本数が変わる)。新しい規則は步/秒を入力に取らないので、定義上この揺れが無い。"
  },
  "replay": {
-  "nStages": 86,
-  "compared": 84,
-  "identical": 75,
-  "differing": 9,
-  "newStages": 2,
-  "differingDeclared": 9,
+  "nStages": 95,
+  "compared": 86,
+  "identical": 86,
+  "differing": 0,
+  "newStages": 9,
+  "differingDeclared": 0,
   "differingUndeclared": 0,
-  "declaredExceptions": [
-   {
-    "id": "psrJ1946DFM",
-    "tag": "dt",
-    "since": "第270便c(AD9)— 記録は第271便a",
-    "why": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。"
-   },
-   {
-    "id": "psrJ1946DFM",
-    "tag": "dt/2",
-    "since": "第270便c(AD9)— 記録は第271便a",
-    "why": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。"
-   },
-   {
-    "id": "psrJ1946DFM",
-    "tag": "dt/4",
-    "since": "第270便c(AD9)— 記録は第271便a",
-    "why": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。"
-   },
-   {
-    "id": "psrJ1946PN",
-    "tag": "dt",
-    "since": "第270便c(AD9)— 記録は第271便a",
-    "why": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。"
-   },
-   {
-    "id": "psrJ1946PN",
-    "tag": "dt/2",
-    "since": "第270便c(AD9)— 記録は第271便a",
-    "why": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。"
-   },
-   {
-    "id": "psrJ1946CF",
-    "tag": "dt",
-    "since": "第270便c(AD9)— 記録は第271便a",
-    "why": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。"
-   },
-   {
-    "id": "psrJ1946CF",
-    "tag": "dt/2",
-    "since": "第270便c(AD9)— 記録は第271便a",
-    "why": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。"
-   },
-   {
-    "id": "psrJ1946CF",
-    "tag": "dt/4",
-    "since": "第270便c(AD9)— 記録は第271便a",
-    "why": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。"
-   },
-   {
-    "id": "plutoCharonReal",
-    "tag": "dt/2",
-    "since": "第271便a(AF2)",
-    "why": "步数上限を階級(40,000,000)から preset 宣言(41,388,996 = 60 公転)へ移したので、基点より 1,388,996 步長く走る。**判定量(最初の 20 近点の近点間平均)は同じ窓から作るので値は動かない** —— 動くのは走行長と検出できた近点の本数だけである。"
-   }
-  ],
-  "differingRows": [
-   {
-    "id": "plutoCharonReal",
-    "emoji": "❄️",
-    "tag": "dt/2",
-    "baseMaxSteps": 40000000,
-    "nowMaxSteps": 41388996,
-    "baseStepsRun": 40000000,
-    "nowStepsRun": 41388996,
-    "basePeriFoundA": [
-     57
-    ],
-    "nowPeriFoundA": [
-     59
-    ],
-    "baseWallSec": 37.934,
-    "nowWallSec": 35.57,
-    "baseRate": 909091,
-    "nowRate": 952381,
-    "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "步数上限を階級(40,000,000)から preset 宣言(41,388,996 = 60 公転)へ移したので、基点より 1,388,996 步長く走る。**判定量(最初の 20 近点の近点間平均)は同じ窓から作るので値は動かない** —— 動くのは走行長と検出できた近点の本数だけである。",
-    "exceptionSince": "第271便a(AF2)"
-   },
-   {
-    "id": "psrJ1946DFM",
-    "emoji": "🩺",
-    "tag": "dt",
-    "baseMaxSteps": 1040661,
-    "nowMaxSteps": 1040650,
-    "baseStepsRun": 1040661,
-    "nowStepsRun": 1040650,
-    "basePeriFoundA": [
-     25
-    ],
-    "nowPeriFoundA": [
-     25
-    ],
-    "baseWallSec": 1.416,
-    "nowWallSec": 1.31,
-    "baseRate": 800000,
-    "nowRate": 833333,
-    "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。",
-    "exceptionSince": "第270便c(AD9)— 記録は第271便a"
-   },
-   {
-    "id": "psrJ1946DFM",
-    "emoji": "🩺",
-    "tag": "dt/2",
-    "baseMaxSteps": 2081321,
-    "nowMaxSteps": 2081299,
-    "baseStepsRun": 2081321,
-    "nowStepsRun": 2081299,
-    "basePeriFoundA": [
-     25
-    ],
-    "nowPeriFoundA": [
-     25
-    ],
-    "baseWallSec": 2.783,
-    "nowWallSec": 2.707,
-    "baseRate": 800000,
-    "nowRate": 869565,
-    "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。",
-    "exceptionSince": "第270便c(AD9)— 記録は第271便a"
-   },
-   {
-    "id": "psrJ1946DFM",
-    "emoji": "🩺",
-    "tag": "dt/4",
-    "baseMaxSteps": 4162642,
-    "nowMaxSteps": 4162598,
-    "baseStepsRun": 4162642,
-    "nowStepsRun": 4162598,
-    "basePeriFoundA": [
-     25
-    ],
-    "nowPeriFoundA": [
-     25
-    ],
-    "baseWallSec": 5.413,
-    "nowWallSec": 5.499,
-    "baseRate": 800000,
-    "nowRate": 769231,
-    "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。",
-    "exceptionSince": "第270便c(AD9)— 記録は第271便a"
-   },
-   {
-    "id": "psrJ1946PN",
-    "emoji": "🪀",
-    "tag": "dt",
-    "baseMaxSteps": 1040661,
-    "nowMaxSteps": 1040650,
-    "baseStepsRun": 1040661,
-    "nowStepsRun": 1040650,
-    "basePeriFoundA": [
-     25
-    ],
-    "nowPeriFoundA": [
-     25
-    ],
-    "baseWallSec": 1.391,
-    "nowWallSec": 1.414,
-    "baseRate": 689655,
-    "nowRate": 769231,
-    "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。",
-    "exceptionSince": "第270便c(AD9)— 記録は第271便a"
-   },
-   {
-    "id": "psrJ1946PN",
-    "emoji": "🪀",
-    "tag": "dt/2",
-    "baseMaxSteps": 2081321,
-    "nowMaxSteps": 2081299,
-    "baseStepsRun": 2081321,
-    "nowStepsRun": 2081299,
-    "basePeriFoundA": [
-     25
-    ],
-    "nowPeriFoundA": [
-     25
-    ],
-    "baseWallSec": 2.863,
-    "nowWallSec": 2.946,
-    "baseRate": 800000,
-    "nowRate": 740741,
-    "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。",
-    "exceptionSince": "第270便c(AD9)— 記録は第271便a"
-   },
-   {
-    "id": "psrJ1946CF",
-    "emoji": "🩹",
-    "tag": "dt",
-    "baseMaxSteps": 1040661,
-    "nowMaxSteps": 1040650,
-    "baseStepsRun": 1040661,
-    "nowStepsRun": 1040650,
-    "basePeriFoundA": [
-     25
-    ],
-    "nowPeriFoundA": [
-     25
-    ],
-    "baseWallSec": 1.815,
-    "nowWallSec": 2.169,
-    "baseRate": 540541,
-    "nowRate": 476190,
-    "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。",
-    "exceptionSince": "第270便c(AD9)— 記録は第271便a"
-   },
-   {
-    "id": "psrJ1946CF",
-    "emoji": "🩹",
-    "tag": "dt/2",
-    "baseMaxSteps": 2081321,
-    "nowMaxSteps": 2081299,
-    "baseStepsRun": 2081321,
-    "nowStepsRun": 2081299,
-    "basePeriFoundA": [
-     25
-    ],
-    "nowPeriFoundA": [
-     25
-    ],
-    "baseWallSec": 3.538,
-    "nowWallSec": 3.997,
-    "baseRate": 588235,
-    "nowRate": 476190,
-    "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。",
-    "exceptionSince": "第270便c(AD9)— 記録は第271便a"
-   },
-   {
-    "id": "psrJ1946CF",
-    "emoji": "🩹",
-    "tag": "dt/4",
-    "baseMaxSteps": 4162642,
-    "nowMaxSteps": 4162598,
-    "baseStepsRun": 4162642,
-    "nowStepsRun": 4162598,
-    "basePeriFoundA": [
-     25
-    ],
-    "nowPeriFoundA": [
-     25
-    ],
-    "baseWallSec": 7.418,
-    "nowWallSec": 7.149,
-    "baseRate": 571429,
-    "nowRate": 266667,
-    "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。",
-    "exceptionSince": "第270便c(AD9)— 記録は第271便a"
-   }
-  ],
+  "declaredExceptions": [],
+  "differingRows": [],
   "newStageRows": [
    {
     "id": "plutoCharonReal",
-    "tag": "dt/4",
-    "maxSteps": 82777992,
-    "stepsRun": 82777992,
+    "tag": "dt/8",
+    "maxSteps": 165555984,
+    "stepsRun": 165555984,
     "periFoundA": [
      59
     ]
    },
    {
+    "id": "psrDoubleAB",
+    "tag": "dt/8",
+    "maxSteps": 26503598,
+    "stepsRun": 26503598,
+    "periFoundA": [
+     60
+    ]
+   },
+   {
+    "id": "psrDoubleABDFM",
+    "tag": "dt/8",
+    "maxSteps": 11083772,
+    "stepsRun": 11083772,
+    "periFoundA": [
+     25
+    ]
+   },
+   {
+    "id": "psrJ1757DFM",
+    "tag": "dt/8",
+    "maxSteps": 28277403,
+    "stepsRun": 28277403,
+    "periFoundA": [
+     36
+    ]
+   },
+   {
+    "id": "psrJ1946DFM",
+    "tag": "dt/8",
+    "maxSteps": 8325197,
+    "stepsRun": 8325197,
+    "periFoundA": [
+     25
+    ]
+   },
+   {
+    "id": "psrDoubleABCF",
+    "tag": "dt/8",
+    "maxSteps": 11083772,
+    "stepsRun": 11083772,
+    "periFoundA": [
+     25
+    ]
+   },
+   {
+    "id": "psrJ1757CF",
+    "tag": "dt/8",
+    "maxSteps": 28277403,
+    "stepsRun": 28277403,
+    "periFoundA": [
+     36
+    ]
+   },
+   {
+    "id": "psrJ1946CF",
+    "tag": "dt/8",
+    "maxSteps": 8325197,
+    "stepsRun": 8325197,
+    "periFoundA": [
+     25
+    ]
+   },
+   {
     "id": "saturnZonalD68",
-    "tag": "dt/4",
-    "maxSteps": 2797603,
-    "stepsRun": 2674708,
+    "tag": "dt/8",
+    "maxSteps": 5595207,
+    "stepsRun": 5349417,
     "periFoundA": [
      58
     ]
@@ -539,10 +350,10 @@
     "nowPeriFoundA": [
      27
     ],
-    "baseWallSec": 21.322,
-    "nowWallSec": 21.129,
+    "baseWallSec": 21.129,
+    "nowWallSec": 21.278,
     "baseRate": 1428571,
-    "nowRate": 1428571,
+    "nowRate": 1538462,
     "inBase": true,
     "same": true
    },
@@ -560,9 +371,9 @@
     "nowPeriFoundA": [
      13
     ],
-    "baseWallSec": 21.994,
-    "nowWallSec": 21.962,
-    "baseRate": 1428571,
+    "baseWallSec": 21.962,
+    "nowWallSec": 21.753,
+    "baseRate": 1666667,
     "nowRate": 1666667,
     "inBase": true,
     "same": true
@@ -581,10 +392,10 @@
     "nowPeriFoundA": [
      26
     ],
-    "baseWallSec": 40.069,
-    "nowWallSec": 37.502,
-    "baseRate": 500000,
-    "nowRate": 769231,
+    "baseWallSec": 37.502,
+    "nowWallSec": 40.495,
+    "baseRate": 769231,
+    "nowRate": 714286,
     "inBase": true,
     "same": true
    },
@@ -602,10 +413,10 @@
     "nowPeriFoundA": [
      13
     ],
-    "baseWallSec": 42.356,
-    "nowWallSec": 37.332,
-    "baseRate": 1052632,
-    "nowRate": 1176471,
+    "baseWallSec": 37.332,
+    "nowWallSec": 36.809,
+    "baseRate": 1176471,
+    "nowRate": 1052632,
     "inBase": true,
     "same": true
    },
@@ -623,10 +434,10 @@
     "nowPeriFoundA": [
      26
     ],
-    "baseWallSec": 35.988,
-    "nowWallSec": 34.812,
-    "baseRate": 1111111,
-    "nowRate": 952381,
+    "baseWallSec": 34.812,
+    "nowWallSec": 35.552,
+    "baseRate": 952381,
+    "nowRate": 1052632,
     "inBase": true,
     "same": true
    },
@@ -644,10 +455,10 @@
     "nowPeriFoundA": [
      13
     ],
-    "baseWallSec": 36.308,
-    "nowWallSec": 34.394,
-    "baseRate": 1000000,
-    "nowRate": 1333333,
+    "baseWallSec": 34.394,
+    "nowWallSec": 34.983,
+    "baseRate": 1333333,
+    "nowRate": 1000000,
     "inBase": true,
     "same": true
    },
@@ -665,10 +476,10 @@
     "nowPeriFoundA": [
      59
     ],
-    "baseWallSec": 0.635,
-    "nowWallSec": 0.698,
-    "baseRate": 1000000,
-    "nowRate": 869565,
+    "baseWallSec": 0.698,
+    "nowWallSec": 0.646,
+    "baseRate": 869565,
+    "nowRate": 769231,
     "inBase": true,
     "same": true
    },
@@ -686,56 +497,56 @@
     "nowPeriFoundA": [
      59
     ],
-    "baseWallSec": 1.234,
-    "nowWallSec": 1.183,
-    "baseRate": 1538462,
-    "nowRate": 1428571,
-    "inBase": true,
-    "same": true
-   },
-   {
-    "id": "mercuryReal",
-    "emoji": "☄️",
-    "tag": "dt",
-    "baseMaxSteps": 2850199,
-    "nowMaxSteps": 2850199,
-    "baseStepsRun": 2850199,
-    "nowStepsRun": 2850199,
-    "basePeriFoundA": [
-     59
-    ],
-    "nowPeriFoundA": [
-     59
-    ],
-    "baseWallSec": 1.509,
-    "nowWallSec": 1.276,
-    "baseRate": 1818182,
-    "nowRate": 2222222,
-    "inBase": true,
-    "same": true
-   },
-   {
-    "id": "mercuryReal",
-    "emoji": "☄️",
-    "tag": "dt/2",
-    "baseMaxSteps": 5700398,
-    "nowMaxSteps": 5700398,
-    "baseStepsRun": 5700398,
-    "nowStepsRun": 5700398,
-    "basePeriFoundA": [
-     59
-    ],
-    "nowPeriFoundA": [
-     59
-    ],
-    "baseWallSec": 2.986,
-    "nowWallSec": 3.106,
-    "baseRate": 2000000,
+    "baseWallSec": 1.183,
+    "nowWallSec": 1.266,
+    "baseRate": 1428571,
     "nowRate": 1538462,
     "inBase": true,
     "same": true
    },
    {
+    "id": "mercuryReal",
+    "emoji": "☄️",
+    "tag": "dt",
+    "baseMaxSteps": 2850199,
+    "nowMaxSteps": 2850199,
+    "baseStepsRun": 2850199,
+    "nowStepsRun": 2850199,
+    "basePeriFoundA": [
+     59
+    ],
+    "nowPeriFoundA": [
+     59
+    ],
+    "baseWallSec": 1.276,
+    "nowWallSec": 1.522,
+    "baseRate": 2222222,
+    "nowRate": 1666667,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "mercuryReal",
+    "emoji": "☄️",
+    "tag": "dt/2",
+    "baseMaxSteps": 5700398,
+    "nowMaxSteps": 5700398,
+    "baseStepsRun": 5700398,
+    "nowStepsRun": 5700398,
+    "basePeriFoundA": [
+     59
+    ],
+    "nowPeriFoundA": [
+     59
+    ],
+    "baseWallSec": 3.106,
+    "nowWallSec": 3.047,
+    "baseRate": 1538462,
+    "nowRate": 1818182,
+    "inBase": true,
+    "same": true
+   },
+   {
     "id": "mercuryRealKF1",
     "emoji": "🪨",
     "tag": "dt",
@@ -749,10 +560,10 @@
     "nowPeriFoundA": [
      59
     ],
-    "baseWallSec": 2.866,
-    "nowWallSec": 2.661,
-    "baseRate": 800000,
-    "nowRate": 869565,
+    "baseWallSec": 2.661,
+    "nowWallSec": 2.724,
+    "baseRate": 869565,
+    "nowRate": 487805,
     "inBase": true,
     "same": true
    },
@@ -770,10 +581,10 @@
     "nowPeriFoundA": [
      59
     ],
-    "baseWallSec": 5.513,
-    "nowWallSec": 5.305,
+    "baseWallSec": 5.305,
+    "nowWallSec": 5.068,
     "baseRate": 1250000,
-    "nowRate": 1250000,
+    "nowRate": 1176471,
     "inBase": true,
     "same": true
    },
@@ -797,10 +608,10 @@
      3,
      2
     ],
-    "baseWallSec": 486.966,
-    "nowWallSec": 463.498,
-    "baseRate": 1805,
-    "nowRate": 1804,
+    "baseWallSec": 463.498,
+    "nowWallSec": 457.682,
+    "baseRate": 1804,
+    "nowRate": 1965,
     "inBase": true,
     "same": true
    },
@@ -824,10 +635,10 @@
      63,
      59
     ],
-    "baseWallSec": 12.67,
-    "nowWallSec": 11.709,
-    "baseRate": 444444,
-    "nowRate": 425532,
+    "baseWallSec": 11.709,
+    "nowWallSec": 12.479,
+    "baseRate": 425532,
+    "nowRate": 476190,
     "inBase": true,
     "same": true
    },
@@ -851,10 +662,10 @@
      63,
      59
     ],
-    "baseWallSec": 25.383,
-    "nowWallSec": 23.7,
-    "baseRate": 434783,
-    "nowRate": 454545,
+    "baseWallSec": 23.7,
+    "nowWallSec": 24.846,
+    "baseRate": 454545,
+    "nowRate": 540541,
     "inBase": true,
     "same": true
    },
@@ -872,8 +683,8 @@
     "nowPeriFoundA": [
      59
     ],
-    "baseWallSec": 7.116,
-    "nowWallSec": 6.877,
+    "baseWallSec": 6.877,
+    "nowWallSec": 7.043,
     "baseRate": 833333,
     "nowRate": 833333,
     "inBase": true,
@@ -893,10 +704,10 @@
     "nowPeriFoundA": [
      59
     ],
-    "baseWallSec": 14.764,
-    "nowWallSec": 13.486,
-    "baseRate": 952381,
-    "nowRate": 1000000,
+    "baseWallSec": 13.486,
+    "nowWallSec": 13.809,
+    "baseRate": 1000000,
+    "nowRate": 952381,
     "inBase": true,
     "same": true
    },
@@ -916,10 +727,10 @@
      63,
      59
     ],
-    "baseWallSec": 4.835,
-    "nowWallSec": 4.632,
-    "baseRate": 833333,
-    "nowRate": 952381,
+    "baseWallSec": 4.632,
+    "nowWallSec": 4.454,
+    "baseRate": 952381,
+    "nowRate": 833333,
     "inBase": true,
     "same": true
    },
@@ -939,10 +750,10 @@
      63,
      59
     ],
-    "baseWallSec": 9.655,
-    "nowWallSec": 8.781,
-    "baseRate": 800000,
-    "nowRate": 1000000,
+    "baseWallSec": 8.781,
+    "nowWallSec": 9.198,
+    "baseRate": 1000000,
+    "nowRate": 869565,
     "inBase": true,
     "same": true
    },
@@ -960,10 +771,10 @@
     "nowPeriFoundA": [
      59
     ],
-    "baseWallSec": 19.802,
-    "nowWallSec": 18.676,
+    "baseWallSec": 18.676,
+    "nowWallSec": 19.887,
     "baseRate": 952381,
-    "nowRate": 952381,
+    "nowRate": 800000,
     "inBase": true,
     "same": true
    },
@@ -971,42 +782,60 @@
     "id": "plutoCharonReal",
     "emoji": "❄️",
     "tag": "dt/2",
-    "baseMaxSteps": 40000000,
+    "baseMaxSteps": 41388996,
     "nowMaxSteps": 41388996,
-    "baseStepsRun": 40000000,
+    "baseStepsRun": 41388996,
     "nowStepsRun": 41388996,
     "basePeriFoundA": [
-     57
+     59
     ],
     "nowPeriFoundA": [
      59
     ],
-    "baseWallSec": 37.934,
-    "nowWallSec": 35.57,
-    "baseRate": 909091,
-    "nowRate": 952381,
+    "baseWallSec": 35.57,
+    "nowWallSec": 38.204,
+    "baseRate": 952381,
+    "nowRate": 800000,
     "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "步数上限を階級(40,000,000)から preset 宣言(41,388,996 = 60 公転)へ移したので、基点より 1,388,996 步長く走る。**判定量(最初の 20 近点の近点間平均)は同じ窓から作るので値は動かない** —— 動くのは走行長と検出できた近点の本数だけである。",
-    "exceptionSince": "第271便a(AF2)"
+    "same": true
    },
    {
     "id": "plutoCharonReal",
     "emoji": "❄️",
     "tag": "dt/4",
-    "baseMaxSteps": null,
+    "baseMaxSteps": 82777992,
     "nowMaxSteps": 82777992,
-    "baseStepsRun": null,
+    "baseStepsRun": 82777992,
     "nowStepsRun": 82777992,
+    "basePeriFoundA": [
+     59
+    ],
+    "nowPeriFoundA": [
+     59
+    ],
+    "baseWallSec": 76.959,
+    "nowWallSec": 75.769,
+    "baseRate": 1000000,
+    "nowRate": 1000000,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "plutoCharonReal",
+    "emoji": "❄️",
+    "tag": "dt/8",
+    "baseMaxSteps": null,
+    "nowMaxSteps": 165555984,
+    "baseStepsRun": null,
+    "nowStepsRun": 165555984,
     "basePeriFoundA": null,
     "nowPeriFoundA": [
      59
     ],
     "baseWallSec": null,
-    "nowWallSec": 76.959,
+    "nowWallSec": 150.889,
     "baseRate": null,
-    "nowRate": 1000000,
+    "nowRate": 952381,
     "inBase": false,
     "same": null
    },
@@ -1032,10 +861,10 @@
      2,
      1
     ],
-    "baseWallSec": 480.828,
-    "nowWallSec": 468.879,
-    "baseRate": 2240,
-    "nowRate": 2190,
+    "baseWallSec": 468.879,
+    "nowWallSec": 470.753,
+    "baseRate": 2190,
+    "nowRate": 2341,
     "inBase": true,
     "same": true
    },
@@ -1053,8 +882,8 @@
     "nowPeriFoundA": [
      59
     ],
-    "baseWallSec": 1.713,
-    "nowWallSec": 1.846,
+    "baseWallSec": 1.846,
+    "nowWallSec": 1.895,
     "baseRate": 1000000,
     "nowRate": 1000000,
     "inBase": true,
@@ -1074,10 +903,10 @@
     "nowPeriFoundA": [
      59
     ],
-    "baseWallSec": 3.482,
-    "nowWallSec": 3.602,
-    "baseRate": 1052632,
-    "nowRate": 1000000,
+    "baseWallSec": 3.602,
+    "nowWallSec": 3.653,
+    "baseRate": 1000000,
+    "nowRate": 869565,
     "inBase": true,
     "same": true
    },
@@ -1095,10 +924,10 @@
     "nowPeriFoundA": [
      60
     ],
-    "baseWallSec": 5.567,
-    "nowWallSec": 5.762,
+    "baseWallSec": 5.762,
+    "nowWallSec": 5.984,
     "baseRate": 1176471,
-    "nowRate": 1176471,
+    "nowRate": 1111111,
     "inBase": true,
     "same": true
    },
@@ -1116,10 +945,10 @@
     "nowPeriFoundA": [
      60
     ],
-    "baseWallSec": 10.857,
-    "nowWallSec": 11.685,
-    "baseRate": 1250000,
-    "nowRate": 1666667,
+    "baseWallSec": 11.685,
+    "nowWallSec": 11.331,
+    "baseRate": 1666667,
+    "nowRate": 1818182,
     "inBase": true,
     "same": true
    },
@@ -1137,10 +966,10 @@
     "nowPeriFoundA": [
      60
     ],
-    "baseWallSec": 22.101,
-    "nowWallSec": 22.453,
-    "baseRate": 2000000,
-    "nowRate": 1818182,
+    "baseWallSec": 22.453,
+    "nowWallSec": 23.066,
+    "baseRate": 1818182,
+    "nowRate": 1666667,
     "inBase": true,
     "same": true
    },
@@ -1158,10 +987,10 @@
     "nowPeriFoundA": [
      60
     ],
-    "baseWallSec": 10.59,
-    "nowWallSec": 10.793,
-    "baseRate": 625000,
-    "nowRate": 714286,
+    "baseWallSec": 10.793,
+    "nowWallSec": 10.984,
+    "baseRate": 714286,
+    "nowRate": 666667,
     "inBase": true,
     "same": true
    },
@@ -1179,9 +1008,9 @@
     "nowPeriFoundA": [
      60
     ],
-    "baseWallSec": 21.311,
-    "nowWallSec": 21.225,
-    "baseRate": 869565,
+    "baseWallSec": 21.225,
+    "nowWallSec": 21.884,
+    "baseRate": 909091,
     "nowRate": 909091,
     "inBase": true,
     "same": true
@@ -1200,10 +1029,10 @@
     "nowPeriFoundA": [
      60
     ],
-    "baseWallSec": 42.624,
-    "nowWallSec": 42.124,
-    "baseRate": 909091,
-    "nowRate": 1052632,
+    "baseWallSec": 42.124,
+    "nowWallSec": 42.904,
+    "baseRate": 1052632,
+    "nowRate": 1000000,
     "inBase": true,
     "same": true
    },
@@ -1221,10 +1050,10 @@
     "nowPeriFoundA": [
      60
     ],
-    "baseWallSec": 3.576,
-    "nowWallSec": 3.672,
-    "baseRate": 1666667,
-    "nowRate": 2000000,
+    "baseWallSec": 3.672,
+    "nowWallSec": 3.612,
+    "baseRate": 2000000,
+    "nowRate": 2222222,
     "inBase": true,
     "same": true
    },
@@ -1242,10 +1071,10 @@
     "nowPeriFoundA": [
      60
     ],
-    "baseWallSec": 7.197,
-    "nowWallSec": 7.295,
-    "baseRate": 2000000,
-    "nowRate": 1666667,
+    "baseWallSec": 7.295,
+    "nowWallSec": 7.304,
+    "baseRate": 1666667,
+    "nowRate": 1818182,
     "inBase": true,
     "same": true
    },
@@ -1263,8 +1092,8 @@
     "nowPeriFoundA": [
      60
     ],
-    "baseWallSec": 14.045,
-    "nowWallSec": 14.438,
+    "baseWallSec": 14.438,
+    "nowWallSec": 14.415,
     "baseRate": 1818182,
     "nowRate": 1818182,
     "inBase": true,
@@ -1284,10 +1113,10 @@
     "nowPeriFoundA": [
      60
     ],
-    "baseWallSec": 6.557,
-    "nowWallSec": 6.583,
+    "baseWallSec": 6.583,
+    "nowWallSec": 6.777,
     "baseRate": 1052632,
-    "nowRate": 1052632,
+    "nowRate": 952381,
     "inBase": true,
     "same": true
    },
@@ -1305,9 +1134,9 @@
     "nowPeriFoundA": [
      60
     ],
-    "baseWallSec": 12.856,
-    "nowWallSec": 12.982,
-    "baseRate": 952381,
+    "baseWallSec": 12.982,
+    "nowWallSec": 12.848,
+    "baseRate": 1000000,
     "nowRate": 1000000,
     "inBase": true,
     "same": true
@@ -1326,8 +1155,8 @@
     "nowPeriFoundA": [
      60
     ],
-    "baseWallSec": 26.134,
-    "nowWallSec": 25.324,
+    "baseWallSec": 25.324,
+    "nowWallSec": 26.517,
     "baseRate": 952381,
     "nowRate": 952381,
     "inBase": true,
@@ -1347,9 +1176,9 @@
     "nowPeriFoundA": [
      60
     ],
-    "baseWallSec": 2.064,
-    "nowWallSec": 2.037,
-    "baseRate": 1250000,
+    "baseWallSec": 2.037,
+    "nowWallSec": 2.061,
+    "baseRate": 1111111,
     "nowRate": 1111111,
     "inBase": true,
     "same": true
@@ -1368,10 +1197,10 @@
     "nowPeriFoundA": [
      60
     ],
-    "baseWallSec": 3.951,
-    "nowWallSec": 4.003,
-    "baseRate": 1818182,
-    "nowRate": 2000000,
+    "baseWallSec": 4.003,
+    "nowWallSec": 4.06,
+    "baseRate": 2000000,
+    "nowRate": 1818182,
     "inBase": true,
     "same": true
    },
@@ -1389,12 +1218,31 @@
     "nowPeriFoundA": [
      60
     ],
-    "baseWallSec": 7.836,
-    "nowWallSec": 8.007,
-    "baseRate": 2000000,
-    "nowRate": 1818182,
+    "baseWallSec": 8.007,
+    "nowWallSec": 7.609,
+    "baseRate": 1818182,
+    "nowRate": 2000000,
     "inBase": true,
     "same": true
+   },
+   {
+    "id": "psrDoubleAB",
+    "emoji": "📻",
+    "tag": "dt/8",
+    "baseMaxSteps": null,
+    "nowMaxSteps": 26503598,
+    "baseStepsRun": null,
+    "nowStepsRun": 26503598,
+    "basePeriFoundA": null,
+    "nowPeriFoundA": [
+     60
+    ],
+    "baseWallSec": null,
+    "nowWallSec": 15.761,
+    "baseRate": null,
+    "nowRate": 1818182,
+    "inBase": false,
+    "same": null
    },
    {
     "id": "psrDoubleABDFM",
@@ -1410,10 +1258,10 @@
     "nowPeriFoundA": [
      25
     ],
-    "baseWallSec": 1.918,
-    "nowWallSec": 1.924,
-    "baseRate": 606061,
-    "nowRate": 588235,
+    "baseWallSec": 1.924,
+    "nowWallSec": 1.944,
+    "baseRate": 588235,
+    "nowRate": 606061,
     "inBase": true,
     "same": true
    },
@@ -1431,10 +1279,10 @@
     "nowPeriFoundA": [
      25
     ],
-    "baseWallSec": 3.68,
-    "nowWallSec": 3.603,
+    "baseWallSec": 3.603,
+    "nowWallSec": 3.671,
     "baseRate": 769231,
-    "nowRate": 769231,
+    "nowRate": 571429,
     "inBase": true,
     "same": true
    },
@@ -1452,12 +1300,31 @@
     "nowPeriFoundA": [
      25
     ],
-    "baseWallSec": 7.461,
-    "nowWallSec": 7.175,
-    "baseRate": 740741,
+    "baseWallSec": 7.175,
+    "nowWallSec": 7.467,
+    "baseRate": 769231,
     "nowRate": 769231,
     "inBase": true,
     "same": true
+   },
+   {
+    "id": "psrDoubleABDFM",
+    "emoji": "⚡",
+    "tag": "dt/8",
+    "baseMaxSteps": null,
+    "nowMaxSteps": 11083772,
+    "baseStepsRun": null,
+    "nowStepsRun": 11083772,
+    "basePeriFoundA": null,
+    "nowPeriFoundA": [
+     25
+    ],
+    "baseWallSec": null,
+    "nowWallSec": 15.243,
+    "baseRate": null,
+    "nowRate": 606061,
+    "inBase": false,
+    "same": null
    },
    {
     "id": "psrDoubleABSpinCal",
@@ -1473,10 +1340,10 @@
     "nowPeriFoundA": [
      25
     ],
-    "baseWallSec": 1.963,
-    "nowWallSec": 2.112,
-    "baseRate": 540541,
-    "nowRate": 434783,
+    "baseWallSec": 2.112,
+    "nowWallSec": 1.915,
+    "baseRate": 434783,
+    "nowRate": 526316,
     "inBase": true,
     "same": true
    },
@@ -1494,10 +1361,10 @@
     "nowPeriFoundA": [
      25
     ],
-    "baseWallSec": 3.909,
-    "nowWallSec": 4.005,
-    "baseRate": 540541,
-    "nowRate": 625000,
+    "baseWallSec": 4.005,
+    "nowWallSec": 3.866,
+    "baseRate": 625000,
+    "nowRate": 666667,
     "inBase": true,
     "same": true
    },
@@ -1515,9 +1382,9 @@
     "nowPeriFoundA": [
      37
     ],
-    "baseWallSec": 4.691,
-    "nowWallSec": 4.82,
-    "baseRate": 833333,
+    "baseWallSec": 4.82,
+    "nowWallSec": 4.763,
+    "baseRate": 769231,
     "nowRate": 769231,
     "inBase": true,
     "same": true
@@ -1536,10 +1403,10 @@
     "nowPeriFoundA": [
      36
     ],
-    "baseWallSec": 9.219,
-    "nowWallSec": 9.279,
-    "baseRate": 833333,
-    "nowRate": 800000,
+    "baseWallSec": 9.279,
+    "nowWallSec": 9.46,
+    "baseRate": 800000,
+    "nowRate": 689655,
     "inBase": true,
     "same": true
    },
@@ -1557,20 +1424,39 @@
     "nowPeriFoundA": [
      36
     ],
-    "baseWallSec": 18.363,
-    "nowWallSec": 18.429,
-    "baseRate": 588235,
-    "nowRate": 740741,
+    "baseWallSec": 18.429,
+    "nowWallSec": 17.688,
+    "baseRate": 740741,
+    "nowRate": 833333,
     "inBase": true,
     "same": true
+   },
+   {
+    "id": "psrJ1757DFM",
+    "emoji": "🧮",
+    "tag": "dt/8",
+    "baseMaxSteps": null,
+    "nowMaxSteps": 28277403,
+    "baseStepsRun": null,
+    "nowStepsRun": 28277403,
+    "basePeriFoundA": null,
+    "nowPeriFoundA": [
+     36
+    ],
+    "baseWallSec": null,
+    "nowWallSec": 39.234,
+    "baseRate": null,
+    "nowRate": 909091,
+    "inBase": false,
+    "same": null
    },
    {
     "id": "psrJ1946DFM",
     "emoji": "🩺",
     "tag": "dt",
-    "baseMaxSteps": 1040661,
+    "baseMaxSteps": 1040650,
     "nowMaxSteps": 1040650,
-    "baseStepsRun": 1040661,
+    "baseStepsRun": 1040650,
     "nowStepsRun": 1040650,
     "basePeriFoundA": [
      25
@@ -1578,23 +1464,20 @@
     "nowPeriFoundA": [
      25
     ],
-    "baseWallSec": 1.416,
-    "nowWallSec": 1.31,
-    "baseRate": 800000,
-    "nowRate": 833333,
+    "baseWallSec": 1.31,
+    "nowWallSec": 1.465,
+    "baseRate": 833333,
+    "nowRate": 800000,
     "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。",
-    "exceptionSince": "第270便c(AD9)— 記録は第271便a"
+    "same": true
    },
    {
     "id": "psrJ1946DFM",
     "emoji": "🩺",
     "tag": "dt/2",
-    "baseMaxSteps": 2081321,
+    "baseMaxSteps": 2081299,
     "nowMaxSteps": 2081299,
-    "baseStepsRun": 2081321,
+    "baseStepsRun": 2081299,
     "nowStepsRun": 2081299,
     "basePeriFoundA": [
      25
@@ -1602,23 +1485,20 @@
     "nowPeriFoundA": [
      25
     ],
-    "baseWallSec": 2.783,
-    "nowWallSec": 2.707,
-    "baseRate": 800000,
-    "nowRate": 869565,
+    "baseWallSec": 2.707,
+    "nowWallSec": 2.703,
+    "baseRate": 869565,
+    "nowRate": 909091,
     "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。",
-    "exceptionSince": "第270便c(AD9)— 記録は第271便a"
+    "same": true
    },
    {
     "id": "psrJ1946DFM",
     "emoji": "🩺",
     "tag": "dt/4",
-    "baseMaxSteps": 4162642,
+    "baseMaxSteps": 4162598,
     "nowMaxSteps": 4162598,
-    "baseStepsRun": 4162642,
+    "baseStepsRun": 4162598,
     "nowStepsRun": 4162598,
     "basePeriFoundA": [
      25
@@ -1626,15 +1506,31 @@
     "nowPeriFoundA": [
      25
     ],
-    "baseWallSec": 5.413,
-    "nowWallSec": 5.499,
-    "baseRate": 800000,
-    "nowRate": 769231,
+    "baseWallSec": 5.499,
+    "nowWallSec": 5.473,
+    "baseRate": 769231,
+    "nowRate": 800000,
     "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。",
-    "exceptionSince": "第270便c(AD9)— 記録は第271便a"
+    "same": true
+   },
+   {
+    "id": "psrJ1946DFM",
+    "emoji": "🩺",
+    "tag": "dt/8",
+    "baseMaxSteps": null,
+    "nowMaxSteps": 8325197,
+    "baseStepsRun": null,
+    "nowStepsRun": 8325197,
+    "basePeriFoundA": null,
+    "nowPeriFoundA": [
+     25
+    ],
+    "baseWallSec": null,
+    "nowWallSec": 10.895,
+    "baseRate": null,
+    "nowRate": 740741,
+    "inBase": false,
+    "same": null
    },
    {
     "id": "psrDoubleABPN",
@@ -1650,10 +1546,10 @@
     "nowPeriFoundA": [
      25
     ],
-    "baseWallSec": 1.832,
-    "nowWallSec": 1.858,
-    "baseRate": 833333,
-    "nowRate": 869565,
+    "baseWallSec": 1.858,
+    "nowWallSec": 1.908,
+    "baseRate": 869565,
+    "nowRate": 769231,
     "inBase": true,
     "same": true
    },
@@ -1671,10 +1567,10 @@
     "nowPeriFoundA": [
      25
     ],
-    "baseWallSec": 3.81,
-    "nowWallSec": 3.776,
-    "baseRate": 769231,
-    "nowRate": 740741,
+    "baseWallSec": 3.776,
+    "nowWallSec": 3.785,
+    "baseRate": 740741,
+    "nowRate": 833333,
     "inBase": true,
     "same": true
    },
@@ -1692,10 +1588,10 @@
     "nowPeriFoundA": [
      37
     ],
-    "baseWallSec": 4.661,
-    "nowWallSec": 5.043,
-    "baseRate": 833333,
-    "nowRate": 800000,
+    "baseWallSec": 5.043,
+    "nowWallSec": 4.857,
+    "baseRate": 800000,
+    "nowRate": 769231,
     "inBase": true,
     "same": true
    },
@@ -1713,10 +1609,10 @@
     "nowPeriFoundA": [
      36
     ],
-    "baseWallSec": 9.314,
-    "nowWallSec": 9.997,
-    "baseRate": 800000,
-    "nowRate": 740741,
+    "baseWallSec": 9.997,
+    "nowWallSec": 8.788,
+    "baseRate": 740741,
+    "nowRate": 833333,
     "inBase": true,
     "same": true
    },
@@ -1724,9 +1620,9 @@
     "id": "psrJ1946PN",
     "emoji": "🪀",
     "tag": "dt",
-    "baseMaxSteps": 1040661,
+    "baseMaxSteps": 1040650,
     "nowMaxSteps": 1040650,
-    "baseStepsRun": 1040661,
+    "baseStepsRun": 1040650,
     "nowStepsRun": 1040650,
     "basePeriFoundA": [
      25
@@ -1734,23 +1630,20 @@
     "nowPeriFoundA": [
      25
     ],
-    "baseWallSec": 1.391,
-    "nowWallSec": 1.414,
-    "baseRate": 689655,
+    "baseWallSec": 1.414,
+    "nowWallSec": 1.422,
+    "baseRate": 769231,
     "nowRate": 769231,
     "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。",
-    "exceptionSince": "第270便c(AD9)— 記録は第271便a"
+    "same": true
    },
    {
     "id": "psrJ1946PN",
     "emoji": "🪀",
     "tag": "dt/2",
-    "baseMaxSteps": 2081321,
+    "baseMaxSteps": 2081299,
     "nowMaxSteps": 2081299,
-    "baseStepsRun": 2081321,
+    "baseStepsRun": 2081299,
     "nowStepsRun": 2081299,
     "basePeriFoundA": [
      25
@@ -1758,15 +1651,12 @@
     "nowPeriFoundA": [
      25
     ],
-    "baseWallSec": 2.863,
-    "nowWallSec": 2.946,
-    "baseRate": 800000,
-    "nowRate": 740741,
+    "baseWallSec": 2.946,
+    "nowWallSec": 2.796,
+    "baseRate": 740741,
+    "nowRate": 769231,
     "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。",
-    "exceptionSince": "第270便c(AD9)— 記録は第271便a"
+    "same": true
    },
    {
     "id": "psrDoubleABCF",
@@ -1782,10 +1672,10 @@
     "nowPeriFoundA": [
      25
     ],
-    "baseWallSec": 2.483,
-    "nowWallSec": 2.515,
-    "baseRate": 294118,
-    "nowRate": 285714,
+    "baseWallSec": 2.515,
+    "nowWallSec": 2.859,
+    "baseRate": 285714,
+    "nowRate": 289855,
     "inBase": true,
     "same": true
    },
@@ -1803,10 +1693,10 @@
     "nowPeriFoundA": [
      25
     ],
-    "baseWallSec": 4.862,
-    "nowWallSec": 4.852,
-    "baseRate": 571429,
-    "nowRate": 555556,
+    "baseWallSec": 4.852,
+    "nowWallSec": 5.62,
+    "baseRate": 555556,
+    "nowRate": 476190,
     "inBase": true,
     "same": true
    },
@@ -1824,12 +1714,31 @@
     "nowPeriFoundA": [
      25
     ],
-    "baseWallSec": 9.727,
-    "nowWallSec": 10.228,
-    "baseRate": 625000,
-    "nowRate": 666667,
+    "baseWallSec": 10.228,
+    "nowWallSec": 11.204,
+    "baseRate": 666667,
+    "nowRate": 487805,
     "inBase": true,
     "same": true
+   },
+   {
+    "id": "psrDoubleABCF",
+    "emoji": "🪝",
+    "tag": "dt/8",
+    "baseMaxSteps": null,
+    "nowMaxSteps": 11083772,
+    "baseStepsRun": null,
+    "nowStepsRun": 11083772,
+    "basePeriFoundA": null,
+    "nowPeriFoundA": [
+     25
+    ],
+    "baseWallSec": null,
+    "nowWallSec": 22.993,
+    "baseRate": null,
+    "nowRate": 487805,
+    "inBase": false,
+    "same": null
    },
    {
     "id": "psrJ1757CF",
@@ -1845,10 +1754,10 @@
     "nowPeriFoundA": [
      37
     ],
-    "baseWallSec": 6.016,
-    "nowWallSec": 6.496,
-    "baseRate": 606061,
-    "nowRate": 540541,
+    "baseWallSec": 6.496,
+    "nowWallSec": 6.861,
+    "baseRate": 540541,
+    "nowRate": 444444,
     "inBase": true,
     "same": true
    },
@@ -1866,10 +1775,10 @@
     "nowPeriFoundA": [
      36
     ],
-    "baseWallSec": 11.939,
-    "nowWallSec": 13.15,
-    "baseRate": 666667,
-    "nowRate": 571429,
+    "baseWallSec": 13.15,
+    "nowWallSec": 13.591,
+    "baseRate": 571429,
+    "nowRate": 500000,
     "inBase": true,
     "same": true
    },
@@ -1887,20 +1796,39 @@
     "nowPeriFoundA": [
      36
     ],
-    "baseWallSec": 24.707,
-    "nowWallSec": 26.079,
-    "baseRate": 625000,
-    "nowRate": 555556,
+    "baseWallSec": 26.079,
+    "nowWallSec": 27.46,
+    "baseRate": 555556,
+    "nowRate": 476190,
     "inBase": true,
     "same": true
+   },
+   {
+    "id": "psrJ1757CF",
+    "emoji": "🪄",
+    "tag": "dt/8",
+    "baseMaxSteps": null,
+    "nowMaxSteps": 28277403,
+    "baseStepsRun": null,
+    "nowStepsRun": 28277403,
+    "basePeriFoundA": null,
+    "nowPeriFoundA": [
+     36
+    ],
+    "baseWallSec": null,
+    "nowWallSec": 58.76,
+    "baseRate": null,
+    "nowRate": 526316,
+    "inBase": false,
+    "same": null
    },
    {
     "id": "psrJ1946CF",
     "emoji": "🩹",
     "tag": "dt",
-    "baseMaxSteps": 1040661,
+    "baseMaxSteps": 1040650,
     "nowMaxSteps": 1040650,
-    "baseStepsRun": 1040661,
+    "baseStepsRun": 1040650,
     "nowStepsRun": 1040650,
     "basePeriFoundA": [
      25
@@ -1908,23 +1836,20 @@
     "nowPeriFoundA": [
      25
     ],
-    "baseWallSec": 1.815,
-    "nowWallSec": 2.169,
-    "baseRate": 540541,
-    "nowRate": 476190,
+    "baseWallSec": 2.169,
+    "nowWallSec": 2.182,
+    "baseRate": 476190,
+    "nowRate": 465116,
     "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。",
-    "exceptionSince": "第270便c(AD9)— 記録は第271便a"
+    "same": true
    },
    {
     "id": "psrJ1946CF",
     "emoji": "🩹",
     "tag": "dt/2",
-    "baseMaxSteps": 2081321,
+    "baseMaxSteps": 2081299,
     "nowMaxSteps": 2081299,
-    "baseStepsRun": 2081321,
+    "baseStepsRun": 2081299,
     "nowStepsRun": 2081299,
     "basePeriFoundA": [
      25
@@ -1932,23 +1857,20 @@
     "nowPeriFoundA": [
      25
     ],
-    "baseWallSec": 3.538,
-    "nowWallSec": 3.997,
-    "baseRate": 588235,
-    "nowRate": 476190,
+    "baseWallSec": 3.997,
+    "nowWallSec": 4.346,
+    "baseRate": 476190,
+    "nowRate": 487805,
     "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。",
-    "exceptionSince": "第270便c(AD9)— 記録は第271便a"
+    "same": true
    },
    {
     "id": "psrJ1946CF",
     "emoji": "🩹",
     "tag": "dt/4",
-    "baseMaxSteps": 4162642,
+    "baseMaxSteps": 4162598,
     "nowMaxSteps": 4162598,
-    "baseStepsRun": 4162642,
+    "baseStepsRun": 4162598,
     "nowStepsRun": 4162598,
     "basePeriFoundA": [
      25
@@ -1956,15 +1878,31 @@
     "nowPeriFoundA": [
      25
     ],
-    "baseWallSec": 7.418,
-    "nowWallSec": 7.149,
-    "baseRate": 571429,
-    "nowRate": 266667,
+    "baseWallSec": 7.149,
+    "nowWallSec": 8.643,
+    "baseRate": 266667,
+    "nowRate": 487805,
     "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "AD9 で採用レコードを一組へ揃えたときに導出 a が動き、1 公転の步数が変わった(60 公転ぶんの步数 1,040,661 → 1,040,650 步)。基点の抽出は AD9 より前(f6c19b4)なので一致しない。**近点の本数は 25 本のまま**で、判定量は動いていない。",
-    "exceptionSince": "第270便c(AD9)— 記録は第271便a"
+    "same": true
+   },
+   {
+    "id": "psrJ1946CF",
+    "emoji": "🩹",
+    "tag": "dt/8",
+    "baseMaxSteps": null,
+    "nowMaxSteps": 8325197,
+    "baseStepsRun": null,
+    "nowStepsRun": 8325197,
+    "basePeriFoundA": null,
+    "nowPeriFoundA": [
+     25
+    ],
+    "baseWallSec": null,
+    "nowWallSec": 16.781,
+    "baseRate": null,
+    "nowRate": 476190,
+    "inBase": false,
+    "same": null
    },
    {
     "id": "psrB1534",
@@ -1980,9 +1918,9 @@
     "nowPeriFoundA": [
      60
     ],
-    "baseWallSec": 10.416,
-    "nowWallSec": 10.023,
-    "baseRate": 1250000,
+    "baseWallSec": 10.023,
+    "nowWallSec": 10.459,
+    "baseRate": 1538462,
     "nowRate": 1538462,
     "inBase": true,
     "same": true
@@ -2001,10 +1939,10 @@
     "nowPeriFoundA": [
      60
     ],
-    "baseWallSec": 20.695,
-    "nowWallSec": 21.148,
-    "baseRate": 1428571,
-    "nowRate": 1538462,
+    "baseWallSec": 21.148,
+    "nowWallSec": 21.194,
+    "baseRate": 1538462,
+    "nowRate": 1333333,
     "inBase": true,
     "same": true
    },
@@ -2022,8 +1960,8 @@
     "nowPeriFoundA": [
      44
     ],
-    "baseWallSec": 30.447,
-    "nowWallSec": 30.679,
+    "baseWallSec": 30.679,
+    "nowWallSec": 30.747,
     "baseRate": 1428571,
     "nowRate": 1428571,
     "inBase": true,
@@ -2043,10 +1981,10 @@
     "nowPeriFoundA": [
      29
     ],
-    "baseWallSec": 8.587,
-    "nowWallSec": 8.832,
-    "baseRate": 800000,
-    "nowRate": 833333,
+    "baseWallSec": 8.832,
+    "nowWallSec": 8.607,
+    "baseRate": 833333,
+    "nowRate": 869565,
     "inBase": true,
     "same": true
    },
@@ -2064,10 +2002,10 @@
     "nowPeriFoundA": [
      29
     ],
-    "baseWallSec": 17.402,
-    "nowWallSec": 17.209,
-    "baseRate": 769231,
-    "nowRate": 800000,
+    "baseWallSec": 17.209,
+    "nowWallSec": 15.939,
+    "baseRate": 800000,
+    "nowRate": 909091,
     "inBase": true,
     "same": true
    },
@@ -2085,10 +2023,10 @@
     "nowPeriFoundA": [
      29
     ],
-    "baseWallSec": 34.461,
-    "nowWallSec": 34.683,
+    "baseWallSec": 34.683,
+    "nowWallSec": 33.75,
     "baseRate": 800000,
-    "nowRate": 800000,
+    "nowRate": 909091,
     "inBase": true,
     "same": true
    },
@@ -2106,10 +2044,10 @@
     "nowPeriFoundA": [
      29
     ],
-    "baseWallSec": 11.657,
-    "nowWallSec": 12.858,
-    "baseRate": 512821,
-    "nowRate": 476190,
+    "baseWallSec": 12.858,
+    "nowWallSec": 13.383,
+    "baseRate": 476190,
+    "nowRate": 555556,
     "inBase": true,
     "same": true
    },
@@ -2127,10 +2065,10 @@
     "nowPeriFoundA": [
      29
     ],
-    "baseWallSec": 23.621,
-    "nowWallSec": 26.171,
-    "baseRate": 606061,
-    "nowRate": 540541,
+    "baseWallSec": 26.171,
+    "nowWallSec": 26.659,
+    "baseRate": 540541,
+    "nowRate": 465116,
     "inBase": true,
     "same": true
    },
@@ -2148,10 +2086,10 @@
     "nowPeriFoundA": [
      29
     ],
-    "baseWallSec": 45.717,
-    "nowWallSec": 53.718,
-    "baseRate": 465116,
-    "nowRate": 526316,
+    "baseWallSec": 53.718,
+    "nowWallSec": 54.1,
+    "baseRate": 526316,
+    "nowRate": 571429,
     "inBase": true,
     "same": true
    },
@@ -2169,10 +2107,10 @@
     "nowPeriFoundA": [
      60
     ],
-    "baseWallSec": 0.413,
-    "nowWallSec": 0.439,
-    "baseRate": 2000000,
-    "nowRate": 1666667,
+    "baseWallSec": 0.439,
+    "nowWallSec": 0.411,
+    "baseRate": 1666667,
+    "nowRate": 1818182,
     "inBase": true,
     "same": true
    },
@@ -2190,10 +2128,10 @@
     "nowPeriFoundA": [
      60
     ],
-    "baseWallSec": 0.783,
-    "nowWallSec": 0.819,
-    "baseRate": 1538462,
-    "nowRate": 2222222,
+    "baseWallSec": 0.819,
+    "nowWallSec": 0.836,
+    "baseRate": 2222222,
+    "nowRate": 1818182,
     "inBase": true,
     "same": true
    },
@@ -2211,10 +2149,10 @@
     "nowPeriFoundA": [
      7
     ],
-    "baseWallSec": 0.321,
-    "nowWallSec": 0.311,
+    "baseWallSec": 0.311,
+    "nowWallSec": 0.323,
     "baseRate": 666667,
-    "nowRate": 666667,
+    "nowRate": 714286,
     "inBase": true,
     "same": true
    },
@@ -2232,10 +2170,10 @@
     "nowPeriFoundA": [
      6
     ],
-    "baseWallSec": 0.564,
-    "nowWallSec": 0.585,
-    "baseRate": 1052632,
-    "nowRate": 1111111,
+    "baseWallSec": 0.585,
+    "nowWallSec": 0.535,
+    "baseRate": 1111111,
+    "nowRate": 869565,
     "inBase": true,
     "same": true
    },
@@ -2255,8 +2193,8 @@
     ],
     "baseWallSec": 0.03,
     "nowWallSec": 0.03,
-    "baseRate": 588235,
-    "nowRate": 540541,
+    "baseRate": 540541,
+    "nowRate": 606061,
     "inBase": true,
     "same": true
    },
@@ -2274,10 +2212,10 @@
     "nowPeriFoundA": [
      1
     ],
-    "baseWallSec": 0.056,
-    "nowWallSec": 0.051,
-    "baseRate": 666667,
-    "nowRate": 800000,
+    "baseWallSec": 0.051,
+    "nowWallSec": 0.05,
+    "baseRate": 800000,
+    "nowRate": 666667,
     "inBase": true,
     "same": true
    },
@@ -2295,10 +2233,10 @@
     "nowPeriFoundA": [
      58
     ],
-    "baseWallSec": 3.08,
-    "nowWallSec": 2.927,
-    "baseRate": 134228,
-    "nowRate": 137931,
+    "baseWallSec": 2.927,
+    "nowWallSec": 2.684,
+    "baseRate": 137931,
+    "nowRate": 156250,
     "inBase": true,
     "same": true
    },
@@ -2316,10 +2254,10 @@
     "nowPeriFoundA": [
      58
     ],
-    "baseWallSec": 5.778,
-    "nowWallSec": 5.281,
-    "baseRate": 229885,
-    "nowRate": 238095,
+    "baseWallSec": 5.281,
+    "nowWallSec": 5.544,
+    "baseRate": 238095,
+    "nowRate": 232558,
     "inBase": true,
     "same": true
    },
@@ -2327,18 +2265,39 @@
     "id": "saturnZonalD68",
     "emoji": "📡",
     "tag": "dt/4",
-    "baseMaxSteps": null,
+    "baseMaxSteps": 2797603,
     "nowMaxSteps": 2797603,
-    "baseStepsRun": null,
+    "baseStepsRun": 2674708,
     "nowStepsRun": 2674708,
+    "basePeriFoundA": [
+     58
+    ],
+    "nowPeriFoundA": [
+     58
+    ],
+    "baseWallSec": 11.188,
+    "nowWallSec": 10.489,
+    "baseRate": 240964,
+    "nowRate": 243902,
+    "inBase": true,
+    "same": true
+   },
+   {
+    "id": "saturnZonalD68",
+    "emoji": "📡",
+    "tag": "dt/8",
+    "baseMaxSteps": null,
+    "nowMaxSteps": 5595207,
+    "baseStepsRun": null,
+    "nowStepsRun": 5349417,
     "basePeriFoundA": null,
     "nowPeriFoundA": [
      58
     ],
     "baseWallSec": null,
-    "nowWallSec": 11.188,
+    "nowWallSec": 21.456,
     "baseRate": null,
-    "nowRate": 240964,
+    "nowRate": 259740,
     "inBase": false,
     "same": null
    },
@@ -2360,10 +2319,10 @@
      36,
      3
     ],
-    "baseWallSec": 459.582,
-    "nowWallSec": 435.531,
-    "baseRate": 4256,
-    "nowRate": 4832,
+    "baseWallSec": 435.531,
+    "nowWallSec": 446.438,
+    "baseRate": 4832,
+    "nowRate": 4742,
     "inBase": true,
     "same": true
    },
@@ -2385,19 +2344,19 @@
      2,
      1
     ],
-    "baseWallSec": 422.773,
-    "nowWallSec": 409.715,
-    "baseRate": 603,
-    "nowRate": 670,
+    "baseWallSec": 409.715,
+    "nowWallSec": 416.684,
+    "baseRate": 670,
+    "nowRate": 609,
     "inBase": true,
     "same": true
    }
   ],
-  "finding": "**9 段で基点と違う**(うち宣言した例外 9 段 / 宣言の無い差 0 段 —— differingRows に並べた)。宣言した例外は「步数上限の宣言を足したので基点より長く走る」段であり、**判定量そのものが動いたという意味ではない**(値が動いたかどうかは走行 JSON を読む)。宣言の無い差は隠さずに読むこと。"
+  "finding": "**基点 743ad9b の 86 段すべてで、步数も近点数も同じである** —— 宣言した既定値は基点の走行を再現する(走行長の決め方を機種依存の量から宣言へ移しただけで、**測っている中身は変えていない**)。"
  },
  "recalc": {
-  "n": 86,
-  "ok": 86,
+  "n": 95,
+  "ok": 95,
   "bad": [],
   "rows": [
    {
@@ -2419,7 +2378,7 @@
      27
     ],
     "periastraOk": true,
-    "wallSec": 21.129,
+    "wallSec": 21.278,
     "resourceExceeded": false
    },
    {
@@ -2441,7 +2400,7 @@
      13
     ],
     "periastraOk": false,
-    "wallSec": 21.962,
+    "wallSec": 21.753,
     "resourceExceeded": false
    },
    {
@@ -2463,7 +2422,7 @@
      26
     ],
     "periastraOk": true,
-    "wallSec": 37.502,
+    "wallSec": 40.495,
     "resourceExceeded": false
    },
    {
@@ -2485,7 +2444,7 @@
      13
     ],
     "periastraOk": false,
-    "wallSec": 37.332,
+    "wallSec": 36.809,
     "resourceExceeded": false
    },
    {
@@ -2507,7 +2466,7 @@
      26
     ],
     "periastraOk": true,
-    "wallSec": 34.812,
+    "wallSec": 35.552,
     "resourceExceeded": false
    },
    {
@@ -2529,7 +2488,7 @@
      13
     ],
     "periastraOk": false,
-    "wallSec": 34.394,
+    "wallSec": 34.983,
     "resourceExceeded": false
    },
    {
@@ -2551,7 +2510,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 0.698,
+    "wallSec": 0.646,
     "resourceExceeded": false
    },
    {
@@ -2573,7 +2532,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 1.183,
+    "wallSec": 1.266,
     "resourceExceeded": false
    },
    {
@@ -2595,7 +2554,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 1.276,
+    "wallSec": 1.522,
     "resourceExceeded": false
    },
    {
@@ -2617,7 +2576,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 3.106,
+    "wallSec": 3.047,
     "resourceExceeded": false
    },
    {
@@ -2639,7 +2598,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 2.661,
+    "wallSec": 2.724,
     "resourceExceeded": false
    },
    {
@@ -2661,7 +2620,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 5.305,
+    "wallSec": 5.068,
     "resourceExceeded": false
    },
    {
@@ -2686,7 +2645,7 @@
      2
     ],
     "periastraOk": false,
-    "wallSec": 463.498,
+    "wallSec": 457.682,
     "resourceExceeded": false
    },
    {
@@ -2711,7 +2670,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 11.709,
+    "wallSec": 12.479,
     "resourceExceeded": false
    },
    {
@@ -2736,7 +2695,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 23.7,
+    "wallSec": 24.846,
     "resourceExceeded": false
    },
    {
@@ -2758,7 +2717,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 6.877,
+    "wallSec": 7.043,
     "resourceExceeded": false
    },
    {
@@ -2780,7 +2739,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 13.486,
+    "wallSec": 13.809,
     "resourceExceeded": false
    },
    {
@@ -2803,7 +2762,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 4.632,
+    "wallSec": 4.454,
     "resourceExceeded": false
    },
    {
@@ -2826,7 +2785,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 8.781,
+    "wallSec": 9.198,
     "resourceExceeded": false
    },
    {
@@ -2848,7 +2807,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 18.676,
+    "wallSec": 19.887,
     "resourceExceeded": false
    },
    {
@@ -2870,7 +2829,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 35.57,
+    "wallSec": 38.204,
     "resourceExceeded": false
    },
    {
@@ -2892,7 +2851,29 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 76.959,
+    "wallSec": 75.769,
+    "resourceExceeded": false
+   },
+   {
+    "id": "plutoCharonReal",
+    "emoji": "❄️",
+    "tag": "dt/8",
+    "dt": 0.002,
+    "declared": 165555984,
+    "source": "preset",
+    "recorded": 165555984,
+    "recomputed": 165555960,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "declared-max-steps",
+    "stoppedBy": "declared-max-steps",
+    "tol": 31,
+    "periFoundA": [
+     59
+    ],
+    "periastraOk": true,
+    "wallSec": 150.889,
     "resourceExceeded": false
    },
    {
@@ -2918,7 +2899,7 @@
      1
     ],
     "periastraOk": false,
-    "wallSec": 468.879,
+    "wallSec": 470.753,
     "resourceExceeded": false
    },
    {
@@ -2940,7 +2921,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 1.846,
+    "wallSec": 1.895,
     "resourceExceeded": false
    },
    {
@@ -2962,7 +2943,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 3.602,
+    "wallSec": 3.653,
     "resourceExceeded": false
    },
    {
@@ -2984,7 +2965,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 5.762,
+    "wallSec": 5.984,
     "resourceExceeded": false
    },
    {
@@ -3006,7 +2987,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 11.685,
+    "wallSec": 11.331,
     "resourceExceeded": false
    },
    {
@@ -3028,7 +3009,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 22.453,
+    "wallSec": 23.066,
     "resourceExceeded": false
    },
    {
@@ -3050,7 +3031,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 10.793,
+    "wallSec": 10.984,
     "resourceExceeded": false
    },
    {
@@ -3072,7 +3053,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 21.225,
+    "wallSec": 21.884,
     "resourceExceeded": false
    },
    {
@@ -3094,7 +3075,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 42.124,
+    "wallSec": 42.904,
     "resourceExceeded": false
    },
    {
@@ -3116,7 +3097,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 3.672,
+    "wallSec": 3.612,
     "resourceExceeded": false
    },
    {
@@ -3138,7 +3119,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 7.295,
+    "wallSec": 7.304,
     "resourceExceeded": false
    },
    {
@@ -3160,7 +3141,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 14.438,
+    "wallSec": 14.415,
     "resourceExceeded": false
    },
    {
@@ -3182,7 +3163,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 6.583,
+    "wallSec": 6.777,
     "resourceExceeded": false
    },
    {
@@ -3204,7 +3185,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 12.982,
+    "wallSec": 12.848,
     "resourceExceeded": false
    },
    {
@@ -3226,7 +3207,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 25.324,
+    "wallSec": 26.517,
     "resourceExceeded": false
    },
    {
@@ -3248,7 +3229,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 2.037,
+    "wallSec": 2.061,
     "resourceExceeded": false
    },
    {
@@ -3270,7 +3251,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 4.003,
+    "wallSec": 4.06,
     "resourceExceeded": false
    },
    {
@@ -3292,7 +3273,29 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 8.007,
+    "wallSec": 7.609,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrDoubleAB",
+    "emoji": "📻",
+    "tag": "dt/8",
+    "dt": 0.002,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 26503598,
+    "recomputed": 26503620,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     60
+    ],
+    "periastraOk": true,
+    "wallSec": 15.761,
     "resourceExceeded": false
    },
    {
@@ -3314,7 +3317,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 1.924,
+    "wallSec": 1.944,
     "resourceExceeded": false
    },
    {
@@ -3336,7 +3339,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 3.603,
+    "wallSec": 3.671,
     "resourceExceeded": false
    },
    {
@@ -3358,7 +3361,29 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 7.175,
+    "wallSec": 7.467,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrDoubleABDFM",
+    "emoji": "⚡",
+    "tag": "dt/8",
+    "dt": 0.002,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 11083772,
+    "recomputed": 11083800,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     25
+    ],
+    "periastraOk": true,
+    "wallSec": 15.243,
     "resourceExceeded": false
    },
    {
@@ -3380,7 +3405,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 2.112,
+    "wallSec": 1.915,
     "resourceExceeded": false
    },
    {
@@ -3402,7 +3427,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 4.005,
+    "wallSec": 3.866,
     "resourceExceeded": false
    },
    {
@@ -3424,7 +3449,7 @@
      37
     ],
     "periastraOk": true,
-    "wallSec": 4.82,
+    "wallSec": 4.763,
     "resourceExceeded": false
    },
    {
@@ -3446,7 +3471,7 @@
      36
     ],
     "periastraOk": true,
-    "wallSec": 9.279,
+    "wallSec": 9.46,
     "resourceExceeded": false
    },
    {
@@ -3468,7 +3493,29 @@
      36
     ],
     "periastraOk": true,
-    "wallSec": 18.429,
+    "wallSec": 17.688,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrJ1757DFM",
+    "emoji": "🧮",
+    "tag": "dt/8",
+    "dt": 0.002,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 28277403,
+    "recomputed": 28277400,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     36
+    ],
+    "periastraOk": true,
+    "wallSec": 39.234,
     "resourceExceeded": false
    },
    {
@@ -3490,7 +3537,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 1.31,
+    "wallSec": 1.465,
     "resourceExceeded": false
    },
    {
@@ -3512,7 +3559,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 2.707,
+    "wallSec": 2.703,
     "resourceExceeded": false
    },
    {
@@ -3534,7 +3581,29 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 5.499,
+    "wallSec": 5.473,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrJ1946DFM",
+    "emoji": "🩺",
+    "tag": "dt/8",
+    "dt": 0.002,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 8325197,
+    "recomputed": 8325180,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     25
+    ],
+    "periastraOk": true,
+    "wallSec": 10.895,
     "resourceExceeded": false
    },
    {
@@ -3556,7 +3625,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 1.858,
+    "wallSec": 1.908,
     "resourceExceeded": false
    },
    {
@@ -3578,7 +3647,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 3.776,
+    "wallSec": 3.785,
     "resourceExceeded": false
    },
    {
@@ -3600,7 +3669,7 @@
      37
     ],
     "periastraOk": true,
-    "wallSec": 5.043,
+    "wallSec": 4.857,
     "resourceExceeded": false
    },
    {
@@ -3622,7 +3691,7 @@
      36
     ],
     "periastraOk": true,
-    "wallSec": 9.997,
+    "wallSec": 8.788,
     "resourceExceeded": false
    },
    {
@@ -3644,7 +3713,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 1.414,
+    "wallSec": 1.422,
     "resourceExceeded": false
    },
    {
@@ -3666,7 +3735,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 2.946,
+    "wallSec": 2.796,
     "resourceExceeded": false
    },
    {
@@ -3688,7 +3757,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 2.515,
+    "wallSec": 2.859,
     "resourceExceeded": false
    },
    {
@@ -3710,7 +3779,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 4.852,
+    "wallSec": 5.62,
     "resourceExceeded": false
    },
    {
@@ -3732,7 +3801,29 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 10.228,
+    "wallSec": 11.204,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrDoubleABCF",
+    "emoji": "🪝",
+    "tag": "dt/8",
+    "dt": 0.002,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 11083772,
+    "recomputed": 11083800,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     25
+    ],
+    "periastraOk": true,
+    "wallSec": 22.993,
     "resourceExceeded": false
    },
    {
@@ -3754,7 +3845,7 @@
      37
     ],
     "periastraOk": true,
-    "wallSec": 6.496,
+    "wallSec": 6.861,
     "resourceExceeded": false
    },
    {
@@ -3776,7 +3867,7 @@
      36
     ],
     "periastraOk": true,
-    "wallSec": 13.15,
+    "wallSec": 13.591,
     "resourceExceeded": false
    },
    {
@@ -3798,7 +3889,29 @@
      36
     ],
     "periastraOk": true,
-    "wallSec": 26.079,
+    "wallSec": 27.46,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrJ1757CF",
+    "emoji": "🪄",
+    "tag": "dt/8",
+    "dt": 0.002,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 28277403,
+    "recomputed": 28277400,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     36
+    ],
+    "periastraOk": true,
+    "wallSec": 58.76,
     "resourceExceeded": false
    },
    {
@@ -3820,7 +3933,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 2.169,
+    "wallSec": 2.182,
     "resourceExceeded": false
    },
    {
@@ -3842,7 +3955,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 3.997,
+    "wallSec": 4.346,
     "resourceExceeded": false
    },
    {
@@ -3864,7 +3977,29 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 7.149,
+    "wallSec": 8.643,
+    "resourceExceeded": false
+   },
+   {
+    "id": "psrJ1946CF",
+    "emoji": "🩹",
+    "tag": "dt/8",
+    "dt": 0.002,
+    "declared": 40000000,
+    "source": "class(n<=3)",
+    "recorded": 8325197,
+    "recomputed": 8325180,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 20,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-window(走り切った)",
+    "tol": 31,
+    "periFoundA": [
+     25
+    ],
+    "periastraOk": true,
+    "wallSec": 16.781,
     "resourceExceeded": false
    },
    {
@@ -3886,7 +4021,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 10.023,
+    "wallSec": 10.459,
     "resourceExceeded": false
    },
    {
@@ -3908,7 +4043,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 21.148,
+    "wallSec": 21.194,
     "resourceExceeded": false
    },
    {
@@ -3930,7 +4065,7 @@
      44
     ],
     "periastraOk": true,
-    "wallSec": 30.679,
+    "wallSec": 30.747,
     "resourceExceeded": false
    },
    {
@@ -3952,7 +4087,7 @@
      29
     ],
     "periastraOk": true,
-    "wallSec": 8.832,
+    "wallSec": 8.607,
     "resourceExceeded": false
    },
    {
@@ -3974,7 +4109,7 @@
      29
     ],
     "periastraOk": true,
-    "wallSec": 17.209,
+    "wallSec": 15.939,
     "resourceExceeded": false
    },
    {
@@ -3996,7 +4131,7 @@
      29
     ],
     "periastraOk": true,
-    "wallSec": 34.683,
+    "wallSec": 33.75,
     "resourceExceeded": false
    },
    {
@@ -4018,7 +4153,7 @@
      29
     ],
     "periastraOk": true,
-    "wallSec": 12.858,
+    "wallSec": 13.383,
     "resourceExceeded": false
    },
    {
@@ -4040,7 +4175,7 @@
      29
     ],
     "periastraOk": true,
-    "wallSec": 26.171,
+    "wallSec": 26.659,
     "resourceExceeded": false
    },
    {
@@ -4062,7 +4197,7 @@
      29
     ],
     "periastraOk": true,
-    "wallSec": 53.718,
+    "wallSec": 54.1,
     "resourceExceeded": false
    },
    {
@@ -4084,7 +4219,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 0.439,
+    "wallSec": 0.411,
     "resourceExceeded": false
    },
    {
@@ -4106,7 +4241,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 0.819,
+    "wallSec": 0.836,
     "resourceExceeded": false
    },
    {
@@ -4128,7 +4263,7 @@
      7
     ],
     "periastraOk": false,
-    "wallSec": 0.311,
+    "wallSec": 0.323,
     "resourceExceeded": false
    },
    {
@@ -4150,7 +4285,7 @@
      6
     ],
     "periastraOk": false,
-    "wallSec": 0.585,
+    "wallSec": 0.535,
     "resourceExceeded": false
    },
    {
@@ -4194,7 +4329,7 @@
      1
     ],
     "periastraOk": false,
-    "wallSec": 0.051,
+    "wallSec": 0.05,
     "resourceExceeded": false
    },
    {
@@ -4216,7 +4351,7 @@
      58
     ],
     "periastraOk": true,
-    "wallSec": 2.927,
+    "wallSec": 2.684,
     "resourceExceeded": false
    },
    {
@@ -4238,7 +4373,7 @@
      58
     ],
     "periastraOk": true,
-    "wallSec": 5.281,
+    "wallSec": 5.544,
     "resourceExceeded": false
    },
    {
@@ -4260,7 +4395,29 @@
      58
     ],
     "periastraOk": true,
-    "wallSec": 11.188,
+    "wallSec": 10.489,
+    "resourceExceeded": false
+   },
+   {
+    "id": "saturnZonalD68",
+    "emoji": "📡",
+    "tag": "dt/8",
+    "dt": 0.002,
+    "declared": 20000000,
+    "source": "class(n<=12)",
+    "recorded": 5595207,
+    "recomputed": 5595180,
+    "ok": true,
+    "error": null,
+    "needPeriastra": 58,
+    "boundBy": "orbit-window",
+    "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+    "tol": 31,
+    "periFoundA": [
+     58
+    ],
+    "periastraOk": true,
+    "wallSec": 21.456,
     "resourceExceeded": false
    },
    {
@@ -4284,7 +4441,7 @@
      3
     ],
     "periastraOk": false,
-    "wallSec": 435.531,
+    "wallSec": 446.438,
     "resourceExceeded": false
    },
    {
@@ -4308,7 +4465,7 @@
      1
     ],
     "periastraOk": false,
-    "wallSec": 409.715,
+    "wallSec": 416.684,
     "resourceExceeded": false
    }
   ],
@@ -4317,9 +4474,9 @@
  "resource": {
   "ceilingSec": 900,
   "exceeded": [],
-  "maxWallSec": 468.879,
-  "stages": 86,
-  "finding": "**資源上限を超えた段は 0 である**(最長 468.9 s < 900 s)—— 現行の走行では**効いていない上限**である。効いていないことを隠さずに書く(上限があること自体は、打ち切った軌道を判定へ流さないための宣言として要る)。"
+  "maxWallSec": 470.753,
+  "stages": 95,
+  "finding": "**資源上限を超えた段は 0 である**(最長 470.8 s < 900 s)—— 現行の走行では**効いていない上限**である。効いていないことを隠さずに書く(上限があること自体は、打ち切った軌道を判定へ流さないための宣言として要る)。"
  },
  "shortPeriastra": {
   "n": 11,

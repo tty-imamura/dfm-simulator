@@ -188,21 +188,16 @@ export function pickDeclaredRow(decl, allRows) {
     return { row: null, matchedBy: 'record_id',
       reason: byId.length === 0 ? 'record-id-not-found' : ('record-id-ambiguous(' + byId.length + ')') };
   }
-  const key = decl.csvQuantity || decl.quantity;
-  const same = (a, b) => (a === null || a === undefined) ? (b === null || b === undefined) : (a === b);
-  const declV = Number(decl.value);
-  const hits = (allRows || []).filter((r) => {
-    if (r.body !== decl.body || r.quantity !== key) return false;
-    // **別論文・別単位を当てない**(同じ数値・同じ σ の別解があり得る)
-    if (String(r.source) !== String(decl.source)) return false;
-    if (String(r.unit) !== String(decl.unit)) return false;
-    // **空欄を 0 に変換しない**(`Number(null) === 0` の穴)
-    const rowV = (r.valueRaw !== undefined) ? r.valueRaw : r.value;
-    if (!Number.isFinite(Number(rowV)) || rowV === null || !Number.isFinite(declV)) return false;
-    if (Number(rowV) !== declV) return false;
-    return same(r.sigma === undefined ? null : r.sigma, decl.sigma === undefined ? null : decl.sigma);
-  });
-  if (hits.length === 1) return { row: hits[0], reason: null };
+  // 第272便a(第62報・統括の検証項目 R13): **旧宣言経路(record_id 無し)も同じ内容契約を読む**。
+  //   従来のここのインライン条件は `Number(rowV)` を通していたので、
+  //     ・`""`(空欄)→ `Number("") === 0` が有限なので、**宣言値 0 に空欄が当たる**
+  //     ・`true` / `false` → 1 / 0 として当たる
+  //   という穴が残っていた(`rowV === null` だけでは塞がらない)。`record_id` 経路が使う
+  //   `declaredContentMismatch` は既にこの穴を塞いでいるので、**同じ 1 本を両経路で読む**
+  //   (照合する欄も body/quantity/source/unit/value/sigma/solution_id で揃う)。
+  //   **現行の宣言が別の行へ移るという意味ではない** —— 塞いだのは「当たってはいけない行」だけである。
+  const hits = (allRows || []).filter((r) => declaredContentMismatch(decl, r).length === 0);
+  if (hits.length === 1) return { row: hits[0], reason: null, matchedBy: 'declared-content' };
   if (hits.length === 0) return { row: null, reason: 'csv-row-not-found' };
   return { row: null, reason: 'csv-row-ambiguous(' + hits.length + ')' };
 }

@@ -1,0 +1,3071 @@
+{
+ "when": "2026-09-18T18:22:17.425Z",
+ "wave": "第272便a(第62報)",
+ "input": {
+  "calaudit": "tests/out/calaudit-w249.json",
+  "calauditSha256": "fee34cec910dd0d6a41a7d8ec758d5117314e752b5961ae753cd24c994a1bb9c",
+  "targetSha256": "8cc68428c164dc517e120e27c4edcfbd815aa83247d056ddfbac1b0a36edab66"
+ },
+ "nPresets": 37,
+ "nTheoryControl": 0,
+ "theoryControl": [
+  "qLockRadialAudit",
+  "qLockRadialAuditQ3",
+  "emAuditNewton"
+ ],
+ "fourValues": {
+  "合": 0,
+  "量限定合": 2,
+  "否": 1,
+  "保留": 34
+ },
+ "gate": {
+  "合(3σ)": 2,
+  "否(3σ)": 1,
+  "数値未解決": 34,
+  "mapping-unresolved": 15,
+  "condition-mismatch": 8,
+  "未判定": 254
+ },
+ "rows": [
+  {
+   "id": "earthMoonReal",
+   "emoji": "🌙",
+   "name": "地球と月(実単位)— 恒星月 27.32日",
+   "version": "obs",
+   "theoryControl": false,
+   "nQ": 5,
+   "verdict4": "保留",
+   "missing": [
+    "σ 未接続"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 0,
+    "map": 0,
+    "cond": 0,
+    "na": 5
+   },
+   "reasons": {
+    "num": {},
+    "map": {},
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 5
+    }
+   },
+   "stop": {
+    "stoppedBy": "declared-max-steps",
+    "stepsRun": 40000000,
+    "maxSteps": 40000000,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 27,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": {
+    "csv-sigma-empty": 3,
+    "kind-not-gated": 2
+   },
+   "sigmaConnected": 0
+  },
+  {
+   "id": "earthMoonRealKF1",
+   "emoji": "🌘",
+   "name": "地球と月(実単位・kFrame=1)— 近点回転 8.85年の較正再現",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 6,
+   "verdict4": "保留",
+   "missing": [
+    "σ 未接続"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 0,
+    "map": 0,
+    "cond": 0,
+    "na": 6
+   },
+   "reasons": {
+    "num": {},
+    "map": {},
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 6
+    }
+   },
+   "stop": {
+    "stoppedBy": "declared-max-steps",
+    "stepsRun": 40000000,
+    "maxSteps": 40000000,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 26,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": {
+    "csv-sigma-empty": 5,
+    "kind-not-gated": 1
+   },
+   "sigmaConnected": 0
+  },
+  {
+   "id": "emAuditDFM",
+   "emoji": "🧲",
+   "name": "地球と月・機構判別B(二体DFM較正)— 8.85年を別機構で",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 5,
+   "verdict4": "保留",
+   "missing": [
+    "σ 未接続"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 0,
+    "map": 0,
+    "cond": 0,
+    "na": 5
+   },
+   "reasons": {
+    "num": {},
+    "map": {},
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 5
+    }
+   },
+   "stop": {
+    "stoppedBy": "declared-max-steps",
+    "stepsRun": 40000000,
+    "maxSteps": 40000000,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 26,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": {
+    "csv-sigma-empty": 4,
+    "kind-not-gated": 1
+   },
+   "sigmaConnected": 0
+  },
+  {
+   "id": "emAuditSolar",
+   "emoji": "🔆",
+   "name": "地球と月・機構判別C(太陽+地球+月の三体)— 較正なしの太陽摂動",
+   "version": "obs",
+   "theoryControl": false,
+   "nQ": 5,
+   "verdict4": "保留",
+   "missing": [
+    "σ 未接続"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 0,
+    "map": 0,
+    "cond": 0,
+    "na": 5
+   },
+   "reasons": {
+    "num": {},
+    "map": {},
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 5
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+    "stepsRun": 885179,
+    "maxSteps": 890906,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 59,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": {
+    "csv-sigma-empty": 3,
+    "kind-not-gated": 2
+   },
+   "sigmaConnected": 0
+  },
+  {
+   "id": "mercuryReal",
+   "emoji": "☄️",
+   "name": "水星(実単位)— 43″/世紀",
+   "version": "obs",
+   "theoryControl": false,
+   "nQ": 4,
+   "verdict4": "保留",
+   "missing": [
+    "数値精度"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 1,
+    "map": 0,
+    "cond": 0,
+    "na": 3
+   },
+   "reasons": {
+    "num": {
+     "dt 3 段が走っていない(2 段は感度診断)": 1
+    },
+    "map": {},
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 3
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 2850199,
+    "maxSteps": 2850199,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 59,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": {
+    "csv-sigma-empty": 2,
+    "unit-not-converted": 1,
+    "kind-not-gated": 1
+   },
+   "sigmaConnected": 1
+  },
+  {
+   "id": "mercuryRealKF1",
+   "emoji": "🪨",
+   "name": "水星(実単位・kFrame=1)— 共通補正で 43″/世紀成立",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 5,
+   "verdict4": "保留",
+   "missing": [
+    "数値精度"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 1,
+    "map": 0,
+    "cond": 0,
+    "na": 4
+   },
+   "reasons": {
+    "num": {
+     "dt 3 段が走っていない(2 段は感度診断)": 1
+    },
+    "map": {},
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 4
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 2850199,
+    "maxSteps": 2850199,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 59,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": {
+    "unit-not-converted": 1,
+    "kind-not-gated": 2,
+    "csv-sigma-empty": 2
+   },
+   "sigmaConnected": 1
+  },
+  {
+   "id": "solarInner",
+   "emoji": "🌞",
+   "name": "太陽系 — 内惑星(実単位)",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 14,
+   "verdict4": "保留",
+   "missing": [
+    "σ 未接続"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 0,
+    "map": 0,
+    "cond": 0,
+    "na": 14
+   },
+   "reasons": {
+    "num": {},
+    "map": {},
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 14
+    }
+   },
+   "stop": {
+    "stoppedBy": "declared-max-steps",
+    "stepsRun": 866426,
+    "maxSteps": 866426,
+    "maxStepsSource": "preset",
+    "needPeriastra": 20,
+    "minPeriastra": 2,
+    "complete": false,
+    "unmeasuredReason": "max-steps"
+   },
+   "solarCuts": {
+    "csv-sigma-empty": 11,
+    "kind-not-gated": 2,
+    "unit-not-converted": 1
+   },
+   "sigmaConnected": 0
+  },
+  {
+   "id": "jupiterGalilean",
+   "emoji": "🟠",
+   "name": "木星とガリレオ衛星(実単位)— 規則を再フィットしない hold-out",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 21,
+   "verdict4": "保留",
+   "missing": [
+    "条件不一致",
+    "σ 未接続"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 0,
+    "map": 0,
+    "cond": 4,
+    "na": 17
+   },
+   "reasons": {
+    "num": {},
+    "map": {},
+    "cond": {
+     "kFrame 条件の対照走行が無い": 4
+    },
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 17
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 5407442,
+    "maxSteps": 5407442,
+    "maxStepsSource": "class(n<=12)",
+    "needPeriastra": 20,
+    "minPeriastra": 59,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": {
+    "csv-sigma-empty": 17,
+    "kind-not-gated": 4
+   },
+   "sigmaConnected": 0
+  },
+  {
+   "id": "venusReal",
+   "emoji": "🌇",
+   "name": "太陽と金星(実単位)— 自由中心の二体転写",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 6,
+   "verdict4": "保留",
+   "missing": [
+    "条件不一致",
+    "σ 未接続"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 0,
+    "map": 0,
+    "cond": 1,
+    "na": 5
+   },
+   "reasons": {
+    "num": {},
+    "map": {},
+    "cond": {
+     "kFrame 条件の対照走行が無い": 1
+    },
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 5
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 7280208,
+    "maxSteps": 7280208,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 59,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": {
+    "csv-sigma-empty": 5,
+    "kind-not-gated": 1
+   },
+   "sigmaConnected": 0
+  },
+  {
+   "id": "marsMoonsReal",
+   "emoji": "🥔",
+   "name": "火星とフォボス・ダイモス(実単位)— テスト粒子転写",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 9,
+   "verdict4": "保留",
+   "missing": [
+    "条件不一致",
+    "σ 未接続"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 0,
+    "map": 0,
+    "cond": 1,
+    "na": 8
+   },
+   "reasons": {
+    "num": {},
+    "map": {},
+    "cond": {
+     "kFrame 条件の対照走行が無い": 1
+    },
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 8
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 4091814,
+    "maxSteps": 4091814,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 59,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": {
+    "csv-sigma-empty": 8,
+    "kind-not-gated": 1
+   },
+   "sigmaConnected": 0
+  },
+  {
+   "id": "plutoCharonReal",
+   "emoji": "❄️",
+   "name": "冥王星とカロン(実単位)— 重心が外にある二体",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 7,
+   "verdict4": "保留",
+   "missing": [
+    "条件不一致",
+    "写像未確定",
+    "数値精度"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 1,
+    "map": 1,
+    "cond": 1,
+    "na": 4
+   },
+   "reasons": {
+    "num": {
+     "収束次数が未測定または非正": 1
+    },
+    "map": {
+     "円に近い系の近点間周期である(この preset の転写は e=0.0・実測 eProxy ≈1.2×1": 1
+    },
+    "cond": {
+     "kFrame 条件の対照走行が無い": 1
+    },
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 4
+    }
+   },
+   "stop": {
+    "stoppedBy": "declared-max-steps",
+    "stepsRun": 20694498,
+    "maxSteps": 20694498,
+    "maxStepsSource": "preset",
+    "needPeriastra": 20,
+    "minPeriastra": 59,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": {
+    "connected": 3,
+    "kind-not-gated": 2,
+    "csv-sigma-empty": 2
+   },
+   "sigmaConnected": 3
+  },
+  {
+   "id": "uranusReal",
+   "emoji": "💠",
+   "name": "天王星の環と主要5衛星(実単位)",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 18,
+   "verdict4": "保留",
+   "missing": [
+    "σ 未接続"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 0,
+    "map": 0,
+    "cond": 0,
+    "na": 18
+   },
+   "reasons": {
+    "num": {},
+    "map": {},
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 18
+    }
+   },
+   "stop": {
+    "stoppedBy": "declared-max-steps",
+    "stepsRun": 1075028,
+    "maxSteps": 1075028,
+    "maxStepsSource": "preset",
+    "needPeriastra": 20,
+    "minPeriastra": 1,
+    "complete": false,
+    "unmeasuredReason": "max-steps"
+   },
+   "solarCuts": {
+    "csv-sigma-empty": 17,
+    "kind-not-gated": 1
+   },
+   "sigmaConnected": 0
+  },
+  {
+   "id": "neptuneReal",
+   "emoji": "🌊",
+   "name": "海王星とトリトン(実単位)— 逆行衛星の二体",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 7,
+   "verdict4": "保留",
+   "missing": [
+    "条件不一致",
+    "σ 未接続"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 0,
+    "map": 0,
+    "cond": 1,
+    "na": 6
+   },
+   "reasons": {
+    "num": {},
+    "map": {},
+    "cond": {
+     "kFrame 条件の対照走行が無い": 1
+    },
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 6
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 1904169,
+    "maxSteps": 1904169,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 59,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": {
+    "csv-sigma-empty": 6,
+    "kind-not-gated": 1
+   },
+   "sigmaConnected": 0
+  },
+  {
+   "id": "alphaCenAB",
+   "emoji": "✨",
+   "name": "αケンタウリAB(実単位)— 恒星連星の二体",
+   "version": "obs",
+   "theoryControl": false,
+   "nQ": 7,
+   "verdict4": "量限定合",
+   "missing": [
+    "写像未確定"
+   ],
+   "gate": {
+    "ok": 1,
+    "ng": 0,
+    "num": 0,
+    "map": 1,
+    "cond": 0,
+    "na": 5
+   },
+   "reasons": {
+    "num": {},
+    "map": {
+     "軌道 fit のケプラー要素 e と、距離の極値から作る eProxy は同じ測定量ではない": 1
+    },
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 5
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 9439328,
+    "maxSteps": 9439328,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 60,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": null,
+   "sigmaConnected": 2
+  },
+  {
+   "id": "alphaCenABDFM",
+   "emoji": "✴️",
+   "name": "αケンタウリAB(DFM版)— pull 重み・観測質量のまま kF1",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 8,
+   "verdict4": "保留",
+   "missing": [
+    "写像未確定",
+    "数値精度"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 1,
+    "map": 1,
+    "cond": 0,
+    "na": 6
+   },
+   "reasons": {
+    "num": {
+     "次数ガード(AE3)で保留: 観測次数 p=0.8506 が 2 から 1.1494 離れている(|p−": 1
+    },
+    "map": {
+     "軌道 fit のケプラー要素 e と、距離の極値から作る eProxy は同じ測定量ではない": 1
+    },
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 6
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+    "stepsRun": 9393477,
+    "maxSteps": 9437344,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 60,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": null,
+   "sigmaConnected": 2
+  },
+  {
+   "id": "siriusAB",
+   "emoji": "🌟",
+   "name": "シリウスAB(実単位)— 白色矮星との連星",
+   "version": "obs",
+   "theoryControl": false,
+   "nQ": 9,
+   "verdict4": "量限定合",
+   "missing": [
+    "写像未確定"
+   ],
+   "gate": {
+    "ok": 1,
+    "ng": 0,
+    "num": 0,
+    "map": 1,
+    "cond": 0,
+    "na": 7
+   },
+   "reasons": {
+    "num": {},
+    "map": {
+     "軌道 fit のケプラー要素 e と、距離の極値から作る eProxy は同じ測定量ではない": 1
+    },
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 7
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 5932383,
+    "maxSteps": 5932383,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 60,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": null,
+   "sigmaConnected": 2
+  },
+  {
+   "id": "siriusABDFM",
+   "emoji": "💫",
+   "name": "シリウスAB(DFM版)— pull 重み・観測質量のまま kF1",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 9,
+   "verdict4": "保留",
+   "missing": [
+    "写像未確定",
+    "数値精度"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 1,
+    "map": 1,
+    "cond": 0,
+    "na": 7
+   },
+   "reasons": {
+    "num": {
+     "次数ガード(AE3)で保留: 観測次数 p=1.0291 が 2 から 0.9709 離れている(|p−": 1
+    },
+    "map": {
+     "軌道 fit のケプラー要素 e と、距離の極値から作る eProxy は同じ測定量ではない": 1
+    },
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 7
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+    "stepsRun": 5888550,
+    "maxSteps": 5930404,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 60,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": null,
+   "sigmaConnected": 2
+  },
+  {
+   "id": "psrDoubleAB",
+   "emoji": "📻",
+   "name": "二重パルサー J0737−3039A/B(実単位)— 2.45時間の中性子星連星",
+   "version": "obs",
+   "theoryControl": false,
+   "nQ": 8,
+   "verdict4": "保留",
+   "missing": [
+    "写像未確定",
+    "数値精度"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 2,
+    "map": 1,
+    "cond": 0,
+    "na": 5
+   },
+   "reasons": {
+    "num": {
+     "次数ガード(AE3)で保留: 観測次数 p=1.0209 が 2 から 0.9791 離れている(|p−": 1,
+     "数値誤差幅が 0.3σ の予算を超える": 1
+    },
+    "map": {
+     "タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない": 1
+    },
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 5
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 3312950,
+    "maxSteps": 3312950,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 60,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": null,
+   "sigmaConnected": 3
+  },
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "name": "二重パルサー J0737−3039A/B(DFM版)— pull 重み・kF1 質量較正(f≈2)",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 8,
+   "verdict4": "保留",
+   "missing": [
+    "写像未確定",
+    "数値精度"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 2,
+    "map": 1,
+    "cond": 0,
+    "na": 5
+   },
+   "reasons": {
+    "num": {
+     "次数ガード(AE3)で保留: 観測次数 p=1.0000 が 2 から 1.0000 離れている(|p−": 1,
+     "数値誤差幅が 0.3σ の予算を超える": 1
+    },
+    "map": {
+     "タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない": 1
+    },
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 5
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 1385472,
+    "maxSteps": 1385472,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 25,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": null,
+   "sigmaConnected": 3
+  },
+  {
+   "id": "psrDoubleABSpinCal",
+   "emoji": "🧿",
+   "name": "二重パルサー J0737−3039A/B(スピン–スピン較正候補)— f と λ を回した比較 variant",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 7,
+   "verdict4": "保留",
+   "missing": [
+    "数値精度"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 2,
+    "map": 0,
+    "cond": 0,
+    "na": 5
+   },
+   "reasons": {
+    "num": {
+     "dt 3 段が走っていない(2 段は感度診断)": 2
+    },
+    "map": {},
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 5
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 1385490,
+    "maxSteps": 1385490,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 25,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": null,
+   "sigmaConnected": 2
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "name": "PSR J1757−1854(DFM版・hold-out)— ⚡ の処方をそのまま当てた中性子星連星2例目",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 8,
+   "verdict4": "保留",
+   "missing": [
+    "写像未確定",
+    "数値精度"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 2,
+    "map": 1,
+    "cond": 0,
+    "na": 5
+   },
+   "reasons": {
+    "num": {
+     "次数ガード(AE3)で保留: 観測次数 p=1.1516 が 2 から 0.8484 離れている(|p−": 1,
+     "次数ガード(AE3)で保留: 観測次数 p=0.9867 が 2 から 1.0133 離れている(|p−": 1
+    },
+    "map": {
+     "タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない": 1
+    },
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 5
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 3534675,
+    "maxSteps": 3534675,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 37,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": null,
+   "sigmaConnected": 4
+  },
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "name": "PSR J1946+2052(DFM版・hold-out)— 銀河系で最短周期の中性子星連星",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 8,
+   "verdict4": "保留",
+   "missing": [
+    "写像未確定",
+    "数値精度"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 3,
+    "map": 1,
+    "cond": 0,
+    "na": 4
+   },
+   "reasons": {
+    "num": {
+     "抽出に異常がある(NaN/クランプ/重複/unwrap 中断)": 1,
+     "次数ガード(AE3)で保留: 観測次数 p=0.9996 が 2 から 1.0004 離れている(|p−": 2
+    },
+    "map": {
+     "タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない": 1
+    },
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 4
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 1040650,
+    "maxSteps": 1040650,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 25,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": null,
+   "sigmaConnected": 4
+  },
+  {
+   "id": "psrDoubleABPN",
+   "emoji": "🪶",
+   "name": "二重パルサー J0737−3039A/B(NS 応答候補 λ_PN=1/f)— 1PN の強さだけを観測質量へ戻す",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 8,
+   "verdict4": "保留",
+   "missing": [
+    "写像未確定",
+    "数値精度"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 2,
+    "map": 1,
+    "cond": 0,
+    "na": 5
+   },
+   "reasons": {
+    "num": {
+     "dt 3 段が走っていない(2 段は感度診断)": 2
+    },
+    "map": {
+     "タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない": 1
+    },
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 5
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 1385472,
+    "maxSteps": 1385472,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 25,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": null,
+   "sigmaConnected": 3
+  },
+  {
+   "id": "psrJ1757PN",
+   "emoji": "🪃",
+   "name": "PSR J1757−1854(NS 応答候補 λ_PN=1/f)— ⚡ の処方に 1/f を足して当てた 2 例目",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 8,
+   "verdict4": "保留",
+   "missing": [
+    "写像未確定",
+    "数値精度"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 2,
+    "map": 1,
+    "cond": 0,
+    "na": 5
+   },
+   "reasons": {
+    "num": {
+     "dt 3 段が走っていない(2 段は感度診断)": 2
+    },
+    "map": {
+     "タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない": 1
+    },
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 5
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 3534675,
+    "maxSteps": 3534675,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 37,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": null,
+   "sigmaConnected": 3
+  },
+  {
+   "id": "psrJ1946PN",
+   "emoji": "🪀",
+   "name": "PSR J1946+2052(NS 応答候補 λ_PN=1/f)— ⚡ の処方に 1/f を足して当てた 3 例目",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 8,
+   "verdict4": "保留",
+   "missing": [
+    "写像未確定",
+    "数値精度"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 2,
+    "map": 1,
+    "cond": 0,
+    "na": 5
+   },
+   "reasons": {
+    "num": {
+     "dt 3 段が走っていない(2 段は感度診断)": 2
+    },
+    "map": {
+     "タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない": 1
+    },
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 5
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 1040650,
+    "maxSteps": 1040650,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 25,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": null,
+   "sigmaConnected": 3
+  },
+  {
+   "id": "psrDoubleABCF",
+   "emoji": "🪝",
+   "name": "二重パルサー J0737−3039A/B(コンパクト力 案K)— χ ゲート付き質量電流結合",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 9,
+   "verdict4": "保留",
+   "missing": [
+    "数値精度"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 2,
+    "map": 0,
+    "cond": 0,
+    "na": 7
+   },
+   "reasons": {
+    "num": {
+     "数値誤差幅が 0.3σ の予算を超える": 1,
+     "次数ガード(AE3)で保留: 観測次数 p=0.9999 が 2 から 1.0001 離れている(|p−": 1
+    },
+    "map": {},
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 7
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 1385472,
+    "maxSteps": 1385472,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 25,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": null,
+   "sigmaConnected": 2
+  },
+  {
+   "id": "psrJ1757CF",
+   "emoji": "🪄",
+   "name": "PSR J1757−1854(コンパクト力 案K)— ⚡ で凍結した κ をそのまま流した 2 例目",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 8,
+   "verdict4": "保留",
+   "missing": [
+    "数値精度"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 2,
+    "map": 0,
+    "cond": 0,
+    "na": 6
+   },
+   "reasons": {
+    "num": {
+     "次数ガード(AE3)で保留: 観測次数 p=1.1959 が 2 から 0.8041 離れている(|p−": 1,
+     "次数ガード(AE3)で保留: 観測次数 p=0.9867 が 2 から 1.0133 離れている(|p−": 1
+    },
+    "map": {},
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 6
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 3534675,
+    "maxSteps": 3534675,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 37,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": null,
+   "sigmaConnected": 2
+  },
+  {
+   "id": "psrJ1946CF",
+   "emoji": "🩹",
+   "name": "PSR J1946+2052(コンパクト力 案K)— ⚡ で凍結した κ をそのまま流した 3 例目",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 9,
+   "verdict4": "保留",
+   "missing": [
+    "写像未確定",
+    "数値精度"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 2,
+    "map": 1,
+    "cond": 0,
+    "na": 6
+   },
+   "reasons": {
+    "num": {
+     "抽出に異常がある(NaN/クランプ/重複/unwrap 中断)": 1,
+     "次数ガード(AE3)で保留: 観測次数 p=0.9996 が 2 から 1.0004 離れている(|p−": 1
+    },
+    "map": {
+     "タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない": 1
+    },
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 6
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 1040650,
+    "maxSteps": 1040650,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 25,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": null,
+   "sigmaConnected": 3
+  },
+  {
+   "id": "psrB1534",
+   "emoji": "📿",
+   "name": "PSR B1534+12(実単位・観測版)— 第 4 の凍結 hold-out の入力確認",
+   "version": "obs",
+   "theoryControl": false,
+   "nQ": 8,
+   "verdict4": "保留",
+   "missing": [
+    "写像未確定",
+    "数値精度"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 2,
+    "map": 1,
+    "cond": 0,
+    "na": 5
+   },
+   "reasons": {
+    "num": {
+     "次数ガード(AE3)で保留: 観測次数 p=1.0064 が 2 から 0.9936 離れている(|p−": 1,
+     "3 段で窓が揃っていない(fit 窓が違う/周期窓が埋まっていない)": 1
+    },
+    "map": {
+     "タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない": 1
+    },
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 5
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 13631888,
+    "maxSteps": 13631888,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 60,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": null,
+   "sigmaConnected": 3
+  },
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "name": "PSR B1534+12(DFM版・凍結 hold-out)— ⚡ の処方をそのまま当てた 4 例目",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 8,
+   "verdict4": "保留",
+   "missing": [
+    "写像未確定",
+    "数値精度"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 2,
+    "map": 1,
+    "cond": 0,
+    "na": 5
+   },
+   "reasons": {
+    "num": {
+     "次数ガード(AE3)で保留: 観測次数 p=1.1169 が 2 から 0.8831 離れている(|p−": 1,
+     "次数ガード(AE3)で保留: 観測次数 p=0.9995 が 2 から 1.0005 離れている(|p−": 1
+    },
+    "map": {
+     "タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない": 1
+    },
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 5
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 6617813,
+    "maxSteps": 6617813,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 29,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": null,
+   "sigmaConnected": 3
+  },
+  {
+   "id": "psrB1534CF",
+   "emoji": "🪤",
+   "name": "PSR B1534+12(コンパクト力 案K・凍結 hold-out)— ⚡ の κ を 4 例目へ",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 9,
+   "verdict4": "保留",
+   "missing": [
+    "数値精度"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 2,
+    "map": 0,
+    "cond": 0,
+    "na": 7
+   },
+   "reasons": {
+    "num": {
+     "次数ガード(AE3)で保留: 観測次数 p=1.2172 が 2 から 0.7828 離れている(|p−": 1,
+     "次数ガード(AE3)で保留: 観測次数 p=0.9995 が 2 から 1.0005 離れている(|p−": 1
+    },
+    "map": {},
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 7
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 6617813,
+    "maxSteps": 6617813,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 29,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": null,
+   "sigmaConnected": 2
+  },
+  {
+   "id": "gw150914",
+   "emoji": "🎐",
+   "name": "GW150914(実単位)— 連星ブラックホールの基準状態",
+   "version": "obs",
+   "theoryControl": false,
+   "nQ": 8,
+   "verdict4": "保留",
+   "missing": [
+    "σ 未接続"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 0,
+    "map": 0,
+    "cond": 0,
+    "na": 8
+   },
+   "reasons": {
+    "num": {},
+    "map": {},
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 8
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 681306,
+    "maxSteps": 681306,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 60,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": null,
+   "sigmaConnected": 0
+  },
+  {
+   "id": "gw150914DFM",
+   "emoji": "🎻",
+   "name": "GW150914(DFM版)— pull 重み・kF1 質量較正(f≈2)",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 9,
+   "verdict4": "保留",
+   "missing": [
+    "σ 未接続"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 0,
+    "map": 0,
+    "cond": 0,
+    "na": 9
+   },
+   "reasons": {
+    "num": {},
+    "map": {},
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 9
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 282932,
+    "maxSteps": 282932,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 7,
+    "complete": false,
+    "unmeasuredReason": "window"
+   },
+   "solarCuts": null,
+   "sigmaConnected": 0
+  },
+  {
+   "id": "gw150914Merge4s",
+   "emoji": "⏰",
+   "name": "GW150914 の合体(約4秒)— 放射の方向と用量の較正 variant",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 11,
+   "verdict4": "保留",
+   "missing": [
+    "σ 未接続"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 0,
+    "map": 0,
+    "cond": 0,
+    "na": 11
+   },
+   "reasons": {
+    "num": {},
+    "map": {},
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 11
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-window(走り切った)",
+    "stepsRun": 14147,
+    "maxSteps": 14147,
+    "maxStepsSource": "class(n<=3)",
+    "needPeriastra": 20,
+    "minPeriastra": 1,
+    "complete": false,
+    "unmeasuredReason": "window"
+   },
+   "solarCuts": null,
+   "sigmaConnected": 0
+  },
+  {
+   "id": "saturnZonalD68",
+   "emoji": "📡",
+   "name": "土星の近点移動(実単位・D68精密較正)",
+   "version": "obs",
+   "theoryControl": false,
+   "nQ": 5,
+   "verdict4": "否",
+   "missing": [
+    "(3σ を通った量がある — 残りは量の不足)"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 1,
+    "num": 0,
+    "map": 0,
+    "cond": 0,
+    "na": 4
+   },
+   "reasons": {
+    "num": {},
+    "map": {},
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 4
+    }
+   },
+   "stop": {
+    "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+    "stepsRun": 668676,
+    "maxSteps": 699401,
+    "maxStepsSource": "class(n<=12)",
+    "needPeriastra": 58,
+    "minPeriastra": 58,
+    "complete": true,
+    "unmeasuredReason": null
+   },
+   "solarCuts": {
+    "connected": 1,
+    "csv-sigma-empty": 3,
+    "kind-not-gated": 1
+   },
+   "sigmaConnected": 1
+  },
+  {
+   "id": "saturnRingReal",
+   "emoji": "💍",
+   "name": "土星の環(実単位)— 見えないのが正しい",
+   "version": "obs",
+   "theoryControl": false,
+   "nQ": 10,
+   "verdict4": "保留",
+   "missing": [
+    "σ 未接続"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 0,
+    "map": 0,
+    "cond": 0,
+    "na": 10
+   },
+   "reasons": {
+    "num": {},
+    "map": {},
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 10
+    }
+   },
+   "stop": {
+    "stoppedBy": "declared-max-steps",
+    "stepsRun": 2042988,
+    "maxSteps": 2042988,
+    "maxStepsSource": "preset",
+    "needPeriastra": 20,
+    "minPeriastra": 3,
+    "complete": false,
+    "unmeasuredReason": "max-steps"
+   },
+   "solarCuts": {
+    "csv-sigma-empty": 9,
+    "kind-not-gated": 1
+   },
+   "sigmaConnected": 0
+  },
+  {
+   "id": "saturnRingRealKF1",
+   "emoji": "💿",
+   "name": "土星の環(実単位・kFrame=1)— 表面随伴と自動算出q",
+   "version": "dfm",
+   "theoryControl": false,
+   "nQ": 12,
+   "verdict4": "保留",
+   "missing": [
+    "σ 未接続"
+   ],
+   "gate": {
+    "ok": 0,
+    "ng": 0,
+    "num": 0,
+    "map": 0,
+    "cond": 0,
+    "na": 12
+   },
+   "reasons": {
+    "num": {},
+    "map": {},
+    "cond": {},
+    "na": {
+     "観測誤差(σ)または有限の実測が無い": 12
+    }
+   },
+   "stop": {
+    "stoppedBy": "declared-max-steps",
+    "stepsRun": 254730,
+    "maxSteps": 254730,
+    "maxStepsSource": "preset",
+    "needPeriastra": 20,
+    "minPeriastra": 1,
+    "complete": false,
+    "unmeasuredReason": "max-steps"
+   },
+   "solarCuts": {
+    "csv-sigma-empty": 9,
+    "kind-not-gated": 3
+   },
+   "sigmaConnected": 0
+  }
+ ],
+ "classCensus": [
+  {
+   "key": "sigma-missing",
+   "title": "σ・測定値が足りない",
+   "what": "観測 σ が CSV に無い(空欄)・判定量に σ の宛先が無い・実測が窓不足で取れない。**門へ入っていない**ので合否が言えない。",
+   "n": 253,
+   "presets": 37,
+   "rows": [
+    {
+     "id": "earthMoonReal",
+     "emoji": "🌙",
+     "kind": "period",
+     "name": "恒星月"
+    },
+    {
+     "id": "earthMoonReal",
+     "emoji": "🌙",
+     "kind": "other",
+     "name": "軌道長半径"
+    },
+    {
+     "id": "earthMoonReal",
+     "emoji": "🌙",
+     "kind": "other",
+     "name": "近地点相対速度"
+    },
+    {
+     "id": "earthMoonReal",
+     "emoji": "🌙",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(月)"
+    },
+    {
+     "id": "earthMoonReal",
+     "emoji": "🌙",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(月)"
+    },
+    {
+     "id": "earthMoonRealKF1",
+     "emoji": "🌘",
+     "kind": "period",
+     "name": "恒星月・同方向1周(履歴 — 現行 QA の定義)"
+    },
+    {
+     "id": "earthMoonRealKF1",
+     "emoji": "🌘",
+     "kind": "period",
+     "name": "恒星月・近点間(第250便d — 定義併記)"
+    },
+    {
+     "id": "earthMoonRealKF1",
+     "emoji": "🌘",
+     "kind": "precession",
+     "name": "近点回転の周期"
+    },
+    {
+     "id": "earthMoonRealKF1",
+     "emoji": "🌘",
+     "kind": "precession",
+     "name": "引きずり歳差の由来"
+    },
+    {
+     "id": "earthMoonRealKF1",
+     "emoji": "🌘",
+     "kind": "other",
+     "name": "補正の共通性"
+    },
+    {
+     "id": "earthMoonRealKF1",
+     "emoji": "🌘",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(月)"
+    },
+    {
+     "id": "emAuditDFM",
+     "emoji": "🧲",
+     "kind": "precession",
+     "name": "近点回転の周期(8公転窓=較正窓)"
+    },
+    {
+     "id": "emAuditDFM",
+     "emoji": "🧲",
+     "kind": "period",
+     "name": "恒星月・同方向1周(履歴 — 現行 QA の定義)"
+    },
+    {
+     "id": "emAuditDFM",
+     "emoji": "🧲",
+     "kind": "period",
+     "name": "恒星月・近点間(第250便d — 定義併記)"
+    },
+    {
+     "id": "emAuditDFM",
+     "emoji": "🧲",
+     "kind": "other",
+     "name": "窓を延ばすと(第135便 実測)"
+    },
+    {
+     "id": "emAuditDFM",
+     "emoji": "🧲",
+     "kind": "ecc",
+     "name": "離心率(第135便 実測)"
+    },
+    {
+     "id": "emAuditSolar",
+     "emoji": "🔆",
+     "kind": "precession",
+     "name": "近点回転の周期(118公転窓・較正ゼロ)"
+    },
+    {
+     "id": "emAuditSolar",
+     "emoji": "🔆",
+     "kind": "other",
+     "name": "窓・dt 依存"
+    },
+    {
+     "id": "emAuditSolar",
+     "emoji": "🔆",
+     "kind": "period",
+     "name": "恒星月"
+    },
+    {
+     "id": "emAuditSolar",
+     "emoji": "🔆",
+     "kind": "ecc",
+     "name": "離心率(236公転=17.7年)"
+    },
+    {
+     "id": "emAuditSolar",
+     "emoji": "🔆",
+     "kind": "other",
+     "name": "一次永年論との比較"
+    },
+    {
+     "id": "mercuryReal",
+     "emoji": "☄️",
+     "kind": "period",
+     "name": "公転周期"
+    },
+    {
+     "id": "mercuryReal",
+     "emoji": "☄️",
+     "kind": "other",
+     "name": "近日点速度"
+    },
+    {
+     "id": "mercuryReal",
+     "emoji": "☄️",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(水星)"
+    },
+    {
+     "id": "mercuryRealKF1",
+     "emoji": "🪨",
+     "kind": "other",
+     "name": "q=3 対照(第120便版)"
+    },
+    {
+     "id": "mercuryRealKF1",
+     "emoji": "🪨",
+     "kind": "other",
+     "name": "共通性"
+    },
+    {
+     "id": "mercuryRealKF1",
+     "emoji": "🪨",
+     "kind": "period",
+     "name": "実測(標準検出器): 公転周期(水星)"
+    },
+    {
+     "id": "mercuryRealKF1",
+     "emoji": "🪨",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(水星)"
+    },
+    {
+     "id": "solarInner",
+     "emoji": "🌞",
+     "kind": "period",
+     "name": "公転周期(水/金/地/火)(水星)"
+    },
+    {
+     "id": "solarInner",
+     "emoji": "🌞",
+     "kind": "period",
+     "name": "公転周期(水/金/地/火)(金星)"
+    },
+    {
+     "id": "solarInner",
+     "emoji": "🌞",
+     "kind": "period",
+     "name": "公転周期(水/金/地/火)(地球)"
+    },
+    {
+     "id": "solarInner",
+     "emoji": "🌞",
+     "kind": "period",
+     "name": "公転周期(水/金/地/火)(火星)"
+    },
+    {
+     "id": "solarInner",
+     "emoji": "🌞",
+     "kind": "other",
+     "name": "軌道速度(地球)"
+    },
+    {
+     "id": "solarInner",
+     "emoji": "🌞",
+     "kind": "other",
+     "name": "円軌道の維持(2水星周窓)"
+    },
+    {
+     "id": "solarInner",
+     "emoji": "🌞",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(水星)"
+    },
+    {
+     "id": "solarInner",
+     "emoji": "🌞",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(水星)"
+    },
+    {
+     "id": "solarInner",
+     "emoji": "🌞",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(金星)"
+    },
+    {
+     "id": "solarInner",
+     "emoji": "🌞",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(金星)"
+    },
+    {
+     "id": "solarInner",
+     "emoji": "🌞",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(地球)"
+    },
+    {
+     "id": "solarInner",
+     "emoji": "🌞",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(地球)"
+    },
+    {
+     "id": "solarInner",
+     "emoji": "🌞",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(火星)"
+    },
+    {
+     "id": "solarInner",
+     "emoji": "🌞",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(火星)"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "period",
+     "name": "kFrame=1(D₀=0.006・q_exact=12.0586)での周期(イオ)"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "period",
+     "name": "kFrame=1(D₀=0.006・q_exact=12.0586)での周期(エウロパ)"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "period",
+     "name": "kFrame=1(D₀=0.006・q_exact=12.0586)での周期(ガニメデ)"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "period",
+     "name": "kFrame=1(D₀=0.006・q_exact=12.0586)での周期(カリスト)"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "period",
+     "name": "20イオ公転窓の軌道保持(kFrame=1)"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "other",
+     "name": "フレーム回転の内訳"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "other",
+     "name": "払った較正"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "other",
+     "name": "ラプラス共鳴"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "other",
+     "name": "スピン双極子モーメント Q(第246便d)"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(イオ)"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(イオ)"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(エウロパ)"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(エウロパ)"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(ガニメデ)"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(ガニメデ)"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(カリスト)"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(カリスト)"
+    },
+    {
+     "id": "venusReal",
+     "emoji": "🌇",
+     "kind": "period",
+     "name": "公転周期(kFrame=1・E6′-R)"
+    }
+   ]
+  },
+  {
+   "key": "numeric",
+   "title": "数値(収束が確認できない)",
+   "what": "3 段(条件つきで 4 段)・次数ガード |p−2|≤0.5・窓充足・抽出健全・ε̂ と最終段差 ≤0.3σ のどれかを満たさない。**「合わない」ではなく「まだ言えない」**である。",
+   "n": 34,
+   "presets": 19,
+   "rows": [
+    {
+     "id": "mercuryReal",
+     "emoji": "☄️",
+     "kind": "precession",
+     "name": "近日点前進(推定器つき宣言 — 第250便d)"
+    },
+    {
+     "id": "mercuryRealKF1",
+     "emoji": "🪨",
+     "kind": "precession",
+     "name": "引きずり歳差(qLock q_exact=6.1471・推定器つき宣言)"
+    },
+    {
+     "id": "plutoCharonReal",
+     "emoji": "❄️",
+     "kind": "period",
+     "name": "公転周期(kFrame=1・E6′-R)同方向1周"
+    },
+    {
+     "id": "alphaCenABDFM",
+     "emoji": "✴️",
+     "kind": "period",
+     "name": "公転周期(kFrame=1・pull 重み・観測質量 — 2 定義)"
+    },
+    {
+     "id": "siriusABDFM",
+     "emoji": "💫",
+     "kind": "period",
+     "name": "公転周期(kFrame=1・pull 重み・観測質量 — 2 定義)"
+    },
+    {
+     "id": "psrDoubleAB",
+     "emoji": "📻",
+     "kind": "period",
+     "name": "公転周期(kFrame=0 採用側)"
+    },
+    {
+     "id": "psrDoubleAB",
+     "emoji": "📻",
+     "kind": "precession",
+     "name": "近点前進(1PN — 合わせない照合)"
+    },
+    {
+     "id": "psrDoubleABDFM",
+     "emoji": "⚡",
+     "kind": "period",
+     "name": "公転周期(kFrame=1・χ-law 粒子別質量 — 2 定義)"
+    },
+    {
+     "id": "psrDoubleABDFM",
+     "emoji": "⚡",
+     "kind": "precession",
+     "name": "周期短縮と近点移動は**別判定**(第248便b → 第249便a)"
+    },
+    {
+     "id": "psrDoubleABSpinCal",
+     "emoji": "🧿",
+     "kind": "precession",
+     "name": "近点移動(**fit 対象** — 2 ノブを回した先)"
+    },
+    {
+     "id": "psrDoubleABSpinCal",
+     "emoji": "🧿",
+     "kind": "period",
+     "name": "公転周期(照合先 — fit していない)"
+    },
+    {
+     "id": "psrJ1757DFM",
+     "emoji": "🧮",
+     "kind": "precession",
+     "name": "近点移動(**hold-out** — 較正に使っていない)"
+    },
+    {
+     "id": "psrJ1757DFM",
+     "emoji": "🧮",
+     "kind": "period",
+     "name": "公転周期(hold-out — 合わせていない・2 定義)"
+    },
+    {
+     "id": "psrJ1946DFM",
+     "emoji": "🩺",
+     "kind": "precession",
+     "name": "近点移動(**hold-out** — 較正に使っていない)"
+    },
+    {
+     "id": "psrJ1946DFM",
+     "emoji": "🩺",
+     "kind": "period",
+     "name": "公転周期(hold-out — 合わせていない・2 定義)"
+    },
+    {
+     "id": "psrJ1946DFM",
+     "emoji": "🩺",
+     "kind": "period",
+     "name": "dt 収束(短周期ゆえ刻みが効く)"
+    },
+    {
+     "id": "psrDoubleABPN",
+     "emoji": "🪶",
+     "kind": "precession",
+     "name": "近点移動(本 variant の主眼 — 旧則の約2倍を直す)"
+    },
+    {
+     "id": "psrDoubleABPN",
+     "emoji": "🪶",
+     "kind": "period",
+     "name": "公転周期(合わせていない・2 定義)"
+    },
+    {
+     "id": "psrJ1757PN",
+     "emoji": "🪃",
+     "kind": "precession",
+     "name": "近点移動(本 variant の主眼 — 旧則の約2倍を直す)"
+    },
+    {
+     "id": "psrJ1757PN",
+     "emoji": "🪃",
+     "kind": "period",
+     "name": "公転周期(合わせていない・2 定義)"
+    },
+    {
+     "id": "psrJ1946PN",
+     "emoji": "🪀",
+     "kind": "precession",
+     "name": "近点移動(本 variant の主眼 — 旧則の約2倍を直す)"
+    },
+    {
+     "id": "psrJ1946PN",
+     "emoji": "🪀",
+     "kind": "period",
+     "name": "公転周期(合わせていない・2 定義)"
+    },
+    {
+     "id": "psrDoubleABCF",
+     "emoji": "🪝",
+     "kind": "precession",
+     "name": "近点移動(本 variant の主眼)"
+    },
+    {
+     "id": "psrDoubleABCF",
+     "emoji": "🪝",
+     "kind": "period",
+     "name": "公転周期(合わせていない・2 定義)"
+    },
+    {
+     "id": "psrJ1757CF",
+     "emoji": "🪄",
+     "kind": "precession",
+     "name": "近点移動(⚡ で凍結した κ をそのまま)"
+    },
+    {
+     "id": "psrJ1757CF",
+     "emoji": "🪄",
+     "kind": "period",
+     "name": "公転周期(合わせていない・2 定義)"
+    },
+    {
+     "id": "psrJ1946CF",
+     "emoji": "🩹",
+     "kind": "precession",
+     "name": "近点移動(⚡ で凍結した κ をそのまま)"
+    },
+    {
+     "id": "psrJ1946CF",
+     "emoji": "🩹",
+     "kind": "period",
+     "name": "公転周期(合わせていない・2 定義)"
+    },
+    {
+     "id": "psrB1534",
+     "emoji": "📿",
+     "kind": "period",
+     "name": "公転周期(**入力確認** — 転写が閉じているかだけを見る・2 定義)"
+    },
+    {
+     "id": "psrB1534",
+     "emoji": "📿",
+     "kind": "precession",
+     "name": "近点移動は**この版では基準にしない**"
+    },
+    {
+     "id": "psrB1534DFM",
+     "emoji": "🧶",
+     "kind": "precession",
+     "name": "近点移動(**hold-out の本題** — 2 倍超過が 4 例目でも出るか)"
+    },
+    {
+     "id": "psrB1534DFM",
+     "emoji": "🧶",
+     "kind": "period",
+     "name": "公転周期(合わせていない・2 定義)"
+    },
+    {
+     "id": "psrB1534CF",
+     "emoji": "🪤",
+     "kind": "precession",
+     "name": "近点移動(**凍結 hold-out の本番**)"
+    },
+    {
+     "id": "psrB1534CF",
+     "emoji": "🪤",
+     "kind": "period",
+     "name": "公転周期(合わせていない・2 定義)"
+    }
+   ]
+  },
+  {
+   "key": "mapping",
+   "title": "観測量対応が未確定",
+   "what": "シミュレータが測る量と、観測解が定義している量が**同じ測定量だと確定していない**(e_T ⇄ eProxy・円に近い系の近点間周期 ⇄ two-body Keplerian の P など)。",
+   "n": 15,
+   "presets": 15,
+   "rows": [
+    {
+     "id": "plutoCharonReal",
+     "emoji": "❄️",
+     "kind": "period",
+     "name": "公転周期(kFrame=1)近点間(第250便d)"
+    },
+    {
+     "id": "alphaCenAB",
+     "emoji": "✨",
+     "kind": "ecc",
+     "name": "実測離心率(1公転の半径比振れ幅)"
+    },
+    {
+     "id": "alphaCenABDFM",
+     "emoji": "✴️",
+     "kind": "ecc",
+     "name": "実測離心率(1周目の半径比振れ幅)"
+    },
+    {
+     "id": "siriusAB",
+     "emoji": "🌟",
+     "kind": "ecc",
+     "name": "実測離心率(1公転の半径比振れ幅)"
+    },
+    {
+     "id": "siriusABDFM",
+     "emoji": "💫",
+     "kind": "ecc",
+     "name": "実測離心率(1周目の半径比振れ幅)"
+    },
+    {
+     "id": "psrDoubleAB",
+     "emoji": "📻",
+     "kind": "ecc",
+     "name": "実測離心率(1公転の半径比振れ幅)"
+    },
+    {
+     "id": "psrDoubleABDFM",
+     "emoji": "⚡",
+     "kind": "ecc",
+     "name": "hold-out(離心率と近点 — 第246便で1行に統合)"
+    },
+    {
+     "id": "psrJ1757DFM",
+     "emoji": "🧮",
+     "kind": "ecc",
+     "name": "離心率(hold-out — 合わせていない)"
+    },
+    {
+     "id": "psrJ1946DFM",
+     "emoji": "🩺",
+     "kind": "ecc",
+     "name": "離心率(hold-out — 合わせていない)"
+    },
+    {
+     "id": "psrDoubleABPN",
+     "emoji": "🪶",
+     "kind": "ecc",
+     "name": "離心率(合わせていない)"
+    },
+    {
+     "id": "psrJ1757PN",
+     "emoji": "🪃",
+     "kind": "ecc",
+     "name": "離心率(合わせていない)"
+    },
+    {
+     "id": "psrJ1946PN",
+     "emoji": "🪀",
+     "kind": "ecc",
+     "name": "離心率(合わせていない)"
+    },
+    {
+     "id": "psrJ1946CF",
+     "emoji": "🩹",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(B)"
+    },
+    {
+     "id": "psrB1534",
+     "emoji": "📿",
+     "kind": "ecc",
+     "name": "離心率(入力確認)"
+    },
+    {
+     "id": "psrB1534DFM",
+     "emoji": "🧶",
+     "kind": "ecc",
+     "name": "離心率(合わせていない)"
+    }
+   ]
+  },
+  {
+   "key": "condition",
+   "title": "条件違い(対照走行が無い)",
+   "what": "行が要求する条件(kFrame=0 対照など)と、配られている測定値の条件が違う。**合っていないのではなく、条件が違う**。",
+   "n": 8,
+   "presets": 5,
+   "rows": [
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "period",
+     "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(イオ)"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "period",
+     "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(エウロパ)"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "period",
+     "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(ガニメデ)"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "period",
+     "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(カリスト)"
+    },
+    {
+     "id": "venusReal",
+     "emoji": "🌇",
+     "kind": "period",
+     "name": "公転周期(kFrame=0 対照)"
+    },
+    {
+     "id": "marsMoonsReal",
+     "emoji": "🥔",
+     "kind": "period",
+     "name": "kFrame=0 対照との周期差"
+    },
+    {
+     "id": "plutoCharonReal",
+     "emoji": "❄️",
+     "kind": "period",
+     "name": "公転周期(kFrame=0 対照・同方向1周)"
+    },
+    {
+     "id": "neptuneReal",
+     "emoji": "🌊",
+     "kind": "period",
+     "name": "公転周期(kFrame=0 対照)"
+    }
+   ]
+  },
+  {
+   "key": "center-bookkeeping",
+   "title": "中心値の集計(obsCard と CSV 行の混在)",
+   "what": "中心値が obsCard 由来・σ が CSV 行由来という組み合わせのまま残っている量(AD5 で 6 つ同時に切り替えたのは宣言のある行だけ)。**単位違いとは分けて数える**。",
+   "n": 7,
+   "presets": 7,
+   "rows": [
+    {
+     "id": "alphaCenAB",
+     "emoji": "✨",
+     "kind": "period",
+     "name": "公転周期(kFrame=0 採用側)"
+    },
+    {
+     "id": "alphaCenABDFM",
+     "emoji": "✴️",
+     "kind": "period",
+     "name": "公転周期(kFrame=1・pull 重み・観測質量 — 2 定義)"
+    },
+    {
+     "id": "siriusAB",
+     "emoji": "🌟",
+     "kind": "period",
+     "name": "公転周期(kFrame=0 採用側)"
+    },
+    {
+     "id": "siriusABDFM",
+     "emoji": "💫",
+     "kind": "period",
+     "name": "公転周期(kFrame=1・pull 重み・観測質量 — 2 定義)"
+    },
+    {
+     "id": "psrB1534",
+     "emoji": "📿",
+     "kind": "period",
+     "name": "公転周期(**入力確認** — 転写が閉じているかだけを見る・2 定義)"
+    },
+    {
+     "id": "psrB1534DFM",
+     "emoji": "🧶",
+     "kind": "period",
+     "name": "公転周期(合わせていない・2 定義)"
+    },
+    {
+     "id": "psrB1534CF",
+     "emoji": "🪤",
+     "kind": "period",
+     "name": "公転周期(合わせていない・2 定義)"
+    }
+   ]
+  },
+  {
+   "key": "unit",
+   "title": "単位(判定量と CSV 行の単位が違う)",
+   "what": "判定量が deg/orbit・CSV 行が deg/yr など。**中心値の不一致ではない** —— 比べてはいけない 2 つの数である(第272便a・R12 で列を分けた)。",
+   "n": 16,
+   "presets": 16,
+   "rows": [
+    {
+     "id": "mercuryReal",
+     "emoji": "☄️",
+     "kind": "precession",
+     "name": "近日点前進(推定器つき宣言 — 第250便d)"
+    },
+    {
+     "id": "mercuryRealKF1",
+     "emoji": "🪨",
+     "kind": "precession",
+     "name": "引きずり歳差(qLock q_exact=6.1471・推定器つき宣言)"
+    },
+    {
+     "id": "psrDoubleAB",
+     "emoji": "📻",
+     "kind": "precession",
+     "name": "近点前進(1PN — 合わせない照合)"
+    },
+    {
+     "id": "psrDoubleABDFM",
+     "emoji": "⚡",
+     "kind": "precession",
+     "name": "周期短縮と近点移動は**別判定**(第248便b → 第249便a)"
+    },
+    {
+     "id": "psrDoubleABSpinCal",
+     "emoji": "🧿",
+     "kind": "precession",
+     "name": "近点移動(**fit 対象** — 2 ノブを回した先)"
+    },
+    {
+     "id": "psrJ1757DFM",
+     "emoji": "🧮",
+     "kind": "precession",
+     "name": "近点移動(**hold-out** — 較正に使っていない)"
+    },
+    {
+     "id": "psrJ1946DFM",
+     "emoji": "🩺",
+     "kind": "precession",
+     "name": "近点移動(**hold-out** — 較正に使っていない)"
+    },
+    {
+     "id": "psrDoubleABPN",
+     "emoji": "🪶",
+     "kind": "precession",
+     "name": "近点移動(本 variant の主眼 — 旧則の約2倍を直す)"
+    },
+    {
+     "id": "psrJ1757PN",
+     "emoji": "🪃",
+     "kind": "precession",
+     "name": "近点移動(本 variant の主眼 — 旧則の約2倍を直す)"
+    },
+    {
+     "id": "psrJ1946PN",
+     "emoji": "🪀",
+     "kind": "precession",
+     "name": "近点移動(本 variant の主眼 — 旧則の約2倍を直す)"
+    },
+    {
+     "id": "psrDoubleABCF",
+     "emoji": "🪝",
+     "kind": "precession",
+     "name": "近点移動(本 variant の主眼)"
+    },
+    {
+     "id": "psrJ1757CF",
+     "emoji": "🪄",
+     "kind": "precession",
+     "name": "近点移動(⚡ で凍結した κ をそのまま)"
+    },
+    {
+     "id": "psrJ1946CF",
+     "emoji": "🩹",
+     "kind": "precession",
+     "name": "近点移動(⚡ で凍結した κ をそのまま)"
+    },
+    {
+     "id": "psrB1534",
+     "emoji": "📿",
+     "kind": "precession",
+     "name": "近点移動は**この版では基準にしない**"
+    },
+    {
+     "id": "psrB1534DFM",
+     "emoji": "🧶",
+     "kind": "precession",
+     "name": "近点移動(**hold-out の本題** — 2 倍超過が 4 例目でも出るか)"
+    },
+    {
+     "id": "psrB1534CF",
+     "emoji": "🪤",
+     "kind": "precession",
+     "name": "近点移動(**凍結 hold-out の本番**)"
+    }
+   ]
+  },
+  {
+   "key": "circular",
+   "title": "入力と予測の循環(従属量)",
+   "what": "較正に使った量の帰結を、独立な予言として数えられない量(NS 連星 DFM 版の近点移動など)。",
+   "n": 4,
+   "presets": 4,
+   "rows": [
+    {
+     "id": "psrDoubleABDFM",
+     "emoji": "⚡",
+     "kind": "precession",
+     "name": "周期短縮と近点移動は**別判定**(第248便b → 第249便a)"
+    },
+    {
+     "id": "psrJ1757DFM",
+     "emoji": "🧮",
+     "kind": "precession",
+     "name": "近点移動(**hold-out** — 較正に使っていない)"
+    },
+    {
+     "id": "psrJ1946DFM",
+     "emoji": "🩺",
+     "kind": "precession",
+     "name": "近点移動(**hold-out** — 較正に使っていない)"
+    },
+    {
+     "id": "psrB1534DFM",
+     "emoji": "🧶",
+     "kind": "precession",
+     "name": "近点移動(**hold-out の本題** — 2 倍超過が 4 例目でも出るか)"
+    }
+   ]
+  },
+  {
+   "key": "display",
+   "title": "表示(合否の対象でない宣言行)",
+   "what": "規約・帳簿・単位族・受け皿など、obsCard に並んでいるが**合否の対象ではない**行。",
+   "n": 131,
+   "presets": 37,
+   "rows": [
+    {
+     "id": "earthMoonReal",
+     "emoji": "🌙",
+     "kind": "other",
+     "name": "軌道長半径"
+    },
+    {
+     "id": "earthMoonReal",
+     "emoji": "🌙",
+     "kind": "other",
+     "name": "近地点相対速度"
+    },
+    {
+     "id": "earthMoonRealKF1",
+     "emoji": "🌘",
+     "kind": "other",
+     "name": "補正の共通性"
+    },
+    {
+     "id": "emAuditDFM",
+     "emoji": "🧲",
+     "kind": "other",
+     "name": "窓を延ばすと(第135便 実測)"
+    },
+    {
+     "id": "emAuditSolar",
+     "emoji": "🔆",
+     "kind": "other",
+     "name": "窓・dt 依存"
+    },
+    {
+     "id": "emAuditSolar",
+     "emoji": "🔆",
+     "kind": "other",
+     "name": "一次永年論との比較"
+    },
+    {
+     "id": "mercuryReal",
+     "emoji": "☄️",
+     "kind": "other",
+     "name": "近日点速度"
+    },
+    {
+     "id": "mercuryRealKF1",
+     "emoji": "🪨",
+     "kind": "other",
+     "name": "q=3 対照(第120便版)"
+    },
+    {
+     "id": "mercuryRealKF1",
+     "emoji": "🪨",
+     "kind": "other",
+     "name": "共通性"
+    },
+    {
+     "id": "solarInner",
+     "emoji": "🌞",
+     "kind": "other",
+     "name": "軌道速度(地球)"
+    },
+    {
+     "id": "solarInner",
+     "emoji": "🌞",
+     "kind": "other",
+     "name": "円軌道の維持(2水星周窓)"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "other",
+     "name": "フレーム回転の内訳"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "other",
+     "name": "払った較正"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "other",
+     "name": "ラプラス共鳴"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "other",
+     "name": "スピン双極子モーメント Q(第246便d)"
+    },
+    {
+     "id": "venusReal",
+     "emoji": "🌇",
+     "kind": "other",
+     "name": "legacy 反作用の対照"
+    },
+    {
+     "id": "marsMoonsReal",
+     "emoji": "🥔",
+     "kind": "other",
+     "name": "テスト粒子降格"
+    },
+    {
+     "id": "plutoCharonReal",
+     "emoji": "❄️",
+     "kind": "other",
+     "name": "共通重心の位置"
+    },
+    {
+     "id": "plutoCharonReal",
+     "emoji": "❄️",
+     "kind": "other",
+     "name": "半径振れ幅"
+    },
+    {
+     "id": "uranusReal",
+     "emoji": "💠",
+     "kind": "other",
+     "name": "環の質量(第192便)"
+    },
+    {
+     "id": "neptuneReal",
+     "emoji": "🌊",
+     "kind": "spin",
+     "name": "トリトンの自転"
+    },
+    {
+     "id": "neptuneReal",
+     "emoji": "🌊",
+     "kind": "other",
+     "name": "半径振れ幅"
+    },
+    {
+     "id": "alphaCenAB",
+     "emoji": "✨",
+     "kind": "other",
+     "name": "観測安定則(2026-08-25 裁定・適用第1号)"
+    },
+    {
+     "id": "alphaCenAB",
+     "emoji": "✨",
+     "kind": "other",
+     "name": "A/B 測定側(kFrame=1・第242便 pull 重み)"
+    },
+    {
+     "id": "alphaCenAB",
+     "emoji": "✨",
+     "kind": "other",
+     "name": "初期位相(第211便 — 遠点整列)"
+    },
+    {
+     "id": "alphaCenAB",
+     "emoji": "✨",
+     "kind": "spin",
+     "name": "自転(両星)"
+    },
+    {
+     "id": "alphaCenABDFM",
+     "emoji": "✴️",
+     "kind": "other",
+     "name": "解析慣性則(第245便 — 一次則が台帳)"
+    },
+    {
+     "id": "alphaCenABDFM",
+     "emoji": "✴️",
+     "kind": "other",
+     "name": "DFM 質量(条件つき較正 — 実在値の主張ではない)"
+    },
+    {
+     "id": "alphaCenABDFM",
+     "emoji": "✴️",
+     "kind": "other",
+     "name": "偶力の受け皿(第242便 — 隠れコアは持たない)"
+    },
+    {
+     "id": "alphaCenABDFM",
+     "emoji": "✴️",
+     "kind": "other",
+     "name": "重心(第209便 — cmGauge:barycentric)"
+    },
+    {
+     "id": "siriusAB",
+     "emoji": "🌟",
+     "kind": "other",
+     "name": "観測安定則(適用第2号)"
+    },
+    {
+     "id": "siriusAB",
+     "emoji": "🌟",
+     "kind": "other",
+     "name": "二体クロージャ確認(第214便 新設)"
+    },
+    {
+     "id": "siriusAB",
+     "emoji": "🌟",
+     "kind": "other",
+     "name": "A/B 測定側(kFrame=1・第242便 pull 重み)"
+    },
+    {
+     "id": "siriusAB",
+     "emoji": "🌟",
+     "kind": "spin",
+     "name": "自転(両星 — 転写なし)"
+    },
+    {
+     "id": "siriusAB",
+     "emoji": "🌟",
+     "kind": "other",
+     "name": "Sirius B の半径(白色矮星)"
+    },
+    {
+     "id": "siriusAB",
+     "emoji": "🌟",
+     "kind": "other",
+     "name": "初期位相(第211便 — 遠点整列)"
+    },
+    {
+     "id": "siriusABDFM",
+     "emoji": "💫",
+     "kind": "other",
+     "name": "軌道の形"
+    },
+    {
+     "id": "siriusABDFM",
+     "emoji": "💫",
+     "kind": "other",
+     "name": "近点(合わせていない側)"
+    },
+    {
+     "id": "siriusABDFM",
+     "emoji": "💫",
+     "kind": "other",
+     "name": "DFM 質量(条件つき較正 — 実在値の主張ではない)"
+    },
+    {
+     "id": "siriusABDFM",
+     "emoji": "💫",
+     "kind": "other",
+     "name": "解析慣性則(第245便 — 一次則が台帳)"
+    },
+    {
+     "id": "siriusABDFM",
+     "emoji": "💫",
+     "kind": "spin",
+     "name": "A の殻自転(第221便 — 宣言つき代理値)"
+    },
+    {
+     "id": "siriusABDFM",
+     "emoji": "💫",
+     "kind": "other",
+     "name": "偶力の受け皿と重心(第242便)"
+    },
+    {
+     "id": "psrDoubleAB",
+     "emoji": "📻",
+     "kind": "other",
+     "name": "観測安定則(適用第3号)"
+    },
+    {
+     "id": "psrDoubleAB",
+     "emoji": "📻",
+     "kind": "other",
+     "name": "単位族(第220便 新設 → 第222便 経路拡張)"
+    },
+    {
+     "id": "psrDoubleAB",
+     "emoji": "📻",
+     "kind": "other",
+     "name": "半径(EOS proxy — 直接観測なし)"
+    },
+    {
+     "id": "psrDoubleAB",
+     "emoji": "📻",
+     "kind": "other",
+     "name": "スピンと 1PN 偶力(第223便 — 記帳化)"
+    },
+    {
+     "id": "psrDoubleABDFM",
+     "emoji": "⚡",
+     "kind": "other",
+     "name": "DFM 質量(条件つき較正 — 実在値の主張ではない)"
+    },
+    {
+     "id": "psrDoubleABDFM",
+     "emoji": "⚡",
+     "kind": "other",
+     "name": "殻スピンと重心(第222便 — 保持成立+cmGauge)"
+    },
+    {
+     "id": "psrDoubleABDFM",
+     "emoji": "⚡",
+     "kind": "other",
+     "name": "χ-law(第224便 — 粒子別 f と f≈2 の説明)"
+    },
+    {
+     "id": "psrDoubleABDFM",
+     "emoji": "⚡",
+     "kind": "other",
+     "name": "重力磁気のスピン–スピン(第246便)"
+    },
+    {
+     "id": "psrDoubleABSpinCal",
+     "emoji": "🧿",
+     "kind": "other",
+     "name": "**調整した量は 2 つ**(⚡ 本体の「ノブなし」とは別系譜)"
+    },
+    {
+     "id": "psrDoubleABSpinCal",
+     "emoji": "🧿",
+     "kind": "other",
+     "name": "スピン–スピン比 η=|F_SS|/|F_N|(遠点)"
+    },
+    {
+     "id": "psrDoubleABSpinCal",
+     "emoji": "🧿",
+     "kind": "other",
+     "name": "**共通則にできない**(3 系同時評価)"
+    },
+    {
+     "id": "psrDoubleABSpinCal",
+     "emoji": "🧿",
+     "kind": "other",
+     "name": "数値床(第247便a の framePrecision)"
+    },
+    {
+     "id": "psrJ1757DFM",
+     "emoji": "🧮",
+     "kind": "other",
+     "name": "**比の別欄(第256便d)**: 較正質量での 1PN 値 = 観測の f 倍"
+    },
+    {
+     "id": "psrJ1757DFM",
+     "emoji": "🧮",
+     "kind": "other",
+     "name": "DFM 質量(**較正していない** — ⚡ と同じ一次則を1回評価した値)"
+    },
+    {
+     "id": "psrJ1757DFM",
+     "emoji": "🧮",
+     "kind": "spin",
+     "name": "**伴星の自転は未観測**(だから感度帯で出す)"
+    },
+    {
+     "id": "psrJ1757DFM",
+     "emoji": "🧮",
+     "kind": "other",
+     "name": "半径は EOS proxy(NICER 測定ではない)"
+    },
+    {
+     "id": "psrJ1946DFM",
+     "emoji": "🩺",
+     "kind": "other",
+     "name": "**比の別欄(第256便d)**: 較正質量での 1PN 値 = 観測の f 倍"
+    },
+    {
+     "id": "psrJ1946DFM",
+     "emoji": "🩺",
+     "kind": "other",
+     "name": "DFM 質量(**較正していない** — ⚡ と同じ一次則を1回評価した値)"
+    }
+   ]
+  }
+ ],
+ "reasonAgg": {
+  "num": {
+   "dt 3 段が走っていない(2 段は感度診断)": 10,
+   "収束次数が未測定または非正": 1,
+   "次数ガード(AE3)で保留: 観測次数 p=0.8506 が 2 から 1.1494 離れている(|p−": 1,
+   "次数ガード(AE3)で保留: 観測次数 p=1.0291 が 2 から 0.9709 離れている(|p−": 1,
+   "次数ガード(AE3)で保留: 観測次数 p=1.0209 が 2 から 0.9791 離れている(|p−": 1,
+   "数値誤差幅が 0.3σ の予算を超える": 3,
+   "次数ガード(AE3)で保留: 観測次数 p=1.0000 が 2 から 1.0000 離れている(|p−": 1,
+   "次数ガード(AE3)で保留: 観測次数 p=1.1516 が 2 から 0.8484 離れている(|p−": 1,
+   "次数ガード(AE3)で保留: 観測次数 p=0.9867 が 2 から 1.0133 離れている(|p−": 2,
+   "抽出に異常がある(NaN/クランプ/重複/unwrap 中断)": 2,
+   "次数ガード(AE3)で保留: 観測次数 p=0.9996 が 2 から 1.0004 離れている(|p−": 3,
+   "次数ガード(AE3)で保留: 観測次数 p=0.9999 が 2 から 1.0001 離れている(|p−": 1,
+   "次数ガード(AE3)で保留: 観測次数 p=1.1959 が 2 から 0.8041 離れている(|p−": 1,
+   "次数ガード(AE3)で保留: 観測次数 p=1.0064 が 2 から 0.9936 離れている(|p−": 1,
+   "3 段で窓が揃っていない(fit 窓が違う/周期窓が埋まっていない)": 1,
+   "次数ガード(AE3)で保留: 観測次数 p=1.1169 が 2 から 0.8831 離れている(|p−": 1,
+   "次数ガード(AE3)で保留: 観測次数 p=0.9995 が 2 から 1.0005 離れている(|p−": 2,
+   "次数ガード(AE3)で保留: 観測次数 p=1.2172 が 2 から 0.7828 離れている(|p−": 1
+  },
+  "map": {
+   "円に近い系の近点間周期である(この preset の転写は e=0.0・実測 eProxy ≈1.2×1": 1,
+   "軌道 fit のケプラー要素 e と、距離の極値から作る eProxy は同じ測定量ではない": 4,
+   "タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない": 10
+  },
+  "cond": {
+   "kFrame 条件の対照走行が無い": 8
+  },
+  "na": {
+   "観測誤差(σ)または有限の実測が無い": 254
+  }
+ },
+ "charonIssues": [
+  {
+   "key": "control",
+   "title": "対照条件の走行が無い",
+   "measured": "condition-mismatch",
+   "text": "「kFrame=0 対照」の行に、kFrame=1 の走行の数が配られている(プリセットの physics は 1 つ)。**合っていないのではなく、条件が違う**(`condition-mismatch`)。"
+  },
+  {
+   "key": "period-def",
+   "title": "周期の定義が行ごとに違う",
+   "measured": "periastron",
+   "text": "第271便a まで、3 行(kF0 対照・同方向 1 周・近点間)が**同じ 1 つの数**を配られていた。第272便a(R10)で「近点間」の行は近点検出器 A の値を全段で配るようにした。"
+  },
+  {
+   "key": "circular-orbit",
+   "title": "円に近い軌道の近点",
+   "measured": 0.0012226704501995223,
+   "text": "転写された離心率は e=0.0、実測 eProxy は上の値である。近点方位が縮退しているので、**近点間平均間隔と観測側の two-body Keplerian の P が同じ測定量である保証が無い**(第272便a・R10 で `mapping-unresolved` を宣言した)。"
+  },
+  {
+   "key": "convergence",
+   "title": "数値が漸近域に居ない",
+   "measured": -0.32301826510270937,
+   "text": "3 段の観測次数は上の値で、スキームの宣言次数 2 から離れている(|p−2|>0.5)。第272便a(AG1)で条件つき h/8 を足して測った(結果は §2 の表)。"
+  },
+  {
+   "key": "input-pair",
+   "title": "入力の一組性",
+   "measured": null,
+   "text": "観測側の P は高精度 fit(σ=0.02592 s)だが、シミュレータの初期状態は**丸めた転写**である。**同じ一組から作られていない**(P だけを高精度の解に差し替えても、初期状態は別の来歴を持つ)。"
+  },
+  {
+   "key": "softening",
+   "title": "softening と半径比",
+   "measured": 16.515140469434893,
+   "text": "a/R(上の値は `correlates.aOverR`)と softening ε/a の扱いは、**周期の 0.1% 台の差に効く大きさかどうかを測っていない**(未測定)。"
+  },
+  {
+   "key": "f-approx",
+   "title": "f≈1+kFrame の近似が当てはまらない",
+   "measured": 0.1020862167899712,
+   "text": "χ(上の値)は χ≈1 の極限から遠い。**f≈1+k は χ≈1 の極限の形**なので、この系では当てはまらない(**統括の検証項目 R14 の diagnostic で測る対象**である)。"
+  },
+  {
+   "key": "tidal-lock",
+   "title": "潮汐ロックの動的維持",
+   "measured": null,
+   "text": "冥王星–カロンは互いに潮汐ロックしているが、**プリセットはロックを動的に維持する機構を持たない**(転写した spin がそのまま回るだけである)。原仮定者の仮説(第62報)「潮汐ロック → kFrame≈0」は**内蔵の既定には入れない**(統括の検証項目 R14 —— 診断コピー・variant で測る対象である)。"
+  },
+  {
+   "key": "geopn",
+   "title": "geoPN=3 の受理条件",
+   "measured": null,
+   "text": "「空間メッシュ(geoPN=3)」で測ると何がどう動くかは、**この便では測っていない**。受理条件(何をもって採るか)が宣言されていない量を、判定へ繋いではならない。"
+  }
+ ],
+ "solarCutTally": {
+  "csv-sigma-empty": 106,
+  "kind-not-gated": 26,
+  "unit-not-converted": 3,
+  "connected": 4
+ },
+ "doNotWrite": [
+  "問題を解決した",
+  "較正した",
+  "判定が増えた",
+  "カロンが合",
+  "カロンが否"
+ ]
+}

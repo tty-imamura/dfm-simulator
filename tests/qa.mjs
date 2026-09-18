@@ -2927,6 +2927,7 @@ const add = (id, pass, detail) => {
     if (rc.n !== rc.ok) bad.push(`②宣言から再計算できない段がある(${rc.n - rc.ok} 段)`);
     if (!(rep.compared > 0)) bad.push('③基点と突き合わせた段が 0 である');
     // 第271便a(AF2): **違ってよい段は宣言列挙**(`BASE_REPLAY_EXCEPTIONS`)。宣言に無い差は落とす。
+    // 第272便a(AG27): **基点を 743ad9b へ切り直したので、宣言例外は 0 段である**。
     if (rep.differingUndeclared === undefined)
       bad.push('③宣言例外の会計(differingUndeclared)が照合器に無い');
     else if (rep.differingUndeclared !== 0)
@@ -2934,6 +2935,10 @@ const add = (id, pass, detail) => {
     if ((rep.differingDeclared || 0) !== ((rep.declaredExceptions || []).length))
       bad.push(`③宣言した例外 ${(rep.declaredExceptions || []).length} 段のうち `
         + `${rep.differingDeclared} 段しか差が出ていない(宣言が実態と合っていない)`);
+    if (!S.baseSource || S.baseSource.commit !== '743ad9b')
+      bad.push('③照合の基点が 743ad9b へ切り直されていない(第272便a・AG27)');
+    if (!fs.existsSync(path.join(ROOT, 'tests', 'data-w270a-stoprule-base-f6c19b4.json')))
+      bad.push('③旧基点(f6c19b4)の履歴ファイルが無い(履歴は資産である)');
     if ((res.exceeded || []).length !== 0)
       bad.push(`④資源上限を超えた段がある(${(res.exceeded || []).length} 段)`);
     let legacyReason = 0;
@@ -3233,7 +3238,7 @@ const add = (id, pass, detail) => {
 // ----   **書かないこと**: 「判定段を変えたので判定が増えた」「h/4 にしたので収束した」。
 {
   const bad = [];
-  let nH4 = 0, nOther = 0, moved = [];
+  let nH4 = 0, nH8 = 0, nOther = 0, moved = [];
   try {
     const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
     const regIds = new Set(((C.threeStageRegistry || {}).rows || []).map((z) => z.id));
@@ -3242,8 +3247,16 @@ const add = (id, pass, detail) => {
       const g = q.gate; const ds = q.dtStages;
       if (!g || !ds || !Number.isFinite(ds.dtQuarter)) continue;
       if (regIds.has(p.id)) {
+        // 第272便a(AG1): **条件を満たした量だけ h/8 へ昇格する**。
+        //   昇格した量の検査は `docs.h8Rule` が行うので、ここでは
+        //   **h4 のままの量だけ**を R3 の定義で固める(h8 は除外して数える)。
+        if (g.assessedStage === 'h8') {
+          if (!(q.h8 && q.h8.promoted === true))
+            bad.push(`①${p.id}|${q.kind} が h8 なのに AG1 の昇格記録が無い`);
+          nH8++; continue;
+        }
         if (q.assessedStage !== 'h4' || g.assessedStage !== 'h4') {
-          bad.push(`①${p.id}|${q.kind} の判定段が h4 でない(${g.assessedStage})`); continue;
+          bad.push(`①${p.id}|${q.kind} の判定段が h4 でも h8 でもない(${g.assessedStage})`); continue;
         }
         nH4++;
         if (!(Math.abs(g.assessedValue - ds.dtQuarter) <= Math.abs(ds.dtQuarter) * 1e-15))
@@ -3276,7 +3289,8 @@ const add = (id, pass, detail) => {
           bad.push(`①${p.id}|${q.kind} の σ 倍が判定段の値から出ていない`);
       } else {
         nOther++;
-        if (q.assessedStage === 'h4' || (g.assessedStage && g.assessedStage !== 'h'))
+        if (q.assessedStage === 'h4' || q.assessedStage === 'h8'
+          || (g.assessedStage && g.assessedStage !== 'h'))
           bad.push(`④登録表の外の系で判定段が動いている(${p.id}|${q.kind})`);
       }
     }
@@ -3304,7 +3318,9 @@ const add = (id, pass, detail) => {
     + `**h 段の値は \`coarseValue\`・|Q_h−Q_{h/4}| は \`coarseNumBound\` に履歴として残す** / `
     + `**登録表の外(2 段だけ)の系の扱いは変えていない** / `
     + `次数は**連続 2 段差が同符号のときだけ**推定する(非単調列・3 段完全一致は `
-    + `\`orderNotEstimable\` で保留)/ 判定段 h/4 の量 ${nH4} 件・登録外の 3 段の量 ${nOther} 件`
+    + `\`orderNotEstimable\` で保留)/ 判定段 h/4 の量 ${nH4} 件・`
+    + `第272便a(AG1)で h/8 へ昇格した量 ${nH8} 件(検査は \`docs.h8Rule\`)・`
+    + `登録外の 3 段の量 ${nOther} 件`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 
@@ -3331,8 +3347,9 @@ const add = (id, pass, detail) => {
     if (!P) bad.push('①走行 JSON に ❄️ が無い');
     else {
       const stages = ((P.run || {}).stopRuleStages || []);
-      if (stages.length !== 3) bad.push(`②3 段の停止条件の記録が無い(${stages.length} 段)`);
-      const want = { 'dt': 20694498, 'dt/2': 41388996, 'dt/4': 82777992 };
+      // 第272便a(AG1): 条件つき h/8 を足したので **4 段**である(步数は刻みに反比例)。
+      if (stages.length !== 4) bad.push(`②4 段の停止条件の記録が無い(${stages.length} 段)`);
+      const want = { 'dt': 20694498, 'dt/2': 41388996, 'dt/4': 82777992, 'dt/8': 165555984 };
       for (const s of stages) {
         if (s.maxStepsSource !== 'preset')
           bad.push(`②${s.tag} の步数上限が preset 宣言でない(${s.maxStepsSource})`);
@@ -3346,10 +3363,18 @@ const add = (id, pass, detail) => {
       if (!q) bad.push('④❄️ の周期に 3 段の判定行が無い');
       else {
         const c = q.gate.convergence || {};
-        if (c.steps !== 3) bad.push(`④3 段になっていない(${c.steps})`);
-        if (q.gate.assessedStage !== 'h4') bad.push(`④判定段が h/4 でない(${q.gate.assessedStage})`);
+        // 第272便a(AG1): ❄️ の周期は |p−2| = 1.37 なので**条件つき h/8 の対象**である。
+        // 昇格した量は正式段が (h/2, h/4, h/8) の **4 段**、昇格しない量は 3 段のままである。
+        const wantSteps = (q.gate.assessedStage === 'h8') ? 4 : 3;
+        if (c.steps !== wantSteps)
+          bad.push(`④判定段 ${q.gate.assessedStage} に対して ${wantSteps} 段になっていない(${c.steps})`);
+        if (!['h4', 'h8'].includes(q.gate.assessedStage))
+          bad.push(`④判定段が h/4 でも h/8 でもない(${q.gate.assessedStage})`);
         if (q.stageHealth && q.stageHealth.sameFitWindow !== true)
           bad.push('③3 段で fit の窓(近点の本数)が揃っていない');
+        if (q.gate.assessedStage === 'h8' && !(q.stageHealth
+          && q.stageHealth.sameFitWindowWithH8 === true))
+          bad.push('④4 段で fit の窓が揃っていないのに h/8 へ昇格している');
       }
       for (const z of (P.quantities || [])) if (z.gate && z.kind === 'period')
         statusList.push(z.gate.status);
@@ -3363,7 +3388,8 @@ const add = (id, pass, detail) => {
     + `**dt/2(41,388,996)と dt/4(82,777,992)が階級上限 40e6 を超える**ことを確かめてから、`
     + `60 公転ぶんの步数を \`PRESET_MAX_STEPS\` に宣言した(AF3・版 w271a-1)—— `
     + `そうしないと h/4 が 29 公転で切れて **3 段の窓が揃わない** / `
-    + `3 段の近点 ${st.join(' , ') || '—'}(3 段とも同じ窓)/ 判定段は h/4 / `
+    + `各段の近点 ${st.join(' , ') || '—'}(全段とも同じ窓)/ `
+    + `第272便a(AG1)で**条件つき h/8(165,555,984 步)**を足した / `
     + `周期行の門 ${statusList.join(' , ') || '—'} —— **登録は合格の宣言ではない**`
     + `(登録した結果どちらへ動くかは走らせて測った。旧状態は \`fourValues.history\` にある)`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
@@ -3374,7 +3400,7 @@ const add = (id, pass, detail) => {
 // ----     ① `STOP_RULE_SPEC.version` = `STOP_RULE_VERSION` = 走行 JSON の版 = 照合器の版。
 // ----     ② 規約の表(階級上限・preset 宣言・必要近点数・資源上限)が**実際の定数と同じ**である
 // ----        (版を上げずに中身を変えたらここで落ちる)。
-// ----     ③ 版の履歴に **w270a-1(preset 宣言 4 本)と w271a-1(5 本)**が並んでいて、
+// ----     ③ 版の履歴に **w270a-1(preset 宣言 4 本)・w271a-1(5 本)・w272a-1(5 本)**が並んでいて、
 // ----        最新の件数が実際の宣言の本数と一致する。
 // ----     ④ 未完走の語彙が **max-steps / window / resource-limit** の 3 語だけである。
 // ----     ⑤ **全系一律の步数にはしない**という宣言が規約に書いてある。
@@ -3389,7 +3415,7 @@ const add = (id, pass, detail) => {
     const S = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'stoprule-w270a.json'), 'utf8'));
     const spec = L.STOP_RULE_SPEC || {};
     ver = L.STOP_RULE_VERSION;
-    if (ver !== 'w271a-1') bad.push(`①版が w271a-1 でない(${ver})`);
+    if (ver !== 'w272a-1') bad.push(`①版が w272a-1 でない(${ver})`);
     if (spec.version !== ver) bad.push('①規約の版が定数と違う');
     if (((C.meta || {}).stopRule || {}).version !== ver) bad.push('①走行 JSON の版が違う');
     if (S.version !== ver) bad.push('①照合器の版が違う');
@@ -3411,7 +3437,9 @@ const add = (id, pass, detail) => {
     for (const id of ['solarInner', 'uranusReal', 'saturnRingReal', 'saturnRingRealKF1', 'plutoCharonReal'])
       if (!L.PRESET_MAX_STEPS[id]) bad.push(`②preset 宣言に ${id} が無い`);
     hist = spec.history || [];
-    if (hist.length < 2) bad.push('③版の履歴が 2 件以上ない');
+    if (hist.length < 3) bad.push('③版の履歴が 3 件以上ない(w270a-1 / w271a-1 / w272a-1)');
+    else if (hist[1].version !== 'w271a-1' || hist[1].presetMaxSteps !== 5)
+      bad.push('③w271a-1(preset 宣言 5 本)の履歴が無い');
     else {
       if (hist[0].version !== 'w270a-1' || hist[0].presetMaxSteps !== 4)
         bad.push('③初版(w270a-1・preset 宣言 4 本)の履歴が無い');
@@ -3425,7 +3453,8 @@ const add = (id, pass, detail) => {
     if (!spec.notUniform || spec.notUniform.indexOf('一律') < 0)
       bad.push('⑤「全系一律にはしない」という宣言が無い');
     const md = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
-    if (md.indexOf('w271a-1') < 0) bad.push('⑥文書に版 w271a-1 が無い');
+    if (md.indexOf('w272a-1') < 0) bad.push('⑥文書に版 w272a-1 が無い');
+    if (md.indexOf('w271a-1') < 0) bad.push('⑥文書から旧版 w271a-1 の履歴が消えている');
     if (md.indexOf('82,777,992') < 0) bad.push('⑥文書にカロンの dt/4 の步数宣言が無い');
   } catch (e) { bad.push('停止条件の版が読めない: ' + String(e).slice(0, 90)); }
   add('docs.stopRuleVersion', bad.length === 0,
@@ -3528,6 +3557,317 @@ const add = (id, pass, detail) => {
     + `**単独で配ると参照先が欠ける** —— 欠けたことが分かるように \`…Moved\` の印を残してある`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
+
+// ---- 0a3w) 第272便a(第62報・統括の検証項目 R10): docs.periodContractRows ----
+// ----   **行ごとの測定定義契約**を機械固定する(fs のみ)。
+// ----     ① 正本に `periodContract` があり、宣言 4 行がすべて量に当たっている。
+// ----     ② 宣言した定義(`declaredDef`)と、実際に配られた定義(`appliedDef`)が一致する。
+// ----     ③ `periastron` の行の判定値は**近点検出器 A の値**であって、同方向 1 周の値ではない。
+// ----     ④ ε_num も同じ定義で作られている(`numBoundDef === 'periastron'`)。
+// ----     ⑤ `mappingUnresolved` を宣言した行(❄️)の門は **mapping-unresolved** であって
+// ----        「数値未解決」ではない(**数が足りないのではなく、対応が未確定である**)。
+// ----     ⑥ 文書(docs/CALIBRATION_VERDICT_v1.44.md)に §5.18 と行契約の記述がある。
+// ----   **書かないこと**: 「定義を直したので合った」「判定が増えた」。
+{
+  const bad = [];
+  let pc = null, nRows = 0, mapRows = 0;
+  try {
+    const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+    pc = C.periodContract || null;
+    if (!pc) bad.push('①正本に periodContract が無い');
+    else {
+      nRows = pc.matchedRows || 0;
+      if (pc.declaredRows !== 4) bad.push(`①宣言が 4 行でない(${pc.declaredRows})`);
+      if (nRows !== pc.declaredRows)
+        bad.push(`①宣言 ${pc.declaredRows} 行のうち量に当たったのは ${nRows} 行`);
+      for (const r of (pc.rows || [])) {
+        if (r.declaredDef !== r.appliedDef)
+          bad.push(`②${r.id} の定義が宣言と違う(宣言 ${r.declaredDef} / 実際 ${r.appliedDef})`);
+        if (r.declaredDef === 'periastron') {
+          if (!(Number.isFinite(r.periASec) && Math.abs(r.meas - r.periASec) < 1e-9))
+            bad.push(`③${r.id} の判定値が近点検出器 A の値でない`);
+          if (Number.isFinite(r.revSec1) && Math.abs(r.meas - r.revSec1) < 1e-9)
+            bad.push(`③${r.id} に同方向 1 周の値が配られている`);
+          if (r.numBoundDef !== 'periastron')
+            bad.push(`④${r.id} の ε_num が別定義(${r.numBoundDef})`);
+        }
+        if (r.mappingDeclared) {
+          mapRows++;
+          if (r.mappingResolved !== false)
+            bad.push(`⑤${r.id} は mapping 未確定を宣言しているのに門が読んでいない`);
+          if (r.gateStatus !== 'mapping-unresolved')
+            bad.push(`⑤${r.id} の門が mapping-unresolved でない(${r.gateStatus})`);
+        }
+      }
+      if (mapRows !== 1) bad.push(`⑤mapping 未確定を宣言した行が 1 行でない(${mapRows})`);
+    }
+    const md = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
+    if (!/### 5\.18 /.test(md)) bad.push('⑥§5.18 が無い');
+    if (md.indexOf('行ごとの測定定義契約') < 0) bad.push('⑥文書に行ごとの測定定義契約の記述が無い');
+  } catch (e) { bad.push('行契約が読めない: ' + String(e).slice(0, 90)); }
+  add('docs.periodContractRows', bad.length === 0,
+    `**行ごとの測定定義契約**(第272便a・統括の検証項目 R10): obsCard の行名が「近点間」と`
+    + `名乗っている **${pc ? pc.declaredRows : '—'} 行**(❄️ カロン・📡 D68・🌘 恒星月・🧲 恒星月)に、`
+    + `第271便a までは**同方向 1 周の値**が配られていた(\`periodDef:"revolution"\`)—— `
+    + `preset 単位の定義契約(第251便c)が、**1 つの preset の中で定義の違う行**を見ていなかった / `
+    + `本便で preset id + **既存の行名**の宣言列挙にし、\`periastron\` の行は`
+    + `**全段で近点検出器 A の 20 近点窓の近点間周期**を配る(ε_num も同じ定義)/ `
+    + `**近点が測れない段は他の周期へ置換しない** / 円に近い系(❄️・実測 eProxy ≈1.2×10⁻³)の行は`
+    + `**\`mapping-unresolved\`**(数が足りないのではなく観測量対応が未確定である —— `
+    + `**「数値未解決」とは混ぜない**)/ **これは合否の宣言ではない**`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0a3x) 第272便a(第62報・統括の検証項目 R11): lint.calauditMergeKeyHash ----
+// ----   **--merge の鍵に「何を測ったか」と「何で測ったか」の hash が入っている**ことを固定する。
+// ----     ① `mergeKey.targetSha256` が実在の `beta/index.html` の完全な SHA-256 と一致する。
+// ----     ② `mergeKey.measurementCodeSha256` が、列挙したファイル群から**再計算できる**。
+// ----     ③ 列挙(`measurementCodeFiles`)に本器と import している lib がすべて入っている。
+// ----     ④ `meta` にも同じ 2 つの hash がある(正本 1 つを読めば来歴が辿れる)。
+// ----     ⑤ 鍵の規約文に「パス文字列では中身の違いを検出できない」という理由が書いてある。
+// ----   **書かないこと**: 「hash を足したので混ざらなくなった」(**混ざったら止まる**である)。
+{
+  const bad = [];
+  let mk = null, nFiles = 0, recomputed = null;
+  try {
+    const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+    mk = C.mergeKey || null;
+    const meta = C.meta || {};
+    if (!mk) bad.push('①mergeKey が無い');
+    else {
+      const tgt = path.join(ROOT, mk.target || 'beta/index.html');
+      if (!fs.existsSync(tgt)) bad.push('①対象 HTML が存在しない');
+      else {
+        const sha = crypto.createHash('sha256').update(fs.readFileSync(tgt)).digest('hex');
+        if (!mk.targetSha256) bad.push('①mergeKey に targetSha256 が無い');
+        else if (mk.targetSha256 !== sha)
+          bad.push(`①targetSha256 が現在の ${mk.target} と違う(走行後に html が動いた)`);
+        if (mk.targetSha256 && mk.targetSha256.length !== 64)
+          bad.push('①targetSha256 が完全な SHA-256(64 桁)でない');
+      }
+      const files = mk.measurementCodeFiles || [];
+      nFiles = files.length;
+      if (!nFiles) bad.push('③measurementCodeFiles の列挙が無い');
+      for (const f of ['tests/exp-w249b-calaudit.mjs', 'tests/lib-w258d-evidence.mjs',
+        'tests/lib-w268a-judgement.mjs', 'tests/lib-w270a-stoprule.mjs',
+        'tests/lib-w270b-obscsv.mjs', 'tests/lib-sigma-destinations.mjs',
+        'tests/lib-w264d-sigmamark.mjs'])
+        if (!files.includes(f)) bad.push(`③列挙に ${f} が無い`);
+      recomputed = crypto.createHash('sha256').update(files.slice().sort().map((f) => f + ':'
+        + crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, f))).digest('hex')
+      ).join('\n')).digest('hex');
+      if (!mk.measurementCodeSha256) bad.push('②measurementCodeSha256 が無い');
+      else if (mk.measurementCodeSha256 !== recomputed)
+        bad.push('②measurementCodeSha256 が列挙から再計算できない(器が動いた)');
+      if (meta.targetSha256 !== mk.targetSha256) bad.push('④meta の targetSha256 が鍵と違う');
+      if (meta.measurementCodeSha256 !== mk.measurementCodeSha256)
+        bad.push('④meta の measurementCodeSha256 が鍵と違う');
+      if (String(mk.hashRule || '').indexOf('パス文字列') < 0)
+        bad.push('⑤鍵の規約文に「パス文字列では中身の違いを検出できない」が無い');
+    }
+  } catch (e) { bad.push('merge の鍵が読めない: ' + String(e).slice(0, 90)); }
+  add('lint.calauditMergeKeyHash', bad.length === 0,
+    `**\`--merge\` の鍵に対象 HTML と測定コードの hash**(第272便a・統括の検証項目 R11): `
+    + `第271便a までの \`mergeKey.target\` は**パス文字列**(\`beta/index.html\`)だけだったので、`
+    + `**同じパスの中身が動いた走行どうしが黙って混ざる** / 本便で `
+    + `\`targetSha256\`(html の完全 SHA-256 \`${mk && mk.targetSha256 ? mk.targetSha256.slice(0, 12) : '—'}…\`)と `
+    + `\`measurementCodeSha256\`(本器 + import する lib **${nFiles} 本**の「パス:SHA-256」の SHA-256 `
+    + `\`${mk && mk.measurementCodeSha256 ? mk.measurementCodeSha256.slice(0, 12) : '—'}…\`)を足した / `
+    + `**第271便a までの保存物はこの 2 欄を持たないので \`--merge\` が止まる**(意図した動作 —— `
+    + `通常走行 + \`--dt3-registry --merge\` で作り直す)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0a3y) 第272便a(第62報・統括の検証項目 R12・AG26): docs.adoptedUnitColumns ----
+// ----   **採用解の列の単位を分けた**ことと、**23 件の分解**を機械固定する(fs のみ)。
+// ----     ① `adopted.unit` は**判定量の単位**・`csvUnit` は CSV 行の単位で、両方が入っている。
+// ----     ② 単位が違う行の `centerMatchesCsv` は **null + 理由 `unit-differs`** である
+// ----        (「中心値が一致しない」と数えない)。
+// ----     ③ `adoptedCensus.mismatch` が **単位違い**と**同単位の中心値差**に分かれていて、
+// ----        合計が第271便a の 23 件と一致する。
+// ----     ④ `solutionId` は**選ばれた CSV 行**から読んでいる(宣言だけを読んでいない)。
+// ----     ⑤ 文書に分解した内訳(単位違い/同単位差)が書いてある。
+// ----   **書かないこと**: 「23 件を直した」「採用解を揃えた」。**分けて数えただけ**である。
+{
+  const bad = [];
+  let ce = null, nUnit = 0, nSame = 0;
+  try {
+    const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+    ce = C.adoptedCensus || null;
+    if (!ce) bad.push('①adoptedCensus が無い');
+    else {
+      nUnit = (ce.mismatch || {}).unitDiffers ? ce.mismatch.unitDiffers.length : -1;
+      nSame = (ce.mismatch || {}).sameUnitCenterDiffers ? ce.mismatch.sameUnitCenterDiffers.length : -1;
+      if (nUnit < 0 || nSame < 0) bad.push('③adoptedCensus.mismatch の 2 分類が無い');
+      if (nUnit + nSame !== 23)
+        bad.push(`③単位違い ${nUnit} + 同単位差 ${nSame} が第271便a の 23 件と合わない`);
+      if (nUnit !== 16) bad.push(`③単位違いが 16 件でない(${nUnit})`);
+      if (nSame !== 7) bad.push(`③同単位差が 7 件でない(${nSame})`);
+      if (ce.centerDiffersFromCsv !== nSame)
+        bad.push('③centerDiffersFromCsv が同単位差の件数と違う');
+      if (!ce.sameUnitRelSpread) bad.push('③同単位差の大きさ(丸めの桁)が記録されていない');
+      else if (!(ce.sameUnitRelSpread.max < 1e-6))
+        bad.push(`③同単位差の最大が丸めの桁を超える(${ce.sameUnitRelSpread.max})`);
+    }
+    let nUnitCol = 0, nBadNull = 0, nSolFromRow = 0, nSolFromDeclOnly = 0;
+    for (const p of (C.presets || [])) for (const q of (p.quantities || [])) {
+      const a = q.adopted; if (!a) continue;
+      if (a.unit !== undefined && a.csvUnit !== undefined) nUnitCol++;
+      if (a.unit !== null && a.unit !== (q.unit || null)) bad.push(`①${p.id} の adopted.unit が判定量の単位でない`);
+      if (a.unitSame === false) {
+        if (a.centerMatchesCsv !== null) nBadNull++;
+        if (!/unit-differs/.test(String(a.centerNotComparableReason || ''))) nBadNull++;
+      }
+      if (a.solutionId) nSolFromRow++;
+      if (!a.solutionId && a.declaredSolutionId) nSolFromDeclOnly++;
+    }
+    if (!(nUnitCol > 0)) bad.push('①unit / csvUnit の 2 欄が 1 行も無い');
+    if (nBadNull) bad.push(`②単位違いなのに中心値を比べている行が ${nBadNull} 件`);
+    if (nSolFromDeclOnly) bad.push(`④solutionId を宣言からしか読めていない行が ${nSolFromDeclOnly} 件`);
+    if (!(nSolFromRow >= 0)) bad.push('④solutionId の会計が取れない');
+    const md = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
+    if (md.indexOf('単位違い 16') < 0 && md.indexOf('単位違い **16**') < 0)
+      bad.push('⑤文書に単位違い 16 件の分解が無い');
+    if (md.indexOf('同単位の差 7') < 0 && md.indexOf('同単位の差 **7**') < 0)
+      bad.push('⑤文書に同単位差 7 件の分解が無い');
+  } catch (e) { bad.push('採用解の列が読めない: ' + String(e).slice(0, 90)); }
+  add('docs.adoptedUnitColumns', bad.length === 0,
+    `**採用解の列の単位を分けた**(第272便a・統括の検証項目 R12・AG26): `
+    + `\`adopted.unit\` は**判定量の単位**・\`csvUnit\` は CSV 行の単位で、`
+    + `**単位が違う行の中心値は比べない**(\`centerMatchesCsv:null\` + 理由 \`unit-differs\`)/ `
+    + `第271便a が「中心値が CSV 行と一致しない **23 件**」と数えた集合は、`
+    + `**単位違い ${nUnit} 件**(近点移動 deg/orbit ↔ CSV deg/yr)+ **同単位の差 ${nSame} 件**`
+    + `(相対 ${ce && ce.sameUnitRelSpread ? ce.sameUnitRelSpread.min.toExponential(1) + '〜'
+      + ce.sameUnitRelSpread.max.toExponential(1) : '—'} = **丸めの桁**)に分かれる / `
+    + `\`solutionId\` は**選ばれた CSV 行**から読む(宣言は照合条件であって出所ではない)/ `
+    + `**「23 件を直した」「採用解を揃えた」とは書かない** —— 分けて数えただけである`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0a3z) 第272便a(第62報・AG1): docs.h8Rule ----
+// ----   **条件つき h/8 の規約**を機械固定する(fs のみ)。
+// ----     ① 正本に `h8.conditionalRule`(条件・正式段・ε̂ の定義・同じ窓の宣言)がある。
+// ----     ② 昇格した量は **|p−2| > 0.5**(3 段の観測次数)であり、判定段が `h8`・
+// ----        ε_num が |Q_{h/4}−Q_{h/8}|・p が shifted になっている。
+// ----     ③ **|p−2| ≤ 0.5 の量は昇格していない**(結果を見て段を選んでいない)。
+// ----     ④ 昇格しなかった量には**理由**が入っている(黙って落としていない)。
+// ----     ⑤ 登録表に**走らせていない系**(階級上限で 60 公転を覆えない)が理由つきで並ぶ。
+// ----     ⑥ 文書に規約と ❄️ の h/8 の步数が書いてある。
+// ----   **書かないこと**: 「h/8 で必ず収束する」「段を増やしたので収束した」。
+{
+  const bad = [];
+  let h8 = null, nPromoted = 0, nRun = 0, nNotRun = 0;
+  try {
+    const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+    h8 = C.h8 || null;
+    if (!h8) bad.push('①正本に h8 が無い');
+    else {
+      const r = h8.conditionalRule || null;
+      if (!r) bad.push('①h8.conditionalRule が無い');
+      else {
+        for (const k of ['condition', 'formalStages', 'epsHat', 'sameWindow', 'doNotWrite'])
+          if (!r[k]) bad.push(`①規約に ${k} が無い`);
+        if (String(r.formalStages).indexOf('h/8') < 0) bad.push('①正式段の宣言に h/8 が無い');
+      }
+      nRun = (h8.registryRun || []).length;
+      nNotRun = (h8.registryNotRun || []).length;
+      if (!(nRun > 0)) bad.push('⑤登録表に走らせた系が無い');
+      for (const z of (h8.registryNotRun || []))
+        if (!z.blocked || !Number.isFinite(z.stepsH8))
+          bad.push(`⑤未走行の系 ${z.id} に理由か步数が無い`);
+      for (const row of (h8.rows || [])) {
+        if (row.promoted) {
+          nPromoted++;
+          if (!(Number.isFinite(row.pObs3) && Math.abs(row.pObs3 - 2) > 0.5))
+            bad.push(`②昇格した量の |p−2| が 0.5 以下(${row.id} ${row.kind})`);
+          if (row.assessedStage !== 'h8') bad.push(`②昇格した量の判定段が h8 でない(${row.id})`);
+          if (!Number.isFinite(row.assessedValue)
+            || Math.abs(row.assessedValue - row.stages.dtEighth) > 1e-9)
+            bad.push(`②昇格した量の判定値が h/8 段の値でない(${row.id})`);
+          const last = Math.abs(row.stages.dtQuarter - row.stages.dtEighth);
+          if (Number.isFinite(row.lastDiff) && Math.abs(row.lastDiff - last) > 1e-9 * Math.max(1, last))
+            bad.push(`②昇格した量の ε_num が |Q_{h/4}−Q_{h/8}| でない(${row.id})`);
+        } else {
+          if (Number.isFinite(row.pObs3) && Math.abs(row.pObs3 - 2) <= 0.5
+            && row.assessedStage === 'h8') bad.push(`③|p−2|≤0.5 の量が昇格している(${row.id})`);
+          if (!row.promoteReason) bad.push(`④昇格しなかった理由が無い(${row.id} ${row.kind})`);
+        }
+      }
+    }
+    const md = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
+    if (md.indexOf('条件つき h/8') < 0) bad.push('⑥文書に条件つき h/8 の規約が無い');
+    if (md.indexOf('165,555,984') < 0) bad.push('⑥文書に ❄️ の h/8 の步数が無い');
+  } catch (e) { bad.push('h/8 の規約が読めない: ' + String(e).slice(0, 90)); }
+  add('docs.h8Rule', bad.length === 0,
+    `**条件つき h/8**(第272便a・AG1): **規約を先に書いてから走らせた** —— `
+    + `対象は「3 段登録系 かつ その量の 3 段観測次数が **|p−2| > 0.5**」だけで、`
+    + `**結果を見てから段を選ばない** / 昇格した量の正式段は **(h/2, h/4, h/8)**・`
+    + `ε_num = |Q_{h/4}−Q_{h/8}|・p は shifted・ε̂ = 最終 2 段差/(2^p−1) / `
+    + `登録表は**走らせた ${nRun} 系**と、**階級上限 40,000,000 步で 60 公転を覆えないので`
+    + `走らせていない ${nNotRun} 系**(步数を計算して並べた —— 推測で埋めない)に分かれる / `
+    + `昇格した量 **${nPromoted}**(昇格しなかった量には理由が入っている)/ `
+    + `**「h/8 で必ず収束する」とは書かない** —— 昇格は収束の宣言ではない`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0a4a) 第272便a(第62報・原仮定者の仮説(第62報)): docs.issuesSync ----
+// ----   **問題一覧の件数が正本 JSON と一致する**ことを機械固定する(fs のみ)。
+// ----     ① `docs/CALIBRATION_ISSUES_v1.45.md` と `tests/out/issues-w272a.json` が実在する。
+// ----     ② 文書のサンプル表の行数 = 正本 JSON の preset 数。
+// ----     ③ 文書に書いた 4 値・門の数が正本 JSON の `fourValues.current` と一致する。
+// ----     ④ 問題分類の件数が JSON の `classCensus` と一致する。
+// ----     ⑤ 理論対照 3 本が**母集団の外**であると明記されている。
+// ----     ⑥ 禁止語(「較正した」「判定が増えた」「カロンが合」「カロンが否」)が本文に無い。
+// ----   **書かないこと**: 「問題を解決した」。**数えただけ**である。
+{
+  const bad = [];
+  let nRows = 0, nClasses = 0;
+  try {
+    const MD = path.join(ROOT, 'docs', 'CALIBRATION_ISSUES_v1.45.md');
+    const JS = path.join(ROOT, 'tests', 'out', 'issues-w272a.json');
+    if (!fs.existsSync(MD)) bad.push('①問題一覧の文書が無い');
+    if (!fs.existsSync(JS)) bad.push('①問題一覧の JSON が無い');
+    if (!bad.length) {
+      const md = fs.readFileSync(MD, 'utf8');
+      const J = JSON.parse(fs.readFileSync(JS, 'utf8'));
+      const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+      nRows = J.nPresets; nClasses = (J.classCensus || []).length;
+      if (nRows !== (C.presets || []).length)
+        bad.push(`②JSON のサンプル数が正本と違う(${nRows} / ${(C.presets || []).length})`);
+      const tableRows = md.split('\n').filter((l) => /^\| \d+ \| /.test(l)).length;
+      if (tableRows < nRows) bad.push(`②文書の表が ${tableRows} 行で ${nRows} 本に足りない`);
+      const cur = (C.fourValues || {}).current || {};
+      const four = ['合', '量限定合', '否', '保留'].map((k) => (cur.counts || {})[k]).join('/');
+      if (md.indexOf(four) < 0) bad.push(`③文書に現行 4 値 ${four} が無い`);
+      const gate = ['合(3σ)', '否(3σ)', '数値未解決', 'mapping-unresolved',
+        'condition-mismatch', '未判定'].map((k) => (cur.gate || {})[k]).join('/');
+      if (md.indexOf(gate) < 0) bad.push(`③文書に現行の門 ${gate} が無い`);
+      for (const c of (J.classCensus || [])) {
+        if (md.indexOf('**' + c.title + '** | ' + c.n + ' | ' + c.presets) < 0)
+          bad.push(`④分類「${c.title}」の件数が文書と JSON で違う`);
+      }
+      if (!/母集団の外/.test(md)) bad.push('⑤理論対照が母集団の外である明記が無い');
+      for (const w of ['較正した', '判定が増えた', 'カロンが合', 'カロンが否']) {
+        for (const line of md.split('\n')) {
+          const bare = line.replace(/[「『][^」』]*[」』]/g, '');
+          if (bare.indexOf(w) >= 0) { bad.push(`⑥禁止語「${w}」: ${line.slice(0, 40)}`); break; }
+        }
+      }
+    }
+  } catch (e) { bad.push('問題一覧が読めない: ' + String(e).slice(0, 90)); }
+  add('docs.issuesSync', bad.length === 0,
+    `**現実較正サンプルの問題一覧**(第272便a・原仮定者の仮説(第62報)「起きている問題を一覧で整理する」): `
+    + `\`docs/CALIBRATION_ISSUES_v1.45.md\` を \`tests/exp-w272a-issues.mjs\` が正本 JSON から`
+    + `**機械生成**する(手で打った数字は 1 つも無い)/ サンプル **${nRows} 本**(理論対照 3 本は`
+    + `**母集団の外** —— 観測較正のサンプルではなく、走行対象に入っていない)`
+    + `× {4 値・門の内訳・保留の理由・σ 接続・止まり方} / `
+    + `問題分類 **${nClasses} 区分**(σ・測定値不足 / 数値 / 観測量対応 / 条件違い / 中心値集計 / `
+    + `単位 / 入力と予測の循環 / 表示)+ **カロン固有の問題**(対照条件・周期定義・円軌道の近点・`
+    + `数値収束・入力の一組性・softening・f 近似・潮汐ロックの動的維持・geoPN=3 の受理条件)/ `
+    + `**「問題を解決した」とは書かない** —— 数えただけである`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
 
 // ---- 第268便b(第58報 W2・統括の読み (E)(J)): docs.transcriptionCorrections ----
 // ----   `paper/data/solar-observations.csv` の**転写訂正 4 件**と、値を動かさない**注記 3 件**を
@@ -34931,7 +35271,11 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       }
       if (g.status === 'mapping-unresolved') {
         nMap++;
-        if (q.kind !== 'ecc') bad.push(`④宣言外の量が mapping-unresolved ${p.id}|${q.kind}`);
+        // 第272便a(R10): `ecc` のほかに、**行ごとの測定定義契約で宣言した行**が入る
+        //   (`gate.rowDefContract.mappingUnresolved` を宣言した行だけ —— 閾値では入らない)。
+        const rowDeclared = !!((g.rowDefContract || {}).mappingUnresolved);
+        if (q.kind !== 'ecc' && !rowDeclared)
+          bad.push(`④宣言外の量が mapping-unresolved ${p.id}|${q.kind}`);
         if (!g.mappingNote) bad.push(`④mapping-unresolved に理由が無い ${p.id}|${q.kind}`);
       }
       // ⑥ 条件不一致の隔離(第258便d)
@@ -35089,7 +35433,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     detail = st
       ? `4 段: ①数値収束 ${st['①数値収束']} / ②観測量対応 ${st['②観測量対応']} / `
         + `③観測適合(3σ) ${st['③観測適合(3σ)']} / ④予測 ${st['④予測(従属量でない③)']}`
-        + ` / mapping-unresolved ${nMap} 件(宣言どおり ecc のみ)・定義宣言済み ${nDecl}/${nGate} 量`
+        + ` / mapping-unresolved ${nMap} 件(宣言どおり —— ecc と、第272便a(R10)の行契約で宣言した行だけ)`
+        + `・定義宣言済み ${nDecl}/${nGate} 量`
         + ` / orbitNoiseIndicator ${nOni} 件(旧鍵 defSpreadPct とビット一致・門には入らない)`
         + ` / Float32 質量 ${nBody} 粒(保持質量 = fround(宣言)・ULP>0)`
         + ` / **第258便d**: 条件不一致 ${nCond} 行(venusReal を含む)・条件の印 ${nCtx}/${nGate} 量`
