@@ -3,56 +3,56 @@
   "provenanceVersion": "w272e-1",
   "wave": "第269便c(来歴は第272便e で共通化)",
   "target": "beta/index.html",
-  "targetSha256": "8cc68428c164dc517e120e27c4edcfbd815aa83247d056ddfbac1b0a36edab66",
-  "generatedAt": "2026-09-18T17:00:33.589Z",
+  "targetSha256": "69d78fa3195e883be9fa14473fa590f98304142e5b466fb2a80e4f70f418d44d",
+  "generatedAt": "2026-09-18T18:41:55.791Z",
   "code": [
    {
     "file": "tests/exp-w269c-sparc.mjs",
     "bytes": 53388,
     "sha256": "2bb5fbbdf6c8b263081acc429e6213535ec0fb2adb2ce57e95fe21480473f208",
-    "mtime": "2026-09-18T16:50:19.407Z"
+    "mtime": "2026-09-18T17:14:55.946Z"
    },
    {
     "file": "tests/lib-w269c-compare.mjs",
     "bytes": 23302,
     "sha256": "4ad9ab853706f86d499f8283be599df247040009ced2e1ee08754785a4fc79ef",
-    "mtime": "2026-09-18T16:50:05.175Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    },
    {
     "file": "tests/lib-w270b-obscsv.mjs",
     "bytes": 11382,
     "sha256": "d8803279fafdcdec19f79f71a296f72c9cc8c8bd406b81744a919f3391175248",
-    "mtime": "2026-09-18T16:51:42.091Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T16:49:38.419Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
   "codeSha256": "b061581b820fced358e6eac5af91197fddcab707b98768d831a3f4261cc7215b",
-  "measuredAt": "2026-09-18T17:00:33.590Z",
+  "measuredAt": "2026-09-18T18:41:55.791Z",
   "codeVersion": "tests/exp-w269c-sparc.mjs 第269便c",
   "declarationVersion": "compare-v1 / 第59報「完成=比較サンプル v1」",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4067091,
-    "sha256": "8cc68428c164dc517e120e27c4edcfbd815aa83247d056ddfbac1b0a36edab66",
-    "mtime": "2026-09-18T16:39:51.339Z"
+    "bytes": 4093334,
+    "sha256": "69d78fa3195e883be9fa14473fa590f98304142e5b466fb2a80e4f70f418d44d",
+    "mtime": "2026-09-18T17:16:37.683Z"
    },
    {
     "file": "paper/data/cluster-galaxy-observations.csv",
     "bytes": 94818,
     "sha256": "6fe0e68c2f539813d5339962dead965d2d7ef7f5ba6709deef5fceb22ec18461",
-    "mtime": "2026-09-18T16:39:51.471Z"
+    "mtime": "2026-09-18T09:19:35.127Z"
    },
    {
     "file": "tests/lib-w269c-compare.mjs",
     "bytes": 23302,
     "sha256": "4ad9ab853706f86d499f8283be599df247040009ced2e1ee08754785a4fc79ef",
-    "mtime": "2026-09-18T16:50:05.175Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
   "vocabulary": [
@@ -71,7 +71,7 @@
    "**観測量が得られないときは `not-measurable`(値 null)** —— 0 や最後の値で補わない。",
    "**「完成」は比較サンプル v1 である。観測一致は別段階で、現時点で未達である。**"
   ],
-  "spentSec": 186.4
+  "spentSec": 142
  },
  "contract": {
   "①傾斜": "観測(SPARC Vobs)は**傾斜補正済み**である → 抽出した接線速度に **sin i を再びかけない**。CSV の inclination 行にも「SPARC Vobs is ALREADY DEPROJECTED - do not divide by sin(i) again」とある。",

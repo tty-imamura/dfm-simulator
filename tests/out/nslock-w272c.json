@@ -4,11 +4,11 @@
   "section": "潮汐ロック枝(kFrame=0・f=1・λPN=1)",
   "harness": "w272c-nslock-1",
   "target": "beta/index.html",
-  "targetSha256": "8cc68428c164dc517e120e27c4edcfbd815aa83247d056ddfbac1b0a36edab66",
-  "csvSha256": "90616d1492887268d046067937bab6534a0a8f675dc2e326a86e12508f58366c",
+  "targetSha256": "69d78fa3195e883be9fa14473fa590f98304142e5b466fb2a80e4f70f418d44d",
+  "csvSha256": "26e3220b653c9953d669d42b0b2335bdc8b08b45fd98de7550d31bfd92030456",
   "libSha256": "2df3c481bafe279804244bb9ecfff4689c78aa72ed5242b07dae95ccc823b0f0",
   "src265Sha256": "e39a0bd29a955736c0f3718fad2361efcad83bfc6ec598e8b6642bd0156dc0f1",
-  "at": "2026-09-18T17:15:15.070Z",
+  "at": "2026-09-18T18:51:21.733Z",
   "dt0": 0.016,
   "divs": [
    1,
@@ -23,7 +23,7 @@
   "hypothesis": "**原仮定者の仮説(第62報)**「互いに潮汐ロックした天体は kFrame≈0 とみなせる」を**診断コピーで実測する**。既定の kFrame=1 と旧共同根(第265便a)は消さずに並べてある。",
   "claim": "**σ 倍は記録であって合否ではない。**「観測と合った」「潮汐ロックを証明した」「引きずり式が確定した」「共同根を再検証した」とは書かない。",
   "touched": "**内蔵プリセットは 1 bit も動かしていない**(diagnostic copy の physics.kFrame / physics.lambdaPN / bodies[].m だけを書き換える)。`S._core` には 1 命令も足していない。",
-  "spentSec": 407.9,
+  "spentSec": 411.5,
   "stages": 102
  },
  "builtinDeclared": [
