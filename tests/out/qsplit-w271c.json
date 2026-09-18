@@ -1,0 +1,416 @@
+{
+ "when": "2026-09-18T09:04:05.424Z",
+ "wave": "第271便c(第61報・統括の検証項目 R2/R4/R5・AF17)",
+ "target": "beta/index.html",
+ "clamp": {
+  "jcap": 1000000000000,
+  "declared": 500000000000000,
+  "afterBuild": 500000000000000,
+  "src": 500000000000000,
+  "warnings": 0,
+  "layersKept": true,
+  "afterRadiusEdit": 500000000000000,
+  "radiusEditOk": true,
+  "afterMassEdit": 500000000000000,
+  "afterRoundTrip": 500000000000000,
+  "canonQ": 500000000000000,
+  "afterJsonRoundTrip": 500000000000000,
+  "jsonWarnings": 0,
+  "mergedQ": 500000000000000,
+  "mergedJ": 0,
+  "mergedRep": false,
+  "setOk": true,
+  "engineMergedQ": 500000000000000,
+  "engineMergedAfterRadius": 500000000000000,
+  "rejects": [
+   {
+    "what": "cfg.Q=Infinity",
+    "r": {
+     "ok": false,
+     "reason": "qNotFinite"
+    },
+    "q": 500000000000000
+   },
+   {
+    "what": "cfg.Q=NaN",
+    "r": {
+     "ok": false,
+     "reason": "qNotFinite"
+    },
+    "q": 500000000000000
+   },
+   {
+    "what": "preset Q=Infinity(JSON で null 化)",
+    "layers": true,
+    "warn": 0,
+    "qAfterBuild": 10
+   },
+   {
+    "what": "preset Q=\"1e20\"(非数値)",
+    "layers": false,
+    "warn": 1
+   },
+   {
+    "what": "zetaConst overflow",
+    "r": {
+     "ok": false,
+     "reason": "qNotFinite"
+    },
+    "q": 500000000000000
+   }
+  ],
+  "qBeforeRejects": 500000000000000
+ },
+ "nullQ": [
+  {
+   "tag": "Q 未指定(J=10・ζ=2)",
+   "Q": 5,
+   "decl": 1,
+   "qBit": false,
+   "zetaRepresentable": true
+  },
+  {
+   "tag": "Q:null(J=10・ζ=2)",
+   "Q": 5,
+   "decl": 1,
+   "qBit": false,
+   "zetaRepresentable": true
+  },
+  {
+   "tag": "Q:0 の明示(J=10・ζ=2)",
+   "Q": 0,
+   "decl": 9,
+   "qBit": true,
+   "zetaRepresentable": false
+  },
+  {
+   "tag": "Q:3 の明示(J=10・ζ=2)",
+   "Q": 3,
+   "decl": 9,
+   "qBit": true,
+   "zetaRepresentable": true
+  },
+  {
+   "tag": "J も Q も未指定",
+   "Q": 0,
+   "decl": 0,
+   "qBit": false,
+   "zetaRepresentable": false
+  }
+ ],
+ "editJ0": [
+  {
+   "tag": "build(J=10・Q=5)",
+   "ok": null,
+   "reason": null,
+   "J": 10,
+   "Q": 5,
+   "zeff": {
+    "zetaEff": 2,
+    "representable": true,
+    "reason": null,
+    "classification": "representable"
+   }
+  },
+  {
+   "tag": "{J:0}",
+   "ok": true,
+   "reason": null,
+   "J": 0,
+   "Q": 0,
+   "zeff": {
+    "zetaEff": null,
+    "representable": false,
+    "reason": "bothZero",
+    "classification": "undefinedBothZero"
+   }
+  },
+  {
+   "tag": "{J:10}(明示なし)",
+   "ok": false,
+   "reason": "qAmbiguousAtJ0",
+   "J": 0,
+   "Q": 0,
+   "zeff": {
+    "zetaEff": null,
+    "representable": false,
+    "reason": "bothZero",
+    "classification": "undefinedBothZero"
+   }
+  },
+  {
+   "tag": "{J:10, Q:5}(Q を明示)",
+   "ok": true,
+   "reason": null,
+   "J": 10,
+   "Q": 5,
+   "zeff": {
+    "zetaEff": 2,
+    "representable": true,
+    "reason": null,
+    "classification": "representable"
+   }
+  },
+  {
+   "tag": "{J:0} をやり直す",
+   "ok": null,
+   "reason": null,
+   "J": 0,
+   "Q": 0,
+   "zeff": {
+    "zetaEff": null,
+    "representable": false,
+    "reason": "bothZero",
+    "classification": "undefinedBothZero"
+   }
+  },
+  {
+   "tag": "{J:10, inertiaScale:2}",
+   "ok": true,
+   "reason": null,
+   "J": 10,
+   "Q": 5,
+   "zeff": {
+    "zetaEff": 2,
+    "representable": true,
+    "reason": null,
+    "classification": "representable"
+   }
+  }
+ ],
+ "updateAtJ0": {
+  "mode": "zetaConst",
+  "J": 10,
+  "Q": 5,
+  "zetaEff": 2,
+  "representable": true,
+  "reason": "zetaUndefinedAtJ0"
+ },
+ "coreQ": [
+  {
+   "tag": "導出(Q 未指定・J=10・ζ=2)",
+   "Q": 5,
+   "source": "derived",
+   "I": 5,
+   "omega": 1,
+   "sourceRate": 1,
+   "mech": 1
+  },
+  {
+   "tag": "状態(Q=50・J=10・ζ=2)",
+   "Q": 50,
+   "source": "state",
+   "I": 5,
+   "omega": 1,
+   "sourceRate": 10,
+   "mech": 1
+  },
+  {
+   "tag": "状態(Q=0・J=10・ζ=2)",
+   "Q": 0,
+   "source": "state",
+   "I": 5,
+   "omega": 1,
+   "sourceRate": 0,
+   "mech": 1
+  },
+  {
+   "tag": "状態(Q=5・J=0・ζ=1)",
+   "Q": 5,
+   "source": "state",
+   "I": 5,
+   "omega": 0,
+   "sourceRate": 1,
+   "mech": 0
+  }
+ ],
+ "classScan": [
+  {
+   "rule": "role",
+   "n": 2025,
+   "sumPreserved": 2025,
+   "sumBroken": 0,
+   "classes": {
+    "representable": 1592,
+    "undefinedBothZero": 65,
+    "sourceWithoutJ": 160,
+    "JWithoutSource": 44,
+    "signMismatch": 164,
+    "notFinite": 0
+   },
+   "representable": 1592,
+   "notRepresentable": 433,
+   "sample": {
+    "representable": {
+     "ja": -20,
+     "za": 0.25,
+     "jb": -20,
+     "zb": 0.25,
+     "J": -40,
+     "Q": -160
+    },
+    "undefinedBothZero": {
+     "ja": -20,
+     "za": 0.25,
+     "jb": 20,
+     "zb": 0.25,
+     "J": 0,
+     "Q": 0
+    },
+    "sourceWithoutJ": {
+     "ja": -20,
+     "za": 0.25,
+     "jb": 20,
+     "zb": 0.5,
+     "J": 0,
+     "Q": -40
+    },
+    "JWithoutSource": {
+     "ja": -20,
+     "za": 0.5,
+     "jb": 10,
+     "zb": 0.25,
+     "J": -10,
+     "Q": 0
+    },
+    "signMismatch": {
+     "ja": -20,
+     "za": 0.5,
+     "jb": 15,
+     "zb": 0.25,
+     "J": -5,
+     "Q": 20
+    }
+   }
+  },
+  {
+   "rule": "add",
+   "n": 2025,
+   "sumPreserved": 2025,
+   "sumBroken": 0,
+   "classes": {
+    "representable": 1592,
+    "undefinedBothZero": 65,
+    "sourceWithoutJ": 160,
+    "JWithoutSource": 44,
+    "signMismatch": 164,
+    "notFinite": 0
+   },
+   "representable": 1592,
+   "notRepresentable": 433,
+   "sample": {
+    "representable": {
+     "ja": -20,
+     "za": 0.25,
+     "jb": -20,
+     "zb": 0.25,
+     "J": -40,
+     "Q": -160
+    },
+    "undefinedBothZero": {
+     "ja": -20,
+     "za": 0.25,
+     "jb": 20,
+     "zb": 0.25,
+     "J": 0,
+     "Q": 0
+    },
+    "sourceWithoutJ": {
+     "ja": -20,
+     "za": 0.25,
+     "jb": 20,
+     "zb": 0.5,
+     "J": 0,
+     "Q": -40
+    },
+    "JWithoutSource": {
+     "ja": -20,
+     "za": 0.5,
+     "jb": 10,
+     "zb": 0.25,
+     "J": -10,
+     "Q": 0
+    },
+    "signMismatch": {
+     "ja": -20,
+     "za": 0.5,
+     "jb": 15,
+     "zb": 0.25,
+     "J": -5,
+     "Q": 20
+    }
+   }
+  }
+ ],
+ "zeffTable": [
+  {
+   "J": 10,
+   "Q": 5,
+   "zetaEff": 2,
+   "representable": true,
+   "reason": null,
+   "classification": "representable"
+  },
+  {
+   "J": 0,
+   "Q": 0,
+   "zetaEff": null,
+   "representable": false,
+   "reason": "bothZero",
+   "classification": "undefinedBothZero"
+  },
+  {
+   "J": 0,
+   "Q": 5,
+   "zetaEff": null,
+   "representable": false,
+   "reason": "JZeroQNonzero",
+   "classification": "sourceWithoutJ"
+  },
+  {
+   "J": 10,
+   "Q": 0,
+   "zetaEff": null,
+   "representable": false,
+   "reason": "QZeroJNonzero",
+   "classification": "JWithoutSource"
+  },
+  {
+   "J": 10,
+   "Q": -5,
+   "zetaEff": null,
+   "representable": false,
+   "reason": "signMismatch",
+   "classification": "signMismatch"
+  },
+  {
+   "J": null,
+   "Q": 1,
+   "zetaEff": null,
+   "representable": false,
+   "reason": "notFinite",
+   "classification": "notFinite"
+  }
+ ],
+ "classes": [
+  "representable",
+  "undefinedBothZero",
+  "sourceWithoutJ",
+  "JWithoutSource",
+  "signMismatch",
+  "notFinite"
+ ],
+ "hasClassificationField": true,
+ "hasClassList": true,
+ "builtins": [
+  {
+   "id": "layeredCoreDFM",
+   "emoji": "🧅",
+   "layers": 2,
+   "qDeclared": 0
+  }
+ ],
+ "builtinCount": 124,
+ "builtinQDeclared": [],
+ "violations": []
+}

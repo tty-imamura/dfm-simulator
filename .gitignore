@@ -303,6 +303,12 @@ paper/*Notes.bib
 #   docs/PHYSICS.md〔第270便d〕§2/§3/§4/§5 の表がこの値そのものなのでコミットする
 !tests/out/zetaq-w270d.json
 !tests/out/numax-w270d.json
+# 第271便c(統括の検証項目 R2/R4/R5・AF17): 独立 Q の**書込経路の境界**の実測正本。
+#   qsplit: J の帯で切らない 7 経路・非有限の原子的拒否・`Q:null`/明示 0 の三分・
+#           (10,5)→J=0→J=10 の往復・`dfmCoreQ` の omega と sourceRate・2025 組の ζ_eff 分類
+#           (tests/exp-w271c-qsplit.mjs — **同じ器が基点 html でも走る**ので旧列も実測である)
+#   docs/PHYSICS.md〔第271便c〕§1〜§5 の表がこの値そのものなのでコミットする
+!tests/out/qsplit-w271c.json
 # 第221便: セッション内スクラッチ実測ハーネス(コミット対象外 — 実測値は claims/QA が機械固定する)
 _scratch-*.mjs
 _scratch-*/

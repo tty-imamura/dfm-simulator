@@ -582,7 +582,7 @@
         <div id="beLayNums" style="font-size:11.5px;opacity:.92;padding:2px 0;line-height:1.3">
           <div id="beLyNumHead" style="color:var(--acc);font-weight:700"></div>
           <div id="beLyNumSrc"></div><div id="beLyNumOm"></div><div id="beLyNumJ"></div>
-          <div id="beLyNumJ2"></div><div id="beLyNumE"></div><div id="beLyNumM"></div><div id="beLyNumM2"></div>
+          <div id="beLyNumJ2"></div><div id="beLyNumZ"></div><div id="beLyNumE"></div><div id="beLyNumM"></div><div id="beLyNumM2"></div>
         </div>
         <!-- 第262便b(第54報「表示が見切れない様に調整する」): 役割の select は 1 行占有にする
              (188px 幅で「役割 + select + m + 数値」を 1 行に詰めると select が 2 文字で切れていた) -->
@@ -1140,6 +1140,14 @@ ja: {
   beLyNumOm:(om,th)=>`ω=${om} / θ=${th}°`,
   beLyNumJ:(jm,jz)=>`|J|=${jm} / Jz=${jz}`,
   beLyNumJ2:(jx,jy)=>`Jx=${jx} / Jy=${jy}`,
+  // 第271便c(R5・AF17): **ζ_eff は補完しない**。一意で有限正のときだけ数を出し、そうでなければ
+  // 「—」+理由を出す(0 や 1.0 で埋めない)。J・Q・ζ を同じ行に並べて、何が宣言されているかを見せる
+  beLyNumZeff:(ze,why,jz,q,z)=>`ζ_eff=${ze}${why} / J=${jz}・Q=${q}・ζ=${z}`,
+  beLyNumZeffWhy:(w)=>`(${w})`,
+  beLyZeffWhy:{representable:"一意", undefinedBothZero:"J=Q=0 — 不定であって不可ではありません",
+    sourceWithoutJ:"J=0・Q≠0 — 源だけがあります", JWithoutSource:"Q=0・J≠0 — 角運動量だけがあります",
+    signMismatch:"J と Q の符号が違います", notFinite:"有限でない値があります"},
+  beLyNumZeffTip:"ζ_eff=J/Q は**診断値**です(状態の正本は J と Q の 2 つ)。表せないときは 0 や 1 で埋めず、理由を出します。",
   beLyNumE:(er,ic,z)=>`E_r=${er} / I_c=${ic}${z}`,   // 第265便c: ζ≠1 のときだけ行に出す
   beLyNumM:(mc,ms)=>`M_c=${mc} / M_s=${ms}`,
   beLyNumM2:(kcs,ro)=>`K_cs=${kcs} / 観測半径=${ro}`,
@@ -1149,7 +1157,11 @@ ja: {
     tooManyLayers:"層は 8 までです", unknownRole:"役割が不正です", noSuchLayer:"その層はありません",
     sumNotPositive:"Σ層 m が正になりません", badIndex:"粒子が選ばれていません",
     layerNotFinite:"m・r・J に有限でない値(Infinity/NaN)があります",   // 第262便b
-    sumNotFinite:"Σ層 m が有限になりません"},
+    sumNotFinite:"Σ層 m が有限になりません",
+    // 第271便c(R2・R4): 独立 Q の編集境界
+    qNotFinite:"Q(または導出した Q)が有限になりません",
+    qDeriveNotFinite:"導出 Q=J/ζ が有限になりません",
+    qAmbiguousAtJ0:"J=0 の層に独立の Q があります — J を動かすときは Q か ζ を明示してください(ζ 一定の意味が定義できません)"},
   // 第263便b(第55報「『親子コアへ移行』の説明が、狭い場所で読みづらいので修正する」):
   // 強調の ** はそのまま文字として出るので、188px のパネルでは 4 字ぶんの雑音になる。外した
   beCvDep:"コアv2 は「廃止予定」です(『コア』が根・『外殻』が層1 へ移行できます)。",
@@ -1202,7 +1214,14 @@ ja: {
     +"**I=ζ·½·m·r² と回転場の源 J/ζ の双方**に効きます(既定 1)。"
     +"コアv2 側には **core.shellSpinMass:\"total\"|\"shell\"**(殻項を総質量 m で組むか殻質量 M_s で組むか)が"
     +"選べるようになりました(**既定は total で、内蔵サンプルは 1 本も宣言していません**)。"
-    +"数値行では ζ と殻項の質量則は**既定のとき行に出さず、ツールチップから読めます**。",
+    +"数値行では ζ と殻項の質量則は**既定のとき行に出さず、ツールチップから読めます**。"
+    +"**第271便c**: 数値行に **ζ_eff の行**が増えました。層の状態は **J(角運動量)と Q(回転場の源)の 2 つ**で、"
+    +"ζ_eff=J/Q は**そこから読むだけの診断値**です。一意に決まらないときは **0 や 1.0 で埋めず「—」+理由**を出します"
+    +"(J=Q=0 は**不定**であって不可ではありません / J=0・Q≠0 は源だけ / Q=0・J≠0 は角運動量だけ / 符号が違う / 有限でない)。"
+    +"同じ行に J・Q・ζ が並びます。層の **Q には J の上限(±10¹²)が掛かりません**(融合では Q を足すので、"
+    +"切ると半径をひとつ動かしただけで保存した源が縮みます)—— **有限の数値だけを受け付け、そうでない値は 1 bit も書かずに断ります**。"
+    +"**J=0 の層に独立の Q があるとき J だけを動かす編集**は「ζ 一定」の意味が決まらないので、"
+    +"**Q か ζ を一緒に指定しないと断られます**(黙って据え置きません)。",
   beLinTitle:"形成系譜",
   beLinSum:(n,tree,ev,ge)=>`直接吸収 ${n} 回・系譜 ${ge?"≥":""}${tree} 粒(記録 ${ev} 件)`,
   beLinRow:(t,dm,m,ls)=>`t=${t}: +${dm} → m=${m}・減光=${ls}`,
@@ -1872,6 +1891,14 @@ en: {
   beLyNumOm:(om,th)=>`omega=${om} / theta=${th} deg`,
   beLyNumJ:(jm,jz)=>`|J|=${jm} / Jz=${jz}`,
   beLyNumJ2:(jx,jy)=>`Jx=${jx} / Jy=${jy}`,
+  // wave 271c (R5 / AF17): zeta_eff is NEVER filled in with 0 or 1 — when it cannot be represented
+  // the row prints "n/a" plus the reason, next to J, Q and zeta
+  beLyNumZeff:(ze,why,jz,q,z)=>`zeta_eff=${ze}${why} / J=${jz}, Q=${q}, zeta=${z}`,
+  beLyNumZeffWhy:(w)=>` (${w})`,
+  beLyZeffWhy:{representable:"unique", undefinedBothZero:"J=Q=0 — UNDEFINED (not impossible)",
+    sourceWithoutJ:"J=0, Q!=0 — source only", JWithoutSource:"Q=0, J!=0 — angular momentum only",
+    signMismatch:"J and Q have opposite signs", notFinite:"a value is not finite"},
+  beLyNumZeffTip:"zeta_eff=J/Q IS A DIAGNOSTIC (the state of record is the pair J and Q). When it cannot be represented the row prints the reason instead of 0 or 1.",
   beLyNumE:(er,ic,z)=>`E_rot=${er} / I_c=${ic}${z}`,   // wave 265c: printed only when zeta != 1
   beLyNumM:(mc,ms)=>`M_core=${mc} / M_shell=${ms}`,
   beLyNumM2:(kcs,ro)=>`K_cs=${kcs} / obs. radius=${ro}`,
@@ -1882,7 +1909,11 @@ en: {
     unknownRole:"unknown role", noSuchLayer:"no such layer",
     sumNotPositive:"the sum of the layer masses is not positive", badIndex:"no body is selected",
     layerNotFinite:"m, r or J is not finite (Infinity/NaN)",   // 第262便b
-    sumNotFinite:"the sum of the layer masses is not finite"},
+    sumNotFinite:"the sum of the layer masses is not finite",
+    // wave 271c (R2 / R4): the editing boundary of the independent Q
+    qNotFinite:"Q (or the Q derived from the edit) is not finite",
+    qDeriveNotFinite:"the derived Q=J/zeta is not finite",
+    qAmbiguousAtJ0:"this layer has J=0 and an independent Q — state Q or zeta explicitly when you move J (\"zeta constant\" has no meaning at J=0)"},
   // Wave 263b (report 55, W2): the same note, laid out one item per line
   beCvDep:"Core v2 IS DEPRECATED (the CORE becomes the ROOT and the SHELL becomes LAYER 1).",
   beCvDepNaked:(R)=>`Core v2 IS DEPRECATED (naked core: there will be a single layer, and the observed radius R=${R} is not carried by it).`,
@@ -1936,7 +1967,16 @@ en: {
     +"I=zeta*1/2*m*r^2 AND the rotation-field source J/zeta (default 1). On the core v2 side, "
     +"core.shellSpinMass:\"total\"|\"shell\" chooses whether the shell term uses the total mass m or the shell mass M_s "
     +"(THE DEFAULT IS total AND NO BUILT-IN SAMPLE DECLARES IT). In the numbers rows, zeta and the shell-term law are "
-    +"NOT printed when they are at their defaults - they are always readable from the tooltip.",
+    +"NOT printed when they are at their defaults - they are always readable from the tooltip. "
+    +"WAVE 271c: the numbers rows gained a ZETA_EFF ROW. A layer's state is THE PAIR J (angular momentum) AND "
+    +"Q (rotation-field source); zeta_eff=J/Q is ONLY A DIAGNOSTIC READ OFF THAT PAIR. When it is not uniquely "
+    +"determined the row prints n/a PLUS THE REASON instead of 0 or 1 (J=Q=0 is UNDEFINED, not impossible; "
+    +"J=0 with Q!=0 is source only; Q=0 with J!=0 is angular momentum only; opposite signs; not finite), "
+    +"with J, Q and zeta side by side. A layer's Q IS NO LONGER CLAMPED TO THE J RANGE (+-1e12): fusion adds the "
+    +"Q values, so clamping made a preserved source shrink as soon as one radius was edited - only FINITE NUMBERS "
+    +"are accepted and anything else is refused without writing a single bit. Editing J ALONE on a layer that has "
+    +"J=0 and an independent Q IS REFUSED unless Q or zeta is stated with it ('zeta constant' has no meaning at J=0, "
+    +"and the old code silently kept the old Q).",
   beLinTitle:"Formation lineage",
   beLinSum:(n,tree,ev,ge)=>`absorbed ${n}× directly · lineage ${ge?"≥":""}${tree} grains (${ev} events logged)`,
   beLinRow:(t,dm,m,ls)=>`t=${t}: +${dm} → m=${m}, dimming=${ls}`,
@@ -14274,9 +14314,15 @@ function validatePreset(obj){
         // 第270便d(AD1・法則 (a)): 層の **Q(回転場の源)は J と独立の状態**である。省略可で、
         // **省略したときだけ読み込みで Q=J/ζ を 1 度導出する**(ζJ ではない)。宣言された Q は
         // 値 0 でも「Q=0 の宣言」として運ぶ。正準形には宣言されたときだけ出る(既定の署名は不変)
-        if(L.Q!==undefined){
-          if(!isNum(L.Q)){ warnings.push(atk+".Q は数値が必要 — Q を無視します"); }
-          else o2.Q=clamp(L.Q, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);
+        // 第271便c(統括の検証項目 R2): **Q に J の帯(±BODY_LAYER_JCAP)を掛けない**。Q は J と
+        // 独立の状態なので、融合で保存した独立 Q(例 Q′=5×10¹⁴)を J の上限で切ると**保存した源が
+        // 黙って縮む**。受理するのは**有限の数値だけ**で、非有限は**書込前に拒否**する(1 bit も
+        // 書かない = layers ごと無視する)。**`Q:null` は「未宣言」**(読み込みで Q=J/ζ を導出する)
+        if(L.Q!==undefined && L.Q!==null){
+          if(!isNum(L.Q)){
+            warnings.push(atk+".Q は有限の数値が必要(Q は J の上限では切りません)— layers を無視します");
+            return null; }
+          o2.Q=L.Q;
         }
         for(const k2 of Object.keys(L)) if(["role","m","r","J","Jx","Jy","inertiaScale","Q"].indexOf(k2)<0)
           warnings.push(atk+" の未知キー("+String(k2).slice(0,20)+")— 無視");
@@ -17349,6 +17395,12 @@ function makeSim(){
         return {ok:false, reason:"layerInertiaScaleNotPositive", at:q};
       // 第270便d(AD1): 独立の Q も同じ原子的な有限性検査(1 bit も書く前に落とす)
       if(L.Q!==undefined && L.Q!==null && !Number.isFinite(L.Q)) return {ok:false, reason:"layerNotFinite", at:q};
+      // 第271便c(R2): Q を clamp で切らない代わりに、**未宣言の層で導く Q=J/ζ が有限でない構成**も
+      // 1 bit 書く前に落とす(ζ が非正規化数のときだけ起きる — 黙って Infinity を状態にしない)
+      if(!(L.Q!==undefined && L.Q!==null && Number.isFinite(L.Q))
+         && !Number.isFinite(((L.J!==undefined && L.J!==null && Number.isFinite(L.J))? L.J : 0)
+            /((Number.isFinite(L.inertiaScale) && L.inertiaScale>0)? L.inertiaScale : 1)))
+        return {ok:false, reason:"qDeriveNotFinite", at:q};
       if(!Number.isFinite(Math.fround(L.m))) return {ok:false, reason:"layerNotFinite", at:q};
       if(!(L.r>rPrev)) return {ok:false, reason:"radiusNotAscending", at:q};
       if(BODY_LAYER_ROLES.indexOf(L.role)<0) return {ok:false, reason:"unknownRole", at:q};
@@ -17394,6 +17446,9 @@ function makeSim(){
       return S._setBodyLayers(i, next);
     }
     const has=(key)=>{ const v=cfg[key]; return v!==undefined && v!==null && typeof v==="number" && isFinite(v); };
+    // 第271便c(R2): **非有限の Q を宣言した編集は黙って無視せず拒否する**(clamp で 10¹² へ丸めない
+    // 以上、Infinity/NaN を「未指定」と読み替えるのも同じ隠蔽である)。1 bit も書かない
+    if(cfg.Q!==undefined && cfg.Q!==null && !has("Q")) return {ok:false, reason:"qNotFinite"};
     let L;
     if(k>=next.length){                                      // 追加(末尾 = 最外)
       if(next.length>=BODY_LAYER_MAX) return {ok:false, reason:"tooManyLayers"};
@@ -17421,12 +17476,20 @@ function makeSim(){
       if(has("Jy")) L.Jy=clamp(cfg.Jy, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);
       // 第265便c: ζ(既定 1・値域は V2 の inertiaScale と同じ [1e−3, 1e6])
       if(has("inertiaScale")) L.inertiaScale=clamp(cfg.inertiaScale, 1e-3, 1e6);
-      if(has("Q")) L.Q=clamp(cfg.Q, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);
+      // 第271便c(R2): **Q は clamp しない**(has() が有限の数値であることを保証している)。
+      // J の帯で切ると、融合で保存した独立 Q が**半径だけの編集**で 10¹² へ縮んでいた
+      if(has("Q")) L.Q=cfg.Q;
       else if(Number.isFinite(Q0)){
         if(has("inertiaScale"))
           L.Q=(Number(L.J)||0)/((Number.isFinite(L.inertiaScale) && L.inertiaScale>0)? L.inertiaScale : 1);
-        else if(has("J"))
+        else if(has("J")){
+          // 第271便c(R4): **J₀=0 から非ゼロ J へ動かす編集は ζ が状態から読めない**(0/0)。
+          // 既定の ζ 一定は Q₀ を据え置くので (10,5)→J=0→J=10 の往復で Q=5 に戻らない。
+          // **黙って据え置かず、cfg.Q か cfg.inertiaScale の明示が無ければ編集そのものを拒否**する
+          // (`_setBodyLayers` を呼ぶ前に返すので 1 bit も書かない)
+          if(J0===0 && (Number(L.J)||0)!==0) return {ok:false, reason:"qAmbiguousAtJ0"};
           L.Q=dfmLayerQUpdate({J0, Q0, J1:Number(L.J)||0, mode:"zetaConst"}).Q;
+        }
       }
     }
     if(L.m!==undefined) L.m=clamp(L.m, 1e-12, MASS_CAP);
@@ -17435,7 +17498,9 @@ function makeSim(){
     if(L.Jx!==undefined) L.Jx=clamp(L.Jx, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);   // 第264便c
     if(L.Jy!==undefined) L.Jy=clamp(L.Jy, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);
     if(L.inertiaScale!==undefined) L.inertiaScale=clamp(L.inertiaScale, 1e-3, 1e6);   // 第265便c
-    if(L.Q!==undefined && L.Q!==null) L.Q=clamp(L.Q, -BODY_LAYER_JCAP, BODY_LAYER_JCAP);   // 第270便d
+    // 第271便c(R2): **正準化でも Q を clamp しない**。導出(ζ 一定・ζ の宣言し直し)が有限でない
+    // 値を作ったときだけ**書込前に拒否**する(理由を分けて返す — `_setBodyLayers` も同じ検査を持つ)
+    if(L.Q!==undefined && L.Q!==null && !Number.isFinite(L.Q)) return {ok:false, reason:"qNotFinite"};
     return S._setBodyLayers(i, next);
   };
   // 第35便(台帳4-62): 積分器の入口。既定("semi")は _core を1回呼ぶだけで現行と厳密等価
@@ -30925,11 +30990,21 @@ function beLayNumsFill(S, i, arr){
   $("#beLyNumOm").textContent=T("beLyNumOm")(fmt(om), fmt(th));
   $("#beLyNumJ").textContent=T("beLyNumJ")(fmt(Jm), fmt(Jz));
   $("#beLyNumJ2").textContent=T("beLyNumJ2")(fmt(Jx), fmt(Jy));
+  // 第271便c(R5・AF17): **ζ_eff の分類行**。ζ_eff=J/Q は診断値なので、一意で有限正のときだけ数を
+  // 出し、そうでなければ「—」+理由を出す(**0 や 1.0 で補完しない**)。J・Q・ζ を並べて、
+  // 何が宣言されていて何が導出なのかを同じ行で読めるようにする。**表示専用**(1 bit も書かない)
+  const Qroot=(md && md!==4)? ((zeta>0)? Jz/zeta : NaN)
+    : ((S.layQ && arr && arr.length)? S.layQ[i*BODY_LAYER_MAX] : NaN);
+  const ze=dfmLayerZetaEff(Jz, Qroot);
+  $("#beLyNumZ").textContent=T("beLyNumZeff")(ze.representable? fmt(ze.zetaEff) : NA,
+    ze.representable? "" : T("beLyNumZeffWhy")(T("beLyZeffWhy")[ze.classification]||ze.classification),
+    fmt(Jz), Number.isFinite(Qroot)? fmt(Qroot) : NA, fmt(zeta));
   $("#beLyNumE").textContent=T("beLyNumE")(fmt(Er), fmt(Ic), zSuf);
   $("#beLyNumM").textContent=T("beLyNumM")(fmt(Mc), fmt(Ms));
   $("#beLyNumM2").textContent=T("beLyNumM2")((Kcs===null)? NA : fmt(Kcs), fmt(S.R[i]));
-  for(const id of ["#beLyNumSrc","#beLyNumOm","#beLyNumJ","#beLyNumJ2","#beLyNumE","#beLyNumM","#beLyNumM2"])
+  for(const id of ["#beLyNumSrc","#beLyNumOm","#beLyNumJ","#beLyNumJ2","#beLyNumZ","#beLyNumE","#beLyNumM","#beLyNumM2"])
     $(id).title=$(id).textContent;
+  $("#beLyNumZ").title+=" / "+T("beLyNumZeffTip");   // 第271便c: ζ_eff が診断値であることは常に読める
   // 第265便c: 法則と ζ は**既定でも**ツールチップから読める(行の高さは増やさない)
   $("#beLyNumSrc").title+=" / "+T("beLyNumLawTip")(law);
   $("#beLyNumE").title+=" / "+T("beLyNumZetaTip")(fmt(zeta));
@@ -32493,8 +32568,13 @@ function dfmCoreQ(o){
     ? { Q:qState, source:"state" } : { Q:J/z, source:"derived" };
   if(Mc>0 && Rc>0 && Number.isFinite(Mc) && Number.isFinite(Rc)){
     out.I=0.5*Mc*Rc*Rc;
-    // 第270便d: 導出形は従来式のまま(1 bit も動かさない)。状態 Q が来たときだけ Ω=Q/I を使う
-    out.omega=(out.source==="state")? out.Q/out.I : J/(out.I*z);
+    // 第271便c(R4): **`omega` は機械的な角速度 Ω=J/(ζ·I) に固定する**(状態 Q が来ても J から読む)。
+    // 第270便d は状態 Q があるとき Ω=Q/I を返していたが、それは**源の率**であって角速度ではない
+    // (Q は回転場の源・J は角運動量で、独立にした以上 Q/I と J/(ζI) は別の量である)。
+    // 源の率は **`sourceRate=Q/I`** として別の欄に置く。Q=J/ζ の導出形では両者は 1 bit 同じ値になる。
+    // **診断 API の修正であって、力・回転エネルギー則の導入ではない**(力へは 1 バイトも接続しない)
+    out.omega=J/(out.I*z);
+    out.sourceRate=out.Q/out.I;
   }
   return out;
 }
@@ -37328,16 +37408,28 @@ function dfmLayerKernel(layer, d, opts){
 // (2z) 第270便d(AD1): **ζ_eff は診断値**(状態の正本ではない)。J≠0 かつ Q と同符号(= J/Q が正の
 //   有限数)のときだけ ζ_eff=J/Q を返す。それ以外は null と理由を返す —— **Q/J を代わりに返さない**
 //   (Q/J は 1/ζ であって ζ ではない)し、**表せないことを 1 に丸めて隠さない**。
+// 第271便c(R5・AF17): 返り値に **`classification`(文字列)** を足す。**「表せない」を 1 種類に
+//   まとめない** —— J=Q=0 は「回転源も角運動量も宣言されていない」= **不定**であって、
+//   「ζ_eff が不可」ではない。分類は `LAYER_ZETA_CLASSES` の 6 種で、`representable`(一意で
+//   有限正)は従来どおり "representable" のときだけ true である。`reason` は第270便d の値のまま残す。
 function dfmLayerZetaEff(J, Q){
   const j=Number(J), q=Number(Q);
-  if(!Number.isFinite(j) || !Number.isFinite(q)) return { zetaEff:null, representable:false, reason:"notFinite" };
-  if(j===0 && q===0) return { zetaEff:null, representable:false, reason:"bothZero" };
-  if(j===0) return { zetaEff:null, representable:false, reason:"JZeroQNonzero" };
-  if(q===0) return { zetaEff:null, representable:false, reason:"QZeroJNonzero" };
+  if(!Number.isFinite(j) || !Number.isFinite(q))
+    return { zetaEff:null, representable:false, reason:"notFinite", classification:"notFinite" };
+  if(j===0 && q===0)
+    return { zetaEff:null, representable:false, reason:"bothZero", classification:"undefinedBothZero" };
+  if(j===0)
+    return { zetaEff:null, representable:false, reason:"JZeroQNonzero", classification:"sourceWithoutJ" };
+  if(q===0)
+    return { zetaEff:null, representable:false, reason:"QZeroJNonzero", classification:"JWithoutSource" };
   const z=j/q;
-  if(!(Number.isFinite(z) && z>0)) return { zetaEff:null, representable:false, reason:"signMismatch" };
-  return { zetaEff:z, representable:true, reason:null };
+  if(!(Number.isFinite(z) && z>0))
+    return { zetaEff:null, representable:false, reason:"signMismatch", classification:"signMismatch" };
+  return { zetaEff:z, representable:true, reason:null, classification:"representable" };
 }
+// 第271便c(R5・AF17): ζ_eff の分類の値域(UI・集計・QA が同じ文字列を読む)
+const LAYER_ZETA_CLASSES=["representable","undefinedBothZero","sourceWithoutJ","JWithoutSource",
+  "signMismatch","notFinite"];
 // (2q) 第270便d(AD1・法則 (a)): **J が変わるとき Q をどう変えるか**の更新則を 1 本にまとめた純関数。
 //   **これは表現の規約ではなく追加仮定である**(Negative Claim 42 の追記どおり、実系検証まで暫定)。
 //   mode(経路 → 既定):
@@ -37391,7 +37483,11 @@ function dfmLayerMerge(la, lb, rule){
   const zOf=(L)=>{ const z=Number(L.inertiaScale); return (Number.isFinite(z) && z>0)? z : 1; };
   // 第270便d(AD1・法則 (a)): **Q は独立の状態**である。入力に Q が無ければ読み込みと同じ
   // **Q=J/ζ**(ζJ ではない)で 1 度導出する。合成は **J′=ΣJ・Q′=ΣQ**。
-  const qOf=(L)=>{ const q=Number(L.Q); if(Number.isFinite(q)) return q;
+  // 第271便c(R2): **`Q:null`/未定義は「未宣言」**として Q=J/ζ を導出する(`dclOf` と同じ規約)。
+  // 旧実装は `Number(null)=0` で **明示ゼロ扱い**になり、`dclOf`(null を未宣言と読む)と食い違って
+  // いた —— 同じ入力で「宣言ビットは立たないのに源は 0」という組み合わせが作れた。
+  // **明示 0 は 0 のまま**(値としての 0 の宣言)である。
+  const qOf=(L)=>{ if(L.Q!==undefined && L.Q!==null){ const q=Number(L.Q); if(Number.isFinite(q)) return q; }
     const j=Number.isFinite(Number(L.J))? Number(L.J) : 0; return j/zOf(L); };
   // ζ_eff は **診断値**である(状態の正本にしない)。J′≠0 かつ Q′ と同符号のときだけ J′/Q′ を返し、
   // 表せないときは従来どおり (ζ_a===ζ_b? ζ_a : 1) に落として `zetaRepresentable:false` を立てる
@@ -38199,6 +38295,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   dfmLayerQ:(i,k,S)=>{ const T=S||sim;
     return (T.layQ && i>=0 && i<T.n && k>=0 && k<BODY_LAYER_MAX)? T.layQ[i*BODY_LAYER_MAX+k] : 0; },
   dfmLayerQUpdate, dfmLayerZetaEff, LAYER_Q_MODES:["derive","declared","zetaConst","zetaDeclared","qConst","sum","carry"],
+  // 第271便c(R5・AF17): ζ_eff の**分類**の値域(表せない理由を 1 種類にまとめない)
+  LAYER_ZETA_CLASSES,
   dfmLightTrapNuMax:(i,S)=>{ const T=S||sim;
     const v=(T.ltNu && i>=0 && i<T.n)? T.ltNu[i] : Infinity; return (v<Infinity)? v : null; },
   dfmLightTrapWorkRejected:(i,S)=>{ const T=S||sim;
