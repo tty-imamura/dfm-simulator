@@ -1,0 +1,1562 @@
+{
+ "what": "基点 f6c19b4(第269便・PR #271)の tests/out/calaudit-w249.json から、**走行長に関する欄だけ**を機械抽出した表である(手で打った数字は 1 つも無い)。第270便a(AE9)の「步数上限と必要近点数の宣言」が、基点と**同じ步数・同じ近点数**を再現することを照合するための入力として使う。",
+ "source": {
+  "commit": "f6c19b4",
+  "file": "tests/out/calaudit-w249.json",
+  "usedBy": "tests/exp-w270a-stoprule.mjs"
+ },
+ "note": "`rateStepsPerSec`・`wallSec` は**機種依存の記録**である —— AE9 以降、步数の決定にはこの 2 つを使わない(壁時計は資源上限にだけ残す)。",
+ "nRows": 84,
+ "rows": [
+  {
+   "id": "earthMoonReal",
+   "emoji": "🌙",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 40000000,
+   "stepsRun": 40000000,
+   "rateStepsPerSec": 1428571,
+   "wallSec": 21.322,
+   "periFoundA": [
+    27
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "earthMoonReal",
+   "emoji": "🌙",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 40000000,
+   "stepsRun": 40000000,
+   "rateStepsPerSec": 1428571,
+   "wallSec": 21.994,
+   "periFoundA": [
+    13
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    false
+   ]
+  },
+  {
+   "id": "earthMoonRealKF1",
+   "emoji": "🌘",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 40000000,
+   "stepsRun": 40000000,
+   "rateStepsPerSec": 500000,
+   "wallSec": 40.069,
+   "periFoundA": [
+    26
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "earthMoonRealKF1",
+   "emoji": "🌘",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 40000000,
+   "stepsRun": 40000000,
+   "rateStepsPerSec": 1052632,
+   "wallSec": 42.356,
+   "periFoundA": [
+    13
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    false
+   ]
+  },
+  {
+   "id": "emAuditDFM",
+   "emoji": "🧲",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 40000000,
+   "stepsRun": 40000000,
+   "rateStepsPerSec": 1111111,
+   "wallSec": 35.988,
+   "periFoundA": [
+    26
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "emAuditDFM",
+   "emoji": "🧲",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 40000000,
+   "stepsRun": 40000000,
+   "rateStepsPerSec": 1000000,
+   "wallSec": 36.308,
+   "periFoundA": [
+    13
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    false
+   ]
+  },
+  {
+   "id": "emAuditSolar",
+   "emoji": "🔆",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 3,
+   "maxSteps": 890906,
+   "stepsRun": 885179,
+   "rateStepsPerSec": 1000000,
+   "wallSec": 0.635,
+   "periFoundA": [
+    59
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "emAuditSolar",
+   "emoji": "🔆",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 1781813,
+   "stepsRun": 1770360,
+   "rateStepsPerSec": 1538462,
+   "wallSec": 1.234,
+   "periFoundA": [
+    59
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "mercuryReal",
+   "emoji": "☄️",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 2850199,
+   "stepsRun": 2850199,
+   "rateStepsPerSec": 1818182,
+   "wallSec": 1.509,
+   "periFoundA": [
+    59
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "mercuryReal",
+   "emoji": "☄️",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 5700398,
+   "stepsRun": 5700398,
+   "rateStepsPerSec": 2000000,
+   "wallSec": 2.986,
+   "periFoundA": [
+    59
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "mercuryRealKF1",
+   "emoji": "🪨",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 2850199,
+   "stepsRun": 2850199,
+   "rateStepsPerSec": 800000,
+   "wallSec": 2.866,
+   "periFoundA": [
+    59
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "mercuryRealKF1",
+   "emoji": "🪨",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 5700398,
+   "stepsRun": 5700398,
+   "rateStepsPerSec": 1250000,
+   "wallSec": 5.513,
+   "periFoundA": [
+    59
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "solarInner",
+   "emoji": "🌞",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 105,
+   "maxSteps": 866426,
+   "stepsRun": 866426,
+   "rateStepsPerSec": 1805,
+   "wallSec": 486.966,
+   "periFoundA": [
+    9,
+    5,
+    3,
+    2
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    false,
+    false,
+    false,
+    false
+   ]
+  },
+  {
+   "id": "jupiterGalilean",
+   "emoji": "🟠",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 5,
+   "maxSteps": 5407442,
+   "stepsRun": 5407442,
+   "rateStepsPerSec": 444444,
+   "wallSec": 12.67,
+   "periFoundA": [
+    63,
+    63,
+    63,
+    59
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "id": "jupiterGalilean",
+   "emoji": "🟠",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 10814883,
+   "stepsRun": 10814883,
+   "rateStepsPerSec": 434783,
+   "wallSec": 25.383,
+   "periFoundA": [
+    63,
+    63,
+    63,
+    59
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "id": "venusReal",
+   "emoji": "🌇",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 7280208,
+   "stepsRun": 7280208,
+   "rateStepsPerSec": 833333,
+   "wallSec": 7.116,
+   "periFoundA": [
+    59
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "venusReal",
+   "emoji": "🌇",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 14560415,
+   "stepsRun": 14560415,
+   "rateStepsPerSec": 952381,
+   "wallSec": 14.764,
+   "periFoundA": [
+    59
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "marsMoonsReal",
+   "emoji": "🥔",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 3,
+   "maxSteps": 4091814,
+   "stepsRun": 4091814,
+   "rateStepsPerSec": 833333,
+   "wallSec": 4.835,
+   "periFoundA": [
+    63,
+    59
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true,
+    true
+   ]
+  },
+  {
+   "id": "marsMoonsReal",
+   "emoji": "🥔",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 8183629,
+   "stepsRun": 8183629,
+   "rateStepsPerSec": 800000,
+   "wallSec": 9.655,
+   "periFoundA": [
+    63,
+    59
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true,
+    true
+   ]
+  },
+  {
+   "id": "plutoCharonReal",
+   "emoji": "❄️",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 20694498,
+   "stepsRun": 20694498,
+   "rateStepsPerSec": 952381,
+   "wallSec": 19.802,
+   "periFoundA": [
+    59
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "plutoCharonReal",
+   "emoji": "❄️",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 40000000,
+   "stepsRun": 40000000,
+   "rateStepsPerSec": 909091,
+   "wallSec": 37.934,
+   "periFoundA": [
+    57
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "uranusReal",
+   "emoji": "💠",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 94,
+   "maxSteps": 1075028,
+   "stepsRun": 1075028,
+   "rateStepsPerSec": 2240,
+   "wallSec": 480.828,
+   "periFoundA": [
+    14,
+    7,
+    4,
+    2,
+    1
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    false,
+    false,
+    false,
+    false,
+    false
+   ]
+  },
+  {
+   "id": "neptuneReal",
+   "emoji": "🌊",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 1904169,
+   "stepsRun": 1904169,
+   "rateStepsPerSec": 1000000,
+   "wallSec": 1.713,
+   "periFoundA": [
+    59
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "neptuneReal",
+   "emoji": "🌊",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 3808338,
+   "stepsRun": 3808338,
+   "rateStepsPerSec": 1052632,
+   "wallSec": 3.482,
+   "periFoundA": [
+    59
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "alphaCenAB",
+   "emoji": "✨",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 9439328,
+   "stepsRun": 9439328,
+   "rateStepsPerSec": 1176471,
+   "wallSec": 5.567,
+   "periFoundA": [
+    60
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "alphaCenAB",
+   "emoji": "✨",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 18878657,
+   "stepsRun": 18878657,
+   "rateStepsPerSec": 1250000,
+   "wallSec": 10.857,
+   "periFoundA": [
+    60
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "alphaCenAB",
+   "emoji": "✨",
+   "tag": "dt/4",
+   "dt": 0.004,
+   "n": null,
+   "maxSteps": 37757313,
+   "stepsRun": 37757313,
+   "rateStepsPerSec": 2000000,
+   "wallSec": 22.101,
+   "periFoundA": [
+    60
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "alphaCenABDFM",
+   "emoji": "✴️",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 9437344,
+   "stepsRun": 9393477,
+   "rateStepsPerSec": 625000,
+   "wallSec": 10.59,
+   "periFoundA": [
+    60
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "alphaCenABDFM",
+   "emoji": "✴️",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 18874688,
+   "stepsRun": 18787833,
+   "rateStepsPerSec": 869565,
+   "wallSec": 21.311,
+   "periFoundA": [
+    60
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "alphaCenABDFM",
+   "emoji": "✴️",
+   "tag": "dt/4",
+   "dt": 0.004,
+   "n": null,
+   "maxSteps": 37749376,
+   "stepsRun": 37576543,
+   "rateStepsPerSec": 909091,
+   "wallSec": 42.624,
+   "periFoundA": [
+    60
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "siriusAB",
+   "emoji": "🌟",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 5932383,
+   "stepsRun": 5932383,
+   "rateStepsPerSec": 1666667,
+   "wallSec": 3.576,
+   "periFoundA": [
+    60
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "siriusAB",
+   "emoji": "🌟",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 11864765,
+   "stepsRun": 11864765,
+   "rateStepsPerSec": 2000000,
+   "wallSec": 7.197,
+   "periFoundA": [
+    60
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "siriusAB",
+   "emoji": "🌟",
+   "tag": "dt/4",
+   "dt": 0.004,
+   "n": null,
+   "maxSteps": 23729530,
+   "stepsRun": 23729530,
+   "rateStepsPerSec": 1818182,
+   "wallSec": 14.045,
+   "periFoundA": [
+    60
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "siriusABDFM",
+   "emoji": "💫",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 5930404,
+   "stepsRun": 5888550,
+   "rateStepsPerSec": 1052632,
+   "wallSec": 6.557,
+   "periFoundA": [
+    60
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "siriusABDFM",
+   "emoji": "💫",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 11860808,
+   "stepsRun": 11780426,
+   "rateStepsPerSec": 952381,
+   "wallSec": 12.856,
+   "periFoundA": [
+    60
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "siriusABDFM",
+   "emoji": "💫",
+   "tag": "dt/4",
+   "dt": 0.004,
+   "n": null,
+   "maxSteps": 23721616,
+   "stepsRun": 23564167,
+   "rateStepsPerSec": 952381,
+   "wallSec": 26.134,
+   "periFoundA": [
+    60
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrDoubleAB",
+   "emoji": "📻",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 3312950,
+   "stepsRun": 3312950,
+   "rateStepsPerSec": 1250000,
+   "wallSec": 2.064,
+   "periFoundA": [
+    60
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrDoubleAB",
+   "emoji": "📻",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 6625899,
+   "stepsRun": 6625899,
+   "rateStepsPerSec": 1818182,
+   "wallSec": 3.951,
+   "periFoundA": [
+    60
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrDoubleAB",
+   "emoji": "📻",
+   "tag": "dt/4",
+   "dt": 0.004,
+   "n": null,
+   "maxSteps": 13251799,
+   "stepsRun": 13251799,
+   "rateStepsPerSec": 2000000,
+   "wallSec": 7.836,
+   "periFoundA": [
+    60
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 1385472,
+   "stepsRun": 1385472,
+   "rateStepsPerSec": 606061,
+   "wallSec": 1.918,
+   "periFoundA": [
+    25
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 2770943,
+   "stepsRun": 2770943,
+   "rateStepsPerSec": 769231,
+   "wallSec": 3.68,
+   "periFoundA": [
+    25
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "tag": "dt/4",
+   "dt": 0.004,
+   "n": null,
+   "maxSteps": 5541886,
+   "stepsRun": 5541886,
+   "rateStepsPerSec": 740741,
+   "wallSec": 7.461,
+   "periFoundA": [
+    25
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrDoubleABSpinCal",
+   "emoji": "🧿",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 1385490,
+   "stepsRun": 1385490,
+   "rateStepsPerSec": 540541,
+   "wallSec": 1.963,
+   "periFoundA": [
+    25
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrDoubleABSpinCal",
+   "emoji": "🧿",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 2770980,
+   "stepsRun": 2770980,
+   "rateStepsPerSec": 540541,
+   "wallSec": 3.909,
+   "periFoundA": [
+    25
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 3534675,
+   "stepsRun": 3534675,
+   "rateStepsPerSec": 833333,
+   "wallSec": 4.691,
+   "periFoundA": [
+    37
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 7069351,
+   "stepsRun": 7069351,
+   "rateStepsPerSec": 833333,
+   "wallSec": 9.219,
+   "periFoundA": [
+    36
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "tag": "dt/4",
+   "dt": 0.004,
+   "n": null,
+   "maxSteps": 14138701,
+   "stepsRun": 14138701,
+   "rateStepsPerSec": 588235,
+   "wallSec": 18.363,
+   "periFoundA": [
+    36
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 1040661,
+   "stepsRun": 1040661,
+   "rateStepsPerSec": 800000,
+   "wallSec": 1.416,
+   "periFoundA": [
+    25
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 2081321,
+   "stepsRun": 2081321,
+   "rateStepsPerSec": 800000,
+   "wallSec": 2.783,
+   "periFoundA": [
+    25
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "tag": "dt/4",
+   "dt": 0.004,
+   "n": null,
+   "maxSteps": 4162642,
+   "stepsRun": 4162642,
+   "rateStepsPerSec": 800000,
+   "wallSec": 5.413,
+   "periFoundA": [
+    25
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrDoubleABPN",
+   "emoji": "🪶",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 1385472,
+   "stepsRun": 1385472,
+   "rateStepsPerSec": 833333,
+   "wallSec": 1.832,
+   "periFoundA": [
+    25
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrDoubleABPN",
+   "emoji": "🪶",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 2770943,
+   "stepsRun": 2770943,
+   "rateStepsPerSec": 769231,
+   "wallSec": 3.81,
+   "periFoundA": [
+    25
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrJ1757PN",
+   "emoji": "🪃",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 3534675,
+   "stepsRun": 3534675,
+   "rateStepsPerSec": 833333,
+   "wallSec": 4.661,
+   "periFoundA": [
+    37
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrJ1757PN",
+   "emoji": "🪃",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 7069351,
+   "stepsRun": 7069351,
+   "rateStepsPerSec": 800000,
+   "wallSec": 9.314,
+   "periFoundA": [
+    36
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrJ1946PN",
+   "emoji": "🪀",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 1040661,
+   "stepsRun": 1040661,
+   "rateStepsPerSec": 689655,
+   "wallSec": 1.391,
+   "periFoundA": [
+    25
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrJ1946PN",
+   "emoji": "🪀",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 2081321,
+   "stepsRun": 2081321,
+   "rateStepsPerSec": 800000,
+   "wallSec": 2.863,
+   "periFoundA": [
+    25
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrDoubleABCF",
+   "emoji": "🪝",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 1385472,
+   "stepsRun": 1385472,
+   "rateStepsPerSec": 294118,
+   "wallSec": 2.483,
+   "periFoundA": [
+    25
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrDoubleABCF",
+   "emoji": "🪝",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 2770943,
+   "stepsRun": 2770943,
+   "rateStepsPerSec": 571429,
+   "wallSec": 4.862,
+   "periFoundA": [
+    25
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrDoubleABCF",
+   "emoji": "🪝",
+   "tag": "dt/4",
+   "dt": 0.004,
+   "n": null,
+   "maxSteps": 5541886,
+   "stepsRun": 5541886,
+   "rateStepsPerSec": 625000,
+   "wallSec": 9.727,
+   "periFoundA": [
+    25
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrJ1757CF",
+   "emoji": "🪄",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 3534675,
+   "stepsRun": 3534675,
+   "rateStepsPerSec": 606061,
+   "wallSec": 6.016,
+   "periFoundA": [
+    37
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrJ1757CF",
+   "emoji": "🪄",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 7069351,
+   "stepsRun": 7069351,
+   "rateStepsPerSec": 666667,
+   "wallSec": 11.939,
+   "periFoundA": [
+    36
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrJ1757CF",
+   "emoji": "🪄",
+   "tag": "dt/4",
+   "dt": 0.004,
+   "n": null,
+   "maxSteps": 14138701,
+   "stepsRun": 14138701,
+   "rateStepsPerSec": 625000,
+   "wallSec": 24.707,
+   "periFoundA": [
+    36
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrJ1946CF",
+   "emoji": "🩹",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 1040661,
+   "stepsRun": 1040661,
+   "rateStepsPerSec": 540541,
+   "wallSec": 1.815,
+   "periFoundA": [
+    25
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrJ1946CF",
+   "emoji": "🩹",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 2081321,
+   "stepsRun": 2081321,
+   "rateStepsPerSec": 588235,
+   "wallSec": 3.538,
+   "periFoundA": [
+    25
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrJ1946CF",
+   "emoji": "🩹",
+   "tag": "dt/4",
+   "dt": 0.004,
+   "n": null,
+   "maxSteps": 4162642,
+   "stepsRun": 4162642,
+   "rateStepsPerSec": 571429,
+   "wallSec": 7.418,
+   "periFoundA": [
+    25
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrB1534",
+   "emoji": "📿",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 13631888,
+   "stepsRun": 13631888,
+   "rateStepsPerSec": 1250000,
+   "wallSec": 10.416,
+   "periFoundA": [
+    60
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrB1534",
+   "emoji": "📿",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 27263777,
+   "stepsRun": 27263777,
+   "rateStepsPerSec": 1428571,
+   "wallSec": 20.695,
+   "periFoundA": [
+    60
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrB1534",
+   "emoji": "📿",
+   "tag": "dt/4",
+   "dt": 0.004,
+   "n": null,
+   "maxSteps": 40000000,
+   "stepsRun": 40000000,
+   "rateStepsPerSec": 1428571,
+   "wallSec": 30.447,
+   "periFoundA": [
+    44
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 6617813,
+   "stepsRun": 6617813,
+   "rateStepsPerSec": 800000,
+   "wallSec": 8.587,
+   "periFoundA": [
+    29
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 13235625,
+   "stepsRun": 13235625,
+   "rateStepsPerSec": 769231,
+   "wallSec": 17.402,
+   "periFoundA": [
+    29
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "tag": "dt/4",
+   "dt": 0.004,
+   "n": null,
+   "maxSteps": 26471251,
+   "stepsRun": 26471251,
+   "rateStepsPerSec": 800000,
+   "wallSec": 34.461,
+   "periFoundA": [
+    29
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrB1534CF",
+   "emoji": "🪤",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 6617813,
+   "stepsRun": 6617813,
+   "rateStepsPerSec": 512821,
+   "wallSec": 11.657,
+   "periFoundA": [
+    29
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrB1534CF",
+   "emoji": "🪤",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 13235625,
+   "stepsRun": 13235625,
+   "rateStepsPerSec": 606061,
+   "wallSec": 23.621,
+   "periFoundA": [
+    29
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "psrB1534CF",
+   "emoji": "🪤",
+   "tag": "dt/4",
+   "dt": 0.004,
+   "n": null,
+   "maxSteps": 26471251,
+   "stepsRun": 26471251,
+   "rateStepsPerSec": 465116,
+   "wallSec": 45.717,
+   "periFoundA": [
+    29
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "gw150914",
+   "emoji": "🎐",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 681306,
+   "stepsRun": 681306,
+   "rateStepsPerSec": 2000000,
+   "wallSec": 0.413,
+   "periFoundA": [
+    60
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "gw150914",
+   "emoji": "🎐",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 1362611,
+   "stepsRun": 1362611,
+   "rateStepsPerSec": 1538462,
+   "wallSec": 0.783,
+   "periFoundA": [
+    60
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "gw150914DFM",
+   "emoji": "🎻",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 282932,
+   "stepsRun": 282932,
+   "rateStepsPerSec": 666667,
+   "wallSec": 0.321,
+   "periFoundA": [
+    7
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    false
+   ]
+  },
+  {
+   "id": "gw150914DFM",
+   "emoji": "🎻",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 565863,
+   "stepsRun": 565863,
+   "rateStepsPerSec": 1052632,
+   "wallSec": 0.564,
+   "periFoundA": [
+    6
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    false
+   ]
+  },
+  {
+   "id": "gw150914Merge4s",
+   "emoji": "⏰",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 2,
+   "maxSteps": 14147,
+   "stepsRun": 14147,
+   "rateStepsPerSec": 588235,
+   "wallSec": 0.03,
+   "periFoundA": [
+    1
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    false
+   ]
+  },
+  {
+   "id": "gw150914Merge4s",
+   "emoji": "⏰",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 28293,
+   "stepsRun": 28293,
+   "rateStepsPerSec": 666667,
+   "wallSec": 0.056,
+   "periFoundA": [
+    1
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    false
+   ]
+  },
+  {
+   "id": "saturnZonalD68",
+   "emoji": "📡",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 11,
+   "maxSteps": 699401,
+   "stepsRun": 668676,
+   "rateStepsPerSec": 134228,
+   "wallSec": 3.08,
+   "periFoundA": [
+    58
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "saturnZonalD68",
+   "emoji": "📡",
+   "tag": "dt/2",
+   "dt": 0.008,
+   "n": null,
+   "maxSteps": 1398802,
+   "stepsRun": 1337353,
+   "rateStepsPerSec": 229885,
+   "wallSec": 5.778,
+   "periFoundA": [
+    58
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true
+   ]
+  },
+  {
+   "id": "saturnRingReal",
+   "emoji": "💍",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 127,
+   "maxSteps": 2042988,
+   "stepsRun": 2042988,
+   "rateStepsPerSec": 4256,
+   "wallSec": 459.582,
+   "periFoundA": [
+    63,
+    36,
+    3
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    true,
+    true,
+    false
+   ]
+  },
+  {
+   "id": "saturnRingRealKF1",
+   "emoji": "💿",
+   "tag": "dt",
+   "dt": 0.016,
+   "n": 127,
+   "maxSteps": 254730,
+   "stepsRun": 254730,
+   "rateStepsPerSec": 603,
+   "wallSec": 422.773,
+   "periFoundA": [
+    13,
+    2,
+    1
+   ],
+   "periWindow": 20,
+   "windowFilledA": [
+    false,
+    false,
+    false
+   ]
+  }
+ ]
+}

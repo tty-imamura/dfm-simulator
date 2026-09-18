@@ -1853,11 +1853,20 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     (`exp-w265a-kjoint2` / `exp-w265a-basis` / `exp-w264a-kjoint` / `exp-w264a-fixed07` /
     `exp-w263c-obsintake` / `exp-w264a-obsdelta`)。QA `docs.j1946Adopted` ④ が機械固定する。
   - **宣言は行選択であって、単位の一致・観測量対応・数値収束の宣言ではない。**
-    **第269便a: 宣言は AD5(署名便)までは診断欄だけに置く** —— `q.judgementSource`
-    (`applied:false`・`mode:"diagnostic-only-until-AD5"`・宣言行の value/σ は別欄 `declaredRow`)であり、
-    **門が読む `q.obsSigmaCsv` は従来行(ファイル順の最初)から採る**。中心値だけ旧参照・σ だけ新解、
-    という混在を作らないためである。σ 接続器側の「**宣言後の初判定**」は 4 値の**横の欄**
-    (`declaredFirst`)に置き、**据え置きの 4 値は上書きしない**。
+    第269便a は宣言を診断欄だけに置いていた(`applied:false`・`mode:"diagnostic-only-until-AD5"`)。
+  - **第270便a(AD5): 宣言は正式経路へ入った**(`mode:"applied-AD5"`・`appliedToJudgement:true`)。
+    切り替えるのは **6 つ同時**である —— **中心値 `q.obs`・σ `q.obsSigmaCsv`・単位・解 ID(`solution`)・
+    verified 状態(`sigmaPrimaryVerified`)・測定定義(`measurementDefinition`)**。
+    **1 つでも欠けたら切り替えない**(中心値だけ新解・σ だけ新解という混在を作らないため)。
+    宣言の単位が判定量と一致しないときは **`mode:"not-applied(unit-mismatch)"` で止める**
+    (黙って換算しない)。**AD5 前の中心値と σ は `q.judgementSource.previous` に温存する**(履歴を消さない)。
+    - **5 区分(合/窓/否/従/転)の許容は従来どおり obsCard の ±(無ければ目安 ±1%)である** ——
+      第251便c の「CSV の σ は 5 区分の経路へ入れない」規約は AD5 でも変えない(σ が効くのは門だけ)。
+      **中心値は宣言行へ動く**ので、5 区分の残差は宣言行に対する残差になる。
+    - **宣言のある鍵は、obsCard に行が無い量(標準検出器の行)でも参照になる** ——
+      宣言は「この量をどの解と比べるか」の宣言だからである。**宣言の無い鍵には σ 宛先を引かない。**
+    - σ 接続器の `declaredFirst` は**履歴の欄**になった(`appliedToJudgement:true`・
+      AD5 前の行は `previousRow`)。**4 値が動いたときは旧値を `history` に残す**(`fourValues.history`)。
   - **生成 AI はこのファイルを書かない**(採用解の宣言は原仮定者と統括の裁定である)。
 - **星団の内部診断 JSON のスキーマ(第269便d — `tests/out/cluster-w269d.json`)**: 器 `tests/exp-w269d-cluster.mjs` が出す
   **比較サンプル v1a(内部診断)**の出力である。**観測値は 1 つも入っておらず、47 Tuc の公表値との比較も 1 つも入っていない。**
