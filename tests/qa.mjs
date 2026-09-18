@@ -4610,6 +4610,142 @@ const add = (id, pass, detail) => {
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
+
+// ---- 0a3y) 第272便b(第62報「引きずり」): behavior.pairLockPure ----
+// ----   **連星の状態 → 引きずり係数の候補 3 本**(`tests/lib-w272b-pairlock.mjs`)を機械固定する。
+// ----     ① 基準ケースの**閉じた形**: 同期円軌道で候補(i)(iii)が 0・無自転円軌道で候補(i)=k₀/2・
+// ----        候補(iii)=1−e⁻¹(**測った値であって、当てはめた係数ではない**)。
+// ----     ② 不変性: 天体交換・並進・回転・単位変更で 3 本とも動かない。
+// ----     ③ **面外の宣言 σ_i n は s_i に効かない**((σ n)×n=0 —— 2D では面外を幾何として持てない)。
+// ----     ④ 値域: 非負・有界(候補 i/iii ≤ k₀・候補 ii ≤ k_Frame)。
+// ----     ⑤ **エンジンへ接続していない**: html は本ライブラリを 1 度も参照しない。
+// ----     ⑥ **ロック検出器ではない**ことがライブラリ自身に書いてある。
+// ----   **書かないこと**: 「潮汐ロックを証明した」「kFrame≈0 を法則として内蔵した」「引きずり式が確定した」。
+{
+  const bad = [];
+  const cases = [];
+  let nRef = 0, worst = 0;
+  try {
+    const PL = await import('file://' + path.join(ROOT, 'tests', 'lib-w272b-pairlock.mjs'));
+    const refs = PL.pairLockReferenceCases();
+    if (refs.length !== 3) bad.push(`① 基準ケースが 3 本でない(${refs.length})`);
+    for (const c of refs) {
+      nRef++;
+      const v = PL.pairLockCandidates(c.s);
+      if (!v) { bad.push(`① ${c.id} が評価できない`); continue; }
+      const ks = [v.candI.k, v.candII.k, v.candIII.k];
+      if (!ks.every((z) => Number.isFinite(z) && z >= 0)) bad.push(`④ ${c.id} に負/非有限の係数`);
+      if (!(v.candI.k <= c.s.k0 + 1e-12 && v.candIII.k <= c.s.k0 + 1e-12 && v.candII.k <= c.s.kFrame + 1e-12))
+        bad.push(`④ ${c.id} が上限を超える`);
+      if (c.expect) {
+        for (const [key, want] of Object.entries(c.expect)) {
+          const got = (key === 'candI') ? v.candI.k : (key === 'candII' ? v.candII.k : v.candIII.k);
+          if (Math.abs(got - want) > 1e-12) bad.push(`① ${c.id}.${key} が ${want} でない(${got})`);
+        }
+      }
+      const inv = PL.pairLockInvariance(c.s);
+      if (!inv.ok) bad.push(`②③ ${c.id} の不変検査が通らない(${inv.checks.filter((z) => !z.ok).map((z) => z.name).join('/')})`);
+      for (const z of inv.checks) worst = Math.max(worst, z.resid);
+    }
+    cases.push(`基準 ${nRef} 本・不変残差の最大 ${worst.toExponential(2)}`);
+    // ⑤ エンジンへ 1 バイトも接続していない
+    const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+    if (html.indexOf('lib-w272b-pairlock') >= 0 || html.indexOf('pairLockCandidates') >= 0)
+      bad.push('⑤ html が候補式を参照している(純関数は力学へ接続しない約束)');
+    cases.push('html からの参照 0');
+    // ⑥ 位置づけの明記
+    const src = fs.readFileSync(path.join(ROOT, 'tests', 'lib-w272b-pairlock.mjs'), 'utf8');
+    for (const w of ['ロック検出器ではない', '法則ではない', '原仮定者の仮説(第62報)'])
+      if (src.indexOf(w) < 0) bad.push(`⑥ ライブラリに「${w}」の明記が無い`);
+    if (PL.PAIRLOCK_VERSION !== 'w272b-1') bad.push(`版が w272b-1 でない(${PL.PAIRLOCK_VERSION})`);
+  } catch (e) { bad.push('候補式のライブラリが読めない: ' + String(e).slice(0, 90)); }
+  add('behavior.pairLockPure', bad.length === 0,
+    `**連星の状態 → 引きずり係数の候補 3 本(純関数)**(第272便b・原仮定者の仮説〔第62報〕「互いに潮汐ロック`
+    + `している天体は kFrame≈0 とみなせる」「連星の状態が引きずりに有意に影響する計算式」の**測れる形**): `
+    + `${cases.join(' / ')} —— 候補(i)相対メッシュ運動応答 k₀X²/(1+X²)・(ii)ロック係数 k_F(1−αS_lockχ_pair)・`
+    + `(iii)指数ロック k₀(1−T_lock·R)。**同期円軌道で(i)(iii)が 0・無自転円軌道で(i)=k₀/2・(iii)=1−e⁻¹** は`
+    + `**閉じた形から出る値であって当てはめではない**。天体交換・並進・回転・単位変更に不変で、`
+    + `**面外の宣言 σ_i n は s_i に効かない**((σ n)×n=0 —— 2D では面外を幾何として持てないので宣言にとどめる)。`
+    + `**エンジンへは 1 バイトも接続していない**(内蔵 124 本の kFrame は \`preset.kframe-binary01\` の {0,1} のまま)/ `
+    + `**ロック検出器ではない・法則ではない**`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0a3z) 第272便b(第62報「カロン」): docs.charonSeries ----
+// ----   **❄️ の対照系列 C0〜C7/S(診断のみ)**の正本 JSON を機械固定する:
+// ----     ① `meta.targetSha256` が**いま検査している html の SHA-256**と一致する(別ソースの走行を混ぜない)。
+// ----     ② **走行前に固定した契約**が記録されている(近点窓 20・ORB_MAX 60・判定する周回 index 1・h 段 20,700,000 步)。
+// ----     ③ **9 系列 38 列**がそろっている(C0 1・C1 1・C2 6・C3 6・C4 6・C5 6・C6 3・C7 3・S 6)。
+// ----     ④ **NaN は 1 列も無い**。
+// ----     ⑤ **C0 が公開測定(calaudit 正本の ❄️ 同方向 1 周)を再現する**(相対 1e-12 以内)。
+// ----     ⑥ 観測値と σ は**手打ちではなく calaudit 正本から引いている**。
+// ----     ⑦ 書かない語(`meta.notClaim`)が宣言されていて、JSON 本文にその語が出てこない。
+// ----     ⑧ docs/PHYSICS.md に〔第272便b〕節がある。
+// ----   **beta 線の走行なので root は SKIP**する。
+{
+  const bad = [];
+  const cases = [];
+  const WANT = { C0: 1, C1: 1, C2: 6, C3: 6, C4: 6, C5: 6, C6: 3, C7: 3, S: 6 };
+  let seen = null, c0 = null;
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.charonSeries(beta 対象でない: ' + TARGET + ' — 対照系列は beta 線の実測)');
+  } else {
+    try {
+      const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'charon-w272b.json'), 'utf8');
+      const J = JSON.parse(text);
+      const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(別ソースの走行)');
+      const libSha = crypto.createHash('sha256')
+        .update(fs.readFileSync(path.join(ROOT, 'tests', 'lib-w272b-pairlock.mjs'))).digest('hex');
+      if (J.meta.libSha256 !== libSha) bad.push('① meta.libSha256 が候補式ライブラリと違う');
+      cases.push('html/lib の SHA-256 一致');
+      const ct = J.meta.contract || {};
+      if (ct.periWindow !== 20) bad.push(`② 近点窓が 20 でない(${ct.periWindow})`);
+      if (ct.orbMax !== 60) bad.push(`② ORB_MAX が 60 でない(${ct.orbMax})`);
+      if (ct.judgedRevIndex !== 1) bad.push(`② 判定する周回 index が 1(2 周目)でない(${ct.judgedRevIndex})`);
+      if (ct.stepH !== 20700000) bad.push(`② h 段の步数が 20,700,000 でない(${ct.stepH})`);
+      cases.push('契約: 近点窓 20 / ORB_MAX 60 / 2 周目 / h=20.7M 步');
+      seen = {}; let nan = 0, nCol = 0;
+      for (const [id, byStage] of Object.entries(J.columns || {})) {
+        const r = byStage.h;
+        if (!r) { bad.push(`③ ${id} に h 段の走行が無い`); continue; }
+        nCol++;
+        seen[r.series] = (seen[r.series] || 0) + 1;
+        if (r.nan) { nan++; bad.push(`④ ${id} に NaN`); }
+        if (r.error) bad.push(`③ ${id} が走行できていない(${r.error})`);
+        if (id === 'C0') c0 = r;
+      }
+      for (const [s, n] of Object.entries(WANT))
+        if ((seen[s] || 0) !== n) bad.push(`③ 系列 ${s} が ${n} 列でない(${seen[s] || 0})`);
+      cases.push(`${Object.keys(WANT).length} 系列 ${nCol} 列・NaN ${nan}`);
+      const CA = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+      const pc = CA.presets.find((p) => p.id === 'plutoCharonReal');
+      const row = pc.quantities.find((q) => q.kind === 'period' && q.detail && Array.isArray(q.detail.revSec));
+      const want = row.detail.revSec[1];
+      if (!c0) bad.push('⑤ C0 の走行が無い');
+      else if (!(Math.abs(c0.rev2Sec - want) / want <= 1e-12))
+        bad.push(`⑤ C0 が公開測定を再現しない(${c0.rev2Sec} 対 ${want})`);
+      else cases.push(`C0 = ${c0.rev2Sec.toFixed(4)} s(棚卸し正本と一致)`);
+      const ob = J.meta.observation || {};
+      if (ob.from !== 'tests/out/calaudit-w249.json') bad.push('⑥ 観測値の出所が calaudit 正本でない');
+      if (!(ob.sigma > 0)) bad.push('⑥ σ が引けていない');
+      const nc = J.meta.notClaim || [];
+      if (!nc.length) bad.push('⑦ meta.notClaim が無い');
+      for (const w of ['新発見', '潮汐ロックを証明'])
+        if (text.indexOf(w) >= 0 && nc.every((z) => z.indexOf(w) < 0)) bad.push(`⑦ JSON 本文に「${w}」が出ている`);
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      if (P.indexOf('〔第272便b') < 0) bad.push('⑧ PHYSICS に〔第272便b〕節が無い');
+    } catch (e) { bad.push('対照系列の JSON が読めない: ' + String(e).slice(0, 90)); }
+    add('docs.charonSeries', bad.length === 0,
+      `**❄️ 冥王星–カロンの対照系列(診断のみ・既定不変)**(第272便b・原仮定者の仮説〔第62報〕`
+      + `「様々な計算式を検証する」「kFrame<1 は空間メッシュの影響の近似として許容する」): ${cases.join(' / ')} —— `
+      + `窓・終了条件・保存量は**走行前に固定**した(近点窓 20 近点・同方向 1 周は ORB_MAX 60 本・判定は 2 周目・`
+      + `h 段 20,700,000 步 = 第271便a の 3 段登録と同じ物理時間)。**kFrame<1・geoPN=3・f≠1 は器の中の診断コピーだけ**で、`
+      + `**内蔵 124 本は 1 bit も変えていない**。**判定はしていない**(「合/否」「新発見」は書かない —— `
+      + `次数が立ち・残差が観測 σ の 3 倍に入り・独立な観測量を予測できたときにだけ結論の語を使う)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
 // ---- 0a3e) 第264便d(第56報 W4・統括の裁定 X13): version.promote-check ----
 // ----   `tests/release-promote.mjs --check` の **7 項**を QA にする。
 // ----   〔第263便d〕はこの 7 項を「昇格した人が手で回すもの」にしていたが、昇格後の
