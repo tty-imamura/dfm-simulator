@@ -16,19 +16,81 @@
 //   ・印(`sigma_primary`)を上げ下げしない・判定(4 値)に触らない。
 //   ・`solution_id` を作らない(**空欄可** —— 決断事項)。
 //
-// 実行: node tests/exp-w270b-recordid.mjs [--write]
+// ■ 第271便b(第61報・統括の検証項目 R7 / AF15)で塞いだ穴 —— **書込器の 3 つ**
+//   (R7-a) `--write` が `line.slice(0, sp[record_id].start) + id` と書いていたので、
+//          **record_id より後ろの列を捨てていた**。第271便b で `solution_id` を足したので、
+//          このままだと欄が 1 回の `--write` で消える。→ **セルだけを置換**する
+//          (`line.slice(0, start) + id + line.slice(end)`)。
+//   (R7-b) `bad`(違反)が 1 件でもあるのに**書いていた**。→ 違反があるときは**書かない**。
+//   (R7-c) 書く前後の突き合わせが `REQUIRED_COLUMNS + sigma` だけだった。→ **record_id 以外の
+//          全列**(ヘッダに現れる名前すべて)を突き合わせる。
+//   (AF15) **既存の ID は正本**である。振り直しと食い違っても**振り直さない**
+//          (`driftedKeys` として報告するだけで違反にしない —— ID を振り直すと、その ID で
+//          同定している宣言・過去のハンドオフ・外部の引用が全部ずれる)。新規行(セルが空の行)
+//          だけ採番し、**採番先が既存 ID と衝突しないこと**を検査する。
+//   (自己テスト)擬似 CSV(メモリ上の文字列)で入出力を突き合わせる —— 後続列の保持・
+//          非 ID 列の不変・空セルだけの採番・違反時に書かないこと。
+//
+// 実行: node tests/exp-w270b-recordid.mjs [--write] [--selftest-only]
 // 出力: tests/out/recordid-w270b.json
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { parseCsvLine, headerIndex, assignRecordIds, loadObsCsv, REQUIRED_COLUMNS }
+import { parseCsvLine, headerIndex, assignRecordIds, loadObsCsv }
   from './lib-w270b-obscsv.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const WRITE = process.argv.slice(2).indexOf('--write') >= 0;
+const SELFTEST_ONLY = process.argv.slice(2).indexOf('--selftest-only') >= 0;
 const OUT = path.join(ROOT, 'tests', 'out', 'recordid-w270b.json');
 const FILES = ['solar-observations.csv', 'cluster-galaxy-observations.csv', 'transient-observations.csv'];
 const bad = [];
+// 第271便b(AF15): **振り直しと食い違う既存 ID** は違反ではなく報告項目である。
+const driftedKeys = [];
+
+// ---------------------------------------------------------------- 純関数(擬似 CSV でも同じものを使う)
+/**
+ * 第271便b(R7): **`record_id` の欄だけ**を差し替えた CSV 本文を作る(**後続列を保持**する)。
+ * @param {string} txt 元の CSV 本文
+ * @param {(i:number)=>string} idAt 行インデックス(0 始まり・データ行の順)→ 書き込む ID
+ */
+export function rewriteRecordIdColumn(txt, idAt) {
+  const lines = txt.split('\n');
+  const H = headerIndex(lines[0] || '');
+  const hadColumn = ('record_id' in H);
+  const out = lines.slice();
+  if (!hadColumn) out[0] = lines[0].replace(/\s*$/, '') + ',record_id';
+  let k = 0;
+  for (let i = 1; i < lines.length; i++) {
+    if (!lines[i].trim()) continue;
+    const id = idAt(k++);
+    if (hadColumn) {
+      const sp = spans(lines[i]);
+      const s = sp[H.record_id];
+      // **セルだけ置換**(第270便b は `slice(0, s.start) + id` で後続列を捨てていた)
+      out[i] = (s === undefined) ? (lines[i].replace(/\s*$/, '') + ',' + id)
+        : (lines[i].slice(0, s.start) + id + lines[i].slice(s.end));
+    } else {
+      out[i] = lines[i].replace(/\s*$/, '') + ',' + id;
+    }
+  }
+  return out.join('\n');
+}
+
+/** ヘッダに現れる**全列**を名前で突き合わせる(`skip` の列だけ除く)。食い違った欄名を返す。 */
+export function diffAllColumns(beforeTxt, afterTxt, skip = ['record_id']) {
+  const a = parseAll(beforeTxt), b = parseAll(afterTxt);
+  const diffs = [];
+  if (a.length !== b.length) return ['(行数 ' + a.length + ' → ' + b.length + ')'];
+  const names = [...new Set([...Object.keys(headerIndex(beforeTxt.split('\n')[0] || '')),
+    ...Object.keys(headerIndex(afterTxt.split('\n')[0] || ''))])].filter((n) => skip.indexOf(n) < 0);
+  for (let k = 0; k < a.length; k++) for (const n of names) {
+    const x = (a[k][n] === undefined) ? '' : String(a[k][n]);
+    const y = (b[k][n] === undefined) ? '' : String(b[k][n]);
+    if (x !== y) diffs.push('行 ' + (k + 2) + ' の ' + n);
+  }
+  return diffs;
+}
 
 // ---------------------------------------------------------------- ① 生成(と書き込み)
 function processFile(rel) {
@@ -47,47 +109,43 @@ function processFile(rel) {
       body: c[H0.body], quantity: c[H0.quantity], unit: c[H0.unit], source: c[H0.source],
       existing: hadColumn ? String(c[H0.record_id] || '').trim() : '' });
   }
-  const { ids, collisions } = assignRecordIds(rel, rows);
-  // ② 欠損 0・重複 0
+  const { ids: fresh, collisions } = assignRecordIds(rel, rows);
+  // 第271便b(AF15): **既存の ID は正本**である。振り直しと食い違っても振り直さない
+  //   (ID を振り直すと、その ID で同定している宣言・過去のハンドオフ・外部の引用が全部ずれる)。
+  //   新規行(セルが空の行)だけ採番する。
+  const ids = rows.map((r, k) => (r.existing !== '' ? r.existing : fresh[k]));
+  const newlyAssigned = rows.map((r, k) => (r.existing === '' ? { ln: r.ln, id: fresh[k] } : null))
+    .filter(Boolean);
+  const drifted = [];
+  rows.forEach((r, k) => { if (r.existing !== '' && r.existing !== fresh[k])
+    drifted.push({ ln: r.ln, body: r.body, quantity: r.quantity, kept: r.existing, wouldBe: fresh[k] }); });
+  for (const d of drifted) driftedKeys.push(Object.assign({ file: rel }, d));
+
+  // ② 欠損 0・重複 0(**採る値**で数える)
   const dup = new Map();
   ids.forEach((id, k) => dup.set(id, (dup.get(id) || []).concat(rows[k].ln)));
   const duplicated = [...dup.entries()].filter(([, v]) => v.length > 1).map(([id, lns]) => ({ id, lns }));
   if (duplicated.length) bad.push(`${rel}: 重複した record_id ${duplicated.length} 件`);
   if (ids.some((id) => !id)) bad.push(`${rel}: 空の record_id がある`);
-  // 既に欄があるなら、振り直した値と一致すること(**ID は行番号に依存しない**)
-  const changed = [];
-  rows.forEach((r, k) => { if (hadColumn && r.existing && r.existing !== ids[k])
-    changed.push({ ln: r.ln, from: r.existing, to: ids[k] }); });
-  if (changed.length) bad.push(`${rel}: 既存の record_id と振り直しが食い違う ${changed.length} 件`);
+  // 新規採番が既存 ID と衝突していないこと(**採番は既存を上書きしない**)
+  const existingSet = new Set(rows.filter((r) => r.existing !== '').map((r) => r.existing));
+  for (const n of newlyAssigned) if (existingSet.has(n.id))
+    bad.push(`${rel}: 行 ${n.ln} の新規採番 ${n.id} が既存 ID と衝突する`);
 
-  let wrote = false;
+  let wrote = false, allColumnDiffs = [];
   if (WRITE) {
-    const out = lines.slice();
-    if (!hadColumn) out[0] = lines[0].replace(/\s*$/, '') + ',record_id';
-    rows.forEach((r, k) => {
-      const line = lines[r.i];
-      if (hadColumn) {
-        // 末尾の欄を置き換える(**それ以外のバイト列は触らない**)
-        const sp = spans(line);
-        out[r.i] = line.slice(0, sp[H0.record_id].start) + ids[k];
-      } else {
-        out[r.i] = line.replace(/\s*$/, '') + ',' + ids[k];
-      }
-    });
-    const nextTxt = out.join('\n');
-    // ③ 書く前後で **note 以外の欄が 1 文字も動いていない**
-    const a = parseAll(txt), b = parseAll(nextTxt);
-    if (a.length !== b.length) bad.push(`${rel}: 行数が変わった`);
-    for (let k = 0; k < Math.min(a.length, b.length); k++) {
-      for (const n of REQUIRED_COLUMNS.concat(['sigma']))
-        if (String(a[k][n] === undefined ? '' : a[k][n]) !== String(b[k][n] === undefined ? '' : b[k][n]))
-          bad.push(`${rel}: 行 ${k + 2} の ${n} が動いた`);
-    }
-    fs.writeFileSync(fp, nextTxt);
-    wrote = true;
+    const nextTxt = rewriteRecordIdColumn(txt, (k) => ids[k]);
+    // ③ 書く前後で **`record_id` 以外の全列が 1 文字も動いていない**(後続列を含む)
+    allColumnDiffs = diffAllColumns(txt, nextTxt, ['record_id']);
+    for (const d of allColumnDiffs.slice(0, 5)) bad.push(`${rel}: ${d} が動いた`);
+    // R7-b: **違反が 1 件でもあるときは書かない**
+    if (bad.length === 0) { fs.writeFileSync(fp, nextTxt); wrote = true; }
   }
   return { file: rel, rows: rows.length, hadColumn, wrote,
-    idsAssigned: ids.length, duplicated, branched: collisions.filter((c) => c.lns.length > 1),
+    skippedBecauseViolations: WRITE && !wrote,
+    idsAssigned: ids.length, newlyAssigned: newlyAssigned.length, drifted,
+    allColumnDiffs: allColumnDiffs.length,
+    duplicated, branched: collisions.filter((c) => c.lns.length > 1),
     sample: rows.slice(0, 3).map((r, k) => ({ ln: r.ln, body: r.body, quantity: r.quantity, id: ids[k] })),
     ids: rows.map((r, k) => ({ ln: r.ln, body: r.body, quantity: r.quantity, unit: r.unit, id: ids[k] })) };
 }
@@ -117,7 +175,63 @@ function parseAll(txt) {
   return rows;
 }
 
-const files = FILES.map(processFile);
+// ---------------------------------------------------------------- 第271便b(R7): 擬似 CSV の自己テスト
+// **正本の CSV を 1 バイトも触らない**(すべてメモリ上の文字列で行う)。
+function selfTest() {
+  const cases = [];
+  const hdr = 'body,quantity,value,unit,source,url,retrieved,note,sigma,record_id,solution_id';
+  const L1 = 'A,p,1,s,S1,u,2026-01-01,"n, with comma",0.5,SOL-aaaaaaaa,Sol1999-X';
+  const L2 = 'B,q,2,d,S2,u,2026-01-01,n2,,SOL-bbbbbbbb,';
+  const txt = [hdr, L1, L2, ''].join('\n');
+  // (a) 後続列(`solution_id`)が保持される
+  {
+    const next = rewriteRecordIdColumn(txt, (k) => ['SOL-cccccccc', 'SOL-bbbbbbbb'][k]);
+    const rows = parseAll(next);
+    const ok = rows.length === 2 && rows[0].solution_id === 'Sol1999-X' && rows[1].solution_id === ''
+      && rows[0].record_id === 'SOL-cccccccc' && rows[0].note === 'n, with comma';
+    cases.push({ case: 'trailing-column-kept', ok,
+      got: rows[0] ? { record_id: rows[0].record_id, solution_id: rows[0].solution_id } : null });
+    if (!ok) bad.push('自己テスト: 後続列が保持されない');
+  }
+  // (b) `record_id` 以外の全列が不変
+  {
+    const next = rewriteRecordIdColumn(txt, () => 'SOL-dddddddd');
+    const diffs = diffAllColumns(txt, next, ['record_id']);
+    cases.push({ case: 'other-columns-frozen', ok: diffs.length === 0, diffs });
+    if (diffs.length) bad.push('自己テスト: record_id 以外の列が動いた(' + diffs.join(',') + ')');
+  }
+  // (c) 欄が無い CSV には**末尾に足す**(既存のバイト列は動かない)
+  {
+    const noId = [hdr.replace(',record_id,solution_id', ''),
+      L1.replace(',SOL-aaaaaaaa,Sol1999-X', ''), ''].join('\n');
+    const next = rewriteRecordIdColumn(noId, () => 'SOL-eeeeeeee');
+    const rows = parseAll(next);
+    const ok = next.split('\n')[0].endsWith(',record_id') && rows[0].record_id === 'SOL-eeeeeeee'
+      && diffAllColumns(noId, next, ['record_id']).length === 0;
+    cases.push({ case: 'append-column', ok });
+    if (!ok) bad.push('自己テスト: 欄の新規追加が規約どおりでない');
+  }
+  // (d) **空セルだけ採番し、既存 ID は動かさない**(AF15)
+  {
+    const withHole = [hdr, L1, L2.replace(',SOL-bbbbbbbb,', ',,'), ''].join('\n');
+    const H = headerIndex(withHole.split('\n')[0]);
+    const rows = parseAll(withHole);
+    const existing = rows.map((r) => String(r.record_id || '').trim());
+    const freshIds = ['SOL-99999999', 'SOL-88888888'];
+    const take = rows.map((r, k) => (existing[k] !== '' ? existing[k] : freshIds[k]));
+    const next = rewriteRecordIdColumn(withHole, (k) => take[k]);
+    const after = parseAll(next);
+    const ok = after[0].record_id === 'SOL-aaaaaaaa' && after[1].record_id === 'SOL-88888888'
+      && H.record_id === 9;
+    cases.push({ case: 'fill-empty-only', ok,
+      got: after.map((r) => r.record_id) });
+    if (!ok) bad.push('自己テスト: 空セルだけの採番が規約どおりでない');
+  }
+  return cases;
+}
+const selfTestCases = selfTest();
+
+const files = SELFTEST_ONLY ? [] : FILES.map(processFile);
 
 // ---------------------------------------------------------------- ④ 宣言の record_id
 const loaded = {};
@@ -169,9 +283,17 @@ for (const o of semi.offenders)
   bad.push(`AE15: ${o.file}:${o.ln} の ${o.key}= の値が \`;\` で切れている(${o.tail})`);
 
 // ---------------------------------------------------------------- 出力
-const out = { when: new Date().toISOString(), wave: '第270便b(第60報・W2・AE2)',
-  base: 'main f6c19b4', wrote: WRITE,
-  rule: ['`record_id` は**ヘッダ末尾**の 1 欄で、行の diff は `,<id>` だけである',
+const out = { when: new Date().toISOString(),
+  wave: '第270便b(第60報・W2・AE2)/ 第271便b(第61報・R7・AF15 で書込器を直した)',
+  base: 'main ef2cd45', wrote: WRITE,
+  selfTest: { cases: selfTestCases, passed: selfTestCases.filter((c) => c.ok).length,
+    n: selfTestCases.length },
+  driftedKeys,
+  rule: ['`record_id` は**ヘッダ末尾側**の 1 欄で、行の diff は `,<id>` だけである',
+    '第271便b(R7): `--write` は **`record_id` のセルだけ**を置換する(後続の `solution_id` を捨てない)',
+    '第271便b(R7): **違反が 1 件でもあれば書かない**・`record_id` 以外の**全列**の不変を検査する',
+    '第271便b(AF15): **既存の ID は正本**(振り直しと食い違っても振り直さず `driftedKeys` に報告する)。'
+      + '採番するのは**セルが空の行**だけで、既存 ID との衝突を検査する',
     'ID = `<PFX>-<sha256(file\\nbody\\nquantity\\nunit\\nsource) の先頭 8 桁>`(PFX = SOL / CLG / TRN)',
     '同じ 5 つ組の 2 件目以降は**出現順の枝番** `-2`(併置行の重複転写を分ける)',
     '**値・単位・出典・σ・note を 1 文字も変えない**(`record_id` は同定の鍵であって印でも σ でもない)',
@@ -190,7 +312,10 @@ const out = { when: new Date().toISOString(), wave: '第270便b(第60報・W2・
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
 
-console.log('[w270b] record_id 欄(' + (WRITE ? '**書き込み**' : '検査のみ') + ')');
+console.log('[w270b/w271b] record_id 欄(' + (WRITE ? '**書き込み**' : '検査のみ') + ')');
+console.log('  自己テスト(擬似 CSV): ' + selfTestCases.filter((c) => c.ok).length + '/'
+  + selfTestCases.length + ' —— ' + selfTestCases.map((c) => c.case + '=' + (c.ok ? 'OK' : '**NG**')).join(' / '));
+console.log('  既存 ID と振り直しの食い違い(driftedKeys・**振り直さない**): ' + driftedKeys.length + ' 件');
 for (const f of files)
   console.log('  ' + f.file.padEnd(34) + ' 行 ' + String(f.rows).padStart(4)
     + ' / ID ' + String(f.idsAssigned).padStart(4) + ' / 重複 ' + f.duplicated.length
