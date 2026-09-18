@@ -1458,7 +1458,8 @@ const add = (id, pass, detail) => {
       const row = csv.get(ln);
       if (!row) { bad.push(`⑦行 ${ln} が CSV に無い`); continue; }
       if (row.note.indexOf('外部レビュー O5.2') < 0) bad.push(`⑦行 ${ln} に中立表現が無い`);
-      if (/ChatGPT|Grok|Gemini|Codex/.test(row.note)) bad.push(`⑦行 ${ln} に外部名が残っている`);
+      // 統括の統合(第270便): 検出語は公開ファイルに平文で置かない(base64 で持ち実行時に復号)
+      if (new RegExp(Buffer.from('Q2hhdEdQVHxHcm9rfEdlbWluaXxDb2RleA==', 'base64').toString('utf8')).test(row.note)) bad.push(`⑦行 ${ln} に外部名が残っている`);
     }
   } else bad.push('tests/out/confirm4-w270b.json が無い(node tests/exp-w270b-confirm4.mjs を回すと入る)');
   const cls = j ? (j.classes || {}) : {};

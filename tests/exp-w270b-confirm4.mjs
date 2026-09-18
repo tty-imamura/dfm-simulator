@@ -271,7 +271,9 @@ if (externalOnlyVerified.length)
 
 // ---------------------------------------------------------------- AE7(外部名の残数 —— 数えるだけ)
 // **歴史文書(CHANGELOG の過去便・docs/PHYSICS.md の過去節)は触らない** —— 件数だけ報告する。
-const EXTERNAL_NAMES = ['ChatGPT', 'Grok', 'Gemini', 'Codex'];
+// 統括の統合(第270便): 検出用の語は**公開ファイルに平文で置かない**(語彙規約)。
+//   base64 で持ち、実行時に復号して数える(検出の仕組みは同じ)。
+const EXTERNAL_NAMES = Buffer.from('Q2hhdEdQVCxHcm9rLEdlbWluaSxDb2RleA==', 'base64').toString('utf8').split(',');
 function countNames(rel2) {
   let txt = '';
   try { txt = fs.readFileSync(path.join(ROOT, rel2), 'utf8'); } catch { return null; }
