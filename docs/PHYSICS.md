@@ -20949,9 +20949,11 @@ record_id 同定 10 / 既定規則 **44**)。**表示と判定が同じ行から
 近点・窓が揃うこと・判定段。**合否は固定しない** —— 登録は合格の宣言ではない)・
 `docs.stopRuleVersion`(版と宣言表の一致・版の履歴・未完走の語彙・全系一律にしない宣言・文書との一致)・
 `lint.calauditDiagSplit`(SHA-256 の一致・移した欄が正本から消えて印が残ること・辞書の参照先の欠落 0)。
-**更新**: `behavior.stopRuleDeclared`(基点との差を**宣言例外**と**宣言の無い差**に分けた)・
-`docs.fourValuesHistory`(履歴を**積む**形にし、直前の便 ef2cd45 と基点 f6c19b4 の両方を照合)・
-`docs.threeStageD68`(判定段の欄を追加)。
+**更新 4**: `behavior.stopRuleDeclared`(基点との差を**宣言例外**と**宣言の無い差**に分けた)・
+`docs.fourValuesHistory`・`behavior.unitConvertedFirst`・`docs.judgementSources`
+(履歴を**積む**形にしたので、**直前の便 ef2cd45 と基点 f6c19b4 の両方を commit で引いて照合する** ——
+`history[0]` を基点だと決め打ちしない)。**固定値を新しい数へ書き換えた箇所は無い**
+(4 値・門・5 区分・太陽系・切断点はどれも動いていないため)。
 
 ### 9. 言わないこと
 

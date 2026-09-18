@@ -2859,6 +2859,22 @@ AD5 で**中心値・σ・単位・解 ID・verified 状態・測定定義の 6 
 `failureFirst.pass` / `failureFirst.fail` / `descStruct.control`)。
 **変えたのは文言だけ**で、`presetSig` は 1 本も動いていない。
 
+#### 5.17.7b QA(新設 4 件・更新 4 件)
+
+- **新設**: `docs.assessedStageH4`(3 段登録系の判定段が h/4・ε̂ の定義どおりの再計算・
+  登録外の系が動いていないこと・次数推定の適用条件・文書との一致)・
+  `behavior.charonRegistered`(登録・3 段の步数と近点・窓が揃うこと・判定段。
+  **合否は固定しない** —— 登録は合格の宣言ではない)・`docs.stopRuleVersion`(版と宣言表の一致・
+  版の履歴・未完走の語彙・全系一律にしない宣言・文書との一致)・`lint.calauditDiagSplit`
+  (SHA-256 の一致・移した欄が正本から消えて印が残ること・辞書の参照先の欠落 0)。
+- **更新**: `behavior.stopRuleDeclared`(基点との差を**宣言例外**と**宣言の無い差**に分けた)・
+  `docs.fourValuesHistory`・`behavior.unitConvertedFirst`・`docs.judgementSources`
+  (履歴を**積む**形にしたので、**直前の便 ef2cd45 と基点 f6c19b4 の両方を commit で引く** ——
+  `history[0]` を基点だと決め打ちしない)。
+- **固定値を新しい数へ書き換えた箇所は無い**(4 値・門・5 区分・太陽系 4 値・切断点は
+  どれも動いていない)。**増えたのは 3 段登録の本数(15 → 16)と 4 段の ①(9 → 10)だけ**で、
+  どちらも `docs.calaudit-sync` / `behavior.calauditMapping` が JSON から数える量である。
+
 #### 5.17.8 書かないこと
 
 - 「**D68 が合(3σ)**」。**否(3σ)である**(判定段を h/4 にしても符号も桁も変わらない)。
