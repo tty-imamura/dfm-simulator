@@ -83,7 +83,7 @@ import { loadObsCsv as loadObsCsvByHeader } from './lib-w270b-obscsv.mjs';
 // 第270便a(AE9): **走行の停止条件**(步数上限と必要近点数の宣言)。壁時計は資源上限にだけ残す。
 import { stopRuleFor, stopDecision, machineIndependenceProbe, STOP_RULE_VERSION,
   WALL_CEILING_SEC_DEFAULT, PRESET_MAX_STEPS, PRESET_NEED_PERIASTRA,
-  CLASS_MAX_STEPS } from './lib-w270a-stoprule.mjs';
+  CLASS_MAX_STEPS, STOP_RULE_SPEC } from './lib-w270a-stoprule.mjs';
 import crypto from 'node:crypto';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -218,6 +218,16 @@ const THREE_STAGE_REGISTRY = [
   // **登録は合格の宣言ではない** —— 登録した結果どちらへ動くかは走らせて測る。
   { id: 'saturnZonalD68', since: '第270便a(AD8)',
     why: 'AD4 の収束規約を満たした換算後判定の正式接続' },
+  // 第271便a(第61報・AF2): **❄️ カロンの公転周期を 3 段登録する**。第270便a の AD5 で
+  // 採用観測解が Buie et al. 2012 Table 5 の two-body Keplerian(551856.43872 ± 0.02592 s)に
+  // なったが、3 段(dt/4)を走らせていないので `convergence.ok` が立たず「数値未解決(=保留)」
+  // だった。**同じ停止条件・同じ周期抽出契約で 3 段を測る**ための登録である。
+  // **登録は合格の宣言ではない** —— 3 段を測った結果どうなるかは走らせて測る
+  // (残差そのものは大きいが、**測る前に「否」と書かない**)。
+  // 走らせる前に步数を計算した: dt 段 20,694,498 步(60 公転)・dt/2 41,388,996・dt/4 82,777,992 で、
+  // **後ろ 2 段は階級上限 40e6 を超える**ので `PRESET_MAX_STEPS` に 60 公転ぶんを宣言した(AF3)。
+  { id: 'plutoCharonReal', since: '第271便a(AF2)',
+    why: 'AD5 で採用した Buie 2012 の P(551856.43872±0.02592 s)を同じ停止・周期抽出契約で 3 段測る' },
 ];
 const THREE_STAGE_IDS = new Set(THREE_STAGE_REGISTRY.map((z) => z.id));
 // ---------------------------------------------------------------- 第270便a(第60報 W1・AD8)
@@ -725,6 +735,8 @@ out = { meta: {
     classMaxSteps: CLASS_MAX_STEPS,
     presetMaxSteps: PRESET_MAX_STEPS,
     presetNeedPeriastra: PRESET_NEED_PERIASTRA,
+    // 第271便a(AF3): **版つきの既定規約**をそのまま載せる(器と文書と QA が同じ表を読む)。
+    spec: STOP_RULE_SPEC,
     wallCeilingSec: WALL_CEILING_SEC,
     wallClock: '**壁時計は資源上限にだけ残す**。超えた段は `resource-limit` として unmeasured にし、'
       + '**途中までの軌道を最終判定へ流さない**。判定・走行長には 1 bit も入らない。',
@@ -948,12 +960,18 @@ const VER = { OK: '合', WIN: '窓', NG: '否', DEP: '従', TR: '転' };
 // 誤差上限ではない —— 漸近域でも粗い側の真の誤差は 2^p/(2^p−1)·|Q_h−Q_{h/2}| で、この差そのもの
 // より大きい(p=1 で 2 倍・p=2 で 1.33 倍)。旧文言「上限としての宣言」は撤回する。
 // --merge で持ち越した過去分の行にも同じ文言を張り直すため、関数にして 2 か所から使う。
-function numBoundDeclOf(value, steps = 2, order = null) {
+function numBoundDeclOf(value, steps = 2, order = null, stage = 'h') {
   // 第255便d(第47報 N8): 3 段(dt, dt/2, dt/4)が揃った量だけ、ε_num の定義と文言が変わる。
   // 2 段のままの量の文言・値は第253便b から 1 文字も変えていない。
+  // 第271便a(R3): **3 段登録系は判定段が h/4** なので、門が読む ε_num は
+  // **最終 2 段差 |Q_{h/2}−Q_{h/4}|** である(|Q_h−Q_{h/4}| は `coarseNumBound` に残す)。
   if (steps >= 3) {
-    return { value, steps, order,
-      basis: 'dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**'
+    return { value, steps, order, assessedStage: stage,
+      basis: (stage === 'h4')
+        ? 'dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_{h/2} − Q_{h/4}|**(最終 2 段差 —— '
+          + '**判定段が h/4 なので、その段の誤差の目安は最後の 2 段の差である**。第271便a・R3。'
+          + '|Q_h − Q_{h/4}| は `coarseNumBound` に履歴として残す)'
+        : 'dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**'
         + '(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)',
       orderNote: (Number.isFinite(order) && order > 0)
         ? `観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = ${order.toFixed(3)} を実測した`
@@ -969,6 +987,66 @@ function numBoundDeclOf(value, steps = 2, order = null) {
       + '|Q_h−Q_{h/2}| を誤差の上限として使えない —— 真の誤差は 2^p/(2^p−1) 倍で、'
       + 'p が小さいほど大きい(p=1 で 2 倍)。3 段+正の次数が揃うまでこの量は診断値である' };
 }
+// ---------------------------------------------------------------- 第271便a(第61報・AF12)
+// **採用解の列を作る純関数**(宣言読取器の結果と、判定が実際に使った行から作る)。
+//   ・`rule` …… `declared(judgement-sources.json)` か `default(csv-first-row)` か。
+//   ・`recordId` / `source` / `solution` / `unit` / `value` / `sigma` …… **判定に配ったのと同じ値**。
+//   ・`selectedBy` …… 宣言読取器がどの鍵で 1 行に決めたか(`record_id` / 内容照合)。
+//   ・`sameObjectAsJudgement` …… 表示と判定が同じ行から出ていることの機械確認。
+// **この列は判定を変えない** —— 判定が何を使ったかを読めるようにするだけである。
+function buildAdopted({ q, declKey, decl, picked, row, legacyRow }) {
+  const applied = !!(q.judgementSource && q.judgementSource.applied === true);
+  const r = row || null;
+  const sameObject = !!(r && (applied ? (picked && picked.row === r) : (r === legacyRow)));
+  return {
+    key: declKey,
+    rule: decl ? (applied ? 'declared(judgement-sources.json)'
+      : 'declared-but-not-applied(unit-mismatch)') : 'default(csv-first-row)',
+    declared: !!decl,
+    applied,
+    recordId: r ? (r.recordId || r.record_id || null) : null,
+    solutionId: decl ? (decl.solution_id || null) : null,
+    solution: decl ? (decl.solution || null) : null,
+    source: r ? String(r.source).slice(0, 90) : null,
+    unit: r ? r.unit : null,
+    value: Number.isFinite(q.obs) ? q.obs : null,
+    sigma: Number.isFinite(q.obsSigmaCsv) ? q.obsSigmaCsv : null,
+    csvValue: r ? ((r.valueRaw !== undefined) ? r.valueRaw : r.value) : null,
+    csvSigma: r ? r.sigma : null,
+    primaryVerified: r ? !!r.primaryVerified : null,
+    selectedBy: decl ? ((picked && picked.matchedBy) ? picked.matchedBy : 'body|quantity|source|unit|value|sigma')
+      : 'file-order-first-row',
+    selectionReason: decl
+      ? (applied
+        ? '**宣言がある**ので `judgement-sources.json` の解を採った(`pickDeclaredRow` が 1 行に同定)。'
+        : '**宣言はあるが単位が判定量と一致しない**ので切り替えていない(黙って換算しない)。')
+      : '**宣言が無い**ので既定規則「CSV のファイル順で最初の行」を採った(第268便a からの後方互換)。'
+        + '**verified の印で行を選び直さない**(印は行の属性であって選択規則ではない)。',
+    sameObjectAsJudgement: sameObject,
+    // 第271便a(AF12): **中心値がどこから来たか**を分けて記録する。宣言のある行は宣言行から
+    // (AD5 の 6 つ同時)。**宣言の無い行は中心値が obsCard・σ が CSV 行**という組み合わせのままで、
+    // 両者が一致するとは限らない —— **一致しているかどうかをここで数えられるようにする**
+    // (合わせに行くかどうかは決断事項であって、本便では数えるだけである)。
+    centerFrom: applied ? 'declared-row(AD5)' : 'obsCard(従来の参照値)',
+    centerMatchesCsv: (() => {
+      const cv = r ? Number((r.valueRaw !== undefined) ? r.valueRaw : r.value) : NaN;
+      if (!Number.isFinite(cv) || !Number.isFinite(q.obs) || cv === 0) return null;
+      return Math.abs(q.obs / cv - 1) <= 1e-12;
+    })(),
+    centerVsCsvRel: (() => {
+      const cv = r ? Number((r.valueRaw !== undefined) ? r.valueRaw : r.value) : NaN;
+      if (!Number.isFinite(cv) || !Number.isFinite(q.obs) || cv === 0) return null;
+      return q.obs / cv - 1;
+    })(),
+    defaultRule: '宣言の無い body|quantity は **CSV のファイル順で最初の行**(`SIGMA_TABLE`)。'
+      + '**中心値は obsCard・σ はその CSV 行**という組み合わせのままである(AD5 で 6 つ同時に'
+      + '切り替えたのは宣言のある 2 件だけ)—— 一致していない行が何行あるかは '
+      + '`out.adoptedCensus` が数える。',
+    note: '**表示だけ新解・判定は旧解にならないように、判定へ配ったのと同じ行・同じ中心値・同じ σ を'
+      + 'ここへ写している**(別経路で読み直していない)。旧経路は `judgementSource.previous` にある。',
+  };
+}
+
 function assessObservation({ value, reference, sigma, numBound,
   converged = false, definitionMatches = false, sourceVerified = false,
   mappingResolved = true, mappingNote = '' }) {
@@ -1259,6 +1337,14 @@ for (const P of (REGATE ? [] : out.presets)) {
       q.sigmaNote = `σ=${s} を CSV(${row.body}|${row.quantity}・${row.unit})から転写`
         + `(sigma_primary=${row.primaryVerified ? 'verified' : 'unverified'})`;
     } else q.sigmaNote = `CSV の σ の単位(${row.unit})が判定量へ換算できない — 転写しない`;
+    // ---------------------------------------------------------------- 第271便a(第61報・AF12)
+    // **採用解(`adopted`)の列**を、宣言読取器(`pickDeclaredRow`)の結果から作る。
+    // **表示だけ新解・判定は旧解**という混在を作らないために、この列は
+    // **判定が実際に使った同じ行オブジェクト(`row`)と同じ中心値(`q.obs`)・同じ σ(`q.obsSigmaCsv`)**
+    // から作る(別経路で読み直さない)。宣言の**無い** body|quantity の既定規則は
+    // 第268便a からの後方互換のとおり「**CSV のファイル順で最初の行**」であり、
+    // **verified かどうかで行を選び直したりはしない**(印は行の属性であって選択規則ではない)。
+    q.adopted = buildAdopted({ q, declKey, decl, picked, row, legacyRow });
     return q;
   };
   // ---------------------------------------------------------------- 第270便a(第60報 W1・AD8)
@@ -1326,6 +1412,14 @@ for (const P of (REGATE ? [] : out.presets)) {
     }
     q.detail = Object.assign({}, q.detail, { degPerYearFromSameWindow: converted,
       degPerYearFactor: f, degPerOrbitBeforeAD8: q.previousUnit.meas });
+    // 第271便a(AF12): 換算で中心値と σ の出所が **deg/yr の行**へ移ったので、採用解の列も
+    // **判定が実際に使ったその行**から作り直す(換算前の行は `previousUnit` に残っている)。
+    q.adopted = Object.assign(
+      buildAdopted({ q, declKey: body + '|' + SIGMA_QUANT.precession,
+        decl: null, picked: null, row, legacyRow: row }),
+      { ad8Converted: true,
+        ad8Note: '**AD8 の換算後**(判定量 ϖ̇ [deg/yr])の採用解である。中心値と σ は '
+          + 'CSV の deg/yr 行を**換算せずそのまま**採っている(換算したのは実測の側だけ)。' });
     return q;
   };
 
@@ -1715,6 +1809,42 @@ for (const P of (REGATE ? [] : out.presets)) {
       q.dtStages = { dt: q.meas, dtHalf: mHalf, dtQuarter: mQuarter };
       q.numBoundDt2 = q.numBoundDt3;   // 門が読む ε_num を 3 段の定義へ差し替える
       q.numBoundDecl = numBoundDeclOf(q.numBoundDt3, 3, q.pObs);
+      // ------------------------------------------------------------ 第271便a(第61報・R3)
+      // **正式判定段を h/4 へ統一する**(統括の検証項目 R3 —— 文書と器の不一致の解消)。
+      // docs/CALIBRATION_VERDICT_v1.44.md §5.13′.2(AD4 の規約)は「判定段 h/4・
+      // ε̂=|Q_{h/2}−Q_{h/4}|/(2^p−1)」と書いていたが、器の正式門は `value: q.meas`(**h 段**)・
+      // ε_num=|Q_h−Q_{h/4}| で判定していた。**AD4 の既決どおり h/4 へ統一する**。
+      //   ・判定値 `assessedValue` = **Q_{h/4}**(`assessedStage:'h4'`)
+      //   ・最終 2 段差 = **|Q_{h/2} − Q_{h/4}|**(門が読む ε_num はこれになる)
+      //   ・ε̂ = |Q_{h/2} − Q_{h/4}| / (2^p − 1)(p は従来どおり log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})|)
+      //   ・h 段の値は `coarseValue`(= 旧 `meas`)・旧感度幅は `coarseNumBound` として**履歴に残す**
+      // **2 段だけの系(登録外)の扱いは変えない**(現状のまま・数値未解決)。
+      // **次数推定の適用条件**: 連続 2 段差が**同符号**でなければ次数は推定できない
+      // (非単調列に log₂|d1/d2| を当てても漸近次数ではない)。3 段が完全に一致する列も次数不明。
+      // どちらも `orderNotEstimable(...)` として**保留**にする(「収束した」と書かない)。
+      const mono = (d1 > 0 && d2 > 0) || (d1 < 0 && d2 < 0);
+      const identical = (d1 === 0 && d2 === 0);
+      q.orderEstimable = {
+        ok: mono, d1, d2,
+        reason: mono ? null
+          : (identical ? 'orderNotEstimable(identicalStages)' : 'orderNotEstimable(nonMonotone)'),
+        rule: '**連続 2 段差が同符号**のときだけ観測次数を推定する(第271便a・R3)。'
+          + '非単調な 3 段列(d1 と d2 の符号が違う)は漸近域の振る舞いではないので次数が'
+          + '**不明**であり、3 段が完全に一致する列も次数が**不明**である —— どちらも'
+          + '「数値未解決」で保留する(**h/8 への自動昇格はしない**)。',
+      };
+      if (THREE_STAGE_IDS.has(d.id)) {
+        q.assessedStage = 'h4';
+        q.assessedValue = mQuarter;
+        q.coarseValue = q.meas;                  // h 段(第270便a までの判定値 —— 履歴)
+        q.coarseNumBound = q.numBoundDt3;        // |Q_h−Q_{h/4}|(旧 ε_num —— 名前を変えて保持)
+        q.numBoundDt2 = Math.abs(d2);            // **最終 2 段差**(門が読む ε_num)
+        q.numBoundDecl = numBoundDeclOf(Math.abs(d2), 3, q.pObs, 'h4');
+        q.numBoundDeclCoarse = numBoundDeclOf(q.numBoundDt3, 3, q.pObs, 'h');   // 旧宣言(履歴)
+        q.assessedStageNote = '**判定段は h/4**(第271便a・R3 —— AD4 の既決へ統一した)。'
+          + 'h 段の値は `coarseValue`・|Q_h−Q_{h/4}| は `coarseNumBound` に**履歴として残す**。'
+          + '**登録外(2 段だけ)の系の扱いは変えていない**。';
+      }
     } else {
       q.numBoundDecl = (q.numBoundDt2 === null) ? null : numBoundDeclOf(q.numBoundDt2);
     }
@@ -2109,7 +2239,8 @@ for (const r of merged) for (const q of (r.quantities || [])) {
   if (q.numBoundDecl && Number.isFinite(q.numBoundDecl.value)) {
     q.numBoundDecl = numBoundDeclOf(q.numBoundDecl.value,
       Number.isFinite(q.numBoundDecl.steps) ? q.numBoundDecl.steps : 2,
-      Number.isFinite(q.numBoundDecl.order) ? q.numBoundDecl.order : null);
+      Number.isFinite(q.numBoundDecl.order) ? q.numBoundDecl.order : null,
+      q.assessedStage || q.numBoundDecl.assessedStage || 'h');
     // 第258便d(W4): **ε_num の推定誤差欄**を、--merge で持ち越した過去分の行にも張る。
     // |Q_h−Q_{h/k}| は上限ではない —— 漸近形なら /(1−k^−p) 倍である(門は緩めも締めもしない)。
     q.numBoundDecl.estimate = refinedNumBound(q.numBoundDecl.value,
@@ -2143,16 +2274,34 @@ for (const r of merged) for (const q of (r.quantities || [])) {
     && (q.kind !== 'period' || sh.periodWindowFilled === true)) : false;
   const extractionClean = sh ? (sh.extractionClean === true) : false;
   const budgetOK = (convBudget === null) ? true : (epsHatOk === true && lastDiffOk === true);
-  const convOK = convOKLegacy && orderGuard && windowsComplete && extractionClean && budgetOK;
+  // 第271便a(R3): **次数が推定できる列かどうか**を条件に足す(非単調・3 段完全一致は次数不明)。
+  const ordEst = q.orderEstimable || null;
+  const orderEstimable = ordEst ? (ordEst.ok === true) : true;
+  const convOK = convOKLegacy && orderEstimable && orderGuard && windowsComplete
+    && extractionClean && budgetOK;
+  // 第271便a(R3): **判定値は 3 段登録系では h/4** である(h 段は `coarseValue` に履歴として残る)。
+  const assessedStage = q.assessedStage || 'h';
+  const assessedValue = Number.isFinite(q.assessedValue) ? q.assessedValue : q.meas;
   // 第257便d: 観測量対応の宣言(自動判定ではない)
   const mapNote = MAPPING_UNRESOLVED(q.kind, r.id);
-  const g = assessObservation({ value: q.meas, reference: q.obs, sigma: sig, numBound,
+  const g = assessObservation({ value: assessedValue, reference: q.obs, sigma: sig, numBound,
     converged: convOK,
     definitionMatches: defDeclared,
     mappingResolved: (mapNote === null), mappingNote: mapNote || '',
     sourceVerified: PRIMARY_VERIFIED.has(`${r.id}|${q.target}|${q.kind}`)
       || (sigFrom === 'csv' && q.sigmaPrimaryVerified === true) });
   g.key = `${r.id}|${q.target}|${q.kind}`;
+  // 第271便a(R3): 判定段と、その段で測った値・粗い段の値を**門の欄として明示する**。
+  g.assessedStage = assessedStage;
+  g.assessedValue = assessedValue;
+  g.coarseStage = 'h';
+  g.coarseValue = Number.isFinite(q.coarseValue) ? q.coarseValue : q.meas;
+  g.coarseNumBound = Number.isFinite(q.coarseNumBound) ? q.coarseNumBound : null;
+  g.assessedStageRule = (assessedStage === 'h4')
+    ? '**判定値は h/4 段**(第271便a・R3 —— AD4 の既決へ統一した)。最終 2 段差は '
+      + '|Q_{h/2}−Q_{h/4}|・ε̂ はそれを (2^p−1) で割った量である。h 段の値と |Q_h−Q_{h/4}| は '
+      + '`coarseValue` / `coarseNumBound` に**履歴として残す**(新値として写さない)。'
+    : '**判定値は h 段**(3 段登録表の外の系 —— 第271便a でも扱いを変えていない)。';
   // 第257便d: **A 正本**の宣言と、A−B を測る別欄 `orbitNoiseIndicator`
   g.detectorCanonical = 'A';
   g.definitionDeclared = defDeclared; g.definitionDeclaredNote = defDeclNote;
@@ -2185,28 +2334,38 @@ for (const r of merged) for (const q of (r.quantities || [])) {
       + '観測次数がそこから離れている量は**漸近域に居ない**)',
     epsHat, epsHatInSigma: (epsHat !== null && sig) ? epsHat / sig : null, epsHatOk,
     lastDiff: numBound, lastDiffInSigma: (numBound !== null && sig) ? numBound / sig : null, lastDiffOk,
+    // 第271便a(R3): 判定段・次数推定の可否を収束欄にも置く(門の JSON だけで辿れるように)
+    assessedStage, orderEstimable,
+    orderEstimableReason: ordEst ? ordEst.reason : null,
+    orderEstimableRule: ordEst ? ordEst.rule : null,
+    lastDiffDef: (assessedStage === 'h4') ? '|Q_{h/2}−Q_{h/4}|(最終 2 段差)'
+      : '|Q_h−Q_{h/4}|(3 段)/|Q_h−Q_{h/2}|(2 段)',
+    coarseNumBound: Number.isFinite(q.coarseNumBound) ? q.coarseNumBound : null,
     budget: convBudget, windowsComplete, extractionClean,
     fitWindows: sh ? sh.fitWindows : null,
-    rule: '**AD4+AE3(第270便a)**: ①3 段(dt, dt/2, dt/4)②実測次数 order>0 '
+    rule: '**AD4+AE3(第270便a)+ R3(第271便a)**: ①3 段(dt, dt/2, dt/4)②実測次数 order>0 '
+      + '(**次数は連続 2 段差が同符号のときだけ推定する** —— 非単調列・3 段完全一致は次数不明)'
       + '③**|p−2| ≤ 0.5**(次数ガード)④窓充足(3 段で同じ fit 窓・周期窓が埋まっている)'
       + '⑤抽出健全(NaN 0・クランプ 0・重複 0・unwrap 中断 0)⑥ε̂=|Q_h−Q_{h/4}|/(2^p−1) と'
       + '最終段差がどちらも **≤0.3σ**(σ を持つ量だけ評価できる)。'
       + '**判定を甘くする条件ではない** —— 「まだ言えない」を言えるようにする条件である。',
     hold: convOK ? null
       : ((!nbd || !(nbd.steps >= 3)) ? 'dt 3 段が走っていない(2 段は感度診断)'
+        : (!orderEstimable ? `**次数が推定できない列である**(${ordEst ? ordEst.reason : '—'})`
+          + ' —— 連続 2 段差が同符号でない、または 3 段が完全に一致している(第271便a・R3)'
         : (!(ord > 0) ? '収束次数が未測定または非正'
           : (!orderGuard ? `**次数ガード(AE3)で保留**: 観測次数 p=${ord.toFixed(4)} が 2 から `
             + `${Math.abs(ord - 2).toFixed(4)} 離れている(|p−2|≤0.5 を満たさない)= 漸近域に居ない`
             : (!windowsComplete ? '3 段で窓が揃っていない(fit 窓が違う/周期窓が埋まっていない)'
               : (!extractionClean ? '抽出に異常がある(NaN/クランプ/重複/unwrap 中断)'
-                : '数値誤差幅が 0.3σ の予算を超える'))))),
+                : '数値誤差幅が 0.3σ の予算を超える')))))),
     previous: { rule: '3 段かつ order>0(第253便b〜第269便a)', ok: convOKLegacy,
       note: '**旧規約での成否**。第270便a で AD4+AE3 を門へ入れたので、'
         + '**旧規約で「収束済み」だった量のうち次数ガードを満たさないものは「数値未解決」へ戻る** —— '
         + 'これは測定が悪くなったのではなく、収束したと言える条件を満たしていなかったということである。' } };
   // 参考(判定ではない): 来歴・定義の条件を外し、3σ+ε_num の算術だけを見たときの成否
-  g.arithOnly = (sig !== null && numBound !== null && Number.isFinite(q.meas) && Number.isFinite(q.obs))
-    ? (Math.abs(q.meas - q.obs) <= 3 * sig + numBound) : null;
+  g.arithOnly = (sig !== null && numBound !== null && Number.isFinite(assessedValue) && Number.isFinite(q.obs))
+    ? (Math.abs(assessedValue - q.obs) <= 3 * sig + numBound) : null;
   q.gate = g;
 }
 
@@ -2583,8 +2742,20 @@ out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
   const counts = out.verdictLedger.counts;
   out.fourValues = {
     current: { counts, gate: out.summary.gate.byStatus, tally: out.summary.tally,
-      commit: '第270便a(署名便)', csvSha, judgementSourcesSha: jsSha, when: out.meta.when || null },
+      commit: '第271便a(署名便)', csvSha, judgementSourcesSha: jsSha, when: out.meta.when || null },
     history: [{
+      wave: '第270便(第60報・PR #272)', commit: 'ef2cd45',
+      counts: { '合': 0, '量限定合': 2, '否': 1, '保留': 34 },
+      gate: { '合(3σ)': 2, '否(3σ)': 1, '数値未解決': 35, 'mapping-unresolved': 14,
+        'condition-mismatch': 8, '未判定': 254 },
+      tally: { '合': 57, '窓': 6, '否': 25, '従': 4, '転': 214, '条': 8 },
+      solarFour: { '否': 1, '保留': 15 }, solarCut: { 'csv-sigma-empty': 106,
+        'kind-not-gated': 26, 'unit-not-converted': 3, 'connected': 4 },
+      judgementSourcesVersion: '第270便a(2026-09-18)・mode=applied-AD5',
+      reason: '**本便の基点**。判定段は **h 段**(文書 §5.13′.2 は h/4 と書いていた —— '
+        + '第271便a の R3 でコードを AD4 の既決 h/4 へ統一した)・3 段登録 15 本'
+        + '(❄️ カロンは未登録で「数値未解決=保留」)・停止条件は版 w270a-1。',
+    }, {
       wave: '第269便(第59報・PR #271)', commit: 'f6c19b4',
       counts: { '合': 0, '量限定合': 2, '否': 2, '保留': 33 },
       gate: { '合(3σ)': 2, '否(3σ)': 2, '数値未解決': 31, 'mapping-unresolved': 13,
@@ -2597,7 +2768,11 @@ out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
       reason: '**基点**。宣言は診断欄のみ・📡 は 3 段登録に無く換算前(°/周)で判定・'
         + '収束規約は「3 段+order>0」だけ・走行長は步/秒×時間予算(機種依存)。',
     }],
-    whatMoved: ['AD5: 宣言 2 件(カロン P・金星 e)を正式経路へ(中心値・σ・単位・解 ID・'
+    whatMoved: ['**R3: 正式判定段を h/4 へ統一**(3 段登録系だけ。h 段の値は `coarseValue`・'
+      + '|Q_h−Q_{h/4}| は `coarseNumBound` として履歴に残す。**2 段だけの系の扱いは不変**)',
+    '**R3: 次数推定の適用条件**(連続 2 段差が同符号でない列・3 段完全一致の列は次数不明として保留)',
+    '**AF2: ❄️ カロンの公転周期を 3 段登録**(AF3 で 60 公転ぶんの步数を preset 宣言に足した)',
+    '(第270便a まで)AD5: 宣言 2 件(カロン P・金星 e)を正式経路へ(中心値・σ・単位・解 ID・'
       + 'verified 状態・測定定義を同時に切り替え)',
     'AD8: 📡 D68 を 3 段登録し、**換算後(同じ近点集合の P_peri)の ϖ̇ [deg/yr]** を正式判定へ',
     'AD4+AE3: 収束規約に次数ガード |p−2|≤0.5・窓充足・抽出健全・ε̂ と 2 段差の予算を入れた',
@@ -2640,9 +2815,232 @@ out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
       + 'tests/exp-w270a-stoprule.mjs が全段を数えて記録する。' };
 }
 
+// ---------------------------------------------------------------- 第271便a(第61報・AF12)
+// **採用解の列の会計**。宣言のある行・既定規則の行・中心値が CSV 行と一致しない行を数える。
+// **判定を変えない集計である**(何を使ったかを読めるようにするだけ)。
+{
+  const c = { n: 0, declared: 0, applied: 0, defaultRule: 0, byRecordId: 0,
+    centerMatchesCsv: 0, centerDiffersFromCsv: 0, centerNotComparable: 0,
+    sameObjectAsJudgement: 0, notSameObject: [], centerDiffRows: [] };
+  for (const p of (out.presets || [])) for (const q of (p.quantities || [])) {
+    const a = q.adopted; if (!a) continue;
+    c.n++;
+    if (a.declared) c.declared++; else c.defaultRule++;
+    if (a.applied) c.applied++;
+    if (a.selectedBy === 'record_id') c.byRecordId++;
+    if (a.sameObjectAsJudgement) c.sameObjectAsJudgement++;
+    else c.notSameObject.push({ id: p.id, key: a.key });
+    if (a.centerMatchesCsv === true) c.centerMatchesCsv++;
+    else if (a.centerMatchesCsv === false) { c.centerDiffersFromCsv++;
+      if (c.centerDiffRows.length < 40) c.centerDiffRows.push({ id: p.id, key: a.key,
+        obs: a.value, csvValue: a.csvValue, rel: a.centerVsCsvRel, rule: a.rule }); }
+    else c.centerNotComparable++;
+  }
+  out.adoptedCensus = Object.assign(c, { since: '第271便a(第61報・AF12)',
+    rule: '`adopted` 列は宣言読取器(`pickDeclaredRow`)の結果と、**判定が実際に使った行**から作る。'
+      + '宣言の無い body|quantity の既定規則は「CSV のファイル順で最初の行」である。',
+    finding: '**中心値が CSV 行と一致しない行**は、中心値が obsCard 由来・σ が CSV 行由来という'
+      + '組み合わせのまま残っている行である(AD5 で 6 つ同時に切り替えたのは宣言のある 2 件だけ)。'
+      + '**これは判定の誤りの宣言ではない** —— 何行あるかを数えただけである。',
+    doNotWrite: ['採用解を揃えた', '宣言で判定が増えた'] });
+}
+
+// ---------------------------------------------------------------- 第271便a(第61報・AF16)
+// **正本 JSON から「重い診断」を別ファイルへ分ける**(**削らない** —— 移すだけである)。
+// 何を移すかは**宣言列挙**であり、自動判定ではない。移すのは「判定にも QA にも入らない診断欄」だけで、
+// 門が読む数(σ・残差・収束の欄)や走行の記録(步数・近点数・壁時計)は**正本に残す**。
+//   ① `run.stopRule.machineIndependence` / `run.stopRuleStages[].machineIndependence`
+//      …… 旧停止規則を 3 つの步/秒で再現した比較(第270便a の器が同じものを合成入力で作れる)。
+//   ② `quantities[].stageHealth.rows` …… 段ごとの生の抽出診断(**要約は `stageHealth` 本体と
+//      `gate.convergence` に残る**)。
+//   ③ `quantities[].gate.deprecatedKeys` …… 旧鍵の読み替え表(`out.keyAliases` に正本がある)。
+//   ④ `quantities[].predictionEligibleReasons` …… ④ 予測資格の理由列(判定には入らない)。
+// 正本には **要約 + 相対パス + SHA-256** を残し、参照先が欠けたときに分かるようにする。
+const DIAG_OUT = path.join(ROOT, 'tests', 'out', 'calaudit-w249-diag.json');
+const DIAG_FIELDS = [
+  { path: 'presets[].run.stopRule.machineIndependence', why: '旧停止規則の步/秒依存の再現(第270便a)' },
+  { path: 'presets[].run.stopRuleStages[].machineIndependence', why: '同上(段ごと)' },
+  { path: 'presets[].quantities[].stageHealth.rows', why: '段ごとの生の抽出診断(要約は本体に残る)' },
+  { path: 'presets[].quantities[].gate.deprecatedKeys', why: '旧鍵の読み替え表(正本は out.keyAliases)' },
+  { path: 'presets[].quantities[].predictionEligibleReasons', why: '④ 予測資格の理由列(門に入らない)' },
+  { path: 'presets[].quantities[].numBoundDeclCoarse', why: '旧規約(h 段)の ε_num 宣言(第271便a・R3 の履歴)' },
+];
+// ---------------------------------------------------------------- 第271便a(第61報・AF16)
+// **同じ文言が何百行にも複製されている欄は、正本の中で 1 か所へまとめる**(`out.contracts`)。
+// 移すのではなく **辞書化**である —— 文言は正本の中に 1 部だけ残り、各行には参照鍵が入る。
+// 鍵は**文言の SHA-256 の先頭 8 桁**なので、違う文言が同じ鍵に潰れることはない(取りこぼさない)。
+// **数は 1 つも辞書化しない**(門が読む値・走行の記録はすべて各行に残る)。
+const CONTRACT_TEXT_FIELDS = [
+  'run.stopRule.{rule,note,maxStepsWhy,needPeriastraWhy,rateNote}',
+  'run.stopRuleStages[].{同上}', 'run.timeBudget[].note',
+  'quantities[].stageHealth.rule', 'quantities[].assessedStageNote',
+  'quantities[].orderEstimable.rule', 'quantities[].numBoundDecl.{basis,orderNote}',
+  'quantities[].gate.{assessedStageRule,definitionNote,definitionDeclaredNote}',
+  'quantities[].gate.orbitNoiseIndicator.meaning',
+  'quantities[].gate.convergence.{rule,orderGuardRule,orderEstimableRule,lastDiffDef}',
+  'quantities[].gate.convergence.previous.{rule,note}',
+  'quantities[].adopted.{selectionReason,defaultRule,note,ad8Note}',
+  'quantities[].judgementSource.{note,previous.note}',
+];
+// **`--merge` / `--regate` で持ち越した preset の診断は、前回の別ファイルから引き継ぐ**。
+// 引き継がないと、再走しなかった preset の診断が正本にも別ファイルにも無くなる(= 実際に消える)。
+// 引き継げなかったものは `missingReferences` に**そのまま並べる**(黙って埋めない)。
+const PREV_DIAG = (() => { try {
+  return JSON.parse(fs.readFileSync(DIAG_OUT, 'utf8')); } catch (e) { return null; } })();
+const diag = { when: new Date().toISOString(), wave: '第271便a(第61報・AF16)',
+  of: 'tests/out/calaudit-w249.json',
+  what: '**正本から移した重い診断**である(削ったのではない)。正本の `diagnosticsSplit` に'
+    + 'このファイルの相対パスと SHA-256 がある。単独で配ると参照先が欠ける —— 2 つで 1 組である。',
+  carriedOverFrom: PREV_DIAG ? (PREV_DIAG.when || null) : null,
+  fields: DIAG_FIELDS, presets: {}, missingReferences: [] };
+{
+  const bytesBefore = Buffer.byteLength(JSON.stringify(out, null, 1));   // **UTF-8 バイト**で測る(文字数ではない)
+  let moved = 0;
+  // ---- 文言の辞書化(`out.contracts`)。**正本の中に 1 部だけ残す**(別ファイルへは出さない)
+  // `--merge` で持ち越した行は既に辞書化済み(文言のかわりに `…Ref` の鍵を持つ)なので、
+  // **前回の辞書を種にする** —— そうしないと持ち越した行の参照先が消える(下の dangling で検査する)。
+  const PREV_MAIN = (() => { try { return JSON.parse(fs.readFileSync(OUT, 'utf8')); } catch (e) { return null; } })();
+  const CONTRACTS = Object.assign({}, (PREV_MAIN && PREV_MAIN.contracts && PREV_MAIN.contracts.texts) || {});
+  let hoisted = 0;
+  const hoist = (obj, field, prefix) => {
+    if (!obj || typeof obj[field] !== 'string' || obj[field].length < 60) return;
+    const text = obj[field];
+    const key = prefix + '#' + crypto.createHash('sha256').update(text).digest('hex').slice(0, 8);
+    if (CONTRACTS[key] === undefined) CONTRACTS[key] = text;
+    delete obj[field];
+    obj[field + 'Ref'] = key;
+    hoisted++;
+  };
+  const hoistAll = (obj, fields, prefix) => { for (const f of fields) hoist(obj, f, prefix + '.' + f); };
+  for (const p of (out.presets || [])) {
+    const bucket = { stopRule: null, stopRuleStages: {}, quantities: {} };
+    const run = p.run || {};
+    if (run.stopRule && run.stopRule.machineIndependence) {
+      bucket.stopRule = run.stopRule.machineIndependence; moved++;
+      delete run.stopRule.machineIndependence;
+      run.stopRule.machineIndependenceMoved = 'calaudit-w249-diag.json';
+    }
+    for (const st of (run.stopRuleStages || [])) {
+      if (!st || !st.machineIndependence) continue;
+      bucket.stopRuleStages[st.tag || 'dt'] = st.machineIndependence; moved++;
+      delete st.machineIndependence;
+      st.machineIndependenceMoved = 'calaudit-w249-diag.json';
+    }
+    // 文言の辞書化(走行の側)
+    const SR_TEXT = ['rule', 'note', 'maxStepsWhy', 'needPeriastraWhy', 'rateNote'];
+    if (run.stopRule) hoistAll(run.stopRule, SR_TEXT, 'stopRule');
+    for (const st of (run.stopRuleStages || [])) hoistAll(st, SR_TEXT, 'stopRule');
+    for (const tb of (run.timeBudget || [])) hoist(tb, 'note', 'timeBudget.note');
+    for (const q of (p.quantities || [])) {
+      const key = `${q.target}|${q.kind}|${q.name}`;
+      const b = {};
+      if (q.stageHealth && Array.isArray(q.stageHealth.rows)) {
+        b.stageHealthRows = q.stageHealth.rows; moved++;
+        q.stageHealth.rowsMoved = 'calaudit-w249-diag.json';
+        q.stageHealth.rowsN = q.stageHealth.rows.length;
+        delete q.stageHealth.rows;
+      }
+      if (q.gate && q.gate.deprecatedKeys) {
+        b.deprecatedKeys = q.gate.deprecatedKeys; moved++;
+        q.gate.deprecatedKeysMoved = 'calaudit-w249-diag.json';
+        delete q.gate.deprecatedKeys;
+      }
+      if (q.predictionEligibleReasons) {
+        b.predictionEligibleReasons = q.predictionEligibleReasons; moved++;
+        q.predictionEligibleReasonsMoved = 'calaudit-w249-diag.json';
+        delete q.predictionEligibleReasons;
+      }
+      if (q.numBoundDeclCoarse) {
+        b.numBoundDeclCoarse = q.numBoundDeclCoarse; moved++;
+        q.numBoundDeclCoarseMoved = 'calaudit-w249-diag.json';
+        delete q.numBoundDeclCoarse;
+      }
+      // 文言の辞書化(量の側)—— **数は 1 つも触らない**
+      if (q.stageHealth) hoist(q.stageHealth, 'rule', 'stageHealth.rule');
+      hoist(q, 'assessedStageNote', 'assessedStageNote');
+      if (q.orderEstimable) hoist(q.orderEstimable, 'rule', 'orderEstimable.rule');
+      if (q.numBoundDecl) hoistAll(q.numBoundDecl, ['basis', 'orderNote'], 'numBoundDecl');
+      if (q.adopted) hoistAll(q.adopted, ['selectionReason', 'defaultRule', 'note', 'ad8Note'], 'adopted');
+      if (q.judgementSource) {
+        hoist(q.judgementSource, 'note', 'judgementSource.note');
+        if (q.judgementSource.previous) hoist(q.judgementSource.previous, 'note', 'judgementSource.previous.note');
+      }
+      if (q.gate) {
+        hoistAll(q.gate, ['assessedStageRule', 'definitionNote', 'definitionDeclaredNote'], 'gate');
+        if (q.gate.orbitNoiseIndicator) hoist(q.gate.orbitNoiseIndicator, 'meaning', 'orbitNoiseIndicator.meaning');
+        const c = q.gate.convergence;
+        if (c) {
+          hoistAll(c, ['rule', 'orderGuardRule', 'orderEstimableRule', 'lastDiffDef'], 'convergence');
+          if (c.previous) hoistAll(c.previous, ['rule', 'note'], 'convergence.previous');
+        }
+      }
+      if (Object.keys(b).length) bucket.quantities[key] = b;
+    }
+    if (bucket.stopRule || Object.keys(bucket.stopRuleStages).length
+      || Object.keys(bucket.quantities).length) { diag.presets[p.id] = bucket; continue; }
+    // この preset では何も移さなかった。**前回の走行で移した記録が残っているなら引き継ぐ**
+    // (`--merge` で持ち越した preset は既に剥がれているので、印だけが残っている)。
+    const marked = !!((run.stopRule && run.stopRule.machineIndependenceMoved)
+      || (p.quantities || []).some((q) => (q.stageHealth && q.stageHealth.rowsMoved)
+        || (q.gate && q.gate.deprecatedKeysMoved) || q.predictionEligibleReasonsMoved));
+    if (!marked) continue;
+    const old = PREV_DIAG && PREV_DIAG.presets ? PREV_DIAG.presets[p.id] : null;
+    if (old) {
+      diag.presets[p.id] = old;
+      moved += (old.stopRule ? 1 : 0) + Object.keys(old.stopRuleStages || {}).length
+        + Object.values(old.quantities || {}).reduce((a, q) => a + Object.keys(q).length, 0);
+    } else diag.missingReferences.push({ id: p.id,
+      why: '正本に `…Moved` の印があるのに、別ファイルに記録が無い(参照先が欠けている)' });
+  }
+  // **参照先の欠落を検査する**(`…Ref` の鍵が辞書に無ければ、その行の文言は読めない)
+  const dangling = [];
+  (function walk(o, path) {
+    if (o === null || typeof o !== 'object') return;
+    if (Array.isArray(o)) { for (let i = 0; i < o.length; i++) walk(o[i], path + '[' + i + ']'); return; }
+    for (const k of Object.keys(o)) {
+      const v = o[k];
+      if (typeof v === 'string' && /Ref$/.test(k) && v.indexOf('#') > 0) {
+        if (CONTRACTS[v] === undefined && dangling.length < 40) dangling.push(path + '.' + k + ' → ' + v);
+      } else walk(v, path + '.' + k);
+    }
+  })(out.presets, 'presets');
+  out.contracts = Object.assign({
+    dangling, danglingN: dangling.length,
+    what: '**同じ文言が何百行にも複製されていた欄を、正本の中で 1 か所へまとめた辞書**'
+      + '(第271便a・AF16)。各行には `…Ref` という鍵が入っていて、その鍵でここを引く。'
+      + '鍵は文言の SHA-256 の先頭 8 桁なので、**違う文言が同じ鍵へ潰れることはない**。'
+      + '**別ファイルへ出したのではない** —— 文言は正本の中に 1 部だけ残っている。'
+      + '**数は 1 つも辞書化していない**(門が読む値・走行の記録は各行にある)。',
+    fields: CONTRACT_TEXT_FIELDS, n: Object.keys(CONTRACTS).length, hoisted,
+  }, { texts: CONTRACTS });
+  const diagText = JSON.stringify(diag, null, 1);
+  fs.mkdirSync(path.dirname(DIAG_OUT), { recursive: true });
+  fs.writeFileSync(DIAG_OUT, diagText);
+  const sha = crypto.createHash('sha256').update(diagText).digest('hex');
+  out.diagnosticsSplit = { since: '第271便a(第61報・AF16)',
+    file: 'tests/out/calaudit-w249-diag.json', relPath: './calaudit-w249-diag.json',
+    sha256: sha, bytes: Buffer.byteLength(diagText), movedFields: moved, fields: DIAG_FIELDS,
+    presets: Object.keys(diag.presets).length,
+    missingReferences: diag.missingReferences,
+    carriedOverFrom: diag.carriedOverFrom,
+    bytesBeforeSplit: bytesBefore,
+    contractsHoisted: hoisted, contractsTexts: Object.keys(CONTRACTS).length,
+    contractsDangling: dangling.length,
+    rule: '**削っていない** —— 上の欄は別ファイルへ移しただけである。正本を単独で配ると'
+      + 'これらの欄の参照先が欠ける(`…Moved` の印が残るので、欠けていることが分かる)。',
+    says: '**分離はサイズの都合であって、診断を捨てたという意味ではない**。' };
+}
+
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
+out.diagnosticsSplit.bytesAfterSplit = Buffer.byteLength(JSON.stringify(out, null, 1));
+fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
+out.diagnosticsSplit.bytesAfterSplit = fs.statSync(OUT).size;
 fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
 console.error(`[w249b] wrote ${OUT}`);
+console.error('[w271a] 診断分離: ' + out.diagnosticsSplit.movedFields + ' 欄 → '
+  + out.diagnosticsSplit.file + '(' + out.diagnosticsSplit.bytes + ' B・sha256 '
+  + out.diagnosticsSplit.sha256.slice(0, 12) + '…)/ 正本 '
+  + out.diagnosticsSplit.bytesBeforeSplit + ' → ' + out.diagnosticsSplit.bytesAfterSplit + ' B');
 console.error('[w265a] 3 段登録表 ' + out.threeStageRegistry.n + ' 本(3 段済み '
   + out.threeStageRegistry.quarterRun + ' / σ 宛先 ' + out.threeStageRegistry.sigmaFromCsvTotal
   + ' / 3σ ' + out.threeStageRegistry.pass3SigmaTotal + ')');
