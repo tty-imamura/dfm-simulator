@@ -290,6 +290,15 @@ paper/*.log
 paper/*.out
 paper/*.pdf
 paper/*Notes.bib
+# 第270便d: 親子コアの**独立 Q**(AD1・法則 (a))と LFBOT の **ν̄ 受理前上限帳簿**(AD2)・
+#           `collapseR` の対照(AA11)の実測正本。
+#   zetaq : 反例の保存・総当たり 2025 組・読戻し 3 経路・6 経路の更新則・**融合が起きる内蔵の洗い出し**
+#           (tests/exp-w270d-zetaq.mjs)
+#   numax : 受理前上限の表・恒等式 3 段・対照④・N_γ=0 の未定義・collapseR の対照
+#           (tests/exp-w270d-numax.mjs)
+#   docs/PHYSICS.md〔第270便d〕§2/§3/§4/§5 の表がこの値そのものなのでコミットする
+!tests/out/zetaq-w270d.json
+!tests/out/numax-w270d.json
 # 第221便: セッション内スクラッチ実測ハーネス(コミット対象外 — 実測値は claims/QA が機械固定する)
 _scratch-*.mjs
 _scratch-*/

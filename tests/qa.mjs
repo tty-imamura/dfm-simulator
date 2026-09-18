@@ -20985,14 +20985,18 @@ if (!FAST) {
 // ----   **ζ′>0 が要る**ので **sign(Q′)=sign(J′)** に縛られる。融合前の源の符号が J の和の符号と違う
 // ----   (あるいは片方だけ 0 の)ときは、**どんな有限の正の ζ′ でも表せない**。丸めや許容幅では解けない
 // ----   **表現の問題**である。
-// ----   **これは「直した」テストではない。** 本便は反例を置くだけで、修正法則((a) 回転源 Q を J と独立の
-// ----   宣言量として運ぶ /(b) 融合時にも成分を残す)は次便の署名便である。**合成則を直したら
-// ----   このブロックは書き換える**(反例が消えることが直した証拠になる)。
-// ----   固定するのは 4 つ:
+// ----   第270便d(AD1・署名便): **修正法則 (a)(Q を J と独立の状態にする)が入った。**
+// ----   このブロックは「直っていない」テストから **「旧則の反例は読み方 J′/ζ′ として再現器で温存し、
+// ----   新則の状態 ΣQ では保存される」** の対照へ改めた —— 消していないのは、**表現の問題が
+// ----   どこにあったか**を残すためである(〔第268便b〕の 372 組は再現器 tests/exp-w268b-zetamerge.mjs
+// ----   と本ブロックの ①〜④ でそのまま数えられる)。⑤ が新則側の保存を固定する。
+// ----   **書かないこと**: 「ζ 合成則の時間発展則が決まった」(決まったのは状態の取り方だけである)。
+// ----   固定するのは 5 つ:
 // ----     ① 純関数 `HP.dfmLayerMerge` で (10,1)+(−10,2) は **融合前 ΣJ/ζ=5 → 融合後 Q′=0**(源が消える)。
 // ----     ② 同じく (10,1)+(−15,2) は **2.5 → −5**(符号が反転する)。
 // ----     ③ **同方向は一致する**(10,2)+(20,2)=15・(10,2)+(20,4)=10 —— 反例の対照。
 // ----     ④ **`rule:"add"` でも解けない** —— 同半径の畳み込みで同じ合成則が走る。
+// ----     ⑤ 第270便d: **新則の状態 Q′=ΣQ では ①②④ の組がすべて保存される**(総当たり 2025/2025)。
 // ----   **書かないこと**: 「ζ 合成則を直した」「融合で角運動量が壊れている」(壊れているのは**回転場の
 // ----   源の表現**であって、J の和は厳密である)。
 {
@@ -21009,6 +21013,15 @@ if (!FAST) {
         const out = HP.dfmLayerMerge(A, B, rule || 'role');
         return { before: src(A) + src(B), J: sumJ(out), zeta: out[0] ? out[0].inertiaScale : null,
           after: src(out), n: out.length };
+      };
+      // 第270便d: **新則の読み方**(状態 ΣQ。Q が無い層は読み込みと同じ Q=J/ζ で導出する)
+      const qOf = (L) => { const q = Number(L.Q); return Number.isFinite(q) ? q : (Number(L.J) || 0) / zOf(L); };
+      const srcQ = (arr) => arr.reduce((a, L) => a + qOf(L), 0);
+      const oneQ = (ja, za, jb, zb, rule) => {
+        const A = [{ role: 'core', m: 10, r: 1, J: ja, inertiaScale: za }];
+        const B = [{ role: (rule === 'add') ? 'shell' : 'core', m: 10, r: 1, J: jb, inertiaScale: zb }];
+        const out = HP.dfmLayerMerge(A, B, rule || 'role');
+        return { before: srcQ(A) + srcQ(B), after: srcQ(out) };
       };
       const O = { pure: {}, add: {} };
       O.pure.vanish = one(10, 1, -10, 2);
@@ -21028,6 +21041,15 @@ if (!FAST) {
         else if (r.before === 0 && r.after !== 0) born++;
       }
       O.scan = { n, ok, broken: n - ok, flip, vanish, born };
+      // 第270便d ⑤: **新則の状態 ΣQ では保存される**(同じ 2025 組)
+      { let nq = 0, okq = 0;
+        for (const ja of JS) for (const za of ZS) for (const jb of JS) for (const zb of ZS) {
+          const r = oneQ(ja, za, jb, zb); nq++;
+          if (Object.is(r.after, r.before)) okq++;
+        }
+        O.scanQ = { n: nq, ok: okq, broken: nq - okq };
+        O.newQ = { vanish: oneQ(10, 1, -10, 2), flip: oneQ(10, 1, -15, 2),
+          addVanish: oneQ(10, 1, -10, 2, 'add') }; }
       return O;
     });
     const y1 = zm.pure.vanish.before === 5 && zm.pure.vanish.J === 0 && zm.pure.vanish.after === 0;
@@ -21036,9 +21058,12 @@ if (!FAST) {
       && zm.pure.same2.after === zm.pure.same2.before && zm.pure.same2.after === 10;
     const y4 = zm.add.vanish.after === 0 && zm.add.flip.after === -5
       && zm.scan.n === 2025 && zm.scan.broken > 0;
-    add('behavior.zetaMergeCounterexample', y1 && y2 && y3 && y4,
-      `**層融合の ζ 合成則は一般に回転源を保存しない**(統括の読み (F)・**本便は直していない**。`
-      + `器 tests/exp-w268b-zetamerge.mjs)。融合後の源は Q′=J′/ζ′ で ζ′>0 が要るので `
+    // 第270便d ⑤: 新則の状態 ΣQ は同じ 2025 組を **1 つも落とさない**
+    const y5 = !!zm.scanQ && zm.scanQ.n === 2025 && zm.scanQ.broken === 0
+      && zm.newQ.vanish.after === 5 && zm.newQ.flip.after === 2.5 && zm.newQ.addVanish.after === 5;
+    add('behavior.zetaMergeCounterexample', y1 && y2 && y3 && y4 && y5,
+      `**層融合の ζ 合成則(読み方 J′/ζ′)は一般に回転源を保存しない**(統括の読み (F)。`
+      + `再現器 tests/exp-w268b-zetamerge.mjs)。融合後の源を Q′=J′/ζ′ の形で読むと ζ′>0 が要るので `
       + `**sign(Q′)=sign(J′)** に縛られる —— 融合前の源の符号が J の和と違えば**表せない**`
       + `(丸めや許容幅の問題ではない)/ `
       + `① (J,ζ)=(10,1)+(−10,2): 融合前 ΣJ/ζ=${zm.pure.vanish.before} → J′=${zm.pure.vanish.J}・`
@@ -21050,10 +21075,307 @@ if (!FAST) {
       + `④ **\`rule:"add"\` でも解けない**(同半径の畳み込みで同じ合成則が走る: `
       + `${zm.add.vanish.after} / ${zm.add.flip.after})。総当たり ${zm.scan.n} 組で `
       + `**保存 ${zm.scan.ok}・壊れる ${zm.scan.broken}**(符号反転 ${zm.scan.flip}・源が消える `
-      + `${zm.scan.vanish}・源が湧く ${zm.scan.born})=${y4} —— `
-      + `**修正法則は次便の署名便**(このブロックは直したら書き換える)`);
+      + `${zm.scan.vanish}・源が湧く ${zm.scan.born})=${y4} / `
+      + `⑤ **第270便d(AD1・法則 (a)): 状態を (J,Q) に分けて Q′=ΣQ にすると、同じ ${zm.scanQ ? zm.scanQ.n : '-'} 組が `
+      + `**保存 ${zm.scanQ ? zm.scanQ.ok : '-'}・破れ ${zm.scanQ ? zm.scanQ.broken : '-'}** になる**`
+      + `(① は ${zm.newQ ? zm.newQ.vanish.after : '-'}・② は ${zm.newQ ? zm.newQ.flip.after : '-'}・`
+      + `④ add でも ${zm.newQ ? zm.newQ.addVanish.after : '-'})=${y5} —— `
+      + `**直ったのは表現(状態の取り方)だけである**。トルク・減衰で Q がどう動くかは `
+      + `\`dfmLayerQUpdate\` に置いた**追加仮定**で、Negative Claim 42 は消していない`);
   } else {
     console.log('SKIP behavior.zetaMergeCounterexample(対象に第265便c の層の ζ 合成則なし — root 等)');
+  }
+}
+
+// ---- 第270便d(第60報 W4・AD1・統括の読み (B)): behavior.zetaIndependentQ ----
+// ----   **層の回転源 Q を J と独立の状態にする**(法則 (a))。原仮定者「決断事項: 概ね同意」。
+// ----   現行コードの Q は **Q=J/ζ**(`dfmCoreQ`: I=ζ·½M_cR_c²・J=IΩ・Q=J/ζ=½M_cR_c²Ω)なので、
+// ----   独立 Q の**初期化は Q=J/ζ である**(ζJ ではない)。状態は (J, Q) を別々に保存し、
+// ----   合成は **J′=ΣJ・Q′=ΣQ**。ζ_eff=J′/Q′ は **J′≠0 かつ同符号のときだけの診断値**で、
+// ----   状態の正本にしない(Q′/J′ でもない)。**Jx/Jy(ベクトル)は本便では触っていない。**
+// ----   固定するのは 6 つ:
+// ----     ① **初期化**: 宣言に Q が無ければ Q=J/ζ を読み込みで 1 度だけ導出する(ζJ ではない)。
+// ----        `Q:0` の明示宣言は宣言ビット 8 として残り、未指定と区別される。
+// ----     ② **反例の保存**: (J,ζ)=(10,1)+(−10,2) は J′=0・**Q′=5**(旧則の読み方 J′/ζ′ は 0)。
+// ----        ζ_eff は `zetaRepresentable:false`(**1 に丸めて隠さない**)。
+// ----     ③ **総当たり 2025 組で Q′ の保存が 2025/2025**(rule="role"/"add" の両方)。
+// ----     ④ **読戻し**: 保存→復元・複製・往復(bodyLayersOf→_setBodyLayers)で Q が落ちない。
+// ----        正準形には **Q が J/ζ から外れたときだけ**鍵が出る(= 既定経路の署名は 1 bit も動かない)。
+// ----     ⑤ **6 経路の更新則**: build(derive)/ 編集 UI(zetaConst・zetaDeclared・declared)/
+// ----        融合・同半径圧縮(sum)/ 保存復元・複製・詰め替え・分割(carry)。J₀=0 の ζ 一定は
+// ----        **ζ が状態から読めない**ので Q を据え置き、理由 `zetaUndefinedAtJ0` を返す。
+// ----     ⑥ **エンジンの融合経路**でも源が残る(逆回転の 2 体・600 步)。
+// ----   **書かないこと**: 「ζ 合成則の時間発展則が決まった」「反例が消えた」——
+// ----   直ったのは**表現(状態の取り方)**であって、トルク・減衰での Q の変化は**追加仮定**である。
+// ----   物理力へは接続していない(層の Q は回転場の源の**数値**で、新しい力は 1 バイトも足していない)。
+{
+  const hasQ = await page.evaluate(() => !!(window.HP && typeof HP.dfmLayerQ === 'function'
+    && typeof HP.dfmLayerQUpdate === 'function' && typeof HP.dfmLayerZetaEff === 'function'
+    && HP.sim && HP.sim._setBodyLayers));
+  if (hasQ) {
+    const qq = await page.evaluate(() => {
+      const zOf = (L) => { const z = Number(L.inertiaScale); return (Number.isFinite(z) && z > 0) ? z : 1; };
+      const qOf = (L) => { const q = Number(L.Q); return Number.isFinite(q) ? q : (Number(L.J) || 0) / zOf(L); };
+      const srcQ = (a) => a.reduce((s, L) => s + qOf(L), 0);
+      const srcZ = (a) => a.reduce((s, L) => s + (Number(L.J) || 0) / zOf(L), 0);
+      const O = {};
+      // ① 初期化 Q=J/ζ(ζJ ではない)+ 明示ゼロ
+      { const S = HP.sim;
+        const mk = (ly) => ({ id: 'qaQ', name: 'qaQ', emoji: '🧪', description: 'QA の器(独立 Q)。',
+          camera: { scale: 300 }, world: { boundary: 'none', size: 0 }, seed: 1,
+          physics: { G: 1, D0: 0, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0,
+            kappaT: 1 / 60, cLight: 30, contactK: 0, contactCap: 0, bM: 1, etaRad: 0, pRad: 4,
+            gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1,
+            softening: 0.5, timeScale: 1, spinSpin: 1e6 },
+          bodies: [{ type: 'single', m: 10, radius: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0,
+            pinned: true, layers: ly }], overlays: {} });
+        const v = HP.validatePreset(mk([{ role: 'core', m: 10, r: 1, J: 10, inertiaScale: 2 }]));
+        S.build(v.preset);
+        O.init = { Q: HP.dfmLayerQ(0, 0, S), expectJoverZ: 10 / 2, expectZetaJ: 10 * 2,
+          src: HP.dfmLayerDipoleMoment(0, S), key: Object.prototype.hasOwnProperty.call(S.bodyLayersOf(0)[0], 'Q') };
+        const v2 = HP.validatePreset(mk([{ role: 'core', m: 10, r: 1, J: 4, Q: 0 }]));
+        S.build(v2.preset);
+        O.zeroDecl = { Q: HP.dfmLayerQ(0, 0, S), src: HP.dfmLayerDipoleMoment(0, S),
+          key: Object.prototype.hasOwnProperty.call(S.bodyLayersOf(0)[0], 'Q'),
+          declBit: HP.dfmLayerJDeclared(0, 0, S) };
+        // ④ 読戻し(往復)と ⑤ 編集 UI
+        S.build(v.preset);
+        const before = HP.dfmLayerDipoleMoment(0, S);
+        S._setBodyLayers(0, S.bodyLayersOf(0));
+        O.roundTrip = { before, after: HP.dfmLayerDipoleMoment(0, S) };
+        S.build(v.preset);
+        S.applyLayerEdit(0, 0, { J: 20 });
+        O.editJ = { J: S.bodyLayersOf(0)[0].J, Q: HP.dfmLayerQ(0, 0, S), expect: 20 / 2 };
+        S.applyLayerEdit(0, 0, { Q: 7 });
+        O.editQ = { Q: HP.dfmLayerQ(0, 0, S), src: HP.dfmLayerDipoleMoment(0, S) };
+        S.applyLayerEdit(0, 0, { J: 40 });
+        O.editJ2 = { J: S.bodyLayersOf(0)[0].J, Q: HP.dfmLayerQ(0, 0, S), expect: 7 * (40 / 20) };
+      }
+      // ② ③ 純関数
+      { const one = (ja, za, jb, zb, rule) => {
+          const A = [{ role: 'core', m: 10, r: 1, J: ja, inertiaScale: za }];
+          const B = [{ role: (rule === 'add') ? 'shell' : 'core', m: 10, r: 1, J: jb, inertiaScale: zb }];
+          const out = HP.dfmLayerMerge(A, B, rule || 'role');
+          return { before: srcQ(A) + srcQ(B), J: out[0] ? out[0].J : null, Q: srcQ(out),
+            old: srcZ(out), rep: out[0] ? out[0].zetaRepresentable : null,
+            zeta: out[0] ? out[0].inertiaScale : null }; };
+        O.vanish = one(10, 1, -10, 2);
+        O.flip = one(10, 1, -15, 2);
+        O.addVanish = one(10, 1, -10, 2, 'add');
+        const JS = [-20, -15, -10, -5, 0, 5, 10, 15, 20], ZS = [0.25, 0.5, 1, 2, 4];
+        const scan = (rule) => { let n = 0, ok = 0;
+          for (const ja of JS) for (const za of ZS) for (const jb of JS) for (const zb of ZS) {
+            const r = one(ja, za, jb, zb, rule); n++; if (Object.is(r.Q, r.before)) ok++; }
+          return { rule, n, ok, broken: n - ok }; };
+        O.scan = [scan('role'), scan('add')]; }
+      // ⑤ 更新則の門
+      { const U = HP.dfmLayerQUpdate;
+        O.rules = { derive: U({ J1: 10, zeta: 2, mode: 'derive' }),
+          zetaConst: U({ J0: 10, Q0: 5, J1: 20, mode: 'zetaConst' }),
+          zetaAtZero: U({ J0: 0, Q0: 5, J1: 3, mode: 'zetaConst' }),
+          sum: U({ J0: 10, Q0: 10, J1: -10, Q1: -5, mode: 'sum' }),
+          carry: U({ J0: 10, Q0: 5, J1: 10, mode: 'carry' }) };
+        O.zeff = { ok: HP.dfmLayerZetaEff(10, 5), jZero: HP.dfmLayerZetaEff(0, 5),
+          mismatch: HP.dfmLayerZetaEff(10, -5), both: HP.dfmLayerZetaEff(0, 0) }; }
+      // ⑥ エンジンの融合経路(逆回転の 2 体)
+      { const LA = [{ role: 'core', m: 90, r: 2, J: 10, inertiaScale: 1 }, { role: 'shell', m: 10, r: 10, J: 0 }];
+        const LB = [{ role: 'core', m: 45, r: 1.5, J: -10, inertiaScale: 2 }, { role: 'shell', m: 5, r: 8, J: 0 }];
+        const pr = { id: 'qaQFuse', name: 'qaQFuse', emoji: '🧪', description: 'QA の器(融合の独立 Q)。',
+          camera: { scale: 300 }, world: { boundary: 'none', size: 0 }, seed: 1,
+          physics: { G: 1, D0: 0, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 1 / 60,
+            cLight: 30, contactK: 0, contactCap: 0, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0,
+            geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 0.5, timeScale: 1, spinSpin: 1e6 },
+          bodies: [
+            { type: 'single', m: 100, radius: 3, x: -6, y: 0, vx: 0.5, vy: 0, spin: 0, pinned: false, layers: LA },
+            { type: 'single', m: 50, radius: 3, x: 6, y: 0, vx: -0.5, vy: 0.2, spin: 0, pinned: false, layers: LB }],
+          fusion: { dFrac: 0.7 }, thermal: 'tint', overlays: {} };
+        const v = HP.validatePreset(pr); const S = HP.sim; S.build(v.preset);
+        const q0 = HP.dfmLayerDipoleMoment(0, S), q1 = HP.dfmLayerDipoleMoment(1, S);
+        let fusedAt = -1;
+        for (let k = 0; k < 600; k++) { S.step(0.016); if (S.n === 1 && fusedAt < 0) fusedAt = k + 1; }
+        const snap = HP.ckSnapOne(S), qFused = HP.dfmLayerDipoleMoment(0, S);
+        for (let k = 0; k < 20; k++) S.step(0.016);
+        HP.ckRestoreOne(S, snap);
+        const clone = HP.cloneSimStateNow();
+        O.engine = { fusedAt, n: S.n, before: q0 + q1, after: qFused,
+          restored: HP.dfmLayerDipoleMoment(0, S), cloned: HP.dfmLayerDipoleMoment(0, clone),
+          nan: S.hasNaN() }; }
+      return O;
+    });
+    const q1 = qq.init.Q === qq.init.expectJoverZ && qq.init.Q !== qq.init.expectZetaJ
+      && qq.init.key === false && qq.zeroDecl.Q === 0 && qq.zeroDecl.key === true
+      && (qq.zeroDecl.declBit & 8) === 8 && qq.zeroDecl.src === 0;
+    const q2 = qq.vanish.J === 0 && qq.vanish.Q === 5 && qq.vanish.old === 0
+      && qq.vanish.rep === false && qq.flip.Q === 2.5 && qq.flip.old === -5;
+    const q3 = qq.scan.every((s) => s.n === 2025 && s.ok === 2025) && qq.addVanish.Q === 5;
+    const q4 = qq.roundTrip.after === qq.roundTrip.before
+      && qq.engine.restored === qq.engine.after && qq.engine.cloned === qq.engine.after;
+    const q5 = qq.rules.derive.Q === 5 && qq.rules.zetaConst.Q === 10
+      && qq.rules.zetaAtZero.Q === 5 && qq.rules.zetaAtZero.reason === 'zetaUndefinedAtJ0'
+      && qq.rules.sum.J === 0 && qq.rules.sum.Q === 5 && qq.rules.sum.representable === false
+      && qq.rules.carry.Q === 5 && qq.zeff.ok.zetaEff === 2 && qq.zeff.jZero.zetaEff === null
+      && qq.zeff.mismatch.zetaEff === null && qq.zeff.both.representable === false
+      && qq.editJ.Q === qq.editJ.expect && qq.editQ.Q === 7 && qq.editJ2.Q === qq.editJ2.expect;
+    const q6 = qq.engine.n === 1 && qq.engine.fusedAt > 0 && qq.engine.before === 5
+      && qq.engine.after === 5 && !qq.engine.nan;
+    add('behavior.zetaIndependentQ', q1 && q2 && q3 && q4 && q5 && q6,
+      `**層の回転源 Q を J と独立の状態にする**(第270便d・AD1・法則 (a)。器 tests/exp-w270d-zetaq.mjs)/ `
+      + `① **初期化は Q=J/ζ**(ζJ ではない): J=10・ζ=2 で Q=${qq.init.Q}(J/ζ=${qq.init.expectJoverZ}・`
+      + `ζJ=${qq.init.expectZetaJ} ではない)・正準形に Q 鍵は出ない(${qq.init.key})/ `
+      + `**Q:0 の明示宣言**は宣言ビット ${qq.zeroDecl.declBit}(8=Q)で残り源は ${qq.zeroDecl.src}=${q1} / `
+      + `② **反例の保存**: (10,1)+(−10,2) → J′=${qq.vanish.J}・**Q′=${qq.vanish.Q}**`
+      + `(旧則の読み方 J′/ζ′ は ${qq.vanish.old}・ζ_eff は表せない ${qq.vanish.rep})・`
+      + `(10,1)+(−15,2) → Q′=${qq.flip.Q}(旧 ${qq.flip.old})=${q2} / `
+      + `③ **総当たり**: ${qq.scan.map((s) => `rule=${s.rule} ${s.ok}/${s.n}`).join('・')}`
+      + `(add でも ${qq.addVanish.Q})=${q3} / `
+      + `④ **読戻し**: 往復 ${qq.roundTrip.after}(前 ${qq.roundTrip.before})・保存→復元 ${qq.engine.restored}・`
+      + `複製 ${qq.engine.cloned}=${q4} / `
+      + `⑤ **更新則**: derive ${qq.rules.derive.Q}・zetaConst ${qq.rules.zetaConst.Q}・`
+      + `J₀=0 は据え置き ${qq.rules.zetaAtZero.Q}(${qq.rules.zetaAtZero.reason})・sum は J=${qq.rules.sum.J}/`
+      + `Q=${qq.rules.sum.Q}(ζ_eff 表せない)・編集 UI は J 20→Q ${qq.editJ.Q}・Q 明示 ${qq.editQ.Q}・`
+      + `J 40→Q ${qq.editJ2.Q}=${q5} / `
+      + `⑥ **エンジンの融合**(逆回転の 2 体・${qq.engine.fusedAt} 步目): 融合前 ${qq.engine.before} → `
+      + `融合後 ${qq.engine.after}=${q6} —— **直ったのは表現(状態の取り方)だけである**。`
+      + `トルク・減衰での Q の変化は追加仮定で、Negative Claim 42 は消していない。力へは未接続`);
+  } else {
+    console.log('SKIP behavior.zetaIndependentQ(対象に第270便d の独立 Q なし — root 等)');
+  }
+}
+
+// ---- 第270便d(第60報 W4・AD2・統括の読み (C)): behavior.lightTrapNuMax ----
+// ----   **ν̄ の受理前上限帳簿** `core.lightTrap.nuMax`。ν̄=E_γ/N_γ は規格化平均量(h≡1)で、
+// ----   上限は**青方偏移の仕事を受理する前**に切る:
+// ----     C = max(0, ν_max·N_γ − E_γ)・W_accept = min(W_req, E_s, C)・E_s′=E_s−W_accept・E_γ′=E_γ+W_accept
+// ----   **供給してから削って戻す方式は採らない**(受理分だけ動かす)ので、断られた仕事は E_s に残る。
+// ----   固定するのは 5 つ:
+// ----     ① **省略時=上限なし**で、内蔵 124 本は 1 本も宣言しない(= 既定経路はビット同一)。
+// ----        `nuMax:0` の明示は「受理しない」の宣言であって未指定ではない。負・非数値は警告つきで落ちる。
+// ----     ② **恒等式 E_s+E_γ+E_esc+Q−E_in=E_s(0)** を保つ(上限を宣言した走行でも丸め水準)。
+// ----     ③ **上限が効く**: ν̄ のピークが ν_max で止まり、断られた仕事が E_s に残る。
+// ----     ④ **上限が効かない値(ピークより上)では基点と同じ数**になる(対照)。
+// ----     ⑤ **N_γ=0 では ν̄ は null(未定義)**で、平均が無い状態に上限を当てない(E_s は減らない)。
+// ----        **上限条件は経路で変わる**: 初期超過・N_γ の減少・融合での和・refill 停止のどれでも
+// ----        ν̄>ν_max のまま滞在しうる(`overCap` がそれを数える)。
+// ----   **書かないこと**: 「LFBOT の上限制御が完成した」「全経路の上限制御が完成した」
+// ----   「LFBOT が観測一致した」—— 止めているのは**仕事の受理**だけで、外来光の捕獲はまだ無い。
+{
+  const hasNu = await page.evaluate(() => !!(window.HP && typeof HP.dfmLightTrapNuMax === 'function'
+    && typeof HP.dfmLightTrapLedger === 'function'
+    && HP.allPresets().some((z) => z.id === 'lfbotTrap')));
+  if (hasNu) {
+    const nu = await page.evaluate(() => {
+      const base = () => JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'lfbotTrap')));
+      const run = (o, steps) => {
+        const q = base(); const b = q.bodies[0];
+        if (o.lightTrap) Object.assign(b.core.lightTrap, o.lightTrap);
+        if (o.etaRad !== undefined) q.physics.etaRad = o.etaRad;
+        const v = HP.validatePreset(q); const S = HP.sim; S.build(v.preset);
+        let peakNu = 0, over = 0;
+        for (let k = 0; k < steps; k++) { S.step(0.016);
+          const z = HP.dfmLightTrapLedger(S);
+          if (z) { if (z.nuBar !== null && z.nuBar > peakNu) peakNu = z.nuBar;
+            if (z.nOverCap > over) over = z.nOverCap; } }
+        const z = HP.dfmLightTrapLedger(S);
+        return { peakNu, over, nuBar: z.nuBar, Es: z.Es, Es0: z.Es0, Eesc: z.Eesc, Eg: z.Eg, Ng: z.Ng,
+          rel: z.relResidual, rejected: z.workRejected, nCapped: z.nCapped,
+          nuMax0: HP.dfmLightTrapNuMax(0, S), nan: S.hasNaN() };
+      };
+      const O = {};
+      // ① 宣言
+      { const mk = (lt) => { const q = base(); Object.assign(q.bodies[0].core.lightTrap, lt);
+          const v = HP.validatePreset(q); const c = v.preset.bodies[0].core.lightTrap || {};
+          return { has: Object.prototype.hasOwnProperty.call(c, 'nuMax'), val: c.nuMax,
+            warn: v.warnings.filter((w) => /nuMax/.test(w)).length }; };
+        O.decl = { omit: mk({}), zero: mk({ nuMax: 0 }), ten: mk({ nuMax: 10 }), neg: mk({ nuMax: -1 }),
+          str: mk({ nuMax: 'x' }) };
+        let n = 0; const ids = [];
+        for (const p of HP.allPresets()) if (/"nuMax"/.test(JSON.stringify(p))) { n++; ids.push(p.id); }
+        O.builtin = { n, ids, total: HP.allPresets().length }; }
+      O.plain = run({}, 900);
+      O.cap5 = run({ lightTrap: { nuMax: 5 } }, 900);
+      O.cap100 = run({ lightTrap: { nuMax: 100 } }, 900);
+      O.nZero = run({ etaRad: 0, lightTrap: { nuMax: 5 } }, 400);
+      return O;
+    });
+    const n1 = nu.decl.omit.has === false && nu.decl.zero.has === true && nu.decl.zero.val === 0
+      && nu.decl.ten.val === 10 && nu.decl.neg.has === false && nu.decl.str.has === false
+      && nu.decl.neg.warn >= 1 && nu.builtin.n === 0;
+    const n2 = Math.abs(nu.cap5.rel) < 1e-12 && Math.abs(nu.cap100.rel) < 1e-12 && !nu.cap5.nan;
+    const n3 = nu.cap5.peakNu <= 5 + 1e-12 && nu.cap5.rejected > 0 && nu.cap5.Es > nu.plain.Es
+      && nu.cap5.nCapped === 1 && nu.cap5.nuMax0 === 5;
+    const n4 = nu.cap100.peakNu === nu.plain.peakNu && nu.cap100.Eesc === nu.plain.Eesc
+      && nu.cap100.rejected === 0 && nu.plain.nuMax0 === null && nu.plain.nCapped === 0;
+    const n5 = nu.nZero.Ng === 0 && nu.nZero.nuBar === null && nu.nZero.Es === nu.nZero.Es0
+      && nu.nZero.rejected === 0 && nu.cap5.over >= 1;
+    add('behavior.lightTrapNuMax', n1 && n2 && n3 && n4 && n5,
+      `**ν̄ の受理前上限帳簿**(第270便d・AD2。C=max(0,ν_max·N_γ−E_γ)・W_accept=min(W_req,E_s,C)。`
+      + `器 tests/exp-w270d-numax.mjs)/ `
+      + `① **省略時=上限なし**: 省略で鍵なし(${nu.decl.omit.has})・\`nuMax:0\` の明示は残る`
+      + `(${nu.decl.zero.val})・負は警告 ${nu.decl.neg.warn} 件で落ちる・**内蔵 ${nu.builtin.total} 本の宣言 `
+      + `${nu.builtin.n} 件**=${n1} / `
+      + `② **恒等式**: E_s+E_γ+E_esc+Q−E_in=E_s(0) の相対残差は ν_max=5 で ${nu.cap5.rel}・`
+      + `ν_max=100 で ${nu.cap100.rel}=${n2} / `
+      + `③ **上限が効く**: ν_max=5 でピーク ν̄=${nu.cap5.peakNu}(上限なしは ${nu.plain.peakNu})・`
+      + `**断られた仕事 ${nu.cap5.rejected} は E_s に残る**(E_s=${nu.cap5.Es} > 上限なしの ${nu.plain.Es})=${n3} / `
+      + `④ **効かない上限は基点と同じ**: ν_max=100 でピーク ${nu.cap100.peakNu}・E_esc ${nu.cap100.Eesc}`
+      + `(上限なし ${nu.plain.Eesc})・断られた仕事 ${nu.cap100.rejected}=${n4} / `
+      + `⑤ **N_γ=0 は未定義**: N_γ=${nu.nZero.Ng}・ν̄=${nu.nZero.nuBar}・E_s は E_s(0) のまま`
+      + `(${nu.nZero.Es})・上限超過中の粒子は ν_max=5 の走行で ${nu.cap5.over} 体=${n5} —— `
+      + `**「全経路の上限制御が完成した」とは書かない**(止めているのは仕事の受理だけで、`
+      + `初期超過・N_γ の減少・融合での和・refill 停止では ν̄>ν_max のまま滞在しうる。外来光の捕獲は無い)`);
+  } else {
+    console.log('SKIP behavior.lightTrapNuMax(対象に第270便d の nuMax なし — root 等)');
+  }
+}
+
+// ---- 第270便d(第60報 W4・AA11): behavior.collapseRControl — **`collapseR` の有無の対照** ----
+// ----   `core.lightTrap.collapseR` は「コア半径がこの値以下になったら崩壊のラッチを立てる」宣言で、
+// ----   `shed` の発火・`burst` の放出と **or** で結ばれている(一度立ったら戻らない)。
+// ----   **内蔵 124 本のどれも宣言していない**ので、効くことを診断コピー 1 本で数に置く。
+// ----   固定するのは 3 つ:
+// ----     ① **内蔵の宣言は 0 件**(= 既定経路はこの枝を 1 度も通らない)。
+// ----     ② **shed より早い半径を宣言すると崩壊時刻が前に動く**(発火時刻・E_esc・ピーク ν̄ が動く)。
+// ----     ③ **shed 発火前に到達しない半径では基点と同じ数**になる(対照 —— 「宣言すれば必ず動く」ではない)。
+// ----   **未使用ならキー削除は次便**(本便は消していない)。
+{
+  const hasCr = await page.evaluate(() => !!(window.HP && typeof HP.dfmLightTrapLedger === 'function'
+    && typeof HP.dfmLightTrapNuMax === 'function'
+    && HP.allPresets().some((z) => z.id === 'lfbotTrap')));
+  if (hasCr) {
+    const cr = await page.evaluate(() => {
+      const base = () => JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'lfbotTrap')));
+      const run = (rc) => {
+        const q = base();
+        if (rc !== null) q.bodies[0].core.lightTrap.collapseR = rc;
+        const v = HP.validatePreset(q); const S = HP.sim; S.build(v.preset);
+        let fireT = null, peakNu = 0, peakL = 0;
+        for (let k = 0; k < 900; k++) { S.step(0.016);
+          const z = HP.dfmLightTrapLedger(S);
+          if (z) { if (fireT === null && z.collapsed > 0) fireT = z.collapseT;
+            if (z.nuBar !== null && z.nuBar > peakNu) peakNu = z.nuBar;
+            if (z.Lesc > peakL) peakL = z.Lesc; } }
+        const z = HP.dfmLightTrapLedger(S);
+        return { rc, fireT, peakNu, peakL, Eesc: z.Eesc, rel: z.relResidual, nan: S.hasNaN() }; };
+      let n = 0; const ids = [];
+      for (const p of HP.allPresets()) if (/"collapseR"/.test(JSON.stringify(p))) { n++; ids.push(p.id); }
+      return { none: run(null), early: run(1.2), late: run(0.8),
+        builtin: { n, ids, total: HP.allPresets().length } };
+    });
+    const c1 = cr.builtin.n === 0;
+    const c2 = cr.early.fireT !== null && cr.none.fireT !== null && cr.early.fireT < cr.none.fireT
+      && cr.early.Eesc !== cr.none.Eesc && cr.early.peakNu < cr.none.peakNu && !cr.early.nan;
+    const c3 = cr.late.fireT === cr.none.fireT && cr.late.Eesc === cr.none.Eesc
+      && cr.late.peakNu === cr.none.peakNu;
+    add('behavior.collapseRControl', c1 && c2 && c3,
+      `**\`collapseR\` の有無の対照**(第270便d・AA11。器 tests/exp-w270d-numax.mjs §7)/ `
+      + `① **内蔵 ${cr.builtin.total} 本の宣言 ${cr.builtin.n} 件**(既定経路はこの枝を通らない)=${c1} / `
+      + `② **shed より早い半径(1.2)**: 崩壊 t=${cr.early.fireT}(宣言なしは ${cr.none.fireT})・`
+      + `E_esc=${cr.early.Eesc}(${cr.none.Eesc})・ピーク ν̄=${cr.early.peakNu}(${cr.none.peakNu})・`
+      + `ピーク L_esc=${cr.early.peakL}(${cr.none.peakL})=${c2} / `
+      + `③ **到達しない半径(0.8)は基点と同じ**: t=${cr.late.fireT}・E_esc=${cr.late.Eesc}・`
+      + `ν̄ ピーク ${cr.late.peakNu}=${c3} —— **未使用ならキー削除は次便**(本便は消していない)`);
+  } else {
+    console.log('SKIP behavior.collapseRControl(対象に第270便d の collapseR 対照なし — root 等)');
   }
 }
 

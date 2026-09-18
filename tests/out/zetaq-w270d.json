@@ -1,0 +1,423 @@
+{
+ "when": "2026-09-18T00:57:58.288Z",
+ "wave": "第270便d(第60報 W4・AD1・統括の読み (B))",
+ "target": "beta/index.html",
+ "pure": [
+  {
+   "ja": 10,
+   "za": 1,
+   "jb": -10,
+   "zb": 2,
+   "before": 5,
+   "Jafter": 0,
+   "zetaAfter": 1,
+   "representable": false,
+   "qNew": 5,
+   "qOld": 0,
+   "preserved": true,
+   "oldPreserved": false
+  },
+  {
+   "ja": 10,
+   "za": 1,
+   "jb": -15,
+   "zb": 2,
+   "before": 2.5,
+   "Jafter": -5,
+   "zetaAfter": 1,
+   "representable": false,
+   "qNew": 2.5,
+   "qOld": -5,
+   "preserved": true,
+   "oldPreserved": false
+  },
+  {
+   "ja": 10,
+   "za": 2,
+   "jb": 20,
+   "zb": 2,
+   "before": 15,
+   "Jafter": 30,
+   "zetaAfter": 2,
+   "representable": true,
+   "qNew": 15,
+   "qOld": 15,
+   "preserved": true,
+   "oldPreserved": true
+  },
+  {
+   "ja": 10,
+   "za": 2,
+   "jb": 20,
+   "zb": 4,
+   "before": 10,
+   "Jafter": 30,
+   "zetaAfter": 3,
+   "representable": true,
+   "qNew": 10,
+   "qOld": 10,
+   "preserved": true,
+   "oldPreserved": true
+  },
+  {
+   "ja": 10,
+   "za": 1,
+   "jb": -10,
+   "zb": 1,
+   "before": 0,
+   "Jafter": 0,
+   "zetaAfter": 1,
+   "representable": false,
+   "qNew": 0,
+   "qOld": 0,
+   "preserved": true,
+   "oldPreserved": true
+  },
+  {
+   "ja": 10,
+   "za": 1,
+   "jb": -5,
+   "zb": 2,
+   "before": 7.5,
+   "Jafter": 5,
+   "zetaAfter": 0.6666666666666666,
+   "representable": true,
+   "qNew": 7.5,
+   "qOld": 7.5,
+   "preserved": true,
+   "oldPreserved": true
+  },
+  {
+   "ja": 10,
+   "za": 1,
+   "jb": -20,
+   "zb": 2,
+   "before": 0,
+   "Jafter": -10,
+   "zetaAfter": 1,
+   "representable": false,
+   "qNew": 0,
+   "qOld": -10,
+   "preserved": true,
+   "oldPreserved": false
+  },
+  {
+   "ja": 10,
+   "za": 4,
+   "jb": -10,
+   "zb": 1,
+   "before": -7.5,
+   "Jafter": 0,
+   "zetaAfter": 1,
+   "representable": false,
+   "qNew": -7.5,
+   "qOld": 0,
+   "preserved": true,
+   "oldPreserved": false
+  }
+ ],
+ "scan": [
+  {
+   "rule": "role",
+   "n": 2025,
+   "okNew": 2025,
+   "brokenNew": 0,
+   "okOld": 1653,
+   "brokenOld": 372,
+   "oldFlip": 164,
+   "oldVanish": 160,
+   "oldBorn": 44,
+   "unrepresentable": 433,
+   "worstAbs": 0,
+   "worstAt": null
+  },
+  {
+   "rule": "add",
+   "n": 2025,
+   "okNew": 2025,
+   "brokenNew": 0,
+   "okOld": 1653,
+   "brokenOld": 372,
+   "oldFlip": 164,
+   "oldVanish": 160,
+   "oldBorn": 44,
+   "unrepresentable": 433,
+   "worstAbs": 0,
+   "worstAt": null
+  }
+ ],
+ "engine": {
+  "build": {
+   "q0": 10,
+   "q1": -5,
+   "layQ00": 10,
+   "layQ10": -5,
+   "expect00": 10,
+   "expect10": -5
+  },
+  "fused": {
+   "n": 1,
+   "fusedAt": 149,
+   "q": 5,
+   "spinQ": 5,
+   "layers": [
+    {
+     "role": "core",
+     "m": 135,
+     "r": 2.5,
+     "J": 0,
+     "Q": 5
+    },
+    {
+     "role": "shell",
+     "m": 15,
+     "r": 12.806248474865697,
+     "J": 0
+    }
+   ],
+   "nan": 0
+  },
+  "restored": {
+   "q": 5,
+   "layQ": 5,
+   "same": true
+  },
+  "cloned": {
+   "q": 5,
+   "layQ": 5,
+   "same": true
+  },
+  "roundTrip": {
+   "q": 5,
+   "keys": [
+    "role+m+r+J+Q",
+    "role+m+r+J"
+   ],
+   "same": true
+  },
+  "qBefore": 5
+ },
+ "edit": [
+  {
+   "tag": "build",
+   "J": 10,
+   "Q": 10,
+   "zeta": 1,
+   "qKey": false,
+   "src": 10
+  },
+  {
+   "tag": "J 20(ζ 一定)",
+   "J": 20,
+   "Q": 20,
+   "zeta": 1,
+   "qKey": false,
+   "src": 20
+  },
+  {
+   "tag": "ζ 4(宣言し直す)",
+   "J": 20,
+   "Q": 5,
+   "zeta": 4,
+   "qKey": false,
+   "src": 5
+  },
+  {
+   "tag": "Q 7(明示)",
+   "J": 20,
+   "Q": 7,
+   "zeta": 4,
+   "qKey": true,
+   "src": 7
+  },
+  {
+   "tag": "J 40(独立 Q から ζ 一定)",
+   "J": 40,
+   "Q": 14,
+   "zeta": 4,
+   "qKey": true,
+   "src": 14
+  },
+  {
+   "tag": "r だけ(Q 不変)",
+   "J": 40,
+   "Q": 14,
+   "zeta": 4,
+   "qKey": true,
+   "src": 14
+  }
+ ],
+ "compact": {
+  "fusedAt": 149,
+  "n": 1,
+  "q": 5,
+  "layN": 2,
+  "layQ": [
+   5,
+   0
+  ],
+  "q0": 10
+ },
+ "rules": [
+  {
+   "path": "読み込み(宣言に Q が無い)",
+   "mode": "derive",
+   "r": {
+    "mode": "derive",
+    "J": 10,
+    "Q": 5,
+    "zetaEff": 2,
+    "representable": true,
+    "reason": null
+   }
+  },
+  {
+   "path": "Q を明示した宣言・編集",
+   "mode": "declared",
+   "r": {
+    "mode": "declared",
+    "J": 10,
+    "Q": 0,
+    "zetaEff": null,
+    "representable": false,
+    "reason": "QZeroJNonzero"
+   }
+  },
+  {
+   "path": "外部トルク・減衰・質量移動・J だけの編集",
+   "mode": "zetaConst",
+   "r": {
+    "mode": "zetaConst",
+    "J": 20,
+    "Q": 10,
+    "zetaEff": 2,
+    "representable": true,
+    "reason": null
+   }
+  },
+  {
+   "path": "J₀=0 の ζ 一定(ζ が読めない)",
+   "mode": "zetaConst",
+   "r": {
+    "mode": "zetaConst",
+    "J": 3,
+    "Q": 5,
+    "zetaEff": 0.6,
+    "representable": true,
+    "reason": "zetaUndefinedAtJ0"
+   }
+  },
+  {
+   "path": "ζ を宣言し直す編集",
+   "mode": "zetaDeclared",
+   "r": {
+    "mode": "zetaDeclared",
+    "J": 10,
+    "Q": 2.5,
+    "zetaEff": 4,
+    "representable": true,
+    "reason": null
+   }
+  },
+  {
+   "path": "Q を保つ明示 variant",
+   "mode": "qConst",
+   "r": {
+    "mode": "qConst",
+    "J": 20,
+    "Q": 5,
+    "zetaEff": 4,
+    "representable": true,
+    "reason": null
+   }
+  },
+  {
+   "path": "合体・同半径圧縮・層数上限の畳み込み",
+   "mode": "sum",
+   "r": {
+    "mode": "sum",
+    "J": 0,
+    "Q": 5,
+    "zetaEff": null,
+    "representable": false,
+    "reason": "JZeroQNonzero"
+   }
+  },
+  {
+   "path": "保存/復元/複製/詰め替え/分割",
+   "mode": "carry",
+   "r": {
+    "mode": "carry",
+    "J": 10,
+    "Q": 5,
+    "zetaEff": 2,
+    "representable": true,
+    "reason": null
+   }
+  }
+ ],
+ "zetaEff": [
+  {
+   "J": 10,
+   "Q": 5,
+   "zetaEff": 2,
+   "representable": true,
+   "reason": null
+  },
+  {
+   "J": 0,
+   "Q": 5,
+   "zetaEff": null,
+   "representable": false,
+   "reason": "JZeroQNonzero"
+  },
+  {
+   "J": 10,
+   "Q": 0,
+   "zetaEff": null,
+   "representable": false,
+   "reason": "QZeroJNonzero"
+  },
+  {
+   "J": 10,
+   "Q": -5,
+   "zetaEff": null,
+   "representable": false,
+   "reason": "signMismatch"
+  },
+  {
+   "J": 0,
+   "Q": 0,
+   "zetaEff": null,
+   "representable": false,
+   "reason": "bothZero"
+  }
+ ],
+ "builtins": [
+  {
+   "id": "selfRotor",
+   "emoji": "🥚",
+   "n0": 180,
+   "n": 178,
+   "fused": true,
+   "layersDeclared": 0,
+   "layersWithJ": 0,
+   "layersAfter": 0,
+   "layMassRes": 0
+  },
+  {
+   "id": "layeredCoreDFM",
+   "emoji": "🧅",
+   "n0": 7,
+   "n": 7,
+   "fused": false,
+   "layersDeclared": 1,
+   "layersWithJ": 0,
+   "layersAfter": 1,
+   "layMassRes": 0
+  }
+ ],
+ "builtinCount": 124,
+ "signatureExceptions": [],
+ "violations": []
+}
