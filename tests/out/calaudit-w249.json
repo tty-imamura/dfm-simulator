@@ -42491,12 +42491,12 @@
   }
  },
  "sigmaRegate": {
-  "on": false,
-  "checked": 0,
-  "unchanged": 0,
+  "on": true,
+  "checked": 96,
+  "unchanged": 96,
   "changed": [],
   "verifiedFlips": [],
-  "noSource": 0,
+  "noSource": 218,
   "limitation": "既存の `sigmaSource` の宛先だけを見る。**新しく繋がる量(対応表に無い宛先)は走行が要る** —— --regate は「繋がっている σ が動いたか」しか答えない。",
   "limitationApplySigma": "--regate は `applySigma` を通らない(既存宛先の張り直し)。**宣言の扱いを検査するには通常走行が要る**。",
   "limitationAD5": "参照 CSV 行が消えた宛先は `changed` に積んで continue するだけで、**旧 σ(q.obsSigmaCsv)はその量に残る**。AD5 で「行消失時に旧判定を再利用しない」検査を入れる。"
