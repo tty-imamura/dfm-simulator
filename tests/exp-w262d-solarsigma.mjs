@@ -61,6 +61,7 @@ function loadCsv() {
       sigma: r.sigma,
       // 第270便b(AE2): **同定の鍵**(印でも σ でもない)。
       recordId: r.recordId || null, ln: r.ln,
+      solutionId: (r.solutionId !== undefined && r.solutionId !== null) ? String(r.solutionId).trim() : '',   // 第271便(統括の統合): 宣言照合の条件(AF4)
       // 第264便d(X6): 厳密読み。旧読み(部分一致)との差は `markAudit` に数で残す。
       primaryVerified: isSigmaPrimaryVerified(note),
       primaryVerifiedLegacy: legacyIsSigmaPrimaryVerified(note),

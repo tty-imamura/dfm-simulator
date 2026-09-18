@@ -321,6 +321,9 @@ function loadSigmaTable() {
       source: r.source, sigma: r.sigma,
       // 第270便b(AE2): **同定の鍵**(印でも σ でもない)。宣言の `record_id` はこれに当たる。
       recordId: r.recordId || null, ln: r.ln,
+      // 第271便(統括の統合): 枝 b(AF4)が宣言照合の条件に足した `solution_id` を行にも運ぶ
+      //   (運ばないと J1946 の宣言 2 件が record-id-content-mismatch(solution_id) で止まる — 統合ツリーで実測)。
+      solutionId: (r.solutionId !== undefined && r.solutionId !== null) ? String(r.solutionId).trim() : '',
       primaryVerified: isSigmaPrimaryVerified(note),
       verifiedBy: vb.present ? vb.who : null, verifiedAt: vb.at, verifiedValue: vb.value,
       sigmaKind: kind.kind, infoScale: kind.scale, infoScaleKind: kind.scaleKind,
