@@ -33,6 +33,8 @@
 //   観測値(CSV が正本)・合否の閾値・力学(エンジンには触れない)。`S._core` には 1 命令も足していない。
 import fs from 'node:fs';
 import crypto from 'node:crypto';
+// 第270便b(AE2): 観測 CSV の**ヘッダ名読み**(列位置で読まない)。
+import { loadObsCsv as loadObsCsvByHeader } from './lib-w270b-obscsv.mjs';
 
 export const STATES = ['comparable', 'inside-interval', 'outside-interval',
   'numerically-unresolved', 'mapping-unresolved', 'not-measurable', 'not-applicable'];
@@ -169,16 +171,10 @@ export function measurementStamp(o) {
 }
 
 // ---------------------------------------------------------------- CSV 読み(共通)
-export function parseCsvLine(line) {
-  const cols = []; let cur = '', inQ = false;
-  for (const ch of line) {
-    if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
-    else if (ch === '"') inQ = true;
-    else if (ch === ',') { cols.push(cur); cur = ''; }
-    else cur += ch;
-  }
-  cols.push(cur); return cols;
-}
+// 第270便b(第60報 W2・AE2): 分解と**ヘッダ名引き**は `tests/lib-w270b-obscsv.mjs` の 1 本を使う
+// (`record_id` の列追加で壊れないため —— 読む欄は位置でなく名前で決まる)。
+// 既存の輸出名 `parseCsvLine` はそのまま再輸出する(呼び側を 1 つも変えない)。
+export { parseCsvLine } from './lib-w270b-obscsv.mjs';
 
 // `note` 欄の `key=value;` を読む(CSV の 90% 区間は note の `ci90_lo=`/`ci90_hi=` に入っている)。
 export function noteField(note, key) {
@@ -189,12 +185,11 @@ export function noteField(note, key) {
 export function loadObsCsv(fp) {
   const rows = [];
   if (!fs.existsSync(fp)) return rows;
-  for (const line of fs.readFileSync(fp, 'utf8').split('\n')) {
-    if (!line.trim() || line.startsWith('body,')) continue;
-    const c = parseCsvLine(line);
-    rows.push({ body: c[0], quantity: c[1], value: Number(c[2]), unit: c[3], source: c[4],
-      url: c[5], note: c[7] || '', sigmaCol: (c[8] !== undefined && String(c[8]).trim() !== '')
-        ? Number(c[8]) : null });
+  for (const r of loadObsCsvByHeader(fp).rows) {
+    rows.push({ body: r.body, quantity: r.quantity, value: Number(r.rawValue), unit: r.unit,
+      source: r.source, url: r.url, note: r.note || '', ln: r.ln,
+      recordId: r.recordId || null,
+      sigmaCol: (r.rawSigma !== '') ? Number(r.rawSigma) : null });
   }
   return rows;
 }

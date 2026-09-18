@@ -64,6 +64,8 @@ import { SIGMA_BODY, SIGMA_QUANT, SIGMA_TARGET_BODY } from './lib-sigma-destinat
 // 第268便a(統括の読み (D)・AB2): **採用観測解の明示宣言**(body|quantity → 採用行)。
 // 宣言の無い対象は従来どおり**ファイル順の最初**の行を採る(後方互換)。
 import { loadJudgementSources, pickDeclaredRow } from './lib-w268a-judgement.mjs';
+// 第270便b(第60報 W2・AE2): CSV は**列位置でなくヘッダ名**で読む(`record_id` の列追加で壊れない)。
+import { loadObsCsv as loadObsCsvByHeader } from './lib-w270b-obscsv.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -237,40 +239,37 @@ const sigmaMarkAudit = { rows: 353, legacyVerified: 0, strictVerified: 0, flips:
     + '**最初の出現**を行の印とする。無印は verified ではない。',
   note: '**印を上げ下げしていない** —— 読み方を直しただけである(`verified` にするのは原仮定者の照合)。' };
 function loadSigmaTable() {
-  const txt = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8');
+  // 第270便b(AE2): **ヘッダ名で読む**(列位置で読まない)。`record_id` 欄が末尾に付いても
+  // 中間に列が挿さっても、読む欄は名前で決まる。読み方そのものは 1 つも変えていない。
+  const loaded = loadObsCsvByHeader(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'));
+  if (loaded.missing.length)
+    throw new Error('[w249b] solar-observations.csv に必須列が無い: ' + loaded.missing.join(','));
   const m = new Map();
   const all = [];
   sigmaMarkAudit.rows = 0;
-  for (const line of txt.split('\n')) {
-    if (!line.trim() || line.startsWith('body,')) continue;
-    const cols = []; let cur = '', inQ = false;
-    for (const ch of line) {
-      if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
-      else if (ch === '"') inQ = true;
-      else if (ch === ',') { cols.push(cur); cur = ''; }
-      else cur += ch;
-    }
-    cols.push(cur);
-    const note = cols[7] || '';
+  for (const r of loaded.rows) {
+    const note = r.note || '';
+    const hasSigmaCell = r.rawSigma !== '';
     // ---- 第264便d(X6): 厳密読みと旧読みの差を全行で数える(**判定の前に数える**)----
     sigmaMarkAudit.rows++;
     const mk = readSigmaMark(note), lg = legacyIsSigmaPrimaryVerified(note);
     if (mk.legend.length) sigmaMarkAudit.legendRows++;
     if (lg) sigmaMarkAudit.legacyVerified++;
     if (mk.verified) sigmaMarkAudit.strictVerified++;
-    if (mk.verified !== lg) sigmaMarkAudit.flips.push({ body: cols[0], quantity: cols[1],
-      legacy: lg ? 'verified' : 'unverified', strict: mk.mark, hasSigma: (cols[8] || '').trim() !== '' });
+    if (mk.verified !== lg) sigmaMarkAudit.flips.push({ body: r.body, quantity: r.quantity,
+      legacy: lg ? 'verified' : 'unverified', strict: mk.mark, hasSigma: hasSigmaCell });
     // ---- 第264便d(X7): `verified` なのに `verified_by=` が無い行(**警告**であって拒否ではない)----
     const vb = readVerifiedBy(note);
-    if (vb.warn) sigmaMarkAudit.verifiedByMissing.push({ body: cols[0], quantity: cols[1],
-      hasSigma: (cols[8] || '').trim() !== '' });
-    const key = cols[0] + '|' + cols[1];
-    const sg = (cols[8] !== undefined && cols[8].trim() !== '') ? Number(cols[8]) : null;
+    if (vb.warn) sigmaMarkAudit.verifiedByMissing.push({ body: r.body, quantity: r.quantity,
+      hasSigma: hasSigmaCell });
+    const key = r.body + '|' + r.quantity;
     const kind = readSigmaKind(note);
-    const rec = { body: cols[0], quantity: cols[1], value: Number(cols[2]), unit: cols[3],
+    const rec = { body: r.body, quantity: r.quantity, value: Number(r.rawValue), unit: r.unit,
       // 第264便d: **空欄の value を 0 と読ませない**(`Number('')` は 0 である)。
-      valueRaw: (cols[2] !== undefined && String(cols[2]).trim() !== '') ? Number(cols[2]) : null,
-      source: cols[4], sigma: (Number.isFinite(sg) && sg > 0) ? sg : null,
+      valueRaw: (String(r.rawValue).trim() !== '') ? Number(r.rawValue) : null,
+      source: r.source, sigma: r.sigma,
+      // 第270便b(AE2): **同定の鍵**(印でも σ でもない)。宣言の `record_id` はこれに当たる。
+      recordId: r.recordId || null, ln: r.ln,
       primaryVerified: isSigmaPrimaryVerified(note),
       verifiedBy: vb.present ? vb.who : null, verifiedAt: vb.at, verifiedValue: vb.value,
       sigmaKind: kind.kind, infoScale: kind.scale, infoScaleKind: kind.scaleKind,

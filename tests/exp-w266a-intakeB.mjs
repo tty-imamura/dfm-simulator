@@ -40,32 +40,28 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'tests', 'out', 'intakeB-w266a.json');
 const INTAKE = '2026-09-16';
 
-function parseCsvLine(line) {
-  const c = []; let cur = '', q = false;
-  for (const ch of line) {
-    if (q) { if (ch === '"') q = false; else cur += ch; }
-    else if (ch === '"') q = true;
-    else if (ch === ',') { c.push(cur); cur = ''; }
-    else cur += ch;
-  }
-  c.push(cur);
-  return c;
-}
+// 第270便b(第60報 W2・AE2): **列位置でなくヘッダ名で読む**(`record_id` の列追加で壊れない)。
+import { parseCsvLine, headerIndex } from './lib-w270b-obscsv.mjs';
 function loadCsv(rel) {
   const rows = [];
   const lines = fs.readFileSync(path.join(ROOT, rel), 'utf8').split('\n');
+  const H = headerIndex(lines[0] || '');
+  if (H.missing.length) throw new Error('[w266a] ' + rel + ' に必須列が無い: ' + H.missing.join(','));
+  const cell = (c, n) => ((n in H) && c[H[n]] !== undefined) ? c[H[n]] : '';
   let ln = 0;
   for (const L of lines) {
     ln++;
     if (!L.trim() || L.startsWith('body,')) continue;
     const c = parseCsvLine(L);
     if (c.length < 9) continue;
-    const sgRaw = String(c[8] === undefined ? '' : c[8]).trim();
+    const sgRaw = String(cell(c, 'sigma')).trim();
     const sg = sgRaw !== '' ? Number(sgRaw) : null;
-    rows.push({ file: rel, ln, body: c[0], quantity: c[1], value: c[2], unit: c[3], source: c[4],
-      url: c[5], retrieved: c[6], note: c[7] || '',
+    rows.push({ file: rel, ln, body: cell(c, 'body'), quantity: cell(c, 'quantity'),
+      value: cell(c, 'value'), unit: cell(c, 'unit'), source: cell(c, 'source'),
+      url: cell(c, 'url'), retrieved: cell(c, 'retrieved'), note: cell(c, 'note') || '',
+      recordId: String(cell(c, 'record_id')).trim() || null,
       sigma: (Number.isFinite(sg) && sg !== 0) ? sg : null,
-      hasValue: String(c[2]).trim() !== '' });
+      hasValue: String(cell(c, 'value')).trim() !== '' });
   }
   return rows;
 }

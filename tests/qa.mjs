@@ -527,6 +527,27 @@ const add = (id, pass, detail) => {
   } catch (e) { bad.push('⑨CSV が読めない: ' + String(e).slice(0, 60)); }
   if (sameMarkRows.length !== 5)
     bad.push(`⑨same_mark_as= を持つ行が ${sameMarkRows.length}(第269便b の 5 行のはず)`);
+  // ⑩ 第270便b(第60報 W2・確認記録 第 4 回): **X7 警告(`verified` なのに確認者が無い行)は 0** である。
+  //   第264便d が X7 を「警告であって拒否ではない」と決めたのは、規約より前に立った印を落とすと
+  //   門の σ が一斉に消えるからだった。第 4 回の目視確認(Cameron 2018 Table 2・Stairs 2002)で
+  //   残り 6 行の確認者が埋まったので、**3 つの CSV すべてで警告が 0 になった**ことを機械で固定する
+  //   (**これは「印が増えた」ことでも「σ が揃った」ことでもない** —— 確認者欄が埋まっただけである)。
+  const x7Warn = { total: 0, byFile: {}, rows: [] };
+  try {
+    const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+    for (const f of ['solar-observations.csv', 'cluster-galaxy-observations.csv',
+      'transient-observations.csv']) {
+      let n = 0;
+      for (const r of OB.loadObsCsv(path.join(ROOT, 'paper', 'data', f)).rows) {
+        if (L.readSigmaMark(r.note).verified && !L.readVerifiedBy(r.note).present) {
+          n++; x7Warn.total++; x7Warn.rows.push(`${f}:${r.ln} ${r.body}|${r.quantity}`);
+        }
+      }
+      x7Warn.byFile[f] = n;
+    }
+  } catch (e) { bad.push('⑩CSV が読めない: ' + String(e).slice(0, 60)); }
+  if (x7Warn.total !== 0)
+    bad.push(`⑩X7 警告が ${x7Warn.total} 行残っている: ${x7Warn.rows.slice(0, 4).join(' , ')}`);
   add('lint.sigmaMark', bad.length === 0,
     `**\`sigma_primary\` の印の厳密読み**(第263便c ⑤′ の読み違いを直した): 語境界つきの出現を拾い、`
     + `第251便c の**凡例文**(\`sigma_primary=… means …\`)を除き、**凡例でない最初の出現**を行の印とする。`
@@ -553,7 +574,13 @@ const add = (id, pass, detail) => {
     + `⑨ 第269便b: **同印写し**(\`same_mark_as=<行>\`)は ${sameMarkRows.length} 行 —— `
     + `写す元は実在して \`verified\` で X7 の確認者を持ち、写した行の \`verified_at\` と確認者・日付は`
     + `**写す元と一致**する(別の表の印も、確認者のいない行の印も写さない)。`
-    + `**同印写しでは印そのものは動かない**(写す側は写す前から \`verified\` である)`
+    + `**同印写しでは印そのものは動かない**(写す側は写す前から \`verified\` である)/ `
+    + `⑩ 第270便b: **X7 警告(\`verified\` なのに確認者が無い行)は ${x7Warn.total} 行**`
+    + `(太陽系 ${x7Warn.byFile['solar-observations.csv']} / 星団・銀河 `
+    + `${x7Warn.byFile['cluster-galaxy-observations.csv']} / 過渡天体 `
+    + `${x7Warn.byFile['transient-observations.csv']})—— 第 4 回の確認記録で`
+    + `Cameron 2018 Table 2 と Stairs 2002 の残り 6 行の確認者が埋まった。`
+    + `**確認者欄が埋まっただけであって、印が増えたのでも σ が揃ったのでもない**`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 
@@ -894,8 +921,11 @@ const add = (id, pass, detail) => {
     for (const b of ['47 Tuc', 'NGC 3198']) if (DEST.isWiredBody(b))
       bad.push(`⑤門の宛先表に ${b} が入っている(星団・銀河は門に接続しない約束である)`);
   } catch (e) { bad.push('CSV が読めない: ' + String(e).slice(0, 80)); }
-  if (!/,sigma$/.test(header)) bad.push('①ヘッダの最後が sigma でない: ' + header.slice(-40));
-  if (!(widths.size === 1 && widths.has(9))) bad.push(`①列数が 9 で揃っていない: ${[...widths].join(',')}`);
+  // 第270便b(AE2): **ヘッダ末尾に `record_id` を足した**(`sigma` はその 1 つ手前に移った)。
+  //   固定するのは「列位置」ではなく「**ヘッダ名がある**」ことである —— 読取器はすべて名前で引く。
+  if (!/,sigma,record_id$/.test(header))
+    bad.push('①ヘッダの最後が sigma,record_id でない: ' + header.slice(-40));
+  if (!(widths.size === 1 && widths.has(10))) bad.push(`①列数が 10 で揃っていない: ${[...widths].join(',')}`);
   if (legacy !== 108) bad.push(`②既存行が 108 でない(${legacy})`);
   if (legacySigma !== 0) bad.push(`②既存行に σ が入っている(${legacySigma} 行 —— 既存は空のままにする)`);
   if (intakeBSigma === 0) bad.push('③intake B の行に σ が 1 つも入っていない');
@@ -970,9 +1000,10 @@ const add = (id, pass, detail) => {
     for (const b of bodies) if (solarBodies.has(b))
       bad.push(`③${b} が判定側の CSV にも居る(門の σ の出所になってしまう)`);
   } catch (e) { bad.push('CSV が読めない: ' + String(e).slice(0, 80)); }
-  if (header !== 'body,quantity,value,unit,source,url,retrieved,note,sigma')
-    bad.push('①ヘッダが 9 列の規約どおりでない: ' + header.slice(0, 80));
-  if (!(widths.size === 1 && widths.has(9))) bad.push(`①列数が 9 で揃っていない: ${[...widths].join(',')}`);
+  // 第270便b(AE2): ヘッダ末尾に `record_id` を足した(**10 列**)。
+  if (header !== 'body,quantity,value,unit,source,url,retrieved,note,sigma,record_id')
+    bad.push('①ヘッダが 10 列の規約どおりでない: ' + header.slice(0, 90));
+  if (!(widths.size === 1 && widths.has(10))) bad.push(`①列数が 10 で揃っていない: ${[...widths].join(',')}`);
   if (gated !== rows) bad.push(`②gate=not-connected が無い行がある(${rows - gated} 行)`);
   if (verified !== 0) bad.push(`⑤verified の印がある(${verified} 行)`);
   add('docs.transientObs', bad.length === 0,
@@ -1246,7 +1277,13 @@ const add = (id, pass, detail) => {
       if (!row) { bad.push(`⑥${r.file}:${r.ln} が CSV に無い`); continue; }
       if (row.mark !== r.markBefore || row.mark !== r.markAfter)
         bad.push(`⑥${r.file}:${r.ln} の印が動いている`);
-      if (row.vbWho) bad.push(`⑥${r.file}:${r.ln} に X7 の verified_by が付いている`);
+      // 第270便b(第60報・第 4 回): この 6 行は原仮定者が**表そのものを目視確認**したので
+      //   X7 の 3 欄が埋まった(`confirmation_round=4`)。**印は依然として動いていない**
+      //   (第 3 回の時点から `verified`)—— 第 4 回の突き合わせは `docs.confirm4-sync` が数える。
+      const r4 = /(?:^|[^A-Za-z0-9_])confirmation_round=4\b/.test(row.note);
+      if (row.vbWho && !r4) bad.push(`⑥${r.file}:${r.ln} に X7 の verified_by が付いている`);
+      if (row.vbWho && r4 && r.resolvedInRound4 !== true)
+        bad.push(`⑥${r.file}:${r.ln} の第 4 回の記録が器の JSON に無い(器を回し直す)`);
       if (!/(?:^|[^A-Za-z0-9_])same_mark_not_available=2026-09-17\b/.test(row.note))
         bad.push(`⑥${r.file}:${r.ln} に「写す元が無い」の記録が無い`);
     }
@@ -1300,6 +1337,278 @@ const add = (id, pass, detail) => {
     + `${((j && j.gate || {}).calaudit || {}).sigmaRegate ? j.gate.calaudit.sigmaRegate.checked : '—'} 件・`
     + `変化 ${((j && j.gate || {}).calaudit || {}).sigmaRegate ? j.gate.calaudit.sigmaRegate.changed : '—'} 件・`
     + `印の反転 ${((j && j.gate || {}).calaudit || {}).sigmaRegate ? j.gate.calaudit.sigmaRegate.verifiedFlips : '—'} 件`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 第270便b(第60報 W2): docs.confirm4-sync ----
+// ----   **確認記録(2026-09-18・第 4 回)の印**が、器の出力 `tests/out/confirm4-w270b.json` と
+// ----   CSV の実体で食い違っていないことを機械で見る。固定するのは 7 つ:
+// ----     ① 器が自分で数えた違反が 0 件・分類が宣言どおり(x7-filled 6 / verified-new 3 /
+// ----        acknowledged 1)。
+// ----     ② **印を付ける前に原記載から value と σ を再現している**(9/9)。
+// ----     ③ `x7-filled` の 6 行(Cameron 2018 Table 2 の 136/137/139・Stairs 2002 の 171/172/173)は
+// ----        **印そのものが動いていない**(前から `verified`)。足したのは X7 の 3 欄と
+// ----        `confirmation_round=4` で、**第 3 回の「写す元が無い」の記録は残したまま閉じた**。
+// ----     ④ `verified-new` の 3 行(併置行 260/262/263)は `unverified` → `verified` で、
+// ----        **旧印が `previous_mark=unverified` に残っている**。
+// ----     ⑤ **421 は `unverified` のまま**で、値・単位・σ が 1 文字も動いていない
+// ----        (追認は確認ではない —— `confirmation_round=` も付かない)。
+// ----     ⑥ **X7 警告が 6 → 0**(`lint.sigmaMark` ⑩ と同じ数)。
+// ----     ⑦ **AE7**: 171〜173 の note が中立表現になっている(値・印・来歴は不変)。
+// ----   **書かないこと**: 「判定が増えた」「太陽系の σ が揃った」「タイタン環を確認した」。
+// ----   **4 値は 1 本も動いていない。**
+{
+  const bad = [];
+  const JP = path.join(ROOT, 'tests', 'out', 'confirm4-w270b.json');
+  const EXPECT = { 'x7-filled': 6, 'verified-new': 3, acknowledged: 1 };
+  let j = null, round4Csv = 0, verifiedRound4 = 0;
+  const csv = new Map();
+  try {
+    const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w264d-sigmamark.mjs'));
+    const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+    for (const r of OB.loadObsCsv(path.join(ROOT, 'paper', 'data', 'solar-observations.csv')).rows) {
+      const mk = L.readSigmaMark(r.note), vb = L.readVerifiedBy(r.note);
+      csv.set(r.ln, { body: r.body, quantity: r.quantity, value: r.rawValue, unit: r.unit,
+        sigma: r.rawSigma, note: r.note, recordId: r.recordId,
+        mark: mk.mark, verified: mk.verified, vbWho: vb.present ? vb.who : null,
+        vbAt: vb.at, vbValue: vb.value,
+        round4: /(?:^|[^A-Za-z0-9_])confirmation_round=4\b/.test(r.note) });
+      if (/(?:^|[^A-Za-z0-9_])confirmation_round=4\b/.test(r.note)) {
+        round4Csv++;
+        if (mk.verified) verifiedRound4++;
+        if (!mk.verified) bad.push(`③行 ${r.ln} は confirmation_round=4 なのに verified でない`);
+        if (!vb.present || vb.who !== '原仮定者 2026-09-18' || !vb.at || !vb.value)
+          bad.push(`③行 ${r.ln} の X7 の 3 欄が欠けている(${vb.who})`);
+        if (r.rawSigma === '') bad.push(`③行 ${r.ln} は σ が空なのに verified である`);
+        if (!r.recordId) bad.push(`③行 ${r.ln} に record_id が無い`);
+      }
+    }
+    j = JSON.parse(fs.readFileSync(JP, 'utf8'));
+  } catch (e) { bad.push('入力が読めない: ' + String(e).slice(0, 110)); }
+  if (j) {
+    if ((j.violations || []).length)
+      bad.push(`①器が違反を出している: ${(j.violations || []).slice(0, 3).join(' , ')}`);
+    for (const k of Object.keys(EXPECT)) if ((j.classes || {})[k] !== EXPECT[k])
+      bad.push(`①分類 ${k} が ${(j.classes || {})[k]}(宣言は ${EXPECT[k]})`);
+    const rep = j.reproduction || {};
+    if (!(rep.checked === 9 && rep.reproduced === 9 && rep.notReproduced === 0))
+      bad.push(`②原記載からの再現が ${rep.reproduced}/${rep.checked}(不一致 ${rep.notReproduced})`);
+    // ③ x7-filled(**印は動いていない**・警告だけが消えた)
+    for (const r of (j.x7Filled || [])) {
+      const row = csv.get(r.ln);
+      if (!row) { bad.push(`③行 ${r.ln} が CSV に無い`); continue; }
+      if (row.body !== r.body || row.quantity !== r.quantity)
+        bad.push(`③行 ${r.ln} が ${r.body}|${r.quantity} でない`);
+      if (!(r.markBefore === 'verified' && r.markAfter === 'verified' && row.verified))
+        bad.push(`③行 ${r.ln} の印が動いている(${r.markBefore} → ${r.markAfter})`);
+      if (!r.reproduced) bad.push(`③行 ${r.ln} が原記載から再現できていない`);
+      if (!row.round4) bad.push(`③行 ${r.ln} に confirmation_round=4 が無い`);
+      if (row.vbAt !== r.at) bad.push(`③行 ${r.ln} の verified_at が器の宣言と違う`);
+      if (row.vbValue !== r.orig) bad.push(`③行 ${r.ln} の verified_value が原記載と違う`);
+      if (!/(?:^|[^A-Za-z0-9_])same_mark_not_available=2026-09-17\b/.test(row.note))
+        bad.push(`③行 ${r.ln} の第 3 回の記録が消えている(履歴は残す)`);
+      if (!/(?:^|[^A-Za-z0-9_])same_mark_not_available_closed=2026-09-18\b/.test(row.note))
+        bad.push(`③行 ${r.ln} に第 4 回で閉じた記録が無い`);
+      if (/(?:^|[^A-Za-z0-9_])same_mark_as=/.test(row.note))
+        bad.push(`③行 ${r.ln} に same_mark_as= が付いている(第 4 回は目視確認であって同印写しではない)`);
+    }
+    // ④ verified-new(併置行 —— 旧印を残す)
+    for (const r of (j.verifiedNew || [])) {
+      const row = csv.get(r.ln);
+      if (!row) { bad.push(`④行 ${r.ln} が CSV に無い`); continue; }
+      if (!(r.markBefore === 'unverified' && r.markAfter === 'verified' && row.verified))
+        bad.push(`④行 ${r.ln} の印の前後が unverified → verified でない`);
+      if (!/(?:^|[^A-Za-z0-9_])previous_mark=unverified\b/.test(row.note))
+        bad.push(`④行 ${r.ln} に旧印(previous_mark=unverified)が残っていない`);
+      if (!/(?:^|[^A-Za-z0-9_])confirmation_2=not-found-by-author\b/.test(row.note))
+        bad.push(`④行 ${r.ln} の第 2 回の記録が消えている`);
+      if (!r.reproduced) bad.push(`④行 ${r.ln} が原記載から再現できていない`);
+    }
+    // ⑤ 追認(**印は unverified のまま**・値は 1 文字も動かない)
+    for (const a of (j.acknowledged || [])) {
+      const row = csv.get(a.ln);
+      if (!row) { bad.push(`⑤行 ${a.ln} が CSV に無い`); continue; }
+      if (row.mark !== 'unverified') bad.push(`⑤行 ${a.ln} の印が unverified でない(${row.mark})`);
+      if (row.vbWho) bad.push(`⑤行 ${a.ln} に X7 の verified_by が付いている(追認は確認ではない)`);
+      if (row.round4) bad.push(`⑤行 ${a.ln} に confirmation_round=4 が付いている`);
+      if (row.value !== a.value || row.unit !== a.unit || row.sigma !== a.sigma)
+        bad.push(`⑤行 ${a.ln} の値・単位・σ が動いている`);
+      if (!/(?:^|[^A-Za-z0-9_])acknowledged_by=原仮定者 2026-09-18\b/.test(row.note))
+        bad.push(`⑤行 ${a.ln} に追認印が無い`);
+      if (!/(?:^|[^A-Za-z0-9_])acknowledgement_pending=2026-09-17\b/.test(row.note))
+        bad.push(`⑤行 ${a.ln} の第 3 回の未追認の記録が消えている(履歴は残す)`);
+    }
+    // ⑥ 回の数と X7 警告
+    const declared = EXPECT['x7-filled'] + EXPECT['verified-new'];
+    if (round4Csv !== declared)
+      bad.push(`③CSV の confirmation_round=4 が ${round4Csv}(宣言は ${declared})`);
+    if (verifiedRound4 !== round4Csv) bad.push(`③そのうち verified が ${verifiedRound4}(全行のはず)`);
+    const cen = (j.census || {});
+    if (((cen.before || {}).solar || {}).x7Warn !== 6)
+      bad.push(`⑥基点の X7 警告が 6 でない(${((cen.before || {}).solar || {}).x7Warn})`);
+    if (((cen.after || {}).solar || {}).x7Warn !== 0)
+      bad.push(`⑥本便後の X7 警告が 0 でない(${((cen.after || {}).solar || {}).x7Warn})`);
+    if (((cen.after || {}).solar || {}).verified
+      - ((cen.before || {}).solar || {}).verified !== EXPECT['verified-new'])
+      bad.push('⑥太陽系の verified の増分が 3 でない(X7 欄を埋めた 6 行は印を動かさない)');
+    if ((cen.externalOnlyVerified || []).length)
+      bad.push('⑥外部確認印だけで verified になっている行がある');
+    // ⑦ AE7(171〜173 の中立表現)
+    for (const ln of [171, 172, 173]) {
+      const row = csv.get(ln);
+      if (!row) { bad.push(`⑦行 ${ln} が CSV に無い`); continue; }
+      if (row.note.indexOf('外部レビュー O5.2') < 0) bad.push(`⑦行 ${ln} に中立表現が無い`);
+      if (/ChatGPT|Grok|Gemini|Codex/.test(row.note)) bad.push(`⑦行 ${ln} に外部名が残っている`);
+    }
+  } else bad.push('tests/out/confirm4-w270b.json が無い(node tests/exp-w270b-confirm4.mjs を回すと入る)');
+  const cls = j ? (j.classes || {}) : {};
+  const cen = j ? ((j.census || {}).after || {}) : {};
+  const bef = j ? ((j.census || {}).before || {}) : {};
+  add('docs.confirm4-sync', bad.length === 0,
+    `**確認記録(2026-09-18・第 4 回)の突き合わせ**(器 tests/exp-w270b-confirm4.mjs): `
+    + `① 器の違反 ${j ? (j.violations || []).length : '—'} 件 / 分類 ${JSON.stringify(cls)} / `
+    + `② **印を付ける前に原記載から value と σ を再現する** —— `
+    + `${(j && j.reproduction || {}).reproduced}/${(j && j.reproduction || {}).checked} 行で再現できた / `
+    + `③ **Cameron 2018 Table 2 の 136/137/139 と Stairs 2002 の 171/172/173** は`
+    + `原仮定者が表そのものを目視確認したので X7 の 3 欄が埋まった —— `
+    + `**印そのものは 1 bit も動いていない**(前から \`verified\`。第 3 回の`
+    + `「写す元が無い」の記録は残したまま閉じた)/ `
+    + `④ **併置行 260/262/263** は \`unverified\` → \`verified\`(同じ表の転写。旧印は`
+    + `\`previous_mark=\` に残す)/ `
+    + `⑤ **タイタン環 421 の量名改名は追認だけ**(\`acknowledged_by=原仮定者 2026-09-18\`)—— `
+    + `**印は \`unverified\` のまま**で値・単位・σ は 1 文字も動いていない`
+    + `(追認は確認ではない)/ `
+    + `⑥ CSV 全体の \`verified\`(厳密読み): 太陽系 ${(bef.solar || {}).verified} → `
+    + `${(cen.solar || {}).verified} 行・**X7 警告 ${(bef.solar || {}).x7Warn} → `
+    + `${(cen.solar || {}).x7Warn} 行** / `
+    + `⑦ AE7: 171〜173 の note の外部名を中立表現へ(値・印・来歴は不変)/ `
+    + `**判定(4 値)は 1 本も動いていない**`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 第270便b(第60報 W2・統括の読み (G) AE2): lint.recordId ----
+// ----   観測 CSV に足した **`record_id` 欄**を機械で固定する。固定するのは 6 つ:
+// ----     ① 3 つの CSV の**全行に ID があり、欠損 0・重複 0**。ID の綴りは
+// ----        `<SOL|CLG|TRN>-<16 進 8 桁>`(重複転写の 2 件目以降は `-2` の枝番)。
+// ----     ② ID は `body|quantity|unit|source` から**毎回作り直せる**(手打ちの号ではない)。
+// ----     ③ **列追加で集計が不変**: ヘッダ名で読んだ値と、**列位置で読んだ従来の値が全行で一致**する
+// ----        (= `record_id` を末尾に足したことで、既存の読取器が読む欄は 1 つも動いていない)。
+// ----        併せて `body`〜`sigma` のヘッダ位置が従来の 0〜8 のままであることも見る。
+// ----     ④ 宣言(`paper/data/judgement-sources.json`)の 2 件が `record_id` を持ち、**CSV に 1 件で
+// ----        当たる**。`pickDeclaredRow` は record_id を最優先で厳密一致し、当たらなければ
+// ----        **理由つきで null**(文字列出典へ黙って落ちない)。`solution_id` は空欄でよい。
+// ----     ⑤ **AE15**: `value_checked_at=` などの値に `;` を含む行が 0。
+// ----     ⑥ 器 `tests/exp-w270b-recordid.mjs` の出力の違反が 0 件で、行数が CSV と一致する。
+// ----   **`record_id` は同定の鍵であって、印でも σ でも判定でもない**(4 値は 1 本も動かない)。
+{
+  const bad = [];
+  const FILES = ['solar-observations.csv', 'cluster-galaxy-observations.csv',
+    'transient-observations.csv'];
+  const ID_RE = /^(SOL|CLG|TRN)-[0-9a-f]{8}(-[2-9][0-9]*)?$/;
+  const LEGACY = ['body', 'quantity', 'value', 'unit', 'source', 'url', 'retrieved', 'note', 'sigma'];
+  const tally = {};
+  let j = null, pickOk = null;
+  try {
+    const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+    const G = await import('file://' + path.join(ROOT, 'tests', 'lib-w268a-judgement.mjs'));
+    for (const f of FILES) {
+      const fp = path.join(ROOT, 'paper', 'data', f);
+      const loaded = OB.loadObsCsv(fp);
+      const H = loaded.header;
+      // ③ 既存 9 列のヘッダ位置が 0〜8 のまま(列位置で読む古い経路も同じ欄を読む)
+      LEGACY.forEach((n, i) => { if (H[n] !== i)
+        bad.push(`③${f} の ${n} の位置が ${H[n]}(従来は ${i} —— 中間に列を挿している)`); });
+      if (H.record_id !== LEGACY.length)
+        bad.push(`③${f} の record_id が末尾(${LEGACY.length})に無い(${H.record_id})`);
+      // ①② ID の綴りと、素からの作り直し
+      const seen = new Map();
+      const raw = fs.readFileSync(fp, 'utf8').split('\n');
+      let missing = 0, malformed = 0, mismatch = 0, legacyDiff = 0;
+      const base = new Map();
+      for (const r of loaded.rows) {
+        if (!r.recordId) { missing++; continue; }
+        if (!ID_RE.test(r.recordId)) malformed++;
+        seen.set(r.recordId, (seen.get(r.recordId) || 0) + 1);
+        const b = OB.baseRecordId(f, r.body, r.quantity, r.unit, r.source);
+        const k = (base.get(b) || 0) + 1; base.set(b, k);
+        if (r.recordId !== (k === 1 ? b : b + '-' + k)) mismatch++;
+        // ③ 列位置で読んだ従来の値と一致する(**列追加で集計が不変**)
+        const c = OB.parseCsvLine(raw[r.ln - 1]);
+        const legacy = { body: c[0], quantity: c[1], value: c[2], unit: c[3], source: c[4],
+          url: c[5], retrieved: c[6], note: c[7], sigma: (c[8] === undefined ? '' : c[8]) };
+        if (legacy.body !== r.body || legacy.quantity !== r.quantity
+          || legacy.value !== r.rawValue || legacy.unit !== r.unit || legacy.source !== r.source
+          || legacy.url !== r.url || legacy.retrieved !== r.retrieved || legacy.note !== r.note
+          || String(legacy.sigma).trim() !== r.rawSigma) legacyDiff++;
+      }
+      const dup = [...seen.entries()].filter(([, n]) => n > 1);
+      tally[f] = { rows: loaded.rows.length, ids: seen.size, missing, malformed, mismatch,
+        duplicated: dup.length, legacyDiff };
+      if (missing) bad.push(`①${f} に record_id の無い行が ${missing} 行`);
+      if (malformed) bad.push(`①${f} に綴りの違う record_id が ${malformed} 行`);
+      if (dup.length) bad.push(`①${f} に重複した record_id が ${dup.length} 件`);
+      if (mismatch) bad.push(`②${f} の record_id が素から作り直せない行が ${mismatch} 行`);
+      if (legacyDiff) bad.push(`③${f} で列位置読みと名前読みが食い違う行が ${legacyDiff} 行`);
+    }
+    // ④ 宣言の record_id
+    const decl = G.loadJudgementSources(path.join(ROOT, 'paper', 'data', 'judgement-sources.json'));
+    if (!decl.ok) bad.push(`④宣言ファイルが ok:false(${(decl.errors || []).join(' / ').slice(0, 80)})`);
+    const solar = OB.loadObsCsv(path.join(ROOT, 'paper', 'data', 'solar-observations.csv')).rows
+      .map((r) => Object.assign({ recordId: r.recordId, valueRaw: (String(r.rawValue).trim() === '')
+        ? null : Number(r.rawValue) }, r));
+    for (const d of (decl.declarations || [])) {
+      if (typeof d.record_id !== 'string' || d.record_id.trim() === '') {
+        bad.push(`④宣言 ${d.body}|${d.quantity} に record_id が無い`); continue;
+      }
+      const hits = solar.filter((r) => r.recordId === d.record_id);
+      if (hits.length !== 1)
+        bad.push(`④宣言 ${d.body}|${d.quantity} の record_id が CSV に ${hits.length} 件当たる`);
+      const pick = G.pickDeclaredRow(d, solar);
+      if (!pick.row || pick.matchedBy !== 'record_id')
+        bad.push(`④${d.body}|${d.quantity} が record_id で同定できない(${pick.reason})`);
+      else if (hits.length === 1 && pick.row.ln !== hits[0].ln)
+        bad.push(`④${d.body}|${d.quantity} の同定先が食い違う`);
+      if (!('solution_id' in d)) bad.push(`④宣言 ${d.body}|${d.quantity} に solution_id 欄が無い(空欄可)`);
+    }
+    // ④′ 当たらない record_id は**理由つきで null**(文字列出典へ黙って落ちない)
+    const ghost = Object.assign({}, (decl.declarations || [])[0] || {}, { record_id: 'SOL-00000000' });
+    const gp = G.pickDeclaredRow(ghost, solar);
+    pickOk = (gp.row === null && gp.reason === 'record-id-not-found');
+    if (!pickOk) bad.push('④当たらない record_id が文字列出典へ落ちている(理由つきで止まるべき)');
+  } catch (e) { bad.push('入力が読めない: ' + String(e).slice(0, 110)); }
+  // ⑤⑥ 器の出力
+  try {
+    j = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'recordid-w270b.json'), 'utf8'));
+    if ((j.violations || []).length)
+      bad.push(`⑥器が違反を出している: ${(j.violations || []).slice(0, 3).join(' , ')}`);
+    if (((j.ae15 || {}).offenders || []).length)
+      bad.push(`⑤\`;\` を値に含む行が ${(j.ae15 || {}).offenders.length} 件`);
+    for (const f of (j.files || [])) {
+      const t = tally[f.file];
+      if (!t) { bad.push(`⑥器の出力に無い CSV: ${f.file}`); continue; }
+      if (f.rows !== t.rows) bad.push(`⑥${f.file} の行数が器(${f.rows})と QA(${t.rows})で違う`);
+      if (f.duplicated !== 0) bad.push(`⑥${f.file} の重複が器の側で ${f.duplicated} 件`);
+    }
+  } catch (e) { bad.push('tests/out/recordid-w270b.json が無い(node tests/exp-w270b-recordid.mjs を回すと入る)'); }
+  add('lint.recordId', bad.length === 0,
+    `**観測 CSV の \`record_id\` 欄**(第270便b・AE2): `
+    + FILES.map((f) => `${f.replace('-observations.csv', '')} ${tally[f] ? tally[f].rows : '—'} 行`
+      + `(ID ${tally[f] ? tally[f].ids : '—'}・欠損 ${tally[f] ? tally[f].missing : '—'}・`
+      + `重複 ${tally[f] ? tally[f].duplicated : '—'})`).join(' / ')
+    + ` / ① ID の綴りは \`<SOL|CLG|TRN>-<16 進 8 桁>\`(同じ \`body|quantity|unit|source\` の`
+    + `**重複転写**だけ出現順の枝番 \`-2\`)/ `
+    + `② ID は \`body|quantity|unit|source\` から**毎回作り直せる**(手打ちの号ではない)/ `
+    + `③ **列追加で集計が不変** —— ヘッダ名で読んだ値と**列位置で読んだ従来の値が全行で一致**し`
+    + `(食い違い ${FILES.reduce((a, f) => a + (tally[f] ? tally[f].legacyDiff : 0), 0)} 行)、`
+    + `\`body\`〜\`sigma\` のヘッダ位置は 0〜8 のまま・\`record_id\` は末尾 / `
+    + `④ 宣言 2 件が \`record_id\` を持ち CSV に 1 件で当たる(\`pickDeclaredRow\` は`
+    + `**record_id を最優先で厳密一致**し、当たらなければ理由つきで null=${pickOk})。`
+    + `\`solution_id\` は**空欄**(本便では作らない —— 決断事項)/ `
+    + `⑤ AE15: \`value_checked_at=\` 等の値に \`;\` を含む行 `
+    + `${j ? ((j.ae15 || {}).offenders || []).length : '—'} 件(検査 `
+    + `${j ? (j.ae15 || {}).checked : '—'} 件)/ `
+    + `⑥ 器 tests/exp-w270b-recordid.mjs の違反 ${j ? (j.violations || []).length : '—'} 件。`
+    + `**\`record_id\` は同定の鍵であって、印でも σ でも判定でもない**(4 値は 1 本も動かない)`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 

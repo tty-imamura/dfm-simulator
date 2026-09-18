@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "wave": "第268便a(2026-09-17・第58報 W1・統括の読み (D)・AB2)",
+  "wave": "第268便a(2026-09-17・第58報 W1・統括の読み (D)・AB2)/ 第270便b(2026-09-18・第60報 W2・AE2 で record_id を追加)",
   "what": "判定(3σ の門)に採る観測解の明示宣言。body|quantity → 採用行(source/solution/value/sigma)。宣言の無い body|quantity は従来どおり CSV のファイル順で最初の行を採る(後方互換)。",
   "doNotWrite": [
     "宣言したので判定が増えた(宣言後の判定は『宣言後の初判定』欄に別に置く)",
@@ -9,6 +9,8 @@
   ],
   "rule": [
     "value・sigma・source は paper/data/*.csv の行から 1 文字も変えずに写す(ここで新しい数値を作らない)",
+    "第270便b(AE2): record_id を照合キーに**足した**(文字列出典は残す)。record_id があれば器はそれで厳密に同定し、1 件に決まらなければ理由つきで止まる",
+    "solution_id は空欄でよい(本便では作らない — 決断事項)",
     "csvQuantity は CSV 上の鍵(候補行は `<quantity>_candidate` という別の鍵である)",
     "sigma が null の宣言は『どの行を読むか』だけを決める(σ が無いので門へは 1 bit も入らない)",
     "宣言は行選択であって、単位の一致・観測量対応・数値収束を宣言するものではない"
@@ -18,6 +20,8 @@
       "body": "Charon",
       "quantity": "orbital_period",
       "csvQuantity": "orbital_period_candidate",
+      "record_id": "SOL-25d4320f",
+      "solution_id": "",
       "source": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
       "solution": "two-body Keplerian fit to HST astrometry 1992-2010 (Table 5 P = 6.3872273(3) d)",
       "value": 551856.43872,
@@ -30,6 +34,8 @@
       "body": "Venus",
       "quantity": "eccentricity",
       "csvQuantity": "eccentricity_candidate",
+      "record_id": "SOL-72c6db74",
+      "solution_id": "",
       "source": "JPL SSD Approximate Positions of the Planets / Standish Keplerian elements Table 1",
       "solution": "mean Keplerian element e0 at J2000.0 TDB (de/dt=-0.00004107 /Cy)",
       "value": 0.00677672,

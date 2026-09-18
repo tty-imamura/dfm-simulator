@@ -67,39 +67,39 @@ const PRELIM = {
 };
 
 // ---- CSV(**観測の門が繋がっているかを数える**ためだけに読む)
-function parseCsvLine(line) {
-  const cols = []; let cur = '', inQ = false;
-  for (const ch of line) {
-    if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
-    else if (ch === '"') inQ = true;
-    else if (ch === ',') { cols.push(cur); cur = ''; }
-    else cur += ch;
-  }
-  cols.push(cur); return cols;
-}
-function loadCsv(file, sigmaCol) {
+// 第270便b(第60報 W2・AE2): **列位置でなくヘッダ名で読む**(`record_id` の列追加で壊れない)。
+// 第 2 引数の `hasSigma` は「この CSV が σ 列を持つか」の宣言で、**列位置ではない**。
+import { parseCsvLine, headerIndex } from './lib-w270b-obscsv.mjs';
+function loadCsv(file, hasSigma) {
   const fp = path.join(ROOT, 'paper', 'data', file);
   if (!fs.existsSync(fp)) return [];
   const rows = [];
-  for (const line of fs.readFileSync(fp, 'utf8').split('\n')) {
+  const lines = fs.readFileSync(fp, 'utf8').split('\n');
+  const H = headerIndex(lines[0] || '');
+  const cell = (c, n) => ((n in H) && c[H[n]] !== undefined) ? c[H[n]] : '';
+  for (const line of lines) {
     if (!line.trim() || line.startsWith('body,')) continue;
     const c = parseCsvLine(line);
-    const sg = (sigmaCol !== null && c[sigmaCol] !== undefined && c[sigmaCol].trim() !== '')
-      ? Number(c[sigmaCol]) : null;
-    rows.push({ body: c[0], quantity: c[1], value: Number(c[2]), unit: c[3],
-      source: String(c[4]).slice(0, 70), note: String(c[7] || '').slice(0, 120),
+    const sgRaw = hasSigma ? String(cell(c, 'sigma')).trim() : '';
+    const sg = (sgRaw !== '') ? Number(sgRaw) : null;
+    rows.push({ body: cell(c, 'body'), quantity: cell(c, 'quantity'),
+      value: Number(cell(c, 'value')), unit: cell(c, 'unit'),
+      source: String(cell(c, 'source')).slice(0, 70),
+      note: String(cell(c, 'note') || '').slice(0, 120),
+      recordId: String(cell(c, 'record_id')).trim() || null,
       sigma: (Number.isFinite(sg) && sg > 0) ? sg : null,
       // 第266便a: **印を見る**。σ が sigma 列に在っても `sigma_primary=verified` でなければ
       // 門には 1 bit も入らない(星団・銀河の σ はすべて unverified である)。
-      primaryVerified: isSigmaPrimaryVerified(c[7] || '') });
+      primaryVerified: isSigmaPrimaryVerified(cell(c, 'note') || '') });
   }
   return rows;
 }
-const SOLAR = loadCsv('solar-observations.csv', 8);
-// 第266便a(第57報 追加): 星団・銀河 CSV に **sigma 列**(9 列目)が付いたので、そこも読む。
+const SOLAR = loadCsv('solar-observations.csv', true);
+// 第266便a(第57報 追加): 星団・銀河 CSV に **sigma 列**が付いたので、そこも読む
+// (第270便b: 列位置ではなく**ヘッダ名 `sigma`** で読む)。
 // **読めることと門に繋がることは別である** —— 入った σ はすべて `sigma_primary=unverified` で、
 // `gateConnected` は下の `withVerifiedSigma` で数える(**星団・銀河は門に接続していない**)。
-const CLUSTER = loadCsv('cluster-galaxy-observations.csv', 8);
+const CLUSTER = loadCsv('cluster-galaxy-observations.csv', true);
 // 第267便a(第57報 追加 3・4): **印が `verified` であることは門に繋がっていることではない**。
 // 第266便a は `gateConnected` を `withVerifiedSigma > 0` で決めていたが、第267便a で原仮定者の
 // 第 2 回の確認記録により 47 Tuc の 6 行が `verified` になったので、**この式のままだと「門に繋がった」

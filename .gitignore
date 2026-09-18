@@ -72,6 +72,18 @@ tests/out/*
 #   突き合わせ、docs/CALIBRATION_VERDICT_v1.44.md §2.3⁗⁗ と docs/PHYSICS.md 〔第269便b〕の表が
 #   この値そのものなのでコミットする(**エンジンは 1 步も走らせていない**)
 !tests/out/confirm3-w269b.json
+# 第270便b: 確認記録(2026-09-18・第 4 回)の突き合わせ(tests/exp-w270b-confirm4.mjs)の実測正本。
+#   QA `docs.confirm4-sync` が「原記載から value と σ が再現できた行だけに印が付いていること」
+#   「X7 の 3 欄を埋めただけの行は印そのものを動かさないこと」「併置行の旧印が note に残っていること」
+#   「421 の追認で印も値も動いていないこと」「X7 警告が 0 になったこと」をこの JSON と突き合わせ、
+#   docs/CALIBRATION_VERDICT_v1.44.md §2.3⁗⁗′ と docs/PHYSICS.md 〔第270便b〕の表が
+#   この値そのものなのでコミットする(**エンジンは 1 步も走らせていない**)
+!tests/out/confirm4-w270b.json
+# 第270便b(AE2): 観測 CSV の `record_id` 欄の生成と検査(tests/exp-w270b-recordid.mjs)の実測正本。
+#   QA `lint.recordId` が「全行に ID・欠損 0・重複 0」「ID が素から作り直せる」「列追加で集計が不変」
+#   「宣言の record_id が CSV に 1 件で当たる」「AE15(`;` を値に入れない)」をこの JSON と
+#   突き合わせるのでコミットする(**エンジンは 1 步も走らせていない**)
+!tests/out/recordid-w270b.json
 # 第268便b: 層融合の ζ 合成則の**反例**の実測正本(tests/exp-w268b-zetamerge.mjs)。
 #   docs/PHYSICS.md 〔第268便b〕§3 と docs/RELEASE_NOTES_v1.44.md の Negative Claim 42 の表が
 #   この値そのものなのでコミットする(**QA `behavior.zetaMergeCounterexample` はこのファイルを読まない**

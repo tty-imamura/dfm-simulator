@@ -1746,8 +1746,8 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   差し戻される系に限り kFrame=0 で採用し、引きずりは A/B の**測定側**として保持する
   (適用第1号: ✨ αケンタウリAB。転写ミスは従来どおり差し戻し — docs/PHYSICS.md の該当節参照)。
 
-- **コミット済み出典表(`paper/data/*.csv`)のスキーマ — `sigma` 列を持つのは 3 本になった(第266便a)**:
-  列は `body,quantity,value,unit,source,url,retrieved,note,sigma` の **9 列**で、
+- **コミット済み出典表(`paper/data/*.csv`)のスキーマ — `sigma` 列を持つのは 3 本(第266便a)・`record_id` 列を足した(第270便b)**:
+  列は `body,quantity,value,unit,source,url,retrieved,note,sigma,record_id` の **10 列**で、
   `sigma` に入れるのは**一次資料に印字された対称 1σ だけ**(単位換算は可・**値と同じ単位**)。
   **空欄は「誤差が記録されていない」であって「誤差 0」ではない。**
   非対称区間・信用区間・丸め幅・伝播値は σ ではないので note へ置く
@@ -1761,7 +1761,18 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     量名は `sigma_los(r=… pc)`(視線分光)と `sigma_pm(r=… pc)`(固有運動・一次単位 mas/yr)を**分ける**。
   - `paper/data/transient-observations.csv` …… **第266便a 新設**。LFBOT(AT2018cow / AT2022tsd)の**記録**で、
     全行に `gate=not-connected` が入っている(**門には 1 行も繋がっていない**)。
-  - `paper/data/supernova-observations.csv` と `paper/data/jovian-satellites.csv` は **sigma 列を持たない**(従来どおり)。
+  - `paper/data/supernova-observations.csv` と `paper/data/jovian-satellites.csv` は **sigma 列も `record_id` 列も持たない**(従来どおり —— 上の 10 列は **σ 列を持つ 3 本**のスキーマである)。
+  - **`record_id`(第270便b・AE2)**: 観測レコードの**同定の鍵**。ヘッダ**末尾**の 1 欄で、
+    ID は `<PFX>-<sha256(ファイル名, body, quantity, unit, source) の先頭 8 桁>`
+    (`PFX` は `SOL`=太陽系 / `CLG`=星団・銀河 / `TRN`=突発天体)。**同じ 5 つ組の重複転写**だけ
+    ファイル順の枝番 `-2` を付ける(**枝番は行の挿入で動きうる** —— 安定なのは 1 件目まで)。
+    **欠損も重複も許さない**(QA `lint.recordId`)。**同名異解は unit か source が違うので別 ID**になる。
+    **`record_id` は同定の鍵であって、印(`sigma_primary`)でも σ でも判定でもない。**
+    CSV を読む器は**列位置でなくヘッダ名で読む**(共通の読み方は `tests/lib-w270b-obscsv.mjs`)。
+    `solution_id` は**まだ作っていない**(空欄可 —— 決断事項)。
+  - **`verified_by=` / `verified_at=` / `verified_value=` / `value_checked_*=` の値に `;` を書かない**
+    (第270便b・AE15): 読取器は値を `;` まで(`/…=([^;]*)/`)で切るので、`;` を入れると値が途中で切れる。
+    補足は**別の鍵**へ置く。
   - **生成 AI はこれらの CSV を書かない**(取込経路は `ObservationRecord` であって CSV ではない)。
 - **判定に使う採用観測解の宣言(第268便a — `paper/data/judgement-sources.json`)**: 門(`tests/exp-w249b-calaudit.mjs`)と
   σ 接続器(`tests/exp-w262d-solarsigma.mjs`)が**どの CSV 行を判定に採るか**の宣言表である。
@@ -1770,7 +1781,8 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   ```json
   { "schemaVersion": 1, "wave": "<便>", "what": "<何の表か>", "rule": ["<規約>"], "doNotWrite": ["<禁止の言い方>"],
     "declarations": [ { "body": "Charon", "quantity": "orbital_period",
-      "csvQuantity": "orbital_period_candidate", "source": "<CSV の source 列そのまま>",
+      "csvQuantity": "orbital_period_candidate", "record_id": "SOL-25d4320f", "solution_id": "",
+      "source": "<CSV の source 列そのまま>",
       "solution": "<解の説明(表・列・fit の種類)>", "value": 551856.43872, "unit": "s",
       "sigma": 0.02592, "declared": "YYYY-MM-DD", "reason": "<なぜこの行を採るか>" } ],
     "notDeclared": [ { "body": "Phobos", "quantity": "orbital_period", "why": "<宣言しない理由>" } ] }
@@ -1786,6 +1798,10 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     **不正スキーマ(`schemaVersion≠1`・必須欄欠け・`sigma≤0`)・同じ key の重複宣言・宣言の解決失敗は
     入力エラーとして器を止める**(`loadJudgementSources` が `ok:false` を返し、器は throw する ——
     **別の解に戻して走行を続けない**)。`sigma` が `null` の宣言は**行選択だけ**を決める(門へは入らない)。
+  - **第270便b(AE2): `record_id` を照合キーに足した**(文字列の `source`/`unit`/`value`/`sigma` は**残す**)。
+    `record_id` があるとき `pickDeclaredRow` は**それで厳密に同定し**、1 件に決まらなければ
+    **理由つきで `null`**(`record-id-not-found` / `record-id-ambiguous(n)`)を返す ——
+    **文字列出典の一致条件へ黙って落ちない**。`solution_id` は**空欄でよい**(未作成は `""`)。
   - **宣言は行選択であって、単位の一致・観測量対応・数値収束の宣言ではない。**
     **第269便a: 宣言は AD5(署名便)までは診断欄だけに置く** —— `q.judgementSource`
     (`applied:false`・`mode:"diagnostic-only-until-AD5"`・宣言行の value/σ は別欄 `declaredRow`)であり、

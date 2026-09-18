@@ -1,0 +1,501 @@
+{
+ "when": "2026-09-18T00:48:28.284Z",
+ "wave": "第270便b(第60報・W2)",
+ "base": "main f6c19b4",
+ "provenance": "原仮定者が提供した観測レコードの確認記録(2026-09-18・第 4 回)。一次資料は各行の source/url にある。**器は印を上げない** —— 上げるのは原仮定者の照合である。",
+ "rule": [
+  "値・単位・出典ラベル・σ 欄は 1 文字も書き換えない(**印と note だけ**)",
+  "**印を付ける前に原記載から value と σ を再現する**(再現できない行には印を付けない)",
+  "X7 の 3 欄を埋めただけの行は**印を動かさない**(動くのは警告の側である)",
+  "併置行の印を上げるときは**旧印を `previous_mark=` に残す**",
+  "追認は確認ではない(印は `unverified` のまま・`confirmation_round=` も付けない)",
+  "門の行選択・4 値・プリセット・本体 HTML は 1 バイトも触らない"
+ ],
+ "classes": {
+  "x7-filled": 6,
+  "verified-new": 3,
+  "acknowledged": 1
+ },
+ "reproduction": {
+  "checked": 9,
+  "reproduced": 9,
+  "notReproduced": 0
+ },
+ "x7Filled": [
+  {
+   "file": "paper/data/solar-observations.csv",
+   "ln": 136,
+   "body": "PSR J1757-1854",
+   "quantity": "orbital_period",
+   "klass": "x7-filled",
+   "at": "Cameron 2018 MNRAS Letters 475 L57 Table 2",
+   "orig": "Pb = 0.18353783587(5) d",
+   "how": "0.18353783587 d x 86400 s/d(σ は最終桁 5e-11 d を秒へ = 4.32e-6 s)",
+   "tol": 1e-12,
+   "markBefore": "verified",
+   "markAfter": "verified",
+   "recordId": "SOL-7cc2400b",
+   "recomputedValue": 15857.669019167999,
+   "recomputedSigma": 0.00000432,
+   "csvValue": 15857.669019168,
+   "csvSigma": 0.00000432,
+   "valueRelErr": 1.1102230246251565e-16,
+   "sigmaRelErr": 0,
+   "reproduced": true,
+   "verifiedBy": "原仮定者 2026-09-18",
+   "verifiedAt": "Cameron 2018 MNRAS Letters 475 L57 Table 2",
+   "verifiedValue": "Pb = 0.18353783587(5) d",
+   "round4": true,
+   "warningBefore": true,
+   "warningAfter": false,
+   "ae7": false
+  },
+  {
+   "file": "paper/data/solar-observations.csv",
+   "ln": 137,
+   "body": "PSR J1757-1854",
+   "quantity": "eccentricity",
+   "klass": "x7-filled",
+   "at": "Cameron 2018 MNRAS Letters 475 L57 Table 2",
+   "orig": "e = 0.6058142(10)",
+   "how": "無次元(σ は最終 2 桁 (10) = 1.0e-6 —— 第268便b の転写訂正後の値と一致する)",
+   "tol": 1e-12,
+   "markBefore": "verified",
+   "markAfter": "verified",
+   "recordId": "SOL-251ef664",
+   "recomputedValue": 0.6058142,
+   "recomputedSigma": 0.000001,
+   "csvValue": 0.6058142,
+   "csvSigma": 0.000001,
+   "valueRelErr": 0,
+   "sigmaRelErr": 0,
+   "reproduced": true,
+   "verifiedBy": "原仮定者 2026-09-18",
+   "verifiedAt": "Cameron 2018 MNRAS Letters 475 L57 Table 2",
+   "verifiedValue": "e = 0.6058142(10)",
+   "round4": true,
+   "warningBefore": true,
+   "warningAfter": false,
+   "ae7": false
+  },
+  {
+   "file": "paper/data/solar-observations.csv",
+   "ln": 139,
+   "body": "PSR J1757-1854",
+   "quantity": "periastron_advance",
+   "klass": "x7-filled",
+   "at": "Cameron 2018 MNRAS Letters 475 L57 Table 2",
+   "orig": "omega_dot = 10.3651(2) deg/yr",
+   "how": "換算なし(σ は最終桁 (2) = 2e-4 deg/yr)",
+   "tol": 1e-12,
+   "markBefore": "verified",
+   "markAfter": "verified",
+   "recordId": "SOL-f141dc30",
+   "recomputedValue": 10.3651,
+   "recomputedSigma": 0.0002,
+   "csvValue": 10.3651,
+   "csvSigma": 0.0002,
+   "valueRelErr": 0,
+   "sigmaRelErr": 0,
+   "reproduced": true,
+   "verifiedBy": "原仮定者 2026-09-18",
+   "verifiedAt": "Cameron 2018 MNRAS Letters 475 L57 Table 2",
+   "verifiedValue": "omega_dot = 10.3651(2) deg/yr",
+   "round4": true,
+   "warningBefore": true,
+   "warningAfter": false,
+   "ae7": false
+  },
+  {
+   "file": "paper/data/solar-observations.csv",
+   "ln": 171,
+   "body": "PSR B1534+12",
+   "quantity": "orbital_period",
+   "klass": "x7-filled",
+   "at": "Stairs et al. 2002 ApJ 581 501 timing table",
+   "orig": "Pb = 0.420737299122(10) d",
+   "how": "0.420737299122 d x 86400 s/d(σ は最終 2 桁 (10) = 1e-11 d を秒へ = 8.64e-7 s)",
+   "tol": 1e-12,
+   "markBefore": "verified",
+   "markAfter": "verified",
+   "recordId": "SOL-450a261d",
+   "recomputedValue": 36351.702644140794,
+   "recomputedSigma": 8.639999999999999e-7,
+   "csvValue": 36351.702644140794,
+   "csvSigma": 8.64e-7,
+   "valueRelErr": 0,
+   "sigmaRelErr": 1.1102230246251565e-16,
+   "reproduced": true,
+   "verifiedBy": "原仮定者 2026-09-18",
+   "verifiedAt": "Stairs et al. 2002 ApJ 581 501 timing table",
+   "verifiedValue": "Pb = 0.420737299122(10) d",
+   "round4": true,
+   "warningBefore": true,
+   "warningAfter": false,
+   "ae7": true
+  },
+  {
+   "file": "paper/data/solar-observations.csv",
+   "ln": 172,
+   "body": "PSR B1534+12",
+   "quantity": "eccentricity",
+   "klass": "x7-filled",
+   "at": "Stairs et al. 2002 ApJ 581 501 timing table",
+   "orig": "e = 0.2736775(3)",
+   "how": "無次元(σ は最終桁 (3) = 3e-7)",
+   "tol": 1e-12,
+   "markBefore": "verified",
+   "markAfter": "verified",
+   "recordId": "SOL-ae4a0c44",
+   "recomputedValue": 0.2736775,
+   "recomputedSigma": 3e-7,
+   "csvValue": 0.2736775,
+   "csvSigma": 3e-7,
+   "valueRelErr": 0,
+   "sigmaRelErr": 0,
+   "reproduced": true,
+   "verifiedBy": "原仮定者 2026-09-18",
+   "verifiedAt": "Stairs et al. 2002 ApJ 581 501 timing table",
+   "verifiedValue": "e = 0.2736775(3)",
+   "round4": true,
+   "warningBefore": true,
+   "warningAfter": false,
+   "ae7": true
+  },
+  {
+   "file": "paper/data/solar-observations.csv",
+   "ln": 173,
+   "body": "PSR B1534+12",
+   "quantity": "periastron_advance",
+   "klass": "x7-filled",
+   "at": "Stairs et al. 2002 ApJ 581 501 timing table",
+   "orig": "omega_dot = 1.755789(9) deg/yr",
+   "how": "換算なし(σ は最終桁 (9) = 9e-6 deg/yr)",
+   "tol": 1e-12,
+   "markBefore": "verified",
+   "markAfter": "verified",
+   "recordId": "SOL-033838b1",
+   "recomputedValue": 1.755789,
+   "recomputedSigma": 0.000009,
+   "csvValue": 1.755789,
+   "csvSigma": 0.000009,
+   "valueRelErr": 0,
+   "sigmaRelErr": 0,
+   "reproduced": true,
+   "verifiedBy": "原仮定者 2026-09-18",
+   "verifiedAt": "Stairs et al. 2002 ApJ 581 501 timing table",
+   "verifiedValue": "omega_dot = 1.755789(9) deg/yr",
+   "round4": true,
+   "warningBefore": true,
+   "warningAfter": false,
+   "ae7": true
+  }
+ ],
+ "verifiedNew": [
+  {
+   "file": "paper/data/solar-observations.csv",
+   "ln": 260,
+   "body": "PSR J1757-1854",
+   "quantity": "orbital_period",
+   "klass": "verified-new",
+   "at": "Cameron 2018 MNRAS Letters 475 L57 Table 2",
+   "orig": "Pb = 0.18353783587(5) d",
+   "how": "0.18353783587 d x 86400 s/d(この行の転写は 15857.66901916800 —— 末尾 0 の書き方が違うだけ)",
+   "tol": 1e-12,
+   "markBefore": "unverified",
+   "markAfter": "verified",
+   "recordId": "SOL-7f931145",
+   "recomputedValue": 15857.669019167999,
+   "recomputedSigma": 0.00000432,
+   "csvValue": 15857.669019168,
+   "csvSigma": 0.00000432,
+   "valueRelErr": 1.1102230246251565e-16,
+   "sigmaRelErr": 0,
+   "reproduced": true,
+   "verifiedBy": "原仮定者 2026-09-18",
+   "verifiedAt": "Cameron 2018 MNRAS Letters 475 L57 Table 2",
+   "verifiedValue": "Pb = 0.18353783587(5) d",
+   "round4": true
+  },
+  {
+   "file": "paper/data/solar-observations.csv",
+   "ln": 262,
+   "body": "PSR J1757-1854",
+   "quantity": "eccentricity",
+   "klass": "verified-new",
+   "at": "Cameron 2018 MNRAS Letters 475 L57 Table 2",
+   "orig": "e = 0.6058142(10)",
+   "how": "無次元",
+   "tol": 1e-12,
+   "markBefore": "unverified",
+   "markAfter": "verified",
+   "recordId": "SOL-4683b411",
+   "recomputedValue": 0.6058142,
+   "recomputedSigma": 0.000001,
+   "csvValue": 0.6058142,
+   "csvSigma": 0.000001,
+   "valueRelErr": 0,
+   "sigmaRelErr": 0,
+   "reproduced": true,
+   "verifiedBy": "原仮定者 2026-09-18",
+   "verifiedAt": "Cameron 2018 MNRAS Letters 475 L57 Table 2",
+   "verifiedValue": "e = 0.6058142(10)",
+   "round4": true
+  },
+  {
+   "file": "paper/data/solar-observations.csv",
+   "ln": 263,
+   "body": "PSR J1757-1854",
+   "quantity": "periastron_advance",
+   "klass": "verified-new",
+   "at": "Cameron 2018 MNRAS Letters 475 L57 Table 2",
+   "orig": "omega_dot = 10.3651(2) deg/yr",
+   "how": "換算なし",
+   "tol": 1e-12,
+   "markBefore": "unverified",
+   "markAfter": "verified",
+   "recordId": "SOL-0372e267",
+   "recomputedValue": 10.3651,
+   "recomputedSigma": 0.0002,
+   "csvValue": 10.3651,
+   "csvSigma": 0.0002,
+   "valueRelErr": 0,
+   "sigmaRelErr": 0,
+   "reproduced": true,
+   "verifiedBy": "原仮定者 2026-09-18",
+   "verifiedAt": "Cameron 2018 MNRAS Letters 475 L57 Table 2",
+   "verifiedValue": "omega_dot = 10.3651(2) deg/yr",
+   "round4": true
+  }
+ ],
+ "acknowledged": [
+  {
+   "file": "paper/data/solar-observations.csv",
+   "ln": 421,
+   "body": "Titan ringlet",
+   "quantity": "pattern_speed_m1",
+   "klass": "acknowledged",
+   "what": "量名の改名 mean_motion → pattern_speed_m1(第268便b)",
+   "value": "22.5753",
+   "unit": "deg/day",
+   "sigma": "0.0008",
+   "mark": "unverified",
+   "verifiedBy": null,
+   "acknowledged": true,
+   "pendingKept": true,
+   "closed": true,
+   "recordId": "SOL-753080c4"
+  }
+ ],
+ "census": {
+  "before": {
+   "solar": {
+    "rows": 521,
+    "verified": 54,
+    "verifiedBy": 48,
+    "x7Warn": 6
+   },
+   "cluster": {
+    "rows": 154,
+    "verified": 6,
+    "verifiedBy": 6,
+    "x7Warn": 0
+   },
+   "transient": {
+    "rows": 27,
+    "verified": 0,
+    "verifiedBy": 0,
+    "x7Warn": 0
+   }
+  },
+  "after": {
+   "solar": {
+    "rows": 521,
+    "verified": 57,
+    "verifiedBy": 57,
+    "x7Warn": 0,
+    "round4": 9,
+    "round4Verified": 9,
+    "withRecordId": 521
+   },
+   "cluster": {
+    "rows": 154,
+    "verified": 6,
+    "verifiedBy": 6,
+    "x7Warn": 0,
+    "round4": 0,
+    "round4Verified": 0,
+    "withRecordId": 154
+   },
+   "transient": {
+    "rows": 27,
+    "verified": 0,
+    "verifiedBy": 0,
+    "x7Warn": 0,
+    "round4": 0,
+    "round4Verified": 0,
+    "withRecordId": 27
+   }
+  },
+  "externalOnlyVerified": []
+ },
+ "ae7": {
+  "csvNamesLeft": 1,
+  "cleaned": [
+   171,
+   172,
+   173
+  ],
+  "replacement": "外部レビュー O5.2",
+  "csv": [
+   {
+    "file": "paper/data/solar-observations.csv",
+    "total": 1,
+    "byName": {
+     "ChatGPT": 1
+    }
+   },
+   {
+    "file": "paper/data/cluster-galaxy-observations.csv",
+    "total": 0,
+    "byName": {}
+   },
+   {
+    "file": "paper/data/transient-observations.csv",
+    "total": 0,
+    "byName": {}
+   },
+   {
+    "file": "paper/data/supernova-observations.csv",
+    "total": 0,
+    "byName": {}
+   },
+   {
+    "file": "paper/data/jovian-satellites.csv",
+    "total": 0,
+    "byName": {}
+   }
+  ],
+  "historyOnly": [
+   {
+    "file": "CHANGELOG.md",
+    "total": 144,
+    "byName": {
+     "ChatGPT": 75,
+     "Grok": 37,
+     "Gemini": 32
+    }
+   },
+   {
+    "file": "docs/PHYSICS.md",
+    "total": 185,
+    "byName": {
+     "ChatGPT": 115,
+     "Grok": 41,
+     "Gemini": 29
+    }
+   },
+   {
+    "file": "docs/DERIVATIONS.md",
+    "total": 140,
+    "byName": {
+     "ChatGPT": 72,
+     "Grok": 26,
+     "Gemini": 42
+    }
+   },
+   {
+    "file": "docs/BOX_UNIVERSE.md",
+    "total": 38,
+    "byName": {
+     "ChatGPT": 16,
+     "Grok": 12,
+     "Gemini": 10
+    }
+   },
+   {
+    "file": "docs/THEORY_SYNTHESIS.md",
+    "total": 17,
+    "byName": {
+     "ChatGPT": 6,
+     "Grok": 5,
+     "Gemini": 6
+    }
+   },
+   {
+    "file": "docs/AI_SPEC.md",
+    "total": 2,
+    "byName": {
+     "ChatGPT": 2
+    }
+   },
+   {
+    "file": "docs/RELEASE_NOTES_v1.44.md",
+    "total": 3,
+    "byName": {
+     "ChatGPT": 2,
+     "Grok": 1
+    }
+   },
+   {
+    "file": "tests/qa.mjs",
+    "total": 73,
+    "byName": {
+     "ChatGPT": 54,
+     "Grok": 13,
+     "Gemini": 5,
+     "Codex": 1
+    }
+   },
+   {
+    "file": "beta/index.html",
+    "total": 144,
+    "byName": {
+     "ChatGPT": 78,
+     "Grok": 35,
+     "Gemini": 31
+    }
+   }
+  ],
+  "note": "**歴史文書は触らない**(過去便の記録である)。CSV の残数は本器が数えた実測値で、本便で書き換えたのは 171〜173 の note の 1 語だけである。"
+ },
+ "gate": {
+  "calaudit": {
+   "byStatus": {
+    "合(3σ)": 2,
+    "否(3σ)": 2,
+    "数値未解決": 31,
+    "mapping-unresolved": 13,
+    "condition-mismatch": 8,
+    "未判定": 258
+   },
+   "withSigma": 50,
+   "sourceVerified": 50,
+   "sigmaRegate": {
+    "checked": 96,
+    "changed": 0,
+    "verifiedFlips": 0
+   }
+  },
+  "solarsigma": {
+   "cutTally": {
+    "csv-sigma-empty": 109,
+    "kind-not-gated": 26,
+    "unit-not-converted": 4
+   },
+   "fourTally": {
+    "保留": 16
+   }
+  },
+  "why": "**印が `verified` であることは門に繋がっていることではない。** 本便は門の行選択を 1 件も差し替えていない(併置行 260/262/263 は「採用行を置き換えない」規約の行である)。タイタン環は C 環内縁の観測門へ転送しない(AB3 は閉じたまま)。"
+ },
+ "violations": [],
+ "doNotWrite": [
+  "判定(4 値)が増えた",
+  "太陽系の σ が揃った",
+  "観測と合った",
+  "タイタン環を確認した",
+  "X7 の規約が完成した",
+  "現実較正を完了した"
+ ]
+}

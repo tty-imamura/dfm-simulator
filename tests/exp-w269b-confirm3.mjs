@@ -47,29 +47,26 @@ const CLUSTER_F = 'paper/data/cluster-galaxy-observations.csv';
 const ROUND_TAG = 'confirmation_round=3';
 const ACK_TAG = 'acknowledged_by=原仮定者 2026-09-17';
 
-function parseCsvLine(line) {
-  const c = []; let cur = '', q = false;
-  for (let i = 0; i < line.length; i++) {
-    const ch = line[i];
-    if (q) { if (ch === '"') { if (line[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += ch; }
-    else if (ch === '"') q = true;
-    else if (ch === ',') { c.push(cur); cur = ''; }
-    else cur += ch;
-  }
-  c.push(cur); return c;
-}
+// 第270便b(第60報 W2・AE2): **列位置でなくヘッダ名で読む**(`record_id` の列追加で壊れない)。
+import { parseCsvLine, headerIndex } from './lib-w270b-obscsv.mjs';
 function loadCsv(rel) {
   const rows = [];
+  const lines = fs.readFileSync(path.join(ROOT, rel), 'utf8').split('\n');
+  const H = headerIndex(lines[0] || '');
+  if (H.missing.length) throw new Error('[w269b] ' + rel + ' に必須列が無い: ' + H.missing.join(','));
+  const cell = (c, n) => ((n in H) && c[H[n]] !== undefined) ? c[H[n]] : '';
   let ln = 0;
-  for (const L of fs.readFileSync(path.join(ROOT, rel), 'utf8').split('\n')) {
+  for (const L of lines) {
     ln++;
     if (!L.trim() || L.startsWith('body,')) continue;
     const c = parseCsvLine(L);
     if (c.length < 9) continue;
-    const sgRaw = String(c[8] === undefined ? '' : c[8]).trim();
+    const sgRaw = String(cell(c, 'sigma')).trim();
     const sg = sgRaw !== '' ? Number(sgRaw) : null;
-    rows.push({ file: rel, ln, body: c[0], quantity: c[1], value: Number(c[2]), rawValue: c[2],
-      unit: c[3], source: c[4], url: c[5], note: c[7] || '',
+    rows.push({ file: rel, ln, body: cell(c, 'body'), quantity: cell(c, 'quantity'),
+      value: Number(cell(c, 'value')), rawValue: cell(c, 'value'),
+      unit: cell(c, 'unit'), source: cell(c, 'source'), url: cell(c, 'url'),
+      note: cell(c, 'note') || '', recordId: String(cell(c, 'record_id')).trim() || null,
       rawSigma: sgRaw, sigma: Number.isFinite(sg) ? sg : null });
   }
   return rows;
@@ -326,6 +323,9 @@ const ackPending = ACK_PENDING.map((d) => {
   o.klass = 'acknowledgement-pending'; o.what = d.what;
   if (!r) return o;
   o.acknowledged = has(r.note, ACK_TAG);
+  // **第270便b(第 4 回)で追認された**(`acknowledged_by=原仮定者 2026-09-18`)。第 3 回の
+  //   未追認の記録は残っており、この器が数えるのは**第 3 回の追認 2 件に含まれないこと**である。
+  o.closedInRound4 = has(r.note, 'acknowledged_by=原仮定者 2026-09-18');
   if (o.acknowledged) bad.push(`③行 ${d.ln} に追認印が付いている(第 3 回の追認 2 件に含まれない)`);
   if (!has(r.note, 'acknowledgement_pending=2026-09-17'))
     bad.push(`③行 ${d.ln} に未追認の記録が無い`);
@@ -361,8 +361,14 @@ const noSource = NO_SOURCE.map((d) => {
   const { o, r, mk, vb } = checkRow(d, SOLAR_F);
   o.klass = 'unchanged-no-source-mark'; o.why = d.why;
   if (!r) return o;
+  // **第270便b(第60報・第 4 回)で解けた行**: 原仮定者が Cameron 2018 Table 2 と Stairs 2002 を
+  //   目視で確認したので、この 6 行は**写す元を要さず** X7 の 3 欄が埋まった(`confirmation_round=4`)。
+  //   第 3 回の時点の記録(`same_mark_not_available=2026-09-17`)は**残したまま**で、
+  //   **印そのものはこの 6 行では 1 bit も動いていない**(第 3 回の時点から `verified` である)。
+  o.resolvedInRound4 = /(?:^|[^A-Za-z0-9_])confirmation_round=4\b/.test(r.note);
   if (mk.mark !== d.before) bad.push(`⑤行 ${d.ln} の印が動いている(${mk.mark} / 基点 ${d.before})`);
-  if (vb.present) bad.push(`⑤行 ${d.ln} に X7 の verified_by が付いている(写す元が無い行である)`);
+  if (vb.present && !o.resolvedInRound4)
+    bad.push(`⑤行 ${d.ln} に X7 の verified_by が付いている(写す元が無い行である)`);
   if (!has(r.note, 'same_mark_not_available=2026-09-17'))
     bad.push(`⑤行 ${d.ln} に「写す元が無い」の記録が無い`);
   if (has(r.note, 'same_mark_as=')) bad.push(`⑤行 ${d.ln} に same_mark_as= が付いている`);
@@ -374,9 +380,13 @@ const partners = NO_SOURCE_PARTNERS.map((ln) => {
   const mk = r ? readSigmaMark(r.note) : { mark: null };
   const o = { file: SOLAR_F, ln, body: r ? r.body : null, quantity: r ? r.quantity : null,
     mark: mk.mark, verifiedBy: r ? (readVerifiedBy(r.note).present ? readVerifiedBy(r.note).who : null) : null,
-    usableAsSource: false };
+    usableAsSource: false, verifiedInRound4: false };
   if (!r) { bad.push(`⑤併置行 ${ln} が無い`); return o; }
-  o.usableAsSource = mk.verified && readVerifiedBy(r.note).present;
+  // **第 3 回の時点**では、この 3 行自身が未確認(`confirmation_2=not-found-by-author`)なので
+  //   写す元として使えなかった。第270便b(第 4 回)で原仮定者が同じ表を目視確認し、この 3 行は
+  //   `unverified` → `verified` になった —— **第 3 回の判断が誤っていたのではなく、後から確認が来た**。
+  o.verifiedInRound4 = /(?:^|[^A-Za-z0-9_])confirmation_round=4\b/.test(r.note);
+  o.usableAsSource = mk.verified && readVerifiedBy(r.note).present && !o.verifiedInRound4;
   if (o.usableAsSource)
     bad.push(`⑤併置行 ${ln} は写す元として使える(印を写していないのは誤り)`);
   return o;
@@ -451,9 +461,15 @@ if (after.solar.round3 !== VERIFIED_NEW.length + SAME_MARK.length)
     + `(宣言は ${VERIFIED_NEW.length + SAME_MARK.length})`);
 if (after.solar.sameMarkAs !== SAME_MARK.length)
   bad.push(`same_mark_as= を持つ行が ${after.solar.sameMarkAs}(宣言は ${SAME_MARK.length})`);
-if (after.solar.verified - BEFORE.solar.verified !== VERIFIED_NEW.length)
+// 第270便b(第 4 回)で `unverified` → `verified` になった併置行 260/262/263 の 3 行は、
+// **この便(第 3 回)の増分ではない**ので分けて数える(**便を跨いで固定値を黙って増やさない**)。
+const round4NewVerified = CSV[SOLAR_F].filter((r) =>
+  /(?:^|[^A-Za-z0-9_])confirmation_round=4\b/.test(r.note)
+  && /(?:^|[^A-Za-z0-9_])previous_mark=unverified\b/.test(r.note)
+  && readSigmaMark(r.note).verified).length;
+if (after.solar.verified - BEFORE.solar.verified - round4NewVerified !== VERIFIED_NEW.length)
   bad.push(`太陽系の verified の増分が ${after.solar.verified - BEFORE.solar.verified}`
-    + `(宣言は ${VERIFIED_NEW.length} —— 同印写しは印を動かさない)`);
+    + `(宣言は ${VERIFIED_NEW.length} + 第 4 回の ${round4NewVerified} —— 同印写しは印を動かさない)`);
 if (after.cluster.verified !== BEFORE.cluster.verified)
   bad.push(`星団/銀河の verified が動いた(${BEFORE.cluster.verified} → ${after.cluster.verified})`);
 // **外部確認印だけで verified になっている行は 1 つも無い**(Z11)

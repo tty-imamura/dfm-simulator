@@ -31,6 +31,8 @@ import { isSigmaPrimaryVerified, legacyIsSigmaPrimaryVerified,
 // **既定の 4 値は動かさない** —— 換算後と宣言後は**別の欄**に置く。
 import { requiredGuards, precessionDegPerYear, degPerYearToPerOrbit, YEAR_SEC,
   loadJudgementSources, pickDeclaredRow } from './lib-w268a-judgement.mjs';
+// 第270便b(第60報 W2・AE2): CSV は**列位置でなくヘッダ名**で読む(`record_id` の列追加で壊れない)。
+import { loadObsCsv as loadObsCsvByHeader } from './lib-w270b-obscsv.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const argv = process.argv.slice(2);
@@ -39,37 +41,31 @@ const CAL = (() => { const i = argv.indexOf('--json'); return (i >= 0 && argv[i 
 const OUT = path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json');
 
 // ---------------------------------------------------------------- CSV(**正本**)
-function parseCsvLine(line) {
-  const cols = []; let cur = '', inQ = false;
-  for (const ch of line) {
-    if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
-    else if (ch === '"') inQ = true;
-    else if (ch === ',') { cols.push(cur); cur = ''; }
-    else cur += ch;
-  }
-  cols.push(cur);
-  return cols;
-}
+// 第270便b(AE2): **ヘッダ名で読む**(列位置で読まない)。`record_id` 欄が末尾に付いても
+// 中間に列が挿さっても、読む欄は名前で決まる。読み方そのものは 1 つも変えていない。
 function loadCsv() {
-  const txt = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8');
+  const loaded = loadObsCsvByHeader(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'));
+  if (loaded.missing.length)
+    throw new Error('[w262d] solar-observations.csv に必須列が無い: ' + loaded.missing.join(','));
   const rows = new Map();   // "body|quantity" → row(**最初の行**を採る — calaudit と同じ規約)
   const all = [];           // 第268便a: 宣言表は候補行(別の鍵・2 行目以降)を指すので全行も持つ
   const bodies = new Set();
-  for (const line of txt.split('\n')) {
-    if (!line.trim() || line.startsWith('body,')) continue;
-    const c = parseCsvLine(line);
-    bodies.add(c[0]);
-    const key = c[0] + '|' + c[1];
-    const sg = (c[8] !== undefined && c[8].trim() !== '') ? Number(c[8]) : null;
-    const kind = readSigmaKind(c[7] || '');
-    const rec = { body: c[0], quantity: c[1], value: Number(c[2]), unit: c[3], source: c[4],
-      valueRaw: (c[2] !== undefined && String(c[2]).trim() !== '') ? Number(c[2]) : null,
-      sigma: (Number.isFinite(sg) && sg > 0) ? sg : null,
+  for (const r of loaded.rows) {
+    bodies.add(r.body);
+    const key = r.body + '|' + r.quantity;
+    const note = r.note || '';
+    const kind = readSigmaKind(note);
+    const rec = { body: r.body, quantity: r.quantity, value: Number(r.rawValue), unit: r.unit,
+      source: r.source,
+      valueRaw: (String(r.rawValue).trim() !== '') ? Number(r.rawValue) : null,
+      sigma: r.sigma,
+      // 第270便b(AE2): **同定の鍵**(印でも σ でもない)。
+      recordId: r.recordId || null, ln: r.ln,
       // 第264便d(X6): 厳密読み。旧読み(部分一致)との差は `markAudit` に数で残す。
-      primaryVerified: isSigmaPrimaryVerified(c[7] || ''),
-      primaryVerifiedLegacy: legacyIsSigmaPrimaryVerified(c[7] || ''),
+      primaryVerified: isSigmaPrimaryVerified(note),
+      primaryVerifiedLegacy: legacyIsSigmaPrimaryVerified(note),
       sigmaKind: kind.kind, infoScale: kind.scale, infoScaleKind: kind.scaleKind,
-      intake2026_09_15: /intake_row=2026-09-15/.test(c[7] || '') };
+      intake2026_09_15: /intake_row=2026-09-15/.test(note) };
     all.push(rec);
     if (rows.has(key)) continue;
     rows.set(key, rec);

@@ -31,30 +31,25 @@ const OUT = path.join(ROOT, 'tests', 'out', 'obsintake-w263c.json');
 const rd = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
 
 // ---------------------------------------------------------------- CSV(正本)
-function parseCsvLine(line) {
-  const cols = []; let cur = '', inQ = false;
-  for (const ch of line) {
-    if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
-    else if (ch === '"') inQ = true;
-    else if (ch === ',') { cols.push(cur); cur = ''; }
-    else cur += ch;
-  }
-  cols.push(cur);
-  return cols;
-}
+// 第270便b(第60報 W2・AE2): **列位置でなくヘッダ名で読む**(`record_id` の列追加で壊れない)。
+import { loadObsCsv as loadObsCsvByHeader } from './lib-w270b-obscsv.mjs';
 const CSV_ROWS = [];
-for (const line of fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8').split('\n')) {
-  if (!line.trim() || line.startsWith('body,')) continue;
-  const c = parseCsvLine(line);
-  const sg = (c[8] !== undefined && c[8].trim() !== '') ? Number(c[8]) : null;
-  CSV_ROWS.push({ body: c[0], quantity: c[1], value: Number(c[2]), raw: c[2], unit: c[3], source: c[4],
-    note: c[7] || '', sigma: (Number.isFinite(sg) && sg > 0) ? sg : null,
-    verified: isSigmaPrimaryVerified(c[7] || ''),
-    verifiedLegacy: legacyIsSigmaPrimaryVerified(c[7] || ''),
-    intakeRow: /intake_row=2026-09-14/.test(c[7] || ''),
-    intakeRow15: /intake_row=2026-09-15/.test(c[7] || ''),
-    sigmaAtIntake: /sigma transcribed at the 2026-09-14 intake/.test(c[7] || ''),
-    solution: (/solution=([A-Za-z0-9-]+)/.exec(c[7] || '') || [, null])[1] });
+{
+  const loaded = loadObsCsvByHeader(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'));
+  if (loaded.missing.length)
+    throw new Error('[w263c] solar-observations.csv に必須列が無い: ' + loaded.missing.join(','));
+  for (const r of loaded.rows) {
+    const note = r.note || '';
+    CSV_ROWS.push({ body: r.body, quantity: r.quantity, value: Number(r.rawValue), raw: r.rawValue,
+      unit: r.unit, source: r.source, note, sigma: r.sigma,
+      recordId: r.recordId || null, ln: r.ln,
+      verified: isSigmaPrimaryVerified(note),
+      verifiedLegacy: legacyIsSigmaPrimaryVerified(note),
+      intakeRow: /intake_row=2026-09-14/.test(note),
+      intakeRow15: /intake_row=2026-09-15/.test(note),
+      sigmaAtIntake: /sigma transcribed at the 2026-09-14 intake/.test(note),
+      solution: (/solution=([A-Za-z0-9-]+)/.exec(note) || [, null])[1] });
+  }
 }
 
 // **階層の宣言**(body 名の規約であって推測ではない)

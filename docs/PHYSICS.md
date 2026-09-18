@@ -20048,6 +20048,128 @@ CSV の 47 Tuc 行 57 本の内訳: **`not-applicable` 35・`mapping-unresolved`
 
 **言わないこと。** 「BH 連星・星団・銀河を完成した(観測一致版)」「観測と合った」「回転曲線を再現した」「合体を再現した」「較正した」「区間の内側だから合格」「全点誤差内だから系全体 3σ」「D68 が合/否(正式判定は数値未解決)」「窓を直したので判定が確定した」「判定が増えた」「太陽系の σ が揃った」「タイタン環の σ を原仮定者が確認した」「J1946 を判定解に昇格した(判定行は不変)」「ζ 合成則を直した」「LFBOT が観測一致した」「現実較正を完了した」「v1.45.0 RC を切った」。
 
+〔第270便b — 記録便: 第 4 回の確認記録の反映(Cameron 2018 Table 2 と Stairs 2002 の目視確認で **X7 警告 6 → 0**・併置行 3 行が verified・421 の量名改名を追認)・**AE2 `record_id` 欄**(3 CSV・702 行)・AE7(外部名の中立化)・AE15(`;` 規約)(第60報 W2)〕
+
+第60報(2026-09-18)で原仮定者が提供した観測レコードの確認記録は 3 件である ——「**Cameron 2018
+Table 2: 目視確認**」「**Stairs 2002: 目視確認**」「**421(タイタン環): 追認**」。本便で動かしたのは
+**印(`sigma_primary`)と note と、新しく足した `record_id` 欄だけ**で、**value・unit・source・url・
+retrieved・sigma 列は 1 文字も動いていない**。**行選択(判定行)・プリセット・`beta/index.html` は
+1 バイトも触っていない**(内蔵 124 本は基点 f6c19b4 と同じ)。台帳の表は
+docs/CALIBRATION_VERDICT_v1.44.md §2.3⁗⁗′ にある。
+
+### 1. 確認記録(第 4 回)—— 印を付ける前に原記載から value と σ を再現する
+
+器 `tests/exp-w270b-confirm4.mjs`(出力 `tests/out/confirm4-w270b.json`)は、確認記録を**機械可読な
+宣言表**にし、宣言した**原記載**から value と σ を**毎回やり直して**から印を突き合わせる
+(**再現できない行には印を付けない** —— 第267便a 以来の規約)。**9/9 行で再現できた**。
+
+| 分類 | 行 | 原記載 | 値/σ の相対差 | 印 before → after |
+|---|---:|---|---:|---|
+| `x7-filled` | 136 | `Pb = 0.18353783587(5) d` | 1.1e−16 / 0.0e+0 | `verified` → `verified` |
+| `x7-filled` | 137 | `e = 0.6058142(10)` | 0.0e+0 / 0.0e+0 | `verified` → `verified` |
+| `x7-filled` | 139 | `omega_dot = 10.3651(2) deg/yr` | 0.0e+0 / 0.0e+0 | `verified` → `verified` |
+| `x7-filled` | 171 | `Pb = 0.420737299122(10) d` | 0.0e+0 / 1.1e−16 | `verified` → `verified` |
+| `x7-filled` | 172 | `e = 0.2736775(3)` | 0.0e+0 / 0.0e+0 | `verified` → `verified` |
+| `x7-filled` | 173 | `omega_dot = 1.755789(9) deg/yr` | 0.0e+0 / 0.0e+0 | `verified` → `verified` |
+| `verified-new` | 260 | `Pb = 0.18353783587(5) d` | 1.1e−16 / 0.0e+0 | `unverified` → **`verified`** |
+| `verified-new` | 262 | `e = 0.6058142(10)` | 0.0e+0 / 0.0e+0 | `unverified` → **`verified`** |
+| `verified-new` | 263 | `omega_dot = 10.3651(2) deg/yr` | 0.0e+0 / 0.0e+0 | `unverified` → **`verified`** |
+| `acknowledged` | 421 | 量名 `mean_motion` → `pattern_speed_m1` の追認 | —(値・σ とも不変) | `unverified` → `unverified` |
+
+**`x7-filled` は印そのものが 1 bit も動いていない。** 動いたのは **X7 警告**(`sigma_primary=verified`
+なのに確認者 `verified_by=` が無い行)の側で、第264便d 以来の**警告 6 行が 0 行になった**。
+第 3 回で「写す元が無い」と記録した 6 行(§2.3⁗⁗(c))は、**写す元を要さず表そのものが読まれた**ので
+`same_mark_not_available=2026-09-17` を**残したまま** `same_mark_not_available_closed=2026-09-18` で
+閉じた(履歴は消さない)。**第 4 回は目視確認であって同印写しではない**ので `same_mark_as=` は付けない。
+
+**追認は確認ではない。** 421 は `acknowledged_by=原仮定者 2026-09-18` を足しただけで、
+**印は `unverified` のまま**・`confirmation_round=` も付けず・X7 の `verified_by=` も入れない。
+値 22.5753 deg/day・1σ 0.0008 deg/day・出典は 1 文字も動いていない。C 環内縁の観測門へも転送しない。
+
+**census(厳密読み)**: `solar-observations.csv` 521 行の `verified` **54 → 57**(併置行 3 行だけ)・
+X7 の `verified_by=` を持つ行 **48 → 57**・**X7 警告 6 → 0**。星団/銀河 6・過渡天体 0 は触っていない。
+
+### 2. AE2 —— `record_id` 欄(観測レコードの同定の鍵)
+
+3 つの観測 CSV の**ヘッダ末尾**に `record_id` を足した(器 `tests/exp-w270b-recordid.mjs`・
+規約の正本は `tests/lib-w270b-obscsv.mjs` の冒頭)。**行の diff は末尾の `,<id>` だけ**である。
+
+- ID = `<PFX>-<sha256(file, body, quantity, unit, source) の先頭 8 桁>`(`SOL` / `CLG` / `TRN`)。
+  **同じ 5 つ組の重複転写**だけ出現順の枝番 `-2` を付ける(太陽系で 2 件 —— 行 179/180)。
+  **同名異解は unit か source が違うので別 ID になる**(行 166 は `d`・行 178 は `s`)。
+- **欠損 0・重複 0**(太陽系 521・星団/銀河 154・過渡天体 27 —— 合計 **702 行**)。
+- **`record_id` は同定の鍵であって、印でも σ でも判定でもない。**
+- 宣言 `paper/data/judgement-sources.json` の 2 件に `record_id` を**足した**(文字列の
+  source/unit/value/sigma は**残す**): カロン P = `SOL-25d4320f`・金星 e = `SOL-72c6db74`。
+  `pickDeclaredRow` は `record_id` を**最優先で厳密一致**し、1 件に決まらなければ**理由つきで `null`**
+  (`record-id-not-found` / `record-id-ambiguous(n)`)—— **文字列出典へ黙って落ちない**。
+  `solution_id` は**空欄**(本便では作らない —— 決断事項)。
+- CSV を読む器を**列位置でなくヘッダ名で読む**形へ直した(`exp-w249b-calaudit`・
+  `exp-w262d-solarsigma`・`exp-w263c-obsintake`・`exp-w264d-intakeA`・`exp-w266a-intakeB`・
+  `exp-w267a-confirm2`・`exp-w269b-confirm3`・`exp-w265a-analogy`・`lib-w269c-compare` の
+  `loadObsCsv`)。**`tests/lib-w264d-sigmamark.mjs` は note 文字列だけを読む純関数**なので、
+  もとから列位置に依存していない(直す所が無い)。
+- **列を足しても集計は動かない**: QA `lint.recordId` ③ が「ヘッダ名で読んだ値と**列位置で読んだ
+  従来の値が全行で一致**する(食い違い 0 行)」「`body`〜`sigma` のヘッダ位置は 0〜8 のまま・
+  `record_id` は末尾」を機械固定する。
+
+### 3. AE7 / AE15 —— 外部名の中立化と `;` の規約
+
+**AE7**: 171/172/173 の note に第256便d が書いた外部レビュアの実名文字列を「**外部レビュー O5.2**」へ
+書き換えた(`external_name_neutralised=2026-09-18`)。**値・σ・出典・印・来歴は不変**である。
+残数を器で数えた: `paper/data/*.csv`(5 本)に残る外部名は **1 件**(`solar-observations.csv` 行 66 の
+取込経路の記述 —— **本便の範囲外・決断事項**)。CHANGELOG・本書の過去節などの**歴史文書は触らない**
+(過去便の記録である)。
+
+**AE15**: `verified_by=` / `verified_at=` / `verified_value=` / `value_checked_by=` /
+`value_checked_at=` / `value_checked_value=` の読取器は値を **`;` まで**で切る(`/…=([^;]*)/`)。
+したがって**これらの値に `;` を書いてはならない**(補足は別の鍵へ置く)。3 CSV の該当 **476 件を
+点検し、`;` で切れている行は 0 件**である。
+
+### 4. 判定(4 値)は 1 本も動いていない
+
+`tests/exp-w249b-calaudit.mjs --regate` と `tests/exp-w262d-solarsigma.mjs` を回した実測:
+
+| | 第269便b | **第270便b** |
+|---|---:|---:|
+| 全体の **4 値**(合/量限定合/否/保留) | 0/2/2/33 | **0/2/2/33** |
+| 太陽系の 4 値 | 0/0/0/16 | **0/0/0/16** |
+| 門の内訳(合/否/数値未解決/mapping-unresolved/condition-mismatch/未判定) | 2/2/31/13/8/258 | **2/2/31/13/8/258** |
+| 切断点 `csv-sigma-empty` / `kind-not-gated` / `unit-not-converted` | 109 / 26 / 4 | **109 / 26 / 4** |
+| `--regate` の σ 宛先 / σ の値の変化 / 印の反転 | 96 / 0 / 0 | **96 / 0 / 0** |
+| 門に届いた σ / 一次表の印つき | 50 / 50 | **50 / 50** |
+
+印が上がった 3 行(260/262/263)は**併置行**で、門の宛先表にも行選択にも入っていない。
+**「宣言後の初判定」欄**(カロン 52245.189σ・金星 σ 未登録)も基点と同じである。
+
+### 5. QA(新設 2 件・固定値を追随させた 4 件)
+
+- **`docs.confirm4-sync`**(新設) …… 器の違反 0・分類(x7-filled 6 / verified-new 3 / acknowledged 1)・
+  原記載からの再現 9/9・`x7-filled` の印が動いていないこと・併置行の旧印が note に残ること・
+  421 の値と印が動いていないこと・**X7 警告 6 → 0**・AE7 の中立表現。
+- **`lint.recordId`**(新設) …… 欠損 0・重複 0・ID が素から作り直せる・**列追加で集計が不変**・
+  宣言の `record_id` が CSV に 1 件で当たる・当たらない ID は理由つきで `null`・AE15 の 0 件。
+- `lint.sigmaMark` に **⑩**(3 CSV の X7 警告 0)を追加。
+- `docs.clusterGalaxySigma` ① と `docs.transientObs` ① を **10 列**へ更新(ヘッダ末尾は `record_id`)。
+- `docs.confirm3-sync` ⑥ を「**回で分ける**」形へ(第 4 回で X7 欄が埋まった 6 行を、第 3 回の
+  「印不変」の固定と両立させる)。器 `tests/exp-w269b-confirm3.mjs` と
+  `tests/exp-w267a-confirm2.mjs` の census も、第 4 回で上がった 3 行を**別の回の結果として除く**
+  形に直した(便を跨いで固定値が黙って増えないため)。
+
+### 6. 残った否定結果・未解決(Failure First)
+
+- **`tests/exp-w266a-intakeB.mjs` は現行 CSV に対して違反 3 件を出す**(行 285/289/290 が
+  「上げない約束の行」として宣言されているのに `verified` である)。これは**第269便b で
+  第 3 回の確認により印が上がった結果**で、本便の変更が作ったものではない(基点 f6c19b4 でも同じ)。
+  コミット済みの `tests/out/intakeB-w266a.json` は第266便a 時点の値なので QA `docs.intakeB-sync` は
+  通るが、**器と CSV は食い違っている**。器の宣言表を「回で分ける」形へ直すのは**決断事項**。
+- `record_id` の**枝番は行の挿入で動きうる**(安定なのは同じ 5 つ組の 1 件目まで)。
+- `solution_id` は空欄のまま(**本便では作らない**)。
+- `paper/data/solar-observations.csv` 行 66 に外部名が 1 件残っている(AE7 の範囲外)。
+
+**言わないこと。** 「判定が増えた」「太陽系の σ が揃った」「観測と合った」「タイタン環を確認した」
+「X7 の規約が完成した」「観測レコードの同定が完成した」「較正した」。**4 値は 1 本も動いていない。**
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、

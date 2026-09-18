@@ -42290,8 +42290,8 @@
  },
  "sigmaMarkAudit": {
   "rows": 521,
-  "legacyVerified": 56,
-  "strictVerified": 54,
+  "legacyVerified": 59,
+  "strictVerified": 57,
   "flips": [
    {
     "body": "Alpha Centauri B",
@@ -42308,38 +42308,7 @@
     "hasSigma": true
    }
   ],
-  "verifiedByMissing": [
-   {
-    "body": "PSR J1757-1854",
-    "quantity": "orbital_period",
-    "hasSigma": true
-   },
-   {
-    "body": "PSR J1757-1854",
-    "quantity": "eccentricity",
-    "hasSigma": true
-   },
-   {
-    "body": "PSR J1757-1854",
-    "quantity": "periastron_advance",
-    "hasSigma": true
-   },
-   {
-    "body": "PSR B1534+12",
-    "quantity": "orbital_period",
-    "hasSigma": true
-   },
-   {
-    "body": "PSR B1534+12",
-    "quantity": "eccentricity",
-    "hasSigma": true
-   },
-   {
-    "body": "PSR B1534+12",
-    "quantity": "periastron_advance",
-    "hasSigma": true
-   }
-  ],
+  "verifiedByMissing": [],
   "legendRows": 17,
   "rule": "語境界つきの `sigma_primary=<語>` を全部拾い、直後が `means` の出現(第251便c の凡例)を除いた**最初の出現**を行の印とする。無印は verified ではない。",
   "note": "**印を上げ下げしていない** —— 読み方を直しただけである(`verified` にするのは原仮定者の照合)。"

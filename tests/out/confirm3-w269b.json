@@ -1,5 +1,5 @@
 {
- "when": "2026-09-17T16:58:52.037Z",
+ "when": "2026-09-18T00:48:28.422Z",
  "wave": "第269便b(第59報・W2)",
  "base": "main 4945764",
  "provenance": "原仮定者が提供した観測レコードの確認記録(2026-09-17・第 3 回)。一次資料は各行の source/url にある。**器は印を上げない** —— 上げるのは原仮定者の照合である。",
@@ -295,9 +295,9 @@
    "quantity": "eccentricity",
    "markBefore": null,
    "markAfter": "verified",
-   "verifiedBy": null,
-   "verifiedAt": null,
-   "verifiedValue": null,
+   "verifiedBy": "原仮定者 2026-09-18",
+   "verifiedAt": "Cameron 2018 MNRAS Letters 475 L57 Table 2",
+   "verifiedValue": "e = 0.6058142(10)",
    "klass": "acknowledged",
    "what": "σ の転写訂正 1.0e-7 → 1.0e-6(第268便b)",
    "acknowledged": true,
@@ -311,9 +311,9 @@
    "quantity": "orbital_period",
    "markBefore": null,
    "markAfter": "verified",
-   "verifiedBy": null,
-   "verifiedAt": null,
-   "verifiedValue": null,
+   "verifiedBy": "原仮定者 2026-09-18",
+   "verifiedAt": "Cameron 2018 MNRAS Letters 475 L57 Table 2",
+   "verifiedValue": "Pb = 0.18353783587(5) d",
    "klass": "acknowledged",
    "what": "DOI の訂正 slx185 → sly003(第268便b)",
    "acknowledged": true,
@@ -327,9 +327,9 @@
    "quantity": "periastron_advance",
    "markBefore": null,
    "markAfter": "verified",
-   "verifiedBy": null,
-   "verifiedAt": null,
-   "verifiedValue": null,
+   "verifiedBy": "原仮定者 2026-09-18",
+   "verifiedAt": "Cameron 2018 MNRAS Letters 475 L57 Table 2",
+   "verifiedValue": "omega_dot = 10.3651(2) deg/yr",
    "klass": "acknowledged",
    "what": "DOI の訂正 slx185 → sly003(第268便b)",
    "acknowledged": true,
@@ -350,7 +350,8 @@
    "verifiedValue": null,
    "klass": "acknowledgement-pending",
    "what": "量名の改名 mean_motion → pattern_speed_m1(第268便b)—— 第 3 回の追認 2 件に含まれない",
-   "acknowledged": false
+   "acknowledged": false,
+   "closedInRound4": true
   }
  ],
  "trust": [
@@ -395,11 +396,12 @@
    "quantity": "orbital_period",
    "markBefore": "verified",
    "markAfter": "verified",
-   "verifiedBy": null,
-   "verifiedAt": null,
-   "verifiedValue": null,
+   "verifiedBy": "原仮定者 2026-09-18",
+   "verifiedAt": "Cameron 2018 MNRAS Letters 475 L57 Table 2",
+   "verifiedValue": "Pb = 0.18353783587(5) d",
    "klass": "unchanged-no-source-mark",
-   "why": "Cameron 2018 Table 2 —— 併置行 260 が confirmation_2=not-found-by-author(未確認)"
+   "why": "Cameron 2018 Table 2 —— 併置行 260 が confirmation_2=not-found-by-author(未確認)",
+   "resolvedInRound4": true
   },
   {
    "file": "paper/data/solar-observations.csv",
@@ -408,11 +410,12 @@
    "quantity": "eccentricity",
    "markBefore": "verified",
    "markAfter": "verified",
-   "verifiedBy": null,
-   "verifiedAt": null,
-   "verifiedValue": null,
+   "verifiedBy": "原仮定者 2026-09-18",
+   "verifiedAt": "Cameron 2018 MNRAS Letters 475 L57 Table 2",
+   "verifiedValue": "e = 0.6058142(10)",
    "klass": "unchanged-no-source-mark",
-   "why": "Cameron 2018 Table 2 —— 併置行 262 が未確認"
+   "why": "Cameron 2018 Table 2 —— 併置行 262 が未確認",
+   "resolvedInRound4": true
   },
   {
    "file": "paper/data/solar-observations.csv",
@@ -421,11 +424,12 @@
    "quantity": "periastron_advance",
    "markBefore": "verified",
    "markAfter": "verified",
-   "verifiedBy": null,
-   "verifiedAt": null,
-   "verifiedValue": null,
+   "verifiedBy": "原仮定者 2026-09-18",
+   "verifiedAt": "Cameron 2018 MNRAS Letters 475 L57 Table 2",
+   "verifiedValue": "omega_dot = 10.3651(2) deg/yr",
    "klass": "unchanged-no-source-mark",
-   "why": "Cameron 2018 Table 2 —— 併置行 263 が未確認"
+   "why": "Cameron 2018 Table 2 —— 併置行 263 が未確認",
+   "resolvedInRound4": true
   },
   {
    "file": "paper/data/solar-observations.csv",
@@ -434,11 +438,12 @@
    "quantity": "orbital_period",
    "markBefore": "verified",
    "markAfter": "verified",
-   "verifiedBy": null,
-   "verifiedAt": null,
-   "verifiedValue": null,
+   "verifiedBy": "原仮定者 2026-09-18",
+   "verifiedAt": "Stairs et al. 2002 ApJ 581 501 timing table",
+   "verifiedValue": "Pb = 0.420737299122(10) d",
    "klass": "unchanged-no-source-mark",
-   "why": "Stairs 2002 Table 1 —— この表を転写した併置行がこのファイルに無い"
+   "why": "Stairs 2002 Table 1 —— この表を転写した併置行がこのファイルに無い",
+   "resolvedInRound4": true
   },
   {
    "file": "paper/data/solar-observations.csv",
@@ -447,11 +452,12 @@
    "quantity": "eccentricity",
    "markBefore": "verified",
    "markAfter": "verified",
-   "verifiedBy": null,
-   "verifiedAt": null,
-   "verifiedValue": null,
+   "verifiedBy": "原仮定者 2026-09-18",
+   "verifiedAt": "Stairs et al. 2002 ApJ 581 501 timing table",
+   "verifiedValue": "e = 0.2736775(3)",
    "klass": "unchanged-no-source-mark",
-   "why": "Stairs 2002 Table 1 —— 同上"
+   "why": "Stairs 2002 Table 1 —— 同上",
+   "resolvedInRound4": true
   },
   {
    "file": "paper/data/solar-observations.csv",
@@ -460,11 +466,12 @@
    "quantity": "periastron_advance",
    "markBefore": "verified",
    "markAfter": "verified",
-   "verifiedBy": null,
-   "verifiedAt": null,
-   "verifiedValue": null,
+   "verifiedBy": "原仮定者 2026-09-18",
+   "verifiedAt": "Stairs et al. 2002 ApJ 581 501 timing table",
+   "verifiedValue": "omega_dot = 1.755789(9) deg/yr",
    "klass": "unchanged-no-source-mark",
-   "why": "Stairs 2002 Table 1 —— 同上"
+   "why": "Stairs 2002 Table 1 —— 同上",
+   "resolvedInRound4": true
   }
  ],
  "partners": [
@@ -473,27 +480,30 @@
    "ln": 260,
    "body": "PSR J1757-1854",
    "quantity": "orbital_period",
-   "mark": "unverified",
-   "verifiedBy": null,
-   "usableAsSource": false
+   "mark": "verified",
+   "verifiedBy": "原仮定者 2026-09-18",
+   "usableAsSource": false,
+   "verifiedInRound4": true
   },
   {
    "file": "paper/data/solar-observations.csv",
    "ln": 262,
    "body": "PSR J1757-1854",
    "quantity": "eccentricity",
-   "mark": "unverified",
-   "verifiedBy": null,
-   "usableAsSource": false
+   "mark": "verified",
+   "verifiedBy": "原仮定者 2026-09-18",
+   "usableAsSource": false,
+   "verifiedInRound4": true
   },
   {
    "file": "paper/data/solar-observations.csv",
    "ln": 263,
    "body": "PSR J1757-1854",
    "quantity": "periastron_advance",
-   "mark": "unverified",
-   "verifiedBy": null,
-   "usableAsSource": false
+   "mark": "verified",
+   "verifiedBy": "原仮定者 2026-09-18",
+   "usableAsSource": false,
+   "verifiedInRound4": true
   }
  ],
  "doiFixed": [
@@ -738,9 +748,9 @@
   "after": {
    "solar": {
     "rows": 521,
-    "verified": 54,
-    "verifiedBy": 48,
-    "x7Warn": 6,
+    "verified": 57,
+    "verifiedBy": 57,
+    "x7Warn": 0,
     "round3": 10,
     "round3Verified": 10,
     "sameMarkAs": 5
@@ -776,10 +786,10 @@
    },
    "sigmaMarkAudit": {
     "rows": 521,
-    "legacyVerified": 56,
-    "strictVerified": 54,
+    "legacyVerified": 59,
+    "strictVerified": 57,
     "legendRows": 17,
-    "verifiedByMissing": 6
+    "verifiedByMissing": 0
    }
   },
   "solarsigma": {
