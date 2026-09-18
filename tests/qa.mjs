@@ -1982,14 +1982,20 @@ const add = (id, pass, detail) => {
     connected = (J.cutTally || {}).connected || 0;
     cut = (J.cutTally || {})['unit-not-converted'];
     if (!J.guardsRule) bad.push('σ 接続器の出力にガードの規約が無い');
-    if (connected !== 0) bad.push(`σ が門へ届いた量が 0 でない(${connected})—— ガードの効きを別に測ること`);
+    // 第270便(統括の統合・AD5/AD8 後): 門へ σ が届いた量は **4 件**(📡 D68 の換算後判定 1・カロン P の宣言行 3)。
+    //   ガードの効きは 4 値で見る —— 届いた 4 件のうち **否(3σ)へ進んだのは 📡 の 1 件だけ**で、カロン 3 件は
+    //   条件不一致/数値収束未確認の**保留**に留まる(第268便a の時点では届いた量 0 だった)。
+    if (connected !== 4) bad.push(`σ が門へ届いた量が 4 でない(${connected})—— AD8(📡)+AD5(カロン 3)の宛先`);
+    const ft = J.fourTally || {};
+    if ((ft['否'] || 0) !== 1 || (ft['保留'] || 0) !== 15)
+      bad.push(`太陽系の 4 値が 否 1/保留 15 でない(${JSON.stringify(ft)})—— ガードを通ったのは 📡 の 1 件だけのはず`);
   } catch (e) { bad.push('ガードが読めない: ' + String(e).slice(0, 90)); }
   add('behavior.solarsigmaGuards', bad.length === 0,
     `**σ 接続器の必須ガード**(第268便a・統括の読み (B)・tests/lib-w268a-judgement.mjs): `
     + `4 ケース ${cases.join(' / ')} —— \`definitionDeclared\` ∧ \`mappingResolved\` ∧ `
     + `\`convergence.ok\` の**どれか 1 つでも欠けたら判定しない**(合とも否とも言わない)/ `
-    + `実体: 門へ σ が届いた量は **${connected} 件**・切断点 \`unit-not-converted\` は `
-    + `**${cut} 件のまま**(**4 値は 1 本も動いていない**)—— **保留は否定ではない**`
+    + `実体(第270便・AD5/AD8 後): 門へ σ が届いた量は **${connected} 件**(📡 1・カロン P 3)・切断点 \`unit-not-converted\` は `
+    + `**${cut} 件**(対照として温存)—— **ガードを通って否(3σ)へ進んだのは 📡 の 1 件だけ・カロン 3 件は保留**(保留は否定ではない)`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 
