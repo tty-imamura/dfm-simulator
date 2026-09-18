@@ -1941,7 +1941,19 @@ if (REGATE) {
     const src = q.sigmaSource || null;
     if (!src || !src.body || !src.quantity) { sigmaRegate.noSource++; continue; }
     sigmaRegate.checked++;
-    const row = SIGMA_TABLE.get(src.body + '|' + src.quantity) || null;
+    // 統括の統合(第270便・AD5): **宣言のある鍵は宣言行を張り直す**(ファイル順の最初の行に戻さない)。
+    //   通常走行が `applied-AD5` で宣言行の σ を採った量を、--regate が従来行の σ で上書きすると
+    //   宣言前の状態へ黙って戻る(統合ツリーで実測: カロン 0.02592→null・J1946 1.728e-6→8.64e-4)。
+    //   宣言は body|quantity と body|csvQuantity のどちらの鍵でも引く。
+    const declRegate = (() => {
+      const k1 = src.body + '|' + src.quantity;
+      for (const d of (JUDGEMENT_SOURCES.declarations || [])) {
+        if ((d.body + '|' + d.quantity) === k1 || (d.body + '|' + (d.csvQuantity || d.quantity)) === k1) return d;
+      }
+      return null;
+    })();
+    const declaredRow = declRegate ? (pickDeclaredRow(declRegate, SIGMA_ROWS_ALL).row || null) : null;
+    const row = declaredRow || SIGMA_TABLE.get(src.body + '|' + src.quantity) || null;
     const oldSig = (typeof src.sigma === 'number') ? src.sigma : null;
     const newSig = row ? row.sigma : null;
     const oldVer = !!q.sigmaPrimaryVerified, newVer = !!(row && row.primaryVerified);
