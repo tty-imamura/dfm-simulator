@@ -5,8 +5,11 @@
 //       **原仮定者の仮説(第62報)**を、測る前に 1 つの記録へ落とす宣言器。
 //       **2D エンジンでは面外(面内を向く)自転軸を持てない**ことを必ず欄に持たせる:
 //       この器の `spin` は面直(z)成分だけで、「自転軸が互いを向く」配位は表現できない。
-//       運動学の宣言 ω_i = Ω_AB + σ_i·n(n は面直の単位ベクトル)として記録するだけで、
-//       力へは 1 バイトも接続しない。
+//       運動学の宣言 ω_i = Ω_AB + σ_i·n として記録するだけで、力へは 1 バイトも接続しない。
+//       **第273便d(統括の検証項目 R18)の訂正**: この n は**相手へ向かう単位ベクトル**
+//       (天体間方向 n̂ = (q_j − q_i)/|q_j − q_i|・**面内**)である。第272便c の
+//       「n は面直の単位ベクトル」は**誤りなので撤回する** —— 原仮定者の仮説(第62報)の
+//       「コンパクト連星の自転軸は互いを向く」は、まさに**面内で相手を向く軸**のことだからである。
 //   (2) `sigmaTimes(model, obs, sigma)` —— σ 倍(記録用)。σ が無ければ null(0 で割らない)。
 //   (3) `restTwoBodyAnalytic(inp)` —— **静止 2 体**の mesh-v2 運動方程式を解析で解く
 //       (AA7 の R∥ の導出)。実装 `HP.dfmMeshV2Solve` と突き合わせるための独立計算である。
@@ -30,8 +33,47 @@
 export const SPIN_AXIS_NOTE_JA =
   '**2D エンジンでは面外の自転軸を持てない。** この器の spin は面直(z)成分だけで、'
   + '「コンパクト連星の自転軸が互いを向く」(= 面内を向く軸)配位は幾何として表現できない。'
-  + 'ここでは運動学の宣言 ω_i = Ω_AB + σ_i·n(n は面直の単位ベクトル)として表に載せるだけで、'
-  + '力へは 1 バイトも接続しない。面内軸の帰結(パルス形状・食の幾何・測地線歳差)は**未実装**である。';
+  + 'ここでは運動学の宣言 ω_i = Ω_AB + σ_i·n として表に載せるだけで、力へは 1 バイトも接続しない。'
+  + '**n は相手へ向かう単位ベクトル(天体間方向・面内)である**(第273便d・R18 の訂正 —— '
+  + '第272便c の「n は面直の単位ベクトル」は撤回する)。'
+  + '**(σ_i n)×n = 0 の意味は限定される**: 「軸に沿った成分は、この外積で作る項には現れない」'
+  + '(= 軸上の相対すべりをこの項が拾わない)というだけであって、'
+  + '「面内軸の自転が連星の力学に効かない」という意味ではない。'
+  + '面内軸の帰結(パルス形状・食の幾何・測地線歳差・自転–軌道結合)は**未実装**である。';
+
+// ---------------------------------------------------------------- 符号規約(第273便d・AH22)
+// **絶対値で同期を判定しない。** 逆行(🌊 のトリトンのような retrograde)を「同期」と読まないために、
+// 面直(z)角速度の正方向・視線・座標系を先に固定する。
+//   ・座標系: 画面の右手系 (x 右・y 上)。面直(z)は**画面手前向き**を正とする。
+//   ・正方向: 反時計回り(x→y の向き)が **+**。Ω_AB = (r×v)_z/r² も spin も同じ規約である。
+//   ・視線: 観測者は **+z 側から −z 方向を見下ろす**(画面をそのまま見る)。2D なので傾斜は無い —
+//     実在系の軌道傾斜は**転写の段階で向き ±1 に畳まれている**(第188便の 🌊 の i=157.345° → 逆行)。
+//   ・同期の判定は **ω_spin/Ω_orb**(符号つき)で行う。**+1 が同期・−1 は「逆行の同期」**であって、
+//     |ω|/|Ω| = 1 の 2 つを区別しない読み方は採らない。
+export const SIGN_CONVENTION_JA =
+  '面直(z)は画面手前向きが正・反時計回り(x→y)が正・視線は +z 側から見下ろす。'
+  + 'Ω_AB=(r×v)_z/r² と spin を**同じ符号規約**で比べる。同期比は符号つきの ω_spin/Ω_orb で読み、'
+  + '**+1 が同期・−1 は逆行の同期**である(**絶対値では同期と逆行を区別できない**ので絶対値で判定しない)。';
+
+/**
+ * 符号つきの同期比。**絶対値を取らない。**
+ *   spin・orbit は面直(z)成分の角速度(同じ符号規約)。
+ * 返り値: ratio = ω_spin/Ω_orb(符号つき)・sameSense(向きが同じか)・
+ *         synchronousProgradeApprox / synchronousRetrogradeApprox(tol 以内か)。
+ * **転写行の無い量は null を返す**(0 や 1 で埋めない)。
+ */
+export function signedSynchrony(spin, orbit, tol) {
+  const TOL = (tol === undefined) ? 0.01 : Number(tol);
+  if (typeof spin !== 'number' || !Number.isFinite(spin)) return null;
+  if (typeof orbit !== 'number' || !Number.isFinite(orbit) || orbit === 0) return null;
+  const ratio = spin / orbit;
+  return { spin, orbit, ratio, sameSense: (ratio > 0),
+    synchronousProgradeApprox: Math.abs(ratio - 1) <= TOL,
+    synchronousRetrogradeApprox: Math.abs(ratio + 1) <= TOL,
+    absRatio: Math.abs(ratio),
+    convention: SIGN_CONVENTION_JA,
+    note: '**|ratio|=1 だけでは同期と逆行の同期を区別できない。** 符号を落とさずに読むこと。' };
+}
 
 export function lockDeclaration(spec) {
   const s = spec || {};
@@ -211,3 +253,102 @@ export function apparentCounterSpin(omegaMesh, omegaBody) {
     note: '**これは相対座標の記述である。** 物理的な自転 J を変えるにはトルクが要る —— '
       + 'メッシュが回ったこと自体は J を変えない(帳簿で分けて示す)。' };
 }
+
+// ------------------------------------------------ (8) 正準運動量の検査(第273便d・AH26)
+// mesh-v2 の運動方程式は **H′·a = R**(R = 重力 + 計量の微分項)である。ここで比べるのは
+// **2 つの別々の量**であって、どちらかが 0 でないことを「保存則違反」とは書かない:
+//   ① Σ mᵢ aᵢ …… **通常の重心**(粒子セクタの運動量 Σmᵢvᵢ の変化率)。
+//      χ₁≠χ₂ かつ η>0 の静止 2 体では 0 にならない(第272便c の否定結果)。
+//   ② 1ᵀH′a …… **正準運動量 p = H′v の微分の第 1 項**。静止(v=0)では計量の微分項が落ちて
+//      R = F(重力)になり、対和の重力は 1ᵀF=0 なので **1ᵀH′a は恒等的に 0** である。
+//      非静止では d(1ᵀH′v)/dt = 1ᵀH′a + 1ᵀ(dH′/dt)v で、**第 2 項を別に測らないと保存は言えない**。
+// 受理条件(どれを見て「この則を採る/採らない」を決めるか)は**未確定**である。候補は
+//   (a) 長時間走行での正準運動量 1ᵀH′v のドリフト
+//   (b) 角運動量 Σ mᵢ(qᵢ×vᵢ) のドリフト
+//   (c) エネルギー(½vᵀH′v + ポテンシャル)のドリフト
+//   (d) 背景(メッシュ)との交換を帳簿に持たせたうえでの和
+//   (e) 通常の重心 Σmᵢqᵢ/M の直線運動
+// の 5 つで、**本便はどれも「採用」していない**(並べただけである)。
+export const CANONICAL_ACCEPTANCE_CANDIDATES = [
+  { id: 'canonical-drift', what: '長時間走行での正準運動量 1ᵀH′v のドリフト' },
+  { id: 'angular-drift', what: '角運動量 Σ mᵢ(qᵢ×vᵢ) のドリフト' },
+  { id: 'energy-drift', what: 'エネルギー ½vᵀH′v + ポテンシャル のドリフト' },
+  { id: 'background-exchange', what: 'メッシュ(背景)との交換を帳簿に持たせたうえでの和' },
+  { id: 'ordinary-com', what: '通常の重心 Σmᵢqᵢ/M の直線運動' },
+];
+
+/**
+ * 不均衡 2 種を 1 つの記録にする純関数。
+ *   inp = { m:[…], accel:{x:[…],y:[…]}, Hg:[…n*n…], n,
+ *           vel?:{x:[…],y:[…]}, HgPlus?:[…], HgMinus?:[…], h? }
+ * `HgPlus`/`HgMinus` は **q ± h·v** で評価した H′(呼び出し側が実装へ 2 回問い合わせて作る)。
+ * 与えられたときだけ Ḣ′ = (H′₊ − H′₋)/(2h) を中心差分で作り、1ᵀ(Ḣ′v) を足した
+ * **d(1ᵀH′v)/dt** を出す。無ければ `canonicalTotal` は null(0 で埋めない)。
+ */
+export function canonicalMomentumCheck(inp) {
+  const o = inp || {};
+  const n = Number(o.n) || (Array.isArray(o.m) ? o.m.length : 0);
+  const m = o.m, a = o.accel;
+  if (!(n >= 1) || !Array.isArray(m) || !a || !Array.isArray(a.x) || !Array.isArray(a.y)) return null;
+  const Hg = Array.isArray(o.Hg) ? o.Hg : null;
+  const axis = (arr) => {
+    let s = 0, d = 0;
+    for (let i = 0; i < n; i++) { s += m[i] * arr[i]; d += Math.abs(m[i] * arr[i]); }
+    return { sum: s, scale: d, rel: (d > 0) ? Math.abs(s) / d : null };
+  };
+  const rowSums = (Mx, u) => {
+    let s = 0, d = 0;
+    for (let r = 0; r < n; r++) {
+      let t = 0;
+      for (let c = 0; c < n; c++) t += Mx[r * n + c] * u[c];
+      s += t; d += Math.abs(t);
+    }
+    return { sum: s, scale: d, rel: (d > 0) ? Math.abs(s) / d : null };
+  };
+  const sx = axis(a.x), sy = axis(a.y);
+  const cx = Hg ? rowSums(Hg, a.x) : null, cy = Hg ? rowSums(Hg, a.y) : null;
+  // 非静止項 1ᵀ(Ḣ′v)
+  let dotX = null, dotY = null;
+  const h = Number(o.h);
+  if (Hg && Array.isArray(o.HgPlus) && Array.isArray(o.HgMinus) && Number.isFinite(h) && h !== 0
+      && o.vel && Array.isArray(o.vel.x) && Array.isArray(o.vel.y)) {
+    const Hdot = new Array(n * n);
+    for (let z = 0; z < n * n; z++) Hdot[z] = (o.HgPlus[z] - o.HgMinus[z]) / (2 * h);
+    dotX = rowSums(Hdot, o.vel.x); dotY = rowSums(Hdot, o.vel.y);
+  }
+  return {
+    n,
+    sumMassAccel: { x: sx.sum, y: sy.sum, scale: [sx.scale, sy.scale], rel: [sx.rel, sy.rel] },
+    canonicalAccel: cx ? { x: cx.sum, y: cy.sum, scale: [cx.scale, cy.scale], rel: [cx.rel, cy.rel] } : null,
+    hdotTerm: dotX ? { x: dotX.sum, y: dotY.sum } : null,
+    canonicalTotal: (dotX && cx) ? { x: cx.sum + dotX.sum, y: cy.sum + dotY.sum } : null,
+    hdotAvailable: !!dotX,
+    acceptanceCandidates: CANONICAL_ACCEPTANCE_CANDIDATES.map((z) => z.id),
+    note: 'Σmᵢaᵢ(通常の重心)と 1ᵀH′a(正準運動量の微分の第 1 項)は**別の量**である。'
+      + '**「保存則違反」とは書かない** —— 受理条件は未確定で、候補を並べただけである。',
+  };
+}
+
+// ------------------------------------------------ (9) 候補式の位置づけ(第273便d・AH21)
+// `tests/lib-w272b-pairlock.mjs` の候補 3 本について、第272便b の実測を踏まえた**位置づけ**を
+// 1 か所に書く(**採用の宣言ではない**。候補式はどれもエンジンの力学へ接続していない)。
+//   (i)   relative-mesh-response …… **主**。同期円軌道で厳密に 0 になり、H_AB(拡縮)と s_i(相対自転)の
+//         両方を 1 つの無次元 X に畳む(❄️ で 2×10⁻¹²)。
+//   (iii) exp-lock …… **対照**。同じ「同期 → 0」を別の関数形(指数)で表す(❄️ で 1.4×10⁻⁶)。
+//         主と同じ結論が関数形に依らないかを見るために置く。
+//   (ii)  lock-factor …… **不十分**。k_eff = k_F(1 − α·S_lock·χ_pair) は**完全に同期していても**
+//         k_F(1 − χ_pair) が残る。χ が 2 桁小さい ❄️ では k_eff ≈ 0.998·k_F で、「同期 → k≈0」を表せない。
+//   C5(第272便b の対照列)は **t=0 の定数評価**であり、**動的な維持の実証ではない**。
+export const PAIRLOCK_CANDIDATE_ROLES = {
+  version: 'w273d-1',
+  roles: {
+    candI: { name: 'relative-mesh-response', role: 'primary',
+      why: '同期円軌道で厳密に 0・H_AB と s_i を 1 つの無次元 X に畳む(❄️ で 2e-12)' },
+    candII: { name: 'lock-factor', role: 'insufficient',
+      why: '完全同期でも k_F(1−χ_pair) が残る —— ❄️ では 0.998(「同期 → k≈0」を表せない)' },
+    candIII: { name: 'exp-lock', role: 'control',
+      why: '同じ「同期 → 0」を別の関数形(指数)で表す対照(❄️ で 1.4e-6)' },
+  },
+  c5Note: 'C5 は **t=0 の定数評価**であり、**動的維持の実証ではない**。',
+  notClaim: ['引きずり式が確定した', '候補を採用した', '潮汐ロックを証明した'],
+};

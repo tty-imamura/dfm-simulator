@@ -361,6 +361,9 @@
   /* 第35便 W4(台帳4-54): サンプル分類バッジ — #dirtyBadge/#physLockBadge と同じダークテーマの
      角丸チップ。折返し可(flex-wrap)で iPhone 幅 390px でも横スクロールを出さない */
   #classChips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}
+  /* 第273便d(R17): メッシュチップの差し替え位置を固定する容れ物。display:contents なので
+     レイアウト(flex の並び・gap)には 1 px も影響しない — 中身が空のときも隙間を作らない */
+  #classChips .meshSlot{display:contents;}
   #classChips .classChip{display:inline-block;max-width:100%;padding:3px 9px;border-radius:999px;
     font-size:calc(11px*var(--uz,1));line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
     background:var(--panel2);border:1px solid var(--line);color:var(--fg);}
@@ -1083,18 +1086,23 @@ ja: {
   // ===== 第272便d: **空間メッシュ/複素決定力場チップ**(**宣言と作動状態を分ける**) =====
   // 画面の選択値だけを根拠にしない —— 実行情報(S.hasGeoToy / S.geoToyDeny / S.geoToyStop /
   // S.geoToyOverlay / 閉包の収束)を読んでから状態を決める。**geoPN=3 だけでは「複素決定力場」と出さない**
-  bdgMesh_complex:"複素決定力場・実験",
+  /* 第273便d(AH23): `bdgMesh_complex`(「複素決定力場・実験」)は**撤去した**。complex は
+     積分器へ接続していない(意図された未接続)ので、作動中の語としては 1 度も出せない */
   bdgMesh_law:(v)=>"空間メッシュ: "+v+"・実験",
   bdgMesh_v2:"空間メッシュ: v2・実験",
   bdgMesh_declared:"空間メッシュ: 宣言のみ(測地線トイは未選択)",
   bdgMesh_stopped:(r)=>"メッシュ未作動: "+r,
-  bdgMesh_dragOverlay:" +引きずり重畳",
+  bdgMesh_dragOverlay:" +引きずり重畳(明示した実験 variant)",
   bdgMeshStop_denied:"入場条件を満たさない(kFrame>0 か、メッシュの慣性/織り込みと重なる)",
   bdgMeshStop_kFrame:"kFrame>0 と重なる(トイの入場条件は kFrame=0)",
   bdgMeshStop_meshChannel:"空間メッシュの慣性/織り込みと重なる(重複適用は禁止)",
   bdgMeshStop_closureUnconverged:"源の閉包が収束しない",
+  /* 第273便d(AH23): **意図された未接続**。A=Σmᵢvᵢ/(rᵢ²+ε²)^{p/2} は速度ではない(単位 M·L^{1−p}·T^{−1})
+     ので、正規化を宣言しない限り ū に置けない。「未実装の不具合」ではなく「接続しないと決めてある」 */
+  bdgMeshStop_complexNotVelocity:'lawVersion:"complex" は積分器へ接続していない(**意図された未接続** —— A=Σmᵢvᵢ/(rᵢ²+ε²)^{p/2} は速度ではないので、正規化を宣言しない限り慣性の場に置けない)',
+  bdgMeshStop_noTargets:"当てる対象の粒子が 1 つも無い",
   bdgMesh_closureUnconverged:"源の閉包が未収束の步がある",
-  bdgMeshTip:"**空間メッシュの宣言と、いま走っている状態**を分けて出すチップである。`physics.spaceMesh.lawVersion` が **complex** で geoPN=3 が実際に作動しているときだけ「複素決定力場」と書く —— **geoPN=3 であることだけを根拠に「複素決定力場」とは書かない**(lawVersion は scalar / local / complex の 3 つがあり、法則版 `law:\"mesh-v2\"` も別にある。選択と作動も別である)。入場条件が立たない步では値を 3 のまま保って力学は geoPN=2 と同じで走るので、その場合は「メッシュ未作動: 理由」と出す。**これは表示だけの読み口**で、較正クラスの受理条件は 1 つも変えていない(第272便d)",
+  bdgMeshTip:"**空間メッシュの宣言と、いま走っている状態**を分けて出すチップである。**「複素決定力場」とは 1 度も書かない**(第273便d)—— `lawVersion:\"complex\"` は積分器へ接続していない(**意図された未接続**)からである。**geoPN=3 であることも根拠にしない**(lawVersion は scalar / local / complex の 3 つがあり、法則版 `law:\"mesh-v2\"` も別にある。選択と作動も別である)。入場条件が立たない步では値を 3 のまま保って力学は geoPN=2 と同じで走るので、その場合は「メッシュ未作動: 理由」と出す。**これは表示だけの読み口**で、較正クラスの受理条件は 1 つも変えていない(第272便d)。**第273便d(統括の検証項目 R17)**: 実行中は**走っている宣言**(`S.params.spaceMesh`)を先に読み、`geoToyDeny` か `geoToyStop` が立っている步は「作動中」と書かない。停止理由が走行中に変わったらチップだけが追従する(説明パネル全体は作り直さない)。`lawVersion:\"complex\"` は**積分器へ接続していない**(**意図された未接続** —— AH23)ので、最初のキックの前でも作動中にはしない。`toyAllowDrag` の重畳は**明示した実験 variant** であって汎用の係数ではない(重畳の実測比は〔第263便a〕の 1 構成の値である)",
   // 第82便B: E水準タグ(創発の水準の宣言 — sampleClass と同方針の宣言専用メタ・自動判定しない)
   bdgE_E0:"E0 規定", bdgE_E0Tip:"創発の主張をしないサンプル(構造・運動が初期条件や外部規定でほぼ決まっている)。E水準は宣言専用のメタで、物理には一切影響しない(第82便)",
   bdgE_E1:"E1 外部駆動下の自己組織化", bdgE_E1Tip:"外部から駆動(伝熱壁・規定レール・pinned など)されている系で、局所則から構造・秩序が自発的に生じる。E水準は宣言専用のメタで、物理には一切影響しない(第82便)",
@@ -1866,18 +1874,22 @@ en: {
   bdgMB_srcConv:"Conversion",
   bdgMB_none:"-",
   // ===== Wave 272d: the SPACE MESH / COMPLEX DETERMINACY FIELD chip - declaration and running state apart =====
-  bdgMesh_complex:"Complex determinacy field - experimental",
+  /* Wave 273d (AH23): bdgMesh_complex ("Complex determinacy field") WAS REMOVED - complex is not
+     wired into the integrator (an intended non-connection), so it can never be printed as acting */
   bdgMesh_law:(v)=>"Space mesh: " + v + " - experimental",
   bdgMesh_v2:"Space mesh: v2 - experimental",
   bdgMesh_declared:"Space mesh: declared only (the geodesic toy is not selected)",
   bdgMesh_stopped:(r)=>"Mesh not acting: " + r,
-  bdgMesh_dragOverlay:" + dragging overlaid",
+  bdgMesh_dragOverlay:" + dragging overlaid (an explicitly declared experiment variant)",
   bdgMeshStop_denied:"the entry conditions do not hold (kFrame>0, or it overlaps the mesh inertia/weave)",
   bdgMeshStop_kFrame:"it overlaps kFrame>0 (the toy's entry condition is kFrame=0)",
   bdgMeshStop_meshChannel:"it overlaps the space-mesh inertia/weave (double application is forbidden)",
   bdgMeshStop_closureUnconverged:"the source closure does not converge",
+  /* Wave 273d (AH23): AN INTENDED NON-CONNECTION, not a missing feature */
+  bdgMeshStop_complexNotVelocity:'lawVersion:"complex" is not wired into the integrator (AN INTENDED NON-CONNECTION - A = SUM m_i v_i /(r_i^2+eps^2)^{p/2} IS NOT A VELOCITY, so it cannot be put in the inertia field unless a normalisation is declared)',
+  bdgMeshStop_noTargets:"there is no particle to act on",
   bdgMesh_closureUnconverged:"some steps left the source closure unconverged",
-  bdgMeshTip:"This chip keeps THE DECLARATION and THE STATE ACTUALLY RUNNING apart. It says \"complex determinacy field\" only when physics.spaceMesh.lawVersion is COMPLEX and geoPN=3 is really acting - GEOPN=3 ON ITS OWN IS NEVER A REASON TO PRINT \"COMPLEX DETERMINACY FIELD\" (lawVersion has three values, scalar / local / complex, the law version law:\"mesh-v2\" is a separate thing again, and selecting is not the same as acting). On a step where the entry conditions do not hold, the value stays 3 while the dynamics run exactly as geoPN=2, and the chip reads \"Mesh not acting: <reason>\". THIS IS A READ-OUT ONLY: not one acceptance condition of the calibration class was changed (wave 272d)",
+  bdgMeshTip:"This chip keeps THE DECLARATION and THE STATE ACTUALLY RUNNING apart. IT NEVER PRINTS \"COMPLEX DETERMINACY FIELD\" AT ALL (wave 273d) - lawVersion:\"complex\" is not wired into the integrator (an intended non-connection). GEOPN=3 ON ITS OWN IS NEVER A REASON TO CALL THE MESH ACTING EITHER (lawVersion has three values, scalar / local / complex, the law version law:\"mesh-v2\" is a separate thing again, and selecting is not the same as acting). On a step where the entry conditions do not hold, the value stays 3 while the dynamics run exactly as geoPN=2, and the chip reads \"Mesh not acting: <reason>\". THIS IS A READ-OUT ONLY: not one acceptance condition of the calibration class was changed (wave 272d). WAVE 273d (verification item R17): while a universe is running, the RUNNING declaration (S.params.spaceMesh) is read first, and a step on which geoToyDeny or geoToyStop is raised is never written as acting; when the stop reason changes mid-run only the chip follows (the explanation panel is not rebuilt). lawVersion:\"complex\" IS NOT WIRED INTO THE INTEGRATOR (AN INTENDED NON-CONNECTION - AH23), so it is not shown as acting even before the first kick. The toyAllowDrag overlay is AN EXPLICITLY DECLARED EXPERIMENT VARIANT, not a general-purpose coefficient (the measured superposition ratio belongs to the one configuration in wave 263a)",
   bdgE_E0:"E0 Prescribed", bdgE_E0Tip:"A sample that makes no emergence claim: its structure and motion are essentially fixed by the initial conditions or by external prescription. The E level is declaration-only metadata and never touches the physics (dispatch 82)",
   bdgE_E1:"E1 Driven self-organization", bdgE_E1Tip:"Structure/order arises spontaneously from local rules, but the system is externally driven (thermal walls, prescribed rails, pinned bodies…). The E level is declaration-only metadata and never touches the physics (dispatch 82)",
   bdgE_E2:"E2 Closed-system emergence", bdgE_E2Tip:"Structure is generated from local rules alone with no external drive (closed system) — the target shape is not embedded in the initial conditions. The E level is declaration-only metadata and never touches the physics (dispatch 82)",
@@ -2859,30 +2871,44 @@ function massBasisOf(p){
 // S.geoToyOverlay)を読む。**geoPN=3 であることだけでは「複素決定力場」と出さない**(R16)。
 function meshChipState(p,S){
   if(!p) return null;
-  const ph=p.physics||{}, sm=(ph.spaceMesh&&typeof ph.spaceMesh==="object")?ph.spaceMesh:null;
+  const ph=p.physics||{}, decl=(ph[SPACE_MESH_KEY]&&typeof ph[SPACE_MESH_KEY]==="object")?ph[SPACE_MESH_KEY]:null;
+  // 第273便d(統括の検証項目 R17): **実行中は走っている宣言を優先する**。
+  // `S.params[SPACE_MESH_KEY]` は読み込み時に正準化された「いま走っている spaceMesh」で、
+  // `p.physics.spaceMesh` は**保存できる宣言**である(第263便a の保存の非対称)。
+  // 走行が無いとき(S なし)だけ宣言側を読む。どちらを読んだかは `source` に出す。
+  const run=(S && S.params && S.params[SPACE_MESH_KEY]
+    && typeof S.params[SPACE_MESH_KEY]==="object")? S.params[SPACE_MESH_KEY] : null;
+  const sm=run||decl, source=run? "running" : (decl? "declared" : null);
   const declaredGeo3=(ph.geoPN===3);
   const runGeo3=!!(S && S.params && S.params.geoPN>=3);
   if(!sm && !declaredGeo3 && !runGeo3) return null;
   const law=sm? (sm.lawVersion||null) : null;
   const meshV2=!!(sm && sm.law==="mesh-v2");
   const overlay=!!(S && S.geoToyOverlay==="drag");
-  // 走っているか: hasGeoToy は「geoPN>=3 かつ入場条件が立っている」(第262便a)
-  const acting=!!(S && S.hasGeoToy);
+  // 走っているか: hasGeoToy は「geoPN>=3 かつ入場条件が立っている」(第262便a)。
+  // **入場できたことと、積分器が当てたことは別**なので、停止理由(`S.geoToyStop`)も見る。
+  const entered=!!(S && S.hasGeoToy);
   const deny=(S && S.geoToyDeny)? String(S.geoToyDeny) : null;
+  const stop=(S && S.geoToyStop)? String(S.geoToyStop) : null;
   const unconverged=!!(S && S.geoToyConverged===false);
-  if((declaredGeo3||runGeo3) && !acting)
-    return {key:"stopped", reason:deny||((S&&S.geoToyStop)?String(S.geoToyStop):"denied"),
-      law, meshV2, overlay, acting:false, unconverged};
-  if(meshV2 && acting) return {key:"v2", law, meshV2, overlay, acting:true, unconverged};
-  if(law==="complex" && acting) return {key:"complex", law, meshV2, overlay, acting:true, unconverged};
-  if(acting) return {key:"law", law:law||"scalar", meshV2, overlay, acting:true, unconverged};
-  return {key:"declared", law, meshV2, overlay, acting:false, unconverged};
+  // 第273便d(AH23): `lawVersion:"complex"` は**積分器へ接続していない**(意図された未接続 —
+  // A=Σmᵢvᵢ/(rᵢ²+ε²)^{p/2} は速度ではないので、正規化を宣言しない限り ū に置けない)。
+  // `dfmGeoToyStep` は毎步 `geoToyStop="complexNotVelocity"` を立てるが、**最初のキックの前**は
+  // まだ null なので、宣言だけを根拠に「作動中」と出さない(mesh-v2 は別経路なので除く)。
+  const complexUnconnected=(law==="complex" && !meshV2);
+  const acting=entered && !deny && !stop && !complexUnconnected;
+  if(!acting && (declaredGeo3||runGeo3||entered))
+    return {key:"stopped",
+      reason:deny||(complexUnconnected? "complexNotVelocity" : (stop||"denied")),
+      law, meshV2, overlay, acting:false, entered, unconverged, source};
+  if(meshV2 && acting) return {key:"v2", law, meshV2, overlay, acting:true, entered, unconverged, source};
+  if(acting) return {key:"law", law:law||"scalar", meshV2, overlay, acting:true, entered, unconverged, source};
+  return {key:"declared", law, meshV2, overlay, acting:false, entered, unconverged, source};
 }
 function meshChipLabel(st){
   if(!st) return null;
   let s;
-  if(st.key==="complex") s=T("bdgMesh_complex");
-  else if(st.key==="v2") s=T("bdgMesh_v2");
+  if(st.key==="v2") s=T("bdgMesh_v2");
   else if(st.key==="law") s=T("bdgMesh_law")(st.law);
   else if(st.key==="declared") s=T("bdgMesh_declared");
   else {
@@ -2893,6 +2919,24 @@ function meshChipLabel(st){
   }
   if(st.overlay) s+=T("bdgMesh_dragOverlay");
   return s;
+}
+// 第273便d(統括の検証項目 R17): **チップだけを実行中に追従させる**。
+// 停止理由(`S.geoToyDeny` / `S.geoToyStop`)は步ごとに変わりうるのに、チップは「説明」タブを
+// 開き直すまで基点のまま止まっていた。`syncHud()`(実行中 10 フレームに 1 回・停止中は状態変化の
+// たび)から呼び、**説明パネル全体は作り直さない**(スクロール位置も他のチップも動かさない)。
+// **描画側だけの処理**であり `S._core` には 1 命令も足していない(力学は 1 bit も変わらない)。
+function syncMeshChip(){
+  const slot=document.querySelector("#classChips .meshSlot");
+  if(!slot) return;   // 説明タブがまだ描かれていない(#classChips が無い)ときは何もしない
+  const ms=meshChipState(currentPreset, sim);
+  let el=slot.firstElementChild;
+  if(!ms){ if(el) slot.textContent=""; return; }
+  const g="mesh-"+ms.key, label=meshChipLabel(ms),
+    tip=T("bdgMeshTip")+(ms.unconverged? "\n"+T("bdgMesh_closureUnconverged") : "");
+  if(!el){ el=document.createElement("span"); el.className="classChip"; slot.appendChild(el); }
+  if(el.dataset.g!==g) el.dataset.g=g;
+  if(el.textContent!==label) el.textContent=label;
+  if(el.title!==tip) el.title=tip;
 }
 function paramLabel(def){ return (LANG==="en" && I18N.en.params[def.key]) || def.label; }
 // v1.21: パラメータ名タップの説明文(ja=PARAM_DEFS.desc / en=I18N.en.paramDescs)
@@ -25128,6 +25172,9 @@ function restoreLastGood(){
 // 直後は呼び出し側から同期的に叩く — requestRender/rAF の間引きに依存せず、t・步数・N・
 // スケール指数・実効倍率が旧サンプルの値を表示し続ける取り残しを断つ(表示のみ・物理不変)。
 function syncHud(){
+  // 第273便d(R17): **空間メッシュチップの実行追従**(停止理由が走行中に変わったら書き換える)。
+  // 描画側だけの 1 行で、力学にも `S._core` にも 1 バイトも触れない
+  syncMeshChip();
   // 第61便 61B(レビューP1「step/モデル時刻併記」): 步数 = t/dt(dt=0.016 固定)
   let txt=`t=${sim.t.toFixed(1)} (${Math.round(sim.t/0.016)}步)  N=${sim.n}  ${Math.round(fpsEMA)}fps`;
   // 第39便 39E(台帳4-75 E2): sim.t が validT(評価済み最大時間)を超えたときだけ警告を追記。
@@ -30688,11 +30735,20 @@ function renderHelp(){
     }
   }
   // 第272便d(第62報): **空間メッシュ/複素決定力場チップ**(宣言と作動状態を分ける)。
-  // 実行情報を読むので、いま走っている状態が「未作動」ならその理由を出す
+  // 実行情報を読むので、いま走っている状態が「未作動」ならその理由を出す。
+  // 第273便d(R17): **実行中に停止理由が変われば、このチップだけが追従する**。差し替え位置を
+  // 固定するために、チップ列の中に**表示に影響しない容れ物**(`display:contents`)を 1 つ置く
+  // (`#classChips .classChip` を拾う既存の読み口は子孫セレクタなので 1 件も変わらない)。
   {
+    const slot=document.createElement("span"); slot.className="meshSlot";
+    chipRow.appendChild(slot);
     const ms=meshChipState(currentPreset, sim);
-    if(ms) addChip("mesh-"+ms.key, meshChipLabel(ms),
-      T("bdgMeshTip")+(ms.unconverged? "\n"+T("bdgMesh_closureUnconverged") : ""));
+    if(ms){
+      const s=document.createElement("span"); s.className="classChip"; s.dataset.g="mesh-"+ms.key;
+      s.textContent=meshChipLabel(ms);
+      s.title=T("bdgMeshTip")+(ms.unconverged? "\n"+T("bdgMesh_closureUnconverged") : "");
+      slot.appendChild(s);
+    }
   }
   // 第261便c: 較正の現在地チップ — calibrationForecast 宣言のあるサンプルにだけ出す。
   // **署名が宣言時と変わっていれば自動的に「較正要再確認」**へ倒す(calibrationReviewBadge)。
@@ -37192,6 +37248,26 @@ function dfmMeshV2Solve(state,opts){
   out.rhsNull=(sx.rNull===undefined)? null : sx.rNull;
   out.accel={x:Array.from(sx.a), y:Array.from(sy.a)};
   out.gravAccel={x:Array.from(gr.Fx).map((z,i)=>z/mm[i]), y:Array.from(gr.Fy).map((z,i)=>z/mm[i])};
+  // 第273便d(AH26): **不均衡を 2 種に分けて返す**(どちらも診断 —— 力には 1 バイトも接続しない)。
+  //   ① `sumMassAccel` = Σ mᵢaᵢ …… **通常の重心**の加速度(粒子セクタの運動量の変化率)。
+  //      χ₁≠χ₂ かつ η>0 では 0 にならない(第272便c の否定結果)。
+  //   ② `canonicalAccel` = 1ᵀH′a …… **正準運動量 p=H′v の微分の第 1 項**。運動方程式が H′a=R で、
+  //      重力の対和は 1ᵀF=0 なので、駆動項に計量の微分項が無い步(v=0)では**恒等的に 0** になる。
+  //      非静止では d(1ᵀH′v)/dt = 1ᵀH′a + 1ᵀ(dH′/dt)v であり、第 2 項はここでは測っていない。
+  //   **「保存則違反」とは書かない**: ①②は別の量で、②が 0 でも①は 0 にならない。
+  //   受理条件(長時間の正準運動量・角運動量・エネルギー・背景交換・通常の重心のどれを見るか)は未確定である。
+  {
+    const imb=(a)=>{ let s=0, d=0; for(let i=0;i<n;i++){ s+=mm[i]*a[i]; d+=mm[i]*Math.abs(a[i]); }
+      return {sum:s, scale:d, rel:(d>0)? Math.abs(s)/d : null}; };
+    const cimb=(a)=>{ let s=0, d=0;
+      for(let r0=0;r0<n;r0++){ let t=0; for(let c=0;c<n;c++) t+=base.Hg[r0*n+c]*a[c]; s+=t; d+=Math.abs(t); }
+      return {sum:s, scale:d, rel:(d>0)? Math.abs(s)/d : null}; };
+    const ix=imb(sx.a), iy=imb(sy.a), cx=cimb(sx.a), cy=cimb(sy.a);
+    out.sumMassAccel={x:ix.sum, y:iy.sum, scale:[ix.scale,iy.scale], rel:[ix.rel,iy.rel]};
+    out.canonicalAccel={x:cx.sum, y:cy.sum, scale:[cx.scale,cy.scale], rel:[cx.rel,cy.rel]};
+    out.imbalanceNote="Σmᵢaᵢ(通常の重心)と 1ᵀH′a(正準運動量の微分の第 1 項)は別の量である。"
+      +"**診断であって保存則違反の宣言ではない**(第273便d・AH26)。";
+  }
   return out;
 }
 // (f) **積分器側**(`dfmGeoToyStep` から分岐 —— `S._core` には 1 命令も足していない)。
@@ -38600,6 +38676,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 読み。どちらも**表示だけ**で、力にも保存 JSON にも 1 バイトも接続していない
   MASS_BASIS, MASS_BASIS_KINDS, massBasisOf, meshChipState,
   meshChipLabel:(p,S)=>meshChipLabel(meshChipState(p,S||sim)),
+  // 第273便d(R17): チップだけの実行追従(QA ui.meshChipStop が呼ぶ)
+  syncMeshChip,
   presetSig,   // 第272便d: 全内蔵の署名を外から突き合わせるため(器 tests/exp-w272d-sigsame.mjs)
   meshFieldApi:(S)=>_smFieldApi(S||sim), meshFieldApiLive:(S)=>_smFieldApiLive(S||sim),
   // 第260便a(第52報): 同じ点で**現行の表示場**と**共通場 API の場**を両方読む診断口。

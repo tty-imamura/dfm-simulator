@@ -1,15 +1,41 @@
 {
  "meta": {
-  "wave": "第272便c",
-  "section": "AA7 / R∥",
-  "harness": "w272c-rpar-1",
+  "wave": "第272便c(第273便d で AH26 を追加)",
+  "section": "AA7 / R∥ + 正準運動量(AH26)",
+  "harness": "w273d-rpar-2",
   "target": "beta/index.html",
-  "targetSha256": "69d78fa3195e883be9fa14473fa590f98304142e5b466fb2a80e4f70f418d44d",
-  "libSha256": "2df3c481bafe279804244bb9ecfff4689c78aa72ed5242b07dae95ccc823b0f0",
-  "at": "2026-09-18T18:58:19.758Z",
+  "targetSha256": "03d1d818aaf0cb5e5842960074313690b7eb112eeb81830041d44a6c933488eb",
+  "libSha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
+  "at": "2026-09-19T09:25:23.491Z",
   "definition": "R∥ = −(a₂−a₁)·n̂ /(G(m₁+m₂)/r²)、n̂ は 1→2。静止(v=0)なので計量の微分項は落ちる。",
   "claim": "**「比が 1 になる」と先に結論していない。** 実装(HP.dfmMeshV2Solve)と独立な解析式(lib-w272c-binlock.restTwoBodyAnalytic)の 2 列を並べた記録である。**mesh-v2 は候補の則であって確立則ではない**(第265便b)。",
-  "touched": "内蔵プリセットは 1 bit も動かしていない。`S._core` には 1 命令も足していない。"
+  "touched": "内蔵プリセットは 1 bit も動かしていない。`S._core` には 1 命令も足していない。",
+  "canonical": {
+   "definition": "H′a = R(運動方程式)。① Σmᵢaᵢ = 通常の重心 / ② 1ᵀH′a = 正準運動量 p=H′v の微分の第 1 項。非静止では d(1ᵀH′v)/dt = 1ᵀH′a + 1ᵀ(dH′/dt)v で、Ḣ′ は q±h·v の中心差分で作る。",
+   "claim": "**「保存則違反」とは書かない。** ①②は別の量であり、②が 0 でも①は 0 にならない。受理条件は**未確定**で、下の候補を並べただけである(どれも採用していない)。",
+   "acceptanceCandidates": [
+    {
+     "id": "canonical-drift",
+     "what": "長時間走行での正準運動量 1ᵀH′v のドリフト"
+    },
+    {
+     "id": "angular-drift",
+     "what": "角運動量 Σ mᵢ(qᵢ×vᵢ) のドリフト"
+    },
+    {
+     "id": "energy-drift",
+     "what": "エネルギー ½vᵀH′v + ポテンシャル のドリフト"
+    },
+    {
+     "id": "background-exchange",
+     "what": "メッシュ(背景)との交換を帳簿に持たせたうえでの和"
+    },
+    {
+     "id": "ordinary-com",
+     "what": "通常の重心 Σmᵢqᵢ/M の直線運動"
+    }
+   ]
+  }
  },
  "cases": [
   {
@@ -2579,6 +2605,840 @@
    "softeningDenominatorRatio": 1.0000000651041674,
    "muOverM": 0.08264462809917356,
    "newtonRatio": 0.9999999348958369
+  }
+ ],
+ "canonicalRest": [
+  {
+   "tag": "brief/m2:1/r3/D0=1/eta0.7/eps0",
+   "m1": 2,
+   "m2": 1,
+   "r": 3,
+   "opts": {
+    "G": 1,
+    "eps": 0,
+    "p": 1,
+    "D0": 1,
+    "eta": 0.7,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "sumMassAccel": {
+    "x": -0.04474752841305661,
+    "y": 0,
+    "scale": [
+     0.29058016957357324,
+     0
+    ],
+    "rel": [
+     0.1539937445790732,
+     null
+    ]
+   },
+   "canonicalAccel": {
+    "x": 0,
+    "y": 0,
+    "scale": [
+     0.44444444444444436,
+     0
+    ],
+    "rel": [
+     0,
+     null
+    ]
+   },
+   "pureSumMassAccel": {
+    "x": -0.04474752841305661,
+    "y": 0,
+    "scale": [
+     0.29058016957357324,
+     0
+    ],
+    "rel": [
+     0.1539937445790732,
+     null
+    ]
+   },
+   "pureCanonicalAccel": {
+    "x": 0,
+    "y": 0,
+    "scale": [
+     0.44444444444444436,
+     0
+    ],
+    "rel": [
+     0,
+     null
+    ]
+   },
+   "implMinusPure": {
+    "sumMassAccel": 0,
+    "canonicalAccel": 0
+   }
+  },
+  {
+   "tag": "equal/D0=0.5/eta1",
+   "m1": 500,
+   "m2": 500,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "sumMassAccel": {
+    "x": 0,
+    "y": 0,
+    "scale": [
+     17.753379234244026,
+     0
+    ],
+    "rel": [
+     0,
+     null
+    ]
+   },
+   "canonicalAccel": {
+    "x": 0,
+    "y": 0,
+    "scale": [
+     57.93402400603139,
+     0
+    ],
+    "rel": [
+     0,
+     null
+    ]
+   },
+   "pureSumMassAccel": {
+    "x": 0,
+    "y": 0,
+    "scale": [
+     17.753379234244026,
+     0
+    ],
+    "rel": [
+     0,
+     null
+    ]
+   },
+   "pureCanonicalAccel": {
+    "x": 0,
+    "y": 0,
+    "scale": [
+     57.93402400603139,
+     0
+    ],
+    "rel": [
+     0,
+     null
+    ]
+   },
+   "implMinusPure": {
+    "sumMassAccel": 0,
+    "canonicalAccel": 0
+   }
+  },
+  {
+   "tag": "ratio/1000:100/D0=0.5/eta1",
+   "m1": 1000,
+   "m2": 100,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "sumMassAccel": {
+    "x": -10.611401127669147,
+    "y": 0,
+    "scale": [
+     10.611401127669147,
+     0
+    ],
+    "rel": [
+     1,
+     null
+    ]
+   },
+   "canonicalAccel": {
+    "x": 5.329070518200751e-15,
+    "y": 0,
+    "scale": [
+     23.17360960241256,
+     0
+    ],
+    "rel": [
+     2.2996290218188327e-16,
+     null
+    ]
+   },
+   "pureSumMassAccel": {
+    "x": -10.611401127669147,
+    "y": 0,
+    "scale": [
+     10.611401127669147,
+     0
+    ],
+    "rel": [
+     1,
+     null
+    ]
+   },
+   "pureCanonicalAccel": {
+    "x": 5.329070518200751e-15,
+    "y": 0,
+    "scale": [
+     23.17360960241256,
+     0
+    ],
+    "rel": [
+     2.2996290218188327e-16,
+     null
+    ]
+   },
+   "implMinusPure": {
+    "sumMassAccel": 0,
+    "canonicalAccel": 0
+   }
+  },
+  {
+   "tag": "ratio/1e4:1/D0=0.5/eta1",
+   "m1": 10000,
+   "m2": 1,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "sumMassAccel": {
+    "x": -94.97452822590326,
+    "y": 0,
+    "scale": [
+     94.97452822590326,
+     0
+    ],
+    "rel": [
+     1,
+     null
+    ]
+   },
+   "canonicalAccel": {
+    "x": -1.865174681370263e-14,
+    "y": 0,
+    "scale": [
+     2.3173609602412357,
+     0
+    ],
+    "rel": [
+     8.048701576365986e-15,
+     null
+    ]
+   },
+   "pureSumMassAccel": {
+    "x": -94.97452822590326,
+    "y": 0,
+    "scale": [
+     94.97452822590326,
+     0
+    ],
+    "rel": [
+     1,
+     null
+    ]
+   },
+   "pureCanonicalAccel": {
+    "x": -1.865174681370263e-14,
+    "y": 0,
+    "scale": [
+     2.3173609602412357,
+     0
+    ],
+    "rel": [
+     8.048701576365986e-15,
+     null
+    ]
+   },
+   "implMinusPure": {
+    "sumMassAccel": 0,
+    "canonicalAccel": 0
+   }
+  },
+  {
+   "tag": "equal/D0=0/eta1(structural)",
+   "m1": 500,
+   "m2": 500,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "sumMassAccel": {
+    "x": 0,
+    "y": 0,
+    "scale": [
+     14.483506001507845,
+     0
+    ],
+    "rel": [
+     0,
+     null
+    ]
+   },
+   "canonicalAccel": {
+    "x": 0,
+    "y": 0,
+    "scale": [
+     57.93402400603138,
+     0
+    ],
+    "rel": [
+     0,
+     null
+    ]
+   },
+   "pureSumMassAccel": {
+    "x": 0,
+    "y": 0,
+    "scale": [
+     14.483506001507845,
+     0
+    ],
+    "rel": [
+     0,
+     null
+    ]
+   },
+   "pureCanonicalAccel": {
+    "x": 0,
+    "y": 0,
+    "scale": [
+     57.93402400603138,
+     0
+    ],
+    "rel": [
+     0,
+     null
+    ]
+   },
+   "implMinusPure": {
+    "sumMassAccel": 0,
+    "canonicalAccel": 0
+   }
+  },
+  {
+   "tag": "ratio/1000:100/eta=0(Newton)",
+   "m1": 1000,
+   "m2": 100,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 0,
+    "gauge": "inertia"
+   },
+   "stop": null,
+   "sumMassAccel": {
+    "x": 1.7763568394002505e-15,
+    "y": 0,
+    "scale": [
+     23.173609602412554,
+     0
+    ],
+    "rel": [
+     7.665430072729445e-17,
+     null
+    ]
+   },
+   "canonicalAccel": {
+    "x": 1.7763568394002505e-15,
+    "y": 0,
+    "scale": [
+     23.173609602412554,
+     0
+    ],
+    "rel": [
+     7.665430072729445e-17,
+     null
+    ]
+   },
+   "pureSumMassAccel": {
+    "x": 1.7763568394002505e-15,
+    "y": 0,
+    "scale": [
+     23.173609602412554,
+     0
+    ],
+    "rel": [
+     7.665430072729445e-17,
+     null
+    ]
+   },
+   "pureCanonicalAccel": {
+    "x": 1.7763568394002505e-15,
+    "y": 0,
+    "scale": [
+     23.173609602412554,
+     0
+    ],
+    "rel": [
+     7.665430072729445e-17,
+     null
+    ]
+   },
+   "implMinusPure": {
+    "sumMassAccel": 0,
+    "canonicalAccel": 0
+   }
+  }
+ ],
+ "canonicalMoving": [
+  {
+   "tag": "circularish/500:500/D0=0.5",
+   "m1": 500,
+   "m2": 500,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "velocities": [
+    [
+     0,
+     -2.636680362374881
+    ],
+    [
+     0,
+     2.636680362374881
+    ]
+   ],
+   "stop": null,
+   "sumMassAccel": {
+    "x": 0,
+    "y": 0,
+    "scale": [
+     22.759199463936877,
+     0
+    ],
+    "rel": [
+     0,
+     null
+    ]
+   },
+   "canonicalAccel": {
+    "x": 0,
+    "y": 0,
+    "scale": [
+     74.26935405956371,
+     0
+    ],
+    "rel": [
+     0,
+     null
+    ]
+   },
+   "stages": [
+    {
+     "h": 0.024,
+     "stopPlus": null,
+     "stopMinus": null,
+     "canonicalAccel": {
+      "x": 0,
+      "y": 0,
+      "scale": [
+       74.26935405956371,
+       0
+      ],
+      "rel": [
+       0,
+       null
+      ]
+     },
+     "hdotTerm": {
+      "x": 0,
+      "y": 0
+     },
+     "canonicalTotal": {
+      "x": 0,
+      "y": 0
+     },
+     "hdotAvailable": true
+    },
+    {
+     "h": 0.0024000000000000002,
+     "stopPlus": null,
+     "stopMinus": null,
+     "canonicalAccel": {
+      "x": 0,
+      "y": 0,
+      "scale": [
+       74.26935405956371,
+       0
+      ],
+      "rel": [
+       0,
+       null
+      ]
+     },
+     "hdotTerm": {
+      "x": 0,
+      "y": 0
+     },
+     "canonicalTotal": {
+      "x": 0,
+      "y": 0
+     },
+     "hdotAvailable": true
+    }
+   ],
+   "stepDependence": {
+    "dx": 0,
+    "dy": 0
+   }
+  },
+  {
+   "tag": "circularish/1000:100/D0=0.5",
+   "m1": 1000,
+   "m2": 100,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "velocities": [
+    [
+     0,
+     -0.5027952170645921
+    ],
+    [
+     0,
+     5.027952170645921
+    ]
+   ],
+   "stop": null,
+   "sumMassAccel": {
+    "x": -23.975270081905755,
+    "y": 0,
+    "scale": [
+     23.975270081905755,
+     0
+    ],
+    "rel": [
+     1,
+     null
+    ]
+   },
+   "canonicalAccel": {
+    "x": 7.105427357601002e-15,
+    "y": 0,
+    "scale": [
+     52.35817045326651,
+     0
+    ],
+    "rel": [
+     1.3570809094529218e-16,
+     null
+    ]
+   },
+   "stages": [
+    {
+     "h": 0.024,
+     "stopPlus": null,
+     "stopMinus": null,
+     "canonicalAccel": {
+      "x": 7.105427357601002e-15,
+      "y": 0,
+      "scale": [
+       52.35817045326651,
+       0
+      ],
+      "rel": [
+       1.3570809094529218e-16,
+       null
+      ]
+     },
+     "hdotTerm": {
+      "x": 0,
+      "y": 0
+     },
+     "canonicalTotal": {
+      "x": 7.105427357601002e-15,
+      "y": 0
+     },
+     "hdotAvailable": true
+    },
+    {
+     "h": 0.0024000000000000002,
+     "stopPlus": null,
+     "stopMinus": null,
+     "canonicalAccel": {
+      "x": 7.105427357601002e-15,
+      "y": 0,
+      "scale": [
+       52.35817045326651,
+       0
+      ],
+      "rel": [
+       1.3570809094529218e-16,
+       null
+      ]
+     },
+     "hdotTerm": {
+      "x": 0,
+      "y": 0
+     },
+     "canonicalTotal": {
+      "x": 7.105427357601002e-15,
+      "y": 0
+     },
+     "hdotAvailable": true
+    }
+   ],
+   "stepDependence": {
+    "dx": 0,
+    "dy": 0
+   }
+  },
+  {
+   "tag": "radial/1000:100/D0=0.5",
+   "m1": 1000,
+   "m2": 100,
+   "r": 240,
+   "opts": {
+    "G": 6.674,
+    "eps": 0.05,
+    "p": 1,
+    "D0": 0.5,
+    "eta": 1,
+    "gauge": "inertia"
+   },
+   "velocities": [
+    [
+     0.15083856511937763,
+     0
+    ],
+    [
+     -1.5083856511937763,
+     0
+    ]
+   ],
+   "stop": null,
+   "sumMassAccel": {
+    "x": -9.511254824215559,
+    "y": 0,
+    "scale": [
+     9.511254824215559,
+     0
+    ],
+    "rel": [
+     1,
+     null
+    ]
+   },
+   "canonicalAccel": {
+    "x": -0.08409265669195065,
+    "y": 0,
+    "scale": [
+     20.47819604308775,
+     0
+    ],
+    "rel": [
+     0.0041064484642598905,
+     null
+    ]
+   },
+   "stages": [
+    {
+     "h": 0.024,
+     "stopPlus": null,
+     "stopMinus": null,
+     "canonicalAccel": {
+      "x": -0.08409265669195065,
+      "y": 0,
+      "scale": [
+       20.47819604308775,
+       0
+      ],
+      "rel": [
+       0.0041064484642598905,
+       null
+      ]
+     },
+     "hdotTerm": {
+      "x": 0.08409263675031209,
+      "y": 0
+     },
+     "canonicalTotal": {
+      "x": -1.9941638562670505e-8,
+      "y": 0
+     },
+     "hdotAvailable": true
+    },
+    {
+     "h": 0.0024000000000000002,
+     "stopPlus": null,
+     "stopMinus": null,
+     "canonicalAccel": {
+      "x": -0.08409265669195065,
+      "y": 0,
+      "scale": [
+       20.47819604308775,
+       0
+      ],
+      "rel": [
+       0.0041064484642598905,
+       null
+      ]
+     },
+     "hdotTerm": {
+      "x": 0.0840926559721944,
+      "y": 0
+     },
+     "canonicalTotal": {
+      "x": -7.197562545968594e-10,
+      "y": 0
+     },
+     "hdotAvailable": true
+    }
+   ],
+   "stepDependence": {
+    "dx": 1.9221882308073646e-8,
+    "dy": 0
+   }
+  },
+  {
+   "tag": "brief/m2:1/r3/D0=1/eta0.7",
+   "m1": 2,
+   "m2": 1,
+   "r": 3,
+   "opts": {
+    "G": 1,
+    "eps": 0,
+    "p": 1,
+    "D0": 1,
+    "eta": 0.7,
+    "gauge": "inertia"
+   },
+   "velocities": [
+    [
+     0,
+     -0.3333333333333333
+    ],
+    [
+     0,
+     0.6666666666666666
+    ]
+   ],
+   "stop": null,
+   "sumMassAccel": {
+    "x": -0.05289001242004818,
+    "y": 0,
+    "scale": [
+     0.34345559012554605,
+     0
+    ],
+    "rel": [
+     0.15399374457907314,
+     null
+    ]
+   },
+   "canonicalAccel": {
+    "x": 5.551115123125783e-17,
+    "y": 0,
+    "scale": [
+     0.5253177777709217,
+     0
+    ],
+    "rel": [
+     1.0567156410888666e-16,
+     null
+    ]
+   },
+   "stages": [
+    {
+     "h": 0.00030000000000000003,
+     "stopPlus": null,
+     "stopMinus": null,
+     "canonicalAccel": {
+      "x": 5.551115123125783e-17,
+      "y": 0,
+      "scale": [
+       0.5253177777709217,
+       0
+      ],
+      "rel": [
+       1.0567156410888666e-16,
+       null
+      ]
+     },
+     "hdotTerm": {
+      "x": 0,
+      "y": 0
+     },
+     "canonicalTotal": {
+      "x": 5.551115123125783e-17,
+      "y": 0
+     },
+     "hdotAvailable": true
+    },
+    {
+     "h": 0.000030000000000000004,
+     "stopPlus": null,
+     "stopMinus": null,
+     "canonicalAccel": {
+      "x": 5.551115123125783e-17,
+      "y": 0,
+      "scale": [
+       0.5253177777709217,
+       0
+      ],
+      "rel": [
+       1.0567156410888666e-16,
+       null
+      ]
+     },
+     "hdotTerm": {
+      "x": 0,
+      "y": 0
+     },
+     "canonicalTotal": {
+      "x": 5.551115123125783e-17,
+      "y": 0
+     },
+     "hdotAvailable": true
+    }
+   ],
+   "stepDependence": {
+    "dx": 0,
+    "dy": 0
+   }
   }
  ],
  "pageErrors": []

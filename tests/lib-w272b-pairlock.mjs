@@ -18,9 +18,13 @@
 //
 // ■ 2D の制約(面外は宣言だけ)
 //   第62報の「コンパクト連星の自転軸は互いを向いている」は、2D エンジンでは**幾何として持てない**。
-//   運動学の宣言 ω_i = Ω_AB + σ_i n(σ_i は面内 n 方向の成分)として受け、σ_i は
-//   (σ_i n)×n = 0 なので s_i には**効かない**。この「効かないこと」自体を機械検査する
-//   (`invariance.sigmaOutOfPlane`)。面外の力学は AA10 が開くまで宣言にとどまる。
+//   運動学の宣言 ω_i = Ω_AB + σ_i n として受ける。**第273便d(統括の検証項目 R18)**: この n は
+//   **相手へ向かう単位ベクトル**(天体間方向 n̂ = r/|r|・面内)である —— 仮説の「自転軸が互いを向く」は
+//   まさにこの向きの軸を指す(「面直の単位ベクトル」ではない)。σ_i は (σ_i n)×n = 0 なので
+//   s_i には**効かない**が、**この「効かない」は意味が限定される**: 軸に沿った成分がこの外積で作る項に
+//   現れない(= 軸上の相対すべりをこの項が拾わない)というだけで、「面内軸の自転が連星の力学に効かない」
+//   ではない。この「効かないこと」自体を機械検査する(`invariance.sigmaOutOfPlane`)。
+//   面外の力学は AA10 が開くまで宣言にとどまる。
 //
 // ■ 3 候補(いずれも k₀∈[0,∞) を上限とする非負・有界な無次元係数)
 //   (i)  相対メッシュ運動応答 k_int = k₀·X²/(1+X²)
@@ -37,8 +41,26 @@
 //        同期円軌道 → T_lock=R=1 → k_eff=0 / 無自転円軌道 → k_eff=(1−e⁻¹)k₀ / 径方向運動で R が落ちて k₀ へ戻る。
 //
 // 使い方: import { pairLockCandidates, pairLockInvariance } from './lib-w272b-pairlock.mjs'
-// 版: w272b-1
+// 版: w272b-1(**候補式そのものは 1 文字も変えていない** —— 第273便d が足したのは位置づけの宣言だけ)
 export const PAIRLOCK_VERSION = 'w272b-1';
+
+// 第273便d(AH21): **候補 3 本の位置づけ**。第272便b の実測(❄️)を踏まえて 1 か所に書く。
+// **採用の宣言ではない**(3 本ともエンジンの力学へは 1 バイトも接続していない)。
+//   (i)   主   …… 同期円軌道で厳密に 0(❄️ で 2e-12)。H_AB と s_i を 1 つの無次元 X に畳む。
+//   (iii) 対照 …… 同じ「同期 → 0」を別の関数形(指数)で表す(❄️ で 1.4e-6)。
+//   (ii)  不十分 …… **完全に同期していても k_F(1−χ_pair) が残る**。χ が 2 桁小さい ❄️ では
+//         k_eff ≈ 0.998·k_F になり、「同期 → k≈0」を表せない。
+// **C5(第272便b の対照列)は t=0 の定数評価であり、動的な維持の実証ではない。**
+export const PAIRLOCK_ROLES = {
+  rolesVersion: 'w273d-1',
+  candI: { role: 'primary', why: '同期円軌道で厳密に 0(❄️ 2e-12)・H_AB と s_i を 1 つの X に畳む' },
+  candII: { role: 'insufficient', why: '完全同期でも k_F(1−χ_pair) が残る(❄️ で 0.998)' },
+  candIII: { role: 'control', why: '別の関数形(指数)で同じ「同期 → 0」を表す対照(❄️ 1.4e-6)' },
+  c5Note: 'C5 は t=0 の定数評価であり、**動的維持の実証ではない**。',
+  // 綴りは `tests/out/charon-w272b.json` の `meta.notClaim` に合わせる(この宣言は
+  // `pairLockCandidates` の返り値に載って対照系列の正本へ入るため、同じ語彙で数えられるようにする)
+  notClaim: ['引きずり式の確定', '候補の採用', '潮汐ロックの証明'],
+};
 
 const num = (z) => (typeof z === 'number' && Number.isFinite(z)) ? z : NaN;
 const clamp01 = (z) => (z < 0 ? 0 : (z > 1 ? 1 : z));
@@ -100,11 +122,15 @@ export function pairLockCandidates(s) {
     version: PAIRLOCK_VERSION,
     kin: { r: kin.r, H: kin.H, Omega: kin.Omega, omegaDyn: kin.omegaDyn,
       HOverOmega: kin.H / kin.omegaDyn, OmegaOverOmegaDyn: kin.Omega / kin.omegaDyn },
-    declaredOutOfPlane: { sigmaA: sigA, sigmaB: sigB,
-      note: '2D では (σ n)×n = 0 —— s_i には効かない(宣言だけ)' },
-    candI: { name: 'relative-mesh-response', k: kInt, X2, sAmag, sBmag, k0 },
-    candII: { name: 'lock-factor', k: kLock, etaA, etaB, sLock, chiPair, alpha, kFrame, kRaw: kLockRaw },
-    candIII: { name: 'exp-lock', k: kExp, tLock, rQuiet, k0 }
+    // 第273便d(R18): n は**相手へ向かう単位ベクトル**(天体間方向・面内)である。
+    // (σ n)×n = 0 の意味は「軸上の相対すべりをこの項が拾わない」ことに限られる。
+    declaredOutOfPlane: { sigmaA: sigA, sigmaB: sigB, axis: 'toward-companion (in-plane unit vector)',
+      note: '(σ n)×n = 0 —— **s_i には効かない**(軸上の相対すべりをこの項が拾わないという意味に限る。'
+        + '「面内軸の自転が力学に効かない」ではない)。2D では面内軸を幾何として持てないので宣言だけ' },
+    roles: PAIRLOCK_ROLES,
+    candI: { name: 'relative-mesh-response', role: 'primary', k: kInt, X2, sAmag, sBmag, k0 },
+    candII: { name: 'lock-factor', role: 'insufficient', k: kLock, etaA, etaB, sLock, chiPair, alpha, kFrame, kRaw: kLockRaw },
+    candIII: { name: 'exp-lock', role: 'control', k: kExp, tLock, rQuiet, k0 }
   };
 }
 
