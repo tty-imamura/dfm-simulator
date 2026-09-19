@@ -29347,6 +29347,9 @@ if (!FAST) {
         const vFrac = HP.validatePreset(mk({ kFrame: 0.5 }, 'principle'));
         const vOver = HP.validatePreset(mk({ kFrame: 1.5 }, 'principle'));
         const vNan = HP.validatePreset(mk({ kFrame: 'x' }, 'principle'));
+        // 第273便b 世代判定: 第2層(較正クラスの宣言鍵)は KFRAME_APPROX_KEY を持つ html だけ。
+        // root(v1.44.0 RC・未適用)は `preset.kframe-calib-declared` を SKIP(第149便と同じ流儀)
+        res.kfApproxGen = typeof KFRAME_APPROX_KEY !== 'undefined';
         res.kfGate = {
           calPlain: vCalPlain.ok, calDecl: vCalDecl.ok, calBadDecl: vCalBadDecl.ok,
           cal0: vCal0.ok, cal1: vCal1.ok,
@@ -29455,10 +29458,11 @@ if (!FAST) {
       + `/ 非数は致命拒否=${r.kfGate.nonNumOk === false}`
       + (r.kfBad.length ? ` / **違反**: ${r.kfBad.join(',')}` : ''));
     add('preset.kframe-calib-declared',
-      r.kfCalBad.length === 0 && r.kfGate.calPlain === false && r.kfGate.calDecl === true
+      !r.kfApproxGen || (r.kfCalBad.length === 0 && r.kfGate.calPlain === false && r.kfGate.calDecl === true
       && r.kfGate.declKept === 'space-mesh-effective' && r.kfGate.calBadDecl === false
-      && r.kfGate.cal0 === true && r.kfGate.cal1 === true,
-      `**二層契約の第2層**(第273便b・裁定 AH1): sampleClass:"calibration" ${r.kfCalN} 本で `
+      && r.kfGate.cal0 === true && r.kfGate.cal1 === true),
+      !r.kfApproxGen ? 'SKIP(第273便b 未適用 — 対象に KFRAME_APPROX_KEY なし・root は v1.44.0 RC)'
+      : `**二層契約の第2層**(第273便b・裁定 AH1): sampleClass:"calibration" ${r.kfCalN} 本で `
       + `0<kFrame<1 を書くには \`physics.kFrameApprox:"space-mesh-effective"\` の宣言が要る `
       + `/ 内蔵の較正で分数を書いている本数=${r.kfCalFrac.length}(**較正 ${r.kfCalN} 本の既定値は変えていない**)`
       + `/ 宣言鍵を持つ内蔵=${r.kfApproxDeclared.length} 本 / 門の実測: 宣言なしの分数は拒否=`
