@@ -251,16 +251,28 @@ export function applyEvidenceRegistry(presets, registry) {
 // **最終 2 段差**に掛けていた —— ❄️ では正式門の ε̂ 0.300542 s に対し診断欄が 0.281894 s で、
 // **同じ量に 2 つの数が並んでいた**。`side:'fine'`・`ratio:2` は正式 ε̂ の定義
 // (最終 2 段差/(2^p−1))と**同じ式**である(門の数は 1 つに揃う・門は緩めも締めもしない)。
+// 第273便c(第63報・統括の検証項目 AH30): **非正の次数から Richardson 誤差を作らない**。
+// 入口で p≤0(および p が測れていない場合)を弾く規約は第258便d からあるが、**戻り値が
+// 「作れなかった」ことしか言わず、「漸近域に居ないことが確定した」と読まれ得る文だった**。
+//   ・`refined` は **null のまま**(raw を誤差として使ってよいという意味ではない)。
+//   ・`asymptotic:'unconfirmed'` …… **漸近収束が未確認**である(「漸近域に居ないことが確定」ではない)。
+//   ・`richardsonUsable:false` …… この列から Richardson 補正・外挿を**作ってはならない**印。
+// p>0 の側にも同じ 2 欄を置く(`asymptotic:'order-positive'` は**次数が正であること**しか言わない ——
+// 収束の可否は門の `convergence.ok` が決める)。
 export function refinedNumBound(value, order, ratio = 4, side = 'coarse') {
   if (!Number.isFinite(value)) return null;
   if (!Number.isFinite(order) || !(order > 0)) {
     return { raw: value, order: Number.isFinite(order) ? order : null, factor: null, refined: null,
-      side,
-      note: '**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)' };
+      side, asymptotic: 'unconfirmed', richardsonUsable: false,
+      reason: Number.isFinite(order) ? 'order-non-positive' : 'order-not-measured',
+      note: '**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。'
+        + '**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない'
+        + '(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**' };
   }
   const fine = (side === 'fine');
   const f = fine ? (1 / (Math.pow(ratio, order) - 1)) : (1 / (1 - Math.pow(ratio, -order)));
   return { raw: value, order, factor: f, refined: value * f, side,
+    asymptotic: 'order-positive', richardsonUsable: true, reason: null,
     note: fine
       ? '漸近形 E(h)=C·h^p なら Q_h−Q_{h/' + ratio + '} = E(h/' + ratio + ')·(' + ratio + '^p−1) なので、'
         + '**細かい側(判定段)**の誤差は 差/(' + ratio + '^p−1) = ' + f.toFixed(4) + ' 倍である。'
