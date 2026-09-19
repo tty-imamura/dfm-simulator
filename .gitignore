@@ -387,6 +387,12 @@ paper/*Notes.bib
 #      ページの表と判定器の正本を直接突き合わせるので、この控えは**何を転記したかの記録**である。
 !tests/out/nslockledger-w273c.json
 !tests/out/assessed-w273c.json
+# 第274便b(第64報・因果の向きの裁定・**診断のみ・既定不変**): 独立同期トルクの node 診断
+#   (tests/exp-w274b-sync.mjs)。**k を外から固定し非同期から出発する**試験の実測正本で、
+#   QA `docs.syncCausal` が meta の 3 規則(k を外から固定 / 非同期から出発 / Γ・K を kFrame で
+#   乗じない)と R28 の 4 列判定を読み、`lint.provenanceMeta` が来歴を照合するのでコミットする。
+#   **エンジンへは 1 バイトも接続していない**(内蔵プリセットは 1 bit も変えていない)。
+!tests/out/sync-w274b.json
 # 第221便: セッション内スクラッチ実測ハーネス(コミット対象外 — 実測値は claims/QA が機械固定する)
 _scratch-*.mjs
 _scratch-*/

@@ -1907,7 +1907,10 @@ const add = (id, pass, detail) => {
       'tests/out/qsplit-w271c.json', 'tests/out/j1946adopt-w270c.json',
       'tests/out/corrections-w272e.json',
       // 第273便b(R21): カロン C3 の符号反転区間の探索(**fit**)—— 新しい正本も同じ形で刻む
-      'tests/out/charonk-w273b.json'];
+      'tests/out/charonk-w273b.json',
+      // 第274便b: 独立同期トルクの node 診断(**エンジン未接続**)—— html を走らせない器なので
+      //   target は器が読む正本ファイル(`tests/lib-w274b-synctorque.mjs`)である
+      'tests/out/sync-w274b.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -6916,6 +6919,190 @@ if (!TARGET.startsWith('beta/')) {
     + `最大の刻み依存 ${maxStepDep === null ? '—' : maxStepDep.toExponential(1)}): ${movRows.join(' / ')} / `
     + `⑤ 受理条件の候補 ${nCand} つ(長時間の正準運動量・角運動量・エネルギー・背景交換・通常の重心)は`
     + `**並べただけで、どれも採用していない** —— **「保存則違反」とは書かない**`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0e3g) 第274便b(第64報・統括の検証項目 R28 / 因果の向きの裁定): behavior.syncTorqueLedger ----
+// ----   **独立同期トルクの純関数**(`tests/lib-w274b-synctorque.mjs`)を機械固定する。
+// ----   背景(裁定): **採る**「連星が kFrame≈0 で安定なら相対メッシュ運動が消え、**独立の同期トルク**で
+// ----   自転が公転へ引き込まれる」/ **採らない**「ロックしているから k≈0 と置く」。この向きを試験に
+// ----   するには **Γ・K を kFrame で乗じてはならない**(k=0 で Γ まで 0 にすると自転を変える原因が消える)。
+// ----   固定するのは 6 つ:
+// ----     ① 角運動量 L_tot = L_orb + Σ I_iω_i が基準 4 ケースとも**相対 1e−12 以内**で保たれる。
+// ----     ② 散逸 Q が**単調非減少**かつ非負である。
+// ----     ③ エネルギーの減少が散逸に等しい(E+Q が相対 1e−8 以内で不変)—— 準円の永年模型では
+// ----        dE_orb/dL = Ω が恒等なので、これは**式の上で厳密な関係の数値確認**である。
+// ----     ④ **Γ・K を kFrame で乗じていない**: 同期トルクの関数は kFrame を字面に持たない
+// ----        (質量則 `massFactorLinear` だけが k_F を取る —— **f と k は別軸**である)。
+// ----     ⑤ 零トルクの否定対照(Γ=K=0)で自転も L_orb も 1 bit 動かず Q=0 である。
+// ----     ⑥ **エンジンへ接続していない**: html は本ライブラリを 1 度も参照しない(`S._core` に 1 命令も足していない)。
+// ----   **書かないこと**: 「潮汐ロックへ収束することを証明した」「同期トルクを採用した」「Γ・K を同定した」。
+{
+  const bad = [];
+  const cells = [];
+  let SV = null, worstL = 0, worstE = 0, nRef = 0;
+  try {
+    const T = await import('file://' + path.join(ROOT, 'tests', 'lib-w274b-synctorque.mjs'));
+    SV = T.SYNCTORQUE_VERSION;
+    if (SV !== 'w274b-1') bad.push(`版が w274b-1 でない(${SV})`);
+    const refs = T.syncReferenceCases();
+    if (refs.length !== 4) bad.push(`基準ケースが 4 本でない(${refs.length})`);
+    for (const c of refs) {
+      nRef++;
+      const run = T.runSecular(c.P);
+      const led = T.syncTorqueLedger(run);
+      worstL = Math.max(worstL, run.ledger.angularRelDrift);
+      worstE = Math.max(worstE, run.ledger.energyRelResidual);
+      if (!led.ok) bad.push(`①②③ ${c.id}: ${led.checks.filter((z) => !z.ok).map((z) => z.name + '=' + z.value).join(' / ')}`);
+      if (c.id === 'zeroTorqueNull') {
+        if (run.last.Lorb !== run.first.Lorb) bad.push('⑤ 零トルクで L_orb が動いた');
+        if (run.Q !== 0) bad.push(`⑤ 零トルクで Q が 0 でない(${run.Q})`);
+        if (run.last.ratio[0] !== run.first.ratio[0] || run.last.ratio[1] !== run.first.ratio[1])
+          bad.push('⑤ 零トルクで自転が動いた');
+      }
+      if (c.id === 'dissipativePrograde' || c.id === 'dissipativeRetrograde') {
+        // **符号つき**で +1 に入ること(|ω|/Ω では逆行の同期と区別できない — AH22)
+        if (!run.last.ratio.every((z) => Math.abs(z - 1) <= 0.01))
+          bad.push(`${c.id} の ω/Ω が符号つきで +1 の 1% に入らない(${run.last.ratio.map((z) => z.toFixed(5)).join('/')})`);
+      }
+      cells.push(`${c.id} ω/Ω ${run.first.ratio.map((z) => z.toFixed(2)).join('・')}`
+        + ` → ${run.last.ratio.map((z) => z.toFixed(4)).join('・')}`);
+    }
+    // ④ 同期トルク側の関数は kFrame を字面に持たない(質量則だけが k_F を取る)
+    for (const fn of [T.dissipativeTorque, T.orientationTorque, T.secularDerivs,
+      T.secularInvariants, T.runSecular, T.syncTorqueLedger]) {
+      if (/kFrame|kF[^a-zA-Z]/.test(String(fn)))
+        bad.push(`④ ${fn.name} が kFrame を読んでいる(Γ・K を kFrame で乗じない契約に反する)`);
+    }
+    if (!/kFrame/.test(String(T.massFactorLinear)))
+      bad.push('④ 質量則 massFactorLinear が k_F を取っていない(f と k を別軸に振れない)');
+    // ⑥ エンジンへ接続していない
+    const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+    if (html.indexOf('lib-w274b-synctorque') >= 0 || html.indexOf('dissipativeTorque') >= 0
+      || html.indexOf('orientationTorque') >= 0)
+      bad.push('⑥ html が同期トルクの純関数を参照している(純関数は力学へ接続しない約束)');
+    // 位置づけの明記
+    const src = fs.readFileSync(path.join(ROOT, 'tests', 'lib-w274b-synctorque.mjs'), 'utf8');
+    for (const w of ['法則ではない', 'ロック検出器でもない', 'kFrame で乗じない', '因果の証拠に使わない'])
+      if (src.indexOf(w) < 0) bad.push(`ライブラリに「${w}」の明記が無い`);
+    const C = T.CAUSAL_CONTRACT;
+    if (!C || !Array.isArray(C.testRules) || C.testRules.length !== 3)
+      bad.push('CAUSAL_CONTRACT の試験規則が 3 つでない');
+  } catch (e) { bad.push('同期トルクのライブラリが読めない: ' + String(e).slice(0, 110)); }
+  add('behavior.syncTorqueLedger', bad.length === 0,
+    `**独立同期トルクの純関数**(第274便b・原仮定者の裁定〔第64報〕の**因果の向き** ——`
+    + `**採る**「連星が kFrame≈0 で安定なら相対メッシュ運動が消え、**独立の同期トルク**で自転が公転へ`
+    + `引き込まれる」/ **採らない**「ロックしているから k≈0 と置く」): 版 \`${SV}\`・基準 ${nRef} 本 —— `
+    + cells.join(' / ')
+    + ` / **① 角運動量 L_orb+ΣIω の相対ドリフト最大 ${worstL.toExponential(2)}**(≤1e−12)・`
+    + `**② Q は単調非減少で非負**・**③ E+Q の相対残差最大 ${worstE.toExponential(2)}**(≤1e−8 —— `
+    + `準円の永年模型では dE_orb/dL=Ω が恒等なので**式の上で厳密な関係の数値確認**である)/ `
+    + `**④ Γ・K を kFrame で乗じていない**(同期トルクの関数は kFrame を字面に持たない。`
+    + `k_F を取るのは質量則 \`massFactorLinear\` だけ —— **f と k は別軸**)/ `
+    + `**⑤ 零トルク(Γ=K=0)の否定対照では自転も L_orb も動かず Q=0** / `
+    + `**⑥ エンジンへ接続していない**(html からの参照 0・\`S._core\` に 1 命令も足していない・`
+    + `内蔵プリセットは 1 bit も変えていない)/ Γ・K は**宣言された自由パラメータ**であって`
+    + `観測から同定した値ではない —— **「潮汐ロックへ収束することを証明した」とは書かない**`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0e3h) 第274便b(第64報・因果の向きの裁定): docs.syncCausal ----
+// ----   **k を外から固定し、非同期から出発する**という因果の試験の契約が、
+// ----   ライブラリ・器・結果正本・docs/PHYSICS.md の **4 か所で一致**していることを機械固定する:
+// ----     ① `CAUSAL_CONTRACT` に採る/採らないの 2 文と 3 つの試験規則(k を外から固定 /
+// ----        非同期から出発 / Γ・K を kFrame で乗じない)がある。
+// ----     ② 器 `tests/exp-w274b-sync.mjs` の k の格子は**外から固定した定数**で、初期 ω/Ω の格子に
+// ----        1 が 1 つも無い(**非同期から出発する**)。器は診断式 (i)(iii) の値を**力学へ渡していない**。
+// ----     ③ 結果正本 `tests/out/sync-w274b.json` の meta が `kFixedExternally:true`・
+// ----        `startsNonSynchronous:true`・`gammaMultipliedByKFrame:false` を刻み、限界と notClaim を持つ。
+// ----     ④ docs/PHYSICS.md 〔第274便b〕節に採る/採らないの 2 文と「(i)(iii) は診断式である」がある。
+// ----     ⑤ 判定は **R28 の 4 列に分かれている**(走行成立 / 定常 / 同期 / **観測成立は本便で評価しない**)。
+// ----   **書かないこと**: 「潮汐ロックへ収束することを証明した」「kF0 版が成立した」「引きずり消失を確認した」。
+{
+  const bad = [];
+  let nRows = 0, nK = 0, nSpin = 0, syncRows = 0, plateauRows = 0;
+  try {
+    const T = await import('file://' + path.join(ROOT, 'tests', 'lib-w274b-synctorque.mjs'));
+    const C = T.CAUSAL_CONTRACT || {};
+    if (!C.adopt || C.adopt.indexOf('独立の同期トルク') < 0) bad.push('① 採る側の文が無い');
+    if (!C.reject || C.reject.indexOf('k≈0 と置く') < 0) bad.push('① 採らない側の文が無い');
+    for (const w of ['k は外から固定する', '非同期から出発する', 'Γ・K を kFrame で乗じない'])
+      if (!(C.testRules || []).some((z) => z.indexOf(w) >= 0)) bad.push(`① 試験規則「${w}」が無い`);
+    // ② 器の宣言
+    const ex = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w274b-sync.mjs'), 'utf8');
+    const kg = (ex.match(/const K_GRID = \[([^\]]*)\]/) || [, ''])[1].split(',').map((z) => Number(z.trim()));
+    if (!(kg.length >= 3 && kg.includes(0) && kg.includes(1))) bad.push(`② k の格子が {0,…,1} でない(${kg.join('/')})`);
+    nK = kg.length;
+    const sg = [...ex.matchAll(/mult:\s*(-?[\d.]+)/g)].map((z) => Number(z[1]));
+    nSpin = sg.length;
+    if (!(nSpin >= 4)) bad.push(`② 初期自転の格子が 4 つ未満(${nSpin})`);
+    if (sg.some((z) => z === 1)) bad.push('② 初期 ω/Ω の格子に 1(同期)が入っている —— **非同期から出発する**契約に反する');
+    if (!sg.some((z) => z < 0)) bad.push('② 初期自転の格子に逆行が無い(符号つきで読む契約・AH22)');
+    // 診断式 (i)(iii) の呼び出しは **診断の節に 1 度だけ**で、力学のループの外にあること
+    const nCand = (ex.match(/pairLockCandidates\(/g) || []).length;
+    const iCand = ex.indexOf('pairLockCandidates(');
+    const iLoop = ex.indexOf('function integrate(');
+    const iEndLoop = ex.indexOf('// ================================================================= 走行');
+    if (nCand !== 1) bad.push(`② 診断式の呼び出しが 1 か所でない(${nCand} か所)`);
+    if (iCand >= 0 && iLoop >= 0 && iEndLoop > iLoop && iCand > iLoop && iCand < iEndLoop)
+      bad.push('② 診断式を力学の積分器の中で呼んでいる(同期率 → k の循環を作らない契約に反する)');
+    for (const w of ['因果の向き', '外から固定', 'kFrame で乗じない'])
+      if (ex.indexOf(w) < 0) bad.push(`② 器に「${w}」の明記が無い`);
+    // ③ 結果正本
+    const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'sync-w274b.json'), 'utf8'));
+    const m = J.meta || {};
+    if (m.kFixedExternally !== true) bad.push('③ meta.kFixedExternally が true でない');
+    if (m.startsNonSynchronous !== true) bad.push('③ meta.startsNonSynchronous が true でない');
+    if (m.gammaMultipliedByKFrame !== false) bad.push('③ meta.gammaMultipliedByKFrame が false でない');
+    if (m.engineConnected !== false || m.coreTouched !== false || m.presetsTouched !== false)
+      bad.push('③ meta の「エンジン未接続・_core 不変・プリセット不変」の宣言が揃っていない');
+    if (!Array.isArray(m.limits) || m.limits.length < 4) bad.push('③ meta.limits(限界の宣言)が 4 件未満');
+    if (!Array.isArray(m.notClaim) || m.notClaim.length < 3) bad.push('③ meta.notClaim が 3 件未満');
+    if (m.libVersion !== T.SYNCTORQUE_VERSION) bad.push(`③ meta.libVersion が ${T.SYNCTORQUE_VERSION} でない`);
+    // ⑤ 4 列の判定
+    const rows = (J.causalGrid && J.causalGrid.rows) || [];
+    nRows = rows.length;
+    if (!(nRows >= 40)) bad.push(`⑤ 因果の格子が 40 行未満(${nRows})`);
+    for (const key of ['runCompleted', 'spinPlateau', 'synchronous', 'orbitStable'])
+      if (rows.some((z) => z[key] === undefined)) bad.push(`⑤ 判定列 ${key} が欠けた行がある`);
+    if (rows.some((z) => z.converged !== undefined))
+      bad.push('⑤ 単一の「収束」列が残っている(R28 の 4 列に分ける契約)');
+    syncRows = rows.filter((z) => z.synchronous === true).length;
+    plateauRows = rows.filter((z) => z.spinPlateau === true).length;
+    if ((J.causalGrid.note || '').indexOf('観測成立') < 0)
+      bad.push('⑤ 「観測成立は本便で評価しない」の明記が無い');
+    // ④ PHYSICS の節(**節の内側だけ**を見る)
+    const ph = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+    const i0 = ph.indexOf('〔第274便b');
+    if (i0 < 0) bad.push('④ docs/PHYSICS.md に〔第274便b〕節が無い');
+    else {
+      const i1 = ph.indexOf('\n## ', i0);
+      const sec = ph.slice(i0, i1 > 0 ? i1 : ph.length);
+      for (const w of ['独立の同期トルク', 'ロックしているから k≈0 と置く', '診断式',
+        'Γ・K を kFrame で乗じない', '観測成立', '言わないこと']) {
+        if (sec.indexOf(w) < 0) bad.push(`④ 〔第274便b〕節に「${w}」が無い`);
+      }
+      // **禁句は「言わないこと」の宣言として並べる**(宣言そのものを禁句検出しない)
+      const ng = sec.indexOf('**言わないこと。**');
+      for (const w of ['潮汐ロックへ収束することを証明した', 'kF0 版が成立した']) {
+        const at = sec.indexOf(w);
+        if (at < 0) bad.push(`④ 〔第274便b〕節の「言わないこと」に「${w}」が無い`);
+        else if (ng < 0 || at < ng) bad.push(`④ 「${w}」が「言わないこと」の外に出ている`);
+      }
+    }
+  } catch (e) { bad.push('因果の契約が読めない: ' + String(e).slice(0, 110)); }
+  add('docs.syncCausal', bad.length === 0,
+    `**因果の向きの試験の契約**(第274便b・原仮定者の裁定〔第64報〕): `
+    + `**① k を外から固定する**(格子 ${nK} 点・**同期率から k を作らない**)/ `
+    + `**② 非同期から出発する**(初期 ω/Ω の格子 ${nSpin} 点に 1 は無く、逆行を含む —— 符号つきで読む・AH22)/ `
+    + `**③ Γ・K を kFrame で乗じない**(k=0 で Γ まで 0 にすると自転を変える原因が消えるため)—— `
+    + `この 3 つをライブラリ(\`CAUSAL_CONTRACT\`)・器(\`tests/exp-w274b-sync.mjs\`)・`
+    + `正本(\`tests/out/sync-w274b.json\` の meta)・docs/PHYSICS.md 〔第274便b〕の **4 か所**で一致させた / `
+    + `因果の格子 **${nRows} 行**の判定は **R28 の 4 列に分けて**記録する —— 走行成立 / `
+    + `**定常 ${plateauRows} 行** / **同期 ${syncRows} 行** / **観測成立は本便で評価しない**`
+    + `(観測との突き合わせを 1 件もしていない)/ `
+    + `第272便b の候補 (i)(iii) は「同期率 → k」の**診断式**であって**因果の証拠には使わない**`
+    + `(循環を作らない)—— **「潮汐ロックへ収束することを証明した」「kF0 版が成立した」とは書かない**`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 
