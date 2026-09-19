@@ -3449,6 +3449,47 @@ function validateSpaceMesh(a){
       return {ok:false, err:'physics.spaceMesh.meshGauge は "inertia"/"constraint"(共通並進の零固有値の扱い)'};
     mGauge=a.meshGauge;
   }
+  // 第274便c(第64報): **帯平均の軽量 variant** `diskSupport`(+ bandCount・pairCut・kRepEff・
+  // bandLength・pressure0)。**既定 "none" は 1 文字も正準形に出さない**(内蔵 124 本は署名も力学もビット不変)。
+  // **近似 variant であって既定則ではない** —— 宣言すると警告を 1 行出し、calibration では拒否する。
+  let dSup=SPACE_MESH_DISK_SUPPORT[0], dBands=GEO_TOY_BAND_COUNT_DEFAULT, dCut=0,
+      dKrep=0, dEll=GEO_TOY_BAND_ELL_DEFAULT, dTh0=0;
+  if(a.diskSupport!==undefined && a.diskSupport!==null){
+    if(SPACE_MESH_DISK_SUPPORT.indexOf(a.diskSupport)<0)
+      return {ok:false, err:'physics.spaceMesh.diskSupport は "none"/"band-pressure"(geoPN=3 の帯平均 variant)'};
+    dSup=a.diskSupport;
+    if(dSup===SPACE_MESH_DISK_SUPPORT[1])
+      warn.push('physics.spaceMesh.diskSupport:"band-pressure" — **帯平均の近似 variant** です(第274便c)。'
+        +'場の作り方が既定トイ(自己除外の正規化平均)と違うので**値はビット同一になりません**。'
+        +'有効圧の供給は**外部熱浴**として記帳します(有限供給版は次段)。採用則ではありません');
+  }
+  if(a.bandCount!==undefined && a.bandCount!==null){
+    if(!isNum(a.bandCount) || !(a.bandCount>=2) || !(a.bandCount<=512))
+      return {ok:false, err:"physics.spaceMesh.bandCount は 2〜512 の整数(半径帯の本数)"};
+    dBands=Math.round(Number(a.bandCount));
+  }
+  if(a.pairCut!==undefined && a.pairCut!==null){
+    if(!isNum(a.pairCut) || !(a.pairCut>=0))
+      return {ok:false, err:"physics.spaceMesh.pairCut は 0 以上の数値(この半径より内側はトイ項を当てない)"};
+    dCut=clamp(Number(a.pairCut),0,1e9);
+  }
+  if(a.kRepEff!==undefined && a.kRepEff!==null){
+    if(!isNum(a.kRepEff) || !(a.kRepEff>=0))
+      return {ok:false, err:"physics.spaceMesh.kRepEff は 0 以上の数値(**既存の physics.kRep とは別の鍵**)"};
+    dKrep=clamp(Number(a.kRepEff),0,1e9);
+  }
+  if(a.bandLength!==undefined && a.bandLength!==null){
+    if(!isNum(a.bandLength) || !(a.bandLength>0))
+      return {ok:false, err:"physics.spaceMesh.bandLength は正の数値(有効圧の宣言長 ℓ_*)"};
+    dEll=clamp(Number(a.bandLength),1e-9,1e9);
+  }
+  if(a.pressure0!==undefined && a.pressure0!==null){
+    if(!isNum(a.pressure0) || !(a.pressure0>=0))
+      return {ok:false, err:"physics.spaceMesh.pressure0 は 0 以上の数値(有効圧の下駄 Θ₀)"};
+    dTh0=clamp(Number(a.pressure0),0,1e12);
+  }
+  if(mLaw===MESH_V2_LAWS[1] && dSup!==SPACE_MESH_DISK_SUPPORT[0])
+    return {ok:false, err:'physics.spaceMesh.law:"mesh-v2" は diskSupport と排他です(mesh-v2 は帯平均を持ちません)'};
   if(mLaw===MESH_V2_LAWS[1] && tClosure!==SPACE_MESH_TOY_CLOSURE[0])
     return {ok:false, err:'physics.spaceMesh.law:"mesh-v2" は toyClosure と排他です(mesh-v2 は閉包を代数的に解くので反復を持ちません)'};
   // 第259便c(第51報): **初期メッシュ貯蔵エネルギー E₀ の正名** `meshEnergyCapacity`(**宣言値**)。
@@ -3469,8 +3510,10 @@ function validateSpaceMesh(a){
   // 第263便a: `toyAllowDrag` も「宣言があれば正準形を残す」側に数える(単独では力を 1 バイトも
   // 動かさないが、黙って落とすと「宣言したのに効いていない」が見えなくなる)
   // 第264便b: `toyClosure`(既定以外)も「宣言があれば正準形を残す」側に数える
+  // 第274便c: `diskSupport`(既定以外)も「宣言があれば正準形を残す」側に数える
   if(grav===false && iner===false && wv===SPACE_MESH_WEAVE[0] && !res && capE===null && lawV===null
-    && !tAllowDrag && tClosure===SPACE_MESH_TOY_CLOSURE[0] && mLaw===MESH_V2_LAWS[0])
+    && !tAllowDrag && tClosure===SPACE_MESH_TOY_CLOSURE[0] && mLaw===MESH_V2_LAWS[0]
+    && dSup===SPACE_MESH_DISK_SUPPORT[0])
     return {ok:true, spaceMesh:null, warn};
   out.gravity=grav; out.inertia=iner;
   if(iner!==false){
@@ -3504,6 +3547,14 @@ function validateSpaceMesh(a){
   // 第265便b: **"mesh-v2" のときだけ** law と meshGauge を正準形へ入れる(ゲージは既定でも明示する ——
   // ①と②で加速度が変わるので「どちらで走ったか」が署名から読めないと再現できない)
   if(mLaw!==MESH_V2_LAWS[0]){ out.law=mLaw; out.meshGauge=mGauge; }
+  // 第274便c: **"band-pressure" のときだけ**帯平均の 5 鍵を正準形へ入れる(既定 "none" は 1 文字も出さない)。
+  // bandCount と bandLength は既定でも明示する(値が変わると軌道が変わるので署名から読めないと再現できない)
+  if(dSup!==SPACE_MESH_DISK_SUPPORT[0]){
+    out.diskSupport=dSup; out.bandCount=dBands; out.bandLength=dEll;
+    if(dCut!==0) out.pairCut=dCut;
+    if(dKrep!==0) out.kRepEff=dKrep;
+    if(dTh0!==0) out.pressure0=dTh0;
+  }
   return {ok:true, spaceMesh:out, warn};
 }
 // ===== 第252便b(第44報): physics.periSubsteps — 近点近傍だけ刻みを細かくする薄い包み(opt-in・既定 OFF)=====
@@ -6382,6 +6433,68 @@ const BUILTIN_PRESETS = [
     {type:"disk", rMul:1.2, n:90, cx:0,cy:0, radius:90, profile:"plummer", plummerScale:26,
      mMin:0.16,mMax:0.5, spinMin:0,spinMax:0, vMode:"random", vScale:6, direction:1, bulkVx:0, bulkVy:0},
     {type:"disk", rMul:1.2, n:260, cx:0,cy:0, radius:260, profile:"exponential", sersicRe:90,
+     mMin:0.16,mMax:0.5, spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1.05,
+     direction:1, bulkVx:0, bulkVy:0}],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,
+    spaceMesh:{mode:"mesh"},
+    galaxyField:{unSource:"disk",unFit:"affine",slipThreshold:0.9,bg:"static"}} },
+
+// 第274便c(第64報「galaxyMeshSpiralGeoToy が重い理由を調査し改善する」): **🪁 の軽量コピー**。
+// **物理の宣言は 🪁 と 1 文字も違わない**(geoPN=3・kFrame=0・lawVersion:"scalar"・η=1・D₀=1.5)。
+// 違うのは**円盤の粒数だけ**(260 → 80 = 全体 351 → 171 体)である。トイの費用は O(N²) なので、
+// 粒数を減らすことが**法則を変えずに軽くする**唯一の道でもある —— その代わり**同じ走行ではない**
+// (保持率・V_rms・v_φ(r) は 🪁 と一致しない。数は PHYSICS〔第274便c〕④ の表)。
+{ id:"galaxyMeshSpiralGeoToyLite", name:"銀河の空間メッシュ・軽量コピー(円盤 80 粒 — 較正ではない)", emoji:"🎋",
+  group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
+  notClaim:["galaxy","dm"],
+  obsCard:[
+    {q:"何が 🪁 と違うか", model:"**円盤の粒数だけ**(260→80・全体 351→171 体)。physics の宣言と乱数種 20260910 は 🪁 と 1 文字も違わない", obs:"—(原理サンプル — 観測転写はしない)"},
+    {q:"なぜ置くか", model:"トイの費用は源の O(N²) なので、**法則を変えずに軽くする**道が粒数である。重い理由の内訳は PHYSICS〔第274便c〕① の表", obs:"—"},
+    {q:"較正ではない", model:"観測回転曲線は**1 つも入力していない**。claim 窓も regression window も無い。**🎠 本体も 🪁 も 1 bit も動かない**", obs:"—"},
+    {q:"同じ走行ではない", model:"粒数が違うので保持率・V_rms・v_φ(r) は 🪁 と一致しない(実測は PHYSICS〔第274便c〕④)。**軽い方が正しいとは言わない**", obs:"—"},
+    {q:"pinned 中心核", model:"m=2500 の核は **pinned(規定運動)**。トイの ∂ₜu へ渡す源の加速度は規定運動の加速度=0(🪁 と同じ)", obs:"—"},
+    {q:"帯平均 variant は未宣言", model:"第274便c の diskSupport:\"band-pressure\" は**この本では宣言していない**(既定トイのまま — 宣言すると場の作り方が変わる)", obs:"—"},
+    {q:"言わないこと", model:"**銀河を較正した/回転曲線を再現した/腕が描けた=較正/N 倍速くなった**とは書かない(T4)", obs:"—"}],
+  descStruct:{
+    summary:"**🪁「銀河の空間メッシュ — geoPN=3 原理コピー」の軽量版**(第274便c・第64報「galaxyMeshSpiralGeoToy が重い理由を調査し改善する」)。**physics の宣言は 🪁 と 1 文字も違わない**(geoPN=3・kFrame=0・physics.spaceMesh の lawVersion:\"scalar\"・inertia:false・toyGain η=1・D₀=1.5・ε=3・timeScale=3)。違うのは**指数円盤の粒数だけ**で、260 粒 → 80 粒(全体 351 体 → 171 体)である。geoPN=3 のトイは 1 步のうちに源の場を集めるので費用は粒数の二乗で効く —— **法則を 1 バイトも変えずに軽くする**道がこの本である。**これは較正ではない**: 観測回転曲線は 1 つも入力しておらず、claim 窓も regression window も 1 つも張っていない。**🎠 本体(geoPN=0・kFrame=1)も 🪁 も 1 bit も動かない。**第274便c の帯平均 variant(physics.spaceMesh.diskSupport:\"band-pressure\")は**この本では宣言していない**(既定トイのままである)。**言わないこと**: 銀河を較正した/回転曲線を再現した/腕が描けた=較正/N 倍速くなった。",
+    observe:"実測(器 tests/exp-w274c-galaxylite.mjs・dt=0.016・171 体・seed 20260910・T=48=3000 步): **保持率**(**指数円盤 80 粒だけ**のうち r ≤ R_ref にいる割合。R_ref は t=0 の円盤粒子の最大半径)と **V_rms**(同じ円盤粒子)を 🪁(円盤 260 粒)と同じ抽出器で測り、PHYSICS〔第274便c〕④ の表に置いた。**粒数が違うので 🪁 と一致しない**(窓は同じでも母集団が違う)。**どちらが「正しい」かは、この表からは言えない**(比べる観測量が 1 つも無い — 較正はしていない)。健全性: NaN 0・トイの帳簿は E_toy+E_mesh=0(厳密)。**言わないこと**: 銀河を較正した/回転曲線を再現した/腕が描けた=較正/N 倍速くなった(実ブラウザの ms/步 は PHYSICS〔第274便c〕① の表にだけ置く)。",
+    control:"ワンタップ対照A/B: B 側は **D₀=500**(χ→0)でトイがほぼ切れる(🪁 と同じ対照)。比較の相手は 🪁(同じ宣言・円盤 260 粒)と 🎠(geoPN=0・kFrame=1)である。**kFrame は動かさないこと**(geoPN=3 の入場条件なので、0 以外にするとステップ会計に geoToy:denied が出る)。"},
+  en:{name:"Galaxy space mesh - light copy (80 disc particles, NOT a calibration)",
+    obsCard:[
+      {q:"What differs from the kite", model:"ONLY THE DISC PARTICLE COUNT (260 to 80; 351 to 171 bodies). The physics declarations and the seed 20260910 are character-for-character identical", obs:"- (a principle sample; no observation is transcribed)"},
+      {q:"Why it exists", model:"The toy's cost is O(N^2) in the sources, so cutting the particle count is the way to make it lighter WITHOUT touching the law. The cost breakdown is in PHYSICS, wave 274c, section 1", obs:"-"},
+      {q:"This is not a calibration", model:"NO observed rotation curve is fed in; there is no claim window and no regression window. 🎠 AND 🪁 ARE BOTH BIT-UNCHANGED", obs:"-"},
+      {q:"Not the same run", model:"With a different particle count the retention, V_rms and v_phi(r) do NOT match 🪁 (measured in PHYSICS, wave 274c, section 4). THE LIGHTER ONE IS NOT CLAIMED TO BE RIGHT", obs:"-"},
+      {q:"The pinned nucleus", model:"The m=2500 nucleus is PINNED (prescribed motion), so the source acceleration handed to the toy's d/dt u is the prescribed one, exactly as on 🪁", obs:"-"},
+      {q:"The band variant is NOT declared", model:"Wave 274c's diskSupport band-pressure is NOT declared on this sample (it runs the default toy; declaring it changes how the field is built)", obs:"-"},
+      {q:"What this does not claim", model:"NOT a calibrated galaxy, NOT a reproduced rotation curve, NOT 'the arms came out, therefore calibrated', NOT 'N times faster' (T4)", obs:"-"}],
+    descStruct:{
+      summary:"A LIGHT VERSION OF 🪁 'GALAXY SPACE MESH - geoPN=3 PRINCIPLE COPY' (wave 274c, report 64: 'investigate why galaxyMeshSpiralGeoToy is heavy and improve it'). THE PHYSICS DECLARATIONS ARE CHARACTER-FOR-CHARACTER IDENTICAL TO 🪁 (geoPN=3, kFrame=0, spaceMesh lawVersion scalar, inertia false, toyGain eta=1, D0=1.5, eps=3, timeScale=3). ONLY THE EXPONENTIAL-DISC PARTICLE COUNT DIFFERS: 260 to 80 (351 to 171 bodies). The geoPN=3 toy gathers the source field inside every step, so the cost grows with the square of the particle count - this sample is the way to make it lighter WITHOUT CHANGING ONE BYTE OF THE LAW. THIS IS NOT A CALIBRATION: no observed rotation curve is fed in, and not one claim window or regression window is declared. 🎠 (geoPN=0, kFrame=1) AND 🪁 ARE BOTH BIT-UNCHANGED. Wave 274c's band-average variant (spaceMesh diskSupport band-pressure) IS NOT DECLARED HERE.",
+      observe:"Measured (harness tests/exp-w274c-galaxylite.mjs, dt=0.016, 171 bodies, seed 20260910, T=48 = 3000 steps). RETENTION (the fraction of the 80 EXPONENTIAL-DISC particles inside R_ref, the initial maximum disc radius) and V_rms over the same disc particles are taken with the SAME extractor as 🪁 (260 disc particles) and tabulated in PHYSICS, wave 274c, section 4. THEY DO NOT MATCH 🪁: the window is the same but the population is not. WHICH ONE IS 'RIGHT' CANNOT BE SAID FROM THIS TABLE - there is not one observable to compare against, and nothing is calibrated. Health: zero NaN; the toy ledger closes with E_toy + E_mesh = 0 exactly. WHAT THIS DOES NOT CLAIM: not a calibrated galaxy, not a reproduced rotation curve, not 'N times faster' (the real-browser ms/step lives only in the table of PHYSICS, wave 274c, section 1).",
+      control:"One-tap A/B: side B runs D0=500 (chi to 0), which all but switches the toy off - the same control as 🪁. The comparison partners are 🪁 (same declarations, 260 disc particles) and 🎠 (geoPN=0, kFrame=1). DO NOT MOVE kFrame: it is the toy's entry condition, so any other value shows geoToy:denied in the step accounting."}},
+  parameterAudit:{
+    observedInputs:["**無い。** 観測回転曲線も観測質量も 1 つも入力していない(原理サンプル)"],
+    fixedConventions:["🪁 の physics 宣言をそのまま(geoPN=3・kFrame=0・lawVersion:\"scalar\"・inertia:false・η=1)",
+      "乱数種 20260910・幾何(核 pinned + Plummer バルジ 90 + 指数円盤)も 🪁 と同じ",
+      "cLight=30(組込みプリセットの規約)"],
+    fitted:["**無い。**"],
+    derived:["χ(r)=W(r)/(W(r)+D₀)(W は frameWeight:\"share\" なので p=1 の加算形)"],
+    numerical:["ソフトニング ε=3","時間倍率 timeScale=3","**円盤 80 粒**(🪁 は 260 粒)— ここだけが 🪁 との差である",
+      "測定: dt=0.016 で 3000 步(T=48)"]},
+  activeParams:["D0","G"],
+  validT:48,
+  abQuick:{key:"D0", v:500},
+  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260910,
+  physics:{G:0.8, D0:1.5, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:3, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:3, stateCarry:"double", frameWeight:"share",
+    spaceMesh:{mode:"vertex", gravity:false, inertia:false, lawVersion:"scalar"}},
+  bodies:[
+    // 🪁 と**同一**の核とバルジ。**指数円盤だけ n:260 → n:80**
+    {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, radius:15},
+    {type:"disk", rMul:1.2, n:90, cx:0,cy:0, radius:90, profile:"plummer", plummerScale:26,
+     mMin:0.16,mMax:0.5, spinMin:0,spinMax:0, vMode:"random", vScale:6, direction:1, bulkVx:0, bulkVy:0},
+    {type:"disk", rMul:1.2, n:80, cx:0,cy:0, radius:260, profile:"exponential", sersicRe:90,
      mMin:0.16,mMax:0.5, spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1.05,
      direction:1, bulkVx:0, bulkVy:0}],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,
@@ -14379,6 +14492,14 @@ function validatePreset(obj){
   // 第264便b: 源の閉包 "iterate" も同じ扱い(**診断であって採用則ではない**)
   if(p.sampleClass==="calibration" && ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].toyClosure==="iterate")
     bad('physics.spaceMesh.toyClosure:"iterate"(源の加速度に自分のトイ項を戻す固定点反復の診断キー)は sampleClass:"calibration" では使えません');
+  // 第274便c(第64報): **帯平均 variant も同じ扱い**(近似であって採用則ではない)。
+  // **geoPN=3 でなければ意味を持たない**(宣言だけが残って力が当たらない状態を作らない)。
+  if(ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].diskSupport==="band-pressure"){
+    if(p.sampleClass==="calibration")
+      bad('physics.spaceMesh.diskSupport:"band-pressure"(帯平均の近似 variant)は sampleClass:"calibration" では使えません');
+    else if(!(ph.geoPN>=3))
+      bad('physics.spaceMesh.diskSupport:"band-pressure" は physics.geoPN=3 専用です(既定トイと同じ入場条件)');
+  }
   // 第265便b(Z2): **mesh-v2 は principle 限定**(較正へ入れない)・**geoPN=3 でなければ意味を持たない**・
   // **E6′/E12 と重ねない**(toyAllowDrag と排他)。宣言だけが残って力が当たらない状態を作らない。
   if(ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].law==="mesh-v2"){
@@ -17416,6 +17537,10 @@ function makeSim(){
     S.geoToyPx=0; S.geoToyPy=0; S.geoToyL=0; S.geoToyE=0; S.geoToyEmesh=0;
     S.geoToyMeshPx=0; S.geoToyMeshPy=0; S.geoToyMeshL=0;
     S.geoToyN=0; S.geoToyDv=0; S.geoToyChi=0; S.geoToyStop=null;
+    // 第274便c: 帯平均 variant(diskSupport:"band-pressure")の読み口と**外部熱浴の別欄**。
+    // 未宣言なら常に 0/null(既定トイの帳簿 E_toy+E_mesh=0 はこの欄に触られない)
+    S.geoToyBathPx=0; S.geoToyBathPy=0; S.geoToyBathL=0; S.geoToyBathE=0;
+    S.geoToyBands=null; S._gtBandOm=null; S._gtBandT=null;
     // 第264便b: 源の閉包の診断(既定 "gravity" では反復 1 回・残差は null —— 0 で埋めない)
     S.geoToyClosure=null; S.geoToyIters=0; S.geoToyResid=null; S.geoToyResidRel=null; S.geoToyConverged=null;
     S.meshV2=null;   // 第265便b(Z2): mesh-v2 の毎步診断(λ_min・cond・ゲージ・停止理由)。**未宣言は null**
@@ -36342,7 +36467,12 @@ function dfmLocalMeshField(sources,px,py,opts){
   const supOn=(o.support===false)? false : true;   // 第259便a: false = 支持関数なし(C≡1)= 大域の正規化平均(lawVersion:"scalar")
   px=Number(px); py=Number(py);
   if(!Number.isFinite(Rd0)) return null;
-  if(![D0,eps,pw,px,py].every(Number.isFinite)) return null;
+  // 第274便c(第64報「銀河トイが重い理由を調査し改善する」): **配列を作らないスカラー検査**へ。
+  // `[a,b,…].every(Number.isFinite)` は 1 呼びごとに配列 1 本とクロージャ呼び出し n 回を作る。
+  // この関数は 🪁(351 体)の 1 步で **源 1 つにつき 1 回**通るので、350×350 回/步 の一時配列に
+  // なっていた。**条件・順序・短絡はそのまま**(`Number.isFinite` は第 2/第 3 引数を見ない)なので
+  // **値も拒否条件も 1 bit 変わらない**(QA `behavior.geoToyNeedMesh`・600 步 bitsame で機械確認)。
+  if(!(Number.isFinite(D0)&&Number.isFinite(eps)&&Number.isFinite(pw)&&Number.isFinite(px)&&Number.isFinite(py))) return null;
   if(!(D0>=0) || !(eps>=0) || !(pw>=0)) return null;
   if(R0!==null && !(R0>0 && Number.isFinite(R0))) return null;
   const rd2=(a,d0,d1)=>{ if(a===undefined || a===null) return [d0,d1];
@@ -36356,6 +36486,9 @@ function dfmLocalMeshField(sources,px,py,opts){
   const ubg=rd2(B.u,0,0), gbg=rd4(B.gradU), tbg=rd2(B.dUdt,0,0);
   if(!ubg || !gbg || !tbg) return null;
   const eps2=eps*eps;
+  // 第274便c: 指数の前処理をループの外へ出す(`-pw/2` は毎回同じ値・`pw===0` は毎回同じ判定)。
+  // **式も順序も刻みも変えない**(値は 1 bit 同一)。
+  const pwZero=(pw===0), pwHalfNeg=-pw/2;
   let W=0, gWx=0, gWy=0, Wd=0, nIn=0, rdOn=false;
   let Nx=D0*ubg[0], Ny=D0*ubg[1];
   let g0=D0*gbg[0], g1=D0*gbg[1], g2=D0*gbg[2], g3=D0*gbg[3];
@@ -36368,7 +36501,10 @@ function dfmLocalMeshField(sources,px,py,opts){
     const om=(b.omega===undefined)? 0 : Number(b.omega), omd=(b.omegaDot===undefined)? 0 : Number(b.omegaDot);
     const Ri=(b.R===undefined || b.R===null)? R0 : Number(b.R);
     const Rdi=(b.Rdot===undefined || b.Rdot===null)? Rd0 : Number(b.Rdot);   // 第259便a
-    if(![mi,bx,by,vix,viy,aix,aiy,om,omd,Rdi].every(Number.isFinite)) return null;
+    // 第274便c: 同上(**この行が 🪁 では 1 步に 350×350 回通る**)。条件と順序はそのまま
+    if(!(Number.isFinite(mi)&&Number.isFinite(bx)&&Number.isFinite(by)&&Number.isFinite(vix)
+      &&Number.isFinite(viy)&&Number.isFinite(aix)&&Number.isFinite(aiy)&&Number.isFinite(om)
+      &&Number.isFinite(omd)&&Number.isFinite(Rdi))) return null;
     if(!(mi>0)) return null;                               // 第259便a: **負質量・0 質量の源は拒否**(統括の検証仮説 (1))
     if(supOn && (Ri===null || !(Ri>0) || !Number.isFinite(Ri))) return null;
     const dx=px-bx, dy=py-by, r2=dx*dx+dy*dy, sq=r2+eps2;
@@ -36378,10 +36514,10 @@ function dfmLocalMeshField(sources,px,py,opts){
     nIn++;
     const om1=1-z, om3=supOn? om1*om1*om1 : 0;             // 第259便a: support:false は C≡1・C′≡0
     const C=supOn? om3*om1*(1+4*z) : 1;                    // C(z)=(1−z)⁴(1+4z)
-    const A=(pw===0)? 1 : Math.pow(sq,-pw/2);
+    const A=pwZero? 1 : Math.pow(sq,pwHalfNeg);
     const w=mi*A*C;
     // ∇w:  ∇A = −p·s^(−p/2−1)(x−xᵢ) / ∇C = C′(z)·(x−xᵢ)/(r·R) = −20(1−z)³(x−xᵢ)/R²
-    const kk=mi*(((pw===0)? 0 : -pw*A/sq*C) - (supOn? 20*om3*A/(Ri*Ri) : 0));
+    const kk=mi*((pwZero? 0 : -pw*A/sq*C) - (supOn? 20*om3*A/(Ri*Ri) : 0));
     const wgx=kk*dx, wgy=kk*dy;
     const uix=vix-om*dy, uiy=viy+om*dx;                    // u_i = v_i + ω ẑ×(x−xᵢ)
     // 第259便a: ∂ₜw|_x = −∇w·v_i **+ (∂w/∂R)·Ṙ**。∂w/∂R·Ṙ = 20·m·A·z²(1−z)³·Ṙ/R
@@ -36400,7 +36536,10 @@ function dfmLocalMeshField(sources,px,py,opts){
   const ux=Nx/den, uy=Ny/den;
   const gradU=[(g0-ux*gWx)/den, (g1-ux*gWy)/den, (g2-uy*gWx)/den, (g3-uy*gWy)/den];
   const dUdt=[(Tx-ux*Wd)/den, (Ty-uy*Wd)/den];
-  if(![ux,uy].every(Number.isFinite) || !gradU.every(Number.isFinite) || !dUdt.every(Number.isFinite)) return null;
+  // 第274便c: 同上(1 呼びにつき 3 本の `.every` = クロージャ呼び出し 8 回)。条件はそのまま
+  if(!(Number.isFinite(ux)&&Number.isFinite(uy)
+    &&Number.isFinite(gradU[0])&&Number.isFinite(gradU[1])&&Number.isFinite(gradU[2])&&Number.isFinite(gradU[3])
+    &&Number.isFinite(dUdt[0])&&Number.isFinite(dUdt[1]))) return null;
   return { u:[ux,uy], gradU, dUdt, chi:W/den, W, gradW:[gWx,gWy], dWdt:Wd, nIn, D0, R:R0,
     RdotUsed:rdOn, support:supOn };   // 第259便a: Ṙ 項が入ったか(ゼロ埋めして「時間微分が完全」と言わないための読み口)
 }
@@ -36503,7 +36642,13 @@ const GEO_TOY_CLOSURE_ITERS_DEFAULT = 8;      // 既定の最大反復数(宣言
 const GEO_TOY_CLOSURE_TOL = 1e-12;            // 相対残差の停止条件(**宣言値**であって精度の主張ではない)
 const DFM_FIELD_BG = ["static","frame"];
 const DFM_FIELD_ENERGY = ["none","meshLedger","toy"];
-const DFM_FIELD_NEED = ["all","gravity"];   // 第260便a: 要求別(gravity は D・∇D・g だけ)
+// 第260便a: 要求別(gravity は D・∇D・g だけ)。
+// 第274便c(第64報): **"mesh" を足す** —— u/∇u/∂ₜu/χ **だけ**で、**D・∇D・gravity は null**
+// (0 で埋めない)。geoPN=3 のトイは 1 步に「源の加速度集め(need:"gravity")」と「onePass
+// (need 既定 "all")」で **重力を 2 度集計していた**(統括の読み R23)。onePass が読むのは
+// χ・u・∇u・∂ₜu の 4 つだけなので、2 度目を "mesh" にすれば **重力の O(N²) が 1 步に 1 回**になる。
+// **u の値は 1 bit 変わらない**(同じ `dfmLocalMeshField` を同じ引数で呼ぶ)。
+const DFM_FIELD_NEED = ["all","gravity","mesh"];
 function dfmField(state,px,py,opts){
   const o=opts||{};
   const bodies=Array.isArray(state)? state : ((state && Array.isArray(state.bodies))? state.bodies : null);
@@ -36525,7 +36670,9 @@ function dfmField(state,px,py,opts){
   const pw=(o.p===undefined)? 2 : Number(o.p);
   const D0=(o.D0===undefined)? 0 : Number(o.D0);
   px=Number(px); py=Number(py);
-  if(![G,eps,pw,D0,px,py].every(Number.isFinite)) return null;
+  // 第274便c: 配列を作らないスカラー検査(条件・順序・短絡は不変 —— 値も拒否条件も 1 bit 同じ)
+  if(!(Number.isFinite(G)&&Number.isFinite(eps)&&Number.isFinite(pw)&&Number.isFinite(D0)
+    &&Number.isFinite(px)&&Number.isFinite(py))) return null;
   if(!(eps>=0) || !(pw>=0) || !(D0>=0)) return null;
   // 背景は **"frame" を宣言したら呼び出し側が渡す**(この純関数は S を読めない)。ゼロで埋めない
   let BGF=null;
@@ -36551,23 +36698,38 @@ function dfmField(state,px,py,opts){
   // 第260便a(API 境界③): **源の加速度が 1 つでも未宣言なら ∂ₜu は完全でない**(0 で埋めない)
   let accOk=(src.length>0);
   let D=0, gDx=0, gDy=0;
+  // 第274便c(第64報): `need:"mesh"` は **D・∇D・g を 1 回も集計しない**(下の `dfmLocalMeshField`
+  // だけを回す)。源ごとの門(m/x/y の有限性・s>0)は `dfmLocalMeshField` 側が**同じ条件で同じ順に**
+  // 持っているので落ちない —— **落ちるのは「和 D が桁溢れして非有限になった」1 つだけ**である
+  // (下の `![D,gDx,gDy]` の門。m>0・s>0 の有限和なので実効上は 1e308 級でしか起きないが、
+  //  **門が 1 つ減ることは隠さない**)。`accComplete` は O(N) の軽い巡回でそのまま作る。
+  if(need==="mesh"){
+    for(let i=0;i<src.length;i++){
+      const b=src[i];
+      if(!(Number.isFinite(Number(b.ax)) && Number.isFinite(Number(b.ay)))){ accOk=false; break; }
+    }
+  } else {
   for(let i=0;i<src.length;i++){
     const b=src[i];
     const mi=Number(b.m), bx=Number(b.x), by=Number(b.y);
-    if(![mi,bx,by].every(Number.isFinite)) return null;
+    // 第274便c: 配列を作らないスカラー検査(**🪁 では 1 步に 350×350 回**通る行)
+    if(!(Number.isFinite(mi)&&Number.isFinite(bx)&&Number.isFinite(by))) return null;
     const dx=px-bx, dy=py-by, s=dx*dx+dy*dy+eps*eps;
     if(!(s>0) || !Number.isFinite(s)) return null;
     const iv=1/Math.sqrt(s), iv3=iv*iv*iv;
     D+=mi*iv; gDx-=mi*dx*iv3; gDy-=mi*dy*iv3;
     if(accOk && !(Number.isFinite(Number(b.ax)) && Number.isFinite(Number(b.ay)))) accOk=false;
   }
-  if(![D,gDx,gDy].every(Number.isFinite)) return null;
+  if(!(Number.isFinite(D)&&Number.isFinite(gDx)&&Number.isFinite(gDy))) return null;
+  }
   // 背景の時間微分: "static" は u_bg≡0 なので ∂ₜu_bg≡0 が**厳密に既知**・"frame" は呼び出し側が
   // `bg.dUdt` を渡したときだけ揃う(渡さなければ「揃っていない」—— ゼロ埋めして完全と言わない)
   const bgDtOk=(bg==="static")? true
     : !!(BGF && Array.isArray(BGF.dUdt) && BGF.dUdt.length>=2
       && Number.isFinite(Number(BGF.dUdt[0])) && Number.isFinite(Number(BGF.dUdt[1])));
-  const out={ D, gradD:[gDx,gDy], gravity:[G*gDx,G*gDy], lawVersion:law, background:bg,
+  const out={ D:(need==="mesh")? null : D,
+    gradD:(need==="mesh")? null : [gDx,gDy],
+    gravity:(need==="mesh")? null : [G*gDx,G*gDy], lawVersion:law, background:bg,
     sourceIds:ids, energyContract:ec, G, eps, p:pw, D0, need, accComplete:accOk, bgDtComplete:bgDtOk };
   if(need==="gravity"){
     // **要求しない量は計算せず null**(第255便b の `need` と同じ流儀 —— ゼロ埋めしない)
@@ -37025,6 +37187,9 @@ function dfmGeoToyStep(S,dt){
   // 第262便a: **宣言が無ければ実行時の既定 "scalar"**(GEO_TOY_LAW_DEFAULT)。宣言があればそちらが勝つ。
   // 内蔵プリセットは全本が geoPN≤2 なのでこの関数を通らない —— 既定経路は 1 bit 不変である。
   const cf=p[SPACE_MESH_KEY]||{}, law=(cf.lawVersion===undefined)? GEO_TOY_LAW_DEFAULT : cf.lawVersion;
+  // 第274便c(第64報): **帯平均の軽量 variant**。宣言が無ければ**この 1 行の比較だけ**で素通りする
+  // (`cf.diskSupport` は内蔵 125 本のうち 1 本も持たない = 既定経路は 1 bit 不変)。
+  if(cf.diskSupport===SPACE_MESH_DISK_SUPPORT[1]) return dfmGeoToyBandStep(S,dt,cf);
   // 第265便b(Z2): **mesh-v2 は既存トイと排他**である。宣言があればここで別経路へ分岐し、
   // 以下(外場の ∂ₜu・∇u を流用する式)を **1 行も通らない**。
   if(cf.law===MESH_V2_LAWS[1]) return dfmMeshV2Step(S,dt,cf);
@@ -37041,7 +37206,13 @@ function dfmGeoToyStep(S,dt){
   if(boxOn && B0.mode!=="exp" && B0.mode!=="lin"){ S.geoToyStop="boxMode"; return null; }
   // 源集合(**重力も慣性も同じ集合**)。加速度は同じ場の g=G∇D から作る(表示と力学で源を割らない)
   const BD=[];
-  for(let i=0;i<n;i++) BD.push({id:i, m:m[i], x:x[i], y:y[i], vx:vx[i], vy:vy[i], ax:0, ay:0});
+  // 第274便c(第64報): 源オブジェクトに **omega/omegaDot/R/Rdot を明示の既定値で持たせる**。
+  // `dfmLocalMeshField` は `(b.omega===undefined)? 0 : …`・`(b.R===undefined||b.R===null)? R0 : …`
+  // と読むので、**0 と null は「欄が無い」ときと同じ値**になる(**1 bit 同一**)。欄が無いと
+  // 源 1 つにつき 4 回の**欠落プロパティ参照**(プロトタイプ鎖まで降りる遅い読み)が起き、
+  // 🪁 では 1 步に 350×350×4 回通っていた。**値は変えず、オブジェクトの形だけ揃える**。
+  for(let i=0;i<n;i++) BD.push({id:i, m:m[i], x:x[i], y:y[i], vx:vx[i], vy:vy[i], ax:0, ay:0,
+    omega:0, omegaDot:0, R:null, Rdot:null});
   // 第260便a(入場条件 (v)): **トイの g も表示と同じ `dfmField` から読む**(第259便a は
   // `dfmMeshScalarField` で作り直していた —— 同じ核なので値はビット同一で、読む関数が 1 本になる)
   // 第264便b(統括の読み (B)(i)): **pinned 源は規定運動**である。∂ₜu の中の Σw·a_i が読むべきなのは
@@ -37130,7 +37301,11 @@ function dfmGeoToyStep(S,dt){
       gyx=eta*(chi*B0.omega+un1*gcx);  gyy=eta*(chi*bH+un1*gcy);
       tux=eta*(chi*bHd*ex+cd*un0);     tuy=eta*(chi*bHd*ey+cd*un1);
     } else {
-      const f=dfmField(BD,px,py,{excludeBodyId:i, lawVersion:law, p:pw, eps, D0:D0p, G,
+      // 第274便c(第64報): **need:"mesh"** —— この巡が読むのは χ・u・∇u・∂ₜu の 4 つだけで、
+      // f.gravity/f.D/f.gradD は 1 度も読んでいない(器 tests/exp-w274c-needmesh.mjs が機械確認する)。
+      // 重力の O(N²) 集計は上の第 1 巡(need:"gravity")で既に済んでいるので、ここで 2 度目を回す
+      // 理由が無い。**u の値は同じ `dfmLocalMeshField` の同じ呼びなので 1 bit 同じ**である。
+      const f=dfmField(BD,px,py,{excludeBodyId:i, lawVersion:law, p:pw, eps, D0:D0p, G, need:"mesh",
         R:supR, Rdot:supRd, background:"static", energyContract:"toy"});
       if(!f) continue;                                     // D₀=0 かつ支持内に源なし = null(0 で埋めない)
       chi=f.chi;
@@ -37212,6 +37387,170 @@ function dfmGeoToyStep(S,dt){
   S.resPx-=spx; S.resPy-=spy; S.resL-=sl;
   return { n:nOn, dv:dvM, chi:chiMax, dP:[spx,spy], dL:sl, dE:dEt, lawVersion:law, R:supR, Rdot:supRd };
 }
+// ===== 第274便c(第64報): **帯平均の軽量 variant** `dfmGeoToyBandStep(S,dt,cf)` =====
+// 原仮定者(第64報)の優先課題「galaxyMeshSpiralGeoToy が**重い理由を調査し改善する**。近似として
+// 『スピン斥力 kRep』のようなパラメータを導入しても構わない」。**既存の `physics.kRep` は流用しない**
+// (統括の読み R26 —— A10/E5′ のスピン=熱の圧力であって意味が変わる)。新しい宣言鍵 `kRepEff` を作る。
+//
+// ■ なぜ軽いのか(測った内訳は PHYSICS〔第274便c〕① の表)
+//   既定トイは 1 步に **`dfmField` を 2 巡**(源の加速度集め + onePass)呼ぶ **O(N²)** の経路である。
+//   本 variant は円盤を **半径帯 B 本**に分け、**帯の平均角速度 ω_b・面密度 Σ_b・⟨ω²⟩_b** だけを作る
+//   **O(N + B²)** の経路にする(帯間の重み W は B×B の小行列で済む)。
+//
+// ■ 則(**作用は既定トイと同じ**・場の作り方だけが近似)
+//   帯 b の中では ū を **剛体回転の速度場** ū = η·χ_b·ω_b·ẑ×(x−c) と置く。すると
+//     ∇ū = η·χ_b·ω_b·[[0,−1],[1,0]](解析形 —— 数値微分を持たない)
+//     ∂ₜū = η·χ_b·ω̇_b·ẑ×(x−c)      (ω̇_b は**前步との後退差分**という宣言。中心 c は動かないと宣言する)
+//   から **a = ∂ₜū + (∇ū)v − (∇ū)ᵀ(v−ū)**(第259便a と同じ式)を当てる。
+//   χ_b = W_b/(D₀+W_b)、W_b = Σ_c M_c·(d_bc²+ε²)^{−p/2}(d_bc = 帯の代表半径の差)である。
+//
+// ■ 有効圧(近似パラメータの新設)
+//   Θ_b = **Θ₀ + kRepEff·ℓ_*²·⟨ω²⟩_b**(ℓ_* = `bandLength`)に対し、径方向へ
+//   **a_press = −(1/Σ_b)·(dΘ/dr)_b·r̂**(帯の中心差分)を足す。
+//   **供給は「外部熱浴」**である: 圧の項が粒子へ入れた Δp・ΔL・ΔE を `S.geoToyBathPx/Py/L/E` に
+//   別欄で積む(**有限供給版は次段**)。トイ全体の帳簿(粒子 ↔ メッシュ)は既定と同じく厳密に閉じる。
+//
+// ■ **書かないこと**
+//   「銀河が安定した」「腕が創発した」「圧が円盤を支えることを示した」—— 本経路は**近似の variant** で
+//   あって、観測量とは 1 つも突き合わせていない。**既定 🪁 とはビット同一にならない**(なる必要もない)。
+//   **`S._core` には 1 命令も足していない**(この関数は `dfmGeoToyStep` の入口から呼ばれる外部ステップである)。
+function dfmGeoToyBandStep(S,dt,cf){
+  const p=S.params, n=S.n;
+  const x=S.x, y=S.y, vx=S.vx, vy=S.vy, m=S.m, mEff=S.mEff, pin=S.pinned;
+  const eta=(cf.toyGain===undefined)? 1 : cf.toyGain;
+  const B=(cf.bandCount===undefined)? GEO_TOY_BAND_COUNT_DEFAULT : (cf.bandCount|0);
+  const cut=(cf.pairCut===undefined)? 0 : cf.pairCut;
+  const kRepEff=(cf.kRepEff===undefined)? 0 : cf.kRepEff;
+  const ell=(cf.bandLength===undefined)? GEO_TOY_BAND_ELL_DEFAULT : cf.bandLength;
+  const th0=(cf.pressure0===undefined)? 0 : cf.pressure0;
+  const pw=frameWeightPow(p), eps=p.softening, eps2=eps*eps;
+  const D0p=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;
+  if(!(B>=2)){ S.geoToyStop="bandCount"; return null; }
+  // ---- 中心 c: **pinned があればその質量中心・無ければ全粒子の質量中心**(宣言 —— 動かないと置く)
+  let cx=0, cy=0, mp=0;
+  for(let i=0;i<n;i++) if(pin[i]){ cx+=m[i]*x[i]; cy+=m[i]*y[i]; mp+=m[i]; }
+  if(!(mp>0)){ cx=0; cy=0; mp=0;
+    for(let i=0;i<n;i++){ cx+=m[i]*x[i]; cy+=m[i]*y[i]; mp+=m[i]; } }
+  if(!(mp>0)){ S.geoToyStop="bandCenter"; return null; }
+  cx/=mp; cy/=mp;
+  // ---- 帯の割り当て(r<cut はトイ項を当てない = 近傍カット)
+  let rMax=0;
+  for(let i=0;i<n;i++){ if(pin[i]) continue;
+    const r=Math.hypot(x[i]-cx,y[i]-cy); if(r>rMax) rMax=r; }
+  if(!(rMax>cut)){ S.geoToyStop="bandExtent"; return null; }
+  const span=(rMax-cut)/B;
+  const bIdx=new Int32Array(n).fill(-1);
+  const bM=new Float64Array(B), bJ=new Float64Array(B), bI=new Float64Array(B),
+        bN=new Float64Array(B), bW2=new Float64Array(B), bR=new Float64Array(B);
+  for(let i=0;i<n;i++){
+    if(pin[i]) continue;
+    const dx=x[i]-cx, dy=y[i]-cy, r=Math.hypot(dx,dy);
+    if(!(r>=cut) || !(r>0)) continue;                      // 近傍カットの内側はトイ項を当てない
+    let b=Math.floor((r-cut)/span); if(b>=B) b=B-1; if(b<0) b=0;
+    bIdx[i]=b;
+    const Lz=dx*vy[i]-dy*vx[i];                            // 角運動量(単位質量あたり)×m
+    bM[b]+=m[i]; bJ[b]+=m[i]*Lz; bI[b]+=m[i]*(dx*dx+dy*dy); bN[b]++;
+  }
+  const om=new Float64Array(B), Th=new Float64Array(B), Sg=new Float64Array(B), chiB=new Float64Array(B);
+  for(let b=0;b<B;b++){
+    const r0=cut+span*b, r1=cut+span*(b+1);
+    bR[b]=0.5*(r0+r1);
+    Sg[b]=(bM[b]>0)? bM[b]/(Math.PI*(r1*r1-r0*r0)) : 0;
+    om[b]=(bI[b]>0)? bJ[b]/bI[b] : 0;
+  }
+  // ⟨ω²⟩_b は**帯の粒子ごとの角速度の二乗平均**(帯平均 ω_b の二乗ではない — 分散も含む)
+  for(let i=0;i<n;i++){
+    const b=bIdx[i]; if(b<0) continue;
+    const dx=x[i]-cx, dy=y[i]-cy, r2=dx*dx+dy*dy;
+    if(!(r2>0)) continue;
+    const w=(dx*vy[i]-dy*vx[i])/r2;
+    bW2[b]+=m[i]*w*w;
+  }
+  for(let b=0;b<B;b++){
+    bW2[b]=(bM[b]>0)? bW2[b]/bM[b] : 0;
+    Th[b]=th0+kRepEff*ell*ell*bW2[b];
+  }
+  // ---- 帯間の重み W_b と χ_b(**O(B²)** —— ここが O(N²) の代わりである)
+  for(let b=0;b<B;b++){
+    let W=0;
+    for(let c=0;c<B;c++){
+      if(bM[c]<=0) continue;
+      const d=bR[b]-bR[c], s=d*d+eps2;
+      W+=bM[c]*((pw===0)? 1 : Math.pow(s,-pw/2));
+    }
+    const den=D0p+W;
+    chiB[b]=(den>0)? W/den : 0;
+  }
+  // ---- ω̇_b は**前步との後退差分**(宣言)。前步が無い/時刻が巻き戻った步は 0 と置く
+  let prev=S._gtBandOm;
+  const haveP=!!(prev && prev.length===B && S._gtBandT!==null && S._gtBandT!==undefined
+    && S.t>S._gtBandT && (S.t-S._gtBandT)>0);
+  const omd=new Float64Array(B);
+  if(haveP){ const h=S.t-S._gtBandT; for(let b=0;b<B;b++) omd[b]=(om[b]-prev[b])/h; }
+  // ---- 適用(粒子ごとに O(1))+ 同じ步での記帳
+  const carV=!!S.carVx, carVx=S.carVx, carVy=S.carVy;
+  let spx=0, spy=0, sl=0, dEt=0, bpx=0, bpy=0, bl=0, bE=0;
+  let nOn=0, dvM=0, chiMax=0;
+  for(let i=0;i<n;i++){
+    const b=bIdx[i]; if(b<0) continue;
+    const dx=x[i]-cx, dy=y[i]-cy, r=Math.hypot(dx,dy);
+    const c0=eta*chiB[b], w0=c0*om[b];
+    if(chiB[b]>chiMax) chiMax=chiB[b];
+    const ubx=-w0*dy, uby=w0*dx;
+    const gxx=0, gxy=-w0, gyx=w0, gyy=0;
+    const wd=c0*omd[b];
+    const tux=-wd*dy, tuy=wd*dx;
+    const vxi=vx[i], vyi=vy[i], rlx=vxi-ubx, rly=vyi-uby;
+    let aix=tux+gxx*vxi+gxy*vyi-(gxx*rlx+gyx*rly);
+    let aiy=tuy+gyx*vxi+gyy*vyi-(gxy*rlx+gyy*rly);
+    // 有効圧(外部熱浴): a_press = −(1/Σ_b)·(dΘ/dr)_b·r̂(帯の中心差分)
+    let apx=0, apy=0;
+    if(Sg[b]>0 && r>0){
+      const bm=(b>0)? b-1 : b, bp=(b<B-1)? b+1 : b;
+      const dr=bR[bp]-bR[bm];
+      if(dr>0){ const g=-(Th[bp]-Th[bm])/dr/Sg[b];
+        apx=g*dx/r; apy=g*dy/r; aix+=apx; aiy+=apy; }
+    }
+    if(!Number.isFinite(aix) || !Number.isFinite(aiy)){ S.geoToyStop="nonfinite"; return null; }
+    let ddx=aix*dt, ddy=aiy*dt;
+    let pdx=apx*dt, pdy=apy*dt;
+    if(ddx===0 && ddy===0) continue;
+    const dv2=ddx*ddx+ddy*ddy;
+    if(dv2>REACTION_DV_CAP2){ const sc=REACTION_DV_CAP/Math.sqrt(dv2);
+      ddx*=sc; ddy*=sc; pdx*=sc; pdy*=sc; S.clampRN++; }
+    const dm=Math.hypot(ddx,ddy); if(dm>dvM) dvM=dm;
+    nOn++;
+    const mi=mEff[i];
+    spx+=mi*ddx; spy+=mi*ddy; sl+=mi*(x[i]*ddy-y[i]*ddx);
+    bpx+=mi*pdx; bpy+=mi*pdy; bl+=mi*(x[i]*pdy-y[i]*pdx);
+    const q0x=vx[i], q0y=vy[i];
+    if(carV){
+      const addX=ddx+carVx[i], v0x=vx[i]; vx[i]=v0x+addX; carVx[i]=addX-(vx[i]-v0x);
+      const addY=ddy+carVy[i], v0y=vy[i]; vy[i]=v0y+addY; carVy[i]=addY-(vy[i]-v0y);
+    } else { vx[i]+=ddx; vy[i]+=ddy; }
+    dEt+=0.5*mi*((vx[i]*vx[i]+vy[i]*vy[i])-(q0x*q0x+q0y*q0y));
+    bE+=mi*(q0x*pdx+q0y*pdy)+0.5*mi*(pdx*pdx+pdy*pdy);   // 圧の項が入れた仕事(離散・外部熱浴の供給)
+  }
+  if(!S._gtBandOm || S._gtBandOm.length!==B) S._gtBandOm=new Float64Array(B);
+  S._gtBandOm.set(om); S._gtBandT=S.t;
+  S.geoToyClosure="band-pressure"; S.geoToyIters=1;
+  S.geoToyResid=null; S.geoToyResidRel=null; S.geoToyConverged=null;
+  S.geoToyN=nOn; S.geoToyDv=dvM; S.geoToyChi=chiMax;
+  S.geoToyStop=nOn? null : "noTargets";
+  S.geoToyBands={ B, center:[cx,cy], rMax, span, cut, nIn:nOn,
+    omega:Array.from(om), omegaDot:Array.from(omd), chi:Array.from(chiB),
+    sigma:Array.from(Sg), theta:Array.from(Th), mass:Array.from(bM), count:Array.from(bN),
+    backwardDifference:haveP,
+    note:"ω̇ は**前步との後退差分**という宣言である(解析微分ではない)。有効圧の供給は**外部熱浴**"
+      +"(有限供給版は次段) —— **「圧が円盤を支えた」とは書かない**。" };
+  if(!nOn) return null;
+  S.geoToyPx+=spx; S.geoToyPy+=spy; S.geoToyL+=sl; S.geoToyE+=dEt;
+  S.geoToyMeshPx-=spx; S.geoToyMeshPy-=spy; S.geoToyMeshL-=sl; S.geoToyEmesh-=dEt;
+  S.resPx-=spx; S.resPy-=spy; S.resL-=sl;
+  S.geoToyBathPx+=bpx; S.geoToyBathPy+=bpy; S.geoToyBathL+=bl; S.geoToyBathE+=bE;
+  return { n:nOn, dv:dvM, chi:chiMax, dP:[spx,spy], dL:sl, dE:dEt, lawVersion:"band-pressure",
+    bands:B, bathP:[bpx,bpy], bathL:bl, bathE:bE };
+}
 // ===== 第265便b(第57報 W2・Z2): **mesh-v2 —— 引きずりの「完全置換」の最小代数実装** =====
 // 原仮定者(第56報)「導入時は、空間メッシュの導入により、引きずり計算を完全に置き換えるものを想定していた」。
 // 〔第264便b ④〕は設計だけを書いた(実装 0 行)。本便はその (2)「場を粒子から**代数的に**求める」道を、
@@ -37232,6 +37571,21 @@ function dfmGeoToyStep(S,dt){
 //   ② `meshGauge:"constraint"` … **拘束/ゲージとして解く**。構造的零方向(共通並進 1)を射影で外し、
 //      擬似逆で解く(ゲージ条件 Σ_i a_i = 0)。駆動項が零方向に成分を持てば `rhsNotInRange` で止める。
 // **①と②は加速度が共通並進ぶんだけ違う**(相対運動は同じはず)—— それを 2 体で測るのが本便である。
+// ===== 第274便c(第64報): **帯平均の軽量 variant** `physics.spaceMesh.diskSupport` =====
+// 原仮定者の優先課題(第64報)「galaxyMeshSpiralGeoToy が重い理由を調査し改善する。近似として
+// 『スピン斥力 kRep』のようなパラメータを導入しても構わない」。統括の読み R26 のとおり
+// **既存の `physics.kRep`(A10/E5′ のスピン=熱セクターの圧力)は流用しない**(意味が変わる)ので、
+// **新しい宣言鍵**を作る。既定 "none" は 1 文字も正準形に出さない(内蔵は 1 本も宣言しない)。
+//   "band-pressure" … 円盤を半径帯 B 本に分け、**帯の平均角速度 ω_b・面密度 Σ_b・有効圧 Θ_b** から
+//     ū・∂ₜū・∇ū を作る **O(N+B²)** の経路(既定トイは O(N²) の場集計を 1 步に 2 回持つ)。
+//     **則は既定トイと同じ作用**(a=∂ₜū+(∇ū)v−(∇ū)ᵀ(v−ū))で、**場の作り方だけが近似**である。
+//     有効圧は **Θ_b = Θ₀ + kRepEff·ℓ_*²·⟨ω²⟩_b**(ℓ_* = 宣言長 `bandLength`)で、
+//     径方向に **a_press = −(1/Σ_b)·dΘ/dr·r̂** を足す。**供給は「外部熱浴」**として別欄に記帳する
+//     (有限供給版は次段 —— **「圧が銀河を支えた」とは書かない**)。
+//   **これは近似 variant であって既定ではない**(既定トイの値とはビット同一にならない —— なる必要もない)。
+const SPACE_MESH_DISK_SUPPORT = ["none","band-pressure"];
+const GEO_TOY_BAND_COUNT_DEFAULT = 16;      // 宣言値(帯の本数の既定)
+const GEO_TOY_BAND_ELL_DEFAULT = 1;         // 宣言値(有効圧の宣言長 ℓ_* の既定)
 const MESH_V2_LAWS = ["toy","mesh-v2"];          // physics.spaceMesh.law(既定 "toy" = 既存トイ)
 const MESH_V2_GAUGES = ["inertia","constraint"]; // physics.spaceMesh.meshGauge
 const MESH_V2_COND_MAX = 1e12;   // **宣言値**: これを超えたら特異点近傍として止める(精度の主張ではない)
@@ -38747,6 +39101,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // トイは `S._core` の外(`_meshCoordForce` と同じ位置)に置き、`geoCoreDispatch` が
   // `_core` の呼び出しの間だけ p.geoPN を 0 にして dispatch から外す(`_core` は 1 命令も増えない)
   dfmGeoToyStep, SPACE_MESH_INERTIA_REMOVAL, SPACE_MESH_SUPPORT_LEGACY,
+  // 第274便c: 帯平均の軽量 variant(受理値と既定 —— QA/実験器が読む)
+  SPACE_MESH_DISK_SUPPORT, GEO_TOY_BAND_COUNT_DEFAULT, GEO_TOY_BAND_ELL_DEFAULT,
   // 第264便b(第56報): **源の閉包**の値域("gravity" 既定 /"iterate" 診断)と反復・残差の宣言値。
   // QA behavior.geoToyClosure が「既定は 122 本ビット不変」「iterate は反復数と残差を返す」
   // 「特異点(det=1−η²χ₀χ₁→0)で収束しない」を機械固定する

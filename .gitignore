@@ -405,6 +405,18 @@ paper/*Notes.bib
 #   `behavior.armBarPure` が上の量を純関数で再計算するのでコミットする(値表は記録であって判定ではない)。
 !tests/out/bhcore-w274e.json
 !tests/out/armbar-w274e.json
+# 第274便c(第64報): 3 本の正本。
+#   ① galaxyprof —— **🪁 の 1 步の負荷分解**(実ブラウザ Chromium・ms/步)。docs/PHYSICS.md〔第274便c〕① の
+#      表がこの値そのものなので、来歴つきでコミットする。**inputs は現行 html だけ**で、比較した基点 html の
+#      刻印は `meta.comparedWith` に残す(基点 html は走行後に消す一時ファイルである)。
+#   ② needmesh —— **`dfmField` の API 同値**(源 16 種 × 選択肢 35 種 × 4 点 = 2100 例)と
+#      `need:"mesh"` の契約。**「1 例でも違えば入れない」という同値最適化の根拠**なのでコミットする。
+#   ③ galaxylite —— 🪁 既定 / 🎋 軽量コピー / 帯平均 variant の 3 者比較(3000 步・保持率・V_rms・ms/步)。
+#      docs/PHYSICS.md〔第274便c〕④ の表がこの値そのものである。
+#   QA `lint.provenanceMeta` の CANON に 3 本を足した。**判定はしていない**(数を出す器である)。
+!tests/out/galaxyprof-w274c.json
+!tests/out/needmesh-w274c.json
+!tests/out/galaxylite-w274c.json
 # 第221便: セッション内スクラッチ実測ハーネス(コミット対象外 — 実測値は claims/QA が機械固定する)
 _scratch-*.mjs
 _scratch-*/

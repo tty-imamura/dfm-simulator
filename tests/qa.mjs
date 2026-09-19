@@ -1913,7 +1913,10 @@ const add = (id, pass, detail) => {
       'tests/out/sync-w274b.json',
       // 第274便e(第64報): BH コア設計の値表(target=beta/index.html の宣言値)と、
       // 腕・棒・観測写像の純関数の値表(target=lib 自身 —— html を読まない器)
-      'tests/out/bhcore-w274e.json', 'tests/out/armbar-w274e.json'];
+      'tests/out/bhcore-w274e.json', 'tests/out/armbar-w274e.json',
+      // 第274便c(第64報): 銀河トイの負荷分解・API 同値・3 者比較の 3 本(**判定ではなく数の正本**)
+      'tests/out/galaxyprof-w274c.json', 'tests/out/needmesh-w274c.json',
+      'tests/out/galaxylite-w274c.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -20787,6 +20790,15 @@ if (!FAST) {
             uNull: !!b && b.u === null && b.chi === null && b.uQuantity === null,
             emptyG: !!e && e.D === 0 && e.gravity[0] === 0 && e.gravity[1] === 0,
             emptyU: HP.dfmField([], 3, 4, {}) === null,
+            // 第274便c: **世代で切り替える**(その世代に "mesh" があるかで判定する)
+            hasMesh: HP.DFM_FIELD_NEED.indexOf('mesh') >= 0,
+            meshOk: (() => { if (HP.DFM_FIELD_NEED.indexOf('mesh') < 0) return null;
+              const m = HP.dfmField(WA, 3, 4, { eps: 0.5, D0: 1, need: 'mesh' });
+              return !!(a && m && m.D === null && m.gradD === null && m.gravity === null
+                && JSON.stringify(m.u) === JSON.stringify(a.u)
+                && JSON.stringify(m.gradU) === JSON.stringify(a.gradU)
+                && JSON.stringify(m.dUdt) === JSON.stringify(a.dUdt)
+                && m.chi === a.chi && m.uQuantity === 'velocity'); })(),
             list: HP.DFM_FIELD_NEED.slice() }; })(),
         tdc: { sAcc: tg(WA, {}), sNo: tg(WN, {}),
           lR: tg(WA, { lawVersion: 'local', R: 60 }), lRd: tg(WA, { lawVersion: 'local', R: 60, Rdot: 0.3 }),
@@ -20864,7 +20876,11 @@ if (!FAST) {
       && bd.tdc.cAcc[0] === true && bd.tdc.cNo[0] === false && bd.tdc.cFrame[0] === false
       && bd.tdc.sAcc[3] === 'velocity' && bd.tdc.cAcc[3] === 'unnormalizedA'
       && bd.need.bad && bd.need.same && bd.need.uNull && bd.need.emptyG && bd.need.emptyU
-      && bd.need.list.join('/') === 'all/gravity';
+      // 第274便c: **世代切り替え** —— "mesh" のある世代は 3 値で、u/∇u/∂ₜu/χ が "all" と一致し
+      // D/∇D/gravity が null であること(v1.44.0 RC 世代は従来どおり 2 値)
+      && (bd.need.hasMesh
+        ? (bd.need.list.join('/') === 'all/gravity/mesh' && bd.need.meshOk === true)
+        : bd.need.list.join('/') === 'all/gravity');
     add('behavior.dfmField', q1 && q2 && q3 && q4 && q5 && q6 && q7 && q8 && q9 && q10 && q11 && q12,
       `① **未宣言は 1 bit 不変**: 🪟 の署名に lawVersion が出ない=${df.toy.sigClean}・`
       + `**toyGain=0 のトイはトイなしと厳密一致** 状態差=${df.toy.zero}(対照の署名 ${df.toy.offSig})=${q1} / `
@@ -21550,7 +21566,8 @@ if (!FAST) {
           nFree: S.n - nPin, nPin, nan: S.hasNaN() });
       }
       return { pin, free, rail, aFree, dvPin, dvFree, dt: DT,
-        railExpect: [-OM32 * OM32 * rail.sx * DT, -OM32 * OM32 * rail.sy * DT], hits, live };
+        railExpect: [-OM32 * OM32 * rail.sx * DT, -OM32 * OM32 * rail.sy * DT], hits, live,
+        has274c: HP.allPresets().some((q) => q.id === 'galaxyMeshSpiralGeoToyLite') };
     });
     // 自由源の期待値: 試験粒子が受けるトイ Δv = η·a_src·dt(a_src は**源が受けている重力加速度**)
     const relFree = r.dvFree
@@ -21565,10 +21582,13 @@ if (!FAST) {
       rail: relRail < 1e-9,
       noNaN: !r.pin.nan && !r.free.nan && !r.rail.nan,
       // 第265便b: **顔ぶれの固定**(黙って増減しない)。🪁 は pinned 核 1 個・🩻 は 0 個。
-      builtinRoster: r.hits.length === 2
-        && r.hits.indexOf('galaxyMeshSpiralGeoToy:1') >= 0 && r.hits.indexOf('psrDoubleABGeoToy:0') >= 0,
+      // 第274便c: 🎋 galaxyMeshSpiralGeoToyLite(🪁 の軽量コピー・pinned 核 1 個)が加わって 2 → 3 本。
+      // **世代で切り替える**(root は 🎋 を持たないので 2 本のまま)。
+      builtinRoster: r.hits.length === (r.has274c ? 3 : 2)
+        && r.hits.indexOf('galaxyMeshSpiralGeoToy:1') >= 0 && r.hits.indexOf('psrDoubleABGeoToy:0') >= 0
+        && (!r.has274c || r.hits.indexOf('galaxyMeshSpiralGeoToyLite:1') >= 0),
       // 第265便b: pinned を持つ本ではトイが**実際に走る**(停止せず・対象数=非 pinned 粒子数)
-      builtinLive: r.live.length === 1 && r.live.every((z) => !z.err && z.geoPN === 3
+      builtinLive: r.live.length === (r.has274c ? 2 : 1) && r.live.every((z) => !z.err && z.geoPN === 3
         && z.stop === null && z.N === z.nFree && z.nPin === 1 && !z.nan) };
     const bad = Object.keys(CK).filter((k) => !CK[k]);
     add('behavior.geoToyPinned', bad.length === 0,
@@ -22029,6 +22049,260 @@ if (!FAST) {
       + `⑥ emoji 重複=${r.emojiDup - 1} 件・obsCard ${r.card} 行・group=${r.group}(複製元 🎠=${r.srcGroup})`);
   } else {
     console.log('SKIP preset.galaxyGeoToyCopy(対象に第265便b の 🪁 galaxyMeshSpiralGeoToy なし — root 等)');
+  }
+}
+
+// ---- 第274便c(第64報「galaxyMeshSpiralGeoToy が重い理由を調査し改善する」): behavior.geoToyNeedMesh ----
+//   `HP.dfmField` に **`need:"mesh"`** を足した(u/∇u/∂ₜu/χ **だけ**・**D・∇D・gravity は null**)。
+//   geoPN=3 のトイは 1 步に「源の加速度集め(need:"gravity")」と「onePass(need 既定 "all")」で
+//   **重力を 2 度集計していた**(統括の読み R23)—— onePass が読むのは χ・u・∇u・∂ₜu の 4 つだけなので、
+//   2 度目を "mesh" にすれば重力の O(N²) が 1 步に 1 回になる。**u の値は 1 bit 変わらない。**
+//   機械固定するのは 5 点:
+//     ① 受理値が `["all","gravity","mesh"]`(未知の need は従来どおり null)。
+//     ② "mesh" の返り値は **D/∇D/gravity が null**(0 で埋めない)。
+//     ③ "mesh" と "all" で **u/∇u/∂ₜu/χ/W/∇W/∂ₜW/nIn/uQuantity/timeDerivativeComplete が一致**。
+//     ④ **🪁 が実際に走る**: 600 步で `geoToyStop===null`・N=350・NaN 0・帳簿が厳密に閉じる
+//        (**gravity が null のまま参照されていたら TypeError で止まる** —— 走り切ることが
+//         「onePass は重力値を読んでいない」の実行時の証拠である)。
+//     ⑤ "mesh" で **落ちる門が 1 つだけ**であることを明示する(和 D の非有限 —— 源ごとの門は
+//        `dfmLocalMeshField` が同じ条件で持つ)。この 1 点は detail に書き出す。
+//   "mesh" の無い対象(root 等)は SKIP。
+{
+  const hasNeedMesh = await page.evaluate(() => !!(window.HP && Array.isArray(HP.DFM_FIELD_NEED)
+    && HP.DFM_FIELD_NEED.indexOf('mesh') >= 0));
+  if (hasNeedMesh) {
+    const nm = await page.evaluate(() => {
+      const W = [{ id: 0, m: 5, x: -10, y: 0, vx: 0, vy: 0.2, ax: 0.01, ay: 0, omega: 0.3, omegaDot: 0.02 },
+        { id: 1, m: 7, x: 10, y: 4, vx: 0.1, vy: -0.2, ax: -0.01, ay: 0.02, omega: -0.4, omegaDot: 0 },
+        { id: 2, m: 0.5, x: 3, y: -9, vx: -0.3, vy: 0.1, ax: 0, ay: 0, omega: 0, omegaDot: 0 }];
+      const WN = W.map((b) => ({ id: b.id, m: b.m, x: b.x, y: b.y, vx: b.vx, vy: b.vy }));
+      const OPTS = [
+        { lawVersion: 'scalar', eps: 0.5, D0: 1, G: 0.8, p: 1 },
+        { lawVersion: 'scalar', eps: 3, D0: 0, G: 1, p: 2 },
+        { lawVersion: 'local', eps: 0.5, D0: 1, G: 1, p: 1, R: 60 },
+        { lawVersion: 'local', eps: 0.5, D0: 1, G: 1, p: 1, R: 60, Rdot: 0.4 },
+        { lawVersion: 'local', eps: 0.5, D0: 0, G: 1, p: 1, R: 1 },       // 支持内に源なし → null
+        { lawVersion: 'scalar', eps: 0.5, D0: 1, G: 1, p: 1, excludeBodyId: 1 },
+        { lawVersion: 'scalar', eps: 0.5, D0: 1, G: 1, p: 1, background: 'frame',
+          bg: { u: [0.3, -0.2], gradU: [0.01, 0, 0, 0.01], dUdt: [0.001, 0] } },
+        { lawVersion: 'complex', eps: 0.5, D0: 1, G: 1, p: 2 },
+      ];
+      const KEYS = ['u', 'gradU', 'dUdt', 'chi', 'W', 'gradW', 'dWdt', 'nIn', 'uQuantity',
+        'supportPolicy', 'accComplete', 'bgDtComplete', 'timeDerivativeComplete', 'sourceIds'];
+      let nCase = 0, nSame = 0, nNullPair = 0;
+      const bad = [];
+      for (const src of [W, WN]) for (const o of OPTS) for (const pt of [[3, 4], [0, 0], [-10, 0]]) {
+        nCase++;
+        const a = HP.dfmField(src, pt[0], pt[1], o);
+        const m = HP.dfmField(src, pt[0], pt[1], Object.assign({}, o, { need: 'mesh' }));
+        if (a === null && m === null) { nNullPair++; nSame++; continue; }
+        if (a === null || m === null) { bad.push('nullMismatch'); continue; }
+        if (!(m.D === null && m.gradD === null && m.gravity === null)) { bad.push('notNull'); continue; }
+        let ok = true;
+        for (const k of KEYS) if (JSON.stringify(a[k]) !== JSON.stringify(m[k])) { ok = false; bad.push(k); break; }
+        if (ok) nSame++;
+      }
+      // ④ 🪁 が実際に走る(gravity が null のまま読まれていれば TypeError で止まる)
+      const q = HP.allPresets().find((z) => z.id === 'galaxyMeshSpiralGeoToy');
+      let run = null;
+      if (q) {
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(q)));
+        const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < 600; k++) S.step(0.016);
+        let nPin = 0; for (let i = 0; i < S.n; i++) if (S.pinned[i]) nPin++;
+        run = { stop: S.geoToyStop, N: S.geoToyN, n: S.n, nPin, nan: S.hasNaN(),
+          ledgerE: Math.abs(S.geoToyE + S.geoToyEmesh),
+          ledgerP: Math.hypot(S.geoToyPx + S.geoToyMeshPx, S.geoToyPy + S.geoToyMeshPy) };
+      }
+      return { list: HP.DFM_FIELD_NEED.slice(), nCase, nSame, nNullPair, bad: bad.slice(0, 5),
+        unknown: HP.dfmField(W, 3, 4, { need: 'zzz' }) === null, run };
+    });
+    const n1 = nm.list.join('/') === 'all/gravity/mesh' && nm.unknown;
+    const n2 = nm.nSame === nm.nCase && nm.bad.length === 0;
+    const n3 = !!nm.run && nm.run.stop === null && nm.run.N === nm.run.n - nm.run.nPin
+      && !nm.run.nan && nm.run.ledgerE === 0 && nm.run.ledgerP === 0;
+    add('behavior.geoToyNeedMesh', n1 && n2 && n3,
+      `① 受理値=${JSON.stringify(nm.list)}・未知の need は null=${nm.unknown}=${n1} / `
+      + `② ③ **"mesh" と "all" が一致**した例 ${nm.nSame}/${nm.nCase}(両方 null の例 ${nm.nNullPair}・`
+      + `D/∇D/gravity は null・不一致=${JSON.stringify(nm.bad)})=${n2} / `
+      + `④ 🪁 600 步: stop=${nm.run && nm.run.stop}・N=${nm.run && nm.run.N}/${nm.run && nm.run.n}`
+      + `(pinned ${nm.run && nm.run.nPin})・NaN=${nm.run && nm.run.nan}・|E_toy+E_mesh|=${nm.run && nm.run.ledgerE}`
+      + `・|P_toy+P_mesh|=${nm.run && nm.run.ledgerP}=${n3}`
+      + ` / ⑤ **"mesh" で落ちる門は 1 つだけ**(和 D が非有限のとき既定経路は null を返すが "mesh" は返さない`
+      + ` —— 源ごとの門は dfmLocalMeshField が同じ条件・同じ順で持つ。器 tests/exp-w274c-needmesh.mjs が 2100 例で確認)`);
+  } else {
+    console.log('SKIP behavior.geoToyNeedMesh(対象に第274便c の need:"mesh" なし — root 等)');
+  }
+}
+
+// ---- 第274便c(第64報): behavior.geoToyBandPressure — **帯平均の軽量 variant** ----
+//   `physics.spaceMesh.diskSupport:"band-pressure"`(+ bandCount・pairCut・kRepEff・bandLength・pressure0)。
+//   **既存の `physics.kRep` は流用しない**(統括の読み R26 —— A10/E5′ のスピン=熱の圧力で意味が違う)。
+//   機械固定するのは 5 点:
+//     ① **宣言なしは 1 bit 不変**: 内蔵で diskSupport を宣言する本は 0 本・`diskSupport:"none"` を
+//        書いても正準形に 1 文字も出ない(= 署名も力学も変わらない)。
+//     ② **宣言ありで別経路へ入る**: `S.geoToyBands` が立ち(B・cut・帯ごとの ω/χ/Σ/Θ)、
+//        `geoToyClosure==="band-pressure"`・対象数 N は **pairCut の外側の自由粒子**と一致する。
+//     ③ **帳簿が閉じる**: |E_toy+E_mesh|=0・|P_toy+P_mesh|=0(厳密)。**有効圧の供給**は
+//        `geoToyBath*` の別欄に出る(kRepEff=0 なら厳密に 0・kRepEff>0 なら 0 でない)。
+//     ④ **`S._core` の外**である: 同じ宣言でも `geoPN<3` では拒否・`sampleClass:"calibration"` でも拒否。
+//     ⑤ **値は既定トイとビット同一にならない**(場の作り方が違う近似 variant である —— 同一を要求しない)。
+//   diskSupport の無い対象(root 等)は SKIP。
+{
+  const hasBand = await page.evaluate(() => !!(window.HP && Array.isArray(HP.SPACE_MESH_DISK_SUPPORT)
+    && HP.SPACE_MESH_DISK_SUPPORT.indexOf('band-pressure') >= 0));
+  if (hasBand) {
+    const bp = await page.evaluate(() => {
+      const KEY = HP.SPACE_MESH_KEY;
+      const all = HP.allPresets();
+      const nDecl = all.filter((z) => ((z.physics || {})[KEY] || {}).diskSupport !== undefined).length;
+      const mk = (id, sm, geo) => { const q = JSON.parse(JSON.stringify(all.find((z) => z.id === id)));
+        if (sm) q.physics[KEY] = Object.assign({}, q.physics[KEY] || {}, sm);
+        if (geo !== undefined) q.physics.geoPN = geo;
+        return HP.validatePreset(q); };
+      const run = (v, n) => { const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < n; k++) S.step(0.016);
+        let nFree = 0; for (let i = 0; i < S.n; i++) if (!S.pinned[i]) nFree++;
+        // **最終状態で** pairCut の外側にいる自由粒子(粒子は走行中に境界を跨ぐので t=0 では数えない)
+        let nOutEnd = null;
+        if (S.geoToyBands) { const c = S.geoToyBands.cut, cc = S.geoToyBands.center;
+          nOutEnd = 0;
+          for (let i = 0; i < S.n; i++) if (!S.pinned[i]
+            && Math.hypot(S.x[i] - cc[0], S.y[i] - cc[1]) >= c) nOutEnd++; }
+        const st = []; for (let i = 0; i < S.n; i++) st.push(S.x[i], S.y[i], S.vx[i], S.vy[i]);
+        return { stop: S.geoToyStop, N: S.geoToyN, n: S.n, nFree, nOutEnd, closure: S.geoToyClosure,
+          bands: S.geoToyBands ? { B: S.geoToyBands.B, cut: S.geoToyBands.cut,
+            nOm: S.geoToyBands.omega.length, nChi: S.geoToyBands.chi.length,
+            bd: S.geoToyBands.backwardDifference } : null,
+          nan: S.hasNaN(), st,
+          ledgerE: Math.abs(S.geoToyE + S.geoToyEmesh),
+          ledgerP: Math.hypot(S.geoToyPx + S.geoToyMeshPx, S.geoToyPy + S.geoToyMeshPy),
+          bathE: S.geoToyBathE, bathP: Math.hypot(S.geoToyBathPx, S.geoToyBathPy) };
+      };
+      // ① 既定(宣言なし)と diskSupport:"none" の正準形が 1 文字も違わない
+      const vPlain = mk('galaxyMeshSpiralGeoToy', null);
+      const vNone = mk('galaxyMeshSpiralGeoToy', { diskSupport: 'none' });
+      const sigPlain = JSON.stringify(vPlain.preset.physics[KEY]);
+      const sigNone = vNone.ok ? JSON.stringify(vNone.preset.physics[KEY]) : 'ERR';
+      const base = run(vPlain, 200);
+      const none = run(vNone, 200);
+      let dMax = 0; for (let i = 0; i < base.st.length; i++) dMax = Math.max(dMax, Math.abs(base.st[i] - none.st[i]));
+      // ② 宣言あり(kRepEff=0 と kRepEff>0)
+      const SM0 = { diskSupport: 'band-pressure', bandCount: 12, pairCut: 20 };
+      const SMP = { diskSupport: 'band-pressure', bandCount: 12, pairCut: 20, kRepEff: 0.01, bandLength: 10 };
+      const v0 = mk('galaxyMeshSpiralGeoToy', SM0), vp = mk('galaxyMeshSpiralGeoToy', SMP);
+      const r0 = v0.ok ? run(v0, 200) : null, rp = vp.ok ? run(vp, 200) : null;
+      // 対象数の目安: pairCut の外側にいる自由粒子(初期配置で数える)
+      let nOut = 0;
+      { const S = HP.sim; S.build(v0.preset);
+        for (let i = 0; i < S.n; i++) if (!S.pinned[i] && Math.hypot(S.x[i], S.y[i]) >= 20) nOut++; }
+      let dBand = 0;
+      if (r0) for (let i = 0; i < base.st.length; i++) dBand = Math.max(dBand, Math.abs(base.st[i] - r0.st[i]));
+      // ④ 門: geoPN<3 / calibration
+      const vGeo = mk('galaxyMeshSpiralGeoToy', SM0, 2);
+      const qc = JSON.parse(JSON.stringify(all.find((z) => z.id === 'galaxyMeshSpiralGeoToy')));
+      qc.sampleClass = 'calibration';
+      qc.physics[KEY] = Object.assign({}, qc.physics[KEY], SM0);
+      const vCal = HP.validatePreset(qc);
+      return { list: HP.SPACE_MESH_DISK_SUPPORT.slice(), nDecl, sigPlain, sigNone, dMax,
+        sig0: v0.ok ? JSON.stringify(v0.preset.physics[KEY]) : 'ERR', warn0: (v0.warnings || []).length,
+        r0, rp, nOut, dBand, geoOk: !vGeo.ok, calOk: !vCal.ok,
+        defB: HP.GEO_TOY_BAND_COUNT_DEFAULT, defEll: HP.GEO_TOY_BAND_ELL_DEFAULT };
+    });
+    const b1 = bp.nDecl === 0 && bp.sigPlain === bp.sigNone && bp.dMax === 0;
+    const b2 = !!bp.r0 && bp.r0.stop === null && bp.r0.closure === 'band-pressure'
+      && !!bp.r0.bands && bp.r0.bands.B === 12 && bp.r0.bands.cut === 20
+      && bp.r0.bands.nOm === 12 && bp.r0.bands.bd === true && bp.warn0 === 1
+      && bp.r0.N > 0 && bp.r0.N <= bp.r0.nOutEnd && bp.r0.nOutEnd < bp.r0.nFree;
+    const b3 = !!bp.r0 && !!bp.rp && bp.r0.ledgerE === 0 && bp.r0.ledgerP === 0
+      && bp.rp.ledgerE === 0 && bp.rp.ledgerP === 0
+      && bp.r0.bathE === 0 && bp.r0.bathP === 0 && bp.rp.bathE !== 0
+      && !bp.r0.nan && !bp.rp.nan;
+    const b4 = bp.geoOk && bp.calOk;
+    const b5 = bp.dBand > 0;   // **近似 variant なのでビット同一にならない**(同一を要求しない)
+    add('behavior.geoToyBandPressure', b1 && b2 && b3 && b4 && b5,
+      `① 受理値=${JSON.stringify(bp.list)}・内蔵で宣言する本 ${bp.nDecl} 本・"none" は正準形に出ない`
+      + `(${bp.sigPlain === bp.sigNone})・200 步の状態差 ${bp.dMax}=${b1} / `
+      + `② 宣言ありの経路: closure=${bp.r0 && bp.r0.closure}・B=${bp.r0 && bp.r0.bands && bp.r0.bands.B}`
+      + `・pairCut=${bp.r0 && bp.r0.bands && bp.r0.bands.cut}・N=${bp.r0 && bp.r0.N}`
+      + `(200 步後にカット外にいる自由粒子 ${bp.r0 && bp.r0.nOutEnd}/${bp.r0 && bp.r0.nFree}・t=0 では ${bp.nOut})`
+      + `・ω̇ は後退差分=${bp.r0 && bp.r0.bands && bp.r0.bands.bd}・警告 ${bp.warn0} 行=${b2} / `
+      + `③ 帳簿: |E_toy+E_mesh|=${bp.r0 && bp.r0.ledgerE}・|P_toy+P_mesh|=${bp.r0 && bp.r0.ledgerP}・`
+      + `**外部熱浴** kRepEff=0 で E_bath=${bp.r0 && bp.r0.bathE}/kRepEff=0.01 で E_bath=${bp.rp && bp.rp.bathE}=${b3} / `
+      + `④ geoPN=2 で拒否=${bp.geoOk}・calibration で拒否=${bp.calOk}=${b4} / `
+      + `⑤ **既定トイとはビット同一にならない**(近似 variant)状態差 ${bp.dBand}=${b5}`
+      + ` / 既定 bandCount=${bp.defB}・bandLength=${bp.defEll}・宣言は ${bp.sig0}`);
+  } else {
+    console.log('SKIP behavior.geoToyBandPressure(対象に第274便c の diskSupport なし — root 等)');
+  }
+}
+
+// ---- 第274便c(第64報): preset.galaxyLite — 🎐 の**宣言の形**(🪁 との差は円盤の本数だけ)----
+//   ① `sampleClass:"principle"`・`fidelity:"toy"`・claims/massCalibration なし・notClaim に galaxy。
+//   ② **physics の宣言が 🪁 と 1 文字も違わない**(JSON 一致)・seed も同じ。
+//   ③ **bodies の差は指数円盤の n だけ**(260 → 80。他の欄は 1 文字も違わない)。
+//   ④ obsCard は 8 行以内・ja の各欄 120 字以内・emoji は内蔵で 1 本だけ・群は 🪁 と同じ。
+//   ⑤ **実際に走る**: 600 步で `geoToyStop===null`・N=n−pinned・NaN 0・帳簿が閉じる。
+//   ⑥ **band-pressure を宣言していない**(既定トイのまま)。
+//   🎐 の無い対象(root 等)は SKIP。
+{
+  const hasLite = await page.evaluate(() => !!(window.HP && HP.sim)
+    && HP.allPresets().some((z) => z.id === 'galaxyMeshSpiralGeoToyLite'));
+  if (hasLite) {
+    const lt = await page.evaluate(() => {
+      const KEY = HP.SPACE_MESH_KEY;
+      const all = HP.allPresets();
+      const lite = all.find((z) => z.id === 'galaxyMeshSpiralGeoToyLite');
+      const src = all.find((z) => z.id === 'galaxyMeshSpiralGeoToy');
+      const run = (q, n) => { const v = HP.validatePreset(JSON.parse(JSON.stringify(q)));
+        if (!v.ok) return { err: (v.errors || []).join('|') };
+        const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < n; k++) S.step(0.016);
+        let nPin = 0; for (let i = 0; i < S.n; i++) if (S.pinned[i]) nPin++;
+        return { stop: S.geoToyStop, N: S.geoToyN, n: S.n, nPin, nan: S.hasNaN(),
+          geoPN: S.params.geoPN, chi: S.geoToyChi,
+          ledgerE: Math.abs(S.geoToyE + S.geoToyEmesh),
+          ledgerP: Math.hypot(S.geoToyPx + S.geoToyMeshPx, S.geoToyPy + S.geoToyMeshPy) }; };
+      // bodies の差は「指数円盤の n」だけ ―― n を揃えて JSON 比較する
+      const bl = JSON.parse(JSON.stringify(lite.bodies)), bs = JSON.parse(JSON.stringify(src.bodies));
+      const nLite = bl.length === bs.length ? bl[bl.length - 1].n : null;
+      const nSrc = bl.length === bs.length ? bs[bs.length - 1].n : null;
+      if (nLite !== null) bl[bl.length - 1].n = nSrc;
+      return { cls: lite.sampleClass, fid: lite.fidelity, claims: !!lite.claims,
+        mcal: !!lite.massCalibration, notClaim: lite.notClaim,
+        samePhysics: JSON.stringify(lite.physics) === JSON.stringify(src.physics),
+        sameSeed: lite.seed === src.seed,
+        sameBodiesExceptN: JSON.stringify(bl) === JSON.stringify(bs), nLite, nSrc,
+        emoji: lite.emoji, nEmoji: all.filter((z) => z.emoji === lite.emoji).length,
+        group: lite.group, srcGroup: src.group, validT: lite.validT,
+        card: (lite.obsCard || []).length,
+        maxLen: Math.max.apply(null, (lite.obsCard || []).map((r) =>
+          Math.max(r.q.length, r.model.length, r.obs.length))),
+        noBand: ((lite.physics || {})[KEY] || {}).diskSupport === undefined,
+        run: run(lite, 600) };
+    });
+    const g1 = lt.cls === 'principle' && lt.fid === 'toy' && !lt.claims && !lt.mcal
+      && Array.isArray(lt.notClaim) && lt.notClaim.indexOf('galaxy') >= 0;
+    const g2 = lt.samePhysics && lt.sameSeed;
+    const g3 = lt.sameBodiesExceptN && lt.nLite === 80 && lt.nSrc === 260;
+    const g4 = lt.card <= 8 && lt.maxLen <= 120 && lt.nEmoji === 1
+      && lt.group === lt.srcGroup && lt.validT > 0;
+    const g5 = !!lt.run && lt.run.stop === null && lt.run.N === lt.run.n - lt.run.nPin
+      && lt.run.nPin === 1 && !lt.run.nan && lt.run.ledgerE === 0 && lt.run.ledgerP === 0
+      && lt.run.geoPN === 3 && lt.run.n === 171;
+    const g6 = lt.noBand;
+    add('preset.galaxyLite', g1 && g2 && g3 && g4 && g5 && g6,
+      `① sampleClass=${lt.cls}・fidelity=${lt.fid}・claims=${lt.claims}・massCalibration=${lt.mcal}`
+      + `・notClaim=${JSON.stringify(lt.notClaim)}=${g1} / `
+      + `② **physics が 🪁 と 1 文字も違わない**=${lt.samePhysics}・seed 一致=${lt.sameSeed}=${g2} / `
+      + `③ bodies の差は指数円盤の n だけ(🎐 ${lt.nLite} / 🪁 ${lt.nSrc}・他は一致=${lt.sameBodiesExceptN})=${g3} / `
+      + `④ obsCard ${lt.card} 行・最長欄 ${lt.maxLen} 字・emoji ${lt.emoji} は内蔵で ${lt.nEmoji} 本`
+      + `・group=${lt.group}(🪁=${lt.srcGroup})=${g4} / `
+      + `⑤ 600 步走行: stop=${lt.run.stop}・N=${lt.run.N}/${lt.run.n}(pinned ${lt.run.nPin})`
+      + `・χ_max=${Number(lt.run.chi).toFixed(6)}・|E_toy+E_mesh|=${lt.run.ledgerE}・|P|=${lt.run.ledgerP}`
+      + `・NaN=${lt.run.nan}=${g5} / ⑥ band-pressure は未宣言=${g6}`);
+  } else {
+    console.log('SKIP preset.galaxyLite(対象に第274便c の 🎋 galaxyMeshSpiralGeoToyLite なし — root 等)');
   }
 }
 // ---- 第263便b(第55報・統括が設定した検証仮説 (7)): ui.geoToySaveNote ----
@@ -24045,8 +24319,12 @@ if (!FAST) {
     // 第265便d: 🐮 lfbotTrap(コア宣言 1 件・body.radius 非宣言)が入って 75→76 宣言(内蔵は 🪁 と合わせ 124 本)。
     // 増えた 1 件は `bodyRadiusNotDeclared` の **needsResolve**(13→14)である(🎆 と同じ理由)。
     // root(99286dc・v1.44.0 RC)は 🪁🐮 を持たないので 122/75/13 のまま —— 対象の内蔵に 🐮 が居るかで期待値を切り替える。
+    // 第274便c: 🎋 galaxyMeshSpiralGeoToyLite(🪁 の軽量コピー・**コア宣言なし**)が入って 124→125 本。
+    // コア宣言は 76 件・needsResolve 14 件のまま(🎋 は core を 1 件も宣言しない)—— 世代で切り替える。
     const has265 = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'lfbotTrap'));
-    const exp6 = has265 ? { n: 124, core: 76, res: 14 } : { n: 122, core: 75, res: 13 };
+    const has274c = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'galaxyMeshSpiralGeoToyLite'));
+    const exp6 = has274c ? { n: 125, core: 76, res: 14 }
+      : (has265 ? { n: 124, core: 76, res: 14 } : { n: 122, core: 75, res: 13 });
     const m6 = mg.rep.nPresets === exp6.n && mg.rep.nCore === exp6.core && mg.rep.tot.convertible === 61
       && mg.rep.tot.needsResolve === exp6.res && mg.rep.tot.rejected === 1
       && mg.rep.tot.cavity === 0 && mg.rep.tot.naked === 0;
@@ -24274,7 +24552,8 @@ if (!FAST) {
         if (r.counts.canReplace) ids.push((p.emoji || '') + p.id);
       }
       return { C, p60: { jx: p60.layers[0].Jx, warn: p60.warnings },
-        rep: { nPresets: HP.allPresets().length, nCore, tot, byAxis, byReason, ids } };
+        rep: { nPresets: HP.allPresets().length, nCore, tot, byAxis, byReason, ids,
+        has274c: HP.allPresets().some((q) => q.id === 'galaxyMeshSpiralGeoToyLite') } };
     });
     const bad = rp.C.filter((c) => !c.pass);
     const g0 = bad.length === 0 && rp.C.length >= 45;
@@ -24283,7 +24562,8 @@ if (!FAST) {
     // (残る 43 は shellSpinTermDiffers 29 + migrationRejected 14。**内蔵の JSON は 1 バイトも変えていない**)
     // 第265便d: 🐮 lfbotTrap が入って 76 宣言。増えた 1 件は `migrationRejected`(body.radius 非宣言)で
     // 不可 44→45・rotationSource 43→44・migration 14→15・各項 +1。内蔵は 🪁 と合わせ 124 本。
-    const g1 = rp.rep.nPresets === 124 && rp.rep.nCore === 76
+    // 第274便c: 🎋 galaxyMeshSpiralGeoToyLite(コア宣言なし)が入って 124→125 本(core 76 件は不変)
+    const g1 = rp.rep.nPresets === (rp.rep.has274c ? 125 : 124) && rp.rep.nCore === 76
       && rp.rep.tot.canReplace === 31 && rp.rep.tot.cannot === 45
       && rp.rep.byAxis.rotationSource === 44 && rp.rep.byAxis.migration === 15
       && rp.rep.byAxis.KcsThermal === 17 && rp.rep.byAxis.activePumpContract === 17
@@ -25465,7 +25745,8 @@ if (!FAST) {
       { let n = 0, nCore = 0;
         for (const p of HP.allPresets()) for (const b of (p.bodies || []))
           if (b && b.core) { nCore++; if (b.core.shellSpinMass !== undefined) n++; }
-        O.builtins = { nDeclared: n, nCore, nPresets: HP.allPresets().length }; }
+        O.builtins = { nDeclared: n, nCore, nPresets: HP.allPresets().length,
+          has274c: HP.allPresets().some((q) => q.id === 'galaxyMeshSpiralGeoToyLite') }; }
       { const v2 = run('v2', 0.4, 'shell'), lay = run('lay', 0.4, 'shell');
         const v2t = run('v2', 0.4, null), layt = run('lay', 0.4, null);
         O.match = { shell: { qV2: v2.Q, qLay: lay.Q, d600: diff(v2, lay), law: v2.law },
@@ -25484,7 +25765,9 @@ if (!FAST) {
         O.tally = { asIs: tally(false), forced: tally(true) }; }
       return O;
     }, 600);
-    const s1 = lw.builtins.nDeclared === 0 && lw.builtins.nCore === 76 && lw.builtins.nPresets === 124;
+    // 第274便c: 🎋(コア宣言なし)が入って 124→125 本(宣言 0・core 76 件は不変)
+    const s1 = lw.builtins.nDeclared === 0 && lw.builtins.nCore === 76
+      && lw.builtins.nPresets === (lw.builtins.has274c ? 125 : 124);
     const s2 = lw.match.shell.qV2 === lw.match.shell.qLay && lw.match.shell.d600 === 0
       && lw.match.shell.law === 'shell'
       && lw.match.total.dQ !== 0 && lw.match.total.d600 > 0 && lw.match.total.law === 'total';
@@ -43209,6 +43492,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const gc = {};
       for (const p of ps) gc[p.group || '内蔵'] = (gc[p.group || '内蔵'] || 0) + 1;
       o.counts = gc; o.total = ps.length;
+      // 第274便c: 🎋 galaxyMeshSpiralGeoToyLite(銀河の力学)が入って 124→125 本 —— 世代で切り替える
+      o.has274c = ps.some((p) => p.id === 'galaxyMeshSpiralGeoToyLite');
       // ⑥ 群の説明(ja/en)があり、「観測一致版ではない」を言う
       o.noteJa = (I18N.ja.groupNotes || {})[G] || '';
       o.noteEn = (I18N.en.groupNotes || {})[G] || '';
@@ -43219,7 +43504,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     add('preset.groupAnalogies',
       r.exact && r.n === 11 && r.gid === 'realAnalogy' && r.psrToy === r.beyondName
       && r.lfbot === r.celName && r.cross.length === 0 && r.calN === 37
-      && r.sigSame && r.sigNoGroup && r.total === 124 && r.beyondN === 19
+      && r.sigSame && r.sigNoGroup && r.total === (r.has274c ? 125 : 124) && r.beyondN === 19
       && r.noteOk && r.enName === 'Real-object Analogies',
       `**新グループ「実在天体のアナロジー」**(id=${r.gid}・en=${r.enName}): ${r.n} 本=${JSON.stringify(r.members)} / `
       + `🩻 psrDoubleABGeoToy は psr family に残す=${r.psrToy}・🐮 lfbotTrap は入れない=${r.lfbot} / `
@@ -43455,9 +43740,10 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         .map((p) => p.group || '内蔵')).size > 1);
       o.grcal = ps.filter((p) => p.familyId === 'grcal').map((p) => [p.id, p.group]);
       o.grcalOk = o.grcal.length === 4 && o.grcal.every((x) => x[1] === G);
-      // ③ **較正 37 本の母集団は不変**・内蔵は 124 本のまま
+      // ③ **較正 37 本の母集団は不変**・内蔵は 124 本(第274便c で 🎋 が入って 125 本 —— 世代で切り替える)
       o.calN = ps.filter((p) => p.sampleClass === 'calibration').length;
       o.total = ps.length;
+      o.has274c = ps.some((p) => p.id === 'galaxyMeshSpiralGeoToyLite');
       // ④ **presetSig は group を見ない**: 移した 5 本の署名に群名が出ない
       o.sigNoGroup = WANT.every((id) => presetSig(ps.find((q) => q.id === id)).indexOf(G) < 0);
       // ⑤ 群の説明(ja/en)があり、表示順では「天体の機構」の直後に出る
@@ -43471,7 +43757,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     });
     add('preset.clocksGravity',
       r.exact && r.n === 5 && r.gid === 'clocksGravity' && r.enName === 'Clocks & Gravity'
-      && r.restOk && r.cross.length === 0 && r.grcalOk && r.calN === 37 && r.total === 124
+      && r.restOk && r.cross.length === 0 && r.grcalOk && r.calN === 37
+      && r.total === (r.has274c ? 125 : 124)
       && r.sigNoGroup && r.noteOk && r.posOk,
       `**新グループ「時計と重力」**(第273便a・AH6。id=${r.gid}・en=${r.enName}): ${r.n} 本=`
       + `${JSON.stringify(r.members)} / 「運動と時空」に残る=${JSON.stringify(r.rest)}=${r.restOk} / `

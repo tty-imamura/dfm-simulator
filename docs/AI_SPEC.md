@@ -928,6 +928,15 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   - **要求別 `need:"all"|"gravity"`(第260便a)**: `"gravity"` は **D・∇D・g だけ**を返し u/∇u/∂ₜu/χ は
     **null**(ゼロ埋めしない)。**重力は源が空でも定義される**(空和 = 0)が、**u は D₀=0 かつ源なしでは
     定義されない**(分母が 0)—— この 1 点だけが違う。`HP.DFM_FIELD_NEED` が受理値。
+  - **要求別 `need:"mesh"`(第274便c)**: `"gravity"` の裏返しで、**u・∇u・∂ₜu・χ(と W・∇W・∂ₜW・nIn)だけ**を
+    返し、**D・∇D・gravity は null**(ゼロ埋めしない)。geoPN=3 のトイは 1 步に「源の加速度集め
+    (`need:"gravity"`)」と「`onePass`(need 既定 `"all"`)」で**重力を 2 度集計していた**ので、
+    2 度目を `"mesh"` にして **O(N²) の重力集計を 1 步に 1 回**にした。**u の値は 1 bit 変わらない**
+    (同じ `dfmLocalMeshField` を同じ引数で呼ぶ —— 内蔵 124 本の 600 步ビット同一と、
+    器 `tests/exp-w274c-needmesh.mjs` の 2100 例の全項目一致で機械確認した)。
+    **正直な差は 1 つだけ**: 既定経路が持っていた「**和 D が非有限**なら null」という門が `"mesh"` には無い
+    (源ごとの門 —— m/x/y の有限性・s>0 —— は `dfmLocalMeshField` が**同じ条件で同じ順に**持つ)。
+    QA `behavior.geoToyNeedMesh`・`behavior.dfmField`。
   - `energyContract` は `"none"`(既定)/`"meshLedger"`/`"toy"` の文字列で、**この関数は帳簿を持たない**ことの宣言。
   - **門**(null): 未知の lawVersion/energyContract/need・`"frame"` で bg 未指定・D₀<0・state が配列でない・
     R 無しの `"local"`・**源が 1 つも無い `"complex"`**(第260便a —— A=[0,0] を「静止した場」として返さない)。
@@ -1068,6 +1077,29 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     - **η=0 は geoPN=0 の Newton と 600 步ビット同一**(両ゲージとも)。
     - **書かないこと**: 「引きずりを完全置換した」「mesh-v2 を銀河へ当てた」(3 体以上は止まる)。
       QA `behavior.meshV2`。
+  - **第274便c — 帯平均の軽量 variant `physics.spaceMesh.diskSupport`("none" 既定 /"band-pressure")**:
+    第64報の優先課題「galaxyMeshSpiralGeoToy が重い理由を調査し改善する。近似として『スピン斥力 kRep』の
+    ようなパラメータを導入しても構わない」に対する**近似 variant**である。
+    - **既存の `physics.kRep` は流用しない**(A10/E5′ のスピン=熱セクターの圧力であって意味が変わる)。
+      新しい宣言鍵は **`kRepEff`**(有効圧の係数・0 以上)・**`bandLength`**(宣言長 ℓ_*・正)・
+      **`pressure0`**(下駄 Θ₀・0 以上)・**`bandCount`**(帯の本数・2〜512・既定 16)・
+      **`pairCut`**(この半径より内側はトイ項を当てない・0 以上)である。
+    - **則**: 円盤を半径帯 B 本に分け、帯の平均角速度 ω_b・面密度 Σ_b・⟨ω²⟩_b から
+      **ū = η·χ_b·ω_b·ẑ×(x−c)**(∇ū は解析形 η·χ_b·ω_b[[0,−1],[1,0]]・∂ₜū は ω̇_b の**前步との
+      後退差分**という宣言)を作り、**作用は既定トイと同じ** a=∂ₜū+(∇ū)v−(∇ū)ᵀ(v−ū) を当てる。
+      χ_b = W_b/(D₀+W_b)・W_b = Σ_c M_c(d_bc²+ε²)^{−p/2} は **B×B の小行列**なので **O(N+B²)** である。
+      有効圧 **Θ_b = Θ₀ + kRepEff·ℓ_*²·⟨ω²⟩_b** から径方向へ **a_press = −(1/Σ_b)(dΘ/dr)_b r̂** を足す。
+    - **帳簿**: 粒子 ↔ メッシュは既定と同じく厳密に閉じる(|E_toy+E_mesh|=0・|P_toy+P_mesh|=0)。
+      **有効圧の供給は「外部熱浴」**として `S.geoToyBathPx/Py/L/E` の**別欄**に積む(**有限供給版は次段**)。
+      毎步の診断は **`S.geoToyBands`**(`{B, center, rMax, span, cut, nIn, omega[], omegaDot[], chi[],
+      sigma[], theta[], mass[], count[], backwardDifference}`)・`S.geoToyClosure="band-pressure"`。
+    - **門**: `physics.geoPN=3` 専用・`sampleClass:"calibration"` では**拒否**・`law:"mesh-v2"` と排他・
+      未知の値は拒否。宣言すると**警告 1 行**。**既定 "none" は正準形に 1 文字も出ない**
+      (内蔵で `diskSupport` を宣言する本は 0 本 = 既定経路は 1 bit 不変)。
+    - **値は既定トイとビット同一にならない**(場の作り方が違う近似である —— 同一を要求しない)。
+    - **書かないこと**: 「銀河が安定した」「腕が創発した」「圧が円盤を支えることを示した」。
+      実測では **kRepEff=0.01(ℓ_*=10)でも 3000 步で円盤の保持率が 0.2577 まで落ちた**(kRepEff=0.5 では 0)——
+      **有効圧は宣言したどの値でも円盤を保持していない**(PHYSICS〔第274便c〕③)。QA `behavior.geoToyBandPressure`。
 - **支配度の器(第263便a — `HP.dfmDominance(bodies, opts)`)**: 「支配天体が 1 つかどうか」を**測れる形**にした純関数。
   `bodies=[{m,x,y,vx,vy}]`・`opts={p, eps, D0}`(既定 p=2・eps=0・D₀=0)。**3 つの軸を別々に返す**(1 つの数に畳まない):
   **①`massRatio`=m₁/(m₁+m₂)**(質量上位 2 体)・**②`chiBias`=χ₂/(χ₁+χ₂)**(χ_i=Σ_{j≠i}w_j/(D₀+Σ_{j≠i}w_j)・
