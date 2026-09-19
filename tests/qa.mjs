@@ -1910,7 +1910,10 @@ const add = (id, pass, detail) => {
       'tests/out/charonk-w273b.json',
       // 第274便b: 独立同期トルクの node 診断(**エンジン未接続**)—— html を走らせない器なので
       //   target は器が読む正本ファイル(`tests/lib-w274b-synctorque.mjs`)である
-      'tests/out/sync-w274b.json'];
+      'tests/out/sync-w274b.json',
+      // 第274便e(第64報): BH コア設計の値表(target=beta/index.html の宣言値)と、
+      // 腕・棒・観測写像の純関数の値表(target=lib 自身 —— html を読まない器)
+      'tests/out/bhcore-w274e.json', 'tests/out/armbar-w274e.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -43479,6 +43482,223 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       + `表示位置=${r.pos}(天体の機構 → 時計と重力 → 光の伝播)=${r.posOk}`);
   }
   await ap.close();
+}
+
+// ---- 第274便e(第64報「DFM 版ブラックホールを設計する」): docs.bhDesignSync ----
+// ----   設計書 `docs/BH_DESIGN_v1.45.md` と純関数 3 本(`tests/lib-w274e-bhcore.mjs`・
+// ----   `tests/lib-w274e-armbar.mjs`・`tests/lib-w274e-obsmap.mjs`)が**食い違わない**ことを
+// ----   機械で見る。本便は**エンジンに接続していない**ので、固定するのは文書と純関数の一致だけ:
+// ----     ① 設計書の `api` ブロックの名前の集合が、3 本の lib の export(既定 export を除く)と
+// ----        **集合として一致**する(名前を消したのに文書が残る/文書に無い API が増える、を防ぐ)。
+// ----     ② 共通状態の欄 `CORE_STATE_KEYS`(10 欄)が 1 つ残らず設計書 §2 の表に出ている。
+// ----     ③ **二面の要件表**が 5 面(運動/場/角運動量/合体・降着/観測写像)× 2 面
+// ----        (BH 連星 / 星団・銀河の中心天体)で揃っている。
+// ----     ④ 完成への順番が 5 段ある。
+// ----     ⑤ **禁則語を肯定で書いていない**(「ブラックホールを実装」「事象の地平面を再現」
+// ----        「腕の創発」「棒の自己組織化」)—— この設計書は「書かないこと」を §0 に明示する
+// ----        体裁なので、語の有無ではなく**否定形の行かどうか**で見る(§0 の宣言は必須)。
+// ----   **この便は html を 1 バイトも変えていない**ので、root/beta どちらでも同じ結果になる。
+{
+  const bad = [];
+  let docApi = [], libApi = [], nState = 0, faces = [], steps = 0, ban = [];
+  try {
+    const md = fs.readFileSync(path.join(ROOT, 'docs', 'BH_DESIGN_v1.45.md'), 'utf8');
+    const m = md.match(/```api\n([\s\S]*?)```/);
+    if (!m) bad.push('①設計書に ```api ブロックが無い');
+    else docApi = m[1].split('\n').map((s) => s.trim()).filter(Boolean);
+    const mods = ['tests/lib-w274e-bhcore.mjs', 'tests/lib-w274e-armbar.mjs',
+      'tests/lib-w274e-obsmap.mjs'];
+    for (const rel of mods) {
+      const M = await import('file://' + path.join(ROOT, rel));
+      for (const k of Object.keys(M)) if (k !== 'default') libApi.push(k);
+    }
+    const dset = new Set(docApi), lset = new Set(libApi);
+    for (const k of libApi) if (!dset.has(k)) bad.push(`①設計書に載っていない export: ${k}`);
+    for (const k of docApi) if (!lset.has(k)) bad.push(`①lib に無い名前が設計書にある: ${k}`);
+    if (docApi.length !== new Set(docApi).size) bad.push('①設計書の api ブロックに重複がある');
+    // ② 共通状態の 10 欄
+    const BHm = await import('file://' + path.join(ROOT, 'tests/lib-w274e-bhcore.mjs'));
+    for (const k of BHm.CORE_STATE_KEYS) {
+      if (md.indexOf('`' + k + '`') < 0) bad.push(`②設計書 §2 に欄 ${k} が無い`);
+      else nState++;
+    }
+    // ③ 二面の要件表
+    faces = ['運動', '場', '角運動量', '合体・降着', '観測写像'];
+    for (const f of faces) if (!new RegExp('\\n\\| ' + f + ' \\|').test(md))
+      bad.push(`③要件表に面「${f}」の行が無い`);
+    for (const c of ['BH 連星に要ること', '星団・銀河の中心天体に要ること'])
+      if (md.indexOf(c) < 0) bad.push(`③要件表に列「${c}」が無い`);
+    // ④ 完成への順番(5 段)
+    const sec = md.split('## 7. 完成への順番')[1] || '';
+    steps = (sec.split('## 8.')[0].match(/^\d\. \*\*/gm) || []).length;
+    if (steps !== 5) bad.push(`④完成への順番が 5 段でない(${steps})`);
+    // ⑤ 禁則語 —— **否定形で引用している行は違反ではない**(この設計書は「書かないこと」を
+    //    明示する体裁なので、語そのものの有無ではなく**肯定で書いていないこと**を見る)
+    ban = ['ブラックホールを実装', '事象の地平面を再現', '腕の創発', '棒の自己組織化'];
+    const NEG = ['書かない', '書けない', '主張しない', 'ではない', '示していない', '禁則'];
+    for (const line of md.split('\n')) {
+      for (const w of ban) {
+        if (line.indexOf(w) < 0) continue;
+        if (!NEG.some((n) => line.indexOf(n) >= 0))
+          bad.push(`⑤設計書が禁則語「${w}」を肯定で書いている: ${line.trim().slice(0, 40)}`);
+      }
+    }
+    // §0「この文書が書かないこと」に主要 2 語の宣言が在ること
+    const head = md.split('## 1.')[0];
+    for (const w of ['ブラックホールを実装', '事象の地平面を再現'])
+      if (head.indexOf(w) < 0) bad.push(`⑤§0 に「${w}」を書かない宣言が無い`);
+  } catch (e) { bad.push('設計書か lib が読めない: ' + String(e).slice(0, 110)); }
+  add('docs.bhDesignSync', bad.length === 0,
+    `**BH 設計書と純関数の一致**(第274便e・第64報): \`docs/BH_DESIGN_v1.45.md\` ↔ `
+    + `lib 3 本(bhcore/armbar/obsmap)の API **${libApi.length} 名**を集合で照合(設計書 `
+    + `${docApi.length} 名)/ 共通状態 ${nState}/10 欄 / 二面の要件表 ${faces.length} 面 × 2 / `
+    + `完成への順番 ${steps} 段 / 禁則語 ${ban.length} 語は否定形の引用だけ —— **本便はエンジンに接続していない**`
+    + `(設計書・純関数・値表だけ。html は 1 バイトも変えていない)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 第274便e: behavior.armBarPure ----
+// ----   純関数だけで閉じる**線形安定性と帳簿**の機械検査(ページを開かない)。固定するのは 6 つ:
+// ----     ① 棒: まっすぐな 6 節点鎖(18 自由度)の Hessian の**ゼロモードが 5 本**
+// ----        (並進 3+回転 2 —— 軸まわりの回転は節点を 1 つも動かさないので自由度ではない)。
+// ----        残り 13 本が正で、最小非ゼロ固有値が 0 から離れている。剛体モードの残差が機械ゼロ。
+// ----     ② 腕: −∇U_arm が中心差分と一致する(**A′(r) 項も ∂χ/∂r 項も落としていない**)。
+// ----        パターンのピッチ角が **t に依らない**(= 巻き込まない)。
+// ----     ③ 腕の横幅 σ_⊥²=Θr²/(m²A) が小振幅で厳密分散に収束する。
+// ----     ④ 合体帳簿が閉じる(M/P/J/E)。残余が負になる宣言は **ok:false で拒否**される
+// ----        (**後から clamp しない**)。
+// ----     ⑤ 捕捉境界: **静止コアでは根が無い**(屈折だけでは境界が出ない)。自由落下流の
+// ----        孤立点質量では閉形式 s/r_s=2/W(2) と一致する。
+// ----     ⑥ 観測写像: 視線積分が解析形と一致し、面内の速さ/σ_LOS が √2(AE5 の換算)。
+// ----   **主張していないこと**: 腕や棒が力学から出てくること。測っているのは「**外から与えた形が
+// ----   壊れないこと**」だけである。html を読まないので root/beta で同じ結果になる。
+{
+  const bad = [];
+  const r = {};
+  try {
+    const AB = await import('file://' + path.join(ROOT, 'tests/lib-w274e-armbar.mjs'));
+    const OM = await import('file://' + path.join(ROOT, 'tests/lib-w274e-obsmap.mjs'));
+    const BH = await import('file://' + path.join(ROOT, 'tests/lib-w274e-bhcore.mjs'));
+    r.ver = [AB.ARMBAR_VERSION, OM.OBSMAP_VERSION, BH.BH_CORE_VERSION].join('/');
+    if (r.ver !== 'w274e-1/w274e-1/w274e-1') bad.push(`lib の版が w274e-1 でない(${r.ver})`);
+    // ① 棒
+    const bp = Object.assign({}, AB.BAR_DEFAULT);
+    const nodes = AB.barNodes({ n: 6, l0: bp.l0 });
+    let gmax = 0; for (const v of AB.barGradient(nodes, bp)) gmax = Math.max(gmax, Math.abs(v));
+    r.gradAtEq = gmax;
+    if (!(gmax < 1e-12)) bad.push(`①まっすぐな鎖が平衡点でない(|∇U|max=${gmax})`);
+    const H = AB.barHessian(nodes.map((q) => q.slice()), bp, 1e-5);
+    const eigs = AB.eigSym(H);
+    const zm = AB.zeroModeCount(eigs, 1e-8);
+    r.dof = 18; r.zero = zm.zero; r.minNonZero = zm.minNonZero; r.maxEigen = zm.maxAbs;
+    if (zm.zero !== 5) bad.push(`①ゼロモードが 5 本でない(${zm.zero} 本)`);
+    if (!(zm.minNonZero > 0.2)) bad.push(`①最小非ゼロ固有値が小さすぎる(${zm.minNonZero})`);
+    r.positive = eigs.filter((e) => e > 1e-8 * zm.maxAbs).length;
+    if (r.positive !== 13) bad.push(`①正の固有値が 13 本でない(${r.positive} 本)`);
+    if (eigs.some((e) => e < -1e-8 * zm.maxAbs)) bad.push('①負の固有値がある(不安定)');
+    const rm = AB.rigidModes(nodes);
+    r.rigidWorst = Math.max(...['tx', 'ty', 'tz', 'rz', 'ry'].map((k) => AB.hessianResidual(H, rm[k])));
+    if (!(r.rigidWorst < 1e-6)) bad.push(`①剛体モードの残差が大きい(${r.rigidWorst})`);
+    let axial = 0; for (const v of rm.axial) axial += v * v;
+    r.axial = axial;
+    if (axial !== 0) bad.push(`①軸まわり回転が自由度になっている(ノルム ${axial})`);
+    r.rotDU = Math.abs(AB.barRigidRotationDeltaU(nodes, bp, 0.37, [0, 0, 1]).dU);
+    if (!(r.rotDU < 1e-12)) bad.push(`①剛体回転で U が変わる(ΔU=${r.rotDU})`);
+    // ② 腕
+    const P = Object.assign({}, AB.ARM_DEFAULT);
+    const U = (x, y, z, t) => AB.armPotential({ r: Math.hypot(x, y), phi: Math.atan2(y, x), z, t }, P);
+    let worst = 0, npt = 0;
+    for (const rr of [0.3, 1, 2, 4, 8, 16]) for (const ph of [0, 0.7, 1.9, 3.3, 5.1]) {
+      const x = rr * Math.cos(ph), y = rr * Math.sin(ph), z = 0.4, t = 1.3, h = 1e-6;
+      const a = AB.armForceXY({ x, y, z, t }, P);
+      worst = Math.max(worst,
+        Math.abs(a.fx + (U(x + h, y, z, t) - U(x - h, y, z, t)) / (2 * h)),
+        Math.abs(a.fy + (U(x, y + h, z, t) - U(x, y - h, z, t)) / (2 * h)),
+        Math.abs(a.fz + (U(x, y, z + h, t) - U(x, y, z - h, t)) / (2 * h)));
+      npt++;
+    }
+    r.armForceWorst = worst; r.armPoints = npt;
+    if (!(worst < 1e-6)) bad.push(`②−∇U_arm が中心差分と合わない(最大差 ${worst})`);
+    const pitchAt = (rr, t) => { const h = 1e-5;
+      const f = (q) => P.Omega_p * t + P.b * Math.log(AB.coreRadius(q, P) / P.r0);
+      return Math.atan(1 / Math.abs((f(rr * (1 + h)) - f(rr * (1 - h))) / (2 * h))) * 180 / Math.PI; };
+    r.pitchSpreadT = Math.max(...[2, 8, 64].map((rr) =>
+      Math.max(...[0, 5, 50].map((t) => pitchAt(rr, t))) - Math.min(...[0, 5, 50].map((t) => pitchAt(rr, t)))));
+    if (!(r.pitchSpreadT < 1e-6)) bad.push(`②パターンのピッチ角が t に依っている(${r.pitchSpreadT}°)`);
+    // ③ 横幅
+    const an = AB.armWidthSigma({ r: 8, A: 1, m: 2, Theta: 0.002 });
+    const nu = AB.armWidthNumeric({ r: 8, A: 1, m: 2, Theta: 0.002, n: 6000 });
+    r.widthRatio = nu.sigma / an.sigma;
+    if (!(Math.abs(r.widthRatio - 1) < 1e-2)) bad.push(`③σ_⊥ が小振幅で解析形に収束しない(${r.widthRatio})`);
+    // ④ 合体帳簿
+    const ca = BH.makeCore({ M_rest: 3, R_core: 1, X: [-2, 0], V: [0, -0.7] });
+    const cb = BH.makeCore({ M_rest: 5, R_core: 1.2, X: [3, 1], V: [0.2, 0.4] });
+    const pp = { G: 1, rc: 0.1 };
+    const mg = BH.mergeLedger(ca, cb, pp, { spinFraction: 0, coreBinding: 1 });
+    if (!mg.ok) bad.push('④既定の宣言で合体が拒否された');
+    else {
+      const cl = BH.ledgerClosure(mg.before, mg.after);
+      r.closure = cl;
+      for (const k of ['M', 'P', 'L', 'E'])
+        if (!(cl[k] < 1e-9)) bad.push(`④帳簿が閉じない(${k}=${cl[k]})`);
+      const mu = ca.M_rest * cb.M_rest / (ca.M_rest + cb.M_rest);
+      const ke = 0.5 * mu * ((ca.V[0] - cb.V[0]) ** 2 + (ca.V[1] - cb.V[1]) ** 2);
+      r.residual = mg.residual; r.reducedKE = ke;
+      if (!(Math.abs(mg.residual - ke) < 1e-9 * Math.abs(ke)))
+        bad.push(`④残余が ½μ|Δv|² と一致しない(${mg.residual} vs ${ke})`);
+    }
+    const rej = BH.mergeLedger(ca, cb, pp, { spinFraction: 0, coreBinding: 0 });
+    r.rejected = !rej.ok; r.rejResidual = rej.residual;
+    if (rej.ok) bad.push('④残余が負でも合体が通ってしまう(拒否されない)');
+    // ⑤ 捕捉境界
+    const pA = { G: 1, M: 100, rc: 0, kappa: 1 / 900, c0: 30, D0: 0 };
+    const sp = { lo: 1e-3, hi: 1e4, n: 20000 };
+    const cs = BH.captureBoundary(pA, () => 0, sp);
+    r.staticRoots = cs.roots.length; r.staticMin = cs.minRate;
+    if (cs.roots.length !== 0) bad.push(`⑤静止コアに捕捉境界の根が出た(${cs.roots.length} 個)`);
+    if (!(cs.minRate > 0)) bad.push(`⑤静止コアで c_eff が 0 以下になった(${cs.minRate})`);
+    const ff = BH.captureBoundary(pA, BH.freeFallInflow(pA), sp);
+    const ratio = BH.freeFallBoundaryRatio();
+    r.ffRoots = ff.roots.length;
+    r.ffOverRs = ff.roots.length ? ff.roots[0] / BH.rSchwarzschild(pA) : null;
+    r.ffClosed = ratio.sOverRs;
+    if (ff.roots.length !== 1) bad.push(`⑤自由落下流の根が 1 個でない(${ff.roots.length} 個)`);
+    else if (!(Math.abs(r.ffOverRs / ratio.sOverRs - 1) < 1e-9))
+      bad.push(`⑤自由落下流の根が閉形式 2/W(2) と合わない(${r.ffOverRs} vs ${ratio.sOverRs})`);
+    r.cEffAtRs = BH.cEff1(BH.rSchwarzschild(pA), pA) / pA.c0;
+    if (!(Math.abs(r.cEffAtRs - Math.exp(-1)) < 1e-12))
+      bad.push(`⑤c_eff(r_s)/c₀ が e^{−1} でない(${r.cEffAtRs})`);
+    // ⑥ 観測写像
+    const gm = OM.gaussian3D({ M: 1000, sx: 6, sy: 6, sz: 2 });
+    r.projWorst = Math.max(...[[0, 0], [4, 0], [8, 6]].map(([X, Y]) =>
+      Math.abs(OM.projectSurfaceDensity(gm, { X, Y, n: 4000 })
+        / OM.surfaceDensityAnalytic(gm, { X, Y }) - 1)));
+    if (!(r.projWorst < 1e-10)) bad.push(`⑥視線積分が解析形と合わない(${r.projWorst})`);
+    const ae5 = OM.planarVsLOS({ sigma1: 1.5, n: 4000 });
+    r.planarOverLOS = ae5.planarOverLOS;
+    if (!(Math.abs(ae5.planarOverLOS - Math.SQRT2) < 1e-12))
+      bad.push(`⑥面内/σ_LOS が √2 でない(${ae5.planarOverLOS})`);
+  } catch (e) { bad.push('純関数が読めない: ' + String(e).slice(0, 120)); }
+  add('behavior.armBarPure', bad.length === 0,
+    `**腕・棒・BH コアの純関数**(第274便e・第64報。版 ${r.ver}): ① 棒 6 節点 18 自由度の`
+    + `Hessian —— 平衡 |∇U|max=${Number(r.gradAtEq).toExponential(2)}・**ゼロモード ${r.zero} 本**`
+    + `(並進 3+回転 2。軸まわりは節点を動かさないのでノルム ${r.axial} = 自由度ではない)・`
+    + `正 ${r.positive} 本・**最小非ゼロ ${Number(r.minNonZero).toFixed(9)}**・最大 `
+    + `${Number(r.maxEigen).toFixed(6)}・剛体残差 ${Number(r.rigidWorst).toExponential(2)}・`
+    + `剛体回転 ΔU ${Number(r.rotDU).toExponential(2)} / ② 腕 −∇U vs 中心差分 `
+    + `${Number(r.armForceWorst).toExponential(2)}(${r.armPoints} 点。A′ 項も ∂χ/∂r 項も`
+    + `落としていない)・ピッチ角の t 依存 ${Number(r.pitchSpreadT).toExponential(2)}° / `
+    + `③ σ_⊥ の小振幅比 ${Number(r.widthRatio).toFixed(6)} / ④ 合体帳簿の閉じ M/P/L/E=`
+    + `${r.closure ? ['M', 'P', 'L', 'E'].map((k) => Number(r.closure[k]).toExponential(1)).join(',') : '—'}`
+    + `・残余=½μ|Δv|²=${Number(r.reducedKE).toFixed(9)}・**残余が負の宣言は拒否 `
+    + `${r.rejected}**(${Number(r.rejResidual).toFixed(3)}・後から clamp しない)/ `
+    + `⑤ 捕捉境界 静止コアの根 ${r.staticRoots} 個(最小 ṙ=${Number(r.staticMin).toExponential(2)}>0)・`
+    + `自由落下流 ${r.ffOverRs === null ? '—' : Number(r.ffOverRs).toFixed(9)} = 閉形式 2/W(2) `
+    + `${Number(r.ffClosed).toFixed(9)}・c_eff(r_s)/c₀=${Number(r.cEffAtRs).toFixed(9)}(=e^{−1}・`
+    + `**0 ではない**)/ ⑥ 視線積分 ${Number(r.projWorst).toExponential(2)}・面内/σ_LOS=`
+    + `${Number(r.planarOverLOS).toFixed(9)}(√2・AE5)/ **測っているのは「外から与えた形が`
+    + `壊れないこと」だけ**(力学から出てくることは示していない)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
 }
 
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));

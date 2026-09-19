@@ -393,6 +393,18 @@ paper/*Notes.bib
 #   乗じない)と R28 の 4 列判定を読み、`lint.provenanceMeta` が来歴を照合するのでコミットする。
 #   **エンジンへは 1 バイトも接続していない**(内蔵プリセットは 1 bit も変えていない)。
 !tests/out/sync-w274b.json
+# 第274便e(第64報「DFM 版ブラックホールを設計する」・**設計と純関数だけ・エンジン未接続**):
+#   ① bhcore —— 🎐 gw150914(実単位)の**宣言値**(m・分離・c₀・κ・D₀・ε)で、有限コア Φ_c・
+#      局所光速 c_eff=c₀e^{−2κW}・**光の捕捉境界の定義候補** ṙ=u_r+c_eff の根・逃げにくさ・
+#      合体帳簿(M/P/J/E の閉じと**残余が負なら拒否**)を測った値表
+#      (tests/exp-w274e-bhcore.mjs)。**捕捉境界は GR の事象の地平面との同等性を示していない。**
+#   ② armbar —— パターン腕 U_arm の力(A′ 項も ∂χ/∂r 項も落とさない)・横幅 σ_⊥ の小振幅収束・
+#      棒(6 節点鎖)の Hessian の**ゼロモード 5 本と最小非ゼロ固有値**・観測写像(視線積分・
+#      σ_LOS・AE5 の √2)の値表(tests/exp-w274e-armbar.mjs)。**「腕の創発」は主張していない。**
+#   QA `docs.bhDesignSync` が設計書 docs/BH_DESIGN_v1.45.md と純関数の API を集合照合し、
+#   `behavior.armBarPure` が上の量を純関数で再計算するのでコミットする(値表は記録であって判定ではない)。
+!tests/out/bhcore-w274e.json
+!tests/out/armbar-w274e.json
 # 第221便: セッション内スクラッチ実測ハーネス(コミット対象外 — 実測値は claims/QA が機械固定する)
 _scratch-*.mjs
 _scratch-*/
