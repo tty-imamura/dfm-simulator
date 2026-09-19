@@ -427,6 +427,12 @@ paper/*Notes.bib
 #   `lint.provenanceMeta` が来歴を固定するのでコミットする。**較正ではない**(観測量は 1 つも
 #   入力していない)。「銀河が安定した」「腕が創発した」とは書かない。
 !tests/out/shapetoy-w274d.json
+# 第274便a(第64報・原仮定者の優先課題(2)): **kF0 棚卸し表の正本**。較正 37 本 + 診断系列を行にし、
+#   kF1 側と kF0 側それぞれに 4 列(走行成立/構造安定/数値成立/観測成立 —— R28)を置く。
+#   `tests/exp-w274a-kf0ledger.mjs` が正本 JSON から機械生成し、`docs/KF0_LEDGER_v1.45.md` を書く。
+#   QA `docs.kf0Ledger` が表と正本を突き合わせ、`lint.provenanceMeta` が来歴を照合するのでコミットする。
+#   **未測定は未測定と書く**(推定で埋めない)。ラベルは**候補**であって較正完了ではない。
+!tests/out/kf0ledger-w274a.json
 # 第221便: セッション内スクラッチ実測ハーネス(コミット対象外 — 実測値は claims/QA が機械固定する)
 _scratch-*.mjs
 _scratch-*/

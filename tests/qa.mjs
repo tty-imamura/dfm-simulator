@@ -1918,8 +1918,9 @@ const add = (id, pass, detail) => {
       'tests/out/galaxyprof-w274c.json', 'tests/out/needmesh-w274c.json',
       'tests/out/galaxylite-w274c.json',
       // 第274便d(第64報): 形状トイ(指定した 3D 正規分布を定常分布に持つ参照モデル)の完成判定
-      'tests/out/shapetoy-w274d.json'];
-
+      'tests/out/shapetoy-w274d.json',
+      // 第274便a(第64報): kF0 棚卸し表の正本(較正 37 本 + 診断系列の 4 列)
+      'tests/out/kf0ledger-w274a.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -3449,7 +3450,10 @@ const add = (id, pass, detail) => {
       if (!j.previous) bad.push(`④${p.id}|${q.kind} に旧経路(previous)が無い`);
       // カロンは `condition-mismatch`(kFrame=0 対照の行)を除いた行で門を見る ——
       // 条件不一致は**行の割り当ての問題**であって、宣言の適用とは別の隔離だからである。
-      if (j.key === 'Charon|orbital_period' && !charon
+      // 第274便a(第64報): **kF0 対照を配った行も外す**。AD5 の宣言は「どの解と比べるか」の
+      //   宣言であって、**宣言どおり kFrame=1 で走った判定行**に対して見るものである
+      //   (kF0 の行は同じ宣言・同じ σ を引くが、走行条件が違う)。
+      if (j.key === 'Charon|orbital_period' && !charon && !q.kf0Applied
         && !(q.gate && q.gate.status === 'condition-mismatch')) charon = q;
       if (j.key === 'Venus|eccentricity' && !venus) venus = q;
     }
@@ -3513,17 +3517,27 @@ const add = (id, pass, detail) => {
     if (!cur) bad.push('①fourValues.current が無い');
     if (!prev) bad.push('①fourValues.history が無い');
     else {
+      // 第274便a(第64報): 本便は**署名便**なので、履歴の先頭は**直前の便 第273便(fb9f6bd)**である。
+      //   第271便(743ad9b)の行は消さずに後ろへ残す(履歴は積む —— 第271便a の規約)。
       const pc = prev.counts || {};
       if (!(pc['合'] === 0 && pc['量限定合'] === 2 && pc['否'] === 1 && pc['保留'] === 34))
-        bad.push(`①直前の便(ef2cd45)の 4 値が 0/2/1/34 でない(${JSON.stringify(pc)})`);
+        bad.push(`①直前の便(fb9f6bd)の 4 値が 0/2/1/34 でない(${JSON.stringify(pc)})`);
       const pg = prev.gate || {};
-      if (!(pg['合(3σ)'] === 2 && pg['否(3σ)'] === 1 && pg['数値未解決'] === 35
-        && pg['mapping-unresolved'] === 14 && pg['condition-mismatch'] === 8 && pg['未判定'] === 254))
-        bad.push(`①直前の便の門が 2/1/35/14/8/254 でない(${JSON.stringify(pg)})`);
+      if (!(pg['合(3σ)'] === 2 && pg['否(3σ)'] === 1 && pg['数値未解決'] === 34
+        && pg['mapping-unresolved'] === 15 && pg['condition-mismatch'] === 8 && pg['未判定'] === 254))
+        bad.push(`①直前の便(fb9f6bd)の門が 2/1/34/15/8/254 でない(${JSON.stringify(pg)})`);
       const pt = prev.tally || {};
-      if (!(pt['合'] === 57 && pt['窓'] === 6 && pt['否'] === 25 && pt['従'] === 4
+      if (!(pt['合'] === 56 && pt['窓'] === 6 && pt['否'] === 26 && pt['従'] === 4
         && pt['転'] === 214 && pt['条'] === 8))
-        bad.push(`①直前の便の 5 区分が 57/6/25/4/214/8 でない(${JSON.stringify(pt)})`);
+        bad.push(`①直前の便(fb9f6bd)の 5 区分が 56/6/26/4/214/8 でない(${JSON.stringify(pt)})`);
+      // 第271便(743ad9b)の行が**後ろに残っている**こと(履歴を上書きしない)
+      const p271 = (fv.history || []).find((z) => z.commit === '743ad9b') || null;
+      if (!p271) bad.push('①第271便(743ad9b)の履歴が消えている(履歴は積む)');
+      else {
+        const g271 = p271.gate || {};
+        if (!(g271['数値未解決'] === 35 && g271['mapping-unresolved'] === 14))
+          bad.push(`①743ad9b の門が 2/1/35/14/8/254 でない(${JSON.stringify(g271)})`);
+      }
     }
     if (!hist) bad.push('①基点 f6c19b4 の履歴が消えている(履歴は積む)');
     else {
@@ -3580,6 +3594,17 @@ const add = (id, pass, detail) => {
       const bare = line.replace(/[「『][^」』]*[」』]/g, '');
       if (/判定が増えた|較正を完了|D68 が合\(3σ\)|カロンが合|較正した/.test(bare))
         bad.push(`⑤禁止語(§5.17): ${line.slice(0, 40)}`);
+    }
+    // 第274便a: 本便が書いた §5.20 にも同じ禁止語を掛ける(署名便の節には毎回掛ける)。
+    //   加えて **kF0 の言い過ぎ**(「kF0 版が成立した」「引きずりが完全に消えている…を確認した」)を見る。
+    const i20 = md.indexOf('### 5.20 ');
+    if (i20 < 0) bad.push('④§5.20(第274便a の署名便の節)が無い');
+    const sec20 = (i20 < 0) ? '' : md.slice(i20, (() => {
+      const j = md.indexOf('\n## ', i20); return (j < 0) ? md.length : j; })());
+    for (const line of sec20.split('\n')) {
+      const bare = line.replace(/[「『][^」』]*[」』]/g, '');
+      if (/判定が増えた|較正を完了|D68 が合\(3σ\)|カロンが合|較正した|kF0 版が成立した|引きずりが完全に消えていることを確認/.test(bare))
+        bad.push(`⑤禁止語(§5.20): ${line.slice(0, 40)}`);
     }
   } catch (e) { bad.push('4 値の履歴が読めない: ' + String(e).slice(0, 90)); }
   add('docs.fourValuesHistory', bad.length === 0,
@@ -3730,8 +3755,10 @@ const add = (id, pass, detail) => {
         if (s.periastraOk !== true) bad.push(`②${s.tag} が必要近点数に届いていない`);
       }
       st = stages.map((s) => (s.periFoundA || []).join('/'));
+      // 第274便a: kF0 対照を配った行(`kf0Applied`)も**判定行ではない**ので外す ——
+      //   3 段登録(AF2)が見ているのは**宣言どおり kFrame=1 で走った側**である。
       const q = (P.quantities || []).find((z) => z.kind === 'period' && z.gate
-        && z.gate.status !== 'condition-mismatch' && z.dtStages) || null;
+        && z.gate.status !== 'condition-mismatch' && !z.kf0Applied && z.dtStages) || null;
       if (!q) bad.push('④❄️ の周期に 3 段の判定行が無い');
       else {
         const c = q.gate.convergence || {};
@@ -3751,9 +3778,10 @@ const add = (id, pass, detail) => {
       for (const z of (P.quantities || [])) if (z.gate && z.kind === 'period')
         statusList.push(z.gate.status);
     }
-    const h = ((C.fourValues || {}).history || [])[0] || null;
-    if (!h || !/カロン/.test(String(h.reason || '')))
-      bad.push('⑤旧状態(カロンが未登録で保留だった)が履歴に書かれていない');
+    // 第274便a: 履歴は**積む**ので先頭が入れ替わる。旧状態はどの行に残っていてもよい
+    //   (消えていないことを見るのが目的である)。
+    const h = ((C.fourValues || {}).history || []).find((z) => /カロン/.test(String(z.reason || ''))) || null;
+    if (!h) bad.push('⑤旧状態(カロンが未登録で保留だった)が履歴に書かれていない');
   } catch (e) { bad.push('カロンの 3 段が読めない: ' + String(e).slice(0, 90)); }
   add('behavior.charonRegistered', bad.length === 0,
     `**❄️ カロンの公転周期を 3 段登録した**(第271便a・AF2): 走らせる前に步数を計算し、`
@@ -5681,7 +5709,10 @@ const add = (id, pass, detail) => {
       cases.push(`${Object.keys(WANT).length} 系列 ${nCol} 列・NaN ${nan}`);
       const CA = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
       const pc = CA.presets.find((p) => p.id === 'plutoCharonReal');
-      const row = pc.quantities.find((q) => q.kind === 'period' && q.detail && Array.isArray(q.detail.revSec));
+      // 第274便a: kF0 対照を配った行(`kf0Applied`)は **kFrame=0 の走行**なので、
+      //   C0(kFrame=1)の再現先にはならない —— 外して kFrame=1 の行と突き合わせる。
+      const row = pc.quantities.find((q) => q.kind === 'period' && !q.kf0Applied
+        && q.detail && Array.isArray(q.detail.revSec));
       const want = row.detail.revSec[1];
       if (!c0) bad.push('⑤ C0 の走行が無い');
       else if (!(Math.abs(c0.rev2Sec - want) / want <= 1e-12))
@@ -37275,14 +37306,26 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       if (!/①②は独立|独立な集合/.test(String(st.note || ''))) bad.push('⑨集計の note が「①②は独立」になっていない');
       if (!/④ ⊆ ③|④⊆③/.test(String(st.note || ''))) bad.push('⑨集計の note に「④⊆③」が無い');
     }
-    if (nCond !== 8) bad.push(`⑥条件不一致が 8 行でない(${nCond} 行)`);
+    // 第274便a(第64報): **世代で切り替える**。`kf0Runs.on` が立った走行では、条件不一致 8 行に
+    //   **kFrame=0 の対照走行が配られている**ので `conditionMismatch.n` は 0 になる。
+    //   そのとき同じ 8 行を **`kf0Runs.applied` の側で**数える(**行が消えたのではなく、
+    //   条件が揃ったので隔離を抜けた**)。旧世代(--kf0-runs を通していない走行)の期待値は
+    //   1 つも緩めていない —— 8 行が `条` のままであることをそのまま見る。
+    const kf0Gen = !!(j.kf0Runs && j.kf0Runs.on === true);
     {
-      const ids = (j.conditionMismatch && Array.isArray(j.conditionMismatch.rows))
-        ? j.conditionMismatch.rows.map((z) => z.id) : [];
-      if (ids.indexOf('venusReal') < 0) bad.push('⑥条件不一致に venusReal が無い');
+      const src = kf0Gen ? ((j.kf0Runs || {}).applied || [])
+        : ((j.conditionMismatch && Array.isArray(j.conditionMismatch.rows))
+          ? j.conditionMismatch.rows : []);
+      const nSrc = src.length;
+      if (nSrc !== 8) bad.push(`⑥条件不一致の 8 行が揃わない(${nSrc} 行・世代=${kf0Gen ? 'kF0 配布済み' : '隔離のみ'})`);
+      if (kf0Gen && nCond !== 0) bad.push(`⑥kF0 を配ったのに条件不一致が残っている(${nCond} 行)`);
+      if (!kf0Gen && nCond !== 8) bad.push(`⑥条件不一致が 8 行でない(${nCond} 行)`);
+      const ids = src.map((z) => z.id);
+      if (ids.indexOf('venusReal') < 0) bad.push('⑥条件不一致の 8 行に venusReal が無い');
       for (const need of ['jupiterGalilean', 'marsMoonsReal', 'plutoCharonReal', 'neptuneReal'])
-        if (ids.indexOf(need) < 0) bad.push(`⑥条件不一致に ${need} が無い`);
-      if (ids.filter((z) => z === 'jupiterGalilean').length !== 4) bad.push('⑥木星衛星の条件不一致が 4 行でない');
+        if (ids.indexOf(need) < 0) bad.push(`⑥条件不一致の 8 行に ${need} が無い`);
+      if (ids.filter((z) => z === 'jupiterGalilean').length !== 4) bad.push('⑥木星衛星の 4 行が揃わない');
+      var condSrcIds = ids;
     }
     if (!j.degYearGate || !Array.isArray(j.degYearGate.rows)) bad.push('⑧degYearGate の欄が無い');
     else if (j.degYearGate.rows.length !== nDegYear) bad.push('⑧deg/yr の集計が行と合わない');
@@ -37311,8 +37354,10 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     }
     try {
       kf0 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'kf0-w259d.json'), 'utf8'));
+      // 第274便a: 隔離が解けた世代では `conditionMismatch.rows` が空になるので、
+      //   **同じ 8 行**を `kf0Runs.applied` から作る(検査の網を緩めないため)。
       const want = new Map();
-      for (const z of ((j.conditionMismatch || {}).rows || [])) want.set(z.id, (want.get(z.id) || 0) + 1);
+      for (const id of (condSrcIds || [])) want.set(id, (want.get(id) || 0) + 1);
       let nCtrl = 0, nRepro = 0;
       for (const r of (kf0.rows || [])) {
         if (!want.has(r.id)) { bad.push(`⑫隔離されていない系の対照走行がある: ${r.id}`); continue; }
@@ -43174,7 +43219,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     try {
       const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
       const round = (x) => (Number.isFinite(x) ? Number(x.toPrecision(12)) : null);
-      let checked = 0;
+      let checked = 0, nPreKf0 = 0;
       for (const id of r.ids) {
         const p = (J.presets || []).find((z) => z.id === id);
         if (!p) { bad.push(`①正本に ${id} が無い`); continue; }
@@ -43189,8 +43234,18 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         for (const row of table) {
           const q = want.find((z) => z.name === row.n && (z.target || null) === row.t);
           if (!q) { bad.push(`①${id} の行「${String(row.n).slice(0, 16)}」が正本に無い`); continue; }
-          const g = q.gate || {};
-          const av = Number.isFinite(g.assessedValue) ? g.assessedValue : q.meas;
+          // 第274便a(第64報): **kF0 対照を配った行**は、ページ側の表が**配る前の世代の転記**である
+          //   (本便は UI を変えない —— 「候補」を画面に出すかは決断事項)。配る前の門は
+          //   `kf0Applied.replaced.gate` に**そのまま残してある**ので、**同じ世代どうしで**
+          //   突き合わせる(検査を飛ばすのではない)。表を再生成したらこの分岐は使われなくなる。
+          let g = q.gate || {};
+          const rep = (q.kf0Applied && q.kf0Applied.replaced) ? q.kf0Applied.replaced : null;
+          let av = Number.isFinite(g.assessedValue) ? g.assessedValue : q.meas;
+          if (rep && rep.gate && rep.gate.status && row.g === rep.gate.status && row.g !== g.status) {
+            g = rep.gate;
+            av = Number.isFinite(g.assessedValue) ? g.assessedValue : rep.meas;
+            nPreKf0++;
+          }
           if (round(av) !== row.v) bad.push(`①${id}「${String(row.n).slice(0, 12)}」の値が違う`);
           if ((g.assessedStage || 'h') !== row.st) bad.push(`①${id} の判定段が違う`);
           if (round(g.nSigma) !== row.ns && !(g.nSigma === undefined && row.ns === null))
@@ -43236,7 +43291,14 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         const st = A.stamp || {};
         if (st.inHtml !== r.canon.targetSha256)
           bad.push('⑥b控えの stamp.inHtml が html の刻印と違う(器を走らせ直すこと)');
-        if (st.valuesChanged !== false)
+        // 第274便a(第64報): **食い違いが 1 行残らず説明できているときだけ** true を許す。
+        //   本便は UI を変えない(「候補」を画面に出すかは決断事項)ので、ページ側の表は
+        //   **kF0 を配る前の世代の転記**のままである。① のループは、その行を
+        //   `kf0Applied.replaced.gate`(配る前の門をそのまま残した欄)と突き合わせて
+        //   **1 行ずつ照合している** —— 説明できない行があれば ① が既に落ちている。
+        //   したがってここで見るのは「**説明した行が実際にあるか**」である。
+        //   `nPreKf0 === 0` のまま valuesChanged が true なら、それは**ただ古い表**である。
+        if (st.valuesChanged !== false && !(nPreKf0 > 0))
           bad.push('⑥b控えが「値の表が正本と食い違う」と記録している(器を走らせ直すこと)');
         if ((A.input || {}).canonicalTargetSha256 !== metaJ.targetSha256)
           bad.push('⑥b控えが**いまの正本**に対して書かれていない(器を走らせ直すこと)');
@@ -43248,7 +43310,10 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         + `\`tests/out/calaudit-w249.json\` の **judged 段の値**(\`gate.assessedValue\`)・判定段・`
         + `σ 倍・門の状態を、**プリセットの外の side table** に転記して観測結果カードの下に出す`
         + `(**このページでは 1 つも測り直していない**)/ `
-        + `**${r.ids.length} 本 / ${r.nRows} 行**(照合 ${checked} 行)・表示された本 ${r.shown} / `
+        + `**${r.ids.length} 本 / ${r.nRows} 行**(照合 ${checked} 行`
+        + (nPreKf0 ? `・うち **${nPreKf0} 行は kF0 を配る前の世代の転記**として `
+          + `\`kf0Applied.replaced.gate\` と突き合わせた —— 表を再生成するかは決断事項` : '')
+        + `)・表示された本 ${r.shown} / `
         + `**σ を持たない量は 1 行も載せない** / **署名が違えば出さない**`
         + `(presetSig の一致が機械の線)/ **渡された対象 hash が正本の刻印と違えば出さない** / `
         + `**鮮度は 2 段の鎖**で見る —— ①**表 ↔ 正本**(この QA が 1 行ずつ)+ `
@@ -44307,6 +44372,209 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       + `**較正ではない**(観測量を 1 つも入力していない)`
       : '正本なし')
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 0a4a) 第274便a(第64報・原仮定者の優先課題(2)): docs.kf0Ledger ----
+// ----   **kF0 棚卸し表**(`docs/KF0_LEDGER_v1.45.md` ↔ 正本 `tests/out/kf0ledger-w274a.json`)を
+// ----   機械固定する。問いは「**kFrame=1 が成立しないサンプルで kF0 版が成立しているか**」で、
+// ----   答えは **4 列**(走行成立/構造安定/数値成立/観測成立 —— 統括の検証項目 R28)で書く。
+// ----   固定するのは 8 点で、**合否そのものではない**(合否は門が決める):
+// ----     ① 来歴(`provenanceVersion` と `meta.targetSha256` = いま検査している html)。
+// ----     ② 表の行数が正本の行数と一致する(較正の本数 / 診断系列の本数が別々に合う)。
+// ----     ③ 全行の kF1 側・kF0 側に 4 列が揃い、値が **✓ / ✗ / 未測定** の 3 語のいずれかである。
+// ----     ④ **ラベルが付いた行は、kF1 側の観測成立が ✗ で、kF0 側の 4 列がすべて ✓**である
+// ----        (= 4 列が揃わない行にラベルが無い)。**ラベルは候補であって較正完了ではない**。
+// ----     ⑤ ラベルが付いた行は **根拠(対象量)が正本に実在**する。
+// ----     ⑥ 文書の集計(行数・ラベル数・「kF1 否・kF0 合」の行数)が正本の集計と一致する。
+// ----     ⑦ **f 固定・k のみの対照があるか**が全行で宣言されている(f が一緒に動く対は「なし」)。
+// ----     ⑧ **書かない語**が §6 の一覧の外に出てこない(「kF0 版が成立した」等)。
+// ----   **beta 線の走行なので root は SKIP**する(対象 html の hash で判定する)。
+{
+  const bad = [];
+  const cases = [];
+  let nRows = null, nCal = null, nDiag = null, nLabel = null, nKf1NgKf0Ok = null, nKOnly = null;
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.kf0Ledger(beta 対象でない: ' + TARGET + ' — 棚卸し表は beta 線の実測)');
+  } else {
+    try {
+      const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'kf0ledger-w274a.json'), 'utf8'));
+      const doc = fs.readFileSync(path.join(ROOT, 'docs', 'KF0_LEDGER_v1.45.md'), 'utf8');
+      const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      const m = J.meta || {};
+      if (m.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(別ソースの走行)');
+      if (m.ledgerVersion !== 'w274a-1') bad.push(`① 表の版が w274a-1 でない(${m.ledgerVersion})`);
+      cases.push('html の SHA-256 一致・表の版 ' + m.ledgerVersion);
+      const rows = Array.isArray(J.rows) ? J.rows : [];
+      nRows = rows.length;
+      nCal = rows.filter((r) => r.scope === 'calibration').length;
+      nDiag = rows.filter((r) => r.scope === 'diagnostic').length;
+      // ② 表の行数(§2 は較正・§3 は診断系列)
+      const sect = (h) => { const i = doc.indexOf(h); if (i < 0) return '';
+        const j = doc.indexOf('\n## ', i + 1); return doc.slice(i, j < 0 ? doc.length : j); };
+      const bodyRows = (s) => s.split('\n').filter((l) => /^\|\s*\d+\s*\|/.test(l)).length;
+      const s2 = sect('## 2. 較正 '), s3 = sect('## 3. 診断系列 ');
+      if (!s2) bad.push('② 文書に §2(較正)が無い');
+      if (!s3) bad.push('② 文書に §3(診断系列)が無い');
+      if (s2 && bodyRows(s2) !== nCal) bad.push(`② §2 の行数 ${bodyRows(s2)} が正本の較正 ${nCal} 本と違う`);
+      if (s3 && bodyRows(s3) !== nDiag) bad.push(`② §3 の行数 ${bodyRows(s3)} が正本の診断 ${nDiag} 行と違う`);
+      cases.push(`行 ${nRows}(較正 ${nCal} / 診断 ${nDiag})が表と一致`);
+      // ③ 4 列の語彙
+      const VOC = new Set(['✓', '✗', '未測定']);
+      const KEYS = (J.columns || []).map((c) => c.key);
+      if (KEYS.length !== 4) bad.push(`③ 列の宣言が 4 つでない(${KEYS.length})`);
+      for (const r of rows) for (const side of ['kf1', 'kf0']) {
+        const s = r[side];
+        if (!s) { bad.push(`③ ${r.id} に ${side} が無い`); continue; }
+        for (const k of KEYS) if (!VOC.has(s[k])) bad.push(`③ ${r.id}.${side}.${k} が 3 語のどれでもない(${s[k]})`);
+      }
+      cases.push('4 列 × 2 側 = ' + (rows.length * 8) + ' セルが ✓/✗/未測定 の 3 語');
+      // ④⑤ ラベルの条件
+      const labelled = rows.filter((r) => r.label);
+      nLabel = labelled.length;
+      for (const r of labelled) {
+        if ((r.kf1 || {}).observation !== '✗')
+          bad.push(`④ ${r.id} にラベルがあるが kF1 の観測成立が ✗ でない(${(r.kf1 || {}).observation})`);
+        for (const k of KEYS) if ((r.kf0 || {})[k] !== '✓')
+          bad.push(`④ ${r.id} にラベルがあるが kF0 の ${k} が ✓ でない(${(r.kf0 || {})[k]})`);
+        const q = (r.labelBasis || {}).quantity;
+        if (!Array.isArray(q) || !q.length) bad.push(`⑤ ${r.id} のラベルに根拠(対象量)が無い`);
+      }
+      // 逆向き: 4 列が揃っていてラベルが無い行を漏れとして拾う
+      for (const r of rows) {
+        const all = KEYS.every((k) => (r.kf0 || {})[k] === '✓');
+        if (all && (r.kf1 || {}).observation === '✗' && !r.label)
+          bad.push(`④ ${r.id} は条件を満たすのにラベルが無い`);
+      }
+      nKf1NgKf0Ok = rows.filter((r) => (r.kf1 || {}).observation === '✗'
+        && (r.kf0 || {}).observation === '✓').length;
+      cases.push(`ラベル ${nLabel} 行・「kF1 否・kF0 合」 ${nKf1NgKf0Ok} 行`);
+      // ⑥ 集計の一致
+      const S = J.summary || {};
+      if (S.nRows !== nRows) bad.push('⑥ summary.nRows が行数と違う');
+      if (S.nCalibration !== nCal || S.nDiagnostic !== nDiag) bad.push('⑥ summary の較正/診断の本数が違う');
+      if (S.nLabelled !== nLabel) bad.push('⑥ summary.nLabelled がラベル数と違う');
+      if ((S.kf1NgKf0OkIds || []).length !== nKf1NgKf0Ok) bad.push('⑥ summary の「kF1 否・kF0 合」が違う');
+      for (const [needle, val] of [['| 行数(較正 / 診断系列) | ' + nRows, nRows],
+        ['| **診断ラベルが付いた行** | **' + nLabel + '** |', nLabel],
+        ['| **「kF1 不成立(否 3σ)・kF0 成立(合 3σ)」の行** | **' + nKf1NgKf0Ok + '** |', nKf1NgKf0Ok]])
+        if (doc.indexOf(needle) < 0) bad.push(`⑥ 文書の集計行が正本と一致しない(${val})`);
+      // ⑦ f 固定・k のみの対照
+      nKOnly = rows.filter((r) => (r.kOnlyContrast || {}).has === true).length;
+      for (const r of rows) if (!r.kOnlyContrast || typeof r.kOnlyContrast.has !== 'boolean')
+        bad.push(`⑦ ${r.id} に「f 固定・k のみの対照」の宣言が無い`);
+      if (S.nKOnlyContrast !== nKOnly) bad.push('⑦ summary.nKOnlyContrast が行と違う');
+      cases.push(`f 固定・k のみの対照 ${nKOnly} 行`);
+      // ⑧ 書かない語は §6 の中だけ
+      const i6 = doc.indexOf('## 6. 書かないこと');
+      if (i6 < 0) bad.push('⑧ 文書に §6「書かないこと」が無い');
+      else for (const w of (m.doNotWrite || [])) {
+        let at = doc.indexOf(w);
+        while (at >= 0) { if (at < i6) { bad.push(`⑧ 「${w}」が §6 の外に出ている`); break; }
+          at = doc.indexOf(w, at + 1); }
+      }
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      if (P.indexOf('〔第274便a') < 0) bad.push('⑧ PHYSICS に〔第274便a〕節が無い');
+    } catch (e) { bad.push('棚卸し表が読めない: ' + String(e).slice(0, 110)); }
+    add('docs.kf0Ledger', bad.length === 0,
+      `**kF0 棚卸し表**(第274便a・原仮定者の優先課題「kFrame=1 が成立しないサンプルで kF0 版が`
+      + `成立しているかをまとめる」): ${cases.join(' / ')} —— 答えは **4 列**(走行成立/構造安定/`
+      + `数値成立/観測成立・R28)で書き、**完走だけを「成立」と書かない**。`
+      + `ラベル「引きずりが完全に消えている空間メッシュ状態(候補)」は **kF1 が 否(3σ)・`
+      + `kF0 の 4 列がすべて ✓** の行にだけ付く**候補**であって、**較正完了ではない**。`
+      + `**未測定は未測定と書く**(推定で埋めない)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 0a4b) 第274便a(第64報): lint.kf0RunsCondition ----
+// ----   **条件不一致 8 行の kFrame=0 対照走行**(calaudit `--kf0-runs`)を機械固定する。
+// ----   第258便d は 8 行を `条`(condition-mismatch)へ隔離しただけで、**対照条件の走行を
+// ----   その行へ配っていなかった**。第274便a が同じ器・同じ停止条件・同じ抽出器で
+// ----   `physics.kFrame` の 1 鍵だけを 0 にした**診断コピー**を走らせ、その行へ配る。
+// ----   固定するのは 7 点:
+// ----     ① 正本に `kf0Runs` があり、走らせた段が宣言されている。
+// ----     ② 配った行が **8 行**(= 第258便d が隔離した行数)である。
+// ----     ③ 配ったあとの `conditionMismatch.n` が **0**(解消 8 / 未解消 0)。
+// ----     ④ 配った各行に **元の値**(`kf0Applied.replaced`)が残っていて、
+// ----        `measurementContextOverride.kFrame === 0` が立っている(**証拠を捨てない**)。
+// ----     ⑤ 診断コピーの走行が健全(NaN 0・クランプ 0・窓を完走)。
+// ----     ⑥ **プリセット本体は不変** —— 5 本の `correlates.kFrame` が 1 のままで、
+// ----        正本の本数が **37 本**のまま(診断コピーは 1 本も混ざっていない)。
+// ----     ⑦ ❄️ は**独立の正本**(charon-w272b の列 C1)と突き合わせてある。
+// ----   **beta 線の走行なので root は SKIP**する。
+{
+  const bad = [];
+  const cases = [];
+  let nApplied = null, condAfter = null, nPresets = null, citeRel = null;
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP lint.kf0RunsCondition(beta 対象でない: ' + TARGET + ' — 対照走行は beta 線の実測)');
+  } else {
+    try {
+      const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+      const K = J.kf0Runs || null;
+      if (!K) bad.push('① 正本に kf0Runs が無い(--kf0-runs を通していない走行)');
+      else {
+        if (K.on !== true) bad.push('① kf0Runs.on が true でない');
+        if (!Array.isArray(K.stages) || !K.stages.length) bad.push('① 走らせた段の宣言が無い');
+        else cases.push('段 ' + K.stages.join('・'));
+        nApplied = (K.applied || []).length;
+        if (nApplied !== 8) bad.push(`② 配った行が 8 行でない(${nApplied})`);
+        condAfter = (J.conditionMismatch || {}).n;
+        if (condAfter !== 0) bad.push(`③ 配ったあとも condition-mismatch が残っている(${condAfter})`);
+        cases.push(`配布 ${nApplied} 行 / 解消 ${8 - (condAfter || 0)} 行 / 未解消 ${condAfter} 行`);
+        // ④ 証拠と印
+        const ids = new Set((K.registry || []).map((z) => z.id));
+        let nEvid = 0;
+        for (const p of (J.presets || [])) {
+          if (!ids.has(p.id)) continue;
+          if (Number((p.correlates || {}).kFrame) !== 1)
+            bad.push(`⑥ ${p.id} の correlates.kFrame が 1 でない(プリセット本体が動いている)`);
+          for (const q of (p.quantities || [])) {
+            if (!q.kf0Applied) continue;
+            nEvid++;
+            if (!q.kf0Applied.replaced || q.kf0Applied.replaced.meas === undefined)
+              bad.push(`④ ${p.id}/${q.target} に元の値が残っていない`);
+            if (!q.measurementContextOverride || Number(q.measurementContextOverride.kFrame) !== 0)
+              bad.push(`④ ${p.id}/${q.target} に kFrame=0 の印が無い`);
+            if (Number((q.measurementContext || {}).kFrame) !== 0)
+              bad.push(`④ ${p.id}/${q.target} の measurementContext が 0 になっていない`);
+          }
+        }
+        if (nEvid !== nApplied) bad.push(`④ 元の値を持つ行が ${nEvid}(配布 ${nApplied})`);
+        cases.push(`元の値を残した行 ${nEvid}`);
+        // ⑤ 走行の健全性
+        for (const h of (K.health || [])) {
+          if (h.nan !== false) bad.push(`⑤ ${h.id} の kF0 走行に NaN`);
+          if (Number(h.clamp) !== 0) bad.push(`⑤ ${h.id} の kF0 走行にクランプ ${h.clamp}`);
+          if (h.runComplete !== true) bad.push(`⑤ ${h.id} の kF0 走行が完走していない`);
+          if (Number(h.kFrameApplied) !== 0) bad.push(`⑤ ${h.id} の診断コピーが kFrame=0 でない`);
+        }
+        cases.push(`診断コピー ${(K.health || []).length} 本すべて NaN 0・クランプ 0`);
+        // ⑥ 本数
+        nPresets = (J.presets || []).length;
+        if (nPresets !== 37) bad.push(`⑥ 正本の本数が 37 でない(${nPresets})`);
+        if ((J.presets || []).some((p) => p.kf0Diagnostic === true))
+          bad.push('⑥ 診断コピーの記録が正本の 37 本に混ざっている');
+        // ⑦ ❄️ の独立照合
+        const C = K.charonCitation || null;
+        if (!C) bad.push('⑦ ❄️ の独立照合が無い');
+        else {
+          citeRel = C.relDiff;
+          if (!Number.isFinite(C.citedValue)) bad.push('⑦ 引用先(charon-w272b の列 C1)の値が読めない');
+          else if (!(Number.isFinite(citeRel) && Math.abs(citeRel) <= 1e-12))
+            bad.push(`⑦ ❄️ の kF0 走行が独立正本と一致しない(相対差 ${citeRel})`);
+          else cases.push('❄️ は独立正本(charon-w272b 列 C1)と相対 1e−12 以内で一致');
+        }
+      }
+    } catch (e) { bad.push('棚卸し正本が読めない: ' + String(e).slice(0, 110)); }
+    add('lint.kf0RunsCondition', bad.length === 0,
+      `**条件不一致 8 行の kFrame=0 対照走行**(第274便a・calaudit \`--kf0-runs\`): ${cases.join(' / ')} —— `
+      + `走らせたのは \`physics.kFrame\` の 1 鍵だけを 0 にした**診断コピー**で、`
+      + `**プリセットの physics は 1 bit も書き換えていない**(正本は ${nPresets} 本のまま)。`
+      + `元の(kFrame=1 の走行から配られていた)値は \`kf0Applied.replaced\` に残す —— **証拠は捨てない**。`
+      + `**条件不一致が 0 になったことは「合った」ではない** —— 「条件が違う」から`
+      + `「条件は合っている(まだ判定できない)」へ 1 段動いただけである`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
 }
 
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
