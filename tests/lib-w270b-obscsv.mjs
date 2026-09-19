@@ -129,6 +129,20 @@ export function solutionTag(note, key = 'solution') {
 //   2 件に見えるが、意味は 1 件の参照である。**記法が衝突している** —— 本便は
 //   `listKey()` が返す生の並びと、`recordIdItems()` が返す record_id 形の項目を**分けて**数え、
 //   衝突している行数を QA `lint.listKeys` が表示するだけにした(改名はしていない)。
+//
+// ---------------------------------------------------------------- 第273便e(AH16 (a)): 旧綴りの併記
+// ■ 何をしたか(**値・単位・出典・σ・印・record_id は 1 文字も動かしていない**)
+//   上の 14 行の `derived_from=<body>|<quantity>` を、**参照先が現行 CSV の 1 行に一意に解決できる
+//   ときだけ** record_id へ書き換え、**旧綴りは `derived_from_legacy=` として note に残した**。
+//   したがって読取器は 2 つの形を読む:
+//     ・`derived_from=<record_id>`(解決済み。`|` 区切りで複数可)
+//     ・`derived_from_legacy=<body>|<quantity>`(**履歴** —— 同定の鍵ではない)
+//   `derived_from_legacy` は**並び鍵ではない**(値そのものに `|` を含む 1 件の参照である)。
+//   鍵読みの正規表現は語境界つきなので、`derived_from=` の読みは `derived_from_legacy=` にも
+//   `derived_from_note=` にも当たらない(`derived_from` の直後が `_` であって `=` ではない)。
+// ■ この形がしないこと
+//   ・旧綴りから参照先を**推定しない**。一意に解決できない行は**書き換えない**(legacy のまま)。
+//   ・`derived_from_legacy=` を判定にも σ にも使わない(履歴の欄である)。
 /** `<PFX>-<8 桁>`(+出現順の枝番)= `record_id` の形。 */
 export const RECORD_ID_RE = /^(?:SOL|CLG|TRN|OBS)-[0-9a-f]{8}(?:-\d+)?$/;
 /** 並びとして読む鍵(ここに無い鍵は 1 値の鍵である)。 */
@@ -162,6 +176,32 @@ export function legacySemicolonList(note, key) {
     + '=([^;]*);\\s*((?:SOL|CLG|TRN|OBS)-[0-9a-f]{8}(?:-\\d+)?)(?![A-Za-z0-9_])')
     .exec(String(note || ''));
   return m ? { head: m[1].trim(), next: m[2] } : null;
+}
+
+/** 第273便e(AH16 (a)): 旧綴りを残す欄の接尾辞(`derived_from` → `derived_from_legacy`)。 */
+export const LEGACY_KEY_SUFFIX = '_legacy';
+
+/**
+ * 第273便e(AH16 (a)): 並び鍵を **record_id 参照と legacy 表記の両方**として読む。
+ *   `ids`      … `record_id` の形をした項目(解決済みの参照)
+ *   `legacy`   … `<key>_legacy=` に残した旧綴り(`{raw, body, quantity}`・無ければ null)
+ *   `unresolved` … `derived_from=` 側に**まだ** `<body>|<quantity>` 形が残っているとき 1
+ *                  (= record_id が 1 件も無く、項目が 2 件以上ある行)。**推定で埋めない**。
+ * @returns {{items:string[], ids:string[], legacy:({raw:string,body:string,quantity:string}|null),
+ *            unresolved:number, resolved:boolean}}
+ */
+export function listKeyRefs(note, key) {
+  const items = listKey(note, key);
+  const ids = items.filter((s) => RECORD_ID_RE.test(s));
+  const raw = rawKey(note, key + LEGACY_KEY_SUFFIX);
+  let legacy = null;
+  if (raw !== null && raw !== '') {
+    const p = raw.split('|').map((s) => s.trim());
+    legacy = { raw, body: p[0] === undefined ? '' : p[0], quantity: p[1] === undefined ? '' : p[1] };
+  }
+  return { items, ids, legacy,
+    unresolved: (ids.length === 0 && items.length > 1) ? 1 : 0,
+    resolved: ids.length > 0 };
 }
 
 /**
@@ -202,4 +242,4 @@ export function loadObsCsv(fp) {
 
 export default { parseCsvLine, headerIndex, idPrefix, baseRecordId, assignRecordIds, loadObsCsv,
   solutionTag, REQUIRED_COLUMNS, RECORD_ID_RE, LIST_KEYS, rawKey, listKey, recordIdItems,
-  legacySemicolonList };
+  legacySemicolonList, LEGACY_KEY_SUFFIX, listKeyRefs };

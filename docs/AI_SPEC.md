@@ -967,6 +967,22 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   `units` を宣言した **`dimless`** 欄でしか意味を持たない(未宣言なら `dimless` は null)。
   `cauchyRiemann` は **検算だけ**の残差 2 本(r1=∂ₓu_x−∂ᵧu_y・r2=∂ₓu_y+∂ᵧu_x)で、**正則性は要求しない**
   (`holomorphic` は常に false)。`m≤0` は拒否(null)。**力へは 1 バイトも接続しない。**
+- **kFrame の受理契約(第273便b・原仮定者の裁定〔第63報〕AH1)**: 内蔵の受理契約を **二値 {0,1} から有限な [0,1] へ**開いた。
+  **二層**である(値域 `CLAMPS.kFrame=[0,1]` そのものは第1便から不変 —— 上限 1 は AA2 のまま)。
+  - **第1層(全クラス)**: `physics.kFrame` は**有限な数値で 0≤k≤1**。非数は致命拒否、値域外は**従来どおり警告つきクランプ**
+    (このページ §「値域(超えると自動修正される)」の契約は変えていない。k>1 は 1 へ丸められるので、**受理された値は必ず ≤1**)。
+  - **第2層(現実較正クラスだけ)**: `sampleClass:"calibration"` で **0<k<1 の分数**を書くには
+    **`physics.kFrameApprox:"space-mesh-effective"`** の宣言が要る。宣言が無い分数は**検証エラーで拒否**する。
+    原仮定者の仮説〔第62報〕「kFrame<1 は空間メッシュの影響の近似として許容する」を、
+    **近似であることを宣言しないまま現実較正へ混ぜない**ための門である。
+  - **`physics.kFrameApprox` は宣言専用の文字列キー**(受理値は `"space-mesh-effective"` の 1 つだけ・未宣言が既定)。
+    **エンジンのどの経路からも読まれない**(力学・光学・帳簿に 1 バイトも接続しない。`S.params` には載るが参照が無い)。
+    実測: 同じ診断コピーを 200,000 步走らせて**状態はビット同一**(最大差 0)、**変わるのは `presetSig` だけ**
+    (署名は宣言を区別する = 宣言した瞬間に別のプリセットになる)。
+  - **既定 `DEFAULT_PHYSICS.kFrame=1` は不変**・**内蔵 124 本の kFrame の値は 1 本も変えていない**
+    (実測の値の集合は `{0,1}`・現実較正 37 本で分数を書いている本は 0 本・宣言鍵を持つ内蔵は 0 本)。
+  - QA: **`preset.kframe-unitInterval`**(第1層・`preset.kframe-binary01` を置換)と
+    **`preset.kframe-calib-declared`**(第2層)。`docs.nsLockBranch` の埋め込み検査も同じ契約へ揃えた。
 - **geoPN=3(トイの測地線モード・第259便a)**: `CLAMPS.geoPN` の上限が 3 になったが、**3 は宣言だけでは通らない**。
   - **受理条件**: (a) `sampleClass:"calibration"` では**拒否**、(b) `physics.spaceMesh.lawVersion` の宣言が無ければ
     **従来どおり 2 へ丸めて警告**、(c) `kFrame>0` は拒否、(d) `spaceMesh.inertia`・`weave` との併用は拒否(**重複適用禁止**)。
@@ -2076,3 +2092,11 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   **`geoPN=3` であることだけを根拠に「複素決定力場」と表示しない**(`lawVersion` は scalar / local / complex の 3 つがあり、
   法則版 `law:"mesh-v2"` は別にあり、**選択と作動も別**である)。較正クラス(`sampleClass:"calibration"`)の受理条件は不変で、
   `geoPN=3` は従来どおり拒否される。
+  **第273便d(統括の検証項目 R17 / AH23)**: 実行中は**走っている宣言 `S.params.spaceMesh`** を先に読む
+  (どちらを読んだかは返り値の `source:"running"|"declared"`)。`S.hasGeoToy` は**入場条件が立っていること**
+  であって積分器が当てたことではないので、**`S.geoToyDeny` か `S.geoToyStop` が立っていれば `acting=false`**
+  とし、入場できたことは `entered` に別に残す。**`lawVersion:"complex"` は作動中にしない** ——
+  積分器へ接続していない(**意図された未接続**・停止理由 `complexNotVelocity`)ので、
+  `geoToyStop` がまだ null の步(最初のキックの前)でも停止側に出る。**作動中の語としての
+  「複素決定力場」(`bdgMesh_complex`)は撤去した。** 表示の追従は `HP.syncMeshChip()`(`syncHud` から呼ぶ)で、
+  **チップ 1 個だけを書き換える**(説明パネルは作り直さない)。**新しい鍵は 1 つも足していない。**

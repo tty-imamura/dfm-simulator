@@ -1,0 +1,495 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第273便c(第63報・AH24)",
+  "target": "beta/index.html",
+  "targetSha256": "2015091a3fe94278848b78b8781564e6ee5a35e4d7f6eda7ad47775557d54843",
+  "generatedAt": "2026-09-19T12:49:25.211Z",
+  "inputs": [
+   {
+    "file": "tests/out/nslock-w272c.json",
+    "bytes": 230232,
+    "sha256": "5f865ef3e4d0a1736156b65d875937646e7033de8a0a5e1f568edb7246cb7add",
+    "mtime": "2026-09-19T12:49:16.599Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w273c-nslockledger.mjs",
+    "bytes": 8660,
+    "sha256": "18550fa26fd5e9f640996b786b86bdae657d9c0492c7413dc67679e571482c05",
+    "mtime": "2026-09-19T12:25:57.099Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-18T17:14:55.948Z"
+   }
+  ],
+  "codeSha256": "0f51ef98c04d5cad70de5658432865206d52faa932b76f5440ad407f14156b3b"
+ },
+ "section": "NS 連星 4 系の lock 枝(kFrame=0・f=1・λ_PN=1)の記録",
+ "sourceHarness": "w272c-nslock-1",
+ "sourceAt": "2026-09-19T12:39:34.973Z",
+ "metric": "近点間 P = 位相制限(1.5π)の最初の 20 近点(19 区間)の平均間隔。ω̇ = 採用近点の方位を実時刻に回帰した傾き(°/年)。e = 窓内の (r_max−r_min)/(r_max+r_min)(eProxy)。",
+ "assessedStageRule": "**ω̇ は 3 段(h, h/2, h/4)の Richardson 外挿**(`omegaDotExt`)と**h/4 段の値**(`omegaDotH4`)を両方置く。外挿は観測次数 p が正で単調な列だけに作る(第273便c・AH30 —— 非正の次数から外挿は作らない)。",
+ "declarationNote": "`pnAlpha`・`lambdaPN`・`geoPN`・`frameWeight` は**内蔵プリセットの宣言**であって実測ではない。**速度は E12 の主張域どおり u=0 の絶対値(座標速度)**で、正本は docs/PHYSICS.md の E12 節である(この器は宣言を読んだだけで、規約を作っていない)。",
+ "rows": [
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "label": "J0737−3039A/B",
+   "obs": {
+    "value": 16.899323,
+    "sigma": 0.000013,
+    "unit": "deg/yr",
+    "recordId": "SOL-35dacca5",
+    "source": "Kramer et al. (2021) Phys. Rev. X 11 041050 - Strong-Field Gravity Tes"
+   },
+   "declared": {
+    "kFrame": 1,
+    "lambdaPN": 1,
+    "pnAlpha": 1.5,
+    "geoPN": 2,
+    "frameWeight": "pull",
+    "massFactor": 1.999942269345993
+   },
+   "variants": {
+    "builtin": {
+     "spec": {
+      "builtin": true
+     },
+     "omegaDotExt": 33.86012738247004,
+     "omegaDotH4": 33.91656886423957,
+     "ratioExt": 2.003638097364613,
+     "ratioH4": 2.0069779638059804,
+     "nSigmaExt": 1304677.2601900033,
+     "pObs": 1.8734293378874516,
+     "resolved": true
+    },
+    "lock": {
+     "spec": {
+      "f": 1,
+      "kFrame": 0,
+      "lambdaPN": 1,
+      "keepCore": false
+     },
+     "omegaDotExt": 2.8227871974084935,
+     "omegaDotH4": 2.8225205634072816,
+     "ratioExt": 0.167035519553564,
+     "ratioH4": 0.1670197417616837,
+     "nSigmaExt": -1082810.446353193,
+     "pObs": 1.9999103566308365,
+     "resolved": true
+    },
+    "root": {
+     "spec": {
+      "f": 1.6983304783209343,
+      "kFrame": 0.6984005973334266,
+      "lambdaPN": 1,
+      "keepCore": false
+     },
+     "omegaDotExt": 16.89932372561368,
+     "omegaDotH4": 16.973330238955523,
+     "ratioExt": 1.0000000429374407,
+     "ratioH4": 1.0043793019966258,
+     "nSigmaExt": 0.05581643701081983,
+     "pObs": 1.2662163404118958,
+     "resolved": true
+    },
+    "kf0Ledger": {
+     "spec": {
+      "f": 1.999942269345993,
+      "kFrame": 0,
+      "lambdaPN": 1,
+      "keepCore": false
+     },
+     "omegaDotExt": 26.992069967026318,
+     "omegaDotH4": 26.981116759852174,
+     "ratioExt": 1.5972278870003442,
+     "ratioH4": 1.5965797422685024,
+     "nSigmaExt": 776365.1513097169,
+     "pObs": 1.9991304547159001,
+     "resolved": true
+    },
+    "corr": {
+     "spec": {
+      "f": 1.999942269345993,
+      "kFrame": 1,
+      "lambdaPN": 1,
+      "keepCore": false
+     },
+     "omegaDotExt": 33.86012788224833,
+     "omegaDotH4": 33.91656934630788,
+     "ratioExt": 2.0036381269384775,
+     "ratioH4": 2.0069779923318753,
+     "nSigmaExt": 1304677.298634487,
+     "pObs": 1.8734295400088357,
+     "resolved": true
+    },
+    "newton": {
+     "spec": {
+      "f": 1,
+      "kFrame": 0,
+      "lambdaPN": 0,
+      "keepCore": false
+     },
+     "omegaDotExt": -0.006340986255221625,
+     "omegaDotH4": -0.006607781568454334,
+     "ratioExt": -0.0003752213183463992,
+     "ratioH4": -0.0003910086556990676,
+     "nSigmaExt": -1300435.6912504015,
+     "pObs": 2.0000157462983275,
+     "resolved": true
+    }
+   },
+   "spinTranscribed": true,
+   "spinAllWithin1Pct": false
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "label": "J1757−1854",
+   "obs": {
+    "value": 10.3651,
+    "sigma": 0.0002,
+    "unit": "deg/yr",
+    "recordId": "SOL-f141dc30",
+    "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Univers"
+   },
+   "declared": {
+    "kFrame": 1,
+    "lambdaPN": 1,
+    "pnAlpha": 1.5,
+    "geoPN": 2,
+    "frameWeight": "pull",
+    "massFactor": 1.9998956627766773
+   },
+   "variants": {
+    "builtin": {
+     "spec": {
+      "builtin": true
+     },
+     "omegaDotExt": 20.717372362560653,
+     "omegaDotH4": 20.8685745126045,
+     "ratioExt": 1.9987624202912324,
+     "ratioH4": 2.013350041254257,
+     "nSigmaExt": 51761.36181280326,
+     "pObs": 1.0433474404011374,
+     "resolved": true
+    },
+    "lock": {
+     "spec": {
+      "f": 1,
+      "kFrame": 0,
+      "lambdaPN": 1,
+      "keepCore": false
+     },
+     "omegaDotExt": 1.7248366118881502,
+     "omegaDotH4": 1.7246428568964087,
+     "ratioExt": 0.16640810140646498,
+     "ratioH4": 0.16638940838934585,
+     "nSigmaExt": -43201.31694055924,
+     "pObs": 1.9997155578621721,
+     "resolved": true
+    },
+    "root": {
+     "spec": {
+      "f": 1.7406394868628245,
+      "kFrame": 0.740871852668369,
+      "lambdaPN": 1,
+      "keepCore": false
+     },
+     "omegaDotExt": 10.365101700899967,
+     "omegaDotH4": 10.457063156215137,
+     "ratioExt": 1.0000001640987513,
+     "ratioH4": 1.0088723848506176,
+     "nSigmaExt": 0.008504499833250634,
+     "pObs": 1.0246362392117392,
+     "resolved": true
+    },
+    "kf0Ledger": {
+     "spec": {
+      "f": 1.9998956627766773,
+      "kFrame": 0,
+      "lambdaPN": 1,
+      "keepCore": false
+     },
+     "omegaDotExt": 11.603315880588132,
+     "omegaDotH4": 11.597743183385314,
+     "ratioExt": 1.1194600998145827,
+     "ratioH4": 1.1189224593477451,
+     "nSigmaExt": 6191.0794029406625,
+     "pObs": 1.997425300618116,
+     "resolved": true
+    },
+    "corr": {
+     "spec": {
+      "f": 1.9998956627766773,
+      "kFrame": 1,
+      "lambdaPN": 1,
+      "keepCore": false
+     },
+     "omegaDotExt": 20.71737235722002,
+     "omegaDotH4": 20.868574513638606,
+     "ratioExt": 1.998762419775981,
+     "ratioH4": 2.013350041354025,
+     "nSigmaExt": 51761.361786100104,
+     "pObs": 1.0433474233121536,
+     "resolved": true
+    },
+    "newton": {
+     "spec": {
+      "f": 1,
+      "kFrame": 0,
+      "lambdaPN": 0,
+      "keepCore": false
+     },
+     "omegaDotExt": -0.0038367930491322705,
+     "omegaDotH4": -0.00403045999895343,
+     "ratioExt": -0.00037016459553041174,
+     "ratioH4": -0.0003888491185761285,
+     "nSigmaExt": -51844.683965245655,
+     "pObs": 2.000000786940959,
+     "resolved": true
+    }
+   },
+   "spinTranscribed": true,
+   "spinAllWithin1Pct": false
+  },
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "label": "J1946+2052",
+   "obs": {
+    "value": 25.79205,
+    "sigma": 0.0004,
+    "unit": "deg/yr",
+    "recordId": "SOL-f5d43612",
+    "source": "Meng et al. (2025) A&A 704 A153 - The double neutron star PSR J1946+20"
+   },
+   "declared": {
+    "kFrame": 1,
+    "lambdaPN": 1,
+    "pnAlpha": 1.5,
+    "geoPN": 2,
+    "frameWeight": "pull",
+    "massFactor": 1.9999655295617553
+   },
+   "variants": {
+    "builtin": {
+     "spec": {
+      "builtin": true
+     },
+     "omegaDotExt": 51.47665852033846,
+     "omegaDotH4": 51.826564089038456,
+     "ratioExt": 1.9958343179521776,
+     "ratioH4": 2.009400729644928,
+     "nSigmaExt": 64211.52130084615,
+     "pObs": 1.6540791745612973,
+     "resolved": true
+    },
+    "lock": {
+     "spec": {
+      "f": 1,
+      "kFrame": 0,
+      "lambdaPN": 1,
+      "keepCore": false
+     },
+     "omegaDotExt": 4.2844770902152165,
+     "omegaDotH4": 4.283894769010249,
+     "ratioExt": 0.16611619046237955,
+     "ratioH4": 0.1660936129160051,
+     "nSigmaExt": -53768.93227446196,
+     "pObs": 1.999887521877549,
+     "resolved": true
+    },
+    "root": {
+     "spec": {
+      "f": 1.6572534699368051,
+      "kFrame": 0.6572657522175487,
+      "lambdaPN": 1,
+      "keepCore": false
+     },
+     "omegaDotExt": 25.79199243425606,
+     "omegaDotH4": 25.920207465127042,
+     "ratioExt": 0.9999977680818725,
+     "ratioH4": 1.0049688747163192,
+     "nSigmaExt": -0.14391435985139367,
+     "pObs": 1.360278403796282,
+     "resolved": true
+    },
+    "kf0Ledger": {
+     "spec": {
+      "f": 1.9999655295617553,
+      "kFrame": 0,
+      "lambdaPN": 1,
+      "keepCore": false
+     },
+     "omegaDotExt": 41.86786208849541,
+     "omegaDotH4": 41.843457444256856,
+     "ratioExt": 1.6232855507218467,
+     "ratioH4": 1.6223393427143968,
+     "nSigmaExt": 40189.530221238514,
+     "pObs": 1.999098373137224,
+     "resolved": true
+    },
+    "corr": {
+     "spec": {
+      "f": 1.9999655295617553,
+      "kFrame": 1,
+      "lambdaPN": 1,
+      "keepCore": false
+     },
+     "omegaDotExt": 51.47665861428279,
+     "omegaDotH4": 51.826564141477284,
+     "ratioExt": 1.995834321594553,
+     "ratioH4": 2.009400731678067,
+     "nSigmaExt": 64211.521535706976,
+     "pObs": 1.6540792475119672,
+     "resolved": true
+    },
+    "newton": {
+     "spec": {
+      "f": 1,
+      "kFrame": 0,
+      "lambdaPN": 0,
+      "keepCore": false
+     },
+     "omegaDotExt": -0.011837088864122124,
+     "omegaDotH4": -0.012420034045404054,
+     "ratioExt": -0.00045894331253708504,
+     "ratioH4": -0.0004815450514947068,
+     "nSigmaExt": -64509.717722160305,
+     "pObs": 1.999988242554161,
+     "resolved": true
+    }
+   },
+   "spinTranscribed": true,
+   "spinAllWithin1Pct": false
+  },
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "label": "B1534+12",
+   "obs": {
+    "value": 1.755789,
+    "sigma": 0.000009,
+    "unit": "deg/yr",
+    "recordId": "SOL-033838b1",
+    "source": "Stairs et al. (2002) ApJ 581 501 - Studies of the Relativistic Binary "
+   },
+   "declared": {
+    "kFrame": 1,
+    "lambdaPN": 1,
+    "pnAlpha": 1.5,
+    "geoPN": 2,
+    "frameWeight": "pull",
+    "massFactor": 1.9994854557873434
+   },
+   "variants": {
+    "builtin": {
+     "spec": {
+      "builtin": true
+     },
+     "omegaDotExt": 3.556937189563483,
+     "omegaDotH4": 3.561282305434385,
+     "ratioExt": 2.025834077764175,
+     "ratioH4": 2.028308814689228,
+     "nSigmaExt": 200127.57661816478,
+     "pObs": 1.065287531623993,
+     "resolved": true
+    },
+    "lock": {
+     "spec": {
+      "f": 1,
+      "kFrame": 0,
+      "lambdaPN": 1,
+      "keepCore": false
+     },
+     "omegaDotExt": 0.29198797727374,
+     "omegaDotH4": 0.29198316972897687,
+     "ratioExt": 0.16630015182561228,
+     "ratioH4": 0.16629741371484663,
+     "nSigmaExt": -162644.55808069557,
+     "pObs": 1.999677491324462,
+     "resolved": true
+    },
+    "root": {
+     "spec": {
+      "f": 1.9355285854208322,
+      "kFrame": 0.9366303438690935,
+      "lambdaPN": 1,
+      "keepCore": false
+     },
+     "omegaDotExt": 1.7557889554881403,
+     "omegaDotH4": 1.7599844603582675,
+     "ratioExt": 0.9999999746485143,
+     "ratioH4": 1.0023895014482194,
+     "nSigmaExt": -0.004945762194847387,
+     "pObs": 1.059529055135883,
+     "resolved": true
+    },
+    "kf0Ledger": {
+     "spec": {
+      "f": 1.9994854557873434,
+      "kFrame": 0,
+      "lambdaPN": 1,
+      "keepCore": false
+     },
+     "omegaDotExt": 2.404381940938993,
+     "omegaDotH4": 2.4042106355312582,
+     "ratioExt": 1.3694025540306909,
+     "ratioH4": 1.369304987974784,
+     "nSigmaExt": 72065.88232655475,
+     "pObs": 1.9992273688643747,
+     "resolved": true
+    },
+    "corr": {
+     "spec": {
+      "f": 1.9994854557873434,
+      "kFrame": 1,
+      "lambdaPN": 1,
+      "keepCore": false
+     },
+     "omegaDotExt": 3.556937191015676,
+     "omegaDotH4": 3.5612823062722234,
+     "ratioExt": 2.0258340785912634,
+     "ratioH4": 2.0283088151664144,
+     "nSigmaExt": 200127.57677951956,
+     "pObs": 1.0652876126344037,
+     "resolved": true
+    },
+    "newton": {
+     "spec": {
+      "f": 1,
+      "kFrame": 0,
+      "lambdaPN": 0,
+      "keepCore": false
+     },
+     "omegaDotExt": -0.00026274635083310964,
+     "omegaDotH4": -0.0002675525205220748,
+     "ratioExt": -0.00014964574378419594,
+     "ratioH4": -0.0001523830713839048,
+     "nSigmaExt": -195116.8607056481,
+     "pObs": 1.999924723422571,
+     "resolved": true
+    }
+   },
+   "spinTranscribed": true,
+   "spinAllWithin1Pct": false
+  }
+ ],
+ "lockRatioMin": 0.16611619046237955,
+ "lockRatioMax": 0.167035519553564,
+ "doNotWrite": [
+  "潮汐ロックを証明した",
+  "観測と合った",
+  "6 倍すれば合う",
+  "係数 6 を導入した",
+  "判定が増えた"
+ ],
+ "finding": "**4 系とも ω̇/ω̇_obs は 0.166 付近**で、**どれも 3σ の外**である。**係数 6 は導入しない**(この比を式にも力にも接続していない)。**有限質量比の相対 1PN 式との対応は未解析**である。",
+ "pageErrors": []
+}

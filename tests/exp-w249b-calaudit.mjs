@@ -412,12 +412,63 @@ const ROW_MEASUREMENT_DEF = [
   { id: 'saturnZonalD68', match: '近点間(第250便d)', def: 'periastron',
     since: '第272便a(R10)',
     why: '同上(📡 は同方向 1 周 17865.95 s と近点間 18224.86 s が 2.0% 違う —— '
-      + '第250便c がこの差を近点移動の換算で既に測っている)。' },
+      + '第250便c がこの差を近点移動の換算で既に測っている)。',
+    // 第273便c(AH27): **宣言しない行も理由つきで宣言する**(黙って無宣言にしない)。
+    mappingDecision: 'not-declared',
+    mappingWhyNot: '📡 D68 は**離心リングレットとして宣言されている**行で、実測 eProxy も '
+      + '5.2×10⁻² である(近点方位は縮退していない)。**近点方位の縮退を理由にした '
+      + '`mapping-unresolved` の宣言は当てはまらない**。ただし**観測側の周期の定義**は'
+      + '別の未確定であり、`D68_PERIOD_DEFINITIONS`(第273便c・AH28)に分けて宣言した。' },
   { id: 'earthMoonRealKF1', match: '近点間(第250便d — 定義併記)', def: 'periastron',
-    since: '第272便a(R10)', why: '同上(🌘 の「定義併記」行)。' },
+    since: '第272便a(R10)', why: '同上(🌘 の「定義併記」行)。',
+    mappingDecision: 'not-declared',
+    mappingWhyNot: '🌘 の実測 eProxy は 5.4×10⁻² で**近点方位は縮退していない**。'
+      + 'この行は同じ preset の中に「同方向 1 周」の行が別にある**定義併記行**であり、'
+      + '観測側の恒星月と**どちらの定義が対応するか**は σ が無いので門に入っていない。' },
   { id: 'emAuditDFM', match: '近点間(第250便d — 定義併記)', def: 'periastron',
-    since: '第272便a(R10)', why: '同上(🧲 の「定義併記」行)。' },
+    since: '第272便a(R10)', why: '同上(🧲 の「定義併記」行)。',
+    mappingDecision: 'not-declared',
+    mappingWhyNot: '🧲 の実測 eProxy は 5.3×10⁻² で**近点方位は縮退していない**(🌘 と同じ理由)。' },
 ];
+// 第272便a(R10)の ❄️ の行には `mappingUnresolved` があるので、宣言の側も印を揃える。
+for (const z of ROW_MEASUREMENT_DEF)
+  if (!z.mappingDecision) z.mappingDecision = z.mappingUnresolved ? 'declared' : 'not-declared';
+// ---------------------------------------------------------------- 第273便c(第63報・AH27)
+// **mapping-unresolved は「行ごとに宣言する」**。宣言の出どころは 2 つしかない:
+//   (A) **行ごと**(`ROW_MEASUREMENT_DEF[].mappingUnresolved` —— 円に近い系の近点間行)
+//   (B) **量の種類ごと**(`MAPPING_UNRESOLVED` の `kind==='ecc'` —— e_T / ケプラー要素 e ⇄ eProxy)
+// **e の小ささで一括して宣言はしない。** 「e が小さい系は近点方位が縮退する」という理屈は
+// ❄️ の行の宣言理由だが、**これを閾値にして自動で全系へ配ると、近点間を測っていない行まで
+// `mapping-unresolved` になる**(🌇 金星・💠 天王星衛星・🟠 ガリレオ衛星の判定量は
+// **同方向 1 周**であって近点間ではない)。だから本便がするのは 2 つだけである:
+//   ① 近点間行(`def:'periastron'`)**4 行すべて**に、宣言する/しないを理由つきで書く(上の表)。
+//   ② 実測 eProxy が `NEAR_CIRCULAR_EPROXY` 未満の対象を**機械的に数え上げ**、
+//      その preset が近点間行を持つかどうかを記録する(`out.mappingDeclarations.nearCircular`)。
+//      **持たない対象には何も宣言しない**(該当行が無いので宣言する場所が無い)。
+// **門の件数は動かない**: σ を持たない行は `assessObservation` の入口で `未判定` になるため、
+// 宣言の有無は門の内訳を 1 件も動かさない(実測で確認する —— 下の `gateUnchanged` 欄)。
+const NEAR_CIRCULAR_EPROXY = 1e-2;
+// ---------------------------------------------------------------- 第273便c(第63報・AH28)
+// **📡 D68 の「周期」は 3 つある**。σ を接続する前に、**どれを測っているか**を文書と器に固定する。
+// **この宣言は σ を接続しない**(観測側の一次表がどの定義の周期を出しているかを照合していない)。
+const D68_PERIOD_DEFINITIONS = [
+  { key: 'revolution', label: '周回(同方向 1 周)',
+    def: '土星中心から見た D68 粒子の方位角が 2π 進む間隔(相対角の 2π 交差)。',
+    measuredRow: 'D68 の公転周期・同方向1周(履歴)', sigmaConnected: false },
+  { key: 'periastron', label: '径方向振動(近点間)',
+    def: '検出器 A(ṙ の −→+ 交差)の近点間平均間隔(20 近点窓)。'
+      + '**近点移動があるぶん周回より長い**(実測で 2.0% 長い)。',
+    measuredRow: 'D68 の公転周期・近点間(第250便d)', sigmaConnected: false },
+  { key: 'pattern', label: 'm=1 パターン速度',
+    def: '離心リングレットの **m=1 パターンが 1 周する間隔**(粒子の周期ではなく、'
+      + 'リングレットの形の回転周期)。**本器はこれを測っていない**(検出器が無い)。',
+    measuredRow: null, sigmaConnected: false },
+];
+const D68_PERIOD_DEF_NOTE = '**観測側(Cassini の解析)が「D68 の周期」と呼んでいるものが'
+  + 'この 3 つのどれかは、本便では照合していない。** したがって **σ は 1 つも接続しない** ——'
+  + '接続すれば、どの定義とも分からない数と観測を比べることになる。'
+  + '**「D68 が合/否」とは書かない**(📡 の門の否(3σ)は**近点移動の行**であり、'
+  + 'この 3 つの周期定義とは別の量である)。';
 // 行名から契約を引く(**宣言列挙の部分一致**であって、閾値でも自動判定でもない)。
 function rowMeasurementDef(id, name) {
   const s = String(name || '');
@@ -1154,7 +1205,9 @@ function numBoundDeclOf(value, steps = 2, order = null, stage = 'h') {
           + '**次数が正であることは収束条件の 1 つにすぎない** —— 収束の可否は門の '
           + '`convergence.ok`(3 段・同符号の 2 段差・|p−2|≤0.5・窓充足・抽出健全・'
           + 'ε̂ と最終段差 ≤0.3σ)が決める(第270便a AD4+AE3 / 第271便a R3 / 第272便a AG1)'
-        : '**観測次数が負または測れない**(Q が単調でない)= 収束していない。'
+        : '**観測次数が負または測れない**(Q が単調でない)= **漸近収束が未確認**である'
+          + '(「漸近域に居ないことが確定した」ではない —— 第273便c・AH30。'
+          + '**この次数から Richardson 補正・外挿は作らない**)。'
           + '3 段は走ったが収束条件は満たさない(門はこの量を「数値未解決」に留める)' };
   }
   return { value, steps, order,
@@ -2106,10 +2159,15 @@ for (const P of (REGATE ? [] : out.presets)) {
         ok: mono, d1, d2,
         reason: mono ? null
           : (identical ? 'orderNotEstimable(identicalStages)' : 'orderNotEstimable(nonMonotone)'),
+        // 第273便c(第63報・AH30): **「漸近収束未確認」であって「漸近域に居ないことが確定」ではない**。
+        asymptotic: mono ? 'order-estimable' : 'unconfirmed',
+        richardsonUsable: mono,
         rule: '**連続 2 段差が同符号**のときだけ観測次数を推定する(第271便a・R3)。'
-          + '非単調な 3 段列(d1 と d2 の符号が違う)は漸近域の振る舞いではないので次数が'
-          + '**不明**であり、3 段が完全に一致する列も次数が**不明**である —— どちらも'
-          + '「数値未解決」で保留する(**h/8 への自動昇格はしない**)。',
+          + '非単調な 3 段列(d1 と d2 の符号が違う)からは次数が**推定できず**、'
+          + '3 段が完全に一致する列も次数が**不明**である —— どちらも「数値未解決」で保留する'
+          + '(**h/8 への自動昇格はしない**)。**この列について言えるのは「漸近収束が未確認」'
+          + 'ということだけ**であり、「漸近域に居ないことが確定した」ではない(第273便c・AH30)。'
+          + '**非正・推定不能の次数から Richardson 補正/外挿を作ってはならない**。',
       };
       if (THREE_STAGE_IDS.has(d.id)) {
         q.assessedStage = 'h4';
@@ -2140,9 +2198,19 @@ for (const P of (REGATE ? [] : out.presets)) {
         estimateFromH8: refinedNumBound(Math.abs(mHalf - mEighth), pHalf),
         richardson: (Number.isFinite(pHalf) && pHalf > 0)
           ? mEighth + (mEighth - mQuarter) / (Math.pow(2, pHalf) - 1) : null,
+        // 第273便c(第63報・AH30): **非正/未測定の shifted p から Richardson 外挿は作らない**。
+        // 作れなかった理由を欄に残す(黙って null にしない)。
+        richardsonUsable: !!(Number.isFinite(pHalf) && pHalf > 0),
+        richardsonBlockedReason: (Number.isFinite(pHalf) && pHalf > 0) ? null
+          : (Number.isFinite(pHalf)
+            ? 'shifted p = ' + pHalf.toFixed(6) + ' が非正である(**漸近収束未確認** —— '
+              + '「漸近域に居ないことが確定」ではない。第273便c・AH30)'
+            : 'shifted p が測れていない(段差が 0 / 段が揃っていない)'),
         note: '**h8 検査点**(第258便d): dt/8=0.002 まで走らせた系の欄である。'
           + 'pObs3 は (h,h/2,h/4)・pObsShifted は (h/2,h/4,h/8) の観測次数で、'
-          + '**2 つが揃っていれば漸近域に居る**と読める(揃わなければ居ない)。'
+          + '**2 つが揃っていれば漸近域に居る**と読める。'
+          + '**揃わないときに言えるのは「漸近収束が未確認」までである**'
+          + '(「漸近域に居ないことが確定した」ではない —— 第273便c・AH30)。'
           + '第272便a(AG1)で**条件を満たした量だけ正式段が (h/2,h/4,h/8) になる** —— '
           + '昇格しなかった量の門は従来どおり h/4(または h)である' };
       // ---------------------------------------------------------------- 第272便a(第62報・AG1)
@@ -2179,14 +2247,20 @@ for (const P of (REGATE ? [] : out.presets)) {
         q.pObsAssessed = pHalf;                   // shifted(判定に使う次数)
         q.pObsThreeStage = q.pObs;                // (h,h/2,h/4) の次数(履歴)
         q.numBoundDecl = numBoundDeclOf(Math.abs(d3s), 4, pHalf, 'h8');
+        const monoH8 = (d2 > 0 && d3s > 0) || (d2 < 0 && d3s < 0);
         q.orderEstimable = {
-          ok: (d2 > 0 && d3s > 0) || (d2 < 0 && d3s < 0), d1: d2, d2: d3s,
-          reason: ((d2 > 0 && d3s > 0) || (d2 < 0 && d3s < 0)) ? null
+          ok: monoH8, d1: d2, d2: d3s,
+          reason: monoH8 ? null
             : ((d2 === 0 && d3s === 0) ? 'orderNotEstimable(identicalStages)'
               : 'orderNotEstimable(nonMonotone)'),
+          // 第273便c(AH30): shifted p が負/推定不能の列は**漸近収束未確認**である。
+          asymptotic: monoH8 ? 'order-estimable' : 'unconfirmed',
+          richardsonUsable: monoH8,
           rule: '**連続 2 段差が同符号**のときだけ観測次数を推定する(第271便a・R3)。'
             + '判定段が h/8 のときに見るのは (Q_{h/2}−Q_{h/4}, Q_{h/4}−Q_{h/8}) である'
-            + '(第272便a・AG1)。',
+            + '(第272便a・AG1)。**shifted p が負になる列は「漸近収束未確認」**であって、'
+            + '「漸近域に居ないことが確定」ではない —— **その次数から Richardson 補正/外挿は'
+            + '作らない**(第273便c・AH30)。',
         };
         q.assessedStageNote = '**判定段は h/8**(第272便a・AG1 —— |p−2| > ' + H8_ORDER_OFFSET
           + ' の 3 段登録量だけを条件つきで昇格させた)。正式段は (h/2, h/4, h/8)・'
@@ -2693,6 +2767,16 @@ for (const r of merged) for (const q of (r.quantities || [])) {
     assessedStage, orderEstimable,
     orderEstimableReason: ordEst ? ordEst.reason : null,
     orderEstimableRule: ordEst ? ordEst.rule : null,
+    // 第273便c(第63報・AH30): **次数が立たない列の言い方を 1 語に固定する**。
+    //   'order-estimable' …… 連続 2 段差が同符号で、観測次数が立った(収束の宣言ではない)
+    //   'unconfirmed'     …… 次数が推定できない/非正 = **漸近収束未確認**
+    //                        (「漸近域に居ないことが確定」ではない・Richardson は作らない)
+    asymptoticStatus: (orderEstimable && Number.isFinite(ord) && ord > 0)
+      ? 'order-estimable' : 'unconfirmed',
+    richardsonUsable: !!(orderEstimable && Number.isFinite(ord) && ord > 0),
+    asymptoticRule: '**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。'
+      + '次数が推定できない列・非正の列について言えるのは前者だけであり、'
+      + '**その次数から Richardson 補正・外挿を作ってはならない**。',
     lastDiffDef: (assessedStage === 'h8') ? '|Q_{h/4}−Q_{h/8}|(最終 2 段差・第272便a AG1)'
       : ((assessedStage === 'h4') ? '|Q_{h/2}−Q_{h/4}|(最終 2 段差)'
         : '|Q_h−Q_{h/4}|(3 段)/|Q_h−Q_{h/2}|(2 段)'),
@@ -2715,8 +2799,10 @@ for (const r of merged) for (const q of (r.quantities || [])) {
     hold: convOK ? null
       : ((!nbd || !(nbd.steps >= 3)) ? 'dt 3 段が走っていない(2 段は感度診断)'
         : (!orderEstimable ? `**次数が推定できない列である**(${ordEst ? ordEst.reason : '—'})`
-          + ' —— 連続 2 段差が同符号でない、または 3 段が完全に一致している(第271便a・R3)'
-        : (!(ord > 0) ? '収束次数が未測定または非正'
+          + ' —— 連続 2 段差が同符号でない、または 3 段が完全に一致している(第271便a・R3)。'
+          + '**漸近収束は未確認**である(漸近域に居ないことが確定したのではない —— 第273便c・AH30)'
+        : (!(ord > 0) ? '収束次数が未測定または非正(**漸近収束未確認** —— '
+          + 'この次数から Richardson 補正/外挿は作らない。第273便c・AH30)'
           : (!orderGuard ? `**次数ガード(AE3)で保留**: 観測次数 p=${ord.toFixed(4)} が 2 から `
             + `${Math.abs(ord - 2).toFixed(4)} 離れている(|p−2|≤0.5 を満たさない)= 漸近域に居ない`
             : (!windowsComplete ? '3 段で窓が揃っていない(fit 窓が違う/周期窓が埋まっていない)'
@@ -3017,7 +3103,13 @@ out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
     if (map.length) missing.push('写像未確定');
     if (num.length) missing.push('数値精度');
     if (qs.every((q) => !Number.isFinite(q.meas))) missing.push('未測定');
-    if (!missing.length) missing.push('(3σ を通った量がある — 残りは量の不足)');
+    // 第273便c(第63報・統括の検証項目 R19): **既定文を門の内訳から作る**。
+    // 第272便a までの既定文は「(3σ を通った量がある — 残りは量の不足)」で、**合 0・否 1** の
+    // 📡 D68 にもこの文が付いていた(「通った」と書いてあるが、通ったのは 0 件で、
+    // 門に入った 1 件は **否(3σ)** である)。**数を書く**ことで、文と内訳が食い違わないようにする。
+    if (!missing.length)
+      missing.push('(門に入った量 ' + withSig.length + ': 合 ' + ok.length + '・否 ' + ng.length
+        + ' — 残り ' + (qs.length - withSig.length) + ' 量は σ が無い)');
     const rep = (() => {
       const c = ok[0] || ng[0] || num[0] || withSig[0] || null;
       return c ? { kind: c.kind, nSigma: (c.gate && Number.isFinite(c.gate.nSigma)) ? c.gate.nSigma : null,
@@ -3263,6 +3355,58 @@ out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
       + ' 行すべてに**同方向 1 周の値**が配られていた(`periodDef:"revolution"`)。'
       + '**これは合否の宣言ではない** —— どの数を判定へ配るかを直しただけである。',
     doNotWrite: ['定義を直したので合った', '判定が増えた'] };
+}
+
+// ---------------------------------------------------------------- 第273便c(第63報・AH27/AH28)
+// **mapping-unresolved の宣言の会計**。どの行がどの出どころ(行ごと / 量の種類ごと)で
+// 宣言されているかを並べ、**近く円い対象**を機械的に数え上げる。**判定は 1 件も動かさない**。
+{
+  const rows = [], nearCircular = [];
+  let gateMap = 0;
+  for (const p of (out.presets || [])) for (const q of (p.quantities || [])) {
+    const g = q.gate || {};
+    if (g.mappingNote) {
+      const bySource = (q.rowDefContract && q.rowDefContract.mappingUnresolved) ? 'row' : 'kind';
+      rows.push({ id: p.id, emoji: p.emoji, name: q.name, kind: q.kind, target: q.target,
+        source: bySource, gateStatus: g.status || null,
+        sigma: Number.isFinite(g.sigma) ? g.sigma : null,
+        note: String(g.mappingNote).slice(0, 120) });
+      if (g.status === GATE.MAP) gateMap++;
+    }
+    // **近く円い対象の数え上げ**(実測 eProxy —— 宣言ではない)
+    if (q.kind === 'ecc' && Number.isFinite(q.meas) && q.meas < NEAR_CIRCULAR_EPROXY) {
+      const hasPeriRow = (p.quantities || []).some((z) => z.rowDefContract
+        && z.rowDefContract.def === 'periastron' && z.target === q.target);
+      nearCircular.push({ id: p.id, emoji: p.emoji, target: q.target, eProxy: q.meas,
+        hasPeriastronRow: hasPeriRow,
+        declared: hasPeriRow && (p.quantities || []).some((z) => z.rowDefContract
+          && z.rowDefContract.mappingUnresolved && z.target === q.target) });
+    }
+  }
+  const periRows = ROW_MEASUREMENT_DEF.filter((z) => z.def === 'periastron');
+  out.mappingDeclarations = {
+    since: '第273便c(第63報・統括の検証項目 AH27)',
+    rule: '**mapping-unresolved は行ごとに宣言する**。出どころは (A) 行ごと'
+      + '(`ROW_MEASUREMENT_DEF[].mappingUnresolved`)と (B) 量の種類ごと'
+      + '(`kind==="ecc"` の e_T / ケプラー要素 e ⇄ eProxy)の 2 つだけで、'
+      + '**e の小ささで一括して宣言はしない**。',
+    declaredRows: rows.length, bySourceRow: rows.filter((z) => z.source === 'row').length,
+    bySourceKind: rows.filter((z) => z.source === 'kind').length,
+    gateMappingUnresolved: gateMap,
+    gateUnchanged: '**σ を持たない行は `assessObservation` の入口で `未判定` になる**ので、'
+      + '宣言を足しても門の内訳は動かない(宣言 ' + rows.length + ' 行に対し門が '
+      + '`mapping-unresolved` を出したのは ' + gateMap + ' 行)。',
+    rows,
+    periastronRows: periRows.map((z) => ({ id: z.id, match: z.match,
+      decision: z.mappingDecision, why: z.mappingUnresolved || z.mappingWhyNot || null })),
+    nearCircularThreshold: NEAR_CIRCULAR_EPROXY,
+    nearCircular,
+    nearCircularNote: '**実測 eProxy < ' + NEAR_CIRCULAR_EPROXY + ' の対象の数え上げ**である'
+      + '(閾値は数え上げの範囲であって、宣言の自動判定ではない)。'
+      + '近点間行を持たない対象には**何も宣言しない** —— 判定量が同方向 1 周だからである。',
+    d68PeriodDefinitions: D68_PERIOD_DEFINITIONS,
+    d68Note: D68_PERIOD_DEF_NOTE,
+    doNotWrite: ['写像を解決した', '判定が増えた', 'D68 が合', 'D68 が否'] };
 }
 
 // ---------------------------------------------------------------- 第271便a(第61報・AF12)
