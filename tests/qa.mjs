@@ -2022,11 +2022,15 @@ const add = (id, pass, detail) => {
 // ----     ① `;` 区切りの旧綴り(`<鍵>=…;<record_id>`)が **0 件**である。
 // ----     ② `record_id` の形をした項目は**すべて CSV に実在する**(宛先の無い参照を作らない)。
 // ----     ③ **未解決を数で出す**: `derived_from=<body>|<quantity>` という**参照 1 件の中に `|` を
-// ----        含む**綴りの行(2026-09-15 intake の派生行)は記法が衝突している。**本便は書き換えて
-// ----        いない** —— 件数を出すだけで、改名するかは決断事項である。
+// ----        含む**綴りの行(2026-09-15 intake の派生行)は記法が衝突している。第272便e は
+// ----        書き換えず件数(14 行)を出すだけにした。
+// ----   **第273便e(AH16 (a))で 14 行を record_id 参照へ書き換えた**(参照先が現行 CSV の 1 行に
+// ----   一意に解決できる行だけ・旧綴りは `derived_from_legacy=` に残す)。したがって ③ の未解決は
+// ----   **0 行**になり、代わりに ④ **旧綴りを併記している行**を数える。一意に解決できない行が
+// ----   出たら ③ が 0 でなくなるので、この数は「推定で紐づけていない」ことの指標である。
 {
   const bad = [];
-  let legacyRows = 0, idRows = 0, idItems = 0, ambiguous = 0, scanned = 0, keyRows = 0;
+  let legacyRows = 0, idRows = 0, idItems = 0, ambiguous = 0, scanned = 0, keyRows = 0, withLegacy = 0;
   const ambiguousIds = [], legacyIds = [];
   try {
     const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
@@ -2048,8 +2052,9 @@ const add = (id, pass, detail) => {
           const legacy = OB.legacySemicolonList(r.note, key);
           if (legacy) { legacyRows++; legacyIds.push(r.recordId || (f + ':' + r.ln));
             bad.push(`①旧綴り(\`;\` 区切り)が残っている: ${f} 行 ${r.ln} ${key}=${legacy.head};${legacy.next}`); }
-          const ids = OB.recordIdItems(r.note, key);
-          const items = OB.listKey(r.note, key);
+          const refs = OB.listKeyRefs(r.note, key);
+          const ids = refs.ids, items = refs.items;
+          if (refs.legacy) withLegacy++;
           if (ids.length) {
             idRows++; idItems += ids.length;
             for (const id of ids) if (!all.has(id))
@@ -2066,9 +2071,11 @@ const add = (id, pass, detail) => {
     + `並び鍵を持つ行 **${keyRows} 行**/ ① \`;\` 区切りの旧綴り **${legacyRows} 件**`
     + `(区切りは \`|\` で、\`;\` は鍵の区切り専用)/ ② \`record_id\` の並びを持つ行 ${idRows} 行・`
     + `参照 ${idItems} 件がすべて CSV に実在 / ③ **未解決**: 参照 1 件の中に \`|\` を含む`
-    + `\`<body>|<quantity>\` 形の行が **${ambiguous} 行**(2026-09-15 intake の派生行)—— `
-    + `並びの区切りと記法が衝突している。**本便は書き換えていない**(改名は決断事項)/ `
-    + `**値・単位・出典・σ・印は 1 文字も動いていない**`
+    + `\`<body>|<quantity>\` 形が \`derived_from=\` に残っている行 **${ambiguous} 行** / `
+    + `④(第273便e・AH16 (a))**旧綴りを \`derived_from_legacy=\` に併記している行 ${withLegacy} 行** `
+    + `—— 2026-09-15 intake の派生行 14 行を、**参照先が現行 CSV の 1 行に一意に解決できるときだけ** `
+    + `record_id へ書き換えた(解けない行は書き換えず ③ に残る = **推定で紐づけない**)/ `
+    + `**値・単位・出典・σ・印・record_id は 1 文字も動いていない**`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
 }
 
@@ -2076,25 +2083,31 @@ const add = (id, pass, detail) => {
 // ----   **訂正履歴の台帳**(`paper/data/corrections.json`)と観測 CSV が食い違っていないことを
 // ----   機械で見る。台帳は `record_id → [{revision, date, field, previous, current, reason,
 // ----   sourceHash}]` で、**値は作らない**(現行値の正本は CSV である)。固定するのは 5 つ:
-// ----     ① 台帳の schema が `corrections-v1`・record **23 件**・revision **28 件**。
+// ----     ① 台帳の schema が `corrections-v1`・record **78 件**・revision **86 件**。
 // ----     ② 突き合わせ器 `tests/exp-w272e-corrections.mjs` の出力 `tests/out/corrections-w272e.json`
 // ----        の違反が **0 件**(各 revision の `current` が現行の CSV と一致している)。
-// ----     ③ CSV の中で訂正の印を持つ行 **23 行**が 1 行残らず台帳に載っている(取りこぼし 0)。
+// ----     ③ CSV の中で訂正の印を持つ行 **37 行**が 1 行残らず台帳に載っている(取りこぼし 0)。
 // ----     ④ 台帳の件数と突き合わせ器の件数が一致する。
 // ----     ⑤ **外部の生成系の実名を書かない** —— 旧文言に実名があった revision は
 // ----        `previousRedacted:true` で説明に置き換えてある。
+// ----     ⑥(第273便e・AH18)**注記 3 件**(`annotations`)が載っていて、宣言した鍵が対象行の
+// ----        note にある(対象 9 行)。注記は `revisions` ではない —— **値も印も動かさないから**。
+// ----   **件数 pin は便ごとのスナップショット**である。台帳は便ごとに増えるので、この pin は
+// ----   「増えていないこと」ではなく「**その便で器が数えた値と同じであること**」を固定する。
+// ----   台帳の範囲を広げた便は、器を走らせて出た数へこの 3 つの pin を更新する(第273便e:
+// ----   23/28/23 → **78/86/37** —— 印の一括更新 44 行と AH16 の 14 行が入った)。
 // ----   **書かないこと**: 「訂正で観測と合った」「訂正で判定が増えた」「旧値を再検証済み」。
 // ----   訂正は 4 値(合/量限定合/否/保留)を 1 本も動かしていない。
 {
   const bad = [];
-  const EXPECT = { records: 23, revisions: 28, markedRows: 23 };
+  const EXPECT = { records: 78, revisions: 86, markedRows: 37, annotations: 3, annotationRows: 9 };
   let lg = null, J = null, redacted = 0;
   try { lg = JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data', 'corrections.json'), 'utf8')); }
   catch (e) { bad.push('①台帳が読めない: ' + String(e).slice(0, 80)); }
   try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'corrections-w272e.json'), 'utf8')); }
   catch (e) { bad.push('②突き合わせ器の出力が無い(node tests/exp-w272e-corrections.mjs を回すと入る): '
     + String(e).slice(0, 60)); }
-  let nRec = 0, nRev = 0;
+  let nRec = 0, nRev = 0, nAnn = 0, nAnnRows = 0;
   if (lg) {
     if (lg.schema !== 'corrections-v1') bad.push(`①schema が corrections-v1 でない(${lg.schema})`);
     const recs = lg.records || {};
@@ -2111,6 +2124,21 @@ const add = (id, pass, detail) => {
     }
     if (nRec !== EXPECT.records) bad.push(`①台帳の record が ${EXPECT.records} 件でない(${nRec})`);
     if (nRev !== EXPECT.revisions) bad.push(`①台帳の revision が ${EXPECT.revisions} 件でない(${nRev})`);
+    // ⑥ 第273便e(AH18): 注記(値も印も動かさない)は `annotations` に置く
+    const ann = Array.isArray(lg.annotations) ? lg.annotations : null;
+    if (!ann) bad.push('⑥台帳に annotations が無い');
+    else {
+      nAnn = ann.length;
+      if (nAnn !== EXPECT.annotations)
+        bad.push(`⑥注記が ${EXPECT.annotations} 件でない(${nAnn})`);
+      for (const a of ann) {
+        for (const k of ['id', 'key', 'records', 'what', 'changesNothing'])
+          if (a[k] === undefined) bad.push(`⑥注記 ${a.id || '(id なし)'} に ${k} が無い`);
+        if (Array.isArray(a.records)) nAnnRows += a.records.length;
+      }
+      if (nAnnRows !== EXPECT.annotationRows)
+        bad.push(`⑥注記の対象行が ${EXPECT.annotationRows} 行でない(${nAnnRows})`);
+    }
   }
   if (J) {
     const t = J.tally || {};
@@ -2123,19 +2151,89 @@ const add = (id, pass, detail) => {
       bad.push(`③台帳に無い印つき行がある: ${(J.missingFromLedger || []).slice(0, 3).join(' , ')}`);
     if (lg && t.records !== nRec) bad.push(`④台帳と器の record 件数が食い違う(${nRec} ≠ ${t.records})`);
     if (lg && t.revisions !== nRev) bad.push(`④台帳と器の revision 件数が食い違う(${nRev} ≠ ${t.revisions})`);
+    if (lg && (t.annotations || 0) !== nAnn)
+      bad.push(`④台帳と器の注記の件数が食い違う(${nAnn} ≠ ${t.annotations})`);
   }
   const byField = J ? (J.byField || {}) : {};
   const byWave = J ? (J.byWave || {}) : {};
+  const byKind = J ? (J.byKind || {}) : {};
+  const byBulk = J ? (J.byBulk || {}) : {};
   add('docs.correctionsLedger', bad.length === 0,
-    `**訂正履歴の台帳**(第272便e・AG18・\`paper/data/corrections.json\`): `
+    `**変更履歴の台帳**(第272便e・AG18 + 第273便e・AH18・\`paper/data/corrections.json\`): `
     + `record **${nRec} 件**・revision **${nRev} 件**(欄別 ${JSON.stringify(byField)} / `
-    + `便別 ${JSON.stringify(byWave)})/ ② 突き合わせ器 \`tests/exp-w272e-corrections.mjs\` の`
+    + `便別 ${JSON.stringify(byWave)} / 種別 ${JSON.stringify(byKind)} / `
+    + `一括 ${JSON.stringify(byBulk)})/ ② 突き合わせ器 \`tests/exp-w272e-corrections.mjs\` の`
     + `違反 ${J ? (J.violations || []).length : '—'} 件(各 revision の \`current\` が**現行の CSV と一致**)/ `
     + `③ CSV の印つき行 ${J ? (J.tally || {}).markedRowsInCsv : '—'} 行の**取りこぼし 0**/ `
     + `⑤ 旧文言に外部の生成系の実名があった ${redacted} 件は \`previousRedacted\` で説明に置換 / `
-    + `**台帳は値を作らない**(現行値の正本は CSV・旧値は git 履歴で \`previousSourceHash\` が指す)。`
-    + `**訂正は 4 値を 1 本も動かしていない**`
+    + `⑥ **値も印も動かさない注記 ${nAnn} 件**(対象 ${nAnnRows} 行)は \`annotations\` に置く`
+    + `(\`revisions\` ではない)/ **件数 pin は便ごとのスナップショット**(台帳の範囲を広げた便が`
+    + `器の実測値へ更新する)/ **台帳は値を作らない**(現行値の正本は CSV・旧値は git 履歴で`
+    + ` \`previousSourceHash\` が指す)。**訂正も確認記録も注記も 4 値を 1 本も動かしていない**`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 第273便e(第63報・AH16 (a)): lint.derivedFromRecordIds ----
+// ----   **`derived_from` の参照が record_id で解決できている**ことを機械で固定する。
+// ----   背景: 2026-09-15 intake の派生行 14 行は `derived_from=<body>|<quantity>` という綴りで、
+// ----   並び鍵の区切り `|` と衝突していた(第272便e が件数を出して残した未解決)。第273便e で
+// ----   **参照先が現行 CSV の 1 行に一意に解決できる行だけ** record_id へ書き換え、旧綴りは
+// ----   `derived_from_legacy=` に残した。固定するのは 4 つ:
+// ----     ① `derived_from` の **record_id 参照がすべて CSV に実在する**(宛先の無い参照 0)。
+// ----     ② `derived_from_legacy=` を持つ行は `derived_from=` に record_id を**ちょうど 1 件**持つ。
+// ----     ③ **旧綴りを今の CSV で解き直すと同じ record_id に戻る**(`body`+`quantity` の厳密一致が
+// ----        ちょうど 1 行)。参照先が後の便で動いたり増えたりしたらここで落ちる。
+// ----     ④ 書き換えた行には印 `derived_from_resolved=` があり、訂正台帳に載っている
+// ----        (載っていることは `docs.correctionsLedger` の④が見る)。
+// ----   **推定で紐づけない**: 一意に解決できない行は書き換えずに残る(その行は ② に入らない)。
+// ----   **値・単位・出典・σ・印・record_id は 1 文字も動いていない。**
+{
+  const bad = [];
+  let idRefs = 0, legacyRows = 0, resolvedBack = 0, unresolved = 0, scanned = 0;
+  try {
+    const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+    const FILES = ['solar-observations.csv', 'cluster-galaxy-observations.csv',
+      'transient-observations.csv', 'supernova-observations.csv', 'jovian-satellites.csv'];
+    const all = [], byId = new Map();
+    for (const f of FILES) {
+      const L = OB.loadObsCsv(path.join(ROOT, 'paper', 'data', f));
+      scanned++;
+      for (const r of L.rows) { r._file = f; all.push(r); if (r.recordId) byId.set(r.recordId, r); }
+    }
+    const resolve = (b, q) => all.filter((r) => r.body === b && r.quantity === q);
+    for (const r of all) {
+      const refs = OB.listKeyRefs(r.note, 'derived_from');
+      if (!refs.items.length && !refs.legacy) continue;
+      idRefs += refs.ids.length;
+      for (const id of refs.ids) if (!byId.has(id))
+        bad.push(`①derived_from の参照先が CSV に無い: ${r._file} 行 ${r.ln} → ${id}`);
+      if (refs.unresolved) { unresolved++; continue; }
+      if (!refs.legacy) continue;
+      legacyRows++;
+      if (refs.ids.length !== 1) {
+        bad.push(`②${r.recordId} は derived_from_legacy= を持つのに record_id 参照が 1 件でない`
+          + `(${refs.ids.length} 件)`);
+        continue;
+      }
+      const m = resolve(refs.legacy.body, refs.legacy.quantity);
+      if (m.length !== 1)
+        bad.push(`③${r.recordId} の旧綴り「${refs.legacy.raw}」が現行 CSV で 1 行に解けない(${m.length} 行)`);
+      else if (m[0].recordId !== refs.ids[0])
+        bad.push(`③${r.recordId} の旧綴りを解き直すと別の行になる(${refs.ids[0]} ≠ ${m[0].recordId})`);
+      else resolvedBack++;
+      if (!/(?:^|[^A-Za-z0-9_])derived_from_resolved=/.test(r.note))
+        bad.push(`④${r.recordId} に印 derived_from_resolved= が無い`);
+    }
+  } catch (e) { bad.push('入力が読めない: ' + String(e).slice(0, 110)); }
+  add('lint.derivedFromRecordIds', bad.length === 0,
+    `**\`derived_from\` の参照は record_id**(第273便e・AH16 (a)): \`paper/data/\` の ${scanned} 本を`
+    + `走査し、① record_id 参照 **${idRefs} 件がすべて CSV に実在** / ② 旧綴りを併記している行`
+    + ` **${legacyRows} 行**(\`derived_from_legacy=\`)/ ③ **旧綴りを今の CSV で解き直すと同じ`
+    + `record_id に戻る ${resolvedBack}/${legacyRows} 行**(参照先が動いたらここで落ちる)/ `
+    + `④ 書き換えた行に印 \`derived_from_resolved=\` がある / **未解決**(\`<body>|<quantity>\` 形が`
+    + `残っている行)**${unresolved} 行** —— 一意に解決できない行は**書き換えない**`
+    + `(**推定で紐づけない**)。**値・単位・出典・σ・印・record_id は 1 文字も動いていない**`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
 }
 
 // ---- 第271便e(統括の検証項目 R8): lint.qaFullResultsSaved ----

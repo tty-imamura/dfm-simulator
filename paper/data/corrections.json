@@ -1,7 +1,12 @@
 {
   "schema": "corrections-v1",
-  "wave": "第272便e(2026-09-18・AG18)",
-  "what": "観測レコードの訂正履歴の台帳。record_id -> 訂正(revision)の並び。",
+  "wave": "第273便e(2026-09-19・AH16 (a)・AH18)",
+  "what": "観測レコードの変更履歴の台帳。record_id -> 変更(revision)の並び + 値も印も動かさない注記(annotations)。",
+  "scope": [
+    "**この台帳は便ごとのスナップショットである。** 件数(record / revision / annotation)は便ごとに増えうるので、QA `docs.correctionsLedger` の件数 pin は**その便で実測した値へ更新する**運用である(pin は「増えていないこと」ではなく「この便で数えた値と同じであること」を機械固定する)。",
+    "第273便e(AH18)で範囲を広げた: それまで載せていたのは**転写者側の訂正**(`kind:\"correction\"`)だけだったが、**確認記録による印の一括更新**(`kind:\"confirmation\"`)と、**値も印も動かさない注記**(`annotations`)も収録する。",
+    "`kind` は 3 つ: `correction`(転写者側の誤り・記法・印の訂正)/ `confirmation`(確認記録で印または確認者欄が入った変更)/ 注記は `revisions` ではなく `annotations` に置く(**変更ではないから**)。"
+  ],
   "contract": [
     "**この台帳は値を作らない。** 現行値は CSV が正本であり、台帳の `current` は CSV と一致していなければならない(検査器 tests/exp-w272e-corrections.mjs・QA docs.correctionsLedger)。",
     "**訂正したのは転写者側の誤り・記法・印だけである。** 一次資料の値は 1 バイトも動いていない。",
@@ -17,11 +22,14 @@
     "date": "note に記録されている訂正日(YYYY-MM-DD)。",
     "wave": "訂正を入れた便。",
     "commit": "その便の main コミット(短縮)。",
-    "field": "value | sigma | unit | source | url | quantity | mark | note | added のいずれか。",
-    "previous": "訂正前の値(`added` は null・`previousRedacted:true` は説明文)。",
-    "current": "訂正後の値 = **現行の CSV と一致していなければならない**(`note` は note に含まれていること)。",
-    "reason": "なぜ直したか(一次資料の側の変更ではないことを含む)。",
-    "markKey": "note に残っている機械可読な印の鍵。",
+    "field": "value | sigma | unit | source | url | quantity | mark | note | verified_by | added のいずれか。",
+    "previous": "変更前の値(`added` は null・`previousAbsent:true`(その欄が無かった)も null・`previousRedacted:true` は説明文)。",
+    "current": "変更後の値 = **現行の CSV と一致していなければならない**(`note` は note に含まれていること)。",
+    "reason": "なぜそうなったか(一次資料の側の変更ではないことを含む)。",
+    "markKey": "note に残っている機械可読な印の鍵(印の無い変更は null)。",
+    "kind": "correction(転写者側の訂正)| confirmation(確認記録による印・確認者欄)。**欄が無い revision は `correction` である**(第272便e までに載せた 28 件)。",
+    "bulk": "同じ 1 回の一括操作でまとまって入った変更の操作 id(単発の訂正はこの欄を持たない)。第273便e の実測で `bulk-w266a-confirmation1-21` 21 件・`bulk-w267a-confirmation2-23` 23 件・`bulk-w273e-derivedFromRecordId-14` 14 件。",
+    "previousAbsent": "true のとき、その欄は変更前に**存在しなかった**(`previous` は null)。**「値が空だった」ではない。**",
     "sourceHash": "訂正後の CSV ファイルの完全 SHA-256(その便のコミット)。",
     "previousSourceHash": "訂正前の CSV ファイルの完全 SHA-256(親コミット)。"
   },
@@ -32,7 +40,9 @@
     "第269便b": { "commit": "f6c19b4", "parent": "4945764" },
     "第270便b": { "commit": "ef2cd45", "parent": "f6c19b4" },
     "第271便b": { "commit": "743ad9b", "parent": "ef2cd45" },
-    "第272便e": { "commit": null, "parent": "743ad9b", "note": "本便(コミット前に書いた台帳なので commit は null)" }
+    "第267便a": { "commit": "fa7cd6c", "parent": "4d1571a" },
+    "第272便e": { "commit": "33ca33a", "parent": "743ad9b", "note": "第272便の統合コミット(台帳を作った便)" },
+    "第273便e": { "commit": null, "parent": "33ca33a", "note": "本便(コミット前に書いた台帳なので commit は null)" }
   },
   "records": {
     "SOL-85cf149a": {
@@ -55,6 +65,16 @@
           "reason": "同じ換算(2 arcsec/cy ÷ 360000)を丸めずに書き直したもの。記載 1σ 5028.792(2) arcsec/cy は不変。",
           "sourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795",
           "previousSourceHash": "91df4118d1d978433981eae8d84e433961be81ccd5c81bd0f3f58585690db9d2"
+        },
+        {
+          "revision": 3, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w266a-confirmation1-21", "kind": "confirmation",
+          "reason": "確認記録第 1 回(2026-09-16)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
         }
       ]
     },
@@ -115,6 +135,15 @@
           "reason": "出典ラベルの訂正に伴う DOI の差し替え(Stovall 2018 ApJL 854 L22 の書誌)。",
           "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
           "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        },
+        {
+          "revision": 3, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "verified_by", "previous": null, "previousAbsent": true,
+          "current": "原仮定者 2026-09-16",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で X7 の確認者欄 `verified_by=` が入った行(AH18 でこの台帳へ移した)。**この行の印はこの便より前から `verified` であり、印は動いていない** —— 足したのは確認者の欄である。**値・σ・単位・出典・url も 1 文字も動いていない。**",
+          "sourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298",
+          "previousSourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6"
         }
       ]
     },
@@ -145,6 +174,16 @@
           "reason": "出典ラベルの訂正に伴う DOI の差し替え。",
           "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
           "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        },
+        {
+          "revision": 3, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298",
+          "previousSourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6"
         }
       ]
     },
@@ -458,21 +497,997 @@
           "previousSourceHash": "ad99c37f7405a662f095f4e86d69182be1cb6467791086070cc38668c4d14cbf"
         },
         {
-          "revision": 2, "date": "2026-09-18", "wave": "第272便e", "commit": null,
+          "revision": 2, "date": "2026-09-18", "wave": "第272便e", "commit": "33ca33a",
           "field": "note",
           "previous": "derived_from=SOL-dd4b7894;SOL-5199beef",
           "current": "derived_from=SOL-dd4b7894|SOL-5199beef",
           "markKey": "list_separator_corrected",
           "reason": "AG19。並び鍵の区切りを `|` に改めた(`;` は鍵の区切り専用)。旧綴りでは既定の鍵読み `<鍵>=([^;]*)` が 1 件目で切れていた。**2 つの record_id そのもの・value・unit・source・url・sigma・印は 1 文字も動いていない**(動いたのは区切り 1 文字と、それを説明する文である)。",
           "sourceHash": "26e3220b653c9953d669d42b0b2335bdc8b08b45fd98de7550d31bfd92030456",
-          "sourceHashNote": "本便の worktree で訂正を入れた直後の実測値(commit はまだ無い)。",
+          "sourceHashNote": "第272便e の worktree で訂正を入れた直後の実測値。第273便e で main 33ca33a の当該 CSV の sha256 と一致することを確認し、`commit` を埋めた(**旧値も新値も 1 文字も動かしていない** —— 埋めたのはコミット名だけである)。",
           "previousSourceHash": "90616d1492887268d046067937bab6534a0a8f675dc2e326a86e12508f58366c"
+        }
+      ]
+    },
+    "SOL-4e7b618b": {
+      "file": "solar-observations.csv",
+      "body": "Alpha Centauri B",
+      "quantity": "eccentricity",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "verified_by", "previous": null, "previousAbsent": true,
+          "current": "原仮定者 2026-09-16",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で X7 の確認者欄 `verified_by=` が入った行(AH18 でこの台帳へ移した)。**この行の印はこの便より前から `verified` であり、印は動いていない** —— 足したのは確認者の欄である。**値・σ・単位・出典・url も 1 文字も動いていない。**",
+          "sourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298",
+          "previousSourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6"
+        }
+      ]
+    },
+    "SOL-41295e31": {
+      "file": "solar-observations.csv",
+      "body": "Alpha Centauri B",
+      "quantity": "orbital_period",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "verified_by", "previous": null, "previousAbsent": true,
+          "current": "原仮定者 2026-09-16",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で X7 の確認者欄 `verified_by=` が入った行(AH18 でこの台帳へ移した)。**この行の印はこの便より前から `verified` であり、印は動いていない** —— 足したのは確認者の欄である。**値・σ・単位・出典・url も 1 文字も動いていない。**",
+          "sourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298",
+          "previousSourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6"
+        }
+      ]
+    },
+    "SOL-40d95cf1": {
+      "file": "solar-observations.csv",
+      "body": "PSR J0737-3039 B",
+      "quantity": "eccentricity",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "verified_by", "previous": null, "previousAbsent": true,
+          "current": "原仮定者 2026-09-16",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で X7 の確認者欄 `verified_by=` が入った行(AH18 でこの台帳へ移した)。**この行の印はこの便より前から `verified` であり、印は動いていない** —— 足したのは確認者の欄である。**値・σ・単位・出典・url も 1 文字も動いていない。**",
+          "sourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298",
+          "previousSourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6"
+        }
+      ]
+    },
+    "SOL-cf1e8fbf": {
+      "file": "solar-observations.csv",
+      "body": "PSR J0737-3039 B",
+      "quantity": "orbital_period",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "verified_by", "previous": null, "previousAbsent": true,
+          "current": "原仮定者 2026-09-16",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で X7 の確認者欄 `verified_by=` が入った行(AH18 でこの台帳へ移した)。**この行の印はこの便より前から `verified` であり、印は動いていない** —— 足したのは確認者の欄である。**値・σ・単位・出典・url も 1 文字も動いていない。**",
+          "sourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298",
+          "previousSourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6"
+        }
+      ]
+    },
+    "SOL-aa6edaa2": {
+      "file": "solar-observations.csv",
+      "body": "PSR B1913+16",
+      "quantity": "eccentricity",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298",
+          "previousSourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6"
+        }
+      ]
+    },
+    "SOL-177bd56d": {
+      "file": "solar-observations.csv",
+      "body": "Alpha Centauri AB",
+      "quantity": "orbital_period",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w266a-confirmation1-21", "kind": "confirmation",
+          "reason": "確認記録第 1 回(2026-09-16)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-b06af02d": {
+      "file": "solar-observations.csv",
+      "body": "Alpha Centauri AB",
+      "quantity": "eccentricity",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w266a-confirmation1-21", "kind": "confirmation",
+          "reason": "確認記録第 1 回(2026-09-16)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-457fe200": {
+      "file": "solar-observations.csv",
+      "body": "Alpha Centauri AB",
+      "quantity": "inclination",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298",
+          "previousSourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6"
+        }
+      ]
+    },
+    "SOL-94cc60b9": {
+      "file": "solar-observations.csv",
+      "body": "Alpha Centauri AB",
+      "quantity": "longitude_of_periastron",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298",
+          "previousSourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6"
+        }
+      ]
+    },
+    "SOL-4a8f0f25": {
+      "file": "solar-observations.csv",
+      "body": "Sirius AB",
+      "quantity": "orbital_period",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w266a-confirmation1-21", "kind": "confirmation",
+          "reason": "確認記録第 1 回(2026-09-16)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-e36df0e9": {
+      "file": "solar-observations.csv",
+      "body": "Sirius AB",
+      "quantity": "eccentricity",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w266a-confirmation1-21", "kind": "confirmation",
+          "reason": "確認記録第 1 回(2026-09-16)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-1b0851fb": {
+      "file": "solar-observations.csv",
+      "body": "Sirius AB",
+      "quantity": "inclination",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298",
+          "previousSourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6"
+        }
+      ]
+    },
+    "SOL-51fac3f7": {
+      "file": "solar-observations.csv",
+      "body": "Sirius AB",
+      "quantity": "longitude_of_periastron",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298",
+          "previousSourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6"
+        }
+      ]
+    },
+    "SOL-6705afaa": {
+      "file": "solar-observations.csv",
+      "body": "Sirius A",
+      "quantity": "mass_candidate",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298",
+          "previousSourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6"
+        }
+      ]
+    },
+    "SOL-2e8d9117": {
+      "file": "solar-observations.csv",
+      "body": "Sirius A",
+      "quantity": "mass_candidate",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298",
+          "previousSourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6"
+        }
+      ]
+    },
+    "SOL-eefac2e9": {
+      "file": "solar-observations.csv",
+      "body": "Sirius B",
+      "quantity": "mass_candidate",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298",
+          "previousSourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6"
+        }
+      ]
+    },
+    "SOL-e8572a76": {
+      "file": "solar-observations.csv",
+      "body": "Sirius B",
+      "quantity": "mass_candidate",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298",
+          "previousSourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6"
+        }
+      ]
+    },
+    "SOL-e35438ab": {
+      "file": "solar-observations.csv",
+      "body": "PSR J0737-3039 B",
+      "quantity": "orbital_period",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w266a-confirmation1-21", "kind": "confirmation",
+          "reason": "確認記録第 1 回(2026-09-16)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-1c67b7d7": {
+      "file": "solar-observations.csv",
+      "body": "PSR J0737-3039 B",
+      "quantity": "eccentricity",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w266a-confirmation1-21", "kind": "confirmation",
+          "reason": "確認記録第 1 回(2026-09-16)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-c162bd87": {
+      "file": "solar-observations.csv",
+      "body": "PSR J0737-3039 B",
+      "quantity": "periastron_advance",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w266a-confirmation1-21", "kind": "confirmation",
+          "reason": "確認記録第 1 回(2026-09-16)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-3fbf419e": {
+      "file": "solar-observations.csv",
+      "body": "PSR J0737-3039 B",
+      "quantity": "orbital_period",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298",
+          "previousSourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6"
+        }
+      ]
+    },
+    "SOL-ae22dce7": {
+      "file": "solar-observations.csv",
+      "body": "PSR J0737-3039 B",
+      "quantity": "eccentricity",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "950da5e06cf74629d3016f4f3cab0aa908ad6a58157d7581422a93772d0f0298",
+          "previousSourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6"
+        }
+      ]
+    },
+    "SOL-ffd2695b": {
+      "file": "solar-observations.csv",
+      "body": "PSR B1534+12",
+      "quantity": "periastron_advance",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w266a-confirmation1-21", "kind": "confirmation",
+          "reason": "確認記録第 1 回(2026-09-16)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-9a098c54": {
+      "file": "solar-observations.csv",
+      "body": "PSR B1534+12",
+      "quantity": "orbital_period",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w266a-confirmation1-21", "kind": "confirmation",
+          "reason": "確認記録第 1 回(2026-09-16)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-437b2220": {
+      "file": "solar-observations.csv",
+      "body": "PSR B1534+12",
+      "quantity": "eccentricity",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w266a-confirmation1-21", "kind": "confirmation",
+          "reason": "確認記録第 1 回(2026-09-16)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-73e1ba36": {
+      "file": "solar-observations.csv",
+      "body": "PSR J1757-1854",
+      "quantity": "orbital_period",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w266a-confirmation1-21", "kind": "confirmation",
+          "reason": "確認記録第 1 回(2026-09-16)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-8d0fec54": {
+      "file": "solar-observations.csv",
+      "body": "PSR J1757-1854",
+      "quantity": "eccentricity",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w266a-confirmation1-21", "kind": "confirmation",
+          "reason": "確認記録第 1 回(2026-09-16)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-4d073b22": {
+      "file": "solar-observations.csv",
+      "body": "PSR J1757-1854",
+      "quantity": "periastron_advance",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w266a-confirmation1-21", "kind": "confirmation",
+          "reason": "確認記録第 1 回(2026-09-16)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-8bb5166f": {
+      "file": "solar-observations.csv",
+      "body": "Mercury",
+      "quantity": "periastron_advance",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w266a-confirmation1-21", "kind": "confirmation",
+          "reason": "確認記録第 1 回(2026-09-16)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-f485f6f8": {
+      "file": "solar-observations.csv",
+      "body": "Mercury",
+      "quantity": "periastron_advance_gr",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w266a-confirmation1-21", "kind": "confirmation",
+          "reason": "確認記録第 1 回(2026-09-16)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-5d5c964e": {
+      "file": "solar-observations.csv",
+      "body": "Mercury",
+      "quantity": "periastron_advance_j2",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w266a-confirmation1-21", "kind": "confirmation",
+          "reason": "確認記録第 1 回(2026-09-16)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-bde72dc4": {
+      "file": "solar-observations.csv",
+      "body": "Saturn ring feature D68",
+      "quantity": "radial_amplitude_ae",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w266a-confirmation1-21", "kind": "confirmation",
+          "reason": "確認記録第 1 回(2026-09-16)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-fa1f6c6a": {
+      "file": "solar-observations.csv",
+      "body": "Saturn ring feature D68",
+      "quantity": "periastron_advance",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w266a-confirmation1-21", "kind": "confirmation",
+          "reason": "確認記録第 1 回(2026-09-16)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-25d4320f": {
+      "file": "solar-observations.csv",
+      "body": "Charon",
+      "quantity": "orbital_period_candidate",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w266a-confirmation1-21", "kind": "confirmation",
+          "reason": "確認記録第 1 回(2026-09-16)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-35a4132d": {
+      "file": "solar-observations.csv",
+      "body": "Charon",
+      "quantity": "orbital_period_candidate",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-16", "wave": "第266便a", "commit": "4d1571a",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w266a-confirmation1-21", "kind": "confirmation",
+          "reason": "確認記録第 1 回(2026-09-16)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
+          "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        }
+      ]
+    },
+    "SOL-c8c95a1a": {
+      "file": "solar-observations.csv",
+      "body": "Moon",
+      "quantity": "periastron_advance_derived",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-19", "wave": "第273便e", "commit": null,
+          "field": "note",
+          "previous": "derived_from=Moon|apsidal_period",
+          "current": "derived_from=SOL-59edf981; derived_from_legacy=Moon|apsidal_period",
+          "markKey": "derived_from_resolved", "bulk": "bulk-w273e-derivedFromRecordId-14", "kind": "correction",
+          "reason": "AH16 (a)。参照の綴り `Moon|apsidal_period` は並び鍵 `derived_from` の区切り `|` と衝突していた(1 件の参照なのに 2 件に見える)。現行 CSV で `body` と `quantity` が**厳密一致する行がちょうど 1 行**だったので、その行の `record_id` `SOL-59edf981` へ書き換え、旧綴りは `derived_from_legacy=` に残した。**値・単位・出典・url・σ 欄・印・record_id・solution_id は 1 文字も動いていない**(動いたのは参照の綴りである)。器 `tests/exp-w273e-derivedrefs.mjs` が毎回この解き直しを再現する。",
+          "sourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b",
+          "sourceHashNote": "本便の worktree で訂正を入れた直後の実測値(commit はまだ無い)。",
+          "previousSourceHash": "26e3220b653c9953d669d42b0b2335bdc8b08b45fd98de7550d31bfd92030456"
+        }
+      ]
+    },
+    "SOL-df2b8d23": {
+      "file": "solar-observations.csv",
+      "body": "Moon",
+      "quantity": "periastron_advance_derived",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-19", "wave": "第273便e", "commit": null,
+          "field": "note",
+          "previous": "derived_from=Moon|periastron_advance_with_precession",
+          "current": "derived_from=SOL-da962358; derived_from_legacy=Moon|periastron_advance_with_precession",
+          "markKey": "derived_from_resolved", "bulk": "bulk-w273e-derivedFromRecordId-14", "kind": "correction",
+          "reason": "AH16 (a)。参照の綴り `Moon|periastron_advance_with_precession` は並び鍵 `derived_from` の区切り `|` と衝突していた(1 件の参照なのに 2 件に見える)。現行 CSV で `body` と `quantity` が**厳密一致する行がちょうど 1 行**だったので、その行の `record_id` `SOL-da962358` へ書き換え、旧綴りは `derived_from_legacy=` に残した。**値・単位・出典・url・σ 欄・印・record_id・solution_id は 1 文字も動いていない**(動いたのは参照の綴りである)。器 `tests/exp-w273e-derivedrefs.mjs` が毎回この解き直しを再現する。",
+          "sourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b",
+          "sourceHashNote": "本便の worktree で訂正を入れた直後の実測値(commit はまだ無い)。",
+          "previousSourceHash": "26e3220b653c9953d669d42b0b2335bdc8b08b45fd98de7550d31bfd92030456"
+        }
+      ]
+    },
+    "SOL-ac904909": {
+      "file": "solar-observations.csv",
+      "body": "Io",
+      "quantity": "periastron_advance_derived",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-19", "wave": "第273便e", "commit": null,
+          "field": "note",
+          "previous": "derived_from=Io|apsidal_period",
+          "current": "derived_from=SOL-e8e10430; derived_from_legacy=Io|apsidal_period",
+          "markKey": "derived_from_resolved", "bulk": "bulk-w273e-derivedFromRecordId-14", "kind": "correction",
+          "reason": "AH16 (a)。参照の綴り `Io|apsidal_period` は並び鍵 `derived_from` の区切り `|` と衝突していた(1 件の参照なのに 2 件に見える)。現行 CSV で `body` と `quantity` が**厳密一致する行がちょうど 1 行**だったので、その行の `record_id` `SOL-e8e10430` へ書き換え、旧綴りは `derived_from_legacy=` に残した。**値・単位・出典・url・σ 欄・印・record_id・solution_id は 1 文字も動いていない**(動いたのは参照の綴りである)。器 `tests/exp-w273e-derivedrefs.mjs` が毎回この解き直しを再現する。",
+          "sourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b",
+          "sourceHashNote": "本便の worktree で訂正を入れた直後の実測値(commit はまだ無い)。",
+          "previousSourceHash": "26e3220b653c9953d669d42b0b2335bdc8b08b45fd98de7550d31bfd92030456"
+        }
+      ]
+    },
+    "SOL-8d98c8f7": {
+      "file": "solar-observations.csv",
+      "body": "Europa",
+      "quantity": "periastron_advance_derived",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-19", "wave": "第273便e", "commit": null,
+          "field": "note",
+          "previous": "derived_from=Europa|apsidal_period",
+          "current": "derived_from=SOL-e3be3445; derived_from_legacy=Europa|apsidal_period",
+          "markKey": "derived_from_resolved", "bulk": "bulk-w273e-derivedFromRecordId-14", "kind": "correction",
+          "reason": "AH16 (a)。参照の綴り `Europa|apsidal_period` は並び鍵 `derived_from` の区切り `|` と衝突していた(1 件の参照なのに 2 件に見える)。現行 CSV で `body` と `quantity` が**厳密一致する行がちょうど 1 行**だったので、その行の `record_id` `SOL-e3be3445` へ書き換え、旧綴りは `derived_from_legacy=` に残した。**値・単位・出典・url・σ 欄・印・record_id・solution_id は 1 文字も動いていない**(動いたのは参照の綴りである)。器 `tests/exp-w273e-derivedrefs.mjs` が毎回この解き直しを再現する。",
+          "sourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b",
+          "sourceHashNote": "本便の worktree で訂正を入れた直後の実測値(commit はまだ無い)。",
+          "previousSourceHash": "26e3220b653c9953d669d42b0b2335bdc8b08b45fd98de7550d31bfd92030456"
+        }
+      ]
+    },
+    "SOL-bb15d76e": {
+      "file": "solar-observations.csv",
+      "body": "Ganymede",
+      "quantity": "periastron_advance_derived",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-19", "wave": "第273便e", "commit": null,
+          "field": "note",
+          "previous": "derived_from=Ganymede|apsidal_period",
+          "current": "derived_from=SOL-be6b5dfb; derived_from_legacy=Ganymede|apsidal_period",
+          "markKey": "derived_from_resolved", "bulk": "bulk-w273e-derivedFromRecordId-14", "kind": "correction",
+          "reason": "AH16 (a)。参照の綴り `Ganymede|apsidal_period` は並び鍵 `derived_from` の区切り `|` と衝突していた(1 件の参照なのに 2 件に見える)。現行 CSV で `body` と `quantity` が**厳密一致する行がちょうど 1 行**だったので、その行の `record_id` `SOL-be6b5dfb` へ書き換え、旧綴りは `derived_from_legacy=` に残した。**値・単位・出典・url・σ 欄・印・record_id・solution_id は 1 文字も動いていない**(動いたのは参照の綴りである)。器 `tests/exp-w273e-derivedrefs.mjs` が毎回この解き直しを再現する。",
+          "sourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b",
+          "sourceHashNote": "本便の worktree で訂正を入れた直後の実測値(commit はまだ無い)。",
+          "previousSourceHash": "26e3220b653c9953d669d42b0b2335bdc8b08b45fd98de7550d31bfd92030456"
+        }
+      ]
+    },
+    "SOL-e72f7173": {
+      "file": "solar-observations.csv",
+      "body": "Callisto",
+      "quantity": "periastron_advance_derived",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-19", "wave": "第273便e", "commit": null,
+          "field": "note",
+          "previous": "derived_from=Callisto|apsidal_period",
+          "current": "derived_from=SOL-f0d18133; derived_from_legacy=Callisto|apsidal_period",
+          "markKey": "derived_from_resolved", "bulk": "bulk-w273e-derivedFromRecordId-14", "kind": "correction",
+          "reason": "AH16 (a)。参照の綴り `Callisto|apsidal_period` は並び鍵 `derived_from` の区切り `|` と衝突していた(1 件の参照なのに 2 件に見える)。現行 CSV で `body` と `quantity` が**厳密一致する行がちょうど 1 行**だったので、その行の `record_id` `SOL-f0d18133` へ書き換え、旧綴りは `derived_from_legacy=` に残した。**値・単位・出典・url・σ 欄・印・record_id・solution_id は 1 文字も動いていない**(動いたのは参照の綴りである)。器 `tests/exp-w273e-derivedrefs.mjs` が毎回この解き直しを再現する。",
+          "sourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b",
+          "sourceHashNote": "本便の worktree で訂正を入れた直後の実測値(commit はまだ無い)。",
+          "previousSourceHash": "26e3220b653c9953d669d42b0b2335bdc8b08b45fd98de7550d31bfd92030456"
+        }
+      ]
+    },
+    "SOL-443db007": {
+      "file": "solar-observations.csv",
+      "body": "Mimas",
+      "quantity": "periastron_advance_derived",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-19", "wave": "第273便e", "commit": null,
+          "field": "note",
+          "previous": "derived_from=Mimas|apsidal_period",
+          "current": "derived_from=SOL-637af6d3; derived_from_legacy=Mimas|apsidal_period",
+          "markKey": "derived_from_resolved", "bulk": "bulk-w273e-derivedFromRecordId-14", "kind": "correction",
+          "reason": "AH16 (a)。参照の綴り `Mimas|apsidal_period` は並び鍵 `derived_from` の区切り `|` と衝突していた(1 件の参照なのに 2 件に見える)。現行 CSV で `body` と `quantity` が**厳密一致する行がちょうど 1 行**だったので、その行の `record_id` `SOL-637af6d3` へ書き換え、旧綴りは `derived_from_legacy=` に残した。**値・単位・出典・url・σ 欄・印・record_id・solution_id は 1 文字も動いていない**(動いたのは参照の綴りである)。器 `tests/exp-w273e-derivedrefs.mjs` が毎回この解き直しを再現する。",
+          "sourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b",
+          "sourceHashNote": "本便の worktree で訂正を入れた直後の実測値(commit はまだ無い)。",
+          "previousSourceHash": "26e3220b653c9953d669d42b0b2335bdc8b08b45fd98de7550d31bfd92030456"
+        }
+      ]
+    },
+    "SOL-69c7fce6": {
+      "file": "solar-observations.csv",
+      "body": "Titan",
+      "quantity": "periastron_advance_derived",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-19", "wave": "第273便e", "commit": null,
+          "field": "note",
+          "previous": "derived_from=Titan|apsidal_period",
+          "current": "derived_from=SOL-eca72d0d; derived_from_legacy=Titan|apsidal_period",
+          "markKey": "derived_from_resolved", "bulk": "bulk-w273e-derivedFromRecordId-14", "kind": "correction",
+          "reason": "AH16 (a)。参照の綴り `Titan|apsidal_period` は並び鍵 `derived_from` の区切り `|` と衝突していた(1 件の参照なのに 2 件に見える)。現行 CSV で `body` と `quantity` が**厳密一致する行がちょうど 1 行**だったので、その行の `record_id` `SOL-eca72d0d` へ書き換え、旧綴りは `derived_from_legacy=` に残した。**値・単位・出典・url・σ 欄・印・record_id・solution_id は 1 文字も動いていない**(動いたのは参照の綴りである)。器 `tests/exp-w273e-derivedrefs.mjs` が毎回この解き直しを再現する。",
+          "sourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b",
+          "sourceHashNote": "本便の worktree で訂正を入れた直後の実測値(commit はまだ無い)。",
+          "previousSourceHash": "26e3220b653c9953d669d42b0b2335bdc8b08b45fd98de7550d31bfd92030456"
+        }
+      ]
+    },
+    "SOL-5c4c2550": {
+      "file": "solar-observations.csv",
+      "body": "Phobos",
+      "quantity": "periastron_advance_derived",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-19", "wave": "第273便e", "commit": null,
+          "field": "note",
+          "previous": "derived_from=Phobos|apsidal_period",
+          "current": "derived_from=SOL-25b15785; derived_from_legacy=Phobos|apsidal_period",
+          "markKey": "derived_from_resolved", "bulk": "bulk-w273e-derivedFromRecordId-14", "kind": "correction",
+          "reason": "AH16 (a)。参照の綴り `Phobos|apsidal_period` は並び鍵 `derived_from` の区切り `|` と衝突していた(1 件の参照なのに 2 件に見える)。現行 CSV で `body` と `quantity` が**厳密一致する行がちょうど 1 行**だったので、その行の `record_id` `SOL-25b15785` へ書き換え、旧綴りは `derived_from_legacy=` に残した。**値・単位・出典・url・σ 欄・印・record_id・solution_id は 1 文字も動いていない**(動いたのは参照の綴りである)。器 `tests/exp-w273e-derivedrefs.mjs` が毎回この解き直しを再現する。",
+          "sourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b",
+          "sourceHashNote": "本便の worktree で訂正を入れた直後の実測値(commit はまだ無い)。",
+          "previousSourceHash": "26e3220b653c9953d669d42b0b2335bdc8b08b45fd98de7550d31bfd92030456"
+        }
+      ]
+    },
+    "SOL-f4ce89fd": {
+      "file": "solar-observations.csv",
+      "body": "Miranda",
+      "quantity": "periastron_advance_derived",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-19", "wave": "第273便e", "commit": null,
+          "field": "note",
+          "previous": "derived_from=Miranda|apsidal_period",
+          "current": "derived_from=SOL-8c005024; derived_from_legacy=Miranda|apsidal_period",
+          "markKey": "derived_from_resolved", "bulk": "bulk-w273e-derivedFromRecordId-14", "kind": "correction",
+          "reason": "AH16 (a)。参照の綴り `Miranda|apsidal_period` は並び鍵 `derived_from` の区切り `|` と衝突していた(1 件の参照なのに 2 件に見える)。現行 CSV で `body` と `quantity` が**厳密一致する行がちょうど 1 行**だったので、その行の `record_id` `SOL-8c005024` へ書き換え、旧綴りは `derived_from_legacy=` に残した。**値・単位・出典・url・σ 欄・印・record_id・solution_id は 1 文字も動いていない**(動いたのは参照の綴りである)。器 `tests/exp-w273e-derivedrefs.mjs` が毎回この解き直しを再現する。",
+          "sourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b",
+          "sourceHashNote": "本便の worktree で訂正を入れた直後の実測値(commit はまだ無い)。",
+          "previousSourceHash": "26e3220b653c9953d669d42b0b2335bdc8b08b45fd98de7550d31bfd92030456"
+        }
+      ]
+    },
+    "SOL-912cdb71": {
+      "file": "solar-observations.csv",
+      "body": "Ariel",
+      "quantity": "periastron_advance_derived",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-19", "wave": "第273便e", "commit": null,
+          "field": "note",
+          "previous": "derived_from=Ariel|apsidal_period",
+          "current": "derived_from=SOL-b1149d8e; derived_from_legacy=Ariel|apsidal_period",
+          "markKey": "derived_from_resolved", "bulk": "bulk-w273e-derivedFromRecordId-14", "kind": "correction",
+          "reason": "AH16 (a)。参照の綴り `Ariel|apsidal_period` は並び鍵 `derived_from` の区切り `|` と衝突していた(1 件の参照なのに 2 件に見える)。現行 CSV で `body` と `quantity` が**厳密一致する行がちょうど 1 行**だったので、その行の `record_id` `SOL-b1149d8e` へ書き換え、旧綴りは `derived_from_legacy=` に残した。**値・単位・出典・url・σ 欄・印・record_id・solution_id は 1 文字も動いていない**(動いたのは参照の綴りである)。器 `tests/exp-w273e-derivedrefs.mjs` が毎回この解き直しを再現する。",
+          "sourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b",
+          "sourceHashNote": "本便の worktree で訂正を入れた直後の実測値(commit はまだ無い)。",
+          "previousSourceHash": "26e3220b653c9953d669d42b0b2335bdc8b08b45fd98de7550d31bfd92030456"
+        }
+      ]
+    },
+    "SOL-08074de0": {
+      "file": "solar-observations.csv",
+      "body": "Umbriel",
+      "quantity": "periastron_advance_derived",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-19", "wave": "第273便e", "commit": null,
+          "field": "note",
+          "previous": "derived_from=Umbriel|apsidal_period",
+          "current": "derived_from=SOL-217d0e32; derived_from_legacy=Umbriel|apsidal_period",
+          "markKey": "derived_from_resolved", "bulk": "bulk-w273e-derivedFromRecordId-14", "kind": "correction",
+          "reason": "AH16 (a)。参照の綴り `Umbriel|apsidal_period` は並び鍵 `derived_from` の区切り `|` と衝突していた(1 件の参照なのに 2 件に見える)。現行 CSV で `body` と `quantity` が**厳密一致する行がちょうど 1 行**だったので、その行の `record_id` `SOL-217d0e32` へ書き換え、旧綴りは `derived_from_legacy=` に残した。**値・単位・出典・url・σ 欄・印・record_id・solution_id は 1 文字も動いていない**(動いたのは参照の綴りである)。器 `tests/exp-w273e-derivedrefs.mjs` が毎回この解き直しを再現する。",
+          "sourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b",
+          "sourceHashNote": "本便の worktree で訂正を入れた直後の実測値(commit はまだ無い)。",
+          "previousSourceHash": "26e3220b653c9953d669d42b0b2335bdc8b08b45fd98de7550d31bfd92030456"
+        }
+      ]
+    },
+    "SOL-46eb7da7": {
+      "file": "solar-observations.csv",
+      "body": "Titania",
+      "quantity": "periastron_advance_derived",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-19", "wave": "第273便e", "commit": null,
+          "field": "note",
+          "previous": "derived_from=Titania|apsidal_period",
+          "current": "derived_from=SOL-c473c02f; derived_from_legacy=Titania|apsidal_period",
+          "markKey": "derived_from_resolved", "bulk": "bulk-w273e-derivedFromRecordId-14", "kind": "correction",
+          "reason": "AH16 (a)。参照の綴り `Titania|apsidal_period` は並び鍵 `derived_from` の区切り `|` と衝突していた(1 件の参照なのに 2 件に見える)。現行 CSV で `body` と `quantity` が**厳密一致する行がちょうど 1 行**だったので、その行の `record_id` `SOL-c473c02f` へ書き換え、旧綴りは `derived_from_legacy=` に残した。**値・単位・出典・url・σ 欄・印・record_id・solution_id は 1 文字も動いていない**(動いたのは参照の綴りである)。器 `tests/exp-w273e-derivedrefs.mjs` が毎回この解き直しを再現する。",
+          "sourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b",
+          "sourceHashNote": "本便の worktree で訂正を入れた直後の実測値(commit はまだ無い)。",
+          "previousSourceHash": "26e3220b653c9953d669d42b0b2335bdc8b08b45fd98de7550d31bfd92030456"
+        }
+      ]
+    },
+    "SOL-934f2fa2": {
+      "file": "solar-observations.csv",
+      "body": "Oberon",
+      "quantity": "periastron_advance_derived",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-19", "wave": "第273便e", "commit": null,
+          "field": "note",
+          "previous": "derived_from=Oberon|apsidal_period",
+          "current": "derived_from=SOL-8f045184; derived_from_legacy=Oberon|apsidal_period",
+          "markKey": "derived_from_resolved", "bulk": "bulk-w273e-derivedFromRecordId-14", "kind": "correction",
+          "reason": "AH16 (a)。参照の綴り `Oberon|apsidal_period` は並び鍵 `derived_from` の区切り `|` と衝突していた(1 件の参照なのに 2 件に見える)。現行 CSV で `body` と `quantity` が**厳密一致する行がちょうど 1 行**だったので、その行の `record_id` `SOL-8f045184` へ書き換え、旧綴りは `derived_from_legacy=` に残した。**値・単位・出典・url・σ 欄・印・record_id・solution_id は 1 文字も動いていない**(動いたのは参照の綴りである)。器 `tests/exp-w273e-derivedrefs.mjs` が毎回この解き直しを再現する。",
+          "sourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b",
+          "sourceHashNote": "本便の worktree で訂正を入れた直後の実測値(commit はまだ無い)。",
+          "previousSourceHash": "26e3220b653c9953d669d42b0b2335bdc8b08b45fd98de7550d31bfd92030456"
+        }
+      ]
+    },
+    "CLG-4a2efbbc": {
+      "file": "cluster-galaxy-observations.csv",
+      "body": "47 Tuc",
+      "quantity": "total_mass_candidate",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "57693ce10cd35899682a35818bd12c5c7abbc0e650356daa3699af0525d570ec",
+          "previousSourceHash": "84f5114e2a2a9a848cefcdfea3d14fce7e3b5c388872b5b2aab9e50fc671841c"
+        }
+      ]
+    },
+    "CLG-50a473a5": {
+      "file": "cluster-galaxy-observations.csv",
+      "body": "47 Tuc",
+      "quantity": "rotation_amplitude_candidate",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "57693ce10cd35899682a35818bd12c5c7abbc0e650356daa3699af0525d570ec",
+          "previousSourceHash": "84f5114e2a2a9a848cefcdfea3d14fce7e3b5c388872b5b2aab9e50fc671841c"
+        }
+      ]
+    },
+    "CLG-694c0eb3": {
+      "file": "cluster-galaxy-observations.csv",
+      "body": "47 Tuc",
+      "quantity": "distance_candidate",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "57693ce10cd35899682a35818bd12c5c7abbc0e650356daa3699af0525d570ec",
+          "previousSourceHash": "84f5114e2a2a9a848cefcdfea3d14fce7e3b5c388872b5b2aab9e50fc671841c"
+        }
+      ]
+    },
+    "CLG-912e86b6": {
+      "file": "cluster-galaxy-observations.csv",
+      "body": "47 Tuc",
+      "quantity": "mass_to_light_V_candidate",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "57693ce10cd35899682a35818bd12c5c7abbc0e650356daa3699af0525d570ec",
+          "previousSourceHash": "84f5114e2a2a9a848cefcdfea3d14fce7e3b5c388872b5b2aab9e50fc671841c"
+        }
+      ]
+    },
+    "CLG-fe3a43ad": {
+      "file": "cluster-galaxy-observations.csv",
+      "body": "47 Tuc",
+      "quantity": "total_mass_candidate",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "57693ce10cd35899682a35818bd12c5c7abbc0e650356daa3699af0525d570ec",
+          "previousSourceHash": "84f5114e2a2a9a848cefcdfea3d14fce7e3b5c388872b5b2aab9e50fc671841c"
+        }
+      ]
+    },
+    "CLG-8ff99f53": {
+      "file": "cluster-galaxy-observations.csv",
+      "body": "47 Tuc",
+      "quantity": "mass_to_light_V_candidate",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-17", "wave": "第267便a", "commit": "fa7cd6c",
+          "field": "mark",
+          "previous": "unverified",
+          "current": "verified",
+          "markKey": null, "bulk": "bulk-w267a-confirmation2-23", "kind": "confirmation",
+          "reason": "確認記録第 2 回(2026-09-17)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
+          "sourceHash": "57693ce10cd35899682a35818bd12c5c7abbc0e650356daa3699af0525d570ec",
+          "previousSourceHash": "84f5114e2a2a9a848cefcdfea3d14fce7e3b5c388872b5b2aab9e50fc671841c"
         }
       ]
     }
   },
+  "annotations": [
+    {
+      "id": "note-w268b-roundingDiff-row115",
+      "wave": "第268便b", "commit": "4945764", "date": "2026-09-17",
+      "key": "rounding_difference_vs_row_194",
+      "records": ["SOL-d6586fce"],
+      "what": "同じ Bond et al. (2017) Table 4 の記録を転写した 2 行(行 115 と行 194)の**転写の丸め差 4.16 s** を note に記した注記。差は両行が持つ 1σ 135697.68 s の 3.07e-5 であり、**同じ印字桁ではない**ので「同一の値」と書いてはならない、という宣言である。",
+      "changesNothing": "値・σ・単位・出典・url・印を 1 文字も動かしていない(この注記を書いた便でも、その後の便でも)。",
+      "movedHereBy": "第273便e(AH18)"
+    },
+    {
+      "id": "note-w268b-solutionMix-rows145-146-148",
+      "wave": "第268便b", "commit": "4945764", "date": "2026-09-17",
+      "key": "solution_mix",
+      "records": ["SOL-cb34a1f4", "SOL-efbb5491", "SOL-f5d43612"],
+      "what": "PSR J1946+2052 の Pb・e・ω̇ の 3 行が**単一の公表解ではなく 2 つの解にまたがっていた**(Pb と e は Stovall et al. 2018 の発見解・ω̇ は Meng et al. 2025 の DDFWHE 解)ことを note に記した注記。第270便c(AD9)で採用レコードを一組へ揃えたので、この 3 行は `adopted_solution=` の指し先から外れた**履歴の行**である。",
+      "changesNothing": "値・σ・単位・出典・url・印を 1 文字も動かしていない(行の選択も動かしていない)。",
+      "movedHereBy": "第273便e(AH18)"
+    },
+    {
+      "id": "note-w268b-valueChecked-rows285-289-290-300-302",
+      "wave": "第268便b", "commit": "4945764", "date": "2026-09-17",
+      "key": "value_checked_by",
+      "records": ["SOL-dd4b7894", "SOL-ae8d8ac9", "SOL-4d53d566", "SOL-395de905", "SOL-2e015d15"],
+      "what": "一次資料の表・列・桁を**外から照合した**記録(`value_checked_by=` / `value_checked_at=` / `value_checked_value=`)を note に置いた注記。**これは `sigma_primary` の印ではなく、印を `verified` へ上げる力は 1 bit も無い**(上げるのは原仮定者の照合だけである — X7 の `verified_by=` と同じ規約)。",
+      "changesNothing": "値・σ・単位・出典・url・印を 1 文字も動かしていない。",
+      "alsoOnOtherRows": "同じ鍵 `value_checked_by=` は後の便でも置かれており、第273便e の実測では太陽系 CSV 10 行・星団/銀河 CSV 10 行にある。この注記が指しているのは第268便b が置いた 5 行である。",
+      "movedHereBy": "第273便e(AH18)"
+    }
+  ],
   "notInThisLedger": [
-    "**値も印も動かさない注記**(第268便b の ⑤ 行 115 の丸め差 4.16 s・⑥ 行 145/146/148 の `solution_mix=`・⑦ 行 285/289/290/300/302 の外部照合印)は訂正ではないので載せていない。",
-    "**確認記録による印の一括更新**(第266便a の 21 行・第267便a の 23 行)は `verified_by=` で CSV 側に残っている。ここに載せたのは `previous_mark=` を持つ 3 行だけである(**未解決** —— 印の履歴をすべて台帳へ移すかは決断事項)。"
+    "**判定(4 値)の履歴**は載せていない。台帳は観測レコードの欄の履歴であって、門の履歴ではない(門の正本は `tests/out/calaudit-w249.json`)。",
+    "**一次資料そのものの改訂**は載せていない。ここに載るのは転写者側で起きたこと(訂正・確認記録・注記)だけである。",
+    "第272便e の時点で除外していた 2 つ(**値も印も動かさない注記 3 件**・**確認記録による印の一括更新 44 行**)は、**第273便e(AH18)でこの台帳へ入れた** —— 前者は `annotations`、後者は `records` の `kind:\"confirmation\"` の revision である。"
   ]
 }
