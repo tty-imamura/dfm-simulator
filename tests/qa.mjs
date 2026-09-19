@@ -7926,9 +7926,11 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
     HP.setLang('en');
     // 第79便: サンプルカテゴリをスケール順へ並べ替えたため、先頭 optgroup は
     // 'Heat Lab'(熱の実験室)になる。従来順(root 昇格前)の 'Space & Time' も受理する
+    // 第272便d: 論文順で先頭は 'Space & Time'(空間と時間)に戻った。
+    // 第273便a(AH5 改名): その群の名前が 'Motion & Spacetime'(運動と時空)になった
     const g0 = document.querySelector('#presetSelect optgroup').label;
     const en = document.title.includes('Virtual Physics Lab')
-      && (g0 === 'Heat Lab' || g0 === 'Space & Time')
+      && (g0 === 'Heat Lab' || g0 === 'Space & Time' || g0 === 'Motion & Spacetime')
       && HP.getSystemPrompt().includes('Language override');
     HP.setLang('ja');
     const ja = document.title.includes('仮想物理ラボ') && !HP.getSystemPrompt().includes('Language override');
@@ -10057,11 +10059,15 @@ if (hasBadgeClassify) {
       out.groupOpts = [...gs.options].map(o => o.value);
       // ② カテゴリ絞り込み → 一覧が絞られ、カテゴリ外だった現行は先頭項目の自動ロードで置換
       HP.loadPreset('saturn', false);
-      gs.value = '熱の実験室'; gs.dispatchEvent(new Event('change'));
+      // 第273便a(AH5 改名): 群の**表示名**は世代で変わる(熱の実験室 → スピンと熱)ので、
+      // 固定文字列ではなく 🔥gas が宣言している群の名前を使う(判定の強さは不変)
+      const HEAT = (HP.allPresets().find(q => q.id === 'gas') || {}).group;
+      out.heatGroup = HEAT;
+      gs.value = HEAT; gs.dispatchEvent(new Event('change'));
       out.filtered = { preset: HP.currentPreset().id,
         opts: [...document.querySelectorAll('#presetSelect option')].map(o => o.value) };
       out.filteredAllInCat = out.filtered.opts.every(v => {
-        const p = HP.allPresets().find(q => q.id === v); return p && p.group === '熱の実験室'; });
+        const p = HP.allPresets().find(q => q.id === v); return p && p.group === HEAT; });
       // 絞り込み外のプリセットをコードから読込 → 「全カテゴリ」へ自動復帰して同期
       HP.loadPreset('saturn', false);
       out.backToAll = { gsVal: gs.value, selVal: document.querySelector('#presetSelect').value };
@@ -10127,7 +10133,7 @@ if (hasBadgeClassify) {
       && d1.filteredAllInCat && d1.filtered.opts.length > 0 && d1.filtered.opts.includes(d1.filtered.preset)
       && d1.backToAll.gsVal === 'all' && d1.backToAll.selVal === 'saturn'
       && d1.lastStored === 'saturn' && restored === 'emergent2',
-      `カテゴリ選択肢=${d1.groupOpts.length}(先頭=all) 絞り込み(熱の実験室)=${d1.filtered.opts.length}件・全て域内=${d1.filteredAllInCat}・先頭自動ロード=${d1.filtered.preset} / ` +
+      `カテゴリ選択肢=${d1.groupOpts.length}(先頭=all) 絞り込み(${d1.heatGroup})=${d1.filtered.opts.length}件・全て域内=${d1.filteredAllInCat}・先頭自動ロード=${d1.filtered.preset} / ` +
       `域外読込で全カテゴリへ復帰=${d1.backToAll.gsVal === 'all'} / hp_last_preset=${d1.lastStored} / 仕込み emergent2 → 別ページ boot 復元=${restored}`);
     // 第95便: 実験箱カテゴリは箱境界サンプルのみ — 🪐(境界なし)では出ず、🧊(箱)側で確認。
     // 旧ビルド(root 等 — per95=false)は従来判定(saturn 側にも常時表示)
@@ -21123,7 +21129,7 @@ if (!FAST) {
       return { has: !!cp, cls: cp.sampleClass, fid: cp.fidelity,
         claims: !!cp.claims, mcal: !!cp.massCalibration, notClaim: cp.notClaim,
         emojiDup: all.filter((z) => z.emoji === cp.emoji).length,
-        group: cp.group, validT: cp.validT, card: (cp.obsCard || []).length,
+        group: cp.group, srcGroup: src.group, validT: cp.validT, card: (cp.obsCard || []).length,
         sameBodies: JSON.stringify(cp.bodies) === JSON.stringify(src.bodies),
         sameSeed: cp.seed === src.seed,
         declLaw: (cp.physics[KEY] || {}).law, declLawVersion: (cp.physics[KEY] || {}).lawVersion,
@@ -21141,7 +21147,9 @@ if (!FAST) {
       runs: r.copy.stop === null && r.copy.N === r.copy.n - r.copy.nPin && r.copy.nPin === 1
         && !r.copy.nan && r.copy.ledgerE === 0 && r.copy.geoPN === 3,
       emoji: r.emojiDup === 1,
-      card: r.card <= 8 && r.validT > 0 && r.group === '銀河の物語' };
+      // 第273便a(AH5 改名): 群の**表示名**は世代で変わる(銀河の物語 → 銀河の力学)ので、
+      // 固定文字列ではなく**複製元 🎠 と同じ群にいること**で判定する(ファミリー導線の前提でもある)
+      card: r.card <= 8 && r.validT > 0 && !!r.group && r.group === r.srcGroup };
     const bad = Object.keys(CK).filter((k) => !CK[k]);
     add('preset.galaxyGeoToyCopy', bad.length === 0,
       (bad.length ? `不成立=[${bad.join(',')}] ` : '')
@@ -21153,7 +21161,7 @@ if (!FAST) {
       + `④ 幾何は 🎠 と同一(bodies 一致=${r.sameBodies}・seed 一致=${r.sameSeed}) / `
       + `⑤ 600 步走行: stop=${r.copy.stop}・N=${r.copy.N}/${r.copy.n}(pinned ${r.copy.nPin})`
       + `・χ_max=${Number(r.copy.chi).toFixed(6)}・帳簿 |E_toy+E_mesh|=${r.copy.ledgerE}・NaN=${r.copy.nan} / `
-      + `⑥ emoji 重複=${r.emojiDup - 1} 件・obsCard ${r.card} 行・group=${r.group}`);
+      + `⑥ emoji 重複=${r.emojiDup - 1} 件・obsCard ${r.card} 行・group=${r.group}(複製元 🎠=${r.srcGroup})`);
   } else {
     console.log('SKIP preset.galaxyGeoToyCopy(対象に第265便b の 🪁 galaxyMeshSpiralGeoToy なし — root 等)');
   }
@@ -28535,6 +28543,14 @@ if (!FAST) {
       HP.setLang('ja');
       const labels = [...document.querySelectorAll('#presetSelect optgroup')].map(o => o.label);
       const hasBox = HP.allPresets().some(p => p.group === '箱宇宙');
+      // 第273便a: 箱宇宙グループは「箱宇宙の実験」へ改名した(旧名の世代は hasBox のまま)
+      const hasBox2 = HP.allPresets().some(p => p.group === '箱宇宙の実験');
+      // 第273便a の世代判定(新グループ「時計と重力」の有無)。旧世代の期待値は 1 つも緩めない
+      const w273 = HP.allPresets().some(p => p.group === '時計と重力');
+      const GN = (n) => (w273 ? ({ '空間と時間': '運動と時空', '銀河の物語': '銀河の力学',
+        '天体の物語': '天体の機構', '光の物語': '光の伝播', '熱の実験室': 'スピンと熱',
+        '箱宇宙': '箱宇宙の実験', 'ローターの物語': '自転と減光',
+        '現実との照合・太陽系外': '現実との照合・連星' }[n] || n) : n);
       // 第79便(原仮定者指示): サンプルカテゴリの表示順をスケール準拠へ並べ替え
       // (分子=熱の実験室 → 日常〜天体の基礎=空間と時間 → 天体=光/天体の物語 → 銀河 → 宇宙全体=箱宇宙)。
       // 第79便を適用していない対象(root 昇格前)は従来順のままなので、両方を許容して判定する
@@ -28568,7 +28584,14 @@ if (!FAST) {
       const wantW272 = hasBox
         ? ['空間と時間', '銀河の物語', '天体の物語', '光の物語', '熱の実験室', '箱宇宙',
            'ローターの物語', '現実との照合・太陽系', '現実との照合・太陽系外', '実在天体のアナロジー'] : null;
-      const cands = [want, wantNew, wantW149, wantW151, wantW220, wantW272].filter(Boolean);
+      // 第273便a(原仮定者の裁定〔第63報〕AH5 改名・AH6 分割): 群を改名し、「空間と時間」から
+      // 時計・弱場GR較正の 5 本を**新グループ「時計と重力」**へ分けた。表示順は原仮定者の列挙順。
+      // 候補を追加して世代ごとに**厳密一致**で判定する(候補数=7 — 弱体化なし)
+      const wantW273 = hasBox2
+        ? ['運動と時空', '銀河の力学', '天体の機構', '時計と重力', '光の伝播', 'スピンと熱',
+           '箱宇宙の実験', '自転と減光', '現実との照合・太陽系', '現実との照合・連星',
+           '実在天体のアナロジー'] : null;
+      const cands = [want, wantNew, wantW149, wantW151, wantW220, wantW272, wantW273].filter(Boolean);
       const hit = cands.find((c) => JSON.stringify(labels.slice(0, c.length)) === JSON.stringify(c));
       res.groups = labels.slice(0, (hit || want).length);
       res.groupsOk = !!hit;
@@ -28577,6 +28600,7 @@ if (!FAST) {
       res.wave151 = !!wantW151 && hit === wantW151;
       res.wave220 = !!wantW220 && hit === wantW220;
       res.wave272 = !!wantW272 && hit === wantW272;
+      res.wave273 = !!wantW273 && hit === wantW273;
       // 第149便: グループ跨ぎファミリーの分割(表示専用)。天体の物語側の 🌍🌕 / 🪐🎯 は
       // それぞれ earthmoonToy / saturnToy として自グループ内で完結し、☿ は単独(familyId なし)。
       // 現実との照合側の既存ファミリー(mercury / earthmoon / saturn)は id 名ごと不変。
@@ -28601,7 +28625,10 @@ if (!FAST) {
       const fids = [...new Set(HP.allPresets().filter((p) => p.familyId).map((p) => p.familyId))];
       res.crossGroupFams = fids.filter((f) => new Set(HP.allPresets()
         .filter((p) => p.familyId === f).map((p) => p.group || '内蔵')).size > 1).sort();
-      res.w151Gen = HP.allPresets().some((p) => p.group === 'ローターの物語');
+      res.w151Gen = HP.allPresets().some((p) => p.group === GN('ローターの物語'));
+      // 第273便a: 期待するグループ名は世代で切り替える(判定の強さは不変)
+      res.gn = { cel: GN('天体の物語'), gal: GN('銀河の物語'), rotor: GN('ローターの物語') };
+      res.w273 = w273;
       // 第151便: 移動9本(darkcenter 4+rotorform 5)と単独化2本(💥🌠)の宣言
       res.fam151 = {};
       for (const id of ['darkrotor', 'rotorSolo', 'bhCore', 'massLadder', 'nebulaRotor', 'nebulaShell',
@@ -28637,19 +28664,21 @@ if (!FAST) {
       return res;
     });
     add('groups.reorder', r.groupsOk,
-      `optgroups=${JSON.stringify(r.groups)}(${r.wave272 ? '第272便d 論文順(+新グループ「実在天体のアナロジー」)'
+      `optgroups=${JSON.stringify(r.groups)}(${r.wave273 ? '第273便a 改名+分割(原仮定者の列挙順・新グループ「時計と重力」)'
+        : (r.wave272 ? '第272便d 論文順(+新グループ「実在天体のアナロジー」)'
         : (r.wave220 ? '第220便 再編順(「現実との照合」を太陽系/太陽系外へ分割)'
         : (r.wave151 ? '第151便 再編順(銀河の物語の直後へ「ローターの物語」を新設)'
         : (r.wave147 ? '第147便 再編順(第149便で「現実との照合」へ改称)'
-          : (r.scaleOrder ? '第79便 スケール準拠順' : '従来順'))))})`);
+          : (r.scaleOrder ? '第79便 スケール準拠順' : '従来順')))))})`);
     // 第149便(原仮定者裁定): グループ跨ぎファミリーの分割。本便未適用の対象は自動 SKIP
     {
       const eq = (a, b) => JSON.stringify(a) === JSON.stringify(b);
-      const split = r.w149Gen && eq(r.fam.earthMoon, ['earthmoonToy', 'primary', '天体の物語'])
-        && eq(r.fam.earthMoonFree, ['earthmoonToy', 'variant', '天体の物語'])
-        && eq(r.fam.mercury, [null, null, '天体の物語'])
-        && eq(r.fam.saturn, ['saturnToy', 'primary', '天体の物語'])
-        && eq(r.fam.saturnLayered, ['saturnToy', 'variant', '天体の物語'])
+      const CEL = r.gn ? r.gn.cel : '天体の物語';   // 第273便a: 世代ごとの群名(判定の強さは不変)
+      const split = r.w149Gen && eq(r.fam.earthMoon, ['earthmoonToy', 'primary', CEL])
+        && eq(r.fam.earthMoonFree, ['earthmoonToy', 'variant', CEL])
+        && eq(r.fam.mercury, [null, null, CEL])
+        && eq(r.fam.saturn, ['saturnToy', 'primary', CEL])
+        && eq(r.fam.saturnLayered, ['saturnToy', 'variant', CEL])
         // 現実との照合側の既存ファミリーは id 名ごと不変(primary は第129便のまま)。
         // 第220便: 分割世代ではグループ名だけ「現実との照合・太陽系」へ(ファミリー id は不変)
         && eq(r.fam.mercuryRealKF1, ['mercury', 'primary', r.w220Gen ? '現実との照合・太陽系' : '現実との照合'])
@@ -28677,19 +28706,21 @@ if (!FAST) {
     {
       const eq = (a, b) => JSON.stringify(a) === JSON.stringify(b);
       const multi = (r.famGroups || []).filter((x) => x[1].length !== 1);
-      const ROTOR = 'ローターの物語';
+      const ROTOR = r.gn ? r.gn.rotor : 'ローターの物語';   // 第273便a: 世代ごとの群名
+      const CEL2 = r.gn ? r.gn.cel : '天体の物語';
+      const GAL2 = r.gn ? r.gn.gal : '銀河の物語';
       const moved = ['darkrotor', 'rotorSolo', 'bhCore', 'massLadder'].every(
         (id) => eq((r.fam151 || {})[id], ['darkcenter', id === 'darkrotor' ? 'primary' : 'variant', ROTOR]))
         && ['nebulaRotor', 'nebulaShell', 'nebulaBipolar', 'selfRotor', 'starSeed'].every(
           (id) => eq((r.fam151 || {})[id], ['rotorform', id === 'nebulaRotor' ? 'primary' : 'variant', ROTOR]))
-        && eq((r.fam151 || {}).counterring, [null, null, '天体の物語'])
-        && (!hasMerger || eq((r.fam151 || {}).merger, [null, null, '銀河の物語']));   // 第251便b: 🌠 は beta で廃止
+        && eq((r.fam151 || {}).counterring, [null, null, CEL2])
+        && (!hasMerger || eq((r.fam151 || {}).merger, [null, null, GAL2]));   // 第251便b: 🌠 は beta で廃止
       const ok = r.nFam > 0 && multi.length === 0 && moved;
       add('groups.family-invariant', !r.w151Gen || ok,
         r.w151Gen
           ? `全${r.nFam}ファミリーが単一グループ=${multi.length === 0}(複数グループに跨るファミリー=`
             + `${JSON.stringify(multi)}〔0件〕)/ 第151便の移動9本+単独化2本=${moved}`
-            + `(darkcenter 4本・rotorform 5本 → ${ROTOR} / 💥counterring=天体の物語・🌠merger=銀河の物語 は`
+            + `(darkcenter 4本・rotorform 5本 → ${ROTOR} / 💥counterring=${CEL2}・🌠merger=${GAL2} は`
             + `いずれも familyId なし)/ ファミリー別グループ=${JSON.stringify(r.famGroups)}`
           : 'SKIP(第151便 未適用 — 対象にグループ「ローターの物語」なし)');
     }
@@ -41400,9 +41431,12 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       // ⑨ 第258便c: 「現実との照合」グループの 3 分割(サフィックス無しの残りは 0)
       const gcount = {};
       for (const p of ps) gcount[p.group || '内蔵'] = (gcount[p.group || '内蔵'] || 0) + 1;
-      o.grp = { solar: gcount['現実との照合・太陽系'] || 0, beyond: gcount['現実との照合・太陽系外'] || 0,
+      // 第273便a(AH5 改名): 太陽系外 → 連星。開閉記憶の id(realityBeyond)は**旧名でも新名でも同じ**
+      const BEYOND = ps.some((p) => p.group === '時計と重力') ? '現実との照合・連星' : '現実との照合・太陽系外';
+      o.beyondName = BEYOND;
+      o.grp = { solar: gcount['現実との照合・太陽系'] || 0, beyond: gcount[BEYOND] || 0,
         plain: gcount['現実との照合'] || 0,
-        ids: [groupIdOf('現実との照合・太陽系'), groupIdOf('現実との照合・太陽系外')] };
+        ids: [groupIdOf('現実との照合・太陽系'), groupIdOf(BEYOND)] };
       o.grpOk = o.grp.plain === 0 && o.grp.solar > 0 && o.grp.beyond > 0
         && o.grp.ids[0] === 'realitySolar' && o.grp.ids[1] === 'realityBeyond';
       // ⑩ 第258便c: 単独ファミリー
@@ -41456,7 +41490,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `⑧第258便c 現実較正の分割: 較正 ${r.cal.total} 本 = DFM ${r.cal.dfm} + kF0 ${r.cal.kf0}(kF0=${r.cal.kf0ids})・` +
       `チップは DFM=${r.cal.hasDfmChip}/kF0=${r.cal.hasKf0Chip}・素の「現実較正」チップは無い=${!r.cal.hasPlainChip}・` +
       `安い規則と validatePreset の食い違い ${r.cal.mismatch.length} 本・派生鍵の漏れ ${r.cal.leaked} 本=${r.calOk} / ` +
-      `⑨グループ 3 分割: 太陽系 ${r.grp.solar} 本・太陽系外 ${r.grp.beyond} 本・サフィックス無しの残り ${r.grp.plain} 本` +
+      `⑨グループ 3 分割: 太陽系 ${r.grp.solar} 本・${r.beyondName} ${r.grp.beyond} 本・サフィックス無しの残り ${r.grp.plain} 本` +
       `(id=${r.grp.ids.join('/')})=${r.grpOk} / ` +
       `⑩単独ファミリー: 🌞=[${r.fam.solarInner}]・🌇=[${r.fam.venusReal}]・mercury=[${r.fam.mercury}]・` +
       `他は不変(earthmoon ${r.fam.earthmoon}・saturn ${r.fam.saturn}・psr ${r.fam.psr}・grcal ${r.fam.grcal})=${r.famOk}・` +
@@ -41946,6 +41980,11 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       // ① **psrDoubleABGeoToy は psr family に残す・lfbotTrap は入れない**
       o.psrToy = (ps.find((p) => p.id === 'psrDoubleABGeoToy') || {}).group;
       o.lfbot = (ps.find((p) => p.id === 'lfbotTrap') || {}).group;
+      // 第273便a(AH5 改名): 期待する群名は世代で切り替える(判定の強さは不変)
+      const w273 = ps.some((p) => p.group === '時計と重力');
+      o.beyondName = w273 ? '現実との照合・連星' : '現実との照合・太陽系外';
+      o.celName = w273 ? '天体の機構' : '天体の物語';
+      o.beyondN = ps.filter((p) => p.group === o.beyondName).length;
       // ② ファミリーはグループを跨がない(family-invariant を新グループでも保つ)
       const fids = [...new Set(ps.filter((p) => p.familyId).map((p) => p.familyId))];
       o.cross = fids.filter((f) => new Set(ps.filter((p) => p.familyId === f)
@@ -41969,15 +42008,15 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       return o;
     });
     add('preset.groupAnalogies',
-      r.exact && r.n === 11 && r.gid === 'realAnalogy' && r.psrToy === '現実との照合・太陽系外'
-      && r.lfbot === '天体の物語' && r.cross.length === 0 && r.calN === 37
-      && r.sigSame && r.sigNoGroup && r.total === 124 && r.counts['現実との照合・太陽系外'] === 19
+      r.exact && r.n === 11 && r.gid === 'realAnalogy' && r.psrToy === r.beyondName
+      && r.lfbot === r.celName && r.cross.length === 0 && r.calN === 37
+      && r.sigSame && r.sigNoGroup && r.total === 124 && r.beyondN === 19
       && r.noteOk && r.enName === 'Real-object Analogies',
       `**新グループ「実在天体のアナロジー」**(id=${r.gid}・en=${r.enName}): ${r.n} 本=${JSON.stringify(r.members)} / `
       + `🩻 psrDoubleABGeoToy は psr family に残す=${r.psrToy}・🐮 lfbotTrap は入れない=${r.lfbot} / `
       + `グループを跨ぐファミリー=${JSON.stringify(r.cross)}(0 件)/ **較正の母集団は不変** ${r.calN} 本 / `
       + `**presetSig は group を見ない**=${r.sigSame && r.sigNoGroup}(group を書き換えた複製の署名が同一)/ `
-      + `内蔵 ${r.total} 本・群別 ${JSON.stringify(r.counts)}(移動元「現実との照合・太陽系外」は 30→${r.counts['現実との照合・太陽系外']})/ `
+      + `内蔵 ${r.total} 本・群別 ${JSON.stringify(r.counts)}(移動元「${r.beyondName}」は 30→${r.beyondN})/ `
       + `群の説明 ja/en=${r.noteOk}(**観測一致版ではない**と明記)`);
   }
   await gp.close();
@@ -41993,16 +42032,27 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   } else {
     const r = await op.evaluate(() => {
       const o = {};
-      // ① GROUP_ORDER そのもの(論文順・統括の裁定)
+      // 第273便a(AH5 改名・AH6 分割・AH19 予約名): 期待する表そのものを世代で切り替える。
+      // 旧世代(root 等)の期待値は 1 文字も緩めない — 新世代は**新しい厳密一致**で判定する
+      o.w273 = GROUP_ORDER.indexOf('時計と重力') >= 0;
+      // ① GROUP_ORDER そのもの(第272便d=論文順 / 第273便a=原仮定者の列挙順+末尾に予約名 3)
       o.order = GROUP_ORDER.slice();
-      o.orderOk = JSON.stringify(o.order) === JSON.stringify(['法則の実験室', '空間と時間', '銀河の物語',
-        '天体の物語', '光の物語', '熱の実験室', '箱宇宙', 'ローターの物語', '現実との照合・太陽系',
-        '現実との照合・太陽系外', '実在天体のアナロジー', 'シミュレーション', '現実との照合']);
+      o.orderOk = JSON.stringify(o.order) === JSON.stringify(o.w273
+        ? ['運動と時空', '銀河の力学', '天体の機構', '時計と重力', '光の伝播', 'スピンと熱',
+          '箱宇宙の実験', '自転と減光', '現実との照合・太陽系', '現実との照合・連星',
+          '実在天体のアナロジー', '法則の実験室', 'シミュレーション', '現実との照合']
+        : ['法則の実験室', '空間と時間', '銀河の物語',
+          '天体の物語', '光の物語', '熱の実験室', '箱宇宙', 'ローターの物語', '現実との照合・太陽系',
+          '現実との照合・太陽系外', '実在天体のアナロジー', 'シミュレーション', '現実との照合']);
       // ② 実際に出る並び(存在する群だけ)
       o.seen = orderedGroups();
-      o.seenOk = JSON.stringify(o.seen) === JSON.stringify(['空間と時間', '銀河の物語', '天体の物語',
-        '光の物語', '熱の実験室', '箱宇宙', 'ローターの物語', '現実との照合・太陽系',
-        '現実との照合・太陽系外', '実在天体のアナロジー']);
+      o.seenOk = JSON.stringify(o.seen) === JSON.stringify(o.w273
+        ? ['運動と時空', '銀河の力学', '天体の機構', '時計と重力', '光の伝播', 'スピンと熱',
+          '箱宇宙の実験', '自転と減光', '現実との照合・太陽系', '現実との照合・連星',
+          '実在天体のアナロジー']
+        : ['空間と時間', '銀河の物語', '天体の物語',
+          '光の物語', '熱の実験室', '箱宇宙', 'ローターの物語', '現実との照合・太陽系',
+          '現実との照合・太陽系外', '実在天体のアナロジー']);
       // ③ **実測**: 「法則の実験室」「シミュレーション」「サフィックス無しの現実との照合」を
       //    group に宣言する内蔵は 0 本(前 2 つは PARAM_DEFS のパラメータ群の名前である)
       const ps = HP.allPresets();
@@ -42012,16 +42062,33 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       o.paramGroups = [...new Set(PARAM_DEFS.map((d) => d.group).filter(Boolean))];
       o.paramHasLawLab = o.paramGroups.indexOf('法則の実験室') >= 0
         && o.paramGroups.indexOf('シミュレーション') >= 0;
-      // ④ **配列は動かしていない**: グループ内の順は BUILTIN_PRESETS の配列順のまま
-      o.inGroupOk = o.seen.every((g) => {
+      // ④ **配列は動かしていない**: グループ内の順は BUILTIN_PRESETS の配列順のまま。
+      //    第273便a(AH7)で GROUP_FAMILY_RANK を持つ群だけ**表示の並べ替え**が入るので、
+      //    その群は「同じ集合であること」+「ファミリー単位の安定ソートに厳密一致すること」を見る
+      //    (配列そのものは不変 —— 並べ替えは表示層の派生である)
+      o.ranked = (typeof GROUP_FAMILY_RANK === 'undefined') ? [] : Object.keys(GROUP_FAMILY_RANK);
+      o.inGroupBad = o.seen.filter((g) => {
         const byOrder = orderedBuiltins().filter((p) => (p.group || '内蔵') === g).map((p) => p.id);
         const byArray = ps.filter((p) => (p.group || '内蔵') === g).map((p) => p.id);
-        return JSON.stringify(byOrder) === JSON.stringify(byArray);
+        if (o.ranked.indexOf(g) < 0) return JSON.stringify(byOrder) !== JSON.stringify(byArray);
+        const rk = GROUP_FAMILY_RANK[g];
+        const key = (id) => { const p = ps.find((q) => q.id === id);
+          const r2 = rk[(p && p.familyId) || id]; return (typeof r2 === 'number') ? r2 : 99; };
+        const want = byArray.map((id, i) => [id, i])
+          .sort((a, b) => (key(a[0]) - key(b[0])) || (a[1] - b[1])).map((x) => x[0]);
+        return JSON.stringify(byOrder.slice().sort()) !== JSON.stringify(byArray.slice().sort())
+          || JSON.stringify(byOrder) !== JSON.stringify(want);
       });
+      o.inGroupOk = o.inGroupBad.length === 0;
+      o.rankedOrder = o.ranked.map((g) => [g,
+        orderedBuiltins().filter((p) => (p.group || '内蔵') === g).map((p) => p.emoji).join('')]);
       // ⑤ **保存 id は維持**(開閉の記憶が飛ばない)+ 新群だけ id を足した
       o.ids = o.seen.map((g) => groupIdOf(g));
-      o.idsOk = JSON.stringify(o.ids) === JSON.stringify(['spacetime', 'galaxy', 'celestial', 'light',
-        'heat', 'boxUniverse', 'rotor', 'realitySolar', 'realityBeyond', 'realAnalogy']);
+      o.idsOk = JSON.stringify(o.ids) === JSON.stringify(o.w273
+        ? ['spacetime', 'galaxy', 'celestial', 'clocksGravity', 'light',
+          'heat', 'boxUniverse', 'rotor', 'realitySolar', 'realityBeyond', 'realAnalogy']
+        : ['spacetime', 'galaxy', 'celestial', 'light',
+          'heat', 'boxUniverse', 'rotor', 'realitySolar', 'realityBeyond', 'realAnalogy']);
       return o;
     });
     add('ui.groupOrderPaper',
@@ -42030,7 +42097,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       + `実際の並び=${JSON.stringify(r.seen)} / **実測**: group に宣言する内蔵が 0 本の名前=`
       + `${JSON.stringify(r.zero)}(「法則の実験室」「シミュレーション」は **PARAM_DEFS の**パラメータ群=`
       + `${r.paramHasLawLab} —— サンプル群ではないので並びは 1 つも動かない)/ `
-      + `**グループ内の順は配列順のまま**=${r.inGroupOk} / 開閉記憶の id=${JSON.stringify(r.ids)}`);
+      + `**グループ内の順は配列順のまま**=${r.inGroupOk}(不成立=${JSON.stringify(r.inGroupBad)}・`
+      + `ファミリー順位を持つ群=${JSON.stringify(r.rankedOrder)})/ 開閉記憶の id=${JSON.stringify(r.ids)}`);
   }
   await op.close();
 }
@@ -42038,12 +42106,16 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   const rp = await browser.newPage();
   await rp.goto(INDEX, { waitUntil: 'load' });
   await rp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
-  const hasRD = await rp.evaluate(() => /減光を確認する実験群/.test((I18N.ja.groupNotes || {})['ローターの物語'] || ''));
+  // 第273便a(AH5 改名): 群は「ローターの物語」→「自転と減光」。どちらの世代でも群の説明で判定する
+  const hasRD = await rp.evaluate(() => ['ローターの物語', '自転と減光']
+    .some((g) => /減光を確認する実験群/.test((I18N.ja.groupNotes || {})[g] || '')));
   if (!hasRD) {
     console.log('SKIP docs.rotorDimmingScope(第272便d 未適用 — 群の説明が旧文)');
   } else {
     const r = await rp.evaluate(() => {
-      const o = {}, ps = HP.allPresets(), G = 'ローターの物語';
+      const o = {}, ps = HP.allPresets();
+      const G = ps.some((p) => p.group === '自転と減光') ? '自転と減光' : 'ローターの物語';
+      o.G = G;
       o.ja = (I18N.ja.groupNotes || {})[G] || '';
       o.en = (I18N.en.groupNotes || {})[G] || '';
       // ① 群の達成条件の明文化(ja/en とも): 減光の検証用であること+**含めない**こと
@@ -42071,7 +42143,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       if (sr.indexOf('実在天体のアナロジー') < 0) docsOk.push('SAMPLE_RANKING.md に新グループの記載が無い');
     } catch (e) { docsOk.push('docs が読めない: ' + String(e).slice(0, 80)); }
     add('docs.rotorDimmingScope', r.jaOk && r.enOk && r.allDm && r.n === 10 && docsOk.length === 0,
-      `**ローターの物語=減光の検証用**(第272便d): 群の説明 ja=${r.jaOk}・en=${r.enOk}`
+      `**${r.G}=減光の検証用**(第272便d): 群の説明 ja=${r.jaOk}・en=${r.enOk}`
       + `(**銀河の不足質量・観測ブラックホールの再現をこの群の達成条件に含めない**と明記)/ `
       + `群の ${r.n} 本のうち **"dm" の宣言が無いのは 🌱 starSeed だけ**=${r.allDm}`
       + `(無い本=${JSON.stringify(r.noDm)}・第272便d で ⏳⚫🪩 の 3 本に "dm" を足した)`
@@ -42079,6 +42151,128 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       + `docs=${docsOk.length === 0 ? 'README・PHYSICS・SAMPLE_RANKING に記載あり' : JSON.stringify(docsOk)}`);
   }
   await rp.close();
+}
+
+// ---- 第273便a(原仮定者の裁定〔第63報〕AH5 改名 / AH6「空間と時間」の分割): 表示だけの 2 件 ----
+// ----   ① ui.groupRenameAliases : 旧名 → 新名の正規化・GROUP_IDS の両名同 id・旧名宣言の着地先
+// ----   ② preset.clocksGravity  : 新グループ「時計と重力」5 本(group 文字列だけの移動・family 不分断)
+// **いずれも root(第273便a 未適用)では自動 SKIP** する。
+{
+  const ap = await browser.newPage();
+  await ap.goto(INDEX, { waitUntil: 'load' });
+  await ap.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const hasAL = await ap.evaluate(() => typeof GROUP_ALIASES !== 'undefined'
+    && typeof gCanon === 'function');
+  if (!hasAL) {
+    console.log('SKIP ui.groupRenameAliases(第273便a 未適用 — GROUP_ALIASES / gCanon なし)');
+  } else {
+    const r = await ap.evaluate(() => {
+      const o = {}, ps = HP.allPresets();
+      const PAIRS = [['空間と時間', '運動と時空'], ['銀河の物語', '銀河の力学'],
+        ['天体の物語', '天体の機構'], ['光の物語', '光の伝播'], ['熱の実験室', 'スピンと熱'],
+        ['箱宇宙', '箱宇宙の実験'], ['ローターの物語', '自転と減光'],
+        ['現実との照合・太陽系外', '現実との照合・連星']];
+      // ① 旧名 → 新名の正規化(入口の gCanon)。新名は不動点・表に無い名前は素通し
+      o.canon = PAIRS.map(([a, b]) => [a, gCanon(a), b]);
+      o.canonOk = PAIRS.every(([a, b]) => gCanon(a) === b && gCanon(b) === b)
+        && gCanon('架空のグループ') === '架空のグループ' && gCanon(null) === '内蔵'
+        && gCanon('現実との照合・太陽系') === '現実との照合・太陽系';
+      // ② GROUP_IDS は**旧名と新名の両方**を同じ id へ持つ(開閉の記憶が飛ばない)
+      o.ids = PAIRS.map(([a, b]) => [a, groupIdOf(a), b, groupIdOf(b)]);
+      o.idsOk = PAIRS.every(([a, b]) => groupIdOf(a) === groupIdOf(b)
+        && /^[A-Za-z]+$/.test(groupIdOf(a)));
+      // ③ **内蔵はどれも旧名を宣言していない**(宣言側は新名へ置換済み)
+      o.legacyDecl = ps.filter((p) => PAIRS.some(([a]) => p.group === a)).map((p) => p.id);
+      // ④ **旧名を持つプリセットは新群の見出しに出る**(保存/AI 生成プリセットの互換)。
+      //    宣言の文字列は捨てない —— 表示・並び・見出しの入口だけが正規化する
+      const probe = JSON.parse(JSON.stringify(ps.find((p) => p.id === 'gas')));
+      probe.id = 'custom_w273a_probe'; probe.group = '熱の実験室';
+      o.probeKept = probe.group;
+      o.probeCanon = gCanon(probe.group);
+      o.probeName = gName(probe.group);
+      o.probeId = groupIdOf(probe.group);
+      o.probeOk = o.probeKept === '熱の実験室' && o.probeCanon === 'スピンと熱'
+        && o.probeName === 'スピンと熱' && o.probeId === 'heat';
+      // ⑤ 英語の表示名(新名を新設・旧名の行も残す)
+      HP.setLang('en');
+      o.en = PAIRS.map(([a, b]) => [b, gName(b)]);
+      o.enOk = gName('運動と時空') === 'Motion & Spacetime' && gName('銀河の力学') === 'Galactic Dynamics'
+        && gName('天体の機構') === 'Celestial Mechanisms' && gName('時計と重力') === 'Clocks & Gravity'
+        && gName('光の伝播') === 'Light Propagation' && gName('スピンと熱') === 'Spin & Heat'
+        && gName('箱宇宙の実験') === 'Box-Universe Experiments' && gName('自転と減光') === 'Spin & Dimming'
+        && gName('現実との照合・連星') === 'Reality Checks — Binaries'
+        && gName('熱の実験室') === 'Spin & Heat';   // 旧名で来ても新名の英訳が出る
+      HP.setLang('ja');
+      // ⑥ 群の説明(ja/en)が新名の鍵で引ける(旧名の鍵は残さない — 一覧は新名で並ぶ)
+      const seen = orderedGroups();
+      o.noteMissJa = seen.filter((g) => !(I18N.ja.groupNotes || {})[g]);
+      o.noteMissEn = seen.filter((g) => !(I18N.en.groupNotes || {})[g]);
+      // ⑦ **presetSig は group を見ない**: 旧名へ書き戻した複製の署名が 1 文字も変わらない
+      o.sigSame = ps.every((p) => { const c = JSON.parse(JSON.stringify(p));
+        c.group = '空間と時間'; return presetSig(c) === presetSig(p); });
+      return o;
+    });
+    add('ui.groupRenameAliases',
+      r.canonOk && r.idsOk && r.legacyDecl.length === 0 && r.probeOk && r.enOk
+      && r.noteMissJa.length === 0 && r.noteMissEn.length === 0 && r.sigSame,
+      `**旧名 → 新名の正規化**(第273便a・AH5): gCanon=${JSON.stringify(r.canon)}=${r.canonOk} / `
+      + `GROUP_IDS は**両名が同じ id**=${r.idsOk}(${JSON.stringify(r.ids)}) / `
+      + `内蔵で旧名を宣言している本=${JSON.stringify(r.legacyDecl)}(0 本)/ `
+      + `旧名を宣言したプリセットの着地: 宣言は「${r.probeKept}」のまま・正規化=${r.probeCanon}・`
+      + `見出し=${r.probeName}・開閉 id=${r.probeId}=${r.probeOk} / `
+      + `en 表示名=${JSON.stringify(r.en)}=${r.enOk} / `
+      + `群の説明が欠けている群 ja=${JSON.stringify(r.noteMissJa)}・en=${JSON.stringify(r.noteMissEn)}(0 件)/ `
+      + `**presetSig は group を見ない**=${r.sigSame}`);
+  }
+  const hasCG = await ap.evaluate(() => HP.allPresets().some((p) => p.group === '時計と重力'));
+  if (!hasCG) {
+    console.log('SKIP preset.clocksGravity(第273便a 未適用 — 対象にグループ「時計と重力」なし)');
+  } else {
+    const r = await ap.evaluate(() => {
+      const o = {}, ps = HP.allPresets(), G = '時計と重力';
+      const WANT = ['gclock', 'grcal', 'grcalGps', 'grcalLight', 'grcalShapiro'];
+      o.members = ps.filter((p) => p.group === G).map((p) => p.id);
+      o.exact = JSON.stringify(o.members) === JSON.stringify(WANT);
+      o.n = o.members.length;
+      o.gid = groupIdOf(G);
+      o.enName = I18N.en.groups[G];
+      // ① 「運動と時空」に残るのは 5 本(⚾⏪🪗🫂🪟)
+      o.rest = ps.filter((p) => p.group === '運動と時空').map((p) => p.id);
+      o.restOk = JSON.stringify(o.rest) === JSON.stringify(['projectile', 'echo',
+        'compactForceToy', 'boxBinaryToy', 'spaceMeshBinaryToy']);
+      // ② **ファミリーを分断していない**: grcal family 4 本が全部新群にいる+跨ぎは 0 件
+      const fids = [...new Set(ps.filter((p) => p.familyId).map((p) => p.familyId))];
+      o.cross = fids.filter((f) => new Set(ps.filter((p) => p.familyId === f)
+        .map((p) => p.group || '内蔵')).size > 1);
+      o.grcal = ps.filter((p) => p.familyId === 'grcal').map((p) => [p.id, p.group]);
+      o.grcalOk = o.grcal.length === 4 && o.grcal.every((x) => x[1] === G);
+      // ③ **較正 37 本の母集団は不変**・内蔵は 124 本のまま
+      o.calN = ps.filter((p) => p.sampleClass === 'calibration').length;
+      o.total = ps.length;
+      // ④ **presetSig は group を見ない**: 移した 5 本の署名に群名が出ない
+      o.sigNoGroup = WANT.every((id) => presetSig(ps.find((q) => q.id === id)).indexOf(G) < 0);
+      // ⑤ 群の説明(ja/en)があり、表示順では「天体の機構」の直後に出る
+      o.noteJa = (I18N.ja.groupNotes || {})[G] || '';
+      o.noteEn = (I18N.en.groupNotes || {})[G] || '';
+      o.noteOk = o.noteJa.length > 0 && o.noteEn.length > 0;
+      const seen = orderedGroups();
+      o.pos = seen.indexOf(G);
+      o.posOk = seen[o.pos - 1] === '天体の機構' && seen[o.pos + 1] === '光の伝播';
+      return o;
+    });
+    add('preset.clocksGravity',
+      r.exact && r.n === 5 && r.gid === 'clocksGravity' && r.enName === 'Clocks & Gravity'
+      && r.restOk && r.cross.length === 0 && r.grcalOk && r.calN === 37 && r.total === 124
+      && r.sigNoGroup && r.noteOk && r.posOk,
+      `**新グループ「時計と重力」**(第273便a・AH6。id=${r.gid}・en=${r.enName}): ${r.n} 本=`
+      + `${JSON.stringify(r.members)} / 「運動と時空」に残る=${JSON.stringify(r.rest)}=${r.restOk} / `
+      + `**ファミリーを分断しない**: grcal=${JSON.stringify(r.grcal)}=${r.grcalOk}・`
+      + `グループを跨ぐファミリー=${JSON.stringify(r.cross)}(0 件)/ `
+      + `**較正の母集団は不変** ${r.calN} 本・内蔵 ${r.total} 本 / `
+      + `**presetSig は group を見ない**=${r.sigNoGroup} / 群の説明 ja/en=${r.noteOk} / `
+      + `表示位置=${r.pos}(天体の機構 → 時計と重力 → 光の伝播)=${r.posOk}`);
+  }
+  await ap.close();
 }
 
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));

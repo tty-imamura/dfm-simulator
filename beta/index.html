@@ -1467,19 +1467,22 @@ ja: {
   ppNoteTip:"タップして説明を開閉",
   ppNoteGroupHead:"サンプルのグループは表示・分類専用の区分で、物理・保存 JSON には一切影響しない(並びはスケール順)。第255便c で**絞り込みの次元からは外し**、一覧の見出し(タップで開閉・既定は畳んだ状態)として残した。第256便c で、この説明を**一覧のすぐ上**へ移し、開閉の記憶をグループの**表示名ではなく安定した id** で持つようにした(グループ名が変わっても記憶した開閉は消えない)。",
   groupNotes:{
-    "熱の実験室":"熱平衡・スピン圧・熱伝導・放射冷却・対流・三態の創発など、熱まわりの統制実験。",
-    "空間と時間":"重力による時計の遅れ・弱場GR較正とその焦点版(GPS/光偏向/シャピロ)・水星の近日点前進・自由落下など、時空係数まわりの統制実験。",
-    "光の物語":"重力レンズと光子捕捉・回る星のレンズ・連星重力レンズ・暗黒雲の赤化など、光の見え方が主題。",
-    "天体の物語":"物語・トイ系。実単位で現実へ較正したサンプルは「現実との照合・太陽系/太陽系外」へ移してある。",
-    "現実との照合・太陽系":"スケール換算込みで数値を現実の太陽系天体へ較正したサンプルと、その較正を監査する対照群。",
-    "現実との照合・太陽系外":"太陽系の外の実在系(恒星連星・中性子星連星)へ較正したサンプル。観測値再現版(観測安定則)と DFM 版(kF1 質量較正)の対で構成する(第220便で「現実との照合」から分割 — 今後の現実較正の増加に備えた区分)。第272便d で、実在天体の**模型**として置いてある 11 本を「実在天体のアナロジー」へ移した。",
+    "スピンと熱":"熱平衡・スピン圧・熱伝導・放射冷却・対流・三態の創発など、スピンと熱まわりの統制実験。",
+    "運動と時空":"自由落下と放物運動・時間の矢・コンパクト力の符号・箱宇宙と連星・空間メッシュの窓など、運動が時空の枠組みに対して何を見せるかの統制実験(時計と弱場GR較正は第273便a で「時計と重力」へ分けた)。",
+    // 第273便a(原仮定者の裁定〔第63報〕AH6「『空間と時間』グループを分ける」): 時計・弱場GR較正の 5 本。
+    // grcal ファミリー(🛰️🕰️🌟⏲️)は分断していない(ファミリーはグループを跨がない)
+    "時計と重力":"重力による時計の遅れと弱場GR較正の焦点版(GPS 時計差・太陽縁の光偏向・シャピロ遅延)。時空係数まわりのうち、時計の進み方と信号の伝播時間を主題にした統制実験(第273便a で「運動と時空」から分けた 5 本)。",
+    "光の伝播":"重力レンズと光子捕捉・回る星のレンズ・連星重力レンズ・暗黒雲の赤化など、光の伝わり方と見え方が主題。",
+    "天体の機構":"物語・トイ系で天体の機構を見る群。実単位で現実へ較正したサンプルは「現実との照合・太陽系/連星」へ移してある。",
+    "現実との照合・太陽系":"スケール換算込みで数値を現実の太陽系天体へ較正したサンプルと、その較正を監査する対照群。**群の名前(「照合」)は合否を意味しない**。",
+    "現実との照合・連星":"太陽系の外の実在系(恒星連星・中性子星連星)へ較正したサンプル。観測値再現版(観測安定則)と DFM 版(kF1 質量較正)の対で構成する(第220便で「現実との照合」から分割 — 今後の現実較正の増加に備えた区分)。第272便d で、実在天体の**模型**として置いてある 11 本を「実在天体のアナロジー」へ移した。第273便a で「現実との照合・太陽系外」から改名した(中身は不変)。**群の名前は合否を意味しない**。",
     // 第272便d(第62報「実在天体アナロジーサンプルを新グループへ」): **表示・分類だけの新グループ**。
     // 「観測と一致した」という意味は持たない —— 比較器の状態(comparable/inside/…)で並べるだけである
     "実在天体のアナロジー":"実在天体の**模型**を、比較 v1 の状態(comparable / inside / not-applicable など)で観測と並べるサンプル群。**観測一致版ではない**(この群に入っていることは合否を意味しない)。較正クラスの母集団・比較器の導線・旧較正の履歴はそのまま残している。",
-    "銀河の物語":"銀河の回転曲線・銀河合体・自己重力雲の崩壊など、銀河スケールの構造が主題。",
+    "銀河の力学":"銀河の回転曲線・銀河合体・自己重力雲の崩壊など、銀河スケールの力学と構造が主題。",
     // 第272便d(第62報「ダークローターは『減光』の検証用という位置付けにとどめる」): 群の達成条件を書く
-    "ローターの物語":"**自転状態による減光を確認する実験群**。表示輝度・脱出光・吸収・放射エネルギーを比較する。**銀河の不足質量や観測ブラックホールの再現を、この群の達成条件に含めない**(暗さを「隠れた質量の証拠」として読まない — 暗さと質量は別々に測る)。実在のダークマターについての主張ではない。",
-    "箱宇宙":"箱そのものを宇宙に見立てた系(並進・回転・膨張・呼吸・光の赤方偏移)。正本は docs/BOX_UNIVERSE.md。",
+    "自転と減光":"**自転状態による減光を確認する実験群**。表示輝度・脱出光・吸収・放射エネルギーを比較する。**銀河の不足質量や観測ブラックホールの再現を、この群の達成条件に含めない**(暗さを「隠れた質量の証拠」として読まない — 暗さと質量は別々に測る)。実在のダークマターについての主張ではない。",
+    "箱宇宙の実験":"箱そのものを宇宙に見立てた系の実験(並進・回転・膨張・呼吸・光の赤方偏移)。正本は docs/BOX_UNIVERSE.md。",
     "AI生成":"AI追加で作ったサンプル(この端末のローカル保存)。",
     "保存一覧":"「保存」で残した状態(この端末のローカル保存)。"},
   ppNoteScaleHead:"スケールは各サンプルの代表単位(scaleTier)を示す表示・分類専用のタグで、換算表示とスライダーの目盛に使う。scaleExp 宣言のあるサンプルは距離指数から最近傍ティアを導出する(第120便)。各ティアのアンカー(実行時導出 — 距離/時間/質量):",
@@ -2241,16 +2244,17 @@ en: {
   ppNoteTip:"Tap to show or hide the note",
   ppNoteGroupHead:"Sample groups are a display/classification split only and never touch the physics or the saved JSON (the order runs from small to large scale). Wave 255c removed them from the filter dimensions and kept them as the list headings (tap to fold or unfold; folded by default). Wave 256c moved this note down to sit right above the list and keyed the remembered fold state to a STABLE ID rather than the display name, so renaming a group no longer wipes what you had open.",
   groupNotes:{
-    "熱の実験室":"Controlled experiments around heat: thermal equilibrium, spin pressure, conduction, radiative cooling, convection, emergent states of matter.",
-    "空間と時間":"Controlled experiments around the spacetime coefficient: gravitational clock delay, the weak-field GR calibration and its focused versions (GPS / light bending / Shapiro), Mercury's perihelion advance, free fall.",
-    "光の物語":"The subject is how light appears: gravitational lensing and photon capture, the lens of a spinning star, binary lensing, reddening by a dark cloud.",
-    "天体の物語":"Narrative / toy systems. Samples calibrated to reality in real units live under \"Reality Checks — Solar System / Beyond the Solar System\".",
-    "現実との照合・太陽系":"Samples whose numbers are calibrated — unit conversion included — against real solar-system counterparts, plus the controls that audit that calibration.",
-    "現実との照合・太陽系外":"Samples calibrated against real systems beyond the solar system (stellar binaries and the double neutron-star binary). Built as pairs: an observation build (the observation-stability rule) and a DFM build (the kF1 mass calibration). Split out of \"Reality Checks\" in wave 220, anticipating more reality calibrations. Wave 272d moved the 11 samples that stand as MODELS of real objects to \"Real-object Analogies\".",
+    "スピンと熱":"Controlled experiments around spin and heat: thermal equilibrium, spin pressure, conduction, radiative cooling, convection, emergent states of matter.",
+    "運動と時空":"Controlled experiments on what motion reveals about the spacetime frame: free fall and projectile motion, the arrow of time, the sign of the compact force, a binary inside a box universe, the space-mesh window. (Clocks and the weak-field GR calibration moved to \"Clocks & Gravity\" in wave 273a.)",
+    "時計と重力":"Gravitational clock delay and the focused weak-field GR calibrations (GPS clock difference, light bending at the solar limb, Shapiro delay): the part of the spacetime-coefficient work whose subject is clock rate and signal travel time (5 samples split out of \"Motion & Spacetime\" in wave 273a).",
+    "光の伝播":"The subject is how light travels and appears: gravitational lensing and photon capture, the lens of a spinning star, binary lensing, reddening by a dark cloud.",
+    "天体の機構":"Narrative / toy systems that show celestial mechanisms. Samples calibrated to reality in real units live under \"Reality Checks — Solar System / Binaries\".",
+    "現実との照合・太陽系":"Samples whose numbers are calibrated — unit conversion included — against real solar-system counterparts, plus the controls that audit that calibration. THE GROUP NAME SAYS NOTHING ABOUT PASS OR FAIL.",
+    "現実との照合・連星":"Samples calibrated against real systems beyond the solar system (stellar binaries and the double neutron-star binary). Built as pairs: an observation build (the observation-stability rule) and a DFM build (the kF1 mass calibration). Split out of \"Reality Checks\" in wave 220, anticipating more reality calibrations. Wave 272d moved the 11 samples that stand as MODELS of real objects to \"Real-object Analogies\". Renamed from \"Reality Checks — Beyond the Solar System\" in wave 273a (contents unchanged). THE GROUP NAME SAYS NOTHING ABOUT PASS OR FAIL.",
     "実在天体のアナロジー":"MODELS of real astronomical objects, placed beside the observations through the v1 comparison state (comparable / inside / not-applicable and so on). THEY ARE NOT OBSERVATION-MATCHING BUILDS — membership of this group says nothing about pass or fail. The calibration-class population, the comparison links and the older calibration history are all kept unchanged.",
-    "銀河の物語":"The subject is structure on galactic scales: rotation curves, galaxy mergers, collapse of self-gravitating clouds.",
-    "ローターの物語":"EXPERIMENTS THAT CHECK DIMMING BY ROTATION STATE: they compare displayed brightness, escaping light, absorption and radiated energy. REPRODUCING A GALAXY'S MISSING MASS OR AN OBSERVED BLACK HOLE IS NOT PART OF THIS GROUP'S SUCCESS CRITERIA — darkness is never read as evidence of hidden mass; darkness and mass are measured separately. Not a claim about real dark matter.",
-    "箱宇宙":"Systems in which the box itself stands for a universe (translation, rotation, expansion, breathing, redshift of light). The reference document is docs/BOX_UNIVERSE.md.",
+    "銀河の力学":"The subject is dynamics and structure on galactic scales: rotation curves, galaxy mergers, collapse of self-gravitating clouds.",
+    "自転と減光":"EXPERIMENTS THAT CHECK DIMMING BY ROTATION STATE: they compare displayed brightness, escaping light, absorption and radiated energy. REPRODUCING A GALAXY'S MISSING MASS OR AN OBSERVED BLACK HOLE IS NOT PART OF THIS GROUP'S SUCCESS CRITERIA — darkness is never read as evidence of hidden mass; darkness and mass are measured separately. Not a claim about real dark matter.",
+    "箱宇宙の実験":"Experiments in which the box itself stands for a universe (translation, rotation, expansion, breathing, redshift of light). The reference document is docs/BOX_UNIVERSE.md.",
     "AI生成":"Samples created with the AI-add tab (stored locally on this device).",
     "保存一覧":"States kept with \"Save\" (stored locally on this device)."},
   ppNoteScaleHead:"Scale is a display/classification tag naming each sample's representative units (scaleTier); it drives the unit conversion and the slider ticks. Samples that declare scaleExp derive their tier from the length exponent (wave 120). Anchors per tier (derived at runtime — length / time / mass):",
@@ -2444,7 +2448,11 @@ en: {
   // 第149便(原仮定者裁定): グループ名を「現実較正」→「現実との照合」(en: Reality Calibration →
   // Reality Checks)へ改称。分類チップ(sampleClass calibration)と現実準拠チップ「📏 現実較正」は不変
   // 第151便(原仮定者指示): 新グループ「ローターの物語」(en: Rotor Stories)を銀河の物語の直後へ新設
-  groups:{"空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河の物語":"Galaxy Stories","ローターの物語":"Rotor Stories","光の物語":"Light Stories","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","現実との照合・太陽系":"Reality Checks — Solar System","現実との照合・太陽系外":"Reality Checks — Beyond the Solar System","実在天体のアナロジー":"Real-object Analogies","シミュレーション":"Simulation","現実との照合":"Reality Checks","法則の実験室":"Law Lab","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
+  // 第273便a(原仮定者の裁定〔第63報〕AH5 改名・AH6 分割): 新名の en を新設し、**旧名の行も残す**
+  // (旧名を宣言した保存/AI 生成プリセットが旧名のまま来ても英語表示が落ちない)
+  groups:{"運動と時空":"Motion & Spacetime","銀河の力学":"Galactic Dynamics","天体の機構":"Celestial Mechanisms","時計と重力":"Clocks & Gravity","光の伝播":"Light Propagation","スピンと熱":"Spin & Heat","箱宇宙の実験":"Box-Universe Experiments","自転と減光":"Spin & Dimming","現実との照合・太陽系":"Reality Checks — Solar System","現実との照合・連星":"Reality Checks — Binaries","実在天体のアナロジー":"Real-object Analogies",
+    "空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河の物語":"Galaxy Stories","ローターの物語":"Rotor Stories","光の物語":"Light Stories","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","現実との照合・太陽系外":"Reality Checks — Beyond the Solar System",
+    "シミュレーション":"Simulation","現実との照合":"Reality Checks","法則の実験室":"Law Lab","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
   params:{dispMag:"Particle display magnification",   // 第254便c: 英訳が欠けていた(ja「粒子表示倍率」のまま出ていた)
     G:"Gravity G", D0:"Background determinacy D₀", kFrame:"Frame dragging kFrame",
     q:"Drag falloff q", kRep:"Spin repulsion kRep", muF:"Friction→spin muF",
@@ -2687,7 +2695,8 @@ function classifyPreset(p){
   const fidelity=(p.fidelity==="real")? "real" : null;
   return {layers, external:ext, closed, tint, strongField, psiStatic, sampleClass:p.sampleClass||null, scaleTier, emergence, fidelity};
 }
-function gName(g){ return (LANG==="en" && I18N.en.groups[g]) || g; }
+// 第273便a: 表示名は**正規化してから**引く(旧名を宣言したプリセット・旧名の記憶も新名で出る)
+function gName(g){ const k=gCanon(g); return (LANG==="en" && I18N.en.groups[k]) || k; }
 function pName(p){ return (LANG==="en" && p.en && p.en.name) || p.name; }
 function pDesc(p){ return (LANG==="en" && p.en && p.en.description) || p.description || ""; }
 // 第50便 50K(台帳4-78 C案): 構造化説明 descStruct={summary,observe,control} — description の
@@ -4257,8 +4266,8 @@ const BUILTIN_PRESETS = [
 //   darkcenter(🕶️🕳️⚫🪜)+ rotorform 全5本(🌑🐚⏳🥚🌱)の計9本を移動(group 宣言のみの変更)。
 //   collide ファミリーは解散(💥🌠 は familyId/familyRole を除去して単独サンプルに)。
 //   **配列順・physics・claims は bit 不変** — 変わるのは group / familyId / familyRole の宣言だけ
-// ===== グループ: 空間と時間 =====
-{ id:"gclock", name:"重力による時計の遅れ", emoji:"⏱️", group:"空間と時間",
+// ===== グループ: 運動と時空 / 時計と重力(第273便a で「空間と時間」から改名・分割。配列順は不変)=====
+{ id:"gclock", name:"重力による時計の遅れ", emoji:"⏱️", group:"時計と重力",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
@@ -4292,7 +4301,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
-{ id:"grcal", name:"弱場GR較正 — GPS・光・シャピロ", emoji:"🛰️", group:"空間と時間",
+{ id:"grcal", name:"弱場GR較正 — GPS・光・シャピロ", emoji:"🛰️", group:"時計と重力",
   familyId:"grcal", familyRole:"primary",   // 第148便: 焦点3サンプル(🕰️🌟⏲️)の primary(表示専用)
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類)→ 第130便 統括裁定(原仮定者提示「外すのも選択肢」の個別適用):
@@ -4327,7 +4336,7 @@ const BUILTIN_PRESETS = [
 // 専用の純関数)が同じ κ=G/c² の1本から毎回その場で計算する。「式レベル一致」の意味は 🛰️ の
 // 限定文言を踏襲する — 弱場で同じ基準式へ帰着することを言うだけで、「DFM が GR を導出した」とも
 // 「実験データに当てて検証した」とも主張しない。QA は behavior.grcal3。
-{ id:"grcalGps", name:"GPS 時計差 — 重力項と速度項の分解", emoji:"🕰️", group:"空間と時間",
+{ id:"grcalGps", name:"GPS 時計差 — 重力項と速度項の分解", emoji:"🕰️", group:"時計と重力",
   familyId:"grcal", familyRole:"variant",
   scaleTier:"planetary",
   sampleClass:"principle",
@@ -4437,7 +4446,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:true,trail:true} },
 
-{ id:"grcalLight", name:"太陽縁の光偏向 — 1.75″", emoji:"🌟", group:"空間と時間",
+{ id:"grcalLight", name:"太陽縁の光偏向 — 1.75″", emoji:"🌟", group:"時計と重力",
   familyId:"grcal", familyRole:"variant",
   scaleTier:"stellar",
   sampleClass:"principle",
@@ -4533,7 +4542,7 @@ const BUILTIN_PRESETS = [
   rays:{n:8, spread:1},
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
-{ id:"grcalShapiro", name:"シャピロ遅延 — 太陽の近くを往復する信号", emoji:"⏲️", group:"空間と時間",
+{ id:"grcalShapiro", name:"シャピロ遅延 — 太陽の近くを往復する信号", emoji:"⏲️", group:"時計と重力",
   familyId:"grcal", familyRole:"variant",
   scaleTier:"stellar",
   sampleClass:"principle",
@@ -4630,7 +4639,7 @@ const BUILTIN_PRESETS = [
   rays:{n:8, spread:1},
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
-{ id:"projectile", name:"自由落下と放物運動", emoji:"⚾", group:"空間と時間",
+{ id:"projectile", name:"自由落下と放物運動", emoji:"⚾", group:"運動と時空",
   scaleTier:"everyday",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   // 第94便(原仮定者指示「日常タグでは g_y デフォルトを 9.8 とし既存サンプルも修正」):
   // gravityY 0.08→9.8 の**力学的相似変換**で実値化した。純粋な一様重力+瞬間壁反射はスケール
@@ -4662,7 +4671,7 @@ const BUILTIN_PRESETS = [
 // 「速度・スピン反転実験の機械検証には可逆積分器が要る」の実装デモ。
 // 可逆チャネル限定の構成(kFrame=0・muF=0・γn=0・κs=0・η_rad=0・kRep=0・boundary="none")で、
 // t=echoFlipAt に v と s を一斉反転すると初期配置へ戻る。実測 RMS は QA echo.* を参照
-{ id:"echo", name:"時間の矢 — 巻き戻る宇宙と巻き戻らない宇宙", emoji:"⏪", group:"空間と時間",
+{ id:"echo", name:"時間の矢 — 巻き戻る宇宙と巻き戻らない宇宙", emoji:"⏪", group:"運動と時空",
   scaleTier:"stellar",   // 第92便(原仮定者指示「日常タグの整理」): 3天体の抽象宇宙は日常ではなく
   // 天体スケールへ再分類(表示換算のみ — 物理不変。日常タグは g_y=9.8 較正を伴う規約になった)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
@@ -4702,8 +4711,8 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true} },
 
-// ===== グループ: 箱宇宙(第31便 — BOX_UNIVERSE v1.2。「宇宙に大質量の箱だけがある」思考実験)=====
-{ id:"boxtrans", name:"箱宇宙 — 並進する箱", emoji:"📦", group:"箱宇宙",
+// ===== グループ: 箱宇宙の実験(第273便a で「箱宇宙」から改名)(第31便 — BOX_UNIVERSE v1.2。「宇宙に大質量の箱だけがある」思考実験)=====
+{ id:"boxtrans", name:"箱宇宙 — 並進する箱", emoji:"📦", group:"箱宇宙の実験",
   scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   familyId:"boxinertia", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)
@@ -4730,7 +4739,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true} },
 
-{ id:"boxrot", catalog:"extended", name:"箱宇宙 — 回る箱と空間の支え", emoji:"🌀", group:"箱宇宙",
+{ id:"boxrot", catalog:"extended", name:"箱宇宙 — 回る箱と空間の支え", emoji:"🌀", group:"箱宇宙の実験",
   scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   familyId:"boxinertia", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
@@ -4759,7 +4768,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:true} },
 
-{ id:"boxexpand", name:"箱宇宙 — 膨張する箱(質点リング)", emoji:"📈", group:"箱宇宙",
+{ id:"boxexpand", name:"箱宇宙 — 膨張する箱(質点リング)", emoji:"📈", group:"箱宇宙の実験",
   scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   familyId:"boxexpand", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)
@@ -4782,7 +4791,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"boxcomoving", catalog:"extended", name:"箱宇宙 — UniverseBoxの完全共動と膨張時計", emoji:"🫧", group:"箱宇宙",
+{ id:"boxcomoving", catalog:"extended", name:"箱宇宙 — UniverseBoxの完全共動と膨張時計", emoji:"🫧", group:"箱宇宙の実験",
   scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   familyId:"boxexpand", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
@@ -4807,7 +4816,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true,boxGraph:true} },
 
-{ id:"boxbound", catalog:"extended", name:"箱宇宙 — 束縛系は膨張に逆らえるか", emoji:"🪢", group:"箱宇宙",
+{ id:"boxbound", catalog:"extended", name:"箱宇宙 — 束縛系は膨張に逆らえるか", emoji:"🪢", group:"箱宇宙の実験",
   scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   familyId:"boxexpand", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
@@ -4834,7 +4843,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,boxGraph:true} },
 
-{ id:"boxbreath", name:"箱宇宙 — 呼吸する宇宙と時計", emoji:"🫁", group:"箱宇宙",
+{ id:"boxbreath", name:"箱宇宙 — 呼吸する宇宙と時計", emoji:"🫁", group:"箱宇宙の実験",
   scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
@@ -4857,7 +4866,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true,boxGraph:true} },
 
-{ id:"boxredshift", name:"箱宇宙 — 光の赤方偏移(A・B・C)", emoji:"🔦", group:"箱宇宙",
+{ id:"boxredshift", name:"箱宇宙 — 光の赤方偏移(A・B・C)", emoji:"🔦", group:"箱宇宙の実験",
   scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"semantic",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
@@ -4904,7 +4913,7 @@ const BUILTIN_PRESETS = [
 // D·κ の操作: κ は主役スライダー・D は「箱宇宙」セクションの数値入力(第32便 W2)。
 // D の既定 277.26 = (2/3)ln4·300 ≈ 0.9242/κ(κ=1/300。論文2の較正点 — a=2 の点値がテンション比
 // 67.4/73.0≈0.923 と同水準になる。数値一致は較正であり証拠ではない — Negative claim 6)。
-{ id:"probeH", name:"箱宇宙 — ２つのH推定器(ハッブルテンション類似)", emoji:"🧭", group:"箱宇宙",
+{ id:"probeH", name:"箱宇宙 — ２つのH推定器(ハッブルテンション類似)", emoji:"🧭", group:"箱宇宙の実験",
   scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["cosmo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -4959,7 +4968,7 @@ const BUILTIN_PRESETS = [
 // 増幅してリングが座屈する(実測 動径偏差 34%)。q=1 なら dlnF/dlnd≈−1 で 0.04% に収まる。
 // kFrame=0 も必須: E6′ を入れると背景 D₀ 持ち分がリザーバへ流れ(実測 |帳簿P|=107)、
 // 「全自由・閉鎖系」の保存則デモが成立しない。
-{ id:"freebox", name:"箱宇宙 — 自由な箱(膨張の原因)", emoji:"🕊️", group:"箱宇宙",
+{ id:"freebox", name:"箱宇宙 — 自由な箱(膨張の原因)", emoji:"🕊️", group:"箱宇宙の実験",
   scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
@@ -5024,7 +5033,7 @@ const BUILTIN_PRESETS = [
 // **E11 放射冷却は構造形成の主因ではない**(原案の「冷却が凝集を促進」は成立しなかった):
 //   etaRad=0 の対照でも δ²=3.552(既定 3.578 との差 0.7%)・ボイド率 0.579(同値)。
 //   kRep=0 の対照も δ²=3.834(+7%)で、圧力の効きも小さい。主因は E4 自己重力と規定膨張だけ。
-{ id:"cosmicweb", name:"箱宇宙 — 膨張と自己重力の綱引き(コズミックウェブ類似)", emoji:"🕸️", group:"箱宇宙",
+{ id:"cosmicweb", name:"箱宇宙 — 膨張と自己重力の綱引き(コズミックウェブ類似)", emoji:"🕸️", group:"箱宇宙の実験",
   scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["cosmo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -5070,11 +5079,11 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:false,monitor:true,boxGraph:true} },
 
-// ===== グループ: 銀河の物語(第147便で「銀河」から改名)/ ローターの物語(第151便 新設)=====
+// ===== グループ: 銀河の力学(第147便で「銀河」→「銀河の物語」・第273便a で現在名へ)/ 自転と減光(第151便 新設「ローターの物語」・第273便a で現在名へ)=====
 // 第151便: BUILTIN_PRESETS の配列順は動かさないので、この区間には両グループのサンプルが
 // 交互に並ぶ(どのグループに出るかは各サンプルの group 宣言が正 — 表示は GROUP_ORDER 順)。
 // ローターの物語 = 🕶️🕳️⚫🪜(darkcenter)+ 🌑🐚⏳🥚(rotorform。🌱 は天体の物語の区間にある)
-{ id:"galaxy", name:"銀河の回転曲線", emoji:"🌌", group:"銀河の物語",
+{ id:"galaxy", name:"銀河の回転曲線", emoji:"🌌", group:"銀河の力学",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -5127,7 +5136,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:true,tempHistogram:false,field:true,trail:false,monitor:false,
     galaxyField:{unSource:"disk",unFit:"affine",bg:"static"}} },
 
-{ id:"galaxyStd", catalog:"extended", name:"空間引きずりの基準実験 — 銀河標準", emoji:"🎡", group:"銀河の物語",
+{ id:"galaxyStd", catalog:"extended", name:"空間引きずりの基準実験 — 銀河標準", emoji:"🎡", group:"銀河の力学",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -5173,7 +5182,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,mechSpectrum:true,
     galaxyField:{unSource:"disk",unFit:"affine",bg:"static"}} },
 
-{ id:"galaxyGeo2", catalog:"extended", name:"v−u統一測地線の銀河", emoji:"💫", group:"銀河の物語",
+{ id:"galaxyGeo2", catalog:"extended", name:"v−u統一測地線の銀河", emoji:"💫", group:"銀河の力学",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第70便: 統一則(geoPN=2)の単一機構実証(分類は原仮定者裁定で更新可)
   notClaim:["galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -5220,7 +5229,7 @@ const BUILTIN_PRESETS = [
 // kepler 円運動)」と「分散支持バルジ190体(半径90・等方ランダム速度 vScale6)」に二分した。
 // 群の所属は build 順で固定(disk=粒子1..190 / bulge=191..380)— 第71便の訂正(終状態分類の罠)
 // に従い、実験・QA とも固定ID追跡だけを使う。実測は tests/exp-4-75.mjs(seed 20260804・6000步)
-{ id:"galaxyDB", catalog:"extended", name:"ディスクとバルジ — 回転支持と分散支持", emoji:"🍳", group:"銀河の物語",
+{ id:"galaxyDB", catalog:"extended", name:"ディスクとバルジ — 回転支持と分散支持", emoji:"🍳", group:"銀河の力学",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",
   notClaim:["galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -5257,7 +5266,7 @@ const BUILTIN_PRESETS = [
      spinMin:0,spinMax:0, vMode:"random", vScale:6, direction:1, bulkVx:0, bulkVy:0}
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,mechSpectrum:false} },
-{ id:"darkrotor", name:"ダークローターの銀河", emoji:"🕶️", group:"ローターの物語",
+{ id:"darkrotor", name:"ダークローターの銀河", emoji:"🕶️", group:"自転と減光",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["dm","galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -5379,7 +5388,7 @@ const BUILTIN_PRESETS = [
 //  ・物理対応ロック Kt=3600: spin 0 でも 2.0 でも非脱出率 0.00(③は場の強さで消える=反証条件7)
 //  ・テスト粒子リング(6000步): 平均 L_z 954.1(対照 632.45 = 厳密一定)・24/24 保持・NaN なし
 //  ・帳簿込みの保存(6000步): |ΔP|/P₀=1.27e-4・|ΔL|/L₀=1.26e-4(pinned ゼロの閉鎖系)
-{ id:"rotorSolo", name:"ダークローター(単体)", emoji:"🕳️", group:"ローターの物語",
+{ id:"rotorSolo", name:"ダークローター(単体)", emoji:"🕳️", group:"自転と減光",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -5436,7 +5445,7 @@ const BUILTIN_PRESETS = [
 // 観測属性であり、背景光を視線上で吸収する体積吸収ではない — 本サンプルが見せるのは
 // 「暗い点の集合としての暗黒星雲」まで。波長別吸収・散乱の光学輸送拡張は台帳へ持ち越し。
 // 実測は tests/exp-4-75.mjs(seed 20260804・3000步)
-{ id:"nebulaRotor", name:"ローター星雲 — 暗黒星雲と散光星雲", emoji:"🌑", group:"ローターの物語",
+{ id:"nebulaRotor", name:"ローター星雲 — 暗黒星雲と散光星雲", emoji:"🌑", group:"自転と減光",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"composite",
   notClaim:["nebula","dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -5491,7 +5500,7 @@ const BUILTIN_PRESETS = [
 // 〔第75便拡張〕で暗さを担う)。暗さのスピンを小さなコアへ隠すので、スピン斥力 E5′ は遅い殻
 // スピンにしか効かず、熱圧 kRep=0.3 の下でも雲は自壊しない(単層で同じ暗さを出すには spin≈6 が
 // 必要で、同じ kRep で保持48%まで自壊する — exp-4-76 の耐圧試験)。実測 tests/exp-4-76.mjs
-{ id:"nebulaShell", catalog:"extended", name:"重殻ローター星雲 — 束縛と暗さの両立", emoji:"🐚", group:"ローターの物語",
+{ id:"nebulaShell", catalog:"extended", name:"重殻ローター星雲 — 束縛と暗さの両立", emoji:"🐚", group:"自転と減光",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"principle",
   notClaim:["nebula","dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -5554,7 +5563,7 @@ const BUILTIN_PRESETS = [
 // ローター(自由)+赤道の pinned 重殻ダークアーク(±x を挟む±50°・暗黒帯)+高スピンガス。
 // 機構は「E5′圧力+幾何」(旧 🌋agnjet — 第245便で廃止)— 赤道が塞がれ、抵抗の少ない極方向(±y)だけが
 // 出口になってローブが立つ。実測 tests/exp-4-76.mjs(seed 20260804・6000步)
-{ id:"nebulaBipolar", catalog:"extended", name:"双極星雲 — 暗黒トーラスと極方向ローブ", emoji:"⏳", group:"ローターの物語",
+{ id:"nebulaBipolar", catalog:"extended", name:"双極星雲 — 暗黒トーラスと極方向ローブ", emoji:"⏳", group:"自転と減光",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"composite",
   // 第272便d(第62報「ダークローターは減光の検証用という位置付けにとどめる」): **暗さ=隠れた質量**の
@@ -5648,7 +5657,7 @@ const BUILTIN_PRESETS = [
 // 🕳️bhCoreFree は本サンプルへ統合して廃止した。**双極ジェットは扱わない** — この重力井戸では
 // ガスが束縛され、統計になる脱出が起きないため。ジェット機構は ⏳nebulaBipolar の担当。
 // 実測 tests/exp-4-81.mjs → tests/out/exp-4-81.json
-{ id:"bhCore", catalog:"extended", name:"DFM版ブラックホール — 自由な5層の中心", emoji:"⚫", group:"ローターの物語",
+{ id:"bhCore", catalog:"extended", name:"DFM版ブラックホール — 自由な5層の中心", emoji:"⚫", group:"自転と減光",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",
   // 第272便d(第62報): **暗さ=隠れた質量**の循環を避けるため "dm" を足した(宣言専用・署名は不変)
@@ -5703,7 +5712,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:true} },
 // 第229便: ⚫ の横倒し変種 — 第210便の「tilt×Kcs は併用不可」の tilt 側を実サンプル化
-{ id:"bhCoreTilt", name:"DFM版ブラックホール(横倒し)— エッジオンの暗い中心", emoji:"🪩", group:"ローターの物語",
+{ id:"bhCoreTilt", name:"DFM版ブラックホール(横倒し)— エッジオンの暗い中心", emoji:"🪩", group:"自転と減光",
   // 第272便d(第62報): ⚫ と同じく **暗さ=隠れた質量**の循環を避けるため "dm" を足した(宣言専用・署名は不変)
   scaleTier:"galactic", sampleClass:"principle", notClaim:["toy","dm"],
   descStruct:{
@@ -5738,7 +5747,7 @@ const BUILTIN_PRESETS = [
 // 減光 auto の重い中心核は T_obs=0(完全減光=光度質量0)のまま、外縁リングの v²r/G は
 // 実質量に比例する。3系(m=2500/5000/10000)を1画面に並べ、同じ半径のリングの速度差だけで
 // 質量比が読めるようにした。実測・較正は tests/exp-4-82.mjs → tests/out/exp-4-82.json
-{ id:"massLadder", name:"隠れ質量ラダー — 暗い中心の力学質量", emoji:"🪜", group:"ローターの物語",
+{ id:"massLadder", name:"隠れ質量ラダー — 暗い中心の力学質量", emoji:"🪜", group:"自転と減光",
   scaleTier:"galactic",
   sampleClass:"composite",
   notClaim:["dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -5790,7 +5799,7 @@ const BUILTIN_PRESETS = [
      direction:1, pinned:false, bulkVx:0, bulkVy:0}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:true,trail:false,monitor:false} },
-{ id:"collapse", name:"自己重力雲の崩壊と原始星形成", emoji:"🌫️", group:"銀河の物語",
+{ id:"collapse", name:"自己重力雲の崩壊と原始星形成", emoji:"🌫️", group:"銀河の力学",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -5898,7 +5907,7 @@ const BUILTIN_PRESETS = [
 // 乱数消費が同じなので、速度だけが違う — QA/ハーネスで機械確認する)。
 // **claim 窓(regression window)は 1 つも張らない**(較正していないから — 第248便c と同じ方針)。
 // **ダークローターは入れない**(安定門〔受入条件 6 項目〕を通っていない — docs/PHYSICS.md〔第249便c〕)。
-{ id:"axisBarStill", name:"回転ゼロの棒 — 軸に集まる恒星", emoji:"🥢", group:"銀河の物語",
+{ id:"axisBarStill", name:"回転ゼロの棒 — 軸に集まる恒星", emoji:"🥢", group:"銀河の力学",
   scaleTier:"galactic", sampleClass:"principle",
   notClaim:["galaxy","dm"],
   obsCard:[
@@ -5940,7 +5949,7 @@ const BUILTIN_PRESETS = [
      omega:0, vNoise:0, bulkVx:0, bulkVy:0, pinned:false}],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false} },
 
-{ id:"axisBarArms", name:"内側の棒と外側の2本腕 — 回転する円盤", emoji:"🎏", group:"銀河の物語",
+{ id:"axisBarArms", name:"内側の棒と外側の2本腕 — 回転する円盤", emoji:"🎏", group:"銀河の力学",
   scaleTier:"galactic", sampleClass:"principle",
   notClaim:["galaxy","dm"],
   obsCard:[
@@ -5982,7 +5991,7 @@ const BUILTIN_PRESETS = [
      omega:0, vNoise:0, bulkVx:0, bulkVy:0, pinned:false}],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false} },
 
-{ id:"axisBarReach", name:"棒の到達長 R_b — 外縁までは届かない", emoji:"🎚️", group:"銀河の物語",
+{ id:"axisBarReach", name:"棒の到達長 R_b — 外縁までは届かない", emoji:"🎚️", group:"銀河の力学",
   scaleTier:"galactic", sampleClass:"principle",
   notClaim:["galaxy","dm"],
   obsCard:[
@@ -6023,7 +6032,7 @@ const BUILTIN_PRESETS = [
      spinMin:0,spinMax:0, vMode:"none", aroundMass:2500, vScale:1, direction:1,
      omega:0, vNoise:0, bulkVx:0, bulkVy:0, pinned:false}],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false} },
-{ id:"selfRotor", name:"自己形成ダークローター — 種から育つ暗い中心", emoji:"🥚", group:"ローターの物語",
+{ id:"selfRotor", name:"自己形成ダークローター — 種から育つ暗い中心", emoji:"🥚", group:"自転と減光",
   scaleTier:"stellar",   // → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"composite",
   notClaim:["dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -6108,7 +6117,7 @@ const BUILTIN_PRESETS = [
 
 // 第254便b(第46報): 銀河の空間メッシュ(局所場・χ(r)・物質線)—— **表示と記録だけ**の原理サンプル。
 // 力は現行(E4+E6′)のままで、メッシュからは 1 バイトも力を出していない(第253便a ⑦)。
-{ id:"galaxyMeshSpiral", name:"銀河の空間メッシュ", emoji:"🎠", group:"銀河の物語",
+{ id:"galaxyMeshSpiral", name:"銀河の空間メッシュ", emoji:"🎠", group:"銀河の力学",
   scaleTier:"galactic", sampleClass:"principle",
   notClaim:["galaxy","dm"],
   obsCard:[
@@ -6181,7 +6190,7 @@ const BUILTIN_PRESETS = [
 //   ・**pinned 中心核を持つ geoPN=3 の内蔵はこの 1 本が最初**である(〔第264便b ①〕の規定運動の
 //     加速度の修正が内蔵に届く最初の経路 —— だから `behavior.geoToyPinned` ④ の契約を本便で書き換えた)。
 { id:"galaxyMeshSpiralGeoToy", name:"銀河の空間メッシュ — geoPN=3 原理コピー(較正ではない)", emoji:"🪁",
-  group:"銀河の物語", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
+  group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
   notClaim:["galaxy","dm"],
   obsCard:[
     {q:"何を替えたか", model:"🎠 の初期条件・粒子・表示をそのままに、**法則だけ** geoPN=3 のトイ測地線モードへ替えた(kFrame=0・lawVersion:scalar・η=1)", obs:"—(原理サンプル — 観測転写はしない)"},
@@ -6239,8 +6248,8 @@ const BUILTIN_PRESETS = [
     spaceMesh:{mode:"mesh"},
     galaxyField:{unSource:"disk",unFit:"affine",slipThreshold:0.9,bg:"static"}} },
 
-// ===== グループ: 光の物語(第147便で「光」から改名 — 表示・分類専用)=====
-{ id:"lensing", name:"重力レンズと光子捕捉", emoji:"💡", group:"光の物語",
+// ===== グループ: 光の伝播(第147便で「光」→「光の物語」・第273便a で現在名へ — 表示・分類専用)=====
+{ id:"lensing", name:"重力レンズと光子捕捉", emoji:"💡", group:"光の伝播",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -6262,7 +6271,7 @@ const BUILTIN_PRESETS = [
   rays:{n:26, spread:0.85},
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
-{ id:"spinlens", name:"回る星のレンズ — 非対称湾曲", emoji:"🌗", group:"光の物語",
+{ id:"spinlens", name:"回る星のレンズ — 非対称湾曲", emoji:"🌗", group:"光の伝播",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -6285,7 +6294,7 @@ const BUILTIN_PRESETS = [
   rays:{n:24, spread:0.9},
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
-{ id:"blens", catalog:"extended", name:"連星重力レンズ", emoji:"🔭", group:"光の物語",
+{ id:"blens", catalog:"extended", name:"連星重力レンズ", emoji:"🔭", group:"光の伝播",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -6312,7 +6321,7 @@ const BUILTIN_PRESETS = [
 // 第82便 A(台帳「光学輸送拡張」): 🌆 暗黒雲の赤化 — 体積吸収・波長依存・散乱のデモ。
 // 背景の高温星群(左・光学的に薄い)の手前を、冷たい暗黒雲(右・力学的にはほぼ素通り)が
 // 横切る。光学輸送は観測層のみ — kAbs を外しても軌道・スピン・τ は 1 bit 変わらない。
-{ id:"reddening", name:"暗黒雲の赤化 — 体積吸収と波長依存", emoji:"🌆", group:"光の物語",
+{ id:"reddening", name:"暗黒雲の赤化 — 体積吸収と波長依存", emoji:"🌆", group:"光の伝播",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類): 単一機構(体積吸収の波長依存)の原理デモ
   notClaim:["nebula"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -6363,8 +6372,8 @@ const BUILTIN_PRESETS = [
   rays:{n:24, spread:0.75},
   overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
 
-// ===== グループ: 熱の実験室 =====
-{ id:"gas", name:"気体の熱平衡", emoji:"🔥", group:"熱の実験室",
+// ===== グループ: スピンと熱(第273便a で「熱の実験室」から改名)=====
+{ id:"gas", name:"気体の熱平衡", emoji:"🔥", group:"スピンと熱",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -6389,7 +6398,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false} },
 
-{ id:"pressure", name:"熱の圧力 — 熱は押し広げる", emoji:"🎈", group:"熱の実験室",
+{ id:"pressure", name:"熱の圧力 — 熱は押し広げる", emoji:"🎈", group:"スピンと熱",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -6412,7 +6421,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
-{ id:"conduction", name:"熱伝導 — 近いほど速く伝わる", emoji:"📏", group:"熱の実験室",
+{ id:"conduction", name:"熱伝導 — 近いほど速く伝わる", emoji:"📏", group:"スピンと熱",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -6481,7 +6490,7 @@ const BUILTIN_PRESETS = [
 // 実測(seed 20260811・4000步): 投射体の速さ 6→4.36(−27%)・気体の平均|spin| 0.047→0.145(約3倍)。
 // 対照(muF=γn=0・同步数): 減速はする(6→4.0 — 弾性散乱の運動量移行)が平均|spin| は 0.024 のまま
 // =「遅くなること」と「熱くなること」は別物で、後者だけが摩擦(E9)の署名(QA behavior.wave100c)
-{ id:"frictionHeat", name:"摩擦熱 — 運動が熱に変わる", emoji:"🛷", group:"熱の実験室",
+{ id:"frictionHeat", name:"摩擦熱 — 運動が熱に変わる", emoji:"🛷", group:"スピンと熱",
   scaleTier:"molecular",
   sampleClass:"principle",
   notClaim:["thermo"],   // EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -6504,7 +6513,7 @@ const BUILTIN_PRESETS = [
     {type:"single", rMul:2.5, m:12, x:-180, y:0, vx:6, vy:0, spin:0, pinned:false}],
   overlays:{rotationCurve:false,tempHistogram:true,field:false} },
 
-{ id:"coolrace", name:"放射冷却 — 高温ほど速い", emoji:"🌈", group:"熱の実験室",
+{ id:"coolrace", name:"放射冷却 — 高温ほど速い", emoji:"🌈", group:"スピンと熱",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -6538,7 +6547,7 @@ const BUILTIN_PRESETS = [
 // (経緯は DERIVATIONS 付録K/付録M・HANDOFF_IMPLEMENTATION)。gravityY は W に寄与しない
 // 純粋な外部力場なので、時計・光・引きずりを歪めずに箱内へ厳密に一様な下向き場を作れる。
 
-{ id:"convection", name:"加熱の対流 — 伝熱する箱", emoji:"♨️", group:"熱の実験室",
+{ id:"convection", name:"加熱の対流 — 伝熱する箱", emoji:"♨️", group:"スピンと熱",
   // 第94便: everyday→molecular(g=9.8 規約を相似変換で満たせないため)
   // 第95便(原仮定者指示「調整後の日常に割当て可能なサンプルを移行」): 日常アンカーが
   // L=T=−2.5・g_y 規約 0.031(≈9.8 m/s²)になったため **everyday へ復帰**。
@@ -6579,7 +6588,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"}  },
 
-{ id:"buoyancy", name:"重力分離と浮力", emoji:"🧪", group:"熱の実験室",
+{ id:"buoyancy", name:"重力分離と浮力", emoji:"🧪", group:"スピンと熱",
   // 第94便: everyday→molecular → 第95便(原仮定者指示): 日常アンカー刷新に伴い everyday へ復帰。
   // g_y 0.05→0.031(日常規約 ≈9.8 m/s²)— 分離は弱まるが持続(claims なし・フルゲートで確認)
   scaleTier:"beaker",
@@ -6609,7 +6618,7 @@ const BUILTIN_PRESETS = [
 // ビーカータグ(g_y 0.031 規約)。実測(seed 7): 平均T_int 60 → 800步56.2 → 2400步42.0 →
 // 4800步25.4(壁温2へ単調減衰 — ニュートン冷却様の曲線)。対照: 壁を断熱(rate 0)にすると冷えない。
 // 開放系(伝熱壁=無限熱容量のリザーバ)なので保存量モニタは開放系判定になる(EXT-14 と整合)
-{ id:"cooling", name:"冷めるお茶 — 壁への熱伝導", emoji:"☕", group:"熱の実験室",
+{ id:"cooling", name:"冷めるお茶 — 壁への熱伝導", emoji:"☕", group:"スピンと熱",
   scaleTier:"beaker",
   sampleClass:"composite",
   notClaim:["thermo"],   // EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -6645,7 +6654,7 @@ const BUILTIN_PRESETS = [
 // 🧬emergent: 第56便 56A → 第60便 純創発化。エンタルピー・潜熱・相依存伝導を外し、
 // 熱力学は素の内部温度 T_int(潜熱は結合の井戸から抜けるエネルギーとして創発)。
 // 実測値は第60便で再計測(QA phasechange.emergent が機械固定)
-{ id:"emergent", name:"三態の創発 — 結合の予算", emoji:"🧬", group:"熱の実験室",
+{ id:"emergent", name:"三態の創発 — 結合の予算", emoji:"🧬", group:"スピンと熱",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -6704,7 +6713,7 @@ const BUILTIN_PRESETS = [
 
 // 🧊emergent2: 第59便 59A/59B → 第60便 純創発化(meltT/latentF を除去)。
 // angK×bondN 併用+創発熱伝導。実測値は第60便で再計測(QA phasechange.emergent2)
-{ id:"emergent2", name:"格子も分子も — 予算×角度", emoji:"🧊", group:"熱の実験室",
+{ id:"emergent2", name:"格子も分子も — 予算×角度", emoji:"🧊", group:"スピンと熱",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -6748,7 +6757,7 @@ const BUILTIN_PRESETS = [
 // ⛓️chain2: 第60便 60C — 鎖の創発(予算2×角度180°)。旧⛓️chain(valence リンク台帳)の
 // 後継: 台帳なしで、公称予算2本+直線角の井戸から鎖・環が自己組織化する。
 // 実測値は第60便で計測(QA phasechange.chain2)
-{ id:"chain2", name:"鎖の創発 — 予算2×角度180°", emoji:"⛓️", group:"熱の実験室",
+{ id:"chain2", name:"鎖の創発 — 予算2×角度180°", emoji:"⛓️", group:"スピンと熱",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -6788,7 +6797,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
 
-{ id:"chaincycle", name:"温度循環 — 鎖の凍結と解離", emoji:"♻️", group:"熱の実験室",
+{ id:"chaincycle", name:"温度循環 — 鎖の凍結と解離", emoji:"♻️", group:"スピンと熱",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -6848,7 +6857,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,phaseGraph:true,mechSpectrum:true} },
 
 
-// ===== グループ: 天体の物語 / 現実との照合 =====
+// ===== グループ: 天体の機構(第273便a で「天体の物語」から改名)/ 現実との照合 =====
 // 第147便(原仮定者指示): この区間の観測較正・監査系14本(☄️🪨🌙🌘💍💿📡🌞🟠⭕🧲🔆📶📐)は
 // 天体の物語から別グループへ移した(表示・分類専用 — 配列順・物理・claims は bit 不変)。
 // 第149便(原仮定者裁定): そのグループ名を group:"現実との照合" とする(旧名「現実較正」)。
@@ -6861,7 +6870,7 @@ const BUILTIN_PRESETS = [
 // ファミリーを持つ — 🌍earthMoon(primary)+🌕earthMoonFree(variant)= "earthmoonToy"、
 // 🪐saturn(primary)+🎯saturnLayered(variant)= "saturnToy"、☿mercury は単独(familyId なし)。
 // 現実との照合側の既存ファミリー(mercury=☄️🪨🌞・earthmoon=🌙🌘・saturn=💍💿📡)は id 名ごと不変
-{ id:"earthMoon", name:"地球と月", emoji:"🌍", group:"天体の物語",
+{ id:"earthMoon", name:"地球と月", emoji:"🌍", group:"天体の機構",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類)→ 第130便 統括裁定(原仮定者提示「外すのも選択肢」の個別適用):
                              // "calibration" → "composite"。実較正版(🌘earthMoonRealKF1・🌙earthMoonReal)が別在するので、
@@ -6917,7 +6926,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"earthMoonFree", name:"地球と月(自由二体・物理比)", emoji:"🌕", group:"天体の物語",
+{ id:"earthMoonFree", name:"地球と月(自由二体・物理比)", emoji:"🌕", group:"天体の機構",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["solar"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -7853,7 +7862,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 
-{ id:"mercury", name:"水星の近日点前進 — 測地線1PN", emoji:"☿", group:"天体の物語",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
+{ id:"mercury", name:"水星の近日点前進 — 測地線1PN", emoji:"☿", group:"天体の機構",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
   // 第129便(原仮定者指示)でファミリー "mercury" の variant としていたが、第149便(原仮定者裁定)で
   // familyId を除去し**単独サンプル**に戻した(primary 🪨 が別グループ「現実との照合」にあり、
   // グループを跨いだ variant として既定表示から落ちていたため)。表示専用 — 物理・claims・QA・
@@ -8999,7 +9008,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"alphaCenAB", name:"αケンタウリAB(実単位)— 恒星連星の二体", emoji:"✨", group:"現実との照合・太陽系外",
+{ id:"alphaCenAB", name:"αケンタウリAB(実単位)— 恒星連星の二体", emoji:"✨", group:"現実との照合・連星",
   familyId:"alphaCen", familyRole:"variant",   // 第204便(原仮定者指示): ✴️ DFM版を仲間のメインへ — 観測版は対照側の variant に
   scaleTier:"stellar",
   scaleExp:{L:10, T:6, M:29},   // 1単位=10¹⁰m/10⁶s/10²⁹kg(規約 L−T=4・M+2T−3L=11)
@@ -9137,7 +9146,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"alphaCenABDFM", name:"αケンタウリAB(DFM版)— pull 重み・観測質量のまま kF1", emoji:"✴️", group:"現実との照合・太陽系外",
+{ id:"alphaCenABDFM", name:"αケンタウリAB(DFM版)— pull 重み・観測質量のまま kF1", emoji:"✴️", group:"現実との照合・連星",
   familyId:"alphaCen", familyRole:"primary",   // 第204便(原仮定者指示): DFM版を仲間のメインへ
   scaleTier:"stellar",
   scaleExp:{L:10, T:6, M:29},   // ✨ と同じ単位系(1単位=10¹⁰m/10⁶s/10²⁹kg)
@@ -9296,7 +9305,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"siriusAB", name:"シリウスAB(実単位)— 白色矮星との連星", emoji:"🌟", group:"現実との照合・太陽系外",
+{ id:"siriusAB", name:"シリウスAB(実単位)— 白色矮星との連星", emoji:"🌟", group:"現実との照合・連星",
   familyId:"sirius", familyRole:"variant",   // ✨✴️ と同じ建付け: DFM 版 💫 が仲間のメイン・観測版は対照側
   scaleTier:"stellar",
   scaleExp:{L:10, T:6, M:29},   // ✨ と同じ単位系(1単位=10¹⁰m/10⁶s/10²⁹kg)
@@ -9450,7 +9459,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"siriusABDFM", name:"シリウスAB(DFM版)— pull 重み・観測質量のまま kF1", emoji:"💫", group:"現実との照合・太陽系外",
+{ id:"siriusABDFM", name:"シリウスAB(DFM版)— pull 重み・観測質量のまま kF1", emoji:"💫", group:"現実との照合・連星",
   familyId:"sirius", familyRole:"primary",   // ✴️ と同じ建付け: DFM 版が仲間のメイン
   scaleTier:"stellar",
   scaleExp:{L:10, T:6, M:29},   // 🌟 と同じ単位系(1単位=10¹⁰m/10⁶s/10²⁹kg)
@@ -9635,7 +9644,7 @@ const BUILTIN_PRESETS = [
 // L6/T1/M27 では全転写量が値域に収まり降格も不要
 // (半径 0.01175 は下限 0.01 の直上)。自転は**測定があるのに転写できない**初のケース: spin 単位
 // (rad/10s)で A=2767.998768・B=22.654675 — B ですら値域 ±20 の外(spin=0 宣言・出典は記録)。
-{ id:"psrDoubleAB", name:"二重パルサー J0737−3039A/B(実単位)— 2.45時間の中性子星連星", emoji:"📻", group:"現実との照合・太陽系外",
+{ id:"psrDoubleAB", name:"二重パルサー J0737−3039A/B(実単位)— 2.45時間の中性子星連星", emoji:"📻", group:"現実との照合・連星",
   familyId:"psr", familyRole:"variant",   // ✨✴️🌟💫 と同じ建付け: DFM 版 ⚡ が仲間のメイン・観測版は対照側
   scaleTier:"planetary",   // 第120便規則: 距離指数 L=6 の最近傍アンカー(表示分類のみ — 系は恒星質量)
   scaleExp:{L:6, T:1, M:27},   // 第220便: 新1径数族(1単位=10⁶m/10¹s/10²⁷kg・c₀=3×10³・G=6.674)
@@ -9786,7 +9795,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"psrDoubleABDFM", name:"二重パルサー J0737−3039A/B(DFM版)— pull 重み・kF1 質量較正(f≈2)", emoji:"⚡", group:"現実との照合・太陽系外",
+{ id:"psrDoubleABDFM", name:"二重パルサー J0737−3039A/B(DFM版)— pull 重み・kF1 質量較正(f≈2)", emoji:"⚡", group:"現実との照合・連星",
   familyId:"psr", familyRole:"primary",   // ✴️💫 と同じ建付け: DFM 版が仲間のメイン
   scaleTier:"planetary",
   scaleExp:{L:6, T:1, M:27},   // 📻 と同じ単位系(1単位=10⁶m/10¹s/10²⁷kg — L−T=5 族)
@@ -9997,7 +10006,7 @@ const BUILTIN_PRESETS = [
 // トイ積分器 `HP.dfmGeoToyStep`)へ替えた診断サンプルである。**📻 と ⚡ の JSON は 1 bit も動かない。**
 // 「空間メッシュ」と呼ばれるものは**別の 3 層**である: ①表示の蓄積格子(overlays.spaceMesh)②座標変換慣性
 // (physics.spaceMesh.inertia:"coordinate")③ここで使う geoPN=3 のトイ —— 読む場も当たる先も違う。
-{ id:"psrDoubleABGeoToy", name:"二重パルサー J0737−3039A/B — geoPN=3 診断(f=1・較正候補ではない)", emoji:"🩻", group:"現実との照合・太陽系外",
+{ id:"psrDoubleABGeoToy", name:"二重パルサー J0737−3039A/B — geoPN=3 診断(f=1・較正候補ではない)", emoji:"🩻", group:"現実との照合・連星",
   // グループは**ファミリー psr の所属グループ**に合わせる(QA `groups.family-invariant`: 1 ファミリーは 1 グループ)。
   // 分類は `sampleClass:"principle"`・`fidelity:"toy"` の側が担う —— **現実較正の 1 本ではない**。
   familyId:"psr", familyRole:"variant",   // 仲間のメインは ⚡(primary)。本サンプルは法則を替えた診断の枝
@@ -10099,7 +10108,7 @@ const BUILTIN_PRESETS = [
 // (⚡ の「フィットしたノブは無い」という宣言はそのまま — 本サンプルは**2 つのノブを回した別の系譜**)。
 // **この λ は共通則にできない**: 同じ λ=1e11 を 🎻(BH)へ入れると η=3.7×10⁸ で束縛連星が壊れ、
 // 🪨(太陽–水星)では 1/r⁴ 項が −1.5″/世紀 を足す(3 系同時評価 = HP.dfmCompactMeasures)。
-{ id:"psrDoubleABSpinCal", name:"二重パルサー J0737−3039A/B(スピン–スピン較正候補)— f と λ を回した比較 variant", emoji:"🧿", group:"現実との照合・太陽系外",
+{ id:"psrDoubleABSpinCal", name:"二重パルサー J0737−3039A/B(スピン–スピン較正候補)— f と λ を回した比較 variant", emoji:"🧿", group:"現実との照合・連星",
   familyId:"psr", familyRole:"variant",   // 仲間のメインは ⚡(primary)。本サンプルは較正候補の枝
   scaleTier:"planetary",
   scaleExp:{L:6, T:1, M:27},
@@ -10215,7 +10224,7 @@ const BUILTIN_PRESETS = [
 // **伴星の自転は両系とも未観測** — spinDipole を伴星側には**宣言しない**(0 と書かない)。感度帯は
 // tests/exp-w248a.mjs が「未観測 / 仮定 10 ms / 仮定 100 ms」×「半径 11 / 11.75 / 13 km」で表にする。
 // **回帰窓(claims)は付けない**(第248便a の宣言 — 数値は obsCard と PHYSICS の表で読む)。
-{ id:"psrJ1757DFM", name:"PSR J1757−1854(DFM版・hold-out)— ⚡ の処方をそのまま当てた中性子星連星2例目", emoji:"🧮", group:"現実との照合・太陽系外",
+{ id:"psrJ1757DFM", name:"PSR J1757−1854(DFM版・hold-out)— ⚡ の処方をそのまま当てた中性子星連星2例目", emoji:"🧮", group:"現実との照合・連星",
   scaleTier:"planetary",
   scaleExp:{L:6, T:1, M:27},   // ⚡📻 と同じ相対論的連星族(1単位=10⁶m/10¹s/10²⁷kg — L−T=5)
   sampleClass:"calibration",
@@ -10346,7 +10355,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 // ----- 第248便a: 中性子星連星3例目 🩺 PSR J1946+2052(銀河系で最短の公転周期 1.88 時間)-----
-{ id:"psrJ1946DFM", name:"PSR J1946+2052(DFM版・hold-out)— 銀河系で最短周期の中性子星連星", emoji:"🩺", group:"現実との照合・太陽系外",
+{ id:"psrJ1946DFM", name:"PSR J1946+2052(DFM版・hold-out)— 銀河系で最短周期の中性子星連星", emoji:"🩺", group:"現実との照合・連星",
   scaleTier:"planetary",
   scaleExp:{L:6, T:1, M:27},
   sampleClass:"calibration",
@@ -10487,7 +10496,7 @@ const BUILTIN_PRESETS = [
 // 3 系は法則選択に使った開発検証集合であり、次の確認は別系・別時期を凍結した hold-out で行う。
 // 実測は tests/exp-w249a.mjs(3 系 × 3 処方 × dt 3 段・ν 則)。**回帰窓(claims)は付けない**。
 // ⚡🧮🩺 の本体は 1 bit 不変(判定行の文言だけ第249便a で更新した)。
-{ id:"psrDoubleABPN", name:"二重パルサー J0737−3039A/B(NS 応答候補 λ_PN=1/f)— 1PN の強さだけを観測質量へ戻す", emoji:"🪶", group:"現実との照合・太陽系外",
+{ id:"psrDoubleABPN", name:"二重パルサー J0737−3039A/B(NS 応答候補 λ_PN=1/f)— 1PN の強さだけを観測質量へ戻す", emoji:"🪶", group:"現実との照合・連星",
   familyId:"psr", familyRole:"variant",   // 仲間のメインは ⚡(primary)。本サンプルは応答候補の枝(🧿 と同じ建付け)
   scaleTier:"planetary",
   scaleExp:{L:6, T:1, M:27},   // ⚡📻 と同じ相対論的連星族(1単位=10⁶m/10¹s/10²⁷kg — L−T=5)
@@ -10587,7 +10596,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 // ----- 第249便a: 同じ処方を 🧮 PSR J1757−1854 へ(hold-out 2 例目)-----
-{ id:"psrJ1757PN", name:"PSR J1757−1854(NS 応答候補 λ_PN=1/f)— ⚡ の処方に 1/f を足して当てた 2 例目", emoji:"🪃", group:"現実との照合・太陽系外",
+{ id:"psrJ1757PN", name:"PSR J1757−1854(NS 応答候補 λ_PN=1/f)— ⚡ の処方に 1/f を足して当てた 2 例目", emoji:"🪃", group:"現実との照合・連星",
   familyId:"psr", familyRole:"variant",
   scaleTier:"planetary",
   scaleExp:{L:6, T:1, M:27},
@@ -10686,7 +10695,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 // ----- 第249便a: 同じ処方を 🩺 PSR J1946+2052 へ(hold-out 3 例目)-----
-{ id:"psrJ1946PN", name:"PSR J1946+2052(NS 応答候補 λ_PN=1/f)— ⚡ の処方に 1/f を足して当てた 3 例目", emoji:"🪀", group:"現実との照合・太陽系外",
+{ id:"psrJ1946PN", name:"PSR J1946+2052(NS 応答候補 λ_PN=1/f)— ⚡ の処方に 1/f を足して当てた 3 例目", emoji:"🪀", group:"現実との照合・連星",
   familyId:"psr", familyRole:"variant",
   scaleTier:"planetary",
   scaleExp:{L:6, T:1, M:27},
@@ -10804,7 +10813,7 @@ const BUILTIN_PRESETS = [
 // **claims(回帰窓)は 1 つも張らない**(🪶🪃🪀 と同じ — 現象論の候補であって完成ではない)。
 // ⚡🧮🩺 本体の physics/bodies/claims は 1 bit も触っていない。
 
-{ id:"psrDoubleABCF", name:"二重パルサー J0737−3039A/B(コンパクト力 案K)— χ ゲート付き質量電流結合", emoji:"🪝", group:"現実との照合・太陽系外",
+{ id:"psrDoubleABCF", name:"二重パルサー J0737−3039A/B(コンパクト力 案K)— χ ゲート付き質量電流結合", emoji:"🪝", group:"現実との照合・連星",
   familyId:"psr", familyRole:"variant",
   scaleTier:"planetary",
   scaleExp:{L:6, T:1, M:27},
@@ -10903,7 +10912,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 // ----- 第251便a: 同じ 1 個の κ を 🧮 PSR J1757−1854 へ(再 fit なし)-----
-{ id:"psrJ1757CF", name:"PSR J1757−1854(コンパクト力 案K)— ⚡ で凍結した κ をそのまま流した 2 例目", emoji:"🪄", group:"現実との照合・太陽系外",
+{ id:"psrJ1757CF", name:"PSR J1757−1854(コンパクト力 案K)— ⚡ で凍結した κ をそのまま流した 2 例目", emoji:"🪄", group:"現実との照合・連星",
   scaleTier:"planetary",
   scaleExp:{L:6, T:1, M:27},
   sampleClass:"calibration",
@@ -10993,7 +11002,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 // ----- 第251便a: 同じ 1 個の κ を 🩺 PSR J1946+2052 へ(再 fit なし・3 例目)-----
-{ id:"psrJ1946CF", name:"PSR J1946+2052(コンパクト力 案K)— ⚡ で凍結した κ をそのまま流した 3 例目", emoji:"🩹", group:"現実との照合・太陽系外",
+{ id:"psrJ1946CF", name:"PSR J1946+2052(コンパクト力 案K)— ⚡ で凍結した κ をそのまま流した 3 例目", emoji:"🩹", group:"現実との照合・連星",
   scaleTier:"planetary",
   scaleExp:{L:6, T:1, M:27},
   sampleClass:"calibration",
@@ -11091,7 +11100,7 @@ const BUILTIN_PRESETS = [
 // (κ は ⚡ で凍結済み・f は ⚡ と同じ一次則を本系で 1 回評価しただけ)。転写は
 // paper/data/solar-observations.csv の PSR B1534+12 行(Fonseca, Stairs & Thorsett 2014 の質量 /
 // Stairs et al. 2002 の P_b・e・ω̇)で、**半長径は P_b と GR 条件つき総質量からのケプラー派生値**である。
-{ id:"psrB1534", name:"PSR B1534+12(実単位・観測版)— 第 4 の凍結 hold-out の入力確認", emoji:"📿", group:"現実との照合・太陽系外",
+{ id:"psrB1534", name:"PSR B1534+12(実単位・観測版)— 第 4 の凍結 hold-out の入力確認", emoji:"📿", group:"現実との照合・連星",
   familyId:"psrB1534", familyRole:"primary",
   scaleTier:"planetary",
   scaleExp:{L:6, T:1, M:27},
@@ -11183,7 +11192,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 // ----- 第251便a: B1534+12 の DFM 版(⚡ の処方をそのまま — 較正質量 f≈2)-----
-{ id:"psrB1534DFM", name:"PSR B1534+12(DFM版・凍結 hold-out)— ⚡ の処方をそのまま当てた 4 例目", emoji:"🧶", group:"現実との照合・太陽系外",
+{ id:"psrB1534DFM", name:"PSR B1534+12(DFM版・凍結 hold-out)— ⚡ の処方をそのまま当てた 4 例目", emoji:"🧶", group:"現実との照合・連星",
   familyId:"psrB1534", familyRole:"variant",
   scaleTier:"planetary",
   scaleExp:{L:6, T:1, M:27},
@@ -11284,7 +11293,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 // ----- 第251便a: B1534+12 の CF 版(⚡ で凍結した κ をそのまま — **第 4 の凍結 hold-out の本番**)-----
-{ id:"psrB1534CF", name:"PSR B1534+12(コンパクト力 案K・凍結 hold-out)— ⚡ の κ を 4 例目へ", emoji:"🪤", group:"現実との照合・太陽系外",
+{ id:"psrB1534CF", name:"PSR B1534+12(コンパクト力 案K・凍結 hold-out)— ⚡ の κ を 4 例目へ", emoji:"🪤", group:"現実との照合・連星",
   familyId:"psrB1534", familyRole:"variant",
   scaleTier:"planetary",
   scaleExp:{L:6, T:1, M:27},
@@ -11373,7 +11382,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 // ----- 第251便a: 原理サンプル — 3 モデルの符号を 1 画面で見る 🪗 -----
-{ id:"compactForceToy", name:"コンパクト力の符号 — 近点は前へ回るか後ろへ回るか", emoji:"🪗", group:"空間と時間",
+{ id:"compactForceToy", name:"コンパクト力の符号 — 近点は前へ回るか後ろへ回るか", emoji:"🪗", group:"運動と時空",
   scaleTier:"stellar",
   sampleClass:"principle",
   fidelity:"toy",
@@ -11464,7 +11473,7 @@ const BUILTIN_PRESETS = [
 //      相対運動は残る。消えるのは「背景に対する移動の効果」と「重心の並進」である(Failure First)。
 // c₀=30 一律規約(第99/100便)・1PN は切る(geoPN=0)ので、見えるのは**引きずり(A8/E6′)だけ**。
 // **claim 窓は 1 つも張っていない**(現象論の器であって較正ではない)。
-{ id:"boxBinaryToy", name:"箱宇宙と連星 — 等質量だと背景に対する移動が消える", emoji:"🫂", group:"空間と時間",
+{ id:"boxBinaryToy", name:"箱宇宙と連星 — 等質量だと背景に対する移動が消える", emoji:"🫂", group:"運動と時空",
   scaleTier:"stellar",
   sampleClass:"principle",
   fidelity:"toy",
@@ -11559,7 +11568,7 @@ const BUILTIN_PRESETS = [
 //   ③ **慣性候補は本体の力則にできない**(否定結果)。頂点では |a_I|/|g_N|=χ になる = 慣性項は
 //      重力加速度の再導出であって新しい力ではない。足すと二重計上になる(PHYSICS〔第254便a〕⑤)。
 // c₀=30 一律規約(第99/100便)・1PN は切る(geoPN=0)。**claim 窓は 1 つも張っていない**。
-{ id:"spaceMeshBinaryToy", name:"空間メッシュの窓 — メッシュの重力は既にある重力", emoji:"🪟", group:"空間と時間",
+{ id:"spaceMeshBinaryToy", name:"空間メッシュの窓 — メッシュの重力は既にある重力", emoji:"🪟", group:"運動と時空",
   scaleTier:"stellar",
   sampleClass:"principle",
   fidelity:"toy",
@@ -12434,7 +12443,7 @@ const BUILTIN_PRESETS = [
       core:{mode:"differential", massFrac:0.5, radius:0.01, omega:0, Kcs:0}}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true} },
 
-{ id:"saturn", name:"土星の環(実験)", emoji:"🪐", group:"天体の物語",
+{ id:"saturn", name:"土星の環(実験)", emoji:"🪐", group:"天体の機構",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["solar"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -12490,7 +12499,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
-{ id:"saturnLayered", name:"土星の環(主星2層)", emoji:"🎯", group:"天体の物語",
+{ id:"saturnLayered", name:"土星の環(主星2層)", emoji:"🎯", group:"天体の機構",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["solar"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -12899,7 +12908,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:true} },
 
-{ id:"binary", name:"連星系と周連星円盤", emoji:"⭐", group:"天体の物語",
+{ id:"binary", name:"連星系と周連星円盤", emoji:"⭐", group:"天体の機構",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   familyId:"fewbody", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)
@@ -12929,7 +12938,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
-{ id:"fig8", name:"三体問題 — 8の字軌道", emoji:"♾️", group:"天体の物語",
+{ id:"fig8", name:"三体問題 — 8の字軌道", emoji:"♾️", group:"天体の機構",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   familyId:"fewbody", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
@@ -12952,7 +12961,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"counterring", name:"順行・逆行リングの衝突", emoji:"💥", group:"天体の物語",
+{ id:"counterring", name:"順行・逆行リングの衝突", emoji:"💥", group:"天体の機構",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   // 第151便(統括裁定): ファミリー collide の解散に伴い **単独サンプル**へ(familyId/familyRole を除去)。
@@ -13005,7 +13014,7 @@ const BUILTIN_PRESETS = [
 //  ・seed 頑健性(3seed): 収縮 3.059/3.083/2.984・ω倍率 8.502/8.055/7.018・一致 90.8/84.8/78.8%
 // camera.scale 200 は展示調整(t=0 の円盤が画面幅の約75%・収縮後のコアが明瞭に見える)。
 // timeScale 2 も展示速度のみ(sim.step() は timeScale を読まない)。QA は behavior.spinup(6000步)。
-{ id:"spinup", name:"収縮とスピン加速", emoji:"🌪️", group:"天体の物語",
+{ id:"spinup", name:"収縮とスピン加速", emoji:"🌪️", group:"天体の機構",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
@@ -13044,7 +13053,7 @@ const BUILTIN_PRESETS = [
 // 第229便(第27報): 天体雛形 — パルサー灯台 🏮・超新星見立て 🎇(恒星 🌻 は第245便で廃止)。
 // 共通の文法: 殻=光学(shell:"solid"|"gas" 宣言)・コア=エンジン・融合=熱源・減光=見た目・傾き=z射影。
 // 新しい法則は足さない — 既存 primitive の合成(3層化設計の第2段。第1段= shell 宣言は検証器)
-{ id:"pulsarSolo", name:"パルサー灯台(単体)— 傾いた軸と運動学の時計", emoji:"🏮", group:"天体の物語",
+{ id:"pulsarSolo", name:"パルサー灯台(単体)— 傾いた軸と運動学の時計", emoji:"🏮", group:"天体の機構",
   scaleTier:"stellar", sampleClass:"principle", notClaim:["toy"],
   scaleExp:{L:3, T:1, M:27},   // 第245便(原仮定者指示): 距離スケール指数を L4 → **L3** へ。1単位=10³m/10s/10²⁷kg で
                                // 半径 12=12 km(NS fiducial)・m=2784=1.4 M☉・pulse 周期 2.773 s(J0737B)が実寸で読める
@@ -13074,7 +13083,7 @@ const BUILTIN_PRESETS = [
      core:{mode:"differential", massFrac:0.5, radius:6, omega:22.654675, Kcs:0, tilt:45}}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
-{ id:"supernovaCore", name:"超新星 — 1つの赤色巨星が多層の外殻を吹き飛ばし、時計つきの核が残る", emoji:"🎇", group:"天体の物語",
+{ id:"supernovaCore", name:"超新星 — 1つの赤色巨星が多層の外殻を吹き飛ばし、時計つきの核が残る", emoji:"🎇", group:"天体の機構",
   scaleTier:"stellar", sampleClass:"principle", notClaim:["toy"],
   obsCard:[
     {q:"前駆星の宣言(質量集中)", model:"massFrac=0.8(コア 480+殻 120)は**宣言された構造仮定** — 観測事実の断定ではない(第38報 思考実験5)", obs:"—(原理サンプル — 観測転写はしない)"},
@@ -13127,7 +13136,7 @@ const BUILTIN_PRESETS = [
 // 第246便: 🎇 と 🔵 を **1 本(🎇)へ統合**し(🔵 nsRemnantDFM は廃止)、⚪ は **反復 shed**で
 // 「外殻が徐々に剥がれていく」姿へ改めた。前駆星はどちらも **massFrac 0.8 の質量集中を宣言**する
 // (第38報 思考実験5 — 観測事実の断定ではなく**宣言された構造仮定**)。3 本とも 🎆 の core.shed が機構。
-{ id:"whiteDwarfDFM", name:"白色矮星 — 赤色巨星の外殻が徐々に剥がれ、育ったコアが残る(DFM版)", emoji:"⚪", group:"天体の物語",
+{ id:"whiteDwarfDFM", name:"白色矮星 — 赤色巨星の外殻が徐々に剥がれ、育ったコアが残る(DFM版)", emoji:"⚪", group:"天体の機構",
   scaleTier:"stellar", sampleClass:"principle", notClaim:["cal"],
   familyId:"whiteDwarf", familyRole:"primary",   // 第247便c: 🔘(裸コア終端の variant)の primary(宣言だけ — 物理・配置は 1 bit 不変)
   obsCard:[
@@ -13174,7 +13183,7 @@ const BUILTIN_PRESETS = [
            shed:{omegaCrit:9, frac:0.18, n:12, rLaunch:2, jFrac:0.2, once:false}}}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
 
-{ id:"whiteDwarfBareDFM", name:"裸のコア — 最後の殻が剥がれて Mc=M の終端状態になる(DFM版・⚪ の variant)", emoji:"🔘", group:"天体の物語",
+{ id:"whiteDwarfBareDFM", name:"裸のコア — 最後の殻が剥がれて Mc=M の終端状態になる(DFM版・⚪ の variant)", emoji:"🔘", group:"天体の機構",
   scaleTier:"stellar", sampleClass:"principle", notClaim:["cal"],
   familyId:"whiteDwarf", familyRole:"variant",
   obsCard:[
@@ -13223,7 +13232,7 @@ const BUILTIN_PRESETS = [
                  bare:true, bareBelow:0.08}}}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
 
-{ id:"envelopeShedDFM", name:"エンベロープの分割放出 — 限界回転のコアが殻をガスへ割って出す(DFM版)", emoji:"🎆", group:"天体の物語",
+{ id:"envelopeShedDFM", name:"エンベロープの分割放出 — 限界回転のコアが殻をガスへ割って出す(DFM版)", emoji:"🎆", group:"天体の機構",
   scaleTier:"stellar", sampleClass:"principle", notClaim:["cal"],
   obsCard:[
     {q:"発火(コアの限界回転)", model:"Ω_c=10.0054 で1回だけ(t=12.784・798步)。dt/2 でも Ω=10.0021・t=12.776 と同じ Ω", obs:"—(原理サンプル — 観測転写はしない)"},
@@ -13263,7 +13272,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
 
 // ===== 第265便d(第57報 W4): LFBOT の**トイ仮説** — 減光で溜めた自光をコアの崩壊で一気に出す =====
-{ id:"lfbotTrap", name:"閉じ込めた光の解放 — 減光で溜めた自光をコアの崩壊で放つ(トイ仮説)", emoji:"🐮", group:"天体の物語",
+{ id:"lfbotTrap", name:"閉じ込めた光の解放 — 減光で溜めた自光をコアの崩壊で放つ(トイ仮説)", emoji:"🐮", group:"天体の機構",
   scaleTier:"stellar", sampleClass:"principle", notClaim:["cal","lfbot"],
   obsCard:[
     {q:"蓄積した光 E_γ(崩壊の直前)", model:"**5.4292**(t=12.768)。蓄積中は外へ出ていないので見た目は暗い(発火の步で 5.2309)", obs:"—(原理サンプル — 観測転写はしない)"},
@@ -13314,7 +13323,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
 
 // ===== 第259便b(第51報 W2): 親子コア(同心層)の原理サンプル =====
-{ id:"layeredCoreDFM", name:"親子コア — 観測半径は殻・質量はコア(二層天体の原理)", emoji:"🧅", group:"天体の物語",
+{ id:"layeredCoreDFM", name:"親子コア — 観測半径は殻・質量はコア(二層天体の原理)", emoji:"🧅", group:"天体の機構",
   scaleTier:"stellar", sampleClass:"principle", notClaim:["cal"],
   obsCard:[
     {q:"観測半径を担うもの", model:"最外層 r=100(接触半径もここ — 層は最外だけが衝突半径になる)", obs:"—(原理サンプル — 観測転写はしない)"},
@@ -13375,7 +13384,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 // ===== 第245便補足1(第37報): スピン双極子の連星(physics.spinSpin の玩具の実演)=====
-{ id:"spinDipoleBinary", name:"スピン双極子の連星 — 自転が押し合うと近点が逆行する(玩具)", emoji:"⚙️", group:"天体の物語",
+{ id:"spinDipoleBinary", name:"スピン双極子の連星 — 自転が押し合うと近点が逆行する(玩具)", emoji:"⚙️", group:"天体の機構",
   scaleTier:"stellar", sampleClass:"principle", notClaim:["cal"],
   obsCard:[
     {q:"否定対照(現行核)", model:"λ=0 のワンタップ対照は近点移動 −0.00049°/周(ソフトニング残差だけ)= 閉じた楕円", obs:"—(原理サンプル — 観測転写はしない)"},
@@ -13419,7 +13428,7 @@ const BUILTIN_PRESETS = [
 // ===== 第246便d(第38報 思考実験⑥): 気体の殻の表面随伴(physics.gasCoh の原理サンプル)=====
 // 第38報の「太陽や土星の外殻は気体で密度が低いので、表面での引きずりは地球表面ほど強くない」を
 // **既存キー1つ(physics.gasCoh)だけ**で測る。新しい力も新しい係数も足していない。
-{ id:"gasCohSurface", name:"気体の殻の表面随伴 — 外殻が気体だと引きずりは弱い", emoji:"🌬️", group:"天体の物語",
+{ id:"gasCohSurface", name:"気体の殻の表面随伴 — 外殻が気体だと引きずりは弱い", emoji:"🌬️", group:"天体の機構",
   scaleTier:"planetary", sampleClass:"principle", notClaim:["cal"],
   obsCard:[
     {q:"表面(h=0.01R)の随伴速度 |u_φ|", model:"気体殻 gasCoh=0.3: **0.4942248** / 固体扱い(gasCoh=1): **1.6474160**", obs:"—(原理サンプル — 観測転写はしない)"},
@@ -13473,7 +13482,7 @@ const BUILTIN_PRESETS = [
 // 第247便d(裁定 A5′(2)): 🪞mmPhaseToy — MM 2 腕干渉計の位相玩具。画面は「装置が随伴 u の中を動く」
 // 姿だけを見せ、位相の数字は純関数 HP.dfmMMPhase(解析器)が出す。**新しい力は 1 つも足していない**
 // (光の追跡と Δφ=2πcΔt/λ の換算だけ)。「DFM は MM null を予測する」とは書かない — 測った Δφ を並べる
-{ id:"mmPhaseToy", name:"2腕の往復位相 — 正対照が先", emoji:"🪞", group:"光の物語",
+{ id:"mmPhaseToy", name:"2腕の往復位相 — 正対照が先", emoji:"🪞", group:"光の伝播",
   scaleTier:"planetary", sampleClass:"principle", notClaim:["cal","solar_cal"],
   obsCard:[
     {q:"(1) 静止・等長 2 腕(装置の null 確認)", model:"Δt=**厳密 0**(ビット)・Δφ=**厳密 0** — 解析形も追跡値も 0", obs:"—(原理サンプル — 観測転写はしない)"},
@@ -13529,7 +13538,7 @@ const BUILTIN_PRESETS = [
 // 主要因=自己重力圧縮(contract — J保存で Ω=J/I 上昇・核融合は密度増の副産物)。さらに加速する
 // 副機構としてパワーボール原理(ジャイロ器具の2Dアナログ — 殻の振動加速度が「手首の揺すり」。
 // コアが差動〔軸自由〕なら加速・rigid〔軸固定〕なら減速)。実測 tests/exp-4-78.mjs
-{ id:"starSeed", name:"星の種ローター — 圧縮とパワーボール", emoji:"🌱", group:"ローターの物語",
+{ id:"starSeed", name:"星の種ローター — 圧縮とパワーボール", emoji:"🌱", group:"自転と減光",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",
   notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -25426,19 +25435,47 @@ function allPresets(){ return BUILTIN_PRESETS.concat(getCustomPresets()); }
 //   これを `group` に宣言している内蔵サンプルは **0 本**である(サフィックス無しの「現実との照合」も 0 本)。
 //   orderedGroups() は実在するグループだけを拾うので、この 3 つを表に置いても現在の並びは 1 つも動かない
 //   —— 将来その名前のサンプルが現れたときの置き場所として、統括の裁定どおりの位置に載せてある。
-const GROUP_ORDER=["法則の実験室","空間と時間","銀河の物語","天体の物語","光の物語","熱の実験室",
-  "箱宇宙","ローターの物語","現実との照合・太陽系","現実との照合・太陽系外","実在天体のアナロジー",
-  "シミュレーション","現実との照合"];
+// 第273便a(原仮定者の裁定〔第63報〕AH5 改名・AH6 分割): グループの**表示名**を改め、
+//   「空間と時間」のうち時計・弱場GR較正の 5 本(⏱️🛰️🕰️🌟⏲️)を**新グループ「時計と重力」**へ分けた。
+//   表示順は原仮定者の列挙順(運動と時空 → 銀河の力学 → 天体の機構 → 時計と重力 → 光の伝播 →
+//   スピンと熱 → 箱宇宙の実験 → 自転と減光 → 現実との照合・太陽系 → 現実との照合・連星 →
+//   実在天体のアナロジー)。**0 本の予約名 3 つ**(法則の実験室・シミュレーション・現実との照合 —
+//   AH19)は表の末尾に残す(orderedGroups() が実在する群だけを拾うので表示には出ない)。
+//   保存 id は不変で、新群だけ clocksGravity を足した(GROUP_IDS は**旧名と新名の両方**を同じ id へ)。
+const GROUP_ORDER=["運動と時空","銀河の力学","天体の機構","時計と重力","光の伝播","スピンと熱",
+  "箱宇宙の実験","自転と減光","現実との照合・太陽系","現実との照合・連星","実在天体のアナロジー",
+  "法則の実験室","シミュレーション","現実との照合"];
+// 第273便a: 旧グループ名 → 新グループ名(AH5/AH6)。**旧名の文字列は捨てない** —— 宣言側
+// (保存/AI 生成プリセットの group)はそのままで、表示・並び・見出し・説明の入口だけを正規化する。
+// これで旧名を持つプリセットが新しい群の見出しに出る(GROUP_IDS も両名を同じ id へ持つ)
+const GROUP_ALIASES={"空間と時間":"運動と時空","銀河の物語":"銀河の力学","天体の物語":"天体の機構",
+  "光の物語":"光の伝播","熱の実験室":"スピンと熱","箱宇宙":"箱宇宙の実験",
+  "ローターの物語":"自転と減光","現実との照合・太陽系外":"現実との照合・連星"};
+function gCanon(g){ const k=(g==null)? "内蔵" : String(g); return GROUP_ALIASES[k] || k; }
+// 第273便a(AH7 候補・表示のみ): **グループ内**のファミリー表示順位。BUILTIN_PRESETS の配列は
+// 1 つも動かさず、表に載った群だけ「ファミリー単位」で並べ替える(表に無い群・表に無いファミリー
+// は既定順位 = 配列順のまま)。太陽系内の並びを論文3 の順(水星 → 月 → 木星 → qLock → 環 → 残り)
+// にするための最小の仕組みで、physics・claims・presetSig・保存 JSON には一切触らない
+const GROUP_FAMILY_RANK={"現実との照合・太陽系":{mercury:1,earthmoon:2,emAudit:3,jupiter:4,qlockAudit:5,saturn:6}};
 function orderedGroups(){
   const seen=[];
-  BUILTIN_PRESETS.forEach(p=>{ const g=p.group||"内蔵"; if(!seen.includes(g)) seen.push(g); });
+  BUILTIN_PRESETS.forEach(p=>{ const g=gCanon(p.group); if(!seen.includes(g)) seen.push(g); });
   const head=GROUP_ORDER.filter(g=>seen.includes(g));
   return head.concat(seen.filter(g=>!head.includes(g)));
 }
-// 表示順に並べた内蔵プリセット(グループ内の順序は配列順のまま)
+// 表示順に並べた内蔵プリセット(グループ内の順序は配列順のまま。
+// GROUP_FAMILY_RANK がある群だけ、ファミリー単位の安定ソートを重ねる — 第273便a AH7)
 function orderedBuiltins(){
   const out=[];
-  for(const g of orderedGroups()) BUILTIN_PRESETS.forEach(p=>{ if((p.group||"内蔵")===g) out.push(p); });
+  for(const g of orderedGroups()){
+    const mem=[]; BUILTIN_PRESETS.forEach(p=>{ if(gCanon(p.group)===g) mem.push(p); });
+    const rk=GROUP_FAMILY_RANK[g];
+    if(rk){
+      const key=(p)=>{ const r=rk[p.familyId||p.id]; return (typeof r==="number")? r : 99; };
+      mem.map((p,i)=>[p,i]).sort((a,b)=> (key(a[0])-key(b[0])) || (a[1]-b[1]))
+        .forEach(x=>out.push(x[0]));
+    } else mem.forEach(p=>out.push(p));
+  }
   return out;
 }
 // 第82便(統括裁定「サンプルの統廃合」・表示層のみ): サンプルのファミリー表示。
@@ -25489,15 +25526,15 @@ function familyGroupedBuiltins(){
   const src=orderedBuiltins(), out=[], used=new Set();
   const waitsForPrimary=(q)=> !!(q.familyId && q.familyRole==="variant"
     && src.some(r=>r.familyId===q.familyId && r.familyRole==="primary"
-      && (r.group||"内蔵")===(q.group||"内蔵") && !used.has(r.id)));
+      && gCanon(r.group)===gCanon(q.group) && !used.has(r.id)));
   src.forEach(p=>{
     if(used.has(p.id)) return;
     if(waitsForPrimary(p)) return;   // 後段(同グループ primary の出力時)で拾う
     out.push(p); used.add(p.id);
     if(p.familyId && p.familyRole==="primary"){
-      const g=p.group||"内蔵";
+      const g=gCanon(p.group);
       src.forEach(q=>{
-        if(!used.has(q.id) && q.familyId===p.familyId && q.familyRole==="variant" && (q.group||"内蔵")===g){
+        if(!used.has(q.id) && q.familyId===p.familyId && q.familyRole==="variant" && gCanon(q.group)===g){
           out.push(q); used.add(q.id);
         }
       });
@@ -25512,7 +25549,7 @@ function presetCatOf(v){   // 選択値(プリセットID/save#i)の属するカ
   if(String(v).startsWith("save#")) return "保存一覧";
   if(String(v).startsWith("custom_")) return "AI生成";
   const bp=BUILTIN_PRESETS.find(p=>p.id===v);
-  return bp? (bp.group||"内蔵") : null;
+  return bp? gCanon(bp.group) : null;
 }
 // 第74便: 絞り込み判定の一本化(第84便C: "scale:<tier>" 絞り込みは撤去 — group のみで判定)
 function presetInFilter(v){
@@ -25542,7 +25579,7 @@ function rebuildPresetSelect(selId){
   // (variant は familyGroupedBuiltins() で primary 直後へ集約し「└ 」を付記)
   let og=null, curGroup=null;
   familyGroupedBuiltins().forEach(p=>{   // 第79便: スケール準拠の並び / 第82便: ファミリー集約
-    const g=p.group||"内蔵";
+    const g=gCanon(p.group);
     if(catalogHidden(p)) return;   // 第117便: catalog 可視性(strict — 絞り込みより先)
     if(presetFilter!=="all" && !presetInFilter(p.id)) return;   // 54D②: カテゴリ絞り込み
     // 第82便: 既定はvariant非表示。ただし現在読込中のプリセット自身がvariantなら選択保持のため表示する
@@ -25612,6 +25649,12 @@ const GROUP_IDS={"熱の実験室":"heat", "空間と時間":"spacetime", "光�
   // 既存グループの記憶は飛ばない。新グループには記憶がまだ無いので既定〔畳んだ状態〕で出る)
   "実在天体のアナロジー":"realAnalogy", "シミュレーション":"simulation",
   "現実との照合":"realityLegacy",
+  // 第273便a(AH5/AH6): **新名も同じ id へ**足す(旧名の行は上に残したまま — 旧名を鍵に持つ
+  // 端末の開閉記憶・旧名を宣言した保存/AI 生成プリセットが、そのまま新しい群へ着地する)。
+  // 新規 id は分割で生まれた「時計と重力」の clocksGravity だけで、既存 id は 1 つも変えない
+  "運動と時空":"spacetime", "銀河の力学":"galaxy", "天体の機構":"celestial",
+  "光の伝播":"light", "スピンと熱":"heat", "箱宇宙の実験":"boxUniverse",
+  "自転と減光":"rotor", "現実との照合・連星":"realityBeyond", "時計と重力":"clocksGravity",
   "AI生成":"aiGenerated", "保存一覧":"saves", "内蔵":"builtin"};
 const _GROUP_ID_SET=new Set(Object.values(GROUP_IDS));
 function groupIdOf(g){
@@ -25650,7 +25693,7 @@ function ppFiltering(){   // 絞り込み(検索 or 属性)が効いているか
 }
 // いま読み込んでいるサンプルのグループ(**id**)。「現在サンプルが別グループへ移った」ときも
 // 追随する(名前ではなく id を見るので、グループの改名では開閉が飛ばない)
-function ppCurGroup(){ return (currentPreset && groupIdOf(currentPreset.group||"内蔵")) || null; }
+function ppCurGroup(){ return (currentPreset && groupIdOf(currentPreset.group)) || null; }
 // 第256便c: 引数は**グループ id**。絞り込み中の開閉は**一時状態**(ppOpenTmp)に持ち、
 // ユーザーが保存した開閉(ppOpen / hp_pick_open)を上書きしない
 function ppIsOpen(gid,filtering){
@@ -25750,7 +25793,7 @@ function ppRender(){
   const closeGroup=()=>{ if(head) head.cnt.textContent=String(nInGroup); nInGroup=0; };
   const attrFiltered=(ppScale!=="all"||ppClass!=="all"||ppE!=="all");
   familyGroupedBuiltins().forEach(p=>{
-    const g=p.group||"内蔵";
+    const g=gCanon(p.group);
     if(catalogHidden(p)) return;   // 第117便: catalog は検索・属性絞り込みより先に隠す(strict)
     if(!ppMatch(p)) return;
     if(!showAllSamples && p.familyId && p.familyRole==="variant"
@@ -25926,7 +25969,7 @@ function rebuildAiBaseSelect(){
   const o0=document.createElement("option"); o0.value=""; o0.textContent=T("aiBaseNone"); sel.appendChild(o0);
   let og=null, curGroup=null;
   orderedBuiltins().forEach(p=>{   // 第79便: スケール準拠の並び
-    const g=p.group||"内蔵";
+    const g=gCanon(p.group);
     if(g!==curGroup){ curGroup=g; og=document.createElement("optgroup"); og.label=gName(g); sel.appendChild(og); }
     const o=document.createElement("option"); o.value=p.id; o.textContent=(p.emoji||"")+" "+pName(p); og.appendChild(o);
   });
