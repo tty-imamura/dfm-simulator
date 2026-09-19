@@ -6281,7 +6281,8 @@ if (!TARGET.startsWith('beta/')) {
   try {
     const P = path.join(ROOT, 'tests', 'out', 'rpar-w272c.json');
     const J = JSON.parse(fs.readFileSync(P, 'utf8'));
-    if ((J.meta || {}).harness !== 'w272c-rpar-1') bad.push('①器の版が違う');
+    // 第273便d(AH26): 器に不均衡 2 種・非静止の Ḣ′ 項を足したので版を上げた(R∥ の列は不変)
+    if ((J.meta || {}).harness !== 'w273d-rpar-2') bad.push('①器の版が違う');
     const cs = (J.cases || []).filter((z) => z.kind !== 'derived');
     nCase = cs.length;
     if (nCase < 40) bad.push(`①行が少ない(${nCase})`);
@@ -6339,6 +6340,190 @@ if (!TARGET.startsWith('beta/')) {
     + `χ を保つ単位変更で R∥ 不変 / `
     + `**Σm_i a_i の不均衡が ${imbalanced} 行**(χ₁≠χ₂ かつ η>0 の静止 2 体では重心が加速する —— `
     + `**測って書いた否定結果であって、採用の宣言ではない**)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0e3e) 第273便d(第63報・統括の検証項目 R18 / AH22 / AH21): docs.binlockAxisDef ----
+// ----   第272便c の `tests/lib-w272c-binlock.mjs` は運動学の宣言 ω_i = Ω_AB + σ_i·n の
+// ----   **n を「面直の単位ベクトル」と書いていた**。原仮定者の仮説(第62報)の「コンパクト連星の
+// ----   自転軸は互いを向く」が指すのは**面内で相手を向く軸**なので、これは誤りである。
+// ----   固定するのは 6 つ:
+// ----     ① 訂正が本文にある(**相手へ向かう単位ベクトル**)・旧い綴り「n は面直の単位ベクトル」が残っていない。
+// ----     ② **(σ_i n)×n = 0 の意味が限定されて**書いてある(軸上の相対すべりをこの項が拾わない、に限る)。
+// ----     ③ **符号規約**(面直 z の正方向・回り・視線)が宣言され、`signedSynchrony` が
+// ----        **同期(+1)と逆行の同期(−1)を区別する**(絶対値で判定しない)。
+// ----     ④ 走行正本 `tests/out/nslock-w272c.json` にその宣言が載っていて、
+// ----        **NS 4 系の spin=0 が「観測同期の代用ではない」**と書いてある。
+// ----     ⑤ 候補式ライブラリ側(`lib-w272b-pairlock.mjs`)の面外宣言も**相手へ向かう軸**である。
+// ----     ⑥ AH21 の**位置づけ**((i)主 /(iii)対照 /(ii)不十分)と **C5 は t=0 の定数評価**が宣言されている。
+// ----   **「潮汐ロックを証明した」「引きずり式が確定した」とは書かない**(位置づけは採用ではない)。
+{
+  const bad = [];
+  let nSys = 0, nSigned = 0, roles = null;
+  try {
+    const B = await import('file://' + path.join(ROOT, 'tests', 'lib-w272c-binlock.mjs'));
+    const src = fs.readFileSync(path.join(ROOT, 'tests', 'lib-w272c-binlock.mjs'), 'utf8');
+    // ① 訂正
+    if (src.indexOf('相手へ向かう単位ベクトル') < 0) bad.push('①「相手へ向かう単位ベクトル」の訂正が無い');
+    if (src.indexOf('n は面直の単位ベクトル)') >= 0) bad.push('①旧い綴り「n は面直の単位ベクトル)」が残っている');
+    if (String(B.SPIN_AXIS_NOTE_JA || '').indexOf('相手へ向かう単位ベクトル') < 0)
+      bad.push('①宣言文(SPIN_AXIS_NOTE_JA)が訂正されていない');
+    // ② (σ n)×n=0 の意味の限定
+    for (const w of ['軸上の相対すべり', '意味は限定'])
+      if (String(B.SPIN_AXIS_NOTE_JA || '').indexOf(w) < 0) bad.push(`②「${w}」が宣言文に無い`);
+    // ③ 符号規約と符号つき同期比
+    const SC = String(B.SIGN_CONVENTION_JA || '');
+    for (const w of ['反時計回り', '逆行の同期', '絶対値'])
+      if (SC.indexOf(w) < 0) bad.push(`③符号規約に「${w}」が無い`);
+    const pro = B.signedSynchrony(2, 2), ret = B.signedSynchrony(-2, 2);
+    if (!pro || pro.ratio !== 1 || pro.synchronousProgradeApprox !== true
+      || pro.synchronousRetrogradeApprox !== false) bad.push('③順行同期(+1)が +1 と読めない');
+    if (!ret || ret.ratio !== -1 || ret.synchronousRetrogradeApprox !== true
+      || ret.synchronousProgradeApprox !== false) bad.push('③逆行同期(−1)を順行と区別できない');
+    if (!(pro.absRatio === ret.absRatio)) bad.push('③絶対値では 2 つが区別できないことが示せていない');
+    if (B.signedSynchrony(1, 0) !== null || B.signedSynchrony(null, 2) !== null)
+      bad.push('③0 割り/未転写を null で返していない');
+    // ④ 走行正本
+    const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'nslock-w272c.json'), 'utf8'));
+    const M = J.meta || {};
+    if (String(M.spinAxisCorrection || '').indexOf('相手へ向かう単位ベクトル') < 0)
+      bad.push('④正本 meta に n の訂正が無い');
+    if (!M.signConvention) bad.push('④正本 meta に符号規約が無い');
+    if (String(M.spinZeroNote || '').indexOf('観測同期の代用') < 0)
+      bad.push('④正本 meta に「spin=0 は観測同期の代用ではない」が無い');
+    for (const s of (J.systems || [])) {
+      nSys++;
+      const sy = s.spinSynchrony || {};
+      if (sy.ratioIsUnsigned !== true) bad.push(`④${s.id} の比が「符号なし」と宣言されていない`);
+      if (sy.signKnownFromCsv !== false) bad.push(`④${s.id} が CSV から符号を読めると宣言している`);
+      if (String(sy.spinZeroNote || '').indexOf('代用ではない') < 0)
+        bad.push(`④${s.id} に spin=0 の注記が無い`);
+      for (const z of (sy.signedDeclared || [])) {
+        nSigned++;
+        if (z.spinIsZero && z.signed && z.signed.synchronousProgradeApprox === true)
+          bad.push(`④${s.id} の spin=0 が「同期」と読まれている`);
+      }
+    }
+    // ⑤ 候補式ライブラリ側
+    const PL = await import('file://' + path.join(ROOT, 'tests', 'lib-w272b-pairlock.mjs'));
+    const ref = PL.pairLockReferenceCases()[0];
+    const v = PL.pairLockCandidates(ref.s);
+    if (!v || String((v.declaredOutOfPlane || {}).axis || '').indexOf('toward-companion') < 0)
+      bad.push('⑤候補式の面外宣言が「相手へ向かう軸」になっていない');
+    // ⑥ AH21 の位置づけ
+    roles = B.PAIRLOCK_CANDIDATE_ROLES || null;
+    if (!roles) bad.push('⑥候補の位置づけ(AH21)の宣言が無い'); else {
+      if ((roles.roles.candI || {}).role !== 'primary') bad.push('⑥(i) が主になっていない');
+      if ((roles.roles.candII || {}).role !== 'insufficient') bad.push('⑥(ii) が不十分になっていない');
+      if ((roles.roles.candIII || {}).role !== 'control') bad.push('⑥(iii) が対照になっていない');
+      if (String(roles.c5Note || '').indexOf('動的維持の実証ではない') < 0)
+        bad.push('⑥C5 が「t=0 の定数評価・動的維持の実証ではない」と書かれていない');
+      if (String((roles.roles.candII || {}).why || '').indexOf('0.998') < 0)
+        bad.push('⑥(ii) の実測(❄️ 0.998)が書かれていない');
+    }
+    if (v && (v.candI.role !== 'primary' || v.candII.role !== 'insufficient' || v.candIII.role !== 'control'))
+      bad.push('⑥候補式の返り値に位置づけが載っていない');
+    // **書かない語は宣言で持つ**(本文の綴りを数える読み方は、否定の列挙を自分で踏むので採らない)
+    for (const w of ['潮汐ロックを証明した', '引きずり式が確定した', '候補を採用した'])
+      if (!roles || !(roles.notClaim || []).includes(w)) bad.push(`書かない語「${w}」の宣言が無い`);
+  } catch (e) { bad.push('読めない: ' + String(e).slice(0, 110)); }
+  add('docs.binlockAxisDef', bad.length === 0,
+    `**自転軸 n の訂正と符号規約**(第273便d・統括の検証項目 R18 / AH22 / AH21): `
+    + `① 運動学の宣言 ω_i = Ω_AB + σ_i·n の **n は「相手へ向かう単位ベクトル」**(天体間方向・面内)で、`
+    + `第272便c の「面直の単位ベクトル」は**撤回した** —— 仮説の「自転軸が互いを向く」がこの向きだからである / `
+    + `② **(σ_i n)×n = 0 の意味は「軸上の相対すべりをこの項が拾わない」に限る**`
+    + `(「面内軸の自転が力学に効かない」ではない)/ `
+    + `③ 符号規約(面直 z は画面手前向きが正・反時計回りが正・視線は +z 側)を宣言し、`
+    + `**同期 +1 と逆行の同期 −1 を区別する**(|ratio| では区別できないので**絶対値で判定しない**)/ `
+    + `④ 走行正本 ${nSys} 系・符号つきの宣言 ${nSigned} 天体に載せた。`
+    + `**NS 4 系の内蔵 spin=0 は「観測同期の代用」ではない**(自転が転写できないので 0 を宣言してある)/ `
+    + `⑤ 候補式ライブラリの面外宣言も同じ軸 / `
+    + `⑥ 候補の位置づけ(AH21): **(i) 主・(iii) 対照・(ii) 不十分**`
+    + `(${roles ? String((roles.roles.candII || {}).why || '') : '—'})。`
+    + `**C5 は t=0 の定数評価であって動的維持の実証ではない** —— 位置づけは**採用ではない**`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0e3f) 第273便d(第63報・AH26): docs.rparCanonical — 不均衡 2 種と正準運動量 ----
+// ----   mesh-v2 の運動方程式は **H′a = R** である。第272便c は Σmᵢaᵢ(通常の重心)だけを見て
+// ----   「χ₁≠χ₂ かつ η>0 で 0 にならない」を記録したが、**正準運動量 p=H′v の側は測っていなかった**。
+// ----   本便は 2 種を分けて並べる(`tests/exp-w272c-rpar.mjs` → `tests/out/rpar-w272c.json`):
+// ----     ① 静止 2 体で **1ᵀH′a は 0**(相対不均衡 ≤1e-12)—— 1ᵀF=0 から出る恒等である。
+// ----     ② 同じ行で **Σmᵢaᵢ は 0 にならない**(χ₁≠χ₂ かつ η>0)。**2 つは別の量である。**
+// ----     ③ 実装の返り値(`HP.dfmMeshV2Solve` の `sumMassAccel`/`canonicalAccel`)と
+// ----        **純関数**(`lib-w272c-binlock.canonicalMomentumCheck`)が一致する。
+// ----     ④ **非静止**では Ḣ′ を q±h·v の中心差分で作って 1ᵀ(Ḣ′)v も測り、**刻みを 2 つ振る**。
+// ----     ⑤ **受理条件の候補 5 つ**が正本に列挙され、**どれも採用していない**。
+// ----   **「保存則違反」とは書かない**(①②が違う値であることは、どちらの保存則の破れでもない)。
+{
+  const bad = [];
+  let nRest = 0, nMove = 0, maxCanRel = 0, briefSum = null, briefCan = null, nImb = 0, maxStepDep = null;
+  let nCand = 0, movRows = [];
+  try {
+    const P = path.join(ROOT, 'tests', 'out', 'rpar-w272c.json');
+    const J = JSON.parse(fs.readFileSync(P, 'utf8'));
+    if ((J.meta || {}).harness !== 'w273d-rpar-2') bad.push('器の版が違う');
+    const can = (J.meta || {}).canonical || {};
+    nCand = (can.acceptanceCandidates || []).length;
+    if (nCand !== 5) bad.push(`⑤受理条件の候補が 5 つでない(${nCand})`);
+    if (String(can.claim || '').indexOf('保存則違反') < 0)
+      bad.push('⑤「保存則違反とは書かない」の宣言が無い');
+    const rest = J.canonicalRest || [];
+    nRest = rest.length;
+    if (nRest < 6) bad.push(`①静止の行が少ない(${nRest})`);
+    for (const c of rest) {
+      if (c.stop) { bad.push(`①${c.tag} が止まっている(${c.stop})`); continue; }
+      const ca = c.canonicalAccel || {};
+      for (const z of (ca.rel || [])) {
+        if (z === null) continue;
+        if (z > maxCanRel) maxCanRel = z;
+        if (!(z <= 1e-12)) bad.push(`①${c.tag} の 1ᵀH′a が 0 でない(相対 ${z})`);
+      }
+      const sm = c.sumMassAccel || {};
+      if ((sm.rel || [])[0] !== null && (sm.rel || [])[0] > 1e-12) nImb++;
+      const d = c.implMinusPure || {};
+      if (!(d.sumMassAccel === 0 && d.canonicalAccel === 0))
+        bad.push(`③${c.tag} で実装と純関数が一致しない(${d.sumMassAccel}/${d.canonicalAccel})`);
+      if (/^brief\//.test(c.tag)) { briefSum = sm.x; briefCan = ca.x; }
+    }
+    if (nImb === 0) bad.push('②Σmᵢaᵢ の不均衡が 1 行も無い(記録が空振りしている)');
+    if (briefSum === null) bad.push('②統括の予備測定と同じ構成(brief)の行が無い');
+    const mov = J.canonicalMoving || [];
+    nMove = mov.length;
+    if (nMove < 4) bad.push(`④非静止の行が少ない(${nMove})`);
+    for (const c of mov) {
+      if (c.stop) { bad.push(`④${c.tag} が止まっている(${c.stop})`); continue; }
+      if ((c.stages || []).length !== 2) bad.push(`④${c.tag} の刻みが 2 段でない`);
+      for (const s of (c.stages || [])) {
+        if (s.hdotAvailable !== true) bad.push(`④${c.tag} で Ḣ′ 項が測れていない(h=${s.h})`);
+        if (!s.canonicalTotal) bad.push(`④${c.tag} に d(1ᵀH′v)/dt が無い(h=${s.h})`);
+      }
+      if (c.stepDependence === null) bad.push(`④${c.tag} に刻み依存が無い`);
+      else if (maxStepDep === null || c.stepDependence.dx > maxStepDep) maxStepDep = c.stepDependence.dx;
+      const s0 = (c.stages || [])[0] || {};
+      movRows.push(`${c.tag}: 1ᵀH′a=${s0.canonicalAccel ? s0.canonicalAccel.x.toExponential(2) : '—'}`
+        + `・1ᵀḢ′v=${s0.hdotTerm ? s0.hdotTerm.x.toExponential(2) : '—'}`
+        + `・計=${s0.canonicalTotal ? s0.canonicalTotal.x.toExponential(2) : '—'}`);
+    }
+    const txt = fs.readFileSync(P, 'utf8');
+    const asserted = (s, w) => { let i = -1, n = 0;
+      while ((i = s.indexOf(w, i + 1)) >= 0) { if (s[i - 1] !== '「' && s[i - 1] !== '*') n++; } return n; };
+    for (const w of ['保存則を満たす', '正準運動量が保存する', '引きずり式が確定'])
+      if (asserted(txt, w) > 0) bad.push(`断定語「${w}」が JSON にある`);
+  } catch (e) { bad.push('走行 JSON が読めない: ' + String(e).slice(0, 100)); }
+  add('docs.rparCanonical', bad.length === 0,
+    `**不均衡 2 種と正準運動量**(第273便d・AH26・**mesh-v2 は候補の則であって確立則ではない**): `
+    + `静止 ${nRest} 行 —— **① 1ᵀH′a(正準運動量の微分の第 1 項)は 0**`
+    + `(相対不均衡の最大 ${maxCanRel.toExponential(1)} —— H′a=R・静止では R=F・**1ᵀF=0** から出る恒等)/ `
+    + `**② 同じ行で Σmᵢaᵢ(通常の重心)は 0 にならない**(${nImb} 行)。`
+    + `統括の予備測定と同じ構成(m₁=2・m₂=1・r=3・D₀=1・η=0.7・ε=0)の実測は `
+    + `**Σma_x=${briefSum === null ? '—' : briefSum.toExponential(4)}・`
+    + `1ᵀH′a_x=${briefCan === null ? '—' : briefCan.toExponential(4)}** / `
+    + `③ 実装(\`HP.dfmMeshV2Solve\` の返り値)と**純関数**(\`canonicalMomentumCheck\`)は**厳密に一致** / `
+    + `④ 非静止 ${nMove} 行で Ḣ′ を q±h·v の中心差分にして 1ᵀ(Ḣ′)v も測った(刻み 2 段・`
+    + `最大の刻み依存 ${maxStepDep === null ? '—' : maxStepDep.toExponential(1)}): ${movRows.join(' / ')} / `
+    + `⑤ 受理条件の候補 ${nCand} つ(長時間の正準運動量・角運動量・エネルギー・背景交換・通常の重心)は`
+    + `**並べただけで、どれも採用していない** —— **「保存則違反」とは書かない**`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 
@@ -42026,13 +42211,26 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const Sdrag = { params: { geoPN: 3, kFrame: 1 }, hasGeoToy: true, geoToyDeny: null,
         geoToyStop: null, geoToyOverlay: 'drag', geoToyConverged: true };
       o.dragLabel = HP.meshChipLabel(clone, Sdrag);
-      // ④ **complex を宣言した複製**では complex と出る(実行中の toy が立っているとき)
+      // ④ **complex を宣言した状態**は「作動中」にしない(第273便d・AH23: 意図された未接続)。
+      //    engine が返す形の診断オブジェクトを使う —— **最初のキックの前**(geoToyStop はまだ null)でも
+      //    作動中と書かないことが契約である。
       HP.loadPreset('psrDoubleABGeoToy', false);
       const c2 = JSON.parse(JSON.stringify(ps.find((p) => p.id === 'psrDoubleABGeoToy')));
       c2.physics.spaceMesh.lawVersion = 'complex';
-      const st2 = HP.meshChipState(c2, HP.sim);
+      const Scx = { params: { geoPN: 3, kFrame: 0, spaceMesh: { lawVersion: 'complex' } },
+        hasGeoToy: true, geoToyDeny: null, geoToyStop: null, geoToyOverlay: null, geoToyConverged: null };
+      const st2 = HP.meshChipState(c2, Scx);
       o.complexKey = st2 ? st2.key : null;
-      o.complexLabel = st2 ? HP.meshChipLabel(c2, HP.sim) : null;
+      o.complexReason = st2 ? st2.reason : null;
+      o.complexActing = st2 ? st2.acting : null;
+      o.complexLabel = st2 ? HP.meshChipLabel(c2, Scx) : null;
+      // **宣言だけ**(geoPN≠3・走行情報なし)では従来どおり「宣言のみ」 —— complex を宣言しても
+      // 「複素決定力場」にはならない(🪟 spaceMeshBinaryToy の複製で確かめる)
+      const c3 = JSON.parse(JSON.stringify(ps.find((p) => p.id === 'spaceMeshBinaryToy')));
+      c3.physics.spaceMesh.lawVersion = 'complex';
+      const st3 = HP.meshChipState(c3, null);
+      o.complexDeclaredOnly = st3 ? st3.key : null;
+      o.complexDeclaredLaw = st3 ? st3.law : null;
       // ⑤ **メッシュの宣言も geoPN=3 も無い本にはチップが出ない**(実行中の宇宙も geoPN<3 のとき)
       HP.loadPreset('saturn', false);
       o.plainNull = HP.meshChipState(ps.find((p) => p.id === 'saturn'), HP.sim) === null;
@@ -42046,7 +42244,10 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       r.noComplexChip && r.complexDecl.length === 0 && r.rows.length === 3
       && r.declaredOnly.length === 1 && r.denyKey === 'stopped' && r.denyReason === 'kFrame'
       && /メッシュ未作動: kFrame>0 と重なる/.test(String(r.denyLabel))
-      && r.complexKey === 'complex' && /引きずり重畳|dragging overlaid/.test(String(r.dragLabel))
+      && r.complexKey === 'stopped' && r.complexReason === 'complexNotVelocity'
+      && r.complexActing === false
+      && r.complexDeclaredOnly === 'declared' && r.complexDeclaredLaw === 'complex'
+      && /引きずり重畳|dragging overlaid/.test(String(r.dragLabel))
       && r.plainNull && /Space mesh: scalar/.test(String(r.enLabel)),
       `**空間メッシュ/複素決定力場チップ(宣言と作動を分ける)**: 宣言のある本 ${r.rows.length} 件=`
       + `${JSON.stringify(r.rows)} / **geoPN=3 だけでは「複素決定力場」と書かない**: `
@@ -42054,10 +42255,120 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       + `「複素決定力場」チップは ${r.noComplexChip ? '1 件も出ない' : '出てしまっている'} / `
       + `宣言のみ(測地線トイ未選択)=${JSON.stringify(r.declaredOnly)} / `
       + `**作動状態を読む**(画面の選択値だけを根拠にしない): 実行情報が deny=${r.denyReason} を返す状態では`
-      + `「${r.denyLabel}」・重畳(toyAllowDrag)では「${r.dragLabel}」/ complex を宣言した複製では「${r.complexLabel}」/ `
+      + `「${r.denyLabel}」・重畳(toyAllowDrag)では「${r.dragLabel}」/ `
+      + `**complex は作動中にしない**(第273便d・AH23 —— 意図された未接続): 停止理由 ${r.complexReason}・`
+      + `acting=${r.complexActing}・表示は「${String(r.complexLabel).slice(0, 60)}…」・`
+      + `**宣言だけ**(geoPN≠3・走行なし)の複製では ${r.complexDeclaredOnly}`
+      + `(law=${r.complexDeclaredLaw} でも「複素決定力場」にはならない)/ `
       + `宣言の無い本はチップ無し=${r.plainNull} / en=「${r.enLabel}」`);
   }
   await xp.close();
+}
+// ---- 第273便d(第63報・統括の検証項目 R17 / AH23): ui.meshChipStop ----
+// ----   第272便d のチップは `acting = !!S.hasGeoToy` だけを見ていた。`hasGeoToy` は
+// ----   **「入場条件が立っている」**(第262便a)であって「積分器が当てた」ではないので、
+// ----   `geoToyStop` が立っている步(閉包が未収束・対象粒子が無い・complex)でも
+// ----   「作動中」と出てしまっていた。さらに、走行中に停止理由が変わってもチップは
+// ----   「説明」タブを開き直すまで動かなかった。本便で固定するのは 5 つ:
+// ----     ① `hasGeoToy` が立っていても `geoToyStop` があれば **「メッシュ未作動: 理由」**を出す。
+// ----     ② **`lawVersion:"complex"` は作動中にしない**(AH23 —— **意図された未接続**)。
+// ----        `geoToyStop` がまだ null の步(最初のキックの前)でも停止側に出る。
+// ----     ③ **実行中は走っている宣言**(`S.params.spaceMesh`)を優先して読む(`source:"running"`)。
+// ----     ④ `HP.syncMeshChip()` で**チップだけ**が書き換わる(他のチップ・説明パネルは触らない)。
+// ----     ⑤ 停止理由の i18n が ja/en の両方にあり、表に無い理由は**そのまま**出る(黙って一般化しない)。
+// ----   **表示だけの読み口**である —— 較正クラスの受理条件も力学も 1 bit も変えていない。
+{
+  const sp = await browser.newPage();
+  await sp.goto(INDEX, { waitUntil: 'load' });
+  await sp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const hasSync = await sp.evaluate(() => !!(window.HP && typeof HP.syncMeshChip === 'function'));
+  if (!hasSync) {
+    console.log('SKIP ui.meshChipStop(第273便d 未適用 — HP.syncMeshChip なし)');
+  } else {
+    const r = await sp.evaluate(() => {
+      const o = {}, ps = HP.allPresets();
+      const proto = ps.find((p) => p.id === 'psrDoubleABGeoToy');
+      // ① 入場はできたが積分器が止めた步(閉包が未収束)
+      const Sstop = { params: { geoPN: 3, kFrame: 0, spaceMesh: { lawVersion: 'local' } },
+        hasGeoToy: true, geoToyDeny: null, geoToyStop: 'closureUnconverged',
+        geoToyOverlay: null, geoToyConverged: false };
+      const a = HP.meshChipState(proto, Sstop);
+      o.stopKey = a ? a.key : null; o.stopReason = a ? a.reason : null;
+      o.stopActing = a ? a.acting : null; o.stopEntered = a ? a.entered : null;
+      o.stopLabel = HP.meshChipLabel(proto, Sstop);
+      // 「対象粒子が無い」も同じ扱い(表にある理由は訳す)
+      const Sno = { ...Sstop, geoToyStop: 'noTargets', geoToyConverged: null };
+      o.noTargetsLabel = HP.meshChipLabel(proto, Sno);
+      // 表に無い理由は**そのまま**出す
+      const Sraw = { ...Sstop, geoToyStop: 'meshV2:pinned', geoToyConverged: null };
+      o.rawLabel = HP.meshChipLabel(proto, Sraw);
+      // ② complex は「最初のキックの前」でも作動中にしない
+      const Scx = { params: { geoPN: 3, kFrame: 0, spaceMesh: { lawVersion: 'complex' } },
+        hasGeoToy: true, geoToyDeny: null, geoToyStop: null, geoToyOverlay: null, geoToyConverged: null };
+      const c = HP.meshChipState(proto, Scx);
+      o.cxKey = c ? c.key : null; o.cxReason = c ? c.reason : null; o.cxActing = c ? c.acting : null;
+      o.cxLabel = HP.meshChipLabel(proto, Scx);
+      // ③ **走っている宣言が優先される**: 宣言は local・走行は scalar
+      const Srun = { params: { geoPN: 3, kFrame: 0, spaceMesh: { lawVersion: 'scalar' } },
+        hasGeoToy: true, geoToyDeny: null, geoToyStop: null, geoToyOverlay: null, geoToyConverged: null };
+      const w = HP.meshChipState(proto, Srun);
+      o.runSource = w ? w.source : null; o.runLaw = w ? w.law : null; o.runActing = w ? w.acting : null;
+      // ④ **チップだけが書き換わる**(実機の DOM で測る)
+      HP.loadPreset('psrDoubleABGeoToy', false);
+      const chipsOf = () => [...document.querySelectorAll('#classChips .classChip')]
+        .map((e) => [e.dataset.g, e.textContent]);
+      o.before = chipsOf();
+      const sim = HP.sim;
+      const keep = { stop: sim.geoToyStop, conv: sim.geoToyConverged };
+      sim.geoToyStop = 'closureUnconverged'; sim.geoToyConverged = false;
+      HP.syncMeshChip();
+      o.after = chipsOf();
+      sim.geoToyStop = keep.stop; sim.geoToyConverged = keep.conv;
+      HP.syncMeshChip();
+      o.restored = chipsOf();
+      o.sameLength = (o.before.length === o.after.length) && (o.before.length === o.restored.length);
+      o.onlyMeshChanged = o.before.every((z, i) => (z[0].indexOf('mesh-') === 0)
+        || (z[0] === o.after[i][0] && z[1] === o.after[i][1]));
+      o.meshBefore = (o.before.find((z) => z[0].indexOf('mesh-') === 0) || [null, null]);
+      o.meshAfter = (o.after.find((z) => z[0].indexOf('mesh-') === 0) || [null, null]);
+      o.meshRestored = (o.restored.find((z) => z[0].indexOf('mesh-') === 0) || [null, null]);
+      o.roundTrip = (o.meshBefore[1] === o.meshRestored[1]) && (o.meshBefore[0] === o.meshRestored[0]);
+      // ⑤ 停止理由の i18n が ja/en 両方にある
+      o.i18nJa = ('bdgMeshStop_complexNotVelocity' in I18N.ja) && ('bdgMeshStop_noTargets' in I18N.ja);
+      o.i18nEn = ('bdgMeshStop_complexNotVelocity' in I18N.en) && ('bdgMeshStop_noTargets' in I18N.en);
+      // **「複素決定力場」を作動中の語として持っていない**
+      o.noComplexLabelKey = !('bdgMesh_complex' in I18N.ja) && !('bdgMesh_complex' in I18N.en);
+      HP.setLang('en');
+      o.cxLabelEn = HP.meshChipLabel(proto, Scx);
+      HP.setLang('ja'); HP.loadPreset('saturn', false);
+      return o;
+    });
+    add('ui.meshChipStop',
+      r.stopKey === 'stopped' && r.stopReason === 'closureUnconverged' && r.stopActing === false
+      && r.stopEntered === true && /メッシュ未作動/.test(String(r.stopLabel))
+      && /当てる対象の粒子/.test(String(r.noTargetsLabel))
+      && /meshV2:pinned/.test(String(r.rawLabel))
+      && r.cxKey === 'stopped' && r.cxReason === 'complexNotVelocity' && r.cxActing === false
+      && /意図された未接続/.test(String(r.cxLabel))
+      && /INTENDED NON-CONNECTION/.test(String(r.cxLabelEn))
+      && r.runSource === 'running' && r.runLaw === 'scalar' && r.runActing === true
+      && r.sameLength && r.onlyMeshChanged && r.roundTrip
+      && r.meshBefore[0] !== r.meshAfter[0] && r.i18nJa && r.i18nEn && r.noComplexLabelKey,
+      `**メッシュチップの停止判定と実行追従**(第273便d・統括の検証項目 R17 / AH23): `
+      + `① \`hasGeoToy\` が立っていても \`geoToyStop\` があれば停止側へ倒す`
+      + `(key=${r.stopKey}・reason=${r.stopReason}・acting=${r.stopActing}・entered=${r.stopEntered}・`
+      + `表示「${r.stopLabel}」)—— **入場と作動は別である** / `
+      + `表に無い理由はそのまま出す(「${r.rawLabel}」)/ `
+      + `② **\`lawVersion:"complex"\` は作動中にしない**(**意図された未接続** —— `
+      + `\`geoToyStop\` がまだ null の步でも key=${r.cxKey}・reason=${r.cxReason})。`
+      + `**「複素決定力場」を作動中の語として持っていない**=${r.noComplexLabelKey} / `
+      + `③ **実行中は走っている宣言を優先**(source=${r.runSource}・law=${r.runLaw}) / `
+      + `④ \`HP.syncMeshChip()\` で**チップだけ**が「${r.meshBefore[1]}」→「${r.meshAfter[1]}」へ`
+      + `書き換わり、他の ${r.before.length - 1} 個は 1 文字も動かない(往復で戻る=${r.roundTrip}) / `
+      + `⑤ 停止理由の i18n は ja/en 両方にある / `
+      + `**表示だけの読み口**であり、較正クラスの受理条件も力学も 1 bit も変えていない`);
+  }
+  await sp.close();
 }
 {
   const gp = await browser.newPage();

@@ -2076,3 +2076,11 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   **`geoPN=3` であることだけを根拠に「複素決定力場」と表示しない**(`lawVersion` は scalar / local / complex の 3 つがあり、
   法則版 `law:"mesh-v2"` は別にあり、**選択と作動も別**である)。較正クラス(`sampleClass:"calibration"`)の受理条件は不変で、
   `geoPN=3` は従来どおり拒否される。
+  **第273便d(統括の検証項目 R17 / AH23)**: 実行中は**走っている宣言 `S.params.spaceMesh`** を先に読む
+  (どちらを読んだかは返り値の `source:"running"|"declared"`)。`S.hasGeoToy` は**入場条件が立っていること**
+  であって積分器が当てたことではないので、**`S.geoToyDeny` か `S.geoToyStop` が立っていれば `acting=false`**
+  とし、入場できたことは `entered` に別に残す。**`lawVersion:"complex"` は作動中にしない** ——
+  積分器へ接続していない(**意図された未接続**・停止理由 `complexNotVelocity`)ので、
+  `geoToyStop` がまだ null の步(最初のキックの前)でも停止側に出る。**作動中の語としての
+  「複素決定力場」(`bdgMesh_complex`)は撤去した。** 表示の追従は `HP.syncMeshChip()`(`syncHud` から呼ぶ)で、
+  **チップ 1 個だけを書き換える**(説明パネルは作り直さない)。**新しい鍵は 1 つも足していない。**

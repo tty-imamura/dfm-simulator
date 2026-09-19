@@ -38,7 +38,7 @@ import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { richardson3 } from './lib-w265a-analogy.mjs';
-import { lockDeclaration, sigmaTimes } from './lib-w272c-binlock.mjs';
+import { lockDeclaration, sigmaTimes, signedSynchrony, SIGN_CONVENTION_JA } from './lib-w272c-binlock.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -203,6 +203,15 @@ await pg.evaluate(() => {
     return p ? { id, emoji: p.emoji, kFrame: p.physics.kFrame, lambdaPN: p.physics.lambdaPN,
       geoPN: p.physics.geoPN, sampleClass: p.sampleClass,
       masses: p.bodies.map((b) => b.m), spins: p.bodies.map((b) => b.spin),
+      // 第273便d(AH22): **符号つき**の公転角速度 Ω_z=(r×v)_z/r²(宣言された初期条件から作る)。
+      // 面直 z は画面手前向きが正・反時計回り(x→y)が正 —— spin と同じ符号規約である。
+      omegaOrbit: (() => {
+        const a = p.bodies[0], b2 = p.bodies[1];
+        if (!a || !b2) return null;
+        const rx = b2.x - a.x, ry = b2.y - a.y, vx = b2.vx - a.vx, vy = b2.vy - a.vy;
+        const r2 = rx * rx + ry * ry;
+        return (r2 > 0) ? (rx * vy - ry * vx) / r2 : null;
+      })(),
       unitT: Math.pow(10, Number(p.scaleExp.T)),
       ledgerFactor: (p.massCalibration && Number.isFinite(p.massCalibration.factor))
         ? p.massCalibration.factor : null,
@@ -243,7 +252,15 @@ const out = { meta: { wave: '第272便c', section: '潮汐ロック枝(kFrame=0�
   claim: '**σ 倍は記録であって合否ではない。**「観測と合った」「潮汐ロックを証明した」'
     + '「引きずり式が確定した」「共同根を再検証した」とは書かない。',
   touched: '**内蔵プリセットは 1 bit も動かしていない**(diagnostic copy の physics.kFrame / '
-    + 'physics.lambdaPN / bodies[].m だけを書き換える)。`S._core` には 1 命令も足していない。' },
+    + 'physics.lambdaPN / bodies[].m だけを書き換える)。`S._core` には 1 命令も足していない。',
+  // 第273便d(統括の検証項目 R18 / AH22)
+  spinAxisCorrection: '運動学の宣言 ω_i = Ω_AB + σ_i·n の **n は相手へ向かう単位ベクトル**'
+    + '(天体間方向・面内)である。第272便c の「n は面直の単位ベクトル」は**撤回する**。'
+    + '(σ_i n)×n = 0 は「軸上の相対すべりをこの項が拾わない」という意味に限られ、'
+    + '「面内軸の自転が力学に効かない」ではない。',
+  signConvention: SIGN_CONVENTION_JA,
+  spinZeroNote: '**NS 4 系の内蔵 spin=0 は「観測同期の代用」ではない**(自転が転写できないので '
+    + '0 を宣言してある = エンジンに自転源を置かない)。' },
   builtinDeclared: BUILTIN, systems: [], pageErrors: [] };
 
 const tAll = Date.now();
@@ -300,11 +317,30 @@ for (const sys of SYSTEMS) {
           ratioToOrbit: (sec !== null && Porb) ? sec / Porb : null };
       });
       const known = rows.filter((z) => z.ratioToOrbit !== null);
+      // 第273便d(AH22): **符号つきの比**を別欄で出す。CSV の rotation_period は**大きさ**なので、
+      // 符号は CSV からは読めない(`signKnownFromCsv:false`)。エンジンが実際に走らせる宣言
+      // (内蔵 bodies の spin と、初期条件から作る公転角速度 Ω_z)は**符号を持っている**ので、
+      // そちらは `signedDeclared` に符号つきで並べる。**絶対値で同期を判定しない。**
+      const Om = bi ? bi.omegaOrbit : null;
+      const signedDeclared = (bi && Array.isArray(bi.spins))
+        ? bi.spins.map((sp, i) => ({ index: i, spin: sp, omegaOrbit: Om,
+          signed: signedSynchrony(sp, Om),
+          // **spin=0 は「観測同期の代用」ではない**(下の spinZeroNote)
+          spinIsZero: sp === 0 }))
+        : [];
       return { orbitalPeriodSec: Porb, rows,
         anyTranscribed: rows.some((z) => z.transcribed),
         allWithin1Percent: known.length > 0 && known.every((z) => Math.abs(z.ratioToOrbit - 1) < 0.01),
+        ratioIsUnsigned: true,
+        signKnownFromCsv: false,
+        signConvention: SIGN_CONVENTION_JA,
+        signedDeclared,
+        spinZeroNote: '**内蔵の spin=0 は「観測上同期している」の代用ではない。** '
+          + 'NS 4 系は自転が転写できないので **0 を宣言してある**(= エンジンに自転源を置かない)のであって、'
+          + '「ω_spin = Ω_orb」を表してはいない。符号つきの比でも 0/Ω = 0 になり **+1 にはならない**。',
         note: '**「潮汐ロックしている」は観測事実ではなく仮説である。** '
-          + '転写行が無い天体は本器では測れない(0 や 1 で埋めない)。' };
+          + '転写行が無い天体は本器では測れない(0 や 1 で埋めない)。'
+          + '**P_spin/P_orb は符号を持たない比である**(逆行と順行を区別しない —— 第273便d・AH22)。' };
     })(),
     lockDeclaration: lockDeclaration({ systemKind: sys.kind, id: sys.id,
       sigma: [0, 0], observedSpin: bi.spins,
