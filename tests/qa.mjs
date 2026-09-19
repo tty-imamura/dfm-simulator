@@ -1916,7 +1916,10 @@ const add = (id, pass, detail) => {
       'tests/out/bhcore-w274e.json', 'tests/out/armbar-w274e.json',
       // 第274便c(第64報): 銀河トイの負荷分解・API 同値・3 者比較の 3 本(**判定ではなく数の正本**)
       'tests/out/galaxyprof-w274c.json', 'tests/out/needmesh-w274c.json',
-      'tests/out/galaxylite-w274c.json'];
+      'tests/out/galaxylite-w274c.json',
+      // 第274便d(第64報): 形状トイ(指定した 3D 正規分布を定常分布に持つ参照モデル)の完成判定
+      'tests/out/shapetoy-w274d.json'];
+
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -24276,7 +24279,8 @@ if (!FAST) {
           for (const k of Object.keys(rep.byReason)) why[k] = (why[k] || 0) + rep.byReason[k];
           if (rep.counts.rejected) badIds.push((p.emoji || '') + p.id);
         }
-        O.rep = { nPresets: HP.allPresets().length, nCore, tot, why, badIds };
+        O.rep = { nPresets: HP.allPresets().length, nCore, tot, why, badIds,
+          nShapeToy: HP.allPresets().filter((z) => z.physics && z.physics.shapeToy).length };
       }
       // ⑦ 非有限の拒否(原子的 — 元の状態が残る)
       {
@@ -24325,6 +24329,8 @@ if (!FAST) {
     const has274c = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'galaxyMeshSpiralGeoToyLite'));
     const exp6 = has274c ? { n: 125, core: 76, res: 14 }
       : (has265 ? { n: 124, core: 76, res: 14 } : { n: 122, core: 75, res: 13 });
+    // 第274便d: 形状トイ 3 本は core 宣言を持たない(core/res は不変・n だけ増える)
+    exp6.n += (mg.rep.nShapeToy || 0);
     const m6 = mg.rep.nPresets === exp6.n && mg.rep.nCore === exp6.core && mg.rep.tot.convertible === 61
       && mg.rep.tot.needsResolve === exp6.res && mg.rep.tot.rejected === 1
       && mg.rep.tot.cavity === 0 && mg.rep.tot.naked === 0;
@@ -24553,7 +24559,8 @@ if (!FAST) {
       }
       return { C, p60: { jx: p60.layers[0].Jx, warn: p60.warnings },
         rep: { nPresets: HP.allPresets().length, nCore, tot, byAxis, byReason, ids,
-        has274c: HP.allPresets().some((q) => q.id === 'galaxyMeshSpiralGeoToyLite') } };
+        has274c: HP.allPresets().some((q) => q.id === 'galaxyMeshSpiralGeoToyLite'),
+          nShapeToy: HP.allPresets().filter((z) => z.physics && z.physics.shapeToy).length } };
     });
     const bad = rp.C.filter((c) => !c.pass);
     const g0 = bad.length === 0 && rp.C.length >= 45;
@@ -24563,7 +24570,7 @@ if (!FAST) {
     // 第265便d: 🐮 lfbotTrap が入って 76 宣言。増えた 1 件は `migrationRejected`(body.radius 非宣言)で
     // 不可 44→45・rotationSource 43→44・migration 14→15・各項 +1。内蔵は 🪁 と合わせ 124 本。
     // 第274便c: 🎋 galaxyMeshSpiralGeoToyLite(コア宣言なし)が入って 124→125 本(core 76 件は不変)
-    const g1 = rp.rep.nPresets === (rp.rep.has274c ? 125 : 124) && rp.rep.nCore === 76
+    const g1 = rp.rep.nPresets === (rp.rep.has274c ? 125 : 124) + (rp.rep.nShapeToy || 0) && rp.rep.nCore === 76
       && rp.rep.tot.canReplace === 31 && rp.rep.tot.cannot === 45
       && rp.rep.byAxis.rotationSource === 44 && rp.rep.byAxis.migration === 15
       && rp.rep.byAxis.KcsThermal === 17 && rp.rep.byAxis.activePumpContract === 17
@@ -25746,7 +25753,8 @@ if (!FAST) {
         for (const p of HP.allPresets()) for (const b of (p.bodies || []))
           if (b && b.core) { nCore++; if (b.core.shellSpinMass !== undefined) n++; }
         O.builtins = { nDeclared: n, nCore, nPresets: HP.allPresets().length,
-          has274c: HP.allPresets().some((q) => q.id === 'galaxyMeshSpiralGeoToyLite') }; }
+          has274c: HP.allPresets().some((q) => q.id === 'galaxyMeshSpiralGeoToyLite'),
+          nShapeToy: HP.allPresets().filter((z) => z.physics && z.physics.shapeToy).length }; }
       { const v2 = run('v2', 0.4, 'shell'), lay = run('lay', 0.4, 'shell');
         const v2t = run('v2', 0.4, null), layt = run('lay', 0.4, null);
         O.match = { shell: { qV2: v2.Q, qLay: lay.Q, d600: diff(v2, lay), law: v2.law },
@@ -25767,7 +25775,7 @@ if (!FAST) {
     }, 600);
     // 第274便c: 🎋(コア宣言なし)が入って 124→125 本(宣言 0・core 76 件は不変)
     const s1 = lw.builtins.nDeclared === 0 && lw.builtins.nCore === 76
-      && lw.builtins.nPresets === (lw.builtins.has274c ? 125 : 124);
+      && lw.builtins.nPresets === (lw.builtins.has274c ? 125 : 124) + (lw.builtins.nShapeToy || 0);
     const s2 = lw.match.shell.qV2 === lw.match.shell.qLay && lw.match.shell.d600 === 0
       && lw.match.shell.law === 'shell'
       && lw.match.total.dQ !== 0 && lw.match.total.d600 > 0 && lw.match.total.law === 'total';
@@ -43494,6 +43502,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       o.counts = gc; o.total = ps.length;
       // 第274便c: 🎋 galaxyMeshSpiralGeoToyLite(銀河の力学)が入って 124→125 本 —— 世代で切り替える
       o.has274c = ps.some((p) => p.id === 'galaxyMeshSpiralGeoToyLite');
+      o.nShapeToy = HP.allPresets().filter((z) => z.physics && z.physics.shapeToy).length;   // 第274便d: 形状トイの本数(総数の世代切り替え)
       // ⑥ 群の説明(ja/en)があり、「観測一致版ではない」を言う
       o.noteJa = (I18N.ja.groupNotes || {})[G] || '';
       o.noteEn = (I18N.en.groupNotes || {})[G] || '';
@@ -43504,7 +43513,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     add('preset.groupAnalogies',
       r.exact && r.n === 11 && r.gid === 'realAnalogy' && r.psrToy === r.beyondName
       && r.lfbot === r.celName && r.cross.length === 0 && r.calN === 37
-      && r.sigSame && r.sigNoGroup && r.total === (r.has274c ? 125 : 124) && r.beyondN === 19
+      && r.sigSame && r.sigNoGroup && r.total === (r.has274c ? 125 : 124) + (r.nShapeToy || 0) && r.beyondN === 19
       && r.noteOk && r.enName === 'Real-object Analogies',
       `**新グループ「実在天体のアナロジー」**(id=${r.gid}・en=${r.enName}): ${r.n} 本=${JSON.stringify(r.members)} / `
       + `🩻 psrDoubleABGeoToy は psr family に残す=${r.psrToy}・🐮 lfbotTrap は入れない=${r.lfbot} / `
@@ -43744,6 +43753,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       o.calN = ps.filter((p) => p.sampleClass === 'calibration').length;
       o.total = ps.length;
       o.has274c = ps.some((p) => p.id === 'galaxyMeshSpiralGeoToyLite');
+      o.nShapeToy = HP.allPresets().filter((z) => z.physics && z.physics.shapeToy).length;   // 第274便d: 形状トイの本数(総数の世代切り替え)
       // ④ **presetSig は group を見ない**: 移した 5 本の署名に群名が出ない
       o.sigNoGroup = WANT.every((id) => presetSig(ps.find((q) => q.id === id)).indexOf(G) < 0);
       // ⑤ 群の説明(ja/en)があり、表示順では「天体の機構」の直後に出る
@@ -43758,7 +43768,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     add('preset.clocksGravity',
       r.exact && r.n === 5 && r.gid === 'clocksGravity' && r.enName === 'Clocks & Gravity'
       && r.restOk && r.cross.length === 0 && r.grcalOk && r.calN === 37
-      && r.total === (r.has274c ? 125 : 124)
+      && r.total === (r.has274c ? 125 : 124) + (r.nShapeToy || 0)
       && r.sigNoGroup && r.noteOk && r.posOk,
       `**新グループ「時計と重力」**(第273便a・AH6。id=${r.gid}・en=${r.enName}): ${r.n} 本=`
       + `${JSON.stringify(r.members)} / 「運動と時空」に残る=${JSON.stringify(r.rest)}=${r.restOk} / `
@@ -43985,6 +43995,317 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     + `**0 ではない**)/ ⑥ 視線積分 ${Number(r.projWorst).toExponential(2)}・面内/σ_LOS=`
     + `${Number(r.planarOverLOS).toFixed(9)}(√2・AE5)/ **測っているのは「外から与えた形が`
     + `壊れないこと」だけ**(力学から出てくることは示していない)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+// ---- 第274便d(第64報「実在天体に先立ち安定サンプルを用意する」): behavior.shapeToyStationary ----
+//   **形状トイ**(`physics.shapeToy` → `dfmShapeToyStep`・`S._core` の外)の機械固定。5 点:
+//     ① **宣言が無ければ 1 行も通らない**: 宣言の無い内蔵は `hasShapeToy=false`・`shapeToyN=0` で、
+//        `HP.dfmShapeToyStep(S,dt)` を**直接呼んでも** null を返し、600 步の指紋が 1 bit も動かない。
+//     ② **厳密離散化**: 解析形 F=e^{Bh} を**級数の行列指数**(この器の中で別に作る)と突き合わせ、
+//        恒等式 **C = F C Fᵀ + Q_h**(C=diag(1,ω₀²))と Cholesky L Lᵀ=Q_h の残差を 1e−12 で固定する。
+//        過減衰・不足減衰・臨界の 3 枝と、**大きな刻み**(h=5)を含める。
+//     ③ **定常共分散が理論値へ 1e−2 以内**: Cov(y)=I・Cov(w)=ω₀²I を時間平均で測る
+//        (dt=2・72000 標本 —— 厳密離散化なので刻みを大きく取っても定常分布は動かない)。
+//     ④ **帳簿が厳密に閉じる**(**「閉じた系」ではない**): 粒子が受け取った P/L/E と、外部熱浴へ
+//        記帳した値の和が**厳密に 0**(同じ步・同じ順で足しているので丸めも残らない)。
+//     ⑤ **供給の分解**: 復元+減衰ぶん `shapeToyDetE` と供給ぶん `shapeToySupE` の和が、受け取った
+//        `shapeToyE` と倍精度の丸めの範囲で一致する(**分解は診断**であって厳密な恒等式ではない)。
+{
+  const hasST = await page.evaluate(() => !!(window.HP && typeof HP.dfmShapeToyStep === 'function'
+    && typeof HP.shapeToyDisc === 'function'));
+  if (hasST) {
+    const st = await page.evaluate(() => {
+      const O = {};
+      const fp = (S) => { let a = 0x811c9dc5;
+        const buf = new ArrayBuffer(8), f = new Float64Array(buf), u = new Uint8Array(buf);
+        const push = (v) => { f[0] = v; for (let b = 0; b < 8; b++) { a ^= u[b]; a = Math.imul(a, 0x01000193) >>> 0; } };
+        for (const k of ['x', 'y', 'vx', 'vy']) for (let i = 0; i < S.n; i++) push(S[k][i]);
+        return a.toString(16); };
+      // ① 宣言の無い内蔵(🪐 saturn)で素通りする
+      {
+        const p = HP.allPresets().find((z) => z.id === 'saturn');
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+        const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < 600; k++) S.step(0.016);
+        const before = fp(S);
+        const ret = HP.dfmShapeToyStep(S, 0.016);   // **直接呼んでも**入口で戻る
+        O.untouched = { has: S.hasShapeToy, n: S.shapeToyN, stop: S.shapeToyStop,
+          ret, same: fp(S) === before, key: (S.params.shapeToy === undefined) };
+      }
+      // ② 厳密離散化(級数の行列指数と突き合わせる)
+      {
+        const mul = (A, B) => [A[0] * B[0] + A[1] * B[2], A[0] * B[1] + A[1] * B[3],
+          A[2] * B[0] + A[3] * B[2], A[2] * B[1] + A[3] * B[3]];
+        const expm = (B, h) => {   // scaling-and-squaring + Taylor 20 項
+          const M = [B[0] * h, B[1] * h, B[2] * h, B[3] * h];
+          const nrm = Math.max(Math.abs(M[0]) + Math.abs(M[1]), Math.abs(M[2]) + Math.abs(M[3]));
+          let sq = 0;
+          while (nrm / Math.pow(2, sq) > 0.25) sq++;
+          const s = Math.pow(2, sq), A = [M[0] / s, M[1] / s, M[2] / s, M[3] / s];
+          let t = [1, 0, 0, 1], sum = [1, 0, 0, 1];
+          for (let k = 1; k <= 20; k++) {
+            t = mul(t, A); t = [t[0] / k, t[1] / k, t[2] / k, t[3] / k];
+            sum = [sum[0] + t[0], sum[1] + t[1], sum[2] + t[2], sum[3] + t[3]];
+          }
+          let R = sum;
+          for (let k = 0; k < sq; k++) R = mul(R, R);
+          return R;
+        };
+        O.disc = [];
+        for (const c of [{ w: 0.10, g: 0.25, h: 0.016 }, { w: 0.10, g: 0.08, h: 0.016 },
+          { w: 0.12, g: 0.24, h: 0.016 }, { w: 0.10, g: 0.25, h: 5 }, { w: 2.0, g: 0.1, h: 0.25 }]) {
+          const d = HP.shapeToyDisc(c.w, c.g, c.h), E = expm([0, 1, -c.w * c.w, -c.g], c.h);
+          const w2 = c.w * c.w;
+          O.disc.push({ ...c, branch: d.branch,
+            dF: Math.max(Math.abs(d.F11 - E[0]), Math.abs(d.F12 - E[1]),
+              Math.abs(d.F21 - E[2]), Math.abs(d.F22 - E[3])),
+            identity: Math.max(
+              Math.abs(1 - (d.F11 * d.F11 + w2 * d.F12 * d.F12 + d.q11)),
+              Math.abs(0 - (d.F11 * d.F21 + w2 * d.F12 * d.F22 + d.q12)),
+              Math.abs(w2 - (d.F21 * d.F21 + w2 * d.F22 * d.F22 + d.q22))),
+            chol: Math.max(Math.abs(d.l11 * d.l11 - d.q11), Math.abs(d.l11 * d.l21 - d.q12),
+              Math.abs(d.l21 * d.l21 + d.l22 * d.l22 - d.q22)) });
+        }
+      }
+      // ③④⑤ 定常共分散・帳簿・分解(🔮 の成長を切った診断コピー)
+      {
+        const p = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'shapeToyCluster')));
+        p.physics.shapeToy = Object.assign({}, p.physics.shapeToy, { tauGrow: 0 });
+        const v = HP.validatePreset(p);
+        const S = HP.sim; S.build(v.preset);
+        const dt = 2, w2 = v.preset.physics.shapeToy.omega0 ** 2;
+        for (let k = 0; k < 200; k++) S.step(dt);
+        let n = 0, s1 = 0, s2 = 0, sz = 0, c12 = 0, v1 = 0, v2 = 0, vz = 0;
+        for (let k = 0; k < 3000; k++) {
+          S.step(dt);
+          if (k % 10) continue;
+          for (let i = 0; i < S.n; i++) {
+            if (S.pinned[i]) continue;
+            const a = S.yLat[2 * i], b = S.yLat[2 * i + 1], z = S.zLat[i];
+            s1 += a * a; s2 += b * b; sz += z * z; c12 += a * b;
+            v1 += S.wLat[2 * i] ** 2; v2 += S.wLat[2 * i + 1] ** 2; vz += S.wzLat[i] ** 2;
+            n++;
+          }
+        }
+        O.cov = { n, y1: s1 / n, y2: s2 / n, z: sz / n, cross: c12 / n,
+          w1: v1 / n / w2, w2: v2 / n / w2, wz: vz / n / w2 };
+        O.ledger = { p: [S.shapeToyPx + S.shapeToyBathPx, S.shapeToyPy + S.shapeToyBathPy],
+          l: S.shapeToyL + S.shapeToyBathL, e: S.shapeToyE + S.shapeToyBathE,
+          got: S.shapeToyE, det: S.shapeToyDetE, sup: S.shapeToySupE,
+          splitRel: Math.abs((S.shapeToyDetE + S.shapeToySupE - S.shapeToyE)
+            / Math.max(1e-30, Math.abs(S.shapeToyE))) };
+        O.run = { stop: S.shapeToyStop, N: S.shapeToyN, nan: S.hasNaN(),
+          clampV: S.clampVN, clampS: S.clampSN, branch: S.shapeToyBranch, unbooked: S.shapeToyUnbooked };
+      }
+      return O;
+    });
+    const DISC_TOL = 1e-12, COV_TOL = 1e-2, SPLIT_TOL = 1e-6;
+    const c1 = st.untouched.has === false && st.untouched.n === 0 && st.untouched.ret === null
+      && st.untouched.same === true && st.untouched.key === true;
+    const c2 = st.disc.every((d) => Math.max(d.dF, d.identity, d.chol) <= DISC_TOL)
+      && new Set(st.disc.map((d) => d.branch)).size === 3;
+    const cov = st.cov;
+    const c3 = Math.max(Math.abs(cov.y1 - 1), Math.abs(cov.y2 - 1), Math.abs(cov.z - 1),
+      Math.abs(cov.w1 - 1), Math.abs(cov.w2 - 1), Math.abs(cov.wz - 1)) <= COV_TOL
+      && Math.abs(cov.cross) <= COV_TOL * 5;
+    const c4 = st.ledger.p[0] === 0 && st.ledger.p[1] === 0 && st.ledger.l === 0 && st.ledger.e === 0
+      && st.run.stop === null && st.run.nan === false && st.run.clampV === 0 && st.run.clampS === 0;
+    const c5 = st.ledger.splitRel <= SPLIT_TOL && st.run.unbooked === 'potential-of-prescribed-remap';
+    add('behavior.shapeToyStationary', c1 && c2 && c3 && c4 && c5,
+      `① **宣言が無ければ 1 行も通らない**(🪐 saturn): hasShapeToy=${st.untouched.has}・N=${st.untouched.n}・`
+      + `直接呼びの戻り=${st.untouched.ret}・600 步の指紋不変=${st.untouched.same}・`
+      + `params の値は undefined=${st.untouched.key}(鍵そのものは fastParams の正準形に入る)=${c1} / `
+      + `② **厳密離散化**(解析形 vs 級数の行列指数・恒等式 C=F C Fᵀ+Q_h・Cholesky): `
+      + st.disc.map((d) => `ω₀=${d.w}/γ=${d.g}/h=${d.h}(${d.branch}) dF=${d.dF.toExponential(1)}・`
+        + `恒等式=${d.identity.toExponential(1)}・chol=${d.chol.toExponential(1)}`).join(' / ')
+      + `(門 ${DISC_TOL.toExponential(0)}・3 枝そろい=${new Set(st.disc.map((d) => d.branch)).size === 3})=${c2} / `
+      + `③ **定常共分散**(🔮・τ=0・dt=2・${cov.n} 標本): Cov(y)=[${cov.y1.toFixed(4)}, ${cov.y2.toFixed(4)}, `
+      + `${cov.z.toFixed(4)}](理論 1)・Cov(w)/ω₀²=[${cov.w1.toFixed(4)}, ${cov.w2.toFixed(4)}, ${cov.wz.toFixed(4)}]`
+      + `(理論 1)・相関 ${cov.cross.toFixed(4)}(門 ${COV_TOL})=${c3} / `
+      + `④ **帳簿**: 粒子が受け取った量 + 外部熱浴 = [${st.ledger.p[0]}, ${st.ledger.p[1]}]・L=${st.ledger.l}・`
+      + `E=${st.ledger.e}(**厳密 0**)・stop=${st.run.stop}・NaN=${st.run.nan}・clamp=${st.run.clampV}/${st.run.clampS}`
+      + `=${c4}(**「閉じた系」ではない** —— 供給の出所は外部熱浴の宣言である)/ `
+      + `⑤ **3 作用の分解**(診断): 受け取り ${st.ledger.got.toExponential(6)} = 復元+減衰 ${st.ledger.det.toExponential(6)} `
+      + `+ 供給 ${st.ledger.sup.toExponential(6)}(相対残差 ${st.ledger.splitRel.toExponential(1)}・門 ${SPLIT_TOL.toExponential(0)})・`
+      + `**未記帳の量**=${st.run.unbooked}=${c5}`);
+  } else {
+    console.log('SKIP behavior.shapeToyStationary(対象に第274便d の形状トイなし — root 等)');
+  }
+}
+
+// ---- 第274便d: preset.shapeToys — **安定サンプル 3 本**の宣言の形 ----
+//   ① 3 本(🔮 球状星団トイ・🥏 腕なし回転円盤トイ・🧵 腕単体トイ)が `principle`/`toy` で、
+//      claims・massCalibration・regression window を 1 つも持たない(**較正ではない**)。
+//   ② `notClaim` に `cluster`(+`galaxy`/`dm`)を含み、表示文 `nc_cluster` が ja/en 双方にある。
+//   ③ obsCard は 8 行以内・ja の各欄 120 字以内・絵文字は内蔵で 1 本だけ。
+//   ④ 宣言は `physics.shapeToy`(shape/supply/coupling)で、**この 3 本以外は 1 本も宣言していない**。
+//      `supply:"external-bath"` は必須宣言(供給の出所 —— 閉じた系ではない)。
+//   ⑤ **実際に走る**: 600 步で stop=null・対象数=非 pinned 数・NaN 0・clamp 0・帳簿が厳密に 0。
+//   ⑥ **重力で安定したのではない**: G=0 と G=0.8 の 600 步指紋が**完全一致**する(規定運動)。
+//   ⑦ 説明文に「創発」「較正した」「再現した」を書いていない(禁止語の機械検査)。
+{
+  const hasToys = await page.evaluate(() => !!(window.HP
+    && HP.allPresets().some((z) => z.id === 'shapeToyCluster')));
+  if (hasToys) {
+    const sp = await page.evaluate(() => {
+      const IDS = ['shapeToyCluster', 'shapeToyDisk', 'shapeToyArm'];
+      const all = HP.allPresets();
+      const fp = (S) => { let a = 0x811c9dc5;
+        const buf = new ArrayBuffer(8), f = new Float64Array(buf), u = new Uint8Array(buf);
+        const push = (v) => { f[0] = v; for (let b = 0; b < 8; b++) { a ^= u[b]; a = Math.imul(a, 0x01000193) >>> 0; } };
+        for (const k of ['x', 'y', 'vx', 'vy']) for (let i = 0; i < S.n; i++) push(S[k][i]);
+        return a.toString(16); };
+      const run = (p, steps) => {
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+        if (!v.ok) return { err: (v.errors || []).join('|') };
+        const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < steps; k++) S.step(0.016);
+        let nPin = 0;
+        for (let i = 0; i < S.n; i++) if (S.pinned[i]) nPin++;
+        return { stop: S.shapeToyStop, N: S.shapeToyN, n: S.n, nPin, nan: S.hasNaN(),
+          clampV: S.clampVN, clampS: S.clampSN, fp: fp(S), branch: S.shapeToyBranch,
+          sigma: S.shapeToySigma, sigmaZ: S.shapeToySigmaZ, len: S.shapeToyLen,
+          ledger: Math.abs(S.shapeToyPx + S.shapeToyBathPx) + Math.abs(S.shapeToyPy + S.shapeToyBathPy)
+            + Math.abs(S.shapeToyL + S.shapeToyBathL) + Math.abs(S.shapeToyE + S.shapeToyBathE) };
+      };
+      const rows = {};
+      for (const id of IDS) {
+        const p = all.find((z) => z.id === id);
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+        const g0 = JSON.parse(JSON.stringify(p));
+        const g8 = JSON.parse(JSON.stringify(p)); g8.physics.G = 0.8;
+        rows[id] = { emoji: p.emoji, group: p.group, cls: p.sampleClass, fid: p.fidelity,
+          notClaim: p.notClaim, claims: !!p.claims, mcal: !!p.massCalibration,
+          reg: !!(p.regression || p.regressionWindow),
+          card: (p.obsCard || []).length,
+          maxLen: Math.max(...(p.obsCard || []).map((q) => Math.max(q.q.length, q.model.length, q.obs.length))),
+          emojiDup: all.filter((z) => z.emoji === p.emoji).length,
+          decl: v.ok ? v.preset.physics.shapeToy : null, G: p.physics.G,
+          sum: p.descStruct.summary, obs: p.descStruct.observe,
+          run: run(g0, 600), runG: run(g8, 600) };
+      }
+      // 宣言している内蔵の本数(3 本だけのはず)
+      const nDecl = all.filter((z) => z.physics && z.physics.shapeToy).map((z) => z.id);
+      // nc_cluster の表示文が ja/en 双方にあること(DOM 経由)
+      HP.loadPreset('shapeToyCluster', false);
+      const jaLines = [...document.querySelectorAll('#helpBody .notClaimLine')].map((e) => e.textContent);
+      HP.setLang('en');
+      const enLines = [...document.querySelectorAll('#helpBody .notClaimLine')].map((e) => e.textContent);
+      HP.setLang('ja');
+      HP.loadPreset('saturn', false);
+      return { rows, nDecl, jaLines, enLines, total: all.length };
+    });
+    const IDS = ['shapeToyCluster', 'shapeToyDisk', 'shapeToyArm'];
+    const R = sp.rows;
+    const banned = ['創発', '較正した', '再現した'];
+    const hits = [];
+    for (const id of IDS) {
+      const cut = R[id].sum.indexOf('言わないこと');
+      const head = (cut >= 0 ? R[id].sum.slice(0, cut) : R[id].sum) + R[id].obs;
+      for (const w of banned) if (head.indexOf(w) >= 0) hits.push(id + ':' + w);
+    }
+    const k1 = IDS.every((id) => R[id].cls === 'principle' && R[id].fid === 'toy'
+      && !R[id].claims && !R[id].mcal && !R[id].reg);
+    const k2 = IDS.every((id) => Array.isArray(R[id].notClaim) && R[id].notClaim.indexOf('cluster') >= 0)
+      && sp.jaLines.length === 3 && sp.enLines.length === 3
+      && sp.jaLines.join('') !== sp.enLines.join('')
+      && sp.jaLines.some((t) => t.indexOf('参照モデル') >= 0)
+      && sp.enLines.some((t) => t.indexOf('REFERENCE MODEL') >= 0);
+    const k3 = IDS.every((id) => R[id].card <= 8 && R[id].maxLen <= 120 && R[id].emojiDup === 1);
+    const k4 = sp.nDecl.length === 3 && IDS.every((id) => sp.nDecl.indexOf(id) >= 0)
+      && R.shapeToyCluster.decl.shape === 'cluster' && R.shapeToyDisk.decl.shape === 'disk'
+      && R.shapeToyArm.decl.shape === 'arm'
+      && IDS.every((id) => R[id].decl.supply === 'external-bath' && R[id].decl.coupling === 'prescribed');
+    const k5 = IDS.every((id) => R[id].run.stop === null && R[id].run.N === R[id].run.n - R[id].run.nPin
+      && R[id].run.nan === false && R[id].run.clampV === 0 && R[id].run.clampS === 0
+      && R[id].run.ledger === 0);
+    const k6 = IDS.every((id) => R[id].G === 0 && R[id].run.fp === R[id].runG.fp);
+    const k7 = hits.length === 0 && IDS.every((id) => R[id].sum.indexOf('言わないこと') >= 0);
+    add('preset.shapeToys', k1 && k2 && k3 && k4 && k5 && k6 && k7,
+      `**安定サンプル 3 本**(第274便d・第64報「実在天体に先立ち安定サンプルを用意する」): `
+      + IDS.map((id) => `${R[id].emoji}${id}`).join('・') + `(内蔵 ${sp.total} 本)/ `
+      + `① principle/toy・claims/massCalibration/regression どれも無い=${k1}(**較正ではない**)/ `
+      + `② notClaim=${JSON.stringify(R.shapeToyCluster.notClaim)}・nc_cluster は ja/en 双方=${k2} / `
+      + `③ obsCard ${IDS.map((id) => R[id].card).join('/')} 行・最長欄 ${IDS.map((id) => R[id].maxLen).join('/')} 字・`
+      + `絵文字重複 0=${k3} / `
+      + `④ 宣言は ${sp.nDecl.length} 本だけ(shape=${IDS.map((id) => R[id].decl.shape).join('/')}・`
+      + `supply=external-bath・coupling=prescribed)=${k4} / `
+      + `⑤ 600 步: stop=${IDS.map((id) => R[id].run.stop).join('/')}・N=${IDS.map((id) => R[id].run.N + '/' + R[id].run.n).join('・')}・`
+      + `枝=${IDS.map((id) => R[id].run.branch).join('/')}・σ=${IDS.map((id) => R[id].run.sigma.toFixed(3)).join('/')}・`
+      + `NaN 0・clamp 0・帳簿 |Σ|=${IDS.map((id) => R[id].run.ledger).join('/')}=${k5} / `
+      + `⑥ **重力で安定したのではない**: G=0 と G=0.8 の 600 步指紋が一致=${k6}`
+      + `(${IDS.map((id) => R[id].run.fp + '=' + R[id].runG.fp).join('・')})/ `
+      + `⑦ 説明文に「創発/較正した/再現した」が無く「言わないこと」節がある=${k7}`
+      + (hits.length ? `(**検出** ${JSON.stringify(hits)})` : ''));
+  } else {
+    console.log('SKIP preset.shapeToys(対象に第274便d の形状トイ 3 本なし — root 等)');
+  }
+}
+
+// ---- 第274便d: docs.shapeToyCriteria — **完成判定の表と正本 JSON の一致** ----
+//   正本 `tests/out/shapetoy-w274d.json`(器 tests/exp-w274d-shapetoy.mjs)と
+//   docs/PHYSICS.md〔第274便d〕節を突き合わせる。固定するのは 6 点:
+//     ① 正本に来歴(`meta.provenanceVersion`)と**事前に決めた合格条件** `criteria` がある。
+//     ② 3 本の**参照形状**の列(定常共分散・投影の KS・帳簿)が正本に在り、判定の真偽値を持つ。
+//     ③ **安定成長**の列が成長残差と成長後ドリフトを**分けて**持ち、**無成長対照**の行がある。
+//     ④ **復元性**の列が 5%・10%・3 seed・3 本ぶんあり、**物理座標だけの摂動**の行が別に在る。
+//     ⑤ **重力の対照**(G=0/0.8/8 の指紋一致)と **coupling 2 案**の比較が在る。
+//     ⑥ PHYSICS.md にこの節があり、**正本の主要数値がそのまま載っている**(機械同期)。
+{
+  const P = path.join(ROOT, 'tests', 'out', 'shapetoy-w274d.json');
+  let J = null, err = '';
+  try { J = JSON.parse(fs.readFileSync(P, 'utf8')); } catch (e) { err = String(e).slice(0, 80); }
+  const phys = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+  const bad = [];
+  if (!J) bad.push('正本が読めない: ' + err);
+  else {
+    if (!J.meta || !J.meta.provenanceVersion) bad.push('①来歴 meta が無い');
+    if (!J.criteria || !(J.criteria.covRel > 0)) bad.push('①合格条件 criteria が無い');
+    const ids = ['shapeToyCluster', 'shapeToyDisk', 'shapeToyArm'];
+    for (const id of ids) {
+      const r = (J.reference || []).find((q) => q.id === id);
+      if (!r) { bad.push('②参照形状の行が無い: ' + id); continue; }
+      if (!r.ok || typeof r.pass !== 'boolean') bad.push('②判定の真偽値が無い: ' + id);
+      if (!Array.isArray(r.proj) || r.proj.length < 3) bad.push('②投影の列が無い: ' + id);
+      const g = (J.growth || []).find((q) => q.id === id && q.note === '既定の成長');
+      if (!g || g.meanResidGrowWindow === null || g.postDrift === null || g.samplingNoise === null)
+        bad.push('③成長残差/ドリフト/標本ゆらぎが無い: ' + id);
+    }
+    if (!(J.growth || []).some((q) => /無成長対照/.test(q.note || ''))) bad.push('③無成長対照が無い');
+    const rec = J.recovery || [];
+    const lat = rec.filter((q) => q.mode === 'latent');
+    if (new Set(lat.map((q) => q.k)).size < 2 || new Set(lat.map((q) => q.seed)).size < 3
+      || new Set(lat.map((q) => q.id)).size < 3) bad.push('④復元性の 5%/10%・3 seed・3 本が揃っていない');
+    if (!rec.some((q) => q.mode === 'physical')) bad.push('④物理座標だけの摂動の行が無い');
+    if (!(J.gravityControl || []).length || !(J.coupling || []).length)
+      bad.push('⑤重力の対照 / coupling 2 案が無い');
+    // ⑥ PHYSICS.md への機械同期(正本の数をそのまま載せているか)
+    if (!/〔第274便d/.test(phys)) bad.push('⑥PHYSICS.md に〔第274便d〕節が無い');
+    const need = [];
+    for (const id of ids) {
+      const r = (J.reference || []).find((q) => q.id === id);
+      if (!r) continue;
+      const k = (r.shape === 'arm') ? 'y2' : 'y1';
+      need.push(r.varLatent[k].toFixed(4));
+      const g = (J.growth || []).find((q) => q.id === id && q.note === '既定の成長');
+      if (g) need.push(g.meanResidGrowWindow.toFixed(4));
+    }
+    for (const t of need) if (!phys.includes(t)) bad.push('⑥PHYSICS.md に正本の数値が無い: ' + t);
+  }
+  const ref = (J && J.reference) || [];
+  add('docs.shapeToyCriteria', bad.length === 0,
+    `**形状トイの完成判定**(第274便d・正本 tests/out/shapetoy-w274d.json・器 tests/exp-w274d-shapetoy.mjs)/ `
+    + (J ? `来歴 ${J.meta && J.meta.provenanceVersion}・合格条件 ${JSON.stringify(J.criteria)} / `
+      + `参照形状: ` + ref.map((r) => `${r.id}(Cov ${JSON.stringify(Object.values(r.varLatent).map((v) => +v.toFixed(4)))}・`
+        + `KS/95% ${Math.max(...r.proj.map((p) => p.ksRatio)).toFixed(3)}・判定 ${r.pass})`).join(' / ')
+      + ` / 成長: ` + (J.growth || []).map((g) => `${g.id}${/無成長/.test(g.note || '') ? '(無成長対照)' : ''}`
+        + `(偏り ${g.meanResidGrowWindow === null ? '—' : g.meanResidGrowWindow.toFixed(4)}`
+        + `±${g.samplingNoise === null ? '—' : g.samplingNoise.toFixed(4)}・`
+        + `ドリフト ${g.postDrift === null ? '—' : g.postDrift.toFixed(4)}・判定 ${g.pass})`).join(' / ')
+      + ` / 復元 ${(J.recovery || []).filter((q) => q.pass === true).length}/${(J.recovery || []).filter((q) => q.pass !== null).length} 列・`
+      + `重力の指紋一致 ${(J.gravityControl || []).every((q) => q.same)} / `
+      + `**較正ではない**(観測量を 1 つも入力していない)`
+      : '正本なし')
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
 }
 

@@ -417,6 +417,16 @@ paper/*Notes.bib
 !tests/out/galaxyprof-w274c.json
 !tests/out/needmesh-w274c.json
 !tests/out/galaxylite-w274c.json
+# 第274便d(第64報「実在天体に先立ち安定サンプルを用意する」・**診断のみ・既定不変**):
+#   形状トイ(`physics.shapeToy` —— 指定した 3D 正規分布を定常分布に持つ**参照モデル**)の
+#   完成判定の正本(tests/exp-w274d-shapetoy.mjs)。参照形状(定常共分散・任意視線の投影・
+#   帳簿)/ 安定成長(成長残差と成長後ドリフトを分けた列+無成長対照)/ 復元性(5%・10%・
+#   3 seed・N 3 段)/ 厳密離散化(F=e^{Bh} と級数の行列指数の差・恒等式 C=F C Fᵀ+Q_h)/
+#   coupling 2 案 / 重力の対照(G を変えても指紋が同じ)を持つ。
+#   QA `docs.shapeToyCriteria` がこの JSON と docs/PHYSICS.md〔第274便d〕の表を突き合わせ、
+#   `lint.provenanceMeta` が来歴を固定するのでコミットする。**較正ではない**(観測量は 1 つも
+#   入力していない)。「銀河が安定した」「腕が創発した」とは書かない。
+!tests/out/shapetoy-w274d.json
 # 第221便: セッション内スクラッチ実測ハーネス(コミット対象外 — 実測値は claims/QA が機械固定する)
 _scratch-*.mjs
 _scratch-*/
