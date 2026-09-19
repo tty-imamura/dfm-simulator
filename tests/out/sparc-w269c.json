@@ -3,8 +3,8 @@
   "provenanceVersion": "w272e-1",
   "wave": "第269便c(来歴は第272便e で共通化)",
   "target": "beta/index.html",
-  "targetSha256": "69d78fa3195e883be9fa14473fa590f98304142e5b466fb2a80e4f70f418d44d",
-  "generatedAt": "2026-09-18T18:41:55.791Z",
+  "targetSha256": "2015091a3fe94278848b78b8781564e6ee5a35e4d7f6eda7ad47775557d54843",
+  "generatedAt": "2026-09-19T12:28:08.288Z",
   "code": [
    {
     "file": "tests/exp-w269c-sparc.mjs",
@@ -20,9 +20,9 @@
    },
    {
     "file": "tests/lib-w270b-obscsv.mjs",
-    "bytes": 11382,
-    "sha256": "d8803279fafdcdec19f79f71a296f72c9cc8c8bd406b81744a919f3391175248",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "bytes": 14068,
+    "sha256": "603104b67e24f166bc5a2a2d00038686ed4631e39285bcb8780281026d7e2d4a",
+    "mtime": "2026-09-19T11:48:42.098Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -31,16 +31,16 @@
     "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "b061581b820fced358e6eac5af91197fddcab707b98768d831a3f4261cc7215b",
-  "measuredAt": "2026-09-18T18:41:55.791Z",
+  "codeSha256": "682d9b406a3f6a5b26acb32739acfd3c53db91a21eb2ced16e8bc0139846a84b",
+  "measuredAt": "2026-09-19T12:28:08.288Z",
   "codeVersion": "tests/exp-w269c-sparc.mjs 第269便c",
   "declarationVersion": "compare-v1 / 第59報「完成=比較サンプル v1」",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4093334,
-    "sha256": "69d78fa3195e883be9fa14473fa590f98304142e5b466fb2a80e4f70f418d44d",
-    "mtime": "2026-09-18T17:16:37.683Z"
+    "bytes": 4129221,
+    "sha256": "2015091a3fe94278848b78b8781564e6ee5a35e4d7f6eda7ad47775557d54843",
+    "mtime": "2026-09-19T12:25:57.071Z"
    },
    {
     "file": "paper/data/cluster-galaxy-observations.csv",
@@ -71,7 +71,7 @@
    "**観測量が得られないときは `not-measurable`(値 null)** —— 0 や最後の値で補わない。",
    "**「完成」は比較サンプル v1 である。観測一致は別段階で、現時点で未達である。**"
   ],
-  "spentSec": 142
+  "spentSec": 166
  },
  "contract": {
   "①傾斜": "観測(SPARC Vobs)は**傾斜補正済み**である → 抽出した接線速度に **sin i を再びかけない**。CSV の inclination 行にも「SPARC Vobs is ALREADY DEPROJECTED - do not divide by sin(i) again」とある。",
