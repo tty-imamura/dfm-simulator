@@ -1905,7 +1905,9 @@ const add = (id, pass, detail) => {
     const CANON = ['tests/out/bh90-w269c.json', 'tests/out/sparc-w269c.json',
       'tests/out/cluster-w269d.json', 'tests/out/galaxydiag-w271d.json',
       'tests/out/qsplit-w271c.json', 'tests/out/j1946adopt-w270c.json',
-      'tests/out/corrections-w272e.json'];
+      'tests/out/corrections-w272e.json',
+      // 第273便b(R21): カロン C3 の符号反転区間の探索(**fit**)—— 新しい正本も同じ形で刻む
+      'tests/out/charonk-w273b.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -5272,7 +5274,8 @@ const add = (id, pass, detail) => {
     + `(iii)指数ロック k₀(1−T_lock·R)。**同期円軌道で(i)(iii)が 0・無自転円軌道で(i)=k₀/2・(iii)=1−e⁻¹** は`
     + `**閉じた形から出る値であって当てはめではない**。天体交換・並進・回転・単位変更に不変で、`
     + `**面外の宣言 σ_i n は s_i に効かない**((σ n)×n=0 —— 2D では面外を幾何として持てないので宣言にとどめる)。`
-    + `**エンジンへは 1 バイトも接続していない**(内蔵 124 本の kFrame は \`preset.kframe-binary01\` の {0,1} のまま)/ `
+    + `**エンジンへは 1 バイトも接続していない**(内蔵 124 本の kFrame は \`preset.kframe-unitInterval\` の `
+    + `[0,1] 契約のままで、**値は 1 本も動いていない**)/ `
     + `**ロック検出器ではない・法則ではない**`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
@@ -5349,6 +5352,144 @@ const add = (id, pass, detail) => {
       + `h 段 20,700,000 步 = 第271便a の 3 段登録と同じ物理時間)。**kFrame<1・geoPN=3・f≠1 は器の中の診断コピーだけ**で、`
       + `**内蔵 124 本は 1 bit も変えていない**。**判定はしていない**(「合/否」「新発見」は書かない —— `
       + `次数が立ち・残差が観測 σ の 3 倍に入り・独立な観測量を予測できたときにだけ結論の語を使う)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 0a3z2) 第273便b(統括の検証項目 R21・裁定 AH1/AH20): docs.charonKScan ----
+// ----   **❄️ カロン C3 の符号反転区間の探索**の正本 JSON を機械固定する。
+// ----   第272便b の言い方「kFrame∈[0,1] に 3σ へ入る値は無い」は **C2(f=1)の 6 点に限る** ——
+// ----   C3(一次則 f の自己無撞着解)では k=0 と k=0.1 で σ の**符号が反転**していて、その間は
+// ----   探索されていなかった。本ブロックが固定するのは次の 9 点で、**合否ではない**:
+// ----     ① 来歴(`provenanceVersion` と `meta.targetSha256` = いま検査している html)。
+// ----     ② **`meta.fit` が true** で、fit の宛先(観測行・σ・検出器)と自由パラメータが宣言されている。
+// ----        **JSON 本文に「解」「最良値」の断定が無い**(「…」で囲んだ否定文は数えない)。
+// ----     ③ C3 の探索: 区間が**挟めている**(符号反転がある)・**8 点以上**・NaN 0・
+// ----        候補 k\* が区間の内側にある。
+// ----     ④ 候補 k\* の **3 段(h/h2/h4)は物理時間が同じ**で、次数の規約(連続 2 段差が同符号の
+// ----        ときだけ立てる)が刻んである。**0.3σ 条件は緩めていない**(そもそも判定しない)。
+// ----     ⑤ C2(f=1)は同じ区間で**単調・符号反転なし**(第272便b の言い方が C2 に限ることの裏づけ)。
+// ----     ⑥ ε 系列は **k\* 固定の別列**(k と ε を同時に動かしていない)。
+// ----     ⑦ **宣言鍵 `physics.kFrameApprox` は力学に 1 bit も効かない**(裁定 AH1 —— 同じ步数で
+// ----        状態がビット同一・presetSig だけが変わる)。
+// ----     ⑧ **softening が宣言量になっている**(裁定 AH20 —— Plummer 形・ε・ε/a・初期状態の作り方)。
+// ----     ⑨ **併合鍵(R20)の 6 成分**が刻んである。
+// ----   **beta 線の走行なので root は SKIP**する。
+{
+  const bad = [];
+  const cases = [];
+  let kStar = null, sigStar = null, linZero = null, nC3 = 0, pObs = null, epsHat = null;
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.charonKScan(beta 対象でない: ' + TARGET + ' — 探索は beta 線の実測)');
+  } else {
+    try {
+      const P = path.join(ROOT, 'tests', 'out', 'charonk-w273b.json');
+      const text = fs.readFileSync(P, 'utf8');
+      const J = JSON.parse(text);
+      const M = J.meta || {};
+      // ① 来歴
+      if (M.harnessVersion !== 'w273b-charonk-1') bad.push(`①器の版が違う(${M.harnessVersion})`);
+      if (M.provenanceVersion !== 'w272e-1') bad.push(`①来歴の版が違う(${M.provenanceVersion})`);
+      const shaNow = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      if (M.targetSha256 !== shaNow) bad.push('① meta.targetSha256 が検査対象の html と違う(器を再走する)');
+      if (M.canonicalRun !== true) bad.push('①正本でない走行(短い走行)が書かれている');
+      cases.push('来歴 w272e-1・html の SHA-256 一致');
+      // ② fit の刻印
+      if (M.fit !== true) bad.push('② meta.fit が true でない(**これは fit である**)');
+      const ft = M.fitTarget || {};
+      if (ft.quantity !== 'Charon|orbital_period' || !(ft.sigma > 0) || !(ft.value > 0))
+        bad.push('② fit の宛先(観測量・値・σ)が宣言されていない');
+      if (!Array.isArray(M.freeParameters) || M.freeParameters.length !== 1)
+        bad.push('② 自由パラメータの宣言が 1 個でない');
+      // 断定語の検査は **`meta.notClaim`(書かない語の宣言)を外した本文**に対して行う
+      // (docs.charonSeries は「notClaim に載っていれば許す」流儀だったが、ここでは宣言そのものを
+      //  本文から除いたうえで、さらに「…」で囲んだ否定文を数えない —— どちらより弱くもない)。
+      const body = JSON.stringify(J, (k, v) => (k === 'notClaim' ? undefined : v));
+      const asserted = (str, w) => { let i = -1, n = 0;
+        while ((i = str.indexOf(w, i + 1)) >= 0) { if (str[i - 1] !== '「') n++; } return n; };
+      const NC = M.notClaim || [];
+      if (!NC.length) bad.push('② meta.notClaim(書かない語)が宣言されていない');
+      for (const w of ['最良値', '新発見', '潮汐ロックを証明', '観測と合った', '較正を完了'])
+        if (asserted(body, w) > 0) bad.push(`② 断定語「${w}」が JSON 本文にある`);
+      cases.push('fit:true(宛先は観測周期・自由パラメータ 1 個)');
+      // ③ C3 の探索
+      const c3 = J.c3Scan || {};
+      nC3 = (c3.rows || []).length;
+      if (c3.bracketed !== true) bad.push('③ 符号反転の区間が挟めていない');
+      if (nC3 < 8) bad.push(`③ 探索点が 8 点未満(${nC3})`);
+      for (const r of (c3.rows || [])) {
+        if (r.error) bad.push(`③ ${r.tag} が走行できていない(${(r.errors || []).join('|')})`);
+        else if (r.nan) bad.push(`③ ${r.tag} に NaN`);
+      }
+      kStar = c3.kStar; sigStar = c3.sigmaAtKStar; linZero = c3.linearZeroFrom2Points;
+      if (!(Number.isFinite(kStar) && kStar > 0 && kStar < 0.1))
+        bad.push(`③ 候補 k* が区間 (0, 0.1) の内側にない(${kStar})`);
+      cases.push(`C3 ${nC3} 点・NaN 0・符号反転あり`);
+      // ④ 3 段
+      const st = (J.stage3 || {}).rows || {};
+      const ord = (J.stage3 || {}).order || null;
+      for (const g of ['h', 'h2', 'h4']) if (!st[g]) bad.push(`④ ${g} 段の走行が無い`);
+      if (st.h && st.h2 && st.h4) {
+        const t = ['h', 'h2', 'h4'].map((g) => st[g].dt * st[g].stepsRequested);
+        if (!(Math.abs(t[1] - t[0]) < 1e-6 && Math.abs(t[2] - t[0]) < 1e-6))
+          bad.push(`④ 3 段の物理時間が同じでない(${t.join(' / ')})`);
+        if (!ord) bad.push('④ 次数の記録が無い');
+        else {
+          pObs = ord.pObs; epsHat = ord.epsHatSigma;
+          if (ord.orderEstimable !== ord.sameSign) bad.push('④ 次数の規約(同符号のときだけ)が刻まれていない');
+          if (String(ord.note || '').indexOf('判定はしていない') < 0) bad.push('④ 次数の注記に「判定はしていない」が無い');
+        }
+      }
+      cases.push(`3 段の物理時間が同一・次数 p=${pObs === null ? '立たず' : pObs.toFixed(4)}`);
+      // ⑤ C2(f=1)
+      const c2 = J.c2Scan || {};
+      if (c2.monotoneIncreasing !== true) bad.push('⑤ C2(f=1)が同区間で単調増加でない');
+      if (c2.signChange !== false) bad.push('⑤ C2(f=1)に符号反転がある(第272便b の言い方と食い違う)');
+      cases.push(`C2 は単調・符号反転なし(${(c2.rows || []).length} 点)`);
+      // ⑥ ε 系列は k* 固定
+      const es = J.epsilonSeries || [];
+      if (es.length !== 3) bad.push(`⑥ ε 系列が 3 点でない(${es.length})`);
+      if (new Set(es.map((r) => r.kFrame)).size > 1) bad.push('⑥ ε 系列で k が動いている(同時に動かさない)');
+      if (new Set(es.map((r) => r.softening)).size !== es.length) bad.push('⑥ ε 系列で ε が動いていない');
+      cases.push(`ε 系列 ${es.length} 点(k 固定)`);
+      // ⑦ 宣言鍵の同値性(AH1)
+      const di = J.declarationInert || {};
+      if (di.ok !== true) bad.push('⑦ 宣言鍵の同値性が測れていない');
+      if (di.stateBitIdentical !== true) bad.push('⑦ 宣言鍵を足すと状態が変わる(**宣言専用ではない**)');
+      if (di.maxAbsDiff !== 0) bad.push(`⑦ 状態の差が 0 でない(${di.maxAbsDiff})`);
+      if (di.presetSigDiffers !== true) bad.push('⑦ presetSig が宣言を区別していない');
+      cases.push(`宣言鍵は力学に不関与(${di.steps} 步で状態ビット同一・presetSig は変わる)`);
+      // ⑧ softening の宣言(AH20)
+      const sd = M.softeningDeclaration || {};
+      if (sd.form !== 'Plummer') bad.push(`⑧ softening のポテンシャル形が宣言されていない(${sd.form})`);
+      if (!(sd.epsilonOverSeparation > 0)) bad.push('⑧ ε/a が宣言されていない');
+      if (!sd.initialState) bad.push('⑧ 初期状態の作り方が宣言されていない');
+      if (!sd.perColumnKey) bad.push('⑧ 列ごとの ε の欄名が宣言されていない');
+      cases.push(`softening 宣言(Plummer・ε/a=${(sd.epsilonOverSeparation || 0).toExponential(3)})`);
+      // ⑨ 併合鍵(R20)
+      const mp = M.mergeKeyParts || {};
+      if (!/^[0-9a-f]{64}$/.test(String(M.mergeKey || ''))) bad.push('⑨ 併合鍵が 64 桁でない');
+      for (const k of ['target', 'targetSha256', 'measureSha256', 'libSha256', 'obsSha256'])
+        if (!mp[k]) bad.push(`⑨ 併合鍵の成分 ${k} が無い`);
+      if (!mp.window || mp.window.periWindow !== 20 || mp.window.orbMax !== 60 || mp.window.judgedRevIndex !== 1)
+        bad.push('⑨ 併合鍵の窓(近点 20 / ORB_MAX 60 / 2 周目)が違う');
+      if (!mp.stageSteps || !mp.stageSteps.h4) bad.push('⑨ 併合鍵に段の步数が無い');
+      cases.push('併合鍵 6 成分');
+      // ⑩ PHYSICS の節
+      const PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      if (PH.indexOf('〔第273便b') < 0) bad.push('⑩ PHYSICS に〔第273便b〕節が無い');
+    } catch (e) { bad.push('探索の JSON が読めない: ' + String(e).slice(0, 90)); }
+    add('docs.charonKScan', bad.length === 0,
+      `**❄️ C3 の符号反転区間の探索(診断のみ・既定不変・fit)**(第273便b・統括の検証項目 R21): `
+      + `${cases.join(' / ')} —— **これは fit である**: 零点は**観測周期そのもの**に合わせて挟み込んだ `
+      + `**1 自由パラメータ**であって、**「解」でも「kFrame の正しい値」でもない**`
+      + `(候補 k*=${kStar === null ? '—' : kStar}・そこでの σ=${sigStar === null ? '—' : sigStar.toFixed(3)}・`
+      + `2 点からの線形零点 ${linZero === null ? '—' : linZero.toExponential(6)}・`
+      + `3 段の ε̂/σ=${epsHat === null ? '—' : epsHat.toExponential(3)})/ `
+      + `**分数 kFrame は器の中の診断コピーだけ**で、内蔵 124 本の値は 1 本も変えていない`
+      + `(診断コピーは裁定 AH1 の二層契約どおり \`physics.kFrameApprox:"space-mesh-effective"\` を宣言する`
+      + ` —— **宣言専用で力学には 1 bit も効かない**ことを同じ步数の突き合わせで実測した)/ `
+      + `**判定はしていない**(「合/否」「新発見」は書かない —— 次数が立ち・残差が観測 σ の 3 倍に入り・`
+      + `**独立な観測量を予測できた**ときにだけ結論の語を使う)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
@@ -5982,7 +6123,7 @@ if (!TARGET.startsWith('beta/')) {
 {
   const bad = [];
   let nSys = 0, nVarTotal = 0, jointWithin = [], hashChecked = false;
-  let nSpinRows = 0; const syncFlag = [];
+  let nSpinRows = 0; const syncFlag = []; const builtinKF = [];
   try {
     const P = path.join(ROOT, 'tests', 'out', 'nslock-w272c.json');
     const J = JSON.parse(fs.readFileSync(P, 'utf8'));
@@ -6026,7 +6167,14 @@ if (!TARGET.startsWith('beta/')) {
         }
       }
       const bi = s.builtin || {};
-      if (!(bi.kFrame === 0 || bi.kFrame === 1)) bad.push(`④${s.id} の内蔵 kFrame が {0,1} でない(${bi.kFrame})`);
+      // 第273便b(裁定 AH1): 二値 {0,1} → **有限な [0,1] + 較正クラスの分数には宣言鍵**(二層契約)。
+      // 検査の目的(内蔵を勝手に動かしていないことの固定)は同じで、値域だけを契約に合わせた。
+      // **本便でも 6 系の内蔵 kFrame は {0,1} のまま**である(実測値は下の detail に出る)。
+      if (!(Number.isFinite(bi.kFrame) && bi.kFrame >= 0 && bi.kFrame <= 1))
+        bad.push(`④${s.id} の内蔵 kFrame が有限な [0,1] でない(${bi.kFrame})`);
+      if (bi.kFrame > 0 && bi.kFrame < 1 && bi.kFrameApprox !== 'space-mesh-effective')
+        bad.push(`④${s.id} は分数の内蔵 kFrame(${bi.kFrame})なのに physics.kFrameApprox の宣言が無い`);
+      builtinKF.push(`${s.emoji || s.id}=${bi.kFrame}`);
       const d = s.lockDeclaration || {};
       if (d.dimensionality !== '2D' || d.inPlaneAxisRepresentable !== false)
         bad.push(`⑥${s.id} の宣言に「2D では面外の自転軸を持てない」が無い`);
@@ -6071,7 +6219,9 @@ if (!TARGET.startsWith('beta/')) {
     `**潮汐ロック枝の走行の来歴**(第272便c §1・**原仮定者の仮説(第62報)**): `
     + `系 **${nSys} 本**(NS 4 + 恒星 2)× 列 ${nVarTotal} × 3 段(h/h2/h4・20 近点窓)/ `
     + `仮説列 \`lock\` は **kFrame=0・λ_PN=1・f=1 の診断コピー**(sampleClass:"principle"・コア殻なし)/ `
-    + `**内蔵の kFrame は {0,1} のまま**(本便は内蔵を 1 bit も変えていない)/ `
+    + `内蔵の kFrame の受理契約は第273便b で**有限な [0,1]**(+較正クラスの分数には `
+    + `\`physics.kFrameApprox\` の宣言)へ開いたが、**この 6 系の内蔵 kFrame は {0,1} のまま**である`
+    + `(実測 ${builtinKF.join(' ')})/ `
     + `**旧共同根(第265便a の k\\*/f\\*)の列は消さずに並べてある**/ `
     + `2D では面外の自転軸を持てないことが 6 系の宣言に載っている / `
     + `入力 hash: CSV 照合済み・対象 html ${hashChecked ? '照合済み' : 'SKIP'} / `
@@ -20280,7 +20430,7 @@ if (!FAST) {
 //        測定値ではない)。H1 は **f_ind の出どころの宣言を要求**し、台帳由来(`fLedger` 等)や
 //        無宣言では `circular:true` で **value を返さない**(恒等式を予測と呼ばないための門)。
 //        χ_eff≤0・η_sym≤0・δ<0 は null(0 で埋めない)。
-//     ② **二値契約は動いていない**: 内蔵 124 本(第265便b で 🪁・第265便d で 🐮 が加わり 122→124)の kFrame は **0 か 1 だけ**(`preset.kframe-binary01`
+//     ② **受理契約は動いていない**: 内蔵 124 本(第265便b で 🪁・第265便d で 🐮 が加わり 122→124)の kFrame の**値**は第273便b の後も 1 本も変わっていない(`preset.kframe-unitInterval`
 //        と同じ契約をここでも確かめる)。NS 4 系 ⚡🧮🩺🧶 は kFrame=1・geoPN=2 のままである。
 //     ③ **診断コピーは較正サンプルではない**: 共同根の器が作るコピーは `sampleClass:"principle"` で
 //        `massCalibration` と `claims` を外す。**本体は 1 bit も変わらない**(コピー後に内蔵を読み直す)。
@@ -28613,9 +28763,51 @@ if (!FAST) {
       // 各ファミリーに primary がちょうど1本
       res.famPrimaryBad = fids.filter((f) => HP.allPresets()
         .filter((p) => p.familyId === f && p.familyRole === 'primary').length !== 1);
-      // ② kFrame 中間値の解消: 全内蔵の physics.kFrame は 0 か 1
-      res.kfBad = HP.allPresets().filter(p => !String(p.id).startsWith('custom_'))
-        .filter(p => p.physics.kFrame !== 0 && p.physics.kFrame !== 1).map(p => p.id);
+      // ② 第273便b(原仮定者の裁定〔第63報〕AH1): **kFrame の受理契約を二値 {0,1} から
+      //    「有限な [0,1]」へ開く**。二層である —— 全クラスは有限な [0,1]、**現実較正クラスで
+      //    0<k<1 の分数を書くときだけ** `physics.kFrameApprox:"space-mesh-effective"` の宣言が要る。
+      //    **内蔵 124 本の kFrame の値は 1 本も変えていない**(契約を開けただけ)。
+      {
+        const bis = HP.allPresets().filter(p => !String(p.id).startsWith('custom_'));
+        res.kfN = bis.length;
+        res.kfBad = bis.filter(p => !(typeof p.physics.kFrame === 'number'
+          && isFinite(p.physics.kFrame) && p.physics.kFrame >= 0 && p.physics.kFrame <= 1)).map(p => p.id);
+        res.kfValues = [...new Set(bis.map(p => p.physics.kFrame))].sort((a, b) => a - b);
+        const cal = bis.filter(p => p.sampleClass === 'calibration');
+        res.kfCalN = cal.length;
+        res.kfCalFrac = cal.filter(p => p.physics.kFrame > 0 && p.physics.kFrame < 1).map(p => p.id);
+        res.kfCalBad = cal.filter(p => p.physics.kFrame > 0 && p.physics.kFrame < 1
+          && p.physics.kFrameApprox !== 'space-mesh-effective').map(p => p.id);
+        res.kfApproxDeclared = bis.filter(p => p.physics.kFrameApprox !== undefined).map(p => p.id);
+        // **門が動いていること**を診断コピー(内蔵は 1 bit も触らない)で実証する
+        const mk = (phy, cls) => {
+          const o = { name: 'k', description: 'd', camera: { scale: 200 },
+            world: { boundary: 'none', size: 0 }, physics: phy,
+            bodies: [{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] };
+          if (cls) o.sampleClass = cls; return o;
+        };
+        const DEC = 'space-mesh-effective';
+        const vCalPlain = HP.validatePreset(mk({ kFrame: 0.5 }, 'calibration'));
+        const vCalDecl = HP.validatePreset(mk({ kFrame: 0.5, kFrameApprox: DEC }, 'calibration'));
+        const vCalBadDecl = HP.validatePreset(mk({ kFrame: 0.5, kFrameApprox: 'yes' }, 'calibration'));
+        const vCal0 = HP.validatePreset(mk({ kFrame: 0 }, 'calibration'));
+        const vCal1 = HP.validatePreset(mk({ kFrame: 1 }, 'calibration'));
+        const vFrac = HP.validatePreset(mk({ kFrame: 0.5 }, 'principle'));
+        const vOver = HP.validatePreset(mk({ kFrame: 1.5 }, 'principle'));
+        const vNan = HP.validatePreset(mk({ kFrame: 'x' }, 'principle'));
+        res.kfGate = {
+          calPlain: vCalPlain.ok, calDecl: vCalDecl.ok, calBadDecl: vCalBadDecl.ok,
+          cal0: vCal0.ok, cal1: vCal1.ok,
+          declKept: vCalDecl.ok ? vCalDecl.preset.physics.kFrameApprox : null,
+          fracOk: vFrac.ok, fracK: vFrac.ok ? vFrac.preset.physics.kFrame : null,
+          overOk: vOver.ok, overK: vOver.ok ? vOver.preset.physics.kFrame : null,
+          overWarn: vOver.ok ? vOver.warnings.some((w) => String(w).indexOf('kFrame') >= 0) : false,
+          nonNumOk: vNan.ok
+        };
+        // **決断事項の実測**: 宣言鍵が presetSig に入るか(宣言の有無で署名が変わるか)
+        res.kfSigDiff = presetSig(mk({ kFrame: 0.5 }, 'principle'))
+          !== presetSig(mk({ kFrame: 0.5, kFrameApprox: DEC }, 'principle'));
+      }
       // ③ radiusScale 既定 1(バリデータの既定値マージ)
       const v = HP.validatePreset({ name: 'r', description: 'd', camera: { scale: 200 },
         world: { boundary: 'none', size: 0 }, physics: {},
@@ -28693,7 +28885,32 @@ if (!FAST) {
             + `いずれも familyId なし)/ ファミリー別グループ=${JSON.stringify(r.famGroups)}`
           : 'SKIP(第151便 未適用 — 対象にグループ「ローターの物語」なし)');
     }
-    add('preset.kframe-binary01', r.kfBad.length === 0, r.kfBad.join(',') || '全内蔵 kFrame∈{0,1}');
+    // 第273便b(AH1): `preset.kframe-binary01` を置換した 2 本。**弱体化ではない** ——
+    // 値域の検査を [0,1] へ開くかわりに、較正クラスへ**宣言義務**を課し、門が動いていることを
+    // 診断コピーで実証する(内蔵の値は 1 本も変えていないので、実測の kFrame 集合も併記する)
+    add('preset.kframe-unitInterval',
+      r.kfBad.length === 0 && r.kfGate.fracOk === true && r.kfGate.fracK === 0.5
+      && r.kfGate.overOk === true && r.kfGate.overK === 1 && r.kfGate.overWarn === true
+      && r.kfGate.nonNumOk === false,
+      `内蔵 ${r.kfN} 本の physics.kFrame が**有限な [0,1]**(第273便b・裁定 AH1 —— 二値 {0,1} から開いた)`
+      + `/ 実測の値の集合=${JSON.stringify(r.kfValues)}(**本便で内蔵の値は 1 本も変えていない**)`
+      + `/ 非較正クラスの分数 0.5 は受理=${r.kfGate.fracOk}(実効 ${r.kfGate.fracK})`
+      + `/ k=1.5 は**上限 1 へクランプして警告**(AA2 維持)=${r.kfGate.overK}・警告あり=${r.kfGate.overWarn}`
+      + `/ 非数は致命拒否=${r.kfGate.nonNumOk === false}`
+      + (r.kfBad.length ? ` / **違反**: ${r.kfBad.join(',')}` : ''));
+    add('preset.kframe-calib-declared',
+      r.kfCalBad.length === 0 && r.kfGate.calPlain === false && r.kfGate.calDecl === true
+      && r.kfGate.declKept === 'space-mesh-effective' && r.kfGate.calBadDecl === false
+      && r.kfGate.cal0 === true && r.kfGate.cal1 === true,
+      `**二層契約の第2層**(第273便b・裁定 AH1): sampleClass:"calibration" ${r.kfCalN} 本で `
+      + `0<kFrame<1 を書くには \`physics.kFrameApprox:"space-mesh-effective"\` の宣言が要る `
+      + `/ 内蔵の較正で分数を書いている本数=${r.kfCalFrac.length}(**較正 ${r.kfCalN} 本の既定値は変えていない**)`
+      + `/ 宣言鍵を持つ内蔵=${r.kfApproxDeclared.length} 本 / 門の実測: 宣言なしの分数は拒否=`
+      + `${r.kfGate.calPlain === false}・宣言つきは受理=${r.kfGate.calDecl}(宣言は保存される=${r.kfGate.declKept})`
+      + `・不正な宣言値は拒否=${r.kfGate.calBadDecl === false}・k=0/1 は宣言なしで受理=`
+      + `${r.kfGate.cal0 && r.kfGate.cal1} / **宣言鍵は presetSig に入る=${r.kfSigDiff}**`
+      + `(宣言した瞬間に署名が変わる —— 内蔵は 1 本も宣言していないので全 124 本の署名は不変)`
+      + (r.kfCalBad.length ? ` / **違反**: ${r.kfCalBad.join(',')}` : ''));
     add('params.radius-default', r.radiusDef === 1, `radiusScale既定=${r.radiusDef}(=1)`);
     add('ai.base-context', r.baseOpts >= 28 && r.baseCtx && r.basePlain,
       `候補=${r.baseOpts} 文脈注入=${r.baseCtx} 未選択は素通し=${r.basePlain}`);
