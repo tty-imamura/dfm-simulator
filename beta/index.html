@@ -1285,6 +1285,14 @@ ja: {
   periHud:(m,a)=>`近点移動(最内粒子): 実測 ${m}°/周 / 解析 ${a}°/周`,
   ooHud:(cum,rate,e)=>`歳差積算 Δϖ=${cum}″(換算 ${rate}″/世紀・e=${e})— 基準楕円=点線・歳差×増幅楕円=橙`,
   ocHead:"観測結果カード(ハーネス実測 vs 観測値)", ocModel:"実測", ocObs:"観測値",
+  // ===== 第273便c(第63報・統括の検証項目 AG24): **正式判定値**の表示(正本 JSON の転記) =====
+  avHead:"正式判定値(判定器の正本)",
+  avStage:"判定段", avSigma:"σ 倍", avGate:"門",
+  avStale:"正式判定値: **表示しない**",
+  avStaleSig:"この本の署名が正本を測ったときと違う(presetSig ",
+  avStaleHash:"正本は別の html で測った値である(対象 SHA-256 ",
+  avTip:"**判定器の正本**(`tests/out/calaudit-w249.json`)が出した**判定段の値**をそのまま転記した欄である(この画面で測り直した値ではない)。上の観測結果カードの行は**宣言時の静的な文面**(多くは h 段)なので、**混ぜて読まない**。σ 倍は |実測−観測|/σ で、**合否ではない** —— 門の状態(合(3σ)/否(3σ)/数値未解決/mapping-unresolved/未判定)を併記する。**正本が別の html で測られていれば表示しない**: ページ内では自分の SHA-256 を確かめられないので、機械の線は ① preset 署名(presetSig)の一致 ② 呼び出し側が渡した対象 SHA-256 の一致 の 2 つで、どちらかが食い違えば数を出さない。**正直な限界**: 刻んである SHA-256 は「この表を書き込む前の html」のもので、同じファイルの hash とは一致しない(刻めば hash が動く)。**エンジンだけが変わった場合は署名では捕まらない**(第273便c・AG24)",
+  avNote:"**この欄は判定を作らない** —— 正本の転記である。4 値(合/量限定合/否/保留)の台帳は docs/CALIBRATION_VERDICT_v1.44.md が正本である。",
   orbUnbound:"軌道: 非束縛(E≥0)",
   ioNote:"インポートは「単独プリセット / プリセット配列 / {customPresets:[…]} / バックアップ全体」のどの形式でも自動判別します。パラメータが全く同じデータは取り込まず、名前が同じでパラメータが異なるデータは名前にサフィックスを付けて追加します。インポートしたプリセットは保存一覧にも登録されます。",
   ioNoteSum:"インポート",   // 第36便 B4(原仮定者指示): 折畳み見出し
@@ -2069,6 +2077,14 @@ en: {
   periHud:(m,a)=>`Apsidal drift (innermost): measured ${m}°/orbit / analytic ${a}°/orbit`,
   ooHud:(cum,rate,e)=>`Precession ∑Δϖ=${cum}″ (rate ${rate}″/century, e=${e}) — reference ellipse dotted, precession-amplified ellipse amber`,
   ocHead:"Observation card (harness measured vs observed)", ocModel:"measured", ocObs:"observed",
+  // ===== Wave 273c (report 63, verification item AG24): THE FORMAL ASSESSED VALUE (copied from the canonical JSON) =====
+  avHead:"Formal assessed value (from the judging harness)",
+  avStage:"stage", avSigma:"in σ", avGate:"gate",
+  avStale:"Formal assessed value: NOT SHOWN",
+  avStaleSig:"this sample's signature differs from the one the canonical run measured (presetSig ",
+  avStaleHash:"the canonical value was measured on a different html (target SHA-256 ",
+  avTip:"A VERBATIM COPY of the value the judging harness (tests/out/calaudit-w249.json) assessed AT ITS ASSESSED STEP - nothing is re-measured on this screen. The observation-card rows above are STATIC DECLARED TEXT (mostly the h step), so DO NOT MIX THE TWO. The sigma multiple is |measured - observed| / sigma and IS NOT A VERDICT - the gate state (pass 3σ / fails 3σ / numerically unresolved / mapping-unresolved / not judged) is printed with it. NOTHING IS SHOWN IF THE CANONICAL RUN USED A DIFFERENT HTML: a page cannot hash itself, so the machine line is (1) the preset signature (presetSig) matching and (2) the caller-supplied target SHA-256 matching; if either differs, no number is printed. AN HONEST LIMIT: the stamped SHA-256 is that of the html BEFORE this table was written into it (stamping it moves the file's own hash), so it never equals this file's hash, and A CHANGE CONFINED TO THE ENGINE IS NOT CAUGHT BY THE SIGNATURE (wave 273c, AG24)",
+  avNote:"THIS PANEL MAKES NO VERDICT - it copies the canonical file. The four-valued ledger (pass / partial pass / fails / held) lives in docs/CALIBRATION_VERDICT_v1.44.md. THE ROW NAMES AND GATE WORDS ARE THE CANONICAL FILE'S OWN (Japanese) STRINGS - they are copied verbatim rather than translated, so that what is printed here is exactly what the harness wrote.",
   orbUnbound:"orbit: unbound (E≥0)",
   ioNote:"Import auto-detects any of: a single preset / an array of presets / {customPresets:[…]} / a full backup. Data with identical parameters is skipped; data whose name collides but whose parameters differ is added with a name suffix. Imported presets are also registered in the saved list.",
   ioNoteSum:"Import",   // 第36便 B4
@@ -2853,6 +2869,73 @@ function massBasisOf(p){
     solutionId:e.solutionId||null, inferenceModel:e.inferenceModel||null,
     conversion:e.conversion||null, factor,
     note:((LANG==="en"&&e.noteEn)?e.noteEn:e.note)||null};
+}
+// ===== 第273便c(第63報・統括の検証項目 AG24): **正式判定値の side table** =====
+// 判定器の正本(`tests/out/calaudit-w249.json`)が出した **判定段の値**(`gate.assessedValue`)・
+// **判定段**(`gate.assessedStage`)・**σ 倍**(`gate.nSigma`)・**門の状態**を、プリセットの外の
+// side table として持つ。**`presetSig` はこの表を見ない**ので、署名・保存 JSON・力学・600 步の
+// 状態は 1 bit も変わらない(実測で確認する)。
+//
+// **ここで何も判定しない。** この表は**転記**であり、数は 1 つもこのページで作らない
+// (表の中身は `tests/exp-w273c-assessedtable.mjs` が正本 JSON から**機械生成**して埋める ——
+//  手で打った数字は 1 つも無い)。
+//
+// **表示しない条件**(どちらかが食い違えば数を出さない):
+//   ① **preset 署名**: 表に刻んだ `presetSigHash` と、いまのこの本の署名が違う
+//      (= 正本が測ったのと違う入力の本である)。
+//   ② **対象 html の SHA-256**: 呼び出し側が渡した `targetSha256` が、正本の刻印と違う。
+//      **ページは自分自身の SHA-256 を確かめられない**(file:// の自己 fetch は使えない)ので、
+//      この線は「渡されたときだけ効く」契約にしてある。UI は渡さない(= ① だけで止める)。
+// **正直な限界**: 刻印 `ASSESSED_CANON.targetSha256` は「**この表を書き込む前の html**」の
+//   SHA-256 である —— 刻印を書けばその html の hash は動くので、**同じファイルの hash とは
+//   一致しない**(避けられない)。したがって実効的な線は ① の署名一致であり、
+//   **エンジン(`S._core` 等)だけが変わった場合は署名では捕まらない**。
+//   転記が正本と 1 行ずつ一致することは QA `ui.assessedValuePanel` が突き合わせる。
+// **静的な obsCard の行(多くは h 段の文面)と混ぜない** —— 別の欄として下に出す。
+const ASSESSED_CANON={file:"tests/out/calaudit-w249.json", wave:"第249便b", generatedAt:"2026-09-18T19:23:09.025Z",
+  targetSha256:"69d78fa3195e883be9fa14473fa590f98304142e5b466fb2a80e4f70f418d44d",
+  note:"判定段の値・σ 倍・門の状態は**この正本の転記**である(このページで測り直していない)"};
+// >>> w273c-assessed-table
+const ASSESSED_SIG={"mercuryReal":"3bffc014","mercuryRealKF1":"f530078c","plutoCharonReal":"c482cab0","alphaCenAB":"8b8c57d3","alphaCenABDFM":"8bf6c4cc","siriusAB":"63359204","siriusABDFM":"b1111485","psrDoubleAB":"bfceee9a","psrDoubleABDFM":"7b3f6a36","psrDoubleABSpinCal":"6fe76b76","psrJ1757DFM":"9dd447b2","psrJ1946DFM":"3bc590f2","psrDoubleABPN":"c794a498","psrJ1757PN":"7132210b","psrJ1946PN":"cc595e3c","psrDoubleABCF":"8767377","psrJ1757CF":"12797269","psrJ1946CF":"f8600f7c","psrB1534":"f14a9255","psrB1534DFM":"5888662e","psrB1534CF":"d1e506a2","saturnZonalD68":"5be8b841"};
+const ASSESSED_VALUES={
+  "mercuryReal":[{t:"水星",k:"precession",n:"近日点前進(推定器つき宣言 — 第250便d)",st:"h",v:0.0000225146569977,u:"deg/orbit",ns:6217.30964976,g:"数値未解決"}],
+  "mercuryRealKF1":[{t:"水星",k:"precession",n:"引きずり歳差(qLock q_exact=6.1471・推定器つき宣言)",st:"h",v:0.0000224860986679,u:"deg/orbit",ns:6259.09759721,g:"数値未解決"}],
+  "plutoCharonReal":[{t:"カロン",k:"period",n:"公転周期(kFrame=0 対照・同方向1周)",st:"h8",v:553211.255804,u:"s",ns:52269.1776099,g:"condition-mismatch"},{t:"カロン",k:"period",n:"公転周期(kFrame=1・E6′-R)同方向1周",st:"h8",v:553211.255804,u:"s",ns:52269.1776099,g:"数値未解決"},{t:"カロン",k:"period",n:"公転周期(kFrame=1)近点間(第250便d)",st:"h8",v:556271.83415,u:"s",ns:170347.045893,g:"mapping-unresolved"}],
+  "alphaCenAB":[{t:"B",k:"period",n:"公転周期(kFrame=0 採用側)",st:"h4",v:2517154638.63,u:"s",ns:0.0956437048016,g:"合(3σ)"},{t:"B",k:"ecc",n:"実測離心率(1公転の半径比振れ幅)",st:"h4",v:0.519469965648,u:"-",ns:0.000229014177252,g:"mapping-unresolved"}],
+  "alphaCenABDFM":[{t:"B",k:"period",n:"公転周期(kFrame=1・pull 重み・観測質量 — 2 定義)",st:"h4",v:2501545431.83,u:"s",ns:25.9372992288,g:"数値未解決"},{t:"B",k:"ecc",n:"実測離心率(1周目の半径比振れ幅)",st:"h4",v:0.520509070229,u:"-",ns:6.92713486102,g:"mapping-unresolved"}],
+  "siriusAB":[{t:"B",k:"period",n:"公転周期(kFrame=0 採用側)",st:"h4",v:1581969210.93,u:"s",ns:0.274249976343,g:"合(3σ)"},{t:"B",k:"ecc",n:"実測離心率(1公転の半径比振れ幅)",st:"h4",v:0.591419947828,u:"-",ns:0.000141004863641,g:"mapping-unresolved"}],
+  "siriusABDFM":[{t:"B",k:"period",n:"公転周期(kFrame=1・pull 重み・観測質量 — 2 定義)",st:"h4",v:1553427257.01,u:"s",ns:210.060620235,g:"数値未解決"},{t:"B",k:"ecc",n:"実測離心率(1周目の半径比振れ幅)",st:"h4",v:0.593765673224,u:"-",ns:6.33965736163,g:"mapping-unresolved"}],
+  "psrDoubleAB":[{t:"B",k:"period",n:"公転周期(kFrame=0 採用側)",st:"h8",v:8834.77191908,u:"s",ns:946662.667847,g:"数値未解決"},{t:"B",k:"ecc",n:"実測離心率(1公転の半径比振れ幅)",st:"h4",v:0.087764508518,u:"-",ns:260.989208223,g:"mapping-unresolved"},{t:"B",k:"precession",n:"近点前進(1PN — 合わせない照合)",st:"h4",v:0.000790184452376,u:"deg/orbit",ns:1079785.27342,g:"数値未解決"}],
+  "psrDoubleABDFM":[{t:"B",k:"period",n:"公転周期(kFrame=1・χ-law 粒子別質量 — 2 定義)",st:"h8",v:8822.19572808,u:"s",ns:49245670.4869,g:"数値未解決"},{t:"B",k:"ecc",n:"hold-out(離心率と近点 — 第246便で1行に統合)",st:"h8",v:0.0878282285951,u:"-",ns:1066.51239895,g:"mapping-unresolved"},{t:"B",k:"precession",n:"周期短縮と近点移動は**別判定**(第248便b → 第249便a)",st:"h4",v:0.00947301026753,u:"deg/orbit",ns:1317474.59844,g:"数値未解決"}],
+  "psrDoubleABSpinCal":[{t:"B",k:"precession",n:"近点移動(**fit 対象** — 2 ノブを回した先)",st:"h",v:0.00484553427505,u:"deg/orbit",ns:31831.896686,g:"数値未解決"},{t:"B",k:"period",n:"公転周期(照合先 — fit していない)",st:"h",v:8737.68909531,u:"s",ns:386516714.45,g:"数値未解決"}],
+  "psrJ1757DFM":[{t:"B",k:"precession",n:"近点移動(**hold-out** — 較正に使っていない)",st:"h4",v:0.0104436350371,u:"deg/orbit",ns:53265.3734352,g:"数値未解決"},{t:"B",k:"period",n:"公転周期(hold-out — 合わせていない・2 定義)",st:"h4",v:15767.8657794,u:"s",ns:20787786.9947,g:"数値未解決"},{t:"B",k:"ecc",n:"離心率(hold-out — 合わせていない)",st:"h4",v:0.605943516381,u:"-",ns:129.316381402,g:"mapping-unresolved"},{t:"B",k:"period",n:"周期の収縮(⚡ と同じ離散化仕事)",st:"h4",v:15767.8657794,u:"s",ns:null,g:"未判定"}],
+  "psrJ1946DFM":[{t:"B",k:"precession",n:"近点移動(**hold-out** — 較正に使っていない)",st:"h4",v:0.0111057064013,u:"deg/orbit",ns:65649.844301,g:"数値未解決"},{t:"B",k:"period",n:"公転周期(hold-out — 合わせていない・2 定義)",st:"h4",v:6757.54228447,u:"s",ns:13788029.0421,g:"数値未解決"},{t:"B",k:"ecc",n:"離心率(hold-out — 合わせていない)",st:"h4",v:0.063904606185,u:"-",ns:85.3827312435,g:"mapping-unresolved"},{t:"B",k:"period",n:"dt 収束(短周期ゆえ刻みが効く)",st:"h4",v:6757.54228447,u:"s",ns:13788029.0421,g:"数値未解決"}],
+  "psrDoubleABPN":[{t:"B",k:"precession",n:"近点移動(本 variant の主眼 — 旧則の約2倍を直す)",st:"h",v:0.00489034040022,u:"deg/orbit",ns:44271.0137741,g:"数値未解決"},{t:"B",k:"period",n:"公転周期(合わせていない・2 定義)",st:"h",v:8737.09486756,u:"s",ns:388888313.037,g:"数値未解決"},{t:"B",k:"ecc",n:"離心率(合わせていない)",st:"h",v:0.0879849278314,u:"-",ns:4331.07982097,g:"mapping-unresolved"}],
+  "psrJ1757PN":[{t:"B",k:"precession",n:"近点移動(本 variant の主眼 — 旧則の約2倍を直す)",st:"h",v:0.00529683758848,u:"deg/orbit",ns:898.808377312,g:"数値未解決"},{t:"B",k:"period",n:"公転周期(合わせていない・2 定義)",st:"h",v:15507.8788354,u:"s",ns:80969949.9418,g:"数値未解決"},{t:"B",k:"ecc",n:"離心率(合わせていない)",st:"h",v:0.606006657166,u:"-",ns:192.457166178,g:"mapping-unresolved"}],
+  "psrJ1946PN":[{t:"B",k:"precession",n:"近点移動(本 variant の主眼 — 旧則の約2倍を直す)",st:"h",v:0.00596000359393,u:"deg/orbit",ns:4928.13811431,g:"数値未解決"},{t:"B",k:"period",n:"公転周期(合わせていない・2 定義)",st:"h",v:6685.36822133,u:"s",ns:55555426.6929,g:"数値未解決"},{t:"B",k:"ecc",n:"離心率(合わせていない)",st:"h",v:0.0640837745236,u:"-",ns:309.343154554,g:"mapping-unresolved"}],
+  "psrDoubleABCF":[{t:"B",k:"precession",n:"近点移動(本 variant の主眼)",st:"h4",v:0.00474399920582,u:"deg/orbit",ns:3611.53592965,g:"数値未解決"},{t:"B",k:"period",n:"公転周期(合わせていない・2 定義)",st:"h8",v:8822.28624288,u:"s",ns:48884420.4828,g:"数値未解決"}],
+  "psrJ1757CF":[{t:"B",k:"precession",n:"近点移動(⚡ で凍結した κ をそのまま)",st:"h4",v:0.00522508376229,u:"deg/orbit",ns:168.732473019,g:"数値未解決"},{t:"B",k:"period",n:"公転周期(合わせていない・2 定義)",st:"h4",v:15767.9115273,u:"s",ns:20777197.1804,g:"数値未解決"}],
+  "psrJ1946CF":[{t:"B",k:"precession",n:"近点移動(⚡ で凍結した κ をそのまま)",st:"h4",v:0.00556579291776,u:"deg/orbit",ns:276.044580174,g:"数値未解決"},{t:"B",k:"period",n:"公転周期(合わせていない・2 定義)",st:"h4",v:6757.63076702,u:"s",ns:13736823.8635,g:"数値未解決"},{t:"B",k:"ecc",n:"実測(標準検出器): 離心率(B)",st:"h4",v:0.0638900855305,u:"-",ns:67.2319131732,g:"mapping-unresolved"}],
+  "psrB1534":[{t:"B",k:"period",n:"公転周期(**入力確認** — 転写が閉じているかだけを見る・2 定義)",st:"h4",v:36351.9818513,u:"s",ns:323156.64984,g:"数値未解決"},{t:"B",k:"ecc",n:"離心率(入力確認)",st:"h4",v:0.273674285351,u:"-",ns:10.715496885,g:"mapping-unresolved"},{t:"B",k:"precession",n:"近点移動は**この版では基準にしない**",st:"h4",v:0.000336342650395,u:"deg/orbit",ns:162641.533188,g:"数値未解決"}],
+  "psrB1534DFM":[{t:"B",k:"precession",n:"近点移動(**hold-out の本題** — 2 倍超過が 4 例目でも出るか)",st:"h4",v:0.00409797630971,u:"deg/orbit",ns:200942.813237,g:"数値未解決"},{t:"B",k:"period",n:"公転周期(合わせていない・2 定義)",st:"h4",v:36306.0017664,u:"s",ns:52894534.2987,g:"数値未解決"},{t:"B",k:"ecc",n:"離心率(合わせていない)",st:"h4",v:0.273978271492,u:"-",ns:1002.57164154,g:"mapping-unresolved"}],
+  "psrB1534CF":[{t:"B",k:"precession",n:"近点移動(**凍結 hold-out の本番**)",st:"h4",v:0.00207418613868,u:"deg/orbit",ns:5004.11931627,g:"数値未解決"},{t:"B",k:"period",n:"公転周期(合わせていない・2 定義)",st:"h4",v:36306.0951377,u:"s",ns:52786465.5841,g:"数値未解決"}],
+  "saturnZonalD68":[{t:"D68",k:"precession",n:"D68 リングレットの近点移動(推定器つき宣言 — 第250便d)",st:"h4",v:13925.5845819,u:"deg/yr",ns:14.6034114102,g:"否(3σ)"}]
+};
+// <<< w273c-assessed-table
+// 正式判定値を読む(**表示しない理由も返す** —— 黙って空にしない)。
+function assessedValuesOf(p,opts){
+  const id=p&&p.id; if(!id) return null;
+  const rows=ASSESSED_VALUES[id]; if(!Array.isArray(rows)||!rows.length) return null;
+  const sigDeclared=ASSESSED_SIG[id]||null;
+  const sigNow=presetSigHash(p);
+  const sigOk=(sigDeclared!==null && sigNow!==null && sigNow===sigDeclared);
+  const want=(opts&&typeof opts.targetSha256==="string")? opts.targetSha256 : null;
+  const hashOk=(want===null)? null : (want===ASSESSED_CANON.targetSha256);
+  const show=sigOk && hashOk!==false;
+  return {show, sigOk, sigNow, sigDeclared, hashChecked:(want!==null), hashOk,
+    canonical:ASSESSED_CANON, n:rows.length, rows:show? rows.slice() : [],
+    reason: show? null : (!sigOk? "preset-signature-differs" : "canonical-target-differs"),
+    note:"**判定ではなく転記である**。σ 倍は |実測−観測|/σ であって合否ではない"};
 }
 // ===== 第272便d: **空間メッシュ/複素決定力場**の状態(**宣言と作動を分ける**)=====
 // 画面の選択値だけを根拠にしない —— 実行情報(S.hasGeoToy / S.geoToyDeny / S.geoToyStop /
@@ -30835,6 +30918,38 @@ function renderHelp(){
         r.textContent="📊 "+row.q+": "+T("ocModel")+" "+row.model+" / "+T("ocObs")+" "+row.obs;
         box.appendChild(r);
       }
+      // 第273便c(第63報・AG24): **正式判定値**(判定器の正本の転記)。obsCard の宣言行の**後ろ**に
+      // 別の欄として出す(`ocRow` を付けない —— 宣言行の数え方を変えない)。
+      // **署名が正本と違えば数を出さない**(理由だけ出す)。**このページでは何も測っていない**
+      {
+        const av=assessedValuesOf(currentPreset);
+        if(av){
+          const head=document.createElement("div"); head.className="ffRow avHeadRow";
+          head.dataset.av=av.show? "shown" : "hidden";
+          head.title=T("avTip")+"\n"+T("avNote");
+          if(av.show){
+            head.textContent="🔬 "+T("avHead")+"("+ASSESSED_CANON.file+" / "
+              +String(ASSESSED_CANON.targetSha256||"—").slice(0,12)+"…)";
+            box.appendChild(head);
+            for(const r of av.rows){
+              const d=document.createElement("div"); d.className="ffRow avRow";
+              d.dataset.gate=r.g;
+              d.textContent="🔬 "+r.n+": "+r.v+(r.u? " "+r.u : "")
+                +"("+T("avStage")+" "+r.st
+                +(r.ns===null? "" : "・"+T("avSigma")+" "+r.ns)
+                +"・"+T("avGate")+" "+r.g+")";
+              d.title=T("avTip");
+              box.appendChild(d);
+            }
+          }else{
+            head.textContent="🔬 "+T("avStale")+" — "
+              +(av.reason==="preset-signature-differs"
+                ? T("avStaleSig")+String(av.sigDeclared)+" → "+String(av.sigNow)+")"
+                : T("avStaleHash")+String(ASSESSED_CANON.targetSha256||"—").slice(0,12)+"…)");
+            box.appendChild(head);
+          }
+        }
+      }
       el.appendChild(box);
     }
   }
@@ -38599,6 +38714,11 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第272便d(第62報): **質量の由来**の side table(`presetSig` の外)と、**空間メッシュの宣言/作動**の
   // 読み。どちらも**表示だけ**で、力にも保存 JSON にも 1 バイトも接続していない
   MASS_BASIS, MASS_BASIS_KINDS, massBasisOf, meshChipState,
+  // 第273便c(第63報・AG24): **正式判定値の side table**(`presetSig` の外・転記だけ)。
+  // **このページでは 1 つも測り直していない** —— 判定器の正本 JSON の値をそのまま持っている。
+  // QA ui.assessedValuePanel が「正本と 1 行ずつ一致すること」「署名/対象 hash が食い違えば
+  // 表示しないこと」を機械固定する
+  ASSESSED_CANON, ASSESSED_VALUES, ASSESSED_SIG, assessedValuesOf,
   meshChipLabel:(p,S)=>meshChipLabel(meshChipState(p,S||sim)),
   presetSig,   // 第272便d: 全内蔵の署名を外から突き合わせるため(器 tests/exp-w272d-sigsame.mjs)
   meshFieldApi:(S)=>_smFieldApi(S||sim), meshFieldApiLive:(S)=>_smFieldApiLive(S||sim),

@@ -369,6 +369,16 @@ paper/*Notes.bib
 !tests/out/nslock-w272c.json
 !tests/out/twobody-w272c.json
 !tests/out/rpar-w272c.json
+# 第273便c(第63報・AH24/AG24): 2 本の正本。
+#   ① nslockledger —— **NS 連星 4 系の lock 枝(kFrame=0・f=1・λ_PN=1)を台帳の 1 行にした記録**
+#      (`tests/exp-w273c-nslockledger.mjs` が `nslock-w272c.json` から組む。ω̇/ω̇_obs・質量枝・
+#      λ_PN・pnAlpha・採用段を併記する)。QA `docs.nsLockLedgerRow` が台帳 §5.19 と突き合わせる。
+#      **記録であって判定ではない**(内蔵の値は 1 つも変えていない・係数 6 は導入しない)。
+#   ② assessed —— **正式判定値の side table の来歴**(`tests/exp-w273c-assessedtable.mjs` が
+#      判定器の正本から beta の表を機械生成したときの控え)。QA `ui.assessedValuePanel` が
+#      ページの表と判定器の正本を直接突き合わせるので、この控えは**何を転記したかの記録**である。
+!tests/out/nslockledger-w273c.json
+!tests/out/assessed-w273c.json
 # 第221便: セッション内スクラッチ実測ハーネス(コミット対象外 — 実測値は claims/QA が機械固定する)
 _scratch-*.mjs
 _scratch-*/
