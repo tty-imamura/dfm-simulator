@@ -369,6 +369,14 @@ paper/*Notes.bib
 !tests/out/nslock-w272c.json
 !tests/out/twobody-w272c.json
 !tests/out/rpar-w272c.json
+# 第273便b(統括の検証項目 R21・**診断のみ・既定不変**): ❄️ カロン C3 の**符号反転区間の探索**
+#   (tests/exp-w273b-charonk.mjs)。**これは fit である** —— 零点は観測周期そのものに合わせて
+#   挟み込んだ 1 自由パラメータで、「解」でも「最良値」でもない(meta.fit:true が刻んである)。
+#   QA `docs.charonKScan` が fit の刻印・3 段・NaN 0・併合鍵・softening 宣言(AH20)・
+#   宣言鍵の同値性(AH1)を機械固定するのでコミットする。**判定はしていない。**
+#   ※ `charonk-w273b-probe.json` / `charon-w272b-probe.json`(短い走行)は**正本ではない**ので
+#      除外のまま(器が正本と別ファイルへ落とす)。
+!tests/out/charonk-w273b.json
 # 第221便: セッション内スクラッチ実測ハーネス(コミット対象外 — 実測値は claims/QA が機械固定する)
 _scratch-*.mjs
 _scratch-*/

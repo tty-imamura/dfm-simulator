@@ -4245,6 +4245,19 @@ function valToSliderPos(def,v){
 // ティア別実c値(☀️=3e4)と physLock の導出 Kt=c₀²/G(☀️実G+実cで 1.35e8)を値域内にする。
 // 既存プリセット・既定値は全て旧値域内なので挙動不変(広げるだけ)
 // 第122便: q 上限 4→8(共通補正)→ 第123便: 8→40(qLock 自動算出 — 💿 の q≈21.8〔第172便の q_exact 規約では 20.4932〕を値域内にする)
+// 第273便b(原仮定者の裁定〔第63報〕AH1): **内蔵の kFrame 受理契約を「二値 {0,1}」から
+// 「有限な [0,1]」へ開く**。値域 CLAMPS.kFrame=[0,1] は第1便から変わっていない(上限 1 = AA2)ので、
+// **ここで変わるのは契約の文言と、較正クラスに課す宣言義務だけ**である。二層にする:
+//   ① すべてのプリセット(内蔵・保存・AI 生成): 有限な数値で 0≤kFrame≤1(値域外は従来どおり
+//      警告つきクランプ = AI_SPEC「値域(超えると自動修正される)」の契約を変えない)。
+//   ② `sampleClass:"calibration"`(現実較正)で **0<kFrame<1 の分数**を書くときだけ、
+//      `physics.kFrameApprox:"space-mesh-effective"` の宣言を必須にする —— 第62報「kFrame<1 は
+//      空間メッシュの影響の近似として許容する」を、**近似であることを宣言しないまま較正へ混ぜない**
+//      ための門である。**宣言専用の文字列キーで、力学には 1 バイトも接続しない**(値を読む経路は
+//      エンジンに無い。`S._core` には 1 命令も足していない)。
+// **内蔵 124 本の kFrame の値は 1 本も変えていない**(本便は契約を開けただけ)。
+const KFRAME_APPROX_KEY = "kFrameApprox";
+const KFRAME_APPROXES = ["space-mesh-effective"];
 const CLAMPS = { G:[0,1e6], D0:[0,1e6], kFrame:[0,1], q:[0.5,40], kRep:[0,20], muF:[0,1],
   gammaN:[0,1], kappaS:[0,2], kappaT:[0,1], kLens:[0,1],   // 第128便: 時空係数は κ 正準(κ=0=時空効果なし。旧 Kt[1,1e12] は ktToKappa で受理)
   cLight:[1,1e6], bM:[0.001,1000], etaRad:[0,1], pRad:[1,6], radiusScale:[0.2,5],
@@ -14160,6 +14173,15 @@ function validatePreset(obj){
         if(lv.ledger!==null) ph[k]=lv.ledger;
         continue;
       }
+      // 第273便b(AH1): kFrameApprox — **宣言専用の文字列キー**(既定は無し=ph へ入れない=署名不変)。
+      // 「この kFrame は空間メッシュの影響の実効近似として置いた」という宣言だけを持ち、
+      // **力学・光学・帳簿のどの経路からも読まれない**(エンジンに参照が 1 箇所も無い)。
+      // 較正クラスで分数 kFrame を書くときの必須宣言(下の二層契約)に使う
+      if(k===KFRAME_APPROX_KEY){
+        if(KFRAME_APPROXES.indexOf(p.physics[k])<0) warnings.push('physics.kFrameApprox は "space-mesh-effective" のみ — 削除します');
+        else ph[k]=p.physics[k];
+        continue;
+      }
       // 第247便a: framePrecision も同じ流儀(既定 "single" は ph へ入れない=署名不変)
       if(k===FRAME_PRECISION_KEY){
         if(FRAME_PRECISIONS.indexOf(p.physics[k])<0) warnings.push('physics.framePrecision は "single"/"double" のみ — 既定(single)に修正');
@@ -14225,6 +14247,13 @@ function validatePreset(obj){
       ph[k]=v;
     }
   }
+  // ===== 第273便b(第63報 AH1): kFrame の受理契約(二層) =====
+  //   ① 全クラス共通: 有限な [0,1](非数は上の CLAMPS 経路が致命拒否・域外は警告つきクランプ)。
+  //   ② 現実較正クラスだけ: **0<kFrame<1 の分数には宣言鍵が要る**。
+  //      宣言が無い分数は**受理しない**(「近似として置いた」と書かないまま較正へ入れさせない)。
+  //   **既定 DEFAULT_PHYSICS.kFrame=1 は不変**・**内蔵 124 本の値も不変**(契約を開けただけ)。
+  if(p.sampleClass==="calibration" && ph.kFrame>0 && ph.kFrame<1 && ph[KFRAME_APPROX_KEY]!=="space-mesh-effective")
+    bad('physics.kFrame に分数('+ph.kFrame+')を書く sampleClass:"calibration" は physics.kFrameApprox:"space-mesh-effective" の宣言が必要です(kFrame<1 は空間メッシュの影響の実効近似であって、観測から決めた値ではない)');
   // ===== 第259便a(第51報): geoPN=3(トイの測地線モード)の受理条件 =====
   // 第51報「例えば『測地線モード geoPN=3』などとして、トイモデル用に明確に処理を分ける事を検討する」。
   // **現行(第258便まで)の挙動**: CLAMPS geoPN:[0,2] が 3 を 2 へ丸め、警告 1 行(「値域に修正」)を出していた。
@@ -36739,7 +36768,8 @@ function dfmDominance(bodies,opts){
 // `HP.dfmFrameKCandidates(inp)`。原仮定者(第56報)「『kFrame≈0.7』を、他の観測値から**事前予測する
 // 計算式を確立する**」。—— 本関数は**候補式を同じ入力で並べて評価するだけの純関数**であって、
 // **予測式ではない**。力へは 1 バイトも接続せず、kFrame をこの数で自動的に決める経路はどこにも無い
-// (内蔵プリセットの kFrame は QA `preset.kframe-binary01` が要求する **0 か 1** のままである)。
+// (内蔵プリセットの kFrame は QA `preset.kframe-unitInterval` が要求する **有限な [0,1]** のままで、
+// 第273便b で契約を開いたあとも**値は 1 本も動いていない**)。
 //
 // **候補は 3 つ**(第264便a の検証。**どれも「成立した」とは宣言していない**):
 //   H1: k = (f_ind − 1)/χ_eff。**f_ind が独立でなければ循環である** —— 較正台帳の f は
@@ -36800,8 +36830,8 @@ function dfmFrameKCandidates(inp){
 // 原仮定者(第57報)「『geoPN=2』と『kFrame=1』で成立しない場合は、観測質量に対する補正が必要な
 // 状況と判断し、質量補正 f と kFrame を同時に補正する」。—— これは**手順**であって「0.7 を採る」ではない。
 // 本関数は手順の**記帳だけ**を行う純関数である。**力へは 1 バイトも接続せず**、kFrame や質量を
-// この返り値で自動的に決める経路はどこにも無い(内蔵プリセットの kFrame は QA `preset.kframe-binary01`
-// が要求する **0 か 1** のままである)。
+// この返り値で自動的に決める経路はどこにも無い(内蔵プリセットの kFrame は QA `preset.kframe-unitInterval`
+// が要求する **有限な [0,1]** のままで、第273便b で契約を開いたあとも**値は 1 本も動いていない**)。
 //
 // **手順は 4 段**:
 //   ① 基準走行(geoPN=2・kFrame=1・**f=1 = 観測質量そのもの**)で P と ω̇ を測る。
