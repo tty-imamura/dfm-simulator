@@ -29457,6 +29457,96 @@ if (!FAST) {
   }
 }
 
+// ---- 第275便f(原仮定者の裁定(第65報)(9)): ui.panelExpand — 縦画面のタブパネルを広げる/狭くする ----
+// 縦画面(390×844)でタブを開くと #btnPanelExpand が出る。押すとパネルの max-height が
+// 「画面高 −(ヘッダー+操作列+タブ)」へ伸び、狭い状態(clamp(150px, 50dvh-160px, 50dvh))との
+// 差が付く。広げてもヘッダーの矩形は 1px も動かない(#app.panelWide が #canvasWrap の
+// min-height:120px を外すので、flex の合計が画面高を超えない)。閉じるは両状態で効き、
+// 広い/狭いは localStorage hp_panel_wide に残る。横画面2カラムではボタンを出さない。
+// 世代判定は #btnPanelExpand の有無 —— ルート版(第275便f 未適用)は SKIP。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (/id="btnPanelExpand"/.test(html)) {
+    const ctxP = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const pp = await ctxP.newPage();
+    const perrs = [];
+    pp.on('pageerror', (e) => perrs.push(String(e.message || e)));
+    await pp.goto(INDEX, { waitUntil: 'load' });
+    await pp.evaluate(() => { try { localStorage.removeItem('hp_panel_wide'); } catch (_) {} });
+    await pp.reload({ waitUntil: 'load' });
+    await pp.waitForFunction(() => !!window.HP);
+    const r = await pp.evaluate(async () => {
+      const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+      const snap = () => {
+        const g = (s) => { const e = document.querySelector(s); const b = e.getBoundingClientRect();
+          return { top: +b.top.toFixed(1), bottom: +b.bottom.toFixed(1), h: +b.height.toFixed(1) }; };
+        const panel = document.getElementById('panel');
+        const be = document.getElementById('btnPanelExpand');
+        return { header: g('header'), transport: g('#transport'), tabs: g('nav#tabs'),
+          canvas: g('#canvasWrap'), panel: g('#panel'),
+          maxH: parseFloat(getComputedStyle(panel).maxHeight),
+          open: panel.classList.contains('open'), wide: panel.classList.contains('wide'),
+          appWide: document.getElementById('app').classList.contains('panelWide'),
+          label: be.textContent, pressed: be.getAttribute('aria-pressed'),
+          display: getComputedStyle(be).display };
+      };
+      const o = {};
+      document.querySelector('nav#tabs button[data-tab="params"]').click();
+      await wait(120); o.narrow = snap();
+      document.getElementById('btnPanelExpand').click();
+      await wait(120); o.wide = snap();
+      const ls = () => { try { return localStorage.getItem('hp_panel_wide'); } catch (_) { return 'ERR'; } };
+      o.lsWide = ls();
+      document.getElementById('btnPanelClose').click();   // 閉じるは広い状態でも効く
+      await wait(120); o.closed = snap();
+      document.querySelector('nav#tabs button[data-tab="params"]').click();
+      await wait(120); o.reopened = snap();               // 状態は保持される
+      document.getElementById('btnPanelExpand').click();
+      await wait(120); o.shrunk = snap(); o.lsNarrow = ls();
+      // 英語ラベル(広い状態の「狭くする」)
+      document.getElementById('btnPanelExpand').click(); await wait(60);
+      HP.setLang('en'); o.enWide = document.getElementById('btnPanelExpand').textContent;
+      document.getElementById('btnPanelExpand').click(); await wait(60);
+      o.enNarrow = document.getElementById('btnPanelExpand').textContent;
+      HP.setLang('ja');
+      return o;
+    });
+    // 横画面2カラムでは出さない(縦画面限定の機能)
+    await pp.setViewportSize({ width: 1280, height: 800 });
+    const land = await pp.evaluate(() =>
+      getComputedStyle(document.getElementById('btnPanelExpand')).display);
+    await ctxP.close();
+    const reserve = r.narrow.header.h + r.narrow.transport.h + r.narrow.tabs.h;
+    const wantWide = 844 - reserve;                       // 画面高 −(ヘッダー+操作列+タブ)
+    const ok = {
+      shown: r.narrow.display !== 'none',
+      grew: r.wide.maxH - r.narrow.maxH > 100 && Math.abs(r.wide.maxH - wantWide) < 1,
+      canvasCollapsed: r.wide.canvas.h < 1 && r.narrow.canvas.h > 300,
+      headerIntact: r.wide.header.top === r.narrow.header.top
+        && r.wide.header.h === r.narrow.header.h && r.wide.header.bottom <= 844,
+      label: r.narrow.label.includes('広げる') && r.wide.label.includes('狭くする')
+        && r.narrow.pressed === 'false' && r.wide.pressed === 'true',
+      en: /Expand/.test(r.enNarrow) && /Shrink/.test(r.enWide),
+      closeWorks: r.closed.open === false && r.closed.canvas.h > 300,
+      keptOnReopen: r.reopened.open === true && r.reopened.wide === true,
+      shrinkBack: r.shrunk.wide === false && Math.abs(r.shrunk.maxH - r.narrow.maxH) < 0.5,
+      persisted: r.lsWide === '1' && r.lsNarrow === '0',
+      landscapeHidden: land === 'none',
+      noErr: perrs.length === 0,
+    };
+    add('ui.panelExpand', Object.values(ok).every(Boolean),
+      `390×844: 控除=${reserve}px(header ${r.narrow.header.h}+操作列 ${r.narrow.transport.h}+タブ ${r.narrow.tabs.h}) ` +
+      `max-height 狭 ${r.narrow.maxH}px → 広 ${r.wide.maxH}px(期待 ${wantWide}) / ` +
+      `キャンバス ${r.narrow.canvas.h}→${r.wide.canvas.h}px / ヘッダー ${r.wide.header.top}..${r.wide.header.bottom}(不動=${ok.headerIntact}) / ` +
+      `ラベル ${r.narrow.label}⇄${r.wide.label}(en ${r.enNarrow}⇄${r.enWide}) / ` +
+      `広い状態で閉じる=${ok.closeWorks}・開き直して広いまま=${ok.keptOnReopen}・狭くする復帰=${ok.shrinkBack}・` +
+      `hp_panel_wide=${r.lsWide}/${r.lsNarrow}(広/狭) / 横画面(1280×800)で非表示=${ok.landscapeHidden} / JSエラー=${perrs.length}` +
+      (Object.values(ok).every(Boolean) ? '' : ' / NG: ' + Object.keys(ok).filter((k) => !ok[k]).join(',')));
+  } else {
+    console.log('SKIP ui.panelExpand(対象に第275便f の #btnPanelExpand なし — root 等)');
+  }
+}
+
 // ---- 第22便: 観測温度・光掻き出し・半径系(スピン役割分離は原仮定者裁定で廃止)----
 // 対象が観測温度系を持つときだけ実行(判定子は第85便で `HP.sim.obsT` → `HP.obsTemp + lSw` へ置換
 // — 旧判定子は第61便の obsT 廃止以降ずっと恒常 false で、この区画は休眠していた)。較正実測は 2026-07-24 第22便:
