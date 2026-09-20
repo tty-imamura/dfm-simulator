@@ -467,6 +467,23 @@ paper/*Notes.bib
 #   `lint.provenanceMeta` が来歴を固定するのでコミットする。K・Q・Γ は**宣言された自由
 #   パラメータ**であって観測から同定した値ではない。「合体を再現した」とは書かない。
 !tests/out/powerball-w275e.json
+# 第275便b(第65報 (2)「D₀ は『何を背景とするか』でサンプル毎に変わる」): **D₀ の単位監査と
+#   規則適用表**の正本(tests/exp-w275b-d0audit.mjs)。較正 37 本 + 🪁🎋 について
+#   scaleExp から D₀ の SI 値を作り、規則で計算した D_bg(太陽: M☉/r・銀河: M_enc(R₀)/R₀)と
+#   比 D₀/D_bg を置く。仮定(質量・距離・銀河の参考値)は出典つきで JSON の中に全部並べてある。
+#   源分割不変性(太陽を置く/畳む)と 🌇 の短窓走行(kF0/kF1 × D₀ 4 点)も同じ JSON に入る。
+#   QA `docs.d0audit-sync` が docs/PHYSICS.md の表と突き合わせ、`lint.provenanceMeta` が
+#   来歴を照合するのでコミットする。**較正ではない**(D₀ の値は 1 本も変えていない)。
+!tests/out/d0audit-w275b.json
+# 第275便b: **複素決定力場の D₀ 非依存版**(tests/exp-w275b-meshnod0.mjs)。🪁 の t=0 配置で
+#   旧経路(χ=W/(D₀+W))と新 lawVersion `complex-nod0` の 2 案(自己規格化 / 配置スケール)を
+#   同じ評価点で比べ、**単位系を取り替えたときの χ の変化**を測った正本。**エンジン未接続**。
+!tests/out/meshnod0-w275b.json
+# 第275便b: ❄️ カロンの **D₀ 系列**(tests/exp-w272b-charon.mjs --D0 rule)。裁定「D₀ の補正は
+#   冥王星とカロンで検証する」の走行で、kF{0,1} × D₀{宣言値・太陽からの距離・銀河内位置・1} を
+#   h/h2/h4 の 3 段で測る。**第272便b の正本 charon-w272b.json は 1 バイトも触らない**。
+#   **「D₀ 補正で ❄️ が成立」とは書かない**。
+!tests/out/charond0-w275b.json
 # 第221便: セッション内スクラッチ実測ハーネス(コミット対象外 — 実測値は claims/QA が機械固定する)
 _scratch-*.mjs
 _scratch-*/
