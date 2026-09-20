@@ -30212,6 +30212,7 @@ if (!FAST) {
           // 2 つの宣言値は別のプリセットである(署名が違う)
           res.kfBinDeclSig = presetSig(mk({ kFrame: 0.5, kFrameApprox: DEC }, 'principle'))
             !== presetSig(mk({ kFrame: 0.5, kFrameApprox: ONLY }, 'principle'));
+        }
         // ②′ 第275便b(原仮定者の裁定〔第65報〕(2)): **physics.D0Source の受理契約**。
         //    裁定「D₀ は『何を背景とするか』でサンプル毎に変わる」を**宣言できる鍵**にしただけで、
         //    **エンジンのどの経路からも読まれない**(値は従来どおり physics.D0 / D0pull が持つ)。
