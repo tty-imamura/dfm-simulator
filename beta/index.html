@@ -264,10 +264,24 @@
     padding:10px 12px calc(10px + var(--sab));display:none;}
   #panel.open{display:block;}
   @supports (height:1dvh){ #panel{max-height:clamp(150px, calc(50dvh - 160px), 50dvh);} }
+  /* 第275便f(原仮定者の裁定(第65報)(9)「縦画面レイアウトでタブ表示時に『閉じる』だけでなく
+     『広げる』ボタンを用意」): 広げた状態 #panel.wide。上限は画面高からヘッダー+操作列+タブの
+     高さを引いた分 — その 3 つは JS(syncPanelWideReserve)が実測して --panelWideReserve へ
+     書く(--uz〔文字サイズ〕や言語でラベル行が変わると高さも変わるため、定数で持たない)。
+     CSS 既定値 169px は viewport 390×844・--uz=1.15 の実測(header 61 + transport 63 + tabs 45)
+     で、JS が動く前の 1 フレームだけ効く。#app.panelWide で #canvasWrap の min-height:120px を
+     外すのが要点 — これを残すと flex の合計が画面高を 120px 超え、先頭のヘッダーが縮んで
+     見切れる(「ヘッダーが隠れない」を DOM で確認するのは tests/exp-w275f-panelui.mjs)。 */
+  #panel.wide{max-height:calc(100vh - var(--panelWideReserve, 169px));}
+  @supports (height:1dvh){ #panel.wide{max-height:calc(100dvh - var(--panelWideReserve, 169px));} }
+  #app.panelWide #canvasWrap{min-height:0;}
   /* v1.17: タブパネルの閉じるボタン(スクロールしても右上に留まる) */
-  #btnPanelClose{position:sticky;top:0;float:right;z-index:5;margin:-4px -4px 0 8px;
+  /* 第275便f: 「広げる/狭くする」は閉じるボタンと同じ作法(sticky + float:right)で隣に置く。
+     DOM 順は 閉じる → 広げる なので、float:right により 閉じるが最右・広げるがその左に並ぶ */
+  #btnPanelClose,#btnPanelExpand{position:sticky;top:0;float:right;z-index:5;margin:-4px -4px 0 8px;
     min-height:34px;padding:4px 12px;border:1px solid var(--line);border-radius:10px;
     background:var(--panel);color:var(--dim);font-size:calc(13px*var(--uz,1));font-weight:700;}
+  #btnPanelExpand{margin-right:0;}
   .tabPage{display:none;} .tabPage.on{display:block;}
   .group{margin:6px 0 14px;}
   .group>h3{margin:4px 0 8px;font-size:calc(12px*var(--uz,1));color:var(--dim);font-weight:700;letter-spacing:.06em;}
@@ -497,6 +511,13 @@
     nav#tabs{grid-area:tb;}
     /* パネルは右カラム残り高さをすべて使う(縦積み時の 50vh 上限は解除) */
     #panel{grid-area:pn;max-height:none;min-height:0;border-top:1px solid var(--line);}
+    /* 第275便f: 「広げる/狭くする」は**縦積みレイアウト限定**。2カラムではパネルが既に
+       右カラムの残り高さを全部使っており広げる余地が無いので、ボタンを出さず、広げた状態
+       (localStorage に残っていても)の max-height も解除する。縦画面の判定は独自の媒体
+       クエリを足さず、この 2カラム化の条件の**裏**をそのまま使う(判定が二重化すると
+       レイアウトとボタンの出方がずれるため)。 */
+    #btnPanelExpand{display:none;}
+    #panel.wide{max-height:none;}
   }
 </style>
 </head>
@@ -695,6 +716,8 @@
   </nav>
   <section id="panel">
     <button id="btnPanelClose" aria-label="close panel">✕ 閉じる</button>
+    <!-- 第275便f(第65報 (9)): 縦画面でパネルを広げる/狭くする(横画面2カラムでは CSS で非表示) -->
+    <button id="btnPanelExpand" aria-label="expand panel" aria-pressed="false">⤢ 広げる</button>
     <div class="tabPage" id="page-help"><div id="helpBody"></div></div>
     <div class="tabPage" id="page-params">
       <!-- 第62便(原仮定者指示): ワンタップA/B(相変化 abQuick / 粒子patch abBody)は
@@ -1141,6 +1164,8 @@ ja: {
   qualityDesc:"描画だけを段階的に軽くします(物理計算は不変)。自動=フレームレートが落ちたら自動で軽く / 正確=常に最高品質(検証・QA用) / 軽量=常に軽く(旧端末向け)。縮退の対象: 解像度・決定力マップの格子と更新間隔・光線の本数・軌跡の記録間隔。",
   tsBothNote:"時間倍率はA/B比較中も両方の画面に反映されます。",
   panelClose:"✕ 閉じる",
+  // 第275便f(第65報 (9)): 縦画面のタブパネルを広げる/狭くする(横画面2カラムでは非表示)
+  panelExpand:"⤢ 広げる", panelShrink:"⤡ 狭くする",
   beTitle:"選択粒子の編集", bePinned:"固定(pinned)",
   beLsw:"減光",   // 第22便: 光掻き出し(lightSweep)ラベル
   beLdq:"引きずりq", beDqPh:"既定 q=",   // 第239便: 粒子別 dragQ 欄
@@ -1515,7 +1540,7 @@ ja: {
   hudSysOpen:(r)=>`系: 開放系(${r} — リザーバ・帳簿を含めて読む)`,
   sysPin:"固定天体", sysRail:"レール", sysBath:"熱浴", sysWall:"伝熱壁", sysGrav:"外部重力",
   helpOps:"操作",
-  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。「パラメータ」タブは 時空 → 引きずり・測地線 → スピン・熱 →(実験箱など)→ シミュレーション → グラフ → 表示 → スケール → 共通設定 の順に並びます(第254便c)。「表示」カテゴリのチェックボックスは ⏮初めから では保持され、「プリセット既定値に戻す」でサンプルの既定に戻ります。「共通設定」(保存量モニタ・描画品質・文字サイズ・カメラ追従など)と「シミュレーション」のステップ診断・物理ベンチは端末に永続する設定で、サンプルを変えても引き継がれます。",   /* 第254便c: パラメータタブの構成を追記 */
+  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。「パラメータ」タブは 時空 → 引きずり・測地線 → スピン・熱 →(実験箱など)→ シミュレーション → グラフ → 表示 → スケール → 共通設定 の順に並びます(第254便c)。「表示」カテゴリのチェックボックスは ⏮初めから では保持され、「プリセット既定値に戻す」でサンプルの既定に戻ります。「共通設定」(保存量モニタ・描画品質・文字サイズ・カメラ追従など)と「シミュレーション」のステップ診断・物理ベンチは端末に永続する設定で、サンプルを変えても引き継がれます。縦画面ではタブを開いたときパネル右上に「⤢ 広げる」が出ます(第275便f) — 押すとパネルが画面いっぱい(ヘッダー+操作列+タブを除いた高さ)まで伸びて「⤡ 狭くする」に変わり、「✕ 閉じる」は広い状態でもそのまま効きます。広い/狭いの選択は端末に記憶されます(横画面2カラムではパネルが元から残り高さを全部使うのでボタンは出ません)。",   /* 第254便c: パラメータタブの構成を追記 */
   helpLaws:"この宇宙の法則(要約)",
   helpLawsBody:"① 空間は質点の相対配置だけで決まる(絶対空間なし)。② 決定力=質量÷距離。決定力の勾配が重力になる。③ 質点は「近くの空間」に対して慣性を持ち、空間ごと引きずられる(kFrame)。遠方宇宙の決定力がD₀。④ スピン=熱(温度T=Is²)。衝突で速度がスピンに変わり(muF)、スピンは斥力=圧力を生み(kRep)、拡散して平衡になる(κs)。⑤ 決定力が高い場所の時計は遅く、空間(共動フレーム)に対して速く動く時計も遅れる。光は同じψ=W·κ(κ=時空係数)で屈折して曲がり(n=e^{2ψ}。v1.7で時間と光を単一のψに統一)、「決定した空間」に運ばれる(c₀)。⑥ すべての相互作用は作用反作用対称で、運動量・角運動量を厳密に保存する(遠方宇宙との交換は帳簿に記録=保存量モニタ)。温度Tの質点はλ=b_m/Tの光を放射する(η_rad)。詳細は docs/PHYSICS.md(v1.6)。",
   ovCurve:"v(r): 実測(青) / 基準 v_bar(点線)", ovTemp:"平均温度(Is²) 左/右", ovLeft:"左", ovRight:"右",
@@ -1938,6 +1963,8 @@ en: {
   qualityDesc:"Steps down rendering only (physics is unchanged). Auto = degrade when the frame rate drops / Accurate = always full quality (for verification & QA) / Lite = always light (older devices). Affected: resolution, determinacy-map grid & update interval, ray count, trail recording interval.",
   tsBothNote:"The time multiplier applies to both views during A/B compare.",
   panelClose:"✕ Close",
+  // 第275便f: expand / shrink the tab panel (portrait stack only)
+  panelExpand:"⤢ Expand", panelShrink:"⤡ Shrink",
   beTitle:"Edit selected body", bePinned:"Pinned",
   beLsw:"dimming",   // 第22便: lightSweep label
   beLdq:"drag q", beDqPh:"default q=",   // 第239便
@@ -2300,7 +2327,7 @@ en: {
   hudSysOpen:(r)=>`System: open (${r} — read together with reservoirs/ledgers)`,
   sysPin:"pinned bodies", sysRail:"rail", sysBath:"heat bath", sysWall:"thermal walls", sysGrav:"external gravity",
   helpOps:"Controls",
-  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction. The Parameters tab is ordered Spacetime → Dragging & Geodesics → Spin & Heat → (Lab Box etc.) → Simulation → Graphs → Display → Scale → General (wave 254c). Checkboxes in Display are kept by ⏮Restart and returned to the sample defaults by \"Restore preset defaults\". General (conservation monitor, render quality, text size, camera follow, …) and the step diagnostics / physics bench in Simulation are device-persistent settings that carry over between samples.",   /* wave 254c */
+  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction. The Parameters tab is ordered Spacetime → Dragging & Geodesics → Spin & Heat → (Lab Box etc.) → Simulation → Graphs → Display → Scale → General (wave 254c). Checkboxes in Display are kept by ⏮Restart and returned to the sample defaults by \"Restore preset defaults\". General (conservation monitor, render quality, text size, camera follow, …) and the step diagnostics / physics bench in Simulation are device-persistent settings that carry over between samples. In portrait, opening a tab also shows a \"⤢ Expand\" button at the top right of the panel (wave 275f): it stretches the panel to the full screen height minus the header, transport row and tab bar, turns into \"⤡ Shrink\", and \"✕ Close\" keeps working in both states. The choice is remembered on the device (in the landscape two-column layout the panel already fills the remaining height, so the button is not shown).",   /* wave 254c */
   helpLaws:"Laws of this universe (summary)",
   helpLawsBody:"(1) Space is defined only by the relative configuration of masses (no absolute space). (2) Determinacy = mass ÷ distance; its gradient is gravity. (3) Masses have inertia relative to the \"nearby space\" and are dragged along with it (kFrame). D₀ is the determinacy of the distant universe. (4) Spin = heat (T = Is²). Collisions convert velocity to spin (muF), spin creates repulsion = pressure (kRep), and diffuses to equilibrium (κs). (5) Clocks run slow where determinacy is high, and clocks moving fast relative to the comoving frame also run slow. Light refracts under the same ψ = W·κ (κ = the spacetime coefficient; n = e^{2ψ}; time and light unified in v1.7) and is carried by the \"determined space\" (c₀). (6) All interactions are action–reaction symmetric and conserve momentum and angular momentum exactly (exchanges with the distant universe are ledgered — see the conservation monitor). A mass at temperature T radiates at λ = b_m/T (η_rad). Details: docs/PHYSICS.md (v1.6).",
   ovCurve:"v(r): measured (blue) / baseline v_bar (dotted)", ovTemp:"Mean temperature (Is²) L/R", ovLeft:"L", ovRight:"R",
@@ -22139,7 +22166,10 @@ let uiFontScale=parseFloat(localStorage.getItem("hp_uiscale")||"1.15")||1.15;   
 // 「全品質で半径に忠実」の原則に反するため撤廃。品質段階の他の縮退(解像度・決定力マップ
 // 格子・光線本数・軌跡記録間隔)は不変 — drawRadiusCap() は品質を問わず常に Infinity
 const sizeMode="radius";
-function applyUiScale(){ document.documentElement.style.setProperty("--uz", String(uiFontScale)); if(typeof requestRender==="function") requestRender(); }
+function applyUiScale(){ document.documentElement.style.setProperty("--uz", String(uiFontScale));
+  // 第275便f: ヘッダー/操作列/タブの高さは --uz で変わるので、広げた状態の控除分を測り直す
+  if(typeof syncPanelWideReserve==="function") syncPanelWideReserve();
+  if(typeof requestRender==="function") requestRender(); }
 let paramsDirty=false;  // v1.17: 「保存」していない編集の有無(バックアップ対象外の注意喚起)
 // P2(beta): 未保存フラグ強調 — 保存ボタン横バッジを paramsDirty に常時同期(v1.17 の notify は補助に降格)
 function setParamsDirty(v){ paramsDirty=v; const b=document.getElementById("dirtyBadge"); if(b) b.style.display=v?"inline-block":"none"; saveDraft(v); }
@@ -27143,6 +27173,38 @@ document.querySelectorAll("#tabs button").forEach(b=>{
 });
 $("#btnPanelClose").addEventListener("click",closePanel);  // v1.17: パネルの閉じるボタン
 
+// 第275便f(原仮定者の裁定(第65報)(9)): 縦画面のタブパネルを「広げる/狭くする」。
+// 表示専用 — sim.params にも保存 JSON にも一切書かない。状態は localStorage hp_panel_wide
+// (既定=狭い)に端末ごとに残す。閉じる(closePanel)は狭い/広いの両状態でそのまま効き、
+// 閉じても広い/狭いの選択は保持する(次にタブを開くと同じ状態で開く)。
+// 横画面2カラム(行 490 の媒体クエリ)では #btnPanelExpand を CSS で display:none にし、
+// #panel.wide の max-height も解除してあるので、この状態は縦積みレイアウトでのみ見える。
+let panelWide=false;
+try{ panelWide = localStorage.getItem("hp_panel_wide")==="1"; }catch(_){}
+// 広げた状態の控除分(ヘッダー+操作列+タブ)は定数にせず実測して CSS 変数へ渡す
+// (--uz〔文字サイズ〕・言語・safe-area でこの 3 段の高さが変わるため)
+function syncPanelWideReserve(){
+  const hh=(sel)=>{ const e=document.querySelector(sel); return e? e.getBoundingClientRect().height : 0; };
+  const r=hh("header")+hh("#transport")+hh("nav#tabs");
+  if(r>0) document.documentElement.style.setProperty("--panelWideReserve", Math.round(r)+"px");
+}
+function applyPanelWide(){
+  syncPanelWideReserve();
+  $("#panel").classList.toggle("wide",panelWide);
+  $("#app").classList.toggle("panelWide",panelWide);   // #canvasWrap の min-height:120px を外す
+  const b=$("#btnPanelExpand");
+  if(b){ b.textContent=T(panelWide?"panelShrink":"panelExpand"); b.setAttribute("aria-pressed",String(panelWide)); }
+}
+function setPanelWide(v){
+  panelWide=!!v;
+  try{ localStorage.setItem("hp_panel_wide",panelWide?"1":"0"); }catch(_){}
+  applyPanelWide();
+  setTimeout(resizeCanvas,50);   // 開閉と同じ流儀(#canvasWrap の高さが変わる)
+}
+$("#btnPanelExpand").addEventListener("click",()=>setPanelWide(!panelWide));
+window.addEventListener("resize",syncPanelWideReserve);   // 回転・文字サイズ変更で控除分を測り直す
+applyPanelWide();
+
 // ===== パラメータタブ =====
 // v1.22(第9次裁定 4.6): サンプル別 activeParams — プリセットが宣言した「主役」の
 // パラメータを先頭グループに出し、残りは折りたたみ「詳細設定」へ。全キーは常に編集可能
@@ -31155,6 +31217,8 @@ function applyLang(){
   $("#ioNoteSum").textContent=T("ioNoteSum");   // 第36便 B4
   $("#btnImportFile").textContent=T("btnImportFile");            // v1.17
   $("#btnPanelClose").textContent=T("panelClose");               // v1.17
+  // 第275便f: 「広げる/狭くする」は状態でラベルが変わるので applyPanelWide 経由で反映する
+  if(typeof applyPanelWide==="function") applyPanelWide();
   $("#beTitle").textContent=T("beTitle"); $("#beLp").textContent=T("bePinned");
   $("#beLsw").textContent=T("beLsw");   // 第22便
   $("#beLdq").textContent=T("beLdq");   // 第239便
