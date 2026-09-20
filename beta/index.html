@@ -37437,6 +37437,224 @@ function dfmJointCalProtocol(inp){
       +"決める経路は無い(内蔵プリセットの kFrame は 0 か 1 のままである)。"
       +"得た (k*, f*) はその系・その窓・その観測版・その刻みの記録であり、他系へ固定転用しない。" };
 }
+// ===== 第275便c(第65報 (3)): **準備済み経路** `dfmGeoScalarPrepared(S,dt,cf,law)` =====
+// 原仮定者の裁定(第65報 (3)):「粒子同士は総当たりで重力計算、**座標変換が重なっても総当たり回数は
+// 同じはず** → なぜ重いか分析して改善する」。—— **その読みは正しい**。器
+// `tests/exp-w275c-galaxyprof2.mjs` が数えたとおり、**源参照(順序対)の数は座標変換の宣言
+// (frameWeight の pull/share・帯平均)で 1 対も増えていない**。重いのは対の数ではなく、
+//   ① **同じ対を 1 步に 2 度巡る**(重力の第 1 巡 + 局所場の巡 = 統括の読み R35 の「巡回数」)
+//   ② **順序対 (i,j) と (j,i) で sqrt と pow を 2 度払う**(幾何 s=r²+ε² と A=s^{−p/2} は**対称**である)
+//   ③ **源 1 つにつき 1 回の入口検証**(有限性 10 項)を n² 回払う(第274便c で配列生成だけは消した)
+//   ④ `dfmField` が 1 呼びごとに作る**源配列・id 配列**(1 步に 2n 本)
+// の 4 つである。本経路は**条件を判定してだけ入る私的な高速経路**で、条件を 1 つでも外れたら
+// `false` を返して**旧経路へ戻る**(その時点まで S には 1 バイトも書いていない)。
+//
+// ■ 入場条件(すべて満たしたときだけ入る)
+//   (1) `lawVersion:"scalar"` —— 支持関数が無いので `Math.sqrt(r²)`・`R`・`Ṙ` が要らない
+//   (2) **源のスピンが零** —— トイの源配列 BD は `omega:0, omegaDot:0` を**無条件に**宣言する世代である
+//       (QA `perf.geoToyPrepared` がその宣言をソース文字列で機械照合する。将来 BD にスピンが入ったら
+//        この門を作り直すこと —— ω を落としたまま速くしてはならない)
+//   (3) **背景が静的** —— `background:"static"` を両方の呼びが固定で渡している(u_bg≡0)
+//   (4) **閉包が既定 `"gravity"`** —— `"iterate"` は巡ごとに源の a_i を差し替えるので対称性が崩れる
+//   (5) 箱が無い(箱は規定場で別式)・n≥2・G/ε/p/D₀/η が有限で ε≥0・p≥0・D₀≥0
+//   (6) **全粒子の m>0 と x,y,vx,vy が有限** —— 源ごとの門を入口 1 回にするための前提である
+//       (1 つでも外れたら旧経路へ戻すので、**門が緩むことはない**)
+//
+// ■ なぜ 1 bit 同一になるか(**和の順序を 1 つも変えていない**)
+//   対称巡回 `for(i){ for(j=i+1) }` は、行 i への寄与を「外側が i′<i のとき(昇順)→ 外側が i の
+//   とき j=i+1..n−1(昇順)」の順で積む。これは旧経路の「**j を昇順に、i だけ飛ばす**」と
+//   **完全に同じ順序**である。幾何は i↔j で対称(s も A も同値)だが、**dx・dy は反符号**なので
+//   行ごとに `x[i]−x[j]` と `x[j]−x[i]` を**別々に引く**(`−dx` で代用すると x[i]===x[j] の対で
+//   +0 と −0 が入れ替わる)。ω=0・ω̇=0 の掛け算(`vᵢ−ω·dy` 等)も**式のまま**残す(同じ理由)。
+//   機械確認は 3 本: ページ内の切替(`HP.setGeoPrepEnabled`)で同じ状態から 600 步を 2 度走らせて
+//   指紋を突き合わせる QA `perf.geoToyPrepared`、基点 html との `tests/exp-w258c-bitsame.mjs`
+//   (128 本 600 步)、`tests/exp-w272d-sigsame.mjs`(presetSig)である。
+//
+// ■ **書かないこと**: 「N 倍速くなった」(PHYSICS には**その走行で測った比**だけを書く)・
+//   「モバイルで 60fps」・「銀河が安定した」。本経路は**速さだけ**を変えるもので、物理は 1 bit も変えない。
+const GEO_PREP_SOURCE_SPIN = 0;      // 源 BD が宣言する ω・ω̇(この世代は無条件に 0 —— (2) の門の根拠)
+let GEO_PREP_ENABLED = true;         // **診断用の切替**(presetSig にも S.params にも表示にも入らない)
+let GEO_PREP_BUF = null;             // 行ごとの累算器(步をまたいで**値は持ち越さない** —— 毎步 0 で埋める)
+function geoPrepBuf(n){
+  if(GEO_PREP_BUF && GEO_PREP_BUF.n>=n) return GEO_PREP_BUF;
+  const f=()=>new Float64Array(n);
+  GEO_PREP_BUF={ n, ax:f(), ay:f(), dd:f(), gdx:f(), gdy:f(),
+    w:f(), gwx:f(), gwy:f(), wd:f(), nx:f(), ny:f(),
+    q0:f(), q1:f(), q2:f(), q3:f(), tx:f(), ty:f() };
+  return GEO_PREP_BUF;
+}
+function dfmGeoScalarPrepared(S,dt,cf,law){
+  // ---- 門(1 つでも外れたら false = 旧経路。**ここまで S には 1 バイトも書かない**)
+  if(!GEO_PREP_ENABLED) return false;
+  if(law!=="scalar") return false;                                   // (1)
+  if(GEO_PREP_SOURCE_SPIN!==0) return false;                         // (2)
+  if(cf.toyClosure!==undefined && cf.toyClosure!==SPACE_MESH_TOY_CLOSURE[0]) return false;   // (4)
+  const B0=S.box; if(B0 && S.boxA && S.boxA.W>0) return false;       // (5) 箱は規定場(別式)
+  const n=S.n; if(!(n>=2)) return false;
+  const p=S.params;
+  const pw=frameWeightPow(p), eps=p.softening, G=p.G;
+  const D0p=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;
+  const eta=(cf.toyGain===undefined)? 1 : cf.toyGain;
+  if(!(Number.isFinite(pw) && pw>=0)) return false;
+  if(!(Number.isFinite(eps) && eps>=0)) return false;
+  if(!(Number.isFinite(D0p) && D0p>=0)) return false;
+  if(!Number.isFinite(G) || !Number.isFinite(eta)) return false;
+  const x=S.x, y=S.y, vx=S.vx, vy=S.vy, m=S.m, pin=S.pinned;
+  let nFree=0;
+  for(let i=0;i<n;i++){                                              // (6) 源ごとの門を**入口で 1 回**
+    if(!pin[i]) nFree++;
+    if(!(Number.isFinite(m[i]) && m[i]>0)) return false;             // 旧 `dfmLocalMeshField` の m>0 の門
+    if(!(Number.isFinite(x[i]) && Number.isFinite(y[i])
+      && Number.isFinite(vx[i]) && Number.isFinite(vy[i]))) return false;
+  }
+  if(nFree<1) return false;
+  const bf=geoPrepBuf(n);
+  const eps2=eps*eps;
+  // ---- 第 1 巡: 重力 D・∇D(**対称巡回** —— 1 つの無順序対につき sqrt を 1 回だけ払う)
+  const AX=bf.ax, AY=bf.ay, DD=bf.dd, GDX=bf.gdx, GDY=bf.gdy;
+  AX.fill(0,0,n); AY.fill(0,0,n); DD.fill(0,0,n); GDX.fill(0,0,n); GDY.fill(0,0,n);
+  for(let i=0;i<n;i++){
+    const pi=pin[i], xi=x[i], yi=y[i], mi=m[i];
+    for(let j=i+1;j<n;j++){
+      const pj=pin[j];
+      if(pi && pj) continue;            // 旧経路は「両方 pinned の対」を 1 度も評価しない(門も通らない)
+      const dxi=xi-x[j], dyi=yi-y[j];
+      const s=dxi*dxi+dyi*dyi+eps2;
+      if(!(s>0) || !Number.isFinite(s)){ S.geoToyStop="field"; return null; }   // 旧経路と同じ停止語
+      const iv=1/Math.sqrt(s), iv3=iv*iv*iv;
+      if(!pi){ const mj=m[j]; DD[i]+=mj*iv; GDX[i]-=mj*dxi*iv3; GDY[i]-=mj*dyi*iv3; }
+      if(!pj){ const dxj=x[j]-xi, dyj=y[j]-yi;
+        DD[j]+=mi*iv; GDX[j]-=mi*dxj*iv3; GDY[j]-=mi*dyj*iv3; }
+    }
+  }
+  // pinned は**規定運動の加速度**(第264便b ①)。式は旧経路と 1 文字も変えていない
+  for(let i=0;i<n;i++){
+    if(pin[i]){
+      const om=S.railOmega? S.railOmega[i] : 0, hh=S.railH? S.railH[i] : 0;
+      if(om===0 && hh===0){ AX[i]=0; AY[i]=0; continue; }
+      let he=hh;
+      if(hh!==0){ const r0=S.railR[i]*Math.exp(hh*S.t); if(!(r0>1 && r0<4800)) he=0; }
+      const ex=x[i]-(S.railCx? S.railCx[i] : 0), ey=y[i]-(S.railCy? S.railCy[i] : 0);
+      AX[i]=(he*he-om*om)*ex-2*he*om*ey;
+      AY[i]=(he*he-om*om)*ey+2*he*om*ex;
+      continue;
+    }
+    if(!(Number.isFinite(DD[i])&&Number.isFinite(GDX[i])&&Number.isFinite(GDY[i]))){
+      S.geoToyStop="field"; return null; }        // 旧経路の「和 D が非有限」の門(桁溢れ)
+    AX[i]=G*GDX[i]; AY[i]=G*GDY[i];
+  }
+  // 源の a が非有限な行があると旧経路は**行ごとに**挙動が分かれる(その源を持つ行だけ null)。
+  // 稀なうえに分岐が増えるだけなので、**その場合は旧経路へ戻す**(速さのために門を緩めない)
+  for(let i=0;i<n;i++) if(!(Number.isFinite(AX[i])&&Number.isFinite(AY[i]))) return false;
+  // ---- 第 2 巡: 局所場(scalar = 支持なし・ω=0)。**同じ無順序対の A=s^{−p/2} を 1 回だけ払う**
+  const WW=bf.w, GWX=bf.gwx, GWY=bf.gwy, WD=bf.wd, NX=bf.nx, NY=bf.ny,
+        Q0=bf.q0, Q1=bf.q1, Q2=bf.q2, Q3=bf.q3, TX=bf.tx, TY=bf.ty;
+  WW.fill(0,0,n); GWX.fill(0,0,n); GWY.fill(0,0,n); WD.fill(0,0,n);
+  NX.fill(0,0,n); NY.fill(0,0,n); Q0.fill(0,0,n); Q1.fill(0,0,n); Q2.fill(0,0,n); Q3.fill(0,0,n);
+  TX.fill(0,0,n); TY.fill(0,0,n);
+  const pwZero=(pw===0), pwHalfNeg=-pw/2, om=GEO_PREP_SOURCE_SPIN, omd=GEO_PREP_SOURCE_SPIN;
+  for(let i=0;i<n;i++){
+    const pi=pin[i], xi=x[i], yi=y[i];
+    for(let j=i+1;j<n;j++){
+      const pj=pin[j];
+      if(pi && pj) continue;
+      const dxi=xi-x[j], dyi=yi-y[j];
+      const sq=dxi*dxi+dyi*dyi+eps2;      // 第 1 巡で s>0・有限を確かめた対だけがここへ来る
+      const A=pwZero? 1 : Math.pow(sq,pwHalfNeg);
+      if(!pi){                            // 行 i ← 源 j(**旧経路の式・順序のまま**)
+        const mj=m[j], w=mj*A, kk=mj*(pwZero? 0 : -pw*A/sq);
+        const wgx=kk*dxi, wgy=kk*dyi;
+        const vix=vx[j], viy=vy[j];
+        const uix=vix-om*dyi, uiy=viy+om*dxi;
+        const wdi=-(wgx*vix+wgy*viy);
+        const tix=AX[j]-omd*dyi+om*viy, tiy=AY[j]+omd*dxi-om*vix;
+        WW[i]+=w; GWX[i]+=wgx; GWY[i]+=wgy; WD[i]+=wdi;
+        NX[i]+=w*uix; NY[i]+=w*uiy;
+        Q0[i]+=uix*wgx;        Q1[i]+=uix*wgy-w*om;
+        Q2[i]+=uiy*wgx+w*om;   Q3[i]+=uiy*wgy;
+        TX[i]+=wdi*uix+w*tix;  TY[i]+=wdi*uiy+w*tiy;
+      }
+      if(!pj){                            // 行 j ← 源 i(dx・dy は**引き直す**。−dx で代用しない)
+        const dxj=x[j]-xi, dyj=y[j]-yi;
+        const mj=m[i], w=mj*A, kk=mj*(pwZero? 0 : -pw*A/sq);
+        const wgx=kk*dxj, wgy=kk*dyj;
+        const vix=vx[i], viy=vy[i];
+        const uix=vix-om*dyj, uiy=viy+om*dxj;
+        const wdi=-(wgx*vix+wgy*viy);
+        const tix=AX[i]-omd*dyj+om*viy, tiy=AY[i]+omd*dxj-om*vix;
+        WW[j]+=w; GWX[j]+=wgx; GWY[j]+=wgy; WD[j]+=wdi;
+        NX[j]+=w*uix; NY[j]+=w*uiy;
+        Q0[j]+=uix*wgx;        Q1[j]+=uix*wgy-w*om;
+        Q2[j]+=uiy*wgx+w*om;   Q3[j]+=uiy*wgy;
+        TX[j]+=wdi*uix+w*tix;  TY[j]+=wdi*uiy+w*tiy;
+      }
+    }
+  }
+  // ---- 行ごとの仕上げ(旧経路の `dfmLocalMeshField` の末尾 + `onePass` の本体と同じ式・同じ順)
+  const ACC=new Float64Array(2*n);
+  let nOn=0, dvM=0, chiMax=0;
+  for(let i=0;i<n;i++){
+    if(pin[i]) continue;                                  // 規定運動へは当てない
+    const den=D0p+WW[i];
+    if(!(den>0) || !Number.isFinite(den)) continue;        // 旧経路の null(0 で埋めない)= 行を飛ばす
+    const ux=NX[i]/den, uy=NY[i]/den;
+    const gu0=(Q0[i]-ux*GWX[i])/den, gu1=(Q1[i]-ux*GWY[i])/den,
+          gu2=(Q2[i]-uy*GWX[i])/den, gu3=(Q3[i]-uy*GWY[i])/den;
+    const du0=(TX[i]-ux*WD[i])/den, du1=(TY[i]-uy*WD[i])/den;
+    if(!(Number.isFinite(ux)&&Number.isFinite(uy)
+      &&Number.isFinite(gu0)&&Number.isFinite(gu1)&&Number.isFinite(gu2)&&Number.isFinite(gu3)
+      &&Number.isFinite(du0)&&Number.isFinite(du1))) continue;
+    const chi=WW[i]/den;
+    if(chi>chiMax) chiMax=chi;
+    const ubx=eta*ux, uby=eta*uy;
+    const gxx=eta*gu0, gxy=eta*gu1, gyx=eta*gu2, gyy=eta*gu3;
+    const tux=eta*du0, tuy=eta*du1;
+    const vxi=vx[i], vyi=vy[i], rlx=vxi-ubx, rly=vyi-uby;
+    const aix=tux+gxx*vxi+gxy*vyi-(gxx*rlx+gyx*rly);
+    const aiy=tuy+gyx*vxi+gyy*vyi-(gxy*rlx+gyy*rly);
+    if(!Number.isFinite(aix) || !Number.isFinite(aiy)){ S.geoToyStop="nonfinite"; return null; }
+    ACC[2*i]=aix; ACC[2*i+1]=aiy;
+    const dm=Math.hypot(aix*dt,aiy*dt); if(dm>dvM) dvM=dm;
+    nOn++;
+  }
+  return dfmGeoToyFinish(S,dt,ACC,{ closure:SPACE_MESH_TOY_CLOSURE[0], iters:1, resid:null,
+    residRel:null, conv:null, nOn, dvM, chiMax, law, R:null, Rdot:0, prepared:true });
+}
+// 第275便c: **適用と記帳**(旧経路と準備済み経路が同じ 1 本を通る)。**中身は第265便b の末尾を
+// 1 文字も変えずに関数へ出したもの**である(式も順序も同じ —— 600 步 bitsame が機械確認する)。
+function dfmGeoToyFinish(S,dt,ACC,st){
+  const n=S.n;
+  S.geoToyClosure=st.closure; S.geoToyIters=st.iters;
+  S.geoToyResid=st.resid; S.geoToyResidRel=st.residRel; S.geoToyConverged=st.conv;
+  S.geoToyPrepared=(st.prepared===true);   // 診断の読み口(表示にも署名にも入らない)
+  const nOn=st.nOn, dvM=st.dvM, chiMax=st.chiMax;
+  const unconv=(st.closure!==SPACE_MESH_TOY_CLOSURE[0] && nOn>0 && st.conv!==true);
+  S.geoToyStop=unconv? "closureUnconverged" : (nOn? null : "noTargets");
+  S.geoToyN=unconv? 0 : nOn; S.geoToyDv=unconv? 0 : dvM; S.geoToyChi=chiMax;
+  if(unconv || !nOn) return null;
+  const x=S.x, y=S.y, vx=S.vx, vy=S.vy, mEff=S.mEff;
+  const carV=!!S.carVx, carVx=S.carVx, carVy=S.carVy;
+  let spx=0, spy=0, sl=0, dEt=0;
+  for(let i=0;i<n;i++){
+    let ddx=ACC[2*i]*dt, ddy=ACC[2*i+1]*dt;
+    if(ddx===0 && ddy===0) continue;
+    const dv2=ddx*ddx+ddy*ddy;
+    if(dv2>REACTION_DV_CAP2){ const sc=REACTION_DV_CAP/Math.sqrt(dv2); ddx*=sc; ddy*=sc; S.clampRN++; }
+    const mi=mEff[i];
+    spx+=mi*ddx; spy+=mi*ddy; sl+=mi*(x[i]*ddy-y[i]*ddx);
+    const q0x=vx[i], q0y=vy[i];
+    if(carV){
+      const addX=ddx+carVx[i], v0x=vx[i]; vx[i]=v0x+addX; carVx[i]=addX-(vx[i]-v0x);
+      const addY=ddy+carVy[i], v0y=vy[i]; vy[i]=v0y+addY; carVy[i]=addY-(vy[i]-v0y);
+    } else { vx[i]+=ddx; vy[i]+=ddy; }
+    dEt+=0.5*mi*((vx[i]*vx[i]+vy[i]*vy[i])-(q0x*q0x+q0y*q0y));
+  }
+  S.geoToyPx+=spx; S.geoToyPy+=spy; S.geoToyL+=sl; S.geoToyE+=dEt;
+  S.geoToyMeshPx-=spx; S.geoToyMeshPy-=spy; S.geoToyMeshL-=sl; S.geoToyEmesh-=dEt;
+  S.resPx-=spx; S.resPy-=spy; S.resL-=sl;
+  return { n:nOn, dv:dvM, chi:chiMax, dP:[spx,spy], dL:sl, dE:dEt, lawVersion:st.law,
+    R:st.R, Rdot:st.Rdot, prepared:(st.prepared===true) };
+}
 // ===== 第259便a(第51報): **geoPN=3 のトイ積分器** `HP.dfmGeoToyStep(S,dt)` =====
 // 原仮定者(第51報):「例えば『測地線モード geoPN=3』などとして、トイモデル用に明確に処理を分ける事を
 // 検討する」。**`S._core` の外**(`S.step` の `_meshCoordForce` と同じ位置)に置く別の則である。
@@ -37458,6 +37676,9 @@ function dfmGeoToyStep(S,dt){
   if(!S || S.hasGeoToy!==true) return null;
   const p=S.params, n=S.n;
   S.geoToyN=0; S.geoToyDv=0; S.geoToyChi=0;
+  // 第275便c: **準備済み経路を通ったか**の診断は毎步ここで倒す(帯平均 variant・mesh-v2・
+  //   途中で止まった步が**前の步の値を持ち越さない**ようにするため)。表示にも署名にも入らない
+  S.geoToyPrepared=false;
   if(!(n>=1)){ S.geoToyStop="n"; return null; }
   if(!Number.isFinite(dt) || dt===0){ S.geoToyStop="dt"; return null; }
   // 第262便a: **宣言が無ければ実行時の既定 "scalar"**(GEO_TOY_LAW_DEFAULT)。宣言があればそちらが勝つ。
@@ -37471,6 +37692,11 @@ function dfmGeoToyStep(S,dt){
   if(cf.law===MESH_V2_LAWS[1]) return dfmMeshV2Step(S,dt,cf);
   if(DFM_FIELD_LAWS.indexOf(law)<0){ S.geoToyStop="lawVersion"; return null; }
   if(law==="complex"){ S.geoToyStop="complexNotVelocity"; return null; }
+  // 第275便c(第65報 (3)「なぜ重いか分析して改善」): **準備済み経路**(スカラー・静的源・零スピン・
+  //   閉包 "gravity" の条件を**判定して**だけ入る)。条件を 1 つでも外れたら `false` が返り、
+  //   以下の旧経路がそのまま走る(**ビット同一** —— QA `perf.geoToyPrepared` が機械確認する)。
+  const prep=dfmGeoScalarPrepared(S,dt,cf,law);
+  if(prep!==false) return prep;
   const eta=(cf.toyGain===undefined)? 1 : cf.toyGain;
   const x=S.x, y=S.y, vx=S.vx, vy=S.vy, m=S.m, mEff=S.mEff, pin=S.pinned;
   const pw=frameWeightPow(p);
@@ -37626,42 +37852,10 @@ function dfmGeoToyStep(S,dt){
       if(conv) break;
     }
   }
-  S.geoToyClosure=closure; S.geoToyIters=iters;
-  S.geoToyResid=resid; S.geoToyResidRel=residRel; S.geoToyConverged=conv;
-  // 第265便b(Z3・統括の読み (C)): **未収束の最終反復を力として適用してはならない。**
-  //   〔第264便b ②〕で測ったとおり、η=χ=1 の二体では反復値が [g,−g] と [0,0] を**往復する**ので、
-  //   「上限で打ち切った最後の 1 巡」は**反復上限の偶奇で符号も大きさも変わる**(統括の予備測定:
-  //   等質量 500・分離 240・D₀=0・η=1・dt=0.016 で上限 2 回と 3 回の粒子 0 の vx が
-  //   9.269×10⁻⁴ と −2.25×10⁻¹⁰)。**打ち切り値は解ではない**ので、メッシュキックを当てず、
-  //   帳簿にも 1 バイトも記帳せず、`geoToyStop="closureUnconverged"` を返す。
-  //   **重力側の步と時刻は進む**(`_core` は既に走り終えている —— これは**原子的停止ではない**)。
-  //   診断の残差・反復数・収束判定・χ はそのまま読める(消すと「なぜ止まったか」が見えなくなる)。
-  //   既定 "gravity" は 1 巡で終わるので**この分岐に入らない**(内蔵は toyClosure を 1 本も宣言しない)。
-  const unconv=(closure!==SPACE_MESH_TOY_CLOSURE[0] && nOn>0 && conv!==true);
-  S.geoToyStop=unconv? "closureUnconverged" : (nOn? null : "noTargets");
-  S.geoToyN=unconv? 0 : nOn; S.geoToyDv=unconv? 0 : dvM; S.geoToyChi=chiMax;
-  if(unconv || !nOn) return null;
-  // ---- 適用と**同時**のメッシュ側記帳(粒子が受け取った ΔP・ΔL・離散仕事の厳密な負)
-  const carV=!!S.carVx, carVx=S.carVx, carVy=S.carVy;
-  let spx=0, spy=0, sl=0, dEt=0;
-  for(let i=0;i<n;i++){
-    let ddx=ACC[2*i]*dt, ddy=ACC[2*i+1]*dt;
-    if(ddx===0 && ddy===0) continue;
-    const dv2=ddx*ddx+ddy*ddy;
-    if(dv2>REACTION_DV_CAP2){ const sc=REACTION_DV_CAP/Math.sqrt(dv2); ddx*=sc; ddy*=sc; S.clampRN++; }
-    const mi=mEff[i];
-    spx+=mi*ddx; spy+=mi*ddy; sl+=mi*(x[i]*ddy-y[i]*ddx);
-    const q0x=vx[i], q0y=vy[i];
-    if(carV){
-      const addX=ddx+carVx[i], v0x=vx[i]; vx[i]=v0x+addX; carVx[i]=addX-(vx[i]-v0x);
-      const addY=ddy+carVy[i], v0y=vy[i]; vy[i]=v0y+addY; carVy[i]=addY-(vy[i]-v0y);
-    } else { vx[i]+=ddx; vy[i]+=ddy; }
-    dEt+=0.5*mi*((vx[i]*vx[i]+vy[i]*vy[i])-(q0x*q0x+q0y*q0y));
-  }
-  S.geoToyPx+=spx; S.geoToyPy+=spy; S.geoToyL+=sl; S.geoToyE+=dEt;
-  S.geoToyMeshPx-=spx; S.geoToyMeshPy-=spy; S.geoToyMeshL-=sl; S.geoToyEmesh-=dEt;
-  S.resPx-=spx; S.resPy-=spy; S.resL-=sl;
-  return { n:nOn, dv:dvM, chi:chiMax, dP:[spx,spy], dL:sl, dE:dEt, lawVersion:law, R:supR, Rdot:supRd };
+  // 第275便c: 適用と記帳は `dfmGeoToyFinish` の 1 本に出した(準備済み経路と**同じ行**を通る)。
+  //   **式も順序も第265便b と 1 文字も変えていない**(600 步 bitsame・presetSig で機械確認する)。
+  return dfmGeoToyFinish(S,dt,ACC,{ closure, iters, resid, residRel, conv,
+    nOn, dvM, chiMax, law, R:supR, Rdot:supRd, prepared:false });
 }
 // ===== 第274便c(第64報): **帯平均の軽量 variant** `dfmGeoToyBandStep(S,dt,cf)` =====
 // 原仮定者(第64報)の優先課題「galaxyMeshSpiralGeoToy が**重い理由を調査し改善する**。近似として
@@ -39605,6 +39799,17 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // トイは `S._core` の外(`_meshCoordForce` と同じ位置)に置き、`geoCoreDispatch` が
   // `_core` の呼び出しの間だけ p.geoPN を 0 にして dispatch から外す(`_core` は 1 命令も増えない)
   dfmGeoToyStep, SPACE_MESH_INERTIA_REMOVAL, SPACE_MESH_SUPPORT_LEGACY,
+  // 第275便c(第65報 (3)): **準備済み経路**の読み口と**診断用の切替**。切替は presetSig にも
+  //   S.params にも表示にも 1 文字も入らない(**同じページで旧経路と突き合わせる**ためだけの口で、
+  //   既定は常に true である)。`geoPrepInfo()` は門の宣言値を返す
+  dfmGeoScalarPrepared,
+  setGeoPrepEnabled:(v)=>{ GEO_PREP_ENABLED=(v!==false); return GEO_PREP_ENABLED; },
+  geoPrepInfo:()=>({ enabled:GEO_PREP_ENABLED, sourceSpin:GEO_PREP_SOURCE_SPIN,
+    gates:["lawVersion:scalar","sourceSpin=0","background:static","toyClosure:gravity",
+           "no box","n>=2","finite G/eps/p/D0/eta","all m>0 and finite x,y,vx,vy"],
+    note:"条件を 1 つでも外れたら false を返して旧経路へ戻る。**門は緩めない**(速さのために"
+      +"検査を落とさない)。物理は 1 bit も変わらない(QA perf.geoToyPrepared が機械確認する)。" }),
+  geoToyPrepared:(S)=>{ const T=S||sim; return (T.geoToyPrepared===true); },
   // 第274便c: 帯平均の軽量 variant(受理値と既定 —— QA/実験器が読む)
   SPACE_MESH_DISK_SUPPORT, GEO_TOY_BAND_COUNT_DEFAULT, GEO_TOY_BAND_ELL_DEFAULT,
   // 第274便d(第64報): **形状トイ**(指定した 3D 正規分布を定常分布に持つ参照モデル)の外部ステップと

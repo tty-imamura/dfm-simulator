@@ -433,6 +433,18 @@ paper/*Notes.bib
 #   QA `docs.kf0Ledger` が表と正本を突き合わせ、`lint.provenanceMeta` が来歴を照合するのでコミットする。
 #   **未測定は未測定と書く**(推定で埋めない)。ラベルは**候補**であって較正完了ではない。
 !tests/out/kf0ledger-w274a.json
+# 第275便c(第65報 (3)「粒子同士は総当たりで重力計算、座標変換が重なっても総当たり回数は同じはず →
+#   なぜ重いか分析して改善」): **回数の会計と前後の ms/步**の正本(tests/exp-w275c-galaxyprof2.mjs)。
+#   ① 回数 —— Math.sqrt/pow/hypot と Array.prototype.push を差し替えて**実際に呼ばれた回数**を数え、
+#      `_core` だけの走行(geoPN=0)を引いてトイの分を出す。frameWeight を share/pull/pull3/pull4 に
+#      振っても **(行,源) の累算回数が 1 つも動かない**ことがこの JSON の push 欄で読める
+#      (= 原仮定者の「座標変換が重なっても総当たり回数は同じはず」の検算)。
+#   ② 時間 —— 同じページで `HP.setGeoPrepEnabled(true/false)` を切り替えた A/B(Chromium)と、
+#      同じ 1 步の純関数の写し(tests/lib-w275c-prepared.mjs)による node の ms/步。
+#   ③ 步をまたぐ幾何キャッシュ —— **採らない**ことの根拠(指紋が変わる)を数で残す欄。
+#   docs/PHYSICS.md〔第275便c〕の表がこの値そのものなので、来歴つきでコミットする。
+#   QA `lint.provenanceMeta` の CANON に足した。**判定はしていない**(数を出す器である)。
+!tests/out/galaxyprof2-w275c.json
 # 第221便: セッション内スクラッチ実測ハーネス(コミット対象外 — 実測値は claims/QA が機械固定する)
 _scratch-*.mjs
 _scratch-*/

@@ -1,0 +1,713 @@
+{
+ "meta": {
+  "wave": "第275便c",
+  "target": "beta/index.html",
+  "libVersion": "w275c-1",
+  "warm": 30,
+  "rounds": 7,
+  "reps": 20,
+  "nodeSteps": 60,
+  "doNotWrite": "**「N 倍速い」「モバイルで 60fps」とは書かない。** 本器は回数と時間を出すだけで、合否も速さの主張も出さない。**V8 の最適化状態(JIT)と機械の混みぐあいに依存する**ので、同じページでも巡ごとに数割動く(spreadRel 欄)。比は**同じ走行で交互に測った 2 セル**でだけ読む。",
+  "countingNote": "計数の巡は Math.sqrt/pow/hypot/exp と Array.prototype.push を差し替えて数えている(**時間は測らない** —— 差し替えた巡は当然遅い)。トイの分は geoPN=0 の走行を引いて出す。",
+  "provenanceVersion": "w272e-1",
+  "targetSha256": "94bde9dbfa864c02b84b1ca2136ae42f96c1c390eb4a1ffe56bc846bcf771250",
+  "generatedAt": "2026-09-20T17:23:00.485Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4227346,
+    "sha256": "94bde9dbfa864c02b84b1ca2136ae42f96c1c390eb4a1ffe56bc846bcf771250",
+    "mtime": "2026-09-20T17:20:59.095Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w275c-galaxyprof2.mjs",
+    "bytes": 16609,
+    "sha256": "8925589845f869bc72be97ffbe7dac18bd660a3c576b857c7c6895ea672d349b",
+    "mtime": "2026-09-20T17:18:45.290Z"
+   },
+   {
+    "file": "tests/lib-w275c-prepared.mjs",
+    "bytes": 12686,
+    "sha256": "7f252ba28338a4dbdfacf05d00deaf1a22200d11943146e15576f9190d39905f",
+    "mtime": "2026-09-20T17:17:05.734Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-20T17:03:13.834Z"
+   }
+  ],
+  "codeSha256": "4a8cb358426e2811ada15b390b70af95abb3601513e7adbea2e1e512fd3a1abb"
+ },
+ "prepInfo": {
+  "enabled": true,
+  "sourceSpin": 0,
+  "gates": [
+   "lawVersion:scalar",
+   "sourceSpin=0",
+   "background:static",
+   "toyClosure:gravity",
+   "no box",
+   "n>=2",
+   "finite G/eps/p/D0/eta",
+   "all m>0 and finite x,y,vx,vy"
+  ],
+  "note": "条件を 1 つでも外れたら false を返して旧経路へ戻る。**門は緩めない**(速さのために検査を落とさない)。物理は 1 bit も変わらない(QA perf.geoToyPrepared が機械確認する)。"
+ },
+ "counts": [
+  {
+   "label": "🪁 準備済み",
+   "id": "galaxyMeshSpiralGeoToy",
+   "patch": null,
+   "prepRequested": true,
+   "sqrt": 184493,
+   "pow": 61425,
+   "hypot": 350,
+   "exp": 702,
+   "push": 0,
+   "err": null,
+   "n": 351,
+   "nPin": 1,
+   "prepared": true,
+   "stop": null,
+   "geoPN": 3,
+   "frameWeight": "share",
+   "pw": 1,
+   "diskSupport": null
+  },
+  {
+   "label": "🪁 旧経路",
+   "id": "galaxyMeshSpiralGeoToy",
+   "patch": null,
+   "prepRequested": false,
+   "sqrt": 245568,
+   "pow": 122500,
+   "hypot": 350,
+   "exp": 702,
+   "push": 490351,
+   "err": null,
+   "n": 351,
+   "nPin": 1,
+   "prepared": false,
+   "stop": null,
+   "geoPN": 3,
+   "frameWeight": "share",
+   "pw": 1,
+   "diskSupport": null
+  },
+  {
+   "label": "🪁 _core だけ(geoPN=0)",
+   "id": "galaxyMeshSpiralGeoToy",
+   "patch": {
+    "geoPN": 0
+   },
+   "prepRequested": true,
+   "sqrt": 123068,
+   "pow": 0,
+   "hypot": 0,
+   "exp": 702,
+   "push": 0,
+   "err": null,
+   "n": 351,
+   "nPin": 1,
+   "prepared": false,
+   "stop": null,
+   "geoPN": 0,
+   "frameWeight": "share",
+   "pw": 1,
+   "diskSupport": null
+  },
+  {
+   "label": "🎋 準備済み",
+   "id": "galaxyMeshSpiralGeoToyLite",
+   "patch": null,
+   "prepRequested": true,
+   "sqrt": 43685,
+   "pow": 14535,
+   "hypot": 170,
+   "exp": 342,
+   "push": 0,
+   "err": null,
+   "n": 171,
+   "nPin": 1,
+   "prepared": true,
+   "stop": null,
+   "geoPN": 3,
+   "frameWeight": "share",
+   "pw": 1,
+   "diskSupport": null
+  },
+  {
+   "label": "🎋 旧経路",
+   "id": "galaxyMeshSpiralGeoToyLite",
+   "patch": null,
+   "prepRequested": false,
+   "sqrt": 58050,
+   "pow": 28900,
+   "hypot": 170,
+   "exp": 342,
+   "push": 115771,
+   "err": null,
+   "n": 171,
+   "nPin": 1,
+   "prepared": false,
+   "stop": null,
+   "geoPN": 3,
+   "frameWeight": "share",
+   "pw": 1,
+   "diskSupport": null
+  },
+  {
+   "label": "🎋 _core だけ(geoPN=0)",
+   "id": "galaxyMeshSpiralGeoToyLite",
+   "patch": {
+    "geoPN": 0
+   },
+   "prepRequested": true,
+   "sqrt": 29150,
+   "pow": 0,
+   "hypot": 0,
+   "exp": 342,
+   "push": 0,
+   "err": null,
+   "n": 171,
+   "nPin": 1,
+   "prepared": false,
+   "stop": null,
+   "geoPN": 0,
+   "frameWeight": "share",
+   "pw": 1,
+   "diskSupport": null
+  },
+  {
+   "label": "🪁 frameWeight:share(旧経路)",
+   "id": "galaxyMeshSpiralGeoToy",
+   "patch": {
+    "frameWeight": "share"
+   },
+   "prepRequested": false,
+   "sqrt": 245568,
+   "pow": 122500,
+   "hypot": 350,
+   "exp": 702,
+   "push": 490351,
+   "err": null,
+   "n": 351,
+   "nPin": 1,
+   "prepared": false,
+   "stop": null,
+   "geoPN": 3,
+   "frameWeight": "share",
+   "pw": 1,
+   "diskSupport": null
+  },
+  {
+   "label": "🪁 frameWeight:pull(旧経路)",
+   "id": "galaxyMeshSpiralGeoToy",
+   "patch": {
+    "frameWeight": "pull"
+   },
+   "prepRequested": false,
+   "sqrt": 245555,
+   "pow": 122500,
+   "hypot": 350,
+   "exp": 702,
+   "push": 490351,
+   "err": null,
+   "n": 351,
+   "nPin": 1,
+   "prepared": false,
+   "stop": null,
+   "geoPN": 3,
+   "frameWeight": null,
+   "pw": 2,
+   "diskSupport": null
+  },
+  {
+   "label": "🪁 frameWeight:pull3(旧経路)",
+   "id": "galaxyMeshSpiralGeoToy",
+   "patch": {
+    "frameWeight": "pull3"
+   },
+   "prepRequested": false,
+   "sqrt": 306980,
+   "pow": 122500,
+   "hypot": 350,
+   "exp": 702,
+   "push": 490351,
+   "err": null,
+   "n": 351,
+   "nPin": 1,
+   "prepared": false,
+   "stop": null,
+   "geoPN": 3,
+   "frameWeight": "pull3",
+   "pw": 3,
+   "diskSupport": null
+  },
+  {
+   "label": "🪁 frameWeight:pull4(旧経路)",
+   "id": "galaxyMeshSpiralGeoToy",
+   "patch": {
+    "frameWeight": "pull4"
+   },
+   "prepRequested": false,
+   "sqrt": 245556,
+   "pow": 122500,
+   "hypot": 350,
+   "exp": 702,
+   "push": 490351,
+   "err": null,
+   "n": 351,
+   "nPin": 1,
+   "prepared": false,
+   "stop": null,
+   "geoPN": 3,
+   "frameWeight": "pull4",
+   "pw": 4,
+   "diskSupport": null
+  },
+  {
+   "label": "🪁 frameWeight:share(準備済み)",
+   "id": "galaxyMeshSpiralGeoToy",
+   "patch": {
+    "frameWeight": "share"
+   },
+   "prepRequested": true,
+   "sqrt": 184493,
+   "pow": 61425,
+   "hypot": 350,
+   "exp": 702,
+   "push": 0,
+   "err": null,
+   "n": 351,
+   "nPin": 1,
+   "prepared": true,
+   "stop": null,
+   "geoPN": 3,
+   "frameWeight": "share",
+   "pw": 1,
+   "diskSupport": null
+  },
+  {
+   "label": "🪁 frameWeight:pull4(準備済み)",
+   "id": "galaxyMeshSpiralGeoToy",
+   "patch": {
+    "frameWeight": "pull4"
+   },
+   "prepRequested": true,
+   "sqrt": 184481,
+   "pow": 61425,
+   "hypot": 350,
+   "exp": 702,
+   "push": 0,
+   "err": null,
+   "n": 351,
+   "nPin": 1,
+   "prepared": true,
+   "stop": null,
+   "geoPN": 3,
+   "frameWeight": "pull4",
+   "pw": 4,
+   "diskSupport": null
+  },
+  {
+   "label": "🪁 帯平均 variant",
+   "id": "galaxyMeshSpiralGeoToy",
+   "patch": {
+    "spaceMesh": {
+     "mode": "vertex",
+     "gravity": false,
+     "inertia": false,
+     "lawVersion": "scalar",
+     "diskSupport": "band-pressure",
+     "bandCount": 16,
+     "pairCut": 20
+    }
+   },
+   "prepRequested": true,
+   "sqrt": 123068,
+   "pow": 256,
+   "hypot": 1350,
+   "exp": 702,
+   "push": 0,
+   "err": null,
+   "n": 351,
+   "nPin": 1,
+   "prepared": false,
+   "stop": null,
+   "geoPN": 3,
+   "frameWeight": "share",
+   "pw": 1,
+   "diskSupport": "band-pressure"
+  }
+ ],
+ "ledger": {
+  "kite": {
+   "prepared": {
+    "sqrt": 61425,
+    "pow": 61425,
+    "push": 0,
+    "hypot": 350
+   },
+   "legacy": {
+    "sqrt": 122500,
+    "pow": 122500,
+    "push": 490351,
+    "hypot": 350
+   },
+   "predicted": {
+    "n": 351,
+    "nPin": 1,
+    "nFree": 350,
+    "accumulationsPerPass": 122500,
+    "legacyGeometryPerPass": 122500,
+    "preparedGeometryPerPass": 61425,
+    "passesPerStep": 2,
+    "legacySqrtPerStep": 122500,
+    "legacyPowPerStep": 122500,
+    "preparedSqrtPerStep": 61425,
+    "preparedPowPerStep": 61425,
+    "legacyTempArraysPerStep": 1401,
+    "preparedTempArraysPerStep": 1
+   }
+  },
+  "lite": {
+   "prepared": {
+    "sqrt": 14535,
+    "pow": 14535,
+    "push": 0,
+    "hypot": 170
+   },
+   "legacy": {
+    "sqrt": 28900,
+    "pow": 28900,
+    "push": 115771,
+    "hypot": 170
+   },
+   "predicted": {
+    "n": 171,
+    "nPin": 1,
+    "nFree": 170,
+    "accumulationsPerPass": 28900,
+    "legacyGeometryPerPass": 28900,
+    "preparedGeometryPerPass": 14535,
+    "passesPerStep": 2,
+    "legacySqrtPerStep": 28900,
+    "legacyPowPerStep": 28900,
+    "preparedSqrtPerStep": 14535,
+    "preparedPowPerStep": 14535,
+    "legacyTempArraysPerStep": 681,
+    "preparedTempArraysPerStep": 1
+   }
+  }
+ },
+ "timing": {
+  "galaxyMeshSpiralGeoToy": {
+   "cell": {
+    "prepared": {
+     "medianMs": 8.494999999995343,
+     "minMs": 8.25999999998603,
+     "maxMs": 8.685000000009314,
+     "spreadRel": 0.05002942907869528
+    },
+    "legacy": {
+     "medianMs": 15.189999999990686,
+     "minMs": 14.975,
+     "maxMs": 15.604999999981374,
+     "spreadRel": 0.04147465437667941
+    },
+    "core": {
+     "medianMs": 2.35999999998603,
+     "minMs": 2.1149999999906868,
+     "maxMs": 2.7549999999813735,
+     "spreadRel": 0.27118644067562503
+    },
+    "render": {
+     "medianMs": 0.575,
+     "minMs": 0.4550000000046566,
+     "maxMs": 0.6899999999906867,
+     "spreadRel": 0.4086956521496176
+    },
+    "grid": {
+     "medianMs": 3.9850000000093133,
+     "minMs": 3.75,
+     "maxMs": 4.619999999995343,
+     "spreadRel": 0.21831869510497118
+    }
+   },
+   "rounds": {
+    "prepared": [
+     8.25999999998603,
+     8.48499999998603,
+     8.494999999995343,
+     8.44000000001397,
+     8.530000000004657,
+     8.685000000009314,
+     8.505000000004657
+    ],
+    "legacy": [
+     15.604999999981374,
+     15.25,
+     14.975,
+     15.139999999990687,
+     15.189999999990686,
+     15.494999999995343,
+     15.164999999990687
+    ],
+    "core": [
+     2.5,
+     2.1149999999906868,
+     2.7549999999813735,
+     2.34000000001397,
+     2.35999999998603,
+     2.5149999999906867,
+     2.339999999990687
+    ],
+    "render": [
+     0.49500000001862643,
+     0.575,
+     0.65,
+     0.6899999999906867,
+     0.5,
+     0.5799999999813735,
+     0.4550000000046566
+    ],
+    "grid": [
+     3.8,
+     4.105000000004656,
+     3.9850000000093133,
+     3.75,
+     3.8800000000046566,
+     4.619999999995343,
+     4.019999999995344
+    ]
+   },
+   "ratioPreparedOverLegacy": 0.5592495062541509,
+   "toyPrepared": 6.135000000009313,
+   "toyLegacy": 12.830000000004656,
+   "ratioToy": 0.4781761496498119
+  },
+  "galaxyMeshSpiralGeoToyLite": {
+   "cell": {
+    "prepared": {
+     "medianMs": 2.0149999999906867,
+     "minMs": 1.8449999999953435,
+     "maxMs": 2.125,
+     "spreadRel": 0.13895781638012442
+    },
+    "legacy": {
+     "medianMs": 3.6450000000186265,
+     "minMs": 3.1050000000046567,
+     "maxMs": 3.9050000000046565,
+     "spreadRel": 0.2194787379961349
+    },
+    "core": {
+     "medianMs": 0.5799999999813735,
+     "minMs": 0.5599999999860301,
+     "maxMs": 0.7849999999860302,
+     "spreadRel": 0.38793103449521704
+    },
+    "render": {
+     "medianMs": 0.3,
+     "minMs": 0.275,
+     "maxMs": 0.4550000000046566,
+     "spreadRel": 0.600000000015522
+    },
+    "grid": {
+     "medianMs": 2.1949999999953436,
+     "minMs": 2.1050000000046567,
+     "maxMs": 2.535000000009313,
+     "spreadRel": 0.19589977221210417
+    }
+   },
+   "rounds": {
+    "prepared": [
+     1.9850000000093133,
+     2.035000000009313,
+     2.0050000000046566,
+     2.060000000009313,
+     2.125,
+     2.0149999999906867,
+     1.8449999999953435
+    ],
+    "legacy": [
+     3.9050000000046565,
+     3.1050000000046567,
+     3.6450000000186265,
+     3.6050000000046567,
+     3.6550000000046565,
+     3.8099999999860303,
+     3.6449999999953433
+    ],
+    "core": [
+     0.7849999999860302,
+     0.6049999999813735,
+     0.5599999999860301,
+     0.5949999999953434,
+     0.5699999999953433,
+     0.5799999999813735,
+     0.575
+    ],
+    "render": [
+     0.41000000000931325,
+     0.3300000000046566,
+     0.4550000000046566,
+     0.3,
+     0.28000000000465664,
+     0.3,
+     0.275
+    ],
+    "grid": [
+     2.15,
+     2.23499999998603,
+     2.1199999999953434,
+     2.1949999999953436,
+     2.1050000000046567,
+     2.535000000009313,
+     2.2199999999953435
+    ]
+   },
+   "ratioPreparedOverLegacy": 0.5528120713252098,
+   "toyPrepared": 1.435000000009313,
+   "toyLegacy": 3.065000000037253,
+   "ratioToy": 0.46818923327630396
+  }
+ },
+ "node": {
+  "galaxyMeshSpiralGeoToy": {
+   "n": 351,
+   "nPin": 1,
+   "lawVersion": "scalar",
+   "steps": 60,
+   "legacy": {
+    "msPerStep": 11.850627683333332,
+    "fp": "4f938631",
+    "nOn": 350,
+    "chiMax": 0.9923328128004215
+   },
+   "prepared": {
+    "msPerStep": 7.378080616666667,
+    "fp": "4f938631",
+    "nOn": 350,
+    "chiMax": 0.9923328128004215
+   },
+   "repeats": [
+    {
+     "legacy": 11.872659700000002,
+     "prepared": 7.3119748499999995
+    },
+    {
+     "legacy": 11.015432616666667,
+     "prepared": 7.05293115
+    },
+    {
+     "legacy": 10.780042916666668,
+     "prepared": 7.119103033333333
+    }
+   ],
+   "bitSameNode": true,
+   "ratioPreparedOverLegacy": 0.6225898588513725,
+   "ratioMedian": 0.6402772723904381,
+   "crossStepCache": {
+    "reuseEvery2": {
+     "msPerStep": 5.5107062,
+     "fp": "67762f53",
+     "bitSame": false,
+     "ratio": 0.7469024108453934
+    },
+    "reuseEvery4": {
+     "msPerStep": 3.531754,
+     "fp": "bf50e3b0",
+     "bitSame": false,
+     "ratio": 0.47868194771712946
+    },
+    "verdict": "**採らない** —— 位置は毎步動くので、步をまたいで幾何を使い回すとビット同一が崩れる(fp が変わる)。速くなってもこの枝の契約(既定経路 1 bit 不変)を満たさない。"
+   },
+   "pairCounts": {
+    "n": 351,
+    "nPin": 1,
+    "nFree": 350,
+    "accumulationsPerPass": 122500,
+    "legacyGeometryPerPass": 122500,
+    "preparedGeometryPerPass": 61425,
+    "passesPerStep": 2,
+    "legacySqrtPerStep": 122500,
+    "legacyPowPerStep": 122500,
+    "preparedSqrtPerStep": 61425,
+    "preparedPowPerStep": 61425,
+    "legacyTempArraysPerStep": 1401,
+    "preparedTempArraysPerStep": 1
+   }
+  },
+  "galaxyMeshSpiralGeoToyLite": {
+   "n": 171,
+   "nPin": 1,
+   "lawVersion": "scalar",
+   "steps": 60,
+   "legacy": {
+    "msPerStep": 3.2054097500000003,
+    "fp": "ca11647b",
+    "nOn": 170,
+    "chiMax": 0.9923029004446152
+   },
+   "prepared": {
+    "msPerStep": 2.00961995,
+    "fp": "ca11647b",
+    "nOn": 170,
+    "chiMax": 0.9923029004446152
+   },
+   "repeats": [
+    {
+     "legacy": 3.010713883333333,
+     "prepared": 1.9288675499999999
+    },
+    {
+     "legacy": 3.0682130666666665,
+     "prepared": 1.9528853333333334
+    },
+    {
+     "legacy": 3.0574765,
+     "prepared": 1.9479016166666667
+    }
+   ],
+   "bitSameNode": true,
+   "ratioPreparedOverLegacy": 0.6269463521785318,
+   "ratioMedian": 0.6370945505768129,
+   "crossStepCache": {
+    "reuseEvery2": {
+     "msPerStep": 1.3689992999999998,
+     "fp": "6d2e3421",
+     "bitSame": false,
+     "ratio": 0.6812229844752486
+    },
+    "reuseEvery4": {
+     "msPerStep": 1.05324775,
+     "fp": "883b49d9",
+     "bitSame": false,
+     "ratio": 0.524102952899129
+    },
+    "verdict": "**採らない** —— 位置は毎步動くので、步をまたいで幾何を使い回すとビット同一が崩れる(fp が変わる)。速くなってもこの枝の契約(既定経路 1 bit 不変)を満たさない。"
+   },
+   "pairCounts": {
+    "n": 171,
+    "nPin": 1,
+    "nFree": 170,
+    "accumulationsPerPass": 28900,
+    "legacyGeometryPerPass": 28900,
+    "preparedGeometryPerPass": 14535,
+    "passesPerStep": 2,
+    "legacySqrtPerStep": 28900,
+    "legacyPowPerStep": 28900,
+    "preparedSqrtPerStep": 14535,
+    "preparedPowPerStep": 14535,
+    "legacyTempArraysPerStep": 681,
+    "preparedTempArraysPerStep": 1
+   }
+  }
+ },
+ "pageErrors": []
+}
