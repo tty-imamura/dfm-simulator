@@ -1441,6 +1441,37 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
       (QA `behavior.collapseRControl`)。**未使用ならキー削除は次便。**
     **実行時 LLM 向けの SYSTEM_PROMPT には載せていない** —— 既定 off の opt-in であり、
     生成物に出す前に段を分ける(次便の判断)。
+  - **`core.axisMode` / `core.azimuthDeg` / `core.precessionRate`(第275便e・opt-in・既定 off —— **SYSTEM_PROMPT には載せていない**)**:
+    原仮定者の裁定(第65報)(7)「**2D だが公転面に対する自転軸の傾き角・傾きの方向・歳差角速度を
+    再現する。親子コア構造限定でよい**」に対する**宣言モード**である。既にある `core.tilt`(傾き角)の上に、
+    **面内の方位角**と**歳差角速度**を宣言する口を足した(第227便のジャイロ分岐 φ̇=殻スピンは従来どおり)。
+    - 受理形: `core.axisMode:"prescribed"`(**これ以外は警告つきで無視** —— `"dynamic"` は**設計のみ**)
+      + `core.azimuthDeg`(公転面内の方位[度]・値域 ±360・省略時 0)
+      + `core.precessionRate`(歳差角速度[rad/時間]・値域 ±100・**省略時は文字列 `"spin"` = 殻スピン**)。
+    - 門(通らなければ `axisMode` だけを落として警告する): `cavity` で無効 / **`core.tilt` が実際に
+      通っている**こと(面内成分が無ければ回す軸が無い。`Kcs`/`pump`/`contract` は tilt ごと落とす既存の門)/
+      **`core.Kalign` との併用不可**(宣言で回す軸と、トルクで倒れる軸を同じ步で走らせない)/
+      `azimuthDeg`・`precessionRate` だけの宣言は無視。
+    - 意味論: 宣言した粒子のコア軸の**面内方位**を **φ(t)=azimuthDeg+precessionRate·t** として毎步
+      書き戻す(**規定運動**。`J_z` と `|J⊥|` は触らないので傾き角 θ は宣言のまま)。
+      実体は **`S._core` の外**の外部ステップ **`HP.dfmCoreAxisStep(S,dt)`**(`dfmGeoToyStep`・
+      `dfmShapeToyStep` と同じ位置)で、宣言が 1 つも無ければ `S.hasCoreAxis=false` の真偽値 1 つで
+      素通りする(**未宣言は 1 bit 不変** —— 内蔵 128 本は 1 本も宣言していない)。
+    - **反作用の帳簿**: 面内成分を宣言どおり回すのに要る角力積は**面外**(x,y 軸まわり)なので 2D の
+      `L_z` 帳簿には現れない。「**宣言した拘束**が持ち去った量」として **負号**で `S.axPrescLx`・
+      `S.axPrescLy`(面外 L)・`S.axPrescE`(回転 E —— |J⊥| を保つ写像なので丸めの範囲)・
+      `S.axPrescPx`/`S.axPrescPy`(並進 —— **恒等的に 0**)・`S.axPrescN`(記帳回数)へ積む。
+      **閉じた系ではない**(供給源は「宣言」である)。
+    - 読み口: **`HP.coreAxisState(S,i)`**(読み取り専用 —— `{tiltDeg, azimuthDeg, Jz,Jx,Jy,Jmag,
+      declared, mode, azimuth0Deg, precessionRate, phiPrescribedDeg, projX, projY, proxyOnly:true}`)。
+      定数は `HP.CORE_AXIS_MODES` / `CORE_AXIS_AZ_CLAMP` / `CORE_AXIS_RATE_CLAMP` /
+      `CORE_AXIS_RATE_DEFAULT` / `CORE_AXIS_DESIGN`。
+    - **これは 3D の実装ではない。** エンジンの力学が読むのは従来どおり **z 射影 `J_z` だけ**で、
+      面内 2 成分は運ぶだけである(第261便b の層 J と同じ立場)。表示は 3D 単位軸を公転面へ
+      **正射影**した線分(共通設定「コア軸の投影線を表示」・既定 ON・表示専用)。
+      **「3D の自転軸を実装した」「歳差を再現した」とは書かない**(宣言した角速度で回しているだけである)。
+    **実行時 LLM 向けの SYSTEM_PROMPT には載せていない** —— 既定 off の opt-in であり、
+    `core.lightTrap` と同じく生成物に出す前に段を分ける(次便の判断)。
   - **`notClaim:"lfbot"`(第265便d)**: 表示文 `nc_lfbot`(ja/en)は「実在の高速青色トランジェント
     (LFBOT・AT2018cow 等)の説明・再現・予測ではない」である。**実イベントへ σ を出さない**。
   - **`S._setBodyLayers(i, arr)` の有限性(第262便b)**: `m`・`r`・`J`・Σm を `Number.isFinite` と

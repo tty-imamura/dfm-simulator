@@ -1927,7 +1927,10 @@ const add = (id, pass, detail) => {
       'tests/out/kfgate-w275a.json',
       // 第275便c(第65報 (3)): 銀河トイの**回数の会計**(sqrt/pow/push を数えた実測)と
       //   準備済み経路の前後の ms/步(Chromium の同一ページ A/B + node の純関数の写し)
-      'tests/out/galaxyprof2-w275c.json'];
+      'tests/out/galaxyprof2-w275c.json',
+      // 第275便e(第65報 (8)): パワーボール効果の閉じた node 模型(**エンジン未接続**)——
+      //   html を走らせない器なので target は器が読む正本ファイル(lib 自身)である
+      'tests/out/powerball-w275e.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -44688,6 +44691,262 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       + ` / 復元 ${(J.recovery || []).filter((q) => q.pass === true).length}/${(J.recovery || []).filter((q) => q.pass !== null).length} 列・`
       + `重力の指紋一致 ${(J.gravityControl || []).every((q) => q.same)} / `
       + `**較正ではない**(観測量を 1 つも入力していない)`
+      : '正本なし')
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 第275便e(原仮定者の裁定(第65報)(7)「自転軸の傾き角・傾きの方向・歳差角速度」): preset.coreAxis-declared ----
+//   **コア軸の宣言モード**(`core.axisMode:"prescribed"` + `core.azimuthDeg` + `core.precessionRate`)の
+//   入口の門を機械固定する。7 点:
+//     ① 正しい宣言は 3 つの鍵がそのまま残る(prescribed・方位・歳差角速度)。
+//     ② `azimuthDeg`/`precessionRate` だけ(axisMode 無し)は**落ちる**(警告つき)。
+//     ③ `axisMode:"dynamic"` は**落ちる**(本便は設計のみ)。
+//     ④ `core.Kalign>0` との併用は**落ちる**(宣言で回す軸と、トルクで倒れる軸を同じ步で走らせない)。
+//     ⑤ `core.tilt` が通っていない粒子では**落ちる**(面内成分が無ければ回す軸が無い)。
+//     ⑥ `precessionRate` 省略時は既定 "spin"(= 殻スピン)で、build 後の `S.coreAxOm` が殻スピンと一致する。
+//     ⑦ 値域(azimuthDeg ±360・precessionRate ±100)で切り上げ/切り下げが起きる。
+//   **root では SKIP**(`HP.dfmCoreAxisStep` の有無で世代を判定する)。
+{
+  const hasAx = await page.evaluate(() => !!(window.HP && typeof HP.dfmCoreAxisStep === 'function'
+    && typeof HP.coreAxisState === 'function'));
+  if (hasAx) {
+    const ax = await page.evaluate(() => {
+      const O = {};
+      const base = () => JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'bhCoreTilt')));
+      const vc = (mut) => { const p = base(); mut(p); const v = HP.validatePreset(p);
+        return { ok: v.ok, core: v.ok ? v.preset.bodies[0].core : null,
+          warns: (v.warnings || []).filter((w) => /axisMode|azimuthDeg|precessionRate/.test(w)) }; };
+      O.good = vc((p) => { Object.assign(p.bodies[0].core,
+        { axisMode: 'prescribed', azimuthDeg: 30, precessionRate: 0.5 }); });
+      O.noMode = vc((p) => { Object.assign(p.bodies[0].core, { azimuthDeg: 30, precessionRate: 0.5 }); });
+      O.dynamic = vc((p) => { Object.assign(p.bodies[0].core, { axisMode: 'dynamic', azimuthDeg: 30 }); });
+      O.withKalign = vc((p) => { Object.assign(p.bodies[0].core,
+        { axisMode: 'prescribed', azimuthDeg: 30, Kalign: 0.5 }); });
+      O.noTilt = vc((p) => { delete p.bodies[0].core.tilt;
+        Object.assign(p.bodies[0].core, { axisMode: 'prescribed', azimuthDeg: 30 }); });
+      O.withKcs = vc((p) => { Object.assign(p.bodies[0].core,
+        { Kcs: 0.5, axisMode: 'prescribed', azimuthDeg: 30 }); });
+      O.clamped = vc((p) => { Object.assign(p.bodies[0].core,
+        { axisMode: 'prescribed', azimuthDeg: 999, precessionRate: 1000 }); });
+      // ⑥ 既定 "spin" が build で殻スピンになる
+      {
+        const p = base();
+        Object.assign(p.bodies[0].core, { axisMode: 'prescribed', azimuthDeg: 0 });
+        const v = HP.validatePreset(p);
+        const S = HP.sim; S.build(v.preset);
+        O.spinDefault = { declared: v.preset.bodies[0].core.precessionRate,
+          stored: S.coreAxOm[0], bodySpin: v.preset.bodies[0].spin,
+          mode: S.coreAxM[0], has: S.hasCoreAxis };
+      }
+      // 内蔵 128 本に宣言が 1 本も無いこと(既定 1 bit 不変の前提)
+      O.builtinDeclared = HP.allPresets().filter((p) => (p.bodies || []).some(
+        (b) => b && b.core && b.core.axisMode !== undefined)).map((p) => p.id);
+      O.modes = HP.CORE_AXIS_MODES; O.azClamp = HP.CORE_AXIS_AZ_CLAMP;
+      O.rateClamp = HP.CORE_AXIS_RATE_CLAMP; O.rateDefault = HP.CORE_AXIS_RATE_DEFAULT;
+      O.design = Object.keys(HP.CORE_AXIS_DESIGN || {});
+      return O;
+    });
+    const c1 = ax.good.ok && ax.good.core.axisMode === 'prescribed'
+      && ax.good.core.azimuthDeg === 30 && ax.good.core.precessionRate === 0.5;
+    const c2 = ax.noMode.ok && ax.noMode.core.axisMode === undefined
+      && ax.noMode.core.azimuthDeg === undefined && ax.noMode.warns.length >= 1;
+    const c3 = ax.dynamic.ok && ax.dynamic.core.axisMode === undefined && ax.dynamic.warns.length >= 1;
+    const c4 = ax.withKalign.ok && ax.withKalign.core.axisMode === undefined
+      && ax.withKalign.core.Kalign === 0.5 && ax.withKalign.warns.length >= 1;
+    const c5 = ax.noTilt.ok && ax.noTilt.core.axisMode === undefined && ax.noTilt.warns.length >= 1
+      && ax.withKcs.ok && ax.withKcs.core.axisMode === undefined && ax.withKcs.core.tilt === undefined;
+    const c6 = ax.spinDefault.declared === 'spin' && ax.spinDefault.mode === 1
+      && ax.spinDefault.has === true && ax.spinDefault.stored === ax.spinDefault.bodySpin;
+    const c7 = ax.clamped.ok && ax.clamped.core.azimuthDeg === 360
+      && ax.clamped.core.precessionRate === 100;
+    const c8 = ax.builtinDeclared.length === 0 && ax.modes.length === 1
+      && ax.modes[0] === 'prescribed' && ax.design.length === 2;
+    add('preset.coreAxis-declared', c1 && c2 && c3 && c4 && c5 && c6 && c7 && c8,
+      `**コア軸の宣言モード**(第275便e・第65報 (7))/ `
+      + `① 正しい宣言 → axisMode=${ax.good.core && ax.good.core.axisMode}・azimuthDeg=${ax.good.core && ax.good.core.azimuthDeg}・`
+      + `precessionRate=${ax.good.core && ax.good.core.precessionRate}=${c1} / `
+      + `② axisMode 無しの azimuthDeg/precessionRate は落ちる(警告 ${ax.noMode.warns.length} 件)=${c2} / `
+      + `③ "dynamic" は落ちる(**本便は設計のみ**・警告 ${ax.dynamic.warns.length} 件)=${c3} / `
+      + `④ Kalign との併用は落ちる(Kalign=${ax.withKalign.core && ax.withKalign.core.Kalign} は残る)=${c4} / `
+      + `⑤ tilt が通っていなければ落ちる(tilt 無し / Kcs>0 で tilt ごと落ちる場合とも)=${c5} / `
+      + `⑥ precessionRate 省略 → 既定 "${ax.spinDefault.declared}"・build 後 S.coreAxOm=${ax.spinDefault.stored}`
+      + `(殻スピン ${ax.spinDefault.bodySpin})=${c6} / `
+      + `⑦ 値域 azimuthDeg 999→${ax.clamped.core && ax.clamped.core.azimuthDeg}(門 ${JSON.stringify(ax.azClamp)})・`
+      + `precessionRate 1000→${ax.clamped.core && ax.clamped.core.precessionRate}(門 ${JSON.stringify(ax.rateClamp)})=${c7} / `
+      + `⑧ **内蔵で宣言している本 ${ax.builtinDeclared.length} 本**(既定 1 bit 不変の前提)・`
+      + `モード ${JSON.stringify(ax.modes)}・設計の口 ${JSON.stringify(ax.design)}=${c8} / `
+      + `**3D 実装ではない**(力学が読むのは従来どおり z 射影 J_z だけ)`);
+  } else {
+    console.log('SKIP preset.coreAxis-declared(対象に第275便e のコア軸の宣言なし — root 等)');
+  }
+}
+
+// ---- 第275便e: behavior.coreAxisPrescribed — **宣言なしで 1 bit 不変・宣言ありで軸が宣言どおり進む** ----
+//   ① **宣言が無ければ 1 行も通らない**: 🪩 bhCoreTilt(core.tilt:90・殻スピン 0.15)をそのまま
+//      build すると `hasCoreAxis=false`・`HP.dfmCoreAxisStep(S,dt)` を**直接呼んでも** null で、
+//      600 步の指紋が 1 bit も動かない。
+//   ② **宣言どおり進む**: azimuthDeg=30・precessionRate=0.5 を宣言すると、面内方位 φ が
+//      **φ(t)=30°+0.5·t** と一致する(度で 1e−9 以内)。傾き角 θ と |J| は動かない。
+//   ③ **力学に反作用しない**: 同じ 🪩 の x/y/vx/vy の 600 步の指紋が、宣言の有無で**ビット同一**。
+//   ④ **既定 "spin" は同値の移行**: 🏮 pulsarSolo(殻スピン 0 = 第227便ジャイロ分岐に入らない)へ
+//      azimuthDeg=0 で宣言すると、Ω_p=0 なので軸は止まったまま = **宣言なしとビット同一**。
+//   ⑤ **帳簿**: 宣言した拘束が持ち去った面外 L は 0 でなく、回転 E は丸めの範囲(|ΔE| ≤ 1e−6)。
+{
+  const hasAx2 = await page.evaluate(() => !!(window.HP && typeof HP.dfmCoreAxisStep === 'function'));
+  if (hasAx2) {
+    const pr = await page.evaluate(() => {
+      const O = {};
+      const fp = (S, keys) => { let a = 0x811c9dc5;
+        const buf = new ArrayBuffer(8), f = new Float64Array(buf), u = new Uint8Array(buf);
+        const push = (v) => { f[0] = v; for (let b = 0; b < 8; b++) { a ^= u[b]; a = Math.imul(a, 0x01000193) >>> 0; } };
+        for (const k of keys) for (let i = 0; i < S.n; i++) push(S[k][i]);
+        return a.toString(16); };
+      const KEYS = ['x', 'y', 'vx', 'vy'];
+      const build = (id, mut) => { const p = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === id)));
+        if (mut) mut(p); const v = HP.validatePreset(p); const S = HP.sim; S.build(v.preset); return S; };
+      // ① 宣言なし(🪩)
+      {
+        const S = build('bhCoreTilt');
+        for (let k = 0; k < 600; k++) S.step(0.016);
+        const before = fp(S, KEYS), jx = S.coreJx[0], jy = S.coreJy[0];
+        const ret = HP.dfmCoreAxisStep(S, 0.016);
+        O.plain = { has: S.hasCoreAxis, mode: S.coreAxM[0], ret,
+          same: fp(S, KEYS) === before, jxSame: S.coreJx[0] === jx && S.coreJy[0] === jy,
+          n: S.axPrescN, fpDyn: before, axState: HP.coreAxisState(S, 0) };
+      }
+      // ②③ 宣言あり(🪩・azimuthDeg=30・precessionRate=0.5)
+      {
+        const S = build('bhCoreTilt', (p) => { Object.assign(p.bodies[0].core,
+          { axisMode: 'prescribed', azimuthDeg: 30, precessionRate: 0.5 }); });
+        const st0 = HP.coreAxisState(S, 0);
+        for (let k = 0; k < 600; k++) S.step(0.016);
+        const st = HP.coreAxisState(S, 0);
+        const wrap = (d) => { let z = d % 360; if (z > 180) z -= 360; if (z < -180) z += 360; return z; };
+        O.decl = { has: S.hasCoreAxis, mode: S.coreAxM[0], rate: S.coreAxOm[0],
+          az0Deg: st0.azimuthDeg, azDeg: st.azimuthDeg,
+          phiPrescribedDeg: st.phiPrescribedDeg, t: S.t,
+          azErrDeg: Math.abs(wrap(st.azimuthDeg - st.phiPrescribedDeg)),
+          tilt0Deg: st0.tiltDeg, tiltDeg: st.tiltDeg, Jm0: st0.Jmag, Jm: st.Jmag,
+          n: S.axPrescN, Lx: S.axPrescLx, Ly: S.axPrescLy, E: S.axPrescE,
+          Px: S.axPrescPx, Py: S.axPrescPy, fpDyn: fp(S, KEYS), nan: S.hasNaN() };
+      }
+      // ④ 🏮 pulsarSolo(殻スピン 0)—— 既定 "spin"(=0)は宣言なしとビット同一
+      {
+        const A = build('pulsarSolo');
+        for (let k = 0; k < 600; k++) A.step(0.016);
+        const fa = fp(A, KEYS), ja = [A.coreJx[0], A.coreJy[0], A.coreJ[0]];
+        const B = build('pulsarSolo', (p) => { Object.assign(p.bodies[0].core,
+          { axisMode: 'prescribed', azimuthDeg: 0 }); });
+        for (let k = 0; k < 600; k++) B.step(0.016);
+        O.equiv = { rate: B.coreAxOm[0], fpSame: fp(B, KEYS) === fa,
+          jSame: B.coreJx[0] === ja[0] && B.coreJy[0] === ja[1] && B.coreJ[0] === ja[2],
+          n: B.axPrescN, E: B.axPrescE, Lx: B.axPrescLx, Ly: B.axPrescLy };
+      }
+      return O;
+    });
+    const wrapOk = (x) => Number.isFinite(x);
+    const c1 = pr.plain.has === false && pr.plain.mode === 0 && pr.plain.ret === null
+      && pr.plain.same === true && pr.plain.jxSame === true && pr.plain.n === 0;
+    const c2 = pr.decl.has === true && pr.decl.mode === 1 && pr.decl.rate === 0.5
+      && wrapOk(pr.decl.azErrDeg) && pr.decl.azErrDeg <= 1e-9
+      && Math.abs(pr.decl.tiltDeg - pr.decl.tilt0Deg) <= 1e-9
+      && Math.abs(pr.decl.Jm - pr.decl.Jm0) <= 1e-9 * Math.max(1, pr.decl.Jm0)
+      && pr.decl.nan === false;
+    const c3 = pr.decl.fpDyn === pr.plain.fpDyn;
+    const c4 = pr.equiv.rate === 0 && pr.equiv.fpSame === true && pr.equiv.jSame === true;
+    const c5 = pr.decl.n > 0 && Math.abs(pr.decl.E) <= 1e-6
+      && (Math.abs(pr.decl.Lx) + Math.abs(pr.decl.Ly)) > 0
+      && pr.decl.Px === 0 && pr.decl.Py === 0;
+    add('behavior.coreAxisPrescribed', c1 && c2 && c3 && c4 && c5,
+      `**コア軸の prescribed**(第275便e)/ `
+      + `① **宣言が無ければ 1 行も通らない**(🪩): hasCoreAxis=${pr.plain.has}・coreAxM=${pr.plain.mode}・`
+      + `直接呼びの戻り=${pr.plain.ret}・600 步の指紋不変=${pr.plain.same}・面内成分不変=${pr.plain.jxSame}・`
+      + `記帳回数=${pr.plain.n}=${c1} / `
+      + `② **宣言どおり進む**(az=30°・Ω_p=0.5・t=${pr.decl.t.toFixed(6)}): 方位 ${pr.decl.az0Deg.toFixed(6)}°→`
+      + `${pr.decl.azDeg.toFixed(6)}°(宣言 φ(t)=${pr.decl.phiPrescribedDeg.toFixed(6)}°・**差 `
+      + `${pr.decl.azErrDeg.toExponential(2)}°**)・傾き ${pr.decl.tilt0Deg.toFixed(9)}°→${pr.decl.tiltDeg.toFixed(9)}°・`
+      + `|J| ${pr.decl.Jm0.toFixed(6)}→${pr.decl.Jm.toFixed(6)}=${c2} / `
+      + `③ **力学に反作用しない**: x/y/vx/vy の 600 步の指紋が宣言の有無で同一(${pr.plain.fpDyn})=${c3} / `
+      + `④ **既定 "spin" は同値の移行**(🏮 は殻スピン 0 なので Ω_p=${pr.equiv.rate}): 指紋同一=${pr.equiv.fpSame}・`
+      + `コア J もビット同一=${pr.equiv.jSame}(記帳 ${pr.equiv.n} 回・E=${pr.equiv.E})=${c4} / `
+      + `⑤ **帳簿**(宣言した拘束が持ち去った量・負号): 面外 L=(${pr.decl.Lx.toExponential(4)}, `
+      + `${pr.decl.Ly.toExponential(4)})・回転 E=${pr.decl.E.toExponential(2)}(丸めの範囲)・`
+      + `並進 P=(${pr.decl.Px}, ${pr.decl.Py})(**恒等的に 0**)=${c5} / `
+      + `**「3D を実装した」とは書かない**(2D 投影・力学は J_z だけを読む)`);
+  } else {
+    console.log('SKIP behavior.coreAxisPrescribed(対象に第275便e のコア軸の宣言なし — root 等)');
+  }
+}
+
+// ---- 第275便e(第65報 (8)「パワーボール効果(仮説)」): docs.powerballLedger ----
+//   **閉じた node 模型の正本**(tests/out/powerball-w275e.json・器 tests/exp-w275e-powerball.mjs・
+//   純関数 tests/lib-w275e-powerball.mjs・**エンジン未接続**)と docs/PHYSICS.md 〔第275便e〕の
+//   表の一致を機械固定する。6 点:
+//     ① 来歴 meta と**仮説そのもの**(H1〜H7)が正本に載っている。
+//     ② 5 段(無トルク → 整列 → 散逸 → 供給源 → 閉じた連星)がすべて在る。
+//     ③ **負の対照**(R37): 保存トルクだけの走行で |S| の相対漂いが 1e−9 以下 = 自転を加速しない。
+//     ④ 第④段の帳簿 ΔE_rot=ΣW が 1e−9(相対)以内で閉じ、**供給なしの対照**で ω が動かない。
+//     ⑤ 第⑤段で J_z=L_orb+ΣS_z が 1e−10(相対)以内で保存している。
+//     ⑥ PHYSICS.md にこの節があり、**正本の主要数値がそのまま載っている**(機械同期)。
+{
+  const P = path.join(ROOT, 'tests', 'out', 'powerball-w275e.json');
+  let J = null, err = '';
+  try { J = JSON.parse(fs.readFileSync(P, 'utf8')); } catch (e) { err = String(e).slice(0, 80); }
+  const phys = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+  const bad = [];
+  let gy = null, noSup = null, bDis = null;
+  if (!J) bad.push('正本が読めない: ' + err);
+  else {
+    if (!J.meta || !J.meta.provenanceVersion) bad.push('①来歴 meta が無い');
+    const H = J.meta && J.meta.hypothesis;
+    if (!H || !Array.isArray(H.claims) || H.claims.length !== 7) bad.push('①仮説 H1〜H7 が無い');
+    if (!H || !H.negativeControl) bad.push('①負の対照の宣言が無い');
+    for (const k of ['stage1', 'stage2', 'stage3', 'stage4', 'stage5', 'verdict'])
+      if (!J[k]) bad.push('②段が無い: ' + k);
+    gy = ((J.stage1 || {}).rows || []).find((r) => r.id === 'gyroOnly');
+    const gys = ((J.stage1 || {}).rows || []).find((r) => r.id === 'gyroOnlyStrong');
+    if (!gy || !gys) bad.push('③保存トルクだけの行が無い');
+    else {
+      if (!(gy.spinRelDrift <= 1e-9 && gys.spinRelDrift <= 1e-9))
+        bad.push('③|S| が動いている(負の対照が破れている)');
+      if (!(Math.abs(gy.precRelDiff) <= 1e-6)) bad.push('③歳差率が理論と合っていない');
+    }
+    for (const p of ((J.stage1 || {}).axialProbe || []))
+      if (!(Math.abs(p.relC) <= 1e-14 && Math.abs(p.relD) <= 1e-14)) bad.push('③τ·ŝ が 0 でない');
+    for (const r of ((J.stage4 || {}).rows || [])) {
+      if (!(r.ledgerAbs <= 1e-9 * Math.max(1, Math.abs(r.dErot)))) bad.push('④帳簿が閉じていない: ' + r.id);
+      if (!(r.fullClosureAbs <= 1e-9)) bad.push('④全体の閉じが破れている: ' + r.id);
+    }
+    noSup = ((J.stage4 || {}).rows || []).find((r) => /noSupply/.test(r.id));
+    if (!noSup || !(Math.abs(noSup.omegaLast - noSup.omegaFirst) <= 1e-9))
+      bad.push('④供給なしの対照で ω が動いている');
+    for (const r of ((J.stage5 || {}).rows || []))
+      if (!(r.worstJzRel <= 1e-10)) bad.push('⑤J_z が保存していない: ' + r.id);
+    bDis = ((J.stage5 || {}).rows || []).find((r) => r.id === 'dissipative(Q>0)');
+    // ⑥ PHYSICS.md への機械同期
+    if (!/〔第275便e/.test(phys)) bad.push('⑥PHYSICS.md に〔第275便e〕節が無い');
+    const need = [];
+    if (gy) need.push(gy.precTheory.toFixed(6));
+    if (bDis) { need.push(bDis.alignGap1Deg.toFixed(3)); need.push(bDis.heatDrops + '/' + bDis.heatSteps); }
+    const a1 = ((J.stage2 || {}).rows || [])[0];
+    if (a1) need.push(a1.tauMeasured.toFixed(6));
+    for (const t of need) if (!phys.includes(t)) bad.push('⑥PHYSICS.md に正本の数値が無い: ' + t);
+  }
+  add('docs.powerballLedger', bad.length === 0,
+    `**パワーボールの閉じた node 模型**(第275便e・第65報 (8)・正本 tests/out/powerball-w275e.json・`
+    + `器 tests/exp-w275e-powerball.mjs・**エンジン未接続**)/ `
+    + (J ? `来歴 ${J.meta && J.meta.provenanceVersion}・仮説 ${((J.meta || {}).hypothesis || {}).claims ? ((J.meta || {}).hypothesis || {}).claims.length : 0} 項 / `
+      + `**負の対照**(R37): 保存トルクだけで |S| の相対漂い ${gy ? gy.spinRelDrift.toExponential(2) : '—'}`
+      + `(= **自転を加速しない**)・歳差率 実測 ${gy ? gy.precMeasured.toExponential(6) : '—'} vs 理論 `
+      + `${gy ? gy.precTheory.toExponential(6) : '—'} / `
+      + `供給の帳簿 ΔE_rot=ΣW の最悪差 `
+      + `${Math.max(...((J.stage4 || {}).rows || [{ ledgerAbs: 0 }]).map((r) => r.ledgerAbs)).toExponential(2)}・`
+      + `供給なしの対照で ω=${noSup ? noSup.omegaLast.toFixed(6) : '—'}(不変)/ `
+      + `連星 J_z の最悪相対漂い `
+      + `${Math.max(...((J.stage5 || {}).rows || [{ worstJzRel: 0 }]).map((r) => r.worstJzRel)).toExponential(2)}・`
+      + `散逸つきで連結線とのずれ ${bDis ? bDis.alignGap1Deg.toFixed(3) : '—'}° が残る / `
+      + `仮説の対応づけ: ` + ((J.verdict || []).map((v) => `${v.id}=${v.inModel}`).join('・'))
+      + ` / **K・Q・Γ は宣言された自由パラメータ**(観測から同定していない)`
       : '正本なし')
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
 }
