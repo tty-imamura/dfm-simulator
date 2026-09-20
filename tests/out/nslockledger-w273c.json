@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第273便c(第63報・AH24)",
   "target": "beta/index.html",
-  "targetSha256": "b5ab289b00095b01696a3ea8e4993b81a2db8ac9b07259beaaefc36ae4ba4695",
-  "generatedAt": "2026-09-20T18:13:53.799Z",
+  "targetSha256": "536fa19848ecfc023f6545279f93800df1f49eeaf4b23292fc1b8748dcbc4890",
+  "generatedAt": "2026-09-20T21:30:29.992Z",
   "inputs": [
    {
     "file": "tests/out/nslock-w272c.json",
     "bytes": 230032,
-    "sha256": "20c6531db42afa1ed37bffd15dcedd0d7e8acf072621c49201875ad716799bcd",
-    "mtime": "2026-09-20T18:13:46.638Z"
+    "sha256": "20ef1493b21a0eb38c22a51460bdebc079ff3255cde07da395f0611629051cd9",
+    "mtime": "2026-09-20T21:30:22.771Z"
    }
   ],
   "code": [
@@ -31,7 +31,7 @@
  },
  "section": "NS 連星 4 系の lock 枝(kFrame=0・f=1・λ_PN=1)の記録",
  "sourceHarness": "w272c-nslock-1",
- "sourceAt": "2026-09-20T18:06:56.804Z",
+ "sourceAt": "2026-09-20T21:23:25.217Z",
  "metric": "近点間 P = 位相制限(1.5π)の最初の 20 近点(19 区間)の平均間隔。ω̇ = 採用近点の方位を実時刻に回帰した傾き(°/年)。e = 窓内の (r_max−r_min)/(r_max+r_min)(eProxy)。",
  "assessedStageRule": "**ω̇ は 3 段(h, h/2, h/4)の Richardson 外挿**(`omegaDotExt`)と**h/4 段の値**(`omegaDotH4`)を両方置く。外挿は観測次数 p が正で単調な列だけに作る(第273便c・AH30 —— 非正の次数から外挿は作らない)。",
  "declarationNote": "`pnAlpha`・`lambdaPN`・`geoPN`・`frameWeight` は**内蔵プリセットの宣言**であって実測ではない。**速度は E12 の主張域どおり u=0 の絶対値(座標速度)**で、正本は docs/PHYSICS.md の E12 節である(この器は宣言を読んだだけで、規約を作っていない)。",
