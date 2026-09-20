@@ -1,0 +1,2762 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第275便b",
+  "target": "beta/index.html",
+  "targetSha256": "feb49d92d31f69ecfeffedd3ab10cd1d66f5911337ac693fb5912c03a1d97131",
+  "generatedAt": "2026-09-20T17:25:35.172Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4217970,
+    "sha256": "feb49d92d31f69ecfeffedd3ab10cd1d66f5911337ac693fb5912c03a1d97131",
+    "mtime": "2026-09-20T17:08:19.438Z"
+   },
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "bytes": 2785467,
+    "sha256": "feeaa951ea1f7fe0e7e641a1f0330f7817b2362e9eb9303124f64067407d0a65",
+    "mtime": "2026-09-20T17:03:07.930Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w275b-d0audit.mjs",
+    "bytes": 23083,
+    "sha256": "dd4e4e5bf0b29f664d209997b9159d69b696303c0db7c1e53bc0521590d91560",
+    "mtime": "2026-09-20T17:15:56.850Z"
+   },
+   {
+    "file": "tests/lib-w275b-dsplit.mjs",
+    "bytes": 10918,
+    "sha256": "0320d33c45339e747b2095a3fa57cffc22b77800afb878f561210588bccc9440",
+    "mtime": "2026-09-20T17:11:21.858Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-20T17:03:07.930Z"
+   }
+  ],
+  "codeSha256": "37ef3106a97a66f113d0eff308043cac93789a2a10ef01d6de73446b4cb970aa",
+  "harness": "tests/exp-w275b-d0audit.mjs",
+  "harnessVersion": "w275b-d0audit-1",
+  "dsplitVersion": "w275b-dsplit-1",
+  "definition": "D_bg(x*) = Σ_{j∉分解集合} m_j/(r_j²+ε²)^(p/2)(p=1 で M/L・p=2 で M/L²)",
+  "ruling": "第65報 (2): D₀ は「何を背景とするか」でサンプル毎に変わる。太陽を置くサンプルでは太陽を背景に含めない / 置かないサンプルは太陽からの距離 / 太陽系外は銀河内位置 / 銀河は自身を含めない。**D₀ は複素決定力場(p=2)では使わない**",
+  "contract": {
+   "orbMax": 3,
+   "judgedRevIndex": 1,
+   "stages": {
+    "h": {
+     "dt": 0.016,
+     "steps": 400000
+    },
+    "h2": {
+     "dt": 0.008,
+     "steps": 800000
+    },
+    "h4": {
+     "dt": 0.004,
+     "steps": 1600000
+    }
+   },
+   "splitPreset": "venusReal",
+   "stagesRun": [
+    "h",
+    "h2",
+    "h4"
+   ],
+   "note": "窓・終了条件・保存量は走行前に固定した(器の冒頭コメントが正本)。**判定はしない**"
+  },
+  "assumptions": [
+   {
+    "key": "sunMassKg",
+    "value": 1.9885e+30,
+    "from": "beta/index.html の 🌇/🌞/☄️ の第 1 天体(1988.5 × 10^27 kg)",
+    "kind": "app-transcribed",
+    "note": null
+   },
+   {
+    "key": "auMeters",
+    "value": 149597870700,
+    "from": "IAU 2012 天文単位の定義値",
+    "kind": "defined",
+    "note": null
+   },
+   {
+    "key": "parsecMeters",
+    "value": 30856775814913670,
+    "from": "IAU 2015 の pc(au/arcsec)",
+    "kind": "defined",
+    "note": null
+   },
+   {
+    "key": "semiMajorAxisAu",
+    "value": {
+     "mercury": 0.387098,
+     "venus": 0.723332,
+     "earth": 1,
+     "mars": 1.523679,
+     "jupiter": 5.204267,
+     "saturn": 9.582017,
+     "uranus": 19.191264,
+     "neptune": 30.068963,
+     "pluto": 39.482117
+    },
+    "from": "NASA Planetary Fact Sheet(軌道長半径)",
+    "kind": "reference-value",
+    "note": null
+   },
+   {
+    "key": "galacticR0Kpc",
+    "value": 8.178,
+    "from": "GRAVITY Collaboration 2019(A&A 625 L10)の R₀=8.178 kpc",
+    "kind": "reference-value",
+    "note": null
+   },
+   {
+    "key": "galacticMassEnclosedMsun",
+    "value": 100000000000,
+    "from": "Bland-Hawthorn & Gerhard 2016(ARA&A 54, 529)が挙げる M(<R₀) ≈ 1×10¹¹ M☉",
+    "kind": "reference-value",
+    "note": "**1 桁の参考値である**(文献値は 0.8〜1.2×10¹¹ M☉ に散る)。どの値を採るかは決断事項"
+   }
+  ],
+  "observation": {
+   "value": 19414166.4,
+   "sigma": null,
+   "unit": "s",
+   "name": "公転周期(kFrame=1・E6′-R)",
+   "sigmaNote": "CSV の sigma 列が空欄(**未記録**であって 0 ではない)",
+   "method": "同方向1周(2周目 — obsCard の数え方)",
+   "from": "tests/out/calaudit-w249.json"
+  },
+  "independentCheck": {
+   "kF1": {
+    "calaudit": 19414266.84737822,
+    "name": "公転周期(kFrame=1・E6′-R)",
+    "here": 19414266.84737822,
+    "absDiff": 0,
+    "bitSame": true
+   },
+   "kF0": {
+    "calaudit": 19413888.60730327,
+    "name": "公転周期(kFrame=0 対照)",
+    "here": 19413888.60730327,
+    "absDiff": 0,
+    "bitSame": true
+   },
+   "note": "同じ数が別の器から出たことだけを意味する(**観測と合ったことではない**)"
+  },
+  "secondsPerUnit": 10000,
+  "notClaim": [
+   "D₀ を較正した",
+   "D₀ の補正で ❄️ が成立",
+   "規則値が正しい D₀ である",
+   "背景の定義を解決した",
+   "複素決定力場を実装した"
+  ]
+ },
+ "audit": [
+  {
+   "id": "galaxyMeshSpiralGeoToy",
+   "emoji": "🪁",
+   "group": "銀河の力学",
+   "site": "toy",
+   "scaleExp": null,
+   "frameWeight": "share",
+   "framePow": 1,
+   "D0": 1.5,
+   "D0pull": null,
+   "d0Used": 1.5,
+   "d0UsedKey": "physics.D0",
+   "kFrame": 0,
+   "softening": 3,
+   "geoPN": 3,
+   "D0Source": null,
+   "nBodies": 3,
+   "unitSI": null,
+   "unitSI_p1": null,
+   "unitSI_p2": null,
+   "d0SI": null,
+   "d0SI_unit": "kg/m",
+   "placesSun": false,
+   "rule": null,
+   "ruleWhy": "トイ(実在の背景が無い・scaleExp も宣言していない)",
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": null,
+   "dbgSI": null,
+   "ratio": null
+  },
+  {
+   "id": "galaxyMeshSpiralGeoToyLite",
+   "emoji": "🎋",
+   "group": "銀河の力学",
+   "site": "toy",
+   "scaleExp": null,
+   "frameWeight": "share",
+   "framePow": 1,
+   "D0": 1.5,
+   "D0pull": null,
+   "d0Used": 1.5,
+   "d0UsedKey": "physics.D0",
+   "kFrame": 0,
+   "softening": 3,
+   "geoPN": 3,
+   "D0Source": null,
+   "nBodies": 3,
+   "unitSI": null,
+   "unitSI_p1": null,
+   "unitSI_p2": null,
+   "d0SI": null,
+   "d0SI_unit": "kg/m",
+   "placesSun": false,
+   "rule": null,
+   "ruleWhy": "トイ(実在の背景が無い・scaleExp も宣言していない)",
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": null,
+   "dbgSI": null,
+   "ratio": null
+  },
+  {
+   "id": "earthMoonReal",
+   "emoji": "🌙",
+   "group": "現実との照合・太陽系",
+   "site": "solar-system",
+   "scaleExp": {
+    "L": 6,
+    "T": 2,
+    "M": 25
+   },
+   "frameWeight": "share",
+   "framePow": 1,
+   "D0": 0.1,
+   "D0pull": null,
+   "d0Used": 0.1,
+   "d0UsedKey": "physics.D0",
+   "kFrame": 0,
+   "softening": 0.1,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 10000000000000000000,
+   "unitSI_p1": 10000000000000000000,
+   "unitSI_p2": 10000000000000,
+   "d0SI": 1000000000000000000,
+   "d0SI_unit": "kg/m",
+   "placesSun": false,
+   "rule": "heliocentric",
+   "ruleWhy": null,
+   "heliocentricBody": "earth",
+   "heliocentricDistanceM": 149597870700,
+   "dbg": {
+    "p1": 13292301492630804000,
+    "p2": 88853547.3829495,
+    "formula": "M☉/r(+ 銀河は別欄)",
+    "galacticRemainder": {
+     "p1": 788003132435817800000,
+     "p2": 3.122700209849943
+    },
+    "undeterminedWhy": null
+   },
+   "dbgSI": 13292301492630804000,
+   "ratio": 0.0752315165702791
+  },
+  {
+   "id": "earthMoonRealKF1",
+   "emoji": "🌘",
+   "group": "現実との照合・太陽系",
+   "site": "solar-system",
+   "scaleExp": {
+    "L": 6,
+    "T": 2,
+    "M": 25
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 0.0000324204,
+   "d0Used": 0.0000324204,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 1,
+   "softening": 0.1,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 10000000000000,
+   "unitSI_p1": 10000000000000000000,
+   "unitSI_p2": 10000000000000,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": "heliocentric",
+   "ruleWhy": null,
+   "heliocentricBody": "earth",
+   "heliocentricDistanceM": 149597870700,
+   "dbg": {
+    "p1": 13292301492630804000,
+    "p2": 88853547.3829495,
+    "formula": "M☉/r(+ 銀河は別欄)",
+    "galacticRemainder": {
+     "p1": 788003132435817800000,
+     "p2": 3.122700209849943
+    },
+    "undeterminedWhy": null
+   },
+   "dbgSI": 88853547.3829495,
+   "ratio": 3.648745711892792
+  },
+  {
+   "id": "emAuditDFM",
+   "emoji": "🧲",
+   "group": "現実との照合・太陽系",
+   "site": "solar-system",
+   "scaleExp": {
+    "L": 6,
+    "T": 2,
+    "M": 25
+   },
+   "frameWeight": "share",
+   "framePow": 1,
+   "D0": 0.006,
+   "D0pull": null,
+   "d0Used": 0.006,
+   "d0UsedKey": "physics.D0",
+   "kFrame": 1,
+   "softening": 0.1,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 10000000000000000000,
+   "unitSI_p1": 10000000000000000000,
+   "unitSI_p2": 10000000000000,
+   "d0SI": 60000000000000000,
+   "d0SI_unit": "kg/m",
+   "placesSun": false,
+   "rule": "heliocentric",
+   "ruleWhy": null,
+   "heliocentricBody": "earth",
+   "heliocentricDistanceM": 149597870700,
+   "dbg": {
+    "p1": 13292301492630804000,
+    "p2": 88853547.3829495,
+    "formula": "M☉/r(+ 銀河は別欄)",
+    "galacticRemainder": {
+     "p1": 788003132435817800000,
+     "p2": 3.122700209849943
+    },
+    "undeterminedWhy": null
+   },
+   "dbgSI": 13292301492630804000,
+   "ratio": 0.004513890994216746
+  },
+  {
+   "id": "emAuditSolar",
+   "emoji": "🔆",
+   "group": "現実との照合・太陽系",
+   "site": "solar-system",
+   "scaleExp": {
+    "L": 8,
+    "T": 4,
+    "M": 27
+   },
+   "frameWeight": "share",
+   "framePow": 1,
+   "D0": 0.1,
+   "D0pull": null,
+   "d0Used": 0.1,
+   "d0UsedKey": "physics.D0",
+   "kFrame": 0,
+   "softening": 0.01,
+   "geoPN": 0,
+   "D0Source": null,
+   "nBodies": 3,
+   "unitSI": 10000000000000000000,
+   "unitSI_p1": 10000000000000000000,
+   "unitSI_p2": 100000000000,
+   "d0SI": 1000000000000000000,
+   "d0SI_unit": "kg/m",
+   "placesSun": true,
+   "rule": "solar-excluded",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": null,
+    "p2": null,
+    "formula": "太陽を除いた残り(規則が決めていない)",
+    "candidates": {
+     "zero": {
+      "p1": 0,
+      "p2": 0
+     },
+     "galactic": {
+      "p1": 788003132435817800000,
+      "p2": 3.122700209849943
+     }
+    },
+    "undeterminedWhy": "規則は「太陽を含めない」としか書いていない(残りの銀河寄与を足すかは決断事項)"
+   },
+   "dbgSI": null,
+   "ratio": null
+  },
+  {
+   "id": "mercuryReal",
+   "emoji": "☄️",
+   "group": "現実との照合・太陽系",
+   "site": "solar-system",
+   "scaleExp": {
+    "L": 8,
+    "T": 4,
+    "M": 27
+   },
+   "frameWeight": "share",
+   "framePow": 1,
+   "D0": 0.1,
+   "D0pull": null,
+   "d0Used": 0.1,
+   "d0UsedKey": "physics.D0",
+   "kFrame": 0,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 10000000000000000000,
+   "unitSI_p1": 10000000000000000000,
+   "unitSI_p2": 100000000000,
+   "d0SI": 1000000000000000000,
+   "d0SI_unit": "kg/m",
+   "placesSun": true,
+   "rule": "solar-excluded",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": null,
+    "p2": null,
+    "formula": "太陽を除いた残り(規則が決めていない)",
+    "candidates": {
+     "zero": {
+      "p1": 0,
+      "p2": 0
+     },
+     "galactic": {
+      "p1": 788003132435817800000,
+      "p2": 3.122700209849943
+     }
+    },
+    "undeterminedWhy": "規則は「太陽を含めない」としか書いていない(残りの銀河寄与を足すかは決断事項)"
+   },
+   "dbgSI": null,
+   "ratio": null
+  },
+  {
+   "id": "mercuryRealKF1",
+   "emoji": "🪨",
+   "group": "現実との照合・太陽系",
+   "site": "solar-system",
+   "scaleExp": {
+    "L": 8,
+    "T": 4,
+    "M": 27
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 0.00324204,
+   "d0Used": 0.00324204,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 100000000000,
+   "unitSI_p1": 10000000000000000000,
+   "unitSI_p2": 100000000000,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": true,
+   "rule": "solar-excluded",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": null,
+    "p2": null,
+    "formula": "太陽を除いた残り(規則が決めていない)",
+    "candidates": {
+     "zero": {
+      "p1": 0,
+      "p2": 0
+     },
+     "galactic": {
+      "p1": 788003132435817800000,
+      "p2": 3.122700209849943
+     }
+    },
+    "undeterminedWhy": "規則は「太陽を含めない」としか書いていない(残りの銀河寄与を足すかは決断事項)"
+   },
+   "dbgSI": null,
+   "ratio": null
+  },
+  {
+   "id": "solarInner",
+   "emoji": "🌞",
+   "group": "現実との照合・太陽系",
+   "site": "solar-system",
+   "scaleExp": {
+    "L": 8,
+    "T": 4,
+    "M": 27
+   },
+   "frameWeight": "share",
+   "framePow": 1,
+   "D0": 0.006,
+   "D0pull": null,
+   "d0Used": 0.006,
+   "d0UsedKey": "physics.D0",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 6,
+   "unitSI": 10000000000000000000,
+   "unitSI_p1": 10000000000000000000,
+   "unitSI_p2": 100000000000,
+   "d0SI": 60000000000000000,
+   "d0SI_unit": "kg/m",
+   "placesSun": true,
+   "rule": "solar-excluded",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": null,
+    "p2": null,
+    "formula": "太陽を除いた残り(規則が決めていない)",
+    "candidates": {
+     "zero": {
+      "p1": 0,
+      "p2": 0
+     },
+     "galactic": {
+      "p1": 788003132435817800000,
+      "p2": 3.122700209849943
+     }
+    },
+    "undeterminedWhy": "規則は「太陽を含めない」としか書いていない(残りの銀河寄与を足すかは決断事項)"
+   },
+   "dbgSI": null,
+   "ratio": null
+  },
+  {
+   "id": "jupiterGalilean",
+   "emoji": "🟠",
+   "group": "現実との照合・太陽系",
+   "site": "solar-system",
+   "scaleExp": {
+    "L": 7,
+    "T": 3,
+    "M": 26
+   },
+   "frameWeight": "share",
+   "framePow": 1,
+   "D0": 0.006,
+   "D0pull": null,
+   "d0Used": 0.006,
+   "d0UsedKey": "physics.D0",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 5,
+   "unitSI": 10000000000000000000,
+   "unitSI_p1": 10000000000000000000,
+   "unitSI_p2": 1000000000000,
+   "d0SI": 60000000000000000,
+   "d0SI_unit": "kg/m",
+   "placesSun": false,
+   "rule": "heliocentric",
+   "ruleWhy": null,
+   "heliocentricBody": "jupiter",
+   "heliocentricDistanceM": 778547261754.2769,
+   "dbg": {
+    "p1": 2554115976876437000,
+    "p2": 3280617.7638096437,
+    "formula": "M☉/r(+ 銀河は別欄)",
+    "galacticRemainder": {
+     "p1": 788003132435817800000,
+     "p2": 3.122700209849943
+    },
+    "undeterminedWhy": null
+   },
+   "dbgSI": 2554115976876437000,
+   "ratio": 0.023491493942799403
+  },
+  {
+   "id": "venusReal",
+   "emoji": "🌇",
+   "group": "現実との照合・太陽系",
+   "site": "solar-system",
+   "scaleExp": {
+    "L": 8,
+    "T": 4,
+    "M": 27
+   },
+   "frameWeight": "share",
+   "framePow": 1,
+   "D0": 0.006,
+   "D0pull": null,
+   "d0Used": 0.006,
+   "d0UsedKey": "physics.D0",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 10000000000000000000,
+   "unitSI_p1": 10000000000000000000,
+   "unitSI_p2": 100000000000,
+   "d0SI": 60000000000000000,
+   "d0SI_unit": "kg/m",
+   "placesSun": true,
+   "rule": "solar-excluded",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": null,
+    "p2": null,
+    "formula": "太陽を除いた残り(規則が決めていない)",
+    "candidates": {
+     "zero": {
+      "p1": 0,
+      "p2": 0
+     },
+     "galactic": {
+      "p1": 788003132435817800000,
+      "p2": 3.122700209849943
+     }
+    },
+    "undeterminedWhy": "規則は「太陽を含めない」としか書いていない(残りの銀河寄与を足すかは決断事項)"
+   },
+   "dbgSI": null,
+   "ratio": null
+  },
+  {
+   "id": "marsMoonsReal",
+   "emoji": "🥔",
+   "group": "現実との照合・太陽系",
+   "site": "solar-system",
+   "scaleExp": {
+    "L": 6,
+    "T": 2,
+    "M": 25
+   },
+   "frameWeight": "share",
+   "framePow": 1,
+   "D0": 0.006,
+   "D0pull": null,
+   "d0Used": 0.006,
+   "d0UsedKey": "physics.D0",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 3,
+   "unitSI": 10000000000000000000,
+   "unitSI_p1": 10000000000000000000,
+   "unitSI_p2": 10000000000000,
+   "d0SI": 60000000000000000,
+   "d0SI_unit": "kg/m",
+   "placesSun": false,
+   "rule": "heliocentric",
+   "ruleWhy": null,
+   "heliocentricBody": "mars",
+   "heliocentricDistanceM": 227939134030.3053,
+   "dbg": {
+    "p1": 8723820104254770000,
+    "p2": 38272585.97505643,
+    "formula": "M☉/r(+ 銀河は別欄)",
+    "galacticRemainder": {
+     "p1": 788003132435817800000,
+     "p2": 3.122700209849943
+    },
+    "undeterminedWhy": null
+   },
+   "dbgSI": 8723820104254770000,
+   "ratio": 0.006877720916177178
+  },
+  {
+   "id": "plutoCharonReal",
+   "emoji": "❄️",
+   "group": "現実との照合・太陽系",
+   "site": "solar-system",
+   "scaleExp": {
+    "L": 6,
+    "T": 2,
+    "M": 25
+   },
+   "frameWeight": "share",
+   "framePow": 1,
+   "D0": 0.006,
+   "D0pull": null,
+   "d0Used": 0.006,
+   "d0UsedKey": "physics.D0",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 10000000000000000000,
+   "unitSI_p1": 10000000000000000000,
+   "unitSI_p2": 10000000000000,
+   "d0SI": 60000000000000000,
+   "d0SI_unit": "kg/m",
+   "placesSun": false,
+   "rule": "heliocentric",
+   "ruleWhy": null,
+   "heliocentricBody": "pluto",
+   "heliocentricDistanceM": 5906440633928.272,
+   "dbg": {
+    "p1": 336666382216303200,
+    "p2": 56999.87574282824,
+    "formula": "M☉/r(+ 銀河は別欄)",
+    "galacticRemainder": {
+     "p1": 788003132435817800000,
+     "p2": 3.122700209849943
+    },
+    "undeterminedWhy": null
+   },
+   "dbgSI": 336666382216303200,
+   "ratio": 0.1782179723589119
+  },
+  {
+   "id": "uranusReal",
+   "emoji": "💠",
+   "group": "現実との照合・太陽系",
+   "site": "solar-system",
+   "scaleExp": {
+    "L": 6,
+    "T": 2,
+    "M": 25
+   },
+   "frameWeight": "share",
+   "framePow": 1,
+   "D0": 0.006,
+   "D0pull": null,
+   "d0Used": 0.006,
+   "d0UsedKey": "physics.D0",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 17,
+   "unitSI": 10000000000000000000,
+   "unitSI_p1": 10000000000000000000,
+   "unitSI_p2": 10000000000000,
+   "d0SI": 60000000000000000,
+   "d0SI_unit": "kg/m",
+   "placesSun": false,
+   "rule": "heliocentric",
+   "ruleWhy": null,
+   "heliocentricBody": "uranus",
+   "heliocentricDistanceM": 2870972230441.565,
+   "dbg": {
+    "p1": 692622512651110500,
+    "p2": 241250.16094097955,
+    "formula": "M☉/r(+ 銀河は別欄)",
+    "galacticRemainder": {
+     "p1": 788003132435817800000,
+     "p2": 3.122700209849943
+    },
+    "undeterminedWhy": null
+   },
+   "dbgSI": 692622512651110500,
+   "ratio": 0.08662727373723607
+  },
+  {
+   "id": "neptuneReal",
+   "emoji": "🌊",
+   "group": "現実との照合・太陽系",
+   "site": "solar-system",
+   "scaleExp": {
+    "L": 7,
+    "T": 3,
+    "M": 26
+   },
+   "frameWeight": "share",
+   "framePow": 1,
+   "D0": 0.006,
+   "D0pull": null,
+   "d0Used": 0.006,
+   "d0UsedKey": "physics.D0",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 10000000000000000000,
+   "unitSI_p1": 10000000000000000000,
+   "unitSI_p2": 1000000000000,
+   "d0SI": 60000000000000000,
+   "d0SI_unit": "kg/m",
+   "placesSun": false,
+   "rule": "heliocentric",
+   "ruleWhy": null,
+   "heliocentricBody": "neptune",
+   "heliocentricDistanceM": 4498252838957.084,
+   "dbg": {
+    "p1": 442060522427421400,
+    "p2": 98273.82725109617,
+    "formula": "M☉/r(+ 銀河は別欄)",
+    "galacticRemainder": {
+     "p1": 788003132435817800000,
+     "p2": 3.122700209849943
+    },
+    "undeterminedWhy": null
+   },
+   "dbgSI": 442060522427421400,
+   "ratio": 0.13572802129113656
+  },
+  {
+   "id": "alphaCenAB",
+   "emoji": "✨",
+   "group": "現実との照合・連星",
+   "site": "galactic",
+   "scaleExp": {
+    "L": 10,
+    "T": 6,
+    "M": 29
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 0.324204,
+   "d0Used": 0.324204,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 0,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 1000000000,
+   "unitSI_p1": 10000000000000000000,
+   "unitSI_p2": 1000000000,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": "galactic",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": 788003132435817800000,
+    "p2": 3.122700209849943,
+    "formula": "M_enc(R₀)/R₀",
+    "undeterminedWhy": null
+   },
+   "dbgSI": 3.122700209849943,
+   "ratio": 103821685.78890869
+  },
+  {
+   "id": "alphaCenABDFM",
+   "emoji": "✴️",
+   "group": "現実との照合・連星",
+   "site": "galactic",
+   "scaleExp": {
+    "L": 10,
+    "T": 6,
+    "M": 29
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 0.324204,
+   "d0Used": 0.324204,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 1000000000,
+   "unitSI_p1": 10000000000000000000,
+   "unitSI_p2": 1000000000,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": "galactic",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": 788003132435817800000,
+    "p2": 3.122700209849943,
+    "formula": "M_enc(R₀)/R₀",
+    "undeterminedWhy": null
+   },
+   "dbgSI": 3.122700209849943,
+   "ratio": 103821685.78890869
+  },
+  {
+   "id": "siriusAB",
+   "emoji": "🌟",
+   "group": "現実との照合・連星",
+   "site": "galactic",
+   "scaleExp": {
+    "L": 10,
+    "T": 6,
+    "M": 29
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 0.324204,
+   "d0Used": 0.324204,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 0,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 1000000000,
+   "unitSI_p1": 10000000000000000000,
+   "unitSI_p2": 1000000000,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": "galactic",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": 788003132435817800000,
+    "p2": 3.122700209849943,
+    "formula": "M_enc(R₀)/R₀",
+    "undeterminedWhy": null
+   },
+   "dbgSI": 3.122700209849943,
+   "ratio": 103821685.78890869
+  },
+  {
+   "id": "siriusABDFM",
+   "emoji": "💫",
+   "group": "現実との照合・連星",
+   "site": "galactic",
+   "scaleExp": {
+    "L": 10,
+    "T": 6,
+    "M": 29
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 0.324204,
+   "d0Used": 0.324204,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 1000000000,
+   "unitSI_p1": 10000000000000000000,
+   "unitSI_p2": 1000000000,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": "galactic",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": 788003132435817800000,
+    "p2": 3.122700209849943,
+    "formula": "M_enc(R₀)/R₀",
+    "undeterminedWhy": null
+   },
+   "dbgSI": 3.122700209849943,
+   "ratio": 103821685.78890869
+  },
+  {
+   "id": "psrDoubleAB",
+   "emoji": "📻",
+   "group": "現実との照合・連星",
+   "site": "galactic",
+   "scaleExp": {
+    "L": 6,
+    "T": 1,
+    "M": 27
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 3.24204e-7,
+   "d0Used": 3.24204e-7,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 0,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 1000000000000000,
+   "unitSI_p1": 1e+21,
+   "unitSI_p2": 1000000000000000,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": "galactic",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": 788003132435817800000,
+    "p2": 3.122700209849943,
+    "formula": "M_enc(R₀)/R₀",
+    "undeterminedWhy": null
+   },
+   "dbgSI": 3.122700209849943,
+   "ratio": 103821685.78890869
+  },
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "group": "現実との照合・連星",
+   "site": "galactic",
+   "scaleExp": {
+    "L": 6,
+    "T": 1,
+    "M": 27
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 3.24204e-7,
+   "d0Used": 3.24204e-7,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 1000000000000000,
+   "unitSI_p1": 1e+21,
+   "unitSI_p2": 1000000000000000,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": "galactic",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": 788003132435817800000,
+    "p2": 3.122700209849943,
+    "formula": "M_enc(R₀)/R₀",
+    "undeterminedWhy": null
+   },
+   "dbgSI": 3.122700209849943,
+   "ratio": 103821685.78890869
+  },
+  {
+   "id": "psrDoubleABSpinCal",
+   "emoji": "🧿",
+   "group": "現実との照合・連星",
+   "site": "galactic",
+   "scaleExp": {
+    "L": 6,
+    "T": 1,
+    "M": 27
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 3.24204e-7,
+   "d0Used": 3.24204e-7,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 1000000000000000,
+   "unitSI_p1": 1e+21,
+   "unitSI_p2": 1000000000000000,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": "galactic",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": 788003132435817800000,
+    "p2": 3.122700209849943,
+    "formula": "M_enc(R₀)/R₀",
+    "undeterminedWhy": null
+   },
+   "dbgSI": 3.122700209849943,
+   "ratio": 103821685.78890869
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "group": "現実との照合・連星",
+   "site": "galactic",
+   "scaleExp": {
+    "L": 6,
+    "T": 1,
+    "M": 27
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 3.24204e-7,
+   "d0Used": 3.24204e-7,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 1000000000000000,
+   "unitSI_p1": 1e+21,
+   "unitSI_p2": 1000000000000000,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": "galactic",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": 788003132435817800000,
+    "p2": 3.122700209849943,
+    "formula": "M_enc(R₀)/R₀",
+    "undeterminedWhy": null
+   },
+   "dbgSI": 3.122700209849943,
+   "ratio": 103821685.78890869
+  },
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "group": "現実との照合・連星",
+   "site": "galactic",
+   "scaleExp": {
+    "L": 6,
+    "T": 1,
+    "M": 27
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 3.24204e-7,
+   "d0Used": 3.24204e-7,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 1000000000000000,
+   "unitSI_p1": 1e+21,
+   "unitSI_p2": 1000000000000000,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": "galactic",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": 788003132435817800000,
+    "p2": 3.122700209849943,
+    "formula": "M_enc(R₀)/R₀",
+    "undeterminedWhy": null
+   },
+   "dbgSI": 3.122700209849943,
+   "ratio": 103821685.78890869
+  },
+  {
+   "id": "psrDoubleABPN",
+   "emoji": "🪶",
+   "group": "現実との照合・連星",
+   "site": "galactic",
+   "scaleExp": {
+    "L": 6,
+    "T": 1,
+    "M": 27
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 3.24204e-7,
+   "d0Used": 3.24204e-7,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 1000000000000000,
+   "unitSI_p1": 1e+21,
+   "unitSI_p2": 1000000000000000,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": "galactic",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": 788003132435817800000,
+    "p2": 3.122700209849943,
+    "formula": "M_enc(R₀)/R₀",
+    "undeterminedWhy": null
+   },
+   "dbgSI": 3.122700209849943,
+   "ratio": 103821685.78890869
+  },
+  {
+   "id": "psrJ1757PN",
+   "emoji": "🪃",
+   "group": "現実との照合・連星",
+   "site": "galactic",
+   "scaleExp": {
+    "L": 6,
+    "T": 1,
+    "M": 27
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 3.24204e-7,
+   "d0Used": 3.24204e-7,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 1000000000000000,
+   "unitSI_p1": 1e+21,
+   "unitSI_p2": 1000000000000000,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": "galactic",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": 788003132435817800000,
+    "p2": 3.122700209849943,
+    "formula": "M_enc(R₀)/R₀",
+    "undeterminedWhy": null
+   },
+   "dbgSI": 3.122700209849943,
+   "ratio": 103821685.78890869
+  },
+  {
+   "id": "psrJ1946PN",
+   "emoji": "🪀",
+   "group": "現実との照合・連星",
+   "site": "galactic",
+   "scaleExp": {
+    "L": 6,
+    "T": 1,
+    "M": 27
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 3.24204e-7,
+   "d0Used": 3.24204e-7,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 1000000000000000,
+   "unitSI_p1": 1e+21,
+   "unitSI_p2": 1000000000000000,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": "galactic",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": 788003132435817800000,
+    "p2": 3.122700209849943,
+    "formula": "M_enc(R₀)/R₀",
+    "undeterminedWhy": null
+   },
+   "dbgSI": 3.122700209849943,
+   "ratio": 103821685.78890869
+  },
+  {
+   "id": "psrDoubleABCF",
+   "emoji": "🪝",
+   "group": "現実との照合・連星",
+   "site": "galactic",
+   "scaleExp": {
+    "L": 6,
+    "T": 1,
+    "M": 27
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 3.24204e-7,
+   "d0Used": 3.24204e-7,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 1000000000000000,
+   "unitSI_p1": 1e+21,
+   "unitSI_p2": 1000000000000000,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": "galactic",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": 788003132435817800000,
+    "p2": 3.122700209849943,
+    "formula": "M_enc(R₀)/R₀",
+    "undeterminedWhy": null
+   },
+   "dbgSI": 3.122700209849943,
+   "ratio": 103821685.78890869
+  },
+  {
+   "id": "psrJ1757CF",
+   "emoji": "🪄",
+   "group": "現実との照合・連星",
+   "site": "galactic",
+   "scaleExp": {
+    "L": 6,
+    "T": 1,
+    "M": 27
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 3.24204e-7,
+   "d0Used": 3.24204e-7,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 1000000000000000,
+   "unitSI_p1": 1e+21,
+   "unitSI_p2": 1000000000000000,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": "galactic",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": 788003132435817800000,
+    "p2": 3.122700209849943,
+    "formula": "M_enc(R₀)/R₀",
+    "undeterminedWhy": null
+   },
+   "dbgSI": 3.122700209849943,
+   "ratio": 103821685.78890869
+  },
+  {
+   "id": "psrJ1946CF",
+   "emoji": "🩹",
+   "group": "現実との照合・連星",
+   "site": "galactic",
+   "scaleExp": {
+    "L": 6,
+    "T": 1,
+    "M": 27
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 3.24204e-7,
+   "d0Used": 3.24204e-7,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 1000000000000000,
+   "unitSI_p1": 1e+21,
+   "unitSI_p2": 1000000000000000,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": "galactic",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": 788003132435817800000,
+    "p2": 3.122700209849943,
+    "formula": "M_enc(R₀)/R₀",
+    "undeterminedWhy": null
+   },
+   "dbgSI": 3.122700209849943,
+   "ratio": 103821685.78890869
+  },
+  {
+   "id": "psrB1534",
+   "emoji": "📿",
+   "group": "現実との照合・連星",
+   "site": "galactic",
+   "scaleExp": {
+    "L": 6,
+    "T": 1,
+    "M": 27
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 3.24204e-7,
+   "d0Used": 3.24204e-7,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 0,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 1000000000000000,
+   "unitSI_p1": 1e+21,
+   "unitSI_p2": 1000000000000000,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": "galactic",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": 788003132435817800000,
+    "p2": 3.122700209849943,
+    "formula": "M_enc(R₀)/R₀",
+    "undeterminedWhy": null
+   },
+   "dbgSI": 3.122700209849943,
+   "ratio": 103821685.78890869
+  },
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "group": "現実との照合・連星",
+   "site": "galactic",
+   "scaleExp": {
+    "L": 6,
+    "T": 1,
+    "M": 27
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 3.24204e-7,
+   "d0Used": 3.24204e-7,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 1000000000000000,
+   "unitSI_p1": 1e+21,
+   "unitSI_p2": 1000000000000000,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": "galactic",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": 788003132435817800000,
+    "p2": 3.122700209849943,
+    "formula": "M_enc(R₀)/R₀",
+    "undeterminedWhy": null
+   },
+   "dbgSI": 3.122700209849943,
+   "ratio": 103821685.78890869
+  },
+  {
+   "id": "psrB1534CF",
+   "emoji": "🪤",
+   "group": "現実との照合・連星",
+   "site": "galactic",
+   "scaleExp": {
+    "L": 6,
+    "T": 1,
+    "M": 27
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 3.24204e-7,
+   "d0Used": 3.24204e-7,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 1000000000000000,
+   "unitSI_p1": 1e+21,
+   "unitSI_p2": 1000000000000000,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": "galactic",
+   "ruleWhy": null,
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": {
+    "p1": 788003132435817800000,
+    "p2": 3.122700209849943,
+    "formula": "M_enc(R₀)/R₀",
+    "undeterminedWhy": null
+   },
+   "dbgSI": 3.122700209849943,
+   "ratio": 103821685.78890869
+  },
+  {
+   "id": "gw150914",
+   "emoji": "🎐",
+   "group": "実在天体のアナロジー",
+   "site": "extragalactic",
+   "scaleExp": {
+    "L": 4,
+    "T": -3,
+    "M": 29
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 3.24204e-13,
+   "d0Used": 3.24204e-13,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 0,
+   "softening": 0.05,
+   "geoPN": 0,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 1e+21,
+   "unitSI_p1": 1e+25,
+   "unitSI_p2": 1e+21,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": null,
+   "ruleWhy": "ホスト銀河の質量分布が宣言されていない(系外)",
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": null,
+   "dbgSI": null,
+   "ratio": null
+  },
+  {
+   "id": "gw150914DFM",
+   "emoji": "🎻",
+   "group": "実在天体のアナロジー",
+   "site": "extragalactic",
+   "scaleExp": {
+    "L": 4,
+    "T": -3,
+    "M": 29
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 3.24204e-13,
+   "d0Used": 3.24204e-13,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 0,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 1e+21,
+   "unitSI_p1": 1e+25,
+   "unitSI_p2": 1e+21,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": null,
+   "ruleWhy": "ホスト銀河の質量分布が宣言されていない(系外)",
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": null,
+   "dbgSI": null,
+   "ratio": null
+  },
+  {
+   "id": "gw150914Merge4s",
+   "emoji": "⏰",
+   "group": "実在天体のアナロジー",
+   "site": "extragalactic",
+   "scaleExp": {
+    "L": 4,
+    "T": -3,
+    "M": 29
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 3.24204e-13,
+   "d0Used": 3.24204e-13,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 0,
+   "D0Source": null,
+   "nBodies": 2,
+   "unitSI": 1e+21,
+   "unitSI_p1": 1e+25,
+   "unitSI_p2": 1e+21,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": null,
+   "ruleWhy": "ホスト銀河の質量分布が宣言されていない(系外)",
+   "heliocentricBody": null,
+   "heliocentricDistanceM": null,
+   "dbg": null,
+   "dbgSI": null,
+   "ratio": null
+  },
+  {
+   "id": "saturnZonalD68",
+   "emoji": "📡",
+   "group": "現実との照合・太陽系",
+   "site": "solar-system",
+   "scaleExp": {
+    "L": 6,
+    "T": 2,
+    "M": 25
+   },
+   "frameWeight": "share",
+   "framePow": 1,
+   "D0": 0.1,
+   "D0pull": null,
+   "d0Used": 0.1,
+   "d0UsedKey": "physics.D0",
+   "kFrame": 0,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 11,
+   "unitSI": 10000000000000000000,
+   "unitSI_p1": 10000000000000000000,
+   "unitSI_p2": 10000000000000,
+   "d0SI": 1000000000000000000,
+   "d0SI_unit": "kg/m",
+   "placesSun": false,
+   "rule": "heliocentric",
+   "ruleWhy": null,
+   "heliocentricBody": "saturn",
+   "heliocentricDistanceM": 1433449340211.202,
+   "dbg": {
+    "p1": 1387213307243224800,
+    "p2": 967744.9131469378,
+    "formula": "M☉/r(+ 銀河は別欄)",
+    "galacticRemainder": {
+     "p1": 788003132435817800000,
+     "p2": 3.122700209849943
+    },
+    "undeterminedWhy": null
+   },
+   "dbgSI": 1387213307243224800,
+   "ratio": 0.7208696707121961
+  },
+  {
+   "id": "saturnRingReal",
+   "emoji": "💍",
+   "group": "現実との照合・太陽系",
+   "site": "solar-system",
+   "scaleExp": {
+    "L": 6,
+    "T": 2,
+    "M": 25
+   },
+   "frameWeight": "share",
+   "framePow": 1,
+   "D0": 0.1,
+   "D0pull": null,
+   "d0Used": 0.1,
+   "d0UsedKey": "physics.D0",
+   "kFrame": 0,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 10,
+   "unitSI": 10000000000000000000,
+   "unitSI_p1": 10000000000000000000,
+   "unitSI_p2": 10000000000000,
+   "d0SI": 1000000000000000000,
+   "d0SI_unit": "kg/m",
+   "placesSun": false,
+   "rule": "heliocentric",
+   "ruleWhy": null,
+   "heliocentricBody": "saturn",
+   "heliocentricDistanceM": 1433449340211.202,
+   "dbg": {
+    "p1": 1387213307243224800,
+    "p2": 967744.9131469378,
+    "formula": "M☉/r(+ 銀河は別欄)",
+    "galacticRemainder": {
+     "p1": 788003132435817800000,
+     "p2": 3.122700209849943
+    },
+    "undeterminedWhy": null
+   },
+   "dbgSI": 1387213307243224800,
+   "ratio": 0.7208696707121961
+  },
+  {
+   "id": "saturnRingRealKF1",
+   "emoji": "💿",
+   "group": "現実との照合・太陽系",
+   "site": "solar-system",
+   "scaleExp": {
+    "L": 6,
+    "T": 2,
+    "M": 25
+   },
+   "frameWeight": null,
+   "framePow": 2,
+   "D0": 0.006,
+   "D0pull": 0.0000324204,
+   "d0Used": 0.0000324204,
+   "d0UsedKey": "physics.D0pull",
+   "kFrame": 1,
+   "softening": 0.05,
+   "geoPN": 2,
+   "D0Source": null,
+   "nBodies": 10,
+   "unitSI": 10000000000000,
+   "unitSI_p1": 10000000000000000000,
+   "unitSI_p2": 10000000000000,
+   "d0SI": 324204000,
+   "d0SI_unit": "kg/m²",
+   "placesSun": false,
+   "rule": "heliocentric",
+   "ruleWhy": null,
+   "heliocentricBody": "saturn",
+   "heliocentricDistanceM": 1433449340211.202,
+   "dbg": {
+    "p1": 1387213307243224800,
+    "p2": 967744.9131469378,
+    "formula": "M☉/r(+ 銀河は別欄)",
+    "galacticRemainder": {
+     "p1": 788003132435817800000,
+     "p2": 3.122700209849943
+    },
+    "undeterminedWhy": null
+   },
+   "dbgSI": 967744.9131469378,
+   "ratio": 335.00976920224264
+  }
+ ],
+ "auditSummary": {
+  "rows": 39,
+  "calibration": 37,
+  "byRule": {
+   "undetermined": 5,
+   "heliocentric": 11,
+   "solar-excluded": 5,
+   "galactic": 18
+  },
+  "byFramePow": {
+   "p1": 15,
+   "p2": 24
+  },
+  "unitUnknown": [
+   "galaxyMeshSpiralGeoToy",
+   "galaxyMeshSpiralGeoToyLite"
+  ],
+  "declaredD0Source": [],
+  "ratioRange": {
+   "n": 29,
+   "min": 0.004513890994216746,
+   "max": 103821685.78890869
+  }
+ },
+ "splitInvariance": {
+  "at": {
+   "preset": "venusReal",
+   "refBody": "venus",
+   "px": 1074.5028098051662,
+   "py": 0
+  },
+  "sources": [
+   {
+    "id": "sun",
+    "m": 1988.5,
+    "x": -0.0026301948336568503,
+    "y": 0
+   },
+   {
+    "id": "galaxy",
+    "m": 198849999999999.97,
+    "x": -2523467125069.1377,
+    "y": 0
+   }
+  ],
+  "epsUsed": 0.05,
+  "withSoftening": {
+   "rows": [
+    {
+     "keep": [
+      "sun"
+     ],
+     "nPlaced": 1,
+     "nFolded": 1,
+     "D0": 78.80031324358178,
+     "dPlaced": 1.8506188278089382,
+     "total": 80.65093207139073,
+     "totalIfEpsInBg": 80.65093207139073,
+     "epsGap": 0,
+     "relResidVsFirst": 0
+    },
+    {
+     "keep": [],
+     "nPlaced": 0,
+     "nFolded": 2,
+     "D0": 80.65093207339432,
+     "dPlaced": 0,
+     "total": 80.65093207339432,
+     "totalIfEpsInBg": 80.65093207139073,
+     "epsGap": 2.0035884062963305e-9,
+     "relResidVsFirst": 2.484271855063982e-11
+    },
+    {
+     "keep": [
+      "sun",
+      "galaxy"
+     ],
+     "nPlaced": 2,
+     "nFolded": 0,
+     "D0": 0,
+     "dPlaced": 80.65093207139073,
+     "total": 80.65093207139073,
+     "totalIfEpsInBg": 80.65093207139073,
+     "epsGap": 0,
+     "relResidVsFirst": 0
+    }
+   ],
+   "maxRelResid": 2.484271855063982e-11,
+   "exactAtEpsZero": true,
+   "eps": 0.05,
+   "p": 1
+  },
+  "atEpsZero": {
+   "rows": [
+    {
+     "keep": [
+      "sun"
+     ],
+     "nPlaced": 1,
+     "nFolded": 1,
+     "D0": 78.80031324358178,
+     "dPlaced": 1.8506188298125323,
+     "total": 80.65093207339432,
+     "totalIfEpsInBg": 80.65093207339432,
+     "epsGap": 0,
+     "relResidVsFirst": 0
+    },
+    {
+     "keep": [],
+     "nPlaced": 0,
+     "nFolded": 2,
+     "D0": 80.65093207339432,
+     "dPlaced": 0,
+     "total": 80.65093207339432,
+     "totalIfEpsInBg": 80.65093207339432,
+     "epsGap": 0,
+     "relResidVsFirst": 0
+    },
+    {
+     "keep": [
+      "sun",
+      "galaxy"
+     ],
+     "nPlaced": 2,
+     "nFolded": 0,
+     "D0": 0,
+     "dPlaced": 80.65093207339432,
+     "total": 80.65093207339432,
+     "totalIfEpsInBg": 80.65093207339432,
+     "epsGap": 0,
+     "relResidVsFirst": 0
+    }
+   ],
+   "maxRelResid": 0,
+   "exactAtEpsZero": true,
+   "eps": 0,
+   "p": 1
+  },
+  "galacticUnits": 78.80031324358178,
+  "heliocentricUnits": 1.8506188298125323,
+  "note": "**置いた源には softening が入り、背景へ畳んだ源には入らない** —— ε=0 では厳密に一致し、ε>0 では ε/r の 2 次でずれる(下の epsGap)"
+ },
+ "runs": {
+  "V0_kF0": {
+   "note": "宣言値 D₀=0.006(現行入力)",
+   "cfg": {
+    "preset": "venusReal",
+    "kFrame": 0,
+    "D0": 0.006
+   },
+   "stages": {
+    "h": {
+     "single": false,
+     "steps": 364010,
+     "dt": 0.016,
+     "n": 2,
+     "stop": "orbMax",
+     "nan": false,
+     "rev": [
+      1941.3728606787117,
+      1941.388860730327,
+      1941.3888607819426
+     ],
+     "revN": 3,
+     "rMin": 1074.5053874554592,
+     "rMax": 1089.654713986943,
+     "eProxy": 0.007000095104510494,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 0.006,
+      "kFrame": 0,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 0.291,
+     "rev2Sec": 19413888.60730327,
+     "residPct": -0.0014308762529680514,
+     "sigma": null
+    },
+    "h2": {
+     "single": false,
+     "steps": 728020,
+     "dt": 0.008,
+     "n": 2,
+     "stop": "orbMax",
+     "nan": false,
+     "rev": [
+      1941.3808578510477,
+      1941.3888578774229,
+      1941.388857903065
+     ],
+     "revN": 3,
+     "rMin": 1074.505426863829,
+     "rMax": 1089.654672331225,
+     "eProxy": 0.007000057654251484,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 0.006,
+      "kFrame": 0,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 0.471,
+     "rev2Sec": 19413888.57877423,
+     "residPct": -0.0014310232025713855,
+     "sigma": null
+    },
+    "h4": {
+     "single": false,
+     "steps": 1456041,
+     "dt": 0.004,
+     "n": 2,
+     "stop": "orbMax",
+     "nan": false,
+     "rev": [
+      1941.3848571408125,
+      1941.3888571541975,
+      1941.3888571667812
+     ],
+     "revN": 3,
+     "rMin": 1074.5054367159553,
+     "rMax": 1089.6546619111905,
+     "eProxy": 0.007000048288869778,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 0.006,
+      "kFrame": 0,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 0.792,
+     "rev2Sec": 19413888.571541976,
+     "residPct": -0.0014310604550207536,
+     "sigma": null
+    }
+   }
+  },
+  "V1_kF0": {
+   "note": "規則「太陽を置くので背景に含めない」+ 残りを 0 と置いた場合",
+   "cfg": {
+    "preset": "venusReal",
+    "kFrame": 0,
+    "D0": 0
+   },
+   "stages": {
+    "h": {
+     "single": false,
+     "steps": 364010,
+     "dt": 0.016,
+     "n": 2,
+     "stop": "orbMax",
+     "nan": false,
+     "rev": [
+      1941.3728606787117,
+      1941.388860730327,
+      1941.3888607819426
+     ],
+     "revN": 3,
+     "rMin": 1074.5053874554592,
+     "rMax": 1089.654713986943,
+     "eProxy": 0.007000095104510494,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 0,
+      "kFrame": 0,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 0.205,
+     "rev2Sec": 19413888.60730327,
+     "residPct": -0.0014308762529680514,
+     "sigma": null
+    },
+    "h2": {
+     "single": false,
+     "steps": 728020,
+     "dt": 0.008,
+     "n": 2,
+     "stop": "orbMax",
+     "nan": false,
+     "rev": [
+      1941.3808578510477,
+      1941.3888578774229,
+      1941.388857903065
+     ],
+     "revN": 3,
+     "rMin": 1074.505426863829,
+     "rMax": 1089.654672331225,
+     "eProxy": 0.007000057654251484,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 0,
+      "kFrame": 0,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 0.402,
+     "rev2Sec": 19413888.57877423,
+     "residPct": -0.0014310232025713855,
+     "sigma": null
+    },
+    "h4": {
+     "single": false,
+     "steps": 1456041,
+     "dt": 0.004,
+     "n": 2,
+     "stop": "orbMax",
+     "nan": false,
+     "rev": [
+      1941.3848571408125,
+      1941.3888571541975,
+      1941.3888571667812
+     ],
+     "revN": 3,
+     "rMin": 1074.5054367159553,
+     "rMax": 1089.6546619111905,
+     "eProxy": 0.007000048288869778,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 0,
+      "kFrame": 0,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 0.78,
+     "rev2Sec": 19413888.571541976,
+     "residPct": -0.0014310604550207536,
+     "sigma": null
+    }
+   }
+  },
+  "V2_kF0": {
+   "note": "規則「太陽を置くので背景に含めない」+ 残りを銀河(M_enc(R₀)/R₀)と置いた場合 D₀=78.80031324358178",
+   "cfg": {
+    "preset": "venusReal",
+    "kFrame": 0,
+    "D0": 78.80031324358178
+   },
+   "stages": {
+    "h": {
+     "single": false,
+     "steps": 364010,
+     "dt": 0.016,
+     "n": 2,
+     "stop": "orbMax",
+     "nan": false,
+     "rev": [
+      1941.3728606787117,
+      1941.388860730327,
+      1941.3888607819426
+     ],
+     "revN": 3,
+     "rMin": 1074.5053874554592,
+     "rMax": 1089.654713986943,
+     "eProxy": 0.007000095104510494,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 78.80031324358178,
+      "kFrame": 0,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 0.199,
+     "rev2Sec": 19413888.60730327,
+     "residPct": -0.0014308762529680514,
+     "sigma": null
+    },
+    "h2": {
+     "single": false,
+     "steps": 728020,
+     "dt": 0.008,
+     "n": 2,
+     "stop": "orbMax",
+     "nan": false,
+     "rev": [
+      1941.3808578510477,
+      1941.3888578774229,
+      1941.388857903065
+     ],
+     "revN": 3,
+     "rMin": 1074.505426863829,
+     "rMax": 1089.654672331225,
+     "eProxy": 0.007000057654251484,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 78.80031324358178,
+      "kFrame": 0,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 0.383,
+     "rev2Sec": 19413888.57877423,
+     "residPct": -0.0014310232025713855,
+     "sigma": null
+    },
+    "h4": {
+     "single": false,
+     "steps": 1456041,
+     "dt": 0.004,
+     "n": 2,
+     "stop": "orbMax",
+     "nan": false,
+     "rev": [
+      1941.3848571408125,
+      1941.3888571541975,
+      1941.3888571667812
+     ],
+     "revN": 3,
+     "rMin": 1074.5054367159553,
+     "rMax": 1089.6546619111905,
+     "eProxy": 0.007000048288869778,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 78.80031324358178,
+      "kFrame": 0,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 0.799,
+     "rev2Sec": 19413888.571541976,
+     "residPct": -0.0014310604550207536,
+     "sigma": null
+    }
+   }
+  },
+  "V3_kF0": {
+   "note": "太陽を置かず背景へ畳む(D₀ に太陽 + 銀河)—— **重力が消える**",
+   "cfg": {
+    "preset": "venusReal",
+    "kFrame": 0,
+    "dropSun": true,
+    "D0": 80.65093207339432
+   },
+   "stages": {
+    "h": {
+     "single": true,
+     "steps": 200000,
+     "dt": 0.016,
+     "n": 1,
+     "drift": 11285.369200876914,
+     "speed": 3.526677875273317,
+     "nan": false,
+     "stop": "singleBody",
+     "cfgApplied": {
+      "D0": 80.65093207339432,
+      "kFrame": 0,
+      "softening": 0.05
+     },
+     "wallSec": 0.081,
+     "rev2Sec": null,
+     "residPct": null,
+     "sigma": null
+    },
+    "h2": {
+     "single": true,
+     "steps": 200000,
+     "dt": 0.008,
+     "n": 1,
+     "drift": 5642.684600438457,
+     "speed": 3.526677875273317,
+     "nan": false,
+     "stop": "singleBody",
+     "cfgApplied": {
+      "D0": 80.65093207339432,
+      "kFrame": 0,
+      "softening": 0.05
+     },
+     "wallSec": 0.092,
+     "rev2Sec": null,
+     "residPct": null,
+     "sigma": null
+    },
+    "h4": {
+     "single": true,
+     "steps": 200000,
+     "dt": 0.004,
+     "n": 1,
+     "drift": 2821.3423002192285,
+     "speed": 3.526677875273317,
+     "nan": false,
+     "stop": "singleBody",
+     "cfgApplied": {
+      "D0": 80.65093207339432,
+      "kFrame": 0,
+      "softening": 0.05
+     },
+     "wallSec": 0.078,
+     "rev2Sec": null,
+     "residPct": null,
+     "sigma": null
+    }
+   }
+  },
+  "V0_kF1": {
+   "note": "宣言値 D₀=0.006(現行入力)",
+   "cfg": {
+    "preset": "venusReal",
+    "kFrame": 1,
+    "D0": 0.006
+   },
+   "stages": {
+    "h": {
+     "single": false,
+     "steps": 364017,
+     "dt": 0.016,
+     "n": 2,
+     "stop": "orbMax",
+     "nan": false,
+     "rev": [
+      1941.4092300828236,
+      1941.426684737822,
+      1941.4281014559292
+     ],
+     "revN": 3,
+     "rMin": 1074.505387650006,
+     "rMax": 1089.673408030999,
+     "eProxy": 0.007008672486424646,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 0.006,
+      "kFrame": 1,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 0.387,
+     "rev2Sec": 19414266.84737822,
+     "residPct": 0.000517392177198498,
+     "sigma": null
+    },
+    "h2": {
+     "single": false,
+     "steps": 728034,
+     "dt": 0.008,
+     "n": 2,
+     "stop": "orbMax",
+     "nan": false,
+     "rev": [
+      1941.4168477055991,
+      1941.425452174597,
+      1941.4261837865088
+     ],
+     "revN": 3,
+     "rMin": 1074.5054269124657,
+     "rMax": 1089.672643925619,
+     "eProxy": 0.007008303622298383,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 0.006,
+      "kFrame": 1,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 0.682,
+     "rev2Sec": 19414254.52174597,
+     "residPct": 0.0004539043508460923,
+     "sigma": null
+    },
+    "h4": {
+     "single": false,
+     "steps": 1456068,
+     "dt": 0.004,
+     "n": 2,
+     "stop": "orbMax",
+     "nan": false,
+     "rev": [
+      1941.4207159545642,
+      1941.4251483249652,
+      1941.425512945195
+     ],
+     "revN": 3,
+     "rMin": 1074.5054367281134,
+     "rMax": 1089.6723448152945,
+     "eProxy": 0.007008161813935949,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 0.006,
+      "kFrame": 1,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 1.315,
+     "rev2Sec": 19414251.483249653,
+     "residPct": 0.00043825342742823554,
+     "sigma": null
+    }
+   }
+  },
+  "V1_kF1": {
+   "note": "規則「太陽を置くので背景に含めない」+ 残りを 0 と置いた場合",
+   "cfg": {
+    "preset": "venusReal",
+    "kFrame": 1,
+    "D0": 0
+   },
+   "stages": {
+    "h": {
+     "single": false,
+     "steps": 400000,
+     "dt": 0.016,
+     "n": 2,
+     "stop": "steps",
+     "nan": false,
+     "rev": [],
+     "revN": 0,
+     "rMin": 1074.5054385389844,
+     "rMax": 9887.950756262873,
+     "eProxy": 0.803966297434604,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 0,
+      "kFrame": 1,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 0.382,
+     "rev2Sec": null,
+     "residPct": null,
+     "sigma": null
+    },
+    "h2": {
+     "single": false,
+     "steps": 800000,
+     "dt": 0.008,
+     "n": 2,
+     "stop": "steps",
+     "nan": false,
+     "rev": [],
+     "revN": 0,
+     "rMin": 1074.5054396347462,
+     "rMax": 9887.301511002623,
+     "eProxy": 0.8039546865816188,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 0,
+      "kFrame": 1,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 0.752,
+     "rev2Sec": null,
+     "residPct": null,
+     "sigma": null
+    },
+    "h4": {
+     "single": false,
+     "steps": 1600000,
+     "dt": 0.004,
+     "n": 2,
+     "stop": "steps",
+     "nan": false,
+     "rev": [],
+     "revN": 0,
+     "rMin": 1074.5054399086864,
+     "rMax": 9889.988241602357,
+     "eProxy": 0.8040027253204445,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 0,
+      "kFrame": 1,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 1.481,
+     "rev2Sec": null,
+     "residPct": null,
+     "sigma": null
+    }
+   }
+  },
+  "V2_kF1": {
+   "note": "規則「太陽を置くので背景に含めない」+ 残りを銀河(M_enc(R₀)/R₀)と置いた場合 D₀=78.80031324358178",
+   "cfg": {
+    "preset": "venusReal",
+    "kFrame": 1,
+    "D0": 78.80031324358178
+   },
+   "stages": {
+    "h": {
+     "single": false,
+     "steps": 364010,
+     "dt": 0.016,
+     "n": 2,
+     "stop": "orbMax",
+     "nan": false,
+     "rev": [
+      1941.3730992885708,
+      1941.3890991337717,
+      1941.3890989767606
+     ],
+     "revN": 3,
+     "rMin": 1074.5053873079812,
+     "rMax": 1089.6548452838472,
+     "eProxy": 0.007000155417199756,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 78.80031324358178,
+      "kFrame": 1,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 0.354,
+     "rev2Sec": 19413890.991337717,
+     "residPct": -0.0014185963827008843,
+     "sigma": null
+    },
+    "h2": {
+     "single": false,
+     "steps": 728020,
+     "dt": 0.008,
+     "n": 2,
+     "stop": "orbMax",
+     "nan": false,
+     "rev": [
+      1941.3810965094315,
+      1941.3890964297182,
+      1941.389096352019
+     ],
+     "revN": 3,
+     "rMin": 1074.5054267879234,
+     "rMax": 1089.6548036602512,
+     "eProxy": 0.0070001179483787776,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 78.80031324358178,
+      "kFrame": 1,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 0.697,
+     "rev2Sec": 19413890.964297183,
+     "residPct": -0.0014187356651875194,
+     "sigma": null
+    },
+    "h4": {
+     "single": false,
+     "steps": 1456041,
+     "dt": 0.004,
+     "n": 2,
+     "stop": "orbMax",
+     "nan": false,
+     "rev": [
+      1941.385095822497,
+      1941.3890957846338,
+      1941.3890957481963
+     ],
+     "revN": 3,
+     "rMin": 1074.5054366807462,
+     "rMax": 1089.6547932563883,
+     "eProxy": 0.007000108571481385,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 78.80031324358178,
+      "kFrame": 1,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 1.394,
+     "rev2Sec": 19413890.95784634,
+     "residPct": -0.0014187688926922861,
+     "sigma": null
+    }
+   }
+  },
+  "V3_kF1": {
+   "note": "太陽を置かず背景へ畳む(D₀ に太陽 + 銀河)—— **重力が消える**",
+   "cfg": {
+    "preset": "venusReal",
+    "kFrame": 1,
+    "dropSun": true,
+    "D0": 80.65093207339432
+   },
+   "stages": {
+    "h": {
+     "single": true,
+     "steps": 200000,
+     "dt": 0.016,
+     "n": 1,
+     "drift": 11285.369200876914,
+     "speed": 3.526677875273317,
+     "nan": false,
+     "stop": "singleBody",
+     "cfgApplied": {
+      "D0": 80.65093207339432,
+      "kFrame": 1,
+      "softening": 0.05
+     },
+     "wallSec": 0.17,
+     "rev2Sec": null,
+     "residPct": null,
+     "sigma": null
+    },
+    "h2": {
+     "single": true,
+     "steps": 200000,
+     "dt": 0.008,
+     "n": 1,
+     "drift": 5642.684600438457,
+     "speed": 3.526677875273317,
+     "nan": false,
+     "stop": "singleBody",
+     "cfgApplied": {
+      "D0": 80.65093207339432,
+      "kFrame": 1,
+      "softening": 0.05
+     },
+     "wallSec": 0.133,
+     "rev2Sec": null,
+     "residPct": null,
+     "sigma": null
+    },
+    "h4": {
+     "single": true,
+     "steps": 200000,
+     "dt": 0.004,
+     "n": 1,
+     "drift": 2821.3423002192285,
+     "speed": 3.526677875273317,
+     "nan": false,
+     "stop": "singleBody",
+     "cfgApplied": {
+      "D0": 80.65093207339432,
+      "kFrame": 1,
+      "softening": 0.05
+     },
+     "wallSec": 0.13,
+     "rev2Sec": null,
+     "residPct": null,
+     "sigma": null
+    }
+   }
+  }
+ },
+ "pageErrors": []
+}

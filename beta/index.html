@@ -3685,6 +3685,45 @@ function validateShapeToy(a){
   }
   return {ok:true, shapeToy:out};
 }
+// ===== 第275便b(原仮定者の裁定〔第65報〕(2)): physics.D0Source — **D₀ の背景の出所**の宣言 =====
+// 裁定の字義は「**D₀ は『何を背景とするか』でサンプル毎に変わる**」である(慣習の一値を固定しない):
+//   ・太陽を天体として**置く**サンプルでは、太陽は背景に含めない   … "solar-excluded"
+//   ・太陽を**置かない**サンプルでは、太陽からの距離で決まる       … "heliocentric"
+//   ・太陽系外のサンプルは**銀河内位置**(銀河の質量分布からの寄与) … "galactic"
+//   ・銀河サンプルでは**銀河自身を含めない**/その他は出所を名指しする … "declared"(note 必須)
+// D₀ は「**分解して置いていない源の決定力の総和**」D_bg(x*) = Σ_{j∉分解集合} m_j/√(r_j²+ε²) であり、
+// **距離に反比例する**(単位は 質量/長さ)。したがって**距離の二乗に反比例する空間メッシュ
+// (複素決定力場・need:"mesh")には使わない** —— これは裁定の後段そのものである。
+// **この鍵は宣言専用**(表示・監査用)で、**エンジンのどの経路からも読まれない**:
+// D₀ の値そのものは従来どおり `physics.D0` / `physics.D0pull` が持ち、本鍵は「その値が
+// どの背景を数えた総和なのか」を書くだけである。**未宣言は 1 bit も変わらない**
+// (ph に入らない = presetSig・エクスポート JSON が 1 文字も変わらない)。
+// **内蔵 128 本は 1 本もこの鍵を宣言していない**(本便が足したのは受理契約だけである)。
+const D0_SOURCE_KEY = "D0Source";
+const D0_BACKGROUNDS = ["solar-excluded","heliocentric","galactic","declared"];
+const D0_SOURCE_NOTE_MAX = 200;
+function validateD0Source(a){
+  if(a===null || a===undefined) return {ok:true, d0Source:null};
+  if(typeof a!=="object" || Array.isArray(a))
+    return {ok:false, err:"physics.D0Source はオブジェクト({background,refPos?,note?})か null"};
+  if(D0_BACKGROUNDS.indexOf(a.background)<0)
+    return {ok:false, err:'physics.D0Source.background は "solar-excluded"/"heliocentric"/"galactic"/"declared" のみ'};
+  const out={background:a.background};
+  if(a.refPos!==undefined && a.refPos!==null){
+    if(!Array.isArray(a.refPos) || a.refPos.length!==2 || !isNum(a.refPos[0]) || !isNum(a.refPos[1]))
+      return {ok:false, err:"physics.D0Source.refPos は有限数 2 つの配列 [x,y](D_bg を評価した基準点)"};
+    out.refPos=[a.refPos[0],a.refPos[1]];
+  }
+  if(a.note!==undefined && a.note!==null){
+    if(typeof a.note!=="string" || a.note.length>D0_SOURCE_NOTE_MAX)
+      return {ok:false, err:"physics.D0Source.note は "+D0_SOURCE_NOTE_MAX+" 字以内の文字列"};
+    if(a.note!=="") out.note=a.note;
+  }
+  // **名前のない "declared" は受理しない**(「宣言した」とだけ書いて出所を書かない宣言を通さない門)
+  if(a.background==="declared" && out.note===undefined)
+    return {ok:false, err:'physics.D0Source.background:"declared" は note に背景の出所を書くこと(出所を名指ししない宣言は受理しない)'};
+  return {ok:true, d0Source:out};
+}
 // 第246便(ChatGPT v4 §5.3/5.4): コアv2 の**実行状態**の値域(編集入口 S.applyCoreEdit が使う)。入力の値域(検証器 vCore:
 // massFrac 0.01〜0.95・Ω ±50)はプリセット/AI 生成の推奨範囲で、収縮(Ω↑)や放出(massFrac↑)を経た実行状態はこれを
 // 超えて正当。有限殻 0<Mc<M(massFrac<1)は維持(Mc=M の裸のコアは終端状態の別設計 — S4 第 2 段)
@@ -14613,6 +14652,14 @@ function validatePreset(obj){
         const stv=validateShapeToy(p.physics[k]);
         if(!stv.ok){ bad(stv.err); continue; }
         if(stv.shapeToy!==null) ph[k]=stv.shapeToy;
+        continue;
+      }
+      // 第275便b(第65報 (2)): D0Source — **宣言専用のオブジェクト鍵**(既定は無し=ph へ入れない=署名不変)。
+      // 「この D₀ は何を背景として数えた総和か」だけを持ち、**力学・光学・帳簿のどの経路からも読まれない**
+      if(k===D0_SOURCE_KEY){
+        const dsv=validateD0Source(p.physics[k]);
+        if(!dsv.ok){ bad(dsv.err); continue; }
+        if(dsv.d0Source!==null) ph[k]=dsv.d0Source;
         continue;
       }
       // 第273便b(AH1): kFrameApprox — **宣言専用の文字列キー**(既定は無し=ph へ入れない=署名不変)。
@@ -39612,6 +39659,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // QA behavior.shapeToyStationary が expm・恒等式 C=F C Fᵀ+Q_h・定常共分散・未宣言のビット不変を機械固定する
   dfmShapeToyStep, shapeToyDisc, shapeToyGrow, shapeToyFrame, shapeToyInitLatent, validateShapeToy,
   SHAPE_TOY_KEY, SHAPE_TOY_SHAPES, SHAPE_TOY_CENTERS, SHAPE_TOY_COUPLINGS, SHAPE_TOY_SUPPLY, SHAPE_TOY_CLAMPS,
+  // 第275便b(第65報 (2)): D₀ の**背景の出所**の宣言鍵(**宣言専用** — エンジンは 1 箇所も読まない)。
+  // QA preset.d0source-declared が「受理契約」「未宣言の 1 bit 不変」「内蔵の宣言 0 本」を機械固定する
+  validateD0Source, D0_SOURCE_KEY, D0_BACKGROUNDS, D0_SOURCE_NOTE_MAX,
   // 第264便b(第56報): **源の閉包**の値域("gravity" 既定 /"iterate" 診断)と反復・残差の宣言値。
   // QA behavior.geoToyClosure が「既定は 122 本ビット不変」「iterate は反復数と残差を返す」
   // 「特異点(det=1−η²χ₀χ₁→0)で収束しない」を機械固定する

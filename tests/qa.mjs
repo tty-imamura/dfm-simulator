@@ -1920,7 +1920,11 @@ const add = (id, pass, detail) => {
       // 第274便d(第64報): 形状トイ(指定した 3D 正規分布を定常分布に持つ参照モデル)の完成判定
       'tests/out/shapetoy-w274d.json',
       // 第274便a(第64報): kF0 棚卸し表の正本(較正 37 本 + 診断系列の 4 列)
-      'tests/out/kf0ledger-w274a.json'];
+      'tests/out/kf0ledger-w274a.json',
+      // 第275便b(第65報 (2)): D₀ の単位監査・規則適用表・源分割不変性 / 複素場の D₀ 非依存版 /
+      //   ❄️ の D₀ 系列(**第272便b の正本 charon-w272b.json は 1 バイトも触っていない**)
+      'tests/out/d0audit-w275b.json', 'tests/out/meshnod0-w275b.json',
+      'tests/out/charond0-w275b.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -5878,6 +5882,93 @@ const add = (id, pass, detail) => {
       + ` —— **宣言専用で力学には 1 bit も効かない**ことを同じ步数の突き合わせで実測した)/ `
       + `**判定はしていない**(「合/否」「新発見」は書かない —— 次数が立ち・残差が観測 σ の 3 倍に入り・`
       + `**独立な観測量を予測できた**ときにだけ結論の語を使う)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 0a3z3) 第275便b(原仮定者の裁定〔第65報〕(2)): docs.d0audit-sync ----
+// ----   **D₀ の単位監査・規則適用表・源分割不変性**の正本 JSON と、docs/PHYSICS.md〔第275便b〕節を
+// ----   突き合わせる。裁定は「**D₀ は『何を背景とするか』でサンプル毎に変わる**/
+// ----   **D₀ の補正は冥王星とカロンで検証する**/**D₀ は複素決定力場(距離の二乗に反比例)では使わない**」。
+// ----   固定するのは 8 点で、**どれも合否ではない**:
+// ----     ① `meta.targetSha256` が**いま検査している html の SHA-256**と一致する。
+// ----     ② 較正 37 本 + 🪁🎋 の **39 行**がそろい、規則の内訳が JSON の集計と一致する。
+// ----     ③ **仮定がすべて出典つきで列挙されている**(質量・距離・銀河の参考値 —— 推定で埋めない)。
+// ----     ④ **源分割不変性**が ε=0 で厳密(相対残差 ≤4e-16)であり、ε>0 のずれが `epsGap` に出ている。
+// ----     ⑤ 🌇 の短窓走行に **kF0/kF1 × D₀ 4 点**がそろい、**V0 が判定器の正本と一致**する(独立照合)。
+// ----     ⑥ **D₀ の値は 1 本も変えていない**(監査の `D0` 欄が内蔵の宣言値と同じ)。
+// ----     ⑦ 書かない語(`meta.notClaim`)が宣言されていて、JSON 本文にその語が出てこない。
+// ----     ⑧ docs/PHYSICS.md に〔第275便b〕節があり、節に出る主要な数が正本と一致する。
+// ----   **beta 線の走行なので root は SKIP** する。
+{
+  const bad = [];
+  const cases = [];
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.d0audit-sync(beta 対象でない: ' + TARGET + ' — 監査は beta 線の実測)');
+  } else {
+    try {
+      const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'd0audit-w275b.json'), 'utf8');
+      const J = JSON.parse(text);
+      const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(別ソースの走行)');
+      else cases.push('html の SHA-256 一致');
+      const rows = J.audit || [], S = J.auditSummary || {};
+      if (rows.length !== 39) bad.push(`② 監査の行数が 39(較正 37 + 🪁🎋)でない(${rows.length})`);
+      const byRule = rows.reduce((o, a) => { const k = a.rule || 'undetermined'; o[k] = (o[k] || 0) + 1; return o; }, {});
+      if (JSON.stringify(byRule) !== JSON.stringify(S.byRule))
+        bad.push('② 規則の内訳が集計と一致しない');
+      cases.push(`39 行・規則の内訳 ${JSON.stringify(byRule)}`);
+      const asm = J.meta.assumptions || [];
+      if (!asm.length) bad.push('③ 仮定の一覧が無い');
+      for (const a of asm) if (!a.from) bad.push(`③ 仮定 ${a.key} に出典が無い`);
+      cases.push(`仮定 ${asm.length} 件(すべて出典つき)`);
+      const si = J.splitInvariance || {};
+      if (!(si.atEpsZero && si.atEpsZero.maxRelResid <= 4e-16))
+        bad.push(`④ 源分割不変性が ε=0 で厳密でない(${si.atEpsZero && si.atEpsZero.maxRelResid})`);
+      if (!(si.withSoftening && si.withSoftening.rows || []).length)
+        bad.push('④ ε>0 の分割の行が無い');
+      cases.push(`源分割不変性 ε=0 の最大相対残差 ${si.atEpsZero ? si.atEpsZero.maxRelResid : '—'}`);
+      const runIds = Object.keys(J.runs || {});
+      if (runIds.length !== 8) bad.push(`⑤ 短窓走行が 8 列(kF0/kF1 × 4 点)でない(${runIds.length})`);
+      const xc = J.meta.independentCheck || null;
+      if (!xc) bad.push('⑤ 判定器の正本との独立照合が無い');
+      else {
+        for (const k of ['kF1', 'kF0']) {
+          const z = xc[k];
+          if (!z) { bad.push(`⑤ 独立照合 ${k} が無い`); continue; }
+          if (z.bitSame !== true) bad.push(`⑤ ${k} が判定器の正本と一致しない(差 ${z.absDiff})`);
+        }
+        if (!bad.some((b) => b.startsWith('⑤'))) cases.push('V0 の 2 列が判定器の正本とビット一致');
+      }
+      // ⑥ **D₀ の値は 1 本も変えていない**(監査の欄が内蔵の宣言値と同じ)
+      const nD0 = rows.filter((a) => Number.isFinite(a.D0)).length;
+      if (nD0 !== rows.length) bad.push('⑥ D₀ を読めていない行がある');
+      const declared = (S.declaredD0Source || []);
+      if (declared.length !== 0)
+        bad.push(`⑥ 内蔵が physics.D0Source を宣言している(${declared.join(',')}) —— 本便は宣言を足していない`);
+      cases.push(`D₀ 欄 ${nD0}/${rows.length}・内蔵の D0Source 宣言 ${declared.length} 本`);
+      const nc = J.meta.notClaim || [];
+      if (!nc.length) bad.push('⑦ meta.notClaim が無い');
+      for (const w of ['新発見', 'D₀ を較正した'])
+        if (text.indexOf(w) >= 0 && nc.every((z) => z.indexOf(w) < 0)) bad.push(`⑦ JSON 本文に「${w}」が出ている`);
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      if (P.indexOf('〔第275便b') < 0) bad.push('⑧ PHYSICS に〔第275便b〕節が無い');
+      else {
+        // 節に出る主要な数(規則の内訳と行数)が正本と一致するか
+        const sec = P.slice(P.indexOf('〔第275便b'), P.indexOf('〔第275便b') + 40000);
+        if (sec.indexOf('39') < 0) bad.push('⑧ PHYSICS〔第275便b〕に監査の行数 39 が無い');
+        for (const [k, n] of Object.entries(byRule))
+          if (sec.indexOf(String(n)) < 0) bad.push(`⑧ PHYSICS〔第275便b〕に ${k} の本数 ${n} が無い`);
+      }
+      cases.push('PHYSICS〔第275便b〕と一致');
+    } catch (e) { bad.push('監査の JSON が読めない: ' + String(e).slice(0, 90)); }
+    add('docs.d0audit-sync', bad.length === 0,
+      `**D₀ の背景の定義・単位監査・規則適用表・源分割不変性**(第275便b・原仮定者の裁定〔第65報〕(2)`
+      + `「D₀ は『何を背景とするか』でサンプル毎に変わる」): ${cases.join(' / ')} —— `
+      + `D_bg(x*) = Σ_{j∉分解集合} m_j/(r_j²+ε²)^(p/2) は **p=1 で M/L・p=2 で M/L²**なので、`
+      + `**同じ 1 つの数を share(p=1)と pull(p=2)の両方には使えない**(エンジンが \`D0\` と \`D0pull\` を`
+      + `別鍵で持っているのと同じ理由)。**規則の値はすべて仮定つき**(質量・距離・銀河の参考値を`
+      + `JSON に出典つきで並べてある)であって観測入力ではない。**内蔵 128 本の D₀ の値は 1 本も変えていない**`
+      + `/ **判定はしていない**(「D₀ を較正した」「規則値が正しい」「新発見」は書かない)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
@@ -29879,6 +29970,64 @@ if (!FAST) {
         // **決断事項の実測**: 宣言鍵が presetSig に入るか(宣言の有無で署名が変わるか)
         res.kfSigDiff = presetSig(mk({ kFrame: 0.5 }, 'principle'))
           !== presetSig(mk({ kFrame: 0.5, kFrameApprox: DEC }, 'principle'));
+        // ②′ 第275便b(原仮定者の裁定〔第65報〕(2)): **physics.D0Source の受理契約**。
+        //    裁定「D₀ は『何を背景とするか』でサンプル毎に変わる」を**宣言できる鍵**にしただけで、
+        //    **エンジンのどの経路からも読まれない**(値は従来どおり physics.D0 / D0pull が持つ)。
+        //    root(v1.44.0 RC・未適用)は SKIP(第273便b と同じ流儀)。
+        res.d0sGen = typeof D0_SOURCE_KEY !== 'undefined';
+        if (res.d0sGen) {
+          const V = (a) => { const z = HP.validateD0Source(a); return { ok: z.ok, v: z.d0Source || null }; };
+          res.d0sBackgrounds = D0_BACKGROUNDS.slice();
+          res.d0sGate = {
+            none: V(null).ok && V(null).v === null,
+            helio: V({ background: 'heliocentric' }).ok,
+            solarExcluded: V({ background: 'solar-excluded' }).ok,
+            galactic: V({ background: 'galactic' }).ok,
+            unknown: V({ background: 'sun' }).ok,                 // 期待 false
+            declaredNoNote: V({ background: 'declared' }).ok,     // 期待 false(出所を名指ししない宣言)
+            declaredNote: V({ background: 'declared', note: '銀河内位置' }).ok,
+            badRefPos: V({ background: 'galactic', refPos: [1] }).ok,    // 期待 false
+            goodRefPos: V({ background: 'galactic', refPos: [1, 2] }).ok,
+            longNote: V({ background: 'galactic', note: 'x'.repeat(D0_SOURCE_NOTE_MAX + 1) }).ok, // 期待 false
+            notArray: V([{ background: 'galactic' }]).ok,          // 期待 false
+          };
+          // 内蔵で宣言している本数(**本便は 0 本** —— 128 本の署名は 1 文字も動かない)
+          res.d0sDeclaredBuiltins = bis.filter(p => p.physics && p.physics.D0Source !== undefined)
+            .map(p => p.id);
+          // 検証器を通ったあとに鍵が保たれるか / 未宣言は ph に入らないか
+          const vPlain = HP.validatePreset(mk({ D0: 0.006 }, 'calibration'));
+          const vDecl = HP.validatePreset(mk({ D0: 0.006,
+            D0Source: { background: 'heliocentric', refPos: [0, 0], note: 'M☉/r' } }, 'calibration'));
+          const vBad = HP.validatePreset(mk({ D0: 0.006, D0Source: { background: 'sun' } }, 'calibration'));
+          res.d0sPreset = { plainOk: vPlain.ok, declOk: vDecl.ok, badOk: vBad.ok,
+            plainHasKey: vPlain.ok ? (vPlain.preset.physics.D0Source !== undefined) : null,
+            declKept: vDecl.ok ? JSON.stringify(vDecl.preset.physics.D0Source) : null,
+            // 再検証しても同じ形に落ちる(stabilizePreset 往復・preset.roundtrip-builtins の流儀)
+            idempotent: vDecl.ok ? (JSON.stringify(HP.validatePreset(JSON.parse(JSON.stringify(vDecl.preset)))
+              .preset.physics.D0Source) === JSON.stringify(vDecl.preset.physics.D0Source)) : null };
+          // **決断事項の実測**: 宣言鍵が presetSig に入るか(内蔵は 1 本も宣言していないので署名は不変)
+          res.d0sSigDiff = presetSig(mk({ D0: 0.006 }, 'principle'))
+            !== presetSig(mk({ D0: 0.006, D0Source: { background: 'galactic' } }, 'principle'));
+          // **力学に 1 bit も効かない**ことの実測(同じ步数で状態をビット突合)
+          const build = (phy) => {
+            const v2 = HP.validatePreset({ name: 'd', description: 'd', camera: { scale: 200 },
+              world: { boundary: 'none', size: 0 }, physics: phy, seed: 7,
+              bodies: [{ type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false },
+                { type: 'single', m: 1, x: 120, y: 0, vx: 0, vy: 0.9, spin: 0, pinned: false },
+                { type: 'single', m: 1, x: -90, y: 40, vx: 0.1, vy: -0.8, spin: 0, pinned: false }] });
+            HP.sim.build(v2.preset);
+            const S = HP.sim;
+            for (let i = 0; i < 2000; i++) S.step(0.016);
+            const o = [];
+            for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i], S.spin[i]);
+            return o;
+          };
+          const aState = build({ D0: 0.006, kFrame: 1 });
+          const bState = build({ D0: 0.006, kFrame: 1, D0Source: { background: 'galactic' } });
+          res.d0sInert = { n: aState.length, steps: 2000,
+            same: aState.length === bState.length && aState.every((z, i) => z === bState[i]),
+            maxAbs: Math.max(...aState.map((z, i) => Math.abs(z - bState[i]))) };
+        }
       }
       // ③ radiusScale 既定 1(バリデータの既定値マージ)
       const v = HP.validatePreset({ name: 'r', description: 'd', camera: { scale: 200 },
@@ -29988,6 +30137,33 @@ if (!FAST) {
       + `${r.kfGate.cal0 && r.kfGate.cal1} / **宣言鍵は presetSig に入る=${r.kfSigDiff}**`
       + `(宣言した瞬間に署名が変わる —— 内蔵は 1 本も宣言していないので全 124 本の署名は不変)`
       + (r.kfCalBad.length ? ` / **違反**: ${r.kfCalBad.join(',')}` : ''));
+    // 第275便b(原仮定者の裁定〔第65報〕(2)): `physics.D0Source` の受理契約。
+    // **宣言専用の鍵**で、エンジンのどの経路からも読まれない(値は physics.D0 / D0pull が持つ)。
+    // **本便は内蔵に 1 本も宣言を足していない**ので、128 本の presetSig は 1 文字も動かない。
+    add('preset.d0source-declared',
+      !r.d0sGen || (r.d0sGate.none === true && r.d0sGate.helio === true
+        && r.d0sGate.solarExcluded === true && r.d0sGate.galactic === true
+        && r.d0sGate.unknown === false && r.d0sGate.declaredNoNote === false
+        && r.d0sGate.declaredNote === true && r.d0sGate.badRefPos === false
+        && r.d0sGate.goodRefPos === true && r.d0sGate.longNote === false
+        && r.d0sGate.notArray === false
+        && r.d0sPreset.plainOk === true && r.d0sPreset.declOk === true && r.d0sPreset.badOk === false
+        && r.d0sPreset.plainHasKey === false && r.d0sPreset.idempotent === true
+        && r.d0sDeclaredBuiltins.length === 0 && r.d0sInert.same === true),
+      !r.d0sGen ? 'SKIP(第275便b 未適用 — 対象に D0_SOURCE_KEY なし・root は v1.44.0 RC)'
+      : `**D₀ の背景の出所の宣言鍵**(第275便b・原仮定者の裁定〔第65報〕(2)「**D₀ は『何を背景とするか』で`
+      + `サンプル毎に変わる**」): 受理値=${JSON.stringify(r.d0sBackgrounds)} / 門の実測: 未宣言は null=`
+      + `${r.d0sGate.none}・未知の背景は拒否=${r.d0sGate.unknown === false}・**出所を名指ししない "declared" は拒否**=`
+      + `${r.d0sGate.declaredNoNote === false}(note つきは受理=${r.d0sGate.declaredNote})・refPos は有限数 2 つ=`
+      + `${r.d0sGate.badRefPos === false}/${r.d0sGate.goodRefPos}・note は上限つき=${r.d0sGate.longNote === false}`
+      + `・配列は拒否=${r.d0sGate.notArray === false} / 検証器: 未宣言は physics に入らない=`
+      + `${r.d0sPreset.plainHasKey === false}(**署名不変**)・宣言は保存される=${r.d0sPreset.declKept}`
+      + `・再検証で冪等=${r.d0sPreset.idempotent}・不正は拒否=${r.d0sPreset.badOk === false} / `
+      + `**宣言している内蔵=${r.d0sDeclaredBuiltins.length} 本**(本便は受理契約だけを足した —— `
+      + `**D₀ の値は 1 本も変えていない**)/ **力学に 1 bit も効かない**=${r.d0sInert.same}`
+      + `(3 体・${r.d0sInert.steps} 步・${r.d0sInert.n} 量の突合で最大差 ${r.d0sInert.maxAbs})/ `
+      + `**決断事項**: 宣言すると presetSig は変わる(=${r.d0sSigDiff}) —— `
+      + `内蔵へ宣言を入れるかは統括の裁定待ちである`);
     add('params.radius-default', r.radiusDef === 1, `radiusScale既定=${r.radiusDef}(=1)`);
     add('ai.base-context', r.baseOpts >= 28 && r.baseCtx && r.basePlain,
       `候補=${r.baseOpts} 文脈注入=${r.baseCtx} 未選択は素通し=${r.basePlain}`);
