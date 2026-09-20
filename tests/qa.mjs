@@ -20584,7 +20584,11 @@ if (!FAST) {
           HP.dfmLocalMeshField([{ m: 1, x: 0, y: 0 }], NaN, 0, { R: 1 }),
           HP.dfmLocalMeshField([{ m: 1, x: 0, y: 0 }], 900, 0, { R: 100, D0: 0 })].every((z) => z === null) };
       // ⑨ **η_eff = kFrame × η**(剛体回転の箱・χ=1)。kFrame=0.5・η=1 は kFrame=1・η=0.5 と同じ (1−0.5)² へ乗る
-      const kHalf = spin({ inertia: 'coordinate' }, { kFrame: 0.5 }, 0.005);
+      // 第275便a(第65報 (1)): 宣言鍵の無い分数 kFrame は既定で {0,1} へ丸められるので、診断コピーは
+      //   `kFrameApprox` を宣言して 0.5 のまま受理させる(旧世代は鍵が無いので従来どおり)
+      const kHalfPh = (typeof KFRAME_UNDECLARED_MODES !== 'undefined')
+        ? { kFrame: 0.5, kFrameApprox: 'space-mesh-effective' } : { kFrame: 0.5 };
+      const kHalf = spin({ inertia: 'coordinate' }, kHalfPh, 0.005);
       const eHalf = spin({ inertia: 'coordinate', inertiaGain: 0.5 }, null, 0.005);
       const kZero = spin({ inertia: 'coordinate' }, { kFrame: 0 }, 0.005);
       R.etaEff = { kHalf: kHalf.resid / kHalf.ref, eHalf: eHalf.resid / eHalf.ref,

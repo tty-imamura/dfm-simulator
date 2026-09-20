@@ -217,12 +217,17 @@ if (kStar !== null) {
 // 状態(x,y,vx,vy,spin)と署名を突き合わせる。**宣言専用キーであることの機械的な裏づけ**。
 const declarationInert = await page.evaluate((N) => {
   const src = HP.allPresets().find((q) => q.id === 'plutoCharonReal');
-  const mk = (withKey) => {
+  // 第275便a(第65報 (1)・kFrame 二値の既定契約): 宣言鍵の無い 0<k<1 は既定で最寄りの {0,1} へ
+  //   丸められる(案B)ので、「宣言なし」の診断コピーはもう k=0.05 では走らない。**宣言専用キー**の
+  //   裏づけは **2 つの宣言値**(`"space-mesh-effective"` と `"sample-only"` — どちらも非較正クラスで
+  //   受理され k は 0.05 のまま)を同じ步数走らせて突き合わせる形へ改めた(署名は宣言値を区別する)。
+  //   宣言なしのコピーが丸められたことは `undeclared` 欄に**情報として**残す(合否には使わない)。
+  const mk = (key) => {
     const p = JSON.parse(JSON.stringify(src));
     p.sampleClass = 'principle';          // 門を迂回するためではなく、**両方を同じ条件に置く**ため
     delete p.notClaim;
     p.physics.kFrame = 0.05;
-    if (withKey) p.physics.kFrameApprox = 'space-mesh-effective';
+    if (key) p.physics.kFrameApprox = key;
     return p;
   };
   const runOne = (p) => {
@@ -237,8 +242,10 @@ const declarationInert = await page.evaluate((N) => {
       approxInParams: S.params.kFrameApprox === undefined ? null : S.params.kFrameApprox,
       sig: presetSig(p) };
   };
-  const a = runOne(mk(false)), b = runOne(mk(true));
+  const a = runOne(mk('space-mesh-effective')), b = runOne(mk('sample-only'));
   if (!a.ok || !b.ok) return { ok: false, a, b };
+  const u = runOne(mk(null));   // 宣言なし(第275便a 以降は丸められる — 情報欄)
+
   let worst = 0;
   for (let i = 0; i < a.state.length; i++) worst = Math.max(worst, Math.abs(a.state[i] - b.state[i]));
   return { ok: true, steps: N, n: a.state.length / 5,
@@ -246,7 +253,10 @@ const declarationInert = await page.evaluate((N) => {
     kFrameBoth: [a.kFrame, b.kFrame],
     approxInParams: [a.approxInParams, b.approxInParams],
     presetSigDiffers: a.sig !== b.sig,
-    note: '状態がビット同一で presetSig だけが変わる = **宣言専用キー**(署名は宣言を区別する)' };
+    declared: ['space-mesh-effective', 'sample-only'],
+    undeclared: u.ok ? { kFrame: u.kFrame, snapped: u.kFrame !== 0.05 } : { ok: false, errors: u.errors },
+    note: '2 つの宣言値で状態がビット同一で presetSig だけが変わる = **宣言専用キー**(署名は宣言値を区別する)。'
+      + ' 宣言なしの分数は第275便a の既定契約で {0,1} へ丸められる(undeclared 欄・情報)' };
 }, 200000);
 console.log('declarationInert: stateBitIdentical=' + declarationInert.stateBitIdentical
   + ' presetSigDiffers=' + declarationInert.presetSigDiffers);
