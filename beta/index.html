@@ -943,6 +943,8 @@ ja: {
   tgDragPause:"ドラッグ中は計算を止める",
   tgDragPauseDesc:"画面のドラッグ・ピンチ・ホイール操作をしている間だけ物理計算を一時停止し、その1フレームぶんの計算時間をまるごと操作の追従に回す(既定 ON・共通設定・永続)。粒子の多いサンプルほど効く。▶/⏸ のポーズ状態とは別の内部的な抑制なので、指を離せば元の再生状態へそのまま戻る(ボタン表示は変わらない)。物理の式・結果は一切変わらない — 止まっている間ステップを進めないだけ。OFF にすると操作中も計算を続けるが、ドラッグの追従は1フレームぶん(重いサンプルでは数百ms)遅れる。",
   // 第175便(レビュー第5巡 P0): step 会計の繰越化 — 診断1行と簡易ベンチ(開発者向け)
+  tgCoreAxis:"コア軸の投影線を表示",
+  tgCoreAxisDesc:"親子コア(コア V2)のうち **core.axisMode:\"prescribed\" を宣言した粒子**だけ、コア回転軸の 2D 投影線を描く(既定 ON・永続・表示専用)。3D 単位軸 e=(sinθcosφ, sinθsinφ, cosθ) を公転面へ正射影した (sinθcosφ, sinθsinφ) を線分にし、+J 側の端に丸を置く。傾き角 θ(core.tilt)が小さいほど線は短く(軸が画面手前を向く)、90° で最長になり、宣言した歳差角速度 core.precessionRate で方位 φ が回る。**3D 表示ではない** —— 面外成分 cosθ は線の長さにしか現れず、エンジンの力学が読むのは従来どおり z 射影 J_z だけである。宣言の無い粒子には何も描かないので、内蔵サンプルの画面は 1 ピクセルも変わらない。物理・セーブ・署名には一切効かない。",
   tgStepDiag:"ステップ診断を表示",
   tgStepDiagDesc:"HUD の末尾に、1フレームあたりのステップ会計を1行だけ追記する開発者向けの表示(既定 OFF・共通設定・永続)。「step 要求→実行 (+繰越) ms/步 trim 打切り回数/窓 fps 実効×倍率(要求×倍率) 破棄 累計」の並びで、要求した歩数のうち何步が実際に走り・何步が次フレームへ繰り越され・何步が上限超過で破棄されたかがその場で読める。実効倍率は「実行歩数×dt ÷ 壁時計」を「時間倍率×1・60fps で全要求を実行できたときの進み」で割った値なので、括弧内の要求倍率と直接比べられる(実効 < 要求 なら、その差がそのまま繰越+破棄として現れている)。**第259便a 追記**: 座標変換慣性(physics.spaceMesh の inertia:coordinate)を宣言した宇宙では行末に「mesh:<停止理由> N=<対象数>」が、トイの測地線モード(geoPN=3)では「geoToy:<停止理由> N=<対象数>」が付く。**第262便a 追記**: geoPN=3 を選んでも入場条件(kFrame=0・空間メッシュの慣性/織り込みと排他)が立たないときは、値を 3 のまま保って「geoToy:denied」と出る(力学は geoPN=2 と同じで走る)。2 体だけの系は非頂点が 0 なので mesh:noTargets と出る(黙って素通りさせないための読み口)。**第265便b 追記**: 源の閉包(toyClosure:iterate)が収束しなかった步は geoToy:closureUnconverged と出る(その步はメッシュキックを当てず帳簿にも記帳しない —— 重力側の步と時刻は進む)。法則版 mesh-v2 を宣言した宇宙では meshV2:<ゲージ> λmin=… cond=… が付き、共通並進が零固有値になる配置では「構造的特異」と出る。表示のみ・物理は一切変わらない。",
   benchLabel:"物理ベンチ(200步)",
@@ -1515,7 +1517,7 @@ ja: {
   hudSysOpen:(r)=>`系: 開放系(${r} — リザーバ・帳簿を含めて読む)`,
   sysPin:"固定天体", sysRail:"レール", sysBath:"熱浴", sysWall:"伝熱壁", sysGrav:"外部重力",
   helpOps:"操作",
-  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。「パラメータ」タブは 時空 → 引きずり・測地線 → スピン・熱 →(実験箱など)→ シミュレーション → グラフ → 表示 → スケール → 共通設定 の順に並びます(第254便c)。「表示」カテゴリのチェックボックスは ⏮初めから では保持され、「プリセット既定値に戻す」でサンプルの既定に戻ります。「共通設定」(保存量モニタ・描画品質・文字サイズ・カメラ追従など)と「シミュレーション」のステップ診断・物理ベンチは端末に永続する設定で、サンプルを変えても引き継がれます。",   /* 第254便c: パラメータタブの構成を追記 */
+  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。「パラメータ」タブは 時空 → 引きずり・測地線 → スピン・熱 →(実験箱など)→ シミュレーション → グラフ → 表示 → スケール → 共通設定 の順に並びます(第254便c)。「表示」カテゴリのチェックボックスは ⏮初めから では保持され、「プリセット既定値に戻す」でサンプルの既定に戻ります。「共通設定」(保存量モニタ・描画品質・文字サイズ・カメラ追従など)と「シミュレーション」のステップ診断・物理ベンチ・コア軸の投影線は端末に永続する設定で、サンプルを変えても引き継がれます。コア軸の投影線(第275便e)は core.axisMode:\"prescribed\" を宣言した親子コアだけに描く表示専用の線で、3D 単位軸を公転面へ正射影したものです(3D 表示ではありません)。",   /* 第254便c: パラメータタブの構成を追記 */
   helpLaws:"この宇宙の法則(要約)",
   helpLawsBody:"① 空間は質点の相対配置だけで決まる(絶対空間なし)。② 決定力=質量÷距離。決定力の勾配が重力になる。③ 質点は「近くの空間」に対して慣性を持ち、空間ごと引きずられる(kFrame)。遠方宇宙の決定力がD₀。④ スピン=熱(温度T=Is²)。衝突で速度がスピンに変わり(muF)、スピンは斥力=圧力を生み(kRep)、拡散して平衡になる(κs)。⑤ 決定力が高い場所の時計は遅く、空間(共動フレーム)に対して速く動く時計も遅れる。光は同じψ=W·κ(κ=時空係数)で屈折して曲がり(n=e^{2ψ}。v1.7で時間と光を単一のψに統一)、「決定した空間」に運ばれる(c₀)。⑥ すべての相互作用は作用反作用対称で、運動量・角運動量を厳密に保存する(遠方宇宙との交換は帳簿に記録=保存量モニタ)。温度Tの質点はλ=b_m/Tの光を放射する(η_rad)。詳細は docs/PHYSICS.md(v1.6)。",
   ovCurve:"v(r): 実測(青) / 基準 v_bar(点線)", ovTemp:"平均温度(Is²) 左/右", ovLeft:"左", ovRight:"右",
@@ -1754,6 +1756,8 @@ en: {
   tgDragPause:"Pause physics while dragging",
   tgDragPauseDesc:"While you drag, pinch or wheel-zoom the view, physics stepping is paused so that the whole frame budget goes into following your finger or mouse (default ON, General, persisted). The heavier the sample, the more it helps. This is an internal suppression, separate from the ▶/⏸ pause state: release the pointer and playback resumes exactly as before, and the button never changes. The physics equations and results are untouched — steps simply are not taken while it is held. Turn it OFF to keep computing during input, at the cost of one physics frame (hundreds of ms on heavy samples) of lag in the drag.",
   // wave 175 (5th review round, P0): carried-over step accounting — one-line diagnostics and a quick bench (developer-facing)
+  tgCoreAxis:"Show the core axis projection",
+  tgCoreAxisDesc:"Draws the 2D projection of the core rotation axis, but ONLY for particles that declare core.axisMode:\"prescribed\" (default on, persisted, display only). The 3D unit axis e = (sin(theta)cos(phi), sin(theta)sin(phi), cos(theta)) is orthogonally projected onto the orbital plane, giving the segment (sin(theta)cos(phi), sin(theta)sin(phi)), with a dot at the +J end. The smaller the tilt angle theta (core.tilt), the shorter the line (the axis points towards the viewer); it is longest at 90 degrees, and the azimuth phi turns at the declared core.precessionRate. THIS IS NOT A 3D VIEW - the out-of-plane component cos(theta) shows up only in the length of the line, and the dynamics still read the z projection J_z alone. Nothing is drawn for particles without the declaration, so the built-in samples look pixel-identical. Physics, saves and signatures are untouched.",
   tgStepDiag:"Show step diagnostics",
   tgStepDiagDesc:"Appends one developer-facing line to the HUD with the per-frame step accounting (default OFF, General, persisted). It reads \"step requested→executed (+carried) ms/step trim trims/window fps eff ×rate (req ×rate) cancelled total\", so you can see at a glance how many of the requested steps actually ran, how many were carried over to the next frame, and how many were cancelled at the backlog cap. The effective rate is (executed steps × dt) / wall-clock seconds, divided by the advance you would get at time-scale ×1 and 60 fps — so it is directly comparable with the requested rate in parentheses (whenever effective < requested, the gap is exactly what shows up as carried + cancelled). WAVE 259a ADDS: when a sample declares the coordinate inertia (physics.spaceMesh with inertia set to coordinate) the line ends with mesh:<stop reason> N=<targets>, and with the toy geodesic mode (geoPN=3) it ends with geoToy:<stop reason> N=<targets>. WAVE 262a ADDS: when geoPN=3 is selected but the entry conditions do not hold (kFrame=0, exclusive with the space-mesh inertia/weave), the value stays 3 and the line reads geoToy:denied (the dynamics run exactly as geoPN=2). A two-body system has no non-vertex particles, so it reads mesh:noTargets - a read-out so that nothing passes through silently. WAVE 265b ADDS: a step whose source closure (toyClosure iterate) did not converge reads geoToy:closureUnconverged (no mesh kick is applied and nothing is booked to the ledger on that step, while gravity and the clock still advance), and a universe declaring the mesh-v2 law appends meshV2:<gauge> lambda_min=... cond=..., with a note when the common translation is a structural zero mode. Display only; the physics never changes.",
   benchLabel:"Physics bench (200 steps)",
@@ -2300,7 +2304,7 @@ en: {
   hudSysOpen:(r)=>`System: open (${r} — read together with reservoirs/ledgers)`,
   sysPin:"pinned bodies", sysRail:"rail", sysBath:"heat bath", sysWall:"thermal walls", sysGrav:"external gravity",
   helpOps:"Controls",
-  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction. The Parameters tab is ordered Spacetime → Dragging & Geodesics → Spin & Heat → (Lab Box etc.) → Simulation → Graphs → Display → Scale → General (wave 254c). Checkboxes in Display are kept by ⏮Restart and returned to the sample defaults by \"Restore preset defaults\". General (conservation monitor, render quality, text size, camera follow, …) and the step diagnostics / physics bench in Simulation are device-persistent settings that carry over between samples.",   /* wave 254c */
+  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction. The Parameters tab is ordered Spacetime → Dragging & Geodesics → Spin & Heat → (Lab Box etc.) → Simulation → Graphs → Display → Scale → General (wave 254c). Checkboxes in Display are kept by ⏮Restart and returned to the sample defaults by \"Restore preset defaults\". General (conservation monitor, render quality, text size, camera follow, …) and the step diagnostics / physics bench / core-axis projection in Simulation are device-persistent settings that carry over between samples. The core-axis projection (wave 275e) is a display-only line drawn only for parent-child cores that declare core.axisMode:\"prescribed\"; it is the 3D unit axis orthogonally projected onto the orbital plane (it is NOT a 3D view).",   /* wave 254c */
   helpLaws:"Laws of this universe (summary)",
   helpLawsBody:"(1) Space is defined only by the relative configuration of masses (no absolute space). (2) Determinacy = mass ÷ distance; its gradient is gravity. (3) Masses have inertia relative to the \"nearby space\" and are dragged along with it (kFrame). D₀ is the determinacy of the distant universe. (4) Spin = heat (T = Is²). Collisions convert velocity to spin (muF), spin creates repulsion = pressure (kRep), and diffuses to equilibrium (κs). (5) Clocks run slow where determinacy is high, and clocks moving fast relative to the comoving frame also run slow. Light refracts under the same ψ = W·κ (κ = the spacetime coefficient; n = e^{2ψ}; time and light unified in v1.7) and is carried by the \"determined space\" (c₀). (6) All interactions are action–reaction symmetric and conserve momentum and angular momentum exactly (exchanges with the distant universe are ledgered — see the conservation monitor). A mass at temperature T radiates at λ = b_m/T (η_rad). Details: docs/PHYSICS.md (v1.6).",
   ovCurve:"v(r): measured (blue) / baseline v_bar (dotted)", ovTemp:"Mean temperature (Is²) L/R", ovLeft:"L", ovRight:"R",
@@ -3703,6 +3707,34 @@ const CORE_BIND_A_DEFAULT = 0.6, CORE_BIND_A_CLAMP = [1e-6, 10], CORE_RT_CLAMP =
 // Mc=M(massFrac=1)の終端状態にする。既存 shed の契約「残骸質量 > コア質量」の**唯一の例外**で、
 // 1 粒子につき 1 回だけ。bareBelow は ≤1 なら**コア質量比**・>1 なら**絶対質量**(既定 0.01 = コアの 1%)。
 const SHED_BARE_BELOW_DEFAULT = 0.01;
+// ===== 第275便e(原仮定者の裁定(第65報)(7)「2D だが公転面に対する自転軸の傾き角・傾きの方向・
+// 歳差角速度を再現する。親子コア構造限定でよい」): **コア軸の宣言モード** =====
+// 既にあるもの(統括の検証項目 R32): 傾き角 `core.tilt`(初期 J_z=|J|cosθ・面内 J_x=|J|sinθ・
+// **方位 0 規約**)・歳差(`coreV2UpdatePass` の第227便ジャイロ分岐 φ̇=殻スピン)・
+// 検証器 `core.tilt`(tilt×Kcs の排他)・読み取り専用監査 `coreTiltProxyAudit`。
+// **足りないのは「方位角」と「歳差角速度」を宣言する口と、その表示である。**
+//   宣言: core.axisMode:"prescribed" + core.azimuthDeg(公転面内の傾きの方向[度])
+//         + core.precessionRate(歳差角速度[rad/時間]。**省略時は殻スピン** = 現行 φ̇=spin_shell と同値)
+//   意味: 軸の面内方位を **φ(t) = azimuthDeg + precessionRate·t の宣言**として毎步書き戻す
+//         (**規定運動**であって力学ではない)。J_z・|J⊥| は触らないので傾き角 θ は宣言のまま。
+// **これは 3D 実装ではない。** エンジンの力学が読むのは従来どおり z 射影 J_z だけで、
+// 面内成分 (J_x,J_y) は**運ぶだけ**である(第261便b の層 J と同じ立場)。表示は 2D 正射影の線である。
+//   **反作用**: 面内成分を宣言どおりに回すのに要る角力積は**面外**(x,y 軸まわり)なので、
+//   2D エンジンの L_z 帳簿には現れない。**「宣言した拘束」が持ち去った量**として負号で
+//   S.axPrescLx/axPrescLy(面外角運動量)・S.axPrescE(回転 E)・S.axPrescPx/Py(並進 — 恒等的に 0)へ
+//   記帳する(第250便c の帳簿修正と同じ流儀 —— 対応する仕事なしに回転 E が変わるのを禁じる)。
+//   **dynamic モード(トルクで軸が動く)は本便では設計だけ**(下の CORE_AXIS_DESIGN)。
+// **未宣言は 1 bit 不変**: `S.hasCoreAxis=false` で外部ステップ `dfmCoreAxisStep` に 1 度も入らない
+// (`S._core` には 1 命令も足していない —— `dfmGeoToyStep`・`dfmShapeToyStep` と同じ位置の外部ステップ)。
+const CORE_AXIS_MODES = ["prescribed"];   // "dynamic" は設計のみ(宣言しても無視して警告する)
+const CORE_AXIS_AZ_CLAMP = [-360, 360], CORE_AXIS_RATE_CLAMP = [-100, 100];
+// 歳差角速度の既定(**決断事項候補**): 省略時は「殻スピン」= 現行の第227便ジャイロ分岐の φ̇ と同値。
+// 宣言を足しただけで軸の回り方が変わらない値にしてある(prescribed への移行が同値になる既定)。
+const CORE_AXIS_RATE_DEFAULT = "spin";
+const CORE_AXIS_DESIGN = {
+  prescribed:"軸の面内方位を宣言 φ(t)=az+Ω_p·t で毎步書き戻す。力学に反作用しない(規定運動)。面外の角力積は拘束の帳簿へ負号で記帳する",
+  dynamic:"**設計のみ・未実装**。トルク τ から dJ⊥/dt=τ を積む案。供給源(公転 E/J・収縮 −½Ω²İ・内部モード)の帳簿の置き場(空間メッシュ貯蔵か中心天体か)が未決なので本便では実装しない"
+};
 // ===== 第246便b(第38報 最優先): body.spinDipole — 観測 Q の転写チャネル(single 専用・読み取り専用)=====
 // 原仮定者(第38報)「コンパクト天体は気体の外殻が無いので、観測値の高速な自転と小さな半径がそのまま使える」。
 // spinDipole:{omega:<rad/モデル時間単位>, radius:<単位長>, source:"observed"|"declared"} を宣言すると、
@@ -14857,6 +14889,30 @@ function validatePreset(obj){
         else if(!isNum(c.Kalign)){ bad(at+".core.Kalign が数値ではありません"); return false; }
         else oc.Kalign=wc(c.Kalign,0,10,"core.Kalign");
       }
+      // 第275便e(第65報 (7)): axisMode/azimuthDeg/precessionRate — **コア軸の宣言モード**。
+      // 門は 4 つ: ① cavity では無効 ② `core.tilt` が**実際に通っている**ことが前提(面内成分が
+      // 無ければ回す軸が無い) ③ "prescribed" 以外は無視(dynamic は設計のみ) ④ Kalign(第232便の
+      // 動的な整列引きずり)との併用不可 —— 「宣言どおり回す」と「トルクで倒れる」を同じ步で
+      // 走らせると、どちらが軸を決めたのかが帳簿から読めなくなるためである。
+      // azimuthDeg/precessionRate だけを宣言しても(axisMode が無ければ)無視して警告する。
+      if(c.axisMode!==undefined){
+        if(cav) warnings.push(at+".core.axisMode は cavity では無効 — 無視します");
+        else if(CORE_AXIS_MODES.indexOf(c.axisMode)<0)
+          warnings.push(at+'.core.axisMode は "prescribed" のみ — 無視します(dynamic は設計のみ・第275便e)');
+        else if(oc.tilt===undefined)
+          warnings.push(at+".core.axisMode は core.tilt(傾き角)の宣言が通っているときだけ有効 — 無視します");
+        else if(oc.Kalign>0)
+          warnings.push(at+".core.axisMode は core.Kalign と併用不可 — 無視します(宣言で回す軸と、トルクで倒れる軸を同じ步で走らせない)");
+        else {
+          oc.axisMode="prescribed";
+          oc.azimuthDeg=(c.azimuthDeg===undefined)? 0 : (isNum(c.azimuthDeg)? wc(c.azimuthDeg,CORE_AXIS_AZ_CLAMP[0],CORE_AXIS_AZ_CLAMP[1],"core.azimuthDeg") : 0);
+          if(c.azimuthDeg!==undefined && !isNum(c.azimuthDeg)) warnings.push(at+".core.azimuthDeg が数値でないため 0 に修正");
+          if(c.precessionRate===undefined) oc.precessionRate=CORE_AXIS_RATE_DEFAULT;   // "spin" = 殻スピン(現行 φ̇ と同値)
+          else if(!isNum(c.precessionRate)){ warnings.push(at+".core.precessionRate が数値でないため既定(殻スピン)に修正"); oc.precessionRate=CORE_AXIS_RATE_DEFAULT; }
+          else oc.precessionRate=wc(c.precessionRate,CORE_AXIS_RATE_CLAMP[0],CORE_AXIS_RATE_CLAMP[1],"core.precessionRate");
+        }
+      } else if(c.azimuthDeg!==undefined || c.precessionRate!==undefined)
+        warnings.push(at+'.core.azimuthDeg / core.precessionRate は core.axisMode:"prescribed" のときだけ有効 — 無視します');
       // 第234便(第29報③「超新星は赤色巨星のコアが中性子星まで成長しスピンで外殻を吹き飛ばす」): burst —
       // 保存的スピン放出 spinBurst。{rate:放出率[1/時間], frac:放出する |J| の総比率(0〜1・既定1)}。
       // 各步 コア J を残り放出量·(1−e^{−rate·dt}) だけ減らし(目標 (1−frac)J₀ へ時定数 1/rate で接近)、その ΔJ をガス(自由粒子)の重心まわり剛体回転モードへ
@@ -17157,6 +17213,11 @@ function makeSim(){
     // 入れない — 3レビュー一致+「コア構造は近似・シンプルに」の原仮定者指示)。
     // 面内成分ゼロの宇宙は hasCoreTilt=false で全経路素通り(既定 1 bit 不変)
     S.coreJx=new Float64Array(n); S.coreJy=new Float64Array(n); S.hasCoreTilt=false;
+    // 第275便e(第65報 (7)): コア軸の**宣言モード**(prescribed)。coreAxM=1 の粒子だけ、面内方位を
+    // φ(t)=coreAxAz+coreAxOm·t の**宣言**として毎步書き戻す。宣言が 1 つも無ければ hasCoreAxis=false で
+    // 外部ステップ `dfmCoreAxisStep` に 1 度も入らない(既定 1 bit 不変)
+    S.coreAxM=new Uint8Array(n); S.coreAxAz=new Float64Array(n); S.coreAxOm=new Float64Array(n);
+    S.hasCoreAxis=false;
     // 第237便(第30報): 粒子別の引きずり減衰指数 q_i(0=未宣言 → physics.q)。1個でも宣言があれば generic カーネル経路
     S.dragQ=new Float64Array(n); S.hasDragQ=false;
     // 第239便(第31報): チャネル分離 — 並進殻 dragQT・回転コア coreDQ・並進コア coreDQT(0=未宣言)。hasShellGas は gasCoh 用
@@ -17552,6 +17613,17 @@ function makeSim(){
           S.coreJm[i]=Math.abs(0.5*Mc*c.radius*c.radius*iS*(c.omega||0));
           S.coreJx[i]=0.5*Mc*c.radius*c.radius*iS*(c.omega||0)*st; S.coreJy[i]=0;
           if(S.coreJx[i]!==0) S.hasCoreTilt=true;
+          // 第275便e(第65報 (7)): **宣言モード**。未宣言は下の 1 行の真偽判定だけで素通り(1 bit 不変)。
+          // 宣言があれば方位 0 規約(J_y=0)を**宣言した方位 az** へ置き換え、|J⊥| は build 式のまま保つ。
+          // 歳差角速度は省略時「殻スピン」= 第227便ジャイロ分岐の φ̇ と同値になる既定である
+          if(c.axisMode==="prescribed"){
+            const az0=(c.azimuthDeg||0)*Math.PI/180, jp0=S.coreJx[i];
+            S.coreAxM[i]=1; S.coreAxAz[i]=az0;
+            S.coreAxOm[i]=(c.precessionRate===CORE_AXIS_RATE_DEFAULT || c.precessionRate===undefined)? (o.spin||0) : c.precessionRate;
+            S.coreJx[i]=jp0*Math.cos(az0); S.coreJy[i]=jp0*Math.sin(az0);
+            if(S.coreJx[i]!==0||S.coreJy[i]!==0) S.hasCoreTilt=true;
+            S.hasCoreAxis=true;
+          }
         }
         // 第265便c(Z6 後半): 殻項の質量則。未宣言・"total" は 0(第77便以来の式 = 1 bit 不変)
         S.coreSSM[i]=(c.shellSpinMass==="shell")?1:0;
@@ -17825,6 +17897,10 @@ function makeSim(){
     // 第247便c(E1): 実行状態の編集イベント台帳(t・粒子・ΔMc・ΔJ・ΔE_rot)。同値再確定は記帳しない
     S.editLog=[];
     S.alignE=0;    // 第232便: 整列で隠れ成分(J⊥)から z 機関へ現れた回転エネルギーの累積(帳簿)
+    // 第275便e: **宣言した拘束**が持ち去った量(負号で記帳)。面外角運動量 L_x/L_y(2D の L_z 帳簿には
+    // 現れない)・回転 E(|J| を保つ回転なので厳密には丸めだけ)・並進 P(力を出さないので恒等的に 0)。
+    // axPrescN は書き戻した回数(**閉じた系ではない**ことの目印 — 供給源は「宣言」である)
+    S.axPrescLx=0; S.axPrescLy=0; S.axPrescE=0; S.axPrescPx=0; S.axPrescPy=0; S.axPrescN=0;
     // 第80便(コアv2): coreSrcE = active コアの sourceRate による**外部注入エネルギーの累積**
     // (fusU/coreWork と同格のリザーバ帳簿)。恒等式は Σ_i E_int,i − Σ_i E_int,i(t=0) = coreSrcE。
     // 融合・分裂は E_int を等量で分配/合算するので、この恒等式は粒子数が変わっても閉じたまま
@@ -18019,6 +18095,7 @@ function makeSim(){
       S.coreMd[i]=0; S.coreMF[i]=0; S.RcV[i]=0; S.coreJ[i]=0; S.coreIS[i]=1; S.coreJm[i]=0;
       S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0; S.coreSrc[i]=0; S.coreEint[i]=0; S.coreOm0[i]=0;
       S.coreJx[i]=0; S.coreJy[i]=0;   // 第227便
+      S.coreAxM[i]=0; S.coreAxAz[i]=0; S.coreAxOm[i]=0;   // 第275便e: 軸の宣言もコアの属性なので一緒に外す
       S.coreRT[i]=0; S.coreBA[i]=0; S.coreBare[i]=0;   // 第247便c: 終端宣言・結合 E 台帳・裸コア終端も外す
       ltClear(S,i);   // 第265便d: lightTrap もコアの属性なので一緒に外す(帳簿の列ごと落ちる)
     } else {
@@ -18094,6 +18171,8 @@ function makeSim(){
     S.hasCoreEnd=anyE;   // 第247便c: 宣言が 1 つも無ければ収縮の門へ入らない
     let anyT=false; for(let k=0;k<S.n;k++) if(S.coreJx[k]!==0||S.coreJy[k]!==0){ anyT=true; break; }
     S.hasCoreTilt=anyT;   // 第227便
+    let anyA=false; for(let k=0;k<S.n;k++) if(S.coreAxM[k]){ anyA=true; break; }
+    S.hasCoreAxis=anyA;   // 第275便e: 宣言が 1 つも無ければ外部ステップに 1 度も入らない
     return S.coreMd[i];
   };
   // ===== 第261便b(第53報 W2・原仮定者「親子コアは、『選択粒子の編集』で、タブ切り替えなどで
@@ -19563,6 +19642,7 @@ function makeSim(){
       if(S.hasCoordInertia) S._meshCoordForce(dt);   // 第257便a(同上 — 真偽値 1 つで素通り)
       if(S.hasGeoToy) dfmGeoToyStep(S,dt);           // 第259便a: geoPN=3 のトイ積分器(同じ位置)
       if(S.hasShapeToy) dfmShapeToyStep(S,dt);      // 第274便d: 形状トイ(同じ位置・未宣言は真偽値 1 つ)
+      if(S.hasCoreAxis) dfmCoreAxisStep(S,dt);      // 第275便e: コア軸の prescribed(同じ位置・未宣言は真偽値 1 つ)
       if(S.hasMeshReservoir) S._meshReservoir(dt);
       if(S.hasSpaceMesh) S._spaceMeshForce(dt*0.5);
       if(S.hasBodyLayers) S._layerForce(dt*0.5);   // 第259便b(後半キック)
@@ -19580,6 +19660,7 @@ function makeSim(){
       if(S.hasCoordInertia) S._meshCoordForce(dt);      // 第257便a(同上)
       if(S.hasGeoToy) dfmGeoToyStep(S,dt);              // 第259便a: geoPN=3 のトイ積分器
       if(S.hasShapeToy) dfmShapeToyStep(S,dt);          // 第274便d: 形状トイ(同じ位置)
+      if(S.hasCoreAxis) dfmCoreAxisStep(S,dt);          // 第275便e: コア軸の prescribed(同じ位置)
       if(S.hasMeshReservoir) S._meshReservoir(dt);
     }
     if(S.params.petersGW===true) S._petersGW(dt);   // 第227便: 外部物理オーバーレイ(既定 OFF=素通り)
@@ -19804,6 +19885,10 @@ function makeSim(){
             S.coreJ[i]=Jc; S.coreEint[i]=Ec; S.coreOm0[i]=0;
             S.coreJx[i]=Jcx; S.coreJy[i]=Jcy;
             if(Jcx!==0||Jcy!==0) S.hasCoreTilt=true;
+            // 第275便e: 軸の宣言も他の係数と**同じ継承元**(重い側/持つ側)から継ぐ。
+            // 未宣言どうしの融合では 0 のままなので 1 bit 不変である
+            S.coreAxM[i]=S.coreAxM[src]; S.coreAxAz[i]=S.coreAxAz[src]; S.coreAxOm[i]=S.coreAxOm[src];
+            if(S.coreAxM[i]) S.hasCoreAxis=true;
             S.coreKcs[i]=S.coreKcs[src]; S.corePump[i]=S.corePump[src];
             S.coreCtr[i]=S.coreCtr[src]; S.coreSrc[i]=S.coreSrc[src];
             S.coreIS[i]=S.coreIS[src];   // 第208便: ζ は他の係数と同じ継承元(重い側/持つ側)
@@ -19835,6 +19920,7 @@ function makeSim(){
             S.coreMd[i]=0; S.coreMF[i]=0; S.RcV[i]=0; S.coreJ[i]=0; S.coreEint[i]=0;
             S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0; S.coreSrc[i]=0; S.coreOm0[i]=0; S.coreIS[i]=1; S.coreJm[i]=0;
             S.coreJx[i]=0; S.coreJy[i]=0;   // 第227便
+            S.coreAxM[i]=0; S.coreAxAz[i]=0; S.coreAxOm[i]=0;   // 第275便e
           }
         }
         // (obsT/coreOT は第61便で廃止 — 質量重み合成も不要に)
@@ -19933,6 +20019,7 @@ function makeSim(){
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","mEff","rotAc",
       "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",   // 第77便(コアv2)
       "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy","coreSSM",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内/第265便c 殻項の質量則
+      "coreAxM","coreAxAz","coreAxOm",   // 第275便e: コア軸の宣言モード(prescribed・方位・歳差角速度)
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx","shdBB","coreRT","coreBA","coreBare",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復 / 第247便c: 裸コア終端・rTarget・結合 E 台帳
       "ltOn","ltCo","ltRf","ltTe","ltTc","ltSr","ltAb","ltRc","ltEg","ltNg","ltEs","ltEe","ltQ","ltEi",   // 第265便d: lightTrap(宣言 8 + 帳簿 6)
       "ltNu","ltWx",   // 第270便d(AD2): ν_max(未宣言=Infinity)と**受理されなかった仕事**の累計
@@ -19979,6 +20066,7 @@ function makeSim(){
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","mEff","rotAc",
       "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",   // 第77便(コアv2)
       "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy","coreSSM",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内/第265便c 殻項の質量則
+      "coreAxM","coreAxAz","coreAxOm",   // 第275便e: コア軸の宣言モード(prescribed・方位・歳差角速度)
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx","shdBB","coreRT","coreBA","coreBare",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復 / 第247便c: 裸コア終端・rTarget・結合 E 台帳
       "ltOn","ltCo","ltRf","ltTe","ltTc","ltSr","ltAb","ltRc","ltEg","ltNg","ltEs","ltEe","ltQ","ltEi",   // 第265便d: lightTrap(宣言 8 + 帳簿 6)
       "ltNu","ltWx",   // 第270便d(AD2): ν_max(未宣言=Infinity)と**受理されなかった仕事**の累計
@@ -20151,6 +20239,7 @@ function makeSim(){
         const Jm1=S.coreJm[i]*f1; S.coreJm[j]=S.coreJm[i]-Jm1; S.coreJm[i]=Jm1;   // 第210便: 容量も質量比例
         const Jx1=S.coreJx[i]*f1; S.coreJx[j]=S.coreJx[i]-Jx1; S.coreJx[i]=Jx1;   // 第227便: 面内成分も質量比例
         const Jy1=S.coreJy[i]*f1; S.coreJy[j]=S.coreJy[i]-Jy1; S.coreJy[i]=Jy1;
+        S.coreAxM[j]=S.coreAxM[i]; S.coreAxAz[j]=S.coreAxAz[i]; S.coreAxOm[j]=S.coreAxOm[i];   // 第275便e: 軸の宣言は他の係数と同じく両片が継ぐ
       } else {
         S.coreMd[j]=0; S.coreMF[j]=0; S.RcV[j]=0; S.coreJ[j]=0; S.coreKcs[j]=0; S.corePump[j]=0; S.coreCtr[j]=0; S.coreKal[j]=0; S.dragQ[j]=S.dragQ[i];   // 第237便
         S.dragQT[j]=S.dragQT[i]; S.coreDQ[j]=0; S.coreDQT[j]=0;   // 第239便
@@ -20159,6 +20248,7 @@ function makeSim(){
         S.coreEint[j]=0; S.coreSrc[j]=0; S.coreOm0[j]=0; S.coreIS[j]=1; S.coreJm[j]=0;
         ltClear(S,j);   // 第265便d
         S.coreJx[j]=0; S.coreJy[j]=0;   // 第227便
+        S.coreAxM[j]=0; S.coreAxAz[j]=0; S.coreAxOm[j]=0;   // 第275便e: 分裂片は軸の宣言を継がない
       }
       // 材質係数は両片が親を引き継ぐ(分裂は同じ材質の2片に割れる)
       S.lSw[j]=S.lSw[i]; S.lSwAuto[j]=S.lSwAuto[i]; S.tau[j]=S.tau[i];
@@ -20323,6 +20413,7 @@ function makeSim(){
           if(S.layN) S.layN[jj]=0;   // 第259便b: 放出片は層を持たない
           S.coreBR[jj]=0; S.coreBF[jj]=0; S.coreBJ0[jj]=0; S.coreBJr[jj]=0;
           S.coreEint[jj]=0; S.coreSrc[jj]=0; S.coreOm0[jj]=0; S.coreJx[jj]=0; S.coreJy[jj]=0;
+          S.coreAxM[jj]=0; S.coreAxAz[jj]=0; S.coreAxOm[jj]=0;   // 第275便e: 放出片は軸の宣言を継がない
           ltClear(S,jj);   // 第265便d: 放出片は lightTrap を継がない
           S.shdOc[jj]=0; S.shdFr[jj]=0; S.shdNp[jj]=0; S.shdRL[jj]=0; S.shdJF[jj]=0; S.shdDn[jj]=0;
           S.shdRI[jj]=0; S.shdLy[jj]=0; S.shdOn[jj]=1; S.shdCd[jj]=0; S.shdNx[jj]=0;   // 第246便: 放出片は shed を継がない
@@ -22348,6 +22439,14 @@ try{ stepDiagOn = localStorage.getItem("hp_step_diag")==="1"; }catch(_){}
 function setStepDiag(v){ stepDiagOn=!!v;
   try{ localStorage.setItem("hp_step_diag",stepDiagOn?"1":"0"); }catch(_){}
   requestRender(); syncHud(); }
+// 第275便e(第65報 (7)): コア軸の 2D 投影線の表示トグル(**表示専用**・既定 ON・hp_core_axis 永続)。
+// 描く対象は `core.axisMode:"prescribed"` を宣言した粒子だけなので、内蔵 128 本の画面は
+// **1 ピクセルも変わらない**(宣言が 0 本だから)。物理・セーブ・署名には一切効かない。
+let coreAxisShow=true;
+try{ const _ca=localStorage.getItem("hp_core_axis"); if(_ca!==null) coreAxisShow=(_ca==="1"); }catch(_){}
+function setCoreAxisShow(v){ coreAxisShow=!!v;
+  try{ localStorage.setItem("hp_core_axis",coreAxisShow?"1":"0"); }catch(_){}
+  requestRender(); }
 let lastBench=null;   // 第175便 ⑤: 直近の簡易ベンチ結果(セッション内のみ・保存しない)
 // 診断1行の本文。HUD・QA・ベンチ結果表示が同じこの関数を通る(重複実装しない)。
 // 窓の値(trim率・ms/步・実効倍率)は直近に**締まった** STEP_WIN_FRAMES フレーム分を出す。
@@ -25206,6 +25305,28 @@ function render(){
         ctx.lineWidth=1;
       }
     }
+    // 第275便e(第65報 (7)「自転軸の傾き角・傾きの方向・歳差角速度」): **コア軸の 2D 投影線**(表示専用)。
+    // 3D 単位軸 e=(sinθcosφ, sinθsinφ, cosθ) を**公転面へ正射影**した (sinθcosφ, sinθsinφ) を、
+    // コア半径の 1.6 倍の長さの線分で描く。傾き角 θ が 0 に近いほど短く(軸が画面手前を向く)、
+    // 90° で最長・歳差で方位 φ が回る。**+J 側の端に丸を置く**(軸の向きの区別)。
+    // **表示専用**(coreAxisShow で消せる・力学にも presetSig にも 1 bit も効かない)。
+    // **3D 表示ではない** —— 面外成分 cosθ は線の長さにしか現れない。
+    if(coreAxisShow && sim.coreAxM && sim.coreAxM[i] && sim.coreMd[i]!==0 && sim.coreMd[i]!==4 && rr>=7){
+      const Jm=sim.coreJm[i];
+      if(Jm>0){
+        const st2=Math.min(1,Math.hypot(sim.coreJx[i],sim.coreJy[i])/Jm);
+        const ph2=Math.atan2(sim.coreJy[i],sim.coreJx[i]), fy2=flipY?-1:1;
+        const La=Math.max(rr*0.5, Math.min(sim.RcV[i]*(sim.params.dispMag||1)*z, rr*0.92)*1.6)*st2;
+        if(La>1.5){
+          const ux=Math.cos(ph2)*La, uy=fy2*Math.sin(ph2)*La;
+          ctx.strokeStyle="rgba(120,220,255,0.9)"; ctx.lineWidth=Math.max(1.2,rr*0.09);
+          ctx.beginPath(); ctx.moveTo(sx-ux,sy-uy); ctx.lineTo(sx+ux,sy+uy); ctx.stroke();
+          ctx.fillStyle="rgba(120,220,255,0.95)";
+          ctx.beginPath(); ctx.arc(sx+ux,sy+uy,Math.max(1.5,rr*0.11),0,7); ctx.fill();
+          ctx.lineWidth=1;
+        }
+      }
+    }
     // 第261便b(第53報「親子コアは、見た目をコア V2 に準拠する」): **同心層の描画**(表示専用)。
     // コア V2 と同じ門(rr>=7)・同じ内側の暗い円の色調で、層の境界を role 色で描く。
     // 透明度は massFrac(その層の質量比)で、**質量を担う層ほど濃い**。力学は 1 bit も変わらない
@@ -25803,6 +25924,8 @@ function syncHud(){
     // 第77便(コアv2): パワーボール仕事+収縮の回転エネルギー増(外部仕事の明示 — 発動時のみ)
     if(sim.coreWork) txt+=`\nコア仕事W=${fmt(sim.coreWork)}`;
     if(sim.alignE) txt+=`\n整列E=${fmt(sim.alignE)}`;   // 第232便
+    // 第275便e: **宣言した拘束**の帳簿(面外 L・回転 E)。宣言が 0 本の宇宙では 1 文字も出ない
+    if(sim.axPrescN) txt+=`\n軸拘束 L⊥=(${fmt(sim.axPrescLx)}, ${fmt(sim.axPrescLy)}) E=${fmt(sim.axPrescE)}`;
     if(sim.burstE) txt+=`\n爆発E=${fmt(sim.burstE)}(注入KE ${fmt(sim.burstK)}・残差 ${fmt(sim.burstRes)})`;   // 第234便
     if(sim.shedNev) txt+=`\n放出=${sim.shedNev}回 ΔM=${fmt(sim.shedM)}  解放E=${fmt(sim.shedE)}(ΔKE ${fmt(sim.shedK)}+ΔU ${fmt(sim.shedU)}・残差 ${fmt(sim.shedRes)})`;   // 第244便
     if(sim.coreSrcE) txt+=`\nコア注入E=${fmt(sim.coreSrcE)}`;   // 第80便: active コアの外部注入(累積)
@@ -26693,6 +26816,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
       "mEff","rotAc",                          // 第81便: コアv1(coreMR/coreSR/Rc)は廃止
       "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",   // 第77便(コアv2)
       "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy","coreSSM",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内/第265便c 殻項の質量則
+      "coreAxM","coreAxAz","coreAxOm",   // 第275便e: コア軸の宣言モード(prescribed・方位・歳差角速度)
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx","shdBB","coreRT","coreBA","coreBare",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復 / 第247便c: 裸コア終端・rTarget・結合 E 台帳
       "ltOn","ltCo","ltRf","ltTe","ltTc","ltSr","ltAb","ltRc","ltEg","ltNg","ltEs","ltEe","ltQ","ltEi",   // 第265便d: lightTrap(宣言 8 + 帳簿 6)
       "ltNu","ltWx",   // 第270便d(AD2): ν_max(未宣言=Infinity)と**受理されなかった仕事**の累計
@@ -26712,6 +26836,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
     simB.hasShellLaw=sim.hasShellLaw;   // 第265便c: 殻項の質量則の宣言フラグ
     simB.hasPulse=sim.hasPulse;   // 第226便
     simB.hasCoreTilt=sim.hasCoreTilt;   // 第227便
+    simB.hasCoreAxis=sim.hasCoreAxis;   // 第275便e
     // 第36便 D(台帳4-51): 内部温度モードの状態も転写(同一プリセットで build 済みなので
     // simB.Tint は同じ長さで確保されている。spin モードでは両方 null で何もしない)
     if(sim.Tint && simB.Tint) simB.Tint.set(sim.Tint.subarray(0,sim.n));
@@ -26935,12 +27060,14 @@ const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU",
   "layJD","layIS","layQ",   // 第265便c: 層の宣言ビット・層の ζ / 第270便d: 層の独立 Q
   "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",
   "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy","coreSSM",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内/第265便c 殻項の質量則
+      "coreAxM","coreAxAz","coreAxOm",   // 第275便e: コア軸の宣言モード(prescribed・方位・歳差角速度)
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx","shdBB","coreRT","coreBA","coreBare",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復 / 第247便c: 裸コア終端・rTarget・結合 E 台帳
       "ltOn","ltCo","ltRf","ltTe","ltTc","ltSr","ltAb","ltRc","ltEg","ltNg","ltEs","ltEe","ltQ","ltEi",   // 第265便d: lightTrap(宣言 8 + 帳簿 6)
       "ltNu","ltWx",   // 第270便d(AD2): ν_max(未宣言=Infinity)と**受理されなかった仕事**の累計
   "railR","railAng","railOmega","railCx","railCy","railH",
   "Tint","coordN","coordAcc","shPrev","_phNbrPrev","_phNbrPrevN","_phProf"];
 const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat","coreWork","coreSrcE","alignE","burstE","burstK","burstL","burstRes",
+  "axPrescLx","axPrescLy","axPrescE","axPrescPx","axPrescPy","axPrescN",   // 第275便e: 宣言した拘束が持ち去った量
   "shedE","shedK","shedU","shedL","shedM","shedRes","shedNev","shedOm","shedT","shedSkip",   // 第244便: envelopeShed 帳簿
   "bindRel","bindRot","bindHold","bindStop","bareN","bareM",   // 第247便c: 結合 E 台帳・裸コア終端
   "ltEs0","ltLesc","ltColT","ltNoThermal",   // 第265便d: lightTrap のスカラー帳簿
@@ -28535,6 +28662,17 @@ function buildParamRows(){
     tapDesc(row,lab,"tgStepDiagDesc");
     const cb=document.createElement("input"); cb.type="checkbox"; cb.id="stepDiagCb"; cb.checked=stepDiagOn;
     cb.addEventListener("change",()=>{ setStepDiag(cb.checked); });
+    row.appendChild(lab); row.appendChild(cb); if(simGroup) simGroup.appendChild(row); else common.appendChild(row);
+  }
+  // 第275便e(第65報 (7)「自転軸の傾き角・傾きの方向・歳差角速度」): コア軸の 2D 投影線の表示トグル
+  // (既定 ON・hp_core_axis 永続・**表示専用**)。描く対象は core.axisMode:"prescribed" を宣言した
+  // 粒子だけなので、宣言の無い内蔵の画面は 1 ピクセルも変わらない
+  {
+    const row=document.createElement("div"); row.className="prow";
+    const lab=document.createElement("label"); lab.textContent=T("tgCoreAxis"); lab.style.flex="1";
+    tapDesc(row,lab,"tgCoreAxisDesc");
+    const cb=document.createElement("input"); cb.type="checkbox"; cb.id="coreAxisCb"; cb.checked=coreAxisShow;
+    cb.addEventListener("change",()=>{ setCoreAxisShow(cb.checked); });
     row.appendChild(lab); row.appendChild(cb); if(simGroup) simGroup.appendChild(row); else common.appendChild(row);
   }
   // 第175便 ⑤: 簡易ベンチ(描画なしで 200步)。複製 sim で走るので本編は 1 ビットも変わらない
@@ -38055,6 +38193,82 @@ function dfmShapeToyStep(S,dt){
     sigma:sR, sigmaZ:sZ, theta:th, len:L1, branch:D.branch, shape:cf.shape,
     coupling:(fb? SHAPE_TOY_COUPLINGS[1] : SHAPE_TOY_COUPLINGS[0]) };
 }
+// ===== 第275便e(第65報 (7)「2D だが公転面に対する自転軸の傾き角・傾きの方向・歳差角速度を
+// 再現する。親子コア構造限定でよい」): **コア軸の prescribed ステップ** `dfmCoreAxisStep(S,dt)` =====
+//
+// ■ 何をするか(1 行で)
+//   宣言した粒子のコア軸の**面内方位**を φ(t)=az+Ω_p·t で毎步書き戻す。|J⊥| と J_z は触らない。
+//
+// ■ なぜ「書き戻す」なのか(第227便のジャイロ分岐との関係)
+//   `coreV2UpdatePass` の第227便分岐は、殻スピンで面内成分を φ̇=spin_shell で回している
+//   (|J|・J_z・θ は不変 = 仕事 0)。prescribed は**その結果を宣言値で上書きする**。
+//   Ω_p の既定(省略時)は**殻スピン**なので、宣言を足しただけでは軸の回り方は変わらない
+//   (**同値の移行**。QA `behavior.coreAxisPrescribed` がこの同値を数で固定する)。
+//   上書きの差分は「**宣言した拘束**が与えた角力積」であって、力学が出したものではない。
+//
+// ■ 帳簿(負号で記帳する — 第250便c の修正と同じ流儀)
+//   ・ΔJ⊥=(ΔJ_x,ΔJ_y) は**面外**(x,y 軸まわり)の角運動量である。2D エンジンの L_z 帳簿には
+//     現れないので `S.axPrescLx/axPrescLy` に **−ΔJ** を積む(拘束が持ち去った量)。
+//   ・回転 E は |J|²/2I_c で、この写像は |J⊥| を保つので**丸めの範囲でしか動かない**。
+//     それでも `S.axPrescE` に −ΔE を積む(「対応する仕事なしに回転 E が変わる」ことの見張り)。
+//   ・力を出さないので並進 P は**恒等的に 0**(axPrescPx/Py は 0 のまま積む = 契約の明示)。
+//   ・**閉じた系ではない**。供給源は「宣言」である(dynamic モードは設計のみ — CORE_AXIS_DESIGN)。
+//
+// ■ これが**していないこと**
+//   ・3D の実装ではない(Euler 角も慣性テンソルも入れていない。エンジンの力学が読むのは
+//     従来どおり z 射影 J_z だけで、面内 2 成分は運ぶだけである)。
+//   ・軸の向きから力を作っていない(`physics.axisForce` は別の宣言で、そちらは軸の**面内方位**を
+//     読む側である —— prescribed で回した方位はそのまま axisForce に届く)。
+//   ・「歳差を再現した」とは言わない。**宣言した角速度で回しているだけ**である。
+//
+// ■ 未宣言は 1 bit 不変: `S.hasCoreAxis!==true` で 1 行目から戻る(`S._core` には 1 命令も足していない)。
+function dfmCoreAxisStep(S,dt){
+  if(!S || S.hasCoreAxis!==true) return null;
+  const n=S.n;
+  let nOn=0, dLx=0, dLy=0, dE=0, wPhi=0, wTilt=0;
+  for(let i=0;i<n;i++){
+    if(!S.coreAxM[i]) continue;
+    const jx0=S.coreJx[i], jy0=S.coreJy[i];
+    const jp=Math.hypot(jx0,jy0);
+    if(!(jp>0)) continue;                      // 面内成分が無い軸は回しようがない(θ=0 か |J|=0)
+    const phi=S.coreAxAz[i]+S.coreAxOm[i]*S.t;   // **宣言** φ(t)=az+Ω_p·t(S.t は _core が進めた後)
+    const jx1=jp*Math.cos(phi), jy1=jp*Math.sin(phi);
+    // 回転 E の差(|J⊥| を保つ写像なので丸めの範囲。I_c はエンジン各所と同じ結合順で作る)
+    const Mc=S.coreMF[i]*Math.abs(S.mEff[i]);
+    const Ic=0.5*Mc*S.RcV[i]*S.RcV[i]*S.coreIS[i];
+    const jz=S.coreJ[i];
+    const e0=(Ic>1e-12)? (jz*jz+jx0*jx0+jy0*jy0)/(2*Ic) : 0;
+    const e1=(Ic>1e-12)? (jz*jz+jx1*jx1+jy1*jy1)/(2*Ic) : 0;
+    S.coreJx[i]=jx1; S.coreJy[i]=jy1;
+    dLx+=jx1-jx0; dLy+=jy1-jy0; dE+=e1-e0; nOn++;
+    wPhi=phi; wTilt=(S.coreJm[i]>0)? Math.acos(Math.max(-1,Math.min(1,jz/S.coreJm[i]))) : 0;
+  }
+  if(!nOn) return null;
+  S.axPrescLx-=dLx; S.axPrescLy-=dLy; S.axPrescE-=dE;   // **負号** = 宣言した拘束が持ち去った量
+  S.axPrescPx-=0; S.axPrescPy-=0;                        // 力を出さないので恒等的に 0(契約の明示)
+  S.axPrescN+=nOn;
+  return { n:nOn, dL:[dLx,dLy], dE, phi:wPhi, tilt:wTilt, prescribed:true,
+    unbooked:"declared-constraint-out-of-plane" };
+}
+// 第275便e: コア軸の**読み取り専用**の状態(表示・QA・診断が読む。物理は 1 bit も動かさない)。
+// 傾き角 θ=acos(J_z/|J|)・面内方位 φ=atan2(J_y,J_x)・宣言(prescribed か・az・Ω_p)を返す。
+// **2D 投影の線**は (sinθ·cosφ, sinθ·sinφ)(= 3D 単位軸を公転面へ正射影したもの)である。
+function coreAxisState(S,i){
+  if(!S || i<0 || i>=S.n || !S.coreMd || !S.coreMd[i] || S.coreMd[i]===4) return null;
+  const jz=S.coreJ[i], jx=S.coreJx? S.coreJx[i] : 0, jy=S.coreJy? S.coreJy[i] : 0;
+  const Jm=S.coreJm? S.coreJm[i] : Math.abs(jz);
+  if(!(Jm>0)) return null;
+  const tilt=Math.acos(Math.max(-1,Math.min(1,jz/Jm)));
+  const phi=Math.atan2(jy,jx);
+  const decl=!!(S.coreAxM && S.coreAxM[i]);
+  return { tiltDeg:tilt*180/Math.PI, azimuthDeg:phi*180/Math.PI, Jz:jz, Jx:jx, Jy:jy, Jmag:Jm,
+    declared:decl, mode:(decl? "prescribed" : null),
+    azimuth0Deg:(decl? S.coreAxAz[i]*180/Math.PI : null),
+    precessionRate:(decl? S.coreAxOm[i] : null),
+    phiPrescribedDeg:(decl? (S.coreAxAz[i]+S.coreAxOm[i]*S.t)*180/Math.PI : null),
+    projX:Math.sin(tilt)*Math.cos(phi), projY:Math.sin(tilt)*Math.sin(phi),
+    proxyOnly:true, note:"2D 投影(3D 実装ではない — 力学が読むのは J_z だけ)" };
+}
 // ===== 第265便b(第57報 W2・Z2): **mesh-v2 —— 引きずりの「完全置換」の最小代数実装** =====
 // 原仮定者(第56報)「導入時は、空間メッシュの導入により、引きずり計算を完全に置き換えるものを想定していた」。
 // 〔第264便b ④〕は設計だけを書いた(実装 0 行)。本便はその (2)「場を粒子から**代数的に**求める」道を、
@@ -39798,6 +40012,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   dfmStarMassLedger, dfmCoreDragRatio, dfmCoreDragRadius, DFM_BETA_SOLID, obsTemp,   // 第233便: 恒星構造 v1 純関数
   chiMassFactors,   // 第224便: χ-law v1(粒子別質量スケールの較正則 — QA behavior.chi-law が読む)
   coreTiltProxyAudit,   // 第226便提案: core.tilt の投影エネルギー/角力積監査(読み取り専用)
+  dfmCoreAxisStep, coreAxisState, CORE_AXIS_MODES, CORE_AXIS_AZ_CLAMP, CORE_AXIS_RATE_CLAMP,
+  CORE_AXIS_RATE_DEFAULT, CORE_AXIS_DESIGN,   // 第275便e: コア軸の宣言モード(prescribed)と読み取り専用の状態
   verify:VERIFY, traceRay, getSystemPrompt, aiCfg, T:(k)=>T(k), lang:()=>LANG,
   // 第170便: 実天体カタログ(AI追加の安定化)— QA ai.catalog-integrity /
   // ai.placement-determinism / ai.schema-validation が読む公開フック
@@ -39958,6 +40174,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   stepCarry:()=>stepCarryOn, setStepCarry,     // 否定対照(繰越の無効化)専用の切替
   stepGenNow:()=>stepGen, stepGenBump,
   stepDiag:()=>stepDiagOn, setStepDiag, stepDiagText,
+  coreAxisShow:()=>coreAxisShow, setCoreAxisShow,   // 第275便e: コア軸の投影線(表示専用)
   // 第177便 P1-1: 対ループカーネルの開発フック(既定 OFF・判定へ無影響)と観測口。
   // setKernelForceGeneric(true) で全宇宙が generic を通る = QA kernel.bitident の対照側。
   // kernelInfo() は直近サブステップで実際に選ばれたカーネル種別を返す(観測専用)。

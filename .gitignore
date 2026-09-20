@@ -433,6 +433,15 @@ paper/*Notes.bib
 #   QA `docs.kf0Ledger` が表と正本を突き合わせ、`lint.provenanceMeta` が来歴を照合するのでコミットする。
 #   **未測定は未測定と書く**(推定で埋めない)。ラベルは**候補**であって較正完了ではない。
 !tests/out/kf0ledger-w274a.json
+# 第275便e(第65報 (8)「パワーボール効果(仮説)」・**エンジン未接続の node 模型**):
+#   自転ベクトル s・向きのポテンシャル U=−½K(ŝ·r̂)²・散逸結合 Q の閉じた模型を 5 段
+#   (無トルク → 向きの整列 → 散逸 → 供給源の帳簿 → 閉じた連星)で走らせた値表
+#   (tests/exp-w275e-powerball.mjs)。**負の対照**(軸に垂直なジャイロトルクは τ·ŝ=0 で
+#   自転を加速しない —— 統括の検証項目 R37)と、仮説 H1〜H7 の対応づけ(Failure First)を持つ。
+#   QA `docs.powerballLedger` がこの JSON と docs/PHYSICS.md〔第275便e〕の表を突き合わせ、
+#   `lint.provenanceMeta` が来歴を固定するのでコミットする。K・Q・Γ は**宣言された自由
+#   パラメータ**であって観測から同定した値ではない。「合体を再現した」とは書かない。
+!tests/out/powerball-w275e.json
 # 第221便: セッション内スクラッチ実測ハーネス(コミット対象外 — 実測値は claims/QA が機械固定する)
 _scratch-*.mjs
 _scratch-*/
