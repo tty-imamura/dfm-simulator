@@ -1920,7 +1920,11 @@ const add = (id, pass, detail) => {
       // 第274便d(第64報): 形状トイ(指定した 3D 正規分布を定常分布に持つ参照モデル)の完成判定
       'tests/out/shapetoy-w274d.json',
       // 第274便a(第64報): kF0 棚卸し表の正本(較正 37 本 + 診断系列の 4 列)
-      'tests/out/kf0ledger-w274a.json'];
+      'tests/out/kf0ledger-w274a.json',
+      // 第275便a(第65報): ① 対照の軸(k を除く 5 成分 — R33 の処置 P1)、
+      //   ② kF0 棚卸し表の改版(5 列 — R33 の処置 P2)、③ kFrame 二値の既定契約の 2 案の実測
+      'tests/out/presetaxes-w275a.json', 'tests/out/kf0ledger-w275a.json',
+      'tests/out/kfgate-w275a.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -29879,6 +29883,50 @@ if (!FAST) {
         // **決断事項の実測**: 宣言鍵が presetSig に入るか(宣言の有無で署名が変わるか)
         res.kfSigDiff = presetSig(mk({ kFrame: 0.5 }, 'principle'))
           !== presetSig(mk({ kFrame: 0.5, kFrameApprox: DEC }, 'principle'));
+        // ---- 第275便a(原仮定者の裁定〔第65報〕(1)): **kFrame 二値の既定契約**(第2層を全クラスへ)
+        //   「kFrame の分数補正はサンプル限りで予測に使えない → 例外を除き kFrame は 0 か 1」。
+        //   例外は宣言鍵だけ。挙動は 2 案を実装してある(既定=案B snap / 案A reject)ので、
+        //   **同じ html で両案を切り替えて測る**(`bodyedit.minimize` の案A/案B と同じ流儀)。
+        res.kfBinGen = (typeof KFRAME_UNDECLARED_MODES !== 'undefined')
+          && !!(window.HP && HP.kFrameUndeclaredMode);
+        if (res.kfBinGen) {
+          const ONLY = 'sample-only';
+          const modeWas = HP.kFrameUndeclaredMode();
+          const probe = (phy, cls) => {
+            const v = HP.validatePreset(mk(phy, cls));
+            return { ok: v.ok, k: v.ok ? v.preset.physics.kFrame : null,
+              decl: v.ok ? (v.preset.physics.kFrameApprox === undefined ? null : v.preset.physics.kFrameApprox) : null,
+              warn: v.warnings.length,
+              kWarn: v.warnings.filter((w) => String(w).indexOf('kFrame') >= 0).length,
+              snapped: v.kFrameSnapped ? { from: v.kFrameSnapped.from, to: v.kFrameSnapped.to } : null };
+          };
+          const scan = (mode) => {
+            HP.kFrameUndeclaredMode(mode);
+            const o = { mode: HP.kFrameUndeclaredMode(),
+              lo: probe({ kFrame: 0.4 }, 'principle'), hi: probe({ kFrame: 0.6 }, 'principle'),
+              half: probe({ kFrame: 0.5 }, 'principle'), noClass: probe({ kFrame: 0.2 }, null),
+              declSme: probe({ kFrame: 0.5, kFrameApprox: DEC }, 'principle'),
+              declOnly: probe({ kFrame: 0.5, kFrameApprox: ONLY }, 'principle'),
+              calPlain: probe({ kFrame: 0.5 }, 'calibration'),
+              calSme: probe({ kFrame: 0.5, kFrameApprox: DEC }, 'calibration'),
+              calOnly: probe({ kFrame: 0.5, kFrameApprox: ONLY }, 'calibration'),
+              k0: probe({ kFrame: 0 }, 'principle'), k1: probe({ kFrame: 1 }, 'principle') };
+            // **内蔵は既定経路でこの門に 1 本も当たらない**(丸めも警告も 0 件であること)
+            o.builtinHit = bis.filter((q) => {
+              const v = HP.validatePreset(JSON.parse(JSON.stringify(q)));
+              return !v.ok || !!v.kFrameSnapped;
+            }).map((q) => q.id);
+            return o;
+          };
+          res.kfBin = { snap: scan('snap'), reject: scan('reject'), modeWas };
+          HP.kFrameUndeclaredMode(modeWas);
+          res.kfBinMode = HP.kFrameUndeclaredMode();
+          res.kfBinApproxes = HP.KFRAME_APPROXES ? HP.KFRAME_APPROXES() : null;
+          res.kfBinApproxesCal = HP.KFRAME_APPROXES_CALIBRATION ? HP.KFRAME_APPROXES_CALIBRATION() : null;
+          // 2 つの宣言値は別のプリセットである(署名が違う)
+          res.kfBinDeclSig = presetSig(mk({ kFrame: 0.5, kFrameApprox: DEC }, 'principle'))
+            !== presetSig(mk({ kFrame: 0.5, kFrameApprox: ONLY }, 'principle'));
+        }
       }
       // ③ radiusScale 既定 1(バリデータの既定値マージ)
       const v = HP.validatePreset({ name: 'r', description: 'd', camera: { scale: 200 },
@@ -29964,16 +30012,31 @@ if (!FAST) {
     // 第273便b(AH1): `preset.kframe-binary01` を置換した 2 本。**弱体化ではない** ——
     // 値域の検査を [0,1] へ開くかわりに、較正クラスへ**宣言義務**を課し、門が動いていることを
     // 診断コピーで実証する(内蔵の値は 1 本も変えていないので、実測の kFrame 集合も併記する)
-    add('preset.kframe-unitInterval',
-      r.kfBad.length === 0 && r.kfGate.fracOk === true && r.kfGate.fracK === 0.5
-      && r.kfGate.overOk === true && r.kfGate.overK === 1 && r.kfGate.overWarn === true
-      && r.kfGate.nonNumOk === false,
-      `内蔵 ${r.kfN} 本の physics.kFrame が**有限な [0,1]**(第273便b・裁定 AH1 —— 二値 {0,1} から開いた)`
-      + `/ 実測の値の集合=${JSON.stringify(r.kfValues)}(**本便で内蔵の値は 1 本も変えていない**)`
-      + `/ 非較正クラスの分数 0.5 は受理=${r.kfGate.fracOk}(実効 ${r.kfGate.fracK})`
-      + `/ k=1.5 は**上限 1 へクランプして警告**(AA2 維持)=${r.kfGate.overK}・警告あり=${r.kfGate.overWarn}`
-      + `/ 非数は致命拒否=${r.kfGate.nonNumOk === false}`
-      + (r.kfBad.length ? ` / **違反**: ${r.kfBad.join(',')}` : ''));
+    // 第275便a(原仮定者の裁定〔第65報〕(1)): **期待値を新契約へ改訂した(弱体化ではない)**。
+    //   第273便b の第1層「有限な [0,1]」はそのまま残す(値域 CLAMPS.kFrame=[0,1] は第1便から不変)。
+    //   変わったのは **宣言の無い 0<k<1 の受理**で、既定(案B snap)では**最寄りの {0,1} へ丸めて
+    //   警告 1 行**になる —— したがって「非較正クラスの分数 0.5 が **0.5 のまま**受理される」という
+    //   旧期待は**契約が変わったので成り立たない**(fracK は 1 になる)。門そのものの実測は
+    //   新設の `preset.kframe-binary-default` が両案で固定する。
+    //   **root(第275便a 未適用)は旧期待のまま**(世代で切り替える — 第149便と同じ流儀)。
+    {
+      const bin = r.kfBinGen === true;
+      const fracKExpect = bin ? 1 : 0.5;        // 案B: 0.5 は k≥0.5 の規則で 1 へ丸まる
+      add('preset.kframe-unitInterval',
+        r.kfBad.length === 0 && r.kfGate.fracOk === true && r.kfGate.fracK === fracKExpect
+        && r.kfGate.overOk === true && r.kfGate.overK === 1 && r.kfGate.overWarn === true
+        && r.kfGate.nonNumOk === false,
+        `内蔵 ${r.kfN} 本の physics.kFrame が**有限な [0,1]**(第273便b・裁定 AH1 —— 二値 {0,1} から開いた)`
+        + `/ 実測の値の集合=${JSON.stringify(r.kfValues)}(**本便で内蔵の値は 1 本も変えていない**)`
+        + `/ 非較正クラスの分数 0.5 は受理=${r.kfGate.fracOk}(実効 ${r.kfGate.fracK}`
+        + (bin ? ` —— **第275便a(第65報)の二値既定契約**で、宣言鍵の無い分数は最寄りの {0,1} へ`
+            + `丸められる〔k<0.5→0 / k≥0.5→1〕。**値域の検査を弱めたのではなく、受理の契約が`
+            + `二値へ進んだ**(門の実測は preset.kframe-binary-default)`
+          : ' —— 第275便a 未適用の世代: 分数はそのまま受理される') + `)`
+        + `/ k=1.5 は**上限 1 へクランプして警告**(AA2 維持)=${r.kfGate.overK}・警告あり=${r.kfGate.overWarn}`
+        + `/ 非数は致命拒否=${r.kfGate.nonNumOk === false}`
+        + (r.kfBad.length ? ` / **違反**: ${r.kfBad.join(',')}` : ''));
+    }
     add('preset.kframe-calib-declared',
       !r.kfApproxGen || (r.kfCalBad.length === 0 && r.kfGate.calPlain === false && r.kfGate.calDecl === true
       && r.kfGate.declKept === 'space-mesh-effective' && r.kfGate.calBadDecl === false
@@ -29988,6 +30051,62 @@ if (!FAST) {
       + `${r.kfGate.cal0 && r.kfGate.cal1} / **宣言鍵は presetSig に入る=${r.kfSigDiff}**`
       + `(宣言した瞬間に署名が変わる —— 内蔵は 1 本も宣言していないので全 124 本の署名は不変)`
       + (r.kfCalBad.length ? ` / **違反**: ${r.kfCalBad.join(',')}` : ''));
+    // ---- 第275便a(原仮定者の裁定〔第65報〕(1)): preset.kframe-binary-default ----
+    //   裁定は「**kFrame の分数補正はサンプル限りで予測に使えない → 例外を除き kFrame は
+    //   kF0 版の 0 か DFM 版の 1 に限定する**」。第273便b の第2層(宣言義務)を**較正クラス限定から
+    //   全クラスへ**広げた契約を機械固定する。固定するのは 7 点で、**合否を決めるのは門であって
+    //   この検査ではない**(ここが固定するのは受理の契約だけである):
+    //     ① 内蔵の kFrame の値の集合が **⊆ {0,1}**(分数を書いている内蔵は 0 本)。
+    //     ② **既定(案B "snap")**: 宣言鍵の無い 0<k<1 は**最寄りの {0,1} へ丸めて警告 1 行**
+    //        (規則 k<0.5→0 / k≥0.5→1)。丸めた事実は返り値 `kFrameSnapped` に機械可読で残る。
+    //     ③ **案A("reject")**に切り替えると**同じ入力が拒否される** —— **両案を同じ html で測る**
+    //        (どちらを既定にするかは決断事項で、検査は両方の挙動を固定する)。
+    //     ④ **宣言つきの分数は両案で受理**され、値も宣言も保たれる
+    //        (`"space-mesh-effective"` / 第275便a で足した `"sample-only"`)。
+    //     ⑤ **較正クラスはモードに依らず拒否**(snap でも丸めない = 第273便b の門を弱めていない)。
+    //        `"sample-only"` は**較正では拒否**する(予測に使えないと宣言した分数を較正へ入れない)。
+    //     ⑥ 2 つの宣言値は **presetSig が違う**(宣言した瞬間に別のプリセットになる — AI20)。
+    //     ⑦ **内蔵は既定経路でこの門に 1 本も当たらない**(丸め 0 本・拒否 0 本)。
+    //   **root(第275便a 未適用)は SKIP**(世代判定は定数 KFRAME_UNDECLARED_MODES の有無で行う)。
+    if (!r.kfBinGen) {
+      console.log('SKIP preset.kframe-binary-default(第275便a 未適用 — 対象に KFRAME_UNDECLARED_MODES なし)');
+    } else {
+      const B = r.kfBin, sn = B.snap, rj = B.reject;
+      const snapOk = sn.lo.ok && sn.lo.k === 0 && sn.lo.kWarn === 1 && sn.lo.snapped
+        && sn.hi.ok && sn.hi.k === 1 && sn.hi.kWarn === 1 && sn.hi.snapped
+        && sn.half.ok && sn.half.k === 1 && sn.noClass.ok && sn.noClass.k === 0;
+      const rejectOk = rj.lo.ok === false && rj.hi.ok === false && rj.half.ok === false
+        && rj.noClass.ok === false;
+      const declOk = [sn, rj].every((m) => m.declSme.ok && m.declSme.k === 0.5
+        && m.declSme.decl === 'space-mesh-effective' && !m.declSme.snapped
+        && m.declOnly.ok && m.declOnly.k === 0.5 && m.declOnly.decl === 'sample-only' && !m.declOnly.snapped);
+      const calOk = [sn, rj].every((m) => m.calPlain.ok === false && !m.calPlain.snapped
+        && m.calSme.ok === true && m.calSme.k === 0.5 && m.calOnly.ok === false);
+      const binaryOk = [sn, rj].every((m) => m.k0.ok && m.k0.k === 0 && m.k0.warn === 0
+        && m.k1.ok && m.k1.k === 1 && m.k1.warn === 0);
+      const builtinClean = sn.builtinHit.length === 0 && rj.builtinHit.length === 0;
+      const valuesOk = r.kfValues.every((v) => v === 0 || v === 1) && r.kfCalFrac.length === 0;
+      const modeBack = r.kfBinMode === 'snap';
+      add('preset.kframe-binary-default',
+        valuesOk && snapOk && rejectOk && declOk && calOk && binaryOk && builtinClean && modeBack,
+        `**kFrame 二値の既定契約**(第275便a・原仮定者の裁定〔第65報〕(1)「例外を除き kFrame は`
+        + ` kF0 版の 0 か DFM 版の 1 に限定する」—— 第273便b の宣言義務を**較正クラス限定から全クラスへ**)`
+        + ` / ① 内蔵 ${r.kfN} 本の kFrame ⊆ {0,1}=${valuesOk}(実測 ${JSON.stringify(r.kfValues)}・`
+        + `較正 ${r.kfCalN} 本で分数 ${r.kfCalFrac.length} 本)`
+        + ` / ② **案B(既定 "snap")**: 0.4→${sn.lo.k}・0.6→${sn.hi.k}・0.5→${sn.half.k}`
+        + `(規則 k<0.5→0 / k≥0.5→1)・警告 1 行=${sn.lo.kWarn === 1}・kFrameSnapped=`
+        + `${JSON.stringify(sn.lo.snapped)}`
+        + ` / ③ **案A("reject")**では同じ入力が拒否=${rejectOk}(**両案を同じ html で測った** ——`
+        + ` どちらを既定にするかは決断事項で、検査は両方の挙動を固定する)`
+        + ` / ④ 宣言つきの分数は両案で受理し値と宣言を保つ=${declOk}`
+        + `(受理値 ${JSON.stringify(r.kfBinApproxes)})`
+        + ` / ⑤ 較正クラスはモードに依らず**拒否**=${calOk}(較正で使える宣言は`
+        + ` ${JSON.stringify(r.kfBinApproxesCal)} だけ —— "sample-only" は較正で拒否)`
+        + ` / ⑥ 2 つの宣言値で presetSig が違う=${r.kfBinDeclSig}`
+        + ` / ⑦ **内蔵はこの門に 1 本も当たらない**(丸め・拒否 ${sn.builtinHit.length + rj.builtinHit.length} 本)`
+        + ` / k=0・k=1 は無警告で受理=${binaryOk} / 検査後に既定へ戻した=${modeBack}`
+        + ((!builtinClean) ? ` / **違反(内蔵)**: ${sn.builtinHit.concat(rj.builtinHit).slice(0, 5).join(',')}` : ''));
+    }
     add('params.radius-default', r.radiusDef === 1, `radiusScale既定=${r.radiusDef}(=1)`);
     add('ai.base-context', r.baseOpts >= 28 && r.baseCtx && r.basePlain,
       `候補=${r.baseOpts} 文脈注入=${r.baseCtx} 未選択は素通し=${r.basePlain}`);
@@ -44382,7 +44501,10 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
 }
 
 // ---- 0a4a) 第274便a(第64報・原仮定者の優先課題(2)): docs.kf0Ledger ----
-// ----   **kF0 棚卸し表**(`docs/KF0_LEDGER_v1.45.md` ↔ 正本 `tests/out/kf0ledger-w274a.json`)を
+// ----   **第275便a(第65報・R33)で改版**: 正本は `tests/out/kf0ledger-w275a.json`(版 `w275a-1`)、
+// ----   列は **5 本**(R28 の 4 列 + 切り離した「外挿残差」)、**「k のみの対照」は k を除く
+// ----   5 成分(f・D₀・q・frameWeight・bodies)がすべて同一のときだけ**である。
+// ----   **kF0 棚卸し表**(`docs/KF0_LEDGER_v1.45.md` ↔ 正本 `tests/out/kf0ledger-w275a.json`)を
 // ----   機械固定する。問いは「**kFrame=1 が成立しないサンプルで kF0 版が成立しているか**」で、
 // ----   答えは **4 列**(走行成立/構造安定/数値成立/観測成立 —— 統括の検証項目 R28)で書く。
 // ----   固定するのは 8 点で、**合否そのものではない**(合否は門が決める):
@@ -44404,12 +44526,12 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     console.log('SKIP docs.kf0Ledger(beta 対象でない: ' + TARGET + ' — 棚卸し表は beta 線の実測)');
   } else {
     try {
-      const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'kf0ledger-w274a.json'), 'utf8'));
+      const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'kf0ledger-w275a.json'), 'utf8'));
       const doc = fs.readFileSync(path.join(ROOT, 'docs', 'KF0_LEDGER_v1.45.md'), 'utf8');
       const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
       const m = J.meta || {};
       if (m.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(別ソースの走行)');
-      if (m.ledgerVersion !== 'w274a-1') bad.push(`① 表の版が w274a-1 でない(${m.ledgerVersion})`);
+      if (m.ledgerVersion !== 'w275a-1') bad.push(`① 表の版が w275a-1 でない(${m.ledgerVersion})`);
       cases.push('html の SHA-256 一致・表の版 ' + m.ledgerVersion);
       const rows = Array.isArray(J.rows) ? J.rows : [];
       nRows = rows.length;
@@ -44428,27 +44550,41 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       // ③ 4 列の語彙
       const VOC = new Set(['✓', '✗', '未測定']);
       const KEYS = (J.columns || []).map((c) => c.key);
-      if (KEYS.length !== 4) bad.push(`③ 列の宣言が 4 つでない(${KEYS.length})`);
+      // 第275便a(R33 の処置 P2): 列は **5 本**(R28 の 4 列 + 切り離した「外挿残差」)で、
+      //   **ラベルの判定に使うのは 4 本**(外挿残差は門を通っていないので入らない)。
+      const LKEYS = Array.isArray(J.labelColumns) ? J.labelColumns : [];
+      if (KEYS.length !== 5) bad.push(`③ 列の宣言が 5 つでない(${KEYS.length})`);
+      if (KEYS.indexOf('extrapolated') < 0) bad.push('③ 「外挿残差」の列(extrapolated)が無い');
+      if (LKEYS.length !== 4 || LKEYS.indexOf('extrapolated') >= 0)
+        bad.push(`③ 判定に使う列が 4 本(外挿残差を除く)でない(${JSON.stringify(LKEYS)})`);
       for (const r of rows) for (const side of ['kf1', 'kf0']) {
         const s = r[side];
         if (!s) { bad.push(`③ ${r.id} に ${side} が無い`); continue; }
         for (const k of KEYS) if (!VOC.has(s[k])) bad.push(`③ ${r.id}.${side}.${k} が 3 語のどれでもない(${s[k]})`);
       }
-      cases.push('4 列 × 2 側 = ' + (rows.length * 8) + ' セルが ✓/✗/未測定 の 3 語');
+      cases.push('5 列 × 2 側 = ' + (rows.length * 10) + ' セルが ✓/✗/未測定 の 3 語'
+        + '(判定に使う列は ' + LKEYS.length + ' 本 — 外挿残差は記録専用)');
+      // **門を持たない診断系列に「観測成立」を書いていない**(第275便a・R33 の処置 P2)
+      for (const r of rows) if (r.scope === 'diagnostic') for (const side of ['kf1', 'kf0']) {
+        const sd = r[side] || {};
+        if (sd.observation !== '未測定')
+          bad.push(`③ 診断行 ${r.id}.${side} の観測成立が未測定でない(${sd.observation}) —— `
+            + '門を持たない行に観測成立を書かない(外挿残差の列へ)');
+      }
       // ④⑤ ラベルの条件
       const labelled = rows.filter((r) => r.label);
       nLabel = labelled.length;
       for (const r of labelled) {
         if ((r.kf1 || {}).observation !== '✗')
           bad.push(`④ ${r.id} にラベルがあるが kF1 の観測成立が ✗ でない(${(r.kf1 || {}).observation})`);
-        for (const k of KEYS) if ((r.kf0 || {})[k] !== '✓')
+        for (const k of LKEYS) if ((r.kf0 || {})[k] !== '✓')
           bad.push(`④ ${r.id} にラベルがあるが kF0 の ${k} が ✓ でない(${(r.kf0 || {})[k]})`);
         const q = (r.labelBasis || {}).quantity;
         if (!Array.isArray(q) || !q.length) bad.push(`⑤ ${r.id} のラベルに根拠(対象量)が無い`);
       }
       // 逆向き: 4 列が揃っていてラベルが無い行を漏れとして拾う
       for (const r of rows) {
-        const all = KEYS.every((k) => (r.kf0 || {})[k] === '✓');
+        const all = LKEYS.every((k) => (r.kf0 || {})[k] === '✓');
         if (all && (r.kf1 || {}).observation === '✗' && !r.label)
           bad.push(`④ ${r.id} は条件を満たすのにラベルが無い`);
       }
@@ -44470,7 +44606,23 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       for (const r of rows) if (!r.kOnlyContrast || typeof r.kOnlyContrast.has !== 'boolean')
         bad.push(`⑦ ${r.id} に「f 固定・k のみの対照」の宣言が無い`);
       if (S.nKOnlyContrast !== nKOnly) bad.push('⑦ summary.nKOnlyContrast が行と違う');
-      cases.push(`f 固定・k のみの対照 ${nKOnly} 行`);
+      // 第275便a(R33 の処置 P1): **「k のみの対照」は k を除く 5 成分がすべて同一のときだけ**。
+      //   軸の正本(presetaxes)を持ち、**f が同じだけの対を kOnly にしていない**ことを固定する。
+      const AX = J.axes || {};
+      if (!Array.isArray(AX.keys) || AX.keys.length !== 5)
+        bad.push(`⑦ 対照の軸(k を除く 5 成分)の宣言が無い(${JSON.stringify(AX.keys)})`);
+      for (const q of (J.pairs || [])) {
+        if (q.missing) continue;
+        if (typeof q.kOnly !== 'boolean') { bad.push(`⑦ 対 ${q.k0}↔${q.k1} に kOnly の宣言が無い`); continue; }
+        const dif = Array.isArray(q.axisDiffering) ? q.axisDiffering : null;
+        if (!dif) { bad.push(`⑦ 対 ${q.k0}↔${q.k1} に「動いている軸」の記録が無い`); continue; }
+        if (q.kOnly !== (dif.length === 0))
+          bad.push(`⑦ 対 ${q.k0}↔${q.k1} の kOnly=${q.kOnly} が軸の差 ${JSON.stringify(dif)} と合わない`
+            + ' —— **f が同じだけでは「k のみの対照」ではない**(R33)');
+      }
+      cases.push(`f 固定・k のみの対照 ${nKOnly} 行 / 宣言した対 ${(J.pairs || []).length} 組のうち`
+        + ` k のみ ${S.nPairsKOnly} 組(f だけが同じ対 ${(S.pairsFSameOnly || []).length} 組は`
+        + ' **k のみではない**と分類 — R33)');
       // ⑧ 書かない語は §6 の中だけ
       const i6 = doc.indexOf('## 6. 書かないこと');
       if (i6 < 0) bad.push('⑧ 文書に §6「書かないこと」が無い');
@@ -44480,12 +44632,14 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
           at = doc.indexOf(w, at + 1); }
       }
       const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
-      if (P.indexOf('〔第274便a') < 0) bad.push('⑧ PHYSICS に〔第274便a〕節が無い');
+      if (P.indexOf('〔第275便a') < 0) bad.push('⑧ PHYSICS に〔第275便a〕節が無い');
     } catch (e) { bad.push('棚卸し表が読めない: ' + String(e).slice(0, 110)); }
     add('docs.kf0Ledger', bad.length === 0,
-      `**kF0 棚卸し表**(第274便a・原仮定者の優先課題「kFrame=1 が成立しないサンプルで kF0 版が`
-      + `成立しているかをまとめる」): ${cases.join(' / ')} —— 答えは **4 列**(走行成立/構造安定/`
-      + `数値成立/観測成立・R28)で書き、**完走だけを「成立」と書かない**。`
+      `**kF0 棚卸し表**(第274便a → **第275便a で改版**・原仮定者の優先課題「kFrame=1 が成立しない`
+      + `サンプルで kF0 版が成立しているかをまとめる」): ${cases.join(' / ')} —— 答えは **R28 の 4 列**`
+      + `(走行成立/構造安定/数値成立/観測成立)で書き、**完走だけを「成立」と書かない**。`
+      + `**第275便a(R33)**: 門を通っていない `
+      + `\`|nσ|≤3\` を「観測成立」に書かず **「外挿残差」の列へ分けた**(記録専用・判定に入れない)。`
       + `ラベル「引きずりが完全に消えている空間メッシュ状態(候補)」は **kF1 が 否(3σ)・`
       + `kF0 の 4 列がすべて ✓** の行にだけ付く**候補**であって、**較正完了ではない**。`
       + `**未測定は未測定と書く**(推定で埋めない)`

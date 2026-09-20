@@ -896,6 +896,7 @@ const fmt = (v)=> Math.abs(v)>=100?v.toFixed(0):Math.abs(v)>=10?v.toFixed(1)
 
 // ===== i18n(v1.10): 日本語/英語切り替え。既定 ja、localStorage hp_lang に永続化 =====
 let LANG = (localStorage.getItem("hp_lang")==="en") ? "en" : "ja";
+// >>> w275a-generated: i18n
 const I18N = {
 ja: {
   appTitle:"DFM Lab", docTitle:"仮想物理ラボ — 仮定物理法則シミュレータ",   // 第23便: 左上タイトルを短縮(document.title は不変)
@@ -2500,7 +2501,7 @@ en: {
     dispMag:"Display-only magnification of particle rendering radii (default 1). Use when real-unit radii are too small to see. Never affects contact physics, inertia or the simulation itself — a pure magnifying glass.",
     G:"Strength of mutual gravity between particles. In this universe gravity is the gradient of determinacy W (A6/E4: a=G∇W). Set 0 to switch self-gravity off (independent of the uniform field g_x/g_y).",
     D0:"Baseline determinacy contributed by the distant universe (A5). The larger it is, the more space is anchored far away — and the weaker the relative grip of nearby masses (kFrame drag). 0 = no distant anchor: wherever there is at least one source, chi = W/(W+D0) tends to 1 and only the nearby masses are the reference (at a point with no source at all, chi is held at 0).",
-    kFrame:"How strongly moving or spinning masses drag the 'nearby space' (the determinacy frame) along, carrying matter and light with it (A4/A5/E6′). 1 = fully relational space, 0 = Newtonian rigid space. The lead actor of the outer-velocity enhancement in rotation curves (T4).",
+    kFrame:"How strongly moving or spinning masses drag the 'nearby space' (the determinacy frame) along, carrying matter and light with it (A4/A5/E6′). 1 = fully relational space, 0 = Newtonian rigid space. The lead actor of the outer-velocity enhancement in rotation curves (T4). WAVE 275a (the original hypothesiser's ruling, report 65): IN A SAMPLE JSON THE DEFAULT IS BINARY - 0 OR 1. A fractional correction only holds for that one sample and cannot be used for prediction, so writing 0<kFrame<1 in JSON requires the declaration physics.kFrameApprox ('space-mesh-effective' = an effective approximation of the space-mesh influence, or 'sample-only' = that sample only). An undeclared fraction is SNAPPED TO THE NEAREST 0/1 ON LOAD with one warning (k<0.5 -> 0, k>=0.5 -> 1). FOR THE REALITY-CALIBRATION CLASS (sampleClass:calibration) IT IS REJECTED RATHER THAN SNAPPED, and the only usable declaration there is 'space-mesh-effective'. A VALUE SET FROM THIS SLIDER (the UI) IS NOT SNAPPED - the gate only bites when the value is written into a saved JSON (the same save asymmetry as wave 263a).",
     q:"Falloff exponent of the rotational drag from spin with distance (E3: (R/(R+d))^q). Larger q confines the drag closer to the body.",
     kRep:"Repulsion between spinning (= hot) particles (A10/E5′) — the origin of 'pressure' in this universe. Hot gas inflating (🎈) and convection (♨️) are driven by this force.",
     muF:"Efficiency of converting sliding contact (relative velocity) into spin = heat (A9/E9). At 0, collisions no longer heat anything (try the 💥 contrast experiment).",
@@ -2522,6 +2523,8 @@ en: {
     timeScale:"Multiplier on how fast simulated time advances (fast-forward). Physics is unchanged — only the time per frame. If the simulation diverges, lower this first. (Wave 94: the wave-93 exponent display was retracted; time re-reading lives in the Scale category.)"},
 },
 };
+
+// <<< w275a-generated: i18n
 function T(key){ const d=I18N[LANG], v=(key in d)? d[key] : I18N.ja[key]; return v; }
 
 // ===== 理論用語集(v1.13・理論解説パネル): プリセット説明文中の A/E/T 参照を自動抽出して表示 =====
@@ -2916,15 +2919,16 @@ function massBasisOf(p){
 //   **エンジン(`S._core` 等)だけが変わった場合は署名では捕まらない**。
 //   転記が正本と 1 行ずつ一致することは QA `ui.assessedValuePanel` が突き合わせる。
 // **静的な obsCard の行(多くは h 段の文面)と混ぜない** —— 別の欄として下に出す。
-const ASSESSED_CANON={file:"tests/out/calaudit-w249.json", wave:"第249便b", generatedAt:"2026-09-18T19:23:09.025Z",
-  targetSha256:"69d78fa3195e883be9fa14473fa590f98304142e5b466fb2a80e4f70f418d44d",
+// >>> w275a-generated: assessed-table
+const ASSESSED_CANON={file:"tests/out/calaudit-w249.json", wave:"第249便b", generatedAt:"2026-09-20T07:04:14.875Z",
+  targetSha256:"8b65f1d6996837964d7e5cca418600fa10a7e674a6803d0a72346e4456440e75",
   note:"判定段の値・σ 倍・門の状態は**この正本の転記**である(このページで測り直していない)"};
 // >>> w273c-assessed-table
 const ASSESSED_SIG={"mercuryReal":"3bffc014","mercuryRealKF1":"f530078c","plutoCharonReal":"c482cab0","alphaCenAB":"8b8c57d3","alphaCenABDFM":"8bf6c4cc","siriusAB":"63359204","siriusABDFM":"b1111485","psrDoubleAB":"bfceee9a","psrDoubleABDFM":"7b3f6a36","psrDoubleABSpinCal":"6fe76b76","psrJ1757DFM":"9dd447b2","psrJ1946DFM":"3bc590f2","psrDoubleABPN":"c794a498","psrJ1757PN":"7132210b","psrJ1946PN":"cc595e3c","psrDoubleABCF":"8767377","psrJ1757CF":"12797269","psrJ1946CF":"f8600f7c","psrB1534":"f14a9255","psrB1534DFM":"5888662e","psrB1534CF":"d1e506a2","saturnZonalD68":"5be8b841"};
 const ASSESSED_VALUES={
   "mercuryReal":[{t:"水星",k:"precession",n:"近日点前進(推定器つき宣言 — 第250便d)",st:"h",v:0.0000225146569977,u:"deg/orbit",ns:6217.30964976,g:"数値未解決"}],
   "mercuryRealKF1":[{t:"水星",k:"precession",n:"引きずり歳差(qLock q_exact=6.1471・推定器つき宣言)",st:"h",v:0.0000224860986679,u:"deg/orbit",ns:6259.09759721,g:"数値未解決"}],
-  "plutoCharonReal":[{t:"カロン",k:"period",n:"公転周期(kFrame=0 対照・同方向1周)",st:"h8",v:553211.255804,u:"s",ns:52269.1776099,g:"condition-mismatch"},{t:"カロン",k:"period",n:"公転周期(kFrame=1・E6′-R)同方向1周",st:"h8",v:553211.255804,u:"s",ns:52269.1776099,g:"数値未解決"},{t:"カロン",k:"period",n:"公転周期(kFrame=1)近点間(第250便d)",st:"h8",v:556271.83415,u:"s",ns:170347.045893,g:"mapping-unresolved"}],
+  "plutoCharonReal":[{t:"カロン",k:"period",n:"公転周期(kFrame=0 対照・同方向1周)",st:"h4",v:551864.061241,u:"s",ns:294.07873353,g:"否(3σ)"},{t:"カロン",k:"period",n:"公転周期(kFrame=1・E6′-R)同方向1周",st:"h8",v:553211.255804,u:"s",ns:52269.1776099,g:"数値未解決"},{t:"カロン",k:"period",n:"公転周期(kFrame=1)近点間(第250便d)",st:"h8",v:556271.83415,u:"s",ns:170347.045893,g:"mapping-unresolved"}],
   "alphaCenAB":[{t:"B",k:"period",n:"公転周期(kFrame=0 採用側)",st:"h4",v:2517154638.63,u:"s",ns:0.0956437048016,g:"合(3σ)"},{t:"B",k:"ecc",n:"実測離心率(1公転の半径比振れ幅)",st:"h4",v:0.519469965648,u:"-",ns:0.000229014177252,g:"mapping-unresolved"}],
   "alphaCenABDFM":[{t:"B",k:"period",n:"公転周期(kFrame=1・pull 重み・観測質量 — 2 定義)",st:"h4",v:2501545431.83,u:"s",ns:25.9372992288,g:"数値未解決"},{t:"B",k:"ecc",n:"実測離心率(1周目の半径比振れ幅)",st:"h4",v:0.520509070229,u:"-",ns:6.92713486102,g:"mapping-unresolved"}],
   "siriusAB":[{t:"B",k:"period",n:"公転周期(kFrame=0 採用側)",st:"h4",v:1581969210.93,u:"s",ns:0.274249976343,g:"合(3σ)"},{t:"B",k:"ecc",n:"実測離心率(1公転の半径比振れ幅)",st:"h4",v:0.591419947828,u:"-",ns:0.000141004863641,g:"mapping-unresolved"}],
@@ -2946,6 +2950,8 @@ const ASSESSED_VALUES={
   "saturnZonalD68":[{t:"D68",k:"precession",n:"D68 リングレットの近点移動(推定器つき宣言 — 第250便d)",st:"h4",v:13925.5845819,u:"deg/yr",ns:14.6034114102,g:"否(3σ)"}]
 };
 // <<< w273c-assessed-table
+
+// <<< w275a-generated: assessed-table
 // 正式判定値を読む(**表示しない理由も返す** —— 黙って空にしない)。
 function assessedValuesOf(p,opts){
   const id=p&&p.id; if(!id) return null;
@@ -4309,7 +4315,7 @@ const PARAM_DEFS = [
   {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:3, step:1,    cat:"dg", group:"法則の実験室",
    desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W·κから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では 1 と厳密に同じ。0=従来(legacy)。**3=トイ(複素決定力場)**: 第259便a で足した**トイモデル専用**の別処理で、E6′・1PN・座標変換慣性のどれとも**排他**(重複適用を禁止する)。サンプル JSON で 3 を宣言するには physics.spaceMesh.lawVersion(scalar/local/complex)が要り、宣言の無い JSON は読み込み時に従来どおり 2 へ丸める。「現実較正」分類(sampleClass:calibration)の JSON では拒否する。**第262便a**: **この行(UI)で 3 にした値はもう 2 へ書き換えない** —— lawVersion の宣言が無いサンプルでは実行時の既定 scalar を使い、kFrame>0 や空間メッシュの慣性/織り込みと重なって入場条件が立たないときは、値を 3 のまま保ったうえで警告を 1 行出し、力学は geoPN=2 と同じで走る(ステップ会計の geoToy:denied)。**第263便a**: **保存の非対称**に注意 —— この行で 3 にしても、保存 JSON に physics.spaceMesh.lawVersion の宣言が無ければ読み込み時に 2 へ丸められる(**実行中の値と、保存できる宣言は別物である**)。また physics.spaceMesh.toyAllowDrag:true を宣言したサンプルだけは kFrame>0 のままトイが走り、**E6′ の追従キックと同じ步で重なる**(二重計上の可能性がある診断構成・HUD に overlay:drag と出る。sampleClass:calibration では拒否する)。"},
   {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, cat:"dg", group:"法則の実験室",
-   desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。"},   // 第124便(原仮定者指示): geoPN の次へ移動
+   desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。**第275便a(原仮定者の裁定〔第65報〕)**: サンプル JSON の既定は **0 か 1 の二値**である —— 分数の補正はそのサンプル限りで予測に使えないので、0<kFrame<1 を JSON に書くには `physics.kFrameApprox`(「space-mesh-effective」= 空間メッシュの影響の実効近似 /「sample-only」= そのサンプル限り)の宣言が要る。宣言が無い分数は読み込み時に**最寄りの 0/1 へ丸めて警告 1 行**(k<0.5→0・k≥0.5→1)。**現実較正クラス(sampleClass:calibration)では丸めず拒否**し、使える宣言は「space-mesh-effective」だけである。**このスライダー(UI)で動かした値は丸めない**(保存 JSON にしたときに初めて門が効く — 第263便a と同じ保存の非対称)。"},   // 第124便(原仮定者指示): geoPN の次へ移動
   {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:0.05, cat:"dg", group:"法則の実験室",
    desc:"測地線モード(geoPN≥1 — geoPN=2 の a₁ₚₙ(w) 項も同じスイッチで制御)の1PN補正の強さ(0〜1の連続値 — 第110便で整数制限を撤廃)。1PN加速度は λ_PN/c₀² に比例するので、c₀を固定したまま1PN強度だけを較正できる。0にするとニュートン重力に戻り、楕円軌道が閉じる — ☿水星のA/B対照実験用。"},
   {key:"pnAlpha", label:"1PN係数 α(0.5=時間率のみ, 1.5=完全)", mode:"lin", lo:0.5, hi:1.5, step:0.5, cat:"dg", group:"法則の実験室",
@@ -4460,7 +4466,25 @@ function valToSliderPos(def,v){
 //      エンジンに無い。`S._core` には 1 命令も足していない)。
 // **内蔵 124 本の kFrame の値は 1 本も変えていない**(本便は契約を開けただけ)。
 const KFRAME_APPROX_KEY = "kFrameApprox";
-const KFRAME_APPROXES = ["space-mesh-effective"];
+// 第275便a(原仮定者の裁定〔第65報〕(1)「kFrame の分数補正はサンプル限りで予測に使えない →
+//   例外を除き kFrame は kF0 版の 0 か DFM 版の 1 に限定する」): **二値が既定**の契約へ進める。
+//   宣言値は 2 つになった:
+//     "space-mesh-effective" … 第273便b から。空間メッシュの影響の実効近似として置いた分数。
+//                              **較正クラスで分数を書けるのはこの宣言だけ**である。
+//     "sample-only"          … 第275便a で追加。**そのサンプル限りの設定であって予測に使えない**
+//                              ことを明示する宣言(第65報の文言そのもの)。
+//                              **較正クラスでは拒否する** —— 予測に使えないと宣言した分数を
+//                              現実較正へ入れさせないため。
+const KFRAME_APPROXES = ["space-mesh-effective", "sample-only"];
+const KFRAME_APPROXES_CALIBRATION = ["space-mesh-effective"];
+// **宣言の無い 0<kFrame<1 をどう扱うか**(第275便a で両案を実装して比較した):
+//   "snap"   … 案B: 最寄りの {0,1} へ丸めて警告 1 行(AA2 のクランプと同じ流儀)。**既定**。
+//              旧セーブ・旧 AI 出力を壊さずに二値へ寄せられる。
+//   "reject" … 案A: 検証エラーで拒否(較正クラスは常にこちら)。
+// 丸めの規則は **k<0.5 → 0 / k≥0.5 → 1**(境界の 0.5 は 1 側。規則を明文で固定する)。
+// **力学には 1 バイトも接続しない** —— 変わるのは検証器の受理だけである。
+const KFRAME_UNDECLARED_MODES = ["snap", "reject"];
+let kFrameUndeclaredMode = "snap";
 const CLAMPS = { G:[0,1e6], D0:[0,1e6], kFrame:[0,1], q:[0.5,40], kRep:[0,20], muF:[0,1],
   gammaN:[0,1], kappaS:[0,2], kappaT:[0,1], kLens:[0,1],   // 第128便: 時空係数は κ 正準(κ=0=時空効果なし。旧 Kt[1,1e12] は ktToKappa で受理)
   cLight:[1,1e6], bM:[0.001,1000], etaRad:[0,1], pRad:[1,6], radiusScale:[0.2,5],
@@ -4515,6 +4539,7 @@ function grSI(){
 }
 
 // ===== 内蔵プリセット(スキーマは内部開発文書 HANDOFF_IMPLEMENTATION.md §契約1 — 非公開管理) =====
+// >>> w275a-generated: builtin-presets
 const BUILTIN_PRESETS = [
 // ===== v1.9 サンプル全面刷新(付録I)。旧16種は廃止し「1サンプル=1効果」で再構成 =====
 // 第26便(原仮定者指示): カテゴリ分け・表示順を再編 — 銀河系サンプルを「銀河」グループへ集約。配列順=表示順
@@ -14073,6 +14098,8 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,trailTargets:"all",monitor:true} },
 ];
+
+// <<< w275a-generated: builtin-presets
 // 第50便 50K(台帳4-78 C案): descStruct を持つ内蔵プリセットは description をその連結から
 // 生成する(要約/観察/操作の**純分割**の同一性を構造的に保証 — 内容の重複記述もしない。
 // claims.sync の正規表現・AI プロンプト・保存 JSON は従来どおり description を読む。
@@ -14429,6 +14456,9 @@ function validatePreset(obj){
   // 警告文の文言に依存せず「移行が起きた」を呼び出し側(インポート)が判定できるようにする。
   // 移行そのもの(legacyCoreToV2)のロジックは 1 文字も変えていない — 記録するだけ。
   let legacyCoreMigrated=false;
+  // 第275便a: 宣言の無い分数 kFrame を {0,1} へ丸めたときの機械可読な記録(案B)。
+  // 丸めが起きなければ null。**preset には入らない**(署名は丸めた後の kFrame で決まる)。
+  let kFrameSnapped=null;
   const bad=(m)=>{errors.push(m);};
   if(!obj || typeof obj!=="object" || Array.isArray(obj)) return {ok:false, errors:["ルートがオブジェクトではありません"], warnings};
   const p = JSON.parse(JSON.stringify(obj)); // 破壊防止コピー
@@ -14619,8 +14649,12 @@ function validatePreset(obj){
       // 「この kFrame は空間メッシュの影響の実効近似として置いた」という宣言だけを持ち、
       // **力学・光学・帳簿のどの経路からも読まれない**(エンジンに参照が 1 箇所も無い)。
       // 較正クラスで分数 kFrame を書くときの必須宣言(下の二層契約)に使う
+      // 第275便a: 宣言値が 2 つになった("sample-only" を追加)。**較正クラスでは
+      // "sample-only" を受け付けない**(予測に使えないと宣言した分数を現実較正へ入れない)。
       if(k===KFRAME_APPROX_KEY){
-        if(KFRAME_APPROXES.indexOf(p.physics[k])<0) warnings.push('physics.kFrameApprox は "space-mesh-effective" のみ — 削除します');
+        if(KFRAME_APPROXES.indexOf(p.physics[k])<0) warnings.push('physics.kFrameApprox は "space-mesh-effective"/"sample-only" のみ — 削除します');
+        else if(p.sampleClass==="calibration" && KFRAME_APPROXES_CALIBRATION.indexOf(p.physics[k])<0)
+          bad('physics.kFrameApprox:"'+p.physics[k]+'" は sampleClass:"calibration" では使えません(サンプル限りと宣言した分数は現実較正に入れない — 較正で使えるのは "space-mesh-effective" だけです)');
         else ph[k]=p.physics[k];
         continue;
       }
@@ -14694,8 +14728,33 @@ function validatePreset(obj){
   //   ② 現実較正クラスだけ: **0<kFrame<1 の分数には宣言鍵が要る**。
   //      宣言が無い分数は**受理しない**(「近似として置いた」と書かないまま較正へ入れさせない)。
   //   **既定 DEFAULT_PHYSICS.kFrame=1 は不変**・**内蔵 124 本の値も不変**(契約を開けただけ)。
-  if(p.sampleClass==="calibration" && ph.kFrame>0 && ph.kFrame<1 && ph[KFRAME_APPROX_KEY]!=="space-mesh-effective")
-    bad('physics.kFrame に分数('+ph.kFrame+')を書く sampleClass:"calibration" は physics.kFrameApprox:"space-mesh-effective" の宣言が必要です(kFrame<1 は空間メッシュの影響の実効近似であって、観測から決めた値ではない)');
+  // ===== 第275便a(第65報 (1)): **第2層を全クラスへ**。kFrame の既定は二値 {0,1} である =====
+  //   原仮定者の裁定「kFrame の分数補正はサンプル限りで予測に使えない → 例外を除き kFrame は
+  //   kF0 版の 0 か DFM 版の 1 に限定する」。**例外は宣言鍵 `physics.kFrameApprox` だけ**で、
+  //   宣言の無い 0<kFrame<1 は既定経路で受理しない。挙動は 2 案を実装して比べた(既定は案B):
+  //     案B "snap"(既定): 最寄りの {0,1} へ丸めて警告 1 行(k<0.5→0 / k≥0.5→1)。
+  //                        旧セーブ・旧 AI 出力を**壊さない**。丸めた事実は返り値
+  //                        `kFrameSnapped:{from,to,sampleClass}` に機械可読で残す。
+  //     案A "reject":      検証エラーで拒否。**較正クラスは常にこちら**(第273便b の門を弱めない)。
+  //   **内蔵の kFrame の値は 1 本も変えていない**(内蔵の集合は {0,1} なのでこの門に 1 本も当たらない)。
+  //   **力学には 1 バイトも接続しない** —— `S._core` には 1 命令も足していない。
+  if(ph.kFrame>0 && ph.kFrame<1){
+    const dec = ph[KFRAME_APPROX_KEY];
+    const calib = (p.sampleClass==="calibration");
+    const allowed = calib ? KFRAME_APPROXES_CALIBRATION : KFRAME_APPROXES;
+    if(allowed.indexOf(dec)<0){
+      if(calib || kFrameUndeclaredMode==="reject")
+        bad('physics.kFrame に分数('+ph.kFrame+')を書くには physics.kFrameApprox の宣言が必要です('
+          +(calib?'sampleClass:"calibration" で使えるのは "space-mesh-effective" だけ':'"space-mesh-effective" か "sample-only"')
+          +' — 第65報の裁定により kFrame の既定は kF0 版の 0 か DFM 版の 1 の二値で、分数はサンプル限りの例外です)');
+      else {
+        const to = (ph.kFrame<0.5)?0:1;
+        kFrameSnapped = {from:ph.kFrame, to, sampleClass:(p.sampleClass||null), rule:"k<0.5→0 / k≥0.5→1"};
+        warnings.push('physics.kFrame の分数('+ph.kFrame+')は宣言鍵 physics.kFrameApprox が無いので '+to+' へ丸めました(第65報: kFrame の既定は 0 か 1。分数を残すには physics.kFrameApprox:"space-mesh-effective" か "sample-only" を宣言してください)');
+        ph.kFrame = to;
+      }
+    }
+  }
   // ===== 第259便a(第51報): geoPN=3(トイの測地線モード)の受理条件 =====
   // 第51報「例えば『測地線モード geoPN=3』などとして、トイモデル用に明確に処理を分ける事を検討する」。
   // **現行(第258便まで)の挙動**: CLAMPS geoPN:[0,2] が 3 を 2 へ丸め、警告 1 行(「値域に修正」)を出していた。
@@ -16220,8 +16279,8 @@ function validatePreset(obj){
   }
   p.overlays=ov;
   // 第86便: legacyCore = 旧コアキーから コアv2 へ移行した構成かどうか(エクスポートの migration 記録用)
-  return errors.length? {ok:false, errors, warnings, legacyCore:legacyCoreMigrated}
-                      : {ok:true, preset:p, warnings, legacyCore:legacyCoreMigrated};
+  return errors.length? {ok:false, errors, warnings, legacyCore:legacyCoreMigrated, kFrameSnapped}
+                      : {ok:true, preset:p, warnings, legacyCore:legacyCoreMigrated, kFrameSnapped};
 }
 
 // ===== シミュレーションエンジン =====
@@ -28965,7 +29024,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - スピンは熱。高スピン粒子は近接時に斥力(圧力, kRep)を生む。衝突で速度が減衰しスピンに変わる(muF,gammaN)。スピンは近接拡散で平衡化する(kappaS)。粒子の色は温度(青=冷,赤=熱)。
 - pinned:true の粒子は動かずスピンも変わらない=熱浴になる。高スピンのpinned粒子はヒーター、スピン0のpinned粒子は冷却板として、接触摩擦とスピン拡散(kappaS)で周囲を加熱/冷却する。
 - 放射冷却: etaRad>0 にすると温度の高い粒子ほど速く冷えて暗くなる(急峻さはpRad)。加熱・冷却・重力を組み合わせると対流・蒸発・凝集が作れる。
-- 空間は質量に引きずられる(kFrame: 0=通常のニュートン力学, 1=完全な相対空間)。背景決定力D0が大きいほど空間が安定する。
+- 空間は質量に引きずられる(kFrame: 0=通常のニュートン力学, 1=完全な相対空間)。kFrame は 0 か 1 のどちらかにする(0<kFrame<1 の分数はサンプル限りの例外で、宣言 physics.kFrameApprox("space-mesh-effective" か "sample-only")を添えない限り最寄りの 0/1 へ丸められる)。背景決定力D0が大きいほど空間が安定する。
 - 一様重力場: physics.gravityY>0 で画面全体に一様な下向きの外力場がかかる(gravityXは横方向)。地上の実験室・対流・落下のデモに使う。時計や光を歪めないので、画面外に遠方大質量を置く旧手法より安定する。目安は0.02〜0.1。
 - rays={"n":本数(0〜64の整数),"spread":広がり(0〜1)} を指定すると左端から光線が飛び、質量の近くで曲がる(曲がりの強さと時間の遅れは同じ κ(kappaT)で決まり、κ が大きいほど強い)。超大質量(2000〜3000)をpinnedで置き κ を 0.017〜0.025 に上げると、近くを通る光が捕まって周回する=ブラックホールの光学類似(光子捕捉)。ただし中心のスピンは0〜0.5に抑える(スピンが大きいと空間の引きずりが光を外へ流し、捕捉が消える)。
 - overlays: rotationCurve=回転曲線グラフ, tempHistogram=左右の平均温度グラフ, field=決定力マップ(レンズ系で推奨), spectrum=放射スペクトル。
@@ -28991,7 +29050,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1, q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
+7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(既定は 0 か 1 の二値 — 宣言の無い分数は最寄りの 0/1 へ丸める), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
 8. κ 正準化(第124〜125便): 時空係数の正準キーは physics.kappaT(κ=1/Kt・G/c² と同次元)。旧 Kt キーも後方互換で受理する(kappaT と併記時は kappaT 優先)。アプリの「時空」カテゴリでは κ を編集し、セーブ・プリセット・few-shot とも kappaT で記す。第128便で内部エンジンも κ 正準(ψ=W·κ)になり、Kt は境界で受理する後方互換の入力キーだけになった。
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 
@@ -29015,7 +29074,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 (連星の公転速度: 半径60・相手質量500 → v≈√(1×500÷(60×2))≈1.44 を互いに逆向きに与える)
 
 例2 要望「熱いガスと冷たいガスが混ざるところ」
-{"name":"高温ガスと低温ガスの混合","emoji":"🔥","scaleTier":"molecular","description":"箱の左に低温(低スピン)、右に高温(高スピン)のガスを配置。衝突とスピン拡散で温度が均一化し、熱平衡に達する過程を観察できる。","camera":{"scale":240},"world":{"boundary":"box","size":200},"physics":{"G":0.05,"D0":50,"kFrame":0.2,"q":2,"kRep":2,"muF":0.8,"gammaN":0.3,"kappaS":0.15,"kappaT":0.016666666666666666,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":2},"bodies":[{"type":"box","rMul":1.2,"n":120,"cx":-100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":0,"spinMax":0.2,"vScale":0.3},{"type":"box","rMul":1.2,"n":120,"cx":100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":2,"spinMax":3,"vScale":2.5}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
+{"name":"高温ガスと低温ガスの混合","emoji":"🔥","scaleTier":"molecular","description":"箱の左に低温(低スピン)、右に高温(高スピン)のガスを配置。衝突とスピン拡散で温度が均一化し、熱平衡に達する過程を観察できる。","camera":{"scale":240},"world":{"boundary":"box","size":200},"physics":{"G":0.05,"D0":50,"kFrame":0,"q":2,"kRep":2,"muF":0.8,"gammaN":0.3,"kappaS":0.15,"kappaT":0.016666666666666666,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":2},"bodies":[{"type":"box","rMul":1.2,"n":120,"cx":-100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":0,"spinMax":0.2,"vScale":0.3},{"type":"box","rMul":1.2,"n":120,"cx":100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":2,"spinMax":3,"vScale":2.5}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
 
 例3 要望「ブラックホールが見たい。光が吸い込まれるところも。星も1000個ちりばめて」
 {"name":"ブラックホール — 光子捕捉","emoji":"🕳️","scaleTier":"stellar","description":"中央の超大質量天体(ブラックホールの光学類似)。左からの光線が強く曲がり、近くを通る光は捕まって光子球のような円軌道に巻き付く(光子捕捉)。周囲の星は数を400に抑えて軽快に動かす。決定力マップ表示付き。","camera":{"scale":300},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"kappaT":0.025,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":1},"bodies":[{"type":"single","rMul":1.2,"m":2000,"x":0,"y":0,"vx":0,"vy":0,"spin":0.5,"pinned":true},{"type":"disk","rMul":1.2,"n":400,"cx":0,"cy":0,"radius":280,"mMin":0.05,"mMax":0.2,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":2000,"vScale":1,"direction":1}],"rays":{"n":32,"spread":0.7},"overlays":{"rotationCurve":false,"tempHistogram":false,"field":true}}
@@ -39858,6 +39917,11 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   scaleTierTable, decadeStr,   // 第182便: scaleTier 代表値表(指数からの計算転記)
   normalizeIntakeText, parseIntake, jsonPosInfo, detectPasteShape, pickSinglePreset,
   stabilizePreset, stabSelfCheck, aiIntakeText, aiIntakeValue,
+  // 第275便a(第65報 (1)): 宣言の無い分数 kFrame の扱い(案B "snap" 既定 / 案A "reject")を
+  // **測るための読み口**。QA・実験ハーネスが両案を同じ html で切り替えて比較する
+  // (`bodyedit.minimize` の HP.beMinKeepLayerMode と同じ流儀)。**力学には接続しない**。
+  kFrameUndeclaredMode:(m)=>{ if(m!==undefined && KFRAME_UNDECLARED_MODES.indexOf(m)>=0) kFrameUndeclaredMode=m; return kFrameUndeclaredMode; },
+  KFRAME_APPROXES:()=>KFRAME_APPROXES.slice(), KFRAME_APPROXES_CALIBRATION:()=>KFRAME_APPROXES_CALIBRATION.slice(),
   STAB_ESCAPE_MUL, STAB_DIVERGE_MUL,
   AI_EXAMPLE_DEFAULT_ID, presetForAIBase,   // 第181便: 暗黙の少数ショット例の固定先(AI_EXAMPLE_MAX は撤廃)
   scaleEffNow,  // 第104便: ベースのスケール(タグ一括設定)のQA用 — 実効4指数の読み口(表示専用)

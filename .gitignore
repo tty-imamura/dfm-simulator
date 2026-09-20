@@ -433,6 +433,19 @@ paper/*Notes.bib
 #   QA `docs.kf0Ledger` が表と正本を突き合わせ、`lint.provenanceMeta` が来歴を照合するのでコミットする。
 #   **未測定は未測定と書く**(推定で埋めない)。ラベルは**候補**であって較正完了ではない。
 !tests/out/kf0ledger-w274a.json
+# 第275便a(第65報・判定器便): 3 本の正本。
+#   ① presetaxes —— **対照の軸**(内蔵 128 本の宣言から k を除く 5 成分〔f・D₀・q・frameWeight・
+#      bodies の SHA-256〕を抜いたもの。`tests/exp-w275a-presetaxes.mjs`)。**「f 固定・k のみの対照」の
+#      定義そのもの**で、第274便a が f だけを見ていた誤分類(統括の検証項目 R33)を直すために要る。
+#   ② kf0ledger-w275a —— kF0 棚卸し表の**改版**(列を 5 本にし、門を通っていない `|nσ|≤3` を
+#      「観測成立」から「外挿残差」へ分けた)。`docs/KF0_LEDGER_v1.45.md` を機械生成する正本。
+#   ③ kfgate —— **kFrame 二値の既定契約**(第65報 (1))の案A(拒否)/案B(丸めて警告)を
+#      同じ html で切り替えて測った実測(`tests/exp-w275a-kfgate.mjs`)。
+#   QA `docs.kf0Ledger` が ② と文書を突き合わせ、`lint.provenanceMeta` が 3 本の来歴を照合するので
+#   コミットする。**判定は 1 つも動かしていない**(4 値・門・5 区分は第274便a の正本のままである)。
+!tests/out/presetaxes-w275a.json
+!tests/out/kf0ledger-w275a.json
+!tests/out/kfgate-w275a.json
 # 第221便: セッション内スクラッチ実測ハーネス(コミット対象外 — 実測値は claims/QA が機械固定する)
 _scratch-*.mjs
 _scratch-*/
