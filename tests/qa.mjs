@@ -1924,7 +1924,10 @@ const add = (id, pass, detail) => {
       // 第275便a(第65報): ① 対照の軸(k を除く 5 成分 — R33 の処置 P1)、
       //   ② kF0 棚卸し表の改版(5 列 — R33 の処置 P2)、③ kFrame 二値の既定契約の 2 案の実測
       'tests/out/presetaxes-w275a.json', 'tests/out/kf0ledger-w275a.json',
-      'tests/out/kfgate-w275a.json'];
+      'tests/out/kfgate-w275a.json',
+      // 第275便c(第65報 (3)): 銀河トイの**回数の会計**(sqrt/pow/push を数えた実測)と
+      //   準備済み経路の前後の ms/步(Chromium の同一ページ A/B + node の純関数の写し)
+      'tests/out/galaxyprof2-w275c.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -22346,6 +22349,105 @@ if (!FAST) {
       + `・NaN=${lt.run.nan}=${g5} / ⑥ band-pressure は未宣言=${g6}`);
   } else {
     console.log('SKIP preset.galaxyLite(対象に第274便c の 🎋 galaxyMeshSpiralGeoToyLite なし — root 等)');
+  }
+}
+
+// ---- 第275便c(第65報 (3)「なぜ重いか分析して改善」): perf.geoToyPrepared ----
+//   `dfmGeoScalarPrepared` は **geoPN=3 スカラートイの私的な高速経路**である(無順序対の幾何を
+//   1 度だけ払い、源ごとの入口検証を步 1 回にし、`dfmField` の源配列を作らない)。**物理は 1 bit も
+//   変えない**ことが入場の条件なので、機械固定するのは 5 点:
+//     ① **門が効く**: 🪁 と 🎋(lawVersion:"scalar")は `S.geoToyPrepared===true`・
+//        📻GeoToy(lawVersion:"local")と `toyClosure:"iterate"` の変種は **false**(旧経路へ戻る)。
+//     ② **ビット同一**: 同じページ・同じ初期条件から 600 步を `HP.setGeoPrepEnabled(true/false)` で
+//        2 度走らせ、x/y/vx/vy/m/t と**帳簿 4 本**の指紋が**完全一致**すること(🪁 と 🎋)。
+//     ③ **零スピンの門の前提がソースに残っている**: トイの源配列 BD が `omega:0, omegaDot:0` を
+//        **無条件に**宣言していること(将来スピンが入ったら門を作り直す —— ω を落としたまま
+//        速くしてはならない)。`HP.geoPrepInfo().sourceSpin===0` も併せて見る。
+//     ④ **切替は署名にも params にも入らない**: presetSig が on/off で 1 文字も変わらず、
+//        `S.params` に geoPrep 系の鍵が 1 つも無いこと。
+//     ⑤ **帳簿は両経路で厳密に閉じる**(|E_toy+E_mesh|=0・|P_toy+P_mesh|=0)。
+//   **速さの合否は出さない**(ms は器 `tests/exp-w275c-galaxyprof2.mjs` が測る —— QA は「同じ物理か」
+//   だけを見る)。準備済み経路の無い対象(root 等)は SKIP。
+{
+  const hasPrep = await page.evaluate(() => !!(window.HP && typeof HP.geoPrepInfo === 'function'
+    && typeof HP.setGeoPrepEnabled === 'function'));
+  if (hasPrep) {
+    const gp = await page.evaluate(() => {
+      const S = HP.sim;
+      const mk = (id, patch) => { const P = HP.allPresets().find((z) => z.id === id);
+        if (!P) return null;
+        const q = JSON.parse(JSON.stringify(P));
+        if (patch) q.physics = Object.assign({}, q.physics, patch);
+        const v = HP.validatePreset(q);
+        return v.ok ? v.preset : null; };
+      const hash = (T) => { let a = 0x811c9dc5;
+        const buf = new ArrayBuffer(8), f = new Float64Array(buf), u = new Uint8Array(buf);
+        const push = (v) => { f[0] = v; for (let b = 0; b < 8; b++) { a ^= u[b]; a = Math.imul(a, 0x01000193) >>> 0; } };
+        for (const k of ['x', 'y', 'vx', 'vy', 'm']) { const Ar = T[k]; if (!Ar) continue;
+          for (let i = 0; i < T.n; i++) push(Ar[i]); }
+        push(T.t); push(T.geoToyE); push(T.geoToyPx); push(T.geoToyPy); push(T.geoToyL);
+        return a.toString(16); };
+      const run = (pr, on, steps) => { HP.setGeoPrepEnabled(on); S.build(pr);
+        for (let i = 0; i < steps; i++) S.step(0.016);
+        return { h: hash(S), prepared: S.geoToyPrepared === true, stop: S.geoToyStop,
+          N: S.geoToyN, n: S.n, nan: S.hasNaN(),
+          ledgerE: Math.abs(S.geoToyE + S.geoToyEmesh),
+          ledgerP: Math.hypot(S.geoToyPx + S.geoToyMeshPx, S.geoToyPy + S.geoToyMeshPy),
+          paramKeys: Object.keys(S.params).filter((k) => /geoPrep|prepared/i.test(k)) }; };
+      const rows = {}, gate = {};
+      for (const id of ['galaxyMeshSpiralGeoToy', 'galaxyMeshSpiralGeoToyLite']) {
+        const pr = mk(id, null); if (!pr) { rows[id] = null; continue; }
+        const on = run(pr, true, 600), off = run(pr, false, 600);
+        rows[id] = { same: on.h === off.h, on, off };
+      }
+      // ① 門が外れる 2 例(local 法則・閉包 iterate)
+      const loc = mk('psrDoubleABGeoToy', null);
+      if (loc) { const r = run(loc, true, 20); gate.local = { prepared: r.prepared, stop: r.stop }; }
+      const kite = HP.allPresets().find((z) => z.id === 'galaxyMeshSpiralGeoToy');
+      if (kite) {
+        const q = JSON.parse(JSON.stringify(kite));
+        q.physics.spaceMesh = Object.assign({}, q.physics.spaceMesh,
+          { toyClosure: 'iterate', toyClosureIters: 2 });
+        const v = HP.validatePreset(q);
+        if (v.ok) { const r = run(v.preset, true, 5); gate.iterate = { prepared: r.prepared, stop: r.stop }; }
+        else gate.iterate = { rejected: (v.errors || []).slice(0, 2) };
+      }
+      // ④ presetSig が切替で動かない
+      const P = HP.allPresets().find((z) => z.id === 'galaxyMeshSpiralGeoToy');
+      HP.setGeoPrepEnabled(true); const sigOn = P ? presetSig(P) : null;
+      HP.setGeoPrepEnabled(false); const sigOff = P ? presetSig(P) : null;
+      HP.setGeoPrepEnabled(true);
+      return { rows, gate, sigSame: sigOn === sigOff, sigLen: sigOn ? sigOn.length : null,
+        info: HP.geoPrepInfo(), enabledAfter: HP.geoPrepInfo().enabled };
+    });
+    const htmlPrep = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+    const spinDecl = /omega:0,\s*omegaDot:0,\s*R:null,\s*Rdot:null/.test(htmlPrep);
+    const gateDecl = /GEO_PREP_SOURCE_SPIN!==0\)\s*return false;/.test(htmlPrep);
+    const kR = gp.rows.galaxyMeshSpiralGeoToy, lR = gp.rows.galaxyMeshSpiralGeoToyLite;
+    const p1 = !!kR && kR.on.prepared === true && !!lR && lR.on.prepared === true
+      && kR.off.prepared === false && lR.off.prepared === false
+      && !!gp.gate.local && gp.gate.local.prepared === false
+      && !!gp.gate.iterate && gp.gate.iterate.prepared === false;
+    const p2 = !!kR && kR.same && !!lR && lR.same;
+    const p3 = spinDecl && gateDecl && gp.info.sourceSpin === 0;
+    const p4 = gp.sigSame && !!kR && kR.on.paramKeys.length === 0 && gp.enabledAfter === true;
+    const p5 = !!kR && kR.on.ledgerE === 0 && kR.on.ledgerP === 0 && kR.off.ledgerE === 0
+      && kR.off.ledgerP === 0 && !kR.on.nan && !!lR && lR.on.ledgerE === 0 && lR.on.ledgerP === 0;
+    add('perf.geoToyPrepared', p1 && p2 && p3 && p4 && p5,
+      `① 門: 🪁 prepared=${kR && kR.on.prepared}・🎋 ${lR && lR.on.prepared}・`
+      + `切替 off で ${kR && kR.off.prepared}/${lR && lR.off.prepared}・`
+      + `lawVersion:"local" は ${gp.gate.local && gp.gate.local.prepared}・`
+      + `toyClosure:"iterate" は ${gp.gate.iterate && gp.gate.iterate.prepared}=${p1} / `
+      + `② **600 步 ビット同一**: 🪁 ${kR && kR.on.h}=${kR && kR.off.h}(${kR && kR.same})・`
+      + `🎋 ${lR && lR.on.h}=${lR && lR.off.h}(${lR && lR.same})=${p2} / `
+      + `③ 源 BD の ω・ω̇ 宣言=${spinDecl}・門の分岐=${gateDecl}・sourceSpin=${gp.info.sourceSpin}=${p3} / `
+      + `④ presetSig が切替で不変=${gp.sigSame}(${gp.sigLen} 字)・S.params に geoPrep 鍵 `
+      + `${kR && kR.on.paramKeys.length} 個・既定は enabled=${gp.enabledAfter}=${p4} / `
+      + `⑤ 帳簿: |E_toy+E_mesh|=${kR && kR.on.ledgerE}/${kR && kR.off.ledgerE}・`
+      + `|P|=${kR && kR.on.ledgerP}/${kR && kR.off.ledgerP}・NaN=${kR && kR.on.nan}=${p5}`
+      + ` / **速さの合否は出さない**(ms は器 tests/exp-w275c-galaxyprof2.mjs)`);
+  } else {
+    console.log('SKIP perf.geoToyPrepared(対象に第275便c の準備済み経路なし — root 等)');
   }
 }
 // ---- 第263便b(第55報・統括が設定した検証仮説 (7)): ui.geoToySaveNote ----
