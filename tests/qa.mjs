@@ -2789,8 +2789,11 @@ const add = (id, pass, detail) => {
     //   条件不一致/数値収束未確認の**保留**に留まる(第268便a の時点では届いた量 0 だった)。
     if (connected !== 4) bad.push(`σ が門へ届いた量が 4 でない(${connected})—— AD8(📡)+AD5(カロン 3)の宛先`);
     const ft = J.fourTally || {};
-    if ((ft['否'] || 0) !== 1 || (ft['保留'] || 0) !== 15)
-      bad.push(`太陽系の 4 値が 否 1/保留 15 でない(${JSON.stringify(ft)})—— ガードを通ったのは 📡 の 1 件だけのはず`);
+    // 第274便a(第64報): kF0 対照走行を配った世代では ❄️ の対照行が門へ入り 否 2/保留 14(旧世代は 否 1/保留 15)
+    const kf0GenS = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return !!(C.kf0Runs && C.kf0Runs.on === true); } catch (e) { return false; } })();
+    const wantNg = kf0GenS ? 2 : 1, wantHold = kf0GenS ? 14 : 15;
+    if ((ft['否'] || 0) !== wantNg || (ft['保留'] || 0) !== wantHold)
+      bad.push(`太陽系の 4 値が 否 ${wantNg}/保留 ${wantHold} でない(${JSON.stringify(ft)})—— ガードを通ったのは 📡 の 1 件${kf0GenS ? '+❄️ の kF0 対照行' : 'だけ'}のはず`);
   } catch (e) { bad.push('ガードが読めない: ' + String(e).slice(0, 90)); }
   add('behavior.solarsigmaGuards', bad.length === 0,
     `**σ 接続器の必須ガード**(第268便a・統括の読み (B)・tests/lib-w268a-judgement.mjs): `
@@ -2839,10 +2842,12 @@ const add = (id, pass, detail) => {
       bad.push('①直前の便(ef2cd45)の履歴が先頭に無い');
     else if (!((hPrev.fourTally || {})['否'] === 1 && (hPrev.fourTally || {})['保留'] === 15))
       bad.push('①直前の便の太陽系 4 値が 否 1/保留 15 でない');
-    if ((J.fourTally || {})['保留'] !== 15)
-      bad.push(`①太陽系 4 値の保留が 15 でない(${(J.fourTally || {})['保留']})`);
-    if ((J.fourTally || {})['否'] !== 1)
-      bad.push(`①太陽系 4 値の否が 1 でない(${(J.fourTally || {})['否']})`);
+    // 第274便a(第64報): kF0 対照走行を配った世代では 否 2/保留 14(❄️ の対照行が門へ入った)・旧世代は 否 1/保留 15
+    const kf0GenU = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return !!(C.kf0Runs && C.kf0Runs.on === true); } catch (e) { return false; } })();
+    if ((J.fourTally || {})['保留'] !== (kf0GenU ? 14 : 15))
+      bad.push(`①太陽系 4 値の保留が ${kf0GenU ? 14 : 15} でない(${(J.fourTally || {})['保留']})`);
+    if ((J.fourTally || {})['否'] !== (kf0GenU ? 2 : 1))
+      bad.push(`①太陽系 4 値の否が ${kf0GenU ? 2 : 1} でない(${(J.fourTally || {})['否']})`);
     if (!((u.movedToOfficial || []).some((z) => z.id === 'saturnZonalD68')))
       bad.push('①📡 が正式判定へ移った記録(movedToOfficial)が無い');
     // 以下 ②③ は**第269便a の器**(tests/out/d68-w268a.json)と、そこから作った診断行の照合である。
@@ -42004,7 +42009,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       o.decl = decl;
       // 第265便b で 🪁 が加わり 3→4 本(root 99286dc は 🪁 を持たないので 3 本のまま — 対象で切り替える)
       const hasGeoCopy = HP.allPresets().some((q) => q.id === 'galaxyMeshSpiralGeoToy');
-      o.declOk = decl.length === (hasGeoCopy ? 4 : 3) && decl.every((z) => /"mode":"mesh"/.test(z));
+      const hasLite = HP.allPresets().some((q) => q.id === 'galaxyMeshSpiralGeoToyLite');   // 第274便c: 🎋 も mesh 宣言
+      o.declOk = decl.length === (hasLite ? 5 : (hasGeoCopy ? 4 : 3)) && decl.every((z) => /"mode":"mesh"/.test(z));
       // ⑨ 1 フレームの描画時間
       const bench = (fn, n) => { fn(); let best = Infinity;
         for (let r2 = 0; r2 < 3; r2++) { const t0 = performance.now();
@@ -43393,11 +43399,12 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       HP.setLang('en');
       HP.loadPreset('galaxyMeshSpiralGeoToy', false);
       o.enLabel = HP.meshChipLabel(ps.find((p) => p.id === 'galaxyMeshSpiralGeoToy'), HP.sim);
+      o.has274c = ps.some((p) => p.id === 'galaxyMeshSpiralGeoToyLite');   // 第274便c: 🎋 が 4 件目の宣言
       HP.setLang('ja'); HP.loadPreset('saturn', false);
       return o;
     });
     add('ui.meshChipState',
-      r.noComplexChip && r.complexDecl.length === 0 && r.rows.length === 3
+      r.noComplexChip && r.complexDecl.length === 0 && r.rows.length === (r.has274c ? 4 : 3)
       && r.declaredOnly.length === 1 && r.denyKey === 'stopped' && r.denyReason === 'kFrame'
       && /メッシュ未作動: kFrame>0 と重なる/.test(String(r.denyLabel))
       && r.complexKey === 'stopped' && r.complexReason === 'complexNotVelocity'

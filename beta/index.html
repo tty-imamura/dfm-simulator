@@ -3670,7 +3670,8 @@ function validateShapeToy(a){
     const w=num("omegaSpin",0);
     if(w===null) return {ok:false, err:"physics.shapeToy.omegaSpin は有限数"};
     out.omegaSpin=w;
-  } else if(a.omegaSpin!==undefined){
+  } else if(a.omegaSpin!==undefined && a.omegaSpin!==0){
+    // 第274便(統括): 検証器の出力(既定 0)を再検証しても落ちない(自己診断 stabilizePreset の往復で冪等)
     return {ok:false, err:'physics.shapeToy.omegaSpin は shape:"disk" 専用(腕は回さない)'};
   }
   if(a.shape==="arm"){
@@ -3679,7 +3680,7 @@ function validateShapeToy(a){
     const L0=num("armLength0",L);
     if(L0===null) return {ok:false, err:"physics.shapeToy.armLength0 は有限の正数"};
     out.armLength=L; out.armLength0=L0;
-  } else if(a.armLength!==undefined || a.armLength0!==undefined){
+  } else if((a.armLength!==undefined && a.armLength!==0) || (a.armLength0!==undefined && a.armLength0!==0)){
     return {ok:false, err:'physics.shapeToy.armLength / armLength0 は shape:"arm" 専用'};
   }
   return {ok:true, shapeToy:out};
@@ -6524,7 +6525,7 @@ const BUILTIN_PRESETS = [
     {q:"帯平均 variant は未宣言", model:"第274便c の diskSupport:\"band-pressure\" は**この本では宣言していない**(既定トイのまま — 宣言すると場の作り方が変わる)", obs:"—"},
     {q:"言わないこと", model:"**銀河を較正した/回転曲線を再現した/腕が描けた=較正/N 倍速くなった**とは書かない(T4)", obs:"—"}],
   descStruct:{
-    summary:"**🪁「銀河の空間メッシュ — geoPN=3 原理コピー」の軽量版**(第274便c・第64報「galaxyMeshSpiralGeoToy が重い理由を調査し改善する」)。**physics の宣言は 🪁 と 1 文字も違わない**(geoPN=3・kFrame=0・physics.spaceMesh の lawVersion:\"scalar\"・inertia:false・toyGain η=1・D₀=1.5・ε=3・timeScale=3)。違うのは**指数円盤の粒数だけ**で、260 粒 → 80 粒(全体 351 体 → 171 体)である。geoPN=3 のトイは 1 步のうちに源の場を集めるので費用は粒数の二乗で効く —— **法則を 1 バイトも変えずに軽くする**道がこの本である。**これは較正ではない**: 観測回転曲線は 1 つも入力しておらず、claim 窓も regression window も 1 つも張っていない。**🎠 本体(geoPN=0・kFrame=1)も 🪁 も 1 bit も動かない。**第274便c の帯平均 variant(physics.spaceMesh.diskSupport:\"band-pressure\")は**この本では宣言していない**(既定トイのままである)。**言わないこと**: 銀河を較正した/回転曲線を再現した/腕が描けた=較正/N 倍速くなった。",
+    summary:"**🪁「銀河の空間メッシュ — geoPN=3 原理コピー」の軽量版**(重力 E4 と法則の宣言は 🪁 と同じ・第274便c・第64報「galaxyMeshSpiralGeoToy が重い理由を調査し改善する」)。**physics の宣言は 🪁 と 1 文字も違わない**(geoPN=3・kFrame=0・physics.spaceMesh の lawVersion:\"scalar\"・inertia:false・toyGain η=1・D₀=1.5・ε=3・timeScale=3)。違うのは**指数円盤の粒数だけ**で、260 粒 → 80 粒(全体 351 体 → 171 体)である。geoPN=3 のトイは 1 步のうちに源の場を集めるので費用は粒数の二乗で効く —— **法則を 1 バイトも変えずに軽くする**道がこの本である。**これは較正ではない**: 観測回転曲線は 1 つも入力しておらず、claim 窓も regression window も 1 つも張っていない。**🎠 本体(geoPN=0・kFrame=1)も 🪁 も 1 bit も動かない。**第274便c の帯平均 variant(physics.spaceMesh.diskSupport:\"band-pressure\")は**この本では宣言していない**(既定トイのままである)。**言わないこと**: 銀河を較正した/回転曲線を再現した/腕が描けた=較正/N 倍速くなった。",
     observe:"実測(器 tests/exp-w274c-galaxylite.mjs・dt=0.016・171 体・seed 20260910・T=48=3000 步): **保持率**(**指数円盤 80 粒だけ**のうち r ≤ R_ref にいる割合。R_ref は t=0 の円盤粒子の最大半径)と **V_rms**(同じ円盤粒子)を 🪁(円盤 260 粒)と同じ抽出器で測り、PHYSICS〔第274便c〕④ の表に置いた。**粒数が違うので 🪁 と一致しない**(窓は同じでも母集団が違う)。**どちらが「正しい」かは、この表からは言えない**(比べる観測量が 1 つも無い — 較正はしていない)。健全性: NaN 0・トイの帳簿は E_toy+E_mesh=0(厳密)。**言わないこと**: 銀河を較正した/回転曲線を再現した/腕が描けた=較正/N 倍速くなった(実ブラウザの ms/步 は PHYSICS〔第274便c〕① の表にだけ置く)。",
     control:"ワンタップ対照A/B: B 側は **D₀=500**(χ→0)でトイがほぼ切れる(🪁 と同じ対照)。比較の相手は 🪁(同じ宣言・円盤 260 粒)と 🎠(geoPN=0・kFrame=1)である。**kFrame は動かさないこと**(geoPN=3 の入場条件なので、0 以外にするとステップ会計に geoToy:denied が出る)。"},
   en:{name:"Galaxy space mesh - light copy (80 disc particles, NOT a calibration)",
@@ -6591,7 +6592,7 @@ const BUILTIN_PRESETS = [
     {q:"供給は外部熱浴", model:"復元・減衰・供給の 3 作用のうち供給は外部熱浴。粒子が受け取った P/L/E の厳密な負を帳簿へ記帳する(**閉じていない**)", obs:"—"},
     {q:"言わないこと", model:"**星団を較正した/正規分布が創発した/銀河が安定した**とは書かない。指定した形状の参照モデルである", obs:"—"}],
   descStruct:{
-    summary:"**指定した 3D 正規分布を定常分布に持つ参照モデル**(第274便d・第64報「実在天体に先立ち安定サンプルを用意する」)。中心 c と可逆行列 A=σI で物理座標を潜在座標へ写し(x=c+Ay・v=ċ+Ȧy+Aw)、潜在 (y,w) を各軸独立の 2 階 OU(dy=w dt・dw=(−ω₀²y−γw)dt+√(2γω₀²)dW)で更新する。定常分布は Cov(y)=I・Cov(w)=ω₀²I であり、**離散化は厳密**(B=[[0,1],[−ω₀²,−γ]]・F=e^{Bh}・Q_h=C−FCFᵀ・ξ∼N(0,Q_h))なので Euler 近似の刻み依存が無い。**これは較正ではない**(観測された星団の密度・速度分散を 1 つも入力していない)。**重力から形が出たのでもない**: 対象粒子は**規定運動**であり、G=0 で走らせてあって、G を上げても 600 步の状態は 1 bit も変わらない。宣言する 3 作用は**復元**(−ω₀²y)・**減衰**(−γw)・**供給**(√(2γω₀²)dW)で、**供給は外部熱浴**である —— 粒子が受け取った運動量・角運動量・運動エネルギーの厳密な負を帳簿(`shapeToyBath*`・リザーバ)へ記帳するだけで、**閉じた系ではない**(反作用先の有限容量は未定義)。面外 z は潜在のまま持ち(力には 1 バイトも使わない)、3 つの 1D 正規分布の**積**が 3D 密度になるので、どの視線で積分しても投影は 1D 正規分布、等方なら半径分布は r²exp(−r²/2σ²) である。**言わないこと**: 星団を較正した・正規分布が創発した・銀河が安定した(観測比較をしていない)。",
+    summary:"**指定した 3D 正規分布を定常分布に持つ参照モデル**(重力 E4・引きずり E6′ はこの経路の状態を決めない・第274便d・第64報「実在天体に先立ち安定サンプルを用意する」)。中心 c と可逆行列 A=σI で物理座標を潜在座標へ写し(x=c+Ay・v=ċ+Ȧy+Aw)、潜在 (y,w) を各軸独立の 2 階 OU(dy=w dt・dw=(−ω₀²y−γw)dt+√(2γω₀²)dW)で更新する。定常分布は Cov(y)=I・Cov(w)=ω₀²I であり、**離散化は厳密**(B=[[0,1],[−ω₀²,−γ]]・F=e^{Bh}・Q_h=C−FCFᵀ・ξ∼N(0,Q_h))なので Euler 近似の刻み依存が無い。**これは較正ではない**(観測された星団の密度・速度分散を 1 つも入力していない)。**重力から形が出たのでもない**: 対象粒子は**規定運動**であり、G=0 で走らせてあって、G を上げても 600 步の状態は 1 bit も変わらない。宣言する 3 作用は**復元**(−ω₀²y)・**減衰**(−γw)・**供給**(√(2γω₀²)dW)で、**供給は外部熱浴**である —— 粒子が受け取った運動量・角運動量・運動エネルギーの厳密な負を帳簿(`shapeToyBath*`・リザーバ)へ記帳するだけで、**閉じた系ではない**(反作用先の有限容量は未定義)。面外 z は潜在のまま持ち(力には 1 バイトも使わない)、3 つの 1D 正規分布の**積**が 3D 密度になるので、どの視線で積分しても投影は 1D 正規分布、等方なら半径分布は r²exp(−r²/2σ²) である。**言わないこと**: 星団を較正した・正規分布が創発した・銀河が安定した(観測比較をしていない)。",
     observe:"中心に対して正規分布へ緩和し、σ(t)=σ_∞(1+(r₀−1)e^{−t/τ})(σ_∞=90・r₀=0.4・τ=25)で外へ向かって安定成長する。速度は ċ+Ȧy+Aw で、A の拡縮も速度に入る(描画だけで広げてはいない)。数は docs/PHYSICS.md〔第274便d〕の表(器 tests/exp-w274d-shapetoy.mjs)。",
     control:"**パラメータ行に形状トイのノブは無い**(宣言は physics.shapeToy で、`ω₀`=復元の角振動数・`γ`=減衰率・`σ`=目標の広がり・`τ`=成長時定数)。重力 G を上げても対象粒子は規定運動なので状態は 1 bit も動かない —— これが「重力で安定したのではない」ことの操作上の確認である。"},
   en:{name:"Globular-cluster toy — a 3D-normal reference model (NOT a calibration)",
@@ -6618,12 +6619,12 @@ const BUILTIN_PRESETS = [
     derived:["定常 Cov(x)=σ²I・Cov(v)=σ²ω₀²I(OU の定常解)","半径分布 r²exp(−r²/2σ²)(3 軸等方の帰結)"],
     numerical:["ソフトニング ε=2","時間倍率 timeScale=3","厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ(Euler 近似ではない)",
       "測定: dt=0.016・seed 20260919(器 tests/exp-w274d-shapetoy.mjs)"]},
-  activeParams:["G","softening","timeScale"],
+  activeParams:["G","softening"],
   validT:200,
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260919,
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
-    radiusScale:1, softening:2, timeScale:3,
+    radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
     shapeToy:{shape:"cluster", supply:"external-bath", coupling:"prescribed",
       omega0:0.10, gamma:0.25, sigma:90, sigma0:36, tauGrow:25, center:"fixed", cx:0, cy:0}},
   bodies:[
@@ -6644,7 +6645,7 @@ const BUILTIN_PRESETS = [
     {q:"供給は外部熱浴", model:"復元・減衰・供給の 3 作用のうち供給は外部熱浴。P/L/E の厳密な負を記帳する(**閉じていない**)", obs:"—"},
     {q:"言わないこと", model:"**楕円銀河を較正した/腕が創発した/銀河が安定した**とは書かない。腕は本便では乗せていない", obs:"—"}],
   descStruct:{
-    summary:"**腕のない回転円盤の参照モデル**(楕円銀河のアナロジー・第274便d)。A(t)=R(θ(t))·diag(σ_R,σ_R,σ_z)・θ(t)=Ωt で潜在座標を物理座標へ写し、潜在は 🔮 と同じ 2 階 OU(厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ)で更新する。**面内 σ が等しいので回転 R(θ) は形を変えない** —— 横から見たときの扁平は **σ_z<σ_R の宣言**であって、回転の帰結ではない(「回転させたら扁平になった」とは書かない)。**これは較正ではない**(観測された楕円銀河の軸比・速度分散を 1 つも入力していない)。**重力から形が出たのでもない**: 対象粒子は規定運動であり、G=0 で走らせてあって、G を上げても 600 步の状態は 1 bit も変わらない。Ω=0.05<ω₀=0.10 を宣言条件として走らせているが、**この参照モデルでは Ω は潜在座標の式に入らない**ので、Ω を上げても定常共分散は動かない(第274便d の実測表)—— つまり「Ω<√κ」は**この模型では安定条件として働いていない**。供給は外部熱浴で、粒子が受け取った P/L/E の厳密な負を帳簿へ記帳するだけである(**閉じた系ではない**)。腕は乗せていない(渦巻は次段)。**言わないこと**: 「楕円銀河を較正した」「回転させたら扁平になった」「腕が創発した」「銀河が安定した」とは書かない。",
+    summary:"**腕のない回転円盤の参照モデル**(楕円銀河のアナロジー・第274便d・重力 E4 はこの経路の状態を決めない)。A(t)=R(θ(t))·diag(σ_R,σ_R,σ_z)・θ(t)=Ωt で潜在座標を物理座標へ写し、潜在は 🔮 と同じ 2 階 OU(厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ)で更新する。**面内 σ が等しいので回転 R(θ) は形を変えない** —— 横から見たときの扁平は **σ_z<σ_R の宣言**であって、回転の帰結ではない(「回転させたら扁平になった」とは書かない)。**これは較正ではない**(観測された楕円銀河の軸比・速度分散を 1 つも入力していない)。**重力から形が出たのでもない**: 対象粒子は規定運動であり、G=0 で走らせてあって、G を上げても 600 步の状態は 1 bit も変わらない。Ω=0.05<ω₀=0.10 を宣言条件として走らせているが、**この参照モデルでは Ω は潜在座標の式に入らない**ので、Ω を上げても定常共分散は動かない(第274便d の実測表)—— つまり「Ω<√κ」は**この模型では安定条件として働いていない**。供給は外部熱浴で、粒子が受け取った P/L/E の厳密な負を帳簿へ記帳するだけである(**閉じた系ではない**)。腕は乗せていない(渦巻は次段)。**言わないこと**: 「楕円銀河を較正した」「回転させたら扁平になった」「腕が創発した」「銀河が安定した」とは書かない。",
     observe:"面内は σ_R へ、面外(潜在 z)は σ_z へ緩和し、θ=Ωt で回る。横から見た投影(x–z)は軸比 σ_z/σ_R の正規分布で、真上から見た投影(x–y)は等方の正規分布である。数は docs/PHYSICS.md〔第274便d〕の表。",
     control:"**パラメータ行に形状トイのノブは無い**(宣言は physics.shapeToy)。重力 G を上げても状態は 1 bit も動かない(規定運動)。扁平を変えたいときは σ_z の宣言を変える —— 回転 Ω を上げても扁平にはならない。"},
   en:{name:"Rotating disc toy without arms — the flattening is a declared sigma_z (NOT a calibration)",
@@ -6670,12 +6671,12 @@ const BUILTIN_PRESETS = [
     derived:["面内の定常 Cov=σ_R²I・面外 σ_z²(OU の定常解)","横から見た軸比 σ_z/σ_R=0.318…(宣言値の比そのもの)"],
     numerical:["ソフトニング ε=2","時間倍率 timeScale=3","厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ",
       "測定: dt=0.016・seed 20260919(器 tests/exp-w274d-shapetoy.mjs)"]},
-  activeParams:["G","softening","timeScale"],
+  activeParams:["G","softening"],
   validT:200,
   camera:{scale:480}, world:{boundary:"none",size:0}, seed:20260919,
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
-    radiusScale:1, softening:2, timeScale:3,
+    radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
     shapeToy:{shape:"disk", supply:"external-bath", coupling:"prescribed",
       omega0:0.10, gamma:0.08, sigma:110, sigmaZ:35, sigma0:44, tauGrow:25,
       omegaSpin:0.05, center:"fixed", cx:0, cy:0}},
@@ -6697,7 +6698,7 @@ const BUILTIN_PRESETS = [
     {q:"供給は外部熱浴", model:"復元・減衰・供給の 3 作用のうち供給は外部熱浴。P/L/E の厳密な負を記帳する(**閉じていない**)", obs:"—"},
     {q:"言わないこと", model:"**腕が創発した/渦巻銀河を較正した**とは書かない。腕は指定した形状であって、計算から出てきた模様ではない", obs:"—"}],
   descStruct:{
-    summary:"**腕単体の参照モデル**(第274便d・第64報「まず腕単体の仮想サンプルで中心から直線状に伸びる腕を安定化(腕の軸に対して正規分布)」)。中心から伸びる直線 c(s)=c₀+s·e₁(0≤s≤L(t))を軸に取り、**横断方向 n と面外 z にだけ** 2 階 OU(復元 −ω₀²y・減衰 −γw・供給 √(2γω₀²)dW・厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ)を当てる。**軸方向 s は伸長に共動する端条件**(ṡ=s·L̇/L)で、復元も熱浴も無い —— したがって s 方向の密度は初期配置がそのまま伸びたものであって、密度則を主張しない(宣言)。**この本は回さない**(渦巻は腕を回転円盤に乗せる次段で、本便では実装していない)。**これは較正ではない**(観測された渦状腕のピッチ角・幅を 1 つも入力していない)。**重力から形が出たのでもない**: 対象粒子は規定運動で、G=0 で走らせてあり、G を上げても 600 步の状態は 1 bit も変わらない。供給は外部熱浴で、粒子が受け取った P/L/E の厳密な負を帳簿へ記帳するだけである(**閉じた系ではない**)。**言わないこと**: 「腕が創発した」「渦巻銀河を較正した」「銀河が安定した」とは書かない —— 腕は**指定した形状**である。",
+    summary:"**腕単体の参照モデル**(重力 E4 はこの経路の状態を決めない・第274便d・第64報「まず腕単体の仮想サンプルで中心から直線状に伸びる腕を安定化(腕の軸に対して正規分布)」)。中心から伸びる直線 c(s)=c₀+s·e₁(0≤s≤L(t))を軸に取り、**横断方向 n と面外 z にだけ** 2 階 OU(復元 −ω₀²y・減衰 −γw・供給 √(2γω₀²)dW・厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ)を当てる。**軸方向 s は伸長に共動する端条件**(ṡ=s·L̇/L)で、復元も熱浴も無い —— したがって s 方向の密度は初期配置がそのまま伸びたものであって、密度則を主張しない(宣言)。**この本は回さない**(渦巻は腕を回転円盤に乗せる次段で、本便では実装していない)。**これは較正ではない**(観測された渦状腕のピッチ角・幅を 1 つも入力していない)。**重力から形が出たのでもない**: 対象粒子は規定運動で、G=0 で走らせてあり、G を上げても 600 步の状態は 1 bit も変わらない。供給は外部熱浴で、粒子が受け取った P/L/E の厳密な負を帳簿へ記帳するだけである(**閉じた系ではない**)。**言わないこと**: 「腕が創発した」「渦巻銀河を較正した」「銀河が安定した」とは書かない —— 腕は**指定した形状**である。",
     observe:"腕は L(t):120→380 へ伸びながら、横断方向は σ_n=18・面外は σ_z=12 の正規分布へ緩和する(軸に対して正規分布)。伸長は共動なので、腕の内側の粒ほどゆっくり外へ動く。数は docs/PHYSICS.md〔第274便d〕の表。",
     control:"**パラメータ行に形状トイのノブは無い**(宣言は physics.shapeToy)。重力 G を上げても状態は 1 bit も動かない(規定運動)。腕を太くするには σ の宣言を、伸ばす速さを変えるには τ の宣言を変える。"},
   en:{name:"Single-arm toy — normal about the arm axis (NOT a calibration)",
@@ -6724,12 +6725,12 @@ const BUILTIN_PRESETS = [
     derived:["横断の定常 Cov=σ_n²・面外 σ_z²(OU の定常解)","s 方向は定常分布を持たない(共動の伸長のみ)"],
     numerical:["ソフトニング ε=2","時間倍率 timeScale=3","厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ",
       "測定: dt=0.016・seed 20260919(器 tests/exp-w274d-shapetoy.mjs)"]},
-  activeParams:["G","softening","timeScale"],
+  activeParams:["G","softening"],
   validT:200,
   camera:{scale:520}, world:{boundary:"none",size:0}, seed:20260919,
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
-    radiusScale:1, softening:2, timeScale:3,
+    radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
     shapeToy:{shape:"arm", supply:"external-bath", coupling:"prescribed",
       omega0:0.12, gamma:0.24, sigma:18, sigmaZ:12, sigma0:7.2, tauGrow:25,
       armLength:380, armLength0:120, center:"fixed", cx:0, cy:0}},

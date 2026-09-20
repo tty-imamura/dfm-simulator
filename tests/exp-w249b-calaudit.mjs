@@ -2574,6 +2574,9 @@ const applyKf0Runs = (records) => {
 // ---------------------------------------------------------------- 既存 JSON との併合(--merge)
 // --only で一部だけ回し直したとき、既存の結果へその preset だけを差し替える(物理の再実行を減らす)。
 let merged = report;
+// 第274便(統括): --merge の再判定で、第274便a が `orderEstimable.rule` を辞書へ巻き上げた記録から
+//   規約文を引き直すための写し(`ruleRef` → 文)。無ければ空(step1 の初回走行)。
+const PREV_TEXTS = (() => { try { const j = JSON.parse(fs.readFileSync(OUT, 'utf8')); return (j.contracts && j.contracts.texts) || {}; } catch (e) { return {}; } })();
 if (MERGE && fs.existsSync(OUT)) {
   {
     // ---------------------------------------------------------------- 第270便a(第60報 W1・AE8)
@@ -2957,7 +2960,7 @@ for (const r of merged) for (const q of (r.quantities || [])) {
     // 第271便a(R3): 判定段・次数推定の可否を収束欄にも置く(門の JSON だけで辿れるように)
     assessedStage, orderEstimable,
     orderEstimableReason: ordEst ? ordEst.reason : null,
-    orderEstimableRule: ordEst ? ordEst.rule : null,
+    orderEstimableRule: ordEst ? (ordEst.rule || (ordEst.ruleRef && PREV_TEXTS[ordEst.ruleRef]) || null) : null,   // 第274便(統括): 巻き上げ済みの記録から引き直す
     // 第273便c(第63報・AH30): **次数が立たない列の言い方を 1 語に固定する**。
     //   'order-estimable' …… 連続 2 段差が同符号で、観測次数が立った(収束の宣言ではない)
     //   'unconfirmed'     …… 次数が推定できない/非正 = **漸近収束未確認**
