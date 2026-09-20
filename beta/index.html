@@ -17930,7 +17930,12 @@ function makeSim(){
     // 第274便d(第64報): 形状トイ(physics.shapeToy)の有無フラグも同じ場所で張る。
     // validateShapeToy が未宣言・null を落としているので、キーの有無だけで判定できる。
     // 未宣言は `S.step` の真偽値 1 つを読んで素通りする(**既定経路 1 bit 不変**)
-    const __st=S.params[SHAPE_TOY_KEY];
+    // 第274便(統括・統合後): **build は宣言を検証器で正規化してから読む**(validatePreset を通らない
+    // 生の preset を build すると sigmaZ 等の既定が埋まらず、z 潜在が非有限になって全粒子が
+    // nonfinite で素通りしていた — 往復 QA `preset.roundtrip-builtins` が 🔮 で検出)。不正な宣言は未宣言扱い。
+    const __stv=validateShapeToy(S.params[SHAPE_TOY_KEY]===undefined? null : S.params[SHAPE_TOY_KEY]);
+    const __st=(__stv.ok && __stv.shapeToy)? __stv.shapeToy : null;
+    if(__st) S.params[SHAPE_TOY_KEY]=__st;
     S.hasShapeToy=!!__st; S.shapeToy=__st||null;
     if(!S.hasShapeToy){ S.shapeToyStop=null; S.shapeToyN=0; }
     // 潜在は **build の直後の 1 度だけ**作る(`S.yLat` が無いときだけ = 実行中の再呼び出しでは作り直さない)。
