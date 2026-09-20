@@ -47,6 +47,11 @@
 //          PLAYWRIGHT_CORE_DIR=/opt/node22/lib/node_modules/playwright node tests/exp-w249b-calaudit.mjs
 //     ② 3 段の登録表だけを 3 段で回して**差し替える**:
 //          PLAYWRIGHT_CORE_DIR=… node tests/exp-w249b-calaudit.mjs --dt3-registry --merge
+//     ②′ **kFrame=0 の対照走行**(第274便a・第64報)を条件不一致 8 行へ配る:
+//          PLAYWRIGHT_CORE_DIR=… node tests/exp-w249b-calaudit.mjs --kf0-runs --kf0-only --kf0-dt3 \
+//            --only jupiterGalilean,venusReal,marsMoonsReal,plutoCharonReal,neptuneReal --merge
+//          (`--kf0-only` は**既定経路を 1 本も測り直さない**。配布は **--merge のあと**なので
+//           既存 JSON 側の 8 行に届き、配る前の門は `kf0Applied.replaced.gate` に残る)
 //     ③ σ 接続器を掛け直す: node tests/exp-w262d-solarsigma.mjs
 //   **`--regate` の産物を正本にしない**。--regate は「既に繋がっている σ が動いたか」だけを答える
 //   再判定専用の経路で、`applySigma` を通らない(= 宣言・単位換算・新しい宛先は反映されない)。
@@ -58,7 +63,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 // 第258便d(第50報 W4): 条件不一致の隔離・証拠付き予測・ε_num の推定誤差・deg/yr の門は
 // **純関数**として tests/lib-w258d-evidence.mjs に置き、QA が同じ 1 本を読む。
-import { GATE, VERDICT_CONDITION, VERDICTS6, YEAR_SEC, enforceAllConditions,
+import { GATE, VERDICT_CONDITION, VERDICTS6, YEAR_SEC, enforceAllConditions, readRequiredContext,
   predictionEligible, refinedNumBound, degPerYear, assessDegYearGate,
   // 第259便d(第51報 W4): 証拠付き予測の**記録器**(枠だけ — 中身は空で出荷する)
   emptyEvidenceRegistry, recordEvidence, applyEvidenceRegistry,
@@ -141,6 +146,23 @@ const DT3_REGISTRY = argv.includes('--dt3-registry');
 let DT8 = (() => { const i = argv.indexOf('--dt8');
   return (i >= 0 && argv[i + 1] && !argv[i + 1].startsWith('--')) ? argv[i + 1].split(',') : null; })();
 const DT8_REGISTRY = argv.includes('--dt8-registry');
+// ---------------------------------------------------------------- 第274便a(第64報・kF0 棚卸し便)
+// **--kf0-runs** —— 条件不一致 8 行(`condition-mismatch`)が要求している **kFrame=0 の対照条件**を
+// **別の走行**として測り、その行へ配る。走らせるのは `physics.kFrame` の 1 鍵だけを 0 にした
+// **診断コピー**であり、**プリセットの physics は 1 bit も書き換えない**(`__w249build(id, true)`)。
+//   ・段は h(0.016)と h/2(0.008)。`--kf0-dt3` を足すと h/4(0.004)まで走る。
+//   ・停止条件・近点窓・抽出器・σ の宛先は**既定経路と同じ**(id が同じなので同じ宣言を引く)。
+//   ・kF1 側の行(「kFrame=1…」と名乗る行)には**触らない** —— 動くのは要求 kFrame=0 の行だけである。
+//   ・元の(kFrame=1 の走行から配られていた)値は `q.kf0Applied.replaced` に残す。**捨てない**。
+// **これは「合った」の宣言ではない**。条件不一致が解けると門は 3σ の算術を見にいくので、
+// **合否がその場で出る**(否も出る)。どちらへ動くかは走らせて測る。
+const KF0_RUNS = argv.includes('--kf0-runs');
+const KF0_DT3 = argv.includes('--kf0-dt3');
+// **--kf0-only**: 既定経路の走行を 1 本も行わず、**kF0 診断コピーだけ**を走らせる(`--merge` 前提)。
+//   ねらいは 2 つ。(a) 既に測ってある kFrame=1 側を**測り直さない**(3 段・4 段登録系の段を落とさない)。
+//   (b) 配る前の行が**既存 JSON の判定済みの行**なので、`kf0Applied.replaced` に
+//       **配る前の門(status・判定段・判定値・σ 倍)をそのまま**残せる ——**証拠を捨てない**。
+const KF0_ONLY = argv.includes('--kf0-only');
 // 第259便d(第51報 W4): **証拠付き予測の記録器**。`--record-evidence <file.json>` で
 // `{ "<gate.key>": {dataset, commit, harness, window, recordedAt}, … }` を読み、
 // 検証を通った宣言だけを量へ配る。**既定は 0 件**(ファイルを渡さなければ枠だけが出る)。
@@ -337,6 +359,9 @@ const H8_REGISTRY_IDS = new Set(H8_CONDITIONAL_REGISTRY.filter((z) => z.run).map
 // **換算前の行(°/周)は `q.previousUnit` に温存する** —— σ 接続器の切断点 `unit-not-converted` は
 // 換算していない他の系(☄️🪨🌞 の水星)で**対照として残る**。
 const AD8_CONVERT = new Set(['saturnZonalD68']);
+// 第274便a: `--dt3-registry` は下で `--only` を**登録表の系だけに絞り込む**。kF0 対照走行は
+// 登録表とは別の宣言なので、**絞り込む前の `--only`** を控えておく(kF0 の対象はこちらで決める)。
+const ONLY_REQUESTED = ONLY ? ONLY.slice() : null;
 if (DT3_REGISTRY) {
   DT3 = true;
   ONLY = ONLY ? ONLY.filter((z) => THREE_STAGE_IDS.has(z)) : Array.from(THREE_STAGE_IDS);
@@ -348,6 +373,30 @@ if (DT8_REGISTRY) {
   console.error('[w272a] --dt8-registry: 条件つき h/8 の登録表 ' + DT8.length + ' 本に 4 段目を足す'
     + '(未走行 ' + H8_CONDITIONAL_REGISTRY.filter((z) => !z.run).length + ' 本は階級上限で 60 公転を覆えない)');
 }
+
+// ---------------------------------------------------------------- 第274便a(第64報・kF0 棚卸し便)
+// **kF0 対照走行の登録表**(宣言であって自動判定ではない)。第258便d が `条` へ隔離した 8 行の
+// 出どころ 5 本である。`rows` は**その系が持つ条件不一致の行数**(🟠 は 4 衛星で 4 行)。
+// **登録は「合う」の宣言ではない** —— 走らせた結果どちらへ動くかは測って書く。
+const KF0_RUN_REGISTRY = [
+  { id: 'jupiterGalilean', emoji: '🟠', rows: 4,
+    why: '「恒星公転周期(…・kFrame=0 転写)」の 4 行(イオ/エウロパ/ガニメデ/カリスト)' },
+  { id: 'venusReal', emoji: '🌇', rows: 1, why: '「公転周期(kFrame=0 対照)」1 行' },
+  { id: 'marsMoonsReal', emoji: '🥔', rows: 1,
+    why: '「kFrame=0 対照との周期差」1 行(**観測欄が「—」の差の行**である —— '
+      + '対照条件で測っても照合できる観測値は無い。差そのものは `kf0Runs.rows[].diffPct` に出す)' },
+  { id: 'plutoCharonReal', emoji: '❄️', rows: 1,
+    why: '「公転周期(kFrame=0 対照・同方向1周)」1 行。**独立の刻印つき正本**'
+      + '(tests/out/charon-w272b.json の列 C1)があるので、走行値との一致も突き合わせる' },
+  { id: 'neptuneReal', emoji: '🌊', rows: 1, why: '「公転周期(kFrame=0 対照)」1 行' },
+];
+const KF0_RUN_IDS = new Set(KF0_RUN_REGISTRY.map((z) => z.id));
+// ❄️ の独立照合先(第272便b の正本・列 C1 = kFrame 0・f 1・geoPN 2・softening 0.05)。
+// **引用は走行の代わりではない**(本便は走らせたうえで、hash を留めて値を突き合わせる)。
+const KF0_CHARON_CITE = { id: 'plutoCharonReal', target: 'カロン',
+  file: 'tests/out/charon-w272b.json', column: 'C1', stage: 'h', field: 'rev2Sec',
+  why: '第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。'
+    + '**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。' };
 
 // 理論対照(観測較正ではない — preset 側の referenceKind 宣言と同じ集合)
 const THEORY_CONTROL = ['qLockRadialAudit', 'qLockRadialAuditQ3', 'emAuditNewton'];
@@ -716,15 +765,22 @@ await pg.evaluate((PERI_WINDOW) => {   // 第252便b: 近点間周期の固定�
     }
     return map;
   };
-  window.__w249build = (id) => {
+  // 第274便a(第64報・kF0 棚卸し便): 第 2 引数 `kFrame0` が true のときだけ、**複製の**
+  // `physics.kFrame` を 0 にしてから build する(= **診断コピー**)。複製は従来どおり
+  // `JSON.parse(JSON.stringify(p))` なので、**プリセット本体は 1 bit も書き換わらない**。
+  // 引数を渡さない既定経路は第273便a と 1 文字も同じ動作である。
+  window.__w249build = (id, kFrame0) => {
     const p = HP.allPresets().find((q) => q.id === id);
-    const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+    const copy = JSON.parse(JSON.stringify(p));
+    if (kFrame0 === true) { copy.physics = copy.physics || {}; copy.physics.kFrame = 0; }
+    const v = HP.validatePreset(copy);
     HP.sim.build(v.preset);
-    return { warnings: v.warnings, n: HP.sim.n, map: window.__w249map(v.preset) };
+    return { warnings: v.warnings, n: HP.sim.n, map: window.__w249map(v.preset),
+      kFrameApplied: (v.preset.physics || {}).kFrame };
   };
   // 步/秒の実測(判定には使わない — 走行長の予算にだけ使う)
-  window.__w249rate = (id, dt) => {
-    window.__w249build(id); const S = HP.sim;
+  window.__w249rate = (id, dt, kFrame0) => {
+    window.__w249build(id, kFrame0); const S = HP.sim;
     for (let i = 0; i < 5000; i++) S.step(dt);          // JIT の暖機(計時に入れない)
     const t0 = Date.now(); const N = 20000;
     for (let i = 0; i < N; i++) S.step(dt);
@@ -747,8 +803,8 @@ await pg.evaluate((PERI_WINDOW) => {   // 第252便b: 近点間周期の固定�
   };
   // 本体: 1 走行で全対象を測る
   //   targets = [{ci, oi, label}]  (実行 index)
-  window.__w249run = (id, dt, maxSteps, targets, orbMax, G) => {
-    const b = window.__w249build(id); const S = HP.sim;
+  window.__w249run = (id, dt, maxSteps, targets, orbMax, G, kFrame0) => {
+    const b = window.__w249build(id, kFrame0); const S = HP.sim;
     const T = targets.map((t) => {
       const o = window.__w249osc0(t.ci, t.oi, G);
       return { ci: t.ci, oi: t.oi, label: t.label,
@@ -909,7 +965,8 @@ await pg.evaluate((PERI_WINDOW) => {   // 第252便b: 近点間周期の固定�
         driftPct: (c.omega !== 0 && ci) ? (ci.omega - c.omega) / Math.abs(c.omega) * 100 : null }; });
     return { steps: k, tEnd: k * dt, targets: out, spinDrift, coreDrift,
       nan: S.hasNaN(), clamp: (S.clampVN || 0) + (S.clampSN || 0) + (S.clampHN || 0) + (S.clampRN || 0) + (S.clampTN || 0),
-      warnings: b.warnings, n: b.n, framePrec: S.framePrec || null };
+      warnings: b.warnings, n: b.n, framePrec: S.framePrec || null,
+      kFrameApplied: (b.kFrameApplied === undefined) ? null : b.kFrameApplied };
   };
 }, PERI_WINDOW);
 
@@ -993,13 +1050,37 @@ out = { meta: {
     + '(重い環・多体は時間予算に収まらない — 明記)。'
     + (DT3 ? '**第255便d(第47報 N8): 本走行は --dt3 で dt/4=0.004 を足した 3 段**である'
       + '(--only で絞った系だけ。ε_num=|Q_h−Q_{h/4}|・観測次数 p_obs を実測して numBoundDecl へ入れる)。' : ''),
+  // 第274便a(第64報): kF0 対照走行の宣言(走らせた段・対象。**プリセットの physics は不変**)
+  kf0Runs: { on: KF0_RUNS, dt3: KF0_DT3, only: KF0_ONLY,
+    ids: KF0_RUNS ? KF0_RUN_REGISTRY.map((z) => z.id) : [],
+    how: '`physics.kFrame` の 1 鍵だけを 0 にした診断コピー(`__w249build(id, true)`)。'
+      + '停止条件・近点窓・抽出器・σ の宛先は既定経路と同じ宣言を引く。' },
   dt3: DT3 ? { on: true, only: ONLY,
     note: '3 段(dt, dt/2, dt/4)を走らせた系だけ numBoundDecl.steps=3・order=p_obs になる。'
       + '2 段のままの系の値・文言は第253便b から 1 文字も動いていない。' } : { on: false },
 }, presets: [] };
 
-for (const id of ids) {
-  const d = decls.find((x) => x.id === id);
+// 第274便a: 既定経路の走行(kf0:false)のあとに、登録表の **kF0 診断コピー**(kf0:true)を足す。
+// **--kf0-runs を渡さなければ jobs は ids そのもの**で、第273便a と 1 文字も同じ走行である。
+const jobs = (KF0_RUNS && KF0_ONLY) ? [] : ids.map((id) => ({ id, kf0: false }));
+if (KF0_RUNS) {
+  // 対象は **`--dt3-registry` で絞り込まれる前の `--only`**(kF0 は 3 段登録表とは別の宣言である)
+  for (const z of KF0_RUN_REGISTRY) {
+    if (ONLY_REQUESTED && !ONLY_REQUESTED.includes(z.id)) continue;
+    if (!decls.some((x) => x.id === z.id)) continue;
+    jobs.push({ id: z.id, kf0: true });
+  }
+  console.error('[w274a] --kf0-runs: 条件不一致 8 行の kFrame=0 対照を '
+    + jobs.filter((j) => j.kf0).length + ' 本の診断コピーで測る(段 h・h/2'
+    + (KF0_DT3 ? '・h/4' : '') + '。プリセットの physics は 1 bit も変えない'
+    + (KF0_ONLY ? ' / --kf0-only: 既定経路の走行は 1 本も行わない' : '') + ')');
+}
+for (const job of jobs) {
+  const id = job.id;
+  const KF0 = job.kf0;
+  const d = KF0 ? (() => { const c = JSON.parse(JSON.stringify(decls.find((x) => x.id === id)));
+    c.physics = Object.assign({}, c.physics, { kFrame: 0 });
+    c.kf0Diagnostic = true; return c; })() : decls.find((x) => x.id === id);
   const cfg = CFG[id];
   if (!cfg) { console.error(`  SKIP ${id}(CFG 未宣言)`); continue; }
   const G = Number(d.physics.G), c = Number(d.physics.cLight);
@@ -1007,7 +1088,7 @@ for (const id of ids) {
   const toSec = Math.pow(10, eT);
 
   // 宣言 index → 実行 index
-  const b0 = await pg.evaluate((id) => window.__w249build(id), id);
+  const b0 = await pg.evaluate(({ id, kf0 }) => window.__w249build(id, kf0), { id, kf0: KF0 });
   const map = b0.map;
   const heavy = b0.n > 12;
   const budget = heavy ? BUDGET_HEAVY : BUDGET_LIGHT;
@@ -1024,14 +1105,16 @@ for (const id of ids) {
   const rows = [];
   const levels = [{ dt: DT0, tag: 'dt' }];
   if (!FAST && !heavy) levels.push({ dt: DT0 / 2, tag: 'dt/2' });
-  if (DT3 && !FAST && !heavy) levels.push({ dt: DT0 / 4, tag: 'dt/4' });   // 第255便d(N8)
+  // 第274便a: kF0 診断コピーの段は **h・h/2(+ --kf0-dt3 で h/4)**。既定経路の DT3 には乗せない
+  // (3 段登録表は既定経路の宣言であって、診断コピーの段は本便の宣言である)。
+  if (KF0 ? (KF0_DT3 && !FAST && !heavy) : (DT3 && !FAST && !heavy)) levels.push({ dt: DT0 / 4, tag: 'dt/4' });   // 第255便d(N8)
   // 第258便d(第50報 W4): **h8 検査点**。--dt8 で名指しした系にだけ 4 段目を足す(予算の都合で 1 系)。
-  if (DT8 && DT8.includes(id) && !FAST && !heavy) levels.push({ dt: DT0 / 8, tag: 'dt/8' });
+  if (DT8 && DT8.includes(id) && !FAST && !heavy && !KF0) levels.push({ dt: DT0 / 8, tag: 'dt/8' });
 
   for (const lv of levels) {
-    const rate = await pg.evaluate(({ id, dt }) => window.__w249rate(id, dt), { id, dt: lv.dt });
+    const rate = await pg.evaluate(({ id, dt, kf0 }) => window.__w249rate(id, dt, kf0), { id, dt: lv.dt, kf0: KF0 });
     // t=0 の接触要素から 1 公転の步数を見積もる
-    await pg.evaluate((id) => window.__w249build(id), id);
+    await pg.evaluate(({ id, kf0 }) => window.__w249build(id, kf0), { id, kf0: KF0 });
     const osc0 = await pg.evaluate(({ targets, G }) => targets.map((t) => window.__w249osc0(t.ci, t.oi, G)),
       { targets, G });
     const stepsPerOrbit = osc0.map((o) => (Number.isFinite(o.P) && o.P > 0) ? o.P / lv.dt : Infinity);
@@ -1045,8 +1128,8 @@ for (const id of ids) {
     const wantSteps = stopRule.wantSteps;
     const maxSteps = stopRule.maxSteps;
     const t0 = Date.now();
-    const r = await pg.evaluate(({ id, dt, maxSteps, targets, orbMax, G }) =>
-      window.__w249run(id, dt, maxSteps, targets, orbMax, G), { id, dt: lv.dt, maxSteps, targets, orbMax, G });
+    const r = await pg.evaluate(({ id, dt, maxSteps, targets, orbMax, G, kf0 }) =>
+      window.__w249run(id, dt, maxSteps, targets, orbMax, G, kf0), { id, dt: lv.dt, maxSteps, targets, orbMax, G, kf0: KF0 });
     r.dt = lv.dt; r.tag = lv.tag; r.rateStepsPerSec = Math.round(rate); r.wallSec = (Date.now() - t0) / 1000;
     r.stepsPerOrbit0 = stepsPerOrbit.map((s) => Number.isFinite(s) ? Math.round(s) : null);
     // 第257便d: **計算時間の予算**を数値の性質と混ぜずに記録する(機種依存の欄)。
@@ -1073,13 +1156,13 @@ for (const id of ids) {
       rateNote: '**步/秒は記録であって停止条件ではない**(第270便a・AE9)',
       machineIndependence: machineIndependenceProbe({ id, n: b0.n, dt: lv.dt, stepsPerOrbit, orbMax }) });
     rows.push(r);
-    console.error(`  ${d.emoji} ${id} [${lv.tag}=${lv.dt}] n=${r.n} steps=${r.steps}/${maxSteps}`
+    console.error(`  ${d.emoji}${KF0 ? '(kF0)' : ''} ${id} [${lv.tag}=${lv.dt}] n=${r.n} steps=${r.steps}/${maxSteps}`
       + `(${r.stopRule.stoppedBy}) orbits=${r.targets.map((t) => t.revN).join('/')}`
       + ` peri=${r.stopRule.periFoundA.join('/')}≥${r.stopRule.needPeriastra}?${r.stopRule.periastraOk}`
       + ` ${r.wallSec.toFixed(1)}s`);
   }
   out.presets.push({ decl: d, cfg: { center: cfg.c, orbiters: cfg.o, ringInner: cfg.ringInner || null,
-    note: cfg.note || null }, runs: rows, toSec, G, c, heavy });
+    note: cfg.note || null }, runs: rows, toSec, G, c, heavy, kf0Diagnostic: KF0 || false });
 }
 
 // ---------------------------------------------------------------- 第257便d(第49報・3 審査 v15)
@@ -2364,6 +2447,9 @@ for (const P of (REGATE ? [] : out.presets)) {
   for (const q of quantities) tally[q.verdict] = (tally[q.verdict] || 0) + 1;
 
   report.push({ id: d.id, emoji: d.emoji, name: d.name, version,
+    // 第274便a: **kF0 診断コピーの記録である**という印。この印が立った記録は下で `report` から
+    // 抜き取られ、**正本の 37 本にも 314 量にも数えられない**(値は条件不一致 8 行へ配るだけ)。
+    kf0Diagnostic: P.kf0Diagnostic || false,
     referenceKind: theory ? 'theory-control' : null,
     massCalibration: d.massCalibration, scaleExpT: d.scaleExp ? d.scaleExp.T : null,
     run: { n: base.n, dt: base.dt, steps: base.steps, wallSec: base.wallSec,
@@ -2382,9 +2468,115 @@ for (const P of (REGATE ? [] : out.presets)) {
     correlates, quantities, tally, notes });
 }
 
+// ---------------------------------------------------------------- 第274便a(第64報・kF0 棚卸し便)
+// **条件不一致 8 行へ、kFrame=0 の対照走行の値を配る**。
+//   ① 診断コピーの記録(`kf0Diagnostic:true`)を `report` から**抜き取る** ——
+//      正本の 37 本・314 量には**数えない**(器の中の診断であって、較正サンプルではない)。
+//   ② 実サンプル側の行のうち、**行が kFrame=0 を要求していて**かつ**プリセットが kFrame≠0**
+//      のものだけを、同じ名前・同じ対象・同じ種類の**双子の行**で置き換える。
+//      置き換えるのは測定側だけで、観測値・σ・採用解・claims は双子でも同じ 1 本から来ている。
+//   ③ 置き換えた行に `measurementContextOverride:{kFrame:0}` を立てる ——
+//      これで `enforceMeasurementCondition` が「条件が違う」と見なさなくなり、**門が 3σ の算術を
+//      見にいく**。**「合った」の宣言ではない**(否も出る)。
+//   ④ 置き換える前の値(kFrame=1 の走行から配られていた数)は `kf0Applied.replaced` に残す。
+//      第258便d の `conditionRejectedEvidence` と同じ趣旨で、**証拠は捨てない**。
+const kf0Report = report.filter((r) => r.kf0Diagnostic === true);
+report = report.filter((r) => r.kf0Diagnostic !== true);
+const kf0Apply = { on: KF0_RUNS, registry: KF0_RUN_REGISTRY,
+  stages: KF0_DT3 ? ['h', 'h/2', 'h/4'] : ['h', 'h/2'],
+  diagnosticPresets: kf0Report.length, applied: [], missing: [] };
+// **配るのは --merge のあと**である(`--only` で一部だけ回しても、既存 JSON 側の同じ行へ届く)。
+const applyKf0Runs = (records) => {
+  const twin = new Map();
+  for (const r of kf0Report) for (const q of (r.quantities || []))
+    twin.set([r.id, q.name, String(q.target), q.kind].join('\u0000'), q);
+  for (const r of records) {
+    if (!KF0_RUN_IDS.has(r.id)) continue;
+    const pk = Number((r.correlates || {}).kFrame);
+    const qs = r.quantities || [];
+    let touched = false;
+    for (let i = 0; i < qs.length; i++) {
+      const q = qs[i];
+      if (!q.kind || q.kind === 'other') continue;
+      const req = readRequiredContext(q, pk);
+      if (!(Number.isFinite(req.kFrame) && req.kFrame === 0 && Number.isFinite(pk) && pk !== 0)) continue;
+      const key = [r.id, q.name, String(q.target), q.kind].join('\u0000');
+      const t = twin.get(key);
+      if (!t) { kf0Apply.missing.push({ id: r.id, name: q.name, target: q.target, kind: q.kind,
+        why: 'kF0 診断コピーに同じ名前の行が無い' }); continue; }
+      // **べき等にする**: --merge で既に kF0 を配ってある行を配り直すとき、`replaced` に
+      // 「前回配った kF0 の値」が入ってしまうと**元の kFrame=1 の証拠が消える**。
+      // 既にあるならそれを持ち越す(第259便d が `conditionRejectedEvidence` で行ったのと同じ処置)。
+      const prevApplied = q.kf0Applied || null;
+      const kf1Base = prevApplied ? prevApplied.replaced
+        : { meas: q.meas === undefined ? null : q.meas, unit: q.unit || null,
+          periodDef: q.periodDef || null, verdict: q.verdict || null,
+          residualPct: Number.isFinite(q.residualPct) ? q.residualPct : null,
+          residualPctRev: Number.isFinite(q.residualPctRev) ? q.residualPctRev : null,
+          residualPctPeri: Number.isFinite(q.residualPctPeri) ? q.residualPctPeri : null,
+          measuredKFrame: pk,
+          // **配る前の門をそのまま残す**(`--kf0-only --merge` の経路では既存 JSON の判定済みの行が
+          //   入ってくるので、status・判定段・判定値・σ 倍が揃う)。走行を新しく回した経路では
+          //   この時点で門がまだ立っていないので **null** である(**推定で埋めない**)。
+          gate: (q.gate ? { status: q.gate.status || null,
+            assessedStage: q.gate.assessedStage || null,
+            assessedValue: Number.isFinite(q.gate.assessedValue) ? q.gate.assessedValue : null,
+            nSigma: Number.isFinite(q.gate.nSigma) ? q.gate.nSigma : null,
+            numBound: Number.isFinite(q.gate.numBound) ? q.gate.numBound : null,
+            sigma: Number.isFinite(q.gate.sigma) ? q.gate.sigma : null }
+            : null),
+          gateNote: q.gate ? '**配る前の門の転記**である(このとき隔離されていたので status は '
+            + '`condition-mismatch` のはずである)。beta の「正式判定値」表はこの世代の転記なので、'
+            + 'QA `ui.assessedValuePanel` はこの欄と突き合わせる。'
+            : '**配る前の門は記録できていない**(この経路では門がまだ立っていない段で配った)。'
+              + '`--kf0-only --merge` で配ると揃う —— **推定では埋めない**。',
+          why: '**証拠として捨てていない** —— この数値は kFrame=' + pk + ' の走行の実測であり、'
+            + '**kFrame=0 の行に配られていたことだけが誤りだった**(第258便d の隔離の理由)。' };
+      const nq = JSON.parse(JSON.stringify(t));
+      nq.kf0Applied = {
+        since: '第274便a(第64報)', requiredKFrame: 0, measuredKFrame: 0,
+        stages: kf0Apply.stages,
+        how: '`physics.kFrame` の 1 鍵だけを 0 にした**診断コピー**を、'
+          + '**同じ停止条件・同じ近点窓・同じ抽出器・同じ σ の宛先**で走らせた'
+          + '(preset id が同じなので宣言はすべて同じ 1 本を引く)。'
+          + '**プリセットの physics は 1 bit も書き換えていない**。',
+        replaced: kf1Base,
+        deltaPct: (Number.isFinite(kf1Base.meas) && Number.isFinite(nq.meas) && kf1Base.meas !== 0)
+          ? (nq.meas - kf1Base.meas) / Math.abs(kf1Base.meas) * 100 : null,
+        doNotWrite: ['kF0 版が成立した', '引きずりが消えた', '対照が合った'],
+      };
+      nq.measurementContextOverride = { kFrame: 0,
+        source: 'kf0-diagnostic-copy(第274便a・--kf0-runs)',
+        dt: (r.run && r.run.dt !== undefined) ? r.run.dt : null,
+        steps: null,
+        note: '**プリセットの physics は kFrame=' + pk + ' のままである**。'
+          + 'この行に配られている数だけが、kFrame=0 の診断コピーの走行から来ている。' };
+      qs[i] = nq; touched = true;
+      kf0Apply.applied.push({ id: r.id, emoji: r.emoji, target: q.target, kind: q.kind, name: q.name,
+        kf1Meas: q.meas === undefined ? null : q.meas, kf0Meas: nq.meas === undefined ? null : nq.meas,
+        unit: nq.unit || null, obs: Number.isFinite(nq.obs) ? nq.obs : null,
+        kf1ResidualPct: Number.isFinite(q.residualPct) ? q.residualPct : null,
+        kf0ResidualPct: Number.isFinite(nq.residualPct) ? nq.residualPct : null,
+        kf1Verdict: q.verdict || null, kf0Verdict: nq.verdict || null,
+        deltaPct: nq.kf0Applied.deltaPct,
+        periodDef: nq.periodDef || null });
+    }
+    if (touched) {   // 5 区分の tally を**この場で数え直す**(置き換えた行の判定が入るように)
+      const t2 = {}; for (const v of VERDICTS6) t2[v] = 0;
+      for (const z of qs) t2[z.verdict] = (t2[z.verdict] || 0) + 1;
+      r.tally = t2;
+    }
+  }
+  console.error('[w274a] kF0 対照を ' + kf0Apply.applied.length + ' 行へ配った'
+    + (kf0Apply.missing.length ? '(双子が無い行 ' + kf0Apply.missing.length + ')' : ''));
+};
+
 // ---------------------------------------------------------------- 既存 JSON との併合(--merge)
 // --only で一部だけ回し直したとき、既存の結果へその preset だけを差し替える(物理の再実行を減らす)。
 let merged = report;
+// 第274便(統括): --merge の再判定で、第274便a が `orderEstimable.rule` を辞書へ巻き上げた記録から
+//   規約文を引き直すための写し(`ruleRef` → 文)。無ければ空(step1 の初回走行)。
+const PREV_TEXTS = (() => { try { const j = JSON.parse(fs.readFileSync(OUT, 'utf8')); return (j.contracts && j.contracts.texts) || {}; } catch (e) { return {}; } })();
 if (MERGE && fs.existsSync(OUT)) {
   {
     // ---------------------------------------------------------------- 第270便a(第60報 W1・AE8)
@@ -2421,6 +2613,8 @@ if (MERGE && fs.existsSync(OUT)) {
     console.error(`[w249b] --merge: 既存 ${(prev.presets || []).length} 本へ ${report.length} 本を差し替え → ${merged.length} 本`);
   } catch (e) { console.error('[w249b] --merge 失敗(新規として書く): ' + String(e).slice(0, 120)); }
 }
+// 第274便a: **併合したあとの表**へ kF0 対照を配る(--only で 1 本だけ回しても既存行へ届く)
+if (kf0Report.length) applyKf0Runs(merged);
 
 // ---------------------------------------------------------------- 相関表(DFM 版のみ)
 const dfm = merged.filter((r) => r.version === 'dfm' && !r.referenceKind);
@@ -2766,7 +2960,7 @@ for (const r of merged) for (const q of (r.quantities || [])) {
     // 第271便a(R3): 判定段・次数推定の可否を収束欄にも置く(門の JSON だけで辿れるように)
     assessedStage, orderEstimable,
     orderEstimableReason: ordEst ? ordEst.reason : null,
-    orderEstimableRule: ordEst ? ordEst.rule : null,
+    orderEstimableRule: ordEst ? (ordEst.rule || (ordEst.ruleRef && PREV_TEXTS[ordEst.ruleRef]) || null) : null,   // 第274便(統括): 巻き上げ済みの記録から引き直す
     // 第273便c(第63報・AH30): **次数が立たない列の言い方を 1 語に固定する**。
     //   'order-estimable' …… 連続 2 段差が同符号で、観測次数が立った(収束の宣言ではない)
     //   'unconfirmed'     …… 次数が推定できない/非正 = **漸近収束未確認**
@@ -3015,7 +3209,63 @@ out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
   fix: '対照条件の走行を**別に**行い、その行へ割り当てる。プリセットの physics は変えない'
     + '(検証器の中で physics を差し替えた診断コピーを走らせる)。',
   note: '**「対照が合っていた」という記録は、この便で 1 件も残っていない** —— '
-    + '対照条件の走行そのものが行われていなかったからである。' };
+    + '対照条件の走行そのものが行われていなかったからである。',
+  // 第274便a: この便から `--kf0-runs` で対照走行を行い、**その値をこの行へ配る**。
+  // 配られた行は条件不一致ではなくなるので、**ここの n は減る**(0 になる)。
+  // **減ったことは「合った」ではない** —— 門が 3σ の算術を見にいけるようになった、という意味である。
+  kf0Runs: '第274便a(--kf0-runs)。out.kf0Runs に走行・配布・健全性の記録がある。' };
+// ---------------------------------------------------------------- 第274便a(第64報・kF0 棚卸し便)
+// (a′) **kF0 対照走行の記録**。走行そのものの健全性(R28 の「走行成立」列)と、配った行の
+// 前後(kF1 → kF0)を並べる。**4 列(走行成立/構造安定/数値成立/観測成立)のうち、ここで
+// 埋まるのは「走行成立」だけ**である —— 残り 3 列は `docs/KF0_LEDGER_v1.45.md` の生成器が
+// 門・収束・形状条件から作る(**完走を「成立」と書かない**)。
+{
+  const health = kf0Report.map((r) => ({ id: r.id, emoji: r.emoji,
+    kFrameApplied: (r.correlates || {}).kFrame,
+    stages: (r.run && r.run.stopRuleStages) ? r.run.stopRuleStages.map((z) => z.tag) : null,
+    nan: r.run ? r.run.nan : null, clamp: r.run ? r.run.clamp : null,
+    warnings: r.run ? r.run.warnings : null,
+    orbits: r.run ? r.run.orbits : null,
+    stoppedBy: (r.run && r.run.stopRule) ? r.run.stopRule.stoppedBy : null,
+    periastraOk: (r.run && r.run.stopRule) ? r.run.stopRule.periastraOk : null,
+    runComplete: !!(r.run && r.run.nan === false && r.run.clamp === 0),
+    runCompleteRule: '**走行成立** = 窓を完走し(stopRule)・NaN 0・安全クランプ 0。'
+      + '**これだけでは「成立」ではない**(R28 の 4 列のうち 1 列である)。' }));
+  // ❄️ の独立照合(第272便b 列 C1)。**引用は走行の代わりではない** —— 走らせた値と突き合わせる。
+  let cite = null;
+  try {
+    const cf = path.join(ROOT, KF0_CHARON_CITE.file);
+    const cj = JSON.parse(fs.readFileSync(cf, 'utf8'));
+    const col = (cj.columns || {})[KF0_CHARON_CITE.column] || {};
+    const st = col[KF0_CHARON_CITE.stage === 'h' ? 'h' : KF0_CHARON_CITE.stage] || {};
+    const cited = Number(st[KF0_CHARON_CITE.field]);
+    const mine = (kf0Apply.applied.find((z) => z.id === KF0_CHARON_CITE.id
+      && z.target === KF0_CHARON_CITE.target) || {}).kf0Meas;
+    cite = Object.assign({}, KF0_CHARON_CITE, {
+      fileSha256: sha256Of(cf), citedValue: Number.isFinite(cited) ? cited : null,
+      citedCfg: st.cfg || null, citedTargetSha256: (cj.meta || {}).targetSha256 || null,
+      thisRunValue: Number.isFinite(mine) ? mine : null,
+      relDiff: (Number.isFinite(cited) && Number.isFinite(mine) && cited !== 0)
+        ? (mine - cited) / Math.abs(cited) : null,
+      identical: (Number.isFinite(cited) && Number.isFinite(mine)) ? (mine === cited) : null,
+      note: '**一致は「正しい」ではない** —— 同じ html を同じ定義で走らせた 2 本の器が'
+        + '同じ数に着いた、というだけである。' });
+  } catch (e) { cite = Object.assign({}, KF0_CHARON_CITE, { error: String(e).slice(0, 120) }); }
+  out.kf0Runs = { on: KF0_RUNS, since: '第274便a(第64報)',
+    what: '条件不一致 8 行が要求する **kFrame=0 の対照条件**を、`physics.kFrame` の 1 鍵だけを 0 に'
+      + 'した**診断コピー**で走らせ、その行へ配った記録。**プリセットの physics は 1 bit も変えない**。',
+    stages: kf0Apply.stages, registry: KF0_RUN_REGISTRY,
+    nApplied: kf0Apply.applied.length, applied: kf0Apply.applied, missing: kf0Apply.missing,
+    health, charonCitation: cite,
+    conditionMismatchAfter: conditionResult.n,
+    doNotWrite: ['kF0 版が成立した(観測と合った)', '引きずりが完全に消えていることを確認した',
+      '潮汐ロックへ収束することを示した', '条件不一致が解けたので合った', '判定が増えた'],
+    causality: '**因果の向きは「kFrame≈0 で安定 → 相対メッシュ運動が消える → 独立の同期トルクで'
+      + '自転が公転へ引き込まれる」**(原仮定者の裁定・第64報)。**「同期しているから k=0 と置く」は採らない** ——'
+      + '同期率から k を作る診断式は比較用に残すが、因果の検証は **k を外から固定し非同期から出発する試験**で行う。',
+    note: '**門が動いたら動いたと書く**。条件不一致が減ったことは「合った」ではない —— '
+      + '**「まだ言えない」だった行が、3σ の算術を見にいけるようになった**ということである。' };
+}
 // (b) deg/yr の門(⚡🧮🩺🧶 の近点移動)
 {
   const rows = [];
@@ -3219,6 +3469,12 @@ out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
     step2: 'PLAYWRIGHT_CORE_DIR=… node tests/exp-w249b-calaudit.mjs --dt3-registry --merge',
     step2b: 'PLAYWRIGHT_CORE_DIR=… node tests/exp-w249b-calaudit.mjs --dt3-registry --dt8-registry --merge'
       + '(第272便a・AG1: 条件つき h/8 の登録表だけ 4 段目を足す —— step2 と兼ねてよい)',
+    step2c: 'PLAYWRIGHT_CORE_DIR=… node tests/exp-w249b-calaudit.mjs --kf0-runs --kf0-only --kf0-dt3'
+      + ' --only jupiterGalilean,venusReal,marsMoonsReal,plutoCharonReal,neptuneReal --merge'
+      + '(第274便a・第64報: 条件不一致 8 行の **kFrame=0 対照走行**を診断コピーで測り、その行へ配る。'
+      + '`--kf0-only` は**既定経路を 1 本も測り直さない** —— 3 段・4 段登録系の段を落とさず、'
+      + '配る前の門を `kf0Applied.replaced.gate` に残すための経路である。'
+      + '**--merge の鍵が一致するので step1/step2 と同じコード・同じ html でなければ器が止まる**)',
     step3: 'node tests/exp-w262d-solarsigma.mjs',
     step4: 'node tests/exp-w270a-stoprule.mjs(基点は 743ad9b へ切り直した —— 第272便a・AG27)',
     regate: '**`--regate` の産物を正本にしない** —— 再判定専用(`applySigma` を通らないので'
@@ -3227,10 +3483,24 @@ out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
   const counts = out.verdictLedger.counts;
   out.fourValues = {
     current: { counts, gate: out.summary.gate.byStatus, tally: out.summary.tally,
-      commit: '第272便a(署名便)', csvSha, judgementSourcesSha: jsSha,
+      commit: '第274便a(署名便)', csvSha, judgementSourcesSha: jsSha,
       targetSha256: TARGET_SHA, measurementCodeSha256: MEASUREMENT_CODE_SHA,
+      kf0Runs: KF0_RUNS ? { on: true, applied: kf0Apply.applied.length, stages: kf0Apply.stages }
+        : { on: false },
       when: out.meta.when || null },
     history: [{
+      wave: '第273便(第63報・PR #275)', commit: 'fb9f6bd',
+      counts: { '合': 0, '量限定合': 2, '否': 1, '保留': 34 },
+      gate: { '合(3σ)': 2, '否(3σ)': 1, '数値未解決': 34, 'mapping-unresolved': 15,
+        'condition-mismatch': 8, '未判定': 254 },
+      tally: { '合': 56, '窓': 6, '否': 26, '従': 4, '転': 214, '条': 8 },
+      solarFour: { '否': 1, '保留': 15 }, solarCut: { 'csv-sigma-empty': 106,
+        'kind-not-gated': 26, 'unit-not-converted': 3, 'connected': 4 },
+      judgementSourcesVersion: '第270便a(2026-09-18)・mode=applied-AD5',
+      reason: '**本便の基点**。条件不一致 8 行は `条` のままで、**kFrame=0 の対照走行が'
+        + 'その行に配られていなかった**(第258便d が隔離しただけ・第259便d は別器で 1 段だけ測っていた)。'
+        + '第274便a で `--kf0-runs` を入れ、**同じ器・同じ停止条件・同じ抽出器**で h・h/2・h/4 を測って配る。',
+    }, {
       wave: '第271便(第61報・PR #273)', commit: '743ad9b',
       counts: { '合': 0, '量限定合': 2, '否': 1, '保留': 34 },
       gate: { '合(3σ)': 2, '否(3σ)': 1, '数値未解決': 35, 'mapping-unresolved': 14,
@@ -3268,7 +3538,10 @@ out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
       reason: '**基点**。宣言は診断欄のみ・📡 は 3 段登録に無く換算前(°/周)で判定・'
         + '収束規約は「3 段+order>0」だけ・走行長は步/秒×時間予算(機種依存)。',
     }],
-    whatMoved: ['**R10: 行ごとの測定定義契約**(「近点間」を名乗る 4 行に近点検出器 A の値を'
+    whatMoved: ['**第274便a: `--kf0-runs`**(条件不一致 8 行が要求する **kFrame=0 の対照条件**を'
+      + '診断コピーで h・h/2・h/4 測り、その行へ配る。**プリセットの physics は不変**。'
+      + '配られた行は `条` を抜けて門の 3σ の算術に入る —— **合否がその場で出る**)',
+    '**R10: 行ごとの測定定義契約**(「近点間」を名乗る 4 行に近点検出器 A の値を'
       + '全段で配る・円に近い系の行は `mapping-unresolved`)',
     '**R11: --merge の鍵に `targetSha256` と `measurementCodeSha256`**(旧保存物は拒否される)',
     '**R12: `adopted` の単位列**(`unit` は判定量・`csvUnit` を別欄・'

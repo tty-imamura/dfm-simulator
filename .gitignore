@@ -387,6 +387,52 @@ paper/*Notes.bib
 #      ページの表と判定器の正本を直接突き合わせるので、この控えは**何を転記したかの記録**である。
 !tests/out/nslockledger-w273c.json
 !tests/out/assessed-w273c.json
+# 第274便b(第64報・因果の向きの裁定・**診断のみ・既定不変**): 独立同期トルクの node 診断
+#   (tests/exp-w274b-sync.mjs)。**k を外から固定し非同期から出発する**試験の実測正本で、
+#   QA `docs.syncCausal` が meta の 3 規則(k を外から固定 / 非同期から出発 / Γ・K を kFrame で
+#   乗じない)と R28 の 4 列判定を読み、`lint.provenanceMeta` が来歴を照合するのでコミットする。
+#   **エンジンへは 1 バイトも接続していない**(内蔵プリセットは 1 bit も変えていない)。
+!tests/out/sync-w274b.json
+# 第274便e(第64報「DFM 版ブラックホールを設計する」・**設計と純関数だけ・エンジン未接続**):
+#   ① bhcore —— 🎐 gw150914(実単位)の**宣言値**(m・分離・c₀・κ・D₀・ε)で、有限コア Φ_c・
+#      局所光速 c_eff=c₀e^{−2κW}・**光の捕捉境界の定義候補** ṙ=u_r+c_eff の根・逃げにくさ・
+#      合体帳簿(M/P/J/E の閉じと**残余が負なら拒否**)を測った値表
+#      (tests/exp-w274e-bhcore.mjs)。**捕捉境界は GR の事象の地平面との同等性を示していない。**
+#   ② armbar —— パターン腕 U_arm の力(A′ 項も ∂χ/∂r 項も落とさない)・横幅 σ_⊥ の小振幅収束・
+#      棒(6 節点鎖)の Hessian の**ゼロモード 5 本と最小非ゼロ固有値**・観測写像(視線積分・
+#      σ_LOS・AE5 の √2)の値表(tests/exp-w274e-armbar.mjs)。**「腕の創発」は主張していない。**
+#   QA `docs.bhDesignSync` が設計書 docs/BH_DESIGN_v1.45.md と純関数の API を集合照合し、
+#   `behavior.armBarPure` が上の量を純関数で再計算するのでコミットする(値表は記録であって判定ではない)。
+!tests/out/bhcore-w274e.json
+!tests/out/armbar-w274e.json
+# 第274便c(第64報): 3 本の正本。
+#   ① galaxyprof —— **🪁 の 1 步の負荷分解**(実ブラウザ Chromium・ms/步)。docs/PHYSICS.md〔第274便c〕① の
+#      表がこの値そのものなので、来歴つきでコミットする。**inputs は現行 html だけ**で、比較した基点 html の
+#      刻印は `meta.comparedWith` に残す(基点 html は走行後に消す一時ファイルである)。
+#   ② needmesh —— **`dfmField` の API 同値**(源 16 種 × 選択肢 35 種 × 4 点 = 2100 例)と
+#      `need:"mesh"` の契約。**「1 例でも違えば入れない」という同値最適化の根拠**なのでコミットする。
+#   ③ galaxylite —— 🪁 既定 / 🎋 軽量コピー / 帯平均 variant の 3 者比較(3000 步・保持率・V_rms・ms/步)。
+#      docs/PHYSICS.md〔第274便c〕④ の表がこの値そのものである。
+#   QA `lint.provenanceMeta` の CANON に 3 本を足した。**判定はしていない**(数を出す器である)。
+!tests/out/galaxyprof-w274c.json
+!tests/out/needmesh-w274c.json
+!tests/out/galaxylite-w274c.json
+# 第274便d(第64報「実在天体に先立ち安定サンプルを用意する」・**診断のみ・既定不変**):
+#   形状トイ(`physics.shapeToy` —— 指定した 3D 正規分布を定常分布に持つ**参照モデル**)の
+#   完成判定の正本(tests/exp-w274d-shapetoy.mjs)。参照形状(定常共分散・任意視線の投影・
+#   帳簿)/ 安定成長(成長残差と成長後ドリフトを分けた列+無成長対照)/ 復元性(5%・10%・
+#   3 seed・N 3 段)/ 厳密離散化(F=e^{Bh} と級数の行列指数の差・恒等式 C=F C Fᵀ+Q_h)/
+#   coupling 2 案 / 重力の対照(G を変えても指紋が同じ)を持つ。
+#   QA `docs.shapeToyCriteria` がこの JSON と docs/PHYSICS.md〔第274便d〕の表を突き合わせ、
+#   `lint.provenanceMeta` が来歴を固定するのでコミットする。**較正ではない**(観測量は 1 つも
+#   入力していない)。「銀河が安定した」「腕が創発した」とは書かない。
+!tests/out/shapetoy-w274d.json
+# 第274便a(第64報・原仮定者の優先課題(2)): **kF0 棚卸し表の正本**。較正 37 本 + 診断系列を行にし、
+#   kF1 側と kF0 側それぞれに 4 列(走行成立/構造安定/数値成立/観測成立 —— R28)を置く。
+#   `tests/exp-w274a-kf0ledger.mjs` が正本 JSON から機械生成し、`docs/KF0_LEDGER_v1.45.md` を書く。
+#   QA `docs.kf0Ledger` が表と正本を突き合わせ、`lint.provenanceMeta` が来歴を照合するのでコミットする。
+#   **未測定は未測定と書く**(推定で埋めない)。ラベルは**候補**であって較正完了ではない。
+!tests/out/kf0ledger-w274a.json
 # 第221便: セッション内スクラッチ実測ハーネス(コミット対象外 — 実測値は claims/QA が機械固定する)
 _scratch-*.mjs
 _scratch-*/

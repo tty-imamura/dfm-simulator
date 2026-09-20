@@ -52,8 +52,23 @@ export function readRequiredContext(row, fallbackKFrame) {
     source: 'preset-physics', evidence: null };
 }
 
-// 走行そのものの条件(プリセットの physics を 1 bit も変えずに走らせているので、走行は 1 条件しかない)
-export function measurementContextOf(presetRec) {
+// 走行そのものの条件。既定では**プリセットの physics**(1 本の走行から来た条件)である。
+// 第274便a(第64報): 第 2 引数 `q` に `measurementContextOverride` が立っている行だけ、
+// **その行に配られた測定値がどの条件の走行から来たか**をそちらから読む。
+// これは「条件不一致 8 行に **kFrame=0 の対照走行**(physics.kFrame の 1 鍵だけを 0 にした
+// 診断コピー)の値を配った」場合のための欄で、**プリセットの physics は 1 bit も変わっていない**
+// (だから preset 単位の `correlates.kFrame` は 1 のままで正しい)。
+// 引数 `q` を渡さない呼び方は第273便までと 1 文字も同じ動作である。
+export function measurementContextOf(presetRec, q) {
+  const ov = q && q.measurementContextOverride;
+  if (ov && Number.isFinite(Number(ov.kFrame))) {
+    return { kFrame: Number(ov.kFrame),
+      source: ov.source || 'run(diagnostic copy — physics override)',
+      dt: ov.dt !== undefined ? ov.dt : null, steps: ov.steps !== undefined ? ov.steps : null,
+      override: true, presetKFrame: Number.isFinite(Number(((presetRec || {}).correlates || {}).kFrame))
+        ? Number(presetRec.correlates.kFrame) : null,
+      note: ov.note || null };
+  }
   const c = (presetRec && presetRec.correlates) || {};
   const run = (presetRec && presetRec.run) || {};
   return { kFrame: Number.isFinite(Number(c.kFrame)) ? Number(c.kFrame) : null,
@@ -63,7 +78,7 @@ export function measurementContextOf(presetRec) {
 
 // 1 行に条件の印を付け、食い違っていれば隔離する。**戻り値は「隔離したか」だけ**(q は破壊的に更新)。
 export function enforceMeasurementCondition(presetRec, q) {
-  const meas = measurementContextOf(presetRec);
+  const meas = measurementContextOf(presetRec, q);
   const req = readRequiredContext(q, meas.kFrame);
   q.requiredContext = req;
   q.measurementContext = meas;

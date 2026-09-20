@@ -1,0 +1,63 @@
+{
+ "meta": {
+  "wave": "第274便c",
+  "base": "beta/_w274_base2.html",
+  "now": "beta/index.html",
+  "doNotWrite": "**一致は「同じ値を返した」ことだけを意味する**(速さも正しさも言わない)。",
+  "provenanceVersion": "w272e-1",
+  "target": "beta/index.html",
+  "targetSha256": "8b65f1d6996837964d7e5cca418600fa10a7e674a6803d0a72346e4456440e75",
+  "generatedAt": "2026-09-20T06:15:15.222Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4213879,
+    "sha256": "8b65f1d6996837964d7e5cca418600fa10a7e674a6803d0a72346e4456440e75",
+    "mtime": "2026-09-20T05:48:10.787Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w274c-needmesh.mjs",
+    "bytes": 10262,
+    "sha256": "e846afa95bf4e8bea3a72e56b292d9b87a659457c408ed06079cc2d6c2978646",
+    "mtime": "2026-09-19T21:21:34.533Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-18T17:14:55.948Z"
+   }
+  ],
+  "codeSha256": "62f7ec637fd059ced02aaa3d61d718505d75c302763b6a3346db0c9f1f8823cf",
+  "comparedWith": [
+   {
+    "file": "beta/_w274_base2.html",
+    "bytes": 4129221,
+    "sha256": "2015091a3fe94278848b78b8781564e6ee5a35e4d7f6eda7ad47775557d54843",
+    "mtime": "2026-09-20T06:15:13.747Z"
+   }
+  ]
+ },
+ "nCase": 2100,
+ "needListBase": [
+  "all",
+  "gravity"
+ ],
+ "needListNow": [
+  "all",
+  "gravity",
+  "mesh"
+ ],
+ "apiIdentical": true,
+ "apiDiff": [],
+ "meshContractOk": true,
+ "meshDiff": [],
+ "meshGravityNotNull": [],
+ "dOverflowOnlyDiff": 0,
+ "dOverflowExamples": [],
+ "pageErrorsBase": [],
+ "pageErrorsNow": [],
+ "ok": true
+}

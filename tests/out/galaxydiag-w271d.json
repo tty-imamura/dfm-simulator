@@ -3,8 +3,8 @@
   "provenanceVersion": "w272e-1",
   "wave": "第271便d(来歴は第272便e で共通化)",
   "target": "beta/index.html",
-  "targetSha256": "2015091a3fe94278848b78b8781564e6ee5a35e4d7f6eda7ad47775557d54843",
-  "generatedAt": "2026-09-19T12:32:04.912Z",
+  "targetSha256": "8b65f1d6996837964d7e5cca418600fa10a7e674a6803d0a72346e4456440e75",
+  "generatedAt": "2026-09-20T05:53:04.938Z",
   "code": [
    {
     "file": "tests/exp-w271d-galaxydiag.mjs",
@@ -32,15 +32,15 @@
    }
   ],
   "codeSha256": "3cacf22e7add84297a0b8716f77aeba43c72149b926a656dd8ce96762a74be9d",
-  "measuredAt": "2026-09-19T12:32:04.912Z",
+  "measuredAt": "2026-09-20T05:53:04.938Z",
   "codeVersion": "tests/exp-w271d-galaxydiag.mjs 第271便d",
   "declarationVersion": "compare-v1 / 第61報「提示された指摘を参考に改善/決断事項は概ね同意」",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4129221,
-    "sha256": "2015091a3fe94278848b78b8781564e6ee5a35e4d7f6eda7ad47775557d54843",
-    "mtime": "2026-09-19T12:25:57.071Z"
+    "bytes": 4213879,
+    "sha256": "8b65f1d6996837964d7e5cca418600fa10a7e674a6803d0a72346e4456440e75",
+    "mtime": "2026-09-20T05:48:10.787Z"
    },
    {
     "file": "paper/data/cluster-galaxy-observations.csv",
@@ -71,7 +71,7 @@
    "**観測量が得られないときは `not-measurable`(値 null)** —— 0 や最後の値で補わない。",
    "**「完成」は比較サンプル v1 である。観測一致は別段階で、現時点で未達である。**"
   ],
-  "spentSec": 318.9
+  "spentSec": 315.6
  },
  "declaration": {
   "what": "**銀河の器の診断 3 本**(AF5 準定常窓 variant・AF7 clampSN の切り分け・AF19 N/seed 系列)。**主判定窓 T=40 は動かさない**(準定常窓は別 variant)。**clamp の上限 ±40 は変えない**(本器は**数えるだけ**である)。**観測残差を見て窓・帯・seed を選ばない。**",

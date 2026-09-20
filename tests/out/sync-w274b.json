@@ -1,0 +1,8101 @@
+{
+ "meta": {
+  "wave": "第274便b",
+  "section": "連星同期 —— 独立同期トルクの純関数と因果の向きの node 診断",
+  "harness": "w274b-sync-1",
+  "libVersion": "w274b-1",
+  "adjudication": "連星が kFrame≈0 で安定なら相対メッシュ運動が消え、独立の同期トルクで自転が公転へ引き込まれる",
+  "rejected": "ロックしているから k≈0 と置く",
+  "testRules": [
+   "k は外から固定する(同期率から k を作らない)",
+   "非同期から出発する(初期 ω/Ω ≠ 1)",
+   "Γ・K を kFrame で乗じない"
+  ],
+  "kFixedExternally": true,
+  "startsNonSynchronous": true,
+  "gammaMultipliedByKFrame": false,
+  "kGrid": [
+   0,
+   0.25,
+   0.5,
+   1
+  ],
+  "spinGrid": [
+   2,
+   0.5,
+   -1,
+   5,
+   0.1
+  ],
+  "gammaGrid": [
+   2,
+   10,
+   40
+  ],
+  "orbits": 60,
+  "quick": false,
+  "engineConnected": false,
+  "coreTouched": false,
+  "presetsTouched": false,
+  "limits": [
+   "E6′ の回転チャネル(ω×Δr)を含まない(既存関数 meshFlowAt は並進チャネルだけ)",
+   "反作用則は E6′-R(pairReduced)ではない —— reservoir / cmRemoved の 2 案",
+   "1PN(E12)・スピン斥力・接触則を入れていない",
+   "Γ・K は宣言された自由パラメータで、観測から同定した値ではない",
+   "慣性 I=½mR² は殻規約の**宣言**であって実慣性モーメント係数ではない"
+  ],
+  "notClaim": [
+   "潮汐ロックへの収束の証明",
+   "引きずり消失の確認",
+   "同期トルクの採用",
+   "Γ・K の同定"
+  ],
+  "diagnosticOnly": "第272便b の候補 (i)(iii) は「同期率 → k」の**診断式**であって、因果の証拠には使わない",
+  "provenanceVersion": "w272e-1",
+  "target": "tests/lib-w274b-synctorque.mjs",
+  "targetSha256": "d2785f23e195c3916bca623a6c8e1d2d74ffcafaef71be7121cb743a3ff15607",
+  "generatedAt": "2026-09-20T06:10:31.784Z",
+  "inputs": [
+   {
+    "file": "tests/lib-w274b-synctorque.mjs",
+    "bytes": 13272,
+    "sha256": "d2785f23e195c3916bca623a6c8e1d2d74ffcafaef71be7121cb743a3ff15607",
+    "mtime": "2026-09-19T20:58:10.045Z"
+   },
+   {
+    "file": "tests/lib-w272c-binlock.mjs",
+    "bytes": 23335,
+    "sha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
+    "mtime": "2026-09-19T11:48:54.256Z"
+   },
+   {
+    "file": "tests/lib-w272b-pairlock.mjs",
+    "bytes": 14317,
+    "sha256": "be657f0bf0988b43c558517512b615b48553c5d08d82ea545fbce1aab89c2efe",
+    "mtime": "2026-09-19T11:48:54.255Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w274b-sync.mjs",
+    "bytes": 32569,
+    "sha256": "6fd4954eb72746e1fab0a53c9c8893ca24855265231f12bc951d873c8b22a242",
+    "mtime": "2026-09-19T20:58:10.052Z"
+   },
+   {
+    "file": "tests/lib-w274b-synctorque.mjs",
+    "bytes": 13272,
+    "sha256": "d2785f23e195c3916bca623a6c8e1d2d74ffcafaef71be7121cb743a3ff15607",
+    "mtime": "2026-09-19T20:58:10.045Z"
+   },
+   {
+    "file": "tests/lib-w272c-binlock.mjs",
+    "bytes": 23335,
+    "sha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
+    "mtime": "2026-09-19T11:48:54.256Z"
+   },
+   {
+    "file": "tests/lib-w272b-pairlock.mjs",
+    "bytes": 14317,
+    "sha256": "be657f0bf0988b43c558517512b615b48553c5d08d82ea545fbce1aab89c2efe",
+    "mtime": "2026-09-19T11:48:54.255Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-18T17:14:55.948Z"
+   }
+  ],
+  "codeSha256": "76a9e5a00db349d35a7240b8a373b23726d9a208345aff00736dfb102c9a00ef"
+ },
+ "pureLedger": {
+  "note": "**永年模型(準円)の RK4**。L_tot=L_orb+ΣIω は各 RK 段で相殺するので丸め以外に漂わない。dE/dt=−Q̇ は式の上で厳密である。**この節は k を 1 度も読まない**(同期トルクは独立パラメータ)。",
+  "rows": [
+   {
+    "id": "dissipativePrograde",
+    "variant": "dissipative",
+    "ratio0": [
+     3.000000000000001,
+     0.25000000000000006
+    ],
+    "ratioEnd": [
+     1.0001058042554973,
+     0.9999778916586411
+    ],
+    "aStart": 4.000000000000001,
+    "aEnd": 4.065153527499175,
+    "angularRelDrift": 4.000970675727108e-15,
+    "qMonotone": true,
+    "qFinal": 0.00358796859507411,
+    "energyRelResidual": 1.659404153079489e-14,
+    "ok": true,
+    "checks": [
+     {
+      "name": "angularConserved",
+      "value": 4.000970675727108e-15,
+      "limit": 1e-12,
+      "ok": true
+     },
+     {
+      "name": "qMonotone",
+      "value": 0,
+      "limit": 0,
+      "ok": true
+     },
+     {
+      "name": "qNonNegative",
+      "value": 0.00358796859507411,
+      "limit": 0,
+      "ok": true
+     },
+     {
+      "name": "energyMatchesDissipation",
+      "value": 1.659404153079489e-14,
+      "limit": 1e-8,
+      "ok": true
+     },
+     {
+      "name": "noNaN",
+      "value": 0,
+      "limit": 0,
+      "ok": true
+     }
+    ]
+   },
+   {
+    "id": "dissipativeRetrograde",
+    "variant": "dissipative",
+    "ratio0": [
+     -1.5000000000000004,
+     -0.5000000000000001
+    ],
+    "ratioEnd": [
+     0.999852333208006,
+     0.9998942796742826
+    ],
+    "aStart": 4.000000000000001,
+    "aEnd": 3.794490391555548,
+    "angularRelDrift": 3.454203409104305e-15,
+    "qMonotone": true,
+    "qFinal": 0.006893215940804541,
+    "energyRelResidual": 1.1391240684407957e-14,
+    "ok": true,
+    "checks": [
+     {
+      "name": "angularConserved",
+      "value": 3.454203409104305e-15,
+      "limit": 1e-12,
+      "ok": true
+     },
+     {
+      "name": "qMonotone",
+      "value": 0,
+      "limit": 0,
+      "ok": true
+     },
+     {
+      "name": "qNonNegative",
+      "value": 0.006893215940804541,
+      "limit": 0,
+      "ok": true
+     },
+     {
+      "name": "energyMatchesDissipation",
+      "value": 1.1391240684407957e-14,
+      "limit": 1e-8,
+      "ok": true
+     },
+     {
+      "name": "noNaN",
+      "value": 0,
+      "limit": 0,
+      "ok": true
+     }
+    ]
+   },
+   {
+    "id": "orientationLibration",
+    "variant": "orientation",
+    "ratio0": [
+     1.4000000000000004,
+     0.7000000000000002
+    ],
+    "ratioEnd": [
+     0.8431303071053998,
+     1.0781466227617473
+    ],
+    "aStart": 4.000000000000001,
+    "aEnd": 4.009274667850244,
+    "angularRelDrift": 2.5570907408545132e-15,
+    "qMonotone": true,
+    "qFinal": 0.00021117198313406528,
+    "energyRelResidual": 3.0187381869941555e-13,
+    "ok": true,
+    "checks": [
+     {
+      "name": "angularConserved",
+      "value": 2.5570907408545132e-15,
+      "limit": 1e-12,
+      "ok": true
+     },
+     {
+      "name": "qMonotone",
+      "value": 0,
+      "limit": 0,
+      "ok": true
+     },
+     {
+      "name": "qNonNegative",
+      "value": 0.00021117198313406528,
+      "limit": 0,
+      "ok": true
+     },
+     {
+      "name": "energyMatchesDissipation",
+      "value": 3.0187381869941555e-13,
+      "limit": 1e-8,
+      "ok": true
+     },
+     {
+      "name": "noNaN",
+      "value": 0,
+      "limit": 0,
+      "ok": true
+     }
+    ]
+   },
+   {
+    "id": "zeroTorqueNull",
+    "variant": "dissipative",
+    "ratio0": [
+     3.000000000000001,
+     0.25000000000000006
+    ],
+    "ratioEnd": [
+     3.000000000000001,
+     0.25000000000000006
+    ],
+    "aStart": 4.000000000000001,
+    "aEnd": 4.000000000000001,
+    "angularRelDrift": 0,
+    "qMonotone": true,
+    "qFinal": 0,
+    "energyRelResidual": 0,
+    "ok": true,
+    "checks": [
+     {
+      "name": "angularConserved",
+      "value": 0,
+      "limit": 1e-12,
+      "ok": true
+     },
+     {
+      "name": "qMonotone",
+      "value": 0,
+      "limit": 0,
+      "ok": true
+     },
+     {
+      "name": "qNonNegative",
+      "value": 0,
+      "limit": 0,
+      "ok": true
+     },
+     {
+      "name": "energyMatchesDissipation",
+      "value": 0,
+      "limit": 1e-8,
+      "ok": true
+     },
+     {
+      "name": "noNaN",
+      "value": 0,
+      "limit": 0,
+      "ok": true
+     }
+    ]
+   }
+  ]
+ },
+ "dragChannel": {
+  "note": "**自転を凍結**(Γ=K=0)して k=0 と k=1 だけを比べた 2 点。❄️ は宣言値(kF0 6.3874 日 / kF1 6.40293 日)と並べるが、**本器はエンジンの再現ではない**(E6′ の回転チャネル ω×Δr を含まない・反作用則が E6′-R ではない・1PN 無し)。",
+  "rows": [
+   {
+    "system": "charon",
+    "k": 0,
+    "dragReaction": "reservoir",
+    "revTimes": [
+     5518.658964537563,
+     11037.3179290752,
+     16555.976893612817
+    ],
+    "revPeriods": [
+     5518.658964537636,
+     5518.658964537617
+    ],
+    "firstRevUnits": 5518.658964537563,
+    "firstRevDays": 6.387336764511069,
+    "firstRevSeconds": 551865.8964537564,
+    "e0": 0,
+    "eEnd": 3.2552772704200266e-9,
+    "a0": 19.596,
+    "aEnd": 19.59600000000028,
+    "rMin": 19.596,
+    "rMax": 19.596479427367417,
+    "aDriftRel": 1.4322534222557642e-14,
+    "Ldrag": 0,
+    "Pdrag": [
+     0,
+     0
+    ],
+    "comVel": [
+     2.8326238662560114e-17,
+     -8.113342406650387e-18
+    ],
+    "angularRelDrift": 7.756937729629534e-15,
+    "nan": 0
+   },
+   {
+    "system": "charon",
+    "k": 0,
+    "dragReaction": "cmRemoved",
+    "revTimes": [
+     5518.658964537563,
+     11037.3179290752,
+     16555.976893612817
+    ],
+    "revPeriods": [
+     5518.658964537636,
+     5518.658964537617
+    ],
+    "firstRevUnits": 5518.658964537563,
+    "firstRevDays": 6.387336764511069,
+    "firstRevSeconds": 551865.8964537564,
+    "e0": 0,
+    "eEnd": 3.2552772704200266e-9,
+    "a0": 19.596,
+    "aEnd": 19.59600000000028,
+    "rMin": 19.596,
+    "rMax": 19.596479427367417,
+    "aDriftRel": 1.4322534222557642e-14,
+    "Ldrag": 0,
+    "Pdrag": [
+     0,
+     0
+    ],
+    "comVel": [
+     2.8326238662560114e-17,
+     -8.113342406650387e-18
+    ],
+    "angularRelDrift": 7.756937729629534e-15,
+    "nan": 0
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "dragReaction": "reservoir",
+    "revTimes": [
+     5544.889774552135,
+     11089.395548535087,
+     16633.51729455851
+    ],
+    "revPeriods": [
+     5544.505773982952,
+     5544.121746023424
+    ],
+    "firstRevUnits": 5544.889774552135,
+    "firstRevDays": 6.417696498324231,
+    "firstRevSeconds": 554488.9774552135,
+    "e0": 0,
+    "eEnd": 0.00034985425004413056,
+    "a0": 19.596,
+    "aEnd": 19.59239127315474,
+    "rMin": 19.59289755491779,
+    "rMax": 19.689794235304245,
+    "aDriftRel": -0.0001841562995132244,
+    "Ldrag": -4.0185693991216396e-9,
+    "Pdrag": [
+     3.5964069134723174e-9,
+     -2.038852187883725e-10
+    ],
+    "comVel": [
+     0.0000024605958630684247,
+     -1.3949453941731877e-7
+    ],
+    "angularRelDrift": 1.3572614261461009e-14,
+    "nan": 0
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "dragReaction": "cmRemoved",
+    "revTimes": [
+     5544.988819152546,
+     11089.589224521966,
+     16633.801196246797
+    ],
+    "revPeriods": [
+     5544.60040536942,
+     5544.2119717248315
+    ],
+    "firstRevUnits": 5544.988819152546,
+    "firstRevDays": 6.41781113327841,
+    "firstRevSeconds": 554498.8819152546,
+    "e0": 0,
+    "eEnd": 0.00035275139214594305,
+    "a0": 19.596,
+    "aEnd": 19.59234994482588,
+    "rMin": 19.592862633421902,
+    "rMax": 19.690147713778764,
+    "aDriftRel": -0.0001862653181322653,
+    "Ldrag": -5.761324891723213e-9,
+    "Pdrag": [
+     -7.108583389127582e-26,
+     8.922079946922061e-25
+    ],
+    "comVel": [
+     3.5785635257904386e-17,
+     -1.941406933019914e-17
+    ],
+    "angularRelDrift": 6.679041623305955e-15,
+    "nan": 0
+   },
+   {
+    "system": "nsBinary",
+    "k": 0,
+    "dragReaction": "reservoir",
+    "revTimes": [
+     369.46102462083735,
+     738.922049241677,
+     1108.3830738625081
+    ],
+    "revPeriods": [
+     369.4610246208396,
+     369.46102462083115
+    ],
+    "firstRevUnits": 369.46102462083735,
+    "firstRevDays": 0.04276169266444877,
+    "firstRevSeconds": 3694.6102462083736,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5438753518128685,
+    "a0": 619.2069008380583,
+    "aEnd": 619.2069008380598,
+    "rMin": 282.43671266104064,
+    "rMax": 955.9782718763176,
+    "aDriftRel": 2.386809462847915e-15,
+    "Ldrag": 0,
+    "Pdrag": [
+     0,
+     0
+    ],
+    "comVel": [
+     3.48426434911417e-14,
+     -3.889597272936056e-14
+    ],
+    "angularRelDrift": 1.152779297181774e-14,
+    "nan": 0
+   },
+   {
+    "system": "nsBinary",
+    "k": 0,
+    "dragReaction": "cmRemoved",
+    "revTimes": [
+     369.46102462083735,
+     738.922049241677,
+     1108.3830738625081
+    ],
+    "revPeriods": [
+     369.4610246208396,
+     369.46102462083115
+    ],
+    "firstRevUnits": 369.46102462083735,
+    "firstRevDays": 0.04276169266444877,
+    "firstRevSeconds": 3694.6102462083736,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5438753518128685,
+    "a0": 619.2069008380583,
+    "aEnd": 619.2069008380598,
+    "rMin": 282.43671266104064,
+    "rMax": 955.9782718763176,
+    "aDriftRel": 2.386809462847915e-15,
+    "Ldrag": 0,
+    "Pdrag": [
+     0,
+     0
+    ],
+    "comVel": [
+     3.48426434911417e-14,
+     -3.889597272936056e-14
+    ],
+    "angularRelDrift": 1.152779297181774e-14,
+    "nan": 0
+   },
+   {
+    "system": "nsBinary",
+    "k": 1,
+    "dragReaction": "reservoir",
+    "revTimes": [
+     884.028703424418
+    ],
+    "revPeriods": [],
+    "firstRevUnits": 884.028703424418,
+    "firstRevDays": 0.10231813697041875,
+    "firstRevSeconds": 8840.28703424418,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.4874560630593487,
+    "a0": 619.2069008380583,
+    "aEnd": 572.7080979418648,
+    "rMin": 801.763375126403,
+    "rMax": 957.4433579002226,
+    "aDriftRel": -0.0750941290112566,
+    "Ldrag": 4611969569534.8955,
+    "Pdrag": [
+     -2921188.690562045,
+     -26097291.64115254
+    ],
+    "comVel": [
+     -283.9300753382554,
+     -2536.572185746455
+    ],
+    "angularRelDrift": 2.0618263456263914e-10,
+    "nan": 0
+   },
+   {
+    "system": "nsBinary",
+    "k": 1,
+    "dragReaction": "cmRemoved",
+    "revTimes": [
+     883.4457561546432
+    ],
+    "revPeriods": [],
+    "firstRevUnits": 883.4457561546432,
+    "firstRevDays": 0.10225066622160221,
+    "firstRevSeconds": 8834.457561546431,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.48799895178382025,
+    "a0": 619.2069008380583,
+    "aEnd": 572.2038649795995,
+    "rMin": 801.6878901929748,
+    "rMax": 955.9782718763176,
+    "aDriftRel": -0.07590844965526564,
+    "Ldrag": -1736.45657709288,
+    "Pdrag": [
+     -9.85878045867139e-14,
+     2.6645352591003757e-14
+    ],
+    "comVel": [
+     1.7679987604254803e-16,
+     1.8210387232382445e-14
+    ],
+    "angularRelDrift": 8.876351042648449e-15,
+    "nan": 0
+   }
+  ]
+ },
+ "chiCheck": [
+  {
+   "system": "charon",
+   "separation": 19.596,
+   "chiA": 0.0013470932455392527,
+   "chiB": 0.010960689482661547,
+   "declared": [
+    0.001347093246,
+    0.010960689483
+   ],
+   "relA": 3.42030759249311e-10,
+   "relB": 3.087882603602584e-11
+  },
+  {
+   "system": "nsBinary",
+   "separation": 955.9782718763176,
+   "chiA": 0.9999403473682839,
+   "chiB": 0.9999443287852461,
+   "declared": [
+    0.9999403473682839,
+    0.9999443287852461
+   ],
+   "relA": 0,
+   "relB": 0
+  }
+ ],
+ "causalGrid": {
+  "note": "**k を外から固定し、非同期から出発する**。Γ は kFrame で乗じていない。判定は **R28 の 4 列に分けて**記録する: ① 走行成立(完走・NaN 0・合体も離脱もない)/② 定常成立(窓末尾 10% で ω/n の振れ幅 ≤ 1e−3)/ ③ 同期(その平らな値が符号つきで +1 の 1% 以内)/④ 観測成立 —— **本便では評価しない**(観測との突き合わせを 1 件もしていない)。**「定常」は窓平均の移動(直前の 10% 窓との差)で読む** —— 離心軌道では ω が 1 公転のあいだに秤動するので、窓内の振れ幅だけでは定常かどうかを判定できない(振れ幅は ratioMeanBand に別記)。**離心軌道では瞬時 Ω が大きく振れる**ので、比は平均運動 n=√(GM/a³) を基準に読む。a・e は**素の GM で作った接触要素**であり、k>0 では引きずり項が実効重力を変えるので「軌道要素のドリフト」として厳密ではない —— 軌道の安定は**同方向 1 周の周期の比**で読む。",
+  "rows": [
+   {
+    "system": "charon",
+    "k": 0,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     1.0009250363540378,
+     1.0009250363540378
+    ],
+    "ratioMeanPlateau": [
+     0.9999822050317222,
+     0.9999822050317222
+    ],
+    "plateauSpread": [
+     0.0003531458868211157,
+     0.0003531458868211157
+    ],
+    "plateauDrift": [
+     0.000014238696754764746,
+     0.000014238696754764746
+    ],
+    "ratioMeanBand": [
+     [
+      0.9998028861887946,
+      1.0001560320756158
+     ],
+     [
+      0.9998028861887946,
+      1.0001560320756158
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 9.9,
+    "tauFitOrbits": 3.092446139489189,
+    "aDriftRel": 0.03714945630978015,
+    "e0": 0,
+    "eEnd": 0.001047311390777658,
+    "eDrift": 0.001047311390777658,
+    "aMin": 19.596,
+    "aMax": 20.324127664362283,
+    "rMin": 19.596,
+    "rMax": 20.36792204833058,
+    "revPeriodFirst": 5676.841110293805,
+    "revPeriodLast": 5821.218989326764,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 6.480784373945599e-10,
+    "Ldrag": 0,
+    "angularRelDrift": 6.948121302598045e-14,
+    "energyRelResidual": 0.000002699773576770048
+   },
+   {
+    "system": "charon",
+    "k": 0,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     1.0028233880094362,
+     1.0028233880094362
+    ],
+    "ratioMeanPlateau": [
+     1.004687911059414,
+     1.004687911059414
+    ],
+    "plateauSpread": [
+     0.002603738611993922,
+     0.002603738611993922
+    ],
+    "plateauDrift": [
+     0.0036254779761775158,
+     0.0036254779761775158
+    ],
+    "ratioMeanBand": [
+     [
+      1.0035058011710318,
+      1.0061095397830258
+     ],
+     [
+      1.0035058011710318,
+      1.0061095397830258
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 49.050000000000004,
+    "tauFitOrbits": 10.522155055369076,
+    "aDriftRel": 0.03701821545520148,
+    "e0": 0,
+    "eEnd": 0.00044499889326103296,
+    "eDrift": 0.00044499889326103296,
+    "aMin": 19.596,
+    "aMax": 20.32140895006013,
+    "rMin": 19.596,
+    "rMax": 20.330709054947476,
+    "revPeriodFirst": 5559.3242169170835,
+    "revPeriodLast": 5677.079060643504,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 6.480351378967743e-10,
+    "Ldrag": 0,
+    "angularRelDrift": 3.918909881038531e-14,
+    "energyRelResidual": 6.813271282075945e-7
+   },
+   {
+    "system": "charon",
+    "k": 0,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     1.2509902033274856,
+     1.2509902033274856
+    ],
+    "ratioMeanPlateau": [
+     1.268991158837737,
+     1.268991158837737
+    ],
+    "plateauSpread": [
+     0.036860748724513615,
+     0.036860748724513615
+    ],
+    "plateauDrift": [
+     0.040545253287800787,
+     0.040545253287800787
+    ],
+    "ratioMeanBand": [
+     [
+      1.250964606961594,
+      1.2878253556861077
+     ],
+     [
+      1.250964606961594,
+      1.2878253556861077
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": true,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 42.16146918918707,
+    "aDriftRel": 0.028152289254158087,
+    "e0": 0,
+    "eEnd": 0.00016650779000897885,
+    "eDrift": 0.00016650779000897885,
+    "aMin": 19.596,
+    "aMax": 20.147672260224482,
+    "rMin": 19.596,
+    "rMax": 20.147878243334546,
+    "revPeriodFirst": 5529.330107073617,
+    "revPeriodLast": 5568.709702309068,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 6.105508152999362e-10,
+    "Ldrag": 0,
+    "angularRelDrift": 6.54563866616706e-14,
+    "energyRelResidual": 2.5803789581567096e-7
+   },
+   {
+    "system": "charon",
+    "k": 0,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     0.999271405781468,
+     0.999271405781468
+    ],
+    "ratioMeanPlateau": [
+     0.9999733029445513,
+     0.9999733029445513
+    ],
+    "plateauSpread": [
+     0.0001479513818232192,
+     0.0001479513818232192
+    ],
+    "plateauDrift": [
+     0.0000010105190385578666,
+     0.0000010105190385578666
+    ],
+    "ratioMeanBand": [
+     [
+      0.9999010324772426,
+      1.0000489838590658
+     ],
+     [
+      0.9999010324772426,
+      1.0000489838590658
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 8.25,
+    "tauFitOrbits": 3.055212081402531,
+    "aDriftRel": -0.018369261746468767,
+    "e0": 0,
+    "eEnd": 0.0004639120215207433,
+    "eDrift": 0.0004639120215207433,
+    "aMin": 19.23592225131986,
+    "aMax": 19.596,
+    "rMin": 19.21582467090184,
+    "rMax": 19.596000019536724,
+    "revPeriodFirst": 5442.002340755055,
+    "revPeriodLast": 5371.976693876764,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 1.623237262805913e-10,
+    "Ldrag": 0,
+    "angularRelDrift": 1.8038930160992483e-14,
+    "energyRelResidual": 4.922028243804012e-7
+   },
+   {
+    "system": "charon",
+    "k": 0,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     0.998622490047276,
+     0.9986224900472761
+    ],
+    "ratioMeanPlateau": [
+     0.997746896297816,
+     0.9977468962978161
+    ],
+    "plateauSpread": [
+     0.0012313268005976763,
+     0.0012313268005975653
+    ],
+    "plateauDrift": [
+     0.0017012773987468144,
+     0.0017012773987464813
+    ],
+    "ratioMeanBand": [
+     [
+      0.997071416005925,
+      0.9983027428065226
+     ],
+     [
+      0.9970714160059252,
+      0.9983027428065228
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 41.1,
+    "tauFitOrbits": 10.571037587346915,
+    "aDriftRel": -0.018308149612070827,
+    "e0": 0,
+    "eEnd": 0.0002342678361030917,
+    "eDrift": 0.0002342678361030917,
+    "aMin": 19.23723350020186,
+    "aMax": 19.596,
+    "rMin": 19.233208221518915,
+    "rMax": 19.596000342988784,
+    "revPeriodFirst": 5498.514373475086,
+    "revPeriodLast": 5441.798154858414,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 1.6231148249964198e-10,
+    "Ldrag": 0,
+    "angularRelDrift": 3.520851429012991e-14,
+    "energyRelResidual": 2.3663068212842657e-8
+   },
+   {
+    "system": "charon",
+    "k": 0,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     0.881548802788273,
+     0.881548802788273
+    ],
+    "ratioMeanPlateau": [
+     0.8729983972124027,
+     0.8729983972124027
+    ],
+    "plateauSpread": [
+     0.017696435067170335,
+     0.017696435067170335
+    ],
+    "plateauDrift": [
+     0.019524518313021155,
+     0.019524518313021155
+    ],
+    "ratioMeanBand": [
+     [
+      0.8639485039683464,
+      0.8816449390355168
+     ],
+     [
+      0.8639485039683464,
+      0.8816449390355168
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": true,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 42.240617090451586,
+    "aDriftRel": -0.01394274816752351,
+    "e0": 0,
+    "eEnd": 0.00005652474031567119,
+    "eDrift": 0.00005652474031567119,
+    "aMin": 19.32277790690921,
+    "aMax": 19.596,
+    "rMin": 19.32172436645996,
+    "rMax": 19.596004991120587,
+    "revPeriodFirst": 5513.337022757857,
+    "revPeriodLast": 5493.905669442422,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 1.5281913858224398e-10,
+    "Ldrag": 0,
+    "angularRelDrift": 5.3464780959086156e-14,
+    "energyRelResidual": 4.412749480584388e-8
+   },
+   {
+    "system": "charon",
+    "k": 0,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     0.9987019803036552,
+     0.9987019803036552
+    ],
+    "ratioMeanPlateau": [
+     0.999965395060609,
+     0.999965395060609
+    ],
+    "plateauSpread": [
+     0.0004708073240695665,
+     0.0004708073240695665
+    ],
+    "plateauDrift": [
+     0.000014660652127518325,
+     0.000014660652127518325
+    ],
+    "ratioMeanBand": [
+     [
+      0.9997329092561342,
+      1.0002037165802038
+     ],
+     [
+      0.9997329092561342,
+      1.0002037165802038
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 10.950000000000001,
+    "tauFitOrbits": 3.114540285276081,
+    "aDriftRel": -0.07270840288281741,
+    "e0": 0,
+    "eEnd": 0.001678602649922415,
+    "eDrift": 0.001678602649922415,
+    "aMin": 18.171173150177317,
+    "aMax": 19.596,
+    "rMin": 18.09569252415036,
+    "rMax": 19.596000003042214,
+    "revPeriodFirst": 5221.254923865215,
+    "revPeriodLast": 4950.221660933137,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 2.6030514288589784e-9,
+    "Ldrag": 0,
+    "angularRelDrift": 1.9747327806342615e-14,
+    "energyRelResidual": 0.000009135644106906249
+   },
+   {
+    "system": "charon",
+    "k": 0,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     0.9924389132202946,
+     0.9924389132202946
+    ],
+    "ratioMeanPlateau": [
+     0.9915374021983526,
+     0.9915374021983526
+    ],
+    "plateauSpread": [
+     0.00466131090579025,
+     0.00466131090579025
+    ],
+    "plateauDrift": [
+     0.0063867047632026885,
+     0.0063867047632026885
+    ],
+    "ratioMeanBand": [
+     [
+      0.9890043512845905,
+      0.9936656621903808
+     ],
+     [
+      0.9890043512845905,
+      0.9936656621903808
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 55.199999999999996,
+    "tauFitOrbits": 10.619543500728671,
+    "aDriftRel": -0.07244918002562224,
+    "e0": 0,
+    "eEnd": 0.0008805861847273629,
+    "eDrift": 0.0008805861847273629,
+    "aMin": 18.176285868217906,
+    "aMax": 19.596,
+    "rMin": 18.160363874814028,
+    "rMax": 19.59600002840168,
+    "revPeriodFirst": 5438.81120486818,
+    "revPeriodLast": 5220.137697061953,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 2.6028313882905357e-9,
+    "Ldrag": 0,
+    "angularRelDrift": 2.1086129691518386e-14,
+    "energyRelResidual": 0.0000014716326439114269
+   },
+   {
+    "system": "charon",
+    "k": 0,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     0.5544392744253863,
+     0.5544392744253864
+    ],
+    "ratioMeanPlateau": [
+     0.5209790334382395,
+     0.5209790334382395
+    ],
+    "plateauSpread": [
+     0.06791504275682703,
+     0.06791504275682714
+    ],
+    "plateauDrift": [
+     0.0751665752476604,
+     0.0751665752476604
+    ],
+    "ratioMeanBand": [
+     [
+      0.4862169984020984,
+      0.5541320411589254
+     ],
+     [
+      0.4862169984020984,
+      0.5541320411589256
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 42.31691426085827,
+    "aDriftRel": -0.05524471526634696,
+    "e0": 0,
+    "eEnd": 0.00027796078585227654,
+    "eDrift": 0.00027796078585227654,
+    "aMin": 18.513424559640665,
+    "aMax": 19.596,
+    "rMin": 18.512129547778386,
+    "rMax": 19.596000342823988,
+    "revPeriodFirst": 5497.423119892543,
+    "revPeriodLast": 5420.702111404054,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 2.448744419475727e-9,
+    "Ldrag": 0,
+    "angularRelDrift": 4.4738296329623666e-14,
+    "energyRelResidual": 1.3200358423832632e-7
+   },
+   {
+    "system": "charon",
+    "k": 0,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     1.0049506174069966,
+     1.0049506174069966
+    ],
+    "ratioMeanPlateau": [
+     1.0000078532335106,
+     1.0000078532335106
+    ],
+    "plateauSpread": [
+     0.001923104494227057,
+     0.001923104494227057
+    ],
+    "plateauDrift": [
+     0.000015937592986015048,
+     0.000015937592986015048
+    ],
+    "ratioMeanBand": [
+     [
+      0.9990187525115913,
+      1.0009418570058184
+     ],
+     [
+      0.9990187525115913,
+      1.0009418570058184
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 12.9,
+    "tauFitOrbits": 3.1491143227957483,
+    "aDriftRel": 0.15186487155188616,
+    "e0": 0,
+    "eEnd": 0.004874106410500222,
+    "eDrift": 0.004874106410500222,
+    "aMin": 19.596,
+    "aMax": 22.573260677512444,
+    "rMin": 19.596,
+    "rMax": 22.770257484553223,
+    "revPeriodFirst": 6193.375402122803,
+    "revPeriodLast": 6802.208933131042,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 1.0331345969060258e-8,
+    "Ldrag": 0,
+    "angularRelDrift": 3.064650789073702e-14,
+    "energyRelResidual": 0.0000671574023631556
+   },
+   {
+    "system": "charon",
+    "k": 0,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     1.0134251895974833,
+     1.0134251895974833
+    ],
+    "ratioMeanPlateau": [
+     1.021073848790867,
+     1.021073848790867
+    ],
+    "plateauSpread": [
+     0.011818494288037051,
+     0.011818494288037051
+    ],
+    "plateauDrift": [
+     0.016415845295472797,
+     0.016415845295472797
+    ],
+    "ratioMeanBand": [
+     [
+      1.0157488853637213,
+      1.0275673796517584
+     ],
+     [
+      1.0157488853637213,
+      1.0275673796517584
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 10.447014268164896,
+    "aDriftRel": 0.15131709552120998,
+    "e0": 0,
+    "eEnd": 0.0018191485957399051,
+    "eDrift": 0.0018191485957399051,
+    "aMin": 19.596,
+    "aMax": 22.56120980383363,
+    "rMin": 19.596,
+    "rMax": 22.60180815574565,
+    "revPeriodFirst": 5684.379981551445,
+    "revPeriodLast": 6192.688382134824,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 1.0330814878072432e-8,
+    "Ldrag": 0,
+    "angularRelDrift": 2.0363798006344993e-14,
+    "energyRelResidual": 0.000014176304438523368
+   },
+   {
+    "system": "charon",
+    "k": 0,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     2.1232514317766213,
+     2.1232514317766213
+    ],
+    "ratioMeanPlateau": [
+     2.203462404108796,
+     2.203462404108796
+    ],
+    "plateauSpread": [
+     0.15955086392392293,
+     0.15955086392392293
+    ],
+    "plateauDrift": [
+     0.1744348082461129,
+     0.1744348082461129
+    ],
+    "ratioMeanBand": [
+     [
+      2.1252959362577766,
+      2.2848468001816995
+     ],
+     [
+      2.1252959362577766,
+      2.2848468001816995
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 42.023859065511225,
+    "aDriftRel": 0.11473194864415298,
+    "e0": 0,
+    "eEnd": 0.0005721562526430243,
+    "eDrift": 0.0005721562526430243,
+    "aMin": 19.596,
+    "aMax": 21.844287265630822,
+    "rMin": 19.596,
+    "rMax": 21.84500672220238,
+    "revPeriodFirst": 5561.556063931737,
+    "revPeriodLast": 5723.313227376049,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 9.744521076558678e-9,
+    "Ldrag": 0,
+    "angularRelDrift": 8.266492260001433e-14,
+    "energyRelResidual": 0.00000389127737412111
+   },
+   {
+    "system": "charon",
+    "k": 0,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     0.9999290412351901,
+     0.9999290412351901
+    ],
+    "ratioMeanPlateau": [
+     0.9999783476379042,
+     0.9999783476379042
+    ],
+    "plateauSpread": [
+     0.00025903694957185586,
+     0.00025903694957185586
+    ],
+    "plateauDrift": [
+     0.000009340096624677052,
+     0.000009340096624677052
+    ],
+    "ratioMeanBand": [
+     [
+      0.9998455182251857,
+      1.0001045551747576
+     ],
+     [
+      0.9998455182251857,
+      1.0001045551747576
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 9.45,
+    "tauFitOrbits": 3.04777520545502,
+    "aDriftRel": -0.032977902275903366,
+    "e0": 0,
+    "eEnd": 0.0008249434677418381,
+    "eDrift": 0.0008249434677418381,
+    "aMin": 18.949725026375425,
+    "aMax": 19.596,
+    "rMin": 18.91401587699477,
+    "rMax": 19.596000008283912,
+    "revPeriodFirst": 5381.802640219662,
+    "revPeriodLast": 5256.824980781494,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 5.262495170091281e-10,
+    "Ldrag": 0,
+    "angularRelDrift": 4.158202310038317e-14,
+    "energyRelResidual": 0.00000172538801371904
+   },
+   {
+    "system": "charon",
+    "k": 0,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     0.9968363118439212,
+     0.9968363118439212
+    ],
+    "ratioMeanPlateau": [
+     0.9960223982927235,
+     0.9960223982927235
+    ],
+    "plateauSpread": [
+     0.0021788628036938373,
+     0.0021788628036938373
+    ],
+    "plateauDrift": [
+     0.0030106974276573606,
+     0.0030106974276573606
+    ],
+    "ratioMeanBand": [
+     [
+      0.9948259590410576,
+      0.9970048218447515
+     ],
+     [
+      0.9948259590410576,
+      0.9970048218447515
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 47.25,
+    "tauFitOrbits": 10.582715593442225,
+    "aDriftRel": -0.03286029909362879,
+    "e0": 0,
+    "eEnd": 0.000403079171671924,
+    "eDrift": 0.000403079171671924,
+    "aMin": 18.95206957896125,
+    "aMax": 19.596,
+    "rMin": 18.944787990219044,
+    "rMax": 19.59600011438099,
+    "revPeriodFirst": 5482.486486251653,
+    "revPeriodLast": 5381.397382435076,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 5.262084637441421e-10,
+    "Ldrag": 0,
+    "angularRelDrift": 4.967957496729989e-14,
+    "energyRelResidual": 2.036533094439503e-7
+   },
+   {
+    "system": "charon",
+    "k": 0,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     0.79045135944288,
+     0.79045135944288
+    ],
+    "ratioMeanPlateau": [
+     0.7749336547180554,
+     0.7749336547180554
+    ],
+    "plateauSpread": [
+     0.03150675607026576,
+     0.03150675607026576
+    ],
+    "plateauDrift": [
+     0.03479041838820329,
+     0.03479041838820329
+    ],
+    "ratioMeanBand": [
+     [
+      0.7588167468519587,
+      0.7903235029222244
+     ],
+     [
+      0.7588167468519587,
+      0.7903235029222244
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": true,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 42.2598462106981,
+    "aDriftRel": -0.025034000952293422,
+    "e0": 0,
+    "eEnd": 0.00015156721522949706,
+    "eDrift": 0.00015156721522949706,
+    "aMin": 19.105433717338858,
+    "aMax": 19.596,
+    "rMin": 19.105651094486287,
+    "rMax": 19.59600159288662,
+    "revPeriodFirst": 5509.085596174698,
+    "revPeriodLast": 5474.230171958632,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 4.953377638333588e-10,
+    "Ldrag": 0,
+    "angularRelDrift": 2.473036110706999e-14,
+    "energyRelResidual": 4.169689380653488e-8
+   },
+   {
+    "system": "charon",
+    "k": 0.25,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     1.0012372295896512,
+     1.0012372295896512
+    ],
+    "ratioMeanPlateau": [
+     0.9988016851820989,
+     0.9988016851820989
+    ],
+    "plateauSpread": [
+     0.00035916981253236724,
+     0.00035916981253236724
+    ],
+    "plateauDrift": [
+     0.00001566182979595432,
+     0.00001566182979595432
+    ],
+    "ratioMeanBand": [
+     [
+      0.9986253361271771,
+      0.9989845059397094
+     ],
+     [
+      0.9986253361271771,
+      0.9989845059397094
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 9.600000000000001,
+    "tauFitOrbits": 4.609963242464788,
+    "aDriftRel": 0.036549518338947956,
+    "e0": 0,
+    "eEnd": 0.001530486325970883,
+    "eDrift": 0.001530486325970883,
+    "aMin": 19.596,
+    "aMax": 20.321641040107068,
+    "rMin": 19.596,
+    "rMax": 20.37999415264399,
+    "revPeriodFirst": 5683.772817500969,
+    "revPeriodLast": 5827.7532703699035,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 6.495436733201149e-10,
+    "Ldrag": -9.382169962372995e-9,
+    "angularRelDrift": 3.389113236427982e-14,
+    "energyRelResidual": 0.000002705836675678136
+   },
+   {
+    "system": "charon",
+    "k": 0.25,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     1.0027825716150702,
+     1.0027825716150702
+    ],
+    "ratioMeanPlateau": [
+     1.0033783933267175,
+     1.0033783933267175
+    ],
+    "plateauSpread": [
+     0.002586179392398691,
+     0.002586179392398691
+    ],
+    "plateauDrift": [
+     0.003627429027651896,
+     0.003627429027651452
+    ],
+    "ratioMeanBand": [
+     [
+      1.0022051224113162,
+      1.004791301803715
+     ],
+     [
+      1.0022051224113162,
+      1.004791301803715
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 47.849999999999994,
+    "tauFitOrbits": 10.45453630397087,
+    "aDriftRel": 0.03640851093840146,
+    "e0": 0,
+    "eEnd": 0.0006708435627683473,
+    "eDrift": 0.0006708435627683473,
+    "aMin": 19.596,
+    "aMax": 20.309510051160675,
+    "rMin": 19.596,
+    "rMax": 20.335144616950483,
+    "revPeriodFirst": 5565.910196001647,
+    "revPeriodLast": 5683.408424938527,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 6.493256608083327e-10,
+    "Ldrag": -3.0607098497263935e-8,
+    "angularRelDrift": 3.5373683276799015e-14,
+    "energyRelResidual": 6.821928003280629e-7
+   },
+   {
+    "system": "charon",
+    "k": 0.25,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     1.2519485701602473,
+     1.2519485701602473
+    ],
+    "ratioMeanPlateau": [
+     1.2673832395121263,
+     1.2673832395121263
+    ],
+    "plateauSpread": [
+     0.03690741690126487,
+     0.03690741690126487
+    ],
+    "plateauDrift": [
+     0.040608233515960546,
+     0.040608233515960546
+    ],
+    "ratioMeanBand": [
+     [
+      1.249334100202065,
+      1.28624151710333
+     ],
+     [
+      1.249334100202065,
+      1.28624151710333
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": true,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 42.050367972693365,
+    "aDriftRel": 0.02751412188766045,
+    "e0": 0,
+    "eEnd": 0.00112296924159055,
+    "eDrift": 0.00112296924159055,
+    "aMin": 19.596,
+    "aMax": 20.135166732510594,
+    "rMin": 19.596,
+    "rMax": 20.156217706026663,
+    "revPeriodFirst": 5535.818003242211,
+    "revPeriodLast": 5574.736855187737,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 6.114610393116409e-10,
+    "Ldrag": -2.4422045584419957e-8,
+    "angularRelDrift": 5.443518896957949e-14,
+    "energyRelResidual": 2.599276873667739e-7
+   },
+   {
+    "system": "charon",
+    "k": 0.25,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     0.9998681963559869,
+     0.9998681963559869
+    ],
+    "ratioMeanPlateau": [
+     0.9987177565155305,
+     0.9987177565155305
+    ],
+    "plateauSpread": [
+     0.00015962047753792508,
+     0.00015962047753792508
+    ],
+    "plateauDrift": [
+     7.533034961371143e-7,
+     7.533034961371143e-7
+    ],
+    "ratioMeanBand": [
+     [
+      0.9986385697430293,
+      0.9987981902205673
+     ],
+     [
+      0.9986385697430293,
+      0.9987981902205673
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 8.55,
+    "tauFitOrbits": 5.518447022341988,
+    "aDriftRel": -0.01911652554718021,
+    "e0": 0,
+    "eEnd": 0.0007916511454011588,
+    "eDrift": 0.0007916511454011588,
+    "aMin": 19.221392565377457,
+    "aMax": 19.596,
+    "rMin": 19.223384325954978,
+    "rMax": 19.59741247361657,
+    "revPeriodFirst": 5448.497835101613,
+    "revPeriodLast": 5378.001179007857,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 1.6157446674501753e-10,
+    "Ldrag": -1.606559937855991e-8,
+    "angularRelDrift": 3.8679417787430546e-14,
+    "energyRelResidual": 4.906035570200675e-7
+   },
+   {
+    "system": "charon",
+    "k": 0.25,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     0.9990187883544693,
+     0.9990187883544693
+    ],
+    "ratioMeanPlateau": [
+     0.9963421183110311,
+     0.9963421183110311
+    ],
+    "plateauSpread": [
+     0.0012253664587843494,
+     0.0012253664587843494
+    ],
+    "plateauDrift": [
+     0.0016943425358066921,
+     0.0016943425358066921
+    ],
+    "ratioMeanBand": [
+     [
+      0.9956854704533176,
+      0.9969108369121019
+     ],
+     [
+      0.9956854704533176,
+      0.9969108369121019
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 42.75,
+    "tauFitOrbits": 10.7252205270281,
+    "aDriftRel": -0.019043011832604793,
+    "e0": 0,
+    "eEnd": 0.0011022529440667872,
+    "eDrift": 0.0011022529440667872,
+    "aMin": 19.222833140128277,
+    "aMax": 19.596,
+    "rMin": 19.224503759510135,
+    "rMax": 19.607462469791773,
+    "revPeriodFirst": 5504.972163011369,
+    "revPeriodLast": 5447.702859366793,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 1.6165629778897453e-10,
+    "Ldrag": -3.4274472947212425e-8,
+    "angularRelDrift": 2.955345903887169e-14,
+    "energyRelResidual": 2.4137380037131964e-8
+   },
+   {
+    "system": "charon",
+    "k": 0.25,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     0.8814148331640185,
+     0.8814148331640185
+    ],
+    "ratioMeanPlateau": [
+     0.8716610942120122,
+     0.8716610942120122
+    ],
+    "plateauSpread": [
+     0.017619406131705206,
+     0.017619406131705206
+    ],
+    "plateauDrift": [
+     0.019440412951977737,
+     0.019440412951977737
+    ],
+    "ratioMeanBand": [
+     [
+      0.8626460816418189,
+      0.8802654877735241
+     ],
+     [
+      0.8626460816418189,
+      0.8802654877735241
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": true,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 42.485446554975105,
+    "aDriftRel": -0.014655189246430573,
+    "e0": 0,
+    "eEnd": 0.0008860596385021191,
+    "eDrift": 0.0008860596385021191,
+    "aMin": 19.308816911526947,
+    "aMax": 19.596,
+    "rMin": 19.311138221901476,
+    "rMax": 19.615843805795322,
+    "revPeriodFirst": 5519.790418585227,
+    "revPeriodLast": 5499.780189001118,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 1.5236896647886623e-10,
+    "Ldrag": -8.983819424978206e-9,
+    "angularRelDrift": 6.627391729888479e-14,
+    "energyRelResidual": 4.416124680355318e-8
+   },
+   {
+    "system": "charon",
+    "k": 0.25,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     0.9973888668490617,
+     0.9973888668490617
+    ],
+    "ratioMeanPlateau": [
+     0.9986264292127485,
+     0.9986264292127484
+    ],
+    "plateauSpread": [
+     0.0004949199077122213,
+     0.0004949199077122213
+    ],
+    "plateauDrift": [
+     0.000014771356733778163,
+     0.000014771356733889185
+    ],
+    "ratioMeanBand": [
+     [
+      0.9983865646808233,
+      0.9988814845885355
+     ],
+     [
+      0.9983865646808233,
+      0.9988814845885355
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 11.549999999999999,
+    "tauFitOrbits": 4.159074578122696,
+    "aDriftRel": -0.07363175137053575,
+    "e0": 0,
+    "eEnd": 0.0012132677882916328,
+    "eDrift": 0.0012132677882916328,
+    "aMin": 18.15311220014298,
+    "aMax": 19.596,
+    "rMin": 18.1037438755382,
+    "rMax": 19.596095633671556,
+    "revPeriodFirst": 5227.345141660279,
+    "revPeriodLast": 4955.742751985446,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 2.5998657215322235e-9,
+    "Ldrag": -1.9837874457233022e-8,
+    "angularRelDrift": 2.73250060864686e-14,
+    "energyRelResidual": 0.000009118052185550096
+   },
+   {
+    "system": "charon",
+    "k": 0.25,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     0.991425817472846,
+     0.991425817472846
+    ],
+    "ratioMeanPlateau": [
+     0.9900209425619177,
+     0.9900209425619177
+    ],
+    "plateauSpread": [
+     0.004602704748717379,
+     0.004602704748717379
+    ],
+    "plateauDrift": [
+     0.006372877098307583,
+     0.006372877098307583
+    ],
+    "ratioMeanBand": [
+     [
+      0.98751896452509,
+      0.9921216692738074
+     ],
+     [
+      0.98751896452509,
+      0.9921216692738074
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 57,
+    "tauFitOrbits": 10.664153938575106,
+    "aDriftRel": -0.07333280604275759,
+    "e0": 0,
+    "eEnd": 0.000360746050555672,
+    "eDrift": 0.000360746050555672,
+    "aMin": 18.158970332786122,
+    "aMax": 19.596,
+    "rMin": 18.15260047872237,
+    "rMax": 19.598041358190677,
+    "revPeriodFirst": 5445.144007441211,
+    "revPeriodLast": 5225.6463784756415,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 2.6001311584511618e-9,
+    "Ldrag": -1.5595031600573728e-8,
+    "angularRelDrift": 5.1626407189162124e-14,
+    "energyRelResidual": 0.0000014657673884092843
+   },
+   {
+    "system": "charon",
+    "k": 0.25,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     0.5537456405115586,
+     0.5537456405115586
+    ],
+    "ratioMeanPlateau": [
+     0.5199675115730985,
+     0.5199675115730985
+    ],
+    "plateauSpread": [
+     0.06782146679030854,
+     0.06782146679030854
+    ],
+    "plateauDrift": [
+     0.07505893483654752,
+     0.07505893483654752
+    ],
+    "ratioMeanBand": [
+     [
+      0.4852521452970342,
+      0.5530736120873427
+     ],
+     [
+      0.4852521452970342,
+      0.5530736120873427
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 42.383927303885976,
+    "aDriftRel": -0.05603717982805912,
+    "e0": 0,
+    "eEnd": 0.000836516984582823,
+    "eDrift": 0.000836516984582823,
+    "aMin": 18.497895424089354,
+    "aMax": 19.596,
+    "rMin": 18.499742814053253,
+    "rMax": 19.607396368747,
+    "revPeriodFirst": 5503.84225589381,
+    "revPeriodLast": 5426.428423770994,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 2.446982657570659e-9,
+    "Ldrag": -3.9153570843420533e-8,
+    "angularRelDrift": 4.65148279784055e-14,
+    "energyRelResidual": 1.2905889233066099e-7
+   },
+   {
+    "system": "charon",
+    "k": 0.25,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     1.007194623970259,
+     1.007194623970259
+    ],
+    "ratioMeanPlateau": [
+     0.9989524204499443,
+     0.9989524204499443
+    ],
+    "plateauSpread": [
+     0.001966794318926879,
+     0.001966794318926879
+    ],
+    "plateauDrift": [
+     0.00000962663528292218,
+     0.00000962663528292218
+    ],
+    "ratioMeanBand": [
+     [
+      0.9979453344334006,
+      0.9999121287523275
+     ],
+     [
+      0.9979453344334006,
+      0.9999121287523275
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 12.9,
+    "tauFitOrbits": 3.13058304406749,
+    "aDriftRel": 0.15150270128012164,
+    "e0": 0,
+    "eEnd": 0.00532609682402301,
+    "eDrift": 0.00532609682402301,
+    "aMin": 19.596,
+    "aMax": 22.57256919525327,
+    "rMin": 19.596,
+    "rMax": 22.783638334254736,
+    "revPeriodFirst": 6201.282917318598,
+    "revPeriodLast": 6809.776307736822,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 1.0336665105022802e-8,
+    "Ldrag": -2.656123234057634e-9,
+    "angularRelDrift": 5.645361569418727e-14,
+    "energyRelResidual": 0.00006719469335301158
+   },
+   {
+    "system": "charon",
+    "k": 0.25,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     1.0129739932739976,
+     1.0129739932739976
+    ],
+    "ratioMeanPlateau": [
+     1.0199224015811386,
+     1.0199224015811386
+    ],
+    "plateauSpread": [
+     0.01183071209047215,
+     0.01183071209047215
+    ],
+    "plateauDrift": [
+     0.016410468541845358,
+     0.016410468541845136
+    ],
+    "ratioMeanBand": [
+     [
+      1.0145933501486555,
+      1.0264240622391276
+     ],
+     [
+      1.0145933501486553,
+      1.0264240622391274
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 10.433897401392382,
+    "aDriftRel": 0.15091442214445702,
+    "e0": 0,
+    "eEnd": 0.0015722689745306718,
+    "eDrift": 0.0015722689745306718,
+    "aMin": 19.596,
+    "aMax": 22.55331901634278,
+    "rMin": 19.596,
+    "rMax": 22.607483864957686,
+    "revPeriodFirst": 5691.2323726505365,
+    "revPeriodLast": 6199.961971535522,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 1.0335652628394765e-8,
+    "Ldrag": -2.09414713812979e-8,
+    "angularRelDrift": 4.7576443421698264e-14,
+    "energyRelResidual": 0.000014180679729206397
+   },
+   {
+    "system": "charon",
+    "k": 0.25,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     2.123270135473513,
+     2.123270135473513
+    ],
+    "ratioMeanPlateau": [
+     2.2014693406492882,
+     2.2014693406492882
+    ],
+    "plateauSpread": [
+     0.15956965648760413,
+     0.15956965648760413
+    ],
+    "plateauDrift": [
+     0.17446306970805514,
+     0.17446306970805514
+    ],
+    "ratioMeanBand": [
+     [
+      2.1232946564287976,
+      2.2828643129164017
+     ],
+     [
+      2.1232946564287976,
+      2.2828643129164017
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 42.0005037407514,
+    "aDriftRel": 0.11422372558099958,
+    "e0": 0,
+    "eEnd": 0.0006797025098787618,
+    "eDrift": 0.0006797025098787618,
+    "aMin": 19.596,
+    "aMax": 21.834328126485268,
+    "rMin": 19.596,
+    "rMax": 21.850705838339536,
+    "revPeriodFirst": 5568.113690288506,
+    "revPeriodLast": 5729.659602257969,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 9.748151924796775e-9,
+    "Ldrag": -2.6671428017298552e-8,
+    "angularRelDrift": 5.967671185133977e-14,
+    "energyRelResidual": 0.000003891201575527282
+   },
+   {
+    "system": "charon",
+    "k": 0.25,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     0.9989403505315856,
+     0.9989403505315856
+    ],
+    "ratioMeanPlateau": [
+     0.9987005048771328,
+     0.9987005048771328
+    ],
+    "plateauSpread": [
+     0.0002579706342532573,
+     0.0002579706342532573
+    ],
+    "plateauDrift": [
+     0.000008324502457690564,
+     0.000008324502457690564
+    ],
+    "ratioMeanBand": [
+     [
+      0.9985698322725042,
+      0.9988278029067574
+     ],
+     [
+      0.9985698322725042,
+      0.9988278029067574
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 9.75,
+    "tauFitOrbits": 4.832570579436652,
+    "aDriftRel": -0.03377022440462943,
+    "e0": 0,
+    "eEnd": 0.0006268445789294078,
+    "eDrift": 0.0006268445789294078,
+    "aMin": 18.934238682566882,
+    "aMax": 19.596,
+    "rMin": 18.922252360055353,
+    "rMax": 19.5964635422254,
+    "revPeriodFirst": 5388.187140219165,
+    "revPeriodLast": 5262.714514527033,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 5.248733003227696e-10,
+    "Ldrag": -1.9951553156548264e-8,
+    "angularRelDrift": 5.885739163059376e-14,
+    "energyRelResidual": 0.0000017169499772195263
+   },
+   {
+    "system": "charon",
+    "k": 0.25,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     0.9978848146407121,
+     0.9978848146407121
+    ],
+    "ratioMeanPlateau": [
+     0.9945897367580384,
+     0.9945897367580384
+    ],
+    "plateauSpread": [
+     0.0021578716028363143,
+     0.0021578716028363143
+    ],
+    "plateauDrift": [
+     0.003001942153679771,
+     0.0030019421536795488
+    ],
+    "ratioMeanBand": [
+     [
+      0.9934138702739304,
+      0.9955717418767667
+     ],
+     [
+      0.9934138702739304,
+      0.9955717418767667
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 48.9,
+    "tauFitOrbits": 10.671849802573984,
+    "aDriftRel": -0.033631391991601506,
+    "e0": 0,
+    "eEnd": 0.0012111176705875935,
+    "eDrift": 0.0012111176705875935,
+    "aMin": 18.936959242532577,
+    "aMax": 19.596,
+    "rMin": 18.937109059577832,
+    "rMax": 19.60258647204228,
+    "revPeriodFirst": 5488.910636871023,
+    "revPeriodLast": 5387.193768448458,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 5.250167396235121e-10,
+    "Ldrag": -2.4460043209289588e-8,
+    "angularRelDrift": 2.1882372536643746e-14,
+    "energyRelResidual": 2.0562090487865052e-7
+   },
+   {
+    "system": "charon",
+    "k": 0.25,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     0.7907472279794884,
+     0.7907472279794885
+    ],
+    "ratioMeanPlateau": [
+     0.7736779875272338,
+     0.7736779875272338
+    ],
+    "plateauSpread": [
+     0.03142247311514179,
+     0.0314224731151419
+    ],
+    "plateauDrift": [
+     0.034700424923352124,
+     0.034700424923352124
+    ],
+    "ratioMeanBand": [
+     [
+      0.7576085322471671,
+      0.7890310053623089
+     ],
+     [
+      0.7576085322471671,
+      0.789031005362309
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": true,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 42.398996473190486,
+    "aDriftRel": -0.025766329769667137,
+    "e0": 0,
+    "eEnd": 0.0011385094826951928,
+    "eDrift": 0.0011385094826951928,
+    "aMin": 19.091083001833603,
+    "aMax": 19.596,
+    "rMin": 19.093143218069947,
+    "rMax": 19.613115955200314,
+    "revPeriodFirst": 5515.529832551223,
+    "revPeriodLast": 5480.06474358683,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 4.94533680643093e-10,
+    "Ldrag": -3.292623335575054e-8,
+    "angularRelDrift": 3.763916546391166e-14,
+    "energyRelResidual": 4.022245164836799e-8
+   },
+   {
+    "system": "charon",
+    "k": 0.5,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     1.0016343411125712,
+     1.0016343411125712
+    ],
+    "ratioMeanPlateau": [
+     0.9976269353357369,
+     0.9976269353357369
+    ],
+    "plateauSpread": [
+     0.0003958571651626608,
+     0.0003958571651626608
+    ],
+    "plateauDrift": [
+     0.000017228350589926222,
+     0.000017228350589926222
+    ],
+    "ratioMeanBand": [
+     [
+      0.9974241538433961,
+      0.9978200110085588
+     ],
+     [
+      0.9974241538433961,
+      0.9978200110085588
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 9.3,
+    "tauFitOrbits": 5.6357222700462355,
+    "aDriftRel": 0.035958103915093055,
+    "e0": 0,
+    "eEnd": 0.0021949171875954173,
+    "eDrift": 0.0021949171875954173,
+    "aMin": 19.596,
+    "aMax": 20.319841285642504,
+    "rMin": 19.596,
+    "rMax": 20.394021861872805,
+    "revPeriodFirst": 5690.710460103113,
+    "revPeriodLast": 5834.29465116022,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 6.510279662393539e-10,
+    "Ldrag": 7.906057029731482e-9,
+    "angularRelDrift": 2.8570176479699076e-14,
+    "energyRelResidual": 0.000002712178362854652
+   },
+   {
+    "system": "charon",
+    "k": 0.5,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     1.0021434008660444,
+     1.0021434008660446
+    ],
+    "ratioMeanPlateau": [
+     1.0020752340874934,
+     1.0020752340874937
+    ],
+    "plateauSpread": [
+     0.002573640215018047,
+     0.002573640215017825
+    ],
+    "plateauDrift": [
+     0.003630345898287146,
+     0.003630345898286924
+    ],
+    "ratioMeanBand": [
+     [
+      1.0009100687854335,
+      1.0034837090004516
+     ],
+     [
+      1.0009100687854338,
+      1.0034837090004516
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 46.65,
+    "tauFitOrbits": 10.387088441366243,
+    "aDriftRel": 0.035806283964823014,
+    "e0": 0,
+    "eEnd": 0.0011205315619035997,
+    "eDrift": 0.0011205315619035997,
+    "aMin": 19.596,
+    "aMax": 20.298550767071617,
+    "rMin": 19.596,
+    "rMax": 20.344594676188024,
+    "revPeriodFirst": 5572.502536993934,
+    "revPeriodLast": 5689.748610424933,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 6.506249744391159e-10,
+    "Ldrag": -8.77481680400278e-8,
+    "angularRelDrift": 3.87631912270599e-14,
+    "energyRelResidual": 6.817226232875864e-7
+   },
+   {
+    "system": "charon",
+    "k": 0.5,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     1.2523026994920285,
+     1.2523026994920283
+    ],
+    "ratioMeanPlateau": [
+     1.2657889855706972,
+     1.2657889855706972
+    ],
+    "plateauSpread": [
+     0.03695114734517402,
+     0.03695114734517402
+    ],
+    "plateauDrift": [
+     0.040671748325946666,
+     0.040671748325946666
+    ],
+    "ratioMeanBand": [
+     [
+      1.2477216916168374,
+      1.2846728389620115
+     ],
+     [
+      1.2477216916168372,
+      1.2846728389620112
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": true,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 41.94037115677516,
+    "aDriftRel": 0.02688601835946459,
+    "e0": 0,
+    "eEnd": 0.002071323520512117,
+    "eDrift": 0.002071323520512117,
+    "aMin": 19.596,
+    "aMax": 20.12285841577207,
+    "rMin": 19.596,
+    "rMax": 20.16609098293418,
+    "revPeriodFirst": 5542.3122586354,
+    "revPeriodLast": 5580.77524703167,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 6.123765434257072e-10,
+    "Ldrag": -6.932069735151182e-8,
+    "angularRelDrift": 2.9225921858022425e-14,
+    "energyRelResidual": 2.606866178876534e-7
+   },
+   {
+    "system": "charon",
+    "k": 0.5,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     1.0006063932285647,
+     1.0006063932285647
+    ],
+    "ratioMeanPlateau": [
+     0.9974689120147497,
+     0.9974689120147499
+    ],
+    "plateauSpread": [
+     0.0001904074953216206,
+     0.0001904074953216206
+    ],
+    "plateauDrift": [
+     0.0000025553097481312292,
+     0.000002555309748020207
+    ],
+    "ratioMeanBand": [
+     [
+      0.9973771148921525,
+      0.9975675223874741
+     ],
+     [
+      0.9973771148921525,
+      0.9975675223874741
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 8.85,
+    "tauFitOrbits": 6.630931082806953,
+    "aDriftRel": -0.019852878376063456,
+    "e0": 0,
+    "eEnd": 0.0016721025665031608,
+    "eDrift": 0.0016721025665031608,
+    "aMin": 19.20696299534266,
+    "aMax": 19.596,
+    "rMin": 19.21901547793601,
+    "rMax": 19.60465468982065,
+    "revPeriodFirst": 5454.999574020614,
+    "revPeriodLast": 5384.0358754398985,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 1.6085116032208574e-10,
+    "Ldrag": -2.995003309776645e-8,
+    "angularRelDrift": 8.27969195837908e-14,
+    "energyRelResidual": 4.894227268344441e-7
+   },
+   {
+    "system": "charon",
+    "k": 0.5,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     0.9986817254067846,
+     0.9986817254067846
+    ],
+    "ratioMeanPlateau": [
+     0.9949450527581261,
+     0.9949450527581261
+    ],
+    "plateauSpread": [
+     0.001220133794717304,
+     0.001220133794717304
+    ],
+    "plateauDrift": [
+     0.0016875161376430636,
+     0.0016875161376430636
+    ],
+    "ratioMeanBand": [
+     [
+      0.9943095868412549,
+      0.9955297206359722
+     ],
+     [
+      0.9943095868412549,
+      0.9955297206359722
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 44.55,
+    "tauFitOrbits": 10.87773812907421,
+    "aDriftRel": -0.019768260058127672,
+    "e0": 0,
+    "eEnd": 0.001833648904817438,
+    "eDrift": 0.001833648904817438,
+    "aMin": 19.20862117590093,
+    "aMax": 19.596,
+    "rMin": 19.21314390513386,
+    "rMax": 19.628638046856214,
+    "revPeriodFirst": 5511.43629537603,
+    "revPeriodLast": 5453.618746489708,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 1.61011755106703e-10,
+    "Ldrag": -9.721380358698156e-8,
+    "angularRelDrift": 4.324594374128174e-14,
+    "energyRelResidual": 2.269513660919893e-8
+   },
+   {
+    "system": "charon",
+    "k": 0.5,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     0.8819940064750769,
+     0.8819940064750769
+    ],
+    "ratioMeanPlateau": [
+     0.8703335841697639,
+     0.8703335841697639
+    ],
+    "plateauSpread": [
+     0.017544067232431182,
+     0.017544067232431182
+    ],
+    "plateauDrift": [
+     0.01935660361780267,
+     0.01935660361780267
+    ],
+    "ratioMeanBand": [
+     [
+      0.8613561506580834,
+      0.8789002178905145
+     ],
+     [
+      0.8613561506580834,
+      0.8789002178905145
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": true,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 42.730551055168746,
+    "aDriftRel": -0.015355380977069757,
+    "e0": 0,
+    "eEnd": 0.0020377910637347034,
+    "eDrift": 0.0020377910637347034,
+    "aMin": 19.29509595437334,
+    "aMax": 19.596,
+    "rMin": 19.298094330515113,
+    "rMax": 19.63901040355507,
+    "revPeriodFirst": 5526.250163180535,
+    "revPeriodLast": 5505.665928417162,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 1.5192050967852882e-10,
+    "Ldrag": 7.028117246357122e-9,
+    "angularRelDrift": 3.585320288317479e-14,
+    "energyRelResidual": 4.205756246954675e-8
+   },
+   {
+    "system": "charon",
+    "k": 0.5,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     0.9966007266546018,
+     0.9966007266546018
+    ],
+    "ratioMeanPlateau": [
+     0.9972954382993242,
+     0.9972954382993242
+    ],
+    "plateauSpread": [
+     0.0004578534939033707,
+     0.0004578534939033707
+    ],
+    "plateauDrift": [
+     0.000011832586620741381,
+     0.000011832586620963426
+    ],
+    "ratioMeanBand": [
+     [
+      0.9970736119934472,
+      0.9975314654873506
+     ],
+     [
+      0.9970736119934475,
+      0.9975314654873508
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 11.700000000000001,
+    "tauFitOrbits": 4.815568982138398,
+    "aDriftRel": -0.07454236054972371,
+    "e0": 0,
+    "eEnd": 0.0004589568869208589,
+    "eDrift": 0.0004589568869208589,
+    "aMin": 18.135267902667614,
+    "aMax": 19.596,
+    "rMin": 18.11083313877807,
+    "rMax": 19.59673008373458,
+    "revPeriodFirst": 5233.441902428119,
+    "revPeriodLast": 4961.276981730385,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 2.596712421348238e-9,
+    "Ldrag": -1.0309302227179375e-8,
+    "angularRelDrift": 5.139762021595009e-14,
+    "energyRelResidual": 0.00000910256328751975
+   },
+   {
+    "system": "charon",
+    "k": 0.5,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     0.991316725412646,
+     0.9913167254126463
+    ],
+    "ratioMeanPlateau": [
+     0.9885136234629591,
+     0.9885136234629593
+    ],
+    "plateauSpread": [
+     0.004543263485535132,
+     0.004543263485535021
+    ],
+    "plateauDrift": [
+     0.006359666725819224,
+     0.006359666725819224
+    ],
+    "ratioMeanBand": [
+     [
+      0.9860397804512355,
+      0.9905830439367707
+     ],
+     [
+      0.9860397804512357,
+      0.9905830439367708
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": 59.099999999999994,
+    "tauFitOrbits": 10.708453775308836,
+    "aDriftRel": -0.07420401359457583,
+    "e0": 0,
+    "eEnd": 0.0009955167945284401,
+    "eDrift": 0.0009955167945284401,
+    "aMin": 18.141898149600692,
+    "aMax": 19.596,
+    "rMin": 18.14253846770292,
+    "rMax": 19.60730391657487,
+    "revPeriodFirst": 5451.483135726172,
+    "revPeriodLast": 5231.166588194625,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 2.597441398270746e-9,
+    "Ldrag": 9.228087040808999e-10,
+    "angularRelDrift": 3.938307290752049e-14,
+    "energyRelResidual": 0.0000014630980640744292
+   },
+   {
+    "system": "charon",
+    "k": 0.5,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     0.5526532748461326,
+     0.5526532748461326
+    ],
+    "ratioMeanPlateau": [
+     0.5189606205649901,
+     0.5189606205649903
+    ],
+    "plateauSpread": [
+     0.06772419298622645,
+     0.0677241929862264
+    ],
+    "plateauDrift": [
+     0.07495166000263709,
+     0.07495166000263714
+    ],
+    "ratioMeanBand": [
+     [
+      0.48429156178566124,
+      0.5520157547718877
+     ],
+     [
+      0.4842915617856613,
+      0.5520157547718877
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 42.450599782388714,
+    "aDriftRel": -0.056821992060671886,
+    "e0": 0,
+    "eEnd": 0.001059514048102687,
+    "eDrift": 0.001059514048102687,
+    "aMin": 18.482516243579074,
+    "aMax": 19.596,
+    "rMin": 18.48537193180005,
+    "rMax": 19.62851132138655,
+    "revPeriodFirst": 5510.267730174671,
+    "revPeriodLast": 5432.165941905572,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 2.445211403842303e-9,
+    "Ldrag": -9.829569080380227e-8,
+    "angularRelDrift": 4.3171399670492795e-14,
+    "energyRelResidual": 1.238940356112947e-7
+   },
+   {
+    "system": "charon",
+    "k": 0.5,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     1.0088678087477392,
+     1.0088678087477392
+    ],
+    "ratioMeanPlateau": [
+     0.9978991614080085,
+     0.9978991614080085
+    ],
+    "plateauSpread": [
+     0.0019182098353384136,
+     0.0019182098353384136
+    ],
+    "plateauDrift": [
+     0.0000016782514892232925,
+     0.0000016782514892232925
+    ],
+    "ratioMeanBand": [
+     [
+      0.9969142838577434,
+      0.9988324936930818
+     ],
+     [
+      0.9969142838577434,
+      0.9988324936930818
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 12.75,
+    "tauFitOrbits": 3.593813218855625,
+    "aDriftRel": 0.15114551950071753,
+    "e0": 0,
+    "eEnd": 0.005926273907403949,
+    "eDrift": 0.005926273907403949,
+    "aMin": 19.596,
+    "aMax": 22.572312927995092,
+    "rMin": 19.596,
+    "rMax": 22.79759523552355,
+    "revPeriodFirst": 6209.19567760864,
+    "revPeriodLast": 6817.344070545914,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 1.0341989377783845e-8,
+    "Ldrag": 1.7497540630480465e-8,
+    "angularRelDrift": 6.127877258591616e-14,
+    "energyRelResidual": 0.0000672304614394764
+   },
+   {
+    "system": "charon",
+    "k": 0.5,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     1.0122597969997367,
+     1.0122597969997367
+    ],
+    "ratioMeanPlateau": [
+     1.018776565774297,
+     1.018776565774297
+    ],
+    "plateauSpread": [
+     0.01184991755753706,
+     0.01184991755753706
+    ],
+    "plateauDrift": [
+     0.016405231665979514,
+     0.016405231665979514
+    ],
+    "ratioMeanBand": [
+     [
+      1.0134416125033294,
+      1.0252915300608665
+     ],
+     [
+      1.0134416125033294,
+      1.0252915300608665
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 10.42083539009035,
+    "aDriftRel": 0.1505164998621991,
+    "e0": 0,
+    "eEnd": 0.001420107600880942,
+    "eDrift": 0.001420107600880942,
+    "aMin": 19.596,
+    "aMax": 22.545521331299653,
+    "rMin": 19.596,
+    "rMax": 22.615835231650085,
+    "revPeriodFirst": 5698.091176937978,
+    "revPeriodLast": 6207.245595256085,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 1.0340492486522083e-8,
+    "Ldrag": -6.473499687542191e-8,
+    "angularRelDrift": 4.354211355323127e-14,
+    "energyRelResidual": 0.000014184428161794043
+   },
+   {
+    "system": "charon",
+    "k": 0.5,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     2.121946548452738,
+     2.121946548452738
+    ],
+    "ratioMeanPlateau": [
+     2.199497173316176,
+     2.199497173316176
+    ],
+    "plateauSpread": [
+     0.15959017155189636,
+     0.15959017155189636
+    ],
+    "plateauDrift": [
+     0.17449230595583076,
+     0.17449230595583076
+    ],
+    "ratioMeanBand": [
+     [
+      2.1213077872747066,
+      2.280897958826603
+     ],
+     [
+      2.1213077872747066,
+      2.280897958826603
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 41.97729335548153,
+    "aDriftRel": 0.11372152966492245,
+    "e0": 0,
+    "eEnd": 0.0009671561917360905,
+    "eDrift": 0.0009671561917360905,
+    "aMin": 19.596,
+    "aMax": 21.82448709531382,
+    "rMin": 19.596,
+    "rMax": 21.862942551401403,
+    "revPeriodFirst": 5574.677698091243,
+    "revPeriodLast": 5736.0172698530005,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 9.751796055696615e-9,
+    "Ldrag": -7.459994812657767e-8,
+    "angularRelDrift": 3.8096062656483853e-14,
+    "energyRelResidual": 0.000003889355572673152
+   },
+   {
+    "system": "charon",
+    "k": 0.5,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     0.9982277406192256,
+     0.9982277406192256
+    ],
+    "ratioMeanPlateau": [
+     0.9974276558684645,
+     0.9974276558684645
+    ],
+    "plateauSpread": [
+     0.00026985758896491685,
+     0.00026985758896502787
+    ],
+    "plateauDrift": [
+     0.0000043175913241322306,
+     0.0000043175913241322306
+    ],
+    "ratioMeanBand": [
+     [
+      0.997295198824415,
+      0.9975650564133799
+     ],
+     [
+      0.9972951988244148,
+      0.9975650564133798
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 10.2,
+    "tauFitOrbits": 5.699607022262704,
+    "aDriftRel": -0.034551861282346934,
+    "e0": 0,
+    "eEnd": 0.00043943577090782955,
+    "eDrift": 0.00043943577090782955,
+    "aMin": 18.91892172631113,
+    "aMax": 19.596,
+    "rMin": 18.925701402511116,
+    "rMax": 19.599311548272798,
+    "revPeriodFirst": 5394.5779645622815,
+    "revPeriodLast": 5268.615060538323,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 5.235247423933152e-10,
+    "Ldrag": -1.684401003271864e-8,
+    "angularRelDrift": 3.825408204356176e-14,
+    "energyRelResidual": 0.0000017095356863729765
+   },
+   {
+    "system": "charon",
+    "k": 0.5,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     0.9987130577246573,
+     0.9987130577246573
+    ],
+    "ratioMeanPlateau": [
+     0.9931653723891131,
+     0.9931653723891131
+    ],
+    "plateauSpread": [
+     0.00214779068479265,
+     0.00214779068479265
+    ],
+    "plateauDrift": [
+     0.0029940086509588903,
+     0.0029940086509588903
+    ],
+    "ratioMeanBand": [
+     [
+      0.9920136846416397,
+      0.9941614753264324
+     ],
+     [
+      0.9920136846416397,
+      0.9941614753264324
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 50.849999999999994,
+    "tauFitOrbits": 10.760220313982744,
+    "aDriftRel": -0.034389926344159716,
+    "e0": 0,
+    "eEnd": 0.002287444609207175,
+    "eDrift": 0.002287444609207175,
+    "aMin": 18.922095003359846,
+    "aMax": 19.596,
+    "rMin": 18.92599371859892,
+    "rMax": 19.620222036935413,
+    "revPeriodFirst": 5495.3411257521075,
+    "revPeriodLast": 5393.001430280863,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 5.238359248202858e-10,
+    "Ldrag": -6.268627259716963e-8,
+    "angularRelDrift": 2.6041921216514418e-14,
+    "energyRelResidual": 2.0696706041804748e-7
+   },
+   {
+    "system": "charon",
+    "k": 0.5,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     0.7904452845859745,
+     0.7904452845859745
+    ],
+    "ratioMeanPlateau": [
+     0.7724308102636682,
+     0.7724308102636682
+    ],
+    "plateauSpread": [
+     0.03134135012455874,
+     0.03134135012455874
+    ],
+    "plateauDrift": [
+     0.03461111651926008,
+     0.03461111651926008
+    ],
+    "ratioMeanBand": [
+     [
+      0.7564074313868031,
+      0.7877487815113619
+     ],
+     [
+      0.7564074313868031,
+      0.7877487815113619
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": true,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 42.53781186425279,
+    "aDriftRel": -0.026488593371975684,
+    "e0": 0,
+    "eEnd": 0.0019899951388531855,
+    "eDrift": 0.0019899951388531855,
+    "aMin": 19.076929524282765,
+    "aMax": 19.596,
+    "rMin": 19.07967345979966,
+    "rMax": 19.635944318476515,
+    "revPeriodFirst": 5521.980414964339,
+    "revPeriodLast": 5485.910530785055,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 4.937299879524401e-10,
+    "Ldrag": -9.355485518936798e-8,
+    "angularRelDrift": 3.829236070548511e-14,
+    "energyRelResidual": 4.078008065807495e-8
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     1.0026085678109027,
+     1.0026085678109027
+    ],
+    "ratioMeanPlateau": [
+     0.9952940846641913,
+     0.9952940846641913
+    ],
+    "plateauSpread": [
+     0.0004804105182284468,
+     0.0004804105182282248
+    ],
+    "plateauDrift": [
+     0.000018674762960912972,
+     0.000018674762960912972
+    ],
+    "ratioMeanBand": [
+     [
+      0.9950417557813642,
+      0.9955221662995927
+     ],
+     [
+      0.9950417557813644,
+      0.9955221662995927
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 9.15,
+    "tauFitOrbits": 7.080190403137725,
+    "aDriftRel": 0.03479977315662996,
+    "e0": 0,
+    "eEnd": 0.003705501223185071,
+    "eDrift": 0.003705501223185071,
+    "aMin": 19.596,
+    "aMax": 20.3172497803176,
+    "rMin": 19.596,
+    "rMax": 20.42686884826032,
+    "revPeriodFirst": 5704.603163299196,
+    "revPeriodLast": 5847.398035634709,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 6.540529309872616e-10,
+    "Ldrag": 1.3025792582461407e-7,
+    "angularRelDrift": 5.3589124989666826e-14,
+    "energyRelResidual": 0.0000027254496155959833
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     0.9994099462733239,
+     0.9994099462733239
+    ],
+    "ratioMeanPlateau": [
+     0.9994884055474256,
+     0.9994884055474256
+    ],
+    "plateauSpread": [
+     0.0026267803184437666,
+     0.0026267803184437666
+    ],
+    "plateauDrift": [
+     0.0036367386403579616,
+     0.0036367386403579616
+    ],
+    "ratioMeanBand": [
+     [
+      0.9982994437976663,
+      1.00092622411611
+     ],
+     [
+      0.9982994437976663,
+      1.00092622411611
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 44.699999999999996,
+    "tauFitOrbits": 10.25270483697399,
+    "aDriftRel": 0.03461725251779887,
+    "e0": 0,
+    "eEnd": 0.0011014014895452842,
+    "eDrift": 0.0011014014895452842,
+    "aMin": 19.596,
+    "aMax": 20.280282596344904,
+    "rMin": 19.596,
+    "rMax": 20.36934701557784,
+    "revPeriodFirst": 5585.705951251145,
+    "revPeriodLast": 5702.460819089749,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 6.532495604447228e-10,
+    "Ldrag": -2.5838103808783766e-7,
+    "angularRelDrift": 5.095416075428113e-14,
+    "energyRelResidual": 6.77583327541098e-7
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     1.2499609109928655,
+     1.2499609109928655
+    ],
+    "ratioMeanPlateau": [
+     1.2626400596290688,
+     1.2626400596290688
+    ],
+    "plateauSpread": [
+     0.037081155926352194,
+     0.037081155926352194
+    ],
+    "plateauDrift": [
+     0.04079943546113607,
+     0.04079943546113607
+    ],
+    "ratioMeanBand": [
+     [
+      1.2445228397134687,
+      1.2816039956398209
+     ],
+     [
+      1.2445228397134687,
+      1.2816039956398209
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": true,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 41.72356835074172,
+    "aDriftRel": 0.025647389124713704,
+    "e0": 0,
+    "eEnd": 0.0031587339511329336,
+    "eDrift": 0.0031587339511329336,
+    "aMin": 19.596,
+    "aMax": 20.09858623728789,
+    "rMin": 19.596,
+    "rMax": 20.188316848429142,
+    "revPeriodFirst": 5555.319495841733,
+    "revPeriodLast": 5592.885136745812,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 6.142260484046035e-10,
+    "Ldrag": -2.652254262841693e-7,
+    "angularRelDrift": 3.618568507808932e-14,
+    "energyRelResidual": 2.5652093363096127e-7
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     1.0016433042983504,
+     1.0016433042983504
+    ],
+    "ratioMeanPlateau": [
+     0.9949911528995321,
+     0.9949911528995321
+    ],
+    "plateauSpread": [
+     0.0002896456548541204,
+     0.0002896456548541204
+    ],
+    "plateauDrift": [
+     0.000004703831502528288,
+     0.000004703831502528288
+    ],
+    "ratioMeanBand": [
+     [
+      0.9948454777639482,
+      0.9951351234188023
+     ],
+     [
+      0.9948454777639482,
+      0.9951351234188023
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 9.75,
+    "tauFitOrbits": 8.200139911666849,
+    "aDriftRel": -0.021296300852032782,
+    "e0": 0,
+    "eEnd": 0.0033247282412984473,
+    "eDrift": 0.0033247282412984473,
+    "aMin": 19.17864064282334,
+    "aMax": 19.596,
+    "rMin": 19.207939323599025,
+    "rMax": 19.63434922539243,
+    "revPeriodFirst": 5468.021449512757,
+    "revPeriodLast": 5396.1353080565605,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 1.5948142037245476e-10,
+    "Ldrag": -1.396217586594907e-7,
+    "angularRelDrift": 2.605674064199423e-14,
+    "energyRelResidual": 4.860149184714583e-7
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     0.9957470777029895,
+     0.9957470777029895
+    ],
+    "ratioMeanPlateau": [
+     0.9921725953126564,
+     0.9921725953126564
+    ],
+    "plateauSpread": [
+     0.001209329143642801,
+     0.001209329143642801
+    ],
+    "plateauDrift": [
+     0.0016734606021457932,
+     0.0016734606021457932
+    ],
+    "ratioMeanBand": [
+     [
+      0.9915492928926161,
+      0.9927586220362589
+     ],
+     [
+      0.9915492928926161,
+      0.9927586220362589
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 49.65,
+    "tauFitOrbits": 11.178320084008122,
+    "aDriftRel": -0.02120077850590881,
+    "e0": 0,
+    "eEnd": 0.0022671177133893245,
+    "eDrift": 0.0022671177133893245,
+    "aMin": 19.180520873720106,
+    "aMax": 19.596,
+    "rMin": 19.19018106080224,
+    "rMax": 19.674110965841155,
+    "revPeriodFirst": 5524.383237953134,
+    "revPeriodLast": 5465.483468463157,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 1.5975426114447794e-10,
+    "Ldrag": -3.085396012677192e-7,
+    "angularRelDrift": 4.880638248848392e-14,
+    "energyRelResidual": 1.3946960540343175e-8
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     0.8842701792930387,
+     0.8842701792930387
+    ],
+    "ratioMeanPlateau": [
+     0.867707249923319,
+     0.867707249923319
+    ],
+    "plateauSpread": [
+     0.017395435151451588,
+     0.017395435151451588
+    ],
+    "plateauDrift": [
+     0.019190040662572017,
+     0.019190040662572017
+    ],
+    "ratioMeanBand": [
+     [
+      0.8588286489872615,
+      0.8762240841387131
+     ],
+     [
+      0.8588286489872615,
+      0.8762240841387131
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": true,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 43.221592042034764,
+    "aDriftRel": -0.016714869966387495,
+    "e0": 0,
+    "eEnd": 0.004629910543964857,
+    "eDrift": 0.004629910543964857,
+    "aMin": 19.26845540813867,
+    "aMax": 19.596,
+    "rMin": 19.272385118648494,
+    "rMax": 19.68560295362716,
+    "revPeriodFirst": 5539.188348127399,
+    "revPeriodLast": 5517.47046415355,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 1.5103074812044813e-10,
+    "Ldrag": 5.7459282728131646e-8,
+    "angularRelDrift": 5.020169882848894e-14,
+    "energyRelResidual": 3.457636107799737e-8
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     0.9971018804170856,
+     0.9971018804170856
+    ],
+    "ratioMeanPlateau": [
+     0.9946580824883895,
+     0.9946580824883895
+    ],
+    "plateauSpread": [
+     0.0004719091595429825,
+     0.0004719091595429825
+    ],
+    "plateauDrift": [
+     3.055149681019387e-7,
+     3.0551496776887177e-7
+    ],
+    "ratioMeanBand": [
+     [
+      0.994430461058774,
+      0.994902370218317
+     ],
+     [
+      0.994430461058774,
+      0.994902370218317
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 12.75,
+    "tauFitOrbits": 5.682727836112214,
+    "aDriftRel": -0.076319279125341,
+    "e0": 0,
+    "eEnd": 0.001821398762806729,
+    "eDrift": 0.001821398762806729,
+    "aMin": 18.100447406259818,
+    "aMax": 19.596,
+    "rMin": 18.115160655268692,
+    "rMax": 19.60136599072431,
+    "revPeriodFirst": 5245.654742926131,
+    "revPeriodLast": 4972.384334476847,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 2.5905027070456963e-9,
+    "Ldrag": 1.226251069943315e-7,
+    "angularRelDrift": 8.005945245305921e-14,
+    "energyRelResidual": 0.000009079389804895606
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     0.9937682499821886,
+     0.9937682499821888
+    ],
+    "ratioMeanPlateau": [
+     0.9855253241413525,
+     0.9855253241413529
+    ],
+    "plateauSpread": [
+     0.004506976643613991,
+     0.004506976643613991
+    ],
+    "plateauDrift": [
+     0.006332781143743804,
+     0.006332781143743693
+    ],
+    "ratioMeanBand": [
+     [
+      0.9830598243734692,
+      0.9875668010170832
+     ],
+     [
+      0.9830598243734693,
+      0.9875668010170833
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 10.796155196112899,
+    "aDriftRel": -0.0758990766093219,
+    "e0": 0,
+    "eEnd": 0.0037355142833654428,
+    "eDrift": 0.0037355142833654428,
+    "aMin": 18.108681694763728,
+    "aMax": 19.596,
+    "rMin": 18.117901400538546,
+    "rMax": 19.64050107722346,
+    "revPeriodFirst": 5464.180027607208,
+    "revPeriodLast": 5242.241010809506,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 2.5920941661322102e-9,
+    "Ldrag": 1.2473651064260325e-7,
+    "angularRelDrift": 3.585449417202954e-14,
+    "energyRelResidual": 0.0000014670294210449395
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     0.5501668837866417,
+     0.5501668837866417
+    ],
+    "ratioMeanPlateau": [
+     0.516960986274589,
+     0.516960986274589
+    ],
+    "plateauSpread": [
+     0.06749728959470674,
+     0.06749728959470674
+    ],
+    "plateauDrift": [
+     0.07473918498849302,
+     0.07473918498849302
+    ],
+    "ratioMeanBand": [
+     [
+      0.4823981209680673,
+      0.549895410562774
+     ],
+     [
+      0.4823981209680673,
+      0.549895410562774
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 42.58290772595025,
+    "aDriftRel": -0.05837220201186626,
+    "e0": 0,
+    "eEnd": 0.00027101977161843674,
+    "eDrift": 0.00027101977161843674,
+    "aMin": 18.45213832937547,
+    "aMax": 19.596,
+    "rMin": 18.456645483967744,
+    "rMax": 19.673920167354463,
+    "revPeriodFirst": 5523.137345181728,
+    "revPeriodLast": 5443.674000107829,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 2.4416366367574758e-9,
+    "Ldrag": -2.0067161467279701e-7,
+    "angularRelDrift": 4.053952017308735e-14,
+    "energyRelResidual": 1.1194855446754506e-7
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     1.0099704865940669,
+     1.0099704865940669
+    ],
+    "ratioMeanPlateau": [
+     0.9957989006006682,
+     0.9957989006006682
+    ],
+    "plateauSpread": [
+     0.002042726355108937,
+     0.002042726355108937
+    ],
+    "plateauDrift": [
+     0.00001711705281570719,
+     0.00001711705281570719
+    ],
+    "ratioMeanBand": [
+     [
+      0.994753414661628,
+      0.996796141016737
+     ],
+     [
+      0.9947534146616279,
+      0.9967961410167369
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 12,
+    "tauFitOrbits": 4.2915306495759555,
+    "aDriftRel": 0.15043665905840464,
+    "e0": 0,
+    "eEnd": 0.007089617126764405,
+    "eDrift": 0.007089617126764405,
+    "aMin": 19.596,
+    "aMax": 22.572544989854464,
+    "rMin": 19.596,
+    "rMax": 22.827171050035037,
+    "revPeriodFirst": 6225.036430347683,
+    "revPeriodLast": 6832.479924381863,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 1.0352653345428445e-8,
+    "Ldrag": 1.2899282707210652e-7,
+    "angularRelDrift": 1.0399407468955314e-13,
+    "energyRelResidual": 0.000067296488194985
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     1.0101342332212362,
+     1.0101342332212362
+    ],
+    "ratioMeanPlateau": [
+     1.0165019577729295,
+     1.0165019577729295
+    ],
+    "plateauSpread": [
+     0.011925985071773892,
+     0.011925985071773892
+    ],
+    "plateauDrift": [
+     0.016394625246011874,
+     0.016394625246011874
+    ],
+    "ratioMeanBand": [
+     [
+      1.0111295936065987,
+      1.0230555786783726
+     ],
+     [
+      1.0111295936065987,
+      1.0230555786783726
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 10.394881274819218,
+    "aDriftRel": 0.14973141020691788,
+    "e0": 0,
+    "eEnd": 0.0009104337814794938,
+    "eDrift": 0.0009104337814794938,
+    "aMin": 19.596,
+    "aMax": 22.530921885705308,
+    "rMin": 19.596,
+    "rMax": 22.638051502074603,
+    "revPeriodFirst": 5711.827652083494,
+    "revPeriodLast": 6221.842262611397,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 1.035017807243856e-8,
+    "Ldrag": -2.171473608770944e-7,
+    "angularRelDrift": 5.1396970716525046e-14,
+    "energyRelResidual": 0.00001419030264488308
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     2.1170003606587393,
+     2.1170003606587393
+    ],
+    "ratioMeanPlateau": [
+     2.195612657579418,
+     2.195612657579418
+    ],
+    "plateauSpread": [
+     0.15963260905334842,
+     0.15963260905334842
+    ],
+    "plateauDrift": [
+     0.1745543913261498,
+     0.1745543913261498
+    ],
+    "ratioMeanBand": [
+     [
+      2.117354290135482,
+      2.2769868991888305
+     ],
+     [
+      2.117354290135482,
+      2.2769868991888305
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 41.931305526351565,
+    "aDriftRel": 0.11272904935832358,
+    "e0": 0,
+    "eEnd": 0.0006008760914444741,
+    "eDrift": 0.0006008760914444741,
+    "aMin": 19.596,
+    "aMax": 21.80503845122571,
+    "rMin": 19.596,
+    "rMax": 21.89173105969475,
+    "revPeriodFirst": 5587.8245044882415,
+    "revPeriodLast": 5748.765856160928,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 9.759133802901011e-9,
+    "Ldrag": -1.9100986252552975e-7,
+    "angularRelDrift": 3.8290239340132034e-14,
+    "energyRelResidual": 0.000003882650112815414
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     0.9982589101985971,
+     0.9982589101985971
+    ],
+    "ratioMeanPlateau": [
+     0.994900356280209,
+     0.9949003562802089
+    ],
+    "plateauSpread": [
+     0.00033668942457965034,
+     0.0003366894245794283
+    ],
+    "plateauDrift": [
+     0.000008601535233410118,
+     0.00000860153523352114
+    ],
+    "ratioMeanBand": [
+     [
+      0.9947368665678712,
+      0.9950735559924508
+     ],
+     [
+      0.9947368665678712,
+      0.9950735559924506
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 10.799999999999999,
+    "tauFitOrbits": 6.889406163146582,
+    "aDriftRel": -0.03607887117706411,
+    "e0": 0,
+    "eEnd": 0.0019313682928655622,
+    "eDrift": 0.0019313682928655622,
+    "aMin": 18.88899844041425,
+    "aMax": 19.596,
+    "rMin": 18.915353764039157,
+    "rMax": 19.615746612223766,
+    "revPeriodFirst": 5407.378259878352,
+    "revPeriodLast": 5280.448611831496,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 5.209098537318291e-10,
+    "Ldrag": 1.0750733370210202e-7,
+    "angularRelDrift": 2.8872232868532925e-14,
+    "energyRelResidual": 0.0000016994051183381319
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     0.9982491881733975,
+     0.9982491881733977
+    ],
+    "ratioMeanPlateau": [
+     0.9903393933369872,
+     0.9903393933369872
+    ],
+    "plateauSpread": [
+     0.0021710587039752705,
+     0.0021710587039754925
+    ],
+    "plateauDrift": [
+     0.00297891921598481,
+     0.00297891921598481
+    ],
+    "ratioMeanBand": [
+     [
+      0.9892081441492236,
+      0.9913792028531989
+     ],
+     [
+      0.9892081441492236,
+      0.9913792028531991
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 56.099999999999994,
+    "tauFitOrbits": 10.934722737509317,
+    "aDriftRel": -0.03588024425969892,
+    "e0": 0,
+    "eEnd": 0.003847505837418446,
+    "eDrift": 0.003847505837418446,
+    "aMin": 18.892708529235392,
+    "aMax": 19.596,
+    "rMin": 18.902484085855576,
+    "rMax": 19.663238163706968,
+    "revPeriodFirst": 5508.2207690475925,
+    "revPeriodLast": 5404.649989472018,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 5.215067679743553e-10,
+    "Ldrag": -2.5262570212291526e-7,
+    "angularRelDrift": 2.7130943148933175e-14,
+    "energyRelResidual": 2.0380014089034925e-7
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     0.7877487817707935,
+     0.7877487817707935
+    ],
+    "ratioMeanPlateau": [
+     0.7699604700009821,
+     0.7699604700009821
+    ],
+    "plateauSpread": [
+     0.031184337582091715,
+     0.031184337582091715
+    ],
+    "plateauDrift": [
+     0.03443368023128146,
+     0.03443368023128146
+    ],
+    "ratioMeanBand": [
+     [
+      0.7540081072177852,
+      0.7851924447998769
+     ],
+     [
+      0.7540081072177852,
+      0.7851924447998769
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": true,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 42.814510995500335,
+    "aDriftRel": -0.02791641310292101,
+    "e0": 0,
+    "eEnd": 0.0026462707486842817,
+    "eDrift": 0.0026462707486842817,
+    "aMin": 19.04894996883516,
+    "aMax": 19.596,
+    "rMin": 19.053060105852886,
+    "rMax": 19.682348376914018,
+    "revPeriodFirst": 5534.900267626861,
+    "revPeriodLast": 5497.635151380338,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 4.921204471463507e-10,
+    "Ldrag": -3.1395308668694997e-7,
+    "angularRelDrift": 2.3612058579410208e-14,
+    "energyRelResidual": 4.901321658844717e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 0,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     2.823810966902546,
+     2.823810966902546
+    ],
+    "ratioMeanPlateau": [
+     0.9999956938574132,
+     0.9999956938574132
+    ],
+    "plateauSpread": [
+     0.1787585922739161,
+     0.1787585922739161
+    ],
+    "plateauDrift": [
+     2.26125451696646e-10,
+     2.2612567374125092e-10
+    ],
+    "ratioMeanBand": [
+     [
+      0.913817914202536,
+      1.092576506476452
+     ],
+     [
+      0.913817914202536,
+      1.092576506476452
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": true,
+    "convergedFromOrbits": 60,
+    "tauFitOrbits": 52.05573456989417,
+    "aDriftRel": -4.102244454815597e-8,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5438753255778215,
+    "eDrift": -2.6235054240153488e-8,
+    "aMin": 619.2006913816193,
+    "aMax": 619.2070533200668,
+    "rMin": 282.4367126600335,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 369.46102392867374,
+    "revPeriodLast": 369.4610215734888,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.005793126203814894,
+    "Ldrag": 0,
+    "angularRelDrift": 1.343584145964045e-13,
+    "energyRelResidual": 2.7047907765145454e-12
+   },
+   {
+    "system": "nsBinary",
+    "k": 0,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     2.8376031087695,
+     2.8376031087695
+    ],
+    "ratioMeanPlateau": [
+     0.9989991958449205,
+     0.9989991958449205
+    ],
+    "plateauSpread": [
+     0.036258533704456086,
+     0.036258533704456086
+    ],
+    "plateauDrift": [
+     0.000819230855401254,
+     0.000819230855401254
+    ],
+    "ratioMeanBand": [
+     [
+      0.9809930872721848,
+      1.017251620976641
+     ],
+     [
+      0.9809930872721848,
+      1.017251620976641
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": true,
+    "convergedFromOrbits": 59.85,
+    "tauFitOrbits": 8.828664717226985,
+    "aDriftRel": -8.57863164801366e-9,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5438753465872606,
+    "eDrift": -5.2256151628071734e-9,
+    "aMin": 619.20071131519,
+    "aMax": 619.2070533182882,
+    "rMin": 282.4367126612945,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 369.4610244746911,
+    "revPeriodLast": 369.4610239309918,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0011703831719242204,
+    "Ldrag": 0,
+    "angularRelDrift": 5.77714682091049e-14,
+    "energyRelResidual": 4.5563404076351685e-14
+   },
+   {
+    "system": "nsBinary",
+    "k": 0,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     2.652822733088589,
+     2.652822733088589
+    ],
+    "ratioMeanPlateau": [
+     0.9289085717594906,
+     0.9289085717594906
+    ],
+    "plateauSpread": [
+     0.018058839654609526,
+     0.018058839654609526
+    ],
+    "plateauDrift": [
+     0.011504364011046708,
+     0.011504364011046708
+    ],
+    "ratioMeanBand": [
+     [
+      0.9196527108083604,
+      0.93771155046297
+     ],
+     [
+      0.9196527108083604,
+      0.93771155046297
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": true,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 39.925509295071954,
+    "aDriftRel": -2.3701109766443756e-9,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5438753505341916,
+    "eDrift": -1.2786841585565867e-9,
+    "aMin": 619.2007151290845,
+    "aMax": 619.2070533175965,
+    "rMin": 282.43671266113324,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 369.4610245838605,
+    "revPeriodLast": 369.46102443910013,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0002989336496630751,
+    "Ldrag": 0,
+    "angularRelDrift": 3.657092941677283e-14,
+    "energyRelResidual": 1.736721680040311e-14
+   },
+   {
+    "system": "nsBinary",
+    "k": 0,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     2.823810907441456,
+     2.823810907441456
+    ],
+    "ratioMeanPlateau": [
+     0.9999956938412045,
+     0.9999956938412045
+    ],
+    "plateauSpread": [
+     0.17875858660752963,
+     0.17875858660752963
+    ],
+    "plateauDrift": [
+     2.338812477020724e-10,
+     2.338812477020724e-10
+    ],
+    "ratioMeanBand": [
+     [
+      0.9138179146137695,
+      1.0925765012212991
+     ],
+     [
+      0.9138179146137695,
+      1.0925765012212991
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": true,
+    "convergedFromOrbits": 60,
+    "tauFitOrbits": 22.655987313341065,
+    "aDriftRel": -4.1779461561458335e-8,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5438753256751595,
+    "eDrift": -2.6137716213625595e-8,
+    "aMin": 619.2006909128474,
+    "aMax": 619.2070532752558,
+    "rMin": 282.43671255104005,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 369.46102370980793,
+    "revPeriodLast": 369.4610211638492,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.005853244268294532,
+    "Ldrag": 0,
+    "angularRelDrift": 2.0021258831093295e-13,
+    "energyRelResidual": 2.883162308098296e-12
+   },
+   {
+    "system": "nsBinary",
+    "k": 0,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     2.833885249430889,
+     2.833885249430889
+    ],
+    "ratioMeanPlateau": [
+     0.9972191195272959,
+     0.9972191195272959
+    ],
+    "plateauSpread": [
+     0.03684425815097847,
+     0.03684425815097847
+    ],
+    "plateauDrift": [
+     0.0022826893870556697,
+     0.0022826893870556697
+    ],
+    "ratioMeanBand": [
+     [
+      0.9789092449799246,
+      1.015753503130903
+     ],
+     [
+      0.9789092449799246,
+      1.015753503130903
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": true,
+    "convergedFromOrbits": 59.85,
+    "tauFitOrbits": 9.853064343308445,
+    "aDriftRel": -9.338190429793223e-9,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5438753466816,
+    "eDrift": -5.13127573764649e-9,
+    "aMin": 619.2007108449144,
+    "aMax": 619.2070533084529,
+    "rMin": 282.4367125984607,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 369.46102441609304,
+    "revPeriodLast": 369.46102370848666,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0012310967551996319,
+    "Ldrag": 0,
+    "angularRelDrift": 6.37341197733678e-14,
+    "energyRelResidual": 2.1657940943832426e-14
+   },
+   {
+    "system": "nsBinary",
+    "k": 0,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     2.3181290622493878,
+     2.3181290622493878
+    ],
+    "ratioMeanPlateau": [
+     0.8020162816745968,
+     0.8020162816745968
+    ],
+    "plateauSpread": [
+     0.03521847432365721,
+     0.03521847432365721
+    ],
+    "plateauDrift": [
+     0.03203995080321331,
+     0.03203995080321331
+    ],
+    "ratioMeanBand": [
+     [
+      0.7837718973346912,
+      0.8189903716583484
+     ],
+     [
+      0.7837718973346912,
+      0.8189903716583484
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": true,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 39.97540715506469,
+    "aDriftRel": -2.9618155469418788e-9,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5438753506075553,
+    "eDrift": -1.2053203990447514e-9,
+    "aMin": 619.2007147640086,
+    "aMax": 619.2070533150913,
+    "rMin": 282.43671265115637,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 369.4610245683489,
+    "revPeriodLast": 369.4610243670045,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0003566461282275944,
+    "Ldrag": 0,
+    "angularRelDrift": 3.8823486681074355e-14,
+    "energyRelResidual": 1.064508229409122e-13
+   },
+   {
+    "system": "nsBinary",
+    "k": 0,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     2.8238108479758517,
+     2.8238108479758512
+    ],
+    "ratioMeanPlateau": [
+     0.9999956938250001,
+     0.9999956938250001
+    ],
+    "plateauSpread": [
+     0.17875858094069808,
+     0.17875858094069808
+    ],
+    "plateauDrift": [
+     2.4162216671896886e-10,
+     2.4162194467436393e-10
+    ],
+    "ratioMeanBand": [
+     [
+      0.9138179150250533,
+      1.0925764959657513
+     ],
+     [
+      0.9138179150250533,
+      1.0925764959657513
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": true,
+    "convergedFromOrbits": 60,
+    "tauFitOrbits": 15.74460083104413,
+    "aDriftRel": -4.2536565234304265e-8,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5438753257725063,
+    "eDrift": -2.6040369416335807e-8,
+    "aMin": 619.2006904440451,
+    "aMax": 619.2070532304541,
+    "rMin": 282.4367123607951,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 369.46102349094434,
+    "revPeriodLast": 369.4610207542855,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.005970652159146259,
+    "Ldrag": 0,
+    "angularRelDrift": 2.19955590170056e-13,
+    "energyRelResidual": 2.9998291411194488e-12
+   },
+   {
+    "system": "nsBinary",
+    "k": 0,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     2.8301673901008253,
+     2.8301673901008253
+    ],
+    "ratioMeanPlateau": [
+     0.9954390432136991,
+     0.9954390432136991
+    ],
+    "plateauSpread": [
+     0.037429982596383526,
+     0.037429982596383526
+    ],
+    "plateauDrift": [
+     0.003746147915472009,
+     0.003746147915472009
+    ],
+    "ratioMeanBand": [
+     [
+      0.9768254026923218,
+      1.0142553852887053
+     ],
+     [
+      0.9768254026923218,
+      1.0142553852887053
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": true,
+    "convergedFromOrbits": 59.85,
+    "tauFitOrbits": 9.937051348951059,
+    "aDriftRel": -1.0097627851491635e-8,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5438753467759532,
+    "eDrift": -5.0369225457203015e-9,
+    "aMin": 619.2007103747039,
+    "aMax": 619.2070532986176,
+    "rMin": 282.4367124683466,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 369.4610243575107,
+    "revPeriodLast": 369.4610234860138,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0013490969483890142,
+    "Ldrag": 0,
+    "angularRelDrift": 7.261184542963294e-14,
+    "energyRelResidual": 3.759491635785169e-14
+   },
+   {
+    "system": "nsBinary",
+    "k": 0,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     1.9834353919066732,
+     1.9834353919066732
+    ],
+    "ratioMeanPlateau": [
+     0.6751239918099302,
+     0.6751239918099302
+    ],
+    "plateauSpread": [
+     0.0523781089729477,
+     0.0523781089729477
+    ],
+    "plateauDrift": [
+     0.052575537572915,
+     0.052575537572915
+    ],
+    "ratioMeanBand": [
+     [
+      0.6478910840914934,
+      0.7002691930644411
+     ],
+     [
+      0.6478910840914934,
+      0.7002691930644411
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": true,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 39.985262559324404,
+    "aDriftRel": -3.553292085135316e-9,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5438753506810383,
+    "eDrift": -1.1318374015800714e-9,
+    "aMin": 619.2007143990929,
+    "aMax": 619.2070533125915,
+    "rMin": 282.43671262301353,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 369.4610245528319,
+    "revPeriodLast": 369.46102429490475,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0004687929350948829,
+    "Ldrag": 0,
+    "angularRelDrift": 4.478613823944514e-14,
+    "energyRelResidual": 3.412147299870235e-14
+   },
+   {
+    "system": "nsBinary",
+    "k": 0,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     2.823811085837839,
+     2.823811085837839
+    ],
+    "ratioMeanPlateau": [
+     0.9999956938898322,
+     0.9999956938898322
+    ],
+    "plateauSpread": [
+     0.17875860360779394,
+     0.17875860360779394
+    ],
+    "plateauDrift": [
+     2.1058788046701693e-10,
+     2.1058788046701693e-10
+    ],
+    "ratioMeanBand": [
+     [
+      0.9138179133799738,
+      1.0925765169877677
+     ],
+     [
+      0.9138179133799738,
+      1.0925765169877677
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": true,
+    "convergedFromOrbits": 60,
+    "tauFitOrbits": 23.828079976794484,
+    "aDriftRel": -3.9507993564298173e-8,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5438753253832126,
+    "eDrift": -2.6429663124716285e-8,
+    "aMin": 619.2006923193844,
+    "aMax": 619.2070534096679,
+    "rMin": 282.4367127832326,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 369.46102436641735,
+    "revPeriodLast": 369.46102239269067,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.005844759553969598,
+    "Ldrag": 0,
+    "angularRelDrift": 1.57148993655548e-13,
+    "energyRelResidual": 2.8410723536804253e-12
+   },
+   {
+    "system": "nsBinary",
+    "k": 0,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     2.8450388274663094,
+     2.8450388274663094
+    ],
+    "ratioMeanPlateau": [
+     1.0025593484922757,
+     1.0025593484922757
+    ],
+    "plateauSpread": [
+     0.03661981680430004,
+     0.03661981680430004
+    ],
+    "plateauDrift": [
+     0.002107686217831084,
+     0.002107686217831084
+    ],
+    "ratioMeanBand": [
+     [
+      0.9843829122422668,
+      1.0210027290465669
+     ],
+     [
+      0.9843829122422668,
+      1.0210027290465669
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": true,
+    "convergedFromOrbits": 60,
+    "tauFitOrbits": 9.916346704587617,
+    "aDriftRel": -7.059670879476173e-9,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5438753463985295,
+    "eDrift": -5.414346193610697e-9,
+    "aMin": 619.2007122556316,
+    "aMax": 619.2070533379587,
+    "rMin": 282.43671268807196,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 369.4610245918505,
+    "revPeriodLast": 369.4610243761049,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0012208158351151885,
+    "Ldrag": 0,
+    "angularRelDrift": 5.3928870504053996e-14,
+    "energyRelResidual": 3.8207877032595435e-14
+   },
+   {
+    "system": "nsBinary",
+    "k": 0,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     3.322210076252256,
+     3.322210076252256
+    ],
+    "ratioMeanPlateau": [
+     1.1826931525895232,
+     1.1826931525895232
+    ],
+    "plateauSpread": [
+     0.03056495494383027,
+     0.03056495494383027
+    ],
+    "plateauDrift": [
+     0.029566809640689584,
+     0.029566809640689584
+    ],
+    "ratioMeanBand": [
+     [
+      1.1679280564217163,
+      1.1984930113655465
+     ],
+     [
+      1.1679280564217163,
+      1.1984930113655465
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": true,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 40.02355456621364,
+    "aDriftRel": -1.1868309073610908e-9,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5438753503874317,
+    "eDrift": -1.4254439850702738e-9,
+    "aMin": 619.2007158591487,
+    "aMax": 619.2070533226001,
+    "rMin": 282.4367126679269,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 369.46102461489903,
+    "revPeriodLast": 369.46102458343967,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00034681167744250014,
+    "Ldrag": 0,
+    "angularRelDrift": 5.922900519732712e-14,
+    "energyRelResidual": 3.473443366599585e-14
+   },
+   {
+    "system": "nsBinary",
+    "k": 0,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     2.8238108915762847,
+     2.8238108915762847
+    ],
+    "ratioMeanPlateau": [
+     0.9999956938369055,
+     0.9999956938369057
+    ],
+    "plateauSpread": [
+     0.17875858509564468,
+     0.17875858509564468
+    ],
+    "plateauDrift": [
+     2.359581419142387e-10,
+     2.359583639588436e-10
+    ],
+    "ratioMeanBand": [
+     [
+      0.9138179147235418,
+      1.0925764998191865
+     ],
+     [
+      0.9138179147235418,
+      1.0925764998191865
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": true,
+    "orbitStable": true,
+    "convergedFromOrbits": 60,
+    "tauFitOrbits": 20.170927829545445,
+    "aDriftRel": -4.1981433378204525e-8,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5438753257011375,
+    "eDrift": -2.6111738216094693e-8,
+    "aMin": 619.2006907877869,
+    "aMax": 619.207053263307,
+    "rMin": 282.4367125044549,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 369.4610236514447,
+    "revPeriodLast": 369.4610210546434,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.005878951367277237,
+    "Ldrag": 0,
+    "angularRelDrift": 1.5105383898218466e-13,
+    "energyRelResidual": 2.834534101012666e-12
+   },
+   {
+    "system": "nsBinary",
+    "k": 0,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     2.832893820278246,
+     2.832893820278246
+    ],
+    "ratioMeanPlateau": [
+     0.9967444325099883,
+     0.9967444325099883
+    ],
+    "plateauSpread": [
+     0.03700045133666274,
+     0.03700045133666274
+    ],
+    "plateauDrift": [
+     0.002672944994968285,
+     0.002672944994968285
+    ],
+    "ratioMeanBand": [
+     [
+      0.9783535537028542,
+      1.015354005039517
+     ],
+     [
+      0.9783535537028542,
+      1.015354005039517
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": true,
+    "convergedFromOrbits": 59.85,
+    "tauFitOrbits": 9.8887876315901,
+    "aDriftRel": -9.540465187740466e-9,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5438753467068287,
+    "eDrift": -5.106047029634908e-9,
+    "aMin": 619.2007107196908,
+    "aMax": 619.2070533058306,
+    "rMin": 282.436712567857,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 369.4610244004822,
+    "revPeriodLast": 369.46102364917033,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0012569621159694716,
+    "Ldrag": 0,
+    "angularRelDrift": 7.526191275603587e-14,
+    "energyRelResidual": 2.353768676109415e-13
+   },
+   {
+    "system": "nsBinary",
+    "k": 0,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     2.228877416775856,
+     2.2288774167758554
+    ],
+    "ratioMeanPlateau": [
+     0.7681783376891379,
+     0.7681783376891378
+    ],
+    "plateauSpread": [
+     0.03979437689863674,
+     0.03979437689863663
+    ],
+    "plateauDrift": [
+     0.037516107277323685,
+     0.037516107277323574
+    ],
+    "ratioMeanBand": [
+     [
+      0.7475370137806457,
+      0.7873313906792825
+     ],
+     [
+      0.7475370137806457,
+      0.7873313906792824
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": true,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 39.97913495300778,
+    "aDriftRel": -3.1196539715149157e-9,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5438753506271529,
+    "eDrift": -1.1857228532363706e-9,
+    "aMin": 619.2007146666406,
+    "aMax": 619.2070533144196,
+    "rMin": 282.4367126451325,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 369.4610245642044,
+    "revPeriodLast": 369.4610243477837,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00038122947573596247,
+    "Ldrag": 0,
+    "angularRelDrift": 8.175457776491925e-14,
+    "energyRelResidual": 1.8021041426462707e-13
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.25,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     1.9814081746367078,
+     1.9814081746367078
+    ],
+    "ratioMeanPlateau": [
+     0.6927621852936433,
+     0.6927621852936433
+    ],
+    "plateauSpread": [
+     0.2819079005108668,
+     0.2819079005108668
+    ],
+    "plateauDrift": [
+     0.00760753879444942,
+     0.00760753879444942
+    ],
+    "ratioMeanBand": [
+     [
+      0.5132020931749245,
+      0.7951099936857913
+     ],
+     [
+      0.5132020931749245,
+      0.7951099936857913
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 4050.6493642476876,
+    "aDriftRel": -0.1202610066846363,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.517482341946051,
+    "eDrift": -0.02639300986682469,
+    "aMin": 405.26357339034735,
+    "aMax": 619.2069008380583,
+    "rMin": 355.870594363893,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 461.20782718960635,
+    "revPeriodLast": 452.3093508834577,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.002055600991363933,
+    "Ldrag": -1080304.5064928888,
+    "angularRelDrift": 1.252319215608589e-13,
+    "energyRelResidual": 1.547851109183507e-7
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.25,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     1.978730969014186,
+     1.978730969014186
+    ],
+    "ratioMeanPlateau": [
+     0.674427436001826,
+     0.674427436001826
+    ],
+    "plateauSpread": [
+     0.27569886387279746,
+     0.27569886387279746
+    ],
+    "plateauDrift": [
+     0.0032282594381125573,
+     0.0032282594381125573
+    ],
+    "ratioMeanBand": [
+     [
+      0.4918493041579662,
+      0.7675481680307636
+     ],
+     [
+      0.4918493041579662,
+      0.7675481680307636
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 384.8442567030364,
+    "aDriftRel": -0.12026093728331017,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5174823975621929,
+    "eDrift": -0.026392954250682776,
+    "aMin": 405.26357485000875,
+    "aMax": 619.2069008380583,
+    "rMin": 355.87059101029035,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 461.2078274769304,
+    "revPeriodLast": 452.30935211437145,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0004153897569908133,
+    "Ldrag": -1080301.956212209,
+    "angularRelDrift": 8.90196329556656e-14,
+    "energyRelResidual": 1.547862240547875e-7
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.25,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     1.8251096747814115,
+     1.8251096747814115
+    ],
+    "ratioMeanPlateau": [
+     0.619648172480068,
+     0.619648172480068
+    ],
+    "plateauSpread": [
+     0.2547361543015235,
+     0.2547361543015235
+    ],
+    "plateauDrift": [
+     0.0018658284063707287,
+     0.0018658284063707287
+    ],
+    "ratioMeanBand": [
+     [
+      0.45088451666129326,
+      0.7056206709628168
+     ],
+     [
+      0.45088451666129326,
+      0.7056206709628168
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": null,
+    "aDriftRel": -0.12026092330524292,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5174824086865455,
+    "eDrift": -0.026392943126330226,
+    "aMin": 405.2635751762797,
+    "aMax": 619.2069008380583,
+    "rMin": 355.8705904092567,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 461.20782753399715,
+    "revPeriodLast": 452.3093523752832,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00010612463830506946,
+    "Ldrag": -1080301.4410145867,
+    "angularRelDrift": 1.7252457188438393e-13,
+    "energyRelResidual": 1.5478621812950177e-7
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.25,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     1.9814080222113615,
+     1.9814080222113615
+    ],
+    "ratioMeanPlateau": [
+     0.6927621883075186,
+     0.6927621883075186
+    ],
+    "plateauSpread": [
+     0.2819078551175299,
+     0.2819078551175297
+    ],
+    "plateauDrift": [
+     0.0076075447302039745,
+     0.0076075447302039745
+    ],
+    "ratioMeanBand": [
+     [
+      0.5132021420861148,
+      0.7951099972036447
+     ],
+     [
+      0.5132021420861148,
+      0.7951099972036445
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 80.65542783735519,
+    "aDriftRel": -0.12026101463308783,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5174823361632687,
+    "eDrift": -0.026393015649607054,
+    "aMin": 405.26357298972914,
+    "aMax": 619.2069008380583,
+    "rMin": 355.87059412870315,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 461.20782691747337,
+    "revPeriodLast": 452.3093504352355,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00209414197705451,
+    "Ldrag": -1080304.8234255395,
+    "angularRelDrift": 9.381098825856665e-14,
+    "energyRelResidual": 1.5478519627231812e-7
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.25,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     1.975903082559768,
+     1.975903082559768
+    ],
+    "ratioMeanPlateau": [
+     0.6731119096791159,
+     0.6731119096791159
+    ],
+    "plateauSpread": [
+     0.2747321946765627,
+     0.2747321946765627
+    ],
+    "plateauDrift": [
+     0.0043513387908300505,
+     0.0043513387908300505
+    ],
+    "ratioMeanBand": [
+     [
+      0.491107802778531,
+      0.7658399974550937
+     ],
+     [
+      0.491107802778531,
+      0.7658399974550937
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 37.57929654026135,
+    "aDriftRel": -0.12026094424458281,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5174823925624786,
+    "eDrift": -0.026392959250397086,
+    "aMin": 405.2635744628249,
+    "aMax": 619.2069008380583,
+    "rMin": 355.87059076903665,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 461.2078273993012,
+    "revPeriodLast": 452.30935183987185,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00045646438235564,
+    "Ldrag": -1080302.2302339042,
+    "angularRelDrift": 1.2304829507329863e-13,
+    "energyRelResidual": 1.5478623401460165e-7
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.25,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     1.570543424245216,
+     1.570543424245216
+    ],
+    "ratioMeanPlateau": [
+     0.5258813824218725,
+     0.5258813824218725
+    ],
+    "plateauSpread": [
+     0.2170168363917631,
+     0.2170168363917631
+    ],
+    "plateauDrift": [
+     0.01880962476703829,
+     0.01880962476703829
+    ],
+    "ratioMeanBand": [
+     [
+      0.38706715839944056,
+      0.6040839947912037
+     ],
+     [
+      0.38706715839944056,
+      0.6040839947912037
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 100.05127772522289,
+    "aDriftRel": -0.12026092743567142,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5174824058186795,
+    "eDrift": -0.02639294599419617,
+    "aMin": 405.2635748930574,
+    "aMax": 619.2069008380583,
+    "rMin": 355.8705902128785,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 461.20782751314215,
+    "revPeriodLast": 452.3093522813115,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00014900623889050157,
+    "Ldrag": -1080301.598545388,
+    "angularRelDrift": 1.5823261380352877e-13,
+    "energyRelResidual": 1.5478617803086753e-7
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.25,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     1.981407869803107,
+     1.981407869803107
+    ],
+    "ratioMeanPlateau": [
+     0.6927621913211538,
+     0.6927621913211538
+    ],
+    "plateauSpread": [
+     0.2819078097292098,
+     0.2819078097292098
+    ],
+    "plateauDrift": [
+     0.007607550665486018,
+     0.007607550665485685
+    ],
+    "ratioMeanBand": [
+     [
+      0.5132021909920818,
+      0.7951100007212916
+     ],
+     [
+      0.5132021909920818,
+      0.7951100007212916
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 48.34957573330057,
+    "aDriftRel": -0.12026102258056058,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5174823303812995,
+    "eDrift": -0.02639302143157618,
+    "aMin": 405.2635725891826,
+    "aMax": 619.2069008380583,
+    "rMin": 355.8705938935358,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 461.2078266453124,
+    "revPeriodLast": 452.30934998693965,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0021899727890810285,
+    "Ldrag": -1080305.1403174982,
+    "angularRelDrift": 1.0239955621126506e-13,
+    "energyRelResidual": 1.547850483548701e-7
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.25,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     1.9730751964460316,
+     1.9730751964460316
+    ],
+    "ratioMeanPlateau": [
+     0.6717963833463468,
+     0.6717963833463468
+    ],
+    "plateauSpread": [
+     0.2739101049500853,
+     0.2739101049500853
+    ],
+    "plateauDrift": [
+     0.00547441811064131,
+     0.00547441811064131
+    ],
+    "ratioMeanBand": [
+     [
+      0.49036630132926373,
+      0.764276406279349
+     ],
+     [
+      0.49036630132926373,
+      0.764276406279349
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 25.327911354244133,
+    "aDriftRel": -0.12026095120376479,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5174823875644005,
+    "eDrift": -0.02639296424847526,
+    "aMin": 405.26357407572476,
+    "aMax": 619.2069008380583,
+    "rMin": 355.87059052780404,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 461.20782732168465,
+    "revPeriodLast": 452.309351565365,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0005548256176062552,
+    "Ldrag": -1080302.5041740332,
+    "angularRelDrift": 8.69274114418709e-14,
+    "energyRelResidual": 1.5478602868317817e-7
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.25,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     1.3159771897281587,
+     1.3159771897281587
+    ],
+    "ratioMeanPlateau": [
+     0.4321145920789896,
+     0.4321145920789896
+    ],
+    "plateauSpread": [
+     0.18468516559905995,
+     0.18468516559905995
+    ],
+    "plateauDrift": [
+     0.03575342022550365,
+     0.03575342022550365
+    ],
+    "ratioMeanBand": [
+     [
+      0.32125787622856344,
+      0.5059430418276234
+     ],
+     [
+      0.32125787622856344,
+      0.5059430418276234
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 69.19239897639385,
+    "aDriftRel": -0.12026093156746277,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5174824029499064,
+    "eDrift": -0.02639294886296928,
+    "aMin": 405.26357460975856,
+    "aMax": 619.2069008380583,
+    "rMin": 355.87059001648396,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 461.2078274923036,
+    "revPeriodLast": 452.30935218731565,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0002463221677814675,
+    "Ldrag": -1080301.7561258937,
+    "angularRelDrift": 7.906481532534829e-14,
+    "energyRelResidual": 1.5478642424708072e-7
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.25,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     1.9814084794867322,
+     1.9814084794867326
+    ],
+    "ratioMeanPlateau": [
+     0.692762179265688,
+     0.6927621792656881
+    ],
+    "plateauSpread": [
+     0.2819079912972563,
+     0.2819079912972564
+    ],
+    "plateauDrift": [
+     0.007607526922582597,
+     0.007607526922582708
+    ],
+    "ratioMeanBand": [
+     [
+      0.5132019953524533,
+      0.7951099866497096
+     ],
+     [
+      0.5132019953524534,
+      0.7951099866497098
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": null,
+    "aDriftRel": -0.12026099078803967,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5174823535113632,
+    "eDrift": -0.026392998301512538,
+    "aMin": 405.26357419168426,
+    "aMax": 619.2069008380583,
+    "rMin": 355.8705948346088,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 461.2078277339451,
+    "revPeriodLast": 452.3093517799862,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0021503884989863583,
+    "Ldrag": -1080303.8726240967,
+    "angularRelDrift": 1.2271973827028413e-13,
+    "energyRelResidual": 1.547852274670443e-7
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.25,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     1.9843867428168491,
+     1.9843867428168491
+    ],
+    "ratioMeanPlateau": [
+     0.6770584886206712,
+     0.6770584886206712
+    ],
+    "plateauSpread": [
+     0.27770263684906704,
+     0.27770263684906704
+    ],
+    "plateauDrift": [
+     0.0009821006405996702,
+     0.0009821006405996702
+    ],
+    "ratioMeanBand": [
+     [
+      0.49333230673701234,
+      0.7710349435860794
+     ],
+     [
+      0.49333230673701234,
+      0.7710349435860794
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": null,
+    "aDriftRel": -0.12026092336231889,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.517482407560104,
+    "eDrift": -0.026392944252771722,
+    "aMin": 405.2635756246016,
+    "aMax": 619.2069008380583,
+    "rMin": 355.8705914932218,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 461.207827632153,
+    "revPeriodLast": 452.30935266331426,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.000505100335918484,
+    "Ldrag": -1080301.4082419449,
+    "angularRelDrift": 7.267152477565148e-14,
+    "energyRelResidual": 1.5478606967490059e-7
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.25,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     2.3342422239365104,
+     2.3342422239365104
+    ],
+    "ratioMeanPlateau": [
+     0.8071817517419999,
+     0.8071817517419999
+    ],
+    "plateauSpread": [
+     0.35584724002707824,
+     0.35584724002707824
+    ],
+    "plateauDrift": [
+     0.032021767022348935,
+     0.032021767022348935
+    ],
+    "ratioMeanBand": [
+     [
+      0.5785192240541251,
+      0.9343664640812034
+     ],
+     [
+      0.5785192240541251,
+      0.9343664640812034
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 23.289256664910983,
+    "aDriftRel": -0.12026091504494611,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5174824144217947,
+    "eDrift": -0.02639293739108106,
+    "aMin": 405.26357574274374,
+    "aMax": 619.2069008380583,
+    "rMin": 355.8705908020449,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 461.20782757565394,
+    "revPeriodLast": 452.3093525632162,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00018366442205087154,
+    "Ldrag": -1080301.1259710016,
+    "angularRelDrift": 8.98444472674817e-14,
+    "energyRelResidual": 1.5478612913207823e-7
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.25,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     1.9814079815794976,
+     1.9814079815794976
+    ],
+    "ratioMeanPlateau": [
+     0.6927621891109238,
+     0.6927621891109237
+    ],
+    "plateauSpread": [
+     0.28190784301707617,
+     0.28190784301707617
+    ],
+    "plateauDrift": [
+     0.007607546312497271,
+     0.00760754631249716
+    ],
+    "ratioMeanBand": [
+     [
+      0.5132021551243631,
+      0.7951099981414392
+     ],
+     [
+      0.5132021551243631,
+      0.7951099981414392
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 67.31603367651255,
+    "aDriftRel": -0.12026101675193111,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5174823346218034,
+    "eDrift": -0.026393017191072343,
+    "aMin": 405.2635728829167,
+    "aMax": 619.2069008380583,
+    "rMin": 355.87059406597825,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 461.20782684488336,
+    "revPeriodLast": 452.3093503156788,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0021140951883534182,
+    "Ldrag": -1080304.9079048664,
+    "angularRelDrift": 6.171392420610903e-14,
+    "energyRelResidual": 1.5478517808450054e-7
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.25,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     1.9751489795765396,
+     1.9751489795765396
+    ],
+    "ratioMeanPlateau": [
+     0.6727611026577918,
+     0.6727611026577918
+    ],
+    "plateauSpread": [
+     0.2744891005851981,
+     0.2744891005851981
+    ],
+    "plateauDrift": [
+     0.004650826612112247,
+     0.004650826612112247
+    ],
+    "ratioMeanBand": [
+     [
+      0.49091006906247076,
+      0.7653991696476689
+     ],
+     [
+      0.49091006906247076,
+      0.7653991696476689
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 32.589466086637316,
+    "aDriftRel": -0.12026094609964032,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.5174823912301818,
+    "eDrift": -0.026392960582693914,
+    "aMin": 405.26357435965383,
+    "aMax": 619.2069008380583,
+    "rMin": 355.870590704722,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 461.2078273785975,
+    "revPeriodLast": 452.3093517666025,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0004770926876780376,
+    "Ldrag": -1080302.3032631923,
+    "angularRelDrift": 1.1254949523162081e-13,
+    "energyRelResidual": 1.5478604562805944e-7
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.25,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     1.5026590934779405,
+     1.5026590934779405
+    ],
+    "ratioMeanPlateau": [
+     0.5008769050248557,
+     0.5008769050248557
+    ],
+    "plateauSpread": [
+     0.20817129453745237,
+     0.20817129453745237
+    ],
+    "plateauDrift": [
+     0.02332797031070316,
+     0.02332797031070316
+    ],
+    "ratioMeanBand": [
+     [
+      0.3697417795175972,
+      0.5779130740550495
+     ],
+     [
+      0.3697417795175972,
+      0.5779130740550495
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 86.73151712742992,
+    "aDriftRel": -0.12026092853701653,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.517482405054018,
+    "eDrift": -0.026392946758857727,
+    "aMin": 405.2635748175348,
+    "aMax": 619.2069008380583,
+    "rMin": 355.8705901605119,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 461.2078275075675,
+    "revPeriodLast": 452.30935225622216,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00016963468560488772,
+    "Ldrag": -1080301.6405554358,
+    "angularRelDrift": 1.0809358170049343e-13,
+    "energyRelResidual": 1.5478616249921247e-7
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.5,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     1.0111676263945795,
+     1.0111676263945795
+    ],
+    "ratioMeanPlateau": [
+     0.5392151861560721,
+     0.5392151861560721
+    ],
+    "plateauSpread": [
+     0.2446046621350726,
+     0.24460466213507254
+    ],
+    "plateauDrift": [
+     0.0034908823593577942,
+     0.0034908823593577942
+    ],
+    "ratioMeanBand": [
+     [
+      0.39627998170766177,
+      0.6408846438427344
+     ],
+     [
+      0.3962799817076617,
+      0.6408846438427342
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": null,
+    "aDriftRel": -0.16388613475435768,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.44738927361832814,
+    "eDrift": -0.09648607819454758,
+    "aMin": 421.6507074117517,
+    "aMax": 619.2069008380583,
+    "rMin": 476.7366641754742,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 573.2071702431552,
+    "revPeriodLast": 565.7597631673425,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0006002549486390671,
+    "Ldrag": -12729913.103134498,
+    "angularRelDrift": 3.2328946654948805e-13,
+    "energyRelResidual": 4.001621940845043e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.5,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     1.055834170530893,
+     1.055834170530893
+    ],
+    "ratioMeanPlateau": [
+     0.534485899871198,
+     0.534485899871198
+    ],
+    "plateauSpread": [
+     0.24099014546967457,
+     0.24099014546967457
+    ],
+    "plateauDrift": [
+     0.002962599762211471,
+     0.002962599762211471
+    ],
+    "ratioMeanBand": [
+     [
+      0.3883337534626444,
+      0.629323898932319
+     ],
+     [
+      0.3883337534626444,
+      0.629323898932319
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": null,
+    "aDriftRel": -0.16388604165195134,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.4473893730597956,
+    "eDrift": -0.09648597875308013,
+    "aMin": 421.65070696144113,
+    "aMax": 619.2069008380583,
+    "rMin": 476.73666237123757,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 573.2071703481796,
+    "revPeriodLast": 565.7597637733379,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00012179147984642904,
+    "Ldrag": -12729909.957405891,
+    "angularRelDrift": 6.70717750439001e-13,
+    "energyRelResidual": 4.0015843867927144e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.5,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     1.0550056972355613,
+     1.0550056972355613
+    ],
+    "ratioMeanPlateau": [
+     0.5301504577491614,
+     0.5301504577491614
+    ],
+    "plateauSpread": [
+     0.23882909335993135,
+     0.23882909335993135
+    ],
+    "plateauDrift": [
+     0.00594737035862547,
+     0.00594737035862547
+    ],
+    "ratioMeanBand": [
+     [
+      0.3847346104668699,
+      0.6235637038268013
+     ],
+     [
+      0.3847346104668699,
+      0.6235637038268013
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": null,
+    "aDriftRel": -0.16388602447691586,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.44738939139869166,
+    "eDrift": -0.09648596041418406,
+    "aMin": 421.65070687818655,
+    "aMax": 619.2069008380583,
+    "rMin": 476.7366620294892,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 573.2071703639424,
+    "revPeriodLast": 565.7597638684524,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00003057728464216648,
+    "Ldrag": -12729909.377937026,
+    "angularRelDrift": 4.4452656642212555e-13,
+    "energyRelResidual": 4.0015976471735424e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.5,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     1.0111674903922316,
+     1.0111674903922319
+    ],
+    "ratioMeanPlateau": [
+     0.5392151851388015,
+     0.5392151851388015
+    ],
+    "plateauSpread": [
+     0.24460465177850926,
+     0.24460465177850926
+    ],
+    "plateauDrift": [
+     0.003490883062253647,
+     0.003490883062253647
+    ],
+    "ratioMeanBand": [
+     [
+      0.39627999100785455,
+      0.6408846427863638
+     ],
+     [
+      0.39627999100785455,
+      0.6408846427863638
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 163.9105656146516,
+    "aDriftRel": -0.16388616313234936,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.4473892439006528,
+    "eDrift": -0.0964861079122229,
+    "aMin": 421.6507071514712,
+    "aMax": 619.2069008380583,
+    "rMin": 476.7366638005978,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 573.2071699086646,
+    "revPeriodLast": 565.7597626780821,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0006217971210847945,
+    "Ldrag": -12729914.070947614,
+    "angularRelDrift": 2.2536799605796814e-13,
+    "energyRelResidual": 4.0016347503803154e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.5,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     1.0538093931733599,
+     1.0538093931733599
+    ],
+    "ratioMeanPlateau": [
+     0.5331089082544368,
+     0.5331089082544368
+    ],
+    "plateauSpread": [
+     0.24032496654911856,
+     0.24032496654911856
+    ],
+    "plateauDrift": [
+     0.0017881312763782242,
+     0.0017881312763782242
+    ],
+    "ratioMeanBand": [
+     [
+      0.3873827754395585,
+      0.6277077419886771
+     ],
+     [
+      0.3873827754395585,
+      0.6277077419886771
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 62.99760225915244,
+    "aDriftRel": -0.16388606636284805,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.4473893472522571,
+    "eDrift": -0.09648600456061862,
+    "aMin": 421.6507067018409,
+    "aMax": 619.2069008380583,
+    "rMin": 476.73666200793156,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 573.2071702456797,
+    "revPeriodLast": 565.759763435055,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00014471535783390054,
+    "Ldrag": -12729910.79804043,
+    "angularRelDrift": 4.518924033532165e-13,
+    "energyRelResidual": 4.0016061251206337e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.5,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     0.8727392451009605,
+     0.8727392451009605
+    ],
+    "ratioMeanPlateau": [
+     0.43175435991118627,
+     0.43175435991118627
+    ],
+    "plateauSpread": [
+     0.20342641710822207,
+     0.20342641710822207
+    ],
+    "plateauDrift": [
+     0.011680939212028896,
+     0.011680939212028896
+    ],
+    "ratioMeanBand": [
+     [
+      0.3098870438071325,
+      0.5133134609153546
+     ],
+     [
+      0.3098870438071325,
+      0.5133134609153546
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 141.43605520311777,
+    "aDriftRel": -0.16388603884322925,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.44738937650404975,
+    "eDrift": -0.09648597530882597,
+    "aMin": 421.650706676594,
+    "aMax": 619.2069008380583,
+    "rMin": 476.73666175926934,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 573.2071703359373,
+    "revPeriodLast": 565.7597637444828,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0000538385562321523,
+    "Ldrag": -12729909.863615911,
+    "angularRelDrift": 3.1010424776795494e-13,
+    "energyRelResidual": 4.001579972135343e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.5,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     1.0111673543864443,
+     1.0111673543864443
+    ],
+    "ratioMeanPlateau": [
+     0.5392151841215479,
+     0.5392151841215479
+    ],
+    "plateauSpread": [
+     0.24460464142156196,
+     0.2446046414215619
+    ],
+    "plateauDrift": [
+     0.003490883765166597,
+     0.003490883765166597
+    ],
+    "ratioMeanBand": [
+     [
+      0.3962800003084174,
+      0.6408846417299794
+     ],
+     [
+      0.3962800003084175,
+      0.6408846417299794
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 77.45032697472745,
+    "aDriftRel": -0.16388619151102055,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.44738921418228533,
+    "eDrift": -0.09648613763059039,
+    "aMin": 421.6507068911844,
+    "aMax": 619.2069008380583,
+    "rMin": 476.73666342569373,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 573.2071695742243,
+    "revPeriodLast": 565.7597621889195,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0007006291198400459,
+    "Ldrag": -12729915.038803447,
+    "angularRelDrift": 2.880347676464536e-13,
+    "energyRelResidual": 4.001652015705237e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.5,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     1.0517846162777094,
+     1.0517846162777096
+    ],
+    "ratioMeanPlateau": [
+     0.5317319166448522,
+     0.5317319166448523
+    ],
+    "plateauSpread": [
+     0.2400328759571283,
+     0.24003287595712836
+    ],
+    "plateauDrift": [
+     0.0006136627918442716,
+     0.0006136627918441606
+    ],
+    "ratioMeanBand": [
+     [
+      0.3864317974186148,
+      0.6264646733757431
+     ],
+     [
+      0.38643179741861483,
+      0.6264646733757432
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": true,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 35.012343104275025,
+    "aDriftRel": -0.1638860910767802,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.44738932144178684,
+    "eDrift": -0.09648603037108888,
+    "aMin": 421.65070644208294,
+    "aMax": 619.2069008380583,
+    "rMin": 476.7366616444303,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 573.2071701431767,
+    "revPeriodLast": 565.759763096884,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00022492584567850095,
+    "Ldrag": -12729911.6387934,
+    "angularRelDrift": 4.67128644529033e-13,
+    "energyRelResidual": 4.0015959093789764e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.5,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     0.6904728178166397,
+     0.6904728178166397
+    ],
+    "ratioMeanPlateau": [
+     0.3333582623914735,
+     0.3333582623914735
+    ],
+    "plateauSpread": [
+     0.17155521943456942,
+     0.17155521943456942
+    ],
+    "plateauDrift": [
+     0.029309248913001018,
+     0.029309248913001018
+    ],
+    "ratioMeanBand": [
+     [
+      0.23356668669200653,
+      0.40512190612657595
+     ],
+     [
+      0.23356668669200653,
+      0.40512190612657595
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 82.41733592233564,
+    "aDriftRel": -0.1638860531945665,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.4473893616250907,
+    "eDrift": -0.09648599018778503,
+    "aMin": 421.65070647511874,
+    "aMax": 619.2069008380583,
+    "rMin": 476.7366614890668,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 573.2071703079754,
+    "revPeriodLast": 565.7597636207056,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00013153415612822392,
+    "Ldrag": -12729910.348726584,
+    "angularRelDrift": 4.0430116709855316e-13,
+    "energyRelResidual": 4.0016273542573866e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.5,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     1.0111678984237877,
+     1.0111678984237877
+    ],
+    "ratioMeanPlateau": [
+     0.5392151881908247,
+     0.5392151881908247
+    ],
+    "plateauSpread": [
+     0.24460468284998033,
+     0.24460468284998038
+    ],
+    "plateauDrift": [
+     0.0034908809533351626,
+     0.0034908809533351626
+    ],
+    "ratioMeanBand": [
+     [
+      0.3962799631057597,
+      0.64088464595574
+     ],
+     [
+      0.39627996310575964,
+      0.64088464595574
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": null,
+    "aDriftRel": -0.16388607799299557,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.4473893330590482,
+    "eDrift": -0.09648601875382751,
+    "aMin": 421.6507079324494,
+    "aMax": 619.2069008380583,
+    "rMin": 476.73666492538445,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 573.2071709120777,
+    "revPeriodLast": 565.7597641458174,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0007290400826755602,
+    "Ldrag": -12729911.16730473,
+    "angularRelDrift": 1.7615294357227193e-13,
+    "energyRelResidual": 4.0016492251017304e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.5,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     1.0598837266887808,
+     1.0598837266887808
+    ],
+    "ratioMeanPlateau": [
+     0.5372398831270596,
+     0.5372398831270596
+    ],
+    "plateauSpread": [
+     0.24241121879608185,
+     0.24241121879608185
+    ],
+    "plateauDrift": [
+     0.005311536737067302,
+     0.005311536737067302
+    ],
+    "ratioMeanBand": [
+     [
+      0.3902357095157041,
+      0.6326469283117859
+     ],
+     [
+      0.3902357095157041,
+      0.6326469283117859
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": null,
+    "aDriftRel": -0.16388599222673583,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.4473894246776026,
+    "eDrift": -0.0964859271352731,
+    "aMin": 421.6507074812362,
+    "aMax": 619.2069008380583,
+    "rMin": 476.7366630987378,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 573.2071705531654,
+    "revPeriodLast": 565.7597644497432,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0002478035534428044,
+    "Ldrag": -12729908.276006175,
+    "angularRelDrift": 3.60800678697064e-13,
+    "energyRelResidual": 4.0015982676443404e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.5,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     1.4195386759195892,
+     1.419538675919589
+    ],
+    "ratioMeanPlateau": [
+     0.7269426543782818,
+     0.7269426543782818
+    ],
+    "plateauSpread": [
+     0.339338075265343,
+     0.3393380752653431
+    ],
+    "plateauDrift": [
+     0.04120398911050327,
+     0.04120398911050327
+    ],
+    "ratioMeanBand": [
+     [
+      0.5261500340225522,
+      0.8654881092878952
+     ],
+     [
+      0.5261500340225521,
+      0.8654881092878952
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 29.265519366644263,
+    "aDriftRel": -0.16388599574278248,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.44738942118875147,
+    "eDrift": -0.09648593062412425,
+    "aMin": 421.6507072817855,
+    "aMax": 619.2069008380583,
+    "rMin": 476.7366625707102,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 573.2071704199112,
+    "revPeriodLast": 565.7597641162984,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00014735772638054033,
+    "Ldrag": -12729908.406523122,
+    "angularRelDrift": 2.164393925163597e-13,
+    "energyRelResidual": 4.001641787846522e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.5,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     1.0111674541314206,
+     1.0111674541314206
+    ],
+    "ratioMeanPlateau": [
+     0.5392151848675866,
+     0.5392151848675866
+    ],
+    "plateauSpread": [
+     0.24460464901702939,
+     0.24460464901702939
+    ],
+    "plateauDrift": [
+     0.003490883249651189,
+     0.003490883249651189
+    ],
+    "ratioMeanBand": [
+     [
+      0.3962799934876735,
+      0.6408846425047029
+     ],
+     [
+      0.3962799934876735,
+      0.6408846425047029
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 123.459664762311,
+    "aDriftRel": -0.16388617069826564,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.44738923597737895,
+    "eDrift": -0.09648611583549677,
+    "aMin": 421.6507070821697,
+    "aMax": 619.2069008380583,
+    "rMin": 476.73666370074784,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 573.2071698194914,
+    "revPeriodLast": 565.7597625476005,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0006372173155136297,
+    "Ldrag": -12729914.328990605,
+    "angularRelDrift": 2.45858085042194e-13,
+    "energyRelResidual": 4.001660617231497e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.5,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     1.0532694526201645,
+     1.0532694526201645
+    ],
+    "ratioMeanPlateau": [
+     0.5327417104911332,
+     0.5327417104911332
+    ],
+    "plateauSpread": [
+     0.24024707572544102,
+     0.24024707572544102
+    ],
+    "plateauDrift": [
+     0.0014749396804016879,
+     0.0014749396804016879
+    ],
+    "ratioMeanBand": [
+     [
+      0.38712918130030194,
+      0.627376257025743
+     ],
+     [
+      0.38712918130030194,
+      0.627376257025743
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 50.461391540708064,
+    "aDriftRel": -0.16388607295353583,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.44738934036929767,
+    "eDrift": -0.09648601144357805,
+    "aMin": 421.6507066324857,
+    "aMax": 619.2069008380583,
+    "rMin": 476.73666191086556,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 573.2071702183455,
+    "revPeriodLast": 565.7597633448327,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0001605034638508602,
+    "Ldrag": -12729911.02223168,
+    "angularRelDrift": 2.790012449088567e-13,
+    "energyRelResidual": 4.001594723967778e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 0.5,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     0.8241348620578021,
+     0.8241348620578021
+    ],
+    "ratioMeanPlateau": [
+     0.405515400541521,
+     0.405515400541521
+    ],
+    "plateauSpread": [
+     0.19492743102765225,
+     0.19492743102765225
+    ],
+    "plateauDrift": [
+     0.016381821786228046,
+     0.016381821786228046
+    ],
+    "ratioMeanBand": [
+     [
+      0.28953494863226836,
+      0.4844623796599206
+     ],
+     [
+      0.28953494863226836,
+      0.4844623796599206
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 113.7505521515004,
+    "aDriftRel": -0.16388604267319642,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.44738937253332106,
+    "eDrift": -0.09648597927955466,
+    "aMin": 421.6507066228391,
+    "aMax": 619.2069008380583,
+    "rMin": 476.7366616871443,
+    "rMax": 955.9782718763176,
+    "revPeriodFirst": 573.2071703284894,
+    "revPeriodLast": 565.7597637115064,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00006923491521453456,
+    "Ldrag": -12729909.993053127,
+    "angularRelDrift": 2.685255601457143e-13,
+    "energyRelResidual": 4.0015869802322896e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 1,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     0.8612751863356942,
+     0.8612751863356942
+    ],
+    "ratioMeanPlateau": [
+     0.3825926482823071,
+     0.3825926482823071
+    ],
+    "plateauSpread": [
+     0.06796579411067222,
+     0.06796579411067222
+    ],
+    "plateauDrift": [
+     0.008220796113523499,
+     0.008220796113523499
+    ],
+    "ratioMeanBand": [
+     [
+      0.3512515495772213,
+      0.41921734368789354
+     ],
+     [
+      0.3512515495772213,
+      0.41921734368789354
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": null,
+    "aDriftRel": -0.08036986759890276,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.45944495969054255,
+    "eDrift": -0.08443039212233316,
+    "aMin": 550.6764625439337,
+    "aMax": 637.6893593602309,
+    "rMin": 801.7633752356737,
+    "rMax": 984.6791254445961,
+    "revPeriodFirst": 885.4433730730781,
+    "revPeriodLast": 894.8012339090119,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.000024381676912805162,
+    "Ldrag": -239338379138457.66,
+    "angularRelDrift": 3.1835571132658686e-9,
+    "energyRelResidual": 7.91448663616561e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 1,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     0.8549518393847056,
+     0.8549518393847056
+    ],
+    "ratioMeanPlateau": [
+     0.38669603553354015,
+     0.38669603553354015
+    ],
+    "plateauSpread": [
+     0.06873768681980125,
+     0.06873768681980125
+    ],
+    "plateauDrift": [
+     0.008379879668524715,
+     0.008379879668524715
+    ],
+    "ratioMeanBand": [
+     [
+      0.3539050655185341,
+      0.42264275233833537
+     ],
+     [
+      0.3539050655185341,
+      0.42264275233833537
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": null,
+    "aDriftRel": -0.08036986589341338,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.4594449536907566,
+    "eDrift": -0.08443039812211911,
+    "aMin": 550.6764624910711,
+    "aMax": 637.6893646991902,
+    "rMin": 801.7633751490688,
+    "rMax": 984.6791338883187,
+    "revPeriodFirst": 885.4433729442371,
+    "revPeriodLast": 894.8012335568101,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.000011854802483591085,
+    "Ldrag": -239338410987961.4,
+    "angularRelDrift": 2.6777642192838442e-9,
+    "energyRelResidual": 1.940795120189408e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 1,
+    "spin": "pro2",
+    "spinMult": 2,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     1.0002477078680743,
+     1.0002477078680743
+    ],
+    "ratioMeanPlateau": [
+     0.4576262665787761,
+     0.4576262665787761
+    ],
+    "plateauSpread": [
+     0.08618823503411749,
+     0.08618823503411749
+    ],
+    "plateauDrift": [
+     0.01871752245446784,
+     0.01871752245446784
+    ],
+    "ratioMeanBand": [
+     [
+      0.41516199323739883,
+      0.5013502282715163
+     ],
+     [
+      0.41516199323739883,
+      0.5013502282715163
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": null,
+    "aDriftRel": -0.08036986138502333,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.459444959490482,
+    "eDrift": -0.08443039232239374,
+    "aMin": 550.676462479678,
+    "aMax": 637.6893631886288,
+    "rMin": 801.7633751298878,
+    "rMax": 984.6791303518626,
+    "revPeriodFirst": 885.4433729143223,
+    "revPeriodLast": 894.8012334134683,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.000009230782543741998,
+    "Ldrag": -239338385861762.94,
+    "angularRelDrift": 2.8199232931451515e-9,
+    "energyRelResidual": 6.408602094644608e-9
+   },
+   {
+    "system": "nsBinary",
+    "k": 1,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     0.8612751758495398,
+     0.8612751758495397
+    ],
+    "ratioMeanPlateau": [
+     0.3825926495013621,
+     0.3825926495013621
+    ],
+    "plateauSpread": [
+     0.06796579476614051,
+     0.06796579476614051
+    ],
+    "plateauDrift": [
+     0.008220795193510155,
+     0.008220795193510155
+    ],
+    "ratioMeanBand": [
+     [
+      0.35125155145116155,
+      0.41921734621730206
+     ],
+     [
+      0.35125155145116155,
+      0.41921734621730206
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 216.8795609074189,
+    "aDriftRel": -0.08036986366851699,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.4594449568933686,
+    "eDrift": -0.0844303949195071,
+    "aMin": 550.6764624265181,
+    "aMax": 637.6893642149014,
+    "rMin": 801.7633750559571,
+    "rMax": 984.679133043965,
+    "revPeriodFirst": 885.4433726819688,
+    "revPeriodLast": 894.8012339360766,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00002168704900806907,
+    "Ldrag": -239338394067654.47,
+    "angularRelDrift": 4.742606911780727e-9,
+    "energyRelResidual": 1.7037478117156114e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 1,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     0.8521866430025343,
+     0.8521866430025343
+    ],
+    "ratioMeanPlateau": [
+     0.38499587555321935,
+     0.38499587555321935
+    ],
+    "plateauSpread": [
+     0.06804093851449872,
+     0.06804093851449872
+    ],
+    "plateauDrift": [
+     0.006934768537205205,
+     0.006934768537205205
+    ],
+    "ratioMeanBand": [
+     [
+      0.35258559203798,
+      0.42062653055247873
+     ],
+     [
+      0.35258559203798,
+      0.42062653055247873
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 101.43432491371503,
+    "aDriftRel": -0.08036986380195672,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.459444956747753,
+    "eDrift": -0.08443039506512273,
+    "aMin": 550.6764624727139,
+    "aMax": 637.6893638639388,
+    "rMin": 801.7633751180729,
+    "rMax": 984.6791321942877,
+    "revPeriodFirst": 885.4433729085328,
+    "revPeriodLast": 894.8012332728795,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.000009159377822690553,
+    "Ldrag": -239338396695908.94,
+    "angularRelDrift": 1.344038463623662e-9,
+    "energyRelResidual": 2.6347186121823184e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 1,
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     0.7513144080164356,
+     0.7513144080164356
+    ],
+    "ratioMeanPlateau": [
+     0.33635145902398117,
+     0.33635145902398117
+    ],
+    "plateauSpread": [
+     0.06471119895419608,
+     0.06471119895419608
+    ],
+    "plateauDrift": [
+     0.0029369733437736856,
+     0.0029369733437736856
+    ],
+    "ratioMeanBand": [
+     [
+      0.30501722297698547,
+      0.36972842193118155
+     ],
+     [
+      0.30501722297698547,
+      0.36972842193118155
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 163.9482002015877,
+    "aDriftRel": -0.08036986149611591,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.4594449624793678,
+    "eDrift": -0.08443038933350794,
+    "aMin": 550.6764624765784,
+    "aMax": 637.6893631085661,
+    "rMin": 801.763375124644,
+    "rMax": 984.6791318030289,
+    "revPeriodFirst": 885.443372896722,
+    "revPeriodLast": 894.801232582412,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.000006199937877493761,
+    "Ldrag": -239338351834988.16,
+    "angularRelDrift": 2.5371890055723867e-9,
+    "energyRelResidual": 6.791076568904287e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 1,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     0.8612751896996483,
+     0.8612751896996484
+    ],
+    "ratioMeanPlateau": [
+     0.382592649324902,
+     0.382592649324902
+    ],
+    "plateauSpread": [
+     0.0679657939485584,
+     0.0679657939485584
+    ],
+    "plateauDrift": [
+     0.00822079510545054,
+     0.00822079510545054
+    ],
+    "ratioMeanBand": [
+     [
+      0.3512515514915059,
+      0.4192173454400643
+     ],
+     [
+      0.3512515514915059,
+      0.4192173454400643
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 89.79577257973685,
+    "aDriftRel": -0.08036986140718191,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.4594449603436898,
+    "eDrift": -0.0844303914691859,
+    "aMin": 550.6764623071856,
+    "aMax": 637.6893628807605,
+    "rMin": 801.7633748731399,
+    "rMax": 984.6791305411558,
+    "revPeriodFirst": 885.4433722637723,
+    "revPeriodLast": 894.8012329871908,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00007628224726443778,
+    "Ldrag": -239338375103991.97,
+    "angularRelDrift": 3.0598141218240124e-9,
+    "energyRelResidual": 3.238614723471767e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 1,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     0.8494214221981211,
+     0.8494214221981211
+    ],
+    "ratioMeanPlateau": [
+     0.38329571594427725,
+     0.38329571594427725
+    ],
+    "plateauSpread": [
+     0.06823334543990217,
+     0.06823334543990217
+    ],
+    "plateauDrift": [
+     0.005489656087853678,
+     0.005489656087853678
+    ],
+    "ratioMeanBand": [
+     [
+      0.35068211421660445,
+      0.4189154596565066
+     ],
+     [
+      0.35068211421660445,
+      0.4189154596565066
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 42.65030053949727,
+    "aDriftRel": -0.08036986770032417,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.4594449515667646,
+    "eDrift": -0.08443040024611109,
+    "aMin": 550.6764624388546,
+    "aMax": 637.6893664311832,
+    "rMin": 801.7633750675282,
+    "rMax": 984.679136999259,
+    "revPeriodFirst": 885.4433727286411,
+    "revPeriodLast": 894.8012329993553,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00006375056297599425,
+    "Ldrag": -239338420374535.3,
+    "angularRelDrift": 7.639672095761848e-9,
+    "energyRelResidual": 2.735138373010358e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 1,
+    "spin": "retro",
+    "spinMult": -1,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     0.5023810965474923,
+     0.5023810965474924
+    ],
+    "ratioMeanPlateau": [
+     0.2150766543654871,
+     0.21507665436548712
+    ],
+    "plateauSpread": [
+     0.05424121108116481,
+     0.054241211081164836
+    ],
+    "plateauDrift": [
+     0.024591471529464698,
+     0.024591471529464698
+    ],
+    "ratioMeanBand": [
+     [
+      0.18812574181441707,
+      0.24236695289558188
+     ],
+     [
+      0.1881257418144171,
+      0.24236695289558194
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 84.23847179284928,
+    "aDriftRel": -0.08036986371891797,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.45944495948522796,
+    "eDrift": -0.08443039232764776,
+    "aMin": 550.6764624727208,
+    "aMax": 637.6893610287633,
+    "rMin": 801.763375118131,
+    "rMax": 984.6791270046494,
+    "revPeriodFirst": 885.4433728871713,
+    "revPeriodLast": 894.8012333066927,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00005760342136483581,
+    "Ldrag": -239338385140167.1,
+    "angularRelDrift": 1.883919936634075e-9,
+    "energyRelResidual": 4.2777042127219075e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 1,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     0.8612751540762856,
+     0.8612751540762856
+    ],
+    "ratioMeanPlateau": [
+     0.382592649601018,
+     0.38259264960101813
+    ],
+    "plateauSpread": [
+     0.06796579422058074,
+     0.0679657942205808
+    ],
+    "plateauDrift": [
+     0.008220795284686444,
+     0.008220795284686333
+    ],
+    "ratioMeanBand": [
+     [
+      0.35125155141089426,
+      0.419217345631475
+     ],
+     [
+      0.35125155141089426,
+      0.41921734563147506
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": null,
+    "aDriftRel": -0.08036986959079256,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.45944495234456006,
+    "eDrift": -0.08443039946831565,
+    "aMin": 550.6764627892121,
+    "aMax": 637.6893634408644,
+    "rMin": 801.7633756065494,
+    "rMax": 984.6791312859334,
+    "revPeriodFirst": 885.4433741678199,
+    "revPeriodLast": 894.8012347977392,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00020164041142059616,
+    "Ldrag": -239338421545070.8,
+    "angularRelDrift": 5.34319379062776e-9,
+    "energyRelResidual": 3.178277014464606e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 1,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     0.8604822518097371,
+     0.8604822518097371
+    ],
+    "ratioMeanPlateau": [
+     0.3900963552804684,
+     0.3900963552804684
+    ],
+    "plateauSpread": [
+     0.07043992622425088,
+     0.07043992622425088
+    ],
+    "plateauDrift": [
+     0.011270103427795608,
+     0.011270103427795608
+    ],
+    "ratioMeanBand": [
+     [
+      0.35623527324494964,
+      0.4266751994692005
+     ],
+     [
+      0.35623527324494964,
+      0.4266751994692005
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": null,
+    "aDriftRel": -0.08036986674340599,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.45944495536277585,
+    "eDrift": -0.08443039645009986,
+    "aMin": 550.6764625519511,
+    "aMax": 637.6893629320908,
+    "rMin": 801.7633752348412,
+    "rMax": 984.6791308425699,
+    "revPeriodFirst": 885.4433732501057,
+    "revPeriodLast": 894.8012341070098,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.0001891054812672645,
+    "Ldrag": -239338404629179.78,
+    "angularRelDrift": 2.1874102469546246e-9,
+    "energyRelResidual": 4.331019207460229e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 1,
+    "spin": "fast",
+    "spinMult": 5,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     1.4981142993175918,
+     1.4981142993175918
+    ],
+    "ratioMeanPlateau": [
+     0.7001758815286965,
+     0.7001758815286965
+    ],
+    "plateauSpread": [
+     0.14971284374967808,
+     0.14971284374967808
+    ],
+    "plateauDrift": [
+     0.062026516154689126,
+     0.062026516154689126
+    ],
+    "ratioMeanBand": [
+     [
+      0.6225886494610596,
+      0.7723014932107377
+     ],
+     [
+      0.6225886494610596,
+      0.7723014932107377
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 9.555910668542625,
+    "aDriftRel": -0.0803698633694606,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.4594449550161917,
+    "eDrift": -0.08443039679668402,
+    "aMin": 550.6764624917391,
+    "aMax": 637.6893661784032,
+    "rMin": 801.7633751502525,
+    "rMax": 984.6791362185203,
+    "revPeriodFirst": 885.4433729578984,
+    "revPeriodLast": 894.8012333708612,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00017859545682084475,
+    "Ldrag": -239338404786412.8,
+    "angularRelDrift": 3.335552736900979e-9,
+    "energyRelResidual": 1.0744913166397584e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 1,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 2,
+    "ratioEnd": [
+     0.8612751794355595,
+     0.8612751794355595
+    ],
+    "ratioMeanPlateau": [
+     0.3825926493757371,
+     0.3825926493757371
+    ],
+    "plateauSpread": [
+     0.06796579421935883,
+     0.06796579421935883
+    ],
+    "plateauDrift": [
+     0.008220795202158182,
+     0.008220795202158182
+    ],
+    "ratioMeanBand": [
+     [
+      0.351251551293321,
+      0.4192173455126798
+     ],
+     [
+      0.351251551293321,
+      0.4192173455126798
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 153.19477231608425,
+    "aDriftRel": -0.08036986249524555,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.45944495766763643,
+    "eDrift": -0.08443039414523928,
+    "aMin": 550.6764623885964,
+    "aMax": 637.689363964854,
+    "rMin": 801.7633749981449,
+    "rMax": 984.6791325907277,
+    "revPeriodFirst": 885.4433725982542,
+    "revPeriodLast": 894.8012329019666,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00003064409659489711,
+    "Ldrag": -239338391009999.88,
+    "angularRelDrift": 9.324862129677822e-10,
+    "energyRelResidual": 9.781942795505458e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 1,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 10,
+    "ratioEnd": [
+     0.8514492601603267,
+     0.8514492601603267
+    ],
+    "ratioMeanPlateau": [
+     0.3845424995709456,
+     0.3845424995709456
+    ],
+    "plateauSpread": [
+     0.06801087288927243,
+     0.06801087288927243
+    ],
+    "plateauDrift": [
+     0.006549405146763443,
+     0.006549405146763443
+    ],
+    "ratioMeanBand": [
+     [
+      0.3520779983571637,
+      0.4200888712464361
+     ],
+     [
+      0.3520779983571637,
+      0.4200888712464361
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 71.02663240236178,
+    "aDriftRel": -0.08036986192890046,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.4594449579034083,
+    "eDrift": -0.08443039390946744,
+    "aMin": 550.6764624645323,
+    "aMax": 637.6893643677237,
+    "rMin": 801.7633751046723,
+    "rMax": 984.6791330774491,
+    "revPeriodFirst": 885.4433728611507,
+    "revPeriodLast": 894.8012326717899,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.00001811566980282493,
+    "Ldrag": -239338387374156,
+    "angularRelDrift": 4.488654907337594e-9,
+    "energyRelResidual": 2.5585839210950713e-8
+   },
+   {
+    "system": "nsBinary",
+    "k": 1,
+    "spin": "slow",
+    "spinMult": 0.1,
+    "gammaOrbits": 40,
+    "ratioEnd": [
+     0.6849321722046182,
+     0.6849321722046182
+    ],
+    "ratioMeanPlateau": [
+     0.3040115136809539,
+     0.3040115136809539
+    ],
+    "plateauSpread": [
+     0.061919203566962566,
+     0.061919203566962566
+    ],
+    "plateauDrift": [
+     0.008711508043150795,
+     0.008711508043150795
+    ],
+    "ratioMeanBand": [
+     [
+      0.2738461619995034,
+      0.33576536556646597
+     ],
+     [
+      0.2738461619995034,
+      0.33576536556646597
+     ]
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "tauFitOrbits": 123.6001226775218,
+    "aDriftRel": -0.0803698667877674,
+    "e0": 0.5438753518128757,
+    "eEnd": 0.4594449524824795,
+    "eDrift": -0.0844303993303962,
+    "aMin": 550.6764624758124,
+    "aMax": 637.6893658849403,
+    "rMin": 801.7633751235733,
+    "rMax": 984.6791355163257,
+    "revPeriodFirst": 885.4433729004156,
+    "revPeriodLast": 894.8012338726367,
+    "merged": false,
+    "unbound": false,
+    "nan": 0,
+    "Q": 0.000014585065744793553,
+    "Ldrag": -239338422076342.12,
+    "angularRelDrift": 1.7829928578427992e-9,
+    "energyRelResidual": 9.51744504871044e-9
+   }
+  ]
+ },
+ "orientationGrid": {
+  "note": "U_lock=−K cos2δ・τ=−2K sin2δ−Γδ̇。K も **kFrame で乗じない**。",
+  "rows": [
+   {
+    "system": "charon",
+    "k": 0,
+    "spin": "pro2",
+    "spinMult": 2,
+    "ratioEnd": [
+     1.0264971363082631,
+     1.0264971363216875
+    ],
+    "ratioMeanPlateau": [
+     1.0070253928950499,
+     1.007025392889767
+    ],
+    "plateauSpread": [
+     0.1374324712463686,
+     0.13743247115349622
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 60,
+    "aDriftRel": 0.03797301909225634,
+    "eEnd": 0.03209603144588067,
+    "K": [
+     5.959773434218141e-11,
+     1.8875605164551318e-12
+    ],
+    "Q": 6.090691794340633e-10,
+    "nan": 0,
+    "angularRelDrift": 1.8217635122665605e-14
+   },
+   {
+    "system": "charon",
+    "k": 0,
+    "spin": "retro",
+    "spinMult": -1,
+    "ratioEnd": [
+     1.0031388729225375,
+     1.003138872922088
+    ],
+    "ratioMeanPlateau": [
+     0.991589627922411,
+     0.9915896279223629
+    ],
+    "plateauSpread": [
+     0.16208351086557937,
+     0.16208351086718265
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "aDriftRel": -0.07099849186611594,
+    "eEnd": 0.02057585782048428,
+    "K": [
+     5.959773434218141e-11,
+     1.8875605164551318e-12
+    ],
+    "Q": 2.582544164441113e-9,
+    "nan": 0,
+    "angularRelDrift": 3.84905541988034e-14
+   },
+   {
+    "system": "charon",
+    "k": 0.25,
+    "spin": "pro2",
+    "spinMult": 2,
+    "ratioEnd": [
+     0.9863306712364956,
+     0.9863306712365004
+    ],
+    "ratioMeanPlateau": [
+     1.0063217876993626,
+     1.0063217876993211
+    ],
+    "plateauSpread": [
+     0.1421995989444702,
+     0.14219959894402845
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 60,
+    "aDriftRel": 0.037642026833965524,
+    "eEnd": 0.02848659326002807,
+    "K": [
+     5.959773434218141e-11,
+     1.8875605164551318e-12
+    ],
+    "Q": 6.177464295064372e-10,
+    "nan": 0,
+    "angularRelDrift": 2.583423221098959e-14
+   },
+   {
+    "system": "charon",
+    "k": 0.25,
+    "spin": "retro",
+    "spinMult": -1,
+    "ratioEnd": [
+     1.0517956200232441,
+     1.0517956200232423
+    ],
+    "ratioMeanPlateau": [
+     0.9940529199434502,
+     0.9940529199434174
+    ],
+    "plateauSpread": [
+     0.15720256922575027,
+     0.15720256922644082
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "aDriftRel": -0.07509180478704515,
+    "eEnd": 0.025894750754190517,
+    "K": [
+     5.959773434218141e-11,
+     1.8875605164551318e-12
+    ],
+    "Q": 2.5698857051922842e-9,
+    "nan": 0,
+    "angularRelDrift": 3.779814628137718e-14
+   },
+   {
+    "system": "charon",
+    "k": 0.5,
+    "spin": "pro2",
+    "spinMult": 2,
+    "ratioEnd": [
+     0.9749855719356212,
+     0.9749855720319002
+    ],
+    "ratioMeanPlateau": [
+     0.9889558136132125,
+     0.9889558136373713
+    ],
+    "plateauSpread": [
+     0.16404302853001174,
+     0.1640430279692089
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": false,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "aDriftRel": 0.03669508622446363,
+    "eEnd": 0.0014431962225049002,
+    "K": [
+     5.959773434218141e-11,
+     1.8875605164551318e-12
+    ],
+    "Q": 6.480811314559328e-10,
+    "nan": 0,
+    "angularRelDrift": 4.320557149338058e-14
+   },
+   {
+    "system": "charon",
+    "k": 0.5,
+    "spin": "retro",
+    "spinMult": -1,
+    "ratioEnd": [
+     1.0235630301536716,
+     1.023563030158675
+    ],
+    "ratioMeanPlateau": [
+     0.9974860511698214,
+     0.9974860511696694
+    ],
+    "plateauSpread": [
+     0.1446453257575947,
+     0.14464532576894096
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "aDriftRel": -0.07572150431132585,
+    "eEnd": 0.030060289324210124,
+    "K": [
+     5.959773434218141e-11,
+     1.8875605164551318e-12
+    ],
+    "Q": 2.5589822306226863e-9,
+    "nan": 0,
+    "angularRelDrift": 3.335844275807144e-14
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "spin": "pro2",
+    "spinMult": 2,
+    "ratioEnd": [
+     1.0786231373444426,
+     1.0786231373394828
+    ],
+    "ratioMeanPlateau": [
+     1.000897214981026,
+     1.0008972149802262
+    ],
+    "plateauSpread": [
+     0.1359374469676683,
+     0.13593744694589338
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "aDriftRel": 0.03408641593799725,
+    "eEnd": 0.026141487181862787,
+    "K": [
+     5.959773434218141e-11,
+     1.8875605164551318e-12
+    ],
+    "Q": 6.300984405220526e-10,
+    "nan": 0,
+    "angularRelDrift": 6.231024192563865e-14
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "spin": "retro",
+    "spinMult": -1,
+    "ratioEnd": [
+     0.961876212838183,
+     0.9618762128382031
+    ],
+    "ratioMeanPlateau": [
+     1.00404084383042,
+     1.0040408438304245
+    ],
+    "plateauSpread": [
+     0.16659773868441907,
+     0.16659773868410788
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": null,
+    "aDriftRel": -0.07487686356304593,
+    "eEnd": 0.023525024102036454,
+    "K": [
+     5.959773434218141e-11,
+     1.8875605164551318e-12
+    ],
+    "Q": 2.5667785900796664e-9,
+    "nan": 0,
+    "angularRelDrift": 1.1080178667749555e-13
+   }
+  ]
+ },
+ "massAxis": {
+  "note": "**同じ f で k だけ変更**と**k を固定して f を変更**を別の試験として並べる。f は質量則(宣言)であって同期トルクとは無関係である。",
+  "rows": [
+   {
+    "system": "charon",
+    "k": 0,
+    "fmode": "f1",
+    "f": 1,
+    "chi": [
+     0.0013470932455392527,
+     0.010960689482661547
+    ],
+    "ratioEnd": [
+     1.0028233880094362,
+     1.0028233880094362
+    ],
+    "ratioMeanPlateau": [
+     1.004687911059414,
+     1.004687911059414
+    ],
+    "plateauSpread": [
+     0.002603738611993922,
+     0.002603738611993922
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 49.050000000000004,
+    "aDriftRel": 0.03701821545520148,
+    "eEnd": 0.00044499889326103296,
+    "Porb": 5518.53302913006,
+    "revPeriodFirst": 5559.3242169170835,
+    "nan": 0
+   },
+   {
+    "system": "charon",
+    "k": 0,
+    "fmode": "flin",
+    "f": 1,
+    "chi": [
+     0.0013470932455392527,
+     0.010960689482661547
+    ],
+    "ratioEnd": [
+     1.0028233880094362,
+     1.0028233880094362
+    ],
+    "ratioMeanPlateau": [
+     1.004687911059414,
+     1.004687911059414
+    ],
+    "plateauSpread": [
+     0.002603738611993922,
+     0.002603738611993922
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 49.050000000000004,
+    "aDriftRel": 0.03701821545520148,
+    "eEnd": 0.00044499889326103296,
+    "Porb": 5518.53302913006,
+    "revPeriodFirst": 5559.3242169170835,
+    "nan": 0
+   },
+   {
+    "system": "charon",
+    "k": 0.25,
+    "fmode": "f1",
+    "f": 1,
+    "chi": [
+     0.0013478976194945317,
+     0.010967171268872913
+    ],
+    "ratioEnd": [
+     1.0027825716150702,
+     1.0027825716150702
+    ],
+    "ratioMeanPlateau": [
+     1.0033783933267175,
+     1.0033783933267175
+    ],
+    "plateauSpread": [
+     0.002586179392398691,
+     0.002586179392398691
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 47.849999999999994,
+    "aDriftRel": 0.03640851093840146,
+    "eEnd": 0.0006708435627683473,
+    "Porb": 5518.53302913006,
+    "revPeriodFirst": 5565.910196001647,
+    "nan": 0
+   },
+   {
+    "system": "charon",
+    "k": 0.25,
+    "fmode": "flin",
+    "f": 1.0005979241860707,
+    "chi": [
+     0.0013478976194945317,
+     0.010967171268872913
+    ],
+    "ratioEnd": [
+     1.0025019581087726,
+     1.0025019581087726
+    ],
+    "ratioMeanPlateau": [
+     1.0033668398417916,
+     1.0033668398417916
+    ],
+    "plateauSpread": [
+     0.0026112078823139484,
+     0.0026112078823139484
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 47.699999999999996,
+    "aDriftRel": 0.036364258009506774,
+    "eEnd": 0.000216492475967732,
+    "Porb": 5511.9425668803315,
+    "revPeriodFirst": 5559.208134420891,
+    "nan": 0
+   },
+   {
+    "system": "charon",
+    "k": 0.5,
+    "fmode": "f1",
+    "f": 1,
+    "chi": [
+     0.0013487029487218444,
+     0.010973660678184524
+    ],
+    "ratioEnd": [
+     1.0021434008660444,
+     1.0021434008660446
+    ],
+    "ratioMeanPlateau": [
+     1.0020752340874934,
+     1.0020752340874937
+    ],
+    "plateauSpread": [
+     0.002573640215018047,
+     0.002573640215017825
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 46.65,
+    "aDriftRel": 0.035806283964823014,
+    "eEnd": 0.0011205315619035997,
+    "Porb": 5518.53302913006,
+    "revPeriodFirst": 5572.502536993934,
+    "nan": 0
+   },
+   {
+    "system": "charon",
+    "k": 0.5,
+    "fmode": "flin",
+    "f": 1.0011965594299892,
+    "chi": [
+     0.0013487029487218444,
+     0.010973660678184524
+    ],
+    "ratioEnd": [
+     1.0022884792725166,
+     1.0022884792725166
+    ],
+    "ratioMeanPlateau": [
+     1.0020496668307897,
+     1.0020496668307897
+    ],
+    "plateauSpread": [
+     0.002619764645885203,
+     0.002619764645885203
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 46.650000000000006,
+    "aDriftRel": 0.03571457015445133,
+    "eEnd": 0.0007137290250866,
+    "Porb": 5505.361984692576,
+    "revPeriodFirst": 5559.080409220436,
+    "nan": 0
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "fmode": "f1",
+    "f": 1,
+    "chi": [
+     0.0013503164797653395,
+     0.0109866624196241
+    ],
+    "ratioEnd": [
+     0.9994099462733239,
+     0.9994099462733239
+    ],
+    "ratioMeanPlateau": [
+     0.9994884055474256,
+     0.9994884055474256
+    ],
+    "plateauSpread": [
+     0.0026267803184437666,
+     0.0026267803184437666
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 44.699999999999996,
+    "aDriftRel": 0.03461725251779887,
+    "eEnd": 0.0011014014895452842,
+    "Porb": 5518.53302913006,
+    "revPeriodFirst": 5585.705951251145,
+    "nan": 0
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "fmode": "flin",
+    "f": 1.0023959681396324,
+    "chi": [
+     0.0013503164797653395,
+     0.0109866624196241
+    ],
+    "ratioEnd": [
+     1.0022019918348866,
+     1.0022019918348866
+    ],
+    "ratioMeanPlateau": [
+     0.9994270974532548,
+     0.9994270974532548
+    ],
+    "plateauSpread": [
+     0.002631064851381981,
+     0.002631064851381981
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "convergedFromOrbits": 44.55,
+    "aDriftRel": 0.0344296069889976,
+    "eEnd": 0.0020107112430289096,
+    "Porb": 5492.230375594365,
+    "revPeriodFirst": 5558.789756137686,
+    "nan": 0
+   }
+  ]
+ },
+ "reactionCompare": {
+  "note": "`reservoir`(返さずに帳簿)と `cmRemoved`(共通並進成分を除いて線運動量を閉じる)。**どちらもエンジンの E6′-R(pairReduced)ではない**。",
+  "rows": [
+   {
+    "system": "charon",
+    "k": 0.25,
+    "dragReaction": "reservoir",
+    "ratioEnd": [
+     1.0027825716150702,
+     1.0027825716150702
+    ],
+    "ratioMeanPlateau": [
+     1.0033783933267175,
+     1.0033783933267175
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "aDriftRel": 0.03640851093840146,
+    "eEnd": 0.0006708435627683473,
+    "revPeriodFirst": 5565.910196001647,
+    "Pdrag": [
+     -6.762952931922823e-9,
+     -1.0361725545786216e-8
+    ],
+    "Ldrag": -3.0607098497263935e-8,
+    "comVel": [
+     -0.000004627088760234359,
+     -0.000007089303192262293
+    ],
+    "nan": 0
+   },
+   {
+    "system": "charon",
+    "k": 0.25,
+    "dragReaction": "cmRemoved",
+    "ratioEnd": [
+     1.0027822153743704,
+     1.0027822153743704
+    ],
+    "ratioMeanPlateau": [
+     1.0033769235091468,
+     1.0033769235091468
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "aDriftRel": 0.03640686269316445,
+    "eEnd": 0.0006714099033958468,
+    "revPeriodFirst": 5565.916211215595,
+    "Pdrag": [
+     -1.8417693326376007e-25,
+     -2.9807582620319064e-25
+    ],
+    "Ldrag": -1.8991135486787344e-8,
+    "comVel": [
+     6.316816588034944e-17,
+     2.7817173965658466e-17
+    ],
+    "nan": 0
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "dragReaction": "reservoir",
+    "ratioEnd": [
+     0.9994099462733239,
+     0.9994099462733239
+    ],
+    "ratioMeanPlateau": [
+     0.9994884055474256,
+     0.9994884055474256
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "aDriftRel": 0.03461725251779887,
+    "eEnd": 0.0011014014895452842,
+    "revPeriodFirst": 5585.705951251145,
+    "Pdrag": [
+     -2.6469770390327133e-8,
+     -1.8420109055495382e-8
+    ],
+    "Ldrag": -2.5838103808783766e-7,
+    "comVel": [
+     -0.00001811013299820608,
+     -0.000012602701871476829
+    ],
+    "nan": 0
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "dragReaction": "cmRemoved",
+    "ratioEnd": [
+     0.9993880061023303,
+     0.99938800610233
+    ],
+    "ratioMeanPlateau": [
+     0.9994654617538092,
+     0.9994654617538092
+    ],
+    "runCompleted": true,
+    "spinPlateau": false,
+    "synchronous": true,
+    "orbitStable": false,
+    "aDriftRel": 0.03459228800243844,
+    "eEnd": 0.0011012558371623024,
+    "revPeriodFirst": 5585.803254720885,
+    "Pdrag": [
+     3.6738451424718456e-24,
+     -1.28277618431075e-24
+    ],
+    "Ldrag": -7.545637665602093e-8,
+    "comVel": [
+     1.9500997998841823e-16,
+     1.2937883516319277e-16
+    ],
+    "nan": 0
+   }
+  ]
+ },
+ "stepConvergence": {
+  "note": "同じ行を spo と 2·spo で走らせた 2 段。**3 段ではない**(診断)。",
+  "rows": [
+   {
+    "system": "charon",
+    "k": 0,
+    "spo": 2000,
+    "dt": 2.75926651456503,
+    "ratioEnd": [
+     1.156182431588898,
+     1.156182431588898
+    ],
+    "aDriftRel": 0.031549995704737516,
+    "eEnd": 0.0005844946482149574,
+    "energyRelResidual": 6.458914738121808e-7,
+    "angularRelDrift": 2.2877960386603315e-14
+   },
+   {
+    "system": "charon",
+    "k": 0,
+    "spo": 4000,
+    "dt": 1.379633257282515,
+    "ratioEnd": [
+     1.1561829289862824,
+     1.1561829289862824
+    ],
+    "aDriftRel": 0.031549756969359175,
+    "eEnd": 0.0005850539773640771,
+    "energyRelResidual": 2.845034740147732e-7,
+    "angularRelDrift": 4.2790259241609905e-14
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "spo": 2000,
+    "dt": 2.75926651456503,
+    "ratioEnd": [
+     1.158029293496972,
+     1.158029293496972
+    ],
+    "aDriftRel": 0.030889980898583257,
+    "eEnd": 0.0034491808919768943,
+    "energyRelResidual": 6.587968599934116e-7,
+    "angularRelDrift": 1.948859084748952e-14
+   },
+   {
+    "system": "charon",
+    "k": 1,
+    "spo": 4000,
+    "dt": 1.379633257282515,
+    "ratioEnd": [
+     1.158198485182167,
+     1.1581984851821667
+    ],
+    "aDriftRel": 0.03133884037731641,
+    "eEnd": 0.0033868684097820966,
+    "energyRelResidual": 2.8925584202496756e-7,
+    "angularRelDrift": 1.6095032543970012e-14
+   }
+  ]
+ },
+ "diagnosticMap": {
+  "note": "**候補 (i)(iii) は「同期率 → k」の診断式であり、本便の因果の検証には使わない**(同期率 → k → 同期率 の循環を作らないため)。C5(第272便b の対照列)は **t=0 の定数評価**であって、動的な維持の実証ではない。ここでは **同じ初期自転の組に対する診断値**を並べるだけである。",
+  "convention": "面直(z)は画面手前向きが正・反時計回り(x→y)が正・視線は +z 側から見下ろす。Ω_AB=(r×v)_z/r² と spin を**同じ符号規約**で比べる。同期比は符号つきの ω_spin/Ω_orb で読み、**+1 が同期・−1 は逆行の同期**である(**絶対値では同期と逆行を区別できない**ので絶対値で判定しない)。",
+  "rows": [
+   {
+    "spin": "pro2",
+    "spinMult": 2,
+    "signedRatio": 2.0000000000000004,
+    "candI": 0.5000000000000001,
+    "candII": 1,
+    "candIII": 0.6321205588285579
+   },
+   {
+    "spin": "pro05",
+    "spinMult": 0.5,
+    "signedRatio": 0.5000000000000001,
+    "candI": 0.1999999999999999,
+    "candII": 0.9994024309230395,
+    "candIII": 0.39346934028736646
+   },
+   {
+    "spin": "retro",
+    "spinMult": -1,
+    "signedRatio": -1.0000000000000002,
+    "candI": 0.8,
+    "candII": 1,
+    "candIII": 0.8646647167633873
+   },
+   {
+    "spin": "fast",
+    "spinMult": 5,
+    "signedRatio": 5.000000000000001,
+    "candI": 0.9411764705882353,
+    "candII": 1,
+    "candIII": 0.9816843611112658
+   },
+   {
+    "spin": "slow",
+    "spinMult": 0.1,
+    "signedRatio": 0.10000000000000002,
+    "candI": 0.4475138121546961,
+    "candII": 0.9999760972369216,
+    "candIII": 0.5934303402594008
+   }
+  ]
+ }
+}

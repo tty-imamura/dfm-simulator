@@ -46,6 +46,10 @@ const OUT_JSON = path.join(ROOT, 'tests', 'out', 'issues-w272a.json');
 const cal = JSON.parse(fs.readFileSync(CAL, 'utf8'));
 const solar = fs.existsSync(SOLAR) ? JSON.parse(fs.readFileSync(SOLAR, 'utf8')) : null;
 const THEORY_CONTROL = ['qLockRadialAudit', 'qLockRadialAuditQ3', 'emAuditNewton'];
+// 第274便a(第64報): 正本が **kF0 対照走行を配った世代**かどうか(鍵の有無で判定する)。
+const kf0On = !!(cal.kf0Runs && cal.kf0Runs.on === true);
+const kf0Applied = ((cal.kf0Runs || {}).applied || []).length;
+const kf0After = (cal.conditionMismatch || {}).n;
 // 第273便c(R19-4): **「未測定」と書いていた 3 件には実測がある**。参照先を機械で繋ぐ
 // (無ければ「参照先が無い」と書く —— 黙って「未測定」に戻さない)。
 const CHARON = path.join(ROOT, 'tests', 'out', 'charon-w272b.json');
@@ -152,7 +156,10 @@ const CLASSES = [
     match: (q) => (q.gate || {}).status === 'mapping-unresolved' },
   { key: 'condition', title: '条件違い(対照走行が無い)',
     what: '行が要求する条件(kFrame=0 対照など)と、配られている測定値の条件が違う。'
-      + '**合っていないのではなく、条件が違う**。',
+      + '**合っていないのではなく、条件が違う**。'
+      + (kf0On ? '**第274便a(`--kf0-runs`)で ' + kf0Applied + ' 行へ kFrame=0 の対照走行を配った**ので、'
+        + 'この区分は ' + kf0After + ' 件である。**区分が空になったことは「合った」ではない** —— '
+        + 'その行は門の 3σ の算術へ移っただけである(そこでの結果は別の区分に出る)。' : ''),
     match: (q) => (q.gate || {}).status === 'condition-mismatch' },
   { key: 'center-bookkeeping', title: '中心値の集計(obsCard と CSV 行の混在)',
     what: '中心値が obsCard 由来・σ が CSV 行由来という組み合わせのまま残っている量'
@@ -268,10 +275,20 @@ const lockRatioText = lockRows.length
   : '**参照先の JSON が無い**(tests/out/nslock-w272c.json)';
 
 const charonIssues = [
-  { key: 'control', title: '対照条件の走行が無い',
+  // 第274便a(第64報): `--kf0-runs` を通した正本では、この行に **kFrame=0 の対照走行**が
+  //   配られている。**「解決した」とは書かない** —— 条件が揃っただけで、門が何を出すかは別である。
+  { key: 'control', title: (kf0On ? '対照条件の走行を配った(第274便a)' : '対照条件の走行が無い'),
     measured: cCtrlRow ? ((cCtrlRow.gate || {}).status || null) : null,
-    text: '「kFrame=0 対照」の行に、kFrame=1 の走行の数が配られている(プリセットの physics は 1 つ)。'
-      + '**合っていないのではなく、条件が違う**(`condition-mismatch`)。' },
+    ref: kf0On ? 'tests/out/calaudit-w249.json(kf0Runs — 診断コピーの kFrame=0 走行)' : null,
+    text: kf0On
+      ? '第273便a まで、「kFrame=0 対照」の行には **kFrame=1 の走行の数**が配られていた'
+        + '(プリセットの physics は 1 つなので、1 回の走行から 2 つの条件の行へ同じ数が配られていた)。'
+        + '第274便a で `--kf0-runs` を入れ、`physics.kFrame` の 1 鍵だけを 0 にした**診断コピー**を'
+        + '同じ停止条件・同じ近点窓・同じ抽出器で走らせ、**' + kf0Applied + ' 行**へ配った'
+        + '(配ったあとの `condition-mismatch` は **' + kf0After + ' 件**)。'
+        + '**条件が揃ったことは「合った」ことではない** —— 門はここから 3σ の算術を見にいく。'
+      : '「kFrame=0 対照」の行に、kFrame=1 の走行の数が配られている(プリセットの physics は 1 つ)。'
+        + '**合っていないのではなく、条件が違う**(`condition-mismatch`)。' },
   { key: 'period-def', title: '周期の定義が行ごとに違う',
     measured: cPeriRow ? cPeriRow.periodDef : null,
     text: '第271便a まで、3 行(kF0 対照・同方向 1 周・近点間)が**同じ 1 つの数**を配られていた。'
