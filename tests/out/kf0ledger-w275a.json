@@ -1,0 +1,4892 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第275便a(第65報・判定器便: R33 の対照分類と観測列の分離)",
+  "target": "beta/index.html",
+  "targetSha256": "f2b27021aadcd2b49cf11c3dcf22876088fd21e82c83c46f2c911f82c6ed75bc",
+  "generatedAt": "2026-09-20T17:27:18.686Z",
+  "inputs": [
+   {
+    "file": "tests/out/presetaxes-w275a.json",
+    "bytes": 72677,
+    "sha256": "9d9d367dfa89e7847a15bbe02f680042c8ea0d4dadeae48df03d43730ab5407a",
+    "mtime": "2026-09-20T17:27:13.670Z"
+   },
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "bytes": 2785467,
+    "sha256": "feeaa951ea1f7fe0e7e641a1f0330f7817b2362e9eb9303124f64067407d0a65",
+    "mtime": "2026-09-20T17:02:53.190Z"
+   },
+   {
+    "file": "tests/out/charon-w272b.json",
+    "bytes": 121034,
+    "sha256": "6c8c8af5224d69e9d6f0126fb89e754a4f7fa6e50adfbe29fe5785cb4592cadb",
+    "mtime": "2026-09-20T17:02:53.370Z"
+   },
+   {
+    "file": "tests/out/nslockledger-w273c.json",
+    "bytes": 13514,
+    "sha256": "23b5ae213ef3364c502693bb878b94e307d0ab4a3326de0c8899887edefbc143",
+    "mtime": "2026-09-20T17:02:56.698Z"
+   },
+   {
+    "file": "tests/out/galaxydiag-w271d.json",
+    "bytes": 223281,
+    "sha256": "29e8014302d76d0d83a132bd75f2d3fd576c1c840282e73f44fcb54a58c54f9e",
+    "mtime": "2026-09-20T17:02:55.142Z"
+   },
+   {
+    "file": "tests/out/kf0-w259d.json",
+    "bytes": 9323,
+    "sha256": "ae207310de5a2ed3d39d2a20de8fdc2eb7be4323dfba70bcf3997384a0cec694",
+    "mtime": "2026-09-20T17:02:56.114Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w275a-kf0ledger.mjs",
+    "bytes": 43715,
+    "sha256": "fe30bd5db0dcca4ce45d45c0a07d08c96f08c8c979dcd212c2ac48fb45cd824d",
+    "mtime": "2026-09-20T17:18:14.879Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-20T17:02:58.070Z"
+   }
+  ],
+  "codeSha256": "aba48a253e6e6f14aa9f9f6600d8d8e2333c0c90c22db76f31f9eab1afea87f3",
+  "ledgerVersion": "w275a-1",
+  "question": "**「kFrame=1 が成立しないサンプルで、kF0 版が成立しているか」**(原仮定者の優先課題・第64報)",
+  "answerRule": "**判定 4 列(走行成立・構造安定・数値成立・観測成立)がすべて ✓ のときだけ「成立」と書く**。完走だけを成立と書かない。**外挿残差は判定に入れない**(第275便a・R33)。**「kF1 不成立・kF0 成立」と言えるのは、kF1 が 否(3σ) で kF0 が 合(3σ) の行だけである** ——保留(数値未解決・mapping-unresolved・未判定)は「不成立」ではない。",
+  "causality": "**採る**: 「連星が kFrame≈0 で安定なら相対メッシュ運動が消え、**独立の**同期トルクで自転が公転へ引き込まれる。その極限が相互潮汐ロック」。**採らない**: 「ロックしているから k≈0 と置く」。同期率から k を作る診断式は比較用に残すが、**因果の検証は k を外から固定し非同期から出発する試験**で行う(同期率→k の循環を作らない)。**0<k<1 で安定するなら中間状態**(AH1 の近似)。**独立な質量補正 f は常に別軸**である。",
+  "doNotWrite": [
+   "kF0 版が成立した(観測と合った)",
+   "引きずりが完全に消えていることを確認した",
+   "潮汐ロックへ収束することを証明した",
+   "銀河が安定した",
+   "腕が創発した",
+   "判定が増えた",
+   "較正が完了した",
+   "kF0 = 較正完了"
+  ]
+ },
+ "columns": [
+  {
+   "key": "run",
+   "name": "走行成立",
+   "rule": "宣言した窓を完走し(停止条件)・**NaN 0**・**安全クランプ 0**。"
+  },
+  {
+   "key": "structure",
+   "name": "構造安定",
+   "rule": "**事前に宣言した形状条件**(準定常の構造ドリフト・速度ドリフト・健全性)を満たし、摂動から回復する。**条件を宣言していない系は「未測定」である**(完走を構造安定と書かない)。"
+  },
+  {
+   "key": "numeric",
+   "name": "数値成立",
+   "rule": "3 段(h, h/2, h/4)が揃い・観測次数の推定が立ち・次数ガード \\|p−2\\|≤0.5 を満たし・ε̂ と最終 2 段差が 0.3σ の予算に収まる(AD4+AE3)。"
+  },
+  {
+   "key": "extrapolated",
+   "name": "外挿残差",
+   "rule": "**門を通っていない残差**(Richardson 外挿や器の判定段の値と観測値の σ 倍)が \\|nσ\\| ≤ 3 か。**これは観測成立ではない** —— σ_obs だけで割った生の残差であって、ε_num も写像の宣言も入っていない。門を持つ行(較正)では**この列は使わない**(未測定)。",
+   "forLabel": false
+  },
+  {
+   "key": "observation",
+   "name": "観測成立",
+   "rule": "門(\\|y_sim−y_obs\\| ≤ 3σ_obs + ε_num)を通った = `合(3σ)`。`否(3σ)` は **✗**、保留(数値未解決・mapping-unresolved・未判定)は **未測定**である。**門を持たない診断系列は「未測定」である**(第275便a・R33 —— 外挿残差で埋めない)。"
+  }
+ ],
+ "labelColumns": [
+  "run",
+  "structure",
+  "numeric",
+  "observation"
+ ],
+ "label": {
+  "text": "引きずりが完全に消えている空間メッシュ状態(候補)",
+  "rule": "**kF1 側の観測成立が ✗(否 3σ)**かつ **kF0 側の判定 4 列(走行成立・構造安定・数値成立・観測成立)がすべて ✓** の行だけに付く。**外挿残差の列はラベルの判定に入れない**(門を通っていないので — 第275便a・R33)。**候補である** —— 較正完了でも「引きずりが消えたことの確認」でもない。付けるときは**対象量・窓・作用**を添える。",
+  "columns": [
+   "run",
+   "structure",
+   "numeric",
+   "observation"
+  ]
+ },
+ "axes": {
+  "file": "tests/out/presetaxes-w275a.json",
+  "version": "w275a-1",
+  "keys": [
+   "massFactor",
+   "D0eff",
+   "q",
+   "frameWeight",
+   "bodiesSha256"
+  ],
+  "rule": "**「f 固定・k のみの対照」は、k を除く 5 成分(f・D₀・q・frameWeight・bodies)がすべて同一のときだけ**である(第275便a で明文化 —— 第274便a は f だけを見ていた〔R33〕)。bodies は**宣言配列そのものの SHA-256** で、粒子ごとの初期値ではなく宣言(type/n/…)を見る。",
+  "kOnlyGroupsInBuiltins": [
+   {
+    "axis": "1|1.5|2|share|388285e3754e1e5a8fb5cef2035bdc66bc77486196bba41dc2dc719a3536a2e1",
+    "ids": [
+     "galaxyMeshSpiral",
+     "galaxyMeshSpiralGeoToy"
+    ],
+    "kFrames": [
+     1,
+     0
+    ]
+   }
+  ]
+ },
+ "summary": {
+  "nRows": 43,
+  "nCalibration": 37,
+  "nDiagnostic": 6,
+  "kf1": {
+   "run": {
+    "✓": 32,
+    "✗": 1,
+    "未測定": 10
+   },
+   "structure": {
+    "✓": 0,
+    "✗": 1,
+    "未測定": 42
+   },
+   "numeric": {
+    "✓": 0,
+    "✗": 12,
+    "未測定": 31
+   },
+   "extrapolated": {
+    "✓": 0,
+    "✗": 5,
+    "未測定": 38
+   },
+   "observation": {
+    "✓": 0,
+    "✗": 0,
+    "未測定": 43
+   }
+  },
+  "kf0": {
+   "run": {
+    "✓": 21,
+    "✗": 0,
+    "未測定": 22
+   },
+   "structure": {
+    "✓": 0,
+    "✗": 1,
+    "未測定": 42
+   },
+   "numeric": {
+    "✓": 6,
+    "✗": 1,
+    "未測定": 36
+   },
+   "extrapolated": {
+    "✓": 0,
+    "✗": 5,
+    "未測定": 38
+   },
+   "observation": {
+    "✓": 2,
+    "✗": 2,
+    "未測定": 39
+   }
+  },
+  "nKf0RunApplied": 8,
+  "nLabelled": 0,
+  "labelledIds": [],
+  "kf1NgKf0OkIds": [],
+  "nKOnlyContrast": 7,
+  "kOnlyContrastIds": [
+   "jupiterGalilean",
+   "venusReal",
+   "marsMoonsReal",
+   "plutoCharonReal",
+   "neptuneReal",
+   "plutoCharonReal@charon-w272b",
+   "ngc3198DFM@galaxydiag-w271d"
+  ],
+  "nPairsKOnly": 0,
+  "pairsKOnly": [],
+  "pairsNotKOnly": [
+   "earthMoonReal↔earthMoonRealKF1",
+   "mercuryReal↔mercuryRealKF1",
+   "saturnRingReal↔saturnRingRealKF1",
+   "alphaCenAB↔alphaCenABDFM",
+   "siriusAB↔siriusABDFM",
+   "psrDoubleAB↔psrDoubleABDFM",
+   "psrB1534↔psrB1534DFM",
+   "gw150914↔gw150914DFM"
+  ],
+  "nPairsFSameOnly": 3,
+  "pairsFSameOnly": [
+   {
+    "pair": "earthMoonReal↔earthMoonRealKF1",
+    "differing": [
+     "D0eff",
+     "q",
+     "frameWeight",
+     "bodiesSha256"
+    ]
+   },
+   {
+    "pair": "mercuryReal↔mercuryRealKF1",
+    "differing": [
+     "D0eff",
+     "q",
+     "frameWeight"
+    ]
+   },
+   {
+    "pair": "saturnRingReal↔saturnRingRealKF1",
+    "differing": [
+     "D0eff",
+     "q",
+     "frameWeight",
+     "bodiesSha256"
+    ]
+   }
+  ],
+  "axisKeys": [
+   "massFactor",
+   "D0eff",
+   "q",
+   "frameWeight",
+   "bodiesSha256"
+  ],
+  "axisOnlyKGroupsInBuiltins": [
+   "galaxyMeshSpiral↔galaxyMeshSpiralGeoToy"
+  ],
+  "observationDecided": {
+   "kf1Ok": [],
+   "kf1Ng": [],
+   "kf0Ok": [
+    "alphaCenAB",
+    "siriusAB"
+   ],
+   "kf0Ng": [
+    "plutoCharonReal",
+    "saturnZonalD68"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "k0": "earthMoonReal",
+   "k1": "earthMoonRealKF1",
+   "why": "🌙 / 🌘 地球・月",
+   "emoji0": "🌙",
+   "emoji1": "🌘",
+   "f0": 1,
+   "f1": 1,
+   "fSame": true,
+   "kOnly": false,
+   "axisKeys": [
+    "massFactor",
+    "D0eff",
+    "q",
+    "frameWeight",
+    "bodiesSha256"
+   ],
+   "axisKnown": true,
+   "axisDiffering": [
+    "D0eff",
+    "q",
+    "frameWeight",
+    "bodiesSha256"
+   ],
+   "axisValues": {
+    "massFactor": [
+     1,
+     1
+    ],
+    "D0eff": [
+     0.1,
+     0.0000324204
+    ],
+    "q": [
+     3,
+     8.2358
+    ],
+    "frameWeight": [
+     "share",
+     "pull"
+    ],
+    "bodiesSha256": [
+     "c61e669c32aa3688be07e4e89df3e255f504582f6b327aa8a25c86b294e734e6",
+     "5483dfb522293d7635bcd478c72026662006322d8d725ea85c6d6851b2f0fcb0"
+    ]
+   },
+   "fDeltaRel": 0,
+   "kf1Observation": "未測定",
+   "kf0Observation": "未測定",
+   "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: D0eff 0.1 → 0.0000324204 / q 3 → 8.2358 / frameWeight share → pull / bodiesSha256 c61e669c32aa3688be07e4e89df3e255f504582f6b327aa8a25c86b294e734e6 → 5483dfb522293d7635bcd478c72026662006322d8d725ea85c6d6851b2f0fcb0。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。"
+  },
+  {
+   "k0": "mercuryReal",
+   "k1": "mercuryRealKF1",
+   "why": "☄️ / 🪨 水星",
+   "emoji0": "☄️",
+   "emoji1": "🪨",
+   "f0": 1,
+   "f1": 1,
+   "fSame": true,
+   "kOnly": false,
+   "axisKeys": [
+    "massFactor",
+    "D0eff",
+    "q",
+    "frameWeight",
+    "bodiesSha256"
+   ],
+   "axisKnown": true,
+   "axisDiffering": [
+    "D0eff",
+    "q",
+    "frameWeight"
+   ],
+   "axisValues": {
+    "massFactor": [
+     1,
+     1
+    ],
+    "D0eff": [
+     0.1,
+     0.00324204
+    ],
+    "q": [
+     3,
+     6.1471
+    ],
+    "frameWeight": [
+     "share",
+     "pull"
+    ],
+    "bodiesSha256": [
+     "c57f1b5194a7929ed8c195f1ea653d66022cc792eff65162e91b2cb64eb1d689",
+     "c57f1b5194a7929ed8c195f1ea653d66022cc792eff65162e91b2cb64eb1d689"
+    ]
+   },
+   "fDeltaRel": 0,
+   "kf1Observation": "未測定",
+   "kf0Observation": "未測定",
+   "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: D0eff 0.1 → 0.00324204 / q 3 → 6.1471 / frameWeight share → pull。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。"
+  },
+  {
+   "k0": "saturnRingReal",
+   "k1": "saturnRingRealKF1",
+   "why": "💍 / 💿 土星の環",
+   "emoji0": "💍",
+   "emoji1": "💿",
+   "f0": 1,
+   "f1": 1,
+   "fSame": true,
+   "kOnly": false,
+   "axisKeys": [
+    "massFactor",
+    "D0eff",
+    "q",
+    "frameWeight",
+    "bodiesSha256"
+   ],
+   "axisKnown": true,
+   "axisDiffering": [
+    "D0eff",
+    "q",
+    "frameWeight",
+    "bodiesSha256"
+   ],
+   "axisValues": {
+    "massFactor": [
+     1,
+     1
+    ],
+    "D0eff": [
+     0.1,
+     0.0000324204
+    ],
+    "q": [
+     3,
+     20.4932
+    ],
+    "frameWeight": [
+     "share",
+     "pull"
+    ],
+    "bodiesSha256": [
+     "26e5f0b1c58fe5f9b2c49d102f807f3ddb16989d747c72e5069c5ec30e1440fa",
+     "8f0bd73b5835def64bde4233be175c58105450072ec70bb28ce2891d90ed3279"
+    ]
+   },
+   "fDeltaRel": 0,
+   "kf1Observation": "未測定",
+   "kf0Observation": "未測定",
+   "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: D0eff 0.1 → 0.0000324204 / q 3 → 20.4932 / frameWeight share → pull / bodiesSha256 26e5f0b1c58fe5f9b2c49d102f807f3ddb16989d747c72e5069c5ec30e1440fa → 8f0bd73b5835def64bde4233be175c58105450072ec70bb28ce2891d90ed3279。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。"
+  },
+  {
+   "k0": "alphaCenAB",
+   "k1": "alphaCenABDFM",
+   "why": "✨ / ✴️ α Cen AB",
+   "emoji0": "✨",
+   "emoji1": "✴️",
+   "f0": 1,
+   "f1": 1.0002157798299423,
+   "fSame": false,
+   "kOnly": false,
+   "axisKeys": [
+    "massFactor",
+    "D0eff",
+    "q",
+    "frameWeight",
+    "bodiesSha256"
+   ],
+   "axisKnown": true,
+   "axisDiffering": [
+    "massFactor",
+    "bodiesSha256"
+   ],
+   "axisValues": {
+    "massFactor": [
+     1,
+     1.0002157798299423
+    ],
+    "D0eff": [
+     0.324204,
+     0.324204
+    ],
+    "q": [
+     4.6111,
+     4.6111
+    ],
+    "frameWeight": [
+     "pull",
+     "pull"
+    ],
+    "bodiesSha256": [
+     "274816ab932583e1162d8961571b95b75e0b58d9b33af844b74d5585e3e11593",
+     "7626187e195e5342ebf669ab283e5f40fad06a35a438d748316583c2230d5b73"
+    ]
+   },
+   "fDeltaRel": 0.0002157798299422531,
+   "kf1Observation": "未測定",
+   "kf0Observation": "✓",
+   "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: massFactor 1 → 1.0002157798299423 / bodiesSha256 274816ab932583e1162d8961571b95b75e0b58d9b33af844b74d5585e3e11593 → 7626187e195e5342ebf669ab283e5f40fad06a35a438d748316583c2230d5b73。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
+  },
+  {
+   "k0": "siriusAB",
+   "k1": "siriusABDFM",
+   "why": "🌟 / 💫 Sirius AB",
+   "emoji0": "🌟",
+   "emoji1": "💫",
+   "f0": 1,
+   "f1": 1.0003769425929947,
+   "fSame": false,
+   "kOnly": false,
+   "axisKeys": [
+    "massFactor",
+    "D0eff",
+    "q",
+    "frameWeight",
+    "bodiesSha256"
+   ],
+   "axisKnown": true,
+   "axisDiffering": [
+    "massFactor",
+    "bodiesSha256"
+   ],
+   "axisValues": {
+    "massFactor": [
+     1,
+     1.0003769425929947
+    ],
+    "D0eff": [
+     0.324204,
+     0.324204
+    ],
+    "q": [
+     4.6761,
+     4.6761
+    ],
+    "frameWeight": [
+     "pull",
+     "pull"
+    ],
+    "bodiesSha256": [
+     "d42e9735986258e42a789e0e55a65f3576fb3f486e882060c43eca9a1570cb96",
+     "4453d5ec7535a662bfecf698c2a9797551f29dde9e99a4a60987d2cd6c55ad2f"
+    ]
+   },
+   "fDeltaRel": 0.0003769425929947001,
+   "kf1Observation": "未測定",
+   "kf0Observation": "✓",
+   "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: massFactor 1 → 1.0003769425929947 / bodiesSha256 d42e9735986258e42a789e0e55a65f3576fb3f486e882060c43eca9a1570cb96 → 4453d5ec7535a662bfecf698c2a9797551f29dde9e99a4a60987d2cd6c55ad2f。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
+  },
+  {
+   "k0": "psrDoubleAB",
+   "k1": "psrDoubleABDFM",
+   "why": "📻 / ⚡ J0737−3039",
+   "emoji0": "📻",
+   "emoji1": "⚡",
+   "f0": 1,
+   "f1": 1.999942269345993,
+   "fSame": false,
+   "kOnly": false,
+   "axisKeys": [
+    "massFactor",
+    "D0eff",
+    "q",
+    "frameWeight",
+    "bodiesSha256"
+   ],
+   "axisKnown": true,
+   "axisDiffering": [
+    "massFactor",
+    "bodiesSha256"
+   ],
+   "axisValues": {
+    "massFactor": [
+     1,
+     1.999942269345993
+    ],
+    "D0eff": [
+     3.24204e-7,
+     3.24204e-7
+    ],
+    "q": [
+     3.1789,
+     3.1789
+    ],
+    "frameWeight": [
+     "pull",
+     "pull"
+    ],
+    "bodiesSha256": [
+     "66a468318b94d424e8a088abb2bf9f39879fe297f0fcf9773b52cfa5a4984f1a",
+     "9dd7daf4ffa2a691427c2f7278becbcedbd1ac2e85a37e3cc8add89b974c100e"
+    ]
+   },
+   "fDeltaRel": 0.999942269345993,
+   "kf1Observation": "未測定",
+   "kf0Observation": "未測定",
+   "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: massFactor 1 → 1.999942269345993 / bodiesSha256 66a468318b94d424e8a088abb2bf9f39879fe297f0fcf9773b52cfa5a4984f1a → 9dd7daf4ffa2a691427c2f7278becbcedbd1ac2e85a37e3cc8add89b974c100e。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
+  },
+  {
+   "k0": "psrB1534",
+   "k1": "psrB1534DFM",
+   "why": "📿 / 🧶 B1534+12",
+   "emoji0": "📿",
+   "emoji1": "🧶",
+   "f0": 1,
+   "f1": 1.9994854557873434,
+   "fSame": false,
+   "kOnly": false,
+   "axisKeys": [
+    "massFactor",
+    "D0eff",
+    "q",
+    "frameWeight",
+    "bodiesSha256"
+   ],
+   "axisKnown": true,
+   "axisDiffering": [
+    "massFactor",
+    "bodiesSha256"
+   ],
+   "axisValues": {
+    "massFactor": [
+     1,
+     1.9994854557873434
+    ],
+    "D0eff": [
+     3.24204e-7,
+     3.24204e-7
+    ],
+    "q": [
+     3.1652,
+     3.1652
+    ],
+    "frameWeight": [
+     "pull",
+     "pull"
+    ],
+    "bodiesSha256": [
+     "6d0ce4ac9cf50a8851901868e5e34bb89d968767460451ba66c913bcac7ad6cc",
+     "75e498092c87175162d6b4d3fc55bf7499ef361eb69ae1cad4d0f5fa81d43ff7"
+    ]
+   },
+   "fDeltaRel": 0.9994854557873434,
+   "kf1Observation": "未測定",
+   "kf0Observation": "未測定",
+   "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: massFactor 1 → 1.9994854557873434 / bodiesSha256 6d0ce4ac9cf50a8851901868e5e34bb89d968767460451ba66c913bcac7ad6cc → 75e498092c87175162d6b4d3fc55bf7499ef361eb69ae1cad4d0f5fa81d43ff7。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
+  },
+  {
+   "k0": "gw150914",
+   "k1": "gw150914DFM",
+   "why": "🎐 / 🎻 GW150914",
+   "emoji0": "🎐",
+   "emoji1": "🎻",
+   "f0": 1,
+   "f1": 1.9999999999889444,
+   "fSame": false,
+   "kOnly": false,
+   "axisKeys": [
+    "massFactor",
+    "D0eff",
+    "q",
+    "frameWeight",
+    "bodiesSha256"
+   ],
+   "axisKnown": true,
+   "axisDiffering": [
+    "massFactor",
+    "bodiesSha256"
+   ],
+   "axisValues": {
+    "massFactor": [
+     1,
+     1.9999999999889444
+    ],
+    "D0eff": [
+     3.24204e-13,
+     3.24204e-13
+    ],
+    "q": [
+     3.2552,
+     3.2552
+    ],
+    "frameWeight": [
+     "pull",
+     "pull"
+    ],
+    "bodiesSha256": [
+     "b71cf7f8ac0d80a75adec086e96358ea5cf8863834fde8cd7c0168d1cec4710b",
+     "4accd6ac299be4ab9c3758435c5fc7fd04c8547938389ded60d7b7a57d99b9ae"
+    ]
+   },
+   "fDeltaRel": 0.9999999999889444,
+   "kf1Observation": "未測定",
+   "kf0Observation": "未測定",
+   "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: massFactor 1 → 1.9999999999889444 / bodiesSha256 b71cf7f8ac0d80a75adec086e96358ea5cf8863834fde8cd7c0168d1cec4710b → 4accd6ac299be4ab9c3758435c5fc7fd04c8547938389ded60d7b7a57d99b9ae。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
+  }
+ ],
+ "rows": [
+  {
+   "scope": "calibration",
+   "id": "earthMoonReal",
+   "emoji": "🌙",
+   "name": "地球と月(実単位)— 恒星月 27.32日",
+   "declaredKFrame": 0,
+   "massFactor": 1,
+   "version": "obs",
+   "kf0Source": "preset(宣言そのものが kFrame=0)",
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=1 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kf0": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "declared-max-steps",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 3,
+    "nWithSigma": 0,
+    "gateByStatus": {
+     "未判定": 3
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": []
+    }
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null,
+   "pair": {
+    "with": "earthMoonRealKF1",
+    "side": "kF0",
+    "kOnly": false,
+    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: D0eff 0.1 → 0.0000324204 / q 3 → 8.2358 / frameWeight share → pull / bodiesSha256 c61e669c32aa3688be07e4e89df3e255f504582f6b327aa8a25c86b294e734e6 → 5483dfb522293d7635bcd478c72026662006322d8d725ea85c6d6851b2f0fcb0。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。",
+    "axisDiffering": [
+     "D0eff",
+     "q",
+     "frameWeight",
+     "bodiesSha256"
+    ]
+   }
+  },
+  {
+   "scope": "calibration",
+   "id": "earthMoonRealKF1",
+   "emoji": "🌘",
+   "name": "地球と月(実単位・kFrame=1)— 近点回転 8.85年の較正再現",
+   "declaredKFrame": 1,
+   "massFactor": 1,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "declared-max-steps",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 5,
+    "nWithSigma": 0,
+    "gateByStatus": {
+     "未判定": 5
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": []
+    }
+   },
+   "kf0": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null,
+   "pair": {
+    "with": "earthMoonReal",
+    "side": "kF1",
+    "kOnly": false,
+    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: D0eff 0.1 → 0.0000324204 / q 3 → 8.2358 / frameWeight share → pull / bodiesSha256 c61e669c32aa3688be07e4e89df3e255f504582f6b327aa8a25c86b294e734e6 → 5483dfb522293d7635bcd478c72026662006322d8d725ea85c6d6851b2f0fcb0。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。",
+    "axisDiffering": [
+     "D0eff",
+     "q",
+     "frameWeight",
+     "bodiesSha256"
+    ]
+   }
+  },
+  {
+   "scope": "calibration",
+   "id": "emAuditDFM",
+   "emoji": "🧲",
+   "name": "地球と月・機構判別B(二体DFM較正)— 8.85年を別機構で",
+   "declaredKFrame": 1,
+   "massFactor": 1,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "declared-max-steps",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 4,
+    "nWithSigma": 0,
+    "gateByStatus": {
+     "未判定": 4
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": []
+    }
+   },
+   "kf0": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "calibration",
+   "id": "emAuditSolar",
+   "emoji": "🔆",
+   "name": "地球と月・機構判別C(太陽+地球+月の三体)— 較正なしの太陽摂動",
+   "declaredKFrame": 0,
+   "massFactor": 1,
+   "version": "obs",
+   "kf0Source": "preset(宣言そのものが kFrame=0)",
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=1 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kf0": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 3,
+    "nWithSigma": 0,
+    "gateByStatus": {
+     "未判定": 3
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": []
+    }
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "calibration",
+   "id": "mercuryReal",
+   "emoji": "☄️",
+   "name": "水星(実単位)— 43″/世紀",
+   "declaredKFrame": 0,
+   "massFactor": 1,
+   "version": "obs",
+   "kf0Source": "preset(宣言そのものが kFrame=0)",
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=1 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kf0": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 3,
+    "nWithSigma": 1,
+    "gateByStatus": {
+     "未判定": 2,
+     "数値未解決": 1
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": [
+      {
+       "key": "mercuryReal|水星|precession",
+       "nSigma": 6217.309649756984,
+       "status": "数値未解決"
+      }
+     ]
+    }
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null,
+   "pair": {
+    "with": "mercuryRealKF1",
+    "side": "kF0",
+    "kOnly": false,
+    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: D0eff 0.1 → 0.00324204 / q 3 → 6.1471 / frameWeight share → pull。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。",
+    "axisDiffering": [
+     "D0eff",
+     "q",
+     "frameWeight"
+    ]
+   }
+  },
+  {
+   "scope": "calibration",
+   "id": "mercuryRealKF1",
+   "emoji": "🪨",
+   "name": "水星(実単位・kFrame=1)— 共通補正で 43″/世紀成立",
+   "declaredKFrame": 1,
+   "massFactor": 1,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 3,
+    "nWithSigma": 1,
+    "gateByStatus": {
+     "数値未解決": 1,
+     "未判定": 2
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": [
+      {
+       "key": "mercuryRealKF1|水星|precession",
+       "nSigma": 6259.097597213949,
+       "status": "数値未解決"
+      }
+     ]
+    }
+   },
+   "kf0": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null,
+   "pair": {
+    "with": "mercuryReal",
+    "side": "kF1",
+    "kOnly": false,
+    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: D0eff 0.1 → 0.00324204 / q 3 → 6.1471 / frameWeight share → pull。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。",
+    "axisDiffering": [
+     "D0eff",
+     "q",
+     "frameWeight"
+    ]
+   }
+  },
+  {
+   "scope": "calibration",
+   "id": "solarInner",
+   "emoji": "🌞",
+   "name": "太陽系 — 内惑星(実単位)",
+   "declaredKFrame": 1,
+   "massFactor": 1,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "declared-max-steps",
+     "periastraOk": false
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 12,
+    "nWithSigma": 0,
+    "gateByStatus": {
+     "未判定": 12
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": []
+    }
+   },
+   "kf0": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "calibration",
+   "id": "jupiterGalilean",
+   "emoji": "🟠",
+   "name": "木星とガリレオ衛星(実単位)— 規則を再フィットしない hold-out",
+   "declaredKFrame": 1,
+   "massFactor": 1,
+   "version": "dfm",
+   "kf0Source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
+   "kf0AppliedRows": [
+    {
+     "target": "イオ",
+     "kind": "period",
+     "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(イオ)",
+     "kf1Meas": 152933.5450591308,
+     "kf0Meas": 152929.0080392533,
+     "unit": "s",
+     "obs": 152853.5232,
+     "kf1ResidualPct": null,
+     "kf0ResidualPct": 0.04938377452676354,
+     "deltaPct": -0.002966661026354035
+    },
+    {
+     "target": "エウロパ",
+     "kind": "period",
+     "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(エウロパ)",
+     "kf1Meas": 306919.3630930592,
+     "kf0Meas": 306825.7073951724,
+     "unit": "s",
+     "obs": 306822.0384,
+     "kf1ResidualPct": null,
+     "kf0ResidualPct": 0.0011958056179733115,
+     "deltaPct": -0.03051475701728055
+    },
+    {
+     "target": "ガニメデ",
+     "kind": "period",
+     "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(ガニメデ)",
+     "kf1Meas": 618322.1193396464,
+     "kf0Meas": 618087.6169737832,
+     "unit": "s",
+     "obs": 618153.3792,
+     "kf1ResidualPct": null,
+     "kf0ResidualPct": -0.010638496598018415,
+     "deltaPct": -0.037925598733816374
+    },
+    {
+     "target": "カリスト",
+     "kind": "period",
+     "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(カリスト)",
+     "kf1Meas": 1442107.2605434186,
+     "kf0Meas": 1441544.0757841982,
+     "unit": "s",
+     "obs": 1441931.0688,
+     "kf1ResidualPct": null,
+     "kf0ResidualPct": -0.026838523988794362,
+     "deltaPct": -0.03905290366599503
+    }
+   ],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 13,
+    "nWithSigma": 0,
+    "gateByStatus": {
+     "未判定": 13
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": []
+    }
+   },
+   "kf0": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#kf0Runs.health",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+     "periastraOk": true,
+     "stages": [
+      "dt",
+      "dt/2",
+      "dt/4"
+     ]
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 4,
+    "nWithSigma": 0,
+    "gateByStatus": {
+     "未判定": 4
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": []
+    }
+   },
+   "kOnlyContrast": {
+    "has": true,
+    "how": "same-preset-diagnostic-copy",
+    "why": "同じプリセットの複製で `physics.kFrame` の 1 鍵だけを 0 にした走行なので、**f も bodies も 1 bit も動いていない**(k のみの対照である)。"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "calibration",
+   "id": "venusReal",
+   "emoji": "🌇",
+   "name": "太陽と金星(実単位)— 自由中心の二体転写",
+   "declaredKFrame": 1,
+   "massFactor": 1,
+   "version": "dfm",
+   "kf0Source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
+   "kf0AppliedRows": [
+    {
+     "target": "金星",
+     "kind": "period",
+     "name": "公転周期(kFrame=0 対照)",
+     "kf1Meas": 19414266.84737822,
+     "kf0Meas": 19413888.60730327,
+     "unit": "s",
+     "obs": 19414166.4,
+     "kf1ResidualPct": null,
+     "kf0ResidualPct": -0.0014308762529680514,
+     "deltaPct": -0.0019482583500302548
+    }
+   ],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 4,
+    "nWithSigma": 0,
+    "gateByStatus": {
+     "未判定": 4
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": []
+    }
+   },
+   "kf0": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#kf0Runs.health",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true,
+     "stages": [
+      "dt",
+      "dt/2",
+      "dt/4"
+     ]
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 1,
+    "nWithSigma": 0,
+    "gateByStatus": {
+     "未判定": 1
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": []
+    }
+   },
+   "kOnlyContrast": {
+    "has": true,
+    "how": "same-preset-diagnostic-copy",
+    "why": "同じプリセットの複製で `physics.kFrame` の 1 鍵だけを 0 にした走行なので、**f も bodies も 1 bit も動いていない**(k のみの対照である)。"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "calibration",
+   "id": "marsMoonsReal",
+   "emoji": "🥔",
+   "name": "火星とフォボス・ダイモス(実単位)— テスト粒子転写",
+   "declaredKFrame": 1,
+   "massFactor": 1,
+   "version": "dfm",
+   "kf0Source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
+   "kf0AppliedRows": [
+    {
+     "target": "フォボス",
+     "kind": "period",
+     "name": "kFrame=0 対照との周期差",
+     "kf1Meas": 27566.6434406517,
+     "kf0Meas": 27566.822022411514,
+     "unit": "s",
+     "obs": null,
+     "kf1ResidualPct": null,
+     "kf0ResidualPct": null,
+     "deltaPct": 0.0006478182960442496
+    }
+   ],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 7,
+    "nWithSigma": 0,
+    "gateByStatus": {
+     "未判定": 7
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": []
+    }
+   },
+   "kf0": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#kf0Runs.health",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true,
+     "stages": [
+      "dt",
+      "dt/2",
+      "dt/4"
+     ]
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 1,
+    "nWithSigma": 0,
+    "gateByStatus": {
+     "未判定": 1
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": []
+    }
+   },
+   "kOnlyContrast": {
+    "has": true,
+    "how": "same-preset-diagnostic-copy",
+    "why": "同じプリセットの複製で `physics.kFrame` の 1 鍵だけを 0 にした走行なので、**f も bodies も 1 bit も動いていない**(k のみの対照である)。"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "calibration",
+   "id": "plutoCharonReal",
+   "emoji": "❄️",
+   "name": "冥王星とカロン(実単位)— 重心が外にある二体",
+   "declaredKFrame": 1,
+   "massFactor": 1,
+   "version": "dfm",
+   "kf0Source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
+   "kf0AppliedRows": [
+    {
+     "target": "カロン",
+     "kind": "period",
+     "name": "公転周期(kFrame=0 対照・同方向1周)",
+     "kf1Meas": 553210.6340099995,
+     "kf0Meas": 551864.0613632939,
+     "unit": "s",
+     "obs": 551856.43872,
+     "kf1ResidualPct": null,
+     "kf0ResidualPct": 0.001381272874447126,
+     "deltaPct": -0.2434104776592582
+    }
+   ],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "✗",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "declared-max-steps",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 4,
+    "nWithSigma": 2,
+    "gateByStatus": {
+     "数値未解決": 1,
+     "mapping-unresolved": 1,
+     "未判定": 2
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [
+      "plutoCharonReal|カロン|period",
+      "plutoCharonReal|カロン|period"
+     ],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": [
+      {
+       "key": "plutoCharonReal|カロン|period",
+       "nSigma": 52269.177609860766,
+       "status": "数値未解決"
+      },
+      {
+       "key": "plutoCharonReal|カロン|period",
+       "nSigma": 170347.04589344602,
+       "status": "mapping-unresolved"
+      }
+     ]
+    }
+   },
+   "kf0": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "✓",
+    "extrapolated": "未測定",
+    "observation": "✗",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#kf0Runs.health",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "declared-max-steps",
+     "periastraOk": true,
+     "stages": [
+      "dt",
+      "dt/2",
+      "dt/4"
+     ]
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 1,
+    "nWithSigma": 1,
+    "gateByStatus": {
+     "否(3σ)": 1
+    },
+    "numericEvidence": {
+     "convergedKeys": [
+      "plutoCharonReal|カロン|period"
+     ],
+     "threeStageKeys": [
+      "plutoCharonReal|カロン|period"
+     ],
+     "orders": [
+      {
+       "key": "plutoCharonReal|カロン|period",
+       "order": 1.939213114720429,
+       "epsHatInSigma": 0.00034485309094979273,
+       "assessedStage": "h4"
+      }
+     ]
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [
+      "plutoCharonReal|カロン|period"
+     ],
+     "nSigma": [
+      {
+       "key": "plutoCharonReal|カロン|period",
+       "nSigma": 294.07873352968716,
+       "status": "否(3σ)"
+      }
+     ]
+    }
+   },
+   "kOnlyContrast": {
+    "has": true,
+    "how": "same-preset-diagnostic-copy",
+    "why": "同じプリセットの複製で `physics.kFrame` の 1 鍵だけを 0 にした走行なので、**f も bodies も 1 bit も動いていない**(k のみの対照である)。"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "calibration",
+   "id": "uranusReal",
+   "emoji": "💠",
+   "name": "天王星の環と主要5衛星(実単位)",
+   "declaredKFrame": 1,
+   "massFactor": 1,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "declared-max-steps",
+     "periastraOk": false
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 17,
+    "nWithSigma": 0,
+    "gateByStatus": {
+     "未判定": 17
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": []
+    }
+   },
+   "kf0": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "calibration",
+   "id": "neptuneReal",
+   "emoji": "🌊",
+   "name": "海王星とトリトン(実単位)— 逆行衛星の二体",
+   "declaredKFrame": 1,
+   "massFactor": 1,
+   "version": "dfm",
+   "kf0Source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
+   "kf0AppliedRows": [
+    {
+     "target": "トリトン",
+     "kind": "period",
+     "name": "公転周期(kFrame=0 対照)",
+     "kf1Meas": 508323.3145286334,
+     "kf0Meas": 507781.4823558789,
+     "unit": "s",
+     "obs": 507760.18559999997,
+     "kf1ResidualPct": null,
+     "kf0ResidualPct": 0.004194254784625883,
+     "deltaPct": -0.1065920364594909
+    }
+   ],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 5,
+    "nWithSigma": 0,
+    "gateByStatus": {
+     "未判定": 5
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": []
+    }
+   },
+   "kf0": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#kf0Runs.health",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true,
+     "stages": [
+      "dt",
+      "dt/2",
+      "dt/4"
+     ]
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 1,
+    "nWithSigma": 0,
+    "gateByStatus": {
+     "未判定": 1
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": []
+    }
+   },
+   "kOnlyContrast": {
+    "has": true,
+    "how": "same-preset-diagnostic-copy",
+    "why": "同じプリセットの複製で `physics.kFrame` の 1 鍵だけを 0 にした走行なので、**f も bodies も 1 bit も動いていない**(k のみの対照である)。"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "calibration",
+   "id": "alphaCenAB",
+   "emoji": "✨",
+   "name": "αケンタウリAB(実単位)— 恒星連星の二体",
+   "declaredKFrame": 0,
+   "massFactor": 1,
+   "version": "obs",
+   "kf0Source": "preset(宣言そのものが kFrame=0)",
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=1 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kf0": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "✓",
+    "extrapolated": "未測定",
+    "observation": "✓",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 4,
+    "nWithSigma": 2,
+    "gateByStatus": {
+     "合(3σ)": 1,
+     "mapping-unresolved": 1,
+     "未判定": 2
+    },
+    "numericEvidence": {
+     "convergedKeys": [
+      "alphaCenAB|B|period",
+      "alphaCenAB|B|ecc"
+     ],
+     "threeStageKeys": [
+      "alphaCenAB|B|period",
+      "alphaCenAB|B|ecc"
+     ],
+     "orders": [
+      {
+       "key": "alphaCenAB|B|period",
+       "order": 1.9990778331556232,
+       "epsHatInSigma": 7.78098996922038e-7,
+       "assessedStage": "h4"
+      },
+      {
+       "key": "alphaCenAB|B|ecc",
+       "order": 1.9870311211767495,
+       "epsHatInSigma": 3.457253028141464e-7,
+       "assessedStage": "h4"
+      }
+     ]
+    },
+    "observationEvidence": {
+     "okKeys": [
+      "alphaCenAB|B|period"
+     ],
+     "ngKeys": [],
+     "nSigma": [
+      {
+       "key": "alphaCenAB|B|period",
+       "nSigma": 0.09564370480163177,
+       "status": "合(3σ)"
+      },
+      {
+       "key": "alphaCenAB|B|ecc",
+       "nSigma": 0.00022901417725170367,
+       "status": "mapping-unresolved"
+      }
+     ]
+    }
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null,
+   "pair": {
+    "with": "alphaCenABDFM",
+    "side": "kF0",
+    "kOnly": false,
+    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: massFactor 1 → 1.0002157798299423 / bodiesSha256 274816ab932583e1162d8961571b95b75e0b58d9b33af844b74d5585e3e11593 → 7626187e195e5342ebf669ab283e5f40fad06a35a438d748316583c2230d5b73。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。",
+    "axisDiffering": [
+     "massFactor",
+     "bodiesSha256"
+    ]
+   }
+  },
+  {
+   "scope": "calibration",
+   "id": "alphaCenABDFM",
+   "emoji": "✴️",
+   "name": "αケンタウリAB(DFM版)— pull 重み・観測質量のまま kF1",
+   "declaredKFrame": 1,
+   "massFactor": 1.0002157798299423,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "✗",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 4,
+    "nWithSigma": 2,
+    "gateByStatus": {
+     "未判定": 2,
+     "数値未解決": 1,
+     "mapping-unresolved": 1
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [
+      "alphaCenABDFM|B|period",
+      "alphaCenABDFM|B|ecc"
+     ],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": [
+      {
+       "key": "alphaCenABDFM|B|period",
+       "nSigma": 25.937299228782674,
+       "status": "数値未解決"
+      },
+      {
+       "key": "alphaCenABDFM|B|ecc",
+       "nSigma": 6.927134861022625,
+       "status": "mapping-unresolved"
+      }
+     ]
+    }
+   },
+   "kf0": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null,
+   "pair": {
+    "with": "alphaCenAB",
+    "side": "kF1",
+    "kOnly": false,
+    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: massFactor 1 → 1.0002157798299423 / bodiesSha256 274816ab932583e1162d8961571b95b75e0b58d9b33af844b74d5585e3e11593 → 7626187e195e5342ebf669ab283e5f40fad06a35a438d748316583c2230d5b73。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。",
+    "axisDiffering": [
+     "massFactor",
+     "bodiesSha256"
+    ]
+   }
+  },
+  {
+   "scope": "calibration",
+   "id": "siriusAB",
+   "emoji": "🌟",
+   "name": "シリウスAB(実単位)— 白色矮星との連星",
+   "declaredKFrame": 0,
+   "massFactor": 1,
+   "version": "obs",
+   "kf0Source": "preset(宣言そのものが kFrame=0)",
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=1 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kf0": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "✓",
+    "extrapolated": "未測定",
+    "observation": "✓",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 4,
+    "nWithSigma": 2,
+    "gateByStatus": {
+     "合(3σ)": 1,
+     "mapping-unresolved": 1,
+     "未判定": 2
+    },
+    "numericEvidence": {
+     "convergedKeys": [
+      "siriusAB|B|period",
+      "siriusAB|B|ecc"
+     ],
+     "threeStageKeys": [
+      "siriusAB|B|period",
+      "siriusAB|B|ecc"
+     ],
+     "orders": [
+      {
+       "key": "siriusAB|B|period",
+       "order": 1.998187789052036,
+       "epsHatInSigma": 0.00000910685868116606,
+       "assessedStage": "h4"
+      },
+      {
+       "key": "siriusAB|B|ecc",
+       "order": 2.230379831095995,
+       "epsHatInSigma": 4.2012102590478375e-7,
+       "assessedStage": "h4"
+      }
+     ]
+    },
+    "observationEvidence": {
+     "okKeys": [
+      "siriusAB|B|period"
+     ],
+     "ngKeys": [],
+     "nSigma": [
+      {
+       "key": "siriusAB|B|period",
+       "nSigma": 0.2742499763430313,
+       "status": "合(3σ)"
+      },
+      {
+       "key": "siriusAB|B|ecc",
+       "nSigma": 0.0001410048636410702,
+       "status": "mapping-unresolved"
+      }
+     ]
+    }
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null,
+   "pair": {
+    "with": "siriusABDFM",
+    "side": "kF0",
+    "kOnly": false,
+    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: massFactor 1 → 1.0003769425929947 / bodiesSha256 d42e9735986258e42a789e0e55a65f3576fb3f486e882060c43eca9a1570cb96 → 4453d5ec7535a662bfecf698c2a9797551f29dde9e99a4a60987d2cd6c55ad2f。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。",
+    "axisDiffering": [
+     "massFactor",
+     "bodiesSha256"
+    ]
+   }
+  },
+  {
+   "scope": "calibration",
+   "id": "siriusABDFM",
+   "emoji": "💫",
+   "name": "シリウスAB(DFM版)— pull 重み・観測質量のまま kF1",
+   "declaredKFrame": 1,
+   "massFactor": 1.0003769425929947,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "✗",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 4,
+    "nWithSigma": 2,
+    "gateByStatus": {
+     "数値未解決": 1,
+     "mapping-unresolved": 1,
+     "未判定": 2
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [
+      "siriusABDFM|B|period",
+      "siriusABDFM|B|ecc"
+     ],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": [
+      {
+       "key": "siriusABDFM|B|period",
+       "nSigma": 210.06062023476335,
+       "status": "数値未解決"
+      },
+      {
+       "key": "siriusABDFM|B|ecc",
+       "nSigma": 6.339657361629945,
+       "status": "mapping-unresolved"
+      }
+     ]
+    }
+   },
+   "kf0": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null,
+   "pair": {
+    "with": "siriusAB",
+    "side": "kF1",
+    "kOnly": false,
+    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: massFactor 1 → 1.0003769425929947 / bodiesSha256 d42e9735986258e42a789e0e55a65f3576fb3f486e882060c43eca9a1570cb96 → 4453d5ec7535a662bfecf698c2a9797551f29dde9e99a4a60987d2cd6c55ad2f。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。",
+    "axisDiffering": [
+     "massFactor",
+     "bodiesSha256"
+    ]
+   }
+  },
+  {
+   "scope": "calibration",
+   "id": "psrDoubleAB",
+   "emoji": "📻",
+   "name": "二重パルサー J0737−3039A/B(実単位)— 2.45時間の中性子星連星",
+   "declaredKFrame": 0,
+   "massFactor": 1,
+   "version": "obs",
+   "kf0Source": "preset(宣言そのものが kFrame=0)",
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=1 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kf0": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "✓",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 4,
+    "nWithSigma": 3,
+    "gateByStatus": {
+     "数値未解決": 2,
+     "mapping-unresolved": 1,
+     "未判定": 1
+    },
+    "numericEvidence": {
+     "convergedKeys": [
+      "psrDoubleAB|B|ecc"
+     ],
+     "threeStageKeys": [
+      "psrDoubleAB|B|period",
+      "psrDoubleAB|B|ecc",
+      "psrDoubleAB|B|precession"
+     ],
+     "orders": [
+      {
+       "key": "psrDoubleAB|B|ecc",
+       "order": 1.810975109102881,
+       "epsHatInSigma": 0.020633000100940373,
+       "assessedStage": "h4"
+      }
+     ]
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": [
+      {
+       "key": "psrDoubleAB|B|period",
+       "nSigma": 946662.6678473674,
+       "status": "数値未解決"
+      },
+      {
+       "key": "psrDoubleAB|B|ecc",
+       "nSigma": 260.9892082230484,
+       "status": "mapping-unresolved"
+      },
+      {
+       "key": "psrDoubleAB|B|precession",
+       "nSigma": 1079785.2734223667,
+       "status": "数値未解決"
+      }
+     ]
+    }
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null,
+   "pair": {
+    "with": "psrDoubleABDFM",
+    "side": "kF0",
+    "kOnly": false,
+    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: massFactor 1 → 1.999942269345993 / bodiesSha256 66a468318b94d424e8a088abb2bf9f39879fe297f0fcf9773b52cfa5a4984f1a → 9dd7daf4ffa2a691427c2f7278becbcedbd1ac2e85a37e3cc8add89b974c100e。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。",
+    "axisDiffering": [
+     "massFactor",
+     "bodiesSha256"
+    ]
+   }
+  },
+  {
+   "scope": "calibration",
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "name": "二重パルサー J0737−3039A/B(DFM版)— pull 重み・kF1 質量較正(f≈2)",
+   "declaredKFrame": 1,
+   "massFactor": 1.999942269345993,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "✗",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 4,
+    "nWithSigma": 3,
+    "gateByStatus": {
+     "数値未解決": 2,
+     "mapping-unresolved": 1,
+     "未判定": 1
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [
+      "psrDoubleABDFM|B|period",
+      "psrDoubleABDFM|B|ecc",
+      "psrDoubleABDFM|B|precession"
+     ],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": [
+      {
+       "key": "psrDoubleABDFM|B|period",
+       "nSigma": 49245670.48694701,
+       "status": "数値未解決"
+      },
+      {
+       "key": "psrDoubleABDFM|B|ecc",
+       "nSigma": 1066.5123989509034,
+       "status": "mapping-unresolved"
+      },
+      {
+       "key": "psrDoubleABDFM|B|precession",
+       "nSigma": 1317474.598437688,
+       "status": "数値未解決"
+      }
+     ]
+    }
+   },
+   "kf0": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null,
+   "pair": {
+    "with": "psrDoubleAB",
+    "side": "kF1",
+    "kOnly": false,
+    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: massFactor 1 → 1.999942269345993 / bodiesSha256 66a468318b94d424e8a088abb2bf9f39879fe297f0fcf9773b52cfa5a4984f1a → 9dd7daf4ffa2a691427c2f7278becbcedbd1ac2e85a37e3cc8add89b974c100e。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。",
+    "axisDiffering": [
+     "massFactor",
+     "bodiesSha256"
+    ]
+   }
+  },
+  {
+   "scope": "calibration",
+   "id": "psrDoubleABSpinCal",
+   "emoji": "🧿",
+   "name": "二重パルサー J0737−3039A/B(スピン–スピン較正候補)— f と λ を回した比較 variant",
+   "declaredKFrame": 1,
+   "massFactor": 1.999914,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 3,
+    "nWithSigma": 2,
+    "gateByStatus": {
+     "数値未解決": 2,
+     "未判定": 1
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": [
+      {
+       "key": "psrDoubleABSpinCal|B|precession",
+       "nSigma": 31831.896686010274,
+       "status": "数値未解決"
+      },
+      {
+       "key": "psrDoubleABSpinCal|B|period",
+       "nSigma": 386516714.44968224,
+       "status": "数値未解決"
+      }
+     ]
+    }
+   },
+   "kf0": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "calibration",
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "name": "PSR J1757−1854(DFM版・hold-out)— ⚡ の処方をそのまま当てた中性子星連星2例目",
+   "declaredKFrame": 1,
+   "massFactor": 1.9998956627766773,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "✗",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 5,
+    "nWithSigma": 4,
+    "gateByStatus": {
+     "数値未解決": 2,
+     "mapping-unresolved": 1,
+     "未判定": 2
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [
+      "psrJ1757DFM|B|precession",
+      "psrJ1757DFM|B|period",
+      "psrJ1757DFM|B|ecc",
+      "psrJ1757DFM|B|period"
+     ],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": [
+      {
+       "key": "psrJ1757DFM|B|precession",
+       "nSigma": 53265.373435192734,
+       "status": "数値未解決"
+      },
+      {
+       "key": "psrJ1757DFM|B|period",
+       "nSigma": 20787786.994657785,
+       "status": "数値未解決"
+      },
+      {
+       "key": "psrJ1757DFM|B|ecc",
+       "nSigma": 129.31638140212254,
+       "status": "mapping-unresolved"
+      }
+     ]
+    }
+   },
+   "kf0": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "calibration",
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "name": "PSR J1946+2052(DFM版・hold-out)— 銀河系で最短周期の中性子星連星",
+   "declaredKFrame": 1,
+   "massFactor": 1.9999655295617553,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "✗",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 5,
+    "nWithSigma": 4,
+    "gateByStatus": {
+     "数値未解決": 3,
+     "mapping-unresolved": 1,
+     "未判定": 1
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [
+      "psrJ1946DFM|B|precession",
+      "psrJ1946DFM|B|period",
+      "psrJ1946DFM|B|ecc",
+      "psrJ1946DFM|B|period"
+     ],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": [
+      {
+       "key": "psrJ1946DFM|B|precession",
+       "nSigma": 65649.84430102621,
+       "status": "数値未解決"
+      },
+      {
+       "key": "psrJ1946DFM|B|period",
+       "nSigma": 13788029.042093217,
+       "status": "数値未解決"
+      },
+      {
+       "key": "psrJ1946DFM|B|ecc",
+       "nSigma": 85.38273124346699,
+       "status": "mapping-unresolved"
+      },
+      {
+       "key": "psrJ1946DFM|B|period",
+       "nSigma": 13788029.042093217,
+       "status": "数値未解決"
+      }
+     ]
+    }
+   },
+   "kf0": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "calibration",
+   "id": "psrDoubleABPN",
+   "emoji": "🪶",
+   "name": "二重パルサー J0737−3039A/B(NS 応答候補 λ_PN=1/f)— 1PN の強さだけを観測質量へ戻す",
+   "declaredKFrame": 1,
+   "massFactor": 1.999942269345993,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 3,
+    "nWithSigma": 3,
+    "gateByStatus": {
+     "数値未解決": 2,
+     "mapping-unresolved": 1
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": [
+      {
+       "key": "psrDoubleABPN|B|precession",
+       "nSigma": 44271.01377414476,
+       "status": "数値未解決"
+      },
+      {
+       "key": "psrDoubleABPN|B|period",
+       "nSigma": 388888313.03683215,
+       "status": "数値未解決"
+      },
+      {
+       "key": "psrDoubleABPN|B|ecc",
+       "nSigma": 4331.079820968191,
+       "status": "mapping-unresolved"
+      }
+     ]
+    }
+   },
+   "kf0": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "calibration",
+   "id": "psrJ1757PN",
+   "emoji": "🪃",
+   "name": "PSR J1757−1854(NS 応答候補 λ_PN=1/f)— ⚡ の処方に 1/f を足して当てた 2 例目",
+   "declaredKFrame": 1,
+   "massFactor": 1.9998956627766773,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 3,
+    "nWithSigma": 3,
+    "gateByStatus": {
+     "数値未解決": 2,
+     "mapping-unresolved": 1
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": [
+      {
+       "key": "psrJ1757PN|B|precession",
+       "nSigma": 898.8083773124665,
+       "status": "数値未解決"
+      },
+      {
+       "key": "psrJ1757PN|B|period",
+       "nSigma": 80969949.9418217,
+       "status": "数値未解決"
+      },
+      {
+       "key": "psrJ1757PN|B|ecc",
+       "nSigma": 192.45716617810606,
+       "status": "mapping-unresolved"
+      }
+     ]
+    }
+   },
+   "kf0": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "calibration",
+   "id": "psrJ1946PN",
+   "emoji": "🪀",
+   "name": "PSR J1946+2052(NS 応答候補 λ_PN=1/f)— ⚡ の処方に 1/f を足して当てた 3 例目",
+   "declaredKFrame": 1,
+   "massFactor": 1.9999655295617553,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 3,
+    "nWithSigma": 3,
+    "gateByStatus": {
+     "数値未解決": 2,
+     "mapping-unresolved": 1
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": [
+      {
+       "key": "psrJ1946PN|B|precession",
+       "nSigma": 4928.138114306089,
+       "status": "数値未解決"
+      },
+      {
+       "key": "psrJ1946PN|B|period",
+       "nSigma": 55555426.69292924,
+       "status": "数値未解決"
+      },
+      {
+       "key": "psrJ1946PN|B|ecc",
+       "nSigma": 309.3431545543243,
+       "status": "mapping-unresolved"
+      }
+     ]
+    }
+   },
+   "kf0": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "calibration",
+   "id": "psrDoubleABCF",
+   "emoji": "🪝",
+   "name": "二重パルサー J0737−3039A/B(コンパクト力 案K)— χ ゲート付き質量電流結合",
+   "declaredKFrame": 1,
+   "massFactor": 1.999942269345993,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "✗",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 3,
+    "nWithSigma": 2,
+    "gateByStatus": {
+     "数値未解決": 2,
+     "未判定": 1
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [
+      "psrDoubleABCF|B|precession",
+      "psrDoubleABCF|B|period"
+     ],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": [
+      {
+       "key": "psrDoubleABCF|B|precession",
+       "nSigma": 3611.5359296474267,
+       "status": "数値未解決"
+      },
+      {
+       "key": "psrDoubleABCF|B|period",
+       "nSigma": 48884420.48280833,
+       "status": "数値未解決"
+      }
+     ]
+    }
+   },
+   "kf0": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "calibration",
+   "id": "psrJ1757CF",
+   "emoji": "🪄",
+   "name": "PSR J1757−1854(コンパクト力 案K)— ⚡ で凍結した κ をそのまま流した 2 例目",
+   "declaredKFrame": 1,
+   "massFactor": 1.9998956627766773,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "✗",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 3,
+    "nWithSigma": 2,
+    "gateByStatus": {
+     "数値未解決": 2,
+     "未判定": 1
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [
+      "psrJ1757CF|B|precession",
+      "psrJ1757CF|B|period"
+     ],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": [
+      {
+       "key": "psrJ1757CF|B|precession",
+       "nSigma": 168.73247301866948,
+       "status": "数値未解決"
+      },
+      {
+       "key": "psrJ1757CF|B|period",
+       "nSigma": 20777197.180415086,
+       "status": "数値未解決"
+      }
+     ]
+    }
+   },
+   "kf0": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "calibration",
+   "id": "psrJ1946CF",
+   "emoji": "🩹",
+   "name": "PSR J1946+2052(コンパクト力 案K)— ⚡ で凍結した κ をそのまま流した 3 例目",
+   "declaredKFrame": 1,
+   "massFactor": 1.9999655295617553,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "✗",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 3,
+    "nWithSigma": 3,
+    "gateByStatus": {
+     "数値未解決": 2,
+     "mapping-unresolved": 1
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [
+      "psrJ1946CF|B|precession",
+      "psrJ1946CF|B|period",
+      "psrJ1946CF|B|ecc"
+     ],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": [
+      {
+       "key": "psrJ1946CF|B|precession",
+       "nSigma": 276.04458017423843,
+       "status": "数値未解決"
+      },
+      {
+       "key": "psrJ1946CF|B|period",
+       "nSigma": 13736823.863528917,
+       "status": "数値未解決"
+      },
+      {
+       "key": "psrJ1946CF|B|ecc",
+       "nSigma": 67.23191317321506,
+       "status": "mapping-unresolved"
+      }
+     ]
+    }
+   },
+   "kf0": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "calibration",
+   "id": "psrB1534",
+   "emoji": "📿",
+   "name": "PSR B1534+12(実単位・観測版)— 第 4 の凍結 hold-out の入力確認",
+   "declaredKFrame": 0,
+   "massFactor": 1,
+   "version": "obs",
+   "kf0Source": "preset(宣言そのものが kFrame=0)",
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=1 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kf0": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "✗",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 4,
+    "nWithSigma": 3,
+    "gateByStatus": {
+     "数値未解決": 2,
+     "mapping-unresolved": 1,
+     "未判定": 1
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [
+      "psrB1534|B|period",
+      "psrB1534|B|ecc",
+      "psrB1534|B|precession"
+     ],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": [
+      {
+       "key": "psrB1534|B|period",
+       "nSigma": 323156.64984034136,
+       "status": "数値未解決"
+      },
+      {
+       "key": "psrB1534|B|ecc",
+       "nSigma": 10.715496884990591,
+       "status": "mapping-unresolved"
+      },
+      {
+       "key": "psrB1534|B|precession",
+       "nSigma": 162641.5331880802,
+       "status": "数値未解決"
+      }
+     ]
+    }
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null,
+   "pair": {
+    "with": "psrB1534DFM",
+    "side": "kF0",
+    "kOnly": false,
+    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: massFactor 1 → 1.9994854557873434 / bodiesSha256 6d0ce4ac9cf50a8851901868e5e34bb89d968767460451ba66c913bcac7ad6cc → 75e498092c87175162d6b4d3fc55bf7499ef361eb69ae1cad4d0f5fa81d43ff7。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。",
+    "axisDiffering": [
+     "massFactor",
+     "bodiesSha256"
+    ]
+   }
+  },
+  {
+   "scope": "calibration",
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "name": "PSR B1534+12(DFM版・凍結 hold-out)— ⚡ の処方をそのまま当てた 4 例目",
+   "declaredKFrame": 1,
+   "massFactor": 1.9994854557873434,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "✗",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 4,
+    "nWithSigma": 3,
+    "gateByStatus": {
+     "数値未解決": 2,
+     "mapping-unresolved": 1,
+     "未判定": 1
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [
+      "psrB1534DFM|B|precession",
+      "psrB1534DFM|B|period",
+      "psrB1534DFM|B|ecc"
+     ],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": [
+      {
+       "key": "psrB1534DFM|B|precession",
+       "nSigma": 200942.8132366567,
+       "status": "数値未解決"
+      },
+      {
+       "key": "psrB1534DFM|B|period",
+       "nSigma": 52894534.298696235,
+       "status": "数値未解決"
+      },
+      {
+       "key": "psrB1534DFM|B|ecc",
+       "nSigma": 1002.5716415364612,
+       "status": "mapping-unresolved"
+      }
+     ]
+    }
+   },
+   "kf0": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null,
+   "pair": {
+    "with": "psrB1534",
+    "side": "kF1",
+    "kOnly": false,
+    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: massFactor 1 → 1.9994854557873434 / bodiesSha256 6d0ce4ac9cf50a8851901868e5e34bb89d968767460451ba66c913bcac7ad6cc → 75e498092c87175162d6b4d3fc55bf7499ef361eb69ae1cad4d0f5fa81d43ff7。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。",
+    "axisDiffering": [
+     "massFactor",
+     "bodiesSha256"
+    ]
+   }
+  },
+  {
+   "scope": "calibration",
+   "id": "psrB1534CF",
+   "emoji": "🪤",
+   "name": "PSR B1534+12(コンパクト力 案K・凍結 hold-out)— ⚡ の κ を 4 例目へ",
+   "declaredKFrame": 1,
+   "massFactor": 1.9994854557873434,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "✗",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 3,
+    "nWithSigma": 2,
+    "gateByStatus": {
+     "数値未解決": 2,
+     "未判定": 1
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [
+      "psrB1534CF|B|precession",
+      "psrB1534CF|B|period"
+     ],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": [
+      {
+       "key": "psrB1534CF|B|precession",
+       "nSigma": 5004.119316272204,
+       "status": "数値未解決"
+      },
+      {
+       "key": "psrB1534CF|B|period",
+       "nSigma": 52786465.58408413,
+       "status": "数値未解決"
+      }
+     ]
+    }
+   },
+   "kf0": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "calibration",
+   "id": "gw150914",
+   "emoji": "🎐",
+   "name": "GW150914(実単位)— 連星ブラックホールの基準状態",
+   "declaredKFrame": 0,
+   "massFactor": 1,
+   "version": "obs",
+   "kf0Source": "preset(宣言そのものが kFrame=0)",
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=1 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kf0": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 5,
+    "nWithSigma": 0,
+    "gateByStatus": {
+     "未判定": 5
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": []
+    }
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null,
+   "pair": {
+    "with": "gw150914DFM",
+    "side": "kF0",
+    "kOnly": false,
+    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: massFactor 1 → 1.9999999999889444 / bodiesSha256 b71cf7f8ac0d80a75adec086e96358ea5cf8863834fde8cd7c0168d1cec4710b → 4accd6ac299be4ab9c3758435c5fc7fd04c8547938389ded60d7b7a57d99b9ae。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。",
+    "axisDiffering": [
+     "massFactor",
+     "bodiesSha256"
+    ]
+   }
+  },
+  {
+   "scope": "calibration",
+   "id": "gw150914DFM",
+   "emoji": "🎻",
+   "name": "GW150914(DFM版)— pull 重み・kF1 質量較正(f≈2)",
+   "declaredKFrame": 1,
+   "massFactor": 1.9999999999889444,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": false
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 3,
+    "nWithSigma": 0,
+    "gateByStatus": {
+     "未判定": 3
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": []
+    }
+   },
+   "kf0": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null,
+   "pair": {
+    "with": "gw150914",
+    "side": "kF1",
+    "kOnly": false,
+    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: massFactor 1 → 1.9999999999889444 / bodiesSha256 b71cf7f8ac0d80a75adec086e96358ea5cf8863834fde8cd7c0168d1cec4710b → 4accd6ac299be4ab9c3758435c5fc7fd04c8547938389ded60d7b7a57d99b9ae。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。",
+    "axisDiffering": [
+     "massFactor",
+     "bodiesSha256"
+    ]
+   }
+  },
+  {
+   "scope": "calibration",
+   "id": "gw150914Merge4s",
+   "emoji": "⏰",
+   "name": "GW150914 の合体(約4秒)— 放射の方向と用量の較正 variant",
+   "declaredKFrame": 1,
+   "massFactor": 1,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": false
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 3,
+    "nWithSigma": 0,
+    "gateByStatus": {
+     "未判定": 3
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": []
+    }
+   },
+   "kf0": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "calibration",
+   "id": "saturnZonalD68",
+   "emoji": "📡",
+   "name": "土星の近点移動(実単位・D68精密較正)",
+   "declaredKFrame": 0,
+   "massFactor": 1,
+   "version": "obs",
+   "kf0Source": "preset(宣言そのものが kFrame=0)",
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=1 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kf0": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "✓",
+    "extrapolated": "未測定",
+    "observation": "✗",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+     "periastraOk": true
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 4,
+    "nWithSigma": 1,
+    "gateByStatus": {
+     "否(3σ)": 1,
+     "未判定": 3
+    },
+    "numericEvidence": {
+     "convergedKeys": [
+      "saturnZonalD68|D68|precession"
+     ],
+     "threeStageKeys": [
+      "saturnZonalD68|D68|precession"
+     ],
+     "orders": [
+      {
+       "key": "saturnZonalD68|D68|precession",
+       "order": 1.9796685390104243,
+       "epsHatInSigma": 0.0013559907590108232,
+       "assessedStage": "h4"
+      }
+     ]
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [
+      "saturnZonalD68|D68|precession"
+     ],
+     "nSigma": [
+      {
+       "key": "saturnZonalD68|D68|precession",
+       "nSigma": 14.603411410167835,
+       "status": "否(3σ)"
+      }
+     ]
+    }
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "calibration",
+   "id": "saturnRingReal",
+   "emoji": "💍",
+   "name": "土星の環(実単位)— 見えないのが正しい",
+   "declaredKFrame": 0,
+   "massFactor": 1,
+   "version": "obs",
+   "kf0Source": "preset(宣言そのものが kFrame=0)",
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=1 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kf0": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "declared-max-steps",
+     "periastraOk": false
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 9,
+    "nWithSigma": 0,
+    "gateByStatus": {
+     "未判定": 9
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": []
+    }
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null,
+   "pair": {
+    "with": "saturnRingRealKF1",
+    "side": "kF0",
+    "kOnly": false,
+    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: D0eff 0.1 → 0.0000324204 / q 3 → 20.4932 / frameWeight share → pull / bodiesSha256 26e5f0b1c58fe5f9b2c49d102f807f3ddb16989d747c72e5069c5ec30e1440fa → 8f0bd73b5835def64bde4233be175c58105450072ec70bb28ce2891d90ed3279。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。",
+    "axisDiffering": [
+     "D0eff",
+     "q",
+     "frameWeight",
+     "bodiesSha256"
+    ]
+   }
+  },
+  {
+   "scope": "calibration",
+   "id": "saturnRingRealKF1",
+   "emoji": "💿",
+   "name": "土星の環(実単位・kFrame=1)— 表面随伴と自動算出q",
+   "declaredKFrame": 1,
+   "massFactor": 1,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "extrapolatedWhy": "**この行は門を持っている**(σ が接続した量の `gate.status` で観測成立を決める)ので、門を通らない外挿残差の列は使わない —— 二重に書かないためである。",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "declared-max-steps",
+     "periastraOk": false
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 9,
+    "nWithSigma": 0,
+    "gateByStatus": {
+     "未判定": 9
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": []
+    }
+   },
+   "kf0": {
+    "present": false,
+    "run": "未測定",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+   },
+   "label": null,
+   "labelBasis": null,
+   "pair": {
+    "with": "saturnRingReal",
+    "side": "kF1",
+    "kOnly": false,
+    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: D0eff 0.1 → 0.0000324204 / q 3 → 20.4932 / frameWeight share → pull / bodiesSha256 26e5f0b1c58fe5f9b2c49d102f807f3ddb16989d747c72e5069c5ec30e1440fa → 8f0bd73b5835def64bde4233be175c58105450072ec70bb28ce2891d90ed3279。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。",
+    "axisDiffering": [
+     "D0eff",
+     "q",
+     "frameWeight",
+     "bodiesSha256"
+    ]
+   }
+  },
+  {
+   "scope": "diagnostic",
+   "id": "plutoCharonReal@charon-w272b",
+   "emoji": "❄️",
+   "name": "カロン 公転周期(同方向1周・2周目) C0(kF1)↔ C1(kF0)",
+   "declaredKFrame": 1,
+   "massFactor": 1,
+   "version": "diagnostic",
+   "kf0Source": "charon-w272b.json 列 C1(kFrame 0・f 1・geoPN 2・softening 0.05)",
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "✗",
+    "extrapolated": "✗",
+    "observation": "未測定",
+    "runEvidence": {
+     "source": "charon-w272b.json#columns.C0.h",
+     "nan": false,
+     "clamp": 0,
+     "stop": "steps",
+     "steps": 20700000
+    },
+    "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
+    "numericEvidence": {
+     "stages": [
+      553210.6340099995,
+      553210.8870908859,
+      553211.0508944329
+     ],
+     "pObs": 0.6276319563895256,
+     "epsHat": 0.3005421331164922,
+     "epsHatSigma": 11.594989703568372,
+     "assessedStage": "h4",
+     "orderEstimable": true
+    },
+    "extrapolatedEvidence": {
+     "nSigma": 52261.27216176534,
+     "residPct": 0.24546459538913862,
+     "cfg": {
+      "kFrame": 1,
+      "f": 1,
+      "geoPN": 2,
+      "softening": 0.05
+     },
+     "source": "charon-w272b.json#stageOrders.C0",
+     "why": "**門を通っていない残差**(判定段の周期と観測周期の差を σ_obs で割った数)である。"
+    },
+    "observationEvidence": {
+     "nSigma": 52261.27216176534,
+     "residPct": 0.24546459538913862,
+     "cfg": {
+      "kFrame": 1,
+      "f": 1,
+      "geoPN": 2,
+      "softening": 0.05
+     },
+     "source": "charon-w272b.json#stageOrders.C0",
+     "why": "**この診断列は判定器の門に接続していない**(較正 37 本の量ではない)ので、観測成立は**未測定**である。外挿残差は隣の列にある —— **小さいことは合格ではない**。"
+    },
+    "gateByStatus": null,
+    "nQuantities": 1,
+    "nWithSigma": 1
+   },
+   "kf0": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "✓",
+    "extrapolated": "✗",
+    "observation": "未測定",
+    "runEvidence": {
+     "source": "charon-w272b.json#columns.C1.h",
+     "nan": false,
+     "clamp": 0,
+     "stop": "orbMax",
+     "steps": 20694902
+    },
+    "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
+    "numericEvidence": {
+     "stages": [
+      551864.0613632939,
+      551864.0612661137,
+      551864.0612407731
+     ],
+     "pObs": 1.939213114720429,
+     "epsHat": 0.000008938592117418627,
+     "epsHatSigma": 0.00034485309094979273,
+     "assessedStage": "h4",
+     "orderEstimable": true
+    },
+    "extrapolatedEvidence": {
+     "nSigma": 294.07873352968716,
+     "residPct": 0.0013812506728687445,
+     "cfg": {
+      "kFrame": 0,
+      "f": 1,
+      "geoPN": 2,
+      "softening": 0.05
+     },
+     "source": "charon-w272b.json#stageOrders.C1",
+     "why": "**門を通っていない残差**(判定段の周期と観測周期の差を σ_obs で割った数)である。"
+    },
+    "observationEvidence": {
+     "nSigma": 294.07873352968716,
+     "residPct": 0.0013812506728687445,
+     "cfg": {
+      "kFrame": 0,
+      "f": 1,
+      "geoPN": 2,
+      "softening": 0.05
+     },
+     "source": "charon-w272b.json#stageOrders.C1",
+     "why": "**この診断列は判定器の門に接続していない**(較正 37 本の量ではない)ので、観測成立は**未測定**である。外挿残差は隣の列にある —— **小さいことは合格ではない**。"
+    },
+    "gateByStatus": null,
+    "nQuantities": 1,
+    "nWithSigma": 1
+   },
+   "kOnlyContrast": {
+    "has": true,
+    "how": "same-harness-column",
+    "why": "C0 と C1 は同じ器の同じ入力で **kFrame だけ**が 0/1 の列である(f=1 で固定)。"
+   },
+   "softeningSeries": {
+    "columns": [
+     {
+      "column": "S_e0.05_k0",
+      "softening": 0.05,
+      "rev2Sec": 551864.0613632939,
+      "residPctRev": 0.001381272874447126
+     },
+     {
+      "column": "S_e0.025_k0",
+      "softening": 0.025,
+      "rev2Sec": 551855.9777990397,
+      "residPctRev": -0.0000835218959050712
+     },
+     {
+      "column": "S_e0.0125_k0",
+      "softening": 0.0125,
+      "rev2Sec": 551853.9568783055,
+      "residPctRev": -0.00044972596499982933
+     }
+    ],
+    "signFlip": true,
+    "why": "**kF0 の残差は softening ε に依存し、ε を 0.05 → 0.025 で符号が反転する**。ε は観測量ではないので、この符号は物理の符号ではない。"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "diagnostic",
+   "id": "psrDoubleABDFM@nslock-lock",
+   "emoji": "⚡",
+   "name": "J0737−3039A/B ω̇(lock 枝: kFrame=0・f=1・λ_PN=1)↔ 内蔵(kFrame=1・f≈2)",
+   "declaredKFrame": 1,
+   "massFactor": 1.999942269345993,
+   "version": "diagnostic",
+   "kf0Source": "nslockledger-w273c.json variants.lock(kFrame 0・f 1・λ_PN 1)",
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "✗",
+    "observation": "未測定",
+    "runEvidence": {
+     "source": "nslockledger-w273c.json#rows[].variants.builtin",
+     "resolved": true,
+     "spec": {
+      "builtin": true
+     }
+    },
+    "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
+    "numericEvidence": {
+     "pObs": 1.8734293378874516,
+     "orderGuard": true,
+     "why": "3 段は走っているが、**ε̂ と 0.3σ の予算は第273便c の器で評価していない** —— 次数ガードだけで「数値成立」とは書かない(未測定)。"
+    },
+    "extrapolatedEvidence": {
+     "omegaDotExt": 33.86012738247004,
+     "ratioExt": 2.003638097364613,
+     "nSigma": 1304677.2601900033,
+     "obs": {
+      "value": 16.899323,
+      "sigma": 0.000013,
+      "unit": "deg/yr",
+      "recordId": "SOL-35dacca5",
+      "source": "Kramer et al. (2021) Phys. Rev. X 11 041050 - Strong-Field Gravity Tes"
+     },
+     "source": "nslockledger-w273c.json",
+     "why": "**外挿残差である**(ω̇ の Richardson 外挿値と観測値の σ 倍)。門ではない。"
+    },
+    "observationEvidence": {
+     "nSigma": 1304677.2601900033,
+     "obs": {
+      "value": 16.899323,
+      "sigma": 0.000013,
+      "unit": "deg/yr",
+      "recordId": "SOL-35dacca5",
+      "source": "Kramer et al. (2021) Phys. Rev. X 11 041050 - Strong-Field Gravity Tes"
+     },
+     "source": "nslockledger-w273c.json",
+     "why": "**lock 枝は判定器の門に接続していない**(較正 37 本の量ではない)ので観測成立は**未測定**である。第274便a はここに外挿残差を書いていた〔R33〕。"
+    },
+    "gateByStatus": null,
+    "nQuantities": 1,
+    "nWithSigma": 1
+   },
+   "kf0": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "✗",
+    "observation": "未測定",
+    "runEvidence": {
+     "source": "nslockledger-w273c.json#rows[].variants.lock",
+     "resolved": true,
+     "spec": {
+      "f": 1,
+      "kFrame": 0,
+      "lambdaPN": 1,
+      "keepCore": false
+     }
+    },
+    "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
+    "numericEvidence": {
+     "pObs": 1.9999103566308365,
+     "orderGuard": true,
+     "why": "3 段は走っているが、**ε̂ と 0.3σ の予算は第273便c の器で評価していない** —— 次数ガードだけで「数値成立」とは書かない(未測定)。"
+    },
+    "extrapolatedEvidence": {
+     "omegaDotExt": 2.8227871974084935,
+     "ratioExt": 0.167035519553564,
+     "nSigma": -1082810.446353193,
+     "obs": {
+      "value": 16.899323,
+      "sigma": 0.000013,
+      "unit": "deg/yr",
+      "recordId": "SOL-35dacca5",
+      "source": "Kramer et al. (2021) Phys. Rev. X 11 041050 - Strong-Field Gravity Tes"
+     },
+     "source": "nslockledger-w273c.json",
+     "why": "**外挿残差である**(ω̇ の Richardson 外挿値と観測値の σ 倍)。門ではない。"
+    },
+    "observationEvidence": {
+     "nSigma": -1082810.446353193,
+     "obs": {
+      "value": 16.899323,
+      "sigma": 0.000013,
+      "unit": "deg/yr",
+      "recordId": "SOL-35dacca5",
+      "source": "Kramer et al. (2021) Phys. Rev. X 11 041050 - Strong-Field Gravity Tes"
+     },
+     "source": "nslockledger-w273c.json",
+     "why": "**lock 枝は判定器の門に接続していない**(較正 37 本の量ではない)ので観測成立は**未測定**である。第274便a はここに外挿残差を書いていた〔R33〕。"
+    },
+    "gateByStatus": null,
+    "nQuantities": 1,
+    "nWithSigma": 1
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "**lock 枝は f も 1 へ戻している**(内蔵は f≈2)。k のみの対照ではない —— 同じ f で k だけを 0 にした列は `variants.kf0Ledger` であり、こちらは別欄に出す。"
+   },
+   "kf0SameF": {
+    "spec": {
+     "f": 1.999942269345993,
+     "kFrame": 0,
+     "lambdaPN": 1,
+     "keepCore": false
+    },
+    "ratioExt": 1.5972278870003442,
+    "nSigma": 776365.1513097169,
+    "pObs": 1.9991304547159001,
+    "why": "**f 固定(較正値)で k だけ 0**にした列。これが「f 固定・k のみ」の対照である。"
+   },
+   "root": {
+    "spec": {
+     "f": 1.6983304783209343,
+     "kFrame": 0.6984005973334266,
+     "lambdaPN": 1,
+     "keepCore": false
+    },
+    "ratioExt": 1.0000000429374407,
+    "nSigma": 0.05581643701081983,
+    "why": "比が 1 になる (f, k) の根。**0<k<1 の中間状態**であり、AH1 の近似の側に落ちる。"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "diagnostic",
+   "id": "psrJ1757DFM@nslock-lock",
+   "emoji": "🧮",
+   "name": "J1757−1854 ω̇(lock 枝: kFrame=0・f=1・λ_PN=1)↔ 内蔵(kFrame=1・f≈2)",
+   "declaredKFrame": 1,
+   "massFactor": 1.9998956627766773,
+   "version": "diagnostic",
+   "kf0Source": "nslockledger-w273c.json variants.lock(kFrame 0・f 1・λ_PN 1)",
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "✗",
+    "observation": "未測定",
+    "runEvidence": {
+     "source": "nslockledger-w273c.json#rows[].variants.builtin",
+     "resolved": true,
+     "spec": {
+      "builtin": true
+     }
+    },
+    "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
+    "numericEvidence": {
+     "pObs": 1.0433474404011374,
+     "orderGuard": false,
+     "why": "3 段は走っているが、**ε̂ と 0.3σ の予算は第273便c の器で評価していない** —— 次数ガードだけで「数値成立」とは書かない(未測定)。"
+    },
+    "extrapolatedEvidence": {
+     "omegaDotExt": 20.717372362560653,
+     "ratioExt": 1.9987624202912324,
+     "nSigma": 51761.36181280326,
+     "obs": {
+      "value": 10.3651,
+      "sigma": 0.0002,
+      "unit": "deg/yr",
+      "recordId": "SOL-f141dc30",
+      "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Univers"
+     },
+     "source": "nslockledger-w273c.json",
+     "why": "**外挿残差である**(ω̇ の Richardson 外挿値と観測値の σ 倍)。門ではない。"
+    },
+    "observationEvidence": {
+     "nSigma": 51761.36181280326,
+     "obs": {
+      "value": 10.3651,
+      "sigma": 0.0002,
+      "unit": "deg/yr",
+      "recordId": "SOL-f141dc30",
+      "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Univers"
+     },
+     "source": "nslockledger-w273c.json",
+     "why": "**lock 枝は判定器の門に接続していない**(較正 37 本の量ではない)ので観測成立は**未測定**である。第274便a はここに外挿残差を書いていた〔R33〕。"
+    },
+    "gateByStatus": null,
+    "nQuantities": 1,
+    "nWithSigma": 1
+   },
+   "kf0": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "✗",
+    "observation": "未測定",
+    "runEvidence": {
+     "source": "nslockledger-w273c.json#rows[].variants.lock",
+     "resolved": true,
+     "spec": {
+      "f": 1,
+      "kFrame": 0,
+      "lambdaPN": 1,
+      "keepCore": false
+     }
+    },
+    "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
+    "numericEvidence": {
+     "pObs": 1.9997155578621721,
+     "orderGuard": true,
+     "why": "3 段は走っているが、**ε̂ と 0.3σ の予算は第273便c の器で評価していない** —— 次数ガードだけで「数値成立」とは書かない(未測定)。"
+    },
+    "extrapolatedEvidence": {
+     "omegaDotExt": 1.7248366118881502,
+     "ratioExt": 0.16640810140646498,
+     "nSigma": -43201.31694055924,
+     "obs": {
+      "value": 10.3651,
+      "sigma": 0.0002,
+      "unit": "deg/yr",
+      "recordId": "SOL-f141dc30",
+      "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Univers"
+     },
+     "source": "nslockledger-w273c.json",
+     "why": "**外挿残差である**(ω̇ の Richardson 外挿値と観測値の σ 倍)。門ではない。"
+    },
+    "observationEvidence": {
+     "nSigma": -43201.31694055924,
+     "obs": {
+      "value": 10.3651,
+      "sigma": 0.0002,
+      "unit": "deg/yr",
+      "recordId": "SOL-f141dc30",
+      "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Univers"
+     },
+     "source": "nslockledger-w273c.json",
+     "why": "**lock 枝は判定器の門に接続していない**(較正 37 本の量ではない)ので観測成立は**未測定**である。第274便a はここに外挿残差を書いていた〔R33〕。"
+    },
+    "gateByStatus": null,
+    "nQuantities": 1,
+    "nWithSigma": 1
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "**lock 枝は f も 1 へ戻している**(内蔵は f≈2)。k のみの対照ではない —— 同じ f で k だけを 0 にした列は `variants.kf0Ledger` であり、こちらは別欄に出す。"
+   },
+   "kf0SameF": {
+    "spec": {
+     "f": 1.9998956627766773,
+     "kFrame": 0,
+     "lambdaPN": 1,
+     "keepCore": false
+    },
+    "ratioExt": 1.1194600998145827,
+    "nSigma": 6191.0794029406625,
+    "pObs": 1.997425300618116,
+    "why": "**f 固定(較正値)で k だけ 0**にした列。これが「f 固定・k のみ」の対照である。"
+   },
+   "root": {
+    "spec": {
+     "f": 1.7406394868628245,
+     "kFrame": 0.740871852668369,
+     "lambdaPN": 1,
+     "keepCore": false
+    },
+    "ratioExt": 1.0000001640987513,
+    "nSigma": 0.008504499833250634,
+    "why": "比が 1 になる (f, k) の根。**0<k<1 の中間状態**であり、AH1 の近似の側に落ちる。"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "diagnostic",
+   "id": "psrJ1946DFM@nslock-lock",
+   "emoji": "🩺",
+   "name": "J1946+2052 ω̇(lock 枝: kFrame=0・f=1・λ_PN=1)↔ 内蔵(kFrame=1・f≈2)",
+   "declaredKFrame": 1,
+   "massFactor": 1.9999655295617553,
+   "version": "diagnostic",
+   "kf0Source": "nslockledger-w273c.json variants.lock(kFrame 0・f 1・λ_PN 1)",
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "✗",
+    "observation": "未測定",
+    "runEvidence": {
+     "source": "nslockledger-w273c.json#rows[].variants.builtin",
+     "resolved": true,
+     "spec": {
+      "builtin": true
+     }
+    },
+    "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
+    "numericEvidence": {
+     "pObs": 1.6540791745612973,
+     "orderGuard": true,
+     "why": "3 段は走っているが、**ε̂ と 0.3σ の予算は第273便c の器で評価していない** —— 次数ガードだけで「数値成立」とは書かない(未測定)。"
+    },
+    "extrapolatedEvidence": {
+     "omegaDotExt": 51.47665852033846,
+     "ratioExt": 1.9958343179521776,
+     "nSigma": 64211.52130084615,
+     "obs": {
+      "value": 25.79205,
+      "sigma": 0.0004,
+      "unit": "deg/yr",
+      "recordId": "SOL-f5d43612",
+      "source": "Meng et al. (2025) A&A 704 A153 - The double neutron star PSR J1946+20"
+     },
+     "source": "nslockledger-w273c.json",
+     "why": "**外挿残差である**(ω̇ の Richardson 外挿値と観測値の σ 倍)。門ではない。"
+    },
+    "observationEvidence": {
+     "nSigma": 64211.52130084615,
+     "obs": {
+      "value": 25.79205,
+      "sigma": 0.0004,
+      "unit": "deg/yr",
+      "recordId": "SOL-f5d43612",
+      "source": "Meng et al. (2025) A&A 704 A153 - The double neutron star PSR J1946+20"
+     },
+     "source": "nslockledger-w273c.json",
+     "why": "**lock 枝は判定器の門に接続していない**(較正 37 本の量ではない)ので観測成立は**未測定**である。第274便a はここに外挿残差を書いていた〔R33〕。"
+    },
+    "gateByStatus": null,
+    "nQuantities": 1,
+    "nWithSigma": 1
+   },
+   "kf0": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "✗",
+    "observation": "未測定",
+    "runEvidence": {
+     "source": "nslockledger-w273c.json#rows[].variants.lock",
+     "resolved": true,
+     "spec": {
+      "f": 1,
+      "kFrame": 0,
+      "lambdaPN": 1,
+      "keepCore": false
+     }
+    },
+    "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
+    "numericEvidence": {
+     "pObs": 1.999887521877549,
+     "orderGuard": true,
+     "why": "3 段は走っているが、**ε̂ と 0.3σ の予算は第273便c の器で評価していない** —— 次数ガードだけで「数値成立」とは書かない(未測定)。"
+    },
+    "extrapolatedEvidence": {
+     "omegaDotExt": 4.2844770902152165,
+     "ratioExt": 0.16611619046237955,
+     "nSigma": -53768.93227446196,
+     "obs": {
+      "value": 25.79205,
+      "sigma": 0.0004,
+      "unit": "deg/yr",
+      "recordId": "SOL-f5d43612",
+      "source": "Meng et al. (2025) A&A 704 A153 - The double neutron star PSR J1946+20"
+     },
+     "source": "nslockledger-w273c.json",
+     "why": "**外挿残差である**(ω̇ の Richardson 外挿値と観測値の σ 倍)。門ではない。"
+    },
+    "observationEvidence": {
+     "nSigma": -53768.93227446196,
+     "obs": {
+      "value": 25.79205,
+      "sigma": 0.0004,
+      "unit": "deg/yr",
+      "recordId": "SOL-f5d43612",
+      "source": "Meng et al. (2025) A&A 704 A153 - The double neutron star PSR J1946+20"
+     },
+     "source": "nslockledger-w273c.json",
+     "why": "**lock 枝は判定器の門に接続していない**(較正 37 本の量ではない)ので観測成立は**未測定**である。第274便a はここに外挿残差を書いていた〔R33〕。"
+    },
+    "gateByStatus": null,
+    "nQuantities": 1,
+    "nWithSigma": 1
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "**lock 枝は f も 1 へ戻している**(内蔵は f≈2)。k のみの対照ではない —— 同じ f で k だけを 0 にした列は `variants.kf0Ledger` であり、こちらは別欄に出す。"
+   },
+   "kf0SameF": {
+    "spec": {
+     "f": 1.9999655295617553,
+     "kFrame": 0,
+     "lambdaPN": 1,
+     "keepCore": false
+    },
+    "ratioExt": 1.6232855507218467,
+    "nSigma": 40189.530221238514,
+    "pObs": 1.999098373137224,
+    "why": "**f 固定(較正値)で k だけ 0**にした列。これが「f 固定・k のみ」の対照である。"
+   },
+   "root": {
+    "spec": {
+     "f": 1.6572534699368051,
+     "kFrame": 0.6572657522175487,
+     "lambdaPN": 1,
+     "keepCore": false
+    },
+    "ratioExt": 0.9999977680818725,
+    "nSigma": -0.14391435985139367,
+    "why": "比が 1 になる (f, k) の根。**0<k<1 の中間状態**であり、AH1 の近似の側に落ちる。"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "diagnostic",
+   "id": "psrB1534DFM@nslock-lock",
+   "emoji": "🧶",
+   "name": "B1534+12 ω̇(lock 枝: kFrame=0・f=1・λ_PN=1)↔ 内蔵(kFrame=1・f≈2)",
+   "declaredKFrame": 1,
+   "massFactor": 1.9994854557873434,
+   "version": "diagnostic",
+   "kf0Source": "nslockledger-w273c.json variants.lock(kFrame 0・f 1・λ_PN 1)",
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "✗",
+    "observation": "未測定",
+    "runEvidence": {
+     "source": "nslockledger-w273c.json#rows[].variants.builtin",
+     "resolved": true,
+     "spec": {
+      "builtin": true
+     }
+    },
+    "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
+    "numericEvidence": {
+     "pObs": 1.065287531623993,
+     "orderGuard": false,
+     "why": "3 段は走っているが、**ε̂ と 0.3σ の予算は第273便c の器で評価していない** —— 次数ガードだけで「数値成立」とは書かない(未測定)。"
+    },
+    "extrapolatedEvidence": {
+     "omegaDotExt": 3.556937189563483,
+     "ratioExt": 2.025834077764175,
+     "nSigma": 200127.57661816478,
+     "obs": {
+      "value": 1.755789,
+      "sigma": 0.000009,
+      "unit": "deg/yr",
+      "recordId": "SOL-033838b1",
+      "source": "Stairs et al. (2002) ApJ 581 501 - Studies of the Relativistic Binary "
+     },
+     "source": "nslockledger-w273c.json",
+     "why": "**外挿残差である**(ω̇ の Richardson 外挿値と観測値の σ 倍)。門ではない。"
+    },
+    "observationEvidence": {
+     "nSigma": 200127.57661816478,
+     "obs": {
+      "value": 1.755789,
+      "sigma": 0.000009,
+      "unit": "deg/yr",
+      "recordId": "SOL-033838b1",
+      "source": "Stairs et al. (2002) ApJ 581 501 - Studies of the Relativistic Binary "
+     },
+     "source": "nslockledger-w273c.json",
+     "why": "**lock 枝は判定器の門に接続していない**(較正 37 本の量ではない)ので観測成立は**未測定**である。第274便a はここに外挿残差を書いていた〔R33〕。"
+    },
+    "gateByStatus": null,
+    "nQuantities": 1,
+    "nWithSigma": 1
+   },
+   "kf0": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "extrapolated": "✗",
+    "observation": "未測定",
+    "runEvidence": {
+     "source": "nslockledger-w273c.json#rows[].variants.lock",
+     "resolved": true,
+     "spec": {
+      "f": 1,
+      "kFrame": 0,
+      "lambdaPN": 1,
+      "keepCore": false
+     }
+    },
+    "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
+    "numericEvidence": {
+     "pObs": 1.999677491324462,
+     "orderGuard": true,
+     "why": "3 段は走っているが、**ε̂ と 0.3σ の予算は第273便c の器で評価していない** —— 次数ガードだけで「数値成立」とは書かない(未測定)。"
+    },
+    "extrapolatedEvidence": {
+     "omegaDotExt": 0.29198797727374,
+     "ratioExt": 0.16630015182561228,
+     "nSigma": -162644.55808069557,
+     "obs": {
+      "value": 1.755789,
+      "sigma": 0.000009,
+      "unit": "deg/yr",
+      "recordId": "SOL-033838b1",
+      "source": "Stairs et al. (2002) ApJ 581 501 - Studies of the Relativistic Binary "
+     },
+     "source": "nslockledger-w273c.json",
+     "why": "**外挿残差である**(ω̇ の Richardson 外挿値と観測値の σ 倍)。門ではない。"
+    },
+    "observationEvidence": {
+     "nSigma": -162644.55808069557,
+     "obs": {
+      "value": 1.755789,
+      "sigma": 0.000009,
+      "unit": "deg/yr",
+      "recordId": "SOL-033838b1",
+      "source": "Stairs et al. (2002) ApJ 581 501 - Studies of the Relativistic Binary "
+     },
+     "source": "nslockledger-w273c.json",
+     "why": "**lock 枝は判定器の門に接続していない**(較正 37 本の量ではない)ので観測成立は**未測定**である。第274便a はここに外挿残差を書いていた〔R33〕。"
+    },
+    "gateByStatus": null,
+    "nQuantities": 1,
+    "nWithSigma": 1
+   },
+   "kOnlyContrast": {
+    "has": false,
+    "how": null,
+    "why": "**lock 枝は f も 1 へ戻している**(内蔵は f≈2)。k のみの対照ではない —— 同じ f で k だけを 0 にした列は `variants.kf0Ledger` であり、こちらは別欄に出す。"
+   },
+   "kf0SameF": {
+    "spec": {
+     "f": 1.9994854557873434,
+     "kFrame": 0,
+     "lambdaPN": 1,
+     "keepCore": false
+    },
+    "ratioExt": 1.3694025540306909,
+    "nSigma": 72065.88232655475,
+    "pObs": 1.9992273688643747,
+    "why": "**f 固定(較正値)で k だけ 0**にした列。これが「f 固定・k のみ」の対照である。"
+   },
+   "root": {
+    "spec": {
+     "f": 1.9355285854208322,
+     "kFrame": 0.9366303438690935,
+     "lambdaPN": 1,
+     "keepCore": false
+    },
+    "ratioExt": 0.9999999746485143,
+    "nSigma": -0.004945762194847387,
+    "why": "比が 1 になる (f, k) の根。**0<k<1 の中間状態**であり、AH1 の近似の側に落ちる。"
+   },
+   "label": null,
+   "labelBasis": null
+  },
+  {
+   "scope": "diagnostic",
+   "id": "ngc3198DFM@galaxydiag-w271d",
+   "emoji": "🛞",
+   "name": "銀河トイ NGC 3198(DFM)準定常の形状条件 — 内蔵(kFrame=1)↔ kFrame=0 対照(診断コピー)",
+   "declaredKFrame": 1,
+   "massFactor": null,
+   "version": "diagnostic",
+   "kf0Source": "galaxydiag-w271d.json#quasiSteady 列「🛞 kFrame=0 対照(診断コピー)」",
+   "kf1": {
+    "present": true,
+    "run": "✗",
+    "structure": "✗",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "runEvidence": {
+     "source": "galaxydiag-w271d.json#quasiSteady.columns",
+     "nan": false,
+     "clampIncreaseInWindow": [
+      73095,
+      78196,
+      74437
+     ],
+     "tActual": 39.99999999999959,
+     "stageDt": 0.004
+    },
+    "structureWhy": "**宣言済みの形状条件**(quasi-steady-v0: 構造ドリフト ≤ 0.02 / 速度ドリフト ≤ 0.25 km/s per T / NaN 0 かつ全クランプ 0)を、宣言した 3 候補窓で評価した。",
+    "structureEvidence": [
+     {
+      "window": [
+       10,
+       20
+      ],
+      "structureDriftMax": 0.07328086855619773,
+      "velocityDriftMaxKmsPerT": 178.94873151606654,
+      "clampIncreaseInWindow": 73095,
+      "conditions": {
+       "lengthOk": true,
+       "structureOk": false,
+       "velocityOk": false,
+       "healthOk": false,
+       "evaluableBands": 5
+      }
+     },
+     {
+      "window": [
+       20,
+       30
+      ],
+      "structureDriftMax": 0.0984565978804852,
+      "velocityDriftMaxKmsPerT": 190.67563603636702,
+      "clampIncreaseInWindow": 78196,
+      "conditions": {
+       "lengthOk": true,
+       "structureOk": false,
+       "velocityOk": false,
+       "healthOk": false,
+       "evaluableBands": 2
+      }
+     },
+     {
+      "window": [
+       30,
+       40
+      ],
+      "structureDriftMax": 0.14514737685368267,
+      "velocityDriftMaxKmsPerT": 159.49984600621846,
+      "clampIncreaseInWindow": 74437,
+      "conditions": {
+       "lengthOk": true,
+       "structureOk": false,
+       "velocityOk": false,
+       "healthOk": false,
+       "evaluableBands": 3
+      }
+     }
+    ],
+    "numericEvidence": {
+     "why": "**段を振った走行が無い**(主判定窓は h/4 の 1 段) —— 未測定。"
+    },
+    "extrapolatedEvidence": {
+     "why": "**外挿残差を作っていない**(段を振った走行が無い) —— 未測定。"
+    },
+    "observationEvidence": {
+     "why": "**回転曲線の観測比較は本器の主判定ではない**(正本は sparc-w269c.json)。この行は構造の診断であって観測適合の判定ではない —— 未測定。"
+    },
+    "gateByStatus": null,
+    "nQuantities": null,
+    "nWithSigma": null
+   },
+   "kf0": {
+    "present": true,
+    "run": "✓",
+    "structure": "✗",
+    "numeric": "未測定",
+    "extrapolated": "未測定",
+    "observation": "未測定",
+    "runEvidence": {
+     "source": "galaxydiag-w271d.json#quasiSteady.columns",
+     "nan": false,
+     "clampIncreaseInWindow": [
+      0,
+      0,
+      0
+     ],
+     "tActual": 39.99999999999959,
+     "stageDt": 0.004
+    },
+    "structureWhy": "**宣言済みの形状条件**(quasi-steady-v0: 構造ドリフト ≤ 0.02 / 速度ドリフト ≤ 0.25 km/s per T / NaN 0 かつ全クランプ 0)を、宣言した 3 候補窓で評価した。",
+    "structureEvidence": [
+     {
+      "window": [
+       10,
+       20
+      ],
+      "structureDriftMax": 0.11170588346824925,
+      "velocityDriftMaxKmsPerT": 265.51930201119245,
+      "clampIncreaseInWindow": 0,
+      "conditions": {
+       "lengthOk": true,
+       "structureOk": false,
+       "velocityOk": false,
+       "healthOk": true,
+       "evaluableBands": 6
+      }
+     },
+     {
+      "window": [
+       20,
+       30
+      ],
+      "structureDriftMax": 0.061268008121952065,
+      "velocityDriftMaxKmsPerT": 144.1131466682108,
+      "clampIncreaseInWindow": 0,
+      "conditions": {
+       "lengthOk": true,
+       "structureOk": false,
+       "velocityOk": false,
+       "healthOk": true,
+       "evaluableBands": 3
+      }
+     },
+     {
+      "window": [
+       30,
+       40
+      ],
+      "structureDriftMax": 0.12505408498862722,
+      "velocityDriftMaxKmsPerT": 128.24849876980514,
+      "clampIncreaseInWindow": 0,
+      "conditions": {
+       "lengthOk": true,
+       "structureOk": false,
+       "velocityOk": false,
+       "healthOk": true,
+       "evaluableBands": 3
+      }
+     }
+    ],
+    "numericEvidence": {
+     "why": "**段を振った走行が無い**(主判定窓は h/4 の 1 段) —— 未測定。"
+    },
+    "extrapolatedEvidence": {
+     "why": "**外挿残差を作っていない**(段を振った走行が無い) —— 未測定。"
+    },
+    "observationEvidence": {
+     "why": "**回転曲線の観測比較は本器の主判定ではない**(正本は sparc-w269c.json)。この行は構造の診断であって観測適合の判定ではない —— 未測定。"
+    },
+    "gateByStatus": null,
+    "nQuantities": null,
+    "nWithSigma": null
+   },
+   "kOnlyContrast": {
+    "has": true,
+    "how": "same-harness-column",
+    "why": "同じ器・同じ seed・同じ N で `physics.kFrame` だけを 0 にした診断コピーである。"
+   },
+   "label": null,
+   "labelBasis": null
+  }
+ ],
+ "kf0RunsFromCalaudit": {
+  "on": true,
+  "stages": [
+   "h",
+   "h/2",
+   "h/4"
+  ],
+  "nApplied": 8,
+  "applied": [
+   {
+    "id": "jupiterGalilean",
+    "emoji": "🟠",
+    "target": "イオ",
+    "kind": "period",
+    "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(イオ)",
+    "kf1Meas": 152933.5450591308,
+    "kf0Meas": 152929.0080392533,
+    "unit": "s",
+    "obs": 152853.5232,
+    "kf1ResidualPct": null,
+    "kf0ResidualPct": 0.04938377452676354,
+    "kf1Verdict": "条",
+    "kf0Verdict": "合",
+    "deltaPct": -0.002966661026354035,
+    "periodDef": "revolution"
+   },
+   {
+    "id": "jupiterGalilean",
+    "emoji": "🟠",
+    "target": "エウロパ",
+    "kind": "period",
+    "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(エウロパ)",
+    "kf1Meas": 306919.3630930592,
+    "kf0Meas": 306825.7073951724,
+    "unit": "s",
+    "obs": 306822.0384,
+    "kf1ResidualPct": null,
+    "kf0ResidualPct": 0.0011958056179733115,
+    "kf1Verdict": "条",
+    "kf0Verdict": "合",
+    "deltaPct": -0.03051475701728055,
+    "periodDef": "revolution"
+   },
+   {
+    "id": "jupiterGalilean",
+    "emoji": "🟠",
+    "target": "ガニメデ",
+    "kind": "period",
+    "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(ガニメデ)",
+    "kf1Meas": 618322.1193396464,
+    "kf0Meas": 618087.6169737832,
+    "unit": "s",
+    "obs": 618153.3792,
+    "kf1ResidualPct": null,
+    "kf0ResidualPct": -0.010638496598018415,
+    "kf1Verdict": "条",
+    "kf0Verdict": "合",
+    "deltaPct": -0.037925598733816374,
+    "periodDef": "revolution"
+   },
+   {
+    "id": "jupiterGalilean",
+    "emoji": "🟠",
+    "target": "カリスト",
+    "kind": "period",
+    "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(カリスト)",
+    "kf1Meas": 1442107.2605434186,
+    "kf0Meas": 1441544.0757841982,
+    "unit": "s",
+    "obs": 1441931.0688,
+    "kf1ResidualPct": null,
+    "kf0ResidualPct": -0.026838523988794362,
+    "kf1Verdict": "条",
+    "kf0Verdict": "合",
+    "deltaPct": -0.03905290366599503,
+    "periodDef": "revolution"
+   },
+   {
+    "id": "venusReal",
+    "emoji": "🌇",
+    "target": "金星",
+    "kind": "period",
+    "name": "公転周期(kFrame=0 対照)",
+    "kf1Meas": 19414266.84737822,
+    "kf0Meas": 19413888.60730327,
+    "unit": "s",
+    "obs": 19414166.4,
+    "kf1ResidualPct": null,
+    "kf0ResidualPct": -0.0014308762529680514,
+    "kf1Verdict": "条",
+    "kf0Verdict": "合",
+    "deltaPct": -0.0019482583500302548,
+    "periodDef": "revolution"
+   },
+   {
+    "id": "marsMoonsReal",
+    "emoji": "🥔",
+    "target": "フォボス",
+    "kind": "period",
+    "name": "kFrame=0 対照との周期差",
+    "kf1Meas": 27566.6434406517,
+    "kf0Meas": 27566.822022411514,
+    "unit": "s",
+    "obs": null,
+    "kf1ResidualPct": null,
+    "kf0ResidualPct": null,
+    "kf1Verdict": "条",
+    "kf0Verdict": "転",
+    "deltaPct": 0.0006478182960442496,
+    "periodDef": "revolution"
+   },
+   {
+    "id": "plutoCharonReal",
+    "emoji": "❄️",
+    "target": "カロン",
+    "kind": "period",
+    "name": "公転周期(kFrame=0 対照・同方向1周)",
+    "kf1Meas": 553210.6340099995,
+    "kf0Meas": 551864.0613632939,
+    "unit": "s",
+    "obs": 551856.43872,
+    "kf1ResidualPct": null,
+    "kf0ResidualPct": 0.001381272874447126,
+    "kf1Verdict": "条",
+    "kf0Verdict": "合",
+    "deltaPct": -0.2434104776592582,
+    "periodDef": "revolution"
+   },
+   {
+    "id": "neptuneReal",
+    "emoji": "🌊",
+    "target": "トリトン",
+    "kind": "period",
+    "name": "公転周期(kFrame=0 対照)",
+    "kf1Meas": 508323.3145286334,
+    "kf0Meas": 507781.4823558789,
+    "unit": "s",
+    "obs": 507760.18559999997,
+    "kf1ResidualPct": null,
+    "kf0ResidualPct": 0.004194254784625883,
+    "kf1Verdict": "条",
+    "kf0Verdict": "合",
+    "deltaPct": -0.1065920364594909,
+    "periodDef": "revolution"
+   }
+  ],
+  "conditionMismatchAfter": 0,
+  "charonCitation": {
+   "id": "plutoCharonReal",
+   "target": "カロン",
+   "file": "tests/out/charon-w272b.json",
+   "column": "C1",
+   "stage": "h",
+   "field": "rev2Sec",
+   "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
+   "fileSha256": "8e94160f2525e20807811461658c4e9be988a109e65c75b98beda6da5847bf29",
+   "citedValue": 551864.0613632939,
+   "citedCfg": {
+    "kFrame": 0,
+    "f": 1,
+    "geoPN": 2,
+    "softening": 0.05
+   },
+   "citedTargetSha256": "c2d5fb49433372a393797e6dfc64d133cdaf3cea95c1821e613c0e904abca555",
+   "thisRunValue": 551864.0613632939,
+   "relDiff": 0,
+   "identical": true,
+   "note": "**一致は「正しい」ではない** —— 同じ html を同じ定義で走らせた 2 本の器が同じ数に着いた、というだけである。"
+  }
+ },
+ "w259dCrossCheck": {
+  "file": "tests/out/kf0-w259d.json",
+  "wave": "第259便d",
+  "what": "**第259便d の 1 段(dt=0.016・2 公転)の kF0 対照**。本便の走行は同じ html の同じ定義で**停止条件と段が違う**(60 公転・h/2・h/4)ので、値が一致する必要は無い ——**同じ向き・同じ桁であることだけを見る**。",
+  "rows": [
+   {
+    "id": "jupiterGalilean",
+    "emoji": "🟠",
+    "row": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)",
+    "targets": [
+     {
+      "label": "イオ",
+      "kf1ResidPct": 0.05235198865914919,
+      "kf0ResidPct": 0.04938377452676063,
+      "diffPct": null
+     },
+     {
+      "label": "エウロパ",
+      "kf1ResidPct": 0.031720241990029915,
+      "kf0ResidPct": 0.0011958056179742008,
+      "diffPct": null
+     },
+     {
+      "label": "ガニメデ",
+      "kf1ResidPct": 0.027297454858986034,
+      "kf0ResidPct": -0.010638496598028088,
+      "diffPct": null
+     },
+     {
+      "label": "カリスト",
+      "kf1ResidPct": 0.012219151610710495,
+      "kf0ResidPct": -0.02683852398880026,
+      "diffPct": null
+     }
+    ]
+   },
+   {
+    "id": "venusReal",
+    "emoji": "🌇",
+    "row": "公転周期(kFrame=0 対照)",
+    "targets": [
+     {
+      "label": "金星",
+      "kf1ResidPct": 0.000517392177199004,
+      "kf0ResidPct": -0.0014308762529717054,
+      "diffPct": null
+     }
+    ]
+   },
+   {
+    "id": "marsMoonsReal",
+    "emoji": "🥔",
+    "row": "kFrame=0 対照との周期差",
+    "targets": [
+     {
+      "label": "フォボス",
+      "kf1ResidPct": 0,
+      "kf0ResidPct": 0,
+      "diffPct": -0.0006478140993963768
+     },
+     {
+      "label": "ダイモス",
+      "kf1ResidPct": 0,
+      "kf0ResidPct": 0,
+      "diffPct": 0.0009139088404527651
+     }
+    ]
+   },
+   {
+    "id": "plutoCharonReal",
+    "emoji": "❄️",
+    "row": "公転周期(kFrame=0 対照・同方向1周)",
+    "targets": [
+     {
+      "label": "カロン",
+      "kf1ResidPct": 0.24581751937024196,
+      "kf0ResidPct": 0.0018086961129160774,
+      "diffPct": null
+     }
+    ]
+   },
+   {
+    "id": "neptuneReal",
+    "emoji": "🌊",
+    "row": "公転周期(kFrame=0 対照)",
+    "targets": [
+     {
+      "label": "トリトン",
+      "kf1ResidPct": 0.11090450661623485,
+      "kf0ResidPct": 0.004194254784622458,
+      "diffPct": null
+     }
+    ]
+   }
+  ]
+ }
+}
