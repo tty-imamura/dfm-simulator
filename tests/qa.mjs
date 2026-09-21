@@ -8578,10 +8578,12 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
           saves: [], customPresets: [p] }, null, 1);
         return JSON.parse(env).customPresets[0];
       };
+      // 第276便f: 任意の 4 つ目の節 brief(概要)も往復で落ちないこと(宣言のある 50 本)。
+      // 純分割の契約は summary+observe+control のままで、brief はその外側である
       const dsEq = (a, b) => {
         if (!a) return !b;
         if (!b) return false;
-        return ['summary', 'observe', 'control'].every((k) => (a[k] || '') === (b[k] || ''));
+        return ['summary', 'observe', 'control', 'brief'].every((k) => (a[k] || '') === (b[k] || ''));
       };
       const MASSW = /\.(m|mMin|mMax|aroundMass) を値域に修正$/;
       const ng = [], dsNg = [], massNg = [], bit0Ng = [], bit400Ng = [];
@@ -29648,6 +29650,318 @@ if (!FAST) {
   }
 }
 
+// ---- 第276便f(原仮定者の裁定(第66報)(5)「UI」5 件): 説明タブの並び・概要・畳み・
+// ---- 監査ビューの再タップ・広げた画面のはみ出し。**すべて表示専用**(物理・保存 JSON・
+// ---- presetSig・AI 仕様には 1 バイトも効かない)。世代判定は第276便f の実体の有無 ----
+// ----   ui.hudUnderPanel … 広げた状態(#app.panelWide)で、キャンバス上の絶対配置
+// ----     (#hud・#bodyEdit・#aboutPanel・#pmPanel・#avPanel)が**操作列・タブ・パネルの
+// ----     上に描かれない**。矩形の交差ではなく **elementsFromPoint の当たり判定**で見る
+// ----     (overflow クリップを反映するので「描かれているか」を直接測れる)。
+// ----   ui.descBrief  … 内蔵 131 本 ja/en の「概要」が 120 字以内・空でない・**決定的**
+// ----     (2 回呼んで同一)・文の途中で切れない。宣言(descStruct.brief)の本数も点呼する。
+// ----     概要は **presetSig にも description にも入らない**ことを別に確かめる。
+// ----   ui.descOrder  … #helpBody 直下の並びが HELP_SECTIONS の順(チップ→タイトル→ID→
+// ----     概要→注意書き→仲間→監査ビュー→較正台帳→本文→観測結果カード→失敗から見る→
+// ----     数値主張→標準試験)である。**全内蔵を掃引**し、既存セレクタが壊れていないことも見る。
+// ----   ui.auditToggle … 監査ビューの導線はトグル(2 回目のタップで閉じる)・aria-expanded 同期。
+// ----   ui.descFold   … 「失敗から見る」「観測結果カード」が details(既定は畳む)で、
+// ----     宣言行の数(.ffRow / .ocRow)は畳む前と同じ。再描画で既定(畳む)へ戻る。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const hasW276f = await page.evaluate(() => typeof (window.HP || {}).descBriefOf === 'function');
+  // --- ① 広げた状態のはみ出し(専用の縦画面コンテキストで測る)
+  if (/#app\.panelWide #canvasWrap\{[^}]*overflow:hidden/.test(html)) {
+    const ctxH = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const hp = await ctxH.newPage();
+    const herrs = [];
+    hp.on('pageerror', (e) => herrs.push(String(e.message || e)));
+    await hp.goto(INDEX, { waitUntil: 'load' });
+    await hp.evaluate(() => { try { localStorage.removeItem('hp_panel_wide'); } catch (_) {} });
+    await hp.reload({ waitUntil: 'load' });
+    await hp.waitForFunction(() => !!window.HP);
+    const r = await hp.evaluate(async () => {
+      const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+      const IDS = ['hud', 'bodyEdit', 'aboutPanel', 'pmPanel', 'avPanel'];
+      // 「フッター」= 操作列の上端から画面下端まで(操作列・タブ・パネル)
+      const hits = (el) => {
+        const tr = document.getElementById('transport').getBoundingClientRect();
+        let hit = 0, n = 0;
+        for (let fy = 0.02; fy < 1; fy += 0.04) for (let fx = 0.05; fx < 1; fx += 0.1) {
+          const x = innerWidth * fx, y = tr.top + (innerHeight - tr.top) * fy;
+          if (x < 0 || y < 0 || x > innerWidth || y > innerHeight) continue;
+          n++;
+          if (document.elementsFromPoint(x, y).some((e) => e === el || el.contains(e))) hit++;
+        }
+        return { n, hit };
+      };
+      // #hud は毎フレーム書き換わるので、同じ同期タスクの中で長文を入れて測り、最後に戻す
+      const LONG = ('HUD ' + 'X'.repeat(40) + '\n').repeat(14);
+      const snap = () => {
+        const hud = document.getElementById('hud');
+        const sv = hud.textContent, pe = hud.style.pointerEvents;
+        hud.textContent = LONG; hud.style.pointerEvents = 'auto';   // pointer-events:none を一時解除
+        const cw = document.getElementById('canvasWrap');
+        const o = { canvasH: +cw.getBoundingClientRect().height.toFixed(1),
+          overflow: getComputedStyle(cw).overflow, hudRect: +hud.getBoundingClientRect().bottom.toFixed(1),
+          out: {} };
+        for (const id of IDS) {
+          const el = document.getElementById(id);
+          o.out[id] = (!el || getComputedStyle(el).display === 'none') ? null : hits(el);
+        }
+        hud.textContent = sv; hud.style.pointerEvents = pe;
+        return o;
+      };
+      document.querySelector('nav#tabs button[data-tab="params"]').click();
+      await wait(140);
+      const narrow = snap();
+      document.getElementById('btnPanelExpand').click();
+      await wait(140);
+      // 全面パネル 3 枚と粒子編集も開いた状態で測る(いちばん不利な形)
+      for (const id of ['aboutPanel', 'pmPanel', 'avPanel', 'bodyEdit'])
+        document.getElementById(id).style.display = 'block';
+      await wait(80);
+      const wide = snap();
+      for (const id of ['aboutPanel', 'pmPanel', 'avPanel', 'bodyEdit'])
+        document.getElementById(id).style.display = 'none';
+      document.getElementById('btnPanelExpand').click();
+      await wait(140);
+      const back = snap();
+      document.getElementById('btnPanelClose').click();
+      return { narrow, wide, back };
+    });
+    await ctxH.close();
+    const sum = (o) => Object.values(o.out).reduce((a, b) => a + (b ? b.hit : 0), 0);
+    const ok = {
+      // 狭い状態は従来どおり(クリップしない・はみ出してもいない)
+      narrowIntact: r.narrow.canvasH > 300 && r.narrow.overflow === 'visible' && sum(r.narrow) === 0,
+      // 広い状態: キャンバスは潰れるが、クリップされるのでフッターの上には 1 点も出ない
+      wideClipped: r.wide.canvasH < 1 && r.wide.overflow === 'hidden' && sum(r.wide) === 0,
+      // 矩形自体は依然としてフッター域へ伸びている(= z-order をいじって直したのではない)
+      rectStillOut: r.wide.hudRect > 200,
+      // 狭くすると元に戻る
+      restored: r.back.canvasH > 300 && r.back.overflow === 'visible' && sum(r.back) === 0,
+      noErr: herrs.length === 0,
+    };
+    add('ui.hudUnderPanel', Object.values(ok).every(Boolean),
+      `390×844: 狭 canvasWrap ${r.narrow.canvasH}px(overflow ${r.narrow.overflow}・当たり ${sum(r.narrow)}点) → ` +
+      `広 ${r.wide.canvasH}px(overflow ${r.wide.overflow}・当たり ${sum(r.wide)}点 / ` +
+      Object.keys(r.wide.out).map((k) => k + '=' + (r.wide.out[k] ? r.wide.out[k].hit + '/' + r.wide.out[k].n : '—')).join(' ') +
+      `)→ 狭 ${r.back.canvasH}px(当たり ${sum(r.back)}点) / #hud の矩形下端 ${r.wide.hudRect}px(クリップで描かれない)/ ` +
+      `JSエラー=${herrs.length}` +
+      (Object.values(ok).every(Boolean) ? '' : ' / NG: ' + Object.keys(ok).filter((k) => !ok[k]).join(',')));
+  } else {
+    console.log('SKIP ui.hudUnderPanel(対象に第276便f の #app.panelWide の overflow:hidden なし — root 等)');
+  }
+
+  if (!hasW276f) {
+    console.log('SKIP ui.descBrief / ui.descOrder / ui.auditToggle / ui.descFold(対象に第276便f の HP.descBriefOf なし — root 等)');
+  } else {
+    // --- ② 概要(brief)
+    const rb = await page.evaluate(() => {
+      const CAP = HP.DESC_BRIEF_CAP;
+      const o = { CAP, langs: {}, bad: [] };
+      for (const lang of ['ja', 'en']) {
+        HP.setLang(lang);
+        let declared = 0, extracted = 0, empty = 0, max = 0, min = 1e9, mid = [], unstable = [];
+        const ids = [];
+        for (const p of HP.allPresets()) {
+          if (String(p.id).startsWith('custom_')) continue;
+          ids.push(p.id);
+          const b = HP.descBriefOf(p);
+          if (HP.descBriefOf(p) !== b) unstable.push(p.id);        // 決定的であること
+          const src = HP.descBriefSource(p);
+          if (src === 'declared') declared++; else if (src === 'extracted') extracted++;
+          if (!b) { empty++; continue; }
+          if (b.length > CAP) o.bad.push(`${lang}:${p.id}:${b.length}字`);
+          max = Math.max(max, b.length); min = Math.min(min, b.length);
+          // 文の途中で切れていないこと(「…」で終わるなら直前が文末記号)
+          if (b.endsWith('…') && !/[。．.！？!?][」』）)\]】〕]?$/.test(b.slice(0, -1))) mid.push(p.id);
+        }
+        o.langs[lang] = { n: ids.length, declared, extracted, empty, max, min, mid, unstable };
+      }
+      HP.setLang('ja');
+      // 概要は presetSig にも description にも入らない(表示専用の宣言であることの機械線)
+      const withBrief = HP.allPresets().filter((p) => p.descStruct && p.descStruct.brief);
+      o.nDecl = withBrief.length;
+      o.sigClean = withBrief.every((p) => presetSig(p).indexOf(p.descStruct.brief) < 0
+        && presetSig(p).indexOf('brief') < 0);
+      o.descClean = withBrief.every((p) => String(p.description || '')
+        === (p.descStruct.summary || '') + (p.descStruct.observe || '') + (p.descStruct.control || ''));
+      // 抽出の規則そのもの(純関数)— 上限以下はそのまま・超えたら句点で切って「…」
+      const A = 'あ'.repeat(200);
+      o.rule = {
+        short: HP.descBriefExtract('短い要約。') === '短い要約。',
+        capped: HP.descBriefExtract(A).length <= CAP && HP.descBriefExtract(A).endsWith('…'),
+        sentence: HP.descBriefExtract('一文目。' + A) === '一文目。…',
+        empty: HP.descBriefExtract('') === '' && HP.descBriefExtract(undefined) === '',
+        stable: HP.descBriefExtract(A) === HP.descBriefExtract(A),
+      };
+      // 画面に出ていること(ID 行の直後・区分見出しは増えない)
+      HP.loadPreset('convection', false);
+      o.ui = { shown: !!document.querySelector('#helpBody #descBrief'),
+        heads: document.querySelectorAll('#helpBody .descSectHead').length,
+        text: (document.querySelector('#helpBody #descBrief') || {}).textContent || '',
+        src: (document.querySelector('#helpBody #descBrief') || { dataset: {} }).dataset.src };
+      HP.loadPreset('saturn', false);
+      return o;
+    });
+    const ruleOk = Object.values(rb.rule).every(Boolean);
+    const ok2 = rb.bad.length === 0 && ruleOk && rb.sigClean && rb.descClean
+      && rb.ui.shown && rb.ui.heads === 3 && rb.ui.text.length > 0 && rb.ui.text.length <= rb.CAP
+      && ['ja', 'en'].every((L) => rb.langs[L].empty === 0 && rb.langs[L].mid.length === 0
+        && rb.langs[L].unstable.length === 0 && rb.langs[L].n >= 100);
+    add('ui.descBrief', ok2,
+      `上限 ${rb.CAP} 字 / ` + ['ja', 'en'].map((L) => {
+        const x = rb.langs[L];
+        return `${L}: ${x.n}本(宣言 ${x.declared}・抽出 ${x.extracted}・空 ${x.empty})最長 ${x.max}・最短 ${x.min}` +
+          `・文の途中で切れた本 ${x.mid.length}[${x.mid.slice(0, 3).join(' ')}]・非決定 ${x.unstable.length}`;
+      }).join(' / ') +
+      ` / 超過=[${rb.bad.slice(0, 3).join(' ')}](0件)/ 抽出規則=${ruleOk}(${Object.keys(rb.rule).filter((k) => !rb.rule[k]).join(',') || 'すべて可'})` +
+      ` / 宣言 ${rb.nDecl}本が presetSig に入らない=${rb.sigClean}・純分割 description 不変=${rb.descClean}` +
+      ` / 画面表示=${rb.ui.shown}(区分見出しは ${rb.ui.heads} のまま・出所 ${rb.ui.src}・${rb.ui.text.length}字)`);
+
+    // --- ③ 並び(全内蔵掃引)
+    const ro = await page.evaluate(() => {
+      // 並びの契約(HELP_SECTIONS の順)。存在するものだけを取り出して**狭義単調増加**を見る
+      const ANCH = [
+        ['chips', (e) => e.id === 'classChips'],
+        ['title', (e) => e.tagName === 'H4'],
+        ['id', (e) => e.id === 'presetIdLine'],
+        ['brief', (e) => e.className === 'descBriefHead'],
+        ['notclaim', (e) => e.className === 'notClaimLine'],
+        ['family', (e) => e.id === 'familyRow'],
+        ['audit', (e) => e.id === 'avRow'],
+        ['ledger', (e) => e.id === 'cbDetails'],
+        ['body', (e) => e.className === 'descSectHead'],
+        ['obscard', (e) => e.classList && e.classList.contains('ocBox')],
+        ['failure', (e) => e.classList && e.classList.contains('ffBox') && !e.classList.contains('ocBox')],
+        ['claims', (e) => e.id === 'claimsDetails'],
+        ['stdtests', (e) => e.classList && e.classList.contains('stdDetails')],
+      ];
+      const bad = [], seen = {};
+      for (const nm of ANCH.map((a) => a[0])) seen[nm] = 0;
+      let n = 0;
+      for (const p of HP.allPresets()) {
+        if (String(p.id).startsWith('custom_')) continue;
+        n++;
+        HP.loadPreset(p.id, false);
+        const kids = [...document.querySelectorAll('#helpBody > *')];
+        let last = -1, lastName = '—';
+        for (const [nm, f] of ANCH) {
+          const i = kids.findIndex(f);
+          if (i < 0) continue;
+          seen[nm]++;
+          if (i < last) { bad.push(`${p.id}:${lastName}>${nm}`); break; }
+          last = i; lastName = nm;
+        }
+      }
+      HP.loadPreset('saturn', false);
+      // 既存の読み口が壊れていないこと(並び替えで消したものが無いことの点呼)
+      HP.loadPreset('plutoCharonReal', false);
+      const live = { chips: document.querySelectorAll('#classChips .classChip').length,
+        ledger: !!document.querySelector('#cbDetails > summary'),
+        ocRows: document.querySelectorAll('#helpBody .ocRow').length,
+        forecast: document.querySelectorAll('#helpBody .ocForecastRow').length,
+        notClaim: document.querySelectorAll('#helpBody .notClaimLine').length,
+        sect: document.querySelectorAll('#helpBody .descSectHead').length };
+      HP.loadPreset('saturn', false);
+      return { n, bad, seen, live, sections: HP.HELP_SECTIONS };
+    });
+    const WANT = ['chips', 'title', 'id', 'brief', 'notclaim', 'family', 'audit', 'ledger',
+      'body', 'obscard', 'failure', 'claims', 'stdtests', 'theory', 'external'];
+    const secOk = JSON.stringify(ro.sections) === JSON.stringify(WANT);
+    add('ui.descOrder', ro.bad.length === 0 && secOk && ro.n >= 100
+      && ro.seen.chips === ro.n && ro.seen.title === ro.n && ro.seen.id === ro.n
+      && ro.seen.audit === ro.n && ro.seen.ledger === ro.n && ro.seen.brief >= 100
+      && ro.live.chips > 0 && ro.live.ledger && ro.live.ocRows > 0 && ro.live.sect === 3,
+      `内蔵${ro.n}本を掃引 — 並びの逆転=[${ro.bad.slice(0, 3).join(' ')}](0件)/ ` +
+      `区画の宣言=${secOk}(${ro.sections.join('→')}) / ` +
+      `出現数 ${Object.keys(ro.seen).map((k) => k + '=' + ro.seen[k]).join(' ')} / ` +
+      `既存の読み口(♇): チップ${ro.live.chips}個・台帳=${ro.live.ledger}・観測結果カード${ro.live.ocRows}行・` +
+      `現在地${ro.live.forecast}行・注意書き${ro.live.notClaim}行・区分見出し${ro.live.sect}`);
+
+    // --- ④ 監査ビューの再タップ
+    const rt = await page.evaluate(async () => {
+      const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+      HP.loadPreset('mercury', false);
+      const btn = document.getElementById('btnAuditView');
+      const st = () => ({ open: document.getElementById('avPanel').style.display === 'block',
+        aria: btn.getAttribute('aria-expanded') });
+      const o = { init: st() };
+      btn.click(); await wait(40); o.first = st();
+      o.cards = document.querySelectorAll('#avBody .avCard').length;
+      btn.click(); await wait(40); o.second = st();      // ← 2 回目のタップで閉じる
+      btn.click(); await wait(40); o.third = st();
+      document.getElementById('avClose').click(); await wait(40); o.closed = st();
+      btn.click(); await wait(40);
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+      dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+      await wait(40); o.esc = st();
+      if (document.getElementById('avPanel').style.display === 'block') HP.auditView.open(false);
+      HP.loadPreset('saturn', false);
+      o.afterRender = st();
+      return o;
+    });
+    const tOk = rt.init.open === false && rt.init.aria === 'false'
+      && rt.first.open === true && rt.first.aria === 'true'
+      && rt.second.open === false && rt.second.aria === 'false'
+      && rt.third.open === true && rt.third.aria === 'true'
+      && rt.closed.open === false && rt.closed.aria === 'false'
+      && rt.esc.open === false && rt.esc.aria === 'false'
+      && rt.afterRender.open === false && rt.afterRender.aria === 'false' && rt.cards > 0;
+    add('ui.auditToggle', tOk,
+      `導線タップ: 閉 → ${rt.first.open ? '開' : '閉'} → ${rt.second.open ? '開' : '閉'}(再タップで閉じる) → ` +
+      `${rt.third.open ? '開' : '閉'} / ✕で閉じる=${!rt.closed.open} / Escape で閉じる=${!rt.esc.open} / ` +
+      `aria-expanded 同期=${[rt.init, rt.first, rt.second, rt.third, rt.closed, rt.esc].map((x) => x.aria).join(',')} / ` +
+      `監査カード ${rt.cards} 枚`);
+
+    // --- ⑤ 畳み
+    const rf = await page.evaluate(async () => {
+      const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+      const bad = [];
+      let nFf = 0, nOc = 0, nCl = 0;
+      for (const p of HP.allPresets()) {
+        if (String(p.id).startsWith('custom_')) continue;
+        HP.loadPreset(p.id, false);
+        const ff = document.querySelector('#helpBody .ffBox:not(.ocBox)');
+        const oc = document.querySelector('#helpBody .ocBox');
+        const cl = document.querySelector('#claimsDetails');
+        if (p.failureFirst) {
+          nFf++;
+          if (!ff || ff.tagName !== 'DETAILS') bad.push(p.id + ':ff-not-details');
+          else if (ff.open) bad.push(p.id + ':ff-open');
+          else if (ff.querySelectorAll('.ffRow').length !== 2) bad.push(p.id + ':ff-rows');
+          else if (!ff.querySelector('summary.ffHead')) bad.push(p.id + ':ff-summary');
+        } else if (ff) bad.push(p.id + ':ff-unexpected');
+        if (Array.isArray(p.obsCard) && p.obsCard.length) {
+          nOc++;
+          if (!oc || oc.tagName !== 'DETAILS') bad.push(p.id + ':oc-not-details');
+          else if (oc.open) bad.push(p.id + ':oc-open');
+          else if (oc.querySelectorAll('.ocRow').length !== p.obsCard.length) bad.push(p.id + ':oc-rows');
+          else if (!oc.querySelector('summary.ffHead')) bad.push(p.id + ':oc-summary');
+        } else if (oc) bad.push(p.id + ':oc-unexpected');
+        if (Array.isArray(p.claims) && p.claims.length) {
+          nCl++;
+          if (!cl || cl.open) bad.push(p.id + ':claims-open');   // 数値主張と同じ規約(既定は畳む)
+        }
+      }
+      // 開閉がユーザー操作で効くこと・再描画で既定へ戻ること(記憶は持たない = 数値主張と同じ)
+      HP.loadPreset('plutoCharonReal', false);
+      const oc = document.querySelector('#helpBody .ocBox');
+      oc.querySelector('summary').click(); await wait(40);
+      const opened = oc.open;
+      HP.loadPreset('plutoCharonReal', false);
+      const reset = !document.querySelector('#helpBody .ocBox').open;
+      HP.loadPreset('saturn', false);
+      return { bad, nFf, nOc, nCl, opened, reset };
+    });
+    add('ui.descFold', rf.bad.length === 0 && rf.opened && rf.reset && rf.nFf > 0 && rf.nOc > 0 && rf.nCl > 0,
+      `失敗から見る ${rf.nFf}本・観測結果カード ${rf.nOc}本・数値主張 ${rf.nCl}本を掃引 — ` +
+      `いずれも details・既定は畳む・宣言行の数は不変 / NG=[${rf.bad.slice(0, 4).join(' ')}](0件)/ ` +
+      `summary タップで開く=${rf.opened}・再描画で畳みへ戻る(記憶を持たない)=${rf.reset}`);
+  }
+}
+
 // ---- 第22便: 観測温度・光掻き出し・半径系(スピン役割分離は原仮定者裁定で廃止)----
 // 対象が観測温度系を持つときだけ実行(判定子は第85便で `HP.sim.obsT` → `HP.obsTemp + lSw` へ置換
 // — 旧判定子は第61便の obsT 廃止以降ずっと恒常 false で、この区画は休眠していた)。較正実測は 2026-07-24 第22便:
@@ -39169,24 +39483,31 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   if (hasFf) {
     const r = await page.evaluate(() => {
       HP.loadPreset('mercury', false);
-      const box = document.querySelector('#helpBody .ffBox');
+      // 第276便f: 観測結果カード(.ocBox)も .ffBox を名乗るので、こちらは :not(.ocBox) で取る
+      const box = document.querySelector('#helpBody .ffBox:not(.ocBox)');
       const rows = box ? [...box.querySelectorAll('.ffRow')] : [];
       const failFirst = rows.length === 2 && rows[0].classList.contains('ffFail') && rows[1].classList.contains('ffPass');
       const kids = [...document.querySelectorAll('#helpBody > *')];
       const iT = kids.findIndex(e => e.tagName === 'H4');
       const iB = kids.indexOf(box);
       const iD = kids.findIndex(e => e.className === 'descSectHead');
+      // 第276便f(第66報(5)③): 説明タブの並びが変わり、「失敗から見る」は**本文(要約/観察/
+      // 操作)の後ろ**に移った(第66報の「以降は現状の順」= 要約・観察・操作・観測結果カード・
+      // 失敗から見る・数値主張)。世代判定は #descBrief(第276便f の「概要」)の有無で、
+      // 旧世代(root 等)は従来どおり「本文より前」を要求する。**タイトルより後**は両世代共通
+      const newOrder = !!document.querySelector('#helpBody #descBrief');
+      const order = iT >= 0 && iB > iT && (iD < 0 || (newOrder ? iB > iD : iB < iD));
       const jaFail = rows.length ? rows[0].textContent : '';
       HP.setLang('en');
-      const enRows = [...document.querySelectorAll('#helpBody .ffBox .ffRow')];
+      const enRows = [...document.querySelectorAll('#helpBody .ffBox:not(.ocBox) .ffRow')];
       const enFail = enRows.length ? enRows[0].textContent : '';
       HP.setLang('ja');
       HP.loadPreset('saturn', false);   // 既定サンプルへ戻す(以降のテストに影響させない)
-      return { failFirst, order: iT >= 0 && iB > iT && (iD < 0 || iB < iD),
-        enDiffers: jaFail !== enFail && enFail.length > 10 };
+      return { failFirst, order, newOrder, enDiffers: jaFail !== enFail && enFail.length > 10 };
     });
     add('ui.failure-first', r.failFirst && r.order && r.enDiffers,
-      `☿: FAIL行→PASS行の2行=${r.failFirst} / 位置=タイトル後・本文前=${r.order} / ` +
+      `☿: FAIL行→PASS行の2行=${r.failFirst} / 位置=タイトル後・` +
+      `${r.newOrder ? '本文後(第276便f の並び)' : '本文前(旧並び)'}=${r.order} / ` +
       `en 切替で文面が変わる=${r.enDiffers}`);
   } else {
     console.log('SKIP ui.failure-first(対象に failureFirst 宣言なし — root 等。第88便)');
