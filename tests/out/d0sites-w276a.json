@@ -1,0 +1,2240 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第276便a",
+  "target": "beta/index.html",
+  "targetSha256": "b36e4a202a6b1eaafd30ef36cfd264875da292396051e2231ab50265bede715b",
+  "generatedAt": "2026-09-21T12:16:13.182Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4307092,
+    "sha256": "b36e4a202a6b1eaafd30ef36cfd264875da292396051e2231ab50265bede715b",
+    "mtime": "2026-09-21T12:04:19.327Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w276a-d0audit2.mjs",
+    "bytes": 24058,
+    "sha256": "e7a8cc2b8c7c8fa6e2ff92c8b77bfca179745649af236da0fa3b676ef4f4938e",
+    "mtime": "2026-09-21T12:16:01.967Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-21T11:57:34.055Z"
+   }
+  ],
+  "codeSha256": "b0b79426a9b043acf73e719ff8d6fb14c98e3d511c14e9b4548c18f92c7d5a47",
+  "harness": "tests/exp-w276a-d0audit2.mjs",
+  "harnessVersion": "w276a-d0sites-1",
+  "tokens": [
+   "D0pull",
+   "D0p",
+   "D0eff",
+   "D0Source",
+   "D0",
+   "frameWeightPow"
+  ],
+  "scriptLineOffset": 846,
+  "ruling": "第66報 (1): 「背景決定力 D₀」と別途「背景複素決定力」を用意する。引きずり減衰 q の算出や計算など**影響箇所を精査する**",
+  "method": "inline script からコメント・文字列・正規表現リテラルを潰した写しを作り、識別子の出現を機械抽出して最上位関数(波括弧の深さ)で束ねる。**用途と置換可否だけが宣言表**である",
+  "notClaim": [
+   "D₀ を W₀ へ置き換えた",
+   "D₀ を較正した",
+   "影響箇所をすべて直した",
+   "複素決定力場を実装した",
+   "q を導出した"
+  ]
+ },
+ "selfCheck": {
+  "sameLength": true,
+  "braces": 0,
+  "minBraceDepth": 0,
+  "parens": 0,
+  "brackets": 0,
+  "ok": true
+ },
+ "sites": {
+  "total": 512,
+  "groups": 64,
+  "byReplaceable": {
+   "n/a": 11,
+   "candidate": 47,
+   "forbidden": 6
+  },
+  "unclassified": [],
+  "forbidden": [
+   "traceRay :: traceRay",
+   "dfmFrameAt :: dfmFrameAt",
+   "photonPass :: photonPass",
+   "makeSim :: S.tauUpdate",
+   "rayField :: rayField",
+   "photonStep :: photonStep"
+  ],
+  "rows": [
+   {
+    "key": "(top-level) :: -",
+    "topFn": "(top-level)",
+    "innerDef": null,
+    "n": 216,
+    "tokens": {
+     "D0": 178,
+     "D0pull": 37,
+     "frameWeightPow": 1
+    },
+    "lines": [
+     2520,
+     2534,
+     3085,
+     3179,
+     4379,
+     4506,
+     4651,
+     4742,
+     4770,
+     4886,
+     4970,
+     5068,
+     5107,
+     5149,
+     5177,
+     5204,
+     5231,
+     5257,
+     5282,
+     5308,
+     5345,
+     5397,
+     5450,
+     5520,
+     5568,
+     5621,
+     5666,
+     5706,
+     5806,
+     5876,
+     5924,
+     5981,
+     6057,
+     6143,
+     6177,
+     6228,
+     6280,
+     6389,
+     6431,
+     6473,
+     6554,
+     6601,
+     6683,
+     6745,
+     6813,
+     6866,
+     6920,
+     6982,
+     7037,
+     7093,
+     7119,
+     7143,
+     7166,
+     7213,
+     7247,
+     7268,
+     7307,
+     7361,
+     7385,
+     7431,
+     7462,
+     7493,
+     7559,
+     7601,
+     7645,
+     7704,
+     7763,
+     7821,
+     7883,
+     7918,
+     7987,
+     8025,
+     8107,
+     8143,
+     8203,
+     8250,
+     8366,
+     8565,
+     8700,
+     8746,
+     8850,
+     8955,
+     9068,
+     9251,
+     9374,
+     9480,
+     9592,
+     9713,
+     9851,
+     9987,
+     9990,
+     10137,
+     10140,
+     10302,
+     10305,
+     10467,
+     10470,
+     10632,
+     10635,
+     10823,
+     10826,
+     10943,
+     11050,
+     11054,
+     11189,
+     11193,
+     11320,
+     11324,
+     11431,
+     11436,
+     11531,
+     11536,
+     11630,
+     11635,
+     11746,
+     11750,
+     11838,
+     11842,
+     11932,
+     11936,
+     12033,
+     12037,
+     12130,
+     12134,
+     12218,
+     12222,
+     12306,
+     12310,
+     12391,
+     12394,
+     12398,
+     12492,
+     12496,
+     12642,
+     12645,
+     12788,
+     12791,
+     12890,
+     12893,
+     12984,
+     12987,
+     13034,
+     13078,
+     13118,
+     13160,
+     13209,
+     13247,
+     13285,
+     13332,
+     13387,
+     13509,
+     13620,
+     13743,
+     13785,
+     13809,
+     13833,
+     13899,
+     13929,
+     13973,
+     14027,
+     14074,
+     14117,
+     14159,
+     14218,
+     14272,
+     14318,
+     14375,
+     14422,
+     29658,
+     29674,
+     29676,
+     29692,
+     29694,
+     29714,
+     29716,
+     29755,
+     29758,
+     29786,
+     32883,
+     32925,
+     32961,
+     32978,
+     33006,
+     33057,
+     33094,
+     33123,
+     33145,
+     33148,
+     33158,
+     33168,
+     33171,
+     33182,
+     33206,
+     33272,
+     33312,
+     33341,
+     33367,
+     33414,
+     33439,
+     33471,
+     33518,
+     33583,
+     33621,
+     40308
+    ],
+    "evidence": [
+     "G:\"Gravity G\", D0:\"Background determinacy D₀\", kFrame:\"Frame dragging kFrame\",",
+     "D0:\"Baseline determinacy contributed by the distant universe (A5). The larger it is, the more space is anchored far away — and the weaker the relative grip of nearby masses (kFrame drag). 0 = no dista",
+     "const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": false,
+    "use": "宣言(内蔵の physics・既定値・値域・patch)",
+    "replaceable": "n/a",
+    "why": "読み口ではなく**値そのものの宣言**である(内蔵 131 本・DEFAULT_PHYSICS・CLAMPS)",
+    "classified": true
+   },
+   {
+    "key": "dfmSpaceMeshState :: dfmSpaceMeshState",
+    "topFn": "dfmSpaceMeshState",
+    "innerDef": "dfmSpaceMeshState",
+    "n": 16,
+    "tokens": {
+     "D0": 13,
+     "D0pull": 2,
+     "frameWeightPow": 1
+    },
+    "lines": [
+     34797,
+     34798,
+     34799,
+     34800,
+     34812,
+     34821,
+     34896
+    ],
+    "evidence": [
+     "let D0=o.D0;",
+     "if(D0===undefined) D0=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;",
+     "D0=Number(D0);"
+    ],
+    "hasPullFallback": true,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "複素場(空間メッシュの状態 χ・F・B)",
+    "replaceable": "candidate",
+    "why": "**複素場の側**",
+    "classified": true
+   },
+   {
+    "key": "makeSim :: S._spaceMeshForce",
+    "topFn": "makeSim",
+    "innerDef": "S._spaceMeshForce",
+    "n": 12,
+    "tokens": {
+     "frameWeightPow": 1,
+     "D0": 9,
+     "D0pull": 2
+    },
+    "lines": [
+     19143,
+     19148,
+     19151,
+     19152,
+     19201
+    ],
+    "evidence": [
+     "const pw=frameWeightPow(p), pull=frameWeightIsPull(p);   // 第262便d: share は p=1 をそのまま返す(番兵 0 は廃止)",
+     "const M=dfmSpaceMeshState(A,S,(cf.D0!==undefined)? {D0:cf.D0} : undefined);",
+     "const D0=(cf.D0!==undefined)? cf.D0"
+    ],
+    "hasPullFallback": true,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "空間メッシュの力(複素場 → 力)",
+    "replaceable": "candidate",
+    "why": "**複素場の側** —— 裁定が「D₀ を使わない」と名指しした経路",
+    "classified": true
+   },
+   {
+    "key": "makeSim :: S._meshCoordForce",
+    "topFn": "makeSim",
+    "innerDef": "S._meshCoordForce",
+    "n": 12,
+    "tokens": {
+     "frameWeightPow": 1,
+     "D0p": 4,
+     "D0": 7
+    },
+    "lines": [
+     19675,
+     19681,
+     19696,
+     19737,
+     19738,
+     19761
+    ],
+    "evidence": [
+     "const pw=frameWeightPow(p);",
+     "const D0p=(fsep && CG.pull)? CG.D0p : p.D0;",
+     "const M=dfmSpaceMeshState(A,S,(cf.D0!==undefined)? {D0:cf.D0} : undefined);"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "メッシュ座標の慣性力",
+    "replaceable": "candidate",
+    "why": "同上",
+    "classified": true
+   },
+   {
+    "key": "dfmGalaxyMeshField :: dfmGalaxyMeshField",
+    "topFn": "dfmGalaxyMeshField",
+    "innerDef": "dfmGalaxyMeshField",
+    "n": 12,
+    "tokens": {
+     "frameWeightPow": 1,
+     "D0": 9,
+     "D0pull": 2
+    },
+    "lines": [
+     35040,
+     35044,
+     35045,
+     35046,
+     35047
+    ],
+    "evidence": [
+     "const p=(o.p===undefined)? (p0? (frameWeightIsPull(p0)? frameWeightPow(p0) : GALMESH_P_DEFAULT) : GALMESH_P_DEFAULT) : Number(o.p);",
+     "let D0=o.D0;",
+     "if(D0===undefined) D0=p0? (frameWeightIsPull(p0)? ((p0.D0pull!==undefined)? p0.D0pull : p0.D0) : p0.D0) : 0;"
+    ],
+    "hasPullFallback": true,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "複素場(銀河メッシュ)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "dfmChainMeshBuild :: dfmChainMeshBuild",
+    "topFn": "dfmChainMeshBuild",
+    "innerDef": "dfmChainMeshBuild",
+    "n": 12,
+    "tokens": {
+     "frameWeightPow": 1,
+     "D0": 9,
+     "D0pull": 2
+    },
+    "lines": [
+     35635,
+     35639,
+     35640,
+     35641,
+     35642
+    ],
+    "evidence": [
+     "const p=(o.p===undefined)? (p0? (frameWeightIsPull(p0)? frameWeightPow(p0) : GALMESH_P_DEFAULT) : GALMESH_P_DEFAULT) : Number(o.p);",
+     "let D0=o.D0;",
+     "if(D0===undefined) D0=p0? (frameWeightIsPull(p0)? ((p0.D0pull!==undefined)? p0.D0pull : p0.D0) : p0.D0) : 0;"
+    ],
+    "hasPullFallback": true,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "複素場(鎖メッシュの構築)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "dfmGalaxyMeshField :: g",
+    "topFn": "dfmGalaxyMeshField",
+    "innerDef": "g",
+    "n": 10,
+    "tokens": {
+     "D0": 10
+    },
+    "lines": [
+     35161,
+     35162,
+     35163,
+     35212,
+     35213
+    ],
+    "evidence": [
+     "const chi=(D0===Infinity)? 0 : ((W+D0>0)? W/(W+D0) : 0);",
+     "const den=(D0===Infinity)? Infinity : (W+D0)*(W+D0);",
+     "const dchi=(D0===Infinity || !(den>0) || !Number.isFinite(den))? 0 : D0/den;   // ∇χ = D₀/(W+D₀)² ∇W"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": false,
+    "use": "複素場(銀河メッシュの節点 χ)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "dfmLocalMeshField :: rd4",
+    "topFn": "dfmLocalMeshField",
+    "innerDef": "rd4",
+    "n": 10,
+    "tokens": {
+     "D0": 10
+    },
+    "lines": [
+     37327,
+     37328,
+     37329,
+     37368,
+     37377
+    ],
+    "evidence": [
+     "let Nx=D0*ubg[0], Ny=D0*ubg[1];",
+     "let g0=D0*gbg[0], g1=D0*gbg[1], g2=D0*gbg[2], g3=D0*gbg[3];",
+     "let Tx=D0*tbg[0], Ty=D0*tbg[1];"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": false,
+    "use": "局所場(背景 u_bg を D₀ 倍して分子へ)",
+    "replaceable": "candidate",
+    "why": "**A₀=D₀·u_bg** と置いた特別な場合 —— (N3) では A₀ を独立に宣言する",
+    "classified": true
+   },
+   {
+    "key": "dfmMeshV2Step :: dfmMeshV2Step",
+    "topFn": "dfmMeshV2Step",
+    "innerDef": "dfmMeshV2Step",
+    "n": 10,
+    "tokens": {
+     "frameWeightPow": 1,
+     "D0p": 3,
+     "D0pull": 2,
+     "D0": 4
+    },
+    "lines": [
+     39158,
+     39159,
+     39164,
+     39166
+    ],
+    "evidence": [
+     "const pw=frameWeightPow(p);",
+     "const D0p=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;",
+     "const r=dfmMeshV2Solve(bodies,{G:p.G, eps:p.softening, p:pw, D0:D0p, eta, gauge});"
+    ],
+    "hasPullFallback": true,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "複素場 v2(1 步)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "_smGridFieldOf :: at",
+    "topFn": "_smGridFieldOf",
+    "innerDef": "at",
+    "n": 9,
+    "tokens": {
+     "frameWeightPow": 1,
+     "D0": 6,
+     "D0pull": 2
+    },
+    "lines": [
+     25265,
+     25266,
+     25277
+    ],
+    "evidence": [
+     "const p=S.params, pw=frameWeightPow(p), eps=p.softening, eps2=eps*eps;",
+     "const D0=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;",
+     "const chi=(D0===Infinity)? 0 : ((W+D0>0)? W/(W+D0) : 0);"
+    ],
+    "hasPullFallback": true,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "表示(空間メッシュ格子の場)",
+    "replaceable": "candidate",
+    "why": "同じ分母を表示で作る",
+    "classified": true
+   },
+   {
+    "key": "dfmGeoScalarPrepared :: dfmGeoScalarPrepared",
+    "topFn": "dfmGeoScalarPrepared",
+    "innerDef": "dfmGeoScalarPrepared",
+    "n": 9,
+    "tokens": {
+     "frameWeightPow": 1,
+     "D0p": 4,
+     "D0pull": 2,
+     "D0": 2
+    },
+    "lines": [
+     38053,
+     38054,
+     38058,
+     38156
+    ],
+    "evidence": [
+     "const pw=frameWeightPow(p), eps=p.softening, G=p.G;",
+     "const D0p=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;",
+     "if(!(Number.isFinite(D0p) && D0p>=0)) return false;"
+    ],
+    "hasPullFallback": true,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "geoPN=3 トイ(準備済み経路)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "dfmGeoToyStep :: dfmGeoToyStep",
+    "topFn": "dfmGeoToyStep",
+    "innerDef": "dfmGeoToyStep",
+    "n": 8,
+    "tokens": {
+     "frameWeightPow": 1,
+     "D0p": 2,
+     "D0pull": 2,
+     "D0": 3
+    },
+    "lines": [
+     38260,
+     38262,
+     38296
+    ],
+    "evidence": [
+     "const pw=frameWeightPow(p);",
+     "const D0p=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;",
+     "const f=dfmField(BD,x[i],y[i],{excludeBodyId:i, need:\"gravity\", G, eps, p:pw, D0:D0p,"
+    ],
+    "hasPullFallback": true,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "geoPN=3 トイ(1 步)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "traceRay :: traceRay",
+    "topFn": "traceRay",
+    "innerDef": "traceRay",
+    "n": 7,
+    "tokens": {
+     "D0": 5,
+     "D0pull": 2
+    },
+    "lines": [
+     23438,
+     23439,
+     23476
+    ],
+    "evidence": [
+     "const p=S.params, kU=2*p.kappaT, eps=p.softening, eps2=eps*eps, q=p.q, c0=p.cLight, D0=p.D0, kF=p.kFrame;",
+     "const D0u=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : D0) : D0;   // 第241便(第242便: 既定 pull・一般指数。第252便a: 意味統一)",
+     "const Wtot=D0+WB+wSum, Wu=D0u+WB+wuSum;   // 第240便: 随伴の分母は W′(既定は W と同値)/第241便: pull は D0pull"
+    ],
+    "hasPullFallback": true,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "**光**(光線追跡が読む u の分母)",
+    "replaceable": "forbidden",
+    "why": "光はスカラーの決定力 D を読む —— **W₀ で置換しない**(裁定の「複素場では D₀ を使わない」の裏返し)",
+    "classified": true
+   },
+   {
+    "key": "_slParamSig :: _slParamSig",
+    "topFn": "_slParamSig",
+    "innerDef": "_slParamSig",
+    "n": 7,
+    "tokens": {
+     "frameWeightPow": 1,
+     "D0p": 2,
+     "D0pull": 2,
+     "D0": 2
+    },
+    "lines": [
+     24618,
+     24619,
+     24624
+    ],
+    "evidence": [
+     "const pw=frameWeightPow(p);",
+     "const D0p=(p.D0pull!==undefined)? p.D0pull : p.D0;",
+     "return p.D0+\"/\"+D0p+\"/\"+p.kFrame+\"/\"+pw+\"/\"+p.softening+\"/\"+_smGain(S)+\"/\"+String(_smTau(S))+\"/\"+gf"
+    ],
+    "hasPullFallback": true,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "署名(空間線のパラメータ署名)",
+    "replaceable": "n/a",
+    "why": "同上(キャッシュ鍵)",
+    "classified": true
+   },
+   {
+    "key": "dfmFrameAt :: dfmFrameAt",
+    "topFn": "dfmFrameAt",
+    "innerDef": "dfmFrameAt",
+    "n": 7,
+    "tokens": {
+     "D0": 5,
+     "D0pull": 2
+    },
+    "lines": [
+     34721,
+     34722,
+     34727
+    ],
+    "evidence": [
+     "const p=T.params, kU=2*p.kappaT, eps=p.softening, eps2=eps*eps, q=p.q, c0=p.cLight, D0=p.D0, kF=p.kFrame;",
+     "const D0u=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : D0) : D0;   // 第252便a: 意味統一",
+     "const Wt=D0+WB+_RF.w, Wu=D0u+WB+_RF.wu, neff=Math.exp(kU*Wt);"
+    ],
+    "hasPullFallback": true,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "**光**(1 点の u の評価)",
+    "replaceable": "forbidden",
+    "why": "同上",
+    "classified": true
+   },
+   {
+    "key": "dfmField :: dfmField",
+    "topFn": "dfmField",
+    "innerDef": "dfmField",
+    "n": 7,
+    "tokens": {
+     "D0": 7
+    },
+    "lines": [
+     37505,
+     37508,
+     37510,
+     37567,
+     37590
+    ],
+    "evidence": [
+     "const D0=(o.D0===undefined)? 0 : Number(o.D0);",
+     "if(!(Number.isFinite(G)&&Number.isFinite(eps)&&Number.isFinite(pw)&&Number.isFinite(D0)",
+     "if(!(eps>=0) || !(pw>=0) || !(D0>=0)) return null;"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "場の純関数(D₀ を引数で受ける)",
+    "replaceable": "candidate",
+    "why": "引数の受け口",
+    "classified": true
+   },
+   {
+    "key": "dfmFieldSnapshot :: stop",
+    "topFn": "dfmFieldSnapshot",
+    "innerDef": "stop",
+    "n": 7,
+    "tokens": {
+     "frameWeightPow": 1,
+     "D0": 4,
+     "D0pull": 2
+    },
+    "lines": [
+     37775,
+     37776,
+     37777
+    ],
+    "evidence": [
+     "const pw=frameWeightPow(p);",
+     "const D0=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;",
+     "const opt={ lawVersion:law, G:p.G, eps:p.softening, p:pw, D0,"
+    ],
+    "hasPullFallback": true,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "場のスナップショット(診断)",
+    "replaceable": "candidate",
+    "why": "同じ分母",
+    "classified": true
+   },
+   {
+    "key": "dfmGeoToyBandStep :: dfmGeoToyBandStep",
+    "topFn": "dfmGeoToyBandStep",
+    "innerDef": "dfmGeoToyBandStep",
+    "n": 7,
+    "tokens": {
+     "frameWeightPow": 1,
+     "D0p": 2,
+     "D0pull": 2,
+     "D0": 2
+    },
+    "lines": [
+     38454,
+     38455,
+     38509
+    ],
+    "evidence": [
+     "const pw=frameWeightPow(p), eps=p.softening, eps2=eps*eps;",
+     "const D0p=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;",
+     "const den=D0p+W;"
+    ],
+    "hasPullFallback": true,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "geoPN=3 トイ(帯平均 variant)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "photonPass :: photonPass",
+    "topFn": "photonPass",
+    "innerDef": "photonPass",
+    "n": 6,
+    "tokens": {
+     "D0pull": 2,
+     "D0": 4
+    },
+    "lines": [
+     23355,
+     23356
+    ],
+    "evidence": [
+     "D0u:frameWeightIsPull(pp)? ((pp.D0pull!==undefined)? pp.D0pull : pp.D0) : pp.D0,   // 第241便(第242便: 既定 pull・一般指数。第252便a: D0pull の意味統一 — 未宣言=D₀ へフォールバック/明示値はその値〔0 を含む〕)",
+     "D0:pp.D0, kF:pp.kFrame, BX:S.box, WB:0, bH:0};"
+    ],
+    "hasPullFallback": true,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "**光**(光子の 1 パス)",
+    "replaceable": "forbidden",
+    "why": "同上",
+    "classified": true
+   },
+   {
+    "key": "dfmSlipRadius :: dfmSlipRadius",
+    "topFn": "dfmSlipRadius",
+    "innerDef": "dfmSlipRadius",
+    "n": 6,
+    "tokens": {
+     "D0": 6
+    },
+    "lines": [
+     34959,
+     34960,
+     34961,
+     34963,
+     34965
+    ],
+    "evidence": [
+     "const A=Number(o.A), D0=Number(o.D0), p=Number(o.p), s=Number(o.s);",
+     "if(![A,D0,p,s].every(Number.isFinite)) return null;",
+     "if(!(A>0) || !(D0>0) || !(p>0)) return null;"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "診断(すべり半径・χ から)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "dfmDominance :: dfmDominance",
+    "topFn": "dfmDominance",
+    "innerDef": "dfmDominance",
+    "n": 6,
+    "tokens": {
+     "D0": 6
+    },
+    "lines": [
+     37823,
+     37824
+    ],
+    "evidence": [
+     "const D0=(o.D0===undefined || o.D0===null)? 0 : Number(o.D0);",
+     "if(![pw,eps,D0].every(Number.isFinite) || !(D0>=0) || !(eps>=0)) return null;"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "診断(支配度 —— χ の偏り)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "dfmMeshTransportBind :: dfmMeshTransportBind",
+    "topFn": "dfmMeshTransportBind",
+    "innerDef": "dfmMeshTransportBind",
+    "n": 6,
+    "tokens": {
+     "D0": 6
+    },
+    "lines": [
+     40223,
+     40234
+    ],
+    "evidence": [
+     "const m0=dfmSpaceMeshState(anchor,T,(o.D0!==undefined)? {D0:o.D0} : undefined);",
+     "tr.D0=(o.D0!==undefined)? o.D0 : null;"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "複素場(輸送の束縛・診断)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "validateSpaceMesh :: validateSpaceMesh",
+    "topFn": "validateSpaceMesh",
+    "innerDef": "validateSpaceMesh",
+    "n": 5,
+    "tokens": {
+     "D0": 5
+    },
+    "lines": [
+     3576,
+     3577,
+     3578
+    ],
+    "evidence": [
+     "if(a.D0!==undefined){",
+     "if(!isNum(a.D0) || !(a.D0>=0)) return {ok:false, err:\"physics.spaceMesh.D0 は 0 以上の数値\"};",
+     "out.D0=clamp(a.D0,0,1e12);"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "受理契約(physics.spaceMesh.D0 の検証)",
+    "replaceable": "n/a",
+    "why": "検証器であって力学の読み口ではない",
+    "classified": true
+   },
+   {
+    "key": "makeSim :: S._compactForce",
+    "topFn": "makeSim",
+    "innerDef": "S._compactForce",
+    "n": 5,
+    "tokens": {
+     "frameWeightPow": 1,
+     "D0p": 1,
+     "D0pull": 2,
+     "D0": 1
+    },
+    "lines": [
+     19026
+    ],
+    "evidence": [
+     "const pw=frameWeightPow(p), D0p=(p.D0pull!==undefined)? p.D0pull : p.D0;"
+    ],
+    "hasPullFallback": true,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "E6′ pull(近接力の χ)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "makeSim :: S._pairWeaveForce",
+    "topFn": "makeSim",
+    "innerDef": "S._pairWeaveForce",
+    "n": 5,
+    "tokens": {
+     "D0": 4,
+     "D0p": 1
+    },
+    "lines": [
+     19285,
+     19290
+    ],
+    "evidence": [
+     "const M=dfmSpaceMeshState(A,S,(cf.D0!==undefined)? {D0:cf.D0} : undefined);",
+     "const bgWu=(fsep && CG.pull)? (CG.D0p+WB) : (p.D0+WB);"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "E6′(対の引きずり)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "makeSim :: S._weavePN",
+    "topFn": "makeSim",
+    "innerDef": "S._weavePN",
+    "n": 5,
+    "tokens": {
+     "D0": 4,
+     "D0p": 1
+    },
+    "lines": [
+     19439,
+     19443
+    ],
+    "evidence": [
+     "const M=dfmSpaceMeshState(A,S,(cf.D0!==undefined)? {D0:cf.D0} : undefined);",
+     "const bgWu=(fsep && CG.pull)? (CG.D0p+WB) : (p.D0+WB);"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "E6′(対の引きずり・PN)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "chanSetup :: chanSetup",
+    "topFn": "chanSetup",
+    "innerDef": "chanSetup",
+    "n": 5,
+    "tokens": {
+     "D0p": 2,
+     "D0pull": 2,
+     "D0": 1
+    },
+    "lines": [
+     23077,
+     23080
+    ],
+    "evidence": [
+     "const pull=(fw===undefined)||(fw===\"pull\")||(fw===\"pull3\")||(fw===\"pull4\"), D0p=(p.D0pull!==undefined)? p.D0pull : p.D0;   // 第252便a: 意味統一(未宣言=D₀ / 明示値はその値。0 も真の 0)",
+     "S._chG=chOn? {qT, gasCoh, dragSurf, hasCoreV2, hasCQ, cohOn, contact, pull, pw, D0p, eps2, gm, fsOff, fsep:(contact||pull||fsOff)} : null;"
+    ],
+    "hasPullFallback": true,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "チャネル設定(share/pull の分離・D0p の取り出し)",
+    "replaceable": "candidate",
+    "why": "下流の χ の分母へ配る",
+    "classified": true
+   },
+   {
+    "key": "dfmBinaryChi :: dfmBinaryChi",
+    "topFn": "dfmBinaryChi",
+    "innerDef": "dfmBinaryChi",
+    "n": 5,
+    "tokens": {
+     "D0": 5
+    },
+    "lines": [
+     33856,
+     33865
+    ],
+    "evidence": [
+     "function dfmBinaryChi(mA,mB,a,D0,eps,p){",
+     "return { chiA:((D0+wBA>0)? wBA/(D0+wBA) : 0), chiB:((D0+wAB>0)? wAB/(D0+wAB) : 0), wBA, wAB };"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": false,
+    "use": "二体の χ(質量補正 f の材料)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "dfmLocalMeshField :: dfmLocalMeshField",
+    "topFn": "dfmLocalMeshField",
+    "innerDef": "dfmLocalMeshField",
+    "n": 5,
+    "tokens": {
+     "D0": 5
+    },
+    "lines": [
+     37296,
+     37309,
+     37310
+    ],
+    "evidence": [
+     "const D0=(o.D0===undefined)? 0 : Number(o.D0);",
+     "if(!(Number.isFinite(D0)&&Number.isFinite(eps)&&Number.isFinite(pw)&&Number.isFinite(px)&&Number.isFinite(py))) return null;",
+     "if(!(D0>=0) || !(eps>=0) || !(pw>=0)) return null;"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "局所場(χ=W/(D₀+W) の門と分母)",
+    "replaceable": "candidate",
+    "why": "**(N3) で W₀ へ置き換える本命**(第276便a の純関数が同値を示した)",
+    "classified": true
+   },
+   {
+    "key": "makeSim :: F6",
+    "topFn": "makeSim",
+    "innerDef": "F6",
+    "n": 4,
+    "tokens": {
+     "D0": 3,
+     "D0p": 1
+    },
+    "lines": [
+     20978,
+     21079,
+     21080
+    ],
+    "evidence": [
+     "muF=p.muF, gammaN=p.gammaN, kappaS=p.kappaS, D0=p.D0, kFrame=p.kFrame,",
+     "const bgW=D0+WB;   // 背景決定力の合計(D₀+箱)— E6′ の背景持ち分・リザーバ帳簿に使用",
+     "const bgWu=(sumWu!==sumW && S._chG.pull)? S._chG.D0p+WB : bgW;   // 第241便: pull はフレーム分母の背景だけ D0pull"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "E6′(引きずりの力・背景持ち分 bgW=D₀+箱)",
+    "replaceable": "candidate",
+    "why": "χ の分母 —— 複素場へ移すなら W₀ 側の量になる(**本便では接続しない**)",
+    "classified": true
+   },
+   {
+    "key": "dfmInternalEntrainment :: dfmInternalEntrainment",
+    "topFn": "dfmInternalEntrainment",
+    "innerDef": "dfmInternalEntrainment",
+    "n": 4,
+    "tokens": {
+     "D0": 4
+    },
+    "lines": [
+     33843,
+     33844
+    ],
+    "evidence": [
+     "const D0=(o.D0>=0)? +o.D0 : 2, C=(o.shell===\"gas\")? ((o.gasCoh!==undefined)? +o.gasCoh : 1) : 1;",
+     "const Ms=m*(1-mf), Mc=m*mf, Ws=C*Ms/R, Wc=(mf>0)? Mc/Rc : 0, W=D0+Ws+Wc;"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "随伴(内部・χ)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "dfmContactEntrainment :: dfmContactEntrainment",
+    "topFn": "dfmContactEntrainment",
+    "innerDef": "dfmContactEntrainment",
+    "n": 4,
+    "tokens": {
+     "D0": 4
+    },
+    "lines": [
+     33874,
+     33878
+    ],
+    "evidence": [
+     "const M=Number(o.M), h=Math.max(0,Number(o.h)), eps=(o.eps>0)? Number(o.eps) : 0, D0=(o.D0>=0)? Number(o.D0) : 0;",
+     "const wp=M/Math.sqrt(h*h+eps*eps), chi=wp/(D0+W+wp);"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "随伴(接触・χ)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "dfmMMAltitudeLimit :: dfmMMAltitudeLimit",
+    "topFn": "dfmMMAltitudeLimit",
+    "innerDef": "dfmMMAltitudeLimit",
+    "n": 4,
+    "tokens": {
+     "D0": 4
+    },
+    "lines": [
+     33908,
+     33912
+    ],
+    "evidence": [
+     "const M=Number(o.M), D0=(o.D0>=0)? Number(o.D0) : 0, v=Number(o.v), bound=Number(o.bound);",
+     "const chiB=1-bound/v, wp=chiB/(1-chiB)*(D0+W);   // (1−χ)v=bound → w′"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "診断(MM の高度限界・χ から)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "dfmChainMeshBuild :: gvy",
+    "topFn": "dfmChainMeshBuild",
+    "innerDef": "gvy",
+    "n": 4,
+    "tokens": {
+     "D0": 4
+    },
+    "lines": [
+     35713,
+     35731
+    ],
+    "evidence": [
+     "nd.chi=(D0===Infinity)? 0 : ((W+D0>0)? W/(W+D0) : 0);",
+     "decl:{ rings, kNeighbors:kNb, mu, tau, zeta, tauDrag:tauD, Kbg, gammaBg:gBg, bond, D0, p, eps,"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": false,
+    "use": "複素場(鎖メッシュの節点 χ)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "dfmChainMesh2DBuild :: dfmChainMesh2DBuild",
+    "topFn": "dfmChainMesh2DBuild",
+    "innerDef": "dfmChainMesh2DBuild",
+    "n": 4,
+    "tokens": {
+     "D0": 4
+    },
+    "lines": [
+     36168,
+     36169
+    ],
+    "evidence": [
+     "const D0=Number((o.D0===undefined)? 0 : o.D0);",
+     "if(!(p>0) || !(eps>=0) || !(D0>=0) || !Number.isFinite(p) || !Number.isFinite(eps)) return null;"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "複素場(2D 鎖メッシュの構築)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "_c2dForces :: _c2dForces",
+    "topFn": "_c2dForces",
+    "innerDef": "_c2dForces",
+    "n": 4,
+    "tokens": {
+     "D0": 4
+    },
+    "lines": [
+     36255,
+     36270
+    ],
+    "evidence": [
+     "const p=ch.decl.p, D0=ch.decl.D0, eps2=ch.decl.eps*ch.decl.eps, hp=p/2, tauD=ch.decl.tauDrag;",
+     "const chi=(W+D0>0)? W/(W+D0) : 0;"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "複素場(2D 鎖メッシュの力)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "dfmMeshV2Solve :: dfmMeshV2Solve",
+    "topFn": "dfmMeshV2Solve",
+    "innerDef": "dfmMeshV2Solve",
+    "n": 4,
+    "tokens": {
+     "D0": 4
+    },
+    "lines": [
+     39012,
+     39043
+    ],
+    "evidence": [
+     "p:(qo.p===undefined)?1:Number(qo.p), D0:(qo.D0===undefined)?0:Number(qo.D0),",
+     "const structural=(o.D0===0 && o.eta===1 && rowDev<=1e-14);"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "複素場 v2(解法)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "makeSim :: S.tauUpdate",
+    "topFn": "makeSim",
+    "innerDef": "S.tauUpdate",
+    "n": 3,
+    "tokens": {
+     "D0": 2,
+     "D0p": 1
+    },
+    "lines": [
+     22342,
+     22347
+    ],
+    "evidence": [
+     "const denom=S.params.D0+WB+S.sumW[i];",
+     "const denU=(S._chG && S._chG.fsep)? (S._chG.pull? S._chG.D0p : S.params.D0)+WB+S.sumWu[i] : denom;   // 第243便: frameSource も別集計"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "**時計**(固有時 τ の χ の分母)",
+    "replaceable": "forbidden",
+    "why": "時計はスカラーの決定力 D を読む —— **W₀ で置換しない**",
+    "classified": true
+   },
+   {
+    "key": "dfmPullEntrainment :: dfmPullEntrainment",
+    "topFn": "dfmPullEntrainment",
+    "innerDef": "dfmPullEntrainment",
+    "n": 3,
+    "tokens": {
+     "D0p": 3
+    },
+    "lines": [
+     33886
+    ],
+    "evidence": [
+     "const M=Number(o.M), d=Number(o.d), D0p=(o.D0p>=0)? Number(o.D0p) : 0, eps=(o.eps>0)? Number(o.eps) : 0, p=(o.p>0)? Number(o.p) : 2;"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": false,
+    "use": "随伴(pull・χ)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "dfmGeoToyStep :: onePass",
+    "topFn": "dfmGeoToyStep",
+    "innerDef": "onePass",
+    "n": 3,
+    "tokens": {
+     "D0p": 2,
+     "D0": 1
+    },
+    "lines": [
+     38353,
+     38368
+    ],
+    "evidence": [
+     "const den=D0p+WB+fl.Wpull;",
+     "const f=dfmField(BD,px,py,{excludeBodyId:i, lawVersion:law, p:pw, eps, D0:D0p, G, need:\"mesh\","
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": false,
+    "use": "geoPN=3 トイ(1 巡)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "meshV2Weights :: meshV2Weights",
+    "topFn": "meshV2Weights",
+    "innerDef": "meshV2Weights",
+    "n": 3,
+    "tokens": {
+     "D0": 3
+    },
+    "lines": [
+     38929,
+     38939
+    ],
+    "evidence": [
+     "const n=mm.length, eps2=o.eps*o.eps, pw=o.p, D0=o.D0, eta=o.eta;",
+     "const den=D0+s;"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "複素場 v2(重み)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "dfmMeshTransportObserve :: dfmMeshTransportObserve",
+    "topFn": "dfmMeshTransportObserve",
+    "innerDef": "dfmMeshTransportObserve",
+    "n": 3,
+    "tokens": {
+     "D0": 3
+    },
+    "lines": [
+     40252
+    ],
+    "evidence": [
+     "const m1=dfmSpaceMeshState(a,T,(tr.D0!==null)? {D0:tr.D0} : undefined);"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "複素場(輸送の観測・診断)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "makeSim :: mk",
+    "topFn": "makeSim",
+    "innerDef": "mk",
+    "n": 2,
+    "tokens": {
+     "D0p": 2
+    },
+    "lines": [
+     19051
+    ],
+    "evidence": [
+     "const di=D0p+Wt[i], dj=D0p+Wt[j];"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": false,
+    "use": "E6′ pull(近接力の χ・内部ヘルパ)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "drawFieldInto :: drawFieldInto",
+    "topFn": "drawFieldInto",
+    "innerDef": "drawFieldInto",
+    "n": 2,
+    "tokens": {
+     "D0": 2
+    },
+    "lines": [
+     22994,
+     23004
+    ],
+    "evidence": [
+     "const key=camX+\",\"+camY+\",\"+camScale+\",\"+cw+\",\"+hgt+\",\"+S.params.D0+\",\"+S.params.softening+",
+     "let wmax=S.params.D0+0.001;"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "表示(場の描画とキャッシュ鍵)",
+    "replaceable": "n/a",
+    "why": "描画のみ",
+    "classified": true
+   },
+   {
+    "key": "obsMakeSys :: csSpin",
+    "topFn": "obsMakeSys",
+    "innerDef": "csSpin",
+    "n": 2,
+    "tokens": {
+     "D0": 1,
+     "D0pull": 1
+    },
+    "lines": [
+     30253
+    ],
+    "evidence": [
+     "const phO={G:G, D0:0.006, D0pull:3.24204e8/Math.pow(10, sc.M-2*sc.L), kFrame:1, q:q, softening:0.05, timeScale:timeScale, dispMag:dispMag};   // 第242便: pull 既定の背景 D0pull=3.24204×10⁸ kg/m²(🌘🪨 と共通)を単位",
+     "const phO={G:G, D0:0.006, D0pull:3.24204e8/Math.pow(10, sc.M-2*sc.L), kFrame:1, q:q, softening:0.05, timeScale:timeScale, dispMag:dispMag};   // 第242便: pull 既定の背景 D0pull=3.24204×10⁸ kg/m²(🌘🪨 と共通)を単位"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": true,
+    "use": "宣言の生成(観測雛形が physics を作る)",
+    "replaceable": "n/a",
+    "why": "生成する宣言の中に D₀・D0pull を書いている(読み口ではない)",
+    "classified": true
+   },
+   {
+    "key": "dfmBinaryMassFactor :: dfmBinaryMassFactor",
+    "topFn": "dfmBinaryMassFactor",
+    "innerDef": "dfmBinaryMassFactor",
+    "n": 2,
+    "tokens": {
+     "D0": 2
+    },
+    "lines": [
+     33919,
+     33923
+    ],
+    "evidence": [
+     "function dfmBinaryMassFactor(mAobs,mBobs,a,D0,eps,kFrame,p){",
+     "for(let k=0;k<500;k++){ iters=k+1; chi=dfmBinaryChi(f*mAobs,f*mBobs,a,D0,eps,p);   // 第242便: p(pull の χ)"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": false,
+    "use": "質量補正 f の反復(χ 経由)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "dfmBinaryMassFactorLinear :: dfmBinaryMassFactorLinear",
+    "topFn": "dfmBinaryMassFactorLinear",
+    "innerDef": "dfmBinaryMassFactorLinear",
+    "n": 2,
+    "tokens": {
+     "D0": 2
+    },
+    "lines": [
+     33939,
+     33943
+    ],
+    "evidence": [
+     "function dfmBinaryMassFactorLinear(mAobs,mBobs,a,D0,eps,kFrame,p){",
+     "for(let k=0;k<500;k++){ iters=k+1; chi=dfmBinaryChi(f*mAobs,f*mBobs,a,D0,eps,p);"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": false,
+    "use": "質量補正 f の反復(線形版)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "dfmDominance :: stat",
+    "topFn": "dfmDominance",
+    "innerDef": "stat",
+    "n": 2,
+    "tokens": {
+     "D0": 2
+    },
+    "lines": [
+     37849,
+     37874
+    ],
+    "evidence": [
+     "const den=D0+W;",
+     "opts:{p:pw, eps, D0},"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": false,
+    "use": "診断(支配度の統計)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "frameWeightPow :: frameWeightPow",
+    "topFn": "frameWeightPow",
+    "innerDef": "frameWeightPow",
+    "n": 1,
+    "tokens": {
+     "frameWeightPow": 1
+    },
+    "lines": [
+     4092
+    ],
+    "evidence": [
+     "function frameWeightPow(p){ const v=p[FRAME_WEIGHT_KEY]; return (v===undefined)? 2 : (v===\"pull\")? 2 : (v===\"pull3\")? 3 : (v===\"pull4\")? 4 : 1; }"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": false,
+    "use": "単位換算(重みの指数 p を返す)",
+    "replaceable": "n/a",
+    "why": "D₀ を 1 度も読まない —— **単位を決める側**である(p=1 で M/L・p=2 で M/L²)",
+    "classified": true
+   },
+   {
+    "key": "makeSim :: S._weaveSpread",
+    "topFn": "makeSim",
+    "innerDef": "S._weaveSpread",
+    "n": 1,
+    "tokens": {
+     "D0": 1
+    },
+    "lines": [
+     19371
+    ],
+    "evidence": [
+     "const bgW=p.D0+WB, sumW=S.sumW, eps=p.softening, eps2=eps*eps;"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "E6′(引きずりの広がり)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "makeSim :: S.Wat",
+    "topFn": "makeSim",
+    "innerDef": "S.Wat",
+    "n": 1,
+    "tokens": {
+     "D0": 1
+    },
+    "lines": [
+     22403
+    ],
+    "evidence": [
+     "let w=S.params.D0; const eps=S.params.softening;"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "診断(点 x の W の読み出し)",
+    "replaceable": "candidate",
+    "why": "同じ分母を作る",
+    "classified": true
+   },
+   {
+    "key": "fieldKeyOf :: fieldKeyOf",
+    "topFn": "fieldKeyOf",
+    "innerDef": "fieldKeyOf",
+    "n": 1,
+    "tokens": {
+     "D0": 1
+    },
+    "lines": [
+     22948
+    ],
+    "evidence": [
+     "return camX+\",\"+camY+\",\"+camScale+\",\"+cw+\",\"+ch+\",\"+sim.params.D0+\",\"+sim.params.softening+"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "メッシュキャッシュの鍵(場の再描画判定)",
+    "replaceable": "n/a",
+    "why": "鍵の文字列に混ぜるだけ(値として使わない)",
+    "classified": true
+   },
+   {
+    "key": "drawField :: drawField",
+    "topFn": "drawField",
+    "innerDef": "drawField",
+    "n": 1,
+    "tokens": {
+     "D0": 1
+    },
+    "lines": [
+     23023
+    ],
+    "evidence": [
+     "let wmax=sim.params.D0+0.001;"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "表示(場の描画の色スケール)",
+    "replaceable": "n/a",
+    "why": "描画のみ",
+    "classified": true
+   },
+   {
+    "key": "rayField :: rayField",
+    "topFn": "rayField",
+    "innerDef": "rayField",
+    "n": 1,
+    "tokens": {
+     "frameWeightPow": 1
+    },
+    "lines": [
+     23382
+    ],
+    "evidence": [
+     "const rPl=frameWeightIsPull(pp), rPw=frameWeightPow(pp);   // 第241便(第242便: 既定 pull・一般指数)/第262便d: pull 判定は isPull・指数は pow(share も 1)"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": false,
+    "use": "**光**(光線が読む場の指数)",
+    "replaceable": "forbidden",
+    "why": "同上",
+    "classified": true
+   },
+   {
+    "key": "photonStep :: photonStep",
+    "topFn": "photonStep",
+    "innerDef": "photonStep",
+    "n": 1,
+    "tokens": {
+     "D0": 1
+    },
+    "lines": [
+     23417
+    ],
+    "evidence": [
+     "const Wtot=O.D0+O.WB+_RF.w, Wu=O.D0u+O.WB+_RF.wu;   // 第240便: 随伴の分母は W′(既定は W と同値)/第241便: pull は D0pull"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "**光**(光子の 1 步・随伴の分母 W′)",
+    "replaceable": "forbidden",
+    "why": "同上",
+    "classified": true
+   },
+   {
+    "key": "rayKeyOf :: rayKeyOf",
+    "topFn": "rayKeyOf",
+    "innerDef": "rayKeyOf",
+    "n": 1,
+    "tokens": {
+     "D0": 1
+    },
+    "lines": [
+     23508
+    ],
+    "evidence": [
+     "sim.params.kappaT+\",\"+sim.params.cLight+\",\"+sim.params.D0+\",\"+sim.params.q+\",\"+"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "メッシュキャッシュの鍵(光線の再計算判定)",
+    "replaceable": "n/a",
+    "why": "同上",
+    "classified": true
+   },
+   {
+    "key": "loadSave :: loadSave",
+    "topFn": "loadSave",
+    "innerDef": "loadSave",
+    "n": 1,
+    "tokens": {
+     "D0pull": 1
+    },
+    "lines": [
+     27083
+    ],
+    "evidence": [
+     "if(!(s.physics.D0pull>0) && /DFM$|RealKF1$/.test(String(s.presetId||\"\"))) setTimeout(()=>notify(T(\"fwNoD0pull\"),8000),1200);"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "保存/読込(D0pull 未宣言の警告)",
+    "replaceable": "n/a",
+    "why": "値を力学へ渡さない(宣言の有無を見るだけ)",
+    "classified": true
+   },
+   {
+    "key": "updateBodyEdit :: updateBodyEdit",
+    "topFn": "updateBodyEdit",
+    "innerDef": "updateBodyEdit",
+    "n": 1,
+    "tokens": {
+     "D0": 1
+    },
+    "lines": [
+     32533
+    ],
+    "evidence": [
+     "const bgW=p.D0+((S.box && S.boxA)? S.boxA.W : 0);   // tauUpdate と同じ「箱の決定力を足す」書き方"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": "表示(編集画面の背景決定力)",
+    "replaceable": "n/a",
+    "why": "画面に出すだけ",
+    "classified": true
+   },
+   {
+    "key": "chiMassFactors :: chiMassFactors",
+    "topFn": "chiMassFactors",
+    "innerDef": "chiMassFactors",
+    "n": 1,
+    "tokens": {
+     "D0": 1
+    },
+    "lines": [
+     33823
+    ],
+    "evidence": [
+     "function chiMassFactors(mA, mB, sep, D0, eps, C){"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": false,
+    "use": "質量補正(χ から)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "chiMassFactors :: chi",
+    "topFn": "chiMassFactors",
+    "innerDef": "chi",
+    "n": 1,
+    "tokens": {
+     "D0": 1
+    },
+    "lines": [
+     33825
+    ],
+    "evidence": [
+     "const chi=(w)=>w/((D0||0)+w);"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": false,
+    "use": "質量補正(χ の式)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "dfmPullEntrainment :: wf",
+    "topFn": "dfmPullEntrainment",
+    "innerDef": "wf",
+    "n": 1,
+    "tokens": {
+     "D0p": 1
+    },
+    "lines": [
+     33890
+    ],
+    "evidence": [
+     "const w=M*wf(d), chi=w/(D0p+W+w), v=(o.v!==undefined)? Number(o.v) : 0, c=(o.c>0)? Number(o.c) : 0, res=(1-chi)*v;"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": false,
+    "use": "随伴(pull・χ の重み)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "dfmChainMesh2DBuild :: mk",
+    "topFn": "dfmChainMesh2DBuild",
+    "innerDef": "mk",
+    "n": 1,
+    "tokens": {
+     "D0": 1
+    },
+    "lines": [
+     36213
+    ],
+    "evidence": [
+     "bond, kScale:kSc, gammaScale:gSc, D0, p, eps, drive:drv },"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": false,
+    "use": "複素場(2D 鎖メッシュの宣言)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
+    "key": "dfmMeshBlend :: dfmMeshBlend",
+    "topFn": "dfmMeshBlend",
+    "innerDef": "dfmMeshBlend",
+    "n": 1,
+    "tokens": {
+     "D0": 1
+    },
+    "lines": [
+     37025
+    ],
+    "evidence": [
+     "function dfmMeshBlend(node,background,W,gradW,D0,Wdot){"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": false,
+    "use": "複素場と背景の混合",
+    "replaceable": "candidate",
+    "why": "背景の重み",
+    "classified": true
+   },
+   {
+    "key": "dfmMeshBlend :: rd4",
+    "topFn": "dfmMeshBlend",
+    "innerDef": "rd4",
+    "n": 1,
+    "tokens": {
+     "D0": 1
+    },
+    "lines": [
+     37039
+    ],
+    "evidence": [
+     "const Wv=Number(W), D=Number(D0), Wd=(Wdot===undefined || Wdot===null)? 0 : Number(Wdot);"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": false,
+    "use": "複素場と背景の混合(内部)",
+    "replaceable": "candidate",
+    "why": "背景の重み",
+    "classified": true
+   }
+  ]
+ },
+ "backgroundComplexKey": {
+  "sites": 19,
+  "functions": [
+   "(top-level)",
+   "validateBackgroundComplex",
+   "validatePreset"
+  ],
+  "allowed": [
+   "(top-level)",
+   "validateBackgroundComplex",
+   "validatePreset"
+  ],
+  "outsideAllowed": [],
+  "note": "**エンジンのどの経路も読まない**: 参照は検証器・検証器の分岐・定数・HP の書き出しだけである"
+ },
+ "qLock": {
+  "presets": [
+   "plutoCharonReal",
+   "earthMoonRealKF1",
+   "mercuryRealKF1"
+  ],
+  "d0Values": [
+   0.006,
+   0,
+   1,
+   78.8003132
+  ],
+  "rows": [
+   {
+    "id": "plutoCharonReal",
+    "which": "D0",
+    "d0": 0.006,
+    "declaredWas": 0.006,
+    "q": 11.938643210121262,
+    "qStar": 12.000341112329753,
+    "aRef": 19.596,
+    "X": 153687421062.80484,
+    "clamped": false,
+    "paramsD0": 0.006,
+    "paramsD0pull": null
+   },
+   {
+    "id": "plutoCharonReal",
+    "which": "D0",
+    "d0": 0,
+    "declaredWas": 0.006,
+    "q": 11.938643210121262,
+    "qStar": 12.000341112329753,
+    "aRef": 19.596,
+    "X": 153687421062.80484,
+    "clamped": false,
+    "paramsD0": 0,
+    "paramsD0pull": null
+   },
+   {
+    "id": "plutoCharonReal",
+    "which": "D0",
+    "d0": 1,
+    "declaredWas": 0.006,
+    "q": 11.938643210121262,
+    "qStar": 12.000341112329753,
+    "aRef": 19.596,
+    "X": 153687421062.80484,
+    "clamped": false,
+    "paramsD0": 1,
+    "paramsD0pull": null
+   },
+   {
+    "id": "plutoCharonReal",
+    "which": "D0",
+    "d0": 78.8003132,
+    "declaredWas": 0.006,
+    "q": 11.938643210121262,
+    "qStar": 12.000341112329753,
+    "aRef": 19.596,
+    "X": 153687421062.80484,
+    "clamped": false,
+    "paramsD0": 78.8003132,
+    "paramsD0pull": null
+   },
+   {
+    "id": "earthMoonRealKF1",
+    "which": "D0",
+    "d0": 0.006,
+    "declaredWas": 0.006,
+    "q": 8.23581897072835,
+    "qStar": 8.24867012186936,
+    "aRef": 363.62532000000004,
+    "X": 1800686633.5237494,
+    "clamped": false,
+    "paramsD0": 0.006,
+    "paramsD0pull": 0.0000324204
+   },
+   {
+    "id": "earthMoonRealKF1",
+    "which": "D0pull",
+    "d0": 0.006,
+    "declaredWas": 0.0000324204,
+    "q": 8.23581897072835,
+    "qStar": 8.24867012186936,
+    "aRef": 363.62532000000004,
+    "X": 1800686633.5237494,
+    "clamped": false,
+    "paramsD0": 0.006,
+    "paramsD0pull": 0.006
+   },
+   {
+    "id": "earthMoonRealKF1",
+    "which": "D0",
+    "d0": 0,
+    "declaredWas": 0.006,
+    "q": 8.23581897072835,
+    "qStar": 8.24867012186936,
+    "aRef": 363.62532000000004,
+    "X": 1800686633.5237494,
+    "clamped": false,
+    "paramsD0": 0,
+    "paramsD0pull": 0.0000324204
+   },
+   {
+    "id": "earthMoonRealKF1",
+    "which": "D0pull",
+    "d0": 0,
+    "declaredWas": 0.0000324204,
+    "q": 8.23581897072835,
+    "qStar": 8.24867012186936,
+    "aRef": 363.62532000000004,
+    "X": 1800686633.5237494,
+    "clamped": false,
+    "paramsD0": 0.006,
+    "paramsD0pull": 0
+   },
+   {
+    "id": "earthMoonRealKF1",
+    "which": "D0",
+    "d0": 1,
+    "declaredWas": 0.006,
+    "q": 8.23581897072835,
+    "qStar": 8.24867012186936,
+    "aRef": 363.62532000000004,
+    "X": 1800686633.5237494,
+    "clamped": false,
+    "paramsD0": 1,
+    "paramsD0pull": 0.0000324204
+   },
+   {
+    "id": "earthMoonRealKF1",
+    "which": "D0pull",
+    "d0": 1,
+    "declaredWas": 0.0000324204,
+    "q": 8.23581897072835,
+    "qStar": 8.24867012186936,
+    "aRef": 363.62532000000004,
+    "X": 1800686633.5237494,
+    "clamped": false,
+    "paramsD0": 0.006,
+    "paramsD0pull": 1
+   },
+   {
+    "id": "earthMoonRealKF1",
+    "which": "D0",
+    "d0": 78.8003132,
+    "declaredWas": 0.006,
+    "q": 8.23581897072835,
+    "qStar": 8.24867012186936,
+    "aRef": 363.62532000000004,
+    "X": 1800686633.5237494,
+    "clamped": false,
+    "paramsD0": 78.8003132,
+    "paramsD0pull": 0.0000324204
+   },
+   {
+    "id": "earthMoonRealKF1",
+    "which": "D0pull",
+    "d0": 78.8003132,
+    "declaredWas": 0.0000324204,
+    "q": 8.23581897072835,
+    "qStar": 8.24867012186936,
+    "aRef": 363.62532000000004,
+    "X": 1800686633.5237494,
+    "clamped": false,
+    "paramsD0": 0.006,
+    "paramsD0pull": 78.8003132
+   },
+   {
+    "id": "mercuryRealKF1",
+    "which": "D0",
+    "d0": 0.006,
+    "declaredWas": 0.006,
+    "q": 6.147101524389721,
+    "qStar": 6.157793349788005,
+    "aRef": 460.012,
+    "X": 589149.50547784,
+    "clamped": false,
+    "paramsD0": 0.006,
+    "paramsD0pull": 0.00324204
+   },
+   {
+    "id": "mercuryRealKF1",
+    "which": "D0pull",
+    "d0": 0.006,
+    "declaredWas": 0.00324204,
+    "q": 6.147101524389721,
+    "qStar": 6.157793349788005,
+    "aRef": 460.012,
+    "X": 589149.50547784,
+    "clamped": false,
+    "paramsD0": 0.006,
+    "paramsD0pull": 0.006
+   },
+   {
+    "id": "mercuryRealKF1",
+    "which": "D0",
+    "d0": 0,
+    "declaredWas": 0.006,
+    "q": 6.147101524389721,
+    "qStar": 6.157793349788005,
+    "aRef": 460.012,
+    "X": 589149.50547784,
+    "clamped": false,
+    "paramsD0": 0,
+    "paramsD0pull": 0.00324204
+   },
+   {
+    "id": "mercuryRealKF1",
+    "which": "D0pull",
+    "d0": 0,
+    "declaredWas": 0.00324204,
+    "q": 6.147101524389721,
+    "qStar": 6.157793349788005,
+    "aRef": 460.012,
+    "X": 589149.50547784,
+    "clamped": false,
+    "paramsD0": 0.006,
+    "paramsD0pull": 0
+   },
+   {
+    "id": "mercuryRealKF1",
+    "which": "D0",
+    "d0": 1,
+    "declaredWas": 0.006,
+    "q": 6.147101524389721,
+    "qStar": 6.157793349788005,
+    "aRef": 460.012,
+    "X": 589149.50547784,
+    "clamped": false,
+    "paramsD0": 1,
+    "paramsD0pull": 0.00324204
+   },
+   {
+    "id": "mercuryRealKF1",
+    "which": "D0pull",
+    "d0": 1,
+    "declaredWas": 0.00324204,
+    "q": 6.147101524389721,
+    "qStar": 6.157793349788005,
+    "aRef": 460.012,
+    "X": 589149.50547784,
+    "clamped": false,
+    "paramsD0": 0.006,
+    "paramsD0pull": 1
+   },
+   {
+    "id": "mercuryRealKF1",
+    "which": "D0",
+    "d0": 78.8003132,
+    "declaredWas": 0.006,
+    "q": 6.147101524389721,
+    "qStar": 6.157793349788005,
+    "aRef": 460.012,
+    "X": 589149.50547784,
+    "clamped": false,
+    "paramsD0": 78.8003132,
+    "paramsD0pull": 0.00324204
+   },
+   {
+    "id": "mercuryRealKF1",
+    "which": "D0pull",
+    "d0": 78.8003132,
+    "declaredWas": 0.00324204,
+    "q": 6.147101524389721,
+    "qStar": 6.157793349788005,
+    "aRef": 460.012,
+    "X": 589149.50547784,
+    "clamped": false,
+    "paramsD0": 0.006,
+    "paramsD0pull": 78.8003132
+   }
+  ],
+  "sameAcrossD0": {
+   "plutoCharonReal": {
+    "n": 4,
+    "distinctQ": 1,
+    "q": [
+     11.938643210121262
+    ],
+    "d0sTried": [
+     0.006,
+     0,
+     1,
+     78.8003132
+    ],
+    "paramsD0Seen": [
+     0.006,
+     0,
+     1,
+     78.8003132
+    ]
+   },
+   "earthMoonRealKF1": {
+    "n": 8,
+    "distinctQ": 1,
+    "q": [
+     8.23581897072835
+    ],
+    "d0sTried": [
+     0.006,
+     0,
+     1,
+     78.8003132
+    ],
+    "paramsD0Seen": [
+     0.006,
+     0,
+     1,
+     78.8003132
+    ]
+   },
+   "mercuryRealKF1": {
+    "n": 8,
+    "distinctQ": 1,
+    "q": [
+     6.147101524389721
+    ],
+    "d0sTried": [
+     0.006,
+     0,
+     1,
+     78.8003132
+    ],
+    "paramsD0Seen": [
+     0.006,
+     0,
+     1,
+     78.8003132
+    ]
+   }
+  },
+  "reads": "R(支配源の半径)・M(質量)・G・cLight・基準距離 a(自由天体の距離の中央値)",
+  "note": "q_exact は**有限参照点での LT 振幅の正規化規約**であって、環境から引きずり指数を予言する式ではない(**背景を変えても q は自動では動かない**)"
+ },
+ "pageErrors": []
+}

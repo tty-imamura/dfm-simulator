@@ -511,6 +511,21 @@ paper/*Notes.bib
 #   「中心ブラックホールを実装した」とは書かない。
 !tests/out/shapecrit-w275d.json
 !tests/out/dyncenter-w275d.json
+# 第276便a(第66報 (1)「背景決定力 D₀ と別途 背景複素決定力を用意する」): **宣言専用の背景**の 3 本。
+#   ① tests/out/bgfield-w276a.json … 背景複素決定力 (W₀,A₀,∇W₀,∇A₀,∂ₜW₀,∂ₜA₀) の純関数
+#      (tests/exp-w276a-bgfield.mjs)。源分割の同値・空間/時間微分の中心差分検算・不完全な背景の
+#      拒否・旧経路 χ=W/(D₀+W) との一致(p=2 でビット同一)を置く。**エンジン未接続**。
+#   ② tests/out/d0sites-w276a.json … D₀ の読み口の**機械監査**(tests/exp-w276a-d0audit2.mjs)。
+#      識別子の出現を機械抽出し、用途と「W₀ へ置き換えてよいか」だけを宣言表で与える。
+#      **重力・時計・光は置換禁止**。R39(q は D₀ を読まない)の実測も同じ JSON に入る。
+#   ③ tests/out/bgpredict-w276a.json … 背景の**事前予測表**(tests/exp-w276a-bgpredict.mjs)。
+#      シチュエーションごとに D₀・W₀・A₀ と微分を宣言した質量分布から計算し、内蔵 37 本の
+#      単位系へ落とす。**概算条件からの計算であって特定時刻の環境値ではない**。
+#   QA `docs.d0sites-sync`・`docs.bgpredict-sync` が docs/PHYSICS.md〔第276便a〕と突き合わせ、
+#   `lint.provenanceMeta` が来歴を固定するのでコミットする。**較正ではない**(値は 1 本も変えていない)。
+!tests/out/bgfield-w276a.json
+!tests/out/d0sites-w276a.json
+!tests/out/bgpredict-w276a.json
 # 第221便: セッション内スクラッチ実測ハーネス(コミット対象外 — 実測値は claims/QA が機械固定する)
 _scratch-*.mjs
 _scratch-*/
