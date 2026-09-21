@@ -288,6 +288,115 @@ export const alignTimeConstant = (Smag, Q) => (Q > 0 ? Smag / Q : Infinity);
 /** 保存だけの歳差率: Ω_prec = K a / |S|(a は一定)。 */
 export const precessionRate = (K, a, Smag) => (Smag > 0 ? K * a / Smag : 0);
 
+/* ══ 第276便c(原仮定者の裁定(第66報)(3))の追記 ══════════════════════════
+   **旧模型(上)は 1 行も変えていない。**第275便e ⑧ の否定結果(公転が回る系で向きの散逸が
+   熱の単調増加を保証しない)を直すための**受動散逸**を、別の関数として足す。
+
+   ■ 受動散逸(統括の検証項目 R42 の N1 の直し)
+     全 J_z を固定した機械エネルギーの勾配を取り、**自転の大きさを変えない向き**へだけ流す:
+       g   = ∂(E_spin + U)/∂S − Ω_orb ẑ
+           = ω ŝ − (K a/|S|)(r̂ − a ŝ) − Ω ẑ
+       P_s = I − ŝ ŝᵀ                          (自転軸に直交する射影)
+       τ_d = −γ P_s g
+       Q̇   = γ |P_s g|² ≥ 0                    (**構造的に非負**)
+     ŝ に沿う成分は落ちるので **τ_d·ŝ = 0**(第275便e の負の対照 R37 は**そのまま生きている**)。
+     射影を展開すると
+       P_s g = −(K a/|S|)(r̂ − a ŝ) − Ω(ẑ − s_z ŝ)
+     となり、ω の項は**消える**。第 2 項(Ω に比例)が旧模型に無かったもので、
+     **公転の回転に対する相対角速度**がここに入る(旧 τ_d は配置だけの関数だった)。
+   ■ 閉じ(**結果であって定義ではない**)
+     軌道の反作用を dL_orb/dt = −Σ τ_z(保存+散逸)で閉じると、∂U/∂φ·φ̇ が保存トルクの
+     z 反作用と厳密に相殺するので
+       dE/dt = Σ g·τ_d + Q̇ = −γ Σ|P_s g|² + Q̇ = 0
+     が**恒等的に**成り立つ。旧 `binaryDerivs` は熱を「閉じの残差」として定義していたが、
+     こちらは熱を **γ|P_s g|²** と**先に定義**し、E の保存は実測で確かめる量になる。
+   ■ **新しい γ は旧 Q とは別の係数である**(単位も別: Q は [トルク]、γ は [トルク]/[∂E/∂S])。
+     どちらも**宣言された自由パラメータ**であって観測から同定した値ではない。
+   ■ **最小 L の停止条件**(`minOrbitalL`)
+     宣言した下限を越えて L_orb を進めない。**捕捉・地平面・合体の判定には使わない** ——
+     模型が外挿になる手前で走行を止めるための宣言である。 */
+
+/** 機械エネルギーの勾配 g = ∂(E_spin+U)/∂S − Ω ẑ と、その自転軸直交成分 P_s g。 */
+export function passiveGradient(S, rhat, K, I, Omega) {
+  const s = v3.unit(S), Smag = v3.norm(S), a = v3.dot(s, rhat);
+  const om = (I > 0 && Smag > 0) ? Smag / I : 0;
+  // g = ω ŝ − (K a/|S|)(r̂ − a ŝ) − Ω ẑ
+  const perpR = v3.sub(rhat, v3.mul(s, a));                 // r̂ − a ŝ
+  const g = v3.sub(v3.sub(v3.mul(s, om), v3.mul(perpR, (Smag > 0) ? K * a / Smag : 0)),
+    [0, 0, Omega]);
+  // P_s g = g − (g·ŝ)ŝ   (= −(Ka/|S|)(r̂−aŝ) − Ω(ẑ − s_z ŝ))
+  const Pg = v3.sub(g, v3.mul(s, v3.dot(g, s)));
+  return { g, Pg, s, Smag, a, omega: om, PgMag: v3.norm(Pg) };
+}
+
+/**
+ * **受動散逸トルク** τ_d = −γ P_s g と、その熱 Q̇ = γ|P_s g|²(**非負**)。
+ * τ_d·ŝ = 0 なので |S| は動かない(自転を加速しない)。
+ */
+export function passiveBinaryTorque(S, rhat, K, I, Omega, gamma) {
+  const p = passiveGradient(S, rhat, K, I, Omega);
+  return { tau: v3.mul(p.Pg, -gamma), heat: gamma * p.PgMag * p.PgMag,
+    PgMag: p.PgMag, a: p.a, omega: p.omega, sdot: v3.dot(v3.mul(p.Pg, -gamma), p.s) };
+}
+
+/** 受動散逸版の導関数(状態の並びは `binaryDerivs` と同じ y = [S1,S2,Lorb,phi,Heat])。 */
+export function passiveBinaryDerivs(P, t, y) {
+  const k = keplerFromL(P, y[B.LORB]);
+  const phi = y[B.PHI], rhat = [Math.cos(phi), Math.sin(phi), 0];
+  const d = new Array(BIN_LEN).fill(0);
+  let tauZsum = 0, heat = 0;
+  for (let b = 0; b < 2; b++) {
+    const o = (b === 0) ? B.S1 : B.S2;
+    const S = [y[o], y[o + 1], y[o + 2]];
+    const s = v3.unit(S), a = v3.dot(s, rhat);
+    const K = P.K[b], gm = P.gamma[b];
+    const tc = v3.mul(v3.cross(s, rhat), K * a);                  // 保存(旧模型と同じ)
+    const pd = passiveBinaryTorque(S, rhat, K, P.I[b], k.Omega, gm);
+    const tau = v3.add(tc, pd.tau);
+    d[o] = tau[0]; d[o + 1] = tau[1]; d[o + 2] = tau[2];
+    tauZsum += tau[2];
+    heat += pd.heat;
+  }
+  d[B.LORB] = -tauZsum;        // **反作用**(J_z = L_orb + ΣS_z は構造的に閉じる)
+  d[B.PHI] = k.Omega;
+  d[B.HEAT] = heat;            // **先に定義した非負の熱**(残差ではない)
+  return d;
+}
+
+/**
+ * 受動散逸版の走行。`minOrbitalL` を宣言すると、**それを下回る手前で止める**
+ * (合体・捕捉・地平面の判定ではない)。
+ */
+export function runPassiveBinary(P) {
+  let y = P.y0.slice(), t = 0;
+  const inv0 = binaryInvariants(P, 0, y);
+  const snaps = [{ t: 0, inv: inv0 }];
+  const every = Math.max(1, Math.floor(P.steps / (P.samples || 20)));
+  let worstJz = 0, worstE = 0, worstS = [0, 0];
+  let heatDrops = 0, heatPrev = inv0.heat, heatWorstDrop = 0;
+  let stopped = null, done = 0;
+  for (let k = 0; k < P.steps; k++) {
+    const yn = rk4(passiveBinaryDerivs, P, t, y, P.dt);
+    if (P.minOrbitalL !== undefined && yn[B.LORB] < P.minOrbitalL) {
+      stopped = { reason: 'minOrbitalL', t, Lorb: y[B.LORB], minOrbitalL: P.minOrbitalL };
+      break;
+    }
+    y = yn; t += P.dt; done = k + 1;
+    const iv = binaryInvariants(P, t, y);
+    if (iv.heat < heatPrev - 1e-18) { heatDrops++; heatWorstDrop = Math.max(heatWorstDrop, heatPrev - iv.heat); }
+    heatPrev = iv.heat;
+    worstJz = Math.max(worstJz, Math.abs(iv.Jz - inv0.Jz) / Math.max(1e-30, Math.abs(inv0.Jz)));
+    worstE = Math.max(worstE, Math.abs(iv.E - inv0.E) / Math.max(1e-30, Math.abs(inv0.E)));
+    for (let b = 0; b < 2; b++) worstS[b] = Math.max(worstS[b],
+      Math.abs(iv.bodies[b].Smag - inv0.bodies[b].Smag) / Math.max(1e-30, inv0.bodies[b].Smag));
+    if ((k + 1) % every === 0 || k === P.steps - 1) snaps.push({ t, inv: iv });
+  }
+  return { id: P.id, t, y, first: inv0, last: binaryInvariants(P, t, y), snaps,
+    worstJzRel: worstJz, worstErel: worstE, worstSpinRel: worstS,
+    heatDrops, heatWorstDrop, heatSteps: done, stopped };
+}
+
 export default { POWERBALL_VERSION, POWERBALL_HYPOTHESIS, v3, orientTorque, dissipTorque,
   axialProjection, soloDerivs, soloInvariants, inertiaAt, binaryDerivs, binaryInvariants,
-  keplerFromL, rk4, runSolo, runBinary, alignTimeConstant, precessionRate, STATE_LEN, BIN_LEN };
+  keplerFromL, rk4, runSolo, runBinary, alignTimeConstant, precessionRate, STATE_LEN, BIN_LEN,
+  passiveGradient, passiveBinaryTorque, passiveBinaryDerivs, runPassiveBinary };

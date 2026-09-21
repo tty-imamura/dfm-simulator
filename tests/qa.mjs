@@ -1937,7 +1937,10 @@ const add = (id, pass, detail) => {
       'tests/out/charond0-w275b.json',
       // 第275便d(第65報 (4)(5)(6)): 形状トイの安定・低分散・銀河らしさの判定(target=beta/index.html)と、
       // **動的中心の診断**(target=lib 自身 —— html を読まない node 模型・エンジン未接続)
-      'tests/out/shapecrit-w275d.json', 'tests/out/dyncenter-w275d.json'];
+      'tests/out/shapecrit-w275d.json', 'tests/out/dyncenter-w275d.json',
+      // 第276便c(裁定(第66報)(3)): 軸への仕事→自転の**有限移送チャネル**・**熱非負の受動散逸**・
+      //   **歳差ロックの位相**(**エンジン未接続** —— target は器が読む正本ファイル(lib 自身))
+      'tests/out/powerball2-w276c.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -45236,7 +45239,16 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   }
 }
 
-// ---- 第275便e(第65報 (8)「パワーボール効果(仮説)」): docs.powerballLedger ----
+// ---- 第275便e(第65報 (8)「パワーボール効果(仮説)」)+ **第276便c の改版**: docs.powerballLedger ----
+//   第276便c(裁定(第66報)(3))で 3 点を足した:
+//     ⑦ 第276便c の正本 `tests/out/powerball2-w276c.json`(器 tests/exp-w276c-powerball2.mjs・
+//        純関数 tests/lib-w276c-axiswork.mjs と lib-w275e-powerball.mjs・**エンジン未接続**)が在り、
+//        ① 〜 ⑥ の 6 段(無トルク → 整列 → **受動散逸** → **有限移送** → 連星 → **ロック位相**)を持つ。
+//     ⑧ **受動散逸の熱は非負**: ③ と ⑤ の受動散逸の行で「熱が減った步」が **0** であること
+//        (旧模型の否定結果 —— 公転が回る系で熱が単調でない —— を直したことの機械固定)。
+//     ⑨ **有限移送の帳簿が閉じる**: ④ の全行で C=E_spin+E_rotor+Heat+bank−W_in の最悪漂いが
+//        1e−9 以下・**入力 0 の対照で ω が動かない**・**口座が尽きたあと加速しない**。
+//     ⑩ docs/PHYSICS.md 〔第276便c〕節に第276便c の正本の主要数値がそのまま載っている。
 //   **閉じた node 模型の正本**(tests/out/powerball-w275e.json・器 tests/exp-w275e-powerball.mjs・
 //   純関数 tests/lib-w275e-powerball.mjs・**エンジン未接続**)と docs/PHYSICS.md 〔第275便e〕の
 //   表の一致を機械固定する。6 点:
@@ -45290,6 +45302,66 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     if (a1) need.push(a1.tauMeasured.toFixed(6));
     for (const t of need) if (!phys.includes(t)) bad.push('⑥PHYSICS.md に正本の数値が無い: ' + t);
   }
+  // ⑦⑧⑨⑩ 第276便c の改版
+  const P2 = path.join(ROOT, 'tests', 'out', 'powerball2-w276c.json');
+  let J2 = null;
+  try { J2 = JSON.parse(fs.readFileSync(P2, 'utf8')); }
+  catch (e) { bad.push('⑦第276便c の正本が読めない: ' + String(e).slice(0, 60)); }
+  if (J2) {
+    if (!J2.meta || !J2.meta.provenanceVersion) bad.push('⑦第276便c の来歴 meta が無い');
+    if (!J2.meta || !J2.meta.premise || !J2.meta.premise.acceptance)
+      bad.push('⑦採用条件(帳簿が閉じること)の宣言が無い');
+    for (const k of ['stage1', 'stage2', 'stage3', 'stage4', 'stage5', 'stage6', 'verdict'])
+      if (!J2[k]) bad.push('⑦第276便c の段が無い: ' + k);
+    // ⑧ 受動散逸の熱は非負(減少步 0)。**「下限なし」の外挿行も熱は単調でなければならない**
+    const p3 = ((J2.stage3 || {}).rows || []);
+    if (!p3.length) bad.push('⑧受動散逸の行が無い');
+    for (const r of p3) {
+      if (!(r.heatDrops === 0)) bad.push('⑧受動散逸で熱が減っている: ' + r.id + ' = ' + r.heatDrops);
+      if (!(Math.max(r.worstSpinRel[0], r.worstSpinRel[1]) <= 1e-5))
+        bad.push('⑧受動散逸で |S| が動いている(負の対照が破れている): ' + r.id);
+    }
+    // 宣言した最小 L で止まっていること(**合体・捕捉の判定ではない**)
+    const pStop = p3.find((r) => r.minOrbitalL !== null && r.minOrbitalL !== undefined);
+    if (!pStop || !pStop.stopped || pStop.stopped.reason !== 'minOrbitalL')
+      bad.push('⑧最小 L の停止条件が働いた行が無い');
+    // ⑨ 有限移送の帳簿
+    const s4 = ((J2.stage4 || {}).rows || []);
+    if (!s4.length) bad.push('⑨有限移送の行が無い');
+    for (const r of s4) {
+      if (!(r.ledgerWorstAbs <= 1e-9)) bad.push('⑨帳簿が閉じていない: ' + r.id);
+      if (!(r.axialJWorstAbs <= 1e-9)) bad.push('⑨S+J_a が保存していない: ' + r.id);
+      if (!(r.heatDrops === 0)) bad.push('⑨熱が減っている: ' + r.id);
+      if (!(r.bankNegSteps === 0)) bad.push('⑨口座が負になっている: ' + r.id);
+    }
+    const nw = s4.find((r) => /W=0/.test(r.id));
+    if (!nw || !(Math.abs(nw.omegaLast - nw.omegaFirst) <= 1e-12))
+      bad.push('⑨入力 0 の対照で ω が動いている');
+    const bneg = s4.find((r) => /B<0/.test(r.id));
+    if (!bneg || !(bneg.refusals > 0 && bneg.transfers === 0))
+      bad.push('⑨B<0 の枝が拒否されていない');
+    const dep = s4.find((r) => /η=1/.test(r.id));
+    if (!dep || !(dep.depletedAt !== null && dep.bankLast <= 1e-12))
+      bad.push('⑨口座の枯渇が記録されていない');
+    // ⑥ の両側の対照(ロックの判定は循環回数で行う)
+    const lk6 = ((J2.stage6 || {}).rows || []);
+    if (!(lk6.some((r) => r.circulations === 0) && lk6.some((r) => r.circulations > 0)))
+      bad.push('⑦ロック/非ロックの両側の対照が無い');
+    for (const r of lk6) if (!(r.worstPsumAbs <= 1e-9))
+      bad.push('⑦ロックの共役運動量の和が保存していない: ' + r.id);
+    // ⑩ PHYSICS.md への機械同期
+    if (!/〔第276便c/.test(phys)) bad.push('⑩PHYSICS.md に〔第276便c〕節が無い');
+    const need2 = [];
+    if (p3[0]) { need2.push(p3[0].heat.toFixed(6)); need2.push(p3[0].alignGap1Deg.toFixed(3)); }
+    if (lk6[0]) need2.push(lk6[0].Wraw.toFixed(6));
+    if (lk6[1]) need2.push(lk6[1].Wraw.toFixed(6));
+    const et1 = s4.find((r) => /η=1/.test(r.id));
+    if (et1) need2.push(et1.omegaLast.toFixed(6));
+    for (const t of need2) if (!phys.includes(t)) bad.push('⑩PHYSICS.md に第276便c の数値が無い: ' + t);
+  }
+  const p3r = J2 ? (((J2.stage3 || {}).rows) || []) : [];
+  const s4r = J2 ? (((J2.stage4 || {}).rows) || []) : [];
+  const s6r = J2 ? (((J2.stage6 || {}).rows) || []) : [];
   add('docs.powerballLedger', bad.length === 0,
     `**パワーボールの閉じた node 模型**(第275便e・第65報 (8)・正本 tests/out/powerball-w275e.json・`
     + `器 tests/exp-w275e-powerball.mjs・**エンジン未接続**)/ `
@@ -45306,6 +45378,105 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       + `仮説の対応づけ: ` + ((J.verdict || []).map((v) => `${v.id}=${v.inModel}`).join('・'))
       + ` / **K・Q・Γ は宣言された自由パラメータ**(観測から同定していない)`
       : '正本なし')
+    + (J2 ? ` // **第276便c の改版**(正本 tests/out/powerball2-w276c.json・`
+      + `器 tests/exp-w276c-powerball2.mjs・純関数 tests/lib-w276c-axiswork.mjs・**エンジン未接続**)/ `
+      + `**受動散逸**(τ_d=−γP_s g・Q̇=γ|P_s g|²): 熱の減少步 `
+      + `${p3r.map((r) => r.heatDrops + '/' + r.heatSteps).join('・')}(**すべて 0**)・`
+      + `|S| の最悪漂い ${p3r.length ? Math.max(...p3r.map((r) => Math.max(r.worstSpinRel[0], r.worstSpinRel[1]))).toExponential(2) : '—'}・`
+      + `E の最悪漂い ${p3r.length ? Math.max(...p3r.map((r) => r.worstErel)).toExponential(2) : '—'} / `
+      + `**有限移送チャネル**: 帳簿 C の最悪漂い `
+      + `${s4r.length ? Math.max(...s4r.map((r) => r.ledgerWorstAbs)).toExponential(2) : '—'}・`
+      + `S+J_a の最悪漂い ${s4r.length ? Math.max(...s4r.map((r) => r.axialJWorstAbs)).toExponential(2) : '—'}・`
+      + `入力 0 の対照で ω=${(s4r.find((r) => /W=0/.test(r.id)) || {}).omegaLast}(不変)・`
+      + `B<0 は ${(s4r.find((r) => /B<0/.test(r.id)) || {}).refusals} 回拒否 / `
+      + `**ロック位相**: 循環 ${s6r.map((r) => r.circulations).join('・')} 回・`
+      + `生の位相仕事 W_raw ${s6r.map((r) => Number(r.Wraw).toFixed(4)).join('・')} / `
+      + `仮説の対応づけ(改版): ` + ((J2.verdict || []).map((v) => `${v.id}=${v.inModel}`).join('・'))
+      + ` / **η・γ・K_lock は宣言された自由パラメータ**・採用条件は**帳簿が閉じること**だけである`
+      + `(**実物のパワーボールの接触機構を証明したとは書かない**)` : '')
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 第276便c(裁定(第66報)(3)): behavior.axisWorkLedger ----
+//   **純関数 `tests/lib-w276c-axiswork.mjs` を QA の中で直接走らせて、閉じを実測する**
+//   (正本 JSON を読むのではなく、その場で計算する —— 器が古くても嘘をつけないようにするため)。
+//   固定するのは 6 点:
+//     ① ΔE=Aδ²+Bδ の解が**厳密に**要求 ηW を満たす(相対 1e−12 以内)。
+//     ② **B<0 の枝は拒否される**(仕事駆動では通さない —— 受動交換は別枝)。
+//     ③ **入力 0 なら 1 も加速しない**(W=0 → δ=0)。**口座が尽きたら止まる**(無限電源にしない)。
+//     ④ 閉じ C=E_spin+E_rotor+Heat+bank−W_in が丸めの範囲で一定(1e−9 以内)。
+//     ⑤ **S+J_a·ŝ が保存**する(反作用ローターへ −δ を渡しているので構造的)。
+//     ⑥ **受動ブレーキ(「力を抜く」)の熱は非負**で、ω は下がる(負の drive の手入力ではない)。
+//   **エンジン未接続**なので、この判定は html の世代に依らない(root でも同じ数になる)。
+{
+  const bad = [];
+  let AW = null, r1 = null, r2 = null, r3 = null, probe = [];
+  try { AW = await import('file://' + path.join(ROOT, 'tests', 'lib-w276c-axiswork.mjs')); }
+  catch (e) { bad.push('純関数が読めない: ' + String(e).slice(0, 80)); }
+  if (AW) {
+    if (AW.AXISWORK_VERSION !== 'w276c-1') bad.push('版が w276c-1 でない: ' + AW.AXISWORK_VERSION);
+    if (!AW.AXISWORK_PREMISE || !AW.AXISWORK_PREMISE.acceptance)
+      bad.push('採用条件(帳簿が閉じること)の宣言が無い');
+    // ① 2 次式の解が要求を満たす / ② B<0 の拒否
+    probe = [{ Smag: 2, JaPar: 0, I: 1, Ia: 1, e: 0.7 },
+      { Smag: 0.5, JaPar: -3, I: 0.4, Ia: 2.5, e: 12 },
+      { Smag: 1, JaPar: 5, I: 1, Ia: 1, e: 0.1 }].map((c) => {
+      const st = AW.makeAxisState(c), s = AW.solveDelta(st, c.e);
+      return { ...c, ok: s.ok, B: s.B, delta: s.delta,
+        dE: s.ok ? AW.deltaEnergy(st, s.delta) : null };
+    });
+    for (const p of probe) {
+      if (p.B >= 0) {
+        if (!p.ok) bad.push('①B≥0 なのに解けていない');
+        else if (!(Math.abs(p.dE - p.e) <= 1e-12 * Math.max(1, p.e)))
+          bad.push('①ΔE が要求と一致しない: ' + p.dE + ' vs ' + p.e);
+      } else if (p.ok) bad.push('②B<0 が拒否されていない');
+    }
+    // ③ 入力 0(負の対照)
+    r1 = AW.runAxisWork({ id: 'qa-W0', state: AW.makeAxisState({}), dt: 1e-3, steps: 5000,
+      samples: 5, eta: 1, workRate: () => 0, requestRate: () => 0.5 });
+    if (!(Math.abs(r1.last.omega - r1.first.omega) <= 1e-12)) bad.push('③入力 0 で ω が動いた');
+    if (!(r1.last.transfers === 0)) bad.push('③入力 0 で移送が起きた');
+    // ③④⑤ 有限の口座 → 枯渇 → そのあと加速しない
+    r2 = AW.runAxisWork({ id: 'qa-finite', state: AW.makeAxisState({}), dt: 1e-3, steps: 30000,
+      samples: 6, eta: 0.5, workRate: (t) => (t < 10 ? 0.5 : 0), requestRate: () => 0.5 });
+    if (!(r2.last.omega > r2.first.omega)) bad.push('③口座があるのに加速しなかった');
+    if (!(r2.depletedAt !== null)) bad.push('③口座の枯渇が記録されていない');
+    if (!(Math.abs(r2.last.omega - r2.omegaPeak) <= 1e-12)) bad.push('③枯渇後に加速が続いている');
+    if (!(r2.worstLedgerAbs <= 1e-9)) bad.push('④閉じが破れている: ' + r2.worstLedgerAbs);
+    if (!(r2.worstAxialJAbs <= 1e-9)) bad.push('⑤S+J_a が保存していない: ' + r2.worstAxialJAbs);
+    if (!(Math.abs(r2.last.heat - 0.5 * r2.last.Wdrawn) <= 1e-9))
+      bad.push('④η=0.5 の熱が引出の半分でない');
+    // ⑥ 受動ブレーキ(「力を抜く」)
+    r3 = AW.runAxisWork({ id: 'qa-brake', state: AW.makeAxisState({ Smag: 4 }), dt: 1e-3,
+      steps: 30000, samples: 6, eta: 1, workRate: () => 0, requestRate: () => 0,
+      brakeRate: () => 0.05 });
+    if (!(r3.last.omega < r3.first.omega)) bad.push('⑥「力を抜く」で減速しなかった');
+    if (!(r3.last.heat > 0)) bad.push('⑥「力を抜く」で熱が出ていない');
+    if (!(r3.heatDrops === 0)) bad.push('⑥熱が減った步がある: ' + r3.heatDrops);
+    if (!(r3.worstLedgerAbs <= 1e-9)) bad.push('⑥ブレーキで閉じが破れている');
+    if (!(r3.worstAxialJAbs <= 1e-9)) bad.push('⑥ブレーキで S+J_a が保存していない');
+    if (!(r3.last.Win === 0)) bad.push('⑥「力を抜く」なのに入力が入っている(負の drive を手入力していないか)');
+  }
+  add('behavior.axisWorkLedger', bad.length === 0,
+    `**軸への仕事 → 自転の有限移送チャネル**(第276便c・裁定(第66報)(3)・`
+    + `純関数 tests/lib-w276c-axiswork.mjs 版 ${AW ? AW.AXISWORK_VERSION : '—'}・**エンジン未接続**)/ `
+    + `① ΔE=Aδ²+Bδ の解が要求と一致(最悪差 `
+    + `${probe.filter((p) => p.ok).length ? Math.max(...probe.filter((p) => p.ok).map((p) => Math.abs(p.dE - p.e))).toExponential(2) : '—'})・`
+    + `② **B<0 は拒否**(${probe.filter((p) => !p.ok).length} 件)/ `
+    + `③ **入力 0 の負の対照**: ω ${r1 ? r1.first.omega.toFixed(6) : '—'}→`
+    + `${r1 ? r1.last.omega.toFixed(6) : '—'}(移送 ${r1 ? r1.last.transfers : '—'} 回)・`
+    + `**有限の口座**: ω ${r2 ? r2.first.omega.toFixed(6) : '—'}→${r2 ? r2.last.omega.toFixed(6) : '—'}`
+    + `(W_in ${r2 ? r2.last.Win.toFixed(6) : '—'}・枯渇 t=${r2 ? r2.depletedAt : '—'}・`
+    + `**枯渇後の追加加速なし**)/ `
+    + `④ 閉じ C=E_spin+E_rotor+Heat+bank−W_in の最悪漂い ${r2 ? r2.worstLedgerAbs.toExponential(2) : '—'}・`
+    + `⑤ S+J_a·ŝ の最悪漂い ${r2 ? r2.worstAxialJAbs.toExponential(2) : '—'} / `
+    + `⑥ **「力を抜く」(入力 0・抵抗だけ —— 負の drive を手入力しない)**: ω `
+    + `${r3 ? r3.first.omega.toFixed(6) : '—'}→${r3 ? r3.last.omega.toFixed(6) : '—'}・`
+    + `熱 ${r3 ? r3.last.heat.toFixed(6) : '—'}(減少步 ${r3 ? r3.heatDrops : '—'})・`
+    + `入力 ${r3 ? r3.last.Win : '—'} / `
+    + `**採用条件は帳簿が閉じることだけ**(η・I_a・要求率は宣言された自由パラメータ。`
+    + `**実物のパワーボールの接触機構を証明したとは書かない**)`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
 }
 
