@@ -498,6 +498,20 @@ paper/*Notes.bib
 #   「中心ブラックホールを実装した」とは書かない。
 !tests/out/shapecrit-w275d.json
 !tests/out/dyncenter-w275d.json
+# 第276便b(第66報 (2)「plutoCharonReal の kF0 版に問題がないか確認し、問題があれば解決する/
+#   カロン以外の衛星の影響も検討対象とする/『どの様な要因が加われば解決するか』を探る」・
+#   **診断のみ・内蔵の物理入力は不変**):
+#   ① ❄️ の **softening ε 感度系列**(tests/exp-w272b-charon.mjs --eps rule)。基準単位では
+#      受理下限 ε=0.01 が 10 km に当たるので、**単位を変えた診断コピー**(L=5・T=2・M=20)で
+#      1 km まで下げた列を併記する。要求値・適用値・クランプ警告をそのまま残す。
+#      **第272便b の正本 charon-w272b.json は 1 バイトも触らない**。
+#   ② **要因表**(tests/exp-w276b-charonfactors.mjs)。ε・a の丸め・G の丸め・GM の観測精度・
+#      質量配列の Float32 量子化・小衛星 4 体・太陽の分解・周期の定義 —— の感度と採用可否。
+#      QA `docs.charonFactors` が docs/CALIBRATION_VERDICT_v1.44.md §5.24 の表と突き合わせ、
+#      `lint.provenanceMeta` が来歴を固定するのでコミットする。
+#   **「観測一致を達成した」「残差ゼロの ε を採用した」とは書かない**(どちらも本便はしていない)。
+!tests/out/charoneps-w276b.json
+!tests/out/charonfactors-w276b.json
 # 第221便: セッション内スクラッチ実測ハーネス(コミット対象外 — 実測値は claims/QA が機械固定する)
 _scratch-*.mjs
 _scratch-*/
