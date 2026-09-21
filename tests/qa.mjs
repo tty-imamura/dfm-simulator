@@ -1944,7 +1944,10 @@ const add = (id, pass, detail) => {
       // 第276便a(第66報 (1)): 背景複素決定力の純関数(源分割の同値・微分の検算・門・旧経路との一致)/
       //   D₀ の読み口の**機械監査**(用途と置換可否・R39 の q)/ 背景の**事前予測表**
       'tests/out/bgfield-w276a.json', 'tests/out/d0sites-w276a.json',
-      'tests/out/bgpredict-w276a.json'];
+      'tests/out/bgpredict-w276a.json',
+      // 第276便e(第66報 (4)): 渦巻・棒の node 試作(**エンジン未接続**)—— html を走らせない器
+      //   なので target は器が読む正本ファイル(lib 自身)である
+      'tests/out/galaxyproto-w276e.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -46076,6 +46079,284 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     + `入力 ${r3 ? r3.last.Win : '—'} / `
     + `**採用条件は帳簿が閉じることだけ**(η・I_a・要求率は宣言された自由パラメータ。`
     + `**実物のパワーボールの接触機構を証明したとは書かない**)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 第276便e(原仮定者の裁定(第66報)(4) 後半「渦巻銀河に組み合わせ、棒渦巻銀河に発展させる」):
+// ----   behavior.galaxyProtoLedger ----
+// ----   **純関数だけで閉じる検査**(ページを開かないので root/beta で同じ結果になる)。固定するのは 7 つ:
+// ----     ① lib の版が `w276e-1` である。
+// ----     ② R44 の導出(κ₀=GM_c/r_c³・W_c=M_c/r_c²・ω_m=W_c/(W_c+W₀)ω_c・K⊥=κ₀+(α−1)ω_m²・
+// ----        K∥=κ₀+βω_m²)が宣言から**閉形式どおり**に出る。
+// ----     ③ **正準方程式との整合**: `systemDerivs` が `systemInvariants` の H の
+// ----        ẋ=∂H/∂p・ṗ=−∂H/∂x・φ̇_c=∂H/∂J_c・J̇_c=−∂H/∂φ_c と中心差分で一致する
+// ----        (= 力の式と帳簿の式が**同じ H から出ている**)。
+// ----     ④ **Noether**: Φ_arm が (mθ−mφ_c) の形でしか θ と φ_c に依らないので、
+// ----        短い走行で **H と (L_z+J_c) が保存**する。
+// ----     ⑤ 腕: −∇Φ_arm が中心差分と一致(**A′(r) 項も ∂χ/∂r 項も落としていない**)。
+// ----        与えたピッチ角が atan(m/|β_s|) である(**測った値ではなく宣言**)。
+// ----     ⑥ **逆行率の閉形式** ½(1−c/√(1+c²))(c=Ω_p/√(K⊥Φ−δ²))が標本と合う。
+// ----        **共回転のままの下限**(α だけで決まる壁)が閉形式どおりである。
+// ----     ⑦ 棒: 第66報 (4) の字義の形はゼロモード **13 本**(= 曲げ剛性 0)、K_θ を宣言すると
+// ----        **5 本**、コア軸との結合 J_t を宣言すると **3 本**(位置だけ回すと ΔU≠0・
+// ----        スピンも一緒に回すと 0)。**宣言した散逸**で ΣP と全 J が保存し、熱が非負である。
+// ----   **主張していないこと**: 腕が力学から出てくること・棒が自発形成すること。
+// ----   測っているのは「**与えた結合の下で帳簿が閉じること**」だけである。
+{
+  const bad = [];
+  const r = {};
+  try {
+    const GP = await import('file://' + path.join(ROOT, 'tests/lib-w276e-galaxyproto.mjs'));
+    r.ver = GP.GALAXYPROTO_VERSION;
+    if (r.ver !== 'w276e-1') bad.push(`①lib の版が w276e-1 でない(${r.ver})`);
+    if (!GP.GALAXY_HYPOTHESIS || !Array.isArray(GP.GALAXY_HYPOTHESIS.claims)
+      || GP.GALAXY_HYPOTHESIS.claims.length !== 5) bad.push('①仮説 G1〜G5 が無い');
+    // ② R44 の導出
+    const parent = GP.makeCore({ G: 1, Mc: 5.12e6, rc: 800, omega_c: 0.225, W0: 4,
+      axis: [0, 0, 1], alpha: 1.1, beta: 25 });
+    const child = GP.makeCore({ G: 1, Mc: 1e7, rc: 1000, omega_c: 0.28, W0: 4,
+      axis: [1, 0, 0], alpha: 25, beta: 0.05 });
+    r.kappa0 = parent.kappa0; r.omegaMp = parent.omega_m; r.omegaMc = child.omega_m;
+    const want = [[parent.kappa0, 1 * 5.12e6 / (800 ** 3)], [parent.Wc, 5.12e6 / (800 ** 2)],
+      [parent.frac, 8 / 12], [parent.omega_m, (8 / 12) * 0.225],
+      [parent.Kperp, parent.kappa0 + (1.1 - 1) * parent.omega_m ** 2],
+      [parent.Kpar, parent.kappa0 + 25 * parent.omega_m ** 2],
+      [child.omega_m, (10 / 14) * 0.28]];
+    r.declWorst = Math.max(...want.map(([a, b]) => Math.abs(a - b)));
+    if (!(r.declWorst < 1e-12)) bad.push(`②導出が閉形式と合わない(${r.declWorst})`);
+    r.closedParent = parent.Kperp > 0 && parent.Kpar > 0;
+    r.closedChild = child.Kperp > 0 && child.Kpar > 0;
+    if (!r.closedParent || !r.closedChild) bad.push('②R44 の試験値で閉じた正の H にならない');
+    // ③ 正準方程式との整合(N=3・腕あり・χ_A≠0)
+    const N = 3;
+    const arm = { ...GP.ARM_DEFAULT, lambdaA: 2, chiA: 0.002, Jref: 100 };
+    arm.A0 = GP.armAmplitude0(child, arm);
+    const sys = GP.makeSystem({ N, mass: 1, cores: [parent], arm, Ic: 40 });
+    const y = Float64Array.from([2.1, -1.3, 0.4, 0.21, 0.09, -0.05,
+      -4.2, 3.1, -0.7, -0.11, 0.24, 0.03,
+      6.4, 1.2, 0.2, 0.05, -0.31, 0.12, 0.37, 12.5]);
+    const d = GP.systemDerivs(sys, y);
+    const H = (v) => GP.systemInvariants(sys, v).H;
+    const hh = 1e-6;
+    let worstCanon = 0;
+    for (let i = 0; i < y.length; i++) {
+      const save = y[i];
+      y[i] = save + hh; const up = H(y);
+      y[i] = save - hh; const dn = H(y);
+      y[i] = save;
+      const dHdy = (up - dn) / (2 * hh);
+      const o = (i < 6 * N) ? (i % 6) : -1;
+      let expect;
+      if (i === GP.PHI_OFF(N)) expect = -d[GP.JC_OFF(N)];        // ∂H/∂φ_c = −J̇_c
+      else if (i === GP.JC_OFF(N)) expect = d[GP.PHI_OFF(N)];    // ∂H/∂J_c = +φ̇_c
+      else if (o < 3) expect = -d[i + 3];                        // ∂H/∂x = −ṗ
+      else expect = d[i - 3];                                    // ∂H/∂p = +ẋ
+      worstCanon = Math.max(worstCanon, Math.abs(dHdy - expect));
+    }
+    r.canonWorst = worstCanon;
+    if (!(worstCanon < 1e-7)) bad.push(`③正準方程式と合わない(最大差 ${worstCanon})`);
+    // ④ Noether(短い走行)
+    let yy = Float64Array.from(y);
+    const i0 = GP.systemInvariants(sys, yy);
+    for (let k = 0; k < 4000; k++) yy = GP.rk4(sys, yy, 0.005);
+    const i1 = GP.systemInvariants(sys, yy);
+    const sc = Math.abs(i0.Ekin) + Math.abs(i0.Upot) + Math.abs(i0.Uarm) + Math.abs(i0.Espin);
+    r.Hdrift = Math.abs(i1.H - i0.H) / sc;
+    r.LzJcDrift = Math.abs(i1.LzPlusJc - i0.LzPlusJc) / Math.abs(i0.LzPlusJc);
+    if (!(r.Hdrift < 1e-9)) bad.push(`④H が保存しない(${r.Hdrift})`);
+    if (!(r.LzJcDrift < 1e-9)) bad.push(`④L_z+J_c が保存しない(${r.LzJcDrift})`);
+    // ⑤ 腕の勾配と与えたピッチ
+    let worstG = 0, npt = 0;
+    for (const rr of [0.2, 0.8, 2, 5, 9, 15]) for (const th of [0, 0.7, 1.9, 3.3, 5.1]) {
+      const x = rr * Math.cos(th), yv = rr * Math.sin(th), h2 = 1e-6;
+      const a = GP.armFieldAt(x, yv, 0.3, 95, arm);
+      const U = (p1, p2, p3, p4) => GP.armFieldAt(p1, p2, p3, p4, arm).Phi;
+      worstG = Math.max(worstG,
+        Math.abs(a.gx - (U(x + h2, yv, 0.3, 95) - U(x - h2, yv, 0.3, 95)) / (2 * h2)),
+        Math.abs(a.gy - (U(x, yv + h2, 0.3, 95) - U(x, yv - h2, 0.3, 95)) / (2 * h2)),
+        Math.abs(a.dPhidphic - (U(x, yv, 0.3 + h2, 95) - U(x, yv, 0.3 - h2, 95)) / (2 * h2)),
+        Math.abs(a.dPhidJc - (U(x, yv, 0.3, 95 + 1e-3) - U(x, yv, 0.3, 95 - 1e-3)) / 2e-3));
+      npt++;
+    }
+    r.armGradWorst = worstG; r.armPoints = npt;
+    if (!(worstG < 1e-6)) bad.push(`⑤−∇Φ_arm が中心差分と合わない(${worstG})`);
+    r.imposedPitch = GP.imposedPitchDeg(GP.ARM_DEFAULT);
+    if (!(Math.abs(r.imposedPitch - Math.atan(GP.ARM_DEFAULT.m / Math.abs(GP.ARM_DEFAULT.beta_s)) * 180 / Math.PI) < 1e-12))
+      bad.push('⑤与えたピッチ角が atan(m/|β_s|) でない');
+    // ⑥ 逆行率の閉形式
+    const OpTest = 0.28;
+    const fc = GP.retrogradeForecast(parent, OpTest);
+    r.retroC = fc.c; r.retroPredicted = fc.fracPredicted;
+    const NS = 20000;
+    const ss = GP.gibbsSample({ core: parent, N: NS, mass: 1, T: 25 * fc.kPerp, Omega_p: OpTest, seed: 4242 });
+    const sysR = GP.makeSystem({ N: NS, mass: 1, cores: [parent], arm: null, Ic: 1 });
+    r.retroSample = GP.retrogradeFraction(sysR, ss.y).frac;
+    r.retroGap = Math.abs(r.retroSample - r.retroPredicted);
+    if (!(r.retroGap < 3 * Math.sqrt(r.retroPredicted * (1 - r.retroPredicted) / NS) + 1e-4))
+      bad.push(`⑥逆行率の閉形式が標本と合わない(予測 ${r.retroPredicted} vs 標本 ${r.retroSample})`);
+    const floor = GP.retrogradeCorotationFloor(1.1);
+    r.corotFloor = floor.frac;
+    if (!(Math.abs(floor.frac - 0.5 * (1 - 1 / Math.sqrt(1 + 1.1))) < 1e-12))
+      bad.push('⑥共回転の下限が閉形式と合わない');
+    if (!(GP.retrogradeAtCorotation(parent).fracPredicted > 0.15))
+      bad.push('⑥共回転の予測が下限を割っている');
+    // ⑦ 棒
+    const g = GP.chainGraph(6, 8);
+    const modes = [];
+    for (const P of [{ kl: 1, l0: 8, Js: 0.5, Ktheta: 0, Jt: 0 },
+      { kl: 1, l0: 8, Js: 0.5, Ktheta: 4, Jt: 0 },
+      { kl: 1, l0: 8, Js: 0.5, Ktheta: 0, Jt: 4 }]) {
+      const Hs = GP.barGraphHessian(g.nodes, g.spins, g.edges, P);
+      const zm = GP.zeroModeCount(GP.eigSym(Hs), 1e-8);
+      const rot = GP.barRigidRotation(g.nodes, g.spins, g.edges, P, 0.37, [0, 0, 1]);
+      modes.push({ zero: zm.zero, both: Math.abs(rot.dUboth), posOnly: Math.abs(rot.dUposOnly),
+        fd: GP.barGraphGradCheck(g.nodes, g.spins, g.edges, P) });
+    }
+    r.barZero = modes.map((m) => m.zero);
+    if (modes[0].zero !== 13) bad.push(`⑦字義の形のゼロモードが 13 本でない(${modes[0].zero})`);
+    if (modes[1].zero !== 5) bad.push(`⑦K_θ ありのゼロモードが 5 本でない(${modes[1].zero})`);
+    if (modes[2].zero !== 3) bad.push(`⑦J_t ありのゼロモードが 3 本でない(${modes[2].zero})`);
+    if (!(modes[2].posOnly > 1e-3)) bad.push('⑦J_t ありで「位置だけの剛体回転」が自由になっている');
+    if (!(modes[2].both < 1e-10)) bad.push('⑦スピンも一緒に回したのに U が変わる');
+    r.barFdWorst = Math.max(...modes.map((m) => m.fd));
+    if (!(r.barFdWorst < 1e-6)) bad.push(`⑦棒の解析勾配が中心差分と合わない(${r.barFdWorst})`);
+    // 散逸つきの走行(ΣP・全 J が減らず、熱が非負)
+    const n6 = 6, M6 = new Array(n6).fill(1);
+    const nodes6 = g.nodes.map((q, a) => [q[0], q[1] + (a % 2 ? 0.6 : -0.6), 0]);
+    const moms6 = nodes6.map((q) => [-0.05 * q[1], 0.05 * q[0], 0]);
+    const spin6 = g.spins.map((s) => GP.g3.mul(s, 2));
+    const B = { n: n6, edges: g.edges, p: { kl: 1, l0: 8, Js: 0.5, Ktheta: 4, Jt: 0 }, M: M6, gamma: 0.2 };
+    let z = GP.barPack(nodes6, moms6, spin6, true);
+    const b0 = GP.barInvariants(B, z);
+    let heatPrev = 0, mono = true, wP = 0, wJ = 0;
+    const scaleJ = Math.max(1e-30, GP.g3.norm(b0.J));
+    for (let k = 0; k < 20000; k++) {
+      z = GP.barRk4(B, z, 0.001);
+      if ((k + 1) % 200 === 0) {
+        const iv = GP.barInvariants(B, z);
+        if (iv.heat < heatPrev - 1e-12) mono = false;
+        heatPrev = iv.heat;
+        wP = Math.max(wP, GP.g3.norm(GP.g3.sub(iv.P, b0.P)));
+        wJ = Math.max(wJ, GP.g3.norm(GP.g3.sub(iv.J, b0.J)) / scaleJ);
+      }
+    }
+    const b1 = GP.barInvariants(B, z);
+    r.barHeat = b1.heat; r.barHeatMono = mono; r.barPdrift = wP; r.barJdrift = wJ;
+    r.barBend0 = b0.bendWidth; r.barBend1 = b1.bendWidth;
+    r.barEclose = Math.abs(b1.E - b0.E) / Math.max(1e-30, Math.abs(b0.Ekin) + Math.abs(b0.U));
+    if (!(r.barHeat > 0)) bad.push('⑦宣言した散逸で熱が出ていない');
+    if (!mono) bad.push('⑦熱が減る步がある(非負でない)');
+    if (!(wP < 1e-10)) bad.push(`⑦散逸で ΣP が漂う(${wP})`);
+    if (!(wJ < 1e-10)) bad.push(`⑦散逸で全 J が漂う(${wJ})`);
+    if (!(r.barEclose < 1e-8)) bad.push(`⑦機械エネルギー + 熱が閉じない(${r.barEclose})`);
+    if (!(b1.bendWidth < 0.1 * b0.bendWidth)) bad.push('⑦散逸を入れても曲げが落ちない');
+  } catch (e) { bad.push('純関数が読めない: ' + String(e).slice(0, 140)); }
+  add('behavior.galaxyProtoLedger', bad.length === 0,
+    `**渦巻・棒の node 試作の純関数**(第276便e・第66報 (4)・版 ${r.ver}・**エンジン未接続**): `
+    + `① R44 の導出 κ₀=${Number(r.kappa0).toFixed(6)}・ω_m(親)=${Number(r.omegaMp).toFixed(6)}・`
+    + `ω_m(子)=${Number(r.omegaMc).toFixed(6)}(閉形式との最大差 ${Number(r.declWorst).toExponential(2)}・`
+    + `閉じた正の H 親=${r.closedParent}/子=${r.closedChild})/ `
+    + `② **正準方程式との一致** ẋ=∂H/∂p・ṗ=−∂H/∂x・φ̇_c=∂H/∂J_c・J̇_c=−∂H/∂φ_c の最大差 `
+    + `${Number(r.canonWorst).toExponential(2)} / ③ **Noether** H の漂い ${Number(r.Hdrift).toExponential(2)}・`
+    + `**(L_z+J_c) の漂い ${Number(r.LzJcDrift).toExponential(2)}** / `
+    + `④ 腕 −∇Φ_arm vs 中心差分 ${Number(r.armGradWorst).toExponential(2)}(${r.armPoints} 点・`
+    + `A′ 項も ∂χ/∂r 項も落としていない)・**与えた**ピッチ角 ${Number(r.imposedPitch).toFixed(6)}° / `
+    + `⑤ **逆行率の閉形式** ½(1−c/√(1+c²)): c=${Number(r.retroC).toFixed(5)} → 予測 `
+    + `${Number(r.retroPredicted).toFixed(6)} vs 標本 ${Number(r.retroSample).toFixed(6)}`
+    + `(差 ${Number(r.retroGap).toExponential(2)})・**共回転のままの下限 ${Number(r.corotFloor).toFixed(6)}** / `
+    + `⑥ 棒のゼロモード ${JSON.stringify(r.barZero)}(字義の形 13 = **曲げ剛性 0**・K_θ で 5・J_t で 3)・`
+    + `解析勾配 vs 差分 ${Number(r.barFdWorst).toExponential(2)} / `
+    + `⑦ **宣言した散逸** 曲げ幅 ${Number(r.barBend0).toFixed(6)}→${Number(r.barBend1).toFixed(6)}・`
+    + `熱 ${Number(r.barHeat).toFixed(6)}(単調 ${r.barHeatMono})・ΣP の漂い ${Number(r.barPdrift).toExponential(2)}・`
+    + `全 J の漂い ${Number(r.barJdrift).toExponential(2)} / `
+    + `**主張していないこと**: 腕が力学から出ること・棒が自発形成すること`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 第276便e: docs.galaxyProtoCriteria ----
+// ----   **正本**(tests/out/galaxyproto-w276e.json・器 tests/exp-w276e-galaxyproto.mjs・
+// ----   純関数 tests/lib-w276e-galaxyproto.mjs・**エンジン未接続**)と docs/PHYSICS.md
+// ----   〔第276便e〕の表の一致を機械固定する。6 点:
+// ----     ① 来歴 meta・仮説(G1〜G5)・**完成門**(`meta.gate`)が正本に載っていて、
+// ----        「測る前に宣言した」旗が立っている。
+// ----     ② 4 段(stageI〜stageIV)と `gates`・`verdict` がすべて在る。
+// ----     ③ 完成門の判定が**宣言した閾値をそのまま当てた結果**である(器が緩めていない)。
+// ----     ④ **落ちた門が落ちたまま**記録されている(FAIL を握り潰していない)。
+// ----     ⑤ R44 の局所模型の適用範囲 max r/r_c が全走行で記録されている。
+// ----     ⑥ PHYSICS.md に〔第276便e〕節があり、**正本の主要数値がそのまま載っている**(機械同期)。
+{
+  const P = path.join(ROOT, 'tests', 'out', 'galaxyproto-w276e.json');
+  let J = null, err = '';
+  try { J = JSON.parse(fs.readFileSync(P, 'utf8')); } catch (e) { err = String(e).slice(0, 80); }
+  const phys = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+  const bad = [];
+  let nFail = 0, nPass = 0, best = null, diskCorot = null, barLit = null;
+  if (!J) bad.push('正本が読めない: ' + err);
+  else {
+    if (!J.meta || !J.meta.provenanceVersion) bad.push('①来歴 meta が無い');
+    const HY = J.meta && J.meta.hypothesis;
+    if (!HY || !Array.isArray(HY.claims) || HY.claims.length !== 5) bad.push('①仮説 G1〜G5 が無い');
+    if (!J.meta || !J.meta.gate || !J.meta.gateDeclaredBeforeMeasuring)
+      bad.push('①完成門の宣言(測る前)が無い');
+    for (const k of ['stageI', 'stageII', 'stageIII', 'stageIV', 'gates', 'verdict', 'declarations'])
+      if (!J[k]) bad.push('②段が無い: ' + k);
+    const G = (J.meta && J.meta.gate) || {};
+    for (const g of (J.gates || [])) {
+      if (g.pass) nPass++; else nFail++;
+      if (typeof g.pass !== 'boolean') bad.push('③門の判定が真偽値でない: ' + g.id);
+    }
+    // ③ 宣言した閾値が門の文字列に入っている(緩めていないことの機械確認)
+    const gid = (s) => (J.gates || []).find((g) => g.id.startsWith(s));
+    const pairs = [['G1 ', G.pitchGapDeg], ['G1′', G.pitchSpreadDeg], ['G2 ', G.contrastMean],
+      ['G3 ', G.barLengthRes], ['G4 ', G.retrograde], ['G6 ', G.localRatio]];
+    for (const [id, th] of pairs) {
+      const g = gid(id);
+      if (!g) { bad.push('③門が無い: ' + id); continue; }
+      if (!String(g.gate).includes(String(th))) bad.push(`③門 ${id} の閾値が宣言 ${th} と違う(${g.gate})`);
+    }
+    // ④ 落ちた門はそのまま(本便は FAIL を必ず 1 件以上持つ —— 握り潰していないことの確認)
+    if (nFail === 0 && (J.gates || []).length) {
+      // 全部通ったなら通ったで良いが、verdict に「試験していない」が残っているはず
+      if (!(J.verdict || []).some((v) => /試験していない|未/.test(String(v.inModel))))
+        bad.push('④すべて PASS で未試験の項目も無い(Failure First の記録が消えている)');
+    }
+    // ⑤ 局所模型の適用範囲
+    const locals = [...((J.stageI || {}).rows || []), ...((J.stageII || {}).rows || []),
+      ...((J.stageIII || {}).rows || [])];
+    for (const row of locals) {
+      if (row.error) continue;
+      if (!(typeof row.rmaxOverRc === 'number')) bad.push('⑤max r/r_c が無い行がある: ' + row.id);
+    }
+    best = ((J.stageIII || {}).rows || []).reduce(
+      (a, b) => ((b.contrastWindow || 0) > ((a && a.contrastWindow) || 0) ? b : a), null);
+    diskCorot = ((J.stageII || {}).rows || []).find((x) => /共回転/.test(x.id));
+    barLit = ((J.stageIV || {}).hessian || [])[0];
+    // ⑥ PHYSICS.md への機械同期
+    if (!/〔第276便e/.test(phys)) bad.push('⑥PHYSICS.md に〔第276便e〕節が無い');
+    const need = [];
+    if (J.stageIII && J.stageIII.imposedPitchDeg !== undefined && J.stageIII.imposedPitchDeg !== null)
+      need.push(String(J.stageIII.imposedPitchDeg));
+    if (best) { need.push(String(best.pitchWindow)); need.push(String(best.contrastWindow)); }
+    if (J.stageII && J.stageII.corotationFloor) need.push(String(J.stageII.corotationFloor.frac));
+    if (diskCorot) need.push(String(diskCorot.retro1));
+    if (barLit) need.push(String(barLit.zeroModes) + ' 本');
+    for (const t of need) if (!phys.includes(t)) bad.push('⑥PHYSICS.md に正本の数値が無い: ' + t);
+  }
+  add('docs.galaxyProtoCriteria', bad.length === 0,
+    `**渦巻・棒の node 試作の正本**(第276便e・第66報 (4)・tests/out/galaxyproto-w276e.json・`
+    + `器 tests/exp-w276e-galaxyproto.mjs・**エンジン未接続**)/ `
+    + (J ? `来歴 ${J.meta && J.meta.provenanceVersion}・仮説 ${(((J.meta || {}).hypothesis || {}).claims || []).length} 項・`
+      + `**完成門は測る前に宣言** ${!!(J.meta && J.meta.gateDeclaredBeforeMeasuring)} / `
+      + `門 ${nPass} PASS / **${nFail} FAIL**(落ちた門: `
+      + `${(J.gates || []).filter((g) => !g.pass).map((g) => g.id.split(' ')[0]).join('・') || 'なし'}）/ `
+      + `渦巻: 与えたピッチ ${(J.stageIII || {}).imposedPitchDeg}° に対し測った `
+      + `${best ? best.pitchWindow : '—'}°(コントラスト ${best ? best.contrastWindow : '—'}）/ `
+      + `逆行率: **共回転のままの下限 ${((J.stageII || {}).corotationFloor || {}).frac}**・`
+      + `共回転の実測 ${diskCorot ? diskCorot.retro1 : '—'} / `
+      + `棒: 第66報 (4) の字義の形はゼロモード ${barLit ? barLit.zeroModes : '—'} 本(= 曲げ剛性 0)/ `
+      + `仮説の対応づけ ${(J.verdict || []).map((v) => v.id + '=' + String(v.inModel).replace(/\*/g, '')).join('・')} / `
+      + `**腕は与えた位相結合の帰結・棒は与えた結合グラフ**(創発でも自発形成でもない)`
+      : '正本なし')
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
 }
 

@@ -1,0 +1,2265 @@
+{
+ "meta": {
+  "note": "第276便e — 渦巻・棒の node 試作(原仮定者の裁定(第66報)(4) 後半)。**エンジン未接続**。",
+  "hypothesis": {
+   "version": "w276e-1",
+   "source": "原仮定者の裁定(第66報)(4)・(第65報)(6)",
+   "claims": [
+    "G1 親コアの面外スピンが円盤をつくる(赤道面の引きずり)",
+    "G2 子コアの面内軸が腕をつくる(横倒しの自転軸方向に腕が発現する)",
+    "G3 渦巻パターンは巻き込まずに保たれる(材料腕と別物である)",
+    "G4 数珠状の子コアが棒として運動する",
+    "G5 棒渦巻へ発展する(棒 + パターン腕の共存)"
+   ],
+   "status": "**仮説**。本 lib は仮説を証明も反証もしない —— 与えた結合の下で何が保たれ何が保たれないかを数で分けるだけである",
+   "notClaim": [
+    "腕の創発",
+    "棒の自発形成",
+    "銀河の安定(観測比較なし)",
+    "渦巻銀河の再現",
+    "R44 のハミルトニアンが DFM から導出されたこと"
+   ],
+   "imposed": [
+    "腕の形(Φ_arm)",
+    "腕のピッチ(β_s)",
+    "腕の本数(m)",
+    "棒の結合グラフ",
+    "α・β(R44 の試験値)",
+    "λ_A・I_c・k_ℓ・J_s・J_t"
+   ]
+  },
+  "gate": {
+   "pitchGapDeg": 2,
+   "pitchSpreadDeg": 2,
+   "contrastMean": 0.1,
+   "barLengthRes": 0.05,
+   "barWidthRes": 0.05,
+   "retrograde": 0.05,
+   "ledgerRel": 1e-8,
+   "barLedgerAbs": 1e-10,
+   "localRatio": 0.05
+  },
+  "gateDeclaredBeforeMeasuring": true,
+  "doNotWrite": [
+   "腕が創発した",
+   "棒が自発形成した",
+   "渦巻銀河を再現した",
+   "銀河が安定した",
+   "観測と合った",
+   "新発見",
+   "v1.45.0 RC を切った"
+  ],
+  "caveat": "α・β・λ_A・β_s・m・I_c・k_ℓ・J_s・J_t・剪断場は**すべて宣言**である。R44 のハミルトニアンは**統括の検証仮説**であって、現行 DFM から一意に導出された法則ではない。R44 の但し書き「r/r_c<0.05 の局所模型」に入っているかは G6 の列で確かめている。",
+  "provenanceVersion": "w272e-1",
+  "wave": "第276便e",
+  "target": "tests/lib-w276e-galaxyproto.mjs",
+  "targetSha256": "ee7752be43e39dd3690e1a9fcc67db29d9031185ae2939168f77e268add8e6d1",
+  "generatedAt": "2026-09-21T12:53:22.268Z",
+  "inputs": [
+   {
+    "file": "tests/lib-w276e-galaxyproto.mjs",
+    "bytes": 51536,
+    "sha256": "ee7752be43e39dd3690e1a9fcc67db29d9031185ae2939168f77e268add8e6d1",
+    "mtime": "2026-09-21T12:39:38.084Z"
+   },
+   {
+    "file": "tests/lib-w274e-armbar.mjs",
+    "bytes": 16448,
+    "sha256": "988d4541cf90451ffdb312a36918a453748a370c00c4fb35a776fd88bd66c879",
+    "mtime": "2026-09-21T11:57:56.289Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w276e-galaxyproto.mjs",
+    "bytes": 41807,
+    "sha256": "fa6a81ff9c15b02cbfae9a3af6d5d4db4004a61293a5b83f0ea0acfddf742dab",
+    "mtime": "2026-09-21T12:26:55.150Z"
+   },
+   {
+    "file": "tests/lib-w276e-galaxyproto.mjs",
+    "bytes": 51536,
+    "sha256": "ee7752be43e39dd3690e1a9fcc67db29d9031185ae2939168f77e268add8e6d1",
+    "mtime": "2026-09-21T12:39:38.084Z"
+   },
+   {
+    "file": "tests/lib-w274e-armbar.mjs",
+    "bytes": 16448,
+    "sha256": "988d4541cf90451ffdb312a36918a453748a370c00c4fb35a776fd88bd66c879",
+    "mtime": "2026-09-21T11:57:56.289Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-21T11:57:56.289Z"
+   }
+  ],
+  "codeSha256": "370bb0602388d46d2b8d8c45717a6193151ef0db342f8198f6daaf2582e4843e"
+ },
+ "declarations": {
+  "GATE": {
+   "pitchGapDeg": 2,
+   "pitchSpreadDeg": 2,
+   "contrastMean": 0.1,
+   "barLengthRes": 0.05,
+   "barWidthRes": 0.05,
+   "retrograde": 0.05,
+   "ledgerRel": 1e-8,
+   "barLedgerAbs": 1e-10,
+   "localRatio": 0.05
+  },
+  "ALPHA_BETA": {
+   "cluster": [
+    1.1,
+    0.1
+   ],
+   "disk": [
+    1.1,
+    25
+   ],
+   "arm": [
+    25,
+    0.05
+   ]
+  },
+  "run": {
+   "G": 1,
+   "W0": 4,
+   "parent": {
+    "Mc": 5120000,
+    "rc": 800,
+    "omega_c": 0.225,
+    "axis": [
+     0,
+     0,
+     1
+    ],
+    "alpha": 1.1,
+    "beta": 25,
+    "label": "parent(面外軸・円盤)"
+   },
+   "child": {
+    "Mc": 10000000,
+    "rc": 1000,
+    "omega_c": 0.28,
+    "axis": [
+     1,
+     0,
+     0
+    ],
+    "alpha": 25,
+    "beta": 0.05,
+    "label": "child(面内軸・腕)"
+   },
+   "dt": 0.01,
+   "tWindow": 300,
+   "warmFrac": 0.3333333333333333,
+   "sampleEvery": 40,
+   "pitchFrames": 8,
+   "diskN": 3000,
+   "armN": 1500,
+   "spiralN": 2500,
+   "spiralT": 240,
+   "diskT": 0.44625,
+   "diskOmegaP": 0.28,
+   "armT": 0.768,
+   "lambdaA": [
+    0.3,
+    1,
+    3
+   ],
+   "IcScale": [
+    0.1,
+    1,
+    10
+   ],
+   "bins": [
+    {
+     "lo": 2,
+     "hi": 3.25
+    },
+    {
+     "lo": 3.25,
+     "hi": 4.5
+    },
+    {
+     "lo": 4.5,
+     "hi": 5.75
+    },
+    {
+     "lo": 5.75,
+     "hi": 7
+    },
+    {
+     "lo": 7,
+     "hi": 8.25
+    },
+    {
+     "lo": 8.25,
+     "hi": 9.5
+    },
+    {
+     "lo": 9.5,
+     "hi": 10.75
+    },
+    {
+     "lo": 10.75,
+     "hi": 12
+    }
+   ]
+  },
+  "cores": [
+   {
+    "label": "parent(面外軸・円盤)",
+    "Mc": 5120000,
+    "rc": 800,
+    "omega_c": 0.225,
+    "W0": 4,
+    "alpha": 1.1,
+    "beta": 25,
+    "axis": [
+     0,
+     0,
+     1
+    ],
+    "kappa0": 0.01,
+    "Wc": 8,
+    "frac": 0.666666667,
+    "omega_m": 0.15,
+    "Kperp": 0.01225,
+    "Kpar": 0.5725,
+    "closedPositiveH": true,
+    "KperpPhi": 0.03475,
+    "KparPhi": 0.5725,
+    "shapeRatioPredicted": 0.246371
+   },
+   {
+    "label": "child(面内軸・腕)",
+    "Mc": 10000000,
+    "rc": 1000,
+    "omega_c": 0.28,
+    "W0": 4,
+    "alpha": 25,
+    "beta": 0.05,
+    "axis": [
+     1,
+     0,
+     0
+    ],
+    "kappa0": 0.01,
+    "Wc": 10,
+    "frac": 0.714285714,
+    "omega_m": 0.2,
+    "Kperp": 0.97,
+    "Kpar": 0.012,
+    "closedPositiveH": true,
+    "KperpPhi": 1.01,
+    "KparPhi": 0.012,
+    "shapeRatioPredicted": 9.174239
+   }
+  ]
+ },
+ "stageI": {
+  "note": "子コアの面内軸だけ。**スピン 0 の対照**を並べる",
+  "rows": [
+   {
+    "id": "arm(子コアのスピンあり)",
+    "omega_m": 0.2,
+    "sigPerpDecl": 0.872007,
+    "sigParDecl": 8,
+    "shapeRatioDecl": 9.174239,
+    "effEigs": [
+     0.012,
+     0.97,
+     0.97
+    ],
+    "closed": true,
+    "transWidth0": 0.86979,
+    "transWidth1": 0.869281,
+    "transWidthRes": 0.000585,
+    "axialHalf0": 15.532436,
+    "axialHalf1": 15.357846,
+    "axialHalfRes": 0.01124,
+    "aspect0": 8.991241,
+    "aspect1": 9.02778,
+    "rmaxOverRc": 0.026023,
+    "localOk": true,
+    "worstHrel": 5.252901464325485e-10,
+    "Lsym0": -95.668493,
+    "worstLsymAbs": 0.0000012538757800939493,
+    "series": [
+     {
+      "t": 100.01,
+      "transWidth": 0.869678,
+      "axialHalf": 15.494108,
+      "dispRatio": 0.156878,
+      "rmsPlanar": 7.902899
+     },
+     {
+      "t": 125.01,
+      "transWidth": 0.869636,
+      "axialHalf": 15.39293,
+      "dispRatio": 0.153427,
+      "rmsPlanar": 7.866912
+     },
+     {
+      "t": 150.01,
+      "transWidth": 0.869594,
+      "axialHalf": 15.24385,
+      "dispRatio": 0.160432,
+      "rmsPlanar": 7.838386
+     },
+     {
+      "t": 175.01,
+      "transWidth": 0.869552,
+      "axialHalf": 15.651394,
+      "dispRatio": 0.153576,
+      "rmsPlanar": 7.847177
+     },
+     {
+      "t": 200.01,
+      "transWidth": 0.86951,
+      "axialHalf": 15.270769,
+      "dispRatio": 0.15775,
+      "rmsPlanar": 7.875273
+     },
+     {
+      "t": 225.01,
+      "transWidth": 0.869467,
+      "axialHalf": 15.143999,
+      "dispRatio": 0.155759,
+      "rmsPlanar": 7.91411
+     },
+     {
+      "t": 250.01,
+      "transWidth": 0.869423,
+      "axialHalf": 15.257203,
+      "dispRatio": 0.152628,
+      "rmsPlanar": 7.937532
+     },
+     {
+      "t": 275.01,
+      "transWidth": 0.86938,
+      "axialHalf": 15.091449,
+      "dispRatio": 0.158481,
+      "rmsPlanar": 7.926295
+     }
+    ]
+   },
+   {
+    "id": "arm(**スピン 0 の対照**)",
+    "omega_m": 0,
+    "sigPerpDecl": 8.763561,
+    "sigParDecl": 8.763561,
+    "shapeRatioDecl": 1,
+    "effEigs": [
+     0.01,
+     0.01,
+     0.01
+    ],
+    "closed": true,
+    "transWidth0": 8.741278,
+    "transWidth1": 8.701168,
+    "transWidthRes": 0.004589,
+    "axialHalf0": 17.014931,
+    "axialHalf1": 16.704863,
+    "axialHalfRes": 0.018223,
+    "aspect0": 0.980053,
+    "aspect1": 0.991094,
+    "rmaxOverRc": 0.038036,
+    "localOk": true,
+    "worstHrel": 2.1463224291225777e-15,
+    "Lsym0": -961.456456,
+    "worstLsymAbs": 5.7980287238024175e-12,
+    "series": [
+     {
+      "t": 100.01,
+      "transWidth": 8.754276,
+      "axialHalf": 16.877053,
+      "dispRatio": 1.001019,
+      "rmsPlanar": 12.273188
+     },
+     {
+      "t": 125.01,
+      "transWidth": 8.737874,
+      "axialHalf": 16.665163,
+      "dispRatio": 0.976851,
+      "rmsPlanar": 12.375025
+     },
+     {
+      "t": 150.01,
+      "transWidth": 8.702483,
+      "axialHalf": 16.906039,
+      "dispRatio": 0.984207,
+      "rmsPlanar": 12.339637
+     },
+     {
+      "t": 175.01,
+      "transWidth": 8.698848,
+      "axialHalf": 16.525317,
+      "dispRatio": 1.012691,
+      "rmsPlanar": 12.217217
+     },
+     {
+      "t": 200.01,
+      "transWidth": 8.732199,
+      "axialHalf": 16.795295,
+      "dispRatio": 1.021483,
+      "rmsPlanar": 12.183163
+     },
+     {
+      "t": 225.01,
+      "transWidth": 8.754676,
+      "axialHalf": 16.987178,
+      "dispRatio": 0.997864,
+      "rmsPlanar": 12.286753
+     },
+     {
+      "t": 250.01,
+      "transWidth": 8.734187,
+      "axialHalf": 16.751095,
+      "dispRatio": 0.97589,
+      "rmsPlanar": 12.378745
+     },
+     {
+      "t": 275.01,
+      "transWidth": 8.69998,
+      "axialHalf": 16.832044,
+      "dispRatio": 0.986801,
+      "rmsPlanar": 12.32825
+     }
+    ]
+   }
+  ]
+ },
+ "stageII": {
+  "note": "親コアの面外軸で円盤。**逆行率は Ω_p だけで決まる**(閉形式の事前予測つき)",
+  "forecast": [
+   {
+    "Omega_p": 0.15,
+    "delta": 0,
+    "kPerp": 0.03475,
+    "c": 0.804663,
+    "fracPredicted": 0.186546,
+    "corotation": true
+   },
+   {
+    "Omega_p": 0.2,
+    "delta": -0.05,
+    "kPerp": 0.03225,
+    "c": 1.113692,
+    "fracPredicted": 0.127967,
+    "corotation": false
+   },
+   {
+    "Omega_p": 0.25,
+    "delta": -0.1,
+    "kPerp": 0.02475,
+    "c": 1.589104,
+    "fracPredicted": 0.076818,
+    "corotation": false
+   },
+   {
+    "Omega_p": 0.28,
+    "delta": -0.13,
+    "kPerp": 0.01785,
+    "c": 2.095747,
+    "fracPredicted": 0.048739,
+    "corotation": false
+   },
+   {
+    "Omega_p": 0.3,
+    "delta": -0.15,
+    "kPerp": 0.01225,
+    "c": 2.710524,
+    "fracPredicted": 0.030906,
+    "corotation": false
+   }
+  ],
+  "rows": [
+   {
+    "id": "disk(Ω_p=0.15=ω_m 共回転)",
+    "Omega_p": 0.15,
+    "T": 0.86875,
+    "sigPerpDecl": 5,
+    "sigParDecl": 1.231855,
+    "effEigs": [
+     0.01225,
+     0.01225,
+     0.5725
+    ],
+    "closed": true,
+    "retroPredicted": 0.186546,
+    "retro0": 0.195333,
+    "retro1": 0.191333,
+    "dispRatio0": 0.244624,
+    "dispRatio1": 0.243563,
+    "rmsPlanar0": 7.036956,
+    "rmsPlanar1": 7.045042,
+    "rmsRes": 0.001149,
+    "omegaRows": [
+     {
+      "r": 1.9787,
+      "omega": 0.153918
+     },
+     {
+      "r": 3.8085,
+      "omega": 0.165844
+     },
+     {
+      "r": 5.1891,
+      "omega": 0.153726
+     },
+     {
+      "r": 6.5849,
+      "omega": 0.140278
+     },
+     {
+      "r": 8.3517,
+      "omega": 0.143014
+     },
+     {
+      "r": 11.5883,
+      "omega": 0.150405
+     }
+    ],
+    "shearMax": 0.056453,
+    "omegaSpread": 0.182255,
+    "rmaxOverRc": 0.028473,
+    "localOk": true,
+    "worstHrel": 2.5623664836683392e-11,
+    "Lsym0": -253.3291,
+    "worstLsymAbs": 8.428457931586308e-9,
+    "series": [
+     {
+      "t": 100.01,
+      "transWidth": 4.969683,
+      "axialHalf": 2.395509,
+      "dispRatio": 0.245262,
+      "rmsPlanar": 7.028193
+     },
+     {
+      "t": 125.01,
+      "transWidth": 5.065496,
+      "axialHalf": 2.415877,
+      "dispRatio": 0.240605,
+      "rmsPlanar": 7.163693
+     },
+     {
+      "t": 150.01,
+      "transWidth": 4.969615,
+      "axialHalf": 2.426092,
+      "dispRatio": 0.24519,
+      "rmsPlanar": 7.028098
+     },
+     {
+      "t": 175.01,
+      "transWidth": 5.064534,
+      "axialHalf": 2.40052,
+      "dispRatio": 0.240501,
+      "rmsPlanar": 7.162332
+     },
+     {
+      "t": 200.01,
+      "transWidth": 4.971633,
+      "axialHalf": 2.382352,
+      "dispRatio": 0.244862,
+      "rmsPlanar": 7.030951
+     },
+     {
+      "t": 225.01,
+      "transWidth": 5.061556,
+      "axialHalf": 2.361961,
+      "dispRatio": 0.240349,
+      "rmsPlanar": 7.158121
+     },
+     {
+      "t": 250.01,
+      "transWidth": 4.975647,
+      "axialHalf": 2.359287,
+      "dispRatio": 0.244301,
+      "rmsPlanar": 7.036627
+     },
+     {
+      "t": 275.01,
+      "transWidth": 5.056688,
+      "axialHalf": 2.365653,
+      "dispRatio": 0.240163,
+      "rmsPlanar": 7.151236
+     }
+    ]
+   },
+   {
+    "id": "disk(Ω_p=0.28)",
+    "Omega_p": 0.28,
+    "T": 0.44625,
+    "sigPerpDecl": 5,
+    "sigParDecl": 0.882879,
+    "effEigs": [
+     0.01225,
+     0.01225,
+     0.5725
+    ],
+    "closed": true,
+    "retroPredicted": 0.048739,
+    "retro0": 0.053333,
+    "retro1": 0.046,
+    "dispRatio0": 0.175324,
+    "dispRatio1": 0.175099,
+    "rmsPlanar0": 7.036956,
+    "rmsPlanar1": 7.023497,
+    "rmsRes": 0.001913,
+    "omegaRows": [
+     {
+      "r": 2.022,
+      "omega": 0.285415
+     },
+     {
+      "r": 3.8187,
+      "omega": 0.278019
+     },
+     {
+      "r": 5.1859,
+      "omega": 0.27423
+     },
+     {
+      "r": 6.5235,
+      "omega": 0.28359
+     },
+     {
+      "r": 8.2097,
+      "omega": 0.272534
+     },
+     {
+      "r": 11.6323,
+      "omega": 0.282137
+     }
+    ],
+    "shearMax": 0.048089,
+    "omegaSpread": 0.047263,
+    "rmaxOverRc": 0.024502,
+    "localOk": true,
+    "worstHrel": 1.628118786308645e-11,
+    "Lsym0": 19130.747,
+    "worstLsymAbs": 1.4173565432429314e-8,
+    "series": [
+     {
+      "t": 100.01,
+      "transWidth": 4.969767,
+      "axialHalf": 1.716878,
+      "dispRatio": 0.175778,
+      "rmsPlanar": 7.028312
+     },
+     {
+      "t": 125.01,
+      "transWidth": 5.003416,
+      "axialHalf": 1.731476,
+      "dispRatio": 0.174583,
+      "rmsPlanar": 7.075898
+     },
+     {
+      "t": 150.01,
+      "transWidth": 4.967673,
+      "axialHalf": 1.738797,
+      "dispRatio": 0.175798,
+      "rmsPlanar": 7.02535
+     },
+     {
+      "t": 175.01,
+      "transWidth": 5.00511,
+      "axialHalf": 1.72047,
+      "dispRatio": 0.174415,
+      "rmsPlanar": 7.078294
+     },
+     {
+      "t": 200.01,
+      "transWidth": 4.966373,
+      "axialHalf": 1.707448,
+      "dispRatio": 0.17568,
+      "rmsPlanar": 7.023512
+     },
+     {
+      "t": 225.01,
+      "transWidth": 5.005982,
+      "axialHalf": 1.692834,
+      "dispRatio": 0.174172,
+      "rmsPlanar": 7.079527
+     },
+     {
+      "t": 250.01,
+      "transWidth": 4.965924,
+      "axialHalf": 1.690918,
+      "dispRatio": 0.175435,
+      "rmsPlanar": 7.022878
+     },
+     {
+      "t": 275.01,
+      "transWidth": 5.005994,
+      "axialHalf": 1.69548,
+      "dispRatio": 0.17387,
+      "rmsPlanar": 7.079545
+     }
+    ]
+   },
+   {
+    "id": "disk(Ω_p=0.3)",
+    "Omega_p": 0.3,
+    "T": 0.30625,
+    "sigPerpDecl": 5,
+    "sigParDecl": 0.731392,
+    "effEigs": [
+     0.01225,
+     0.01225,
+     0.5725
+    ],
+    "closed": true,
+    "retroPredicted": 0.030906,
+    "retro0": 0.034,
+    "retro1": 0.027667,
+    "dispRatio0": 0.145241,
+    "dispRatio1": 0.145097,
+    "rmsPlanar0": 7.036956,
+    "rmsPlanar1": 7.021434,
+    "rmsRes": 0.002206,
+    "omegaRows": [
+     {
+      "r": 2.0249,
+      "omega": 0.294908
+     },
+     {
+      "r": 3.827,
+      "omega": 0.302631
+     },
+     {
+      "r": 5.179,
+      "omega": 0.296755
+     },
+     {
+      "r": 6.5191,
+      "omega": 0.303777
+     },
+     {
+      "r": 8.1953,
+      "omega": 0.294874
+     },
+     {
+      "r": 11.6356,
+      "omega": 0.301095
+     }
+    ],
+    "shearMax": 0.03891,
+    "omegaSpread": 0.030194,
+    "rmaxOverRc": 0.023777,
+    "localOk": true,
+    "worstHrel": 1.2242438589911946e-11,
+    "Lsym0": 22133.0247,
+    "worstLsymAbs": 1.5112163964658976e-8,
+    "series": [
+     {
+      "t": 100.01,
+      "transWidth": 4.970437,
+      "axialHalf": 1.422291,
+      "dispRatio": 0.145598,
+      "rmsPlanar": 7.029259
+     },
+     {
+      "t": 125.01,
+      "transWidth": 4.990294,
+      "axialHalf": 1.434384,
+      "dispRatio": 0.145008,
+      "rmsPlanar": 7.057342
+     },
+     {
+      "t": 150.01,
+      "transWidth": 4.968238,
+      "axialHalf": 1.440449,
+      "dispRatio": 0.145617,
+      "rmsPlanar": 7.026149
+     },
+     {
+      "t": 175.01,
+      "transWidth": 4.992246,
+      "axialHalf": 1.425266,
+      "dispRatio": 0.144861,
+      "rmsPlanar": 7.060101
+     },
+     {
+      "t": 200.01,
+      "transWidth": 4.966538,
+      "axialHalf": 1.414479,
+      "dispRatio": 0.145532,
+      "rmsPlanar": 7.023745
+     },
+     {
+      "t": 225.01,
+      "transWidth": 4.993659,
+      "axialHalf": 1.402372,
+      "dispRatio": 0.144643,
+      "rmsPlanar": 7.0621
+     },
+     {
+      "t": 250.01,
+      "transWidth": 4.965411,
+      "axialHalf": 1.400785,
+      "dispRatio": 0.145348,
+      "rmsPlanar": 7.022152
+     },
+     {
+      "t": 275.01,
+      "transWidth": 4.994475,
+      "axialHalf": 1.404565,
+      "dispRatio": 0.144369,
+      "rmsPlanar": 7.063254
+     }
+    ]
+   }
+  ],
+  "twoAxis": {
+   "id": "親(面外)+ 子(面内)を**同時に**1 つのメッシュへ",
+   "OmegaTot": [
+    0.2,
+    0,
+    0.15
+   ],
+   "OmegaTotNorm": 0.25,
+   "tiltDeg": 53.1301,
+   "effEigs": [
+    0.023657444,
+    0.98225,
+    1.543092556
+   ],
+   "minEig": 0.023657444,
+   "closed": true,
+   "note": "2 本の軸の u を足すと Ω_tot は傾いた剛体回転になり、Φ_eff の交差項が出る。**閉じた正の H かどうかは実効剛性行列の固有値で決まる**(この表がその実測)"
+  },
+  "corotationFloor": {
+   "alpha": 1.1,
+   "c": 0.953463,
+   "frac": 0.154967,
+   "note": "共回転(Ω_p=ω_m)のまま κ₀→0 にしたときの**下限**。α=1.1 ではこれ以上下がらない"
+  },
+  "requiredC": 2.064742
+ },
+ "stageIII": {
+  "note": "パターン腕は**与えた位相結合**である。ピッチは β_s の宣言で決まる",
+  "imposedPitchDeg": 18.434949,
+  "rows": [
+   {
+    "id": "spiral(λ_A=0.3・I_c=1·N·r_d²)",
+    "lambdaA": 0.3,
+    "IcScale": 1,
+    "A0": 0.214285714,
+    "Ic": 62500,
+    "OmegaPattern0": 0.1,
+    "OmegaPattern1": 0.104567,
+    "Jc0": 6250,
+    "Jc1": 6535.43,
+    "pitchImposed": 18.4349,
+    "pitchWindow": 14.2144,
+    "betaHat": -7.8956,
+    "fitR2": 0.95728,
+    "pitchGap": 4.2206,
+    "pitchSpread": 37.074,
+    "contrastWindow": 0.03281,
+    "contrastNoise": 0.00269,
+    "contrastMin": 0.0407,
+    "contrastMax": 0.04646,
+    "retro1": 0.0596,
+    "dispRatio1": 0.176386,
+    "rmsRes": 0.003688,
+    "shearMax": 0.030649,
+    "rmaxOverRc": 0.02385,
+    "worstHrel": 3.709498996827424e-11,
+    "worstLzJcRel": 5.65225341975583e-13,
+    "binRows": [
+     {
+      "r": 2.625,
+      "theta": -1.421,
+      "amp": 0.05265,
+      "noise": 0.00266
+     },
+     {
+      "r": 3.875,
+      "theta": -2.2923,
+      "amp": 0.05299,
+      "noise": 0.00235
+     },
+     {
+      "r": 5.125,
+      "theta": -3.0132,
+      "amp": 0.04206,
+      "noise": 0.00227
+     },
+     {
+      "r": 6.375,
+      "theta": -3.8351,
+      "amp": 0.01915,
+      "noise": 0.00237
+     },
+     {
+      "r": 7.625,
+      "theta": -5.1531,
+      "amp": 0.0187,
+      "noise": 0.00255
+     },
+     {
+      "r": 8.875,
+      "theta": -6.2422,
+      "amp": 0.01334,
+      "noise": 0.00286
+     },
+     {
+      "r": 10.125,
+      "theta": -6.4598,
+      "amp": 0.01883,
+      "noise": 0.00345
+     },
+     {
+      "r": 11.375,
+      "theta": -6.6603,
+      "amp": 0.03112,
+      "noise": 0.00429
+     }
+    ],
+    "series": [
+     {
+      "t": 100,
+      "frames": 50,
+      "pitchDeg": 14.181,
+      "contrast": 0.04199,
+      "noise": 0.0076,
+      "r2": 0.9725
+     },
+     {
+      "t": 120,
+      "frames": 50,
+      "pitchDeg": 51.255,
+      "contrast": 0.04444,
+      "noise": 0.0076,
+      "r2": 0.2471
+     },
+     {
+      "t": 140,
+      "frames": 50,
+      "pitchDeg": 18.495,
+      "contrast": 0.04439,
+      "noise": 0.0076,
+      "r2": 0.9529
+     },
+     {
+      "t": 160,
+      "frames": 50,
+      "pitchDeg": 15.7,
+      "contrast": 0.0407,
+      "noise": 0.0076,
+      "r2": 0.971
+     },
+     {
+      "t": 180,
+      "frames": 50,
+      "pitchDeg": 28.826,
+      "contrast": 0.04646,
+      "noise": 0.00761,
+      "r2": 0.7022
+     },
+     {
+      "t": 200,
+      "frames": 50,
+      "pitchDeg": 20.756,
+      "contrast": 0.04159,
+      "noise": 0.0076,
+      "r2": 0.9132
+     },
+     {
+      "t": 220,
+      "frames": 50,
+      "pitchDeg": 15.133,
+      "contrast": 0.04365,
+      "noise": 0.00759,
+      "r2": 0.9667
+     },
+     {
+      "t": 240,
+      "frames": 50,
+      "pitchDeg": 32.349,
+      "contrast": 0.04514,
+      "noise": 0.0076,
+      "r2": 0.5117
+     }
+    ]
+   },
+   {
+    "id": "spiral(λ_A=1・I_c=1·N·r_d²)",
+    "lambdaA": 1,
+    "IcScale": 1,
+    "A0": 0.714285714,
+    "Ic": 62500,
+    "OmegaPattern0": 0.1,
+    "OmegaPattern1": 0.172303,
+    "Jc0": 6250,
+    "Jc1": 10768.945,
+    "pitchImposed": 18.4349,
+    "pitchWindow": 20.1404,
+    "betaHat": -5.4533,
+    "fitR2": 0.99351,
+    "pitchGap": 1.7055,
+    "pitchSpread": 6.703,
+    "contrastWindow": 0.13305,
+    "contrastNoise": 0.00271,
+    "contrastMin": 0.10982,
+    "contrastMax": 0.17638,
+    "retro1": 0.1064,
+    "dispRatio1": 0.174877,
+    "rmsRes": 0.012351,
+    "shearMax": 0.136412,
+    "rmaxOverRc": 0.02406,
+    "worstHrel": 1.720582891087401e-10,
+    "worstLzJcRel": 6.967789272587195e-12,
+    "binRows": [
+     {
+      "r": 2.625,
+      "theta": -1.3829,
+      "amp": 0.10514,
+      "noise": 0.00265
+     },
+     {
+      "r": 3.875,
+      "theta": -2.3945,
+      "amp": 0.1425,
+      "noise": 0.00235
+     },
+     {
+      "r": 5.125,
+      "theta": -3.1813,
+      "amp": 0.11087,
+      "noise": 0.00226
+     },
+     {
+      "r": 6.375,
+      "theta": -3.9344,
+      "amp": 0.12834,
+      "noise": 0.00235
+     },
+     {
+      "r": 7.625,
+      "theta": -4.4714,
+      "amp": 0.15051,
+      "noise": 0.0026
+     },
+     {
+      "r": 8.875,
+      "theta": -4.8194,
+      "amp": 0.17251,
+      "noise": 0.003
+     },
+     {
+      "r": 10.125,
+      "theta": -5.027,
+      "amp": 0.15345,
+      "noise": 0.00356
+     },
+     {
+      "r": 11.375,
+      "theta": -5.2338,
+      "amp": 0.11282,
+      "noise": 0.00428
+     }
+    ],
+    "series": [
+     {
+      "t": 100,
+      "frames": 50,
+      "pitchDeg": 19.817,
+      "contrast": 0.17638,
+      "noise": 0.00765,
+      "r2": 0.987
+     },
+     {
+      "t": 120,
+      "frames": 50,
+      "pitchDeg": 22.157,
+      "contrast": 0.16312,
+      "noise": 0.00763,
+      "r2": 0.9836
+     },
+     {
+      "t": 140,
+      "frames": 50,
+      "pitchDeg": 23.167,
+      "contrast": 0.10982,
+      "noise": 0.00766,
+      "r2": 0.9333
+     },
+     {
+      "t": 160,
+      "frames": 50,
+      "pitchDeg": 16.464,
+      "contrast": 0.11504,
+      "noise": 0.00766,
+      "r2": 0.972
+     },
+     {
+      "t": 180,
+      "frames": 50,
+      "pitchDeg": 17.447,
+      "contrast": 0.1342,
+      "noise": 0.00765,
+      "r2": 0.9927
+     },
+     {
+      "t": 200,
+      "frames": 50,
+      "pitchDeg": 18.838,
+      "contrast": 0.14664,
+      "noise": 0.00768,
+      "r2": 0.995
+     },
+     {
+      "t": 220,
+      "frames": 50,
+      "pitchDeg": 20.577,
+      "contrast": 0.15072,
+      "noise": 0.00766,
+      "r2": 0.9884
+     },
+     {
+      "t": 240,
+      "frames": 50,
+      "pitchDeg": 22.523,
+      "contrast": 0.14313,
+      "noise": 0.00763,
+      "r2": 0.9545
+     }
+    ]
+   },
+   {
+    "id": "spiral(λ_A=3・I_c=1·N·r_d²)",
+    "lambdaA": 3,
+    "IcScale": 1,
+    "A0": 2.142857143,
+    "Ic": 62500,
+    "OmegaPattern0": 0.1,
+    "OmegaPattern1": 0.181598,
+    "Jc0": 6250,
+    "Jc1": 11349.863,
+    "pitchImposed": 18.4349,
+    "pitchWindow": 19.1932,
+    "betaHat": -5.7454,
+    "fitR2": 0.99903,
+    "pitchGap": 0.7582,
+    "pitchSpread": 0.594,
+    "contrastWindow": 0.31269,
+    "contrastNoise": 0.0027,
+    "contrastMin": 0.29197,
+    "contrastMax": 0.32814,
+    "retro1": 0.106,
+    "dispRatio1": 0.165119,
+    "rmsRes": 0.072177,
+    "shearMax": 0.070845,
+    "rmaxOverRc": 0.024577,
+    "worstHrel": 1.866037913570343e-9,
+    "worstLzJcRel": 6.900814491667471e-11,
+    "binRows": [
+     {
+      "r": 2.625,
+      "theta": -1.4115,
+      "amp": 0.22754,
+      "noise": 0.00281
+     },
+     {
+      "r": 3.875,
+      "theta": -2.4217,
+      "amp": 0.33342,
+      "noise": 0.00238
+     },
+     {
+      "r": 5.125,
+      "theta": -3.209,
+      "amp": 0.35384,
+      "noise": 0.00231
+     },
+     {
+      "r": 6.375,
+      "theta": -3.8345,
+      "amp": 0.33399,
+      "noise": 0.00238
+     },
+     {
+      "r": 7.625,
+      "theta": -4.4088,
+      "amp": 0.31459,
+      "noise": 0.00258
+     },
+     {
+      "r": 8.875,
+      "theta": -4.8601,
+      "amp": 0.29926,
+      "noise": 0.00284
+     },
+     {
+      "r": 10.125,
+      "theta": -5.2536,
+      "amp": 0.29637,
+      "noise": 0.00326
+     },
+     {
+      "r": 11.375,
+      "theta": -5.568,
+      "amp": 0.2908,
+      "noise": 0.00392
+     }
+    ],
+    "series": [
+     {
+      "t": 100,
+      "frames": 50,
+      "pitchDeg": 19.16,
+      "contrast": 0.32568,
+      "noise": 0.00762,
+      "r2": 0.9983
+     },
+     {
+      "t": 120,
+      "frames": 50,
+      "pitchDeg": 18.875,
+      "contrast": 0.29197,
+      "noise": 0.00766,
+      "r2": 0.9968
+     },
+     {
+      "t": 140,
+      "frames": 50,
+      "pitchDeg": 19.172,
+      "contrast": 0.32814,
+      "noise": 0.00759,
+      "r2": 0.9995
+     },
+     {
+      "t": 160,
+      "frames": 50,
+      "pitchDeg": 19.469,
+      "contrast": 0.31598,
+      "noise": 0.00762,
+      "r2": 0.9989
+     },
+     {
+      "t": 180,
+      "frames": 50,
+      "pitchDeg": 19.151,
+      "contrast": 0.30183,
+      "noise": 0.00765,
+      "r2": 0.9987
+     },
+     {
+      "t": 200,
+      "frames": 50,
+      "pitchDeg": 19.244,
+      "contrast": 0.3219,
+      "noise": 0.0076,
+      "r2": 0.9995
+     },
+     {
+      "t": 220,
+      "frames": 50,
+      "pitchDeg": 19.376,
+      "contrast": 0.31662,
+      "noise": 0.00763,
+      "r2": 0.9987
+     },
+     {
+      "t": 240,
+      "frames": 50,
+      "pitchDeg": 19.123,
+      "contrast": 0.30493,
+      "noise": 0.00766,
+      "r2": 0.9989
+     }
+    ]
+   }
+  ],
+  "icSensitivity": [
+   {
+    "id": "spiral(λ_A=3・I_c=0.1·N·r_d²)",
+    "lambdaA": 3,
+    "IcScale": 0.1,
+    "A0": 2.142857143,
+    "Ic": 6250,
+    "OmegaPattern0": 0.1,
+    "OmegaPattern1": 0.260071,
+    "Jc0": 625,
+    "Jc1": 1625.442,
+    "pitchImposed": 18.4349,
+    "pitchWindow": 19.1016,
+    "betaHat": -5.7751,
+    "fitR2": 0.99955,
+    "pitchGap": 0.6666,
+    "pitchSpread": 0.673,
+    "contrastWindow": 0.37192,
+    "contrastNoise": 0.00268,
+    "contrastMin": 0.36341,
+    "contrastMax": 0.3821,
+    "retro1": 0.0608,
+    "dispRatio1": 0.166164,
+    "rmsRes": 0.065433,
+    "shearMax": 0.027404,
+    "rmaxOverRc": 0.024372,
+    "worstHrel": 1.4161043632934294e-9,
+    "worstLzJcRel": 1.6053711932641066e-10,
+    "binRows": [
+     {
+      "r": 2.625,
+      "theta": -1.378,
+      "amp": 0.24146,
+      "noise": 0.00294
+     },
+     {
+      "r": 3.875,
+      "theta": -2.4355,
+      "amp": 0.34179,
+      "noise": 0.00247
+     },
+     {
+      "r": 5.125,
+      "theta": -3.225,
+      "amp": 0.39852,
+      "noise": 0.0023
+     },
+     {
+      "r": 6.375,
+      "theta": -3.872,
+      "amp": 0.40758,
+      "noise": 0.00232
+     },
+     {
+      "r": 7.625,
+      "theta": -4.3864,
+      "amp": 0.41522,
+      "noise": 0.00247
+     },
+     {
+      "r": 8.875,
+      "theta": -4.843,
+      "amp": 0.39384,
+      "noise": 0.00275
+     },
+     {
+      "r": 10.125,
+      "theta": -5.2508,
+      "amp": 0.36575,
+      "noise": 0.00322
+     },
+     {
+      "r": 11.375,
+      "theta": -5.5988,
+      "amp": 0.35662,
+      "noise": 0.00387
+     }
+    ],
+    "series": [
+     {
+      "t": 100,
+      "frames": 50,
+      "pitchDeg": 19.496,
+      "contrast": 0.3821,
+      "noise": 0.00756,
+      "r2": 0.9986
+     },
+     {
+      "t": 120,
+      "frames": 50,
+      "pitchDeg": 19.227,
+      "contrast": 0.36341,
+      "noise": 0.00759,
+      "r2": 0.9994
+     },
+     {
+      "t": 140,
+      "frames": 50,
+      "pitchDeg": 19.017,
+      "contrast": 0.36349,
+      "noise": 0.00757,
+      "r2": 0.9992
+     },
+     {
+      "t": 160,
+      "frames": 50,
+      "pitchDeg": 19.255,
+      "contrast": 0.37158,
+      "noise": 0.00758,
+      "r2": 0.9992
+     },
+     {
+      "t": 180,
+      "frames": 50,
+      "pitchDeg": 18.985,
+      "contrast": 0.37302,
+      "noise": 0.0076,
+      "r2": 0.999
+     },
+     {
+      "t": 200,
+      "frames": 50,
+      "pitchDeg": 18.914,
+      "contrast": 0.37293,
+      "noise": 0.00757,
+      "r2": 0.9993
+     },
+     {
+      "t": 220,
+      "frames": 50,
+      "pitchDeg": 19.142,
+      "contrast": 0.3764,
+      "noise": 0.00757,
+      "r2": 0.9996
+     },
+     {
+      "t": 240,
+      "frames": 50,
+      "pitchDeg": 18.823,
+      "contrast": 0.37666,
+      "noise": 0.00758,
+      "r2": 0.9995
+     }
+    ]
+   },
+   {
+    "id": "spiral(λ_A=3・I_c=10·N·r_d²)",
+    "lambdaA": 3,
+    "IcScale": 10,
+    "A0": 2.142857143,
+    "Ic": 625000,
+    "OmegaPattern0": 0.1,
+    "OmegaPattern1": 0.116735,
+    "Jc0": 62500,
+    "Jc1": 72959.439,
+    "pitchImposed": 18.4349,
+    "pitchWindow": 18.7881,
+    "betaHat": -5.879,
+    "fitR2": 0.99953,
+    "pitchGap": 0.3532,
+    "pitchSpread": 1.047,
+    "contrastWindow": 0.2826,
+    "contrastNoise": 0.00271,
+    "contrastMin": 0.25057,
+    "contrastMax": 0.33066,
+    "retro1": 0.2048,
+    "dispRatio1": 0.163546,
+    "rmsRes": 0.08249,
+    "shearMax": 0.117028,
+    "rmaxOverRc": 0.026359,
+    "worstHrel": 1.6401947317170355e-9,
+    "worstLzJcRel": 1.184337680224057e-11,
+    "binRows": [
+     {
+      "r": 2.625,
+      "theta": -1.3129,
+      "amp": 0.20611,
+      "noise": 0.00298
+     },
+     {
+      "r": 3.875,
+      "theta": -2.4076,
+      "amp": 0.26092,
+      "noise": 0.00255
+     },
+     {
+      "r": 5.125,
+      "theta": -3.2626,
+      "amp": 0.31803,
+      "noise": 0.00238
+     },
+     {
+      "r": 6.375,
+      "theta": -3.8817,
+      "amp": 0.34686,
+      "noise": 0.00236
+     },
+     {
+      "r": 7.625,
+      "theta": -4.3906,
+      "amp": 0.32046,
+      "noise": 0.00248
+     },
+     {
+      "r": 8.875,
+      "theta": -4.8334,
+      "amp": 0.28488,
+      "noise": 0.00272
+     },
+     {
+      "r": 10.125,
+      "theta": -5.2462,
+      "amp": 0.22465,
+      "noise": 0.00314
+     },
+     {
+      "r": 11.375,
+      "theta": -5.656,
+      "amp": 0.19564,
+      "noise": 0.0037
+     }
+    ],
+    "series": [
+     {
+      "t": 100,
+      "frames": 50,
+      "pitchDeg": 19.316,
+      "contrast": 0.33066,
+      "noise": 0.00754,
+      "r2": 0.9991
+     },
+     {
+      "t": 120,
+      "frames": 50,
+      "pitchDeg": 18.304,
+      "contrast": 0.26144,
+      "noise": 0.00773,
+      "r2": 0.9976
+     },
+     {
+      "t": 140,
+      "frames": 50,
+      "pitchDeg": 18.862,
+      "contrast": 0.25667,
+      "noise": 0.00774,
+      "r2": 0.9992
+     },
+     {
+      "t": 160,
+      "frames": 50,
+      "pitchDeg": 19.227,
+      "contrast": 0.32067,
+      "noise": 0.00754,
+      "r2": 0.9978
+     },
+     {
+      "t": 180,
+      "frames": 50,
+      "pitchDeg": 18.435,
+      "contrast": 0.26903,
+      "noise": 0.0077,
+      "r2": 0.9982
+     },
+     {
+      "t": 200,
+      "frames": 50,
+      "pitchDeg": 18.58,
+      "contrast": 0.25057,
+      "noise": 0.00775,
+      "r2": 0.9988
+     },
+     {
+      "t": 220,
+      "frames": 50,
+      "pitchDeg": 19.351,
+      "contrast": 0.30784,
+      "noise": 0.00757,
+      "r2": 0.9987
+     },
+     {
+      "t": 240,
+      "frames": 50,
+      "pitchDeg": 18.739,
+      "contrast": 0.28348,
+      "noise": 0.00766,
+      "r2": 0.9986
+     }
+    ]
+   },
+   {
+    "id": "spiral(λ_A=3・I_c=1·N·r_d²)",
+    "lambdaA": 3,
+    "IcScale": 1,
+    "A0": 2.142857143,
+    "Ic": 62500,
+    "OmegaPattern0": 0.1,
+    "OmegaPattern1": 0.181598,
+    "Jc0": 6250,
+    "Jc1": 11349.863,
+    "pitchImposed": 18.4349,
+    "pitchWindow": 19.1932,
+    "betaHat": -5.7454,
+    "fitR2": 0.99903,
+    "pitchGap": 0.7582,
+    "pitchSpread": 0.594,
+    "contrastWindow": 0.31269,
+    "contrastNoise": 0.0027,
+    "contrastMin": 0.29197,
+    "contrastMax": 0.32814,
+    "retro1": 0.106,
+    "dispRatio1": 0.165119,
+    "rmsRes": 0.072177,
+    "shearMax": 0.070845,
+    "rmaxOverRc": 0.024577,
+    "worstHrel": 1.866037913570343e-9,
+    "worstLzJcRel": 6.900814491667471e-11,
+    "binRows": [
+     {
+      "r": 2.625,
+      "theta": -1.4115,
+      "amp": 0.22754,
+      "noise": 0.00281
+     },
+     {
+      "r": 3.875,
+      "theta": -2.4217,
+      "amp": 0.33342,
+      "noise": 0.00238
+     },
+     {
+      "r": 5.125,
+      "theta": -3.209,
+      "amp": 0.35384,
+      "noise": 0.00231
+     },
+     {
+      "r": 6.375,
+      "theta": -3.8345,
+      "amp": 0.33399,
+      "noise": 0.00238
+     },
+     {
+      "r": 7.625,
+      "theta": -4.4088,
+      "amp": 0.31459,
+      "noise": 0.00258
+     },
+     {
+      "r": 8.875,
+      "theta": -4.8601,
+      "amp": 0.29926,
+      "noise": 0.00284
+     },
+     {
+      "r": 10.125,
+      "theta": -5.2536,
+      "amp": 0.29637,
+      "noise": 0.00326
+     },
+     {
+      "r": 11.375,
+      "theta": -5.568,
+      "amp": 0.2908,
+      "noise": 0.00392
+     }
+    ],
+    "series": [
+     {
+      "t": 100,
+      "frames": 50,
+      "pitchDeg": 19.16,
+      "contrast": 0.32568,
+      "noise": 0.00762,
+      "r2": 0.9983
+     },
+     {
+      "t": 120,
+      "frames": 50,
+      "pitchDeg": 18.875,
+      "contrast": 0.29197,
+      "noise": 0.00766,
+      "r2": 0.9968
+     },
+     {
+      "t": 140,
+      "frames": 50,
+      "pitchDeg": 19.172,
+      "contrast": 0.32814,
+      "noise": 0.00759,
+      "r2": 0.9995
+     },
+     {
+      "t": 160,
+      "frames": 50,
+      "pitchDeg": 19.469,
+      "contrast": 0.31598,
+      "noise": 0.00762,
+      "r2": 0.9989
+     },
+     {
+      "t": 180,
+      "frames": 50,
+      "pitchDeg": 19.151,
+      "contrast": 0.30183,
+      "noise": 0.00765,
+      "r2": 0.9987
+     },
+     {
+      "t": 200,
+      "frames": 50,
+      "pitchDeg": 19.244,
+      "contrast": 0.3219,
+      "noise": 0.0076,
+      "r2": 0.9995
+     },
+     {
+      "t": 220,
+      "frames": 50,
+      "pitchDeg": 19.376,
+      "contrast": 0.31662,
+      "noise": 0.00763,
+      "r2": 0.9987
+     },
+     {
+      "t": 240,
+      "frames": 50,
+      "pitchDeg": 19.123,
+      "contrast": 0.30493,
+      "noise": 0.00766,
+      "r2": 0.9989
+     }
+    ]
+   }
+  ],
+  "material": [
+   {
+    "id": "材料腕 @ R44 の調和コア(円盤)",
+    "pitch0": 18.4349,
+    "circularRate": 0.336414,
+    "note": "円軌道の角速度が **r に依らない**(Ω_c = ω_m + √(ω_m²+K⊥))ので剪断が出ない",
+    "shearMax": 0,
+    "omegaSpread": 0,
+    "rows": [
+     {
+      "t": 0,
+      "pitchDeg": 18.4349
+     },
+     {
+      "t": 25,
+      "pitchDeg": 18.4349
+     },
+     {
+      "t": 50,
+      "pitchDeg": 18.4349
+     },
+     {
+      "t": 75,
+      "pitchDeg": 18.4349
+     },
+     {
+      "t": 100,
+      "pitchDeg": 18.4349
+     },
+     {
+      "t": 125,
+      "pitchDeg": 18.4349
+     },
+     {
+      "t": 150,
+      "pitchDeg": 18.4349
+     },
+     {
+      "t": 175,
+      "pitchDeg": 18.4349
+     },
+     {
+      "t": 200,
+      "pitchDeg": 18.4349
+     },
+     {
+      "t": 225,
+      "pitchDeg": 18.4349
+     },
+     {
+      "t": 250,
+      "pitchDeg": 18.4349
+     },
+     {
+      "t": 275,
+      "pitchDeg": 18.4349
+     },
+     {
+      "t": 300,
+      "pitchDeg": 18.4349
+     }
+    ]
+   },
+   {
+    "id": "材料腕 @ **宣言した剪断場**(平坦回転曲線・R44 の外)",
+    "pitch0": 18.4349,
+    "declared": {
+     "vc": 1,
+     "rh": 1,
+     "kz": 0.5
+    },
+    "shearMax": 0.228507,
+    "omegaSpread": 1.932598,
+    "rows": [
+     {
+      "t": 0,
+      "pitchDeg": 18.4349
+     },
+     {
+      "t": 12.5,
+      "pitchDeg": 46.8578
+     },
+     {
+      "t": 25,
+      "pitchDeg": 41.6166
+     },
+     {
+      "t": 37.5,
+      "pitchDeg": 17.4128
+     },
+     {
+      "t": 50,
+      "pitchDeg": 10.7816
+     },
+     {
+      "t": 62.5,
+      "pitchDeg": 7.7853
+     },
+     {
+      "t": 75,
+      "pitchDeg": 6.0872
+     },
+     {
+      "t": 87.5,
+      "pitchDeg": 4.9957
+     },
+     {
+      "t": 100,
+      "pitchDeg": 4.2356
+     },
+     {
+      "t": 112.5,
+      "pitchDeg": 3.6759
+     },
+     {
+      "t": 125,
+      "pitchDeg": 3.2467
+     },
+     {
+      "t": 137.5,
+      "pitchDeg": 2.9072
+     },
+     {
+      "t": 150,
+      "pitchDeg": 2.6319
+     }
+    ]
+   }
+  ],
+  "armRule": {
+   "formula": "A₀ = λ_A · f_c · ω_mc² · r_d²(子コアのスピンと背景の重みだけから作る)",
+   "f_c": 0.714286,
+   "omega_mc": 0.2,
+   "rd": 5,
+   "A0_perLambda": 0.714285714
+  },
+  "gradCheck": {
+   "worst": 1.4332751652190723e-10,
+   "points": 30,
+   "note": "解析勾配 vs 中心差分(x・y・φ_c・J_c の 4 方向)"
+  },
+  "patternPitchIsTimeIndependent": {
+   "note": "パターン腕の軌跡 θ = φ_c + (β_s/m)ln(r/r₀) のピッチ角は **t に依らない**(構成から)",
+   "value": 18.434949
+  }
+ },
+ "stageIV": {
+  "note": "**自発形成は 1 行も実装していない**。グラフは外から与える",
+  "hessian": [
+   {
+    "id": "第66報 (4) の字義の形(伸び + ネマティック)",
+    "decl": {
+     "kl": 1,
+     "l0": 8,
+     "Js": 0.5,
+     "Ktheta": 0,
+     "Jt": 0
+    },
+    "dof": 18,
+    "gradMax": 0,
+    "gradVsFD": 0,
+    "zeroModes": 13,
+    "minNonZero": 0.267949192,
+    "maxEig": 3.732051,
+    "negative": 0,
+    "positive": 5,
+    "rigidResidual": 2.6407788561511924e-13,
+    "dU_rotateBoth": 0,
+    "dU_rotatePositionsOnly": 0
+   },
+   {
+    "id": "+ 第274便e の曲げ項 K_θ=4",
+    "decl": {
+     "kl": 1,
+     "l0": 8,
+     "Js": 0.5,
+     "Ktheta": 4,
+     "Jt": 0
+    },
+    "dof": 18,
+    "gradMax": 0,
+    "gradVsFD": 2.220446049250313e-10,
+    "zeroModes": 5,
+    "minNonZero": 0.024653045,
+    "maxEig": 3.732051,
+    "negative": 0,
+    "positive": 13,
+    "rigidResidual": 3.034517090684313e-13,
+    "dU_rotateBoth": -1.7763568394002505e-15,
+    "dU_rotatePositionsOnly": -1.7763568394002505e-15
+   },
+   {
+    "id": "+ 結合方向とコア軸の結合 J_t=4(**宣言の拡張**)",
+    "decl": {
+     "kl": 1,
+     "l0": 8,
+     "Js": 0.5,
+     "Ktheta": 0,
+     "Jt": 4
+    },
+    "dof": 18,
+    "gradMax": 0,
+    "gradVsFD": 1.7763568394002505e-9,
+    "zeroModes": 3,
+    "minNonZero": 0.033493649,
+    "maxEig": 3.732051,
+    "negative": 0,
+    "positive": 15,
+    "rigidResidual": 0.042257712736557866,
+    "dU_rotateBoth": -3.552713678800501e-15,
+    "dU_rotatePositionsOnly": 2.6153144127041195
+   }
+  ],
+  "runs": [
+   {
+    "id": "第66報 (4) の字義の形(伸び + ネマティック)",
+    "decl": {
+     "kl": 1,
+     "l0": 8,
+     "Js": 0.5,
+     "Ktheta": 0,
+     "Jt": 0
+    },
+    "gamma": 0,
+    "t": 200,
+    "heat0": 0,
+    "heat1": 0,
+    "heatMonotone": true,
+    "EmechDrop": 0,
+    "heatClosure": 7.815970093361102e-14,
+    "endLength0": 40.017996,
+    "endLength1": 39.959768,
+    "endLengthWorstRes": 0.01493,
+    "bendWidth0": 0.619399,
+    "bendWidth1": 0.616039,
+    "bendWidthWorstOverL0": 0.077093,
+    "worstErel": 2.1045393137274434e-14,
+    "worstPabs": 2.482534153247273e-16,
+    "worstJrel": 2.3033828721178147e-14,
+    "spinMagDrift": 0,
+    "rows": [
+     {
+      "t": 40,
+      "endLength": 40.087098,
+      "bendWidth": 0.352499
+     },
+     {
+      "t": 80,
+      "endLength": 40.392081,
+      "bendWidth": 0.318243
+     },
+     {
+      "t": 120,
+      "endLength": 40.483423,
+      "bendWidth": 0.337659
+     },
+     {
+      "t": 160,
+      "endLength": 40.119246,
+      "bendWidth": 0.322402
+     },
+     {
+      "t": 200,
+      "endLength": 39.959768,
+      "bendWidth": 0.616039
+     }
+    ]
+   },
+   {
+    "id": "+ 第274便e の曲げ項 K_θ=4",
+    "decl": {
+     "kl": 1,
+     "l0": 8,
+     "Js": 0.5,
+     "Ktheta": 4,
+     "Jt": 0
+    },
+    "gamma": 0,
+    "t": 200,
+    "heat0": 0,
+    "heat1": 0,
+    "heatMonotone": true,
+    "EmechDrop": 0,
+    "heatClosure": 2.255973186038318e-13,
+    "endLength0": 40.017996,
+    "endLength1": 39.986463,
+    "endLengthWorstRes": 0.02016,
+    "bendWidth0": 0.619399,
+    "bendWidth1": 0.327797,
+    "bendWidthWorstOverL0": 0.076017,
+    "worstErel": 7.097562633864534e-14,
+    "worstPabs": 5.1193923411610046e-14,
+    "worstJrel": 3.3560040771178913e-14,
+    "spinMagDrift": 0,
+    "rows": [
+     {
+      "t": 40,
+      "endLength": 40.575331,
+      "bendWidth": 0.376872
+     },
+     {
+      "t": 80,
+      "endLength": 40.246283,
+      "bendWidth": 0.16046
+     },
+     {
+      "t": 120,
+      "endLength": 39.771761,
+      "bendWidth": 0.487557
+     },
+     {
+      "t": 160,
+      "endLength": 40.562274,
+      "bendWidth": 0.531869
+     },
+     {
+      "t": 200,
+      "endLength": 39.986463,
+      "bendWidth": 0.327797
+     }
+    ]
+   },
+   {
+    "id": "+ 結合方向とコア軸の結合 J_t=4(**宣言の拡張**)",
+    "decl": {
+     "kl": 1,
+     "l0": 8,
+     "Js": 0.5,
+     "Ktheta": 0,
+     "Jt": 4
+    },
+    "gamma": 0,
+    "t": 200,
+    "heat0": 0,
+    "heat1": 0,
+    "heatMonotone": true,
+    "EmechDrop": 0,
+    "heatClosure": 4.618527782440651e-14,
+    "endLength0": 40.017996,
+    "endLength1": 40.64086,
+    "endLengthWorstRes": 0.015565,
+    "bendWidth0": 0.619399,
+    "bendWidth1": 0.497722,
+    "bendWidthWorstOverL0": 0.07791,
+    "worstErel": 2.727893209140489e-15,
+    "worstPabs": 2.2276387063138147e-14,
+    "worstJrel": 1.0933663661905424e-14,
+    "spinMagDrift": 0,
+    "rows": [
+     {
+      "t": 40,
+      "endLength": 40.148532,
+      "bendWidth": 0.265642
+     },
+     {
+      "t": 80,
+      "endLength": 40.399556,
+      "bendWidth": 0.427033
+     },
+     {
+      "t": 120,
+      "endLength": 40.043018,
+      "bendWidth": 0.436192
+     },
+     {
+      "t": 160,
+      "endLength": 40.079722,
+      "bendWidth": 0.268367
+     },
+     {
+      "t": 200,
+      "endLength": 40.64086,
+      "bendWidth": 0.497722
+     }
+    ]
+   },
+   {
+    "id": "+ K_θ=4 と**宣言した散逸** γ=0.2(剛体分は落とさない・熱は非負)",
+    "decl": {
+     "kl": 1,
+     "l0": 8,
+     "Js": 0.5,
+     "Ktheta": 4,
+     "Jt": 0
+    },
+    "gamma": 0.2,
+    "t": 200,
+    "heat0": 0,
+    "heat1": 0.734178,
+    "heatMonotone": true,
+    "EmechDrop": 0.734178,
+    "heatClosure": 1.2279066652354231e-13,
+    "endLength0": 40.017996,
+    "endLength1": 40.341993,
+    "endLengthWorstRes": 0.010706,
+    "bendWidth0": 0.619399,
+    "bendWidth1": 0,
+    "bendWidthWorstOverL0": 0.071099,
+    "worstErel": 5.0507261656339144e-14,
+    "worstPabs": 9.750387942578284e-15,
+    "worstJrel": 9.783185317059536e-15,
+    "spinMagDrift": 0,
+    "rows": [
+     {
+      "t": 40,
+      "endLength": 40.343079,
+      "bendWidth": 0.005882
+     },
+     {
+      "t": 80,
+      "endLength": 40.342115,
+      "bendWidth": 0.000119
+     },
+     {
+      "t": 120,
+      "endLength": 40.341993,
+      "bendWidth": 0.000004
+     },
+     {
+      "t": 160,
+      "endLength": 40.341993,
+      "bendWidth": 0
+     },
+     {
+      "t": 200,
+      "endLength": 40.341993,
+      "bendWidth": 0
+     }
+    ]
+   }
+  ]
+ },
+ "gates": [
+  {
+   "id": "G1 ピッチ角が与えた値から離れない",
+   "gate": "|Δpitch| ≤ 2°",
+   "value": 0.7582,
+   "pass": true,
+   "where": "spiral(λ_A=3・I_c=1·N·r_d²)"
+  },
+  {
+   "id": "G1′ 窓の中のピッチ角の振れ幅",
+   "gate": "max−min ≤ 2°",
+   "value": 0.594,
+   "pass": true,
+   "where": "spiral(λ_A=3・I_c=1·N·r_d²)"
+  },
+  {
+   "id": "G2 腕のコントラスト",
+   "gate": "|Σ_m|/Σ₀ ≥ 0.1",
+   "value": 0.31269,
+   "pass": true,
+   "where": "spiral(λ_A=3・I_c=1·N·r_d²)"
+  },
+  {
+   "id": "G3 棒の長さが保たれる",
+   "gate": "相対漂い ≤ 0.05",
+   "value": 0.02016,
+   "pass": true,
+   "where": "+ 第274便e の曲げ項 K_θ=4"
+  },
+  {
+   "id": "G3′ 棒が横に曲がったままにならない",
+   "gate": "幅/ℓ₀ ≤ 0.05",
+   "value": 0.076017,
+   "pass": false,
+   "where": "+ 第274便e の曲げ項 K_θ=4"
+  },
+  {
+   "id": "G3″ **宣言した散逸**を入れた棒の曲げ幅",
+   "gate": "幅/ℓ₀ ≤ 0.05",
+   "value": 0,
+   "pass": true,
+   "where": "+ K_θ=4 と**宣言した散逸** γ=0.2(剛体分は落とさない・熱は非負)"
+  },
+  {
+   "id": "G4 逆行率",
+   "gate": "≤ 0.05",
+   "value": 0.046,
+   "pass": true,
+   "where": "disk(Ω_p=0.28)"
+  },
+  {
+   "id": "G4′ **共回転のまま**の逆行率",
+   "gate": "≤ 0.05",
+   "value": 0.191333,
+   "pass": false,
+   "where": "disk(Ω_p=0.15=ω_m 共回転)"
+  },
+  {
+   "id": "G5 H の帳簿",
+   "gate": "相対漂い ≤ 1e-8",
+   "value": 1.866037913570343e-9,
+   "pass": true,
+   "where": "全走行の最悪"
+  },
+  {
+   "id": "G5′ (L_z + J_c) の帳簿",
+   "gate": "相対漂い ≤ 1e-8",
+   "value": 6.900814491667471e-11,
+   "pass": true,
+   "where": "渦巻の全走行"
+  },
+  {
+   "id": "G5″ 棒の ΣP・全 J",
+   "gate": "≤ 1e-10",
+   "value": 5.1193923411610046e-14,
+   "pass": true,
+   "where": "棒の全走行"
+  },
+  {
+   "id": "G6 局所模型の適用範囲",
+   "gate": "max r/r_c ≤ 0.05",
+   "value": 0.028473,
+   "pass": true,
+   "where": "全走行の最大"
+  }
+ ],
+ "verdict": [
+  {
+   "id": "G1",
+   "claim": "親コアの面外スピンが円盤をつくる",
+   "inModel": "**成り立つ(与えた α・β の下で)**",
+   "why": "Φ の剛性比 √(K⊥Φ/K∥Φ)=0.246371 の宣言で σ_z/σ_R=0.175099。ただし**扁平は α・β の宣言の帰結**であって導出ではない。逆行率は Ω_p だけで決まり、**共回転のままでは 0.154967 を下回れない**"
+  },
+  {
+   "id": "G2",
+   "claim": "子コアの面内軸が腕をつくる",
+   "inModel": "**成り立つ(与えた α=25/β=0.05 の下で)**",
+   "why": "スピンありで縦横比 9.02778(横断幅の残差 0.000585)、**スピン 0 の対照**では 0.991094(= 等方)。腕は ω_m² に掛かる α・β から来ている"
+  },
+  {
+   "id": "G3",
+   "claim": "渦巻パターンは巻き込まない(材料腕と別物)",
+   "inModel": "**半分だけ**",
+   "why": "パターンのピッチは構成から t に依らない(18.434949°)。ところが **R44 の調和コアでは剪断が 0 しか無い**ので、同じ場の中では**材料腕も巻き込まない** —— この模型では両者を巻き込みで区別できない。区別が見えるのは**宣言した剪断場**(R44 の外)を足したときだけ(材料腕のピッチ 18.4349° → 2.6319°)"
+  },
+  {
+   "id": "G4",
+   "claim": "数珠状の子コアが棒として運動する",
+   "inModel": "**与えた結合グラフの下でだけ**",
+   "why": "第66報 (4) の字義の形(伸び + ネマティック)では Hessian のゼロモードが 13 本 = **曲げ剛性が 0**。曲げ項 K_θ を宣言すると 5 本(並進 3 + 回転 2)になり、コア軸との結合 J_t を宣言すると 3 本(位置だけ回すと ΔU=2.6153144127041195・スピンも一緒に回すと -3.552713678800501e-15)。**保存系のままでは初期の曲げが減衰しない**(曲げ幅 0.619399 → 0.327797)。**散逸を宣言**して初めて真っ直ぐになる(γ=0.2 で 0.619399 → 0・熱は単調 true・ΣP と全 J は 1 も減らない)"
+  },
+  {
+   "id": "G5",
+   "claim": "棒渦巻へ発展する(棒 + パターン腕の共存)",
+   "inModel": "**試験していない**",
+   "why": "本便は棒とパターン腕を**別々の走行**で測った。1 つの系に同時に入れた走行は 1 本も無い"
+  }
+ ]
+}
