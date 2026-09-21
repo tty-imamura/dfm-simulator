@@ -264,10 +264,24 @@
     padding:10px 12px calc(10px + var(--sab));display:none;}
   #panel.open{display:block;}
   @supports (height:1dvh){ #panel{max-height:clamp(150px, calc(50dvh - 160px), 50dvh);} }
+  /* 第275便f(原仮定者の裁定(第65報)(9)「縦画面レイアウトでタブ表示時に『閉じる』だけでなく
+     『広げる』ボタンを用意」): 広げた状態 #panel.wide。上限は画面高からヘッダー+操作列+タブの
+     高さを引いた分 — その 3 つは JS(syncPanelWideReserve)が実測して --panelWideReserve へ
+     書く(--uz〔文字サイズ〕や言語でラベル行が変わると高さも変わるため、定数で持たない)。
+     CSS 既定値 169px は viewport 390×844・--uz=1.15 の実測(header 61 + transport 63 + tabs 45)
+     で、JS が動く前の 1 フレームだけ効く。#app.panelWide で #canvasWrap の min-height:120px を
+     外すのが要点 — これを残すと flex の合計が画面高を 120px 超え、先頭のヘッダーが縮んで
+     見切れる(「ヘッダーが隠れない」を DOM で確認するのは tests/exp-w275f-panelui.mjs)。 */
+  #panel.wide{max-height:calc(100vh - var(--panelWideReserve, 169px));}
+  @supports (height:1dvh){ #panel.wide{max-height:calc(100dvh - var(--panelWideReserve, 169px));} }
+  #app.panelWide #canvasWrap{min-height:0;}
   /* v1.17: タブパネルの閉じるボタン(スクロールしても右上に留まる) */
-  #btnPanelClose{position:sticky;top:0;float:right;z-index:5;margin:-4px -4px 0 8px;
+  /* 第275便f: 「広げる/狭くする」は閉じるボタンと同じ作法(sticky + float:right)で隣に置く。
+     DOM 順は 閉じる → 広げる なので、float:right により 閉じるが最右・広げるがその左に並ぶ */
+  #btnPanelClose,#btnPanelExpand{position:sticky;top:0;float:right;z-index:5;margin:-4px -4px 0 8px;
     min-height:34px;padding:4px 12px;border:1px solid var(--line);border-radius:10px;
     background:var(--panel);color:var(--dim);font-size:calc(13px*var(--uz,1));font-weight:700;}
+  #btnPanelExpand{margin-right:0;}
   .tabPage{display:none;} .tabPage.on{display:block;}
   .group{margin:6px 0 14px;}
   .group>h3{margin:4px 0 8px;font-size:calc(12px*var(--uz,1));color:var(--dim);font-weight:700;letter-spacing:.06em;}
@@ -497,6 +511,13 @@
     nav#tabs{grid-area:tb;}
     /* パネルは右カラム残り高さをすべて使う(縦積み時の 50vh 上限は解除) */
     #panel{grid-area:pn;max-height:none;min-height:0;border-top:1px solid var(--line);}
+    /* 第275便f: 「広げる/狭くする」は**縦積みレイアウト限定**。2カラムではパネルが既に
+       右カラムの残り高さを全部使っており広げる余地が無いので、ボタンを出さず、広げた状態
+       (localStorage に残っていても)の max-height も解除する。縦画面の判定は独自の媒体
+       クエリを足さず、この 2カラム化の条件の**裏**をそのまま使う(判定が二重化すると
+       レイアウトとボタンの出方がずれるため)。 */
+    #btnPanelExpand{display:none;}
+    #panel.wide{max-height:none;}
   }
 </style>
 </head>
@@ -695,6 +716,8 @@
   </nav>
   <section id="panel">
     <button id="btnPanelClose" aria-label="close panel">✕ 閉じる</button>
+    <!-- 第275便f(第65報 (9)): 縦画面でパネルを広げる/狭くする(横画面2カラムでは CSS で非表示) -->
+    <button id="btnPanelExpand" aria-label="expand panel" aria-pressed="false">⤢ 広げる</button>
     <div class="tabPage" id="page-help"><div id="helpBody"></div></div>
     <div class="tabPage" id="page-params">
       <!-- 第62便(原仮定者指示): ワンタップA/B(相変化 abQuick / 粒子patch abBody)は
@@ -896,6 +919,7 @@ const fmt = (v)=> Math.abs(v)>=100?v.toFixed(0):Math.abs(v)>=10?v.toFixed(1)
 
 // ===== i18n(v1.10): 日本語/英語切り替え。既定 ja、localStorage hp_lang に永続化 =====
 let LANG = (localStorage.getItem("hp_lang")==="en") ? "en" : "ja";
+// >>> w275a-generated: i18n
 const I18N = {
 ja: {
   appTitle:"DFM Lab", docTitle:"仮想物理ラボ — 仮定物理法則シミュレータ",   // 第23便: 左上タイトルを短縮(document.title は不変)
@@ -943,6 +967,8 @@ ja: {
   tgDragPause:"ドラッグ中は計算を止める",
   tgDragPauseDesc:"画面のドラッグ・ピンチ・ホイール操作をしている間だけ物理計算を一時停止し、その1フレームぶんの計算時間をまるごと操作の追従に回す(既定 ON・共通設定・永続)。粒子の多いサンプルほど効く。▶/⏸ のポーズ状態とは別の内部的な抑制なので、指を離せば元の再生状態へそのまま戻る(ボタン表示は変わらない)。物理の式・結果は一切変わらない — 止まっている間ステップを進めないだけ。OFF にすると操作中も計算を続けるが、ドラッグの追従は1フレームぶん(重いサンプルでは数百ms)遅れる。",
   // 第175便(レビュー第5巡 P0): step 会計の繰越化 — 診断1行と簡易ベンチ(開発者向け)
+  tgCoreAxis:"コア軸の投影線を表示",
+  tgCoreAxisDesc:"親子コア(コア V2)のうち **core.axisMode:\"prescribed\" を宣言した粒子**だけ、コア回転軸の 2D 投影線を描く(既定 ON・永続・表示専用)。3D 単位軸 e=(sinθcosφ, sinθsinφ, cosθ) を公転面へ正射影した (sinθcosφ, sinθsinφ) を線分にし、+J 側の端に丸を置く。傾き角 θ(core.tilt)が小さいほど線は短く(軸が画面手前を向く)、90° で最長になり、宣言した歳差角速度 core.precessionRate で方位 φ が回る。**3D 表示ではない** —— 面外成分 cosθ は線の長さにしか現れず、エンジンの力学が読むのは従来どおり z 射影 J_z だけである。宣言の無い粒子には何も描かないので、内蔵サンプルの画面は 1 ピクセルも変わらない。物理・セーブ・署名には一切効かない。",
   tgStepDiag:"ステップ診断を表示",
   tgStepDiagDesc:"HUD の末尾に、1フレームあたりのステップ会計を1行だけ追記する開発者向けの表示(既定 OFF・共通設定・永続)。「step 要求→実行 (+繰越) ms/步 trim 打切り回数/窓 fps 実効×倍率(要求×倍率) 破棄 累計」の並びで、要求した歩数のうち何步が実際に走り・何步が次フレームへ繰り越され・何步が上限超過で破棄されたかがその場で読める。実効倍率は「実行歩数×dt ÷ 壁時計」を「時間倍率×1・60fps で全要求を実行できたときの進み」で割った値なので、括弧内の要求倍率と直接比べられる(実効 < 要求 なら、その差がそのまま繰越+破棄として現れている)。**第259便a 追記**: 座標変換慣性(physics.spaceMesh の inertia:coordinate)を宣言した宇宙では行末に「mesh:<停止理由> N=<対象数>」が、トイの測地線モード(geoPN=3)では「geoToy:<停止理由> N=<対象数>」が付く。**第262便a 追記**: geoPN=3 を選んでも入場条件(kFrame=0・空間メッシュの慣性/織り込みと排他)が立たないときは、値を 3 のまま保って「geoToy:denied」と出る(力学は geoPN=2 と同じで走る)。2 体だけの系は非頂点が 0 なので mesh:noTargets と出る(黙って素通りさせないための読み口)。**第265便b 追記**: 源の閉包(toyClosure:iterate)が収束しなかった步は geoToy:closureUnconverged と出る(その步はメッシュキックを当てず帳簿にも記帳しない —— 重力側の步と時刻は進む)。法則版 mesh-v2 を宣言した宇宙では meshV2:<ゲージ> λmin=… cond=… が付き、共通並進が零固有値になる配置では「構造的特異」と出る。表示のみ・物理は一切変わらない。",
   benchLabel:"物理ベンチ(200步)",
@@ -1141,6 +1167,8 @@ ja: {
   qualityDesc:"描画だけを段階的に軽くします(物理計算は不変)。自動=フレームレートが落ちたら自動で軽く / 正確=常に最高品質(検証・QA用) / 軽量=常に軽く(旧端末向け)。縮退の対象: 解像度・決定力マップの格子と更新間隔・光線の本数・軌跡の記録間隔。",
   tsBothNote:"時間倍率はA/B比較中も両方の画面に反映されます。",
   panelClose:"✕ 閉じる",
+  // 第275便f(第65報 (9)): 縦画面のタブパネルを広げる/狭くする(横画面2カラムでは非表示)
+  panelExpand:"⤢ 広げる", panelShrink:"⤡ 狭くする",
   beTitle:"選択粒子の編集", bePinned:"固定(pinned)",
   beLsw:"減光",   // 第22便: 光掻き出し(lightSweep)ラベル
   beLdq:"引きずりq", beDqPh:"既定 q=",   // 第239便: 粒子別 dragQ 欄
@@ -1515,7 +1543,7 @@ ja: {
   hudSysOpen:(r)=>`系: 開放系(${r} — リザーバ・帳簿を含めて読む)`,
   sysPin:"固定天体", sysRail:"レール", sysBath:"熱浴", sysWall:"伝熱壁", sysGrav:"外部重力",
   helpOps:"操作",
-  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。「パラメータ」タブは 時空 → 引きずり・測地線 → スピン・熱 →(実験箱など)→ シミュレーション → グラフ → 表示 → スケール → 共通設定 の順に並びます(第254便c)。「表示」カテゴリのチェックボックスは ⏮初めから では保持され、「プリセット既定値に戻す」でサンプルの既定に戻ります。「共通設定」(保存量モニタ・描画品質・文字サイズ・カメラ追従など)と「シミュレーション」のステップ診断・物理ベンチは端末に永続する設定で、サンプルを変えても引き継がれます。",   /* 第254便c: パラメータタブの構成を追記 */
+  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。「パラメータ」タブは 時空 → 引きずり・測地線 → スピン・熱 →(実験箱など)→ シミュレーション → グラフ → 表示 → スケール → 共通設定 の順に並びます(第254便c)。「表示」カテゴリのチェックボックスは ⏮初めから では保持され、「プリセット既定値に戻す」でサンプルの既定に戻ります。「共通設定」(保存量モニタ・描画品質・文字サイズ・カメラ追従など)と「シミュレーション」のステップ診断・物理ベンチ・コア軸の投影線は端末に永続する設定で、サンプルを変えても引き継がれます。コア軸の投影線(第275便e)は core.axisMode:\"prescribed\" を宣言した親子コアだけに描く表示専用の線で、3D 単位軸を公転面へ正射影したものです(3D 表示ではありません)。縦画面ではタブを開いたときパネル右上に「⤢ 広げる」が出ます(第275便f) — 押すとパネルが画面いっぱい(ヘッダー+操作列+タブを除いた高さ)まで伸びて「⤡ 狭くする」に変わり、「✕ 閉じる」は広い状態でもそのまま効きます。広い/狭いの選択は端末に記憶されます(横画面2カラムではパネルが元から残り高さを全部使うのでボタンは出ません)。",   /* 第254便c: パラメータタブの構成を追記 */
   helpLaws:"この宇宙の法則(要約)",
   helpLawsBody:"① 空間は質点の相対配置だけで決まる(絶対空間なし)。② 決定力=質量÷距離。決定力の勾配が重力になる。③ 質点は「近くの空間」に対して慣性を持ち、空間ごと引きずられる(kFrame)。遠方宇宙の決定力がD₀。④ スピン=熱(温度T=Is²)。衝突で速度がスピンに変わり(muF)、スピンは斥力=圧力を生み(kRep)、拡散して平衡になる(κs)。⑤ 決定力が高い場所の時計は遅く、空間(共動フレーム)に対して速く動く時計も遅れる。光は同じψ=W·κ(κ=時空係数)で屈折して曲がり(n=e^{2ψ}。v1.7で時間と光を単一のψに統一)、「決定した空間」に運ばれる(c₀)。⑥ すべての相互作用は作用反作用対称で、運動量・角運動量を厳密に保存する(遠方宇宙との交換は帳簿に記録=保存量モニタ)。温度Tの質点はλ=b_m/Tの光を放射する(η_rad)。詳細は docs/PHYSICS.md(v1.6)。",
   ovCurve:"v(r): 実測(青) / 基準 v_bar(点線)", ovTemp:"平均温度(Is²) 左/右", ovLeft:"左", ovRight:"右",
@@ -1754,6 +1782,8 @@ en: {
   tgDragPause:"Pause physics while dragging",
   tgDragPauseDesc:"While you drag, pinch or wheel-zoom the view, physics stepping is paused so that the whole frame budget goes into following your finger or mouse (default ON, General, persisted). The heavier the sample, the more it helps. This is an internal suppression, separate from the ▶/⏸ pause state: release the pointer and playback resumes exactly as before, and the button never changes. The physics equations and results are untouched — steps simply are not taken while it is held. Turn it OFF to keep computing during input, at the cost of one physics frame (hundreds of ms on heavy samples) of lag in the drag.",
   // wave 175 (5th review round, P0): carried-over step accounting — one-line diagnostics and a quick bench (developer-facing)
+  tgCoreAxis:"Show the core axis projection",
+  tgCoreAxisDesc:"Draws the 2D projection of the core rotation axis, but ONLY for particles that declare core.axisMode:\"prescribed\" (default on, persisted, display only). The 3D unit axis e = (sin(theta)cos(phi), sin(theta)sin(phi), cos(theta)) is orthogonally projected onto the orbital plane, giving the segment (sin(theta)cos(phi), sin(theta)sin(phi)), with a dot at the +J end. The smaller the tilt angle theta (core.tilt), the shorter the line (the axis points towards the viewer); it is longest at 90 degrees, and the azimuth phi turns at the declared core.precessionRate. THIS IS NOT A 3D VIEW - the out-of-plane component cos(theta) shows up only in the length of the line, and the dynamics still read the z projection J_z alone. Nothing is drawn for particles without the declaration, so the built-in samples look pixel-identical. Physics, saves and signatures are untouched.",
   tgStepDiag:"Show step diagnostics",
   tgStepDiagDesc:"Appends one developer-facing line to the HUD with the per-frame step accounting (default OFF, General, persisted). It reads \"step requested→executed (+carried) ms/step trim trims/window fps eff ×rate (req ×rate) cancelled total\", so you can see at a glance how many of the requested steps actually ran, how many were carried over to the next frame, and how many were cancelled at the backlog cap. The effective rate is (executed steps × dt) / wall-clock seconds, divided by the advance you would get at time-scale ×1 and 60 fps — so it is directly comparable with the requested rate in parentheses (whenever effective < requested, the gap is exactly what shows up as carried + cancelled). WAVE 259a ADDS: when a sample declares the coordinate inertia (physics.spaceMesh with inertia set to coordinate) the line ends with mesh:<stop reason> N=<targets>, and with the toy geodesic mode (geoPN=3) it ends with geoToy:<stop reason> N=<targets>. WAVE 262a ADDS: when geoPN=3 is selected but the entry conditions do not hold (kFrame=0, exclusive with the space-mesh inertia/weave), the value stays 3 and the line reads geoToy:denied (the dynamics run exactly as geoPN=2). A two-body system has no non-vertex particles, so it reads mesh:noTargets - a read-out so that nothing passes through silently. WAVE 265b ADDS: a step whose source closure (toyClosure iterate) did not converge reads geoToy:closureUnconverged (no mesh kick is applied and nothing is booked to the ledger on that step, while gravity and the clock still advance), and a universe declaring the mesh-v2 law appends meshV2:<gauge> lambda_min=... cond=..., with a note when the common translation is a structural zero mode. Display only; the physics never changes.",
   benchLabel:"Physics bench (200 steps)",
@@ -1938,6 +1968,8 @@ en: {
   qualityDesc:"Steps down rendering only (physics is unchanged). Auto = degrade when the frame rate drops / Accurate = always full quality (for verification & QA) / Lite = always light (older devices). Affected: resolution, determinacy-map grid & update interval, ray count, trail recording interval.",
   tsBothNote:"The time multiplier applies to both views during A/B compare.",
   panelClose:"✕ Close",
+  // 第275便f: expand / shrink the tab panel (portrait stack only)
+  panelExpand:"⤢ Expand", panelShrink:"⤡ Shrink",
   beTitle:"Edit selected body", bePinned:"Pinned",
   beLsw:"dimming",   // 第22便: lightSweep label
   beLdq:"drag q", beDqPh:"default q=",   // 第239便
@@ -2300,7 +2332,7 @@ en: {
   hudSysOpen:(r)=>`System: open (${r} — read together with reservoirs/ledgers)`,
   sysPin:"pinned bodies", sysRail:"rail", sysBath:"heat bath", sysWall:"thermal walls", sysGrav:"external gravity",
   helpOps:"Controls",
-  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction. The Parameters tab is ordered Spacetime → Dragging & Geodesics → Spin & Heat → (Lab Box etc.) → Simulation → Graphs → Display → Scale → General (wave 254c). Checkboxes in Display are kept by ⏮Restart and returned to the sample defaults by \"Restore preset defaults\". General (conservation monitor, render quality, text size, camera follow, …) and the step diagnostics / physics bench in Simulation are device-persistent settings that carry over between samples.",   /* wave 254c */
+  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction. The Parameters tab is ordered Spacetime → Dragging & Geodesics → Spin & Heat → (Lab Box etc.) → Simulation → Graphs → Display → Scale → General (wave 254c). Checkboxes in Display are kept by ⏮Restart and returned to the sample defaults by \"Restore preset defaults\". General (conservation monitor, render quality, text size, camera follow, …) and the step diagnostics / physics bench / core-axis projection in Simulation are device-persistent settings that carry over between samples. The core-axis projection (wave 275e) is a display-only line drawn only for parent-child cores that declare core.axisMode:\"prescribed\"; it is the 3D unit axis orthogonally projected onto the orbital plane (it is NOT a 3D view). In portrait, opening a tab also shows a \"⤢ Expand\" button at the top right of the panel (wave 275f): it stretches the panel to the full screen height minus the header, transport row and tab bar, turns into \"⤡ Shrink\", and \"✕ Close\" keeps working in both states. The choice is remembered on the device (in the landscape two-column layout the panel already fills the remaining height, so the button is not shown).",   /* wave 254c */
   helpLaws:"Laws of this universe (summary)",
   helpLawsBody:"(1) Space is defined only by the relative configuration of masses (no absolute space). (2) Determinacy = mass ÷ distance; its gradient is gravity. (3) Masses have inertia relative to the \"nearby space\" and are dragged along with it (kFrame). D₀ is the determinacy of the distant universe. (4) Spin = heat (T = Is²). Collisions convert velocity to spin (muF), spin creates repulsion = pressure (kRep), and diffuses to equilibrium (κs). (5) Clocks run slow where determinacy is high, and clocks moving fast relative to the comoving frame also run slow. Light refracts under the same ψ = W·κ (κ = the spacetime coefficient; n = e^{2ψ}; time and light unified in v1.7) and is carried by the \"determined space\" (c₀). (6) All interactions are action–reaction symmetric and conserve momentum and angular momentum exactly (exchanges with the distant universe are ledgered — see the conservation monitor). A mass at temperature T radiates at λ = b_m/T (η_rad). Details: docs/PHYSICS.md (v1.6).",
   ovCurve:"v(r): measured (blue) / baseline v_bar (dotted)", ovTemp:"Mean temperature (Is²) L/R", ovLeft:"L", ovRight:"R",
@@ -2500,7 +2532,7 @@ en: {
     dispMag:"Display-only magnification of particle rendering radii (default 1). Use when real-unit radii are too small to see. Never affects contact physics, inertia or the simulation itself — a pure magnifying glass.",
     G:"Strength of mutual gravity between particles. In this universe gravity is the gradient of determinacy W (A6/E4: a=G∇W). Set 0 to switch self-gravity off (independent of the uniform field g_x/g_y).",
     D0:"Baseline determinacy contributed by the distant universe (A5). The larger it is, the more space is anchored far away — and the weaker the relative grip of nearby masses (kFrame drag). 0 = no distant anchor: wherever there is at least one source, chi = W/(W+D0) tends to 1 and only the nearby masses are the reference (at a point with no source at all, chi is held at 0).",
-    kFrame:"How strongly moving or spinning masses drag the 'nearby space' (the determinacy frame) along, carrying matter and light with it (A4/A5/E6′). 1 = fully relational space, 0 = Newtonian rigid space. The lead actor of the outer-velocity enhancement in rotation curves (T4).",
+    kFrame:"How strongly moving or spinning masses drag the 'nearby space' (the determinacy frame) along, carrying matter and light with it (A4/A5/E6′). 1 = fully relational space, 0 = Newtonian rigid space. The lead actor of the outer-velocity enhancement in rotation curves (T4). WAVE 275a (the original hypothesiser's ruling, report 65): IN A SAMPLE JSON THE DEFAULT IS BINARY - 0 OR 1. A fractional correction only holds for that one sample and cannot be used for prediction, so writing 0<kFrame<1 in JSON requires the declaration physics.kFrameApprox ('space-mesh-effective' = an effective approximation of the space-mesh influence, or 'sample-only' = that sample only). An undeclared fraction is SNAPPED TO THE NEAREST 0/1 ON LOAD with one warning (k<0.5 -> 0, k>=0.5 -> 1). FOR THE REALITY-CALIBRATION CLASS (sampleClass:calibration) IT IS REJECTED RATHER THAN SNAPPED, and the only usable declaration there is 'space-mesh-effective'. A VALUE SET FROM THIS SLIDER (the UI) IS NOT SNAPPED - the gate only bites when the value is written into a saved JSON (the same save asymmetry as wave 263a).",
     q:"Falloff exponent of the rotational drag from spin with distance (E3: (R/(R+d))^q). Larger q confines the drag closer to the body.",
     kRep:"Repulsion between spinning (= hot) particles (A10/E5′) — the origin of 'pressure' in this universe. Hot gas inflating (🎈) and convection (♨️) are driven by this force.",
     muF:"Efficiency of converting sliding contact (relative velocity) into spin = heat (A9/E9). At 0, collisions no longer heat anything (try the 💥 contrast experiment).",
@@ -2522,6 +2554,8 @@ en: {
     timeScale:"Multiplier on how fast simulated time advances (fast-forward). Physics is unchanged — only the time per frame. If the simulation diverges, lower this first. (Wave 94: the wave-93 exponent display was retracted; time re-reading lives in the Scale category.)"},
 },
 };
+
+// <<< w275a-generated: i18n
 function T(key){ const d=I18N[LANG], v=(key in d)? d[key] : I18N.ja[key]; return v; }
 
 // ===== 理論用語集(v1.13・理論解説パネル): プリセット説明文中の A/E/T 参照を自動抽出して表示 =====
@@ -2916,15 +2950,16 @@ function massBasisOf(p){
 //   **エンジン(`S._core` 等)だけが変わった場合は署名では捕まらない**。
 //   転記が正本と 1 行ずつ一致することは QA `ui.assessedValuePanel` が突き合わせる。
 // **静的な obsCard の行(多くは h 段の文面)と混ぜない** —— 別の欄として下に出す。
-const ASSESSED_CANON={file:"tests/out/calaudit-w249.json", wave:"第249便b", generatedAt:"2026-09-18T19:23:09.025Z",
-  targetSha256:"69d78fa3195e883be9fa14473fa590f98304142e5b466fb2a80e4f70f418d44d",
+// >>> w275a-generated: assessed-table
+const ASSESSED_CANON={file:"tests/out/calaudit-w249.json", wave:"第249便b", generatedAt:"2026-09-20T07:04:14.875Z",
+  targetSha256:"8b65f1d6996837964d7e5cca418600fa10a7e674a6803d0a72346e4456440e75",
   note:"判定段の値・σ 倍・門の状態は**この正本の転記**である(このページで測り直していない)"};
 // >>> w273c-assessed-table
 const ASSESSED_SIG={"mercuryReal":"3bffc014","mercuryRealKF1":"f530078c","plutoCharonReal":"c482cab0","alphaCenAB":"8b8c57d3","alphaCenABDFM":"8bf6c4cc","siriusAB":"63359204","siriusABDFM":"b1111485","psrDoubleAB":"bfceee9a","psrDoubleABDFM":"7b3f6a36","psrDoubleABSpinCal":"6fe76b76","psrJ1757DFM":"9dd447b2","psrJ1946DFM":"3bc590f2","psrDoubleABPN":"c794a498","psrJ1757PN":"7132210b","psrJ1946PN":"cc595e3c","psrDoubleABCF":"8767377","psrJ1757CF":"12797269","psrJ1946CF":"f8600f7c","psrB1534":"f14a9255","psrB1534DFM":"5888662e","psrB1534CF":"d1e506a2","saturnZonalD68":"5be8b841"};
 const ASSESSED_VALUES={
   "mercuryReal":[{t:"水星",k:"precession",n:"近日点前進(推定器つき宣言 — 第250便d)",st:"h",v:0.0000225146569977,u:"deg/orbit",ns:6217.30964976,g:"数値未解決"}],
   "mercuryRealKF1":[{t:"水星",k:"precession",n:"引きずり歳差(qLock q_exact=6.1471・推定器つき宣言)",st:"h",v:0.0000224860986679,u:"deg/orbit",ns:6259.09759721,g:"数値未解決"}],
-  "plutoCharonReal":[{t:"カロン",k:"period",n:"公転周期(kFrame=0 対照・同方向1周)",st:"h8",v:553211.255804,u:"s",ns:52269.1776099,g:"condition-mismatch"},{t:"カロン",k:"period",n:"公転周期(kFrame=1・E6′-R)同方向1周",st:"h8",v:553211.255804,u:"s",ns:52269.1776099,g:"数値未解決"},{t:"カロン",k:"period",n:"公転周期(kFrame=1)近点間(第250便d)",st:"h8",v:556271.83415,u:"s",ns:170347.045893,g:"mapping-unresolved"}],
+  "plutoCharonReal":[{t:"カロン",k:"period",n:"公転周期(kFrame=0 対照・同方向1周)",st:"h4",v:551864.061241,u:"s",ns:294.07873353,g:"否(3σ)"},{t:"カロン",k:"period",n:"公転周期(kFrame=1・E6′-R)同方向1周",st:"h8",v:553211.255804,u:"s",ns:52269.1776099,g:"数値未解決"},{t:"カロン",k:"period",n:"公転周期(kFrame=1)近点間(第250便d)",st:"h8",v:556271.83415,u:"s",ns:170347.045893,g:"mapping-unresolved"}],
   "alphaCenAB":[{t:"B",k:"period",n:"公転周期(kFrame=0 採用側)",st:"h4",v:2517154638.63,u:"s",ns:0.0956437048016,g:"合(3σ)"},{t:"B",k:"ecc",n:"実測離心率(1公転の半径比振れ幅)",st:"h4",v:0.519469965648,u:"-",ns:0.000229014177252,g:"mapping-unresolved"}],
   "alphaCenABDFM":[{t:"B",k:"period",n:"公転周期(kFrame=1・pull 重み・観測質量 — 2 定義)",st:"h4",v:2501545431.83,u:"s",ns:25.9372992288,g:"数値未解決"},{t:"B",k:"ecc",n:"実測離心率(1周目の半径比振れ幅)",st:"h4",v:0.520509070229,u:"-",ns:6.92713486102,g:"mapping-unresolved"}],
   "siriusAB":[{t:"B",k:"period",n:"公転周期(kFrame=0 採用側)",st:"h4",v:1581969210.93,u:"s",ns:0.274249976343,g:"合(3σ)"},{t:"B",k:"ecc",n:"実測離心率(1公転の半径比振れ幅)",st:"h4",v:0.591419947828,u:"-",ns:0.000141004863641,g:"mapping-unresolved"}],
@@ -2946,6 +2981,8 @@ const ASSESSED_VALUES={
   "saturnZonalD68":[{t:"D68",k:"precession",n:"D68 リングレットの近点移動(推定器つき宣言 — 第250便d)",st:"h4",v:13925.5845819,u:"deg/yr",ns:14.6034114102,g:"否(3σ)"}]
 };
 // <<< w273c-assessed-table
+
+// <<< w275a-generated: assessed-table
 // 正式判定値を読む(**表示しない理由も返す** —— 黙って空にしない)。
 function assessedValuesOf(p,opts){
   const id=p&&p.id; if(!id) return null;
@@ -3685,6 +3722,45 @@ function validateShapeToy(a){
   }
   return {ok:true, shapeToy:out};
 }
+// ===== 第275便b(原仮定者の裁定〔第65報〕(2)): physics.D0Source — **D₀ の背景の出所**の宣言 =====
+// 裁定の字義は「**D₀ は『何を背景とするか』でサンプル毎に変わる**」である(慣習の一値を固定しない):
+//   ・太陽を天体として**置く**サンプルでは、太陽は背景に含めない   … "solar-excluded"
+//   ・太陽を**置かない**サンプルでは、太陽からの距離で決まる       … "heliocentric"
+//   ・太陽系外のサンプルは**銀河内位置**(銀河の質量分布からの寄与) … "galactic"
+//   ・銀河サンプルでは**銀河自身を含めない**/その他は出所を名指しする … "declared"(note 必須)
+// D₀ は「**分解して置いていない源の決定力の総和**」D_bg(x*) = Σ_{j∉分解集合} m_j/√(r_j²+ε²) であり、
+// **距離に反比例する**(単位は 質量/長さ)。したがって**距離の二乗に反比例する空間メッシュ
+// (複素決定力場・need:"mesh")には使わない** —— これは裁定の後段そのものである。
+// **この鍵は宣言専用**(表示・監査用)で、**エンジンのどの経路からも読まれない**:
+// D₀ の値そのものは従来どおり `physics.D0` / `physics.D0pull` が持ち、本鍵は「その値が
+// どの背景を数えた総和なのか」を書くだけである。**未宣言は 1 bit も変わらない**
+// (ph に入らない = presetSig・エクスポート JSON が 1 文字も変わらない)。
+// **内蔵 128 本は 1 本もこの鍵を宣言していない**(本便が足したのは受理契約だけである)。
+const D0_SOURCE_KEY = "D0Source";
+const D0_BACKGROUNDS = ["solar-excluded","heliocentric","galactic","declared"];
+const D0_SOURCE_NOTE_MAX = 200;
+function validateD0Source(a){
+  if(a===null || a===undefined) return {ok:true, d0Source:null};
+  if(typeof a!=="object" || Array.isArray(a))
+    return {ok:false, err:"physics.D0Source はオブジェクト({background,refPos?,note?})か null"};
+  if(D0_BACKGROUNDS.indexOf(a.background)<0)
+    return {ok:false, err:'physics.D0Source.background は "solar-excluded"/"heliocentric"/"galactic"/"declared" のみ'};
+  const out={background:a.background};
+  if(a.refPos!==undefined && a.refPos!==null){
+    if(!Array.isArray(a.refPos) || a.refPos.length!==2 || !isNum(a.refPos[0]) || !isNum(a.refPos[1]))
+      return {ok:false, err:"physics.D0Source.refPos は有限数 2 つの配列 [x,y](D_bg を評価した基準点)"};
+    out.refPos=[a.refPos[0],a.refPos[1]];
+  }
+  if(a.note!==undefined && a.note!==null){
+    if(typeof a.note!=="string" || a.note.length>D0_SOURCE_NOTE_MAX)
+      return {ok:false, err:"physics.D0Source.note は "+D0_SOURCE_NOTE_MAX+" 字以内の文字列"};
+    if(a.note!=="") out.note=a.note;
+  }
+  // **名前のない "declared" は受理しない**(「宣言した」とだけ書いて出所を書かない宣言を通さない門)
+  if(a.background==="declared" && out.note===undefined)
+    return {ok:false, err:'physics.D0Source.background:"declared" は note に背景の出所を書くこと(出所を名指ししない宣言は受理しない)'};
+  return {ok:true, d0Source:out};
+}
 // 第246便(ChatGPT v4 §5.3/5.4): コアv2 の**実行状態**の値域(編集入口 S.applyCoreEdit が使う)。入力の値域(検証器 vCore:
 // massFrac 0.01〜0.95・Ω ±50)はプリセット/AI 生成の推奨範囲で、収縮(Ω↑)や放出(massFrac↑)を経た実行状態はこれを
 // 超えて正当。有限殻 0<Mc<M(massFrac<1)は維持(Mc=M の裸のコアは終端状態の別設計 — S4 第 2 段)
@@ -3703,6 +3779,34 @@ const CORE_BIND_A_DEFAULT = 0.6, CORE_BIND_A_CLAMP = [1e-6, 10], CORE_RT_CLAMP =
 // Mc=M(massFrac=1)の終端状態にする。既存 shed の契約「残骸質量 > コア質量」の**唯一の例外**で、
 // 1 粒子につき 1 回だけ。bareBelow は ≤1 なら**コア質量比**・>1 なら**絶対質量**(既定 0.01 = コアの 1%)。
 const SHED_BARE_BELOW_DEFAULT = 0.01;
+// ===== 第275便e(原仮定者の裁定(第65報)(7)「2D だが公転面に対する自転軸の傾き角・傾きの方向・
+// 歳差角速度を再現する。親子コア構造限定でよい」): **コア軸の宣言モード** =====
+// 既にあるもの(統括の検証項目 R32): 傾き角 `core.tilt`(初期 J_z=|J|cosθ・面内 J_x=|J|sinθ・
+// **方位 0 規約**)・歳差(`coreV2UpdatePass` の第227便ジャイロ分岐 φ̇=殻スピン)・
+// 検証器 `core.tilt`(tilt×Kcs の排他)・読み取り専用監査 `coreTiltProxyAudit`。
+// **足りないのは「方位角」と「歳差角速度」を宣言する口と、その表示である。**
+//   宣言: core.axisMode:"prescribed" + core.azimuthDeg(公転面内の傾きの方向[度])
+//         + core.precessionRate(歳差角速度[rad/時間]。**省略時は殻スピン** = 現行 φ̇=spin_shell と同値)
+//   意味: 軸の面内方位を **φ(t) = azimuthDeg + precessionRate·t の宣言**として毎步書き戻す
+//         (**規定運動**であって力学ではない)。J_z・|J⊥| は触らないので傾き角 θ は宣言のまま。
+// **これは 3D 実装ではない。** エンジンの力学が読むのは従来どおり z 射影 J_z だけで、
+// 面内成分 (J_x,J_y) は**運ぶだけ**である(第261便b の層 J と同じ立場)。表示は 2D 正射影の線である。
+//   **反作用**: 面内成分を宣言どおりに回すのに要る角力積は**面外**(x,y 軸まわり)なので、
+//   2D エンジンの L_z 帳簿には現れない。**「宣言した拘束」が持ち去った量**として負号で
+//   S.axPrescLx/axPrescLy(面外角運動量)・S.axPrescE(回転 E)・S.axPrescPx/Py(並進 — 恒等的に 0)へ
+//   記帳する(第250便c の帳簿修正と同じ流儀 —— 対応する仕事なしに回転 E が変わるのを禁じる)。
+//   **dynamic モード(トルクで軸が動く)は本便では設計だけ**(下の CORE_AXIS_DESIGN)。
+// **未宣言は 1 bit 不変**: `S.hasCoreAxis=false` で外部ステップ `dfmCoreAxisStep` に 1 度も入らない
+// (`S._core` には 1 命令も足していない —— `dfmGeoToyStep`・`dfmShapeToyStep` と同じ位置の外部ステップ)。
+const CORE_AXIS_MODES = ["prescribed"];   // "dynamic" は設計のみ(宣言しても無視して警告する)
+const CORE_AXIS_AZ_CLAMP = [-360, 360], CORE_AXIS_RATE_CLAMP = [-100, 100];
+// 歳差角速度の既定(**決断事項候補**): 省略時は「殻スピン」= 現行の第227便ジャイロ分岐の φ̇ と同値。
+// 宣言を足しただけで軸の回り方が変わらない値にしてある(prescribed への移行が同値になる既定)。
+const CORE_AXIS_RATE_DEFAULT = "spin";
+const CORE_AXIS_DESIGN = {
+  prescribed:"軸の面内方位を宣言 φ(t)=az+Ω_p·t で毎步書き戻す。力学に反作用しない(規定運動)。面外の角力積は拘束の帳簿へ負号で記帳する",
+  dynamic:"**設計のみ・未実装**。トルク τ から dJ⊥/dt=τ を積む案。供給源(公転 E/J・収縮 −½Ω²İ・内部モード)の帳簿の置き場(空間メッシュ貯蔵か中心天体か)が未決なので本便では実装しない"
+};
 // ===== 第246便b(第38報 最優先): body.spinDipole — 観測 Q の転写チャネル(single 専用・読み取り専用)=====
 // 原仮定者(第38報)「コンパクト天体は気体の外殻が無いので、観測値の高速な自転と小さな半径がそのまま使える」。
 // spinDipole:{omega:<rad/モデル時間単位>, radius:<単位長>, source:"observed"|"declared"} を宣言すると、
@@ -4309,7 +4413,7 @@ const PARAM_DEFS = [
   {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:3, step:1,    cat:"dg", group:"法則の実験室",
    desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W·κから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では 1 と厳密に同じ。0=従来(legacy)。**3=トイ(複素決定力場)**: 第259便a で足した**トイモデル専用**の別処理で、E6′・1PN・座標変換慣性のどれとも**排他**(重複適用を禁止する)。サンプル JSON で 3 を宣言するには physics.spaceMesh.lawVersion(scalar/local/complex)が要り、宣言の無い JSON は読み込み時に従来どおり 2 へ丸める。「現実較正」分類(sampleClass:calibration)の JSON では拒否する。**第262便a**: **この行(UI)で 3 にした値はもう 2 へ書き換えない** —— lawVersion の宣言が無いサンプルでは実行時の既定 scalar を使い、kFrame>0 や空間メッシュの慣性/織り込みと重なって入場条件が立たないときは、値を 3 のまま保ったうえで警告を 1 行出し、力学は geoPN=2 と同じで走る(ステップ会計の geoToy:denied)。**第263便a**: **保存の非対称**に注意 —— この行で 3 にしても、保存 JSON に physics.spaceMesh.lawVersion の宣言が無ければ読み込み時に 2 へ丸められる(**実行中の値と、保存できる宣言は別物である**)。また physics.spaceMesh.toyAllowDrag:true を宣言したサンプルだけは kFrame>0 のままトイが走り、**E6′ の追従キックと同じ步で重なる**(二重計上の可能性がある診断構成・HUD に overlay:drag と出る。sampleClass:calibration では拒否する)。"},
   {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, cat:"dg", group:"法則の実験室",
-   desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。"},   // 第124便(原仮定者指示): geoPN の次へ移動
+   desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。**第275便a(原仮定者の裁定〔第65報〕)**: サンプル JSON の既定は **0 か 1 の二値**である —— 分数の補正はそのサンプル限りで予測に使えないので、0<kFrame<1 を JSON に書くには `physics.kFrameApprox`(「space-mesh-effective」= 空間メッシュの影響の実効近似 /「sample-only」= そのサンプル限り)の宣言が要る。宣言が無い分数は読み込み時に**最寄りの 0/1 へ丸めて警告 1 行**(k<0.5→0・k≥0.5→1)。**現実較正クラス(sampleClass:calibration)では丸めず拒否**し、使える宣言は「space-mesh-effective」だけである。**このスライダー(UI)で動かした値は丸めない**(保存 JSON にしたときに初めて門が効く — 第263便a と同じ保存の非対称)。"},   // 第124便(原仮定者指示): geoPN の次へ移動
   {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:0.05, cat:"dg", group:"法則の実験室",
    desc:"測地線モード(geoPN≥1 — geoPN=2 の a₁ₚₙ(w) 項も同じスイッチで制御)の1PN補正の強さ(0〜1の連続値 — 第110便で整数制限を撤廃)。1PN加速度は λ_PN/c₀² に比例するので、c₀を固定したまま1PN強度だけを較正できる。0にするとニュートン重力に戻り、楕円軌道が閉じる — ☿水星のA/B対照実験用。"},
   {key:"pnAlpha", label:"1PN係数 α(0.5=時間率のみ, 1.5=完全)", mode:"lin", lo:0.5, hi:1.5, step:0.5, cat:"dg", group:"法則の実験室",
@@ -4460,7 +4564,25 @@ function valToSliderPos(def,v){
 //      エンジンに無い。`S._core` には 1 命令も足していない)。
 // **内蔵 124 本の kFrame の値は 1 本も変えていない**(本便は契約を開けただけ)。
 const KFRAME_APPROX_KEY = "kFrameApprox";
-const KFRAME_APPROXES = ["space-mesh-effective"];
+// 第275便a(原仮定者の裁定〔第65報〕(1)「kFrame の分数補正はサンプル限りで予測に使えない →
+//   例外を除き kFrame は kF0 版の 0 か DFM 版の 1 に限定する」): **二値が既定**の契約へ進める。
+//   宣言値は 2 つになった:
+//     "space-mesh-effective" … 第273便b から。空間メッシュの影響の実効近似として置いた分数。
+//                              **較正クラスで分数を書けるのはこの宣言だけ**である。
+//     "sample-only"          … 第275便a で追加。**そのサンプル限りの設定であって予測に使えない**
+//                              ことを明示する宣言(第65報の文言そのもの)。
+//                              **較正クラスでは拒否する** —— 予測に使えないと宣言した分数を
+//                              現実較正へ入れさせないため。
+const KFRAME_APPROXES = ["space-mesh-effective", "sample-only"];
+const KFRAME_APPROXES_CALIBRATION = ["space-mesh-effective"];
+// **宣言の無い 0<kFrame<1 をどう扱うか**(第275便a で両案を実装して比較した):
+//   "snap"   … 案B: 最寄りの {0,1} へ丸めて警告 1 行(AA2 のクランプと同じ流儀)。**既定**。
+//              旧セーブ・旧 AI 出力を壊さずに二値へ寄せられる。
+//   "reject" … 案A: 検証エラーで拒否(較正クラスは常にこちら)。
+// 丸めの規則は **k<0.5 → 0 / k≥0.5 → 1**(境界の 0.5 は 1 側。規則を明文で固定する)。
+// **力学には 1 バイトも接続しない** —— 変わるのは検証器の受理だけである。
+const KFRAME_UNDECLARED_MODES = ["snap", "reject"];
+let kFrameUndeclaredMode = "snap";
 const CLAMPS = { G:[0,1e6], D0:[0,1e6], kFrame:[0,1], q:[0.5,40], kRep:[0,20], muF:[0,1],
   gammaN:[0,1], kappaS:[0,2], kappaT:[0,1], kLens:[0,1],   // 第128便: 時空係数は κ 正準(κ=0=時空効果なし。旧 Kt[1,1e12] は ktToKappa で受理)
   cLight:[1,1e6], bM:[0.001,1000], etaRad:[0,1], pRad:[1,6], radiusScale:[0.2,5],
@@ -4515,6 +4637,7 @@ function grSI(){
 }
 
 // ===== 内蔵プリセット(スキーマは内部開発文書 HANDOFF_IMPLEMENTATION.md §契約1 — 非公開管理) =====
+// >>> w275a-generated: builtin-presets
 const BUILTIN_PRESETS = [
 // ===== v1.9 サンプル全面刷新(付録I)。旧16種は廃止し「1サンプル=1効果」で再構成 =====
 // 第26便(原仮定者指示): カテゴリ分け・表示順を再編 — 銀河系サンプルを「銀河」グループへ集約。配列順=表示順
@@ -6588,12 +6711,12 @@ const BUILTIN_PRESETS = [
     {q:"重力で安定したのではない", model:"対象粒子は**規定運動**。G=0 で走り、G を上げても 600 步の状態は 1 bit も変わらない(器で実測)", obs:"—"},
     {q:"定常分布", model:"Cov(y)=I・Cov(w)=ω₀²I。**離散化は厳密**(F=e^{Bh}・Q_h=C−FCFᵀ)で、刻みを変えても定常分布は動かない", obs:"—"},
     {q:"3D と投影", model:"面外 z は潜在のまま持つ(力には使わない)。3 つの 1D 正規分布の積が 3D 密度で、どの視線の投影も正規分布になる", obs:"—"},
-    {q:"成長", model:"σ(t)=σ_∞(1+(r₀−1)e^{−t/τ})・σ_∞=90・r₀=0.4・τ=25。**総質量は増やさない**(形状の成長だけ)", obs:"—"},
+    {q:"成長は止めてある(第275便d)", model:"τ=0・σ=σ₀=36。σ は**初期配置の RMS 半径**(一様円盤 R=72 の R/√2=50.91=36√2)に合わせた宣言値である", obs:"—"},
     {q:"供給は外部熱浴", model:"復元・減衰・供給の 3 作用のうち供給は外部熱浴。粒子が受け取った P/L/E の厳密な負を帳簿へ記帳する(**閉じていない**)", obs:"—"},
     {q:"言わないこと", model:"**星団を較正した/正規分布が創発した/銀河が安定した**とは書かない。指定した形状の参照モデルである", obs:"—"}],
   descStruct:{
-    summary:"**指定した 3D 正規分布を定常分布に持つ参照モデル**(重力 E4・引きずり E6′ はこの経路の状態を決めない・第274便d・第64報「実在天体に先立ち安定サンプルを用意する」)。中心 c と可逆行列 A=σI で物理座標を潜在座標へ写し(x=c+Ay・v=ċ+Ȧy+Aw)、潜在 (y,w) を各軸独立の 2 階 OU(dy=w dt・dw=(−ω₀²y−γw)dt+√(2γω₀²)dW)で更新する。定常分布は Cov(y)=I・Cov(w)=ω₀²I であり、**離散化は厳密**(B=[[0,1],[−ω₀²,−γ]]・F=e^{Bh}・Q_h=C−FCFᵀ・ξ∼N(0,Q_h))なので Euler 近似の刻み依存が無い。**これは較正ではない**(観測された星団の密度・速度分散を 1 つも入力していない)。**重力から形が出たのでもない**: 対象粒子は**規定運動**であり、G=0 で走らせてあって、G を上げても 600 步の状態は 1 bit も変わらない。宣言する 3 作用は**復元**(−ω₀²y)・**減衰**(−γw)・**供給**(√(2γω₀²)dW)で、**供給は外部熱浴**である —— 粒子が受け取った運動量・角運動量・運動エネルギーの厳密な負を帳簿(`shapeToyBath*`・リザーバ)へ記帳するだけで、**閉じた系ではない**(反作用先の有限容量は未定義)。面外 z は潜在のまま持ち(力には 1 バイトも使わない)、3 つの 1D 正規分布の**積**が 3D 密度になるので、どの視線で積分しても投影は 1D 正規分布、等方なら半径分布は r²exp(−r²/2σ²) である。**言わないこと**: 星団を較正した・正規分布が創発した・銀河が安定した(観測比較をしていない)。",
-    observe:"中心に対して正規分布へ緩和し、σ(t)=σ_∞(1+(r₀−1)e^{−t/τ})(σ_∞=90・r₀=0.4・τ=25)で外へ向かって安定成長する。速度は ċ+Ȧy+Aw で、A の拡縮も速度に入る(描画だけで広げてはいない)。数は docs/PHYSICS.md〔第274便d〕の表(器 tests/exp-w274d-shapetoy.mjs)。",
+    summary:"**指定した 3D 正規分布を定常分布に持つ参照モデル**(重力 E4・引きずり E6′ はこの経路の状態を決めない・第274便d・第64報「実在天体に先立ち安定サンプルを用意する」)。中心 c と可逆行列 A=σI で物理座標を潜在座標へ写し(x=c+Ay・v=ċ+Ȧy+Aw)、潜在 (y,w) を各軸独立の 2 階 OU(dy=w dt・dw=(−ω₀²y−γw)dt+√(2γω₀²)dW)で更新する。定常分布は Cov(y)=I・Cov(w)=ω₀²I であり、**離散化は厳密**(B=[[0,1],[−ω₀²,−γ]]・F=e^{Bh}・Q_h=C−FCFᵀ・ξ∼N(0,Q_h))なので Euler 近似の刻み依存が無い。**これは較正ではない**(観測された星団の密度・速度分散を 1 つも入力していない)。**重力から形が出たのでもない**: 対象粒子は**規定運動**であり、G=0 で走らせてあって、G を上げても 600 步の状態は 1 bit も変わらない。宣言する 3 作用は**復元**(−ω₀²y)・**減衰**(−γw)・**供給**(√(2γω₀²)dW)で、**供給は外部熱浴**である —— 粒子が受け取った運動量・角運動量・運動エネルギーの厳密な負を帳簿(`shapeToyBath*`・リザーバ)へ記帳するだけで、**閉じた系ではない**(反作用先の有限容量は未定義)。面外 z は潜在のまま持ち(力には 1 バイトも使わない)、3 つの 1D 正規分布の**積**が 3D 密度になるので、どの視線で積分しても投影は 1D 正規分布、等方なら半径分布は r²exp(−r²/2σ²) である。**第275便d(第65報 (4))で成長の宣言を外した**: τ=0・σ=σ₀=36 で、σ は初期配置(一様円盤 R=72)の RMS 半径 R/√2 に一致する値である —— 「粒子が初期配置に対して発散している」という指摘への対応は、**発散を止める新しい力を足すことではなく、成長の宣言を外すこと**だった。中心天体つきの参照版は 🎱 `shapeToyClusterCore` に分けてある。**言わないこと**: 星団を較正した・正規分布が創発した・銀河が安定した(観測比較をしていない)。",
+    observe:"中心に対して正規分布へ緩和し、そのまま**大きさを変えない**(τ=0・σ=36)。面内 RMS 半径は宣言した定常値 σ√2=50.91 のまわりに留まる。速度は ċ+Aw で、面内の速度分散は σω₀=3.6 である。数は docs/PHYSICS.md〔第275便d〕の表(器 tests/exp-w275d-shapecrit.mjs)。",
     control:"**パラメータ行に形状トイのノブは無い**(宣言は physics.shapeToy で、`ω₀`=復元の角振動数・`γ`=減衰率・`σ`=目標の広がり・`τ`=成長時定数)。重力 G を上げても対象粒子は規定運動なので状態は 1 bit も動かない —— これが「重力で安定したのではない」ことの操作上の確認である。"},
   en:{name:"Globular-cluster toy — a 3D-normal reference model (NOT a calibration)",
     obsCard:[
@@ -6602,34 +6725,34 @@ const BUILTIN_PRESETS = [
       {q:"Gravity did not stabilise it", model:"The target particles are PRESCRIBED motion. It runs at G=0, and raising G leaves the 600-step state BIT-UNCHANGED (measured by the harness)", obs:"-"},
       {q:"Stationary law", model:"Cov(y)=I, Cov(w)=omega0^2 I. The DISCRETISATION IS EXACT (F = exp(Bh), Q_h = C - F C F^T), so the stationary law does not move with the step size", obs:"-"},
       {q:"3D and projection", model:"The out-of-plane z stays latent (never read by any force). The 3D density is the PRODUCT of three 1D normals, so every line-of-sight projection is normal", obs:"-"},
-      {q:"Growth", model:"sigma(t) = sigma_inf (1 + (r0-1) e^{-t/tau}), sigma_inf = 90, r0 = 0.4, tau = 25. THE TOTAL MASS IS NOT INCREASED (shape growth only)", obs:"-"},
+      {q:"The growth is switched off (wave 275d)", model:"tau = 0, sigma = sigma_0 = 36 - the RMS radius of the initial layout (a uniform disc of R = 72 has R/sqrt(2) = 50.91 = 36*sqrt(2))", obs:"-"},
       {q:"The supply is an external bath", model:"Of the three declared actions the supply is an external bath: the exact negative of the P/L/E handed to the particles is booked. THE SYSTEM IS NOT CLOSED", obs:"-"},
       {q:"What this does not claim", model:"NOT a calibrated cluster, NOT 'a normal distribution emerged', NOT 'a galaxy became stable'. It is a reference model of a SPECIFIED shape", obs:"-"}],
     descStruct:{
-      summary:"A REFERENCE MODEL WHOSE STATIONARY LAW IS THE SPECIFIED 3D NORMAL DISTRIBUTION (wave 274d, report 64: 'prepare a stable sample before any real object'). A centre c and an invertible A = sigma*I map the physical coordinates to a latent pair (x = c + A y, v = c-dot + A-dot y + A w), and the latent (y,w) is advanced by a per-axis second-order Ornstein-Uhlenbeck process (dy = w dt, dw = (-omega0^2 y - gamma w) dt + sqrt(2 gamma omega0^2) dW). Its stationary law is Cov(y) = I and Cov(w) = omega0^2 I, and THE DISCRETISATION IS EXACT (B = [[0,1],[-omega0^2,-gamma]], F = exp(Bh), Q_h = C - F C F^T, xi ~ N(0,Q_h)), so there is no step-size dependence of the kind an Euler update would bring. THIS IS NOT A CALIBRATION (no observed cluster density or velocity dispersion is fed in) AND THE SHAPE DID NOT COME OUT OF GRAVITY: the target particles are PRESCRIBED motion, the sample runs at G = 0, and raising G leaves the 600-step state bit-unchanged. The three declared actions are RESTORING (-omega0^2 y), DAMPING (-gamma w) and SUPPLY (sqrt(2 gamma omega0^2) dW); THE SUPPLY IS AN EXTERNAL BATH - the exact negative of the momentum, angular momentum and kinetic energy handed to the particles is booked into the ledgers, and THE SYSTEM IS NOT CLOSED (the finite capacity of whatever absorbs it is undefined). The out-of-plane z is carried as a latent coordinate that no force reads; the 3D density is the PRODUCT of three 1D normals, so any line-of-sight projection is a 1D normal and, in the isotropic case, the radial law is r^2 exp(-r^2 / 2 sigma^2). WHAT THIS DOES NOT SAY: that a cluster was calibrated, that a normal distribution emerged, or that a galaxy became stable.",
-      observe:"The particles relax to a normal distribution about the centre and grow outward as sigma(t) = sigma_inf (1 + (r0-1) e^{-t/tau}) with sigma_inf = 90, r0 = 0.4, tau = 25. The velocity is c-dot + A-dot y + A w, so the stretching of A enters the velocity as well (the growth is not painted on at draw time). The numbers live in docs/PHYSICS.md, wave 274d (harness tests/exp-w274d-shapetoy.mjs).",
+      summary:"A REFERENCE MODEL WHOSE STATIONARY LAW IS THE SPECIFIED 3D NORMAL DISTRIBUTION (wave 274d, report 64: 'prepare a stable sample before any real object'). A centre c and an invertible A = sigma*I map the physical coordinates to a latent pair (x = c + A y, v = c-dot + A-dot y + A w), and the latent (y,w) is advanced by a per-axis second-order Ornstein-Uhlenbeck process (dy = w dt, dw = (-omega0^2 y - gamma w) dt + sqrt(2 gamma omega0^2) dW). Its stationary law is Cov(y) = I and Cov(w) = omega0^2 I, and THE DISCRETISATION IS EXACT (B = [[0,1],[-omega0^2,-gamma]], F = exp(Bh), Q_h = C - F C F^T, xi ~ N(0,Q_h)), so there is no step-size dependence of the kind an Euler update would bring. THIS IS NOT A CALIBRATION (no observed cluster density or velocity dispersion is fed in) AND THE SHAPE DID NOT COME OUT OF GRAVITY: the target particles are PRESCRIBED motion, the sample runs at G = 0, and raising G leaves the 600-step state bit-unchanged. The three declared actions are RESTORING (-omega0^2 y), DAMPING (-gamma w) and SUPPLY (sqrt(2 gamma omega0^2) dW); THE SUPPLY IS AN EXTERNAL BATH - the exact negative of the momentum, angular momentum and kinetic energy handed to the particles is booked into the ledgers, and THE SYSTEM IS NOT CLOSED (the finite capacity of whatever absorbs it is undefined). The out-of-plane z is carried as a latent coordinate that no force reads; the 3D density is the PRODUCT of three 1D normals, so any line-of-sight projection is a 1D normal and, in the isotropic case, the radial law is r^2 exp(-r^2 / 2 sigma^2). WAVE 275d SWITCHED THE GROWTH DECLARATION OFF (report 65, item 4): tau = 0 and sigma = sigma_0 = 36, the RMS radius of the initial layout - the answer to 'the particles are diverging away from the initial layout' was NOT a new force that stops the divergence but REMOVING THE GROWTH DECLARATION. The version with a central object is a separate sample, 🎱 shapeToyClusterCore. WHAT THIS DOES NOT SAY: that a cluster was calibrated, that a normal distribution emerged, or that a galaxy became stable.",
+      observe:"The particles relax to a normal distribution about the centre AND THEN KEEP THEIR SIZE (tau = 0, sigma = 36). The in-plane RMS radius stays around the declared stationary value sigma*sqrt(2) = 50.91. The velocity is c-dot + A w, with an in-plane velocity dispersion of sigma*omega0 = 3.6. The numbers live in docs/PHYSICS.md, wave 275d (harness tests/exp-w275d-shapecrit.mjs).",
       control:"THERE IS NO SLIDER FOR THE SHAPE TOY: it is declared in physics.shapeToy (omega0 = restoring frequency, gamma = damping rate, sigma = target spread, tau = growth time constant). Raising G changes nothing at all, because the target particles are prescribed motion - which is the operational check that GRAVITY IS NOT WHAT STABILISED THIS."}},
   parameterAudit:{
     observedInputs:["**無い。** 観測された星団の密度・速度分散・年齢を 1 つも入力していない(原理サンプル)"],
-    fixedConventions:["中心 c=(0,0)・固定(中心 BH なし版 —— 中心天体つきは次段)",
-      "A=σI(等方)・ω₀=0.10・γ=0.25(過減衰 γ²/4>ω₀²)","成長 σ_∞=90・r₀=σ₀/σ_∞=0.4・τ=25",
+    fixedConventions:["中心 c=(0,0)・固定(**中心天体なし版** —— 中心天体つきは 🎱 shapeToyClusterCore)",
+      "A=σI(等方)・ω₀=0.10・γ=0.25(過減衰 γ²/4>ω₀²)","**成長なし** τ=0・σ=σ₀=36(初期配置 R=72 の RMS 半径 R/√2=50.91 に一致)",
       "coupling:\"prescribed\"(潜在が状態の正本)","supply:\"external-bath\"(供給の出所の宣言)",
       "G=0(重力を切ってある —— **これは参照モデルである**)","cLight=30(組込みプリセットの規約)"],
     fitted:["**無い。**"],
     derived:["定常 Cov(x)=σ²I・Cov(v)=σ²ω₀²I(OU の定常解)","半径分布 r²exp(−r²/2σ²)(3 軸等方の帰結)"],
     numerical:["ソフトニング ε=2","時間倍率 timeScale=3","厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ(Euler 近似ではない)",
-      "測定: dt=0.016・seed 20260919(器 tests/exp-w274d-shapetoy.mjs)"]},
+      "測定: dt=0.25・T=200・seed 20260919(器 tests/exp-w275d-shapecrit.mjs)"]},
   activeParams:["G","softening"],
   validT:200,
-  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260919,
+  camera:{scale:160}, world:{boundary:"none",size:0}, seed:20260919,
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
     shapeToy:{shape:"cluster", supply:"external-bath", coupling:"prescribed",
-      omega0:0.10, gamma:0.25, sigma:90, sigma0:36, tauGrow:25, center:"fixed", cx:0, cy:0}},
+      omega0:0.10, gamma:0.25, sigma:36, sigma0:36, tauGrow:0, center:"fixed", cx:0, cy:0}},
   bodies:[
     {type:"disk", rMul:1.4, n:240, cx:0,cy:0, radius:72,
-     mMin:0.6,mMax:0.6, spinMin:0,spinMax:0, vMode:"random", vScale:1, direction:1, bulkVx:0, bulkVy:0}],
+     mMin:0.6,mMax:0.6, spinMin:0,spinMax:0, vMode:"rigid", vScale:0, direction:1, bulkVx:0, bulkVy:0}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false} },
 
 { id:"shapeToyDisk", name:"腕なし回転円盤トイ — 扁平は σ_z の宣言(較正ではない)", emoji:"🥏",
@@ -6639,50 +6762,51 @@ const BUILTIN_PRESETS = [
     {q:"何を置いたか", model:"A=R(θ(t))·diag(σ_R,σ_R,σ_z)・θ=Ωt。面内は等方で、面外だけ σ_z<σ_R を**宣言**した参照モデル", obs:"—(原理サンプル)"},
     {q:"回転では扁平にならない", model:"面内 σ が等しいので R(θ) は形を変えない。**横から見た扁平は σ_z の宣言**であって回転の帰結ではない", obs:"—"},
     {q:"較正ではない", model:"観測された楕円銀河の軸比も速度分散も**1 つも入力していない**。claim 窓も regression window も無い", obs:"—"},
-    {q:"Ω<ω₀ の宣言", model:"Ω=0.05<ω₀=0.10 を宣言して走らせた。ただし**この参照モデルでは Ω を上げても定常共分散は動かない**(器で実測)", obs:"—"},
+    {q:"Ω/ω₀=5 にした(第275便d)", model:"ω₀=0.01・γ=0.02(臨界)で Ω/ω₀=5。**逆行する粒子の割合が 27.9%→1.1% へ下がる**(実測 —— 「入り乱れ」の機械量)", obs:"—"},
     {q:"重力で安定したのではない", model:"対象粒子は**規定運動**。G=0 で走り、G を上げても 600 步の状態は 1 bit も変わらない", obs:"—"},
-    {q:"成長", model:"σ_R∞=110・σ_z∞=35・r₀=0.4・τ=25。全軸が同じ比から出発するので**軸比は成長中も一定**である", obs:"—"},
+    {q:"成長は止めてある(第275便d)", model:"τ=0・σ_R=σ₀=44(初期配置 R=88 の RMS 半径 R/√2 に一致)・σ_z=14。軸比 σ_z/σ_R=0.318 は宣言のまま", obs:"—"},
     {q:"供給は外部熱浴", model:"復元・減衰・供給の 3 作用のうち供給は外部熱浴。P/L/E の厳密な負を記帳する(**閉じていない**)", obs:"—"},
     {q:"言わないこと", model:"**楕円銀河を較正した/腕が創発した/銀河が安定した**とは書かない。腕は本便では乗せていない", obs:"—"}],
   descStruct:{
-    summary:"**腕のない回転円盤の参照モデル**(楕円銀河のアナロジー・第274便d・重力 E4 はこの経路の状態を決めない)。A(t)=R(θ(t))·diag(σ_R,σ_R,σ_z)・θ(t)=Ωt で潜在座標を物理座標へ写し、潜在は 🔮 と同じ 2 階 OU(厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ)で更新する。**面内 σ が等しいので回転 R(θ) は形を変えない** —— 横から見たときの扁平は **σ_z<σ_R の宣言**であって、回転の帰結ではない(「回転させたら扁平になった」とは書かない)。**これは較正ではない**(観測された楕円銀河の軸比・速度分散を 1 つも入力していない)。**重力から形が出たのでもない**: 対象粒子は規定運動であり、G=0 で走らせてあって、G を上げても 600 步の状態は 1 bit も変わらない。Ω=0.05<ω₀=0.10 を宣言条件として走らせているが、**この参照モデルでは Ω は潜在座標の式に入らない**ので、Ω を上げても定常共分散は動かない(第274便d の実測表)—— つまり「Ω<√κ」は**この模型では安定条件として働いていない**。供給は外部熱浴で、粒子が受け取った P/L/E の厳密な負を帳簿へ記帳するだけである(**閉じた系ではない**)。腕は乗せていない(渦巻は次段)。**言わないこと**: 「楕円銀河を較正した」「回転させたら扁平になった」「腕が創発した」「銀河が安定した」とは書かない。",
-    observe:"面内は σ_R へ、面外(潜在 z)は σ_z へ緩和し、θ=Ωt で回る。横から見た投影(x–z)は軸比 σ_z/σ_R の正規分布で、真上から見た投影(x–y)は等方の正規分布である。数は docs/PHYSICS.md〔第274便d〕の表。",
+    summary:"**腕のない回転円盤の参照モデル**(楕円銀河のアナロジー・第274便d・重力 E4 はこの経路の状態を決めない)。A(t)=R(θ(t))·diag(σ_R,σ_R,σ_z)・θ(t)=Ωt で潜在座標を物理座標へ写し、潜在は 🔮 と同じ 2 階 OU(厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ)で更新する。**面内 σ が等しいので回転 R(θ) は形を変えない** —— 横から見たときの扁平は **σ_z<σ_R の宣言**であって、回転の帰結ではない(「回転させたら扁平になった」とは書かない)。**これは較正ではない**(観測された楕円銀河の軸比・速度分散を 1 つも入力していない)。**重力から形が出たのでもない**: 対象粒子は規定運動であり、G=0 で走らせてあって、G を上げても 600 步の状態は 1 bit も変わらない。Ω=0.05<ω₀=0.10 を宣言条件として走らせているが、**この参照モデルでは Ω は潜在座標の式に入らない**ので、Ω を上げても定常共分散は動かない(第274便d の実測表)—— つまり「Ω<√κ」は**この模型では安定条件として働いていない**。供給は外部熱浴で、粒子が受け取った P/L/E の厳密な負を帳簿へ記帳するだけである(**閉じた系ではない**)。腕は乗せていない(渦巻は次段)。**第275便d(第65報 (5))の変更**: 成長の宣言を外し(τ=0・σ_R=σ₀=44=初期配置の RMS 半径)、**Ω/ω₀ を 0.5 から 5 へ上げた**(ω₀=0.01・γ=0.02 の臨界減衰)。これで角運動量が平均と逆向きの粒子の割合が **27.9% → 1.1%** へ下がる(実測)—— ただし**この模型の A(t) は線形写像なので回転は剛体回転だけ**であり、**外側が平坦な回転曲線は出ない**(半径 5 ビンの Ω は 0.0487〜0.0500 でばらつき 2.7%、v_t は最内 0.98 から最外 5.16 へ外ほど大きい。否定結果)。中心天体つきの参照版は 📀 `shapeToyDiskCore` に分けてある。**言わないこと**: 「楕円銀河を較正した」「回転させたら扁平になった」「腕が創発した」「銀河が安定した」「平坦回転曲線を再現した」とは書かない。",
+    observe:"面内は σ_R=44 へ、面外(潜在 z)は σ_z=14 へ緩和し、θ=Ωt(Ω=0.05)で回る。大きさは変えない(τ=0)。ランダム速度 σ_Rω₀=0.44 に対して回転 Ω·r が効くので、粒子はほぼ同じ向きに回る。横から見た投影(x–z)は軸比 σ_z/σ_R の正規分布である。数は docs/PHYSICS.md〔第275便d〕の表。",
     control:"**パラメータ行に形状トイのノブは無い**(宣言は physics.shapeToy)。重力 G を上げても状態は 1 bit も動かない(規定運動)。扁平を変えたいときは σ_z の宣言を変える —— 回転 Ω を上げても扁平にはならない。"},
   en:{name:"Rotating disc toy without arms — the flattening is a declared sigma_z (NOT a calibration)",
     obsCard:[
       {q:"What is placed here", model:"A = R(theta(t)) diag(sigma_R, sigma_R, sigma_z) with theta = Omega t; isotropic in the plane, with sigma_z < sigma_R DECLARED out of plane", obs:"- (principle sample)"},
       {q:"Rotation does not flatten it", model:"The in-plane sigmas are equal, so R(theta) does not change the shape. THE EDGE-ON FLATTENING IS THE DECLARED sigma_z, not a consequence of the rotation", obs:"-"},
       {q:"This is not a calibration", model:"NOT ONE observed elliptical-galaxy axis ratio or velocity dispersion is fed in; there is no claim window and no regression window", obs:"-"},
-      {q:"The declared Omega < omega0", model:"It runs with Omega = 0.05 < omega0 = 0.10 declared. BUT IN THIS REFERENCE MODEL RAISING Omega DOES NOT MOVE THE STATIONARY COVARIANCE (measured)", obs:"-"},
+      {q:"Omega / omega0 = 5 (wave 275d)", model:"omega0 = 0.01, gamma = 0.02 (critical) gives Omega/omega0 = 5, and THE RETROGRADE FRACTION DROPS FROM 27.9% TO 1.1% (measured)", obs:"-"},
       {q:"Gravity did not stabilise it", model:"The target particles are PRESCRIBED motion. It runs at G=0, and raising G leaves the 600-step state bit-unchanged", obs:"-"},
-      {q:"Growth", model:"sigma_R_inf = 110, sigma_z_inf = 35, r0 = 0.4, tau = 25. Every axis starts from the same ratio, SO THE AXIS RATIO IS CONSTANT DURING GROWTH", obs:"-"},
+      {q:"The growth is switched off (wave 275d)", model:"tau = 0, sigma_R = sigma_0 = 44 (the RMS radius of the initial layout R = 88), sigma_z = 14; the declared axis ratio 0.318 is unchanged", obs:"-"},
       {q:"The supply is an external bath", model:"Of the three declared actions the supply is an external bath: the exact negative of the P/L/E is booked. THE SYSTEM IS NOT CLOSED", obs:"-"},
       {q:"What this does not claim", model:"NOT a calibrated elliptical galaxy, NOT 'arms emerged', NOT 'a galaxy became stable'. No arm is carried on this sample", obs:"-"}],
     descStruct:{
-      summary:"A REFERENCE MODEL OF A ROTATING DISC WITHOUT ARMS (the elliptical-galaxy analogy, wave 274d). A(t) = R(theta(t)) diag(sigma_R, sigma_R, sigma_z) with theta(t) = Omega t maps the latent coordinates to the physical ones, and the latent pair is advanced by the same second-order OU process as the globular-cluster toy (exact discretisation F = exp(Bh), Q_h = C - F C F^T). SINCE THE IN-PLANE SIGMAS ARE EQUAL, THE ROTATION R(theta) DOES NOT CHANGE THE SHAPE: the edge-on flattening is the DECLARED sigma_z < sigma_R, not a consequence of rotation. THIS IS NOT A CALIBRATION (no observed axis ratio or velocity dispersion is fed in) AND THE SHAPE DID NOT COME OUT OF GRAVITY (prescribed motion, G = 0, bit-unchanged when G is raised). Omega = 0.05 < omega0 = 0.10 is declared, but Omega DOES NOT ENTER THE LATENT EQUATIONS of this reference model, so raising Omega does not move the stationary covariance - 'Omega < sqrt(kappa)' IS NOT ACTING AS A STABILITY CONDITION HERE. The supply is an external bath and only the exact negative of the P/L/E handed to the particles is booked (THE SYSTEM IS NOT CLOSED). No arm is carried here; the spiral comes later.",
-      observe:"In the plane the particles relax to sigma_R, out of plane (the latent z) to sigma_z, and the whole map turns with theta = Omega t. The edge-on projection (x-z) is a normal distribution with axis ratio sigma_z / sigma_R, while the face-on projection (x-y) is isotropic. The numbers live in docs/PHYSICS.md, wave 274d.",
+      summary:"A REFERENCE MODEL OF A ROTATING DISC WITHOUT ARMS (the elliptical-galaxy analogy, wave 274d). A(t) = R(theta(t)) diag(sigma_R, sigma_R, sigma_z) with theta(t) = Omega t maps the latent coordinates to the physical ones, and the latent pair is advanced by the same second-order OU process as the globular-cluster toy (exact discretisation F = exp(Bh), Q_h = C - F C F^T). SINCE THE IN-PLANE SIGMAS ARE EQUAL, THE ROTATION R(theta) DOES NOT CHANGE THE SHAPE: the edge-on flattening is the DECLARED sigma_z < sigma_R, not a consequence of rotation. THIS IS NOT A CALIBRATION (no observed axis ratio or velocity dispersion is fed in) AND THE SHAPE DID NOT COME OUT OF GRAVITY (prescribed motion, G = 0, bit-unchanged when G is raised). Omega = 0.05 < omega0 = 0.10 is declared, but Omega DOES NOT ENTER THE LATENT EQUATIONS of this reference model, so raising Omega does not move the stationary covariance - 'Omega < sqrt(kappa)' IS NOT ACTING AS A STABILITY CONDITION HERE. The supply is an external bath and only the exact negative of the P/L/E handed to the particles is booked (THE SYSTEM IS NOT CLOSED). No arm is carried here; the spiral comes later. WAVE 275d (report 65, item 5) switched the growth off (tau = 0, sigma_R = sigma_0 = 44) AND RAISED Omega/omega0 FROM 0.5 TO 5 (omega0 = 0.01, gamma = 0.02, critically damped), which drops the retrograde fraction from 27.9% to 1.1% (measured). BUT A(t) IS A LINEAR MAP, SO THE ROTATION IS RIGID-BODY ONLY AND NO FLAT OUTER ROTATION CURVE COMES OUT (across five radial bins Omega stays within 2.7% while v_t grows from 0.98 to 5.16 - a negative result). The version with a central object is a separate sample, 📀 shapeToyDiskCore.",
+      observe:"In the plane the particles relax to sigma_R = 44, out of plane (the latent z) to sigma_z = 14, and the whole map turns with theta = Omega t (Omega = 0.05); the size does not change (tau = 0). The rotation Omega*r dominates the random speed sigma_R*omega0 = 0.44, so the particles nearly all turn the same way. The edge-on projection (x-z) is a normal distribution with axis ratio sigma_z / sigma_R. The numbers live in docs/PHYSICS.md, wave 275d.",
       control:"THERE IS NO SLIDER FOR THE SHAPE TOY (it is declared in physics.shapeToy). Raising G changes nothing (prescribed motion). To change the flattening, change the declared sigma_z - raising the rotation Omega will not flatten it."}},
   parameterAudit:{
     observedInputs:["**無い。** 観測された楕円銀河の軸比・速度分散・回転を 1 つも入力していない(原理サンプル)"],
-    fixedConventions:["A=R(θ)·diag(σ_R,σ_R,σ_z)・θ=Ωt・Ω=0.05(**宣言** Ω<ω₀=0.10)",
-      "σ_R∞=110・σ_z∞=35(**扁平は σ_z の宣言**)・r₀=0.4・τ=25","ω₀=0.10・γ=0.08(不足減衰 γ²/4<ω₀²)",
+    fixedConventions:["A=R(θ)·diag(σ_R,σ_R,σ_z)・θ=Ωt・Ω=0.05(**宣言** Ω/ω₀=5)",
+      "**成長なし** τ=0・σ_R=σ₀=44(初期配置 R=88 の RMS 半径に一致)・σ_z=14(**扁平は σ_z の宣言**)","ω₀=0.01・γ=0.02(**臨界減衰** γ²/4=ω₀²・緩和時間 100)",
       "coupling:\"prescribed\"・supply:\"external-bath\"","G=0(重力を切ってある)","cLight=30(組込みプリセットの規約)"],
     fitted:["**無い。**"],
-    derived:["面内の定常 Cov=σ_R²I・面外 σ_z²(OU の定常解)","横から見た軸比 σ_z/σ_R=0.318…(宣言値の比そのもの)"],
+    derived:["面内の定常 Cov=σ_R²I・面外 σ_z²(OU の定常解)","横から見た軸比 σ_z/σ_R=0.318…(宣言値の比そのもの)",
+      "回転は**剛体回転だけ**(A は線形写像 — 平坦回転曲線は出ない。否定結果)"],
     numerical:["ソフトニング ε=2","時間倍率 timeScale=3","厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ",
-      "測定: dt=0.016・seed 20260919(器 tests/exp-w274d-shapetoy.mjs)"]},
+      "測定: dt=0.25・T=200・seed 20260919(器 tests/exp-w275d-shapecrit.mjs)"]},
   activeParams:["G","softening"],
   validT:200,
-  camera:{scale:480}, world:{boundary:"none",size:0}, seed:20260919,
+  camera:{scale:200}, world:{boundary:"none",size:0}, seed:20260919,
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
     shapeToy:{shape:"disk", supply:"external-bath", coupling:"prescribed",
-      omega0:0.10, gamma:0.08, sigma:110, sigmaZ:35, sigma0:44, tauGrow:25,
+      omega0:0.01, gamma:0.02, sigma:44, sigmaZ:14, sigma0:44, tauGrow:0,
       omegaSpin:0.05, center:"fixed", cx:0, cy:0}},
   bodies:[
     {type:"disk", rMul:1.4, n:300, cx:0,cy:0, radius:88,
-     mMin:0.6,mMax:0.6, spinMin:0,spinMax:0, vMode:"random", vScale:1, direction:1, bulkVx:0, bulkVy:0}],
+     mMin:0.6,mMax:0.6, spinMin:0,spinMax:0, vMode:"rigid", vScale:0.05, direction:1, bulkVx:0, bulkVy:0}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false} },
 
 { id:"shapeToyArm", name:"腕単体トイ — 腕の軸に対して正規分布(較正ではない)", emoji:"🧵",
@@ -6694,12 +6818,12 @@ const BUILTIN_PRESETS = [
     {q:"回転させない", model:"この本は**回さない**(Ω は宣言できない)。腕を回転円盤に乗せる渦巻は本便では実装していない", obs:"—"},
     {q:"較正ではない", model:"観測された渦状腕のピッチ角も幅も**1 つも入力していない**。claim 窓も regression window も無い", obs:"—"},
     {q:"重力で安定したのではない", model:"対象粒子は**規定運動**。G=0 で走り、G を上げても 600 步の状態は 1 bit も変わらない", obs:"—"},
-    {q:"成長", model:"L: 120→380・σ_n∞=18・σ_z∞=12・r₀=0.4・τ=25。長さと幅が同じ τ で有限の目標へ収束する", obs:"—"},
+    {q:"成長は止めてある(第275便d)", model:"τ=0・L=120 固定・σ_n=7.2(箱 h=25 の横断 RMS=25/√12)・σ_z=4.8。**棒の幅も長さも変わらない**", obs:"—"},
     {q:"供給は外部熱浴", model:"復元・減衰・供給の 3 作用のうち供給は外部熱浴。P/L/E の厳密な負を記帳する(**閉じていない**)", obs:"—"},
     {q:"言わないこと", model:"**腕が創発した/渦巻銀河を較正した**とは書かない。腕は指定した形状であって、計算から出てきた模様ではない", obs:"—"}],
   descStruct:{
-    summary:"**腕単体の参照モデル**(重力 E4 はこの経路の状態を決めない・第274便d・第64報「まず腕単体の仮想サンプルで中心から直線状に伸びる腕を安定化(腕の軸に対して正規分布)」)。中心から伸びる直線 c(s)=c₀+s·e₁(0≤s≤L(t))を軸に取り、**横断方向 n と面外 z にだけ** 2 階 OU(復元 −ω₀²y・減衰 −γw・供給 √(2γω₀²)dW・厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ)を当てる。**軸方向 s は伸長に共動する端条件**(ṡ=s·L̇/L)で、復元も熱浴も無い —— したがって s 方向の密度は初期配置がそのまま伸びたものであって、密度則を主張しない(宣言)。**この本は回さない**(渦巻は腕を回転円盤に乗せる次段で、本便では実装していない)。**これは較正ではない**(観測された渦状腕のピッチ角・幅を 1 つも入力していない)。**重力から形が出たのでもない**: 対象粒子は規定運動で、G=0 で走らせてあり、G を上げても 600 步の状態は 1 bit も変わらない。供給は外部熱浴で、粒子が受け取った P/L/E の厳密な負を帳簿へ記帳するだけである(**閉じた系ではない**)。**言わないこと**: 「腕が創発した」「渦巻銀河を較正した」「銀河が安定した」とは書かない —— 腕は**指定した形状**である。",
-    observe:"腕は L(t):120→380 へ伸びながら、横断方向は σ_n=18・面外は σ_z=12 の正規分布へ緩和する(軸に対して正規分布)。伸長は共動なので、腕の内側の粒ほどゆっくり外へ動く。数は docs/PHYSICS.md〔第274便d〕の表。",
+    summary:"**腕単体の参照モデル**(重力 E4 はこの経路の状態を決めない・第274便d・第64報「まず腕単体の仮想サンプルで中心から直線状に伸びる腕を安定化(腕の軸に対して正規分布)」)。中心から伸びる直線 c(s)=c₀+s·e₁(0≤s≤L(t))を軸に取り、**横断方向 n と面外 z にだけ** 2 階 OU(復元 −ω₀²y・減衰 −γw・供給 √(2γω₀²)dW・厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ)を当てる。**軸方向 s は伸長に共動する端条件**(ṡ=s·L̇/L)で、復元も熱浴も無い —— したがって s 方向の密度は初期配置がそのまま伸びたものであって、密度則を主張しない(宣言)。**この本は回さない**(渦巻は腕を回転円盤に乗せる次段で、本便では実装していない)。**これは較正ではない**(観測された渦状腕のピッチ角・幅を 1 つも入力していない)。**重力から形が出たのでもない**: 対象粒子は規定運動で、G=0 で走らせてあり、G を上げても 600 步の状態は 1 bit も変わらない。供給は外部熱浴で、粒子が受け取った P/L/E の厳密な負を帳簿へ記帳するだけである(**閉じた系ではない**)。**第275便d(第65報 (6)「棒状は良い」)の変更**: 成長の宣言を外した(τ=0・L=120 固定・σ_n=σ₀=7.2=箱 h=25 の横断 RMS 25/√12)。横断幅の残差は実測 −0.27%・軸半長の残差は 0.0000 である。中心天体つきの参照版は 🧹 `shapeToyArmCore` に分けてある。**言わないこと**: 「腕が創発した」「渦巻銀河を較正した」「銀河が安定した」とは書かない —— 腕は**指定した形状**である。",
+    observe:"腕は L=120 のまま伸びず、横断方向は σ_n=7.2・面外は σ_z=4.8 の正規分布へ緩和する(軸に対して正規分布)。軸方向の位置は共動の端条件のまま凍結しているので、**棒の長さは 1 歩も変わらない**。数は docs/PHYSICS.md〔第275便d〕の表。",
     control:"**パラメータ行に形状トイのノブは無い**(宣言は physics.shapeToy)。重力 G を上げても状態は 1 bit も動かない(規定運動)。腕を太くするには σ の宣言を、伸ばす速さを変えるには τ の宣言を変える。"},
   en:{name:"Single-arm toy — normal about the arm axis (NOT a calibration)",
     obsCard:[
@@ -6708,35 +6832,209 @@ const BUILTIN_PRESETS = [
       {q:"It is not rotated", model:"THIS SAMPLE DOES NOT ROTATE (Omega cannot be declared here). Carrying the arm on a rotating disc - the spiral - is NOT implemented in this wave", obs:"-"},
       {q:"This is not a calibration", model:"NOT ONE observed spiral-arm pitch angle or width is fed in; there is no claim window and no regression window", obs:"-"},
       {q:"Gravity did not stabilise it", model:"The target particles are PRESCRIBED motion. It runs at G=0, and raising G leaves the 600-step state bit-unchanged", obs:"-"},
-      {q:"Growth", model:"L: 120 -> 380, sigma_n_inf = 18, sigma_z_inf = 12, r0 = 0.4, tau = 25. Length and width converge to finite targets with the same tau", obs:"-"},
+      {q:"The growth is switched off (wave 275d)", model:"tau = 0, L = 120 fixed, sigma_n = 7.2 (the transverse RMS of the h = 25 box, 25/sqrt(12)), sigma_z = 4.8 - NEITHER WIDTH NOR LENGTH MOVES", obs:"-"},
       {q:"The supply is an external bath", model:"Of the three declared actions the supply is an external bath: the exact negative of the P/L/E is booked. THE SYSTEM IS NOT CLOSED", obs:"-"},
       {q:"What this does not claim", model:"NOT 'an arm emerged', NOT a calibrated spiral galaxy. The arm is a SPECIFIED shape, not a pattern that came out of the computation", obs:"-"}],
     descStruct:{
-      summary:"A SINGLE-ARM REFERENCE MODEL (wave 274d, report 64: 'start with a virtual single-arm sample that stabilises a straight arm running out from the centre, normal about the arm axis'). The axis is the straight line c(s) = c0 + s e1 (0 <= s <= L(t)), and the second-order OU process (restoring -omega0^2 y, damping -gamma w, supply sqrt(2 gamma omega0^2) dW, exact discretisation F = exp(Bh), Q_h = C - F C F^T) acts ONLY on the transverse direction n and the out-of-plane z. ALONG THE AXIS, s IS COMOVING WITH THE STRETCHING (s-dot = s L-dot / L) with no restoring and no bath, so the density along s is the initial layout stretched and NO DENSITY LAW IS CLAIMED for it (declared). THIS SAMPLE DOES NOT ROTATE (the spiral, which carries the arm on a rotating disc, is not implemented in this wave). THIS IS NOT A CALIBRATION (no observed pitch angle or arm width is fed in) AND THE SHAPE DID NOT COME OUT OF GRAVITY (prescribed motion, G = 0, bit-unchanged when G is raised). The supply is an external bath and only the exact negative of the P/L/E is booked (THE SYSTEM IS NOT CLOSED). WE DO NOT WRITE 'AN ARM EMERGED': the arm is a specified shape.",
-      observe:"The arm stretches from L = 120 to L = 380 while the transverse spread relaxes to sigma_n = 18 and the out-of-plane spread to sigma_z = 12 (normal about the axis). Because the stretching is comoving, particles nearer the base move outward more slowly. The numbers live in docs/PHYSICS.md, wave 274d.",
+      summary:"A SINGLE-ARM REFERENCE MODEL (wave 274d, report 64: 'start with a virtual single-arm sample that stabilises a straight arm running out from the centre, normal about the arm axis'). The axis is the straight line c(s) = c0 + s e1 (0 <= s <= L(t)), and the second-order OU process (restoring -omega0^2 y, damping -gamma w, supply sqrt(2 gamma omega0^2) dW, exact discretisation F = exp(Bh), Q_h = C - F C F^T) acts ONLY on the transverse direction n and the out-of-plane z. ALONG THE AXIS, s IS COMOVING WITH THE STRETCHING (s-dot = s L-dot / L) with no restoring and no bath, so the density along s is the initial layout stretched and NO DENSITY LAW IS CLAIMED for it (declared). THIS SAMPLE DOES NOT ROTATE (the spiral, which carries the arm on a rotating disc, is not implemented in this wave). THIS IS NOT A CALIBRATION (no observed pitch angle or arm width is fed in) AND THE SHAPE DID NOT COME OUT OF GRAVITY (prescribed motion, G = 0, bit-unchanged when G is raised). The supply is an external bath and only the exact negative of the P/L/E is booked (THE SYSTEM IS NOT CLOSED). WAVE 275d (report 65, item 6, 'the bar is fine') switched the growth off: tau = 0, L = 120 fixed, sigma_n = sigma_0 = 7.2 (the transverse RMS of the h = 25 box). The measured transverse-width residual is -0.27% and the axial half-length residual is 0.0000. The version with a central object is a separate sample, 🧹 shapeToyArmCore. WE DO NOT WRITE 'AN ARM EMERGED': the arm is a specified shape.",
+      observe:"The arm stays at L = 120 while the transverse spread relaxes to sigma_n = 7.2 and the out-of-plane spread to sigma_z = 4.8 (normal about the axis). The axial coordinate is frozen by the comoving end condition, SO THE LENGTH OF THE BAR NEVER MOVES. The numbers live in docs/PHYSICS.md, wave 275d.",
       control:"THERE IS NO SLIDER FOR THE SHAPE TOY (it is declared in physics.shapeToy). Raising G changes nothing (prescribed motion). Change the declared sigma to make the arm thicker, or tau to change how fast it grows."}},
   parameterAudit:{
     observedInputs:["**無い。** 観測された渦状腕のピッチ角・幅・密度を 1 つも入力していない(原理サンプル)"],
     fixedConventions:["軸 c(s)=c₀+s·e₁(e₁=+x・c₀=(0,0))・**回さない**",
-      "横断 σ_n∞=18・面外 σ_z∞=12・r₀=0.4・τ=25","L: L₀=120 → L_∞=380(同じ τ)",
+      "**成長なし** τ=0・横断 σ_n=σ₀=7.2(箱 h=25 の横断 RMS 25/√12)・面外 σ_z=4.8","L=120 固定(伸ばさない)",
       "ω₀=0.12・γ=0.24(臨界減衰 γ²/4=ω₀²)","s は共動の端条件(ṡ=s·L̇/L — 復元も熱浴も無い)",
       "coupling:\"prescribed\"・supply:\"external-bath\"","G=0(重力を切ってある)","cLight=30(組込みプリセットの規約)"],
     fitted:["**無い。**"],
-    derived:["横断の定常 Cov=σ_n²・面外 σ_z²(OU の定常解)","s 方向は定常分布を持たない(共動の伸長のみ)"],
+    derived:["横断の定常 Cov=σ_n²・面外 σ_z²(OU の定常解)","s 方向は定常分布を持たない(τ=0 では凍結)"],
     numerical:["ソフトニング ε=2","時間倍率 timeScale=3","厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ",
-      "測定: dt=0.016・seed 20260919(器 tests/exp-w274d-shapetoy.mjs)"]},
+      "測定: dt=0.25・T=200・seed 20260919(器 tests/exp-w275d-shapecrit.mjs)"]},
   activeParams:["G","softening"],
   validT:200,
-  camera:{scale:520}, world:{boundary:"none",size:0}, seed:20260919,
+  camera:{scale:180}, world:{boundary:"none",size:0}, seed:20260919,
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
     shapeToy:{shape:"arm", supply:"external-bath", coupling:"prescribed",
-      omega0:0.12, gamma:0.24, sigma:18, sigmaZ:12, sigma0:7.2, tauGrow:25,
-      armLength:380, armLength0:120, center:"fixed", cx:0, cy:0}},
+      omega0:0.12, gamma:0.24, sigma:7.2, sigmaZ:4.8, sigma0:7.2, tauGrow:0,
+      armLength:120, armLength0:120, center:"fixed", cx:0, cy:0}},
   bodies:[
     {type:"box", rMul:1.4, n:180, cx:60,cy:0, w:120, h:25,
-     mMin:0.6,mMax:0.6, spinMin:0,spinMax:0, vScale:1, bulkVx:0, bulkVy:0}],
+     mMin:0.6,mMax:0.6, spinMin:0,spinMax:0, vScale:0, bulkVx:0, bulkVy:0}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false} },
+
+// ===== 第275便d(第65報 (4)(5)(6)「中心天体を配置した版も用意」): **形状トイの中心天体つき参照版 3 本** =====
+// 原仮定者(第65報): 🔮「中心天体を配置した版も用意。粒子が初期配置に対して発散しているので星団配置に
+// 安定収束させる。オメガ星団の IMBH 観測を参考」/ 🥏「中心天体版も用意。軌道が入り乱れて銀河ディスクに
+// 見えないので銀河に見える様に」/ 🧵「中心天体版も用意。棒状は良い」。
+// **3 本とも「位置固定(pinned)の中心天体」を 1 つ置き、写像の中心 c をその位置に取っただけ**である
+// (`physics.shapeToy.center:"pinned"`)。**動的モデルではない**: 中心天体は pinned で動かず、G=0 なので
+// 中心天体の質量は対象粒子の状態を 1 bit も変えない(器で実測 —— m を 10→100→1000 と変えても 600 步の
+// 指紋が同じ)。**観測された中心天体の質量は 1 つも入力していない**(ω Cen の IMBH は**参照**であって入力ではない)。
+{ id:"shapeToyClusterCore", name:"球状星団トイ(中心天体つき)— 中心は位置固定の参照点(較正ではない)", emoji:"🎱",
+  group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
+  notClaim:["cluster","galaxy","dm","bh"],
+  obsCard:[
+    {q:"何を置いたか", model:"🔮 と同じ 2 階 OU の参照モデル(`physics.shapeToy`)に、**位置固定(pinned)の中心天体 1 個**を足し、写像の中心 c をその位置に取った", obs:"—(原理サンプル)"},
+    {q:"**動的モデルではない**", model:"中心天体は pinned で動かない。**位置固定の参照点**であって、重力で星団を束ねているのではない(重力 E4 はこの経路の状態を決めない)", obs:"—"},
+    {q:"中心天体の質量は効いていない", model:"G=0・対象粒子は規定運動なので、m を 10→100→1000 と変えても 600 步の指紋が 1 bit も動かない(器で実測)", obs:"—"},
+    {q:"ω Cen は参照であって入力ではない", model:"観測された中心質量を 1 つも入力していない。参照: Noyola+2008 / van der Marel & Anderson 2010 / Häberle+2024(ω Cen の IMBH)", obs:"—(参照のみ)"},
+    {q:"定常分布", model:"Cov(y)=I・Cov(w)=ω₀²I(ω₀=0.10・γ=0.25)。**離散化は厳密**(F=e^{Bh}・Q_h=C−FCFᵀ)で刻みに依らない", obs:"—"},
+    {q:"成長は止めてある", model:"τ=0・σ=σ₀=36。σ は初期配置(一様円盤 R=72・中心天体の排他帯つき)の RMS 半径に合わせた宣言値である", obs:"—"},
+    {q:"供給は外部熱浴", model:"復元・減衰・供給の 3 作用のうち供給は外部熱浴。P/L/E の厳密な負を記帳する(**閉じていない**)", obs:"—"},
+    {q:"言わないこと", model:"**星団を較正した/中心 BH を実装した/重力で安定した**とは書かない。指定した形状の参照モデルに参照点を足しただけである", obs:"—"}],
+  descStruct:{
+    summary:"**🔮 球状星団トイの中心天体つき参照版**(第275便d・第65報 (4)「中心天体を配置した版も用意」)。宣言は 🔮 と同じ 2 階 OU(dy=w dt・dw=(−ω₀²y−γw)dt+√(2γω₀²)dW・ω₀=0.10・γ=0.25・σ=36・τ=0)で、違うのは **`center:\"pinned\"` と中心天体 1 個**だけである。写像の中心 c は毎步その pinned 粒子の位置から読むので、**中心天体を動かせば雲もついて動く**(本便では pinned なので動かない)。**これは動的モデルではない**: 中心天体は位置固定の参照点であり、重力 E4・引きずり E6′ はこの経路の状態を決めない —— G=0 で走らせてあり、G を 0→0.8→8 と変えても 600 步の状態は 1 bit も変わらない。さらに**中心天体の質量そのものも効いていない**(m を 10→100→1000 と変えても指紋が同じ —— 器で実測)。**観測された中心質量は 1 つも入力していない**: ω Cen の IMBH(Noyola+2008 が ~4×10⁴ M☉ を主張し、van der Marel & Anderson 2010 が上限を置き、Häberle+2024 が高速星から下限を置いた)は**参照**として名前を挙げるだけで、**入力にも claim 窓にもしていない**。動的中心(中心が反作用で動く版)は node の純関数 `tests/lib-w275d-dyncenter.mjs` で診断だけ行い、**エンジンには接続していない**(宣言鍵 `center:\"dynamic\"` は設計のみ)。**言わないこと**: 星団を較正した・中心ブラックホールを実装した・重力で安定した・IMBH を再現した。",
+    observe:"中心天体のまわりに正規分布へ緩和し、そのまま大きさを変えない(τ=0・σ=36)。中心天体には排他帯(半径+1)があるので、粒子は中心のすぐ内側には置かれない。数は docs/PHYSICS.md〔第275便d〕の表(器 tests/exp-w275d-shapecrit.mjs)。",
+    control:"**パラメータ行に形状トイのノブは無い**(宣言は physics.shapeToy)。重力 G を上げても状態は 1 bit も動かない(規定運動)。中心天体を動かしたいときは pinned を外す設計が要るが、本便では**位置固定のまま**である。"},
+  en:{name:"Globular-cluster toy with a central object - the centre is a PINNED reference point (NOT a calibration)",
+    obsCard:[
+      {q:"What is placed here", model:"The same second-order OU reference model as 🔮, plus ONE PINNED CENTRAL OBJECT whose position is taken as the centre c of the map", obs:"- (principle sample)"},
+      {q:"THIS IS NOT A DYNAMICAL MODEL", model:"The central object is pinned and never moves. It is a POSITION-FIXED REFERENCE POINT, not gravity holding the cluster together (E4 does not set this path)", obs:"-"},
+      {q:"The central mass does nothing", model:"With G=0 and prescribed motion, changing m from 10 to 100 to 1000 leaves the 600-step fingerprint BIT-UNCHANGED (measured)", obs:"-"},
+      {q:"Omega Cen is a reference, not an input", model:"No observed central mass is fed in. References: Noyola+2008, van der Marel & Anderson 2010, Haeberle+2024 (the omega Cen IMBH)", obs:"- (reference only)"},
+      {q:"Stationary law", model:"Cov(y)=I, Cov(w)=omega0^2 I (omega0=0.10, gamma=0.25). The discretisation is exact (F=exp(Bh), Q_h=C-F C F^T)", obs:"-"},
+      {q:"The growth is switched off", model:"tau = 0, sigma = sigma_0 = 36 - the RMS radius of the initial layout (uniform disc R = 72 with the central exclusion zone)", obs:"-"},
+      {q:"The supply is an external bath", model:"Of the three declared actions the supply is an external bath: the exact negative of the P/L/E is booked. THE SYSTEM IS NOT CLOSED", obs:"-"},
+      {q:"What this does not claim", model:"NOT a calibrated cluster, NOT an implemented central black hole, NOT 'gravity stabilised it'. It is a reference model with a reference point added", obs:"-"}],
+    descStruct:{
+      summary:"THE CENTRAL-OBJECT VERSION OF THE 🔮 GLOBULAR-CLUSTER TOY (wave 275d, report 65 item 4: 'also prepare a version with a central object'). The declaration is the same second-order OU process as 🔮 (omega0 = 0.10, gamma = 0.25, sigma = 36, tau = 0); the only difference is center:\"pinned\" and ONE central object. The centre c of the map is read from that pinned particle every step, so moving the central object would carry the cloud with it (here it is pinned, so it does not move). THIS IS NOT A DYNAMICAL MODEL: the central object is a position-fixed reference point, and neither gravity (E4) nor dragging (E6') sets the state of this path - it runs at G = 0 and raising G to 0.8 or 8 leaves the 600-step state bit-unchanged. THE CENTRAL MASS ITSELF DOES NOTHING EITHER: changing m from 10 to 100 to 1000 leaves the fingerprint identical (measured). NO OBSERVED CENTRAL MASS IS FED IN: the omega Cen IMBH (claimed near 4e4 Msun by Noyola+2008, bounded from above by van der Marel & Anderson 2010, bounded from below by the fast stars of Haeberle+2024) is named as a REFERENCE ONLY - it is not an input and not a claim window. The dynamical centre (a centre that moves under reaction) is diagnosed only in the node pure functions tests/lib-w275d-dyncenter.mjs and IS NOT CONNECTED TO THE ENGINE. WHAT THIS DOES NOT CLAIM: a calibrated cluster, an implemented central black hole, gravity as the stabiliser, or a reproduced IMBH.",
+      observe:"The particles relax to a normal distribution about the central object and keep their size (tau = 0, sigma = 36). The central object carries an exclusion zone (its radius + 1), so no particle is placed right on top of it. The numbers live in docs/PHYSICS.md, wave 275d (harness tests/exp-w275d-shapecrit.mjs).",
+      control:"THERE IS NO SLIDER FOR THE SHAPE TOY (it is declared in physics.shapeToy). Raising G changes nothing (prescribed motion). Letting the centre move would need a separate design; here it stays PINNED."}},
+  parameterAudit:{
+    observedInputs:["**無い。** 観測された星団の密度・速度分散・中心質量を 1 つも入力していない(ω Cen の IMBH は**参照**であって入力ではない)"],
+    fixedConventions:["中心天体 m=10・radius=5・pinned(**位置固定の参照点** — 力学的な役割は無い)",
+      "`center:\"pinned\"`(写像の中心を pinned 粒子の位置から読む)","A=σI(等方)・ω₀=0.10・γ=0.25(過減衰)",
+      "**成長なし** τ=0・σ=σ₀=36","coupling:\"prescribed\"・supply:\"external-bath\"",
+      "G=0(重力を切ってある)","cLight=30(組込みプリセットの規約)"],
+    fitted:["**無い。**"],
+    derived:["定常 Cov(x)=σ²I・Cov(v)=σ²ω₀²I(OU の定常解)","中心天体の質量は指紋に効かない(規定運動の帰結 — 実測)"],
+    numerical:["ソフトニング ε=2","時間倍率 timeScale=3","厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ",
+      "測定: dt=0.25・T=200・seed 20260920(器 tests/exp-w275d-shapecrit.mjs)"]},
+  activeParams:["G","softening"],
+  validT:200,
+  camera:{scale:160}, world:{boundary:"none",size:0}, seed:20260920,
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
+    shapeToy:{shape:"cluster", supply:"external-bath", coupling:"prescribed",
+      omega0:0.10, gamma:0.25, sigma:36, sigma0:36, tauGrow:0, center:"pinned", cx:0, cy:0}},
+  bodies:[
+    {type:"single", m:10, radius:5, x:0, y:0, vx:0, vy:0, spin:0, pinned:true},
+    {type:"disk", rMul:1.4, n:240, cx:0,cy:0, radius:72,
+     mMin:0.6,mMax:0.6, spinMin:0,spinMax:0, vMode:"rigid", vScale:0, direction:1, bulkVx:0, bulkVy:0}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false} },
+
+{ id:"shapeToyDiskCore", name:"腕なし回転円盤トイ(中心天体つき)— 回転は剛体回転だけ(較正ではない)", emoji:"📀",
+  group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
+  notClaim:["cluster","galaxy","dm","bh"],
+  obsCard:[
+    {q:"何を置いたか", model:"🥏 と同じ宣言(ω₀=0.01・γ=0.02・σ_R=44・σ_z=14・Ω=0.05)に、**位置固定の中心天体 1 個**を足し、写像の中心をその位置に取った", obs:"—(原理サンプル)"},
+    {q:"**動的モデルではない**", model:"中心天体は pinned で動かない。**位置固定の参照点**であって、中心天体の重力が円盤を支えているのではない(G=0)", obs:"—"},
+    {q:"入り乱れの機械量", model:"角運動量 L_z の符号が平均と逆の粒子の割合。Ω/ω₀=5 にして **27.9%→1.0%** へ下げた(実測・器で測る列)", obs:"—"},
+    {q:"**平坦な回転曲線は出ない**", model:"A(t) は線形写像なので**剛体回転だけ**である。半径 5 ビンの Ω のばらつきは 10.8% で、v_t は外ほど大きい(否定結果)", obs:"—"},
+    {q:"扁平は σ_z の宣言", model:"面内 σ が等しいので回転 R(θ) は形を変えない。横から見た扁平は σ_z/σ_R=0.318 の**宣言**である", obs:"—"},
+    {q:"成長は止めてある", model:"τ=0・σ_R=σ₀=44(初期配置 R=88 の RMS 半径に一致)・σ_z=14。大きさは変わらない", obs:"—"},
+    {q:"供給は外部熱浴", model:"復元・減衰・供給の 3 作用のうち供給は外部熱浴。P/L/E の厳密な負を記帳する(**閉じていない**)", obs:"—"},
+    {q:"言わないこと", model:"**銀河を較正した/平坦回転曲線を出した/腕が出た/重力で安定した**とは書かない。腕は乗せていない", obs:"—"}],
+  descStruct:{
+    summary:"**🥏 腕なし回転円盤トイの中心天体つき参照版**(第275便d・第65報 (5)「中心天体版も用意。軌道が入り乱れて銀河ディスクに見えないので銀河に見える様に」)。宣言は 🥏 と同じで(A(t)=R(Ωt)·diag(σ_R,σ_R,σ_z)・ω₀=0.01・γ=0.02〔臨界〕・σ_R=44・σ_z=14・Ω=0.05・τ=0)、違うのは **`center:\"pinned\"` と中心天体 1 個**だけである。重力 E4 はこの経路の状態を決めない(規定運動・🥏 と同じ)。「入り乱れ」は**角運動量 L_z の符号が平均と逆の粒子の割合**で測り、Ω/ω₀ を 0.5 から 5 へ上げることで(🥏 で **27.9% から 1.1% へ**・本サンプルでは **1.0%**)下がった(実測)。**ただし銀河に「見える」ようにできたのは向きの揃いだけである**: この模型の A(t) は線形写像なので**回転は剛体回転しか出ず**、外側が平坦な回転曲線は出ない(半径 5 ビンの Ω は 0.0473〜0.0523 でばらつき 10.8%、v_t は最内 0.97 から最外 5.14 へ外ほど大きい —— **否定結果としてそのまま残す**)。**これは動的モデルではない**: 中心天体は位置固定の参照点で、G=0 で走らせてあり、G を上げても 600 步の状態は 1 bit も変わらない。腕は乗せていない(渦巻は次段)。**言わないこと**: 銀河を較正した・平坦回転曲線を出した・腕が出た・重力で安定した・中心ブラックホールを実装した。",
+    observe:"中心天体のまわりで面内 σ_R=44・面外 σ_z=14 へ緩和し、θ=Ωt(Ω=0.05)でほぼ揃って回る。半径ビンの Ω はほぼ一定(剛体回転)で、v_t は外ほど大きい。数は docs/PHYSICS.md〔第275便d〕の表。",
+    control:"**パラメータ行に形状トイのノブは無い**(宣言は physics.shapeToy)。重力 G を上げても状態は 1 bit も動かない(規定運動)。向きの揃いを強めたいときは Ω/ω₀ の比を上げる —— ただし**回転曲線の形は変わらない**(剛体回転のまま)。"},
+  en:{name:"Rotating disc toy with a central object - rigid-body rotation only (NOT a calibration)",
+    obsCard:[
+      {q:"What is placed here", model:"The same declaration as 🥏 (omega0=0.01, gamma=0.02, sigma_R=44, sigma_z=14, Omega=0.05) plus ONE PINNED CENTRAL OBJECT taken as the centre", obs:"- (principle sample)"},
+      {q:"THIS IS NOT A DYNAMICAL MODEL", model:"The central object is pinned and never moves. It is a position-fixed reference point; its gravity is NOT holding the disc up (G = 0)", obs:"-"},
+      {q:"The scrambling metric", model:"The fraction of particles whose L_z sign opposes the mean. Raising Omega/omega0 to 5 took it from 27.9% to 1.0% (measured)", obs:"-"},
+      {q:"NO FLAT ROTATION CURVE", model:"A(t) is a linear map, so the rotation is RIGID-BODY ONLY: Omega varies by 10.8% across five radial bins while v_t grows outward (a negative result)", obs:"-"},
+      {q:"The flattening is a declared sigma_z", model:"The in-plane sigmas are equal, so R(theta) does not change the shape; the edge-on axis ratio 0.318 is DECLARED", obs:"-"},
+      {q:"The growth is switched off", model:"tau = 0, sigma_R = sigma_0 = 44 (the RMS radius of the initial layout R = 88), sigma_z = 14; the size does not move", obs:"-"},
+      {q:"The supply is an external bath", model:"Of the three declared actions the supply is an external bath: the exact negative of the P/L/E is booked. THE SYSTEM IS NOT CLOSED", obs:"-"},
+      {q:"What this does not claim", model:"NOT a calibrated galaxy, NOT a flat rotation curve, NOT arms, NOT gravity as the stabiliser. No arm is carried here", obs:"-"}],
+    descStruct:{
+      summary:"THE CENTRAL-OBJECT VERSION OF THE 🥏 ARMLESS ROTATING-DISC TOY (wave 275d, report 65 item 5: 'also prepare a version with a central object; the orbits are scrambled and it does not look like a galactic disc, so make it look like one'). The declaration matches 🥏 (A(t) = R(Omega t) diag(sigma_R, sigma_R, sigma_z), omega0 = 0.01, gamma = 0.02 critically damped, sigma_R = 44, sigma_z = 14, Omega = 0.05, tau = 0); the only difference is center:\"pinned\" and one central object. Gravity E4 does not decide the state on this path (prescribed motion, as in the 🥏 toy). 'SCRAMBLED' IS MEASURED as the fraction of particles whose angular momentum L_z opposes the mean sign, and raising Omega/omega0 from 0.5 to 5 took that fraction FROM 27.9% TO 1.1% on 🥏 (1.0% on this sample, measured). BUT ALL THAT WAS ACHIEVED IS THE ALIGNMENT OF THE ORBITS: A(t) is a linear map, so ONLY RIGID-BODY ROTATION COMES OUT and there is no flat outer rotation curve (across five radial bins Omega stays within 10.8% while v_t grows from 0.97 to 5.14 - KEPT AS A NEGATIVE RESULT). THIS IS NOT A DYNAMICAL MODEL: the central object is a position-fixed reference point, the sample runs at G = 0, and raising G leaves the 600-step state bit-unchanged. No arm is carried here. WHAT THIS DOES NOT CLAIM: a calibrated galaxy, a flat rotation curve, arms, gravity as the stabiliser, or an implemented central black hole.",
+      observe:"Around the central object the particles relax to sigma_R = 44 in the plane and sigma_z = 14 out of plane, and turn nearly together with theta = Omega t (Omega = 0.05). Omega is almost constant across radial bins (rigid-body rotation) while v_t grows outward. The numbers live in docs/PHYSICS.md, wave 275d.",
+      control:"THERE IS NO SLIDER FOR THE SHAPE TOY (it is declared in physics.shapeToy). Raising G changes nothing (prescribed motion). Raising Omega/omega0 aligns the orbits further - but THE SHAPE OF THE ROTATION CURVE DOES NOT CHANGE (it stays rigid-body)."}},
+  parameterAudit:{
+    observedInputs:["**無い。** 観測された銀河の回転曲線・軸比・中心質量を 1 つも入力していない(原理サンプル)"],
+    fixedConventions:["中心天体 m=10・radius=5・pinned(**位置固定の参照点** — 力学的な役割は無い)",
+      "`center:\"pinned\"`・A=R(θ)·diag(σ_R,σ_R,σ_z)・θ=Ωt・Ω=0.05(Ω/ω₀=5)",
+      "**成長なし** τ=0・σ_R=σ₀=44・σ_z=14(**扁平は σ_z の宣言**)","ω₀=0.01・γ=0.02(**臨界減衰**・緩和時間 100)",
+      "coupling:\"prescribed\"・supply:\"external-bath\"","G=0(重力を切ってある)","cLight=30(組込みプリセットの規約)"],
+    fitted:["**無い。**"],
+    derived:["面内の定常 Cov=σ_R²I・面外 σ_z²(OU の定常解)","横から見た軸比 σ_z/σ_R=0.318…(宣言値の比そのもの)",
+      "回転は**剛体回転だけ**(A は線形写像 — 平坦回転曲線は出ない。否定結果)"],
+    numerical:["ソフトニング ε=2","時間倍率 timeScale=3","厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ",
+      "測定: dt=0.25・T=200・seed 20260920(器 tests/exp-w275d-shapecrit.mjs)"]},
+  activeParams:["G","softening"],
+  validT:200,
+  camera:{scale:200}, world:{boundary:"none",size:0}, seed:20260920,
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
+    shapeToy:{shape:"disk", supply:"external-bath", coupling:"prescribed",
+      omega0:0.01, gamma:0.02, sigma:44, sigmaZ:14, sigma0:44, tauGrow:0,
+      omegaSpin:0.05, center:"pinned", cx:0, cy:0}},
+  bodies:[
+    {type:"single", m:10, radius:5, x:0, y:0, vx:0, vy:0, spin:0, pinned:true},
+    {type:"disk", rMul:1.4, n:300, cx:0,cy:0, radius:88,
+     mMin:0.6,mMax:0.6, spinMin:0,spinMax:0, vMode:"rigid", vScale:0.05, direction:1, bulkVx:0, bulkVy:0}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false} },
+
+{ id:"shapeToyArmCore", name:"腕単体トイ(中心天体つき)— 棒は中心天体から伸びる(較正ではない)", emoji:"🧹",
+  group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
+  notClaim:["cluster","galaxy","dm","bh"],
+  obsCard:[
+    {q:"何を置いたか", model:"🧵 と同じ宣言(ω₀=0.12・γ=0.24・σ_n=7.2・σ_z=4.8・L=120・τ=0)に、**位置固定の中心天体 1 個**を足し、腕の根元をその位置に取った", obs:"—(原理サンプル)"},
+    {q:"**動的モデルではない**", model:"中心天体は pinned で動かない。**位置固定の参照点**であって、中心天体の重力が棒を保っているのではない(G=0)", obs:"—"},
+    {q:"棒は保たれる", model:"横断 RMS 幅の残差・軸方向の半長の残差はどちらも実測で ±5% 以内(τ=0 なので軸方向は凍結)", obs:"—"},
+    {q:"s 方向の端条件", model:"s は**伸長に共動**(ṡ=s·L̇/L)で、復元も熱浴も無い。τ=0 では L̇=0 なので s は動かない", obs:"—"},
+    {q:"回転させない", model:"この本は**回さない**(Ω は宣言できない)。腕を回転円盤に乗せる渦巻は本便では実装していない", obs:"—"},
+    {q:"原仮定者の想定(仮説)", model:"複素決定力場の応用(赤道面は引きずりで遠心力が弱まり、軸方向は渦状摂動で軸へ引き寄せる)は**未実装の仮説**である", obs:"—"},
+    {q:"供給は外部熱浴", model:"復元・減衰・供給の 3 作用のうち供給は外部熱浴。P/L/E の厳密な負を記帳する(**閉じていない**)", obs:"—"},
+    {q:"言わないこと", model:"**腕が出た/渦巻銀河を較正した/棒が自己組織化した**とは書かない。棒は指定した形状である", obs:"—"}],
+  descStruct:{
+    summary:"**🧵 腕単体トイの中心天体つき参照版**(第275便d・第65報 (6)「中心天体版も用意。棒状は良い」)。宣言は 🧵 と同じで(軸 c(s)=c₀+s·e₁・横断 n と面外 z にだけ 2 階 OU・ω₀=0.12・γ=0.24〔臨界〕・σ_n=7.2・σ_z=4.8・L=120・τ=0)、違うのは **`center:\"pinned\"` と中心天体 1 個**だけである —— 棒の根元 c₀ が中心天体の位置になる。**これは動的モデルではない**: 中心天体は位置固定の参照点であり、重力 E4 はこの経路の状態を決めない(G=0 で走り、G を上げても 600 步の状態は 1 bit も変わらない)。τ=0 なので軸方向 s は共動の端条件のまま凍結し、**棒の長さは 1 歩も変わらない**。**原仮定者の想定(第65報 (6))は仮説として docs/PHYSICS.md〔第275便d〕に節を置いただけで、本便では 1 行も実装していない**: 「複素決定力場の応用 —— 赤道面では引きずりで遠心力を弱め、軸方向は渦状摂動で静電気の様に軸へ引き寄せる」「DFM 版渦巻き銀河の中心天体まで成長すると、横倒しの自転軸方向に腕が発現する」。これは枝 e の自転軸の宣言と枝 b の複素場 lawVersion が入ってからでないと測れない。**言わないこと**: 腕が出た・渦巻銀河を較正した・棒が自己組織化した・中心ブラックホールを実装した。",
+    observe:"棒は中心天体から +x 方向へ L=120 のまま伸びず、横断方向は σ_n=7.2・面外は σ_z=4.8 の正規分布へ緩和する(軸に対して正規分布)。中心天体には排他帯があるので根元の粒は少し外から始まる。数は docs/PHYSICS.md〔第275便d〕の表。",
+    control:"**パラメータ行に形状トイのノブは無い**(宣言は physics.shapeToy)。重力 G を上げても状態は 1 bit も動かない(規定運動)。棒を太くするには σ の宣言を、長さを変えるには armLength の宣言を変える。"},
+  en:{name:"Single-arm toy with a central object - the bar runs out from the centre (NOT a calibration)",
+    obsCard:[
+      {q:"What is placed here", model:"The same declaration as 🧵 (omega0=0.12, gamma=0.24, sigma_n=7.2, sigma_z=4.8, L=120, tau=0) plus ONE PINNED CENTRAL OBJECT as the base of the arm", obs:"- (principle sample)"},
+      {q:"THIS IS NOT A DYNAMICAL MODEL", model:"The central object is pinned and never moves. It is a position-fixed reference point; its gravity is NOT what holds the bar together (G = 0)", obs:"-"},
+      {q:"The bar is preserved", model:"Both the transverse RMS width residual and the axial half-length residual measure within 5 percent (tau = 0 freezes the axial coordinate)", obs:"-"},
+      {q:"The end condition along s", model:"s is comoving with the stretching (s-dot = s L-dot / L) with no restoring and no bath; at tau = 0 the length never changes", obs:"-"},
+      {q:"It is not rotated", model:"THIS SAMPLE DOES NOT ROTATE (Omega cannot be declared here). Carrying the arm on a rotating disc - the spiral - is NOT implemented in this wave", obs:"-"},
+      {q:"The originator's expectation (a hypothesis)", model:"The complex-decision-field application (dragging weakens the centrifugal term in the plane; a spiral perturbation pulls toward the axis) IS NOT IMPLEMENTED", obs:"-"},
+      {q:"The supply is an external bath", model:"Of the three declared actions the supply is an external bath: the exact negative of the P/L/E is booked. THE SYSTEM IS NOT CLOSED", obs:"-"},
+      {q:"What this does not claim", model:"NOT arms, NOT a calibrated spiral galaxy, NOT a self-organised bar, NOT an implemented central black hole. The bar is a specified shape", obs:"-"}],
+    descStruct:{
+      summary:"THE CENTRAL-OBJECT VERSION OF THE 🧵 SINGLE-ARM TOY (wave 275d, report 65 item 6: 'also prepare a version with a central object; the bar shape is fine'). The declaration matches 🧵 (the axis c(s) = c0 + s e1, the second-order OU acting only on the transverse n and the out-of-plane z, omega0 = 0.12, gamma = 0.24 critically damped, sigma_n = 7.2, sigma_z = 4.8, L = 120, tau = 0); the only difference is center:\"pinned\" and one central object, so the base of the bar sits at the central object. THIS IS NOT A DYNAMICAL MODEL: the central object is a position-fixed reference point, and gravity (E4) does not set the state of this path (it runs at G = 0 and raising G leaves the 600-step state bit-unchanged). With tau = 0 the axial coordinate stays frozen under the comoving end condition, SO THE LENGTH OF THE BAR NEVER MOVES. THE ORIGINATOR'S EXPECTATION (report 65 item 6) IS WRITTEN UP AS A HYPOTHESIS IN docs/PHYSICS.md AND IMPLEMENTED IN NOT ONE LINE HERE: 'the complex decision field applied - in the equatorial plane dragging weakens the centrifugal term, while along the axis a spiral perturbation pulls inward like static electricity', and 'once a DFM spiral grows a central object, arms appear along a toppled spin axis'. That cannot be measured before the spin-axis declaration and the complex-field lawVersion land. WHAT THIS DOES NOT CLAIM: arms, a calibrated spiral galaxy, a self-organised bar, or an implemented central black hole.",
+      observe:"The bar runs out from the central object along +x and stays at L = 120, while the transverse spread relaxes to sigma_n = 7.2 and the out-of-plane spread to sigma_z = 4.8 (normal about the axis). The central object carries an exclusion zone, so the innermost particles start a little way out. The numbers live in docs/PHYSICS.md, wave 275d.",
+      control:"THERE IS NO SLIDER FOR THE SHAPE TOY (it is declared in physics.shapeToy). Raising G changes nothing (prescribed motion). Change the declared sigma to make the bar thicker, or armLength to change its length."}},
+  parameterAudit:{
+    observedInputs:["**無い。** 観測された渦状腕・棒のピッチ角・幅・中心質量を 1 つも入力していない(原理サンプル)"],
+    fixedConventions:["中心天体 m=10・radius=5・pinned(**位置固定の参照点** — 力学的な役割は無い)",
+      "`center:\"pinned\"`・軸 c(s)=c₀+s·e₁(e₁=+x・c₀=中心天体の位置)・**回さない**",
+      "**成長なし** τ=0・横断 σ_n=σ₀=7.2・面外 σ_z=4.8・L=120 固定","ω₀=0.12・γ=0.24(臨界減衰)",
+      "s は共動の端条件(ṡ=s·L̇/L — τ=0 では凍結)","coupling:\"prescribed\"・supply:\"external-bath\"",
+      "G=0(重力を切ってある)","cLight=30(組込みプリセットの規約)"],
+    fitted:["**無い。**"],
+    derived:["横断の定常 Cov=σ_n²・面外 σ_z²(OU の定常解)","s 方向は定常分布を持たない(τ=0 では凍結)"],
+    numerical:["ソフトニング ε=2","時間倍率 timeScale=3","厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ",
+      "測定: dt=0.25・T=200・seed 20260920(器 tests/exp-w275d-shapecrit.mjs)"]},
+  activeParams:["G","softening"],
+  validT:200,
+  camera:{scale:180}, world:{boundary:"none",size:0}, seed:20260920,
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
+    shapeToy:{shape:"arm", supply:"external-bath", coupling:"prescribed",
+      omega0:0.12, gamma:0.24, sigma:7.2, sigmaZ:4.8, sigma0:7.2, tauGrow:0,
+      armLength:120, armLength0:120, center:"pinned", cx:0, cy:0}},
+  bodies:[
+    {type:"single", m:10, radius:5, x:0, y:0, vx:0, vy:0, spin:0, pinned:true},
+    {type:"box", rMul:1.4, n:180, cx:60,cy:0, w:120, h:25,
+     mMin:0.6,mMax:0.6, spinMin:0,spinMax:0, vScale:0, bulkVx:0, bulkVy:0}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false} },
 
 // ===== グループ: 光の伝播(第147便で「光」→「光の物語」・第273便a で現在名へ — 表示・分類専用)=====
@@ -14073,6 +14371,8 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,trailTargets:"all",monitor:true} },
 ];
+
+// <<< w275a-generated: builtin-presets
 // 第50便 50K(台帳4-78 C案): descStruct を持つ内蔵プリセットは description をその連結から
 // 生成する(要約/観察/操作の**純分割**の同一性を構造的に保証 — 内容の重複記述もしない。
 // claims.sync の正規表現・AI プロンプト・保存 JSON は従来どおり description を読む。
@@ -14429,6 +14729,9 @@ function validatePreset(obj){
   // 警告文の文言に依存せず「移行が起きた」を呼び出し側(インポート)が判定できるようにする。
   // 移行そのもの(legacyCoreToV2)のロジックは 1 文字も変えていない — 記録するだけ。
   let legacyCoreMigrated=false;
+  // 第275便a: 宣言の無い分数 kFrame を {0,1} へ丸めたときの機械可読な記録(案B)。
+  // 丸めが起きなければ null。**preset には入らない**(署名は丸めた後の kFrame で決まる)。
+  let kFrameSnapped=null;
   const bad=(m)=>{errors.push(m);};
   if(!obj || typeof obj!=="object" || Array.isArray(obj)) return {ok:false, errors:["ルートがオブジェクトではありません"], warnings};
   const p = JSON.parse(JSON.stringify(obj)); // 破壊防止コピー
@@ -14615,12 +14918,24 @@ function validatePreset(obj){
         if(stv.shapeToy!==null) ph[k]=stv.shapeToy;
         continue;
       }
+      // 第275便b(第65報 (2)): D0Source — **宣言専用のオブジェクト鍵**(既定は無し=ph へ入れない=署名不変)。
+      // 「この D₀ は何を背景として数えた総和か」だけを持ち、**力学・光学・帳簿のどの経路からも読まれない**
+      if(k===D0_SOURCE_KEY){
+        const dsv=validateD0Source(p.physics[k]);
+        if(!dsv.ok){ bad(dsv.err); continue; }
+        if(dsv.d0Source!==null) ph[k]=dsv.d0Source;
+        continue;
+      }
       // 第273便b(AH1): kFrameApprox — **宣言専用の文字列キー**(既定は無し=ph へ入れない=署名不変)。
       // 「この kFrame は空間メッシュの影響の実効近似として置いた」という宣言だけを持ち、
       // **力学・光学・帳簿のどの経路からも読まれない**(エンジンに参照が 1 箇所も無い)。
       // 較正クラスで分数 kFrame を書くときの必須宣言(下の二層契約)に使う
+      // 第275便a: 宣言値が 2 つになった("sample-only" を追加)。**較正クラスでは
+      // "sample-only" を受け付けない**(予測に使えないと宣言した分数を現実較正へ入れない)。
       if(k===KFRAME_APPROX_KEY){
-        if(KFRAME_APPROXES.indexOf(p.physics[k])<0) warnings.push('physics.kFrameApprox は "space-mesh-effective" のみ — 削除します');
+        if(KFRAME_APPROXES.indexOf(p.physics[k])<0) warnings.push('physics.kFrameApprox は "space-mesh-effective"/"sample-only" のみ — 削除します');
+        else if(p.sampleClass==="calibration" && KFRAME_APPROXES_CALIBRATION.indexOf(p.physics[k])<0)
+          bad('physics.kFrameApprox:"'+p.physics[k]+'" は sampleClass:"calibration" では使えません(サンプル限りと宣言した分数は現実較正に入れない — 較正で使えるのは "space-mesh-effective" だけです)');
         else ph[k]=p.physics[k];
         continue;
       }
@@ -14694,8 +15009,33 @@ function validatePreset(obj){
   //   ② 現実較正クラスだけ: **0<kFrame<1 の分数には宣言鍵が要る**。
   //      宣言が無い分数は**受理しない**(「近似として置いた」と書かないまま較正へ入れさせない)。
   //   **既定 DEFAULT_PHYSICS.kFrame=1 は不変**・**内蔵 124 本の値も不変**(契約を開けただけ)。
-  if(p.sampleClass==="calibration" && ph.kFrame>0 && ph.kFrame<1 && ph[KFRAME_APPROX_KEY]!=="space-mesh-effective")
-    bad('physics.kFrame に分数('+ph.kFrame+')を書く sampleClass:"calibration" は physics.kFrameApprox:"space-mesh-effective" の宣言が必要です(kFrame<1 は空間メッシュの影響の実効近似であって、観測から決めた値ではない)');
+  // ===== 第275便a(第65報 (1)): **第2層を全クラスへ**。kFrame の既定は二値 {0,1} である =====
+  //   原仮定者の裁定「kFrame の分数補正はサンプル限りで予測に使えない → 例外を除き kFrame は
+  //   kF0 版の 0 か DFM 版の 1 に限定する」。**例外は宣言鍵 `physics.kFrameApprox` だけ**で、
+  //   宣言の無い 0<kFrame<1 は既定経路で受理しない。挙動は 2 案を実装して比べた(既定は案B):
+  //     案B "snap"(既定): 最寄りの {0,1} へ丸めて警告 1 行(k<0.5→0 / k≥0.5→1)。
+  //                        旧セーブ・旧 AI 出力を**壊さない**。丸めた事実は返り値
+  //                        `kFrameSnapped:{from,to,sampleClass}` に機械可読で残す。
+  //     案A "reject":      検証エラーで拒否。**較正クラスは常にこちら**(第273便b の門を弱めない)。
+  //   **内蔵の kFrame の値は 1 本も変えていない**(内蔵の集合は {0,1} なのでこの門に 1 本も当たらない)。
+  //   **力学には 1 バイトも接続しない** —— `S._core` には 1 命令も足していない。
+  if(ph.kFrame>0 && ph.kFrame<1){
+    const dec = ph[KFRAME_APPROX_KEY];
+    const calib = (p.sampleClass==="calibration");
+    const allowed = calib ? KFRAME_APPROXES_CALIBRATION : KFRAME_APPROXES;
+    if(allowed.indexOf(dec)<0){
+      if(calib || kFrameUndeclaredMode==="reject")
+        bad('physics.kFrame に分数('+ph.kFrame+')を書くには physics.kFrameApprox の宣言が必要です('
+          +(calib?'sampleClass:"calibration" で使えるのは "space-mesh-effective" だけ':'"space-mesh-effective" か "sample-only"')
+          +' — 第65報の裁定により kFrame の既定は kF0 版の 0 か DFM 版の 1 の二値で、分数はサンプル限りの例外です)');
+      else {
+        const to = (ph.kFrame<0.5)?0:1;
+        kFrameSnapped = {from:ph.kFrame, to, sampleClass:(p.sampleClass||null), rule:"k<0.5→0 / k≥0.5→1"};
+        warnings.push('physics.kFrame の分数('+ph.kFrame+')は宣言鍵 physics.kFrameApprox が無いので '+to+' へ丸めました(第65報: kFrame の既定は 0 か 1。分数を残すには physics.kFrameApprox:"space-mesh-effective" か "sample-only" を宣言してください)');
+        ph.kFrame = to;
+      }
+    }
+  }
   // ===== 第259便a(第51報): geoPN=3(トイの測地線モード)の受理条件 =====
   // 第51報「例えば『測地線モード geoPN=3』などとして、トイモデル用に明確に処理を分ける事を検討する」。
   // **現行(第258便まで)の挙動**: CLAMPS geoPN:[0,2] が 3 を 2 へ丸め、警告 1 行(「値域に修正」)を出していた。
@@ -14857,6 +15197,30 @@ function validatePreset(obj){
         else if(!isNum(c.Kalign)){ bad(at+".core.Kalign が数値ではありません"); return false; }
         else oc.Kalign=wc(c.Kalign,0,10,"core.Kalign");
       }
+      // 第275便e(第65報 (7)): axisMode/azimuthDeg/precessionRate — **コア軸の宣言モード**。
+      // 門は 4 つ: ① cavity では無効 ② `core.tilt` が**実際に通っている**ことが前提(面内成分が
+      // 無ければ回す軸が無い) ③ "prescribed" 以外は無視(dynamic は設計のみ) ④ Kalign(第232便の
+      // 動的な整列引きずり)との併用不可 —— 「宣言どおり回す」と「トルクで倒れる」を同じ步で
+      // 走らせると、どちらが軸を決めたのかが帳簿から読めなくなるためである。
+      // azimuthDeg/precessionRate だけを宣言しても(axisMode が無ければ)無視して警告する。
+      if(c.axisMode!==undefined){
+        if(cav) warnings.push(at+".core.axisMode は cavity では無効 — 無視します");
+        else if(CORE_AXIS_MODES.indexOf(c.axisMode)<0)
+          warnings.push(at+'.core.axisMode は "prescribed" のみ — 無視します(dynamic は設計のみ・第275便e)');
+        else if(oc.tilt===undefined)
+          warnings.push(at+".core.axisMode は core.tilt(傾き角)の宣言が通っているときだけ有効 — 無視します");
+        else if(oc.Kalign>0)
+          warnings.push(at+".core.axisMode は core.Kalign と併用不可 — 無視します(宣言で回す軸と、トルクで倒れる軸を同じ步で走らせない)");
+        else {
+          oc.axisMode="prescribed";
+          oc.azimuthDeg=(c.azimuthDeg===undefined)? 0 : (isNum(c.azimuthDeg)? wc(c.azimuthDeg,CORE_AXIS_AZ_CLAMP[0],CORE_AXIS_AZ_CLAMP[1],"core.azimuthDeg") : 0);
+          if(c.azimuthDeg!==undefined && !isNum(c.azimuthDeg)) warnings.push(at+".core.azimuthDeg が数値でないため 0 に修正");
+          if(c.precessionRate===undefined) oc.precessionRate=CORE_AXIS_RATE_DEFAULT;   // "spin" = 殻スピン(現行 φ̇ と同値)
+          else if(!isNum(c.precessionRate)){ warnings.push(at+".core.precessionRate が数値でないため既定(殻スピン)に修正"); oc.precessionRate=CORE_AXIS_RATE_DEFAULT; }
+          else oc.precessionRate=wc(c.precessionRate,CORE_AXIS_RATE_CLAMP[0],CORE_AXIS_RATE_CLAMP[1],"core.precessionRate");
+        }
+      } else if(c.azimuthDeg!==undefined || c.precessionRate!==undefined)
+        warnings.push(at+'.core.azimuthDeg / core.precessionRate は core.axisMode:"prescribed" のときだけ有効 — 無視します');
       // 第234便(第29報③「超新星は赤色巨星のコアが中性子星まで成長しスピンで外殻を吹き飛ばす」): burst —
       // 保存的スピン放出 spinBurst。{rate:放出率[1/時間], frac:放出する |J| の総比率(0〜1・既定1)}。
       // 各步 コア J を残り放出量·(1−e^{−rate·dt}) だけ減らし(目標 (1−frac)J₀ へ時定数 1/rate で接近)、その ΔJ をガス(自由粒子)の重心まわり剛体回転モードへ
@@ -16220,8 +16584,8 @@ function validatePreset(obj){
   }
   p.overlays=ov;
   // 第86便: legacyCore = 旧コアキーから コアv2 へ移行した構成かどうか(エクスポートの migration 記録用)
-  return errors.length? {ok:false, errors, warnings, legacyCore:legacyCoreMigrated}
-                      : {ok:true, preset:p, warnings, legacyCore:legacyCoreMigrated};
+  return errors.length? {ok:false, errors, warnings, legacyCore:legacyCoreMigrated, kFrameSnapped}
+                      : {ok:true, preset:p, warnings, legacyCore:legacyCoreMigrated, kFrameSnapped};
 }
 
 // ===== シミュレーションエンジン =====
@@ -17157,6 +17521,11 @@ function makeSim(){
     // 入れない — 3レビュー一致+「コア構造は近似・シンプルに」の原仮定者指示)。
     // 面内成分ゼロの宇宙は hasCoreTilt=false で全経路素通り(既定 1 bit 不変)
     S.coreJx=new Float64Array(n); S.coreJy=new Float64Array(n); S.hasCoreTilt=false;
+    // 第275便e(第65報 (7)): コア軸の**宣言モード**(prescribed)。coreAxM=1 の粒子だけ、面内方位を
+    // φ(t)=coreAxAz+coreAxOm·t の**宣言**として毎步書き戻す。宣言が 1 つも無ければ hasCoreAxis=false で
+    // 外部ステップ `dfmCoreAxisStep` に 1 度も入らない(既定 1 bit 不変)
+    S.coreAxM=new Uint8Array(n); S.coreAxAz=new Float64Array(n); S.coreAxOm=new Float64Array(n);
+    S.hasCoreAxis=false;
     // 第237便(第30報): 粒子別の引きずり減衰指数 q_i(0=未宣言 → physics.q)。1個でも宣言があれば generic カーネル経路
     S.dragQ=new Float64Array(n); S.hasDragQ=false;
     // 第239便(第31報): チャネル分離 — 並進殻 dragQT・回転コア coreDQ・並進コア coreDQT(0=未宣言)。hasShellGas は gasCoh 用
@@ -17552,6 +17921,17 @@ function makeSim(){
           S.coreJm[i]=Math.abs(0.5*Mc*c.radius*c.radius*iS*(c.omega||0));
           S.coreJx[i]=0.5*Mc*c.radius*c.radius*iS*(c.omega||0)*st; S.coreJy[i]=0;
           if(S.coreJx[i]!==0) S.hasCoreTilt=true;
+          // 第275便e(第65報 (7)): **宣言モード**。未宣言は下の 1 行の真偽判定だけで素通り(1 bit 不変)。
+          // 宣言があれば方位 0 規約(J_y=0)を**宣言した方位 az** へ置き換え、|J⊥| は build 式のまま保つ。
+          // 歳差角速度は省略時「殻スピン」= 第227便ジャイロ分岐の φ̇ と同値になる既定である
+          if(c.axisMode==="prescribed"){
+            const az0=(c.azimuthDeg||0)*Math.PI/180, jp0=S.coreJx[i];
+            S.coreAxM[i]=1; S.coreAxAz[i]=az0;
+            S.coreAxOm[i]=(c.precessionRate===CORE_AXIS_RATE_DEFAULT || c.precessionRate===undefined)? (o.spin||0) : c.precessionRate;
+            S.coreJx[i]=jp0*Math.cos(az0); S.coreJy[i]=jp0*Math.sin(az0);
+            if(S.coreJx[i]!==0||S.coreJy[i]!==0) S.hasCoreTilt=true;
+            S.hasCoreAxis=true;
+          }
         }
         // 第265便c(Z6 後半): 殻項の質量則。未宣言・"total" は 0(第77便以来の式 = 1 bit 不変)
         S.coreSSM[i]=(c.shellSpinMass==="shell")?1:0;
@@ -17825,6 +18205,10 @@ function makeSim(){
     // 第247便c(E1): 実行状態の編集イベント台帳(t・粒子・ΔMc・ΔJ・ΔE_rot)。同値再確定は記帳しない
     S.editLog=[];
     S.alignE=0;    // 第232便: 整列で隠れ成分(J⊥)から z 機関へ現れた回転エネルギーの累積(帳簿)
+    // 第275便e: **宣言した拘束**が持ち去った量(負号で記帳)。面外角運動量 L_x/L_y(2D の L_z 帳簿には
+    // 現れない)・回転 E(|J| を保つ回転なので厳密には丸めだけ)・並進 P(力を出さないので恒等的に 0)。
+    // axPrescN は書き戻した回数(**閉じた系ではない**ことの目印 — 供給源は「宣言」である)
+    S.axPrescLx=0; S.axPrescLy=0; S.axPrescE=0; S.axPrescPx=0; S.axPrescPy=0; S.axPrescN=0;
     // 第80便(コアv2): coreSrcE = active コアの sourceRate による**外部注入エネルギーの累積**
     // (fusU/coreWork と同格のリザーバ帳簿)。恒等式は Σ_i E_int,i − Σ_i E_int,i(t=0) = coreSrcE。
     // 融合・分裂は E_int を等量で分配/合算するので、この恒等式は粒子数が変わっても閉じたまま
@@ -18019,6 +18403,7 @@ function makeSim(){
       S.coreMd[i]=0; S.coreMF[i]=0; S.RcV[i]=0; S.coreJ[i]=0; S.coreIS[i]=1; S.coreJm[i]=0;
       S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0; S.coreSrc[i]=0; S.coreEint[i]=0; S.coreOm0[i]=0;
       S.coreJx[i]=0; S.coreJy[i]=0;   // 第227便
+      S.coreAxM[i]=0; S.coreAxAz[i]=0; S.coreAxOm[i]=0;   // 第275便e: 軸の宣言もコアの属性なので一緒に外す
       S.coreRT[i]=0; S.coreBA[i]=0; S.coreBare[i]=0;   // 第247便c: 終端宣言・結合 E 台帳・裸コア終端も外す
       ltClear(S,i);   // 第265便d: lightTrap もコアの属性なので一緒に外す(帳簿の列ごと落ちる)
     } else {
@@ -18094,6 +18479,8 @@ function makeSim(){
     S.hasCoreEnd=anyE;   // 第247便c: 宣言が 1 つも無ければ収縮の門へ入らない
     let anyT=false; for(let k=0;k<S.n;k++) if(S.coreJx[k]!==0||S.coreJy[k]!==0){ anyT=true; break; }
     S.hasCoreTilt=anyT;   // 第227便
+    let anyA=false; for(let k=0;k<S.n;k++) if(S.coreAxM[k]){ anyA=true; break; }
+    S.hasCoreAxis=anyA;   // 第275便e: 宣言が 1 つも無ければ外部ステップに 1 度も入らない
     return S.coreMd[i];
   };
   // ===== 第261便b(第53報 W2・原仮定者「親子コアは、『選択粒子の編集』で、タブ切り替えなどで
@@ -19563,6 +19950,7 @@ function makeSim(){
       if(S.hasCoordInertia) S._meshCoordForce(dt);   // 第257便a(同上 — 真偽値 1 つで素通り)
       if(S.hasGeoToy) dfmGeoToyStep(S,dt);           // 第259便a: geoPN=3 のトイ積分器(同じ位置)
       if(S.hasShapeToy) dfmShapeToyStep(S,dt);      // 第274便d: 形状トイ(同じ位置・未宣言は真偽値 1 つ)
+      if(S.hasCoreAxis) dfmCoreAxisStep(S,dt);      // 第275便e: コア軸の prescribed(同じ位置・未宣言は真偽値 1 つ)
       if(S.hasMeshReservoir) S._meshReservoir(dt);
       if(S.hasSpaceMesh) S._spaceMeshForce(dt*0.5);
       if(S.hasBodyLayers) S._layerForce(dt*0.5);   // 第259便b(後半キック)
@@ -19580,6 +19968,7 @@ function makeSim(){
       if(S.hasCoordInertia) S._meshCoordForce(dt);      // 第257便a(同上)
       if(S.hasGeoToy) dfmGeoToyStep(S,dt);              // 第259便a: geoPN=3 のトイ積分器
       if(S.hasShapeToy) dfmShapeToyStep(S,dt);          // 第274便d: 形状トイ(同じ位置)
+      if(S.hasCoreAxis) dfmCoreAxisStep(S,dt);          // 第275便e: コア軸の prescribed(同じ位置)
       if(S.hasMeshReservoir) S._meshReservoir(dt);
     }
     if(S.params.petersGW===true) S._petersGW(dt);   // 第227便: 外部物理オーバーレイ(既定 OFF=素通り)
@@ -19804,6 +20193,10 @@ function makeSim(){
             S.coreJ[i]=Jc; S.coreEint[i]=Ec; S.coreOm0[i]=0;
             S.coreJx[i]=Jcx; S.coreJy[i]=Jcy;
             if(Jcx!==0||Jcy!==0) S.hasCoreTilt=true;
+            // 第275便e: 軸の宣言も他の係数と**同じ継承元**(重い側/持つ側)から継ぐ。
+            // 未宣言どうしの融合では 0 のままなので 1 bit 不変である
+            S.coreAxM[i]=S.coreAxM[src]; S.coreAxAz[i]=S.coreAxAz[src]; S.coreAxOm[i]=S.coreAxOm[src];
+            if(S.coreAxM[i]) S.hasCoreAxis=true;
             S.coreKcs[i]=S.coreKcs[src]; S.corePump[i]=S.corePump[src];
             S.coreCtr[i]=S.coreCtr[src]; S.coreSrc[i]=S.coreSrc[src];
             S.coreIS[i]=S.coreIS[src];   // 第208便: ζ は他の係数と同じ継承元(重い側/持つ側)
@@ -19835,6 +20228,7 @@ function makeSim(){
             S.coreMd[i]=0; S.coreMF[i]=0; S.RcV[i]=0; S.coreJ[i]=0; S.coreEint[i]=0;
             S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0; S.coreSrc[i]=0; S.coreOm0[i]=0; S.coreIS[i]=1; S.coreJm[i]=0;
             S.coreJx[i]=0; S.coreJy[i]=0;   // 第227便
+            S.coreAxM[i]=0; S.coreAxAz[i]=0; S.coreAxOm[i]=0;   // 第275便e
           }
         }
         // (obsT/coreOT は第61便で廃止 — 質量重み合成も不要に)
@@ -19933,6 +20327,7 @@ function makeSim(){
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","mEff","rotAc",
       "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",   // 第77便(コアv2)
       "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy","coreSSM",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内/第265便c 殻項の質量則
+      "coreAxM","coreAxAz","coreAxOm",   // 第275便e: コア軸の宣言モード(prescribed・方位・歳差角速度)
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx","shdBB","coreRT","coreBA","coreBare",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復 / 第247便c: 裸コア終端・rTarget・結合 E 台帳
       "ltOn","ltCo","ltRf","ltTe","ltTc","ltSr","ltAb","ltRc","ltEg","ltNg","ltEs","ltEe","ltQ","ltEi",   // 第265便d: lightTrap(宣言 8 + 帳簿 6)
       "ltNu","ltWx",   // 第270便d(AD2): ν_max(未宣言=Infinity)と**受理されなかった仕事**の累計
@@ -19979,6 +20374,7 @@ function makeSim(){
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","mEff","rotAc",
       "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",   // 第77便(コアv2)
       "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy","coreSSM",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内/第265便c 殻項の質量則
+      "coreAxM","coreAxAz","coreAxOm",   // 第275便e: コア軸の宣言モード(prescribed・方位・歳差角速度)
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx","shdBB","coreRT","coreBA","coreBare",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復 / 第247便c: 裸コア終端・rTarget・結合 E 台帳
       "ltOn","ltCo","ltRf","ltTe","ltTc","ltSr","ltAb","ltRc","ltEg","ltNg","ltEs","ltEe","ltQ","ltEi",   // 第265便d: lightTrap(宣言 8 + 帳簿 6)
       "ltNu","ltWx",   // 第270便d(AD2): ν_max(未宣言=Infinity)と**受理されなかった仕事**の累計
@@ -20151,6 +20547,7 @@ function makeSim(){
         const Jm1=S.coreJm[i]*f1; S.coreJm[j]=S.coreJm[i]-Jm1; S.coreJm[i]=Jm1;   // 第210便: 容量も質量比例
         const Jx1=S.coreJx[i]*f1; S.coreJx[j]=S.coreJx[i]-Jx1; S.coreJx[i]=Jx1;   // 第227便: 面内成分も質量比例
         const Jy1=S.coreJy[i]*f1; S.coreJy[j]=S.coreJy[i]-Jy1; S.coreJy[i]=Jy1;
+        S.coreAxM[j]=S.coreAxM[i]; S.coreAxAz[j]=S.coreAxAz[i]; S.coreAxOm[j]=S.coreAxOm[i];   // 第275便e: 軸の宣言は他の係数と同じく両片が継ぐ
       } else {
         S.coreMd[j]=0; S.coreMF[j]=0; S.RcV[j]=0; S.coreJ[j]=0; S.coreKcs[j]=0; S.corePump[j]=0; S.coreCtr[j]=0; S.coreKal[j]=0; S.dragQ[j]=S.dragQ[i];   // 第237便
         S.dragQT[j]=S.dragQT[i]; S.coreDQ[j]=0; S.coreDQT[j]=0;   // 第239便
@@ -20159,6 +20556,7 @@ function makeSim(){
         S.coreEint[j]=0; S.coreSrc[j]=0; S.coreOm0[j]=0; S.coreIS[j]=1; S.coreJm[j]=0;
         ltClear(S,j);   // 第265便d
         S.coreJx[j]=0; S.coreJy[j]=0;   // 第227便
+        S.coreAxM[j]=0; S.coreAxAz[j]=0; S.coreAxOm[j]=0;   // 第275便e: 分裂片は軸の宣言を継がない
       }
       // 材質係数は両片が親を引き継ぐ(分裂は同じ材質の2片に割れる)
       S.lSw[j]=S.lSw[i]; S.lSwAuto[j]=S.lSwAuto[i]; S.tau[j]=S.tau[i];
@@ -20323,6 +20721,7 @@ function makeSim(){
           if(S.layN) S.layN[jj]=0;   // 第259便b: 放出片は層を持たない
           S.coreBR[jj]=0; S.coreBF[jj]=0; S.coreBJ0[jj]=0; S.coreBJr[jj]=0;
           S.coreEint[jj]=0; S.coreSrc[jj]=0; S.coreOm0[jj]=0; S.coreJx[jj]=0; S.coreJy[jj]=0;
+          S.coreAxM[jj]=0; S.coreAxAz[jj]=0; S.coreAxOm[jj]=0;   // 第275便e: 放出片は軸の宣言を継がない
           ltClear(S,jj);   // 第265便d: 放出片は lightTrap を継がない
           S.shdOc[jj]=0; S.shdFr[jj]=0; S.shdNp[jj]=0; S.shdRL[jj]=0; S.shdJF[jj]=0; S.shdDn[jj]=0;
           S.shdRI[jj]=0; S.shdLy[jj]=0; S.shdOn[jj]=1; S.shdCd[jj]=0; S.shdNx[jj]=0;   // 第246便: 放出片は shed を継がない
@@ -22139,7 +22538,10 @@ let uiFontScale=parseFloat(localStorage.getItem("hp_uiscale")||"1.15")||1.15;   
 // 「全品質で半径に忠実」の原則に反するため撤廃。品質段階の他の縮退(解像度・決定力マップ
 // 格子・光線本数・軌跡記録間隔)は不変 — drawRadiusCap() は品質を問わず常に Infinity
 const sizeMode="radius";
-function applyUiScale(){ document.documentElement.style.setProperty("--uz", String(uiFontScale)); if(typeof requestRender==="function") requestRender(); }
+function applyUiScale(){ document.documentElement.style.setProperty("--uz", String(uiFontScale));
+  // 第275便f: ヘッダー/操作列/タブの高さは --uz で変わるので、広げた状態の控除分を測り直す
+  if(typeof syncPanelWideReserve==="function") syncPanelWideReserve();
+  if(typeof requestRender==="function") requestRender(); }
 let paramsDirty=false;  // v1.17: 「保存」していない編集の有無(バックアップ対象外の注意喚起)
 // P2(beta): 未保存フラグ強調 — 保存ボタン横バッジを paramsDirty に常時同期(v1.17 の notify は補助に降格)
 function setParamsDirty(v){ paramsDirty=v; const b=document.getElementById("dirtyBadge"); if(b) b.style.display=v?"inline-block":"none"; saveDraft(v); }
@@ -22348,6 +22750,14 @@ try{ stepDiagOn = localStorage.getItem("hp_step_diag")==="1"; }catch(_){}
 function setStepDiag(v){ stepDiagOn=!!v;
   try{ localStorage.setItem("hp_step_diag",stepDiagOn?"1":"0"); }catch(_){}
   requestRender(); syncHud(); }
+// 第275便e(第65報 (7)): コア軸の 2D 投影線の表示トグル(**表示専用**・既定 ON・hp_core_axis 永続)。
+// 描く対象は `core.axisMode:"prescribed"` を宣言した粒子だけなので、内蔵 128 本の画面は
+// **1 ピクセルも変わらない**(宣言が 0 本だから)。物理・セーブ・署名には一切効かない。
+let coreAxisShow=true;
+try{ const _ca=localStorage.getItem("hp_core_axis"); if(_ca!==null) coreAxisShow=(_ca==="1"); }catch(_){}
+function setCoreAxisShow(v){ coreAxisShow=!!v;
+  try{ localStorage.setItem("hp_core_axis",coreAxisShow?"1":"0"); }catch(_){}
+  requestRender(); }
 let lastBench=null;   // 第175便 ⑤: 直近の簡易ベンチ結果(セッション内のみ・保存しない)
 // 診断1行の本文。HUD・QA・ベンチ結果表示が同じこの関数を通る(重複実装しない)。
 // 窓の値(trim率・ms/步・実効倍率)は直近に**締まった** STEP_WIN_FRAMES フレーム分を出す。
@@ -25206,6 +25616,28 @@ function render(){
         ctx.lineWidth=1;
       }
     }
+    // 第275便e(第65報 (7)「自転軸の傾き角・傾きの方向・歳差角速度」): **コア軸の 2D 投影線**(表示専用)。
+    // 3D 単位軸 e=(sinθcosφ, sinθsinφ, cosθ) を**公転面へ正射影**した (sinθcosφ, sinθsinφ) を、
+    // コア半径の 1.6 倍の長さの線分で描く。傾き角 θ が 0 に近いほど短く(軸が画面手前を向く)、
+    // 90° で最長・歳差で方位 φ が回る。**+J 側の端に丸を置く**(軸の向きの区別)。
+    // **表示専用**(coreAxisShow で消せる・力学にも presetSig にも 1 bit も効かない)。
+    // **3D 表示ではない** —— 面外成分 cosθ は線の長さにしか現れない。
+    if(coreAxisShow && sim.coreAxM && sim.coreAxM[i] && sim.coreMd[i]!==0 && sim.coreMd[i]!==4 && rr>=7){
+      const Jm=sim.coreJm[i];
+      if(Jm>0){
+        const st2=Math.min(1,Math.hypot(sim.coreJx[i],sim.coreJy[i])/Jm);
+        const ph2=Math.atan2(sim.coreJy[i],sim.coreJx[i]), fy2=flipY?-1:1;
+        const La=Math.max(rr*0.5, Math.min(sim.RcV[i]*(sim.params.dispMag||1)*z, rr*0.92)*1.6)*st2;
+        if(La>1.5){
+          const ux=Math.cos(ph2)*La, uy=fy2*Math.sin(ph2)*La;
+          ctx.strokeStyle="rgba(120,220,255,0.9)"; ctx.lineWidth=Math.max(1.2,rr*0.09);
+          ctx.beginPath(); ctx.moveTo(sx-ux,sy-uy); ctx.lineTo(sx+ux,sy+uy); ctx.stroke();
+          ctx.fillStyle="rgba(120,220,255,0.95)";
+          ctx.beginPath(); ctx.arc(sx+ux,sy+uy,Math.max(1.5,rr*0.11),0,7); ctx.fill();
+          ctx.lineWidth=1;
+        }
+      }
+    }
     // 第261便b(第53報「親子コアは、見た目をコア V2 に準拠する」): **同心層の描画**(表示専用)。
     // コア V2 と同じ門(rr>=7)・同じ内側の暗い円の色調で、層の境界を role 色で描く。
     // 透明度は massFrac(その層の質量比)で、**質量を担う層ほど濃い**。力学は 1 bit も変わらない
@@ -25803,6 +26235,8 @@ function syncHud(){
     // 第77便(コアv2): パワーボール仕事+収縮の回転エネルギー増(外部仕事の明示 — 発動時のみ)
     if(sim.coreWork) txt+=`\nコア仕事W=${fmt(sim.coreWork)}`;
     if(sim.alignE) txt+=`\n整列E=${fmt(sim.alignE)}`;   // 第232便
+    // 第275便e: **宣言した拘束**の帳簿(面外 L・回転 E)。宣言が 0 本の宇宙では 1 文字も出ない
+    if(sim.axPrescN) txt+=`\n軸拘束 L⊥=(${fmt(sim.axPrescLx)}, ${fmt(sim.axPrescLy)}) E=${fmt(sim.axPrescE)}`;
     if(sim.burstE) txt+=`\n爆発E=${fmt(sim.burstE)}(注入KE ${fmt(sim.burstK)}・残差 ${fmt(sim.burstRes)})`;   // 第234便
     if(sim.shedNev) txt+=`\n放出=${sim.shedNev}回 ΔM=${fmt(sim.shedM)}  解放E=${fmt(sim.shedE)}(ΔKE ${fmt(sim.shedK)}+ΔU ${fmt(sim.shedU)}・残差 ${fmt(sim.shedRes)})`;   // 第244便
     if(sim.coreSrcE) txt+=`\nコア注入E=${fmt(sim.coreSrcE)}`;   // 第80便: active コアの外部注入(累積)
@@ -26693,6 +27127,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
       "mEff","rotAc",                          // 第81便: コアv1(coreMR/coreSR/Rc)は廃止
       "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",   // 第77便(コアv2)
       "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy","coreSSM",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内/第265便c 殻項の質量則
+      "coreAxM","coreAxAz","coreAxOm",   // 第275便e: コア軸の宣言モード(prescribed・方位・歳差角速度)
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx","shdBB","coreRT","coreBA","coreBare",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復 / 第247便c: 裸コア終端・rTarget・結合 E 台帳
       "ltOn","ltCo","ltRf","ltTe","ltTc","ltSr","ltAb","ltRc","ltEg","ltNg","ltEs","ltEe","ltQ","ltEi",   // 第265便d: lightTrap(宣言 8 + 帳簿 6)
       "ltNu","ltWx",   // 第270便d(AD2): ν_max(未宣言=Infinity)と**受理されなかった仕事**の累計
@@ -26712,6 +27147,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
     simB.hasShellLaw=sim.hasShellLaw;   // 第265便c: 殻項の質量則の宣言フラグ
     simB.hasPulse=sim.hasPulse;   // 第226便
     simB.hasCoreTilt=sim.hasCoreTilt;   // 第227便
+    simB.hasCoreAxis=sim.hasCoreAxis;   // 第275便e
     // 第36便 D(台帳4-51): 内部温度モードの状態も転写(同一プリセットで build 済みなので
     // simB.Tint は同じ長さで確保されている。spin モードでは両方 null で何もしない)
     if(sim.Tint && simB.Tint) simB.Tint.set(sim.Tint.subarray(0,sim.n));
@@ -26935,12 +27371,14 @@ const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU",
   "layJD","layIS","layQ",   // 第265便c: 層の宣言ビット・層の ζ / 第270便d: 層の独立 Q
   "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",
   "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy","coreSSM",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内/第265便c 殻項の質量則
+      "coreAxM","coreAxAz","coreAxOm",   // 第275便e: コア軸の宣言モード(prescribed・方位・歳差角速度)
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx","shdBB","coreRT","coreBA","coreBare",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復 / 第247便c: 裸コア終端・rTarget・結合 E 台帳
       "ltOn","ltCo","ltRf","ltTe","ltTc","ltSr","ltAb","ltRc","ltEg","ltNg","ltEs","ltEe","ltQ","ltEi",   // 第265便d: lightTrap(宣言 8 + 帳簿 6)
       "ltNu","ltWx",   // 第270便d(AD2): ν_max(未宣言=Infinity)と**受理されなかった仕事**の累計
   "railR","railAng","railOmega","railCx","railCy","railH",
   "Tint","coordN","coordAcc","shPrev","_phNbrPrev","_phNbrPrevN","_phProf"];
 const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat","coreWork","coreSrcE","alignE","burstE","burstK","burstL","burstRes",
+  "axPrescLx","axPrescLy","axPrescE","axPrescPx","axPrescPy","axPrescN",   // 第275便e: 宣言した拘束が持ち去った量
   "shedE","shedK","shedU","shedL","shedM","shedRes","shedNev","shedOm","shedT","shedSkip",   // 第244便: envelopeShed 帳簿
   "bindRel","bindRot","bindHold","bindStop","bareN","bareM",   // 第247便c: 結合 E 台帳・裸コア終端
   "ltEs0","ltLesc","ltColT","ltNoThermal",   // 第265便d: lightTrap のスカラー帳簿
@@ -27142,6 +27580,38 @@ document.querySelectorAll("#tabs button").forEach(b=>{
   });
 });
 $("#btnPanelClose").addEventListener("click",closePanel);  // v1.17: パネルの閉じるボタン
+
+// 第275便f(原仮定者の裁定(第65報)(9)): 縦画面のタブパネルを「広げる/狭くする」。
+// 表示専用 — sim.params にも保存 JSON にも一切書かない。状態は localStorage hp_panel_wide
+// (既定=狭い)に端末ごとに残す。閉じる(closePanel)は狭い/広いの両状態でそのまま効き、
+// 閉じても広い/狭いの選択は保持する(次にタブを開くと同じ状態で開く)。
+// 横画面2カラム(行 490 の媒体クエリ)では #btnPanelExpand を CSS で display:none にし、
+// #panel.wide の max-height も解除してあるので、この状態は縦積みレイアウトでのみ見える。
+let panelWide=false;
+try{ panelWide = localStorage.getItem("hp_panel_wide")==="1"; }catch(_){}
+// 広げた状態の控除分(ヘッダー+操作列+タブ)は定数にせず実測して CSS 変数へ渡す
+// (--uz〔文字サイズ〕・言語・safe-area でこの 3 段の高さが変わるため)
+function syncPanelWideReserve(){
+  const hh=(sel)=>{ const e=document.querySelector(sel); return e? e.getBoundingClientRect().height : 0; };
+  const r=hh("header")+hh("#transport")+hh("nav#tabs");
+  if(r>0) document.documentElement.style.setProperty("--panelWideReserve", Math.round(r)+"px");
+}
+function applyPanelWide(){
+  syncPanelWideReserve();
+  $("#panel").classList.toggle("wide",panelWide);
+  $("#app").classList.toggle("panelWide",panelWide);   // #canvasWrap の min-height:120px を外す
+  const b=$("#btnPanelExpand");
+  if(b){ b.textContent=T(panelWide?"panelShrink":"panelExpand"); b.setAttribute("aria-pressed",String(panelWide)); }
+}
+function setPanelWide(v){
+  panelWide=!!v;
+  try{ localStorage.setItem("hp_panel_wide",panelWide?"1":"0"); }catch(_){}
+  applyPanelWide();
+  setTimeout(resizeCanvas,50);   // 開閉と同じ流儀(#canvasWrap の高さが変わる)
+}
+$("#btnPanelExpand").addEventListener("click",()=>setPanelWide(!panelWide));
+window.addEventListener("resize",syncPanelWideReserve);   // 回転・文字サイズ変更で控除分を測り直す
+applyPanelWide();
 
 // ===== パラメータタブ =====
 // v1.22(第9次裁定 4.6): サンプル別 activeParams — プリセットが宣言した「主役」の
@@ -28537,6 +29007,17 @@ function buildParamRows(){
     cb.addEventListener("change",()=>{ setStepDiag(cb.checked); });
     row.appendChild(lab); row.appendChild(cb); if(simGroup) simGroup.appendChild(row); else common.appendChild(row);
   }
+  // 第275便e(第65報 (7)「自転軸の傾き角・傾きの方向・歳差角速度」): コア軸の 2D 投影線の表示トグル
+  // (既定 ON・hp_core_axis 永続・**表示専用**)。描く対象は core.axisMode:"prescribed" を宣言した
+  // 粒子だけなので、宣言の無い内蔵の画面は 1 ピクセルも変わらない
+  {
+    const row=document.createElement("div"); row.className="prow";
+    const lab=document.createElement("label"); lab.textContent=T("tgCoreAxis"); lab.style.flex="1";
+    tapDesc(row,lab,"tgCoreAxisDesc");
+    const cb=document.createElement("input"); cb.type="checkbox"; cb.id="coreAxisCb"; cb.checked=coreAxisShow;
+    cb.addEventListener("change",()=>{ setCoreAxisShow(cb.checked); });
+    row.appendChild(lab); row.appendChild(cb); if(simGroup) simGroup.appendChild(row); else common.appendChild(row);
+  }
   // 第175便 ⑤: 簡易ベンチ(描画なしで 200步)。複製 sim で走るので本編は 1 ビットも変わらない
   // 第254便c(第46報): 置き場所を「共通設定」→「シミュレーション」カテゴリへ移した(挙動不変)
   {
@@ -28965,7 +29446,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - スピンは熱。高スピン粒子は近接時に斥力(圧力, kRep)を生む。衝突で速度が減衰しスピンに変わる(muF,gammaN)。スピンは近接拡散で平衡化する(kappaS)。粒子の色は温度(青=冷,赤=熱)。
 - pinned:true の粒子は動かずスピンも変わらない=熱浴になる。高スピンのpinned粒子はヒーター、スピン0のpinned粒子は冷却板として、接触摩擦とスピン拡散(kappaS)で周囲を加熱/冷却する。
 - 放射冷却: etaRad>0 にすると温度の高い粒子ほど速く冷えて暗くなる(急峻さはpRad)。加熱・冷却・重力を組み合わせると対流・蒸発・凝集が作れる。
-- 空間は質量に引きずられる(kFrame: 0=通常のニュートン力学, 1=完全な相対空間)。背景決定力D0が大きいほど空間が安定する。
+- 空間は質量に引きずられる(kFrame: 0=通常のニュートン力学, 1=完全な相対空間)。kFrame は 0 か 1 のどちらかにする(0<kFrame<1 の分数はサンプル限りの例外で、宣言 physics.kFrameApprox("space-mesh-effective" か "sample-only")を添えない限り最寄りの 0/1 へ丸められる)。背景決定力D0が大きいほど空間が安定する。
 - 一様重力場: physics.gravityY>0 で画面全体に一様な下向きの外力場がかかる(gravityXは横方向)。地上の実験室・対流・落下のデモに使う。時計や光を歪めないので、画面外に遠方大質量を置く旧手法より安定する。目安は0.02〜0.1。
 - rays={"n":本数(0〜64の整数),"spread":広がり(0〜1)} を指定すると左端から光線が飛び、質量の近くで曲がる(曲がりの強さと時間の遅れは同じ κ(kappaT)で決まり、κ が大きいほど強い)。超大質量(2000〜3000)をpinnedで置き κ を 0.017〜0.025 に上げると、近くを通る光が捕まって周回する=ブラックホールの光学類似(光子捕捉)。ただし中心のスピンは0〜0.5に抑える(スピンが大きいと空間の引きずりが光を外へ流し、捕捉が消える)。
 - overlays: rotationCurve=回転曲線グラフ, tempHistogram=左右の平均温度グラフ, field=決定力マップ(レンズ系で推奨), spectrum=放射スペクトル。
@@ -28991,7 +29472,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1, q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
+7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(既定は 0 か 1 の二値 — 宣言の無い分数は最寄りの 0/1 へ丸める), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
 8. κ 正準化(第124〜125便): 時空係数の正準キーは physics.kappaT(κ=1/Kt・G/c² と同次元)。旧 Kt キーも後方互換で受理する(kappaT と併記時は kappaT 優先)。アプリの「時空」カテゴリでは κ を編集し、セーブ・プリセット・few-shot とも kappaT で記す。第128便で内部エンジンも κ 正準(ψ=W·κ)になり、Kt は境界で受理する後方互換の入力キーだけになった。
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 
@@ -29015,7 +29496,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 (連星の公転速度: 半径60・相手質量500 → v≈√(1×500÷(60×2))≈1.44 を互いに逆向きに与える)
 
 例2 要望「熱いガスと冷たいガスが混ざるところ」
-{"name":"高温ガスと低温ガスの混合","emoji":"🔥","scaleTier":"molecular","description":"箱の左に低温(低スピン)、右に高温(高スピン)のガスを配置。衝突とスピン拡散で温度が均一化し、熱平衡に達する過程を観察できる。","camera":{"scale":240},"world":{"boundary":"box","size":200},"physics":{"G":0.05,"D0":50,"kFrame":0.2,"q":2,"kRep":2,"muF":0.8,"gammaN":0.3,"kappaS":0.15,"kappaT":0.016666666666666666,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":2},"bodies":[{"type":"box","rMul":1.2,"n":120,"cx":-100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":0,"spinMax":0.2,"vScale":0.3},{"type":"box","rMul":1.2,"n":120,"cx":100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":2,"spinMax":3,"vScale":2.5}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
+{"name":"高温ガスと低温ガスの混合","emoji":"🔥","scaleTier":"molecular","description":"箱の左に低温(低スピン)、右に高温(高スピン)のガスを配置。衝突とスピン拡散で温度が均一化し、熱平衡に達する過程を観察できる。","camera":{"scale":240},"world":{"boundary":"box","size":200},"physics":{"G":0.05,"D0":50,"kFrame":0,"q":2,"kRep":2,"muF":0.8,"gammaN":0.3,"kappaS":0.15,"kappaT":0.016666666666666666,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":2},"bodies":[{"type":"box","rMul":1.2,"n":120,"cx":-100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":0,"spinMax":0.2,"vScale":0.3},{"type":"box","rMul":1.2,"n":120,"cx":100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":2,"spinMax":3,"vScale":2.5}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
 
 例3 要望「ブラックホールが見たい。光が吸い込まれるところも。星も1000個ちりばめて」
 {"name":"ブラックホール — 光子捕捉","emoji":"🕳️","scaleTier":"stellar","description":"中央の超大質量天体(ブラックホールの光学類似)。左からの光線が強く曲がり、近くを通る光は捕まって光子球のような円軌道に巻き付く(光子捕捉)。周囲の星は数を400に抑えて軽快に動かす。決定力マップ表示付き。","camera":{"scale":300},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"kappaT":0.025,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":1},"bodies":[{"type":"single","rMul":1.2,"m":2000,"x":0,"y":0,"vx":0,"vy":0,"spin":0.5,"pinned":true},{"type":"disk","rMul":1.2,"n":400,"cx":0,"cy":0,"radius":280,"mMin":0.05,"mMax":0.2,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":2000,"vScale":1,"direction":1}],"rays":{"n":32,"spread":0.7},"overlays":{"rotationCurve":false,"tempHistogram":false,"field":true}}
@@ -31155,6 +31636,8 @@ function applyLang(){
   $("#ioNoteSum").textContent=T("ioNoteSum");   // 第36便 B4
   $("#btnImportFile").textContent=T("btnImportFile");            // v1.17
   $("#btnPanelClose").textContent=T("panelClose");               // v1.17
+  // 第275便f: 「広げる/狭くする」は状態でラベルが変わるので applyPanelWide 経由で反映する
+  if(typeof applyPanelWide==="function") applyPanelWide();
   $("#beTitle").textContent=T("beTitle"); $("#beLp").textContent=T("bePinned");
   $("#beLsw").textContent=T("beLsw");   // 第22便
   $("#beLdq").textContent=T("beLdq");   // 第239便
@@ -37437,6 +37920,224 @@ function dfmJointCalProtocol(inp){
       +"決める経路は無い(内蔵プリセットの kFrame は 0 か 1 のままである)。"
       +"得た (k*, f*) はその系・その窓・その観測版・その刻みの記録であり、他系へ固定転用しない。" };
 }
+// ===== 第275便c(第65報 (3)): **準備済み経路** `dfmGeoScalarPrepared(S,dt,cf,law)` =====
+// 原仮定者の裁定(第65報 (3)):「粒子同士は総当たりで重力計算、**座標変換が重なっても総当たり回数は
+// 同じはず** → なぜ重いか分析して改善する」。—— **その読みは正しい**。器
+// `tests/exp-w275c-galaxyprof2.mjs` が数えたとおり、**源参照(順序対)の数は座標変換の宣言
+// (frameWeight の pull/share・帯平均)で 1 対も増えていない**。重いのは対の数ではなく、
+//   ① **同じ対を 1 步に 2 度巡る**(重力の第 1 巡 + 局所場の巡 = 統括の読み R35 の「巡回数」)
+//   ② **順序対 (i,j) と (j,i) で sqrt と pow を 2 度払う**(幾何 s=r²+ε² と A=s^{−p/2} は**対称**である)
+//   ③ **源 1 つにつき 1 回の入口検証**(有限性 10 項)を n² 回払う(第274便c で配列生成だけは消した)
+//   ④ `dfmField` が 1 呼びごとに作る**源配列・id 配列**(1 步に 2n 本)
+// の 4 つである。本経路は**条件を判定してだけ入る私的な高速経路**で、条件を 1 つでも外れたら
+// `false` を返して**旧経路へ戻る**(その時点まで S には 1 バイトも書いていない)。
+//
+// ■ 入場条件(すべて満たしたときだけ入る)
+//   (1) `lawVersion:"scalar"` —— 支持関数が無いので `Math.sqrt(r²)`・`R`・`Ṙ` が要らない
+//   (2) **源のスピンが零** —— トイの源配列 BD は `omega:0, omegaDot:0` を**無条件に**宣言する世代である
+//       (QA `perf.geoToyPrepared` がその宣言をソース文字列で機械照合する。将来 BD にスピンが入ったら
+//        この門を作り直すこと —— ω を落としたまま速くしてはならない)
+//   (3) **背景が静的** —— `background:"static"` を両方の呼びが固定で渡している(u_bg≡0)
+//   (4) **閉包が既定 `"gravity"`** —— `"iterate"` は巡ごとに源の a_i を差し替えるので対称性が崩れる
+//   (5) 箱が無い(箱は規定場で別式)・n≥2・G/ε/p/D₀/η が有限で ε≥0・p≥0・D₀≥0
+//   (6) **全粒子の m>0 と x,y,vx,vy が有限** —— 源ごとの門を入口 1 回にするための前提である
+//       (1 つでも外れたら旧経路へ戻すので、**門が緩むことはない**)
+//
+// ■ なぜ 1 bit 同一になるか(**和の順序を 1 つも変えていない**)
+//   対称巡回 `for(i){ for(j=i+1) }` は、行 i への寄与を「外側が i′<i のとき(昇順)→ 外側が i の
+//   とき j=i+1..n−1(昇順)」の順で積む。これは旧経路の「**j を昇順に、i だけ飛ばす**」と
+//   **完全に同じ順序**である。幾何は i↔j で対称(s も A も同値)だが、**dx・dy は反符号**なので
+//   行ごとに `x[i]−x[j]` と `x[j]−x[i]` を**別々に引く**(`−dx` で代用すると x[i]===x[j] の対で
+//   +0 と −0 が入れ替わる)。ω=0・ω̇=0 の掛け算(`vᵢ−ω·dy` 等)も**式のまま**残す(同じ理由)。
+//   機械確認は 3 本: ページ内の切替(`HP.setGeoPrepEnabled`)で同じ状態から 600 步を 2 度走らせて
+//   指紋を突き合わせる QA `perf.geoToyPrepared`、基点 html との `tests/exp-w258c-bitsame.mjs`
+//   (128 本 600 步)、`tests/exp-w272d-sigsame.mjs`(presetSig)である。
+//
+// ■ **書かないこと**: 「N 倍速くなった」(PHYSICS には**その走行で測った比**だけを書く)・
+//   「モバイルで 60fps」・「銀河が安定した」。本経路は**速さだけ**を変えるもので、物理は 1 bit も変えない。
+const GEO_PREP_SOURCE_SPIN = 0;      // 源 BD が宣言する ω・ω̇(この世代は無条件に 0 —— (2) の門の根拠)
+let GEO_PREP_ENABLED = true;         // **診断用の切替**(presetSig にも S.params にも表示にも入らない)
+let GEO_PREP_BUF = null;             // 行ごとの累算器(步をまたいで**値は持ち越さない** —— 毎步 0 で埋める)
+function geoPrepBuf(n){
+  if(GEO_PREP_BUF && GEO_PREP_BUF.n>=n) return GEO_PREP_BUF;
+  const f=()=>new Float64Array(n);
+  GEO_PREP_BUF={ n, ax:f(), ay:f(), dd:f(), gdx:f(), gdy:f(),
+    w:f(), gwx:f(), gwy:f(), wd:f(), nx:f(), ny:f(),
+    q0:f(), q1:f(), q2:f(), q3:f(), tx:f(), ty:f() };
+  return GEO_PREP_BUF;
+}
+function dfmGeoScalarPrepared(S,dt,cf,law){
+  // ---- 門(1 つでも外れたら false = 旧経路。**ここまで S には 1 バイトも書かない**)
+  if(!GEO_PREP_ENABLED) return false;
+  if(law!=="scalar") return false;                                   // (1)
+  if(GEO_PREP_SOURCE_SPIN!==0) return false;                         // (2)
+  if(cf.toyClosure!==undefined && cf.toyClosure!==SPACE_MESH_TOY_CLOSURE[0]) return false;   // (4)
+  const B0=S.box; if(B0 && S.boxA && S.boxA.W>0) return false;       // (5) 箱は規定場(別式)
+  const n=S.n; if(!(n>=2)) return false;
+  const p=S.params;
+  const pw=frameWeightPow(p), eps=p.softening, G=p.G;
+  const D0p=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;
+  const eta=(cf.toyGain===undefined)? 1 : cf.toyGain;
+  if(!(Number.isFinite(pw) && pw>=0)) return false;
+  if(!(Number.isFinite(eps) && eps>=0)) return false;
+  if(!(Number.isFinite(D0p) && D0p>=0)) return false;
+  if(!Number.isFinite(G) || !Number.isFinite(eta)) return false;
+  const x=S.x, y=S.y, vx=S.vx, vy=S.vy, m=S.m, pin=S.pinned;
+  let nFree=0;
+  for(let i=0;i<n;i++){                                              // (6) 源ごとの門を**入口で 1 回**
+    if(!pin[i]) nFree++;
+    if(!(Number.isFinite(m[i]) && m[i]>0)) return false;             // 旧 `dfmLocalMeshField` の m>0 の門
+    if(!(Number.isFinite(x[i]) && Number.isFinite(y[i])
+      && Number.isFinite(vx[i]) && Number.isFinite(vy[i]))) return false;
+  }
+  if(nFree<1) return false;
+  const bf=geoPrepBuf(n);
+  const eps2=eps*eps;
+  // ---- 第 1 巡: 重力 D・∇D(**対称巡回** —— 1 つの無順序対につき sqrt を 1 回だけ払う)
+  const AX=bf.ax, AY=bf.ay, DD=bf.dd, GDX=bf.gdx, GDY=bf.gdy;
+  AX.fill(0,0,n); AY.fill(0,0,n); DD.fill(0,0,n); GDX.fill(0,0,n); GDY.fill(0,0,n);
+  for(let i=0;i<n;i++){
+    const pi=pin[i], xi=x[i], yi=y[i], mi=m[i];
+    for(let j=i+1;j<n;j++){
+      const pj=pin[j];
+      if(pi && pj) continue;            // 旧経路は「両方 pinned の対」を 1 度も評価しない(門も通らない)
+      const dxi=xi-x[j], dyi=yi-y[j];
+      const s=dxi*dxi+dyi*dyi+eps2;
+      if(!(s>0) || !Number.isFinite(s)){ S.geoToyStop="field"; return null; }   // 旧経路と同じ停止語
+      const iv=1/Math.sqrt(s), iv3=iv*iv*iv;
+      if(!pi){ const mj=m[j]; DD[i]+=mj*iv; GDX[i]-=mj*dxi*iv3; GDY[i]-=mj*dyi*iv3; }
+      if(!pj){ const dxj=x[j]-xi, dyj=y[j]-yi;
+        DD[j]+=mi*iv; GDX[j]-=mi*dxj*iv3; GDY[j]-=mi*dyj*iv3; }
+    }
+  }
+  // pinned は**規定運動の加速度**(第264便b ①)。式は旧経路と 1 文字も変えていない
+  for(let i=0;i<n;i++){
+    if(pin[i]){
+      const om=S.railOmega? S.railOmega[i] : 0, hh=S.railH? S.railH[i] : 0;
+      if(om===0 && hh===0){ AX[i]=0; AY[i]=0; continue; }
+      let he=hh;
+      if(hh!==0){ const r0=S.railR[i]*Math.exp(hh*S.t); if(!(r0>1 && r0<4800)) he=0; }
+      const ex=x[i]-(S.railCx? S.railCx[i] : 0), ey=y[i]-(S.railCy? S.railCy[i] : 0);
+      AX[i]=(he*he-om*om)*ex-2*he*om*ey;
+      AY[i]=(he*he-om*om)*ey+2*he*om*ex;
+      continue;
+    }
+    if(!(Number.isFinite(DD[i])&&Number.isFinite(GDX[i])&&Number.isFinite(GDY[i]))){
+      S.geoToyStop="field"; return null; }        // 旧経路の「和 D が非有限」の門(桁溢れ)
+    AX[i]=G*GDX[i]; AY[i]=G*GDY[i];
+  }
+  // 源の a が非有限な行があると旧経路は**行ごとに**挙動が分かれる(その源を持つ行だけ null)。
+  // 稀なうえに分岐が増えるだけなので、**その場合は旧経路へ戻す**(速さのために門を緩めない)
+  for(let i=0;i<n;i++) if(!(Number.isFinite(AX[i])&&Number.isFinite(AY[i]))) return false;
+  // ---- 第 2 巡: 局所場(scalar = 支持なし・ω=0)。**同じ無順序対の A=s^{−p/2} を 1 回だけ払う**
+  const WW=bf.w, GWX=bf.gwx, GWY=bf.gwy, WD=bf.wd, NX=bf.nx, NY=bf.ny,
+        Q0=bf.q0, Q1=bf.q1, Q2=bf.q2, Q3=bf.q3, TX=bf.tx, TY=bf.ty;
+  WW.fill(0,0,n); GWX.fill(0,0,n); GWY.fill(0,0,n); WD.fill(0,0,n);
+  NX.fill(0,0,n); NY.fill(0,0,n); Q0.fill(0,0,n); Q1.fill(0,0,n); Q2.fill(0,0,n); Q3.fill(0,0,n);
+  TX.fill(0,0,n); TY.fill(0,0,n);
+  const pwZero=(pw===0), pwHalfNeg=-pw/2, om=GEO_PREP_SOURCE_SPIN, omd=GEO_PREP_SOURCE_SPIN;
+  for(let i=0;i<n;i++){
+    const pi=pin[i], xi=x[i], yi=y[i];
+    for(let j=i+1;j<n;j++){
+      const pj=pin[j];
+      if(pi && pj) continue;
+      const dxi=xi-x[j], dyi=yi-y[j];
+      const sq=dxi*dxi+dyi*dyi+eps2;      // 第 1 巡で s>0・有限を確かめた対だけがここへ来る
+      const A=pwZero? 1 : Math.pow(sq,pwHalfNeg);
+      if(!pi){                            // 行 i ← 源 j(**旧経路の式・順序のまま**)
+        const mj=m[j], w=mj*A, kk=mj*(pwZero? 0 : -pw*A/sq);
+        const wgx=kk*dxi, wgy=kk*dyi;
+        const vix=vx[j], viy=vy[j];
+        const uix=vix-om*dyi, uiy=viy+om*dxi;
+        const wdi=-(wgx*vix+wgy*viy);
+        const tix=AX[j]-omd*dyi+om*viy, tiy=AY[j]+omd*dxi-om*vix;
+        WW[i]+=w; GWX[i]+=wgx; GWY[i]+=wgy; WD[i]+=wdi;
+        NX[i]+=w*uix; NY[i]+=w*uiy;
+        Q0[i]+=uix*wgx;        Q1[i]+=uix*wgy-w*om;
+        Q2[i]+=uiy*wgx+w*om;   Q3[i]+=uiy*wgy;
+        TX[i]+=wdi*uix+w*tix;  TY[i]+=wdi*uiy+w*tiy;
+      }
+      if(!pj){                            // 行 j ← 源 i(dx・dy は**引き直す**。−dx で代用しない)
+        const dxj=x[j]-xi, dyj=y[j]-yi;
+        const mj=m[i], w=mj*A, kk=mj*(pwZero? 0 : -pw*A/sq);
+        const wgx=kk*dxj, wgy=kk*dyj;
+        const vix=vx[i], viy=vy[i];
+        const uix=vix-om*dyj, uiy=viy+om*dxj;
+        const wdi=-(wgx*vix+wgy*viy);
+        const tix=AX[i]-omd*dyj+om*viy, tiy=AY[i]+omd*dxj-om*vix;
+        WW[j]+=w; GWX[j]+=wgx; GWY[j]+=wgy; WD[j]+=wdi;
+        NX[j]+=w*uix; NY[j]+=w*uiy;
+        Q0[j]+=uix*wgx;        Q1[j]+=uix*wgy-w*om;
+        Q2[j]+=uiy*wgx+w*om;   Q3[j]+=uiy*wgy;
+        TX[j]+=wdi*uix+w*tix;  TY[j]+=wdi*uiy+w*tiy;
+      }
+    }
+  }
+  // ---- 行ごとの仕上げ(旧経路の `dfmLocalMeshField` の末尾 + `onePass` の本体と同じ式・同じ順)
+  const ACC=new Float64Array(2*n);
+  let nOn=0, dvM=0, chiMax=0;
+  for(let i=0;i<n;i++){
+    if(pin[i]) continue;                                  // 規定運動へは当てない
+    const den=D0p+WW[i];
+    if(!(den>0) || !Number.isFinite(den)) continue;        // 旧経路の null(0 で埋めない)= 行を飛ばす
+    const ux=NX[i]/den, uy=NY[i]/den;
+    const gu0=(Q0[i]-ux*GWX[i])/den, gu1=(Q1[i]-ux*GWY[i])/den,
+          gu2=(Q2[i]-uy*GWX[i])/den, gu3=(Q3[i]-uy*GWY[i])/den;
+    const du0=(TX[i]-ux*WD[i])/den, du1=(TY[i]-uy*WD[i])/den;
+    if(!(Number.isFinite(ux)&&Number.isFinite(uy)
+      &&Number.isFinite(gu0)&&Number.isFinite(gu1)&&Number.isFinite(gu2)&&Number.isFinite(gu3)
+      &&Number.isFinite(du0)&&Number.isFinite(du1))) continue;
+    const chi=WW[i]/den;
+    if(chi>chiMax) chiMax=chi;
+    const ubx=eta*ux, uby=eta*uy;
+    const gxx=eta*gu0, gxy=eta*gu1, gyx=eta*gu2, gyy=eta*gu3;
+    const tux=eta*du0, tuy=eta*du1;
+    const vxi=vx[i], vyi=vy[i], rlx=vxi-ubx, rly=vyi-uby;
+    const aix=tux+gxx*vxi+gxy*vyi-(gxx*rlx+gyx*rly);
+    const aiy=tuy+gyx*vxi+gyy*vyi-(gxy*rlx+gyy*rly);
+    if(!Number.isFinite(aix) || !Number.isFinite(aiy)){ S.geoToyStop="nonfinite"; return null; }
+    ACC[2*i]=aix; ACC[2*i+1]=aiy;
+    const dm=Math.hypot(aix*dt,aiy*dt); if(dm>dvM) dvM=dm;
+    nOn++;
+  }
+  return dfmGeoToyFinish(S,dt,ACC,{ closure:SPACE_MESH_TOY_CLOSURE[0], iters:1, resid:null,
+    residRel:null, conv:null, nOn, dvM, chiMax, law, R:null, Rdot:0, prepared:true });
+}
+// 第275便c: **適用と記帳**(旧経路と準備済み経路が同じ 1 本を通る)。**中身は第265便b の末尾を
+// 1 文字も変えずに関数へ出したもの**である(式も順序も同じ —— 600 步 bitsame が機械確認する)。
+function dfmGeoToyFinish(S,dt,ACC,st){
+  const n=S.n;
+  S.geoToyClosure=st.closure; S.geoToyIters=st.iters;
+  S.geoToyResid=st.resid; S.geoToyResidRel=st.residRel; S.geoToyConverged=st.conv;
+  S.geoToyPrepared=(st.prepared===true);   // 診断の読み口(表示にも署名にも入らない)
+  const nOn=st.nOn, dvM=st.dvM, chiMax=st.chiMax;
+  const unconv=(st.closure!==SPACE_MESH_TOY_CLOSURE[0] && nOn>0 && st.conv!==true);
+  S.geoToyStop=unconv? "closureUnconverged" : (nOn? null : "noTargets");
+  S.geoToyN=unconv? 0 : nOn; S.geoToyDv=unconv? 0 : dvM; S.geoToyChi=chiMax;
+  if(unconv || !nOn) return null;
+  const x=S.x, y=S.y, vx=S.vx, vy=S.vy, mEff=S.mEff;
+  const carV=!!S.carVx, carVx=S.carVx, carVy=S.carVy;
+  let spx=0, spy=0, sl=0, dEt=0;
+  for(let i=0;i<n;i++){
+    let ddx=ACC[2*i]*dt, ddy=ACC[2*i+1]*dt;
+    if(ddx===0 && ddy===0) continue;
+    const dv2=ddx*ddx+ddy*ddy;
+    if(dv2>REACTION_DV_CAP2){ const sc=REACTION_DV_CAP/Math.sqrt(dv2); ddx*=sc; ddy*=sc; S.clampRN++; }
+    const mi=mEff[i];
+    spx+=mi*ddx; spy+=mi*ddy; sl+=mi*(x[i]*ddy-y[i]*ddx);
+    const q0x=vx[i], q0y=vy[i];
+    if(carV){
+      const addX=ddx+carVx[i], v0x=vx[i]; vx[i]=v0x+addX; carVx[i]=addX-(vx[i]-v0x);
+      const addY=ddy+carVy[i], v0y=vy[i]; vy[i]=v0y+addY; carVy[i]=addY-(vy[i]-v0y);
+    } else { vx[i]+=ddx; vy[i]+=ddy; }
+    dEt+=0.5*mi*((vx[i]*vx[i]+vy[i]*vy[i])-(q0x*q0x+q0y*q0y));
+  }
+  S.geoToyPx+=spx; S.geoToyPy+=spy; S.geoToyL+=sl; S.geoToyE+=dEt;
+  S.geoToyMeshPx-=spx; S.geoToyMeshPy-=spy; S.geoToyMeshL-=sl; S.geoToyEmesh-=dEt;
+  S.resPx-=spx; S.resPy-=spy; S.resL-=sl;
+  return { n:nOn, dv:dvM, chi:chiMax, dP:[spx,spy], dL:sl, dE:dEt, lawVersion:st.law,
+    R:st.R, Rdot:st.Rdot, prepared:(st.prepared===true) };
+}
 // ===== 第259便a(第51報): **geoPN=3 のトイ積分器** `HP.dfmGeoToyStep(S,dt)` =====
 // 原仮定者(第51報):「例えば『測地線モード geoPN=3』などとして、トイモデル用に明確に処理を分ける事を
 // 検討する」。**`S._core` の外**(`S.step` の `_meshCoordForce` と同じ位置)に置く別の則である。
@@ -37458,6 +38159,9 @@ function dfmGeoToyStep(S,dt){
   if(!S || S.hasGeoToy!==true) return null;
   const p=S.params, n=S.n;
   S.geoToyN=0; S.geoToyDv=0; S.geoToyChi=0;
+  // 第275便c: **準備済み経路を通ったか**の診断は毎步ここで倒す(帯平均 variant・mesh-v2・
+  //   途中で止まった步が**前の步の値を持ち越さない**ようにするため)。表示にも署名にも入らない
+  S.geoToyPrepared=false;
   if(!(n>=1)){ S.geoToyStop="n"; return null; }
   if(!Number.isFinite(dt) || dt===0){ S.geoToyStop="dt"; return null; }
   // 第262便a: **宣言が無ければ実行時の既定 "scalar"**(GEO_TOY_LAW_DEFAULT)。宣言があればそちらが勝つ。
@@ -37471,6 +38175,11 @@ function dfmGeoToyStep(S,dt){
   if(cf.law===MESH_V2_LAWS[1]) return dfmMeshV2Step(S,dt,cf);
   if(DFM_FIELD_LAWS.indexOf(law)<0){ S.geoToyStop="lawVersion"; return null; }
   if(law==="complex"){ S.geoToyStop="complexNotVelocity"; return null; }
+  // 第275便c(第65報 (3)「なぜ重いか分析して改善」): **準備済み経路**(スカラー・静的源・零スピン・
+  //   閉包 "gravity" の条件を**判定して**だけ入る)。条件を 1 つでも外れたら `false` が返り、
+  //   以下の旧経路がそのまま走る(**ビット同一** —— QA `perf.geoToyPrepared` が機械確認する)。
+  const prep=dfmGeoScalarPrepared(S,dt,cf,law);
+  if(prep!==false) return prep;
   const eta=(cf.toyGain===undefined)? 1 : cf.toyGain;
   const x=S.x, y=S.y, vx=S.vx, vy=S.vy, m=S.m, mEff=S.mEff, pin=S.pinned;
   const pw=frameWeightPow(p);
@@ -37626,42 +38335,10 @@ function dfmGeoToyStep(S,dt){
       if(conv) break;
     }
   }
-  S.geoToyClosure=closure; S.geoToyIters=iters;
-  S.geoToyResid=resid; S.geoToyResidRel=residRel; S.geoToyConverged=conv;
-  // 第265便b(Z3・統括の読み (C)): **未収束の最終反復を力として適用してはならない。**
-  //   〔第264便b ②〕で測ったとおり、η=χ=1 の二体では反復値が [g,−g] と [0,0] を**往復する**ので、
-  //   「上限で打ち切った最後の 1 巡」は**反復上限の偶奇で符号も大きさも変わる**(統括の予備測定:
-  //   等質量 500・分離 240・D₀=0・η=1・dt=0.016 で上限 2 回と 3 回の粒子 0 の vx が
-  //   9.269×10⁻⁴ と −2.25×10⁻¹⁰)。**打ち切り値は解ではない**ので、メッシュキックを当てず、
-  //   帳簿にも 1 バイトも記帳せず、`geoToyStop="closureUnconverged"` を返す。
-  //   **重力側の步と時刻は進む**(`_core` は既に走り終えている —— これは**原子的停止ではない**)。
-  //   診断の残差・反復数・収束判定・χ はそのまま読める(消すと「なぜ止まったか」が見えなくなる)。
-  //   既定 "gravity" は 1 巡で終わるので**この分岐に入らない**(内蔵は toyClosure を 1 本も宣言しない)。
-  const unconv=(closure!==SPACE_MESH_TOY_CLOSURE[0] && nOn>0 && conv!==true);
-  S.geoToyStop=unconv? "closureUnconverged" : (nOn? null : "noTargets");
-  S.geoToyN=unconv? 0 : nOn; S.geoToyDv=unconv? 0 : dvM; S.geoToyChi=chiMax;
-  if(unconv || !nOn) return null;
-  // ---- 適用と**同時**のメッシュ側記帳(粒子が受け取った ΔP・ΔL・離散仕事の厳密な負)
-  const carV=!!S.carVx, carVx=S.carVx, carVy=S.carVy;
-  let spx=0, spy=0, sl=0, dEt=0;
-  for(let i=0;i<n;i++){
-    let ddx=ACC[2*i]*dt, ddy=ACC[2*i+1]*dt;
-    if(ddx===0 && ddy===0) continue;
-    const dv2=ddx*ddx+ddy*ddy;
-    if(dv2>REACTION_DV_CAP2){ const sc=REACTION_DV_CAP/Math.sqrt(dv2); ddx*=sc; ddy*=sc; S.clampRN++; }
-    const mi=mEff[i];
-    spx+=mi*ddx; spy+=mi*ddy; sl+=mi*(x[i]*ddy-y[i]*ddx);
-    const q0x=vx[i], q0y=vy[i];
-    if(carV){
-      const addX=ddx+carVx[i], v0x=vx[i]; vx[i]=v0x+addX; carVx[i]=addX-(vx[i]-v0x);
-      const addY=ddy+carVy[i], v0y=vy[i]; vy[i]=v0y+addY; carVy[i]=addY-(vy[i]-v0y);
-    } else { vx[i]+=ddx; vy[i]+=ddy; }
-    dEt+=0.5*mi*((vx[i]*vx[i]+vy[i]*vy[i])-(q0x*q0x+q0y*q0y));
-  }
-  S.geoToyPx+=spx; S.geoToyPy+=spy; S.geoToyL+=sl; S.geoToyE+=dEt;
-  S.geoToyMeshPx-=spx; S.geoToyMeshPy-=spy; S.geoToyMeshL-=sl; S.geoToyEmesh-=dEt;
-  S.resPx-=spx; S.resPy-=spy; S.resL-=sl;
-  return { n:nOn, dv:dvM, chi:chiMax, dP:[spx,spy], dL:sl, dE:dEt, lawVersion:law, R:supR, Rdot:supRd };
+  // 第275便c: 適用と記帳は `dfmGeoToyFinish` の 1 本に出した(準備済み経路と**同じ行**を通る)。
+  //   **式も順序も第265便b と 1 文字も変えていない**(600 步 bitsame・presetSig で機械確認する)。
+  return dfmGeoToyFinish(S,dt,ACC,{ closure, iters, resid, residRel, conv,
+    nOn, dvM, chiMax, law, R:supR, Rdot:supRd, prepared:false });
 }
 // ===== 第274便c(第64報): **帯平均の軽量 variant** `dfmGeoToyBandStep(S,dt,cf)` =====
 // 原仮定者(第64報)の優先課題「galaxyMeshSpiralGeoToy が**重い理由を調査し改善する**。近似として
@@ -38054,6 +38731,82 @@ function dfmShapeToyStep(S,dt){
   return { n:nOn, dP:[spx,spy], dL:sl, dE:se, supply:[supPx,supPy,supL,supE], det:detE,
     sigma:sR, sigmaZ:sZ, theta:th, len:L1, branch:D.branch, shape:cf.shape,
     coupling:(fb? SHAPE_TOY_COUPLINGS[1] : SHAPE_TOY_COUPLINGS[0]) };
+}
+// ===== 第275便e(第65報 (7)「2D だが公転面に対する自転軸の傾き角・傾きの方向・歳差角速度を
+// 再現する。親子コア構造限定でよい」): **コア軸の prescribed ステップ** `dfmCoreAxisStep(S,dt)` =====
+//
+// ■ 何をするか(1 行で)
+//   宣言した粒子のコア軸の**面内方位**を φ(t)=az+Ω_p·t で毎步書き戻す。|J⊥| と J_z は触らない。
+//
+// ■ なぜ「書き戻す」なのか(第227便のジャイロ分岐との関係)
+//   `coreV2UpdatePass` の第227便分岐は、殻スピンで面内成分を φ̇=spin_shell で回している
+//   (|J|・J_z・θ は不変 = 仕事 0)。prescribed は**その結果を宣言値で上書きする**。
+//   Ω_p の既定(省略時)は**殻スピン**なので、宣言を足しただけでは軸の回り方は変わらない
+//   (**同値の移行**。QA `behavior.coreAxisPrescribed` がこの同値を数で固定する)。
+//   上書きの差分は「**宣言した拘束**が与えた角力積」であって、力学が出したものではない。
+//
+// ■ 帳簿(負号で記帳する — 第250便c の修正と同じ流儀)
+//   ・ΔJ⊥=(ΔJ_x,ΔJ_y) は**面外**(x,y 軸まわり)の角運動量である。2D エンジンの L_z 帳簿には
+//     現れないので `S.axPrescLx/axPrescLy` に **−ΔJ** を積む(拘束が持ち去った量)。
+//   ・回転 E は |J|²/2I_c で、この写像は |J⊥| を保つので**丸めの範囲でしか動かない**。
+//     それでも `S.axPrescE` に −ΔE を積む(「対応する仕事なしに回転 E が変わる」ことの見張り)。
+//   ・力を出さないので並進 P は**恒等的に 0**(axPrescPx/Py は 0 のまま積む = 契約の明示)。
+//   ・**閉じた系ではない**。供給源は「宣言」である(dynamic モードは設計のみ — CORE_AXIS_DESIGN)。
+//
+// ■ これが**していないこと**
+//   ・3D の実装ではない(Euler 角も慣性テンソルも入れていない。エンジンの力学が読むのは
+//     従来どおり z 射影 J_z だけで、面内 2 成分は運ぶだけである)。
+//   ・軸の向きから力を作っていない(`physics.axisForce` は別の宣言で、そちらは軸の**面内方位**を
+//     読む側である —— prescribed で回した方位はそのまま axisForce に届く)。
+//   ・「歳差を再現した」とは言わない。**宣言した角速度で回しているだけ**である。
+//
+// ■ 未宣言は 1 bit 不変: `S.hasCoreAxis!==true` で 1 行目から戻る(`S._core` には 1 命令も足していない)。
+function dfmCoreAxisStep(S,dt){
+  if(!S || S.hasCoreAxis!==true) return null;
+  const n=S.n;
+  let nOn=0, dLx=0, dLy=0, dE=0, wPhi=0, wTilt=0;
+  for(let i=0;i<n;i++){
+    if(!S.coreAxM[i]) continue;
+    const jx0=S.coreJx[i], jy0=S.coreJy[i];
+    const jp=Math.hypot(jx0,jy0);
+    if(!(jp>0)) continue;                      // 面内成分が無い軸は回しようがない(θ=0 か |J|=0)
+    const phi=S.coreAxAz[i]+S.coreAxOm[i]*S.t;   // **宣言** φ(t)=az+Ω_p·t(S.t は _core が進めた後)
+    const jx1=jp*Math.cos(phi), jy1=jp*Math.sin(phi);
+    // 回転 E の差(|J⊥| を保つ写像なので丸めの範囲。I_c はエンジン各所と同じ結合順で作る)
+    const Mc=S.coreMF[i]*Math.abs(S.mEff[i]);
+    const Ic=0.5*Mc*S.RcV[i]*S.RcV[i]*S.coreIS[i];
+    const jz=S.coreJ[i];
+    const e0=(Ic>1e-12)? (jz*jz+jx0*jx0+jy0*jy0)/(2*Ic) : 0;
+    const e1=(Ic>1e-12)? (jz*jz+jx1*jx1+jy1*jy1)/(2*Ic) : 0;
+    S.coreJx[i]=jx1; S.coreJy[i]=jy1;
+    dLx+=jx1-jx0; dLy+=jy1-jy0; dE+=e1-e0; nOn++;
+    wPhi=phi; wTilt=(S.coreJm[i]>0)? Math.acos(Math.max(-1,Math.min(1,jz/S.coreJm[i]))) : 0;
+  }
+  if(!nOn) return null;
+  S.axPrescLx-=dLx; S.axPrescLy-=dLy; S.axPrescE-=dE;   // **負号** = 宣言した拘束が持ち去った量
+  S.axPrescPx-=0; S.axPrescPy-=0;                        // 力を出さないので恒等的に 0(契約の明示)
+  S.axPrescN+=nOn;
+  return { n:nOn, dL:[dLx,dLy], dE, phi:wPhi, tilt:wTilt, prescribed:true,
+    unbooked:"declared-constraint-out-of-plane" };
+}
+// 第275便e: コア軸の**読み取り専用**の状態(表示・QA・診断が読む。物理は 1 bit も動かさない)。
+// 傾き角 θ=acos(J_z/|J|)・面内方位 φ=atan2(J_y,J_x)・宣言(prescribed か・az・Ω_p)を返す。
+// **2D 投影の線**は (sinθ·cosφ, sinθ·sinφ)(= 3D 単位軸を公転面へ正射影したもの)である。
+function coreAxisState(S,i){
+  if(!S || i<0 || i>=S.n || !S.coreMd || !S.coreMd[i] || S.coreMd[i]===4) return null;
+  const jz=S.coreJ[i], jx=S.coreJx? S.coreJx[i] : 0, jy=S.coreJy? S.coreJy[i] : 0;
+  const Jm=S.coreJm? S.coreJm[i] : Math.abs(jz);
+  if(!(Jm>0)) return null;
+  const tilt=Math.acos(Math.max(-1,Math.min(1,jz/Jm)));
+  const phi=Math.atan2(jy,jx);
+  const decl=!!(S.coreAxM && S.coreAxM[i]);
+  return { tiltDeg:tilt*180/Math.PI, azimuthDeg:phi*180/Math.PI, Jz:jz, Jx:jx, Jy:jy, Jmag:Jm,
+    declared:decl, mode:(decl? "prescribed" : null),
+    azimuth0Deg:(decl? S.coreAxAz[i]*180/Math.PI : null),
+    precessionRate:(decl? S.coreAxOm[i] : null),
+    phiPrescribedDeg:(decl? (S.coreAxAz[i]+S.coreAxOm[i]*S.t)*180/Math.PI : null),
+    projX:Math.sin(tilt)*Math.cos(phi), projY:Math.sin(tilt)*Math.sin(phi),
+    proxyOnly:true, note:"2D 投影(3D 実装ではない — 力学が読むのは J_z だけ)" };
 }
 // ===== 第265便b(第57報 W2・Z2): **mesh-v2 —— 引きずりの「完全置換」の最小代数実装** =====
 // 原仮定者(第56報)「導入時は、空間メッシュの導入により、引きずり計算を完全に置き換えるものを想定していた」。
@@ -39605,6 +40358,17 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // トイは `S._core` の外(`_meshCoordForce` と同じ位置)に置き、`geoCoreDispatch` が
   // `_core` の呼び出しの間だけ p.geoPN を 0 にして dispatch から外す(`_core` は 1 命令も増えない)
   dfmGeoToyStep, SPACE_MESH_INERTIA_REMOVAL, SPACE_MESH_SUPPORT_LEGACY,
+  // 第275便c(第65報 (3)): **準備済み経路**の読み口と**診断用の切替**。切替は presetSig にも
+  //   S.params にも表示にも 1 文字も入らない(**同じページで旧経路と突き合わせる**ためだけの口で、
+  //   既定は常に true である)。`geoPrepInfo()` は門の宣言値を返す
+  dfmGeoScalarPrepared,
+  setGeoPrepEnabled:(v)=>{ GEO_PREP_ENABLED=(v!==false); return GEO_PREP_ENABLED; },
+  geoPrepInfo:()=>({ enabled:GEO_PREP_ENABLED, sourceSpin:GEO_PREP_SOURCE_SPIN,
+    gates:["lawVersion:scalar","sourceSpin=0","background:static","toyClosure:gravity",
+           "no box","n>=2","finite G/eps/p/D0/eta","all m>0 and finite x,y,vx,vy"],
+    note:"条件を 1 つでも外れたら false を返して旧経路へ戻る。**門は緩めない**(速さのために"
+      +"検査を落とさない)。物理は 1 bit も変わらない(QA perf.geoToyPrepared が機械確認する)。" }),
+  geoToyPrepared:(S)=>{ const T=S||sim; return (T.geoToyPrepared===true); },
   // 第274便c: 帯平均の軽量 variant(受理値と既定 —— QA/実験器が読む)
   SPACE_MESH_DISK_SUPPORT, GEO_TOY_BAND_COUNT_DEFAULT, GEO_TOY_BAND_ELL_DEFAULT,
   // 第274便d(第64報): **形状トイ**(指定した 3D 正規分布を定常分布に持つ参照モデル)の外部ステップと
@@ -39612,6 +40376,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // QA behavior.shapeToyStationary が expm・恒等式 C=F C Fᵀ+Q_h・定常共分散・未宣言のビット不変を機械固定する
   dfmShapeToyStep, shapeToyDisc, shapeToyGrow, shapeToyFrame, shapeToyInitLatent, validateShapeToy,
   SHAPE_TOY_KEY, SHAPE_TOY_SHAPES, SHAPE_TOY_CENTERS, SHAPE_TOY_COUPLINGS, SHAPE_TOY_SUPPLY, SHAPE_TOY_CLAMPS,
+  // 第275便b(第65報 (2)): D₀ の**背景の出所**の宣言鍵(**宣言専用** — エンジンは 1 箇所も読まない)。
+  // QA preset.d0source-declared が「受理契約」「未宣言の 1 bit 不変」「内蔵の宣言 0 本」を機械固定する
+  validateD0Source, D0_SOURCE_KEY, D0_BACKGROUNDS, D0_SOURCE_NOTE_MAX,
   // 第264便b(第56報): **源の閉包**の値域("gravity" 既定 /"iterate" 診断)と反復・残差の宣言値。
   // QA behavior.geoToyClosure が「既定は 122 本ビット不変」「iterate は反復数と残差を返す」
   // 「特異点(det=1−η²χ₀χ₁→0)で収束しない」を機械固定する
@@ -39798,6 +40565,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   dfmStarMassLedger, dfmCoreDragRatio, dfmCoreDragRadius, DFM_BETA_SOLID, obsTemp,   // 第233便: 恒星構造 v1 純関数
   chiMassFactors,   // 第224便: χ-law v1(粒子別質量スケールの較正則 — QA behavior.chi-law が読む)
   coreTiltProxyAudit,   // 第226便提案: core.tilt の投影エネルギー/角力積監査(読み取り専用)
+  dfmCoreAxisStep, coreAxisState, CORE_AXIS_MODES, CORE_AXIS_AZ_CLAMP, CORE_AXIS_RATE_CLAMP,
+  CORE_AXIS_RATE_DEFAULT, CORE_AXIS_DESIGN,   // 第275便e: コア軸の宣言モード(prescribed)と読み取り専用の状態
   verify:VERIFY, traceRay, getSystemPrompt, aiCfg, T:(k)=>T(k), lang:()=>LANG,
   // 第170便: 実天体カタログ(AI追加の安定化)— QA ai.catalog-integrity /
   // ai.placement-determinism / ai.schema-validation が読む公開フック
@@ -39858,6 +40627,11 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   scaleTierTable, decadeStr,   // 第182便: scaleTier 代表値表(指数からの計算転記)
   normalizeIntakeText, parseIntake, jsonPosInfo, detectPasteShape, pickSinglePreset,
   stabilizePreset, stabSelfCheck, aiIntakeText, aiIntakeValue,
+  // 第275便a(第65報 (1)): 宣言の無い分数 kFrame の扱い(案B "snap" 既定 / 案A "reject")を
+  // **測るための読み口**。QA・実験ハーネスが両案を同じ html で切り替えて比較する
+  // (`bodyedit.minimize` の HP.beMinKeepLayerMode と同じ流儀)。**力学には接続しない**。
+  kFrameUndeclaredMode:(m)=>{ if(m!==undefined && KFRAME_UNDECLARED_MODES.indexOf(m)>=0) kFrameUndeclaredMode=m; return kFrameUndeclaredMode; },
+  KFRAME_APPROXES:()=>KFRAME_APPROXES.slice(), KFRAME_APPROXES_CALIBRATION:()=>KFRAME_APPROXES_CALIBRATION.slice(),
   STAB_ESCAPE_MUL, STAB_DIVERGE_MUL,
   AI_EXAMPLE_DEFAULT_ID, presetForAIBase,   // 第181便: 暗黙の少数ショット例の固定先(AI_EXAMPLE_MAX は撤廃)
   scaleEffNow,  // 第104便: ベースのスケール(タグ一括設定)のQA用 — 実効4指数の読み口(表示専用)
@@ -39958,6 +40732,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   stepCarry:()=>stepCarryOn, setStepCarry,     // 否定対照(繰越の無効化)専用の切替
   stepGenNow:()=>stepGen, stepGenBump,
   stepDiag:()=>stepDiagOn, setStepDiag, stepDiagText,
+  coreAxisShow:()=>coreAxisShow, setCoreAxisShow,   // 第275便e: コア軸の投影線(表示専用)
   // 第177便 P1-1: 対ループカーネルの開発フック(既定 OFF・判定へ無影響)と観測口。
   // setKernelForceGeneric(true) で全宇宙が generic を通る = QA kernel.bitident の対照側。
   // kernelInfo() は直近サブステップで実際に選ばれたカーネル種別を返す(観測専用)。

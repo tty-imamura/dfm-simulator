@@ -433,6 +433,71 @@ paper/*Notes.bib
 #   QA `docs.kf0Ledger` が表と正本を突き合わせ、`lint.provenanceMeta` が来歴を照合するのでコミットする。
 #   **未測定は未測定と書く**(推定で埋めない)。ラベルは**候補**であって較正完了ではない。
 !tests/out/kf0ledger-w274a.json
+# 第275便a(第65報・判定器便): 3 本の正本。
+#   ① presetaxes —— **対照の軸**(内蔵 128 本の宣言から k を除く 5 成分〔f・D₀・q・frameWeight・
+#      bodies の SHA-256〕を抜いたもの。`tests/exp-w275a-presetaxes.mjs`)。**「f 固定・k のみの対照」の
+#      定義そのもの**で、第274便a が f だけを見ていた誤分類(統括の検証項目 R33)を直すために要る。
+#   ② kf0ledger-w275a —— kF0 棚卸し表の**改版**(列を 5 本にし、門を通っていない `|nσ|≤3` を
+#      「観測成立」から「外挿残差」へ分けた)。`docs/KF0_LEDGER_v1.45.md` を機械生成する正本。
+#   ③ kfgate —— **kFrame 二値の既定契約**(第65報 (1))の案A(拒否)/案B(丸めて警告)を
+#      同じ html で切り替えて測った実測(`tests/exp-w275a-kfgate.mjs`)。
+#   QA `docs.kf0Ledger` が ② と文書を突き合わせ、`lint.provenanceMeta` が 3 本の来歴を照合するので
+#   コミットする。**判定は 1 つも動かしていない**(4 値・門・5 区分は第274便a の正本のままである)。
+!tests/out/presetaxes-w275a.json
+!tests/out/kf0ledger-w275a.json
+!tests/out/kfgate-w275a.json
+# 第275便c(第65報 (3)「粒子同士は総当たりで重力計算、座標変換が重なっても総当たり回数は同じはず →
+#   なぜ重いか分析して改善」): **回数の会計と前後の ms/步**の正本(tests/exp-w275c-galaxyprof2.mjs)。
+#   ① 回数 —— Math.sqrt/pow/hypot と Array.prototype.push を差し替えて**実際に呼ばれた回数**を数え、
+#      `_core` だけの走行(geoPN=0)を引いてトイの分を出す。frameWeight を share/pull/pull3/pull4 に
+#      振っても **(行,源) の累算回数が 1 つも動かない**ことがこの JSON の push 欄で読める
+#      (= 原仮定者の「座標変換が重なっても総当たり回数は同じはず」の検算)。
+#   ② 時間 —— 同じページで `HP.setGeoPrepEnabled(true/false)` を切り替えた A/B(Chromium)と、
+#      同じ 1 步の純関数の写し(tests/lib-w275c-prepared.mjs)による node の ms/步。
+#   ③ 步をまたぐ幾何キャッシュ —— **採らない**ことの根拠(指紋が変わる)を数で残す欄。
+#   docs/PHYSICS.md〔第275便c〕の表がこの値そのものなので、来歴つきでコミットする。
+#   QA `lint.provenanceMeta` の CANON に足した。**判定はしていない**(数を出す器である)。
+!tests/out/galaxyprof2-w275c.json
+# 第275便e(第65報 (8)「パワーボール効果(仮説)」・**エンジン未接続の node 模型**):
+#   自転ベクトル s・向きのポテンシャル U=−½K(ŝ·r̂)²・散逸結合 Q の閉じた模型を 5 段
+#   (無トルク → 向きの整列 → 散逸 → 供給源の帳簿 → 閉じた連星)で走らせた値表
+#   (tests/exp-w275e-powerball.mjs)。**負の対照**(軸に垂直なジャイロトルクは τ·ŝ=0 で
+#   自転を加速しない —— 統括の検証項目 R37)と、仮説 H1〜H7 の対応づけ(Failure First)を持つ。
+#   QA `docs.powerballLedger` がこの JSON と docs/PHYSICS.md〔第275便e〕の表を突き合わせ、
+#   `lint.provenanceMeta` が来歴を固定するのでコミットする。K・Q・Γ は**宣言された自由
+#   パラメータ**であって観測から同定した値ではない。「合体を再現した」とは書かない。
+!tests/out/powerball-w275e.json
+# 第275便b(第65報 (2)「D₀ は『何を背景とするか』でサンプル毎に変わる」): **D₀ の単位監査と
+#   規則適用表**の正本(tests/exp-w275b-d0audit.mjs)。較正 37 本 + 🪁🎋 について
+#   scaleExp から D₀ の SI 値を作り、規則で計算した D_bg(太陽: M☉/r・銀河: M_enc(R₀)/R₀)と
+#   比 D₀/D_bg を置く。仮定(質量・距離・銀河の参考値)は出典つきで JSON の中に全部並べてある。
+#   源分割不変性(太陽を置く/畳む)と 🌇 の短窓走行(kF0/kF1 × D₀ 4 点)も同じ JSON に入る。
+#   QA `docs.d0audit-sync` が docs/PHYSICS.md の表と突き合わせ、`lint.provenanceMeta` が
+#   来歴を照合するのでコミットする。**較正ではない**(D₀ の値は 1 本も変えていない)。
+!tests/out/d0audit-w275b.json
+# 第275便b: **複素決定力場の D₀ 非依存版**(tests/exp-w275b-meshnod0.mjs)。🪁 の t=0 配置で
+#   旧経路(χ=W/(D₀+W))と新 lawVersion `complex-nod0` の 2 案(自己規格化 / 配置スケール)を
+#   同じ評価点で比べ、**単位系を取り替えたときの χ の変化**を測った正本。**エンジン未接続**。
+!tests/out/meshnod0-w275b.json
+# 第275便b: ❄️ カロンの **D₀ 系列**(tests/exp-w272b-charon.mjs --D0 rule)。裁定「D₀ の補正は
+#   冥王星とカロンで検証する」の走行で、kF{0,1} × D₀{宣言値・太陽からの距離・銀河内位置・1} を
+#   h/h2/h4 の 3 段で測る。**第272便b の正本 charon-w272b.json は 1 バイトも触らない**。
+#   **「D₀ 補正で ❄️ が成立」とは書かない**。
+!tests/out/charond0-w275b.json
+# 第275便d(第65報 (4)(5)(6)「安定サンプルの改善と中心天体版」・**診断のみ・既定不変**):
+#   ① 形状トイの**安定・低分散・銀河らしさの判定**の正本(tests/exp-w275d-shapecrit.mjs)。
+#      内蔵 6 本(🔮🥏🧵 と中心天体版 🎱📀🧹)の RMS 半径の偏り/ドリフト/表示窓の凹み・
+#      逆行の割合・σ_z/σ_R・棒の幅と半長・回転曲線の形・摂動からの回復・重力の対照・
+#      **中心天体の質量の対照**(m を変えても指紋が同じ)と、既定値を決めた**候補の比較**を持つ。
+#      QA `docs.shapeToyCriteria` がこの JSON と docs/PHYSICS.md〔第275便d〕を突き合わせ、
+#      `lint.provenanceMeta` が来歴を固定するのでコミットする。
+#   ② **動的中心の診断**の正本(tests/exp-w275d-dyncenter.mjs —— **エンジン未接続**の node 模型)。
+#      中心質量 × 中心の扱い(自由/位置固定)の格子で、重心ドリフト・ビリアル比・RMS 半径・
+#      **中心天体自身の変位**を置く。「位置固定の参照点」がどこから正当化できるかの数である。
+#   **どちらも較正ではない**(観測量を 1 つも入力していない)。「銀河が安定した」「腕が創発した」
+#   「中心ブラックホールを実装した」とは書かない。
+!tests/out/shapecrit-w275d.json
+!tests/out/dyncenter-w275d.json
 # 第221便: セッション内スクラッチ実測ハーネス(コミット対象外 — 実測値は claims/QA が機械固定する)
 _scratch-*.mjs
 _scratch-*/

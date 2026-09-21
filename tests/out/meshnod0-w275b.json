@@ -1,0 +1,596 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第275便b",
+  "target": "beta/index.html",
+  "targetSha256": "536fa19848ecfc023f6545279f93800df1f49eeaf4b23292fc1b8748dcbc4890",
+  "generatedAt": "2026-09-20T21:34:56.866Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4299848,
+    "sha256": "536fa19848ecfc023f6545279f93800df1f49eeaf4b23292fc1b8748dcbc4890",
+    "mtime": "2026-09-20T21:12:35.779Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w275b-meshnod0.mjs",
+    "bytes": 11874,
+    "sha256": "65c68aad67dcf6acbf43347cee23d441e199eccc212e5106482bb29cf6770125",
+    "mtime": "2026-09-20T17:43:15.898Z"
+   },
+   {
+    "file": "tests/lib-w275b-meshfield.mjs",
+    "bytes": 9905,
+    "sha256": "5def01e0c4063a3235b929a2dca5a534a2051a2f471bc98f962bf2cf1babb786",
+    "mtime": "2026-09-20T17:43:15.901Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-18T17:14:55.948Z"
+   }
+  ],
+  "codeSha256": "f79a91a1e0f1c849c7490288172b38e7808d110b6424de4f09b2963523f96178",
+  "harness": "tests/exp-w275b-meshnod0.mjs",
+  "harnessVersion": "w275b-meshnod0-1",
+  "meshfieldVersion": "w275b-meshfield-1",
+  "lawVersionProposed": "complex-nod0",
+  "norms": [
+   "self",
+   "configScale"
+  ],
+  "preset": "galaxyMeshSpiralGeoToy",
+  "engineAttached": false,
+  "legacyPath": "dfmGeoToyStep → dfmField(D0:D0p) → dfmLocalMeshField(χ=W/(D₀+W)) —— **legacy として残す**",
+  "declaredConfig": {
+   "D0": 1.5,
+   "D0pull": null,
+   "softening": 3,
+   "frameWeight": "share",
+   "framePow": 1,
+   "geoPN": 3,
+   "spaceMeshLawVersion": "scalar",
+   "n": 351,
+   "Mtot": 2615.915380552411,
+   "Rrms": 21.71151836593376,
+   "Rref": 21.71151836593376,
+   "lambda": 10
+  },
+  "notClaim": [
+   "複素決定力場を実装した",
+   "D₀ を外して解決した",
+   "エンジンへ接続した",
+   "新しい法則を見つけた",
+   "規格化の案を採用した"
+  ]
+ },
+ "points": [
+  {
+   "id": "center",
+   "x": 0,
+   "y": 0
+  },
+  {
+   "id": "inner",
+   "x": 64.89679709214256,
+   "y": 0
+  },
+  {
+   "id": "outer",
+   "x": 194.6903912764277,
+   "y": 0
+  },
+  {
+   "id": "beyond",
+   "x": 389.3807825528554,
+   "y": 0
+  }
+ ],
+ "powers": [
+  1,
+  2
+ ],
+ "rows": [
+  {
+   "p": 1,
+   "point": "center",
+   "px": 0,
+   "py": 0,
+   "D0Declared": 1.5,
+   "W": 835.5698853987291,
+   "W0": 119.35117493675156,
+   "chiLegacy": 0.9982080349249627,
+   "chiSelf": 1,
+   "chiConfig": 0.8750146165015762,
+   "uLegacy": [
+    -0.0013396208671890674,
+    0.00172025029797013
+   ],
+   "uSelf": [
+    -0.0013420257304277955,
+    0.0017233384603034623
+   ],
+   "uConfig": [
+    -0.001174292129845525,
+    0.0015079463419448507
+   ],
+   "uRelSelfVsLegacy": 0.0017951819784460122,
+   "uRelConfigVsLegacy": 0.12341457302800342,
+   "identitySelfVsLegacyD0Zero": {
+    "same": false,
+    "maxAbs": 1.3552527156068805e-20,
+    "maxRel": 6.907369268514566e-16
+   },
+   "identityConfigVsLegacyD0W0": {
+    "same": false,
+    "maxAbs": 2.710505431213761e-20,
+    "maxRel": 7.89479113417326e-16
+   }
+  },
+  {
+   "p": 1,
+   "point": "inner",
+   "px": 64.89679709214256,
+   "py": 0,
+   "D0Declared": 1.5,
+   "W": 40.22378614884432,
+   "W0": 119.35117493675156,
+   "chiLegacy": 0.9640492836712148,
+   "chiSelf": 1,
+   "chiConfig": 0.25206828110876567,
+   "uLegacy": [
+    -0.010285991563314362,
+    0.08659624251431014
+   ],
+   "uSelf": [
+    -0.010669570256972837,
+    0.08982553483629105
+   ],
+   "uConfig": [
+    -0.002689460234844354,
+    0.022642168165859435
+   ],
+   "uRelSelfVsLegacy": 0.03729136771087111,
+   "uRelConfigVsLegacy": 0.7385317479321604,
+   "identitySelfVsLegacyD0Zero": {
+    "same": false,
+    "maxAbs": 2.168404344971009e-19,
+    "maxRel": 1.8570387102044898e-16
+   },
+   "identityConfigVsLegacyD0W0": {
+    "same": false,
+    "maxAbs": 4.0657581468206416e-20,
+    "maxRel": 9.970345961205804e-16
+   }
+  },
+  {
+   "p": 1,
+   "point": "outer",
+   "px": 194.6903912764277,
+   "py": 0,
+   "D0Declared": 1.5,
+   "W": 13.508684661804713,
+   "W0": 119.35117493675156,
+   "chiLegacy": 0.9000578642432725,
+   "chiSelf": 1,
+   "chiConfig": 0.10167619251308845,
+   "uLegacy": [
+    -0.013283564976545347,
+    0.06371040483767702
+   ],
+   "uSelf": [
+    -0.014758567759100207,
+    0.07078478769944621
+   ],
+   "uConfig": [
+    -0.001500594976691733,
+    0.007197127701126988
+   ],
+   "uRelSelfVsLegacy": 0.11103967836640626,
+   "uRelConfigVsLegacy": 0.8870337157727375,
+   "identitySelfVsLegacyD0Zero": {
+    "same": false,
+    "maxAbs": 5.204170427930421e-18,
+    "maxRel": 2.173053688388943e-15
+   },
+   "identityConfigVsLegacyD0W0": {
+    "same": false,
+    "maxAbs": 1.3877787807814457e-17,
+    "maxRel": 2.9648356580466666e-16
+   }
+  },
+  {
+   "p": 1,
+   "point": "beyond",
+   "px": 389.3807825528554,
+   "py": 0,
+   "D0Declared": 1.5,
+   "W": 6.726791228347571,
+   "W0": 119.35117493675156,
+   "chiLegacy": 0.8176688871316734,
+   "chiSelf": 1,
+   "chiConfig": 0.05335421749696403,
+   "uLegacy": [
+    -0.01182380393769735,
+    0.03502384452672346
+   ],
+   "uSelf": [
+    -0.014460381364361856,
+    0.042833774254985676
+   ],
+   "uConfig": [
+    -0.000771522332403208,
+    0.002285362507816364
+   ],
+   "uRelSelfVsLegacy": 0.2229889332195721,
+   "uRelConfigVsLegacy": 0.934748382460623,
+   "identitySelfVsLegacyD0Zero": {
+    "same": true,
+    "maxAbs": 0,
+    "maxRel": 0
+   },
+   "identityConfigVsLegacyD0W0": {
+    "same": true,
+    "maxAbs": 0,
+    "maxRel": 0
+   }
+  },
+  {
+   "p": 2,
+   "point": "center",
+   "px": 0,
+   "py": 0,
+   "D0Declared": 1.5,
+   "W": 277.8447799638444,
+   "W0": 5.445398985258833,
+   "chiLegacy": 0.9946302916410532,
+   "chiSelf": 1,
+   "chiConfig": 0.9807780170655435,
+   "uLegacy": [
+    -0.0001517987488505237,
+    0.00017106641416290717
+   ],
+   "uSelf": [
+    -0.00015261826442071154,
+    0.00017198995003526635
+   ],
+   "uConfig": [
+    -0.00014968463874653025,
+    0.00016868396215079045
+   ],
+   "uRelSelfVsLegacy": 0.005398697791605745,
+   "uRelConfigVsLegacy": 0.01392705881966928,
+   "identitySelfVsLegacyD0Zero": {
+    "same": true,
+    "maxAbs": 0,
+    "maxRel": 0
+   },
+   "identityConfigVsLegacyD0W0": {
+    "same": true,
+    "maxAbs": 0,
+    "maxRel": 0
+   }
+  },
+  {
+   "p": 2,
+   "point": "inner",
+   "px": 64.89679709214256,
+   "py": 0,
+   "D0Declared": 1.5,
+   "W": 0.6571341265618158,
+   "W0": 5.445398985258833,
+   "chiLegacy": 0.3046329472378243,
+   "chiSelf": 1,
+   "chiConfig": 0.10768218943194958,
+   "uLegacy": [
+    0.003983348217221518,
+    0.12716994804871656
+   ],
+   "uSelf": [
+    0.013075894296199528,
+    0.417453033894709
+   ],
+   "uConfig": [
+    0.0014080409265955066,
+    0.04495225667479212
+   ],
+   "uRelSelfVsLegacy": 2.2826390220336497,
+   "uRelConfigVsLegacy": 0.6465182429926627,
+   "identitySelfVsLegacyD0Zero": {
+    "same": true,
+    "maxAbs": 0,
+    "maxRel": 0
+   },
+   "identityConfigVsLegacyD0W0": {
+    "same": true,
+    "maxAbs": 0,
+    "maxRel": 0
+   }
+  },
+  {
+   "p": 2,
+   "point": "outer",
+   "px": 194.6903912764277,
+   "py": 0,
+   "D0Declared": 1.5,
+   "W": 0.07201603929332605,
+   "W0": 5.445398985258833,
+   "chiLegacy": 0.045811262412882046,
+   "chiSelf": 1,
+   "chiConfig": 0.0130524963180872,
+   "uLegacy": [
+    -0.0008787919867290632,
+    0.00994781125390544
+   ],
+   "uSelf": [
+    -0.019182880812338158,
+    0.21714772154168213
+   ],
+   "uConfig": [
+    -0.00025038448117334935,
+    0.00283431983590383
+   ],
+   "uRelSelfVsLegacy": 20.828693367742726,
+   "uRelConfigVsLegacy": 0.7150810601888835,
+   "identitySelfVsLegacyD0Zero": {
+    "same": true,
+    "maxAbs": 0,
+    "maxRel": 0
+   },
+   "identityConfigVsLegacyD0W0": {
+    "same": true,
+    "maxAbs": 0,
+    "maxRel": 0
+   }
+  },
+  {
+   "p": 2,
+   "point": "beyond",
+   "px": 389.3807825528554,
+   "py": 0,
+   "D0Declared": 1.5,
+   "W": 0.01733534636088742,
+   "W0": 5.445398985258833,
+   "chiLegacy": 0.011424861618404775,
+   "chiSelf": 1,
+   "chiConfig": 0.0031733826520806527,
+   "uLegacy": [
+    -0.00017733577187660623,
+    0.0007568655889754089
+   ],
+   "uSelf": [
+    -0.015521918584197887,
+    0.06624724344635766
+   ],
+   "uConfig": [
+    -0.000049256987162101856,
+    0.0002102278531008351
+   ],
+   "uRelSelfVsLegacy": 86.52841245701035,
+   "uRelConfigVsLegacy": 0.7222388543447632,
+   "identitySelfVsLegacyD0Zero": {
+    "same": true,
+    "maxAbs": 0,
+    "maxRel": 0
+   },
+   "identityConfigVsLegacyD0W0": {
+    "same": true,
+    "maxAbs": 0,
+    "maxRel": 0
+   }
+  }
+ ],
+ "scaleCovariance": [
+  {
+   "p": 1,
+   "point": "center",
+   "lambda": 10,
+   "eps": 3,
+   "D0": 1.5,
+   "legacy": {
+    "chi": 0.9982080349249627,
+    "chiScaled": 0.9998205140231545,
+    "relChange": 0.0016153737916095384,
+    "WRatio": 9.999999999999998,
+    "WRatioExpected": 10
+   },
+   "self": {
+    "chi": 1,
+    "chiScaled": 1,
+    "relChange": 0
+   },
+   "configScale": {
+    "chi": 0.8750146165015762,
+    "chiScaled": 0.8750146165015762,
+    "relChange": 0
+   }
+  },
+  {
+   "p": 1,
+   "point": "inner",
+   "lambda": 10,
+   "eps": 3,
+   "D0": 1.5,
+   "legacy": {
+    "chi": 0.9640492836712148,
+    "chiScaled": 0.9962847180235462,
+    "relChange": 0.033437537788083886,
+    "WRatio": 10.000000000000016,
+    "WRatioExpected": 10
+   },
+   "self": {
+    "chi": 1,
+    "chiScaled": 1,
+    "relChange": 0
+   },
+   "configScale": {
+    "chi": 0.25206828110876567,
+    "chiScaled": 0.2520682811087659,
+    "relChange": 8.808907013144611e-16
+   }
+  },
+  {
+   "p": 1,
+   "point": "outer",
+   "lambda": 10,
+   "eps": 3,
+   "D0": 1.5,
+   "legacy": {
+    "chi": 0.9000578642432725,
+    "chiScaled": 0.9890179762023893,
+    "relChange": 0.09883821417849661,
+    "WRatio": 10.000000000000005,
+    "WRatioExpected": 10
+   },
+   "self": {
+    "chi": 1,
+    "chiScaled": 1,
+    "relChange": 0
+   },
+   "configScale": {
+    "chi": 0.10167619251308845,
+    "chiScaled": 0.1016761925130885,
+    "relChange": 5.459601688380695e-16
+   }
+  },
+  {
+   "p": 1,
+   "point": "beyond",
+   "lambda": 10,
+   "eps": 3,
+   "D0": 1.5,
+   "legacy": {
+    "chi": 0.8176688871316734,
+    "chiScaled": 0.9781875012605198,
+    "relChange": 0.19631248865532197,
+    "WRatio": 10.000000000000023,
+    "WRatioExpected": 10
+   },
+   "self": {
+    "chi": 1,
+    "chiScaled": 1,
+    "relChange": 0
+   },
+   "configScale": {
+    "chi": 0.05335421749696403,
+    "chiScaled": 0.053354217496964146,
+    "relChange": 2.2109066893003376e-15
+   }
+  },
+  {
+   "p": 2,
+   "point": "center",
+   "lambda": 10,
+   "eps": 3,
+   "D0": 1.5,
+   "legacy": {
+    "chi": 0.9946302916410532,
+    "chiScaled": 0.9999460159365204,
+    "relChange": 0.0053444222844819525,
+    "WRatio": 100.00000000000001,
+    "WRatioExpected": 100
+   },
+   "self": {
+    "chi": 1,
+    "chiScaled": 1,
+    "relChange": 0
+   },
+   "configScale": {
+    "chi": 0.9807780170655435,
+    "chiScaled": 0.9807780170655434,
+    "relChange": -1.1319819625922169e-16
+   }
+  },
+  {
+   "p": 2,
+   "point": "inner",
+   "lambda": 10,
+   "eps": 3,
+   "D0": 1.5,
+   "legacy": {
+    "chi": 0.3046329472378243,
+    "chiScaled": 0.9776830257426001,
+    "relChange": 2.2093804514825885,
+    "WRatio": 99.99999999999986,
+    "WRatioExpected": 100
+   },
+   "self": {
+    "chi": 1,
+    "chiScaled": 1,
+    "relChange": 0
+   },
+   "configScale": {
+    "chi": 0.10768218943194958,
+    "chiScaled": 0.10768218943194945,
+    "relChange": -1.2887728120149905e-15
+   }
+  },
+  {
+   "p": 2,
+   "point": "outer",
+   "lambda": 10,
+   "eps": 3,
+   "D0": 1.5,
+   "legacy": {
+    "chi": 0.045811262412882046,
+    "chiScaled": 0.827617987191581,
+    "relChange": 17.06581926803345,
+    "WRatio": 99.99999999999986,
+    "WRatioExpected": 100
+   },
+   "self": {
+    "chi": 1,
+    "chiScaled": 1,
+    "relChange": 0
+   },
+   "configScale": {
+    "chi": 0.0130524963180872,
+    "chiScaled": 0.013052496318087182,
+    "relChange": -1.3290357903207784e-15
+   }
+  },
+  {
+   "p": 2,
+   "point": "beyond",
+   "lambda": 10,
+   "eps": 3,
+   "D0": 1.5,
+   "legacy": {
+    "chi": 0.011424861618404775,
+    "chiScaled": 0.5361113552770267,
+    "relChange": 45.924975827574414,
+    "WRatio": 100.00000000000013,
+    "WRatioExpected": 100
+   },
+   "self": {
+    "chi": 1,
+    "chiScaled": 1,
+    "relChange": 0
+   },
+   "configScale": {
+    "chi": 0.0031733826520806527,
+    "chiScaled": 0.0031733826520806566,
+    "relChange": 1.2299581389558238e-15
+   }
+  }
+ ],
+ "powParity": {
+  "samples": 64,
+  "mismatchPowMinusHalf": 7,
+  "mismatchPowMinusOne": 0,
+  "maxRelMinusHalf": 1.6888704282812007e-16,
+  "note": "ページ(Chromium の V8)と node の V8 で Math.pow(s,−0.5) の最終 1 ULP が違う。**p=2(指数 −1)は一致する** —— 「ビット一致」を要求できるのは p=2 の列だけである"
+ },
+ "gates": {
+  "selfNullWhenNoSource": true,
+  "configNeedsRref": true,
+  "negativeMassRejected": true,
+  "unknownNormRejected": true,
+  "d0NeverRead": true
+ },
+ "gatesNote": "d0NeverRead は関数本体の綴りを見るだけの表示用の印である(実体は「本 lib の引数に D₀ が無い」こと —— `meshFieldNoD0` の opts に D0 の欄は無い)",
+ "pageErrors": []
+}

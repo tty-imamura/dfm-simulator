@@ -1,0 +1,824 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第275便a(第65報 (1)・kFrame 二値の既定契約)",
+  "target": "beta/index.html",
+  "targetSha256": "536fa19848ecfc023f6545279f93800df1f49eeaf4b23292fc1b8748dcbc4890",
+  "generatedAt": "2026-09-20T21:36:54.038Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4299848,
+    "sha256": "536fa19848ecfc023f6545279f93800df1f49eeaf4b23292fc1b8748dcbc4890",
+    "mtime": "2026-09-20T21:12:35.779Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w275a-kfgate.mjs",
+    "bytes": 12158,
+    "sha256": "f0b70c7c1a98a53b403e2fe5d713aed71fd87be7fc5cd1b7c5176eac35940a36",
+    "mtime": "2026-09-20T17:32:23.347Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-18T17:14:55.948Z"
+   }
+  ],
+  "codeSha256": "87971f05a0fc218186ef8b3121d616af88978f8ae3d274427a7bf91ee8ee3908",
+  "question": "**宣言の無い 0<kFrame<1 を受理しない契約**(第65報 (1))を、案A(拒否)と案B(丸めて警告)のどちらで実装するか。**両案を同じ html で切り替えて測った**。",
+  "rule": "丸めの規則は k<0.5 → 0 / k≥0.5 → 1。較正クラスは**常に拒否**(第273便b の門を弱めない)。",
+  "doNotWrite": [
+   "kFrame を較正した",
+   "kFrame の分数が解決した",
+   "二値契約で観測と合った",
+   "判定が増えた"
+  ]
+ },
+ "builtins": {
+  "n": 131,
+  "kFrameValues": [
+   0,
+   1
+  ],
+  "kFrameFractionIds": [],
+  "calibration": 37,
+  "declaredIds": []
+ },
+ "contract": {
+  "approxes": [
+   "space-mesh-effective",
+   "sample-only"
+  ],
+  "approxesCalibration": [
+   "space-mesh-effective"
+  ],
+  "modeDefault": "snap"
+ },
+ "fewShotDeclared": [
+  {
+   "i": 0,
+   "name": "連星系の惑星たち",
+   "emoji": "⭐",
+   "kFrame": 1
+  },
+  {
+   "i": 1,
+   "name": "高温ガスと低温ガスの混合",
+   "emoji": "🔥",
+   "kFrame": 0
+  },
+  {
+   "i": 2,
+   "name": "ブラックホール — 光子捕捉",
+   "emoji": "🕳️",
+   "kFrame": 1
+  },
+  {
+   "i": 3,
+   "name": "回転リングの空間引きずり",
+   "emoji": "🌀",
+   "kFrame": 1
+  },
+  {
+   "i": 4,
+   "name": "対流セル — 床加熱・天井冷却",
+   "emoji": "♨️",
+   "kFrame": 0
+  }
+ ],
+ "snap": {
+  "principle-0.5": {
+   "ok": true,
+   "k": 1,
+   "decl": null,
+   "warn": 1,
+   "kFrameWarn": 1,
+   "snapped": {
+    "from": 0.5,
+    "to": 1,
+    "sampleClass": "principle",
+    "rule": "k<0.5→0 / k≥0.5→1"
+   },
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":1,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "principle-0.2": {
+   "ok": true,
+   "k": 0,
+   "decl": null,
+   "warn": 1,
+   "kFrameWarn": 1,
+   "snapped": {
+    "from": 0.2,
+    "to": 0,
+    "sampleClass": "principle",
+    "rule": "k<0.5→0 / k≥0.5→1"
+   },
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":0,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "principle-0.7": {
+   "ok": true,
+   "k": 1,
+   "decl": null,
+   "warn": 1,
+   "kFrameWarn": 1,
+   "snapped": {
+    "from": 0.7,
+    "to": 1,
+    "sampleClass": "principle",
+    "rule": "k<0.5→0 / k≥0.5→1"
+   },
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":1,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "noclass-0.2": {
+   "ok": true,
+   "k": 0,
+   "decl": null,
+   "warn": 1,
+   "kFrameWarn": 1,
+   "snapped": {
+    "from": 0.2,
+    "to": 0,
+    "sampleClass": null,
+    "rule": "k<0.5→0 / k≥0.5→1"
+   },
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":0,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "noclass-0.999": {
+   "ok": true,
+   "k": 1,
+   "decl": null,
+   "warn": 1,
+   "kFrameWarn": 1,
+   "snapped": {
+    "from": 0.999,
+    "to": 1,
+    "sampleClass": null,
+    "rule": "k<0.5→0 / k≥0.5→1"
+   },
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":1,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "noclass-0.001": {
+   "ok": true,
+   "k": 0,
+   "decl": null,
+   "warn": 1,
+   "kFrameWarn": 1,
+   "snapped": {
+    "from": 0.001,
+    "to": 0,
+    "sampleClass": null,
+    "rule": "k<0.5→0 / k≥0.5→1"
+   },
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":0,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "declared-sme-principle": {
+   "ok": true,
+   "k": 0.5,
+   "decl": "space-mesh-effective",
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":0.5,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1,\"kFrameApprox\":\"space-mesh-effective\"},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "declared-sampleonly-principle": {
+   "ok": true,
+   "k": 0.5,
+   "decl": "sample-only",
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":0.5,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1,\"kFrameApprox\":\"sample-only\"},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "declared-bad-principle": {
+   "ok": true,
+   "k": 1,
+   "decl": null,
+   "warn": 2,
+   "kFrameWarn": 2,
+   "snapped": {
+    "from": 0.5,
+    "to": 1,
+    "sampleClass": "principle",
+    "rule": "k<0.5→0 / k≥0.5→1"
+   },
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":1,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "calib-plain-0.5": {
+   "ok": false,
+   "k": null,
+   "decl": null,
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": "physics.kFrame に分数(0.5)を書くには physics.kFrameApprox の宣言が必要です(sampleClass:\"calibration\" で使えるのは \"space-mesh-effective\" だけ — 第65報の裁定により kFrame の既定は kF0 版の 0 か DFM 版の 1 の二値で、分数はサンプル限りの例外です)",
+   "sig": null
+  },
+  "calib-sme-0.5": {
+   "ok": true,
+   "k": 0.5,
+   "decl": "space-mesh-effective",
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":0.5,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1,\"kFrameApprox\":\"space-mesh-effective\"},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "calib-sampleonly-0.5": {
+   "ok": false,
+   "k": null,
+   "decl": null,
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": "physics.kFrameApprox:\"sample-only\" は sampleClass:\"calibration\" では使えません(サンプル限りと宣言した分数は現実較正に入れない — 較正で使えるのは \"space-mesh-effective\" だけです)",
+   "sig": null
+  },
+  "calib-0": {
+   "ok": true,
+   "k": 0,
+   "decl": null,
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":0,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "calib-1": {
+   "ok": true,
+   "k": 1,
+   "decl": null,
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":1,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "principle-over-1.5": {
+   "ok": true,
+   "k": 1,
+   "decl": null,
+   "warn": 1,
+   "kFrameWarn": 1,
+   "snapped": null,
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":1,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "principle-nonnum": {
+   "ok": false,
+   "k": null,
+   "decl": null,
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": "physics.kFrame が数値ではありません",
+   "sig": null
+  },
+  "principle-1": {
+   "ok": true,
+   "k": 1,
+   "decl": null,
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":1,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "principle-0": {
+   "ok": true,
+   "k": 0,
+   "decl": null,
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":0,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "_fewShot": [
+   {
+    "i": 0,
+    "parse": true,
+    "ok": true,
+    "warn": 0,
+    "k": 1,
+    "snapped": null,
+    "firstWarn": null,
+    "firstErr": null
+   },
+   {
+    "i": 1,
+    "parse": true,
+    "ok": true,
+    "warn": 0,
+    "k": 0,
+    "snapped": null,
+    "firstWarn": null,
+    "firstErr": null
+   },
+   {
+    "i": 2,
+    "parse": true,
+    "ok": true,
+    "warn": 0,
+    "k": 1,
+    "snapped": null,
+    "firstWarn": null,
+    "firstErr": null
+   },
+   {
+    "i": 3,
+    "parse": true,
+    "ok": true,
+    "warn": 0,
+    "k": 1,
+    "snapped": null,
+    "firstWarn": null,
+    "firstErr": null
+   },
+   {
+    "i": 4,
+    "parse": true,
+    "ok": true,
+    "warn": 0,
+    "k": 0,
+    "snapped": null,
+    "firstWarn": null,
+    "firstErr": null
+   }
+  ],
+  "_builtinRevalidate": {
+   "checked": 131,
+   "problems": []
+  }
+ },
+ "reject": {
+  "principle-0.5": {
+   "ok": false,
+   "k": null,
+   "decl": null,
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": "physics.kFrame に分数(0.5)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は kF0 版の 0 か DFM 版の 1 の二値で、分数はサンプル限りの例外です)",
+   "sig": null
+  },
+  "principle-0.2": {
+   "ok": false,
+   "k": null,
+   "decl": null,
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": "physics.kFrame に分数(0.2)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は kF0 版の 0 か DFM 版の 1 の二値で、分数はサンプル限りの例外です)",
+   "sig": null
+  },
+  "principle-0.7": {
+   "ok": false,
+   "k": null,
+   "decl": null,
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": "physics.kFrame に分数(0.7)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は kF0 版の 0 か DFM 版の 1 の二値で、分数はサンプル限りの例外です)",
+   "sig": null
+  },
+  "noclass-0.2": {
+   "ok": false,
+   "k": null,
+   "decl": null,
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": "physics.kFrame に分数(0.2)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は kF0 版の 0 か DFM 版の 1 の二値で、分数はサンプル限りの例外です)",
+   "sig": null
+  },
+  "noclass-0.999": {
+   "ok": false,
+   "k": null,
+   "decl": null,
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": "physics.kFrame に分数(0.999)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は kF0 版の 0 か DFM 版の 1 の二値で、分数はサンプル限りの例外です)",
+   "sig": null
+  },
+  "noclass-0.001": {
+   "ok": false,
+   "k": null,
+   "decl": null,
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": "physics.kFrame に分数(0.001)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は kF0 版の 0 か DFM 版の 1 の二値で、分数はサンプル限りの例外です)",
+   "sig": null
+  },
+  "declared-sme-principle": {
+   "ok": true,
+   "k": 0.5,
+   "decl": "space-mesh-effective",
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":0.5,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1,\"kFrameApprox\":\"space-mesh-effective\"},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "declared-sampleonly-principle": {
+   "ok": true,
+   "k": 0.5,
+   "decl": "sample-only",
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":0.5,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1,\"kFrameApprox\":\"sample-only\"},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "declared-bad-principle": {
+   "ok": false,
+   "k": null,
+   "decl": null,
+   "warn": 1,
+   "kFrameWarn": 1,
+   "snapped": null,
+   "err": "physics.kFrame に分数(0.5)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は kF0 版の 0 か DFM 版の 1 の二値で、分数はサンプル限りの例外です)",
+   "sig": null
+  },
+  "calib-plain-0.5": {
+   "ok": false,
+   "k": null,
+   "decl": null,
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": "physics.kFrame に分数(0.5)を書くには physics.kFrameApprox の宣言が必要です(sampleClass:\"calibration\" で使えるのは \"space-mesh-effective\" だけ — 第65報の裁定により kFrame の既定は kF0 版の 0 か DFM 版の 1 の二値で、分数はサンプル限りの例外です)",
+   "sig": null
+  },
+  "calib-sme-0.5": {
+   "ok": true,
+   "k": 0.5,
+   "decl": "space-mesh-effective",
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":0.5,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1,\"kFrameApprox\":\"space-mesh-effective\"},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "calib-sampleonly-0.5": {
+   "ok": false,
+   "k": null,
+   "decl": null,
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": "physics.kFrameApprox:\"sample-only\" は sampleClass:\"calibration\" では使えません(サンプル限りと宣言した分数は現実較正に入れない — 較正で使えるのは \"space-mesh-effective\" だけです)",
+   "sig": null
+  },
+  "calib-0": {
+   "ok": true,
+   "k": 0,
+   "decl": null,
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":0,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "calib-1": {
+   "ok": true,
+   "k": 1,
+   "decl": null,
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":1,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "principle-over-1.5": {
+   "ok": true,
+   "k": 1,
+   "decl": null,
+   "warn": 1,
+   "kFrameWarn": 1,
+   "snapped": null,
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":1,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "principle-nonnum": {
+   "ok": false,
+   "k": null,
+   "decl": null,
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": "physics.kFrame が数値ではありません",
+   "sig": null
+  },
+  "principle-1": {
+   "ok": true,
+   "k": 1,
+   "decl": null,
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":1,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "principle-0": {
+   "ok": true,
+   "k": 0,
+   "decl": null,
+   "warn": 0,
+   "kFrameWarn": 0,
+   "snapped": null,
+   "err": null,
+   "sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":0,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  },
+  "_fewShot": [
+   {
+    "i": 0,
+    "parse": true,
+    "ok": true,
+    "warn": 0,
+    "k": 1,
+    "snapped": null,
+    "firstWarn": null,
+    "firstErr": null
+   },
+   {
+    "i": 1,
+    "parse": true,
+    "ok": true,
+    "warn": 0,
+    "k": 0,
+    "snapped": null,
+    "firstWarn": null,
+    "firstErr": null
+   },
+   {
+    "i": 2,
+    "parse": true,
+    "ok": true,
+    "warn": 0,
+    "k": 1,
+    "snapped": null,
+    "firstWarn": null,
+    "firstErr": null
+   },
+   {
+    "i": 3,
+    "parse": true,
+    "ok": true,
+    "warn": 0,
+    "k": 1,
+    "snapped": null,
+    "firstWarn": null,
+    "firstErr": null
+   },
+   {
+    "i": 4,
+    "parse": true,
+    "ok": true,
+    "warn": 0,
+    "k": 0,
+    "snapped": null,
+    "firstWarn": null,
+    "firstErr": null
+   }
+  ],
+  "_builtinRevalidate": {
+   "checked": 131,
+   "problems": []
+  }
+ },
+ "tally": {
+  "snap": {
+   "accepted": 15,
+   "rejected": 3,
+   "snapped": 7,
+   "cases": 18
+  },
+  "reject": {
+   "accepted": 8,
+   "rejected": 10,
+   "snapped": 0,
+   "cases": 18
+  }
+ },
+ "signature": {
+  "rawFractionSig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":1,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+  "snappedSig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":1,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+  "k1Sig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":1,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+  "declaredSmeSig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":0.5,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1,\"kFrameApprox\":\"space-mesh-effective\"},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+  "declaredSampleOnlySig": "{\"physics\":{\"G\":1,\"D0\":2,\"kFrame\":0.5,\"q\":2,\"kRep\":1,\"muF\":0.5,\"gammaN\":0.4,\"kappaS\":0.05,\"kappaT\":0.016666666666666666,\"cLight\":30,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":0,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":2,\"timeScale\":1,\"dispMag\":1,\"kFrameApprox\":\"sample-only\"},\"bodies\":[{\"type\":\"single\",\"m\":10,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0,\"pinned\":false}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":200},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":false,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}",
+  "snappedEqualsK1": true,
+  "declKeyChangesSig": true,
+  "twoDeclsDiffer": true
+ },
+ "stabilize": {
+  "snap": {
+   "frac": {
+    "ok": true,
+    "k": 0,
+    "decl": null,
+    "keys": [
+     "ok",
+     "preset",
+     "changes",
+     "notes",
+     "diag",
+     "warnings"
+    ],
+    "err": null
+   },
+   "decl": {
+    "ok": true,
+    "k": 0.2,
+    "decl": "sample-only",
+    "keys": [
+     "ok",
+     "preset",
+     "changes",
+     "notes",
+     "diag",
+     "warnings"
+    ],
+    "err": null
+   }
+  },
+  "reject": {
+   "frac": {
+    "ok": false,
+    "k": null,
+    "decl": null,
+    "keys": [
+     "ok",
+     "stage",
+     "errors",
+     "changes",
+     "notes"
+    ],
+    "err": [
+     "physics.kFrame に分数(0.2)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は kF0 版の 0 か DFM 版の 1 の二値で、分数はサンプル限りの例外です)"
+    ]
+   },
+   "decl": {
+    "ok": true,
+    "k": 0.2,
+    "decl": "sample-only",
+    "keys": [
+     "ok",
+     "preset",
+     "changes",
+     "notes",
+     "diag",
+     "warnings"
+    ],
+    "err": null
+   }
+  }
+ },
+ "builtinSig": {
+  "gclock": "fd2bc8d1",
+  "grcal": "5e0209aa",
+  "grcalGps": "dfd5f8dc",
+  "grcalLight": "49de2ff2",
+  "grcalShapiro": "b24b7e1f",
+  "projectile": "57c90994",
+  "echo": "342d92a9",
+  "boxtrans": "1498da25",
+  "boxrot": "73d53c4c",
+  "boxexpand": "1b2efb61",
+  "boxcomoving": "dcaaf134",
+  "boxbound": "a3d837fe",
+  "boxbreath": "ff04e454",
+  "boxredshift": "8ccb8114",
+  "probeH": "a5f39a50",
+  "freebox": "29387169",
+  "cosmicweb": "6c85f257",
+  "galaxy": "a9174738",
+  "galaxyStd": "330d8506",
+  "galaxyGeo2": "71a249bb",
+  "galaxyDB": "aff64781",
+  "darkrotor": "b7698e31",
+  "rotorSolo": "dd441dfb",
+  "nebulaRotor": "e6e33609",
+  "nebulaShell": "40fb7bfc",
+  "nebulaBipolar": "5b233073",
+  "bhCore": "21141de6",
+  "bhCoreTilt": "be90c82f",
+  "massLadder": "15d87275",
+  "collapse": "a5eefaaa",
+  "axisBarStill": "8514dc2e",
+  "axisBarArms": "358725a5",
+  "axisBarReach": "6b4c4863",
+  "selfRotor": "c2aa92e9",
+  "galaxyMeshSpiral": "2e84d59",
+  "galaxyMeshSpiralGeoToy": "af952037",
+  "galaxyMeshSpiralGeoToyLite": "9f910293",
+  "shapeToyCluster": "e0673642",
+  "shapeToyDisk": "97ad6e63",
+  "shapeToyArm": "b1a2bb58",
+  "shapeToyClusterCore": "6c4eb765",
+  "shapeToyDiskCore": "fc9d2d44",
+  "shapeToyArmCore": "6a0c2973",
+  "lensing": "f17d333f",
+  "spinlens": "f32dcfa7",
+  "blens": "4a552d58",
+  "reddening": "d673dfdc",
+  "gas": "7e2393ba",
+  "pressure": "4980d152",
+  "conduction": "723e4e6b",
+  "frictionHeat": "8b94cec8",
+  "coolrace": "51384b01",
+  "convection": "11c1ffed",
+  "buoyancy": "76d44632",
+  "cooling": "d8469000",
+  "emergent": "c930f72a",
+  "emergent2": "e822719d",
+  "chain2": "f53bf831",
+  "chaincycle": "86dbafb7",
+  "earthMoon": "8222aab2",
+  "earthMoonFree": "62b7ce05",
+  "earthMoonReal": "3bac3cf4",
+  "earthMoonRealKF1": "ec6ee31e",
+  "emAuditNewton": "3bac3cf4",
+  "emAuditDFM": "b136ac88",
+  "emAuditSolar": "82a0802a",
+  "qLockRadialAudit": "da401769",
+  "qLockRadialAuditQ3": "e681c83f",
+  "mercury": "9eb88051",
+  "mercuryReal": "3bffc014",
+  "mercuryRealKF1": "f530078c",
+  "solarInner": "2e7724d2",
+  "jupiterGalilean": "738ca9c",
+  "venusReal": "26b941d1",
+  "marsMoonsReal": "e1040a85",
+  "plutoCharonReal": "c482cab0",
+  "uranusReal": "c7ccebb",
+  "neptuneReal": "479f8f06",
+  "alphaCenAB": "8b8c57d3",
+  "alphaCenABDFM": "8bf6c4cc",
+  "siriusAB": "63359204",
+  "siriusABDFM": "b1111485",
+  "psrDoubleAB": "bfceee9a",
+  "psrDoubleABDFM": "7b3f6a36",
+  "psrDoubleABGeoToy": "2f2acd57",
+  "psrDoubleABSpinCal": "6fe76b76",
+  "psrJ1757DFM": "9dd447b2",
+  "psrJ1946DFM": "3bc590f2",
+  "psrDoubleABPN": "c794a498",
+  "psrJ1757PN": "7132210b",
+  "psrJ1946PN": "cc595e3c",
+  "psrDoubleABCF": "8767377",
+  "psrJ1757CF": "12797269",
+  "psrJ1946CF": "f8600f7c",
+  "psrB1534": "f14a9255",
+  "psrB1534DFM": "5888662e",
+  "psrB1534CF": "d1e506a2",
+  "compactForceToy": "f326237e",
+  "boxBinaryToy": "748f4c8d",
+  "spaceMeshBinaryToy": "47bc93c0",
+  "gw150914": "be865ce",
+  "gw150914DFM": "6da88556",
+  "gw150914Merge4s": "4993f601",
+  "gw150914SpinDipole": "2ce453c7",
+  "tuc47": "d67ea783",
+  "tuc47DFM": "570dbd40",
+  "ngc3198": "3c5df9c1",
+  "ngc3198DFM": "1a98b3d3",
+  "supernovaProg": "354ffa49",
+  "supernovaProgDFM": "f0725b70",
+  "crabRemnant": "6cee0fb6",
+  "saturn": "da6f5cab",
+  "saturnLayered": "923ffdc6",
+  "saturnZonalD68": "5be8b841",
+  "saturnRingReal": "28e3d97e",
+  "saturnRingRealKF1": "ccd6e7ac",
+  "binary": "21edaa76",
+  "fig8": "1b4baf87",
+  "counterring": "90163849",
+  "spinup": "9698a9ed",
+  "pulsarSolo": "cb963515",
+  "supernovaCore": "d7ce45a3",
+  "whiteDwarfDFM": "a32a26b6",
+  "whiteDwarfBareDFM": "e0ccef32",
+  "envelopeShedDFM": "4508b431",
+  "lfbotTrap": "2a39745",
+  "layeredCoreDFM": "52601cc",
+  "spinDipoleBinary": "9fd3d4d7",
+  "gasCohSurface": "aa779d2f",
+  "mmPhaseToy": "34af832",
+  "starSeed": "12a2fb3a"
+ },
+ "pageErrors": []
+}

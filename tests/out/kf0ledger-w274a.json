@@ -3,32 +3,32 @@
   "provenanceVersion": "w272e-1",
   "wave": "第274便a(第64報・kF0 棚卸し便)",
   "target": "beta/index.html",
-  "targetSha256": "8b65f1d6996837964d7e5cca418600fa10a7e674a6803d0a72346e4456440e75",
-  "generatedAt": "2026-09-20T07:47:42.860Z",
+  "targetSha256": "536fa19848ecfc023f6545279f93800df1f49eeaf4b23292fc1b8748dcbc4890",
+  "generatedAt": "2026-09-21T00:00:51.617Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2785467,
-    "sha256": "feeaa951ea1f7fe0e7e641a1f0330f7817b2362e9eb9303124f64067407d0a65",
-    "mtime": "2026-09-20T07:08:12.231Z"
+    "bytes": 2785470,
+    "sha256": "abbf8d0290d81127817e6f2b88962ba2bd032534b68801de5530c57a88fa18a8",
+    "mtime": "2026-09-20T22:15:05.919Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
-    "bytes": 121034,
-    "sha256": "6c8c8af5224d69e9d6f0126fb89e754a4f7fa6e50adfbe29fe5785cb4592cadb",
-    "mtime": "2026-09-20T07:34:22.687Z"
+    "bytes": 293364,
+    "sha256": "ddad7457a2d6c8a5349f7bf27b50ef38bca45fac0ff5a7642263fdb213273e07",
+    "mtime": "2026-09-20T23:35:57.027Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
-    "bytes": 13514,
-    "sha256": "23b5ae213ef3364c502693bb878b94e307d0ab4a3326de0c8899887edefbc143",
-    "mtime": "2026-09-20T06:10:12.791Z"
+    "bytes": 13500,
+    "sha256": "e4c1f4595fc83c9f37ad95360629c29e42261783eae2f74aa1a905ad6dc649dd",
+    "mtime": "2026-09-20T21:30:29.991Z"
    },
    {
     "file": "tests/out/galaxydiag-w271d.json",
     "bytes": 223281,
-    "sha256": "29e8014302d76d0d83a132bd75f2d3fd576c1c840282e73f44fcb54a58c54f9e",
-    "mtime": "2026-09-20T05:58:20.627Z"
+    "sha256": "19ba6fc32ad308a34640a3ad8e2a26841c88294652764e2bc36382f4df4b62f1",
+    "mtime": "2026-09-20T21:21:49.323Z"
    },
    {
     "file": "tests/out/kf0-w259d.json",
@@ -3408,8 +3408,8 @@
      "lambdaPN": 1,
      "keepCore": false
     },
-    "ratioExt": 1.0000000429374407,
-    "nSigma": 0.05581643701081983,
+    "ratioExt": 1.0439299840750575,
+    "nSigma": 57106.69155917331,
     "why": "比が 1 になる (f, k) の根。**0<k<1 の中間状態**であり、AH1 の近似の側に落ちる。"
    },
    "label": null,
@@ -3523,8 +3523,8 @@
      "lambdaPN": 1,
      "keepCore": false
     },
-    "ratioExt": 1.0000001640987513,
-    "nSigma": 0.008504499833250634,
+    "ratioExt": 1.3364442000753525,
+    "nSigma": 17436.388891005183,
     "why": "比が 1 になる (f, k) の根。**0<k<1 の中間状態**であり、AH1 の近似の側に落ちる。"
    },
    "label": null,
@@ -3638,8 +3638,8 @@
      "lambdaPN": 1,
      "keepCore": false
     },
-    "ratioExt": 0.9999977680818725,
-    "nSigma": -0.14391435985139367,
+    "ratioExt": 0.9248816215799509,
+    "nSigma": -4843.64243032207,
     "why": "比が 1 になる (f, k) の根。**0<k<1 の中間状態**であり、AH1 の近似の側に落ちる。"
    },
    "label": null,
@@ -3753,8 +3753,8 @@
      "lambdaPN": 1,
      "keepCore": false
     },
-    "ratioExt": 0.9999999746485143,
-    "nSigma": -0.004945762194847387,
+    "ratioExt": 1.8216054619176618,
+    "nSigma": 160285.0924861055,
     "why": "比が 1 になる (f, k) の根。**0<k<1 の中間状態**であり、AH1 の近似の側に落ちる。"
    },
    "label": null,
@@ -4089,7 +4089,7 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "8e94160f2525e20807811461658c4e9be988a109e65c75b98beda6da5847bf29",
+   "fileSha256": "6c60b61ea5237a777d66b04aa195bf132ce6822b3f12312f97bde59ce3a65832",
    "citedValue": 551864.0613632939,
    "citedCfg": {
     "kFrame": 0,
@@ -4097,7 +4097,7 @@
     "geoPN": 2,
     "softening": 0.05
    },
-   "citedTargetSha256": "c2d5fb49433372a393797e6dfc64d133cdaf3cea95c1821e613c0e904abca555",
+   "citedTargetSha256": "b5ab289b00095b01696a3ea8e4993b81a2db8ac9b07259beaaefc36ae4ba4695",
    "thisRunValue": 551864.0613632939,
    "relDiff": 0,
    "identical": true,

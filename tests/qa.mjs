@@ -1920,7 +1920,24 @@ const add = (id, pass, detail) => {
       // 第274便d(第64報): 形状トイ(指定した 3D 正規分布を定常分布に持つ参照モデル)の完成判定
       'tests/out/shapetoy-w274d.json',
       // 第274便a(第64報): kF0 棚卸し表の正本(較正 37 本 + 診断系列の 4 列)
-      'tests/out/kf0ledger-w274a.json'];
+      'tests/out/kf0ledger-w274a.json',
+      // 第275便a(第65報): ① 対照の軸(k を除く 5 成分 — R33 の処置 P1)、
+      //   ② kF0 棚卸し表の改版(5 列 — R33 の処置 P2)、③ kFrame 二値の既定契約の 2 案の実測
+      'tests/out/presetaxes-w275a.json', 'tests/out/kf0ledger-w275a.json',
+      'tests/out/kfgate-w275a.json',
+      // 第275便c(第65報 (3)): 銀河トイの**回数の会計**(sqrt/pow/push を数えた実測)と
+      //   準備済み経路の前後の ms/步(Chromium の同一ページ A/B + node の純関数の写し)
+      'tests/out/galaxyprof2-w275c.json',
+      // 第275便e(第65報 (8)): パワーボール効果の閉じた node 模型(**エンジン未接続**)——
+      //   html を走らせない器なので target は器が読む正本ファイル(lib 自身)である
+      'tests/out/powerball-w275e.json',
+      // 第275便b(第65報 (2)): D₀ の単位監査・規則適用表・源分割不変性 / 複素場の D₀ 非依存版 /
+      //   ❄️ の D₀ 系列(**第272便b の正本 charon-w272b.json は 1 バイトも触っていない**)
+      'tests/out/d0audit-w275b.json', 'tests/out/meshnod0-w275b.json',
+      'tests/out/charond0-w275b.json',
+      // 第275便d(第65報 (4)(5)(6)): 形状トイの安定・低分散・銀河らしさの判定(target=beta/index.html)と、
+      // **動的中心の診断**(target=lib 自身 —— html を読まない node 模型・エンジン未接続)
+      'tests/out/shapecrit-w275d.json', 'tests/out/dyncenter-w275d.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -5878,6 +5895,93 @@ const add = (id, pass, detail) => {
       + ` —— **宣言専用で力学には 1 bit も効かない**ことを同じ步数の突き合わせで実測した)/ `
       + `**判定はしていない**(「合/否」「新発見」は書かない —— 次数が立ち・残差が観測 σ の 3 倍に入り・`
       + `**独立な観測量を予測できた**ときにだけ結論の語を使う)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 0a3z3) 第275便b(原仮定者の裁定〔第65報〕(2)): docs.d0audit-sync ----
+// ----   **D₀ の単位監査・規則適用表・源分割不変性**の正本 JSON と、docs/PHYSICS.md〔第275便b〕節を
+// ----   突き合わせる。裁定は「**D₀ は『何を背景とするか』でサンプル毎に変わる**/
+// ----   **D₀ の補正は冥王星とカロンで検証する**/**D₀ は複素決定力場(距離の二乗に反比例)では使わない**」。
+// ----   固定するのは 8 点で、**どれも合否ではない**:
+// ----     ① `meta.targetSha256` が**いま検査している html の SHA-256**と一致する。
+// ----     ② 較正 37 本 + 🪁🎋 の **39 行**がそろい、規則の内訳が JSON の集計と一致する。
+// ----     ③ **仮定がすべて出典つきで列挙されている**(質量・距離・銀河の参考値 —— 推定で埋めない)。
+// ----     ④ **源分割不変性**が ε=0 で厳密(相対残差 ≤4e-16)であり、ε>0 のずれが `epsGap` に出ている。
+// ----     ⑤ 🌇 の短窓走行に **kF0/kF1 × D₀ 4 点**がそろい、**V0 が判定器の正本と一致**する(独立照合)。
+// ----     ⑥ **D₀ の値は 1 本も変えていない**(監査の `D0` 欄が内蔵の宣言値と同じ)。
+// ----     ⑦ 書かない語(`meta.notClaim`)が宣言されていて、JSON 本文にその語が出てこない。
+// ----     ⑧ docs/PHYSICS.md に〔第275便b〕節があり、節に出る主要な数が正本と一致する。
+// ----   **beta 線の走行なので root は SKIP** する。
+{
+  const bad = [];
+  const cases = [];
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.d0audit-sync(beta 対象でない: ' + TARGET + ' — 監査は beta 線の実測)');
+  } else {
+    try {
+      const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'd0audit-w275b.json'), 'utf8');
+      const J = JSON.parse(text);
+      const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(別ソースの走行)');
+      else cases.push('html の SHA-256 一致');
+      const rows = J.audit || [], S = J.auditSummary || {};
+      if (rows.length !== 39) bad.push(`② 監査の行数が 39(較正 37 + 🪁🎋)でない(${rows.length})`);
+      const byRule = rows.reduce((o, a) => { const k = a.rule || 'undetermined'; o[k] = (o[k] || 0) + 1; return o; }, {});
+      if (JSON.stringify(byRule) !== JSON.stringify(S.byRule))
+        bad.push('② 規則の内訳が集計と一致しない');
+      cases.push(`39 行・規則の内訳 ${JSON.stringify(byRule)}`);
+      const asm = J.meta.assumptions || [];
+      if (!asm.length) bad.push('③ 仮定の一覧が無い');
+      for (const a of asm) if (!a.from) bad.push(`③ 仮定 ${a.key} に出典が無い`);
+      cases.push(`仮定 ${asm.length} 件(すべて出典つき)`);
+      const si = J.splitInvariance || {};
+      if (!(si.atEpsZero && si.atEpsZero.maxRelResid <= 4e-16))
+        bad.push(`④ 源分割不変性が ε=0 で厳密でない(${si.atEpsZero && si.atEpsZero.maxRelResid})`);
+      if (!(si.withSoftening && si.withSoftening.rows || []).length)
+        bad.push('④ ε>0 の分割の行が無い');
+      cases.push(`源分割不変性 ε=0 の最大相対残差 ${si.atEpsZero ? si.atEpsZero.maxRelResid : '—'}`);
+      const runIds = Object.keys(J.runs || {});
+      if (runIds.length !== 8) bad.push(`⑤ 短窓走行が 8 列(kF0/kF1 × 4 点)でない(${runIds.length})`);
+      const xc = J.meta.independentCheck || null;
+      if (!xc) bad.push('⑤ 判定器の正本との独立照合が無い');
+      else {
+        for (const k of ['kF1', 'kF0']) {
+          const z = xc[k];
+          if (!z) { bad.push(`⑤ 独立照合 ${k} が無い`); continue; }
+          if (z.bitSame !== true) bad.push(`⑤ ${k} が判定器の正本と一致しない(差 ${z.absDiff})`);
+        }
+        if (!bad.some((b) => b.startsWith('⑤'))) cases.push('V0 の 2 列が判定器の正本とビット一致');
+      }
+      // ⑥ **D₀ の値は 1 本も変えていない**(監査の欄が内蔵の宣言値と同じ)
+      const nD0 = rows.filter((a) => Number.isFinite(a.D0)).length;
+      if (nD0 !== rows.length) bad.push('⑥ D₀ を読めていない行がある');
+      const declared = (S.declaredD0Source || []);
+      if (declared.length !== 0)
+        bad.push(`⑥ 内蔵が physics.D0Source を宣言している(${declared.join(',')}) —— 本便は宣言を足していない`);
+      cases.push(`D₀ 欄 ${nD0}/${rows.length}・内蔵の D0Source 宣言 ${declared.length} 本`);
+      const nc = J.meta.notClaim || [];
+      if (!nc.length) bad.push('⑦ meta.notClaim が無い');
+      for (const w of ['新発見', 'D₀ を較正した'])
+        if (text.indexOf(w) >= 0 && nc.every((z) => z.indexOf(w) < 0)) bad.push(`⑦ JSON 本文に「${w}」が出ている`);
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      if (P.indexOf('〔第275便b') < 0) bad.push('⑧ PHYSICS に〔第275便b〕節が無い');
+      else {
+        // 節に出る主要な数(規則の内訳と行数)が正本と一致するか
+        const sec = P.slice(P.indexOf('〔第275便b'), P.indexOf('〔第275便b') + 40000);
+        if (sec.indexOf('39') < 0) bad.push('⑧ PHYSICS〔第275便b〕に監査の行数 39 が無い');
+        for (const [k, n] of Object.entries(byRule))
+          if (sec.indexOf(String(n)) < 0) bad.push(`⑧ PHYSICS〔第275便b〕に ${k} の本数 ${n} が無い`);
+      }
+      cases.push('PHYSICS〔第275便b〕と一致');
+    } catch (e) { bad.push('監査の JSON が読めない: ' + String(e).slice(0, 90)); }
+    add('docs.d0audit-sync', bad.length === 0,
+      `**D₀ の背景の定義・単位監査・規則適用表・源分割不変性**(第275便b・原仮定者の裁定〔第65報〕(2)`
+      + `「D₀ は『何を背景とするか』でサンプル毎に変わる」): ${cases.join(' / ')} —— `
+      + `D_bg(x*) = Σ_{j∉分解集合} m_j/(r_j²+ε²)^(p/2) は **p=1 で M/L・p=2 で M/L²**なので、`
+      + `**同じ 1 つの数を share(p=1)と pull(p=2)の両方には使えない**(エンジンが \`D0\` と \`D0pull\` を`
+      + `別鍵で持っているのと同じ理由)。**規則の値はすべて仮定つき**(質量・距離・銀河の参考値を`
+      + `JSON に出典つきで並べてある)であって観測入力ではない。**内蔵 128 本の D₀ の値は 1 本も変えていない**`
+      + `/ **判定はしていない**(「D₀ を較正した」「規則値が正しい」「新発見」は書かない)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
@@ -20480,7 +20584,11 @@ if (!FAST) {
           HP.dfmLocalMeshField([{ m: 1, x: 0, y: 0 }], NaN, 0, { R: 1 }),
           HP.dfmLocalMeshField([{ m: 1, x: 0, y: 0 }], 900, 0, { R: 100, D0: 0 })].every((z) => z === null) };
       // ⑨ **η_eff = kFrame × η**(剛体回転の箱・χ=1)。kFrame=0.5・η=1 は kFrame=1・η=0.5 と同じ (1−0.5)² へ乗る
-      const kHalf = spin({ inertia: 'coordinate' }, { kFrame: 0.5 }, 0.005);
+      // 第275便a(第65報 (1)): 宣言鍵の無い分数 kFrame は既定で {0,1} へ丸められるので、診断コピーは
+      //   `kFrameApprox` を宣言して 0.5 のまま受理させる(旧世代は鍵が無いので従来どおり)
+      const kHalfPh = (typeof KFRAME_UNDECLARED_MODES !== 'undefined')
+        ? { kFrame: 0.5, kFrameApprox: 'space-mesh-effective' } : { kFrame: 0.5 };
+      const kHalf = spin({ inertia: 'coordinate' }, kHalfPh, 0.005);
       const eHalf = spin({ inertia: 'coordinate', inertiaGain: 0.5 }, null, 0.005);
       const kZero = spin({ inertia: 'coordinate' }, { kFrame: 0 }, 0.005);
       R.etaEff = { kHalf: kHalf.resid / kHalf.ref, eHalf: eHalf.resid / eHalf.ref,
@@ -22342,6 +22450,105 @@ if (!FAST) {
       + `・NaN=${lt.run.nan}=${g5} / ⑥ band-pressure は未宣言=${g6}`);
   } else {
     console.log('SKIP preset.galaxyLite(対象に第274便c の 🎋 galaxyMeshSpiralGeoToyLite なし — root 等)');
+  }
+}
+
+// ---- 第275便c(第65報 (3)「なぜ重いか分析して改善」): perf.geoToyPrepared ----
+//   `dfmGeoScalarPrepared` は **geoPN=3 スカラートイの私的な高速経路**である(無順序対の幾何を
+//   1 度だけ払い、源ごとの入口検証を步 1 回にし、`dfmField` の源配列を作らない)。**物理は 1 bit も
+//   変えない**ことが入場の条件なので、機械固定するのは 5 点:
+//     ① **門が効く**: 🪁 と 🎋(lawVersion:"scalar")は `S.geoToyPrepared===true`・
+//        📻GeoToy(lawVersion:"local")と `toyClosure:"iterate"` の変種は **false**(旧経路へ戻る)。
+//     ② **ビット同一**: 同じページ・同じ初期条件から 600 步を `HP.setGeoPrepEnabled(true/false)` で
+//        2 度走らせ、x/y/vx/vy/m/t と**帳簿 4 本**の指紋が**完全一致**すること(🪁 と 🎋)。
+//     ③ **零スピンの門の前提がソースに残っている**: トイの源配列 BD が `omega:0, omegaDot:0` を
+//        **無条件に**宣言していること(将来スピンが入ったら門を作り直す —— ω を落としたまま
+//        速くしてはならない)。`HP.geoPrepInfo().sourceSpin===0` も併せて見る。
+//     ④ **切替は署名にも params にも入らない**: presetSig が on/off で 1 文字も変わらず、
+//        `S.params` に geoPrep 系の鍵が 1 つも無いこと。
+//     ⑤ **帳簿は両経路で厳密に閉じる**(|E_toy+E_mesh|=0・|P_toy+P_mesh|=0)。
+//   **速さの合否は出さない**(ms は器 `tests/exp-w275c-galaxyprof2.mjs` が測る —— QA は「同じ物理か」
+//   だけを見る)。準備済み経路の無い対象(root 等)は SKIP。
+{
+  const hasPrep = await page.evaluate(() => !!(window.HP && typeof HP.geoPrepInfo === 'function'
+    && typeof HP.setGeoPrepEnabled === 'function'));
+  if (hasPrep) {
+    const gp = await page.evaluate(() => {
+      const S = HP.sim;
+      const mk = (id, patch) => { const P = HP.allPresets().find((z) => z.id === id);
+        if (!P) return null;
+        const q = JSON.parse(JSON.stringify(P));
+        if (patch) q.physics = Object.assign({}, q.physics, patch);
+        const v = HP.validatePreset(q);
+        return v.ok ? v.preset : null; };
+      const hash = (T) => { let a = 0x811c9dc5;
+        const buf = new ArrayBuffer(8), f = new Float64Array(buf), u = new Uint8Array(buf);
+        const push = (v) => { f[0] = v; for (let b = 0; b < 8; b++) { a ^= u[b]; a = Math.imul(a, 0x01000193) >>> 0; } };
+        for (const k of ['x', 'y', 'vx', 'vy', 'm']) { const Ar = T[k]; if (!Ar) continue;
+          for (let i = 0; i < T.n; i++) push(Ar[i]); }
+        push(T.t); push(T.geoToyE); push(T.geoToyPx); push(T.geoToyPy); push(T.geoToyL);
+        return a.toString(16); };
+      const run = (pr, on, steps) => { HP.setGeoPrepEnabled(on); S.build(pr);
+        for (let i = 0; i < steps; i++) S.step(0.016);
+        return { h: hash(S), prepared: S.geoToyPrepared === true, stop: S.geoToyStop,
+          N: S.geoToyN, n: S.n, nan: S.hasNaN(),
+          ledgerE: Math.abs(S.geoToyE + S.geoToyEmesh),
+          ledgerP: Math.hypot(S.geoToyPx + S.geoToyMeshPx, S.geoToyPy + S.geoToyMeshPy),
+          paramKeys: Object.keys(S.params).filter((k) => /geoPrep|prepared/i.test(k)) }; };
+      const rows = {}, gate = {};
+      for (const id of ['galaxyMeshSpiralGeoToy', 'galaxyMeshSpiralGeoToyLite']) {
+        const pr = mk(id, null); if (!pr) { rows[id] = null; continue; }
+        const on = run(pr, true, 600), off = run(pr, false, 600);
+        rows[id] = { same: on.h === off.h, on, off };
+      }
+      // ① 門が外れる 2 例(local 法則・閉包 iterate)
+      const loc = mk('psrDoubleABGeoToy', null);
+      if (loc) { const r = run(loc, true, 20); gate.local = { prepared: r.prepared, stop: r.stop }; }
+      const kite = HP.allPresets().find((z) => z.id === 'galaxyMeshSpiralGeoToy');
+      if (kite) {
+        const q = JSON.parse(JSON.stringify(kite));
+        q.physics.spaceMesh = Object.assign({}, q.physics.spaceMesh,
+          { toyClosure: 'iterate', toyClosureIters: 2 });
+        const v = HP.validatePreset(q);
+        if (v.ok) { const r = run(v.preset, true, 5); gate.iterate = { prepared: r.prepared, stop: r.stop }; }
+        else gate.iterate = { rejected: (v.errors || []).slice(0, 2) };
+      }
+      // ④ presetSig が切替で動かない
+      const P = HP.allPresets().find((z) => z.id === 'galaxyMeshSpiralGeoToy');
+      HP.setGeoPrepEnabled(true); const sigOn = P ? presetSig(P) : null;
+      HP.setGeoPrepEnabled(false); const sigOff = P ? presetSig(P) : null;
+      HP.setGeoPrepEnabled(true);
+      return { rows, gate, sigSame: sigOn === sigOff, sigLen: sigOn ? sigOn.length : null,
+        info: HP.geoPrepInfo(), enabledAfter: HP.geoPrepInfo().enabled };
+    });
+    const htmlPrep = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+    const spinDecl = /omega:0,\s*omegaDot:0,\s*R:null,\s*Rdot:null/.test(htmlPrep);
+    const gateDecl = /GEO_PREP_SOURCE_SPIN!==0\)\s*return false;/.test(htmlPrep);
+    const kR = gp.rows.galaxyMeshSpiralGeoToy, lR = gp.rows.galaxyMeshSpiralGeoToyLite;
+    const p1 = !!kR && kR.on.prepared === true && !!lR && lR.on.prepared === true
+      && kR.off.prepared === false && lR.off.prepared === false
+      && !!gp.gate.local && gp.gate.local.prepared === false
+      && !!gp.gate.iterate && gp.gate.iterate.prepared === false;
+    const p2 = !!kR && kR.same && !!lR && lR.same;
+    const p3 = spinDecl && gateDecl && gp.info.sourceSpin === 0;
+    const p4 = gp.sigSame && !!kR && kR.on.paramKeys.length === 0 && gp.enabledAfter === true;
+    const p5 = !!kR && kR.on.ledgerE === 0 && kR.on.ledgerP === 0 && kR.off.ledgerE === 0
+      && kR.off.ledgerP === 0 && !kR.on.nan && !!lR && lR.on.ledgerE === 0 && lR.on.ledgerP === 0;
+    add('perf.geoToyPrepared', p1 && p2 && p3 && p4 && p5,
+      `① 門: 🪁 prepared=${kR && kR.on.prepared}・🎋 ${lR && lR.on.prepared}・`
+      + `切替 off で ${kR && kR.off.prepared}/${lR && lR.off.prepared}・`
+      + `lawVersion:"local" は ${gp.gate.local && gp.gate.local.prepared}・`
+      + `toyClosure:"iterate" は ${gp.gate.iterate && gp.gate.iterate.prepared}=${p1} / `
+      + `② **600 步 ビット同一**: 🪁 ${kR && kR.on.h}=${kR && kR.off.h}(${kR && kR.same})・`
+      + `🎋 ${lR && lR.on.h}=${lR && lR.off.h}(${lR && lR.same})=${p2} / `
+      + `③ 源 BD の ω・ω̇ 宣言=${spinDecl}・門の分岐=${gateDecl}・sourceSpin=${gp.info.sourceSpin}=${p3} / `
+      + `④ presetSig が切替で不変=${gp.sigSame}(${gp.sigLen} 字)・S.params に geoPrep 鍵 `
+      + `${kR && kR.on.paramKeys.length} 個・既定は enabled=${gp.enabledAfter}=${p4} / `
+      + `⑤ 帳簿: |E_toy+E_mesh|=${kR && kR.on.ledgerE}/${kR && kR.off.ledgerE}・`
+      + `|P|=${kR && kR.on.ledgerP}/${kR && kR.off.ledgerP}・NaN=${kR && kR.on.nan}=${p5}`
+      + ` / **速さの合否は出さない**(ms は器 tests/exp-w275c-galaxyprof2.mjs)`);
+  } else {
+    console.log('SKIP perf.geoToyPrepared(対象に第275便c の準備済み経路なし — root 等)');
   }
 }
 // ---- 第263便b(第55報・統括が設定した検証仮説 (7)): ui.geoToySaveNote ----
@@ -29351,6 +29558,96 @@ if (!FAST) {
   }
 }
 
+// ---- 第275便f(原仮定者の裁定(第65報)(9)): ui.panelExpand — 縦画面のタブパネルを広げる/狭くする ----
+// 縦画面(390×844)でタブを開くと #btnPanelExpand が出る。押すとパネルの max-height が
+// 「画面高 −(ヘッダー+操作列+タブ)」へ伸び、狭い状態(clamp(150px, 50dvh-160px, 50dvh))との
+// 差が付く。広げてもヘッダーの矩形は 1px も動かない(#app.panelWide が #canvasWrap の
+// min-height:120px を外すので、flex の合計が画面高を超えない)。閉じるは両状態で効き、
+// 広い/狭いは localStorage hp_panel_wide に残る。横画面2カラムではボタンを出さない。
+// 世代判定は #btnPanelExpand の有無 —— ルート版(第275便f 未適用)は SKIP。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (/id="btnPanelExpand"/.test(html)) {
+    const ctxP = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const pp = await ctxP.newPage();
+    const perrs = [];
+    pp.on('pageerror', (e) => perrs.push(String(e.message || e)));
+    await pp.goto(INDEX, { waitUntil: 'load' });
+    await pp.evaluate(() => { try { localStorage.removeItem('hp_panel_wide'); } catch (_) {} });
+    await pp.reload({ waitUntil: 'load' });
+    await pp.waitForFunction(() => !!window.HP);
+    const r = await pp.evaluate(async () => {
+      const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+      const snap = () => {
+        const g = (s) => { const e = document.querySelector(s); const b = e.getBoundingClientRect();
+          return { top: +b.top.toFixed(1), bottom: +b.bottom.toFixed(1), h: +b.height.toFixed(1) }; };
+        const panel = document.getElementById('panel');
+        const be = document.getElementById('btnPanelExpand');
+        return { header: g('header'), transport: g('#transport'), tabs: g('nav#tabs'),
+          canvas: g('#canvasWrap'), panel: g('#panel'),
+          maxH: parseFloat(getComputedStyle(panel).maxHeight),
+          open: panel.classList.contains('open'), wide: panel.classList.contains('wide'),
+          appWide: document.getElementById('app').classList.contains('panelWide'),
+          label: be.textContent, pressed: be.getAttribute('aria-pressed'),
+          display: getComputedStyle(be).display };
+      };
+      const o = {};
+      document.querySelector('nav#tabs button[data-tab="params"]').click();
+      await wait(120); o.narrow = snap();
+      document.getElementById('btnPanelExpand').click();
+      await wait(120); o.wide = snap();
+      const ls = () => { try { return localStorage.getItem('hp_panel_wide'); } catch (_) { return 'ERR'; } };
+      o.lsWide = ls();
+      document.getElementById('btnPanelClose').click();   // 閉じるは広い状態でも効く
+      await wait(120); o.closed = snap();
+      document.querySelector('nav#tabs button[data-tab="params"]').click();
+      await wait(120); o.reopened = snap();               // 状態は保持される
+      document.getElementById('btnPanelExpand').click();
+      await wait(120); o.shrunk = snap(); o.lsNarrow = ls();
+      // 英語ラベル(広い状態の「狭くする」)
+      document.getElementById('btnPanelExpand').click(); await wait(60);
+      HP.setLang('en'); o.enWide = document.getElementById('btnPanelExpand').textContent;
+      document.getElementById('btnPanelExpand').click(); await wait(60);
+      o.enNarrow = document.getElementById('btnPanelExpand').textContent;
+      HP.setLang('ja');
+      return o;
+    });
+    // 横画面2カラムでは出さない(縦画面限定の機能)
+    await pp.setViewportSize({ width: 1280, height: 800 });
+    const land = await pp.evaluate(() =>
+      getComputedStyle(document.getElementById('btnPanelExpand')).display);
+    await ctxP.close();
+    const reserve = r.narrow.header.h + r.narrow.transport.h + r.narrow.tabs.h;
+    const wantWide = 844 - reserve;                       // 画面高 −(ヘッダー+操作列+タブ)
+    const ok = {
+      shown: r.narrow.display !== 'none',
+      grew: r.wide.maxH - r.narrow.maxH > 100 && Math.abs(r.wide.maxH - wantWide) < 1,
+      canvasCollapsed: r.wide.canvas.h < 1 && r.narrow.canvas.h > 300,
+      headerIntact: r.wide.header.top === r.narrow.header.top
+        && r.wide.header.h === r.narrow.header.h && r.wide.header.bottom <= 844,
+      label: r.narrow.label.includes('広げる') && r.wide.label.includes('狭くする')
+        && r.narrow.pressed === 'false' && r.wide.pressed === 'true',
+      en: /Expand/.test(r.enNarrow) && /Shrink/.test(r.enWide),
+      closeWorks: r.closed.open === false && r.closed.canvas.h > 300,
+      keptOnReopen: r.reopened.open === true && r.reopened.wide === true,
+      shrinkBack: r.shrunk.wide === false && Math.abs(r.shrunk.maxH - r.narrow.maxH) < 0.5,
+      persisted: r.lsWide === '1' && r.lsNarrow === '0',
+      landscapeHidden: land === 'none',
+      noErr: perrs.length === 0,
+    };
+    add('ui.panelExpand', Object.values(ok).every(Boolean),
+      `390×844: 控除=${reserve}px(header ${r.narrow.header.h}+操作列 ${r.narrow.transport.h}+タブ ${r.narrow.tabs.h}) ` +
+      `max-height 狭 ${r.narrow.maxH}px → 広 ${r.wide.maxH}px(期待 ${wantWide}) / ` +
+      `キャンバス ${r.narrow.canvas.h}→${r.wide.canvas.h}px / ヘッダー ${r.wide.header.top}..${r.wide.header.bottom}(不動=${ok.headerIntact}) / ` +
+      `ラベル ${r.narrow.label}⇄${r.wide.label}(en ${r.enNarrow}⇄${r.enWide}) / ` +
+      `広い状態で閉じる=${ok.closeWorks}・開き直して広いまま=${ok.keptOnReopen}・狭くする復帰=${ok.shrinkBack}・` +
+      `hp_panel_wide=${r.lsWide}/${r.lsNarrow}(広/狭) / 横画面(1280×800)で非表示=${ok.landscapeHidden} / JSエラー=${perrs.length}` +
+      (Object.values(ok).every(Boolean) ? '' : ' / NG: ' + Object.keys(ok).filter((k) => !ok[k]).join(',')));
+  } else {
+    console.log('SKIP ui.panelExpand(対象に第275便f の #btnPanelExpand なし — root 等)');
+  }
+}
+
 // ---- 第22便: 観測温度・光掻き出し・半径系(スピン役割分離は原仮定者裁定で廃止)----
 // 対象が観測温度系を持つときだけ実行(判定子は第85便で `HP.sim.obsT` → `HP.obsTemp + lSw` へ置換
 // — 旧判定子は第61便の obsT 廃止以降ずっと恒常 false で、この区画は休眠していた)。較正実測は 2026-07-24 第22便:
@@ -29879,6 +30176,108 @@ if (!FAST) {
         // **決断事項の実測**: 宣言鍵が presetSig に入るか(宣言の有無で署名が変わるか)
         res.kfSigDiff = presetSig(mk({ kFrame: 0.5 }, 'principle'))
           !== presetSig(mk({ kFrame: 0.5, kFrameApprox: DEC }, 'principle'));
+        // ---- 第275便a(原仮定者の裁定〔第65報〕(1)): **kFrame 二値の既定契約**(第2層を全クラスへ)
+        //   「kFrame の分数補正はサンプル限りで予測に使えない → 例外を除き kFrame は 0 か 1」。
+        //   例外は宣言鍵だけ。挙動は 2 案を実装してある(既定=案B snap / 案A reject)ので、
+        //   **同じ html で両案を切り替えて測る**(`bodyedit.minimize` の案A/案B と同じ流儀)。
+        res.kfBinGen = (typeof KFRAME_UNDECLARED_MODES !== 'undefined')
+          && !!(window.HP && HP.kFrameUndeclaredMode);
+        if (res.kfBinGen) {
+          const ONLY = 'sample-only';
+          const modeWas = HP.kFrameUndeclaredMode();
+          const probe = (phy, cls) => {
+            const v = HP.validatePreset(mk(phy, cls));
+            return { ok: v.ok, k: v.ok ? v.preset.physics.kFrame : null,
+              decl: v.ok ? (v.preset.physics.kFrameApprox === undefined ? null : v.preset.physics.kFrameApprox) : null,
+              warn: v.warnings.length,
+              kWarn: v.warnings.filter((w) => String(w).indexOf('kFrame') >= 0).length,
+              snapped: v.kFrameSnapped ? { from: v.kFrameSnapped.from, to: v.kFrameSnapped.to } : null };
+          };
+          const scan = (mode) => {
+            HP.kFrameUndeclaredMode(mode);
+            const o = { mode: HP.kFrameUndeclaredMode(),
+              lo: probe({ kFrame: 0.4 }, 'principle'), hi: probe({ kFrame: 0.6 }, 'principle'),
+              half: probe({ kFrame: 0.5 }, 'principle'), noClass: probe({ kFrame: 0.2 }, null),
+              declSme: probe({ kFrame: 0.5, kFrameApprox: DEC }, 'principle'),
+              declOnly: probe({ kFrame: 0.5, kFrameApprox: ONLY }, 'principle'),
+              calPlain: probe({ kFrame: 0.5 }, 'calibration'),
+              calSme: probe({ kFrame: 0.5, kFrameApprox: DEC }, 'calibration'),
+              calOnly: probe({ kFrame: 0.5, kFrameApprox: ONLY }, 'calibration'),
+              k0: probe({ kFrame: 0 }, 'principle'), k1: probe({ kFrame: 1 }, 'principle') };
+            // **内蔵は既定経路でこの門に 1 本も当たらない**(丸めも警告も 0 件であること)
+            o.builtinHit = bis.filter((q) => {
+              const v = HP.validatePreset(JSON.parse(JSON.stringify(q)));
+              return !v.ok || !!v.kFrameSnapped;
+            }).map((q) => q.id);
+            return o;
+          };
+          res.kfBin = { snap: scan('snap'), reject: scan('reject'), modeWas };
+          HP.kFrameUndeclaredMode(modeWas);
+          res.kfBinMode = HP.kFrameUndeclaredMode();
+          res.kfBinApproxes = HP.KFRAME_APPROXES ? HP.KFRAME_APPROXES() : null;
+          res.kfBinApproxesCal = HP.KFRAME_APPROXES_CALIBRATION ? HP.KFRAME_APPROXES_CALIBRATION() : null;
+          // 2 つの宣言値は別のプリセットである(署名が違う)
+          res.kfBinDeclSig = presetSig(mk({ kFrame: 0.5, kFrameApprox: DEC }, 'principle'))
+            !== presetSig(mk({ kFrame: 0.5, kFrameApprox: ONLY }, 'principle'));
+        }
+        // ②′ 第275便b(原仮定者の裁定〔第65報〕(2)): **physics.D0Source の受理契約**。
+        //    裁定「D₀ は『何を背景とするか』でサンプル毎に変わる」を**宣言できる鍵**にしただけで、
+        //    **エンジンのどの経路からも読まれない**(値は従来どおり physics.D0 / D0pull が持つ)。
+        //    root(v1.44.0 RC・未適用)は SKIP(第273便b と同じ流儀)。
+        res.d0sGen = typeof D0_SOURCE_KEY !== 'undefined';
+        if (res.d0sGen) {
+          const V = (a) => { const z = HP.validateD0Source(a); return { ok: z.ok, v: z.d0Source || null }; };
+          res.d0sBackgrounds = D0_BACKGROUNDS.slice();
+          res.d0sGate = {
+            none: V(null).ok && V(null).v === null,
+            helio: V({ background: 'heliocentric' }).ok,
+            solarExcluded: V({ background: 'solar-excluded' }).ok,
+            galactic: V({ background: 'galactic' }).ok,
+            unknown: V({ background: 'sun' }).ok,                 // 期待 false
+            declaredNoNote: V({ background: 'declared' }).ok,     // 期待 false(出所を名指ししない宣言)
+            declaredNote: V({ background: 'declared', note: '銀河内位置' }).ok,
+            badRefPos: V({ background: 'galactic', refPos: [1] }).ok,    // 期待 false
+            goodRefPos: V({ background: 'galactic', refPos: [1, 2] }).ok,
+            longNote: V({ background: 'galactic', note: 'x'.repeat(D0_SOURCE_NOTE_MAX + 1) }).ok, // 期待 false
+            notArray: V([{ background: 'galactic' }]).ok,          // 期待 false
+          };
+          // 内蔵で宣言している本数(**本便は 0 本** —— 128 本の署名は 1 文字も動かない)
+          res.d0sDeclaredBuiltins = bis.filter(p => p.physics && p.physics.D0Source !== undefined)
+            .map(p => p.id);
+          // 検証器を通ったあとに鍵が保たれるか / 未宣言は ph に入らないか
+          const vPlain = HP.validatePreset(mk({ D0: 0.006 }, 'calibration'));
+          const vDecl = HP.validatePreset(mk({ D0: 0.006,
+            D0Source: { background: 'heliocentric', refPos: [0, 0], note: 'M☉/r' } }, 'calibration'));
+          const vBad = HP.validatePreset(mk({ D0: 0.006, D0Source: { background: 'sun' } }, 'calibration'));
+          res.d0sPreset = { plainOk: vPlain.ok, declOk: vDecl.ok, badOk: vBad.ok,
+            plainHasKey: vPlain.ok ? (vPlain.preset.physics.D0Source !== undefined) : null,
+            declKept: vDecl.ok ? JSON.stringify(vDecl.preset.physics.D0Source) : null,
+            // 再検証しても同じ形に落ちる(stabilizePreset 往復・preset.roundtrip-builtins の流儀)
+            idempotent: vDecl.ok ? (JSON.stringify(HP.validatePreset(JSON.parse(JSON.stringify(vDecl.preset)))
+              .preset.physics.D0Source) === JSON.stringify(vDecl.preset.physics.D0Source)) : null };
+          // **決断事項の実測**: 宣言鍵が presetSig に入るか(内蔵は 1 本も宣言していないので署名は不変)
+          res.d0sSigDiff = presetSig(mk({ D0: 0.006 }, 'principle'))
+            !== presetSig(mk({ D0: 0.006, D0Source: { background: 'galactic' } }, 'principle'));
+          // **力学に 1 bit も効かない**ことの実測(同じ步数で状態をビット突合)
+          const build = (phy) => {
+            const v2 = HP.validatePreset({ name: 'd', description: 'd', camera: { scale: 200 },
+              world: { boundary: 'none', size: 0 }, physics: phy, seed: 7,
+              bodies: [{ type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false },
+                { type: 'single', m: 1, x: 120, y: 0, vx: 0, vy: 0.9, spin: 0, pinned: false },
+                { type: 'single', m: 1, x: -90, y: 40, vx: 0.1, vy: -0.8, spin: 0, pinned: false }] });
+            HP.sim.build(v2.preset);
+            const S = HP.sim;
+            for (let i = 0; i < 2000; i++) S.step(0.016);
+            const o = [];
+            for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i], S.spin[i]);
+            return o;
+          };
+          const aState = build({ D0: 0.006, kFrame: 1 });
+          const bState = build({ D0: 0.006, kFrame: 1, D0Source: { background: 'galactic' } });
+          res.d0sInert = { n: aState.length, steps: 2000,
+            same: aState.length === bState.length && aState.every((z, i) => z === bState[i]),
+            maxAbs: Math.max(...aState.map((z, i) => Math.abs(z - bState[i]))) };
+        }
       }
       // ③ radiusScale 既定 1(バリデータの既定値マージ)
       const v = HP.validatePreset({ name: 'r', description: 'd', camera: { scale: 200 },
@@ -29964,16 +30363,31 @@ if (!FAST) {
     // 第273便b(AH1): `preset.kframe-binary01` を置換した 2 本。**弱体化ではない** ——
     // 値域の検査を [0,1] へ開くかわりに、較正クラスへ**宣言義務**を課し、門が動いていることを
     // 診断コピーで実証する(内蔵の値は 1 本も変えていないので、実測の kFrame 集合も併記する)
-    add('preset.kframe-unitInterval',
-      r.kfBad.length === 0 && r.kfGate.fracOk === true && r.kfGate.fracK === 0.5
-      && r.kfGate.overOk === true && r.kfGate.overK === 1 && r.kfGate.overWarn === true
-      && r.kfGate.nonNumOk === false,
-      `内蔵 ${r.kfN} 本の physics.kFrame が**有限な [0,1]**(第273便b・裁定 AH1 —— 二値 {0,1} から開いた)`
-      + `/ 実測の値の集合=${JSON.stringify(r.kfValues)}(**本便で内蔵の値は 1 本も変えていない**)`
-      + `/ 非較正クラスの分数 0.5 は受理=${r.kfGate.fracOk}(実効 ${r.kfGate.fracK})`
-      + `/ k=1.5 は**上限 1 へクランプして警告**(AA2 維持)=${r.kfGate.overK}・警告あり=${r.kfGate.overWarn}`
-      + `/ 非数は致命拒否=${r.kfGate.nonNumOk === false}`
-      + (r.kfBad.length ? ` / **違反**: ${r.kfBad.join(',')}` : ''));
+    // 第275便a(原仮定者の裁定〔第65報〕(1)): **期待値を新契約へ改訂した(弱体化ではない)**。
+    //   第273便b の第1層「有限な [0,1]」はそのまま残す(値域 CLAMPS.kFrame=[0,1] は第1便から不変)。
+    //   変わったのは **宣言の無い 0<k<1 の受理**で、既定(案B snap)では**最寄りの {0,1} へ丸めて
+    //   警告 1 行**になる —— したがって「非較正クラスの分数 0.5 が **0.5 のまま**受理される」という
+    //   旧期待は**契約が変わったので成り立たない**(fracK は 1 になる)。門そのものの実測は
+    //   新設の `preset.kframe-binary-default` が両案で固定する。
+    //   **root(第275便a 未適用)は旧期待のまま**(世代で切り替える — 第149便と同じ流儀)。
+    {
+      const bin = r.kfBinGen === true;
+      const fracKExpect = bin ? 1 : 0.5;        // 案B: 0.5 は k≥0.5 の規則で 1 へ丸まる
+      add('preset.kframe-unitInterval',
+        r.kfBad.length === 0 && r.kfGate.fracOk === true && r.kfGate.fracK === fracKExpect
+        && r.kfGate.overOk === true && r.kfGate.overK === 1 && r.kfGate.overWarn === true
+        && r.kfGate.nonNumOk === false,
+        `内蔵 ${r.kfN} 本の physics.kFrame が**有限な [0,1]**(第273便b・裁定 AH1 —— 二値 {0,1} から開いた)`
+        + `/ 実測の値の集合=${JSON.stringify(r.kfValues)}(**本便で内蔵の値は 1 本も変えていない**)`
+        + `/ 非較正クラスの分数 0.5 は受理=${r.kfGate.fracOk}(実効 ${r.kfGate.fracK}`
+        + (bin ? ` —— **第275便a(第65報)の二値既定契約**で、宣言鍵の無い分数は最寄りの {0,1} へ`
+            + `丸められる〔k<0.5→0 / k≥0.5→1〕。**値域の検査を弱めたのではなく、受理の契約が`
+            + `二値へ進んだ**(門の実測は preset.kframe-binary-default)`
+          : ' —— 第275便a 未適用の世代: 分数はそのまま受理される') + `)`
+        + `/ k=1.5 は**上限 1 へクランプして警告**(AA2 維持)=${r.kfGate.overK}・警告あり=${r.kfGate.overWarn}`
+        + `/ 非数は致命拒否=${r.kfGate.nonNumOk === false}`
+        + (r.kfBad.length ? ` / **違反**: ${r.kfBad.join(',')}` : ''));
+    }
     add('preset.kframe-calib-declared',
       !r.kfApproxGen || (r.kfCalBad.length === 0 && r.kfGate.calPlain === false && r.kfGate.calDecl === true
       && r.kfGate.declKept === 'space-mesh-effective' && r.kfGate.calBadDecl === false
@@ -29988,6 +30402,89 @@ if (!FAST) {
       + `${r.kfGate.cal0 && r.kfGate.cal1} / **宣言鍵は presetSig に入る=${r.kfSigDiff}**`
       + `(宣言した瞬間に署名が変わる —— 内蔵は 1 本も宣言していないので全 124 本の署名は不変)`
       + (r.kfCalBad.length ? ` / **違反**: ${r.kfCalBad.join(',')}` : ''));
+    // ---- 第275便a(原仮定者の裁定〔第65報〕(1)): preset.kframe-binary-default ----
+    //   裁定は「**kFrame の分数補正はサンプル限りで予測に使えない → 例外を除き kFrame は
+    //   kF0 版の 0 か DFM 版の 1 に限定する**」。第273便b の第2層(宣言義務)を**較正クラス限定から
+    //   全クラスへ**広げた契約を機械固定する。固定するのは 7 点で、**合否を決めるのは門であって
+    //   この検査ではない**(ここが固定するのは受理の契約だけである):
+    //     ① 内蔵の kFrame の値の集合が **⊆ {0,1}**(分数を書いている内蔵は 0 本)。
+    //     ② **既定(案B "snap")**: 宣言鍵の無い 0<k<1 は**最寄りの {0,1} へ丸めて警告 1 行**
+    //        (規則 k<0.5→0 / k≥0.5→1)。丸めた事実は返り値 `kFrameSnapped` に機械可読で残る。
+    //     ③ **案A("reject")**に切り替えると**同じ入力が拒否される** —— **両案を同じ html で測る**
+    //        (どちらを既定にするかは決断事項で、検査は両方の挙動を固定する)。
+    //     ④ **宣言つきの分数は両案で受理**され、値も宣言も保たれる
+    //        (`"space-mesh-effective"` / 第275便a で足した `"sample-only"`)。
+    //     ⑤ **較正クラスはモードに依らず拒否**(snap でも丸めない = 第273便b の門を弱めていない)。
+    //        `"sample-only"` は**較正では拒否**する(予測に使えないと宣言した分数を較正へ入れない)。
+    //     ⑥ 2 つの宣言値は **presetSig が違う**(宣言した瞬間に別のプリセットになる — AI20)。
+    //     ⑦ **内蔵は既定経路でこの門に 1 本も当たらない**(丸め 0 本・拒否 0 本)。
+    //   **root(第275便a 未適用)は SKIP**(世代判定は定数 KFRAME_UNDECLARED_MODES の有無で行う)。
+    if (!r.kfBinGen) {
+      console.log('SKIP preset.kframe-binary-default(第275便a 未適用 — 対象に KFRAME_UNDECLARED_MODES なし)');
+    } else {
+      const B = r.kfBin, sn = B.snap, rj = B.reject;
+      const snapOk = sn.lo.ok && sn.lo.k === 0 && sn.lo.kWarn === 1 && sn.lo.snapped
+        && sn.hi.ok && sn.hi.k === 1 && sn.hi.kWarn === 1 && sn.hi.snapped
+        && sn.half.ok && sn.half.k === 1 && sn.noClass.ok && sn.noClass.k === 0;
+      const rejectOk = rj.lo.ok === false && rj.hi.ok === false && rj.half.ok === false
+        && rj.noClass.ok === false;
+      const declOk = [sn, rj].every((m) => m.declSme.ok && m.declSme.k === 0.5
+        && m.declSme.decl === 'space-mesh-effective' && !m.declSme.snapped
+        && m.declOnly.ok && m.declOnly.k === 0.5 && m.declOnly.decl === 'sample-only' && !m.declOnly.snapped);
+      const calOk = [sn, rj].every((m) => m.calPlain.ok === false && !m.calPlain.snapped
+        && m.calSme.ok === true && m.calSme.k === 0.5 && m.calOnly.ok === false);
+      const binaryOk = [sn, rj].every((m) => m.k0.ok && m.k0.k === 0 && m.k0.warn === 0
+        && m.k1.ok && m.k1.k === 1 && m.k1.warn === 0);
+      const builtinClean = sn.builtinHit.length === 0 && rj.builtinHit.length === 0;
+      const valuesOk = r.kfValues.every((v) => v === 0 || v === 1) && r.kfCalFrac.length === 0;
+      const modeBack = r.kfBinMode === 'snap';
+      add('preset.kframe-binary-default',
+        valuesOk && snapOk && rejectOk && declOk && calOk && binaryOk && builtinClean && modeBack,
+        `**kFrame 二値の既定契約**(第275便a・原仮定者の裁定〔第65報〕(1)「例外を除き kFrame は`
+        + ` kF0 版の 0 か DFM 版の 1 に限定する」—— 第273便b の宣言義務を**較正クラス限定から全クラスへ**)`
+        + ` / ① 内蔵 ${r.kfN} 本の kFrame ⊆ {0,1}=${valuesOk}(実測 ${JSON.stringify(r.kfValues)}・`
+        + `較正 ${r.kfCalN} 本で分数 ${r.kfCalFrac.length} 本)`
+        + ` / ② **案B(既定 "snap")**: 0.4→${sn.lo.k}・0.6→${sn.hi.k}・0.5→${sn.half.k}`
+        + `(規則 k<0.5→0 / k≥0.5→1)・警告 1 行=${sn.lo.kWarn === 1}・kFrameSnapped=`
+        + `${JSON.stringify(sn.lo.snapped)}`
+        + ` / ③ **案A("reject")**では同じ入力が拒否=${rejectOk}(**両案を同じ html で測った** ——`
+        + ` どちらを既定にするかは決断事項で、検査は両方の挙動を固定する)`
+        + ` / ④ 宣言つきの分数は両案で受理し値と宣言を保つ=${declOk}`
+        + `(受理値 ${JSON.stringify(r.kfBinApproxes)})`
+        + ` / ⑤ 較正クラスはモードに依らず**拒否**=${calOk}(較正で使える宣言は`
+        + ` ${JSON.stringify(r.kfBinApproxesCal)} だけ —— "sample-only" は較正で拒否)`
+        + ` / ⑥ 2 つの宣言値で presetSig が違う=${r.kfBinDeclSig}`
+        + ` / ⑦ **内蔵はこの門に 1 本も当たらない**(丸め・拒否 ${sn.builtinHit.length + rj.builtinHit.length} 本)`
+        + ` / k=0・k=1 は無警告で受理=${binaryOk} / 検査後に既定へ戻した=${modeBack}`
+        + ((!builtinClean) ? ` / **違反(内蔵)**: ${sn.builtinHit.concat(rj.builtinHit).slice(0, 5).join(',')}` : ''));
+    }
+    // 第275便b(原仮定者の裁定〔第65報〕(2)): `physics.D0Source` の受理契約。
+    // **宣言専用の鍵**で、エンジンのどの経路からも読まれない(値は physics.D0 / D0pull が持つ)。
+    // **本便は内蔵に 1 本も宣言を足していない**ので、128 本の presetSig は 1 文字も動かない。
+    add('preset.d0source-declared',
+      !r.d0sGen || (r.d0sGate.none === true && r.d0sGate.helio === true
+        && r.d0sGate.solarExcluded === true && r.d0sGate.galactic === true
+        && r.d0sGate.unknown === false && r.d0sGate.declaredNoNote === false
+        && r.d0sGate.declaredNote === true && r.d0sGate.badRefPos === false
+        && r.d0sGate.goodRefPos === true && r.d0sGate.longNote === false
+        && r.d0sGate.notArray === false
+        && r.d0sPreset.plainOk === true && r.d0sPreset.declOk === true && r.d0sPreset.badOk === false
+        && r.d0sPreset.plainHasKey === false && r.d0sPreset.idempotent === true
+        && r.d0sDeclaredBuiltins.length === 0 && r.d0sInert.same === true),
+      !r.d0sGen ? 'SKIP(第275便b 未適用 — 対象に D0_SOURCE_KEY なし・root は v1.44.0 RC)'
+      : `**D₀ の背景の出所の宣言鍵**(第275便b・原仮定者の裁定〔第65報〕(2)「**D₀ は『何を背景とするか』で`
+      + `サンプル毎に変わる**」): 受理値=${JSON.stringify(r.d0sBackgrounds)} / 門の実測: 未宣言は null=`
+      + `${r.d0sGate.none}・未知の背景は拒否=${r.d0sGate.unknown === false}・**出所を名指ししない "declared" は拒否**=`
+      + `${r.d0sGate.declaredNoNote === false}(note つきは受理=${r.d0sGate.declaredNote})・refPos は有限数 2 つ=`
+      + `${r.d0sGate.badRefPos === false}/${r.d0sGate.goodRefPos}・note は上限つき=${r.d0sGate.longNote === false}`
+      + `・配列は拒否=${r.d0sGate.notArray === false} / 検証器: 未宣言は physics に入らない=`
+      + `${r.d0sPreset.plainHasKey === false}(**署名不変**)・宣言は保存される=${r.d0sPreset.declKept}`
+      + `・再検証で冪等=${r.d0sPreset.idempotent}・不正は拒否=${r.d0sPreset.badOk === false} / `
+      + `**宣言している内蔵=${r.d0sDeclaredBuiltins.length} 本**(本便は受理契約だけを足した —— `
+      + `**D₀ の値は 1 本も変えていない**)/ **力学に 1 bit も効かない**=${r.d0sInert.same}`
+      + `(3 体・${r.d0sInert.steps} 步・${r.d0sInert.n} 量の突合で最大差 ${r.d0sInert.maxAbs})/ `
+      + `**決断事項**: 宣言すると presetSig は変わる(=${r.d0sSigDiff}) —— `
+      + `内蔵へ宣言を入れるかは統括の裁定待ちである`);
     add('params.radius-default', r.radiusDef === 1, `radiusScale既定=${r.radiusDef}(=1)`);
     add('ai.base-context', r.baseOpts >= 28 && r.baseCtx && r.basePlain,
       `候補=${r.baseOpts} 文脈注入=${r.baseCtx} 未選択は素通し=${r.basePlain}`);
@@ -44082,6 +44579,12 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
 //        記帳した値の和が**厳密に 0**(同じ步・同じ順で足しているので丸めも残らない)。
 //     ⑤ **供給の分解**: 復元+減衰ぶん `shapeToyDetE` と供給ぶん `shapeToySupE` の和が、受け取った
 //        `shapeToyE` と倍精度の丸めの範囲で一致する(**分解は診断**であって厳密な恒等式ではない)。
+//   第275便d(第65報 (4)(5)(6))で既定値が変わったので 2 点を足す(**世代は 🎱 の有無で切り替える**):
+//     ⑥ **新しい宣言でも定常共分散は理論値**: 🥏 は ω₀=0.01・γ=0.02(**臨界減衰**・緩和時間 100)へ
+//        変えた。刻みと窓を**緩和時間から決めて**(dt=緩和/4・バーンイン 5 緩和・測定 300 緩和)、
+//        Cov(y)=I・Cov(w)=ω₀²I を同じ門で固定する。**厳密離散化なので大きな刻みで測ってよい**。
+//     ⑦ **`center:"pinned"` は写像の中心を pinned 粒子の位置から読む**: 🎱 の中心天体を (+37,−11)
+//        だけずらして 1 步進めると、**対象粒子が全部だけ同じ量だけ動く**(中心が追随する)。
 {
   const hasST = await page.evaluate(() => !!(window.HP && typeof HP.dfmShapeToyStep === 'function'
     && typeof HP.shapeToyDisc === 'function'));
@@ -44169,9 +44672,62 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         O.run = { stop: S.shapeToyStop, N: S.shapeToyN, nan: S.hasNaN(),
           clampV: S.clampVN, clampS: S.clampSN, branch: S.shapeToyBranch, unbooked: S.shapeToyUnbooked };
       }
+      // ⑥⑦ 第275便d(🎱 がある世代だけ)
+      O.w275d = HP.allPresets().some((z) => z.id === 'shapeToyClusterCore');
+      if (O.w275d) {
+        // ⑥ 🥏 の新しい宣言(ω₀=0.01・γ=0.02・臨界)の定常共分散。**窓は緩和時間から決める**
+        {
+          const p = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'shapeToyDisk')));
+          const cf = p.physics.shapeToy;
+          const d = cf.gamma * cf.gamma / 4 - cf.omega0 * cf.omega0;
+          const slow = (d > 0) ? (cf.gamma / 2 - Math.sqrt(d)) : (cf.gamma / 2);
+          const relax = 1 / Math.max(1e-12, slow);
+          const v = HP.validatePreset(p);
+          const S = HP.sim; S.build(v.preset);
+          const dt = relax / 4, w2 = v.preset.physics.shapeToy.omega0 ** 2;
+          for (let k = 0; k < 20; k++) S.step(dt);                 // バーンイン 5 緩和
+          let n = 0, s1 = 0, s2 = 0, sz = 0, c12 = 0, v1 = 0, v2 = 0, vz = 0;
+          for (let k = 0; k < 1200; k++) {                          // 測定 300 緩和
+            S.step(dt);
+            if (k % 4) continue;
+            for (let i = 0; i < S.n; i++) {
+              if (S.pinned[i]) continue;
+              const a = S.yLat[2 * i], b = S.yLat[2 * i + 1], z = S.zLat[i];
+              s1 += a * a; s2 += b * b; sz += z * z; c12 += a * b;
+              v1 += S.wLat[2 * i] ** 2; v2 += S.wLat[2 * i + 1] ** 2; vz += S.wzLat[i] ** 2;
+              n++;
+            }
+          }
+          O.cov2 = { id: 'shapeToyDisk', relax, dt, n, omega0: v.preset.physics.shapeToy.omega0,
+            gamma: v.preset.physics.shapeToy.gamma, branch: S.shapeToyBranch,
+            y1: s1 / n, y2: s2 / n, z: sz / n, cross: c12 / n,
+            w1: v1 / n / w2, w2: v2 / n / w2, wz: vz / n / w2,
+            stop: S.shapeToyStop, nan: S.hasNaN() };
+        }
+        // ⑦ center:"pinned" は中心天体の位置に追随する
+        {
+          const p = HP.allPresets().find((z) => z.id === 'shapeToyClusterCore');
+          const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+          const S = HP.sim; S.build(v.preset);
+          for (let k = 0; k < 100; k++) S.step(0.016);
+          let pin = -1;
+          for (let i = 0; i < S.n; i++) if (S.pinned[i]) { pin = i; break; }
+          const bx = [], by = [];
+          for (let i = 0; i < S.n; i++) { bx.push(S.x[i]); by.push(S.y[i]); }
+          S.x[pin] += 37; S.y[pin] -= 11;
+          S.step(1e-9);                                     // 刻みを極小に取り、OU の進みを無視できる量にする
+          let worst = 0;
+          for (let i = 0; i < S.n; i++) {
+            if (i === pin) continue;
+            worst = Math.max(worst, Math.abs((S.x[i] - bx[i]) - 37), Math.abs((S.y[i] - by[i]) + 11));
+          }
+          O.pinFollow = { pin, worst, center: v.preset.physics.shapeToy.center,
+            stop: S.shapeToyStop, nan: S.hasNaN() };
+        }
+      }
       return O;
     });
-    const DISC_TOL = 1e-12, COV_TOL = 1e-2, SPLIT_TOL = 1e-6;
+    const DISC_TOL = 1e-12, COV_TOL = 1e-2, SPLIT_TOL = 1e-6, PIN_TOL = 1e-2;
     const c1 = st.untouched.has === false && st.untouched.n === 0 && st.untouched.ret === null
       && st.untouched.same === true && st.untouched.key === true;
     const c2 = st.disc.every((d) => Math.max(d.dF, d.identity, d.chol) <= DISC_TOL)
@@ -44183,7 +44739,15 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     const c4 = st.ledger.p[0] === 0 && st.ledger.p[1] === 0 && st.ledger.l === 0 && st.ledger.e === 0
       && st.run.stop === null && st.run.nan === false && st.run.clampV === 0 && st.run.clampS === 0;
     const c5 = st.ledger.splitRel <= SPLIT_TOL && st.run.unbooked === 'potential-of-prescribed-remap';
-    add('behavior.shapeToyStationary', c1 && c2 && c3 && c4 && c5,
+    const cv2 = st.cov2;
+    const c6 = !st.w275d || (cv2 && cv2.nan === false && cv2.stop === null
+      && cv2.branch === 'critical'
+      && Math.max(Math.abs(cv2.y1 - 1), Math.abs(cv2.y2 - 1), Math.abs(cv2.z - 1),
+        Math.abs(cv2.w1 - 1), Math.abs(cv2.w2 - 1), Math.abs(cv2.wz - 1)) <= COV_TOL
+      && Math.abs(cv2.cross) <= COV_TOL * 5);
+    const c7 = !st.w275d || (st.pinFollow && st.pinFollow.center === 'pinned'
+      && st.pinFollow.worst <= PIN_TOL && st.pinFollow.stop === null && st.pinFollow.nan === false);
+    add('behavior.shapeToyStationary', c1 && c2 && c3 && c4 && c5 && c6 && c7,
       `① **宣言が無ければ 1 行も通らない**(🪐 saturn): hasShapeToy=${st.untouched.has}・N=${st.untouched.n}・`
       + `直接呼びの戻り=${st.untouched.ret}・600 步の指紋不変=${st.untouched.same}・`
       + `params の値は undefined=${st.untouched.key}(鍵そのものは fastParams の正準形に入る)=${c1} / `
@@ -44199,29 +44763,49 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       + `=${c4}(**「閉じた系」ではない** —— 供給の出所は外部熱浴の宣言である)/ `
       + `⑤ **3 作用の分解**(診断): 受け取り ${st.ledger.got.toExponential(6)} = 復元+減衰 ${st.ledger.det.toExponential(6)} `
       + `+ 供給 ${st.ledger.sup.toExponential(6)}(相対残差 ${st.ledger.splitRel.toExponential(1)}・門 ${SPLIT_TOL.toExponential(0)})・`
-      + `**未記帳の量**=${st.run.unbooked}=${c5}`);
+      + `**未記帳の量**=${st.run.unbooked}=${c5}`
+      + (st.w275d
+        ? ` / ⑥ **第275便d の新しい宣言**(🥏 ω₀=${cv2.omega0}・γ=${cv2.gamma}・${cv2.branch}・`
+          + `緩和 ${cv2.relax.toFixed(1)}・dt=${cv2.dt.toFixed(2)}・${cv2.n} 標本): `
+          + `Cov(y)=[${cv2.y1.toFixed(4)}, ${cv2.y2.toFixed(4)}, ${cv2.z.toFixed(4)}]・`
+          + `Cov(w)/ω₀²=[${cv2.w1.toFixed(4)}, ${cv2.w2.toFixed(4)}, ${cv2.wz.toFixed(4)}]`
+          + `(理論 1・門 ${COV_TOL})・相関 ${cv2.cross.toFixed(4)}=${c6}`
+          + `(**厳密離散化なので緩和時間からとった大きな刻みで測ってよい**)/ `
+          + `⑦ **center:"pinned" は中心天体に追随する**(🎱 の中心を (+37,−11) ずらして 1 步): `
+          + `対象粒子の変位と中心の変位の最大差 ${st.pinFollow.worst.toExponential(2)}(門 ${PIN_TOL})=${c7}`
+        : ' / ⑥⑦ 第275便d 未適用の世代(新しい宣言と center:"pinned" は検査しない)'));
   } else {
     console.log('SKIP behavior.shapeToyStationary(対象に第274便d の形状トイなし — root 等)');
   }
 }
 
-// ---- 第274便d: preset.shapeToys — **安定サンプル 3 本**の宣言の形 ----
-//   ① 3 本(🔮 球状星団トイ・🥏 腕なし回転円盤トイ・🧵 腕単体トイ)が `principle`/`toy` で、
-//      claims・massCalibration・regression window を 1 つも持たない(**較正ではない**)。
-//   ② `notClaim` に `cluster`(+`galaxy`/`dm`)を含み、表示文 `nc_cluster` が ja/en 双方にある。
+// ---- 第274便d → 第275便d: preset.shapeToys — **安定サンプル**の宣言の形(3 本 → 6 本)----
+//   第275便d(第65報 (4)(5)(6))で **中心天体つきの参照版 3 本**(🎱/📀/🧹)が入り、
+//   既存 3 本は**成長の宣言を外した**(τ=0・σ=σ₀)。**世代は 🎱 の有無で切り替える**(root は SKIP)。
+//   ① 全本が `principle`/`toy` で、claims・massCalibration・regression window を 1 つも持たない(**較正ではない**)。
+//   ② `notClaim` に `cluster`(+`galaxy`/`dm`、中心天体版は `bh` も)を含み、表示文 `nc_cluster` が ja/en 双方にある。
 //   ③ obsCard は 8 行以内・ja の各欄 120 字以内・絵文字は内蔵で 1 本だけ。
-//   ④ 宣言は `physics.shapeToy`(shape/supply/coupling)で、**この 3 本以外は 1 本も宣言していない**。
+//   ④ 宣言は `physics.shapeToy`(shape/supply/coupling/center)で、**この本数以外は 1 本も宣言していない**。
 //      `supply:"external-bath"` は必須宣言(供給の出所 —— 閉じた系ではない)。
+//      第275便d 世代では **center は 3 本が "fixed"・3 本が "pinned"**(位置固定の参照点)である。
 //   ⑤ **実際に走る**: 600 步で stop=null・対象数=非 pinned 数・NaN 0・clamp 0・帳簿が厳密に 0。
 //   ⑥ **重力で安定したのではない**: G=0 と G=0.8 の 600 步指紋が**完全一致**する(規定運動)。
 //   ⑦ 説明文に「創発」「較正した」「再現した」を書いていない(禁止語の機械検査)。
+//   ⑧ 第275便d: **成長を宣言していない**(全本 tauGrow=0 かつ sigma=sigma0)。
+//      「発散している」への対応は**新しい力ではなく成長の宣言を外すこと**だった、を機械固定する。
+//   ⑨ 第275便d: **中心天体は力学的に効いていない**。center:"pinned" の 3 本で中心天体の質量を
+//      10 → 1000 に変えても 600 步の指紋が 1 bit も動かない(G=0・対象粒子は規定運動)。
 {
   const hasToys = await page.evaluate(() => !!(window.HP
     && HP.allPresets().some((z) => z.id === 'shapeToyCluster')));
   if (hasToys) {
     const sp = await page.evaluate(() => {
-      const IDS = ['shapeToyCluster', 'shapeToyDisk', 'shapeToyArm'];
       const all = HP.allPresets();
+      const w275d = all.some((z) => z.id === 'shapeToyClusterCore');   // 第275便d の世代判定子
+      const IDS = w275d
+        ? ['shapeToyCluster', 'shapeToyDisk', 'shapeToyArm',
+          'shapeToyClusterCore', 'shapeToyDiskCore', 'shapeToyArmCore']
+        : ['shapeToyCluster', 'shapeToyDisk', 'shapeToyArm'];
       const fp = (S) => { let a = 0x811c9dc5;
         const buf = new ArrayBuffer(8), f = new Float64Array(buf), u = new Uint8Array(buf);
         const push = (v) => { f[0] = v; for (let b = 0; b < 8; b++) { a ^= u[b]; a = Math.imul(a, 0x01000193) >>> 0; } };
@@ -44256,8 +44840,19 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
           sum: p.descStruct.summary, obs: p.descStruct.observe,
           run: run(g0, 600), runG: run(g8, 600) };
       }
-      // 宣言している内蔵の本数(3 本だけのはず)
+      // 宣言している内蔵の本数(この本数だけのはず)
       const nDecl = all.filter((z) => z.physics && z.physics.shapeToy).map((z) => z.id);
+      // ⑨ 第275便d: 中心天体の質量は対象粒子に効かない(pinned・G=0・規定運動)
+      const centreMass = {};
+      if (w275d) {
+        for (const id of ['shapeToyClusterCore', 'shapeToyDiskCore', 'shapeToyArmCore']) {
+          const p = all.find((z) => z.id === id);
+          const mk = (m) => { const q = JSON.parse(JSON.stringify(p)); q.bodies[0].m = m; return q; };
+          const a1 = run(mk(10), 600), a2 = run(mk(1000), 600);
+          centreMass[id] = { fp10: a1.fp, fp1000: a2.fp, same: a1.fp === a2.fp,
+            pinnedFirst: p.bodies[0].type === 'single' && p.bodies[0].pinned === true };
+        }
+      }
       // nc_cluster の表示文が ja/en 双方にあること(DOM 経由)
       HP.loadPreset('shapeToyCluster', false);
       const jaLines = [...document.querySelectorAll('#helpBody .notClaimLine')].map((e) => e.textContent);
@@ -44265,9 +44860,9 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const enLines = [...document.querySelectorAll('#helpBody .notClaimLine')].map((e) => e.textContent);
       HP.setLang('ja');
       HP.loadPreset('saturn', false);
-      return { rows, nDecl, jaLines, enLines, total: all.length };
+      return { rows, nDecl, jaLines, enLines, total: all.length, w275d, ids: IDS, centreMass };
     });
-    const IDS = ['shapeToyCluster', 'shapeToyDisk', 'shapeToyArm'];
+    const IDS = sp.ids;
     const R = sp.rows;
     const banned = ['創発', '較正した', '再現した'];
     const hits = [];
@@ -44284,16 +44879,25 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       && sp.jaLines.some((t) => t.indexOf('参照モデル') >= 0)
       && sp.enLines.some((t) => t.indexOf('REFERENCE MODEL') >= 0);
     const k3 = IDS.every((id) => R[id].card <= 8 && R[id].maxLen <= 120 && R[id].emojiDup === 1);
-    const k4 = sp.nDecl.length === 3 && IDS.every((id) => sp.nDecl.indexOf(id) >= 0)
+    const k4 = sp.nDecl.length === IDS.length && IDS.every((id) => sp.nDecl.indexOf(id) >= 0)
       && R.shapeToyCluster.decl.shape === 'cluster' && R.shapeToyDisk.decl.shape === 'disk'
       && R.shapeToyArm.decl.shape === 'arm'
-      && IDS.every((id) => R[id].decl.supply === 'external-bath' && R[id].decl.coupling === 'prescribed');
+      && IDS.every((id) => R[id].decl.supply === 'external-bath' && R[id].decl.coupling === 'prescribed')
+      && (!sp.w275d || (IDS.filter((id) => R[id].decl.center === 'fixed').length === 3
+        && IDS.filter((id) => R[id].decl.center === 'pinned').length === 3
+        && R.shapeToyClusterCore.decl.shape === 'cluster' && R.shapeToyDiskCore.decl.shape === 'disk'
+        && R.shapeToyArmCore.decl.shape === 'arm'));
     const k5 = IDS.every((id) => R[id].run.stop === null && R[id].run.N === R[id].run.n - R[id].run.nPin
       && R[id].run.nan === false && R[id].run.clampV === 0 && R[id].run.clampS === 0
       && R[id].run.ledger === 0);
     const k6 = IDS.every((id) => R[id].G === 0 && R[id].run.fp === R[id].runG.fp);
     const k7 = hits.length === 0 && IDS.every((id) => R[id].sum.indexOf('言わないこと') >= 0);
-    add('preset.shapeToys', k1 && k2 && k3 && k4 && k5 && k6 && k7,
+    // ⑧ 第275便d: **成長を宣言していない**(τ=0 かつ σ=σ₀)
+    const k8 = !sp.w275d || IDS.every((id) => R[id].decl.tauGrow === 0
+      && R[id].decl.sigma === R[id].decl.sigma0);
+    // ⑨ 第275便d: 中心天体の質量は指紋を動かさない(pinned・G=0・規定運動)
+    const k9 = !sp.w275d || Object.values(sp.centreMass).every((q) => q.same && q.pinnedFirst);
+    add('preset.shapeToys', k1 && k2 && k3 && k4 && k5 && k6 && k7 && k8 && k9,
       `**安定サンプル 3 本**(第274便d・第64報「実在天体に先立ち安定サンプルを用意する」): `
       + IDS.map((id) => `${R[id].emoji}${id}`).join('・') + `(内蔵 ${sp.total} 本)/ `
       + `① principle/toy・claims/massCalibration/regression どれも無い=${k1}(**較正ではない**)/ `
@@ -44308,13 +44912,26 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       + `⑥ **重力で安定したのではない**: G=0 と G=0.8 の 600 步指紋が一致=${k6}`
       + `(${IDS.map((id) => R[id].run.fp + '=' + R[id].runG.fp).join('・')})/ `
       + `⑦ 説明文に「創発/較正した/再現した」が無く「言わないこと」節がある=${k7}`
-      + (hits.length ? `(**検出** ${JSON.stringify(hits)})` : ''));
+      + (hits.length ? `(**検出** ${JSON.stringify(hits)})` : '')
+      + (sp.w275d
+        ? ` / ⑧ **第275便d: 成長を宣言していない**(τ=0 かつ σ=σ₀)=${k8}`
+          + `(τ=${IDS.map((id) => R[id].decl.tauGrow).join('/')}・σ=${IDS.map((id) => R[id].decl.sigma).join('/')})/ `
+          + `⑨ **中心天体は力学的に効いていない**(center:"pinned" の 3 本で m を 10→1000 に変えても `
+          + `600 步の指紋が同じ)=${k9}(`
+          + Object.entries(sp.centreMass).map(([id, q]) => `${id}:${q.fp10}=${q.fp1000}`).join('・') + `)`
+        : ' / ⑧⑨ 第275便d 未適用の世代(成長の宣言と中心天体版は検査しない)'));
   } else {
     console.log('SKIP preset.shapeToys(対象に第274便d の形状トイ 3 本なし — root 等)');
   }
 }
 
-// ---- 第274便d: docs.shapeToyCriteria — **完成判定の表と正本 JSON の一致** ----
+// ---- 第274便d → 第275便d: docs.shapeToyCriteria — **完成判定の表と正本 JSON の一致** ----
+//   第275便d(第65報 (4)(5)(6))で正本が 1 本増えた: `tests/out/shapecrit-w275d.json`
+//   (器 tests/exp-w275d-shapecrit.mjs)。**世代はこの正本の有無で切り替える**:
+//     ・第275便d 世代では ⑥ の「PHYSICS.md に正本の数がそのまま載っている」照合は
+//       **新しい正本と〔第275便d〕節**に対して行う(既定値が変わったので第274便d の数は履歴である)。
+//     ・第274便d の正本は**構造**(①〜⑤)だけを見る —— 統括が器を回し直しても数は変わってよい。
+//     ・新しい正本には 6 本ぶんの行・候補の比較・摂動からの回復・中心天体の質量の対照がある。
 //   正本 `tests/out/shapetoy-w274d.json`(器 tests/exp-w274d-shapetoy.mjs)と
 //   docs/PHYSICS.md〔第274便d〕節を突き合わせる。固定するのは 6 点:
 //     ① 正本に来歴(`meta.provenanceVersion`)と**事前に決めた合格条件** `criteria` がある。
@@ -44325,8 +44942,11 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
 //     ⑥ PHYSICS.md にこの節があり、**正本の主要数値がそのまま載っている**(機械同期)。
 {
   const P = path.join(ROOT, 'tests', 'out', 'shapetoy-w274d.json');
+  const P5 = path.join(ROOT, 'tests', 'out', 'shapecrit-w275d.json');
   let J = null, err = '';
   try { J = JSON.parse(fs.readFileSync(P, 'utf8')); } catch (e) { err = String(e).slice(0, 80); }
+  let J5 = null, err5 = '';
+  try { J5 = JSON.parse(fs.readFileSync(P5, 'utf8')); } catch (e) { err5 = String(e).slice(0, 80); }
   const phys = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
   const bad = [];
   if (!J) bad.push('正本が読めない: ' + err);
@@ -44353,19 +44973,62 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       bad.push('⑤重力の対照 / coupling 2 案が無い');
     // ⑥ PHYSICS.md への機械同期(正本の数をそのまま載せているか)
     if (!/〔第274便d/.test(phys)) bad.push('⑥PHYSICS.md に〔第274便d〕節が無い');
-    const need = [];
-    for (const id of ids) {
-      const r = (J.reference || []).find((q) => q.id === id);
-      if (!r) continue;
-      const k = (r.shape === 'arm') ? 'y2' : 'y1';
-      need.push(r.varLatent[k].toFixed(4));
-      const g = (J.growth || []).find((q) => q.id === id && q.note === '既定の成長');
-      if (g) need.push(g.meanResidGrowWindow.toFixed(4));
+    // **第275便d 世代では、既定値を変えたので第274便d の数は履歴**である(統括が器を回し直しても
+    // 数は変わってよい)。数の機械同期は下の新しい正本 ↔〔第275便d〕節で行う。
+    if (!J5) {
+      const need = [];
+      for (const id of ids) {
+        const r = (J.reference || []).find((q) => q.id === id);
+        if (!r) continue;
+        const k = (r.shape === 'arm') ? 'y2' : 'y1';
+        need.push(r.varLatent[k].toFixed(4));
+        const g = (J.growth || []).find((q) => q.id === id && q.note === '既定の成長');
+        if (g) need.push(g.meanResidGrowWindow.toFixed(4));
+      }
+      for (const t of need) if (!phys.includes(t)) bad.push('⑥PHYSICS.md に正本の数値が無い: ' + t);
     }
-    for (const t of need) if (!phys.includes(t)) bad.push('⑥PHYSICS.md に正本の数値が無い: ' + t);
+  }
+  // ---- 第275便d の正本(あれば)
+  const bad5 = [];
+  if (J5) {
+    if (!J5.meta || !J5.meta.provenanceVersion) bad5.push('①来歴 meta が無い');
+    if (!J5.criteria || !(J5.criteria.rmsRel > 0) || !(J5.criteria.retroFrac > 0))
+      bad5.push('①合格条件 criteria が無い');
+    const ids5 = ['shapeToyCluster', 'shapeToyDisk', 'shapeToyArm',
+      'shapeToyClusterCore', 'shapeToyDiskCore', 'shapeToyArmCore'];
+    for (const id of ids5) {
+      const r = (J5.builtins || []).find((q) => q.id === id);
+      if (!r) { bad5.push('②内蔵の行が無い: ' + id); continue; }
+      if (!r.ok || typeof r.pass !== 'boolean') bad5.push('②判定の真偽値が無い: ' + id);
+      if (r.rmsRelMean === null || r.samplingNoise === null || r.rmsDriftZ === undefined)
+        bad5.push('②RMS の偏り/ゆらぎ/ドリフトが無い: ' + id);
+      if (!Array.isArray(r.displaySeries) || r.displaySeries.length < 5)
+        bad5.push('②表示窓の時間列が無い: ' + id);
+    }
+    // ③ **第274便d の既定を戻した対照**が候補の中にある(成長あり = 発散して見える行)
+    if (!(J5.candidates || []).some((q) => /第274便d の既定/.test(q.note || '')))
+      bad5.push('③第274便d の既定の対照が無い');
+    // ④ 摂動からの回復が 5%/10%・3 seed・6 本
+    const rec5 = J5.recovery || [];
+    if (new Set(rec5.map((q) => q.k)).size < 2 || new Set(rec5.map((q) => q.seed)).size < 3
+      || new Set(rec5.map((q) => q.id)).size < 6) bad5.push('④回復の 5%/10%・3 seed・6 本が揃っていない');
+    // ⑤ 重力の対照と**中心天体の質量の対照**
+    if (!(J5.gravityControl || []).length) bad5.push('⑤重力の対照が無い');
+    if (!(J5.centerMass || []).length || !(J5.centerMass || []).every((q) => q.massSame))
+      bad5.push('⑤中心天体の質量の対照が無い/指紋が動いている');
+    // ⑥ PHYSICS.md〔第275便d〕節への機械同期
+    if (!/〔第275便d/.test(phys)) bad5.push('⑥PHYSICS.md に〔第275便d〕節が無い');
+    const need5 = [];
+    for (const id of ids5) {
+      const r = (J5.builtins || []).find((q) => q.id === id);
+      if (!r) continue;
+      need5.push(r.rmsRelMean.toFixed(4));
+    }
+    for (const t of need5) if (!phys.includes(t)) bad5.push('⑥PHYSICS.md に正本の数値が無い: ' + t);
   }
   const ref = (J && J.reference) || [];
-  add('docs.shapeToyCriteria', bad.length === 0,
+  const b5 = (J5 && J5.builtins) || [];
+  add('docs.shapeToyCriteria', bad.length === 0 && bad5.length === 0,
     `**形状トイの完成判定**(第274便d・正本 tests/out/shapetoy-w274d.json・器 tests/exp-w274d-shapetoy.mjs)/ `
     + (J ? `来歴 ${J.meta && J.meta.provenanceVersion}・合格条件 ${JSON.stringify(J.criteria)} / `
       + `参照形状: ` + ref.map((r) => `${r.id}(Cov ${JSON.stringify(Object.values(r.varLatent).map((v) => +v.toFixed(4)))}・`
@@ -44378,11 +45041,279 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       + `重力の指紋一致 ${(J.gravityControl || []).every((q) => q.same)} / `
       + `**較正ではない**(観測量を 1 つも入力していない)`
       : '正本なし')
+    + (J5 ? ` // **第275便d の正本** tests/out/shapecrit-w275d.json(器 tests/exp-w275d-shapecrit.mjs)/ `
+      + `合格条件 ${JSON.stringify(J5.criteria)} / 内蔵 ${b5.length} 本: `
+      + b5.map((r) => `${r.id}(RMS 偏り ${r.rmsRelMean.toFixed(4)}±${r.samplingNoise.toFixed(4)}・`
+        + `表示窓の凹み ${r.settleDip === undefined || r.settleDip === null ? '—' : r.settleDip.toFixed(4)}・`
+        + `逆行 ${r.retroFracMean === undefined || r.retroFracMean === null ? '—' : r.retroFracMean.toFixed(4)}・`
+        + `判定 ${r.pass})`).join(' / ')
+      + ` / 中心天体の質量の対照 ${(J5.centerMass || []).map((q) => q.id + ':' + q.massSame).join('・')}`
+      : ` // 第275便d の正本なし(${err5})`)
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : '')
+    + (bad5.length ? ` / **第275便d の違反 ${bad5.length} 件**: ${bad5.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 第275便e(原仮定者の裁定(第65報)(7)「自転軸の傾き角・傾きの方向・歳差角速度」): preset.coreAxis-declared ----
+//   **コア軸の宣言モード**(`core.axisMode:"prescribed"` + `core.azimuthDeg` + `core.precessionRate`)の
+//   入口の門を機械固定する。7 点:
+//     ① 正しい宣言は 3 つの鍵がそのまま残る(prescribed・方位・歳差角速度)。
+//     ② `azimuthDeg`/`precessionRate` だけ(axisMode 無し)は**落ちる**(警告つき)。
+//     ③ `axisMode:"dynamic"` は**落ちる**(本便は設計のみ)。
+//     ④ `core.Kalign>0` との併用は**落ちる**(宣言で回す軸と、トルクで倒れる軸を同じ步で走らせない)。
+//     ⑤ `core.tilt` が通っていない粒子では**落ちる**(面内成分が無ければ回す軸が無い)。
+//     ⑥ `precessionRate` 省略時は既定 "spin"(= 殻スピン)で、build 後の `S.coreAxOm` が殻スピンと一致する。
+//     ⑦ 値域(azimuthDeg ±360・precessionRate ±100)で切り上げ/切り下げが起きる。
+//   **root では SKIP**(`HP.dfmCoreAxisStep` の有無で世代を判定する)。
+{
+  const hasAx = await page.evaluate(() => !!(window.HP && typeof HP.dfmCoreAxisStep === 'function'
+    && typeof HP.coreAxisState === 'function'));
+  if (hasAx) {
+    const ax = await page.evaluate(() => {
+      const O = {};
+      const base = () => JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'bhCoreTilt')));
+      const vc = (mut) => { const p = base(); mut(p); const v = HP.validatePreset(p);
+        return { ok: v.ok, core: v.ok ? v.preset.bodies[0].core : null,
+          warns: (v.warnings || []).filter((w) => /axisMode|azimuthDeg|precessionRate/.test(w)) }; };
+      O.good = vc((p) => { Object.assign(p.bodies[0].core,
+        { axisMode: 'prescribed', azimuthDeg: 30, precessionRate: 0.5 }); });
+      O.noMode = vc((p) => { Object.assign(p.bodies[0].core, { azimuthDeg: 30, precessionRate: 0.5 }); });
+      O.dynamic = vc((p) => { Object.assign(p.bodies[0].core, { axisMode: 'dynamic', azimuthDeg: 30 }); });
+      O.withKalign = vc((p) => { Object.assign(p.bodies[0].core,
+        { axisMode: 'prescribed', azimuthDeg: 30, Kalign: 0.5 }); });
+      O.noTilt = vc((p) => { delete p.bodies[0].core.tilt;
+        Object.assign(p.bodies[0].core, { axisMode: 'prescribed', azimuthDeg: 30 }); });
+      O.withKcs = vc((p) => { Object.assign(p.bodies[0].core,
+        { Kcs: 0.5, axisMode: 'prescribed', azimuthDeg: 30 }); });
+      O.clamped = vc((p) => { Object.assign(p.bodies[0].core,
+        { axisMode: 'prescribed', azimuthDeg: 999, precessionRate: 1000 }); });
+      // ⑥ 既定 "spin" が build で殻スピンになる
+      {
+        const p = base();
+        Object.assign(p.bodies[0].core, { axisMode: 'prescribed', azimuthDeg: 0 });
+        const v = HP.validatePreset(p);
+        const S = HP.sim; S.build(v.preset);
+        O.spinDefault = { declared: v.preset.bodies[0].core.precessionRate,
+          stored: S.coreAxOm[0], bodySpin: v.preset.bodies[0].spin,
+          mode: S.coreAxM[0], has: S.hasCoreAxis };
+      }
+      // 内蔵 128 本に宣言が 1 本も無いこと(既定 1 bit 不変の前提)
+      O.builtinDeclared = HP.allPresets().filter((p) => (p.bodies || []).some(
+        (b) => b && b.core && b.core.axisMode !== undefined)).map((p) => p.id);
+      O.modes = HP.CORE_AXIS_MODES; O.azClamp = HP.CORE_AXIS_AZ_CLAMP;
+      O.rateClamp = HP.CORE_AXIS_RATE_CLAMP; O.rateDefault = HP.CORE_AXIS_RATE_DEFAULT;
+      O.design = Object.keys(HP.CORE_AXIS_DESIGN || {});
+      return O;
+    });
+    const c1 = ax.good.ok && ax.good.core.axisMode === 'prescribed'
+      && ax.good.core.azimuthDeg === 30 && ax.good.core.precessionRate === 0.5;
+    const c2 = ax.noMode.ok && ax.noMode.core.axisMode === undefined
+      && ax.noMode.core.azimuthDeg === undefined && ax.noMode.warns.length >= 1;
+    const c3 = ax.dynamic.ok && ax.dynamic.core.axisMode === undefined && ax.dynamic.warns.length >= 1;
+    const c4 = ax.withKalign.ok && ax.withKalign.core.axisMode === undefined
+      && ax.withKalign.core.Kalign === 0.5 && ax.withKalign.warns.length >= 1;
+    const c5 = ax.noTilt.ok && ax.noTilt.core.axisMode === undefined && ax.noTilt.warns.length >= 1
+      && ax.withKcs.ok && ax.withKcs.core.axisMode === undefined && ax.withKcs.core.tilt === undefined;
+    const c6 = ax.spinDefault.declared === 'spin' && ax.spinDefault.mode === 1
+      && ax.spinDefault.has === true && ax.spinDefault.stored === ax.spinDefault.bodySpin;
+    const c7 = ax.clamped.ok && ax.clamped.core.azimuthDeg === 360
+      && ax.clamped.core.precessionRate === 100;
+    const c8 = ax.builtinDeclared.length === 0 && ax.modes.length === 1
+      && ax.modes[0] === 'prescribed' && ax.design.length === 2;
+    add('preset.coreAxis-declared', c1 && c2 && c3 && c4 && c5 && c6 && c7 && c8,
+      `**コア軸の宣言モード**(第275便e・第65報 (7))/ `
+      + `① 正しい宣言 → axisMode=${ax.good.core && ax.good.core.axisMode}・azimuthDeg=${ax.good.core && ax.good.core.azimuthDeg}・`
+      + `precessionRate=${ax.good.core && ax.good.core.precessionRate}=${c1} / `
+      + `② axisMode 無しの azimuthDeg/precessionRate は落ちる(警告 ${ax.noMode.warns.length} 件)=${c2} / `
+      + `③ "dynamic" は落ちる(**本便は設計のみ**・警告 ${ax.dynamic.warns.length} 件)=${c3} / `
+      + `④ Kalign との併用は落ちる(Kalign=${ax.withKalign.core && ax.withKalign.core.Kalign} は残る)=${c4} / `
+      + `⑤ tilt が通っていなければ落ちる(tilt 無し / Kcs>0 で tilt ごと落ちる場合とも)=${c5} / `
+      + `⑥ precessionRate 省略 → 既定 "${ax.spinDefault.declared}"・build 後 S.coreAxOm=${ax.spinDefault.stored}`
+      + `(殻スピン ${ax.spinDefault.bodySpin})=${c6} / `
+      + `⑦ 値域 azimuthDeg 999→${ax.clamped.core && ax.clamped.core.azimuthDeg}(門 ${JSON.stringify(ax.azClamp)})・`
+      + `precessionRate 1000→${ax.clamped.core && ax.clamped.core.precessionRate}(門 ${JSON.stringify(ax.rateClamp)})=${c7} / `
+      + `⑧ **内蔵で宣言している本 ${ax.builtinDeclared.length} 本**(既定 1 bit 不変の前提)・`
+      + `モード ${JSON.stringify(ax.modes)}・設計の口 ${JSON.stringify(ax.design)}=${c8} / `
+      + `**3D 実装ではない**(力学が読むのは従来どおり z 射影 J_z だけ)`);
+  } else {
+    console.log('SKIP preset.coreAxis-declared(対象に第275便e のコア軸の宣言なし — root 等)');
+  }
+}
+
+// ---- 第275便e: behavior.coreAxisPrescribed — **宣言なしで 1 bit 不変・宣言ありで軸が宣言どおり進む** ----
+//   ① **宣言が無ければ 1 行も通らない**: 🪩 bhCoreTilt(core.tilt:90・殻スピン 0.15)をそのまま
+//      build すると `hasCoreAxis=false`・`HP.dfmCoreAxisStep(S,dt)` を**直接呼んでも** null で、
+//      600 步の指紋が 1 bit も動かない。
+//   ② **宣言どおり進む**: azimuthDeg=30・precessionRate=0.5 を宣言すると、面内方位 φ が
+//      **φ(t)=30°+0.5·t** と一致する(度で 1e−9 以内)。傾き角 θ と |J| は動かない。
+//   ③ **力学に反作用しない**: 同じ 🪩 の x/y/vx/vy の 600 步の指紋が、宣言の有無で**ビット同一**。
+//   ④ **既定 "spin" は同値の移行**: 🏮 pulsarSolo(殻スピン 0 = 第227便ジャイロ分岐に入らない)へ
+//      azimuthDeg=0 で宣言すると、Ω_p=0 なので軸は止まったまま = **宣言なしとビット同一**。
+//   ⑤ **帳簿**: 宣言した拘束が持ち去った面外 L は 0 でなく、回転 E は丸めの範囲(|ΔE| ≤ 1e−6)。
+{
+  const hasAx2 = await page.evaluate(() => !!(window.HP && typeof HP.dfmCoreAxisStep === 'function'));
+  if (hasAx2) {
+    const pr = await page.evaluate(() => {
+      const O = {};
+      const fp = (S, keys) => { let a = 0x811c9dc5;
+        const buf = new ArrayBuffer(8), f = new Float64Array(buf), u = new Uint8Array(buf);
+        const push = (v) => { f[0] = v; for (let b = 0; b < 8; b++) { a ^= u[b]; a = Math.imul(a, 0x01000193) >>> 0; } };
+        for (const k of keys) for (let i = 0; i < S.n; i++) push(S[k][i]);
+        return a.toString(16); };
+      const KEYS = ['x', 'y', 'vx', 'vy'];
+      const build = (id, mut) => { const p = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === id)));
+        if (mut) mut(p); const v = HP.validatePreset(p); const S = HP.sim; S.build(v.preset); return S; };
+      // ① 宣言なし(🪩)
+      {
+        const S = build('bhCoreTilt');
+        for (let k = 0; k < 600; k++) S.step(0.016);
+        const before = fp(S, KEYS), jx = S.coreJx[0], jy = S.coreJy[0];
+        const ret = HP.dfmCoreAxisStep(S, 0.016);
+        O.plain = { has: S.hasCoreAxis, mode: S.coreAxM[0], ret,
+          same: fp(S, KEYS) === before, jxSame: S.coreJx[0] === jx && S.coreJy[0] === jy,
+          n: S.axPrescN, fpDyn: before, axState: HP.coreAxisState(S, 0) };
+      }
+      // ②③ 宣言あり(🪩・azimuthDeg=30・precessionRate=0.5)
+      {
+        const S = build('bhCoreTilt', (p) => { Object.assign(p.bodies[0].core,
+          { axisMode: 'prescribed', azimuthDeg: 30, precessionRate: 0.5 }); });
+        const st0 = HP.coreAxisState(S, 0);
+        for (let k = 0; k < 600; k++) S.step(0.016);
+        const st = HP.coreAxisState(S, 0);
+        const wrap = (d) => { let z = d % 360; if (z > 180) z -= 360; if (z < -180) z += 360; return z; };
+        O.decl = { has: S.hasCoreAxis, mode: S.coreAxM[0], rate: S.coreAxOm[0],
+          az0Deg: st0.azimuthDeg, azDeg: st.azimuthDeg,
+          phiPrescribedDeg: st.phiPrescribedDeg, t: S.t,
+          azErrDeg: Math.abs(wrap(st.azimuthDeg - st.phiPrescribedDeg)),
+          tilt0Deg: st0.tiltDeg, tiltDeg: st.tiltDeg, Jm0: st0.Jmag, Jm: st.Jmag,
+          n: S.axPrescN, Lx: S.axPrescLx, Ly: S.axPrescLy, E: S.axPrescE,
+          Px: S.axPrescPx, Py: S.axPrescPy, fpDyn: fp(S, KEYS), nan: S.hasNaN() };
+      }
+      // ④ 🏮 pulsarSolo(殻スピン 0)—— 既定 "spin"(=0)は宣言なしとビット同一
+      {
+        const A = build('pulsarSolo');
+        for (let k = 0; k < 600; k++) A.step(0.016);
+        const fa = fp(A, KEYS), ja = [A.coreJx[0], A.coreJy[0], A.coreJ[0]];
+        const B = build('pulsarSolo', (p) => { Object.assign(p.bodies[0].core,
+          { axisMode: 'prescribed', azimuthDeg: 0 }); });
+        for (let k = 0; k < 600; k++) B.step(0.016);
+        O.equiv = { rate: B.coreAxOm[0], fpSame: fp(B, KEYS) === fa,
+          jSame: B.coreJx[0] === ja[0] && B.coreJy[0] === ja[1] && B.coreJ[0] === ja[2],
+          n: B.axPrescN, E: B.axPrescE, Lx: B.axPrescLx, Ly: B.axPrescLy };
+      }
+      return O;
+    });
+    const wrapOk = (x) => Number.isFinite(x);
+    const c1 = pr.plain.has === false && pr.plain.mode === 0 && pr.plain.ret === null
+      && pr.plain.same === true && pr.plain.jxSame === true && pr.plain.n === 0;
+    const c2 = pr.decl.has === true && pr.decl.mode === 1 && pr.decl.rate === 0.5
+      && wrapOk(pr.decl.azErrDeg) && pr.decl.azErrDeg <= 1e-9
+      && Math.abs(pr.decl.tiltDeg - pr.decl.tilt0Deg) <= 1e-9
+      && Math.abs(pr.decl.Jm - pr.decl.Jm0) <= 1e-9 * Math.max(1, pr.decl.Jm0)
+      && pr.decl.nan === false;
+    const c3 = pr.decl.fpDyn === pr.plain.fpDyn;
+    const c4 = pr.equiv.rate === 0 && pr.equiv.fpSame === true && pr.equiv.jSame === true;
+    const c5 = pr.decl.n > 0 && Math.abs(pr.decl.E) <= 1e-6
+      && (Math.abs(pr.decl.Lx) + Math.abs(pr.decl.Ly)) > 0
+      && pr.decl.Px === 0 && pr.decl.Py === 0;
+    add('behavior.coreAxisPrescribed', c1 && c2 && c3 && c4 && c5,
+      `**コア軸の prescribed**(第275便e)/ `
+      + `① **宣言が無ければ 1 行も通らない**(🪩): hasCoreAxis=${pr.plain.has}・coreAxM=${pr.plain.mode}・`
+      + `直接呼びの戻り=${pr.plain.ret}・600 步の指紋不変=${pr.plain.same}・面内成分不変=${pr.plain.jxSame}・`
+      + `記帳回数=${pr.plain.n}=${c1} / `
+      + `② **宣言どおり進む**(az=30°・Ω_p=0.5・t=${pr.decl.t.toFixed(6)}): 方位 ${pr.decl.az0Deg.toFixed(6)}°→`
+      + `${pr.decl.azDeg.toFixed(6)}°(宣言 φ(t)=${pr.decl.phiPrescribedDeg.toFixed(6)}°・**差 `
+      + `${pr.decl.azErrDeg.toExponential(2)}°**)・傾き ${pr.decl.tilt0Deg.toFixed(9)}°→${pr.decl.tiltDeg.toFixed(9)}°・`
+      + `|J| ${pr.decl.Jm0.toFixed(6)}→${pr.decl.Jm.toFixed(6)}=${c2} / `
+      + `③ **力学に反作用しない**: x/y/vx/vy の 600 步の指紋が宣言の有無で同一(${pr.plain.fpDyn})=${c3} / `
+      + `④ **既定 "spin" は同値の移行**(🏮 は殻スピン 0 なので Ω_p=${pr.equiv.rate}): 指紋同一=${pr.equiv.fpSame}・`
+      + `コア J もビット同一=${pr.equiv.jSame}(記帳 ${pr.equiv.n} 回・E=${pr.equiv.E})=${c4} / `
+      + `⑤ **帳簿**(宣言した拘束が持ち去った量・負号): 面外 L=(${pr.decl.Lx.toExponential(4)}, `
+      + `${pr.decl.Ly.toExponential(4)})・回転 E=${pr.decl.E.toExponential(2)}(丸めの範囲)・`
+      + `並進 P=(${pr.decl.Px}, ${pr.decl.Py})(**恒等的に 0**)=${c5} / `
+      + `**「3D を実装した」とは書かない**(2D 投影・力学は J_z だけを読む)`);
+  } else {
+    console.log('SKIP behavior.coreAxisPrescribed(対象に第275便e のコア軸の宣言なし — root 等)');
+  }
+}
+
+// ---- 第275便e(第65報 (8)「パワーボール効果(仮説)」): docs.powerballLedger ----
+//   **閉じた node 模型の正本**(tests/out/powerball-w275e.json・器 tests/exp-w275e-powerball.mjs・
+//   純関数 tests/lib-w275e-powerball.mjs・**エンジン未接続**)と docs/PHYSICS.md 〔第275便e〕の
+//   表の一致を機械固定する。6 点:
+//     ① 来歴 meta と**仮説そのもの**(H1〜H7)が正本に載っている。
+//     ② 5 段(無トルク → 整列 → 散逸 → 供給源 → 閉じた連星)がすべて在る。
+//     ③ **負の対照**(R37): 保存トルクだけの走行で |S| の相対漂いが 1e−9 以下 = 自転を加速しない。
+//     ④ 第④段の帳簿 ΔE_rot=ΣW が 1e−9(相対)以内で閉じ、**供給なしの対照**で ω が動かない。
+//     ⑤ 第⑤段で J_z=L_orb+ΣS_z が 1e−10(相対)以内で保存している。
+//     ⑥ PHYSICS.md にこの節があり、**正本の主要数値がそのまま載っている**(機械同期)。
+{
+  const P = path.join(ROOT, 'tests', 'out', 'powerball-w275e.json');
+  let J = null, err = '';
+  try { J = JSON.parse(fs.readFileSync(P, 'utf8')); } catch (e) { err = String(e).slice(0, 80); }
+  const phys = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+  const bad = [];
+  let gy = null, noSup = null, bDis = null;
+  if (!J) bad.push('正本が読めない: ' + err);
+  else {
+    if (!J.meta || !J.meta.provenanceVersion) bad.push('①来歴 meta が無い');
+    const H = J.meta && J.meta.hypothesis;
+    if (!H || !Array.isArray(H.claims) || H.claims.length !== 7) bad.push('①仮説 H1〜H7 が無い');
+    if (!H || !H.negativeControl) bad.push('①負の対照の宣言が無い');
+    for (const k of ['stage1', 'stage2', 'stage3', 'stage4', 'stage5', 'verdict'])
+      if (!J[k]) bad.push('②段が無い: ' + k);
+    gy = ((J.stage1 || {}).rows || []).find((r) => r.id === 'gyroOnly');
+    const gys = ((J.stage1 || {}).rows || []).find((r) => r.id === 'gyroOnlyStrong');
+    if (!gy || !gys) bad.push('③保存トルクだけの行が無い');
+    else {
+      if (!(gy.spinRelDrift <= 1e-9 && gys.spinRelDrift <= 1e-9))
+        bad.push('③|S| が動いている(負の対照が破れている)');
+      if (!(Math.abs(gy.precRelDiff) <= 1e-6)) bad.push('③歳差率が理論と合っていない');
+    }
+    for (const p of ((J.stage1 || {}).axialProbe || []))
+      if (!(Math.abs(p.relC) <= 1e-14 && Math.abs(p.relD) <= 1e-14)) bad.push('③τ·ŝ が 0 でない');
+    for (const r of ((J.stage4 || {}).rows || [])) {
+      if (!(r.ledgerAbs <= 1e-9 * Math.max(1, Math.abs(r.dErot)))) bad.push('④帳簿が閉じていない: ' + r.id);
+      if (!(r.fullClosureAbs <= 1e-9)) bad.push('④全体の閉じが破れている: ' + r.id);
+    }
+    noSup = ((J.stage4 || {}).rows || []).find((r) => /noSupply/.test(r.id));
+    if (!noSup || !(Math.abs(noSup.omegaLast - noSup.omegaFirst) <= 1e-9))
+      bad.push('④供給なしの対照で ω が動いている');
+    for (const r of ((J.stage5 || {}).rows || []))
+      if (!(r.worstJzRel <= 1e-10)) bad.push('⑤J_z が保存していない: ' + r.id);
+    bDis = ((J.stage5 || {}).rows || []).find((r) => r.id === 'dissipative(Q>0)');
+    // ⑥ PHYSICS.md への機械同期
+    if (!/〔第275便e/.test(phys)) bad.push('⑥PHYSICS.md に〔第275便e〕節が無い');
+    const need = [];
+    if (gy) need.push(gy.precTheory.toFixed(6));
+    if (bDis) { need.push(bDis.alignGap1Deg.toFixed(3)); need.push(bDis.heatDrops + '/' + bDis.heatSteps); }
+    const a1 = ((J.stage2 || {}).rows || [])[0];
+    if (a1) need.push(a1.tauMeasured.toFixed(6));
+    for (const t of need) if (!phys.includes(t)) bad.push('⑥PHYSICS.md に正本の数値が無い: ' + t);
+  }
+  add('docs.powerballLedger', bad.length === 0,
+    `**パワーボールの閉じた node 模型**(第275便e・第65報 (8)・正本 tests/out/powerball-w275e.json・`
+    + `器 tests/exp-w275e-powerball.mjs・**エンジン未接続**)/ `
+    + (J ? `来歴 ${J.meta && J.meta.provenanceVersion}・仮説 ${((J.meta || {}).hypothesis || {}).claims ? ((J.meta || {}).hypothesis || {}).claims.length : 0} 項 / `
+      + `**負の対照**(R37): 保存トルクだけで |S| の相対漂い ${gy ? gy.spinRelDrift.toExponential(2) : '—'}`
+      + `(= **自転を加速しない**)・歳差率 実測 ${gy ? gy.precMeasured.toExponential(6) : '—'} vs 理論 `
+      + `${gy ? gy.precTheory.toExponential(6) : '—'} / `
+      + `供給の帳簿 ΔE_rot=ΣW の最悪差 `
+      + `${Math.max(...((J.stage4 || {}).rows || [{ ledgerAbs: 0 }]).map((r) => r.ledgerAbs)).toExponential(2)}・`
+      + `供給なしの対照で ω=${noSup ? noSup.omegaLast.toFixed(6) : '—'}(不変)/ `
+      + `連星 J_z の最悪相対漂い `
+      + `${Math.max(...((J.stage5 || {}).rows || [{ worstJzRel: 0 }]).map((r) => r.worstJzRel)).toExponential(2)}・`
+      + `散逸つきで連結線とのずれ ${bDis ? bDis.alignGap1Deg.toFixed(3) : '—'}° が残る / `
+      + `仮説の対応づけ: ` + ((J.verdict || []).map((v) => `${v.id}=${v.inModel}`).join('・'))
+      + ` / **K・Q・Γ は宣言された自由パラメータ**(観測から同定していない)`
+      : '正本なし')
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
 }
 
 // ---- 0a4a) 第274便a(第64報・原仮定者の優先課題(2)): docs.kf0Ledger ----
-// ----   **kF0 棚卸し表**(`docs/KF0_LEDGER_v1.45.md` ↔ 正本 `tests/out/kf0ledger-w274a.json`)を
+// ----   **第275便a(第65報・R33)で改版**: 正本は `tests/out/kf0ledger-w275a.json`(版 `w275a-1`)、
+// ----   列は **5 本**(R28 の 4 列 + 切り離した「外挿残差」)、**「k のみの対照」は k を除く
+// ----   5 成分(f・D₀・q・frameWeight・bodies)がすべて同一のときだけ**である。
+// ----   **kF0 棚卸し表**(`docs/KF0_LEDGER_v1.45.md` ↔ 正本 `tests/out/kf0ledger-w275a.json`)を
 // ----   機械固定する。問いは「**kFrame=1 が成立しないサンプルで kF0 版が成立しているか**」で、
 // ----   答えは **4 列**(走行成立/構造安定/数値成立/観測成立 —— 統括の検証項目 R28)で書く。
 // ----   固定するのは 8 点で、**合否そのものではない**(合否は門が決める):
@@ -44404,12 +45335,12 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     console.log('SKIP docs.kf0Ledger(beta 対象でない: ' + TARGET + ' — 棚卸し表は beta 線の実測)');
   } else {
     try {
-      const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'kf0ledger-w274a.json'), 'utf8'));
+      const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'kf0ledger-w275a.json'), 'utf8'));
       const doc = fs.readFileSync(path.join(ROOT, 'docs', 'KF0_LEDGER_v1.45.md'), 'utf8');
       const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
       const m = J.meta || {};
       if (m.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(別ソースの走行)');
-      if (m.ledgerVersion !== 'w274a-1') bad.push(`① 表の版が w274a-1 でない(${m.ledgerVersion})`);
+      if (m.ledgerVersion !== 'w275a-1') bad.push(`① 表の版が w275a-1 でない(${m.ledgerVersion})`);
       cases.push('html の SHA-256 一致・表の版 ' + m.ledgerVersion);
       const rows = Array.isArray(J.rows) ? J.rows : [];
       nRows = rows.length;
@@ -44428,27 +45359,41 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       // ③ 4 列の語彙
       const VOC = new Set(['✓', '✗', '未測定']);
       const KEYS = (J.columns || []).map((c) => c.key);
-      if (KEYS.length !== 4) bad.push(`③ 列の宣言が 4 つでない(${KEYS.length})`);
+      // 第275便a(R33 の処置 P2): 列は **5 本**(R28 の 4 列 + 切り離した「外挿残差」)で、
+      //   **ラベルの判定に使うのは 4 本**(外挿残差は門を通っていないので入らない)。
+      const LKEYS = Array.isArray(J.labelColumns) ? J.labelColumns : [];
+      if (KEYS.length !== 5) bad.push(`③ 列の宣言が 5 つでない(${KEYS.length})`);
+      if (KEYS.indexOf('extrapolated') < 0) bad.push('③ 「外挿残差」の列(extrapolated)が無い');
+      if (LKEYS.length !== 4 || LKEYS.indexOf('extrapolated') >= 0)
+        bad.push(`③ 判定に使う列が 4 本(外挿残差を除く)でない(${JSON.stringify(LKEYS)})`);
       for (const r of rows) for (const side of ['kf1', 'kf0']) {
         const s = r[side];
         if (!s) { bad.push(`③ ${r.id} に ${side} が無い`); continue; }
         for (const k of KEYS) if (!VOC.has(s[k])) bad.push(`③ ${r.id}.${side}.${k} が 3 語のどれでもない(${s[k]})`);
       }
-      cases.push('4 列 × 2 側 = ' + (rows.length * 8) + ' セルが ✓/✗/未測定 の 3 語');
+      cases.push('5 列 × 2 側 = ' + (rows.length * 10) + ' セルが ✓/✗/未測定 の 3 語'
+        + '(判定に使う列は ' + LKEYS.length + ' 本 — 外挿残差は記録専用)');
+      // **門を持たない診断系列に「観測成立」を書いていない**(第275便a・R33 の処置 P2)
+      for (const r of rows) if (r.scope === 'diagnostic') for (const side of ['kf1', 'kf0']) {
+        const sd = r[side] || {};
+        if (sd.observation !== '未測定')
+          bad.push(`③ 診断行 ${r.id}.${side} の観測成立が未測定でない(${sd.observation}) —— `
+            + '門を持たない行に観測成立を書かない(外挿残差の列へ)');
+      }
       // ④⑤ ラベルの条件
       const labelled = rows.filter((r) => r.label);
       nLabel = labelled.length;
       for (const r of labelled) {
         if ((r.kf1 || {}).observation !== '✗')
           bad.push(`④ ${r.id} にラベルがあるが kF1 の観測成立が ✗ でない(${(r.kf1 || {}).observation})`);
-        for (const k of KEYS) if ((r.kf0 || {})[k] !== '✓')
+        for (const k of LKEYS) if ((r.kf0 || {})[k] !== '✓')
           bad.push(`④ ${r.id} にラベルがあるが kF0 の ${k} が ✓ でない(${(r.kf0 || {})[k]})`);
         const q = (r.labelBasis || {}).quantity;
         if (!Array.isArray(q) || !q.length) bad.push(`⑤ ${r.id} のラベルに根拠(対象量)が無い`);
       }
       // 逆向き: 4 列が揃っていてラベルが無い行を漏れとして拾う
       for (const r of rows) {
-        const all = KEYS.every((k) => (r.kf0 || {})[k] === '✓');
+        const all = LKEYS.every((k) => (r.kf0 || {})[k] === '✓');
         if (all && (r.kf1 || {}).observation === '✗' && !r.label)
           bad.push(`④ ${r.id} は条件を満たすのにラベルが無い`);
       }
@@ -44470,7 +45415,23 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       for (const r of rows) if (!r.kOnlyContrast || typeof r.kOnlyContrast.has !== 'boolean')
         bad.push(`⑦ ${r.id} に「f 固定・k のみの対照」の宣言が無い`);
       if (S.nKOnlyContrast !== nKOnly) bad.push('⑦ summary.nKOnlyContrast が行と違う');
-      cases.push(`f 固定・k のみの対照 ${nKOnly} 行`);
+      // 第275便a(R33 の処置 P1): **「k のみの対照」は k を除く 5 成分がすべて同一のときだけ**。
+      //   軸の正本(presetaxes)を持ち、**f が同じだけの対を kOnly にしていない**ことを固定する。
+      const AX = J.axes || {};
+      if (!Array.isArray(AX.keys) || AX.keys.length !== 5)
+        bad.push(`⑦ 対照の軸(k を除く 5 成分)の宣言が無い(${JSON.stringify(AX.keys)})`);
+      for (const q of (J.pairs || [])) {
+        if (q.missing) continue;
+        if (typeof q.kOnly !== 'boolean') { bad.push(`⑦ 対 ${q.k0}↔${q.k1} に kOnly の宣言が無い`); continue; }
+        const dif = Array.isArray(q.axisDiffering) ? q.axisDiffering : null;
+        if (!dif) { bad.push(`⑦ 対 ${q.k0}↔${q.k1} に「動いている軸」の記録が無い`); continue; }
+        if (q.kOnly !== (dif.length === 0))
+          bad.push(`⑦ 対 ${q.k0}↔${q.k1} の kOnly=${q.kOnly} が軸の差 ${JSON.stringify(dif)} と合わない`
+            + ' —— **f が同じだけでは「k のみの対照」ではない**(R33)');
+      }
+      cases.push(`f 固定・k のみの対照 ${nKOnly} 行 / 宣言した対 ${(J.pairs || []).length} 組のうち`
+        + ` k のみ ${S.nPairsKOnly} 組(f だけが同じ対 ${(S.pairsFSameOnly || []).length} 組は`
+        + ' **k のみではない**と分類 — R33)');
       // ⑧ 書かない語は §6 の中だけ
       const i6 = doc.indexOf('## 6. 書かないこと');
       if (i6 < 0) bad.push('⑧ 文書に §6「書かないこと」が無い');
@@ -44480,12 +45441,14 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
           at = doc.indexOf(w, at + 1); }
       }
       const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
-      if (P.indexOf('〔第274便a') < 0) bad.push('⑧ PHYSICS に〔第274便a〕節が無い');
+      if (P.indexOf('〔第275便a') < 0) bad.push('⑧ PHYSICS に〔第275便a〕節が無い');
     } catch (e) { bad.push('棚卸し表が読めない: ' + String(e).slice(0, 110)); }
     add('docs.kf0Ledger', bad.length === 0,
-      `**kF0 棚卸し表**(第274便a・原仮定者の優先課題「kFrame=1 が成立しないサンプルで kF0 版が`
-      + `成立しているかをまとめる」): ${cases.join(' / ')} —— 答えは **4 列**(走行成立/構造安定/`
-      + `数値成立/観測成立・R28)で書き、**完走だけを「成立」と書かない**。`
+      `**kF0 棚卸し表**(第274便a → **第275便a で改版**・原仮定者の優先課題「kFrame=1 が成立しない`
+      + `サンプルで kF0 版が成立しているかをまとめる」): ${cases.join(' / ')} —— 答えは **R28 の 4 列**`
+      + `(走行成立/構造安定/数値成立/観測成立)で書き、**完走だけを「成立」と書かない**。`
+      + `**第275便a(R33)**: 門を通っていない `
+      + `\`|nσ|≤3\` を「観測成立」に書かず **「外挿残差」の列へ分けた**(記録専用・判定に入れない)。`
       + `ラベル「引きずりが完全に消えている空間メッシュ状態(候補)」は **kF1 が 否(3σ)・`
       + `kF0 の 4 列がすべて ✓** の行にだけ付く**候補**であって、**較正完了ではない**。`
       + `**未測定は未測定と書く**(推定で埋めない)`

@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第273便c(第63報・AH24)",
   "target": "beta/index.html",
-  "targetSha256": "8b65f1d6996837964d7e5cca418600fa10a7e674a6803d0a72346e4456440e75",
-  "generatedAt": "2026-09-20T06:10:12.796Z",
+  "targetSha256": "536fa19848ecfc023f6545279f93800df1f49eeaf4b23292fc1b8748dcbc4890",
+  "generatedAt": "2026-09-20T21:30:29.992Z",
   "inputs": [
    {
     "file": "tests/out/nslock-w272c.json",
-    "bytes": 230232,
-    "sha256": "045d41ce98002e17c3e15dce782d23863c2032f7e0fd11359f2da48386daf273",
-    "mtime": "2026-09-20T06:10:04.335Z"
+    "bytes": 230032,
+    "sha256": "20ef1493b21a0eb38c22a51460bdebc079ff3255cde07da395f0611629051cd9",
+    "mtime": "2026-09-20T21:30:22.771Z"
    }
   ],
   "code": [
@@ -31,7 +31,7 @@
  },
  "section": "NS 連星 4 系の lock 枝(kFrame=0・f=1・λ_PN=1)の記録",
  "sourceHarness": "w272c-nslock-1",
- "sourceAt": "2026-09-20T06:00:32.001Z",
+ "sourceAt": "2026-09-20T21:23:25.217Z",
  "metric": "近点間 P = 位相制限(1.5π)の最初の 20 近点(19 区間)の平均間隔。ω̇ = 採用近点の方位を実時刻に回帰した傾き(°/年)。e = 窓内の (r_max−r_min)/(r_max+r_min)(eProxy)。",
  "assessedStageRule": "**ω̇ は 3 段(h, h/2, h/4)の Richardson 外挿**(`omegaDotExt`)と**h/4 段の値**(`omegaDotH4`)を両方置く。外挿は観測次数 p が正で単調な列だけに作る(第273便c・AH30 —— 非正の次数から外挿は作らない)。",
  "declarationNote": "`pnAlpha`・`lambdaPN`・`geoPN`・`frameWeight` は**内蔵プリセットの宣言**であって実測ではない。**速度は E12 の主張域どおり u=0 の絶対値(座標速度)**で、正本は docs/PHYSICS.md の E12 節である(この器は宣言を読んだだけで、規約を作っていない)。",
@@ -90,12 +90,12 @@
       "lambdaPN": 1,
       "keepCore": false
      },
-     "omegaDotExt": 16.89932372561368,
-     "omegaDotH4": 16.973330238955523,
-     "ratioExt": 1.0000000429374407,
-     "ratioH4": 1.0043793019966258,
-     "nSigmaExt": 0.05581643701081983,
-     "pObs": 1.2662163404118958,
+     "omegaDotExt": 17.641709990269252,
+     "omegaDotH4": 17.92597867433083,
+     "ratioExt": 1.0439299840750575,
+     "ratioH4": 1.0607512901156353,
+     "nSigmaExt": 57106.69155917331,
+     "pObs": 1.0928640605071274,
      "resolved": true
     },
     "kf0Ledger": {
@@ -201,12 +201,12 @@
       "lambdaPN": 1,
       "keepCore": false
      },
-     "omegaDotExt": 10.365101700899967,
-     "omegaDotH4": 10.457063156215137,
-     "ratioExt": 1.0000001640987513,
-     "ratioH4": 1.0088723848506176,
-     "nSigmaExt": 0.008504499833250634,
-     "pObs": 1.0246362392117392,
+     "omegaDotExt": 13.852377778201037,
+     "omegaDotH4": 13.921909903596086,
+     "ratioExt": 1.3364442000753525,
+     "ratioH4": 1.343152492845808,
+     "nSigmaExt": 17436.388891005183,
+     "pObs": 1.0457476632347509,
      "resolved": true
     },
     "kf0Ledger": {
@@ -312,12 +312,12 @@
       "lambdaPN": 1,
       "keepCore": false
      },
-     "omegaDotExt": 25.79199243425606,
-     "omegaDotH4": 25.920207465127042,
-     "ratioExt": 0.9999977680818725,
-     "ratioH4": 1.0049688747163192,
-     "nSigmaExt": -0.14391435985139367,
-     "pObs": 1.360278403796282,
+     "omegaDotExt": 23.85459302787117,
+     "omegaDotH4": 24.09712308730089,
+     "ratioExt": 0.9248816215799509,
+     "ratioH4": 0.9342849090049411,
+     "nSigmaExt": -4843.64243032207,
+     "pObs": 1.1294751916366497,
      "resolved": true
     },
     "kf0Ledger": {
@@ -423,12 +423,12 @@
       "lambdaPN": 1,
       "keepCore": false
      },
-     "omegaDotExt": 1.7557889554881403,
-     "omegaDotH4": 1.7599844603582675,
-     "ratioExt": 0.9999999746485143,
-     "ratioH4": 1.0023895014482194,
-     "nSigmaExt": -0.004945762194847387,
-     "pObs": 1.059529055135883,
+     "omegaDotExt": 3.1983548323749496,
+     "omegaDotH4": 3.201932061396673,
+     "ratioExt": 1.8216054619176618,
+     "ratioH4": 1.823642853097196,
+     "nSigmaExt": 160285.0924861055,
+     "pObs": 1.072251997017144,
      "resolved": true
     },
     "kf0Ledger": {

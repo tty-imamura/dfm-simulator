@@ -36,10 +36,18 @@
 //   f の定義: **質量だけを f 倍する**(初期位置・初速は転写のまま)。転写初速は観測された相対速度
 //   そのもの(2πa/P_obs と 0.003% で一致)なので、「同じ観測軌道を支える質量が f 倍」の診断に対応する。
 //
+//   D  (**第275便b**)`--D0` を付けたときだけ走る系列 … **D₀ の背景規則ごとの値**を kF0/kF1 で測る
+//      原仮定者の裁定(第65報 (2))「**D₀ は『何を背景とするか』でサンプル毎に変わる**/
+//      **D₀ の補正は冥王星とカロンで検証する**」。規則の値は `tests/lib-w275b-dsplit.mjs` が作る
+//      (手打ちしない)。**内蔵 ❄️ の D₀=0.006 は 1 bit も変えていない**(診断コピーの中だけ)。
+//      この系列は**正本 `tests/out/charon-w272b.json` を 1 バイトも触らず**
+//      `tests/out/charond0-w275b.json` へ書く(併合鍵は同じ 6 成分で作る)。
+//
 // 実行:
 //   PLAYWRIGHT_CORE_DIR=/opt/node22/lib/node_modules/playwright node tests/exp-w272b-charon.mjs [--stage h|h2|h4]
-//       [--only C0,C1,C2_k0.3,…] [--pilot] [--steps N]
+//       [--only C0,C1,C2_k0.3,…] [--pilot] [--steps N] [--D0 rule|v1,v2,…]
 //   --pilot … 步数を 2,100,000(約 6 周)に落として検出器の同値だけ確かめる(正本に書かない)
+//   --D0 rule … 規則の 4 点(宣言値 0.006 / 太陽からの距離 / 銀河内位置 / 1)× kF{0,1} を走らせる
 // 出力: tests/out/charon-w272b.json(列 × 段で**併合**する)
 //   第273便b(統括の検証項目 R20): 併合の可否は **6 成分の併合鍵**(対象 html・測定コード
 //   `tests/lib-w273b-charonpage.mjs`・候補式 lib・観測入力 calaudit の hash と採用行・窓〔近点 20 /
@@ -56,6 +64,10 @@ import { pairLockCandidates, pairLockInvariance, pairLockReferenceCases, PAIRLOC
 import { installCharonPage, CHARON_PAGE_VERSION } from './lib-w273b-charonpage.mjs';
 import { charonMergeKey, charonMergeDecision, isCanonicalRun, MERGEKEY_VERSION }
   from './lib-w273b-mergekey.mjs';
+// 第275便b(第65報 (2)): 背景規則から D₀ を作る純関数と、来歴の共通形
+import { ASSUMPTIONS, assumptionRows, ruleBackgroundSI, d0UnitSI, DSPLIT_VERSION }
+  from './lib-w275b-dsplit.mjs';
+import { provenanceMeta } from './lib-w272e-provenance.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -69,6 +81,8 @@ const getArg = (k, d) => { const i = argv.indexOf(k); return (i >= 0 && argv[i +
 const PILOT = argv.includes('--pilot');
 const STAGE = getArg('--stage', 'h');
 const ONLY = (getArg('--only', '') || '').split(',').map((z) => z.trim()).filter(Boolean);
+// 第275便b: `--D0` を付けたときだけ D 系列を組み、**別の正本**へ書く
+const D0ARG = argv.includes('--D0') ? String(getArg('--D0', 'rule')) : null;
 
 // ---- 固定契約(走行前に決めた値) ------------------------------------------------
 const STEP_H = 20700000, ORB_MAX = 60, PERI_WINDOW = 20;
@@ -115,6 +129,18 @@ await page.waitForFunction(() => window.HP && HP.sim);
 // 第273便b(R20): 測定コードは `tests/lib-w273b-charonpage.mjs` に**1 文字も変えずに**移した
 // (併合鍵にその SHA-256 を入れるため・k 走査器と同一の測定を構造的に保証するため)。
 await page.evaluate(installCharonPage, { ORB_MAX, PERI_WINDOW });
+// 第275便b: **測定コードの lib は 1 文字も変えない**(変えると第272便b/第273便b の正本の
+// 併合鍵と来歴 hash が動く)。D₀ の上書きは器の側で `make` を**包んで**足す ——
+// 包みは `cfg.D0` が宣言されたときだけ 1 行を書くので、D 系列以外は**呼び出し前と同じ値**である。
+await page.evaluate(() => {
+  const base = window.__w272.make;
+  window.__w272.make = (cfg) => {
+    const p = base(cfg);
+    if (cfg.D0 !== undefined) p.physics.D0 = cfg.D0;
+    if (cfg.D0Source !== undefined) p.physics.D0Source = cfg.D0Source;
+    return p;
+  };
+});
 
 // ---------------------------------------------------------------- 宣言済みの系の t=0 状態
 const DECLARED_IDS = ['plutoCharonReal', 'psrDoubleABDFM', 'psrJ1757DFM', 'psrJ1946DFM',
@@ -173,7 +199,37 @@ for (const lv of ['scalar', 'local', 'complex']) add('C6_' + lv, 'C6', { kFrame:
 for (const kf of [0.3, 0.7, 1]) add('C7_k' + kf, 'C7', { kFrame: kf, f: 1, geoPN: 3, lawVersion: 'scalar', toyAllowDrag: true, softening: EPS0 }, 'geoPN=3 + toyAllowDrag(重畳・較正扱いしない)');
 for (const ep of EPS_SERIES) for (const kf of [0, 1]) add('S_e' + ep + '_k' + kf, 'S', { kFrame: kf, f: 1, geoPN: 2, softening: ep }, 'softening 依存');
 
-const run = COLUMNS.filter((c) => !ONLY.length || ONLY.includes(c.id) || ONLY.includes(c.series));
+// ---- 第275便b: D 系列(背景規則ごとの D₀)---------------------------------------
+// **値は手で打たない** —— `lib-w275b-dsplit.mjs` の規則と仮定表から作り、サンプルの単位へ換算する。
+// ❄️ は `frameWeight:"share"`(pw=1)なので D₀ の単位は **M/L**(この系では 10^25 kg / 10^6 m = 10^19 kg/m)。
+let D0_POINTS = null;
+if (D0ARG) {
+  const scaleExp = { L: 6, T: 2, M: 25 };              // ❄️ plutoCharonReal の宣言(器は読むだけ)
+  const unit = d0UnitSI(scaleExp, 1);                   // 1 単位 = 10^19 kg/m
+  const rPluto = ASSUMPTIONS.semiMajorAxisAu.value.pluto * ASSUMPTIONS.auMeters.value;
+  const helio = ruleBackgroundSI('heliocentric', { heliocentricDistanceM: rPluto });
+  const gal = ruleBackgroundSI('galactic', {});
+  if (D0ARG === 'rule') {
+    D0_POINTS = [
+      { v: 0.006, tag: 'declared', why: '内蔵 ❄️ の宣言値(第242便以来の慣習の一値)', si: 0.006 * unit },
+      { v: helio.p1 / unit, tag: 'heliocentric',
+        why: '規則「太陽を置かないサンプルは太陽からの距離」M☉/r(r = 39.482117 au)', si: helio.p1 },
+      { v: gal.p1 / unit, tag: 'galactic',
+        why: '規則「太陽系外は銀河内位置」M_enc(R₀)/R₀(参考値 1×10¹¹ M☉ / 8.178 kpc)', si: gal.p1 },
+      { v: 1, tag: 'probe-1', why: '比較のための 1 点(規則の値ではない)', si: 1 * unit },
+    ];
+  } else {
+    D0_POINTS = D0ARG.split(',').map((z) => Number(z.trim())).filter((z) => Number.isFinite(z))
+      .map((v) => ({ v, tag: 'explicit', why: 'コマンドラインで宣言した値', si: v * unit }));
+  }
+  for (const pt of D0_POINTS) for (const kf of [0, 1])
+    add('D_kF' + kf + '_' + pt.tag, 'D',
+      { kFrame: kf, f: 1, geoPN: 2, softening: EPS0, D0: pt.v }, 'D₀=' + pt.v + '(' + pt.why + ')');
+}
+
+// `--D0` を付けたときは **D 系列だけ**を走らせる(既存の正本を 1 バイトも触らないため)
+const run = COLUMNS.filter((c) => (D0ARG ? c.series === 'D' : true))
+  .filter((c) => !ONLY.length || ONLY.includes(c.id) || ONLY.includes(c.series));
 
 // ---------------------------------------------------------------- 走行
 const SEC = Math.pow(10, base.scaleExpT);   // 1 時間単位 = 10^T 秒
@@ -227,8 +283,10 @@ const MK = charonMergeKey({
 });
 // 第273便b(R20): **短い走行は正本へ書かない**(別ファイル)。段の規定步数と違えば probe 扱い。
 const CANON = isCanonicalRun({ pilot: PILOT, steps: STEPS, stageSteps: STAGES[STAGE].steps });
+// 第275便b: `--D0` の走行は**別の正本**へ書く(第272便b の正本を 1 バイトも触らない)
+const OUT_USED = D0ARG ? path.join(ROOT, 'tests', 'out', 'charond0-w275b.json') : OUT;
 let prev = null;
-try { prev = JSON.parse(fs.readFileSync(OUT, 'utf8')); } catch { prev = null; }
+try { prev = JSON.parse(fs.readFileSync(OUT_USED, 'utf8')); } catch { prev = null; }
 const MD = charonMergeDecision(prev && prev.meta, MK);
 if (prev && !MD.accept) {
   console.error('併合鍵が違う走行は混ぜない(既存を捨てる): ' + MD.reasons.join(' / '));
@@ -297,10 +355,25 @@ const out = {
   declaredSystems: declared, referenceCases: refCases, stageOrders,
   fLinearAtKF: fLinAt, fLinearAtCandidate: fLinCand, candidateK: candK,
   columns: merged, pageErrors };
+// 第275便b: D 系列の正本には**来歴**(第272便e の形)と**背景規則の材料**を足す。
+// **ここで書き足すのは D 系列の正本だけ**で、第272便b の正本の形は 1 バイトも変わらない。
+if (D0ARG) {
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第275便b', target: TARGET,
+    code: ['tests/exp-w272b-charon.mjs', 'tests/lib-w273b-charonpage.mjs',
+      'tests/lib-w273b-mergekey.mjs', 'tests/lib-w272b-pairlock.mjs',
+      'tests/lib-w275b-dsplit.mjs', 'tests/lib-w272e-provenance.mjs'],
+    inputs: [TARGET, 'tests/out/calaudit-w249.json'] }), out.meta, {
+    wave: '第275便b', series: 'D',
+    ruling: '第65報 (2): D₀ は「何を背景とするか」でサンプル毎に変わる。**D₀ の補正は冥王星とカロンで検証する**',
+    dsplitVersion: DSPLIT_VERSION, d0Points: D0_POINTS, assumptions: assumptionRows(),
+    builtinD0Unchanged: 0.006,
+    notClaim: ['D₀ の補正で ❄️ が成立', 'D₀ を較正した', '規則値が正しい D₀ である',
+      'カロンの合否', '新発見'] });
+}
 if (CANON.canonical) {
-  fs.mkdirSync(path.dirname(OUT), { recursive: true });
-  fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
-  console.log('wrote ' + OUT + ' (' + Object.keys(merged).length + ' columns)');
+  fs.mkdirSync(path.dirname(OUT_USED), { recursive: true });
+  fs.writeFileSync(OUT_USED, JSON.stringify(out, null, 1));
+  console.log('wrote ' + OUT_USED + ' (' + Object.keys(merged).length + ' columns)');
 } else {
   // 第273便b(R20): 短い走行は**正本を 1 バイトも触らず**別ファイルへ落とす
   fs.mkdirSync(path.dirname(PROBE_OUT), { recursive: true });
