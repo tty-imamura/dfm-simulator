@@ -36,6 +36,17 @@
 //   f の定義: **質量だけを f 倍する**(初期位置・初速は転写のまま)。転写初速は観測された相対速度
 //   そのもの(2πa/P_obs と 0.003% で一致)なので、「同じ観測軌道を支える質量が f 倍」の診断に対応する。
 //
+//   E  (**第276便b**)`--eps` / `--eps-diag` を付けたときだけ走る系列 … **softening ε の感度**を
+//      kF0 で 3 段まで測る。原仮定者の裁定(第66報 (2))「plutoCharonReal の kF0 版に問題がないか
+//      確認し、問題があれば解決する」「どの様な要因が加われば解決するか」を探る。
+//      ❄️ の宣言単位(1 単位 = 10⁶ m)では `CLAMPS.softening` の**受理下限 0.01 が 10 km** なので、
+//      それより小さい ε は**検証器が 0.01 へ丸める**(要求値・適用値・警告を JSON に残す)。
+//      `--eps-diag` は **単位を変えた診断コピー**(L=5・T=2・M=20 = 1 単位 10⁵ m / 10² s / 10²⁰ kg・
+//      倍率は `tests/lib-w276b-units.mjs` の純関数が作る)で回すので、同じ下限が **1 km** になる。
+//      **時間単位は据え置き**なので dt・步数・「秒で読んだ周期」は基準単位の列とそのまま比べられる。
+//      **残差がゼロになる ε を探索して採用しない**(本系列は感度表の材料であって較正ではない)。
+//      正本は `tests/out/charoneps-w276b.json`(第272便b/第275便b の正本は 1 バイトも触らない)。
+//
 //   D  (**第275便b**)`--D0` を付けたときだけ走る系列 … **D₀ の背景規則ごとの値**を kF0/kF1 で測る
 //      原仮定者の裁定(第65報 (2))「**D₀ は『何を背景とするか』でサンプル毎に変わる**/
 //      **D₀ の補正は冥王星とカロンで検証する**」。規則の値は `tests/lib-w275b-dsplit.mjs` が作る
@@ -46,6 +57,7 @@
 // 実行:
 //   PLAYWRIGHT_CORE_DIR=/opt/node22/lib/node_modules/playwright node tests/exp-w272b-charon.mjs [--stage h|h2|h4]
 //       [--only C0,C1,C2_k0.3,…] [--pilot] [--steps N] [--D0 rule|v1,v2,…]
+//       [--eps rule|v1,v2,…] [--eps-diag v1,v2,…]   … 第276便b(ε 感度・別正本)
 //   --pilot … 步数を 2,100,000(約 6 周)に落として検出器の同値だけ確かめる(正本に書かない)
 //   --D0 rule … 規則の 4 点(宣言値 0.006 / 太陽からの距離 / 銀河内位置 / 1)× kF{0,1} を走らせる
 // 出力: tests/out/charon-w272b.json(列 × 段で**併合**する)
@@ -68,6 +80,9 @@ import { charonMergeKey, charonMergeDecision, isCanonicalRun, MERGEKEY_VERSION }
 import { ASSUMPTIONS, assumptionRows, ruleBackgroundSI, d0UnitSI, DSPLIT_VERSION }
   from './lib-w275b-dsplit.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
+// 第276便b(第66報 (2)): 診断コピーの単位換算(受理下限 ε=0.01 単位の実長さを下げるため)
+import { unitChangeSpec, ACCEPT_LIMITS, epsFloorMeters, acceptedDynamicRange, UNITS_VERSION }
+  from './lib-w276b-units.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -83,6 +98,15 @@ const STAGE = getArg('--stage', 'h');
 const ONLY = (getArg('--only', '') || '').split(',').map((z) => z.trim()).filter(Boolean);
 // 第275便b: `--D0` を付けたときだけ D 系列を組み、**別の正本**へ書く
 const D0ARG = argv.includes('--D0') ? String(getArg('--D0', 'rule')) : null;
+// 第276便b: `--eps`(基準単位の ε 列)と `--eps-diag`(単位を変えた診断コピーの ε 列)
+const EPSARG = argv.includes('--eps') ? String(getArg('--eps', 'rule')) : null;
+const EPSDIAG = argv.includes('--eps-diag') ? String(getArg('--eps-diag', '')) : null;
+const EPS_MODE = !!(EPSARG || EPSDIAG);
+// 診断単位(第276便b で固定した宣言。**時間指数は据え置き** — dt と步数をそのまま使うため)
+const DIAG_SCALE = { L: 5, T: 2, M: 20 };
+// 既定の ε 列(`--eps rule`)。基準単位は受理下限 0.01(=10 km)の**割れ方も**記録する
+const EPS_BASE_RULE = [0.05, 0.025, 0.0125, 0.01, 0.005];
+const EPS_DIAG_RULE = [0.5, 0.25, 0.125, 0.1, 0.05, 0.02, 0.01];
 
 // ---- 固定契約(走行前に決めた値) ------------------------------------------------
 const STEP_H = 20700000, ORB_MAX = 60, PERI_WINDOW = 20;
@@ -138,6 +162,16 @@ await page.evaluate(() => {
     const p = base(cfg);
     if (cfg.D0 !== undefined) p.physics.D0 = cfg.D0;
     if (cfg.D0Source !== undefined) p.physics.D0Source = cfg.D0Source;
+    // 第276便b: 単位換算。**倍率はすべて node 側の純関数 `unitChangeSpec` が作った数**で、
+    // ここは掛けるだけである(ページ側で式を持たない)。`cfg.softening` は**換算後の単位**で読む。
+    if (cfg.units) {
+      const sp = cfg.units;
+      for (const k in sp.phys) if (typeof p.physics[k] === 'number') p.physics[k] = p.physics[k] * sp.phys[k];
+      for (const b of p.bodies) for (const k in sp.body) if (typeof b[k] === 'number') b[k] = b[k] * sp.body[k];
+      if (p.camera && typeof p.camera.scale === 'number') p.camera.scale /= sp.cameraDiv;
+      p.scaleExp = { L: sp.to.L, T: sp.to.T, M: sp.to.M };
+      if (cfg.softening !== undefined) p.physics.softening = cfg.softening;
+    }
     return p;
   };
 });
@@ -227,8 +261,27 @@ if (D0ARG) {
       { kFrame: kf, f: 1, geoPN: 2, softening: EPS0, D0: pt.v }, 'D₀=' + pt.v + '(' + pt.why + ')');
 }
 
+// ---- 第276便b: E 系列(ε 感度・基準単位 / 単位を変えた診断コピー)-------------------
+let EPS_POINTS = null, UNIT_SPEC = null;
+if (EPS_MODE) {
+  UNIT_SPEC = unitChangeSpec({ L: 6, T: 2, M: 25 }, DIAG_SCALE);
+  EPS_POINTS = [];
+  const baseList = (EPSARG === 'rule') ? EPS_BASE_RULE
+    : (EPSARG ? EPSARG.split(',').map((z) => Number(z.trim())).filter((z) => Number.isFinite(z)) : []);
+  const diagList = (EPSARG === 'rule' && !EPSDIAG) ? EPS_DIAG_RULE
+    : (EPSDIAG ? EPSDIAG.split(',').map((z) => Number(z.trim())).filter((z) => Number.isFinite(z)) : []);
+  for (const e of baseList)
+    EPS_POINTS.push({ units: 'base', eps: e, epsMeters: e * 1e6, spec: null });
+  for (const e of diagList)
+    EPS_POINTS.push({ units: 'diag', eps: e, epsMeters: e * Math.pow(10, DIAG_SCALE.L), spec: UNIT_SPEC });
+  for (const pt of EPS_POINTS)
+    add('E_' + pt.units + '_e' + pt.eps, 'E',
+      { kFrame: 0, f: 1, geoPN: 2, softening: pt.eps, units: pt.spec },
+      'ε=' + pt.eps + '(' + (pt.epsMeters / 1000) + ' km・単位=' + pt.units + ')');
+}
+
 // `--D0` を付けたときは **D 系列だけ**を走らせる(既存の正本を 1 バイトも触らないため)
-const run = COLUMNS.filter((c) => (D0ARG ? c.series === 'D' : true))
+const run = COLUMNS.filter((c) => (EPS_MODE ? c.series === 'E' : (D0ARG ? c.series === 'D' : true)))
   .filter((c) => !ONLY.length || ONLY.includes(c.id) || ONLY.includes(c.series));
 
 // ---------------------------------------------------------------- 走行
@@ -284,7 +337,8 @@ const MK = charonMergeKey({
 // 第273便b(R20): **短い走行は正本へ書かない**(別ファイル)。段の規定步数と違えば probe 扱い。
 const CANON = isCanonicalRun({ pilot: PILOT, steps: STEPS, stageSteps: STAGES[STAGE].steps });
 // 第275便b: `--D0` の走行は**別の正本**へ書く(第272便b の正本を 1 バイトも触らない)
-const OUT_USED = D0ARG ? path.join(ROOT, 'tests', 'out', 'charond0-w275b.json') : OUT;
+const OUT_USED = EPS_MODE ? path.join(ROOT, 'tests', 'out', 'charoneps-w276b.json')
+  : (D0ARG ? path.join(ROOT, 'tests', 'out', 'charond0-w275b.json') : OUT);
 let prev = null;
 try { prev = JSON.parse(fs.readFileSync(OUT_USED, 'utf8')); } catch { prev = null; }
 const MD = charonMergeDecision(prev && prev.meta, MK);
@@ -369,6 +423,38 @@ if (D0ARG) {
     builtinD0Unchanged: 0.006,
     notClaim: ['D₀ の補正で ❄️ が成立', 'D₀ を較正した', '規則値が正しい D₀ である',
       'カロンの合否', '新発見'] });
+}
+// 第276便b: E 系列の正本にも来歴(第272便e の形)と ε の受理事実を足す。
+// **第272便b・第275便b の正本の形は 1 バイトも変わらない**。
+if (EPS_MODE) {
+  const applied = {};
+  for (const [id, byStage] of Object.entries(merged)) {
+    const r = byStage.h || byStage.h2 || byStage.h4;
+    if (r && r.cfgApplied) applied[id] = { requested: r.cfg.softening, applied: r.cfgApplied.softening,
+      clamped: r.cfg.softening !== r.cfgApplied.softening, warnings: r.warnings || [] };
+  }
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第276便b', target: TARGET,
+    code: ['tests/exp-w272b-charon.mjs', 'tests/lib-w273b-charonpage.mjs',
+      'tests/lib-w273b-mergekey.mjs', 'tests/lib-w272b-pairlock.mjs',
+      'tests/lib-w276b-units.mjs', 'tests/lib-w272e-provenance.mjs'],
+    inputs: [TARGET, 'tests/out/calaudit-w249.json'] }), out.meta, {
+    wave: '第276便b', series: 'E',
+    ruling: '第66報 (2): plutoCharonReal の kF0 版に問題がないか確認し、問題があれば解決する / '
+      + '「どの様な要因が加われば解決するか」を探る',
+    unitsVersion: UNITS_VERSION, unitSpec: UNIT_SPEC, diagScale: DIAG_SCALE,
+    acceptLimits: ACCEPT_LIMITS,
+    epsFloorMeters: { base: epsFloorMeters(6), diag: epsFloorMeters(DIAG_SCALE.L) },
+    acceptedDynamicRange: acceptedDynamicRange(),
+    epsPoints: EPS_POINTS, softeningApplied: applied,
+    massFloorNotConverted: {
+      key: 'physics.massFloor', declared: 1e-6,
+      why: '**html の SCALE_DIMS に massFloor が無い**(質量次元を持つのに換算表に載っていない)。'
+        + '本器は換算しない —— 単位を変えると床が実質量で 10⁵ 倍下がるので、'
+        + '小衛星の質量が床で持ち上げられなくなる(第276便b の小衛星列の前提)',
+      floorInKgBase: 1e-6 * Math.pow(10, 25), floorInKgDiag: 1e-6 * Math.pow(10, DIAG_SCALE.M) },
+    builtinUnchanged: { softening: 0.05, scaleExp: { L: 6, T: 2, M: 25 } },
+    notClaim: ['ε を小さくすれば ❄️ が観測と合う', '残差ゼロの ε を採用した', 'ε の既定を変えた',
+      'カロンの合否', '単位を変えたら物理が変わった', '新発見'] });
 }
 if (CANON.canonical) {
   fs.mkdirSync(path.dirname(OUT_USED), { recursive: true });

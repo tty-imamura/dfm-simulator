@@ -352,8 +352,15 @@ for (const [id, patch, body, note] of CAND) {
 }
 
 // ================= 内蔵の実測(宣言そのもの)=================
-const IDS = await page.evaluate(() => HP.allPresets()
-  .filter((z) => z.physics && z.physics.shapeToy).map((z) => z.id));
+// **第276便d 以降**: `physics.shapeToy.law:"coreField"` を宣言した本は**この器の対象ではない**
+// (この器は OU 法則〔規定運動〕の量 —— 潜在の共分散・写像の σ・帳簿 —— を測る作りである)。
+// 除外した id は `excludedCoreField` に残す(**黙って落とさない**)。Core 力学の完成門は
+// 第276便d の器 `tests/exp-w276d-corefield.mjs` が測り、正本は `tests/out/corefield-w276d.json` である。
+const ALL_DECL = await page.evaluate(() => HP.allPresets()
+  .filter((z) => z.physics && z.physics.shapeToy)
+  .map((z) => ({ id: z.id, law: z.physics.shapeToy.law || 'prescribed' })));
+const EXCLUDED = ALL_DECL.filter((z) => z.law === 'coreField').map((z) => z.id);
+const IDS = ALL_DECL.filter((z) => z.law !== 'coreField').map((z) => z.id);
 const builtins = [];
 for (const id of IDS) {
   builtins.push(await retry('builtin:' + id, () => runCase(id, null, '内蔵の宣言そのもの', {})));
@@ -457,6 +464,7 @@ const summary = {
   recoveryAllPass: recovery.every((r) => r.pass),
   gravityBitSame: gravity.every((r) => r.same),
   centerMassInert: centerMass.every((r) => r.massSame),
+  excludedCoreField: EXCLUDED,
   rigidRotationOnly: builtins.filter((r) => r.shape === 'disk')
     .map((r) => ({ id: r.id, omegaSpread: r.curveShapeEnd && r.curveShapeEnd.omegaSpread,
       vtSpread: r.curveShapeEnd && r.curveShapeEnd.vtSpread })),
@@ -474,6 +482,9 @@ const out = {
   prescribedNote: '対象粒子は**規定運動**であり、重力はこの粒子の状態を決めない(G を変えても指紋が同じ)。'
     + '中心天体版の中心は `center:"pinned"` の**位置固定の参照**であって、**動的モデルではない**。',
   criteria: CRIT, run: RUN,
+  excludedCoreField: EXCLUDED,
+  excludedNote: '第276便d で `physics.shapeToy.law:"coreField"` を宣言した本は**この器の対象外**である'
+    + '(この器は OU 法則〔規定運動〕の量を測る作りで、Core 力学の完成門は tests/exp-w276d-corefield.mjs が測る)。',
   candidates, builtins, recovery, gravityControl: gravity, centerMass,
   summary, retries, pageErrors,
 };

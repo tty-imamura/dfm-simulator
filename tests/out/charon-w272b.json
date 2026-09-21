@@ -6,18 +6,18 @@
   "pairlockVersion": "w272b-1",
   "libSha256": "be657f0bf0988b43c558517512b615b48553c5d08d82ea545fbce1aab89c2efe",
   "target": "beta/index.html",
-  "targetSha256": "536fa19848ecfc023f6545279f93800df1f49eeaf4b23292fc1b8748dcbc4890",
+  "targetSha256": "68498d8ded199b59337dac1ab6031953022ced24a571f2c240b4613e1bdda63d",
   "measureLib": "tests/lib-w273b-charonpage.mjs",
   "measureVersion": "w273b-charonpage-1",
   "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
   "mergeKeyVersion": "w273b-mergekey-1",
-  "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+  "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
   "mergeKeyParts": {
    "target": "beta/index.html",
-   "targetSha256": "536fa19848ecfc023f6545279f93800df1f49eeaf4b23292fc1b8748dcbc4890",
+   "targetSha256": "68498d8ded199b59337dac1ab6031953022ced24a571f2c240b4613e1bdda63d",
    "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
    "libSha256": "be657f0bf0988b43c558517512b615b48553c5d08d82ea545fbce1aab89c2efe",
-   "obsSha256": "abbf8d0290d81127817e6f2b88962ba2bd032534b68801de5530c57a88fa18a8",
+   "obsSha256": "4a76525ffe645621009849a389b2a2da6624d792aef259d404d059c226b1640f",
    "obsRow": {
     "key": "Charon|orbital_period",
     "recordId": "SOL-25d4320f",
@@ -50,7 +50,7 @@
   },
   "canonicalRun": true,
   "canonicalRunWhy": "",
-  "generatedAt": "2026-09-20T23:35:57.025Z",
+  "generatedAt": "2026-09-21T19:09:30.986Z",
   "pilot": false,
   "stage": "h4",
   "dt": 0.004,
@@ -121,7 +121,7 @@
    "recordId": "SOL-25d4320f",
    "source": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
    "from": "tests/out/calaudit-w249.json",
-   "calauditSha256": "abbf8d0290d81127817e6f2b88962ba2bd032534b68801de5530c57a88fa18a8"
+   "calauditSha256": "4a76525ffe645621009849a389b2a2da6624d792aef259d404d059c226b1640f"
   },
   "secondsPerUnit": 100,
   "notClaim": [
@@ -1487,7 +1487,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 19.358,
+    "wallSec": 35.464,
     "revSec": [
      553209.4743340951,
      553210.6340099995,
@@ -1552,7 +1552,7 @@
     "warnings": [],
     "oscA": 19.595851587697478,
     "oscE": 0.0019280224628431188,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -1568,7 +1568,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 36.796,
+    "wallSec": 70.506,
     "revSec": [
      553210.3587952818,
      553210.8870908859,
@@ -1633,7 +1633,7 @@
     "warnings": [],
     "oscA": 19.596013264547402,
     "oscE": 0.00192630197037084,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -1649,7 +1649,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 76.548,
+    "wallSec": 141.954,
     "revSec": [
      553210.8208372663,
      553211.0508944329,
@@ -1714,7 +1714,7 @@
     "warnings": [],
     "oscA": 19.596100052014208,
     "oscE": 0.0019257977319826348,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -1732,7 +1732,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 11.538,
+    "wallSec": 21.206,
     "revSec": [
      551862.4613633327,
      551864.0613632939,
@@ -1797,7 +1797,7 @@
     "warnings": [],
     "oscA": 19.59599965528715,
     "oscE": 0.000016990022693039395,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -1813,7 +1813,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 22.439,
+    "wallSec": 42.472,
     "revSec": [
      551863.2612657931,
      551864.0612661137,
@@ -1878,7 +1878,7 @@
     "warnings": [],
     "oscA": 19.59599965283887,
     "oscE": 0.000013705498380582199,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -1894,7 +1894,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 45.143,
+    "wallSec": 82.69,
     "revSec": [
      551863.66124295,
      551864.0612407731,
@@ -1959,7 +1959,7 @@
     "warnings": [],
     "oscA": 19.595999652232763,
     "oscE": 0.00001275287125529755,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -1977,7 +1977,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 11.5,
+    "wallSec": 21.129,
     "revSec": [
      551862.4613633327,
      551864.0613632939,
@@ -2042,7 +2042,7 @@
     "warnings": [],
     "oscA": 19.59599965528715,
     "oscE": 0.000016990022693039395,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -2058,7 +2058,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 22.632,
+    "wallSec": 42.559,
     "revSec": [
      551863.2612657931,
      551864.0612661137,
@@ -2123,7 +2123,7 @@
     "warnings": [],
     "oscA": 19.59599965283887,
     "oscE": 0.000013705498380582199,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -2139,7 +2139,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 45.423,
+    "wallSec": 83.427,
     "revSec": [
      551863.66124295,
      551864.0612407731,
@@ -2204,7 +2204,7 @@
     "warnings": [],
     "oscA": 19.595999652232763,
     "oscE": 0.00001275287125529755,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -2222,7 +2222,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 18.842,
+    "wallSec": 35.786,
     "revSec": [
      551996.2542011961,
      551997.807610249,
@@ -2287,7 +2287,7 @@
     "warnings": [],
     "oscA": 19.595969428610754,
     "oscE": 0.00016784449218065173,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -2303,7 +2303,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 38.475,
+    "wallSec": 72.208,
     "revSec": [
      551997.0632586256,
      551997.8390599373,
@@ -2368,7 +2368,7 @@
     "warnings": [],
     "oscA": 19.595984726422035,
     "oscE": 0.00016737776049836786,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -2384,7 +2384,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 76.504,
+    "wallSec": 139.777,
     "revSec": [
      551997.4722259433,
      551997.8675264294,
@@ -2449,7 +2449,7 @@
     "warnings": [],
     "oscA": 19.59599339304682,
     "oscE": 0.00016721325572802517,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -2467,7 +2467,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 19.27,
+    "wallSec": 35.4,
     "revSec": [
      552264.4442388008,
      552265.9011309606,
@@ -2532,7 +2532,7 @@
     "warnings": [],
     "oscA": 19.59591934560767,
     "oscE": 0.0004876290103434929,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -2548,7 +2548,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 37.771,
+    "wallSec": 71.636,
     "revSec": [
      552265.2947900248,
      552266.0341772373,
@@ -2613,7 +2613,7 @@
     "warnings": [],
     "oscA": 19.595968356636273,
     "oscE": 0.0004868760175295916,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -2629,7 +2629,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 76.383,
+    "wallSec": 141.066,
     "revSec": [
      552265.6914762495,
      552266.0748127141,
@@ -2694,7 +2694,7 @@
     "warnings": [],
     "oscA": 19.59599472871563,
     "oscE": 0.0004865495376101022,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -2712,7 +2712,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 19.37,
+    "wallSec": 35.427,
     "revSec": [
      552533.4319675403,
      552534.8067908448,
@@ -2777,7 +2777,7 @@
     "warnings": [],
     "oscA": 19.595884626720604,
     "oscE": 0.0008368905150509746,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -2793,7 +2793,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 35.528,
+    "wallSec": 71.797,
     "revSec": [
      552534.2953596034,
      552534.9884553824,
@@ -2858,7 +2858,7 @@
     "warnings": [],
     "oscA": 19.595957013400557,
     "oscE": 0.0008357878188236007,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -2874,7 +2874,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 77.68,
+    "wallSec": 139.56,
     "revSec": [
      552534.7134552981,
      552535.0799402624,
@@ -2939,7 +2939,7 @@
     "warnings": [],
     "oscA": 19.596004711043637,
     "oscE": 0.0008353152638658027,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -2957,7 +2957,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 18.132,
+    "wallSec": 35.622,
     "revSec": [
      552803.2433358262,
      552804.5668506152,
@@ -3022,7 +3022,7 @@
     "warnings": [],
     "oscA": 19.595859826938444,
     "oscE": 0.0012313446098575907,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -3038,7 +3038,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 36.154,
+    "wallSec": 71.613,
     "revSec": [
      552804.1423179746,
      552804.747662606,
@@ -3103,7 +3103,7 @@
     "warnings": [],
     "oscA": 19.59596915015618,
     "oscE": 0.001229964411987821,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -3119,7 +3119,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 77.712,
+    "wallSec": 140.853,
     "revSec": [
      552804.5560928705,
      552804.875104436,
@@ -3184,7 +3184,7 @@
     "warnings": [],
     "oscA": 19.596034012399866,
     "oscE": 0.0012290752148716392,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -3202,7 +3202,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 19.088,
+    "wallSec": 35.27,
     "revSec": [
      553209.4743340951,
      553210.6340099995,
@@ -3267,7 +3267,7 @@
     "warnings": [],
     "oscA": 19.595851587697478,
     "oscE": 0.0019280224628431188,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -3283,7 +3283,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 37.875,
+    "wallSec": 71.667,
     "revSec": [
      553210.3587952818,
      553210.8870908859,
@@ -3348,7 +3348,7 @@
     "warnings": [],
     "oscA": 19.596013264547402,
     "oscE": 0.00192630197037084,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -3364,7 +3364,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 77.005,
+    "wallSec": 140.077,
     "revSec": [
      553210.8208372663,
      553211.0508944329,
@@ -3429,7 +3429,7 @@
     "warnings": [],
     "oscA": 19.596100052014208,
     "oscE": 0.0019257977319826348,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -3447,7 +3447,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 11.589,
+    "wallSec": 21.568,
     "revSec": [
      551862.4613633327,
      551864.0613632939,
@@ -3512,7 +3512,7 @@
     "warnings": [],
     "oscA": 19.59599965528715,
     "oscE": 0.000016990022693039395,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -3528,7 +3528,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 21.832,
+    "wallSec": 43.067,
     "revSec": [
      551863.2612657931,
      551864.0612661137,
@@ -3593,7 +3593,7 @@
     "warnings": [],
     "oscA": 19.59599965283887,
     "oscE": 0.000013705498380582199,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -3609,7 +3609,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 45.542,
+    "wallSec": 85.397,
     "revSec": [
      551863.66124295,
      551864.0612407731,
@@ -3674,7 +3674,7 @@
     "warnings": [],
     "oscA": 19.595999652232763,
     "oscE": 0.00001275287125529755,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -3692,7 +3692,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 19.693,
+    "wallSec": 35.395,
     "revSec": [
      551732.3110241252,
      551733.8680872674,
@@ -3757,7 +3757,7 @@
     "warnings": [],
     "oscA": 19.591282789188,
     "oscE": 0.00015536613633076007,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -3773,7 +3773,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 39.274,
+    "wallSec": 71.758,
     "revSec": [
      551733.1171578799,
      551733.892583623,
@@ -3838,7 +3838,7 @@
     "warnings": [],
     "oscA": 19.591299224990667,
     "oscE": 0.00015487173212739953,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -3854,7 +3854,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 76.803,
+    "wallSec": 140.998,
     "revSec": [
      551733.5252287439,
      551733.906853414,
@@ -3919,7 +3919,7 @@
     "warnings": [],
     "oscA": 19.591308640307375,
     "oscE": 0.000154715967999299,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -3937,7 +3937,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 17.761,
+    "wallSec": 35.253,
     "revSec": [
      551471.8550030612,
      551473.3020894056,
@@ -4002,7 +4002,7 @@
     "warnings": [],
     "oscA": 19.581846582286012,
     "oscE": 0.0004624012590680837,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -4018,7 +4018,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 36.918,
+    "wallSec": 71.733,
     "revSec": [
      551472.6951213406,
      551473.4283033673,
@@ -4083,7 +4083,7 @@
     "warnings": [],
     "oscA": 19.581892774054907,
     "oscE": 0.0004617624453751336,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -4099,7 +4099,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 78.927,
+    "wallSec": 139.72,
     "revSec": [
      551473.107385093,
      551473.5069461619,
@@ -4164,7 +4164,7 @@
     "warnings": [],
     "oscA": 19.581917068113246,
     "oscE": 0.00046146541020885016,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -4182,7 +4182,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 18.752,
+    "wallSec": 35.575,
     "revSec": [
      551211.3277880623,
      551212.6948852338,
@@ -4247,7 +4247,7 @@
     "warnings": [],
     "oscA": 19.5724067165682,
     "oscE": 0.0007775879601175937,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -4263,7 +4263,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 37.64,
+    "wallSec": 71.32,
     "revSec": [
      551212.1949723669,
      551212.8428421393,
@@ -4328,7 +4328,7 @@
     "warnings": [],
     "oscA": 19.572483036112946,
     "oscE": 0.0007765991720715259,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -4344,7 +4344,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 78.886,
+    "wallSec": 140.156,
     "revSec": [
      551212.5995304422,
      551212.9455295176,
@@ -4409,7 +4409,7 @@
     "warnings": [],
     "oscA": 19.572524469558378,
     "oscE": 0.000776171349375053,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -4427,7 +4427,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 17.351,
+    "wallSec": 35.682,
     "revSec": [
      550950.5535610846,
      550951.8684797975,
@@ -4492,7 +4492,7 @@
     "warnings": [],
     "oscA": 19.56296150671337,
     "oscE": 0.001105488176683871,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -4508,7 +4508,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 38.402,
+    "wallSec": 71.543,
     "revSec": [
      550951.3910852084,
      550951.9863821173,
@@ -4573,7 +4573,7 @@
     "warnings": [],
     "oscA": 19.563078740489257,
     "oscE": 0.0011039448818298036,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -4589,7 +4589,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 75.102,
+    "wallSec": 140.681,
     "revSec": [
      550951.7612873459,
      550952.0404167875,
@@ -4654,7 +4654,7 @@
     "warnings": [],
     "oscA": 19.563125593302846,
     "oscE": 0.0011033634108655354,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -4672,7 +4672,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 19.687,
+    "wallSec": 35.761,
     "revSec": [
      550558.9804692541,
      550560.1605895405,
@@ -4737,7 +4737,7 @@
     "warnings": [],
     "oscA": 19.548792312736172,
     "oscE": 0.0016293853126825891,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -4753,7 +4753,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 37.018,
+    "wallSec": 71.799,
     "revSec": [
      550559.8671969477,
      550560.4099179535,
@@ -4818,7 +4818,7 @@
     "warnings": [],
     "oscA": 19.548952367657883,
     "oscE": 0.0016277526863046976,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -4834,7 +4834,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 74.138,
+    "wallSec": 138.545,
     "revSec": [
      550560.3203286667,
      550560.5616638885,
@@ -4899,7 +4899,7 @@
     "warnings": [],
     "oscA": 19.54903447044233,
     "oscE": 0.0016266828253462388,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -4917,7 +4917,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 11.547,
+    "wallSec": 21.529,
     "revSec": [
      551862.4613633327,
      551864.0613632939,
@@ -4982,7 +4982,7 @@
     "warnings": [],
     "oscA": 19.59599965528715,
     "oscE": 0.000016990022693039395,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -4998,7 +4998,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 21.739,
+    "wallSec": 42.638,
     "revSec": [
      551863.2612657931,
      551864.0612661137,
@@ -5063,7 +5063,7 @@
     "warnings": [],
     "oscA": 19.59599965283887,
     "oscE": 0.000013705498380582199,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -5079,7 +5079,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 45.391,
+    "wallSec": 83.861,
     "revSec": [
      551863.66124295,
      551864.0612407731,
@@ -5144,7 +5144,7 @@
     "warnings": [],
     "oscA": 19.595999652232763,
     "oscE": 0.00001275287125529755,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -5162,7 +5162,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 16.298,
+    "wallSec": 29.651,
     "revSec": [
      461860.151688945,
      461861.69381879084,
@@ -5227,7 +5227,7 @@
     "warnings": [],
     "oscA": 17.961667323683884,
     "oscE": 0.09077394574287902,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -5243,7 +5243,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 32.388,
+    "wallSec": 60.472,
     "revSec": [
      461860.9693746936,
      461861.7429723428,
@@ -5308,7 +5308,7 @@
     "warnings": [],
     "oscA": 17.961690219968983,
     "oscE": 0.09077407035573105,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -5324,7 +5324,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 64.911,
+    "wallSec": 116.49,
     "revSec": [
      461861.36776340235,
      461861.7551952727,
@@ -5389,7 +5389,7 @@
     "warnings": [],
     "oscA": 17.961701046790072,
     "oscE": 0.09077417959356515,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -5407,7 +5407,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 12.383,
+    "wallSec": 22.497,
     "revSec": [
      354350.0407375801,
      354351.3773231864,
@@ -5472,7 +5472,7 @@
     "warnings": [],
     "oscA": 15.911475900339216,
     "oscE": 0.23027074429863886,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -5488,7 +5488,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 25.256,
+    "wallSec": 45.748,
     "revSec": [
      354350.9030476544,
      354351.57456110534,
@@ -5553,7 +5553,7 @@
     "warnings": [],
     "oscA": 15.911606077868605,
     "oscE": 0.23027272387526027,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -5569,7 +5569,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 50.055,
+    "wallSec": 89.824,
     "revSec": [
      354351.30711952795,
      354351.6385568061,
@@ -5634,7 +5634,7 @@
     "warnings": [],
     "oscA": 15.911665975427288,
     "oscE": 0.23027364009531498,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -5652,7 +5652,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 10.263,
+    "wallSec": 18.439,
     "revSec": [
      292001.5303251577,
      292002.675899582,
@@ -5717,7 +5717,7 @@
     "warnings": [],
     "oscA": 14.67015392281502,
     "oscE": 0.33188119137609157,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -5733,7 +5733,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 19.722,
+    "wallSec": 37.87,
     "revSec": [
      292002.53755484236,
      292003.30335783074,
@@ -5798,7 +5798,7 @@
     "warnings": [],
     "oscA": 14.67056390881918,
     "oscE": 0.3318891391564965,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -5814,7 +5814,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 41.914,
+    "wallSec": 73.558,
     "revSec": [
      292003.04102494894,
      292003.58026055794,
@@ -5879,7 +5879,7 @@
     "warnings": [],
     "oscA": 14.670745683733934,
     "oscE": 0.3318924822841204,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -5897,7 +5897,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 8.655,
+    "wallSec": 15.883,
     "revSec": [
      250791.7970713409,
      250794.26566489183,
@@ -5962,7 +5962,7 @@
     "warnings": [],
     "oscA": 13.828899468620511,
     "oscE": 0.4075494127625716,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -5978,7 +5978,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 17.279,
+    "wallSec": 32.449,
     "revSec": [
      250793.0542134231,
      250795.66752322638,
@@ -6043,7 +6043,7 @@
     "warnings": [],
     "oscA": 13.829903984204925,
     "oscE": 0.40757207494301684,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -6059,7 +6059,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 35.126,
+    "wallSec": 63.188,
     "revSec": [
      250793.6473054415,
      250796.26230341665,
@@ -6124,7 +6124,7 @@
     "warnings": [],
     "oscA": 13.830396181191103,
     "oscE": 0.40758319967584167,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -6142,7 +6142,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 7.417,
+    "wallSec": 13.31,
     "revSec": [
      208936.6494673356,
      208960.055449823,
@@ -6207,7 +6207,7 @@
     "warnings": [],
     "oscA": 12.956025105399235,
     "oscE": 0.4850580179566859,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -6223,7 +6223,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 14.795,
+    "wallSec": 27.607,
     "revSec": [
      208938.68305808087,
      208963.7506792608,
@@ -6288,7 +6288,7 @@
     "warnings": [],
     "oscA": 12.959139046619987,
     "oscE": 0.48513681177430246,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -6304,7 +6304,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 29.557,
+    "wallSec": 53.431,
     "revSec": [
      208939.67520637685,
      208965.46110731593,
@@ -6369,7 +6369,7 @@
     "warnings": [],
     "oscA": 12.960673774438657,
     "oscE": 0.4851755338167701,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -6387,7 +6387,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 20.058,
+    "wallSec": 35.096,
     "revSec": [
      551862.4613633318,
      551864.0613633126,
@@ -6452,7 +6452,7 @@
     "warnings": [],
     "oscA": 19.59599965528281,
     "oscE": 0.000016990022722629176,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -6468,7 +6468,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 38.647,
+    "wallSec": 71.209,
     "revSec": [
      551863.2612657888,
      551864.0612661075,
@@ -6533,7 +6533,7 @@
     "warnings": [],
     "oscA": 19.595999652832873,
     "oscE": 0.000013705498406223136,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -6549,7 +6549,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 76.859,
+    "wallSec": 138.982,
     "revSec": [
      551863.6612429661,
      551864.0612407892,
@@ -6614,7 +6614,7 @@
     "warnings": [],
     "oscA": 19.595999652239474,
     "oscE": 0.000012752871327324707,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -6632,7 +6632,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 18.92,
+    "wallSec": 35.296,
     "revSec": [
      551862.4613633318,
      551864.0613633126,
@@ -6697,7 +6697,7 @@
     "warnings": [],
     "oscA": 19.59599965528281,
     "oscE": 0.000016990022722629176,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -6713,7 +6713,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 37.035,
+    "wallSec": 71.403,
     "revSec": [
      551863.2612657888,
      551864.0612661075,
@@ -6778,7 +6778,7 @@
     "warnings": [],
     "oscA": 19.595999652832873,
     "oscE": 0.000013705498406223136,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -6794,7 +6794,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 76.094,
+    "wallSec": 139.353,
     "revSec": [
      551863.6612429661,
      551864.0612407892,
@@ -6859,7 +6859,7 @@
     "warnings": [],
     "oscA": 19.595999652239474,
     "oscE": 0.000012752871327324707,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -6877,7 +6877,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 17.786,
+    "wallSec": 35.181,
     "revSec": [
      553206.2071350162,
      553207.3981243718,
@@ -6942,7 +6942,7 @@
     "warnings": [],
     "oscA": 19.595853971185498,
     "oscE": 0.0019216878476978696,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -6958,7 +6958,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 38.27,
+    "wallSec": 71.503,
     "revSec": [
      553207.1445918093,
      553207.7103920574,
@@ -7023,7 +7023,7 @@
     "warnings": [],
     "oscA": 19.59601307661321,
     "oscE": 0.0019202552639717258,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -7039,7 +7039,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 77.138,
+    "wallSec": 139.059,
     "revSec": [
      553207.6288980226,
      553207.9483478515,
@@ -7104,7 +7104,7 @@
     "warnings": [],
     "oscA": 19.59609305768079,
     "oscE": 0.0019193558878250303,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -7122,7 +7122,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 17.325,
+    "wallSec": 35.014,
     "revSec": [
      550562.0354357901,
      550563.200249943,
@@ -7187,7 +7187,7 @@
     "warnings": [],
     "oscA": 19.548896196900575,
     "oscE": 0.001625189272397607,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -7203,7 +7203,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 36.675,
+    "wallSec": 72.61,
     "revSec": [
      550562.984626901,
      550563.6047829372,
@@ -7268,7 +7268,7 @@
     "warnings": [],
     "oscA": 19.5490674369007,
     "oscE": 0.0016230665845300002,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -7284,7 +7284,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 74.963,
+    "wallSec": 138.834,
     "revSec": [
      550563.4378501021,
      550563.7872847737,
@@ -7349,7 +7349,7 @@
     "warnings": [],
     "oscA": 19.54914362460157,
     "oscE": 0.001622288331759247,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -7367,7 +7367,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 18.907,
+    "wallSec": 34.677,
     "revSec": [
      551862.4632342617,
      551864.0632335386,
@@ -7432,7 +7432,7 @@
     "warnings": [],
     "oscA": 19.595999654822073,
     "oscE": 0.000016991600291773945,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -7448,7 +7448,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 37.644,
+    "wallSec": 70.229,
     "revSec": [
      551863.2631368728,
      551864.0631370463,
@@ -7513,7 +7513,7 @@
     "warnings": [],
     "oscA": 19.595999652622247,
     "oscE": 0.000013707453995967056,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -7529,7 +7529,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 77.646,
+    "wallSec": 139.543,
     "revSec": [
      551863.6631141248,
      551864.0631122149,
@@ -7594,7 +7594,7 @@
     "warnings": [],
     "oscA": 19.595999652130917,
     "oscE": 0.000012754972942831458,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -7612,7 +7612,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 19.01,
+    "wallSec": 35.261,
     "revSec": [
      551862.4632342617,
      551864.0632335386,
@@ -7677,7 +7677,7 @@
     "warnings": [],
     "oscA": 19.595999654822073,
     "oscE": 0.000016991600291773945,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -7693,7 +7693,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 37.552,
+    "wallSec": 71.717,
     "revSec": [
      551863.2631368728,
      551864.0631370463,
@@ -7758,7 +7758,7 @@
     "warnings": [],
     "oscA": 19.595999652622247,
     "oscE": 0.000013707453995967056,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -7774,7 +7774,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 73.452,
+    "wallSec": 138.851,
     "revSec": [
      551863.6631141248,
      551864.0631122149,
@@ -7839,7 +7839,7 @@
     "warnings": [],
     "oscA": 19.595999652130917,
     "oscE": 0.000012754972942831458,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -7858,7 +7858,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 28.388,
+    "wallSec": 50.116,
     "revSec": [
      553223.1046360554,
      553224.9272364771,
@@ -7923,7 +7923,7 @@
     "warnings": [],
     "oscA": 19.596333077410254,
     "oscE": 0.001943004085628778,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -7940,7 +7940,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 55.677,
+    "wallSec": 100.039,
     "revSec": [
      553223.8484537594,
      553224.7588905616,
@@ -8005,7 +8005,7 @@
     "warnings": [],
     "oscA": 19.5962535810197,
     "oscE": 0.0019412840918647323,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -8022,7 +8022,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 113.837,
+    "wallSec": 200.831,
     "revSec": [
      553224.2203877618,
      553224.6747429437,
@@ -8087,7 +8087,7 @@
     "warnings": [],
     "oscA": 19.596213832988674,
     "oscE": 0.0019404302534954587,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -8106,7 +8106,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 32.776,
+    "wallSec": 62.159,
     "revSec": [
      551615.4981211532,
      551617.2024403799,
@@ -8171,7 +8171,7 @@
     "warnings": [],
     "oscA": 19.596068955433346,
     "oscE": 0.0005074481603814414,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -8188,7 +8188,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 70.081,
+    "wallSec": 122.605,
     "revSec": [
      551616.2719124913,
      551617.1240119033,
@@ -8253,7 +8253,7 @@
     "warnings": [],
     "oscA": 19.596031795835195,
     "oscE": 0.0005039039562013387,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -8270,7 +8270,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 144.329,
+    "wallSec": 248.212,
     "revSec": [
      551616.6588330005,
      551617.0848226522,
@@ -8335,7 +8335,7 @@
     "warnings": [],
     "oscA": 19.596013216554855,
     "oscE": 0.0005021502445758458,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -8354,7 +8354,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 11.795,
+    "wallSec": 21.82,
     "revSec": [
      551862.4613616312,
      551864.0613615632,
@@ -8419,7 +8419,7 @@
     "warnings": [],
     "oscA": 19.595999655277684,
     "oscE": 0.00001699002132576785,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -8436,7 +8436,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 23.566,
+    "wallSec": 43.836,
     "revSec": [
      551863.2612641874,
      551864.0612644644,
@@ -8501,7 +8501,7 @@
     "warnings": [],
     "oscA": 19.59599965283485,
     "oscE": 0.00001370549659440613,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -8518,7 +8518,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 48.281,
+    "wallSec": 85.385,
     "revSec": [
      551863.6612412025,
      551864.0612390139,
@@ -8583,7 +8583,7 @@
     "warnings": [],
     "oscA": 19.595999652227572,
     "oscE": 0.00001275286945873011,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -8603,7 +8603,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 33.914,
+    "wallSec": 58.518,
     "revSec": [
      554025.3593019773,
      554027.0522028629,
@@ -8670,7 +8670,7 @@
     ],
     "oscA": 19.596428056623367,
     "oscE": 0.0029452616863916313,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -8688,7 +8688,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 68.018,
+    "wallSec": 116.297,
     "revSec": [
      554026.1642875148,
      554026.9836713147,
@@ -8755,7 +8755,7 @@
     ],
     "oscA": 19.596399115986628,
     "oscE": 0.002943794660675556,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -8773,7 +8773,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 132.776,
+    "wallSec": 235.029,
     "revSec": [
      554026.5461388219,
      554026.9412815047,
@@ -8840,7 +8840,7 @@
     ],
     "oscA": 19.59638125104793,
     "oscE": 0.0029430856654471243,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -8860,7 +8860,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 32.335,
+    "wallSec": 59.725,
     "revSec": [
      555096.1343220467,
      555097.6548675632,
@@ -8927,7 +8927,7 @@
     ],
     "oscA": 19.596640013198677,
     "oscE": 0.004297708187574291,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -8945,7 +8945,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 64.749,
+    "wallSec": 116.3,
     "revSec": [
      555096.9496127181,
      555097.7051345184,
@@ -9012,7 +9012,7 @@
     ],
     "oscA": 19.59667341275181,
     "oscE": 0.004296798250471121,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -9030,7 +9030,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 125.106,
+    "wallSec": 235.974,
     "revSec": [
      555097.3511893133,
      555097.6743122347,
@@ -9097,7 +9097,7 @@
     ],
     "oscA": 19.596684261552515,
     "oscE": 0.00429586712245018,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -9117,7 +9117,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 33.64,
+    "wallSec": 58.566,
     "revSec": [
      555900.0775314941,
      555901.4553591731,
@@ -9184,7 +9184,7 @@
     ],
     "oscA": 19.596852744652388,
     "oscE": 0.005319653842492953,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -9202,7 +9202,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 68.334,
+    "wallSec": 116.078,
     "revSec": [
      555900.9042393658,
      555901.5370416228,
@@ -9269,7 +9269,7 @@
     ],
     "oscA": 19.596930476239084,
     "oscE": 0.005318772021995567,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -9287,7 +9287,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 129.639,
+    "wallSec": 237.834,
     "revSec": [
      555901.2759548081,
      555901.6272182296,
@@ -9354,7 +9354,7 @@
     ],
     "oscA": 19.596964371345884,
     "oscE": 0.0053176912991257635,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -9372,7 +9372,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 11.599,
+    "wallSec": 21.538,
     "revSec": [
      551862.4613633327,
      551864.0613632939,
@@ -9437,7 +9437,7 @@
     "warnings": [],
     "oscA": 19.59599965528715,
     "oscE": 0.000016990022693039395,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -9453,7 +9453,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 23.95,
+    "wallSec": 42.075,
     "revSec": [
      551863.2612657931,
      551864.0612661137,
@@ -9518,7 +9518,7 @@
     "warnings": [],
     "oscA": 19.59599965283887,
     "oscE": 0.000013705498380582199,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -9534,7 +9534,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 44.673,
+    "wallSec": 85.304,
     "revSec": [
      551863.66124295,
      551864.0612407731,
@@ -9599,7 +9599,7 @@
     "warnings": [],
     "oscA": 19.595999652232763,
     "oscE": 0.00001275287125529755,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -9617,7 +9617,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 19.354,
+    "wallSec": 35.296,
     "revSec": [
      553209.4743340951,
      553210.6340099995,
@@ -9682,7 +9682,7 @@
     "warnings": [],
     "oscA": 19.595851587697478,
     "oscE": 0.0019280224628431188,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -9698,7 +9698,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 39.706,
+    "wallSec": 69.418,
     "revSec": [
      553210.3587952818,
      553210.8870908859,
@@ -9763,7 +9763,7 @@
     "warnings": [],
     "oscA": 19.596013264547402,
     "oscE": 0.00192630197037084,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -9779,7 +9779,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 76.103,
+    "wallSec": 141.36,
     "revSec": [
      553210.8208372663,
      553211.0508944329,
@@ -9844,7 +9844,7 @@
     "warnings": [],
     "oscA": 19.596100052014208,
     "oscE": 0.0019257977319826348,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -9862,7 +9862,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 11.794,
+    "wallSec": 21.668,
     "revSec": [
      551854.3777987654,
      551855.9777990397,
@@ -9927,7 +9927,7 @@
     "warnings": [],
     "oscA": 19.595999651779508,
     "oscE": 0.00001200053989319149,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -9943,7 +9943,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 24.723,
+    "wallSec": 41.953,
     "revSec": [
      551855.1777015859,
      551855.977699629,
@@ -10008,7 +10008,7 @@
     "warnings": [],
     "oscA": 19.59599964933889,
     "oscE": 0.000006572167781705575,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -10024,7 +10024,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 46.943,
+    "wallSec": 88.18,
     "revSec": [
      551855.5776777081,
      551855.977676368,
@@ -10089,7 +10089,7 @@
     "warnings": [],
     "oscA": 19.595999648734587,
     "oscE": 0.000004241314157441447,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -10107,7 +10107,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 19.083,
+    "wallSec": 35.076,
     "revSec": [
      553201.3046566721,
      553202.4413371511,
@@ -10172,7 +10172,7 @@
     "warnings": [],
     "oscA": 19.595854969796985,
     "oscE": 0.0019202501307705564,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -10188,7 +10188,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 40.265,
+    "wallSec": 70.135,
     "revSec": [
      553202.2970844025,
      553202.8678904031,
@@ -10253,7 +10253,7 @@
     "warnings": [],
     "oscA": 19.596008488461248,
     "oscE": 0.0019183051467476567,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -10269,7 +10269,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 76.715,
+    "wallSec": 140.526,
     "revSec": [
      553202.7713363009,
      553202.9197549645,
@@ -10334,7 +10334,7 @@
     "warnings": [],
     "oscA": 19.596087790980256,
     "oscE": 0.0019176236397360734,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -10352,7 +10352,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 11.647,
+    "wallSec": 20.843,
     "revSec": [
      551852.3568783228,
      551853.9568783055,
@@ -10417,7 +10417,7 @@
     "warnings": [],
     "oscA": 19.595999651568352,
     "oscE": 0.000011619467652871863,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -10433,7 +10433,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 24.046,
+    "wallSec": 42.51,
     "revSec": [
      551853.1567810276,
      551853.9567799019,
@@ -10498,7 +10498,7 @@
     "warnings": [],
     "oscA": 19.595999649121968,
     "oscE": 0.0000058474362821873055,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -10514,7 +10514,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 47.095,
+    "wallSec": 88.162,
     "revSec": [
      551853.5567568904,
      551853.9567560926,
@@ -10579,7 +10579,7 @@
     "warnings": [],
     "oscA": 19.595999648520827,
     "oscE": 0.0000029979574929444615,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   },
@@ -10597,7 +10597,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 19.373,
+    "wallSec": 34.921,
     "revSec": [
      553199.2768115981,
      553200.3863079243,
@@ -10662,7 +10662,7 @@
     "warnings": [],
     "oscA": 19.59584768294502,
     "oscE": 0.0019182665692638586,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h2": {
@@ -10678,7 +10678,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 40.201,
+    "wallSec": 70.301,
     "revSec": [
      553200.1812614606,
      553200.7782677386,
@@ -10743,7 +10743,7 @@
     "warnings": [],
     "oscA": 19.596013519015752,
     "oscE": 0.0019162382565838982,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    },
    "h4": {
@@ -10759,7 +10759,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 78.465,
+    "wallSec": 140.005,
     "revSec": [
      553200.7245969512,
      553201.0153897499,
@@ -10824,7 +10824,7 @@
     "warnings": [],
     "oscA": 19.59608952541156,
     "oscE": 0.0019157219649403175,
-    "mergeKey": "f09c771e4e0891965ddb59d132a294875e72f7d0ae8ed66d14b7dc607aab3757",
+    "mergeKey": "f9a4d70b9513643231c548ded6a0f91887f3014ec3bb32afae95745cdaf4ee91",
     "canonicalRun": true
    }
   }

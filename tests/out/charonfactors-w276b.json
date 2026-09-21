@@ -1,0 +1,1529 @@
+{
+ "meta": {
+  "wave": "第276便b",
+  "harness": "tests/exp-w276b-charonfactors.mjs",
+  "harnessVersion": "w276b-charonfactors-1",
+  "factorsVersion": "w276b-charonfactors-1",
+  "unitsVersion": "w276b-units-1",
+  "measureLib": "tests/lib-w273b-charonpage.mjs",
+  "measureVersion": "w273b-charonpage-1",
+  "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
+  "libSha256": "a5475ca680d19603ad04e35dc753d64b74a6ad9887e108c68e6fb920b9aea4d3",
+  "mergeKeyVersion": "w273b-mergekey-1",
+  "mergeKey": "c93cc3a18e708a5563b067ea5ac6721df84fd00ff2409d3c78c822d0b6700a4e",
+  "mergeKeyParts": {
+   "target": "beta/index.html",
+   "targetSha256": "68498d8ded199b59337dac1ab6031953022ced24a571f2c240b4613e1bdda63d",
+   "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
+   "libSha256": "a5475ca680d19603ad04e35dc753d64b74a6ad9887e108c68e6fb920b9aea4d3",
+   "obsSha256": "4a76525ffe645621009849a389b2a2da6624d792aef259d404d059c226b1640f",
+   "obsRow": {
+    "key": "Charon|orbital_period",
+    "recordId": "SOL-25d4320f",
+    "value": 551856.43872,
+    "sigma": 0.02592
+   },
+   "window": {
+    "periWindow": 20,
+    "orbMax": 60,
+    "judgedRevIndex": 1
+   },
+   "stageSteps": {
+    "h": {
+     "dt": 0.016,
+     "steps": 20700000
+    },
+    "h2": {
+     "dt": 0.008,
+     "steps": 41400000
+    },
+    "h4": {
+     "dt": 0.004,
+     "steps": 82800000
+    }
+   }
+  },
+  "canonicalRun": true,
+  "canonicalRunWhy": "",
+  "generatedAt": "2026-09-21T20:29:09.533Z",
+  "pilot": false,
+  "stage": "h",
+  "dt": 0.016,
+  "stepsRequested": 20700000,
+  "ruling": "第66報 (2): plutoCharonReal の kF0 版に問題がないか確認し、問題があれば解決する / カロン以外の衛星の影響も、それらの質量補正を選択肢に入れつつ検討対象とする / 「どの様な要因が加われば解決するか」を探る",
+  "contract": {
+   "stepH": 20700000,
+   "orbMax": 60,
+   "periWindow": 20,
+   "stages": {
+    "h": {
+     "dt": 0.016,
+     "steps": 20700000
+    },
+    "h2": {
+     "dt": 0.008,
+     "steps": 41400000
+    },
+    "h4": {
+     "dt": 0.004,
+     "steps": 82800000
+    }
+   },
+   "judgedRevIndex": 1,
+   "baseScale": {
+    "L": 6,
+    "T": 2,
+    "M": 25
+   },
+   "diagScale": {
+    "L": 5,
+    "T": 2,
+    "M": 20
+   },
+   "epsilonDiag": 0.5,
+   "note": "窓・終了条件・測定コードは第272便b/第273便b と同一。**判定はしない —— 感度表である**"
+  },
+  "unitSpec": {
+   "version": "w276b-units-1",
+   "from": {
+    "L": 6,
+    "T": 2,
+    "M": 25
+   },
+   "to": {
+    "L": 5,
+    "T": 2,
+    "M": 20
+   },
+   "factors": {
+    "L": 10,
+    "T": 1,
+    "M": 100000
+   },
+   "phys": {
+    "G": 0.01,
+    "cLight": 10,
+    "gravityX": 10,
+    "gravityY": 10,
+    "softening": 10,
+    "D0": 10000,
+    "D0pull": 1000,
+    "kappaT": 0.0001
+   },
+   "body": {
+    "x": 10,
+    "y": 10,
+    "radius": 10,
+    "vx": 10,
+    "vy": 10,
+    "m": 100000,
+    "spin": 1
+   },
+   "cameraDiv": 10,
+   "displayOnly": [
+    "timeScale",
+    "dispMag",
+    "radiusScale"
+   ],
+   "conventionOk": false,
+   "conventionNote": "html の stabScaleExp が求める L−T=4・M+2T−3L=11 を満たすか(満たさない場合は G/c₀/κ を換算する)",
+   "secondsPerTimeUnit": 100,
+   "epsFloorMeters": 1000,
+   "note": "scaleExp は表示専用の宣言で、力学に効くのは書き換えた数そのものである"
+  },
+  "acceptLimits": {
+   "softening": [
+    0.01,
+    20
+   ],
+   "massFloorMin": 1e-9,
+   "massFloorDefault": 0.000001,
+   "bodyCoord": [
+    -5000,
+    5000
+   ],
+   "bodyVel": [
+    -50,
+    50
+   ],
+   "massCap": 20000,
+   "note": "html の CLAMPS / validatePreset の写し(器は突き合わせにだけ使う)"
+  },
+  "acceptedDynamicRange": 500000,
+  "observation": {
+   "value": 551856.43872,
+   "sigma": 0.02592,
+   "unit": "s",
+   "key": "Charon|orbital_period",
+   "recordId": "SOL-25d4320f",
+   "source": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
+   "from": "tests/out/calaudit-w249.json",
+   "calauditSha256": "4a76525ffe645621009849a389b2a2da6624d792aef259d404d059c226b1640f"
+  },
+  "builtinUnchanged": {
+   "m": [
+    0.001303,
+    0.0001586
+   ],
+   "G": 6.674,
+   "softening": 0.05,
+   "scaleExp": {
+    "L": 6,
+    "T": 2,
+    "M": 25
+   },
+   "note": "**内蔵 ❄️ の物理入力は 1 bit も変えていない**(本便が変えたのは説明文だけ)"
+  },
+  "notClaim": [
+   "カロンの合否",
+   "観測一致を達成した",
+   "D₀ を較正した",
+   "残差ゼロの ε を採用した",
+   "小衛星で残差を説明した",
+   "太陽で残差を説明した",
+   "質量補正 f_i を決めた",
+   "新発見"
+  ],
+  "provenanceVersion": "w272e-1",
+  "target": "beta/index.html",
+  "targetSha256": "68498d8ded199b59337dac1ab6031953022ced24a571f2c240b4613e1bdda63d",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4364910,
+    "sha256": "68498d8ded199b59337dac1ab6031953022ced24a571f2c240b4613e1bdda63d",
+    "mtime": "2026-09-21T14:51:16.051Z"
+   },
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "bytes": 2785663,
+    "sha256": "4a76525ffe645621009849a389b2a2da6624d792aef259d404d059c226b1640f",
+    "mtime": "2026-09-21T16:41:36.263Z"
+   },
+   {
+    "file": "tests/out/charoneps-w276b.json",
+    "bytes": 140092,
+    "sha256": "c17b337bede973c06e286d2d0ed132f09dbd059274ec904ca2ed6fff5d0e2916",
+    "mtime": "2026-09-21T20:23:09.420Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w276b-charonfactors.mjs",
+    "bytes": 37728,
+    "sha256": "424eb6ff0d2472e95930a7341a28ac1b76b060aed786876c13a38d1c1ecbd31d",
+    "mtime": "2026-09-21T14:49:00.094Z"
+   },
+   {
+    "file": "tests/lib-w276b-charonfactors.mjs",
+    "bytes": 9240,
+    "sha256": "a5475ca680d19603ad04e35dc753d64b74a6ad9887e108c68e6fb920b9aea4d3",
+    "mtime": "2026-09-21T14:49:00.094Z"
+   },
+   {
+    "file": "tests/lib-w276b-units.mjs",
+    "bytes": 6467,
+    "sha256": "ada33ba49f7ce73ed6ebff008852f3c11ab334c4a4b5bde9701c8470c7a344e2",
+    "mtime": "2026-09-21T14:49:00.094Z"
+   },
+   {
+    "file": "tests/lib-w273b-charonpage.mjs",
+    "bytes": 13221,
+    "sha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
+    "mtime": "2026-09-19T11:49:00.959Z"
+   },
+   {
+    "file": "tests/lib-w273b-mergekey.mjs",
+    "bytes": 6901,
+    "sha256": "117bab590575bc3c52453d45088971ff9f287fd2297557236eac4bcc76e38019",
+    "mtime": "2026-09-19T11:49:00.959Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-18T17:14:55.948Z"
+   }
+  ],
+  "codeSha256": "ad23879d0d931e6e9abdce2e4d5452bffa962540ef592838cda7fbf858f7ec55"
+ },
+ "epsilonSeries": {
+  "from": "tests/out/charoneps-w276b.json",
+  "sha256": "c17b337bede973c06e286d2d0ed132f09dbd059274ec904ca2ed6fff5d0e2916",
+  "generatedAt": "2026-09-21T20:23:09.383Z",
+  "rows": [
+   {
+    "id": "E_diag_e0.01",
+    "units": "diag",
+    "epsRequested": 0.01,
+    "epsApplied": 0.01,
+    "epsMeters": 1000,
+    "stage": "h4",
+    "periodSec": 551853.2867812433,
+    "residSec": -3.151938756695017,
+    "sigma": -121.60257548977691,
+    "clamped": false
+   },
+   {
+    "id": "E_diag_e0.02",
+    "units": "diag",
+    "epsRequested": 0.02,
+    "epsApplied": 0.02,
+    "epsMeters": 2000,
+    "stage": "h4",
+    "periodSec": 551853.2997149873,
+    "residSec": -3.139005012693815,
+    "sigma": -121.10358845269349,
+    "clamped": false
+   },
+   {
+    "id": "E_diag_e0.05",
+    "units": "diag",
+    "epsRequested": 0.05,
+    "epsApplied": 0.05,
+    "epsMeters": 5000,
+    "stage": "h4",
+    "periodSec": 551853.3902530037,
+    "residSec": -3.0484669962897897,
+    "sigma": -117.61060942476041,
+    "clamped": false
+   },
+   {
+    "id": "E_base_e0.01",
+    "units": "base",
+    "epsRequested": 0.01,
+    "epsApplied": 0.01,
+    "epsMeters": 10000,
+    "stage": "h4",
+    "periodSec": 551853.7142448771,
+    "residSec": -2.7244751228718087,
+    "sigma": -105.11092295030127,
+    "clamped": false
+   },
+   {
+    "id": "E_base_e0.005",
+    "units": "base",
+    "epsRequested": 0.005,
+    "epsApplied": 0.01,
+    "epsMeters": 10000,
+    "stage": "h4",
+    "periodSec": 551853.7142448771,
+    "residSec": -2.7244751228718087,
+    "sigma": -105.11092295030127,
+    "clamped": true
+   },
+   {
+    "id": "E_diag_e0.1",
+    "units": "diag",
+    "epsRequested": 0.1,
+    "epsApplied": 0.1,
+    "epsMeters": 10000,
+    "stage": "h4",
+    "periodSec": 551853.7136015409,
+    "residSec": -2.725118459085934,
+    "sigma": -105.13574302029066,
+    "clamped": false
+   },
+   {
+    "id": "E_base_e0.0125",
+    "units": "base",
+    "epsRequested": 0.0125,
+    "epsApplied": 0.0125,
+    "epsMeters": 12500,
+    "stage": "h4",
+    "periodSec": 551853.9567560926,
+    "residSec": -2.481963907368481,
+    "sigma": -95.75478037687041,
+    "clamped": false
+   },
+   {
+    "id": "E_diag_e0.125",
+    "units": "diag",
+    "epsRequested": 0.125,
+    "epsApplied": 0.125,
+    "epsMeters": 12500,
+    "stage": "h4",
+    "periodSec": 551853.9561123898,
+    "residSec": -2.4826076101744547,
+    "sigma": -95.77961459006384,
+    "clamped": false
+   },
+   {
+    "id": "E_base_e0.025",
+    "units": "base",
+    "epsRequested": 0.025,
+    "epsApplied": 0.025,
+    "epsMeters": 25000,
+    "stage": "h4",
+    "periodSec": 551855.977676368,
+    "residSec": -0.461043632007204,
+    "sigma": -17.78717716077176,
+    "clamped": false
+   },
+   {
+    "id": "E_diag_e0.25",
+    "units": "diag",
+    "epsRequested": 0.25,
+    "epsApplied": 0.25,
+    "epsMeters": 25000,
+    "stage": "h4",
+    "periodSec": 551855.9770328897,
+    "residSec": -0.4616871102480218,
+    "sigma": -17.812002710186025,
+    "clamped": false
+   },
+   {
+    "id": "E_base_e0.05",
+    "units": "base",
+    "epsRequested": 0.05,
+    "epsApplied": 0.05,
+    "epsMeters": 50000,
+    "stage": "h4",
+    "periodSec": 551864.0612407731,
+    "residSec": 7.622520773089491,
+    "sigma": 294.07873352968716,
+    "clamped": false
+   },
+   {
+    "id": "E_diag_e0.5",
+    "units": "diag",
+    "epsRequested": 0.5,
+    "epsApplied": 0.5,
+    "epsMeters": 50000,
+    "stage": "h4",
+    "periodSec": 551864.0605974033,
+    "residSec": 7.621877403347753,
+    "sigma": 294.0539121661942,
+    "clamped": false
+   }
+  ]
+ },
+ "precision": {
+  "kepler": {
+   "formula": "P = 2π √(a³/(G(m_A+m_B)))(ニュートン二体・ε=0 の閉じた式。走行ではない)",
+   "declared": {
+    "tag": "declared",
+    "G": 6.674,
+    "mSum": 0.0014616,
+    "a": 19.596,
+    "periodSec": 551853.3029130059,
+    "residSec": -3.135806994047016,
+    "sigma": -120.98020810366575,
+    "pct": -0.0005682287591534393
+   },
+   "measuredKF0": {
+    "id": "E_base_e0.05",
+    "stage": "h4",
+    "periodSec": 551864.0612407731,
+    "residSec": 7.622520773089491,
+    "sigma": 294.07873352968716
+   }
+  },
+  "semiMajorAxis": {
+   "declaredKm": 19596,
+   "roundingKm": 0.5,
+   "why": "出典の a は 19,596 km と 1 km 刻みで丸められている(±0.5 km)",
+   "dPeriodSecPerHalfKm": 21.12128073675558,
+   "dSigmaPerHalfKm": 814.8642259550764
+  },
+  "gravitationalConstant": {
+   "builtin": 6.674,
+   "codata": 6.6743e-11,
+   "codataSource": "CODATA 2018 recommended value G = 6.67430(15)×10⁻¹¹ m³ kg⁻¹ s⁻²",
+   "relDiff": -0.00004494853392854694,
+   "dPeriodSec": -12.402637826395221,
+   "dSigma": -478.4968297220379,
+   "why": "内蔵は G=6.674(4 桁)。質量は出典表の値なので、GM は G の丸めぶんだけずれる",
+   "simValueCodata": 6.6743,
+   "note": "G を CODATA 値へ置いた(質量は転写のまま)ときのケプラー周期の差。**内蔵の G は 1 bit も変えていない**(変えると 131 本が動く署名便になる)"
+  },
+  "gmPlu060": {
+   "source": "JPL PLU060(冥王星系の衛星暦)の GM [km³/s²]。統括の読み R41 が挙げた値を出典として並置する",
+   "rows": [
+    {
+     "body": "Pluto",
+     "gm": 869.3,
+     "sigma": 0.4,
+     "limit": false
+    },
+    {
+     "body": "Charon",
+     "gm": 106.1,
+     "sigma": 0.3,
+     "limit": false
+    },
+    {
+     "body": "Nix",
+     "gm": 0.0015,
+     "sigma": 0.0005,
+     "limit": false
+    },
+    {
+     "body": "Hydra",
+     "gm": 0.002,
+     "sigma": 0.0003,
+     "limit": false
+    },
+    {
+     "body": "Kerberos",
+     "gm": 0.0002,
+     "sigma": null,
+     "limit": true
+    },
+    {
+     "body": "Styx",
+     "gm": 0.0003,
+     "sigma": null,
+     "limit": true
+    }
+   ],
+   "builtinGMkm3s2": {
+    "pluto": 869.6221999999999,
+    "charon": 105.84964000000002
+   },
+   "note": "内蔵の GM は G(丸め)×転写質量。PLU060 は**出典として並べるだけ**で代入しない",
+   "totalKm3s2": 975.4,
+   "totalSigma": 0.5,
+   "builtinTotalKm3s2": 975.4718399999999,
+   "builtinMinusSourceSigma": 0.14367999999990388,
+   "periodFromSourceGM": 551873.6250430674,
+   "residSecFromSourceGM": 17.186323067406192,
+   "sigmaFromSourceGM": 663.0525874770908
+  },
+  "sigmaFormula": {
+   "formula": "(σ_P/P)² ≃ (9/4)(σ_a/a)² + (1/4)(σ_GM/GM)²",
+   "relA": 0.000025515411308430293,
+   "relGM": 0.000512610211195407,
+   "relP": 0.0002591469441021566,
+   "sigmaPeriodSec": 143.01190967738705,
+   "termA": 21.121266025719535,
+   "termGM": 141.44362280090218,
+   "inputs": {
+    "a": {
+     "value": 19596000,
+     "sigma": 500
+    },
+    "gm": {
+     "value": 975400000000,
+     "sigma": 500000000
+    },
+    "Psec": 551856.43872
+   },
+   "covarianceNote": "**独立近似である。** a と GM は同じ観測解の推定量なので相関があり、正しく伝播させるには**同じ解の状態ベクトルと共分散行列**が要る(本便には無い)。この行は「丸め幅だけでも観測 σ の何倍になるか」を示す上限側の目安であって、誤差予算の確定値ではない"
+  },
+  "requiredCorrection": {
+   "fromEpsilon": "E_diag_e0.01",
+   "residSec": -3.151938756695017,
+   "aShiftMeters": 74.61528946363528,
+   "massFactor": 0.9999885769611966,
+   "note": "**採用済み補正ではない。** 「残差を消すには a をこれだけ動かす / 質量をこの倍率にする」という感度の例で、どちらも一点 fit である(採らない)"
+  }
+ },
+ "float32": {
+  "note": "**alloc は S.m/S.x/S.y/S.vx/S.vy/S.spin/S.R を Float32Array で確保する**。❄️ は stateCarry:\"double\" を宣言しているので **x/y/vx/vy と ax/ay・速度キャリーは Float64 へ差し替わる**が、**質量 S.m は Float32Array のまま**である(器はこれを実測して下に出す)。宣言 JSON の値と build 後の値の差が量子化である",
+  "base": {
+   "declared": {
+    "m": [
+     0.001303,
+     0.0001586
+    ],
+    "x": [
+     -2.126385878489327,
+     17.469614121510673
+    ],
+    "vy": [
+     -0.002421019578680394,
+     0.01989021759785973
+    ],
+    "G": 6.674,
+    "softening": 0.05,
+    "scaleExp": {
+     "L": 6,
+     "T": 2,
+     "M": 25
+    }
+   },
+   "built": {
+    "mA": 0.001303000026382506,
+    "mB": 0.00015859999984968454,
+    "xA": -2.126385878489327,
+    "xB": 17.469614121510673,
+    "vyA": -0.002421019578680394,
+    "vyB": 0.01989021759785973
+   },
+   "relMassA": 2.024751035217279e-8,
+   "relMassB": -9.477646261460131e-10,
+   "relSum": 1.7947585156653175e-8,
+   "relSeparation": 0
+  },
+  "diag": {
+   "built": {
+    "mA": 130.3000030517578,
+    "mB": 15.859999656677246,
+    "xA": -21.26385878489327,
+    "xB": 174.69614121510673
+   },
+   "declared": {
+    "mA": 130.29999999999998,
+    "mB": 15.860000000000001,
+    "xA": -21.26385878489327,
+    "xB": 174.69614121510673,
+    "vyA": -0.02421019578680394,
+    "vyB": 0.19890217597859727,
+    "G": 0.06674000000000001,
+    "softening": 0.5
+   },
+   "relSum": 1.85306175561327e-8,
+   "relSeparation": 0,
+   "warnings": []
+  },
+  "periodEffect": {
+   "declaredKepler": {
+    "tag": "declared",
+    "G": 6.674,
+    "mSum": 0.0014616,
+    "a": 19.596,
+    "periodSec": 551853.3029130059,
+    "residSec": -3.135806994047016,
+    "sigma": -120.98020810366575,
+    "pct": -0.0005682287591534393
+   },
+   "builtKepler": {
+    "tag": "built(Float32)",
+    "G": 6.674,
+    "mSum": 0.0014616000262321904,
+    "a": 19.596,
+    "periodSec": 551853.2979607891,
+    "residSec": -3.1407592109171674,
+    "sigma": -121.17126585328579,
+    "pct": -0.0005691261332751652
+   },
+   "deltaSec": -0.00495221687015146,
+   "deltaSigma": -0.1910577496200409
+  }
+ },
+ "satellites": {
+  "declaration": {
+   "units": {
+    "L": 5,
+    "T": 2,
+    "M": 20
+   },
+   "epsilon": 0.5,
+   "kFrame": 0,
+   "how": "円軌道・同一平面・位相 φ_i = i×1.1 rad・自転 0(**実在の自転状態の主張ではない**)。質量は GM/G_sim から作る(上限しか無い Styx/Kerberos は**上限値を診断値として**使う)。二体の初期条件は転写のまま —— 小衛星を足したことによる系の全運動量のずれは `momentum` に記録する",
+   "moons": [
+    {
+     "name": "Styx",
+     "limit": true,
+     "gm": 0.0003,
+     "gmSigma": null,
+     "aKm": 42656,
+     "aSim": 426.56,
+     "mSim": 0.0000449505543901708,
+     "vSim": 0.1512228102323973,
+     "phaseRad": 0,
+     "periodSec": 1772322.2578073342,
+     "body": {
+      "type": "single",
+      "m": 0.0000449505543901708,
+      "radius": 0.05,
+      "x": 426.56,
+      "y": 0,
+      "vx": 0,
+      "vy": 0.1512228102323973,
+      "spin": 0,
+      "pinned": false
+     }
+    },
+    {
+     "name": "Nix",
+     "limit": false,
+     "gm": 0.0015,
+     "gmSigma": 0.0005,
+     "aKm": 48694,
+     "aSim": 486.94,
+     "mSim": 0.000224752771950854,
+     "vSim": 0.14153688805599998,
+     "phaseRad": 1.1,
+     "periodSec": 2161651.4927666793,
+     "body": {
+      "type": "single",
+      "m": 0.000224752771950854,
+      "radius": 0.25,
+      "x": 220.8740953669706,
+      "y": 433.9645119083154,
+      "vx": -0.12613871635569865,
+      "vy": 0.06420058346084771,
+      "spin": 0,
+      "pinned": false
+     }
+    },
+    {
+     "name": "Kerberos",
+     "limit": true,
+     "gm": 0.0002,
+     "gmSigma": null,
+     "aKm": 57783,
+     "aSim": 577.83,
+     "mSim": 0.00002996703626011387,
+     "vSim": 0.12992936781553227,
+     "phaseRad": 2.2,
+     "periodSec": 2794297.4148863386,
+     "body": {
+      "type": "single",
+      "m": 0.00002996703626011387,
+      "radius": 0.06,
+      "x": -340.0536005836565,
+      "y": 467.1734770190738,
+      "vx": -0.10504742662941063,
+      "vy": -0.07646357812372151,
+      "spin": 0,
+      "pinned": false
+     }
+    },
+    {
+     "name": "Hydra",
+     "limit": false,
+     "gm": 0.002,
+     "gmSigma": 0.0003,
+     "aKm": 64738,
+     "aSim": 647.38,
+     "mSim": 0.0002996703626011387,
+     "vSim": 0.12275176042026406,
+     "phaseRad": 3.3000000000000003,
+     "periodSec": 3313686.4923449466,
+     "body": {
+      "type": "single",
+      "m": 0.0002996703626011387,
+      "radius": 0.26,
+      "x": -639.274653443601,
+      "y": -102.12140747445632,
+      "vx": 0.01936356165480031,
+      "vy": -0.12121488013571047,
+      "spin": 0,
+      "pinned": false
+     }
+    }
+   ]
+  },
+  "columns": [],
+  "massFloor": {
+   "key": "physics.massFloor",
+   "declared": 0.000001,
+   "baseUnits": {
+    "scale": {
+     "L": 6,
+     "T": 2,
+     "M": 25
+    },
+    "declared": [
+     0.001303,
+     0.0001586,
+     4.495055439017081e-10,
+     2.2475277195085403e-9,
+     2.996703626011387e-10,
+     2.9967036260113872e-9
+    ],
+    "built": [
+     0.001303000026382506,
+     0.00015859999984968454,
+     9.999999974752427e-7,
+     9.999999974752427e-7,
+     9.999999974752427e-7,
+     9.999999974752427e-7
+    ],
+    "lifted": [
+     {
+      "declared": 0.001303,
+      "built": 0.001303000026382506,
+      "ratio": 1.0000000202475103
+     },
+     {
+      "declared": 0.0001586,
+      "built": 0.00015859999984968454,
+      "ratio": 0.9999999990522354
+     },
+     {
+      "declared": 4.495055439017081e-10,
+      "built": 9.999999974752427e-7,
+      "ratio": 2224.6666610499233
+     },
+     {
+      "declared": 2.2475277195085403e-9,
+      "built": 9.999999974752427e-7,
+      "ratio": 444.9333322099847
+     },
+     {
+      "declared": 2.996703626011387e-10,
+      "built": 9.999999974752427e-7,
+      "ratio": 3336.9999915748854
+     },
+     {
+      "declared": 2.9967036260113872e-9,
+      "built": 9.999999974752427e-7,
+      "ratio": 333.6999991574885
+     }
+    ],
+    "warnings": [
+     "bodies[2].m を値域に修正",
+     "bodies[2].radius を値域に修正",
+     "bodies[3].m を値域に修正",
+     "bodies[4].m を値域に修正",
+     "bodies[4].radius を値域に修正",
+     "bodies[5].m を値域に修正"
+    ],
+    "error": null
+   },
+   "diagUnits": {
+    "scale": {
+     "L": 5,
+     "T": 2,
+     "M": 20
+    },
+    "declared": [
+     0.0000449505543901708,
+     0.000224752771950854,
+     0.00002996703626011387,
+     0.0002996703626011387
+    ],
+    "floor": 0.000001,
+    "allAboveFloor": true
+   },
+   "note": "**html の SCALE_DIMS に massFloor が無い**(質量次元なのに換算表に載っていない)ので、単位を変えると床は実質量で 10⁵ 倍下がる。これが「単位変更で回避したか」の答えである"
+  },
+  "fiDesign": {
+   "ruling": "第66報 (2)「それらの質量補正を選択肢に入れつつ検討対象とする」",
+   "rule": "次の検証で小衛星ごとの係数 f_i を許すなら、**カロンの周期だけに当てない** —— 同じ f_i で ① 各小衛星の軌道長半径と公転周期 ② 4 体の相互共鳴(3:4:5:6 近傍)の長期安定性 ③ 冥王星–カロンの周期 を**同時に**制約する。自由度 4 に対して拘束が 9 本以上になるので、**一点 fit にならない**ことが設計上の条件である",
+   "notDone": "本便では f_i を 1 つも当てていない(公称値と 100 倍の 2 点だけを測った)"
+  }
+ },
+ "sun": {
+  "obstruction": {
+   "rSunMeters": 5906440633928.272,
+   "rSunInUnits": 59064406.33928272,
+   "coordLimit": 5000,
+   "fitsCoordLimit": false,
+   "epsFloorMeters": 1000,
+   "requiredDynamicRange": 5906440633.928272,
+   "acceptedDynamicRange": 500000,
+   "shortfallFactor": 11812.881267856545,
+   "why": "|x| の受理上限 5000 単位と ε の受理下限 0.01 単位は**どちらも単位に比例する**ので、受理できる動的レンジは単位系を変えても 5×10⁵ のまま。冥王星–太陽を ε=10 km で置くには 5.9×10⁸ が要る —— **どの単位系でも真の配置は入らない**(実装上の制約であって物理ではない)"
+  },
+  "ladder": [
+   {
+    "X": 0.0001,
+    "Ms": 124.31004279806396,
+    "rs": 4000,
+    "id": "SUN_X0.0001",
+    "periodSec": 551805.6249443649,
+    "dPeriodSec": -58.43577542179264,
+    "nan": false,
+    "stop": "orbMax",
+    "error": null
+   },
+   {
+    "X": 0.00001,
+    "Ms": 12.431004279806396,
+    "rs": 4000,
+    "id": "SUN_X0.00001",
+    "periodSec": 551858.223692625,
+    "dPeriodSec": -5.837027161731385,
+    "nan": false,
+    "stop": "orbMax",
+    "error": null
+   },
+   {
+    "X": 0.000001,
+    "Ms": 1.2431004279806395,
+    "rs": 4000,
+    "id": "SUN_X0.000001",
+    "periodSec": 551863.477051512,
+    "dPeriodSec": -0.5836682746885344,
+    "nan": false,
+    "stop": "orbMax",
+    "error": null
+   }
+  ],
+  "fit": {
+   "a": 585635.4348180472,
+   "p": 1.000256361743976,
+   "r2": 0.9999999822628265,
+   "n": 3,
+   "note": "対数最小二乗。**べきは実測から出した値**で、理論式から置いたものではない"
+  },
+  "extrapolated": {
+   "trueX": 4.968458426061122e-9,
+   "dPeriodSecAbs": 0.0028954777741829374,
+   "dPeriodSecSigned": -0.0028954777741829374,
+   "sigmaOfObs": 0.11170824746076148,
+   "residShare": 0.0009233596900828664,
+   "note": "**外挿である。** 真の配置(太陽まで 5.9×10¹² m)は受理値域に入らないので、同じ潮汐小パラメータ X をもつ代理配置の梯子で測ったべき則を延長した。代理配置は a/r_s を固定して M_s だけを振ってあるので、X 以外の無次元量は動いていない"
+  },
+  "separateSeries": {
+   "notMeasured": [
+    "太陽潮汐の長期項(代理配置の 1 公転が走行時間より長いので secular 項は測っていない)",
+    "冥王星の J₂ / C₂₂(**出典を持っていないので作らない**)",
+    "カロンの J₂ / 潮汐変形",
+    "観測周期の定義(Buie 2012 は二体ケプラー適合値 —— 同方向 1 周とも近点間とも別の推定量)",
+    "観測時刻系(TDB/TT)と光行差の扱い"
+   ],
+   "why": "**未確認の値を作らない**(第66報の「探る」に対して、測れたものと測っていないものを分ける)"
+  },
+  "declaration": {
+   "rs": 4000,
+   "aOverRs": 0.04899,
+   "XS": [
+    0.0001,
+    0.00001,
+    0.000001
+   ],
+   "pairPeriodSecAtX": [
+    {
+     "X": 0.0001,
+     "secondsPerSolarOrbit": 37412537.85832433
+    },
+    {
+     "X": 0.00001,
+     "secondsPerSolarOrbit": 48858201.86604662
+    },
+    {
+     "X": 0.000001,
+     "secondsPerSolarOrbit": 50678464.172974125
+    }
+   ],
+   "how": "太陽体と二体を共通重心に置き、相対速度 √(G(M_s+M_pair)/r_s) を質量比で配分する(全運動量はゼロ)。**a/r_s は 3 点とも同じ**で、動かしたのは M_s だけである",
+   "notClaim": [
+    "これは太陽そのものではない",
+    "真の配置の測定値ではない(外挿の材料である)"
+   ]
+  },
+  "trueX": 4.968458426061122e-9
+ },
+ "factors": [
+  {
+   "factor": "softening ε(50 km → 1 km)",
+   "kind": "numerical",
+   "dPeriodSec": -10.774459529784508,
+   "residAtSmallestSec": -3.151938756695017,
+   "sigmaOfObs": -415.6813090194641,
+   "residSigmaAtSmallest": -121.60257548977691,
+   "adopt": "採らない(既定の ε は変えない)",
+   "why": "**ε→小 で残差はゼロへ行かない** —— 1 km でも残差が残る。ε は数値設定であって物理法則ではないので、「残差が消える ε」を選ぶのは fit である。**受理下限 0.01 単位は基準単位で 10 km** なので、1 km まで下げるには**単位を変える**しかない(実装上の問題であって物理ではない)"
+  },
+  {
+   "factor": "a の丸め(19,596 km・±0.5 km)",
+   "kind": "input",
+   "dPeriodSec": 21.12128073675558,
+   "sigmaOfObs": 814.8642259550764,
+   "adopt": "採らない(入力の同定が先)",
+   "why": "丸め幅だけで残差 +7.62 s の数倍を動かす。**a を動かして残差を消すのは一点 fit** で、同じ観測解の状態ベクトルへ戻す作業とは別物である"
+  },
+  {
+   "factor": "G の丸め(6.674 対 CODATA 6.67430)",
+   "kind": "input",
+   "dPeriodSec": -12.402637826395221,
+   "sigmaOfObs": -478.4968297220379,
+   "adopt": "採らない(**署名便になる** —— 内蔵 131 本の G を触る)",
+   "why": "内蔵は 4 桁の G。質量は出典表の値なので GM が丸めぶんずれる"
+  },
+  {
+   "factor": "GM の観測精度(PLU060)",
+   "kind": "input",
+   "dPeriodSec": null,
+   "sigmaOfObs": 5517.434786936229,
+   "adopt": "採らない(内蔵の値は変えない)",
+   "why": "出典の GM 精度を独立近似で周期へ伝播させると観測 σ の 143.0 s 相当になる。**共分散が要る**ので確定値ではない"
+  },
+  {
+   "factor": "状態配列が Float32",
+   "kind": "numerical",
+   "dPeriodSec": -0.00495221687015146,
+   "sigmaOfObs": -0.1910577496200409,
+   "adopt": "採らない(本便では変えない —— 変えれば 131 本が 1 bit 動く署名便)",
+   "why": "**質量 S.m は Float32Array のまま**である(stateCarry:\"double\" が Float64 にするのは x/y/vx/vy と加速度・速度キャリーだけ)。相対 2×10⁻⁸ の量子化が GM に入る。**26 ms(=1σ)を論じるには状態表現そのものが足りていない**という指摘であって、この項だけで残差が説明できるという意味ではない"
+  },
+  {
+   "factor": "小衛星 4 体(Styx/Nix/Kerberos/Hydra)",
+   "kind": "physical",
+   "dPeriodSec": 0.25004890048876405,
+   "dPeriodSecX100": 25.058551386697218,
+   "sigmaOfObs": 9.646948321325773,
+   "adopt": "内蔵へは足さない(❄️ は二体の転写サンプルである)",
+   "why": "第66報 (2) の「カロン以外の衛星の影響」を実測した。**基準単位では massFloor 1e-6 がNix 相当を持ち上げてしまう**ので、単位を変えないと測れない(実装上の問題)"
+  },
+  {
+   "factor": "太陽を分解する",
+   "kind": "physical",
+   "dPeriodSec": -0.0028954777741829374,
+   "sigmaOfObs": -0.11170824746076148,
+   "adopt": "採らない(**真の配置が受理値域に入らない** —— 外挿値である)",
+   "why": "|x|≤5000 単位と ε≥0.01 単位が同時に効くので受理できる動的レンジは 5×10⁵ 止まり。冥王星–太陽 5.9×10¹² m を ε=10 km で置くには 5.9×10⁸ が要る"
+  },
+  {
+   "factor": "周期の定義(同方向 1 周 / 近点間 / 二体ケプラー適合)",
+   "kind": "definition",
+   "dPeriodSec": null,
+   "sigmaOfObs": null,
+   "adopt": "**未確定**(門は mapping-unresolved のまま)",
+   "why": "観測 551856.43872±0.02592 s は Buie 2012 の**二体ケプラー適合値**で、シミュレータの同方向 1 周とも近点間とも別の推定量である。対応が決まるまで「合/否」を上書きしない(裁定 I6・第272便a の行契約)"
+  }
+ ],
+ "conclusion": {
+  "headline": "**解決したのは「説明」「低 ε 検査を妨げる単位設定」「小衛星の質量床」という実装上の 3 つで、観測一致は達成していない。**",
+  "achieved": [
+   "❄️ の obsCard と説明にあった「kFrame=0 は観測周期を +0.002% で写す」を正式判定(+0.001381%・+294.08σ・否(3σ))へ改めた(**物理入力の署名は不変**)",
+   "受理下限 ε=0.01 単位が基準単位で 10 km になる問題を、**単位を変えた診断コピー**で回避して 1 km まで測った",
+   "基準単位では massFloor 1e-6 が Nix 相当(2.2×10⁻⁹)を持ち上げてしまうことを実測し、単位変更で床を割らずに 4 体を置けることを確かめた",
+   "「どの要因が加われば解決するか」を感度表に分解した"
+  ],
+  "notAchieved": [
+   "**残差は消えていない。** ε を受理下限の 1/10(1 km)まで下げても残差は残り、符号は負である",
+   "**小衛星も太陽も残差を説明しない**(どちらも観測 σ より小さいか、外挿でしか出せない)",
+   "**入力精度(a の丸め・G の丸め・Float32)だけで残差の数倍が動く**ので、いまの入力のままでは 1σ(26 ms)の判定に意味が無い"
+  ],
+  "nextGate": "❄️ を 3σ で論じるには、① **同じ観測解の状態ベクトルと共分散**(Buie 2012 / PLU060 の元解)を入力にする ② 状態表現を Float32 から上げる ③ 周期の定義対応(mapping)を決める —— の 3 つが先で、①②③ の前に ε や f を動かして残差を合わせない"
+ },
+ "columns": {
+  "SAT_none": {
+   "id": "SAT_none",
+   "note": "小衛星なし(診断単位の基準列)",
+   "stage": "h",
+   "dt": 0.016,
+   "steps": 20694902,
+   "wallSec": 20.649,
+   "rev2Sec": 551864.0607197867,
+   "revN": 60,
+   "residSec": 7.621999786701053,
+   "sigma": 294.05863374618264,
+   "pct": 0.0013811562667239788,
+   "eProxy": 0.00001334036749891236,
+   "cfgApplied": {
+    "kFrame": 0,
+    "geoPN": 2,
+    "softening": 0.5,
+    "mA": 130.3000030517578,
+    "mB": 15.859999656677246,
+    "D0": 60,
+    "frameWeight": "share",
+    "hasGeoToy": false,
+    "geoToyDeny": null,
+    "geoToyStop": null,
+    "geoToyOverlay": null
+   },
+   "warnings": [],
+   "ledger": {
+    "Lrel": 1.0573860778773587e-13,
+    "Pabs": 1.3681276164051459e-17,
+    "Prel": 2.168472386195717e-18,
+    "Erel": 4.4262337450807913e-13,
+    "E0": -0.35191157838878734,
+    "E1": -0.3519115783886316,
+    "cmMax": 0.0003220004885583947,
+    "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+   },
+   "clamp": {
+    "V": 0,
+    "S": 0,
+    "H": 0,
+    "A": 0,
+    "R": 0,
+    "T": 0
+   },
+   "nan": false,
+   "stop": "orbMax",
+   "nBodies": 2
+  },
+  "SAT_all": {
+   "id": "SAT_all",
+   "note": "小衛星 4 体(公称/上限)",
+   "stage": "h",
+   "dt": 0.016,
+   "steps": 20694906,
+   "wallSec": 61.481,
+   "rev2Sec": 551864.3107686872,
+   "revN": 60,
+   "residSec": 7.872048687189817,
+   "sigma": 303.70558206750843,
+   "pct": 0.0014264667646985496,
+   "eProxy": 0.000013773892846022249,
+   "cfgApplied": {
+    "kFrame": 0,
+    "geoPN": 2,
+    "softening": 0.5,
+    "mA": 130.3000030517578,
+    "mB": 15.859999656677246,
+    "D0": 60,
+    "frameWeight": "share",
+    "hasGeoToy": false,
+    "geoToyDeny": null,
+    "geoToyStop": null,
+    "geoToyOverlay": null
+   },
+   "warnings": [],
+   "ledger": {
+    "Lrel": 3.8677714395421054e-14,
+    "Pabs": 2.6293157484114014e-17,
+    "Prel": 4.1673940909703e-18,
+    "Erel": 3.3841900296931837e-7,
+    "E0": -0.35190630255313843,
+    "E1": -0.3519061834613584,
+    "cmMax": 0.07012628424174627,
+    "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+   },
+   "clamp": {
+    "V": 0,
+    "S": 0,
+    "H": 0,
+    "A": 0,
+    "R": 0,
+    "T": 0
+   },
+   "nan": false,
+   "stop": "orbMax",
+   "nBodies": 6
+  },
+  "SAT_Styx": {
+   "id": "SAT_Styx",
+   "note": "Styx 単独",
+   "stage": "h",
+   "dt": 0.016,
+   "steps": 20694899,
+   "wallSec": 27.941,
+   "rev2Sec": 551864.0244730314,
+   "revN": 60,
+   "residSec": 7.585753031424247,
+   "sigma": 292.6602249777873,
+   "pct": 0.0013745881173406213,
+   "eProxy": 0.000013326825571396863,
+   "cfgApplied": {
+    "kFrame": 0,
+    "geoPN": 2,
+    "softening": 0.5,
+    "mA": 130.3000030517578,
+    "mB": 15.859999656677246,
+    "D0": 60,
+    "frameWeight": "share",
+    "hasGeoToy": false,
+    "geoToyDeny": null,
+    "geoToyStop": null,
+    "geoToyOverlay": null
+   },
+   "warnings": [],
+   "ledger": {
+    "Lrel": 3.233598244122335e-13,
+    "Pabs": 1.6840693376467865e-16,
+    "Prel": 2.6692348555831e-17,
+    "Erel": 1.3783913956348903e-7,
+    "E0": -0.35191106441655706,
+    "E1": -0.3519111129236754,
+    "cmMax": 0.015147028380704006,
+    "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+   },
+   "clamp": {
+    "V": 0,
+    "S": 0,
+    "H": 0,
+    "A": 0,
+    "R": 0,
+    "T": 0
+   },
+   "nan": false,
+   "stop": "orbMax",
+   "nBodies": 3
+  },
+  "SAT_Nix": {
+   "id": "SAT_Nix",
+   "note": "Nix 単独",
+   "stage": "h",
+   "dt": 0.016,
+   "steps": 20694909,
+   "wallSec": 27.81,
+   "rev2Sec": 551864.3919203099,
+   "revN": 60,
+   "residSec": 7.953200309886597,
+   "sigma": 306.8364317085879,
+   "pct": 0.0014411719700749706,
+   "eProxy": 0.000013988988906767376,
+   "cfgApplied": {
+    "kFrame": 0,
+    "geoPN": 2,
+    "softening": 0.5,
+    "mA": 130.3000030517578,
+    "mB": 15.859999656677246,
+    "D0": 60,
+    "frameWeight": "share",
+    "hasGeoToy": false,
+    "geoToyDeny": null,
+    "geoToyStop": null,
+    "geoToyOverlay": null
+   },
+   "warnings": [],
+   "ledger": {
+    "Lrel": 2.0930306391275325e-13,
+    "Pabs": 3.0367052981545393e-17,
+    "Prel": 4.813131687209843e-18,
+    "Erel": 5.262478410328602e-7,
+    "E0": -0.3519093271873903,
+    "E1": -0.35190914199586665,
+    "cmMax": 0.0723932184430222,
+    "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+   },
+   "clamp": {
+    "V": 0,
+    "S": 0,
+    "H": 0,
+    "A": 0,
+    "R": 0,
+    "T": 0
+   },
+   "nan": false,
+   "stop": "orbMax",
+   "nBodies": 3
+  },
+  "SAT_Kerberos": {
+   "id": "SAT_Kerberos",
+   "note": "Kerberos 単独",
+   "stage": "h",
+   "dt": 0.016,
+   "steps": 20694902,
+   "wallSec": 27.995,
+   "rev2Sec": 551864.0696643571,
+   "revN": 60,
+   "residSec": 7.630944357137196,
+   "sigma": 294.40371748214494,
+   "pct": 0.0013827770814519701,
+   "eProxy": 0.000013389682818631213,
+   "cfgApplied": {
+    "kFrame": 0,
+    "geoPN": 2,
+    "softening": 0.5,
+    "mA": 130.3000030517578,
+    "mB": 15.859999656677246,
+    "D0": 60,
+    "frameWeight": "share",
+    "hasGeoToy": false,
+    "geoToyDeny": null,
+    "geoToyStop": null,
+    "geoToyOverlay": null
+   },
+   "warnings": [],
+   "ledger": {
+    "Lrel": 6.380443595808913e-14,
+    "Pabs": 1.2206485364919343e-17,
+    "Prel": 1.934717916209285e-18,
+    "Erel": 9.3403562127117e-9,
+    "E0": -0.3519113254424253,
+    "E1": -0.3519113221554482,
+    "cmMax": 0.008953571326902538,
+    "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+   },
+   "clamp": {
+    "V": 0,
+    "S": 0,
+    "H": 0,
+    "A": 0,
+    "R": 0,
+    "T": 0
+   },
+   "nan": false,
+   "stop": "orbMax",
+   "nBodies": 3
+  },
+  "SAT_Hydra": {
+   "id": "SAT_Hydra",
+   "note": "Hydra 単独",
+   "stage": "h",
+   "dt": 0.016,
+   "steps": 20694901,
+   "wallSec": 27.816,
+   "rev2Sec": 551864.0068660924,
+   "revN": 60,
+   "residSec": 7.568146092467941,
+   "sigma": 291.98094492546073,
+   "pct": 0.0013713976247195434,
+   "eProxy": 0.000013284820440781553,
+   "cfgApplied": {
+    "kFrame": 0,
+    "geoPN": 2,
+    "softening": 0.5,
+    "mA": 130.3000030517578,
+    "mB": 15.859999656677246,
+    "D0": 60,
+    "frameWeight": "share",
+    "hasGeoToy": false,
+    "geoToyDeny": null,
+    "geoToyStop": null,
+    "geoToyOverlay": null
+   },
+   "warnings": [],
+   "ledger": {
+    "Lrel": 5.603030324583946e-15,
+    "Pabs": 1.196573634465061e-16,
+    "Prel": 1.896549506780542e-17,
+    "Erel": 6.008985619614235e-8,
+    "E0": -0.35190932067312775,
+    "E1": -0.3519093418193082,
+    "cmMax": 0.08282524216431038,
+    "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+   },
+   "clamp": {
+    "V": 0,
+    "S": 0,
+    "H": 0,
+    "A": 0,
+    "R": 0,
+    "T": 0
+   },
+   "nan": false,
+   "stop": "orbMax",
+   "nBodies": 3
+  },
+  "SAT_all_x100": {
+   "id": "SAT_all_x100",
+   "note": "小衛星 4 体 ×100 質量(感度の反例)",
+   "stage": "h",
+   "dt": 0.016,
+   "steps": 20695300,
+   "wallSec": 60.63,
+   "rev2Sec": 551889.1192711734,
+   "revN": 60,
+   "residSec": 32.68055117339827,
+   "sigma": 1260.8237335416,
+   "pct": 0.005921929849944122,
+   "eProxy": 0.00011129525582015015,
+   "cfgApplied": {
+    "kFrame": 0,
+    "geoPN": 2,
+    "softening": 0.5,
+    "mA": 130.3000030517578,
+    "mB": 15.859999656677246,
+    "D0": 60,
+    "frameWeight": "share",
+    "hasGeoToy": false,
+    "geoToyDeny": null,
+    "geoToyStop": null,
+    "geoToyOverlay": null
+   },
+   "warnings": [],
+   "ledger": {
+    "Lrel": 1.9994212055801479e-13,
+    "Pabs": 8.710778807735132e-15,
+    "Prel": 1.3789192678515662e-15,
+    "Erel": 4.353630774922908e-7,
+    "E0": -0.35138399481160165,
+    "E1": -0.351384147791219,
+    "cmMax": 7.0047914310357156,
+    "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+   },
+   "clamp": {
+    "V": 0,
+    "S": 0,
+    "H": 0,
+    "A": 0,
+    "R": 0,
+    "T": 0
+   },
+   "nan": false,
+   "stop": "orbMax",
+   "nBodies": 6
+  },
+  "SUN_none": {
+   "id": "SUN_none",
+   "note": "太陽なし(同じ単位・同じ ε の基準列)",
+   "stage": "h",
+   "dt": 0.016,
+   "steps": 20694902,
+   "wallSec": 20.81,
+   "rev2Sec": 551864.0607197867,
+   "revN": 60,
+   "residSec": 7.621999786701053,
+   "sigma": 294.05863374618264,
+   "pct": 0.0013811562667239788,
+   "eProxy": 0.00001334036749891236,
+   "cfgApplied": {
+    "kFrame": 0,
+    "geoPN": 2,
+    "softening": 0.5,
+    "mA": 130.3000030517578,
+    "mB": 15.859999656677246,
+    "D0": 60,
+    "frameWeight": "share",
+    "hasGeoToy": false,
+    "geoToyDeny": null,
+    "geoToyStop": null,
+    "geoToyOverlay": null
+   },
+   "warnings": [],
+   "ledger": {
+    "Lrel": 1.0573860778773587e-13,
+    "Pabs": 1.3681276164051459e-17,
+    "Prel": 2.168472386195717e-18,
+    "Erel": 4.4262337450807913e-13,
+    "E0": -0.35191157838878734,
+    "E1": -0.3519115783886316,
+    "cmMax": 0.0003220004885583947,
+    "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+   },
+   "clamp": {
+    "V": 0,
+    "S": 0,
+    "H": 0,
+    "A": 0,
+    "R": 0,
+    "T": 0
+   },
+   "nan": false,
+   "stop": "orbMax",
+   "nBodies": 2
+  },
+  "SUN_X0.0001": {
+   "id": "SUN_X0.0001",
+   "note": "代理配置 X=(n′/n)²=0.0001(M_s=124.310・r_s=4000)",
+   "stage": "h",
+   "dt": 0.016,
+   "steps": 20692453,
+   "wallSec": 28.109,
+   "rev2Sec": 551805.6249443649,
+   "revN": 60,
+   "residSec": -50.81377563509159,
+   "sigma": -1960.4080106131014,
+   "pct": -0.009207788850475549,
+   "eProxy": 0.0007113645749811504,
+   "cfgApplied": {
+    "kFrame": 0,
+    "geoPN": 2,
+    "softening": 0.5,
+    "mA": 130.3000030517578,
+    "mB": 15.859999656677246,
+    "D0": 60,
+    "frameWeight": "share",
+    "hasGeoToy": false,
+    "geoToyDeny": null,
+    "geoToyStop": null,
+    "geoToyOverlay": null
+   },
+   "warnings": [],
+   "ledger": {
+    "Lrel": 4.615674297428933e-14,
+    "Pabs": 2.391493584112727e-15,
+    "Prel": 2.649725927729822e-16,
+    "Erel": 0.00015205694945642634,
+    "E0": -0.2003353984102526,
+    "E1": -0.200365860799803,
+    "cmMax": 3676.236833680556,
+    "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+   },
+   "clamp": {
+    "V": 0,
+    "S": 0,
+    "H": 0,
+    "A": 0,
+    "R": 0,
+    "T": 0
+   },
+   "nan": false,
+   "stop": "orbMax",
+   "nBodies": 3
+  },
+  "SUN_X0.00001": {
+   "id": "SUN_X0.00001",
+   "note": "代理配置 X=(n′/n)²=0.00001(M_s=12.4310・r_s=4000)",
+   "stage": "h",
+   "dt": 0.016,
+   "steps": 20694659,
+   "wallSec": 27.96,
+   "rev2Sec": 551858.223692625,
+   "revN": 60,
+   "residSec": 1.7849726249696687,
+   "sigma": 68.8646846053113,
+   "pct": 0.00032344872683008147,
+   "eProxy": 0.00007597587948169781,
+   "cfgApplied": {
+    "kFrame": 0,
+    "geoPN": 2,
+    "softening": 0.5,
+    "mA": 130.3000030517578,
+    "mB": 15.859999656677246,
+    "D0": 60,
+    "frameWeight": "share",
+    "hasGeoToy": false,
+    "geoToyDeny": null,
+    "geoToyStop": null,
+    "geoToyOverlay": null
+   },
+   "warnings": [],
+   "ledger": {
+    "Lrel": 1.2882732887953335e-13,
+    "Pabs": 2.3525204118543076e-15,
+    "Prel": 3.65464199085443e-16,
+    "Erel": 0.000002871390610100397,
+    "E0": -0.33675396039300437,
+    "E1": -0.33675492734516416,
+    "cmMax": 626.9653102482201,
+    "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+   },
+   "clamp": {
+    "V": 0,
+    "S": 0,
+    "H": 0,
+    "A": 0,
+    "R": 0,
+    "T": 0
+   },
+   "nan": false,
+   "stop": "orbMax",
+   "nBodies": 3
+  },
+  "SUN_X0.000001": {
+   "id": "SUN_X0.000001",
+   "note": "代理配置 X=(n′/n)²=0.000001(M_s=1.24310・r_s=4000)",
+   "stage": "h",
+   "dt": 0.016,
+   "steps": 20694878,
+   "wallSec": 27.777,
+   "rev2Sec": 551863.477051512,
+   "revN": 60,
+   "residSec": 7.038331512012519,
+   "sigma": 271.5405675930756,
+   "pct": 0.0012753917537571065,
+   "eProxy": 0.000013511533146987158,
+   "cfgApplied": {
+    "kFrame": 0,
+    "geoPN": 2,
+    "softening": 0.5,
+    "mA": 130.3000030517578,
+    "mB": 15.859999656677246,
+    "D0": 60,
+    "frameWeight": "share",
+    "hasGeoToy": false,
+    "geoToyDeny": null,
+    "geoToyStop": null,
+    "geoToyOverlay": null
+   },
+   "warnings": [],
+   "ledger": {
+    "Lrel": 1.0789658949153725e-13,
+    "Pabs": 6.178445059415748e-15,
+    "Prel": 9.77224272381344e-16,
+    "Erel": 3.247477518649424e-7,
+    "E0": -0.3503958166488771,
+    "E1": -0.35039570285862337,
+    "cmMax": 67.45518817527416,
+    "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+   },
+   "clamp": {
+    "V": 0,
+    "S": 0,
+    "H": 0,
+    "A": 0,
+    "R": 0,
+    "T": 0
+   },
+   "nan": false,
+   "stop": "orbMax",
+   "nBodies": 3
+  }
+ },
+ "pageErrors": []
+}

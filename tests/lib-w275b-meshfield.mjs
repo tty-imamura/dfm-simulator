@@ -31,11 +31,52 @@
 // ■ しないこと
 //   ・エンジンの既定経路へ接続しない(`beta/index.html` の力学は 1 bit も変えていない)。
 //   ・「複素決定力場を実装した」とは書かない —— 置いたのは**規格化の 2 案と、その診断**である。
-export const MESHFIELD_VERSION = 'w275b-meshfield-1';
+// ■ 第276便a(原仮定者の裁定〔第66報〕(1))で足したもの —— **(N3) 宣言した背景** `norm:"background"`
+//   裁定は「**『背景決定力 D₀』と別途『背景複素決定力』を用意する**」である。
+//   (N1)(N2) は**サンプル自身の源だけ**から規格化を作る案だったが、(N3) は
+//   **宣言された背景 (W₀, A₀, ∇W₀, ∇A₀, ∂ₜW₀, ∂ₜA₀) をそのまま持ち込む**:
+//     W = W₀ + Σ w_i          … [M/L^p](**重み**)
+//     A = A₀ + Σ w_i u_i      … [M/(L^(p−1)·T)](**分子・向きつき**)
+//     u = A/W ・ ∇u = (∇A − u⊗∇W)/W ・ ∂ₜu = (∂ₜA − u·∂ₜW)/W ・ χ = (Σ w_i)/W
+//   **W₀ と A₀ は別の量である**(反対向きに動く源は A₀ では相殺しても W₀ には正で残る)ので、
+//   **同じ数を両方に入れない**。**D₀ は 1 度も読まない**(この lib は D₀ という語を持たない)。
+//   **未宣言の背景を静止ゼロで埋めない** —— 成分が欠けていれば **null** を返す
+//   (「ゼロと宣言」は W₀=0 かつ全成分 0 を**明示した**ときだけである)。
+//   旧経路 χ=W/(D₀+W) は (N3) で W₀=D₀・A₀=D₀·u_bg と置いた特別な場合にあたる
+//   (器 `tests/exp-w276a-bgfield.mjs` が `dfmLocalMeshField` との一致を機械照合する)。
+export const MESHFIELD_VERSION = 'w276a-meshfield-2';
 
 /** 受理する規格化(**エンジンの DFM_FIELD_LAWS には足していない** —— 本 lib の中だけの名前)。 */
-export const NOD0_NORMS = ['self', 'configScale'];
+export const NOD0_NORMS = ['self', 'configScale', 'background'];
 export const NOD0_LAW_NAME = 'complex-nod0';
+
+/** (N3) の背景が持つ成分と長さ(**欠けていたら null** —— 既定 0 で埋めない)。 */
+export const BG_COMPONENTS = { W0: 1, A0: 2, gradW: 2, gradA: 4, dWdt: 1, dAdt: 2 };
+
+/**
+ * 宣言された背景を**規格化する純関数**(値域・有限性・整合の門)。
+ * **W₀=0 なら他の成分もすべて 0**(重み 0 の背景に分子や微分は置けない)。
+ * @returns {{W0:number,A0:number[],gradW:number[],gradA:number[],dWdt:number,dAdt:number[]}|null}
+ */
+export function normalizeBackground(bg) {
+  if (!bg || typeof bg !== 'object' || Array.isArray(bg)) return null;
+  const num = (v) => (typeof v === 'number' && Number.isFinite(v)) ? v : null;
+  const vec = (k, n) => {
+    const z = bg[k];
+    if (!Array.isArray(z) || z.length !== n) return null;
+    const o = [];
+    for (let i = 0; i < n; i++) { const v = num(z[i]); if (v === null) return null; o.push(v); }
+    return o;
+  };
+  const W0 = num(bg.W0);
+  if (W0 === null || !(W0 >= 0)) return null;               // **W₀ は宣言必須・0 以上**
+  const A0 = vec('A0', 2), gradW = vec('gradW', 2), gradA = vec('gradA', 4), dAdt = vec('dAdt', 2);
+  const dWdt = num(bg.dWdt);
+  if (!A0 || !gradW || !gradA || !dAdt || dWdt === null) return null;   // **欠けたら null**(0 で埋めない)
+  const rest = A0.concat(gradW, gradA, dAdt, [dWdt]);
+  if (W0 === 0 && rest.some((z) => z !== 0)) return null;   // W₀=0 の背景に分子・微分は置けない
+  return { W0, A0, gradW, gradA, dWdt, dAdt };
+}
 
 /**
  * D₀ を 1 度も読まないメッシュ場。
@@ -44,7 +85,9 @@ export const NOD0_LAW_NAME = 'complex-nod0';
  *
  * @param {Array} sources `{m,x,y,vx,vy,ax,ay,omega,omegaDot}` の配列
  * @param {number} px,py 評価点
- * @param {object} opts `{p=2, eps=0, norm:"self"|"configScale", Rref}`
+ * @param {object} opts `{p=2, eps=0, norm:"self"|"configScale"|"background", Rref, bg}`
+ *   `norm:"background"`(第276便a)は `bg={W0,A0,gradW,gradA,dWdt,dAdt}` を**宣言必須**で読む
+ *   (欠けたら null —— **未入力の背景を静止ゼロで埋めない**)。
  * @returns {{u:number[],gradU:number[],dUdt:number[],chi:number,W:number,W0:number,
  *            norm:string,lawVersion:string,nIn:number}|null}
  */
@@ -59,8 +102,19 @@ export function meshFieldNoD0(sources, px, py, opts) {
   px = Number(px); py = Number(py);
   if (!(Number.isFinite(px) && Number.isFinite(py))) return null;
   const e2 = eps * eps, pHalfNeg = -p / 2, pZero = (p === 0);
+  // 第276便a(N3): **宣言された背景**。`norm:"background"` のときだけ読み、欠けていれば null。
+  // (N1)(N2) では BG は null で、累算の初期値は 0 のまま = **既存の値は 1 bit 変わらない**。
+  let BG = null;
+  if (norm === 'background') { BG = normalizeBackground(o.bg); if (!BG) return null; }
   let W = 0, gWx = 0, gWy = 0, Wd = 0, Mtot = 0, nIn = 0;
   let Nx = 0, Ny = 0, g0 = 0, g1 = 0, g2 = 0, g3 = 0, Tx = 0, Ty = 0;
+  if (BG) {
+    // 背景は**分子 A₀・その微分**を先に置く(重み W₀ は下の den へ入れる —— W は「源の分」のまま)
+    Nx = BG.A0[0]; Ny = BG.A0[1];
+    gWx = BG.gradW[0]; gWy = BG.gradW[1];
+    g0 = BG.gradA[0]; g1 = BG.gradA[1]; g2 = BG.gradA[2]; g3 = BG.gradA[3];
+    Wd = BG.dWdt; Tx = BG.dAdt[0]; Ty = BG.dAdt[1];
+  }
   for (const b of sources) {
     if (!b) return null;
     const mi = Number(b.m), bx = Number(b.x), by = Number(b.y);
@@ -92,6 +146,7 @@ export function meshFieldNoD0(sources, px, py, opts) {
   }
   // **規格化** —— ここが 2 案の分かれ目で、**どちらも D₀ を読まない**
   let W0 = 0;
+  if (BG) W0 = BG.W0;                                  // 第276便a(N3): **宣言された背景の重み**
   if (norm === 'configScale') {
     const R = Number(o.Rref);
     if (!(Number.isFinite(R) && R > 0)) return null;   // R_ref は**宣言必須**(既定を黙って置かない)
@@ -106,8 +161,9 @@ export function meshFieldNoD0(sources, px, py, opts) {
   if (!(Number.isFinite(ux) && Number.isFinite(uy) && gradU.every(Number.isFinite)
     && dUdt.every(Number.isFinite))) return null;
   return { u: [ux, uy], gradU, dUdt, chi: W / den, W, W0, gradW: [gWx, gWy], dWdt: Wd,
+    gradA: [g0, g1, g2, g3], A: [Nx, Ny], dAdt: [Tx, Ty],
     norm, lawVersion: NOD0_LAW_NAME, nIn, p, eps, Rref: (o.Rref === undefined) ? null : Number(o.Rref),
-    uQuantity: 'velocity' };
+    bg: BG, uQuantity: 'velocity' };
 }
 
 /**
@@ -151,4 +207,5 @@ export function scaleCovariance(sources, px, py, opts) {
   return { lambda: lam, p, eps, D0, legacy, self, configScale: cs };
 }
 
-export default { MESHFIELD_VERSION, NOD0_NORMS, NOD0_LAW_NAME, meshFieldNoD0, scaleCovariance };
+export default { MESHFIELD_VERSION, NOD0_NORMS, NOD0_LAW_NAME, BG_COMPONENTS,
+  normalizeBackground, meshFieldNoD0, scaleCovariance };

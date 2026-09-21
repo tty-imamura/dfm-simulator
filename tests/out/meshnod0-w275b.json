@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便b",
   "target": "beta/index.html",
-  "targetSha256": "536fa19848ecfc023f6545279f93800df1f49eeaf4b23292fc1b8748dcbc4890",
-  "generatedAt": "2026-09-20T21:34:56.866Z",
+  "targetSha256": "68498d8ded199b59337dac1ab6031953022ced24a571f2c240b4613e1bdda63d",
+  "generatedAt": "2026-09-21T15:29:14.351Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4299848,
-    "sha256": "536fa19848ecfc023f6545279f93800df1f49eeaf4b23292fc1b8748dcbc4890",
-    "mtime": "2026-09-20T21:12:35.779Z"
+    "bytes": 4364910,
+    "sha256": "68498d8ded199b59337dac1ab6031953022ced24a571f2c240b4613e1bdda63d",
+    "mtime": "2026-09-21T14:51:16.051Z"
    }
   ],
   "code": [
@@ -22,9 +22,9 @@
    },
    {
     "file": "tests/lib-w275b-meshfield.mjs",
-    "bytes": 9905,
-    "sha256": "5def01e0c4063a3235b929a2dca5a534a2051a2f471bc98f962bf2cf1babb786",
-    "mtime": "2026-09-20T17:43:15.901Z"
+    "bytes": 13964,
+    "sha256": "1d348aaa94170b25935ee365908d21f11c8f91e8f046642de43b28358d9d8de9",
+    "mtime": "2026-09-21T12:40:00.564Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -33,14 +33,15 @@
     "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "f79a91a1e0f1c849c7490288172b38e7808d110b6424de4f09b2963523f96178",
+  "codeSha256": "126e8c1b82c0364f8142ae810b7e0d6561f7aad2cf104fa712e9070cbe089874",
   "harness": "tests/exp-w275b-meshnod0.mjs",
   "harnessVersion": "w275b-meshnod0-1",
-  "meshfieldVersion": "w275b-meshfield-1",
+  "meshfieldVersion": "w276a-meshfield-2",
   "lawVersionProposed": "complex-nod0",
   "norms": [
    "self",
-   "configScale"
+   "configScale",
+   "background"
   ],
   "preset": "galaxyMeshSpiralGeoToy",
   "engineAttached": false,
