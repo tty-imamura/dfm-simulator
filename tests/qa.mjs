@@ -1937,7 +1937,11 @@ const add = (id, pass, detail) => {
       'tests/out/charond0-w275b.json',
       // 第275便d(第65報 (4)(5)(6)): 形状トイの安定・低分散・銀河らしさの判定(target=beta/index.html)と、
       // **動的中心の診断**(target=lib 自身 —— html を読まない node 模型・エンジン未接続)
-      'tests/out/shapecrit-w275d.json', 'tests/out/dyncenter-w275d.json'];
+      'tests/out/shapecrit-w275d.json', 'tests/out/dyncenter-w275d.json',
+      // 第276便a(第66報 (1)): 背景複素決定力の純関数(源分割の同値・微分の検算・門・旧経路との一致)/
+      //   D₀ の読み口の**機械監査**(用途と置換可否・R39 の q)/ 背景の**事前予測表**
+      'tests/out/bgfield-w276a.json', 'tests/out/d0sites-w276a.json',
+      'tests/out/bgpredict-w276a.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -5982,6 +5986,160 @@ const add = (id, pass, detail) => {
       + `別鍵で持っているのと同じ理由)。**規則の値はすべて仮定つき**(質量・距離・銀河の参考値を`
       + `JSON に出典つきで並べてある)であって観測入力ではない。**内蔵 128 本の D₀ の値は 1 本も変えていない**`
       + `/ **判定はしていない**(「D₀ を較正した」「規則値が正しい」「新発見」は書かない)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 0a3z4) 第276便a(原仮定者の裁定〔第66報〕(1)): docs.d0sites-sync ----
+// ----   「**影響箇所を精査する**」の正本 JSON(D₀ の読み口の**機械監査**)と
+// ----   docs/PHYSICS.md〔第276便a〕節を突き合わせる。固定するのは 8 点で、**どれも合否ではない**:
+// ----     ① `meta.targetSha256` が**いま検査している html の SHA-256**と一致する。
+// ----     ② **抽出の自己検査**(コメント・文字列・正規表現を潰した写しの波括弧・丸括弧・角括弧の
+// ----        収支がすべて 0)が通っている —— 収支が合わない表は信用しない。
+// ----     ③ **宣言表に無い読み口が 0**(`unclassified` が空 —— 新しい読み口を黙って落とさない)。
+// ----     ④ **時計と光の読み口は「置換禁止」**に分類されていて、**重力の読み口は 1 つも無い**
+// ----        (D₀ は χ の分母に入るだけで引力を供給しない —— 第275便b ③ の否定結果と整合)。
+// ----     ⑤ **新しい宣言鍵 `physics.backgroundComplex` はエンジンのどの経路からも読まれない**
+// ----        (参照は検証器・検証器の分岐・定数・HP の書き出しだけ)。
+// ----     ⑥ **R39 の実測**: `qLockCalc` は D₀ を振っても同じ q を返す(プリセットごとに 1 値)。
+// ----     ⑦ 書かない語(`meta.notClaim`)が宣言されていて、JSON 本文にその語が出てこない。
+// ----     ⑧ docs/PHYSICS.md に〔第276便a〕節があり、節に出る主要な数が正本と一致する。
+// ----   **beta 線の走行なので root は SKIP** する。
+{
+  const bad = [];
+  const cases = [];
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.d0sites-sync(beta 対象でない: ' + TARGET + ' — 監査は beta 線の実測)');
+  } else {
+    try {
+      const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'd0sites-w276a.json'), 'utf8');
+      const J = JSON.parse(text);
+      const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(別ソースの走行)');
+      else cases.push('html の SHA-256 一致');
+      if (!(J.selfCheck && J.selfCheck.ok === true))
+        bad.push('② 抽出の自己検査が通っていない(' + JSON.stringify(J.selfCheck) + ')');
+      else cases.push('潰しの収支 0(波括弧/丸括弧/角括弧)');
+      const S = J.sites || {};
+      if (!Array.isArray(S.rows) || !S.rows.length) bad.push('③ 読み口の行が無い');
+      if (!S.unclassified || S.unclassified.length !== 0)
+        bad.push('③ 宣言表に無い読み口がある: ' + (S.unclassified || []).slice(0, 4).join(','));
+      cases.push(`読み口 ${S.total} 箇所・${S.groups} 群・未分類 ${(S.unclassified || []).length}`);
+      const forb = S.forbidden || [];
+      for (const k of ['makeSim :: S.tauUpdate', 'traceRay :: traceRay', 'dfmFrameAt :: dfmFrameAt'])
+        if (forb.indexOf(k) < 0) bad.push(`④ 置換禁止に ${k}(時計/光)が無い`);
+      const gravity = (S.rows || []).filter((z) => z.use && /重力/.test(z.use));
+      if (gravity.length !== 0) bad.push(`④ 重力の読み口がある(${gravity.map((z) => z.key).join(',')})`);
+      cases.push(`置換禁止 ${forb.length} 群(時計 1 + 光 5)・**重力の読み口 0**・`
+        + `置換候補 ${(S.byReplaceable || {}).candidate} 群`);
+      const B = J.backgroundComplexKey || {};
+      if (!B.outsideAllowed || B.outsideAllowed.length !== 0)
+        bad.push('⑤ backgroundComplex が受理契約の外から参照されている: ' + (B.outsideAllowed || []).join(','));
+      cases.push(`backgroundComplex の参照 ${B.sites} 箇所(${(B.functions || []).join('/')})`);
+      const q = (J.qLock || {}).sameAcrossD0 || {};
+      const qIds = Object.keys(q);
+      if (!qIds.length) bad.push('⑥ qLock の実測が無い');
+      for (const id of qIds) {
+        if (q[id].distinctQ !== 1) bad.push(`⑥ ${id} で q が D₀ によって動いた(${JSON.stringify(q[id].q)})`);
+        if (!(q[id].paramsD0Seen && q[id].paramsD0Seen.length >= 2))
+          bad.push(`⑥ ${id} で D₀ が実際には振られていない`);
+      }
+      if (!bad.some((b) => b.startsWith('⑥')))
+        cases.push(`q は D₀ に不変(${qIds.map((id) => id + '=' + q[id].q[0]).join(' / ')})`);
+      const nc = J.meta.notClaim || [];
+      if (!nc.length) bad.push('⑦ meta.notClaim が無い');
+      for (const w of ['新発見', 'D₀ を較正した'])
+        if (text.indexOf(w) >= 0 && nc.every((z) => z.indexOf(w) < 0)) bad.push(`⑦ JSON 本文に「${w}」が出ている`);
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      if (P.indexOf('〔第276便a') < 0) bad.push('⑧ PHYSICS に〔第276便a〕節が無い');
+      else {
+        const sec = P.slice(P.indexOf('〔第276便a'), P.indexOf('〔第276便a') + 40000);
+        for (const n of [String(S.total), String(S.groups)])
+          if (sec.indexOf(n) < 0) bad.push(`⑧ PHYSICS〔第276便a〕に ${n} が無い`);
+        for (const id of qIds)
+          if (sec.indexOf(String(q[id].q[0])) < 0) bad.push(`⑧ PHYSICS〔第276便a〕に ${id} の q が無い`);
+      }
+      cases.push('PHYSICS〔第276便a〕と一致');
+    } catch (e) { bad.push('監査の JSON が読めない: ' + String(e).slice(0, 90)); }
+    add('docs.d0sites-sync', bad.length === 0,
+      `**D₀ の読み口の機械監査**(第276便a・原仮定者の裁定〔第66報〕(1)「引きずり減衰 q の算出や`
+      + `計算など**影響箇所を精査する**」): ${cases.join(' / ')} —— 識別子 D0/D0pull/D0p/frameWeightPow の`
+      + `出現を**機械抽出**し、用途と「W₀ へ置き換えてよいか」だけを宣言表で与える。`
+      + `**重力・時計・光は置換禁止**(スカラーの決定力 D を読む量である)。`
+      + `**本便は D₀ を 1 つも置き換えていない**(表に並べただけ)/ `
+      + `**q_exact は有限参照点での LT 振幅の正規化規約**であって、環境から引きずり指数を予言する式`
+      + `ではない —— **背景を変えても q は自動では動かない**(実測)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 0a3z5) 第276便a(原仮定者の裁定〔第66報〕(1)): docs.bgpredict-sync ----
+// ----   「両者はサンプルによって変動するが**シチュエーションで決まるので事前予測が可能**」の
+// ----   正本 JSON(事前予測表)と docs/PHYSICS.md〔第276便a〕節を突き合わせる。固定するのは 7 点:
+// ----     ① `meta.targetSha256` が一致する。
+// ----     ② 較正 37 本 + 🪁🎋 の **39 行**がそろい、規則の内訳が JSON の集計と一致する。
+// ----     ③ **仮定がすべて出典つき**で列挙されている(推定で埋めない)。
+// ----     ④ **D₀ は定義上 p=1・背景複素決定力は定義上 p=2**(サンプルの frameWeight に依らない)。
+// ----     ⑤ **規則が値を決めない欄は undetermined のまま**(solar-excluded の残り・系外・トイ)。
+// ----     ⑥ **内蔵の宣言は 0 本**(backgroundComplex も D0Source も —— 値を 1 本も変えていない)。
+// ----     ⑦ 書かない語が宣言されていて、docs/PHYSICS.md〔第276便a〕の数と一致する。
+// ----   **beta 線の走行なので root は SKIP** する。
+{
+  const bad = [];
+  const cases = [];
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.bgpredict-sync(beta 対象でない: ' + TARGET + ' — 予測表は beta 線の実測)');
+  } else {
+    try {
+      const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'bgpredict-w276a.json'), 'utf8');
+      const J = JSON.parse(text);
+      const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(別ソースの走行)');
+      else cases.push('html の SHA-256 一致');
+      const rows = J.rows || [], S = J.summary || {};
+      if (rows.length !== 39) bad.push(`② 行数が 39(較正 37 + 🪁🎋)でない(${rows.length})`);
+      const byRule = rows.reduce((o, a) => { const k = a.rule || 'undetermined'; o[k] = (o[k] || 0) + 1; return o; }, {});
+      if (JSON.stringify(byRule) !== JSON.stringify(S.byRule)) bad.push('② 規則の内訳が集計と一致しない');
+      cases.push(`39 行・規則の内訳 ${JSON.stringify(byRule)}・予測できた ${S.predicted} 行`);
+      const asm = J.meta.assumptions || [];
+      if (!asm.length) bad.push('③ 仮定の一覧が無い');
+      for (const a of asm) if (!a.from) bad.push(`③ 仮定 ${a.key} に出典が無い`);
+      cases.push(`仮定 ${asm.length} 件(すべて出典つき)`);
+      const pred = rows.filter((z) => z.predictedSI);
+      for (const z of pred) {
+        if (z.predictedSI.pD0 !== 1) bad.push(`④ ${z.id} の D₀ が p=1 でない`);
+        if (z.predictedSI.pComplex !== 2) bad.push(`④ ${z.id} の背景複素決定力が p=2 でない`);
+      }
+      cases.push('D₀ は p=1([M/L])・背景複素決定力は p=2([M/L²])');
+      const undet = rows.filter((z) => !z.rule).map((z) => z.id);
+      if (undet.length === 0) bad.push('⑤ 規則が当たらない行が 0 になっている(規則は系外・トイを決めていない)');
+      const sit = (J.situations || []).filter((z) => z.undetermined || z.candidates);
+      if (!sit.length) bad.push('⑤ 値が決まらないシチュエーションが 1 つも残っていない');
+      cases.push(`規則が値を決めない行 ${undet.length}・シチュエーション ${sit.length}`);
+      if ((S.declaredBackgroundComplex || []).length !== 0)
+        bad.push(`⑥ 内蔵が backgroundComplex を宣言している(${S.declaredBackgroundComplex.join(',')})`);
+      if ((S.declaredD0Source || []).length !== 0)
+        bad.push(`⑥ 内蔵が D0Source を宣言している(${S.declaredD0Source.join(',')})`);
+      cases.push('内蔵の宣言 0 本(backgroundComplex・D0Source)');
+      const nc = J.meta.notClaim || [];
+      if (!nc.length) bad.push('⑦ meta.notClaim が無い');
+      for (const w of ['新発見', '背景を較正した'])
+        if (text.indexOf(w) >= 0 && nc.every((z) => z.indexOf(w) < 0)) bad.push(`⑦ JSON 本文に「${w}」が出ている`);
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      if (P.indexOf('〔第276便a') < 0) bad.push('⑦ PHYSICS に〔第276便a〕節が無い');
+      else {
+        const sec = P.slice(P.indexOf('〔第276便a'), P.indexOf('〔第276便a') + 40000);
+        for (const [k, n] of Object.entries(byRule))
+          if (sec.indexOf(String(n)) < 0) bad.push(`⑦ PHYSICS〔第276便a〕に ${k} の本数 ${n} が無い`);
+      }
+      cases.push('PHYSICS〔第276便a〕と一致');
+    } catch (e) { bad.push('予測表の JSON が読めない: ' + String(e).slice(0, 90)); }
+    add('docs.bgpredict-sync', bad.length === 0,
+      `**背景の事前予測表**(第276便a・原仮定者の裁定〔第66報〕(1)「両者はサンプルによって変動するが`
+      + `**シチュエーションで決まるので事前予測が可能**」): ${cases.join(' / ')} —— `
+      + `**D₀=M/r([M/L])と W₀=M/r²([M/L²])・A₀=W₀·v([M/(L·T)])は別の量**で、`
+      + `速度・加速度は円軌道近似 v=√(GM/r)・a=GM/r² で**同じ仮定から**導いた。`
+      + `**これは概算条件からの計算であって特定時刻の環境値ではない**(仮定は出典つきで JSON に全部ある)。`
+      + `**内蔵の D₀・D0pull は 1 本も変えていない**/ `
+      + `**カロンの残差に合わせて選んだ背景は「事前予測」と呼ばない**`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
@@ -30278,6 +30436,82 @@ if (!FAST) {
             same: aState.length === bState.length && aState.every((z, i) => z === bState[i]),
             maxAbs: Math.max(...aState.map((z, i) => Math.abs(z - bState[i]))) };
         }
+        // ②″ 第276便a(原仮定者の裁定〔第66報〕(1)): **physics.backgroundComplex の受理契約**。
+        //    裁定「**『背景決定力 D₀』と別途『背景複素決定力』を用意する**」を**宣言できる鍵**に
+        //    しただけで、**エンジンのどの経路からも読まれない**(値は従来どおり physics.D0 /
+        //    D0pull が持ち、W₀・A₀ は本鍵が持つ)。root(未適用)は SKIP。
+        res.bgcGen = typeof BG_COMPLEX_KEY !== 'undefined';
+        if (res.bgcGen) {
+          const B = (a) => { const z = HP.validateBackgroundComplex(a); return { ok: z.ok, v: z.backgroundComplex || null }; };
+          const FULL = { background: 'heliocentric', W0: 5.7e-9, A0: [2.7e-9, 0],
+            gradW: [1e-12, 0], gradA: [1e-13, 0, 0, 0], dWdt: 1e-14, dAdt: [1e-15, 0] };
+          const ZERO = { background: 'zero', W0: 0, A0: [0, 0], gradW: [0, 0],
+            gradA: [0, 0, 0, 0], dWdt: 0, dAdt: [0, 0] };
+          const mod = (k, v) => { const o = JSON.parse(JSON.stringify(FULL)); o[k] = v; return o; };
+          res.bgcBackgrounds = BG_COMPLEX_BACKGROUNDS.slice();
+          res.bgcUnits = Object.assign({}, BG_COMPLEX_UNITS);
+          res.bgcGate = {
+            none: B(null).ok && B(null).v === null,           // **未宣言は「未確定」**(null)
+            full: B(FULL).ok,
+            zeroDeclared: B(ZERO).ok,                         // **「ゼロと宣言」**は受理
+            minimal: B({ background: 'galactic', W0: 3.12 }).ok,   // 省略した成分は 0 で埋める
+            unknownBg: B(mod('background', 'sun')).ok,        // 期待 false
+            noW0: B({ background: 'galactic' }).ok,           // 期待 false(W₀ は宣言必須)
+            negW0: B(mod('W0', -1)).ok,                       // 期待 false
+            nanW0: B(mod('W0', 'x')).ok,                      // 期待 false
+            shortA0: B(mod('A0', [1])).ok,                    // 期待 false
+            longGradA: B(mod('gradA', [1, 2, 3, 4, 5])).ok,   // 期待 false
+            nanGradW: B(mod('gradW', [1, Infinity])).ok,      // 期待 false
+            zeroW0WithA0: B({ background: 'galactic', W0: 0, A0: [1, 0] }).ok,   // 期待 false
+            zeroNameWithValue: B({ background: 'zero', W0: 1 }).ok,              // 期待 false
+            declaredNoNote: B(mod('background', 'declared')).ok,                 // 期待 false
+            declaredNote: B(Object.assign({}, FULL, { background: 'declared', note: '太陽 M☉/r²' })).ok,
+            longNote: B(Object.assign({}, FULL, { note: 'x'.repeat(BG_COMPLEX_NOTE_MAX + 1) })).ok, // 期待 false
+            badRefPos: B(Object.assign({}, FULL, { refPos: [1] })).ok,           // 期待 false
+            goodRefPos: B(Object.assign({}, FULL, { refPos: [1, 2] })).ok,
+            notArray: B([FULL]).ok,                                             // 期待 false
+          };
+          // 内蔵で宣言している本数(**本便は 0 本** —— 131 本の署名は 1 文字も動かない)
+          res.bgcDeclaredBuiltins = bis.filter(p => p.physics && p.physics.backgroundComplex !== undefined)
+            .map(p => p.id);
+          const wPlain = HP.validatePreset(mk({ D0: 0.006 }, 'calibration'));
+          const wDecl = HP.validatePreset(mk({ D0: 0.006, backgroundComplex: FULL }, 'calibration'));
+          const wBad = HP.validatePreset(mk({ D0: 0.006,
+            backgroundComplex: { background: 'galactic', W0: 0, A0: [1, 0] } }, 'calibration'));
+          res.bgcPreset = { plainOk: wPlain.ok, declOk: wDecl.ok, badOk: wBad.ok,
+            plainHasKey: wPlain.ok ? (wPlain.preset.physics.backgroundComplex !== undefined) : null,
+            declKept: wDecl.ok ? JSON.stringify(wDecl.preset.physics.backgroundComplex) : null,
+            idempotent: wDecl.ok ? (JSON.stringify(HP.validatePreset(JSON.parse(JSON.stringify(wDecl.preset)))
+              .preset.physics.backgroundComplex) === JSON.stringify(wDecl.preset.physics.backgroundComplex)) : null };
+          // **R38 の実測**: 宣言鍵は presetSig に入る(内蔵は 1 本も宣言していないので署名は不変)。
+          //   「ゼロと宣言」と「未宣言(未確定)」も**別の署名**になる(勝手に静止ゼロと扱わない)
+          res.bgcSigDiff = presetSig(mk({ D0: 0.006 }, 'principle'))
+            !== presetSig(mk({ D0: 0.006, backgroundComplex: FULL }, 'principle'));
+          res.bgcSigZeroDiff = presetSig(mk({ D0: 0.006 }, 'principle'))
+            !== presetSig(mk({ D0: 0.006, backgroundComplex: ZERO }, 'principle'));
+          // **D₀ とは別の鍵である**ことの実測(同じ数を入れても署名が違う = 混ざっていない)
+          res.bgcSigVsD0 = presetSig(mk({ D0: 5.7e-9 }, 'principle'))
+            !== presetSig(mk({ D0: 0.006, backgroundComplex: { background: 'galactic', W0: 5.7e-9 } }, 'principle'));
+          // **力学に 1 bit も効かない**ことの実測(同じ步数で状態をビット突合)
+          const buildB = (phy) => {
+            const v3 = HP.validatePreset({ name: 'b', description: 'd', camera: { scale: 200 },
+              world: { boundary: 'none', size: 0 }, physics: phy, seed: 7,
+              bodies: [{ type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false },
+                { type: 'single', m: 1, x: 120, y: 0, vx: 0, vy: 0.9, spin: 0, pinned: false },
+                { type: 'single', m: 1, x: -90, y: 40, vx: 0.1, vy: -0.8, spin: 0, pinned: false }] });
+            HP.sim.build(v3.preset);
+            const S = HP.sim;
+            for (let i = 0; i < 2000; i++) S.step(0.016);
+            const o = [];
+            for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i], S.spin[i]);
+            return o;
+          };
+          const cState = buildB({ D0: 0.006, kFrame: 1 });
+          const dState = buildB({ D0: 0.006, kFrame: 1, backgroundComplex: FULL });
+          res.bgcInert = { n: cState.length, steps: 2000,
+            same: cState.length === dState.length && cState.every((z, i) => z === dState[i]),
+            maxAbs: Math.max(...cState.map((z, i) => Math.abs(z - dState[i]))) };
+        }
       }
       // ③ radiusScale 既定 1(バリデータの既定値マージ)
       const v = HP.validatePreset({ name: 'r', description: 'd', camera: { scale: 200 },
@@ -30485,6 +30719,50 @@ if (!FAST) {
       + `(3 体・${r.d0sInert.steps} 步・${r.d0sInert.n} 量の突合で最大差 ${r.d0sInert.maxAbs})/ `
       + `**決断事項**: 宣言すると presetSig は変わる(=${r.d0sSigDiff}) —— `
       + `内蔵へ宣言を入れるかは統括の裁定待ちである`);
+    // 第276便a(原仮定者の裁定〔第66報〕(1)): `physics.backgroundComplex` の受理契約。
+    // **「背景決定力 D₀([M/L])」とは別の量**である背景複素決定力(W₀[M/L²]・A₀[M/(L·T)]と
+    // その空間/時間微分)を**別の鍵**で宣言する。**宣言専用**でエンジンのどの経路からも読まれない。
+    // **本便は内蔵に 1 本も宣言を足していない**ので、131 本の presetSig は 1 文字も動かない。
+    // **root は SKIP**(世代判定は定数 BG_COMPLEX_KEY の有無)。
+    add('preset.backgroundComplex-declared',
+      !r.bgcGen || (r.bgcGate.none === true && r.bgcGate.full === true
+        && r.bgcGate.zeroDeclared === true && r.bgcGate.minimal === true
+        && r.bgcGate.unknownBg === false && r.bgcGate.noW0 === false
+        && r.bgcGate.negW0 === false && r.bgcGate.nanW0 === false
+        && r.bgcGate.shortA0 === false && r.bgcGate.longGradA === false
+        && r.bgcGate.nanGradW === false && r.bgcGate.zeroW0WithA0 === false
+        && r.bgcGate.zeroNameWithValue === false && r.bgcGate.declaredNoNote === false
+        && r.bgcGate.declaredNote === true && r.bgcGate.longNote === false
+        && r.bgcGate.badRefPos === false && r.bgcGate.goodRefPos === true
+        && r.bgcGate.notArray === false
+        && r.bgcPreset.plainOk === true && r.bgcPreset.declOk === true && r.bgcPreset.badOk === false
+        && r.bgcPreset.plainHasKey === false && r.bgcPreset.idempotent === true
+        && r.bgcDeclaredBuiltins.length === 0 && r.bgcInert.same === true
+        && r.bgcSigDiff === true && r.bgcSigZeroDiff === true && r.bgcSigVsD0 === true),
+      !r.bgcGen ? 'SKIP(第276便a 未適用 — 対象に BG_COMPLEX_KEY なし・root は v1.44.0 RC)'
+      : `**背景複素決定力の宣言鍵**(第276便a・原仮定者の裁定〔第66報〕(1)「**『背景決定力 D₀』と`
+      + `別途『背景複素決定力』を用意する**」): 受理値=${JSON.stringify(r.bgcBackgrounds)}・`
+      + `単位=${JSON.stringify(r.bgcUnits)} —— **D₀ は [M/L]・W₀ は [M/L²]・A₀ は [M/(L·T)] で`
+      + `別の量である**(同じ数を両方に入れない)/ 門の実測: **未宣言は「未確定」**(null)=`
+      + `${r.bgcGate.none}・**"zero" は「ゼロと宣言」**=${r.bgcGate.zeroDeclared}`
+      + `(値が入った "zero" は拒否=${r.bgcGate.zeroNameWithValue === false})・W₀ は宣言必須=`
+      + `${r.bgcGate.noW0 === false}・負/非数の W₀ は拒否=${r.bgcGate.negW0 === false}/`
+      + `${r.bgcGate.nanW0 === false}・**W₀=0 なら他成分も 0**=${r.bgcGate.zeroW0WithA0 === false}`
+      + `・配列長の不一致は拒否=${r.bgcGate.shortA0 === false}/${r.bgcGate.longGradA === false}`
+      + `・非有限成分は拒否=${r.bgcGate.nanGradW === false}・**出所を名指ししない "declared" は拒否**=`
+      + `${r.bgcGate.declaredNoNote === false}(note つきは受理=${r.bgcGate.declaredNote})`
+      + `・note は上限つき=${r.bgcGate.longNote === false}・refPos は有限数 2 つ=`
+      + `${r.bgcGate.badRefPos === false}/${r.bgcGate.goodRefPos}・配列は拒否=`
+      + `${r.bgcGate.notArray === false} / 検証器: 未宣言は physics に入らない=`
+      + `${r.bgcPreset.plainHasKey === false}(**署名不変**)・宣言は保存される=${r.bgcPreset.declKept}`
+      + `・再検証で冪等=${r.bgcPreset.idempotent}・不正は拒否=${r.bgcPreset.badOk === false} / `
+      + `**宣言している内蔵=${r.bgcDeclaredBuiltins.length} 本**(本便は受理契約だけを足した —— `
+      + `**D₀・D0pull の値は 1 本も変えていない**)/ **力学に 1 bit も効かない**=${r.bgcInert.same}`
+      + `(3 体・${r.bgcInert.steps} 步・${r.bgcInert.n} 量の突合で最大差 ${r.bgcInert.maxAbs})/ `
+      + `**統括の検証項目 R38 の実測**: 宣言すると presetSig が変わる(=${r.bgcSigDiff})・`
+      + `**「ゼロと宣言」と「未宣言(未確定)」も別の署名**(=${r.bgcSigZeroDiff})・`
+      + `**D₀ に同じ数を入れた preset とも別の署名**(=${r.bgcSigVsD0}) —— `
+      + `内蔵へ宣言を配る便は**署名便**になる(統括の裁定待ち)`);
     add('params.radius-default', r.radiusDef === 1, `radiusScale既定=${r.radiusDef}(=1)`);
     add('ai.base-context', r.baseOpts >= 28 && r.baseCtx && r.basePlain,
       `候補=${r.baseOpts} 文脈注入=${r.baseCtx} 未選択は素通し=${r.basePlain}`);

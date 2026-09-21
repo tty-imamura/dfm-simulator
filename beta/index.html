@@ -3761,6 +3761,71 @@ function validateD0Source(a){
     return {ok:false, err:'physics.D0Source.background:"declared" は note に背景の出所を書くこと(出所を名指ししない宣言は受理しない)'};
   return {ok:true, d0Source:out};
 }
+// ===== 第276便a(原仮定者の裁定〔第66報〕(1)): physics.backgroundComplex — **背景複素決定力**の宣言 =====
+// 裁定の字義は「**『背景決定力 D₀』と別途『背景複素決定力』を用意する**。『引きずり減衰 q』の算出や
+// 計算など影響箇所を精査する。両者はサンプルによって変動するがシチュエーションで決まるので
+// 事前予測が可能」である。
+// **なぜ別鍵か(単位が違う)**: スカラーの D₀ は「距離に反比例する決定力の総和」 D_bg=Σ m/√(r²+ε²) で
+// 単位は **[M/L]**(第275便b)。複素決定力場(空間メッシュ・need:"mesh")の重みは w=m/(r²+ε²) なので
+// 背景の重み **W₀ は [M/L²]**、その分子 **A₀=Σ w_i u_i は [M/(L·T)]・向きつき**である。
+// **同じ 1 つの数を両方に使えない**し、**W₀ と A₀ を同じ数にもしない**(反対向きに動く源は分子で
+// 相殺しても正の重みは残る)。座標変換の加速度には値だけでなく
+//   ∇u = (∇A − u⊗∇W)/W ・ ∂ₜu = (∂ₜA − u·∂ₜW)/W
+// が要るので、背景は **W₀・A₀・各空間微分・時間微分の組**で持つ。
+// **未宣言は「未確定」/ background:"zero" は「ゼロと宣言」**(未入力の背景を勝手に静止ゼロと扱わない)。
+// **この鍵は宣言専用**で、**エンジンのどの経路からも読まれない**(接続は宣言鍵で切り替える別便)。
+// **内蔵 131 本は 1 本も宣言していない**(本便が足したのは受理契約だけである)。
+const BG_COMPLEX_KEY = "backgroundComplex";
+const BG_COMPLEX_BACKGROUNDS = ["solar-excluded","heliocentric","galactic","declared","zero"];
+const BG_COMPLEX_NOTE_MAX = 200;
+// 宣言できる成分と、その単位(L は長さ・T は時間・M は質量 —— サンプルの scaleExp の単位系)
+const BG_COMPLEX_UNITS = { W0:"M/L^2", A0:"M/(L·T)", gradW:"M/L^3", gradA:"M/(L^2·T)",
+  dWdt:"M/(L^2·T)", dAdt:"M/(L·T^2)" };
+function validateBackgroundComplex(a){
+  if(a===null || a===undefined) return {ok:true, backgroundComplex:null};   // **未宣言 = 未確定**
+  if(typeof a!=="object" || Array.isArray(a))
+    return {ok:false, err:"physics.backgroundComplex はオブジェクト({W0,A0,gradW,gradA,dWdt,dAdt,background,note})か null"};
+  if(BG_COMPLEX_BACKGROUNDS.indexOf(a.background)<0)
+    return {ok:false, err:'physics.backgroundComplex.background は "solar-excluded"/"heliocentric"/"galactic"/"declared"/"zero" のみ'};
+  if(!isNum(a.W0) || !(a.W0>=0))
+    return {ok:false, err:"physics.backgroundComplex.W0 は 0 以上の有限数([M/L²] —— 背景の重み。**D₀([M/L])とは別の量**)"};
+  const vec=(k,n)=>{
+    const z=a[k];
+    if(z===undefined || z===null) return new Array(n).fill(0);
+    if(!Array.isArray(z) || z.length!==n) return null;
+    const o=[]; for(let i=0;i<n;i++){ if(!isNum(z[i])) return null; o.push(z[i]); }
+    return o;
+  };
+  const A0=vec("A0",2), gradW=vec("gradW",2), gradA=vec("gradA",4), dAdt=vec("dAdt",2);
+  if(!A0) return {ok:false, err:"physics.backgroundComplex.A0 は有限数 2 つの配列 [Ax,Ay]([M/(L·T)]・向きつき)"};
+  if(!gradW) return {ok:false, err:"physics.backgroundComplex.gradW は有限数 2 つの配列 [∂ₓW,∂_yW]([M/L³])"};
+  if(!gradA) return {ok:false, err:"physics.backgroundComplex.gradA は有限数 4 つの配列 [∂ₓAx,∂_yAx,∂ₓAy,∂_yAy]([M/(L²·T)])"};
+  if(!dAdt) return {ok:false, err:"physics.backgroundComplex.dAdt は有限数 2 つの配列 [∂ₜAx,∂ₜAy]([M/(L·T²)])"};
+  const dWdt=(a.dWdt===undefined || a.dWdt===null)? 0 : a.dWdt;
+  if(!isNum(dWdt)) return {ok:false, err:"physics.backgroundComplex.dWdt は有限数([M/(L²·T)])"};
+  const rest=A0.concat(gradW,gradA,dAdt,[dWdt]);
+  // **W₀=0 なら他の成分も 0** —— 重みが 0 の背景に分子や微分だけを持たせない(u=A/W が定義できない)
+  if(a.W0===0 && rest.some((z)=>z!==0))
+    return {ok:false, err:"physics.backgroundComplex.W0=0 のときは A0/gradW/gradA/dWdt/dAdt もすべて 0(重み 0 の背景に分子や微分は置けない)"};
+  // **"zero" は「ゼロと宣言」** —— 値が入っているのに zero を名乗らせない
+  if(a.background==="zero" && (a.W0!==0 || rest.some((z)=>z!==0)))
+    return {ok:false, err:'physics.backgroundComplex.background:"zero" は W0 も他の成分もすべて 0(「ゼロと宣言」であって「未確定」ではない)'};
+  const out={background:a.background, W0:a.W0, A0:A0, gradW:gradW, gradA:gradA, dWdt:dWdt, dAdt:dAdt};
+  if(a.note!==undefined && a.note!==null){
+    if(typeof a.note!=="string" || a.note.length>BG_COMPLEX_NOTE_MAX)
+      return {ok:false, err:"physics.backgroundComplex.note は "+BG_COMPLEX_NOTE_MAX+" 字以内の文字列"};
+    if(a.note!=="") out.note=a.note;
+  }
+  if(a.refPos!==undefined && a.refPos!==null){
+    if(!Array.isArray(a.refPos) || a.refPos.length!==2 || !isNum(a.refPos[0]) || !isNum(a.refPos[1]))
+      return {ok:false, err:"physics.backgroundComplex.refPos は有限数 2 つの配列 [x,y](背景を評価した基準点)"};
+    out.refPos=[a.refPos[0],a.refPos[1]];
+  }
+  // **名前のない "declared" は受理しない**(D0Source と同じ門)
+  if(a.background==="declared" && out.note===undefined)
+    return {ok:false, err:'physics.backgroundComplex.background:"declared" は note に背景の出所を書くこと(出所を名指ししない宣言は受理しない)'};
+  return {ok:true, backgroundComplex:out};
+}
 // 第246便(ChatGPT v4 §5.3/5.4): コアv2 の**実行状態**の値域(編集入口 S.applyCoreEdit が使う)。入力の値域(検証器 vCore:
 // massFrac 0.01〜0.95・Ω ±50)はプリセット/AI 生成の推奨範囲で、収縮(Ω↑)や放出(massFrac↑)を経た実行状態はこれを
 // 超えて正当。有限殻 0<Mc<M(massFrac<1)は維持(Mc=M の裸のコアは終端状態の別設計 — S4 第 2 段)
@@ -14924,6 +14989,16 @@ function validatePreset(obj){
         const dsv=validateD0Source(p.physics[k]);
         if(!dsv.ok){ bad(dsv.err); continue; }
         if(dsv.d0Source!==null) ph[k]=dsv.d0Source;
+        continue;
+      }
+      // 第276便a(第66報 (1)): backgroundComplex — **背景複素決定力**の宣言専用オブジェクト鍵。
+      // 「D₀(スカラー・[M/L])とは別の量」である W₀([M/L²])・A₀([M/(L·T)])とその微分を持つだけで、
+      // **力学・光学・帳簿のどの経路からも読まれない**(既定は無し=ph へ入れない=署名不変)。
+      // **未宣言は「未確定」/ background:"zero" は「ゼロと宣言」**(勝手に静止ゼロと扱わない)
+      if(k===BG_COMPLEX_KEY){
+        const bcv=validateBackgroundComplex(p.physics[k]);
+        if(!bcv.ok){ bad(bcv.err); continue; }
+        if(bcv.backgroundComplex!==null) ph[k]=bcv.backgroundComplex;
         continue;
       }
       // 第273便b(AH1): kFrameApprox — **宣言専用の文字列キー**(既定は無し=ph へ入れない=署名不変)。
@@ -40345,6 +40420,10 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // C(z)=(1−z)⁴(1+4z) で u・∇u・∂ₜu を商の微分ごと作る)。R は宣言値で**重力の切断半径ではない**。
   // QA behavior.meshCoordInertia が中央差分と支持端の連続を機械固定する
   dfmLocalMeshField, SPACE_MESH_INERTIA_SUPPORT, SPACE_MESH_SUPPORT_RSEP, SPACE_MESH_CHICUT_DEFAULT,
+  // 第276便a(第66報 (1)「影響箇所を精査する」): **q の算出器を読み取り専用で外へ出す**(計算は 1 文字も
+  // 変えていない)。統括の検証項目 R39「qLockCalc は R・M・G・cLight・基準距離 a から q を出し
+  // D₀/D0pull を読まない」を、器が**同じ関数を呼んで**実測できるようにするための口である
+  qLockCalc,
   // 第259便a(第51報): **共通場 API**(重力 g=G∇D と慣性の u を**同じ源集合・同じ背景**から)と
   // **複素決定力場の器**(Φ=Σm/r・**A=Σ m v/(r²+ε²)^{p/2} の重ね合わせ** —— 正規化平均とは別物・
   // 単位も別物)。**どちらも純関数で、力へは 1 バイトも接続しない**。
@@ -40379,6 +40458,10 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第275便b(第65報 (2)): D₀ の**背景の出所**の宣言鍵(**宣言専用** — エンジンは 1 箇所も読まない)。
   // QA preset.d0source-declared が「受理契約」「未宣言の 1 bit 不変」「内蔵の宣言 0 本」を機械固定する
   validateD0Source, D0_SOURCE_KEY, D0_BACKGROUNDS, D0_SOURCE_NOTE_MAX,
+  // 第276便a(第66報 (1)): **背景複素決定力**の宣言鍵(**宣言専用** — エンジンは 1 箇所も読まない)。
+  // W₀([M/L²])・A₀([M/(L·T)])とその空間/時間微分を D₀([M/L])とは**別の鍵**で持つ。
+  // QA preset.backgroundComplex-declared が「受理契約」「未宣言の 1 bit 不変」「内蔵の宣言 0 本」を機械固定する
+  validateBackgroundComplex, BG_COMPLEX_KEY, BG_COMPLEX_BACKGROUNDS, BG_COMPLEX_NOTE_MAX, BG_COMPLEX_UNITS,
   // 第264便b(第56報): **源の閉包**の値域("gravity" 既定 /"iterate" 診断)と反復・残差の宣言値。
   // QA behavior.geoToyClosure が「既定は 122 本ビット不変」「iterate は反復数と残差を返す」
   // 「特異点(det=1−η²χ₀χ₁→0)で収束しない」を機械固定する
