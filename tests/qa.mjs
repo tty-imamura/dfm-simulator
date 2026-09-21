@@ -1949,7 +1949,10 @@ const add = (id, pass, detail) => {
       //   なので target は器が読む正本ファイル(lib 自身)である
       'tests/out/galaxyproto-w276e.json',
       // 第276便d(第66報 (4)): Core 力学(中心スピンに依存する法則)の検算(target=beta/index.html)
-      'tests/out/corefield-w276d.json'];
+      'tests/out/corefield-w276d.json',
+      // 第276便b(第66報 (2)): ❄️ の softening ε 感度系列(基準単位 + 単位を変えた診断コピー)と、
+      //   残差を要因へ分解した表(**判定ではなく感度の正本**)
+      'tests/out/charoneps-w276b.json', 'tests/out/charonfactors-w276b.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -5908,6 +5911,137 @@ const add = (id, pass, detail) => {
       + `**判定はしていない**(「合/否」「新発見」は書かない —— 次数が立ち・残差が観測 σ の 3 倍に入り・`
       + `**独立な観測量を予測できた**ときにだけ結論の語を使う)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 0a3z2b) 第276便b(原仮定者の裁定〔第66報〕(2)): docs.charonFactors ----
+// ----   裁定は「**plutoCharonReal の kF0 版に問題がないか確認し、問題があれば解決する。冥王星には
+// ----   カロン以外にも衛星があり潮汐ロックされていない。カロン以外の衛星の影響も、それらの質量補正を
+// ----   選択肢に入れつつ検討対象とする。『どの様な要因が加われば解決するか』を探る**」。
+// ----   本ブロックは **❄️ kF0 の残差を要因へ分解した正本**(tests/out/charonfactors-w276b.json)と、
+// ----   その入力である **ε 感度系列**(tests/out/charoneps-w276b.json)・文書(§5.24)を突き合わせる。
+// ----   固定するのは 10 点で、**どれも合否ではない**(判定は判定器の側が持つ):
+// ----     ① 来歴の版と meta.targetSha256 が**いま検査している html** と一致する。
+// ----     ② 書かない語(meta.notClaim)が宣言されていて、**JSON 本文に断定形で出てこない**。
+// ----     ③ 要因表が **7 行以上**あり、各行に factor / kind / adopt / why がある。
+// ----     ④ **ε を受理下限の 1/10(1 km)まで下げても残差は 3σ の外**である
+// ----        (= 「ε を小さくすれば合う」ではない。**残差ゼロの ε を採用していない**)。
+// ----     ⑤ ε 系列の正本に **基準単位で丸められた列**(要求 0.005 → 適用 0.01)が記録されている。
+// ----     ⑥ 小衛星: **基準単位では massFloor が Nix 相当を持ち上げる**ことが実測されていて、
+// ----        診断単位では 4 体とも床の上にある。**f_i を一点 fit へ戻さない設計**が宣言されている。
+// ----     ⑦ 太陽: **真の配置が受理値域に入らない**(fitsCoordLimit:false・不足倍率 > 1)。
+// ----     ⑧ **内蔵の物理入力が 1 bit も変わっていない**(質量・G・D₀・kFrame・ε の刻印が html と同じ)。
+// ----     ⑨ docs/CALIBRATION_VERDICT_v1.44.md の **§5.24 の表**の各行が JSON の数と一致する。
+// ----     ⑩ docs/PHYSICS.md に〔第276便b〕節があり、結論文(観測一致は達成していない)が入っている。
+// ----   **beta 線の走行なので root は SKIP** する。
+{
+  const bad = [];
+  const cases = [];
+  let nF = 0, satLift = null, sunShort = null;
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.charonFactors(beta 対象でない: ' + TARGET + ' — 要因表は beta 線の実測)');
+  } else {
+    try {
+      const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'charonfactors-w276b.json'), 'utf8');
+      const J = JSON.parse(text);
+      const M = J.meta || {};
+      // ① 来歴
+      if (M.provenanceVersion !== 'w272e-1') bad.push('①来歴の版が違う(' + M.provenanceVersion + ')');
+      if (M.harnessVersion !== 'w276b-charonfactors-1') bad.push('①器の版が違う(' + M.harnessVersion + ')');
+      const shaNow = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      if (M.targetSha256 !== shaNow) bad.push('① meta.targetSha256 が検査対象の html と違う(器を再走する)');
+      if (M.canonicalRun !== true) bad.push('①短い走行が正本に書かれている');
+      cases.push('来歴 w272e-1・html の SHA-256 一致');
+      // ② 書かない語(宣言そのものは本文から外して数える)
+      const body = JSON.stringify(J, (k, v) => (k === 'notClaim' ? undefined : v));
+      const asserted = (str, w) => { let i = -1, n = 0;
+        while ((i = str.indexOf(w, i + 1)) >= 0) { if (str[i - 1] !== '「') n++; } return n; };
+      if (!Array.isArray(M.notClaim) || !M.notClaim.length) bad.push('② meta.notClaim が無い');
+      for (const w of ['観測一致を達成した', '新発見', '較正を完了', '残差が消えた'])
+        if (asserted(body, w) > 0) bad.push('②断定語「' + w + '」が JSON 本文にある');
+      cases.push('書かない語 ' + (M.notClaim || []).length + ' 件を宣言');
+      // ③ 要因表
+      const F = J.factors || [];
+      nF = F.length;
+      if (nF < 7) bad.push('③要因が 7 行未満(' + nF + ')');
+      for (const r of F)
+        if (!r.factor || !r.kind || !r.adopt || !r.why) bad.push('③' + (r.factor || '?') + ' の欄が足りない');
+      cases.push('要因 ' + nF + ' 行');
+      // ④ ε→最小でも 3σ の外
+      const rows = (J.epsilonSeries || {}).rows || [];
+      if (!rows.length) bad.push('④ ε 系列の正本が読めていない');
+      else {
+        const smallest = rows[0];
+        if (!(Math.abs(smallest.sigma) > 3))
+          bad.push('④最小 ε の残差が 3σ の内側になっている(' + smallest.sigma + ')—— 節を書き直す');
+        if (!(smallest.epsMeters <= 1000)) bad.push('④ ε を 1 km まで下げた列が無い(' + smallest.epsMeters + ' m)');
+        cases.push('最小 ε ' + (smallest.epsMeters / 1000) + ' km で残差 ' + smallest.residSec.toFixed(3)
+          + ' s(' + smallest.sigma.toFixed(1) + 'σ)');
+      }
+      // ⑤ 受理下限のクランプが記録されている
+      if (!rows.filter((z) => z.clamped).length)
+        bad.push('⑤受理下限で丸められた列(要求 0.005 → 適用 0.01)が記録されていない');
+      // ⑥ 小衛星と massFloor
+      const sat = J.satellites || {};
+      const lift = ((sat.massFloor || {}).baseUnits || {}).lifted || null;
+      if (!Array.isArray(lift)) bad.push('⑥ massFloor の実測(基準単位)が無い');
+      else {
+        satLift = Math.max.apply(null, lift.slice(2).map((z) => z.ratio || 0));
+        if (!(satLift > 1)) bad.push('⑥基準単位で小衛星の質量が床へ持ち上がっていない(' + satLift + ')');
+        if (!(((sat.massFloor || {}).diagUnits || {}).allAboveFloor))
+          bad.push('⑥診断単位でも床を割っている(単位変更で回避できていない)');
+        cases.push('massFloor の持ち上げ 最大 ×' + satLift.toPrecision(4) + '(基準単位)→ 診断単位では 0 件');
+      }
+      if (!(sat.fiDesign && sat.fiDesign.rule)) bad.push('⑥ f_i の設計(一点 fit へ戻さない条件)が無い');
+      // ⑦ 太陽の受理値域
+      const ob = (J.sun || {}).obstruction || {};
+      if (ob.fitsCoordLimit !== false) bad.push('⑦太陽の真の配置が受理値域に入る扱いになっている');
+      sunShort = ob.shortfallFactor;
+      if (!(sunShort > 1)) bad.push('⑦動的レンジの不足倍率が 1 以下(' + sunShort + ')');
+      cases.push('太陽は受理値域の外(必要 ' + (ob.requiredDynamicRange || 0).toExponential(3)
+        + ' 対 受理 ' + (ob.acceptedDynamicRange || 0).toExponential(3) + ')');
+      // ⑧ 内蔵の物理入力は不変
+      const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+      const bu = M.builtinUnchanged || {};
+      for (const v of (bu.m || []))
+        if (html.indexOf('m:' + v + ',') < 0) bad.push('⑧内蔵の質量 ' + v + ' が html に無い');
+      if (html.indexOf('G:6.674, D0:0.006, kFrame:1, q:11.9386') < 0)
+        bad.push('⑧ ❄️ の physics 先頭(G/D₀/kFrame/q)が変わっている');
+      if (bu.softening !== 0.05) bad.push('⑧刻印された ε が 0.05 でない');
+      cases.push('内蔵 ❄️ の質量・G・D₀・kFrame・ε は不変');
+      // ⑨ 文書の表
+      const md = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
+      if (!/### 5\.24 /.test(md)) bad.push('⑨ §5.24 が無い');
+      const num = (t) => { const z = Number(String(t).replace(/[−–—]/g, '-').replace(/[^\d.eE+-]/g, ''));
+        return Number.isFinite(z) ? z : null; };
+      const close = (a, b) => (a === null || b === null) ? false
+        : (Math.abs(a - b) <= Math.max(Math.abs(b) * 2e-3, 1e-9));
+      const lines = md.split('\n');
+      for (const r of F) {
+        const line = lines.find((L) => L.startsWith('| ' + r.factor + ' |'));
+        if (!line) { bad.push('⑨ §5.24 に行「' + r.factor + '」が無い'); continue; }
+        const c = line.split('|').map((z) => z.trim());
+        if (Number.isFinite(r.dPeriodSec) && !close(num(c[3]), r.dPeriodSec))
+          bad.push('⑨「' + r.factor + '」の ΔP が正本と違う(文書 ' + c[3] + ' / 正本 ' + r.dPeriodSec + ')');
+        if (Number.isFinite(r.sigmaOfObs) && !close(num(c[4]), r.sigmaOfObs))
+          bad.push('⑨「' + r.factor + '」の σ 倍が正本と違う(文書 ' + c[4] + ' / 正本 ' + r.sigmaOfObs + ')');
+      }
+      // ⑩ PHYSICS の節と結論
+      const PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      if (PH.indexOf('〔第276便b') < 0) bad.push('⑩ PHYSICS に〔第276便b〕節が無い');
+      if (PH.indexOf('観測一致は達成していない') < 0)
+        bad.push('⑩ PHYSICS の節に「観測一致は達成していない」が無い');
+      if (String((J.conclusion || {}).headline || '').indexOf('観測一致は達成していない') < 0)
+        bad.push('⑩正本の結論に「観測一致は達成していない」が無い');
+    } catch (e) { bad.push('要因表の JSON が読めない: ' + String(e).slice(0, 90)); }
+    add('docs.charonFactors', bad.length === 0,
+      '**❄️ kF0 の残差を要因へ分解した表(診断のみ・既定不変)**(第276便b・原仮定者の裁定〔第66報〕(2)'
+      + '「plutoCharonReal の kF0 版に問題がないか確認し…『どの様な要因が加われば解決するか』を探る」): '
+      + cases.join(' / ')
+      + ' —— **解決したのは「説明」「低 ε 検査を妨げる単位設定」「小衛星の質量床」という実装上の 3 つで、'
+      + '観測一致は達成していない**(ε を受理下限の 1/10 まで下げても残差は 3σ の外で、符号は負である)。'
+      + '**残差ゼロになる ε・f・a を探索して採用していない**・**内蔵 ❄️ の物理入力は 1 bit も変えていない**'
+      + '(本便が変えたのは obsCard と説明文の判定の書き方だけ)'
+      + (bad.length ? ' / **違反 ' + bad.length + ' 件**: ' + bad.slice(0, 5).join(' , ') : ''));
   }
 }
 // ---- 0a3z3) 第275便b(原仮定者の裁定〔第65報〕(2)): docs.d0audit-sync ----
@@ -14249,7 +14383,10 @@ if (!FAST) {
         && t1 !== null && t1 > 6.400 && t1 < 6.406
         && c.kf1.wob[0] > 0.002 && c.kf1.wob[0] < 0.003 && c.kf0.wob[0] < 1e-4,
         `宣言=${declOk}(fidelity=real・L6/T2/M25・κ=G/c₀²・E6′-R pairReduced・両天体自由・重心 ${c.bary.toFixed(4)} 冥王星半径=表面の外) / ` +
-        `kFrame=0 対照: ${t0 === null ? '—' : t0.toFixed(5) + '日'}(観測 6.3872・宣言 6.3874) / ` +
+        `kFrame=0 対照: ${t0 === null ? '—' : t0.toFixed(5) + '日'}(観測 6.3872・宣言 6.3874 —— ` +
+        `**正式判定は 551864.061 s 対 551856.43872±0.02592 s = +294.08σ・否(3σ)**。` +
+        `第276便b で obsCard と説明の「+0.002% で写す」を撤回した ` +
+        `〔日へ丸めた比であって σ 判定ではない〕。要因の分解は QA docs.charonFactors) / ` +
         `kFrame=1: ${t1 === null ? '—' : t1.toFixed(5) + '日'}(宣言 6.40293 — E6′ 運動引きずりの +0.246% を宣言どおり実測) / ` +
         `振れ幅 kF1 ${(c.kf1.wob[0] * 100).toPrecision(3)}% / kF0 ${(c.kf0.wob[0] * 100).toPrecision(3)}%(e=0 転写) / ` +
         `決定性=${c.det} / ${c.kf1.steps}步×2本`);
