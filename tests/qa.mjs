@@ -1937,7 +1937,9 @@ const add = (id, pass, detail) => {
       'tests/out/charond0-w275b.json',
       // 第275便d(第65報 (4)(5)(6)): 形状トイの安定・低分散・銀河らしさの判定(target=beta/index.html)と、
       // **動的中心の診断**(target=lib 自身 —— html を読まない node 模型・エンジン未接続)
-      'tests/out/shapecrit-w275d.json', 'tests/out/dyncenter-w275d.json'];
+      'tests/out/shapecrit-w275d.json', 'tests/out/dyncenter-w275d.json',
+      // 第276便d(第66報 (4)): Core 力学(中心スピンに依存する法則)の検算(target=beta/index.html)
+      'tests/out/corefield-w276d.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -44705,8 +44707,12 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
             stop: S.shapeToyStop, nan: S.hasNaN() };
         }
         // ⑦ center:"pinned" は中心天体の位置に追随する
+        //   第276便d で 🎱 は `law:"coreField"`(力学)になったので、**規定運動の追随**は
+        //   law を外した診断コピー(= 第275便d と同じ prescribed の双子)で測る。
         {
-          const p = HP.allPresets().find((z) => z.id === 'shapeToyClusterCore');
+          const p = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === 'shapeToyClusterCore')));
+          O.w276d = !!(p.physics.shapeToy && p.physics.shapeToy.law);
+          if (O.w276d) { delete p.physics.shapeToy.law; delete p.physics.shapeToy.coreField; }
           const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
           const S = HP.sim; S.build(v.preset);
           for (let k = 0; k < 100; k++) S.step(0.016);
@@ -44722,7 +44728,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
             worst = Math.max(worst, Math.abs((S.x[i] - bx[i]) - 37), Math.abs((S.y[i] - by[i]) + 11));
           }
           O.pinFollow = { pin, worst, center: v.preset.physics.shapeToy.center,
-            stop: S.shapeToyStop, nan: S.hasNaN() };
+            stop: S.shapeToyStop, nan: S.hasNaN(), prescribedTwin: O.w276d === true };
         }
       }
       return O;
@@ -44771,7 +44777,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
           + `Cov(w)/ω₀²=[${cv2.w1.toFixed(4)}, ${cv2.w2.toFixed(4)}, ${cv2.wz.toFixed(4)}]`
           + `(理論 1・門 ${COV_TOL})・相関 ${cv2.cross.toFixed(4)}=${c6}`
           + `(**厳密離散化なので緩和時間からとった大きな刻みで測ってよい**)/ `
-          + `⑦ **center:"pinned" は中心天体に追随する**(🎱 の中心を (+37,−11) ずらして 1 步): `
+          + `⑦ **center:"pinned" は中心天体に追随する**(🎱 の中心を (+37,−11) ずらして 1 步`
+          + `${st.pinFollow.prescribedTwin ? '・第276便d 世代なので **law を外した prescribed の双子**で測る' : ''}): `
           + `対象粒子の変位と中心の変位の最大差 ${st.pinFollow.worst.toExponential(2)}(門 ${PIN_TOL})=${c7}`
         : ' / ⑥⑦ 第275便d 未適用の世代(新しい宣言と center:"pinned" は検査しない)'));
   } else {
@@ -44794,7 +44801,20 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
 //   ⑧ 第275便d: **成長を宣言していない**(全本 tauGrow=0 かつ sigma=sigma0)。
 //      「発散している」への対応は**新しい力ではなく成長の宣言を外すこと**だった、を機械固定する。
 //   ⑨ 第275便d: **中心天体は力学的に効いていない**。center:"pinned" の 3 本で中心天体の質量を
-//      10 → 1000 に変えても 600 步の指紋が 1 bit も動かない(G=0・対象粒子は規定運動)。
+//      10 → 1000 に変えても 600 步の指紋が 1 bit も動かない(G=0・規定運動 / 第276便d 以降は
+//      **力学が読むのは宣言した M_c** なので、engine 質量は表示値のままで指紋を動かさない)。
+//   第276便d(第66報 (4))で **🎱📀🧹 の法則が変わった**(**世代は `law` 鍵の有無で切り替える**):
+//     ⑩ `law:"coreField"` を宣言しているのは中心天体つきの 3 本だけで、🔮🥏🧵 には `law` 鍵が
+//        **入っていない**(= 既存 3 本の presetSig・エクスポート JSON は 1 文字も動いていない)。
+//        coreField の宣言は {coreRc, coreMass, alpha, beta, axis, W0, temp, omegaP, init,
+//        centreGravity, exchange} の正準形に落ち、**K⊥>0・K∥>0・K_eff>0 の門**を通っている。
+//     ⑪ **中心スピンに依存する**(統括の検証項目 R43 の否定の解消): coreField の 3 本は中心天体の
+//        spin を 0 にすると 600 步の指紋が**変わる**(spin=0 では ω_m=0 で力が 1 つも残らないので
+//        `coreFieldStop="kPerp"` が立つ)。**prescribed の 3 本は spin を変えても指紋が同じ**
+//        (= エンジン側はこの宇宙でスピンに不感である。差は法則が作っている)。
+//     ⑫ **重力の扱い**: coreField の 3 本は G を 0→0.8 にすると指紋が**変わる**(規定運動ではない)。
+//        中心重力を Φ の κ₀ が持つ既定宣言(`centreGravity:"phi"`)では、中心が engine 質量を
+//        持ったままの G≠0 は**二重加算の門** `gravityDouble` で止まる。
 {
   const hasToys = await page.evaluate(() => !!(window.HP
     && HP.allPresets().some((z) => z.id === 'shapeToyCluster')));
@@ -44802,6 +44822,11 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     const sp = await page.evaluate(() => {
       const all = HP.allPresets();
       const w275d = all.some((z) => z.id === 'shapeToyClusterCore');   // 第275便d の世代判定子
+      const core3 = ['shapeToyClusterCore', 'shapeToyDiskCore', 'shapeToyArmCore'];
+      const w276d = w275d && core3.every((id) => {                      // 第276便d の世代判定子
+        const q = all.find((z) => z.id === id);
+        return !!(q && q.physics && q.physics.shapeToy && q.physics.shapeToy.law === 'coreField');
+      });
       const IDS = w275d
         ? ['shapeToyCluster', 'shapeToyDisk', 'shapeToyArm',
           'shapeToyClusterCore', 'shapeToyDiskCore', 'shapeToyArmCore']
@@ -44818,11 +44843,20 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         for (let k = 0; k < steps; k++) S.step(0.016);
         let nPin = 0;
         for (let i = 0; i < S.n; i++) if (S.pinned[i]) nPin++;
-        return { stop: S.shapeToyStop, N: S.shapeToyN, n: S.n, nPin, nan: S.hasNaN(),
+        // 第276便d: 法則で読む欄が変わる(coreField は自前の帳簿を持つ)
+        const cf = (S.hasCoreField === true);
+        return { cf, stop: cf ? S.coreFieldStop : S.shapeToyStop,
+          N: cf ? S.coreFieldN : S.shapeToyN, n: S.n, nPin, nan: S.hasNaN(),
           clampV: S.clampVN, clampS: S.clampSN, fp: fp(S), branch: S.shapeToyBranch,
           sigma: S.shapeToySigma, sigmaZ: S.shapeToySigmaZ, len: S.shapeToyLen,
-          ledger: Math.abs(S.shapeToyPx + S.shapeToyBathPx) + Math.abs(S.shapeToyPy + S.shapeToyBathPy)
-            + Math.abs(S.shapeToyL + S.shapeToyBathL) + Math.abs(S.shapeToyE + S.shapeToyBathE) };
+          omegaM: S.coreFieldOmegaM, kPerp: S.coreFieldKPerp, kPar: S.coreFieldKPar,
+          kEff: S.coreFieldKEff,
+          ledger: cf
+            ? (Math.abs(S.coreFieldPx + S.coreFieldReacPx) + Math.abs(S.coreFieldPy + S.coreFieldReacPy)
+              + Math.abs(S.coreFieldPz + S.coreFieldReacPz) + Math.abs(S.coreFieldLz + S.coreFieldReacLz)
+              + Math.abs(S.coreFieldE + S.coreFieldReacE))
+            : (Math.abs(S.shapeToyPx + S.shapeToyBathPx) + Math.abs(S.shapeToyPy + S.shapeToyBathPy)
+              + Math.abs(S.shapeToyL + S.shapeToyBathL) + Math.abs(S.shapeToyE + S.shapeToyBathE)) };
       };
       const rows = {};
       for (const id of IDS) {
@@ -44853,6 +44887,37 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
             pinnedFirst: p.bodies[0].type === 'single' && p.bodies[0].pinned === true };
         }
       }
+      // ⑪⑫ 第276便d: **スピン依存**と**重力の扱い**(法則が作った差であることを両側で見る)
+      const spinDep = {};
+      if (w276d) {
+        for (const id of all.filter((z) => z.physics && z.physics.shapeToy).map((z) => z.id)) {
+          const p = all.find((z) => z.id === id);
+          const hasPin = (p.bodies[0] && p.bodies[0].pinned === true);
+          const mk = (spin, phys, cfPatch) => {
+            const q = JSON.parse(JSON.stringify(p));
+            if (hasPin) q.bodies[0].spin = spin;
+            if (phys) Object.assign(q.physics, phys);
+            if (cfPatch && q.physics.shapeToy.coreField) Object.assign(q.physics.shapeToy.coreField, cfPatch);
+            return run(q, 600);
+          };
+          const sp0 = hasPin ? p.bodies[0].spin : 0;
+          const base = mk(sp0, null);
+          const zero = mk(0, null);
+          // **中心が engine 質量を持ったままの G≠0** は二重加算の門で止まる(⑫)
+          const dbl = hasPin ? mk(sp0, { G: 0.8 }) : null;
+          // **重力に不感ではない**ことは、中心重力の持ち主を宣言で移してから測る
+          //   (中心の質量を 0 にする道は**質量床**があるので使えない —— 第276便d の実測)
+          const engA = base.cf ? mk(sp0, { G: 0 }, { centreGravity: 'engine' }) : null;
+          const engB = base.cf ? mk(sp0, { G: 0.8 }, { centreGravity: 'engine' }) : null;
+          spinDep[id] = { cf: base.cf, hasPin, base: base.fp, spin0: zero.fp, spin0Stop: zero.stop,
+            doubleStop: dbl ? dbl.stop : null,
+            engG0: engA ? engA.fp : null, engG8: engB ? engB.fp : null,
+            engStop: engA ? [engA.stop, engB.stop] : null,
+            changes: base.fp !== zero.fp,
+            gravChanges: !!(engA && engB && engA.fp !== engB.fp
+              && engA.stop === null && engB.stop === null) };
+        }
+      }
       // nc_cluster の表示文が ja/en 双方にあること(DOM 経由)
       HP.loadPreset('shapeToyCluster', false);
       const jaLines = [...document.querySelectorAll('#helpBody .notClaimLine')].map((e) => e.textContent);
@@ -44860,7 +44925,15 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const enLines = [...document.querySelectorAll('#helpBody .notClaimLine')].map((e) => e.textContent);
       HP.setLang('ja');
       HP.loadPreset('saturn', false);
-      return { rows, nDecl, jaLines, enLines, total: all.length, w275d, ids: IDS, centreMass };
+      const laws = {};
+      for (const id of nDecl) {
+        const q = all.find((z) => z.id === id);
+        laws[id] = { law: q.physics.shapeToy.law === undefined ? null : q.physics.shapeToy.law,
+          hasCoreField: q.physics.shapeToy.coreField !== undefined,
+          decl: (rows[id] && rows[id].decl) ? (rows[id].decl.coreField || null) : null };
+      }
+      return { rows, nDecl, jaLines, enLines, total: all.length, w275d, w276d, ids: IDS,
+        centreMass, spinDep, laws };
     });
     const IDS = sp.ids;
     const R = sp.rows;
@@ -44890,14 +44963,38 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     const k5 = IDS.every((id) => R[id].run.stop === null && R[id].run.N === R[id].run.n - R[id].run.nPin
       && R[id].run.nan === false && R[id].run.clampV === 0 && R[id].run.clampS === 0
       && R[id].run.ledger === 0);
-    const k6 = IDS.every((id) => R[id].G === 0 && R[id].run.fp === R[id].runG.fp);
+    // ⑥ **法則で期待が逆になる**: 規定運動(prescribed)は G を上げても 1 bit 不変。
+    //    Core 力学(coreField)は既定宣言 `centreGravity:"phi"` で **二重加算の門が立つ**ので、
+    //    「G を上げたら指紋が変わった」だけでは**重力に不感でない証拠にならない**(門が止めた結果でも
+    //    変わる)。そこで ⑥ は **prescribed 側の不変**だけを見て、coreField の重力感度は ⑫ で
+    //    `centreGravity:"engine"`(κ₀=0・中心重力は E4 が持つ)に移してから測る。
+    const k6 = IDS.every((id) => R[id].G === 0
+      && (R[id].run.cf ? (R[id].runG.stop === 'gravityDouble') : (R[id].run.fp === R[id].runG.fp)));
     const k7 = hits.length === 0 && IDS.every((id) => R[id].sum.indexOf('言わないこと') >= 0);
     // ⑧ 第275便d: **成長を宣言していない**(τ=0 かつ σ=σ₀)
     const k8 = !sp.w275d || IDS.every((id) => R[id].decl.tauGrow === 0
       && R[id].decl.sigma === R[id].decl.sigma0);
     // ⑨ 第275便d: 中心天体の質量は指紋を動かさない(pinned・G=0・規定運動)
     const k9 = !sp.w275d || Object.values(sp.centreMass).every((q) => q.same && q.pinnedFirst);
-    add('preset.shapeToys', k1 && k2 && k3 && k4 && k5 && k6 && k7 && k8 && k9,
+    // ⑩ 第276便d: `law` は中心天体つきの 3 本だけ("prescribed" の 3 本には鍵が入らない)
+    const CORE3 = ['shapeToyClusterCore', 'shapeToyDiskCore', 'shapeToyArmCore'];
+    const k10 = !sp.w276d || (CORE3.every((id) => sp.laws[id] && sp.laws[id].law === 'coreField'
+        && sp.laws[id].hasCoreField && sp.laws[id].decl
+        && sp.laws[id].decl.coreRc > 0 && sp.laws[id].decl.exchange
+        && sp.laws[id].decl.axis.length === 3)
+      && ['shapeToyCluster', 'shapeToyDisk', 'shapeToyArm']
+        .every((id) => sp.laws[id] && sp.laws[id].law === null && !sp.laws[id].hasCoreField));
+    // ⑪ **スピン依存**: coreField は spin を 0 にすると指紋が変わる(力が残らないので停止する)・
+    //    prescribed は spin を変えても 1 bit 不変(= 差は法則が作っている)
+    //    (中心天体を持たない 🔮🥏🧵 は「回す中心」が無いので対照にならない —— 規定運動が
+    //     スピンに不感であることは正本 corefield-w276d.json の「規定運動の双子」が測る)
+    const k11 = !sp.w276d || Object.entries(sp.spinDep).every(([id, q]) => (q.cf
+      ? (q.changes && q.spin0Stop === 'kPerp')
+      : (!q.hasPin || !q.changes)));
+    // ⑫ **二重加算の門**: 中心が engine 質量を持ったままの G≠0 は gravityDouble で止まる
+    const k12 = !sp.w276d || CORE3.every((id) => sp.spinDep[id]
+      && sp.spinDep[id].doubleStop === 'gravityDouble' && sp.spinDep[id].gravChanges);
+    add('preset.shapeToys', k1 && k2 && k3 && k4 && k5 && k6 && k7 && k8 && k9 && k10 && k11 && k12,
       `**安定サンプル 3 本**(第274便d・第64報「実在天体に先立ち安定サンプルを用意する」): `
       + IDS.map((id) => `${R[id].emoji}${id}`).join('・') + `(内蔵 ${sp.total} 本)/ `
       + `① principle/toy・claims/massCalibration/regression どれも無い=${k1}(**較正ではない**)/ `
@@ -44909,8 +45006,9 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       + `⑤ 600 步: stop=${IDS.map((id) => R[id].run.stop).join('/')}・N=${IDS.map((id) => R[id].run.N + '/' + R[id].run.n).join('・')}・`
       + `枝=${IDS.map((id) => R[id].run.branch).join('/')}・σ=${IDS.map((id) => R[id].run.sigma.toFixed(3)).join('/')}・`
       + `NaN 0・clamp 0・帳簿 |Σ|=${IDS.map((id) => R[id].run.ledger).join('/')}=${k5} / `
-      + `⑥ **重力で安定したのではない**: G=0 と G=0.8 の 600 步指紋が一致=${k6}`
-      + `(${IDS.map((id) => R[id].run.fp + '=' + R[id].runG.fp).join('・')})/ `
+      + `⑥ **法則ごとの重力の扱い**(prescribed は G を上げても 1 bit 不変 / coreField は既定宣言で`
+      + `**二重加算の門**が立つ)=${k6}`
+      + `(${IDS.map((id) => `${id}:${R[id].run.cf ? 'coreField→' + R[id].runG.stop : 'prescribed ' + R[id].run.fp + '=' + R[id].runG.fp}`).join('・')})/ `
       + `⑦ 説明文に「創発/較正した/再現した」が無く「言わないこと」節がある=${k7}`
       + (hits.length ? `(**検出** ${JSON.stringify(hits)})` : '')
       + (sp.w275d
@@ -44919,7 +45017,24 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
           + `⑨ **中心天体は力学的に効いていない**(center:"pinned" の 3 本で m を 10→1000 に変えても `
           + `600 步の指紋が同じ)=${k9}(`
           + Object.entries(sp.centreMass).map(([id, q]) => `${id}:${q.fp10}=${q.fp1000}`).join('・') + `)`
-        : ' / ⑧⑨ 第275便d 未適用の世代(成長の宣言と中心天体版は検査しない)'));
+        : ' / ⑧⑨ 第275便d 未適用の世代(成長の宣言と中心天体版は検査しない)')
+      + (sp.w276d
+        ? ` // **第276便d: 法則を規定運動から Core 力学へ**(第66報 (4))/ `
+          + `⑩ \`law:"coreField"\` は中心天体つき 3 本だけ(🔮🥏🧵 には鍵が入らない = 署名不変)=${k10}`
+          + `(${CORE3.map((id) => `${id}:ω_m=${R[id].run.omegaM}・K⊥=${R[id].run.kPerp}・K∥=${R[id].run.kPar}・K_eff=${R[id].run.kEff}`).join(' / ')})/ `
+          + `⑪ **中心スピンに依存する**(R43 の否定の解消): `
+          + Object.entries(sp.spinDep).map(([id, q]) => `${id}(${q.cf ? 'coreField' : 'prescribed'}): `
+            + (q.hasPin
+              ? `spin→0 で指紋 ${q.changes ? '**変わる**' : '不変'}${q.spin0Stop ? `(stop=${q.spin0Stop})` : ''}`
+              : '中心天体なし(**この本には回す中心が無い**ので対照にならない — 規定運動がスピンに'
+                + '不感であることは正本 corefield-w276d.json の「規定運動の双子」で測る)')).join(' / ')
+          + `=${k11} / ⑫ **重力の扱い**: 二重加算の門(中心が engine 質量を持ったままの G≠0)= `
+          + CORE3.map((id) => `${id}:${sp.spinDep[id] && sp.spinDep[id].doubleStop}`).join('・')
+          + ` / **centreGravity:"engine"(κ₀=0・中心重力は E4)で G 0→0.8 にすると指紋が変わる**`
+          + `(= 重力に不感ではない。**中心の質量を 0 にする道は質量床があるので使えない**)= `
+          + CORE3.map((id) => `${id}:${sp.spinDep[id] && sp.spinDep[id].engG0}≠${sp.spinDep[id] && sp.spinDep[id].engG8}`).join('・')
+          + `=${k12}`
+        : ' / ⑩⑪⑫ 第276便d 未適用の世代(Core 力学は検査しない)'));
   } else {
     console.log('SKIP preset.shapeToys(対象に第274便d の形状トイ 3 本なし — root 等)');
   }
@@ -44994,8 +45109,11 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     if (!J5.meta || !J5.meta.provenanceVersion) bad5.push('①来歴 meta が無い');
     if (!J5.criteria || !(J5.criteria.rmsRel > 0) || !(J5.criteria.retroFrac > 0))
       bad5.push('①合格条件 criteria が無い');
+    // 第276便d: `law:"coreField"` の本はこの器の対象外になった(除外 id は正本の
+    // `excludedCoreField` に残る)。**世代はその欄の有無で切り替える**。
+    const EX5 = Array.isArray(J5.excludedCoreField) ? J5.excludedCoreField : [];
     const ids5 = ['shapeToyCluster', 'shapeToyDisk', 'shapeToyArm',
-      'shapeToyClusterCore', 'shapeToyDiskCore', 'shapeToyArmCore'];
+      'shapeToyClusterCore', 'shapeToyDiskCore', 'shapeToyArmCore'].filter((id) => EX5.indexOf(id) < 0);
     for (const id of ids5) {
       const r = (J5.builtins || []).find((q) => q.id === id);
       if (!r) { bad5.push('②内蔵の行が無い: ' + id); continue; }
@@ -45011,11 +45129,15 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     // ④ 摂動からの回復が 5%/10%・3 seed・6 本
     const rec5 = J5.recovery || [];
     if (new Set(rec5.map((q) => q.k)).size < 2 || new Set(rec5.map((q) => q.seed)).size < 3
-      || new Set(rec5.map((q) => q.id)).size < 6) bad5.push('④回復の 5%/10%・3 seed・6 本が揃っていない');
-    // ⑤ 重力の対照と**中心天体の質量の対照**
+      || new Set(rec5.map((q) => q.id)).size < ids5.length)
+      bad5.push(`④回復の 5%/10%・3 seed・${ids5.length} 本が揃っていない`);
+    // ⑤ 重力の対照と**中心天体の質量の対照**(中心天体つきの 3 本が coreField へ移った世代では、
+    //    この器に `center:"pinned"` の本が 1 つも残らないので、質量の対照は**在る場合だけ**見る)
     if (!(J5.gravityControl || []).length) bad5.push('⑤重力の対照が無い');
-    if (!(J5.centerMass || []).length || !(J5.centerMass || []).every((q) => q.massSame))
+    if (!EX5.length && (!(J5.centerMass || []).length || !(J5.centerMass || []).every((q) => q.massSame)))
       bad5.push('⑤中心天体の質量の対照が無い/指紋が動いている');
+    if (EX5.length && (J5.centerMass || []).some((q) => !q.massSame))
+      bad5.push('⑤中心天体の質量の対照で指紋が動いている');
     // ⑥ PHYSICS.md〔第275便d〕節への機械同期
     if (!/〔第275便d/.test(phys)) bad5.push('⑥PHYSICS.md に〔第275便d〕節が無い');
     const need5 = [];
@@ -45047,10 +45169,260 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         + `表示窓の凹み ${r.settleDip === undefined || r.settleDip === null ? '—' : r.settleDip.toFixed(4)}・`
         + `逆行 ${r.retroFracMean === undefined || r.retroFracMean === null ? '—' : r.retroFracMean.toFixed(4)}・`
         + `判定 ${r.pass})`).join(' / ')
-      + ` / 中心天体の質量の対照 ${(J5.centerMass || []).map((q) => q.id + ':' + q.massSame).join('・')}`
+      + ` / 中心天体の質量の対照 ${(J5.centerMass || []).map((q) => q.id + ':' + q.massSame).join('・') || '—'}`
+      + ((J5.excludedCoreField || []).length
+        ? ` / **第276便d で Core 力学へ移った本はこの器の対象外**: ${J5.excludedCoreField.join('・')}`
+          + `(完成門は tests/out/corefield-w276d.json —— QA \`docs.coreFieldCriteria\`)`
+        : '')
       : ` // 第275便d の正本なし(${err5})`)
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : '')
     + (bad5.length ? ` / **第275便d の違反 ${bad5.length} 件**: ${bad5.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 第276便d(原仮定者の裁定(第66報)(4)): behavior.coreFieldLedger ----
+//   **Core 力学**(`physics.shapeToy.law:"coreField"` → `dfmCoreFieldStep`・`S._core` の外)の機械固定。
+//   世代は `HP.dfmCoreFieldStep` の有無で切り替える(root は SKIP)。固定するのは 7 点:
+//     ① **宣言が無ければ 1 行も通らない**: 宣言の無い内蔵は `hasCoreField=false`・`coreFieldN=0` で、
+//        `HP.dfmCoreFieldStep(S,dt)` を**直接呼んでも** null を返し、600 步の指紋が 1 bit も動かない。
+//     ② **伝播子は厳密**: 閉形式の合成則 F(h)=F(h/2)·F(h/2) が 1e−12 以内で成り立ち、
+//        **保存量 H=Σm_i h_i が 2000 步で 1e−10 以内**(交換を切った宣言で測る)。
+//     ③ **帳簿が厳密に閉じる**(**「閉じた系」ではない**): 粒子が受け取った P(3 成分)・L(3 成分)・E と、
+//        反作用(外部支持)へ記帳した値の和が**厳密に 0**。**エンジンが当てた外部キック**も別欄に出る。
+//     ④ **中心スピンに依存する**(統括の検証項目 R43 の否定の解消): ω_c を 0 にすると ω_m=0 になり、
+//        K⊥=κ₀=0 なので**門 `kPerp` が立って 1 步も走らない**。ω_c を 2 倍にすると指紋が変わる。
+//     ⑤ **有限のコア熱容量**: `exchange.capacity` を小さくすると `coreFieldSupplyStop="capacity"` が立ち、
+//        供給(ノイズ)が止まって減衰だけが残る(**無限電源ではない**)。
+//     ⑥ **重力の扱い**: 中心重力を Φ の κ₀ が持つ既定宣言(`centreGravity:"phi"`)で、中心が engine
+//        質量を持ったままの G≠0 は**二重加算の門** `gravityDouble` で止まり、その步は 1 バイトも
+//        書かない。`centreGravity:"engine"`(κ₀=0・中心重力は E4 が持つ)へ移すと G 0→8 で指紋が
+//        変わる = **重力に不感ではない**。(**中心の質量を 0 にする道は質量床があるので使えない**。)
+//     ⑦ **局所模型の範囲**(R44): 走行中の max|r|/r_c を `coreFieldRMax` に出している(宣言した
+//        r_c の内側に雲が収まっているかを**黙らせない**ための列)。
+{
+  const hasCF = await page.evaluate(() => !!(window.HP && typeof HP.dfmCoreFieldStep === 'function'
+    && typeof HP.coreFieldFlow === 'function' && typeof HP.coreFieldParams === 'function'));
+  if (hasCF) {
+    const cf = await page.evaluate(() => {
+      const O = {};
+      const fp = (S) => { let a = 0x811c9dc5;
+        const buf = new ArrayBuffer(8), f = new Float64Array(buf), u = new Uint8Array(buf);
+        const push = (v) => { f[0] = v; for (let b = 0; b < 8; b++) { a ^= u[b]; a = Math.imul(a, 0x01000193) >>> 0; } };
+        for (const k of ['x', 'y', 'vx', 'vy']) for (let i = 0; i < S.n; i++) push(S[k][i]);
+        return a.toString(16); };
+      const copy = (id, patch, top, body, phys) => {
+        const p = JSON.parse(JSON.stringify(HP.allPresets().find((z) => z.id === id)));
+        if (patch) Object.assign(p.physics.shapeToy.coreField, patch);
+        if (top) Object.assign(p.physics.shapeToy, top);
+        if (body) Object.assign(p.bodies[0], body);
+        if (phys) Object.assign(p.physics, phys);
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+        return v.ok ? v.preset : null;
+      };
+      // **`HP.sim` は 1 つしかない**ので、走らせた直後に必要な数を**その場で写す**
+      // (第276便d の途中で、S を持ち回って後から読んで**次の走行の値を読んでいた** —— QA が捕まえた)
+      const run = (p, steps, dt) => { const S = HP.sim; S.build(JSON.parse(JSON.stringify(p)));
+        for (let k = 0; k < steps; k++) S.step(dt); return S; };
+      const snap = (p, steps, dt) => { const S = run(p, steps, dt);
+        return { fp: fp(S), stop: S.coreFieldStop, n: S.coreFieldN, nan: S.hasNaN(),
+          omegaM: S.coreFieldOmegaM, kappa0: S.coreFieldKappa0, H: S.coreFieldH,
+          bathE: S.coreFieldBathE, cap: S.coreFieldBathCap, supplyStop: S.coreFieldSupplyStop,
+          rMax: S.coreFieldRMax }; };
+      // ① 宣言の無い内蔵(🪐 saturn)で素通りする
+      {
+        const p = HP.validatePreset(JSON.parse(JSON.stringify(
+          HP.allPresets().find((z) => z.id === 'saturn')))).preset;
+        const S = HP.sim; S.build(JSON.parse(JSON.stringify(p)));
+        for (let k = 0; k < 300; k++) S.step(0.016);
+        const before = fp(S);
+        const ret = HP.dfmCoreFieldStep(S, 0.016);
+        O.untouched = { has: S.hasCoreField === true, n: S.coreFieldN, ret,
+          same: fp(S) === before, key: p.physics.shapeToy === undefined };
+      }
+      // ② 合成則 + H の保存(交換を切る)
+      {
+        const P = HP.coreFieldParams({ coreRc: 125, coreMass: 10, alpha: 1.1, beta: 0.1,
+          axis: [0, 0, 1], W0: 0.00064, temp: 19.44, omegaP: 0 }, 0, 1);
+        const mul = (A, B) => { const C = new Array(36).fill(0);
+          for (let i = 0; i < 6; i++) for (let k = 0; k < 6; k++) for (let j = 0; j < 6; j++)
+            C[i * 6 + j] += A[i * 6 + k] * B[k * 6 + j];
+          return C; };
+        const toM = (F, kPerp, kPar) => { const M = new Array(36).fill(0);
+          const st = (i, j, v) => { M[i * 6 + j] = v; };
+          st(0, 0, F.aR); st(0, 1, -F.aI); st(0, 3, F.bR); st(0, 4, -F.bI);
+          st(1, 0, F.aI); st(1, 1, F.aR); st(1, 3, F.bI); st(1, 4, F.bR);
+          st(3, 0, F.cR); st(3, 1, -F.cI); st(3, 3, F.dR); st(3, 4, -F.dI);
+          st(4, 0, F.cI); st(4, 1, F.cR); st(4, 3, F.dI); st(4, 4, F.dR);
+          st(2, 2, F.cP); st(2, 5, F.sP); st(5, 2, -kPar * F.sP); st(5, 5, F.cP);
+          return M; };
+        const rows = [];
+        for (const h of [0.016, 0.25, 2.5]) {
+          const A = toM(HP.coreFieldFlow(P.kPerp, P.kPar, P.omegaM, h), P.kPerp, P.kPar);
+          const B = toM(HP.coreFieldFlow(P.kPerp, P.kPar, P.omegaM, h / 2), P.kPerp, P.kPar);
+          const C = mul(B, B);
+          let mx = 0;
+          for (let i = 0; i < 36; i++) mx = Math.max(mx, Math.abs(A[i] - C[i]));
+          rows.push({ h, maxAbsDiff: mx });
+        }
+        O.compose = rows;
+        const p = copy('shapeToyClusterCore', null, null, null, null);
+        const q = copy('shapeToyClusterCore', { exchange: { mode: 'none', rate: 0, capacity: 0 } });
+        const S = run(q, 1, 0.25);
+        const H0 = S.coreFieldH;
+        for (let k = 0; k < 2000; k++) S.step(0.25);
+        O.conserve = { H0, H: S.coreFieldH, rel: S.coreFieldH / H0 - 1, work: S.coreFieldWork,
+          stop: S.coreFieldStop, nan: S.hasNaN(), declared: !!p };
+      }
+      // ③ 帳簿(受け取った量 + 反作用 = 厳密 0)
+      {
+        const S = run(copy('shapeToyDiskCore'), 600, 0.016);
+        O.ledger = { p: [S.coreFieldPx + S.coreFieldReacPx, S.coreFieldPy + S.coreFieldReacPy,
+          S.coreFieldPz + S.coreFieldReacPz],
+          l: [S.coreFieldLx + S.coreFieldReacLx, S.coreFieldLy + S.coreFieldReacLy,
+            S.coreFieldLz + S.coreFieldReacLz],
+          e: S.coreFieldE + S.coreFieldReacE,
+          ext: [S.coreFieldExtPx, S.coreFieldExtPy, S.coreFieldExtE],
+          unbooked: S.coreFieldUnbooked, rMax: S.coreFieldRMax,
+          stop: S.coreFieldStop, nan: S.hasNaN(), clampV: S.clampVN, clampS: S.clampSN };
+      }
+      // ④ 中心スピン依存
+      O.spin = { base: snap(copy('shapeToyArmCore'), 600, 0.016),
+        zero: snap(copy('shapeToyArmCore', null, null, { spin: 0 }), 600, 0.016),
+        twice: snap(copy('shapeToyArmCore', null, null, { spin: 2 }), 600, 0.016) };
+      // ⑤ 有限のコア熱容量(供給が尽きる)
+      O.supply = {
+        small: snap(copy('shapeToyClusterCore',
+          { exchange: { mode: 'rotating-bath', rate: 0.5, capacity: 1e-6 } }), 400, 0.25),
+        big: snap(copy('shapeToyClusterCore',
+          { exchange: { mode: 'rotating-bath', rate: 0.5, capacity: 1e9 } }), 400, 0.25) };
+      // ⑥ **重力の扱い**(二重加算の門 / `centreGravity:"engine"` で重力に不感でないこと)
+      //   中心天体の質量を 0 にしても**質量床**で 0 にならないので、「中心の質量を 0 にする」道は
+      //   二重加算の門を外せない(第276便d の QA が捕まえた)。**宣言で中心重力の持ち主を変える**。
+      O.gravity = {
+        double: snap(copy('shapeToyClusterCore', null, null, null, { G: 8 }), 50, 0.016),
+        engineG0: snap(copy('shapeToyClusterCore', { centreGravity: 'engine' }, null, null, { G: 0 }), 600, 0.016),
+        engineG8: snap(copy('shapeToyClusterCore', { centreGravity: 'engine' }, null, null, { G: 8 }), 600, 0.016) };
+      return O;
+    });
+    const COMPOSE_TOL = 1e-12, H_TOL = 1e-10;
+    const d1 = cf.untouched.has === false && cf.untouched.n === 0 && cf.untouched.ret === null
+      && cf.untouched.same === true && cf.untouched.key === true;
+    const d2 = cf.compose.every((r) => r.maxAbsDiff <= COMPOSE_TOL)
+      && Math.abs(cf.conserve.rel) <= H_TOL && cf.conserve.stop === null && cf.conserve.nan === false;
+    const d3 = cf.ledger.p.every((v) => v === 0) && cf.ledger.l.every((v) => v === 0)
+      && cf.ledger.e === 0 && cf.ledger.stop === null && cf.ledger.nan === false
+      && cf.ledger.clampV === 0 && cf.ledger.clampS === 0
+      && cf.ledger.unbooked === 'external-support-of-pinned-centre';
+    const d4 = cf.spin.zero.stop === 'kPerp' && cf.spin.zero.n === 0
+      && cf.spin.base.fp !== cf.spin.zero.fp && cf.spin.base.fp !== cf.spin.twice.fp
+      && cf.spin.twice.omegaM === 2 * cf.spin.base.omegaM;
+    const d5 = cf.supply.small.supplyStop === 'capacity' && cf.supply.big.supplyStop === null;
+    const d6 = cf.gravity.double.stop === 'gravityDouble' && cf.gravity.double.n === 0
+      && cf.gravity.engineG0.stop === null && cf.gravity.engineG8.stop === null
+      && cf.gravity.engineG0.kappa0 === 0 && cf.gravity.engineG8.kappa0 === 0
+      && cf.gravity.engineG0.fp !== cf.gravity.engineG8.fp;
+    const d7 = cf.ledger.rMax !== null && cf.ledger.rMax > 0;
+    add('behavior.coreFieldLedger', d1 && d2 && d3 && d4 && d5 && d6 && d7,
+      `**Core 力学**(第276便d・第66報 (4)「中心天体のスピンに影響を受けた DFM に準拠する法則で制御する」)/ `
+      + `① **宣言が無ければ 1 行も通らない**(🪐 saturn): hasCoreField=${cf.untouched.has}・`
+      + `N=${cf.untouched.n}・直接呼びの戻り=${cf.untouched.ret}・指紋不変=${cf.untouched.same}=${d1} / `
+      + `② **厳密伝播子**: 合成則 F(h)=F(h/2)² の最大差 `
+      + cf.compose.map((r) => `h=${r.h}:${r.maxAbsDiff.toExponential(1)}`).join('・')
+      + `(門 ${COMPOSE_TOL.toExponential(0)})・**H の保存**(交換なし・2000 步 dt=0.25): `
+      + `${cf.conserve.H0.toFixed(4)} → ${cf.conserve.H.toFixed(4)}(相対 ${cf.conserve.rel.toExponential(2)}・`
+      + `門 ${H_TOL.toExponential(0)}・伝播子の仕事 ${cf.conserve.work.toExponential(2)})=${d2} / `
+      + `③ **帳簿**: 受け取った P+反作用=[${cf.ledger.p.join(', ')}]・L+反作用=[${cf.ledger.l.join(', ')}]・`
+      + `E+反作用=${cf.ledger.e}(**厳密 0**)・エンジンが当てた外部キック=[${cf.ledger.ext.map((v) => v.toExponential(2)).join(', ')}]・`
+      + `**未記帳の量**=${cf.ledger.unbooked}=${d3}(**「閉じた系」ではない** —— 中心は外部支持である)/ `
+      + `④ **中心スピンに依存する**(🧹): ω_c=1 → ω_m=${cf.spin.base.omegaM}(指紋 ${cf.spin.base.fp})・`
+      + `**ω_c=0 → 門 ${cf.spin.zero.stop} で 1 步も走らない**(N=${cf.spin.zero.n})・`
+      + `ω_c=2 → ω_m=${cf.spin.twice.omegaM}(指紋 ${cf.spin.twice.fp})=${d4}`
+      + `(**第275便d までの規定運動はスピンに不感だった** —— 統括の検証項目 R43)/ `
+      + `⑤ **有限のコア熱容量**: capacity=1e−6 → ${cf.supply.small.supplyStop}(供給停止・`
+      + `bathE=${cf.supply.small.bathE.toExponential(2)})/ capacity=1e9 → ${cf.supply.big.supplyStop}=${d5}`
+      + `(**無限電源ではない**)/ `
+      + `⑥ **重力の扱い**: 中心重力を Φ が持つ宣言(centreGravity:"phi")で中心が engine 質量を`
+      + `持ったままの G=8 → **${cf.gravity.double.stop}**(N=${cf.gravity.double.n}・二重加算の門)・`
+      + `**centreGravity:"engine"**(κ₀=0・中心重力は E4 が持つ)では G=0 → ${cf.gravity.engineG0.fp} と`
+      + `G=8 → ${cf.gravity.engineG8.fp} で**指紋が変わる**(= 重力に不感ではない)=${d6} / `
+      + `⑦ **局所模型の範囲**: max|r|/r_c=${cf.ledger.rMax.toFixed(4)}(R44 の「r_c のまま外へ広げてよい`
+      + `結果ではない」を黙らせないための列)=${d7}`);
+  } else {
+    console.log('SKIP behavior.coreFieldLedger(対象に第276便d の Core 力学なし — root 等)');
+  }
+}
+
+// ---- 第276便d: docs.coreFieldCriteria — **Core 力学の完成門の表と正本 JSON の一致** ----
+//   正本 `tests/out/corefield-w276d.json`(器 tests/exp-w276d-corefield.mjs)と
+//   docs/PHYSICS.md〔第276便d〕節を突き合わせる。**世代はこの正本の有無で切り替える**。固定するのは 6 点:
+//     ① 正本に来歴(`meta.provenanceVersion`)と**事前に決めた合格条件** `criteria` がある。
+//     ② **純関数の検算**: 閉形式 ↔ 行列指数の最大差と、1 粒子 20,000 步の H・正準角運動量の相対誤差。
+//     ③ **エンジンとの一致**: 3 本とも閉形式と同じ軌道を出す。
+//     ④ 内蔵 3 本の行に、RMS の偏り・ゆらぎ・ドリフト z・表示窓の列・帳簿があり、判定の真偽値を持つ。
+//     ⑤ **スピン依存と重力**: 指紋の対照に spin 0→1 の変化・G 0→8 の変化・二重加算の門・
+//        **規定運動の双子がスピンに不感**であることが在る(R43 の否定の解消を数で置く)。
+//     ⑥ PHYSICS.md にこの節があり、**正本の主要数値がそのまま載っている**(機械同期)。
+{
+  const P6 = path.join(ROOT, 'tests', 'out', 'corefield-w276d.json');
+  let J6 = null, err6 = '';
+  try { J6 = JSON.parse(fs.readFileSync(P6, 'utf8')); } catch (e) { err6 = String(e).slice(0, 80); }
+  const phys = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+  const bad6 = [];
+  if (!J6) {
+    console.log('SKIP docs.coreFieldCriteria(第276便d の正本なし: ' + err6 + ')');
+  } else {
+    if (!J6.meta || !J6.meta.provenanceVersion) bad6.push('①来歴 meta が無い');
+    if (!J6.criteria || !(J6.criteria.rmsRel > 0) || !(J6.criteria.hRel > 0))
+      bad6.push('①合格条件 criteria が無い');
+    if (!Array.isArray(J6.flowExact) || !J6.flowExact.length || !J6.flowExact.every((r) => r.ok))
+      bad6.push('②閉形式 ↔ 行列指数 の行が無い/門外');
+    if (!Array.isArray(J6.pure) || J6.pure.length < 3 || !J6.pure.every((r) => r.ok))
+      bad6.push('②1 粒子の H/正準角運動量の行が無い/門外');
+    if (!Array.isArray(J6.engineMatch) || J6.engineMatch.length < 3 || !J6.engineMatch.every((r) => r.ok))
+      bad6.push('③エンジンとの一致が無い/門外');
+    const ids6 = ['shapeToyClusterCore', 'shapeToyDiskCore', 'shapeToyArmCore'];
+    for (const id of ids6) {
+      const r = (J6.builtins || []).find((q) => q.id === id);
+      if (!r) { bad6.push('④内蔵の行が無い: ' + id); continue; }
+      if (!r.ok || typeof r.pass !== 'boolean') bad6.push('④判定の真偽値が無い: ' + id);
+      if (r.rmsRelMean === null || r.samplingNoise === null || r.rmsDriftZ === undefined)
+        bad6.push('④RMS の偏り/ゆらぎ/ドリフトが無い: ' + id);
+      if (!Array.isArray(r.displaySeries) || r.displaySeries.length < 5)
+        bad6.push('④表示窓の時間列が無い: ' + id);
+      if (r.ledger !== 0) bad6.push('④帳簿が厳密 0 でない: ' + id);
+      const f = (J6.fingerprints || []).find((q) => q.id === id);
+      if (!f) { bad6.push('⑤指紋の対照が無い: ' + id); continue; }
+      if (!f.spinChanges) bad6.push('⑤中心スピンで指紋が変わらない: ' + id);
+      if (!f.gravityChanges) bad6.push('⑤G 0→8 で指紋が変わらない: ' + id);
+      if (!f.gravityDoubleGated) bad6.push('⑤二重加算の門が立たない: ' + id);
+      if (!f.prescribedSpinBlind) bad6.push('⑤規定運動の双子がスピンに不感でない: ' + id);
+    }
+    if (!(J6.supply || []).some((q) => q.exhausted)) bad6.push('⑤供給枯渇の行が無い');
+    if (!/〔第276便d/.test(phys)) bad6.push('⑥PHYSICS.md に〔第276便d〕節が無い');
+    const need6 = [];
+    for (const id of ids6) {
+      const r = (J6.builtins || []).find((q) => q.id === id);
+      if (r) need6.push(r.rmsRelMean.toFixed(4));
+    }
+    for (const t of need6) if (!phys.includes(t)) bad6.push('⑥PHYSICS.md に正本の数値が無い: ' + t);
+    const b6 = J6.builtins || [];
+    add('docs.coreFieldCriteria', bad6.length === 0,
+      `**Core 力学の完成門**(第276便d・正本 tests/out/corefield-w276d.json・器 tests/exp-w276d-corefield.mjs)/ `
+      + `来歴 ${J6.meta && J6.meta.provenanceVersion}・合格条件 ${JSON.stringify(J6.criteria)} / `
+      + `② 閉形式 ↔ 行列指数 の最大差 ${J6.summary.flowMaxAbsDiff.toExponential(2)}・`
+      + `1 粒子 ${J6.run.pureSteps} 步の H 相対誤差 ${J6.summary.pureHRelMax.toExponential(2)}・`
+      + `正準角運動量 ${J6.summary.pureCanonRelMax.toExponential(2)} / `
+      + `③ エンジンとの一致 最大 ${J6.summary.engineMatchMax.toExponential(2)} / `
+      + `④ 内蔵 ${b6.length} 本: `
+      + b6.map((r) => `${r.id}(ω_m=${r.omegaM}・RMS 偏り ${r.rmsRelMean.toFixed(4)}±${r.samplingNoise.toFixed(4)}・`
+        + `ドリフト z ${r.rmsDriftZ === null ? '—' : r.rmsDriftZ.toFixed(2)}・`
+        + `逆行 ${r.retroFracMean === null || r.retroFracMean === undefined ? '—' : r.retroFracMean.toFixed(4)}・`
+        + `σ_z/σ_R ${r.axisRatioEnd === null ? '—' : r.axisRatioEnd.toFixed(4)}・判定 ${r.pass})`).join(' / ')
+      + ` / ⑤ **スピン依存**=${J6.summary.spinDependent}・**重力に不感ではない**=${J6.summary.gravitySensitive}・`
+      + `二重加算の門=${J6.summary.gravityDoubleGated}・**規定運動の双子はスピンに不感**=${J6.summary.prescribedSpinBlind}・`
+      + `供給枯渇=${J6.summary.supplyExhausts} / `
+      + `**較正ではない**(観測量を 1 つも入力していない)・**追加ポテンシャルは新しい構成仮説である**`
+      + (bad6.length ? ` / **違反 ${bad6.length} 件**: ${bad6.slice(0, 4).join(' , ')}` : ''));
+  }
 }
 
 // ---- 第275便e(原仮定者の裁定(第65報)(7)「自転軸の傾き角・傾きの方向・歳差角速度」): preset.coreAxis-declared ----

@@ -502,3 +502,14 @@ paper/*Notes.bib
 _scratch-*.mjs
 _scratch-*/
 _scratch-*.log
+# 第276便d(第66報 (4)「shapeToyClusterCore・shapeToyDiskCore・shapeToyArmCore は、各粒子を中心天体の
+#   スピンに影響を受けた DFM に準拠する法則で制御する様に調整する」): **Core 力学**の検算の正本
+#   (tests/exp-w276d-corefield.mjs)。閉形式の伝播子 ↔ 独立な行列指数の突合・1 粒子 20,000 步の
+#   保存量 H と正準角運動量の相対誤差・エンジンとの一致・内蔵 3 本(🎱📀🧹)の完成門(RMS 半径の
+#   偏り/ドリフト・逆行の割合・σ_z/σ_R・棒の幅と軸方向 RMS・摂動からの回復)・**指紋の対照**
+#   (中心スピン 0→1 / G 0→8 / 二重加算の門 / 規定運動の双子はスピンに不感)・背景 W₀ と中心質量の
+#   掃引・**供給枯渇**を持つ。QA `docs.coreFieldCriteria` がこの JSON と docs/PHYSICS.md〔第276便d〕を
+#   突き合わせ、`lint.provenanceMeta` が来歴を固定するのでコミットする。
+#   **較正ではない**(観測量を 1 つも入力していない)。**追加ポテンシャルは新しい構成仮説**であって、
+#   現行 DFM から一意に導出された法則ではない。「銀河が安定した」「腕が創発した」とは書かない。
+!tests/out/corefield-w276d.json

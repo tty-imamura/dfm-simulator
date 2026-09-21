@@ -3673,6 +3673,94 @@ const SHAPE_TOY_SUPPLY = "external-bath";               // 供給の出所の**�
 const SHAPE_TOY_CLAMPS = { omega0:[1e-6,100], gamma:[1e-6,100], sigma:[1e-6,1e6], sigmaZ:[1e-6,1e6],
   sigma0:[1e-6,1e6], tauGrow:[0,1e6], omegaSpin:[-100,100], armLength:[1e-6,1e6], armLength0:[1e-6,1e6],
   cx:[-1e6,1e6], cy:[-1e6,1e6] };
+// ===== 第276便d(原仮定者の裁定(第66報)(4)): physics.shapeToy.law — **規定運動から中心スピン依存の力学へ** =====
+// 裁定の字義:「shapeToyClusterCore・shapeToyDiskCore・shapeToyArmCore は、各粒子を**中心天体の
+// スピンに影響を受けた DFM に準拠する法則**で制御する様に調整する」。
+// 第275便d までの 🎱📀🧹 は `coupling:"prescribed"` の**規定運動**で、統括の検証項目 R43 のとおり
+// **G を 0→8・中心スピンを 0→1 にしても 600 步の x/y/vx/vy がビット同一**だった(= 中心スピンの
+// 影響を受けた力学ではない)。本便は**法則そのものを宣言で切り替える**:
+//   `law:"prescribed"`(既定・**宣言しなければ鍵が出力に入らない** = 既存 3 本の署名は 1 文字も動かない)
+//   `law:"coreField"` …… 外部ステップ `dfmCoreFieldStep` が**同じ速度場 u を読むラグランジアン**
+//     L_i = ½m|v−u(x)|² − mΦ(x) の流れで粒子を進める(統括の検証項目 R44)。
+//       u = ω_m (s×r)、 Φ = ½κ₀r² + ½ω_m²{α r⊥² + β r∥²}
+//       κ₀ = G·M_c/r_c³、 W_c = M_c/r_c²、 **ω_m = W_c/(W_c+W₀)·ω_c**(ω_c は中心天体のスピン)
+//     この Euler–Lagrange は物理速度で書くと
+//       **v̇ = 2ω_m(s×v) − K⊥ r⊥ − K∥ r∥**、 K⊥ = κ₀+(α−1)ω_m²、 K∥ = κ₀+βω_m²
+//     であり、**保存量は h = ½|v|² + ½K⊥r⊥² + ½K∥r∥²**(H=Σm_i h_i)。K⊥>0・K∥>0 が閉じた正の H の
+//     条件で、**満たさない宣言は受理しない**(門)。
+// **これは新しい構成仮説であって、現行 DFM から一意に導出された法則ではない**(R44 の字義)。
+// **中心スピンがメッシュ(複素決定力場の重み W)を通して集団の形を変える**という**検証可能な仮説**を
+// 宣言として置き、その帰結(形・厚み・逆行率・帳簿・スピン依存)を測る、という立て方である。
+// **中心は `center:"pinned"` のまま = 外部支持版**である(反作用は帳簿に記帳するだけで、中心には
+// 1 バイトも書き戻さない。中心の自由化は次便)。**重力を二重に足さない**: 粒子間重力 E4 は既定 G の
+// ままで、中心重力は Φ の κ₀ 項として**1 度だけ**入る —— したがって中心天体自身が engine 質量を
+// 持ったまま G≠0 にすると二重加算になるので、**その組み合わせは門で止める**(`gravityDouble`)。
+// **局所模型の範囲**(R44「r/r_c<0.05 の局所模型であり、半径数十〜百の集団へ r_c=5 のまま適用して
+// よい結果ではない」): 本便は r_c を**力学的なコア半径**として表示半径と分けて宣言し、**雲が r_c の
+// 内側に収まる値**(3σ ≤ r_c)を選ぶ。走行中の max|r|/r_c は `S.coreFieldRMax` に出して監査する。
+const SHAPE_TOY_LAWS = ["prescribed","coreField"];
+const CORE_FIELD_EXCHANGES = ["none","rotating-bath"];   // 交換・散逸の形(既定 none = 純ハミルトン)
+// **中心重力をどちらが持つかの宣言**(裁定の「重力を二重に足さない」を宣言で分ける):
+//   "phi"    … 中心重力は **Φ の κ₀ 項**(κ₀=G·M_c/r_c³)。E4 と二重になるので、中心天体が engine
+//              質量を持ったままの G≠0 は門 `gravityDouble` で止める(既定)。
+//   "engine" … 中心重力は **エンジンの E4**(中心天体の実質量)。**κ₀ は 0 にする**ので二重にならない。
+//              このとき Φ は ω_m² の異方項だけになり、重力は外部キックとして取り込まれる。
+const CORE_FIELD_GRAVITIES = ["phi","engine"];
+const CORE_FIELD_INITS = ["thermal","asBuilt"];          // 初期条件(等温定常から引く / プリセットのまま)
+const CORE_FIELD_CLAMPS = { coreRc:[1e-9,1e9], coreMass:[0,1e15], alpha:[-1e4,1e4], beta:[-1e4,1e4],
+  W0:[0,1e15], temp:[0,1e15], omegaP:[-1e3,1e3], rate:[0,1e4], capacity:[0,1e18] };
+// 宣言の正準形(**数値だけ・導出値は 1 つも持たない**):
+//   {coreRc, coreMass, alpha, beta, axis:[x,y,z], W0, temp, omegaP, init, exchange:{mode,rate,capacity}}
+function validateCoreField(a){
+  if(a===null || a===undefined || typeof a!=="object" || Array.isArray(a))
+    return {ok:false, err:'physics.shapeToy.coreField は law:"coreField" では必須のオブジェクト({coreRc,coreMass,alpha,beta,axis,W0,temp,…})'};
+  const num=(k,def)=>{
+    const v=(a[k]===undefined)? def : a[k];
+    if(!isNum(v)) return null;
+    const c=CORE_FIELD_CLAMPS[k];
+    return clamp(v,c[0],c[1]);
+  };
+  const coreRc=num("coreRc",null), coreMass=num("coreMass",null);
+  if(coreRc===null || !(coreRc>0) || coreMass===null)
+    return {ok:false, err:"physics.shapeToy.coreField の coreRc(>0)/coreMass は有限数(必須)"};
+  const alpha=num("alpha",null), beta=num("beta",null);
+  if(alpha===null || beta===null)
+    return {ok:false, err:"physics.shapeToy.coreField の alpha/beta は有限数(必須 — Φ の異方係数)"};
+  const W0=num("W0",null), temp=num("temp",null);
+  if(W0===null || temp===null)
+    return {ok:false, err:"physics.shapeToy.coreField の W0(背景複素決定力の重み)/temp(等温定常の温度)は有限の非負数(必須)"};
+  const omegaP=num("omegaP",0);
+  if(omegaP===null) return {ok:false, err:"physics.shapeToy.coreField.omegaP は有限数"};
+  const ax=a.axis;
+  if(!Array.isArray(ax) || ax.length!==3 || !isNum(ax[0]) || !isNum(ax[1]) || !isNum(ax[2]))
+    return {ok:false, err:"physics.shapeToy.coreField.axis は有限数 3 つの配列 [x,y,z](中心スピンの軸)"};
+  const an=Math.sqrt(ax[0]*ax[0]+ax[1]*ax[1]+ax[2]*ax[2]);
+  if(!(an>0)) return {ok:false, err:"physics.shapeToy.coreField.axis は零ベクトルにできない"};
+  const init=(a.init===undefined)? CORE_FIELD_INITS[0] : a.init;
+  if(CORE_FIELD_INITS.indexOf(init)<0)
+    return {ok:false, err:'physics.shapeToy.coreField.init は "thermal"/"asBuilt" のみ'};
+  const centreGravity=(a.centreGravity===undefined)? CORE_FIELD_GRAVITIES[0] : a.centreGravity;
+  if(CORE_FIELD_GRAVITIES.indexOf(centreGravity)<0)
+    return {ok:false, err:'physics.shapeToy.coreField.centreGravity は "phi"/"engine" のみ'};
+  const ex=(a.exchange===undefined || a.exchange===null)? {} : a.exchange;
+  if(typeof ex!=="object" || Array.isArray(ex))
+    return {ok:false, err:"physics.shapeToy.coreField.exchange はオブジェクト({mode,rate,capacity})か null"};
+  const mode=(ex.mode===undefined)? CORE_FIELD_EXCHANGES[0] : ex.mode;
+  if(CORE_FIELD_EXCHANGES.indexOf(mode)<0)
+    return {ok:false, err:'physics.shapeToy.coreField.exchange.mode は "none"/"rotating-bath" のみ'};
+  const exn=(k,def)=>{ const v=(ex[k]===undefined)? def : ex[k];
+    if(!isNum(v)) return null; const c=CORE_FIELD_CLAMPS[k]; return clamp(v,c[0],c[1]); };
+  const rate=exn("rate",0), capacity=exn("capacity",0);
+  if(rate===null || capacity===null)
+    return {ok:false, err:"physics.shapeToy.coreField.exchange の rate/capacity は有限の非負数"};
+  // **供給の出所を名指ししない宣言は受理しない**(`supply:"external-bath"` と同じ流儀):
+  // 交換を宣言するなら**有限のコア熱容量**を必ず書く(無限電源を作らないための門)
+  if(mode===CORE_FIELD_EXCHANGES[1] && !(capacity>0))
+    return {ok:false, err:'physics.shapeToy.coreField.exchange.mode:"rotating-bath" は capacity>0(有限のコア熱容量)が必須'};
+  return {ok:true, coreField:{ coreRc, coreMass, alpha, beta,
+    axis:[ax[0]/an, ax[1]/an, ax[2]/an], W0, temp, omegaP, init, centreGravity,
+    exchange:{mode, rate, capacity} }};
+}
 function validateShapeToy(a){
   if(a===null || a===undefined) return {ok:true, shapeToy:null};
   if(typeof a!=="object" || Array.isArray(a))
@@ -3719,6 +3807,25 @@ function validateShapeToy(a){
     out.armLength=L; out.armLength0=L0;
   } else if((a.armLength!==undefined && a.armLength!==0) || (a.armLength0!==undefined && a.armLength0!==0)){
     return {ok:false, err:'physics.shapeToy.armLength / armLength0 は shape:"arm" 専用'};
+  }
+  // 第276便d: **法則の宣言**。`law` は "coreField" のときだけ出力に入る(未宣言・"prescribed" は
+  // 鍵が ph に入らない = **既存 3 本の presetSig・エクスポート JSON が 1 文字も変わらない**)。
+  const law=(a.law===undefined || a.law===null)? SHAPE_TOY_LAWS[0] : a.law;
+  if(SHAPE_TOY_LAWS.indexOf(law)<0)
+    return {ok:false, err:'physics.shapeToy.law は "prescribed"/"coreField" のみ'};
+  if(law===SHAPE_TOY_LAWS[1]){
+    // **中心スピンが法則の入力**なので、中心天体(pinned)が無い宣言は受理しない
+    if(out.center!==SHAPE_TOY_CENTERS[1])
+      return {ok:false, err:'physics.shapeToy.law:"coreField" は center:"pinned" が必須(ω_c を中心天体のスピンから読む)'};
+    if(out.coupling!==SHAPE_TOY_COUPLINGS[0])
+      return {ok:false, err:'physics.shapeToy.law:"coreField" は coupling:"prescribed" のみ(feedback は OU 法則の診断)'};
+    if(out.tauGrow!==0)
+      return {ok:false, err:'physics.shapeToy.law:"coreField" は tauGrow=0(成長の宣言は OU 法則のもの)'};
+    const cv=validateCoreField(a.coreField===undefined? null : a.coreField);
+    if(!cv.ok) return {ok:false, err:cv.err};
+    out.law=law; out.coreField=cv.coreField;
+  } else if(a.coreField!==undefined && a.coreField!==null){
+    return {ok:false, err:'physics.shapeToy.coreField は law:"coreField" 専用'};
   }
   return {ok:true, shapeToy:out};
 }
@@ -6871,169 +6978,192 @@ const BUILTIN_PRESETS = [
 // (`physics.shapeToy.center:"pinned"`)。**動的モデルではない**: 中心天体は pinned で動かず、G=0 なので
 // 中心天体の質量は対象粒子の状態を 1 bit も変えない(器で実測 —— m を 10→100→1000 と変えても 600 步の
 // 指紋が同じ)。**観測された中心天体の質量は 1 つも入力していない**(ω Cen の IMBH は**参照**であって入力ではない)。
-{ id:"shapeToyClusterCore", name:"球状星団トイ(中心天体つき)— 中心は位置固定の参照点(較正ではない)", emoji:"🎱",
+{ id:"shapeToyClusterCore", name:"球状星団トイ(中心天体つき)— 中心スピンが束ねる構成仮説(較正ではない)", emoji:"🎱",
   group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
   notClaim:["cluster","galaxy","dm","bh"],
   obsCard:[
-    {q:"何を置いたか", model:"🔮 と同じ 2 階 OU の参照モデル(`physics.shapeToy`)に、**位置固定(pinned)の中心天体 1 個**を足し、写像の中心 c をその位置に取った", obs:"—(原理サンプル)"},
-    {q:"**動的モデルではない**", model:"中心天体は pinned で動かない。**位置固定の参照点**であって、重力で星団を束ねているのではない(重力 E4 はこの経路の状態を決めない)", obs:"—"},
-    {q:"中心天体の質量は効いていない", model:"G=0・対象粒子は規定運動なので、m を 10→100→1000 と変えても 600 步の指紋が 1 bit も動かない(器で実測)", obs:"—"},
-    {q:"ω Cen は参照であって入力ではない", model:"観測された中心質量を 1 つも入力していない。参照: Noyola+2008 / van der Marel & Anderson 2010 / Häberle+2024(ω Cen の IMBH)", obs:"—(参照のみ)"},
-    {q:"定常分布", model:"Cov(y)=I・Cov(w)=ω₀²I(ω₀=0.10・γ=0.25)。**離散化は厳密**(F=e^{Bh}・Q_h=C−FCFᵀ)で刻みに依らない", obs:"—"},
-    {q:"成長は止めてある", model:"τ=0・σ=σ₀=36。σ は初期配置(一様円盤 R=72・中心天体の排他帯つき)の RMS 半径に合わせた宣言値である", obs:"—"},
-    {q:"供給は外部熱浴", model:"復元・減衰・供給の 3 作用のうち供給は外部熱浴。P/L/E の厳密な負を記帳する(**閉じていない**)", obs:"—"},
-    {q:"言わないこと", model:"**星団を較正した/中心 BH を実装した/重力で安定した**とは書かない。指定した形状の参照モデルに参照点を足しただけである", obs:"—"}],
+    {q:"何を置いたか", model:"中心天体のスピンが作る速度場 u=ω_m(s×r)を読む力学(`physics.shapeToy.law:\"coreField\"`)。規定運動の上書きではない", obs:"—(原理サンプル)"},
+    {q:"**新しい構成仮説である**", model:"Φ=½κ₀r²+½ω_m²{αr⊥²+βr∥²} は現行 DFM から一意に導出された式ではない。**検証可能な仮説**として宣言した", obs:"—"},
+    {q:"中心スピンが束ねている", model:"ω_m=W_c/(W_c+W₀)·ω_c なので、中心スピン ω_c=0 では力が 1 つも残らない(G=0 では κ₀=0)。指紋も変わる", obs:"—"},
+    {q:"保存量と帳簿", model:"h=½|v|²+½K⊥r⊥²+½K∥r∥²(K⊥=K∥=0.025)。伝播子は厳密で、P/L/E の厳密な負を外部支持へ記帳する", obs:"—"},
+    {q:"**外部支持版**", model:"中心は pinned のまま。反作用は帳簿に書くだけで中心へ返していない(**閉じた系ではない**)。中心の自由化は次段", obs:"—"},
+    {q:"局所模型の範囲", model:"力学的コア半径 r_c=125 を表示半径 5 と分けて宣言し、雲(σ=36)が 3σ<r_c に収まる側へ置いた", obs:"—"},
+    {q:"ω Cen は参照であって入力ではない", model:"観測された中心質量を 1 つも入力していない。参照: Noyola+2008 / van der Marel & Anderson 2010 / Häberle+2024", obs:"—(参照のみ)"},
+    {q:"言わないこと", model:"**星団を較正した/中心 BH を実装した/銀河が安定した**とは書かない。宣言した構成仮説の帰結を測っただけである", obs:"—"}],
   descStruct:{
-    summary:"**🔮 球状星団トイの中心天体つき参照版**(第275便d・第65報 (4)「中心天体を配置した版も用意」)。宣言は 🔮 と同じ 2 階 OU(dy=w dt・dw=(−ω₀²y−γw)dt+√(2γω₀²)dW・ω₀=0.10・γ=0.25・σ=36・τ=0)で、違うのは **`center:\"pinned\"` と中心天体 1 個**だけである。写像の中心 c は毎步その pinned 粒子の位置から読むので、**中心天体を動かせば雲もついて動く**(本便では pinned なので動かない)。**これは動的モデルではない**: 中心天体は位置固定の参照点であり、重力 E4・引きずり E6′ はこの経路の状態を決めない —— G=0 で走らせてあり、G を 0→0.8→8 と変えても 600 步の状態は 1 bit も変わらない。さらに**中心天体の質量そのものも効いていない**(m を 10→100→1000 と変えても指紋が同じ —— 器で実測)。**観測された中心質量は 1 つも入力していない**: ω Cen の IMBH(Noyola+2008 が ~4×10⁴ M☉ を主張し、van der Marel & Anderson 2010 が上限を置き、Häberle+2024 が高速星から下限を置いた)は**参照**として名前を挙げるだけで、**入力にも claim 窓にもしていない**。動的中心(中心が反作用で動く版)は node の純関数 `tests/lib-w275d-dyncenter.mjs` で診断だけ行い、**エンジンには接続していない**(宣言鍵 `center:\"dynamic\"` は設計のみ)。**言わないこと**: 星団を較正した・中心ブラックホールを実装した・重力で安定した・IMBH を再現した。",
-    observe:"中心天体のまわりに正規分布へ緩和し、そのまま大きさを変えない(τ=0・σ=36)。中心天体には排他帯(半径+1)があるので、粒子は中心のすぐ内側には置かれない。数は docs/PHYSICS.md〔第275便d〕の表(器 tests/exp-w275d-shapecrit.mjs)。",
-    control:"**パラメータ行に形状トイのノブは無い**(宣言は physics.shapeToy)。重力 G を上げても状態は 1 bit も動かない(規定運動)。中心天体を動かしたいときは pinned を外す設計が要るが、本便では**位置固定のまま**である。"},
-  en:{name:"Globular-cluster toy with a central object - the centre is a PINNED reference point (NOT a calibration)",
+    summary:"**🔮 球状星団トイの中心天体つき版を、規定運動から「中心スピンに依存する力学」へ替えた本**(第276便d・原仮定者の裁定(第66報)(4)「各粒子を中心天体のスピンに影響を受けた DFM に準拠する法則で制御する様に調整する」)。第275便d までの本は `coupling:\"prescribed\"` の**規定運動**で、G を 0→8 にしても中心スピンを 0→1 にしても 600 步の状態がビット同一だった(= 中心スピンの影響を受けた力学ではなかった)。本便は法則そのものを宣言で切り替える: `law:\"coreField\"` では、粒子は**同じ速度場 u=ω_m(s×r) を読むラグランジアン** L=½m|v−u|²−mΦ の流れで進む(Φ=½κ₀r²+½ω_m²{αr⊥²+βr∥²}・κ₀=G·M_c/r_c³・W_c=M_c/r_c²・**ω_m=W_c/(W_c+W₀)·ω_c**)。物理速度で書くと v̇=2ω_m(s×v)−K⊥r⊥−K∥r∥ で、**保存量は h=½|v|²+½K⊥r⊥²+½K∥r∥²**(K⊥=κ₀+(α−1)ω_m²>0・K∥=κ₀+βω_m²>0 が受理の門)。**この追加ポテンシャルは新しい構成仮説であって、現行 DFM から一意に導出された法則ではない** —— 「中心スピンがメッシュ(複素決定力場の重み W)を通して集団の形を変える」という**検証可能な仮説**を宣言し、その帰結だけを測る立て方である。**中心は `center:\"pinned\"` のままの外部支持版**で、反作用(P/L/E)は帳簿へ負号で記帳するだけ、**閉じた系ではない**。交換・散逸は共回転する速度への厳密 OU(`exchange.mode:\"rotating-bath\"`)で、**供給は有限のコア熱容量から出て、尽きれば止まる**。**これは較正ではない**: 観測された星団の密度・速度分散・中心質量を 1 つも入力していない(ω Cen の IMBH は参照であって入力ではない)。**言わないこと**: 星団を較正した・中心ブラックホールを実装した・銀河が安定した・腕が創発した。",
+    observe:"中心天体のまわりで等温定常(exp{−m(K⊥r⊥²+K∥r∥²)/2T})を保ったまま揺れる。**中心スピンを 0 にすると力が消えて散る**(G=0 では κ₀=0 なので、束ねているのは中心スピンだけである)。数は docs/PHYSICS.md〔第276便d〕の表(器 tests/exp-w276d-corefield.mjs)。",
+    control:"**パラメータ行に Core 力学のノブは無い**(宣言は physics.shapeToy.law と coreField)。中心天体の**スピン**が ω_m の入力なので、そこを変えると形と指紋が変わる。G を上げると中心重力が E4 と κ₀ で二重になるため、中心が engine 質量を持ったままの G≠0 は**門で止まる**。"},
+  en:{name:"Globular-cluster toy with a central object - a CONSTRUCTIVE HYPOTHESIS in which the central spin binds it (NOT a calibration)",
     obsCard:[
-      {q:"What is placed here", model:"The same second-order OU reference model as 🔮, plus ONE PINNED CENTRAL OBJECT whose position is taken as the centre c of the map", obs:"- (principle sample)"},
-      {q:"THIS IS NOT A DYNAMICAL MODEL", model:"The central object is pinned and never moves. It is a POSITION-FIXED REFERENCE POINT, not gravity holding the cluster together (E4 does not set this path)", obs:"-"},
-      {q:"The central mass does nothing", model:"With G=0 and prescribed motion, changing m from 10 to 100 to 1000 leaves the 600-step fingerprint BIT-UNCHANGED (measured)", obs:"-"},
-      {q:"Omega Cen is a reference, not an input", model:"No observed central mass is fed in. References: Noyola+2008, van der Marel & Anderson 2010, Haeberle+2024 (the omega Cen IMBH)", obs:"- (reference only)"},
-      {q:"Stationary law", model:"Cov(y)=I, Cov(w)=omega0^2 I (omega0=0.10, gamma=0.25). The discretisation is exact (F=exp(Bh), Q_h=C-F C F^T)", obs:"-"},
-      {q:"The growth is switched off", model:"tau = 0, sigma = sigma_0 = 36 - the RMS radius of the initial layout (uniform disc R = 72 with the central exclusion zone)", obs:"-"},
-      {q:"The supply is an external bath", model:"Of the three declared actions the supply is an external bath: the exact negative of the P/L/E is booked. THE SYSTEM IS NOT CLOSED", obs:"-"},
-      {q:"What this does not claim", model:"NOT a calibrated cluster, NOT an implemented central black hole, NOT 'gravity stabilised it'. It is a reference model with a reference point added", obs:"-"}],
+      {q:"What is placed here", model:"A law that reads the velocity field u = omega_m (s x r) made by the central spin (physics.shapeToy.law = coreField). Not a prescribed overwrite", obs:"- (principle sample)"},
+      {q:"THIS IS A NEW CONSTRUCTIVE HYPOTHESIS", model:"Phi = k0 r^2/2 + omega_m^2 (alpha r_perp^2 + beta r_par^2)/2 is NOT uniquely derived from the current DFM. It is declared as a TESTABLE hypothesis", obs:"-"},
+      {q:"The central spin is what binds it", model:"omega_m = W_c/(W_c+W0) omega_c, so with omega_c = 0 not one force survives (k0 = 0 at G = 0) and the fingerprint changes", obs:"-"},
+      {q:"Invariant and ledger", model:"h = |v|^2/2 + K_perp r_perp^2/2 + K_par r_par^2/2 (K_perp = K_par = 0.025). The propagator is exact and the exact negative of P/L/E is booked", obs:"-"},
+      {q:"EXTERNALLY SUPPORTED VERSION", model:"The centre stays pinned. The reaction is only booked, never returned to the centre. THE SYSTEM IS NOT CLOSED. Freeing the centre comes later", obs:"-"},
+      {q:"Range of the local model", model:"The dynamical core radius r_c = 125 is declared separately from the display radius 5, and the cloud (sigma = 36) sits inside 3 sigma < r_c", obs:"-"},
+      {q:"Omega Cen is a reference, not an input", model:"No observed central mass is fed in. References: Noyola+2008, van der Marel & Anderson 2010, Haeberle+2024", obs:"- (reference only)"},
+      {q:"What this does not claim", model:"NOT a calibrated cluster, NOT an implemented central black hole, NOT 'the galaxy became stable'. Only the consequences of a declared hypothesis are measured", obs:"-"}],
     descStruct:{
-      summary:"THE CENTRAL-OBJECT VERSION OF THE 🔮 GLOBULAR-CLUSTER TOY (wave 275d, report 65 item 4: 'also prepare a version with a central object'). The declaration is the same second-order OU process as 🔮 (omega0 = 0.10, gamma = 0.25, sigma = 36, tau = 0); the only difference is center:\"pinned\" and ONE central object. The centre c of the map is read from that pinned particle every step, so moving the central object would carry the cloud with it (here it is pinned, so it does not move). THIS IS NOT A DYNAMICAL MODEL: the central object is a position-fixed reference point, and neither gravity (E4) nor dragging (E6') sets the state of this path - it runs at G = 0 and raising G to 0.8 or 8 leaves the 600-step state bit-unchanged. THE CENTRAL MASS ITSELF DOES NOTHING EITHER: changing m from 10 to 100 to 1000 leaves the fingerprint identical (measured). NO OBSERVED CENTRAL MASS IS FED IN: the omega Cen IMBH (claimed near 4e4 Msun by Noyola+2008, bounded from above by van der Marel & Anderson 2010, bounded from below by the fast stars of Haeberle+2024) is named as a REFERENCE ONLY - it is not an input and not a claim window. The dynamical centre (a centre that moves under reaction) is diagnosed only in the node pure functions tests/lib-w275d-dyncenter.mjs and IS NOT CONNECTED TO THE ENGINE. WHAT THIS DOES NOT CLAIM: a calibrated cluster, an implemented central black hole, gravity as the stabiliser, or a reproduced IMBH.",
-      observe:"The particles relax to a normal distribution about the central object and keep their size (tau = 0, sigma = 36). The central object carries an exclusion zone (its radius + 1), so no particle is placed right on top of it. The numbers live in docs/PHYSICS.md, wave 275d (harness tests/exp-w275d-shapecrit.mjs).",
-      control:"THERE IS NO SLIDER FOR THE SHAPE TOY (it is declared in physics.shapeToy). Raising G changes nothing (prescribed motion). Letting the centre move would need a separate design; here it stays PINNED."}},
+      summary:"THE CENTRAL-OBJECT VERSION OF THE 🔮 GLOBULAR-CLUSTER TOY, MOVED FROM PRESCRIBED MOTION TO A LAW THAT DEPENDS ON THE CENTRAL SPIN (wave 276d, report 66 item 4: 'adjust them so that each particle is governed by a DFM-compliant law influenced by the spin of the central body'). Through wave 275d these samples were coupling = prescribed, and the 600-step state was bit-identical whether G went 0 -> 8 or the central spin went 0 -> 1, so the central spin played no part. This wave switches THE LAW ITSELF by declaration: under law = coreField each particle follows the Lagrangian L = m|v - u|^2/2 - m Phi that reads the SAME velocity field u = omega_m (s x r), with Phi = k0 r^2/2 + omega_m^2 (alpha r_perp^2 + beta r_par^2)/2, k0 = G M_c / r_c^3, W_c = M_c / r_c^2 and omega_m = W_c/(W_c+W0) omega_c. In physical velocity this reads v-dot = 2 omega_m (s x v) - K_perp r_perp - K_par r_par, whose INVARIANT is h = |v|^2/2 + K_perp r_perp^2/2 + K_par r_par^2/2; K_perp > 0 and K_par > 0 are the acceptance gate. THIS ADDED POTENTIAL IS A NEW CONSTRUCTIVE HYPOTHESIS AND IS NOT UNIQUELY DERIVED FROM THE CURRENT DFM - it declares the testable proposition that the central spin reshapes the group through the mesh weight W, and measures only its consequences. The centre stays center = pinned, i.e. AN EXTERNALLY SUPPORTED VERSION: the reaction in P/L/E is booked with a negative sign and never returned, so THE SYSTEM IS NOT CLOSED. Exchange and dissipation are an exact OU process on the co-rotating velocity (exchange.mode = rotating-bath) whose SUPPLY COMES FROM A FINITE CORE HEAT CAPACITY AND STOPS WHEN IT IS EXHAUSTED. THIS IS NOT A CALIBRATION: no observed cluster density, velocity dispersion or central mass is fed in (the omega Cen IMBH is a reference, not an input). WHAT THIS DOES NOT CLAIM: a calibrated cluster, an implemented central black hole, a stabilised galaxy, or an emergent arm.",
+      observe:"The cloud keeps the declared isothermal stationary law exp(-m(K_perp r_perp^2 + K_par r_par^2)/2T) about the central object. SET THE CENTRAL SPIN TO ZERO AND THE FORCE VANISHES so the cloud disperses: at G = 0 the only thing binding it is the central spin. The numbers live in docs/PHYSICS.md, wave 276d (harness tests/exp-w276d-corefield.mjs).",
+      control:"THERE IS NO SLIDER FOR THE CORE LAW (it is declared in physics.shapeToy.law and coreField). The SPIN of the central object is the input of omega_m, so changing it changes both the shape and the fingerprint. Raising G while the centre still carries engine mass would count the central gravity twice in E4 and k0, so that combination IS STOPPED BY A GATE."}},
   parameterAudit:{
     observedInputs:["**無い。** 観測された星団の密度・速度分散・中心質量を 1 つも入力していない(ω Cen の IMBH は**参照**であって入力ではない)"],
-    fixedConventions:["中心天体 m=10・radius=5・pinned(**位置固定の参照点** — 力学的な役割は無い)",
-      "`center:\"pinned\"`(写像の中心を pinned 粒子の位置から読む)","A=σI(等方)・ω₀=0.10・γ=0.25(過減衰)",
-      "**成長なし** τ=0・σ=σ₀=36","coupling:\"prescribed\"・supply:\"external-bath\"",
-      "G=0(重力を切ってある)","cLight=30(組込みプリセットの規約)"],
+    fixedConventions:["中心天体 m=10・radius=5・**spin=1**・pinned(スピンが ω_m の入力・位置は固定 = **外部支持**)",
+      "`law:\"coreField\"`・`center:\"pinned\"`(ω_c を中心天体のスピンから読む)",
+      "力学的コア半径 r_c=125(表示半径 5 とは別)・M_c=10・W₀=0.00064(ω_m=0.5·ω_c になる側)",
+      "α=1.1・β=0.1(K⊥=K∥=0.025 の等方)・軸 s=(0,0,1)・Ω_p=0",
+      "T=19.44(等温定常の幅が初期配置 R=72 の σ=36 と一致する側)",
+      "交換 rotating-bath(γ=0.02・有限容量 20000)",
+      "G=0(重力を切ってある — κ₀=0)","cLight=30(組込みプリセットの規約)"],
     fitted:["**無い。**"],
-    derived:["定常 Cov(x)=σ²I・Cov(v)=σ²ω₀²I(OU の定常解)","中心天体の質量は指紋に効かない(規定運動の帰結 — 実測)"],
-    numerical:["ソフトニング ε=2","時間倍率 timeScale=3","厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ",
-      "測定: dt=0.25・T=200・seed 20260920(器 tests/exp-w275d-shapecrit.mjs)"]},
+    derived:["W_c=M_c/r_c²=0.00064・ω_m=W_c/(W_c+W₀)·ω_c=0.5","K⊥=κ₀+(α−1)ω_m²・K∥=κ₀+βω_m²(受理の門)",
+      "定常の幅 σ⊥²=T/(m(K⊥−Ω_p²))・σ∥²=T/(mK∥)・σ_v²=T/m"],
+    numerical:["ソフトニング ε=2","時間倍率 timeScale=3","**厳密伝播子**(λ±=ω_m±√(ω_m²+K⊥) の 2 モード + 調和)",
+      "測定: dt=0.25・T=200・seed 20260920(器 tests/exp-w276d-corefield.mjs)"]},
   activeParams:["G","softening"],
   validT:200,
   camera:{scale:160}, world:{boundary:"none",size:0}, seed:20260920,
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
-    shapeToy:{shape:"cluster", supply:"external-bath", coupling:"prescribed",
-      omega0:0.10, gamma:0.25, sigma:36, sigma0:36, tauGrow:0, center:"pinned", cx:0, cy:0}},
+    contactK:0, contactCap:0,
+    shapeToy:{shape:"cluster", supply:"external-bath", coupling:"prescribed", law:"coreField",
+      omega0:0.10, gamma:0.25, sigma:36, sigma0:36, tauGrow:0, center:"pinned", cx:0, cy:0,
+      coreField:{coreRc:125, coreMass:10, alpha:1.1, beta:0.1, axis:[0,0,1], W0:0.00064,
+        temp:19.44, omegaP:0, init:"thermal", centreGravity:"phi",
+        exchange:{mode:"rotating-bath", rate:0.02, capacity:20000}}}},
   bodies:[
-    {type:"single", m:10, radius:5, x:0, y:0, vx:0, vy:0, spin:0, pinned:true},
+    {type:"single", m:10, radius:5, x:0, y:0, vx:0, vy:0, spin:1, pinned:true},
     {type:"disk", rMul:1.4, n:240, cx:0,cy:0, radius:72,
      mMin:0.6,mMax:0.6, spinMin:0,spinMax:0, vMode:"rigid", vScale:0, direction:1, bulkVx:0, bulkVy:0}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false} },
 
-{ id:"shapeToyDiskCore", name:"腕なし回転円盤トイ(中心天体つき)— 回転は剛体回転だけ(較正ではない)", emoji:"📀",
+{ id:"shapeToyDiskCore", name:"腕なし回転円盤トイ(中心天体つき)— 薄さも回転も中心スピンの帰結(較正ではない)", emoji:"📀",
   group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
   notClaim:["cluster","galaxy","dm","bh"],
   obsCard:[
-    {q:"何を置いたか", model:"🥏 と同じ宣言(ω₀=0.01・γ=0.02・σ_R=44・σ_z=14・Ω=0.05)に、**位置固定の中心天体 1 個**を足し、写像の中心をその位置に取った", obs:"—(原理サンプル)"},
-    {q:"**動的モデルではない**", model:"中心天体は pinned で動かない。**位置固定の参照点**であって、中心天体の重力が円盤を支えているのではない(G=0)", obs:"—"},
-    {q:"入り乱れの機械量", model:"角運動量 L_z の符号が平均と逆の粒子の割合。Ω/ω₀=5 にして **27.9%→1.0%** へ下げた(実測・器で測る列)", obs:"—"},
-    {q:"**平坦な回転曲線は出ない**", model:"A(t) は線形写像なので**剛体回転だけ**である。半径 5 ビンの Ω のばらつきは 10.8% で、v_t は外ほど大きい(否定結果)", obs:"—"},
-    {q:"扁平は σ_z の宣言", model:"面内 σ が等しいので回転 R(θ) は形を変えない。横から見た扁平は σ_z/σ_R=0.318 の**宣言**である", obs:"—"},
-    {q:"成長は止めてある", model:"τ=0・σ_R=σ₀=44(初期配置 R=88 の RMS 半径に一致)・σ_z=14。大きさは変わらない", obs:"—"},
-    {q:"供給は外部熱浴", model:"復元・減衰・供給の 3 作用のうち供給は外部熱浴。P/L/E の厳密な負を記帳する(**閉じていない**)", obs:"—"},
-    {q:"言わないこと", model:"**銀河を較正した/平坦回転曲線を出した/腕が出た/重力で安定した**とは書かない。腕は乗せていない", obs:"—"}],
+    {q:"何を置いたか", model:"🎱 と同じ Core 力学(`law:\"coreField\"`)で、軸 s を**円盤の法線**(面外)に取った本。u=ω_m(s×r)が面内の流れになる", obs:"—(原理サンプル)"},
+    {q:"薄さは β の宣言の帰結", model:"σ_z/σ_R=√(K_eff/K∥)・K_eff=K⊥+2ω_mΩ_p−Ω_p²。K∥=βω_m² を大きくすると薄くなる。**観測された軸比は入力していない**", obs:"—"},
+    {q:"回転は共回転熱浴の Ω_p", model:"Ω_p=0.14(円軌道角速度 λ±=ω_m±√(ω_m²+K⊥) の内側)。逆行の割合は Ω_p/√K_eff だけで決まる", obs:"—"},
+    {q:"**平坦な回転曲線は出ない**", model:"則が線形なので平均流は剛体回転である(否定結果 —— 第275便d と同じ)。外側で平坦な回転曲線は出ない", obs:"—"},
+    {q:"中心スピンが束ねている", model:"ω_c=0 では K⊥=K∥=0 になって力が残らない。中心スピン 0→1 で 600 步の指紋が変わる(器で実測)", obs:"—"},
+    {q:"**外部支持版**", model:"中心は pinned のまま。反作用は帳簿に書くだけで中心へ返していない(**閉じた系ではない**)", obs:"—"},
+    {q:"局所模型の範囲", model:"力学的コア半径 r_c=160 を表示半径 5 と分けて宣言し、円盤(σ_R=44)が 3σ<r_c に収まる側へ置いた", obs:"—"},
+    {q:"言わないこと", model:"**銀河を較正した/平坦回転曲線を再現した/腕が創発した**とは書かない。宣言した構成仮説の帰結である", obs:"—"}],
   descStruct:{
-    summary:"**🥏 腕なし回転円盤トイの中心天体つき参照版**(第275便d・第65報 (5)「中心天体版も用意。軌道が入り乱れて銀河ディスクに見えないので銀河に見える様に」)。宣言は 🥏 と同じで(A(t)=R(Ωt)·diag(σ_R,σ_R,σ_z)・ω₀=0.01・γ=0.02〔臨界〕・σ_R=44・σ_z=14・Ω=0.05・τ=0)、違うのは **`center:\"pinned\"` と中心天体 1 個**だけである。重力 E4 はこの経路の状態を決めない(規定運動・🥏 と同じ)。「入り乱れ」は**角運動量 L_z の符号が平均と逆の粒子の割合**で測り、Ω/ω₀ を 0.5 から 5 へ上げることで(🥏 で **27.9% から 1.1% へ**・本サンプルでは **1.0%**)下がった(実測)。**ただし銀河に「見える」ようにできたのは向きの揃いだけである**: この模型の A(t) は線形写像なので**回転は剛体回転しか出ず**、外側が平坦な回転曲線は出ない(半径 5 ビンの Ω は 0.0473〜0.0523 でばらつき 10.8%、v_t は最内 0.97 から最外 5.14 へ外ほど大きい —— **否定結果としてそのまま残す**)。**これは動的モデルではない**: 中心天体は位置固定の参照点で、G=0 で走らせてあり、G を上げても 600 步の状態は 1 bit も変わらない。腕は乗せていない(渦巻は次段)。**言わないこと**: 銀河を較正した・平坦回転曲線を出した・腕が出た・重力で安定した・中心ブラックホールを実装した。",
-    observe:"中心天体のまわりで面内 σ_R=44・面外 σ_z=14 へ緩和し、θ=Ωt(Ω=0.05)でほぼ揃って回る。半径ビンの Ω はほぼ一定(剛体回転)で、v_t は外ほど大きい。数は docs/PHYSICS.md〔第275便d〕の表。",
-    control:"**パラメータ行に形状トイのノブは無い**(宣言は physics.shapeToy)。重力 G を上げても状態は 1 bit も動かない(規定運動)。向きの揃いを強めたいときは Ω/ω₀ の比を上げる —— ただし**回転曲線の形は変わらない**(剛体回転のまま)。"},
-  en:{name:"Rotating disc toy with a central object - rigid-body rotation only (NOT a calibration)",
+    summary:"**📀 腕なし回転円盤トイを、規定運動から「中心スピンに依存する力学」へ替えた本**(第276便d・原仮定者の裁定(第66報)(4))。🎱 と同じ Core 力学(`law:\"coreField\"`・L=½m|v−u|²−mΦ・u=ω_m(s×r)・Φ=½κ₀r²+½ω_m²{αr⊥²+βr∥²})で、違うのは**軸 s を円盤の法線(面外)に取ったこと**と、共回転する熱浴の角速度 Ω_p を宣言したことである。面外の復元 K∥=κ₀+βω_m² を面内の K⊥=κ₀+(α−1)ω_m² より強くすると円盤は薄くなり、**薄さ σ_z/σ_R=√(K_eff/K∥)(K_eff=K⊥+2ω_mΩ_p−Ω_p²)は β の宣言の帰結**である(観測された軸比は 1 つも入力していない)。回転は共回転熱浴 exp{−(H−Ω_p L_s)/T} の Ω_p が決め、**逆行の割合は Ω_p/√K_eff だけで決まる**(Ω_p が円軌道角速度 λ±=ω_m±√(ω_m²+K⊥) の外へ出る宣言は門で落ちる)。**否定結果は第275便d と同じく残る**: 則が線形なので平均流は**剛体回転**であり、**外側で平坦な回転曲線は出ない**。**この追加ポテンシャルは新しい構成仮説であって、現行 DFM から一意に導出された法則ではない**。**中心は pinned のままの外部支持版**で、反作用は帳簿へ負号で記帳するだけ(**閉じた系ではない**)。**これは較正ではない**: 観測された銀河の軸比・回転曲線・中心質量を 1 つも入力していない。**言わないこと**: 銀河を較正した・平坦回転曲線を再現した・腕が創発した・銀河が安定した。",
+    observe:"中心天体のまわりで薄い円盤が同じ向きに回り続ける(σ_z/σ_R と逆行の割合は宣言の帰結)。**中心スピンを 0 にすると力が消えて散る**。数は docs/PHYSICS.md〔第276便d〕の表(器 tests/exp-w276d-corefield.mjs)。",
+    control:"**パラメータ行に Core 力学のノブは無い**(宣言は physics.shapeToy.law と coreField)。β を上げると薄く、Ω_p を上げると逆行が減るが、Ω_p が λ± の外へ出ると**定常が無いので門で落ちる**。"},
+  en:{name:"Rotating disc toy without arms, with a central object - the thinness and the rotation both follow from the central spin (NOT a calibration)",
     obsCard:[
-      {q:"What is placed here", model:"The same declaration as 🥏 (omega0=0.01, gamma=0.02, sigma_R=44, sigma_z=14, Omega=0.05) plus ONE PINNED CENTRAL OBJECT taken as the centre", obs:"- (principle sample)"},
-      {q:"THIS IS NOT A DYNAMICAL MODEL", model:"The central object is pinned and never moves. It is a position-fixed reference point; its gravity is NOT holding the disc up (G = 0)", obs:"-"},
-      {q:"The scrambling metric", model:"The fraction of particles whose L_z sign opposes the mean. Raising Omega/omega0 to 5 took it from 27.9% to 1.0% (measured)", obs:"-"},
-      {q:"NO FLAT ROTATION CURVE", model:"A(t) is a linear map, so the rotation is RIGID-BODY ONLY: Omega varies by 10.8% across five radial bins while v_t grows outward (a negative result)", obs:"-"},
-      {q:"The flattening is a declared sigma_z", model:"The in-plane sigmas are equal, so R(theta) does not change the shape; the edge-on axis ratio 0.318 is DECLARED", obs:"-"},
-      {q:"The growth is switched off", model:"tau = 0, sigma_R = sigma_0 = 44 (the RMS radius of the initial layout R = 88), sigma_z = 14; the size does not move", obs:"-"},
-      {q:"The supply is an external bath", model:"Of the three declared actions the supply is an external bath: the exact negative of the P/L/E is booked. THE SYSTEM IS NOT CLOSED", obs:"-"},
-      {q:"What this does not claim", model:"NOT a calibrated galaxy, NOT a flat rotation curve, NOT arms, NOT gravity as the stabiliser. No arm is carried here", obs:"-"}],
+      {q:"What is placed here", model:"The same core law as 🎱 (law = coreField) with the axis s taken as the DISC NORMAL, so u = omega_m (s x r) becomes an in-plane flow", obs:"- (principle sample)"},
+      {q:"The thinness follows from beta", model:"sigma_z/sigma_R = sqrt(K_eff/K_par) with K_eff = K_perp + 2 omega_m Omega_p - Omega_p^2; raising K_par = beta omega_m^2 makes it thinner. NO OBSERVED AXIS RATIO IS FED IN", obs:"-"},
+      {q:"The rotation is the bath's Omega_p", model:"Omega_p = 0.14, inside the circular-orbit rates lambda_pm = omega_m +- sqrt(omega_m^2 + K_perp). The retrograde fraction is set by Omega_p/sqrt(K_eff) alone", obs:"-"},
+      {q:"NO FLAT ROTATION CURVE COMES OUT", model:"The law is linear, so the mean flow is rigid-body rotation (a negative result, as in wave 275d). No flat outer rotation curve appears", obs:"-"},
+      {q:"The central spin is what binds it", model:"With omega_c = 0, K_perp = K_par = 0 and no force survives. Moving the central spin 0 -> 1 changes the 600-step fingerprint (measured)", obs:"-"},
+      {q:"EXTERNALLY SUPPORTED VERSION", model:"The centre stays pinned. The reaction is only booked, never returned to the centre. THE SYSTEM IS NOT CLOSED", obs:"-"},
+      {q:"Range of the local model", model:"The dynamical core radius r_c = 160 is declared separately from the display radius 5, and the disc (sigma_R = 44) sits inside 3 sigma < r_c", obs:"-"},
+      {q:"What this does not claim", model:"NOT a calibrated galaxy, NOT a reproduced flat rotation curve, NOT an emergent arm. These are the consequences of a declared hypothesis", obs:"-"}],
     descStruct:{
-      summary:"THE CENTRAL-OBJECT VERSION OF THE 🥏 ARMLESS ROTATING-DISC TOY (wave 275d, report 65 item 5: 'also prepare a version with a central object; the orbits are scrambled and it does not look like a galactic disc, so make it look like one'). The declaration matches 🥏 (A(t) = R(Omega t) diag(sigma_R, sigma_R, sigma_z), omega0 = 0.01, gamma = 0.02 critically damped, sigma_R = 44, sigma_z = 14, Omega = 0.05, tau = 0); the only difference is center:\"pinned\" and one central object. Gravity E4 does not decide the state on this path (prescribed motion, as in the 🥏 toy). 'SCRAMBLED' IS MEASURED as the fraction of particles whose angular momentum L_z opposes the mean sign, and raising Omega/omega0 from 0.5 to 5 took that fraction FROM 27.9% TO 1.1% on 🥏 (1.0% on this sample, measured). BUT ALL THAT WAS ACHIEVED IS THE ALIGNMENT OF THE ORBITS: A(t) is a linear map, so ONLY RIGID-BODY ROTATION COMES OUT and there is no flat outer rotation curve (across five radial bins Omega stays within 10.8% while v_t grows from 0.97 to 5.14 - KEPT AS A NEGATIVE RESULT). THIS IS NOT A DYNAMICAL MODEL: the central object is a position-fixed reference point, the sample runs at G = 0, and raising G leaves the 600-step state bit-unchanged. No arm is carried here. WHAT THIS DOES NOT CLAIM: a calibrated galaxy, a flat rotation curve, arms, gravity as the stabiliser, or an implemented central black hole.",
-      observe:"Around the central object the particles relax to sigma_R = 44 in the plane and sigma_z = 14 out of plane, and turn nearly together with theta = Omega t (Omega = 0.05). Omega is almost constant across radial bins (rigid-body rotation) while v_t grows outward. The numbers live in docs/PHYSICS.md, wave 275d.",
-      control:"THERE IS NO SLIDER FOR THE SHAPE TOY (it is declared in physics.shapeToy). Raising G changes nothing (prescribed motion). Raising Omega/omega0 aligns the orbits further - but THE SHAPE OF THE ROTATION CURVE DOES NOT CHANGE (it stays rigid-body)."}},
+      summary:"THE ROTATING-DISC TOY MOVED FROM PRESCRIBED MOTION TO A LAW THAT DEPENDS ON THE CENTRAL SPIN (wave 276d, report 66 item 4). The law is the same as 🎱 (law = coreField, L = m|v-u|^2/2 - m Phi, u = omega_m (s x r), Phi = k0 r^2/2 + omega_m^2 (alpha r_perp^2 + beta r_par^2)/2); what differs is that THE AXIS s IS THE DISC NORMAL and that a co-rotating bath angular velocity Omega_p is declared. Making the out-of-plane restoring K_par = k0 + beta omega_m^2 stronger than the in-plane K_perp = k0 + (alpha-1) omega_m^2 flattens the disc, so THE THINNESS sigma_z/sigma_R = sqrt(K_eff/K_par), K_eff = K_perp + 2 omega_m Omega_p - Omega_p^2, IS A CONSEQUENCE OF THE DECLARED beta (no observed axis ratio is fed in). The rotation is set by Omega_p of the co-rotating stationary law exp(-(H - Omega_p L_s)/T), and THE RETROGRADE FRACTION IS FIXED BY Omega_p / sqrt(K_eff) ALONE (a declaration that puts Omega_p outside the circular-orbit rates lambda_pm is rejected by the gate). THE NEGATIVE RESULT OF WAVE 275d SURVIVES: the law is linear, the mean flow is RIGID-BODY ROTATION, and NO FLAT OUTER ROTATION CURVE COMES OUT. This added potential is a NEW CONSTRUCTIVE HYPOTHESIS and is not uniquely derived from the current DFM. The centre stays pinned, i.e. an EXTERNALLY SUPPORTED VERSION whose reaction is only booked - THE SYSTEM IS NOT CLOSED. THIS IS NOT A CALIBRATION: no observed axis ratio, rotation curve or central mass is fed in. WHAT THIS DOES NOT CLAIM: a calibrated galaxy, a reproduced flat rotation curve, an emergent arm, or a stabilised galaxy.",
+      observe:"A thin disc keeps turning the same way about the central object; sigma_z/sigma_R and the retrograde fraction are consequences of the declaration. SET THE CENTRAL SPIN TO ZERO AND THE FORCE VANISHES so the disc disperses. The numbers live in docs/PHYSICS.md, wave 276d (harness tests/exp-w276d-corefield.mjs).",
+      control:"THERE IS NO SLIDER FOR THE CORE LAW (it is declared in physics.shapeToy.law and coreField). Raising beta makes it thinner and raising Omega_p cuts the retrograde fraction, but once Omega_p leaves the range of the circular-orbit rates lambda_pm THERE IS NO STATIONARY LAW AND THE GATE REJECTS IT."}},
   parameterAudit:{
-    observedInputs:["**無い。** 観測された銀河の回転曲線・軸比・中心質量を 1 つも入力していない(原理サンプル)"],
-    fixedConventions:["中心天体 m=10・radius=5・pinned(**位置固定の参照点** — 力学的な役割は無い)",
-      "`center:\"pinned\"`・A=R(θ)·diag(σ_R,σ_R,σ_z)・θ=Ωt・Ω=0.05(Ω/ω₀=5)",
-      "**成長なし** τ=0・σ_R=σ₀=44・σ_z=14(**扁平は σ_z の宣言**)","ω₀=0.01・γ=0.02(**臨界減衰**・緩和時間 100)",
-      "coupling:\"prescribed\"・supply:\"external-bath\"","G=0(重力を切ってある)","cLight=30(組込みプリセットの規約)"],
+    observedInputs:["**無い。** 観測された銀河の軸比・回転曲線・速度分散・中心質量を 1 つも入力していない"],
+    fixedConventions:["中心天体 m=10・radius=5・**spin=1**・pinned(スピンが ω_m の入力・位置は固定 = **外部支持**)",
+      "`law:\"coreField\"`・`center:\"pinned\"`・軸 s=(0,0,1)(**円盤の法線**)",
+      "力学的コア半径 r_c=160(表示半径 5 とは別)・M_c=10・W₀=0.000390625(ω_m=0.5·ω_c になる側)",
+      "α=1.05(K⊥=0.00032)・β=7.8(K∥=0.04992)・Ω_p=0.14(円軌道角速度 λ± の内側・Ω_p/√K_eff=2.51)",
+      "T=3.624(等温定常の幅が初期配置 R=88 の σ_R=44 と一致する側)",
+      "交換 rotating-bath(γ=0.02・有限容量 20000)",
+      "G=0(重力を切ってある — κ₀=0)","cLight=30(組込みプリセットの規約)"],
     fitted:["**無い。**"],
-    derived:["面内の定常 Cov=σ_R²I・面外 σ_z²(OU の定常解)","横から見た軸比 σ_z/σ_R=0.318…(宣言値の比そのもの)",
-      "回転は**剛体回転だけ**(A は線形写像 — 平坦回転曲線は出ない。否定結果)"],
-    numerical:["ソフトニング ε=2","時間倍率 timeScale=3","厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ",
-      "測定: dt=0.25・T=200・seed 20260920(器 tests/exp-w275d-shapecrit.mjs)"]},
+    derived:["W_c=M_c/r_c²=0.000390625・ω_m=W_c/(W_c+W₀)·ω_c=0.08","σ_z/σ_R=√(K_eff/K∥)(**薄さは宣言の帰結**)",
+      "**K_eff=K⊥+2ω_mΩ_p−Ω_p²**(共回転熱浴の定常は正準角運動量で決まる — 実測で判明した)",
+      "逆行の割合は Ω_p/√K_eff だけで決まる","平均流は**剛体回転**(則が線形 — 否定結果)"],
+    numerical:["ソフトニング ε=2","時間倍率 timeScale=3","**厳密伝播子**(λ±=ω_m±√(ω_m²+K⊥) の 2 モード + 調和)",
+      "測定: dt=0.25・T=200・seed 20260920(器 tests/exp-w276d-corefield.mjs)"]},
   activeParams:["G","softening"],
   validT:200,
   camera:{scale:200}, world:{boundary:"none",size:0}, seed:20260920,
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
-    shapeToy:{shape:"disk", supply:"external-bath", coupling:"prescribed",
+    contactK:0, contactCap:0,
+    shapeToy:{shape:"disk", supply:"external-bath", coupling:"prescribed", law:"coreField",
       omega0:0.01, gamma:0.02, sigma:44, sigmaZ:14, sigma0:44, tauGrow:0,
-      omegaSpin:0.05, center:"pinned", cx:0, cy:0}},
+      omegaSpin:0.05, center:"pinned", cx:0, cy:0,
+      coreField:{coreRc:160, coreMass:10, alpha:1.05, beta:7.8, axis:[0,0,1], W0:0.0044921875,
+        temp:3.624, omegaP:0.14, init:"thermal", centreGravity:"phi",
+        exchange:{mode:"rotating-bath", rate:0.02, capacity:20000}}}},
   bodies:[
-    {type:"single", m:10, radius:5, x:0, y:0, vx:0, vy:0, spin:0, pinned:true},
+    {type:"single", m:10, radius:5, x:0, y:0, vx:0, vy:0, spin:1, pinned:true},
     {type:"disk", rMul:1.4, n:300, cx:0,cy:0, radius:88,
      mMin:0.6,mMax:0.6, spinMin:0,spinMax:0, vMode:"rigid", vScale:0.05, direction:1, bulkVx:0, bulkVy:0}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false} },
 
-{ id:"shapeToyArmCore", name:"腕単体トイ(中心天体つき)— 棒は中心天体から伸びる(較正ではない)", emoji:"🧹",
+{ id:"shapeToyArmCore", name:"棒トイ(中心天体つき)— 面内の自転軸に沿って伸びる(較正ではない)", emoji:"🧹",
   group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
   notClaim:["cluster","galaxy","dm","bh"],
   obsCard:[
-    {q:"何を置いたか", model:"🧵 と同じ宣言(ω₀=0.12・γ=0.24・σ_n=7.2・σ_z=4.8・L=120・τ=0)に、**位置固定の中心天体 1 個**を足し、腕の根元をその位置に取った", obs:"—(原理サンプル)"},
-    {q:"**動的モデルではない**", model:"中心天体は pinned で動かない。**位置固定の参照点**であって、中心天体の重力が棒を保っているのではない(G=0)", obs:"—"},
-    {q:"棒は保たれる", model:"横断 RMS 幅の残差・軸方向の半長の残差はどちらも実測で ±5% 以内(τ=0 なので軸方向は凍結)", obs:"—"},
-    {q:"s 方向の端条件", model:"s は**伸長に共動**(ṡ=s·L̇/L)で、復元も熱浴も無い。τ=0 では L̇=0 なので s は動かない", obs:"—"},
-    {q:"回転させない", model:"この本は**回さない**(Ω は宣言できない)。腕を回転円盤に乗せる渦巻は本便では実装していない", obs:"—"},
-    {q:"原仮定者の想定(仮説)", model:"複素決定力場の応用(赤道面は引きずりで遠心力が弱まり、軸方向は渦状摂動で軸へ引き寄せる)は**未実装の仮説**である", obs:"—"},
-    {q:"供給は外部熱浴", model:"復元・減衰・供給の 3 作用のうち供給は外部熱浴。P/L/E の厳密な負を記帳する(**閉じていない**)", obs:"—"},
-    {q:"言わないこと", model:"**腕が出た/渦巻銀河を較正した/棒が自己組織化した**とは書かない。棒は指定した形状である", obs:"—"}],
+    {q:"何を置いたか", model:"🎱 と同じ Core 力学(`law:\"coreField\"`)で、軸 s を**面内**に取った本。軸方向の復元 K∥ が弱いので細長くなる", obs:"—(原理サンプル)"},
+    {q:"棒は中心を**通る**", model:"則が中心対称なので、片側だけの腕は定常ではない。初期配置も ±120 の対称な棒に置き換えた(第275便d からの変更)", obs:"—"},
+    {q:"細長さは α・β の宣言の帰結", model:"σ∥/σ⊥=√(K⊥/K∥)=9.6(α=2・β=0.0108)。**観測された渦状腕のピッチ角・幅は入力していない**", obs:"—"},
+    {q:"中心スピンが束ねている", model:"ω_m=W_c/(W_c+W₀)·ω_c なので、ω_c=0 では力が 1 つも残らない。中心スピン 0→1 で指紋が変わる(器で実測)", obs:"—"},
+    {q:"保存量と帳簿", model:"h=½|v|²+½K⊥r⊥²+½K∥r∥²。伝播子は厳密で、P/L/E の厳密な負を外部支持へ記帳する(**閉じていない**)", obs:"—"},
+    {q:"局所模型の範囲", model:"力学的コア半径 r_c=250 を表示半径 5 と分けて宣言し、棒(σ∥=69.3)が 3σ<r_c に収まる側へ置いた", obs:"—"},
+    {q:"**渦巻・棒渦巻ではない**", model:"棒を回転円盤へ載せる結合(パターン腕・棒渦巻)は本便では 1 行も実装していない。次段である", obs:"—"},
+    {q:"言わないこと", model:"**腕が創発した/渦巻銀河を較正した/銀河が安定した**とは書かない。宣言した構成仮説の帰結である", obs:"—"}],
   descStruct:{
-    summary:"**🧵 腕単体トイの中心天体つき参照版**(第275便d・第65報 (6)「中心天体版も用意。棒状は良い」)。宣言は 🧵 と同じで(軸 c(s)=c₀+s·e₁・横断 n と面外 z にだけ 2 階 OU・ω₀=0.12・γ=0.24〔臨界〕・σ_n=7.2・σ_z=4.8・L=120・τ=0)、違うのは **`center:\"pinned\"` と中心天体 1 個**だけである —— 棒の根元 c₀ が中心天体の位置になる。**これは動的モデルではない**: 中心天体は位置固定の参照点であり、重力 E4 はこの経路の状態を決めない(G=0 で走り、G を上げても 600 步の状態は 1 bit も変わらない)。τ=0 なので軸方向 s は共動の端条件のまま凍結し、**棒の長さは 1 歩も変わらない**。**原仮定者の想定(第65報 (6))は仮説として docs/PHYSICS.md〔第275便d〕に節を置いただけで、本便では 1 行も実装していない**: 「複素決定力場の応用 —— 赤道面では引きずりで遠心力を弱め、軸方向は渦状摂動で静電気の様に軸へ引き寄せる」「DFM 版渦巻き銀河の中心天体まで成長すると、横倒しの自転軸方向に腕が発現する」。これは枝 e の自転軸の宣言と枝 b の複素場 lawVersion が入ってからでないと測れない。**言わないこと**: 腕が出た・渦巻銀河を較正した・棒が自己組織化した・中心ブラックホールを実装した。",
-    observe:"棒は中心天体から +x 方向へ L=120 のまま伸びず、横断方向は σ_n=7.2・面外は σ_z=4.8 の正規分布へ緩和する(軸に対して正規分布)。中心天体には排他帯があるので根元の粒は少し外から始まる。数は docs/PHYSICS.md〔第275便d〕の表。",
-    control:"**パラメータ行に形状トイのノブは無い**(宣言は physics.shapeToy)。重力 G を上げても状態は 1 bit も動かない(規定運動)。棒を太くするには σ の宣言を、長さを変えるには armLength の宣言を変える。"},
-  en:{name:"Single-arm toy with a central object - the bar runs out from the centre (NOT a calibration)",
+    summary:"**🧹 腕単体トイを、規定運動から「中心スピンに依存する力学」へ替えた本**(第276便d・原仮定者の裁定(第66報)(4))。🎱 と同じ Core 力学(`law:\"coreField\"`・L=½m|v−u|²−mΦ・u=ω_m(s×r)・Φ=½κ₀r²+½ω_m²{αr⊥²+βr∥²})で、違うのは**軸 s を面内に取ったこと**である。軸方向の復元 K∥=κ₀+βω_m² を面内横断の K⊥=κ₀+(α−1)ω_m² よりずっと弱くすると、集団は軸に沿って細長くなり、**細長さ σ∥/σ⊥=√(K⊥/K∥) は α・β の宣言の帰結**である(観測された渦状腕のピッチ角・幅は 1 つも入力していない)。**第275便d からの変更点**: 則が中心対称なので**片側だけの腕は定常ではない** —— 初期配置を中心を通る対称な棒(±120)へ置き換えた。これは原仮定者の裁定(第66報)(4)の「棒渦巻銀河に発展させる」に向いた形であるが、**棒を回転円盤へ載せる結合(パターン腕・棒渦巻)は本便では 1 行も実装していない**。**この追加ポテンシャルは新しい構成仮説であって、現行 DFM から一意に導出された法則ではない**。**中心は pinned のままの外部支持版**で、反作用は帳簿へ負号で記帳するだけ(**閉じた系ではない**)。**これは較正ではない**。**言わないこと**: 腕が創発した・渦巻銀河を較正した・棒渦巻を実装した・銀河が安定した。",
+    observe:"中心天体を通る細い棒が、面内の自転軸の向きに保たれる(横断の揺れは軸のまわりを回る 2 モードである)。**中心スピンを 0 にすると力が消えて散る**。数は docs/PHYSICS.md〔第276便d〕の表(器 tests/exp-w276d-corefield.mjs)。",
+    control:"**パラメータ行に Core 力学のノブは無い**(宣言は physics.shapeToy.law と coreField)。β を下げると棒は長く、α を上げると細くなる。軸 s を面外へ倒すと同じ宣言が円盤になる(📀 がその本である)。"},
+  en:{name:"Bar toy with a central object - it stretches along the in-plane spin axis (NOT a calibration)",
     obsCard:[
-      {q:"What is placed here", model:"The same declaration as 🧵 (omega0=0.12, gamma=0.24, sigma_n=7.2, sigma_z=4.8, L=120, tau=0) plus ONE PINNED CENTRAL OBJECT as the base of the arm", obs:"- (principle sample)"},
-      {q:"THIS IS NOT A DYNAMICAL MODEL", model:"The central object is pinned and never moves. It is a position-fixed reference point; its gravity is NOT what holds the bar together (G = 0)", obs:"-"},
-      {q:"The bar is preserved", model:"Both the transverse RMS width residual and the axial half-length residual measure within 5 percent (tau = 0 freezes the axial coordinate)", obs:"-"},
-      {q:"The end condition along s", model:"s is comoving with the stretching (s-dot = s L-dot / L) with no restoring and no bath; at tau = 0 the length never changes", obs:"-"},
-      {q:"It is not rotated", model:"THIS SAMPLE DOES NOT ROTATE (Omega cannot be declared here). Carrying the arm on a rotating disc - the spiral - is NOT implemented in this wave", obs:"-"},
-      {q:"The originator's expectation (a hypothesis)", model:"The complex-decision-field application (dragging weakens the centrifugal term in the plane; a spiral perturbation pulls toward the axis) IS NOT IMPLEMENTED", obs:"-"},
-      {q:"The supply is an external bath", model:"Of the three declared actions the supply is an external bath: the exact negative of the P/L/E is booked. THE SYSTEM IS NOT CLOSED", obs:"-"},
-      {q:"What this does not claim", model:"NOT arms, NOT a calibrated spiral galaxy, NOT a self-organised bar, NOT an implemented central black hole. The bar is a specified shape", obs:"-"}],
+      {q:"What is placed here", model:"The same core law as 🎱 (law = coreField) with the axis s taken IN THE PLANE; the weak restoring K_par along that axis stretches the group", obs:"- (principle sample)"},
+      {q:"The bar runs THROUGH the centre", model:"The law is centrally symmetric, so a one-sided arm is not stationary. The initial layout was replaced by a symmetric bar of +-120 (changed from wave 275d)", obs:"-"},
+      {q:"The elongation follows from alpha and beta", model:"sigma_par/sigma_perp = sqrt(K_perp/K_par) = 9.6 (alpha = 2, beta = 0.0108). NO OBSERVED PITCH ANGLE OR ARM WIDTH IS FED IN", obs:"-"},
+      {q:"The central spin is what binds it", model:"omega_m = W_c/(W_c+W0) omega_c, so with omega_c = 0 not one force survives; moving the spin 0 -> 1 changes the fingerprint (measured)", obs:"-"},
+      {q:"Invariant and ledger", model:"h = |v|^2/2 + K_perp r_perp^2/2 + K_par r_par^2/2. The propagator is exact and the exact negative of P/L/E is booked. NOT CLOSED", obs:"-"},
+      {q:"Range of the local model", model:"The dynamical core radius r_c = 250 is declared separately from the display radius 5, and the bar (sigma_par = 69.3) sits inside 3 sigma < r_c", obs:"-"},
+      {q:"THIS IS NOT A SPIRAL OR A BARRED SPIRAL", model:"Coupling the bar onto a rotating disc (pattern arms, barred spiral) IS NOT IMPLEMENTED HERE - not one line. That is the next step", obs:"-"},
+      {q:"What this does not claim", model:"NOT an emergent arm, NOT a calibrated spiral galaxy, NOT a stabilised galaxy. These are the consequences of a declared hypothesis", obs:"-"}],
     descStruct:{
-      summary:"THE CENTRAL-OBJECT VERSION OF THE 🧵 SINGLE-ARM TOY (wave 275d, report 65 item 6: 'also prepare a version with a central object; the bar shape is fine'). The declaration matches 🧵 (the axis c(s) = c0 + s e1, the second-order OU acting only on the transverse n and the out-of-plane z, omega0 = 0.12, gamma = 0.24 critically damped, sigma_n = 7.2, sigma_z = 4.8, L = 120, tau = 0); the only difference is center:\"pinned\" and one central object, so the base of the bar sits at the central object. THIS IS NOT A DYNAMICAL MODEL: the central object is a position-fixed reference point, and gravity (E4) does not set the state of this path (it runs at G = 0 and raising G leaves the 600-step state bit-unchanged). With tau = 0 the axial coordinate stays frozen under the comoving end condition, SO THE LENGTH OF THE BAR NEVER MOVES. THE ORIGINATOR'S EXPECTATION (report 65 item 6) IS WRITTEN UP AS A HYPOTHESIS IN docs/PHYSICS.md AND IMPLEMENTED IN NOT ONE LINE HERE: 'the complex decision field applied - in the equatorial plane dragging weakens the centrifugal term, while along the axis a spiral perturbation pulls inward like static electricity', and 'once a DFM spiral grows a central object, arms appear along a toppled spin axis'. That cannot be measured before the spin-axis declaration and the complex-field lawVersion land. WHAT THIS DOES NOT CLAIM: arms, a calibrated spiral galaxy, a self-organised bar, or an implemented central black hole.",
-      observe:"The bar runs out from the central object along +x and stays at L = 120, while the transverse spread relaxes to sigma_n = 7.2 and the out-of-plane spread to sigma_z = 4.8 (normal about the axis). The central object carries an exclusion zone, so the innermost particles start a little way out. The numbers live in docs/PHYSICS.md, wave 275d.",
-      control:"THERE IS NO SLIDER FOR THE SHAPE TOY (it is declared in physics.shapeToy). Raising G changes nothing (prescribed motion). Change the declared sigma to make the bar thicker, or armLength to change its length."}},
+      summary:"THE SINGLE-ARM TOY MOVED FROM PRESCRIBED MOTION TO A LAW THAT DEPENDS ON THE CENTRAL SPIN (wave 276d, report 66 item 4). The law is the same as 🎱 (law = coreField, L = m|v-u|^2/2 - m Phi, u = omega_m (s x r), Phi = k0 r^2/2 + omega_m^2 (alpha r_perp^2 + beta r_par^2)/2); what differs is that THE AXIS s LIES IN THE PLANE. Making the restoring along that axis, K_par = k0 + beta omega_m^2, much weaker than the transverse K_perp = k0 + (alpha-1) omega_m^2 stretches the group along the axis, so THE ELONGATION sigma_par/sigma_perp = sqrt(K_perp/K_par) IS A CONSEQUENCE OF THE DECLARED alpha and beta (no observed pitch angle or arm width is fed in). CHANGED FROM WAVE 275d: the law is centrally symmetric, so A ONE-SIDED ARM IS NOT STATIONARY - the initial layout was replaced by a symmetric bar of +-120 through the centre. That shape points toward report 66's 'develop it into a barred spiral', but COUPLING THE BAR ONTO A ROTATING DISC (PATTERN ARMS, BARRED SPIRAL) IS NOT IMPLEMENTED IN THIS WAVE - not one line. This added potential is a NEW CONSTRUCTIVE HYPOTHESIS and is not uniquely derived from the current DFM. The centre stays pinned, i.e. an EXTERNALLY SUPPORTED VERSION whose reaction is only booked - THE SYSTEM IS NOT CLOSED. THIS IS NOT A CALIBRATION. WHAT THIS DOES NOT CLAIM: an emergent arm, a calibrated spiral galaxy, an implemented barred spiral, or a stabilised galaxy.",
+      observe:"A thin bar through the central object keeps its direction along the in-plane spin axis; the transverse wobble is the pair of modes circling that axis. SET THE CENTRAL SPIN TO ZERO AND THE FORCE VANISHES so the bar disperses. The numbers live in docs/PHYSICS.md, wave 276d (harness tests/exp-w276d-corefield.mjs).",
+      control:"THERE IS NO SLIDER FOR THE CORE LAW (it is declared in physics.shapeToy.law and coreField). Lowering beta lengthens the bar and raising alpha thins it. Tipping the axis s out of the plane turns the same declaration into a disc, which is what 📀 is."}},
   parameterAudit:{
-    observedInputs:["**無い。** 観測された渦状腕・棒のピッチ角・幅・中心質量を 1 つも入力していない(原理サンプル)"],
-    fixedConventions:["中心天体 m=10・radius=5・pinned(**位置固定の参照点** — 力学的な役割は無い)",
-      "`center:\"pinned\"`・軸 c(s)=c₀+s·e₁(e₁=+x・c₀=中心天体の位置)・**回さない**",
-      "**成長なし** τ=0・横断 σ_n=σ₀=7.2・面外 σ_z=4.8・L=120 固定","ω₀=0.12・γ=0.24(臨界減衰)",
-      "s は共動の端条件(ṡ=s·L̇/L — τ=0 では凍結)","coupling:\"prescribed\"・supply:\"external-bath\"",
-      "G=0(重力を切ってある)","cLight=30(組込みプリセットの規約)"],
+    observedInputs:["**無い。** 観測された渦状腕のピッチ角・幅・中心質量を 1 つも入力していない"],
+    fixedConventions:["中心天体 m=10・radius=5・**spin=1**・pinned(スピンが ω_m の入力・位置は固定 = **外部支持**)",
+      "`law:\"coreField\"`・`center:\"pinned\"`・軸 s=(1,0,0)(**面内**)",
+      "力学的コア半径 r_c=250(表示半径 5 とは別)・M_c=10・W₀=0.00016(ω_m=0.5·ω_c になる側)",
+      "α=2(K⊥=0.25)・β=0.0108(K∥=0.0027)・Ω_p=0",
+      "T=7.776(等温定常の幅が初期配置(±120 の棒・h=25)の σ∥=69.3・σ⊥=7.2 と一致する側)",
+      "交換 rotating-bath(γ=0.02・有限容量 20000)",
+      "G=0(重力を切ってある — κ₀=0)","cLight=30(組込みプリセットの規約)"],
     fitted:["**無い。**"],
-    derived:["横断の定常 Cov=σ_n²・面外 σ_z²(OU の定常解)","s 方向は定常分布を持たない(τ=0 では凍結)"],
-    numerical:["ソフトニング ε=2","時間倍率 timeScale=3","厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ",
-      "測定: dt=0.25・T=200・seed 20260920(器 tests/exp-w275d-shapecrit.mjs)"]},
+    derived:["W_c=M_c/r_c²=0.00016・ω_m=0.5","σ∥/σ⊥=√(K⊥/K∥)=9.6(**細長さは宣言の帰結**)",
+      "横断は軸のまわりの 2 モード λ±=ω_m±√(ω_m²+K⊥)"],
+    numerical:["ソフトニング ε=2","時間倍率 timeScale=3","**厳密伝播子**(λ± の 2 モード + 調和)",
+      "測定: dt=0.25・T=200・seed 20260920(器 tests/exp-w276d-corefield.mjs)"]},
   activeParams:["G","softening"],
   validT:200,
-  camera:{scale:180}, world:{boundary:"none",size:0}, seed:20260920,
+  camera:{scale:260}, world:{boundary:"none",size:0}, seed:20260920,
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
-    shapeToy:{shape:"arm", supply:"external-bath", coupling:"prescribed",
+    contactK:0, contactCap:0,
+    shapeToy:{shape:"arm", supply:"external-bath", coupling:"prescribed", law:"coreField",
       omega0:0.12, gamma:0.24, sigma:7.2, sigmaZ:4.8, sigma0:7.2, tauGrow:0,
-      armLength:120, armLength0:120, center:"pinned", cx:0, cy:0}},
+      armLength:120, armLength0:120, center:"pinned", cx:0, cy:0,
+      coreField:{coreRc:250, coreMass:10, alpha:2, beta:0.0108, axis:[1,0,0], W0:0.00016,
+        temp:7.776, omegaP:0, init:"thermal", centreGravity:"phi",
+        exchange:{mode:"rotating-bath", rate:0.02, capacity:20000}}}},
   bodies:[
-    {type:"single", m:10, radius:5, x:0, y:0, vx:0, vy:0, spin:0, pinned:true},
-    {type:"box", rMul:1.4, n:180, cx:60,cy:0, w:120, h:25,
+    {type:"single", m:10, radius:5, x:0, y:0, vx:0, vy:0, spin:1, pinned:true},
+    {type:"box", rMul:1.4, n:180, cx:0,cy:0, w:240, h:25,
      mMin:0.6,mMax:0.6, spinMin:0,spinMax:0, vScale:0, bulkVx:0, bulkVy:0}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false} },
 
@@ -18133,11 +18263,28 @@ function makeSim(){
     S.shapeToyN=0; S.shapeToyStop=null; S.shapeToyDx=0; S.shapeToySigma=0; S.shapeToySigmaZ=0;
     S.shapeToyLen=0; S.shapeToyTheta=0; S.shapeToyBranch=null;
     S.shapeToyUnbooked="potential-of-prescribed-remap";
+    // 第276便d(第66報 (4)): **Core 力学**(physics.shapeToy.law:"coreField")の自前 3D 状態と帳簿。
+    // **宣言が無ければどの欄も 1 度も書かれない**。`coreFieldUnbooked` は「記帳していない量」の
+    // 名前で、pinned な中心を支えている外部支持(反作用の受け先の有限容量)である
+    S.cfX=null; S.cfY=null; S.cfZ=null; S.cfVx=null; S.cfVy=null; S.cfVz=null;
+    S.cfVxS=null; S.cfVyS=null;
+    S.coreFieldPx=0; S.coreFieldPy=0; S.coreFieldPz=0;
+    S.coreFieldLx=0; S.coreFieldLy=0; S.coreFieldLz=0; S.coreFieldE=0;
+    S.coreFieldReacPx=0; S.coreFieldReacPy=0; S.coreFieldReacPz=0;
+    S.coreFieldReacLx=0; S.coreFieldReacLy=0; S.coreFieldReacLz=0; S.coreFieldReacE=0;
+    S.coreFieldWork=0; S.coreFieldBathE=0; S.coreFieldHeat=0; S.coreFieldBathCap=0;
+    S.coreFieldExtPx=0; S.coreFieldExtPy=0; S.coreFieldExtE=0;
+    S.coreFieldSupplyStop=null; S.coreFieldStop=null; S.coreFieldN=0;
+    S.coreFieldH=0; S.coreFieldH0=null; S.coreFieldU=0; S.coreFieldK=0;
+    S.coreFieldOmegaM=0; S.coreFieldOmegaC=0; S.coreFieldKPerp=0; S.coreFieldKPar=0;
+    S.coreFieldKappa0=0; S.coreFieldWc=0; S.coreFieldKEff=0; S.coreFieldRMax=null; S.coreFieldDriftDx=0;
+    S.coreFieldUnbooked="external-support-of-pinned-centre";
     S.yLat=null; S.wLat=null; S.zLat=null; S.wzLat=null; S.uLat=null; S._stG=null; S._stRng=null;
     S._stSeed=(((isNum(preset.seed)? (preset.seed>>>0) : (hashStr(preset.id||preset.name||"p")+7))+0x274d)>>>0);
     // **潜在の初期化はここ**(このリセット塊は `S.updateRadii()` より後に走るので、updateRadii 側の
     // 初期化だけでは null に戻ってしまう)。**重力が 1 步も当たる前の配置**が初期値になる
     if(S.hasShapeToy) shapeToyInitLatent(S);
+    if(S.hasCoreField) coreFieldInitState(S);   // 第276便d: Core 力学の初期条件(等温定常から引く)
     // 第259便b(第51報 W2): 親子コアの読み口と **K_cs 熱記帳の診断列**。
     // QcsOld=本体の既定記帳 |ΔJΔω|/2 の累積(**radE へ入れている値そのもの**)・
     // QcsExact=正確式 μΔω²(f−f²/2) の累積。**既定の Q は 1 bit も変えない** —— 両方を並べて出すだけ。
@@ -18320,7 +18467,14 @@ function makeSim(){
     const __stv=validateShapeToy(S.params[SHAPE_TOY_KEY]===undefined? null : S.params[SHAPE_TOY_KEY]);
     const __st=(__stv.ok && __stv.shapeToy)? __stv.shapeToy : null;
     if(__st) S.params[SHAPE_TOY_KEY]=__st;
-    S.hasShapeToy=!!__st; S.shapeToy=__st||null;
+    // 第276便d(第66報 (4)): **法則で経路を分ける**。`law:"coreField"` の宇宙は規定運動の
+    // `dfmShapeToyStep` を 1 度も通らず、外部ステップ `dfmCoreFieldStep` だけが走る
+    // (未宣言・"prescribed" は従来どおり = **既定経路 1 bit 不変**)
+    const __cfLaw=!!(__st && __st.law===SHAPE_TOY_LAWS[1]);
+    S.hasShapeToy=!!__st && !__cfLaw; S.shapeToy=__st||null;
+    S.hasCoreField=__cfLaw;
+    if(!S.hasCoreField){ S.coreFieldStop=null; S.coreFieldN=0; }
+    else if(!S.cfX) coreFieldInitState(S);
     if(!S.hasShapeToy){ S.shapeToyStop=null; S.shapeToyN=0; }
     // 潜在は **build の直後の 1 度だけ**作る(`S.yLat` が無いときだけ = 実行中の再呼び出しでは作り直さない)。
     // ここで作ると**重力が 1 步も当たる前の配置**が初期値になる(1 步目の後に作ると G で初期値が変わる)
@@ -19950,6 +20104,7 @@ function makeSim(){
       if(S.hasCoordInertia) S._meshCoordForce(dt);   // 第257便a(同上 — 真偽値 1 つで素通り)
       if(S.hasGeoToy) dfmGeoToyStep(S,dt);           // 第259便a: geoPN=3 のトイ積分器(同じ位置)
       if(S.hasShapeToy) dfmShapeToyStep(S,dt);      // 第274便d: 形状トイ(同じ位置・未宣言は真偽値 1 つ)
+      if(S.hasCoreField) dfmCoreFieldStep(S,dt);    // 第276便d: Core 力学(同じ位置・未宣言は真偽値 1 つ)
       if(S.hasCoreAxis) dfmCoreAxisStep(S,dt);      // 第275便e: コア軸の prescribed(同じ位置・未宣言は真偽値 1 つ)
       if(S.hasMeshReservoir) S._meshReservoir(dt);
       if(S.hasSpaceMesh) S._spaceMeshForce(dt*0.5);
@@ -19968,6 +20123,7 @@ function makeSim(){
       if(S.hasCoordInertia) S._meshCoordForce(dt);      // 第257便a(同上)
       if(S.hasGeoToy) dfmGeoToyStep(S,dt);              // 第259便a: geoPN=3 のトイ積分器
       if(S.hasShapeToy) dfmShapeToyStep(S,dt);          // 第274便d: 形状トイ(同じ位置)
+      if(S.hasCoreField) dfmCoreFieldStep(S,dt);        // 第276便d: Core 力学(同じ位置)
       if(S.hasCoreAxis) dfmCoreAxisStep(S,dt);          // 第275便e: コア軸の prescribed(同じ位置)
       if(S.hasMeshReservoir) S._meshReservoir(dt);
     }
@@ -38732,6 +38888,274 @@ function dfmShapeToyStep(S,dt){
     sigma:sR, sigmaZ:sZ, theta:th, len:L1, branch:D.branch, shape:cf.shape,
     coupling:(fb? SHAPE_TOY_COUPLINGS[1] : SHAPE_TOY_COUPLINGS[0]) };
 }
+// ===== 第276便d(原仮定者の裁定(第66報)(4)): **Core 力学** `dfmCoreFieldStep(S,dt)` =====
+//
+// ■ 何をするか(1 行で)
+//   `physics.shapeToy.law:"coreField"` を宣言した宇宙で、粒子を**中心スピンが作る速度場 u を読む
+//   ラグランジアン** L_i=½m|v−u(x)|²−mΦ(x) の流れで進める。**規定運動の書き戻しではない**。
+//
+// ■ 則(R44 —— **統括が設定した検証仮説**であって、現行 DFM から一意に導出された法則ではない)
+//     u(r) = ω_m (s×r)、 Φ(r) = ½κ₀r² + ½ω_m²{α r⊥² + β r∥²}
+//     κ₀ = G·M_c/r_c³、 W_c = M_c/r_c²、 **ω_m = W_c/(W_c+W₀)·ω_c**
+//   Euler–Lagrange(H=|p|²/2m+u·p+mΦ・ẋ=p/m+u・ṗ=−(∇u)ᵀp−m∇Φ)を物理速度で書くと
+//     **v̇ = 2ω_m(s×v) − K⊥ r⊥ − K∥ r∥**、 K⊥=κ₀+(α−1)ω_m²、 K∥=κ₀+βω_m²
+//   で、**保存量**は h = ½|v|² + ½K⊥r⊥² + ½K∥r∥²(u の項は |u|²=ω_m²r⊥² が Φ から差し引かれて消える)。
+//   **中心スピン ω_c=0 なら ω_m=0 で、κ₀ しか残らない**(G=0 の本では力が 1 つも残らない)——
+//   つまり**この法則では中心スピンが集団を束ねている**。これが測れる主張である。
+//
+// ■ 離散化は厳密(`shapeToyDisc` と同じ流儀 —— Euler 近似にしない)
+//   則は**線形**なので、軸 s に沿う成分(調和振動 √K∥)と垂直面(複素 z=ξ₁+iξ₂ で z̈=2ω_m i ż−K⊥z)に
+//   分けると、後者の特性根は **λ± = ω_m ± √(ω_m²+K⊥)**(K⊥>0 なら実数 2 本)である。
+//   したがって 1 步の伝播子は**閉形式**で書けて、刻みをいくら大きくしても h は丸めの範囲でしか動かない。
+//
+// ■ 重力を二重に足さない(裁定の字義)
+//   ・粒子間重力 E4 は**既定 G のまま**(この経路は触らない)。
+//   ・中心重力は Φ の **κ₀ 項として 1 度だけ**。したがって中心天体が engine 質量を持ったまま G≠0 に
+//     すると E4 と κ₀ で二重になるので、その組み合わせは **`gravityDouble` の門で止める**
+//     (止まった步は 1 バイトも書かないので、エンジン側の力学がそのまま走る)。
+//
+// ■ エンジンとの接続(**規定運動ではないが、状態の正本はこの経路が持つ**)
+//   この経路は自前の 3D 状態 (cfX,cfY,cfZ,cfVx,cfVy,cfVz) を持つ。速度は毎步エンジンの
+//   `S.vx/S.vy` から読み直すので、**`S._core` が当てた速度キック(重力 E4・クランプ等)はそのまま
+//   取り込まれる**(= この経路は**重力に不感ではない**)。位置はエンジンの drift(x+=v·dt)を
+//   **捨てる**(二重に積分しないため)。捨てた量は `S.coreFieldDriftDx`(最大 |x_engine−x_cf|)に
+//   出す —— **黙って捨てない**。
+//
+// ■ 交換・散逸(`exchange.mode:"rotating-bath"` —— 宣言しなければ純ハミルトン)
+//   共回転する速度 w=v−Ω_p(s×r) に**厳密な OU**(w ← e^{−γh}w + √((T/m)(1−e^{−2γh}))ξ)を当てる。
+//   ハミルトン流も OU も **exp{−(H−Ω_p L_s)/T} を厳密に保つ**ので、合成も厳密にこの定常分布を保つ。
+//   **供給は有限のコア熱容量から出る**: 粒子へ渡った正味のエネルギーを `S.coreFieldBathE` に積み、
+//   宣言した `capacity` を超えたら**供給(ノイズ)を止める**(減衰は残す)。`S.coreFieldSupplyStop`。
+//
+// ■ 反作用(**外部支持版** —— 中心へは 1 バイトも書き戻さない)
+//   粒子が受け取った P/L/E の**厳密な負**を `S.coreFieldReac*` と `S.resPx/resPy/resL` へ同じ步のうちに
+//   記帳する。中心は `center:"pinned"` のままなので、**この反作用を受ける先は「外部支持」である**
+//   (有限容量の中心へ返すのは次便 —— 帳簿に負号を書いただけで「閉じた」とは書かない)。
+//
+// ■ 未宣言は 1 bit 不変: `S.hasCoreField!==true` で 1 行目から戻る(`S._core` には 1 命令も足していない)。
+//
+// **導出値**(κ₀・W_c・ω_m・K⊥・K∥)。宣言は数値だけで、ここでしか作らない。
+function coreFieldParams(cfd, G, omegaC){
+  const rc=cfd.coreRc, Mc=cfd.coreMass;
+  const Wc=(rc>0)? Mc/(rc*rc) : 0;
+  const den=Wc+cfd.W0;
+  const omegaM=(den>0)? (Wc/den)*omegaC : 0;
+  // **中心重力を二重に足さない**: "engine" 宣言では E4(中心天体の実質量)が中心重力を持つので κ₀=0
+  const kappa0=(rc>0 && cfd.centreGravity!==CORE_FIELD_GRAVITIES[1])? G*Mc/(rc*rc*rc) : 0;
+  const w2=omegaM*omegaM;
+  const kPerp=kappa0+(cfd.alpha-1)*w2, kPar=kappa0+cfd.beta*w2;
+  // **共回転熱浴の定常は「正準」角運動量で決まる**(実測で判明した —— u は磁場のような項なので、
+  // 保存する角運動量は p_φ = m r⊥²(φ̇−ω_m) であって m r⊥²φ̇ ではない)。
+  //   exp{−(H−Ω_p p_φ)/T} = exp{−[½m|v−u_b|² + ½m(K_eff r⊥² + K∥ r∥²)]/T}、
+  //   **K_eff = K⊥ + 2ω_mΩ_p − Ω_p²**(Ω_p=0 なら K⊥)。
+  // K_eff>0 は Ω_p が 2 本の円軌道角速度 λ±=ω_m±√(ω_m²+K⊥) の**内側**にあることと同値である。
+  const kEff=kPerp+2*omegaM*cfd.omegaP-cfd.omegaP*cfd.omegaP;
+  let gate=null;
+  if(!Number.isFinite(kPerp) || !Number.isFinite(kPar)) gate="nonfinite";
+  else if(!(kPerp>0)) gate="kPerp";            // 閉じた正の H の条件(R44)
+  else if(!(kPar>0)) gate="kPar";
+  else if(!(kEff>0)) gate="omegaP";            // 共回転熱浴に定常が無い(Ω_p が λ± の外)
+  return {Wc, omegaM, kappa0, kPerp, kPar, kEff, gate,
+    lamPlus:omegaM+Math.sqrt(omegaM*omegaM+kPerp), lamMinus:omegaM-Math.sqrt(omegaM*omegaM+kPerp),
+    // 宣言した温度から出る定常の大きさ(質量 1 あたり。粒子ごとの m で割って使う)
+    varPerp:(gate===null)? cfd.temp/kEff : null,
+    varPar:(gate===null)? cfd.temp/kPar : null, varVel:cfd.temp };
+}
+// **厳密伝播子**(1 步 h。∥ は調和・⊥ は λ±=ω_m±√(ω_m²+K⊥) の 2 モード)。
+function coreFieldFlow(kPerp,kPar,omegaM,h){
+  const wp=Math.sqrt(Math.max(kPar,0));
+  const cP=Math.cos(wp*h), sP=(wp>0)? Math.sin(wp*h)/wp : h;
+  const Om=Math.sqrt(omegaM*omegaM+kPerp);
+  const lp=omegaM+Om, lm=omegaM-Om, d2=2*Om;
+  const cp=Math.cos(lp*h), sp=Math.sin(lp*h), cm=Math.cos(lm*h), sm=Math.sin(lm*h);
+  const aR=(lp*cm-lm*cp)/d2, aI=(lp*sm-lm*sp)/d2;     // z' = a z + b ż
+  const bR=(sp-sm)/d2,       bI=(cm-cp)/d2;
+  const dR=(lp*cp-lm*cm)/d2, dI=(lp*sp-lm*sm)/d2;     // ż' = c z + d ż、 c = −K⊥·b
+  return {cP,sP,wp, aR,aI,bR,bI,cR:-kPerp*bR,cI:-kPerp*bI, dR,dI, Om,lp,lm,h};
+}
+// 軸 s に直交する正規直交基底(決定的に作る —— 乱数も向きの選択も入れない)。
+function coreFieldBasis(s){
+  const ax=Math.abs(s[0]), ay=Math.abs(s[1]), az=Math.abs(s[2]);
+  let t=(ax<=ay && ax<=az)? [1,0,0] : ((ay<=az)? [0,1,0] : [0,0,1]);
+  const d=t[0]*s[0]+t[1]*s[1]+t[2]*s[2];
+  let e1=[t[0]-d*s[0], t[1]-d*s[1], t[2]-d*s[2]];
+  const n1=Math.hypot(e1[0],e1[1],e1[2]);
+  e1=[e1[0]/n1, e1[1]/n1, e1[2]/n1];
+  const e2=[s[1]*e1[2]-s[2]*e1[1], s[2]*e1[0]-s[0]*e1[2], s[0]*e1[1]-s[1]*e1[0]];
+  return {e1,e2,s};
+}
+// 中心(pinned)の読み出し。**law:"coreField" は pinned な中心が無ければ走らない**。
+function coreFieldCentre(S){
+  for(let i=0;i<S.n;i++) if(S.pinned[i]) return i;
+  return -1;
+}
+// **初期条件**(`init:"thermal"` —— 宣言した等温定常 exp{−(H−Ω_p L_s)/T} から引く)。
+//   ・面内の位置はプリセットの配置をそのまま使う(**見える配置は変えない**)。宣言した T は
+//     その配置の 2 次モーメントに合わせてある(一様円盤 R の ⟨x²⟩=R²/4 ↔ σ²=T/(m(K⊥−Ω_p²)))。
+//   ・**面外 z** はエンジンが持たないので、ここで定常分布から撒く。
+//   ・速度は u_b=Ω_p(s×r) のまわりの Maxwell 分布(**冷たい初期速度の「落ち着きの凹み」を作らない**)。
+//   `init:"asBuilt"` はプリセットの速度をそのまま使う(対照)。
+function coreFieldInitState(S){
+  const cf=S.params[SHAPE_TOY_KEY];
+  if(!cf || !cf.coreField) return false;
+  const cfd=cf.coreField, n=S.n;
+  if(!(n>=1)) return false;
+  const k=coreFieldCentre(S);
+  if(k<0) return false;
+  const P=coreFieldParams(cfd, S.params.G, S.spin[k]);
+  if(P.gate) return false;
+  if(!S._stRng) S._stRng=mulberry32((S._stSeed||0x274d)>>>0);
+  const B=coreFieldBasis(cfd.axis), e1=B.e1, e2=B.e2, s=B.s;
+  const cx=S.x[k], cy=S.y[k];
+  S.cfX=new Float64Array(n); S.cfY=new Float64Array(n); S.cfZ=new Float64Array(n);
+  S.cfVx=new Float64Array(n); S.cfVy=new Float64Array(n); S.cfVz=new Float64Array(n);
+  S.cfVxS=new Float64Array(n); S.cfVyS=new Float64Array(n);   // 書き戻した 32 bit の控え
+  const thermal=(cfd.init===CORE_FIELD_INITS[0]);
+  for(let i=0;i<n;i++){
+    S.cfX[i]=S.x[i]; S.cfY[i]=S.y[i]; S.cfZ[i]=0;
+    S.cfVx[i]=S.vx[i]; S.cfVy[i]=S.vy[i]; S.cfVz[i]=0;
+    S.cfVxS[i]=S.vx[i]; S.cfVyS[i]=S.vy[i];
+    if(S.pinned[i] || !thermal) continue;
+    const mi=S.mEff[i];
+    if(!(mi>0)) continue;
+    const sPar=Math.sqrt(P.varPar/mi), sPerp=Math.sqrt(P.varPerp/mi), sV=Math.sqrt(P.varVel/mi);
+    // 面外 ẑ は軸 s に対して「平行成分 s_z」と「垂直成分 √(1−s_z²)」に分かれるので、
+    // その混ぜ合わせた幅で撒く(軸が面内なら z はまるごと ⊥ 成分である)
+    const rx=S.x[i]-cx, ry=S.y[i]-cy;
+    const zPar=Math.abs(s[2]), zPerp=Math.sqrt(Math.max(0,1-s[2]*s[2]));
+    S.cfZ[i]=(zPar*sPar+zPerp*sPerp)*shapeToyGauss(S);
+    const rz=S.cfZ[i];
+    // 速度 = 共回転 u_b=Ω_p(s×r) + Maxwell(σ_v=√(T/m))
+    const ub1=cfd.omegaP*(s[1]*rz-s[2]*ry), ub2=cfd.omegaP*(s[2]*rx-s[0]*rz),
+          ub3=cfd.omegaP*(s[0]*ry-s[1]*rx);
+    S.cfVx[i]=ub1+sV*shapeToyGauss(S);
+    S.cfVy[i]=ub2+sV*shapeToyGauss(S);
+    S.cfVz[i]=ub3+sV*shapeToyGauss(S);
+    S.vx[i]=S.cfVx[i]; S.vy[i]=S.cfVy[i];   // **初期条件**(規定運動ではない — 以後は力学が決める)
+    S.cfVxS[i]=S.vx[i]; S.cfVyS[i]=S.vy[i];
+  }
+  S.coreFieldBathCap=cfd.exchange.capacity;
+  return true;
+}
+function dfmCoreFieldStep(S,dt){
+  if(!S || S.hasCoreField!==true) return null;
+  const cf=S.params[SHAPE_TOY_KEY];
+  S.coreFieldN=0;
+  if(!cf || !cf.coreField){ S.coreFieldStop="declaration"; return null; }
+  if(!Number.isFinite(dt) || !(dt>0)){ S.coreFieldStop="dt"; return null; }
+  const cfd=cf.coreField, n=S.n;
+  if(!(n>=1)){ S.coreFieldStop="n"; return null; }
+  const k=coreFieldCentre(S);
+  if(k<0){ S.coreFieldStop="centre"; return null; }
+  // **二重加算の門**: 中心重力を Φ の κ₀ が持つ宣言("phi")で、中心天体が engine 質量を持ったまま
+  // G≠0 になると、E4 と κ₀ で中心重力が 2 度当たる。**その組み合わせだけ**止める
+  // (`centreGravity:"engine"` は κ₀=0 なので二重にならない = 重力は E4 が持ち、外部キックとして入る)
+  if(cfd.centreGravity!==CORE_FIELD_GRAVITIES[1] && S.params.G!==0 && S.mEff[k]!==0){
+    S.coreFieldStop="gravityDouble"; return null;
+  }
+  const omegaC=S.spin[k];
+  const P=coreFieldParams(cfd, S.params.G, omegaC);
+  if(P.gate){ S.coreFieldStop=P.gate; return null; }
+  if(!S.cfX || S.cfX.length!==n){
+    if(!coreFieldInitState(S)){ S.coreFieldStop="init"; return null; }
+  }
+  const F=coreFieldFlow(P.kPerp,P.kPar,P.omegaM,dt);
+  if(!Number.isFinite(F.aR) || !Number.isFinite(F.dR)){ S.coreFieldStop="flow"; return null; }
+  const B=coreFieldBasis(cfd.axis), e1=B.e1, e2=B.e2, s=B.s;
+  const cx=S.x[k], cy=S.y[k];
+  const ex=cfd.exchange, bath=(ex.mode===CORE_FIELD_EXCHANGES[1] && ex.rate>0);
+  const eg=bath? Math.exp(-ex.rate*dt) : 1;
+  const supplyOn=bath && !(S.coreFieldBathE>=S.coreFieldBathCap);
+  const noise=supplyOn? Math.sqrt(Math.max(0,1-eg*eg)) : 0;
+  if(bath && !supplyOn && S.coreFieldSupplyStop===null) S.coreFieldSupplyStop="capacity";
+  let spx=0, spy=0, spz=0, slz=0, slx=0, sly=0, se=0;     // 粒子が受け取った合計(**格納後の厳密値**)
+  let wField=0, wBath=0, sumU=0, sumK=0, rMax=0, driftDx=0, nOn=0, stop=null;
+  let extPx=0, extPy=0, extE=0;                          // エンジンが当てた外部キック(重力 E4 等)
+  for(let i=0;i<n;i++){
+    if(S.pinned[i]) continue;
+    const mi=S.mEff[i];
+    if(!(mi>0)) continue;
+    // 速度は**エンジンから読み直す**(重力 E4・クランプが当てた分がここで入る)。位置は自前。
+    // **エンジンが当てた外部キックだけ**を取り込む。エンジンの x/v は 32 bit なので、前の步で
+    // 書き戻した値を読み直して控えてある(`cfVxS`)。その差分が「エンジンが動かした分」で、
+    // 32 bit の丸めそのものは差分 0 になる(丸めをエネルギーとして呑まない)
+    const x0=S.x[i], y0=S.y[i];
+    const dvx=S.vx[i]-S.cfVxS[i], dvy=S.vy[i]-S.cfVyS[i];
+    const vx=S.cfVx[i]+dvx, vy=S.cfVy[i]+dvy, vz=S.cfVz[i];
+    // **外部キックの帳簿**(重力 E4・接触・クランプ等)—— 黙って呑まない
+    extPx+=mi*dvx; extPy+=mi*dvy;
+    extE +=0.5*mi*((vx*vx+vy*vy)-(S.cfVx[i]*S.cfVx[i]+S.cfVy[i]*S.cfVy[i]));
+    const rx=S.cfX[i]-cx, ry=S.cfY[i]-cy, rz=S.cfZ[i];
+    if(!(Number.isFinite(rx)&&Number.isFinite(ry)&&Number.isFinite(rz)
+        &&Number.isFinite(vx)&&Number.isFinite(vy)&&Number.isFinite(vz))){ stop="nonfinite"; continue; }
+    const dd=Math.hypot(x0-S.cfX[i], y0-S.cfY[i]); if(dd>driftDx) driftDx=dd;
+    // 軸の基底へ射影
+    const p1=rx*e1[0]+ry*e1[1]+rz*e1[2], p2=rx*e2[0]+ry*e2[1]+rz*e2[2], pz=rx*s[0]+ry*s[1]+rz*s[2];
+    const q1=vx*e1[0]+vy*e1[1]+vz*e1[2], q2=vx*e2[0]+vy*e2[1]+vz*e2[2], qz=vx*s[0]+vy*s[1]+vz*s[2];
+    const k0=0.5*mi*(vx*vx+vy*vy+vz*vz)+0.5*mi*(P.kPerp*(p1*p1+p2*p2)+P.kPar*pz*pz);
+    // 厳密伝播子(∥ は調和・⊥ は複素 2 モード)
+    const P1=F.aR*p1-F.aI*p2 + F.bR*q1-F.bI*q2;
+    const P2=F.aI*p1+F.aR*p2 + F.bI*q1+F.bR*q2;
+    const Q1=F.cR*p1-F.cI*p2 + F.dR*q1-F.dI*q2;
+    const Q2=F.cI*p1+F.cR*p2 + F.dI*q1+F.dR*q2;
+    const PZ=F.cP*pz+F.sP*qz, QZ=-P.kPar*F.sP*pz+F.cP*qz;
+    const nrx=P1*e1[0]+P2*e2[0]+PZ*s[0], nry=P1*e1[1]+P2*e2[1]+PZ*s[1], nrz=P1*e1[2]+P2*e2[2]+PZ*s[2];
+    let nvx=Q1*e1[0]+Q2*e2[0]+QZ*s[0], nvy=Q1*e1[1]+Q2*e2[1]+QZ*s[1], nvz=Q1*e1[2]+Q2*e2[2]+QZ*s[2];
+    const kFlow=0.5*mi*(nvx*nvx+nvy*nvy+nvz*nvz)
+      +0.5*mi*(P.kPerp*(P1*P1+P2*P2)+P.kPar*PZ*PZ);
+    wField+=kFlow-k0;                                  // **厳密伝播子なら丸めの範囲で 0**(h の保存)
+    // 交換・散逸(共回転する速度への厳密 OU。宣言が無ければ 1 行も通らない)
+    let dBath=0;
+    if(bath){
+      const ub1=cfd.omegaP*(s[1]*nrz-s[2]*nry), ub2=cfd.omegaP*(s[2]*nrx-s[0]*nrz),
+            ub3=cfd.omegaP*(s[0]*nry-s[1]*nrx);
+      const w1=nvx-ub1, w2=nvy-ub2, w3=nvz-ub3;
+      const sV=Math.sqrt(P.varVel/mi)*noise;
+      const b1=eg*w1+sV*shapeToyGauss(S), b2=eg*w2+sV*shapeToyGauss(S), b3=eg*w3+sV*shapeToyGauss(S);
+      const kb0=0.5*mi*(nvx*nvx+nvy*nvy+nvz*nvz);
+      nvx=ub1+b1; nvy=ub2+b2; nvz=ub3+b3;
+      dBath=0.5*mi*(nvx*nvx+nvy*nvy+nvz*nvz)-kb0;      // 熱浴が粒子へ渡した正味のエネルギー
+      wBath+=dBath;
+    }
+    if(!(Number.isFinite(nrx)&&Number.isFinite(nry)&&Number.isFinite(nrz)
+        &&Number.isFinite(nvx)&&Number.isFinite(nvy)&&Number.isFinite(nvz))){ stop="nonfinite"; continue; }
+    // 書き戻し(**状態の正本はこの経路**。エンジンの drift は捨てる = 二重に積分しない)
+    S.cfX[i]=cx+nrx; S.cfY[i]=cy+nry; S.cfZ[i]=nrz;
+    S.cfVx[i]=nvx; S.cfVy[i]=nvy; S.cfVz[i]=nvz;
+    S.x[i]=S.cfX[i]; S.y[i]=S.cfY[i]; S.vx[i]=S.cfVx[i]; S.vy[i]=S.cfVy[i];
+    S.cfVxS[i]=S.vx[i]; S.cfVyS[i]=S.vy[i];   // 書き戻した「32 bit の値」を控える
+    const xs=S.x[i], ys=S.y[i], vxs=S.vx[i], vys=S.vy[i], vzs=S.cfVz[i], zs=S.cfZ[i];
+    spx+=mi*(vxs-vx); spy+=mi*(vys-vy); spz+=mi*(vzs-vz);
+    slz+=mi*((xs*vys-ys*vxs)-(x0*vy-y0*vx));
+    slx+=mi*((ys*vzs-zs*vys)-(y0*vz-rz*vy));
+    sly+=mi*((zs*vxs-xs*vzs)-(rz*vx-x0*vz));
+    se +=0.5*mi*((vxs*vxs+vys*vys+vzs*vzs)-(vx*vx+vy*vy+vz*vz));
+    const rr=Math.hypot(nrx,nry,nrz); if(rr>rMax) rMax=rr;
+    sumU+=0.5*mi*(P.kPerp*(P1*P1+P2*P2)+P.kPar*PZ*PZ);
+    sumK+=0.5*mi*(nvx*nvx+nvy*nvy+nvz*nvz);
+    nOn++;
+  }
+  S.coreFieldStop=stop? stop : (nOn? null : "noTargets");
+  S.coreFieldN=nOn; S.coreFieldOmegaM=P.omegaM; S.coreFieldKPerp=P.kPerp; S.coreFieldKPar=P.kPar;
+  S.coreFieldKappa0=P.kappa0; S.coreFieldWc=P.Wc; S.coreFieldOmegaC=omegaC; S.coreFieldKEff=P.kEff;
+  S.coreFieldRMax=(cfd.coreRc>0)? rMax/cfd.coreRc : null;
+  S.coreFieldDriftDx=driftDx;
+  if(!nOn) return null;
+  S.coreFieldU=sumU; S.coreFieldK=sumK; S.coreFieldH=sumK+sumU;
+  if(S.coreFieldH0===null) S.coreFieldH0=S.coreFieldH;
+  // **受け取った量の厳密な負**を反作用(外部支持)とリザーバへ —— 同じ步のうちに
+  S.coreFieldPx+=spx; S.coreFieldPy+=spy; S.coreFieldPz+=spz;
+  S.coreFieldLz+=slz; S.coreFieldLx+=slx; S.coreFieldLy+=sly; S.coreFieldE+=se;
+  S.coreFieldReacPx-=spx; S.coreFieldReacPy-=spy; S.coreFieldReacPz-=spz;
+  S.coreFieldReacLz-=slz; S.coreFieldReacLx-=slx; S.coreFieldReacLy-=sly; S.coreFieldReacE-=se;
+  S.resPx-=spx; S.resPy-=spy; S.resL-=slz;
+  S.coreFieldWork+=wField; S.coreFieldBathE+=wBath; S.coreFieldHeat-=wBath;
+  S.coreFieldExtPx+=extPx; S.coreFieldExtPy+=extPy; S.coreFieldExtE+=extE;
+  return { n:nOn, dP:[spx,spy,spz], dL:[slx,sly,slz], dE:se, field:wField, bath:wBath,
+    H:S.coreFieldH, U:sumU, K:sumK, omegaM:P.omegaM, kPerp:P.kPerp, kPar:P.kPar,
+    rMaxOverRc:S.coreFieldRMax, supply:(supplyOn? "on" : "off"), ext:[extPx,extPy,extE],
+    unbooked:"external-support-of-pinned-centre" };
+}
 // ===== 第275便e(第65報 (7)「2D だが公転面に対する自転軸の傾き角・傾きの方向・歳差角速度を
 // 再現する。親子コア構造限定でよい」): **コア軸の prescribed ステップ** `dfmCoreAxisStep(S,dt)` =====
 //
@@ -40375,6 +40799,11 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // **厳密離散化の純関数** `shapeToyDisc`(F=e^{Bh}・Q_h=C−F C Fᵀ)・成長係数・宣言の値域。
   // QA behavior.shapeToyStationary が expm・恒等式 C=F C Fᵀ+Q_h・定常共分散・未宣言のビット不変を機械固定する
   dfmShapeToyStep, shapeToyDisc, shapeToyGrow, shapeToyFrame, shapeToyInitLatent, validateShapeToy,
+  // 第276便d(第66報 (4)): **Core 力学**(法則 `physics.shapeToy.law:"coreField"`)。
+  // 導出値 `coreFieldParams`・**厳密伝播子** `coreFieldFlow`・基底・初期条件・外部ステップ。
+  dfmCoreFieldStep, coreFieldParams, coreFieldFlow, coreFieldBasis, coreFieldInitState,
+  validateCoreField, SHAPE_TOY_LAWS, CORE_FIELD_EXCHANGES, CORE_FIELD_INITS, CORE_FIELD_CLAMPS,
+  CORE_FIELD_GRAVITIES,
   SHAPE_TOY_KEY, SHAPE_TOY_SHAPES, SHAPE_TOY_CENTERS, SHAPE_TOY_COUPLINGS, SHAPE_TOY_SUPPLY, SHAPE_TOY_CLAMPS,
   // 第275便b(第65報 (2)): D₀ の**背景の出所**の宣言鍵(**宣言専用** — エンジンは 1 箇所も読まない)。
   // QA preset.d0source-declared が「受理契約」「未宣言の 1 bit 不変」「内蔵の宣言 0 本」を機械固定する
