@@ -4029,6 +4029,10 @@ const BG_COMPLEX_NOTE_MAX = 200;
 // 宣言できる成分と、その単位(L は長さ・T は時間・M は質量 —— サンプルの scaleExp の単位系)
 const BG_COMPLEX_UNITS = { W0:"M/L^2", A0:"M/(L·T)", gradW:"M/L^3", gradA:"M/(L^2·T)",
   dWdt:"M/(L^2·T)", dAdt:"M/(L·T^2)" };
+// 第277便d(統括の読み R52): **省略を許すのは background:"zero" のときだけ**(世代判定の鍵も兼ねる)。
+// 明示必須の成分(`"zero"` 以外)。**純関数 `normalizeBackground` と同じ判定**である。
+const BG_COMPLEX_REQUIRED = ["A0","gradW","gradA","dAdt","dWdt"];
+const BG_COMPLEX_STRICT = true;
 function validateBackgroundComplex(a){
   if(a===null || a===undefined) return {ok:true, backgroundComplex:null};   // **未宣言 = 未確定**
   if(typeof a!=="object" || Array.isArray(a))
@@ -4037,14 +4041,30 @@ function validateBackgroundComplex(a){
     return {ok:false, err:'physics.backgroundComplex.background は "solar-excluded"/"heliocentric"/"galactic"/"declared"/"zero" のみ'};
   if(!isNum(a.W0) || !(a.W0>=0))
     return {ok:false, err:"physics.backgroundComplex.W0 は 0 以上の有限数([M/L²] —— 背景の重み。**D₀([M/L])とは別の量**)"};
+  // ===== 第277便d(統括の読み R52): **未確定を 0 にしない** =====
+  // 第276便a は A0・gradW・gradA・dWdt・dAdt の省略を「0 と読む」ゼロ補完にしていたが、
+  // **純関数 `normalizeBackground`(tests/lib-w275b-meshfield.mjs)は最初から欠けた成分を拒否**
+  // していた —— **アプリと純関数で受理契約が違った**。R52 のとおり純関数側へ揃える:
+  //   **`background:"zero"` のときだけ省略を許す(=「ゼロと宣言」)。それ以外は明示必須。**
+  // 「W₀ だけ書いて微分は未測定」という宣言が黙って「微分は 0」になるのを止める門である。
+  // **移行**: 部分宣言の JSON(background と W0 だけ等)は**今後拒否される** —— ゼロと言い切れる
+  // なら `background:"zero"` を、値が未確定なら**鍵ごと書かない**(未宣言 = 未確定)。
+  // **内蔵 131 本はこの鍵を 1 本も宣言していない**ので、presetSig も力学も 1 bit も動かない。
+  const bgcZeroDecl=(a.background==="zero");
+  const bgcMiss=[];
   const vec=(k,n)=>{
     const z=a[k];
-    if(z===undefined || z===null) return new Array(n).fill(0);
+    if(z===undefined || z===null){ if(!bgcZeroDecl){ bgcMiss.push(k); return null; } return new Array(n).fill(0); }
     if(!Array.isArray(z) || z.length!==n) return null;
     const o=[]; for(let i=0;i<n;i++){ if(!isNum(z[i])) return null; o.push(z[i]); }
     return o;
   };
   const A0=vec("A0",2), gradW=vec("gradW",2), gradA=vec("gradA",4), dAdt=vec("dAdt",2);
+  if((a.dWdt===undefined || a.dWdt===null) && !bgcZeroDecl) bgcMiss.push("dWdt");
+  if(bgcMiss.length)
+    return {ok:false, err:'physics.backgroundComplex は background:"zero" 以外では '+bgcMiss.join("/")
+      +" を明示すること(**未確定を 0 で補完しない** —— ゼロと言い切れるなら background:\"zero\"、"
+      +"値が未確定なら鍵ごと書かない〔未宣言 = 未確定〕)"};
   if(!A0) return {ok:false, err:"physics.backgroundComplex.A0 は有限数 2 つの配列 [Ax,Ay]([M/(L·T)]・向きつき)"};
   if(!gradW) return {ok:false, err:"physics.backgroundComplex.gradW は有限数 2 つの配列 [∂ₓW,∂_yW]([M/L³])"};
   if(!gradA) return {ok:false, err:"physics.backgroundComplex.gradA は有限数 4 つの配列 [∂ₓAx,∂_yAx,∂ₓAy,∂_yAy]([M/(L²·T)])"};
@@ -41186,6 +41206,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // W₀([M/L²])・A₀([M/(L·T)])とその空間/時間微分を D₀([M/L])とは**別の鍵**で持つ。
   // QA preset.backgroundComplex-declared が「受理契約」「未宣言の 1 bit 不変」「内蔵の宣言 0 本」を機械固定する
   validateBackgroundComplex, BG_COMPLEX_KEY, BG_COMPLEX_BACKGROUNDS, BG_COMPLEX_NOTE_MAX, BG_COMPLEX_UNITS,
+  BG_COMPLEX_REQUIRED, BG_COMPLEX_STRICT,
   // 第264便b(第56報): **源の閉包**の値域("gravity" 既定 /"iterate" 診断)と反復・残差の宣言値。
   // QA behavior.geoToyClosure が「既定は 122 本ビット不変」「iterate は反復数と残差を返す」
   // 「特異点(det=1−η²χ₀χ₁→0)で収束しない」を機械固定する

@@ -1952,7 +1952,10 @@ const add = (id, pass, detail) => {
       'tests/out/corefield-w276d.json',
       // 第276便b(第66報 (2)): ❄️ の softening ε 感度系列(基準単位 + 単位を変えた診断コピー)と、
       //   残差を要因へ分解した表(**判定ではなく感度の正本**)
-      'tests/out/charoneps-w276b.json', 'tests/out/charonfactors-w276b.json'];
+      'tests/out/charoneps-w276b.json', 'tests/out/charonfactors-w276b.json',
+      // 第277便d(第67報 (3) と統括の読み R51/R52): 慣性移動の仮定の検算と**現行 html の自己項監査**、
+      //   背景 ON/OFF の**誤差予算**(共動系変換つき・純関数の 2 体積分 —— **エンジン未接続**)
+      'tests/out/selfinertia-w277d.json', 'tests/out/bgbudget-w277d.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -6282,6 +6285,183 @@ const add = (id, pass, detail) => {
       + `**これは概算条件からの計算であって特定時刻の環境値ではない**(仮定は出典つきで JSON に全部ある)。`
       + `**内蔵の D₀・D0pull は 1 本も変えていない**/ `
       + `**カロンの残差に合わせて選んだ背景は「事前予測」と呼ばない**`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 0a3z6) 第277便d(原仮定者の裁定〔第67報〕(3)・統括の読み R51): docs.selfInertia-sync ----
+// ----   「**慣性移動は、複素決定力による、自分自身に対するゼロ距離の座標変換**」の仮説と、
+// ----   その検算・**否定対照**・**現行 html の自己項監査**の正本 JSON を PHYSICS と突き合わせる。
+// ----   固定するのは 7 点:
+// ----     ① `meta.targetSha256` が検査対象の html と一致する。
+// ----     ② 仮説が**エンジン未接続**と宣言され、「導出していない」と明記されている。
+// ----     ③ 宣言した門のうち G1・G3〜G8 が PASS(G2b は**単位の取り方に依る参考行**で gate ではない)。
+// ----     ④ **力学経路の自己除外**が html の機械監査で全部見つかり、仮説と矛盾しない。
+// ----     ⑤ 自己項を分母へ入れる実装は `verdict:"reject"`(**否定対照としてだけ置く**)。
+// ----     ⑥ L=½m|v−u_self|² の退化が測れている。
+// ----     ⑦ 書かない語が宣言され、docs/PHYSICS.md〔第277便d〕節がある。
+// ----   **beta 線の走行なので root は SKIP** する。
+{
+  const bad = [];
+  const cases = [];
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.selfInertia-sync(beta 対象でない: ' + TARGET + ')');
+  } else {
+    try {
+      const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'selfinertia-w277d.json'), 'utf8');
+      const J = JSON.parse(text);
+      const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)');
+      else cases.push('html の SHA-256 一致');
+      const H = J.hypothesis || {};
+      if (H.engineConnected !== false) bad.push('② 仮説が「エンジン未接続」と宣言されていない');
+      if (!H.notDerived || H.notDerived.indexOf('導出していない') < 0)
+        bad.push('② 「慣性は導出していない」の宣言が無い');
+      cases.push(`仮説「${String(H.statement).slice(0, 34)}…」・含意 ${(H.implications || []).length} 件・エンジン未接続`);
+      const G = J.gates || [];
+      const must = ['G1', 'G3', 'G4', 'G5', 'G6', 'G7', 'G8'];
+      for (const id of must) {
+        const g = G.find((z) => z.id === id);
+        if (!g) bad.push(`③ 門 ${id} が無い`);
+        else if (!g.pass) bad.push(`③ 門 ${id} が FAIL(${g.gate})`);
+      }
+      const g2b = G.find((z) => z.id === 'G2b');
+      if (!g2b || !g2b.note) bad.push('③ G2b(単位の取り方に依る参考行)の注記が無い');
+      cases.push(`門 ${G.length} 本(必須 ${must.length} 本 PASS・G2b は参考行)`);
+      const A = J.htmlAudit || {}, sites = A.sites || [];
+      const se = sites.filter((z) => z.verdict === 'selfExcluded');
+      if (!se.length) bad.push('④ 自己除外の監査行が無い');
+      for (const z of se) if (!z.hits || !z.hits.length) bad.push(`④ ${z.id} が html に見つからない`);
+      if (!A.summary || A.summary.dynamicsPathsSelfExcluded !== true)
+        bad.push('④ 力学経路の自己除外がそろっていない');
+      if (!A.summary || A.summary.contradictsHypothesis !== false)
+        bad.push('④ 監査結果が仮説と矛盾していると記録されている');
+      cases.push(`html 監査 ${sites.length} 群(自己除外 ${se.length} 群・力学経路は全部自己除外)`);
+      if (!J.selfInDenominatorControl || J.selfInDenominatorControl.verdict !== 'reject')
+        bad.push('⑤ 自己項を分母へ入れる実装が reject として置かれていない');
+      else if (!(J.selfInDenominatorControl.chiExtAtSmallest < 1e-12))
+        bad.push('⑤ ρ→0 で χ_ext が 0 へ落ちていない(否定対照になっていない)');
+      cases.push(`否定対照(分母へ入れる)χ_ext=${Number(J.selfInDenominatorControl.chiExtAtSmallest).toExponential(3)}`);
+      if (!J.lagrangianDegeneracy || J.lagrangianDegeneracy.degenerate !== true)
+        bad.push('⑥ L の退化が測れていない');
+      cases.push('否定対照(L の退化)= 運動エネルギー 0・正準運動量 0');
+      const nw = J.meta.doNotWrite || [];
+      if (!nw.length) bad.push('⑦ meta.doNotWrite が無い');
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const at = P.indexOf('〔第277便d');
+      if (at < 0) bad.push('⑦ PHYSICS に〔第277便d〕節が無い');
+      else {
+        // **「言わないこと。」の段落は禁止語の一覧そのもの**なので、走査はその手前までにする
+        const whole = P.slice(at, at + 40000);
+        const cut = whole.indexOf('**言わないこと。**');
+        const sec = cut >= 0 ? whole.slice(0, cut) : whole;
+        for (const w of ['慣性を導出した', '運動量則を導出した'])
+          if (sec.indexOf(w) >= 0) bad.push(`⑦ PHYSICS〔第277便d〕に「${w}」が出ている`);
+        if (cut < 0) bad.push('⑦ PHYSICS〔第277便d〕に「言わないこと。」の宣言が無い');
+        if (sec.indexOf('selfDrift') < 0) bad.push('⑦ PHYSICS〔第277便d〕に自己並進写像の名前が無い');
+      }
+      cases.push('PHYSICS〔第277便d〕と一致(禁止語なし)');
+    } catch (e) { bad.push('正本 JSON が読めない: ' + String(e).slice(0, 90)); }
+    add('docs.selfInertia-sync', bad.length === 0,
+      `**慣性移動の仮定**(第277便d・原仮定者の裁定〔第67報〕(3)「**慣性移動は、複素決定力による、`
+      + `自分自身に対するゼロ距離の座標変換**」): ${cases.join(' / ')} —— `
+      + `**自己場の値 m/0 は 1 度も計算していない**(使うのは有限な極限 u_self=v だけ)。`
+      + `自己並進写像 selfDrift(x,v,Δt)=x+vΔt は**既存の位置更新と同じ写像**で、足し増す新しい項ではない`
+      + `(二重に足すと変位がちょうど 2 倍になる否定対照つき)。**エンジン未接続**で S._core には`
+      + `1 命令も足していない。**慣性は導出していない** —— 置いたのは仮説と、その検算・否定対照である`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 0a3z7) 第277便d(統括の読み R52): docs.bgbudget-sync ----
+// ----   「『背景複素場は軌道範囲でほぼ一様』と『その力学効果は小さい』は**別**」を数にした
+// ----   誤差予算の正本 JSON を PHYSICS と突き合わせる。固定するのは 6 点:
+// ----     ① `meta.targetSha256` が一致し、**門は測る前に宣言**されている。
+// ----     ② 3 行(❄️🌘📻)がそろい、**一様項と勾配項が分けて**出ている。
+// ----     ③ **警告計算**(未整理の参照系で背景速度を足したときの見かけの寄与)が ❄️ で
+// ----        冥王星側 ≈64.5 m/s・カロン側 ≈7.95 m/s を再現する(**予測ではない**と明記)。
+// ----     ④ 共動系変換の**時間微分の規約**が 2 つ実装され、V が ∇W と平行成分を持つ診断で
+// ----        `advected` だけが座標変換の加速度を不変にする(**実測**)。
+// ----     ⑤ 判定が門の文言どおりで、超えた行に「一様重力相当のパラメータでは代替できない」がある。
+// ----     ⑥ 書かない語が宣言され、docs/PHYSICS.md〔第277便d〕節がある。
+// ----   **beta 線の走行なので root は SKIP** する。
+{
+  const bad = [];
+  const cases = [];
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.bgbudget-sync(beta 対象でない: ' + TARGET + ')');
+  } else {
+    try {
+      const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'bgbudget-w277d.json'), 'utf8');
+      const J = JSON.parse(text);
+      const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)');
+      else cases.push('html の SHA-256 一致');
+      if (!J.gate || J.gate.declaredBeforeMeasuring !== true) bad.push('① 門が「測る前に宣言」になっていない');
+      cases.push(`門「${J.gate.rule}」(σ_Buie=${J.gate.sigmaBuieS} s)`);
+      const rows = (J.rows || []).filter((z) => !z.skipped);
+      if (rows.length !== 3) bad.push(`② 行が 3 本(❄️🌘📻)でない(${rows.length})`);
+      for (const r of rows) {
+        for (const k of ['total', 'uniform', 'gradient', 'weightOnly', 'timeDeriv'])
+          if (!r[k]) bad.push(`② ${r.id} に ${k} が無い(一様項と勾配項が分けられていない)`);
+        if (r.onStillBound === undefined) bad.push(`② ${r.id} に軌道が閉じているかの記録が無い`);
+      }
+      cases.push(`3 行(${rows.map((z) => z.emoji + ' σ 比 ' + Number(z.total.dPhaseTimeOverSigma).toExponential(2)).join(' / ')})`);
+      const w = (J.warningCalculation || []).find((z) => z.id === 'plutoCharonReal');
+      if (!w) bad.push('③ ❄️ の警告計算が無い');
+      else {
+        const v = w.bodies.map((z) => z.apparentDeltaV);
+        if (!(Math.abs(v[0] - 64.5) < 0.2)) bad.push(`③ 冥王星側の見かけの寄与が ≈64.5 m/s でない(${v[0]})`);
+        if (!(Math.abs(v[1] - 7.95) < 0.05)) bad.push(`③ カロン側の見かけの寄与が ≈7.95 m/s でない(${v[1]})`);
+        if (String(w.note).indexOf('予測ではない') < 0) bad.push('③ 警告計算に「予測ではない」の明記が無い');
+        cases.push(`警告計算 ❄️ 冥王星側 ${v[0].toFixed(3)} m/s・カロン側 ${v[1].toFixed(3)} m/s(**予測ではない**)`);
+      }
+      // ④ **規約を見分けられるのは「V が ∇W と平行成分を持つ」かつ「局所源がある」配置だけ**である
+      //    (純粋な背景だけだと u≡u_bg で ∇u≡0 になり、2 つの規約が一致してしまう —— 実測)。
+      //    ❄️ の行で見る(📻 は χ_bg≈1e−12 で相対量が丸めに埋もれるので判定に使わない)。
+      const cov = J.covariance || [];
+      const pick = (c) => cov.find((z) => z.id === 'plutoCharonReal' && z.convention === c
+        && String(z.V).indexOf('tilt45') === 0 && z.sources === '背景+局所源');
+      const adv = pick('advected'), fld = pick('fieldTime');
+      const bgOnly = cov.filter((z) => z.sources === '背景のみ' && String(z.V).indexOf('tilt45') === 0);
+      if (!adv || !fld) bad.push('④ 規約 2 つの診断行(❄️・tilt45・背景+局所源)がそろっていない');
+      else {
+        if (!(adv.accelRel < 1e-6)) bad.push(`④ advected で座標変換の加速度が不変になっていない(${adv.accelRel})`);
+        if (!(fld.accelRel > 1e-3)) bad.push(`④ fieldTime との差が出ていない(診断になっていない: ${fld.accelRel})`);
+        if (!(adv.residVsAdvected < 1e-9)) bad.push('④ ∂ₜu の予言(advected)が合っていない');
+        if (!bgOnly.length) bad.push('④ 背景だけの対照行が無い');
+        cases.push('規約の実測(❄️・V が ∇W と平行成分を持つ・背景+局所源): advected の a 不変 '
+          + `${adv.accelRel.toExponential(2)} / fieldTime ${fld.accelRel.toExponential(2)}`
+          + `(背景だけの配置では ∇u≡0 で 2 規約が一致する —— 見分けられない)`);
+      }
+      for (const v of (J.verdicts || [])) {
+        if (!v.statement) bad.push(`⑤ ${v.id} に判定の文が無い`);
+        else if (!v.negligible && v.statement.indexOf('一様重力相当のパラメータ') < 0)
+          bad.push(`⑤ ${v.id} が門を超えたのに代替不能の文が無い`);
+      }
+      cases.push(`判定 ${(J.verdicts || []).map((z) => z.emoji + (z.negligible ? ' 無視できる' : ' **無視できない**')).join(' / ')}`);
+      const nw = J.meta.doNotWrite || [];
+      if (!nw.length) bad.push('⑥ meta.doNotWrite が無い');
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const at = P.indexOf('〔第277便d');
+      if (at < 0) bad.push('⑥ PHYSICS に〔第277便d〕節が無い');
+      else {
+        // **「言わないこと。」の段落は禁止語の一覧そのもの**なので、走査はその手前までにする
+        const whole = P.slice(at, at + 40000);
+        const cut = whole.indexOf('**言わないこと。**');
+        const sec = cut >= 0 ? whole.slice(0, cut) : whole;
+        for (const q of ['背景を無視してよいことを証明した', '背景を較正した'])
+          if (sec.indexOf(q) >= 0) bad.push(`⑥ PHYSICS〔第277便d〕に「${q}」が出ている`);
+        if (cut < 0) bad.push('⑥ PHYSICS〔第277便d〕に「言わないこと。」の宣言が無い');
+        if (sec.indexOf('64.5') < 0 || sec.indexOf('7.95') < 0)
+          bad.push('⑥ PHYSICS〔第277便d〕に警告計算の 2 値が無い');
+      }
+      cases.push('PHYSICS〔第277便d〕と一致(禁止語なし)');
+    } catch (e) { bad.push('正本 JSON が読めない: ' + String(e).slice(0, 90)); }
+    add('docs.bgbudget-sync', bad.length === 0,
+      `**背景 ON/OFF の誤差予算**(第277便d・統括の読み R52「『ほぼ一様』と『効果が小さい』は**別**」): `
+      + `${cases.join(' / ')} —— **これは予算であって判定ではない**(合否は門が出す)。`
+      + `**一様な背景「速度」は参照系の取り替えで消えるが、一様な背景「重み」W₀ は消えない** ——`
+      + `重み付き平均の分母を変えるからである(実測: 一様項の大半が W₀ の希釈から来る)。`
+      + `**背景を無視してよいことを証明してはいない**`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
@@ -31080,11 +31260,15 @@ if (!FAST) {
           const mod = (k, v) => { const o = JSON.parse(JSON.stringify(FULL)); o[k] = v; return o; };
           res.bgcBackgrounds = BG_COMPLEX_BACKGROUNDS.slice();
           res.bgcUnits = Object.assign({}, BG_COMPLEX_UNITS);
+          // 第277便d(R52): **省略を許すのは "zero" のときだけ**(世代判定の鍵)
+          res.bgcStrictGen = (typeof BG_COMPLEX_STRICT !== 'undefined') && BG_COMPLEX_STRICT === true;
+          res.bgcRequired = (typeof BG_COMPLEX_REQUIRED !== 'undefined') ? BG_COMPLEX_REQUIRED.slice() : null;
           res.bgcGate = {
             none: B(null).ok && B(null).v === null,           // **未宣言は「未確定」**(null)
             full: B(FULL).ok,
             zeroDeclared: B(ZERO).ok,                         // **「ゼロと宣言」**は受理
-            minimal: B({ background: 'galactic', W0: 3.12 }).ok,   // 省略した成分は 0 で埋める
+            // 第277便d: 部分宣言は**拒否**(第276便a は 0 で埋めて受理していた —— 期待 false)
+            minimal: B({ background: 'galactic', W0: 3.12 }).ok,
             unknownBg: B(mod('background', 'sun')).ok,        // 期待 false
             noW0: B({ background: 'galactic' }).ok,           // 期待 false(W₀ は宣言必須)
             negW0: B(mod('W0', -1)).ok,                       // 期待 false
@@ -31101,6 +31285,30 @@ if (!FAST) {
             goodRefPos: B(Object.assign({}, FULL, { refPos: [1, 2] })).ok,
             notArray: B([FULL]).ok,                                             // 期待 false
           };
+          // ===== 第277便d(統括の読み R52): **未確定を 0 にしない**(検証器の厳格化)=====
+          // 「W₀ と background だけ書いて微分は未測定」という宣言が黙って「微分は 0」になるのを
+          // 止める。**`background:"zero"` のときだけ省略を許す**(= 純関数 `normalizeBackground`
+          //〔tests/lib-w275b-meshfield.mjs〕と同じ判定。**アプリと純関数で契約が違う**状態を解消)。
+          const drop = (k) => { const o = JSON.parse(JSON.stringify(FULL)); delete o[k]; return o; };
+          const nullify = (k) => { const o = JSON.parse(JSON.stringify(FULL)); o[k] = null; return o; };
+          res.bgcStrict = { required: res.bgcRequired, full: B(FULL).ok };
+          res.bgcStrictDrop = {}; res.bgcStrictNull = {}; res.bgcStrictZeroDrop = {};
+          for (const k of (res.bgcRequired || ['A0', 'gradW', 'gradA', 'dAdt', 'dWdt'])) {
+            res.bgcStrictDrop[k] = B(drop(k)).ok;                 // 期待 false(省略は拒否)
+            res.bgcStrictNull[k] = B(nullify(k)).ok;              // 期待 false(null も拒否)
+            const z = JSON.parse(JSON.stringify(ZERO)); delete z[k];
+            res.bgcStrictZeroDrop[k] = B(z).ok;                   // 期待 true("zero" は省略可)
+          }
+          res.bgcStrictOnlyW0 = B({ background: 'heliocentric', W0: 5.7e-9 }).ok;   // 期待 false
+          res.bgcStrictZeroOnly = B({ background: 'zero', W0: 0 }).ok;             // 期待 true
+          res.bgcStrictErr = HP.validateBackgroundComplex(drop('gradA')).err || null;
+          // 検証器ごしでも同じ(部分宣言のプリセットは受理されない)
+          const wPartial = HP.validatePreset(mk({ D0: 0.006,
+            backgroundComplex: { background: 'heliocentric', W0: 5.7e-9 } }, 'calibration'));
+          const wZeroPart = HP.validatePreset(mk({ D0: 0.006,
+            backgroundComplex: { background: 'zero', W0: 0 } }, 'calibration'));
+          res.bgcStrictPreset = { partialOk: wPartial.ok, zeroPartialOk: wZeroPart.ok,
+            zeroKept: wZeroPart.ok ? JSON.stringify(wZeroPart.preset.physics.backgroundComplex) : null };
           // 内蔵で宣言している本数(**本便は 0 本** —— 131 本の署名は 1 文字も動かない)
           res.bgcDeclaredBuiltins = bis.filter(p => p.physics && p.physics.backgroundComplex !== undefined)
             .map(p => p.id);
@@ -31355,8 +31563,10 @@ if (!FAST) {
     // **本便は内蔵に 1 本も宣言を足していない**ので、131 本の presetSig は 1 文字も動かない。
     // **root は SKIP**(世代判定は定数 BG_COMPLEX_KEY の有無)。
     add('preset.backgroundComplex-declared',
-      !r.bgcGen || (r.bgcGate.none === true && r.bgcGate.full === true
-        && r.bgcGate.zeroDeclared === true && r.bgcGate.minimal === true
+      !r.bgcGen || ((r.bgcGate.none === true && r.bgcGate.full === true
+        && r.bgcGate.zeroDeclared === true
+        // 第277便d(R52): 部分宣言は**拒否**へ変えた(第276便a の `minimal===true` から反転)
+        && r.bgcGate.minimal === false
         && r.bgcGate.unknownBg === false && r.bgcGate.noW0 === false
         && r.bgcGate.negW0 === false && r.bgcGate.nanW0 === false
         && r.bgcGate.shortA0 === false && r.bgcGate.longGradA === false
@@ -31368,13 +31578,14 @@ if (!FAST) {
         && r.bgcPreset.plainOk === true && r.bgcPreset.declOk === true && r.bgcPreset.badOk === false
         && r.bgcPreset.plainHasKey === false && r.bgcPreset.idempotent === true
         && r.bgcDeclaredBuiltins.length === 0 && r.bgcInert.same === true
-        && r.bgcSigDiff === true && r.bgcSigZeroDiff === true && r.bgcSigVsD0 === true),
+        && r.bgcSigDiff === true && r.bgcSigZeroDiff === true && r.bgcSigVsD0 === true)),
       !r.bgcGen ? 'SKIP(第276便a 未適用 — 対象に BG_COMPLEX_KEY なし・root は v1.44.0 RC)'
       : `**背景複素決定力の宣言鍵**(第276便a・原仮定者の裁定〔第66報〕(1)「**『背景決定力 D₀』と`
       + `別途『背景複素決定力』を用意する**」): 受理値=${JSON.stringify(r.bgcBackgrounds)}・`
       + `単位=${JSON.stringify(r.bgcUnits)} —— **D₀ は [M/L]・W₀ は [M/L²]・A₀ は [M/(L·T)] で`
       + `別の量である**(同じ数を両方に入れない)/ 門の実測: **未宣言は「未確定」**(null)=`
       + `${r.bgcGate.none}・**"zero" は「ゼロと宣言」**=${r.bgcGate.zeroDeclared}`
+      + `・**第277便d: 部分宣言は拒否**(省略を許すのは "zero" だけ)=${r.bgcGate.minimal === false}`
       + `(値が入った "zero" は拒否=${r.bgcGate.zeroNameWithValue === false})・W₀ は宣言必須=`
       + `${r.bgcGate.noW0 === false}・負/非数の W₀ は拒否=${r.bgcGate.negW0 === false}/`
       + `${r.bgcGate.nanW0 === false}・**W₀=0 なら他成分も 0**=${r.bgcGate.zeroW0WithA0 === false}`
@@ -31393,6 +31604,35 @@ if (!FAST) {
       + `**「ゼロと宣言」と「未宣言(未確定)」も別の署名**(=${r.bgcSigZeroDiff})・`
       + `**D₀ に同じ数を入れた preset とも別の署名**(=${r.bgcSigVsD0}) —— `
       + `内蔵へ宣言を配る便は**署名便**になる(統括の裁定待ち)`);
+    // ===== 第277便d(統括の読み R52): `physics.backgroundComplex` の**厳格化** =====
+    // R52「`validateBackgroundComplex` は A₀・∇W・∇A・∂ₜW・∂ₜA が未宣言/null のときゼロ補完して
+    // いるが `normalizeBackground` は拒否する(**アプリと純関数で契約が違う**)→ `background:"zero"`
+    // のときだけ省略を許し、それ以外は明示必須へ」。**内蔵の宣言は 0 本**なので署名も力学も動かない。
+    // **root は SKIP**(世代判定は定数 `BG_COMPLEX_STRICT` の有無)。
+    add('preset.backgroundComplex-strict',
+      !r.bgcGen || !r.bgcStrictGen
+      || (Array.isArray(r.bgcRequired) && r.bgcRequired.length === 5
+        && r.bgcStrict.full === true
+        && Object.values(r.bgcStrictDrop).every((z) => z === false)
+        && Object.values(r.bgcStrictNull).every((z) => z === false)
+        && Object.values(r.bgcStrictZeroDrop).every((z) => z === true)
+        && r.bgcStrictOnlyW0 === false && r.bgcStrictZeroOnly === true
+        && r.bgcStrictPreset.partialOk === false && r.bgcStrictPreset.zeroPartialOk === true
+        && r.bgcDeclaredBuiltins.length === 0),
+      (!r.bgcGen || !r.bgcStrictGen)
+        ? 'SKIP(第277便d 未適用 — 対象に BG_COMPLEX_STRICT なし・root は v1.44.0 RC)'
+        : `**背景複素決定力の宣言を厳格化**(第277便d・統括の読み R52「**未確定を 0 にしない**」): `
+        + `明示必須の成分=${JSON.stringify(r.bgcRequired)} / **省略を許すのは background:"zero" の`
+        + `ときだけ** —— 省略の拒否 ${JSON.stringify(r.bgcStrictDrop)}・null の拒否 `
+        + `${JSON.stringify(r.bgcStrictNull)}・"zero" では省略可 ${JSON.stringify(r.bgcStrictZeroDrop)}`
+        + ` / W₀ だけの宣言は拒否=${r.bgcStrictOnlyW0 === false}・"zero"+W₀=0 だけは受理=`
+        + `${r.bgcStrictZeroOnly} / 検証器ごしでも同じ(部分宣言のプリセットは拒否=`
+        + `${r.bgcStrictPreset.partialOk === false}・"zero" は受理して保存=${r.bgcStrictPreset.zeroKept})`
+        + ` / **これで純関数 \`normalizeBackground\`(tests/lib-w275b-meshfield.mjs)と同じ判定に`
+        + `なった** —— 第276便a は省略を 0 で埋めていたので、**アプリと純関数で受理契約が違った** / `
+        + `**移行**: 部分宣言の JSON は今後拒否される(ゼロと言い切れるなら \`background:"zero"\`、`
+        + `値が未確定なら鍵ごと書かない〔未宣言 = 未確定〕)。**内蔵の宣言は ${r.bgcDeclaredBuiltins.length} 本**`
+        + `なので 131 本の presetSig も力学も 1 bit も動かない / 拒否の文面の例: ${String(r.bgcStrictErr).slice(0, 90)}`);
     add('params.radius-default', r.radiusDef === 1, `radiusScale既定=${r.radiusDef}(=1)`);
     add('ai.base-context', r.baseOpts >= 28 && r.baseCtx && r.basePlain,
       `候補=${r.baseOpts} 文脈注入=${r.baseCtx} 未選択は素通し=${r.basePlain}`);
