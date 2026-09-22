@@ -82,6 +82,11 @@
   .ppGroupHead:first-child{margin-top:2px;padding-top:0;border-top:0;}
   .ppGroupHead[aria-expanded="true"]{color:var(--acc);}
   .ppGroupHead .ppGroupMark{flex:0 0 auto;width:calc(10px*var(--uz,1));}
+  /* 第277便e: グループの絵文字(表示専用)。大きさ・余白はスケール(距離指数)の絞り込みチップ
+     (.ppChip = 11px・gap 5px)へ揃える —— 見出しの gap は 8px なので margin-right:-3px で
+     絵文字と群名の間だけ 5px に詰める。折り返さない(flex:0 0 auto・line-height:1) */
+  .ppGroupHead .ppGroupIcon{flex:0 0 auto;font-size:calc(11px*var(--uz,1));line-height:1;
+    margin-right:-3px;}
   .ppGroupHead .ppGroupCount{margin-left:auto;font-weight:400;opacity:0.8;}
   .ppGroupBody[hidden]{display:none!important;}
   /* 第147便: E水準フィルタの運用注記(件数は実行時導出 — 手打ちしない)
@@ -446,8 +451,13 @@
      付けない)= details.claimsDetails と同じ規約で、開閉の記憶も持たない(再描画で閉じる)。
      クラス名(.ffBox / .ffHead / .ffRow / .ocRow)は 1 つも変えていないので、
      宣言行の数え方(QA wave119.ui の `#helpBody .ocRow`)は不変である */
+  /* 第277便e(AL15): 見出しに状態語を足したので、狭い画面では折り返す(flex-wrap)。
+     状態語は本文より一段小さく・通常太さで、見出しの語と区別できるようにする */
   details.ffBox>summary{cursor:pointer;min-height:34px;display:flex;align-items:center;
-    touch-action:manipulation;list-style-position:inside;}
+    flex-wrap:wrap;gap:6px;touch-action:manipulation;list-style-position:inside;}
+  .ffFoldStatus{font-size:calc(11px*var(--uz,1));font-weight:400;color:var(--dim);
+    line-height:1.45;overflow-wrap:anywhere;min-width:0;}
+  .ffFoldStatus[data-src="verdict"]{color:var(--hot);}
   .ffRow{font-size:calc(12px*var(--uz,1));line-height:1.55;margin:3px 0;}
   .ffRow.ffFail{color:var(--err);}
   .ffRow.ffPass{color:var(--ok);}
@@ -1538,7 +1548,7 @@ ja: {
   // 一切書かない(グループ=README のグループ紹介 / スケール=scaleTier の既存定義〔アンカーは
   // SCALE_ANCHORS から実行時導出〕/ 分類=sampleClass チップの tip 文そのまま / E水準=第147便の注記)
   ppNoteTip:"タップして説明を開閉",
-  ppNoteGroupHead:"サンプルのグループは表示・分類専用の区分で、物理・保存 JSON には一切影響しない(並びはスケール順)。第255便c で**絞り込みの次元からは外し**、一覧の見出し(タップで開閉・既定は畳んだ状態)として残した。第256便c で、この説明を**一覧のすぐ上**へ移し、開閉の記憶をグループの**表示名ではなく安定した id** で持つようにした(グループ名が変わっても記憶した開閉は消えない)。",
+  ppNoteGroupHead:"サンプルのグループは表示・分類専用の区分で、物理・保存 JSON には一切影響しない(並びはスケール順)。第255便c で**絞り込みの次元からは外し**、一覧の見出し(タップで開閉・既定は畳んだ状態)として残した。第256便c で、この説明を**一覧のすぐ上**へ移し、開閉の記憶をグループの**表示名ではなく安定した id** で持つようにした(グループ名が変わっても記憶した開閉は消えない)。第277便e で、見出しの先頭に**群ごとの絵文字**を置いた(スケールの絞り込みチップと同じ大きさ・余白。**表示専用**で、読み上げ名は変わらない —— 絵文字は aria-hidden。サンプルの絵文字と重なってよい。表に無い群は絵文字なし)。",
   groupNotes:{
     "スピンと熱":"熱平衡・スピン圧・熱伝導・放射冷却・対流・三態の創発など、スピンと熱まわりの統制実験。",
     "運動と時空":"自由落下と放物運動・時間の矢・コンパクト力の符号・箱宇宙と連星・空間メッシュの窓など、運動が時空の枠組みに対して何を見せるかの統制実験(時計と弱場GR較正は第273便a で「時計と重力」へ分けた)。",
@@ -1707,6 +1717,7 @@ ja: {
   // 第276便f(第66報(5)②): 概要(要約の要約 — 宣言 descStruct.brief が無ければ summary から機械抽出)
   descBriefHead:"🔖 概要", descBriefTip:"このサンプルを数行で言うと。宣言(descStruct.brief)があればその文・無ければ「要約」の先頭 1〜2 文を機械抽出したもの(120字上限・切ったときだけ末尾が「…」)。詳しくは下の「📌 要約」を読む。",
   ffFoldTip:"タップで開閉する(既定は畳む)。中身は宣言のままで、数え方も変えていない。",
+  ffFoldStatusTip:"畳んだままでも状態が分かるように、見出しへ残した 1 行(≤60 字)。出所は**正式判定の門の語の転記**(署名が合うサンプルのみ)か、無ければ**「失敗から見る」の失敗の先頭文**。このページでは何も測っていない(第277便e)。",
   // 第74便→第98便: 7段階スケール(scaleTier)— チップ・換算表示・AI雛形(第84便C: 絞り込み用 grpScale は撤去)
   // 第254便c: 「ベースのスケール」に追加した頻用組み合わせの名前(用途が分かる短い名)
   // 第255便c(第47報 N7b): 指数の表記は**三つ組**(距離/時間/質量)へ統一したので、名前から
@@ -2335,7 +2346,7 @@ en: {
   // Wave 149: the four filter dimensions each carry a collapsible note, opened by tapping the
   // dimension label. Wording is transcribed/condensed from existing docs — no new physical claim.
   ppNoteTip:"Tap to show or hide the note",
-  ppNoteGroupHead:"Sample groups are a display/classification split only and never touch the physics or the saved JSON (the order runs from small to large scale). Wave 255c removed them from the filter dimensions and kept them as the list headings (tap to fold or unfold; folded by default). Wave 256c moved this note down to sit right above the list and keyed the remembered fold state to a STABLE ID rather than the display name, so renaming a group no longer wipes what you had open.",
+  ppNoteGroupHead:"Sample groups are a display/classification split only and never touch the physics or the saved JSON (the order runs from small to large scale). Wave 255c removed them from the filter dimensions and kept them as the list headings (tap to fold or unfold; folded by default). Wave 256c moved this note down to sit right above the list and keyed the remembered fold state to a STABLE ID rather than the display name, so renaming a group no longer wipes what you had open. Wave 277e put a per-group emoji at the head of each heading (same size and spacing as the scale filter chips). It is DISPLAY ONLY: the emoji is aria-hidden so the accessible name is unchanged, it may coincide with a sample emoji, and groups outside the table get no emoji.",
   groupNotes:{
     "スピンと熱":"Controlled experiments around spin and heat: thermal equilibrium, spin pressure, conduction, radiative cooling, convection, emergent states of matter.",
     "運動と時空":"Controlled experiments on what motion reveals about the spacetime frame: free fall and projectile motion, the arrow of time, the sign of the compact force, a binary inside a box universe, the space-mesh window. (Clocks and the weak-field GR calibration moved to \"Clocks & Gravity\" in wave 273a.)",
@@ -2493,6 +2504,7 @@ en: {
   // 第276便f: the brief (a summary of the summary — declared descStruct.brief, else extracted from summary)
   descBriefHead:"🔖 In brief", descBriefTip:"This sample in a few lines. It is the declared descStruct.brief when there is one, otherwise the first one or two sentences extracted from \"Summary\" (120-character cap; the trailing \"…\" appears only when something was cut). Read \"📌 Summary\" below for the full text.",
   ffFoldTip:"Tap to open or close (collapsed by default). The contents are the declarations themselves — nothing about how they are counted has changed.",
+  ffFoldStatusTip:"A one-line status (<=60 chars) kept on the summary so it is readable while collapsed. It is either a TRANSCRIPT of the formal gate word (samples whose signature still matches) or, failing that, the first sentence of the Failure First failure. Nothing is measured on this page (wave 277e).",
   // 第74便: 5-tier scale (scaleTier) — chips/conversion/AI templates (第84便C: filter-only grpScale removed)
   // 第254便c: names of the frequently-used exponent combinations added to "Base scale"
   // 第255便c: the exponents are now shown as a TRIPLE (length/time/mass) generated from the table
@@ -3085,6 +3097,47 @@ function assessedValuesOf(p,opts){
     canonical:ASSESSED_CANON, n:rows.length, rows:show? rows.slice() : [],
     reason: show? null : (!sigOk? "preset-signature-differs" : "canonical-target-differs"),
     note:"**判定ではなく転記である**。σ 倍は |実測−観測|/σ であって合否ではない"};
+}
+// ===== 第277便e(原仮定者の裁定(第67報)(4)・AL15): **畳んだ見出しに状態語を残す** =====
+// 第276便f で「失敗から見る」「観測結果カード」を details へ畳んだ結果、Failure First が
+// 1 タップ奥に入った。そこで **summary 行に状態と主要理由の 1 行**(≤60 字)を残す。
+// **ここで何も判定しない** —— 出所は次の 2 つだけで、どちらも既存の宣言/転記である:
+//   ① 正式判定(src="verdict"): `ASSESSED_VALUES` の門の語(`g`)の**転記**。署名が合う本だけ
+//      (`assessedValuesOf().show`)。複数行あるときは重い順(否 → 数値未解決 →
+//      mapping-unresolved → 未判定 → 合)で 1 つ選ぶ。**σ 倍も合否もここで計算しない**。
+//   ② 失敗から見る(src="failureFirst"): 正式判定が無い本は `failureFirst.fail` の**先頭文**。
+//   どちらも無い本(src="none")は**状態語なし**で、見出しは従来どおりの文字列になる。
+// 表示専用 —— 物理・presetSig・保存 JSON・AI 仕様には 1 バイトも効かない。
+const DESC_FOLD_STATUS_CAP=60;
+const ASSESSED_GATE_RANK=["否","数値未解決","mapping-unresolved","未判定","合"];   // 重い順
+function descFoldFirstSentence(t){
+  const s=String(t==null? "" : t).trim(); if(!s) return "";
+  const m=s.match(/^[\s\S]*?(。|\.\s|\.$)/);
+  return (m? m[0] : s).trim();
+}
+function descFoldStatusOf(p){
+  if(!p) return null;
+  let word=null, src="none";
+  const av=assessedValuesOf(p);
+  if(av && av.show && av.rows.length){
+    let best=null, bi=ASSESSED_GATE_RANK.length+1;
+    for(const r of av.rows){
+      const g=String(r.g==null? "" : r.g); if(!g) continue;
+      let i=ASSESSED_GATE_RANK.findIndex(k=>g.indexOf(k)===0);
+      if(i<0) i=ASSESSED_GATE_RANK.length;
+      if(i<bi){ bi=i; best=g; }
+    }
+    if(best){ word=best; src="verdict"; }
+  }
+  const ff=pFailureFirst(p);
+  let reason=ff? descFoldFirstSentence(ff.fail) : "";
+  if(!word){
+    if(!reason) return null;
+    word=reason; reason=""; src="failureFirst";
+  }
+  let t=word+(reason? "・"+reason : "");
+  if(t.length>DESC_FOLD_STATUS_CAP) t=t.slice(0,DESC_FOLD_STATUS_CAP-1)+"…";
+  return {text:t, src, word, cap:DESC_FOLD_STATUS_CAP};
 }
 // ===== 第272便d: **空間メッシュ/複素決定力場**の状態(**宣言と作動を分ける**)=====
 // 画面の選択値だけを根拠にしない —— 実行情報(S.hasGeoToy / S.geoToyDeny / S.geoToyStop /
@@ -26833,6 +26886,19 @@ const GROUP_ALIASES={"空間と時間":"運動と時空","銀河の物語":"銀�
   "光の物語":"光の伝播","熱の実験室":"スピンと熱","箱宇宙":"箱宇宙の実験",
   "ローターの物語":"自転と減光","現実との照合・太陽系外":"現実との照合・連星"};
 function gCanon(g){ const k=(g==null)? "内蔵" : String(g); return GROUP_ALIASES[k] || k; }
+// 第277便e(原仮定者の裁定(第67報)(4)「『サンプルを選ぶ』のグループに、スケール(距離指数の
+// 絞り込みチップ)の様にアイコンを用意する(サンプルのアイコンと被っても構わない)」):
+// **表示専用の絵文字表**。鍵は `gCanon` で正規化した**正規グループ名**なので、旧名を宣言した
+// プリセット(GROUP_ALIASES の左辺)も同じ絵文字になる。表に無い群(AI生成・保存一覧・
+// AI が作った独自 group 等)は**絵文字なし**で従来どおりの見出しになる。
+// **physics・claims・presetSig・保存 JSON・AI 仕様には 1 バイトも効かない**(見出しの
+// 読み上げ名も変えない —— 絵文字は aria-hidden で読み上げから外す)。
+// 絵文字は SCALE_EMOJI(距離指数のチップ)と重なってよい(原仮定者の裁定のとおり)。
+const GROUP_ICONS={"運動と時空":"🧭","銀河の力学":"🌌","天体の機構":"🪐","時計と重力":"⏱️",
+  "光の伝播":"💡","スピンと熱":"🌡️","箱宇宙の実験":"📦","自転と減光":"🌗",
+  "現実との照合・太陽系":"☀️","現実との照合・連星":"⭐","実在天体のアナロジー":"🔭",
+  "法則の実験室":"⚗️","シミュレーション":"🖥️","現実との照合":"📏"};
+function gIcon(g){ return GROUP_ICONS[gCanon(g)] || ""; }
 // 第273便a(AH7 候補・表示のみ): **グループ内**のファミリー表示順位。BUILTIN_PRESETS の配列は
 // 1 つも動かさず、表に載った群だけ「ファミリー単位」で並べ替える(表に無い群・表に無いファミリー
 // は既定順位 = 配列順のまま)。太陽系内の並びを論文3 の順(水星 → 月 → 木星 → qLock → 環 → 残り)
@@ -27148,7 +27214,13 @@ function ppRender(){
     const mark=document.createElement("span"); mark.className="ppGroupMark"; mark.textContent=open?"▾":"▸";
     const nm=document.createElement("span"); nm.textContent=txt;
     const cnt=document.createElement("span"); cnt.className="ppGroupCount";
-    h.appendChild(mark); h.appendChild(nm); h.appendChild(cnt);
+    h.appendChild(mark);
+    // 第277便e: 開閉マークの隣にグループの絵文字(表示専用)。読み上げ名は変えないので
+    // aria-hidden="true" を付ける(見出しのアクセシブル名は今までどおり txt + 件数)
+    const ic=gIcon(g);
+    if(ic){ const gi=document.createElement("span"); gi.className="ppGroupIcon";
+      gi.setAttribute("aria-hidden","true"); gi.textContent=ic; h.appendChild(gi); }
+    h.appendChild(nm); h.appendChild(cnt);
     const d=document.createElement("div"); d.className="ppGroupBody"; d.hidden=!open;
     d.id="ppGrpBody"+(ppGrpSeq++); h.setAttribute("aria-controls",d.id);
     h.addEventListener("click",()=>{
@@ -32102,8 +32174,24 @@ $("#btnLang").addEventListener("click",()=>{
 // 既存のセレクタ(#classChips .classChip / #cbDetails / #claimsDetails / #helpBody .ocRow /
 // #helpBody .notClaimLine / #helpBody .descSectHead / #familyRow / #presetIdLine)は全部そのまま効く。
 // 並びの機械検査は QA `ui.descOrder`(第276便f)が持つ。
-const HELP_SECTIONS=["chips","title","id","brief","notclaim","family","audit","ledger",
-  "body","obscard","failure","claims","stdtests","theory","external"];
+// 第277便e(原仮定者の裁定(第67報)(4)「『説明』タブの順番を ID・タイトル・チップ・概要・
+// 注意書き・仲間・監査ビュー・失敗から見る・較正台帳・観測結果カード・数値主張・創発の標準試験・
+// 要約 に変更する」): この配列**だけ**を差し替えた。第276便f と同じく**中身は 1 バイトも
+// 変えていない**(各ブロックの組み立てコードはそのまま・区画名も同じ)。要約(body)より後ろの
+// theory/external は現状の位置(末尾)のまま。旧順の機械検査は QA `ui.descOrder` で新順へ更新した。
+const HELP_SECTIONS=["id","title","chips","brief","notclaim","family","audit","failure",
+  "ledger","obscard","claims","stdtests","body","theory","external"];
+// 第277便e(AL15): 畳んだ見出し(summary.ffHead)の末尾へ状態語を足す(表示専用)。
+// **箱の中身・行の数え方・クラス名(.ffBox/.ffHead/.ffRow/.ocRow)は 1 つも変えない** ——
+// 足すのは summary の中の `<span class="ffFoldStatus">` だけで、開いた状態の中身は不変である
+function descFoldStatusTag(summaryEl,p){
+  const st=descFoldStatusOf(p);
+  if(!st) return null;
+  const s=document.createElement("span"); s.className="ffFoldStatus";
+  s.dataset.src=st.src; s.textContent=st.text; s.title=T("ffFoldStatusTip");
+  summaryEl.appendChild(s);
+  return st;
+}
 function renderHelp(){
   const host=$("#helpBody"); host.textContent="";
   const SEC={}; for(const k of HELP_SECTIONS) SEC[k]=document.createDocumentFragment();
@@ -32323,7 +32411,7 @@ function renderHelp(){
       // クラス(.ffBox/.ffHead/.ffRow/.ffFail/.ffPass)と行数は 1 つも変わらない
       const box=document.createElement("details"); box.className="ffBox";
       const bh=document.createElement("summary"); bh.className="ffHead"; bh.textContent=T("ffHead");
-      bh.title=T("ffFoldTip"); box.appendChild(bh);
+      bh.title=T("ffFoldTip"); descFoldStatusTag(bh,currentPreset); box.appendChild(bh);
       const r1=document.createElement("div"); r1.className="ffRow ffFail"; r1.textContent="❌ "+T("ffFail")+" — "+ff.fail; box.appendChild(r1);
       const r2=document.createElement("div"); r2.className="ffRow ffPass"; r2.textContent="✅ "+T("ffPass")+" — "+ff.pass; box.appendChild(r2);
       el.appendChild(box);
@@ -32338,7 +32426,7 @@ function renderHelp(){
       // 第276便f(第66報(5)⑤): div → details(既定は畳む)。宣言行 .ocRow の数え方は不変
       const box=document.createElement("details"); box.className="ffBox ocBox";
       const bh=document.createElement("summary"); bh.className="ffHead"; bh.textContent=T("ocHead");
-      bh.title=T("ffFoldTip"); box.appendChild(bh);
+      bh.title=T("ffFoldTip"); descFoldStatusTag(bh,currentPreset); box.appendChild(bh);
       // 第261便c: 観測結果カードの**先頭 1 行**に較正の現在地を出す(宣言のあるサンプルのみ)。
       // obsCard の行数(≤8 行)は宣言のままで、この 1 行は宣言ではなく派生表示である
       {
@@ -41389,6 +41477,10 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   descBriefOf:(p)=>descBriefOf(p||currentPreset),
   descBriefSource:(p)=>descBriefSource(p||currentPreset),
   descBriefExtract, DESC_BRIEF_CAP, HELP_SECTIONS:HELP_SECTIONS.slice(),
+  // 第277便e: グループの絵文字(表示専用)と、畳んだ見出しの状態語の読み口(QA 用フック)。
+  // どちらも純粋な読み取りで、sim・プリセットを 1 バイトも書き換えない
+  GROUP_ICONS:Object.assign({},GROUP_ICONS), gIcon, gCanon,
+  descFoldStatusOf:(p)=>descFoldStatusOf(p||currentPreset), DESC_FOLD_STATUS_CAP,
   // 第74便: 5段階スケール(分類・表示換算)のQA用フック — すべて表示専用で物理不変
   // 第77便(コアv2): QA/実験用の読み口(表示・検査専用)
   coreState:(i)=>{ const S=sim; if(!S.hasCoreV2||!S.coreMd[i]) return null;
