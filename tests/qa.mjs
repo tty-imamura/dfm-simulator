@@ -29963,9 +29963,12 @@ if (!FAST) {
 // ----   ui.descBrief  … 内蔵 131 本 ja/en の「概要」が 120 字以内・空でない・**決定的**
 // ----     (2 回呼んで同一)・文の途中で切れない。宣言(descStruct.brief)の本数も点呼する。
 // ----     概要は **presetSig にも description にも入らない**ことを別に確かめる。
-// ----   ui.descOrder  … #helpBody 直下の並びが HELP_SECTIONS の順(チップ→タイトル→ID→
-// ----     概要→注意書き→仲間→監査ビュー→較正台帳→本文→観測結果カード→失敗から見る→
-// ----     数値主張→標準試験)である。**全内蔵を掃引**し、既存セレクタが壊れていないことも見る。
+// ----   ui.descOrder  … #helpBody 直下の並びが HELP_SECTIONS の順である。**全内蔵を掃引**し、
+// ----     既存セレクタが壊れていないことも見る。**固定順は第277便e(原仮定者の裁定(第67報)
+// ----     (4))で差し替えた** —— ID→タイトル→チップ→概要→注意書き→仲間→監査ビュー→
+// ----     失敗から見る→較正台帳→観測結果カード→数値主張→標準試験→要約(→理論→外部)。
+// ----     **旧順(第276便f: チップ→タイトル→ID→…→本文→観測結果カード→失敗から見る→…)の
+// ----     検査は削除した**(同時に 2 つの順は成立しないので、固定順は 1 つだけ持つ)。
 // ----   ui.auditToggle … 監査ビューの導線はトグル(2 回目のタップで閉じる)・aria-expanded 同期。
 // ----   ui.descFold   … 「失敗から見る」「観測結果カード」が details(既定は畳む)で、
 // ----     宣言行の数(.ffRow / .ocRow)は畳む前と同じ。再描画で既定(畳む)へ戻る。
@@ -30126,20 +30129,21 @@ if (!FAST) {
     // --- ③ 並び(全内蔵掃引)
     const ro = await page.evaluate(() => {
       // 並びの契約(HELP_SECTIONS の順)。存在するものだけを取り出して**狭義単調増加**を見る
+      // 第277便e: 判定子(どの要素がどの区画か)は 1 つも変えていない —— **並べ替えただけ**
       const ANCH = [
-        ['chips', (e) => e.id === 'classChips'],
-        ['title', (e) => e.tagName === 'H4'],
         ['id', (e) => e.id === 'presetIdLine'],
+        ['title', (e) => e.tagName === 'H4'],
+        ['chips', (e) => e.id === 'classChips'],
         ['brief', (e) => e.className === 'descBriefHead'],
         ['notclaim', (e) => e.className === 'notClaimLine'],
         ['family', (e) => e.id === 'familyRow'],
         ['audit', (e) => e.id === 'avRow'],
-        ['ledger', (e) => e.id === 'cbDetails'],
-        ['body', (e) => e.className === 'descSectHead'],
-        ['obscard', (e) => e.classList && e.classList.contains('ocBox')],
         ['failure', (e) => e.classList && e.classList.contains('ffBox') && !e.classList.contains('ocBox')],
+        ['ledger', (e) => e.id === 'cbDetails'],
+        ['obscard', (e) => e.classList && e.classList.contains('ocBox')],
         ['claims', (e) => e.id === 'claimsDetails'],
         ['stdtests', (e) => e.classList && e.classList.contains('stdDetails')],
+        ['body', (e) => e.className === 'descSectHead'],
       ];
       const bad = [], seen = {};
       for (const nm of ANCH.map((a) => a[0])) seen[nm] = 0;
@@ -30170,8 +30174,9 @@ if (!FAST) {
       HP.loadPreset('saturn', false);
       return { n, bad, seen, live, sections: HP.HELP_SECTIONS };
     });
-    const WANT = ['chips', 'title', 'id', 'brief', 'notclaim', 'family', 'audit', 'ledger',
-      'body', 'obscard', 'failure', 'claims', 'stdtests', 'theory', 'external'];
+    // 第277便e(原仮定者の裁定(第67報)(4)): 固定順を新順へ差し替え(旧順は検査しない)
+    const WANT = ['id', 'title', 'chips', 'brief', 'notclaim', 'family', 'audit', 'failure',
+      'ledger', 'obscard', 'claims', 'stdtests', 'body', 'theory', 'external'];
     const secOk = JSON.stringify(ro.sections) === JSON.stringify(WANT);
     add('ui.descOrder', ro.bad.length === 0 && secOk && ro.n >= 100
       && ro.seen.chips === ro.n && ro.seen.title === ro.n && ro.seen.id === ro.n
@@ -30262,6 +30267,172 @@ if (!FAST) {
       `失敗から見る ${rf.nFf}本・観測結果カード ${rf.nOc}本・数値主張 ${rf.nCl}本を掃引 — ` +
       `いずれも details・既定は畳む・宣言行の数は不変 / NG=[${rf.bad.slice(0, 4).join(' ')}](0件)/ ` +
       `summary タップで開く=${rf.opened}・再描画で畳みへ戻る(記憶を持たない)=${rf.reset}`);
+  }
+}
+
+// ---- 第277便e(原仮定者の裁定(第67報)(4)「UI」2 件 + AL15): グループの絵文字・
+// ---- 畳んだ見出しの状態語。**どちらも表示専用**(物理・presetSig・保存 JSON・AI 仕様には
+// ---- 1 バイトも効かない)。世代判定は第277便e の実体の有無なので、root 等では自動 SKIP。
+// ----   ui.groupIcons     … 「サンプルを選ぶ」の見出しに正規グループ名 14 個ぶんの絵文字が
+// ----     1 個ずつある・絵文字は重複しない・**旧名(GROUP_ALIASES の左辺)は正規名と同じ
+// ----     絵文字**・表に無い群は絵文字なし・`aria-hidden="true"` で**読み上げ名は変わらない**・
+// ----     412×915 の縦画面で**見出しが折り返さない**・宣言側(プリセット)には漏れない。
+// ----   ui.descFoldSummary … 畳んだ「失敗から見る」「観測結果カード」の summary に状態語が
+// ----     1 行ある(≤ DESC_FOLD_STATUS_CAP 字)。出所は**正式判定の門の語の転記**(ASSESSED_VALUES
+// ----     の `g` と 1 字も違わない)か `failureFirst.fail` の先頭文のどちらかで、**このページで
+// ----     判定は作らない**。開いた状態の中身(.ffRow / .ocRow の数)は不変。
+{
+  const hasW277e = await page.evaluate(() => typeof (window.HP || {}).descFoldStatusOf === 'function'
+    && !!(window.HP || {}).GROUP_ICONS);
+  if (!hasW277e) {
+    console.log('SKIP ui.groupIcons / ui.descFoldSummary(対象に第277便e の HP.GROUP_ICONS / HP.descFoldStatusOf なし — root 等)');
+  } else {
+    // --- ① グループの絵文字(表と読み口)
+    const rg = await page.evaluate(() => {
+      const IC = HP.GROUP_ICONS;
+      const keys = Object.keys(IC);
+      const vals = keys.map((k) => IC[k]);
+      const inOrder = keys.filter((k) => GROUP_ORDER.indexOf(k) >= 0).length;
+      const dup = vals.length - new Set(vals).size;
+      const aliasBad = Object.keys(GROUP_ALIASES).filter((a) => {
+        const c = GROUP_ALIASES[a];
+        return !IC[c] || HP.gIcon(a) !== IC[c];
+      });
+      return { n: keys.length, keys, vals, inOrder, dup,
+        empty: vals.filter((v) => !v || !v.length).length,
+        nAlias: Object.keys(GROUP_ALIASES).length, aliasBad,
+        unknown: HP.gIcon('架空のグループ'), nullIcon: HP.gIcon(null),
+        // 宣言側へ漏れていない(プリセットにも正規化後のプリセットにも groupIcon は無い)
+        leaked: HP.allPresets().filter((p) => ('groupIcon' in p)).length,
+        leakedV: HP.allPresets().filter((p) => {
+          const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+          return v.ok && ('groupIcon' in v.preset);
+        }).length };
+    });
+    // --- ② 実画面(412×915 の縦)で見出しを測る: 絵文字の有無・aria-hidden・折り返し
+    const ctxG = await browser.newContext({ viewport: { width: 412, height: 915 } });
+    const gp = await ctxG.newPage();
+    const gErr = [];
+    gp.on('pageerror', (e) => gErr.push(String(e.message || e)));
+    await gp.goto(INDEX, { waitUntil: 'load' });
+    await gp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+    const rd = await gp.evaluate(() => {
+      try { localStorage.removeItem('hp_pick_open'); } catch (_) {}
+      ppOpen = {}; ppOpenTmp = {}; ppFilterSig = null; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all';
+      setShowAllSamples(true);
+      HP.loadPreset('saturn', false);
+      showPresetPicker();
+      const heads = [...document.querySelectorAll('#ppList .ppGroupHead')];
+      const bad = [], rows = [];
+      let withIcon = 0, wrapped = 0;
+      for (const h of heads) {
+        const kids = [...h.children];
+        const icon = kids.filter((e) => e.classList.contains('ppGroupIcon'));
+        const nm = kids.filter((e) => !e.classList.contains('ppGroupMark')
+          && !e.classList.contains('ppGroupIcon') && !e.classList.contains('ppGroupCount'));
+        const name = nm.map((e) => e.textContent).join('').trim();
+        // 見出しの表示名から正規グループ名を引き直す(ja/en どちらでも gName(canon)===name)
+        const canon = Object.keys(HP.GROUP_ICONS).find((g) => gName(g) === name)
+          || (GROUP_ORDER.find((g) => gName(g) === name) || null);
+        const want = canon ? (HP.GROUP_ICONS[canon] || '') : '';
+        if (want) {
+          if (icon.length !== 1) bad.push(name + ':icon' + icon.length);
+          else if (icon[0].textContent !== want) bad.push(name + ':icon-text');
+          else if (icon[0].getAttribute('aria-hidden') !== 'true') bad.push(name + ':aria');
+          else withIcon++;
+        } else if (icon.length) bad.push(name + ':icon-unexpected');
+        // 読み上げ名は変えていない = 名前の区画のテキストは gName(canon) のまま
+        if (canon && name !== gName(canon)) bad.push(name + ':name-changed');
+        // 折り返し: 名前の区画が 1 行(矩形 1 つ)で、印・絵文字・件数と同じ行に乗る
+        const r = nm[0] ? nm[0].getClientRects() : [];
+        const tops = kids.map((e) => Math.round(e.getBoundingClientRect().top));
+        const oneLine = r.length === 1 && (Math.max(...tops) - Math.min(...tops)) <= 4;
+        if (!oneLine) { wrapped++; bad.push(name + ':wrap'); }
+        rows.push({ name, icon: icon.length ? icon[0].textContent : '', rects: r.length,
+          w: Math.round(h.getBoundingClientRect().width),
+          h: Math.round(h.getBoundingClientRect().height) });
+      }
+      const iconFs = heads.map((h) => h.querySelector('.ppGroupIcon'))
+        .filter(Boolean).map((e) => getComputedStyle(e).fontSize);
+      // 大きさの基準: スケール(距離指数)の絞り込みチップ
+      const chip = document.querySelector('#ppModal .ppChip');
+      const chipFs = chip ? getComputedStyle(chip).fontSize : null;
+      setShowAllSamples(false);
+      hidePresetPicker();
+      try { localStorage.removeItem('hp_pick_open'); } catch (_) {}
+      ppOpen = {};
+      return { nHeads: heads.length, withIcon, wrapped, bad, rows,
+        iconFs: [...new Set(iconFs)], chipFs, vw: innerWidth, vh: innerHeight };
+    });
+    await ctxG.close();
+    const gOk = rg.n === 14 && rg.inOrder === 14 && rg.dup === 0 && rg.empty === 0
+      && rg.aliasBad.length === 0 && rg.unknown === '' && rg.nullIcon === ''
+      && rg.leaked === 0 && rg.leakedV === 0
+      && rd.bad.length === 0 && rd.wrapped === 0 && rd.withIcon === rd.nHeads
+      && rd.iconFs.length === 1 && rd.iconFs[0] === rd.chipFs && gErr.length === 0;
+    add('ui.groupIcons', gOk,
+      `表 ${rg.n} 群(GROUP_ORDER 内=${rg.inOrder}・重複 ${rg.dup}・空 ${rg.empty})=[${rg.keys.map((k, i) => rg.vals[i] + k).join(' ')}] / ` +
+      `旧名 ${rg.nAlias} 件が正規名と同じ絵文字=${rg.aliasBad.length === 0}[${rg.aliasBad.join(' ')}]・` +
+      `表に無い群は絵文字なし=${rg.unknown === '' && rg.nullIcon === ''}・宣言への漏れ ${rg.leaked}/${rg.leakedV} / ` +
+      `${rd.vw}×${rd.vh}: 見出し ${rd.nHeads} 本すべてに絵文字=${rd.withIcon === rd.nHeads}・` +
+      `折り返し ${rd.wrapped} 本(${rd.rows.map((x) => x.icon + x.name + ':' + x.rects + '行' + x.h + 'px').join(' / ')})・` +
+      `大きさはチップと同じ=${rd.iconFs[0] === rd.chipFs}(絵文字 ${rd.iconFs.join(',')} / チップ ${rd.chipFs})・` +
+      `JSエラー=${gErr.length} / NG=[${rd.bad.slice(0, 4).join(' ')}](0件)`);
+
+    // --- ③ 畳んだ見出しの状態語(AL15)
+    const rs = await page.evaluate(() => {
+      // 上の ui.descBrief が en で終わることがあるので、ja に固定して測り、最後に戻す
+      let lang0 = 'ja'; try { lang0 = LANG; } catch (_) {}
+      HP.setLang('ja');
+      const CAP = HP.DESC_FOLD_STATUS_CAP;
+      const bad = [], src = { verdict: 0, failureFirst: 0, none: 0 };
+      let nFf = 0, nOc = 0, nTag = 0, maxLen = 0, sample = [];
+      const GATES = new Set();
+      for (const k of Object.keys(ASSESSED_VALUES)) for (const r of ASSESSED_VALUES[k]) GATES.add(String(r.g));
+      for (const p of HP.allPresets()) {
+        if (String(p.id).startsWith('custom_')) continue;
+        HP.loadPreset(p.id, false);
+        const st = HP.descFoldStatusOf(p);
+        src[st ? st.src : 'none']++;
+        if (st) {
+          if (st.text.length > CAP) bad.push(p.id + ':cap');
+          if (st.src === 'verdict' && !GATES.has(st.word)) bad.push(p.id + ':not-a-gate-word');
+          if (st.src === 'failureFirst' && !String((p.failureFirst || {}).fail || '').startsWith(st.word.replace(/…$/, '').slice(0, 8))) bad.push(p.id + ':not-from-fail');
+          maxLen = Math.max(maxLen, st.text.length);
+          if (sample.length < 3) sample.push(p.emoji + ' ' + st.src + ':' + st.text);
+        }
+        for (const [sel, has] of [['#helpBody .ffBox:not(.ocBox)', !!p.failureFirst],
+          ['#helpBody .ocBox', !!(Array.isArray(p.obsCard) && p.obsCard.length)]]) {
+          const box = document.querySelector(sel);
+          if (!has) continue;
+          if (sel.indexOf('ocBox') > 0 && sel.indexOf('not') < 0) nOc++; else nFf++;
+          const sm = box && box.querySelector('summary.ffHead');
+          if (!sm) { bad.push(p.id + ':no-summary'); continue; }
+          const tag = sm.querySelectorAll('.ffFoldStatus');
+          if (!st) { if (tag.length) bad.push(p.id + ':tag-unexpected'); continue; }
+          if (tag.length !== 1) bad.push(p.id + ':tag' + tag.length);
+          else {
+            nTag++;
+            if (tag[0].textContent !== st.text) bad.push(p.id + ':tag-text');
+            if (tag[0].dataset.src !== st.src) bad.push(p.id + ':tag-src');
+            // 状態語は summary の中だけ = **開いた状態の宣言行は増えていない**
+            if (tag[0].closest('.ffRow')) bad.push(p.id + ':tag-in-row');
+          }
+          // 箱は畳んだまま・宣言行の数は不変
+          if (box.open) bad.push(p.id + ':open');
+        }
+      }
+      HP.setLang(lang0);
+      HP.loadPreset('saturn', false);
+      return { CAP, lang0, bad, src, nFf, nOc, nTag, maxLen, sample, nGates: GATES.size };
+    });
+    const sOk = rs.bad.length === 0 && rs.nTag > 0 && rs.src.verdict > 0 && rs.src.failureFirst > 0
+      && rs.maxLen <= rs.CAP;
+    add('ui.descFoldSummary', sOk,
+      `上限 ${rs.CAP} 字(最長 ${rs.maxLen})/ 状態語の出所: 正式判定 ${rs.src.verdict} 本・` +
+      `失敗から見る ${rs.src.failureFirst} 本・無し ${rs.src.none} 本(門の語 ${rs.nGates} 種と 1 字も違わない)/ ` +
+      `畳んだ見出しへ付いた札 ${rs.nTag} 個(失敗から見る ${rs.nFf} 箱・観測結果カード ${rs.nOc} 箱を掃引)/ ` +
+      `例=[${rs.sample.join(' | ')}] / NG=[${rs.bad.slice(0, 4).join(' ')}](0件)`);
   }
 }
 
@@ -39915,22 +40086,32 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const iB = kids.indexOf(box);
       const iD = kids.findIndex(e => e.className === 'descSectHead');
       // 第276便f(第66報(5)③): 説明タブの並びが変わり、「失敗から見る」は**本文(要約/観察/
-      // 操作)の後ろ**に移った(第66報の「以降は現状の順」= 要約・観察・操作・観測結果カード・
-      // 失敗から見る・数値主張)。世代判定は #descBrief(第276便f の「概要」)の有無で、
-      // 旧世代(root 等)は従来どおり「本文より前」を要求する。**タイトルより後**は両世代共通
-      const newOrder = !!document.querySelector('#helpBody #descBrief');
-      const order = iT >= 0 && iB > iT && (iD < 0 || (newOrder ? iB > iD : iB < iD));
+      // 操作)の後ろ**へ移った。第277便e(第67報(4))で並びがもう一度変わり、「失敗から見る」は
+      // **本文より前**へ戻り、さらに**較正台帳・観測結果カードより前**になった。世代は 3 つあり、
+      // 判定子は「第277便e の読み口(HP.descFoldStatusOf)」→「第276便f の概要(#descBrief)」の順。
+      // **タイトルより後**は 3 世代とも共通で、判定の強さは落としていない(どの世代でも
+      // 「失敗から見る」の絶対位置を 1 つに固定する)
+      const gen277e = typeof (window.HP || {}).descFoldStatusOf === 'function';
+      const gen276f = !gen277e && !!document.querySelector('#helpBody #descBrief');
+      const iL = kids.findIndex(e => e.id === 'cbDetails');
+      const iO = kids.findIndex(e => e.classList && e.classList.contains('ocBox'));
+      const order = iT >= 0 && iB > iT
+        && (iD < 0 || (gen276f ? iB > iD : iB < iD))
+        && (!gen277e || ((iL < 0 || iB < iL) && (iO < 0 || iB < iO)));
       const jaFail = rows.length ? rows[0].textContent : '';
       HP.setLang('en');
       const enRows = [...document.querySelectorAll('#helpBody .ffBox:not(.ocBox) .ffRow')];
       const enFail = enRows.length ? enRows[0].textContent : '';
       HP.setLang('ja');
       HP.loadPreset('saturn', false);   // 既定サンプルへ戻す(以降のテストに影響させない)
-      return { failFirst, order, newOrder, enDiffers: jaFail !== enFail && enFail.length > 10 };
+      return { failFirst, order, gen277e, gen276f, iT, iB, iD, iL, iO,
+        enDiffers: jaFail !== enFail && enFail.length > 10 };
     });
     add('ui.failure-first', r.failFirst && r.order && r.enDiffers,
       `☿: FAIL行→PASS行の2行=${r.failFirst} / 位置=タイトル後・` +
-      `${r.newOrder ? '本文後(第276便f の並び)' : '本文前(旧並び)'}=${r.order} / ` +
+      `${r.gen277e ? '本文前かつ較正台帳/観測結果カードより前(第277便e の並び)'
+        : (r.gen276f ? '本文後(第276便f の並び)' : '本文前(旧並び)')}=${r.order}` +
+      `(タイトル ${r.iT} < 失敗 ${r.iB} < 台帳 ${r.iL} / カード ${r.iO} / 本文 ${r.iD}) / ` +
       `en 切替で文面が変わる=${r.enDiffers}`);
   } else {
     console.log('SKIP ui.failure-first(対象に failureFirst 宣言なし — root 等。第88便)');
@@ -43868,6 +44049,14 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       // ② 既定は畳む — 現在のサンプルのグループだけ開く
       o.curGroup = HP.currentPreset().group;
       o.headTexts = heads().map((h) => h.textContent.trim());
+      // 第277便e: 見出しに**グループの絵文字**(.ppGroupIcon・aria-hidden)が入ったので、
+      // 群名は textContent の整形ではなく「印(.ppGroupMark)・絵文字(.ppGroupIcon)・件数
+      // (.ppGroupCount)を除いた子」から取る。**旧世代(絵文字なし = root 等)でも同じ式が効く**
+      const headName = (h) => [...h.children]
+        .filter((e) => !e.classList.contains('ppGroupMark') && !e.classList.contains('ppGroupIcon')
+          && !e.classList.contains('ppGroupCount'))
+        .map((e) => e.textContent).join('').trim();
+      o.headNames = heads().map(headName);
       o.openHeads = heads().filter((h) => h.getAttribute('aria-expanded') === 'true').length;
       o.openIsCur = heads().filter((h) => h.getAttribute('aria-expanded') === 'true')
         .every((h) => h.textContent.includes(o.curGroup));
@@ -43885,7 +44074,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       o.persistKeys = persisted ? Object.keys(JSON.parse(persisted)) : [];
       o.persistOk = !!persisted && o.persistKeys.length > 0
         && o.persistKeys.every((k) => /^[A-Za-z]+$/.test(k) || k.indexOf('g:') === 0)
-        && JSON.parse(persisted)[groupIdOf(o.headTexts[0].replace(/^[▸▾]\s*/, '').replace(/\d+$/, ''))] !== undefined;
+        && JSON.parse(persisted)[groupIdOf(o.headNames[0])] !== undefined;
       // ウィンドウを開き直しても永続が効く
       hidePresetPicker(); showPresetPicker();
       o.reopenOpen = heads()[0].getAttribute('aria-expanded');
