@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第277便d",
   "target": "beta/index.html",
-  "targetSha256": "f29dde5ec85c32d595b673286730336dcbd07b52ecf617012cf6527388bedf51",
-  "generatedAt": "2026-09-22T08:46:28.703Z",
+  "targetSha256": "51ac2e9370fc9bd77532299d41b4e4a04a8e722f18a2589166557f6e548f46ba",
+  "generatedAt": "2026-09-22T14:32:44.473Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4439587,
-    "sha256": "f29dde5ec85c32d595b673286730336dcbd07b52ecf617012cf6527388bedf51",
-    "mtime": "2026-09-22T08:01:27.647Z"
+    "bytes": 4440208,
+    "sha256": "51ac2e9370fc9bd77532299d41b4e4a04a8e722f18a2589166557f6e548f46ba",
+    "mtime": "2026-09-22T13:42:36.807Z"
    },
    {
     "file": "tests/lib-w277d-selfinertia.mjs",
@@ -485,15 +485,15 @@
     "what": "`S._core` の対ループ(j=i+1 —— **自己は対に現れない**)",
     "hits": [
      {
-      "line": 17895,
+      "line": 17900,
       "text": "for(let j=i+1;j<n;j++,pk++){"
      },
      {
-      "line": 17949,
+      "line": 17954,
       "text": "for(let j=i+1;j<n;j++,pk++){"
      },
      {
-      "line": 21906,
+      "line": 21911,
       "text": "for(let j=i+1;j<n;j++,pk++){"
      }
     ],
@@ -504,15 +504,15 @@
     "what": "重み和 W(i には相手の w_j だけ・j には w_i だけ を積む)",
     "hits": [
      {
-      "line": 17908,
+      "line": 17913,
       "text": "sumW[i]+=wj; sumW[j]+=wi;"
      },
      {
-      "line": 17962,
+      "line": 17967,
       "text": "sumW[i]+=wj; sumW[j]+=wi;"
      },
      {
-      "line": 21920,
+      "line": 21925,
       "text": "sumW[i]+=wj; sumW[j]+=wi;"
      }
     ],
@@ -523,15 +523,15 @@
     "what": "フレーム分子 A(同上 —— **自己速度は積まれない**)",
     "hits": [
      {
-      "line": 17914,
+      "line": 17919,
       "text": "uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));"
      },
      {
-      "line": 18008,
+      "line": 18013,
       "text": "uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));"
      },
      {
-      "line": 21996,
+      "line": 22001,
       "text": "uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));"
      }
     ],
@@ -542,7 +542,7 @@
     "what": "E6′ 輸送項の宣言コメント(「自分自身は除外して評価」)",
     "hits": [
      {
-      "line": 22517,
+      "line": 22522,
       "text": "// E6′ 輸送項(自分自身は除外して評価。1サブステップの引きずり量は0.8に制限)"
      }
     ],
@@ -553,19 +553,19 @@
     "what": "時計 ψ の宣言コメント(「外部の決定力のみ=自己場除外」)",
     "hits": [
      {
-      "line": 22375,
+      "line": 22380,
       "text": "//     自星の光を外へ出さない(=掻き出す)状態になる。W_ext は E7R の時計と同じ自己場除外の"
      },
      {
-      "line": 23083,
+      "line": 23088,
       "text": "// ψ = W_ext·κ(外部の決定力のみ=自己場除外。第128便: κ 正準)。u は E3 と同じ自己除外フレーム。"
      },
      {
-      "line": 34283,
+      "line": 34288,
       "text": "const cLoc=(a)=>c0*Math.exp(-2*(D/a)/Kt);   // 単独粒子なので ψ=W_B/Kt(自己場除外で sumW=0)"
      },
      {
-      "line": 34315,
+      "line": 34320,
       "text": "const cLoc=(a)=>c0*Math.exp(-2*(D/a)/Kt);   // V28 と同じ(単独粒子・自己場除外で ψ=W_B/Kt)"
      }
     ],
@@ -576,7 +576,7 @@
     "what": "`dfmField` の `excludeBodyId` フィルタ(源集合から自己を外す)",
     "hits": [
      {
-      "line": 38369,
+      "line": 38374,
       "text": "if(exId!==null && (hasId? (id===exId) : (i===exId))) continue;"
      }
     ],
@@ -587,11 +587,11 @@
     "what": "`dfmGeoToyStep` の 2 巡(`excludeBodyId:i`)",
     "hits": [
      {
-      "line": 39137,
+      "line": 39142,
       "text": "const f=dfmField(BD,x[i],y[i],{excludeBodyId:i, need:\"gravity\", G, eps, p:pw, D0:D0p,"
      },
      {
-      "line": 39209,
+      "line": 39214,
       "text": "const f=dfmField(BD,px,py,{excludeBodyId:i, lawVersion:law, p:pw, eps, D0:D0p, G, need:\"mesh\","
      }
     ],
@@ -602,7 +602,7 @@
     "what": "空間メッシュ T2 の源集合(頂点 a には b だけ・b には a だけ)",
     "hits": [
      {
-      "line": 20470,
+      "line": 20475,
       "text": "SRC=[SA,SB]; SRCa=[SB]; SRCb=[SA];"
      }
     ],
@@ -613,55 +613,55 @@
     "what": "`dfmMeshScalarField` の `OPT.exclude=i` と ∂ₜW の `j===i` 飛ばし",
     "hits": [
      {
-      "line": 19933,
+      "line": 19938,
       "text": "OPT.exclude=i;"
      },
      {
-      "line": 20495,
+      "line": 20500,
       "text": "OPT.exclude=i;"
      },
      {
-      "line": 17562,
+      "line": 17567,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 18563,
+      "line": 18568,
       "text": "for(let j=0;j<P.length;j++){ if(j===i) continue; const dx=P[j].x-o.x, dy=P[j].y-o.y, d2=dx*dx+dy*dy;"
      },
      {
-      "line": 18577,
+      "line": 18582,
       "text": "for(const i of R.idx){ const o=P[i]; for(let j=0;j<P.length;j++){ if(j===i) continue;"
      },
      {
-      "line": 18581,
+      "line": 18586,
       "text": "let Win=0; for(const i of R.idx){ const o=P[i]; for(const j of R.idx){ if(j===i) continue;"
      },
      {
-      "line": 19641,
+      "line": 19646,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 19939,
+      "line": 19944,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 19963,
+      "line": 19968,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 20499,
+      "line": 20504,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 39187,
+      "line": 39192,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 40169,
+      "line": 40173,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 40232,
+      "line": 40236,
       "text": "if(j===i) continue;"
      }
     ],
@@ -672,7 +672,7 @@
     "what": "`dfmLocalMeshField` は **自己の概念を持たない**(渡された源をすべて足す)—— 除外は呼び出し側(`dfmField`)の責務である",
     "hits": [
      {
-      "line": 38134,
+      "line": 38139,
       "text": "function dfmLocalMeshField(sources,px,py,opts){"
      }
     ],
@@ -683,7 +683,7 @@
     "what": "`dfmFrameAt(px,py,S)` は **任意の点で評価する読み取り専用の診断器**で、自己除外を持たない(粒子位置で呼べば自己が入る)。**力学はこの関数を通らない**(呼び出しは表示・診断のみ)",
     "hits": [
      {
-      "line": 35559,
+      "line": 35564,
       "text": "function dfmFrameAt(px,py,S){"
      }
     ],
