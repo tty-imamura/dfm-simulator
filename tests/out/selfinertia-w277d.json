@@ -1,0 +1,748 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第277便d",
+  "target": "beta/index.html",
+  "targetSha256": "51ac2e9370fc9bd77532299d41b4e4a04a8e722f18a2589166557f6e548f46ba",
+  "generatedAt": "2026-09-22T14:32:44.473Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4440208,
+    "sha256": "51ac2e9370fc9bd77532299d41b4e4a04a8e722f18a2589166557f6e548f46ba",
+    "mtime": "2026-09-22T13:42:36.807Z"
+   },
+   {
+    "file": "tests/lib-w277d-selfinertia.mjs",
+    "bytes": 18552,
+    "sha256": "e3fb8860656c5422179fb888b4dd01a7bfd3fe53997afd46c67781fcf0709c48",
+    "mtime": "2026-09-22T06:21:31.427Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w277d-selfinertia.mjs",
+    "bytes": 16288,
+    "sha256": "9a43462ec9f101d9904e09db9d019e1e6a18f75559ac7f1acb5b2c6e45d774ca",
+    "mtime": "2026-09-22T06:21:31.427Z"
+   },
+   {
+    "file": "tests/lib-w277d-selfinertia.mjs",
+    "bytes": 18552,
+    "sha256": "e3fb8860656c5422179fb888b4dd01a7bfd3fe53997afd46c67781fcf0709c48",
+    "mtime": "2026-09-22T06:21:31.427Z"
+   },
+   {
+    "file": "tests/lib-w275b-meshfield.mjs",
+    "bytes": 22488,
+    "sha256": "1fc47d3dfd8ed8eaac7656a8c95a7ecd48486a8e1ac9ef8466cc9fd3bb9e6534",
+    "mtime": "2026-09-22T06:21:31.427Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-18T17:14:55.948Z"
+   }
+  ],
+  "codeSha256": "d29417d743739087ce2ba809ea785c0375689f97cf82bb3c08d6e9eb63314156",
+  "harnessVersion": "w277d-selfinertia-1",
+  "selfInertiaVersion": "w277d-selfinertia-1",
+  "gateDeclaredBeforeMeasuring": true,
+  "doNotWrite": [
+   "慣性を導出した",
+   "運動量則を導出した",
+   "自己項を実装した",
+   "背景を無視してよいことを証明した",
+   "新発見",
+   "v1.45.0 RC を切った"
+  ]
+ },
+ "hypothesis": {
+  "statement": "慣性移動は、複素決定力による、自分自身に対するゼロ距離の座標変換である",
+  "source": "原仮定者の裁定(第67報)(3)",
+  "implications": [
+   "自己場の値 m/0 を数値計算しない(使うのは有限な極限 u_self=v だけ)",
+   "自己項は正則化した自己並進写像 selfDrift(x,v,Δt)=x+vΔt として扱う",
+   "既存の位置更新 x+=vΔt と**二重に足さない**(新しい項ではなく同値写像である)",
+   "自己項を他天体の重み付き平均の**分母へ入れない**",
+   "自己慣性を担う対角項と、外部源との相対変換を担う非対角項を分ける",
+   "公理だけでは質量・運動量則は導出されない(L=½m|v−u_self|² は退化する)",
+   "背景複素場 W₀ とは**独立に**記帳する(同じ数を両方に入れない)"
+  ],
+  "notDerived": "本便は仮説と、その含意の検算・否定対照を置いただけである。**慣性は導出していない。**",
+  "engineConnected": false
+ },
+ "drift": {
+  "cases": [
+   {
+    "name": "整数速度・刻み 2^-6",
+    "steps": 20000,
+    "dt": 0.015625,
+    "x": [
+     937.5,
+     -1250
+    ],
+    "closedMul": [
+     937.5,
+     -1250
+    ],
+    "closedAdd": [
+     937.5,
+     -1250
+    ],
+    "relVsAdd": 0,
+    "relVsMul": 0,
+    "bitSameAsAdd": true,
+    "velocityUnchanged": true
+   },
+   {
+    "name": "無理数速度・刻み 0.01",
+    "steps": 20000,
+    "dt": 0.01,
+    "x": [
+     629.8185307179759,
+     -545.9063656917438
+    ],
+    "closedMul": [
+     629.8185307179587,
+     -545.906365691809
+    ],
+    "closedAdd": [
+     629.8185307179759,
+     -545.9063656917438
+    ],
+    "relVsAdd": 0,
+    "relVsMul": 8.099253982780676e-14,
+    "bitSameAsAdd": true,
+    "velocityUnchanged": true
+   },
+   {
+    "name": "実スケール(m・s)",
+    "steps": 20000,
+    "dt": 27.6,
+    "x": [
+     19596000,
+     109792800.00001077
+    ],
+    "closedMul": [
+     19596000,
+     109792800
+    ],
+    "closedAdd": [
+     19596000,
+     109792800.00001077
+    ],
+    "relVsAdd": 0,
+    "relVsMul": 9.659954161288992e-14,
+    "bitSameAsAdd": true,
+    "velocityUnchanged": true
+   }
+  ],
+  "doubleCountControl": {
+   "single": [
+    937.5,
+    -1250
+   ],
+   "doubled": [
+    1875,
+    -2500
+   ],
+   "displacement": 1562.5,
+   "displacementDoubled": 3125,
+   "ratio": 2
+  },
+  "selfTermRegularization": {
+   "p": 2,
+   "limit": [
+    0,
+    198.9
+   ],
+   "rows": [
+    {
+     "rho": 0.1,
+     "wSelf": 1.3029999999999997e+24,
+     "uSelf": [
+      0,
+      198.9
+     ],
+     "errAbs": 0
+    },
+    {
+     "rho": 0.001,
+     "wSelf": 1.3030000000000001e+28,
+     "uSelf": [
+      0,
+      198.89999999999998
+     ],
+     "errAbs": 2.842170943040401e-14
+    },
+    {
+     "rho": 0.000001,
+     "wSelf": 1.303e+34,
+     "uSelf": [
+      0,
+      198.9
+     ],
+     "errAbs": 0
+    },
+    {
+     "rho": 1e-9,
+     "wSelf": 1.303e+40,
+     "uSelf": [
+      0,
+      198.9
+     ],
+     "errAbs": 0
+    },
+    {
+     "rho": 1e-12,
+     "wSelf": 1.3030000000000003e+46,
+     "uSelf": [
+      0,
+      198.9
+     ],
+     "errAbs": 0
+    }
+   ],
+   "maxErr": 2.842170943040401e-14,
+   "computedMOverZero": false
+  }
+ },
+ "twoBody": [
+  {
+   "name": "トイ(等質量・円)",
+   "steps": 20000,
+   "dt": 0.001,
+   "G": 1,
+   "eps": 0,
+   "mu": 0.5,
+   "M": 2,
+   "vScale": 0.5,
+   "comV0": [
+    0,
+    0
+   ],
+   "comVEnd": [
+    0,
+    0
+   ],
+   "comVChange": 0,
+   "comVChangeRel": 0,
+   "comVChangePerStepMax": 0,
+   "roundoffBudgetRel": 4.440892098500626e-12,
+   "comPosDriftVsSelfDrift": 0,
+   "energyRel": 0.000017999388392198057,
+   "angMomRel": 2.220446049250313e-14,
+   "reducedOneBodyRel": 0
+  },
+  {
+   "name": "トイ(質量比 8:1・重心が動く)",
+   "steps": 20000,
+   "dt": 0.001,
+   "G": 1,
+   "eps": 0,
+   "mu": 0.8888888888888888,
+   "M": 9,
+   "vScale": 0.8544003745317531,
+   "comV0": [
+    0.3,
+    0
+   ],
+   "comVEnd": [
+    0.30000000000001514,
+    0
+   ],
+   "comVChange": 1.5432100042289676e-14,
+   "comVChangeRel": 1.8061906925950386e-14,
+   "comVChangePerStepMax": 1.1102230246251565e-16,
+   "roundoffBudgetRel": 4.440892098500626e-12,
+   "comPosDriftVsSelfDrift": 1.199040866595169e-13,
+   "energyRel": 0.0034409088945400188,
+   "angMomRel": 5.1193617246604425e-14,
+   "reducedOneBodyRel": 8.606882587939457e-13
+  },
+  {
+   "name": "実スケール(冥王星–カロンの転写値)",
+   "steps": 20000,
+   "dt": 27.6,
+   "G": 6.674e-11,
+   "eps": 50000,
+   "mu": 1.413901204159825e+21,
+   "M": 1.4616e+22,
+   "vScale": 198.9021759785973,
+   "comV0": [
+    0,
+    0
+   ],
+   "comVEnd": [
+    1.0358597920087576e-13,
+    -7.805491844553914e-14
+   ],
+   "comVChange": 2.779638654033589e-13,
+   "comVChangeRel": 1.3974903192274223e-15,
+   "comVChangePerStepMax": 5.1128990038850375e-15,
+   "roundoffBudgetRel": 4.440892098500626e-12,
+   "comPosDriftVsSelfDrift": 2.8516678074800864e-8,
+   "energyRel": 9.723466701119314e-13,
+   "angMomRel": 1.0745871594829492e-14,
+   "reducedOneBodyRel": 1.361904682153034e-13
+  }
+ ],
+ "diagonalSplit": {
+  "i": 0,
+  "p": 2,
+  "eps": 50000,
+  "diagonal": {
+   "uSelf": [
+    0,
+    -24.21019578680394
+   ],
+   "wSelfComputed": false,
+   "note": "自己項は w_ii の値ではなく有限な極限 u_self=v_i として持つ(m/0 を計算しない)"
+  },
+  "offdiagonal": {
+   "W": 4130164.7420953005,
+   "A": [
+    536.6315636748132,
+    821494981.7940215
+   ],
+   "u": [
+    0.00012992982052395595,
+    198.90126256253487
+   ],
+   "nIn": 2
+  },
+  "selfExcludedFromDenominator": true
+ },
+ "selfInDenominatorControl": {
+  "i": 0,
+  "p": 2,
+  "eps": 50000,
+  "Wext": 4130164.7420953005,
+  "uExt": [
+   0.00012992982052395595,
+   198.90126256253487
+  ],
+  "uSelf": [
+   0,
+   -24.21019578680394
+  ],
+  "rows": [
+   {
+    "rho": 1,
+    "wSelf": 1.303e+22,
+    "chiExt": 3.169735028469147e-16,
+    "u": [
+     4.1184310335749266e-20,
+     -24.21019578680387
+    ],
+    "distanceFromSelf": 7.105427357602195e-14,
+    "distanceFromExt": 223.11145834937653
+   },
+   {
+    "rho": 0.1,
+    "wSelf": 1.3029999999999997e+24,
+    "chiExt": 3.1697350284691492e-18,
+    "u": [
+     4.118431033574929e-22,
+     -24.21019578680394
+    ],
+    "distanceFromSelf": 4.118431033574929e-22,
+    "distanceFromExt": 223.11145834937662
+   },
+   {
+    "rho": 0.01,
+    "wSelf": 1.303e+26,
+    "chiExt": 3.1697350284691486e-20,
+    "u": [
+     4.118431033574928e-24,
+     -24.21019578680394
+    ],
+    "distanceFromSelf": 4.118431033574928e-24,
+    "distanceFromExt": 223.11145834937662
+   },
+   {
+    "rho": 0.001,
+    "wSelf": 1.3030000000000001e+28,
+    "chiExt": 3.1697350284691484e-22,
+    "u": [
+     4.118431033574928e-26,
+     -24.21019578680394
+    ],
+    "distanceFromSelf": 4.118431033574928e-26,
+    "distanceFromExt": 223.11145834937662
+   },
+   {
+    "rho": 0.000001,
+    "wSelf": 1.303e+34,
+    "chiExt": 3.1697350284691484e-28,
+    "u": [
+     4.1184310335749285e-32,
+     -24.21019578680394
+    ],
+    "distanceFromSelf": 4.1184310335749285e-32,
+    "distanceFromExt": 223.11145834937662
+   },
+   {
+    "rho": 1e-9,
+    "wSelf": 1.303e+40,
+    "chiExt": 3.1697350284691486e-34,
+    "u": [
+     4.1184310335749287e-38,
+     -24.21019578680394
+    ],
+    "distanceFromSelf": 4.1184310335749287e-38,
+    "distanceFromExt": 223.11145834937662
+   }
+  ],
+  "chiExtAtSmallest": 3.1697350284691486e-34,
+  "verdict": "reject"
+ },
+ "lagrangianDegeneracy": {
+  "m": 1.303e+22,
+  "v": [
+   0,
+   -24.21019578680394
+  ],
+  "uSelf": [
+   0,
+   -24.21019578680394
+  ],
+  "kineticFree": 3.818660273930496e+24,
+  "LwithSelfOnly": 0,
+  "momentumWithSelfOnly": [
+   0,
+   0
+  ],
+  "degenerate": true,
+  "uExt": [
+   0.00012992982052395595,
+   198.90126256253487
+  ],
+  "LwithExternal": 3.243083793468084e+26,
+  "momentumWithExternal": [
+   -1692985561427146000,
+   -2.907142302291885e+24
+  ],
+  "note": "公理だけでは質量・運動量則は出ない —— 自己並進の p=mv を保つ作用を別に宣言する必要がある"
+ },
+ "crossCheckWithMeshField": [
+  {
+   "i": 0,
+   "W": 4130164.7420953005,
+   "Wmesh": 4130164.7420953005,
+   "WBitSame": true,
+   "u": [
+    0.00012992982052395595,
+    198.90126256253487
+   ],
+   "uMesh": [
+    0.00012992982052395595,
+    198.90126256253487
+   ],
+   "uAbsDiff": 0,
+   "uBitSame": true
+  },
+  {
+   "i": 1,
+   "W": 33931795.936612494,
+   "Wmesh": 33931795.936612494,
+   "WBitSame": true,
+   "u": [
+    0.000008274298805972846,
+    -24.210192419110328
+   ],
+   "uMesh": [
+    0.000008274298805972846,
+    -24.210192419110328
+   ],
+   "uAbsDiff": 0,
+   "uBitSame": true
+  },
+  {
+   "i": 2,
+   "W": 5509331.495545851,
+   "Wmesh": 5509331.495545851,
+   "WBitSame": true,
+   "u": [
+    0,
+    -10.852479662435295
+   ],
+   "uMesh": [
+    0,
+    -10.852479662435295
+   ],
+   "uAbsDiff": 0,
+   "uBitSame": true
+  }
+ ],
+ "htmlAudit": {
+  "target": "beta/index.html",
+  "sites": [
+   {
+    "id": "core.pairLoop",
+    "what": "`S._core` の対ループ(j=i+1 —— **自己は対に現れない**)",
+    "hits": [
+     {
+      "line": 17900,
+      "text": "for(let j=i+1;j<n;j++,pk++){"
+     },
+     {
+      "line": 17954,
+      "text": "for(let j=i+1;j<n;j++,pk++){"
+     },
+     {
+      "line": 21911,
+      "text": "for(let j=i+1;j<n;j++,pk++){"
+     }
+    ],
+    "verdict": "selfExcluded"
+   },
+   {
+    "id": "core.sumW",
+    "what": "重み和 W(i には相手の w_j だけ・j には w_i だけ を積む)",
+    "hits": [
+     {
+      "line": 17913,
+      "text": "sumW[i]+=wj; sumW[j]+=wi;"
+     },
+     {
+      "line": 17967,
+      "text": "sumW[i]+=wj; sumW[j]+=wi;"
+     },
+     {
+      "line": 21925,
+      "text": "sumW[i]+=wj; sumW[j]+=wi;"
+     }
+    ],
+    "verdict": "selfExcluded"
+   },
+   {
+    "id": "core.uNumerator",
+    "what": "フレーム分子 A(同上 —— **自己速度は積まれない**)",
+    "hits": [
+     {
+      "line": 17919,
+      "text": "uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));"
+     },
+     {
+      "line": 18013,
+      "text": "uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));"
+     },
+     {
+      "line": 22001,
+      "text": "uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));"
+     }
+    ],
+    "verdict": "selfExcluded"
+   },
+   {
+    "id": "core.e6comment",
+    "what": "E6′ 輸送項の宣言コメント(「自分自身は除外して評価」)",
+    "hits": [
+     {
+      "line": 22522,
+      "text": "// E6′ 輸送項(自分自身は除外して評価。1サブステップの引きずり量は0.8に制限)"
+     }
+    ],
+    "verdict": "selfExcluded"
+   },
+   {
+    "id": "core.tauUpdate",
+    "what": "時計 ψ の宣言コメント(「外部の決定力のみ=自己場除外」)",
+    "hits": [
+     {
+      "line": 22380,
+      "text": "//     自星の光を外へ出さない(=掻き出す)状態になる。W_ext は E7R の時計と同じ自己場除外の"
+     },
+     {
+      "line": 23088,
+      "text": "// ψ = W_ext·κ(外部の決定力のみ=自己場除外。第128便: κ 正準)。u は E3 と同じ自己除外フレーム。"
+     },
+     {
+      "line": 34288,
+      "text": "const cLoc=(a)=>c0*Math.exp(-2*(D/a)/Kt);   // 単独粒子なので ψ=W_B/Kt(自己場除外で sumW=0)"
+     },
+     {
+      "line": 34320,
+      "text": "const cLoc=(a)=>c0*Math.exp(-2*(D/a)/Kt);   // V28 と同じ(単独粒子・自己場除外で ψ=W_B/Kt)"
+     }
+    ],
+    "verdict": "selfExcluded"
+   },
+   {
+    "id": "dfmField.exclude",
+    "what": "`dfmField` の `excludeBodyId` フィルタ(源集合から自己を外す)",
+    "hits": [
+     {
+      "line": 38374,
+      "text": "if(exId!==null && (hasId? (id===exId) : (i===exId))) continue;"
+     }
+    ],
+    "verdict": "selfExcluded"
+   },
+   {
+    "id": "dfmField.callers",
+    "what": "`dfmGeoToyStep` の 2 巡(`excludeBodyId:i`)",
+    "hits": [
+     {
+      "line": 39142,
+      "text": "const f=dfmField(BD,x[i],y[i],{excludeBodyId:i, need:\"gravity\", G, eps, p:pw, D0:D0p,"
+     },
+     {
+      "line": 39214,
+      "text": "const f=dfmField(BD,px,py,{excludeBodyId:i, lawVersion:law, p:pw, eps, D0:D0p, G, need:\"mesh\","
+     }
+    ],
+    "verdict": "selfExcluded"
+   },
+   {
+    "id": "spaceMesh.srcSplit",
+    "what": "空間メッシュ T2 の源集合(頂点 a には b だけ・b には a だけ)",
+    "hits": [
+     {
+      "line": 20475,
+      "text": "SRC=[SA,SB]; SRCa=[SB]; SRCb=[SA];"
+     }
+    ],
+    "verdict": "selfExcluded"
+   },
+   {
+    "id": "meshScalar.exclude",
+    "what": "`dfmMeshScalarField` の `OPT.exclude=i` と ∂ₜW の `j===i` 飛ばし",
+    "hits": [
+     {
+      "line": 19938,
+      "text": "OPT.exclude=i;"
+     },
+     {
+      "line": 20500,
+      "text": "OPT.exclude=i;"
+     },
+     {
+      "line": 17567,
+      "text": "if(j===i) continue;"
+     },
+     {
+      "line": 18568,
+      "text": "for(let j=0;j<P.length;j++){ if(j===i) continue; const dx=P[j].x-o.x, dy=P[j].y-o.y, d2=dx*dx+dy*dy;"
+     },
+     {
+      "line": 18582,
+      "text": "for(const i of R.idx){ const o=P[i]; for(let j=0;j<P.length;j++){ if(j===i) continue;"
+     },
+     {
+      "line": 18586,
+      "text": "let Win=0; for(const i of R.idx){ const o=P[i]; for(const j of R.idx){ if(j===i) continue;"
+     },
+     {
+      "line": 19646,
+      "text": "if(j===i) continue;"
+     },
+     {
+      "line": 19944,
+      "text": "if(j===i) continue;"
+     },
+     {
+      "line": 19968,
+      "text": "if(j===i) continue;"
+     },
+     {
+      "line": 20504,
+      "text": "if(j===i) continue;"
+     },
+     {
+      "line": 39192,
+      "text": "if(j===i) continue;"
+     },
+     {
+      "line": 40173,
+      "text": "if(j===i) continue;"
+     },
+     {
+      "line": 40236,
+      "text": "if(j===i) continue;"
+     }
+    ],
+    "verdict": "selfExcluded"
+   },
+   {
+    "id": "dfmLocalMeshField.noSelfNotion",
+    "what": "`dfmLocalMeshField` は **自己の概念を持たない**(渡された源をすべて足す)—— 除外は呼び出し側(`dfmField`)の責務である",
+    "hits": [
+     {
+      "line": 38139,
+      "text": "function dfmLocalMeshField(sources,px,py,opts){"
+     }
+    ],
+    "verdict": "callerResponsibility"
+   },
+   {
+    "id": "dfmFrameAt.pointEval",
+    "what": "`dfmFrameAt(px,py,S)` は **任意の点で評価する読み取り専用の診断器**で、自己除外を持たない(粒子位置で呼べば自己が入る)。**力学はこの関数を通らない**(呼び出しは表示・診断のみ)",
+    "hits": [
+     {
+      "line": 35564,
+      "text": "function dfmFrameAt(px,py,S){"
+     }
+    ],
+    "verdict": "noSelfExclusionByDesign"
+   }
+  ],
+  "summary": {
+   "dynamicsPathsSelfExcluded": true,
+   "missing": [],
+   "contradictsHypothesis": false,
+   "note": "**力学が読む u の和は、どの経路でも自己源を含まない** —— 仮説(3)「自己項を分母へ入れない」と矛盾しない。`dfmFrameAt` だけは点評価の診断器なので自己除外を持たないが、**力・帳簿・時計はこの関数を通らない**(本便は 1 行も変えていない)。"
+  }
+ },
+ "gates": [
+  {
+   "id": "G1",
+   "gate": "1 粒子の等速直線運動が加算列とビット同一(相対誤差 0)",
+   "pass": true
+  },
+  {
+   "id": "G2",
+   "gate": "2 体の重心速度の変化 / 速度の尺度 ≤1e−13(丸め蓄積の目安 N·eps=4.44e−12 未満)",
+   "pass": true
+  },
+  {
+   "id": "G2b",
+   "gate": "(参考・より厳しい置き方)重心速度の変化の**絶対値** ≤1e−15",
+   "pass": false,
+   "note": "実スケール(m/s)では丸めの蓄積だけで超える —— **物理の漂いではなく単位の取り方の問題**である"
+  },
+  {
+   "id": "G3",
+   "gate": "換算質量の 1 体問題との相対差 ≤1e−12",
+   "pass": true
+  },
+  {
+   "id": "G4",
+   "gate": "自己項を分母へ入れると外部の分け前 χ_ext が 0 へ落ちる(否定対照)",
+   "pass": true
+  },
+  {
+   "id": "G5",
+   "gate": "L=½m|v−u_self|² が恒等的に 0(否定対照)",
+   "pass": true
+  },
+  {
+   "id": "G6",
+   "gate": "非対角項が meshFieldNoD0(自己を外した源集合)とビット一致",
+   "pass": true
+  },
+  {
+   "id": "G7",
+   "gate": "力学経路の自己除外が html の機械監査で全部見つかる",
+   "pass": true
+  },
+  {
+   "id": "G8",
+   "gate": "自己並進をもう 1 回足すと変位がちょうど 2 倍(二重計上の否定対照)",
+   "pass": true
+  }
+ ]
+}

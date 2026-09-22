@@ -1,0 +1,250 @@
+{
+  "meta": {
+    "provenanceVersion": "w272e-1",
+    "wave": "第277便a(第67報 (1)・統括の検証項目 R47)",
+    "target": "paper/data/pluto-system-states.csv",
+    "targetSha256": "90cd4a4c23e46a1bb2797071495db1a530c50babbc0128963160b82713ab2771",
+    "generatedAt": "2026-09-22T06:41:26.537Z",
+    "inputs": [
+      {
+        "file": "paper/data/pluto-system-states.csv",
+        "bytes": 54843,
+        "sha256": "90cd4a4c23e46a1bb2797071495db1a530c50babbc0128963160b82713ab2771",
+        "mtime": "2026-09-22T06:22:19.727Z"
+      },
+      {
+        "file": "paper/data/solar-observations.csv",
+        "bytes": 511051,
+        "sha256": "702efd3ad1441598a7af6a099ee91f6007d2519b83146c98614e3ce4560b1085",
+        "mtime": "2026-09-22T06:23:10.081Z"
+      }
+    ],
+    "code": [
+      {
+        "file": "tests/exp-w277a-plutostates.mjs",
+        "bytes": 8818,
+        "sha256": "b5ea852d858a88b89e720a27a0758db2c5758faaff9cd2c2abb6aeeca6731df1",
+        "mtime": "2026-09-22T06:22:19.729Z"
+      },
+      {
+        "file": "tests/lib-w277a-plutostates.mjs",
+        "bytes": 12341,
+        "sha256": "a6561a6e677a57bf8b1ba032c58c963b155b92620eaa0cdc81ba2c4cd9938df5",
+        "mtime": "2026-09-22T06:22:19.729Z"
+      },
+      {
+        "file": "tests/lib-w270b-obscsv.mjs",
+        "bytes": 14068,
+        "sha256": "603104b67e24f166bc5a2a2d00038686ed4631e39285bcb8780281026d7e2d4a",
+        "mtime": "2026-09-19T11:48:42.098Z"
+      },
+      {
+        "file": "tests/lib-w272e-provenance.mjs",
+        "bytes": 4587,
+        "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+        "mtime": "2026-09-18T17:14:55.948Z"
+      }
+    ],
+    "codeSha256": "309007458fe03dd4ba30958a92368640c776cd36aeb07d6935fb281ca166b45b"
+  },
+  "what": "冥王星系の状態ファイル(取得依頼 C の回答・2 系統の外部調査)の整合検査と「別の量」の診断",
+  "integrity": {
+    "ok": true,
+    "problems": [],
+    "tally": {
+      "rows": 92,
+      "stateRows": 72,
+      "otherRows": 20,
+      "bodies": 6,
+      "epochs": 2,
+      "missingCells": 0,
+      "duplicatedCells": 0,
+      "distinctIds": 92,
+      "rowsWithSigma": 0
+    }
+  },
+  "outOfPlane": [
+    {
+      "epoch": "JD 2452600.5 TDB",
+      "maxOutOfPlaneKm": 273.53206997226516,
+      "worst": "Hydra"
+    },
+    {
+      "epoch": "JD 2457217.5 TDB",
+      "maxOutOfPlaneKm": 187.47703498959027,
+      "worst": "Kerberos"
+    }
+  ],
+  "projections": [
+    {
+      "epoch": "JD 2452600.5 TDB",
+      "relativePlane": {
+        "posOutOfPlane": -2.2737367544323206e-13,
+        "velOutOfPlane": 0,
+        "note": "基準そのものは定義上 e3 成分が 0(丸め誤差だけが残る)"
+      },
+      "rows": [
+        {
+          "body": "Pluto",
+          "posOutOfPlane": -0.000583886974482084,
+          "velOutOfPlane": -7.573397217512656e-10
+        },
+        {
+          "body": "Charon",
+          "posOutOfPlane": -0.0005838869753915787,
+          "velOutOfPlane": -7.573397152460526e-10
+        },
+        {
+          "body": "Nix",
+          "posOutOfPlane": 12.555388174687323,
+          "velOutOfPlane": 0.00003843798155897917
+        },
+        {
+          "body": "Hydra",
+          "posOutOfPlane": 273.53206997226516,
+          "velOutOfPlane": 0.0003122209889494616
+        },
+        {
+          "body": "Kerberos",
+          "posOutOfPlane": 6.165295755475199,
+          "velOutOfPlane": 0.0009639682512364682
+        },
+        {
+          "body": "Styx",
+          "posOutOfPlane": 28.1747944907529,
+          "velOutOfPlane": -0.00009682388664886479
+        }
+      ],
+      "maxOutOfPlaneKm": 273.53206997226516
+    },
+    {
+      "epoch": "JD 2457217.5 TDB",
+      "relativePlane": {
+        "posOutOfPlane": 2.1600499167107046e-12,
+        "velOutOfPlane": 6.938893903907228e-18,
+        "note": "基準そのものは定義上 e3 成分が 0(丸め誤差だけが残る)"
+      },
+      "rows": [
+        {
+          "body": "Pluto",
+          "posOutOfPlane": 0.0003033051514904628,
+          "velOutOfPlane": -1.1005273289899087e-9
+        },
+        {
+          "body": "Charon",
+          "posOutOfPlane": 0.00030330515278365056,
+          "velOutOfPlane": -1.1005273185815678e-9
+        },
+        {
+          "body": "Nix",
+          "posOutOfPlane": -8.48132259456861,
+          "velOutOfPlane": -0.00004866445266563796
+        },
+        {
+          "body": "Hydra",
+          "posOutOfPlane": -136.04261918308111,
+          "velOutOfPlane": 0.0005437858852912949
+        },
+        {
+          "body": "Kerberos",
+          "posOutOfPlane": -187.47703498959027,
+          "velOutOfPlane": 0.0008669878344141537
+        },
+        {
+          "body": "Styx",
+          "posOutOfPlane": 32.79339186501784,
+          "velOutOfPlane": 0.000050444848648655005
+        }
+      ],
+      "maxOutOfPlaneKm": 187.47703498959027
+    }
+  ],
+  "twoBody": [
+    {
+      "epoch": "JD 2452600.5 TDB",
+      "solution": "PLU060-2024",
+      "GMsum": 975.4,
+      "GMfrom": "Brozovic & Jacobson 2024 AJ 167 256 Table 8 (Current Work) / JPL SSD PLU060",
+      "separationKm": 19597.369307113357,
+      "semiMajorAxisKm": 19596.308558719382,
+      "periodSec": 551886.6598018955,
+      "eccentricity": 0.00014922652685013163,
+      "note": "診断(採用値ではない): 丸めた GM の宣言値から作った相対二体の a と P である"
+    },
+    {
+      "epoch": "JD 2452600.5 TDB",
+      "solution": "PLU043-2015",
+      "GMsum": 975.5,
+      "GMfrom": "Brozovic et al. 2015 Icarus 246 317 (abstract)",
+      "separationKm": 19597.369307113357,
+      "semiMajorAxisKm": 19594.300134427234,
+      "periodSec": 551773.5339882979,
+      "eccentricity": 0.0002094596203807101,
+      "note": "診断(採用値ではない): 丸めた GM の宣言値から作った相対二体の a と P である"
+    },
+    {
+      "epoch": "JD 2457217.5 TDB",
+      "solution": "PLU060-2024",
+      "GMsum": 975.4,
+      "GMfrom": "Brozovic & Jacobson 2024 AJ 167 256 Table 8 (Current Work) / JPL SSD PLU060",
+      "separationKm": 19598.898122330083,
+      "semiMajorAxisKm": 19596.311130613267,
+      "periodSec": 551886.7684494478,
+      "eccentricity": 0.00013284661119573337,
+      "note": "診断(採用値ではない): 丸めた GM の宣言値から作った相対二体の a と P である"
+    },
+    {
+      "epoch": "JD 2457217.5 TDB",
+      "solution": "PLU043-2015",
+      "GMsum": 975.5,
+      "GMfrom": "Brozovic et al. 2015 Icarus 246 317 (abstract)",
+      "separationKm": 19598.898122330083,
+      "semiMajorAxisKm": 19594.303018850223,
+      "periodSec": 551773.6558258972,
+      "eccentricity": 0.00023498180528912525,
+      "note": "診断(採用値ではない): 丸めた GM の宣言値から作った相対二体の a と P である"
+    }
+  ],
+  "quantities": [
+    {
+      "name": "two-body Keplerian sidereal period (Buie 2012 の採用解)",
+      "periodSec": 551856.43872,
+      "sigmaSec": 0.02592,
+      "what": "観測検定に使う行(HST 1992-2010・e を 0 に固定した二体当てはめ)"
+    },
+    {
+      "name": "PLU060 の 1800-2200 平均 osculating 周期",
+      "periodSec": 551855.8944,
+      "sigmaSec": null,
+      "what": "暦の再現(同一暦の内部一貫性)であって観測検定ではない"
+    },
+    {
+      "name": "Horizons osculating PR(元期 A)",
+      "periodSec": 551850.6774206633,
+      "sigmaSec": null,
+      "what": "1 元期の osculating 値 — 元期を変えれば変わる"
+    },
+    {
+      "name": "Horizons osculating PR(元期 B)",
+      "periodSec": 551853.069964631,
+      "sigmaSec": null,
+      "what": "1 元期の osculating 値 — 元期 A と違う"
+    }
+  ],
+  "separations": {
+    "relativeSemiMajorAxisKm": 19596.308558719382,
+    "relativePeriodSec": 551886.6598018955,
+    "barycentricOsculatingAKm": 17464.1723744826,
+    "meanOsculating1800_2200Km": 19595.764,
+    "gmFrom_a_and_PR": 690.4951056478105,
+    "note": "重心基準の osculating a(17464 km 前後)と相対 a(19596 km 前後)は**別の量**である。4π²a³/PR² は重心基準の a と PR から作った量で、GM の合計(975.4 km³/s²)とは別の数になる。**どれも採用値ではない**"
+  },
+  "doNotWrite": [
+    "較正した",
+    "観測と合った",
+    "残差が消えた",
+    "kF0 版が成立した",
+    "この a と P を採用値にした",
+    "σ を作った"
+  ]
+}

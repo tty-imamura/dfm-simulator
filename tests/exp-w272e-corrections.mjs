@@ -50,8 +50,10 @@ export const MARK_KEYS = ['corrected', 'url_corrected', 'source_corrected', 'qua
   'external_name_neutralised', 'proxy_for_scope', 'list_separator_corrected',
   // 第273便e(AH16 (a)): `derived_from` の参照を record_id へ書き換えた行の印。
   'derived_from_resolved'];
-/** 第273便e(AH18): revision の `kind` の語彙(欄が無い revision は `correction`)。 */
-export const KINDS = ['correction', 'confirmation'];
+/** 第273便e(AH18): revision の `kind` の語彙(欄が無い revision は `correction`)。
+ *  第277便a: **転写便の追記** `intake` を足した —— 外部調査の照合結果を note に書き足しただけで、
+ *  値・σ・単位・出典・印・record_id は 1 文字も動いていない変更である(訂正でも確認記録でもない)。 */
+export const KINDS = ['correction', 'confirmation', 'intake'];
 const hasKey = (note, key) =>
   new RegExp('(?:^|[^A-Za-z0-9_])' + key + '=').test(String(note || ''));
 

@@ -1055,7 +1055,25 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     `"declared"`(`note` 必須)/ `"zero"`**。
     `W0` は **0 以上の有限数(宣言必須)**、`A0`・`gradW`・`dAdt` は有限数 **2 つ**の配列、
     `gradA` は有限数 **4 つ**の配列 `[∂ₓAx,∂_yAx,∂ₓAy,∂_yAy]`、`dWdt` は有限数。
-    省略した成分は 0 として保存する。`refPos` は背景を評価した基準点、`note` は 200 字以内。
+    `refPos` は背景を評価した基準点、`note` は 200 字以内。
+  - **【第277便d で厳格化】成分の省略は `background:"zero"` のときだけ許す。**
+    `"zero"` 以外の背景では **`A0`・`gradW`・`gradA`・`dAdt`・`dWdt` を明示必須**とし、
+    **未宣言/`null` は拒否**する(定数 `BG_COMPLEX_REQUIRED` = この 5 つ・`BG_COMPLEX_STRICT`)。
+    理由は **「未確定を 0 で補完しない」**(統括の読み R52)—— 「W₀ だけ書いて微分は未測定」という
+    宣言が黙って「微分は 0」になると、**測っていない量が測った値の顔をする**。
+    これで**純関数 `normalizeBackground`(`tests/lib-w275b-meshfield.mjs`)と同じ判定**になった
+    (第276便a は省略を 0 で埋めていたので、**アプリと純関数で受理契約が違っていた**)。
+    - **移行(第276便a → 第277便d)**: 部分宣言の JSON(`background` と `W0` だけ等)は**今後拒否される**。
+      ゼロと言い切れるなら `background:"zero"` を書く(このときは全成分の省略が許され 0 で埋まる)。
+      値が**未確定**なら **`backgroundComplex` の鍵ごと書かない**(未宣言 = 未確定)。
+    - **内蔵 131 本はこの鍵を 1 本も宣言していない**ので、**presetSig も既定経路の力学も 1 bit も動かない**。
+  - **正準形の例(全成分を明示した最小例)**:
+    ```json
+    { "background": "heliocentric", "W0": 5.7e-9,
+      "A0": [0, 2.7e-9], "gradW": [-1.93e-15, 0],
+      "gradA": [0, 0, -9.15e-16, 0], "dWdt": 0, "dAdt": [6.5e-16, 0] }
+    ```
+    **ゼロと宣言する場合**: `{ "background": "zero", "W0": 0 }`(残りは省略可・すべて 0 になる)。
   - **単位(サンプルの `scaleExp` の単位系)**: `W0`=[M/L²] / `A0`=[M/(L·T)] / `gradW`=[M/L³] /
     `gradA`=[M/(L²·T)] / `dWdt`=[M/(L²·T)] / `dAdt`=[M/(L·T²)]。
   - **`"zero"` は「ゼロと宣言」・未宣言は「未確定」**である(**未入力の背景を勝手に静止ゼロと扱わない**)。
@@ -1069,8 +1087,18 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   - **`qLockCalc` は D₀ も背景も読まない**(R・M・G・cLight・基準距離 a だけ)。
     背景を替えても **q は自動では動かない** —— 実測は `tests/out/d0sites-w276a.json`。
   - QA: **`preset.backgroundComplex-declared`**(受理契約・未宣言の署名不変・力学へのビット不変・
-    内蔵の宣言 0 本)/ **`docs.d0sites-sync`**(D₀ の読み口の機械監査)/
-    **`docs.bgpredict-sync`**(背景の事前予測表)。
+    内蔵の宣言 0 本)/ **`preset.backgroundComplex-strict`**(第277便d —— 5 成分の省略/`null` の拒否・
+    `"zero"` での省略可・検証器ごしの拒否)/ **`docs.d0sites-sync`**(D₀ の読み口の機械監査)/
+    **`docs.bgpredict-sync`**(背景の事前予測表)/ **`docs.bgbudget-sync`**(第277便d —— 背景 ON/OFF の誤差予算)。
+  - **参照系を宣言せずに背景の速度を足さない**(第277便d・統括の読み R52)。`A0` は
+    「**どの系から見た**背景の分子か」で値が変わる。純関数 `toComovingFrame(bg,V,{convention})`
+    (`tests/lib-w275b-meshfield.mjs`・版 `w277d-comoving-1`)が **A₀→A₀−W₀V・∇A→∇A−V⊗∇W・
+    ∂ₜA→∂ₜA−V∂ₜW**(規約 `"fieldTime"`)と、**∂ₜ′=∂ₜ+(V·∇)** を全成分へ掛ける規約 `"advected"` の
+    2 つを実装している。**時間微分の規約を書かずに「共動系へ移した」と言ってはならない** ——
+    実測では**局所源があるとき `advected` だけが座標変換の加速度 a=(v·∇)u+∂ₜu を不変にする**
+    (docs/PHYSICS.md〔第277便d〕④)。
+  - **`physics.backgroundComplex` は勾配を持てるが、潮汐テンソル T の鍵はまだ無い**(決断事項)。
+    背景勾配による差動加速度は**一様重力相当のパラメータ 1 つでは代替できない**(同節⑤)。
 - **geoPN=3(トイの測地線モード・第259便a)**: `CLAMPS.geoPN` の上限が 3 になったが、**3 は宣言だけでは通らない**。
   - **受理条件**: (a) `sampleClass:"calibration"` では**拒否**、(b) `physics.spaceMesh.lawVersion` の宣言が無ければ
     **従来どおり 2 へ丸めて警告**、(c) `kFrame>0` は拒否、(d) `spaceMesh.inertia`・`weave` との併用は拒否(**重複適用禁止**)。
@@ -2274,3 +2302,63 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   明示宣言を置いたのは**抽出だと 1 文目だけで上限を超える(= 文の途中で切れる)本**で、
   宣言文の内容は当該 `summary` の要約である(新しい主張は足していない)。
   **全本へ明示宣言を置くかは未決である**(抽出で足りる本は抽出のまま、が第276便f の推奨)。
+
+## 10. 第277便b の宣言鍵(原仮定者の裁定〔第67報〕(1)・**SYSTEM_PROMPT には載せない**)
+
+本便が開けたのは **`physics` の 4 鍵**である。**どれも `SYSTEM_PROMPT` の逐語ブロックには載せていない**
+(AI 生成には開放していない —— 受理して検証するだけである。§5 の逐語ブロックは 1 バイトも変わっていない)。
+**未宣言はすべて正準形に出ない**ので、宣言していない本の `presetSig`・エクスポート JSON・600 步の状態は 1 bit も変わらない。
+
+### 10.1 `physics.relativeDrag` —— 相対すべりの零条件を持つ引きずり則
+
+- **正準形**: `{law:"pairSlip", kappa:<0〜1>, pairs:"all"|[[i,j],…], spins:"declared"}`。
+  - `law` は **`"pairSlip"` のみ**(他は致命拒否)。
+  - `kappa` は **0〜1 の有限数**。**`kappa:0` は「宣言したが用量 0」として正準形に残す**
+    (= 否定対照の宣言。署名は未宣言と別になる)。
+  - `pairs` は省略・`null`・`"all"` が「全対」。配列で書くときは **0 以上の相異なる整数 2 つの配列の配列**で、
+    **空配列は致命拒否**(対を 1 つも指さないなら宣言しない)。小さい方を先に正規化する。
+  - `spins` は **`"declared"` のみ**(自転は宣言値 `S.spin` を読む。測定値から作らない)。
+- **意味**: 対ごとの相対すべり s_i=v−ω_i×r・s_j=v−ω_j×r が 0 でないときだけ、
+  運動量インパルスと自転トルクを当てる **`S._core` の外**の外部ステップ(`dfmRelativeDragStep`)を開ける。
+  **`kFrame` は 0/1 の二値のままで、この鍵はそれを 1 文字も書き換えない。**
+  **相互同期した円軌道ではインパルスも自転トルクも ΔE も厳密に 0** である(零条件)。
+  局所重みは χ_ij=W_j/(W_j+W₀)(W₀ は `physics.relativeDrag.W0`・未宣言は 0 —— `physics.backgroundComplex` は宣言専用のまま、この則からは読まない)で、
+  **D₀ は分母に入れない**(単位が違う —— §の背景複素決定力を参照)。
+- **副作用(宣言した本だけ)**: **`S.spin` が Float64Array になる**。
+  1 步の ΔJ/I が Float32 の ULP 3 個ぶんしかなく、10⁶ 步で J_z の帳簿が壊れることを実測したためである。
+  **未宣言の本は Float32 のまま 1 bit 不変。**
+- **注意(実装者向け)**: 反トルクの受け皿は自転(I=½mR²)である。
+  **I が極端に小さい試験粒子級の粒を `pairs:"all"` に含めると自転が暴走する** ——
+  小衛星のような粒を足すときは `pairs` で主対に絞ること(第277便b の記録された否定対照)。
+- **内蔵の宣言**: **1 本**(⛄ `plutoCharonDFM`)。
+- QA: **`behavior.relativeDragLaw`**(純関数の零条件・否定対照・保存・NS 延長の否定対照)/
+  **`behavior.plutoCharonDFM`**(エンジンの零条件・対照との差・帳簿・決定性)。
+
+### 10.2 `physics.massPrecision` —— 質量配列の倍精度化(opt-in)
+
+- **正準形**: `"single"`(既定・**正準形に出ない**)/ `"double"`。それ以外は警告つきで既定へ戻す。
+- `"double"` で **`S.m` と `S.mEff` が Float64Array** になる。
+  `stateCarry:"double"` が倍精度にするのは**加速度累積 `ax/ay`・軌道状態 `x/y/vx/vy`・速度キャリー**で、
+  **質量は含まない**(第276便b が実測した Float32 質量の量子化) —— **2 つは別の鍵で、併用できる**。
+- 差し替えは `S.alloc` の直後・状態充填の前(`stateCarry` と同じ位置)なので、参照の掴み直しは不要である。
+- **内蔵の宣言**: **2 本**(⛄ `plutoCharonDFM` / 🌨️ `plutoCharonKF0Control`)。
+  実測の差は ⛄ の同方向1周で **+0.0245 s(判定行の σ の 0.95 倍)** —— **観測 σ に対して無視できない**。
+- QA: **`preset.massPrecision`**。
+
+### 10.3 `physics.massFloorScaled` —— `massFloor` の換算表示(**表示専用**)
+
+- **正準形**: `true` のときだけ正準形に残す(`false`・未宣言は落とす = 署名不変)。
+- 宣言した本でだけ `massFloor` が **[M]** としてスケール換算表示の対象になる(`SCALE_DIMS` 本体には足していない)。
+  **力学が読む `massFloor` の適用値は 1 bit も変わらない。**
+- **内蔵の宣言**: **0 本**(受理契約を開けただけ)。
+- QA: **`preset.softeningFloor`**(同ブロックで一緒に固定している)。
+
+### 10.4 `physics.softeningFloor` —— ε の下限の引き下げ(**精密診断コピー限定**)
+
+- **正準形**: **0.001〜0.01** の有限数。値域外は警告つきで丸める。
+  **`CLAMPS.softening` の下限(0.01)と同値の宣言は落とす**(署名不変)。
+- **`sampleClass:"calibration"` では致命拒否**する —— 現実較正の受理契約は内蔵のまま 0.01 である。
+  精密診断は `sampleClass` を落としたコピー(例 `"principle"`)で測ること。
+- 宣言した本では `physics.softening` の受理下限がこの値になる(**受理値・適用値・警告は `presetSig` に入る**)。
+- **内蔵の宣言**: **0 本**。
+- QA: **`preset.softeningFloor`**。

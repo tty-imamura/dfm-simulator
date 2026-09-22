@@ -4,11 +4,11 @@
   "section": "潮汐ロック枝(kFrame=0・f=1・λPN=1)",
   "harness": "w272c-nslock-1",
   "target": "beta/index.html",
-  "targetSha256": "68498d8ded199b59337dac1ab6031953022ced24a571f2c240b4613e1bdda63d",
-  "csvSha256": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b",
+  "targetSha256": "51ac2e9370fc9bd77532299d41b4e4a04a8e722f18a2589166557f6e548f46ba",
+  "csvSha256": "702efd3ad1441598a7af6a099ee91f6007d2519b83146c98614e3ce4560b1085",
   "libSha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
   "src265Sha256": "e39a0bd29a955736c0f3718fad2361efcad83bfc6ec598e8b6642bd0156dc0f1",
-  "at": "2026-09-21T15:08:19.490Z",
+  "at": "2026-09-22T13:46:50.128Z",
   "dt0": 0.016,
   "divs": [
    1,
@@ -26,7 +26,7 @@
   "spinAxisCorrection": "運動学の宣言 ω_i = Ω_AB + σ_i·n の **n は相手へ向かう単位ベクトル**(天体間方向・面内)である。第272便c の「n は面直の単位ベクトル」は**撤回する**。(σ_i n)×n = 0 は「軸上の相対すべりをこの項が拾わない」という意味に限られ、「面内軸の自転が力学に効かない」ではない。",
   "signConvention": "面直(z)は画面手前向きが正・反時計回り(x→y)が正・視線は +z 側から見下ろす。Ω_AB=(r×v)_z/r² と spin を**同じ符号規約**で比べる。同期比は符号つきの ω_spin/Ω_orb で読み、**+1 が同期・−1 は逆行の同期**である(**絶対値では同期と逆行を区別できない**ので絶対値で判定しない)。",
   "spinZeroNote": "**NS 4 系の内蔵 spin=0 は「観測同期の代用」ではない**(自転が転写できないので 0 を宣言してある = エンジンに自転源を置かない)。",
-  "spentSec": 789.2,
+  "spentSec": 712.7,
   "stages": 102
  },
  "builtinDeclared": [
@@ -6339,7 +6339,14 @@
       "solutionId": null,
       "source": "Akeson et al. 2021, AJ, 162, 14, Table 8 (Present work)"
      },
-     "W": null,
+     "W": {
+      "value": 0,
+      "sigma": null,
+      "unit": "deg/yr",
+      "recordId": "SOL-2c8e091b",
+      "solutionId": null,
+      "source": "Akeson et al. 2021 AJ 162 14 Table 8; Kervella et al. 2016 A&A 594 A10"
+     },
      "e": {
       "value": 0.51947,
       "sigma": 0.00015,
@@ -6599,9 +6606,9 @@
         "sigmaTimesH4": 0.09499124040517024
        },
        "omegaDot": {
-        "obs": null,
+        "obs": 0,
         "sigma": null,
-        "recordId": null,
+        "recordId": "SOL-2c8e091b",
         "solutionId": null,
         "modelExt": -2.5931039446194986e-7,
         "modelH4": -2.5961886458985347e-7,
@@ -6792,9 +6799,9 @@
         "sigmaTimesH4": 0.09499124040517024
        },
        "omegaDot": {
-        "obs": null,
+        "obs": 0,
         "sigma": null,
-        "recordId": null,
+        "recordId": "SOL-2c8e091b",
         "solutionId": null,
         "modelExt": -2.5931039446194986e-7,
         "modelH4": -2.5961886458985347e-7,
@@ -6985,9 +6992,9 @@
         "sigmaTimesH4": -0.7875638296470064
        },
        "omegaDot": {
-        "obs": null,
+        "obs": 0,
         "sigma": null,
-        "recordId": null,
+        "recordId": "SOL-2c8e091b",
         "solutionId": null,
         "modelExt": -2.594768760132239e-7,
         "modelH4": -2.5978568824746555e-7,
@@ -7178,9 +7185,9 @@
         "sigmaTimesH4": 2.0590662274575373
        },
        "omegaDot": {
-        "obs": null,
+        "obs": 0,
         "sigma": null,
-        "recordId": null,
+        "recordId": "SOL-2c8e091b",
         "solutionId": null,
         "modelExt": 0.01115251742368,
         "modelH4": 0.011152630347877794,
@@ -7371,9 +7378,9 @@
         "sigmaTimesH4": 0.09498522305053003
        },
        "omegaDot": {
-        "obs": null,
+        "obs": 0,
         "sigma": null,
-        "recordId": null,
+        "recordId": "SOL-2c8e091b",
         "solutionId": null,
         "modelExt": -2.613227091781341e-7,
         "modelH4": -2.616311666540738e-7,
@@ -7450,7 +7457,14 @@
       "solutionId": null,
       "source": "Bond et al. 2017, ApJ, 840, 70, Table 4"
      },
-     "W": null,
+     "W": {
+      "value": 0,
+      "sigma": null,
+      "unit": "deg/yr",
+      "recordId": "SOL-db007f2a",
+      "solutionId": null,
+      "source": "Bond et al. 2017 ApJ 840 70 Table 4; Gatewood & Gatewood 1978 ApJ 225 "
+     },
      "e": {
       "value": 0.59142,
       "sigma": 0.00037,
@@ -7706,9 +7720,9 @@
         "sigmaTimesH4": 0.27061125414638276
        },
        "omegaDot": {
-        "obs": null,
+        "obs": 0,
         "sigma": null,
-        "recordId": null,
+        "recordId": "SOL-db007f2a",
         "solutionId": null,
         "modelExt": -7.119567301802043e-7,
         "modelH4": -7.137492056551845e-7,
@@ -7899,9 +7913,9 @@
         "sigmaTimesH4": 0.27061125414638276
        },
        "omegaDot": {
-        "obs": null,
+        "obs": 0,
         "sigma": null,
-        "recordId": null,
+        "recordId": "SOL-db007f2a",
         "solutionId": null,
         "modelExt": -7.119567301802043e-7,
         "modelH4": -7.137492056551845e-7,
@@ -8092,9 +8106,9 @@
         "sigmaTimesH4": -3.617549609313029
        },
        "omegaDot": {
-        "obs": null,
+        "obs": 0,
         "sigma": null,
-        "recordId": null,
+        "recordId": "SOL-db007f2a",
         "solutionId": null,
         "modelExt": -7.127313449228611e-7,
         "modelH4": -7.145271896976233e-7,
@@ -8285,9 +8299,9 @@
         "sigmaTimesH4": 11.318112321496933
        },
        "omegaDot": {
-        "obs": null,
+        "obs": 0,
         "sigma": null,
-        "recordId": null,
+        "recordId": "SOL-db007f2a",
         "solutionId": null,
         "modelExt": 0.04368384217650955,
         "modelH4": 0.043686921523069466,
@@ -8478,9 +8492,9 @@
         "sigmaTimesH4": 0.27057514107851033
        },
        "omegaDot": {
-        "obs": null,
+        "obs": 0,
         "sigma": null,
-        "recordId": null,
+        "recordId": "SOL-db007f2a",
         "solutionId": null,
         "modelExt": -7.272595820802886e-7,
         "modelH4": -7.290520483079717e-7,

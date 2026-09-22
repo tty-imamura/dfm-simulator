@@ -347,6 +347,26 @@ FIG=3,4 node tools/gen-figures3.mjs  # 個別再生成
 sha256sum paper/data/jovian-satellites.csv   # 本文の12桁と先頭一致すること
 ```
 
+## `pluto-system-states.csv`(第277便a で新設 —— **判定台帳ではない**)
+
+取得依頼 C の回答(2 系統の外部調査)で得た**冥王星系の暦の状態**を置く場所である。
+**観測 CSV(`solar-observations.csv`)に入れない理由**: 観測 CSV は「天体 × 量 × 出典」の判定台帳で、
+`body|quantity` の**最初の行**が判定行になる(`tests/exp-w262d-solarsigma.mjs`)。1 天体あたり 6 成分 × 2 元期ある
+状態ベクトルを同じ台帳へ混ぜると「x 成分が判定行になる」種類の事故が起きるので、**分ける**。
+
+- 列: `body,quantity,value,unit,epoch,center,frame,ephemeris,source,url,retrieved,note,sigma,record_id`。
+- 92 行 = 状態ベクトル **72 行**(6 体 × 2 元期 × 6 成分)+ カロンの osculating 要素 **17 行**
+  (2 元期 × 8 量。うち 1 成分は 2 系統の最後の桁が食い違ったので**両方**を残した)+ Horizons ヘッダの識別子 3 行。
+- **sigma 列は全行空**である。Horizons の vectors / elements 出力は σ も共分散も印字しない
+  (`sigma_kind=digits; ephemeris=PLU060/DE440`)。**この暦から σ を作らない。**
+- `record_id` は `PSS-<8hex>` —— 観測 CSV の `SOL-` と**同じ生成規則**
+  (`sha256(file\nbody\nquantity\nunit\nsource)` の先頭 8 桁)で、接頭辞だけが違う。
+- 読取器は `tests/lib-w277a-plutostates.mjs`、整合検査と診断の正本は `tests/out/plutostates-w277a.json`、
+  機械固定は QA `docs.plutoStatesFile`。**判定にも σ にも使わない**(定義の違う量を並べた診断である)。
+- 中心は `@9`(冥王星系重心)・座標系は ICRF/J2000 赤道・単位は km と km/s・時刻系は TDB。
+  **2D へ移すときは z を捨てない** —— `projectToOrbitPlane` が軌道面の基底を作り、位置と速度を同じ回転で
+  射影して面外成分を返す(冥王星–カロンの面を基底にしたときの最大は 273.532 km / 187.477 km)。
+
 ---
 
 # 頁数(ローカルビルド実測)

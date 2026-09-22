@@ -1,5 +1,5 @@
 {
- "when": "2026-09-15T19:21:07.468Z",
+ "when": "2026-09-22T06:27:12.660Z",
  "wave": "第263便c(第55報 W3)",
  "inputs": {
   "csv": "paper/data/solar-observations.csv",
@@ -7,24 +7,15 @@
   "solarsigma": "tests/out/solarsigma-w262d.json",
   "emap": "tests/out/emap-w262c.json",
   "calauditRegate": {
-   "on": true,
-   "checked": 35,
-   "unchanged": 35,
+   "on": false,
+   "checked": 0,
+   "unchanged": 0,
    "changed": [],
-   "verifiedFlips": [
-    {
-     "key": "psrJ1946DFM|B|ecc",
-     "from": true,
-     "to": false
-    },
-    {
-     "key": "psrJ1946PN|B|ecc",
-     "from": true,
-     "to": false
-    }
-   ],
-   "noSource": 279,
-   "limitation": "既存の `sigmaSource` の宛先だけを見る。**新しく繋がる量(対応表に無い宛先)は走行が要る** —— --regate は「繋がっている σ が動いたか」しか答えない。"
+   "verifiedFlips": [],
+   "noSource": 0,
+   "limitation": "既存の `sigmaSource` の宛先だけを見る。**新しく繋がる量(対応表に無い宛先)は走行が要る** —— --regate は「繋がっている σ が動いたか」しか答えない。",
+   "limitationApplySigma": "--regate は `applySigma` を通らない(既存宛先の張り直し)。**宣言の扱いを検査するには通常走行が要る**。",
+   "limitationAD5": "参照 CSV 行が消えた宛先は `changed` に積んで continue するだけで、**旧 σ(q.obsSigmaCsv)はその量に残る**。AD5 で「行消失時に旧判定を再利用しない」検査を入れる。"
   }
  },
  "intake": {
@@ -36,34 +27,34 @@
    "プリセット・builder・本体 JSON は変えない(署名不変)",
    "非対称・非 1σ の区間は sigma 列へ入れない(note に sigma_asymmetric= で残す)"
   ],
-  "csvRows": 507,
+  "csvRows": 580,
   "addedRows": 174,
   "sigmaAddedToExistingRows": 24,
-  "candidateRows": 74,
+  "candidateRows": 84,
   "solutionRows": 105,
-  "rowsWithSigma": 192,
-  "sigmaVerified": 16,
-  "sigmaUnverified": 176
+  "rowsWithSigma": 199,
+  "sigmaVerified": 57,
+  "sigmaUnverified": 142
  },
  "csvAudit": {
   "太陽系": {
-   "rows": 288,
-   "keys": 249,
-   "withSigma": 32,
-   "verified": 0,
-   "unverified": 32,
+   "rows": 340,
+   "keys": 279,
+   "withSigma": 36,
+   "verified": 8,
+   "unverified": 28,
    "intakeRows": 36,
    "sigmaAddedAtIntake": 6,
-   "candidateRows": 57,
+   "candidateRows": 66,
    "solutionRows": 0,
    "solutions": []
   },
   "恒星": {
-   "rows": 43,
-   "keys": 39,
-   "withSigma": 40,
-   "verified": 4,
-   "unverified": 36,
+   "rows": 49,
+   "keys": 43,
+   "withSigma": 42,
+   "verified": 16,
+   "unverified": 26,
    "intakeRows": 27,
    "sigmaAddedAtIntake": 8,
    "candidateRows": 13,
@@ -71,11 +62,11 @@
    "solutions": []
   },
   "NS": {
-   "rows": 169,
-   "keys": 84,
-   "withSigma": 120,
-   "verified": 12,
-   "unverified": 108,
+   "rows": 174,
+   "keys": 88,
+   "withSigma": 121,
+   "verified": 33,
+   "unverified": 88,
    "intakeRows": 111,
    "sigmaAddedAtIntake": 10,
    "candidateRows": 4,
@@ -92,14 +83,14 @@
    ]
   },
   "BH 以降": {
-   "rows": 7,
-   "keys": 7,
+   "rows": 17,
+   "keys": 17,
    "withSigma": 0,
    "verified": 0,
    "unverified": 0,
    "intakeRows": 0,
    "sigmaAddedAtIntake": 0,
-   "candidateRows": 0,
+   "candidateRows": 1,
    "solutionRows": 0,
    "solutions": []
   }
@@ -109,17 +100,19 @@
    "presets": 16,
    "quantities": 139,
    "status": {
-    "未判定": 131,
-    "condition-mismatch": 8
+    "未判定": 133,
+    "数値未解決": 3,
+    "否(3σ)": 2,
+    "mapping-unresolved": 1
    },
    "sigmaFrom": {
-    "csv": 0,
+    "csv": 6,
     "obsCard": 0,
-    "none": 139
+    "none": 133
    },
-   "sigmaVerified": 0,
-   "sigmaUnverified": 0,
-   "noSigmaSource": 111
+   "sigmaVerified": 6,
+   "sigmaUnverified": 45,
+   "noSigmaSource": 60
   },
   "恒星": {
    "presets": 4,
@@ -128,7 +121,7 @@
     "合(3σ)": 2,
     "mapping-unresolved": 4,
     "未判定": 25,
-    "否(3σ)": 2
+    "数値未解決": 2
    },
    "sigmaFrom": {
     "csv": 8,
@@ -143,18 +136,18 @@
    "presets": 14,
    "quantities": 114,
    "status": {
-    "数値未解決": 17,
-    "mapping-unresolved": 8,
-    "未判定": 89
+    "数値未解決": 29,
+    "mapping-unresolved": 10,
+    "未判定": 75
    },
    "sigmaFrom": {
-    "csv": 27,
+    "csv": 40,
     "obsCard": 0,
-    "none": 87
+    "none": 74
    },
-   "sigmaVerified": 25,
-   "sigmaUnverified": 2,
-   "noSigmaSource": 17
+   "sigmaVerified": 40,
+   "sigmaUnverified": 0,
+   "noSigmaSource": 4
   },
   "BH 以降": {
    "presets": 3,
@@ -172,38 +165,7 @@
    "noSigmaSource": 10
   }
  },
- "presetsNoSigma": [
-  {
-   "id": "psrDoubleABCF",
-   "emoji": "🪝",
-   "tier": "NS",
-   "why": "**対応表に宛先があっても、この系の走行が σ 転写より前である**(σ を繋ぐには走行が要る)"
-  },
-  {
-   "id": "psrJ1757CF",
-   "emoji": "🪄",
-   "tier": "NS",
-   "why": "**対応表に宛先があっても、この系の走行が σ 転写より前である**(σ を繋ぐには走行が要る)"
-  },
-  {
-   "id": "psrJ1946CF",
-   "emoji": "🩹",
-   "tier": "NS",
-   "why": "**対応表に宛先があっても、この系の走行が σ 転写より前である**(σ を繋ぐには走行が要る)"
-  },
-  {
-   "id": "psrB1534",
-   "emoji": "📿",
-   "tier": "NS",
-   "why": "**対応表に宛先があっても、この系の走行が σ 転写より前である**(σ を繋ぐには走行が要る)"
-  },
-  {
-   "id": "psrB1534CF",
-   "emoji": "🪤",
-   "tier": "NS",
-   "why": "**対応表に宛先があっても、この系の走行が σ 転写より前である**(σ を繋ぐには走行が要る)"
-  }
- ],
+ "presetsNoSigma": [],
  "solutions": [
   {
    "body": "PSR J0737-3039 B",
@@ -230,7 +192,7 @@
      "solution": "Kramer2021-DDS",
      "value": 8834.53472328672,
      "sigma": 8.64e-8,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
      "residual": 0.2379912651504128,
      "nSigma": 2754528.5318334815
@@ -241,7 +203,7 @@
      "solution": "Hu2022-DDS",
      "value": 8834.53472327808,
      "sigma": 2.5056e-7,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
      "residual": 0.23799127379061247,
      "nSigma": 949837.4592537215
@@ -273,7 +235,7 @@
      "solution": "Kramer2021-DDS",
      "value": 8834.53472328672,
      "sigma": 8.64e-8,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
      "residual": -97.16216590767726,
      "nSigma": 1124562105.4129312
@@ -284,7 +246,7 @@
      "solution": "Hu2022-DDS",
      "value": 8834.53472327808,
      "sigma": 2.5056e-7,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
      "residual": -97.16216589903706,
      "nSigma": 387780036.3148031
@@ -316,7 +278,7 @@
      "solution": "Kramer2021-DDS",
      "value": 0.087777023,
      "sigma": 6.1e-8,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
      "residual": -0.00001250327913437932,
      "nSigma": 204.97178908818555
@@ -327,7 +289,7 @@
      "solution": "Hu2022-DDS",
      "value": 0.087777036,
      "sigma": 4.8e-8,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
      "residual": -0.000012516279134386354,
      "nSigma": 260.7558152997157
@@ -359,7 +321,7 @@
      "solution": "Kramer2021-DDS",
      "value": 0.087777023,
      "sigma": 6.1e-8,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
      "residual": 0.00019877866914369546,
      "nSigma": 3258.666707273696
@@ -370,7 +332,7 @@
      "solution": "Hu2022-DDS",
      "value": 0.087777036,
      "sigma": 4.8e-8,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
      "residual": 0.00019876566914368843,
      "nSigma": 4140.951440493509
@@ -383,7 +345,7 @@
    "unit": "deg/yr",
    "preset": "psrDoubleAB",
    "emoji": "📻",
-   "meas": null,
+   "meas": 2.818520671392471,
    "rows": [
     {
      "rank": 0,
@@ -393,8 +355,8 @@
      "sigma": 0.000013,
      "verified": true,
      "intakeRow": false,
-     "residual": null,
-     "nSigma": null
+     "residual": -14.080802328607529,
+     "nSigma": 1083138.6406621176
     },
     {
      "rank": 1,
@@ -402,10 +364,10 @@
      "solution": "Kramer2021-DDS",
      "value": 16.899323,
      "sigma": 0.000013,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
-     "residual": null,
-     "nSigma": null
+     "residual": -14.080802328607529,
+     "nSigma": 1083138.6406621176
     },
     {
      "rank": 2,
@@ -415,8 +377,8 @@
      "sigma": 0.000037,
      "verified": false,
      "intakeRow": true,
-     "residual": null,
-     "nSigma": null
+     "residual": -14.08080032860753,
+     "nSigma": 380562.1710434468
     }
    ]
   },
@@ -445,7 +407,7 @@
      "solution": "Kramer2021-DDS",
      "value": 16.899323,
      "sigma": 0.000013,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
      "residual": 17.869778298276454,
      "nSigma": 1374598.3306366503
@@ -499,7 +461,7 @@
      "solution": "Fonseca2014-DDGR",
      "value": 36351.7026233184,
      "sigma": 1.728e-7,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
      "residual": 0.27964568083552876,
      "nSigma": 1618319.9122426433
@@ -542,7 +504,7 @@
      "solution": "Fonseca2014-DDGR",
      "value": 36351.7026233184,
      "sigma": 1.728e-7,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
      "residual": -135.1790505196841,
      "nSigma": 782286171.9889126
@@ -585,7 +547,7 @@
      "solution": "Fonseca2014-DDGR",
      "value": 0.2736774,
      "sigma": 4e-8,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
      "residual": -0.000003114336133758222,
      "nSigma": 77.85840334395554
@@ -628,7 +590,7 @@
      "solution": "Fonseca2014-DDGR",
      "value": 0.2736774,
      "sigma": 4e-8,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
      "residual": 0.00032928964676537387,
      "nSigma": 8232.241169134346
@@ -641,7 +603,7 @@
    "unit": "deg/yr",
    "preset": "psrB1534",
    "emoji": "📿",
-   "meas": null,
+   "meas": 0.29191107723565357,
    "rows": [
     {
      "rank": 0,
@@ -651,8 +613,8 @@
      "sigma": 0.000009,
      "verified": true,
      "intakeRow": false,
-     "residual": null,
-     "nSigma": null
+     "residual": -1.4638779227643464,
+     "nSigma": 162653.10252937183
     },
     {
      "rank": 1,
@@ -660,10 +622,10 @@
      "solution": "Fonseca2014-DD",
      "value": 1.755795,
      "sigma": 0.0000019,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
-     "residual": null,
-     "nSigma": null
+     "residual": -1.4638839227643463,
+     "nSigma": 770465.2225075507
     },
     {
      "rank": 2,
@@ -673,7 +635,7 @@
      "sigma": null,
      "verified": false,
      "intakeRow": true,
-     "residual": null,
+     "residual": -1.4638839227643463,
      "nSigma": null
     }
    ]
@@ -703,7 +665,7 @@
      "solution": "Fonseca2014-DD",
      "value": 1.755795,
      "sigma": 0.0000019,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
      "residual": 1.828409104058244,
      "nSigma": 962320.5810832863
@@ -746,7 +708,7 @@
      "solution": "Cameron2018-DDH",
      "value": 15857.669019168,
      "sigma": 0.00000432,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
      "residual": -349.630044357129,
      "nSigma": 80932880.6382243
@@ -757,7 +719,7 @@
      "solution": "Singha2026-DDH",
      "value": 15857.6679651744,
      "sigma": 1.728e-7,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
      "residual": -349.6289903635279,
      "nSigma": 2023315916.4556012
@@ -777,11 +739,11 @@
      "adopted": true,
      "solution": "(採用レコード・解タグなし)",
      "value": 0.6058142,
-     "sigma": 1e-7,
+     "sigma": 0.000001,
      "verified": true,
      "intakeRow": false,
      "residual": 0.0001966574497560547,
-     "nSigma": 1966.5744975605471
+     "nSigma": 196.65744975605472
     },
     {
      "rank": 1,
@@ -800,7 +762,7 @@
      "solution": "Cameron2018-DDH",
      "value": 0.6058142,
      "sigma": 0.000001,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
      "residual": 0.0001966574497560547,
      "nSigma": 196.65744975605472
@@ -811,7 +773,7 @@
      "solution": "Singha2026-DDH",
      "value": 0.605817,
      "sigma": 0.000002,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
      "residual": 0.0001938574497559742,
      "nSigma": 96.9287248779871
@@ -854,7 +816,7 @@
      "solution": "Cameron2018-DDH",
      "value": 10.3651,
      "sigma": 0.0002,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
      "residual": 11.548784886306672,
      "nSigma": 57743.924431533356
@@ -865,7 +827,7 @@
      "solution": "Singha2026-DDH",
      "value": 10.364986,
      "sigma": 0.000008,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
      "residual": 11.548898886306672,
      "nSigma": 1443612.3607883342
@@ -878,7 +840,7 @@
    "unit": "s",
    "preset": "psrJ1946DFM",
    "emoji": "🩺",
-   "meas": 6685.642291994065,
+   "meas": 6685.64411532186,
    "rows": [
     {
      "rank": 0,
@@ -888,8 +850,8 @@
      "sigma": 0.000864,
      "verified": true,
      "intakeRow": false,
-     "residual": -95.72436400593506,
-     "nSigma": 110792.08796983225
+     "residual": -95.72254067813992,
+     "nSigma": 110789.97763673602
     },
     {
      "rank": 1,
@@ -899,8 +861,8 @@
      "sigma": 0.000001728,
      "verified": false,
      "intakeRow": false,
-     "residual": -95.72570666193496,
-     "nSigma": 55396820.98491607
+     "residual": -95.72388333413983,
+     "nSigma": 55395765.81836796
     },
     {
      "rank": 2,
@@ -908,10 +870,10 @@
      "solution": "Meng2025-DDFWHE",
      "value": 6781.367998656,
      "sigma": 0.000001728,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
-     "residual": -95.72570666193496,
-     "nSigma": 55396820.98491607
+     "residual": -95.72388333413983,
+     "nSigma": 55395765.81836796
     },
     {
      "rank": 3,
@@ -919,10 +881,10 @@
      "solution": "Meng2025-DDGR",
      "value": 6781.367997792,
      "sigma": 6.912e-7,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
-     "residual": -95.725705797935,
-     "nSigma": 138492051.21229023
+     "residual": -95.72388247013987,
+     "nSigma": 138489413.29591995
     }
    ]
   },
@@ -932,7 +894,7 @@
    "unit": "1",
    "preset": "psrJ1946DFM",
    "emoji": "🩺",
-   "meas": 0.06408356529024434,
+   "meas": 0.06407186542629564,
    "rows": [
     {
      "rank": 0,
@@ -940,10 +902,10 @@
      "solution": "(採用レコード・解タグなし)",
      "value": 0.063848,
      "sigma": 0.000009,
-     "verified": false,
+     "verified": true,
      "intakeRow": false,
-     "residual": 0.0002355652902443356,
-     "nSigma": 26.17392113825951
+     "residual": 0.00022386542629564132,
+     "nSigma": 24.873936255071257
     },
     {
      "rank": 1,
@@ -953,7 +915,7 @@
      "sigma": null,
      "verified": false,
      "intakeRow": false,
-     "residual": 0.00024726529024433896,
+     "residual": 0.0002355654262956447,
      "nSigma": null
     },
     {
@@ -964,8 +926,8 @@
      "sigma": 8e-7,
      "verified": false,
      "intakeRow": false,
-     "residual": 0.00024726529024433896,
-     "nSigma": 309.08161280542373
+     "residual": 0.0002355654262956447,
+     "nSigma": 294.45678286955587
     },
     {
      "rank": 3,
@@ -973,10 +935,10 @@
      "solution": "Meng2025-DDFWHE",
      "value": 0.0638363,
      "sigma": 8e-7,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
-     "residual": 0.00024726529024433896,
-     "nSigma": 309.08161280542373
+     "residual": 0.0002355654262956447,
+     "nSigma": 294.45678286955587
     },
     {
      "rank": 4,
@@ -984,10 +946,10 @@
      "solution": "Meng2025-DDGR",
      "value": 0.0638365,
      "sigma": 4e-7,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
-     "residual": 0.0002470652902443332,
-     "nSigma": 617.663225610833
+     "residual": 0.00023536542629563895,
+     "nSigma": 588.4135657390974
     }
    ]
   },
@@ -997,7 +959,7 @@
    "unit": "deg/yr",
    "preset": "psrJ1946DFM",
    "emoji": "🩺",
-   "meas": 54.718644453894484,
+   "meas": 54.72526065908833,
    "rows": [
     {
      "rank": 0,
@@ -1007,8 +969,8 @@
      "sigma": 0.0004,
      "verified": true,
      "intakeRow": false,
-     "residual": 28.926594453894484,
-     "nSigma": 72316.4861347362
+     "residual": 28.933210659088328,
+     "nSigma": 72333.02664772082
     },
     {
      "rank": 1,
@@ -1018,7 +980,7 @@
      "sigma": null,
      "verified": false,
      "intakeRow": false,
-     "residual": 28.926594453894484,
+     "residual": 28.933210659088328,
      "nSigma": null
     },
     {
@@ -1029,8 +991,8 @@
      "sigma": 0.0004,
      "verified": true,
      "intakeRow": false,
-     "residual": 28.926594453894484,
-     "nSigma": 72316.4861347362
+     "residual": 28.933210659088328,
+     "nSigma": 72333.02664772082
     },
     {
      "rank": 3,
@@ -1038,10 +1000,10 @@
      "solution": "Meng2025-DDFWHE",
      "value": 25.79205,
      "sigma": 0.0004,
-     "verified": false,
+     "verified": true,
      "intakeRow": true,
-     "residual": 28.926594453894484,
-     "nSigma": 72316.4861347362
+     "residual": 28.933210659088328,
+     "nSigma": 72333.02664772082
     },
     {
      "rank": 4,
@@ -1051,7 +1013,7 @@
      "sigma": null,
      "verified": false,
      "intakeRow": true,
-     "residual": 28.926822253894485,
+     "residual": 28.93343845908833,
      "nSigma": null
     }
    ]
@@ -1207,7 +1169,7 @@
    "a": "採用レコード",
    "b": "Cameron2018-DDH",
    "diff": 0,
-   "sigmaA": 1e-7,
+   "sigmaA": 0.000001,
    "sigmaB": 0.000001,
    "nSigmaA": 0,
    "nSigmaB": 0
@@ -1218,9 +1180,9 @@
    "a": "採用レコード",
    "b": "Singha2026-DDH",
    "diff": 0.000002800000000080516,
-   "sigmaA": 1e-7,
+   "sigmaA": 0.000001,
    "sigmaB": 0.000002,
-   "nSigmaA": 28.00000000080516,
+   "nSigmaA": 2.800000000080516,
    "nSigmaB": 1.400000000040258
   },
   {
@@ -1498,7 +1460,7 @@
   }
  ],
  "markMismatch": {
-  "n": 3,
+  "n": 2,
   "rows": [
    {
     "body": "Alpha Centauri B",
@@ -1519,19 +1481,9 @@
     "legendOccurrences": 2,
     "tier": "恒星",
     "connectedToGate": false
-   },
-   {
-    "body": "PSR J1946+2052",
-    "quantity": "eccentricity",
-    "firstMark": "unverified",
-    "legacyReadAs": "verified",
-    "strictReadAs": "unverified",
-    "legendOccurrences": 2,
-    "tier": "NS",
-    "connectedToGate": true
    }
   ],
-  "nConnected": 1,
+  "nConnected": 0,
   "note": "**第264便d(統括の裁定 X6)で直した**。印は `tests/lib-w264d-sigmamark.mjs` の厳密読み(語境界 + 第251便c の凡例文〔`sigma_primary=… means …`〕を除外 + 先頭一致)で読む。ここに残るのは「旧読み(部分一致)なら verified と読まれた行」で、**厳密読みでは verified ではない**。",
   "doNotWrite": [
    "この行は verified である",
@@ -1540,9 +1492,9 @@
   ]
  },
  "missingA": {
-  "n": 66,
+  "n": 65,
   "byCut": {
-   "csv-sigma-empty": 66
+   "csv-sigma-empty": 65
   },
   "rows": [
    {
@@ -1651,19 +1603,6 @@
     "obsPresent": 2
    },
    {
-    "key": "Charon|orbital_period",
-    "body": "Charon",
-    "target": "カロン",
-    "quantity": "orbital_period",
-    "kind": "period",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "❄️"
-    ],
-    "nQuantities": 3,
-    "obsPresent": 3
-   },
-   {
     "key": "Triton|orbital_period",
     "body": "Triton",
     "target": "トリトン",
@@ -1688,7 +1627,7 @@
      "🌇"
     ],
     "nQuantities": 2,
-    "obsPresent": 0
+    "obsPresent": 2
    },
    {
     "key": "Venus|periastron_advance",
