@@ -1,18 +1,18 @@
 {
- "when": "2026-09-21T16:41:37.845Z",
+ "when": "2026-09-22T09:48:58.522Z",
  "wave": "第273便c(第63報・AG24)",
  "harness": "tests/exp-w273c-assessedtable.mjs",
  "input": {
   "calaudit": "tests/out/calaudit-w249.json",
-  "calauditSha256": "4a76525ffe645621009849a389b2a2da6624d792aef259d404d059c226b1640f",
+  "calauditSha256": "d55c9187af7f721c36d90a3dbd2811069a19247cae374191f856a0c468b2bd6b",
   "canonicalTarget": "beta/index.html",
-  "canonicalTargetSha256": "68498d8ded199b59337dac1ab6031953022ced24a571f2c240b4613e1bdda63d",
+  "canonicalTargetSha256": "f29dde5ec85c32d595b673286730336dcbd07b52ecf617012cf6527388bedf51",
   "canonicalWave": "第249便b",
-  "canonicalWhen": "2026-09-21T16:35:59.253Z"
+  "canonicalWhen": "2026-09-22T09:44:11.581Z"
  },
  "stamp": {
   "inHtml": "8b65f1d6996837964d7e5cca418600fa10a7e674a6803d0a72346e4456440e75",
-  "inCanonicalNow": "68498d8ded199b59337dac1ab6031953022ced24a571f2c240b4613e1bdda63d",
+  "inCanonicalNow": "f29dde5ec85c32d595b673286730336dcbd07b52ecf617012cf6527388bedf51",
   "stampChanged": true,
   "valuesChanged": false,
   "rule": "**刻印は構造的に「現行 html の hash」にも「現行正本の刻印」にもできない** —— 刻印を html へ書けばその html の hash が動き、動いた html で判定器を回し直せば正本の刻印もまた動く(不動点が無い)。したがって刻印が言えるのは「**どの走行の正本から転記したか**」までである。鮮度の線は **① 表 ↔ 正本(1 行ずつ)** と **② 正本 ↔ 現行 html**(`lint.calauditMergeKeyHash` が見ている `meta.targetSha256` = 現行 html の SHA-256)の **2 段の鎖**で、この鎖は**エンジンだけが変わった場合も捕まえる**(html が動けば ② が落ちる)。**ページの実行時**は自分の hash を確かめられないので、渡された `targetSha256` の線だけが効く。"

@@ -1,10 +1,10 @@
 {
- "when": "2026-09-22T05:35:16.108Z",
+ "when": "2026-09-22T09:48:57.324Z",
  "wave": "第262便d(第54報 W4)→ 第263便c(第55報 W3)で σ 未確認の状態名と不足一覧を足した",
  "inputs": {
   "calaudit": "tests/out/calaudit-w249.json",
   "csv": "paper/data/solar-observations.csv",
-  "calauditWhen": "2026-09-21T16:35:59.253Z"
+  "calauditWhen": "2026-09-22T09:44:11.581Z"
  },
  "gate": {
   "nSigma": 3,
@@ -44,9 +44,9 @@
   "note": "**宣言表であって自動判定ではない**。CSV に行が無い対象は null を明示する(推測で当てない)"
  },
  "csvSummary": {
-  "rows": 423,
+  "rows": 427,
   "bodies": 71,
-  "rowsWithSigma": 121,
+  "rowsWithSigma": 122,
   "sigmaBodies": [
    "Phobos",
    "Charon",
