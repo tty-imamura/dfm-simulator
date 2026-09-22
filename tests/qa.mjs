@@ -1963,7 +1963,11 @@ const add = (id, pass, detail) => {
       'tests/out/charondfm-w277b.json',
       // 第277便a(第67報 (1)・統括の検証項目 R47): 冥王星系の状態ファイルの整合検査と「別の量」の
       //   診断(**エンジン未接続** —— target は器が読む正本 CSV `paper/data/pluto-system-states.csv`)
-      'tests/out/plutostates-w277a.json'];
+      'tests/out/plutostates-w277a.json',
+      // 第277便c(裁定(第67報)(2)): 中性子星連星の**診断格子**(観測の傾き × 潮汐の手 ×
+      //   パワーボールの有限口座)。**較正ではない**・html を走らせない器なので target は
+      //   器が読む正本ファイル(lib 自身)である
+      'tests/out/nsgrid-w277c.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -47618,7 +47622,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   try { AW = await import('file://' + path.join(ROOT, 'tests', 'lib-w276c-axiswork.mjs')); }
   catch (e) { bad.push('純関数が読めない: ' + String(e).slice(0, 80)); }
   if (AW) {
-    if (AW.AXISWORK_VERSION !== 'w276c-1') bad.push('版が w276c-1 でない: ' + AW.AXISWORK_VERSION);
+    // 第277便c(R50): `solveDelta` の有理化と `signedAxisWork`(可逆対照)を足して版を上げた。
+    if (AW.AXISWORK_VERSION !== 'w276c-2') bad.push('版が w276c-2 でない: ' + AW.AXISWORK_VERSION);
     if (!AW.AXISWORK_PREMISE || !AW.AXISWORK_PREMISE.acceptance)
       bad.push('採用条件(帳簿が閉じること)の宣言が無い');
     // ① 2 次式の解が要求を満たす / ② B<0 の拒否
@@ -47681,6 +47686,283 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     + `入力 ${r3 ? r3.last.Win : '—'} / `
     + `**採用条件は帳簿が閉じることだけ**(η・I_a・要求率は宣言された自由パラメータ。`
     + `**実物のパワーボールの接触機構を証明したとは書かない**)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 第277便c(裁定(第67報)(2)): behavior.axisWorkReversible ----
+//   **純関数を QA の中で直接走らせる**(正本 JSON を読むのではなく、その場で計算する)。
+//   統括の検証項目 R50 の切り分けを機械固定する。固定するのは 6 点:
+//     ① `solveDelta` の**有理化**: E=1e−20・A=1・B=2 で δ=5e−21 が残る
+//        (素朴な (−B+√(B²+4AE))/(2A) は桁落ちして 0 になる)。ΔE の再現も 1e−12 以内。
+//     ② **±0.01 を 100 往復**して、**現行の非負口座**(`depositWork`+`transferFromBank`)は
+//        ω=2.4142…(= **整流**)、**可逆対照**(`signedAxisWork`)は ω=2.0000…(復元)。
+//        **境界の一方向性が整流器として働く**のであって、無から生まれたエネルギーではない。
+//     ③ 可逆対照は **S+J_a·ŝ を保存**し、**帳簿 C=E_spin+E_rotor+Heat+bank−W_in が一定**。
+//     ④ **返却可能量(B²/4A)を超える要求は状態を 1 つも変えずに拒否**し、生仕事と受理仕事の差を残す。
+//     ⑤ **η<1 の可逆要求は拒否**(逆向きに熱を回収しない)。
+//     ⑥ 現行の口座は**逆流を頭打ち**にした量(`clippedReturn`)を黙って落とさない。
+//   **エンジン未接続**なので、この判定は html の世代に依らない(root でも同じ数になる)。
+{
+  const bad = [];
+  let AW = null, NG = null, rt = null, probe = [], refuse = null, etaRef = null;
+  try { AW = await import('file://' + path.join(ROOT, 'tests', 'lib-w276c-axiswork.mjs')); }
+  catch (e) { bad.push('lib-w276c-axiswork.mjs が読めない: ' + String(e).slice(0, 70)); }
+  try { NG = await import('file://' + path.join(ROOT, 'tests', 'lib-w277c-nsgrid.mjs')); }
+  catch (e) { bad.push('lib-w277c-nsgrid.mjs が読めない: ' + String(e).slice(0, 70)); }
+  if (AW && NG) {
+    if (NG.NSGRID_VERSION !== 'w277c-1') bad.push('版が w277c-1 でない: ' + NG.NSGRID_VERSION);
+    if (typeof AW.signedAxisWork !== 'function') bad.push('signedAxisWork が無い');
+    // ① 有理化
+    probe = NG.rationalisedDeltaProbe([
+      { Smag: 2, JaPar: 0, I: 1, Ia: 1, e: 1e-20 },
+      { Smag: 2, JaPar: 0, I: 1, Ia: 1, e: 1e-12 }]);
+    if (!(probe[0].delta > 0)) bad.push('①有理化が効いていない(δ が 0 に潰れた)');
+    if (!(Math.abs(probe[0].delta - 5e-21) <= 1e-33)) bad.push('①δ が 5e−21 でない: ' + probe[0].delta);
+    if (!(probe[0].naive === 0)) bad.push('①素朴な式が桁落ちしていない(前提が崩れた)');
+    for (const p of probe) if (!(Math.abs(p.dE - p.e) <= 1e-12 * Math.max(1e-30, p.e)))
+      bad.push('①ΔE が要求と一致しない: ' + p.dE + ' vs ' + p.e);
+    // ②③ 往復
+    rt = NG.runReversibleRoundTrip({ w: 0.01, cycles: 100, Smag: 2, JaPar: 0, I: 1, Ia: 1 });
+    if (!(Math.abs(rt.current.omega - (Math.SQRT2 + 1)) <= 1e-9))
+      bad.push('②現行の口座で ω が 1+√2 にならない: ' + rt.current.omega);
+    if (!(Math.abs(rt.reversible.omega - 2) <= 1e-9))
+      bad.push('②可逆対照で ω が 2 に戻らない: ' + rt.reversible.omega);
+    if (!(rt.current.Wraw === 0)) bad.push('②生仕事の和が 0 でない: ' + rt.current.Wraw);
+    if (!(rt.current.Win > 0.99 && rt.current.clippedReturn > 0.99))
+      bad.push('⑥現行の口座で逆流の頭打ちが記録されていない');
+    if (!(Math.abs(rt.reversible.Win) <= 1e-12)) bad.push('②可逆対照で受理 W_in が 0 でない');
+    if (!(rt.reversible.returns === 100)) bad.push('②返却回数が 100 でない: ' + rt.reversible.returns);
+    if (!(rt.reversible.ledgerWorstAbs <= 1e-12)) bad.push('③可逆対照で帳簿が閉じていない');
+    if (!(rt.reversible.axialJWorstAbs <= 1e-12)) bad.push('③可逆対照で S+J_a が保存していない');
+    if (!(rt.current.ledgerWorstAbs <= 1e-12)) bad.push('③現行でも帳簿は閉じている(前提)');
+    if (!(rt.reversible.heat === 0)) bad.push('③可逆対照(η=1)で熱が出ている');
+    // ④ 返却可能量を超える要求
+    {
+      const st = AW.makeAxisState({ Smag: 2, JaPar: 0, I: 1, Ia: 1 });
+      const cap = (AW.coefB(st) ** 2) / (4 * AW.coefA(st));
+      const r = AW.signedAxisWork(st, -(1.5 * cap), 1);
+      refuse = { cap, ok: r.ok, refusedWork: r.refusedWork, reason: r.reason,
+        unchanged: st.Smag === 2 && st.JaPar === 0, refusals: st.refusals };
+      if (r.ok) bad.push('④返却可能量を超えた要求が通った');
+      if (!refuse.unchanged) bad.push('④拒否したのに状態が動いた');
+      if (!(r.refusedWork > 0)) bad.push('④拒否した量が記録されていない');
+    }
+    // ⑤ η<1 の可逆要求
+    {
+      const st = AW.makeAxisState({ Smag: 2, JaPar: 0, I: 1, Ia: 1 });
+      const r = AW.signedAxisWork(st, -0.01, 0.5);
+      etaRef = { ok: r.ok, unchanged: st.Smag === 2 && st.JaPar === 0, reason: r.reason };
+      if (r.ok) bad.push('⑤η<1 の可逆要求が通った');
+      if (!etaRef.unchanged) bad.push('⑤η<1 で拒否したのに状態が動いた');
+    }
+  }
+  add('behavior.axisWorkReversible', bad.length === 0,
+    `**N3 の可逆対照と微小仕事の有理化**(第277便c・統括の検証項目 R50・`
+    + `純関数 tests/lib-w276c-axiswork.mjs 版 ${AW ? AW.AXISWORK_VERSION : '—'} + `
+    + `tests/lib-w277c-nsgrid.mjs 版 ${NG ? NG.NSGRID_VERSION : '—'}・**エンジン未接続**)/ `
+    + `① **有理化** δ=2E/(B+√(B²+4AE)): E=1e−20・A=1・B=2 で `
+    + `δ=${probe[0] ? probe[0].delta : '—'}(素朴な (−B+√)/(2A) は ${probe[0] ? probe[0].naive : '—'}）・`
+    + `E=1e−12 で δ=${probe[1] ? probe[1].delta : '—'}(素朴 ${probe[1] ? probe[1].naive : '—'}）/ `
+    + `② **±0.01 を 100 往復**(生仕事の和 ${rt ? rt.current.Wraw : '—'}）: `
+    + `**現行の非負口座 ω ${rt ? rt.omegaStart.toFixed(6) : '—'}→${rt ? rt.current.omega.toFixed(6) : '—'}`
+    + `(整流 —— 受理 W_in ${rt ? rt.current.Win.toFixed(6) : '—'}・逆流の頭打ち `
+    + `${rt ? rt.current.clippedReturn.toFixed(6) : '—'})/ 可逆対照 ω `
+    + `${rt ? rt.omegaStart.toFixed(6) : '—'}→${rt ? rt.reversible.omega.toFixed(6) : '—'}`
+    + `(返却 ${rt ? rt.reversible.returned.toFixed(6) : '—'}・${rt ? rt.reversible.returns : '—'} 回)** / `
+    + `③ 可逆対照の帳簿 ${rt ? rt.reversible.ledgerWorstAbs.toExponential(2) : '—'}・`
+    + `S+J_a ${rt ? rt.reversible.axialJWorstAbs.toExponential(2) : '—'} / `
+    + `④ **返却可能量 B²/(4A)=${refuse ? refuse.cap.toFixed(6) : '—'} を超えた要求は状態を変えずに拒否**`
+    + `(拒否した量 ${refuse ? refuse.refusedWork.toFixed(6) : '—'}・状態不変 ${refuse ? refuse.unchanged : '—'}）/ `
+    + `⑤ **η<1 の可逆要求も拒否**(状態不変 ${etaRef ? etaRef.unchanged : '—'}）/ `
+    + `**境界の一方向性が整流器として働くのであって、無から生まれたエネルギーではない**`
+    + `(「ロックすると加速する」を ω の差だけで言わない)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 第277便c(裁定(第67報)(2)): behavior.nsGridLedger ----
+//   **中性子星連星の診断格子**の正本 `tests/out/nsgrid-w277c.json`(器 tests/exp-w277c-nsgrid.mjs・
+//   純関数 tests/lib-w277c-nsgrid.mjs・**エンジン未接続**)を機械固定する。固定するのは 8 点:
+//     ① 来歴 meta と立場(`premise`・宣言の一覧・門の定数)が載っている。
+//     ② 6 段(すべり / 潮汐係数 / 格子 / 供給元の対照 / 可逆対照 / 否定対照)が揃っている。
+//     ③ **格子の各行で E と J_z の相対誤差が 1e−10 以下**・**熱が減った步 0**・
+//        **供給元が増えた步 0**・**口座が負になった步 0**。
+//     ④ **分類が門の式どおり**である(JSON に入っている生の数から (A)/(B)/(C) を**引き直して**一致させる。
+//        器が古くても嘘をつけないようにするため)。
+//     ⑤ **観測角を初期値にして保持しただけでは (A)(B) にならない** ——
+//        0° でも 90° でもない θ\* で (A)(B) になった行数が `midRows` と一致する。
+//     ⑥ **相対すべり**が閉形式と一致し、**零条件(相互同期)だけが 0** になる
+//        (= この系は kF0 の零条件に分類しない)。
+//     ⑦ **負の対照**: 潮汐の手を切る(C_t=0)と供給元は 1 も減らない。
+//     ⑧ **供給元を軌道 E にすると J_z が閉じない**(否定対照が否定対照のまま残っている)。
+//   **書かないこと**: 「NS の平衡を実証した」「観測と一致した」「較正を完了した」。
+{
+  const bad = [];
+  const P = path.join(ROOT, 'tests', 'out', 'nsgrid-w277c.json');
+  let J = null, NG = null, nRows = 0, cls = { A: 0, B: 0, C: 0 }, reDerived = 0, mismatch = 0;
+  let worstE = 0, worstJz = 0, slipA = null, slipB = null, orbitJz = 0, intJz = 0;
+  try { J = JSON.parse(fs.readFileSync(P, 'utf8')); }
+  catch (e) { bad.push('正本が読めない: ' + String(e).slice(0, 80)); }
+  try { NG = await import('file://' + path.join(ROOT, 'tests', 'lib-w277c-nsgrid.mjs')); }
+  catch (e) { bad.push('純関数が読めない: ' + String(e).slice(0, 70)); }
+  if (J && NG) {
+    // ①
+    if (!J.meta || !J.meta.provenanceVersion) bad.push('①来歴 meta が無い');
+    if (!J.meta || !J.meta.premise || !J.meta.premise.acceptance) bad.push('①立場の宣言が無い');
+    if (!J.meta || !J.meta.premise || !J.meta.premise.observedRole)
+      bad.push('①観測材料の扱い(初期値のみ)の宣言が無い');
+    if (!J.meta || !J.meta.declared || !J.meta.gate) bad.push('①宣言の一覧 / 門の定数が無い');
+    for (const k of ['secularTolDeg', 'boundFactor', 'returnFactor', 'ledgerTol', 'perturbDeg'])
+      if (J.meta && J.meta.gate && J.meta.gate[k] !== NG.GATE[k])
+        bad.push(`①門の定数 ${k} が lib と違う(${J.meta.gate[k]} vs ${NG.GATE[k]})`);
+    // ②
+    for (const k of ['systems', 'observedMaterial', 'stage1', 'stage2', 'stage3', 'stage4',
+      'stage5', 'stage6', 'verdict']) if (!J[k]) bad.push('②段が無い: ' + k);
+    // ③④⑤
+    const rows = ((J.stage3 || {}).rows) || [];
+    nRows = rows.length;
+    if (!(nRows >= 200)) bad.push('③格子の行数が足りない: ' + nRows);
+    let mid = 0;
+    for (const r of rows) {
+      const run = r.run || {};
+      if (!(run.worstErel <= NG.GATE.ledgerTol))
+        bad.push(`③E の相対誤差が門を越えた: ${r.system}|${r.thetaTag} ${run.worstErel}`);
+      if (!(run.worstJzRel <= NG.GATE.ledgerTol))
+        bad.push(`③J_z の相対誤差が門を越えた: ${r.system}|${r.thetaTag} ${run.worstJzRel}`);
+      if (!(run.heatDrops === 0)) bad.push(`③熱が減った: ${r.system}|${r.thetaTag}`);
+      if (!(run.supplyRises === 0)) bad.push(`③供給元が増えた: ${r.system}|${r.thetaTag}`);
+      if (!(run.bankNegSteps === 0)) bad.push(`③口座が負になった: ${r.system}|${r.thetaTag}`);
+      for (let i = 0; i < 2; i++) {
+        const g = (r.gate || [])[i];
+        if (!g) { bad.push('④門の生データが無い: ' + r.system); continue; }
+        cls[r.classDt1[i]] = (cls[r.classDt1[i]] || 0) + 1;
+        // **門の式を引き直す**(JSON の生の数だけから)
+        let c = 'C';
+        if (g.secularDeg <= NG.GATE.secularTolDeg && g.bounded && !g.dissipating && g.closes) c = 'A';
+        else if (g.secularDeg <= NG.GATE.secularTolDeg && g.returning && g.dissipating && g.closes) c = 'B';
+        reDerived++;
+        if (c !== r.classDt1[i]) { mismatch++; bad.push(`④分類が門の式と違う: ${r.system}|${r.thetaTag} → ${r.classDt1[i]} / 式 ${c}`); }
+        const th = r.thetaStarDeg[i];
+        if (th > 1e-9 && Math.abs(th - 90) > 1e-9 && (r.classDt1[i] === 'A' || r.classDt1[i] === 'B')) mid++;
+      }
+      worstE = Math.max(worstE, run.worstErel); worstJz = Math.max(worstJz, run.worstJzRel);
+    }
+    if (mid !== (J.stage3 || {}).midRows)
+      bad.push(`⑤中間傾斜の (A)(B) の行数が正本と違う(${mid} vs ${(J.stage3 || {}).midRows})`);
+    // ⑥ すべり
+    for (const s of ((J.stage1 || {}).rows) || []) {
+      if (!(s.relDiff <= 1e-12)) bad.push('⑥すべりの RMS が閉形式と合わない: ' + s.system);
+      if (s.zeroCondition) bad.push('⑥自転の速い天体で相対すべりが 0 になっている: ' + s.system);
+    }
+    const z = (J.stage1 || {}).zeroCondition;
+    if (!z || !(z.rms === 0)) bad.push('⑥零条件(相互同期)の RMS が 0 でない');
+    const tr = (J.stage1 || {}).translationInvariance;
+    if (!tr || !(tr.d1 === 0 && tr.d2 === 0)) bad.push('⑥共通並進で相対すべりが動いた');
+    slipA = (((J.stage1 || {}).rows) || []).find((s) => s.system === 'J0737' && s.body === 1 && s.thetaTag === 'obs');
+    slipB = (((J.stage1 || {}).rows) || []).find((s) => s.system === 'J0737' && s.body === 2 && s.thetaTag === 'obs');
+    // ⑦ 負の対照
+    for (const r of ((J.stage3 || {}).tideOff) || []) {
+      if (!(r.supplyDrop === 0)) bad.push('⑦潮汐の手を切ったのに供給元が減った: ' + r.system);
+      if (!(r.heat === 0)) bad.push('⑦潮汐の手を切ったのに熱が出た: ' + r.system);
+    }
+    // ⑧ 供給元の対照
+    const sup = ((J.stage4 || {}).rows) || [];
+    intJz = Math.max(...sup.filter((r) => r.supply === 'internal').map((r) => r.worstJzRel), 0);
+    orbitJz = Math.max(...sup.filter((r) => r.supply === 'orbit').map((r) => r.worstJzRel), 0);
+    if (!(intJz <= NG.GATE.ledgerTol)) bad.push('⑧内部モード口座で J_z が閉じていない');
+    if (!(orbitJz > NG.GATE.ledgerTol))
+      bad.push('⑧軌道 E を供給元にした否定対照で J_z が閉じてしまっている(対照が対照でない)');
+  }
+  add('behavior.nsGridLedger', bad.length === 0,
+    `**中性子星連星の診断格子**(第277便c・裁定(第67報)(2)・正本 tests/out/nsgrid-w277c.json・`
+    + `器 tests/exp-w277c-nsgrid.mjs・純関数 tests/lib-w277c-nsgrid.mjs 版 `
+    + `${NG ? NG.NSGRID_VERSION : '—'}・**エンジン未接続**・**較正ではない**)/ `
+    + `格子 ${nRows} 行 × 2 天体 = ${reDerived} 分類: **(A) ${cls.A} / (B) ${cls.B} / (C) ${cls.C}**・`
+    + `**0° でも 90° でもない θ\* で (A)(B) になった行は ${J ? (J.stage3 || {}).midRows : '—'} 行** —— `
+    + `**観測角を初期値にして保持しただけでは (A)(B) と書かない** / `
+    + `帳簿: E の最悪相対誤差 ${worstE.toExponential(2)}・J_z ${worstJz.toExponential(2)}`
+    + `(門 ${NG ? NG.GATE.ledgerTol.toExponential(0) : '—'})・熱が減った行 0・供給元が増えた行 0 / `
+    + `門の式を正本の生データから**引き直して** ${reDerived - mismatch}/${reDerived} 一致 / `
+    + `**相対すべり**(R46 の零条件): J0737 A ${slipA ? slipA.rms.toExponential(3) : '—'}・`
+    + `B ${slipB ? slipB.rms.toExponential(3) : '—'}(相互同期なら 0)—— `
+    + `**この系は相互同期(= kF0 の零条件)に分類しない** / `
+    + `**負の対照**(潮汐の手 C_t=0)で供給元の減少 0 / `
+    + `**供給元の対照**: 内部モード口座 J_z ${intJz.toExponential(2)} に対し `
+    + `**軌道 E は ${orbitJz.toExponential(2)}**(準円パラメータ化では E_orb=E(L) なので閉じない —— 否定対照)/ `
+    + `**k₂・K・λ・η・要求率・C_t は宣言された自由パラメータ**(観測の傾きは**初期値としてのみ**使い、`
+    + `そこから係数を決めていない)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 第277便c(裁定(第67報)(2)): docs.nsGridCriteria ----
+//   **文書の表が正本の数そのもの**であることを機械固定する(文書が測定から独立に動かないように)。
+//     ① docs/PHYSICS.md に 〔第277便c〕節がある。
+//     ② 門の定義(永年変位・小摂動の有界性・復帰・収支の閉じ)の 4 語が節にある。
+//     ③ 正本の主要数値(分類の合計・相対すべり・可逆対照の ω 2 つ・有理化の δ・否定対照の倍率)が
+//        **そのまま節に載っている**。
+//     ④ docs/CALIBRATION_VERDICT_v1.44.md に §5.27 があり、**禁止語**(第276便の教訓)が無い。
+//     ⑤ CHANGELOG.md の v1.45-b1 節に第277便c の行がある。
+//     ⑥ 節に**言わないことの明記**(「NS の平衡を実証した」等)がある。
+{
+  const bad = [];
+  let J = null;
+  const phys = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+  const cal = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
+  const chg = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
+  try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'nsgrid-w277c.json'), 'utf8')); }
+  catch (e) { bad.push('正本が読めない: ' + String(e).slice(0, 70)); }
+  const need = [];
+  if (!/〔第277便c/.test(phys)) bad.push('①PHYSICS.md に〔第277便c〕節が無い');
+  const i7 = phys.indexOf('〔第277便c');
+  const sec = (i7 < 0) ? '' : phys.slice(i7, (() => {
+    const j = phys.indexOf('\n〔第2', i7 + 5); const k2 = phys.indexOf('\n## ', i7);
+    const ends = [j, k2].filter((x) => x > 0);
+    return ends.length ? Math.min(...ends) : phys.length; })());
+  for (const w of ['永年', '有界', '収支', '相対すべり'])
+    if (sec.indexOf(w) < 0) bad.push('②門の定義の語が節に無い: ' + w);
+  if (J) {
+    const s3 = J.stage3 || {}, c = s3.clsTotal || {};
+    need.push(String(c.A), String(c.B), String(c.C), String(s3.midRows));
+    const sa = ((J.stage1 || {}).rows || []).find((r) => r.system === 'J0737' && r.body === 1 && r.thetaTag === 'obs');
+    const sb = ((J.stage1 || {}).rows || []).find((r) => r.system === 'J0737' && r.body === 2 && r.thetaTag === 'obs');
+    if (sa) need.push(sa.rms.toExponential(4));
+    if (sb) need.push(sb.rms.toExponential(4));
+    const rt = (J.stage5 || {}).roundTrip;
+    if (rt) { need.push(rt.current.omega.toFixed(6)); need.push(rt.reversible.omega.toFixed(6)); }
+    const dp = ((J.stage5 || {}).deltaProbe || [])[0];
+    if (dp) need.push(String(dp.delta));
+    const u = ((J.stage6 || {}).rows || [])[0];
+    if (u) need.push(u.aProtoNormalised.toExponential(3));
+    for (const t of need) if (sec.indexOf(t) < 0) bad.push('③正本の数値が節に無い: ' + t);
+  }
+  // ④ CALIBRATION_VERDICT §5.27 と禁止語
+  const i27 = cal.indexOf('### 5.27 ');
+  if (i27 < 0) bad.push('④CALIBRATION_VERDICT に §5.27 が無い');
+  const sec27 = (i27 < 0) ? '' : cal.slice(i27, (() => {
+    const j = cal.indexOf('\n## ', i27); const k3 = cal.indexOf('\n### 5.28 ', i27);
+    const ends = [j, k3].filter((x) => x > 0);
+    return ends.length ? Math.min(...ends) : cal.length; })());
+  for (const line of sec27.split('\n')) {
+    const bare = line.replace(/[「『][^」』]*[」』]/g, '');
+    if (/判定が増えた|較正を完了|較正した|カロンが合|kF0 版が成立した|引きずりが完全に消えていることを確認/.test(bare))
+      bad.push('④禁止語(§5.27): ' + line.slice(0, 40));
+  }
+  // ⑤ CHANGELOG
+  const iv = chg.indexOf('## v1.45-b1');
+  const head = (iv < 0) ? '' : chg.slice(iv, chg.indexOf('\n## ', iv + 5) > 0 ? chg.indexOf('\n## ', iv + 5) : chg.length);
+  if (head.indexOf('第277便c') < 0) bad.push('⑤CHANGELOG の v1.45-b1 節に第277便c の行が無い');
+  // ⑥ 言わないこと
+  if (sec.indexOf('言わないこと') < 0) bad.push('⑥節に「言わないこと」が無い');
+  for (const w of ['NS の平衡を実証した', '較正を完了した'])
+    if (sec.indexOf(w) < 0) bad.push('⑥「言わないこと」に語が無い: ' + w);
+  add('docs.nsGridCriteria', bad.length === 0,
+    `**診断格子の文書同期**(第277便c): docs/PHYSICS.md 〔第277便c〕節 ${sec.length} 字 / `
+    + `正本 tests/out/nsgrid-w277c.json の主要数値 ${need.length} 個が**そのまま節に載っている** `
+    + `(分類の合計・中間傾斜の (A)(B) の行数・相対すべり・可逆対照の ω 2 つ・有理化の δ・`
+    + `無減衰の局所試作を NS へ延長した否定対照の倍率)/ `
+    + `門の定義(**永年**変位・小摂動の**有界**性・復帰・**収支**の閉じ)が節にある / `
+    + `docs/CALIBRATION_VERDICT_v1.44.md §5.27(${sec27.length} 字・**禁止語なし**)/ `
+    + `CHANGELOG の v1.45-b1 節に第277便c の行 / `
+    + `**言わないこと**の明記(「NS の平衡を実証した」「較正を完了した」等)`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
 }
 

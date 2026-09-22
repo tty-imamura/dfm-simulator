@@ -37,7 +37,9 @@
 // ■ 言わないこと
 //   「パワーボールの機構を証明した」「実物の接触機構を再現した」「自転が無限に上がる」
 //   「エンジンに実装した」「新発見」。
-export const AXISWORK_VERSION = 'w276c-1';
+// 第277便c(R50)で `solveDelta` の有理化と `signedAxisWork`(可逆対照)を足したので版を上げた。
+// **既存の関数の外から見える契約は変えていない**(solveDelta は同じ根を桁落ちなしで返す)。
+export const AXISWORK_VERSION = 'w276c-2';
 
 /** 裁定 (3) の要旨と、本チャネルの採用条件(器の結果 JSON の meta に同じ文字列が載る)。 */
 export const AXISWORK_PREMISE = {
@@ -102,7 +104,15 @@ export function solveDelta(st, e) {
   if (!(B >= 0)) return { delta: 0, ok: false, reason: 'B<0(受動交換の枝 — 仕事駆動では拒否)', A, B };
   const disc = B * B + 4 * A * e;
   if (!(disc >= 0) || !(A > 0)) return { delta: 0, ok: false, reason: '判別式/慣性が不正', A, B };
-  return { delta: (-B + Math.sqrt(disc)) / (2 * A), ok: true, reason: '', A, B };
+  // 第277便c(統括の検証項目 R50): **有理化**。(−B+√(B²+4AE))/(2A) は E ≪ B² のとき
+  //   √(B²+4AE) ≈ B の引き算で桁落ちする(E=1e−20・A=1・B=2 で δ が 0 に潰れる)。
+  //   **B ≥ 0 の枝**では分子分母に (B+√) を掛けた **2E/(B+√(B²+4AE))** が同じ根を与え、
+  //   引き算が無いので小さい E でも有効数字が残る(E=1e−20・A=1・B=2 → δ=5e−21)。
+  //   **B=0 のときは 2E/√(4AE)=√(E/A) で従来と同じ**(0/0 にならない)。
+  const s = Math.sqrt(disc);
+  const den = B + s;
+  if (!(den > 0)) return { delta: 0, ok: false, reason: '分母が 0(B=0 かつ E=0)', A, B };
+  return { delta: (2 * e) / den, ok: true, reason: '', A, B };
 }
 
 /* ── (3) 1 回の移送(**口座から引き出す・尽きたら止まる**) ───────────────── */
@@ -128,6 +138,68 @@ export function transferFromBank(st, request, eta) {
   st.heat += (1 - q) * w;                      // 残りは熱(η<1 のとき正)
   st.transfers++;
   return { w, delta: d, dE, ok: true, reason: '', eta: q };
+}
+
+/* ── (3′) 第277便c: **可逆対照** signedAxisWork(統括の検証項目 R50 の N3 の切り分け) ──
+   ■ 何のためか
+     現行の `depositWork`(非負口座)+ `transferFromBank` の組は、**負の仕事を口座不足で切る**ので
+     ±w を往復させると正の側だけが通る = **境界の一方向性が整流器として働く**(N3)。
+     これが「ロックすると加速する」の一部を作っていることを**数で分ける**ための対照が本枝である。
+     **無から生まれたエネルギーではない** —— 切っているのは返却であって、生成ではない。
+   ■ 規約
+     ・**正の仕事**は現行のまま(口座へ積んで `transferFromBank` で移す)。
+     ・**負の仕事**は自転(+δ・δ<0)と反作用ローター(−δ)から**実際に返す**。
+         ΔE = Aδ² + Bδ = e (< 0) を δ ∈ (−B/(2A), 0) の枝で解く(有理化 δ = 2e/(B+√(B²+4Ae)))。
+       返せる上限は ΔE の最小値 **−B²/(4A)** なので、それを超える要求は**状態を 1 つも変えずに拒否**し、
+       生仕事 `Wraw` と受理仕事 `Win` の差を `refusedWork` に残す(黙って切らない)。
+     ・**η=1 の対照専用**である(η<1 は熱を出す非可逆枝なので、逆向きに熱を回収しない = 拒否)。
+     ・帳簿: 返した分は **W_in を減らす**(供給元へ戻す)。口座は触らない。
+       C = E_spin + E_rotor + Heat + bank − W_in は前後で不変である。 */
+/**
+ * 符号つきの軸仕事。**既存の関数は 1 行も変えていない**(これは追加の枝である)。
+ * @param {object} st makeAxisState の状態(**破壊的に更新する**)
+ * @param {number} w 符号つきの仕事(w>0 = 与える・w<0 = 返してもらう)
+ * @param {number} [eta] η∈[0,1](負の枝は η=1 のみ)
+ */
+export function signedAxisWork(st, w, eta) {
+  const q = (eta === undefined) ? 1 : Math.max(0, Math.min(1, eta));
+  const ww = w || 0;
+  if (!Number.isFinite(ww) || ww === 0) return { ok: true, sign: 0, w: 0, delta: 0, dE: 0,
+    Wraw: 0, Win: 0, refusedWork: 0, reason: 'W=0' };
+  if (ww > 0) {                               // **正: 現行の経路をそのまま使う**
+    depositWork(st, ww);
+    const r = transferFromBank(st, ww, q);
+    return { ok: r.ok, sign: 1, w: r.w, delta: r.delta, dE: r.dE,
+      Wraw: ww, Win: ww, refusedWork: 0, reason: r.reason };
+  }
+  // **負: 実際に返す**(η=1 の対照専用)
+  if (q !== 1) {
+    st.refusals++; st.lastRefuseReason = 'η<1 では逆向きに熱を回収しない(可逆対照は η=1 のみ)';
+    return { ok: false, sign: -1, w: 0, delta: 0, dE: 0, Wraw: ww, Win: 0,
+      refusedWork: -ww, reason: st.lastRefuseReason };
+  }
+  const A = coefA(st), B = coefB(st);
+  const cap = (A > 0) ? (B * B) / (4 * A) : 0;      // **返せる上限**(ΔE の最小値の絶対値)
+  const disc = B * B + 4 * A * ww;
+  if (!(A > 0) || !(B >= 0) || !(disc >= 0) || !(-ww <= cap)) {
+    st.refusals++;
+    st.lastRefuseReason = '返却可能量を超えた(|W| > B²/(4A))';
+    return { ok: false, sign: -1, w: 0, delta: 0, dE: 0, Wraw: ww, Win: 0,
+      refusedWork: -ww, reason: st.lastRefuseReason };
+  }
+  const d = (2 * ww) / (B + Math.sqrt(disc));       // **有理化**(δ<0・0 に近い側の根)
+  if (!(d <= 0) || !(st.Smag + d >= 0)) {
+    st.refusals++; st.lastRefuseReason = '返すと |S| が負になる';
+    return { ok: false, sign: -1, w: 0, delta: 0, dE: 0, Wraw: ww, Win: 0,
+      refusedWork: -ww, reason: st.lastRefuseReason };
+  }
+  const dE = deltaEnergy(st, d);                    // = ww(< 0)
+  st.Smag += d; st.JaPar -= d;                      // **S + J_a·ŝ は構造的に不変**
+  st.Win += ww;                                     // **供給元へ返す**(口座は触らない)
+  st.returns = (st.returns || 0) + 1;
+  st.returned = (st.returned || 0) + (-ww);
+  return { ok: true, sign: -1, w: -ww, delta: d, dE, Wraw: ww, Win: ww,
+    refusedWork: 0, reason: '', cap };
 }
 
 /* ── (4) 受動ブレーキ(「力を抜く」—— 入力 0 で抵抗・逆移送だけを残す) ───── */
@@ -315,4 +387,5 @@ export function runLock(P) {
 
 export default { AXISWORK_VERSION, AXISWORK_PREMISE, makeAxisState, spinEnergy, rotorEnergy,
   omegaSpin, ledgerC, totalAxialJ, coefA, coefB, deltaEnergy, solveDelta, transferFromBank,
-  passiveBrake, depositWork, runAxisWork, lockDerivs, lockInvariants, rk4v, runLock, LOCK_LEN };
+  passiveBrake, depositWork, runAxisWork, lockDerivs, lockInvariants, rk4v, runLock, LOCK_LEN,
+  signedAxisWork };
