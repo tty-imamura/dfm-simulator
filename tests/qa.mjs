@@ -2347,7 +2347,7 @@ const add = (id, pass, detail) => {
     console.log('SKIP docs.intakeC(beta 対象でない: ' + TARGET + ')');
   } else {
     const bad = [];
-    const EXPECT = { csvRows: 576, intakeRows: 54, sigmaEntered: 6, noteEdited: 12,
+    const EXPECT = { csvRows: 580, intakeRows: 54, sigmaEntered: 6, noteEdited: 12,
       cut: { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
       four: { 否: 2, 保留: 14 } };
     let nIntake = 0, nSigma = 0, nNote = 0, nRows = 0, cut = null, four = null;
@@ -15380,7 +15380,8 @@ if (!FAST) {
     // 第277便a: **併置行はビルダーへ渡さない**という宣言はそのままに、2026-09-22 の転写行(取得依頼 C の
     //   回答・2 系統の外部調査)も同じ扱いにする。**採用レコードは 1 行も置き換えていない。**
     const INTAKE_ROW = (r) => /intake_row=2026-09-14/.test(r.note || '')
-      || /intake_round=request-C-2026-09-22/.test(r.note || '');
+      || /intake_round=request-C-2026-09-22/.test(r.note || '')
+      || /intake_row=2026-09-22/.test(r.note || '');   // 第277便c: 観測傾きの候補行(collate=pending・門に入らない)
     const csvIntakeN = csvParsed.filter(INTAKE_ROW).length;
     const csvRows = csvParsed.filter((r) => !INTAKE_ROW(r));
     const ac = await page.evaluate(({ csvRows }) => {
@@ -15719,7 +15720,8 @@ if (!FAST) {
     // 第277便a: **併置行はビルダーへ渡さない**という宣言はそのままに、2026-09-22 の転写行(取得依頼 C の
     //   回答・2 系統の外部調査)も同じ扱いにする。**採用レコードは 1 行も置き換えていない。**
     const INTAKE_ROW = (r) => /intake_row=2026-09-14/.test(r.note || '')
-      || /intake_round=request-C-2026-09-22/.test(r.note || '');
+      || /intake_round=request-C-2026-09-22/.test(r.note || '')
+      || /intake_row=2026-09-22/.test(r.note || '');   // 第277便c: 観測傾きの候補行(collate=pending・門に入らない)
     const csvIntakeN = csvParsed.filter(INTAKE_ROW).length;
     const csvRows = csvParsed.filter((r) => !INTAKE_ROW(r));
     const si = await page.evaluate(({ csvRows }) => {
@@ -16034,7 +16036,8 @@ if (!FAST) {
     // 第277便a: **併置行はビルダーへ渡さない**という宣言はそのままに、2026-09-22 の転写行(取得依頼 C の
     //   回答・2 系統の外部調査)も同じ扱いにする。**採用レコードは 1 行も置き換えていない。**
     const INTAKE_ROW = (r) => /intake_row=2026-09-14/.test(r.note || '')
-      || /intake_round=request-C-2026-09-22/.test(r.note || '');
+      || /intake_round=request-C-2026-09-22/.test(r.note || '')
+      || /intake_row=2026-09-22/.test(r.note || '');   // 第277便c: 観測傾きの候補行(collate=pending・門に入らない)
     const csvIntakeN = csvParsed.filter(INTAKE_ROW).length;
     const csvAll = csvParsed.filter((r) => !INTAKE_ROW(r));
     const csvRows = csvAll.filter((r) => !BUILDER_SKIP.has(r.quantity)).map((r) => {

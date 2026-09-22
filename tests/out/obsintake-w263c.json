@@ -1,5 +1,5 @@
 {
- "when": "2026-09-22T05:35:09.235Z",
+ "when": "2026-09-22T06:26:39.708Z",
  "wave": "第263便c(第55報 W3)",
  "inputs": {
   "csv": "paper/data/solar-observations.csv",
@@ -27,14 +27,14 @@
    "プリセット・builder・本体 JSON は変えない(署名不変)",
    "非対称・非 1σ の区間は sigma 列へ入れない(note に sigma_asymmetric= で残す)"
   ],
-  "csvRows": 576,
+  "csvRows": 580,
   "addedRows": 174,
   "sigmaAddedToExistingRows": 24,
   "candidateRows": 84,
   "solutionRows": 105,
-  "rowsWithSigma": 198,
+  "rowsWithSigma": 199,
   "sigmaVerified": 57,
-  "sigmaUnverified": 141
+  "sigmaUnverified": 142
  },
  "csvAudit": {
   "太陽系": {
@@ -62,11 +62,11 @@
    "solutions": []
   },
   "NS": {
-   "rows": 170,
-   "keys": 84,
-   "withSigma": 120,
+   "rows": 174,
+   "keys": 88,
+   "withSigma": 121,
    "verified": 33,
-   "unverified": 87,
+   "unverified": 88,
    "intakeRows": 111,
    "sigmaAddedAtIntake": 10,
    "candidateRows": 4,
