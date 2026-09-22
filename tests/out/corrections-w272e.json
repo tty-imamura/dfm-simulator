@@ -3,44 +3,44 @@
   "provenanceVersion": "w272e-1",
   "wave": "第272便e(第62報・AG18)+ 第273便e(第63報・AH18)",
   "target": "paper/data/solar-observations.csv",
-  "targetSha256": "062409b8665cb5fa201204ffc2a15f2a8c0936065f6a3efbc8542125af7903e3",
-  "generatedAt": "2026-09-22T05:57:45.763Z",
+  "targetSha256": "702efd3ad1441598a7af6a099ee91f6007d2519b83146c98614e3ce4560b1085",
+  "generatedAt": "2026-09-22T06:27:13.224Z",
   "inputs": [
    {
     "file": "paper/data/corrections.json",
     "bytes": 117628,
     "sha256": "1b6e2dcc36bad0e1ca9a2ce5a43ad90186f4e05a6d586e99ecc97f679b28e380",
-    "mtime": "2026-09-22T05:57:45.644Z"
+    "mtime": "2026-09-22T06:22:19.726Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
-    "bytes": 507592,
-    "sha256": "062409b8665cb5fa201204ffc2a15f2a8c0936065f6a3efbc8542125af7903e3",
-    "mtime": "2026-09-22T05:43:11.655Z"
+    "bytes": 511051,
+    "sha256": "702efd3ad1441598a7af6a099ee91f6007d2519b83146c98614e3ce4560b1085",
+    "mtime": "2026-09-22T06:23:10.081Z"
    },
    {
     "file": "paper/data/cluster-galaxy-observations.csv",
     "bytes": 94818,
     "sha256": "6fe0e68c2f539813d5339962dead965d2d7ef7f5ba6709deef5fceb22ec18461",
-    "mtime": "2026-09-22T05:13:22.640Z"
+    "mtime": "2026-09-18T09:19:35.127Z"
    },
    {
     "file": "paper/data/transient-observations.csv",
     "bytes": 21528,
     "sha256": "0b30b785a8378626537e8714e35dbd9d812c6bfc16397605a3a99bde1ef13a63",
-    "mtime": "2026-09-22T05:13:23.272Z"
+    "mtime": "2026-09-18T09:19:35.129Z"
    },
    {
     "file": "paper/data/supernova-observations.csv",
     "bytes": 6800,
     "sha256": "db9a6ab7e4a0f616ba63bb2b6f970ad97977c42624601fcaecf77ba3feba3986",
-    "mtime": "2026-09-22T05:13:23.272Z"
+    "mtime": "2026-09-09T09:57:57.061Z"
    },
    {
     "file": "paper/data/jovian-satellites.csv",
     "bytes": 8138,
     "sha256": "81bcb3807281b2e2ab6b8ad0525b86f62c954f97fee202da76865fe5c2f1437d",
-    "mtime": "2026-09-22T05:13:22.716Z"
+    "mtime": "2026-09-09T09:57:57.061Z"
    }
   ],
   "code": [
@@ -48,25 +48,25 @@
     "file": "tests/exp-w272e-corrections.mjs",
     "bytes": 13323,
     "sha256": "93a6fb6aae376e575e7b4b83fd706fde7c8cfecea216a24628a19b877e2e784e",
-    "mtime": "2026-09-22T05:36:10.760Z"
+    "mtime": "2026-09-22T06:22:19.729Z"
    },
    {
     "file": "tests/lib-w270b-obscsv.mjs",
     "bytes": 14068,
     "sha256": "603104b67e24f166bc5a2a2d00038686ed4631e39285bcb8780281026d7e2d4a",
-    "mtime": "2026-09-22T05:13:27.776Z"
+    "mtime": "2026-09-19T11:48:42.098Z"
    },
    {
     "file": "tests/lib-w264d-sigmamark.mjs",
     "bytes": 8862,
     "sha256": "a6b63351e348c728d5da295acfdb0071ccacd3a75974f80aa9152fb5be11cf09",
-    "mtime": "2026-09-22T05:13:26.948Z"
+    "mtime": "2026-09-16T06:13:49.563Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-22T05:13:27.780Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
   "codeSha256": "10d63125fd38d2890d417b832e41016af0fad8455cc74e5896d4c0dcf5e44575"

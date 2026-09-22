@@ -72,36 +72,36 @@
    "新発見"
   ],
   "caveat": "k₂・K・λ・η・要求率・I_a・ξ・C_t は**宣言された自由パラメータ**である。観測の傾きは**照合前の材料**として初期値にだけ使い、そこから係数を決めることはしていない。離心率は記録した入力であって、格子の軌道は準円である。",
-  "csvSha256": "054f6a03073964fcb0891c6838b8717cf2c94a0c426f84f3c7a209786b4fcc82",
+  "csvSha256": "702efd3ad1441598a7af6a099ee91f6007d2519b83146c98614e3ce4560b1085",
   "provenanceVersion": "w272e-1",
   "wave": "第277便c",
   "target": "tests/lib-w277c-nsgrid.mjs",
   "targetSha256": "2ecd835ff1a78bc03a65b41dec0b9c7d65321896ad1b33883be2177ab5f562cd",
-  "generatedAt": "2026-09-22T06:08:53.421Z",
+  "generatedAt": "2026-09-22T07:11:50.506Z",
   "inputs": [
    {
     "file": "tests/lib-w277c-nsgrid.mjs",
     "bytes": 30420,
     "sha256": "2ecd835ff1a78bc03a65b41dec0b9c7d65321896ad1b33883be2177ab5f562cd",
-    "mtime": "2026-09-22T05:52:08.633Z"
+    "mtime": "2026-09-22T06:22:45.326Z"
    },
    {
     "file": "tests/lib-w276c-axiswork.mjs",
     "bytes": 23751,
     "sha256": "142bd7f6678ad7eb2a4bb3d4c86bb925d2de397994f736e9cddf13462a85e738",
-    "mtime": "2026-09-22T05:25:02.493Z"
+    "mtime": "2026-09-22T06:22:45.326Z"
    },
    {
     "file": "tests/lib-w275e-powerball.mjs",
     "bytes": 23684,
     "sha256": "dc402b1f38a78a66b34db6e6585a3d42f332800de781226141cd1c9398568fe6",
-    "mtime": "2026-09-22T05:13:48.356Z"
+    "mtime": "2026-09-21T12:31:34.089Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
-    "bytes": 458076,
-    "sha256": "054f6a03073964fcb0891c6838b8717cf2c94a0c426f84f3c7a209786b4fcc82",
-    "mtime": "2026-09-22T05:23:37.460Z"
+    "bytes": 511051,
+    "sha256": "702efd3ad1441598a7af6a099ee91f6007d2519b83146c98614e3ce4560b1085",
+    "mtime": "2026-09-22T06:23:10.081Z"
    }
   ],
   "code": [
@@ -109,37 +109,37 @@
     "file": "tests/exp-w277c-nsgrid.mjs",
     "bytes": 34727,
     "sha256": "fafc4d075cd263f867b1c60c324f40be1aa29342a136d2654be3291760732235",
-    "mtime": "2026-09-22T05:53:39.080Z"
+    "mtime": "2026-09-22T06:22:45.326Z"
    },
    {
     "file": "tests/lib-w277c-nsgrid.mjs",
     "bytes": 30420,
     "sha256": "2ecd835ff1a78bc03a65b41dec0b9c7d65321896ad1b33883be2177ab5f562cd",
-    "mtime": "2026-09-22T05:52:08.633Z"
+    "mtime": "2026-09-22T06:22:45.326Z"
    },
    {
     "file": "tests/lib-w276c-axiswork.mjs",
     "bytes": 23751,
     "sha256": "142bd7f6678ad7eb2a4bb3d4c86bb925d2de397994f736e9cddf13462a85e738",
-    "mtime": "2026-09-22T05:25:02.493Z"
+    "mtime": "2026-09-22T06:22:45.326Z"
    },
    {
     "file": "tests/lib-w275e-powerball.mjs",
     "bytes": 23684,
     "sha256": "dc402b1f38a78a66b34db6e6585a3d42f332800de781226141cd1c9398568fe6",
-    "mtime": "2026-09-22T05:13:48.356Z"
+    "mtime": "2026-09-21T12:31:34.089Z"
    },
    {
     "file": "tests/lib-w270b-obscsv.mjs",
     "bytes": 14068,
     "sha256": "603104b67e24f166bc5a2a2d00038686ed4631e39285bcb8780281026d7e2d4a",
-    "mtime": "2026-09-22T05:13:48.352Z"
+    "mtime": "2026-09-19T11:48:42.098Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-22T05:13:48.352Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
   "codeSha256": "1795b07501f2621df4908e63927edfdebb7ee2c1a7a4ccb18d8efd603ae1b717"
@@ -432,7 +432,7 @@
     "recordId": "SOL-5600e70a",
     "sigma": null,
     "note": "intake_row=2026-09-22. Candidate row for the 2026-09-22 verification request - NOT yet collated against the printed table (collate=pending). Angle between the s",
-    "ln": 524
+    "ln": 578
    },
    {
     "key": "J0737A|magnetic_obliquity",
@@ -442,7 +442,7 @@
     "recordId": "SOL-67fded9c",
     "sigma": null,
     "note": "intake_row=2026-09-22. Candidate row for the 2026-09-22 verification request - NOT yet collated (collate=pending). Angle between the magnetic axis and the spin ",
-    "ln": 525
+    "ln": 579
    },
    {
     "key": "J0737B|spin_orbit_misalignment",
@@ -452,7 +452,7 @@
     "recordId": "SOL-f9080bd9",
     "sigma": 0.1,
     "note": "intake_row=2026-09-22. Candidate row for the 2026-09-22 verification request - NOT yet collated (collate=pending). Angle between the spin axis of PSR J0737-3039",
-    "ln": 526
+    "ln": 580
    },
    {
     "key": "J0737B|spin_axis_precession_rate",
@@ -462,7 +462,7 @@
     "recordId": "SOL-85793ff8",
     "sigma": null,
     "note": "intake_row=2026-09-22. Candidate row for the 2026-09-22 verification request - NOT yet collated (collate=pending). Precession rate of the spin axis of PSR J0737",
-    "ln": 527
+    "ln": 581
    }
   ],
   "usedAs": "**初期値のみ**(A 3.2°(95% 上限値)・B 40.6°)。係数の同定には 1 つも使っていない"
@@ -29021,7 +29021,7 @@
    }
   ],
   "runCount": 1512,
-  "seconds": 901.187,
+  "seconds": 894.762,
   "note": "格子 = 系 3 × θ* 7 × k∈{0,1} × λ 3 × η(k=1 のみ)3 × dt 2 段 × 100 公転。各行は基準 + 小摂動 ±1° の 3 本。**k は口座の有無であって kFrame ではない**"
  },
  "stage4": {
