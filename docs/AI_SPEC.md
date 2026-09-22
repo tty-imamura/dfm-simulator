@@ -2322,7 +2322,7 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   運動量インパルスと自転トルクを当てる **`S._core` の外**の外部ステップ(`dfmRelativeDragStep`)を開ける。
   **`kFrame` は 0/1 の二値のままで、この鍵はそれを 1 文字も書き換えない。**
   **相互同期した円軌道ではインパルスも自転トルクも ΔE も厳密に 0** である(零条件)。
-  局所重みは χ_ij=W_j/(W_j+W₀)(W₀ は `physics.backgroundComplex.W0`・未宣言は 0)で、
+  局所重みは χ_ij=W_j/(W_j+W₀)(W₀ は `physics.relativeDrag.W0`・未宣言は 0 —— `physics.backgroundComplex` は宣言専用のまま、この則からは読まない)で、
   **D₀ は分母に入れない**(単位が違う —— §の背景複素決定力を参照)。
 - **副作用(宣言した本だけ)**: **`S.spin` が Float64Array になる**。
   1 步の ΔJ/I が Float32 の ULP 3 個ぶんしかなく、10⁶ 步で J_z の帳簿が壊れることを実測したためである。

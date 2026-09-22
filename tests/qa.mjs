@@ -25712,6 +25712,7 @@ if (!FAST) {
       : (has265 ? { n: 124, core: 76, res: 14 } : { n: 122, core: 75, res: 13 });
     // 第274便d: 形状トイ 3 本は core 宣言を持たない(core/res は不変・n だけ増える)
     exp6.n += (mg.rep.nShapeToy || 0);
+    exp6.n += (await page.evaluate(() => HP.allPresets().some((q) => q.id === 'plutoCharonDFM'))) ? 2 : 0;   // 第277便b: ⛄🌨️(core 宣言なし)
     const m6 = mg.rep.nPresets === exp6.n && mg.rep.nCore === exp6.core && mg.rep.tot.convertible === 61
       && mg.rep.tot.needsResolve === exp6.res && mg.rep.tot.rejected === 1
       && mg.rep.tot.cavity === 0 && mg.rep.tot.naked === 0;
@@ -25941,6 +25942,7 @@ if (!FAST) {
       return { C, p60: { jx: p60.layers[0].Jx, warn: p60.warnings },
         rep: { nPresets: HP.allPresets().length, nCore, tot, byAxis, byReason, ids,
         has274c: HP.allPresets().some((q) => q.id === 'galaxyMeshSpiralGeoToyLite'),
+        has277b: HP.allPresets().some((q) => q.id === 'plutoCharonDFM'),
           nShapeToy: HP.allPresets().filter((z) => z.physics && z.physics.shapeToy).length } };
     });
     const bad = rp.C.filter((c) => !c.pass);
@@ -25951,7 +25953,7 @@ if (!FAST) {
     // 第265便d: 🐮 lfbotTrap が入って 76 宣言。増えた 1 件は `migrationRejected`(body.radius 非宣言)で
     // 不可 44→45・rotationSource 43→44・migration 14→15・各項 +1。内蔵は 🪁 と合わせ 124 本。
     // 第274便c: 🎋 galaxyMeshSpiralGeoToyLite(コア宣言なし)が入って 124→125 本(core 76 件は不変)
-    const g1 = rp.rep.nPresets === (rp.rep.has274c ? 125 : 124) + (rp.rep.nShapeToy || 0) && rp.rep.nCore === 76
+    const g1 = rp.rep.nPresets === (rp.rep.has274c ? 125 : 124) + (rp.rep.nShapeToy || 0) + (rp.rep.has277b ? 2 : 0) && rp.rep.nCore === 76
       && rp.rep.tot.canReplace === 31 && rp.rep.tot.cannot === 45
       && rp.rep.byAxis.rotationSource === 44 && rp.rep.byAxis.migration === 15
       && rp.rep.byAxis.KcsThermal === 17 && rp.rep.byAxis.activePumpContract === 17
@@ -27135,6 +27137,8 @@ if (!FAST) {
           if (b && b.core) { nCore++; if (b.core.shellSpinMass !== undefined) n++; }
         O.builtins = { nDeclared: n, nCore, nPresets: HP.allPresets().length,
           has274c: HP.allPresets().some((q) => q.id === 'galaxyMeshSpiralGeoToyLite'),
+          has277b: HP.allPresets().some((q) => q.id === 'plutoCharonDFM'),
+        has277b: HP.allPresets().some((q) => q.id === 'plutoCharonDFM'),
           nShapeToy: HP.allPresets().filter((z) => z.physics && z.physics.shapeToy).length }; }
       { const v2 = run('v2', 0.4, 'shell'), lay = run('lay', 0.4, 'shell');
         const v2t = run('v2', 0.4, null), layt = run('lay', 0.4, null);
@@ -27156,7 +27160,7 @@ if (!FAST) {
     }, 600);
     // 第274便c: 🎋(コア宣言なし)が入って 124→125 本(宣言 0・core 76 件は不変)
     const s1 = lw.builtins.nDeclared === 0 && lw.builtins.nCore === 76
-      && lw.builtins.nPresets === (lw.builtins.has274c ? 125 : 124) + (lw.builtins.nShapeToy || 0);
+      && lw.builtins.nPresets === (lw.builtins.has274c ? 125 : 124) + (lw.builtins.nShapeToy || 0) + (lw.builtins.has277b ? 2 : 0);
     const s2 = lw.match.shell.qV2 === lw.match.shell.qLay && lw.match.shell.d600 === 0
       && lw.match.shell.law === 'shell'
       && lw.match.total.dQ !== 0 && lw.match.total.d600 > 0 && lw.match.total.law === 'total';

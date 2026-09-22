@@ -4133,6 +4133,11 @@ function validateRelativeDrag(a){
   if(!isNum(a.kappa) || a.kappa<REL_DRAG_KAPPA_CLAMP[0] || a.kappa>REL_DRAG_KAPPA_CLAMP[1])
     return {ok:false, err:"physics.relativeDrag.kappa は 0〜1 の有限数"};
   const out={law:a.law, kappa:a.kappa};
+  // 統括(第277便 統合): 局所重みの背景 W₀ は**この則自身の宣言 `relativeDrag.W0`**(未宣言 0)から読む。
+  // `physics.backgroundComplex` は第276便a の契約どおり**宣言専用**のまま(力学へ繋ぐ順序は AL17 の裁定)。
+  if(a.W0===undefined || a.W0===null) out.W0=0;
+  else if(!isNum(a.W0) || a.W0<0) return {ok:false, err:"physics.relativeDrag.W0 は 0 以上の有限数([M/L²]・未宣言は 0)"};
+  else out.W0=a.W0;
   if(a.pairs===undefined || a.pairs===null || a.pairs==="all") out.pairs="all";
   else if(Array.isArray(a.pairs)){
     const ps=[];
@@ -40006,7 +40011,7 @@ function coreAxisState(S,i){
 //
 // ■ 則(1 步・対 (i,j))
 //   r=x_j−x_i、 v=v_j−v_i、 d²=|r|²+ε²、 s_i=v−ω_i×r、 s_j=v−ω_j×r  ((ω×r)=(−ω r_y, ω r_x))
-//   χ_ij=W_j/(W_j+W₀)=m_j/(m_j+W₀d²)、 χ_ji=m_i/(m_i+W₀d²)   (W₀=`backgroundComplex.W0`・未宣言 0)
+//   χ_ij=W_j/(W_j+W₀)=m_j/(m_j+W₀d²)、 χ_ji=m_i/(m_i+W₀d²)   (W₀=`relativeDrag.W0`・未宣言 0 —— `backgroundComplex` は宣言専用のまま読まない)
 //   μ=m_i m_j/(m_i+m_j)、 ν=√(G(m_i+m_j)/d³)   (**その対の二体角振動数** —— κ を無次元に保つ尺度)
 //   J⃗ = κνdt(χ_ij μ s_i + χ_ji μ s_j)  →  v_i += J⃗/m_i、 v_j −= J⃗/m_j   (**作用反作用は厳密**)
 //   軌道 L_z の差分 (−r×J⃗)_z は**同じ步のうちに自転へ戻す**:
@@ -40049,8 +40054,7 @@ function dfmRelativeDragStep(S,dt){
   if(!S || S.hasRelativeDrag!==true) return null;
   const rd=S.relDrag, kap=rd.kappa;
   const G=S.params.G, eps=S.params.softening||0, eps2=eps*eps;
-  const bg=S.params[BG_COMPLEX_KEY];
-  const W0=(bg && isNum(bg.W0))? bg.W0 : 0;
+  const W0=(isNum(rd.W0) && rd.W0>0)? rd.W0 : 0;   // 統括(第277便 統合): 則自身の宣言(backgroundComplex は宣言専用のまま)
   const pairs=relativeDragPairs(S);
   let dE=0, kickMax=0, torMax=0, slipMax=0, nOn=0, resL=0;
   for(const pr of pairs){
@@ -40103,7 +40107,7 @@ function relativeDragProbe(S,i,j,dt){
   if(!S || i<0 || j<0 || i>=S.n || j>=S.n || i===j) return null;
   const rd=S.relDrag; if(!rd) return null;
   const G=S.params.G, eps=S.params.softening||0, eps2=eps*eps;
-  const bg=S.params[BG_COMPLEX_KEY], W0=(bg && isNum(bg.W0))? bg.W0 : 0;
+  const W0=(isNum(rd.W0) && rd.W0>0)? rd.W0 : 0;   // 統括(第277便 統合): 則自身の宣言
   const mi=S.m[i], mj=S.m[j];
   const rx=S.x[j]-S.x[i], ry=S.y[j]-S.y[i], d2=rx*rx+ry*ry+eps2;
   const vx=S.vx[j]-S.vx[i], vy=S.vy[j]-S.vy[i];
