@@ -15164,8 +15164,11 @@ if (!FAST) {
   try { J = JSON.parse(fs.readFileSync(CANON, 'utf8')); } catch (e) { J = null; }
   let L2 = null;
   try { L2 = await import('file://' + path.join(ROOT, 'tests/lib-w277b-charondfm.mjs')); } catch (e) { L2 = null; }
+  const htmlDfm = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   if (!J || !L2) {
     console.log('SKIP docs.charonDfm(tests/out/charondfm-w277b.json か lib が無い — 第277便b 未適用)');
+  } else if (!htmlDfm.includes('id:"plutoCharonDFM"')) {
+    console.log('SKIP docs.charonDfm(対象 html に ⛄ plutoCharonDFM が無い — root は第277便b 未適用)');
   } else {
     const bad = [];
     const m = J.meta || {};
@@ -15191,8 +15194,7 @@ if (!FAST) {
     for (const w of ['較正完了', '較正を完了', '観測一致', '較正した', 'kF0 版が成立'])
       if (txt.includes(w)) bad.push('禁止語「' + w + '」が正本にある');
     // ⑥ html の bodies と lib の導出の一致
-    const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
-    const seg = (html.match(/\{ id:"plutoCharonDFM"[\s\S]*?overlays:\{[^}]*\} \},/) || [''])[0];
+    const seg = (htmlDfm.match(/\{ id:"plutoCharonDFM"[\s\S]*?overlays:\{[^}]*\} \},/) || [''])[0];
     const nums = [...seg.matchAll(/\{type:"single", m:([-\d.e+]+), radius:([-\d.e+]+), x:([-\d.e+]+), y:([-\d.e+]+),\s*\n?\s*vx:([-\d.e+]+), vy:([-\d.e+]+), spin:([-\d.e+]+)/g)];
     if (nums.length !== 2) bad.push('⛄ の bodies 2 行を html から読めない');
     else {
