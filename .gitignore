@@ -563,3 +563,12 @@ _scratch-*.log
 #   **較正ではない**(観測量を 1 つも入力していない)。**追加ポテンシャルは新しい構成仮説**であって、
 #   現行 DFM から一意に導出された法則ではない。「銀河が安定した」「腕が創発した」とは書かない。
 !tests/out/corefield-w276d.json
+# 第277便a(第67報 (1)・統括の検証項目 R47): **冥王星系の状態ファイルの整合検査と「別の量」の診断**
+#   (tests/exp-w277a-plutostates.mjs)。paper/data/pluto-system-states.csv の 72 成分(6 体 × 2 元期 ×
+#   6 成分)・単位・sigma 全空・record_id 一意の検査と、2D へ移すときの面外成分の最大値、
+#   同じ暦から作った相対二体の a・P、重心基準の osculating a・PR、Buie 2012 の two-body P、
+#   PLU060 の 400 年平均 P の**並び**を持つ。QA `docs.plutoStatesFile` がこの JSON と
+#   docs/CALIBRATION_VERDICT_v1.44.md §5.25 を突き合わせ、`lint.provenanceMeta` が来歴を固定する
+#   のでコミットする。**エンジンは 1 步も走らせていない**(入力は 2 つの CSV だけである)。
+#   **どの a も P も採用値ではない**(定義の違う量を並べた診断である)。σ は 1 つも作っていない。
+!tests/out/plutostates-w277a.json

@@ -1,5 +1,5 @@
 {
- "when": "2026-09-21T16:41:36.437Z",
+ "when": "2026-09-22T05:35:16.108Z",
  "wave": "第262便d(第54報 W4)→ 第263便c(第55報 W3)で σ 未確認の状態名と不足一覧を足した",
  "inputs": {
   "calaudit": "tests/out/calaudit-w249.json",
@@ -44,9 +44,9 @@
   "note": "**宣言表であって自動判定ではない**。CSV に行が無い対象は null を明示する(推測で当てない)"
  },
  "csvSummary": {
-  "rows": 389,
-  "bodies": 66,
-  "rowsWithSigma": 118,
+  "rows": 423,
+  "bodies": 71,
+  "rowsWithSigma": 121,
   "sigmaBodies": [
    "Phobos",
    "Charon",
@@ -79,7 +79,10 @@
    "Moon",
    "Mercury",
    "Titan ringlet",
-   "Saturn ring feature D68"
+   "Saturn ring feature D68",
+   "Nix",
+   "Hydra",
+   "Kerberos"
   ],
   "solarRowsWithSigma": 25,
   "solarSigmaQuantities": {
