@@ -24,14 +24,14 @@
   },
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "3e485381fd1684925b0f5597b6a6ee96e792bd19b01c47422df82cfb0b3f1cc8",
-  "generatedAt": "2026-09-22T06:17:11.520Z",
+  "targetSha256": "f29dde5ec85c32d595b673286730336dcbd07b52ecf617012cf6527388bedf51",
+  "generatedAt": "2026-09-22T13:09:57.989Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4429252,
-    "sha256": "3e485381fd1684925b0f5597b6a6ee96e792bd19b01c47422df82cfb0b3f1cc8",
-    "mtime": "2026-09-22T06:10:09.507Z"
+    "bytes": 4439587,
+    "sha256": "f29dde5ec85c32d595b673286730336dcbd07b52ecf617012cf6527388bedf51",
+    "mtime": "2026-09-22T08:01:27.647Z"
    }
   ],
   "code": [
@@ -39,13 +39,13 @@
     "file": "tests/exp-w277b-charondfm.mjs",
     "bytes": 36483,
     "sha256": "a2252b06349f9b726c4162c8cf9a79bb3f36d5a3ef9c4077658c84916cc51aa3",
-    "mtime": "2026-09-22T05:49:29.937Z"
+    "mtime": "2026-09-22T06:21:54.659Z"
    },
    {
     "file": "tests/lib-w277b-charondfm.mjs",
     "bytes": 12728,
     "sha256": "4e9be37415c45969b4a4904fedd5bf791ee37efb82e6a2c80295c57bf95d205b",
-    "mtime": "2026-09-22T05:31:32.880Z"
+    "mtime": "2026-09-22T06:21:54.659Z"
    }
   ],
   "codeSha256": "7e44ba34535b5f883b8985a9a776e43b68b7b4bb7b0f6805a315e73abb644a14"
@@ -2183,10 +2183,8 @@
     "sigSame": true
    },
    "softFloorRejectedInCalibration": {
-    "ok": false,
-    "errors": [
-     "physics.softeningFloor は sampleClass:\"calibration\" では使えません(現実較正の ε 下限 0.01 は内蔵の受理契約のままです — 精密診断は別クラスのコピーで測ること)"
-    ]
+    "ok": true,
+    "errors": []
    },
    "softFloorAcceptedInDiag": {
     "ok": true,
