@@ -14955,7 +14955,7 @@ if (!FAST) {
       && d.hasRD === true && c.hasRD === false && d.kappa === 1
       && d.spF64 === true && c.spF64 === false      // 則を宣言した側だけ自転が Float64
       && d.eps === 0.01 && c.eps === 0.01
-      && d.cls === 'calibration' && c.cls === 'calibration' && d.fid === 'real' && c.fid === 'real'
+      && d.cls === 'principle' && c.cls === 'principle' && d.fid === 'real' && c.fid === 'real'   // 統括(第277便 統合): 診断コピー(AM5 で昇格を裁定)
       && d.fam === 'pluto' && c.fam === 'pluto' && d.role === 'variant' && c.role === 'control'
       && d.bodies === c.bodies;                     // **2 本の bodies は 1 bit 同じ**
     const z = r.zeroProbe, ng = r.negProbe;
@@ -15105,7 +15105,7 @@ if (!FAST) {
       o.f32Default = HP.sim.m instanceof Float32Array && HP.sim.massPrec === 'single'
         && HP.sim.spin instanceof Float32Array && HP.sim.spinPrec === 'single';
       // softeningFloor
-      p = base(); p.physics.softeningFloor = 0.001; v = V(p);
+      p = base(); p.sampleClass = 'calibration'; p.physics.softeningFloor = 0.001; v = V(p);   // 統括(第277便 統合): 較正クラスの写しで拒否を確かめる(内蔵の新 ID は principle)
       o.calibRejected = !v.ok && (v.errors || []).some((e) => /softeningFloor/.test(e));
       const diag = () => { const z = base(); z.sampleClass = 'principle'; z.fidelity = 'toy';
         delete z.notClaim; delete z.claims; return z; };
