@@ -24,14 +24,14 @@
   },
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "f29dde5ec85c32d595b673286730336dcbd07b52ecf617012cf6527388bedf51",
-  "generatedAt": "2026-09-22T13:09:57.989Z",
+  "targetSha256": "51ac2e9370fc9bd77532299d41b4e4a04a8e722f18a2589166557f6e548f46ba",
+  "generatedAt": "2026-09-22T19:06:16.982Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4439587,
-    "sha256": "f29dde5ec85c32d595b673286730336dcbd07b52ecf617012cf6527388bedf51",
-    "mtime": "2026-09-22T08:01:27.647Z"
+    "bytes": 4440208,
+    "sha256": "51ac2e9370fc9bd77532299d41b4e4a04a8e722f18a2589166557f6e548f46ba",
+    "mtime": "2026-09-22T13:42:36.807Z"
    }
   ],
   "code": [
@@ -2231,6 +2231,7 @@
      "out": {
       "law": "pairSlip",
       "kappa": 1,
+      "W0": 0,
       "pairs": "all",
       "spins": "declared"
      },
@@ -2245,6 +2246,7 @@
      "out": {
       "law": "pairSlip",
       "kappa": 0,
+      "W0": 0,
       "pairs": "all",
       "spins": "declared"
      },
@@ -2283,6 +2285,7 @@
      "out": {
       "law": "pairSlip",
       "kappa": 1,
+      "W0": 0,
       "pairs": [
        [
         0,
@@ -2361,6 +2364,7 @@
     "relDrag": {
      "law": "pairSlip",
      "kappa": 1,
+     "W0": 0,
      "pairs": "all",
      "spins": "declared"
     },
@@ -2394,7 +2398,7 @@
      11.880000114440918,
      6.059999942779541
     ],
-    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":11.9386,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-9,\"cLight\":30000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.01,\"timeScale\":1000,\"dispMag\":1,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"massPrecision\":\"double\",\"frameReaction\":\"pairReduced\",\"frameWeight\":\"share\",\"relativeDrag\":{\"law\":\"pairSlip\",\"kappa\":1,\"pairs\":\"all\",\"spins\":\"declared\"}},\"bodies\":[{\"type\":\"single\",\"m\":0.013025172310458496,\"x\":-21.31721225635357,\"y\":0,\"vx\":3.3746189324353684e-7,\"vy\":-0.0024266847512964917,\"spin\":0.00011385554400956285,\"pinned\":false,\"radius\":11.88,\"pnSource\":true},{\"type\":\"single\",\"m\":0.0015897512735990414,\"x\":174.65648081478,\"y\":0,\"vx\":-0.0000027648974910141987,\"vy\":0.019882347354401884,\"spin\":0.00011385554400956285,\"pinned\":false,\"radius\":6.06}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":210},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.006,\"kFrame\":0,\"q\":11.9386,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.415555555555556e-9,\"cLight\":30000,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":2,\"lambdaPN\":1,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.01,\"timeScale\":1000,\"dispMag\":1,\"massFloor\":0.000001,\"stateCarry\":\"double\",\"massPrecision\":\"double\",\"frameReaction\":\"pairReduced\",\"frameWeight\":\"share\",\"relativeDrag\":{\"law\":\"pairSlip\",\"kappa\":1,\"W0\":0,\"pairs\":\"all\",\"spins\":\"declared\"}},\"bodies\":[{\"type\":\"single\",\"m\":0.013025172310458496,\"x\":-21.31721225635357,\"y\":0,\"vx\":3.3746189324353684e-7,\"vy\":-0.0024266847512964917,\"spin\":0.00011385554400956285,\"pinned\":false,\"radius\":11.88,\"pnSource\":true},{\"type\":\"single\",\"m\":0.0015897512735990414,\"x\":174.65648081478,\"y\":0,\"vx\":-0.0000027648974910141987,\"vy\":0.019882347354401884,\"spin\":0.00011385554400956285,\"pinned\":false,\"radius\":6.06}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":210},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
    },
    "plutoCharonKF0Control": {
     "id": "plutoCharonKF0Control",
