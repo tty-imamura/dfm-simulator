@@ -1840,7 +1840,9 @@ const add = (id, pass, detail) => {
     'paper/data/solutions.json', 'paper/data/sources-manifest.json',
     // 第272便e(AG18): 訂正履歴の台帳も走査対象(旧文言に実名があった revision は
     //   `previousRedacted:true` で説明に置き換えてあり、実名は 1 語も入れていない)。
-    'paper/data/corrections.json'];
+    'paper/data/corrections.json',
+    // 第277便a: 冥王星系の状態ファイル(取得依頼 C の回答の転写)も同じ走査に掛ける
+    'paper/data/pluto-system-states.csv'];
   const perFile = {};
   let total = 0, scanned = 0;
   for (const rel of TARGETS) {
@@ -1958,7 +1960,10 @@ const add = (id, pass, detail) => {
       'tests/out/selfinertia-w277d.json', 'tests/out/bgbudget-w277d.json',
       // 第277便b(第67報 (1)): 同一観測解の冥王星–カロン(入力の監査・則の純関数検定・
       //   エンジン実測 2 本 × 3 段 + 1 次外挿・系列・要因表 v2。target=beta/index.html)
-      'tests/out/charondfm-w277b.json'];
+      'tests/out/charondfm-w277b.json',
+      // 第277便a(第67報 (1)・統括の検証項目 R47): 冥王星系の状態ファイルの整合検査と「別の量」の
+      //   診断(**エンジン未接続** —— target は器が読む正本 CSV `paper/data/pluto-system-states.csv`)
+      'tests/out/plutostates-w277a.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -2153,7 +2158,7 @@ const add = (id, pass, detail) => {
 // ----   訂正は 4 値(合/量限定合/否/保留)を 1 本も動かしていない。
 {
   const bad = [];
-  const EXPECT = { records: 78, revisions: 86, markedRows: 37, annotations: 3, annotationRows: 9 };
+  const EXPECT = { records: 89, revisions: 98, markedRows: 37, annotations: 3, annotationRows: 9 };
   let lg = null, J = null, redacted = 0;
   try { lg = JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data', 'corrections.json'), 'utf8')); }
   catch (e) { bad.push('①台帳が読めない: ' + String(e).slice(0, 80)); }
@@ -2224,6 +2229,197 @@ const add = (id, pass, detail) => {
     + `器の実測値へ更新する)/ **台帳は値を作らない**(現行値の正本は CSV・旧値は git 履歴で`
     + ` \`previousSourceHash\` が指す)。**訂正も確認記録も注記も 4 値を 1 本も動かしていない**`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 第277便a(第67報 (1)・統括の検証項目 R47): docs.plutoStatesFile ----
+// ----   **冥王星系の状態ファイル**(`paper/data/pluto-system-states.csv` — 取得依頼 C の回答・
+// ----   2 系統の外部調査の転写)の形を機械で固定する。**判定もしないし σ も作らない。**
+// ----     ① 読取器 `tests/lib-w277a-plutostates.mjs` の整合検査が通る(6 体 × 2 元期 × 6 成分 =
+// ----        **72 成分が 1 つも欠けていない**・位置は km・速度は km/s・record_id は `PSS-` で一意)。
+// ----     ② **sigma 列は全行空**である(Horizons の vectors / elements 出力は σ も共分散も印字しない)。
+// ----        σ を持つ行が 1 行でもあれば FAIL —— **この暦から σ を作らない**ための門である。
+// ----     ③ `projectToOrbitPlane` の単体試験: 基底が正規直交・**位置と速度を同じ回転で射影**・
+// ----        基準そのものの面外成分が 0・**面外成分を返す**(z を捨てない)・退化入力を検出する。
+// ----     ④ 正本 JSON(`tests/out/plutostates-w277a.json`)の数が CSV と一致し、
+// ----        **「別の量」の 4 つの周期**(Buie 2012 の two-body P / PLU060 の 400 年平均 /
+// ----        Horizons osculating PR の元期 A・B)が**すべて違う数**として並んでいる。
+// ----     ⑤ 禁止語(「較正した」「観測と合った」「採用値」)が JSON 本文に無い。
+// ----   root は SKIP(このファイルと器は beta 線で入れたものである)。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.plutoStatesFile(beta 対象でない: ' + TARGET + ')');
+  } else {
+    const bad = [];
+    let T = null, J = null, periods = [];
+    try {
+      const PS = await import('file://' + path.join(ROOT, 'tests', 'lib-w277a-plutostates.mjs'));
+      const L = PS.loadPlutoStates(path.join(ROOT, 'paper', 'data', 'pluto-system-states.csv'));
+      const chk = PS.checkPlutoStates(L);
+      T = chk.tally;
+      if (!chk.ok) bad.push(`①整合検査が通らない(${chk.problems.length} 件): ${chk.problems.slice(0, 3).join(' , ')}`);
+      if (T.stateRows !== 72) bad.push(`①状態行が 72 行でない(${T.stateRows})`);
+      if (T.missingCells !== 0) bad.push(`①欠けている成分が ${T.missingCells} 個`);
+      if (T.duplicatedCells !== 0)
+        bad.push(`①同じ成分に 2 行以上ある(${T.duplicatedCells} 個 —— 2 系統が食い違った成分は`
+          + '両方残す規約なので、増えたらここに出る)');
+      if (T.rowsWithSigma !== 0) bad.push(`②sigma 列が埋まっている行が ${T.rowsWithSigma} 行`);
+      if (T.distinctIds !== T.rows) bad.push(`①record_id が一意でない(${T.distinctIds} / ${T.rows})`);
+      // ③ 単体試験(純関数)
+      const p = PS.projectToOrbitPlane([3, 0, 0], [0, 2, 0]);
+      if (p.degenerate) bad.push('③平面内の入力を退化と判定した');
+      else {
+        const [e1, e2, e3] = p.basis;
+        const dd = (a, b) => Math.abs(PS.vec.dot(a, b));
+        if (!(Math.abs(PS.vec.norm(e1) - 1) < 1e-12 && Math.abs(PS.vec.norm(e2) - 1) < 1e-12
+          && Math.abs(PS.vec.norm(e3) - 1) < 1e-12)) bad.push('③基底が単位ベクトルでない');
+        if (!(dd(e1, e2) < 1e-12 && dd(e2, e3) < 1e-12 && dd(e3, e1) < 1e-12))
+          bad.push('③基底が直交していない');
+        if (!(Math.abs(p.posOutOfPlane) < 1e-12 && Math.abs(p.velOutOfPlane) < 1e-12))
+          bad.push('③基準そのものの面外成分が 0 でない');
+        if (!(Math.abs(p.pos[0] - 3) < 1e-12 && Math.abs(p.vel[1] - 2) < 1e-12))
+          bad.push('③位置と速度が同じ回転で射影されていない');
+      }
+      const tilt = PS.projectToOrbitPlane([1, 0, 0], [0, 1, 0]);
+      const off = PS.projectAll([{ body: 'x', r: [0, 0, 5], v: [0, 0, 0] }], { r: [1, 0, 0], v: [0, 1, 0] });
+      if (tilt.degenerate || off.degenerate) bad.push('③射影が退化した');
+      else if (Math.abs(off.maxOutOfPlane - 5) > 1e-12)
+        bad.push(`③面外成分を捨てている(${off.maxOutOfPlane} —— 5 のはず)`);
+      if (!PS.projectToOrbitPlane([1, 0, 0], [2, 0, 0]).degenerate)
+        bad.push('③平行な r と v を退化と判定していない');
+      // ④ 正本 JSON
+      J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'plutostates-w277a.json'), 'utf8'));
+      if (!J.integrity || J.integrity.ok !== true) bad.push('④正本 JSON の整合検査が ok でない');
+      if (!J.integrity || J.integrity.tally.stateRows !== T.stateRows)
+        bad.push('④正本 JSON の状態行数が現行 CSV と違う(器を走らせ直すこと)');
+      periods = (J.quantities || []).map((q) => q.periodSec);
+      if (periods.length !== 4 || periods.some((x) => !(x > 0)))
+        bad.push(`④「別の量」の周期が 4 つ揃っていない(${JSON.stringify(periods)})`);
+      else if (new Set(periods.map((x) => Number(x).toFixed(4))).size !== 4)
+        bad.push(`④4 つの周期に同じ数がある(${JSON.stringify(periods)} —— 定義が違えば数も違う)`);
+      if (!((J.outOfPlane || []).length === 2 && J.outOfPlane.every((o) => o.maxOutOfPlaneKm > 0)))
+        bad.push('④面外成分の最大値が 2 元期ぶん出ていない');
+      // ⑤ 禁止語
+      const body = JSON.stringify(J);
+      for (const w of ['較正した', '観測と合った', '残差が消えた', 'kF0 版が成立した']) {
+        const re = new RegExp('"[^"]*' + w + '[^"]*"', 'g');
+        for (const hit of (body.match(re) || [])) {
+          if (hit.indexOf('doNotWrite') >= 0) continue;
+          if ((J.doNotWrite || []).some((d) => hit.indexOf(d) >= 0)) continue;
+          bad.push(`⑤禁止語「${w}」が JSON 本文にある: ${hit.slice(0, 40)}`);
+        }
+      }
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 110)); }
+    add('docs.plutoStatesFile', bad.length === 0,
+      `**冥王星系の状態ファイル**(第277便a・\`paper/data/pluto-system-states.csv\`): `
+      + `全 ${T ? T.rows : '—'} 行(**状態 ${T ? T.stateRows : '—'} 行** = 6 体 × 2 元期 × 6 成分・`
+      + `欠け ${T ? T.missingCells : '—'}・要素と識別子 ${T ? T.otherRows : '—'} 行)/ `
+      + `② **sigma 列は全行空**(σ を持つ行 ${T ? T.rowsWithSigma : '—'} 行)—— Horizons の出力は `
+      + `σ も共分散も印字しないので、**この暦から σ を作らない** / `
+      + `③ \`projectToOrbitPlane\` は基底が正規直交・**位置と速度を同じ回転**で射影し、`
+      + `**面外成分を返す**(z を捨てない)/ `
+      + `④ 「別の量」の周期 4 つ(two-body ${periods[0] === undefined ? '—' : periods[0]} s / `
+      + `400 年平均 ${periods[1] === undefined ? '—' : periods[1]} s / osculating PR `
+      + `${periods[2] === undefined ? '—' : periods[2]} s・${periods[3] === undefined ? '—' : periods[3]} s)は`
+      + `**すべて違う数**である —— この差は残差ではなく**定義の差**である / `
+      + `面外成分の最大 ${J && J.outOfPlane ? J.outOfPlane.map((o) => o.maxOutOfPlaneKm.toFixed(1) + ' km').join(' / ') : '—'}`
+      + ` / **判定もしないし採用値も作らない**`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第277便a(第67報・取得依頼 C): docs.intakeC ----
+// ----   §5.25 の件数表と、会計器 `tests/out/obsintake-w263c.json` / σ 接続器
+// ----   `tests/out/solarsigma-w262d.json` の実測値が食い違っていないことを機械で固定する。
+// ----     ① CSV の行数・2026-09-22 の転写行数・σ 列へ入れた行数が §5.25 の表と一致する。
+// ----     ② **2026-09-22 の転写行はすべて `sigma_primary=unverified`**(印を上げていない)。
+// ----     ③ **1 系統だけの行は sigma 列が空**で、`sigma_candidate_unconfirmed=` を持つ。
+// ----     ④ **切断点 106/26/3/4 と太陽系 4 値(否 2・保留 14)が動いていない**。
+// ----     ⑤ 判定量名(`orbital_period` / `eccentricity` / `periastron_advance`)の行を
+// ----        **2026-09-22 の転写では太陽系 16 本の宛先天体に 1 行も足していない**
+// ----        (足すと σ 接続器が判定行として拾いうる)。
+// ----   root は SKIP。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.intakeC(beta 対象でない: ' + TARGET + ')');
+  } else {
+    const bad = [];
+    const EXPECT = { csvRows: 576, intakeRows: 54, sigmaEntered: 6, noteEdited: 12,
+      cut: { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
+      four: { 否: 2, 保留: 14 } };
+    let nIntake = 0, nSigma = 0, nNote = 0, nRows = 0, cut = null, four = null;
+    try {
+      const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+      const SM = await import('file://' + path.join(ROOT, 'tests', 'lib-w264d-sigmamark.mjs'));
+      const L = OB.loadObsCsv(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'));
+      nRows = L.rows.length;
+      if (nRows !== EXPECT.csvRows) bad.push(`①CSV が ${EXPECT.csvRows} 行でない(${nRows})`);
+      const intake = L.rows.filter((r) => /(?:^|[^A-Za-z0-9_])intake_row=2026-09-22/.test(r.note)
+        && /(?:^|[^A-Za-z0-9_])intake_round=request-C-2026-09-22/.test(r.note));
+      nIntake = intake.length;
+      if (nIntake !== EXPECT.intakeRows) bad.push(`①2026-09-22 の転写行が ${EXPECT.intakeRows} 行でない(${nIntake})`);
+      nSigma = intake.filter((r) => r.sigma !== null).length;
+      if (nSigma !== EXPECT.sigmaEntered)
+        bad.push(`①σ 列へ入れた転写行が ${EXPECT.sigmaEntered} 行でない(${nSigma})`);
+      nNote = L.rows.filter((r) => nIntake >= 0
+        && /(?:^|[^A-Za-z0-9_])intake_check=2026-09-22/.test(r.note)).length;
+      if (nNote !== EXPECT.noteEdited)
+        bad.push(`①note を書き足した既存行が ${EXPECT.noteEdited} 行でない(${nNote})`);
+      for (const r of intake) {
+        if (SM.readSigmaMark(r.note).verified)
+          bad.push(`②転写行 ${r.ln} の印が verified(転写では印を上げない)`);
+        const one = /(?:^|[^A-Za-z0-9_])intake_agreement=1of2/.test(r.note);
+        if (one && r.sigma !== null)
+          bad.push(`③1 系統だけの行 ${r.ln} の sigma 列が埋まっている`);
+        // 1 系統だけの行は、**印字 1σ があったなら** `sigma_candidate_unconfirmed=` に退避する。
+        // 印字 1σ が無い行(`sigma_kind=digits|covariance|none`)はその鍵を持たなくてよいが、
+        // **`sigma_kind=` そのものは必ず書く**(σ の出所を空欄にしない)。
+        if (one && !/(?:^|[^A-Za-z0-9_])sigma_candidate_unconfirmed=/.test(r.note)
+          && !/(?:^|[^A-Za-z0-9_])sigma_kind=/.test(r.note))
+          bad.push(`③1 系統だけの行 ${r.ln} に sigma_candidate_unconfirmed= も sigma_kind= も無い`);
+        if (!/(?:^|[^A-Za-z0-9_])intake_agreement=(?:1of2|2of2|spread)/.test(r.note))
+          bad.push(`③転写行 ${r.ln} に intake_agreement= が無い`);
+      }
+      // ⑤ 判定量名を太陽系 16 本の宛先天体へ足していない
+      const GATED = ['Moon', 'Earth', 'Mercury', 'Venus', 'Mars', 'Phobos', 'Deimos', 'Charon',
+        'Miranda', 'Ariel', 'Umbriel', 'Titania', 'Oberon', 'Triton', 'Io', 'Europa', 'Ganymede',
+        'Callisto', 'Saturn ring feature D68', 'Saturn ring C inner edge', 'Mimas', 'Titan'];
+      const JQ = ['orbital_period', 'eccentricity', 'periastron_advance', 'rotation_period'];
+      for (const r of intake) {
+        if (GATED.indexOf(r.body) >= 0 && JQ.indexOf(r.quantity) >= 0)
+          bad.push(`⑤転写行 ${r.ln} が判定量名 ${r.body}|${r.quantity} を宛先天体へ足している`);
+      }
+      // ④ 切断点と 4 値
+      const S = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8'));
+      cut = S.cutTally || {}; four = S.fourTally || {};
+      for (const [k, v] of Object.entries(EXPECT.cut))
+        if (cut[k] !== v) bad.push(`④切断点 ${k} が ${v} でない(${cut[k]})`);
+      for (const [k, v] of Object.entries(EXPECT.four))
+        if (four[k] !== v) bad.push(`④太陽系 4 値 ${k} が ${v} でない(${four[k]})`);
+      // ① 会計器の行数
+      const OI = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'obsintake-w263c.json'), 'utf8'));
+      const oiRows = Object.values(OI.csvAudit || {}).reduce((a, x) => a + (x.rows || 0), 0) || null;
+      if (oiRows !== null && oiRows !== nRows)
+        bad.push(`①会計器の CSV 行数 ${oiRows} が現行 ${nRows} と違う(器を走らせ直すこと)`);
+      // ⑥ CALIBRATION_VERDICT §5.25 の件数
+      const V = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
+      if (V.indexOf('§5.25') < 0 && V.indexOf('5.25') < 0) bad.push('⑥台帳に §5.25 が無い');
+      for (const s of [String(nIntake), String(nSigma), '106', '26']) {
+        if (V.indexOf(s) < 0) bad.push(`⑥台帳 §5.25 に数 ${s} が無い`);
+      }
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 110)); }
+    add('docs.intakeC', bad.length === 0,
+      `**取得依頼 C の回答の転写**(第277便a・2 系統の外部調査): CSV ${nRows} 行 / `
+      + `**2026-09-22 の転写行 ${nIntake} 行**(σ 列へ入れたのは **${nSigma} 行** —— `
+      + `**2 系統が値・σ・出典まで一致した行だけ**)/ 既存行の note へ照合結果を書き足したのは `
+      + `${nNote} 行(値・σ・単位・出典・印・record_id は 1 文字も動かしていない)/ `
+      + `② 転写行はすべて \`sigma_primary=unverified\`(転写では印を上げない)/ `
+      + `③ **1 系統だけの行は sigma 列が空**で \`sigma_candidate_unconfirmed=\` を持つ`
+      + `(原仮定者の照合で sigma 列へ上がる)/ `
+      + `④ **切断点 ${cut ? Object.values(cut).join('/') : '—'} と太陽系 4 値 `
+      + `${four ? JSON.stringify(four) : '—'} は動いていない** / `
+      + `⑤ 判定量名の行を宛先天体へ 1 行も足していない —— **転写で判定は 1 本も増えていない**`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
 }
 
 // ---- 第273便e(第63報・AH16 (a)): lint.derivedFromRecordIds ----
@@ -3653,6 +3849,24 @@ const add = (id, pass, detail) => {
       if (/判定が増えた|較正を完了|D68 が合\(3σ\)|カロンが合|較正した|kF0 版が成立した|引きずりが完全に消えていることを確認/.test(bare))
         bad.push(`⑤禁止語(§5.20): ${line.slice(0, 40)}`);
     }
+    // 第277便a: **§5.21 以降のすべての節**に同じ禁止語を掛ける(§5.17/§5.20 の範囲を以降へ広げた)。
+    //   節を足すたびに番号を書き足さなくてよいように、`### 5.2x ` を全部拾って回す。
+    const later = [...md.matchAll(/^### 5\.(2[1-9]|[3-9]\d)\s/gm)].map((m) => m.index);
+    for (const i2x of later) {
+      const sec2x = md.slice(i2x, (() => {
+        const j = md.indexOf('\n### 5.', i2x + 4);
+        const k = md.indexOf('\n## ', i2x);
+        const e = [j, k].filter((z) => z >= 0);
+        return e.length ? Math.min(...e) : md.length;
+      })());
+      const head = sec2x.slice(0, sec2x.indexOf('\n'));
+      for (const line of sec2x.split('\n')) {
+        const bare = line.replace(/[「『][^」』]*[」』]/g, '');
+        if (/判定が増えた|較正を完了|D68 が合\(3σ\)|カロンが合|較正した|kF0 版が成立した|引きずりが完全に消えていることを確認/.test(bare))
+          bad.push(`⑤禁止語(${head.slice(4, 12)}): ${line.slice(0, 40)}`);
+      }
+    }
+    if (md.indexOf('### 5.25 ') < 0) bad.push('④§5.25(第277便a の転写便の節)が無い');
   } catch (e) { bad.push('4 値の履歴が読めない: ' + String(e).slice(0, 90)); }
   add('docs.fourValuesHistory', bad.length === 0,
     `**4 値の履歴**(第270便a・署名便): 本便は既定経路の結果が動く便なので、`
@@ -15159,7 +15373,10 @@ if (!FAST) {
     // (採用レコードは 1 行も置き換えていない —— 併置した行は note に `intake_row=2026-09-14` を持つ)。
     // **ビルダーが消費するのは採用レコードだけである**ことをここで宣言する(第256便d の BUILDER_SKIP と
     // 同じ流儀: 本体は 1 bit も変えていない —— 変えたのは「何を入力として渡すか」の宣言だけである)。
-    const INTAKE_ROW = (r) => /intake_row=2026-09-14/.test(r.note || '');
+    // 第277便a: **併置行はビルダーへ渡さない**という宣言はそのままに、2026-09-22 の転写行(取得依頼 C の
+    //   回答・2 系統の外部調査)も同じ扱いにする。**採用レコードは 1 行も置き換えていない。**
+    const INTAKE_ROW = (r) => /intake_row=2026-09-14/.test(r.note || '')
+      || /intake_round=request-C-2026-09-22/.test(r.note || '');
     const csvIntakeN = csvParsed.filter(INTAKE_ROW).length;
     const csvRows = csvParsed.filter((r) => !INTAKE_ROW(r));
     const ac = await page.evaluate(({ csvRows }) => {
@@ -15495,7 +15712,10 @@ if (!FAST) {
     // (採用レコードは 1 行も置き換えていない —— 併置した行は note に `intake_row=2026-09-14` を持つ)。
     // **ビルダーが消費するのは採用レコードだけである**ことをここで宣言する(第256便d の BUILDER_SKIP と
     // 同じ流儀: 本体は 1 bit も変えていない —— 変えたのは「何を入力として渡すか」の宣言だけである)。
-    const INTAKE_ROW = (r) => /intake_row=2026-09-14/.test(r.note || '');
+    // 第277便a: **併置行はビルダーへ渡さない**という宣言はそのままに、2026-09-22 の転写行(取得依頼 C の
+    //   回答・2 系統の外部調査)も同じ扱いにする。**採用レコードは 1 行も置き換えていない。**
+    const INTAKE_ROW = (r) => /intake_row=2026-09-14/.test(r.note || '')
+      || /intake_round=request-C-2026-09-22/.test(r.note || '');
     const csvIntakeN = csvParsed.filter(INTAKE_ROW).length;
     const csvRows = csvParsed.filter((r) => !INTAKE_ROW(r));
     const si = await page.evaluate(({ csvRows }) => {
@@ -15807,7 +16027,10 @@ if (!FAST) {
     // (採用レコードは 1 行も置き換えていない —— 併置した行は note に `intake_row=2026-09-14` を持つ)。
     // **ビルダーが消費するのは採用レコードだけである**ことをここで宣言する(第256便d の BUILDER_SKIP と
     // 同じ流儀: 本体は 1 bit も変えていない —— 変えたのは「何を入力として渡すか」の宣言だけである)。
-    const INTAKE_ROW = (r) => /intake_row=2026-09-14/.test(r.note || '');
+    // 第277便a: **併置行はビルダーへ渡さない**という宣言はそのままに、2026-09-22 の転写行(取得依頼 C の
+    //   回答・2 系統の外部調査)も同じ扱いにする。**採用レコードは 1 行も置き換えていない。**
+    const INTAKE_ROW = (r) => /intake_row=2026-09-14/.test(r.note || '')
+      || /intake_round=request-C-2026-09-22/.test(r.note || '');
     const csvIntakeN = csvParsed.filter(INTAKE_ROW).length;
     const csvAll = csvParsed.filter((r) => !INTAKE_ROW(r));
     const csvRows = csvAll.filter((r) => !BUILDER_SKIP.has(r.quantity)).map((r) => {

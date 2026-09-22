@@ -24546,6 +24546,57 @@ Euler–Lagrange(H=|p|²/2m+u·p+mΦ・ẋ=p/m+u・ṗ=−(∇u)ᵀp−m∇Φ)�
 **⑮ 決断事項候補(統括・原仮定者へ)。** ① **κ の既定**(本便は 1。κ=1 は「相対すべりを軌道の時間尺度で抜く」最大結合で、寄与が観測 σ の 53 倍になる —— 小さくするなら根拠のある決め方が要る)。② **新 ID 2 本の `sampleClass`**(本便は `calibration`。較正の母集団は 37→**39** になる。`calibration-variant` を新設する案は採らなかった)。③ **小衛星を ⛄ へ入れるか**(本便は入れない。入れるなら `pairs` を絞る必要がある —— ⑩)。④ **❄️(旧入力)を「履歴版」と表示するか**(本便は表示を変えていない)。⑤ **3 種の P のどれを判定行にするか**(本便は Buie のまま・他 2 つは暦再現の欄)。⑥ **反トルクの受け皿**(本便は自転。`S.resL`(外部リザーバ)へ送る案は採らなかった —— 自転へ戻すほうが J_z が内部で閉じる)。
 
 **言わないこと。** 「較正を完了した」「観測と一致した」「較正した」「kF0 版が成立した」「引きずり消失を確認した」「新発見」「v1.45.0 RC を切った」。**合否は門(3σ)が出す。**
+〔第277便a — 観測転写便(取得依頼 C の回答・2 系統の外部調査の照合転写・冥王星系の状態ファイル・σ 接続の再集計)〕
+
+原仮定者の裁定(第67報)「**観測レコードの回答を反映する / それを参考に改善する**」に応える**転写だけの便**である。触ったのは `paper/data/solar-observations.csv`(**末尾へ 54 行追加 + 既存 12 行の note へ追記**)・新設 `paper/data/pluto-system-states.csv`(92 行)・`paper/data/corrections.json`(台帳)・新設 `tests/lib-w277a-plutostates.mjs` と `tests/exp-w277a-plutostates.mjs`・`tests/exp-w272e-corrections.mjs`(語彙 1 語)・`tests/qa.mjs`(新設 2・既存 4 の手当)と文書だけで、**`beta/index.html` にも `index.html` にも 1 バイトも触っていない**(内蔵 131 本は定義上そのまま)。**判定は 1 本も動いていない** —— 切断点 **106/26/3/4**・太陽系 4 値 **否 2・保留 14**・門 **2/2/34/15/0**・4 値 **0/2/2/33** はすべて前後で同じである。
+
+**① 転写の規約(3 つの分岐を機械で決めた)。** 2 系統の回答を `body|quantity` で突き合わせ、**値・σ・出典(表番号・列)が一致した行だけ** sigma 列へ印字 1σ を入れた(`intake_agreement=2of2`)。**食い違う行は両方を候補行として残し**(`sigma_kind=spread; spread=<差>; spread_sources=<出典 A; 出典 B>`・**平均しない**)、**片方にしか無い行は sigma 列を空にして** `sigma_candidate_unconfirmed=<値>; intake_agreement=1of2` を書いた(原仮定者の照合で sigma 列へ上がる)。**印は 54 行すべて `sigma_primary=unverified` のまま**である(転写は印を上げない)。
+
+| 分類 | 行 | sigma 列 |
+| --- | --- | --- |
+| 印字 1σ あり・2 系統一致 | **6** | **入れた**(Brozović 2015 の GM 4 行・Akeson 2021 Table 8 の ω 2 行) |
+| 印字 1σ あり・1 系統のみ | **15** | 空(`sigma_candidate_unconfirmed=`) |
+| digits(桁だけ) | **11** | 空 |
+| covariance(式と入力だけ) | **3** | 空(**伝播 σ を入れていない** —— 共分散が公表されていない) |
+| none(観測として印字されていない) | **14** | 空(値も空) |
+| spread(2 系統が食い違った) | **5** | 空 |
+
+**② 判定量名へ写し替えていない。** 定義の違う量は新しい量名のまま置いた(`sidereal_period`・`anomalistic_period`・`periastron_advance_secular`・`periastron_advance_extra`・`forced_eccentricity`・`mean_motion`・`orbital_period_mean_osculating`)。**太陽系 16 本の宛先天体へ `orbital_period` / `eccentricity` / `periastron_advance` / `rotation_period` の行を 1 行も足していない**(足すと σ 接続器がそれを判定行として拾いうる)。QA `docs.intakeC` ⑤ がこれを機械で固定する。
+
+**③ 既存値は 1 つも置換していない。** 既存行と同じ一次表・同じ印字桁で一致した転写は**照合だけ**にして行を増やしていない —— Park 2017 Table 3 の総近点移動・GR 項・J2 項、Hedman 2014 の `ae=25±1 km` と `ϖ̇=38.243±0.008 deg/d`、Buie 2012 の `P=6.3872273±0.0000003 d`、JPL SSD 平均要素の `mean_motion`・`apsidal_period`、Jacobson 2010/2014/2009 の `ϖ̇` 列は**いずれも 2 系統とも既存行の値を再現した**。**AJ26 の 65 組は 65 組のまま**で、`csv-sigma-empty` は 106 のままである。
+
+**④ AB4 の決着。** **2 系統とも「Jacobson 2010 AJ 139 668 Table 6 に `Period` 列は無い」**と答えた(印字列は `a, e, ϖ, λ, i, Ω, λ̇, ϖ̇, Ω̇` とラプラス極)。したがって周期は `P=360/λ̇` の `derived-in-record` であり、Deimos は λ̇=285.161886 deg/day から **109074.885274… s**(2 系統一致・**1σ は印字されていない**)。既存の候補行 2 本(「Period 列 1.262648 d」と読んだ `109092.7872 s` と λ̇ 由来の `109074.88527411409 s`)の note に `both=` を足して**どちらが一次表に対応するかを記録**した。**判定行は差し替えていない**(決断事項)。`Deimos|mean_motion` の行は CSV に無かったので新しく足した(deg/day・σ 無し)。
+
+**⑤ AB3 の決着。** **C 環内縁 74490 km の印字箇所は 2 系統とも確認できなかった。** French et al. 1993 は全文表へ到達できず、French et al. 2025 は 1983 年衝突起源の corrugation(おおよそ 74500–77765 km)の論文で内縁フィット表を持たない。既存 5 行(行 414–418)の note に `not_verified_in=French 1993 (tables not accessible); French 2025 has no inner-edge fit` を足した。**値は残し、判定の出典には上げていない。**
+
+**⑥ C2: 恒星連星の観測 ω̇ は資料に無い。** α Cen AB(Akeson 2021 Table 8・Kervella 2016・Pourbaix & Boffin 2016・Pourbaix 2002)と Sirius AB(Bond 2017 Table 4・Gatewood & Gatewood 1978・van den Bos 1960)のどちらにも、**観測された近点移動率として印字された値は無い**(2 系統一致)。**予測 ω̇(GR / 潮汐)も印字されていない。** 各系 2 行(観測・予測)を**値を空にして** `sigma_kind=none` で置いた。材料の ω は Akeson 2021 Table 8 の K16(232.006±0.051 deg)と PB16(232.3±0.11 deg)だけを新行にした(Present work と Bond Table 4 は既存 185/198 行と重複するので照合のみ)。**異なる解の ω の差を年数で割った率は作っていない**(分点・参照面の違いが物理的な近点移動と分離できない)。
+
+**⑦ C3(R47): 同じ冥王星系の 4 つの周期は「定義の違う 4 つの量」である。** 正本は `tests/out/plutostates-w277a.json`。**どれも採用値ではない。**
+
+| 量 | 値 | 何か |
+| --- | --- | --- |
+| two-body Keplerian sidereal period(Buie 2012・**判定行**) | **551856.43872 ± 0.02592 s** | HST 1992–2010 の相対軌道への二体当てはめ(e 固定 0・上限 7.5e−5・元期 JDT 2452600.5) |
+| PLU060 の 1800–2200 平均 osculating 周期 | 551855.8944 s(σ 無し) | 400 年積分の osculating 平均(表末尾 2 数は散らばりの半幅で **1σ ではない**) |
+| Horizons osculating PR(元期 A) | 551850.6774206633 s(σ 無し) | JD 2452600.5 TDB の 1 元期の値 |
+| Horizons osculating PR(元期 B) | 551853.0699646310 s(σ 無し) | JD 2457217.5 TDB の 1 元期の値 |
+| (診断)同じ暦の状態から作った相対二体 | a≈19596.309 km・P≈551886.660 s | 丸めた GM 975.4 km³/s² の**宣言値**から作った診断 |
+
+重心基準の osculating a は **17464.172 km**(相対 a 19596 km とは**別の量**)で、そこから作る `4π²a³/PR²` は **690.495 km³/s²** —— **GM の合計とは別の数**である。**この 4 つの差は残差ではなく定義の差である。「暦の再現」と「観測検定」を別の欄に記帳する。**
+
+**⑧ 新ファイル `paper/data/pluto-system-states.csv`(92 行)。** 状態ベクトル **72 行** = 6 体(999/901/902/903/904/905)× 2 元期(JD 2452600.5 TDB・JD 2457217.5 TDB)× 6 成分。中心 `@9`(冥王星系重心)・ICRF/J2000 赤道・km / km/s・TDB・暦 `Pre-computed solution PLU060/DE440`(`source: plu060_merged`)。**2 系統の印字を機械で突き合わせた結果、72 成分すべてが桁まで一致した(食い違い 0)。** カロンの osculating 要素は 2 元期 × 8 量で、**元期 A の PR だけ最後の桁が食い違った**(`551850.6774206633` 対 `…34`)ので規約どおり両方を残して `spread=` を書いた(計 17 行)。Horizons ヘッダの識別子 3 行を加えて 92 行。**sigma 列は 92 行すべて空**である(Horizons の vectors / elements 出力は σ も共分散も印字しない)。`record_id` は `PSS-<8hex>`(観測 CSV の `SOL-` と同じ `sha256(file\nbody\nquantity\nunit\nsource)` 規則・接頭辞だけが違う)。**この暦から σ を作らない**ことは QA `docs.plutoStatesFile` ② が固定する。
+
+**⑨ 読取器 `tests/lib-w277a-plutostates.mjs` の API(枝 b が使う)。** `loadPlutoStates(fp)` / `checkPlutoStates(loaded)`(72 成分の欠け・単位・sigma 全空・`record_id` 一意を数で返す)/ `stateOf(loaded, body, epoch)` / **`projectToOrbitPlane(r, v)`** / `projectAll(items, ref)` / `relativeTwoBody(A, B, GM)` / `gmFromAP(aKm, periodSec)` / `baseRecordId(file, body, quantity, unit, source)` / 定数 `COMPONENTS`・`BODIES`・`EPOCHS`・`ID_PREFIX`。
+
+**`projectToOrbitPlane` は z を捨てない。** r と r×v から正規直交基底 (e₁,e₂,e₃) を作り、**位置と速度を同じ回転で射影**して**面外成分(e₃ 方向)を返す**。r と v が平行・どちらかが 0 のときは `degenerate:true` を返して基底を作らない。冥王星–カロンの軌道面を基底にしたときの**面外成分の最大は 273.532 km(元期 A・Hydra)/ 187.477 km(元期 B・Kerberos)**である —— **2D へ移すときに失う量はこの大きさである**。`relativeTwoBody` の GM は**呼び出し側が宣言する入力**であり、この器は GM を較正しない・σ を 1 つも作らない。
+
+**⑩ 本枝で回した検証**(QA_FAST の通し・フル QA・perf は**回していない** —— 統括の担当)。① **html を 1 バイトも触っていない**ので `bitsame`・`sigsame`・`jitprobe` は本枝の対象外である(内蔵 131 本は定義上不変)。② 器の再走: `tests/exp-w263c-obsintake.mjs`(CSV 576 行・階層別の門は前後で同じ)→ `tests/exp-w262d-solarsigma.mjs`(**切断点 106/26/3/4・太陽系 4 値 否 2・保留 14・不足 65 組が前後で同じ**)→ `tests/exp-w249b-calaudit.mjs --regate`(**産物は正本にしない** —— 比較だけ。門の内訳 `未判定 261 / 数値未解決 34 / 否(3σ) 2 / mapping-unresolved 15 / 合(3σ) 2` が前後で完全に同じ)。③ QA の部分実行で新設 2 本(`docs.plutoStatesFile`・`docs.intakeC`)と既存の関係ブロック 26 本(`lint.provenanceMeta`・`lint.sigmaMark`・`lint.recordId`・`lint.solutionId`・`lint.listKeys`・`lint.derivedFromRecordIds`・`lint.externalNamesCsv`・`docs.correctionsLedger`・`docs.intakeA-sync`・`docs.intakeB-sync`・`docs.confirm2/3/4-sync`・`docs.solarSourceDeclaration`・`docs.judgementSources`・`docs.transcriptionCorrections`・`docs.transientObs`・`docs.calaudit-sync`・`docs.calaudit-period`・`docs.calibration-verdict-sync`・`docs.fourValuesHistory`・`behavior.declaredContentMatch`・`behavior.alphaCenAB`・`behavior.siriusAB`・`behavior.psrDoubleAB`・`docs.j1946adoptPublished`)が PASS。④ `node --check tests/qa.mjs` と新設 2 本を通過。
+
+**⑪ 本便で直した既存の穴(実測して見つけた)。** ① `behavior.alphaCenAB` / `behavior.siriusAB` / PSR の**経路等価**テストは `buildAstroFromRecords` へ渡す行を `intake_row=2026-09-14` だけで除いていたので、**2026-09-22 の転写行がビルダーへ流れ込んで落ちた**。「併置行はビルダーへ渡さない」という宣言はそのままに、除外条件へ `intake_round=request-C-2026-09-22` を足した(**採用レコードは 1 行も置き換えていない**)。② `docs.fourValuesHistory` の禁止語検査は §5.16 / §5.17 / §5.20 に個別に掛かっていたので、**`### 5.2x` 以降のすべての節へ自動で掛かる**形に広げた(節を足すたびに番号を書き足さなくてよい)。③ 訂正台帳の `kind` 語彙に `intake` を足した —— **値も σ も印も動かさず note だけを書き足した変更**は、訂正でも確認記録でもないからである。
+
+**⑫ 否定結果・未解決・決断事項候補(そのまま残す)。** ① **AJ26 の 65 組について、判定へ届く印字 1σ は 1 本も増えていない。** sigma 列へ入った 6 行はいずれも GM と ω の行で、**判定量ではない**。② EPM2011 Table 4 の supplementary advance 4 行は**1 系統だけ**なので sigma 列は空のままである(もう 1 系統は EPM2017/EPM2021/INPOP19a/INPOP21a に 1σ つきの追加近日点移動表を確認できなかったと答えた)。③ Chapront 2002 由来の 3 行は **formal error の水準(68% かどうか)が明示されていない**ので sigma 列へ入れていない —— 共分散も公表されていないので**独立近似で伝播していない**。④ Deimos の判定行を λ̇ 由来へ差し替えるか、❄️ の判定行を Buie の二体 P のまま置いて PLU060 の 400 年平均 P を別行にするか(AM2)、NSSDC 由来の周期 5 本(天王星の衛星)をどう扱うかは**決断事項**である。⑤ Weaver 2016 Table 2 の三軸直径 12 行(**印字 1σ あり・1 系統のみ**)は要求した量の外なので**転写していない** —— 載せるかどうかは決断事項である。⑥ 暦の解(`PLU060-2024` / `PLU043-2015`)を `paper/data/solutions.json` の台帳へ登録して `solution_id` 欄を埋めるかは**決断事項**で、本便は note の `solutionId=` に留めた(台帳の綴り規約と欄の契約を同時に変えることになるため)。⑦ 状態ファイルは**エンジンに接続していない** —— 読取器と診断だけで、プリセットも判定も作っていない。
+
+**言わないこと。** 「観測一致を達成した」「較正を完了した」「D₀ を較正した」「引きずり消失を確認した」「kF0 版が成立した」「判定が増えた」「新発見」「v1.45.0 RC を切った」。合否は門(3σ)が出す —— **本便で門は 1 行も動いていない。**
+
 
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 

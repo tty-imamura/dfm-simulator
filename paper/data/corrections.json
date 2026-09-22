@@ -5,7 +5,8 @@
   "scope": [
     "**この台帳は便ごとのスナップショットである。** 件数(record / revision / annotation)は便ごとに増えうるので、QA `docs.correctionsLedger` の件数 pin は**その便で実測した値へ更新する**運用である(pin は「増えていないこと」ではなく「この便で数えた値と同じであること」を機械固定する)。",
     "第273便e(AH18)で範囲を広げた: それまで載せていたのは**転写者側の訂正**(`kind:\"correction\"`)だけだったが、**確認記録による印の一括更新**(`kind:\"confirmation\"`)と、**値も印も動かさない注記**(`annotations`)も収録する。",
-    "`kind` は 3 つ: `correction`(転写者側の誤り・記法・印の訂正)/ `confirmation`(確認記録で印または確認者欄が入った変更)/ 注記は `revisions` ではなく `annotations` に置く(**変更ではないから**)。"
+    "`kind` は 3 つ: `correction`(転写者側の誤り・記法・印の訂正)/ `confirmation`(確認記録で印または確認者欄が入った変更)/ 注記は `revisions` ではなく `annotations` に置く(**変更ではないから**)。",
+    "第277便a(取得依頼 C の回答・2 系統の外部調査)で `kind:\"intake\"` を足した: 既存 12 行の note に照合結果(`both=` / `not_verified_in=` / `definition=` / `intake_check=`)を書き足した変更である。**新しく足した 54 行は revision ではない**(既存行の変更ではないので `records` には入らない)。"
   ],
   "contract": [
     "**この台帳は値を作らない。** 現行値は CSV が正本であり、台帳の `current` は CSV と一致していなければならない(検査器 tests/exp-w272e-corrections.mjs・QA docs.correctionsLedger)。",
@@ -27,8 +28,8 @@
     "current": "変更後の値 = **現行の CSV と一致していなければならない**(`note` は note に含まれていること)。",
     "reason": "なぜそうなったか(一次資料の側の変更ではないことを含む)。",
     "markKey": "note に残っている機械可読な印の鍵(印の無い変更は null)。",
-    "kind": "correction(転写者側の訂正)| confirmation(確認記録による印・確認者欄)。**欄が無い revision は `correction` である**(第272便e までに載せた 28 件)。",
-    "bulk": "同じ 1 回の一括操作でまとまって入った変更の操作 id(単発の訂正はこの欄を持たない)。第273便e の実測で `bulk-w266a-confirmation1-21` 21 件・`bulk-w267a-confirmation2-23` 23 件・`bulk-w273e-derivedFromRecordId-14` 14 件。",
+    "kind": "correction(転写者側の訂正)| confirmation(確認記録による印・確認者欄)| intake(転写便の追記 —— 外部調査の照合結果を note に書き足しただけで、値・σ・単位・出典・印・record_id は 1 文字も動いていない)。**欄が無い revision は `correction` である**(第272便e までに載せた 28 件)。",
+    "bulk": "同じ 1 回の一括操作でまとまって入った変更の操作 id(単発の訂正はこの欄を持たない)。第273便e の実測で `bulk-w266a-confirmation1-21` 21 件・`bulk-w267a-confirmation2-23` 23 件・`bulk-w273e-derivedFromRecordId-14` 14 件。第277便a の実測で `bulk-w277a-intakeC-12` 12 件。",
     "previousAbsent": "true のとき、その欄は変更前に**存在しなかった**(`previous` は null)。**「値が空だった」ではない。**",
     "sourceHash": "訂正後の CSV ファイルの完全 SHA-256(その便のコミット)。",
     "previousSourceHash": "訂正前の CSV ファイルの完全 SHA-256(親コミット)。"
@@ -42,9 +43,186 @@
     "第271便b": { "commit": "743ad9b", "parent": "ef2cd45" },
     "第267便a": { "commit": "fa7cd6c", "parent": "4d1571a" },
     "第272便e": { "commit": "33ca33a", "parent": "743ad9b", "note": "第272便の統合コミット(台帳を作った便)" },
-    "第273便e": { "commit": null, "parent": "33ca33a", "note": "本便(コミット前に書いた台帳なので commit は null)" }
+    "第273便e": { "commit": null, "parent": "33ca33a", "note": "本便(コミット前に書いた台帳なので commit は null)" },
+    "第277便a": { "commit": null, "parent": "410f028", "note": "本便(コミット前に書いた台帳なので commit は null)。取得依頼 C の回答・2 系統の外部調査の転写便。" }
   },
   "records": {
+    "SOL-89b3bd11": {
+      "file": "solar-observations.csv",
+      "body": "Pluto",
+      "quantity": "GM",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-22", "wave": "第277便a", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "intake_check=2026-09-22 (request C, two independent external surveys); both=869.3 +/- 0.4 km^3/s^2 (Brozovic & Jacobson 2024 AJ 167 256 Table 8 Current Work = the PLU060 solution this row quotes)|869.6 +/- 1.8 km^3/s^2 (Brozovic et al. 2015 Icarus 246 317 = the PLU043 solution); solutionId=PLU060-2024; the 2015 and 2024 solutions are transcribed as separate rows and are NOT mixed in one judgement row",
+          "markKey": null, "bulk": "bulk-w277a-intakeC-12", "kind": "intake",
+          "reason": "取得依頼 C の回答(2 系統の外部調査)の照合結果を note に書き足した。**値・σ・単位・出典・url・印・record_id は 1 文字も動いていない**(追記したのは note だけである)。",
+          "sourceHash": "062409b8665cb5fa201204ffc2a15f2a8c0936065f6a3efbc8542125af7903e3",
+          "previousSourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b"
+        }
+      ]
+    },
+    "SOL-3e64c063": {
+      "file": "solar-observations.csv",
+      "body": "Charon",
+      "quantity": "GM",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-22", "wave": "第277便a", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "intake_check=2026-09-22 (request C, two independent external surveys); both=106.1 +/- 0.3 km^3/s^2 (Brozovic & Jacobson 2024 AJ 167 256 Table 8 Current Work = the PLU060 solution this row quotes)|105.9 +/- 1.0 km^3/s^2 (Brozovic et al. 2015 abstract) and 105.88 +/- 1.0 km^3/s^2 (Brozovic et al. 2015 Table 10 GM column); solutionId=PLU060-2024; the 2015 and 2024 solutions are transcribed as separate rows and are NOT mixed in one judgement row",
+          "markKey": null, "bulk": "bulk-w277a-intakeC-12", "kind": "intake",
+          "reason": "取得依頼 C の回答(2 系統の外部調査)の照合結果を note に書き足した。**値・σ・単位・出典・url・印・record_id は 1 文字も動いていない**(追記したのは note だけである)。",
+          "sourceHash": "062409b8665cb5fa201204ffc2a15f2a8c0936065f6a3efbc8542125af7903e3",
+          "previousSourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b"
+        }
+      ]
+    },
+    "SOL-5a3853dc": {
+      "file": "solar-observations.csv",
+      "body": "Deimos",
+      "quantity": "orbital_period_candidate",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-22", "wave": "第277便a", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "intake_check=2026-09-22 (request C, two independent external surveys); both=no Period column (survey 1)|no Period column (survey 2) - AB4 is settled: Jacobson 2010 Table 6 prints a, e, varpi, lambda, i, Omega, lambda_dot, varpi_dot, Omega_dot and the Laplace pole, and has NO Period column; the 1.262648 d reading of this row could not be reproduced by either survey; the judgement row is NOT replaced here (that is the integrator's ruling)",
+          "markKey": null, "bulk": "bulk-w277a-intakeC-12", "kind": "intake",
+          "reason": "取得依頼 C の回答(2 系統の外部調査)の照合結果を note に書き足した。**値・σ・単位・出典・url・印・record_id は 1 文字も動いていない**(追記したのは note だけである)。",
+          "sourceHash": "062409b8665cb5fa201204ffc2a15f2a8c0936065f6a3efbc8542125af7903e3",
+          "previousSourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b"
+        }
+      ]
+    },
+    "SOL-7b5370e1": {
+      "file": "solar-observations.csv",
+      "body": "Deimos",
+      "quantity": "orbital_period_candidate",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-22", "wave": "第277便a", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "intake_check=2026-09-22 (request C, two independent external surveys); both=109074.885274 s (survey 1)|109074.885274114 s (survey 2) - both read lambda_dot=285.161886 deg/day from Table 6 and both state that Table 6 has NO Period column (AB4); derived-in-record: P=360/lambda_dot d x 86400 s/d, no printed sigma; the judgement row is NOT replaced here (that is the integrator's ruling)",
+          "markKey": null, "bulk": "bulk-w277a-intakeC-12", "kind": "intake",
+          "reason": "取得依頼 C の回答(2 系統の外部調査)の照合結果を note に書き足した。**値・σ・単位・出典・url・印・record_id は 1 文字も動いていない**(追記したのは note だけである)。",
+          "sourceHash": "062409b8665cb5fa201204ffc2a15f2a8c0936065f6a3efbc8542125af7903e3",
+          "previousSourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b"
+        }
+      ]
+    },
+    "SOL-985f40e2": {
+      "file": "solar-observations.csv",
+      "body": "Saturn ring C inner edge",
+      "quantity": "orbital_period",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-22", "wave": "第277便a", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "not_verified_in=French 1993 (tables not accessible); French 2025 has no inner-edge fit; intake_check=2026-09-22 (request C, two independent external surveys, AB3)",
+          "markKey": null, "bulk": "bulk-w277a-intakeC-12", "kind": "intake",
+          "reason": "取得依頼 C の回答(2 系統の外部調査)の照合結果を note に書き足した。**値・σ・単位・出典・url・印・record_id は 1 文字も動いていない**(追記したのは note だけである)。",
+          "sourceHash": "062409b8665cb5fa201204ffc2a15f2a8c0936065f6a3efbc8542125af7903e3",
+          "previousSourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b"
+        }
+      ]
+    },
+    "SOL-8eb65e47": {
+      "file": "solar-observations.csv",
+      "body": "Saturn ring C inner edge",
+      "quantity": "radius",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-22", "wave": "第277便a", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "not_verified_in=French 1993 (tables not accessible); French 2025 has no inner-edge fit; intake_check=2026-09-22 (request C, two independent external surveys, AB3)",
+          "markKey": null, "bulk": "bulk-w277a-intakeC-12", "kind": "intake",
+          "reason": "取得依頼 C の回答(2 系統の外部調査)の照合結果を note に書き足した。**値・σ・単位・出典・url・印・record_id は 1 文字も動いていない**(追記したのは note だけである)。",
+          "sourceHash": "062409b8665cb5fa201204ffc2a15f2a8c0936065f6a3efbc8542125af7903e3",
+          "previousSourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b"
+        }
+      ]
+    },
+    "SOL-262d5741": {
+      "file": "solar-observations.csv",
+      "body": "Saturn ring C inner edge",
+      "quantity": "radius",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-22", "wave": "第277便a", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "not_verified_in=French 1993 (tables not accessible); French 2025 has no inner-edge fit; intake_check=2026-09-22 (request C, two independent external surveys, AB3): neither survey could find the printed 74490 km with a fitted 1-sigma; the value is kept and is NOT promoted to a judgement source",
+          "markKey": null, "bulk": "bulk-w277a-intakeC-12", "kind": "intake",
+          "reason": "取得依頼 C の回答(2 系統の外部調査)の照合結果を note に書き足した。**値・σ・単位・出典・url・印・record_id は 1 文字も動いていない**(追記したのは note だけである)。",
+          "sourceHash": "062409b8665cb5fa201204ffc2a15f2a8c0936065f6a3efbc8542125af7903e3",
+          "previousSourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b"
+        }
+      ]
+    },
+    "SOL-e5685261": {
+      "file": "solar-observations.csv",
+      "body": "Saturn ring C inner edge",
+      "quantity": "eccentricity",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-22", "wave": "第277便a", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "not_verified_in=French 1993 (tables not accessible); French 2025 has no inner-edge fit; intake_check=2026-09-22 (request C, two independent external surveys, AB3)",
+          "markKey": null, "bulk": "bulk-w277a-intakeC-12", "kind": "intake",
+          "reason": "取得依頼 C の回答(2 系統の外部調査)の照合結果を note に書き足した。**値・σ・単位・出典・url・印・record_id は 1 文字も動いていない**(追記したのは note だけである)。",
+          "sourceHash": "062409b8665cb5fa201204ffc2a15f2a8c0936065f6a3efbc8542125af7903e3",
+          "previousSourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b"
+        }
+      ]
+    },
+    "SOL-a5d4de8a": {
+      "file": "solar-observations.csv",
+      "body": "Saturn ring C inner edge",
+      "quantity": "periastron_advance",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-22", "wave": "第277便a", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "not_verified_in=French 1993 (tables not accessible); French 2025 has no inner-edge fit; intake_check=2026-09-22 (request C, two independent external surveys, AB3); the Titan ringlet m=1 pattern of Nicholson 2014 is a forced mode and is not a stand-in for the free J2 apsidal rate of the inner edge",
+          "markKey": null, "bulk": "bulk-w277a-intakeC-12", "kind": "intake",
+          "reason": "取得依頼 C の回答(2 系統の外部調査)の照合結果を note に書き足した。**値・σ・単位・出典・url・印・record_id は 1 文字も動いていない**(追記したのは note だけである)。",
+          "sourceHash": "062409b8665cb5fa201204ffc2a15f2a8c0936065f6a3efbc8542125af7903e3",
+          "previousSourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b"
+        }
+      ]
+    },
+    "SOL-c9329a01": {
+      "file": "solar-observations.csv",
+      "body": "Charon",
+      "quantity": "eccentricity_candidate",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-22", "wave": "第277便a", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "definition=e adopted as 0 in the constrained circular two-body fit; the 7.5e-5 is a 1-sigma upper limit and NOT a Gaussian sigma on 0; this is a DIFFERENT quantity from the mean osculating e of an integrated orbit (0.000161 in the 1800-2200 mean of the PLU060 solution, 0.00005 in the 200-year mean of the PLU043 solution); intake_check=2026-09-22 (request C, two independent external surveys)",
+          "markKey": null, "bulk": "bulk-w277a-intakeC-12", "kind": "intake",
+          "reason": "取得依頼 C の回答(2 系統の外部調査)の照合結果を note に書き足した。**値・σ・単位・出典・url・印・record_id は 1 文字も動いていない**(追記したのは note だけである)。",
+          "sourceHash": "062409b8665cb5fa201204ffc2a15f2a8c0936065f6a3efbc8542125af7903e3",
+          "previousSourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b"
+        }
+      ]
+    },
+    "SOL-eae84705": {
+      "file": "solar-observations.csv",
+      "body": "Charon",
+      "quantity": "periastron_advance",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-22", "wave": "第277便a", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "definition=undefined at the adopted e=0 of the two-body fit; no finite apsidal rate is printed for Charon in the 2012, 2015 or 2024 solutions (both surveys; the 2015 Table 9 entry is a dash); intake_check=2026-09-22 (request C, two independent external surveys)",
+          "markKey": null, "bulk": "bulk-w277a-intakeC-12", "kind": "intake",
+          "reason": "取得依頼 C の回答(2 系統の外部調査)の照合結果を note に書き足した。**値・σ・単位・出典・url・印・record_id は 1 文字も動いていない**(追記したのは note だけである)。",
+          "sourceHash": "062409b8665cb5fa201204ffc2a15f2a8c0936065f6a3efbc8542125af7903e3",
+          "previousSourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b"
+        }
+      ]
+    },
     "SOL-85cf149a": {
       "file": "solar-observations.csv",
       "body": "Moon",
@@ -1080,6 +1258,15 @@
           "reason": "確認記録第 1 回(2026-09-16)で一次資料の表・列・桁が確認できた行の印を `sigma_primary=unverified` → `verified` にした一括更新(AH18 でこの台帳へ移した)。同じ便で X7 の確認者欄 `verified_by=` が入っている。**値・σ・単位・出典・url は 1 文字も動いていない**(動いたのは印である)。**印は判定(4 値)を 1 本も動かしていない。**",
           "sourceHash": "d8d22b0b44812b6532625ad006469b14381946b3add02c4c6a3655cb892de6d6",
           "previousSourceHash": "ab1180866e3ca98a21ef4a83aaada1762182c1c32c72231dbdab8a69b934a795"
+        },
+        {
+          "revision": 2, "date": "2026-09-22", "wave": "第277便a", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "definition=two-body Keplerian sidereal period of the relative orbit fitted to 1992-2010 HST astrometry with e fixed at 0 (1-sigma upper limit 7.5e-5), epoch JDT 2452600.5, J2000 reference frame, a=19573 +/- 2 km, i=96.218 +/- 0.008 deg, L=4.50177 +/- 0.00018 rad, Omega=3.89249 +/- 0.00012 rad; this is a DIFFERENT quantity from the 1800-2200 mean osculating period of the PLU060 solution (551855.8944 s) and from the Horizons osculating PR at a single epoch (551850.677 s at epoch A, 551853.070 s at epoch B); the ephemeris-reproduction check and the observation test are kept in separate ledgers; intake_check=2026-09-22 (request C, two independent external surveys; both reproduce 6.3872273 +/- 0.0000003 d)",
+          "markKey": null, "bulk": "bulk-w277a-intakeC-12", "kind": "intake",
+          "reason": "取得依頼 C の回答(2 系統の外部調査)の照合結果を note に書き足した。**値・σ・単位・出典・url・印・record_id は 1 文字も動いていない**(追記したのは note だけである)。",
+          "sourceHash": "062409b8665cb5fa201204ffc2a15f2a8c0936065f6a3efbc8542125af7903e3",
+          "previousSourceHash": "b715dec873ef746c66a175359bf6f2a1c1d6ab6eafb2db587a4cb0f1958e809b"
         }
       ]
     },
