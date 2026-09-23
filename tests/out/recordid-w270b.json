@@ -1,5 +1,5 @@
 {
- "when": "2026-09-22T13:54:59.936Z",
+ "when": "2026-09-23T10:46:41.910Z",
  "wave": "第270便b(第60報・W2・AE2)/ 第271便b(第61報・R7・AF15 で書込器を直した)",
  "base": "main ef2cd45",
  "wrote": false,
@@ -49,10 +49,10 @@
  "files": [
   {
    "file": "solar-observations.csv",
-   "rows": 580,
+   "rows": 601,
    "hadColumn": true,
    "wrote": false,
-   "idsAssigned": 580,
+   "idsAssigned": 601,
    "duplicated": 0,
    "branched": [
     {
@@ -151,8 +151,8 @@
   }
  ],
  "totals": {
-  "rows": 761,
-  "ids": 761,
+  "rows": 782,
+  "ids": 782,
   "duplicated": 0
  },
  "declared": [
@@ -231,10 +231,48 @@
    ],
    "solutionId": "Meng2025-DDFWHE",
    "agrees": true
+  },
+  {
+   "body": "Deimos",
+   "quantity": "orbital_period",
+   "csvQuantity": "orbital_period_candidate",
+   "declaredRecordId": "SOL-7b5370e1",
+   "hitsByRecordId": 1,
+   "hitLines": [
+    511
+   ],
+   "hitsByString": 1,
+   "stringLines": [
+    511
+   ],
+   "stringRecordIds": [
+    "SOL-7b5370e1"
+   ],
+   "solutionId": "",
+   "agrees": true
+  },
+  {
+   "body": "Phobos",
+   "quantity": "orbital_period",
+   "csvQuantity": "orbital_period_candidate",
+   "declaredRecordId": "SOL-e57b4bc2",
+   "hitsByRecordId": 1,
+   "hitLines": [
+    509
+   ],
+   "hitsByString": 1,
+   "stringLines": [
+    509
+   ],
+   "stringRecordIds": [
+    "SOL-e57b4bc2"
+   ],
+   "solutionId": "",
+   "agrees": true
   }
  ],
  "ae15": {
-  "checked": 534,
+  "checked": 661,
   "offenders": []
  },
  "violations": [],

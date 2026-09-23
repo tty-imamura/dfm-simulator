@@ -1,5 +1,5 @@
 {
- "when": "2026-09-22T15:34:09.104Z",
+ "when": "2026-09-23T10:46:42.168Z",
  "wave": "第262便d(第54報 W4)→ 第263便c(第55報 W3)で σ 未確認の状態名と不足一覧を足した",
  "inputs": {
   "calaudit": "tests/out/calaudit-w249.json",
@@ -44,9 +44,9 @@
   "note": "**宣言表であって自動判定ではない**。CSV に行が無い対象は null を明示する(推測で当てない)"
  },
  "csvSummary": {
-  "rows": 427,
-  "bodies": 71,
-  "rowsWithSigma": 122,
+  "rows": 433,
+  "bodies": 73,
+  "rowsWithSigma": 133,
   "sigmaBodies": [
    "Phobos",
    "Charon",
@@ -80,11 +80,16 @@
    "Mercury",
    "Titan ringlet",
    "Saturn ring feature D68",
+   "Venus",
+   "Earth",
    "Nix",
    "Hydra",
-   "Kerberos"
+   "Kerberos",
+   "Pluto-Charon system",
+   "Jupiter",
+   "Saturn"
   ],
-  "solarRowsWithSigma": 25,
+  "solarRowsWithSigma": 32,
   "solarSigmaQuantities": {
    "radius": 6,
    "GM": 10,
@@ -93,7 +98,11 @@
    "periastron_advance": 2,
    "periastron_advance_gr": 1,
    "periastron_advance_j2": 1,
-   "radial_amplitude_ae": 1
+   "radial_amplitude_ae": 1,
+   "periastron_advance_extra": 4,
+   "inclination_candidate": 1,
+   "mean_longitude_candidate": 1,
+   "longitude_of_ascending_node_candidate": 1
   },
   "solarSigmaGated": 2,
   "finding": "太陽系の body にも σ の行が入った(2026-09-14 の観測レコード intake)。**ただし門が読む量(公転周期・離心率・近点移動・自転)の σ は 2 件である** —— 入ったのは半径・GM・候補行の σ で、判定量の σ ではない"
@@ -311,12 +320,12 @@
    "Charon|orbital_period",
    "Venus|eccentricity",
    "PSR J1946+2052|orbital_period",
-   "PSR J1946+2052|eccentricity"
+   "PSR J1946+2052|eccentricity",
+   "Deimos|orbital_period",
+   "Phobos|orbital_period"
   ],
   "notDeclared": [
-   "Phobos|orbital_period(AB4 未解決 — Jacobson 2010 Table 6 の Period 列と λ̇ 列で読みが食い違う(周期定義の照合が先))",
-   "Deimos|orbital_period(同上(ダイモスは 17.90 s 差))",
-   "Deimos|eccentricity(同上(採用解を決める前に周期定義の照合が要る))",
+   "Deimos|eccentricity(第278便a: AM7 の裁定は**周期だけ**である(e の判定行は裁定の外)。Table 6 の e=0.00024 は 1σ が印字されておらず、採用解を決めるのは別の裁定である)",
    "Mercury|orbital_period(周期定義(恒星周期/近点間/平均運動からの換算)の照合が先)",
    "Mars|orbital_period(同上)",
    "Triton|orbital_period(NSSDC 値が Jacobson 2009 の平均運動の換算と判明している — 周期定義の照合が先)",
@@ -401,6 +410,164 @@
      "mappingResolved": false,
      "convergenceOk": false,
      "verdict": "保留(観測量対応が未確定/数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
+   },
+   {
+    "id": "marsMoonsReal",
+    "emoji": "🥔",
+    "target": "フォボス",
+    "kind": "period",
+    "meas": 27566.6434406517,
+    "key": "Phobos|orbital_period",
+    "declaredSource": "Jacobson R.A. 2010 AJ 139 668 Table 6 (lambda_dot / mean-motion column n=1128.844409 deg/d",
+    "declaredValue": 27553.841567549454,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
+    "previousRow": {
+     "value": 27553.843872,
+     "sigma": null,
+     "unit": "s",
+     "source": "Wikipedia",
+     "primaryVerified": false
+    },
+    "valueDelta": -0.002304450546944281,
+    "residual": 12.801873102245736,
+    "nSigma": null,
+    "assessedStage": "h",
+    "primaryVerified": false,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
+   },
+   {
+    "id": "marsMoonsReal",
+    "emoji": "🥔",
+    "target": "ダイモス",
+    "kind": "period",
+    "meas": 109116.89173659829,
+    "key": "Deimos|orbital_period",
+    "declaredSource": "Jacobson R.A. 2010 AJ 139 668 Table 6 (lambda_dot / mean-motion column n=285.161886 deg/d)",
+    "declaredValue": 109074.88527411409,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
+    "previousRow": {
+     "value": 109123.2,
+     "sigma": null,
+     "unit": "s",
+     "source": "Wikipedia",
+     "primaryVerified": false
+    },
+    "valueDelta": -48.314725885909866,
+    "residual": 42.00646248420526,
+    "nSigma": null,
+    "assessedStage": "h",
+    "primaryVerified": false,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
+   },
+   {
+    "id": "marsMoonsReal",
+    "emoji": "🥔",
+    "target": "ダイモス",
+    "kind": "period",
+    "meas": 109116.89173659829,
+    "key": "Deimos|orbital_period",
+    "declaredSource": "Jacobson R.A. 2010 AJ 139 668 Table 6 (lambda_dot / mean-motion column n=285.161886 deg/d)",
+    "declaredValue": 109074.88527411409,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
+    "previousRow": {
+     "value": 109123.2,
+     "sigma": null,
+     "unit": "s",
+     "source": "Wikipedia",
+     "primaryVerified": false
+    },
+    "valueDelta": -48.314725885909866,
+    "residual": 42.00646248420526,
+    "nSigma": null,
+    "assessedStage": "h",
+    "primaryVerified": false,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
+   },
+   {
+    "id": "marsMoonsReal",
+    "emoji": "🥔",
+    "target": "フォボス",
+    "kind": "period",
+    "meas": 27566.822022411514,
+    "key": "Phobos|orbital_period",
+    "declaredSource": "Jacobson R.A. 2010 AJ 139 668 Table 6 (lambda_dot / mean-motion column n=1128.844409 deg/d",
+    "declaredValue": 27553.841567549454,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
+    "previousRow": {
+     "value": 27553.843872,
+     "sigma": null,
+     "unit": "s",
+     "source": "Wikipedia",
+     "primaryVerified": false
+    },
+    "valueDelta": -0.002304450546944281,
+    "residual": 12.98045486205956,
+    "nSigma": null,
+    "assessedStage": "h",
+    "primaryVerified": false,
+    "guards": {
+     "ok": true,
+     "missing": [],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": true,
+     "verdict": null,
      "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
     },
     "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
@@ -3373,13 +3540,19 @@
    "csvBody": "Phobos",
    "csvQuantity": "orbital_period",
    "csvRow": {
-    "value": 27553.843872,
+    "value": 27553.841567549454,
     "unit": "s",
     "sigma": null,
     "primaryVerified": false
    },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
+   "declaredApplied": true,
+   "csvRowLegacy": {
+    "value": 27553.843872,
+    "unit": "s",
+    "sigma": null,
+    "primaryVerified": false,
+    "source": "Wikipedia"
+   },
    "ad8Converted": false,
    "previousUnit": null,
    "cut": "csv-sigma-empty",
@@ -3392,7 +3565,41 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": {
+    "key": "Phobos|orbital_period",
+    "declaredSource": "Jacobson R.A. 2010 AJ 139 668 Table 6 (lambda_dot / mean-motion column n=1128.844409 deg/d",
+    "declaredValue": 27553.841567549454,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
+    "previousRow": {
+     "value": 27553.843872,
+     "sigma": null,
+     "unit": "s",
+     "source": "Wikipedia",
+     "primaryVerified": false
+    },
+    "valueDelta": -0.002304450546944281,
+    "residual": 12.801873102245736,
+    "nSigma": null,
+    "assessedStage": "h",
+    "primaryVerified": false,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
+   }
   },
   {
    "id": "marsMoonsReal",
@@ -3407,13 +3614,19 @@
    "csvBody": "Deimos",
    "csvQuantity": "orbital_period",
    "csvRow": {
-    "value": 109123.2,
+    "value": 109074.88527411409,
     "unit": "s",
     "sigma": null,
     "primaryVerified": false
    },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
+   "declaredApplied": true,
+   "csvRowLegacy": {
+    "value": 109123.2,
+    "unit": "s",
+    "sigma": null,
+    "primaryVerified": false,
+    "source": "Wikipedia"
+   },
    "ad8Converted": false,
    "previousUnit": null,
    "cut": "csv-sigma-empty",
@@ -3426,7 +3639,41 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": {
+    "key": "Deimos|orbital_period",
+    "declaredSource": "Jacobson R.A. 2010 AJ 139 668 Table 6 (lambda_dot / mean-motion column n=285.161886 deg/d)",
+    "declaredValue": 109074.88527411409,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
+    "previousRow": {
+     "value": 109123.2,
+     "sigma": null,
+     "unit": "s",
+     "source": "Wikipedia",
+     "primaryVerified": false
+    },
+    "valueDelta": -48.314725885909866,
+    "residual": 42.00646248420526,
+    "nSigma": null,
+    "assessedStage": "h",
+    "primaryVerified": false,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
+   }
   },
   {
    "id": "marsMoonsReal",
@@ -3441,13 +3688,19 @@
    "csvBody": "Deimos",
    "csvQuantity": "orbital_period",
    "csvRow": {
-    "value": 109123.2,
+    "value": 109074.88527411409,
     "unit": "s",
     "sigma": null,
     "primaryVerified": false
    },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
+   "declaredApplied": true,
+   "csvRowLegacy": {
+    "value": 109123.2,
+    "unit": "s",
+    "sigma": null,
+    "primaryVerified": false,
+    "source": "Wikipedia"
+   },
    "ad8Converted": false,
    "previousUnit": null,
    "cut": "csv-sigma-empty",
@@ -3460,7 +3713,41 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": {
+    "key": "Deimos|orbital_period",
+    "declaredSource": "Jacobson R.A. 2010 AJ 139 668 Table 6 (lambda_dot / mean-motion column n=285.161886 deg/d)",
+    "declaredValue": 109074.88527411409,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
+    "previousRow": {
+     "value": 109123.2,
+     "sigma": null,
+     "unit": "s",
+     "source": "Wikipedia",
+     "primaryVerified": false
+    },
+    "valueDelta": -48.314725885909866,
+    "residual": 42.00646248420526,
+    "nSigma": null,
+    "assessedStage": "h",
+    "primaryVerified": false,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
+   }
   },
   {
    "id": "marsMoonsReal",
@@ -3475,13 +3762,19 @@
    "csvBody": "Phobos",
    "csvQuantity": "orbital_period",
    "csvRow": {
-    "value": 27553.843872,
+    "value": 27553.841567549454,
     "unit": "s",
     "sigma": null,
     "primaryVerified": false
    },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
+   "declaredApplied": true,
+   "csvRowLegacy": {
+    "value": 27553.843872,
+    "unit": "s",
+    "sigma": null,
+    "primaryVerified": false,
+    "source": "Wikipedia"
+   },
    "ad8Converted": false,
    "previousUnit": null,
    "cut": "csv-sigma-empty",
@@ -3494,7 +3787,39 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": {
+    "key": "Phobos|orbital_period",
+    "declaredSource": "Jacobson R.A. 2010 AJ 139 668 Table 6 (lambda_dot / mean-motion column n=1128.844409 deg/d",
+    "declaredValue": 27553.841567549454,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
+    "previousRow": {
+     "value": 27553.843872,
+     "sigma": null,
+     "unit": "s",
+     "source": "Wikipedia",
+     "primaryVerified": false
+    },
+    "valueDelta": -0.002304450546944281,
+    "residual": 12.98045486205956,
+    "nSigma": null,
+    "assessedStage": "h",
+    "primaryVerified": false,
+    "guards": {
+     "ok": true,
+     "missing": [],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": true,
+     "verdict": null,
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
+   }
   },
   {
    "id": "marsMoonsReal",

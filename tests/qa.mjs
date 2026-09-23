@@ -1739,14 +1739,19 @@ const add = (id, pass, detail) => {
 // ----     ④ 付与数は **太陽系 55 / 星団・銀河 0 / 過渡天体 0**(台帳 4 件)。
 // ----     ⑤ 台帳の `printedRecord` が `exampleRecordId` の行の note に**そのまま現れる**。
 // ----     ⑥ 宣言 4 件の `solution_id` が、その `record_id` の行の欄と**一致**する。
+// ----     ⑦(第278便a・AM14)**参照切れが無い**: 台帳の id は重複せず、綴りは 2 形のどちらか
+// ----        (`<著者><西暦4桁>-<モデル>` / 暦の解 `<3 文字><3 桁>-<西暦4桁>`)、**どの id も CSV の
+// ----        少なくとも 1 行が指している**(登録だけの孤立 id が無い)。宣言の `solution_id` は空か台帳の id。
+// ----   第278便a(AM14): 暦の解 `PLU060-2024`・`PLU043-2015` を登録した(台帳 4 → 6 件・付与 55 → 81 行)。
 // ----   **`solution_id` は出所の鍵であって、印でも σ でも判定でもない**(4 値は 1 本も動かない)。
 {
   const bad = [];
   const FILES = ['solar-observations.csv', 'cluster-galaxy-observations.csv',
     'transient-observations.csv'];
-  const EXPECT = { 'solar-observations.csv': 55, 'cluster-galaxy-observations.csv': 0,
+  const EXPECT = { 'solar-observations.csv': 81, 'cluster-galaxy-observations.csv': 0,
     'transient-observations.csv': 0 };
-  const LEDGER_N = 4;
+  const LEDGER_N = 6;
+  let orphan = [];
   const tally = {};
   let ledgerIds = [];
   try {
@@ -1793,9 +1798,20 @@ const add = (id, pass, detail) => {
       if (hits[0].solutionId !== s.id)
         bad.push(`⑤台帳 ${s.id} の例の行の solution_id が ${hits[0].solutionId}`);
     }
+    // ⑦ 参照切れ(第278便a・AM14)
+    const ID_FORM = /^(?:[A-Za-z][A-Za-z0-9]*\d{4}-[A-Za-z0-9]+|[A-Z]{3}\d{3}-\d{4})$/;
+    if (new Set(ledgerIds).size !== ledgerIds.length) bad.push('⑦台帳の id が重複している');
+    for (const id of ledgerIds) {
+      if (!ID_FORM.test(id)) bad.push(`⑦台帳の id の綴りが 2 形のどちらでもない(${id})`);
+      if (!allRows.some((r) => r.solutionId === id)) orphan.push(id);
+    }
+    if (orphan.length) bad.push(`⑦CSV のどの行も指していない台帳 id がある(${orphan.join(',')})`);
     // ⑥ 宣言
     const decls = (JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data',
       'judgement-sources.json'), 'utf8')).declarations || []);
+    for (const d of decls)
+      if (typeof d.solution_id === 'string' && d.solution_id !== '' && !known.has(d.solution_id))
+        bad.push(`⑦宣言 ${d.body}|${d.quantity} の solution_id が台帳に無い(${d.solution_id})`);
     for (const d of decls) {
       if (typeof d.solution_id !== 'string') { bad.push(`⑥宣言 ${d.body}|${d.quantity} に solution_id 欄が無い`); continue; }
       const hits = allRows.filter((r) => r.recordId === d.record_id);
@@ -1818,7 +1834,9 @@ const add = (id, pass, detail) => {
       ? tally['solar-observations.csv'].unregisteredTagRows : '—'} 行)は**空欄のまま**`
     + `(空欄は「解が無い」ではなく「台帳に登録していない」)/ `
     + `⑤ 台帳の \`printedRecord\` が例の行の note にそのまま現れる / `
-    + `⑥ 宣言 4 件の \`solution_id\` が行の欄と一致。`
+    + `⑥ 宣言の \`solution_id\` が行の欄と一致 / `
+    + `⑦ **参照切れ 0**(台帳の id は重複せず 2 形の綴り —— 第278便a で暦の解 \`PLU060-2024\`・\`PLU043-2015\` を`
+    + `登録・どの id も CSV の行が指している・孤立 ${orphan.length} 件)。`
     + `**\`solution_id\` は出所の鍵であって、印でも σ でも判定でもない**(4 値は 1 本も動かない)`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
@@ -2162,7 +2180,9 @@ const add = (id, pass, detail) => {
 // ----   訂正は 4 値(合/量限定合/否/保留)を 1 本も動かしていない。
 {
   const bad = [];
-  const EXPECT = { records: 89, revisions: 98, markedRows: 37, annotations: 3, annotationRows: 9 };
+  // 第278便a(確認依頼 第 5 回・取得依頼 D・AM7・AM14): 89/98/37 → **145/397/58**(印の更新 42 行・
+  //   σ を上げた 9 行・解タグの移設 25 行・書誌訂正 10 行・判定行の差し替え 2 行 —— 器の実測値)。
+  const EXPECT = { records: 145, revisions: 397, markedRows: 58, annotations: 3, annotationRows: 9 };
   let lg = null, J = null, redacted = 0;
   try { lg = JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data', 'corrections.json'), 'utf8')); }
   catch (e) { bad.push('①台帳が読めない: ' + String(e).slice(0, 80)); }
@@ -2347,10 +2367,13 @@ const add = (id, pass, detail) => {
     console.log('SKIP docs.intakeC(beta 対象でない: ' + TARGET + ')');
   } else {
     const bad = [];
-    const EXPECT = { csvRows: 580, intakeRows: 54, sigmaEntered: 6, noteEdited: 12,
+    // 第278便a: CSV は 601 行(+21 行 = 取得依頼 D の新規行)。**第277便a の転写行 54 行のうち、確認依頼
+    //   第 5 回で印が上がった行(`confirmation_round=5`)と sigma 列へ上げた行(`sigma_raised=`)は
+    //   後の回の変更である** —— ②③ はその行を外して第277便a の規約を見る(外した数は表示する)。
+    const EXPECT = { csvRows: 601, intakeRows: 54, sigmaEntered: 6, noteEdited: 12,
       cut: { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
       four: { 否: 2, 保留: 14 } };
-    let nIntake = 0, nSigma = 0, nNote = 0, nRows = 0, cut = null, four = null;
+    let nIntake = 0, nSigma = 0, nNote = 0, nRows = 0, cut = null, four = null, nLater = 0, nRaised = 0;
     try {
       const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
       const SM = await import('file://' + path.join(ROOT, 'tests', 'lib-w264d-sigmamark.mjs'));
@@ -2361,7 +2384,11 @@ const add = (id, pass, detail) => {
         && /(?:^|[^A-Za-z0-9_])intake_round=request-C-2026-09-22/.test(r.note));
       nIntake = intake.length;
       if (nIntake !== EXPECT.intakeRows) bad.push(`①2026-09-22 の転写行が ${EXPECT.intakeRows} 行でない(${nIntake})`);
-      nSigma = intake.filter((r) => r.sigma !== null).length;
+      const LATER = (r) => /(?:^|[^A-Za-z0-9_])confirmation_round=5(?![0-9])/.test(r.note);
+      const RAISED = (r) => /(?:^|[^A-Za-z0-9_])sigma_raised=/.test(r.note);
+      nLater = intake.filter(LATER).length;
+      nRaised = intake.filter(RAISED).length;
+      nSigma = intake.filter((r) => r.sigma !== null && !RAISED(r)).length;
       if (nSigma !== EXPECT.sigmaEntered)
         bad.push(`①σ 列へ入れた転写行が ${EXPECT.sigmaEntered} 行でない(${nSigma})`);
       nNote = L.rows.filter((r) => nIntake >= 0
@@ -2369,7 +2396,7 @@ const add = (id, pass, detail) => {
       if (nNote !== EXPECT.noteEdited)
         bad.push(`①note を書き足した既存行が ${EXPECT.noteEdited} 行でない(${nNote})`);
       for (const r of intake) {
-        if (SM.readSigmaMark(r.note).verified)
+        if (SM.readSigmaMark(r.note).verified && !LATER(r))
           bad.push(`②転写行 ${r.ln} の印が verified(転写では印を上げない)`);
         const one = /(?:^|[^A-Za-z0-9_])intake_agreement=1of2/.test(r.note);
         if (one && r.sigma !== null)
@@ -2413,15 +2440,204 @@ const add = (id, pass, detail) => {
     } catch (e) { bad.push('読めない: ' + String(e).slice(0, 110)); }
     add('docs.intakeC', bad.length === 0,
       `**取得依頼 C の回答の転写**(第277便a・2 系統の外部調査): CSV ${nRows} 行 / `
-      + `**2026-09-22 の転写行 ${nIntake} 行**(σ 列へ入れたのは **${nSigma} 行** —— `
+      + `**2026-09-22 の転写行 ${nIntake} 行**(第277便a で σ 列へ入れたのは **${nSigma} 行** —— `
       + `**2 系統が値・σ・出典まで一致した行だけ**)/ 既存行の note へ照合結果を書き足したのは `
       + `${nNote} 行(値・σ・単位・出典・印・record_id は 1 文字も動かしていない)/ `
-      + `② 転写行はすべて \`sigma_primary=unverified\`(転写では印を上げない)/ `
+      + `② 転写行はすべて \`sigma_primary=unverified\`(転写では印を上げない —— **第278便a の確認依頼 第 5 回で`
+      + `原仮定者が印を上げた ${nLater} 行と、sigma 列へ上げた ${nRaised} 行は後の回の変更として別に数える**)/ `
       + `③ **1 系統だけの行は sigma 列が空**で \`sigma_candidate_unconfirmed=\` を持つ`
       + `(原仮定者の照合で sigma 列へ上がる)/ `
       + `④ **切断点 ${cut ? Object.values(cut).join('/') : '—'} と太陽系 4 値 `
       + `${four ? JSON.stringify(four) : '—'} は動いていない** / `
       + `⑤ 判定量名の行を宛先天体へ 1 行も足していない —— **転写で判定は 1 本も増えていない**`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第278便a(第68報・確認依頼 第 5 回・取得依頼 D): docs.intakeD ----
+// ----   §5.28 の件数表と、会計器(`tests/out/obsintake-w263c.json`)・σ 接続器
+// ----   (`tests/out/solarsigma-w262d.json`)・訂正台帳の突き合わせ器(`tests/out/corrections-w272e.json`)の
+// ----   実測値が食い違っていないことを機械で固定する(**文書が測定から独立に動かないように**)。
+// ----     ① CSV の行数・2026-09-23 の新規行数・その中で sigma 列を持つ行・verified の行が §5.28 の表と一致する。
+// ----     ② 既存行で**確認依頼 第 5 回の印**(`confirmation_round=5`)を持つ行は、すべて
+// ----        `sigma_primary=verified` で、`verified_by=原仮定者 2026-09-23`・`verified_at=`・`verified_value=`
+// ----        を持つ(**印だけを上げた行は 0**)。
+// ----     ③ **sigma 列へ上げた既存行**(`sigma_raised=`)は、すべて verified・`intake_agreement=2of2`・
+// ----        sigma 列が非空で、**量名は判定量ではない**(太陽系 16 本の宛先天体の P/e/ω̇/自転は 1 行も無い)。
+// ----     ④ **切断点 106/26/3/4 と太陽系 4 値(否 2・保留 14)が動いていない**。
+// ----     ⑤ 新規行は判定量名を宛先天体へ 1 行も足していない。
+// ----     ⑥ CALIBRATION_VERDICT §5.28 に件数があり、**4 値の禁止語が無い**(否定文でも書かない)。
+// ----     ⑦ 会計器の CSV 行数が現行と一致し、台帳の器の違反が 0 件。
+// ----   root は SKIP。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.intakeD(beta 対象でない: ' + TARGET + ')');
+  } else {
+    const bad = [];
+    const EXPECT = { csvRows: 601, newRows: 21, newWithSigma: 9, newVerified: 10, confirmed: 42, raised: 9,
+      cut: { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
+      four: { 否: 2, 保留: 14 } };
+    let nRows = 0, nNew = 0, nNewSig = 0, nNewVer = 0, nConf = 0, nRaised = 0, cut = null, four = null;
+    try {
+      const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+      const SM = await import('file://' + path.join(ROOT, 'tests', 'lib-w264d-sigmamark.mjs'));
+      const L = OB.loadObsCsv(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'));
+      const has = (r, k) => new RegExp('(?:^|[^A-Za-z0-9_])' + k).test(r.note);
+      nRows = L.rows.length;
+      if (nRows !== EXPECT.csvRows) bad.push(`①CSV が ${EXPECT.csvRows} 行でない(${nRows})`);
+      const fresh = L.rows.filter((r) => has(r, 'intake_row=2026-09-23') && has(r, 'intake_round=request-D-2026-09-23'));
+      nNew = fresh.length;
+      nNewSig = fresh.filter((r) => r.sigma !== null).length;
+      nNewVer = fresh.filter((r) => SM.readSigmaMark(r.note).verified).length;
+      if (nNew !== EXPECT.newRows) bad.push(`①2026-09-23 の新規行が ${EXPECT.newRows} 行でない(${nNew})`);
+      if (nNewSig !== EXPECT.newWithSigma) bad.push(`①新規行で sigma 列を持つ行が ${EXPECT.newWithSigma} 行でない(${nNewSig})`);
+      if (nNewVer !== EXPECT.newVerified) bad.push(`①新規行で verified の行が ${EXPECT.newVerified} 行でない(${nNewVer})`);
+      for (const r of fresh) {
+        if (!/(?:^|[^A-Za-z0-9_])intake_agreement=/.test(r.note)) bad.push(`①新規行 ${r.ln} に intake_agreement= が無い`);
+        if (!SM.readSigmaMark(r.note).mark) bad.push(`①新規行 ${r.ln} に印が無い`);
+        if (SM.readSigmaMark(r.note).verified && !/verified_by=原仮定者 2026-09-23/.test(r.note))
+          bad.push(`①新規行 ${r.ln} は verified なのに確認者欄が無い`);
+      }
+      // ② 確認依頼 第 5 回の印
+      const conf = L.rows.filter((r) => !fresh.includes(r) && /(?:^|[^A-Za-z0-9_])confirmation_round=5(?![0-9])/.test(r.note));
+      nConf = conf.length;
+      if (nConf !== EXPECT.confirmed) bad.push(`②第 5 回で印が上がった既存行が ${EXPECT.confirmed} 行でない(${nConf})`);
+      for (const r of conf) {
+        const vb = SM.readVerifiedBy(r.note);
+        if (!SM.readSigmaMark(r.note).verified) bad.push(`②行 ${r.ln} の印が verified でない`);
+        if (vb.who !== '原仮定者 2026-09-23' || !vb.at || !vb.value)
+          bad.push(`②行 ${r.ln} の確認者欄が揃っていない(${vb.who})`);
+      }
+      // ③ sigma 列へ上げた行
+      const GATED = ['Moon', 'Earth', 'Mercury', 'Venus', 'Mars', 'Phobos', 'Deimos', 'Charon',
+        'Miranda', 'Ariel', 'Umbriel', 'Titania', 'Oberon', 'Triton', 'Io', 'Europa', 'Ganymede',
+        'Callisto', 'Saturn ring feature D68', 'Saturn ring C inner edge', 'Mimas', 'Titan'];
+      const JQ = ['orbital_period', 'eccentricity', 'periastron_advance', 'rotation_period'];
+      const raised = L.rows.filter((r) => /(?:^|[^A-Za-z0-9_])sigma_raised=/.test(r.note));
+      nRaised = raised.length;
+      if (nRaised !== EXPECT.raised) bad.push(`③sigma 列へ上げた既存行が ${EXPECT.raised} 行でない(${nRaised})`);
+      for (const r of raised) {
+        if (r.sigma === null) bad.push(`③行 ${r.ln} の sigma 列が空`);
+        if (!SM.readSigmaMark(r.note).verified) bad.push(`③行 ${r.ln} が verified でない`);
+        if (!/(?:^|[^A-Za-z0-9_])intake_agreement=2of2/.test(r.note)) bad.push(`③行 ${r.ln} が 2of2 でない`);
+        if (GATED.includes(r.body) && JQ.includes(r.quantity)) bad.push(`③行 ${r.ln} が判定量 ${r.body}|${r.quantity}`);
+      }
+      // ⑤ 新規行が判定量名を宛先天体へ足していない
+      for (const r of fresh)
+        if (GATED.includes(r.body) && JQ.includes(r.quantity))
+          bad.push(`⑤新規行 ${r.ln} が判定量名 ${r.body}|${r.quantity} を宛先天体へ足している`);
+      // ④ 切断点と 4 値
+      const S = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8'));
+      cut = S.cutTally || {}; four = S.fourTally || {};
+      for (const [k, v] of Object.entries(EXPECT.cut)) if (cut[k] !== v) bad.push(`④切断点 ${k} が ${v} でない(${cut[k]})`);
+      for (const [k, v] of Object.entries(EXPECT.four)) if (four[k] !== v) bad.push(`④太陽系 4 値 ${k} が ${v} でない(${four[k]})`);
+      // ⑦ 会計器と台帳の器
+      const OI = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'obsintake-w263c.json'), 'utf8'));
+      const oiRows = Object.values(OI.csvAudit || {}).reduce((a, x) => a + (x.rows || 0), 0);
+      if (oiRows !== nRows) bad.push(`⑦会計器の CSV 行数 ${oiRows} が現行 ${nRows} と違う(器を走らせ直すこと)`);
+      const CJ = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'corrections-w272e.json'), 'utf8'));
+      if ((CJ.violations || []).length) bad.push(`⑦台帳の器の違反 ${(CJ.violations || []).length} 件`);
+      // ⑥ CALIBRATION_VERDICT §5.28
+      const V = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
+      const i28 = V.indexOf('### 5.28 ');
+      if (i28 < 0) bad.push('⑥台帳に §5.28 が無い');
+      const sec = (i28 < 0) ? '' : V.slice(i28, (() => { const j = V.indexOf('\n### 5.29 ', i28); const k = V.indexOf('\n## ', i28);
+        const e = [j, k].filter((x) => x > 0); return e.length ? Math.min(...e) : V.length; })());
+      for (const sN of [String(nConf), String(nRaised), String(nNew), '106/26/3/4', '0/2/2/33'])
+        if (sec.indexOf(sN) < 0) bad.push(`⑥§5.28 に ${sN} が無い`);
+      for (const line of sec.split('\n')) {
+        if (/較正した|較正を完了|判定が増えた|カロンが合|カロンが否|kF0 版が成立した|引きずりが完全に消えていることを確認/.test(line))
+          bad.push('⑥禁止語(§5.28): ' + line.slice(0, 40));
+      }
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 110)); }
+    add('docs.intakeD', bad.length === 0,
+      `**確認依頼 第 5 回・取得依頼 D の回答の転写**(第278便a・§5.28): CSV ${nRows} 行 / `
+      + `① **2026-09-23 の新規行 ${nNew} 行**(sigma 列あり ${nNewSig} 行・verified ${nNewVer} 行・全行に \`intake_agreement=\`)/ `
+      + `② 既存行で**原仮定者が同じ表を開いて印を上げた ${nConf} 行**(すべて \`verified_by=原仮定者 2026-09-23\`・`
+      + `\`verified_at=\`・\`verified_value=\` つき —— 印だけ上げた行は 0)/ `
+      + `③ **sigma 列へ上げた既存行 ${nRaised} 行**(2of2 かつ verified の定義名の量だけ —— 判定量ではない)/ `
+      + `④ **切断点 ${cut ? Object.values(cut).join('/') : '—'} と太陽系 4 値 ${four ? JSON.stringify(four) : '—'} は動いていない** / `
+      + `⑤ 判定量名の行を宛先天体へ 1 行も足していない / ⑥ §5.28 に件数・禁止語なし / ⑦ 会計器と台帳の器が現行 CSV と一致`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第278便a(第68報・AM7): docs.deimosSwap ----
+// ----   **ダイモスの判定行の差し替え**(と同型のフォボス)を機械で固定する:
+// ----     ① `paper/data/judgement-sources.json` の `Deimos|orbital_period` の宣言が、Jacobson 2010 Table 6 の
+// ----        **λ̇ 由来の行**(`derived-in-record`)を指し、**sigma は null**(1σ は印字されていない)。
+// ----     ② その行の note の `derived_from=` が **λ̇ の行**(同じ Table 6・285.161886 deg/day)に解決し、
+// ----        `P=360/λ̇ d×86400 s` を**今ここで計算し直すと行の値に一致**する(相対 1e−12 以内)。
+// ----     ③ **出典に「Period 列」を書かない** —— Table 6 に Period 列は無い(宣言行の出典に
+// ----        `Period column` が無く、旧「Period 列」読みの行に `period_column=absent` がある)。
+// ----     ④ 旧判定行(二次資料 109123.2 s)は CSV に**履歴の行**として残り、`superseded_by=<新しい行>`・
+// ----        `superseded_on=2026-09-23` を持つ。旧値の候補行(`orbital_period_candidate`)も残っている。
+// ----     ⑤ σ 接続器が宣言行で読んでいて(`appliedToJudgement`)、判定は**保留**(σ が無い)。
+// ----     ⑥ フォボスも同型(λ̇=1128.844409 deg/day)。天王星の衛星 5 本は**差し替えていない**(AM7′ 裁定待ち)。
+// ----   root は SKIP。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.deimosSwap(beta 対象でない: ' + TARGET + ')');
+  } else {
+    const bad = [];
+    const rowsOut = [];
+    try {
+      const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+      const L = OB.loadObsCsv(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'));
+      const byId = new Map(L.rows.map((r) => [r.recordId, r]));
+      const JS = JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data', 'judgement-sources.json'), 'utf8'));
+      const S = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8'));
+      const CASES = [['Deimos', 285.161886, 109123.2], ['Phobos', 1128.844409, 27553.843872]];
+      for (const [body, lam, oldV] of CASES) {
+        const d = (JS.declarations || []).find((x) => x.body === body && x.quantity === 'orbital_period');
+        if (!d) { bad.push(`①${body}|orbital_period の宣言が無い`); continue; }
+        if (d.sigma !== null) bad.push(`①${body} の宣言の sigma が null でない`);
+        const r = byId.get(d.record_id);
+        if (!r) { bad.push(`①${body} の宣言行 ${d.record_id} が CSV に無い`); continue; }
+        if (!/Jacobson R\.A\. 2010 AJ 139 668 Table 6/.test(r.source) || !/lambda_dot/.test(r.source))
+          bad.push(`①${body} の宣言行の出典が Table 6 の λ̇ ではない`);
+        if (/Period column/i.test(r.source) || /Period column/i.test(d.source)) bad.push(`③${body} の宣言行の出典に Period column がある`);
+        if (r.sigma !== null) bad.push(`①${body} の宣言行に sigma がある`);
+        const refs = OB.listKeyRefs(r.note, 'derived_from');
+        const src = refs.ids.length === 1 ? byId.get(refs.ids[0]) : null;
+        if (!src) bad.push(`②${body} の derived_from が λ̇ の行へ 1 件で解決しない`);
+        else {
+          if (src.quantity !== 'mean_motion' || Math.abs(src.value - lam) > 0 || !/Table 6/.test(src.source))
+            bad.push(`②${body} の derived_from の先が λ̇=${lam} の行でない(${src.quantity} ${src.value})`);
+          const P = 360 / src.value * 86400;
+          if (!(Math.abs(P - r.value) <= 1e-12 * r.value)) bad.push(`②${body} の P=360/λ̇×86400=${P} が行の値 ${r.value} と違う`);
+        }
+        const old = L.rows.filter((x) => x.body === body && x.quantity === 'orbital_period' && x.value === oldV);
+        if (old.length !== 1) bad.push(`④${body} の旧判定行(${oldV} s)が 1 行でない(${old.length})`);
+        else {
+          if (!new RegExp('(?:^|[^A-Za-z0-9_])superseded_by=' + d.record_id + '(?![A-Za-z0-9_-])').test(old[0].note))
+            bad.push(`④${body} の旧判定行に superseded_by=${d.record_id} が無い`);
+          if (!/(?:^|[^A-Za-z0-9_])superseded_on=2026-09-23/.test(old[0].note)) bad.push(`④${body} の旧判定行に superseded_on が無い`);
+        }
+        const dr = ((S.declaredFirst || {}).rows || []).filter((x) => x.key === body + '|orbital_period');
+        if (!dr.length) bad.push(`⑤σ 接続器に ${body} の宣言行が無い(器を走らせ直すこと)`);
+        for (const x of dr) {
+          if (x.appliedToJudgement !== true) bad.push(`⑤${body} の宣言が判定経路に入っていない`);
+          if (x.declaredSigma !== null || !/^保留/.test(String(x.verdict))) bad.push(`⑤${body} の判定が保留でない(${x.verdict})`);
+        }
+        rowsOut.push(`${body} ${d.record_id}=${r.value} s(旧 ${oldV} s・差 ${(r.value - oldV).toFixed(6)} s)`);
+      }
+      if (!L.rows.some((x) => x.body === 'Deimos' && x.quantity === 'orbital_period_candidate' && x.value === 109123.2))
+        bad.push('④ダイモスの旧値の候補行(orbital_period_candidate 109123.2)が無い');
+      const pc = L.rows.find((x) => x.body === 'Deimos' && x.quantity === 'orbital_period_candidate' && x.value === 109092.7872);
+      if (!pc || !/(?:^|[^A-Za-z0-9_])period_column=absent/.test(pc.note)) bad.push('③Period 列読みの行に period_column=absent が無い');
+      // ⑥ 天王星の衛星は差し替えていない(AM7′)
+      for (const b of ['Miranda', 'Ariel', 'Umbriel', 'Titania', 'Oberon'])
+        if ((JS.declarations || []).some((x) => x.body === b)) bad.push(`⑥${b} の判定行を宣言している(AM7′ は裁定待ち)`);
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 110)); }
+    add('docs.deimosSwap', bad.length === 0,
+      `**ダイモスの判定行の差し替え**(第278便a・AM7 —— 原仮定者の裁定(第68報)「概ね同意」): `
+      + `${rowsOut.join(' / ')} / ① 宣言は Jacobson 2010 Table 6 の **λ̇ 由来**(\`derived-in-record\`・`
+      + `**sigma は null** —— 1σ は印字されていない)/ ② \`derived_from=\` が λ̇ の行へ解決し、P=360/λ̇ d×86400 s を`
+      + `計算し直すと行の値に一致 / ③ **「Table 6 に Period 列がある」とは書かない**(Period 列読みの行に`
+      + ` \`period_column=absent\`)/ ④ 旧判定行は履歴の行(\`superseded_by=\`・\`superseded_on=2026-09-23\`)/ `
+      + `⑤ σ 接続器が宣言行で読み、判定は**保留**(σ が無いので門へは入らない)/ ⑥ フォボスも同型・`
+      + `天王星の衛星 5 本は**差し替えていない**(AM7′ 裁定待ち)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
@@ -3165,10 +3381,12 @@ const add = (id, pass, detail) => {
     // 第270便c(AD9): **PSR J1946+2052 の P と e を宣言に足した**(2 件 → 4 件)。
     //   宣言は**行選択**であって、残差が縮むという主張ではない(σ は P で 500 倍・e で 11.25 倍
     //   きつくなるので σ 倍の距離はむしろ増える —— `docs.j1946Adopted` が数で置く)。
-    if (decl.length !== 4) bad.push(`①宣言が 4 件でない(${decl.length})`);
+    // 第278便a(AM7): **ダイモス P と同型のフォボス P** を Jacobson 2010 Table 6 の λ̇ 由来の行へ差し替えた
+    //   (4 件 → 6 件)。**1σ は印字されていないので sigma は null** —— 門へは 1 bit も入らない。
+    if (decl.length !== 6) bad.push(`①宣言が 6 件でない(${decl.length})`);
     const keys = decl.map((d) => d.body + '|' + d.quantity).sort();
-    if (keys.join(' , ') !== 'Charon|orbital_period , PSR J1946+2052|eccentricity , '
-      + 'PSR J1946+2052|orbital_period , Venus|eccentricity')
+    if (keys.join(' , ') !== 'Charon|orbital_period , Deimos|orbital_period , PSR J1946+2052|eccentricity , '
+      + 'PSR J1946+2052|orbital_period , Phobos|orbital_period , Venus|eccentricity')
       bad.push(`①宣言の対象が違う(${keys.join(' , ')})`);
     // ① 宣言が CSV の行に 1 件で当たる(値も σ も CSV から 1 文字も変えずに写している)
     const rows = [];
@@ -3226,9 +3444,10 @@ const add = (id, pass, detail) => {
     + `宣言 ${decl.length} 件(**カロン P = Buie 2012 の 551856.43872 s ± 0.02592**・`
     + `**金星 e = JPL SSD Table 1 の 0.00677672(σ の印字なし)**・`
     + `**PSR J1946+2052 の P = 6781.367998656 s ± 1.728e-6 と e = 0.0638363 ± 8e-7`
-    + `(Meng 2025 Table 1 DDFWHE — 第270便c/AD9 で採用解を一組へ揃えた)**)で、どれも CSV の行に`
+    + `(Meng 2025 Table 1 DDFWHE — 第270便c/AD9 で採用解を一組へ揃えた)**・`
+    + `**ダイモス P と同型のフォボス P = Jacobson 2010 Table 6 の λ̇ 由来(σ の印字なし — 第278便a/AM7)**)で、どれも CSV の行に`
     + `**1 件で当たる**(${hits.join(' / ')} —— 宣言に新しい数値は 1 つも書いていない)/ `
-    + `**宣言の無い対象は従来どおりファイル順の最初の行**(フォボス・ダイモス・水星 P・火星 P・`
+    + `**宣言の無い対象は従来どおりファイル順の最初の行**(ダイモス e・水星 P・火星 P・`
     + `トリトン P/e は**周期定義の照合が先**なので宣言しない)/ `
     + `**第270便a(AD5)で宣言は正式経路へ入った** —— 太陽系 4 値は ${four}(**旧値 保留 16 は `
     + `\`history\` に温存**・旧行は \`previousRow\` に温存)—— `
@@ -15383,7 +15602,8 @@ if (!FAST) {
     //   回答・2 系統の外部調査)も同じ扱いにする。**採用レコードは 1 行も置き換えていない。**
     const INTAKE_ROW = (r) => /intake_row=2026-09-14/.test(r.note || '')
       || /intake_round=request-C-2026-09-22/.test(r.note || '')
-      || /intake_row=2026-09-22/.test(r.note || '');   // 第277便c: 観測傾きの候補行(collate=pending・門に入らない)
+      || /intake_row=2026-09-22/.test(r.note || '')   // 第277便c: 観測傾きの候補行(collate=pending・門に入らない)
+      || /intake_row=2026-09-23/.test(r.note || '');  // 第278便a: 確認依頼 第 5 回・取得依頼 D の転写行(ビルダーへ渡さない)
     const csvIntakeN = csvParsed.filter(INTAKE_ROW).length;
     const csvRows = csvParsed.filter((r) => !INTAKE_ROW(r));
     const ac = await page.evaluate(({ csvRows }) => {
@@ -15723,7 +15943,8 @@ if (!FAST) {
     //   回答・2 系統の外部調査)も同じ扱いにする。**採用レコードは 1 行も置き換えていない。**
     const INTAKE_ROW = (r) => /intake_row=2026-09-14/.test(r.note || '')
       || /intake_round=request-C-2026-09-22/.test(r.note || '')
-      || /intake_row=2026-09-22/.test(r.note || '');   // 第277便c: 観測傾きの候補行(collate=pending・門に入らない)
+      || /intake_row=2026-09-22/.test(r.note || '')   // 第277便c: 観測傾きの候補行(collate=pending・門に入らない)
+      || /intake_row=2026-09-23/.test(r.note || '');  // 第278便a: 確認依頼 第 5 回・取得依頼 D の転写行(ビルダーへ渡さない)
     const csvIntakeN = csvParsed.filter(INTAKE_ROW).length;
     const csvRows = csvParsed.filter((r) => !INTAKE_ROW(r));
     const si = await page.evaluate(({ csvRows }) => {
@@ -16039,7 +16260,8 @@ if (!FAST) {
     //   回答・2 系統の外部調査)も同じ扱いにする。**採用レコードは 1 行も置き換えていない。**
     const INTAKE_ROW = (r) => /intake_row=2026-09-14/.test(r.note || '')
       || /intake_round=request-C-2026-09-22/.test(r.note || '')
-      || /intake_row=2026-09-22/.test(r.note || '');   // 第277便c: 観測傾きの候補行(collate=pending・門に入らない)
+      || /intake_row=2026-09-22/.test(r.note || '')   // 第277便c: 観測傾きの候補行(collate=pending・門に入らない)
+      || /intake_row=2026-09-23/.test(r.note || '');  // 第278便a: 確認依頼 第 5 回・取得依頼 D の転写行(ビルダーへ渡さない)
     const csvIntakeN = csvParsed.filter(INTAKE_ROW).length;
     const csvAll = csvParsed.filter((r) => !INTAKE_ROW(r));
     const csvRows = csvAll.filter((r) => !BUILDER_SKIP.has(r.quantity)).map((r) => {

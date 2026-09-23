@@ -49,7 +49,10 @@ export const MARK_KEYS = ['corrected', 'url_corrected', 'source_corrected', 'qua
   'unit_corrected', 'value_corrected', 'sigma_corrected', 'previous_mark',
   'external_name_neutralised', 'proxy_for_scope', 'list_separator_corrected',
   // 第273便e(AH16 (a)): `derived_from` の参照を record_id へ書き換えた行の印。
-  'derived_from_resolved'];
+  'derived_from_resolved',
+  // 第278便a(確認依頼 第 5 回・取得依頼 D・AM7): 印字 1σ を sigma 列へ上げた行の印と、
+  //   判定行の差し替えで**履歴の行**になった旧判定行の印(どちらも台帳に載っていなければならない)。
+  'sigma_raised', 'superseded_by'];
 /** 第273便e(AH18): revision の `kind` の語彙(欄が無い revision は `correction`)。
  *  第277便a: **転写便の追記** `intake` を足した —— 外部調査の照合結果を note に書き足しただけで、
  *  値・σ・単位・出典・印・record_id は 1 文字も動いていない変更である(訂正でも確認記録でもない)。 */
@@ -86,11 +89,13 @@ function currentOf(row, field) {
     case 'note': return row.note;
     // 第273便e(AH18): X7 の確認者欄(**印ではない** —— `verified` へ上げる力は 1 bit も無い)
     case 'verified_by': return readVerifiedBy(row.note).who;
+    // 第278便a(AM14): 解の台帳の鍵の欄(**出所の鍵であって印でも σ でもない**)
+    case 'solution_id': return row.solutionId;
     default: return undefined;
   }
 }
 const FIELDS = ['value', 'sigma', 'unit', 'source', 'url', 'quantity', 'mark', 'note',
-  'verified_by', 'added'];
+  'verified_by', 'solution_id', 'added'];
 
 const checked = [];
 let revisionCount = 0;

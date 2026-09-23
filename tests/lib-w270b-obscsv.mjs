@@ -111,8 +111,12 @@ export function assignRecordIds(file, rows) {
  * @returns {string} 解タグ(無ければ空文字)
  */
 export function solutionTag(note, key = 'solution') {
-  const m = new RegExp('(?:^|[^A-Za-z0-9_])' + key + '=([A-Za-z][A-Za-z0-9]*\\d{4}-[A-Za-z0-9]+)'
-    + '(?![A-Za-z0-9_-])').exec(String(note || ''));
+  // 第278便a(AM14): 綴りを 2 つにした —— ① タイミング解 `<著者><西暦4桁>-<モデル>`(例 `Meng2025-DDFWHE`)
+  //   ② **暦の解** `<3 文字の暦記号><3 桁の番号>-<西暦 4 桁>`(例 `PLU060-2024` — 暦名だけでは版を区別
+  //   できないので公表論文の西暦を添える)。②は大文字 3 字 + 数字 3 桁 + `-` + 数字 4 桁に限る
+  //   (`solutionId=PLU060-2024` のような**鍵名の違う旧綴り**は `key='solution'` に当たらない)。
+  const m = new RegExp('(?:^|[^A-Za-z0-9_])' + key + '=((?:[A-Za-z][A-Za-z0-9]*\\d{4}-[A-Za-z0-9]+)'
+    + '|(?:[A-Z]{3}\\d{3}-\\d{4}))(?![A-Za-z0-9_-])').exec(String(note || ''));
   return m ? m[1] : '';
 }
 
