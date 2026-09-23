@@ -1996,7 +1996,10 @@ const add = (id, pass, detail) => {
       'tests/out/bgequiv-w278d.json',
       // 第278便c(統括の検証項目 R55): pairSlip の符号修正の影響範囲(html の 2D 実装をソースの文字列で評価して
       //   突き合わせる —— target=beta/index.html)と、H6 の共役変数模型(**エンジン未接続** —— target は lib 自身)
-      'tests/out/slipaudit-w278c.json', 'tests/out/nsmode-w278c.json'];
+      'tests/out/slipaudit-w278c.json', 'tests/out/nsmode-w278c.json',
+      // 第279便c(第69報・R62/R63): 背景の閾値なし合成と速度分解 RHS の検算(target=beta/index.html —— 純関数を
+      //   html のソースから取り出す)/ 新契約での背景の誤差予算(純関数の積分 + エンジンの診断コピー)
+      'tests/out/bgcompose-w279c.json', 'tests/out/bgbudget2-w279c.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -6813,8 +6816,11 @@ const add = (id, pass, detail) => {
 // ----     ③ **宣言表に無い読み口が 0**(`unclassified` が空 —— 新しい読み口を黙って落とさない)。
 // ----     ④ **時計と光の読み口は「置換禁止」**に分類されていて、**重力の読み口は 1 つも無い**
 // ----        (D₀ は χ の分母に入るだけで引力を供給しない —— 第275便b ③ の否定結果と整合)。
-// ----     ⑤ **新しい宣言鍵 `physics.backgroundComplex` はエンジンのどの経路からも読まれない**
-// ----        (参照は検証器・検証器の分岐・定数・HP の書き出しだけ)。
+// ----     ⑤ **新しい宣言鍵 `physics.backgroundComplex` は既定経路のどこからも読まれない**
+// ----        (参照は検証器・検証器の分岐・定数・HP の書き出しだけ)。**第279便c で契約を「宣言した外部ステップ
+// ----        だけが読む」へ更新**: 力学側の読み口は `meshVelocity` を宣言した本の準備関数 `meshVelocityPrepare`
+// ----        だけで(正本の `readers.declared`)、その関数は meshVelocity が未宣言なら背景鍵に触れる前に戻る
+// ----        (`readers.guardBeforeRead`)—— 内蔵 133 本は宣言 0 なので**既定経路の読み口は 0 のまま**。
 // ----     ⑥ **R39 の実測**: `qLockCalc` は D₀ を振っても同じ q を返す(プリセットごとに 1 値)。
 // ----     ⑦ 書かない語(`meta.notClaim`)が宣言されていて、JSON 本文にその語が出てこない。
 // ----     ⑧ docs/PHYSICS.md に〔第276便a〕節があり、節に出る主要な数が正本と一致する。
@@ -6849,7 +6855,16 @@ const add = (id, pass, detail) => {
       const B = J.backgroundComplexKey || {};
       if (!B.outsideAllowed || B.outsideAllowed.length !== 0)
         bad.push('⑤ backgroundComplex が受理契約の外から参照されている: ' + (B.outsideAllowed || []).join(','));
-      cases.push(`backgroundComplex の参照 ${B.sites} 箇所(${(B.functions || []).join('/')})`);
+      // 第279便c: 「宣言した外部ステップだけが読む」—— 力学側の読み口は宣言した準備関数だけで、未宣言では読む前に戻る
+      const html5 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+      if (html5.indexOf('MESH_VEL_KEY') >= 0) {
+        const R5 = B.readers || {};
+        if (JSON.stringify(R5.declared) !== JSON.stringify(['meshVelocityPrepare'])) bad.push('⑤ 宣言した読み口が meshVelocityPrepare だけでない');
+        if (JSON.stringify(R5.found) !== JSON.stringify(R5.declared)) bad.push('⑤ 検証器の外の読み口が宣言と違う: ' + JSON.stringify(R5.found));
+        if (R5.guardBeforeRead !== true) bad.push('⑤ meshVelocityPrepare が未宣言の判定より前に背景鍵を読む');
+      }
+      cases.push(`backgroundComplex の参照 ${B.sites} 箇所(${(B.functions || []).join('/')})`
+        + (B.readers ? `・力学側の読み口は宣言した外部ステップの準備 ${(B.readers.found || []).join('/')} だけ(未宣言は読む前に戻る=${B.readers.guardBeforeRead})` : ''));
       const q = (J.qLock || {}).sameAcrossD0 || {};
       const qIds = Object.keys(q);
       if (!qIds.length) bad.push('⑥ qLock の実測が無い');
@@ -7331,6 +7346,179 @@ const add = (id, pass, detail) => {
       + `移流項を一貫して扱う。fieldTime を禁止にはしない」): ${cases.join(' / ')} —— `
       + `**規約を混ぜる(背景だけ fieldTime・局所源は共動系の偏微分)と座標変換の加速度が不変でなくなる**。`
       + `fieldTime は**背景と局所源の両方に同じ規約で使えば**整合し、共動系の物質微分へは移流項を足して戻す`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 0a3z10) 第279便c(原仮定者の裁定〔第69報〕・統括の読み R62): docs.bgCompose ----
+// ----   **背景の閾値なし合成と速度分解 RHS** の検算の正本 `tests/out/bgcompose-w279c.json` を PHYSICS と突き合わせる。
+// ----   固定するのは 9 点:
+// ----     ① `meta.targetSha256` が検査対象の html と一致する(器を走らせ直せば直る種類の FAIL)。
+// ----     ② (a) 直接計算(源をすべて明示天体)と分解→合成が 24 条件以上で一致(u は値比・∇u/∂ₜu は項比 ≤1e−14)。
+// ----     ③ (b) 一定速度の座標変換で ẍ・v̇ が不変(advected ≤1e−12)・**否定対照** fieldTime だけでは崩れる(≥1e−3)。
+// ----     ④ (c) 定常な指定場で H の相対変化が刻みで 4 次に縮む(比 8〜32)・細かい刻みで ≤1e−10・J が非対称(>0.1)。
+// ----     ⑤ (d) 境界の全件が期待どおり・W=0 で慣性をそのまま残す。
+// ----     ⑥ (e) 背景重み 1e−30 でも寄与が残る(相対誤差 0・非ゼロ)—— **閾値なし**の代数検査。
+// ----     ⑦ (f) 一様定常な場で追加の加速度・追加の v̇ が厳密に 0。
+// ----     ⑧ ページの HP.* と html から取り出した node の関数がビット一致(全件)。いまの html で (d)(e)(f) を引き直しても同じ。
+// ----     ⑨ PHYSICS〔第279便c〕に表の数があり、「言わないこと。」の前に禁止語が無い。
+// ----   **root は SKIP**(対象 html に MESH_VEL_KEY が無い世代)。
+{
+  const bad = [];
+  const cases = [];
+  const htmlT = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!TARGET.startsWith('beta/') || htmlT.indexOf('MESH_VEL_KEY') < 0) {
+    console.log('SKIP docs.bgCompose(第279便c 未適用 — 対象に MESH_VEL_KEY なし: ' + TARGET + ')');
+  } else {
+    // 数を PHYSICS の書式(例 4.4×10⁻¹⁵)へ
+    const SUP = { '-': '⁻', '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹' };
+    const sci = (x, d) => { const [m, e] = Number(x).toExponential(d).split('e'); return m + '×10' + String(Number(e)).split('').map((c) => SUP[c]).join(''); };
+    try {
+      const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'bgcompose-w279c.json'), 'utf8');
+      const J = JSON.parse(text);
+      const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)');
+      else cases.push('html の SHA-256 一致');
+      const T = J.table;
+      if (!(T.a.n >= 24 && T.a.ok === T.a.n && T.a.uRelMax <= 1e-14 && T.a.gradUTermRelMax <= 1e-14 && T.a.dUdtTermRelMax <= 1e-14))
+        bad.push('② 分解→合成が直接計算と合わない: ' + JSON.stringify(T.a).slice(0, 140));
+      cases.push(`(a) ${T.a.ok}/${T.a.n} 条件: u ${sci(T.a.uRelMax, 1)}・∇u(項比)${sci(T.a.gradUTermRelMax, 1)}・∂ₜu(項比)${sci(T.a.dUdtTermRelMax, 1)}`);
+      if (!(T.b.advected.coordAccelRelMax <= 1e-12 && T.b.advected.vRateRelMax <= 1e-12)) bad.push('③ 座標変換で ẍ・v̇ が変わる');
+      if (!(T.b.fieldTimeOnly.coordAccelRelMin >= 1e-3)) bad.push('③ 否定対照(fieldTime だけ)で崩れない');
+      cases.push(`(b) ${T.b.n} 条件: ẍ ${sci(T.b.advected.coordAccelRelMax, 1)}・v̇ ${sci(T.b.advected.vRateRelMax, 1)}・fieldTime だけ ${sci(T.b.fieldTimeOnly.coordAccelRelMin, 1)}〜`);
+      if (!(T.c.ratio >= 8 && T.c.ratio <= 32 && T.c.dHrelMax[1] <= 1e-10 && Math.min(...T.c.JasymmetryMax) > 0.1))
+        bad.push('④ H の保存が刻みで 4 次に縮まない/J が対称: ' + JSON.stringify(T.c).slice(0, 140));
+      if (!(Math.max(...T.c.dHdtAlgebraResidMax) <= 1e-7)) bad.push('④ dH/dt の代数残差が大きい');
+      cases.push(`(c) dH/H ${sci(T.c.dHrelMax[0], 2)} → ${sci(T.c.dHrelMax[1], 2)}(比 ${T.c.ratio.toFixed(2)})`);
+      if (!(T.d.pass === T.d.n && T.d.inertiaKeptAtW0 === true)) bad.push('⑤ 境界が期待どおりでない');
+      cases.push(`(d) ${T.d.pass}/${T.d.n}・W=0 で慣性を保つ`);
+      if (!(T.e.relErrMax === 0 && T.e.nonzeroKept === true && T.e.allDefined === true)) bad.push('⑥ 背景重み 1e−30 の寄与が落ちた');
+      cases.push(`(e) ${T.e.n} 件・相対誤差 ${T.e.relErrMax}`);
+      if (!(T.f.extraAccelMax === 0 && T.f.extraVRateMax === 0 && T.f.transportRelMax === 0)) bad.push('⑦ 一様定常な場で追加の加速度が 0 でない');
+      cases.push(`(f) ${T.f.n} 件・追加の加速度 ${T.f.extraAccelMax}`);
+      if (!(J.pageVsNode && J.pageVsNode.bitIdentical === J.pageVsNode.n && J.pageVsNode.n >= 24)) bad.push('⑧ ページと node がビット一致しない');
+      const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w279c-bgcompose.mjs'));
+      const pure = L.makePure(htmlT);
+      const d2 = L.boundaryCases(pure), e2 = L.tinyWeightCases(pure), f2 = L.uniformCases(pure);
+      if (JSON.stringify(d2) !== JSON.stringify(J.d) || JSON.stringify(e2) !== JSON.stringify(J.e) || JSON.stringify(f2) !== JSON.stringify(J.f))
+        bad.push('⑧ いまの html で (d)(e)(f) を引き直すと正本と違う');
+      cases.push(`ページ vs node ${J.pageVsNode.bitIdentical}/${J.pageVsNode.n} ビット一致・(d)(e)(f) の引き直しは正本と同じ`);
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const at = P.indexOf('〔第279便c');
+      const whole = at >= 0 ? P.slice(at, at + 60000) : '';
+      const cut = whole.indexOf('**言わないこと。**');
+      const sec = cut >= 0 ? whole.slice(0, cut) : whole;
+      if (at < 0) bad.push('⑨ PHYSICS に〔第279便c〕節が無い');
+      else {
+        if (cut < 0) bad.push('⑨ PHYSICS〔第279便c〕に「言わないこと。」の宣言が無い');
+        const want = [sci(T.a.uRelMax, 1), sci(T.a.gradUTermRelMax, 1), sci(T.a.dUdtTermRelMax, 1), sci(T.b.advected.coordAccelRelMax, 1),
+          sci(T.b.fieldTimeOnly.coordAccelRelMin, 2), sci(T.c.dHrelMax[0], 2), sci(T.c.dHrelMax[1], 2), T.c.ratio.toFixed(2)];
+        const miss = want.filter((w) => sec.indexOf(w) < 0);
+        if (miss.length) bad.push('⑨ PHYSICS〔第279便c〕に検算表の数が無い: ' + miss.join(','));
+        for (const q of ['慣性を導出した', '運動量則を導出した', '背景を無視してよいことを証明した', '背景を較正した', '閾値を採用した', '新発見'])
+          if (sec.indexOf(q) >= 0) bad.push(`⑨ PHYSICS〔第279便c〕に「${q}」が出ている`);
+      }
+      cases.push('PHYSICS〔第279便c〕と一致(禁止語なし)');
+    } catch (e) { bad.push('正本 JSON/純関数が読めない: ' + String(e).slice(0, 90)); }
+    add('docs.bgCompose', bad.length === 0,
+      `**背景の閾値なし合成と速度分解 RHS の検算**(第279便c・原仮定者の裁定〔第69報〕「背景複素決定力は閾値で無視せず`
+      + `適切に導入する/厳密には空間に対する加速と空間による引きずり(座標変換)は区別する」): ${cases.join(' / ')} —— `
+      + `W=W_loc+W_bg・A=A_loc+A_bg・u=A/W(**閾値なし・D₀ なし・自己項なし**)と ẋ=v+u・v̇=a_space−Jᵀv・`
+      + `ẍ=a_space+∂ₜu+Ju+(J−Jᵀ)v を**別々に**返す。**慣性は導出していない**(構成則の候補の検算である)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 0a3z11) 第279便c(統括の読み R63 ④・AM4/AM13): docs.bgbudget2-sync ----
+// ----   **新契約での背景の誤差予算**の正本 `tests/out/bgbudget2-w279c.json` を PHYSICS と突き合わせる。
+// ----   固定するのは 9 点(**どれも「背景を無視してよい」の判定ではない —— 閾値は置いていない**):
+// ----     ① `meta.targetSha256` が一致・入力(事前予測表・第278便d の一致試験の正本)が刻まれている。
+// ----     ② 3 行(❄️📻 + 🌘 は参考行)× 模型 12 × 刻み N・2N・4N。
+// ----     ③ mutual:0 の明示天体(EXP0)の ON/OFF 差は 3 行とも全刻みで**厳密に 0**(静止した外部源は u=0)・
+// ----        慣性系の背景(BN_*)も厳密に 0。
+// ----     ④ ❄️: comoving の背景(エンジンと同じ形 BC_SH)の ON/OFF 差が 1e−5 s 以下(刻みの幅と同程度)・
+// ----        値を時間で線形に外挿する形(BC_TL)は 1e−2 s 級に立つ(**採らない形の実測**)。
+// ----     ⑤ ❄️: 背景合成(comoving)と明示天体の食い違いは T なしで 3e−3〜4e−3 s(ニュートンの潮汐)・
+// ----        backgroundTidal を足すと 1e−5 s 以下。
+// ----     ⑥ mutual:1: ❄️ は EXP1・BC1 とも ON 走行が 1 公転で束縛を失う(**差として読まない**)。
+// ----     ⑦ エンジン(診断コピー・刻み 2 段): λ_PN=0 の ON/OFF 差は ❄️📻 とも 1e−5 s 以下・λ_PN=1 では立つ
+// ----        (❄️ 1e−4〜1e−2 s・📻 1e−3〜1e−1 s —— **1PN が慣性速度 v=ẋ−u を読む**)・mutual:1 は壊れる。
+// ----     ⑧ 第278便d の項(凍結する参照系 2.148 s 等)が並記されている。
+// ----     ⑨ PHYSICS〔第279便c〕に表の数があり、「言わないこと。」の前に禁止語が無い。
+// ----   **root は SKIP**(対象 html に MESH_VEL_KEY が無い世代)。
+{
+  const bad = [];
+  const cases = [];
+  const htmlT = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!TARGET.startsWith('beta/') || htmlT.indexOf('MESH_VEL_KEY') < 0) {
+    console.log('SKIP docs.bgbudget2-sync(第279便c 未適用 — 対象に MESH_VEL_KEY なし: ' + TARGET + ')');
+  } else {
+    const SUP = { '-': '⁻', '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹' };
+    const sci = (x, d) => { const [m, e] = Math.abs(Number(x)).toExponential(d).split('e'); return m + '×10' + String(Number(e)).split('').map((c) => SUP[c]).join(''); };
+    try {
+      const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'bgbudget2-w279c.json'), 'utf8');
+      const J = JSON.parse(text);
+      const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)');
+      else cases.push('html の SHA-256 一致');
+      const ins = (J.meta.inputs || []).map((z) => z.file);
+      for (const f of ['tests/out/bgpredict-w276a.json', 'tests/out/bgequiv-w278d.json']) if (ins.indexOf(f) < 0) bad.push('① 入力に ' + f + ' が無い');
+      const S = (J.samples || []).filter((z) => !z.skipped);
+      if (S.length !== 3) bad.push(`② 行が 3 本でない(${S.length})`);
+      for (const s of S) {
+        if (!Array.isArray(s.onoff) || s.onoff.length !== 12) bad.push(`② ${s.id} の模型が 12 でない`);
+        if (!(s.steps.length === 3 && s.steps[1] === 2 * s.steps[0] && s.steps[2] === 4 * s.steps[0])) bad.push(`② ${s.id} の刻みが N・2N・4N でない`);
+        const O = (k) => s.onoff.find((z) => z.key === k);
+        for (const k of ['EXP0', 'BN_FF', 'BN_SH', 'BNT_SH'])
+          if (!O(k) || O(k).dPhaseTimeS.values.some((v) => v !== 0) || O(k).dPos.values.some((v) => v !== 0)) bad.push(`③ ${s.id} の ${k} の ON/OFF 差が厳密に 0 でない`);
+      }
+      cases.push(`3 行 × 模型 12 × 刻み ${S.length ? S[0].steps.join('/') : '—'} 步・mutual:0 の明示天体と慣性系の背景は ON/OFF 差が厳密に 0`);
+      const pc = S.find((z) => z.id === 'plutoCharonReal');
+      let want = [];
+      if (!pc) bad.push('④ ❄️ の行が無い');
+      else {
+        const O = (k) => pc.onoff.find((z) => z.key === k);
+        const sh = O('BC_SH').dPhaseTimeS.values[2], tl = O('BC_TL').dPhaseTimeS.values[2];
+        if (!(Math.abs(sh) <= 1e-5)) bad.push(`④ ❄️ BC_SH の ON/OFF 差が 1e−5 s を超えた(${sh})`);
+        if (!(Math.abs(tl) >= 1e-2 && Math.abs(tl) <= 1e-1)) bad.push(`④ ❄️ BC_TL(時間の線形外挿)の実測が変わった(${tl})`);
+        const noT = pc.tidal.withoutT.values[2], withT = pc.tidal.withT.values[2];
+        if (!(Math.abs(noT) >= 3e-3 && Math.abs(noT) <= 4e-3)) bad.push(`⑤ ❄️ T なしの食い違いが 3e−3〜4e−3 s でない(${noT})`);
+        if (!(Math.abs(withT) <= 1e-5)) bad.push(`⑤ ❄️ T ありの食い違いが 1e−5 s を超えた(${withT})`);
+        for (const k of ['EXP1', 'BC1_SH']) if (O(k).onBound !== false) bad.push(`⑥ ❄️ ${k} が束縛を保った(実測が変わった)`);
+        const it = (k) => pc.items.find((z) => z.key === k);
+        if (!(it('frameOfFreeze').w278d && Math.abs(it('frameOfFreeze').w278d.dPhaseTimeS4N - 2.148) < 1e-3)) bad.push('⑧ 第278便d の凍結する参照系 2.148 s が並記されていない');
+        want = [sci(sh, 2), sci(tl, 3), sci(noT, 3), sci(withT, 2), sci(it('frameOfFreeze').dPhaseTimeS.values[2], 2),
+          sci(it('valueShift1').dPhaseTimeS.values[2], 2), O('EXP1').initDet.toFixed(4)];
+        cases.push(`❄️ BC_SH ${sh.toExponential(2)} s・BC_TL ${tl.toExponential(3)} s・T なし/あり ${noT.toExponential(3)}/${withT.toExponential(2)} s・mutual:1 は束縛を失う(行列式 ${O('EXP1').initDet.toFixed(4)})`);
+      }
+      const eng = J.engine || [];
+      if (eng.length !== 2) bad.push(`⑦ エンジンの行が 2 本でない(${eng.length})`);
+      for (const g of eng) {
+        if (!(g.on0noPN.every((z) => z && Math.abs(z.dPhaseTimeS) <= 1e-5))) bad.push(`⑦ ${g.id} の λ_PN=0 の ON/OFF 差が 1e−5 s を超えた`);
+        const lo = g.id === 'plutoCharonReal' ? 1e-4 : 1e-3, hi = g.id === 'plutoCharonReal' ? 1e-2 : 1e-1;
+        if (!(g.on0.every((z) => z && Math.abs(z.dPhaseTimeS) >= lo && Math.abs(z.dPhaseTimeS) <= hi))) bad.push(`⑦ ${g.id} の λ_PN=1 の ON/OFF 差の実測が変わった`);
+        if (!g.on1Broken.every((z) => z === true)) bad.push(`⑦ ${g.id} の mutual:1 が壊れない(実測が変わった)`);
+        want.push(sci(g.on0[1].dPhaseTimeS, 3));
+      }
+      cases.push(`エンジン: λ_PN=0 の ON/OFF 差 ${eng.map((g) => g.emoji + ' ' + g.on0noPN.map((z) => z.dPhaseTimeS.toExponential(1)).join('/')).join('・')} s・`
+        + `λ_PN=1 ${eng.map((g) => g.emoji + ' ' + g.on0.map((z) => z.dPhaseTimeS.toExponential(3)).join('/')).join('・')} s`);
+      if (!(J.meta.notClaim || []).length) bad.push('⑨ meta.notClaim が無い');
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const at = P.indexOf('〔第279便c');
+      const whole = at >= 0 ? P.slice(at, at + 60000) : '';
+      const cut = whole.indexOf('**言わないこと。**');
+      const sec = cut >= 0 ? whole.slice(0, cut) : whole;
+      if (at < 0) bad.push('⑨ PHYSICS に〔第279便c〕節が無い');
+      else {
+        const miss = want.filter((w) => sec.indexOf(w) < 0);
+        if (miss.length) bad.push('⑨ PHYSICS〔第279便c〕に予算表の数が無い: ' + miss.join(','));
+        for (const q of ['背景を無視してよいことを証明した', '背景を較正した', '閾値を採用した', '慣性を導出した', '無視できる'])
+          if (sec.indexOf(q) >= 0) bad.push(`⑨ PHYSICS〔第279便c〕に「${q}」が出ている`);
+      }
+      cases.push('PHYSICS〔第279便c〕と一致(禁止語なし)');
+    } catch (e) { bad.push('正本 JSON が読めない: ' + String(e).slice(0, 90)); }
+    add('docs.bgbudget2-sync', bad.length === 0,
+      `**新契約での背景の誤差予算**(第279便c・統括の読み R63 ④「誤差予算をサンプルごとに出す(❄️・📻 で ON/OFF 差と刻み収束 2 段・`
+      + `🌘 は最初の対象にしない)」): ${cases.join(' / ')} —— **閾値は置いていない**(差と収束を並べるだけ)。`
+      + `**qLock は再 fit していない**(診断コピーの q は宣言値のまま)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
@@ -33870,6 +34058,318 @@ if (!FAST) {
   }
 }
 
+// ---- 7n″) 第279便c(原仮定者の裁定〔第69報〕・統括の読み R62/R63 ⑤): preset.meshVelocity ----
+// ----   **複素決定力による座標変換**(ẋ=v+u・v̇=a_space−Jᵀv)の opt-in 鍵 `physics.meshVelocity` と外部ステップ
+// ----   `dfmMeshVelocityStep`。固定するのは 8 点:
+// ----     ① 受理/拒否(law・field・mutual 0/1〔分数は拒否〕・frame の必須鍵と値域・external の形・知らない鍵)
+// ----     ② 検証器ごしの相互検査: kFrame>0(既定 kFrame=1 を含む)・geoPN=3・spaceMesh・calibration・single 以外・
+// ----        backgroundComplex の未宣言/sources・frame の欠落/frame の不一致・external の範囲外 を拒否。
+// ----        未宣言は physics に入らない(署名不変)・宣言は冪等・宣言すると presetSig が変わる
+// ----     ③ **内蔵 133 本の宣言 0 本**・読み込んだ全内蔵で `S.hasMeshVelocity` が false
+// ----     ④ backgroundComplex(sources/frame つき)を宣言しても meshVelocity が無ければ**力学は 1 bit も動かない**
+// ----     ⑤ 一様定常な背景(u≡U・∇u=0・∂ₜu=0)の自由粒子: v は 1 bit も動かず、位置は (v+U)t だけ進む
+// ----     ⑥ エンジンの 1 步 = 「外部ステップを切った 1 步」+ 純関数の場から作った x+uΔt・v+(−Jᵀv)Δt(**ビット一致**)
+// ----     ⑦ **読み口の監査**(`docs.d0sites-sync` ⑤ と同型): 背景鍵を読む関数は検証器・検証器の分岐・定数のほかは
+// ----        `meshVelocityPrepare` だけで、その関数は meshVelocity が未宣言なら背景鍵に触れる前に戻る。
+// ----        `dfmMeshVelocityStep(` の呼び出しはすべて `S.hasMeshVelocity` の真偽値の下にある
+// ----     ⑧ mutual:0 の field:"explicit" で外部の明示天体が静止していれば移送は 0(u=0)
+// ----   **root は SKIP**(世代判定は HP.validateMeshVelocity の有無)。
+{
+  const mvGen = await page.evaluate(() => !!(window.HP && typeof HP.validateMeshVelocity === 'function'));
+  if (!mvGen) {
+    console.log('SKIP preset.meshVelocity(第279便c 未適用 — 対象に MESH_VEL_KEY なし・root は v1.44.0 RC)');
+  } else {
+    const bad = [];
+    const cases = [];
+    const FR = { origin: 'barycenter', epoch: 't0', rotation: 'none', translation: 'comoving' };
+    const MV = { law: 'vMinusU', field: 'backgroundComplex', mutual: 0, frame: FR };
+    const mod = (k, v) => { const o = JSON.parse(JSON.stringify(MV)); if (v === undefined) delete o[k]; else o[k] = v; return o; };
+    const frm = (k, v) => { const o = JSON.parse(JSON.stringify(MV)); if (v === undefined) delete o.frame[k]; else o.frame[k] = v; return o; };
+    const TC = [
+      ['ok', MV, true], ['ok1', mod('mutual', 1), true], ['none', null, true],
+      ['okExplicit', { law: 'vMinusU', field: 'explicit', mutual: 0, frame: FR, external: ['body:2'] }, true],
+      ['badLaw', mod('law', 'E6'), false], ['badField', mod('field', 'background'), false],
+      ['mutualHalf', mod('mutual', 0.5), false], ['mutualStr', mod('mutual', '1'), false], ['noMutual', mod('mutual'), false],
+      ['noFrame', mod('frame'), false], ['frameNoEpoch', frm('epoch'), false], ['frameRot', frm('rotation', 'corotating'), false],
+      ['frameTrans', frm('translation', 'accelerating'), false], ['frameOrigin', frm('origin', 'sun'), false],
+      ['frameExtra', Object.assign(JSON.parse(JSON.stringify(MV)), { frame: Object.assign({}, FR, { omega: 0 }) }), false],
+      ['unknownKey', Object.assign(JSON.parse(JSON.stringify(MV)), { kappa: 1 }), false],
+      ['explicitNoExt', { law: 'vMinusU', field: 'explicit', mutual: 0, frame: FR }, false],
+      ['explicitBadExt', { law: 'vMinusU', field: 'explicit', mutual: 0, frame: FR, external: ['sun'] }, false],
+      ['explicitDupExt', { law: 'vMinusU', field: 'explicit', mutual: 0, frame: FR, external: ['body:1', 'body:1'] }, false],
+      ['bgWithExt', Object.assign(JSON.parse(JSON.stringify(MV)), { external: ['body:1'] }), false],
+      ['array', [MV], false],
+    ];
+    const r = await page.evaluate(({ TCa, MV, FR }) => {
+      const res = {};
+      res.cases = TCa.map(([n, v]) => { const z = HP.validateMeshVelocity(v); return [n, z.ok]; });
+      res.key = HP.MESH_VEL_KEY; res.version = HP.MESH_VEL_STEP_VERSION;
+      const BG = { background: 'declared', note: 'QA', W0: 0.5, A0: [0.15, 0], gradW: [0.001, 0], gradA: [0.0003, 0, 0.0002, 0],
+        dWdt: 0, dAdt: [0, 0], sources: [{ id: 'sun', kind: 'body', excludedExplicit: true }], frame: FR };
+      const B3 = [{ type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false },
+        { type: 'single', m: 1, x: 120, y: 0, vx: 0, vy: 0.9, spin: 0, pinned: false },
+        { type: 'single', m: 1, x: -90, y: 40, vx: 0.1, vy: -0.8, spin: 0, pinned: false }];
+      const mk = (phy, extra) => Object.assign({ name: 't', description: 'd', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+        physics: phy, bodies: JSON.parse(JSON.stringify(B3)) }, extra || {});
+      const V = (phy, extra) => HP.validatePreset(mk(phy, extra));
+      const base = { D0: 0.006, kFrame: 0 };
+      const X = {
+        ok: V(Object.assign({}, base, { backgroundComplex: BG, meshVelocity: MV })).ok,
+        okExplicit: V(Object.assign({}, base, { meshVelocity: { law: 'vMinusU', field: 'explicit', mutual: 1, frame: FR, external: ['body:0'] } })).ok,
+        defaultKFrame: V({ D0: 0.006, backgroundComplex: BG, meshVelocity: MV }).ok,
+        kFrame1: V(Object.assign({}, base, { kFrame: 1, backgroundComplex: BG, meshVelocity: MV })).ok,
+        geoPN3: V(Object.assign({}, base, { geoPN: 3, spaceMesh: { mode: 'toy', lawVersion: 'scalar', inertia: false }, backgroundComplex: BG, meshVelocity: MV })).ok,
+        spaceMesh: V(Object.assign({}, base, { spaceMesh: { mode: 'toy', gravity: true }, backgroundComplex: BG, meshVelocity: MV })).ok,
+        calibration: V(Object.assign({}, base, { backgroundComplex: BG, meshVelocity: MV }), { sampleClass: 'calibration' }).ok,
+        noBg: V(Object.assign({}, base, { meshVelocity: MV })).ok,
+        bgNoSources: V(Object.assign({}, base, { backgroundComplex: Object.assign({}, BG, { sources: undefined }), meshVelocity: MV })).ok,
+        bgNoFrame: V(Object.assign({}, base, { backgroundComplex: Object.assign({}, BG, { frame: undefined }), meshVelocity: MV })).ok,
+        frameMismatch: V(Object.assign({}, base, { backgroundComplex: Object.assign({}, BG, { frame: Object.assign({}, FR, { translation: 'none' }) }), meshVelocity: MV })).ok,
+        extOutOfRange: V(Object.assign({}, base, { meshVelocity: { law: 'vMinusU', field: 'explicit', mutual: 0, frame: FR, external: ['body:7'] } })).ok,
+        extAll: V(Object.assign({}, base, { meshVelocity: { law: 'vMinusU', field: 'explicit', mutual: 0, frame: FR, external: ['body:0', 'body:1', 'body:2'] } })).ok,
+        originOutOfRange: V(Object.assign({}, base, { meshVelocity: { law: 'vMinusU', field: 'explicit', mutual: 0, frame: Object.assign({}, FR, { origin: 'body:9' }), external: ['body:0'] } })).ok,
+      };
+      const disk = mk(Object.assign({}, base, { backgroundComplex: BG, meshVelocity: MV }));
+      disk.bodies[2] = { type: 'disk', m: 1, x: -90, y: 40, vx: 0, vy: 0, spin: 0, pinned: false, n: 8, radius: 5 };
+      X.disk = HP.validatePreset(disk).ok;
+      res.cross = X;
+      const plain = V(base), decl = V(Object.assign({}, base, { backgroundComplex: BG, meshVelocity: MV }));
+      res.preset = { plainHasKey: plain.ok ? plain.preset.physics.meshVelocity !== undefined : null,
+        idempotent: decl.ok ? JSON.stringify(HP.validatePreset(JSON.parse(JSON.stringify(decl.preset))).preset.physics.meshVelocity)
+          === JSON.stringify(decl.preset.physics.meshVelocity) : null,
+        sigDiff: presetSig(mk(Object.assign({}, base, { backgroundComplex: BG }))) !== presetSig(mk(Object.assign({}, base, { backgroundComplex: BG, meshVelocity: MV }))) };
+      // ③ 内蔵
+      const bis = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
+      res.nBuiltins = bis.length;
+      res.declaredBuiltins = bis.filter((p) => p.physics && p.physics.meshVelocity !== undefined).map((p) => p.id);
+      const prevId = HP.currentPreset() ? HP.currentPreset().id : null;
+      res.hasMVBuiltins = [];
+      for (const p of bis) { HP.loadPreset(p.id, false); if (HP.sim.hasMeshVelocity !== false) res.hasMVBuiltins.push(p.id); }
+      // ④ 背景だけ(sources/frame つき)は力学に効かない
+      const run = (phy, steps) => {
+        const v2 = HP.validatePreset(Object.assign(mk(phy), { seed: 7 }));
+        HP.sim.build(v2.preset);
+        const S = HP.sim;
+        for (let i = 0; i < steps; i++) S.step(0.016);
+        const o = [];
+        for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i], S.spin[i]);
+        return o;
+      };
+      const a0 = run(base, 2000), a1 = run(Object.assign({}, base, { backgroundComplex: BG }), 2000);
+      res.inert = { same: a0.length === a1.length && a0.every((z, i) => z === a1[i]), n: a0.length };
+      // ⑤ 一様定常な背景の自由粒子(重力 0・1 体・倍精度の状態)
+      const U = [0.25, -0.125], W0 = 0.5, gW = [0.0625, 0.03125];      // 2 の冪(u=A/W と ∇u が丸めなしで 0 になる値)
+      const BGU = { background: 'declared', note: 'QA 一様', W0, A0: [W0 * U[0], W0 * U[1]], gradW: gW,
+        gradA: [U[0] * gW[0], U[0] * gW[1], U[1] * gW[0], U[1] * gW[1]], dWdt: 0, dAdt: [0, 0],
+        sources: [{ id: 'bg', kind: 'field', excludedExplicit: true }], frame: FR };
+      const vu = HP.validatePreset({ name: 'u', description: 'd', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+        physics: { G: 0, D0: 0.006, kFrame: 0, stateCarry: 'double', backgroundComplex: BGU, meshVelocity: MV },
+        bodies: [{ type: 'single', m: 1, x: 3, y: -2, vx: 0.05, vy: 0.07, spin: 0, pinned: false }] });
+      if (vu.ok) {
+        HP.sim.build(vu.preset);
+        const S = HP.sim, x0 = S.x[0], y0 = S.y[0], vx0 = S.vx[0], vy0 = S.vy[0];
+        const n = 1000, dt = 0.016;
+        for (let i = 0; i < n; i++) S.step(dt);
+        const ex = x0 + (vx0 + U[0]) * n * dt, ey = y0 + (vy0 + U[1]) * n * dt;
+        res.uniform = { ok: true, has: S.hasMeshVelocity, vSame: S.vx[0] === vx0 && S.vy[0] === vy0,
+          posRel: Math.hypot(S.x[0] - ex, S.y[0] - ey) / Math.hypot(ex - x0, ey - y0), kick: S.meshVelKickMax, n: S.meshVelN };
+      } else res.uniform = { ok: false, err: vu.errors };
+      // ⑥ 1 步のビット一致(3 体・mutual:1・背景つき)
+      const MV1 = Object.assign({}, MV, { mutual: 1 });
+      const vp = HP.validatePreset(Object.assign(mk(Object.assign({}, base, { stateCarry: 'double', backgroundComplex: BG, meshVelocity: MV1 })), { seed: 7 }));
+      if (vp.ok) {
+        const dt = 0.016;
+        HP.sim.build(vp.preset);
+        let S = HP.sim;
+        for (let i = 0; i < 50; i++) S.step(dt);
+        const snap = { x: Array.from(S.x), y: Array.from(S.y), vx: Array.from(S.vx), vy: Array.from(S.vy), spin: Array.from(S.spin), t: S.t };
+        // A: 外部ステップを切って 1 步 → 純関数の場から期待値を作る
+        S.hasMeshVelocity = false; S.step(dt); S.hasMeshVelocity = true;
+        const src = [];
+        for (let j = 0; j < S.n; j++) src.push({ m: S.m[j], x: S.x[j], y: S.y[j], vx: S.vx[j], vy: S.vy[j], ax: S.ax[j], ay: S.ay[j] });
+        const O = HP.meshVelocityOrigin(S);
+        const exp = [];
+        for (let i = 0; i < S.n; i++) {
+          const f = HP.dfmMeshVelocityFieldAt(S, i, src, O);
+          if (!f || !f.ok || f.defined !== true) { exp.push([src[i].x, src[i].y, src[i].vx, src[i].vy]); continue; }   // 外部ステップと同じ扱い
+          const rr = HP.dfmMeshVelocityRHS(f, [src[i].vx, src[i].vy], [0, 0]);
+          exp.push([src[i].x + rr.transport[0] * dt, src[i].y + rr.transport[1] * dt, src[i].vx + rr.canonical[0] * dt, src[i].vy + rr.canonical[1] * dt]);
+        }
+        // B: 同じ状態から通常の 1 步
+        HP.sim.build(vp.preset); S = HP.sim;
+        for (let i = 0; i < 50; i++) S.step(dt);
+        const same0 = S.x.every((z, i) => z === snap.x[i]) && S.vx.every((z, i) => z === snap.vx[i]);
+        S.step(dt);
+        let nBit = 0, maxAbs = 0;
+        for (let i = 0; i < S.n; i++) {
+          const got = [S.x[i], S.y[i], S.vx[i], S.vy[i]];
+          if (got.every((z, k) => z === exp[i][k])) nBit++;
+          for (let k = 0; k < 4; k++) maxAbs = Math.max(maxAbs, Math.abs(got[k] - exp[i][k]));
+        }
+        res.oneStep = { ok: true, reproducible: same0, nBit, n: S.n, maxAbs, chi: [S.meshVelChiMin, S.meshVelChiMax],
+          bad: S.meshVelBad, undef: S.meshVelUndef, kick: S.meshVelKickMax };
+      } else res.oneStep = { ok: false, err: vp.errors };
+      // ⑧ explicit・mutual:0・静止した外部天体 → u=0
+      const ve = HP.validatePreset({ name: 'e', description: 'd', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+        physics: { G: 0, D0: 0.006, kFrame: 0, stateCarry: 'double', meshVelocity: { law: 'vMinusU', field: 'explicit', mutual: 0, frame: FR, external: ['body:0'] } },
+        bodies: [{ type: 'single', m: 50, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false },
+          { type: 'single', m: 1, x: 10, y: 0, vx: 0, vy: 0.3, spin: 0, pinned: false }] });
+      if (ve.ok) {
+        HP.sim.build(ve.preset);
+        const f = HP.dfmMeshVelocityFieldAt(HP.sim, 1);
+        const f0 = HP.dfmMeshVelocityFieldAt(HP.sim, 0);
+        res.explicitStatic = { u: f && f.u, defined0: f0 && f0.defined };
+      } else res.explicitStatic = { err: ve.errors };
+      if (prevId) { try { HP.loadPreset(prevId, false); } catch (e) { /* 表示の戻しだけ */ } }
+      return res;
+    }, { TCa: TC, MV, FR });
+    for (let i = 0; i < TC.length; i++) if (r.cases[i][1] !== TC[i][2]) bad.push(`① ${TC[i][0]}: 受理=${r.cases[i][1]}(期待 ${TC[i][2]})`);
+    cases.push(`受理/拒否 ${TC.length} 件が期待どおり(${r.version})`);
+    const X = r.cross;
+    const wantX = { ok: true, okExplicit: true, defaultKFrame: false, kFrame1: false, geoPN3: false, spaceMesh: false, calibration: false,
+      noBg: false, bgNoSources: false, bgNoFrame: false, frameMismatch: false, extOutOfRange: false, extAll: false, originOutOfRange: false, disk: false };
+    for (const [k, w] of Object.entries(wantX)) if (X[k] !== w) bad.push(`② ${k}: 受理=${X[k]}(期待 ${w})`);
+    if (r.preset.plainHasKey !== false || r.preset.idempotent !== true || r.preset.sigDiff !== true)
+      bad.push('② 検証器ごしの契約が崩れた: ' + JSON.stringify(r.preset));
+    cases.push(`相互検査 ${Object.keys(wantX).length} 件(kFrame>0〔既定 1 を含む〕・geoPN=3・spaceMesh・calibration・disk・背景/源分割/凍結参照系の欠落・frame 不一致・external 範囲外を拒否)・未宣言は physics に入らない・冪等・署名が変わる=${r.preset.sigDiff}`);
+    if (r.declaredBuiltins.length !== 0) bad.push('③ 内蔵が宣言している: ' + r.declaredBuiltins.join(','));
+    if (r.hasMVBuiltins.length !== 0) bad.push('③ 内蔵で hasMeshVelocity が立った: ' + r.hasMVBuiltins.join(','));
+    cases.push(`**内蔵 ${r.nBuiltins} 本の宣言 ${r.declaredBuiltins.length} 本**・読み込んで hasMeshVelocity が立った本 ${r.hasMVBuiltins.length}`);
+    if (r.inert.same !== true) bad.push('④ 背景の宣言だけで力学が動いた');
+    cases.push(`背景(sources/frame つき)だけでは力学に 1 bit も効かない=${r.inert.same}(3 体 2000 步・${r.inert.n} 量)`);
+    const Uu = r.uniform;
+    if (!(Uu.ok && Uu.has && Uu.vSame && Uu.posRel <= 1e-12 && Uu.kick === 0))
+      bad.push('⑤ 一様定常な背景で v が動いた/位置が (v+U)t でない: ' + JSON.stringify(Uu).slice(0, 160));
+    cases.push(`一様定常な背景: v は不変=${Uu.vSame}・位置の相対差 ${Uu.posRel !== undefined ? Uu.posRel.toExponential(1) : '—'}・正準項 0=${Uu.kick === 0}`);
+    const O1 = r.oneStep;
+    if (!(O1.ok && O1.reproducible && O1.nBit === O1.n && O1.bad === 0 && O1.kick > 0)) bad.push('⑥ エンジンの 1 步が純関数の場とビット一致しない: ' + JSON.stringify(O1).slice(0, 160));
+    cases.push(`エンジンの 1 步 = 外部ステップを切った 1 步 + 純関数の場(ビット一致 ${O1.nBit}/${O1.n}・χ ${O1.chi ? O1.chi.map((z) => Number(z).toExponential(2)).join('〜') : '—'})`);
+    const ES = r.explicitStatic;
+    if (!(ES.u && ES.u[0] === 0 && ES.u[1] === 0 && ES.defined0 === false)) bad.push('⑧ 静止した外部天体で u≠0 / 外部天体自身の場が定義された: ' + JSON.stringify(ES));
+    cases.push('field:"explicit"・mutual:0 で静止した外部天体 → u=0・外部天体自身は未定義(移送なし)');
+    // ⑦ 読み口の監査
+    try {
+      const A = await import('file://' + path.join(ROOT, 'tests', 'lib-w278d-readaudit.mjs'));
+      const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+      const au = A.auditTokenSites(html, /\b(BG_COMPLEX_[A-Z_]+|validateBackgroundComplex|backgroundComplex)\b/g,
+        ['(top-level)', 'validateBackgroundComplex', 'validatePreset', 'meshVelocityPrepare']);
+      if (!au.selfCheck.ok) bad.push('⑦ 潰しの自己検査が通らない');
+      if (au.outsideAllowed.length) bad.push('⑦ 検証器と宣言した外部ステップの外から背景鍵が読まれている: ' + au.outsideAllowed.join(','));
+      const st = A.stripJs(html);
+      const fi = st.indexOf('function meshVelocityPrepare(');
+      const body = fi >= 0 ? st.slice(fi, st.indexOf('\nfunction ', fi + 10)) : '';
+      const iGuard = body.indexOf('return false;'), iRead = body.indexOf('BG_COMPLEX_KEY');
+      if (!(iGuard > 0 && iRead > iGuard)) bad.push('⑦ meshVelocityPrepare が未宣言の判定より前に背景鍵を読む');
+      const calls = st.split('\n').filter((l) => /dfmMeshVelocityStep\(/.test(l) && !/function dfmMeshVelocityStep\(/.test(l));
+      if (!calls.length || calls.some((l) => l.indexOf('S.hasMeshVelocity') < 0)) bad.push('⑦ dfmMeshVelocityStep の呼び出しに真偽値の門が無い行がある');
+      const preps = st.split('\n').filter((l) => /meshVelocityPrepare\(/.test(l) && !/function meshVelocityPrepare\(/.test(l));
+      cases.push(`読み口: 背景鍵の出現 ${au.sites.length} 箇所・関数 ${au.functions.join('/')}・許可の外 ${au.outsideAllowed.length}・`
+        + `外部ステップの呼び出し ${calls.length} 行はすべて真偽値の下・準備の呼び出し ${preps.length} 行(build)`);
+    } catch (e) { bad.push('⑦ 読み口監査が走らない: ' + String(e).slice(0, 80)); }
+    add('preset.meshVelocity', bad.length === 0,
+      `**複素決定力による座標変換の opt-in 経路**(第279便c・原仮定者の裁定〔第69報〕「慣性速度は vx,vy で扱って構わない・`
+      + `厳密には空間に対する加速と空間による引きずり(座標変換)は区別する」・統括の読み R63 ⑤): ${cases.join(' / ')} —— `
+      + `**宣言した本だけが背景を読む**(内蔵 133 本は宣言 0 → 既定経路は 1 bit 不変)。`
+      + `**mutual は相対作用の引きずりの端点 0/1 だけ**(分数を法則にしない)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 7n‴) 第279便c(統括の読み R63 ①②): preset.bgSources ----
+// ----   `physics.backgroundComplex` の任意鍵 **sources**(源の分割 —— 明示天体と背景の排他)と
+// ----   **frame**(凍結参照系)。固定するのは 6 点:
+// ----     ① sources の受理/拒否(1〜16 件・id の重複・kind・excludedExplicit の型・知らない鍵・
+// ----        excludedExplicit:true で "body:<n>" の id〔同じ源を明示天体と背景の両方に入れない〕・
+// ----        excludedExplicit:false で body 以外の id)
+// ----     ② frame の受理/拒否(必須 4 鍵・origin・rotation は "none" だけ・translation・知らない鍵)
+// ----     ③ 検証器ごし: "body:<n>" が bodies の範囲外なら拒否(源の排他と原点)
+// ----     ④ **未宣言は従来と同じ正準形**(sources/frame の鍵を出さない —— 第276便a〜第278便d の宣言の署名は不変)・
+// ----        宣言すると presetSig が変わる・冪等
+// ----     ⑤ 内蔵の宣言 0 本
+// ----     ⑥ 宣言しても(meshVelocity が無ければ)力学に 1 bit も効かない —— preset.meshVelocity ④ と同じ走行を共有しない
+// ----        ので、ここでは受理契約だけを見る
+// ----   **root は SKIP**(世代判定は HP.validateBgSources の有無)。
+{
+  const bsGen = await page.evaluate(() => !!(window.HP && typeof HP.validateBgSources === 'function'));
+  if (!bsGen) {
+    console.log('SKIP preset.bgSources(第279便c 未適用 — 対象に validateBgSources なし・root は v1.44.0 RC)');
+  } else {
+    const bad = [];
+    const cases = [];
+    const r = await page.evaluate(() => {
+      const res = {};
+      const FR = { origin: 'barycenter', epoch: 'JD 2452600.5', rotation: 'none', translation: 'comoving' };
+      const BASE = { background: 'heliocentric', W0: 5.7e-9, A0: [2.7e-9, 0], gradW: [1e-12, 0], gradA: [1e-13, 0, 0, 0], dWdt: 0, dAdt: [0, 0] };
+      const S1 = [{ id: 'sun', kind: 'body', excludedExplicit: true }];
+      const V = (o) => HP.validateBackgroundComplex(o).ok;
+      const withS = (s) => Object.assign({}, BASE, { sources: s });
+      const withF = (f) => Object.assign({}, BASE, { frame: f });
+      res.src = {
+        ok: V(withS(S1)), okTwo: V(withS([{ id: 'sun', kind: 'body', excludedExplicit: true }, { id: 'body:1', kind: 'body', excludedExplicit: false }])),
+        okField: V(withS([{ id: 'galaxy-disk', kind: 'field', excludedExplicit: true }])),
+        empty: V(withS([])), notArray: V(withS({ id: 'sun' })), dup: V(withS([S1[0], S1[0]])),
+        badKind: V(withS([{ id: 'sun', kind: 'star', excludedExplicit: true }])),
+        noExcl: V(withS([{ id: 'sun', kind: 'body' }])), exclStr: V(withS([{ id: 'sun', kind: 'body', excludedExplicit: 'yes' }])),
+        extraKey: V(withS([{ id: 'sun', kind: 'body', excludedExplicit: true, W0: 1 }])),
+        bodyIdButBackground: V(withS([{ id: 'body:0', kind: 'body', excludedExplicit: true }])),
+        bodyPrefixButBackground: V(withS([{ id: 'body:x', kind: 'body', excludedExplicit: true }])),
+        explicitNotBody: V(withS([{ id: 'sun', kind: 'body', excludedExplicit: false }])),
+        explicitField: V(withS([{ id: 'body:0', kind: 'field', excludedExplicit: false }])),
+        longId: V(withS([{ id: 'x'.repeat(61), kind: 'body', excludedExplicit: true }])),
+        tooMany: V(withS(Array.from({ length: 17 }, (_, i) => ({ id: 's' + i, kind: 'body', excludedExplicit: true })))),
+      };
+      const fm = (k, v) => { const o = Object.assign({}, FR); if (v === undefined) delete o[k]; else o[k] = v; return o; };
+      res.frame = {
+        ok: V(withF(FR)), okNone: V(withF(fm('translation', 'none'))), okBody: V(withF(fm('origin', 'body:1'))),
+        noOrigin: V(withF(fm('origin'))), noEpoch: V(withF(fm('epoch'))), noRot: V(withF(fm('rotation'))), noTrans: V(withF(fm('translation'))),
+        badOrigin: V(withF(fm('origin', 'sun'))), rotating: V(withF(fm('rotation', 'corotating'))),
+        badTrans: V(withF(fm('translation', 'free-fall'))), emptyEpoch: V(withF(fm('epoch', ''))),
+        extraKey: V(withF(Object.assign({}, FR, { omega: 1 }))), notObject: V(withF('comoving')),
+      };
+      const mk = (bgc) => ({ name: 't', description: 'd', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+        physics: { D0: 0.006, backgroundComplex: bgc },
+        bodies: [{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false },
+          { type: 'single', m: 1, x: 50, y: 0, vx: 0, vy: 0.4, spin: 0, pinned: false }] });
+      res.preset = {
+        inRange: HP.validatePreset(mk(withS([{ id: 'body:1', kind: 'body', excludedExplicit: false }]))).ok,
+        outOfRange: HP.validatePreset(mk(withS([{ id: 'body:2', kind: 'body', excludedExplicit: false }]))).ok,
+        originIn: HP.validatePreset(mk(withF(fm('origin', 'body:0')))).ok,
+        originOut: HP.validatePreset(mk(withF(fm('origin', 'body:5')))).ok,
+      };
+      const plain = HP.validatePreset(mk(BASE)), decl = HP.validatePreset(mk(Object.assign({}, BASE, { sources: S1, frame: FR })));
+      res.canon = { plainKeys: plain.ok ? Object.keys(plain.preset.physics.backgroundComplex).sort().join(',') : null,
+        declKept: decl.ok ? JSON.stringify([decl.preset.physics.backgroundComplex.sources, decl.preset.physics.backgroundComplex.frame]) : null,
+        idempotent: decl.ok ? JSON.stringify(HP.validatePreset(JSON.parse(JSON.stringify(decl.preset))).preset.physics.backgroundComplex)
+          === JSON.stringify(decl.preset.physics.backgroundComplex) : null,
+        sigDiff: presetSig(mk(BASE)) !== presetSig(mk(Object.assign({}, BASE, { sources: S1, frame: FR }))) };
+      const bis = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
+      res.nBuiltins = bis.length;
+      res.declaredBuiltins = bis.filter((p) => p.physics && p.physics.backgroundComplex
+        && (p.physics.backgroundComplex.sources !== undefined || p.physics.backgroundComplex.frame !== undefined)).map((p) => p.id);
+      return res;
+    });
+    const WS = { ok: true, okTwo: true, okField: true, empty: false, notArray: false, dup: false, badKind: false, noExcl: false, exclStr: false,
+      extraKey: false, bodyIdButBackground: false, bodyPrefixButBackground: false, explicitNotBody: false, explicitField: false, longId: false, tooMany: false };
+    for (const [k, w] of Object.entries(WS)) if (r.src[k] !== w) bad.push(`① sources ${k}: 受理=${r.src[k]}(期待 ${w})`);
+    cases.push(`sources ${Object.keys(WS).length} 件(**excludedExplicit:true で "body:…" の id は拒否 —— 同じ源を明示天体と背景の両方に入れない**)`);
+    const WF = { ok: true, okNone: true, okBody: true, noOrigin: false, noEpoch: false, noRot: false, noTrans: false, badOrigin: false,
+      rotating: false, badTrans: false, emptyEpoch: false, extraKey: false, notObject: false };
+    for (const [k, w] of Object.entries(WF)) if (r.frame[k] !== w) bad.push(`② frame ${k}: 受理=${r.frame[k]}(期待 ${w})`);
+    cases.push(`frame ${Object.keys(WF).length} 件(必須 4 鍵・rotation は "none" だけ)`);
+    const WP = { inRange: true, outOfRange: false, originIn: true, originOut: false };
+    for (const [k, w] of Object.entries(WP)) if (r.preset[k] !== w) bad.push(`③ ${k}: 受理=${r.preset[k]}(期待 ${w})`);
+    cases.push('検証器ごし: body:<n> の範囲外は拒否(源と原点)');
+    if (r.canon.plainKeys !== 'A0,W0,background,dAdt,dWdt,gradA,gradW') bad.push('④ 未宣言の正準形が変わった: ' + r.canon.plainKeys);
+    if (!(r.canon.idempotent === true && r.canon.sigDiff === true && r.canon.declKept)) bad.push('④ 宣言の保存/冪等/署名が崩れた: ' + JSON.stringify(r.canon).slice(0, 120));
+    cases.push(`未宣言の正準形は従来どおり(${r.canon.plainKeys})・宣言は保存・冪等・署名が変わる=${r.canon.sigDiff}`);
+    if (r.declaredBuiltins.length !== 0) bad.push('⑤ 内蔵が sources/frame を宣言している: ' + r.declaredBuiltins.join(','));
+    cases.push(`**内蔵 ${r.nBuiltins} 本の宣言 ${r.declaredBuiltins.length} 本**`);
+    add('preset.bgSources', bad.length === 0,
+      `**背景の源の分割と凍結参照系の宣言**(第279便c・統括の読み R63 ①②「源の分割の宣言 → 凍結参照系の宣言」): `
+      + `${cases.join(' / ')} —— **太陽を明示源で入れたら背景側の太陽分を除く**(源 ID の排他)。`
+      + `凍結参照系は第278便d の +2.148 s(自由落下系と慣性系の凍結の差)を宣言で固定する口である`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
 // ---- 7o) 第27便: タイトルタップの説明パネル / A/B説明の折り畳み / 文字サイズ既定
 // ----     (beta 先行 — ルート対象時はスキップ)----
 // ----     旧④❄️改名検査(preset.snowline-name)は第37便 B2(原仮定者裁定)で snowline 自体を

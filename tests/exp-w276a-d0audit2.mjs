@@ -34,7 +34,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
 const OUT = path.join(ROOT, 'tests', 'out', 'd0sites-w276a.json');
-const HARNESS_VERSION = 'w276a-d0sites-1';
+const HARNESS_VERSION = 'w276a-d0sites-2';   // 第279便c: 背景鍵の読み口の契約を「宣言した外部ステップだけ」へ
 const TOKENS = ['D0pull', 'D0p', 'D0eff', 'D0Source', 'D0', 'frameWeightPow'];
 
 // ---------------------------------------------------------------- 潰し(コメント・文字列・正規表現)
@@ -246,8 +246,22 @@ for (let i = 0; i < lines.length; i++) {
   if (depth === 0) cur = null;
 }
 const bgcFns = [...new Set(bgcSites.map((z) => z.fn))].sort();
-const BGC_ALLOWED = ['(top-level)', 'validateBackgroundComplex', 'validatePreset'];
+// 第279便c(統括の読み R63 ⑤): 契約を「**宣言した外部ステップだけが読む**」へ更新 —— 検証器・検証器の分岐・定数の
+// ほかに許すのは、`physics.meshVelocity` を宣言した本の準備関数 `meshVelocityPrepare` だけ(宣言した読み口)。
+// その関数は meshVelocity が未宣言なら**背景鍵に触れる前に戻る**ことを潰した写しで確かめる(guardBeforeRead)。
+const BGC_READERS = ['meshVelocityPrepare'];
+const BGC_ALLOWED = ['(top-level)', 'validateBackgroundComplex', 'validatePreset'].concat(BGC_READERS);
 const bgcOutside = bgcFns.filter((f) => BGC_ALLOWED.indexOf(f) < 0);
+const bgcReadersFound = bgcFns.filter((f) => BGC_READERS.indexOf(f) >= 0);
+let bgcGuard = null;
+{
+  const fi = stripped.indexOf('function meshVelocityPrepare(');
+  if (fi >= 0) {
+    const body = stripped.slice(fi, stripped.indexOf('\nfunction ', fi + 10));
+    const iG = body.indexOf('return false;'), iR = body.indexOf('BG_COMPLEX_KEY');
+    bgcGuard = iG > 0 && iR > iG;
+  }
+}
 
 // ================================================================ ② ページ(R39: q は D₀ を読まない)
 const PW_DIR = process.env.PLAYWRIGHT_CORE_DIR || '/home/user/dfm-simulator';
@@ -318,7 +332,9 @@ const out = {
     rows },
   backgroundComplexKey: { sites: bgcSites.length, functions: bgcFns, allowed: BGC_ALLOWED,
     outsideAllowed: bgcOutside,
-    note: '**エンジンのどの経路も読まない**: 参照は検証器・検証器の分岐・定数・HP の書き出しだけである' },
+    readers: { declared: BGC_READERS, found: bgcReadersFound, guardBeforeRead: bgcGuard },
+    note: '**既定経路のどこも読まない**: 参照は検証器・検証器の分岐・定数・HP の書き出しと、'
+      + '第279便c の**宣言した外部ステップの準備** meshVelocityPrepare(meshVelocity を宣言した本だけ —— 未宣言は読む前に戻る)だけである' },
   qLock: { presets: Q_PRESETS, d0Values: Q_D0, rows: qProbe, sameAcrossD0: qSame,
     reads: 'R(支配源の半径)・M(質量)・G・cLight・基準距離 a(自由天体の距離の中央値)',
     note: 'q_exact は**有限参照点での LT 振幅の正規化規約**であって、環境から引きずり指数を'

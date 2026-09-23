@@ -2460,3 +2460,46 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 - 宣言した本では `physics.softening` の受理下限がこの値になる(**受理値・適用値・警告は `presetSig` に入る**)。
 - **内蔵の宣言**: **0 本**。
 - QA: **`preset.softeningFloor`**。
+
+## 11. 第279便c の宣言鍵(原仮定者の裁定〔第69報〕・統括の読み R62/R63・**SYSTEM_PROMPT には載せない**)
+
+本便が開けたのは **`physics.backgroundComplex` の任意鍵 2 つ**(`sources`・`frame`)と **`physics.meshVelocity`** である。
+**どれも `SYSTEM_PROMPT` の逐語ブロックには載せていない**(AI 生成には開放していない —— §5 の逐語ブロックは 1 バイトも変わっていない)。
+**未宣言はすべて正準形に出ない**ので、宣言していない本の `presetSig`・エクスポート JSON・600 步の状態は 1 bit も変わらない(内蔵 133 本の宣言 0)。
+
+### 11.1 `physics.backgroundComplex.sources` —— 源の分割(明示天体と背景の排他)
+
+- **正準形**: `[{id, kind:"body"|"field", excludedExplicit:true|false}, …]`(1〜16 件・`id` は 1〜60 字で重複不可・知らない鍵は拒否)。
+  - `excludedExplicit:true` … **背景だけが持つ源**(明示天体には置いていない)。**`id` に `"body:<n>"` は使えない**(明示天体の予約 —— 同じ源を明示天体と背景の両方に入れない)。
+  - `excludedExplicit:false` … **明示天体 `body:<n>` として置いてあり、背景の値からは除いた**という記録。`id` は `"body:<n>"`・`kind` は `"body"` に限る。
+  - `validatePreset` は bodies の範囲外の `body:<n>` を拒否する(`n` は `bodies` の index)。
+- QA: **`preset.bgSources`**。
+
+### 11.2 `physics.backgroundComplex.frame` —— 凍結参照系
+
+- **正準形**: `{origin:"barycenter"|"body:<n>", epoch:<1〜60 字>, rotation:"none", translation:"comoving"|"none"}`(4 鍵とも必須・知らない鍵は拒否)。
+  - 背景の値(W₀・A₀・各微分)を**どの系で凍結したか**の宣言。`comoving` は origin と一緒に動く系(サンプル座標の重心系 = 自由落下系)の値、`none` は慣性系の値。**回転系は受けない**。
+- QA: **`preset.bgSources`**。
+
+### 11.3 `physics.meshVelocity` —— 複素決定力による座標変換(opt-in 外部ステップ)
+
+- **正準形**: `{law:"vMinusU", field:"backgroundComplex"|"explicit", mutual:0|1, frame:{…11.2 と同じ形…}, external?:["body:<n>",…]}`。
+  - `law:"vMinusU"` … 構成則の候補 L/m=|ẋ−u|²/2−Φ から **ẋ=v+u・v̇=a_space−Jᵀv**(**統括が設定した検証仮説** —— 現行 DFM から一意に導出された法則ではない)。
+    **宣言した本では `vx,vy` を慣性速度 v(=ẋ−u)として読む**(既定経路の意味は変えない)。
+  - `field:"backgroundComplex"` … 外部の場は `physics.backgroundComplex`(**`sources` と `frame` の宣言が必須**・`meshVelocity.frame` と同一であること)。
+    `field:"explicit"` … 外部の場は `external` に挙げた明示天体(背景鍵は読まない・全天体を挙げることはできない)。
+  - `mutual` … **相対作用の引きずりの強さの端点 0/1 だけ**(1: 自分以外のすべての明示天体 + 外部の場の合成 / 0: 外部の場だけ)。**分数は拒否**。
+- **拒否**: `kFrame>0`(**既定 kFrame=1 のまま宣言しても拒否** —— `physics.kFrame:0` を明示する)・`geoPN=3`・`spaceMesh` の宣言・
+  `sampleClass:"calibration"`・`type:"single"` 以外の天体・範囲外の `body:<n>`・`backgroundComplex`/`sources`/`frame` の欠落・frame の不一致。
+- **エンジン**: `S._core` の外の外部ステップ `dfmMeshVelocityStep`(`if(S.hasMeshVelocity)` の真偽値 1 つ・未宣言は素通り)が、
+  步の頭の状態で全天体の場を評価してから x_i+=u_iΔt・v_i+=(−J_iᵀv_i)Δt を当てる。背景の値は凍結参照系の原点のまわりで**一次で移す**
+  (値を時間で外挿しない)。読み口は `S.meshVelN`・`S.meshVelUMax`・`S.meshVelKickMax`・`S.meshVelWork`(正準項の運動エネルギー変化 —— `S.totals` とは別口座)・
+  `S.meshVelUndef`(W=0 の点)・`S.meshVelBad`(背景の重みが負になった点)・`S.meshVelChiMin/Max`・`S.meshVelDeny`(準備で立たなかった理由)。
+- **純関数(HP 公開)**: `dfmComplexMomentsOf(list,px,py,eps2)`・`dfmBlendComplexMoments(local,background)`(**閾値なし・D₀ なし・自己項なし** ——
+  局所の場には `selfExcluded:true` の宣言が要る・W=0 は u=null で慣性を 0 にしない・欠落/非有限/重み 0 の分子は拒否)・
+  `dfmMeshVelocityRHS(field,v,aSpace)`(`positionRate`・`vRate`・`coordAccel`・`transport`・`canonical` を別々に返す・
+  `uQuantity:"velocity"` と `timeDerivativeComplete:true` の無い場は拒否)・`dfmMeshVelocityFieldAt(S,i)`(診断)。
+- **既知の性質(実測・docs/PHYSICS.md〔第279便c〕)**: mutual:0 で外部の点源 1 つは相対軌道に何も与えない(u が一様)。
+  **mutual:1 は 2 体の相対運動を壊す**(2 体だけなら ẋ_P−ẋ_C=0 が恒等的)。サンプルの 1PN は慣性速度 v を読む(速度に依る「空間に対する加速」)。
+- **内蔵の宣言**: **0 本**。
+- QA: **`preset.meshVelocity`**・**`docs.bgCompose`**・**`docs.bgbudget2-sync`**・**`docs.d0sites-sync`** ⑤(背景鍵の読み口は宣言した外部ステップの準備だけ)。

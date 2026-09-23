@@ -4058,7 +4058,8 @@ function validateD0Source(a){
 //   ∇u = (∇A − u⊗∇W)/W ・ ∂ₜu = (∂ₜA − u·∂ₜW)/W
 // が要るので、背景は **W₀・A₀・各空間微分・時間微分の組**で持つ。
 // **未宣言は「未確定」/ background:"zero" は「ゼロと宣言」**(未入力の背景を勝手に静止ゼロと扱わない)。
-// **この鍵は宣言専用**で、**エンジンのどの経路からも読まれない**(接続は宣言鍵で切り替える別便)。
+// **この鍵は宣言専用**で、**既定経路のどこからも読まれない**(接続は宣言鍵で切り替える別便)。
+// 第279便c: 力学が読むのは **`physics.meshVelocity` を宣言した本の外部ステップ**(準備 `meshVelocityPrepare`)だけである。
 // **内蔵 131 本は 1 本も宣言していない**(本便が足したのは受理契約だけである)。
 const BG_COMPLEX_KEY = "backgroundComplex";
 const BG_COMPLEX_BACKGROUNDS = ["solar-excluded","heliocentric","galactic","declared","zero"];
@@ -4132,6 +4133,17 @@ function validateBackgroundComplex(a){
   // **名前のない "declared" は受理しない**(D0Source と同じ門)
   if(a.background==="declared" && out.note===undefined)
     return {ok:false, err:'physics.backgroundComplex.background:"declared" は note に背景の出所を書くこと(出所を名指ししない宣言は受理しない)'};
+  // 第279便c(R63 ①②): **源の分割**と**凍結参照系**の任意鍵(未宣言は従来どおり —— 正準形にも出さない)
+  if(a.sources!==undefined && a.sources!==null){
+    const sv=validateBgSources(a.sources);
+    if(!sv.ok) return sv;
+    out.sources=sv.sources;
+  }
+  if(a.frame!==undefined && a.frame!==null){
+    const fv=validateBgFrame(a.frame);
+    if(!fv.ok) return fv;
+    out.frame=fv.frame;
+  }
   return {ok:true, backgroundComplex:out};
 }
 // ===== 第278便d(統括の読み R56): physics.backgroundTidal — **潮汐テンソル T** の宣言(**宣言専用の別鍵**) =====
@@ -4189,6 +4201,169 @@ function validateBackgroundTidal(a){
     res[k]=a[k];
   }
   return {ok:true, backgroundTidal:res};
+}
+// ===== 第279便c(原仮定者の裁定〔第69報〕「背景複素決定力は閾値で無視せず適切に導入する」・統括の読み R63 ①②) =====
+// **源の分割の宣言** `backgroundComplex.sources` と **凍結参照系の宣言** `backgroundComplex.frame`(どちらも任意鍵)。
+//   sources: [{id, kind:"body"|"field", excludedExplicit:true|false}]
+//     ・excludedExplicit:true  … この源は**背景だけが持つ**(明示天体には置いていない)。id に "body:<n>" は使えない
+//       (その形は明示天体の予約 —— **同じ源を明示天体と背景の両方に入れない**)。
+//     ・excludedExplicit:false … この源は**明示天体 body:<n> として置いてあり、背景の値からは除いた**という記録。
+//       id は "body:<n>"(n は bodies の index)・kind は "body" に限る。
+//     ・id は重複させない(1〜60 字)・最大 16 件。
+//   frame: {origin:"barycenter"|"body:<n>", epoch, rotation:"none", translation:"comoving"|"none"}
+//     ・背景の値(W₀・A₀・各微分)を**どの系で凍結したか**の宣言(第278便d: 自由落下系と慣性系で ❄️ の
+//       ON/OFF 差が 2.148 s 違った —— 凍結した系を書かないと値の意味が決まらない)。
+//     ・comoving … origin と一緒に動く系(サンプル座標の重心系 = 自由落下系)の値 / none … 慣性系の値。
+//     ・rotation は "none" だけ(回転系は本便では受けない)。epoch は 1〜60 字(いつの値か)。
+// **未宣言は従来どおり**(sources/frame を書かない宣言は第276便a〜第278便d と同じ受理・同じ正準形)。
+// **内蔵 133 本はどちらも宣言していない**(presetSig は 1 文字も動かない)。
+const BG_SOURCE_KINDS = ["body","field"];
+const BG_SOURCE_MAX = 16;
+const BG_SOURCE_ID_MAX = 60;
+const BG_FRAME_ROTATIONS = ["none"];
+const BG_FRAME_TRANSLATIONS = ["comoving","none"];
+const BG_FRAME_EPOCH_MAX = 60;
+const BG_FRAME_KEYS = ["origin","epoch","rotation","translation"];
+// "body:<n>"(n は 0 以上の整数・先頭 0 なし・最大 4 桁)→ n / それ以外 → -1
+function bgBodyRefIndex(s){
+  if(typeof s!=="string" || s.length<6 || s.length>9 || s.slice(0,5)!=="body:") return -1;
+  const t=s.slice(5);
+  if(!/^(0|[1-9][0-9]{0,3})$/.test(t)) return -1;
+  return Number(t);
+}
+function validateBgSources(a){
+  if(!Array.isArray(a) || a.length<1 || a.length>BG_SOURCE_MAX)
+    return {ok:false, err:"physics.backgroundComplex.sources は 1〜"+BG_SOURCE_MAX+" 件の配列([{id,kind,excludedExplicit}])"};
+  const out=[], seen={};
+  for(let i=0;i<a.length;i++){
+    const s=a[i];
+    if(!s || typeof s!=="object" || Array.isArray(s))
+      return {ok:false, err:"physics.backgroundComplex.sources["+i+"] はオブジェクト {id,kind,excludedExplicit}"};
+    for(const k of Object.keys(s)) if(k!=="id" && k!=="kind" && k!=="excludedExplicit")
+      return {ok:false, err:"physics.backgroundComplex.sources["+i+"] に知らない鍵 "+k+" がある(id/kind/excludedExplicit のみ)"};
+    if(typeof s.id!=="string" || s.id==="" || s.id.length>BG_SOURCE_ID_MAX)
+      return {ok:false, err:"physics.backgroundComplex.sources["+i+"].id は 1〜"+BG_SOURCE_ID_MAX+" 字の文字列"};
+    if(seen[s.id]) return {ok:false, err:"physics.backgroundComplex.sources の id「"+s.id+"」が重複している(同じ源を 2 度数えない)"};
+    seen[s.id]=true;
+    if(BG_SOURCE_KINDS.indexOf(s.kind)<0)
+      return {ok:false, err:'physics.backgroundComplex.sources['+i+'].kind は "body"/"field" のみ'};
+    if(s.excludedExplicit!==true && s.excludedExplicit!==false)
+      return {ok:false, err:"physics.backgroundComplex.sources["+i+"].excludedExplicit は true/false(明示天体と背景の排他を必ず書く)"};
+    const bi=bgBodyRefIndex(s.id);
+    if(s.excludedExplicit===true && (bi>=0 || s.id.slice(0,5)==="body:"))
+      return {ok:false, err:'physics.backgroundComplex.sources['+i+'] は excludedExplicit:true なのに id が "body:…"(明示天体の予約)—— **同じ源を明示天体と背景の両方に入れない**'};
+    if(s.excludedExplicit===false && (bi<0 || s.kind!=="body"))
+      return {ok:false, err:'physics.backgroundComplex.sources['+i+'] は excludedExplicit:false(明示天体として置いて背景から除いた記録)なので id は "body:<n>"・kind は "body"'};
+    out.push({id:s.id, kind:s.kind, excludedExplicit:s.excludedExplicit});
+  }
+  return {ok:true, sources:out};
+}
+function validateBgFrame(a, where){
+  const W=where||"physics.backgroundComplex.frame";
+  if(!a || typeof a!=="object" || Array.isArray(a))
+    return {ok:false, err:W+' はオブジェクト {origin,epoch,rotation:"none",translation:"comoving"|"none"}'};
+  for(const k of Object.keys(a)) if(BG_FRAME_KEYS.indexOf(k)<0)
+    return {ok:false, err:W+" に知らない鍵 "+k+" がある(origin/epoch/rotation/translation のみ)"};
+  const miss=BG_FRAME_KEYS.filter((k)=>a[k]===undefined || a[k]===null);
+  if(miss.length) return {ok:false, err:W+" は "+miss.join("/")+" を明示すること(凍結した系を書かない背景は値の意味が決まらない)"};
+  if(a.origin!=="barycenter" && bgBodyRefIndex(a.origin)<0)
+    return {ok:false, err:W+'.origin は "barycenter" か "body:<n>"'};
+  if(typeof a.epoch!=="string" || a.epoch==="" || a.epoch.length>BG_FRAME_EPOCH_MAX)
+    return {ok:false, err:W+".epoch は 1〜"+BG_FRAME_EPOCH_MAX+" 字の文字列(いつの値か)"};
+  if(BG_FRAME_ROTATIONS.indexOf(a.rotation)<0)
+    return {ok:false, err:W+'.rotation は "none" のみ(回転系は受けない)'};
+  if(BG_FRAME_TRANSLATIONS.indexOf(a.translation)<0)
+    return {ok:false, err:W+'.translation は "comoving"(origin と一緒に動く系)か "none"(慣性系)'};
+  return {ok:true, frame:{origin:a.origin, epoch:a.epoch, rotation:a.rotation, translation:a.translation}};
+}
+// 明示天体の index と突き合わせる(validatePreset が bodies の確定後に呼ぶ)。null=問題なし / 文字列=拒否理由
+function bgSourcesBodyCheck(bgc, nBodies){
+  if(!bgc) return null;
+  if(Array.isArray(bgc.sources)) for(const s of bgc.sources){
+    const bi=bgBodyRefIndex(s.id);
+    if(bi>=0 && !(bi<nBodies)) return "physics.backgroundComplex.sources の "+s.id+" は bodies に無い(明示天体は "+nBodies+" 個)";
+  }
+  if(bgc.frame){
+    const oi=bgBodyRefIndex(bgc.frame.origin);
+    if(oi>=0 && !(oi<nBodies)) return "physics.backgroundComplex.frame.origin の "+bgc.frame.origin+" は bodies に無い";
+  }
+  return null;
+}
+// ===== 第279便c(統括の読み R62・R63 ⑤): physics.meshVelocity — **複素決定力による座標変換(空間による引きずり)**の opt-in =====
+// 形: {law:"vMinusU", field:"backgroundComplex"|"explicit", mutual:0|1, frame:{…}, external?:["body:<n>",…]}
+//   ・law "vMinusU" … 構成則候補 L/m=|ẋ−u|²/2−Φ から ẋ=v+u・v̇=a_space−Jᵀv(J=∂u/∂x)。
+//     **`vx,vy` は慣性速度 v(=ẋ−u)として扱う**(宣言した本だけ —— 既定経路の意味は変えない)。
+//   ・field "backgroundComplex" … 外部の場は `physics.backgroundComplex`(sources と frame の宣言が必須)。
+//     field "explicit" … 外部の場は `external` に挙げた明示天体(背景鍵は読まない)。
+//   ・mutual … **相対作用の引きずり(自己以外の明示天体の複素場による座標変換)の強さの端点 0/1 だけ**。
+//     1: u は「自分以外のすべての明示天体 + 外部の場」の合成(W=W_loc+W_ext・A=A_loc+A_ext・u=A/W)。
+//     0: u は外部の場だけ(相互の引きずりは入れない)。**分数は拒否**(分数 k を法則にしない契約)。
+//   ・frame … u と v を測る参照系の宣言(field "backgroundComplex" では backgroundComplex.frame と同一であること)。
+// **拒否する組み合わせ**(二重適用の禁止): kFrame>0(E6′ の追従キック・geoPN=2 の v−u 輸送はどちらも kFrame>0 でだけ立つ)・
+// geoPN=3(トイの輸送)・spaceMesh の宣言(座標変換慣性/織り込み)・sampleClass:"calibration"・single 以外の天体。
+// **未宣言は 1 bit 不変**(`S.hasMeshVelocity` の真偽値 1 つで外部ステップに 1 度も入らない)。
+const MESH_VEL_KEY = "meshVelocity";
+const MESH_VEL_LAWS = ["vMinusU"];
+const MESH_VEL_FIELDS = ["backgroundComplex","explicit"];
+const MESH_VEL_MUTUALS = [0,1];
+const MESH_VEL_KEYS = ["law","field","mutual","frame","external"];
+const MESH_VEL_EXTERNAL_MAX = 16;
+const MESH_VEL_STEP_VERSION = "w279c-vMinusU-1";
+function validateMeshVelocity(a){
+  if(a===null || a===undefined) return {ok:true, meshVelocity:null};
+  if(typeof a!=="object" || Array.isArray(a))
+    return {ok:false, err:'physics.meshVelocity はオブジェクト {law:"vMinusU",field,mutual,frame} か null'};
+  for(const k of Object.keys(a)) if(MESH_VEL_KEYS.indexOf(k)<0)
+    return {ok:false, err:"physics.meshVelocity に知らない鍵 "+k+" がある(law/field/mutual/frame/external のみ)"};
+  if(MESH_VEL_LAWS.indexOf(a.law)<0) return {ok:false, err:'physics.meshVelocity.law は "vMinusU" のみ'};
+  if(MESH_VEL_FIELDS.indexOf(a.field)<0) return {ok:false, err:'physics.meshVelocity.field は "backgroundComplex" か "explicit"'};
+  if(MESH_VEL_MUTUALS.indexOf(a.mutual)<0)
+    return {ok:false, err:"physics.meshVelocity.mutual は 0 か 1(相対作用の引きずりの強さの端点 —— 分数は法則にしない)"};
+  const fv=validateBgFrame(a.frame, "physics.meshVelocity.frame");
+  if(!fv.ok) return fv;
+  const out={law:a.law, field:a.field, mutual:a.mutual, frame:fv.frame};
+  if(a.field==="explicit"){
+    const ex=a.external;
+    if(!Array.isArray(ex) || ex.length<1 || ex.length>MESH_VEL_EXTERNAL_MAX)
+      return {ok:false, err:'physics.meshVelocity.field:"explicit" は external に 1〜'+MESH_VEL_EXTERNAL_MAX+' 個の "body:<n>" を挙げること'};
+    const seen={}, o=[];
+    for(const s of ex){
+      if(bgBodyRefIndex(s)<0) return {ok:false, err:'physics.meshVelocity.external の要素は "body:<n>"'};
+      if(seen[s]) return {ok:false, err:"physics.meshVelocity.external に "+s+" が重複している"};
+      seen[s]=true; o.push(s);
+    }
+    out.external=o;
+  } else if(a.external!==undefined && a.external!==null)
+    return {ok:false, err:'physics.meshVelocity.external は field:"explicit" のときだけ(背景の源は backgroundComplex.sources に書く)'};
+  return {ok:true, meshVelocity:out};
+}
+// validatePreset が physics と bodies の確定後に呼ぶ相互検査(null=問題なし / 文字列=拒否理由)。
+// 背景の宣言は**引数で受け取る**(この関数は宣言の整合を見るだけで、力学の読み口ではない)。
+function meshVelocityCrossCheck(mv, bgc, ph, bodies, sampleClass){
+  if(!mv) return null;
+  if(sampleClass==="calibration")
+    return 'physics.meshVelocity は sampleClass:"calibration" では使えない(**検証仮説の構成則** —— 現実較正へ入れない)';
+  if(ph.kFrame>0)
+    return "physics.meshVelocity は kFrame=0 専用(E6′ の追従キック・geoPN=2 の v−u 輸送は kFrame>0 で立つ —— 座標変換を二重に当てない)";
+  if(ph.geoPN>=3) return "physics.meshVelocity は geoPN=3(トイの輸送)と排他";
+  if(ph[SPACE_MESH_KEY]) return "physics.meshVelocity は physics.spaceMesh(座標変換慣性・織り込み・メッシュ重力)と排他";
+  const nb=Array.isArray(bodies)? bodies.length : 0;
+  if(nb<1) return "physics.meshVelocity は bodies が要る";
+  for(const b of bodies) if(!b || b.type!=="single")
+    return 'physics.meshVelocity は type:"single" の天体だけの宇宙に限る(body:<n> と粒子を 1 対 1 に保つ)';
+  const oi=bgBodyRefIndex(mv.frame.origin);
+  if(oi>=0 && !(oi<nb)) return "physics.meshVelocity.frame.origin の "+mv.frame.origin+" は bodies に無い";
+  if(mv.field==="backgroundComplex"){
+    if(!bgc) return 'physics.meshVelocity.field:"backgroundComplex" は physics.backgroundComplex の宣言が要る';
+    if(!Array.isArray(bgc.sources) || !bgc.frame)
+      return 'physics.meshVelocity.field:"backgroundComplex" は backgroundComplex.sources(源の分割)と backgroundComplex.frame(凍結参照系)の宣言が要る(R63 の順: 源の分割 → 凍結参照系 → 接続)';
+    if(JSON.stringify(bgc.frame)!==JSON.stringify(mv.frame))
+      return "physics.meshVelocity.frame と physics.backgroundComplex.frame が違う(同じ事象・同じ参照系で評価する)";
+  } else {
+    for(const s of mv.external){ const bi=bgBodyRefIndex(s); if(!(bi<nb)) return "physics.meshVelocity.external の "+s+" は bodies に無い"; }
+    if(mv.external.length>=nb) return "physics.meshVelocity.external が全天体を挙げている(外部でない天体が 1 つも無い)";
+  }
+  return null;
 }
 // ===== 第277便b(原仮定者の裁定(第67報)(1)): physics.relativeDrag — **相対すべりの零条件**を持つ引きずり則 =====
 // 裁定の字義は「**空間メッシュ(複素決定力場)による引きずり(座標変換)は相対的に動いていなければ
@@ -15782,7 +15957,8 @@ function validatePreset(obj){
       }
       // 第276便a(第66報 (1)): backgroundComplex — **背景複素決定力**の宣言専用オブジェクト鍵。
       // 「D₀(スカラー・[M/L])とは別の量」である W₀([M/L²])・A₀([M/(L·T)])とその微分を持つだけで、
-      // **力学・光学・帳簿のどの経路からも読まれない**(既定は無し=ph へ入れない=署名不変)。
+      // **既定経路の力学・光学・帳簿からは読まれない**(既定は無し=ph へ入れない=署名不変)。第279便c: 読むのは
+      // `physics.meshVelocity` を宣言した本の外部ステップの準備 `meshVelocityPrepare` だけ。sources/frame(任意鍵)もここで検証する
       // **未宣言は「未確定」/ background:"zero" は「ゼロと宣言」**(勝手に静止ゼロと扱わない)
       if(k===BG_COMPLEX_KEY){
         const bcv=validateBackgroundComplex(p.physics[k]);
@@ -15796,6 +15972,14 @@ function validatePreset(obj){
         const btv=validateBackgroundTidal(p.physics[k]);
         if(!btv.ok){ bad(btv.err); continue; }
         if(btv.backgroundTidal!==null) ph[k]=btv.backgroundTidal;
+        continue;
+      }
+      // 第279便c(R62・R63 ⑤): meshVelocity — **複素決定力による座標変換**(ẋ=v+u・v̇=a−Jᵀv)の opt-in。
+      // null/未宣言は「なし」へ正規化する(宣言と未宣言で署名が 1 文字も変わらない)。相互検査は bodies の確定後
+      if(k===MESH_VEL_KEY){
+        const mvv=validateMeshVelocity(p.physics[k]);
+        if(!mvv.ok){ bad(mvv.err); continue; }
+        if(mvv.meshVelocity!==null) ph[k]=mvv.meshVelocity;
         continue;
       }
       // 第277便b(第67報 (1)): relativeDrag — **相対すべりの零条件**を持つ引きずり則の opt-in。
@@ -16742,6 +16926,14 @@ function validatePreset(obj){
       warnings.push("粒子総数を上限"+N_CAP+"に縮小しました");
     }
     p.bodies=out;
+  }
+  // 第279便c(R63): 背景の源の分割・凍結参照系と meshVelocity を**明示天体の index が確定した後**に突き合わせる
+  // (未宣言の宇宙では 2 つとも null を返すだけ —— 受理・正準形は従来どおり)
+  if(p.physics && typeof p.physics==="object"){
+    const bsx=bgSourcesBodyCheck(p.physics[BG_COMPLEX_KEY], Array.isArray(p.bodies)? p.bodies.length : 0);
+    if(bsx) bad(bsx);
+    const mvx=meshVelocityCrossCheck(p.physics[MESH_VEL_KEY], p.physics[BG_COMPLEX_KEY], p.physics, p.bodies, p.sampleClass);
+    if(mvx) bad(mvx);
   }
   if(p.rays!==undefined){
     if(!p.rays || !isNum(p.rays.n) || !isNum(p.rays.spread)) bad("rays.n/spread が不正です");
@@ -19302,6 +19494,8 @@ function makeSim(){
     S.relDrag=__rd; S.hasRelativeDrag=!!__rd;
     S.relDragHeat=0; S.relDragPos=0; S.relDragKickMax=0; S.relDragTorqueMax=0;
     S.relDragSlipMax=0; S.relDragResL=0; S.relDragN=0;
+    // 第279便c(R63 ⑤): meshVelocity(複素決定力による座標変換)の有無フラグ。**未宣言は背景鍵に触れずに false**
+    meshVelocityPrepare(S);
     if(!S.hasCoreField){ S.coreFieldStop=null; S.coreFieldN=0; }
     else if(!S.cfX) coreFieldInitState(S);
     if(!S.hasShapeToy){ S.shapeToyStop=null; S.shapeToyN=0; }
@@ -20937,6 +21131,7 @@ function makeSim(){
       if(S.hasCoreField) dfmCoreFieldStep(S,dt);    // 第276便d: Core 力学(同じ位置・未宣言は真偽値 1 つ)
       if(S.hasCoreAxis) dfmCoreAxisStep(S,dt);      // 第275便e: コア軸の prescribed(同じ位置・未宣言は真偽値 1 つ)
       if(S.hasRelativeDrag) dfmRelativeDragStep(S,(S.relDrag.integration==="midpoint")? dt*0.5 : dt);   // 第277便b(第278便b: 中点法は後半歩)
+      if(S.hasMeshVelocity) dfmMeshVelocityStep(S,dt);   // 第279便c: 座標変換 ẋ=v+u・v̇=−Jᵀv(位置更新の外・未宣言は真偽値 1 つ)
       if(S.hasMeshReservoir) S._meshReservoir(dt);
       if(S.hasSpaceMesh) S._spaceMeshForce(dt*0.5);
       if(S.hasBodyLayers) S._layerForce(dt*0.5);   // 第259便b(後半キック)
@@ -20957,6 +21152,7 @@ function makeSim(){
       if(S.hasCoreField) dfmCoreFieldStep(S,dt);        // 第276便d: Core 力学(同じ位置)
       if(S.hasCoreAxis) dfmCoreAxisStep(S,dt);          // 第275便e: コア軸の prescribed(同じ位置)
       if(S.hasRelativeDrag) dfmRelativeDragStep(S,dt);   // 第277便b: 相対すべりの引きずり則(同じ位置)
+      if(S.hasMeshVelocity) dfmMeshVelocityStep(S,dt);   // 第279便c: 座標変換(同じ位置・未宣言は真偽値 1 つ)
       if(S.hasMeshReservoir) S._meshReservoir(dt);
     }
     if(S.params.petersGW===true) S._petersGW(dt);   // 第227便: 外部物理オーバーレイ(既定 OFF=素通り)
@@ -40740,6 +40936,269 @@ function geoCoreDispatch(S,dt,mode){
   if(p.geoPN>=3){ const g=p.geoPN; p.geoPN=S.hasGeoToy?0:2; try{ S._core(dt,mode); } finally{ p.geoPN=g; } }
   else S._core(dt,mode);
 }
+// ===== 第279便c(原仮定者の裁定〔第69報〕・統括の読み R62・R63): **複素決定力の 2 経路**と、背景の**閾値なし合成** =====
+//
+// ■ 2 経路を混ぜない(第69報「厳密には空間に対する加速と空間による引きずり(座標変換)は区別する」)
+//   (i) **空間に対する加速** a_space … スカラー決定力の勾配 = 重力。`S._core` が当てる(本便は 1 命令も触らない)。
+//   (ii) **空間による引きずり** … 複素決定力による座標変換。位置の移送 ẋ = v + u(u=A/W はメッシュ速度)。
+//   **慣性は複素決定力の自己作用(ゼロ距離)**として書く —— 位置更新 x←x+vΔt(`selfDrift` と同値の写像)が
+//   その表現であり、**自己項を外部平均の分母へ足さない**。慣性質量や p=mv を「導出した」とはしない。
+//   相対作用の引きずりは「**自己以外の複素場による座標変換**」として (ii) に載る(`mutual` 0/1 はその強さの端点)。
+//   散逸(相対すべり `relativeDrag` の熱)は**別の物理チャネル**で、座標変換とは別に記帳する。
+//
+// ■ 構成則の候補(**統括が設定した検証仮説** —— 現行 DFM から一意に導出された法則ではない)
+//   L/m = |ẋ−u|²/2 − Φ  →  v ≡ ẋ−u(= 正準運動量/m)・ ẋ = v+u ・ v̇ = a_space − Jᵀv   (J_ab = ∂u_a/∂x_b)
+//   ẍ = a_space + ∂ₜu + Ju + (J−Jᵀ)v   (一様定常な u は移動だけで加速度を作らない)
+//   H/m = |p|²/2 + p·u + Φ(p=v)→ 定常な場では dH/dt = 0(時間依存なら交換を記帳する)
+//
+// ■ 背景の合成(**閾値なし・D₀ なし・自己項なし**)
+//   W = W_loc + W_bg ・ A = A_loc + A_bg ・ u = A/W ・ ∇u = (∇A − u⊗∇W)/W ・ ∂ₜu = (∂ₜA − u ∂ₜW)/W ・ χ = W_loc/W
+//   W=0 は「外部平均が未定義」(u=null)であって**慣性を 0 にしない**(移送が無いだけで v はそのまま)。
+//   **欠けた微分を 0 で補完しない**(欠落・非有限は拒否)。重み 0 の成分に非ゼロの分子・微分を置かない。
+//
+// 純関数 3 つ(**力学からは `dfmMeshVelocityStep` だけが呼ぶ** —— 未宣言の宇宙では 1 度も呼ばれない):
+//   dfmComplexMomentsOf(list,px,py,eps2) … 明示した源の複素決定力の和(W・A・∇W・∇A・∂ₜW・∂ₜA)。p=2(w=m/(r²+ε²))。
+//   dfmBlendComplexMoments(local,background) … 上の合成。local は `selfExcluded:true` の宣言が要る。
+//   dfmMeshVelocityRHS(field,v,aSpace) … positionRate / vRate / coordAccel を**別々に**返す。
+const MESH_MOMENT_KEYS = ["W","A","gradW","gradA","dWdt","dAdt"];
+function dfmComplexMomentsOf(list, px, py, eps2){
+  if(!Array.isArray(list)) return null;
+  const e2=(isNum(eps2) && eps2>=0)? eps2 : 0;
+  if(!isNum(px) || !isNum(py)) return null;
+  let W=0, gWx=0, gWy=0, Wd=0, Nx=0, Ny=0, g0=0, g1=0, g2=0, g3=0, Tx=0, Ty=0;
+  for(const b of list){
+    if(!b) return null;
+    const mi=b.m, bx=b.x, by=b.y, vix=b.vx||0, viy=b.vy||0, aix=b.ax||0, aiy=b.ay||0;
+    if(!(isNum(mi) && isNum(bx) && isNum(by) && isNum(vix) && isNum(viy) && isNum(aix) && isNum(aiy))) return null;
+    if(!(mi>0)) return null;                          // 負質量・0 質量の源は拒否
+    const dx=px-bx, dy=py-by, s=dx*dx+dy*dy+e2;
+    if(!(s>0) || !isNum(s)) return null;               // 源の上(ε=0)は未定義 —— 自分自身を源に入れた印でもある
+    const Ak=Math.pow(s,-1), w=mi*Ak, kk=mi*(-2*Ak/s);
+    const wgx=kk*dx, wgy=kk*dy, wdi=-(wgx*vix+wgy*viy);
+    W+=w; gWx+=wgx; gWy+=wgy; Wd+=wdi;
+    Nx+=w*vix; Ny+=w*viy;
+    g0+=vix*wgx; g1+=vix*wgy; g2+=viy*wgx; g3+=viy*wgy;
+    Tx+=wdi*vix+w*aix; Ty+=wdi*viy+w*aiy;
+  }
+  return {W, A:[Nx,Ny], gradW:[gWx,gWy], gradA:[g0,g1,g2,g3], dWdt:Wd, dAdt:[Tx,Ty], n:list.length};
+}
+function dfmBlendComplexMoments(local, background){
+  const LEN={A:2, gradW:2, gradA:4, dAdt:2};
+  const chk=(o, name)=>{
+    if(typeof o!=="object" || Array.isArray(o)) return name+" はオブジェクト {W,A,gradW,gradA,dWdt,dAdt}";
+    if(Object.prototype.hasOwnProperty.call(o,"D0") || Object.prototype.hasOwnProperty.call(o,"D0pull"))
+      return name+" に D₀ は足さない(W は [M/L²]・D₀ は [M/L] —— 別の量)";
+    if(!isNum(o.W) || !(o.W>=0)) return name+".W は 0 以上の有限数";
+    if(!isNum(o.dWdt)) return name+".dWdt が欠けている/非有限(欠けた微分を 0 で補完しない)";
+    for(const k of ["A","gradW","gradA","dAdt"]){
+      const z=o[k];
+      if(!Array.isArray(z) || z.length!==LEN[k]) return name+"."+k+" が欠けている/長さ違い(欠けた微分を 0 で補完しない)";
+      for(let i=0;i<z.length;i++) if(!isNum(z[i])) return name+"."+k+" に非有限の成分";
+    }
+    if(o.W===0 && (o.dWdt!==0 || ["A","gradW","gradA","dAdt"].some((k)=>o[k].some((z)=>z!==0))))
+      return name+" は重み 0 なのに分子・微分が 0 でない(重み 0 の成分に分子は置けない)";
+    return null;
+  };
+  if((local===null || local===undefined) && (background===null || background===undefined))
+    return {ok:false, err:"局所も背景も無い(合成する量が無い)"};
+  if(local!==null && local!==undefined){
+    const e=chk(local,"local"); if(e) return {ok:false, err:e};
+    if(local.selfExcluded!==true)
+      return {ok:false, err:"local は selfExcluded:true の宣言が要る(**自己項を外部平均の分母へ足さない** —— 慣性は自己作用として別に書く)"};
+  }
+  if(background!==null && background!==undefined){ const e=chk(background,"background"); if(e) return {ok:false, err:e}; }
+  const L=(local===null || local===undefined)? null : local;
+  const B=(background===null || background===undefined)? null : background;
+  const z2=[0,0], z4=[0,0,0,0];
+  const Wl=L? L.W : 0, Wb=B? B.W : 0;
+  const LA=L? L.A : z2, BA=B? B.A : z2, LgW=L? L.gradW : z2, BgW=B? B.gradW : z2;
+  const LgA=L? L.gradA : z4, BgA=B? B.gradA : z4, LdA=L? L.dAdt : z2, BdA=B? B.dAdt : z2;
+  const W=Wl+Wb;
+  const Ax=LA[0]+BA[0], Ay=LA[1]+BA[1];
+  const gWx=LgW[0]+BgW[0], gWy=LgW[1]+BgW[1];
+  const g0=LgA[0]+BgA[0], g1=LgA[1]+BgA[1], g2=LgA[2]+BgA[2], g3=LgA[3]+BgA[3];
+  const Wd=(L? L.dWdt : 0)+(B? B.dWdt : 0);
+  const Tx=LdA[0]+BdA[0], Ty=LdA[1]+BdA[1];
+  const base={uQuantity:"velocity", timeDerivativeComplete:true, W, Wlocal:Wl, Wbackground:Wb,
+    A:[Ax,Ay], gradW:[gWx,gWy], gradA:[g0,g1,g2,g3], dWdt:Wd, dAdt:[Tx,Ty]};
+  if(W===0){
+    // **外部平均が未定義**(源も背景も重み 0)—— 慣性は 0 にしない(移送が無いだけ)
+    return Object.assign({ok:true, defined:false, u:null, gradU:null, dUdt:null, chi:null,
+      why:"W=0(外部平均が未定義 —— 慣性を 0 にしない)"}, base);
+  }
+  if(!isNum(W) || !(W>0)) return {ok:false, err:"合成した W が有限な正数でない"};
+  const ux=Ax/W, uy=Ay/W;
+  const gradU=[(g0-ux*gWx)/W, (g1-ux*gWy)/W, (g2-uy*gWx)/W, (g3-uy*gWy)/W];
+  const dUdt=[(Tx-ux*Wd)/W, (Ty-uy*Wd)/W];
+  if(!(isNum(ux) && isNum(uy) && gradU.every(isNum) && dUdt.every(isNum)))
+    return {ok:false, err:"合成の結果が非有限"};
+  return Object.assign({ok:true, defined:true, u:[ux,uy], gradU, dUdt, chi:Wl/W}, base);
+}
+function dfmMeshVelocityRHS(field, v, aSpace){
+  if(!field || typeof field!=="object") return {ok:false, err:"場が無い"};
+  if(field.uQuantity!=="velocity")
+    return {ok:false, err:'場の u が速度でない(uQuantity:"velocity" の宣言が要る —— 位置の移送 ẋ=v+u は速度の場でだけ意味を持つ)'};
+  if(field.timeDerivativeComplete!==true)
+    return {ok:false, err:"場の時間微分が揃っていない(timeDerivativeComplete:true の宣言が要る —— ∂ₜu を 0 で補完しない)"};
+  if(!Array.isArray(v) || v.length!==2 || !isNum(v[0]) || !isNum(v[1])) return {ok:false, err:"v は有限数 2 つ"};
+  if(!Array.isArray(aSpace) || aSpace.length!==2 || !isNum(aSpace[0]) || !isNum(aSpace[1]))
+    return {ok:false, err:"aSpace は有限数 2 つ"};
+  if(field.defined!==true){
+    // W=0: 移送なし・正準項なし・**慣性はそのまま**(v を 0 にしない)
+    return {ok:true, defined:false, positionRate:[v[0],v[1]], vRate:[aSpace[0],aSpace[1]],
+      coordAccel:[aSpace[0],aSpace[1]], transport:[0,0], canonical:[0,0]};
+  }
+  const u=field.u, J=field.gradU, du=field.dUdt;
+  if(!Array.isArray(u) || u.length!==2 || !Array.isArray(J) || J.length!==4 || !Array.isArray(du) || du.length!==2
+    || !u.every(isNum) || !J.every(isNum) || !du.every(isNum)) return {ok:false, err:"場の u/∇u/∂ₜu が欠けている/非有限"};
+  // J = [[J0,J1],[J2,J3]] = [[∂ₓuₓ,∂_yuₓ],[∂ₓu_y,∂_yu_y]]
+  const JTv0=J[0]*v[0]+J[2]*v[1], JTv1=J[1]*v[0]+J[3]*v[1];
+  const Ju0=J[0]*u[0]+J[1]*u[1], Ju1=J[2]*u[0]+J[3]*u[1];
+  const Jv0=J[0]*v[0]+J[1]*v[1], Jv1=J[2]*v[0]+J[3]*v[1];
+  return {ok:true, defined:true,
+    positionRate:[v[0]+u[0], v[1]+u[1]],
+    vRate:[aSpace[0]-JTv0, aSpace[1]-JTv1],
+    coordAccel:[aSpace[0]+du[0]+Ju0+(Jv0-JTv0), aSpace[1]+du[1]+Ju1+(Jv1-JTv1)],
+    transport:[u[0],u[1]], canonical:[-JTv0,-JTv1]};
+}
+// ===== 第279便c: opt-in 外部ステップ `dfmMeshVelocityStep(S,dt)`(`physics.meshVelocity` を宣言した本だけ) =====
+// **背景鍵 `physics.backgroundComplex` を力学が読むのはここだけ**(準備 `meshVelocityPrepare` が build で 1 度だけ
+// 宣言を検証して `S.meshVel.bg` に写す —— 未宣言の宇宙では 1 行目で戻り、背景鍵に触れない)。
+// 1 步: `S._core`(と既存の外部ステップ)の**後**で、全天体の場を步の頭の状態で評価してから(Jacobi 型)
+//   x_i += u_i Δt(座標変換の移送)、 v_i += (−J_iᵀ v_i) Δt(正準項)
+// を当てる(Lie 分割の 1 次 —— 刻み収束は器で測る)。a_space は `S._core` が既に当てている。
+// 源の速度は状態 `vx,vy`(慣性速度 v)・源の加速度は `S.ax,S.ay`(直前の力の評価)—— 閉包は 1 段(反復しない)。
+// 背景は凍結参照系の原点 O のまわりで**値を一次で移す**: W=W₀+∇W·(x−O)・A=A₀+∇A·(x−O)(勾配と時間微分は宣言値の
+// まま —— ∂ₜW・∂ₜA は ∂ₜu に入るだけで、**値を時間で外挿しない**。器の実測: 勾配を凍結したまま値だけを時間で
+// 線形に外挿すると見かけの J が立ち、❄️ の ON/OFF 差に 4.3×10⁻² s の表現誤差が出る —— 〔第279便c〕)。
+// O は frame.origin(重心 / body:<n>)で、translation:"comoving" なら毎步の位置、"none" なら build 時の位置に固定する。
+// W<0 になった点は `S.meshVelBad` に数えて移送しない(黙って 0 にしない)。
+// **帳簿**: 正準項が運動エネルギーへ与えた変化を `S.meshVelWork` に積む(**`S.totals` は変えない** —— 散逸
+// `relativeDrag` の熱とは別の口座)。W=0 の点は `S.meshVelUndef` に数える(慣性はそのまま)。
+function meshVelocityOriginNow(S, originIdx){
+  if(originIdx>=0) return [S.x[originIdx], S.y[originIdx]];
+  let M=0, X=0, Y=0;
+  for(let j=0;j<S.n;j++){ const m=S.m[j]; if(!(m>0)) continue; M+=m; X+=m*S.x[j]; Y+=m*S.y[j]; }
+  return (M>0)? [X/M, Y/M] : [0,0];
+}
+function meshVelocityOrigin(S){
+  const mv=S.meshVel;
+  if(!mv) return null;
+  if(mv.frame.translation==="none") return [mv.O0[0], mv.O0[1]];
+  return meshVelocityOriginNow(S, mv.originIdx);
+}
+function meshVelocityPrepare(S){
+  S.hasMeshVelocity=false; S.meshVel=null; S.meshVelDeny=null;
+  S.meshVelN=0; S.meshVelUndef=0; S.meshVelBad=0; S.meshVelUMax=0; S.meshVelKickMax=0;
+  S.meshVelWork=0; S.meshVelChiMin=null; S.meshVelChiMax=null;
+  const raw=(S.params)? S.params[MESH_VEL_KEY] : undefined;
+  if(raw===undefined || raw===null) return false;            // **未宣言: 背景鍵に触れない**
+  const deny=(why)=>{ S.meshVelDeny=why; return false; };
+  const mvv=validateMeshVelocity(raw);
+  if(!mvv.ok || !mvv.meshVelocity) return deny(mvv.ok? "none" : mvv.err);
+  const mv=mvv.meshVelocity, P=S.params;
+  if(P.kFrame>0) return deny("kFrame>0");
+  if(P.geoPN>=3) return deny("geoPN=3");
+  if(P[SPACE_MESH_KEY]) return deny("spaceMesh");
+  let bg=null;
+  if(mv.field==="backgroundComplex"){
+    const b0=P[BG_COMPLEX_KEY];
+    const bv=validateBackgroundComplex(b0===undefined? null : b0);
+    if(!bv.ok || !bv.backgroundComplex) return deny("backgroundComplex 未宣言/不正");
+    const B=bv.backgroundComplex;
+    if(!Array.isArray(B.sources) || !B.frame) return deny("backgroundComplex.sources/frame 未宣言");
+    if(JSON.stringify(B.frame)!==JSON.stringify(mv.frame)) return deny("frame 不一致");
+    bg={W0:B.W0, A0:B.A0.slice(), gradW:B.gradW.slice(), gradA:B.gradA.slice(), dWdt:B.dWdt, dAdt:B.dAdt.slice()};
+  }
+  const n=S.n, oi=bgBodyRefIndex(mv.frame.origin);
+  if(oi>=0 && !(oi<n)) return deny("origin 範囲外");
+  const ext=new Uint8Array(Math.max(1,n));
+  if(mv.field==="explicit"){
+    for(const s of mv.external){ const k=bgBodyRefIndex(s); if(!(k>=0 && k<n)) return deny("external 範囲外"); ext[k]=1; }
+  }
+  S.meshVel={law:mv.law, field:mv.field, mutual:mv.mutual, frame:mv.frame, bg, ext, originIdx:oi,
+    O0:meshVelocityOriginNow(S, oi), t0:S.t, version:MESH_VEL_STEP_VERSION};
+  S.hasMeshVelocity=true;
+  return true;
+}
+function meshVelocitySources(S){
+  const n=S.n, src=new Array(n);
+  for(let j=0;j<n;j++) src[j]={m:S.m[j], x:S.x[j], y:S.y[j], vx:S.vx[j], vy:S.vy[j],
+    ax:(S.ax? S.ax[j] : 0), ay:(S.ay? S.ay[j] : 0)};
+  return src;
+}
+// 天体 i の場(合成済み)。src・O を省くとその場で作る(診断・QA 用 —— 力学は `dfmMeshVelocityStep` が呼ぶ)
+function dfmMeshVelocityFieldAt(S, i, src, O){
+  if(!S || S.hasMeshVelocity!==true || !(i>=0 && i<S.n)) return null;
+  const mv=S.meshVel;
+  const SR=src || meshVelocitySources(S);
+  const OO=O || meshVelocityOrigin(S);
+  const e2=(S.params.softening||0)*(S.params.softening||0);
+  const px=S.x[i], py=S.y[i];
+  let ext=null, loc=null;
+  if(mv.field==="backgroundComplex"){
+    const B=mv.bg, dx=px-OO[0], dy=py-OO[1];
+    const W=B.W0+B.gradW[0]*dx+B.gradW[1]*dy;
+    if(!(W>=0)) return {ok:false, err:"背景の重みが負(線形の外挿が源の近くまで伸びた)", bad:true};
+    const A=[B.A0[0]+B.gradA[0]*dx+B.gradA[1]*dy, B.A0[1]+B.gradA[2]*dx+B.gradA[3]*dy];
+    if(W===0 && B.W0===0) ext={W:0, A:[0,0], gradW:[0,0], gradA:[0,0,0,0], dWdt:0, dAdt:[0,0]};
+    else if(W===0) return {ok:false, err:"背景の重みがちょうど 0 の点(分子は残る)", bad:true};
+    else ext={W, A, gradW:B.gradW.slice(), gradA:B.gradA.slice(), dWdt:B.dWdt, dAdt:B.dAdt.slice()};
+  } else {
+    const L=[];
+    for(let j=0;j<S.n;j++) if(j!==i && mv.ext[j]) L.push(SR[j]);
+    if(L.length){ ext=dfmComplexMomentsOf(L,px,py,e2); if(!ext) return {ok:false, err:"外部の明示天体の場が作れない", bad:true}; }
+  }
+  if(mv.mutual===1){
+    const L=[];
+    for(let j=0;j<S.n;j++) if(j!==i && !(mv.field==="explicit" && mv.ext[j])) L.push(SR[j]);
+    if(L.length){
+      loc=dfmComplexMomentsOf(L,px,py,e2);
+      if(!loc) return {ok:false, err:"局所の場が作れない", bad:true};
+      loc.selfExcluded=true;                        // i は源に入れていない(自己項は分母へ足さない)
+    }
+  }
+  if(!ext && !loc) return {ok:true, defined:false, uQuantity:"velocity", timeDerivativeComplete:true,
+    u:null, gradU:null, dUdt:null, chi:null, why:"外部の源が無い"};
+  const f=dfmBlendComplexMoments(loc, ext);
+  if(!f.ok) f.bad=true;
+  return f;
+}
+function dfmMeshVelocityStep(S,dt){
+  if(!S || S.hasMeshVelocity!==true) return null;
+  const n=S.n;
+  const src=meshVelocitySources(S), O=meshVelocityOrigin(S);
+  const F=new Array(n);
+  for(let i=0;i<n;i++){
+    if(S.pinned && S.pinned[i]){ F[i]=null; continue; }      // 規定運動の粒子は受け取らない
+    F[i]=dfmMeshVelocityFieldAt(S,i,src,O);
+  }
+  let uMax=0, kMax=0, work=0, nUndef=0, nBad=0;
+  for(let i=0;i<n;i++){
+    const f=F[i];
+    if(!f) continue;
+    if(!f.ok){ nBad++; continue; }
+    if(f.defined!==true){ nUndef++; continue; }
+    const vx=S.vx[i], vy=S.vy[i];
+    const r=dfmMeshVelocityRHS(f,[vx,vy],[0,0]);
+    if(!r.ok){ nBad++; continue; }
+    const kx=r.canonical[0]*dt, ky=r.canonical[1]*dt;
+    S.x[i]+=r.transport[0]*dt; S.y[i]+=r.transport[1]*dt;
+    S.vx[i]=vx+kx; S.vy[i]=vy+ky;
+    const m=S.m[i];
+    if(m>0) work+=m*(vx*kx+vy*ky)+0.5*m*(kx*kx+ky*ky);
+    const um=Math.hypot(r.transport[0],r.transport[1]); if(um>uMax) uMax=um;
+    const km=Math.hypot(kx,ky); if(km>kMax) kMax=km;
+    if(isNum(f.chi)){
+      if(S.meshVelChiMin===null || f.chi<S.meshVelChiMin) S.meshVelChiMin=f.chi;
+      if(S.meshVelChiMax===null || f.chi>S.meshVelChiMax) S.meshVelChiMax=f.chi;
+    }
+  }
+  S.meshVelN+=1; S.meshVelUndef+=nUndef; S.meshVelBad+=nBad; S.meshVelWork+=work;
+  if(uMax>S.meshVelUMax) S.meshVelUMax=uMax;
+  if(kMax>S.meshVelKickMax) S.meshVelKickMax=kMax;
+  return {n:1, uMax, kickMax:kMax, work, undef:nUndef, bad:nBad};
+}
 // ===== 第265便d(第57報 W4): LFBOT の**トイ仮説** —— 減光で出られなかった自光の蓄積と、崩壊での放出 =====
 // 原仮定者(第57報)「『Luminous Fast Blue Optical Transient』について、『減光』で青方偏移した光が
 // 蓄積し、天体の崩壊で一気に放出した、という仮説を立てる」。**観測事実の主張ではない**(sampleClass は
@@ -41992,7 +42451,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第275便b(第65報 (2)): D₀ の**背景の出所**の宣言鍵(**宣言専用** — エンジンは 1 箇所も読まない)。
   // QA preset.d0source-declared が「受理契約」「未宣言の 1 bit 不変」「内蔵の宣言 0 本」を機械固定する
   validateD0Source, D0_SOURCE_KEY, D0_BACKGROUNDS, D0_SOURCE_NOTE_MAX,
-  // 第276便a(第66報 (1)): **背景複素決定力**の宣言鍵(**宣言専用** — エンジンは 1 箇所も読まない)。
+  // 第276便a(第66報 (1)): **背景複素決定力**の宣言鍵(**宣言専用** — 既定経路は 1 箇所も読まない。第279便c: meshVelocity を宣言した本の外部ステップだけが読む)。
   // W₀([M/L²])・A₀([M/(L·T)])とその空間/時間微分を D₀([M/L])とは**別の鍵**で持つ。
   // QA preset.backgroundComplex-declared が「受理契約」「未宣言の 1 bit 不変」「内蔵の宣言 0 本」を機械固定する
   validateBackgroundComplex, BG_COMPLEX_KEY, BG_COMPLEX_BACKGROUNDS, BG_COMPLEX_NOTE_MAX, BG_COMPLEX_UNITS,
@@ -42001,6 +42460,15 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // backgroundComplex とは別鍵)。QA preset.backgroundTidal が受理契約・内蔵 0 本・読み口 0 を機械固定する
   validateBackgroundTidal, BG_TIDAL_KEY, BG_TIDAL_UNIT, BG_TIDAL_DIMS, BG_TIDAL_REQUIRED, BG_TIDAL_TEXT_MAX,
   BG_TIDAL_NESTED,
+  // 第279便c(第69報・R62/R63): 源の分割・凍結参照系の宣言、背景の**閾値なし合成**と速度分解 RHS の純関数、
+  // opt-in 外部ステップ `dfmMeshVelocityStep`(physics.meshVelocity を宣言した本だけ)。
+  // QA preset.meshVelocity・preset.bgSources・docs.bgCompose・docs.bgbudget2-sync が機械固定する
+  validateBgSources, validateBgFrame, bgBodyRefIndex, bgSourcesBodyCheck, BG_SOURCE_KINDS, BG_SOURCE_MAX,
+  BG_SOURCE_ID_MAX, BG_FRAME_ROTATIONS, BG_FRAME_TRANSLATIONS, BG_FRAME_EPOCH_MAX, BG_FRAME_KEYS,
+  validateMeshVelocity, meshVelocityCrossCheck, MESH_VEL_KEY, MESH_VEL_LAWS, MESH_VEL_FIELDS, MESH_VEL_MUTUALS,
+  MESH_VEL_KEYS, MESH_VEL_EXTERNAL_MAX, MESH_VEL_STEP_VERSION, MESH_MOMENT_KEYS,
+  dfmComplexMomentsOf, dfmBlendComplexMoments, dfmMeshVelocityRHS, dfmMeshVelocityStep, dfmMeshVelocityFieldAt,
+  meshVelocityPrepare, meshVelocityOrigin, meshVelocityOriginNow,
   // 第264便b(第56報): **源の閉包**の値域("gravity" 既定 /"iterate" 診断)と反復・残差の宣言値。
   // QA behavior.geoToyClosure が「既定は 122 本ビット不変」「iterate は反復数と残差を返す」
   // 「特異点(det=1−η²χ₀χ₁→0)で収束しない」を機械固定する
