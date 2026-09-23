@@ -1,0 +1,4096 @@
+{
+ "meta": {
+  "wave": "第279便a",
+  "statusVersion": "w279a-1",
+  "rule": "較正の語・合わない量・見込みは正本(calaudit verdictLedger / charonwin grid)から機械で作る。状況の語は根拠 ID(保存 QA で PASS・正本の存在)で裏づくものだけ。",
+  "doNotWrite": [
+   "較正した",
+   "較正を完了",
+   "観測と一致した",
+   "精度を上げれば合格",
+   "判定が増えた"
+  ],
+  "provenanceVersion": "w272e-1",
+  "target": "beta/index.html",
+  "targetSha256": "0c12ec275988e564a88edde325d2ed1ecd94c0b4a66c0952f9fb4a203fee79c5",
+  "generatedAt": "2026-09-23T19:56:36.892Z",
+  "inputs": [
+   {
+    "file": "tests/data-w279a-samplestatus-src.json",
+    "bytes": 48147,
+    "sha256": "bc17fe423c4d2b529797f6e220775727c9252a863b24d70248d1061cb5f14cf7",
+    "mtime": "2026-09-23T19:53:32.281Z"
+   },
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "bytes": 2797251,
+    "sha256": "3e377954f2d8386fbae1654a35d9f3f026956cbbc65417dac710609dd2a97a30",
+    "mtime": "2026-09-23T19:39:57.123Z"
+   },
+   {
+    "file": "tests/out/charonwin-w278b.json",
+    "bytes": 89913,
+    "sha256": "3992cc9476b18fd75e3f9f515772434368e0f81873a6aba407c47412812dda15",
+    "mtime": "2026-09-23T19:39:58.843Z"
+   },
+   {
+    "file": "docs/SAMPLE_STATUS_v1.45.md",
+    "bytes": 44287,
+    "sha256": "b7fdd2edf5bf3bfaf149d56b35d75b5c2705b69d92b3f871c6ccf47eebe6ae15",
+    "mtime": "2026-09-23T19:56:36.875Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w279a-samplestatus.mjs",
+    "bytes": 15287,
+    "sha256": "4748dd7356dc847f31a76a845169cd91ebd1199c7fcf3961d47d9a874ccdbb43",
+    "mtime": "2026-09-23T19:56:30.975Z"
+   },
+   {
+    "file": "tests/lib-w279a-samplestatus.mjs",
+    "bytes": 19451,
+    "sha256": "09e47055bdeceb639a2b4770f085a9315ada2a6e81398c2c9343a3e3e388244f",
+    "mtime": "2026-09-23T19:53:25.576Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-23T19:40:07.695Z"
+   }
+  ],
+  "codeSha256": "dd9d3d7276f5a2a355b7718a70baf4cde99977af80ef7aa66b65c60e4dea6181",
+  "evidenceQa": {
+   "file": "tests/out/qa-results-full-beta.json",
+   "commit": "c42d16ae83d2a79c4b659eb28ff09e936b36f3c2",
+   "date": "2026-09-23T15:49:42.856Z",
+   "pass": 845
+  }
+ },
+ "tally": {
+  "objective": {
+   "met": 77,
+   "partial": 51,
+   "unmet": 5,
+   "n/a": 0
+  },
+  "calibration": {
+   "pass": 0,
+   "pass-limited": 2,
+   "fail": 2,
+   "hold": 33,
+   "hold-definition": 2,
+   "out-of-scope": 94
+  },
+  "four": {
+   "合": 0,
+   "量限定合": 2,
+   "否": 2,
+   "保留": 33
+  },
+  "byGroup": [
+   {
+    "group": "運動と時空",
+    "icon": "🧭",
+    "n": 5
+   },
+   {
+    "group": "銀河の力学",
+    "icon": "🌌",
+    "n": 17
+   },
+   {
+    "group": "天体の機構",
+    "icon": "🪐",
+    "n": 18
+   },
+   {
+    "group": "時計と重力",
+    "icon": "⏱️",
+    "n": 5
+   },
+   {
+    "group": "光の伝播",
+    "icon": "💡",
+    "n": 5
+   },
+   {
+    "group": "スピンと熱",
+    "icon": "🌡️",
+    "n": 12
+   },
+   {
+    "group": "箱宇宙の実験",
+    "icon": "📦",
+    "n": 10
+   },
+   {
+    "group": "自転と減光",
+    "icon": "🌗",
+    "n": 10
+   },
+   {
+    "group": "現実との照合・太陽系",
+    "icon": "☀️",
+    "n": 21
+   },
+   {
+    "group": "現実との照合・連星",
+    "icon": "⭐",
+    "n": 19
+   },
+   {
+    "group": "実在天体のアナロジー",
+    "icon": "🔭",
+    "n": 11
+   },
+   {
+    "group": "法則の実験室",
+    "icon": "⚗️",
+    "n": 0
+   },
+   {
+    "group": "シミュレーション",
+    "icon": "🖥️",
+    "n": 0
+   },
+   {
+    "group": "現実との照合",
+    "icon": "📏",
+    "n": 0
+   }
+  ],
+  "n": 133,
+  "predictionEligible": 0
+ },
+ "rows": [
+  {
+   "id": "gclock",
+   "emoji": "⏱️",
+   "name": "重力による時計の遅れ",
+   "group": "時計と重力",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "重力の強さだけを変えて時計の遅れを比べる",
+    "objective": "met",
+    "state": "τ/t と解析値の差 1.1×10⁻⁵",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "new.gclock"
+    ],
+    "en": {
+     "purpose": "Compare clock rates when only the strength of gravity changes",
+     "state": "τ/t differs from the analytic value by 1.1×10⁻⁵",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare clock rates when only the strength of gravity changes. Met: τ/t differs from the analytic value by 1.1×10⁻⁵. Out of calibration scope."
+    },
+    "brief": "重力の強さだけを変えて時計の遅れを比べる。達・τ/t と解析値の差 1.1×10⁻⁵。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "grcal",
+   "emoji": "🛰️",
+   "name": "弱場GR較正 — GPS・光・シャピロ",
+   "group": "時計と重力",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "時計・光の偏向・遅延を 1 本の弱場則で出す",
+    "objective": "met",
+    "state": "式の値 5 つが事前登録窓 ±1% 内(縮尺模型)",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.grcal3",
+     "grcal.clocks"
+    ],
+    "en": {
+     "purpose": "Get clocks, light bending and delay from one weak-field rule",
+     "state": "five formula-level values lie in their pre-registered ±1% windows (scale model)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Get clocks, light bending and delay from one weak-field rule. Met: five formula-level values lie in their pre-registered ±1% windows (scale model). Out of calibration scope."
+    },
+    "brief": "時計・光の偏向・遅延を 1 本の弱場則で出す。達・式の値 5 つが事前登録窓 ±1% 内(縮尺模型)。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "grcalGps",
+   "emoji": "🕰️",
+   "name": "GPS 時計差 — 重力項と速度項の分解",
+   "group": "時計と重力",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "GPS の時計差を重力項と速度項に分ける",
+    "objective": "met",
+    "state": "式の値 正味 38.50 μs/日が窓 ±1% 内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.grcal3"
+    ],
+    "en": {
+     "purpose": "Split the GPS clock offset into a gravity term and a speed term",
+     "state": "the formula-level net 38.50 μs/day lies in the ±1% window",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Split the GPS clock offset into a gravity term and a speed term. Met: the formula-level net 38.50 μs/day lies in the ±1% window. Out of calibration scope."
+    },
+    "brief": "GPS の時計差を重力項と速度項に分ける。達・式の値 正味 38.50 μs/日が窓 ±1% 内。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "grcalLight",
+   "emoji": "🌟",
+   "name": "太陽縁の光偏向 — 1.75″",
+   "group": "時計と重力",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "太陽縁の光の偏向を同じ場から出す",
+    "objective": "met",
+    "state": "式の値 1.7509″ が窓 ±1% 内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.grcal3"
+    ],
+    "en": {
+     "purpose": "Get light bending at the solar limb from the same field",
+     "state": "the formula-level 1.7509″ lies in the ±1% window",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Get light bending at the solar limb from the same field. Met: the formula-level 1.7509″ lies in the ±1% window. Out of calibration scope."
+    },
+    "brief": "太陽縁の光の偏向を同じ場から出す。達・式の値 1.7509″ が窓 ±1% 内。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "grcalShapiro",
+   "emoji": "⏲️",
+   "name": "シャピロ遅延 — 太陽の近くを往復する信号",
+   "group": "時計と重力",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "太陽の近くを往復する信号の遅れを見せる",
+    "objective": "met",
+    "state": "式の値 281.0 μs が窓 ±1% 内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.grcal3"
+    ],
+    "en": {
+     "purpose": "Show the delay of a signal passing close to the Sun",
+     "state": "the formula-level 281.0 μs lies in the ±1% window",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Show the delay of a signal passing close to the Sun. Met: the formula-level 281.0 μs lies in the ±1% window. Out of calibration scope."
+    },
+    "brief": "太陽の近くを往復する信号の遅れを見せる。達・式の値 281.0 μs が窓 ±1% 内。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "projectile",
+   "emoji": "⚾",
+   "name": "自由落下と放物運動",
+   "group": "運動と時空",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "一様重力だけで自由落下と放物運動を見せる",
+    "objective": "partial",
+    "state": "場の式と配置の検査のみで軌道の定量門は無い",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "field.uniform-gravity",
+     "projectile.layout"
+    ],
+    "en": {
+     "purpose": "Show free fall and projectile motion under uniform gravity alone",
+     "state": "only the field formula and the layout are checked; there is no quantitative orbit gate",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Show free fall and projectile motion under uniform gravity alone. Partial: only the field formula and the layout are checked; there is no quantitative orbit gate. Out of calibration scope."
+    },
+    "brief": "一様重力だけで自由落下と放物運動を見せる。部分・場の式と配置の検査のみで軌道の定量門は無い。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "echo",
+   "emoji": "⏪",
+   "name": "時間の矢 — 巻き戻る宇宙と巻き戻らない宇宙",
+   "group": "運動と時空",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "保存系は巻き戻り摩擦系は戻らないことを比べる",
+    "objective": "met",
+    "state": "反転後の復帰と摩擦での不復帰が門を通過",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "echo.leapfrog-return",
+     "echo.friction-noreturn"
+    ],
+    "en": {
+     "purpose": "Compare a conservative universe that rewinds with a frictional one that does not",
+     "state": "the return after reversal and the non-return with friction pass their gates",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare a conservative universe that rewinds with a frictional one that does not. Met: the return after reversal and the non-return with friction pass their gates. Out of calibration scope."
+    },
+    "brief": "保存系は巻き戻り摩擦系は戻らないことを比べる。達・反転後の復帰と摩擦での不復帰が門を通過。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "boxtrans",
+   "emoji": "📦",
+   "name": "箱宇宙 — 並進する箱",
+   "group": "箱宇宙の実験",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "並進する箱の中で共動と時計を比べる",
+    "objective": "met",
+    "state": "共動 τ/t 0.9994・固有運動 0.9881 が門内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "box.trans-clocks"
+    ],
+    "en": {
+     "purpose": "Compare co-motion and clocks inside a translating box",
+     "state": "co-moving τ/t 0.9994 and peculiar motion 0.9881 pass the gate",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare co-motion and clocks inside a translating box. Met: co-moving τ/t 0.9994 and peculiar motion 0.9881 pass the gate. Out of calibration scope."
+    },
+    "brief": "並進する箱の中で共動と時計を比べる。達・共動 τ/t 0.9994・固有運動 0.9881 が門内。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "boxrot",
+   "emoji": "🌀",
+   "name": "箱宇宙 — 回る箱と空間の支え",
+   "group": "箱宇宙の実験",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "回る壁が軌道を支えるかを kF で比べる",
+    "objective": "met",
+    "state": "半径比 kF1 0.988・kF0 3.71(外部駆動)",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "box.rot-support"
+    ],
+    "en": {
+     "purpose": "Compare, by kF, whether a rotating wall supports orbits",
+     "state": "radius ratio 0.988 with kF1 and 3.71 with kF0 (externally driven)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare, by kF, whether a rotating wall supports orbits. Met: radius ratio 0.988 with kF1 and 3.71 with kF0 (externally driven). Out of calibration scope."
+    },
+    "brief": "回る壁が軌道を支えるかを kF で比べる。達・半径比 kF1 0.988・kF0 3.71(外部駆動)。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "boxexpand",
+   "emoji": "📈",
+   "name": "箱宇宙 — 膨張する箱(質点リング)",
+   "group": "箱宇宙の実験",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "膨張させた壁に内側がどこまで追随するかを測る",
+    "objective": "met",
+    "state": "追随は a でなく √a(比 0.9996)",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "box.expand-sqrt"
+    ],
+    "en": {
+     "purpose": "Measure how far the interior follows an expanded wall",
+     "state": "it follows √a rather than a (ratio 0.9996)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Measure how far the interior follows an expanded wall. Met: it follows √a rather than a (ratio 0.9996). Out of calibration scope."
+    },
+    "brief": "膨張させた壁に内側がどこまで追随するかを測る。達・追随は a でなく √a(比 0.9996)。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "boxcomoving",
+   "emoji": "🫧",
+   "name": "箱宇宙 — UniverseBoxの完全共動と膨張時計",
+   "group": "箱宇宙の実験",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "連続背景で完全共動と膨張の時計を見せる",
+    "objective": "met",
+    "state": "赤方偏移が規定 a(t) と相対 1e-6 未満",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "box.redshift"
+    ],
+    "en": {
+     "purpose": "Show full co-motion and the expansion clock with a continuous background",
+     "state": "the redshift matches the prescribed a(t) to better than 1e-6",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Show full co-motion and the expansion clock with a continuous background. Met: the redshift matches the prescribed a(t) to better than 1e-6. Out of calibration scope."
+    },
+    "brief": "連続背景で完全共動と膨張の時計を見せる。達・赤方偏移が規定 a(t) と相対 1e-6 未満。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "boxbound",
+   "emoji": "🪢",
+   "name": "箱宇宙 — 束縛系は膨張に逆らえるか",
+   "group": "箱宇宙の実験",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "膨張の中で連星の束縛が残るかを測る",
+    "objective": "met",
+    "state": "宣言した膨張率と時間窓の門を通過",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.boxbound"
+    ],
+    "en": {
+     "purpose": "Measure whether a bound binary survives expansion",
+     "state": "passes the gate for the declared expansion rate and window",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Measure whether a bound binary survives expansion. Met: passes the gate for the declared expansion rate and window. Out of calibration scope."
+    },
+    "brief": "膨張の中で連星の束縛が残るかを測る。達・宣言した膨張率と時間窓の門を通過。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "boxbreath",
+   "emoji": "🫁",
+   "name": "箱宇宙 — 呼吸する宇宙と時計",
+   "group": "箱宇宙の実験",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "膨張と収縮を 1 周期戻して変位を測る",
+    "objective": "met",
+    "state": "1 周期後 RMS 0.049 が門 <1 を通過",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "box.breath-return"
+    ],
+    "en": {
+     "purpose": "Measure the displacement after one breathing cycle",
+     "state": "RMS 0.049 after one cycle passes the <1 gate",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Measure the displacement after one breathing cycle. Met: RMS 0.049 after one cycle passes the <1 gate. Out of calibration scope."
+    },
+    "brief": "膨張と収縮を 1 周期戻して変位を測る。達・1 周期後 RMS 0.049 が門 <1 を通過。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "boxredshift",
+   "emoji": "🔦",
+   "name": "箱宇宙 — 光の赤方偏移(A・B・C)",
+   "group": "箱宇宙の実験",
+   "sampleClass": "semantic",
+   "status": {
+    "purpose": "共動する 3 点の間で光の赤方偏移を比べる",
+    "objective": "met",
+    "state": "z_A 2.93・z_B 0.958 が窓内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "box.photon-abc"
+    ],
+    "en": {
+     "purpose": "Compare light redshifts between three co-moving points",
+     "state": "z_A 2.93 and z_B 0.958 lie in their windows",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare light redshifts between three co-moving points. Met: z_A 2.93 and z_B 0.958 lie in their windows. Out of calibration scope."
+    },
+    "brief": "共動する 3 点の間で光の赤方偏移を比べる。達・z_A 2.93・z_B 0.958 が窓内。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "probeH",
+   "emoji": "🧭",
+   "name": "箱宇宙 — ２つのH推定器(ハッブルテンション類似)",
+   "group": "箱宇宙の実験",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "幾何と速度の 2 つの H 推定器の差を見せる",
+    "objective": "met",
+    "state": "2 つの読みが解析値と 1% 内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.probeH"
+    ],
+    "en": {
+     "purpose": "Show the gap between a geometric and a velocity H estimator",
+     "state": "both readings match their analytic values within 1%",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Show the gap between a geometric and a velocity H estimator. Met: both readings match their analytic values within 1%. Out of calibration scope."
+    },
+    "brief": "幾何と速度の 2 つの H 推定器の差を見せる。達・2 つの読みが解析値と 1% 内。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "freebox",
+   "emoji": "🕊️",
+   "name": "箱宇宙 — 自由な箱(膨張の原因)",
+   "group": "箱宇宙の実験",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "自由な壁の重力と圧力で膨張を作る",
+    "objective": "met",
+    "state": "4 象限対照で加速の源は圧力",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "freebox.quadrants"
+    ],
+    "en": {
+     "purpose": "Make expansion from the gravity and pressure of a free wall",
+     "state": "the four-quadrant controls put the source of acceleration in pressure",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Make expansion from the gravity and pressure of a free wall. Met: the four-quadrant controls put the source of acceleration in pressure. Out of calibration scope."
+    },
+    "brief": "自由な壁の重力と圧力で膨張を作る。達・4 象限対照で加速の源は圧力。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "cosmicweb",
+   "emoji": "🕸️",
+   "name": "箱宇宙 — 膨張と自己重力の綱引き(コズミックウェブ類似)",
+   "group": "箱宇宙の実験",
+   "sampleClass": "composite",
+   "status": {
+    "purpose": "膨張と自己重力の綱引きで疎密を作る",
+    "objective": "met",
+    "state": "δ² 5.4 倍・膨張なし対照で成長が大",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.cosmicweb"
+    ],
+    "en": {
+     "purpose": "Make over- and under-densities from expansion versus self-gravity",
+     "state": "δ² grows 5.4×; without expansion it grows more",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Make over- and under-densities from expansion versus self-gravity. Met: δ² grows 5.4×; without expansion it grows more. Out of calibration scope."
+    },
+    "brief": "膨張と自己重力の綱引きで疎密を作る。達・δ² 5.4 倍・膨張なし対照で成長が大。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "galaxy",
+   "emoji": "🌌",
+   "name": "銀河の回転曲線",
+   "group": "銀河の力学",
+   "sampleClass": "composite",
+   "status": {
+    "purpose": "中心天体の引きずりで外縁の回転が速まるかを測る",
+    "objective": "met",
+    "state": "外縁速度比 1.526 が門 >1.04 を通過",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "claim.galaxy-outerboost"
+    ],
+    "en": {
+     "purpose": "Measure whether the central body's dragging speeds up the outer rotation",
+     "state": "outer speed ratio 1.526 passes the >1.04 gate",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Measure whether the central body's dragging speeds up the outer rotation. Met: outer speed ratio 1.526 passes the >1.04 gate. Out of calibration scope."
+    },
+    "brief": "中心天体の引きずりで外縁の回転が速まるかを測る。達・外縁速度比 1.526 が門 >1.04 を通過。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "galaxyStd",
+   "emoji": "🎡",
+   "name": "空間引きずりの基準実験 — 銀河標準",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "重力と引きずりだけで外縁の増速を測る基準",
+    "objective": "met",
+    "state": "外縁速度比 1.267 が窓 1.15〜1.4 内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "claim.galaxystd-outerboost"
+    ],
+    "en": {
+     "purpose": "Baseline that measures the outer speed-up with gravity and dragging only",
+     "state": "outer speed ratio 1.267 lies in the 1.15–1.4 window",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Baseline that measures the outer speed-up with gravity and dragging only. Met: outer speed ratio 1.267 lies in the 1.15–1.4 window. Out of calibration scope."
+    },
+    "brief": "重力と引きずりだけで外縁の増速を測る基準。達・外縁速度比 1.267 が窓 1.15〜1.4 内。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "galaxyGeo2",
+   "emoji": "💫",
+   "name": "v−u統一測地線の銀河",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "v−u 測地線則で外縁の増速を比べる",
+    "objective": "met",
+    "state": "外縁速度比 1.195 が窓内・クランプ 0",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "claim.galaxygeo2-outerboost"
+    ],
+    "en": {
+     "purpose": "Compare the outer speed-up under the v−u geodesic law",
+     "state": "outer speed ratio 1.195 lies in its window with zero clamps",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare the outer speed-up under the v−u geodesic law. Met: outer speed ratio 1.195 lies in its window with zero clamps. Out of calibration scope."
+    },
+    "brief": "v−u 測地線則で外縁の増速を比べる。達・外縁速度比 1.195 が窓内・クランプ 0。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "galaxyDB",
+   "emoji": "🍳",
+   "name": "ディスクとバルジ — 回転支持と分散支持",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "円盤の回転支持とバルジの分散支持を比べる",
+    "objective": "met",
+    "state": "速度分散の比 2.37 が窓 2.2〜3.0 内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "claim.galaxydb-contrast"
+    ],
+    "en": {
+     "purpose": "Contrast rotation support in a disc with dispersion support in a bulge",
+     "state": "the dispersion ratio 2.37 lies in the 2.2–3.0 window",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Contrast rotation support in a disc with dispersion support in a bulge. Met: the dispersion ratio 2.37 lies in the 2.2–3.0 window. Out of calibration scope."
+    },
+    "brief": "円盤の回転支持とバルジの分散支持を比べる。達・速度分散の比 2.37 が窓 2.2〜3.0 内。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "darkrotor",
+   "emoji": "🕶️",
+   "name": "ダークローターの銀河",
+   "group": "自転と減光",
+   "sampleClass": "composite",
+   "status": {
+    "purpose": "暗いローターが作る腕の強さと減光を測る",
+    "objective": "met",
+    "state": "腕の強さ・保持・減光が長時間の門内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.darkrotorLong"
+    ],
+    "en": {
+     "purpose": "Measure the arm strength and dimming made by dark rotors",
+     "state": "arm strength, retention and dimming pass the long-run gate",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Measure the arm strength and dimming made by dark rotors. Met: arm strength, retention and dimming pass the long-run gate. Out of calibration scope."
+    },
+    "brief": "暗いローターが作る腕の強さと減光を測る。達・腕の強さ・保持・減光が長時間の門内。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "rotorSolo",
+   "emoji": "🕳️",
+   "name": "ダークローター(単体)",
+   "group": "自転と減光",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "単体ローターの掻き出しと減光を測る",
+    "objective": "met",
+    "state": "掻き出し・非脱出・帳簿が門内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.rotorSolo"
+    ],
+    "en": {
+     "purpose": "Measure a single rotor's sweeping and dimming",
+     "state": "sweeping, non-escape and the ledger pass the gate",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Measure a single rotor's sweeping and dimming. Met: sweeping, non-escape and the ledger pass the gate. Out of calibration scope."
+    },
+    "brief": "単体ローターの掻き出しと減光を測る。達・掻き出し・非脱出・帳簿が門内。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "nebulaRotor",
+   "emoji": "🌑",
+   "name": "ローター星雲 — 暗黒星雲と散光星雲",
+   "group": "自転と減光",
+   "sampleClass": "composite",
+   "status": {
+    "purpose": "ローター群で暗いコアと明るい外層を作る",
+    "objective": "met",
+    "state": "明暗のコントラスト 11.5 倍が門 >10",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "claim.nebularotor-contrast"
+    ],
+    "en": {
+     "purpose": "Make a dark core and a bright envelope from rotor swarms",
+     "state": "a contrast of 11.5× passes the >10 gate",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Make a dark core and a bright envelope from rotor swarms. Met: a contrast of 11.5× passes the >10 gate. Out of calibration scope."
+    },
+    "brief": "ローター群で暗いコアと明るい外層を作る。達・明暗のコントラスト 11.5 倍が門 >10。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "nebulaShell",
+   "emoji": "🐚",
+   "name": "重殻ローター星雲 — 束縛と暗さの両立",
+   "group": "自転と減光",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "重い殻で束縛と暗さを両立させる",
+    "objective": "met",
+    "state": "暗さ 0.962・保持 1.000 が窓内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "claim.nebulashell-stress"
+    ],
+    "en": {
+     "purpose": "Combine binding and darkness with heavy shells",
+     "state": "darkness 0.962 and retention 1.000 lie in their windows",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Combine binding and darkness with heavy shells. Met: darkness 0.962 and retention 1.000 lie in their windows. Out of calibration scope."
+    },
+    "brief": "重い殻で束縛と暗さを両立させる。達・暗さ 0.962・保持 1.000 が窓内。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "nebulaBipolar",
+   "emoji": "⏳",
+   "name": "双極星雲 — 暗黒トーラスと極方向ローブ",
+   "group": "自転と減光",
+   "sampleClass": "composite",
+   "status": {
+    "purpose": "暗い赤道帯と明るい極方向の形を作る",
+    "objective": "met",
+    "state": "3 seed で極方向比の最小 0.614 が窓内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "claim.nebulabipolar-multiseed"
+    ],
+    "en": {
+     "purpose": "Make a dark equatorial band with bright polar lobes",
+     "state": "the minimum polar ratio over 3 seeds, 0.614, lies in the window",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Make a dark equatorial band with bright polar lobes. Met: the minimum polar ratio over 3 seeds, 0.614, lies in the window. Out of calibration scope."
+    },
+    "brief": "暗い赤道帯と明るい極方向の形を作る。達・3 seed で極方向比の最小 0.614 が窓内。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "bhCore",
+   "emoji": "⚫",
+   "name": "DFM版ブラックホール — 自由な5層の中心",
+   "group": "自転と減光",
+   "sampleClass": "composite",
+   "status": {
+    "purpose": "自由な多層の中心のスピン移送と減光を測る",
+    "objective": "met",
+    "state": "外縁増強 1.506・自走・減光が門内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "claim.bhcore-selfdrive"
+    ],
+    "en": {
+     "purpose": "Measure spin transfer and dimming of a free multilayer centre",
+     "state": "outer boost 1.506, self-drive and dimming pass the gate",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Measure spin transfer and dimming of a free multilayer centre. Met: outer boost 1.506, self-drive and dimming pass the gate. Out of calibration scope."
+    },
+    "brief": "自由な多層の中心のスピン移送と減光を測る。達・外縁増強 1.506・自走・減光が門内。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "bhCoreTilt",
+   "emoji": "🪩",
+   "name": "DFM版ブラックホール(横倒し)— エッジオンの暗い中心",
+   "group": "自転と減光",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "中心コアの軸を横倒しにした暗い中心を見せる",
+    "objective": "met",
+    "state": "横倒しでも減光 1.000・Jz は機械ゼロ",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.templates229"
+    ],
+    "en": {
+     "purpose": "Show a dark centre whose core axis lies edge-on",
+     "state": "dimming stays 1.000 edge-on and Jz is machine zero",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Show a dark centre whose core axis lies edge-on. Met: dimming stays 1.000 edge-on and Jz is machine zero. Out of calibration scope."
+    },
+    "brief": "中心コアの軸を横倒しにした暗い中心を見せる。達・横倒しでも減光 1.000・Jz は機械ゼロ。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "massLadder",
+   "emoji": "🪜",
+   "name": "隠れ質量ラダー — 暗い中心の力学質量",
+   "group": "自転と減光",
+   "sampleClass": "composite",
+   "status": {
+    "purpose": "暗い中心の力学質量を 3 段で比べる",
+    "objective": "met",
+    "state": "質量比 1.96・3.84 が窓内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "claim.massladder"
+    ],
+    "en": {
+     "purpose": "Compare the dynamical mass of dark centres on three rungs",
+     "state": "mass ratios 1.96 and 3.84 lie in their windows",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare the dynamical mass of dark centres on three rungs. Met: mass ratios 1.96 and 3.84 lie in their windows. Out of calibration scope."
+    },
+    "brief": "暗い中心の力学質量を 3 段で比べる。達・質量比 1.96・3.84 が窓内。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "collapse",
+   "emoji": "🌫️",
+   "name": "自己重力雲の崩壊と原始星形成",
+   "group": "銀河の力学",
+   "sampleClass": "composite",
+   "status": {
+    "purpose": "自己重力の崩壊と放射冷却の役割を分ける",
+    "objective": "met",
+    "state": "冷却は温度を下げるが崩壊の速さは変えない",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.collapse-cooling"
+    ],
+    "en": {
+     "purpose": "Separate self-gravitating collapse from the role of radiative cooling",
+     "state": "cooling lowers the temperature but leaves the collapse rate unchanged",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Separate self-gravitating collapse from the role of radiative cooling. Met: cooling lowers the temperature but leaves the collapse rate unchanged. Out of calibration scope."
+    },
+    "brief": "自己重力の崩壊と放射冷却の役割を分ける。達・冷却は温度を下げるが崩壊の速さは変えない。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "axisBarStill",
+   "emoji": "🥢",
+   "name": "回転ゼロの棒 — 軸に集まる恒星",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "回転のない円盤で軸への力が棒を作るかを見る",
+    "objective": "partial",
+    "state": "力の純関数は検査済み・棒の形の門は無い",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.armBarPure",
+     "preset.axisBarStill"
+    ],
+    "en": {
+     "purpose": "See whether a pull toward an axis gathers a non-rotating disc into a bar",
+     "state": "the force's pure functions are checked; there is no gate on the bar shape",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "See whether a pull toward an axis gathers a non-rotating disc into a bar. Partial: the force's pure functions are checked; there is no gate on the bar shape. Out of calibration scope."
+    },
+    "brief": "回転のない円盤で軸への力が棒を作るかを見る。部分・力の純関数は検査済み・棒の形の門は無い。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "axisBarArms",
+   "emoji": "🎏",
+   "name": "内側の棒と外側の2本腕 — 回転する円盤",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "回転する同じ円盤で内側の棒と外側の腕を見る",
+    "objective": "partial",
+    "state": "力の純関数は検査済み・腕の形の門は無い",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.armBarPure",
+     "preset.axisBarArms"
+    ],
+    "en": {
+     "purpose": "See an inner bar and outer arms in the same disc once it rotates",
+     "state": "the force's pure functions are checked; there is no gate on the arm shape",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "See an inner bar and outer arms in the same disc once it rotates. Partial: the force's pure functions are checked; there is no gate on the arm shape. Out of calibration scope."
+    },
+    "brief": "回転する同じ円盤で内側の棒と外側の腕を見る。部分・力の純関数は検査済み・腕の形の門は無い。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "axisBarReach",
+   "emoji": "🎚️",
+   "name": "棒の到達長 R_b — 外縁までは届かない",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "到達長だけを変えて棒の長さを比べる",
+    "objective": "partial",
+    "state": "力の純関数は検査済み・長さの門は無い",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.armBarPure",
+     "preset.axisBarReach"
+    ],
+    "en": {
+     "purpose": "Compare bar lengths when only the reach length changes",
+     "state": "the force's pure functions are checked; there is no gate on the length",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare bar lengths when only the reach length changes. Partial: the force's pure functions are checked; there is no gate on the length. Out of calibration scope."
+    },
+    "brief": "到達長だけを変えて棒の長さを比べる。部分・力の純関数は検査済み・長さの門は無い。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "selfRotor",
+   "emoji": "🥚",
+   "name": "自己形成ダークローター — 種から育つ暗い中心",
+   "group": "自転と減光",
+   "sampleClass": "composite",
+   "status": {
+    "purpose": "一様な雲から暗く回る中心が育つかを見る",
+    "objective": "met",
+    "state": "4 seed で質量比の最小 18.3%・対照の 33 倍",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.selfrotor-multiseed"
+    ],
+    "en": {
+     "purpose": "See whether a dark spinning centre grows from a uniform cloud",
+     "state": "minimum mass fraction 18.3% over 4 seeds, 33× the control",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "See whether a dark spinning centre grows from a uniform cloud. Met: minimum mass fraction 18.3% over 4 seeds, 33× the control. Out of calibration scope."
+    },
+    "brief": "一様な雲から暗く回る中心が育つかを見る。達・4 seed で質量比の最小 18.3%・対照の 33 倍。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "galaxyMeshSpiral",
+   "emoji": "🎠",
+   "name": "銀河の空間メッシュ",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "銀河の空間メッシュを局所場と物質線で表す",
+    "objective": "met",
+    "state": "場の加算・単調性・物質線を純関数で確認",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.galaxyMesh"
+    ],
+    "en": {
+     "purpose": "Represent a galaxy's space mesh by a local field plus material lines",
+     "state": "field additivity, monotonicity and the material lines are checked in pure functions",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Represent a galaxy's space mesh by a local field plus material lines. Met: field additivity, monotonicity and the material lines are checked in pure functions. Out of calibration scope."
+    },
+    "brief": "銀河の空間メッシュを局所場と物質線で表す。達・場の加算・単調性・物質線を純関数で確認。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "galaxyMeshSpiralGeoToy",
+   "emoji": "🪁",
+   "name": "銀河の空間メッシュ — geoPN=3 原理コピー(較正ではない)",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "🎠 の配置で法則だけ geoPN=3 に替えて比べる",
+    "objective": "partial",
+    "state": "600 歩の走行と帳簿は確認・形の門は無い",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.geoToyNeedMesh",
+     "preset.galaxyGeoToyCopy"
+    ],
+    "en": {
+     "purpose": "Compare 🎠's layout with only the law swapped to geoPN=3",
+     "state": "the 600-step run and its ledger are checked; there is no shape gate",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare 🎠's layout with only the law swapped to geoPN=3. Partial: the 600-step run and its ledger are checked; there is no shape gate. Out of calibration scope."
+    },
+    "brief": "🎠 の配置で法則だけ geoPN=3 に替えて比べる。部分・600 歩の走行と帳簿は確認・形の門は無い。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "galaxyMeshSpiralGeoToyLite",
+   "emoji": "🎋",
+   "name": "銀河の空間メッシュ・軽量コピー(円盤 80 粒 — 較正ではない)",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "🪁 を円盤 80 粒に軽くした比較用の写し",
+    "objective": "partial",
+    "state": "準備経路のビット同一は確認・形の門は無い",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "perf.geoToyPrepared"
+    ],
+    "en": {
+     "purpose": "A lighter copy of 🪁 with an 80-particle disc for comparison",
+     "state": "the prepared path is bit-identical; there is no shape gate",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "A lighter copy of 🪁 with an 80-particle disc for comparison. Partial: the prepared path is bit-identical; there is no shape gate. Out of calibration scope."
+    },
+    "brief": "🪁 を円盤 80 粒に軽くした比較用の写し。部分・準備経路のビット同一は確認・形の門は無い。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "shapeToyCluster",
+   "emoji": "🔮",
+   "name": "球状星団トイ — 3D 正規分布の参照モデル(較正ではない)",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "指定した 3D 正規分布を保つ参照模型",
+    "objective": "met",
+    "state": "形状トイの門を通過(規定分布の模型)",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "docs.shapeToyCriteria",
+     "tests/out/shapetoy-w274d.json"
+    ],
+    "en": {
+     "purpose": "Reference toy that keeps a specified 3D normal distribution",
+     "state": "passes the shape-toy gate (a prescribed-distribution model)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Reference toy that keeps a specified 3D normal distribution. Met: passes the shape-toy gate (a prescribed-distribution model). Out of calibration scope."
+    },
+    "brief": "指定した 3D 正規分布を保つ参照模型。達・形状トイの門を通過(規定分布の模型)。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "shapeToyDisk",
+   "emoji": "🥏",
+   "name": "腕なし回転円盤トイ — 扁平は σ_z の宣言(較正ではない)",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "指定した薄い回転円盤を保つ参照模型",
+    "objective": "unmet",
+    "state": "形状トイの門で KS 比 1.330 が不合格",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "docs.shapeToyCriteria",
+     "tests/out/shapetoy-w274d.json"
+    ],
+    "en": {
+     "purpose": "Reference toy that keeps a specified thin rotating disc",
+     "state": "fails the shape-toy gate with a KS ratio of 1.330",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Reference toy that keeps a specified thin rotating disc. Unmet: fails the shape-toy gate with a KS ratio of 1.330. Out of calibration scope."
+    },
+    "brief": "指定した薄い回転円盤を保つ参照模型。未達・形状トイの門で KS 比 1.330 が不合格。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "shapeToyArm",
+   "emoji": "🧵",
+   "name": "腕単体トイ — 腕の軸に対して正規分布(較正ではない)",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "腕の軸に対する正規分布を保つ参照模型",
+    "objective": "met",
+    "state": "形状トイの門を通過(規定分布の模型)",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "docs.shapeToyCriteria",
+     "tests/out/shapetoy-w274d.json"
+    ],
+    "en": {
+     "purpose": "Reference toy that keeps a normal profile about the arm axis",
+     "state": "passes the shape-toy gate (a prescribed-distribution model)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Reference toy that keeps a normal profile about the arm axis. Met: passes the shape-toy gate (a prescribed-distribution model). Out of calibration scope."
+    },
+    "brief": "腕の軸に対する正規分布を保つ参照模型。達・形状トイの門を通過(規定分布の模型)。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "shapeToyClusterCore",
+   "emoji": "🎱",
+   "name": "球状星団トイ(中心天体つき)— 中心スピンが束ねる構成仮説(較正ではない)",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "中心スピンに依存する力学で星団を束ねる",
+    "objective": "met",
+    "state": "Core 力学の門を通過(RMS 偏り 0.0101)",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "docs.coreFieldCriteria",
+     "tests/out/corefield-w276d.json"
+    ],
+    "en": {
+     "purpose": "Bind a cluster with a law that depends on the central spin",
+     "state": "passes the core-law gate (RMS bias 0.0101)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Bind a cluster with a law that depends on the central spin. Met: passes the core-law gate (RMS bias 0.0101). Out of calibration scope."
+    },
+    "brief": "中心スピンに依存する力学で星団を束ねる。達・Core 力学の門を通過(RMS 偏り 0.0101)。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "shapeToyDiskCore",
+   "emoji": "📀",
+   "name": "腕なし回転円盤トイ(中心天体つき)— 薄さも回転も中心スピンの帰結(較正ではない)",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "中心スピンから薄さと円盤の回転を作る",
+    "objective": "met",
+    "state": "Core 力学の門を通過(逆行率 0.0352)",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "docs.coreFieldCriteria",
+     "tests/out/corefield-w276d.json"
+    ],
+    "en": {
+     "purpose": "Make a thin, rotating disc from the central spin",
+     "state": "passes the core-law gate (retrograde fraction 0.0352)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Make a thin, rotating disc from the central spin. Met: passes the core-law gate (retrograde fraction 0.0352). Out of calibration scope."
+    },
+    "brief": "中心スピンから薄さと円盤の回転を作る。達・Core 力学の門を通過(逆行率 0.0352)。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "shapeToyArmCore",
+   "emoji": "🧹",
+   "name": "棒トイ(中心天体つき)— 面内の自転軸に沿って伸びる(較正ではない)",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "面内の自転軸に沿った棒を作る",
+    "objective": "met",
+    "state": "Core 力学の門を通過(RMS 偏り 0.0060)",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "docs.coreFieldCriteria",
+     "tests/out/corefield-w276d.json"
+    ],
+    "en": {
+     "purpose": "Make a bar along the in-plane spin axis",
+     "state": "passes the core-law gate (RMS bias 0.0060)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Make a bar along the in-plane spin axis. Met: passes the core-law gate (RMS bias 0.0060). Out of calibration scope."
+    },
+    "brief": "面内の自転軸に沿った棒を作る。達・Core 力学の門を通過(RMS 偏り 0.0060)。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "lensing",
+   "emoji": "💡",
+   "name": "重力レンズと光子捕捉",
+   "group": "光の伝播",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "重力場で光線が曲がり捕まることを見せる",
+    "objective": "partial",
+    "state": "画像回帰と光速宣言の検査のみ",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "shot.regress-lensing",
+     "light.canonical-builtins"
+    ],
+    "en": {
+     "purpose": "Show rays bending and being captured in a gravity field",
+     "state": "only a screenshot regression and the light-speed declaration are checked",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Show rays bending and being captured in a gravity field. Partial: only a screenshot regression and the light-speed declaration are checked. Out of calibration scope."
+    },
+    "brief": "重力場で光線が曲がり捕まることを見せる。部分・画像回帰と光速宣言の検査のみ。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "spinlens",
+   "emoji": "🌗",
+   "name": "回る星のレンズ — 非対称湾曲",
+   "group": "光の伝播",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "回る星の場で光の曲がりが非対称になるかを見る",
+    "objective": "met",
+    "state": "非対称度 0.678・kF0 対照で 0",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "spinlens.kframe-control"
+    ],
+    "en": {
+     "purpose": "See whether a rotating star bends light asymmetrically",
+     "state": "asymmetry 0.678, and 0 in the kF0 control",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "See whether a rotating star bends light asymmetrically. Met: asymmetry 0.678, and 0 in the kF0 control. Out of calibration scope."
+    },
+    "brief": "回る星の場で光の曲がりが非対称になるかを見る。達・非対称度 0.678・kF0 対照で 0。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "blens",
+   "emoji": "🔭",
+   "name": "連星重力レンズ",
+   "group": "光の伝播",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "上下の連星で光線束が曲がる向きを見る",
+    "objective": "met",
+    "state": "上下で偏向の符号が反転し門を通過",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.blens"
+    ],
+    "en": {
+     "purpose": "See which way a ray bundle bends past a vertical binary",
+     "state": "the deflection flips sign above and below and passes the gate",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "See which way a ray bundle bends past a vertical binary. Met: the deflection flips sign above and below and passes the gate. Out of calibration scope."
+    },
+    "brief": "上下の連星で光線束が曲がる向きを見る。達・上下で偏向の符号が反転し門を通過。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "reddening",
+   "emoji": "🌆",
+   "name": "暗黒雲の赤化 — 体積吸収と波長依存",
+   "group": "光の伝播",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "波長ごとの吸収で雲越しの光が赤へ寄るかを見る",
+    "objective": "met",
+    "state": "青/赤の比 0.0154 が窓内・用量反応は一定",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "claim.reddening"
+    ],
+    "en": {
+     "purpose": "See whether wavelength-dependent absorption reddens light through a cloud",
+     "state": "blue/red ratio 0.0154 lies in its window; the dose response is constant",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "See whether wavelength-dependent absorption reddens light through a cloud. Met: blue/red ratio 0.0154 lies in its window; the dose response is constant. Out of calibration scope."
+    },
+    "brief": "波長ごとの吸収で雲越しの光が赤へ寄るかを見る。達・青/赤の比 0.0154 が窓内・用量反応は一定。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "gas",
+   "emoji": "🔥",
+   "name": "気体の熱平衡",
+   "group": "スピンと熱",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "温度差のある気体が熱平衡へ向かうかを見る",
+    "objective": "met",
+    "state": "温度分散の比 0.647 が門 <0.75 を通過",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.gas"
+    ],
+    "en": {
+     "purpose": "See whether gases at different temperatures head to equilibrium",
+     "state": "the temperature-spread ratio 0.647 passes the <0.75 gate",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "See whether gases at different temperatures head to equilibrium. Met: the temperature-spread ratio 0.647 passes the <0.75 gate. Out of calibration scope."
+    },
+    "brief": "温度差のある気体が熱平衡へ向かうかを見る。達・温度分散の比 0.647 が門 <0.75 を通過。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "pressure",
+   "emoji": "🎈",
+   "name": "熱の圧力 — 熱は押し広げる",
+   "group": "スピンと熱",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "熱の斥力が周りの気体を押し広げるかを測る",
+    "objective": "met",
+    "state": "半径比 1.18・熱斥力 0 の対照 1.02",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.pressure"
+    ],
+    "en": {
+     "purpose": "Measure whether thermal repulsion pushes the surrounding gas out",
+     "state": "radius ratio 1.18 against 1.02 with the repulsion off",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Measure whether thermal repulsion pushes the surrounding gas out. Met: radius ratio 1.18 against 1.02 with the repulsion off. Out of calibration scope."
+    },
+    "brief": "熱の斥力が周りの気体を押し広げるかを測る。達・半径比 1.18・熱斥力 0 の対照 1.02。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "conduction",
+   "emoji": "📏",
+   "name": "熱伝導 — 近いほど速く伝わる",
+   "group": "スピンと熱",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "接触なしの粒の列で熱が伝わるかを見る",
+    "objective": "met",
+    "state": "距離に応じた温度の順と減衰比が門内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.conduction"
+    ],
+    "en": {
+     "purpose": "See whether heat travels along a row of non-touching grains",
+     "state": "the distance ordering of temperatures and the decay ratio pass",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "See whether heat travels along a row of non-touching grains. Met: the distance ordering of temperatures and the decay ratio pass. Out of calibration scope."
+    },
+    "brief": "接触なしの粒の列で熱が伝わるかを見る。達・距離に応じた温度の順と減衰比が門内。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "frictionHeat",
+   "emoji": "🛷",
+   "name": "摩擦熱 — 運動が熱に変わる",
+   "group": "スピンと熱",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "摩擦で運動が熱へ移ることを見せる",
+    "objective": "partial",
+    "state": "受理と構築の検査のみで熱移送の門は無い",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "preset.frictionHeat"
+    ],
+    "en": {
+     "purpose": "Show motion turning into heat through friction",
+     "state": "only acceptance and build are checked; there is no heat-transfer gate",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Show motion turning into heat through friction. Partial: only acceptance and build are checked; there is no heat-transfer gate. Out of calibration scope."
+    },
+    "brief": "摩擦で運動が熱へ移ることを見せる。部分・受理と構築の検査のみで熱移送の門は無い。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "coolrace",
+   "emoji": "🌈",
+   "name": "放射冷却 — 高温ほど速い",
+   "group": "スピンと熱",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "高温ほど速く冷えることを比べる",
+    "objective": "met",
+    "state": "冷却速度比 15.8/15.1(理論 16)",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "new.coolrace"
+    ],
+    "en": {
+     "purpose": "Compare how much faster hotter bodies cool",
+     "state": "cooling-rate ratios 15.8/15.1 (theory 16)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare how much faster hotter bodies cool. Met: cooling-rate ratios 15.8/15.1 (theory 16). Out of calibration scope."
+    },
+    "brief": "高温ほど速く冷えることを比べる。達・冷却速度比 15.8/15.1(理論 16)。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "convection",
+   "emoji": "♨️",
+   "name": "加熱の対流 — 伝熱する箱",
+   "group": "スピンと熱",
+   "sampleClass": "composite",
+   "status": {
+    "purpose": "壁からの加熱で対流を保つ",
+    "objective": "met",
+    "state": "循環 17.9・熱流の収支差 0.5% が門内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.convection"
+    ],
+    "en": {
+     "purpose": "Sustain convection by heating from the wall",
+     "state": "circulation 17.9 and a 0.5% heat-flow imbalance pass the gate",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Sustain convection by heating from the wall. Met: circulation 17.9 and a 0.5% heat-flow imbalance pass the gate. Out of calibration scope."
+    },
+    "brief": "壁からの加熱で対流を保つ。達・循環 17.9・熱流の収支差 0.5% が門内。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "buoyancy",
+   "emoji": "🧪",
+   "name": "重力分離と浮力",
+   "group": "スピンと熱",
+   "sampleClass": "composite",
+   "status": {
+    "purpose": "重力場で重い粒と軽い粒が分かれるかを見る",
+    "objective": "met",
+    "state": "平均高さの差 163.8 が門 >20 を通過",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.buoyancy"
+    ],
+    "en": {
+     "purpose": "See whether heavy and light grains separate in a gravity field",
+     "state": "a mean height gap of 163.8 passes the >20 gate",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "See whether heavy and light grains separate in a gravity field. Met: a mean height gap of 163.8 passes the >20 gate. Out of calibration scope."
+    },
+    "brief": "重力場で重い粒と軽い粒が分かれるかを見る。達・平均高さの差 163.8 が門 >20 を通過。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "cooling",
+   "emoji": "☕",
+   "name": "冷めるお茶 — 壁への熱伝導",
+   "group": "スピンと熱",
+   "sampleClass": "composite",
+   "status": {
+    "purpose": "冷たい壁へ熱が逃げていく様子を見せる",
+    "objective": "partial",
+    "state": "受理と構築の検査のみで冷却の門は無い",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "preset.cooling"
+    ],
+    "en": {
+     "purpose": "Show heat leaking into cold walls",
+     "state": "only acceptance and build are checked; there is no cooling gate",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Show heat leaking into cold walls. Partial: only acceptance and build are checked; there is no cooling gate. Out of calibration scope."
+    },
+    "brief": "冷たい壁へ熱が逃げていく様子を見せる。部分・受理と構築の検査のみで冷却の門は無い。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "emergent",
+   "emoji": "🧬",
+   "name": "三態の創発 — 結合の予算",
+   "group": "スピンと熱",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "結合の予算だけで三態を作る",
+    "objective": "partial",
+    "state": "多 seed の門は通過・摂動回復は通らず E1",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.phase-multiseed"
+    ],
+    "en": {
+     "purpose": "Make three phases from a bond budget alone",
+     "state": "the multi-seed gate passes; perturbation recovery does not (E1)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Make three phases from a bond budget alone. Partial: the multi-seed gate passes; perturbation recovery does not (E1). Out of calibration scope."
+    },
+    "brief": "結合の予算だけで三態を作る。部分・多 seed の門は通過・摂動回復は通らず E1。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "emergent2",
+   "emoji": "🧊",
+   "name": "格子も分子も — 予算×角度",
+   "group": "スピンと熱",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "結合の予算と角度で蜂の巣の格子を作る",
+    "objective": "partial",
+    "state": "多 seed の門は通過・摂動回復は通らず E1",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.phase-multiseed"
+    ],
+    "en": {
+     "purpose": "Make a honeycomb lattice from a bond budget and an angle",
+     "state": "the multi-seed gate passes; perturbation recovery does not (E1)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Make a honeycomb lattice from a bond budget and an angle. Partial: the multi-seed gate passes; perturbation recovery does not (E1). Out of calibration scope."
+    },
+    "brief": "結合の予算と角度で蜂の巣の格子を作る。部分・多 seed の門は通過・摂動回復は通らず E1。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "chain2",
+   "emoji": "⛓️",
+   "name": "鎖の創発 — 予算2×角度180°",
+   "group": "スピンと熱",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "予算 2 と理想角 180° で鎖を作る",
+    "objective": "partial",
+    "state": "多 seed の門は通過・摂動回復は通らず E1",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.phase-multiseed"
+    ],
+    "en": {
+     "purpose": "Make chains from a budget of 2 and an ideal angle of 180°",
+     "state": "the multi-seed gate passes; perturbation recovery does not (E1)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Make chains from a budget of 2 and an ideal angle of 180°. Partial: the multi-seed gate passes; perturbation recovery does not (E1). Out of calibration scope."
+    },
+    "brief": "予算 2 と理想角 180° で鎖を作る。部分・多 seed の門は通過・摂動回復は通らず E1。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "chaincycle",
+   "emoji": "♻️",
+   "name": "温度循環 — 鎖の凍結と解離",
+   "group": "スピンと熱",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "壁温だけで鎖の凍結と解離を往復させる",
+    "objective": "met",
+    "state": "凍結末と解離末の窓を通過(E1)",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "claim.chaincycle",
+     "behavior.phase-multiseed"
+    ],
+    "en": {
+     "purpose": "Cycle chains between freezing and dissociation by wall temperature alone",
+     "state": "both the frozen and dissociated windows pass (E1)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Cycle chains between freezing and dissociation by wall temperature alone. Met: both the frozen and dissociated windows pass (E1). Out of calibration scope."
+    },
+    "brief": "壁温だけで鎖の凍結と解離を往復させる。達・凍結末と解離末の窓を通過(E1)。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "earthMoon",
+   "emoji": "🌍",
+   "name": "地球と月",
+   "group": "天体の機構",
+   "sampleClass": "composite",
+   "status": {
+    "purpose": "同期自転する月の公転を見せる誇張模型",
+    "objective": "met",
+    "state": "距離 ±2%・同期誤差 0.10°/周が門内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.earthMoon"
+    ],
+    "en": {
+     "purpose": "An exaggerated model of the Moon's orbit with synchronous rotation",
+     "state": "distance within ±2% and synchronisation error 0.10°/orbit pass the gate",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "An exaggerated model of the Moon's orbit with synchronous rotation. Met: distance within ±2% and synchronisation error 0.10°/orbit pass the gate. Out of calibration scope."
+    },
+    "brief": "同期自転する月の公転を見せる誇張模型。達・距離 ±2%・同期誤差 0.10°/周が門内。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "earthMoonFree",
+   "emoji": "🌕",
+   "name": "地球と月(自由二体・物理比)",
+   "group": "天体の機構",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "どちらも固定しない地球–月の二体を保つ",
+    "objective": "met",
+    "state": "10 周で距離 ±1%・重心移動が門内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.earthMoonFree"
+    ],
+    "en": {
+     "purpose": "Keep an Earth–Moon two-body system with neither body pinned",
+     "state": "over 10 orbits the distance stays within ±1% and the barycentre drift passes",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Keep an Earth–Moon two-body system with neither body pinned. Met: over 10 orbits the distance stays within ±1% and the barycentre drift passes. Out of calibration scope."
+    },
+    "brief": "どちらも固定しない地球–月の二体を保つ。達・10 周で距離 ±1%・重心移動が門内。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "earthMoonReal",
+   "emoji": "🌙",
+   "name": "地球と月(実単位)— 恒星月 27.32日",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "実単位の地球と月を kF0 で照合する",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": null,
+    "outlook": "σ 未接続",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Compare the real Earth and Moon in real units with kF0",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": null,
+     "outlook": "no σ connected",
+     "brief": "Compare the real Earth and Moon in real units with kF0. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."
+    },
+    "brief": "実単位の地球と月を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[0]",
+    "mismatch": null,
+    "lastDiffInSigma": null,
+    "missing": [
+     "σ 未接続"
+    ]
+   }
+  },
+  {
+   "id": "earthMoonRealKF1",
+   "emoji": "🌘",
+   "name": "地球と月(実単位・kFrame=1)— 近点回転 8.85年の較正再現",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "月の周期と近点回転を kF1 で照合する",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": "近点移動 +12.7%(σ なし)",
+    "outlook": "σ 未接続",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Compare the Moon's period and apsidal rotation with kF1",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": "apsidal advance +12.7% (no σ)",
+     "outlook": "no σ connected",
+     "brief": "Compare the Moon's period and apsidal rotation with kF1. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +12.7% (no σ); no σ connected."
+    },
+    "brief": "月の周期と近点回転を kF1 で照合する。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +12.7%(σ なし)・σ 未接続。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[1]",
+    "mismatch": "presets[].quantities(目安判定 否/窓・写像確定・|差%| 最大)",
+    "lastDiffInSigma": null,
+    "missing": [
+     "σ 未接続"
+    ]
+   }
+  },
+  {
+   "id": "emAuditNewton",
+   "emoji": "⭕",
+   "name": "地球と月・機構判別A(二体ニュートン)— 閉じた楕円",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "純二体では月の近点回転が出ないことを示す",
+    "objective": "met",
+    "state": "陰性対照として Δϖ が窓内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.emAudit"
+    ],
+    "en": {
+     "purpose": "Show that a pure two-body system gives no lunar apsidal rotation",
+     "state": "as a negative control Δϖ lies in its window",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Show that a pure two-body system gives no lunar apsidal rotation. Met: as a negative control Δϖ lies in its window. Out of calibration scope."
+    },
+    "brief": "純二体では月の近点回転が出ないことを示す。達・陰性対照として Δϖ が窓内。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "emAuditDFM",
+   "emoji": "🧲",
+   "name": "地球と月・機構判別B(二体DFM較正)— 8.85年を別機構で",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "月の較正窓の一致が長期に続くかを調べる",
+    "objective": "met",
+    "state": "長い窓で 20.77 年へずれることを検出",
+    "calibration": "hold",
+    "mismatch": "近点移動 +23.1%(σ なし)",
+    "outlook": "σ 未接続",
+    "evidence": [
+     "behavior.emAudit",
+     "tests/out/calaudit-w249.json"
+    ],
+    "en": {
+     "purpose": "Check whether the lunar calibration-window agreement lasts",
+     "state": "detects the drift to 20.77 yr over a long window",
+     "mismatch": "apsidal advance +23.1% (no σ)",
+     "outlook": "no σ connected",
+     "brief": "Check whether the lunar calibration-window agreement lasts. Met: detects the drift to 20.77 yr over a long window. Calibration: hold — apsidal advance +23.1% (no σ); no σ connected."
+    },
+    "brief": "月の較正窓の一致が長期に続くかを調べる。達・長い窓で 20.77 年へずれることを検出。較正は保留・近点移動 +23.1%(σ なし)・σ 未接続。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[2]",
+    "mismatch": "presets[].quantities(目安判定 否/窓・写像確定・|差%| 最大)",
+    "lastDiffInSigma": null,
+    "missing": [
+     "σ 未接続"
+    ]
+   }
+  },
+  {
+   "id": "emAuditSolar",
+   "emoji": "🔆",
+   "name": "地球と月・機構判別C(太陽+地球+月の三体)— 較正なしの太陽摂動",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "太陽摂動だけで月の近点回転を出す",
+    "objective": "partial",
+    "state": "向きは前進・年数は記録のみ",
+    "calibration": "hold",
+    "mismatch": null,
+    "outlook": "σ 未接続",
+    "evidence": [
+     "behavior.emAudit",
+     "tests/out/calaudit-w249.json"
+    ],
+    "en": {
+     "purpose": "Get the lunar apsidal rotation from solar perturbation alone",
+     "state": "the direction is prograde; the period is only recorded",
+     "mismatch": null,
+     "outlook": "no σ connected",
+     "brief": "Get the lunar apsidal rotation from solar perturbation alone. Partial: the direction is prograde; the period is only recorded. Calibration: hold; no σ connected."
+    },
+    "brief": "太陽摂動だけで月の近点回転を出す。部分・向きは前進・年数は記録のみ。較正は保留・σ 未接続。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[3]",
+    "mismatch": null,
+    "lastDiffInSigma": null,
+    "missing": [
+     "σ 未接続"
+    ]
+   }
+  },
+  {
+   "id": "qLockRadialAudit",
+   "emoji": "📶",
+   "name": "qLock 半径方向監査 — 参照点は LT 級・その外では r⁻³ を捨てる",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "qLock が参照軌道の外で崩れるかを監査する",
+    "objective": "met",
+    "state": "内側 2 点で逆行・落ち方 5.49 倍を検出",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.qlockRadial"
+    ],
+    "en": {
+     "purpose": "Audit whether qLock breaks away from its reference orbit",
+     "state": "detects retrograde drag at two inner points and a 5.49× falloff",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Audit whether qLock breaks away from its reference orbit. Met: detects retrograde drag at two inner points and a 5.49× falloff. Out of calibration scope."
+    },
+    "brief": "qLock が参照軌道の外で崩れるかを監査する。達・内側 2 点で逆行・落ち方 5.49 倍を検出。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "qLockRadialAuditQ3",
+   "emoji": "📐",
+   "name": "qLock 半径方向監査・対照(q=3)— r⁻³ 則そのものの物差し",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "q=3 の対照で r⁻³ 則の物差しを示す",
+    "objective": "met",
+    "state": "q=3 対照は qLock の 8.5 倍(門 >5)",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.qlockRadial"
+    ],
+    "en": {
+     "purpose": "Give the yardstick of the r⁻³ law with a q=3 control",
+     "state": "the q=3 control is 8.5× qLock (gate >5)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Give the yardstick of the r⁻³ law with a q=3 control. Met: the q=3 control is 8.5× qLock (gate >5). Out of calibration scope."
+    },
+    "brief": "q=3 の対照で r⁻³ 則の物差しを示す。達・q=3 対照は qLock の 8.5 倍(門 >5)。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "mercury",
+   "emoji": "☿",
+   "name": "水星の近日点前進 — 測地線1PN",
+   "group": "天体の機構",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "測地線 1PN の有無で近日点前進を比べる",
+    "objective": "met",
+    "state": "基線差引の比 2.98 が理論 3±0.6 内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.mercury-builtin"
+    ],
+    "en": {
+     "purpose": "Compare perihelion advance with and without the geodesic 1PN term",
+     "state": "the baseline-subtracted ratio 2.98 lies within the theoretical 3±0.6",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare perihelion advance with and without the geodesic 1PN term. Met: the baseline-subtracted ratio 2.98 lies within the theoretical 3±0.6. Out of calibration scope."
+    },
+    "brief": "測地線 1PN の有無で近日点前進を比べる。達・基線差引の比 2.98 が理論 3±0.6 内。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "mercuryReal",
+   "emoji": "☄️",
+   "name": "水星(実単位)— 43″/世紀",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "水星の近日点前進を kF0 で照合する",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": "近点移動 −21.7%(6.2×10³σ)",
+    "outlook": "数値未解決",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Compare Mercury's perihelion advance with kF0",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": "apsidal advance −21.7% (6.2×10³σ)",
+     "outlook": "numerics unresolved",
+     "brief": "Compare Mercury's perihelion advance with kF0. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance −21.7% (6.2×10³σ); numerics unresolved."
+    },
+    "brief": "水星の近日点前進を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は保留・近点移動 −21.7%(6.2×10³σ)・数値未解決。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[4]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 1353.6489016376847,
+    "missing": [
+     "数値精度"
+    ]
+   }
+  },
+  {
+   "id": "mercuryRealKF1",
+   "emoji": "🪨",
+   "name": "水星(実単位・kFrame=1)— 共通補正で 43″/世紀成立",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "水星の近日点前進を kF1 で照合する",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": "近点移動 −21.8%(6.3×10³σ)",
+    "outlook": "数値未解決",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Compare Mercury's perihelion advance with kF1",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": "apsidal advance −21.8% (6.3×10³σ)",
+     "outlook": "numerics unresolved",
+     "brief": "Compare Mercury's perihelion advance with kF1. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance −21.8% (6.3×10³σ); numerics unresolved."
+    },
+    "brief": "水星の近日点前進を kF1 で照合する。部分・照合の走行は台帳に記帳。較正は保留・近点移動 −21.8%(6.3×10³σ)・数値未解決。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[5]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 1353.9711515983327,
+    "missing": [
+     "数値精度"
+    ]
+   }
+  },
+  {
+   "id": "solarInner",
+   "emoji": "🌞",
+   "name": "太陽系 — 内惑星(実単位)",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "内惑星 4 つの周期を実単位で照合する",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": null,
+    "outlook": "σ 未接続",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "behavior.solarInner"
+    ],
+    "en": {
+     "purpose": "Compare the periods of the four inner planets in real units",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": null,
+     "outlook": "no σ connected",
+     "brief": "Compare the periods of the four inner planets in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."
+    },
+    "brief": "内惑星 4 つの周期を実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[6]",
+    "mismatch": null,
+    "lastDiffInSigma": null,
+    "missing": [
+     "σ 未接続"
+    ]
+   }
+  },
+  {
+   "id": "jupiterGalilean",
+   "emoji": "🟠",
+   "name": "木星とガリレオ衛星(実単位)— 規則を再フィットしない hold-out",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "木星 4 衛星へ規則を再 fit せず当てる",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": null,
+    "outlook": "σ 未接続",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Apply the rule to Jupiter's four moons without refitting",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": null,
+     "outlook": "no σ connected",
+     "brief": "Apply the rule to Jupiter's four moons without refitting. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."
+    },
+    "brief": "木星 4 衛星へ規則を再 fit せず当てる。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[7]",
+    "mismatch": null,
+    "lastDiffInSigma": null,
+    "missing": [
+     "σ 未接続"
+    ]
+   }
+  },
+  {
+   "id": "venusReal",
+   "emoji": "🌇",
+   "name": "太陽と金星(実単位)— 自由中心の二体転写",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "自由中心の太陽–金星を実単位で照合する",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": null,
+    "outlook": "σ 未接続",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "behavior.venusReal"
+    ],
+    "en": {
+     "purpose": "Compare a free-centre Sun–Venus pair in real units",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": null,
+     "outlook": "no σ connected",
+     "brief": "Compare a free-centre Sun–Venus pair in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."
+    },
+    "brief": "自由中心の太陽–金星を実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[8]",
+    "mismatch": null,
+    "lastDiffInSigma": null,
+    "missing": [
+     "σ 未接続"
+    ]
+   }
+  },
+  {
+   "id": "marsMoonsReal",
+   "emoji": "🥔",
+   "name": "火星とフォボス・ダイモス(実単位)— テスト粒子転写",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "火星の 2 衛星を実単位で照合する",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": null,
+    "outlook": "σ 未接続",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "behavior.marsMoonsReal"
+    ],
+    "en": {
+     "purpose": "Compare Mars's two moons in real units",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": null,
+     "outlook": "no σ connected",
+     "brief": "Compare Mars's two moons in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."
+    },
+    "brief": "火星の 2 衛星を実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[9]",
+    "mismatch": null,
+    "lastDiffInSigma": null,
+    "missing": [
+     "σ 未接続"
+    ]
+   }
+  },
+  {
+   "id": "plutoCharonReal",
+   "emoji": "❄️",
+   "name": "冥王星とカロン(実単位)— 重心が外にある二体",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "旧入力の冥王星–カロンを照合する",
+    "objective": "unmet",
+    "state": "代表量が門の外",
+    "calibration": "fail",
+    "mismatch": "周期 +0.00138%(294σ)",
+    "outlook": "刻み間差 1×10⁻³σ・刻みでは縮まない・数値未解決・写像未確定",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "behavior.plutoCharonReal"
+    ],
+    "en": {
+     "purpose": "Pluto–Charon from older inputs",
+     "state": "key quantity outside the gate",
+     "mismatch": "period +0.00138% (294σ)",
+     "outlook": "step Δ 1×10⁻³σ (not step-limited); numerics unresolved; mapping unresolved",
+     "brief": "Pluto–Charon from older inputs. Unmet: key quantity outside the gate. Calibration: fail — period +0.00138% (294σ); step Δ 1×10⁻³σ (not step-limited); numerics unresolved; mapping unresolved."
+    },
+    "brief": "旧入力の冥王星–カロンを照合する。未達・代表量が門の外。較正は否・周期 +0.00138%(294σ)・刻み間差 1×10⁻³σ・刻みでは縮まない・数値未解決・写像未確定。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[10]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 0.0009776461714257798,
+    "missing": [
+     "写像未確定",
+     "数値精度"
+    ]
+   }
+  },
+  {
+   "id": "plutoCharonDFM",
+   "emoji": "⛄",
+   "name": "冥王星とカロン(同一観測解)— 相対すべりの零条件を持つ DFM 版",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "同一観測解の二体に零条件つき引きずり則を載せる",
+    "objective": "partial",
+    "state": "中点法の刻み収束と 2 欄は確認・第 2 周は過渡",
+    "calibration": "hold-definition",
+    "mismatch": "比較値 +31.6 s(Buie 2012 比・門ではない)",
+    "outlook": "量の定義が揃うまで門に入れない",
+    "evidence": [
+     "docs.charonTwoColumns",
+     "behavior.plutoCharonDFM",
+     "tests/out/charonwin-w278b.json"
+    ],
+    "en": {
+     "purpose": "One observed solution, zero-slip drag law",
+     "state": "midpoint converges; orbit 2 transient",
+     "mismatch": "comparison +31.6 s vs Buie 2012",
+     "outlook": "not gated until definitions match",
+     "brief": "One observed solution, zero-slip drag law. Partial: midpoint converges; orbit 2 transient. Calibration: hold (definitions differ) — comparison +31.6 s vs Buie 2012; not gated until definitions match."
+    },
+    "brief": "同一観測解の二体に零条件つき引きずり則を載せる。部分・中点法の刻み収束と 2 欄は確認・第 2 周は過渡。較正は判定保留(量定義不一致)・比較値 +31.6 s(Buie 2012 比・門ではない)・量の定義が揃うまで門に入れない。"
+   },
+   "ledgerSource": {
+    "row": "tables.grid.dfmMid",
+    "vsBuieSec": 31.598325855913572
+   }
+  },
+  {
+   "id": "plutoCharonKF0Control",
+   "emoji": "🌨️",
+   "name": "冥王星とカロン(同一観測解)— kF0 対照(引きずり則なし)",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "⛄ と同じ入力で則だけを外した kF0 対照",
+    "objective": "met",
+    "state": "則なしで定常・⛄ との差 1.37 s を記帳",
+    "calibration": "hold-definition",
+    "mismatch": "比較値 +30.2 s(Buie 2012 比・門ではない)",
+    "outlook": "量の定義が揃うまで門に入れない",
+    "evidence": [
+     "docs.charonTwoColumns",
+     "behavior.plutoCharonDFM",
+     "tests/out/charonwin-w278b.json"
+    ],
+    "en": {
+     "purpose": "kF0 control: ⛄'s inputs without the law",
+     "state": "steady; the 1.37 s gap to ⛄ is recorded",
+     "mismatch": "comparison +30.2 s vs Buie 2012",
+     "outlook": "not gated until definitions match",
+     "brief": "kF0 control: ⛄'s inputs without the law. Met: steady; the 1.37 s gap to ⛄ is recorded. Calibration: hold (definitions differ) — comparison +30.2 s vs Buie 2012; not gated until definitions match."
+    },
+    "brief": "⛄ と同じ入力で則だけを外した kF0 対照。達・則なしで定常・⛄ との差 1.37 s を記帳。較正は判定保留(量定義不一致)・比較値 +30.2 s(Buie 2012 比・門ではない)・量の定義が揃うまで門に入れない。"
+   },
+   "ledgerSource": {
+    "row": "tables.grid.kf0Leap",
+    "vsBuieSec": 30.225398794165812
+   }
+  },
+  {
+   "id": "uranusReal",
+   "emoji": "💠",
+   "name": "天王星の環と主要5衛星(実単位)",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "天王星の環と 5 衛星を実単位で照合する",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": null,
+    "outlook": "σ 未接続",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "behavior.uranusReal"
+    ],
+    "en": {
+     "purpose": "Compare Uranus's rings and five moons in real units",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": null,
+     "outlook": "no σ connected",
+     "brief": "Compare Uranus's rings and five moons in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."
+    },
+    "brief": "天王星の環と 5 衛星を実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[11]",
+    "mismatch": null,
+    "lastDiffInSigma": null,
+    "missing": [
+     "σ 未接続"
+    ]
+   }
+  },
+  {
+   "id": "neptuneReal",
+   "emoji": "🌊",
+   "name": "海王星とトリトン(実単位)— 逆行衛星の二体",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "逆行衛星トリトンを実単位で照合する",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": null,
+    "outlook": "σ 未接続",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "behavior.neptuneReal"
+    ],
+    "en": {
+     "purpose": "Compare the retrograde moon Triton in real units",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": null,
+     "outlook": "no σ connected",
+     "brief": "Compare the retrograde moon Triton in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."
+    },
+    "brief": "逆行衛星トリトンを実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[12]",
+    "mismatch": null,
+    "lastDiffInSigma": null,
+    "missing": [
+     "σ 未接続"
+    ]
+   }
+  },
+  {
+   "id": "alphaCenAB",
+   "emoji": "✨",
+   "name": "αケンタウリAB(実単位)— 恒星連星の二体",
+   "group": "現実との照合・連星",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "α Cen AB を kF0 で照合する",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "pass-limited",
+    "mismatch": null,
+    "outlook": "写像未確定",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "behavior.alphaCenAB"
+    ],
+    "en": {
+     "purpose": "Compare α Cen AB with kF0",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": null,
+     "outlook": "mapping unresolved",
+     "brief": "Compare α Cen AB with kF0. Partial: the comparison runs are in the ledger. Calibration: limited pass; mapping unresolved."
+    },
+    "brief": "α Cen AB を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は量限定合・写像未確定。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[13]",
+    "mismatch": null,
+    "lastDiffInSigma": 0.0000023323081911897018,
+    "missing": [
+     "写像未確定"
+    ]
+   }
+  },
+  {
+   "id": "alphaCenABDFM",
+   "emoji": "✴️",
+   "name": "αケンタウリAB(DFM版)— pull 重み・観測質量のまま kF1",
+   "group": "現実との照合・連星",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "観測質量のまま kF1 を α Cen へ当てる",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": "周期 −0.618%(25.9σ)",
+    "outlook": "数値未解決・写像未確定",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Apply kF1 to α Cen with the observed masses",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": "period −0.618% (25.9σ)",
+     "outlook": "numerics unresolved; mapping unresolved",
+     "brief": "Apply kF1 to α Cen with the observed masses. Partial: the comparison runs are in the ledger. Calibration: hold — period −0.618% (25.9σ); numerics unresolved; mapping unresolved."
+    },
+    "brief": "観測質量のまま kF1 を α Cen へ当てる。部分・照合の走行は台帳に記帳。較正は保留・周期 −0.618%(25.9σ)・数値未解決・写像未確定。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[14]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 0.005228809363532559,
+    "missing": [
+     "写像未確定",
+     "数値精度"
+    ]
+   }
+  },
+  {
+   "id": "siriusAB",
+   "emoji": "🌟",
+   "name": "シリウスAB(実単位)— 白色矮星との連星",
+   "group": "現実との照合・連星",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "シリウス AB を kF0 で照合する",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "pass-limited",
+    "mismatch": null,
+    "outlook": "写像未確定",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "behavior.siriusAB"
+    ],
+    "en": {
+     "purpose": "Compare Sirius AB with kF0",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": null,
+     "outlook": "mapping unresolved",
+     "brief": "Compare Sirius AB with kF0. Partial: the comparison runs are in the ledger. Calibration: limited pass; mapping unresolved."
+    },
+    "brief": "シリウス AB を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は量限定合・写像未確定。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[15]",
+    "mismatch": null,
+    "lastDiffInSigma": 0.000027274847216317663,
+    "missing": [
+     "写像未確定"
+    ]
+   }
+  },
+  {
+   "id": "siriusABDFM",
+   "emoji": "💫",
+   "name": "シリウスAB(DFM版)— pull 重み・観測質量のまま kF1",
+   "group": "現実との照合・連星",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "観測質量のまま kF1 をシリウスへ当てる",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": "周期 −1.80%(210σ)",
+    "outlook": "数値未解決・写像未確定",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Apply kF1 to Sirius with the observed masses",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": "period −1.80% (210σ)",
+     "outlook": "numerics unresolved; mapping unresolved",
+     "brief": "Apply kF1 to Sirius with the observed masses. Partial: the comparison runs are in the ledger. Calibration: hold — period −1.80% (210σ); numerics unresolved; mapping unresolved."
+    },
+    "brief": "観測質量のまま kF1 をシリウスへ当てる。部分・照合の走行は台帳に記帳。較正は保留・周期 −1.80%(210σ)・数値未解決・写像未確定。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[16]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 0.07903489692756094,
+    "missing": [
+     "写像未確定",
+     "数値精度"
+    ]
+   }
+  },
+  {
+   "id": "psrDoubleAB",
+   "emoji": "📻",
+   "name": "二重パルサー J0737−3039A/B(実単位)— 2.45時間の中性子星連星",
+   "group": "現実との照合・連星",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "二重パルサーを kF0 で照合する",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": "周期 +0.00269%(9.5×10⁵σ)",
+    "outlook": "数値未解決・写像未確定",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Compare the double pulsar with kF0",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": "period +0.00269% (9.5×10⁵σ)",
+     "outlook": "numerics unresolved; mapping unresolved",
+     "brief": "Compare the double pulsar with kF0. Partial: the comparison runs are in the ledger. Calibration: hold — period +0.00269% (9.5×10⁵σ); numerics unresolved; mapping unresolved."
+    },
+    "brief": "二重パルサーを kF0 で照合する。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.00269%(9.5×10⁵σ)・数値未解決・写像未確定。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[17]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 440.7164204743332,
+    "missing": [
+     "写像未確定",
+     "数値精度"
+    ]
+   }
+  },
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "name": "二重パルサー J0737−3039A/B(DFM版)— pull 重み・kF1 質量較正(f≈2)",
+   "group": "現実との照合・連星",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "二重パルサーを質量補正と kF1 で照合",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": "周期 −1.10%(4.9×10⁷σ)",
+    "outlook": "数値未解決・写像未確定",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Compare the double pulsar with a mass factor and kF1",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": "period −1.10% (4.9×10⁷σ)",
+     "outlook": "numerics unresolved; mapping unresolved",
+     "brief": "Compare the double pulsar with a mass factor and kF1. Partial: the comparison runs are in the ledger. Calibration: hold — period −1.10% (4.9×10⁷σ); numerics unresolved; mapping unresolved."
+    },
+    "brief": "二重パルサーを質量補正と kF1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 −1.10%(4.9×10⁷σ)・数値未解決・写像未確定。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[18]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 48368517.39771969,
+    "missing": [
+     "写像未確定",
+     "数値精度"
+    ]
+   }
+  },
+  {
+   "id": "psrDoubleABGeoToy",
+   "emoji": "🩻",
+   "name": "二重パルサー J0737−3039A/B — geoPN=3 診断(f=1・較正候補ではない)",
+   "group": "現実との照合・連星",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "観測質量のまま geoPN=3 則を当てる診断",
+    "objective": "unmet",
+    "state": "周期 +0.0897%・掃引で観測をまたがない",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/geotoy-w262a.json",
+     "behavior.geoToyOverlay"
+    ],
+    "en": {
+     "purpose": "Diagnostic that applies the geoPN=3 law with the observed masses",
+     "state": "period +0.0897%; no swept setting straddles the observation",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Diagnostic that applies the geoPN=3 law with the observed masses. Unmet: period +0.0897%; no swept setting straddles the observation. Out of calibration scope."
+    },
+    "brief": "観測質量のまま geoPN=3 則を当てる診断。未達・周期 +0.0897%・掃引で観測をまたがない。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "psrDoubleABSpinCal",
+   "emoji": "🧿",
+   "name": "二重パルサー J0737−3039A/B(スピン–スピン較正候補)— f と λ を回した比較 variant",
+   "group": "現実との照合・連星",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "f と λ を回した較正候補を比べる",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": "近点移動 +2.42%(3.2×10⁴σ)",
+    "outlook": "数値未解決",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Compare a calibration candidate with f and λ turned",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": "apsidal advance +2.42% (3.2×10⁴σ)",
+     "outlook": "numerics unresolved",
+     "brief": "Compare a calibration candidate with f and λ turned. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +2.42% (3.2×10⁴σ); numerics unresolved."
+    },
+    "brief": "f と λ を回した較正候補を比べる。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +2.42%(3.2×10⁴σ)・数値未解決。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[19]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 29937.2689098075,
+    "missing": [
+     "数値精度"
+    ]
+   }
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "name": "PSR J1757−1854(DFM版・hold-out)— ⚡ の処方をそのまま当てた中性子星連星2例目",
+   "group": "現実との照合・連星",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "⚡ の処方を J1757 へ当てる",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": "近点移動 5.3×10⁴σ(差の%は正本に無い)",
+    "outlook": "数値未解決・写像未確定",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Apply ⚡'s recipe to J1757",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": "apsidal advance 5.3×10⁴σ (no % in the ledger)",
+     "outlook": "numerics unresolved; mapping unresolved",
+     "brief": "Apply ⚡'s recipe to J1757. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance 5.3×10⁴σ (no % in the ledger); numerics unresolved; mapping unresolved."
+    },
+    "brief": "⚡ の処方を J1757 へ当てる。部分・照合の走行は台帳に記帳。較正は保留・近点移動 5.3×10⁴σ(差の%は正本に無い)・数値未解決・写像未確定。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[20]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 396.78299984714107,
+    "missing": [
+     "写像未確定",
+     "数値精度"
+    ]
+   }
+  },
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "name": "PSR J1946+2052(DFM版・hold-out)— 銀河系で最短周期の中性子星連星",
+   "group": "現実との照合・連星",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "⚡ の処方を J1946 へ当てる",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": "近点移動 6.6×10⁴σ(差の%は正本に無い)",
+    "outlook": "数値未解決・写像未確定",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Apply ⚡'s recipe to J1946",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": "apsidal advance 6.6×10⁴σ (no % in the ledger)",
+     "outlook": "numerics unresolved; mapping unresolved",
+     "brief": "Apply ⚡'s recipe to J1946. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance 6.6×10⁴σ (no % in the ledger); numerics unresolved; mapping unresolved."
+    },
+    "brief": "⚡ の処方を J1946 へ当てる。部分・照合の走行は台帳に記帳。較正は保留・近点移動 6.6×10⁴σ(差の%は正本に無い)・数値未解決・写像未確定。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[21]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 1220.474507449988,
+    "missing": [
+     "写像未確定",
+     "数値精度"
+    ]
+   }
+  },
+  {
+   "id": "psrDoubleABPN",
+   "emoji": "🪶",
+   "name": "二重パルサー J0737−3039A/B(NS 応答候補 λ_PN=1/f)— 1PN の強さだけを観測質量へ戻す",
+   "group": "現実との照合・連星",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "1PN の強さを 1/f で戻す応答候補",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": "近点移動 +3.37%(4.4×10⁴σ)",
+    "outlook": "数値未解決・写像未確定",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Response candidate that scales 1PN back by 1/f",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": "apsidal advance +3.37% (4.4×10⁴σ)",
+     "outlook": "numerics unresolved; mapping unresolved",
+     "brief": "Response candidate that scales 1PN back by 1/f. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +3.37% (4.4×10⁴σ); numerics unresolved; mapping unresolved."
+    },
+    "brief": "1PN の強さを 1/f で戻す応答候補。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +3.37%(4.4×10⁴σ)・数値未解決・写像未確定。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[22]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 35757.30909422181,
+    "missing": [
+     "写像未確定",
+     "数値精度"
+    ]
+   }
+  },
+  {
+   "id": "psrJ1757PN",
+   "emoji": "🪃",
+   "name": "PSR J1757−1854(NS 応答候補 λ_PN=1/f)— ⚡ の処方に 1/f を足して当てた 2 例目",
+   "group": "現実との照合・連星",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "1/f の応答候補を J1757 へ当てる",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": "近点移動 +1.70%(899σ)",
+    "outlook": "数値未解決・写像未確定",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Apply the 1/f response candidate to J1757",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": "apsidal advance +1.70% (899σ)",
+     "outlook": "numerics unresolved; mapping unresolved",
+     "brief": "Apply the 1/f response candidate to J1757. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +1.70% (899σ); numerics unresolved; mapping unresolved."
+    },
+    "brief": "1/f の応答候補を J1757 へ当てる。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +1.70%(899σ)・数値未解決・写像未確定。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[23]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 470.7740571325283,
+    "missing": [
+     "写像未確定",
+     "数値精度"
+    ]
+   }
+  },
+  {
+   "id": "psrJ1946PN",
+   "emoji": "🪀",
+   "name": "PSR J1946+2052(NS 応答候補 λ_PN=1/f)— ⚡ の処方に 1/f を足して当てた 3 例目",
+   "group": "現実との照合・連星",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "1/f の応答候補を J1946 へ当てる",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": "近点移動 +7.53%(4.9×10³σ)",
+    "outlook": "数値未解決・写像未確定",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Apply the 1/f response candidate to J1946",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": "apsidal advance +7.53% (4.9×10³σ)",
+     "outlook": "numerics unresolved; mapping unresolved",
+     "brief": "Apply the 1/f response candidate to J1946. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +7.53% (4.9×10³σ); numerics unresolved; mapping unresolved."
+    },
+    "brief": "1/f の応答候補を J1946 へ当てる。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +7.53%(4.9×10³σ)・数値未解決・写像未確定。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[24]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 3571.8193568954807,
+    "missing": [
+     "写像未確定",
+     "数値精度"
+    ]
+   }
+  },
+  {
+   "id": "psrDoubleABCF",
+   "emoji": "🪝",
+   "name": "二重パルサー J0737−3039A/B(コンパクト力 案K)— χ ゲート付き質量電流結合",
+   "group": "現実との照合・連星",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "速度依存の追加力(案K)を試す",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": "近点移動 +2.61%(3.6×10³σ)",
+    "outlook": "数値未解決",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Try a velocity-dependent extra force (plan K)",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": "apsidal advance +2.61% (3.6×10³σ)",
+     "outlook": "numerics unresolved",
+     "brief": "Try a velocity-dependent extra force (plan K). Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +2.61% (3.6×10³σ); numerics unresolved."
+    },
+    "brief": "速度依存の追加力(案K)を試す。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +2.61%(3.6×10³σ)・数値未解決。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[25]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 5768.197801179806,
+    "missing": [
+     "数値精度"
+    ]
+   }
+  },
+  {
+   "id": "psrJ1757CF",
+   "emoji": "🪄",
+   "name": "PSR J1757−1854(コンパクト力 案K)— ⚡ で凍結した κ をそのまま流した 2 例目",
+   "group": "現実との照合・連星",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "凍結した κ を J1757 へ流す",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": "近点移動 +1.59%(169σ)",
+    "outlook": "数値未解決",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Carry the frozen κ over to J1757",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": "apsidal advance +1.59% (169σ)",
+     "outlook": "numerics unresolved",
+     "brief": "Carry the frozen κ over to J1757. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +1.59% (169σ); numerics unresolved."
+    },
+    "brief": "凍結した κ を J1757 へ流す。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +1.59%(169σ)・数値未解決。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[26]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 205.33936290540282,
+    "missing": [
+     "数値精度"
+    ]
+   }
+  },
+  {
+   "id": "psrJ1946CF",
+   "emoji": "🩹",
+   "name": "PSR J1946+2052(コンパクト力 案K)— ⚡ で凍結した κ をそのまま流した 3 例目",
+   "group": "現実との照合・連星",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "凍結した κ を J1946 へ流す",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": "近点移動 +8.28%(276σ)",
+    "outlook": "数値未解決・写像未確定",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Carry the frozen κ over to J1946",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": "apsidal advance +8.28% (276σ)",
+     "outlook": "numerics unresolved; mapping unresolved",
+     "brief": "Carry the frozen κ over to J1946. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +8.28% (276σ); numerics unresolved; mapping unresolved."
+    },
+    "brief": "凍結した κ を J1946 へ流す。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +8.28%(276σ)・数値未解決・写像未確定。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[27]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 1105.5000182067004,
+    "missing": [
+     "写像未確定",
+     "数値精度"
+    ]
+   }
+  },
+  {
+   "id": "psrB1534",
+   "emoji": "📿",
+   "name": "PSR B1534+12(実単位・観測版)— 第 4 の凍結 hold-out の入力確認",
+   "group": "現実との照合・連星",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "B1534 の観測入力を kF0 で確かめる",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": "周期 +0.000769%(3.2×10⁵σ)",
+    "outlook": "数値未解決・写像未確定",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Check B1534's observed inputs with kF0",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": "period +0.000769% (3.2×10⁵σ)",
+     "outlook": "numerics unresolved; mapping unresolved",
+     "brief": "Check B1534's observed inputs with kF0. Partial: the comparison runs are in the ledger. Calibration: hold — period +0.000769% (3.2×10⁵σ); numerics unresolved; mapping unresolved."
+    },
+    "brief": "B1534 の観測入力を kF0 で確かめる。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.000769%(3.2×10⁵σ)・数値未解決・写像未確定。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[28]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 160.65731263855318,
+    "missing": [
+     "写像未確定",
+     "数値精度"
+    ]
+   }
+  },
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "name": "PSR B1534+12(DFM版・凍結 hold-out)— ⚡ の処方をそのまま当てた 4 例目",
+   "group": "現実との照合・連星",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "⚡ の処方を B1534 へ当てる",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": "近点移動 2.0×10⁵σ(差の%は正本に無い)",
+    "outlook": "数値未解決・写像未確定",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Apply ⚡'s recipe to B1534",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": "apsidal advance 2.0×10⁵σ (no % in the ledger)",
+     "outlook": "numerics unresolved; mapping unresolved",
+     "brief": "Apply ⚡'s recipe to B1534. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance 2.0×10⁵σ (no % in the ledger); numerics unresolved; mapping unresolved."
+    },
+    "brief": "⚡ の処方を B1534 へ当てる。部分・照合の走行は台帳に記帳。較正は保留・近点移動 2.0×10⁵σ(差の%は正本に無い)・数値未解決・写像未確定。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[29]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 283.74844692564665,
+    "missing": [
+     "写像未確定",
+     "数値精度"
+    ]
+   }
+  },
+  {
+   "id": "psrB1534CF",
+   "emoji": "🪤",
+   "name": "PSR B1534+12(コンパクト力 案K・凍結 hold-out)— ⚡ の κ を 4 例目へ",
+   "group": "現実との照合・連星",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "凍結した κ を B1534 へ流す",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": "近点移動 +2.80%(5.0×10³σ)",
+    "outlook": "数値未解決",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Carry the frozen κ over to B1534",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": "apsidal advance +2.80% (5.0×10³σ)",
+     "outlook": "numerics unresolved",
+     "brief": "Carry the frozen κ over to B1534. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +2.80% (5.0×10³σ); numerics unresolved."
+    },
+    "brief": "凍結した κ を B1534 へ流す。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +2.80%(5.0×10³σ)・数値未解決。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[30]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 144.6242073333238,
+    "missing": [
+     "数値精度"
+    ]
+   }
+  },
+  {
+   "id": "compactForceToy",
+   "emoji": "🪗",
+   "name": "コンパクト力の符号 — 近点は前へ回るか後ろへ回るか",
+   "group": "運動と時空",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "3 候補の追加力が近点を回す向きを比べる",
+    "objective": "met",
+    "state": "力の符号と整合を純関数とエンジンで確認",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.compactForce"
+    ],
+    "en": {
+     "purpose": "Compare which way three candidate extra forces turn the apsides",
+     "state": "force signs and consistency are checked in the pure functions and the engine",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare which way three candidate extra forces turn the apsides. Met: force signs and consistency are checked in the pure functions and the engine. Out of calibration scope."
+    },
+    "brief": "3 候補の追加力が近点を回す向きを比べる。達・力の符号と整合を純関数とエンジンで確認。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "boxBinaryToy",
+   "emoji": "🫂",
+   "name": "箱宇宙と連星 — 等質量だと背景に対する移動が消える",
+   "group": "運動と時空",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "等質量で共通移動が相対軌道から消えるかを測る",
+    "objective": "met",
+    "state": "等質量で消え質量差の対照では残る",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.boxBinary"
+    ],
+    "en": {
+     "purpose": "Test whether a common drift drops out of the relative orbit for equal masses",
+     "state": "it drops out for equal masses and stays in the unequal-mass control",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Test whether a common drift drops out of the relative orbit for equal masses. Met: it drops out for equal masses and stays in the unequal-mass control. Out of calibration scope."
+    },
+    "brief": "等質量で共通移動が相対軌道から消えるかを測る。達・等質量で消え質量差の対照では残る。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "spaceMeshBinaryToy",
+   "emoji": "🪟",
+   "name": "空間メッシュの窓 — メッシュの重力は既にある重力",
+   "group": "運動と時空",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "メッシュの重力が既存の重力と同じ核かを確かめる",
+    "objective": "met",
+    "state": "重力は二重計上なし・慣性候補は頂点で退化",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.spaceMeshForce"
+    ],
+    "en": {
+     "purpose": "Check that the mesh gravity is the same kernel as the existing gravity",
+     "state": "gravity is not double counted; the inertia candidates degenerate at the vertex",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Check that the mesh gravity is the same kernel as the existing gravity. Met: gravity is not double counted; the inertia candidates degenerate at the vertex. Out of calibration scope."
+    },
+    "brief": "メッシュの重力が既存の重力と同じ核かを確かめる。達・重力は二重計上なし・慣性候補は頂点で退化。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "gw150914",
+   "emoji": "🎐",
+   "name": "GW150914(実単位)— 連星ブラックホールの基準状態",
+   "group": "実在天体のアナロジー",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "GW150914 の合体前の基準状態を転写する",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": null,
+    "outlook": "σ 未接続",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "behavior.gw150914"
+    ],
+    "en": {
+     "purpose": "Transcribe GW150914's reference state before merger",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": null,
+     "outlook": "no σ connected",
+     "brief": "Transcribe GW150914's reference state before merger. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."
+    },
+    "brief": "GW150914 の合体前の基準状態を転写する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[31]",
+    "mismatch": null,
+    "lastDiffInSigma": null,
+    "missing": [
+     "σ 未接続"
+    ]
+   }
+  },
+  {
+   "id": "gw150914DFM",
+   "emoji": "🎻",
+   "name": "GW150914(DFM版)— pull 重み・kF1 質量較正(f≈2)",
+   "group": "実在天体のアナロジー",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "GW150914 を kF1 と質量補正で回す",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": null,
+    "outlook": "σ 未接続",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Run GW150914 with kF1 and a mass factor",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": null,
+     "outlook": "no σ connected",
+     "brief": "Run GW150914 with kF1 and a mass factor. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."
+    },
+    "brief": "GW150914 を kF1 と質量補正で回す。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[32]",
+    "mismatch": null,
+    "lastDiffInSigma": null,
+    "missing": [
+     "σ 未接続"
+    ]
+   }
+  },
+  {
+   "id": "gw150914Merge4s",
+   "emoji": "⏰",
+   "name": "GW150914 の合体(約4秒)— 放射の方向と用量の較正 variant",
+   "group": "実在天体のアナロジー",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "放射の向きと量を宣言して約 4 秒の合体を回す",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": null,
+    "outlook": "σ 未接続",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Run the ~4 s merger with a declared radiation direction and dose",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": null,
+     "outlook": "no σ connected",
+     "brief": "Run the ~4 s merger with a declared radiation direction and dose. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."
+    },
+    "brief": "放射の向きと量を宣言して約 4 秒の合体を回す。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[33]",
+    "mismatch": null,
+    "lastDiffInSigma": null,
+    "missing": [
+     "σ 未接続"
+    ]
+   }
+  },
+  {
+   "id": "gw150914SpinDipole",
+   "emoji": "⚛️",
+   "name": "BH 合体直前のスピン双極子 — λ=1 の届く場所(原理)",
+   "group": "実在天体のアナロジー",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "合体直前で λ=1 のスピン双極子の強さを測る",
+    "objective": "met",
+    "state": "強さ η が純関数とエンジンで一致",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.gwSpinDipole"
+    ],
+    "en": {
+     "purpose": "Measure how strong a λ=1 spin dipole is just before merger",
+     "state": "the strength η agrees between the pure function and the engine",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Measure how strong a λ=1 spin dipole is just before merger. Met: the strength η agrees between the pure function and the engine. Out of calibration scope."
+    },
+    "brief": "合体直前で λ=1 のスピン双極子の強さを測る。達・強さ η が純関数とエンジンで一致。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "tuc47",
+   "emoji": "🍇",
+   "name": "球状星団 47 Tuc(観測転写)— Plummer 形の第一号",
+   "group": "実在天体のアナロジー",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "47 Tuc の配置と速度を観測から転写する",
+    "objective": "partial",
+    "state": "束縛 93.3%・視線分散との量の対応は未確定",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.tuc47"
+    ],
+    "en": {
+     "purpose": "Transcribe 47 Tuc's layout and velocities from observations",
+     "state": "93.3% bound; the mapping to the line-of-sight dispersion is not settled",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Transcribe 47 Tuc's layout and velocities from observations. Partial: 93.3% bound; the mapping to the line-of-sight dispersion is not settled. Out of calibration scope."
+    },
+    "brief": "47 Tuc の配置と速度を観測から転写する。部分・束縛 93.3%・視線分散との量の対応は未確定。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "tuc47DFM",
+   "emoji": "🫐",
+   "name": "球状星団 47 Tuc(DFM版)— χ-law 平均場の質量 hold-out",
+   "group": "実在天体のアナロジー",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "連星の質量補正を星団へ当てる hold-out",
+    "objective": "partial",
+    "state": "面内の分散は観測の中心 1D と別の量",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.tuc47"
+    ],
+    "en": {
+     "purpose": "Hold-out applying the binaries' mass factor to a cluster",
+     "state": "the in-plane dispersion is a different quantity from the observed central 1D value",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Hold-out applying the binaries' mass factor to a cluster. Partial: the in-plane dispersion is a different quantity from the observed central 1D value. Out of calibration scope."
+    },
+    "brief": "連星の質量補正を星団へ当てる hold-out。部分・面内の分散は観測の中心 1D と別の量。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "ngc3198",
+   "emoji": "🌃",
+   "name": "渦巻銀河 NGC 3198(観測転写)— 指数円盤+NFW 対照",
+   "group": "実在天体のアナロジー",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "指数円盤と NFW ハローで回転を比べる",
+    "objective": "partial",
+    "state": "外縁 128 km/s・ハローは自前 fit",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.ngc3198"
+    ],
+    "en": {
+     "purpose": "Compare rotation with an exponential disc and an NFW halo",
+     "state": "outer 128 km/s; the halo is our own fit",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare rotation with an exponential disc and an NFW halo. Partial: outer 128 km/s; the halo is our own fit. Out of calibration scope."
+    },
+    "brief": "指数円盤と NFW ハローで回転を比べる。部分・外縁 128 km/s・ハローは自前 fit。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "ngc3198DFM",
+   "emoji": "🛞",
+   "name": "NGC 3198(DFM版)— 恒星質量×2+自由中心核の hold-out",
+   "group": "実在天体のアナロジー",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "ハローなしの DFM で外縁速度を支える",
+    "objective": "unmet",
+    "state": "外縁 55 km/s で届かない",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.ngc3198"
+    ],
+    "en": {
+     "purpose": "Support the outer speed with halo-free DFM",
+     "state": "it falls short at 55 km/s in the outskirts",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Support the outer speed with halo-free DFM. Unmet: it falls short at 55 km/s in the outskirts. Out of calibration scope."
+    },
+    "brief": "ハローなしの DFM で外縁速度を支える。未達・外縁 55 km/s で届かない。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "supernovaProg",
+   "emoji": "🥀",
+   "name": "超新星前駆星 — ベテルギウス(観測転写)",
+   "group": "実在天体のアナロジー",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "ベテルギウスの前駆星状態を転写する",
+    "objective": "met",
+    "state": "静止の保持と転写を検査で確認",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.supernovaObs"
+    ],
+    "en": {
+     "purpose": "Transcribe Betelgeuse's progenitor state",
+     "state": "the static hold and the transcription are checked",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Transcribe Betelgeuse's progenitor state. Met: the static hold and the transcription are checked. Out of calibration scope."
+    },
+    "brief": "ベテルギウスの前駆星状態を転写する。達・静止の保持と転写を検査で確認。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "supernovaProgDFM",
+   "emoji": "🌹",
+   "name": "超新星前駆星(DFM版)— 質量台帳 f=2・光球半径=コアの引きずり外縁",
+   "group": "実在天体のアナロジー",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "質量台帳 f=2 の前駆星を比べる",
+    "objective": "met",
+    "state": "台帳 f=2 と光球半径の逆算を確認",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.dfm-star-structure"
+    ],
+    "en": {
+     "purpose": "Compare a progenitor with an f=2 mass ledger",
+     "state": "the f=2 ledger and the photosphere back-calculation are checked",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare a progenitor with an f=2 mass ledger. Met: the f=2 ledger and the photosphere back-calculation are checked. Out of calibration scope."
+    },
+    "brief": "質量台帳 f=2 の前駆星を比べる。達・台帳 f=2 と光球半径の逆算を確認。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "crabRemnant",
+   "emoji": "🦀",
+   "name": "超新星残骸 SN 1054 — かに星雲とパルサー(観測転写)",
+   "group": "実在天体のアナロジー",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "かに星雲とパルサーの残骸状態を転写する",
+    "objective": "met",
+    "state": "膨張速度の転写と自由膨張を確認",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.supernovaObs"
+    ],
+    "en": {
+     "purpose": "Transcribe the Crab Nebula and pulsar remnant state",
+     "state": "the expansion-speed transcription and free expansion are checked",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Transcribe the Crab Nebula and pulsar remnant state. Met: the expansion-speed transcription and free expansion are checked. Out of calibration scope."
+    },
+    "brief": "かに星雲とパルサーの残骸状態を転写する。達・膨張速度の転写と自由膨張を確認。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "saturn",
+   "emoji": "🪐",
+   "name": "土星の環(実験)",
+   "group": "天体の機構",
+   "sampleClass": "composite",
+   "status": {
+    "purpose": "氷粒の環が長時間残るかを測る",
+    "objective": "met",
+    "state": "帯内 97.1%・落下 0.4% が門内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.saturnExp"
+    ],
+    "en": {
+     "purpose": "Measure whether a ring of ice grains survives a long run",
+     "state": "97.1% stay in the band and 0.4% fall in, within the gate",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Measure whether a ring of ice grains survives a long run. Met: 97.1% stay in the band and 0.4% fall in, within the gate. Out of calibration scope."
+    },
+    "brief": "氷粒の環が長時間残るかを測る。達・帯内 97.1%・落下 0.4% が門内。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "saturnLayered",
+   "emoji": "🎯",
+   "name": "土星の環(主星2層)",
+   "group": "天体の機構",
+   "sampleClass": "composite",
+   "status": {
+    "purpose": "主星のコアと殻の差動が環に効くかを見る",
+    "objective": "met",
+    "state": "等価性と差動コアの効果を検査で確認",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "core.twolayer"
+    ],
+    "en": {
+     "purpose": "See whether the primary's core–shell differential acts on the ring",
+     "state": "the equivalences and the differential-core effect are checked",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "See whether the primary's core–shell differential acts on the ring. Met: the equivalences and the differential-core effect are checked. Out of calibration scope."
+    },
+    "brief": "主星のコアと殻の差動が環に効くかを見る。達・等価性と差動コアの効果を検査で確認。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "saturnZonalD68",
+   "emoji": "📡",
+   "name": "土星の近点移動(実単位・D68精密較正)",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "帯状重力係数で D68 の近点移動を照合する",
+    "objective": "unmet",
+    "state": "代表量が門の外",
+    "calibration": "fail",
+    "mismatch": "近点移動 −0.306%(14.6σ)",
+    "outlook": "刻み間差 4×10⁻³σ・刻みでは縮まない",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Compare D68's apsidal motion via zonal harmonics",
+     "state": "the representative quantity is outside the gate",
+     "mismatch": "apsidal advance −0.306% (14.6σ)",
+     "outlook": "step Δ 4×10⁻³σ (not step-limited)",
+     "brief": "Compare D68's apsidal motion via zonal harmonics. Unmet: the representative quantity is outside the gate. Calibration: fail — apsidal advance −0.306% (14.6σ); step Δ 4×10⁻³σ (not step-limited)."
+    },
+    "brief": "帯状重力係数で D68 の近点移動を照合する。未達・代表量が門の外。較正は否・近点移動 −0.306%(14.6σ)・刻み間差 4×10⁻³σ・刻みでは縮まない。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[34]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 0.003992070110265076,
+    "missing": [
+     "(門に入った量 1: 合 0・否 1 — 残り 4 量は σ が無い)"
+    ]
+   }
+  },
+  {
+   "id": "saturnRingReal",
+   "emoji": "💍",
+   "name": "土星の環(実単位)— 見えないのが正しい",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "実単位の土星の環を kF0 で照合する",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": null,
+    "outlook": "σ 未接続",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Compare Saturn's rings in real units with kF0",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": null,
+     "outlook": "no σ connected",
+     "brief": "Compare Saturn's rings in real units with kF0. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."
+    },
+    "brief": "実単位の土星の環を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[35]",
+    "mismatch": null,
+    "lastDiffInSigma": null,
+    "missing": [
+     "σ 未接続"
+    ]
+   }
+  },
+  {
+   "id": "saturnRingRealKF1",
+   "emoji": "💿",
+   "name": "土星の環(実単位・kFrame=1)— 表面随伴と自動算出q",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "土星の環を kF1 と自動算出 q で照合する",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": null,
+    "outlook": "σ 未接続",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Compare Saturn's rings with kF1 and the automatic q",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": null,
+     "outlook": "no σ connected",
+     "brief": "Compare Saturn's rings with kF1 and the automatic q. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."
+    },
+    "brief": "土星の環を kF1 と自動算出 q で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[36]",
+    "mismatch": null,
+    "lastDiffInSigma": null,
+    "missing": [
+     "σ 未接続"
+    ]
+   }
+  },
+  {
+   "id": "binary",
+   "emoji": "⭐",
+   "name": "連星系と周連星円盤",
+   "group": "天体の機構",
+   "sampleClass": "composite",
+   "status": {
+    "purpose": "連星の間隔と周連星円盤を保つ",
+    "objective": "met",
+    "state": "間隔 122.9・円盤 240/240 残存が門内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.binary"
+    ],
+    "en": {
+     "purpose": "Keep a binary's separation and its circumbinary disc",
+     "state": "separation 122.9 and 240/240 disc particles retained pass the gate",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Keep a binary's separation and its circumbinary disc. Met: separation 122.9 and 240/240 disc particles retained pass the gate. Out of calibration scope."
+    },
+    "brief": "連星の間隔と周連星円盤を保つ。達・間隔 122.9・円盤 240/240 残存が門内。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "fig8",
+   "emoji": "♾️",
+   "name": "三体問題 — 8の字軌道",
+   "group": "天体の機構",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "等質量三体の 8 の字周期軌道を見せる",
+    "objective": "partial",
+    "state": "画像回帰のみで軌道の定量門は無い",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "shot.regress-fig8",
+     "preset.fig8"
+    ],
+    "en": {
+     "purpose": "Show the figure-eight periodic orbit of three equal masses",
+     "state": "only a screenshot regression; there is no quantitative orbit gate",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Show the figure-eight periodic orbit of three equal masses. Partial: only a screenshot regression; there is no quantitative orbit gate. Out of calibration scope."
+    },
+    "brief": "等質量三体の 8 の字周期軌道を見せる。部分・画像回帰のみで軌道の定量門は無い。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "counterring",
+   "emoji": "💥",
+   "name": "順行・逆行リングの衝突",
+   "group": "天体の機構",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "逆向きに回る環どうしの摩擦を比べる",
+    "objective": "met",
+    "state": "摩擦あり 0.74・なし 0 の対照",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "new.counterring"
+    ],
+    "en": {
+     "purpose": "Compare friction between counter-rotating rings",
+     "state": "0.74 with friction against 0 without it",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare friction between counter-rotating rings. Met: 0.74 with friction against 0 without it. Out of calibration scope."
+    },
+    "brief": "逆向きに回る環どうしの摩擦を比べる。達・摩擦あり 0.74・なし 0 の対照。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "spinup",
+   "emoji": "🌪️",
+   "name": "収縮とスピン加速",
+   "group": "天体の機構",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "閉じた系で収縮とともにスピンが上がるかを見る",
+    "objective": "met",
+    "state": "収縮 3.02 倍で ω 8.46 倍・帳簿は閉じる",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.spinup"
+    ],
+    "en": {
+     "purpose": "See spin increase with contraction in a closed system",
+     "state": "3.02× contraction gives 8.46× ω and the ledger closes",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "See spin increase with contraction in a closed system. Met: 3.02× contraction gives 8.46× ω and the ledger closes. Out of calibration scope."
+    },
+    "brief": "閉じた系で収縮とともにスピンが上がるかを見る。達・収縮 3.02 倍で ω 8.46 倍・帳簿は閉じる。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "pulsarSolo",
+   "emoji": "🏮",
+   "name": "パルサー灯台(単体)— 傾いた軸と運動学の時計",
+   "group": "天体の機構",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "傾いた軸の灯台と運動学の時計を見せる",
+    "objective": "met",
+    "state": "位相の恒等と軸の傾きを検査で確認",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.templates229"
+    ],
+    "en": {
+     "purpose": "Show a tilted-axis lighthouse and a kinematic clock",
+     "state": "the phase identity and the axis tilt are checked",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Show a tilted-axis lighthouse and a kinematic clock. Met: the phase identity and the axis tilt are checked. Out of calibration scope."
+    },
+    "brief": "傾いた軸の灯台と運動学の時計を見せる。達・位相の恒等と軸の傾きを検査で確認。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "supernovaCore",
+   "emoji": "🎇",
+   "name": "超新星 — 1つの赤色巨星が多層の外殻を吹き飛ばし、時計つきの核が残る",
+   "group": "天体の機構",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "1 つの星の殻放出と時計つきの核の残存を見せる",
+    "objective": "met",
+    "state": "分割放出と帳簿の閉じを検査で確認",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.supernova"
+    ],
+    "en": {
+     "purpose": "Show one star shedding its envelope and leaving a clocked core",
+     "state": "the split ejection and the closed ledger are checked",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Show one star shedding its envelope and leaving a clocked core. Met: the split ejection and the closed ledger are checked. Out of calibration scope."
+    },
+    "brief": "1 つの星の殻放出と時計つきの核の残存を見せる。達・分割放出と帳簿の閉じを検査で確認。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "whiteDwarfDFM",
+   "emoji": "⚪",
+   "name": "白色矮星 — 赤色巨星の外殻が徐々に剥がれ、育ったコアが残る(DFM版)",
+   "group": "天体の機構",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "殻が繰り返し剥がれて育ったコアが残る",
+    "objective": "met",
+    "state": "4 回の放出と帳簿の閉じを検査で確認",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.shedRepeat"
+    ],
+    "en": {
+     "purpose": "A grown core remains as the envelope sheds again and again",
+     "state": "four ejections and the closed ledger are checked",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "A grown core remains as the envelope sheds again and again. Met: four ejections and the closed ledger are checked. Out of calibration scope."
+    },
+    "brief": "殻が繰り返し剥がれて育ったコアが残る。達・4 回の放出と帳簿の閉じを検査で確認。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "whiteDwarfBareDFM",
+   "emoji": "🔘",
+   "name": "裸のコア — 最後の殻が剥がれて Mc=M の終端状態になる(DFM版・⚪ の variant)",
+   "group": "天体の機構",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "最後の殻が剥がれ Mc=M の終端を作る",
+    "objective": "met",
+    "state": "終端と結合エネルギーの台帳を検査で確認",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.coreTerminal"
+    ],
+    "en": {
+     "purpose": "Shed the last envelope to reach the Mc=M end state",
+     "state": "the end state and the binding-energy ledger are checked",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Shed the last envelope to reach the Mc=M end state. Met: the end state and the binding-energy ledger are checked. Out of calibration scope."
+    },
+    "brief": "最後の殻が剥がれ Mc=M の終端を作る。達・終端と結合エネルギーの台帳を検査で確認。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "envelopeShedDFM",
+   "emoji": "🎆",
+   "name": "エンベロープの分割放出 — 限界回転のコアが殻をガスへ割って出す(DFM版)",
+   "group": "天体の機構",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "限界回転のコアが殻を粒へ割って出す",
+    "objective": "met",
+    "state": "1 回の放出と帳簿の閉じを検査で確認",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.envelopeShed"
+    ],
+    "en": {
+     "purpose": "A core at its spin limit splits its envelope into particles",
+     "state": "one ejection and the closed ledger are checked",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "A core at its spin limit splits its envelope into particles. Met: one ejection and the closed ledger are checked. Out of calibration scope."
+    },
+    "brief": "限界回転のコアが殻を粒へ割って出す。達・1 回の放出と帳簿の閉じを検査で確認。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "lfbotTrap",
+   "emoji": "🐮",
+   "name": "閉じ込めた光の解放 — 減光で溜めた自光をコアの崩壊で放つ(トイ仮説)",
+   "group": "天体の機構",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "減光で溜めた光をコアの崩壊で放つトイ",
+    "objective": "met",
+    "state": "光の口座の保存と対照 4 本を検査で確認",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.lightTrapLedger"
+    ],
+    "en": {
+     "purpose": "A toy that releases light hoarded by dimming when the core collapses",
+     "state": "the light-account conservation and four controls are checked",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "A toy that releases light hoarded by dimming when the core collapses. Met: the light-account conservation and four controls are checked. Out of calibration scope."
+    },
+    "brief": "減光で溜めた光をコアの崩壊で放つトイ。達・光の口座の保存と対照 4 本を検査で確認。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "layeredCoreDFM",
+   "emoji": "🧅",
+   "name": "親子コア — 観測半径は殻・質量はコア(二層天体の原理)",
+   "group": "天体の機構",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "観測半径は殻・質量はコアに分ける二層天体",
+    "objective": "met",
+    "state": "検証器と球殻定理の検査を通過",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.bodyLayers"
+    ],
+    "en": {
+     "purpose": "A two-layer body: the shell carries the radius, the core the mass",
+     "state": "passes the validator and shell-theorem checks",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "A two-layer body: the shell carries the radius, the core the mass. Met: passes the validator and shell-theorem checks. Out of calibration scope."
+    },
+    "brief": "観測半径は殻・質量はコアに分ける二層天体。達・検証器と球殻定理の検査を通過。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "spinDipoleBinary",
+   "emoji": "⚙️",
+   "name": "スピン双極子の連星 — 自転が押し合うと近点が逆行する(玩具)",
+   "group": "天体の機構",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "スピン双極子の力で近点が逆行するかを見る",
+    "objective": "met",
+    "state": "近点移動 −0.980°/周が解析値の 0.994 倍",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.spinDipole"
+    ],
+    "en": {
+     "purpose": "See whether a spin-dipole force turns the apsides backward",
+     "state": "apsidal motion −0.980°/orbit is 0.994 of the analytic value",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "See whether a spin-dipole force turns the apsides backward. Met: apsidal motion −0.980°/orbit is 0.994 of the analytic value. Out of calibration scope."
+    },
+    "brief": "スピン双極子の力で近点が逆行するかを見る。達・近点移動 −0.980°/周が解析値の 0.994 倍。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "gasCohSurface",
+   "emoji": "🌬️",
+   "name": "気体の殻の表面随伴 — 外殻が気体だと引きずりは弱い",
+   "group": "天体の機構",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "気体の殻で表面の引きずりが弱まるかを見る",
+    "objective": "met",
+    "state": "表面随伴の比が gasCoh に一致",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.gasCohSurface"
+    ],
+    "en": {
+     "purpose": "See whether a gaseous shell drags its surface more weakly",
+     "state": "the surface co-motion ratio equals gasCoh",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "See whether a gaseous shell drags its surface more weakly. Met: the surface co-motion ratio equals gasCoh. Out of calibration scope."
+    },
+    "brief": "気体の殻で表面の引きずりが弱まるかを見る。達・表面随伴の比が gasCoh に一致。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "mmPhaseToy",
+   "emoji": "🪞",
+   "name": "2腕の往復位相 — 正対照が先",
+   "group": "光の伝播",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "2 本の腕を往復した光の位相差を正対照から測る",
+    "objective": "met",
+    "state": "正対照の位相差が解析式どおり",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.mmPhase"
+    ],
+    "en": {
+     "purpose": "Measure the round-trip phase difference of two arms from positive controls up",
+     "state": "the positive-control phases follow the analytic formula",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Measure the round-trip phase difference of two arms from positive controls up. Met: the positive-control phases follow the analytic formula. Out of calibration scope."
+    },
+    "brief": "2 本の腕を往復した光の位相差を正対照から測る。達・正対照の位相差が解析式どおり。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "starSeed",
+   "emoji": "🌱",
+   "name": "星の種ローター — 圧縮とパワーボール",
+   "group": "自転と減光",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "コアの圧縮・軸仕事と減光の経路を測る",
+    "objective": "met",
+    "state": "Ω 比 107.9・減光 0.9988 が窓内",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "claim.starseed-powerball"
+    ],
+    "en": {
+     "purpose": "Measure the path from core compression and axial work to dimming",
+     "state": "Ω ratio 107.9 and dimming 0.9988 lie in their windows",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Measure the path from core compression and axial work to dimming. Met: Ω ratio 107.9 and dimming 0.9988 lie in their windows. Out of calibration scope."
+    },
+    "brief": "コアの圧縮・軸仕事と減光の経路を測る。達・Ω 比 107.9・減光 0.9988 が窓内。較正対象外。"
+   },
+   "ledgerSource": null
+  }
+ ]
+}

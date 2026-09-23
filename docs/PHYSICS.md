@@ -25101,6 +25101,66 @@ s₁ は 4 件とも 0。**ラベルの入れ替え対称性** pairSlip(−r,−
 
 **言わないこと。** 「UI を完成させた」「見やすくなった」「実機で確認した」「Opus 5.5 で生成に成功した」「判定が増えた」「較正した」「v1.45.0 RC を切った」。
 
+〔第279便a — 概要便: 内蔵 133 本の構造化した状態 `status`・専用の概要 133/133(1 行 3 節「目的。状況。較正。」)・サンプル状況一覧 `docs/SAMPLE_STATUS_v1.45.md`(**表示と宣言データだけ**・物理は 1 bit も動かさない)〕
+
+原仮定者の裁定(第69報)「各サンプルについて目的と状況を一覧化する(一覧の情報はサンプルの『概要』で利用する)」「『説明』タブの『概要』を全サンプルで専用に用意する(何が確認できるのか・何の数値が合わないのかを端的に)」と、AM6′ の第 1 段(禁止語 QA は残したまま、**構造化した状態を正とし表示文をそこから生成する**)に応える便である(統括の読み R59・R60)。触ったのは `beta/index.html` の生成領域 1 つ(`// >>> w275a-generated: sample-status` —— `lib-w275a-physsha` の数え方で物理コード領域の hash から外れる)・付与ループ・検証器の受理・概要の en 上限・説明タブの状態チップ・辞書(ja/en)・`HP` の読み口だけで、**`S._core` は 1 命令も増やしていない**・**内蔵 133 本は 600 歩の状態指紋も `presetSig` も基点(0624159)と完全一致**である。
+
+**① 契約(`status` と `brief`)。** 各内蔵プリセットに `status:{purpose, objective, state, calibration, mismatch, outlook, evidence}`(ja)と `en.status:{purpose, state, mismatch, outlook}`(en の文だけ — 列挙値は ja 側を共有)を宣言する。`objective` ∈ {met 達・partial 部分・unmet 未達・n/a 対象外}、`calibration` ∈ {pass 合・pass-limited 量限定合・fail 否・hold 保留(**台帳 37 本の 4 値の正式語そのまま**)・hold-definition 判定保留(量定義不一致)(⛄🌨️ —— **第 5 の値ではない**母集団外の表示・AN5)・out-of-scope 較正対象外}、`mismatch`・`outlook` は文字列か null、`evidence` は保存 QA の ID か `tests/out/` の正本のパスの配列。`validatePreset` は型が合わない `status` を警告つきで落とし(`descStruct` と同じ方針)、未宣言は素通りする。**`presetSig` は物理・bodies 等の鍵しか直列化しないので `status` は署名に入らない**(sigsame 133/133 で実測)。概要 `descStruct.brief` は **status から機械的に組み立てた 1 行 3 節**である —— ja「`{purpose}。{達|部分|未達}・{state}。{較正節}。`」、en「`{purpose}. {Met|Partial|Unmet}: {state}. {Calibration…}.`」。較正節は ja「較正対象外」または「較正は{語}・{mismatch}・{outlook}」、en は "Out of calibration scope" または "Calibration: {word} — {mismatch}; {outlook}"。上限は ja 120 字(`DESC_BRIEF_CAP` 据え置き — 60 字の畳み見出し AM11 とは別物)・en 200 文字(新 `DESC_BRIEF_CAP_EN`。**機械抽出は従来どおり 120 字**)。**合否の語は門に入る本だけ**に付く(較正母集団外は「較正対象外」か「判定保留(量定義不一致)」)。
+
+**② 生成の流れ(手で直さない欄を分ける)。** 原稿 `tests/data-w279a-samplestatus-src.json`(手書き: 目的・状況・根拠 ID)+ 正本 `tests/out/calaudit-w249.json`(verdictLedger の 4 値・代表量・欠け)・`tests/out/charonwin-w278b.json`(⛄🌨️ の比較値)→ 純関数 `tests/lib-w279a-samplestatus.mjs`(版 `w279a-1`)→ 器 `tests/exp-w279a-samplestatus.mjs` が html の生成領域・一覧 md・正本 `tests/out/samplestatus-w279a.json`(来歴 w272e-1・CANON 登録)を**同時に**書く。`calibration`・`mismatch`・`outlook` は**原稿に欄が無い**(正本からしか作れない)。規則: `mismatch` = 代表量が 3σ を外れていればその量の差 %(σ 倍)/ σ の無い本は、写像が確定していて目安判定が「否/窓」の量のうち |差%| 最大のもの(「σ なし」と明記)/ どれも無ければ null。`outlook` = 正本の数から決まる語だけ ——「σ 未接続」「数値未解決」「写像未確定」と、**門で否かつ代表量の刻み間差(`convergence.lastDiffInSigma`)が 1σ 未満**のときの「刻み間差 xσ・刻みでは縮まない」。器は ①根拠 ID が保存 QA(`qa-results-full-beta.json`)で PASS でない/正本が無い、②概要が上限超過、③禁止語、④ページで読んだ `p.status`・宣言の概要が表と 1 字でも違う —— のどれかで**何も書かずに止まる**(`--check` は書かずに照合だけ)。
+
+**③ なぜ 3 欄を分けるか。** 「保存 QA が通った」「サンプルの目的に達した」「観測との較正が成り立つ」は別の問いである。例: 🧲 `emAuditDFM` は**目的(較正窓の一致が長期に続くかを調べる)には達している**(長い窓で 20.77 年へずれることを `behavior.emAudit` が検出)が、**較正は保留**(σ 未接続・近点移動 +23.1% σ なし)。🥏 `shapeToyDisk` は保存 QA `docs.shapeToyCriteria` が PASS だが、その QA が**固定しているのは「形状トイの門で KS 比 1.330 が不合格」という結果**なので状況は**未達**。⚾🛷☕♾️💡 のように保存 QA が受理・構築・画像回帰しか測っていない本は、QA が PASS でも**部分**(「定量の門は無い」と状況に書く)。1 つの語にまとめると、どれか 2 つが必ず嘘になる。
+
+**④ 実測(器の出力・`tests/out/samplestatus-w279a.json`)。** 内蔵 **133 本・宣言 133/133**(ja/en とも `data-src=declared`)。状況 **達 77・部分 51・未達 5・対象外 0**(未達 = 🥏 shapeToyDisk・❄️ plutoCharonReal・🩻 psrDoubleABGeoToy・🛞 ngc3198DFM・📡 saturnZonalD68)。較正 4 値 **0/2/2/33**(台帳の転記 —— 本便で動いていない)・判定保留(量定義不一致)**2**・較正対象外 **94**。概要の最長 **ja 116 字・en 199 文字**。`predictionEligible` の合計 **0**(「刻みを細かくすれば合格」の証拠付き予測は 0 件 —— 概要・一覧もその予測を書かない)。群別: 🧭5 🌌17 🪐18 ⏱️5 💡5 🌡️12 📦10 🌗10 ☀️21 ⭐19 🔭11 ⚗️0 🖥️0 📏0。較正母集団 37 本 + ⛄🌨️ の生成結果:
+
+| サンプル | 較正 | 合わない量と差 | 精度見込み |
+| --- | --- | --- | --- |
+| 🌙 `earthMoonReal` | 保留 | — | σ 未接続 |
+| 🌘 `earthMoonRealKF1` | 保留 | 近点移動 +12.7%(σ なし) | σ 未接続 |
+| 🧲 `emAuditDFM` | 保留 | 近点移動 +23.1%(σ なし) | σ 未接続 |
+| 🔆 `emAuditSolar` | 保留 | — | σ 未接続 |
+| ☄️ `mercuryReal` | 保留 | 近点移動 −21.7%(6.2×10³σ) | 数値未解決 |
+| 🪨 `mercuryRealKF1` | 保留 | 近点移動 −21.8%(6.3×10³σ) | 数値未解決 |
+| 🌞 `solarInner` | 保留 | — | σ 未接続 |
+| 🟠 `jupiterGalilean` | 保留 | — | σ 未接続 |
+| 🌇 `venusReal` | 保留 | — | σ 未接続 |
+| 🥔 `marsMoonsReal` | 保留 | — | σ 未接続 |
+| ❄️ `plutoCharonReal` | 否 | 周期 +0.00138%(294σ) | 刻み間差 1×10⁻³σ・刻みでは縮まない・数値未解決・写像未確定 |
+| ⛄ `plutoCharonDFM` | 判定保留(量定義不一致) | 比較値 +31.6 s(Buie 2012 比・門ではない) | 量の定義が揃うまで門に入れない |
+| 🌨️ `plutoCharonKF0Control` | 判定保留(量定義不一致) | 比較値 +30.2 s(Buie 2012 比・門ではない) | 量の定義が揃うまで門に入れない |
+| 💠 `uranusReal` | 保留 | — | σ 未接続 |
+| 🌊 `neptuneReal` | 保留 | — | σ 未接続 |
+| ✨ `alphaCenAB` | 量限定合 | — | 写像未確定 |
+| ✴️ `alphaCenABDFM` | 保留 | 周期 −0.618%(25.9σ) | 数値未解決・写像未確定 |
+| 🌟 `siriusAB` | 量限定合 | — | 写像未確定 |
+| 💫 `siriusABDFM` | 保留 | 周期 −1.80%(210σ) | 数値未解決・写像未確定 |
+| 📻 `psrDoubleAB` | 保留 | 周期 +0.00269%(9.5×10⁵σ) | 数値未解決・写像未確定 |
+| ⚡ `psrDoubleABDFM` | 保留 | 周期 −1.10%(4.9×10⁷σ) | 数値未解決・写像未確定 |
+| 🧿 `psrDoubleABSpinCal` | 保留 | 近点移動 +2.42%(3.2×10⁴σ) | 数値未解決 |
+| 🧮 `psrJ1757DFM` | 保留 | 近点移動 5.3×10⁴σ(差の%は正本に無い) | 数値未解決・写像未確定 |
+| 🩺 `psrJ1946DFM` | 保留 | 近点移動 6.6×10⁴σ(差の%は正本に無い) | 数値未解決・写像未確定 |
+| 🪶 `psrDoubleABPN` | 保留 | 近点移動 +3.37%(4.4×10⁴σ) | 数値未解決・写像未確定 |
+| 🪃 `psrJ1757PN` | 保留 | 近点移動 +1.70%(899σ) | 数値未解決・写像未確定 |
+| 🪀 `psrJ1946PN` | 保留 | 近点移動 +7.53%(4.9×10³σ) | 数値未解決・写像未確定 |
+| 🪝 `psrDoubleABCF` | 保留 | 近点移動 +2.61%(3.6×10³σ) | 数値未解決 |
+| 🪄 `psrJ1757CF` | 保留 | 近点移動 +1.59%(169σ) | 数値未解決 |
+| 🩹 `psrJ1946CF` | 保留 | 近点移動 +8.28%(276σ) | 数値未解決・写像未確定 |
+| 📿 `psrB1534` | 保留 | 周期 +0.000769%(3.2×10⁵σ) | 数値未解決・写像未確定 |
+| 🧶 `psrB1534DFM` | 保留 | 近点移動 2.0×10⁵σ(差の%は正本に無い) | 数値未解決・写像未確定 |
+| 🪤 `psrB1534CF` | 保留 | 近点移動 +2.80%(5.0×10³σ) | 数値未解決 |
+| 🎐 `gw150914` | 保留 | — | σ 未接続 |
+| 🎻 `gw150914DFM` | 保留 | — | σ 未接続 |
+| ⏰ `gw150914Merge4s` | 保留 | — | σ 未接続 |
+| 📡 `saturnZonalD68` | 否 | 近点移動 −0.306%(14.6σ) | 刻み間差 4×10⁻³σ・刻みでは縮まない |
+| 💍 `saturnRingReal` | 保留 | — | σ 未接続 |
+| 💿 `saturnRingRealKF1` | 保留 | — | σ 未接続 |
+
+**⑤ 表示。** 説明タブの 🔖概要の直下に**状態チップ**(`#descStatus` — 目的の達成・較正の語・精度見込み。`role=group`・`aria-label`「サンプルの状況」/"Sample status")を並べた。**区分見出し `.descSectHead` は付けない**(`desc.struct-sync` の員数 3・`ui.descOrder` の固定順は不変)。畳み見出しの状態語(第277便e・60 字)は触っていない。旧来の宣言済み概要 54 行(ja 4・en 50)は内蔵配列から外し、表の 1 か所へ寄せた(概要の出所を 2 つにしない)。
+
+**⑥ 検証と否定結果。** bitsame **133/133**(600 歩・`identical:true`)・sigsame **133/133**・jitprobe の出力チェックサム 4 本とも基点と一致(galaxyGeo2 `3cfc4377` / bhCore `4df5bb5a` / galaxyMeshSpiral `60cc818` / gw150914DFM `ce7e5de5`・基点比 ×0.95 / ×0.89 / ×1.05 / ×0.97 は同一機の走行ゆらぎの幅)。新設 QA 3 本(`preset.status`・`preset.statusLedger-sync`・`docs.sampleStatus-sync`)は beta で PASS・root で SKIP。拡張 3 本(`ui.descBrief` —— en の上限を言語別に・第279便a の世代では宣言 133/133・3 節・較正節の語 = `status.calibration`・概要 = status からの組み立て・禁止語 0・状態チップ /`preset.roundtrip-builtins` —— status の往復保全 133 件 /`docs.fourValuesHistory` —— SAMPLE_STATUS の全行に同じ禁止語)も PASS。**状況の語は、根拠に挙げた保存 QA の detail を読んで裏づくものだけにした** —— 保存 QA が受理・構築・画像回帰しか測っていない本(⚾🛷☕♾️💡)と、形の門が無い本(🥢🎏🎚️🪁🎋)は「部分」、門の結果が不合格の本は「未達」に落とした。**未解決**: 「部分」の 51 本のうち較正母集団外の 16 本は、目的を測る定量の門そのものが無い(本便では門を足していない)。
+
+**言わないこと。** 「全サンプルの状況を確定した」「較正した」「較正を完了した」「観測と一致した」「精度を上げれば合格」「判定が増えた」「QA を短縮した」「v1.45.0 RC を切った」。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、

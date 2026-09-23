@@ -2451,3 +2451,31 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 - 宣言した本では `physics.softening` の受理下限がこの値になる(**受理値・適用値・警告は `presetSig` に入る**)。
 - **内蔵の宣言**: **0 本**。
 - QA: **`preset.softeningFloor`**。
+
+## 11. サンプルの状況 `status` と内蔵の概要(第279便a — **表示専用の宣言**・**SYSTEM_PROMPT には載せない**)
+
+原仮定者の裁定(第69報)「各サンプルの状況確認」「『説明』タブの『概要』を全サンプルで専用に用意する」(統括の読み R59・R60)。
+§9 の `descStruct.brief` と同じく**表示専用**で、`presetSig`・`description`(純分割)・エンジン・保存 JSON の物理には入らない。
+
+- **正準形(ja)**: `status:{purpose:<文>, objective:"met"|"partial"|"unmet"|"n/a", state:<文>,
+  calibration:"pass"|"pass-limited"|"fail"|"hold"|"hold-definition"|"out-of-scope", mismatch:<文>|null, outlook:<文>|null,
+  evidence:[<保存 QA の ID か tests/out/ の正本のパス>…]}`。
+- **正準形(en)**: `en.status:{purpose, state, mismatch, outlook}`(文だけ。列挙値は ja 側を共有する)。
+- **受理(`validatePreset`)**: 型が合わなければ警告つきで **`status` ごと削除**(`objective`/`calibration` が列挙値の外・
+  `evidence` が文字列の配列でない・`mismatch`/`outlook` が文字列でも null でもない・`purpose`/`state` が無い)。
+  文字列は 200 字(`SAMPLE_STATUS_TEXT_CAP`)で警告つき切り詰め、`evidence` は 16 件まで。**未宣言は素通り**(警告なし)。
+- **読み口**: `HP.sampleStatusOf(p)`(言語追随 — en は `en.status` の文を返す)・`HP.SAMPLE_OBJECTIVES`・
+  `HP.SAMPLE_CALIBRATIONS`・`HP.SAMPLE_STATUS_VERSION`(`"w279a-1"`)。
+- **内蔵 133 本の宣言は生成物**である。html の生成領域 `// >>> w275a-generated: sample-status` の表 `SAMPLE_STATUS` を、
+  器 `tests/exp-w279a-samplestatus.mjs` が原稿 `tests/data-w279a-samplestatus-src.json`(目的・状況・根拠)と正本
+  `tests/out/calaudit-w249.json`(4 値・代表量・欠け)・`tests/out/charonwin-w278b.json`(⛄🌨️ の比較値)から作り、
+  付与ループ `sampleStatusAttach` が `p.status`・`p.en.status`・`p.descStruct.brief`・`p.en.descStruct.brief` へ写す。
+  **`calibration`・`mismatch`・`outlook` は手で書かない**(QA `preset.statusLedger-sync` が正本から作り直して照合する)。
+- **概要(§9)の変更**: 内蔵 133 本は **ja/en とも宣言 133/133**(第276便f の「ja 宣言 2・en 宣言 48」から変更)。
+  内蔵の概要は **status から組み立てた 1 行 3 節**「目的。状況。較正。」(en は "Purpose. State. Calibration.")。
+  **en の宣言の上限は 200 文字**(新 `HP.DESC_BRIEF_CAP_EN`。ja は 120 字のまま・機械抽出は ja/en とも 120 字のまま)。
+- **SYSTEM_PROMPT には載せない**(AI 生成には開放していない —— 受理して検証するだけである。§5 の逐語ブロックは
+  1 バイトも変わっていない)。AI が `status` を書いてきた場合は、上の型検査を通して**表示にだけ**使われる
+  (その本は較正母集団ではないので、QA の正本照合の対象にもならない)。
+- QA: **`preset.status`**(受理契約・宣言 133/133・列挙値・根拠 ID の実在)・**`preset.statusLedger-sync`**・
+  **`ui.descBrief`**(第279便a の拡張)・**`docs.sampleStatus-sync`**・**`preset.roundtrip-builtins`**(status の往復保全)。
