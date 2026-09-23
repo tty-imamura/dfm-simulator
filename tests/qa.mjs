@@ -32310,6 +32310,11 @@ if (!FAST) {
 // ----     #appTitle の aria-controls と監査ビュー導線(aria-controls / aria-expanded)は不変・
 // ----     横画面 1280×800 で箱がキャンバス列と右カラムの両方に被る・about と av は排他・
 // ----     「サンプルを選ぶ」を上に重ねた Esc は手前の窓だけを閉じる。
+// ----     第279便d(原仮定者の裁定(第69報)「UI」「前回 1.5 倍を頼んだが 2 倍になっていたので 3/4 程度に狭める」):
+// ----     html が第279便d の宣言 clamp(360px,40.5vw,472px) を持つときは、固定値を 3/4 へ —— 右カラム
+// ----     min(472, max(360, 0.405×幅))・箱 min(630px, 画面幅−28px)・旧 2 宣言(480/54vw/630・320/36vw/420)の残り無し。
+// ----     加えて文字サイズ「大」(--uz 1.3)の ja/en で操作列・タブの折り返し 0・4 タブのパネル内の横はみ出し 0
+// ----     (900 幅で「パラメータ」が 2 行に折れた実測への回帰検査)。第278便e の宣言だけの html は従来の固定値で測る。
 // ----   ui.searchClear … ✕ は type=button・aria-label(ja「検索をクリア」/ en「Clear search」)・
 // ----     入力が空で非表示/入力で表示・押すと検索欄が空・一覧が絞り込み前の行数へ戻る・フォーカスが
 // ----     検索欄・412×915 で見出し行が 1 行(はみ出し 0)・✕ は検索欄の内側。
@@ -32324,7 +32329,11 @@ if (!FAST) {
 // ----     text を取り出せる。
 {
   const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
-  const has278e = /clamp\(480px,54vw,630px\)/.test(html) && /class="fmModal"/.test(html)
+  // 第279便d: 幅の宣言は第278便e(480/54vw/630)か第279便d(360/40.5vw/472)のどちらか —— 世代で固定値を切り替える
+  const has279dW = /grid-template-columns:minmax\(0,1fr\) clamp\(360px,40\.5vw,472px\);/.test(html);
+  const LW = has279dW ? { min: 360, vw: 0.405, max: 472, box: 630, decl: 'clamp(360px,40.5vw,472px)', gen: '第279便d(第278便e の 3/4)' }
+    : { min: 480, vw: 0.54, max: 630, box: 840, decl: 'clamp(480px,54vw,630px)', gen: '第278便e(旧 320/36vw/420 の 1.5 倍)' };
+  const has278e = (/clamp\(480px,54vw,630px\)/.test(html) || has279dW) && /class="fmModal"/.test(html)
     && /ppSearchClear/.test(html) && /ocHeadIcon/.test(html) && /"claude-opus-5-5"/.test(html);
   if (!has278e) {
     console.log('SKIP ui.landscapeWidth / ui.frontModals / ui.searchClear / ui.obscardIcon / ai.modelList(対象に第278便e の幅宣言・.fmModal・#ppSearchClear・.ocHeadIcon・claude-opus-5-5 なし — root 等)');
@@ -32343,14 +32352,14 @@ if (!FAST) {
     const lw = [];
     for (const [w, h] of [[412, 915], [1024, 768], [1280, 800], [1366, 768], [1920, 1080]]) {
       const { ctx, pg } = await openAt(w, h);
-      lw.push(await pg.evaluate(async () => {
+      lw.push(await pg.evaluate(async (LW) => {
         const wait = (ms) => new Promise((r) => setTimeout(r, ms));
         const lines = (el) => { const rg = document.createRange(); rg.selectNodeContents(el);
           const ts = new Set(); for (const q of rg.getClientRects()) if (q.width > 0) ts.add(Math.round(q.top)); return ts.size; };
         const grid = getComputedStyle(document.getElementById('app')).display === 'grid';
         const col = document.getElementById('tabs').getBoundingClientRect().width;
         const cv = document.getElementById('canvasWrap').getBoundingClientRect().width;
-        const expCol = grid ? Math.min(630, Math.max(480, 0.54 * innerWidth)) : innerWidth;
+        const expCol = grid ? Math.min(LW.max, Math.max(LW.min, LW.vw * innerWidth)) : innerWidth;
         const wrapped = [...document.querySelectorAll('#transport button, nav#tabs button')]
           .filter((b) => b.getBoundingClientRect().width > 0 && lines(b) > 1).length;
         let panelX = 0;
@@ -32359,14 +32368,29 @@ if (!FAST) {
           const p = document.getElementById('panel'); panelX = Math.max(panelX, p.scrollWidth - p.clientWidth);
         }
         document.getElementById('btnPanelClose').click();
+        // 第279便d: 文字サイズ「大」(--uz 1.3)の ja/en —— 操作列・タブの折り返しと 4 タブのパネル内の横はみ出し
+        const uz13 = { wrapped: 0, panelX: 0 };
+        const uz0 = document.documentElement.style.getPropertyValue('--uz');
+        for (const lg of ['ja', 'en']) {
+          HP.setLang(lg); document.documentElement.style.setProperty('--uz', '1.3'); await wait(60);
+          uz13.wrapped += [...document.querySelectorAll('#transport button, nav#tabs button')]
+            .filter((b) => b.getBoundingClientRect().width > 0 && lines(b) > 1).length;
+          for (const t of ['help', 'params', 'saves', 'ai']) {
+            document.querySelector('nav#tabs button[data-tab="' + t + '"]').click(); await wait(80);
+            const p = document.getElementById('panel'); uz13.panelX = Math.max(uz13.panelX, p.scrollWidth - p.clientWidth);
+          }
+          document.getElementById('btnPanelClose').click();
+        }
+        if (uz0) document.documentElement.style.setProperty('--uz', uz0); else document.documentElement.style.removeProperty('--uz');
+        HP.setLang('ja');
         document.getElementById('btnPresetPick').click(); await wait(120);
         const bx = document.querySelector('#ppModal .ppBox');
         const boxW = bx.getBoundingClientRect().width, boxMax = getComputedStyle(bx).maxWidth;
         document.getElementById('ppClose').click();
         return { vw: innerWidth, vh: innerHeight, grid, col: +col.toFixed(1), expCol: +expCol.toFixed(1), cv: +cv.toFixed(1),
-          docX: document.documentElement.scrollWidth - innerWidth, wrapped, panelX,
+          docX: document.documentElement.scrollWidth - innerWidth, wrapped, panelX, uz13,
           boxW: +boxW.toFixed(1), boxMax };
-      }));
+      }, LW));
       await ctx.close();
     }
     const lwBad = [];
@@ -32375,22 +32399,29 @@ if (!FAST) {
       if (r.docX !== 0) lwBad.push(tag + ':docX' + r.docX);
       if (r.wrapped !== 0) lwBad.push(tag + ':wrap' + r.wrapped);
       if (r.panelX !== 0) lwBad.push(tag + ':panelX' + r.panelX);
+      if (r.uz13.wrapped !== 0) lwBad.push(tag + ':uz13wrap' + r.uz13.wrapped);
+      if (r.uz13.panelX !== 0) lwBad.push(tag + ':uz13panelX' + r.uz13.panelX);
       if (r.vw >= 900) {
         if (!r.grid) lwBad.push(tag + ':notGrid');
         if (Math.abs(r.col - r.expCol) > 1) lwBad.push(tag + ':col' + r.col + '≠' + r.expCol);
         if (r.cv < 400) lwBad.push(tag + ':canvas' + r.cv);
-        if (r.boxMax !== '840px' || Math.abs(r.boxW - Math.min(840, r.vw - 28)) > 1) lwBad.push(tag + ':box' + r.boxW + '/' + r.boxMax);
+        if (r.boxMax !== LW.box + 'px' || Math.abs(r.boxW - Math.min(LW.box, r.vw - 28)) > 1) lwBad.push(tag + ':box' + r.boxW + '/' + r.boxMax);
       } else {
         if (r.grid) lwBad.push(tag + ':grid');
         if (r.boxMax !== '560px' || Math.abs(r.boxW - Math.min(560, r.vw - 28)) > 1) lwBad.push(tag + ':box' + r.boxW + '/' + r.boxMax);
       }
     }
-    const declOk = /grid-template-columns:minmax\(0,1fr\) clamp\(480px,54vw,630px\);/.test(html)
-      && !/grid-template-columns:minmax\(0,1fr\) clamp\(320px,36vw,420px\)/.test(html);
+    const declOk = has279dW
+      ? (!/grid-template-columns:minmax\(0,1fr\) clamp\(480px,54vw,630px\)/.test(html)
+        && !/grid-template-columns:minmax\(0,1fr\) clamp\(320px,36vw,420px\)/.test(html)
+        && /\.ppBox,\.fmBox\{max-width:630px;\}/.test(html) && !/\.ppBox,\.fmBox\{max-width:840px;\}/.test(html))
+      : (/grid-template-columns:minmax\(0,1fr\) clamp\(480px,54vw,630px\);/.test(html)
+        && !/grid-template-columns:minmax\(0,1fr\) clamp\(320px,36vw,420px\)/.test(html));
     add('ui.landscapeWidth', declOk && lwBad.length === 0,
-      `宣言 clamp(480px,54vw,630px)(旧 320/36vw/420 の 1.5 倍・旧値の残り無し)=${declOk} / ` +
+      `宣言 ${LW.decl}(${LW.gen}・旧値の残り無し)=${declOk} / ` +
       lw.map((r) => `${r.vw}×${r.vh}: ${r.grid ? '2カラム 右' + r.col + 'px(期待' + r.expCol + ')・キャンバス' + r.cv + 'px' : '縦積み'}` +
-        `・箱${r.boxW}px(上限${r.boxMax})・横はみ出し${r.docX}・折り返し${r.wrapped}・パネル内横${r.panelX}`).join(' / ') +
+        `・箱${r.boxW}px(上限${r.boxMax})・横はみ出し${r.docX}・折り返し${r.wrapped}・パネル内横${r.panelX}` +
+        `・文字「大」ja/en 折り返し${r.uz13.wrapped}・パネル内横${r.uz13.panelX}`).join(' / ') +
       ` / NG=[${lwBad.slice(0, 6).join(' ')}](0件)`);
 
     // --- ② 画面手前のモーダル(縦 412×915・横 1280×800)
@@ -32627,6 +32658,43 @@ if (!FAST) {
       ['claude-sonnet-5', 'claude-opus-5-5', 'claude-opus-5'].map((m) => `${m}{${ml.sent[m].keys}・thinking=${ml.sent[m].thinking || '無し'}・` +
         `max_tokens=${ml.sent[m].max}・禁止キー=${ml.sent[m].forbidden.length ? ml.sent[m].forbidden.join('|') : '無し'}・応答text=${ml.sent[m].text}}`).join(' ') +
       ` / 純関数 aiAnthropicBody(opus-5-5) の形=${ml.pure}`);
+  }
+}
+
+// ---- 第279便d(原仮定者の裁定(第69報)「UI」— アプリ全体のトンマナ・デザインをクールかつ見易く。
+// ---- 例: 下地が紺色なのにタイトルが青色で読み辛い): **静的**な検査(ブラウザを使わない・表示だけ)。
+// ---- 世代判定は :root の文字用アクセント変数 `--accText:` の有無 —— root 等では自動 SKIP。
+// ----   ui.contrast … tests/lib-w279d-contrast.mjs が html の <style> と本文の style 属性から文字の
+// ----     前景/背景の組を解き、WCAG 2.x の下限(普通の文字 4.5:1・大きい文字 3:1)を割る組が 0
+// ----     (非活性 [disabled]/.lockedRow は例外として数えない)・文字の色に --acc を直に使う宣言が 0
+// ----     (--acc は枠線・下線・accent-color・塗りに残す — 文字は --accText)・文字用アクセントの組の最小比 ≥ 7
+// ----     (第279便d の実測 7.92)・キーボード操作のフォーカスリング(:focus-visible の outline が --focus)が
+// ----     あり --focus は --bg/--panel/--panel2 で非文字の 3:1 以上・角丸は 2 段(var(--rS)/var(--rL))と
+// ----     丸(999px・50%)だけ・状態チップ .statusChip の文字は --fg。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!/--accText:/.test(html)) {
+    console.log('SKIP ui.contrast(対象に第279便d の文字用アクセント変数 --accText なし — root 等)');
+  } else {
+    const LC = await import('file://' + path.join(ROOT, 'tests/lib-w279d-contrast.mjs'));
+    const { rows } = LC.contrastTable(html);
+    const sm = LC.summarize(rows);
+    const cssTxt = LC.extractStyle(html).replace(/\/\*[\s\S]*?\*\//g, '');
+    const accTextDecl = (cssTxt.match(/(^|[;{\s])color:var\(--acc(,[^)]*)?\)/g) || []).length;
+    const nt = LC.nonTextTable(html).filter((x) => x.fg === '--focus');
+    const focusRule = /:focus-visible[^{]*\{[^}]*outline:2px solid var\(--focus\)/.test(cssTxt);
+    const radii = [...new Set((cssTxt.match(/border-radius:[^;}]+/g) || []).map((x) => x.slice(14).trim()))];
+    const radBad = radii.filter((v) => !/^(var\(--r[SL]\)|999px|50%|0 var\(--rS\) var\(--rS\) 0)$/.test(v));
+    const chip = rows.find((r) => r.sel === '.statusChip');
+    const ok = sm.fails === 0 && accTextDecl === 0 && sm.accText.n > 0 && sm.accText.min >= 7
+      && focusRule && nt.length === 3 && nt.every((x) => x.ratio >= 3) && radBad.length === 0
+      && !!chip && chip.fgDecl === 'var(--fg)';
+    add('ui.contrast', ok,
+      `文字の組 ${sm.n}(非活性の例外 ${sm.exempt})・WCAG 下限割れ ${sm.fails}(0)・最小比 ${sm.minRatio.toFixed(2)}` +
+      `${sm.failRows.length ? '[' + sm.failRows.slice(0, 4).map((r) => r.sel + ' ' + r.ratio).join(' | ') + ']' : ''} / ` +
+      `文字色に --acc を直に使う宣言 ${accTextDecl}(0)・文字用アクセント ${sm.accText.n} 組の最小比 ${sm.accText.min.toFixed(2)}(≥7) / ` +
+      `フォーカスリング :focus-visible=${focusRule}・--focus の非文字比 ${nt.map((x) => x.bg + ' ' + x.ratio).join('・')}(≥3) / ` +
+      `角丸の値 [${radii.join(' , ')}]・2 段と丸以外 ${radBad.length}(0) / .statusChip の文字=${chip ? chip.fgDecl : '無し'}`);
   }
 }
 
