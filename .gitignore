@@ -627,3 +627,11 @@ _scratch-*.log
 #   `lint.provenanceMeta` が来歴を固定するのでコミットする。**較正ではない**・**エンジン未接続**。
 !tests/out/slipaudit-w278c.json
 !tests/out/nsmode-w278c.json
+# 第279便c(原仮定者の裁定〔第69報〕・統括の読み R62/R63): **背景の閾値なし合成と速度分解 RHS の検算**の正本
+#   (tests/exp-w279c-bgcompose.mjs —— html の純関数をソースから取り出して node で評価し、ページの HP.* とビット一致を数える。
+#   (a) 直接計算 vs 分解→合成 (b) 座標変換の不変性 (c) 定常場の H 保存 (d) 境界 (e) 背景重み 1e−30 (f) 一様定常場)と、
+#   **新契約での背景の誤差予算**の正本(tests/exp-w279c-bgbudget2.mjs —— ❄️📻 + 🌘 参考行の純関数積分 12 模型 × 刻み 3 段と、
+#   ❄️📻 の診断コピーのエンジン走行 × 刻み 2 段)。QA `docs.bgCompose`・`docs.bgbudget2-sync` が docs/PHYSICS.md〔第279便c〕と
+#   突き合わせ、`lint.provenanceMeta` が来歴を固定するのでコミットする。**「背景を無視してよいことを証明した」とは書かない。**
+!tests/out/bgcompose-w279c.json
+!tests/out/bgbudget2-w279c.json
