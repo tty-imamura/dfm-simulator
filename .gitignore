@@ -627,3 +627,9 @@ _scratch-*.log
 #   `lint.provenanceMeta` が来歴を固定するのでコミットする。**較正ではない**・**エンジン未接続**。
 !tests/out/slipaudit-w278c.json
 !tests/out/nsmode-w278c.json
+# 第279便b: QA の確認順・並列化(W5b)・失敗注入・preflight の実測の正本(tests/exp-w279b-qaorder.mjs --record)。
+#   QA `lint.provenanceMeta` の CANON に入っている
+!tests/out/qaorder-w279b.json
+# 第279便b: 前回 FAIL の先行再実行・preflight が一時的に書く切り出し版(終われば消す — 途中終了の残りを拾わない)
+tests/.qa-replay-*.mjs
+tests/.qa-preflight-*.mjs

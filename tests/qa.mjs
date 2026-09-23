@@ -16,12 +16,38 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'index.html';
 const INDEX = 'file://' + path.join(ROOT, TARGET);
 const OUT_DIR = path.join(ROOT, 'tests', 'out');
-const FAST = process.env.QA_FAST === '1';
+// 第279便b: QA_TIER=fast は QA_FAST=1 と同じ意味(QA_FAST=1 は残す・意味不変)
+const FAST = process.env.QA_FAST === '1' || process.env.QA_TIER === 'fast';
 // 第35便 W5c(台帳4-45): フルQA時間短縮の並列ワーカー化。QA_SERIAL=1 で従来どおりの完全直列実行に
 // 戻せる互換スイッチ(既定=並列)。NW は QA_WORKERS で上書き可(既定4 — exp-darkrotor.mjs 226行の
 // 先行例〔4コア環境〕と同じ)。詳細設計: scratchpad/w5c-report.md。
 const QA_SERIAL = process.env.QA_SERIAL === '1';
 const W5C_NW = Math.max(1, Number(process.env.QA_WORKERS) || 4);
+
+// ==== 第279便b(原仮定者の裁定 第69報「QA が長いので対策・確認順を最適化する」・統括の検証項目 R61) ====
+// 確認順(tier): ① preflight(tests/qa-preflight.mjs — 構文・読み取り専用 lint・全内蔵の受理/構築/1 歩を
+// Node で一周・html に依らない文書検査。**フル QA の代わりではない**)→ ② 前回の FAIL を先に再実行
+// (QA_REPLAY_FAIL)→ ③ 本走行(先頭の lint 群 → ブラウザ。重いブロックは W5c/W5b プールへ)。
+//   QA_TIER=lint  … preflight だけ走らせて終わる(`npm run test:preflight` と同じ)
+//   QA_TIER=fast  … QA_FAST=1 と同じ
+//   QA_TIER=full  … 既定(`npm test` — CI の既定。判定の中身は従来どおり)
+//   QA_REPLAY_FAIL=1 … 保存 `tests/out/qa-results-full[-beta].json` と直近 `qa-results[-beta].json` の
+//     `pass:false` の id を出すブロックだけを**別プロセスで先に**走らせる(同じ qa.mjs の本文を、選んだ
+//     試験の文以外を空行にした版で実行する — コピーを持たない)。既定: ローカル ON・CI(process.env.CI)OFF。
+//     **起動成功だけで「直った」とはしない**(当該ブロックそのものを実行する)。本走行はその後に全件を走る。
+//   QA_BAIL=1 … 先行再実行で 1 件でも FAIL なら本走行へ進まず exit 1(結果 JSON は書く)。
+const QA_T0 = Date.now();
+const QA_TIER = process.env.QA_TIER || (FAST ? 'fast' : 'full');
+if (!['lint', 'fast', 'full'].includes(QA_TIER)) throw new Error(`QA_TIER=${QA_TIER} は lint|fast|full のどれか`);
+const QA_REPLAY_CHILD = process.env.QA_REPLAY_CHILD === '1';
+const QA_REPLAY_FAIL = !QA_REPLAY_CHILD && (process.env.QA_REPLAY_FAIL !== undefined
+  ? process.env.QA_REPLAY_FAIL === '1' : !process.env.CI);
+const QA_BAIL = process.env.QA_BAIL === '1';
+if (QA_TIER === 'lint') {
+  const { spawnSync } = await import('node:child_process');
+  const r = spawnSync(process.execPath, [path.join(ROOT, 'tests', 'qa-preflight.mjs')], { stdio: 'inherit', env: process.env });
+  process.exit(r.status === null ? 1 : r.status);
+}
 
 async function getBrowser() {
   // CI: playwright(npm install でブラウザ管理)。ローカル: playwright-core + 既存 Chromium も可。
@@ -48,6 +74,79 @@ const add = (id, pass, detail) => {
   results.push({ id, pass: !!pass, detail: String(detail ?? ''), ms });
   console.log(`${pass ? 'PASS' : 'FAIL'} ${id}${detail ? '  ' + detail : ''}  [${(ms / 1000).toFixed(1)}s]`);
 };
+
+// ==== 第279便b: 途中終了でも結果 JSON を書く / 前回 FAIL の先行再実行 ====
+// 旧実装は最上位で例外が出ると結果 JSON を書かずに終わった(W5c のユニット例外は待機がハングした)。
+// 途中終了は `aborted` 付きで qa-results.json(beta 対象なら -beta も)へ書く — **フル走行の保存物
+// (qa-results-full*.json)は書かない**(件数の揃わない走行で上書きしない)。
+const W5_ORDER = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-qaorder.mjs'));
+let qaReplay = null;
+const qaOutNames = () => (QA_REPLAY_CHILD
+  ? [TARGET.startsWith('beta/') ? 'qa-replay-beta.json' : 'qa-replay.json']
+  : (TARGET.startsWith('beta/') ? ['qa-results.json', 'qa-results-beta.json'] : ['qa-results.json']));
+function qaWriteAborted(phase, reason) {
+  let commit0 = 'unknown';
+  try { commit0 = execSync('git rev-parse HEAD', { cwd: ROOT, stdio: 'pipe' }).toString().trim(); } catch {}
+  let sha0 = 'unknown';
+  try { sha0 = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex'); } catch {}
+  const rs = results.concat([{ id: 'qa.aborted', pass: false, detail: `${phase}: ${String(reason).slice(0, 400)}`, ms: 0 }]);
+  const out = JSON.stringify({ commit: commit0, date: new Date().toISOString(), fast: FAST, tier: QA_TIER, target: TARGET,
+    targetSha256: sha0, total: rs.length, failed: rs.filter((r) => !r.pass).length, pass: false,
+    aborted: { phase, reason: String(reason).slice(0, 2000) }, wallDurationMs: Date.now() - QA_T0,
+    replay: qaReplay, results: rs }, null, 1);
+  fs.mkdirSync(OUT_DIR, { recursive: true });
+  for (const f of qaOutNames()) fs.writeFileSync(path.join(OUT_DIR, f), out);
+  console.log(`\nABORTED (${phase}) → ${qaOutNames().map((f) => 'tests/out/' + f).join(' + ')}: ${String(reason).slice(0, 300)}`);
+}
+process.on('uncaughtException', (e) => {
+  try { qaWriteAborted('uncaught', (e && e.stack) || e); } catch (e2) { console.error('結果 JSON の書き出しに失敗:', e2); }
+  process.exit(1);
+});
+if (QA_REPLAY_FAIL) {
+  const t0 = Date.now();
+  const beta = TARGET.startsWith('beta/');
+  const cands = [beta ? 'qa-results-full-beta.json' : 'qa-results-full.json', beta ? 'qa-results-beta.json' : 'qa-results.json'];
+  const files = cands.map((f) => {
+    let json = null;
+    try { json = JSON.parse(fs.readFileSync(path.join(OUT_DIR, f), 'utf8')); } catch {}
+    return { path: 'tests/out/' + f, json };
+  });
+  const failed = W5_ORDER.collectFailedIds(files, TARGET).filter((x) => x.id !== 'qa.aborted');
+  qaReplay = { enabled: true, sources: files.filter((f) => f.json).map((f) => f.path), failedIds: failed.map((x) => x.id),
+    units: [], missing: [], exit: null, total: 0, failed: 0, failedNow: [], ms: 0 };
+  if (failed.length) {
+    const src = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8');
+    const units = W5_ORDER.splitTopLevel(src);
+    const { units: sel, missing } = W5_ORDER.unitsForIds(units.filter(W5_ORDER.isTestUnit), failed.map((x) => x.id));
+    qaReplay.units = sel.map((u) => `${u.l0}-${u.l1}`);
+    qaReplay.missing = missing;
+    console.log(`[REPLAY] 前回の FAIL ${failed.length} 件(${failed.slice(0, 6).map((x) => x.id).join(' ')}${failed.length > 6 ? ' …' : ''})`
+      + ` → ${sel.length} ブロックを先に再実行${missing.length ? `(qa.mjs に無い id ${missing.length} 件は対象外)` : ''}`);
+    if (sel.length) {
+      const tmp = path.join(ROOT, 'tests', `.qa-replay-${process.pid}.mjs`);
+      fs.writeFileSync(tmp, W5_ORDER.buildReplaySource(src, units, sel));
+      const { spawnSync } = await import('node:child_process');
+      const r = spawnSync(process.execPath, [tmp], { stdio: 'inherit',
+        env: { ...process.env, QA_REPLAY_CHILD: '1', QA_SERIAL: '1', QA_CACHE: '0', QA_REPLAY_FAIL: '0' } });
+      try { fs.unlinkSync(tmp); } catch {}
+      qaReplay.exit = r.status;
+      let rj = null;
+      try { rj = JSON.parse(fs.readFileSync(path.join(OUT_DIR, beta ? 'qa-replay-beta.json' : 'qa-replay.json'), 'utf8')); } catch {}
+      if (rj) { qaReplay.total = rj.total; qaReplay.failed = rj.failed;
+        qaReplay.failedNow = rj.results.filter((z) => !z.pass).map((z) => z.id); }
+      else { qaReplay.failed = 1; qaReplay.failedNow = ['(先行再実行の結果 JSON が無い)']; }
+    }
+  } else console.log('[REPLAY] 前回の FAIL なし(保存結果: ' + (qaReplay.sources.join(', ') || 'なし') + ')');
+  qaReplay.ms = Date.now() - t0;
+  if (qaReplay.units.length)
+    console.log(`[REPLAY] 先行再実行: ${qaReplay.total - qaReplay.failed}/${qaReplay.total} PASS・${(qaReplay.ms / 1000).toFixed(1)}s`
+      + (qaReplay.failed ? ` — まだ FAIL: ${qaReplay.failedNow.slice(0, 6).join(' ')}` : ''));
+  if (QA_BAIL && (qaReplay.failed || (qaReplay.exit !== null && qaReplay.exit !== 0))) {
+    for (const id of qaReplay.failedNow) results.push({ id, pass: false, detail: '先行再実行(QA_REPLAY_FAIL)で FAIL — tests/out/qa-replay*.json', ms: 0 });
+    qaWriteAborted('replay-bail', `QA_BAIL=1: 前回 FAIL の先行再実行で ${qaReplay.failed} 件 FAIL(本走行へ進まない)`);
+    process.exit(1);
+  }
+}
 
 // ---- 0) 構文検査(node --check)----
 {
@@ -1996,7 +2095,10 @@ const add = (id, pass, detail) => {
       'tests/out/bgequiv-w278d.json',
       // 第278便c(統括の検証項目 R55): pairSlip の符号修正の影響範囲(html の 2D 実装をソースの文字列で評価して
       //   突き合わせる —— target=beta/index.html)と、H6 の共役変数模型(**エンジン未接続** —— target は lib 自身)
-      'tests/out/slipaudit-w278c.json', 'tests/out/nsmode-w278c.json'];
+      'tests/out/slipaudit-w278c.json', 'tests/out/nsmode-w278c.json',
+      // 第279便b(R61): QA の確認順・並列化(W5b)・失敗注入・preflight の実測(**判定ではなく時間の正本** ——
+      //   html を走らせない器なので target は器が読む正本ファイル(lib 自身)である)
+      'tests/out/qaorder-w279b.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -2779,6 +2881,143 @@ const add = (id, pass, detail) => {
     + ` / ④ 未生成でも FAIL にしない(フルゲートは統括だけが回すため)。`
     + `**QA_FAST の走行はこの 2 本を読み書きしない**(従来どおり qa-results.json だけを上書きする)`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 第279便b(原仮定者の裁定 第69報「QA が長いので対策」・統括の検証項目 R61): lint.qaOrder ----
+// ----   QA の**確認順と並列化の契約**を機械で固定する(判定の中身には触らない):
+// ----     ① preflight の器(tests/qa-preflight.mjs・lib 2 本)とマニフェスト(tests/qa-manifest.json)がある。
+// ----     ② package.json: `npm test` は従来どおりフル(`node tests/qa.mjs`)・`test:preflight` がある。
+// ----     ③ ci.yml の qa ジョブ: preflight のステップが `npm test` より前にあり、`npm test`(フル)は残る。
+// ----        CI で QA_REPLAY_FAIL を ON にしていない(CI は全件を最初から走らせる最終裁定者)。
+// ----     ④ W5b: 呼び出し(`await w5bRun('<key>', <ガード>); async function W5B_<key>(page, add, fpRun, console) {`)と
+// ----        表 W5B_JOBS が 1 対 1 で、**ガード式が表の enabled と文字列一致**する。W5b の本文は
+// ----        w5cGetUnit・`browser.`・`results`・`lastAddAt` に触れない(主ページ以外の共有状態を持たない)。
+// ----     ⑤ 最上位の文の切り出し(splitTopLevel)が qa.mjs の全 add() の静的 id を試験の文に 1 回ずつ収め、
+// ----        各文が単独で構文として閉じる(async 関数で包んで vm でコンパイルできる)。
+// ----     ⑥ 前回 FAIL の先行再実行用の版(buildReplaySource)が行数を保ち、W5b の関数宣言を全部残し、
+// ----        選んだ文だけを残す(試しに `lint.coreBudget` を選ぶ)。
+// ----   root(リリース世代)では SKIP する(QA 基盤の契約であって html の世代差ではないので、beta で 1 回見る)。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP lint.qaOrder(root 対象 — QA 基盤の契約は beta 対象の走行で 1 回見る)');
+  } else {
+    const bad = [];
+    const info = {};
+    try {
+      const QO = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-qaorder.mjs'));
+      for (const f of ['tests/qa-preflight.mjs', 'tests/lib-w279b-qaorder.mjs', 'tests/lib-w279b-headless.mjs', 'tests/qa-manifest.json'])
+        if (!fs.existsSync(path.join(ROOT, f))) bad.push(`①${f} が無い`);
+      const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
+      if (!pkg.scripts || pkg.scripts.test !== 'node tests/qa.mjs') bad.push('②`npm test` がフル(node tests/qa.mjs)でない');
+      if (!pkg.scripts || !/tests\/qa-preflight\.mjs/.test(pkg.scripts['test:preflight'] || '')) bad.push('②`test:preflight` が無い');
+      const ci = fs.readFileSync(path.join(ROOT, '.github', 'workflows', 'ci.yml'), 'utf8');
+      const iPre = ci.search(/run:\s*npm run test:preflight/), iFull = ci.search(/run:\s*npm test\s*$/m);
+      info.ci = { preflightAt: iPre, fullAt: iFull };
+      if (iPre < 0) bad.push('③ci.yml に preflight のステップが無い');
+      if (iFull < 0) bad.push('③ci.yml に `npm test`(フル)が無い');
+      if (iPre >= 0 && iFull >= 0 && iPre > iFull) bad.push('③preflight が `npm test` より後にある');
+      if (/QA_REPLAY_FAIL:\s*'?1/.test(ci)) bad.push('③CI で QA_REPLAY_FAIL を ON にしている');
+      const src = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8');
+      const lines = src.split('\n');
+      const units = QO.splitTopLevel(src);
+      // ④ W5b の呼び出しと表
+      const calls = [];
+      // 本ブロックはブラウザに触れない(preflight の対象)。preflight の段分け(classifyUnit)は識別子
+      // `pa`+`ge`/`brow`+`ser` の出現で見るので、正規表現の中の語は連結で組む(意味は同じ)
+      const PG = 'pa' + 'ge', BR = 'brow' + 'ser';
+      const HEAD_RE = new RegExp(`^await w5bRun\\('([\\w$]+)', ([^;]*)\\); async function W5B_([\\w$]+)\\(${PG}, add, fpRun, console\\) \\{\\s*$`);
+      const SHARED_RE = new RegExp(`\\bw5cGetUnit\\(|(^|[^\\w$.])${BR}\\.|(^|[^\\w$.])results\\b|\\blastAddAt\\b`);
+      for (const u of units) {
+        const m = HEAD_RE.exec(lines[u.l0 - 1]);
+        if (m) calls.push({ key: m[1], cond: m[2], fn: m[3], u });
+      }
+      const tblM = /const W5B_JOBS = \{([\s\S]*?)\n\};/.exec(src);
+      const tbl = {};
+      if (tblM) for (const m of tblM[1].matchAll(/^\s+([\w$]+): \{ fn: W5B_([\w$]+), enabled: ([^,]+), weight: (\d+) \}/gm))
+        tbl[m[1]] = { fn: m[2], enabled: m[3].trim(), weight: +m[4] };
+      else bad.push('④表 W5B_JOBS が見つからない');
+      info.w5b = { calls: calls.length, table: Object.keys(tbl).length };
+      for (const c of calls) {
+        const t = tbl[c.key];
+        if (!t) { bad.push(`④${c.key} が表に無い`); continue; }
+        if (t.fn !== c.key || c.fn !== c.key) bad.push(`④${c.key} の関数名が食い違う`);
+        if (t.enabled !== c.cond.trim()) bad.push(`④${c.key} のガード式が表と違う(呼び出し ${c.cond} / 表 ${t.enabled})`);
+        const body = c.u.text.replace(/\/\/[^\n]*/g, ' ');
+        if (SHARED_RE.test(body))
+          bad.push(`④${c.key} の本文が共有状態(w5cGetUnit・ブラウザ・結果配列・lastAddAt)に触れる`);
+      }
+      for (const k of Object.keys(tbl)) if (!calls.some((c) => c.key === k)) bad.push(`④表の ${k} に呼び出しが無い`);
+      if (calls.length !== new Set(calls.map((c) => c.key)).size) bad.push('④W5b の key が重複している');
+      // ⑤ 切り出しの健全性
+      const vm = await import('node:vm');
+      let nCompiled = 0;
+      const seen = new Map();
+      for (const u of units) {
+        if (/^import\s/.test(u.head)) continue;
+        // import.meta は Script では書けないので構文検査のときだけ同じ長さの識別子に置く
+        try { new vm.Script('(async () => {\n' + u.text.replace(/\bimport\.meta\b/g, 'import_meta') + '\n})', { filename: `qa.mjs:${u.l0}` }); nCompiled++; }
+        catch (e) { bad.push(`⑤${u.l0}-${u.l1} が単独で閉じない: ${String(e.message).slice(0, 60)}`); }
+        if (QO.isTestUnit(u)) for (const id of QO.unitIds(u.text).ids) seen.set(id, (seen.get(id) || 0) + 1);
+      }
+      const allIds = [...new Set([...src.matchAll(/(^|[^\w$.])add\(\s*'([^'\\]+)'\s*,/gm)].map((m) => m[2]))];
+      const miss = allIds.filter((id) => !seen.has(id));
+      info.split = { units: units.length, compiled: nCompiled, ids: allIds.length, covered: allIds.length - miss.length };
+      if (miss.length) bad.push(`⑤試験の文に入っていない id ${miss.length} 件(${miss.slice(0, 3).join(' ')})`);
+      // ⑥ 先行再実行用の版
+      const { units: sel } = QO.unitsForIds(units.filter(QO.isTestUnit), ['lint.coreBudget']);
+      const rep = QO.buildReplaySource(src, units, sel);
+      const rl = rep.split('\n');
+      const FN_RE = new RegExp(`async function W5B_[\\w$]+\\(${PG}, add, fpRun, console\\)`, 'g');
+      const nFn = (s) => (s.match(FN_RE) || []).length;
+      info.replay = { lines: rl.length === lines.length, w5bFns: `${nFn(rep)}/${nFn(src)}`, selected: sel.map((u) => `${u.l0}-${u.l1}`).join(',') };
+      if (rl.length !== lines.length) bad.push('⑥先行再実行の版で行数が変わった');
+      if (nFn(rep) !== nFn(src)) bad.push('⑥先行再実行の版で W5b の関数宣言が欠けた');
+      if (sel.length !== 1 || rl.slice(sel[0].l0 - 1, sel[0].l1).join('\n') !== sel[0].text) bad.push('⑥選んだ文が残っていない');
+      if ((rep.match(/(^|[^\w$.])add\('/gm) || []).length >= (src.match(/(^|[^\w$.])add\('/gm) || []).length)
+        bad.push('⑥選ばなかった試験の文が消えていない');
+      // ① マニフェストの形(想定時間の更新は決断事項 — 古さは detail に出すだけで FAIL にしない)
+      const man = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'qa-manifest.json'), 'utf8'));
+      if (!Array.isArray(man.units) || !man.units.length) bad.push('①マニフェストに units が無い');
+      const manIds = new Set((man.units || []).flatMap((u) => u.ids || []));
+      info.manifest = { units: (man.units || []).length, unknownIds: allIds.filter((id) => !manIds.has(id)).length, generatedAt: man.generatedAt };
+      for (const k of Object.keys(tbl)) if (!(man.units || []).some((u) => u.w5b === k)) bad.push(`①マニフェストに W5b ${k} が無い`);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('lint.qaOrder', bad.length === 0,
+      `**QA の確認順と並列化の契約**(第279便b・統括の検証項目 R61): ① preflight の器・マニフェストあり / `
+      + `② \`npm test\` はフルのまま・\`test:preflight\` あり / ③ ci.yml: preflight(${info.ci ? info.ci.preflightAt : '?'})→ `
+      + `\`npm test\`(${info.ci ? info.ci.fullAt : '?'})の順・CI で先行再実行 OFF / `
+      + `④ W5b 呼び出し ${info.w5b ? info.w5b.calls : '?'} 件 = 表 ${info.w5b ? info.w5b.table : '?'} 件(ガード式は表と文字列一致・本文は共有状態に触れない)/ `
+      + `⑤ 最上位の文 ${info.split ? info.split.units : '?'} 件(単独でコンパイル ${info.split ? info.split.compiled : '?'})・`
+      + `add() の静的 id ${info.split ? info.split.covered : '?'}/${info.split ? info.split.ids : '?'} が試験の文に入る / `
+      + `⑥ 先行再実行の版: 行数保存=${info.replay ? info.replay.lines : '?'}・W5b 関数 ${info.replay ? info.replay.w5bFns : '?'}・選択 ${info.replay ? info.replay.selected : '?'} / `
+      + `マニフェスト ${info.manifest ? info.manifest.units : '?'} 文(生成 ${info.manifest ? String(info.manifest.generatedAt).slice(0, 10) : '?'}・`
+      + `未収載の id ${info.manifest ? info.manifest.unknownIds : '?'} 件 — 想定時間の古さは FAIL にしない)。`
+      + `**判定式・閾値・seed・物理時間・母集団は変えていない**`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第279便b(統括の検証項目 R61 ④): qa.w5cPoolFault ----
+// ----   W5c/W5b のワーカープールの**失敗注入**を Chromium なしの偽ワーカーで走らせる
+// ----   (tests/lib-w279b-qaorder.mjs w5PoolSelfTest — 5 場面)。旧実装(第35便の Promise.all + deferred)を
+// ----   同じ偽ワーカーで再現し、「旧はユニット例外・全ワーカー起動失敗で待機が**解決しない**、
+// ----   新は reject で終わる」を並べて固定する。root では SKIP(QA 基盤の契約 — beta で 1 回見る)。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP qa.w5cPoolFault(root 対象 — QA 基盤の契約は beta 対象の走行で 1 回見る)');
+  } else {
+    let r = null, err = null;
+    try {
+      const QO = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-qaorder.mjs'));
+      r = await QO.w5PoolSelfTest({ timeoutMs: 1000 });
+    } catch (e) { err = e; }
+    const legacyHang = !!r && r.rows.filter((x) => x.legacy).every((x) => x.legacy === 'pending(hang)');
+    add('qa.w5cPoolFault', !err && !!r && r.ok && legacyHang,
+      `**ワーカープールの失敗注入**(第279便b): `
+      + (r ? r.rows.map((x) => `${x.scene}=${x.ok ? 'OK' : 'NG'}[${x.got.join('/')}]${x.legacy ? `(旧実装: ${x.legacy})` : ''}`).join(' / ') : '未実行')
+      + ` / 旧実装はユニット例外・全ワーカー起動失敗で待機が解決しない(=QA のハング/結果 JSON なし)ことを再現=${legacyHang}`
+      + (err ? ` / 例外: ${String(err).slice(0, 120)}` : ''));
+  }
 }
 
 // ---- 第271便e(統括の検証項目 R8): docs.j1946adoptPublished ----
@@ -9444,39 +9683,145 @@ const W5C_UNITS = {
 };
 
 const w5cUnitKeys = Object.keys(W5C_UNITS).filter(k => W5C_UNITS[k].enabled);
-let w5cPoolPromise = null;
-const w5cUnitResults = {};
-if (!QA_SERIAL && w5cUnitKeys.length) {
-  const deferred = {};
+// ==== 第279便b(原仮定者の裁定 第69報「QA が長いので対策」・統括の検証項目 R61): W5b — 重いブロックの並列化 ====
+// 背景(実測): 変更前のフル beta 36 分 45 秒のうち、W5c プール(4 ワーカー)が働くのは最初の数分だけで、
+// 残りは**主ページ 1 枚の直列実行**(CPU 使用率 ≈ 30〜35%・4 コア中 1.3 コア)だった。
+// W5b は「最上位のブロックの**本文を 1 文字も変えずに**」関数宣言(W5B_<key>)として持ち上げ、
+//   ① W5c と同じワーカープールに載せて**先に**走らせる(後ろのブロックから — 主ページは前から進むので
+//      両端から埋まる)。ワーカーでの add()/console は記録し、**元の位置で同じ順に再生**する
+//      (結果 JSON の並び・件数・id・detail は直列実行と同じ)。
+//   ② 主ページがそのブロックに着いたとき**未着手なら横取り(steal)して主ページでその場で実行**する
+//      (= 変更前と同じ経路)。着手済みなら結果を待って再生する。
+//   ③ QA_SERIAL=1 では従来どおり全てを主ページでその場で実行する(W5b の関数は元の位置で呼ばれるだけ)。
+// **判定式・閾値・seed・物理時間・母集団・ガード式は変えていない**(ガード式は表の enabled に同じ式を
+// 先読みし、呼び出し位置の式と食い違えば例外で止める)。対象の選定: 変更前のフル beta の実測で
+// 1 ブロック ≈ 8 秒以上・主ページ以外の共有状態(ページ間の window 変数・結果配列・後から宣言される
+// 最上位の名前)に触れない物理ブロック。perf.*(時間計測)・ui.*(画面寸法)・自前でページを開く
+// ブロック・w5cGetUnit を待つブロックは載せない。ワーカーは**別のブラウザコンテキスト**
+// (localStorage を主ページと共有しない — 🧪 の保存テストが主ページの保存テストと競合しない)。
+// weight は変更前の実測秒(判定には使わない — キュー順の目安だけ)。
+const W5B_JOBS = {
+  roundtripBuiltins: { fn: W5B_roundtripBuiltins, enabled: true, weight: 123 },
+  gclock: { fn: W5B_gclock, enabled: true, weight: 11 },
+  gas: { fn: W5B_gas, enabled: true, weight: 21 },
+  pressure: { fn: W5B_pressure, enabled: true, weight: 10 },
+  galaxyStd: { fn: W5B_galaxyStd, enabled: !FAST, weight: 53 },
+  galaxyGeo2: { fn: W5B_galaxyGeo2, enabled: !FAST, weight: 138 },
+  galaxyDB: { fn: W5B_galaxyDB, enabled: !FAST, weight: 40 },
+  bhcoreSelfdrive: { fn: W5B_bhcoreSelfdrive, enabled: !FAST, weight: 76 },
+  bhcoreFree: { fn: W5B_bhcoreFree, enabled: !FAST, weight: 39 },
+  reactionCap: { fn: W5B_reactionCap, enabled: !FAST, weight: 41 },
+  uranusReal: { fn: W5B_uranusReal, enabled: true, weight: 110 },
+  psrDoubleAB: { fn: W5B_psrDoubleAB, enabled: true, weight: 8 },
+  nsThreeStage: { fn: W5B_nsThreeStage, enabled: true, weight: 47 },
+  tuc47: { fn: W5B_tuc47, enabled: true, weight: 13 },
+  ngc3198: { fn: W5B_ngc3198, enabled: true, weight: 24 },
+  templates229: { fn: W5B_templates229, enabled: true, weight: 12 },
+  supernova: { fn: W5B_supernova, enabled: true, weight: 32 },
+  axisForceBit: { fn: W5B_axisForceBit, enabled: true, weight: 9 },
+  compactMeasures: { fn: W5B_compactMeasures, enabled: true, weight: 11 },
+  coreTerminal: { fn: W5B_coreTerminal, enabled: true, weight: 11 },
+  galaxyMesh: { fn: W5B_galaxyMesh, enabled: true, weight: 12 },
+  toyLedger: { fn: W5B_toyLedger, enabled: true, weight: 34 },
+  ledgerNorm: { fn: W5B_ledgerNorm, enabled: true, weight: 33 },
+  kalign: { fn: W5B_kalign, enabled: true, weight: 11 },
+  framePull: { fn: W5B_framePull, enabled: true, weight: 11 },
+  emAudit: { fn: W5B_emAudit, enabled: true, weight: 20 },
+  mechspecZeroCost: { fn: W5B_mechspecZeroCost, enabled: true, weight: 10 },
+  phasechangeSchema: { fn: W5B_phasechangeSchema, enabled: true, weight: 208 },
+  selfrotor: { fn: W5B_selfrotor, enabled: true, weight: 31 },
+  selfrotorMultiseed: { fn: W5B_selfrotorMultiseed, enabled: !FAST, weight: 110 },
+  phaseMultiseed: { fn: W5B_phaseMultiseed, enabled: !FAST, weight: 216 },
+  emergenceMonitor: { fn: W5B_emergenceMonitor, enabled: true, weight: 9 },
+  shapeToys: { fn: W5B_shapeToys, enabled: true, weight: 24 },
+};
+const W5B_KEYS = Object.keys(W5B_JOBS);   // 表の並び = ソース上の出現順(後ろほど先にワーカーへ渡す)
+// 各ユニット/ブロックの実時間(unitTimings)。`ms`(直前の add() からの経過)は互換のため従来どおり残す
+const qaUnitTimings = {};
+let w5Pool = null;
+const w5cHandles = {};
+const w5bHandles = {};
+// 第279便b: 旧実装はユニットが例外を投げると、そのユニットを待つ `await` が**永遠に解決しなかった**
+// (ワーカーの async 関数ごと落ちて deferred が放置される → QA がハング/結果 JSON なしで終了)。
+// 本実装はユニットの例外を**待機者へ reject で届け**(QA_SERIAL=1 と同じ「その場で例外」)、
+// 生きたワーカーが 0 になったら待機中の全ジョブを失敗で終える(tests/lib-w279b-qaorder.mjs createW5Pool)。
+const w5bEnabledN = W5B_KEYS.filter((k) => W5B_JOBS[k].enabled).length;
+// 失敗注入(第279便b の検証用 — 通常の走行では未設定): QA_W5C_FAULT=unit:<key> でそのユニットの実行を
+// 例外にし(ワーカーでも主ページの横取りでも)、=startup で全ワーカーの起動を失敗させる。
+const W5C_FAULT = process.env.QA_W5C_FAULT || '';
+const w5cRun = (k, pg) => (W5C_FAULT === 'unit:' + k
+  ? Promise.reject(new Error('失敗注入: ユニット ' + k)) : W5C_UNITS[k].run(pg));
+// ワーカーのレンダラの nice(QA_W5_NICE — 既定 10・0 で無効・Linux の /proc があるときだけ効く)。
+// 主ページの実時間の試験(`ab.sync-advance` 等 — 数秒の実時間でアニメーションが進むことを見る)が、
+// ワーカーとの CPU の取り合いで遅れないようにする(スケジューリングだけ — 判定には関係しない)。
+const W5_NICE = Math.max(0, Math.min(19, Number(process.env.QA_W5_NICE ?? 10) || 0));
+const w5Reniced = new Set();
+if (!QA_SERIAL && (w5cUnitKeys.length || w5bEnabledN)) {
+  const nw = Math.min(W5C_NW, w5cUnitKeys.length + w5bEnabledN);
+  const osMod = await import('node:os');
+  const rBefore = W5_NICE ? W5_ORDER.ownRendererPids(fs, process.pid) : null;
+  w5Pool = W5_ORDER.createW5Pool({
+    nw,
+    openWorker: async (i) => {
+      if (W5C_FAULT === 'startup') throw new Error('失敗注入: ワーカー起動');
+      const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+      const wp = await ctx.newPage();
+      // page.no-errors との等価性確保のため、主ページと同じ収集先へ流し込む
+      wp.on('pageerror', e => pageErrors.push(String(e)));
+      wp.on('console', m => { if (m.type() === 'error') pageErrors.push(m.text()); });
+      await wp.goto(INDEX);
+      await wp.waitForFunction(() => window.HP && HP.sim);
+      if (rBefore) for (const pid of W5_ORDER.reniceNew(osMod, rBefore, W5_ORDER.ownRendererPids(fs, process.pid), W5_NICE)) w5Reniced.add(pid);
+      return wp;
+    },
+    closeWorker: async (wp) => { if (wp) await wp.context().close(); },
+    log: (m) => console.log(m),
+  });
   for (const k of w5cUnitKeys) {
-    let resolve; w5cUnitResults[k] = new Promise(r => { resolve = r; }); deferred[k] = resolve;
+    // 既存ユニットは従来どおり重い順(weight 降順)に、W5b のブロックより先に取り出す
+    w5cHandles[k] = w5Pool.submit(k, (wp) => w5cRun(k, wp), { prio: 1e6 + W5C_UNITS[k].weight });
   }
-  const queue = w5cUnitKeys.slice().sort((a, b) => W5C_UNITS[b].weight - W5C_UNITS[a].weight);
-  const nw = Math.min(W5C_NW, queue.length);
-  console.log(`[W5c] 並列ワーカー起動: NW=${nw} units=[${queue.join(', ')}]`);
-  w5cPoolPromise = Promise.all(Array.from({ length: nw }, async () => {
-    const wp = await browser.newPage({ viewport: { width: 390, height: 844 } });
-    // page.no-errors との等価性確保のため、主ページと同じ収集先へ流し込む
-    wp.on('pageerror', e => pageErrors.push(String(e)));
-    wp.on('console', m => { if (m.type() === 'error') pageErrors.push(m.text()); });
-    await wp.goto(INDEX);
-    await wp.waitForFunction(() => window.HP && HP.sim);
-    while (queue.length) {
-      const k = queue.shift();
-      const t0 = Date.now();
-      const res = await W5C_UNITS[k].run(wp);
-      console.log(`  [W5c] ${k} 完了 [${((Date.now() - t0) / 1000).toFixed(1)}s]`);
-      deferred[k](res);
-    }
-    await wp.close();
-  }));
-  w5cPoolPromise.catch(e => console.error('[W5c] worker pool error:', e));
+  console.log(`[W5c] 並列ワーカー起動: NW=${nw} units=[${w5cUnitKeys.slice().sort((a, b) => W5C_UNITS[b].weight - W5C_UNITS[a].weight).join(', ')}]`
+    + ` + W5b ブロック ${w5bEnabledN} 件(後ろから)・ワーカーのレンダラ nice=${W5_NICE}`);
 }
 // getUnit(key): QA_SERIAL=1 なら主ページ(page)でその場で直列実行(元コードと同一経路)。
-// 並列時は事前に起動済みのワーカープールの結果を待つ(既に完了していれば即座に返る)。
+// 並列時: 未着手なら主ページが横取りしてその場で実行(= QA_SERIAL と同じ経路)、着手済みなら結果を待つ。
+// 指紋ユニット(fpDigests)は待たずに Promise を作る呼び出し(下の fpPromise)なので横取りしない。
 async function w5cGetUnit(key) {
   if (QA_SERIAL) return W5C_UNITS[key].run(page);
-  return w5cUnitResults[key];
+  const h = w5cHandles[key];
+  if (!h) return undefined;     // 旧実装と同じ(無効なユニットは undefined)
+  const t0 = Date.now();
+  if (key !== 'fpDigests' && h.steal()) {
+    const res = await w5cRun(key, page);
+    qaUnitTimings['W5c:' + key] = { where: 'main(stolen)', runMs: Date.now() - t0 };
+    return res;
+  }
+  const res = await h.promise;
+  const wt = (w5Pool && w5Pool.timings[key]) || {};
+  qaUnitTimings['W5c:' + key] = { where: 'worker', runMs: wt.runMs ?? null, mainWaitMs: Date.now() - t0 };
+  return res;
+}
+// W5b: ブロックを元の位置で実行する(QA_SERIAL・未着手なら主ページでその場で、着手済みなら待って再生)。
+async function w5bRun(key, cond) {
+  const job = W5B_JOBS[key];
+  if (!job) throw new Error(`W5b: 未登録のブロック ${key}`);
+  if (!!cond !== !!job.enabled) throw new Error(`W5b: ${key} のガード(${!!cond})が表の enabled(${!!job.enabled})と食い違う`);
+  if (!cond) return;
+  const h = w5bHandles[key];
+  const t0 = Date.now();
+  if (!h || h.steal()) {
+    await job.fn(page, add, fpRun, console);
+    qaUnitTimings['W5b:' + key] = { where: h ? 'main(stolen)' : 'main', runMs: Date.now() - t0 };
+    return;
+  }
+  let out = null, err = null;
+  try { out = await h.promise; } catch (e) { err = e; }
+  const events = out ? out.events : ((err && err.w5bEvents) || []);
+  W5_ORDER.replayEvents(events, add, console);
+  const wt = (w5Pool && w5Pool.timings['W5b:' + key]) || {};
+  qaUnitTimings['W5b:' + key] = { where: 'worker', runMs: wt.runMs ?? null, mainWaitMs: Date.now() - t0 };
+  if (err) throw err;
 }
 // ==== W5c ここまで(以下、既存セクション本体。各対象セクション内の該当箇所だけ getUnit() 経由に
 // ====   置き換えてあり、判定式・閾値・detail 文字列の生成コードそのものは変更していない) ========
@@ -9521,23 +9866,25 @@ async function fpKey(testId) {
 }
 
 // 重いテストの本体を包む: 指紋一致なら前回の判定と detail をそのまま再利用し、本体を実行しない
-async function fpRun(testId, body) {
+// 第279便b: ctx(W5b のワーカー実行)では add/console/結果配列を ctx のもの(記録器)に差し替える。
+async function fpRun(testId, body, ctx = null) {
+  const A = ctx ? ctx.add : add, R = ctx ? ctx.results : results, C = ctx ? ctx.console : console;
   const key = await fpKey(testId);
   const prev = (fpPrev && fpPrev.tests && fpPrev.tests[testId]) || null;
   if (key && !QA_REFRESH && prev && prev.key === key
       && Array.isArray(prev.results) && prev.results.length && prev.results.every((r) => r.pass)) {
     const tag = `【cached: 指紋一致 — 前回 ${prev.date}/${String(prev.commit).slice(0, 7)} の実測をそのまま再利用】`;
-    console.log(`[FP] CACHED ${testId}(指紋一致・前回 ${prev.date}/${String(prev.commit).slice(0, 7)}`
+    C.log(`[FP] CACHED ${testId}(指紋一致・前回 ${prev.date}/${String(prev.commit).slice(0, 7)}`
       + `・省略 ${((prev.ms || 0) / 1000).toFixed(1)}s。再実行は QA_REFRESH=1 / QA_CACHE=0)`);
-    for (const r of prev.results) { add(r.id, true, `${r.detail} ${tag}`); fpCachedIds.push(r.id); }
+    for (const r of prev.results) { A(r.id, true, `${r.detail} ${tag}`); fpCachedIds.push(r.id); }
     fpSavedMs += prev.ms || 0;
     fpNext.tests[testId] = prev;   // 記録はそのまま持ち越す
     return true;
   }
-  const from = results.length;
+  const from = R.length;
   const t0 = Date.now();
   await body();
-  const made = results.slice(from);
+  const made = R.slice(from);
   if (key && made.length && made.every((r) => r.pass)) {
     fpNext.tests[testId] = { key, commit: HEAD_COMMIT, date: new Date().toISOString().slice(0, 10),
       htmlSha256: TARGET_SHA, ms: Date.now() - t0,
@@ -9546,6 +9893,22 @@ async function fpRun(testId, body) {
   return false;
 }
 // ==== 指紋キャッシュ ここまで ============================================================
+// 第279便b: W5b のブロックをプールへ渡す(fpRun/fpPromise の初期化の後 — ワーカーでの実行が
+// 最上位の名前を未初期化のまま読まないように、ここで初めて投入する)。後ろのブロックほど先に取り出す。
+if (w5Pool) {
+  W5B_KEYS.forEach((k, idx) => {
+    const job = W5B_JOBS[k];
+    if (!job.enabled) return;
+    w5bHandles[k] = w5Pool.submit('W5b:' + k, async (wp) => {
+      const rec = W5_ORDER.makeRecorder();
+      try { await job.fn(wp, rec.add, (id, body) => fpRun(id, body, rec), rec.console); }
+      catch (e) { const err = (e instanceof Error) ? e : new Error(String(e)); err.w5bEvents = rec.events; throw err; }
+      return { events: rec.events };
+    }, { prio: idx });
+  });
+  // 投入はここで締め切る(ワーカーはキューが空になったらページを閉じて抜ける — 旧実装と同じ)
+  w5Pool.seal();
+}
 
 
 // ---- 1) HP.verify.all() ----
@@ -9675,7 +10038,7 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
 // ----          第83便C の preset.validate-all-builtins が別の4件(galaxyDB/nebulaRotor/
 // ----          nebulaShell/nebulaBipolar)の400步 bit 不変を持っているので重複させない。
 // ----      第83便D より前の対象(root 等)は自動 SKIP。
-{
+await w5bRun('roundtripBuiltins', true); async function W5B_roundtripBuiltins(page, add, fpRun, console) {
   const hasW83D = await page.evaluate(() => {
     // 判定子: description の上限が 200 字より広がっていること(DESC_CAP の実測較正)
     const long = 'あ'.repeat(1000);
@@ -10202,7 +10565,7 @@ if (has40BSemanticSync) {
 }
 
 // ---- 7) 新内蔵サンプルの挙動(v1.12 付録L)----
-{
+await w5bRun('gclock', true); async function W5B_gclock(page, add, fpRun, console) {
   const r = await page.evaluate(() => {
     const s = HP.sim, res = {};
     // ⏱ gclock: τ/t が解析値 e^{-ψ} と一致し、内側ほど遅い
@@ -11418,7 +11781,7 @@ if (hasBadgeClassify) {
 // ----   から余裕を持って確定し、下の各コメントに実測値を記録した(詳細: scratchpad/w5ab-report.md)。
 // ----   6件合計の実測所要時間は約14s(gas/pressure/phaseがn=195〜240のため、design memoの想定
 // ----   「nが小さいので+10s」より重いが、+20sの上限内なので !FAST 化はしていない)----
-{
+await w5bRun('gas', true); async function W5B_gas(page, add, fpRun, console) {
   // 🔥gas: 左右で異なる初期温度が接触・伝導(muF/gammaN/kappaS)で熱平衡化し、温度の粒子間分散が
   // 縮小する。G=0・kFrame=0で純粋に熱過程だけの統制実験。
   // 第36便 D(台帳4-51)再較正: 主張「温度の粒子間分散が明確に縮小する」は不変で、参照量を
@@ -11447,7 +11810,7 @@ if (hasBadgeClassify) {
     `温度分散(T_obs) 初期=${gas.v0.toFixed(3)} → 6000步後=${gas.v1.toFixed(3)}(比=${(gas.v1 / gas.v0).toFixed(3)} < 0.75 — 実測 tint 0.640 / spin 0.485)${gas.tint ? ' tint' : ' spin'}`);
 }
 
-{
+await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, console) {
   // 🎈pressure: 既定(kRep=2)は中心の熱いガスがスピン斥力=圧力(E5′)で周りの冷たい殻を外へ押し広げる
   // → 粒子雲全体のRMS半径が増加。同構成をkRep=0に差し替えると(box.rot-support 302-341 と同じ手法で
   // s.params を直接書き換え)この機構が消え、増加はごく僅かになる(比較判定)
@@ -13009,7 +13372,8 @@ if (!FAST) {
   // 較正実測(66A・seed 20260727・6000步): kF1/kF0 = 1.2646(中心スピンのみ 1.2646 ≈ 全スピン
   // 1.2648 / 恒星のみ 1.0215 — 主源は中心天体のコヒーレントスピン。tests/exp-scale66.mjs)。
   // 窓は claims の {1.15,1.4} と同期(claims.sync が説明文の「実測約1.26倍」と照合)
-  {
+}
+await w5bRun('galaxyStd', !FAST); async function W5B_galaxyStd(page, add, fpRun, console) {
     const hasStd = await page.evaluate(() => HP.allPresets().some(p => p.id === 'galaxyStd'));
     if (hasStd) {
      await fpRun('claim.galaxystd-outerboost', async () => {
@@ -13044,6 +13408,7 @@ if (!FAST) {
       console.log('SKIP claim.galaxystd-outerboost(対象に 66B 未適用 — root 等)');
     }
   }
+if (!FAST) {
 
   // ---- 8a2b) 第70便: 💫galaxyGeo2 — v−u 統一測地線則の基準銀河(beta 先行) ----
   // 🎡galaxyStd と厳密同一の初期配置で geoPN=2 だけを変えた統一則の較正値を機械固定する。
@@ -13051,7 +13416,8 @@ if (!FAST) {
   //   外縁増強 kF1/kF0 = 1.0803(legacy 🎡 1.2646 の約1/3 — 「legacy 較正値を統一則に
   //   流用しない」ChatGPT レビュー裁定の実装)。純度Π: 熱斥力=0・結合=0(厳密)、
   //   測地線=6.7%(1PN — geoPN=2 で初めて銀河系に立つ)・引きずり=19.3%(輸送+渦度)
-  {
+}
+await w5bRun('galaxyGeo2', !FAST); async function W5B_galaxyGeo2(page, add, fpRun, console) {
     const hasG2 = await page.evaluate(() => HP.allPresets().some(p => p.id === 'galaxyGeo2'));
     if (hasG2) {
      await fpRun('claim.galaxygeo2-outerboost', async () => {
@@ -13090,6 +13456,7 @@ if (!FAST) {
       console.log('SKIP claim.galaxygeo2-outerboost(対象に 💫galaxyGeo2 なし — root 等。第70便)');
     }
   }
+if (!FAST) {
 
   // ---- 8a2b1) 第74便: 5段階スケール(scaleTier)— 分類の完全性と表示換算の物理不変 ----
   // scaleTier は UI 分類・表示換算専用のメタデータ(ChatGPT §8「スケールを物理入力にしない」)。
@@ -13242,7 +13609,8 @@ if (!FAST) {
   // バルジ側が強い)③kFrame=0 対照では両群のスピンが厳密0(経路の唯一性)。
   // 較正実測(exp-4-75 kf1・seed 20260804・6000步): σ 4.246/1.624=2.61・|spin| 5.040/2.618=1.92・
   // 対照は厳密0・保持 disk99.5%/bulge97.4%
-  {
+}
+await w5bRun('galaxyDB', !FAST); async function W5B_galaxyDB(page, add, fpRun, console) {
     const hasDB = await page.evaluate(() => HP.allPresets().some(p => p.id === 'galaxyDB'));
     if (hasDB) {
      await fpRun('claim.galaxydb-contrast', async () => {
@@ -13287,6 +13655,7 @@ if (!FAST) {
       console.log('SKIP claim.galaxydb-contrast(対象に 🍳galaxyDB なし — root 等。第74便)');
     }
   }
+if (!FAST) {
 
   // ---- 8a2b3) 第74便: 🌑nebulaRotor — ローター星雲の減光コントラスト(暗黒⇔散光) ----
   // 高スピンコア(lightSweep auto・粒子0..53)の平均減光がエンベロープ(54..)より1桁以上高く、
@@ -13858,7 +14227,8 @@ if (!FAST) {
   // ③因果: コアなし対照は 1.05(=コアが主因)④帳簿込み総 L 保存(<1e-3)。
   // 較正実測は exp-4-81(seed 20260805・6000步): 増強 1.5236 / 殻 1.3302 / Ω_c 4.241 /
   // コアなし対照 1.0453 / |ΔL| 1.3e-6(pinned 対照は 1.5215 — 同帯)
-  {
+}
+await w5bRun('bhcoreSelfdrive', !FAST); async function W5B_bhcoreSelfdrive(page, add, fpRun, console) {
     const hasBH = await page.evaluate(() => HP.allPresets().some(p => p.id === 'bhCore'));
     if (hasBH) {
      await fpRun('claim.bhcore-selfdrive', async () => {
@@ -13906,6 +14276,7 @@ if (!FAST) {
       console.log('SKIP claim.bhcore-selfdrive(対象に ⚫bhCore なし — root 等。第78便)');
     }
   }
+if (!FAST) {
 
   // ---- 8a2b4d2) 第80便 A → 第81便: ⚫bhCore の「自由な支配天体 + E6′-R」の固定seed受入 ----
   // 第80便は実験サンプル 🕳️bhCoreFree でこの受入を組んでいたが、第81便で ⚫bhCore 本体が
@@ -13914,7 +14285,8 @@ if (!FAST) {
   // ③τ_cs の自走(殻 0.15→1.33・コアΩ 20→4.24)が保たれる ④支配天体は重心まわりに有限反跳
   // ⑤帳簿込み総 L が保存する。較正実測は exp-4-81(seed 20260805・6000步)。
   // 「安定」の定義は原点不動ではなく上の5点(提案 §12.4)。対象に無ければ SKIP(root 等)
-  {
+}
+await w5bRun('bhcoreFree', !FAST); async function W5B_bhcoreFree(page, add, fpRun, console) {
     const hasBHF = await page.evaluate(() => {
       const p = HP.allPresets().find(q => q.id === 'bhCore');
       return !!(p && p.balanceFrame === 'barycentric' && p.bodies[0].pinned === false);
@@ -13985,6 +14357,7 @@ if (!FAST) {
       console.log('SKIP claim.bhcore-free(対象の ⚫bhCore が自由中心構成でない — root 等。第81便)');
     }
   }
+if (!FAST) {
 
   // ---- 8a2b4e) 第78便: コアv2 の堅牢性(ChatGPT P1: extreme-fuzz / 保存互換) ----
   // ①境界値・不正値の総当たりで NaN/Infinity/負慣性/半径逆転を起こさない(validate のクランプが
@@ -14509,7 +14882,8 @@ if (!FAST) {
   // 検査: ①病的構成で発動+発振停止(v最大<20・速度クランプ0)+P が帳簿込みで閉じる
   //       ②正規のドラッグ系(darkrotor/galaxy)では発動0(既存挙動 bit 不変 — baseline QA も担保)
   // 機能判定子 = S.clampRN の有無(root は SKIP)
-  {
+}
+await w5bRun('reactionCap', !FAST); async function W5B_reactionCap(page, add, fpRun, console) {
     const hasRN = await page.evaluate(() => {
       HP.loadPreset('galaxy', false); return HP.sim.clampRN !== undefined; });
     if (hasRN) {
@@ -14566,6 +14940,7 @@ if (!FAST) {
       console.log('SKIP clamp.reaction-cap(対象に clampRN なし — root 等。第71便 P0)');
     }
   }
+if (!FAST) {
 
   // ---- 8a3) 第69便 P4b(E12v2): geoPN=2 — v−u 統一測地線則(beta 先行) ----
   // DERIVATIONS §18 の実装アンカーを機械固定する: ①kF=0 で geoPN=1 と bit 等価(段階導入)
@@ -15830,7 +16205,7 @@ if (!FAST) {
 // ----   ②衛星の公転周期の観測照合 ③環11帯の半径保持(kFrame=1)とその kFrame=0 対照
 // ----   ④🌊 の kFrame=1 引きずり超過(第3例)とトリトンの負符号自転 ⑤決定性。
 // ----   窓は説明文の宣言と同じ(💠 2ミランダ公転・🌊 1.5トリトン公転)。
-{
+await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun, console) {
   const hasUN = await page.evaluate(() =>
     ['uranusReal', 'neptuneReal'].every((id) => HP.allPresets().some((q) => q.id === id)));
   if (hasUN) {
@@ -16617,7 +16992,7 @@ if (!FAST) {
 //     窓 0.008〜0.012 は据置・宣言 +0.0095848°/周・A/B 差 <2%・**柵却下(偽検出)0**)・**スピンは保持できない宣言**(±40 飽和・clampSN>0・
 //     帳簿 L 残差<1e-4〔宣言 5.0×10⁻⁶ — クランプ捨て分〕・P 残差<1e-8)・重心機械ゼロ・
 //     否定対照(cmGauge除去→歩行/kF0×f→深い楕円)・決定性
-{
+await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpRun, console) {
   const hasPsr = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'psrDoubleAB'));
   if (hasPsr) {
     const csvText = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8');
@@ -17130,7 +17505,7 @@ if (!FAST) {
 //        dt を細かくするほど柵の却下が増える**ことを固定する(第254便d ③ の実測を門にした)。
 //   **窓は 20 近点(19 区間)・柵は「一周に近点 1 つ」**(第252便b)。値そのものの窓は張らない
 //   (棚卸しと同じ方針 — 固定するのは符号と偽検出数の契約である)。
-{
+await w5bRun('nsThreeStage', true); async function W5B_nsThreeStage(page, add, fpRun, console) {
   const NS4 = ['psrDoubleABDFM', 'psrJ1757DFM', 'psrJ1946DFM', 'psrB1534DFM'];
   const hasNs = await page.evaluate((ids) => ids.every((id) => HP.allPresets().some((p) => p.id === id)), NS4);
   if (!hasNs) {
@@ -17848,7 +18223,7 @@ if (!FAST) {
 //   2.107(21.1 km/s)は**面内分散 proxy** であり、観測の**中心 1D 視線分散** 12.4 km/s との比 1.70 は
 //   **方向・開口・重みの対応が未確定**なので、比較サンプル v1a では **not-applicable** である
 //   (数値の不一致ではなく対応の未宣言)。**旧測定は履歴として残す。**
-{
+await w5bRun('tuc47', true); async function W5B_tuc47(page, add, fpRun, console) {
   const hasTuc = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'tuc47'));
   if (hasTuc) {
     const tc = await page.evaluate(() => {
@@ -17912,7 +18287,7 @@ if (!FAST) {
 // ---- 第228便→第230便: behavior.ngc3198 — NGC 3198(🌃)+恒星 f≈2 hold-out(🛞)----
 // 🌃: NFW(自前 fit 宣言)で保持/ハロー除去で空(不変)。🛞(第230便): 恒星 f=1.99973 適用後も
 // 届かない(外縁 49 vs 150 km/s — 中心核相対で機械固定)・HI 非適用+gas 宣言・自由中心核・台帳一致
-{
+await w5bRun('ngc3198', true); async function W5B_ngc3198(page, add, fpRun, console) {
   const hasNgc = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'ngc3198'));
   if (hasNgc) {
     const ng = await page.evaluate(() => {
@@ -18014,7 +18389,7 @@ if (!FAST) {
 // ---- 第229便: behavior.templates229 — 天体雛形(🏮/🪩)の機械固定 ----
 // 第245便: 🌻 starDFM(と ☀️starcore)の廃止に伴い「🌻=☀️ ビット同一+方位歳差」の節を撤去。
 // 🏮: 静止保持+傾き45°でも位相恒等(運動学時計)/🪩: tilt90 で Jz 機械ゼロ・|J| 保存・減光1.000 のまま
-{
+await w5bRun('templates229', true); async function W5B_templates229(page, add, fpRun, console) {
   const hasT = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'pulsarSolo'));
   if (hasT) {
     const tp = await page.evaluate(() => {
@@ -18165,7 +18540,7 @@ if (!FAST) {
 //   解放E 0.0687=ΔKE 7202.96+ΔU −7202.89(jFrac 0)・burstL 414.72=frac 2.7e-3×J₀ 153600=J₀−J₁・
 //   burstE 25900.21=注入KE 25900.07(相対残差 5.3e-6)・脱出 128/128・平均 v 33.38(dt/2 33.37)・
 //   対照 用量半分 27.56 / kF0 26.48 / burst なし 19.83(J 不変)/ 単層 27.31 / Ω0・shed なしは粒子 1 のまま
-{
+await w5bRun('supernova', true); async function W5B_supernova(page, add, fpRun, console) {
   const hasSN = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'supernovaCore') && HP.sim.coreBR !== undefined);
   if (hasSN) {
     const sn = await page.evaluate(() => {
@@ -18887,7 +19262,7 @@ if (!FAST) {
 //       同ブロックで **pinned の帳簿 4 条件**(中心/受け手の固定有無)も検査する。中心を原点外
 //       (100,50)に置いた 1 キックで、修正前は ΔL=−2.76(pinned 中心の反力のモーメント落ち)/
 //       +3.87(受け手 pinned の未適用力)等になっていた。4 条件すべてで ΔP・ΔL が丸め級になる。
-{
+await w5bRun('axisForceBit', true); async function W5B_axisForceBit(page, add, fpRun, console) {
   const hasAF = await page.evaluate(() => typeof HP.dfmAxisPotential === 'function'
     && typeof HP.validateAxisForce === 'function');
   if (hasAF) {
@@ -19198,7 +19573,7 @@ if (!FAST) {
 //   E) HP.dfmCompactMeasures — 「手段」表の正本(⚡ NS–NS・🎻 BH・🪨 太陽–水星を**同じ無次元則**で同時評価)。
 //      ①kind "spin" では質量補正 f が η から約分される ②kind "kerr" では f² で効く
 //      ③Δϖ = −2π·η(r=p) の恒等式 ④エンジンの η と 1e-12 で一致 ⑤**どの則も 3 系を同時に満たさない**
-{
+await w5bRun('compactMeasures', true); async function W5B_compactMeasures(page, add, fpRun, console) {
   const has247 = await page.evaluate(() => typeof HP.dfmCompactMeasures === 'function'
     && Array.isArray(HP.FRAME_PRECISIONS) && typeof HP.dfmSpinDipoleDeclared === 'function'
     && HP.allPresets().some((q) => q.id === 'psrDoubleABSpinCal'));
@@ -20664,7 +21039,7 @@ if (!FAST) {
 //   ⑤**裸コア終端** — 🔘 の 7 回目で殻を全部出して Mc=M(massFrac=1・coreBare=1)・器の半径が残る。
 //     事象の閉性は _shed() の直接呼び出しで ΔM/ΔP 厳密 0・ΔL・全E ≤1e-9、**2 回目は発火しない**
 //   ⑥ U_bind=−a·G·Mc²/Rc が coreState から読める(記録専用 — 力学は 1 bit も読まない)
-{
+await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, fpRun, console) {
   const hasTerm = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'whiteDwarfBareDFM')
     && typeof HP.coreLedger === 'function' && HP.sim.coreRT !== undefined);
   if (hasTerm) {
@@ -24843,7 +25218,7 @@ if (!FAST) {
 //        u_x=−x·t の観測次数が 4 になる(**各段が同じ時刻を見ると 1 次に落ちる**ことを対照で示す)。
 //     ⑫ **新 opt の門**: 未知の unSource/unFit/need・非正の fitH は null。
 //   **これは表示と記録の契約であって、力の接続ではない**(銀河へ力を載せる条件は未決 — PHYSICS〔第254便b〕⑧)。
-{
+await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun, console) {
   const hasGM = await page.evaluate(() => typeof HP.dfmGalaxyMeshField === 'function'
     && typeof HP.dfmGalaxyTracerCreate === 'function' && typeof HP.dfmGalaxyTracerStep === 'function'
     && typeof HP.dfmGalaxyTracerObserve === 'function' && typeof HP.dfmGalaxyMeshRecord === 'function');
@@ -28326,7 +28701,7 @@ if (!FAST) {
 //     ⑤ **減光は観測写像**であって帳簿の項ではない(`obs` に分かれていて Etot に入らない)。
 //     ⑥ **門**: S でないもの・maxPairs 超過(打ち切らず未定義)・不正 opts は null/未定義。
 //   **Q を重力波と読まない。「トイが完成した」とは書かない。**
-{
+await w5bRun('toyLedger', true); async function W5B_toyLedger(page, add, fpRun, console) {
   const hasTL = await page.evaluate(() => typeof HP.dfmToyLedger === 'function');
   if (hasTL) {
     const tl = await page.evaluate(() => {
@@ -28826,7 +29201,7 @@ if (!FAST) {
 //        **🫐 tuc47DFM 0.3098 = "undefined-terms"**(従来分母も同値)。**どれも FAIL にしない。**
 //   **書かないこと**: 「帳簿が閉じた」「規格化で残差が縮んだ」「1e−3 を通ったから合格」
 //   「🎠🫐 は帳簿が壊れている」(未定義項があるので**判定そのものが未定義**である)。
-{
+await w5bRun('ledgerNorm', true); async function W5B_ledgerNorm(page, add, fpRun, console) {
   const hasLN = await page.evaluate(() => typeof HP.dfmToyLedger === 'function'
     && typeof HP.dfmLedgerRelative === 'function'
     && typeof HP.dfmLedgerGateState === 'function');   // 第262便d: 状態名の純関数
@@ -29298,7 +29673,7 @@ if (!FAST) {
 // テスト内でその場で組む(物理宣言は旧 🌻 と 1 対 1 — 判定窓は不変)。
 // 旧 🌻 パッチ(tilt60・Kalign0.5・殻スピン0.08): θ の指数減衰と方位歳差の共存(螺旋)・|J| 保存・
 // L_z(核+殻)保存・帳簿閉性(ΔE_vis = ΔalignE − Δ散逸)・Kalign 未宣言=0 明示のビット同一・kF0 力学不干渉
-{
+await w5bRun('kalign', true); async function W5B_kalign(page, add, fpRun, console) {
   const hasKal = await page.evaluate(() => { const S = HP.sim; return S.coreKal !== undefined; });
   if (hasKal) {
     const ka = await page.evaluate(() => {
@@ -29720,7 +30095,7 @@ if (!FAST) {
 // 既定 frameWeight="pull"(w=m/(d²+ε²)・分母 D0pull+W_B+Σw)。"pull3"/"pull4" は w=m/(d²+ε²)^{p/2}(opt-in)。"share" は旧来の分率(明示)。
 // 玩具で χ が解析 dfmPullEntrainment(p) と 1e-5 一致(p=2/3/4)/既定の明示は署名不変・legacy 内蔵サンプルは "share" 明示/
 // 🌘 は宣言どおり pull・D0pull=3.24204e-5 で近点移動 2.995°/周(±0.15)・pull3 は再較正値で同窓・pull4 は門(denom>1e-9)の直上で最大 1.78°/周(較正不能の記録)/物理予測(p=2): 地表 χ_E 0.998・GPS 0.97・月 0.12・α Cen 相手 10⁻³・PSR 0.9999。
-{
+await w5bRun('framePull', true); async function W5B_framePull(page, add, fpRun, console) {
   const hasPull = await page.evaluate(() => typeof (window.HP && HP.dfmPullEntrainment) === 'function' && typeof HP.frameWeightPow === 'function');
   if (hasPull) {
     const fp = await page.evaluate(({ D0P3, D0P4 }) => {
@@ -30317,7 +30692,7 @@ if (!FAST) {
 // ----   フルQAでは追加で 🧲B を 118公転(=約8.85年ぶん)まで延ばし、第135便の一次発見
 // ----   (①近点回転が単調に遅くなる ②離心率が単調に汲み上げられる)を機械固定する。
 // ----   軽い(A 20公転 2.8s+B 8公転 1.8s+C 118公転 2.1s ≈ 7s)ので QA_FAST=1 でも中核3件を実行する。
-{
+await w5bRun('emAudit', true); async function W5B_emAudit(page, add, fpRun, console) {
   const hasEA = await page.evaluate(() => ['emAuditNewton', 'emAuditDFM', 'emAuditSolar']
     .every((id) => HP.allPresets().some((p) => p.id === id)));
   if (hasEA) {
@@ -37493,7 +37868,7 @@ if (hasEchoFlipAt) {
 // ----          (E14″ の「観測ラベルは物理へ還流しない」原則の機械固定)
 // ----       ③ mechspec.sanity: 支配機構の分離 — ☿=重力+測地線 / 🧊=結合優勢 / 🕊️=熱斥力 /
 // ----          🌌=引きずりチャネルが kFrame=1 でだけ立つ(T13 の診断層としての妥当性)----
-{
+await w5bRun('mechspecZeroCost', true); async function W5B_mechspecZeroCost(page, add, fpRun, console) {
   const hasMech = await page.evaluate(() => !!(HP.sim && typeof HP.sim.mechSpec === 'function'));
   if (hasMech) {
     // 基準は 65A 実装直前の beta(= 第64便 5e6ec71)で採取(tint.zero-cost と同形式+tint 系は Tint も連結)
@@ -38360,7 +38735,7 @@ if (hasEchoFlipAt) {
 // 熱伝導のすべてを「いまの結合状態(滑らかな配位数)」から導出する。エンタルピー正本・潜熱・
 // 相率・valence リンク台帳は廃止(旧テスト群は git 履歴 — 第59便 c833013 以前を参照)。
 // 機能判定子: HP.phaseEnergy + S.angNbr(第60便ビルドの指紋)
-{
+await w5bRun('phasechangeSchema', true); async function W5B_phasechangeSchema(page, add, fpRun, console) {
   const hasPC = await page.evaluate(() => typeof HP.phaseEnergy === 'function' && 'angNbr' in HP.sim);
   if (hasPC) {
     // ① phasechange.schema: バリデータ(tint 必須・fusion 排他・bondN 必須・値域クランプ・
@@ -39762,7 +40137,7 @@ if (hasSwAutoCb) {
 // ----   継承則の総和恒等式)をそのまま判定に使う。決定論(seed 20260806 固定)。
 // ----   軽量寄り(180粒→25体・9000步×3構成)なので QA_FAST=1 でも実行する。
 // ----   実測ハーネスは tests/exp-4-84.mjs(3seed・G/Kt/dFrac 用量反応つき)----
-{
+await w5bRun('selfrotor', true); async function W5B_selfrotor(page, add, fpRun, console) {
   const hasSR = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'selfRotor'));
   if (hasSR) {
     await fpRun('behavior.selfrotor', async () => {
@@ -39888,7 +40263,7 @@ if (hasSwAutoCb) {
 // ----   selfRotor.multi-seed-min-mass-fraction の窓(0.10〜0.60)。対照(融合オフ)は
 // ----   融合が無ければ質量が動かないので全seedで厳密に 1/180=0.5556% になることも固定する。
 // ----   **重い(9000步 × 8構成)ので QA_FAST=1 では実行しない**(FAST への時間増はゼロ)----
-if (!FAST) {
+await w5bRun('selfrotorMultiseed', !FAST); async function W5B_selfrotorMultiseed(page, add, fpRun, console) {
   const hasSR2 = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'selfRotor'
     && Array.isArray(p.claims) && p.claims.some((c) => c.id === 'selfRotor.multi-seed-min-mass-fraction')));
   if (hasSR2) {
@@ -39975,7 +40350,7 @@ if (!FAST) {
 // ----     ♻️ 解離末(t=528)の成分数 48〜84。凍結期は ⛓️ と**壁スケジュール以外が同一設定**なので
 // ----        t=288(18000步)までの軌道が一致する — ⛓️ の値は ♻️ の run から読み、同一性も検査する
 // ----   **重い(3seed × 63000步 + 対照1seed)ので QA_FAST=1 では実行しない**(FAST への時間増はゼロ)----
-if (!FAST) {
+await w5bRun('phaseMultiseed', !FAST); async function W5B_phaseMultiseed(page, add, fpRun, console) {
   const PIDS = ['emergent', 'emergent2', 'chain2', 'chaincycle'];
   const hasPM = await page.evaluate((pids) => pids.every((id) => {
     const p = HP.allPresets().find((q) => q.id === id);
@@ -40225,7 +40600,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
 // ----   (600步の x,y,spin ハッシュ一致 = 計測は sim.step に一切載っていない)
 // ----   ④統計式の健全性: 単一の接触塊は nCluster=1・maxFrac=1、離れた2群は nCluster=2、
 // ----     同符号スピンの整列度=+1・逆符号対称なら 0、剛体回転の V/σ は分散≈0 で大きくなる ----
-{
+await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page, add, fpRun, console) {
   const hasEM = await page.evaluate(() => !!(window.HP && HP.emergenceStats));
   if (hasEM) {
     const r = await page.evaluate(() => {
@@ -47777,7 +48152,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
 //     ⑫ **重力の扱い**: coreField の 3 本は G を 0→0.8 にすると指紋が**変わる**(規定運動ではない)。
 //        中心重力を Φ の κ₀ が持つ既定宣言(`centreGravity:"phi"`)では、中心が engine 質量を
 //        持ったままの G≠0 は**二重加算の門** `gravityDouble` で止まる。
-{
+await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, console) {
   const hasToys = await page.evaluate(() => !!(window.HP
     && HP.allPresets().some((z) => z.id === 'shapeToyCluster')));
   if (hasToys) {
@@ -49896,8 +50271,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
 
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
 // W5c: ワーカープールの後片付け(全ユニットは既に上流の getUnit() で待ち合わせ済みのはずだが、
-// 各ワーカーの wp.close() 完了を確実に待ってから共有 browser を閉じる)
-if (w5cPoolPromise) await w5cPoolPromise;
+// 各ワーカーのページ/コンテキストを閉じ終えてから共有 browser を閉じる)
+if (w5Pool) await w5Pool.close();
 // 第251便b: 指紋ページの後片付け(キャッシュが 1 件も使われなくても採取は完了させる)
 if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 await browser.close();
@@ -49932,11 +50307,21 @@ const QA_OUT = JSON.stringify({
   env: { node: process.version, playwright: playwrightVersion, platform: `${process.platform}/${process.arch}` },
   total: results.length, failed: results.filter(r => !r.pass).length, pass,
   durationMs: results.reduce((a, r) => a + (r.ms || 0), 0),  // 第17便: 項目別 ms の合計
+  // 第279便b: `ms`(直前の add() からの経過)は互換のため従来どおり。実際の壁時計は wallDurationMs、
+  // 並列ユニット/ブロックの実行時間は unitTimings(where=worker/main/main(stolen)・runMs・mainWaitMs)
+  wallDurationMs: Date.now() - QA_T0, tier: QA_TIER, replay: qaReplay, unitTimings: qaUnitTimings,
+  w5: { workers: w5Pool ? W5C_NW : 0, nice: W5_NICE, renicedRenderers: w5Reniced.size },
   // 第251便b: 指紋キャッシュで再実行を省いた項目(cached=0 なら従来どおりの全実行)
   cache: { enabled: FP_ON, refresh: QA_REFRESH, cached: fpCachedIds.slice(),
     cachedCount: fpCachedIds.length, savedMs: fpSavedMs, file: 'tests/out/qa-fingerprints.json' },
   results,
 }, null, 1);
+// 第279便b: 前回 FAIL の先行再実行(子プロセス)は qa-replay[-beta].json だけを書く(保存物を上書きしない)
+if (QA_REPLAY_CHILD) {
+  for (const f of qaOutNames()) fs.writeFileSync(path.join(OUT_DIR, f), QA_OUT);
+  console.log(`\n[REPLAY] ${pass ? 'ALL PASS' : 'FAILED'} (${results.filter(r => r.pass).length}/${results.length}) → tests/out/${qaOutNames()[0]}`);
+  process.exit(pass ? 0 : 1);
+}
 fs.writeFileSync(path.join(OUT_DIR, 'qa-results.json'), QA_OUT);
 if (TARGET.startsWith('beta/')) fs.writeFileSync(path.join(OUT_DIR, 'qa-results-beta.json'), QA_OUT);
 // 第271便e(統括の検証項目 R8): **フル走行の保存物を別名で残す**。従来は QA_FAST=1 の短い走行が

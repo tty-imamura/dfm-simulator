@@ -707,10 +707,24 @@ iPhoneのブラウザで観察できるシミュレータです。
 
 ```bash
 npm ci && npx playwright install --with-deps chromium   # 初回のみ(lockfile 固定 — CI と同一手順。依存更新は明示的な PR で)
-npm test          # 全QA(約5分)。結果は tests/out/qa-results.json
-npm run test:fast # 長時間挙動テストを省略した高速版
+npm run test:preflight # ① 簡易チェックの一周(Chromium なし・十数秒): 構文・ブラウザに触れない lint/文書検査・全内蔵の受理/構築/1 歩
+npm test          # ③ 全QA(フル)。結果は tests/out/qa-results.json(フル走行は qa-results-full*.json にも保存)
+npm run test:fast # 長時間挙動テストを省略した高速版(= QA_TIER=fast)
 node tests/perf.mjs # 動的性能ゲート(v1.31 — 同一Chromiumで root と beta を実測し中央値比 ≤1.10 を検査)
 ```
+
+QA の確認順(第279便b): **① preflight → ② 限定 QA → ③ フル**。
+
+- ① `npm run test:preflight`(= `QA_TIER=lint npm test`)は `tests/qa.mjs` のブラウザに触れない試験ブロックを
+  本文そのまま切り出して一周し、全内蔵プリセットを Node の vm で受理・構築・1 歩だけ走らせる。
+  結果は `tests/out/qa-preflight[-beta].json`(`fullQaStillRequired:true` — **フル QA の代わりではない**)。
+- ② 自分の変更に関係するブロックだけを走らせる: `node tests/exp-w258c-qapart.mjs <QA の id> …`。
+- ③ `npm test`(フル)。手元では**前回 FAIL したブロックを先に別プロセスで再実行**してから全件を走る
+  (`QA_REPLAY_FAIL=1` が手元の既定・CI では OFF。`QA_BAIL=1` なら先行再実行で FAIL のとき本走行へ進まない)。
+  重いブロックはワーカープール(W5c/W5b)で並列に先行し、結果は元の位置・元の順で記録される
+  (`QA_SERIAL=1` で従来どおりの完全直列)。各ユニットの実時間は結果 JSON の `unitTimings`、
+  走行全体の壁時計は `wallDurationMs`(`ms` は従来どおり「直前の add() からの経過」)。
+- CI は preflight を先に走らせ、**フル(`npm test`)を従来どおり必ず走らせる**(CI が最終裁定者)。
 
 GitHub Actions([.github/workflows/ci.yml](.github/workflows/ci.yml))が push/PR ごとに
 同じスイートを実行し、機械可読な結果JSONを artifact として保存します(QA は root/beta の

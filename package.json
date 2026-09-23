@@ -9,6 +9,7 @@
   "scripts": {
     "test": "node tests/qa.mjs",
     "test:fast": "QA_FAST=1 node tests/qa.mjs",
+    "test:preflight": "node tests/qa-preflight.mjs",
     "seeds": "node tests/seeds.mjs"
   },
   "devDependencies": {
