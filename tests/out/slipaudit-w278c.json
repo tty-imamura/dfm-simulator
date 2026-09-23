@@ -2,30 +2,30 @@
  "meta": {
   "note": "第278便c — `pairSlip` の第二天体の符号修正(w277c-1 → w277c-2)の影響範囲。**エンジンには 1 bit も触らない**(html は関数のソースを文字列で読むだけ)",
   "htmlHasRelativeDrag": true,
-  "htmlVersion": "w277b-pairSlip-1",
+  "htmlVersion": "w278b-pairSlip-2",
   "provenanceVersion": "w272e-1",
   "wave": "第278便c",
   "target": "beta/index.html",
-  "targetSha256": "51ac2e9370fc9bd77532299d41b4e4a04a8e722f18a2589166557f6e548f46ba",
-  "generatedAt": "2026-09-23T10:36:43.778Z",
+  "targetSha256": "d334ed09709f20d0f97328227681b11305f2bf3319b4bc36ca95e0a12f7c0744",
+  "generatedAt": "2026-09-23T11:39:10.232Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4440208,
-    "sha256": "51ac2e9370fc9bd77532299d41b4e4a04a8e722f18a2589166557f6e548f46ba",
-    "mtime": "2026-09-23T10:29:53.578Z"
+    "bytes": 4469620,
+    "sha256": "d334ed09709f20d0f97328227681b11305f2bf3319b4bc36ca95e0a12f7c0744",
+    "mtime": "2026-09-23T11:03:31.966Z"
    },
    {
     "file": "tests/lib-w277c-nsgrid.mjs",
     "bytes": 37288,
     "sha256": "0f7a956cd50168921befdc2b0bf43811b0da0d6dd39cdaf897e3a81ad23a8477",
-    "mtime": "2026-09-23T10:34:31.863Z"
+    "mtime": "2026-09-23T11:01:15.276Z"
    },
    {
     "file": "tests/exp-w277c-nsgrid.mjs",
     "bytes": 38009,
     "sha256": "770b659a5a6af0624c53d1133de2fb2fe67e8e9d2404a6f806d49bb7ca344df2",
-    "mtime": "2026-09-23T10:35:06.059Z"
+    "mtime": "2026-09-23T11:01:15.275Z"
    }
   ],
   "code": [
@@ -33,25 +33,25 @@
     "file": "tests/exp-w278c-slipaudit.mjs",
     "bytes": 13492,
     "sha256": "7e5d4b27ce1995cb0ab414dccfcd7477042a39112cd748d41a4dd2c36d8d2743",
-    "mtime": "2026-09-23T10:36:43.589Z"
+    "mtime": "2026-09-23T11:01:15.276Z"
    },
    {
     "file": "tests/lib-w277c-nsgrid.mjs",
     "bytes": 37288,
     "sha256": "0f7a956cd50168921befdc2b0bf43811b0da0d6dd39cdaf897e3a81ad23a8477",
-    "mtime": "2026-09-23T10:34:31.863Z"
+    "mtime": "2026-09-23T11:01:15.276Z"
    },
    {
     "file": "tests/lib-w277b-charondfm.mjs",
     "bytes": 12728,
     "sha256": "4e9be37415c45969b4a4904fedd5bf791ee37efb82e6a2c80295c57bf95d205b",
-    "mtime": "2026-09-23T10:29:53.542Z"
+    "mtime": "2026-09-22T06:21:54.659Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-23T10:29:53.538Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
   "codeSha256": "d99ee1c61e97e221832a0bf4f8a08cdf5adf6f74213bdbc85fa4786761158a27"

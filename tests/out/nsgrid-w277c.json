@@ -74,7 +74,7 @@
    "新発見"
   ],
   "caveat": "k₂・K・λ・η・要求率・I_a・ξ・C_t は**宣言された自由パラメータ**である。観測の傾きは**照合前の材料**として初期値にだけ使い、そこから係数を決めることはしていない。離心率は記録した入力であって、格子の軌道は準円である。",
-  "csvSha256": "702efd3ad1441598a7af6a099ee91f6007d2519b83146c98614e3ce4560b1085",
+  "csvSha256": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4",
   "timeScaleGuard": {
    "time_scale_gain": "1e16〜1e19",
    "not_a_prediction": true,
@@ -110,31 +110,31 @@
   "wave": "第277便c(第278便c 改訂)",
   "target": "tests/lib-w277c-nsgrid.mjs",
   "targetSha256": "0f7a956cd50168921befdc2b0bf43811b0da0d6dd39cdaf897e3a81ad23a8477",
-  "generatedAt": "2026-09-23T10:45:19.731Z",
+  "generatedAt": "2026-09-23T11:39:09.799Z",
   "inputs": [
    {
     "file": "tests/lib-w277c-nsgrid.mjs",
     "bytes": 37288,
     "sha256": "0f7a956cd50168921befdc2b0bf43811b0da0d6dd39cdaf897e3a81ad23a8477",
-    "mtime": "2026-09-23T10:34:31.863Z"
+    "mtime": "2026-09-23T11:01:15.276Z"
    },
    {
     "file": "tests/lib-w276c-axiswork.mjs",
     "bytes": 23751,
     "sha256": "142bd7f6678ad7eb2a4bb3d4c86bb925d2de397994f736e9cddf13462a85e738",
-    "mtime": "2026-09-23T10:29:53.542Z"
+    "mtime": "2026-09-22T06:22:45.326Z"
    },
    {
     "file": "tests/lib-w275e-powerball.mjs",
     "bytes": 23684,
     "sha256": "dc402b1f38a78a66b34db6e6585a3d42f332800de781226141cd1c9398568fe6",
-    "mtime": "2026-09-23T10:29:53.542Z"
+    "mtime": "2026-09-21T12:31:34.089Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
-    "bytes": 511051,
-    "sha256": "702efd3ad1441598a7af6a099ee91f6007d2519b83146c98614e3ce4560b1085",
-    "mtime": "2026-09-23T10:29:53.730Z"
+    "bytes": 558062,
+    "sha256": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4",
+    "mtime": "2026-09-23T11:01:04.949Z"
    }
   ],
   "code": [
@@ -142,40 +142,40 @@
     "file": "tests/exp-w277c-nsgrid.mjs",
     "bytes": 38009,
     "sha256": "770b659a5a6af0624c53d1133de2fb2fe67e8e9d2404a6f806d49bb7ca344df2",
-    "mtime": "2026-09-23T10:35:06.059Z"
+    "mtime": "2026-09-23T11:01:15.275Z"
    },
    {
     "file": "tests/lib-w277c-nsgrid.mjs",
     "bytes": 37288,
     "sha256": "0f7a956cd50168921befdc2b0bf43811b0da0d6dd39cdaf897e3a81ad23a8477",
-    "mtime": "2026-09-23T10:34:31.863Z"
+    "mtime": "2026-09-23T11:01:15.276Z"
    },
    {
     "file": "tests/lib-w276c-axiswork.mjs",
     "bytes": 23751,
     "sha256": "142bd7f6678ad7eb2a4bb3d4c86bb925d2de397994f736e9cddf13462a85e738",
-    "mtime": "2026-09-23T10:29:53.542Z"
+    "mtime": "2026-09-22T06:22:45.326Z"
    },
    {
     "file": "tests/lib-w275e-powerball.mjs",
     "bytes": 23684,
     "sha256": "dc402b1f38a78a66b34db6e6585a3d42f332800de781226141cd1c9398568fe6",
-    "mtime": "2026-09-23T10:29:53.542Z"
+    "mtime": "2026-09-21T12:31:34.089Z"
    },
    {
     "file": "tests/lib-w270b-obscsv.mjs",
-    "bytes": 14068,
-    "sha256": "603104b67e24f166bc5a2a2d00038686ed4631e39285bcb8780281026d7e2d4a",
-    "mtime": "2026-09-23T10:29:53.538Z"
+    "bytes": 14614,
+    "sha256": "a096a132d0eea0841d194dd174b1ebc96caea453e9c0bbebab0a5d9391058b77",
+    "mtime": "2026-09-23T11:01:04.951Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-23T10:29:53.538Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "14001dbe5d35e5b5cd944760562a2ed3d51e7527d56914c421e8697a9b79b714"
+  "codeSha256": "bc2abce6a32102811f7427784fee93fa43f852f41414b70429416c4cb277325e"
  },
  "systems": [
   {
@@ -464,7 +464,7 @@
     "unit": "deg",
     "recordId": "SOL-5600e70a",
     "sigma": null,
-    "note": "intake_row=2026-09-22. Candidate row for the 2026-09-22 verification request - NOT yet collated against the printed table (collate=pending). Angle between the s",
+    "note": "intake_row=2026-09-22. Candidate row for the 2026-09-22 verification request - collated 2026-09-23 against the printed section (collate=match; the earlier colla",
     "ln": 578
    },
    {
@@ -474,7 +474,7 @@
     "unit": "deg",
     "recordId": "SOL-67fded9c",
     "sigma": null,
-    "note": "intake_row=2026-09-22. Candidate row for the 2026-09-22 verification request - NOT yet collated (collate=pending). Angle between the magnetic axis and the spin ",
+    "note": "intake_row=2026-09-22. Candidate row for the 2026-09-22 verification request - collated 2026-09-23 against the printed section (collate=match; the earlier colla",
     "ln": 579
    },
    {
@@ -482,9 +482,9 @@
     "value": 40.6,
     "rawValue": "40.6",
     "unit": "deg",
-    "recordId": "SOL-f9080bd9",
+    "recordId": "SOL-912f7aa2",
     "sigma": 0.1,
-    "note": "intake_row=2026-09-22. Candidate row for the 2026-09-22 verification request - NOT yet collated (collate=pending). Angle between the spin axis of PSR J0737-3039",
+    "note": "intake_row=2026-09-22. Candidate row for the 2026-09-22 verification request - collated 2026-09-23 (collate=match; the earlier collate=pending is closed). Angle",
     "ln": 580
    },
    {
@@ -492,9 +492,9 @@
     "value": 5.16,
     "rawValue": "5.16",
     "unit": "deg/yr",
-    "recordId": "SOL-85793ff8",
+    "recordId": "SOL-7e3303df",
     "sigma": null,
-    "note": "intake_row=2026-09-22. Candidate row for the 2026-09-22 verification request - NOT yet collated (collate=pending). Precession rate of the spin axis of PSR J0737",
+    "note": "intake_row=2026-09-22. Candidate row for the 2026-09-22 verification request - collated 2026-09-23 (collate=match; the earlier collate=pending is closed). Prece",
     "ln": 581
    }
   ],
@@ -34499,7 +34499,7 @@
    }
   ],
   "runCount": 1512,
-  "seconds": 582.457,
+  "seconds": 609.599,
   "note": "格子 = 系 3 × θ* 7 × k∈{0,1} × λ 3 × η(k=1 のみ)3 × dt 2 段 × 100 公転。各行は基準 + 小摂動 ±1° の 3 本。**k は口座の有無であって kFrame ではない**"
  },
  "stage4": {
