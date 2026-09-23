@@ -2389,13 +2389,22 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 
 ### 10.1 `physics.relativeDrag` —— 相対すべりの零条件を持つ引きずり則
 
-- **正準形**: `{law:"pairSlip", kappa:<0〜1>, pairs:"all"|[[i,j],…], spins:"declared"}`。
+- **正準形**: `{law:"pairSlip", kappa:<0〜1>, pairs:"all"|[[i,j],…], spins:"declared"[, integration:"midpoint"]}`。
   - `law` は **`"pairSlip"` のみ**(他は致命拒否)。
   - `kappa` は **0〜1 の有限数**。**`kappa:0` は「宣言したが用量 0」として正準形に残す**
     (= 否定対照の宣言。署名は未宣言と別になる)。
   - `pairs` は省略・`null`・`"all"` が「全対」。配列で書くときは **0 以上の相異なる整数 2 つの配列の配列**で、
     **空配列は致命拒否**(対を 1 つも指さないなら宣言しない)。小さい方を先に正規化する。
   - `spins` は **`"declared"` のみ**(自転は宣言値 `S.spin` を読む。測定値から作らない)。
+  - **第278便b**: `pairs` は正規化後の**重複を致命拒否**する(`[[0,1],[1,0]]` は同じ対を 2 度当てる宣言)。
+  - **第278便b(統括の検証項目 R54)**: `integration` は省略・`null`・`"explicit"` が**従来の陽的経路**(**正準形に出ない** = 署名不変)、
+    **`"midpoint"` が陰的中点法**(opt-in)。それ以外の文字列は致命拒否。中点法は**単一対・正の質量/半径(= 正の慣性 I=½mR²)**に限り、
+    `pairs` が 2 対以上・`pairs:"all"` で 3 体以上・single 以外の天体・質量/半径が 0 以下は**受理時に致命拒否**する。
+    走行中に同じ条件(有限・分離した対を含む)が崩れたら、外部ステップは**状態を 1 bit も変えずに `RangeError` を投げる**(黙って陽的へ落とさない)。
+    位置を固定した散逸ステップで中点すべり s̄=(s_old+s_new)/2 を使うので **ΔE=−A|s̄_i|²−B|s̄_j|²≤0 が厳密**(式は docs/PHYSICS.md 〔第278便b〕)。
+    `integrator:"leapfrog"` のプリセットでは散逸半歩 → 重力の KDK → 散逸半歩の**対称分割**、semi では従来どおり步末に 1 回 dt。
+  - **陽的経路の `S.relDragPos` は「ΔE>0 になった步を数える」だけ**である(**拒否機構ではない** —— 第278便b で明記)。
+    刻みが粗いと熱が負になりうる経路で、それを避けたいときに `integration:"midpoint"` を宣言する。
 - **意味**: 対ごとの相対すべり s_i=v−ω_i×r・s_j=v−ω_j×r が 0 でないときだけ、
   運動量インパルスと自転トルクを当てる **`S._core` の外**の外部ステップ(`dfmRelativeDragStep`)を開ける。
   **`kFrame` は 0/1 の二値のままで、この鍵はそれを 1 文字も書き換えない。**
@@ -2408,8 +2417,10 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 - **注意(実装者向け)**: 反トルクの受け皿は自転(I=½mR²)である。
   **I が極端に小さい試験粒子級の粒を `pairs:"all"` に含めると自転が暴走する** ——
   小衛星のような粒を足すときは `pairs` で主対に絞ること(第277便b の記録された否定対照)。
-- **内蔵の宣言**: **1 本**(⛄ `plutoCharonDFM`)。
+- **内蔵の宣言**: **1 本**(⛄ `plutoCharonDFM` —— 第278便b から `integration:"midpoint"`+プリセット直下の `integrator:"leapfrog"`)。
+- **帳簿の読み口(第278便b)**: `S.totals()` は物質+コアだけを返す(変えていない)。器と QA は **resPx/resPy/resL/radL を読み口の側で 1 回だけ足す**。
 - QA: **`behavior.relativeDragLaw`**(純関数の零条件・否定対照・保存・NS 延長の否定対照)/
+  **`behavior.relativeDragMidpoint`**(第278便b: 最小対照で陽的の熱 −0.24505 を再現し中点法は +1.92×10⁻⁶・9 条件で熱非負・零条件・拒否 3 系統)/
   **`behavior.plutoCharonDFM`**(エンジンの零条件・対照との差・帳簿・決定性)。
 
 ### 10.2 `physics.massPrecision` —— 質量配列の倍精度化(opt-in)

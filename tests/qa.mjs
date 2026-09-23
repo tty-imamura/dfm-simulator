@@ -1979,6 +1979,8 @@ const add = (id, pass, detail) => {
       // 第277便b(第67報 (1)): 同一観測解の冥王星–カロン(入力の監査・則の純関数検定・
       //   エンジン実測 2 本 × 3 段 + 1 次外挿・系列・要因表 v2。target=beta/index.html)
       'tests/out/charondfm-w277b.json',
+      // 第278便b(R53・R54): 中点法の検定と、カロン周期の 4 構成 × 3 刻み・第 2〜第 6 周の時間窓
+      'tests/out/charonwin-w278b.json',
       // 第277便a(第67報 (1)・統括の検証項目 R47): 冥王星系の状態ファイルの整合検査と「別の量」の
       //   診断(**エンジン未接続** —— target は器が読む正本 CSV `paper/data/pluto-system-states.csv`)
       'tests/out/plutostates-w277a.json',
@@ -15235,8 +15237,11 @@ if (!FAST) {
 // ----     ③ 否定対照: 片側の自転を 0 にするとキックが立つ(> 0)
 // ----     ④ 帳簿: 運動量相対残差・J_z 相対残差・|ΔE+熱| 相対残差が閾値内で、熱は非負(Q̇≥0)
 // ----     ⑤ 対照(🌨️)の dt 収束: 3 段の同方向1周が 1e-5 相対で一致する(則が無い側は収束する)
-// ----     ⑥ **正式判定は門(3σ)のとおり**: 2 本とも観測 σ に対して |nσ|>3 = 否(3σ)である
-// ----        (**「較正完了」「観測一致」とは書かない** —— 判定の語は門が返す 3 つだけ)
+// ----     ⑥ 第278便b(統括の検証項目 R53・AM16): **観測検定欄は「判定保留(量定義不一致)」**。
+// ----        2 本は同一暦 PLU060 の入力なので Buie 2012 の σ で判定しない —— 差と σ 倍は**比較値**として
+// ----        表示するだけで、obsCard/failureFirst(ja/en)に「否(3σ)」の語が 1 つも無いこと・状態語が
+// ----        あることを固定する(**「較正完了」「観測一致」とは書かない**)
+// ----     ⑥b 第278便b(R54): ⛄ は integrator:"leapfrog"+relativeDrag.integration:"midpoint"・🌨️ は leapfrog
 // ----     ⑦ 決定性(同一構成 2 回はビット同一)・NaN ゼロ・クランプ 0
 // ----   第277便b 未適用の対象(root 等)は SKIP する ----
 {
@@ -15265,6 +15270,10 @@ if (!FAST) {
           sc: S.params.stateCarry, mp: S.massPrec, sp: S.spinPrec,
           mF64: S.m instanceof Float64Array, spF64: S.spin instanceof Float64Array,
           hasRD: !!S.hasRelativeDrag, kappa: S.relDrag ? S.relDrag.kappa : null,
+          integ: S.integrator, integration: S.relDrag ? (S.relDrag.integration || 'explicit') : null,
+          // 第278便b: 観測検定欄の状態語(obsCard・failureFirst の ja/en を 1 本の文字列で見る)
+          cardJa: JSON.stringify([p.obsCard, p.failureFirst]),
+          cardEn: JSON.stringify([(p.en || {}).obsCard, (p.en || {}).failureFirst]),
           eps: S.params.softening, cls: p.sampleClass, fid: p.fidelity,
           fam: p.familyId, role: p.familyRole, emoji: p.emoji,
           bodies: JSON.stringify(p.bodies) };
@@ -15325,19 +15334,17 @@ if (!FAST) {
         const P0 = 551855.8944 / 10;      // PLU060 400 年平均(単位時間)
         const maxSteps = Math.ceil((orbits + 0.2) * P0 / dt);
         const rev = [];
-        let ang = 0, prev = Math.atan2(S.y[oi] - S.y[ci], S.x[oi] - S.x[ci]), cmMax = 0;
+        // 第278便b: 周は初期方向に対する位相 φ=atan2(r₀×r, r₀·r) の負→非負で数える
+        // (角度の足し込みは丸めが揃って周期に段差を作る — 器 exp-w278b-charonwin.mjs の実測)
+        const r0x = S.x[oi] - S.x[ci], r0y = S.y[oi] - S.y[ci];
+        let phPrev = 0, cmMax = 0;
         let k = 0;
         for (; k < maxSteps && rev.length < orbits; k++) {
           S.step(dt);
-          const th = Math.atan2(S.y[oi] - S.y[ci], S.x[oi] - S.x[ci]);
-          let d = th - prev; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI;
-          const p0 = ang; ang += d; prev = th;
-          const n0 = Math.floor(Math.abs(p0) / (2 * Math.PI)), n1 = Math.floor(Math.abs(ang) / (2 * Math.PI));
-          if (n1 > n0) {
-            const tg = Math.sign(ang) * n1 * 2 * Math.PI;
-            const fr = (ang !== p0) ? (tg - p0) / (ang - p0) : 0;
-            rev.push((k - 1 + fr) * dt);
-          }
+          const dx = S.x[oi] - S.x[ci], dy = S.y[oi] - S.y[ci];
+          const ph = Math.atan2(r0x * dy - r0y * dx, r0x * dx + r0y * dy);
+          if (phPrev < 0 && ph >= 0) rev.push((k + (0 - phPrev) / (ph - phPrev)) * dt);
+          phPrev = ph;
           if ((k & 1023) === 0) {
             const cx = (S.m[ci] * S.x[ci] + S.m[oi] * S.x[oi]) / MT;
             const cy = (S.m[ci] * S.y[ci] + S.m[oi] * S.y[oi]) / MT;
@@ -15391,7 +15398,11 @@ if (!FAST) {
     const pOf = (run) => (run && run.revP && run.revP.length >= 2) ? sec(run.revP[1]) : NaN;
     const pDfm = pOf(r.runDfm), pCtl = pOf(r.ctlStages[0]), pCtl2 = pOf(r.ctlStages[1]);
     const sigDfm = (pDfm - OBSV) / OBSS, sigCtl = (pCtl - OBSV) / OBSS;
-    const gate = (ns) => (!Number.isFinite(ns) ? '保留(測定不能)' : (Math.abs(ns) <= 3 ? '合(3σ)' : '否(3σ)'));
+    // 第278便b(R53): 観測検定欄は門を掛けない —— 状態語は「判定保留(量定義不一致)」、σ 倍は比較値
+    const OBS_STATUS = '判定保留(量定義不一致)';
+    const cardOk = !!d && !!c && [d.cardJa, c.cardJa].every((t) => t.indexOf('否(3σ)') < 0 && t.indexOf(OBS_STATUS) >= 0)
+      && [d.cardEn, c.cardEn].every((t) => !/FAIL \(3 sigma\)/.test(t) && /VERDICT WITHHELD \(QUANTITY-DEFINITION MISMATCH\)/.test(t));
+    const integOk = !!d && !!c && d.integ === 'leapfrog' && c.integ === 'leapfrog' && d.integration === 'midpoint' && c.integration === null;
     const ctlConv = Number.isFinite(pCtl) && Number.isFinite(pCtl2) && Math.abs(pCtl / pCtl2 - 1) < 1e-5;
     const ledgerOk = r.runDfm && r.ctlStages[0]
       && r.runDfm.Prel < 1e-10 && r.runDfm.Lrel < 1e-8 && r.runDfm.Eclose < 1e-6
@@ -15401,16 +15412,18 @@ if (!FAST) {
       && r.runDfm.clamp.every((v) => v === 0) && r.ctlStages[0].clamp.every((v) => v === 0);
     add('behavior.plutoCharonDFM',
       declOk && zeroOk && negOk && ledgerOk && ctlConv && r.twiceDfm && r.twiceCtl
-      && Number.isFinite(pDfm) && Number.isFinite(pCtl),
+      && cardOk && integOk && Number.isFinite(pDfm) && Number.isFinite(pCtl),
       `宣言=${declOk}(L5/T1/M24・κ=G/c₀²・kFrame=0・massPrecision=double で m が Float64・`
       + `⛄ だけ relativeDrag κ=${d && d.kappa}〔自転も Float64〕・**2 本の bodies は 1 bit 同じ**) / `
       + `**零条件**: 相互同期した円軌道で s=0・キック=${z && z.kickMag}・トルク=${z && z.torqueI}・`
       + `ΔL_z=${z && z.dL}・熱=${z && z.heat}(**厳密に 0**) / `
       + `否定対照(片側の自転 0): すべり=${ng && ng.slipI.toExponential(3)}・キック=${ng && ng.kickMag.toExponential(3)}・`
       + `トルク=${ng && ng.torqueI.toExponential(3)}・J_z 相対残差=${ng && ng.dLrel.toExponential(2)} / `
-      + `**正式判定は門のとおり** ⛄ ${Number.isFinite(pDfm) ? pDfm.toFixed(3) : '—'} s(${sigDfm.toFixed(2)}σ・${gate(sigDfm)})・`
-      + `🌨️ ${Number.isFinite(pCtl) ? pCtl.toFixed(3) : '—'} s(${sigCtl.toFixed(2)}σ・${gate(sigCtl)})`
-      + `〔観測 ${OBSV}±${OBSS} s・Buie 2012〕/ `
+      + `積分器 ⛄ ${d && d.integ}+${d && d.integration}・🌨️ ${c && c.integ}(第278便b)=${integOk} / `
+      + `**観測検定欄は「${OBS_STATUS}」**(obsCard/failureFirst の ja/en に「否(3σ)」0・状態語あり=${cardOk})—— `
+      + `比較値(門ではない)⛄ ${Number.isFinite(pDfm) ? pDfm.toFixed(3) : '—'} s(${sigDfm.toFixed(2)}σ)・`
+      + `🌨️ ${Number.isFinite(pCtl) ? pCtl.toFixed(3) : '—'} s(${sigCtl.toFixed(2)}σ)`
+      + `〔Buie 2012 ${OBSV}±${OBSS} s〕/ `
       + `対照の dt 収束=${ctlConv}(h と h2 が 1e-5 相対で一致) / `
       + `帳簿 ⛄ P=${r.runDfm && r.runDfm.Prel.toExponential(2)}・J_z=${r.runDfm && r.runDfm.Lrel.toExponential(2)}・`
       + `|ΔE+熱|=${r.runDfm && r.runDfm.Eclose.toExponential(2)}・熱=${r.runDfm && r.runDfm.heat.toExponential(3)}(Q̇<0 の步 ${r.runDfm && r.runDfm.heatPos}) / `
@@ -15640,6 +15653,171 @@ if (!FAST) {
       + `零条件は厳密 0・否定対照 ${rows.length} 行すべてでキックが立つ / 禁止語 0 / `
       + `html の ⛄🌨️ の bodies は lib の射影・重心配分と 1e-12 未満で一致`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 8c3f) 第278便b(統括の検証項目 R54): behavior.relativeDragMidpoint ----
+// ----   `physics.relativeDrag.integration:"midpoint"`(**陰的中点法の opt-in**)を固定する。
+// ----     ① 無次元の最小対照(G=1・m 0.5/0.5・間隔 1・接線相対速度 1・ω=0・R=0.01・κ=1・W₀=ε=0・h=0.01):
+// ----        陽的経路は 機械 E +0.24505・熱 −0.24505・ω 0→100 を**再現**し(否定対照)、中点法は
+// ----        熱 +1.92×10⁻⁶・|機械 E+熱| ≤1e-16・P と J_z の残差 <1e-14(純関数 lib-w278b-midpoint)
+// ----     ② R=0.01/0.1/1 × h=1e−4/1e−2/1 の 9 条件で**熱は非負**・|機械 E+熱| ≤1e-16
+// ----     ③ 零条件(相互同期した円軌道)で中点法もキック・トルク・熱が **0 そのもの**
+// ----     ④ 拒否(状態不変): 純関数で零慣性・多対・零質量・r=0 / 受理契約で重複対・不正な integration・
+// ----        零慣性の中点法 / エンジンの步で零慣性は RangeError・状態 1 bit 不変
+// ----     ⑤ エンジン(`HP.dfmRelativeDragStep`)の中点法が純関数と 1e-6 相対で一致・読み口
+// ----        `relativeDragProbe` は状態を動かさない・"explicit" は正準形に出ない
+// ----   第278便b 未適用の対象(root 等)は SKIP する ----
+{
+  let LM = null, L7 = null;
+  try { LM = await import('file://' + path.join(ROOT, 'tests/lib-w278b-midpoint.mjs')); } catch (e) { LM = null; }
+  try { L7 = await import('file://' + path.join(ROOT, 'tests/lib-w277b-charondfm.mjs')); } catch (e) { L7 = null; }
+  const hasMid = await page.evaluate(() => typeof HP.relativeDragMidpointSolve === 'function'
+    && HP.allPresets().some((q) => q.id === 'plutoCharonDFM'));
+  if (!LM || !L7 || !hasMid) {
+    console.log('SKIP behavior.relativeDragMidpoint(第278便b の中点法なし — root 等)');
+  } else {
+    const bad = [];
+    const MIN = { G: 1, dt: 0.01, kappa: 1, eps: 0, W0: 0 };
+    const one = (fn, R, h) => { const s = LM.minimalPair({ R }); const a = L7.totalsOf(s);
+      const r = fn(s, Object.assign({}, MIN, { dt: h })); const b = L7.totalsOf(s);
+      return { dE: b.E - a.E, heat: r.heat, err: (b.E - a.E) + r.heat, dP: Math.hypot(b.px - a.px, b.py - a.py),
+        dLrel: Math.abs(b.L - a.L) / Math.abs(a.L), spin: s.spin.slice() }; };
+    const ex = one(L7.pairSlipStep, 0.01, 0.01), mp = one(LM.pairSlipMidpointStep, 0.01, 0.01);
+    if (!(Math.abs(ex.dE - 0.24505) < 1e-12 && Math.abs(ex.heat + 0.24505) < 1e-12 && Math.abs(ex.spin[0] - 100) < 1e-9))
+      bad.push('①陽的経路の否定対照(E +0.24505・熱 −0.24505・ω 100)を再現しない');
+    if (!(mp.heat > 1.90e-6 && mp.heat < 1.94e-6 && Math.abs(mp.err) <= 1e-16 && mp.dP < 1e-14 && mp.dLrel < 1e-14))
+      bad.push('①中点法の熱 1.92e-6・帳簿が閾値外');
+    const nine = [];
+    for (const R of [0.01, 0.1, 1]) for (const h of [1e-4, 1e-2, 1]) nine.push(Object.assign({ R, h }, one(LM.pairSlipMidpointStep, R, h)));
+    if (!nine.every((z) => z.heat >= 0 && Math.abs(z.err) <= 1e-16 && z.dP < 1e-14 && z.dLrel < 1e-14)) bad.push('②9 条件のどこかで熱が負か帳簿が閾値外');
+    const sp = L7.syncCircularPair({ m1: 0.5, m2: 0.5, a: 1, G: 1, R1: 0.01, R2: 0.01 });
+    const zs = { m: sp.m.slice(), x: sp.x.slice(), y: sp.y.slice(), vx: sp.vx.slice(), vy: sp.vy.slice(), spin: sp.spin.slice(), R: sp.R.slice() };
+    const zb = JSON.stringify(zs); const zr = LM.pairSlipMidpointStep(zs, MIN);
+    if (!(zr.kickMax === 0 && zr.torqueMax === 0 && zr.heat === 0 && JSON.stringify(zs) === zb)) bad.push('③零条件が 0 そのものでない');
+    const rej = (mut) => { const s = LM.minimalPair({}); mut(s); const b0 = JSON.stringify(s); let isRE = false;
+      try { LM.pairSlipMidpointStep(s, MIN); } catch (e) { isRE = e instanceof RangeError; } return isRE && JSON.stringify(s) === b0; };
+    const pureRej = [rej((s) => { s.R[0] = 0; }), rej((s) => { s.m.push(0.1); s.x.push(3); s.y.push(0); s.vx.push(0); s.vy.push(0); s.spin.push(0); s.R.push(0.01); }),
+      rej((s) => { s.m[1] = 0; }), rej((s) => { s.x[1] = s.x[0]; })];
+    if (!pureRej.every(Boolean)) bad.push('④純関数の拒否(零慣性・多対・零質量・r=0)のどれかが状態を変えたか拒否しない');
+    const eng = await page.evaluate(() => {
+      const make = (integration, R) => {
+        const p = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'plutoCharonDFM')));
+        if (integration) p.physics.relativeDrag.integration = integration; else delete p.physics.relativeDrag.integration;
+        const v = HP.validatePreset(p); HP.sim.build(v.preset); const S = HP.sim;
+        S.params.G = 1; S.params.softening = 0; S.m[0] = 0.5; S.m[1] = 0.5; S.R[0] = R; S.R[1] = R;
+        S.x[0] = -0.5; S.x[1] = 0.5; S.y[0] = 0; S.y[1] = 0; S.vx[0] = 0; S.vx[1] = 0; S.vy[0] = -0.5; S.vy[1] = 0.5;
+        S.spin[0] = 0; S.spin[1] = 0; S.relDragHeat = 0; S.relDragPos = 0; return S; };
+      const E = (S) => { let e = 0; for (let i = 0; i < 2; i++) { const I = 0.5 * S.m[i] * S.R[i] * S.R[i];
+        e += 0.5 * S.m[i] * (S.vx[i] * S.vx[i] + S.vy[i] * S.vy[i]) + 0.5 * I * S.spin[i] * S.spin[i]; } return e; };
+      const snap = (S) => JSON.stringify([S.vx[0], S.vx[1], S.vy[0], S.vy[1], S.spin[0], S.spin[1], S.relDragHeat]);
+      const o = {};
+      let S = make('midpoint', 0.01); const e0 = E(S); const s0 = snap(S);
+      HP.relativeDragProbe(S, 0, 1, 0.01); o.probeReadOnly = snap(S) === s0;
+      HP.dfmRelativeDragStep(S, 0.01); o.midHeat = S.relDragHeat; o.midErr = E(S) - e0 + S.relDragHeat; o.midPos = S.relDragPos;
+      S = make(null, 0.01); const e1 = E(S); HP.dfmRelativeDragStep(S, 0.01);
+      o.exHeat = S.relDragHeat; o.exPos = S.relDragPos; o.exDE = E(S) - e1;
+      S = make('midpoint', 0.01); S.R[0] = 0; const s2 = snap(S); let re = false;
+      try { HP.dfmRelativeDragStep(S, 0.01); } catch (e) { re = e instanceof RangeError; }
+      o.engineReject = re && snap(S) === s2;
+      const base = () => JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'plutoCharonDFM')));
+      let p = base(); delete p.physics.relativeDrag.integration; p.physics.relativeDrag.pairs = [[0, 1], [1, 0]];
+      o.dupRejected = !HP.validatePreset(p).ok;
+      p = base(); p.physics.relativeDrag.integration = 'rk4'; o.badIntegRejected = !HP.validatePreset(p).ok;
+      p = base(); p.bodies[0].radius = 0; o.zeroInertiaRejected = !HP.validatePreset(p).ok;
+      p = base(); p.physics.relativeDrag.integration = 'explicit'; let v = HP.validatePreset(p);
+      o.explicitDropped = v.ok && v.preset.physics.relativeDrag.integration === undefined;
+      p = base(); v = HP.validatePreset(p); o.midKept = v.ok && v.preset.physics.relativeDrag.integration === 'midpoint';
+      HP.loadPreset('saturn', false);
+      return o;
+    });
+    if (!(Math.abs(eng.midHeat / mp.heat - 1) < 1e-6 && Math.abs(eng.midErr) <= 1e-16 && eng.midPos === 0))
+      bad.push('⑤エンジンの中点法が純関数と一致しない');
+    if (!(eng.exPos === 1 && eng.exHeat < -0.24 && eng.exDE > 0.24)) bad.push('⑤エンジンの陽的経路が否定対照(熱 −0.245・relDragPos 1)を再現しない');
+    if (!eng.probeReadOnly) bad.push('⑤読み口が状態を動かした');
+    if (!eng.engineReject) bad.push('④エンジンの步で零慣性を状態不変で拒否しない');
+    if (!(eng.dupRejected && eng.badIntegRejected && eng.zeroInertiaRejected)) bad.push('④受理契約の拒否 3 種のどれかが通る');
+    if (!(eng.explicitDropped && eng.midKept)) bad.push('⑤"explicit" が正準形に出るか midpoint が落ちる');
+    add('behavior.relativeDragMidpoint', bad.length === 0,
+      `**陰的中点法 opt-in**(第278便b・R54): 最小対照 h=0.01 で **陽的 機械 E ${ex.dE.toFixed(5)}・熱 ${ex.heat.toFixed(5)}・ω→${ex.spin[0].toFixed(1)}**`
+      + `(否定対照を再現)/ **中点法 熱 ${mp.heat.toExponential(3)}**・|E+熱| ${Math.abs(mp.err).toExponential(1)}・ΔP ${mp.dP}・J_z 相対 ${mp.dLrel} / `
+      + `9 条件(R 0.01/0.1/1 × h 1e-4/1e-2/1)で熱は全件非負・|E+熱| ≤${Math.max(...nine.map((z) => Math.abs(z.err))).toExponential(2)} / `
+      + `零条件でキック・トルク・熱 0 / 拒否(状態不変): 純関数 4 種・受理契約 3 種(重複対・不正な integration・零慣性)・エンジンの步(RangeError) / `
+      + `エンジン中点法の熱 ${eng.midHeat.toExponential(6)}(純関数と一致)・読み口は読み取り専用・"explicit" は正準形に出ない`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.join(' , ')}` : ''));
+  }
+}
+
+// ---- 8c3g) 第278便b(統括の検証項目 R53・AM16): docs.charonTwoColumns — 2 欄・状態語・比較値(fs のみ)----
+// ----   正本 `tests/out/charondfm-w277b.json`(版 w278b-1)と `tests/out/charonwin-w278b.json` について
+// ----     ① 来歴(w272e-1・64 桁)・器の版(w278b-1 / w278b-charonwin-2)・旧値の history(w277b)が残る
+// ----     ② 欄 (1) 暦の再現は PLU060・Horizons PR A/B の 3 行で「合否なし」、欄 (2) 観測検定の状態語は
+// ----        「判定保留(量定義不一致)」で σ 倍は比較値
+// ----     ③ Buie 二体再現(転写・積分器の試験)は軟化の解析値に対して |差| <1e-4 s(dt 0.04・geoPN 0)
+// ----     ④ 4 構成 × 3 刻みの表があり、中点法と leapfrog 対照の刻み半減差が 1e-4 s 未満
+// ----     ⑤ html の ⛄ obsCard の「+32.143 s」「+1219.1σ」が正本の値(小数 3 桁/1 桁)と一致
+// ----     ⑥ html の ⛄🌨️ に「否(3σ)」が 0 個・禁止語 0(正本・台帳 §5.29)
+// ----   正本か ⛄ の中点法宣言が無い対象は SKIP する ----
+{
+  let J = null, W = null;
+  try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests/out/charondfm-w277b.json'), 'utf8')); } catch (e) { J = null; }
+  try { W = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests/out/charonwin-w278b.json'), 'utf8')); } catch (e) { W = null; }
+  const html2 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const segA = html2.indexOf('{ id:"plutoCharonDFM"'), segB = html2.indexOf('{ id:"uranusReal"');
+  const seg = (segA >= 0 && segB > segA) ? html2.slice(segA, segB) : '';
+  if (!J || !W || !seg.includes('integration:"midpoint"')) {
+    console.log('SKIP docs.charonTwoColumns(第278便b の正本か ⛄ の中点法宣言が無い — root 等)');
+  } else {
+    const bad = [];
+    const OBS_STATUS = '判定保留(量定義不一致)';
+    for (const [nm, X, ver] of [['charondfm', J, 'w278b-1'], ['charonwin', W, 'w278b-charonwin-2']]) {
+      const m = X.meta || {};
+      if (m.provenanceVersion !== 'w272e-1' || !/^[0-9a-f]{64}$/.test(String(m.targetSha256 || ''))) bad.push(`①${nm} の来歴が w272e-1/64 桁でない`);
+      if (m.harness !== ver) bad.push(`①${nm} の器の版が ${ver} でない`);
+    }
+    const hist = ((J.history || {}).w277b || {}).columns || {};
+    const hOld = ((hist.plutoCharonDFM || {}).h || {}).periodSec;
+    if (!(Math.abs(hOld - 551866.888) < 0.001)) bad.push('①旧構成(semi+陽的)の h=551866.888 s が history に無い');
+    const tc = J.twoColumns || {};
+    for (const id of ['plutoCharonDFM', 'plutoCharonKF0Control']) {
+      const c = tc[id] || {};
+      const al = c.almanac || [];
+      if (al.length !== 3 || !al.every((z) => Number.isFinite(z.ppm) && /合否なし/.test(z.verdict))) bad.push(`②${id} の暦の再現欄が 3 行・合否なしでない`);
+      if (!c.observation || c.observation.status !== OBS_STATUS || !Number.isFinite(c.observation.comparisonSigma)) bad.push(`②${id} の観測検定欄の状態語/比較値がない`);
+    }
+    const bt = (tc.buieTwoBody || []).find((z) => z.geoPN === 0 && z.stage === 'h4');
+    if (!bt || !(Math.abs(bt.vsSoftenedSec) < 1e-4)) bad.push('③Buie 二体再現が軟化の解析値から 1e-4 s 以上ずれる');
+    const g = (W.tables || {}).grid || {};
+    if (!['kf0Semi', 'dfmSemi', 'kf0Leap', 'dfmMid'].every((k) => g[k] && ['h', 'h2', 'h4'].every((s2) => Number.isFinite(g[k][s2]))))
+      bad.push('④4 構成 × 3 刻みの表が欠ける');
+    else if (!(Math.abs(g.dfmMid.halvingDiffH2H4) < 1e-4 && Math.abs(g.kf0Leap.halvingDiffH2H4) < 1e-4)) bad.push('④中点法/leapfrog の刻み半減差が 1e-4 s 以上');
+    const st = (W.tables || {}).stationary || {};
+    if (['定常周期と呼べる', '過渡を含む'].indexOf(st.verdict) < 0) bad.push('④時間窓の判定語が無い');
+    const dfm = tc.plutoCharonDFM || {};
+    const plu = (dfm.almanac || []).find((z) => z.key === 'plu060-mean400');
+    const wantPlu = plu ? '+' + plu.diffSec.toFixed(3) + ' s' : '(none)';
+    const wantSig = dfm.observation ? '+' + dfm.observation.comparisonSigma.toFixed(1) + 'σ' : '(none)';
+    const card = (seg.match(/obsCard:\[[\s\S]*?\]\s*,\s*\n\s*failureFirst/) || [''])[0];
+    if (card.indexOf(wantPlu) < 0) bad.push(`⑤⛄ obsCard に正本の暦差 ${wantPlu} が無い`);
+    if (card.indexOf(wantSig) < 0) bad.push(`⑤⛄ obsCard に正本の比較値 ${wantSig} が無い`);
+    const nFail = (seg.match(/否\(3σ\)/g) || []).length;
+    if (nFail) bad.push(`⑥⛄🌨️ に「否(3σ)」が ${nFail} 個ある`);
+    const FORBID = ['較正完了', '較正を完了', '観測一致', '較正した', 'kF0 版が成立', '引きずり消失を確認', '判定が増えた'];
+    const scanJ = JSON.parse(JSON.stringify(J)); if (scanJ.meta) delete scanJ.meta.doNotWrite;
+    const scanW = JSON.parse(JSON.stringify(W)); if (scanW.meta) delete scanW.meta.doNotWrite;
+    let verdictDoc = '';
+    try { verdictDoc = fs.readFileSync(path.join(ROOT, 'docs/CALIBRATION_VERDICT_v1.44.md'), 'utf8'); } catch (e) { verdictDoc = ''; }
+    const s529 = (verdictDoc.match(/### 5\.29 [\s\S]*?(?=\n### 5\.3\d|\n## |$)/) || [''])[0];
+    if (!s529 || s529.indexOf(OBS_STATUS) < 0) bad.push('⑥台帳 §5.29 が無いか状態語が無い');
+    for (const w of FORBID) for (const [nm, t] of [['charondfm', JSON.stringify(scanJ)], ['charonwin', JSON.stringify(scanW)], ['§5.29', s529], ['⛄🌨️', seg]])
+      if (t.includes(w)) bad.push(`⑥禁止語「${w}」が ${nm} にある`);
+    add('docs.charonTwoColumns', bad.length === 0,
+      `**2 欄**(AM16): 欄 (1) 暦の再現 ⛄ ${wantPlu}(${plu ? plu.ppm.toFixed(2) : '—'} ppm・PLU060 400 年平均・合否なし)/ `
+      + `欄 (2) 観測検定 **「${OBS_STATUS}」**・比較値 ${wantSig}(門ではない)/ `
+      + `Buie 二体再現(転写・積分器の試験)軟化の解析値との差 ${bt ? bt.vsSoftenedSec.toExponential(2) : '—'} s / `
+      + `4 構成 × 3 刻み: 中点法の刻み半減差 ${g.dfmMid ? g.dfmMid.halvingDiffH2H4.toExponential(2) : '—'} s・leapfrog 対照 ${g.kf0Leap ? g.kf0Leap.halvingDiffH2H4.toExponential(2) : '—'} s / `
+      + `時間窓の判定「${st.verdict}」/ 旧構成の履歴 h=${Number.isFinite(hOld) ? hOld.toFixed(3) : '—'} s / ⛄🌨️ の「否(3σ)」${nFail} 個・禁止語 0`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
   }
 }
 
