@@ -251,9 +251,14 @@ if (after.solar.round4 !== DECLARED_ROUND4)
   bad.push(`太陽系で ${ROUND_TAG} を持つ行が ${after.solar.round4}(宣言は ${DECLARED_ROUND4})`);
 if (after.solar.round4Verified !== after.solar.round4)
   bad.push(`第 4 回の行のうち verified が ${after.solar.round4Verified}(全行のはず)`);
-if (after.solar.verified - BEFORE.solar.verified !== VERIFIED_NEW.length)
+// 第278便a(第 5 回)で verified になった行(`confirmation_round=5`・新規行を含む)はこの便の増分ではないので分けて数える。
+const round5NewVerified = CSV[SOLAR_F].filter((r) =>
+  /(?:^|[^A-Za-z0-9_])confirmation_round=5\b/.test(r.note)
+  && readSigmaMark(r.note).verified).length;
+after.solar.round5Verified = round5NewVerified;   // 第278便a: QA `docs.confirm4-sync` ⑥ が同じ数を引く
+if (after.solar.verified - BEFORE.solar.verified - round5NewVerified !== VERIFIED_NEW.length)
   bad.push(`太陽系の verified の増分が ${after.solar.verified - BEFORE.solar.verified}`
-    + `(宣言は ${VERIFIED_NEW.length} —— X7 欄を埋めただけの 6 行は印を動かさない)`);
+    + `(宣言は ${VERIFIED_NEW.length} + 第 5 回の ${round5NewVerified} —— X7 欄を埋めただけの 6 行は印を動かさない)`);
 if (after.solar.x7Warn !== 0) bad.push(`X7 警告が ${after.solar.x7Warn} 行残っている(0 のはず)`);
 for (const k of ['cluster', 'transient']) {
   if (after[k].verified !== BEFORE[k].verified)

@@ -389,10 +389,18 @@ for (const r of CSV[SOLAR_F]) {
   if (!readSigmaMark(r.note).verified) continue;
   round4Verified++;
 }
-if (after.solar.verified - round3Verified - round4Verified - BEFORE.solar.verified
+// 第278便a: **第 5 回の確認記録**(`confirmation_round=5` —— 確認依頼 第 5 回の回答・新規行を含む)で
+// verified になった行も、同じ理由でこの増分に数えない(第 5 回の突き合わせは `docs.intakeD` が数える)。
+let round5Verified = 0;
+for (const r of CSV[SOLAR_F]) {
+  if (!/(?:^|[^A-Za-z0-9_])confirmation_round=5\b/.test(r.note)) continue;
+  if (!readSigmaMark(r.note).verified) continue;
+  round5Verified++;
+}
+if (after.solar.verified - round3Verified - round4Verified - round5Verified - BEFORE.solar.verified
   !== CONFIRM2.filter((d) => d.file === SOLAR_F).length - 5)
   bad.push('太陽系 CSV の verified の増分が宣言と合わない(既に verified だった 5 行と'
-    + `第 3 回で上がった ${round3Verified} 行・第 4 回で上がった ${round4Verified} 行を除く)`);
+    + `第 3 回で上がった ${round3Verified} 行・第 4 回で上がった ${round4Verified} 行・第 5 回で上がった ${round5Verified} 行を除く)`);
 // **外部確認印だけで verified になっている行は 1 つも無い**(Z11 —— 第266便a と同じ検査)
 const externalOnlyVerified = [];
 for (const f of [SOLAR_F, CLUSTER_F, TRANSIENT_F]) for (const r of CSV[f]) {

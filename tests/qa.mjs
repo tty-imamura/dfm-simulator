@@ -1483,9 +1483,12 @@ const add = (id, pass, detail) => {
       bad.push(`⑥基点の X7 警告が 6 でない(${((cen.before || {}).solar || {}).x7Warn})`);
     if (((cen.after || {}).solar || {}).x7Warn !== 0)
       bad.push(`⑥本便後の X7 警告が 0 でない(${((cen.after || {}).solar || {}).x7Warn})`);
+    // 第278便a: 第 5 回(`confirmation_round=5`)で verified になった行(器が `after.solar.round5Verified` に数える・
+    //   旧世代の正本には無いので 0)はこの便の増分ではない
     if (((cen.after || {}).solar || {}).verified
-      - ((cen.before || {}).solar || {}).verified !== EXPECT['verified-new'])
-      bad.push('⑥太陽系の verified の増分が 3 でない(X7 欄を埋めた 6 行は印を動かさない)');
+      - ((cen.before || {}).solar || {}).verified
+      - (((cen.after || {}).solar || {}).round5Verified || 0) !== EXPECT['verified-new'])
+      bad.push('⑥太陽系の verified の増分が 3 でない(X7 欄を埋めた 6 行と第 5 回で上がった行は印を動かさない)');
     if ((cen.externalOnlyVerified || []).length)
       bad.push('⑥外部確認印だけで verified になっている行がある');
     // ⑦ AE7(171〜173 の中立表現)
