@@ -588,6 +588,9 @@ _scratch-*.log
 #   **「較正を完了した」「観測と一致した」「残差がゼロになる ε・a・f を採用した」とは書かない**
 #   (どれも本便はしていない)。判定の語は門が返す 合/否/保留 の 3 つだけである。
 !tests/out/charondfm-w277b.json
+# 第278便b(R53・R54): 陰的中点法の検定と、カロン周期の 4 構成 × 3 刻み・第 2〜第 6 周の時間窓の正本
+# (QA docs.charonTwoColumns が読む)
+!tests/out/charonwin-w278b.json
 # 第277便a(第67報 (1)・統括の検証項目 R47): **冥王星系の状態ファイルの整合検査と「別の量」の診断**
 #   (tests/exp-w277a-plutostates.mjs)。paper/data/pluto-system-states.csv の 72 成分(6 体 × 2 元期 ×
 #   6 成分)・単位・sigma 全空・record_id 一意の検査と、2D へ移すときの面外成分の最大値、
@@ -608,3 +611,19 @@ _scratch-*.log
 #   **較正ではない**(観測の傾きは**初期値としてのみ**使い、そこから係数を決めていない)。
 #   「NS の平衡を実証した」「ロックすると加速する」「観測と一致した」とは書かない。
 !tests/out/nsgrid-w277c.json
+# 第278便d(統括の読み R56): **明示天体 ↔ 局所背景展開の一致試験**の正本(tests/exp-w278d-bgequiv.mjs)。
+#   ❄️🌘📻 で外部源(太陽/銀河の点質量)を明示天体として置いた走行と、背景展開(凍結・時間追従・
+#   値の一次補正・厳密評価・潮汐・反作用のはしご 12 段)として置いた走行の ON/OFF 差(周期・位相・位置 ——
+#   1 公転・RK4・刻み 3 段)と、食い違いの項別の内訳、移流項 (V·∇) の数値検証、潮汐鍵の受理契約の
+#   ページ/純関数の突合を持つ。QA `docs.bgEquivalence`・`docs.comovingAdvection` が docs/PHYSICS.md
+#   〔第278便d〕と突き合わせ、`lint.provenanceMeta` が来歴を固定するのでコミットする。**エンジン未接続**。
+#   **「背景を無視してよいことを証明した」「閾値を採用した」とは書かない。**
+!tests/out/bgequiv-w278d.json
+# 第278便c(統括の検証項目 R55): **pairSlip の符号修正の影響範囲**(tests/exp-w278c-slipaudit.mjs —— 最小対照 4 件・
+#   入れ替え対称性・beta/index.html の 2D 実装〔ソースを文字列で評価〕との突合・lib-w277b との 1 步ビット突合・
+#   slipRmsCircular との一致・格子の力学が pairSlip を経由しないこと)と、**H6 の共役変数模型**
+#   (tests/exp-w278c-nsmode.mjs —— 内部モード Q・P・有限容量・角力積の記帳・θ 依存の係数表・歳差との結合・
+#   摂動復帰・供給停止・別系の零点)の正本。QA `behavior.pairSlipSign`・`behavior.nsModeExchange` が読み、
+#   `lint.provenanceMeta` が来歴を固定するのでコミットする。**較正ではない**・**エンジン未接続**。
+!tests/out/slipaudit-w278c.json
+!tests/out/nsmode-w278c.json

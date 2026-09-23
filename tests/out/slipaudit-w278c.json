@@ -1,0 +1,533 @@
+{
+ "meta": {
+  "note": "第278便c — `pairSlip` の第二天体の符号修正(w277c-1 → w277c-2)の影響範囲。**エンジンには 1 bit も触らない**(html は関数のソースを文字列で読むだけ)",
+  "htmlHasRelativeDrag": true,
+  "htmlVersion": "w278b-pairSlip-2",
+  "provenanceVersion": "w272e-1",
+  "wave": "第278便c",
+  "target": "beta/index.html",
+  "targetSha256": "d334ed09709f20d0f97328227681b11305f2bf3319b4bc36ca95e0a12f7c0744",
+  "generatedAt": "2026-09-23T11:39:10.232Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4469620,
+    "sha256": "d334ed09709f20d0f97328227681b11305f2bf3319b4bc36ca95e0a12f7c0744",
+    "mtime": "2026-09-23T11:03:31.966Z"
+   },
+   {
+    "file": "tests/lib-w277c-nsgrid.mjs",
+    "bytes": 37288,
+    "sha256": "0f7a956cd50168921befdc2b0bf43811b0da0d6dd39cdaf897e3a81ad23a8477",
+    "mtime": "2026-09-23T11:01:15.276Z"
+   },
+   {
+    "file": "tests/exp-w277c-nsgrid.mjs",
+    "bytes": 38009,
+    "sha256": "770b659a5a6af0624c53d1133de2fb2fe67e8e9d2404a6f806d49bb7ca344df2",
+    "mtime": "2026-09-23T11:01:15.275Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w278c-slipaudit.mjs",
+    "bytes": 13492,
+    "sha256": "7e5d4b27ce1995cb0ab414dccfcd7477042a39112cd748d41a4dd2c36d8d2743",
+    "mtime": "2026-09-23T11:01:15.276Z"
+   },
+   {
+    "file": "tests/lib-w277c-nsgrid.mjs",
+    "bytes": 37288,
+    "sha256": "0f7a956cd50168921befdc2b0bf43811b0da0d6dd39cdaf897e3a81ad23a8477",
+    "mtime": "2026-09-23T11:01:15.276Z"
+   },
+   {
+    "file": "tests/lib-w277b-charondfm.mjs",
+    "bytes": 12728,
+    "sha256": "4e9be37415c45969b4a4904fedd5bf791ee37efb82e6a2c80295c57bf95d205b",
+    "mtime": "2026-09-22T06:21:54.659Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-18T17:14:55.948Z"
+   }
+  ],
+  "codeSha256": "d99ee1c61e97e221832a0bf4f8a08cdf5adf6f74213bdbc85fa4786761158a27"
+ },
+ "libVersion": "w277c-2",
+ "minimal": [
+  {
+   "id": "sync",
+   "label": "相互同期(r=(1,0,0)・v=(0,1,0)・ω₁=ω₂=(0,0,1))",
+   "r": [
+    1,
+    0,
+    0
+   ],
+   "v": [
+    0,
+    1,
+    0
+   ],
+   "w1": [
+    0,
+    0,
+    1
+   ],
+   "w2": [
+    0,
+    0,
+    1
+   ],
+   "fixed": {
+    "s1": [
+     0,
+     0,
+     0
+    ],
+    "s2": [
+     0,
+     0,
+     0
+    ]
+   },
+   "legacy": {
+    "s1": [
+     0,
+     0,
+     0
+    ],
+    "s2": [
+     0,
+     2,
+     0
+    ]
+   },
+   "expect": {
+    "s1": [
+     0,
+     0,
+     0
+    ],
+    "s2": [
+     0,
+     0,
+     0
+    ]
+   },
+   "fixedErr": 0,
+   "legacyErr": 2,
+   "swapFixed": 0,
+   "swapLegacy": 2
+  },
+  {
+   "id": "syncReversed",
+   "label": "反転(r=(−1,0,0)・v=(0,−1,0)・ω₁=ω₂=(0,0,1))",
+   "r": [
+    -1,
+    0,
+    0
+   ],
+   "v": [
+    0,
+    -1,
+    0
+   ],
+   "w1": [
+    0,
+    0,
+    1
+   ],
+   "w2": [
+    0,
+    0,
+    1
+   ],
+   "fixed": {
+    "s1": [
+     0,
+     0,
+     0
+    ],
+    "s2": [
+     0,
+     0,
+     0
+    ]
+   },
+   "legacy": {
+    "s1": [
+     0,
+     0,
+     0
+    ],
+    "s2": [
+     0,
+     -2,
+     0
+    ]
+   },
+   "expect": {
+    "s1": [
+     0,
+     0,
+     0
+    ],
+    "s2": [
+     0,
+     0,
+     0
+    ]
+   },
+   "fixedErr": 0,
+   "legacyErr": 2,
+   "swapFixed": 0,
+   "swapLegacy": 2
+  },
+  {
+   "id": "companionStill",
+   "label": "相手が自転しない(ω₂=0)",
+   "r": [
+    1,
+    0,
+    0
+   ],
+   "v": [
+    0,
+    1,
+    0
+   ],
+   "w1": [
+    0,
+    0,
+    1
+   ],
+   "w2": [
+    0,
+    0,
+    0
+   ],
+   "fixed": {
+    "s1": [
+     0,
+     0,
+     0
+    ],
+    "s2": [
+     0,
+     1,
+     0
+    ]
+   },
+   "legacy": {
+    "s1": [
+     0,
+     0,
+     0
+    ],
+    "s2": [
+     0,
+     1,
+     0
+    ]
+   },
+   "expect": {
+    "s1": [
+     0,
+     0,
+     0
+    ],
+    "s2": [
+     0,
+     1,
+     0
+    ]
+   },
+   "fixedErr": 0,
+   "legacyErr": 0,
+   "swapFixed": 0,
+   "swapLegacy": 0
+  },
+  {
+   "id": "counterRotating",
+   "label": "逆回転(ω₂=(0,0,−1))",
+   "r": [
+    1,
+    0,
+    0
+   ],
+   "v": [
+    0,
+    1,
+    0
+   ],
+   "w1": [
+    0,
+    0,
+    1
+   ],
+   "w2": [
+    0,
+    0,
+    -1
+   ],
+   "fixed": {
+    "s1": [
+     0,
+     0,
+     0
+    ],
+    "s2": [
+     0,
+     2,
+     0
+    ]
+   },
+   "legacy": {
+    "s1": [
+     0,
+     0,
+     0
+    ],
+    "s2": [
+     0,
+     0,
+     0
+    ]
+   },
+   "expect": {
+    "s1": [
+     0,
+     0,
+     0
+    ],
+    "s2": [
+     0,
+     2,
+     0
+    ]
+   },
+   "fixedErr": 0,
+   "legacyErr": 2,
+   "swapFixed": 0,
+   "swapLegacy": 2
+  }
+ ],
+ "swap": {
+  "cases": 64,
+  "fixedMax": 0,
+  "legacyMin": 0.1583478898362534
+ },
+ "html2d": {
+  "available": true,
+  "rows": [
+   {
+    "id": "sync",
+    "htmlSi": [
+     0,
+     0
+    ],
+    "htmlSj": [
+     0,
+     0
+    ],
+    "libFixedS2": [
+     0,
+     0
+    ],
+    "libLegacyS2": [
+     0,
+     2
+    ],
+    "diffFixed": 0,
+    "diffLegacy": 2,
+    "zAll": true
+   },
+   {
+    "id": "syncReversed",
+    "htmlSi": [
+     0,
+     0
+    ],
+    "htmlSj": [
+     0,
+     0
+    ],
+    "libFixedS2": [
+     0,
+     0
+    ],
+    "libLegacyS2": [
+     0,
+     -2
+    ],
+    "diffFixed": 0,
+    "diffLegacy": 2,
+    "zAll": true
+   },
+   {
+    "id": "companionStill",
+    "htmlSi": [
+     0,
+     0
+    ],
+    "htmlSj": [
+     0,
+     1
+    ],
+    "libFixedS2": [
+     0,
+     1
+    ],
+    "libLegacyS2": [
+     0,
+     1
+    ],
+    "diffFixed": 0,
+    "diffLegacy": 0,
+    "zAll": true
+   },
+   {
+    "id": "counterRotating",
+    "htmlSi": [
+     0,
+     0
+    ],
+    "htmlSj": [
+     0,
+     2
+    ],
+    "libFixedS2": [
+     0,
+     2
+    ],
+    "libLegacyS2": [
+     0,
+     0
+    ],
+    "diffFixed": 0,
+    "diffLegacy": 2,
+    "zAll": true
+   }
+  ],
+  "cases": 36,
+  "maxDiffFixed": 0,
+  "maxDiffLegacy": 6.206694199089192
+ },
+ "charonLibStep": [
+  {
+   "id": "sync",
+   "htmlReturned": "step",
+   "htmlKickMax": 0,
+   "libN": 1,
+   "htmlDE": 0,
+   "libDE": 0,
+   "bitSame": true,
+   "htmlSlipMax": 0,
+   "libSlipMax": 0
+  },
+  {
+   "id": "rand",
+   "htmlReturned": "step",
+   "htmlKickMax": 0.00021724351754334875,
+   "libN": 1,
+   "htmlDE": 0.0005495830564209068,
+   "libDE": 0.0005495830564209068,
+   "bitSame": true,
+   "htmlSlipMax": 1.6654744068883196,
+   "libSlipMax": 1.6654744068883196
+  }
+ ],
+ "rmsCircular": [
+  {
+   "omegaOverN": 1,
+   "thetaDeg": 0,
+   "slipRmsCircular": 0,
+   "closed": 0,
+   "pairSlipS1": 0,
+   "pairSlipS2": 0,
+   "legacyS2": 2,
+   "relDiffFixed": 0,
+   "absDiffFixed": 0,
+   "absDiffLegacy": 2
+  },
+  {
+   "omegaOverN": 3185.4,
+   "thetaDeg": 40.6,
+   "slipRmsCircular": 2827.2463367598493,
+   "closed": 2827.2463367598493,
+   "pairSlipS1": 2827.24633675985,
+   "pairSlipS2": 2827.24633675985,
+   "legacyS2": 2828.9567299645164,
+   "relDiffFixed": 1.608446158277191e-16,
+   "absDiffFixed": 4.547473508864641e-13,
+   "absDiffLegacy": 1.7103932046670707
+  },
+  {
+   "omegaOverN": 7,
+   "thetaDeg": 90,
+   "slipRmsCircular": 5.049752469181038,
+   "closed": 5.049752469181039,
+   "pairSlipS1": 5.049752469181038,
+   "pairSlipS2": 5.049752469181038,
+   "legacyS2": 5.049752469181039,
+   "relDiffFixed": 0,
+   "absDiffFixed": 0,
+   "absDiffLegacy": 8.881784197001252e-16
+  },
+  {
+   "omegaOverN": 0.3,
+   "thetaDeg": 120,
+   "slipRmsCircular": 1.164581469885211,
+   "closed": 1.1645814698852115,
+   "pairSlipS1": 1.164581469885211,
+   "pairSlipS2": 1.164581469885211,
+   "legacyS2": 0.869626356546304,
+   "relDiffFixed": 0,
+   "absDiffFixed": 0,
+   "absDiffLegacy": 0.294955113338907
+  }
+ ],
+ "scope": {
+  "libCallers": [
+   {
+    "fn": "bodyTorques",
+    "callsPairSlip": false
+   },
+   {
+    "fn": "nsDerivs",
+    "callsPairSlip": false
+   },
+   {
+    "fn": "nsInvariants",
+    "callsPairSlip": false
+   },
+   {
+    "fn": "transferStep",
+    "callsPairSlip": false
+   },
+   {
+    "fn": "runNsRun",
+    "callsPairSlip": false
+   },
+   {
+    "fn": "classifyTheta",
+    "callsPairSlip": false
+   },
+   {
+    "fn": "slipTranslationInvariance",
+    "callsPairSlip": true
+   },
+   {
+    "fn": "slipRmsCircular",
+    "callsPairSlip": false
+   }
+  ],
+  "expPairSlipCalls": 0,
+  "expTranslationInvarianceCalls": 1,
+  "gridDynamicsUsesPairSlip": false,
+  "note": "格子の力学(bodyTorques・nsDerivs・runNsRun・transferStep)は pairSlip を経由しない。lib で pairSlip を呼ぶのは slipTranslationInvariance だけで、その入力は v を変えない並進なので d2 は修正前後とも 0 である"
+ }
+}

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "wave": "第268便a(2026-09-17・第58報 W1・統括の読み (D)・AB2)/ 第270便b(2026-09-18・第60報 W2・AE2 で record_id を追加)/ 第270便c(2026-09-18・第60報・AD9 で PSR J1946+2052 の 2 件を追加・統括の統合で record_id を付与)/ 第271便b(2026-09-18・第61報・AF4 で solution_id を記入・R1 で内容照合を一致条件に追加)",
+  "wave": "第268便a(2026-09-17・第58報 W1・統括の読み (D)・AB2)/ 第270便b(2026-09-18・第60報 W2・AE2 で record_id を追加)/ 第270便c(2026-09-18・第60報・AD9 で PSR J1946+2052 の 2 件を追加・統括の統合で record_id を付与)/ 第271便b(2026-09-18・第61報・AF4 で solution_id を記入・R1 で内容照合を一致条件に追加) / 第278便a(2026-09-23・第68報・AM7 でダイモス P と同型のフォボス P を λ̇ 由来の行へ差し替え)",
   "what": "判定(3σ の門)に採る観測解の明示宣言。body|quantity → 採用行(source/solution/value/sigma)。宣言の無い body|quantity は従来どおり CSV のファイル順で最初の行を採る(後方互換)。",
   "doNotWrite": [
     "宣言したので判定が増えた(宣言後の判定は『宣言後の初判定』欄に別に置く)",
@@ -13,7 +13,8 @@
     "第271便b(AF4): solution_id は `paper/data/solutions.json` の台帳の id を書く。**空欄は『解が無い』ではなく『台帳に登録していない』**である。宣言の solution_id は同定の**一致条件**に入る(record_id で 1 行に定まった後、内容照合で突き合わせる)",
     "csvQuantity は CSV 上の鍵(候補行は `<quantity>_candidate` という別の鍵である)",
     "sigma が null の宣言は『どの行を読むか』だけを決める(σ が無いので門へは 1 bit も入らない)",
-    "宣言は行選択であって、単位の一致・観測量対応・数値収束を宣言するものではない"
+    "宣言は行選択であって、単位の一致・観測量対応・数値収束を宣言するものではない",
+    "第278便a(AM7): **λ̇ 由来の周期(`derived-in-record`)を判定行に宣言してよい**。値は CSV の行から 1 文字も変えずに写し、その行の note が `derived_from=<λ̇ 行の record_id>` と式を持つ。**1σ が印字されていないので sigma は null**(門へは入らない)。"
   ],
   "declarations": [
     {
@@ -71,23 +72,41 @@
       "sigma": 8e-07,
       "declared": "2026-09-18",
       "reason": "同上(同じ列の e)。**宣言は行選択であって、残差が縮むという主張ではない** —— σ は旧行の 9×10⁻⁶ から 8×10⁻⁷ へ 11.25 倍きつくなるので、σ 倍の距離はむしろ増える。"
+    },
+    {
+      "body": "Deimos",
+      "quantity": "orbital_period",
+      "csvQuantity": "orbital_period_candidate",
+      "record_id": "SOL-7b5370e1",
+      "solution_id": "",
+      "source": "Jacobson R.A. 2010 AJ 139 668 Table 6 (lambda_dot / mean-motion column n=285.161886 deg/d)",
+      "solution": "Jacobson 2010 Table 6 mean elements (epoch 1950 Jan 1.0 TDT, local Laplace plane); P=360/lambda_dot",
+      "value": 109074.88527411409,
+      "unit": "s",
+      "sigma": null,
+      "declared": "2026-09-23",
+      "reason": "AM7(原仮定者の裁定・第68報「概ね同意」): 従来の判定行は二次資料(Wikipedia の 1.263 d = 109123.2 s・σ なし)。AB4 は決着した —— Jacobson 2010 Table 6 に `Period` 列は無く(2 系統一致・原仮定者が同じ表で確認)、印字されているのは λ̇ である。判定行を λ̇ 由来の `P=360/λ̇ d×86400 s`(`derived-in-record`・**1σ は印字されていない**)へ差し替える。旧行は CSV に履歴として残る(`superseded_by=`)。**σ が無いので門へは 1 bit も入らない**(4 値は動かない)。"
+    },
+    {
+      "body": "Phobos",
+      "quantity": "orbital_period",
+      "csvQuantity": "orbital_period_candidate",
+      "record_id": "SOL-e57b4bc2",
+      "solution_id": "",
+      "source": "Jacobson R.A. 2010 AJ 139 668 Table 6 (lambda_dot / mean-motion column n=1128.844409 deg/d)",
+      "solution": "Jacobson 2010 Table 6 mean elements (epoch 1950 Jan 1.0 TDT, local Laplace plane); P=360/lambda_dot",
+      "value": 27553.841567549454,
+      "unit": "s",
+      "sigma": null,
+      "declared": "2026-09-23",
+      "reason": "AM7 と同型(フォボス): 従来の判定行は二次資料(Wikipedia の 0.31891023 d = 27553.843872 s)で、その桁は Table 6 の存在しない `Period` 列の読みに対応していた。λ̇=1128.844409 deg/d(原仮定者が同じ表で確認)から `P=360/λ̇ d×86400 s` = 27553.841567549454 s(差 0.0023 s・1σ は印字されていない)。**σ が無いので門へは 1 bit も入らない**。"
     }
   ],
   "notDeclared": [
     {
-      "body": "Phobos",
-      "quantity": "orbital_period",
-      "why": "AB4 未解決 — Jacobson 2010 Table 6 の Period 列と λ̇ 列で読みが食い違う(周期定義の照合が先)"
-    },
-    {
-      "body": "Deimos",
-      "quantity": "orbital_period",
-      "why": "同上(ダイモスは 17.90 s 差)"
-    },
-    {
       "body": "Deimos",
       "quantity": "eccentricity",
-      "why": "同上(採用解を決める前に周期定義の照合が要る)"
+      "why": "第278便a: AM7 の裁定は**周期だけ**である(e の判定行は裁定の外)。Table 6 の e=0.00024 は 1σ が印字されておらず、採用解を決めるのは別の裁定である"
     },
     {
       "body": "Mercury",

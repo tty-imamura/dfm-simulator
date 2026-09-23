@@ -1483,9 +1483,12 @@ const add = (id, pass, detail) => {
       bad.push(`⑥基点の X7 警告が 6 でない(${((cen.before || {}).solar || {}).x7Warn})`);
     if (((cen.after || {}).solar || {}).x7Warn !== 0)
       bad.push(`⑥本便後の X7 警告が 0 でない(${((cen.after || {}).solar || {}).x7Warn})`);
+    // 第278便a: 第 5 回(`confirmation_round=5`)で verified になった行(器が `after.solar.round5Verified` に数える・
+    //   旧世代の正本には無いので 0)はこの便の増分ではない
     if (((cen.after || {}).solar || {}).verified
-      - ((cen.before || {}).solar || {}).verified !== EXPECT['verified-new'])
-      bad.push('⑥太陽系の verified の増分が 3 でない(X7 欄を埋めた 6 行は印を動かさない)');
+      - ((cen.before || {}).solar || {}).verified
+      - (((cen.after || {}).solar || {}).round5Verified || 0) !== EXPECT['verified-new'])
+      bad.push('⑥太陽系の verified の増分が 3 でない(X7 欄を埋めた 6 行と第 5 回で上がった行は印を動かさない)');
     if ((cen.externalOnlyVerified || []).length)
       bad.push('⑥外部確認印だけで verified になっている行がある');
     // ⑦ AE7(171〜173 の中立表現)
@@ -1739,14 +1742,19 @@ const add = (id, pass, detail) => {
 // ----     ④ 付与数は **太陽系 55 / 星団・銀河 0 / 過渡天体 0**(台帳 4 件)。
 // ----     ⑤ 台帳の `printedRecord` が `exampleRecordId` の行の note に**そのまま現れる**。
 // ----     ⑥ 宣言 4 件の `solution_id` が、その `record_id` の行の欄と**一致**する。
+// ----     ⑦(第278便a・AM14)**参照切れが無い**: 台帳の id は重複せず、綴りは 2 形のどちらか
+// ----        (`<著者><西暦4桁>-<モデル>` / 暦の解 `<3 文字><3 桁>-<西暦4桁>`)、**どの id も CSV の
+// ----        少なくとも 1 行が指している**(登録だけの孤立 id が無い)。宣言の `solution_id` は空か台帳の id。
+// ----   第278便a(AM14): 暦の解 `PLU060-2024`・`PLU043-2015` を登録した(台帳 4 → 6 件・付与 55 → 81 行)。
 // ----   **`solution_id` は出所の鍵であって、印でも σ でも判定でもない**(4 値は 1 本も動かない)。
 {
   const bad = [];
   const FILES = ['solar-observations.csv', 'cluster-galaxy-observations.csv',
     'transient-observations.csv'];
-  const EXPECT = { 'solar-observations.csv': 55, 'cluster-galaxy-observations.csv': 0,
+  const EXPECT = { 'solar-observations.csv': 81, 'cluster-galaxy-observations.csv': 0,
     'transient-observations.csv': 0 };
-  const LEDGER_N = 4;
+  const LEDGER_N = 6;
+  let orphan = [];
   const tally = {};
   let ledgerIds = [];
   try {
@@ -1793,9 +1801,20 @@ const add = (id, pass, detail) => {
       if (hits[0].solutionId !== s.id)
         bad.push(`⑤台帳 ${s.id} の例の行の solution_id が ${hits[0].solutionId}`);
     }
+    // ⑦ 参照切れ(第278便a・AM14)
+    const ID_FORM = /^(?:[A-Za-z][A-Za-z0-9]*\d{4}-[A-Za-z0-9]+|[A-Z]{3}\d{3}-\d{4})$/;
+    if (new Set(ledgerIds).size !== ledgerIds.length) bad.push('⑦台帳の id が重複している');
+    for (const id of ledgerIds) {
+      if (!ID_FORM.test(id)) bad.push(`⑦台帳の id の綴りが 2 形のどちらでもない(${id})`);
+      if (!allRows.some((r) => r.solutionId === id)) orphan.push(id);
+    }
+    if (orphan.length) bad.push(`⑦CSV のどの行も指していない台帳 id がある(${orphan.join(',')})`);
     // ⑥ 宣言
     const decls = (JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data',
       'judgement-sources.json'), 'utf8')).declarations || []);
+    for (const d of decls)
+      if (typeof d.solution_id === 'string' && d.solution_id !== '' && !known.has(d.solution_id))
+        bad.push(`⑦宣言 ${d.body}|${d.quantity} の solution_id が台帳に無い(${d.solution_id})`);
     for (const d of decls) {
       if (typeof d.solution_id !== 'string') { bad.push(`⑥宣言 ${d.body}|${d.quantity} に solution_id 欄が無い`); continue; }
       const hits = allRows.filter((r) => r.recordId === d.record_id);
@@ -1818,7 +1837,9 @@ const add = (id, pass, detail) => {
       ? tally['solar-observations.csv'].unregisteredTagRows : '—'} 行)は**空欄のまま**`
     + `(空欄は「解が無い」ではなく「台帳に登録していない」)/ `
     + `⑤ 台帳の \`printedRecord\` が例の行の note にそのまま現れる / `
-    + `⑥ 宣言 4 件の \`solution_id\` が行の欄と一致。`
+    + `⑥ 宣言の \`solution_id\` が行の欄と一致 / `
+    + `⑦ **参照切れ 0**(台帳の id は重複せず 2 形の綴り —— 第278便a で暦の解 \`PLU060-2024\`・\`PLU043-2015\` を`
+    + `登録・どの id も CSV の行が指している・孤立 ${orphan.length} 件)。`
     + `**\`solution_id\` は出所の鍵であって、印でも σ でも判定でもない**(4 値は 1 本も動かない)`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
@@ -1961,13 +1982,21 @@ const add = (id, pass, detail) => {
       // 第277便b(第67報 (1)): 同一観測解の冥王星–カロン(入力の監査・則の純関数検定・
       //   エンジン実測 2 本 × 3 段 + 1 次外挿・系列・要因表 v2。target=beta/index.html)
       'tests/out/charondfm-w277b.json',
+      // 第278便b(R53・R54): 中点法の検定と、カロン周期の 4 構成 × 3 刻み・第 2〜第 6 周の時間窓
+      'tests/out/charonwin-w278b.json',
       // 第277便a(第67報 (1)・統括の検証項目 R47): 冥王星系の状態ファイルの整合検査と「別の量」の
       //   診断(**エンジン未接続** —— target は器が読む正本 CSV `paper/data/pluto-system-states.csv`)
       'tests/out/plutostates-w277a.json',
       // 第277便c(裁定(第67報)(2)): 中性子星連星の**診断格子**(観測の傾き × 潮汐の手 ×
       //   パワーボールの有限口座)。**較正ではない**・html を走らせない器なので target は
       //   器が読む正本ファイル(lib 自身)である
-      'tests/out/nsgrid-w277c.json'];
+      'tests/out/nsgrid-w277c.json',
+      // 第278便d(統括の読み R56): **明示天体 ↔ 局所背景展開の一致試験**(はしご 12 段 × 項 9 × 刻み 3 段)・
+      //   移流項の数値検証・潮汐鍵の受理契約の突合(純関数の 2 体 + 外部源 1 つ —— **エンジン未接続**)
+      'tests/out/bgequiv-w278d.json',
+      // 第278便c(統括の検証項目 R55): pairSlip の符号修正の影響範囲(html の 2D 実装をソースの文字列で評価して
+      //   突き合わせる —— target=beta/index.html)と、H6 の共役変数模型(**エンジン未接続** —— target は lib 自身)
+      'tests/out/slipaudit-w278c.json', 'tests/out/nsmode-w278c.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -2162,7 +2191,9 @@ const add = (id, pass, detail) => {
 // ----   訂正は 4 値(合/量限定合/否/保留)を 1 本も動かしていない。
 {
   const bad = [];
-  const EXPECT = { records: 89, revisions: 98, markedRows: 37, annotations: 3, annotationRows: 9 };
+  // 第278便a(確認依頼 第 5 回・取得依頼 D・AM7・AM14): 89/98/37 → **145/397/58**(印の更新 42 行・
+  //   σ を上げた 9 行・解タグの移設 25 行・書誌訂正 10 行・判定行の差し替え 2 行 —— 器の実測値)。
+  const EXPECT = { records: 145, revisions: 397, markedRows: 58, annotations: 3, annotationRows: 9 };
   let lg = null, J = null, redacted = 0;
   try { lg = JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data', 'corrections.json'), 'utf8')); }
   catch (e) { bad.push('①台帳が読めない: ' + String(e).slice(0, 80)); }
@@ -2347,10 +2378,13 @@ const add = (id, pass, detail) => {
     console.log('SKIP docs.intakeC(beta 対象でない: ' + TARGET + ')');
   } else {
     const bad = [];
-    const EXPECT = { csvRows: 580, intakeRows: 54, sigmaEntered: 6, noteEdited: 12,
+    // 第278便a: CSV は 601 行(+21 行 = 取得依頼 D の新規行)。**第277便a の転写行 54 行のうち、確認依頼
+    //   第 5 回で印が上がった行(`confirmation_round=5`)と sigma 列へ上げた行(`sigma_raised=`)は
+    //   後の回の変更である** —— ②③ はその行を外して第277便a の規約を見る(外した数は表示する)。
+    const EXPECT = { csvRows: 601, intakeRows: 54, sigmaEntered: 6, noteEdited: 12,
       cut: { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
       four: { 否: 2, 保留: 14 } };
-    let nIntake = 0, nSigma = 0, nNote = 0, nRows = 0, cut = null, four = null;
+    let nIntake = 0, nSigma = 0, nNote = 0, nRows = 0, cut = null, four = null, nLater = 0, nRaised = 0;
     try {
       const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
       const SM = await import('file://' + path.join(ROOT, 'tests', 'lib-w264d-sigmamark.mjs'));
@@ -2361,7 +2395,11 @@ const add = (id, pass, detail) => {
         && /(?:^|[^A-Za-z0-9_])intake_round=request-C-2026-09-22/.test(r.note));
       nIntake = intake.length;
       if (nIntake !== EXPECT.intakeRows) bad.push(`①2026-09-22 の転写行が ${EXPECT.intakeRows} 行でない(${nIntake})`);
-      nSigma = intake.filter((r) => r.sigma !== null).length;
+      const LATER = (r) => /(?:^|[^A-Za-z0-9_])confirmation_round=5(?![0-9])/.test(r.note);
+      const RAISED = (r) => /(?:^|[^A-Za-z0-9_])sigma_raised=/.test(r.note);
+      nLater = intake.filter(LATER).length;
+      nRaised = intake.filter(RAISED).length;
+      nSigma = intake.filter((r) => r.sigma !== null && !RAISED(r)).length;
       if (nSigma !== EXPECT.sigmaEntered)
         bad.push(`①σ 列へ入れた転写行が ${EXPECT.sigmaEntered} 行でない(${nSigma})`);
       nNote = L.rows.filter((r) => nIntake >= 0
@@ -2369,7 +2407,7 @@ const add = (id, pass, detail) => {
       if (nNote !== EXPECT.noteEdited)
         bad.push(`①note を書き足した既存行が ${EXPECT.noteEdited} 行でない(${nNote})`);
       for (const r of intake) {
-        if (SM.readSigmaMark(r.note).verified)
+        if (SM.readSigmaMark(r.note).verified && !LATER(r))
           bad.push(`②転写行 ${r.ln} の印が verified(転写では印を上げない)`);
         const one = /(?:^|[^A-Za-z0-9_])intake_agreement=1of2/.test(r.note);
         if (one && r.sigma !== null)
@@ -2413,15 +2451,204 @@ const add = (id, pass, detail) => {
     } catch (e) { bad.push('読めない: ' + String(e).slice(0, 110)); }
     add('docs.intakeC', bad.length === 0,
       `**取得依頼 C の回答の転写**(第277便a・2 系統の外部調査): CSV ${nRows} 行 / `
-      + `**2026-09-22 の転写行 ${nIntake} 行**(σ 列へ入れたのは **${nSigma} 行** —— `
+      + `**2026-09-22 の転写行 ${nIntake} 行**(第277便a で σ 列へ入れたのは **${nSigma} 行** —— `
       + `**2 系統が値・σ・出典まで一致した行だけ**)/ 既存行の note へ照合結果を書き足したのは `
       + `${nNote} 行(値・σ・単位・出典・印・record_id は 1 文字も動かしていない)/ `
-      + `② 転写行はすべて \`sigma_primary=unverified\`(転写では印を上げない)/ `
+      + `② 転写行はすべて \`sigma_primary=unverified\`(転写では印を上げない —— **第278便a の確認依頼 第 5 回で`
+      + `原仮定者が印を上げた ${nLater} 行と、sigma 列へ上げた ${nRaised} 行は後の回の変更として別に数える**)/ `
       + `③ **1 系統だけの行は sigma 列が空**で \`sigma_candidate_unconfirmed=\` を持つ`
       + `(原仮定者の照合で sigma 列へ上がる)/ `
       + `④ **切断点 ${cut ? Object.values(cut).join('/') : '—'} と太陽系 4 値 `
       + `${four ? JSON.stringify(four) : '—'} は動いていない** / `
       + `⑤ 判定量名の行を宛先天体へ 1 行も足していない —— **転写で判定は 1 本も増えていない**`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第278便a(第68報・確認依頼 第 5 回・取得依頼 D): docs.intakeD ----
+// ----   §5.28 の件数表と、会計器(`tests/out/obsintake-w263c.json`)・σ 接続器
+// ----   (`tests/out/solarsigma-w262d.json`)・訂正台帳の突き合わせ器(`tests/out/corrections-w272e.json`)の
+// ----   実測値が食い違っていないことを機械で固定する(**文書が測定から独立に動かないように**)。
+// ----     ① CSV の行数・2026-09-23 の新規行数・その中で sigma 列を持つ行・verified の行が §5.28 の表と一致する。
+// ----     ② 既存行で**確認依頼 第 5 回の印**(`confirmation_round=5`)を持つ行は、すべて
+// ----        `sigma_primary=verified` で、`verified_by=原仮定者 2026-09-23`・`verified_at=`・`verified_value=`
+// ----        を持つ(**印だけを上げた行は 0**)。
+// ----     ③ **sigma 列へ上げた既存行**(`sigma_raised=`)は、すべて verified・`intake_agreement=2of2`・
+// ----        sigma 列が非空で、**量名は判定量ではない**(太陽系 16 本の宛先天体の P/e/ω̇/自転は 1 行も無い)。
+// ----     ④ **切断点 106/26/3/4 と太陽系 4 値(否 2・保留 14)が動いていない**。
+// ----     ⑤ 新規行は判定量名を宛先天体へ 1 行も足していない。
+// ----     ⑥ CALIBRATION_VERDICT §5.28 に件数があり、**4 値の禁止語が無い**(否定文でも書かない)。
+// ----     ⑦ 会計器の CSV 行数が現行と一致し、台帳の器の違反が 0 件。
+// ----   root は SKIP。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.intakeD(beta 対象でない: ' + TARGET + ')');
+  } else {
+    const bad = [];
+    const EXPECT = { csvRows: 601, newRows: 21, newWithSigma: 9, newVerified: 10, confirmed: 42, raised: 9,
+      cut: { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
+      four: { 否: 2, 保留: 14 } };
+    let nRows = 0, nNew = 0, nNewSig = 0, nNewVer = 0, nConf = 0, nRaised = 0, cut = null, four = null;
+    try {
+      const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+      const SM = await import('file://' + path.join(ROOT, 'tests', 'lib-w264d-sigmamark.mjs'));
+      const L = OB.loadObsCsv(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'));
+      const has = (r, k) => new RegExp('(?:^|[^A-Za-z0-9_])' + k).test(r.note);
+      nRows = L.rows.length;
+      if (nRows !== EXPECT.csvRows) bad.push(`①CSV が ${EXPECT.csvRows} 行でない(${nRows})`);
+      const fresh = L.rows.filter((r) => has(r, 'intake_row=2026-09-23') && has(r, 'intake_round=request-D-2026-09-23'));
+      nNew = fresh.length;
+      nNewSig = fresh.filter((r) => r.sigma !== null).length;
+      nNewVer = fresh.filter((r) => SM.readSigmaMark(r.note).verified).length;
+      if (nNew !== EXPECT.newRows) bad.push(`①2026-09-23 の新規行が ${EXPECT.newRows} 行でない(${nNew})`);
+      if (nNewSig !== EXPECT.newWithSigma) bad.push(`①新規行で sigma 列を持つ行が ${EXPECT.newWithSigma} 行でない(${nNewSig})`);
+      if (nNewVer !== EXPECT.newVerified) bad.push(`①新規行で verified の行が ${EXPECT.newVerified} 行でない(${nNewVer})`);
+      for (const r of fresh) {
+        if (!/(?:^|[^A-Za-z0-9_])intake_agreement=/.test(r.note)) bad.push(`①新規行 ${r.ln} に intake_agreement= が無い`);
+        if (!SM.readSigmaMark(r.note).mark) bad.push(`①新規行 ${r.ln} に印が無い`);
+        if (SM.readSigmaMark(r.note).verified && !/verified_by=原仮定者 2026-09-23/.test(r.note))
+          bad.push(`①新規行 ${r.ln} は verified なのに確認者欄が無い`);
+      }
+      // ② 確認依頼 第 5 回の印
+      const conf = L.rows.filter((r) => !fresh.includes(r) && /(?:^|[^A-Za-z0-9_])confirmation_round=5(?![0-9])/.test(r.note));
+      nConf = conf.length;
+      if (nConf !== EXPECT.confirmed) bad.push(`②第 5 回で印が上がった既存行が ${EXPECT.confirmed} 行でない(${nConf})`);
+      for (const r of conf) {
+        const vb = SM.readVerifiedBy(r.note);
+        if (!SM.readSigmaMark(r.note).verified) bad.push(`②行 ${r.ln} の印が verified でない`);
+        if (vb.who !== '原仮定者 2026-09-23' || !vb.at || !vb.value)
+          bad.push(`②行 ${r.ln} の確認者欄が揃っていない(${vb.who})`);
+      }
+      // ③ sigma 列へ上げた行
+      const GATED = ['Moon', 'Earth', 'Mercury', 'Venus', 'Mars', 'Phobos', 'Deimos', 'Charon',
+        'Miranda', 'Ariel', 'Umbriel', 'Titania', 'Oberon', 'Triton', 'Io', 'Europa', 'Ganymede',
+        'Callisto', 'Saturn ring feature D68', 'Saturn ring C inner edge', 'Mimas', 'Titan'];
+      const JQ = ['orbital_period', 'eccentricity', 'periastron_advance', 'rotation_period'];
+      const raised = L.rows.filter((r) => /(?:^|[^A-Za-z0-9_])sigma_raised=/.test(r.note));
+      nRaised = raised.length;
+      if (nRaised !== EXPECT.raised) bad.push(`③sigma 列へ上げた既存行が ${EXPECT.raised} 行でない(${nRaised})`);
+      for (const r of raised) {
+        if (r.sigma === null) bad.push(`③行 ${r.ln} の sigma 列が空`);
+        if (!SM.readSigmaMark(r.note).verified) bad.push(`③行 ${r.ln} が verified でない`);
+        if (!/(?:^|[^A-Za-z0-9_])intake_agreement=2of2/.test(r.note)) bad.push(`③行 ${r.ln} が 2of2 でない`);
+        if (GATED.includes(r.body) && JQ.includes(r.quantity)) bad.push(`③行 ${r.ln} が判定量 ${r.body}|${r.quantity}`);
+      }
+      // ⑤ 新規行が判定量名を宛先天体へ足していない
+      for (const r of fresh)
+        if (GATED.includes(r.body) && JQ.includes(r.quantity))
+          bad.push(`⑤新規行 ${r.ln} が判定量名 ${r.body}|${r.quantity} を宛先天体へ足している`);
+      // ④ 切断点と 4 値
+      const S = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8'));
+      cut = S.cutTally || {}; four = S.fourTally || {};
+      for (const [k, v] of Object.entries(EXPECT.cut)) if (cut[k] !== v) bad.push(`④切断点 ${k} が ${v} でない(${cut[k]})`);
+      for (const [k, v] of Object.entries(EXPECT.four)) if (four[k] !== v) bad.push(`④太陽系 4 値 ${k} が ${v} でない(${four[k]})`);
+      // ⑦ 会計器と台帳の器
+      const OI = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'obsintake-w263c.json'), 'utf8'));
+      const oiRows = Object.values(OI.csvAudit || {}).reduce((a, x) => a + (x.rows || 0), 0);
+      if (oiRows !== nRows) bad.push(`⑦会計器の CSV 行数 ${oiRows} が現行 ${nRows} と違う(器を走らせ直すこと)`);
+      const CJ = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'corrections-w272e.json'), 'utf8'));
+      if ((CJ.violations || []).length) bad.push(`⑦台帳の器の違反 ${(CJ.violations || []).length} 件`);
+      // ⑥ CALIBRATION_VERDICT §5.28
+      const V = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
+      const i28 = V.indexOf('### 5.28 ');
+      if (i28 < 0) bad.push('⑥台帳に §5.28 が無い');
+      const sec = (i28 < 0) ? '' : V.slice(i28, (() => { const j = V.indexOf('\n### 5.29 ', i28); const k = V.indexOf('\n## ', i28);
+        const e = [j, k].filter((x) => x > 0); return e.length ? Math.min(...e) : V.length; })());
+      for (const sN of [String(nConf), String(nRaised), String(nNew), '106/26/3/4', '0/2/2/33'])
+        if (sec.indexOf(sN) < 0) bad.push(`⑥§5.28 に ${sN} が無い`);
+      for (const line of sec.split('\n')) {
+        if (/較正した|較正を完了|判定が増えた|カロンが合|カロンが否|kF0 版が成立した|引きずりが完全に消えていることを確認/.test(line))
+          bad.push('⑥禁止語(§5.28): ' + line.slice(0, 40));
+      }
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 110)); }
+    add('docs.intakeD', bad.length === 0,
+      `**確認依頼 第 5 回・取得依頼 D の回答の転写**(第278便a・§5.28): CSV ${nRows} 行 / `
+      + `① **2026-09-23 の新規行 ${nNew} 行**(sigma 列あり ${nNewSig} 行・verified ${nNewVer} 行・全行に \`intake_agreement=\`)/ `
+      + `② 既存行で**原仮定者が同じ表を開いて印を上げた ${nConf} 行**(すべて \`verified_by=原仮定者 2026-09-23\`・`
+      + `\`verified_at=\`・\`verified_value=\` つき —— 印だけ上げた行は 0)/ `
+      + `③ **sigma 列へ上げた既存行 ${nRaised} 行**(2of2 かつ verified の定義名の量だけ —— 判定量ではない)/ `
+      + `④ **切断点 ${cut ? Object.values(cut).join('/') : '—'} と太陽系 4 値 ${four ? JSON.stringify(four) : '—'} は動いていない** / `
+      + `⑤ 判定量名の行を宛先天体へ 1 行も足していない / ⑥ §5.28 に件数・禁止語なし / ⑦ 会計器と台帳の器が現行 CSV と一致`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第278便a(第68報・AM7): docs.deimosSwap ----
+// ----   **ダイモスの判定行の差し替え**(と同型のフォボス)を機械で固定する:
+// ----     ① `paper/data/judgement-sources.json` の `Deimos|orbital_period` の宣言が、Jacobson 2010 Table 6 の
+// ----        **λ̇ 由来の行**(`derived-in-record`)を指し、**sigma は null**(1σ は印字されていない)。
+// ----     ② その行の note の `derived_from=` が **λ̇ の行**(同じ Table 6・285.161886 deg/day)に解決し、
+// ----        `P=360/λ̇ d×86400 s` を**今ここで計算し直すと行の値に一致**する(相対 1e−12 以内)。
+// ----     ③ **出典に「Period 列」を書かない** —— Table 6 に Period 列は無い(宣言行の出典に
+// ----        `Period column` が無く、旧「Period 列」読みの行に `period_column=absent` がある)。
+// ----     ④ 旧判定行(二次資料 109123.2 s)は CSV に**履歴の行**として残り、`superseded_by=<新しい行>`・
+// ----        `superseded_on=2026-09-23` を持つ。旧値の候補行(`orbital_period_candidate`)も残っている。
+// ----     ⑤ σ 接続器が宣言行で読んでいて(`appliedToJudgement`)、判定は**保留**(σ が無い)。
+// ----     ⑥ フォボスも同型(λ̇=1128.844409 deg/day)。天王星の衛星 5 本は**差し替えていない**(AM7′ 裁定待ち)。
+// ----   root は SKIP。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.deimosSwap(beta 対象でない: ' + TARGET + ')');
+  } else {
+    const bad = [];
+    const rowsOut = [];
+    try {
+      const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+      const L = OB.loadObsCsv(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'));
+      const byId = new Map(L.rows.map((r) => [r.recordId, r]));
+      const JS = JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data', 'judgement-sources.json'), 'utf8'));
+      const S = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8'));
+      const CASES = [['Deimos', 285.161886, 109123.2], ['Phobos', 1128.844409, 27553.843872]];
+      for (const [body, lam, oldV] of CASES) {
+        const d = (JS.declarations || []).find((x) => x.body === body && x.quantity === 'orbital_period');
+        if (!d) { bad.push(`①${body}|orbital_period の宣言が無い`); continue; }
+        if (d.sigma !== null) bad.push(`①${body} の宣言の sigma が null でない`);
+        const r = byId.get(d.record_id);
+        if (!r) { bad.push(`①${body} の宣言行 ${d.record_id} が CSV に無い`); continue; }
+        if (!/Jacobson R\.A\. 2010 AJ 139 668 Table 6/.test(r.source) || !/lambda_dot/.test(r.source))
+          bad.push(`①${body} の宣言行の出典が Table 6 の λ̇ ではない`);
+        if (/Period column/i.test(r.source) || /Period column/i.test(d.source)) bad.push(`③${body} の宣言行の出典に Period column がある`);
+        if (r.sigma !== null) bad.push(`①${body} の宣言行に sigma がある`);
+        const refs = OB.listKeyRefs(r.note, 'derived_from');
+        const src = refs.ids.length === 1 ? byId.get(refs.ids[0]) : null;
+        if (!src) bad.push(`②${body} の derived_from が λ̇ の行へ 1 件で解決しない`);
+        else {
+          if (src.quantity !== 'mean_motion' || Math.abs(src.value - lam) > 0 || !/Table 6/.test(src.source))
+            bad.push(`②${body} の derived_from の先が λ̇=${lam} の行でない(${src.quantity} ${src.value})`);
+          const P = 360 / src.value * 86400;
+          if (!(Math.abs(P - r.value) <= 1e-12 * r.value)) bad.push(`②${body} の P=360/λ̇×86400=${P} が行の値 ${r.value} と違う`);
+        }
+        const old = L.rows.filter((x) => x.body === body && x.quantity === 'orbital_period' && x.value === oldV);
+        if (old.length !== 1) bad.push(`④${body} の旧判定行(${oldV} s)が 1 行でない(${old.length})`);
+        else {
+          if (!new RegExp('(?:^|[^A-Za-z0-9_])superseded_by=' + d.record_id + '(?![A-Za-z0-9_-])').test(old[0].note))
+            bad.push(`④${body} の旧判定行に superseded_by=${d.record_id} が無い`);
+          if (!/(?:^|[^A-Za-z0-9_])superseded_on=2026-09-23/.test(old[0].note)) bad.push(`④${body} の旧判定行に superseded_on が無い`);
+        }
+        const dr = ((S.declaredFirst || {}).rows || []).filter((x) => x.key === body + '|orbital_period');
+        if (!dr.length) bad.push(`⑤σ 接続器に ${body} の宣言行が無い(器を走らせ直すこと)`);
+        for (const x of dr) {
+          if (x.appliedToJudgement !== true) bad.push(`⑤${body} の宣言が判定経路に入っていない`);
+          if (x.declaredSigma !== null || !/^保留/.test(String(x.verdict))) bad.push(`⑤${body} の判定が保留でない(${x.verdict})`);
+        }
+        rowsOut.push(`${body} ${d.record_id}=${r.value} s(旧 ${oldV} s・差 ${(r.value - oldV).toFixed(6)} s)`);
+      }
+      if (!L.rows.some((x) => x.body === 'Deimos' && x.quantity === 'orbital_period_candidate' && x.value === 109123.2))
+        bad.push('④ダイモスの旧値の候補行(orbital_period_candidate 109123.2)が無い');
+      const pc = L.rows.find((x) => x.body === 'Deimos' && x.quantity === 'orbital_period_candidate' && x.value === 109092.7872);
+      if (!pc || !/(?:^|[^A-Za-z0-9_])period_column=absent/.test(pc.note)) bad.push('③Period 列読みの行に period_column=absent が無い');
+      // ⑥ 天王星の衛星は差し替えていない(AM7′)
+      for (const b of ['Miranda', 'Ariel', 'Umbriel', 'Titania', 'Oberon'])
+        if ((JS.declarations || []).some((x) => x.body === b)) bad.push(`⑥${b} の判定行を宣言している(AM7′ は裁定待ち)`);
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 110)); }
+    add('docs.deimosSwap', bad.length === 0,
+      `**ダイモスの判定行の差し替え**(第278便a・AM7 —— 原仮定者の裁定(第68報)「概ね同意」): `
+      + `${rowsOut.join(' / ')} / ① 宣言は Jacobson 2010 Table 6 の **λ̇ 由来**(\`derived-in-record\`・`
+      + `**sigma は null** —— 1σ は印字されていない)/ ② \`derived_from=\` が λ̇ の行へ解決し、P=360/λ̇ d×86400 s を`
+      + `計算し直すと行の値に一致 / ③ **「Table 6 に Period 列がある」とは書かない**(Period 列読みの行に`
+      + ` \`period_column=absent\`)/ ④ 旧判定行は履歴の行(\`superseded_by=\`・\`superseded_on=2026-09-23\`)/ `
+      + `⑤ σ 接続器が宣言行で読み、判定は**保留**(σ が無いので門へは入らない)/ ⑥ フォボスも同型・`
+      + `天王星の衛星 5 本は**差し替えていない**(AM7′ 裁定待ち)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
@@ -3165,10 +3392,12 @@ const add = (id, pass, detail) => {
     // 第270便c(AD9): **PSR J1946+2052 の P と e を宣言に足した**(2 件 → 4 件)。
     //   宣言は**行選択**であって、残差が縮むという主張ではない(σ は P で 500 倍・e で 11.25 倍
     //   きつくなるので σ 倍の距離はむしろ増える —— `docs.j1946Adopted` が数で置く)。
-    if (decl.length !== 4) bad.push(`①宣言が 4 件でない(${decl.length})`);
+    // 第278便a(AM7): **ダイモス P と同型のフォボス P** を Jacobson 2010 Table 6 の λ̇ 由来の行へ差し替えた
+    //   (4 件 → 6 件)。**1σ は印字されていないので sigma は null** —— 門へは 1 bit も入らない。
+    if (decl.length !== 6) bad.push(`①宣言が 6 件でない(${decl.length})`);
     const keys = decl.map((d) => d.body + '|' + d.quantity).sort();
-    if (keys.join(' , ') !== 'Charon|orbital_period , PSR J1946+2052|eccentricity , '
-      + 'PSR J1946+2052|orbital_period , Venus|eccentricity')
+    if (keys.join(' , ') !== 'Charon|orbital_period , Deimos|orbital_period , PSR J1946+2052|eccentricity , '
+      + 'PSR J1946+2052|orbital_period , Phobos|orbital_period , Venus|eccentricity')
       bad.push(`①宣言の対象が違う(${keys.join(' , ')})`);
     // ① 宣言が CSV の行に 1 件で当たる(値も σ も CSV から 1 文字も変えずに写している)
     const rows = [];
@@ -3226,9 +3455,10 @@ const add = (id, pass, detail) => {
     + `宣言 ${decl.length} 件(**カロン P = Buie 2012 の 551856.43872 s ± 0.02592**・`
     + `**金星 e = JPL SSD Table 1 の 0.00677672(σ の印字なし)**・`
     + `**PSR J1946+2052 の P = 6781.367998656 s ± 1.728e-6 と e = 0.0638363 ± 8e-7`
-    + `(Meng 2025 Table 1 DDFWHE — 第270便c/AD9 で採用解を一組へ揃えた)**)で、どれも CSV の行に`
+    + `(Meng 2025 Table 1 DDFWHE — 第270便c/AD9 で採用解を一組へ揃えた)**・`
+    + `**ダイモス P と同型のフォボス P = Jacobson 2010 Table 6 の λ̇ 由来(σ の印字なし — 第278便a/AM7)**)で、どれも CSV の行に`
     + `**1 件で当たる**(${hits.join(' / ')} —— 宣言に新しい数値は 1 つも書いていない)/ `
-    + `**宣言の無い対象は従来どおりファイル順の最初の行**(フォボス・ダイモス・水星 P・火星 P・`
+    + `**宣言の無い対象は従来どおりファイル順の最初の行**(ダイモス e・水星 P・火星 P・`
     + `トリトン P/e は**周期定義の照合が先**なので宣言しない)/ `
     + `**第270便a(AD5)で宣言は正式経路へ入った** —— 太陽系 4 値は ${four}(**旧値 保留 16 は `
     + `\`history\` に温存**・旧行は \`previousRow\` に温存)—— `
@@ -6663,6 +6893,30 @@ const add = (id, pass, detail) => {
           bad.push(`⑤ ${v.id} が門を超えたのに代替不能の文が無い`);
       }
       cases.push(`判定 ${(J.verdicts || []).map((z) => z.emoji + (z.negligible ? ' 無視できる' : ' **無視できない**')).join(' / ')}`);
+      // ⑦ 第278便d(R56): **版 w278d・規格化候補の列**(診断・採用しない)。対象 html が第278便d の世代
+      //    (BG_TIDAL_KEY あり)なら版と候補の列を要求する。候補は (N3)/局所遮蔽 λ=1 au・10 au/W_eff の 4 つで、
+      //    読める行は刻み 3 段(N・2N・4N)の収束つき。🌘 の W_eff は「逆算しない」(明示天体の ON 走行が壊れる)。
+      if (fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('BG_TIDAL_KEY') >= 0) {
+        if (J.meta.harnessVersion !== 'w278d-bgbudget-2') bad.push(`⑦ 版が w278d-bgbudget-2 でない(${J.meta.harnessVersion})`);
+        const C = (J.candidates || []).filter((z) => !z.skipped);
+        if (C.length !== 3) bad.push(`⑦ 候補の行が 3 本でない(${C.length})`);
+        for (const c of C) {
+          const keys = (c.rows || []).map((z) => z.key).join(',');
+          if (keys !== 'N3,shield1au,shield10au,Weff') bad.push(`⑦ ${c.id} の候補の並びが違う(${keys})`);
+          for (const r of (c.rows || [])) {
+            if (r.skipped) { if (!r.why) bad.push(`⑦ ${c.id}/${r.key} が理由なしで SKIP`); continue; }
+            if (!r.dPhaseTimeS || !Array.isArray(r.dPhaseTimeS.values) || r.dPhaseTimeS.values.length !== 3)
+              bad.push(`⑦ ${c.id}/${r.key} に刻み 3 段の収束が無い`);
+          }
+        }
+        const em = C.find((z) => z.id === 'earthMoonRealKF1');
+        if (em && !(em.rows.find((z) => z.key === 'Weff') || {}).skipped) bad.push('⑦ 🌘 の W_eff が逆算されている(明示天体の ON 走行は壊れる)');
+        const pc = C.find((z) => z.id === 'plutoCharonReal');
+        const n3 = pc ? pc.rows.find((z) => z.key === 'N3') : null;
+        if (n3 && !(Math.abs(n3.dPhaseTimeS.values[2] - J.rows.find((z) => z.id === 'plutoCharonReal').total.dPhaseTimeS) < 1e-3))
+          bad.push('⑦ ❄️ の (N3) 候補が既存の予算の行と合わない');
+        cases.push(`版 ${J.meta.harnessVersion}・候補 4 列 × ${C.length} 行(刻み 3 段・**採用しない**)`);
+      }
       const nw = J.meta.doNotWrite || [];
       if (!nw.length) bad.push('⑥ meta.doNotWrite が無い');
       const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
@@ -6687,6 +6941,181 @@ const add = (id, pass, detail) => {
       + `**一様な背景「速度」は参照系の取り替えで消えるが、一様な背景「重み」W₀ は消えない** ——`
       + `重み付き平均の分母を変えるからである(実測: 一様項の大半が W₀ の希釈から来る)。`
       + `**背景を無視してよいことを証明してはいない**`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 0a3z8) 第278便d(統括の読み R56): docs.bgEquivalence ----
+// ----   **明示天体 ↔ 局所背景展開の一致試験**の正本 `tests/out/bgequiv-w278d.json` を PHYSICS と突き合わせる。
+// ----   固定するのは 8 点(**どれも「背景を無視してよい」の判定ではない**):
+// ----     ① `meta.targetSha256` が検査対象の html と一致し、門は測る前に宣言されている。
+// ----     ② 3 行(❄️🌘📻)× はしご 12 段 × 項 9 つ × 刻み 3 段(N・2N・4N)がそろう。
+// ----     ③ **分解恒等式**: 外部源を明示天体として足した場と、その点で厳密に評価した背景として足した場が
+// ----        1 点でも(相対差 ≤1e−12)走行でも(|Δt| ≤1e−9 s)一致する —— (N3) の規格化そのものの検算。
+// ----     ④ ❄️: EXP の ON/OFF 差と、凍結(自由落下系)L0ff との食い違い・項の内訳が PHYSICS の表と一致し、
+// ----        L0ff は相対の門を通り参考の絶対門(1e−3σ_Buie)は通らない(**実測の固定**)。
+// ----     ⑤ 🌘: ON 走行の軌道が 1 公転で壊れる —— 門は判定しない(null)=**差として読まない**。
+// ----     ⑥ 📻: どの段も相対の門を通る。
+// ----     ⑦ 潮汐鍵の受理契約がページと純関数で全件一致し、3×3 の点質量 T はトレース 0(丸めの範囲)。
+// ----     ⑧ 書かない語が宣言され、docs/PHYSICS.md〔第278便d〕節があって禁止語が無い。
+// ----   **root は SKIP**(対象 html に BG_TIDAL_KEY が無い世代)。
+{
+  const bad = [];
+  const cases = [];
+  const htmlT = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!TARGET.startsWith('beta/') || htmlT.indexOf('BG_TIDAL_KEY') < 0) {
+    console.log('SKIP docs.bgEquivalence(第278便d 未適用 — 対象に BG_TIDAL_KEY なし: ' + TARGET + ')');
+  } else {
+    try {
+      const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'bgequiv-w278d.json'), 'utf8');
+      const J = JSON.parse(text);
+      const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)');
+      else cases.push('html の SHA-256 一致');
+      if (!J.gate || J.gate.declaredBeforeMeasuring !== true) bad.push('① 門が「測る前に宣言」になっていない');
+      const S = (J.samples || []).filter((z) => !z.skipped);
+      if (S.length !== 3) bad.push(`② 行が 3 本でない(${S.length})`);
+      for (const s of S) {
+        if (!Array.isArray(s.ladder) || s.ladder.length !== 12) bad.push(`② ${s.id} のはしごが 12 段でない`);
+        if (!Array.isArray(s.items) || s.items.length !== 9) bad.push(`② ${s.id} の項が 9 つでない`);
+        if (!Array.isArray(s.steps) || s.steps.length !== 3 || s.steps[1] !== 2 * s.steps[0] || s.steps[2] !== 4 * s.steps[0])
+          bad.push(`② ${s.id} の刻みが N・2N・4N でない`);
+        for (const p of (s.identityPoint || []))
+          if (!(p.uRel <= 1e-12 && p.gradURel <= 1e-12 && p.dUdtRel <= 1e-12)) bad.push(`③ ${s.id} の 1 点の分解恒等式が崩れた`);
+        const dec = (s.items || []).find((z) => z.key === 'decomposition');
+        if (!dec || !dec.dPhaseTimeS || dec.dPhaseTimeS.values.some((v) => Math.abs(v) > 1e-9))
+          bad.push(`③ ${s.id} の走行の分解恒等式が崩れた`);
+      }
+      cases.push(`3 行 × はしご 12 段 × 項 9 × 刻み ${S.length ? S[0].steps.join('/') : '—'} 步・分解恒等式は 1 点も走行も一致`);
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const at = P.indexOf('〔第278便d');
+      const whole = at >= 0 ? P.slice(at, at + 40000) : '';
+      const cut = whole.indexOf('**言わないこと。**');
+      const sec = cut >= 0 ? whole.slice(0, cut) : whole;
+      const pc = S.find((z) => z.id === 'plutoCharonReal');
+      if (!pc) bad.push('④ ❄️ の行が無い');
+      else {
+        const L = (k) => pc.ladder.find((z) => z.key === k);
+        const I = (k) => pc.items.find((z) => z.key === k);
+        const V = (k) => pc.verdicts.find((z) => z.bg === k);
+        const expT = L('EXP').dPhaseTimeS.values[2], l0ffT = L('L0ff').dPhaseTimeS.values[2];
+        const v0ff = V('L0ff');
+        if (!(L('EXP').onBound && v0ff.readable)) bad.push('④ ❄️ の EXP/L0ff が読めない行になっている');
+        if (v0ff.gateRel !== true) bad.push(`④ ❄️ L0ff が相対の門を通っていない(${v0ff.mismatchRel})`);
+        if (v0ff.gateAbsReference !== false) bad.push('④ ❄️ L0ff の参考の絶対門の実測が変わった');
+        // 表の数は**絶対値**で照合する(PHYSICS は負号に U+2212 を使うため)
+        const want = [expT, l0ffT, v0ff.mismatchS, I('frameOfFreeze').dPhaseTimeS.values[2],
+          I('reactionDFM').dPhaseTimeS.values[2]].map((v, i) => Math.abs(v).toFixed(i < 2 ? 1 : 3));
+        const miss = [];
+        for (const w of want) if (sec.indexOf(w) < 0) miss.push(w);
+        if (miss.length) bad.push('④ PHYSICS〔第278便d〕に ❄️ の値が無い: ' + miss.join(','));
+        cases.push(`❄️ EXP ${expT.toFixed(1)} s / L0ff ${l0ffT.toFixed(1)} s(食い違い ${v0ff.mismatchS.toFixed(3)} s・相対 `
+          + `${v0ff.mismatchRel.toExponential(2)}・相対の門=${v0ff.gateRel}・参考の絶対門=${v0ff.gateAbsReference})`);
+      }
+      const em = S.find((z) => z.id === 'earthMoonRealKF1');
+      if (!em) bad.push('⑤ 🌘 の行が無い');
+      else {
+        if (em.ladder.find((z) => z.key === 'EXP').onBound !== false) bad.push('⑤ 🌘 の EXP が 1 公転で壊れない(実測が変わった)');
+        if (em.verdicts.some((v) => v.gateRel !== null)) bad.push('⑤ 🌘 の壊れた行で門が判定を出している');
+        cases.push('🌘 は ON 走行が 1 公転で壊れる —— 門は判定しない(差として読まない)');
+      }
+      const ps = S.find((z) => z.id === 'psrDoubleAB');
+      if (!ps) bad.push('⑥ 📻 の行が無い');
+      else {
+        if (!ps.verdicts.every((v) => v.gateRel === true)) bad.push('⑥ 📻 に相対の門を通らない段がある');
+        cases.push(`📻 は全段が相対の門を通る(EXP の ON/OFF 差 ${ps.ladder.find((z) => z.key === 'EXP').dPhaseTimeS.values[2].toExponential(3)} s)`);
+      }
+      if (!(J.tidalContract && J.tidalContract.allAgree === true)) bad.push('⑦ 潮汐鍵の受理契約がページと純関数で食い違う');
+      // 3×3 の点質量 T のトレースは真空で 0。軟化 ε があると −3ε²/q だけずれる(q=r²+ε²)ので、その分を許す
+      for (const s of S) {
+        const q = s.extDistanceM ** 2 + s.eps ** 2, allow = 3 * s.eps * s.eps / q + 1e-14;
+        if (!(Math.abs(s.tidal.check3.traceRel) <= allow)) bad.push(`⑦ ${s.id} の 3×3 T のトレースが 0 でない(${s.tidal.check3.traceRel})`);
+      }
+      cases.push(`潮汐鍵の受理契約 ページ=純関数 ${(J.tidalContract.rows || []).length} 件・3×3 の T はトレース 0(軟化 ε の分を除く)`);
+      if (!(J.meta.doNotWrite || []).length) bad.push('⑧ meta.doNotWrite が無い');
+      if (at < 0) bad.push('⑧ PHYSICS に〔第278便d〕節が無い');
+      else {
+        if (cut < 0) bad.push('⑧ PHYSICS〔第278便d〕に「言わないこと。」の宣言が無い');
+        for (const q of ['背景を無視してよいことを証明した', '背景を較正した', '閾値を採用した'])
+          if (sec.indexOf(q) >= 0) bad.push(`⑧ PHYSICS〔第278便d〕に「${q}」が出ている`);
+      }
+      cases.push('PHYSICS〔第278便d〕と一致(禁止語なし)');
+    } catch (e) { bad.push('正本 JSON が読めない: ' + String(e).slice(0, 90)); }
+    add('docs.bgEquivalence', bad.length === 0,
+      `**明示天体 ↔ 局所背景展開の一致試験**(第278便d・統括の読み R56 ①「同じ外部源を明示天体と局所背景展開に`
+      + `分け直したときの一致」): ${cases.join(' / ')} —— **一致は「背景展開が明示天体の効果を再現する」ことであって、`
+      + `効果が小さいことではない**(❄️ の ON/OFF 差そのものは 10³ s 級)。閾値 1e−3σ_Buie は**採用していない**`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 0a3z9) 第278便d(統括の読み R56 ③): docs.comovingAdvection ----
+// ----   `toComovingFrame` の 2 規約(`fieldTime`=偏微分・`advected`=物質微分)を結ぶ**移流項 (V·∇)** を
+// ----   純関数 `advectionOfBackground`/`fieldTimePlusAdvection`(tests/lib-w278d-bgequiv.mjs)で明示し、
+// ----   **fieldTime + 移流 = advected** を**差分(真値)**で確かめる。固定するのは 5 点:
+// ----     ① 代数: fieldTime+移流 と advected の全成分の相対差 ≤1e−15。
+// ----     ② 背景+局所源(toy): 差分だけで ∂ₜ′u′ − ∂ₜu = (V·∇)u(残差 ≤1e−9)・advected と fieldTime+移流の
+// ----        予言が差分に合い(≤1e−9)、座標変換の加速度 a=(v·∇)u+∂ₜu を不変にする(≤1e−12)。
+// ----        fieldTime だけ(移流なし)は差分から外れる(≥1e−3 —— **見分けられる配置である**ことの確認)。
+// ----     ③ 背景だけでも一般の線形背景なら見分けられ、**点源形(∇A=u_bg⊗∇W)の背景だけ**なら (V·∇)u≡0 で
+// ----        見分けられない(第277便d の「背景だけでは区別できない」はこの形のときの話)。
+// ----     ④ ❄️ の配置(正本 JSON): fieldTime+移流 の予言が差分に合う。
+// ----     ⑤ PHYSICS〔第278便d〕に fieldTime を禁止しない旨と移流項がある。
+// ----   **root は SKIP**(対象 html に BG_TIDAL_KEY が無い世代 —— 同便の成果物の世代判定)。
+{
+  const bad = [];
+  const cases = [];
+  const htmlT = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!TARGET.startsWith('beta/') || htmlT.indexOf('BG_TIDAL_KEY') < 0) {
+    console.log('SKIP docs.comovingAdvection(第278便d 未適用 — 対象に BG_TIDAL_KEY なし: ' + TARGET + ')');
+  } else {
+    try {
+      const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w278d-bgequiv.mjs'));
+      const toyBg = { W0: 1, A0: [0.3, 0.1], gradW: [-0.2, 0.05], gradA: [0.1, -0.05, 0.02, 0.07], dWdt: 0.03, dAdt: [0.01, -0.02] };
+      const toySrc = [{ m: 0.5, x: 1.2, y: -0.4, vx: 0.2, vy: 0.5, ax: -0.1, ay: 0.05 }];
+      const V = [0.7, -0.4];
+      const alg = L.advectionIdentity(toyBg, V);
+      if (!(alg && alg.maxRel <= 1e-15)) bad.push(`① 代数の恒等式が崩れた(${alg && alg.maxRel})`);
+      const o = { p: 2, eps: 0.1, h: 1e-3, dl: 1e-3, vParticle: [0.6, 0.2], Lref: 1 };
+      const a = L.advectionFDCheck(toySrc, toyBg, [0, 0], V, o);
+      const C = a.conventions;
+      if (!(a.identityFD <= 1e-9)) bad.push(`② 差分の恒等式 ∂ₜ′u′−∂ₜu=(V·∇)u が崩れた(${a.identityFD})`);
+      for (const k of ['advected', 'fieldTime+advection']) {
+        if (!(C[k] && C[k].residVsMovingFD <= 1e-9)) bad.push(`② ${k} の予言が差分に合わない(${C[k] && C[k].residVsMovingFD})`);
+        if (!(C[k] && C[k].accelRel <= 1e-12)) bad.push(`② ${k} で座標変換の加速度が不変でない(${C[k] && C[k].accelRel})`);
+      }
+      if (!(C.fieldTime && C.fieldTime.residVsMovingFD >= 1e-3)) bad.push('② fieldTime だけで差分に合ってしまう(見分けられない配置)');
+      if (!a.distinguishable) bad.push('② toy の配置で (V·∇)u が立っていない');
+      cases.push(`代数 ${alg.maxRel.toExponential(1)}・差分の恒等式 ${a.identityFD.toExponential(1)}・advected/fieldTime+移流の残差 `
+        + `${C.advected.residVsMovingFD.toExponential(1)}/${C['fieldTime+advection'].residVsMovingFD.toExponential(1)}・`
+        + `fieldTime だけ ${C.fieldTime.residVsMovingFD.toExponential(2)}`);
+      const b = L.advectionFDCheck([], toyBg, [0, 0], V, o);
+      const pointBg = { W0: 1, A0: [0, 0.8], gradW: [-0.2, 0.05], gradA: [0, 0, -0.16, 0.04], dWdt: -0.04, dAdt: [0, -0.032] };
+      const c = L.advectionFDCheck([], pointBg, [0, 0], V, o);
+      if (!b.distinguishable) bad.push('③ 一般の線形背景だけで見分けられない(実測が変わった)');
+      if (c.distinguishable) bad.push('③ 点源形の背景だけで見分けられてしまう(∇u≡0 のはず)');
+      cases.push(`背景だけ: 一般の線形背景は見分けられる=${b.distinguishable}・点源形は |(V·∇)u|/参照率 `
+        + `${c.VgradUOverRateRef.toExponential(1)} で見分けられない`);
+      const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'bgequiv-w278d.json'), 'utf8'));
+      const pc = (J.advection || []).find((z) => String(z.config).startsWith('❄️'));
+      if (!pc) bad.push('④ 正本 JSON に ❄️ の移流行が無い');
+      else {
+        if (!(pc.conventions['fieldTime+advection'].residVsMovingFD <= 1e-9)) bad.push('④ ❄️ で fieldTime+移流 が差分に合わない');
+        if (!pc.distinguishable) bad.push('④ ❄️ の配置で (V·∇)u が立っていない');
+        cases.push(`❄️ fieldTime+移流の残差 ${pc.conventions['fieldTime+advection'].residVsMovingFD.toExponential(1)}・`
+          + `fieldTime だけ ${pc.conventions.fieldTime.residVsMovingFD.toExponential(2)}`);
+      }
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const at = P.indexOf('〔第278便d');
+      const sec = at >= 0 ? P.slice(at, at + 40000) : '';
+      if (at < 0) bad.push('⑤ PHYSICS に〔第278便d〕節が無い');
+      else if (sec.indexOf('fieldTime + 移流 = advected') < 0 || sec.indexOf('fieldTime を禁止しない') < 0)
+        bad.push('⑤ PHYSICS〔第278便d〕に「fieldTime + 移流 = advected」「fieldTime を禁止しない」が無い');
+      cases.push('PHYSICS〔第278便d〕と一致');
+    } catch (e) { bad.push('純関数/正本が読めない: ' + String(e).slice(0, 90)); }
+    add('docs.comovingAdvection', bad.length === 0,
+      `**移流項の一貫性**(第278便d・統括の読み R56 ③「advected は物質微分・fieldTime は偏微分 —— 両者を結ぶ`
+      + `移流項を一貫して扱う。fieldTime を禁止にはしない」): ${cases.join(' / ')} —— `
+      + `**規約を混ぜる(背景だけ fieldTime・局所源は共動系の偏微分)と座標変換の加速度が不変でなくなる**。`
+      + `fieldTime は**背景と局所源の両方に同じ規約で使えば**整合し、共動系の物質微分へは移流項を足して戻す`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
@@ -14811,8 +15240,11 @@ if (!FAST) {
 // ----     ③ 否定対照: 片側の自転を 0 にするとキックが立つ(> 0)
 // ----     ④ 帳簿: 運動量相対残差・J_z 相対残差・|ΔE+熱| 相対残差が閾値内で、熱は非負(Q̇≥0)
 // ----     ⑤ 対照(🌨️)の dt 収束: 3 段の同方向1周が 1e-5 相対で一致する(則が無い側は収束する)
-// ----     ⑥ **正式判定は門(3σ)のとおり**: 2 本とも観測 σ に対して |nσ|>3 = 否(3σ)である
-// ----        (**「較正完了」「観測一致」とは書かない** —— 判定の語は門が返す 3 つだけ)
+// ----     ⑥ 第278便b(統括の検証項目 R53・AM16): **観測検定欄は「判定保留(量定義不一致)」**。
+// ----        2 本は同一暦 PLU060 の入力なので Buie 2012 の σ で判定しない —— 差と σ 倍は**比較値**として
+// ----        表示するだけで、obsCard/failureFirst(ja/en)に「否(3σ)」の語が 1 つも無いこと・状態語が
+// ----        あることを固定する(**「較正完了」「観測一致」とは書かない**)
+// ----     ⑥b 第278便b(R54): ⛄ は integrator:"leapfrog"+relativeDrag.integration:"midpoint"・🌨️ は leapfrog
 // ----     ⑦ 決定性(同一構成 2 回はビット同一)・NaN ゼロ・クランプ 0
 // ----   第277便b 未適用の対象(root 等)は SKIP する ----
 {
@@ -14841,6 +15273,10 @@ if (!FAST) {
           sc: S.params.stateCarry, mp: S.massPrec, sp: S.spinPrec,
           mF64: S.m instanceof Float64Array, spF64: S.spin instanceof Float64Array,
           hasRD: !!S.hasRelativeDrag, kappa: S.relDrag ? S.relDrag.kappa : null,
+          integ: S.integrator, integration: S.relDrag ? (S.relDrag.integration || 'explicit') : null,
+          // 第278便b: 観測検定欄の状態語(obsCard・failureFirst の ja/en を 1 本の文字列で見る)
+          cardJa: JSON.stringify([p.obsCard, p.failureFirst]),
+          cardEn: JSON.stringify([(p.en || {}).obsCard, (p.en || {}).failureFirst]),
           eps: S.params.softening, cls: p.sampleClass, fid: p.fidelity,
           fam: p.familyId, role: p.familyRole, emoji: p.emoji,
           bodies: JSON.stringify(p.bodies) };
@@ -14901,19 +15337,17 @@ if (!FAST) {
         const P0 = 551855.8944 / 10;      // PLU060 400 年平均(単位時間)
         const maxSteps = Math.ceil((orbits + 0.2) * P0 / dt);
         const rev = [];
-        let ang = 0, prev = Math.atan2(S.y[oi] - S.y[ci], S.x[oi] - S.x[ci]), cmMax = 0;
+        // 第278便b: 周は初期方向に対する位相 φ=atan2(r₀×r, r₀·r) の負→非負で数える
+        // (角度の足し込みは丸めが揃って周期に段差を作る — 器 exp-w278b-charonwin.mjs の実測)
+        const r0x = S.x[oi] - S.x[ci], r0y = S.y[oi] - S.y[ci];
+        let phPrev = 0, cmMax = 0;
         let k = 0;
         for (; k < maxSteps && rev.length < orbits; k++) {
           S.step(dt);
-          const th = Math.atan2(S.y[oi] - S.y[ci], S.x[oi] - S.x[ci]);
-          let d = th - prev; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI;
-          const p0 = ang; ang += d; prev = th;
-          const n0 = Math.floor(Math.abs(p0) / (2 * Math.PI)), n1 = Math.floor(Math.abs(ang) / (2 * Math.PI));
-          if (n1 > n0) {
-            const tg = Math.sign(ang) * n1 * 2 * Math.PI;
-            const fr = (ang !== p0) ? (tg - p0) / (ang - p0) : 0;
-            rev.push((k - 1 + fr) * dt);
-          }
+          const dx = S.x[oi] - S.x[ci], dy = S.y[oi] - S.y[ci];
+          const ph = Math.atan2(r0x * dy - r0y * dx, r0x * dx + r0y * dy);
+          if (phPrev < 0 && ph >= 0) rev.push((k + (0 - phPrev) / (ph - phPrev)) * dt);
+          phPrev = ph;
           if ((k & 1023) === 0) {
             const cx = (S.m[ci] * S.x[ci] + S.m[oi] * S.x[oi]) / MT;
             const cy = (S.m[ci] * S.y[ci] + S.m[oi] * S.y[oi]) / MT;
@@ -14967,7 +15401,11 @@ if (!FAST) {
     const pOf = (run) => (run && run.revP && run.revP.length >= 2) ? sec(run.revP[1]) : NaN;
     const pDfm = pOf(r.runDfm), pCtl = pOf(r.ctlStages[0]), pCtl2 = pOf(r.ctlStages[1]);
     const sigDfm = (pDfm - OBSV) / OBSS, sigCtl = (pCtl - OBSV) / OBSS;
-    const gate = (ns) => (!Number.isFinite(ns) ? '保留(測定不能)' : (Math.abs(ns) <= 3 ? '合(3σ)' : '否(3σ)'));
+    // 第278便b(R53): 観測検定欄は門を掛けない —— 状態語は「判定保留(量定義不一致)」、σ 倍は比較値
+    const OBS_STATUS = '判定保留(量定義不一致)';
+    const cardOk = !!d && !!c && [d.cardJa, c.cardJa].every((t) => t.indexOf('否(3σ)') < 0 && t.indexOf(OBS_STATUS) >= 0)
+      && [d.cardEn, c.cardEn].every((t) => !/FAIL \(3 sigma\)/.test(t) && /VERDICT WITHHELD \(QUANTITY-DEFINITION MISMATCH\)/.test(t));
+    const integOk = !!d && !!c && d.integ === 'leapfrog' && c.integ === 'leapfrog' && d.integration === 'midpoint' && c.integration === null;
     const ctlConv = Number.isFinite(pCtl) && Number.isFinite(pCtl2) && Math.abs(pCtl / pCtl2 - 1) < 1e-5;
     const ledgerOk = r.runDfm && r.ctlStages[0]
       && r.runDfm.Prel < 1e-10 && r.runDfm.Lrel < 1e-8 && r.runDfm.Eclose < 1e-6
@@ -14977,16 +15415,18 @@ if (!FAST) {
       && r.runDfm.clamp.every((v) => v === 0) && r.ctlStages[0].clamp.every((v) => v === 0);
     add('behavior.plutoCharonDFM',
       declOk && zeroOk && negOk && ledgerOk && ctlConv && r.twiceDfm && r.twiceCtl
-      && Number.isFinite(pDfm) && Number.isFinite(pCtl),
+      && cardOk && integOk && Number.isFinite(pDfm) && Number.isFinite(pCtl),
       `宣言=${declOk}(L5/T1/M24・κ=G/c₀²・kFrame=0・massPrecision=double で m が Float64・`
       + `⛄ だけ relativeDrag κ=${d && d.kappa}〔自転も Float64〕・**2 本の bodies は 1 bit 同じ**) / `
       + `**零条件**: 相互同期した円軌道で s=0・キック=${z && z.kickMag}・トルク=${z && z.torqueI}・`
       + `ΔL_z=${z && z.dL}・熱=${z && z.heat}(**厳密に 0**) / `
       + `否定対照(片側の自転 0): すべり=${ng && ng.slipI.toExponential(3)}・キック=${ng && ng.kickMag.toExponential(3)}・`
       + `トルク=${ng && ng.torqueI.toExponential(3)}・J_z 相対残差=${ng && ng.dLrel.toExponential(2)} / `
-      + `**正式判定は門のとおり** ⛄ ${Number.isFinite(pDfm) ? pDfm.toFixed(3) : '—'} s(${sigDfm.toFixed(2)}σ・${gate(sigDfm)})・`
-      + `🌨️ ${Number.isFinite(pCtl) ? pCtl.toFixed(3) : '—'} s(${sigCtl.toFixed(2)}σ・${gate(sigCtl)})`
-      + `〔観測 ${OBSV}±${OBSS} s・Buie 2012〕/ `
+      + `積分器 ⛄ ${d && d.integ}+${d && d.integration}・🌨️ ${c && c.integ}(第278便b)=${integOk} / `
+      + `**観測検定欄は「${OBS_STATUS}」**(obsCard/failureFirst の ja/en に「否(3σ)」0・状態語あり=${cardOk})—— `
+      + `比較値(門ではない)⛄ ${Number.isFinite(pDfm) ? pDfm.toFixed(3) : '—'} s(${sigDfm.toFixed(2)}σ)・`
+      + `🌨️ ${Number.isFinite(pCtl) ? pCtl.toFixed(3) : '—'} s(${sigCtl.toFixed(2)}σ)`
+      + `〔Buie 2012 ${OBSV}±${OBSS} s〕/ `
       + `対照の dt 収束=${ctlConv}(h と h2 が 1e-5 相対で一致) / `
       + `帳簿 ⛄ P=${r.runDfm && r.runDfm.Prel.toExponential(2)}・J_z=${r.runDfm && r.runDfm.Lrel.toExponential(2)}・`
       + `|ΔE+熱|=${r.runDfm && r.runDfm.Eclose.toExponential(2)}・熱=${r.runDfm && r.runDfm.heat.toExponential(3)}(Q̇<0 の步 ${r.runDfm && r.runDfm.heatPos}) / `
@@ -15219,6 +15659,171 @@ if (!FAST) {
   }
 }
 
+// ---- 8c3f) 第278便b(統括の検証項目 R54): behavior.relativeDragMidpoint ----
+// ----   `physics.relativeDrag.integration:"midpoint"`(**陰的中点法の opt-in**)を固定する。
+// ----     ① 無次元の最小対照(G=1・m 0.5/0.5・間隔 1・接線相対速度 1・ω=0・R=0.01・κ=1・W₀=ε=0・h=0.01):
+// ----        陽的経路は 機械 E +0.24505・熱 −0.24505・ω 0→100 を**再現**し(否定対照)、中点法は
+// ----        熱 +1.92×10⁻⁶・|機械 E+熱| ≤1e-16・P と J_z の残差 <1e-14(純関数 lib-w278b-midpoint)
+// ----     ② R=0.01/0.1/1 × h=1e−4/1e−2/1 の 9 条件で**熱は非負**・|機械 E+熱| ≤1e-16
+// ----     ③ 零条件(相互同期した円軌道)で中点法もキック・トルク・熱が **0 そのもの**
+// ----     ④ 拒否(状態不変): 純関数で零慣性・多対・零質量・r=0 / 受理契約で重複対・不正な integration・
+// ----        零慣性の中点法 / エンジンの步で零慣性は RangeError・状態 1 bit 不変
+// ----     ⑤ エンジン(`HP.dfmRelativeDragStep`)の中点法が純関数と 1e-6 相対で一致・読み口
+// ----        `relativeDragProbe` は状態を動かさない・"explicit" は正準形に出ない
+// ----   第278便b 未適用の対象(root 等)は SKIP する ----
+{
+  let LM = null, L7 = null;
+  try { LM = await import('file://' + path.join(ROOT, 'tests/lib-w278b-midpoint.mjs')); } catch (e) { LM = null; }
+  try { L7 = await import('file://' + path.join(ROOT, 'tests/lib-w277b-charondfm.mjs')); } catch (e) { L7 = null; }
+  const hasMid = await page.evaluate(() => typeof HP.relativeDragMidpointSolve === 'function'
+    && HP.allPresets().some((q) => q.id === 'plutoCharonDFM'));
+  if (!LM || !L7 || !hasMid) {
+    console.log('SKIP behavior.relativeDragMidpoint(第278便b の中点法なし — root 等)');
+  } else {
+    const bad = [];
+    const MIN = { G: 1, dt: 0.01, kappa: 1, eps: 0, W0: 0 };
+    const one = (fn, R, h) => { const s = LM.minimalPair({ R }); const a = L7.totalsOf(s);
+      const r = fn(s, Object.assign({}, MIN, { dt: h })); const b = L7.totalsOf(s);
+      return { dE: b.E - a.E, heat: r.heat, err: (b.E - a.E) + r.heat, dP: Math.hypot(b.px - a.px, b.py - a.py),
+        dLrel: Math.abs(b.L - a.L) / Math.abs(a.L), spin: s.spin.slice() }; };
+    const ex = one(L7.pairSlipStep, 0.01, 0.01), mp = one(LM.pairSlipMidpointStep, 0.01, 0.01);
+    if (!(Math.abs(ex.dE - 0.24505) < 1e-12 && Math.abs(ex.heat + 0.24505) < 1e-12 && Math.abs(ex.spin[0] - 100) < 1e-9))
+      bad.push('①陽的経路の否定対照(E +0.24505・熱 −0.24505・ω 100)を再現しない');
+    if (!(mp.heat > 1.90e-6 && mp.heat < 1.94e-6 && Math.abs(mp.err) <= 1e-16 && mp.dP < 1e-14 && mp.dLrel < 1e-14))
+      bad.push('①中点法の熱 1.92e-6・帳簿が閾値外');
+    const nine = [];
+    for (const R of [0.01, 0.1, 1]) for (const h of [1e-4, 1e-2, 1]) nine.push(Object.assign({ R, h }, one(LM.pairSlipMidpointStep, R, h)));
+    if (!nine.every((z) => z.heat >= 0 && Math.abs(z.err) <= 1e-16 && z.dP < 1e-14 && z.dLrel < 1e-14)) bad.push('②9 条件のどこかで熱が負か帳簿が閾値外');
+    const sp = L7.syncCircularPair({ m1: 0.5, m2: 0.5, a: 1, G: 1, R1: 0.01, R2: 0.01 });
+    const zs = { m: sp.m.slice(), x: sp.x.slice(), y: sp.y.slice(), vx: sp.vx.slice(), vy: sp.vy.slice(), spin: sp.spin.slice(), R: sp.R.slice() };
+    const zb = JSON.stringify(zs); const zr = LM.pairSlipMidpointStep(zs, MIN);
+    if (!(zr.kickMax === 0 && zr.torqueMax === 0 && zr.heat === 0 && JSON.stringify(zs) === zb)) bad.push('③零条件が 0 そのものでない');
+    const rej = (mut) => { const s = LM.minimalPair({}); mut(s); const b0 = JSON.stringify(s); let isRE = false;
+      try { LM.pairSlipMidpointStep(s, MIN); } catch (e) { isRE = e instanceof RangeError; } return isRE && JSON.stringify(s) === b0; };
+    const pureRej = [rej((s) => { s.R[0] = 0; }), rej((s) => { s.m.push(0.1); s.x.push(3); s.y.push(0); s.vx.push(0); s.vy.push(0); s.spin.push(0); s.R.push(0.01); }),
+      rej((s) => { s.m[1] = 0; }), rej((s) => { s.x[1] = s.x[0]; })];
+    if (!pureRej.every(Boolean)) bad.push('④純関数の拒否(零慣性・多対・零質量・r=0)のどれかが状態を変えたか拒否しない');
+    const eng = await page.evaluate(() => {
+      const make = (integration, R) => {
+        const p = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'plutoCharonDFM')));
+        if (integration) p.physics.relativeDrag.integration = integration; else delete p.physics.relativeDrag.integration;
+        const v = HP.validatePreset(p); HP.sim.build(v.preset); const S = HP.sim;
+        S.params.G = 1; S.params.softening = 0; S.m[0] = 0.5; S.m[1] = 0.5; S.R[0] = R; S.R[1] = R;
+        S.x[0] = -0.5; S.x[1] = 0.5; S.y[0] = 0; S.y[1] = 0; S.vx[0] = 0; S.vx[1] = 0; S.vy[0] = -0.5; S.vy[1] = 0.5;
+        S.spin[0] = 0; S.spin[1] = 0; S.relDragHeat = 0; S.relDragPos = 0; return S; };
+      const E = (S) => { let e = 0; for (let i = 0; i < 2; i++) { const I = 0.5 * S.m[i] * S.R[i] * S.R[i];
+        e += 0.5 * S.m[i] * (S.vx[i] * S.vx[i] + S.vy[i] * S.vy[i]) + 0.5 * I * S.spin[i] * S.spin[i]; } return e; };
+      const snap = (S) => JSON.stringify([S.vx[0], S.vx[1], S.vy[0], S.vy[1], S.spin[0], S.spin[1], S.relDragHeat]);
+      const o = {};
+      let S = make('midpoint', 0.01); const e0 = E(S); const s0 = snap(S);
+      HP.relativeDragProbe(S, 0, 1, 0.01); o.probeReadOnly = snap(S) === s0;
+      HP.dfmRelativeDragStep(S, 0.01); o.midHeat = S.relDragHeat; o.midErr = E(S) - e0 + S.relDragHeat; o.midPos = S.relDragPos;
+      S = make(null, 0.01); const e1 = E(S); HP.dfmRelativeDragStep(S, 0.01);
+      o.exHeat = S.relDragHeat; o.exPos = S.relDragPos; o.exDE = E(S) - e1;
+      S = make('midpoint', 0.01); S.R[0] = 0; const s2 = snap(S); let re = false;
+      try { HP.dfmRelativeDragStep(S, 0.01); } catch (e) { re = e instanceof RangeError; }
+      o.engineReject = re && snap(S) === s2;
+      const base = () => JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'plutoCharonDFM')));
+      let p = base(); delete p.physics.relativeDrag.integration; p.physics.relativeDrag.pairs = [[0, 1], [1, 0]];
+      o.dupRejected = !HP.validatePreset(p).ok;
+      p = base(); p.physics.relativeDrag.integration = 'rk4'; o.badIntegRejected = !HP.validatePreset(p).ok;
+      p = base(); p.bodies[0].radius = 0; o.zeroInertiaRejected = !HP.validatePreset(p).ok;
+      p = base(); p.physics.relativeDrag.integration = 'explicit'; let v = HP.validatePreset(p);
+      o.explicitDropped = v.ok && v.preset.physics.relativeDrag.integration === undefined;
+      p = base(); v = HP.validatePreset(p); o.midKept = v.ok && v.preset.physics.relativeDrag.integration === 'midpoint';
+      HP.loadPreset('saturn', false);
+      return o;
+    });
+    if (!(Math.abs(eng.midHeat / mp.heat - 1) < 1e-6 && Math.abs(eng.midErr) <= 1e-16 && eng.midPos === 0))
+      bad.push('⑤エンジンの中点法が純関数と一致しない');
+    if (!(eng.exPos === 1 && eng.exHeat < -0.24 && eng.exDE > 0.24)) bad.push('⑤エンジンの陽的経路が否定対照(熱 −0.245・relDragPos 1)を再現しない');
+    if (!eng.probeReadOnly) bad.push('⑤読み口が状態を動かした');
+    if (!eng.engineReject) bad.push('④エンジンの步で零慣性を状態不変で拒否しない');
+    if (!(eng.dupRejected && eng.badIntegRejected && eng.zeroInertiaRejected)) bad.push('④受理契約の拒否 3 種のどれかが通る');
+    if (!(eng.explicitDropped && eng.midKept)) bad.push('⑤"explicit" が正準形に出るか midpoint が落ちる');
+    add('behavior.relativeDragMidpoint', bad.length === 0,
+      `**陰的中点法 opt-in**(第278便b・R54): 最小対照 h=0.01 で **陽的 機械 E ${ex.dE.toFixed(5)}・熱 ${ex.heat.toFixed(5)}・ω→${ex.spin[0].toFixed(1)}**`
+      + `(否定対照を再現)/ **中点法 熱 ${mp.heat.toExponential(3)}**・|E+熱| ${Math.abs(mp.err).toExponential(1)}・ΔP ${mp.dP}・J_z 相対 ${mp.dLrel} / `
+      + `9 条件(R 0.01/0.1/1 × h 1e-4/1e-2/1)で熱は全件非負・|E+熱| ≤${Math.max(...nine.map((z) => Math.abs(z.err))).toExponential(2)} / `
+      + `零条件でキック・トルク・熱 0 / 拒否(状態不変): 純関数 4 種・受理契約 3 種(重複対・不正な integration・零慣性)・エンジンの步(RangeError) / `
+      + `エンジン中点法の熱 ${eng.midHeat.toExponential(6)}(純関数と一致)・読み口は読み取り専用・"explicit" は正準形に出ない`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.join(' , ')}` : ''));
+  }
+}
+
+// ---- 8c3g) 第278便b(統括の検証項目 R53・AM16): docs.charonTwoColumns — 2 欄・状態語・比較値(fs のみ)----
+// ----   正本 `tests/out/charondfm-w277b.json`(版 w278b-1)と `tests/out/charonwin-w278b.json` について
+// ----     ① 来歴(w272e-1・64 桁)・器の版(w278b-1 / w278b-charonwin-2)・旧値の history(w277b)が残る
+// ----     ② 欄 (1) 暦の再現は PLU060・Horizons PR A/B の 3 行で「合否なし」、欄 (2) 観測検定の状態語は
+// ----        「判定保留(量定義不一致)」で σ 倍は比較値
+// ----     ③ Buie 二体再現(転写・積分器の試験)は軟化の解析値に対して |差| <1e-4 s(dt 0.04・geoPN 0)
+// ----     ④ 4 構成 × 3 刻みの表があり、中点法と leapfrog 対照の刻み半減差が 1e-4 s 未満
+// ----     ⑤ html の ⛄ obsCard の「+32.143 s」「+1219.1σ」が正本の値(小数 3 桁/1 桁)と一致
+// ----     ⑥ html の ⛄🌨️ に「否(3σ)」が 0 個・禁止語 0(正本・台帳 §5.29)
+// ----   正本か ⛄ の中点法宣言が無い対象は SKIP する ----
+{
+  let J = null, W = null;
+  try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests/out/charondfm-w277b.json'), 'utf8')); } catch (e) { J = null; }
+  try { W = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests/out/charonwin-w278b.json'), 'utf8')); } catch (e) { W = null; }
+  const html2 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const segA = html2.indexOf('{ id:"plutoCharonDFM"'), segB = html2.indexOf('{ id:"uranusReal"');
+  const seg = (segA >= 0 && segB > segA) ? html2.slice(segA, segB) : '';
+  if (!J || !W || !seg.includes('integration:"midpoint"')) {
+    console.log('SKIP docs.charonTwoColumns(第278便b の正本か ⛄ の中点法宣言が無い — root 等)');
+  } else {
+    const bad = [];
+    const OBS_STATUS = '判定保留(量定義不一致)';
+    for (const [nm, X, ver] of [['charondfm', J, 'w278b-1'], ['charonwin', W, 'w278b-charonwin-2']]) {
+      const m = X.meta || {};
+      if (m.provenanceVersion !== 'w272e-1' || !/^[0-9a-f]{64}$/.test(String(m.targetSha256 || ''))) bad.push(`①${nm} の来歴が w272e-1/64 桁でない`);
+      if (m.harness !== ver) bad.push(`①${nm} の器の版が ${ver} でない`);
+    }
+    const hist = ((J.history || {}).w277b || {}).columns || {};
+    const hOld = ((hist.plutoCharonDFM || {}).h || {}).periodSec;
+    if (!(Math.abs(hOld - 551866.888) < 0.001)) bad.push('①旧構成(semi+陽的)の h=551866.888 s が history に無い');
+    const tc = J.twoColumns || {};
+    for (const id of ['plutoCharonDFM', 'plutoCharonKF0Control']) {
+      const c = tc[id] || {};
+      const al = c.almanac || [];
+      if (al.length !== 3 || !al.every((z) => Number.isFinite(z.ppm) && /合否なし/.test(z.verdict))) bad.push(`②${id} の暦の再現欄が 3 行・合否なしでない`);
+      if (!c.observation || c.observation.status !== OBS_STATUS || !Number.isFinite(c.observation.comparisonSigma)) bad.push(`②${id} の観測検定欄の状態語/比較値がない`);
+    }
+    const bt = (tc.buieTwoBody || []).find((z) => z.geoPN === 0 && z.stage === 'h4');
+    if (!bt || !(Math.abs(bt.vsSoftenedSec) < 1e-4)) bad.push('③Buie 二体再現が軟化の解析値から 1e-4 s 以上ずれる');
+    const g = (W.tables || {}).grid || {};
+    if (!['kf0Semi', 'dfmSemi', 'kf0Leap', 'dfmMid'].every((k) => g[k] && ['h', 'h2', 'h4'].every((s2) => Number.isFinite(g[k][s2]))))
+      bad.push('④4 構成 × 3 刻みの表が欠ける');
+    else if (!(Math.abs(g.dfmMid.halvingDiffH2H4) < 1e-4 && Math.abs(g.kf0Leap.halvingDiffH2H4) < 1e-4)) bad.push('④中点法/leapfrog の刻み半減差が 1e-4 s 以上');
+    const st = (W.tables || {}).stationary || {};
+    if (['定常周期と呼べる', '過渡を含む'].indexOf(st.verdict) < 0) bad.push('④時間窓の判定語が無い');
+    const dfm = tc.plutoCharonDFM || {};
+    const plu = (dfm.almanac || []).find((z) => z.key === 'plu060-mean400');
+    const wantPlu = plu ? '+' + plu.diffSec.toFixed(3) + ' s' : '(none)';
+    const wantSig = dfm.observation ? '+' + dfm.observation.comparisonSigma.toFixed(1) + 'σ' : '(none)';
+    const card = (seg.match(/obsCard:\[[\s\S]*?\]\s*,\s*\n\s*failureFirst/) || [''])[0];
+    if (card.indexOf(wantPlu) < 0) bad.push(`⑤⛄ obsCard に正本の暦差 ${wantPlu} が無い`);
+    if (card.indexOf(wantSig) < 0) bad.push(`⑤⛄ obsCard に正本の比較値 ${wantSig} が無い`);
+    const nFail = (seg.match(/否\(3σ\)/g) || []).length;
+    if (nFail) bad.push(`⑥⛄🌨️ に「否(3σ)」が ${nFail} 個ある`);
+    const FORBID = ['較正完了', '較正を完了', '観測一致', '較正した', 'kF0 版が成立', '引きずり消失を確認', '判定が増えた'];
+    const scanJ = JSON.parse(JSON.stringify(J)); if (scanJ.meta) delete scanJ.meta.doNotWrite;
+    const scanW = JSON.parse(JSON.stringify(W)); if (scanW.meta) delete scanW.meta.doNotWrite;
+    let verdictDoc = '';
+    try { verdictDoc = fs.readFileSync(path.join(ROOT, 'docs/CALIBRATION_VERDICT_v1.44.md'), 'utf8'); } catch (e) { verdictDoc = ''; }
+    const s529 = (verdictDoc.match(/### 5\.29 [\s\S]*?(?=\n### 5\.3\d|\n## |$)/) || [''])[0];
+    if (!s529 || s529.indexOf(OBS_STATUS) < 0) bad.push('⑥台帳 §5.29 が無いか状態語が無い');
+    for (const w of FORBID) for (const [nm, t] of [['charondfm', JSON.stringify(scanJ)], ['charonwin', JSON.stringify(scanW)], ['§5.29', s529], ['⛄🌨️', seg]])
+      if (t.includes(w)) bad.push(`⑥禁止語「${w}」が ${nm} にある`);
+    add('docs.charonTwoColumns', bad.length === 0,
+      `**2 欄**(AM16): 欄 (1) 暦の再現 ⛄ ${wantPlu}(${plu ? plu.ppm.toFixed(2) : '—'} ppm・PLU060 400 年平均・合否なし)/ `
+      + `欄 (2) 観測検定 **「${OBS_STATUS}」**・比較値 ${wantSig}(門ではない)/ `
+      + `Buie 二体再現(転写・積分器の試験)軟化の解析値との差 ${bt ? bt.vsSoftenedSec.toExponential(2) : '—'} s / `
+      + `4 構成 × 3 刻み: 中点法の刻み半減差 ${g.dfmMid ? g.dfmMid.halvingDiffH2H4.toExponential(2) : '—'} s・leapfrog 対照 ${g.kf0Leap ? g.kf0Leap.halvingDiffH2H4.toExponential(2) : '—'} s / `
+      + `時間窓の判定「${st.verdict}」/ 旧構成の履歴 h=${Number.isFinite(hOld) ? hOld.toFixed(3) : '—'} s / ⛄🌨️ の「否(3σ)」${nFail} 個・禁止語 0`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
 // ---- 8c4) 第186便: 天王星・海王星の実較正2件(💠 環と主要5衛星 / 🌊 海王星とトリトン)----
 // ----   第184便の残り2件(原仮定者の実機採取レコードからの転写)。固定するのは
 // ----   ①宣言整合(fidelity/scaleExp 族/κ/反作用則/環のテスト質量/timeScale・dispMag の宣言つき調整)
@@ -15383,7 +15988,8 @@ if (!FAST) {
     //   回答・2 系統の外部調査)も同じ扱いにする。**採用レコードは 1 行も置き換えていない。**
     const INTAKE_ROW = (r) => /intake_row=2026-09-14/.test(r.note || '')
       || /intake_round=request-C-2026-09-22/.test(r.note || '')
-      || /intake_row=2026-09-22/.test(r.note || '');   // 第277便c: 観測傾きの候補行(collate=pending・門に入らない)
+      || /intake_row=2026-09-22/.test(r.note || '')   // 第277便c: 観測傾きの候補行(collate=pending・門に入らない)
+      || /intake_row=2026-09-23/.test(r.note || '');  // 第278便a: 確認依頼 第 5 回・取得依頼 D の転写行(ビルダーへ渡さない)
     const csvIntakeN = csvParsed.filter(INTAKE_ROW).length;
     const csvRows = csvParsed.filter((r) => !INTAKE_ROW(r));
     const ac = await page.evaluate(({ csvRows }) => {
@@ -15723,7 +16329,8 @@ if (!FAST) {
     //   回答・2 系統の外部調査)も同じ扱いにする。**採用レコードは 1 行も置き換えていない。**
     const INTAKE_ROW = (r) => /intake_row=2026-09-14/.test(r.note || '')
       || /intake_round=request-C-2026-09-22/.test(r.note || '')
-      || /intake_row=2026-09-22/.test(r.note || '');   // 第277便c: 観測傾きの候補行(collate=pending・門に入らない)
+      || /intake_row=2026-09-22/.test(r.note || '')   // 第277便c: 観測傾きの候補行(collate=pending・門に入らない)
+      || /intake_row=2026-09-23/.test(r.note || '');  // 第278便a: 確認依頼 第 5 回・取得依頼 D の転写行(ビルダーへ渡さない)
     const csvIntakeN = csvParsed.filter(INTAKE_ROW).length;
     const csvRows = csvParsed.filter((r) => !INTAKE_ROW(r));
     const si = await page.evaluate(({ csvRows }) => {
@@ -16039,7 +16646,8 @@ if (!FAST) {
     //   回答・2 系統の外部調査)も同じ扱いにする。**採用レコードは 1 行も置き換えていない。**
     const INTAKE_ROW = (r) => /intake_row=2026-09-14/.test(r.note || '')
       || /intake_round=request-C-2026-09-22/.test(r.note || '')
-      || /intake_row=2026-09-22/.test(r.note || '');   // 第277便c: 観測傾きの候補行(collate=pending・門に入らない)
+      || /intake_row=2026-09-22/.test(r.note || '')   // 第277便c: 観測傾きの候補行(collate=pending・門に入らない)
+      || /intake_row=2026-09-23/.test(r.note || '');  // 第278便a: 確認依頼 第 5 回・取得依頼 D の転写行(ビルダーへ渡さない)
     const csvIntakeN = csvParsed.filter(INTAKE_ROW).length;
     const csvAll = csvParsed.filter((r) => !INTAKE_ROW(r));
     const csvRows = csvAll.filter((r) => !BUILDER_SKIP.has(r.quantity)).map((r) => {
@@ -30826,7 +31434,14 @@ if (!FAST) {
     await hp.waitForFunction(() => !!window.HP);
     const r = await hp.evaluate(async () => {
       const wait = (ms) => new Promise((res) => setTimeout(res, ms));
-      const IDS = ['hud', 'bodyEdit', 'aboutPanel', 'pmPanel', 'avPanel'];
+      // 第278便e(原仮定者の裁定(第68報)「UI」②): 「このアプリについて」「監査ビュー」は**画面手前の
+      // モーダル**(position:fixed・ビューポート全体を覆う)になった世代では、フッターの上に出るのが
+      // 仕様である —— キャンバス上の絶対配置ではなくなったので、この検査の対象から外す(外した名前は
+      // detail に出す。手前表示の契約は ui.frontModals が別に測る)。root 等の旧世代は従来どおり 5 枚
+      const FRONT = ['aboutPanel', 'avPanel'].filter((id) => { const el = document.getElementById(id);
+        return !!el && getComputedStyle(el).position === 'fixed'; });
+      const IDS = ['hud', 'bodyEdit', 'aboutPanel', 'pmPanel', 'avPanel'].filter((id) => FRONT.indexOf(id) < 0);
+      const OPEN = ['aboutPanel', 'pmPanel', 'avPanel', 'bodyEdit'].filter((id) => FRONT.indexOf(id) < 0);
       // 「フッター」= 操作列の上端から画面下端まで(操作列・タブ・パネル)
       const hits = (el) => {
         const tr = document.getElementById('transport').getBoundingClientRect();
@@ -30861,18 +31476,18 @@ if (!FAST) {
       const narrow = snap();
       document.getElementById('btnPanelExpand').click();
       await wait(140);
-      // 全面パネル 3 枚と粒子編集も開いた状態で測る(いちばん不利な形)
-      for (const id of ['aboutPanel', 'pmPanel', 'avPanel', 'bodyEdit'])
+      // 全面パネル 3 枚と粒子編集も開いた状態で測る(いちばん不利な形。第278便e 以降は手前のモーダル 2 枚を除く)
+      for (const id of OPEN)
         document.getElementById(id).style.display = 'block';
       await wait(80);
       const wide = snap();
-      for (const id of ['aboutPanel', 'pmPanel', 'avPanel', 'bodyEdit'])
+      for (const id of OPEN)
         document.getElementById(id).style.display = 'none';
       document.getElementById('btnPanelExpand').click();
       await wait(140);
       const back = snap();
       document.getElementById('btnPanelClose').click();
-      return { narrow, wide, back };
+      return { narrow, wide, back, front: FRONT };
     });
     await ctxH.close();
     const sum = (o) => Object.values(o.out).reduce((a, b) => a + (b ? b.hit : 0), 0);
@@ -30893,6 +31508,7 @@ if (!FAST) {
       Object.keys(r.wide.out).map((k) => k + '=' + (r.wide.out[k] ? r.wide.out[k].hit + '/' + r.wide.out[k].n : '—')).join(' ') +
       `)→ 狭 ${r.back.canvasH}px(当たり ${sum(r.back)}点) / #hud の矩形下端 ${r.wide.hudRect}px(クリップで描かれない)/ ` +
       `JSエラー=${herrs.length}` +
+      (r.front.length ? ` / 画面手前のモーダル(対象外・ui.frontModals が測る)=${r.front.join(',')}` : '') +
       (Object.values(ok).every(Boolean) ? '' : ' / NG: ' + Object.keys(ok).filter((k) => !ok[k]).join(',')));
   } else {
     console.log('SKIP ui.hudUnderPanel(対象に第276便f の #app.panelWide の overflow:hidden なし — root 等)');
@@ -31272,6 +31888,342 @@ if (!FAST) {
       `失敗から見る ${rs.src.failureFirst} 本・無し ${rs.src.none} 本(門の語 ${rs.nGates} 種と 1 字も違わない)/ ` +
       `畳んだ見出しへ付いた札 ${rs.nTag} 個(失敗から見る ${rs.nFf} 箱・観測結果カード ${rs.nOc} 箱を掃引)/ ` +
       `例=[${rs.sample.join(' | ')}] / NG=[${rs.bad.slice(0, 4).join(' ')}](0件)`);
+  }
+}
+
+// ---- 第278便e(原仮定者の裁定(第68報)「UI」4 件 + モデルルーティング): UI はすべて表示専用、
+// ---- 実行時 LLM は送信本文だけ(物理・presetSig・保存 JSON には 1 bit も効かない)。世代判定は
+// ---- 第278便e の実体(html の幅宣言・.fmModal・#ppSearchClear・.ocHeadIcon・claude-opus-5-5)の
+// ---- 有無 —— root 等では自動 SKIP。採寸の器は tests/exp-w278e-uilayout.mjs(ログ用・正本ではない)。
+// ----   ui.landscapeWidth … 横画面 2 カラムの右カラム = clamp(480px,54vw,630px)(旧 clamp(320px,36vw,420px)
+// ----     の 3 値をそろって 1.5 倍)・「サンプルを選ぶ」の箱 = min(840px, 画面幅−28px)(560×1.5)。
+// ----     1024×768 / 1280×800 / 1366×768 / 1920×1080 で右カラム幅が clamp の計算値・文書の横はみ出し 0・
+// ----     操作列/タブのボタンの折り返し 0・4 タブのパネル内の横はみ出し 0・キャンバス幅 ≥ 400px。
+// ----     縦画面 412×915 は flex のまま・箱の上限 560px のまま(縦画面は不変)。
+// ----   ui.frontModals … #aboutPanel / #avPanel が #ppModal と同じ画面手前のモーダル: body 直下
+// ----     (#canvasWrap の外)・position fixed・z-index が #ppModal と同値・ビューポートの当たり判定 100%・
+// ----     role=dialog / aria-modal=true / aria-labelledby(参照先が実在)・✕・Esc・背景クリックで閉じ、
+// ----     箱のクリックでは閉じない・箱だけが縦スクロール(overflow-y:auto)・--uz で文字が拡大・
+// ----     #appTitle の aria-controls と監査ビュー導線(aria-controls / aria-expanded)は不変・
+// ----     横画面 1280×800 で箱がキャンバス列と右カラムの両方に被る・about と av は排他・
+// ----     「サンプルを選ぶ」を上に重ねた Esc は手前の窓だけを閉じる。
+// ----   ui.searchClear … ✕ は type=button・aria-label(ja「検索をクリア」/ en「Clear search」)・
+// ----     入力が空で非表示/入力で表示・押すと検索欄が空・一覧が絞り込み前の行数へ戻る・フォーカスが
+// ----     検索欄・412×915 で見出し行が 1 行(はみ出し 0)・✕ は検索欄の内側。
+// ----   ui.obscardIcon … obsCard を持つ内蔵の全本で「観測結果カード」summary の先頭が 📇(aria-hidden)・
+// ----     aria-hidden を除いた文字列は T('ocHead')+状態語のまま(読み上げ名は不変)・📇 は説明タブの
+// ----     他の見出しに無い・ja/en とも。
+// ----   ai.modelList … anthropic.models = [claude-sonnet-5, claude-opus-5-5, claude-opus-5]・既定 sonnet-5・
+// ----     フォールバック sonnet-5→opus-5-5・opus-5 / opus-5-5 は連鎖なし・候補の datalist に opus-5-5。
+// ----     **fetch を差し替えて callLLM が実際に送る本文を読む**: opus-5-5 は thinking キー無し・
+// ----     max_tokens 16000、sonnet-5 / opus-5 は thinking:{type:"disabled"}・max_tokens 4000。どの本文にも
+// ----     tool_choice / budget_tokens / output_config(effort)が無い。thinking ブロックが先頭の応答からも
+// ----     text を取り出せる。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has278e = /clamp\(480px,54vw,630px\)/.test(html) && /class="fmModal"/.test(html)
+    && /ppSearchClear/.test(html) && /ocHeadIcon/.test(html) && /"claude-opus-5-5"/.test(html);
+  if (!has278e) {
+    console.log('SKIP ui.landscapeWidth / ui.frontModals / ui.searchClear / ui.obscardIcon / ai.modelList(対象に第278便e の幅宣言・.fmModal・#ppSearchClear・.ocHeadIcon・claude-opus-5-5 なし — root 等)');
+  } else {
+    const errs = [];
+    const openAt = async (w, h) => {
+      const ctx = await browser.newContext({ viewport: { width: w, height: h } });
+      const pg = await ctx.newPage();
+      pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+      await pg.goto(INDEX, { waitUntil: 'load' });
+      await pg.waitForFunction(() => !!window.HP);
+      await pg.evaluate(() => HP.setLang('ja'));
+      return { ctx, pg };
+    };
+    // --- ① 横画面の幅
+    const lw = [];
+    for (const [w, h] of [[412, 915], [1024, 768], [1280, 800], [1366, 768], [1920, 1080]]) {
+      const { ctx, pg } = await openAt(w, h);
+      lw.push(await pg.evaluate(async () => {
+        const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+        const lines = (el) => { const rg = document.createRange(); rg.selectNodeContents(el);
+          const ts = new Set(); for (const q of rg.getClientRects()) if (q.width > 0) ts.add(Math.round(q.top)); return ts.size; };
+        const grid = getComputedStyle(document.getElementById('app')).display === 'grid';
+        const col = document.getElementById('tabs').getBoundingClientRect().width;
+        const cv = document.getElementById('canvasWrap').getBoundingClientRect().width;
+        const expCol = grid ? Math.min(630, Math.max(480, 0.54 * innerWidth)) : innerWidth;
+        const wrapped = [...document.querySelectorAll('#transport button, nav#tabs button')]
+          .filter((b) => b.getBoundingClientRect().width > 0 && lines(b) > 1).length;
+        let panelX = 0;
+        for (const t of ['help', 'params', 'saves', 'ai']) {
+          document.querySelector('nav#tabs button[data-tab="' + t + '"]').click(); await wait(100);
+          const p = document.getElementById('panel'); panelX = Math.max(panelX, p.scrollWidth - p.clientWidth);
+        }
+        document.getElementById('btnPanelClose').click();
+        document.getElementById('btnPresetPick').click(); await wait(120);
+        const bx = document.querySelector('#ppModal .ppBox');
+        const boxW = bx.getBoundingClientRect().width, boxMax = getComputedStyle(bx).maxWidth;
+        document.getElementById('ppClose').click();
+        return { vw: innerWidth, vh: innerHeight, grid, col: +col.toFixed(1), expCol: +expCol.toFixed(1), cv: +cv.toFixed(1),
+          docX: document.documentElement.scrollWidth - innerWidth, wrapped, panelX,
+          boxW: +boxW.toFixed(1), boxMax };
+      }));
+      await ctx.close();
+    }
+    const lwBad = [];
+    for (const r of lw) {
+      const tag = r.vw + '×' + r.vh;
+      if (r.docX !== 0) lwBad.push(tag + ':docX' + r.docX);
+      if (r.wrapped !== 0) lwBad.push(tag + ':wrap' + r.wrapped);
+      if (r.panelX !== 0) lwBad.push(tag + ':panelX' + r.panelX);
+      if (r.vw >= 900) {
+        if (!r.grid) lwBad.push(tag + ':notGrid');
+        if (Math.abs(r.col - r.expCol) > 1) lwBad.push(tag + ':col' + r.col + '≠' + r.expCol);
+        if (r.cv < 400) lwBad.push(tag + ':canvas' + r.cv);
+        if (r.boxMax !== '840px' || Math.abs(r.boxW - Math.min(840, r.vw - 28)) > 1) lwBad.push(tag + ':box' + r.boxW + '/' + r.boxMax);
+      } else {
+        if (r.grid) lwBad.push(tag + ':grid');
+        if (r.boxMax !== '560px' || Math.abs(r.boxW - Math.min(560, r.vw - 28)) > 1) lwBad.push(tag + ':box' + r.boxW + '/' + r.boxMax);
+      }
+    }
+    const declOk = /grid-template-columns:minmax\(0,1fr\) clamp\(480px,54vw,630px\);/.test(html)
+      && !/grid-template-columns:minmax\(0,1fr\) clamp\(320px,36vw,420px\)/.test(html);
+    add('ui.landscapeWidth', declOk && lwBad.length === 0,
+      `宣言 clamp(480px,54vw,630px)(旧 320/36vw/420 の 1.5 倍・旧値の残り無し)=${declOk} / ` +
+      lw.map((r) => `${r.vw}×${r.vh}: ${r.grid ? '2カラム 右' + r.col + 'px(期待' + r.expCol + ')・キャンバス' + r.cv + 'px' : '縦積み'}` +
+        `・箱${r.boxW}px(上限${r.boxMax})・横はみ出し${r.docX}・折り返し${r.wrapped}・パネル内横${r.panelX}`).join(' / ') +
+      ` / NG=[${lwBad.slice(0, 6).join(' ')}](0件)`);
+
+    // --- ② 画面手前のモーダル(縦 412×915・横 1280×800)
+    const fm = [];
+    for (const [w, h] of [[412, 915], [1280, 800]]) {
+      const { ctx, pg } = await openAt(w, h);
+      fm.push(await pg.evaluate(async () => {
+        const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+        const bad = [];
+        // 実機と同じく、フォーカスのある要素(無ければ body)へ送って document / window へ浮上させる
+        const esc = () => (document.activeElement || document.body).dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+        const isOpen = (id) => document.getElementById(id).style.display === 'block';
+        const cover = (el) => { let hit = 0, n = 0;
+          for (let fy = 0.03; fy < 1; fy += 0.06) for (let fx = 0.03; fx < 1; fx += 0.06) {
+            n++; const s = document.elementsFromPoint(innerWidth * fx, innerHeight * fy)[0];
+            if (s && (s === el || el.contains(s))) hit++; }
+          return hit / n; };
+        const inter = (a, b) => a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom;
+        document.getElementById('btnPresetPick').click(); await wait(100);
+        const pp = document.getElementById('ppModal');
+        const ppZ = getComputedStyle(pp).zIndex, ppBg = getComputedStyle(pp).backgroundColor;
+        const ppAria = pp.getAttribute('role') === 'dialog' && pp.getAttribute('aria-modal') === 'true'
+          && !!document.getElementById(pp.getAttribute('aria-labelledby') || '_');
+        esc(); await wait(40);
+        if (document.getElementById('ppModal')) bad.push('pp:esc');
+        const cvR = document.getElementById('canvasWrap').getBoundingClientRect();
+        const tbR = document.getElementById('tabs').getBoundingClientRect();
+        const grid = getComputedStyle(document.getElementById('app')).display === 'grid';
+        const rows = {};
+        const openers = {
+          aboutPanel: [() => document.getElementById('appTitle').click(), 'aboutClose'],
+          avPanel: [() => { HP.loadPreset('mercury', false); document.querySelector('nav#tabs button[data-tab="help"]').click();
+            document.getElementById('btnAuditView').click(); }, 'avClose'],
+        };
+        for (const id of ['aboutPanel', 'avPanel']) {
+          const el = document.getElementById(id);
+          const box = el.querySelector('.fmBox');
+          const o = { body: el.parentElement === document.body, inCanvas: !!el.closest('#canvasWrap') };
+          openers[id][0](); await wait(100);
+          const cs = getComputedStyle(el);
+          o.opened = isOpen(id); o.pos = cs.position; o.z = cs.zIndex; o.zSame = cs.zIndex === ppZ;
+          o.bgSame = cs.backgroundColor === ppBg;
+          o.cover = +cover(el).toFixed(3);
+          o.aria = el.getAttribute('role') === 'dialog' && el.getAttribute('aria-modal') === 'true'
+            && !!document.getElementById(el.getAttribute('aria-labelledby') || '_');
+          o.scroll = !!box && getComputedStyle(box).overflowY === 'auto' && cs.overflowY !== 'auto' && cs.overflowY !== 'scroll';
+          const br = box.getBoundingClientRect();
+          o.overBoth = grid ? (inter(br, cvR) && inter(br, tbR)) : inter(br, cvR);
+          // --uz(文字サイズ)で箱の文字が拡大する
+          const fs0 = parseFloat(getComputedStyle(box).fontSize);
+          const uz0 = document.documentElement.style.getPropertyValue('--uz');
+          document.documentElement.style.setProperty('--uz', '1.5');
+          const fs1 = parseFloat(getComputedStyle(box).fontSize);
+          if (uz0) document.documentElement.style.setProperty('--uz', uz0); else document.documentElement.style.removeProperty('--uz');
+          o.uz = Math.abs(fs1 - 18) < 0.01 && fs0 > 0;
+          // 箱のクリックでは閉じない / 背景(外枠自身)のクリックで閉じる
+          box.click(); await wait(30); o.boxClickKeeps = isOpen(id);
+          el.click(); await wait(30); o.bgCloses = !isOpen(id);
+          // ✕ で閉じる
+          openers[id][0](); await wait(60);
+          document.getElementById(openers[id][1]).click(); await wait(30); o.xCloses = !isOpen(id);
+          // Esc で閉じる
+          openers[id][0](); await wait(60);
+          esc(); await wait(30); o.escCloses = !isOpen(id);
+          if (isOpen(id)) (id === 'aboutPanel' ? document.getElementById('aboutClose') : document.getElementById('avClose')).click();
+          rows[id] = o;
+        }
+        // 導線(aria-controls / aria-expanded)は不変
+        const t = document.getElementById('appTitle'), bt = document.getElementById('btnAuditView');
+        const links = t.getAttribute('aria-controls') === 'aboutPanel' && !!bt && bt.getAttribute('aria-controls') === 'avPanel';
+        bt.click(); await wait(40); const avAria = bt.getAttribute('aria-expanded') === 'true';
+        // 排他: 監査ビューを開いたまま about → 監査ビューは閉じる。逆も同じ
+        t.click(); await wait(40);
+        const exA = isOpen('aboutPanel') && !isOpen('avPanel') && bt.getAttribute('aria-expanded') === 'false';
+        bt.click(); await wait(40);
+        const exB = isOpen('avPanel') && !isOpen('aboutPanel');
+        HP.auditView.open(false); await wait(30);
+        // 「サンプルを選ぶ」を上に重ねた Esc は手前だけを閉じる
+        t.click(); await wait(40);
+        document.getElementById('btnPresetPick').click(); await wait(100);
+        const c = document.elementsFromPoint(innerWidth / 2, innerHeight / 2)[0];
+        const ppOnTop = !!c && !!c.closest('#ppModal');
+        esc(); await wait(40);
+        const stack = !document.getElementById('ppModal') && isOpen('aboutPanel');
+        esc(); await wait(40);
+        const stack2 = !isOpen('aboutPanel');
+        return { vw: innerWidth, vh: innerHeight, grid, ppZ, ppAria, rows, links, avAria, exA, exB, ppOnTop, stack, stack2, bad };
+      }));
+      await ctx.close();
+    }
+    const fmBad = [];
+    for (const r of fm) {
+      const tag = r.vw + '×' + r.vh;
+      for (const b of r.bad) fmBad.push(tag + ':' + b);
+      if (!r.ppAria) fmBad.push(tag + ':ppAria');
+      for (const [id, o] of Object.entries(r.rows)) for (const k of ['body', 'opened', 'zSame', 'bgSame', 'aria', 'scroll',
+        'overBoth', 'uz', 'boxClickKeeps', 'bgCloses', 'xCloses', 'escCloses']) if (!o[k]) fmBad.push(tag + ':' + id + '.' + k);
+      for (const [id, o] of Object.entries(r.rows)) {
+        if (o.inCanvas) fmBad.push(tag + ':' + id + '.inCanvas');
+        if (o.pos !== 'fixed') fmBad.push(tag + ':' + id + '.pos=' + o.pos);
+        if (o.cover !== 1) fmBad.push(tag + ':' + id + '.cover=' + o.cover);
+      }
+      for (const k of ['links', 'avAria', 'exA', 'exB', 'ppOnTop', 'stack', 'stack2']) if (!r[k]) fmBad.push(tag + ':' + k);
+    }
+    add('ui.frontModals', fmBad.length === 0 && errs.length === 0,
+      fm.map((r) => `${r.vw}×${r.vh}(${r.grid ? '2カラム' : '縦積み'}): ` + Object.entries(r.rows).map(([id, o]) =>
+        `${id} body直下=${o.body}・${o.pos}・z=${o.z}(#ppModal ${r.ppZ} と同値=${o.zSame})・被覆${o.cover}・` +
+        `dialog/aria-modal/labelledby=${o.aria}・箱だけスクロール=${o.scroll}・${r.grid ? 'キャンバスと右カラムに被る' : 'キャンバスに被る'}=${o.overBoth}・` +
+        `--uz=${o.uz}・閉じる(✕/Esc/背景)=${o.xCloses}/${o.escCloses}/${o.bgCloses}・箱クリックで閉じない=${o.boxClickKeeps}`).join(' | ') +
+        ` | 導線不変=${r.links}・aria-expanded=${r.avAria}・排他=${r.exA}/${r.exB}・pp を重ねた Esc は手前だけ=${r.ppOnTop && r.stack}→次の Esc で about=${r.stack2}`).join(' / ') +
+      ` / JSエラー=${errs.length} / NG=[${fmBad.slice(0, 6).join(' ')}](0件)`);
+
+    // --- ③ 検索欄のクリアボタン(412×915)
+    const { ctx: ctxS, pg: ps } = await openAt(412, 915);
+    const sc = await ps.evaluate(async () => {
+      const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+      const rows = (el) => { const bs = [];
+        for (const c of el.children) { const b = c.getBoundingClientRect(); if (b.width > 0 && b.height > 0) bs.push(b); }
+        bs.sort((a, b) => a.top - b.top); let n = 0, bottom = -Infinity;
+        for (const b of bs) { if (b.top >= bottom - 1) { n++; bottom = b.bottom; } else bottom = Math.max(bottom, b.bottom); }
+        return n; };
+      const o = {};
+      document.getElementById('btnPresetPick').click(); await wait(100);
+      const si = document.getElementById('ppSearch'), cl = document.getElementById('ppSearchClear');
+      const hd = document.querySelector('#ppModal .ppHead');
+      const nRows = () => document.querySelectorAll('#ppList .ppRow').length;
+      const shown = () => getComputedStyle(cl).display !== 'none';
+      o.attrs = cl.type === 'button' && cl.getAttribute('aria-label') === '検索をクリア';
+      o.emptyHidden = si.value === '' && !shown() && cl.hidden;
+      const n0 = nRows();
+      si.focus(); si.value = 'mercury'; si.dispatchEvent(new Event('input', { bubbles: true })); await wait(60);
+      const n1 = nRows();
+      o.typedShown = shown();
+      const cb = cl.getBoundingClientRect(), sb = si.getBoundingClientRect();
+      o.inside = cb.left >= sb.left - 0.5 && cb.right <= sb.right + 0.5 && cb.top >= sb.top - 0.5 && cb.bottom <= sb.bottom + 0.5;
+      o.headRows = rows(hd); o.headX = hd.scrollWidth - hd.clientWidth; o.boxX = document.documentElement.scrollWidth - innerWidth;
+      si.blur();
+      cl.click(); await wait(60);
+      const n2 = nRows();
+      o.cleared = si.value === '' && !shown();
+      o.focus = document.activeElement === si;
+      o.n = [n0, n1, n2];
+      o.refiltered = n1 < n0 && n2 === n0;
+      document.getElementById('ppClose').click();
+      HP.setLang('en');
+      document.getElementById('btnPresetPick').click(); await wait(100);
+      o.en = document.getElementById('ppSearchClear').getAttribute('aria-label') === 'Clear search';
+      document.getElementById('ppClose').click();
+      HP.setLang('ja');
+      return o;
+    });
+    await ctxS.close();
+    const scOk = sc.attrs && sc.emptyHidden && sc.typedShown && sc.inside && sc.headRows === 1 && sc.headX === 0 && sc.boxX === 0
+      && sc.cleared && sc.focus && sc.refiltered && sc.en;
+    add('ui.searchClear', scOk,
+      `412×915: type=button・aria-label ja=${sc.attrs}/en=${sc.en}・空で非表示=${sc.emptyHidden}・入力で表示=${sc.typedShown}` +
+      `(検索欄の内側=${sc.inside})・見出し行 ${sc.headRows} 行・はみ出し ${sc.headX}/${sc.boxX}px・` +
+      `押すと空=${sc.cleared}・一覧 ${sc.n[0]}→${sc.n[1]}→${sc.n[2]} 行(絞り込み前へ戻る=${sc.refiltered})・フォーカスが検索欄=${sc.focus}`);
+
+    // --- ④ 観測結果カードのアイコン(内蔵を掃引・ja/en)
+    const oi = await page.evaluate(() => {
+      let lang0 = 'ja'; try { lang0 = LANG; } catch (_) {}
+      const bad = []; let n = 0, other = 0;
+      for (const lg of ['ja', 'en']) {
+        HP.setLang(lg);
+        for (const p of HP.allPresets()) {
+          if (String(p.id).startsWith('custom_')) continue;
+          if (!(Array.isArray(p.obsCard) && p.obsCard.length)) continue;
+          HP.loadPreset(p.id, false);
+          const sm = document.querySelector('#helpBody .ocBox summary.ffHead');
+          if (!sm) { bad.push(lg + ':' + p.id + ':no-summary'); continue; }
+          n++;
+          const ic = sm.firstElementChild;
+          if (!ic || !ic.classList.contains('ocHeadIcon') || ic.getAttribute('aria-hidden') !== 'true'
+            || ic.textContent.trim() !== '📇' || sm.firstChild !== ic) bad.push(lg + ':' + p.id + ':icon');
+          const cl = sm.cloneNode(true);
+          for (const e of cl.querySelectorAll('[aria-hidden="true"]')) e.remove();
+          const tag = sm.querySelector('.ffFoldStatus');
+          if (cl.textContent !== HP.T('ocHead') + (tag ? tag.textContent : '')) bad.push(lg + ':' + p.id + ':name');
+          // 📇 は説明タブの他の見出しに無い
+          const hb = document.getElementById('helpBody').cloneNode(true);
+          for (const e of hb.querySelectorAll('.ocHeadIcon')) e.remove();
+          if (hb.textContent.indexOf('📇') >= 0) other++;
+        }
+      }
+      HP.setLang(lang0);
+      HP.loadPreset('saturn', false);
+      return { n, bad, other, keyNoIcon: HP.T('ocHead').indexOf('📇') < 0 };
+    });
+    add('ui.obscardIcon', oi.bad.length === 0 && oi.n > 0 && oi.other === 0 && oi.keyNoIcon,
+      `obsCard を持つ内蔵 ×(ja/en)= ${oi.n} 箱すべての summary 先頭が 📇(aria-hidden)・読み上げ名は T('ocHead')+状態語のまま・` +
+      `他の見出しに 📇 = ${oi.other} 本(0)・文言キーに絵文字を入れていない=${oi.keyNoIcon} / NG=[${oi.bad.slice(0, 4).join(' ')}](0件)`);
+
+    // --- ⑤ 実行時 LLM のモデル表と送信本文(fetch を差し替えて読む — ネットワークへは出ない)
+    const ml = await page.evaluate(async () => {
+      const A = HP.AI_PROVIDERS.anthropic;
+      const o = { models: A.models.slice(), def: A.defModel,
+        fb: { sonnet5: HP.aiFallbackModel('claude-sonnet-5'), opus5: HP.aiFallbackModel('claude-opus-5'),
+          opus55: HP.aiFallbackModel('claude-opus-5-5'), haiku: HP.aiFallbackModel('claude-haiku-4-5') },
+        datalist: [...document.querySelectorAll('#modelSuggest option')].map((x) => x.value) };
+      const f0 = window.fetch;
+      const sent = {};
+      try {
+        for (const m of ['claude-sonnet-5', 'claude-opus-5-5', 'claude-opus-5']) {
+          window.fetch = async (url, init) => {
+            sent[m] = { url: String(url), body: JSON.parse(init.body) };
+            return { ok: true, status: 200, json: async () => ({ stop_reason: 'end_turn',
+              content: [{ type: 'thinking', thinking: '' }, { type: 'text', text: 'OK:' + m }] }) };
+          };
+          sent[m + ':text'] = await HP.callLLM({ provider: 'anthropic', key: 'x', model: m }, m, [{ role: 'user', content: 'hi' }]);
+        }
+      } finally { window.fetch = f0; }
+      o.sent = {};
+      for (const m of ['claude-sonnet-5', 'claude-opus-5-5', 'claude-opus-5']) {
+        const b = sent[m].body;
+        o.sent[m] = { keys: Object.keys(b).sort().join(','), thinking: b.thinking ? JSON.stringify(b.thinking) : null,
+          max: b.max_tokens, forbidden: ['tool_choice', 'budget_tokens', 'output_config', 'tools'].filter((k) => JSON.stringify(b).indexOf('"' + k + '"') >= 0),
+          text: sent[m + ':text'], model: b.model };
+      }
+      o.pure = JSON.stringify(HP.aiAnthropicBody('claude-opus-5-5', 's', [])) === JSON.stringify({ model: 'claude-opus-5-5', max_tokens: 16000, system: 's', messages: [] });
+      return o;
+    });
+    const s55 = ml.sent['claude-opus-5-5'], s5 = ml.sent['claude-opus-5'], sS = ml.sent['claude-sonnet-5'];
+    const mlOk = JSON.stringify(ml.models) === JSON.stringify(['claude-sonnet-5', 'claude-opus-5-5', 'claude-opus-5'])
+      && ml.def === 'claude-sonnet-5' && ml.fb.sonnet5 === 'claude-opus-5-5' && ml.fb.opus5 === null && ml.fb.opus55 === null
+      && ml.fb.haiku === 'claude-sonnet-5' && ml.datalist.indexOf('claude-opus-5-5') >= 0
+      && s55.thinking === null && s55.max === 16000 && s55.forbidden.length === 0 && s55.text === 'OK:claude-opus-5-5'
+      && s5.thinking === '{"type":"disabled"}' && s5.max === 4000 && s5.forbidden.length === 0
+      && sS.thinking === '{"type":"disabled"}' && sS.max === 4000 && sS.forbidden.length === 0 && sS.text === 'OK:claude-sonnet-5'
+      && ml.pure;
+    add('ai.modelList', mlOk,
+      `候補=[${ml.models.join(', ')}]・既定=${ml.def}・フォールバック sonnet-5→${ml.fb.sonnet5}・opus-5→${ml.fb.opus5}・opus-5-5→${ml.fb.opus55}・` +
+      `haiku-4-5→${ml.fb.haiku}・datalist に opus-5-5=${ml.datalist.indexOf('claude-opus-5-5') >= 0} / 送信本文: ` +
+      ['claude-sonnet-5', 'claude-opus-5-5', 'claude-opus-5'].map((m) => `${m}{${ml.sent[m].keys}・thinking=${ml.sent[m].thinking || '無し'}・` +
+        `max_tokens=${ml.sent[m].max}・禁止キー=${ml.sent[m].forbidden.length ? ml.sent[m].forbidden.join('|') : '無し'}・応答text=${ml.sent[m].text}}`).join(' ') +
+      ` / 純関数 aiAnthropicBody(opus-5-5) の形=${ml.pure}`);
   }
 }
 
@@ -32541,6 +33493,165 @@ if (!FAST) {
       `恒星間距離=${bi.sep.toFixed(1)}(60〜350) 円盤残存=${bi.keep}/${bi.free}(≥95%) NaN=${bi.nan}`);
   } else {
     console.log('SKIP 第26便系(groups.reorder / ai.base-context / overlay.minimize / bodyedit.minimize / behavior.binary — 対象にベースサンプルUIなし)');
+  }
+}
+
+// ---- 7n′) 第278便d(統括の読み R56): preset.backgroundTidal ----
+// ----   **潮汐テンソル T** の宣言専用鍵 `physics.backgroundTidal`(backgroundComplex とは**別鍵**・単位 1/s²)。
+// ----   固定するのは 8 点:
+// ----     ① 受理: 2×2・3×3・0 行列・note つき・未宣言(null)は「未確定」
+// ----     ② 拒否: 非対称・非有限・次元違い(1×1/4×4)・行の長さ違い・平坦な配列・文字列成分・単位違い
+// ----        (**"1/s" はメッシュ速度勾配 J の単位で別物**)・T/unit/frame/epoch/source の欠落・空文字・長すぎる note・
+// ----        知らない鍵(W0 等 —— 背景の重みは backgroundComplex)・配列そのもの
+// ----     ③ `backgroundComplex` の中へ T/tidal/tidalTensor/backgroundTidal を入れると拒否(**別鍵の分離を両方向で守る**)
+// ----     ④ 検証器ごし: 未宣言は physics に入らない(署名不変)・宣言は保存・再検証で冪等・宣言すると presetSig が変わる
+// ----     ⑤ **内蔵の宣言 0 本**
+// ----     ⑥ **力学に 1 bit も効かない**(3 体 2000 步の状態突合)
+// ----     ⑦ **読み口 0**: html の潰した写し(コメント・文字列・正規表現を空白へ)で識別子
+// ----        BG_TIDAL_*/validateBackgroundTidal/backgroundTidal の出現が、定数の宣言(と HP の書き出し)・
+// ----        検証器・検証器の分岐・backgroundComplex の入れ子拒否の外に無い(`docs.d0sites-sync` ⑤ と同型)
+// ----     ⑧ 純関数 `normalizeTidal`(tests/lib-w278d-bgequiv.mjs)と**同じ判定**(アプリと純関数で契約を揃える)
+// ----   **root は SKIP**(世代判定は HP.validateBackgroundTidal の有無)。
+{
+  const btGen = await page.evaluate(() => !!(window.HP && typeof HP.validateBackgroundTidal === 'function'));
+  if (!btGen) {
+    console.log('SKIP preset.backgroundTidal(第278便d 未適用 — 対象に BG_TIDAL_KEY なし・root は v1.44.0 RC)');
+  } else {
+    const bad = [];
+    const cases = [];
+    const OK2 = { T: [[1.2881435513714005e-18, 0], [0, -6.440717756857003e-19]], unit: '1/s^2', frame: 'sample-xy',
+      epoch: 'JD 2452600.5', source: '太陽の点質量 GM/r³(冥王星の軌道距離)' };
+    const mod = (k, v) => { const o = JSON.parse(JSON.stringify(OK2)); if (v === undefined) delete o[k]; else o[k] = v; return o; };
+    // [名前, 宣言, 期待(受理=true)]
+    const TC = [
+      ['ok2', OK2, true],
+      ['ok3', { T: [[1, 0, 0], [0, 1, 0], [0, 0, -2]], unit: '1/s^2', frame: 'icrs', epoch: 'J2000', source: 's', note: '3×3' }, true],
+      ['zero', mod('T', [[0, 0], [0, 0]]), true],
+      ['none', null, true],
+      ['asym', mod('T', [[1, 2], [2.0000001, 1]]), false],
+      ['nan', mod('T', [[1, NaN], [NaN, 1]]), false],
+      ['inf', mod('T', [[Infinity, 0], [0, 1]]), false],
+      ['dim1', mod('T', [[1]]), false],
+      ['dim4', mod('T', [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]), false],
+      ['ragged', mod('T', [[1, 0], [0]]), false],
+      ['flat', mod('T', [1, 0, 0, 1]), false],
+      ['stringEntry', mod('T', [['1', 0], [0, 1]]), false],
+      ['unitJ', mod('unit', '1/s'), false],
+      ['unitSample', mod('unit', '1/T^2'), false],
+      ['noT', mod('T'), false],
+      ['noUnit', mod('unit'), false],
+      ['noFrame', mod('frame'), false],
+      ['noEpoch', mod('epoch'), false],
+      ['noSource', mod('source'), false],
+      ['emptySource', mod('source', ''), false],
+      ['longNote', Object.assign(mod('note', 'x'.repeat(201))), false],
+      ['extraW0', Object.assign(JSON.parse(JSON.stringify(OK2)), { W0: 1 }), false],
+      ['array', [OK2], false],
+    ];
+    const r = await page.evaluate((TCa) => {
+      const res = {};
+      res.unit = HP.BG_TIDAL_UNIT; res.dims = HP.BG_TIDAL_DIMS; res.required = HP.BG_TIDAL_REQUIRED;
+      res.nested = HP.BG_TIDAL_NESTED; res.key = HP.BG_TIDAL_KEY;
+      res.cases = TCa.map(([n, v]) => { const z = HP.validateBackgroundTidal(v); return [n, z.ok, z.ok ? z.backgroundTidal : null]; });
+      // ③ backgroundComplex の中へ入れると拒否
+      const FULL = { background: 'heliocentric', W0: 5.7e-9, A0: [2.7e-9, 0], gradW: [1e-12, 0],
+        gradA: [1e-13, 0, 0, 0], dWdt: 1e-14, dAdt: [1e-15, 0] };
+      res.bgcFullOk = HP.validateBackgroundComplex(FULL).ok;
+      res.nestedReject = {};
+      for (const k of (HP.BG_TIDAL_NESTED || [])) {
+        const o = JSON.parse(JSON.stringify(FULL)); o[k] = [[1, 0], [0, 1]];
+        res.nestedReject[k] = HP.validateBackgroundComplex(o).ok;       // 期待 false
+      }
+      // ④ 検証器ごし
+      const mk = (phy, cls) => {
+        const o = { name: 't', description: 'd', camera: { scale: 200 }, world: { boundary: 'none', size: 0 }, physics: phy,
+          bodies: [{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] };
+        if (cls) o.sampleClass = cls; return o;
+      };
+      const DECL = TCa[0][1];
+      const wPlain = HP.validatePreset(mk({ D0: 0.006 }, 'calibration'));
+      const wDecl = HP.validatePreset(mk({ D0: 0.006, backgroundTidal: DECL }, 'calibration'));
+      const wBad = HP.validatePreset(mk({ D0: 0.006, backgroundTidal: Object.assign({}, DECL, { unit: '1/s' }) }, 'calibration'));
+      res.preset = { plainOk: wPlain.ok, declOk: wDecl.ok, badOk: wBad.ok,
+        plainHasKey: wPlain.ok ? (wPlain.preset.physics.backgroundTidal !== undefined) : null,
+        declKept: wDecl.ok ? JSON.stringify(wDecl.preset.physics.backgroundTidal) : null,
+        idempotent: wDecl.ok ? (JSON.stringify(HP.validatePreset(JSON.parse(JSON.stringify(wDecl.preset)))
+          .preset.physics.backgroundTidal) === JSON.stringify(wDecl.preset.physics.backgroundTidal)) : null };
+      res.sigDiff = presetSig(mk({ D0: 0.006 }, 'principle')) !== presetSig(mk({ D0: 0.006, backgroundTidal: DECL }, 'principle'));
+      // ⑤ 内蔵の宣言
+      const bis = HP.allPresets().filter(p => !String(p.id).startsWith('custom_'));
+      res.nBuiltins = bis.length;
+      res.declaredBuiltins = bis.filter(p => p.physics && p.physics.backgroundTidal !== undefined).map(p => p.id);
+      // ⑥ 力学に 1 bit も効かない
+      const prevId = HP.currentPreset() ? HP.currentPreset().id : null;
+      const build = (phy) => {
+        const v2 = HP.validatePreset({ name: 'd', description: 'd', camera: { scale: 200 },
+          world: { boundary: 'none', size: 0 }, physics: phy, seed: 7,
+          bodies: [{ type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false },
+            { type: 'single', m: 1, x: 120, y: 0, vx: 0, vy: 0.9, spin: 0, pinned: false },
+            { type: 'single', m: 1, x: -90, y: 40, vx: 0.1, vy: -0.8, spin: 0, pinned: false }] });
+        HP.sim.build(v2.preset);
+        const S = HP.sim;
+        for (let i = 0; i < 2000; i++) S.step(0.016);
+        const o = [];
+        for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i], S.spin[i]);
+        return o;
+      };
+      const aS = build({ D0: 0.006, kFrame: 1 });
+      const bS = build({ D0: 0.006, kFrame: 1, backgroundTidal: DECL });
+      res.inert = { n: aS.length, steps: 2000, same: aS.length === bS.length && aS.every((z, i) => z === bS[i]),
+        maxAbs: Math.max(...aS.map((z, i) => Math.abs(z - bS[i]))) };
+      if (prevId) { try { HP.loadPreset(prevId, false); } catch (e) { /* 表示の戻しだけ */ } }
+      return res;
+    }, TC);
+    // ①② 期待どおりか・⑧ 純関数と同じ判定か
+    let libAgree = 0;
+    try {
+      const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w278d-bgequiv.mjs'));
+      for (let i = 0; i < TC.length; i++) {
+        const [name, decl, want] = TC[i];
+        const [, got, val] = r.cases[i];
+        if (got !== want) bad.push(`①② ${name}: 受理=${got}(期待 ${want})`);
+        const lib = L.normalizeTidal(decl);
+        if (lib.ok === got && (!got || JSON.stringify(lib.value) === JSON.stringify(val))) libAgree++;
+        else bad.push(`⑧ ${name}: 純関数 ${lib.ok} ≠ アプリ ${got}`);
+      }
+      if (L.TIDAL_UNIT !== r.unit) bad.push('⑧ 単位の宣言が純関数と違う');
+    } catch (e) { bad.push('⑧ 純関数が読めない: ' + String(e).slice(0, 80)); }
+    cases.push(`受理/拒否 ${TC.length} 件が期待どおり・純関数と一致 ${libAgree}/${TC.length}`);
+    if (r.unit !== '1/s^2') bad.push(`② 単位の宣言が "1/s^2" でない(${r.unit})`);
+    if (!r.bgcFullOk) bad.push('③ backgroundComplex の正しい宣言が拒否された(対照が壊れている)');
+    for (const [k, ok] of Object.entries(r.nestedReject)) if (ok !== false) bad.push(`③ backgroundComplex の中の ${k} が受理された`);
+    if (Object.keys(r.nestedReject).length < 4) bad.push('③ 入れ子拒否の鍵が 4 つ無い');
+    cases.push(`backgroundComplex の中の ${Object.keys(r.nestedReject).join('/')} は拒否`);
+    const P = r.preset;
+    if (!(P.plainOk && P.declOk && P.badOk === false && P.plainHasKey === false && P.idempotent === true))
+      bad.push('④ 検証器ごしの契約が崩れている: ' + JSON.stringify(P).slice(0, 120));
+    if (r.sigDiff !== true) bad.push('④ 宣言しても presetSig が変わらない');
+    cases.push(`検証器: 未宣言は physics に入らない(署名不変)・宣言は保存・冪等・宣言すると署名が変わる=${r.sigDiff}`);
+    if (r.declaredBuiltins.length !== 0) bad.push('⑤ 内蔵が宣言している: ' + r.declaredBuiltins.join(','));
+    cases.push(`**内蔵 ${r.nBuiltins} 本の宣言 ${r.declaredBuiltins.length} 本**`);
+    if (r.inert.same !== true) bad.push(`⑥ 宣言で力学が動いた(最大差 ${r.inert.maxAbs})`);
+    cases.push(`力学に 1 bit も効かない=${r.inert.same}(3 体・${r.inert.steps} 步・${r.inert.n} 量)`);
+    // ⑦ 読み口 0
+    try {
+      const A = await import('file://' + path.join(ROOT, 'tests', 'lib-w278d-readaudit.mjs'));
+      const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+      const au = A.auditTokenSites(html, /\b(BG_TIDAL_[A-Z_]+|validateBackgroundTidal|backgroundTidal)\b/g,
+        ['(top-level)', 'validateBackgroundTidal', 'validatePreset', 'validateBackgroundComplex']);
+      if (!au.selfCheck.ok) bad.push('⑦ 潰しの自己検査が通らない(' + JSON.stringify(au.selfCheck) + ')');
+      if (au.outsideAllowed.length) bad.push('⑦ 検証器の外から読まれている: ' + au.outsideAllowed.join(','));
+      const inBgc = au.sites.filter((z) => z.fn === 'validateBackgroundComplex').map((z) => z.token);
+      if (inBgc.some((t) => t !== 'BG_TIDAL_NESTED')) bad.push('⑦ backgroundComplex の検証器が入れ子拒否以外で読んでいる');
+      cases.push(`読み口 ${au.sites.length} 箇所・関数 ${au.functions.join('/')}・**許可の外 ${au.outsideAllowed.length}**`
+        + `(潰しの収支 0=${au.selfCheck.ok})`);
+    } catch (e) { bad.push('⑦ 読み口監査が走らない: ' + String(e).slice(0, 80)); }
+    add('preset.backgroundTidal', bad.length === 0,
+      `**潮汐テンソル T の宣言専用鍵**(第278便d・統括の読み R56「T は**別鍵** physics.backgroundTidal —— 宣言専用・`
+      + `対称 2×2/3×3・単位 T⁻²・メッシュ速度勾配 J〔T⁻¹〕とは別物」): ${cases.join(' / ')} —— `
+      + `**backgroundComplex の中には入れない**(W₀・A₀ は重み付き平均の量、T はポテンシャルのヘッセ行列で次元も役割も違う)。`
+      + `**力学への接続はしていない**(AL17 の順で裁定)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
 
@@ -34087,15 +35198,18 @@ if (!FAST) {
           && !document.querySelector('#aiObsGroup') && !document.querySelector('#aiObsRecords'),
         defModel: HP.AI_PROVIDERS.anthropic.defModel,
         fb: HP.aiFallbackModel(HP.AI_PROVIDERS.anthropic.defModel),
-        fbHaiku: HP.aiFallbackModel('claude-haiku-4-5'), fbOpus: HP.aiFallbackModel('claude-opus-5') };
+        fbHaiku: HP.aiFallbackModel('claude-haiku-4-5'), fbOpus: HP.aiFallbackModel('claude-opus-5'),
+        // 第278便e(原仮定者の裁定(第68報)): 候補に claude-opus-5-5 がある世代は、上位エスカレーション先が
+        // 最新の Opus(claude-opus-5-5)。無い世代(root 等)は従来どおり claude-opus-5 —— 世代判定は候補表
+        fbExpect: HP.AI_PROVIDERS.anthropic.models.indexOf('claude-opus-5-5') >= 0 ? 'claude-opus-5-5' : 'claude-opus-5' };
     });
     // 既定モデル(第170便で Sonnet 5 へ引き上げ)と、検証失敗時の**上位エスカレーション**先
-    // (統括再裁定: sonnet-5 → opus-5)も同じゲートで機械固定する
+    // (統括再裁定: sonnet-5 → opus-5。第278便e 以降の世代は sonnet-5 → opus-5-5 —— fbExpect)も同じゲートで機械固定する
     // 第178便: 生成モードは撤去された(自由生成へ一本化)。モード前提の検査は
     // 「モードが unified で、モード選択UIの残骸が無い」等価検査へ差し替える(弱体化なし —
     // カタログ検証器そのものの否定対照/正例は1件も減らしていない)
     add('ai.schema-validation', sch.bad.length === 0 && sch.mode === 'unified' && sch.modeUiGone
-      && sch.defModel === 'claude-sonnet-5' && sch.fb === 'claude-opus-5'
+      && sch.defModel === 'claude-sonnet-5' && sch.fb === sch.fbExpect
       && sch.fbHaiku === 'claude-sonnet-5' && sch.fbOpus === null,
       `否定対照=${sch.nNeg}件 全て拒否・正例=${sch.nPos}件 全て受理・カタログ仕様=${sch.promptLen}字・` +
       `生成モード=${sch.mode}(モード選択UI撤去=${sch.modeUiGone})・既定モデル=${sch.defModel}→フォールバック=${sch.fb}` +
@@ -47719,7 +48833,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   try { NG = await import('file://' + path.join(ROOT, 'tests', 'lib-w277c-nsgrid.mjs')); }
   catch (e) { bad.push('lib-w277c-nsgrid.mjs が読めない: ' + String(e).slice(0, 70)); }
   if (AW && NG) {
-    if (NG.NSGRID_VERSION !== 'w277c-1') bad.push('版が w277c-1 でない: ' + NG.NSGRID_VERSION);
+    // 第278便c: pairSlip の符号修正で版を w277c-2 へ上げた(本ブロックが見る可逆対照・有理化は不変)
+    if (NG.NSGRID_VERSION !== 'w277c-2') bad.push('版が w277c-2 でない: ' + NG.NSGRID_VERSION);
     if (typeof AW.signedAxisWork !== 'function') bad.push('signedAxisWork が無い');
     // ① 有理化
     probe = NG.rationalisedDeltaProbe([
@@ -47803,9 +48918,18 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
 //        (= この系は kF0 の零条件に分類しない)。
 //     ⑦ **負の対照**: 潮汐の手を切る(C_t=0)と供給元は 1 も減らない。
 //     ⑧ **供給元を軌道 E にすると J_z が閉じない**(否定対照が否定対照のまま残っている)。
+//   第278便c(統括の検証項目 R55)で足した 3 点:
+//     ⑨ **(C) の why 別内訳**: 各分類の gate の生データ(永年変位・有界性・復帰・散逸・収支)から
+//        主因(過渡 → 収支不成立 → 散逸だが戻らない → 摂動非有界 → その他)と「満たさなかった条件」を
+//        **引き直し**、正本の `whyBreakdown` と一致させる。固定値: 過渡 432 / 収支不成立 0 / 摂動非有界 0 /
+//        その他 0・満たさなかった条件(重複あり)永年変位 432・散逸だが戻らない 60。
+//     ⑩ **数え方**: 252 設定・**走行 1512 本**・**分類 504 件**(= 252 × 2 天体)。
+//     ⑪ **時間尺度の表示ガード**: 正本に `time_scale_gain`(1e16〜1e19)と `not_a_prediction=true` が
+//        刻まれていて、実測の利得(stage2)がその範囲に入る。lib 版 w277c-2・入力の出所の記録がある。
 //   **書かないこと**: 「NS の平衡を実証した」「観測と一致した」「較正を完了した」。
 {
   const bad = [];
+  let whyRe = null, whyJ = null;
   const P = path.join(ROOT, 'tests', 'out', 'nsgrid-w277c.json');
   let J = null, NG = null, nRows = 0, cls = { A: 0, B: 0, C: 0 }, reDerived = 0, mismatch = 0;
   let worstE = 0, worstJz = 0, slipA = null, slipB = null, orbitJz = 0, intJz = 0;
@@ -47880,6 +49004,48 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     if (!(intJz <= NG.GATE.ledgerTol)) bad.push('⑧内部モード口座で J_z が閉じていない');
     if (!(orbitJz > NG.GATE.ledgerTol))
       bad.push('⑧軌道 E を供給元にした否定対照で J_z が閉じてしまっている(対照が対照でない)');
+    // ⑨ why 別内訳(生データから引き直す)
+    whyRe = { transient: 0, ledger: 0, unbounded: 0, other: 0, fTransient: 0, fLedger: 0, fUnbounded: 0, fNoReturn: 0 };
+    for (const r of rows) for (let i = 0; i < 2; i++) {
+      const g = (r.gate || [])[i];
+      if (!g || r.classDt1[i] !== 'C') continue;
+      const tr = g.secularDeg > NG.GATE.secularTolDeg, nr = g.dissipating && !g.returning;
+      if (tr) whyRe.transient++; else if (!g.closes) whyRe.ledger++;
+      else if (nr) whyRe.other++; else if (!g.bounded) whyRe.unbounded++; else whyRe.other++;
+      if (tr) whyRe.fTransient++; if (!g.closes) whyRe.fLedger++; if (!g.bounded) whyRe.fUnbounded++; if (nr) whyRe.fNoReturn++;
+      const code = tr ? 'transient' : (!g.closes) ? 'ledger' : nr ? 'noReturn' : (!g.bounded) ? 'unbounded' : 'neither';
+      if (g.whyCode !== code) bad.push(`⑨主因コードが門の式と違う: ${r.system}|${r.thetaTag} ${g.whyCode} / 式 ${code}`);
+    }
+    whyJ = (J.stage3 || {}).whyBreakdown || null;
+    if (!whyJ) bad.push('⑨正本に whyBreakdown が無い');
+    else {
+      for (const k of ['transient', 'ledger', 'unbounded', 'other'])
+        if (whyJ.primary[k] !== whyRe[k]) bad.push(`⑨主因 ${k} が引き直しと違う(${whyJ.primary[k]} vs ${whyRe[k]})`);
+      if (whyJ.failedAny.transient !== whyRe.fTransient || whyJ.failedAny.ledger !== whyRe.fLedger
+        || whyJ.failedAny.unbounded !== whyRe.fUnbounded || whyJ.failedAny.noReturn !== whyRe.fNoReturn)
+        bad.push('⑨満たさなかった条件の集計が引き直しと違う');
+    }
+    const fixedWhy = { transient: 432, ledger: 0, unbounded: 0, other: 0, fTransient: 432, fNoReturn: 60 };
+    for (const k of Object.keys(fixedWhy)) if (whyRe[k] !== fixedWhy[k])
+      bad.push(`⑨固定値 ${k}=${fixedWhy[k]} と違う: ${whyRe[k]}`);
+    // ⑩ 数え方
+    const s3 = J.stage3 || {};
+    if (!(s3.settings === 252 && s3.classifications === 504 && s3.runCount === 1512 && reDerived === 504))
+      bad.push(`⑩数え方が 252 設定・504 分類・1512 走行でない(${s3.settings}/${s3.classifications}/${s3.runCount}/${reDerived})`);
+    // ⑪ 時間尺度の表示ガード・版・入力の出所
+    const tg = (J.meta || {}).timeScaleGuard || {};
+    if (!(tg.not_a_prediction === true && s3.not_a_prediction === true && (J.stage2 || {}).not_a_prediction === true))
+      bad.push('⑪not_a_prediction=true が正本に刻まれていない');
+    if (tg.time_scale_gain !== '1e16〜1e19' || s3.time_scale_gain !== '1e16〜1e19') bad.push('⑪time_scale_gain の刻印が違う');
+    const gm = tg.gainMeasured || [];
+    if (!(gm[0] >= 1e16 && gm[1] < 1e20)) bad.push('⑪実測の利得が 1e16〜1e19 の桁に入らない: ' + gm.join(' / '));
+    if (((J.meta || {}).premise || {}).version !== 'w277c-2' || NG.NSGRID_VERSION !== 'w277c-2')
+      bad.push('⑪lib / 正本の版が w277c-2 でない');
+    const src = (J.meta || {}).inputSources || {};
+    if (!(src.J0737A_misalignment && /Ferdman/.test(src.J0737A_misalignment.source)
+      && src.J0737B_misalignment && /682 A26 §5\.2/.test(src.J0737B_misalignment.source)
+      && src.J0737B_precession && /§4\.1/.test(src.J0737B_precession.source)))
+      bad.push('⑪入力の出所(Ferdman 2013 §6・Lower 2024 A&A 682 A26 §5.2・§4.1)が正本に無い');
   }
   add('behavior.nsGridLedger', bad.length === 0,
     `**中性子星連星の診断格子**(第277便c・裁定(第67報)(2)・正本 tests/out/nsgrid-w277c.json・`
@@ -47898,7 +49064,12 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     + `**供給元の対照**: 内部モード口座 J_z ${intJz.toExponential(2)} に対し `
     + `**軌道 E は ${orbitJz.toExponential(2)}**(準円パラメータ化では E_orb=E(L) なので閉じない —— 否定対照)/ `
     + `**k₂・K・λ・η・要求率・C_t は宣言された自由パラメータ**(観測の傾きは**初期値としてのみ**使い、`
-    + `そこから係数を決めていない)`
+    + `そこから係数を決めていない)/ `
+    + `第278便c: **(C) の why 別内訳**(生データから引き直し)過渡 ${whyRe ? whyRe.transient : '—'}・`
+    + `収支不成立 ${whyRe ? whyRe.ledger : '—'}・摂動非有界 ${whyRe ? whyRe.unbounded : '—'}・その他 `
+    + `${whyRe ? whyRe.other : '—'}(満たさなかった条件: 永年変位 ${whyRe ? whyRe.fTransient : '—'}・散逸だが戻らない `
+    + `${whyRe ? whyRe.fNoReturn : '—'})/ 数え方 252 設定・**走行 1512 本**・**分類 504 件** / `
+    + `**時間尺度の表示ガード** time_scale_gain=1e16〜1e19・not_a_prediction=true(格子の θ の動きは実在 NS の進化速度ではない)`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
 }
 
@@ -47911,9 +49082,15 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
 //     ④ docs/CALIBRATION_VERDICT_v1.44.md に §5.27 があり、**禁止語**(第276便の教訓)が無い。
 //     ⑤ CHANGELOG.md の v1.45-b1 節に第277便c の行がある。
 //     ⑥ 節に**言わないことの明記**(「NS の平衡を実証した」等)がある。
+//   第278便c(統括の検証項目 R55)で足した 3 点(§5.27 の切り出しは「次の `### `」までに変えた —— §5.28〜§5.30 の順に依らない):
+//     ⑦ docs/PHYSICS.md に 〔第278便c〕節があり、正本 nsgrid-w277c.json の **why 内訳**(過渡・収支不成立・摂動非有界・
+//        その他・散逸だが戻らない)と数え方(252 設定・1512 走行・504 分類)、正本 nsmode-w278c.json の **係数表の数**
+//        (導出式の b₁/|b₂|・ω_m=6 の b₃/|b₂|・J0737 B の零点の 90° からの距離)が**そのまま**載り、`not_a_prediction` の語がある。
+//     ⑧ docs/CALIBRATION_VERDICT_v1.44.md に §5.30 があり、why 内訳の 4 数が載り、**禁止語が無い**。
+//     ⑨ CHANGELOG.md の v1.45-b1 節に第278便c の行がある。
 {
   const bad = [];
-  let J = null;
+  let J = null, NMJ = null, sec278len = 0, sec30len = 0;
   const phys = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
   const cal = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
   const chg = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
@@ -47947,7 +49124,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   const i27 = cal.indexOf('### 5.27 ');
   if (i27 < 0) bad.push('④CALIBRATION_VERDICT に §5.27 が無い');
   const sec27 = (i27 < 0) ? '' : cal.slice(i27, (() => {
-    const j = cal.indexOf('\n## ', i27); const k3 = cal.indexOf('\n### 5.28 ', i27);
+    const j = cal.indexOf('\n## ', i27); const k3 = cal.indexOf('\n### ', i27 + 5);
     const ends = [j, k3].filter((x) => x > 0);
     return ends.length ? Math.min(...ends) : cal.length; })());
   for (const line of sec27.split('\n')) {
@@ -47963,6 +49140,52 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   if (sec.indexOf('言わないこと') < 0) bad.push('⑥節に「言わないこと」が無い');
   for (const w of ['NS の平衡を実証した', '較正を完了した'])
     if (sec.indexOf(w) < 0) bad.push('⑥「言わないこと」に語が無い: ' + w);
+  // ⑦ 〔第278便c〕節
+  const i78h = phys.indexOf('\n〔第278便c — '), i78 = (i78h < 0) ? -1 : i78h + 1;   // 節の見出し(本文中の参照ではなく)
+  const sec278 = (i78 < 0) ? '' : phys.slice(i78, (() => {
+    const j = phys.indexOf('\n〔第2', i78 + 5); const k2 = phys.indexOf('\n## ', i78);
+    const ends = [j, k2].filter((x) => x > 0);
+    return ends.length ? Math.min(...ends) : phys.length; })());
+  sec278len = sec278.length;
+  if (i78 < 0) bad.push('⑦PHYSICS.md に〔第278便c〕節が無い');
+  try { NMJ = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'nsmode-w278c.json'), 'utf8')); }
+  catch (e) { bad.push('⑦正本 nsmode-w278c.json が読めない: ' + String(e).slice(0, 60)); }
+  const need78 = [];
+  if (J && J.stage3 && J.stage3.whyBreakdown) {
+    const w = J.stage3.whyBreakdown;
+    need78.push('**' + w.primary.transient + '**', '**' + w.primary.ledger + '**', String(w.failedAny.noReturn),
+      String(J.stage3.settings) + ' 設定', '走行は 1512 本', String(J.stage3.classifications) + ' 件');
+  } else bad.push('⑦正本 nsgrid-w277c.json に whyBreakdown が無い');
+  if (NMJ) {
+    const rows = (NMJ.stage4 || {}).rows || [];
+    const lag = rows[0], wm6 = rows.find((r) => r.omegaM === 6 && r.gamma === 3);
+    if (lag) need78.push(Math.abs(lag.sineCoefRel[0]).toFixed(6));
+    if (wm6) need78.push(wm6.sineCoefRel[2].toFixed(6));
+    const b = ((NMJ.stage10 || {}).rows || []).find((r) => r.system === 'J0737' && r.body === 2);
+    if (b) need78.push(b.lagNinetyMinusDeg.toExponential(3));
+  }
+  for (const t of need78) if (sec278.indexOf(t) < 0) bad.push('⑦正本の数値が〔第278便c〕節に無い: ' + t);
+  for (const w of ['not_a_prediction', '相対平衡候補', 'sinθ 項', '言わないこと'])
+    if (sec278.indexOf(w) < 0) bad.push('⑦〔第278便c〕節に語が無い: ' + w);
+  // ⑧ §5.30
+  const i30 = cal.indexOf('### 5.30 ');
+  if (i30 < 0) bad.push('⑧CALIBRATION_VERDICT に §5.30 が無い');
+  const sec30 = (i30 < 0) ? '' : cal.slice(i30, (() => {
+    const j = cal.indexOf('\n## ', i30); const k3 = cal.indexOf('\n### ', i30 + 5);
+    const ends = [j, k3].filter((x) => x > 0);
+    return ends.length ? Math.min(...ends) : cal.length; })());
+  sec30len = sec30.length;
+  if (J && J.stage3 && J.stage3.whyBreakdown) {
+    const w = J.stage3.whyBreakdown.primary;
+    for (const [lab, v] of [['過渡', w.transient], ['収支不成立', w.ledger], ['摂動非有界', w.unbounded], ['その他', w.other]])
+      if (!new RegExp(lab + '[^|\\n]*\\|\\s*\\*\\*' + v + '\\*\\*').test(sec30)) bad.push(`⑧§5.30 の内訳表に ${lab} ${v} が無い`);
+  }
+  for (const line of sec30.split('\n')) {
+    if (/判定が増えた|較正を完了|較正した|カロンが合|カロンが否|kF0 版が成立した|引きずりが完全に消えていることを確認/.test(line))
+      bad.push('⑧禁止語(§5.30): ' + line.slice(0, 40));
+  }
+  // ⑨ CHANGELOG
+  if (head.indexOf('第278便c') < 0) bad.push('⑨CHANGELOG の v1.45-b1 節に第278便c の行が無い');
   add('docs.nsGridCriteria', bad.length === 0,
     `**診断格子の文書同期**(第277便c): docs/PHYSICS.md 〔第277便c〕節 ${sec.length} 字 / `
     + `正本 tests/out/nsgrid-w277c.json の主要数値 ${need.length} 個が**そのまま節に載っている** `
@@ -47971,7 +49194,187 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     + `門の定義(**永年**変位・小摂動の**有界**性・復帰・**収支**の閉じ)が節にある / `
     + `docs/CALIBRATION_VERDICT_v1.44.md §5.27(${sec27.length} 字・**禁止語なし**)/ `
     + `CHANGELOG の v1.45-b1 節に第277便c の行 / `
-    + `**言わないこと**の明記(「NS の平衡を実証した」「較正を完了した」等)`
+    + `**言わないこと**の明記(「NS の平衡を実証した」「較正を完了した」等)/ `
+    + `第278便c: 〔第278便c〕節 ${sec278len} 字に why 内訳・数え方(252 設定・走行 1512 本・504 分類)・係数表の数が`
+    + `そのまま載る / §5.30(${sec30len} 字・内訳表・**禁止語なし**)/ CHANGELOG に第278便c の行`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 第278便c(統括の検証項目 R55): behavior.pairSlipSign ----
+//   `tests/lib-w277c-nsgrid.mjs` の `pairSlip` の**第二天体の符号修正**(w277c-1 の s2=v+ω₂×r →
+//   w277c-2 の s2=v−ω₂×r)を機械固定する。**純関数をその場で走らせる**(html は開かない —— root/beta で同じ結果)。
+//     ① 最小対照 4 件: 相互同期(r=(1,0,0)・v=(0,1,0)・ω₁=ω₂=(0,0,1))と反転(r=(−1,0,0)・v=(0,−1,0))で
+//        s₁=s₂=0、相手が自転しない(ω₂=0)で s₂=v、逆回転(ω₂=(0,0,−1))で s₂=(0,2,0)。旧式は同期で s₂=(0,2,0)。
+//     ② ラベルの入れ替え対称性 pairSlip(−r,−v,ω₂,ω₁).s1 = −pairSlip(r,v,ω₁,ω₂).s2(乱数 32 件で 0・旧式は満たさない)。
+//     ③ 正本 tests/out/slipaudit-w278c.json(器 tests/exp-w278c-slipaudit.mjs)で、**html の 2D 実装**
+//        (`relativeDragProbe` のソースを文字列で評価)と修正後の式の差 0・旧式との差 >0、
+//        `lib-w277b-charondfm.mjs` の `pairSlipStep` と html の `dfmRelativeDragStep` が 1 步ビット同一、
+//        `slipRmsCircular`(別実装)と修正後の式の 360 位相 RMS が一致。
+//     ④ **影響範囲**: 格子の力学(bodyTorques・nsDerivs・runNsRun・transferStep)は pairSlip を経由しない
+//        (正本 nsgrid-w277c.json の数値の葉は修正前後で 1 つも動いていない —— 器 tests/exp-w278c-nsgriddiff.mjs)。
+{
+  const bad = [];
+  let NG = null, A = null, minRows = [], swapMax = 0, swapLegacyMin = Infinity;
+  try { NG = await import('file://' + path.join(ROOT, 'tests', 'lib-w277c-nsgrid.mjs')); }
+  catch (e) { bad.push('lib-w277c-nsgrid.mjs が読めない: ' + String(e).slice(0, 70)); }
+  try { A = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'slipaudit-w278c.json'), 'utf8')); }
+  catch (e) { bad.push('正本 slipaudit-w278c.json が読めない: ' + String(e).slice(0, 70)); }
+  if (NG) {
+    if (NG.NSGRID_VERSION !== 'w277c-2') bad.push('版が w277c-2 でない: ' + NG.NSGRID_VERSION);
+    const cases = [
+      { id: '同期', r: [1, 0, 0], v: [0, 1, 0], w1: [0, 0, 1], w2: [0, 0, 1], s2: [0, 0, 0], legacyS2: [0, 2, 0] },
+      { id: '反転', r: [-1, 0, 0], v: [0, -1, 0], w1: [0, 0, 1], w2: [0, 0, 1], s2: [0, 0, 0], legacyS2: [0, -2, 0] },
+      { id: '相手静止', r: [1, 0, 0], v: [0, 1, 0], w1: [0, 0, 1], w2: [0, 0, 0], s2: [0, 1, 0], legacyS2: [0, 1, 0] },
+      { id: '逆回転', r: [1, 0, 0], v: [0, 1, 0], w1: [0, 0, 1], w2: [0, 0, -1], s2: [0, 2, 0], legacyS2: [0, 0, 0] },
+    ];
+    for (const c of cases) {
+      const a = NG.pairSlip(c.r, c.v, c.w1, c.w2), b = NG.pairSlipLegacyW277c1(c.r, c.v, c.w1, c.w2);
+      const d = Math.hypot(a.s2[0] - c.s2[0], a.s2[1] - c.s2[1], a.s2[2] - c.s2[2]) + Math.hypot(...a.s1);
+      const dl = Math.hypot(b.s2[0] - c.legacyS2[0], b.s2[1] - c.legacyS2[1], b.s2[2] - c.legacyS2[2]);
+      minRows.push(c.id + ' s₂=(' + a.s2.map((x) => x + 0).join(',') + ')');
+      if (!(d === 0)) bad.push(`①${c.id}: 修正後の s が期待と違う(${a.s1} / ${a.s2})`);
+      if (!(dl === 0)) bad.push(`①${c.id}: 旧式の記録が期待と違う(${b.s2})`);
+    }
+    let seed = 2781;
+    const rnd = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648 * 2 - 1; };
+    for (let k = 0; k < 32; k++) {
+      const r = [rnd(), rnd(), rnd()], v = [rnd(), rnd(), rnd()], w1 = [rnd(), rnd(), rnd()], w2 = [rnd(), rnd(), rnd()];
+      swapMax = Math.max(swapMax, NG.pairSlipSwapResidual(r, v, w1, w2));
+      swapLegacyMin = Math.min(swapLegacyMin, NG.pairSlipSwapResidual(r, v, w1, w2, NG.pairSlipLegacyW277c1));
+    }
+    if (!(swapMax === 0)) bad.push('②入れ替え対称性が崩れた: ' + swapMax);
+    if (!(swapLegacyMin > 0)) bad.push('②旧式が入れ替え対称性を満たしてしまった(対照が対照でない)');
+  }
+  if (A) {
+    if (!A.meta || !A.meta.provenanceVersion) bad.push('③来歴 meta が無い');
+    if (A.libVersion !== 'w277c-2') bad.push('③正本の lib 版が w277c-2 でない: ' + A.libVersion);
+    const h = A.html2d || {};
+    if (!h.available) bad.push('③正本の html 2D 突合が空(beta に relativeDragProbe が無かった)');
+    else {
+      if (!(h.maxDiffFixed === 0)) bad.push('③html 2D と修正後の式が一致しない: ' + h.maxDiffFixed);
+      if (!(h.maxDiffLegacy > 0)) bad.push('③html 2D と旧式が一致してしまう(符号の違いが検出できていない)');
+      if (!(h.cases >= 36)) bad.push('③html 2D の突合件数が足りない: ' + h.cases);
+    }
+    for (const r of A.charonLibStep || []) if (!r.bitSame) bad.push('③lib-w277b pairSlipStep と html が 1 步でビット同一でない: ' + r.id);
+    if (!((A.charonLibStep || []).length >= 2)) bad.push('③lib-w277b と html の 1 步突合が無い');
+    for (const r of A.rmsCircular || []) if (!(r.absDiffFixed <= 1e-9 * Math.max(1, r.slipRmsCircular)))
+      bad.push(`③slipRmsCircular と修正後の RMS が合わない(ω/n=${r.omegaOverN}・θ=${r.thetaDeg})`);
+    const sc = A.scope || {};
+    if (sc.gridDynamicsUsesPairSlip !== false) bad.push('④格子の力学が pairSlip を経由している(影響範囲の前提が崩れた)');
+  }
+  add('behavior.pairSlipSign', bad.length === 0,
+    `**相対すべり pairSlip の第二天体の符号修正**(第278便c・統括の検証項目 R55・lib 版 ${NG ? NG.NSGRID_VERSION : '—'}・`
+    + `**html は開かない**)/ ① 最小対照 4 件: ${minRows.join(' / ')}(旧式は同期で s₂=(0,2,0))/ `
+    + `② 入れ替え対称性 32 件: 修正後の最大残差 ${swapMax}・旧式の最小残差 ${Number.isFinite(swapLegacyMin) ? swapLegacyMin.toExponential(2) : '—'} / `
+    + `③ 正本 tests/out/slipaudit-w278c.json: html 2D(${A && A.meta ? A.meta.htmlVersion : '—'})と修正後の差 `
+    + `${A && A.html2d ? A.html2d.maxDiffFixed : '—'}・旧式との差 ${A && A.html2d ? Number(A.html2d.maxDiffLegacy).toExponential(2) : '—'}`
+    + `(${A && A.html2d ? A.html2d.cases : '—'} 件)・lib-w277b pairSlipStep と html dfmRelativeDragStep は 1 步ビット同一・`
+    + `slipRmsCircular と一致 / ④ **影響範囲**: 格子の力学は pairSlip を経由しない`
+    + `(正本 nsgrid-w277c.json の数値は修正前後で不変)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 第278便c(統括の検証項目 R55 の H6・AM15): behavior.nsModeExchange ----
+//   **内部モードの共役変数模型**(純関数 tests/lib-w278c-nsmode.mjs・器 tests/exp-w278c-nsmode.mjs・
+//   正本 tests/out/nsmode-w278c.json・**エンジン未接続**)を機械固定する。**html は開かない**。
+//     ① トルクの式 τ_k = tr(G_k[Q,F]) が有限回転の差分と一致(その場で計算)。
+//     ② 導出した閉形式(遅れの小さい極限)τ_θ=(Kω/4)sin2θ − Kn sinθ・K=18f²γ/(μω_m⁴) が、
+//        線形定常応答の数値解と ω_m=3000 で相対 1e−5 以内(その場で計算)。平均の収支(軌道の供給 = 自転の仕事 + 熱)が閉じる。
+//     ③ 時間領域の短い走行(動的自転・有限容量・2 公転)で、步ごとのエネルギーと角力積の和が RK4 の刻みの誤差水準
+//        (E ≤1e−6・J ≤1e−8 —— J_mode が 2 次式なので構造保存ではない)・dE_orb = n dL_orb,z の恒等式が丸め水準(その場で計算)。
+//     ④ **θ 依存の係数表**(正本): 閉形式の正弦係数 b₁/b₂ = −4n/ω(ω/n=3 で −4/3)・sin2θ だけでは表せない
+//        (残差 >0.1)・摩擦 0 の対照は平均トルク 0。
+//     ⑤ 正本の帳簿(動的自転・有限容量・供給停止)が閉じ(E・J の相対漂い ≤1e−6・熱の減少 0)、刻みを半分にすると
+//        4 次で縮む・供給停止後は θ が動かない・自転の大きさを固定した対照で摂動が縮む。
+//     ⑥ 別系の零点(導出式)が 90° から 0.1° 以内(実系の ω/n)—— 観測材料 3.2°・40.6° を作らない。
+//        **合わせる係数探索はしていない**・not_a_prediction=true。
+{
+  const bad = [];
+  let NM = null, J = null, tq = 0, lagRel = 0, clo = 0, stepE = 0, stepJ = 0, orbId = 0, b12 = null;
+  try { NM = await import('file://' + path.join(ROOT, 'tests', 'lib-w278c-nsmode.mjs')); }
+  catch (e) { bad.push('lib-w278c-nsmode.mjs が読めない: ' + String(e).slice(0, 70)); }
+  try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'nsmode-w278c.json'), 'utf8')); }
+  catch (e) { bad.push('正本 nsmode-w278c.json が読めない: ' + String(e).slice(0, 70)); }
+  if (NM) {
+    if (NM.NSMODE_VERSION !== 'w278c-1') bad.push('版が w278c-1 でない: ' + NM.NSMODE_VERSION);
+    // ①
+    const Q = [0.3, 0.1, -0.2, 0.1, -0.5, 0.4, -0.2, 0.4, 0.2], F = NM.tideTensor(0.7, 0.4);
+    for (let k = 0; k < 3; k++) {
+      const e = [0, 0, 0]; e[k] = 1; const h = 1e-6;
+      const R = NM.rotMat(e, h), Rm = NM.rotMat(e, -h);
+      const up = -NM.mat.dot(NM.mat.mul(NM.mat.mul(R, Q), NM.mat.transpose(R)), F);
+      const um = -NM.mat.dot(NM.mat.mul(NM.mat.mul(Rm, Q), NM.mat.transpose(Rm)), F);
+      const fd = -(up - um) / (2 * h), an = NM.torqueOf(Q, F)[k];
+      tq = Math.max(tq, Math.abs(fd - an) / Math.abs(an));
+    }
+    if (!(tq <= 1e-7)) bad.push('①トルクの式が有限回転と合わない: ' + tq);
+    // ②
+    const p = { mu: 1, omegaM: 3000, gamma: 3, f: 1, n: 1 };
+    for (const d of [10, 30, 48.19, 70, 100, 150]) {
+      const t = d * Math.PI / 180;
+      const s = NM.steadyState(p, t, { omega: 3 }), l = NM.lagLimit(p, t, { omega: 3 });
+      const sc = Math.max(Math.abs(l.tauS), Math.abs(l.tauTheta));
+      lagRel = Math.max(lagRel, Math.abs(s.local.theta - l.tauTheta) / sc, Math.abs(s.local.s - l.tauS) / sc);
+      clo = Math.max(clo, Math.abs(s.agentWork) / s.heat);
+      if (!(s.heat > 0)) bad.push('②熱が正でない: θ=' + d);
+    }
+    if (!(lagRel <= 1e-5)) bad.push('②閉形式と数値解の差が 1e−5 を超えた: ' + lagRel);
+    if (!(clo <= 1e-12)) bad.push('②平均の収支が閉じない: ' + clo);
+    const ll = NM.thetaCoefficients((t) => NM.lagLimit({ mu: 1, omegaM: 30, gamma: 3, f: 1, n: 1 }, t, { omega: 3 }).tauTheta,
+      { samples: 360, kmax: 4 });
+    b12 = ll.sineCoefRel[0];
+    if (!(Math.abs(b12 + 4 / 3) <= 1e-9)) bad.push('②閉形式の b₁/b₂ が −4/3 でない: ' + b12);
+    // ③ 短い時間領域(動的自転・有限容量あり)
+    const st = NM.makeMode({ mu: 1, omegaM: 30, gamma: 3, f: 1, n: 1, Is: 0.01, Ecap: 1e-3, gammaSat: 9,
+      spin: { theta: 0.7, omega: 3 } });
+    const L0 = NM.modeLedger(st);
+    const Es = 0.5 * 0.01 * 9, Js = 0.03;
+    for (let k = 0; k < 4800; k++) {
+      const ex = NM.modeExchange(st, 2 * Math.PI / 2400);
+      stepE = Math.max(stepE, Math.abs(ex.sumE) / Es);
+      stepJ = Math.max(stepJ, Math.hypot(...ex.sumJ) / Js);
+      orbId = Math.max(orbId, Math.abs(ex.orbitIdentity) / Es);
+    }
+    if (!(stepE <= 1e-6 && stepJ <= 1e-8)) bad.push(`③步ごとの和が刻みの誤差水準を超えた(E ${stepE}・J ${stepJ})`);
+    if (!(orbId <= 1e-14)) bad.push('③dE_orb = n dL_orb,z の恒等式が崩れた: ' + orbId);
+    if (!(NM.modeLedger(st).heat > L0.heat)) bad.push('③熱が増えていない');
+  }
+  if (J) {
+    if (!J.meta || !J.meta.provenanceVersion) bad.push('来歴 meta が無い');
+    if (!(J.meta && J.meta.not_a_prediction === true)) bad.push('⑥not_a_prediction=true が無い');
+    const s4 = J.stage4 || {}, lag = (s4.rows || [])[0];
+    if (!lag || !(Math.abs(lag.sineCoefRel[0] + 4 / 3) <= 1e-9)) bad.push('④正本の閉形式 b₁/b₂ が −4/3 でない');
+    for (const r of s4.rows || []) {
+      if (!(r.sin2OnlyMaxResidualRel > 0.1)) bad.push('④sin2θ だけで表せてしまう行がある: ' + r.label);
+      if (r.kind === 'steady-state' && r.omegaM >= 300 && !(Math.abs(r.sineCoefRel[0] - r.expectB1overB2) <= 1e-3))
+        bad.push('④ω_m≥300 の数値解の b₁/b₂ が −4n/ω に寄らない: ' + r.label);
+    }
+    if (!(s4.frictionless && s4.frictionless.worstTorque <= 1e-15)) bad.push('④摩擦 0 の対照で平均トルクが 0 でない');
+    const s6 = J.stage6 || {};
+    if (!(s6.worstErel <= 1e-6 && s6.worstJrel <= 1e-6 && s6.heatDrops === 0)) bad.push('⑤正本の帳簿が閉じない');
+    if (!(s6.ErelOrder > 3 && s6.JrelOrder > 3)) bad.push('⑤刻みを半分にしても漂いが 4 次で縮まない');
+    const s9 = J.stage9 || {};
+    if (!(Math.abs(s9.thetaRateAfterDegPerOrbit) <= 1e-9)) bad.push('⑤供給停止後に θ が動いている');
+    const s8 = J.stage8 || {};
+    if (!(s8.held && s8.held.pairGapRatio < 1)) bad.push('⑤自転の大きさを固定した対照で摂動が縮まない');
+    for (const r of (J.stage10 || {}).rows || []) {
+      if (!(r.lagNinetyMinusDeg > 0 && r.lagNinetyMinusDeg < 0.1)) bad.push('⑥別系の零点が 90° から 0.1° 以内にない: ' + r.system);
+      if (!(r.steadyZeroDeg !== null && Math.abs(r.steadyZeroDeg - r.lagThetaStarDeg) < 1e-3))
+        bad.push('⑥数値解の零点が導出式と合わない: ' + r.system);
+    }
+  }
+  add('behavior.nsModeExchange', bad.length === 0,
+    `**H6 の共役変数模型**(第278便c・統括の検証項目 R55・純関数 tests/lib-w278c-nsmode.mjs 版 `
+    + `${NM ? NM.NSMODE_VERSION : '—'}・正本 tests/out/nsmode-w278c.json・**エンジン未接続**・**較正ではない**)/ `
+    + `① トルク式 τ_k=tr(G_k[Q,F]) と有限回転の差 ${tq.toExponential(2)} / `
+    + `② 閉形式 **τ_θ=(Kω/4)sin2θ − Kn sinθ**(K=18f²γ/(μω_m⁴))と数値解の差 ${lagRel.toExponential(2)}(ω_m=3000)・`
+    + `平均の収支 ${clo.toExponential(2)}・**b₁/b₂=${b12 === null ? '—' : b12.toFixed(9)}(=−4n/ω)** / `
+    + `③ 步ごとの和 E ${stepE.toExponential(2)}・J ${stepJ.toExponential(2)}・恒等式 ${orbId.toExponential(2)} / `
+    + `④ 正本の係数表: **sin2θ 以外に sinθ 項が出る**(有限 ω_m で sin3θ・sin4θ も)/ `
+    + `⑤ 正本の帳簿 E ${J && J.stage6 ? Number(J.stage6.worstErel).toExponential(2) : '—'}・`
+    + `J ${J && J.stage6 ? Number(J.stage6.worstJrel).toExponential(2) : '—'}・供給停止後の θ 変化 `
+    + `${J && J.stage9 ? J.stage9.thetaRateAfterDegPerOrbit : '—'} / ⑥ 別系の零点は 90° から 0.1° 以内 —— `
+    + `**観測材料 3.2°・40.6° を作らない**・合わせる係数探索はしていない・not_a_prediction`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
 }
 

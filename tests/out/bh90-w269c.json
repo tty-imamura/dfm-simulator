@@ -3,8 +3,8 @@
   "provenanceVersion": "w272e-1",
   "wave": "第269便c(来歴は第272便e で共通化)",
   "target": "beta/index.html",
-  "targetSha256": "51ac2e9370fc9bd77532299d41b4e4a04a8e722f18a2589166557f6e548f46ba",
-  "generatedAt": "2026-09-22T13:43:56.574Z",
+  "targetSha256": "d334ed09709f20d0f97328227681b11305f2bf3319b4bc36ca95e0a12f7c0744",
+  "generatedAt": "2026-09-23T11:05:29.166Z",
   "code": [
    {
     "file": "tests/exp-w269c-bh90.mjs",
@@ -20,9 +20,9 @@
    },
    {
     "file": "tests/lib-w270b-obscsv.mjs",
-    "bytes": 14068,
-    "sha256": "603104b67e24f166bc5a2a2d00038686ed4631e39285bcb8780281026d7e2d4a",
-    "mtime": "2026-09-19T11:48:42.098Z"
+    "bytes": 14614,
+    "sha256": "a096a132d0eea0841d194dd174b1ebc96caea453e9c0bbebab0a5d9391058b77",
+    "mtime": "2026-09-23T11:01:04.951Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -31,22 +31,22 @@
     "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "7d0ee9b9a164a772bdc1a800052e914d37a212f91080045ba52e0b3a2134511b",
-  "measuredAt": "2026-09-22T13:43:56.574Z",
+  "codeSha256": "51ef943e085aa1ee37842f6be0cc239a4644eeb72101df018afd8add8026994c",
+  "measuredAt": "2026-09-23T11:05:29.166Z",
   "codeVersion": "tests/exp-w269c-bh90.mjs 第269便c",
   "declarationVersion": "compare-v1 / 第59報「完成=比較サンプル v1」",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4440208,
-    "sha256": "51ac2e9370fc9bd77532299d41b4e4a04a8e722f18a2589166557f6e548f46ba",
-    "mtime": "2026-09-22T13:42:36.807Z"
+    "bytes": 4469620,
+    "sha256": "d334ed09709f20d0f97328227681b11305f2bf3319b4bc36ca95e0a12f7c0744",
+    "mtime": "2026-09-23T11:03:31.966Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
-    "bytes": 511051,
-    "sha256": "702efd3ad1441598a7af6a099ee91f6007d2519b83146c98614e3ce4560b1085",
-    "mtime": "2026-09-22T06:23:10.081Z"
+    "bytes": 558062,
+    "sha256": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4",
+    "mtime": "2026-09-23T11:01:04.949Z"
    },
    {
     "file": "tests/lib-w269c-compare.mjs",
@@ -71,7 +71,7 @@
    "**観測量が得られないときは `not-measurable`(値 null)** —— 0 や最後の値で補わない。",
    "**「完成」は比較サンプル v1 である。観測一致は別段階で、現時点で未達である。**"
   ],
-  "spentSec": 17.9
+  "spentSec": 11.7
  },
  "declaration": {
   "systemKind": "bh-binary",

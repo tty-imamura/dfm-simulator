@@ -55,7 +55,15 @@
   .ppHead{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
   .ppHead h3{margin:0;font-size:calc(15px*var(--uz,1));flex:0 0 auto;}
   #ppSearch{flex:1;min-width:0;min-height:38px;border-radius:10px;border:1px solid var(--line);
-    background:var(--panel2);padding:4px 10px;}
+    background:var(--panel2);padding:4px 34px 4px 10px;}
+  /* 第278便e(第68報「UI」③「『サンプルを選ぶ』の検索欄に検索文字列のクリアボタンを用意する」):
+     検索欄の右端の内側に ✕。入力が空のときは hidden(display:none)。入れ物 .ppSearchWrap が
+     検索欄の flex:1 を引き継ぐので、見出し行(タイトル・検索・閉じる)の並びと幅は変わらない */
+  .ppSearchWrap{position:relative;flex:1;min-width:0;display:flex;}
+  #ppSearchClear{position:absolute;right:3px;top:50%;transform:translateY(-50%);min-width:32px;min-height:32px;
+    padding:0 6px;border:0;border-radius:8px;background:none;color:var(--dim);
+    font-size:calc(14px*var(--uz,1));line-height:1;cursor:pointer;}
+  #ppSearchClear[hidden]{display:none;}
   #ppClose{flex:0 0 auto;min-height:38px;border-radius:10px;background:var(--panel2);
     border:1px solid var(--line);padding:4px 12px;}
   /* 第94便: 絞り込み項目(行)の境界が分かるようセパレータ — 各行の下辺に薄い罫線 */
@@ -128,9 +136,19 @@
     max-width:calc(100% - 16px);}   /* 第52便(原仮定者指示): 詳細表示の長行を画面幅で折り返し(見切れ防止) */
   /* 第27便: タイトルタップのアプリ説明パネル */
   .title{cursor:pointer;}
-  #aboutPanel{position:absolute;left:8px;right:8px;top:8px;bottom:8px;z-index:7;display:none;
-    background:rgba(20,24,48,.96);border:1px solid var(--line);border-radius:10px;padding:10px;
-    overflow-y:auto;font-size:calc(12px*var(--uz,1));line-height:1.6;}
+  /* 第278便e(原仮定者の裁定(第68報)「UI」②「『このアプリについて』『監査ビュー』のウィンドウは
+     縦画面と横画面共に『サンプルを選ぶ』と同様に画面手前に表示する」): 2 枚は #canvasWrap 内の
+     絶対配置(キャンバス領域だけを覆い、横画面 2 カラムではキャンバス列に閉じ込められていた)を
+     やめ、#ppModal と同じ**ビューポート全体を覆う手前のモーダル**にした。外枠 .fmModal
+     (= #aboutPanel / #avPanel 本体・role=dialog)が半透明の背景で、中の箱 .fmBox がスクロールする。
+     背景色・z-index(9998)・余白(14px)・箱の最大幅(560px)は #ppModal / .ppBox と同値。
+     開閉は従来どおり style.display("block"/"none")で、id・aria-controls・開閉関数は不変。
+     DOM は #app の直後(body 直下)へ移した —— #app 側の overflow・grid の影響を受けない */
+  .fmModal{position:fixed;inset:0;background:rgba(5,8,18,.78);z-index:9998;display:none;padding:14px;}
+  .fmBox{max-width:560px;width:100%;max-height:100%;margin:0 auto;overflow-y:auto;
+    background:rgba(20,24,48,.96);border:1px solid var(--line);border-radius:14px;padding:10px;
+    font-size:calc(12px*var(--uz,1));}
+  #aboutPanel .fmBox{line-height:1.6;}
   #aboutPanel .beHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;
     font-weight:700;color:var(--acc);}
   #aboutPanel .beHead button{background:none;border:none;color:var(--dim);font-size:calc(14px*var(--uz,1));
@@ -138,6 +156,8 @@
   /* 第147便(原仮定者指示): 全面パネルの見出し行(✕を含む)を sticky 化 — 中身をスクロール
      した状態でも閉じるボタンが常に上端に留まる(#btnPanelClose〔v1.17〕と同じ作法を
      #aboutPanel / #pmPanel / #avPanel の3枚へ揃えた)。表示のみ — 開閉の意味論は不変 */
+  /* 第278便e: #aboutPanel / #avPanel のスクロール容器は中の .fmBox(padding 10px)— top/margin の
+     −10px はそのまま成り立つ */
   #aboutPanel .beHead,#pmPanel .beHead,#avPanel .beHead{position:sticky;top:-10px;z-index:5;
     margin:-10px -10px 4px;padding:8px 10px 6px;background:rgba(20,24,48,.98);
     border-bottom:1px solid var(--line);}
@@ -159,9 +179,8 @@
   /* 第146便: 現実較正ファミリー監査ビュー(表示専用)。#aboutPanel / #pmPanel と同じ
      「キャンバス上の全面パネル」の流儀。中身は毎回プリセット宣言から組み立てる純表示で、
      物理・保存 JSON・AI 仕様には一切影響しない */
-  #avPanel{position:absolute;left:8px;right:8px;top:8px;bottom:8px;z-index:7;display:none;
-    background:rgba(20,24,48,.96);border:1px solid var(--line);border-radius:10px;padding:10px;
-    overflow-y:auto;font-size:calc(12px*var(--uz,1));line-height:1.5;}
+  /* 第278便e: 外枠・箱は .fmModal / .fmBox(上の #aboutPanel と共通 —— 画面手前のモーダル) */
+  #avPanel .fmBox{line-height:1.5;}
   #avPanel .beHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;
     font-weight:700;color:var(--acc);}
   #avPanel .beHead button{background:none;border:none;color:var(--dim);font-size:calc(14px*var(--uz,1));
@@ -539,7 +558,12 @@
      スマホの横持ち(幅 900px 未満)は従来の縦積みのまま。DOM 順は不変で CSS のみ —
      #canvasWrap は ResizeObserver 監視済みなので列替えでもキャンバス解像度は追随する。 */
   @media (orientation:landscape) and (min-width:900px){
-    #app{display:grid;grid-template-columns:minmax(0,1fr) clamp(320px,36vw,420px);
+    /* 第278便e(第68報「UI」①「横画面での、タブと『サンプルを選ぶ』の幅を広げる(1.5 倍程度)」):
+       右カラム clamp(320px,36vw,420px) の 3 値をそろって 1.5 倍 → clamp(480px,54vw,630px)。
+       キャンバス列は minmax(0,1fr) のまま(残り全部)。実測(tests/exp-w278e-uilayout.mjs):
+       1024×768 右 553px・キャンバス 471px / 1280×800 630・650 / 1366×768 630・736 /
+       1920×1080 630・1290 —— 5 画面とも折り返し・横はみ出し 0。幅 900(下限)でキャンバス 414px */
+    #app{display:grid;grid-template-columns:minmax(0,1fr) clamp(480px,54vw,630px);
       grid-template-rows:auto auto auto minmax(0,1fr);
       grid-template-areas:"hd hd" "cv tp" "cv tb" "cv pn";}
     header{grid-area:hd;}
@@ -555,6 +579,9 @@
        レイアウトとボタンの出方がずれるため)。 */
     #btnPanelExpand{display:none;}
     #panel.wide{max-height:none;}
+    /* 第278便e: 「サンプルを選ぶ」の箱も同じ比率(560px × 1.5 = 840px)。画面手前のモーダル
+       2 枚(このアプリについて・監査ビュー)の箱も同じ幅にそろえる。縦画面は 560px のまま */
+    .ppBox,.fmBox{max-width:840px;}
   }
 </style>
 </head>
@@ -587,11 +614,8 @@
     <canvas id="cv"></canvas>
     <div id="hud"></div>
     <div id="notice"></div>
-    <!-- 第27便(原仮定者指示): タイトルタップでアプリの説明(操作・法則要約は説明タブから移動) -->
-    <div id="aboutPanel" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
-      <div class="beHead"><span id="aboutTitle">このアプリについて</span><button id="aboutClose" aria-label="close">✕</button></div>
-      <div id="aboutBody"></div>
-    </div>
+    <!-- 第278便e: 「このアプリについて」#aboutPanel と「監査ビュー」#avPanel は画面手前のモーダルへ
+         なったので、#app の直後(body 直下)へ移した -->
     <!-- 第83便B: 相図ランナー — 2変数バッチ掃引と秩序変数の色マップ。プリセットが phaseMap を
          宣言したときだけパラメータタブに開くボタンが出る(宣言なしのプリセットでは UI 非表示)。
          バッチは描画なしのスクラッチ sim インスタンスだけを使い、本編 sim と保存 JSON には
@@ -606,15 +630,6 @@
       <div id="pmStatus"></div>
       <canvas id="pmCv"></canvas>
       <div class="pmNote" id="pmNote"></div>
-    </div>
-    <!-- 第146便: 現実較正ファミリー監査ビュー — 現実較正ファミリーの各サンプルを1画面に並べる
-         表示専用パネル。行の中身(失敗→補正→結果・件数・役割別内訳・主要残差・QA ゲート・
-         結果ファイル)は**すべてプリセット宣言(failureFirst / parameterAudit / claims)から
-         実行時に導出**する(手書きの数値は持たない)。物理・保存 JSON・AI 仕様には影響しない -->
-    <div id="avPanel" role="dialog" aria-modal="true" aria-labelledby="avTitle">
-      <div class="beHead"><span id="avTitle">現実較正ファミリー監査ビュー</span><button id="avClose" aria-label="close">✕</button></div>
-      <div class="avNote" id="avNote"></div>
-      <div id="avBody"></div>
     </div>
     <div id="bodyEdit">
       <!-- 第26便(原仮定者指示): 閉じる✕ → 最小化トグル(−/＋)。選択解除は粒子の再タップ/空白タップ -->
@@ -880,6 +895,28 @@
       <div class="group"><h3 id="aiListHead">生成済みプリセット</h3><div id="customList"></div></div>
     </div>
   </section>
+</div>
+<!-- 第278便e(原仮定者の裁定(第68報)「UI」②): 画面手前のモーダル 2 枚。「サンプルを選ぶ」#ppModal と
+     同じ契約 —— ビューポート全体を覆う背景(.fmModal)・role=dialog・aria-modal・aria-labelledby・
+     閉じるボタン・Esc・背景クリックで閉じる・箱(.fmBox)の中だけスクロール・--uz の文字倍率・z-index 9998。
+     横画面 2 カラムでもキャンバス列に閉じ込めず、右カラムの上にも被る -->
+<!-- 第27便(原仮定者指示): タイトルタップでアプリの説明(操作・法則要約は説明タブから移動) -->
+<div id="aboutPanel" class="fmModal" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+  <div class="fmBox">
+    <div class="beHead"><span id="aboutTitle">このアプリについて</span><button id="aboutClose" aria-label="close">✕</button></div>
+    <div id="aboutBody"></div>
+  </div>
+</div>
+<!-- 第146便: 現実較正ファミリー監査ビュー — 現実較正ファミリーの各サンプルを1画面に並べる
+     表示専用パネル。行の中身(失敗→補正→結果・件数・役割別内訳・主要残差・QA ゲート・
+     結果ファイル)は**すべてプリセット宣言(failureFirst / parameterAudit / claims)から
+     実行時に導出**する(手書きの数値は持たない)。物理・保存 JSON・AI 仕様には影響しない -->
+<div id="avPanel" class="fmModal" role="dialog" aria-modal="true" aria-labelledby="avTitle">
+  <div class="fmBox">
+    <div class="beHead"><span id="avTitle">現実較正ファミリー監査ビュー</span><button id="avClose" aria-label="close">✕</button></div>
+    <div class="avNote" id="avNote"></div>
+    <div id="avBody"></div>
+  </div>
 </div>
 <script>
 "use strict";
@@ -1466,7 +1503,7 @@ ja: {
   keySet:"キーを設定しました", keySetSaved:"キーを設定しました(この端末に保存)", keyCleared:"キーを消去しました",
   noKey:"APIキーを設定してください", noPrompt:"作りたいシミュレーションの説明を入力してください",
   generating:(m)=>"生成中("+m+")…", retrying:"検証エラーを修正して再試行中…",
-  // 第170便: 連鎖の向きは選択モデル依存(sonnet-5→opus-5 / haiku-4-5→sonnet-5)なので、
+  // 第170便: 連鎖の向きは選択モデル依存(第278便e 以降 sonnet-5→opus-5-5 / haiku-4-5→sonnet-5)なので、
   // 向きに依存しない表現にしておく(モデル名は m で必ず示す)
   fallback:(m)=>"別のモデル("+m+")にフォールバック中…",
   added:(n)=>"追加しました: "+n, autofix:(w)=>"\n(自動修正: "+w+")",
@@ -1534,7 +1571,7 @@ ja: {
   bdgFidRealTip:"スケール換算込みで数値を現実の対応対象へ較正したサンプル(質量・距離・速度・定数が換算で実値一致 — ☄️🌙🌘💍系)。較正の根拠は説明・観測結果カードを参照。このチップの無いサンプルはトイ(誇張アナログ)— 現実の数値を主張しない。",
   // 第92便(原仮定者指示): プリセット選択ウィンドウ
   ppTitle:"サンプルを選ぶ",
-  ppSearchPh:"検索(名前・ID・絵文字)",
+  ppSearchPh:"検索(名前・ID・絵文字)", ppSearchClear:"検索をクリア",
   ppPickTip:"タップしてサンプル選択ウィンドウを開く(スケール・分類・E水準で絞り込み/検索。一覧はグループごとに畳めます)",
   ppDimGroup:"グループ", ppDimScale:"スケール", ppDimClass:"分類", ppDimE:"E水準",
   // 第255便c: グループは絞り込みの次元ではなくなった(一覧の見出しとして残る)ので、説明行の見出し語を分ける
@@ -1580,7 +1617,7 @@ ja: {
   hudSysOpen:(r)=>`系: 開放系(${r} — リザーバ・帳簿を含めて読む)`,
   sysPin:"固定天体", sysRail:"レール", sysBath:"熱浴", sysWall:"伝熱壁", sysGrav:"外部重力",
   helpOps:"操作",
-  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。「パラメータ」タブは 時空 → 引きずり・測地線 → スピン・熱 →(実験箱など)→ シミュレーション → グラフ → 表示 → スケール → 共通設定 の順に並びます(第254便c)。「表示」カテゴリのチェックボックスは ⏮初めから では保持され、「プリセット既定値に戻す」でサンプルの既定に戻ります。「共通設定」(保存量モニタ・描画品質・文字サイズ・カメラ追従など)と「シミュレーション」のステップ診断・物理ベンチ・コア軸の投影線は端末に永続する設定で、サンプルを変えても引き継がれます。コア軸の投影線(第275便e・第276便c で言葉を統一)は core.axisMode:\"prescribed\" を宣言した親子コアだけに描く表示専用の線で、3D 単位軸を公転面へ正射影したものです(3D 表示ではありません)。既定は「宣言した粒子だけ ON」です — トグルは ON ですが、宣言の無い粒子には何も描かないので、内蔵サンプルでは線は出ません。縦画面ではタブを開いたときパネル右上に「⤢ 広げる」が出ます(第275便f) — 押すとパネルが画面いっぱい(ヘッダー+操作列+タブを除いた高さ)まで伸びて「⤡ 狭くする」に変わり、「✕ 閉じる」は広い状態でもそのまま効きます。広い/狭いの選択は端末に記憶されます(横画面2カラムではパネルが元から残り高さを全部使うのでボタンは出ません)。広げた状態ではキャンバス上の文字(HUD・各パネル)が操作列・タブ・パネルの上へはみ出しません(第276便f — 広げた状態でだけキャンバス領域をクリップします)。「説明」タブは チップ → タイトル → ID → 🔖概要 → 注意書き → 他の仲間 → 🔬監査ビュー → 較正台帳 → 📌要約・👀観察・🎛操作 → 観測結果カード → 🧪失敗から見る → 🔎数値主張 … の順です(第276便f)。🔖概要は 120 字以内の短い要約で、サンプルが宣言していなければ📌要約の先頭 1〜2 文を機械抽出したものです(切ったときだけ末尾が「…」)。🧪失敗から見ると観測結果カードは🔎数値主張と同じ折り畳みで、見出しをタップすると開きます(既定は畳む・開閉は記憶しません)。🔬監査ビューを開くボタンはトグルで、もう一度タップすると閉じます。",   /* 第254便c: パラメータタブの構成を追記 */
+  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。「パラメータ」タブは 時空 → 引きずり・測地線 → スピン・熱 →(実験箱など)→ シミュレーション → グラフ → 表示 → スケール → 共通設定 の順に並びます(第254便c)。「表示」カテゴリのチェックボックスは ⏮初めから では保持され、「プリセット既定値に戻す」でサンプルの既定に戻ります。「共通設定」(保存量モニタ・描画品質・文字サイズ・カメラ追従など)と「シミュレーション」のステップ診断・物理ベンチ・コア軸の投影線は端末に永続する設定で、サンプルを変えても引き継がれます。コア軸の投影線(第275便e・第276便c で言葉を統一)は core.axisMode:\"prescribed\" を宣言した親子コアだけに描く表示専用の線で、3D 単位軸を公転面へ正射影したものです(3D 表示ではありません)。既定は「宣言した粒子だけ ON」です — トグルは ON ですが、宣言の無い粒子には何も描かないので、内蔵サンプルでは線は出ません。縦画面ではタブを開いたときパネル右上に「⤢ 広げる」が出ます(第275便f) — 押すとパネルが画面いっぱい(ヘッダー+操作列+タブを除いた高さ)まで伸びて「⤡ 狭くする」に変わり、「✕ 閉じる」は広い状態でもそのまま効きます。広い/狭いの選択は端末に記憶されます(横画面2カラムではパネルが元から残り高さを全部使うのでボタンは出ません)。広げた状態ではキャンバス上の文字(HUD・各パネル)が操作列・タブ・パネルの上へはみ出しません(第276便f — 広げた状態でだけキャンバス領域をクリップします)。「説明」タブは チップ → タイトル → ID → 🔖概要 → 注意書き → 他の仲間 → 🔬監査ビュー → 較正台帳 → 📌要約・👀観察・🎛操作 → 観測結果カード → 🧪失敗から見る → 🔎数値主張 … の順です(第276便f)。🔖概要は 120 字以内の短い要約で、サンプルが宣言していなければ📌要約の先頭 1〜2 文を機械抽出したものです(切ったときだけ末尾が「…」)。🧪失敗から見ると観測結果カードは🔎数値主張と同じ折り畳みで、見出しをタップすると開きます(既定は畳む・開閉は記憶しません)。🔬監査ビューを開くボタンはトグルで、もう一度タップすると閉じます。横画面2カラムでは右カラム(操作列・タブ・パネル)と「サンプルを選ぶ」のウィンドウの幅が 1.5 倍です(第278便e)。「このアプリについて」と🔬監査ビューは「サンプルを選ぶ」と同じく画面の手前に開くウィンドウで、縦画面でも横画面でもキャンバスと右カラムの上に重なり、✕・Esc・ウィンドウの外のタップで閉じます。「サンプルを選ぶ」の検索欄は、文字を入れている間だけ右端に ✕ が出て、タップすると検索文字列を消します(Esc はウィンドウを閉じます)。説明タブの観測結果カードの見出しには 📇 が付きます。",   /* 第254便c: パラメータタブの構成を追記 */
   helpLaws:"この宇宙の法則(要約)",
   helpLawsBody:"① 空間は質点の相対配置だけで決まる(絶対空間なし)。② 決定力=質量÷距離。決定力の勾配が重力になる。③ 質点は「近くの空間」に対して慣性を持ち、空間ごと引きずられる(kFrame)。遠方宇宙の決定力がD₀。④ スピン=熱(温度T=Is²)。衝突で速度がスピンに変わり(muF)、スピンは斥力=圧力を生み(kRep)、拡散して平衡になる(κs)。⑤ 決定力が高い場所の時計は遅く、空間(共動フレーム)に対して速く動く時計も遅れる。光は同じψ=W·κ(κ=時空係数)で屈折して曲がり(n=e^{2ψ}。v1.7で時間と光を単一のψに統一)、「決定した空間」に運ばれる(c₀)。⑥ すべての相互作用は作用反作用対称で、運動量・角運動量を厳密に保存する(遠方宇宙との交換は帳簿に記録=保存量モニタ)。温度Tの質点はλ=b_m/Tの光を放射する(η_rad)。詳細は docs/PHYSICS.md(v1.6)。",
   ovCurve:"v(r): 実測(青) / 基準 v_bar(点線)", ovTemp:"平均温度(Is²) 左/右", ovLeft:"左", ovRight:"右",
@@ -2271,7 +2308,7 @@ en: {
   keySet:"Key set", keySetSaved:"Key set (saved on this device)", keyCleared:"Key cleared",
   noKey:"Please set an API key first", noPrompt:"Describe the simulation you want to create",
   generating:(m)=>"Generating ("+m+")…", retrying:"Fixing validation errors, retrying…",
-  fallback:(m)=>"Falling back to another model ("+m+")…",   // Wave 170: the direction depends on the selected model (sonnet-5→opus-5 / haiku-4-5→sonnet-5), so the wording stays direction-neutral
+  fallback:(m)=>"Falling back to another model ("+m+")…",   // Wave 170: the direction depends on the selected model (sonnet-5→opus-5-5 since wave 278e / haiku-4-5→sonnet-5), so the wording stays direction-neutral
   added:(n)=>"Added: "+n, autofix:(w)=>"\n(auto-corrected: "+w+")",
   genFailed:(e)=>"Generation failed: "+e,
   errNet:"Network unreachable", errKey:"Invalid API key",
@@ -2335,7 +2372,7 @@ en: {
   bdgFidRealTip:"A sample whose scale-converted numbers are calibrated toward its real counterpart (see the description and numeric claims for the basis). Samples without this chip are toys (exaggerated analogs) — no real-world numbers are claimed.",
   // 第92便: preset picker window
   ppTitle:"Choose a sample",
-  ppSearchPh:"Search (name, ID, emoji)",
+  ppSearchPh:"Search (name, ID, emoji)", ppSearchClear:"Clear search",
   ppPickTip:"Tap to open the sample picker (filter by scale, class, E-level; search; the list folds by group)",
   ppDimGroup:"Group", ppDimScale:"Scale", ppDimClass:"Class", ppDimE:"E-level",
   // wave 255c: groups are no longer a filter dimension - they stay as the list headings
@@ -2373,7 +2410,7 @@ en: {
   hudSysOpen:(r)=>`System: open (${r} — read together with reservoirs/ledgers)`,
   sysPin:"pinned bodies", sysRail:"rail", sysBath:"heat bath", sysWall:"thermal walls", sysGrav:"external gravity",
   helpOps:"Controls",
-  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction. The Parameters tab is ordered Spacetime → Dragging & Geodesics → Spin & Heat → (Lab Box etc.) → Simulation → Graphs → Display → Scale → General (wave 254c). Checkboxes in Display are kept by ⏮Restart and returned to the sample defaults by \"Restore preset defaults\". General (conservation monitor, render quality, text size, camera follow, …) and the step diagnostics / physics bench / core-axis projection in Simulation are device-persistent settings that carry over between samples. The core-axis projection (wave 275e, wording unified in wave 276c) is a display-only line drawn only for parent-child cores that declare core.axisMode:\"prescribed\"; it is the 3D unit axis orthogonally projected onto the orbital plane (it is NOT a 3D view). The default is 'on for declared bodies only': the toggle is on, but nothing is drawn for bodies without the declaration, so no line appears in the built-in samples. In portrait, opening a tab also shows a \"⤢ Expand\" button at the top right of the panel (wave 275f): it stretches the panel to the full screen height minus the header, transport row and tab bar, turns into \"⤡ Shrink\", and \"✕ Close\" keeps working in both states. The choice is remembered on the device (in the landscape two-column layout the panel already fills the remaining height, so the button is not shown). In the expanded state the text drawn over the canvas (the HUD and the full-screen panels) no longer spills over the transport row, the tab bar or the panel (wave 276f - the canvas area is clipped in the expanded state only). The Description tab is ordered chips -> title -> ID -> 🔖 In brief -> caveats -> family -> 🔬 audit view -> calibration ledger -> 📌 Summary / 👀 What to observe / 🎛 Controls -> observation card -> 🧪 Failure First -> 🔎 Numeric claims ... (wave 276f). \"🔖 In brief\" is a summary of at most 120 characters: the sample's own declaration when it has one, otherwise the first one or two sentences extracted from \"📌 Summary\" (a trailing \"…\" appears only when something was cut). \"🧪 Failure First\" and the observation card now fold like \"🔎 Numeric claims\" - tap the heading to open them (collapsed by default; the open/closed state is not remembered). The button that opens the audit view is a toggle: tap it again to close.",   /* wave 254c */
+  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction. The Parameters tab is ordered Spacetime → Dragging & Geodesics → Spin & Heat → (Lab Box etc.) → Simulation → Graphs → Display → Scale → General (wave 254c). Checkboxes in Display are kept by ⏮Restart and returned to the sample defaults by \"Restore preset defaults\". General (conservation monitor, render quality, text size, camera follow, …) and the step diagnostics / physics bench / core-axis projection in Simulation are device-persistent settings that carry over between samples. The core-axis projection (wave 275e, wording unified in wave 276c) is a display-only line drawn only for parent-child cores that declare core.axisMode:\"prescribed\"; it is the 3D unit axis orthogonally projected onto the orbital plane (it is NOT a 3D view). The default is 'on for declared bodies only': the toggle is on, but nothing is drawn for bodies without the declaration, so no line appears in the built-in samples. In portrait, opening a tab also shows a \"⤢ Expand\" button at the top right of the panel (wave 275f): it stretches the panel to the full screen height minus the header, transport row and tab bar, turns into \"⤡ Shrink\", and \"✕ Close\" keeps working in both states. The choice is remembered on the device (in the landscape two-column layout the panel already fills the remaining height, so the button is not shown). In the expanded state the text drawn over the canvas (the HUD and the full-screen panels) no longer spills over the transport row, the tab bar or the panel (wave 276f - the canvas area is clipped in the expanded state only). The Description tab is ordered chips -> title -> ID -> 🔖 In brief -> caveats -> family -> 🔬 audit view -> calibration ledger -> 📌 Summary / 👀 What to observe / 🎛 Controls -> observation card -> 🧪 Failure First -> 🔎 Numeric claims ... (wave 276f). \"🔖 In brief\" is a summary of at most 120 characters: the sample's own declaration when it has one, otherwise the first one or two sentences extracted from \"📌 Summary\" (a trailing \"…\" appears only when something was cut). \"🧪 Failure First\" and the observation card now fold like \"🔎 Numeric claims\" - tap the heading to open them (collapsed by default; the open/closed state is not remembered). The button that opens the audit view is a toggle: tap it again to close. In the landscape two-column layout the right column (transport row, tabs, panel) and the \"Choose a sample\" window are 1.5 times wider (wave 278e). \"About this app\" and the 🔬 audit view open in front of the screen like \"Choose a sample\": in portrait and landscape alike they cover the canvas and the right column, and close with ✕, Esc or a tap outside the window. The search box in \"Choose a sample\" shows a ✕ at its right end while it holds text; tapping it clears the search (Esc closes the window). The observation-card heading in the Description tab now carries 📇.",   /* wave 254c */
   helpLaws:"Laws of this universe (summary)",
   helpLawsBody:"(1) Space is defined only by the relative configuration of masses (no absolute space). (2) Determinacy = mass ÷ distance; its gradient is gravity. (3) Masses have inertia relative to the \"nearby space\" and are dragged along with it (kFrame). D₀ is the determinacy of the distant universe. (4) Spin = heat (T = Is²). Collisions convert velocity to spin (muF), spin creates repulsion = pressure (kRep), and diffuses to equilibrium (κs). (5) Clocks run slow where determinacy is high, and clocks moving fast relative to the comoving frame also run slow. Light refracts under the same ψ = W·κ (κ = the spacetime coefficient; n = e^{2ψ}; time and light unified in v1.7) and is carried by the \"determined space\" (c₀). (6) All interactions are action–reaction symmetric and conserve momentum and angular momentum exactly (exchanges with the distant universe are ledgered — see the conservation monitor). A mass at temperature T radiates at λ = b_m/T (η_rad). Details: docs/PHYSICS.md (v1.6).",
   ovCurve:"v(r): measured (blue) / baseline v_bar (dotted)", ovTemp:"Mean temperature (Is²) L/R", ovLeft:"L", ovRight:"R",
@@ -4037,6 +4074,9 @@ function validateBackgroundComplex(a){
   if(a===null || a===undefined) return {ok:true, backgroundComplex:null};   // **未宣言 = 未確定**
   if(typeof a!=="object" || Array.isArray(a))
     return {ok:false, err:"physics.backgroundComplex はオブジェクト({W0,A0,gradW,gradA,dWdt,dAdt,background,note})か null"};
+  // 第278便d(統括の読み R56): **潮汐テンソル T はこの鍵の中へ入れない**(別鍵 physics.backgroundTidal・単位 1/s²)
+  for(const nk of BG_TIDAL_NESTED) if(a[nk]!==undefined)
+    return {ok:false, err:"physics.backgroundComplex に "+nk+" は置けない(潮汐テンソル T は別鍵 physics.backgroundTidal —— 単位 1/s² の宣言専用。W₀・A₀ とは次元も役割も違う)"};
   if(BG_COMPLEX_BACKGROUNDS.indexOf(a.background)<0)
     return {ok:false, err:'physics.backgroundComplex.background は "solar-excluded"/"heliocentric"/"galactic"/"declared"/"zero" のみ'};
   if(!isNum(a.W0) || !(a.W0>=0))
@@ -4094,6 +4134,62 @@ function validateBackgroundComplex(a){
     return {ok:false, err:'physics.backgroundComplex.background:"declared" は note に背景の出所を書くこと(出所を名指ししない宣言は受理しない)'};
   return {ok:true, backgroundComplex:out};
 }
+// ===== 第278便d(統括の読み R56): physics.backgroundTidal — **潮汐テンソル T** の宣言(**宣言専用の別鍵**) =====
+// 背景勾配による差動加速度は一様重力相当のパラメータ 1 つでは代替できない(第277便d ⑤)ので、
+// 宣言する口として a_ext(x) = a₀ + T·(x−x₀) の **T**(単位 **1/s²**)を置く。
+// **backgroundComplex の中には入れない**(W₀[M/L²]・A₀[M/(L·T)]・∇W・∇A は重み付き平均の量で、
+// T はポテンシャルのヘッセ行列 —— **次元も役割も違う**)。**メッシュ速度勾配 J[1/s] とも別物**である。
+// 形: {T:[[..],[..]] または 3×3, unit:"1/s^2", frame, epoch, source, note?}。
+//   ・T は**対称**(T[i][j]===T[j][i] —— ヘッセ行列なので厳密に対称で宣言する)の**有限数**の正方行列(2×2 か 3×3)。
+//     2×2 は**面内ブロック**(3 次元の真空では tr T=0 だが、面内ブロックのトレースは −T_zz で 0 とは限らない)。
+//   ・unit は "1/s^2" だけ(**SI の秒**で書く —— サンプルの scaleExp の時間単位ではない)。
+//   ・frame(どの座標系の成分か)・epoch(いつの値か)・source(出所)は**明示必須**(未確定を 0 で埋めない)。
+//   ・知らない鍵は拒否(W0 等を紛れ込ませない —— 別鍵の分離を両方向で守る)。
+// **この鍵は宣言専用**で、**エンジンのどの経路からも読まれない**(力学への接続は AL17 の順で裁定)。
+// **内蔵はこの鍵を 1 本も宣言していない**ので presetSig も既定経路の力学も 1 bit も動かない。
+const BG_TIDAL_KEY = "backgroundTidal";
+const BG_TIDAL_UNIT = "1/s^2";
+const BG_TIDAL_DIMS = [2,3];
+const BG_TIDAL_REQUIRED = ["T","unit","frame","epoch","source"];
+const BG_TIDAL_TEXT_MAX = { frame:80, epoch:60, source:200, note:200 };
+const BG_TIDAL_NESTED = ["T","tidal","tidalTensor","backgroundTidal"];
+function validateBackgroundTidal(a){
+  if(a===null || a===undefined) return {ok:true, backgroundTidal:null};   // **未宣言 = 未確定**
+  if(typeof a!=="object" || Array.isArray(a))
+    return {ok:false, err:'physics.backgroundTidal はオブジェクト({T,unit:"1/s^2",frame,epoch,source,note})か null'};
+  for(const k of Object.keys(a)) if(BG_TIDAL_REQUIRED.indexOf(k)<0 && k!=="note")
+    return {ok:false, err:"physics.backgroundTidal に知らない鍵 "+k+" がある(T/unit/frame/epoch/source/note のみ —— 背景の重み W₀ 等は physics.backgroundComplex)"};
+  const miss=BG_TIDAL_REQUIRED.filter((k)=>a[k]===undefined || a[k]===null);
+  if(miss.length)
+    return {ok:false, err:"physics.backgroundTidal は "+miss.join("/")+" を明示すること(**未確定を 0 で補完しない** —— 値が未確定なら鍵ごと書かない)"};
+  if(a.unit!==BG_TIDAL_UNIT)
+    return {ok:false, err:'physics.backgroundTidal.unit は "1/s^2" のみ(潮汐テンソルは T⁻² —— メッシュ速度勾配 J〔1/s〕とは別物)'};
+  const T=a.T;
+  if(!Array.isArray(T) || BG_TIDAL_DIMS.indexOf(T.length)<0)
+    return {ok:false, err:"physics.backgroundTidal.T は 2×2 または 3×3 の行列(配列の配列)"};
+  const n=T.length, out=[];
+  for(let i=0;i<n;i++){
+    const row=T[i];
+    if(!Array.isArray(row) || row.length!==n)
+      return {ok:false, err:"physics.backgroundTidal.T は正方行列(各行の長さ "+n+")"};
+    const o=[];
+    for(let j=0;j<n;j++){
+      if(!isNum(row[j])) return {ok:false, err:"physics.backgroundTidal.T の成分は有限数"};
+      o.push(row[j]);
+    }
+    out.push(o);
+  }
+  for(let i=0;i<n;i++) for(let j=i+1;j<n;j++) if(out[i][j]!==out[j][i])
+    return {ok:false, err:"physics.backgroundTidal.T は対称行列(T["+i+"]["+j+"]≠T["+j+"]["+i+"] —— 潮汐テンソルはポテンシャルのヘッセ行列)"};
+  const res={T:out, unit:BG_TIDAL_UNIT};
+  for(const k of ["frame","epoch","source","note"]){
+    if(a[k]===undefined || a[k]===null) continue;
+    if(typeof a[k]!=="string" || a[k]==="" || a[k].length>BG_TIDAL_TEXT_MAX[k])
+      return {ok:false, err:"physics.backgroundTidal."+k+" は 1〜"+BG_TIDAL_TEXT_MAX[k]+" 字の文字列"};
+    res[k]=a[k];
+  }
+  return {ok:true, backgroundTidal:res};
+}
 // ===== 第277便b(原仮定者の裁定(第67報)(1)): physics.relativeDrag — **相対すべりの零条件**を持つ引きずり則 =====
 // 裁定の字義は「**空間メッシュ(複素決定力場)による引きずり(座標変換)は相対的に動いていなければ
 // 発生しない**」である。統括の読み(R46)はこれを **法則の零条件**として採る形で、
@@ -4105,7 +4201,7 @@ function validateBackgroundComplex(a){
 //   対 (i,j) ごとに 相対位置 r=x_j−x_i・相対速度 v=v_j−v_i・宣言自転 ω_i,ω_j(2D の z 成分=`S.spin`)から
 //     **相対すべり** s_i = v − ω_i×r、 s_j = v − ω_j×r   ((ω×r)=(−ω r_y, ω r_x))
 //   を作る。s は**共通並進を足しても不変**である(v が相対速度だから)。局所重みは
-//     W_j=m_j/(r²+ε²)、 χ_ij = W_j/(W_j+W₀) = m_j/(m_j+W₀(r²+ε²))   (W₀ は `backgroundComplex.W0`・未宣言は 0)
+//     W_j=m_j/(r²+ε²)、 χ_ij = W_j/(W_j+W₀) = m_j/(m_j+W₀(r²+ε²))   (W₀ は `relativeDrag.W0`・未宣言は 0 — 第278便b で注記を訂正)
 //   で、**D₀([M/L])は分母に入れない**(W₀ は [M/L²] — 第276便a で別の量と確定した)。
 //   速さの尺度は**その対の二体角振動数** ν_ij=√(G(m_i+m_j)/(r²+ε²)^{3/2}) を使う(κ は無次元 0..1)。
 //     A = κ χ_ij μ ν dt、 B = κ χ_ji μ ν dt、 μ=m_i m_j/(m_i+m_j)
@@ -4120,7 +4216,13 @@ function validateBackgroundComplex(a){
 //   キックが立つ(否定対照)。**注意**: χ_ij s_i = −χ_ji s_j を満たす偶然の配置では J⃗ だけが 0 に
 //   なりうる(自転へのトルクは残る)—— 零条件の逆は成り立たない、と宣言する。
 // ■ 未宣言は 1 bit 不変: `S.hasRelativeDrag=false` の真偽値 1 つで外部ステップに 1 度も入らない。
+// ■ 第278便b(統括の検証項目 R54): **`integration:"midpoint"`(opt-in)** —— 同じ連続則を**陰的中点法**で
+//   解く(位置固定の散逸ステップ・ΔE=−A|s̄_i|²−B|s̄_j|²≤0 が厳密・P/J_z 保存)。省略時は従来の陽的経路で、
+//   陽的経路の `S.relDragPos` は**数えるだけ**(ΔE>0 の步を拒否する機構ではない)。中点法は**単一対・
+//   正の質量/半径/慣性・有限・分離した対**に限る(それ以外は受理時・步のどちらでも拒否する)。
+//   `pairs` は正規化後の**重複を拒否**する([[0,1],[1,0]] は同じ対を 2 度当てる宣言なので受けない)。
 const REL_DRAG_KEY = "relativeDrag";
+const REL_DRAG_INTEGRATIONS = ["explicit", "midpoint"];   // 第278便b: "explicit" は省略と同じ(正準形に出さない)
 const REL_DRAG_LAWS = ["pairSlip"];
 const REL_DRAG_SPINS = ["declared"];
 const REL_DRAG_KAPPA_CLAMP = [0, 1];
@@ -4145,7 +4247,11 @@ function validateRelativeDrag(a){
       if(!Array.isArray(q) || q.length!==2 || !isNum(q[0]) || !isNum(q[1])
         || q[0]<0 || q[1]<0 || q[0]===q[1] || q[0]!==Math.round(q[0]) || q[1]!==Math.round(q[1]))
         return {ok:false, err:"physics.relativeDrag.pairs は \"all\" か、0 以上の相異なる整数 2 つの配列の配列"};
-      ps.push([Math.min(q[0],q[1]), Math.max(q[0],q[1])]);
+      const lo=Math.min(q[0],q[1]), hi=Math.max(q[0],q[1]);
+      // 第278便b(R54): 正規化後の**重複を拒否**する(同じ対を 2 度当てると用量が黙って 2 倍になる)
+      for(const z of ps) if(z[0]===lo && z[1]===hi)
+        return {ok:false, err:"physics.relativeDrag.pairs に同じ対が 2 度ある(["+lo+","+hi+"] — 向きを変えても同じ対)"};
+      ps.push([lo, hi]);
     }
     if(!ps.length) return {ok:false, err:'physics.relativeDrag.pairs が空配列(対を 1 つも指さないなら宣言しない)'};
     out.pairs=ps;
@@ -4154,8 +4260,37 @@ function validateRelativeDrag(a){
   else if(REL_DRAG_SPINS.indexOf(a.spins)<0)
     return {ok:false, err:'physics.relativeDrag.spins は "declared" のみ(自転は宣言値を読む)'};
   else out.spins=a.spins;
+  // 第278便b(R54): 数値法。省略・null・"explicit" は従来の陽的経路(**正準形に出さない** = 署名不変)。
+  if(a.integration!==undefined && a.integration!==null){
+    if(REL_DRAG_INTEGRATIONS.indexOf(a.integration)<0)
+      return {ok:false, err:'physics.relativeDrag.integration は "midpoint"(陰的中点法)か省略(陽的)のみ'};
+    if(a.integration==="midpoint"){
+      if(Array.isArray(out.pairs) && out.pairs.length!==1)
+        return {ok:false, err:'physics.relativeDrag.integration:"midpoint" は単一対のみ(pairs は 1 対か "all" の 2 体)'};
+      out.integration="midpoint";
+    }
+  }
   // κ=0 は「則を宣言したが用量 0」= **否定対照の宣言**なので、正規化で落とさない(署名に残す)
   return {ok:true, relativeDrag:out};
+}
+// 第278便b(R54): 中点法の受理条件を**生の bodies** で確かめる(粒子番号=天体番号になる single 天体のみ)。
+// 返り値は拒否理由の文字列か null。力学経路からは呼ばれない(受理時だけ)。
+function relativeDragMidpointBodyCheck(bodies, rd){
+  if(!Array.isArray(bodies)) return 'physics.relativeDrag.integration:"midpoint" は bodies の配列が要る';
+  for(const b of bodies) if(!b || typeof b!=="object" || (b.type!==undefined && b.type!=="single"))
+    return 'physics.relativeDrag.integration:"midpoint" は single 天体だけの宇宙に限る(粒子番号=天体番号)';
+  let pr;
+  if(rd.pairs==="all"){
+    if(bodies.length!==2) return 'physics.relativeDrag.integration:"midpoint" と pairs:"all" は 2 体の宇宙に限る(単一対)';
+    pr=[0,1];
+  } else pr=rd.pairs[0];
+  for(const i of pr){
+    const b=bodies[i];
+    if(!b) return 'physics.relativeDrag.integration:"midpoint" の対 ['+pr+'] が bodies の範囲外';
+    if(!isNum(b.m) || !(b.m>0)) return 'physics.relativeDrag.integration:"midpoint" は正の質量に限る(天体 '+i+')';
+    if(!isNum(b.radius) || !(b.radius>0)) return 'physics.relativeDrag.integration:"midpoint" は正の半径(=正の慣性 I=½mR²)に限る(天体 '+i+')';
+  }
+  return null;
 }
 // ===== 第277便b(統括の検証項目 R48): physics.massPrecision — **質量配列の倍精度化**(opt-in)=====
 // `S.alloc` は `S.m`/`S.mEff` を Float32Array で確保する。`stateCarry:"double"` が倍精度にするのは
@@ -10027,44 +10162,45 @@ const BUILTIN_PRESETS = [
   familyId:"pluto", familyRole:"variant",
   scaleTier:"planetary",
   scaleExp:{L:5, T:1, M:24},   // 1単位=10⁵m/10s/10²⁴kg(規約 L−T=4・M+2T−3L=11 — **精密単位**)
+  integrator:"leapfrog",   // 第278便b(R54): KDK + 引きずり則の散逸を前後の半歩に分ける対称分割(physics.relativeDrag.integration:"midpoint")
   sampleClass:"principle",   // 統括(第277便 統合): 診断コピー — 較正母集団 37 本は不変・正式門(calaudit)の外で同じ 3σ 規則で比較する。較正母集団への昇格は裁定待ち(AM5)
   fidelity:"real",   // GM・状態ベクトル・周期が同一の観測解(2024 年の暦解 + その暦の状態)からの転写
   notClaim:["solar_cal"],
   obsCard:[
-    {q:"公転周期(同方向1周・dt 3段の1次外挿)", model:"551888.037 s・+31.598 s・+1219.1σ — **判定は 否(3σ)**", obs:"551856.43872±0.02592 s(Buie 2012 二体 P — **判定行**)"},
-    {q:"3 種の P は別の量である(定義の宣言)", model:"模型は同方向1周で測る(近点間は e≈1.5×10⁻⁴ の円に近い軌道では観測の定義に対応しない)", obs:"判定行に対して PLU060 400年平均 −21.0σ・Horizons osculating PR 元期A −222.3σ"},
-    {q:"暦の再現(同一暦の内部一貫性)", model:"元期A の 2 体切り出しの接触要素 a=19596.309km・e=1.4923×10⁻⁴", obs:"PLU060 Table 10 平均 a=19595.764km・e=0.000161(差 +0.545km・−1.18×10⁻⁵)"},
-    {q:"則の寄与(🌨️ kF0 対照との差)", model:"1次外挿で +1.373 s(+53.0σ)。生の dt=0.16 では −19.78 s(刻み依存が大きい)", obs:"—(同一入力・同一刻みの A/B。同期していれば ≈0 になる量)"},
-    {q:"零条件(相互同期した円軌道)", model:"すべり・キック・自転トルク・ΔE・ΔJ_z がすべて**厳密に 0**", obs:"—(機械検証。**逆は成り立たない** — χ_ij s_i=−χ_ji s_j ではインパルスだけが 0)"},
-    {q:"帳簿(運動量・J_z・熱)", model:"P 2.6×10⁻¹⁴・J_z 3.2×10⁻¹⁴・|ΔE+熱| 6.5×10⁻⁹・Q̇<0 の步 0(dt=0.16・2公転)", obs:"—(J_z は軌道+自転 I=½mR² の和で閉じる。散逸 E は熱へ)"},
-    {q:"共通重心の位置", model:"冥王星中心から 21.317 単位=2132km=1.79 冥王星半径(表面の外)", obs:"—(GM 比 0.122052 からの導出)"},
-    {q:"倍精度質量(massPrecision)", model:"single との差 +0.0245 s(+0.95σ)— 観測 σ に対して無視できない", obs:"—(第276便b が実測した Float32 質量の量子化を外す opt-in)"}],
+    {q:"欄(1) 暦の再現 — PLU060 400年平均 P との差(σ なし)", model:"第2周 551888.037 s(dt 0.04)・+32.143 s・+58.24 ppm — 合否は出さない", obs:"551855.8944 s(PLU060 400年平均 — 表示桁・400年の散らばりは σ ではない)"},
+    {q:"欄(1) 暦の再現 — Horizons osculating PR との差(σ なし)", model:"元期A 比 +37.360 s(+67.70 ppm)・元期B 比 +34.967 s(+63.36 ppm)", obs:"551850.6774 / 551853.0700 s(接触要素の瞬時値・重心基準)"},
+    {q:"欄(2) 観測検定(Buie 2012 二体 P)", model:"**判定保留(量定義不一致)** — 比較値 +31.598 s・+1219.1σ(門ではない)", obs:"551856.43872±0.02592 s(二体ケプラー当てはめ・元期 JDT 2452600.5)"},
+    {q:"Buie 二体再現(転写・積分器の試験 — 独立の検証ではない)", model:"551856.439804 s(dt 0.04)— 差 +1.084 ms のうち軟化 ε=1km が +1.080 ms・残り +3.9 μs", obs:"GM=4π²a³/P²(a=19573km・P=551856.43872 s)で回した円軌道の二体"},
+    {q:"数値法(陰的中点法 + leapfrog の対称分割)", model:"第2周 551888.037107 / …058 / …046 s(dt 0.16/0.08/0.04)・刻み半減差 12 μs(比 4.0)", obs:"—(旧構成 semi+陽的は 1 次収束・半減差 5.29 s — 履歴値は台帳 §5.29)"},
+    {q:"時間窓(第2〜第6周)— 定常周期と呼べるか", model:"第3周 +0.302 s・第4周 +0.003 s・第5→6周 +0.2 μs — **第2周の値は過渡を含む**", obs:"—(すべり 4.8×10⁻⁶→4×10⁻¹⁴・e 1.5×10⁻⁴→3.9×10⁻⁹ へ減衰)"},
+    {q:"則の寄与(🌨️ kF0 対照との差・同じ leapfrog)", model:"第2周 +1.373 s・第6周 +1.678 s(dt 0.04)", obs:"—(同一入力・同一刻みの A/B)"},
+    {q:"零条件・帳簿", model:"零条件でキック・トルク・熱は厳密に 0/熱は全步非負・J_z 4.6×10⁻¹²・P 2.1×10⁻¹²(dt 0.04・3周)", obs:"—(J_z は軌道+自転 I=½mR²+resL+radL の読み口)"}],
   failureFirst:{
-    fail:"**観測検定の判定行(Buie 2012 の二体 P)に対して、本サンプルは門の外である** —— 3 段の刻み(dt=0.16/0.08/0.04)の 1 次外挿で 551888.037 s、観測 551856.43872±0.02592 s に対し **+31.598 s・+1219.1σ・否(3σ)**。**同一観測解へ入力をそろえても残差は消えない。** さらに正直に書くべきことが 3 つある: ① **公表されている 3 つの P は互いに食い違う** —— PLU060 の 400 年平均は Buie の二体 P と −0.5443 s(−21.0σ)、Horizons の osculating PR(元期A・重心基準)は −5.761 s(−222.3σ)ずれている。3 つは**別の量**(二体ケプラー当てはめ/暦の 400 年平均/接触要素の瞬時値)なので、この食い違い自体は誤りではないが、**26 ms の σ は「どの量に対する σ か」を宣言しないと使えない**ということである。② 元期 JD 2452600.5 の状態から作った 2 体の接触要素は a=19596.309km・e=1.4923×10⁻⁴ で、Table 10 の 400 年平均(19595.764km・0.000161)とは **+0.545km** ずれる —— **6 体の暦の状態を 2 体へ切り落とした**ぶんである(小衛星を入れれば別の量になる。本サンプルには入れない)。③ **則の寄与は刻みに強く依存する**: dt=0.16 の生値では対照との差が −19.78 s なのに、3 段の 1 次外挿では +1.373 s(+53.0σ)になる —— 生の 1 段だけを見て則の効果を語ってはならない。**残差がゼロになる ε・a・質量係数 f を探索して採用してはいない**(第276便b の禁止をそのまま継ぐ)。",
-    pass:"**手順は最後まで通っている**: 同一観測解の GM から質量を作り(GM/G・内蔵 G=6.674 のまま)、同じ暦の状態ベクトルを軌道面へ射影して 2D の初期条件にし、相互同期を宣言し、**相対すべりの零条件を持つ引きずり則**を入れて 3 段の刻みで測り、門にかけた。**則そのものの機械検証は合格している** —— 相互同期した円軌道では s_i=s_j=0 でインパルスも自転トルクも ΔE も**厳密に 0**、否定対照(片側の自転 0・自転反転・動径速度の追加)ではキックが立ち、運動量と J_z は**閉じたまま**(相対 2.6×10⁻¹⁴ / 3.2×10⁻¹⁴)、熱は全步で非負である。フィットはゼロ(D₀=0.006 は共有値の流用・q=11.9386 は q_exact を a=195.974 で 1 回評価した直値・初速較正 1.000)。"},
+    fail:"**観測検定欄は「判定保留(量定義不一致)」である** —— 本サンプルの入力は同一暦 PLU060 の状態であり、目標を Buie 2012 の二体 P(σ 26 ms)に取ると**量の定義が一致しない**(統括の検証項目 R53)。比較値として書けば、第 2 周(dt 0.04)551888.037 s は Buie に対して +31.598 s・+1219.1σ である(**門ではない** —— 4 値の母集団外)。**暦の再現欄**(σ なし・合否なし)では、PLU060 の 400 年平均 P に対して **+32.143 s(+58.24 ppm)**、Horizons osculating PR 元期 A に対して +37.360 s(+67.70 ppm)である —— 同じ暦の入力から、同じ暦の周期を 58 ppm 外している。正直に書くべきことが 3 つある: ① **第 2 周は定常周期ではない** —— 第 3 周は第 2 周より +0.302 s、第 4 周はさらに +0.003 s 長く、第 5 周以降でようやく周ごとの変化が刻み半減差より小さくなる(すべりと離心率が減衰する過渡を含む)。② 元期 A の 2 体切り出しの接触要素 a=19596.309km・e=1.4923×10⁻⁴ は Table 10 の 400 年平均と +0.545km ずれる(6 体の暦を 2 体へ切り落としたぶん)。③ 旧構成(semi+陽的インパルス)は刻みに 1 次でしか収束せず(dt 0.16 で 551866.888 s)、粗い刻みでは熱が負になりうる経路だった。**残差がゼロになる ε・a・f・κ を探索して採用してはいない**(第276便b の禁止をそのまま継ぐ)。",
+    pass:"**数値法は刻みに収束している**: ⛄ は integrator:\"leapfrog\"+relativeDrag.integration:\"midpoint\"(散逸半歩→重力→散逸半歩の対称分割)で、3 段の第 2 周が 551888.037107 / 551888.037058 / 551888.037046 s(刻み半減差 49→12 μs・比 4.0)。中点法の散逸は ΔE=−A|s̄_i|²−B|s̄_j|²≤0 が厳密で、無次元の最小対照(G=1・R=0.01・h=0.01)では陽的経路の熱 −0.245 に対して +1.92×10⁻⁶ になる。零条件(相互同期した円軌道)ではキック・トルク・熱が厳密に 0。**Buie 二体再現**(転写・積分器の試験 —— 独立の検証ではない)は、軟化を入れた解析値に対して +3.9 μs で P を再現する。フィットはゼロ(D₀=0.006 は共有値の流用・q=11.9386 は q_exact を a=195.974 で 1 回評価した直値)。"},
   descStruct:{
     brief:"同一観測解(2024年の暦の GM と Horizons の状態)から作った DFM 版。相対すべりが 0 の同期状態では引きずり補正が消える。",
     summary:"**同一観測解の冥王星–カロン**を**精密単位**(1単位=10⁵m/10s/10²⁴kg)へ置いた **DFM 版**(第277便b)。質量は **GM/G** で作る —— Brozović & Jacobson 2024 AJ 167 256 Table 8 の GM(冥王星 869.3±0.4・カロン 106.1±0.3 km³/s²)を**内蔵 G=6.674 のまま**割って 1.3025172×10²²kg・1.5897513×10²¹kg(GM 比 0.122052)。初期状態は **JPL Horizons PLU060/DE440**(中心=冥王星系重心・ICRF/J2000・km, km/s・TDB)の元期 JD 2452600.5 の相対状態を**軌道面へ射影**した 2D である —— 基底は ê₁=r/|r|・ê₃=r×v/|r×v|・ê₂=ê₃×ê₁ で、位置と速度を**同じ回転**で射影する(z を捨てない。2 体では面外成分は恒等的に 0 で、面外が効くのは小衛星〔最大 ≈274km〕だが本サンプルには入れない)。得られる離角は 19597.369km・相対速度 223.0903m/s(動径成分 −0.0310m/s)で、共通重心は冥王星中心から 21.317 単位=2132km=1.79 冥王星半径(表面の外)に出る。自転は**相互同期の宣言** ω=2π/551855.8944s(PLU060 の 400 年平均)。働いているのは重力(E4)+測地線1PN(E12)+**本便の引きずり則**である。**kFrame=0 なので核の E6′ 運動引きずりは使わない** —— 代わりに宣言 physics.relativeDrag:{law:\"pairSlip\",kappa:1} が `S._core` の**外**の外部ステップを開け、対ごとの**相対すべり** s_i=v−ω_i×r・s_j=v−ω_j×r が 0 でないときだけ運動量インパルスと自転トルクを当てる(**相互同期した円軌道では 1 バイトも動かない**)。**この則は統括が設定した検証仮説であって、現行 DFM から一意に導出された法則ではない。** 数値設定は ε=0.01 単位=1km・physics.massPrecision:\"double\"・stateCarry:\"double\"・geoPN=2・frameReaction:\"pairReduced\"・frameWeight:\"share\"(**則を宣言した宇宙では自転配列も Float64 になる** —— 1 步の ΔJ/I が Float32 の ULP 3 個ぶんしかなく、10⁶ 步で帳簿が壊れることを実測したため)。**dt の意味が ❄️ と違う**: 時間単位が 10s なので、同じ物理刻みを取るには dt を ❄️ の 10 倍にする(本サンプルの 3 段は dt=0.16/0.08/0.04 = 1.6/0.8/0.4 s)。",
-    observe:"**判定は門のとおり** —— 3 段の 1 次外挿 551888.037 s は観測 551856.43872±0.02592 s(Buie 2012)に対して **+31.598 s・+1219.1σ・否(3σ)**である。**「較正が済んだ」とも「観測と一致した」とも書かない。** 3 段の実測は 551866.888 / 551877.462 / 551882.750 s(dt=0.16/0.08/0.04)で、**1 次外挿は 2 組とも 551888.037 s に一致する**(刻みに対して 1 次で収束している)。**暦の再現**(観測検定とは別の欄): 元期 A の状態から作った 2 体の接触要素は a=19596.309km・e=1.4923×10⁻⁴ で、PLU060 の 400 年平均 a=19595.764km・e=0.000161 との差は +0.545km・−1.18×10⁻⁵ である(**6 体の暦を 2 体へ切り落としたぶん**)。**則の寄与**は kF0 対照 🌨️ との差で、1 次外挿では **+1.373 s(+53.0σ)**、生の dt=0.16 では −19.78 s である(刻み依存が大きい — 1 段だけで語らない)。**零条件**(相互同期した円軌道)では s_i=s_j=0 からインパルスも自転トルクも ΔE も厳密に 0 になる。否定対照は片側の自転 0(すべり 2.231×10⁻²)・自転反転(4.462×10⁻²)・動径速度の追加(1.000×10⁻³)で、いずれもキックが立つ(値は docs/PHYSICS.md 〔第277便b〕と tests/out/charondfm-w277b.json)。**則の感度**も測った: 宣言自転を 0.9Ω/1.1Ω にすると同方向1周は 548846.642 / 554897.189 s へ動く —— **この DFM 版が成り立っているのは系が相互同期しているからである。** 帳簿は運動量相対 2.6×10⁻¹⁴・J_z 相対 3.2×10⁻¹⁴・|ΔE+熱| 相対 6.5×10⁻⁹ で、Q̇<0 の步は 0 である。ε を 1→10km にすると +0.448 s(+17.3σ)動き、massPrecision を single に戻すと +0.0245 s(+0.95σ)動く。NaN ゼロ・クランプ 0・同一構成2回実行はビット同一(QA behavior.plutoCharonDFM)。**周期は定義を宣言してから合否を言う**(裁定 I6): 本サンプルが測るのは**同方向1周**で、近点間は e≈1.5×10⁻⁴ の円に近い軌道では観測の定義に対応しないため注記にとどめる。",
-    control:"ワンタップの対照は**別サンプル** 🌨️ plutoCharonKF0Control である(同じ入力・同じ刻み・`relativeDrag` だけが無い)。**κ=0 を宣言すると同方向1周は対照と同じ 551886.666 s になる**(用量 0 の否定対照 — 宣言は署名に残る)。トレイルを点けると冥王星が重心のまわりに描く小円(半径 21.3 単位)が見える。粒子表示は実半径のまま(dispMag=1 — カロンは 6.06 単位)。**timeScale=1000 は上限**で、時間単位が 10s なので画面の進み方は ❄️ の 1/10 である。**小衛星を足すときは `pairs` で対を絞る**: `pairs:\"all\"` のまま慣性モーメントの小さい試験粒子級の小衛星を入れると、反トルクの受け皿が小さすぎて自転が暴走する(記録された否定対照)。"},
+    observe:"**観測検定欄は「判定保留(量定義不一致)」**(統括の検証項目 R53・AM16 の 2 欄)—— 入力も目標も同一暦 PLU060 の量なので、Buie 2012 の二体 P の σ(26 ms)では判定しない。**「較正が済んだ」とも「観測と一致した」とも書かない。** 比較値は第 2 周(dt 0.04)551888.037 s で Buie に対して +31.598 s・+1219.1σ(門ではない)。**欄 (1) 暦の再現**(σ なし・合否なし): PLU060 400 年平均 P に対して +32.143 s(+58.24 ppm)・Horizons osculating PR 元期 A/B に対して +37.360 / +34.967 s。**数値法**(第278便b): leapfrog + 陰的中点法の対称分割で 3 段の第 2 周は 551888.037107 / 551888.037058 / 551888.037046 s(dt 0.16/0.08/0.04 —— 刻み半減差 12 μs)。旧構成(semi+陽的)は 551866.888 / 551877.462 / 551882.750 s と 1 次でしか収束せず、1 次外挿 551888.037 s が今回の値と一致する。**時間窓**: 第 3 周は +0.302 s、第 4 周は +0.003 s 長く、第 5→6 周の変化は 0.2 μs —— **第 2 周の値は過渡を含む**(すべり 4.8×10⁻⁶→4×10⁻¹⁴・離心率 1.5×10⁻⁴→3.9×10⁻⁹ へ減衰する)。**則の寄与**(🌨️ との差・同じ leapfrog・dt 0.04): 第 2 周の則の寄与は **+1.373 s**、第 6 周で +1.678 s。**Buie 二体再現**(転写・積分器の試験 —— 独立の検証ではない): Buie の a=19573km・P から GM=4π²a³/P² を作って二体を回すと 551856.439804 s(Buie +1.084 ms のうち軟化 ε=1km が +1.080 ms)。**零条件**(相互同期した円軌道)ではキック・トルク・熱が厳密に 0、熱は全步非負(Q̇<0 の步 0)。帳簿は dt 0.04・3 周で J_z 4.6×10⁻¹²・運動量 2.1×10⁻¹²・|ΔE+熱| 9.6×10⁻¹²(J_z はリザーバ・放射を足した読み口)。**則の感度**: 宣言自転 0.9Ω/1.1Ω で第 2 周は 548867.792 / 554918.337 s —— この DFM 版が成り立っているのは系が相互同期しているからである。ε 1→10km で +0.448 s、massPrecision を single に戻すと +0.0245 s。NaN ゼロ・クランプ 0・同一構成2回実行はビット同一(QA behavior.plutoCharonDFM)。**周期は定義を宣言してから比べる**(裁定 I6): 本サンプルが測るのは**同方向1周**である。",
+    control:"ワンタップの対照は**別サンプル** 🌨️ plutoCharonKF0Control である(同じ入力・同じ刻み・`relativeDrag` だけが無い)。**κ=0 を宣言すると同方向1周は対照と同じ 551886.664 s になる**(leapfrog・dt 0.16)(用量 0 の否定対照 — 宣言は署名に残る)。トレイルを点けると冥王星が重心のまわりに描く小円(半径 21.3 単位)が見える。粒子表示は実半径のまま(dispMag=1 — カロンは 6.06 単位)。**timeScale=1000 は上限**で、時間単位が 10s なので画面の進み方は ❄️ の 1/10 である。**小衛星を足すときは `pairs` で対を絞る**(中点法は単一対だけを受理する — 多対は陽的経路): `pairs:\"all\"` のまま慣性モーメントの小さい試験粒子級の小衛星を入れると、反トルクの受け皿が小さすぎて自転が暴走する(記録された否定対照)。"},
   en:{name:"Pluto and Charon (Same Observed Solution) — the DFM build with a zero condition on relative slip",
     obsCard:[
-      {q:"Orbital period (same-direction revolution, first-order extrapolation of three steps)", model:"551888.037 s, +31.598 s, +1219.1 sigma — THE VERDICT IS FAIL (3 sigma)", obs:"551856.43872 +/- 0.02592 s (Buie 2012 two-body P — THE JUDGED ROW)"},
-      {q:"The three published periods are DIFFERENT QUANTITIES (declaration)", model:"the model measures a same-direction revolution (periapsis-to-periapsis does not map to the observation at e~1.5e-4)", obs:"against the judged row: PLU060 400-year mean -21.0 sigma, Horizons osculating PR at epoch A -222.3 sigma"},
-      {q:"Almanac reproduction (internal consistency of one ephemeris)", model:"osculating elements of the two-body cut at epoch A: a=19596.309 km, e=1.4923e-4", obs:"PLU060 Table 10 means a=19595.764 km, e=0.000161 (differences +0.545 km, -1.18e-5)"},
-      {q:"The law's contribution (difference against the kF0 control)", model:"+1.373 s (+53.0 sigma) extrapolated; the raw dt=0.16 value is -19.78 s (strongly step-dependent)", obs:"— (same inputs, same step: an A/B. It goes to about zero when the pair is synchronous)"},
-      {q:"The zero condition (mutually synchronous circular orbit)", model:"slip, impulse, spin torque, dE and dJ_z are ALL EXACTLY ZERO", obs:"— (machine-checked. THE CONVERSE DOES NOT HOLD: chi_ij s_i = -chi_ji s_j zeroes only the impulse)"},
-      {q:"Ledgers (momentum, J_z, heat)", model:"P 2.6e-14, J_z 3.2e-14, |dE+heat| 6.5e-9, zero steps with Qdot<0 (dt=0.16, two orbits)", obs:"— (J_z closes over orbital plus spin with I=mR^2/2; the dissipated energy goes to heat)"},
-      {q:"The barycentre", model:"21.317 units = 2132 km = 1.79 Pluto radii from Pluto's centre (outside the surface)", obs:"— (derived from the GM ratio 0.122052)"},
-      {q:"Double-precision masses (massPrecision)", model:"+0.0245 s (+0.95 sigma) against single — not negligible against the observational sigma", obs:"— (an opt-in that removes the Float32 mass quantization measured in wave 276b)"}],
+      {q:"Column 1, almanac reproduction — difference from the PLU060 400-year mean P (no sigma)", model:"revolution 2: 551888.037 s (dt 0.04), +32.143 s, +58.24 ppm — no pass/fail is issued", obs:"551855.8944 s (PLU060 400-year mean — display digits and the 400-year scatter are not a sigma)"},
+      {q:"Column 1, almanac reproduction — difference from the Horizons osculating PR (no sigma)", model:"+37.360 s (+67.70 ppm) against epoch A, +34.967 s (+63.36 ppm) against epoch B", obs:"551850.6774 / 551853.0700 s (instantaneous osculating values, barycentric)"},
+      {q:"Column 2, observational test (Buie 2012 two-body P)", model:"VERDICT WITHHELD (QUANTITY-DEFINITION MISMATCH) — comparison value +31.598 s, +1219.1 sigma (not a gate)", obs:"551856.43872 +/- 0.02592 s (two-body Kepler fit, epoch JDT 2452600.5)"},
+      {q:"Buie two-body reproduction (a transcription and integrator test — NOT an independent check)", model:"551856.439804 s (dt 0.04): of the +1.084 ms, softening (1 km) accounts for +1.080 ms; the rest is +3.9 microseconds", obs:"a circular two-body run with GM = 4 pi^2 a^3 / P^2 (a = 19573 km, P = 551856.43872 s)"},
+      {q:"Numerical method (implicit midpoint + symmetric leapfrog splitting)", model:"revolution 2: 551888.037107 / ...058 / ...046 s (dt 0.16/0.08/0.04); step-halving difference 12 microseconds (ratio 4.0)", obs:"— (the old semi + explicit build converged at first order, halving difference 5.29 s — history in ledger section 5.29)"},
+      {q:"Time window (revolutions 2 to 6) — can it be called a steady period?", model:"rev 3 +0.302 s, rev 4 +0.003 s, rev 5 to 6 +0.2 microseconds — THE REVOLUTION-2 VALUE CONTAINS A TRANSIENT", obs:"— (slip decays from 4.8e-6 to 4e-14 and e from 1.5e-4 to 3.9e-9)"},
+      {q:"The law's contribution (difference against the kF0 control, same leapfrog)", model:"+1.373 s at revolution 2, +1.678 s at revolution 6 (dt 0.04)", obs:"— (same inputs, same step: an A/B)"},
+      {q:"Zero condition and ledgers", model:"kick, torque and heat EXACTLY zero on the zero condition; heat non-negative at every step; J_z 4.6e-12, P 2.1e-12 (dt 0.04, three orbits)", obs:"— (J_z read as orbital + spin I=mR^2/2 + resL + radL)"}],
     failureFirst:{
-      fail:"AGAINST THE JUDGED ROW (the Buie 2012 two-body period) THIS SAMPLE SITS OUTSIDE THE GATE: the first-order extrapolation of the three steps (dt = 0.16 / 0.08 / 0.04) is 551888.037 s, i.e. +31.598 s and +1219.1 sigma against 551856.43872 +/- 0.02592 s — FAIL (3 sigma). ALIGNING THE INPUTS TO ONE OBSERVED SOLUTION DOES NOT REMOVE THE RESIDUAL. Three more honest records: (1) THE THREE PUBLISHED PERIODS DISAGREE WITH EACH OTHER — the PLU060 400-year mean is -0.5443 s (-21.0 sigma) from the Buie two-body P, and the Horizons osculating PR (epoch A, barycentric) is -5.761 s (-222.3 sigma). They are DIFFERENT QUANTITIES (a two-body Kepler fit, a 400-year ephemeris mean, an instantaneous osculating element), so the disagreement is not an error — it means A 26 ms SIGMA IS UNUSABLE UNTIL THE QUANTITY IT BELONGS TO IS DECLARED. (2) The two-body osculating elements of the JD 2452600.5 state are a=19596.309 km and e=1.4923e-4, differing from the Table 10 400-year means (19595.764 km, 0.000161) by +0.545 km — that is what TRUNCATING A SIX-BODY EPHEMERIS STATE TO TWO BODIES costs. (3) THE LAW'S CONTRIBUTION IS STRONGLY STEP-DEPENDENT: the raw dt=0.16 difference against the control is -19.78 s while the first-order extrapolation is +1.373 s (+53.0 sigma) — a single step size must not be used to state the law's effect. NO epsilon, a OR MASS FACTOR WAS SEARCHED FOR TO ZERO THE RESIDUAL (the wave-276b prohibition carries over).",
-      pass:"THE PROCEDURE RUNS END TO END: masses built from the same solution's GM (GM/G with the built-in G=6.674 untouched), the same ephemeris's state vector projected onto the orbital plane for the 2D initial condition, mutual synchronism declared, the RELATIVE-SLIP DRAGGING LAW switched on, measured at three step sizes and put through the gate. THE LAW'S OWN MACHINE CHECKS PASS: on a mutually synchronous circular orbit s_i=s_j=0 and the impulse, the spin torque and dE are EXACTLY zero; the negative controls (one spin zeroed, one spin reversed, a radial velocity added) all raise a kick, momentum and J_z STAY CLOSED (relative 2.6e-14 and 3.2e-14), and the heat is non-negative at every step. Zero fits (D0=0.006 is the shared value; q=11.9386 is q_exact evaluated once at a=195.974; speed calibration 1.000)."},
+      fail:"THE OBSERVATIONAL-TEST COLUMN READS \"VERDICT WITHHELD (QUANTITY-DEFINITION MISMATCH)\": the inputs are the state of one ephemeris (PLU060), so taking the Buie 2012 two-body period (sigma 26 ms) as the target MISMATCHES THE DEFINITION OF THE QUANTITY (the integrator's check item R53). As a comparison value, revolution 2 (dt 0.04), 551888.037 s, is +31.598 s and +1219.1 sigma from Buie — NOT A GATE (outside the four-value population). In THE ALMANAC-REPRODUCTION COLUMN (no sigma, no pass/fail) it is +32.143 s (+58.24 ppm) from the PLU060 400-year mean and +37.360 s (+67.70 ppm) from the Horizons osculating PR at epoch A — the same ephemeris's input misses the same ephemeris's period by 58 ppm. Three honest records: (1) REVOLUTION 2 IS NOT A STEADY PERIOD — revolution 3 is +0.302 s longer, revolution 4 another +0.003 s, and only from revolution 5 does the change per revolution fall below the step-halving difference (a transient in which the slip and the eccentricity decay). (2) The two-body osculating elements of the epoch-A cut (a=19596.309 km, e=1.4923e-4) differ from the Table 10 means by +0.545 km (the cost of truncating a six-body ephemeris to two bodies). (3) The old build (semi + explicit impulse) converged only at first order (551866.888 s at dt 0.16) and was a path on which the heat can go negative at coarse steps. NO epsilon, a, f OR kappa WAS SEARCHED FOR TO ZERO THE RESIDUAL.",
+      pass:"THE NUMERICAL METHOD CONVERGES IN THE STEP: the sample declares integrator:\"leapfrog\" + relativeDrag.integration:\"midpoint\" (dissipative half step, gravity, dissipative half step), and revolution 2 over the three steps is 551888.037107 / 551888.037058 / 551888.037046 s (halving differences 49 then 12 microseconds, ratio 4.0). The midpoint dissipation satisfies dE = -A|s_i|^2 - B|s_j|^2 <= 0 exactly (midpoint slips); on the dimensionless minimal control (G=1, R=0.01, h=0.01) the explicit path's heat of -0.245 becomes +1.92e-6. On the zero condition the kick, torque and heat are exactly zero. The BUIE TWO-BODY REPRODUCTION (a transcription and integrator test, not an independent check) reproduces P to +3.9 microseconds against the softened analytic value. Zero fits (D0=0.006 is the shared value; q=11.9386 is q_exact evaluated once)."},
     descStruct:{
       brief:"The DFM build from one observed solution: where the relative slip is zero, the dragging correction vanishes.",
       summary:"PLUTO AND CHARON FROM ONE OBSERVED SOLUTION, placed in PRECISION UNITS (1 unit = 1e5 m / 10 s / 1e24 kg) as the DFM BUILD (wave 277b). The masses are built as GM/G: the Table 8 values of Brozovic & Jacobson (2024) AJ 167 256 (Pluto 869.3 +/- 0.4, Charon 106.1 +/- 0.3 km^3/s^2) divided by THE BUILT-IN G=6.674, giving 1.3025172e22 kg and 1.5897513e21 kg (GM ratio 0.122052). The initial state is the JD 2452600.5 relative state of JPL Horizons PLU060/DE440 (centre = Pluto system barycentre, ICRF/J2000, km and km/s, TDB) PROJECTED ONTO THE ORBITAL PLANE: the basis is e1=r/|r|, e3=r x v/|r x v|, e2=e3 x e1, and position and velocity are projected by THE SAME ROTATION (z is not discarded; for a pair the out-of-plane part is identically zero, and out-of-plane matters only for the small moons, up to about 274 km, which are not in this sample). The separation is 19597.369 km at a relative speed of 223.0903 m/s (radial component -0.0310 m/s). The spins are DECLARED SYNCHRONOUS at omega = 2 pi / 551855.8944 s (the PLU060 400-year mean). Gravity (E4), the geodesic 1PN term (E12) and THIS WAVE'S DRAGGING LAW act. kFrame=0, SO THE CORE'S E6' MOTION DRAGGING IS NOT USED: instead the declaration physics.relativeDrag:{law:\"pairSlip\",kappa:1} opens an external step OUTSIDE S._core that applies a momentum impulse and a spin torque only while the pair's RELATIVE SLIP s_i=v-omega_i x r, s_j=v-omega_j x r is non-zero (ON A MUTUALLY SYNCHRONOUS CIRCULAR ORBIT IT MOVES NOTHING). THIS LAW IS A VERIFICATION HYPOTHESIS SET BY THE INTEGRATOR, NOT A LAW UNIQUELY DERIVED FROM THE CURRENT DFM. Numerical settings: epsilon = 0.01 unit = 1 km, physics.massPrecision:\"double\", stateCarry:\"double\", geoPN=2, frameReaction:\"pairReduced\", frameWeight:\"share\" (DECLARING THE LAW ALSO MAKES THE SPIN ARRAY Float64, because one step's dJ/I is only about three Float32 ULPs and the ledger was measured to break over a million steps). THE MEANING OF dt DIFFERS FROM THE 1e6 m / 100 s SAMPLES: the time unit is 10 s, so the same physical step needs ten times the dt (the three stages here are dt = 0.16 / 0.08 / 0.04 = 1.6 / 0.8 / 0.4 s).",
-      observe:"THE VERDICT IS WHATEVER THE GATE SAYS: the first-order extrapolation of the three steps, 551888.037 s, is +31.598 s and +1219.1 sigma against the observed 551856.43872 +/- 0.02592 s (Buie 2012) — FAIL (3 sigma). NEITHER \"the calibration is done\" NOR \"it agrees with observation\" IS WRITTEN HERE. The three measurements are 551866.888 / 551877.462 / 551882.750 s (dt = 0.16 / 0.08 / 0.04), and BOTH first-order extrapolations agree at 551888.037 s (first-order convergence in the step). ALMANAC REPRODUCTION (a different column from the observational test): the two-body osculating elements of the epoch-A state are a=19596.309 km and e=1.4923e-4, differing from the PLU060 400-year means (a=19595.764 km, e=0.000161) by +0.545 km and -1.18e-5 — THE COST OF TRUNCATING A SIX-BODY EPHEMERIS TO TWO BODIES. THE LAW'S CONTRIBUTION, as the difference against the kF0 control, is +1.373 s (+53.0 sigma) extrapolated and -19.78 s at the raw dt=0.16 (strongly step-dependent — never state it from one step size). ON THE ZERO CONDITION (a mutually synchronous circular orbit) s_i=s_j=0 makes the impulse, the spin torque and dE exactly zero; the negative controls raise a kick at slips of 2.231e-2 (one spin zeroed), 4.462e-2 (one spin reversed) and 1.000e-3 (a radial velocity added) — values in docs/PHYSICS.md wave 277b and tests/out/charondfm-w277b.json. THE LAW'S SENSITIVITY was measured too: declaring the spins at 0.9 or 1.1 times Omega moves the same-direction revolution to 548846.642 and 554897.189 s — THIS DFM BUILD ONLY HOLDS BECAUSE THE SYSTEM IS MUTUALLY SYNCHRONOUS. Ledgers: momentum 2.6e-14, J_z 3.2e-14, |dE+heat| 6.5e-9 relative, with zero steps at Qdot<0. Moving epsilon from 1 to 10 km shifts the period by +0.448 s (+17.3 sigma); reverting massPrecision to single shifts it by +0.0245 s (+0.95 sigma). Zero NaN, zero clamps; two runs are bit-identical (QA behavior.plutoCharonDFM). PERIODS ARE JUDGED ONLY AFTER THEIR DEFINITION IS DECLARED (adjudication I6): this sample measures a SAME-DIRECTION REVOLUTION; periapsis-to-periapsis does not correspond to the observed definition on an orbit this close to circular, so it is annotated rather than judged.",
-      control:"The one-tap control is A SEPARATE SAMPLE, plutoCharonKF0Control (same inputs, same step, only relativeDrag removed). DECLARING kappa=0 reproduces the control's same-direction revolution exactly, 551886.666 s (a zero-dose negative control — the declaration still shows in the signature). Switch trails on to see the small circle (radius 21.3 units) Pluto draws around the barycentre. Bodies are drawn at real radii (dispMag=1 — Charon is 6.06 units). timeScale=1000 is the cap; with a 10 s time unit the screen advances one tenth as fast as in the 1e6 m / 100 s samples. WHEN ADDING THE SMALL MOONS, NARROW THE PAIRS: leaving pairs:\"all\" while adding test-particle-grade moons spins them up without bound, because their moment of inertia is far too small to absorb the reaction torque (a recorded negative control)."},
+      observe:"THE OBSERVATIONAL-TEST COLUMN READS \"VERDICT WITHHELD (QUANTITY-DEFINITION MISMATCH)\" (the integrator's check item R53, the two columns of AM16): input and target are both quantities of one ephemeris (PLU060), so the Buie 2012 two-body sigma (26 ms) is not used to judge it. NEITHER \"the calibration is done\" NOR \"it agrees with observation\" IS WRITTEN HERE. The comparison value is revolution 2 (dt 0.04), 551888.037 s: +31.598 s and +1219.1 sigma from Buie (not a gate). COLUMN 1, ALMANAC REPRODUCTION (no sigma, no pass/fail): +32.143 s (+58.24 ppm) from the PLU060 400-year mean, +37.360 / +34.967 s from the Horizons osculating PR at epochs A/B. NUMERICAL METHOD (wave 278b): with leapfrog and the implicit-midpoint symmetric splitting, revolution 2 over the three steps is 551888.037107 / 551888.037058 / 551888.037046 s (dt 0.16/0.08/0.04, halving difference 12 microseconds); the old build (semi + explicit) gave 551866.888 / 551877.462 / 551882.750 s, first-order only, and its first-order extrapolation 551888.037 s matches the new value. TIME WINDOW: revolution 3 is +0.302 s longer, revolution 4 +0.003 s, and the change from 5 to 6 is 0.2 microseconds — THE REVOLUTION-2 VALUE CONTAINS A TRANSIENT (the slip decays from 4.8e-6 to 4e-14 and the eccentricity from 1.5e-4 to 3.9e-9). THE LAW'S CONTRIBUTION (difference against the control, same leapfrog, dt 0.04) is +1.373 s at revolution 2 and +1.678 s at revolution 6. BUIE TWO-BODY REPRODUCTION (a transcription and integrator test, not an independent check): building GM = 4 pi^2 a^3 / P^2 from Buie's a = 19573 km and P and running the pair gives 551856.439804 s (of the +1.084 ms, softening at 1 km accounts for +1.080 ms). On the zero condition the kick, torque and heat are exactly zero; the heat is non-negative at every step. Ledgers at dt 0.04 over three orbits: J_z 4.6e-12, momentum 2.1e-12, |dE+heat| 9.6e-12 (J_z read with the reservoir and radiation terms added). SENSITIVITY: declaring the spins at 0.9 or 1.1 Omega moves revolution 2 to 548867.792 / 554918.337 s — THIS DFM BUILD ONLY HOLDS BECAUSE THE SYSTEM IS MUTUALLY SYNCHRONOUS. Epsilon 1 to 10 km moves it by +0.448 s; reverting massPrecision to single by +0.0245 s. Zero NaN, zero clamps; two runs are bit-identical (QA behavior.plutoCharonDFM). PERIODS ARE COMPARED ONLY AFTER THEIR DEFINITION IS DECLARED (adjudication I6): this sample measures a SAME-DIRECTION REVOLUTION.",
+      control:"The one-tap control is A SEPARATE SAMPLE, plutoCharonKF0Control (same inputs, same step, only relativeDrag removed). DECLARING kappa=0 reproduces the control's same-direction revolution exactly, 551886.664 s (leapfrog, dt 0.16) (a zero-dose negative control — the declaration still shows in the signature). Switch trails on to see the small circle (radius 21.3 units) Pluto draws around the barycentre. Bodies are drawn at real radii (dispMag=1 — Charon is 6.06 units). timeScale=1000 is the cap; with a 10 s time unit the screen advances one tenth as fast as in the 1e6 m / 100 s samples. WHEN ADDING THE SMALL MOONS, NARROW THE PAIRS (the midpoint method accepts a single pair only; several pairs take the explicit path): leaving pairs:\"all\" while adding test-particle-grade moons spins them up without bound, because their moment of inertia is far too small to absorb the reaction torque (a recorded negative control)."},
     parameterAudit:{
       observedInputs:["the built-in G=6.674 (unchanged) and c0=3e4",
         "GM of Pluto and Charon from Brozovic & Jacobson (2024) AJ 167 256 Table 8 (869.3 +/- 0.4 and 106.1 +/- 0.3 km^3/s^2)",
@@ -10085,17 +10221,17 @@ const BUILTIN_PRESETS = [
         "q=11.9386 (q_exact evaluated once at a=195.974)","kappa_T=G/c0^2=7.4156e-9",
         "camera.scale=210, timeScale=1000, dispMag=1"],
       numerical:["softening epsilon=0.01 unit = 1 km","time multiplier timeScale=1000","display magnification dispMag=1 (display only)",
-        "three step sizes dt=0.16/0.08/0.04 (= 1.6/0.8/0.4 s)"]}},
+        "three step sizes dt=0.16/0.08/0.04 (= 1.6/0.8/0.4 s)","integrator:\"leapfrog\" + relativeDrag.integration:\"midpoint\" (wave 278b — symmetric splitting of the dissipation)"]}},
   claims:[
     { id:"plutoCharonDFM.law-contribution", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
       metric:"pairSlipPeriodContributionSec",
       chain:{ax:["A8"], eq:["E4","E6′"],
-        note:"相対すべりの引きずり則が公転周期へ足す量(kF0 対照との差・3 段の 1 次外挿)。**フィットで消さずに宣言する** —— 観測 σ(26ms)の 53 倍であり、則が「小さな補正」ではないことを示す実測値である。",
-        noteEn:"How much the relative-slip dragging law adds to the orbital period (the difference against the kF0 control, extrapolated from three step sizes). DECLARED, NOT FITTED AWAY: it is 53 times the observational sigma (26 ms), so the law is not a small correction."},
-      roleNote:"回顧的確認 — 較正ノブはゼロ。**刻み依存が大きい**ので 3 段の外挿で宣言する。",
-      roleNoteEn:"Retrospective check — zero calibration knobs. Strongly step-dependent, so it is declared from a three-step extrapolation.",
+        note:"相対すべりの引きずり則が公転周期へ足す量(kF0 対照との差・同じ leapfrog・dt 0.04 の第 2 周 —— 第278便b で中点法へ移した後も 1 次外挿の旧値 +1.373 s と一致する)。**フィットで消さずに宣言する** —— 第 6 周では +1.678 s へ動く(過渡を含む)。",
+        noteEn:"How much the relative-slip dragging law adds to the orbital period (the difference against the kF0 control, same leapfrog, revolution 2 at dt 0.04 — after the wave-278b move to the midpoint method it still matches the old first-order extrapolation, +1.373 s). DECLARED, NOT FITTED AWAY: it moves to +1.678 s by revolution 6 (a transient)."},
+      roleNote:"回顧的確認 — 較正ノブはゼロ。中点法で刻み半減差 12 μs まで収束した第 2 周の値で宣言する(時間窓では過渡を含む)。",
+      roleNoteEn:"Retrospective check — zero calibration knobs. Declared from the revolution-2 value, converged to a 12-microsecond halving difference with the midpoint method (the time window shows it contains a transient).",
       expected:{min:0.5, max:2.5},
-      descPattern:"1 次外挿では \\*\\*\\+(1\\.\\d+) s", testId:"behavior.plutoCharonDFM" },
+      descPattern:"第 2 周の則の寄与は \\*\\*\\+(1\\.\\d+) s", testId:"behavior.plutoCharonDFM" },
     { id:"plutoCharonDFM.barycenter-outside", kind:"semantic", prov:"derived", role:"retrospective_check",
       metric:"barycenterOverPlutoRadius",
       chain:{ax:["A6"], eq:["E4"],
@@ -10126,14 +10262,14 @@ const BUILTIN_PRESETS = [
       "q=11.9386(q_exact を a=195.974 で1回評価した直値)","κ=G/c₀²=7.4156×10⁻⁹",
       "camera.scale=210・timeScale=1000・dispMag=1"],
     numerical:["ソフトニング ε=0.01 単位=1km","時間倍率 timeScale=1000","粒子表示倍率 dispMag=1(表示専用)",
-      "刻み 3 段 dt=0.16/0.08/0.04(=1.6/0.8/0.4 s)"]},
+      "刻み 3 段 dt=0.16/0.08/0.04(=1.6/0.8/0.4 s)","integrator:\"leapfrog\"+relativeDrag.integration:\"midpoint\"(第278便b — 散逸の対称分割)"]},
   activeParams:["kFrame","q","D0"],
   camera:{scale:210}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.006, kFrame:0, q:11.9386, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:1000, dispMag:1,
     stateCarry:"double", massPrecision:"double", frameReaction:"pairReduced", frameWeight:"share",
-    relativeDrag:{law:"pairSlip", kappa:1, pairs:"all", spins:"declared"}},
+    relativeDrag:{law:"pairSlip", kappa:1, pairs:"all", spins:"declared", integration:"midpoint"}},
   bodies:[ // 並び: 0=冥王星(自由), 1=カロン。**同一観測解の決定論的配置**
            // (1単位=10⁵m/10s/10²⁴kg): m=GM/G・位置と速度は Horizons 元期 A の相対状態の軌道面射影を
            //  GM 比で重心系へ配分したもの。自転は相互同期の宣言 ω=2π/551855.8944s。
@@ -10148,38 +10284,39 @@ const BUILTIN_PRESETS = [
   familyId:"pluto", familyRole:"control",
   scaleTier:"planetary",
   scaleExp:{L:5, T:1, M:24},
+  integrator:"leapfrog",   // 第278便b: ⛄ と同じ積分器(対照は 1 か所 — relativeDrag の有無 — だけが違う)
   sampleClass:"principle",   // 統括(第277便 統合): 診断コピー — 較正母集団 37 本は不変・正式門(calaudit)の外で同じ 3σ 規則で比較する。較正母集団への昇格は裁定待ち(AM5)
   fidelity:"real",
   notClaim:["solar_cal"],
   obsCard:[
-    {q:"公転周期(同方向1周・dt 3段)", model:"551886.665 s(3段が 1×10⁻⁶ 相対で一致)・+30.226 s・+1166.1σ — **判定は 否(3σ)**", obs:"551856.43872±0.02592 s(Buie 2012 二体 P — **判定行**)"},
-    {q:"3 種の P は別の量である(定義の宣言)", model:"模型は同方向1周で測る(近点間は円に近い軌道では観測の定義に対応しない)", obs:"判定行に対して PLU060 400年平均 −21.0σ・Horizons osculating PR 元期A −222.3σ"},
-    {q:"⛄ DFM 版との差(則の寄与)", model:"1次外挿で −1.373 s(−53.0σ)。生の dt=0.16 では +19.78 s", obs:"—(同一入力・同一刻みの A/B。**この差だけが則の寄与**である)"},
-    {q:"帳簿(運動量・J_z・E)", model:"P 4.1×10⁻¹⁹・J_z 5.6×10⁻¹⁵・E 2.3×10⁻¹⁵(dt=0.16・2公転)。自転は 1 bit も動かない", obs:"—(則が無いので自転への反トルクは存在しない)"},
+    {q:"欄(1) 暦の再現 — PLU060 400年平均 P との差(σ なし)", model:"第2周 551886.664 s(dt 0.04・3段が 1×10⁻¹⁰ 相対で一致)・+30.770 s・+55.76 ppm", obs:"551855.8944 s(PLU060 400年平均 — 合否は出さない)"},
+    {q:"欄(2) 観測検定(Buie 2012 二体 P)", model:"**判定保留(量定義不一致)** — 比較値 +30.225 s・+1166.1σ(門ではない)", obs:"551856.43872±0.02592 s(二体ケプラー当てはめ)"},
+    {q:"⛄ DFM 版との差(則の寄与)", model:"第2周 −1.373 s・第6周 −1.678 s(同じ leapfrog・dt 0.04)", obs:"—(同一入力・同一刻みの A/B。**この差だけが則の寄与**である)"},
+    {q:"帳簿(運動量・J_z・E)", model:"P 1.1×10⁻¹⁶・J_z 3.4×10⁻¹⁴・E 7.0×10⁻¹⁴(dt 0.04・3公転)。自転は 1 bit も動かない", obs:"—(則が無いので自転への反トルクは存在しない)"},
     {q:"共通重心の位置", model:"冥王星中心から 21.317 単位=2132km=1.79 冥王星半径(表面の外)", obs:"—(GM 比 0.122052 からの導出)"}],
   failureFirst:{
-    fail:"**本サンプルも判定行の門の外である** —— 同方向1周 551886.665 s は観測 551856.43872±0.02592 s に対して **+30.226 s・+1166.1σ・否(3σ)**。⛄ との差は 1 次外挿で −1.373 s しかない —— **つまり残差の本体は引きずり則ではなく、入力(どの P を判定行に取るか・6 体の暦を 2 体へ切り落とすこと)と数値設定である**。公表 3 値の互いの食い違い(PLU060 −21.0σ・Horizons PR −222.3σ)がそれを裏づける。**残差がゼロになる ε・a・f を探索して採用してはいない。**",
-    pass:"**対照として意味のある最小の差**になっている: ⛄ と 1 か所(physics.relativeDrag の有無)だけが違い、質量・初期状態・刻み・ε・倍精度宣言はすべて同一である(bodies は 1 bit 同じ)。則が無いので自転は宣言値のまま 1 bit も動かず、3 段の同方向1周は 1×10⁻⁶ 相対で一致し(**則が無い側は刻みに対して収束する**)、運動量・J_z・E の帳簿は相対 4.1×10⁻¹⁹ / 5.6×10⁻¹⁵ / 2.3×10⁻¹⁵ で閉じる。フィットはゼロ。"},
+    fail:"**観測検定欄は「判定保留(量定義不一致)」である** —— 入力は同一暦 PLU060 の状態なので、Buie 2012 の二体 P の σ では判定しない(統括の検証項目 R53)。比較値として書けば第 2 周 551886.664 s は Buie に対して +30.225 s・+1166.1σ(**門ではない**)。**暦の再現欄**(σ なし・合否なし)では PLU060 の 400 年平均 P に対して **+30.770 s(+55.76 ppm)** —— 則の無い対照でも、同じ暦の入力から同じ暦の周期を 56 ppm 外している。⛄ との差は第 2 周で −1.373 s しかない —— **つまり差の本体は引きずり則ではなく、入力(6 体の暦を 2 体へ切り落とすこと・どの P を目標に取るか)と数値設定である**。**残差がゼロになる ε・a・f を探索して採用してはいない。**",
+    pass:"**対照として意味のある最小の差**になっている: ⛄ と 1 か所(physics.relativeDrag の有無)だけが違い、質量・初期状態・刻み・ε・倍精度宣言・積分器(leapfrog)はすべて同一である(bodies は 1 bit 同じ)。則が無いので自転は宣言値のまま 1 bit も動かず、3 段の第 2 周は 551886.664176 / …130 / …119 s(刻み半減差 12 μs)で、第 2〜第 6 周は 1 μs 未満で同じ値を保つ(**則が無い側は定常**)。帳簿は運動量 1.1×10⁻¹⁶・J_z 3.4×10⁻¹⁴・E 7.0×10⁻¹⁴ で閉じる。フィットはゼロ。"},
   descStruct:{
     brief:"⛄ と同じ入力・同じ刻みで、引きずり則だけを外した kF0 対照。2 本の差がそのまま則の寄与である。",
     summary:"**⛄ plutoCharonDFM と同一の入力**(Brozović & Jacobson 2024 Table 8 の GM から作った質量・JPL Horizons PLU060/DE440 元期 JD 2452600.5 の状態の軌道面射影・相互同期の宣言 ω=2π/551855.8944s)を、**精密単位**(1単位=10⁵m/10s/10²⁴kg)へ置いた **kF0 対照**(第277便b)。違うのは 1 か所だけ —— **physics.relativeDrag を宣言していない**。したがって働いているのは重力(E4)+測地線1PN(E12)だけで、kFrame=0 なので核の E6′ 運動引きずりも使わない。**2 本の差がそのまま新しい則の寄与**である。数値設定は ⛄ と同一(ε=0.01 単位=1km・massPrecision:\"double\"・stateCarry:\"double\"・geoPN=2・frameReaction:\"pairReduced\"・frameWeight:\"share\"・q=11.9386・D₀=0.006)で、**bodies は ⛄ と 1 bit 同じ**である。",
-    observe:"**判定は門のとおり** —— 同方向1周 551886.665 s は観測 551856.43872±0.02592 s(Buie 2012)に対して **+30.226 s・+1166.1σ・否(3σ)**である。3 段の刻み(dt=0.16/0.08/0.04)で 551886.6663 / 551886.6652 / 551886.6646 s と、**1×10⁻⁶ 相対で一致する**(則が無い側は刻みに対して収束する — ⛄ 側の刻み依存と対照的である)。⛄ との差は 1 次外挿で −1.373 s(−53.0σ)で、**この差だけが則の寄与**である。則が無いので自転は宣言値 ω=1.1385554×10⁻⁴ のまま 1 bit も動かず、帳簿は運動量相対 4.1×10⁻¹⁹・J_z 相対 5.6×10⁻¹⁵・E 相対 2.3×10⁻¹⁵ で閉じる。NaN ゼロ・クランプ 0・同一構成2回実行はビット同一(QA behavior.plutoCharonDFM が 2 本まとめて固定する)。",
-    control:"ワンタップの対になるのは ⛄ plutoCharonDFM である(同じ入力に `relativeDrag:{law:\"pairSlip\",kappa:1}` を足しただけ)。**対照の使い方**: 2 本を同じ刻みで走らせて周期・接触要素・帳簿を並べる —— 差が出なければ「同期状態では引きずり補正が消える」という零条件がその配置で効いている、という**測った事実**が 1 行増える(「合った」ではない)。⛄ 側で κ=0 を宣言しても同じ周期になる(用量 0 の否定対照)。粒子表示は実半径のまま(dispMag=1)。"},
+    observe:"**観測検定欄は「判定保留(量定義不一致)」**(統括の検証項目 R53)—— 比較値は第 2 周(dt 0.04)551886.664 s で Buie 2012(551856.43872±0.02592 s)に対して +30.225 s・+1166.1σ(門ではない)。**欄 (1) 暦の再現**(σ なし・合否なし): PLU060 400 年平均 P に対して +30.770 s(+55.76 ppm)・Horizons osculating PR 元期 A に対して +35.987 s。第278便b で積分器を ⛄ と同じ leapfrog にした: 3 段(dt=0.16/0.08/0.04)の第 2 周は 551886.664176 / 551886.664130 / 551886.664119 s(旧 semi は 551886.6663 / 551886.6652 / 551886.6646 s)で、第 2〜第 6 周は 1 μs 未満で同じ値である(**則の無い側は定常**)。⛄ との差は第 2 周で −1.373 s・第 6 周で −1.678 s で、**この差だけが則の寄与**である。則が無いので自転は宣言値 ω=1.1385554×10⁻⁴ のまま 1 bit も動かず、帳簿は運動量相対 1.1×10⁻¹⁶・J_z 相対 3.4×10⁻¹⁴・E 相対 7.0×10⁻¹⁴ で閉じる(dt 0.04・3 公転)。NaN ゼロ・クランプ 0・同一構成2回実行はビット同一(QA behavior.plutoCharonDFM が 2 本まとめて固定する)。",
+    control:"ワンタップの対になるのは ⛄ plutoCharonDFM である(同じ入力に `relativeDrag:{law:\"pairSlip\",kappa:1,integration:\"midpoint\"}` を足しただけ・積分器は 2 本とも leapfrog)。**対照の使い方**: 2 本を同じ刻みで走らせて周期・接触要素・帳簿を並べる —— 差が出なければ「同期状態では引きずり補正が消える」という零条件がその配置で効いている、という**測った事実**が 1 行増える(「合った」ではない)。⛄ 側で κ=0 を宣言しても同じ周期になる(用量 0 の否定対照)。粒子表示は実半径のまま(dispMag=1)。"},
   en:{name:"Pluto and Charon (Same Observed Solution) — the kF0 control with no dragging law",
     obsCard:[
-      {q:"Orbital period (same-direction revolution, three step sizes)", model:"551886.665 s (the three agree to 1e-6 relative), +30.226 s, +1166.1 sigma — FAIL (3 sigma)", obs:"551856.43872 +/- 0.02592 s (Buie 2012 two-body P — THE JUDGED ROW)"},
-      {q:"The three published periods are DIFFERENT QUANTITIES (declaration)", model:"the model measures a same-direction revolution", obs:"against the judged row: PLU060 400-year mean -21.0 sigma, Horizons osculating PR at epoch A -222.3 sigma"},
-      {q:"Difference against the DFM build (the law's contribution)", model:"-1.373 s (-53.0 sigma) extrapolated; +19.78 s at the raw dt=0.16", obs:"— (same inputs, same step: THIS DIFFERENCE IS THE WHOLE CONTRIBUTION OF THE LAW)"},
-      {q:"Ledgers (momentum, J_z, E)", model:"P 4.1e-19, J_z 5.6e-15, E 2.3e-15 (dt=0.16, two orbits); the spins do not move a bit", obs:"— (with no law there is no reaction torque on the spins)"},
+      {q:"Column 1, almanac reproduction — difference from the PLU060 400-year mean P (no sigma)", model:"revolution 2: 551886.664 s (dt 0.04; the three steps agree to 1e-10 relative), +30.770 s, +55.76 ppm", obs:"551855.8944 s (PLU060 400-year mean — no pass/fail is issued)"},
+      {q:"Column 2, observational test (Buie 2012 two-body P)", model:"VERDICT WITHHELD (QUANTITY-DEFINITION MISMATCH) — comparison value +30.225 s, +1166.1 sigma (not a gate)", obs:"551856.43872 +/- 0.02592 s (two-body Kepler fit)"},
+      {q:"Difference against the DFM build (the law's contribution)", model:"-1.373 s at revolution 2, -1.678 s at revolution 6 (same leapfrog, dt 0.04)", obs:"— (same inputs, same step: THIS DIFFERENCE IS THE WHOLE CONTRIBUTION OF THE LAW)"},
+      {q:"Ledgers (momentum, J_z, E)", model:"P 1.1e-16, J_z 3.4e-14, E 7.0e-14 (dt 0.04, three orbits); the spins do not move a bit", obs:"— (with no law there is no reaction torque on the spins)"},
       {q:"The barycentre", model:"21.317 units = 2132 km = 1.79 Pluto radii from Pluto's centre", obs:"— (derived from the GM ratio 0.122052)"}],
     failureFirst:{
-      fail:"THIS SAMPLE IS ALSO OUTSIDE THE GATE ON THE JUDGED ROW: the same-direction revolution 551886.665 s is +30.226 s and +1166.1 sigma against 551856.43872 +/- 0.02592 s — FAIL (3 sigma). The difference against the DFM build is only -1.373 s extrapolated — SO THE BULK OF THE RESIDUAL IS NOT THE DRAGGING LAW BUT THE INPUTS (which period is taken as the judged row, and truncating a six-body ephemeris to two bodies) AND THE NUMERICAL SETTINGS. The mutual disagreement of the three published values (-21.0 sigma for PLU060, -222.3 sigma for the Horizons PR) supports that reading. NO epsilon, a OR f WAS SEARCHED FOR TO ZERO THE RESIDUAL.",
-      pass:"It is the SMALLEST MEANINGFUL DIFFERENCE for a control: exactly one thing (the presence of physics.relativeDrag) separates it from the DFM build; masses, initial state, step, epsilon and the precision declarations are identical (the bodies are bit-identical). With no law the spins hold their declared values without moving a bit, the three step sizes agree to 1e-6 relative (THE SIDE WITHOUT THE LAW CONVERGES IN THE STEP), and the momentum, J_z and energy ledgers close at 4.1e-19, 5.6e-15 and 2.3e-15 relative. Zero fits."},
+      fail:"THE OBSERVATIONAL-TEST COLUMN READS \"VERDICT WITHHELD (QUANTITY-DEFINITION MISMATCH)\": the inputs are one ephemeris's (PLU060) state, so the Buie 2012 two-body sigma is not used to judge it (check item R53). As a comparison value, revolution 2, 551886.664 s, is +30.225 s and +1166.1 sigma from Buie (NOT A GATE). In THE ALMANAC-REPRODUCTION COLUMN (no sigma, no pass/fail) it is +30.770 s (+55.76 ppm) from the PLU060 400-year mean — even the control without the law misses the same ephemeris's period by 56 ppm from the same ephemeris's input. The difference against the DFM build is only -1.373 s at revolution 2 — SO THE BULK OF THE DIFFERENCE IS NOT THE DRAGGING LAW BUT THE INPUTS (truncating a six-body ephemeris to two bodies, and which period is taken as the target) AND THE NUMERICAL SETTINGS. NO epsilon, a OR f WAS SEARCHED FOR TO ZERO THE RESIDUAL.",
+      pass:"It is the SMALLEST MEANINGFUL DIFFERENCE for a control: exactly one thing (the presence of physics.relativeDrag) separates it from the DFM build; masses, initial state, step, epsilon, precision declarations and the integrator (leapfrog) are identical (the bodies are bit-identical). With no law the spins hold their declared values without moving a bit; revolution 2 over the three steps is 551886.664176 / ...130 / ...119 s (halving difference 12 microseconds), and revolutions 2 to 6 hold the same value to better than 1 microsecond (THE SIDE WITHOUT THE LAW IS STEADY). The ledgers close at 1.1e-16 (momentum), 3.4e-14 (J_z) and 7.0e-14 (energy) relative. Zero fits."},
     descStruct:{
       brief:"The kF0 control: same inputs and step as the DFM build, with the dragging law removed.",
       summary:"THE SAME INPUTS AS plutoCharonDFM (masses from the Table 8 GM of Brozovic & Jacobson 2024, the orbital-plane projection of the JD 2452600.5 JPL Horizons PLU060/DE440 state, the declared mutual synchronism omega = 2 pi / 551855.8944 s), placed in PRECISION UNITS (1 unit = 1e5 m / 10 s / 1e24 kg) as THE kF0 CONTROL (wave 277b). Exactly one thing differs: PHYSICS.relativeDrag IS NOT DECLARED. So only gravity (E4) and the geodesic 1PN term (E12) act, and kFrame=0 keeps the core's E6' motion dragging out as well. THE DIFFERENCE BETWEEN THE TWO SAMPLES IS THE NEW LAW'S CONTRIBUTION. Every other setting matches the DFM build (epsilon = 0.01 unit = 1 km, massPrecision:\"double\", stateCarry:\"double\", geoPN=2, frameReaction:\"pairReduced\", frameWeight:\"share\", q=11.9386, D0=0.006), and THE BODIES ARE BIT-IDENTICAL.",
-      observe:"THE VERDICT IS WHATEVER THE GATE SAYS: the same-direction revolution 551886.665 s is +30.226 s and +1166.1 sigma against the observed 551856.43872 +/- 0.02592 s (Buie 2012) — FAIL (3 sigma). Over the three steps (dt = 0.16 / 0.08 / 0.04) it measures 551886.6663 / 551886.6652 / 551886.6646 s, AGREEING TO 1e-6 RELATIVE (the side without the law converges in the step, in contrast with the DFM build). The difference against the DFM build is -1.373 s (-53.0 sigma) extrapolated, AND THAT DIFFERENCE IS THE WHOLE CONTRIBUTION OF THE LAW. With no law the spins hold their declared omega = 1.1385554e-4 without moving a bit, and the ledgers close at 4.1e-19 (momentum), 5.6e-15 (J_z) and 2.3e-15 (energy) relative. Zero NaN, zero clamps; two runs are bit-identical (QA behavior.plutoCharonDFM fixes both samples together).",
-      control:"Its one-tap counterpart is plutoCharonDFM (the same inputs plus relativeDrag:{law:\"pairSlip\",kappa:1}). HOW TO USE THE CONTROL: run both at the same step and line up the periods, the osculating elements and the ledgers. If no difference appears, that is ONE MEASURED FACT more — the zero condition (\"the dragging correction vanishes in a synchronous state\") is acting in that configuration — and NOT a statement that anything \"agrees\". Declaring kappa=0 on the DFM side gives the same period (a zero-dose negative control). Bodies are drawn at real radii (dispMag=1)."},
+      observe:"THE OBSERVATIONAL-TEST COLUMN READS \"VERDICT WITHHELD (QUANTITY-DEFINITION MISMATCH)\" (check item R53): the comparison value is revolution 2 (dt 0.04), 551886.664 s, +30.225 s and +1166.1 sigma from Buie 2012 (551856.43872 +/- 0.02592 s) — not a gate. COLUMN 1, ALMANAC REPRODUCTION (no sigma, no pass/fail): +30.770 s (+55.76 ppm) from the PLU060 400-year mean, +35.987 s from the Horizons osculating PR at epoch A. In wave 278b the integrator became leapfrog, as in the DFM build: revolution 2 over the three steps (dt = 0.16 / 0.08 / 0.04) is 551886.664176 / 551886.664130 / 551886.664119 s (the old semi values were 551886.6663 / 551886.6652 / 551886.6646 s), and revolutions 2 to 6 hold the same value to better than 1 microsecond (THE SIDE WITHOUT THE LAW IS STEADY). The difference against the DFM build is -1.373 s at revolution 2 and -1.678 s at revolution 6, AND THAT DIFFERENCE IS THE WHOLE CONTRIBUTION OF THE LAW. With no law the spins hold their declared omega = 1.1385554e-4 without moving a bit, and the ledgers close at 1.1e-16 (momentum), 3.4e-14 (J_z) and 7.0e-14 (energy) relative (dt 0.04, three orbits). Zero NaN, zero clamps; two runs are bit-identical (QA behavior.plutoCharonDFM fixes both samples together).",
+      control:"Its one-tap counterpart is plutoCharonDFM (the same inputs plus relativeDrag:{law:\"pairSlip\",kappa:1,integration:\"midpoint\"}; both samples use leapfrog). HOW TO USE THE CONTROL: run both at the same step and line up the periods, the osculating elements and the ledgers. If no difference appears, that is ONE MEASURED FACT more — the zero condition (\"the dragging correction vanishes in a synchronous state\") is acting in that configuration — and NOT a statement that anything \"agrees\". Declaring kappa=0 on the DFM side gives the same period (a zero-dose negative control). Bodies are drawn at real radii (dispMag=1)."},
     parameterAudit:{
       observedInputs:["the built-in G=6.674 (unchanged) and c0=3e4",
         "GM of Pluto and Charon from Brozovic & Jacobson (2024) AJ 167 256 Table 8",
@@ -10197,7 +10334,7 @@ const BUILTIN_PRESETS = [
         "the projected 2D state","q=11.9386 (q_exact evaluated once at a=195.974)","kappa_T=G/c0^2=7.4156e-9",
         "camera.scale=210, timeScale=1000, dispMag=1"],
       numerical:["softening epsilon=0.01 unit = 1 km","time multiplier timeScale=1000","display magnification dispMag=1 (display only)",
-        "three step sizes dt=0.16/0.08/0.04"]}},
+        "three step sizes dt=0.16/0.08/0.04","integrator:\"leapfrog\" (wave 278b — the same as the DFM build)"]}},
   parameterAudit:{
     observedInputs:["内蔵 G=6.674(変えていない)・c₀=3×10⁴",
       "冥王星・カロンの GM(Brozović & Jacobson 2024 AJ 167 256 Table 8)",
@@ -10214,7 +10351,7 @@ const BUILTIN_PRESETS = [
       "q=11.9386(q_exact を a=195.974 で1回評価した直値)","κ=G/c₀²=7.4156×10⁻⁹",
       "camera.scale=210・timeScale=1000・dispMag=1"],
     numerical:["ソフトニング ε=0.01 単位=1km","時間倍率 timeScale=1000","粒子表示倍率 dispMag=1(表示専用)",
-      "刻み 3 段 dt=0.16/0.08/0.04"]},
+      "刻み 3 段 dt=0.16/0.08/0.04","integrator:\"leapfrog\"(第278便b — ⛄ と同じ)"]},
   activeParams:["kFrame","q","D0"],
   camera:{scale:210}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.006, kFrame:0, q:11.9386, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
@@ -15327,6 +15464,11 @@ function avOpen(on){
     const ap=$("#aboutPanel"); if(ap) ap.style.display="none";
     const pp=$("#pmPanel"); if(pp && pp.style.display==="block") pmOpen(false);
     avRender();
+    // 第278便e: 画面手前のモーダルになったので、開いたらフォーカスを閉じるボタンへ(#aboutPanel と同じ)
+    const c=$("#avClose"); if(c) c.focus();
+  } else if(el.contains(document.activeElement)){
+    // 閉じたらフォーカスを導線ボタンへ返す(モーダルの中にフォーカスがあったときだけ)
+    const b=$("#btnAuditView"); if(b) b.focus(); else document.activeElement.blur();
   }
   // 第276便f(第66報(5)④): 開閉の状態を導線ボタンへ返す。✕・Escape・説明タブからの
   // どの経路で閉じても aria-expanded が実態と食い違わない(再タップで閉じる導線の裏づけ)
@@ -15648,11 +15790,24 @@ function validatePreset(obj){
         if(bcv.backgroundComplex!==null) ph[k]=bcv.backgroundComplex;
         continue;
       }
+      // 第278便d(統括の読み R56): backgroundTidal — **潮汐テンソル T** の宣言専用オブジェクト鍵(backgroundComplex とは
+      // 別鍵・単位 1/s²)。**力学・光学・帳簿のどの経路からも読まれない**(既定は無し=ph へ入れない=署名不変)
+      if(k===BG_TIDAL_KEY){
+        const btv=validateBackgroundTidal(p.physics[k]);
+        if(!btv.ok){ bad(btv.err); continue; }
+        if(btv.backgroundTidal!==null) ph[k]=btv.backgroundTidal;
+        continue;
+      }
       // 第277便b(第67報 (1)): relativeDrag — **相対すべりの零条件**を持つ引きずり則の opt-in。
       // null/未宣言は「なし」へ正規化する(宣言と未宣言で署名が 1 文字も変わらない)
       if(k===REL_DRAG_KEY){
         const rdv=validateRelativeDrag(p.physics[k]);
         if(!rdv.ok){ bad(rdv.err); continue; }
+        // 第278便b(R54): 中点法は**単一対・正の質量/半径**に限る(受理時に bodies で確かめる)
+        if(rdv.relativeDrag!==null && rdv.relativeDrag.integration==="midpoint"){
+          const mpe=relativeDragMidpointBodyCheck(p.bodies, rdv.relativeDrag);
+          if(mpe){ bad(mpe); continue; }
+        }
         if(rdv.relativeDrag!==null) ph[k]=rdv.relativeDrag;
         continue;
       }
@@ -20771,6 +20926,7 @@ function makeSim(){
       if(S.hasCompactForce) S._compactForce(dt*0.5);   // 第251便a: コンパクト連星の追加対力も同じ位置
       if(S.hasBodyLayers) S._layerForce(dt*0.5);   // 第259便b: 親子コアの層差分も同じ位置(未宣言は真偽値 1 つで素通り)
       if(S.hasSpaceMesh) S._spaceMeshForce(dt*0.5);    // 第254便a: 空間メッシュの重力・慣性チャネルも同じ位置
+      if(S.hasRelativeDrag && S.relDrag.integration==="midpoint") dfmRelativeDragStep(S,dt*0.5);   // 第278便b: 散逸の前半歩(対称分割・未宣言は真偽値 1 つ)
       geoCoreDispatch(S,dt,1); geoCoreDispatch(S,dt,2);   // 第259便a: geoPN=3 は _core から隠す(_core は 1 命令も増えない)
       // 第255便a: pairWeave は **E6′ が読んだフレームの差分**を打ち消す補正なので S._core の**後**。
       // reservoir(回転子交換)も同じ位置(未宣言はどちらも真偽値 1 つで素通り)
@@ -20780,7 +20936,7 @@ function makeSim(){
       if(S.hasShapeToy) dfmShapeToyStep(S,dt);      // 第274便d: 形状トイ(同じ位置・未宣言は真偽値 1 つ)
       if(S.hasCoreField) dfmCoreFieldStep(S,dt);    // 第276便d: Core 力学(同じ位置・未宣言は真偽値 1 つ)
       if(S.hasCoreAxis) dfmCoreAxisStep(S,dt);      // 第275便e: コア軸の prescribed(同じ位置・未宣言は真偽値 1 つ)
-      if(S.hasRelativeDrag) dfmRelativeDragStep(S,dt);   // 第277便b: 相対すべりの引きずり則(同じ位置・未宣言は真偽値 1 つ)
+      if(S.hasRelativeDrag) dfmRelativeDragStep(S,(S.relDrag.integration==="midpoint")? dt*0.5 : dt);   // 第277便b(第278便b: 中点法は後半歩)
       if(S.hasMeshReservoir) S._meshReservoir(dt);
       if(S.hasSpaceMesh) S._spaceMeshForce(dt*0.5);
       if(S.hasBodyLayers) S._layerForce(dt*0.5);   // 第259便b(後半キック)
@@ -27755,14 +27911,25 @@ function showPresetPicker(rebuildOnly){
   const old=$("#ppModal"); if(old) old.remove();
   ppNoteSyncs=[];   // 第149便: 説明ブロックの同期関数はウィンドウごとに作り直す(開閉状態は ppNoteOpen が持ち越す)
   const ov=document.createElement("div"); ov.id="ppModal";
+  // 第278便e: 画面手前のモーダル 3 枚(サンプルを選ぶ・このアプリについて・監査ビュー)の契約をそろえる
+  // —— role=dialog・aria-modal・aria-labelledby(見出し h3#ppTitle)。Esc は下の keydown(捕捉相)
+  ov.setAttribute("role","dialog"); ov.setAttribute("aria-modal","true"); ov.setAttribute("aria-labelledby","ppTitle");
   ov.addEventListener("click",(e)=>{ if(e.target===ov) hidePresetPicker(); });
   const box=document.createElement("div"); box.className="ppBox";
   const hd=document.createElement("div"); hd.className="ppHead";
-  const h=document.createElement("h3"); h.textContent=T("ppTitle"); hd.appendChild(h);
+  const h=document.createElement("h3"); h.id="ppTitle"; h.textContent=T("ppTitle"); hd.appendChild(h);
   const si=document.createElement("input"); si.id="ppSearch"; si.type="text"; si.placeholder=T("ppSearchPh");
   si.value=ppSearch; si.autocomplete="off";
-  si.addEventListener("input",()=>{ ppSearch=si.value.trim(); ppRender(); });
-  hd.appendChild(si);
+  // 第278便e(第68報「UI」③): 検索文字列のクリアボタン ✕(入力が空のときは hidden)。押すと検索語を
+  // 空にして再フィルタし、フォーカスを検索欄へ戻す。キー操作は持たない(Esc は窓を閉じるだけ)
+  const sw=document.createElement("div"); sw.className="ppSearchWrap";
+  const sc=document.createElement("button"); sc.type="button"; sc.id="ppSearchClear"; sc.textContent="✕";
+  sc.setAttribute("aria-label",T("ppSearchClear")); sc.title=T("ppSearchClear");
+  const syncClear=()=>{ sc.hidden=!si.value; };
+  si.addEventListener("input",()=>{ ppSearch=si.value.trim(); syncClear(); ppRender(); });
+  sc.addEventListener("click",()=>{ si.value=""; ppSearch=""; syncClear(); ppRender(); si.focus(); });
+  syncClear();
+  sw.appendChild(si); sw.appendChild(sc); hd.appendChild(sw);
   const cl=document.createElement("button"); cl.type="button"; cl.id="ppClose"; cl.textContent="✕";
   cl.addEventListener("click",hidePresetPicker); hd.appendChild(cl);
   box.appendChild(hd);
@@ -27809,6 +27976,12 @@ function showPresetPicker(rebuildOnly){
   ppRender();
 }
 $("#btnPresetPick").addEventListener("click",()=>showPresetPicker());
+// 第278便e: 「サンプルを選ぶ」も Esc で閉じる(画面手前のモーダル 3 枚の契約をそろえた)。**捕捉相**で受けて
+// 伝播を止めるので、いちばん手前の窓だけが閉じる(下に開いているモーダルの Esc まで届かない —
+// document 自身へ送られた keydown でも同じ document 上の後続リスナーを止めるため stopImmediatePropagation)
+document.addEventListener("keydown",(e)=>{
+  if(e.key==="Escape" && $("#ppModal")){ e.stopImmediatePropagation(); hidePresetPicker(); }
+}, true);
 // 第26便(原仮定者指示): AI生成のベースサンプル候補(なし+内蔵+AI生成)
 function rebuildAiBaseSelect(){
   const sel=$("#aiBasePreset"); if(!sel) return;
@@ -29097,6 +29270,8 @@ addEventListener("keydown",(e)=>{ if(e.key==="Escape" && $("#pmPanel").style.dis
 // 第146便: 現実較正ファミリー監査ビュー(表示専用パネル)の開閉導線
 $("#avClose").addEventListener("click",()=>avOpen(false));
 addEventListener("keydown",(e)=>{ if(e.key==="Escape" && $("#avPanel").style.display==="block") avOpen(false); });
+// 第278便e: 背景(箱の外)のクリックで閉じる —— #ppModal と同じ作法(e.target が外枠自身のときだけ)
+$("#avPanel").addEventListener("click",(e)=>{ if(e.target===e.currentTarget) avOpen(false); });
 
 function buildParamRows(){
   updateAbQuickRow();
@@ -31980,7 +32155,9 @@ const AI_PROVIDERS={
   // 第170便(原仮定者許可): 実行時 LLM の既定を Haiku 4.5 → Sonnet 5 へ引き上げ
   // (第25便: Opus 5 は同価格の置き換え上位)。候補の並びも既定を先頭に合わせる
   // 第238便(第30報): Haiku は使わない — 候補から撤去(手入力で指定された場合は従来どおり Sonnet 5 へフォールバック)
-  anthropic:{ models:["claude-sonnet-5","claude-opus-5"],
+  // 第278便e(原仮定者の裁定(第68報)「Opus にルーティングする際は最新モデルを使用する」): 候補に
+  // claude-opus-5-5 を足す(既定 Sonnet 5 は不変・claude-opus-5 は手元の指定のために残す)
+  anthropic:{ models:["claude-sonnet-5","claude-opus-5-5","claude-opus-5"],
     defModel:"claude-sonnet-5", keyPh:"sk-ant-..." },
   openai:{ models:["gpt-5-mini","gpt-5","gpt-4.1-mini"],
     defModel:"gpt-5-mini", keyPh:"sk-...", defBase:"https://api.openai.com/v1" },
@@ -32020,11 +32197,25 @@ async function fetchJSON(url, headers, body){
 // 3プロバイダ共通の呼び出し: system+messages(user/assistant)→ 応答テキスト
 // 第170便: sysOverride — 実天体カタログ経路は自由生成の仕様(SYSTEM_PROMPT)ではなく
 // カタログ仕様プロンプトを送る。省略時は従来どおり getSystemPrompt()
+// 第278便e: claude-opus-5-5 は thinking を無効化できない({type:"disabled"}・budget_tokens は 400)。
+// 送信本文を読んで確かめた結果、従来の本文は sonnet/opus に thinking:{type:"disabled"} を付けていた
+// (tool_choice・budget_tokens・effort は送っていない)ので、この 1 点だけを分岐する。
+function aiThinkingAlwaysOn(model){ return String(model||"").indexOf("opus-5-5")>=0; }
+// Anthropic 経路の送信本文(純関数 — QA ai.modelList が読む)。
+//   ・thinking を切れるモデル(sonnet-5・opus-5 等): 従来どおり thinking:{type:"disabled"}・max_tokens 4000
+//   ・opus-5-5: thinking キーを**送らない**(= 適応的思考。effort も送らない = モデル既定の medium)。
+//     思考のトークンも max_tokens に数えられるので上限を 16000 にする(4000 のままだと思考だけで
+//     上限に達し errLong で落ちうる — 応答 JSON 自体の長さの見込みは同じ)
+function aiAnthropicBody(model, sys, messages){
+  const always=aiThinkingAlwaysOn(model);
+  const body={ model, max_tokens: always? 16000 : 4000, system:sys, messages };
+  if(!always && (model.indexOf("sonnet")>=0 || model.indexOf("opus")>=0)) body.thinking={type:"disabled"};
+  return body;
+}
 async function callLLM(cfg, model, messages, sysOverride){
   const sys=(typeof sysOverride==="string" && sysOverride)? sysOverride : getSystemPrompt();
   if(cfg.provider==="anthropic"){
-    const body={ model, max_tokens:4000, system:sys, messages };
-    if(model.indexOf("sonnet")>=0 || model.indexOf("opus")>=0) body.thinking={type:"disabled"};
+    const body=aiAnthropicBody(model, sys, messages);
     const data=await fetchJSON("https://api.anthropic.com/v1/messages",
       { "content-type":"application/json", "x-api-key":cfg.key, "anthropic-version":"2023-06-01",
         "anthropic-dangerous-direct-browser-access":"true" }, body);
@@ -32185,8 +32376,10 @@ function buildExternalPromptShort(){ return buildUnifiedPrompt(true); }
 //   opus-5 は最上位なのでフォールバック先なし。
 //   理由(統括): 本便の目的は挙動の安定化=品質優先であり、フォールバックは**検証失敗時のみ**
 //   発火するのでコスト影響は限定的。降格(sonnet-5→haiku-4-5)の案は破棄した。
+// 第278便e(第68報): 上位エスカレーション先を最新の Opus = claude-opus-5-5 へ(sonnet-5 → opus-5-5)。
+//   opus-5 / opus-5-5 を選んだときは従来どおり連鎖なし(null)。
 function aiFallbackModel(model){
-  if(model.indexOf("sonnet")>=0) return "claude-opus-5";
+  if(model.indexOf("sonnet")>=0) return "claude-opus-5-5";
   if(model.indexOf("haiku")>=0)  return "claude-sonnet-5";
   return null;
 }
@@ -32820,7 +33013,11 @@ function renderHelp(){
     if(oc && oc.length){
       // 第276便f(第66報(5)⑤): div → details(既定は畳む)。宣言行 .ocRow の数え方は不変
       const box=document.createElement("details"); box.className="ffBox ocBox";
-      const bh=document.createElement("summary"); bh.className="ffHead"; bh.textContent=T("ocHead");
+      const bh=document.createElement("summary"); bh.className="ffHead";
+      // 第278便e(第68報「UI」④「『観測結果カード』にアイコンを付ける」): 📇(他の節の 🔖🔬🧪🔎📌 と
+      // 被らない)。aria-hidden なので読み上げ名は T("ocHead") のまま
+      { const ic=document.createElement("span"); ic.className="ocHeadIcon"; ic.setAttribute("aria-hidden","true");
+        ic.textContent="📇 "; bh.appendChild(ic); bh.appendChild(document.createTextNode(T("ocHead"))); }
       bh.title=T("ffFoldTip"); descFoldStatusTag(bh,currentPreset); box.appendChild(bh);
       // 第261便c: 観測結果カードの**先頭 1 行**に較正の現在地を出す(宣言のあるサンプルのみ)。
       // obsCard の行数(≤8 行)は宣言のままで、この 1 行は宣言ではなく派生表示である
@@ -33088,6 +33285,8 @@ function aboutToggle(show){
   const el=$("#aboutPanel");
   const to=(show===undefined)? el.style.display!=="block" : !!show;
   el.style.display=to?"block":"none";
+  // 第278便e: 監査ビューとは排他(どちらも画面手前の同じ z-index のモーダル — avOpen 側と対称)
+  if(to){ const av=$("#avPanel"); if(av && av.style.display==="block") avOpen(false); }
   $("#appTitle").setAttribute("aria-expanded",String(to));
   if(to) $("#aboutClose").focus(); else $("#appTitle").focus();
 }
@@ -33095,6 +33294,8 @@ $("#appTitle").addEventListener("click",()=>aboutToggle());
 $("#appTitle").addEventListener("keydown",(e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); aboutToggle(); } });
 $("#aboutClose").addEventListener("click",()=>aboutToggle(false));
 document.addEventListener("keydown",(e)=>{ if(e.key==="Escape" && $("#aboutPanel").style.display==="block") aboutToggle(false); });
+// 第278便e: 背景(箱の外)のクリックで閉じる —— #ppModal と同じ作法
+$("#aboutPanel").addEventListener("click",(e)=>{ if(e.target===e.currentTarget) aboutToggle(false); });
 
 // ===== タッチ/マウス操作(パン・ピンチ・タップ選択) =====
 (function(){
@@ -40029,7 +40230,7 @@ function coreAxisState(S,i){
 //   (そのときも自転トルクは残る)。**離心軌道では s は 0 にならない**(秤動が残る)。
 //
 // ■ 未宣言は 1 bit 不変: `S.hasRelativeDrag!==true` で 1 行目から戻る(`S._core` には 1 命令も足していない)。
-const REL_DRAG_STEP_VERSION = "w277b-pairSlip-1";
+const REL_DRAG_STEP_VERSION = "w278b-pairSlip-2";   // 第278便b: 中点法 opt-in(陽的経路の式は w277b-pairSlip-1 と同一)
 // 第277便b(R47): **3D の相対状態を軌道面へ射影する**唯一の式(表示・QA・文書のための純関数)。
 // 力学経路からは 1 度も呼ばれない —— 内蔵の初期条件はこの式で**一度だけ**作った数の転記である。
 //   基底 ê₁=r/|r|・ê₃=r×v/|r×v|・ê₂=ê₃×ê₁ を作り、**位置と速度を同じ回転で**射影する
@@ -40050,8 +40251,86 @@ function relativeDragPairs(S){
   const out=[]; for(let i=0;i<S.n;i++) for(let j=i+1;j<S.n;j++) out.push([i,j]);
   return out;
 }
+// ===== 第278便b(統括の検証項目 R54): **同じ連続則の陰的中点法**(`relativeDrag.integration:"midpoint"`)=====
+// 位置を固定した散逸ステップで、すべりを**中点値** s̄=(s_old+s_new)/2 で評価する:
+//   J⃗ = A s̄_i + B s̄_j、 Δ(I_iω_i)=(r×A s̄_i)_z、 Δ(I_jω_j)=(r×B s̄_j)_z、 Δv=−J⃗/μ(相対速度)
+// r̂・t̂=ẑ×r̂ へ分けると**動径は 1 分母**・**接線は 2×2 連立**の閉じた形になる(反復なし):
+//   a=A/2μ・b=B/2μ・c=A r²/2I_i・d=B r²/2I_j
+//   i_r=A v_r/(1+a+b)、 j_r=B v_r/(1+a+b)
+//   det=1+a+b+c+d+ad+bc+cd、 i_t=(A s_t,i(1+b+d)−aB s_t,j)/det、 j_t=(B s_t,j(1+a+c)−bA s_t,i)/det
+//   J⃗=(i_r+j_r) r̂+(i_t+j_t) t̂、 自転トルク t_i=(r×j⃗_i)_z=r·i_t、 t_j=r·j_t
+// このとき **ΔE=−A|s̄_i|²−B|s̄_j|² ≤ 0 が厳密**(刻みの粗さに依らず熱は負にならない)で、
+// 作用反作用と軌道→自転の戻しは陽的経路と同じなので **P と J_z は丸めまで保存**する。
+// **限界(宣言)**: 散逸は無条件安定だが、硬いモード(I が小さい・κνdt が大きい)の**精度**は保証しない
+// —— 精度は刻み収束で別途測る。**単一対・正の質量/半径/慣性・有限・分離した対**に限る
+// (多対・零慣性リザーバへの拡張は契約が未定 — 決断事項)。
+// 純関数(状態を持たない)。エンジンの步と読み口 `relativeDragProbe` が**同じ関数**を呼ぶ。
+function relativeDragMidpointSolve(A,B,mu,Ii,Ij,rx,ry,vx,vy,wi,wj){
+  const r2=rx*rx+ry*ry, r=Math.sqrt(r2);
+  const ex=rx/r, ey=ry/r, tx=-ey, ty=ex;          // r̂ と t̂=ẑ×r̂(ω×r = ω r t̂)
+  const vr=vx*ex+vy*ey, vt=vx*tx+vy*ty;
+  const sit=vt-wi*r, sjt=vt-wj*r;                  // すべりの接線成分(動径成分はどちらも v_r)
+  const a=A/(2*mu), b=B/(2*mu), c=A*r2/(2*Ii), d=B*r2/(2*Ij);
+  const den=1+a+b, det=1+a+b+c+d+a*d+b*c+c*d;
+  const ir=A*vr/den, jr=B*vr/den;
+  const it=(A*sit*(1+b+d)-a*B*sjt)/det;
+  const jt=(B*sjt*(1+a+c)-b*A*sit)/det;
+  const jx=(ir+jr)*ex+(it+jt)*tx, jy=(ir+jr)*ey+(it+jt)*ty;
+  const ti=r*it, tj=r*jt;
+  // ΔE(陽的経路と同じ**厳密式** — 旧い速度・自転で評価する)
+  const e=-(jx*vx+jy*vy)+(jx*jx+jy*jy)/(2*mu)+ti*wi+ti*ti/(2*Ii)+tj*wj+tj*tj/(2*Ij);
+  // 中点すべり(A>0/B>0 のとき s̄=部分インパルス/係数 — 表示と QA の照合用)
+  const sbI=(A>0)? Math.hypot(ir,it)/A : 0, sbJ=(B>0)? Math.hypot(jr,jt)/B : 0;
+  return { jx, jy, ti, tj, dE:e, dEform:-(A*sbI*sbI+B*sbJ*sbJ), sbarI:sbI, sbarJ:sbJ,
+    slipI:Math.hypot(vr,sit), slipJ:Math.hypot(vr,sjt), det, ir, jr, it, jt };
+}
+// 中点法の対の適格性(拒否理由の文字列か null)。**状態を 1 bit も変えない**。
+function relativeDragMidpointGuard(S,pairs){
+  if(pairs.length!==1) return "relativeDrag.integration:\"midpoint\" は単一対のみ(現在 "+pairs.length+" 対)";
+  const i=pairs[0][0], j=pairs[0][1];
+  if(S.pinned && (S.pinned[i] || S.pinned[j])) return "relativeDrag.integration:\"midpoint\" は規定運動の粒子を含む対を受けない";
+  const mi=S.m[i], mj=S.m[j], Ri=S.R[i], Rj=S.R[j];
+  if(!(mi>0) || !(mj>0) || !Number.isFinite(mi) || !Number.isFinite(mj)) return "relativeDrag.integration:\"midpoint\" は正の有限質量に限る";
+  if(!(Ri>0) || !(Rj>0) || !Number.isFinite(Ri) || !Number.isFinite(Rj)) return "relativeDrag.integration:\"midpoint\" は正の半径(正の慣性 I=½mR²)に限る";
+  const rx=S.x[j]-S.x[i], ry=S.y[j]-S.y[i];
+  if(!(rx*rx+ry*ry>0) || !Number.isFinite(rx) || !Number.isFinite(ry)) return "relativeDrag.integration:\"midpoint\" は分離した対に限る(r>0・有限)";
+  if(!Number.isFinite(S.vx[i]+S.vy[i]+S.vx[j]+S.vy[j]+S.spin[i]+S.spin[j])) return "relativeDrag.integration:\"midpoint\" は有限の速度・自転に限る";
+  return null;
+}
+function dfmRelativeDragMidpointStep(S,dt){
+  const rd=S.relDrag, kap=rd.kappa;
+  const pairs=relativeDragPairs(S);
+  const why=relativeDragMidpointGuard(S,pairs);
+  if(why) throw new RangeError(why);                // **状態を変えずに拒否**(黙って陽的へ落とさない)
+  const G=S.params.G, eps=S.params.softening||0, eps2=eps*eps;
+  const W0=(isNum(rd.W0) && rd.W0>0)? rd.W0 : 0;
+  const i=pairs[0][0], j=pairs[0][1];
+  const mi=S.m[i], mj=S.m[j];
+  const rx=S.x[j]-S.x[i], ry=S.y[j]-S.y[i], d2=rx*rx+ry*ry+eps2;
+  const vx=S.vx[j]-S.vx[i], vy=S.vy[j]-S.vy[i];
+  const wi=S.spin[i], wj=S.spin[j];
+  const chiIJ=mj/(mj+W0*d2), chiJI=mi/(mi+W0*d2);
+  const mu=mi*mj/(mi+mj);
+  const nu=Math.sqrt(G*(mi+mj)/(d2*Math.sqrt(d2)));
+  const A=kap*chiIJ*mu*nu*dt, B=kap*chiJI*mu*nu*dt;
+  const Ii=0.5*mi*S.R[i]*S.R[i], Ij=0.5*mj*S.R[j]*S.R[j];
+  const q=relativeDragMidpointSolve(A,B,mu,Ii,Ij,rx,ry,vx,vy,wi,wj);
+  if(!Number.isFinite(q.jx) || !Number.isFinite(q.jy) || !Number.isFinite(q.ti) || !Number.isFinite(q.tj))
+    throw new RangeError("relativeDrag.integration:\"midpoint\" の解が有限でない(状態は変えていない)");
+  S.vx[i]+=q.jx/mi; S.vy[i]+=q.jy/mi;
+  S.vx[j]-=q.jx/mj; S.vy[j]-=q.jy/mj;
+  S.spin[i]=wi+q.ti/Ii; S.spin[j]=wj+q.tj/Ij;
+  S.relDragHeat+=-q.dE;
+  if(q.dE>0) S.relDragPos++;                        // 中点法では理論上 0(丸めで立てば数える — 黙らない)
+  const km=Math.hypot(q.jx,q.jy); if(km>S.relDragKickMax) S.relDragKickMax=km;
+  const tm=Math.max(Math.abs(q.ti),Math.abs(q.tj)); if(tm>S.relDragTorqueMax) S.relDragTorqueMax=tm;
+  const sm=Math.max(q.slipI,q.slipJ); if(sm>S.relDragSlipMax) S.relDragSlipMax=sm;
+  S.relDragN+=1;
+  return { n:1, dE:q.dE, kickMax:km, torqueMax:tm, slipMax:sm, W0, kappa:kap, integration:"midpoint" };
+}
 function dfmRelativeDragStep(S,dt){
   if(!S || S.hasRelativeDrag!==true) return null;
+  if(S.relDrag.integration==="midpoint") return dfmRelativeDragMidpointStep(S,dt);   // 第278便b: opt-in
   const rd=S.relDrag, kap=rd.kappa;
   const G=S.params.G, eps=S.params.softening||0, eps2=eps*eps;
   const W0=(isNum(rd.W0) && rd.W0>0)? rd.W0 : 0;   // 統括(第277便 統合): 則自身の宣言(backgroundComplex は宣言専用のまま)
@@ -40116,6 +40395,17 @@ function relativeDragProbe(S,i,j,dt){
   const chiIJ=mj/(mj+W0*d2), chiJI=mi/(mi+W0*d2), mu=mi*mj/(mi+mj);
   const nu=Math.sqrt(G*(mi+mj)/(d2*Math.sqrt(d2)));
   const A=rd.kappa*chiIJ*mu*nu*dt, B=rd.kappa*chiJI*mu*nu*dt;
+  // 第278便b: 中点法を宣言した宇宙では、**同じ解法関数を局所コピーの値で回して**返す(状態は 1 bit も動かさない)
+  if(rd.integration==="midpoint"){
+    const Ii=0.5*mi*S.R[i]*S.R[i], Ij=0.5*mj*S.R[j]*S.R[j];
+    const guard=relativeDragMidpointGuard(S,[[Math.min(i,j),Math.max(i,j)]]);
+    const q=guard? null : relativeDragMidpointSolve(A,B,mu,Ii,Ij,rx,ry,vx,vy,wi,wj);
+    return { si:[six,siy], sj:[sjx,sjy], slipI:Math.hypot(six,siy), slipJ:Math.hypot(sjx,sjy),
+      chiIJ, chiJI, mu, nu, W0, kappa:rd.kappa, integration:"midpoint", rejected:guard||null,
+      kick:q? [q.jx,q.jy] : null, kickMag:q? Math.hypot(q.jx,q.jy) : null,
+      torqueI:q? q.ti : null, torqueJ:q? q.tj : null, dE:q? q.dE : null, dEform:q? q.dEform : null,
+      sbarI:q? q.sbarI : null, sbarJ:q? q.sbarJ : null, version:REL_DRAG_STEP_VERSION };
+  }
   return { si:[six,siy], sj:[sjx,sjy], slipI:Math.hypot(six,siy), slipJ:Math.hypot(sjx,sjy),
     chiIJ, chiJI, mu, nu, W0, kappa:rd.kappa,
     kick:[A*six+B*sjx, A*siy+B*sjy], kickMag:Math.hypot(A*six+B*sjx, A*siy+B*sjy),
@@ -41707,6 +41997,10 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // QA preset.backgroundComplex-declared が「受理契約」「未宣言の 1 bit 不変」「内蔵の宣言 0 本」を機械固定する
   validateBackgroundComplex, BG_COMPLEX_KEY, BG_COMPLEX_BACKGROUNDS, BG_COMPLEX_NOTE_MAX, BG_COMPLEX_UNITS,
   BG_COMPLEX_REQUIRED, BG_COMPLEX_STRICT,
+  // 第278便d(統括の読み R56): **潮汐テンソル T** の宣言鍵(**宣言専用** —— エンジンは 1 箇所も読まない・
+  // backgroundComplex とは別鍵)。QA preset.backgroundTidal が受理契約・内蔵 0 本・読み口 0 を機械固定する
+  validateBackgroundTidal, BG_TIDAL_KEY, BG_TIDAL_UNIT, BG_TIDAL_DIMS, BG_TIDAL_REQUIRED, BG_TIDAL_TEXT_MAX,
+  BG_TIDAL_NESTED,
   // 第264便b(第56報): **源の閉包**の値域("gravity" 既定 /"iterate" 診断)と反復・残差の宣言値。
   // QA behavior.geoToyClosure が「既定は 122 本ビット不変」「iterate は反復数と残差を返す」
   // 「特異点(det=1−η²χ₀χ₁→0)で収束しない」を機械固定する
@@ -41895,6 +42189,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   coreTiltProxyAudit,   // 第226便提案: core.tilt の投影エネルギー/角力積監査(読み取り専用)
   // 第277便b: 相対すべりの引きずり則(外部ステップ・純関数・受理契約)
   dfmRelativeDragStep, relativeDragProbe, relativeDragPairs, validateRelativeDrag, orbitPlaneProject,
+  relativeDragMidpointSolve, relativeDragMidpointGuard, relativeDragMidpointBodyCheck,
   REL_DRAG_KEY, REL_DRAG_LAWS, REL_DRAG_SPINS, REL_DRAG_KAPPA_CLAMP, REL_DRAG_STEP_VERSION,
   MASS_PRECISION_KEY, MASS_PRECISIONS, MASS_FLOOR_SCALED_KEY, SOFTENING_FLOOR_KEY, SOFTENING_FLOOR_MIN,
   dfmCoreAxisStep, coreAxisState, CORE_AXIS_MODES, CORE_AXIS_AZ_CLAMP, CORE_AXIS_RATE_CLAMP,
@@ -41905,6 +42200,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   ASTRO_CATALOG, buildAstroPreset, validateAstroSpec, buildAstroSpecPrompt,
   getAstroSystemPrompt, astroBodyIds, astroCatalogSummary, aiGenMode, aiFallbackModel,
   AI_PROVIDERS,
+  // 第278便e: 実行時 LLM の送信本文(QA ai.modelList — fetch を差し替えて本文を読む)
+  aiAnthropicBody, aiThinkingAlwaysOn, callLLM,
   // 第176便: ObservationRecord 経路(カタログ外の出典つき観測転写)— QA ai.obs-schema /
   // ai.obs-build が読む公開フック
   validateObservationRecords, buildAstroFromRecords, buildObsCollectPrompt, astroObsSelfCheck,

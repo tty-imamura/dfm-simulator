@@ -45,7 +45,7 @@ import * as PB from './lib-w275e-powerball.mjs';
 import * as AW from './lib-w276c-axiswork.mjs';
 
 /** この lib の版(形を変えたら上げる。QA `behavior.nsGridLedger` がこの文字列を見る)。 */
-export const NSGRID_VERSION = 'w277c-1';
+export const NSGRID_VERSION = 'w277c-2';
 
 /** 裁定 (2) と本格子の立場(器の結果 JSON の meta に同じ文字列が載る)。 */
 export const NSGRID_PREMISE = {
@@ -64,6 +64,40 @@ export const NSGRID_PREMISE = {
     + '**初期値としてのみ**使う。値を作らないし、観測から係数を決めることもしない',
   negativeControl: 'C_t=0・λ=0・口座なし(k=0)の行が格子に入っている(手が無ければ θ は動かない)。'
     + '供給元を軌道 E にした行は **J_z が閉じない**ことを示す否定対照である',
+  // 第278便c(R55): 語の訂正 —— 1512 は**走行数**、分類は 252 設定 × 2 天体 = 504 件
+  counting: '格子は 252 設定(行)。各設定で基準 + 小摂動 ±1° の 3 本を dt 2 段で走らせるので**走行は 1512 本**。'
+    + '**分類は 252 設定 × 2 天体 = 504 件**(分類に使うのは dt 1 段目。2 段目は分類の安定性の確認)',
+  classARole: '(A) は**与えた保存系・指定した時間窓(100 公転)・摂動幅(±1°)での相対平衡候補**であって、'
+    + '全時間の安定性の証明ではない',
+};
+
+/**
+ * 第278便c(R55): **時間尺度の表示ガード**。格子の潮汐係数は実在の潮汐より 1e16〜1e19 倍大きい
+ * **診断用の宣言値**なので、格子の θ の変化率を実在 NS の進化速度として出力しない。
+ * 器は結果 JSON にこの印を刻み、文書は「宣言値の格子」と書く。
+ */
+export const NSGRID_TIME_GUARD = {
+  time_scale_gain: '1e16〜1e19',
+  not_a_prediction: true,
+  note: '格子の θ の動き(永年変位・終端 θ)は**宣言した診断用の潮汐係数**に対する応答であり、'
+    + '実在の NS の傾きの進化速度ではない(実在の係数との比 = 利得は stage2 の表)。'
+    + '「◯ 公転で整列する」「◯ 年で傾きが変わる」とは出力しない',
+};
+
+/**
+ * 第278便c(R55・取得依頼 D の回答の一次資料の表・列): 格子の**入力の出所**。
+ * 値は CSV の候補行(`collate=pending`)と同じもので、本枝は CSV を 1 文字も触っていない。
+ */
+export const NSGRID_INPUT_SOURCES = {
+  J0737A_misalignment: { value: '上限 0.85 / 3.2 / 4.7 deg(68 / 95 / 99%)', used: 3.2,
+    source: 'Ferdman et al. (2013) ApJ 767 85 §6',
+    role: '**上限**であって値ではない。格子は 95% 上限 3.2° を初期値にだけ置いた' },
+  J0737B_misalignment: { value: '40.6 ± 0.1 deg', used: 40.6,
+    source: 'Lower et al. (2024) A&A 682 A26 §5.2', premise: 'GR 仮定(放射/食モデル)',
+    role: '初期値のみ' },
+  J0737B_precession: { value: 'Ω_SO^B = 5.16 +0.32/−0.34 deg/yr(GR 予測 5.074005 deg/yr)',
+    source: 'Lower et al. (2024) A&A 682 A26 §4.1',
+    role: '**格子には入れていない**(3D 軌道面の反作用・GR 歳差は格子の外)' },
 };
 
 const v3 = PB.v3;
@@ -79,13 +113,45 @@ const DEG = 180 / Math.PI;
  * @param {number[]} w1 天体 i の自転角速度ベクトル
  * @param {number[]} w2 天体 j の自転角速度ベクトル
  * @returns {{s1:number[], s2:number[], s1mag:number, s2mag:number, vmag:number}}
- *   s1 = v − ω_1×r(天体 1 の表面から見た相手の相対速度)/ s2 = v + ω_2×r
- *   (天体 2 では相手へ向かうベクトルが −r なので符号が返る)。
+ *   s1 = v − ω_1×r / s2 = v − ω_2×r(**r・v を同じ i→j 向きで表したまま**両天体に同じ形を当てる)。
+ *
+ * ■ 第278便c(統括の検証項目 R55)の**符号修正**(版 w277c-1 → w277c-2)
+ *   w277c-1 は s2 = v **+** ω_2×r としていた。天体 2 の表面から見た相手の相対すべりは
+ *   (−v) − ω_2×(−r) = −(v − ω_2×r) なので、**r・v を i→j 向きのまま使うなら v − ω_2×r**
+ *   (全体の符号は |s| に効かない)。最小対照 r=(1,0,0)・v=(0,1,0)・ω₁=ω₂=(0,0,1)
+ *   (相互同期)で旧式は s2=(0,2,0)、修正後は 0。`beta/index.html` の 2D
+ *   `dfmRelativeDragStep`/`relativeDragProbe`・`tests/lib-w277b-charondfm.mjs` の `pairSlipStep`・
+ *   本 lib の `slipRmsCircular` は**別実装で、はじめから v − ω_j×r**である
+ *   (器 tests/exp-w278c-slipaudit.mjs が同じ入力で突き合わせる)。
+ *   **影響範囲**: 本 lib で `pairSlip` を呼ぶのは `slipTranslationInvariance` だけで、
+ *   格子の力学(`bodyTorques`・`nsDerivs`・`runNsRun`)は `pairSlip` を 1 度も経由しない。
  */
 export function pairSlip(r, v, w1, w2) {
   const s1 = v3.sub(v, v3.cross(w1, r));
+  const s2 = v3.sub(v, v3.cross(w2, r));
+  return { s1, s2, s1mag: v3.norm(s1), s2mag: v3.norm(s2), vmag: v3.norm(v) };
+}
+
+/**
+ * **w277c-1 の式**(s2 = v + ω_2×r)。**比較の記録専用**(力学からも器の本線からも呼ばない)。
+ * 符号修正の前後を同じ入力で並べるためだけに残す。
+ */
+export function pairSlipLegacyW277c1(r, v, w1, w2) {
+  const s1 = v3.sub(v, v3.cross(w1, r));
   const s2 = v3.add(v, v3.cross(w2, r));
   return { s1, s2, s1mag: v3.norm(s1), s2mag: v3.norm(s2), vmag: v3.norm(v) };
+}
+
+/**
+ * **ラベルの入れ替え対称性**: 天体 2 から見たすべりは、r・v・ω を入れ替えて天体 1 として
+ * 計算したものの**符号反転**に等しい —— pairSlip(−r,−v,ω₂,ω₁).s1 = −pairSlip(r,v,ω₁,ω₂).s2。
+ * 修正後の式はこれを厳密に満たす(旧式は満たさない)。
+ */
+export function pairSlipSwapResidual(r, v, w1, w2, fn) {
+  const f = fn || pairSlip;
+  const a = f(r, v, w1, w2);
+  const b = f(v3.mul(r, -1), v3.mul(v, -1), w2, w1);
+  return v3.norm(v3.add(b.s1, a.s2));
 }
 
 /**
@@ -378,7 +444,7 @@ export function classifyTheta(o) {
     && Math.max(b.worstJzRel, p.worstJzRel, m.worstJzRel) <= GATE.ledgerTol
     && b.heatDrops === 0 && p.heatDrops === 0 && m.heatDrops === 0
     && b.supplyRises === 0 && p.supplyRises === 0 && m.supplyRises === 0;
-  let cls = 'C', why = '';
+  let cls = 'C', why = '', whyCode = null;
   if (secular <= GATE.secularTolDeg && bounded && !dissipating && closes) {
     cls = 'A'; why = '基準走行が散逸しておらず(熱 0・移送 0)永年変位が門内・小摂動が有界';
   } else if (secular <= GATE.secularTolDeg && returning && dissipating && closes) {
@@ -388,11 +454,56 @@ export function classifyTheta(o) {
       : (!closes) ? '収支が閉じない'
         : (dissipating && !returning) ? '散逸しているが小摂動が θ* へ戻らない'
           : (!bounded) ? '小摂動が有界でない' : '保存系でも吸引でもない';
+    // 第278便c(R55): (C) の**主因コード**(上の why と同じ優先順)。内訳の 4 区分
+    //   過渡 transient / 収支不成立 ledger / 摂動非有界 unbounded / その他 other
+    //   (「散逸しているが戻らない」と「保存系でも吸引でもない」は other の下位 noReturn / neither)
+    whyCode = (secular > GATE.secularTolDeg) ? 'transient'
+      : (!closes) ? 'ledger'
+        : (dissipating && !returning) ? 'noReturn'
+          : (!bounded) ? 'unbounded' : 'neither';
   }
-  return { cls, why, secularDeg: secular, oscDeg: osc, devMaxDeg: devMax,
+  // 第278便c(R55): **満たさなかった条件をすべて**並べる(主因は 1 つでも、複数を同時に落とすことがある)
+  const failed = [];
+  if (secular > GATE.secularTolDeg) failed.push('transient');
+  if (!closes) failed.push('ledger');
+  if (!bounded) failed.push('unbounded');
+  if (dissipating && !returning) failed.push('noReturn');
+  return { cls, why, whyCode, failed, secularDeg: secular, oscDeg: osc, devMaxDeg: devMax,
     returnRatio, bounded, returning, dissipating, closes, heat,
     thetaMeanFirstHalfDeg: b.thetaMeanFirstHalfDeg[i],
     thetaMeanSecondHalfDeg: b.thetaMeanSecondHalfDeg[i] };
+}
+
+/** (C) の主因コード → 内訳の 4 区分(第278便c・R55)。 */
+export const WHY_BUCKET = { transient: '過渡', ledger: '収支不成立', unbounded: '摂動非有界',
+  noReturn: 'その他', neither: 'その他' };
+
+/**
+ * 第278便c(R55): 格子の行(`classDt1` と `gate[i]` を持つ)から **(C) の why 別内訳**を作る。
+ * 主因(排他的・優先順 過渡 → 収支不成立 → 散逸だが戻らない → 摂動非有界 → その他)と、
+ * **満たさなかった条件の重複あり集計**の 2 つを返す。**門の式は再計算して**使う(JSON の文字列を信じない)。
+ */
+export function whyBreakdown(rows) {
+  const out = { total: 0, byClass: { A: 0, B: 0, C: 0 },
+    primary: { transient: 0, ledger: 0, unbounded: 0, other: 0 },
+    primaryCode: { transient: 0, ledger: 0, noReturn: 0, unbounded: 0, neither: 0 },
+    failedAny: { transient: 0, ledger: 0, unbounded: 0, noReturn: 0 },
+    combos: {} };
+  for (const r of rows) {
+    for (let i = 0; i < 2; i++) {
+      const g = r.gate[i], c = r.classDt1[i];
+      out.total++; out.byClass[c]++;
+      if (c !== 'C') continue;
+      const code = g.whyCode;
+      out.primaryCode[code] = (out.primaryCode[code] || 0) + 1;
+      const bucket = (code === 'transient' || code === 'ledger' || code === 'unbounded') ? code : 'other';
+      out.primary[bucket]++;
+      for (const f of g.failed || []) out.failedAny[f]++;
+      const key = (g.failed || []).join('+') || '(なし)';
+      out.combos[key] = (out.combos[key] || 0) + 1;
+    }
+  }
+  return out;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -486,7 +597,8 @@ export function undampedLocalProbe(o) {
     verdict: (ratio <= 0.05) ? '窓の中' : '**窓の外**(局所模型を NS の分離へ一般則として延長しない)' };
 }
 
-export default { NSGRID_VERSION, NSGRID_PREMISE, NS_LEN, NS_INDEX, GATE,
-  pairSlip, slipRmsCircular, slipTranslationInvariance, tidalCoeff,
+export default { NSGRID_VERSION, NSGRID_PREMISE, NSGRID_TIME_GUARD, NSGRID_INPUT_SOURCES,
+  NS_LEN, NS_INDEX, GATE, WHY_BUCKET, whyBreakdown,
+  pairSlip, pairSlipLegacyW277c1, pairSlipSwapResidual, slipRmsCircular, slipTranslationInvariance, tidalCoeff,
   bodyTorques, nsDerivs, nsInvariants, transferStep, runNsRun, classifyTheta,
   runReversibleRoundTrip, rationalisedDeltaProbe, undampedLocalProbe };

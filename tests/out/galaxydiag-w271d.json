@@ -3,8 +3,8 @@
   "provenanceVersion": "w272e-1",
   "wave": "第271便d(来歴は第272便e で共通化)",
   "target": "beta/index.html",
-  "targetSha256": "51ac2e9370fc9bd77532299d41b4e4a04a8e722f18a2589166557f6e548f46ba",
-  "generatedAt": "2026-09-22T13:48:39.479Z",
+  "targetSha256": "d334ed09709f20d0f97328227681b11305f2bf3319b4bc36ca95e0a12f7c0744",
+  "generatedAt": "2026-09-23T11:09:02.644Z",
   "code": [
    {
     "file": "tests/exp-w271d-galaxydiag.mjs",
@@ -20,9 +20,9 @@
    },
    {
     "file": "tests/lib-w270b-obscsv.mjs",
-    "bytes": 14068,
-    "sha256": "603104b67e24f166bc5a2a2d00038686ed4631e39285bcb8780281026d7e2d4a",
-    "mtime": "2026-09-19T11:48:42.098Z"
+    "bytes": 14614,
+    "sha256": "a096a132d0eea0841d194dd174b1ebc96caea453e9c0bbebab0a5d9391058b77",
+    "mtime": "2026-09-23T11:01:04.951Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -31,16 +31,16 @@
     "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "3cacf22e7add84297a0b8716f77aeba43c72149b926a656dd8ce96762a74be9d",
-  "measuredAt": "2026-09-22T13:48:39.479Z",
+  "codeSha256": "d8852f13296406b7f8beb9d5fef2ca47846cd1a3a3a681fc75a49fa848d27807",
+  "measuredAt": "2026-09-23T11:09:02.645Z",
   "codeVersion": "tests/exp-w271d-galaxydiag.mjs 第271便d",
   "declarationVersion": "compare-v1 / 第61報「提示された指摘を参考に改善/決断事項は概ね同意」",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4440208,
-    "sha256": "51ac2e9370fc9bd77532299d41b4e4a04a8e722f18a2589166557f6e548f46ba",
-    "mtime": "2026-09-22T13:42:36.807Z"
+    "bytes": 4469620,
+    "sha256": "d334ed09709f20d0f97328227681b11305f2bf3319b4bc36ca95e0a12f7c0744",
+    "mtime": "2026-09-23T11:03:31.966Z"
    },
    {
     "file": "paper/data/cluster-galaxy-observations.csv",
@@ -71,7 +71,7 @@
    "**観測量が得られないときは `not-measurable`(値 null)** —— 0 や最後の値で補わない。",
    "**「完成」は比較サンプル v1 である。観測一致は別段階で、現時点で未達である。**"
   ],
-  "spentSec": 369.1
+  "spentSec": 280.9
  },
  "declaration": {
   "what": "**銀河の器の診断 3 本**(AF5 準定常窓 variant・AF7 clampSN の切り分け・AF19 N/seed 系列)。**主判定窓 T=40 は動かさない**(準定常窓は別 variant)。**clamp の上限 ±40 は変えない**(本器は**数えるだけ**である)。**観測残差を見て窓・帯・seed を選ばない。**",

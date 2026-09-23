@@ -274,6 +274,33 @@ guarantee that it does not overwrite curated work (QA `ai.stabilize`).
   box is refused with a pointer to the AI tab's paste box, instead of the old
   "added 0 / invalid 9" report.
 
+## 4.1 Runtime model routing (wave 278e, 2026-09-23)
+
+This section is about **which model the app's own "Generate" button calls**, not about the
+specification text sent to it (section 5 is unchanged, byte for byte).
+
+- **Candidates** (`AI_PROVIDERS.anthropic.models`): `claude-sonnet-5` (default, unchanged) /
+  `claude-opus-5-5` / `claude-opus-5`. Per the originator's ruling (report 68: "when routing to Opus,
+  use the latest model"), the **upper fallback** after a failed validation + one retry is now
+  `claude-sonnet-5` → **`claude-opus-5-5`** (was `claude-opus-5`). Choosing `claude-opus-5` or
+  `claude-opus-5-5` directly has no further fallback, as before.
+- **What the request body contains** (read from the code and checked by QA `ai.modelList`, which
+  swaps `fetch` and reads the body `callLLM` actually sends — nothing goes to the network):
+  `model`, `max_tokens`, `system`, `messages`, and for `claude-sonnet-5` / `claude-opus-5` also
+  `thinking:{type:"disabled"}`. No request carries `tool_choice`, `tools`, `budget_tokens` or
+  `output_config`.
+- **Opus 5.5 cannot switch thinking off** (`thinking:{type:"disabled"}` and `budget_tokens` are
+  rejected with HTTP 400; forced `tool_choice` `any`/`tool` is also rejected). The previous body
+  sent `thinking:{type:"disabled"}` to every model whose id contains `sonnet` or `opus`, so it
+  would have failed on `claude-opus-5-5`. The pure function `aiAnthropicBody(model, sys, messages)`
+  now **omits the `thinking` key** for `claude-opus-5-5` (adaptive thinking) and raises
+  `max_tokens` from 4000 to **16000** on that route, because thinking tokens count toward
+  `max_tokens` and a 4000 cap could end the turn before the JSON (reported as "too long").
+  The other models' bodies are unchanged. **No live API call was made** for this change (no key
+  in the build environment): the 16000 figure follows the published contract, not a measurement.
+- **Effort is not sent.** Opus 5.5's default effort is **`medium`** (one level below Opus 5's
+  default `high`); the app relies on that default. Whether to set it explicitly is left open.
+
 ---
 
 ## 5. The preset specification (verbatim — Japanese, machine-synced)
@@ -411,6 +438,27 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
   (8番が2つ)を一意化 / 例の `cLight`=60 が既定 30 と違う意図を明示。
   値域の四者一致(実装の clamp ⇄ 正本定数 `AI_SCHEMA_LIMITS` ⇄ SYSTEM_PROMPT ⇄ 本ファイル)は
   新設 QA `prompt.schema-sync` が機械照合する。
+
+## 6.2c 実行時 LLM のモデル(第278便e・2026-09-23)
+
+- 本節は**アプリの「生成する」が呼ぶモデル**の話で、送る仕様文(§5)は 1 バイトも変えていない。
+- 候補は `claude-sonnet-5`(既定・不変)/ `claude-opus-5-5` / `claude-opus-5`。原仮定者の裁定
+  (第68報「Opus にルーティングする際は最新モデルを使用する」)により、検証 NG → リトライ 1 回の後の
+  **上位フォールバック先を `claude-opus-5` → `claude-opus-5-5`** に替えた。opus を直接選んだときの
+  フォールバックは従来どおり無し。
+- **送信本文を読んで確かめた**: キーは `model`・`max_tokens`・`system`・`messages` と、
+  `claude-sonnet-5` / `claude-opus-5` のときの `thinking:{type:"disabled"}` だけで、
+  `tool_choice`・`tools`・`budget_tokens`・`output_config` は無い(QA `ai.modelList` が `fetch` を
+  差し替えて `callLLM` の実際の送信本文を読む — ネットワークへは出ない)。
+- **Opus 5.5 は thinking を無効化できない**(`{type:"disabled"}`・`budget_tokens` は 400、
+  `tool_choice` の any/tool も 400)。従来の本文は id に sonnet/opus を含むモデルすべてへ
+  `thinking:{type:"disabled"}` を付けていたので、`claude-opus-5-5` では 400 になるところだった。
+  純関数 `aiAnthropicBody` は `claude-opus-5-5` のときだけ **`thinking` キーを送らず**(適応的思考)、
+  思考のトークンも `max_tokens` に数えられるので上限を 4000 → **16000** にする
+  (4000 のままだと思考だけで上限に達し「長すぎる」で落ちうる)。他のモデルの本文は不変。
+  **実 API への送信はしていない**(開発環境にキーが無い)— 16000 は公開されている契約に従った値で、実測値ではない。
+- **effort は送らない**。Opus 5.5 の既定 effort は **medium**(Opus 5 の既定 high より 1 段低い)で、
+  アプリはその既定に任せている。明示するかは決断事項として残す。
 
 ## 6.3 出力の使い分け(逐語 — アプリと同一)
 
@@ -1099,6 +1147,28 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     (docs/PHYSICS.md〔第277便d〕④)。
   - **`physics.backgroundComplex` は勾配を持てるが、潮汐テンソル T の鍵はまだ無い**(決断事項)。
     背景勾配による差動加速度は**一様重力相当のパラメータ 1 つでは代替できない**(同節⑤)。
+    → **第278便d で T は別鍵 `physics.backgroundTidal` に置いた**(下の項)。**`backgroundComplex` の中へ
+    `T`・`tidal`・`tidalTensor`・`backgroundTidal` を書くと拒否する**(定数 `BG_TIDAL_NESTED`)。
+- **潮汐テンソル T の宣言(第278便d・統括の読み R56)**: **`physics.backgroundTidal`** —— 背景勾配による
+  差動加速度 a_ext(x) = a₀ + T·(x−x₀) の **T** を宣言する**宣言専用の別鍵**。
+  - **なぜ別鍵か**: `backgroundComplex` の W₀[M/L²]・A₀[M/(L·T)]・∇W・∇A は**重み付き平均の量**、
+    T は**ポテンシャルのヘッセ行列**(単位 **1/s²**)で、次元も役割も違う。**メッシュ速度勾配 J[1/s] とも別物**である。
+  - **正準形**: `{T, unit:"1/s^2", frame, epoch, source, note?}`。
+    - `T` は **2×2 または 3×3** の有限数の**対称**行列(配列の配列・`T[i][j]===T[j][i]` を厳密に要求)。
+      **2×2 は面内ブロック**で、3 次元の真空では tr T=0 でも面内ブロックのトレースは −T_zz(0 とは限らない)。
+    - `unit` は **`"1/s^2"` だけ**(SI の秒で書く —— サンプルの `scaleExp` の時間単位ではない)。
+    - `frame`(どの座標系の成分か・1〜80 字)・`epoch`(いつの値か・1〜60 字)・`source`(出所・1〜200 字)は
+      **明示必須**、`note` は 200 字以内。**知らない鍵は拒否**(`W0` 等を紛れ込ませない)。
+    - 例(冥王星の軌道距離の点質量の太陽・面内): 
+      `{ "T": [[1.2881e-18, 0], [0, -6.4407e-19]], "unit": "1/s^2", "frame": "sample-xy", "epoch": "JD 2452600.5", "source": "太陽の点質量 GM/r³" }`
+  - **未宣言は「未確定」**(`physics` に入らない —— presetSig 不変)。宣言すると署名は変わる。
+  - **エンジンのどの経路からも読まれない**(力学・光学・帳簿に接続しない —— 接続の順序は裁定待ち)。
+    **内蔵はこの鍵を 1 本も宣言していない**。
+  - 純関数側: `normalizeTidal`(アプリの `validateBackgroundTidal` と同じ判定)・`tidalCheck(T)`(対称性・
+    トレース・固有値)・`pointMassTidal`(`tests/lib-w278d-bgequiv.mjs`)。
+  - QA: **`preset.backgroundTidal`**(受理/拒否・入れ子の拒否・検証器ごし・内蔵 0 本・力学へのビット不変・
+    **読み口 0** の機械監査・純関数との一致)/ **`docs.bgEquivalence`**(明示天体 ↔ 局所背景展開の一致試験)/
+    **`docs.comovingAdvection`**(fieldTime + 移流 = advected)。
 - **geoPN=3(トイの測地線モード・第259便a)**: `CLAMPS.geoPN` の上限が 3 になったが、**3 は宣言だけでは通らない**。
   - **受理条件**: (a) `sampleClass:"calibration"` では**拒否**、(b) `physics.spaceMesh.lawVersion` の宣言が無ければ
     **従来どおり 2 へ丸めて警告**、(c) `kFrame>0` は拒否、(d) `spaceMesh.inertia`・`weave` との併用は拒否(**重複適用禁止**)。
@@ -2029,6 +2099,10 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     その行の値がその解から来たという意味ではない** —— 指し先だけの行(太陽系 CSV 145〜148)は
     **空欄のまま**である。**空欄は「解が無い」ではなく「台帳に登録していない」**。
     QA `lint.solutionId` が位置・台帳・付与数(太陽系 55 / 星団・銀河 0 / 過渡天体 0)を機械固定する。
+    **第278便a(AM14)**: 暦の解 `PLU060-2024`・`PLU043-2015` を台帳へ登録した(台帳 6 件・太陽系の付与 **81 行**)。
+    解 id の綴りは 2 形 —— タイミング解 `<著者><西暦4桁>-<モデル>` と**暦の解** `<3 文字><3 桁>-<西暦4桁>`
+    (`solutionTag()` が両方を読む)。note の旧綴り `solutionId=` は鍵名が違うので解タグに当たらない(履歴として残す)。
+    `lint.solutionId` ⑦ が**参照切れ**(台帳 id の重複・綴り・どの行も指していない孤立 id・宣言の `solution_id`)を見る。
   - **`verified_by=` / `verified_at=` / `verified_value=` / `value_checked_*=` の値に `;` を書かない**
     (第270便b・AE15): 読取器は値を `;` まで(`/…=([^;]*)/`)で切るので、`;` を入れると値が途中で切れる。
     補足は**別の鍵**へ置く。
@@ -2083,6 +2157,10 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     解タグの照合は**語境界つき**(直前が英数字・`_`・`-` なら別の鍵)で行う —— 器 6 本を直した
     (`exp-w265a-kjoint2` / `exp-w265a-basis` / `exp-w264a-kjoint` / `exp-w264a-fixed07` /
     `exp-w263c-obsintake` / `exp-w264a-obsdelta`)。QA `docs.j1946Adopted` ④ が機械固定する。
+  - **第278便a(AM7): 宣言は 6 件になった** —— `Deimos|orbital_period` と同型の `Phobos|orbital_period` を
+    Jacobson 2010 Table 6 の **λ̇ 由来の行**(`csvQuantity:"orbital_period_candidate"`・`derived-in-record`・
+    note に `derived_from=<λ̇ 行>` と式)へ移した。**1σ は印字されていないので `sigma:null`**(門へは入らない)。
+    旧判定行は CSV に残り `superseded_by=<新しい行>; superseded_on=2026-09-23` を持つ。QA `docs.deimosSwap`。
   - **宣言は行選択であって、単位の一致・観測量対応・数値収束の宣言ではない。**
     第269便a は宣言を診断欄だけに置いていた(`applied:false`・`mode:"diagnostic-only-until-AD5"`)。
   - **第270便a(AD5): 宣言は正式経路へ入った**(`mode:"applied-AD5"`・`appliedToJudgement:true`)。
@@ -2311,13 +2389,22 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 
 ### 10.1 `physics.relativeDrag` —— 相対すべりの零条件を持つ引きずり則
 
-- **正準形**: `{law:"pairSlip", kappa:<0〜1>, pairs:"all"|[[i,j],…], spins:"declared"}`。
+- **正準形**: `{law:"pairSlip", kappa:<0〜1>, pairs:"all"|[[i,j],…], spins:"declared"[, integration:"midpoint"]}`。
   - `law` は **`"pairSlip"` のみ**(他は致命拒否)。
   - `kappa` は **0〜1 の有限数**。**`kappa:0` は「宣言したが用量 0」として正準形に残す**
     (= 否定対照の宣言。署名は未宣言と別になる)。
   - `pairs` は省略・`null`・`"all"` が「全対」。配列で書くときは **0 以上の相異なる整数 2 つの配列の配列**で、
     **空配列は致命拒否**(対を 1 つも指さないなら宣言しない)。小さい方を先に正規化する。
   - `spins` は **`"declared"` のみ**(自転は宣言値 `S.spin` を読む。測定値から作らない)。
+  - **第278便b**: `pairs` は正規化後の**重複を致命拒否**する(`[[0,1],[1,0]]` は同じ対を 2 度当てる宣言)。
+  - **第278便b(統括の検証項目 R54)**: `integration` は省略・`null`・`"explicit"` が**従来の陽的経路**(**正準形に出ない** = 署名不変)、
+    **`"midpoint"` が陰的中点法**(opt-in)。それ以外の文字列は致命拒否。中点法は**単一対・正の質量/半径(= 正の慣性 I=½mR²)**に限り、
+    `pairs` が 2 対以上・`pairs:"all"` で 3 体以上・single 以外の天体・質量/半径が 0 以下は**受理時に致命拒否**する。
+    走行中に同じ条件(有限・分離した対を含む)が崩れたら、外部ステップは**状態を 1 bit も変えずに `RangeError` を投げる**(黙って陽的へ落とさない)。
+    位置を固定した散逸ステップで中点すべり s̄=(s_old+s_new)/2 を使うので **ΔE=−A|s̄_i|²−B|s̄_j|²≤0 が厳密**(式は docs/PHYSICS.md 〔第278便b〕)。
+    `integrator:"leapfrog"` のプリセットでは散逸半歩 → 重力の KDK → 散逸半歩の**対称分割**、semi では従来どおり步末に 1 回 dt。
+  - **陽的経路の `S.relDragPos` は「ΔE>0 になった步を数える」だけ**である(**拒否機構ではない** —— 第278便b で明記)。
+    刻みが粗いと熱が負になりうる経路で、それを避けたいときに `integration:"midpoint"` を宣言する。
 - **意味**: 対ごとの相対すべり s_i=v−ω_i×r・s_j=v−ω_j×r が 0 でないときだけ、
   運動量インパルスと自転トルクを当てる **`S._core` の外**の外部ステップ(`dfmRelativeDragStep`)を開ける。
   **`kFrame` は 0/1 の二値のままで、この鍵はそれを 1 文字も書き換えない。**
@@ -2330,8 +2417,10 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 - **注意(実装者向け)**: 反トルクの受け皿は自転(I=½mR²)である。
   **I が極端に小さい試験粒子級の粒を `pairs:"all"` に含めると自転が暴走する** ——
   小衛星のような粒を足すときは `pairs` で主対に絞ること(第277便b の記録された否定対照)。
-- **内蔵の宣言**: **1 本**(⛄ `plutoCharonDFM`)。
+- **内蔵の宣言**: **1 本**(⛄ `plutoCharonDFM` —— 第278便b から `integration:"midpoint"`+プリセット直下の `integrator:"leapfrog"`)。
+- **帳簿の読み口(第278便b)**: `S.totals()` は物質+コアだけを返す(変えていない)。器と QA は **resPx/resPy/resL/radL を読み口の側で 1 回だけ足す**。
 - QA: **`behavior.relativeDragLaw`**(純関数の零条件・否定対照・保存・NS 延長の否定対照)/
+  **`behavior.relativeDragMidpoint`**(第278便b: 最小対照で陽的の熱 −0.24505 を再現し中点法は +1.92×10⁻⁶・9 条件で熱非負・零条件・拒否 3 系統)/
   **`behavior.plutoCharonDFM`**(エンジンの零条件・対照との差・帳簿・決定性)。
 
 ### 10.2 `physics.massPrecision` —— 質量配列の倍精度化(opt-in)

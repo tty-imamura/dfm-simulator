@@ -467,9 +467,13 @@ const round4NewVerified = CSV[SOLAR_F].filter((r) =>
   /(?:^|[^A-Za-z0-9_])confirmation_round=4\b/.test(r.note)
   && /(?:^|[^A-Za-z0-9_])previous_mark=unverified\b/.test(r.note)
   && readSigmaMark(r.note).verified).length;
-if (after.solar.verified - BEFORE.solar.verified - round4NewVerified !== VERIFIED_NEW.length)
+// 第278便a(第 5 回)で verified になった行(`confirmation_round=5`・新規行を含む)も同じ理由で分けて数える。
+const round5NewVerified = CSV[SOLAR_F].filter((r) =>
+  /(?:^|[^A-Za-z0-9_])confirmation_round=5\b/.test(r.note)
+  && readSigmaMark(r.note).verified).length;
+if (after.solar.verified - BEFORE.solar.verified - round4NewVerified - round5NewVerified !== VERIFIED_NEW.length)
   bad.push(`太陽系の verified の増分が ${after.solar.verified - BEFORE.solar.verified}`
-    + `(宣言は ${VERIFIED_NEW.length} + 第 4 回の ${round4NewVerified} —— 同印写しは印を動かさない)`);
+    + `(宣言は ${VERIFIED_NEW.length} + 第 4 回の ${round4NewVerified} + 第 5 回の ${round5NewVerified} —— 同印写しは印を動かさない)`);
 if (after.cluster.verified !== BEFORE.cluster.verified)
   bad.push(`星団/銀河の verified が動いた(${BEFORE.cluster.verified} → ${after.cluster.verified})`);
 // **外部確認印だけで verified になっている行は 1 つも無い**(Z11)
