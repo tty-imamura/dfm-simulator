@@ -55,7 +55,15 @@
   .ppHead{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
   .ppHead h3{margin:0;font-size:calc(15px*var(--uz,1));flex:0 0 auto;}
   #ppSearch{flex:1;min-width:0;min-height:38px;border-radius:10px;border:1px solid var(--line);
-    background:var(--panel2);padding:4px 10px;}
+    background:var(--panel2);padding:4px 34px 4px 10px;}
+  /* 第278便e(第68報「UI」③「『サンプルを選ぶ』の検索欄に検索文字列のクリアボタンを用意する」):
+     検索欄の右端の内側に ✕。入力が空のときは hidden(display:none)。入れ物 .ppSearchWrap が
+     検索欄の flex:1 を引き継ぐので、見出し行(タイトル・検索・閉じる)の並びと幅は変わらない */
+  .ppSearchWrap{position:relative;flex:1;min-width:0;display:flex;}
+  #ppSearchClear{position:absolute;right:3px;top:50%;transform:translateY(-50%);min-width:32px;min-height:32px;
+    padding:0 6px;border:0;border-radius:8px;background:none;color:var(--dim);
+    font-size:calc(14px*var(--uz,1));line-height:1;cursor:pointer;}
+  #ppSearchClear[hidden]{display:none;}
   #ppClose{flex:0 0 auto;min-height:38px;border-radius:10px;background:var(--panel2);
     border:1px solid var(--line);padding:4px 12px;}
   /* 第94便: 絞り込み項目(行)の境界が分かるようセパレータ — 各行の下辺に薄い罫線 */
@@ -128,9 +136,19 @@
     max-width:calc(100% - 16px);}   /* 第52便(原仮定者指示): 詳細表示の長行を画面幅で折り返し(見切れ防止) */
   /* 第27便: タイトルタップのアプリ説明パネル */
   .title{cursor:pointer;}
-  #aboutPanel{position:absolute;left:8px;right:8px;top:8px;bottom:8px;z-index:7;display:none;
-    background:rgba(20,24,48,.96);border:1px solid var(--line);border-radius:10px;padding:10px;
-    overflow-y:auto;font-size:calc(12px*var(--uz,1));line-height:1.6;}
+  /* 第278便e(原仮定者の裁定(第68報)「UI」②「『このアプリについて』『監査ビュー』のウィンドウは
+     縦画面と横画面共に『サンプルを選ぶ』と同様に画面手前に表示する」): 2 枚は #canvasWrap 内の
+     絶対配置(キャンバス領域だけを覆い、横画面 2 カラムではキャンバス列に閉じ込められていた)を
+     やめ、#ppModal と同じ**ビューポート全体を覆う手前のモーダル**にした。外枠 .fmModal
+     (= #aboutPanel / #avPanel 本体・role=dialog)が半透明の背景で、中の箱 .fmBox がスクロールする。
+     背景色・z-index(9998)・余白(14px)・箱の最大幅(560px)は #ppModal / .ppBox と同値。
+     開閉は従来どおり style.display("block"/"none")で、id・aria-controls・開閉関数は不変。
+     DOM は #app の直後(body 直下)へ移した —— #app 側の overflow・grid の影響を受けない */
+  .fmModal{position:fixed;inset:0;background:rgba(5,8,18,.78);z-index:9998;display:none;padding:14px;}
+  .fmBox{max-width:560px;width:100%;max-height:100%;margin:0 auto;overflow-y:auto;
+    background:rgba(20,24,48,.96);border:1px solid var(--line);border-radius:14px;padding:10px;
+    font-size:calc(12px*var(--uz,1));}
+  #aboutPanel .fmBox{line-height:1.6;}
   #aboutPanel .beHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;
     font-weight:700;color:var(--acc);}
   #aboutPanel .beHead button{background:none;border:none;color:var(--dim);font-size:calc(14px*var(--uz,1));
@@ -138,6 +156,8 @@
   /* 第147便(原仮定者指示): 全面パネルの見出し行(✕を含む)を sticky 化 — 中身をスクロール
      した状態でも閉じるボタンが常に上端に留まる(#btnPanelClose〔v1.17〕と同じ作法を
      #aboutPanel / #pmPanel / #avPanel の3枚へ揃えた)。表示のみ — 開閉の意味論は不変 */
+  /* 第278便e: #aboutPanel / #avPanel のスクロール容器は中の .fmBox(padding 10px)— top/margin の
+     −10px はそのまま成り立つ */
   #aboutPanel .beHead,#pmPanel .beHead,#avPanel .beHead{position:sticky;top:-10px;z-index:5;
     margin:-10px -10px 4px;padding:8px 10px 6px;background:rgba(20,24,48,.98);
     border-bottom:1px solid var(--line);}
@@ -159,9 +179,8 @@
   /* 第146便: 現実較正ファミリー監査ビュー(表示専用)。#aboutPanel / #pmPanel と同じ
      「キャンバス上の全面パネル」の流儀。中身は毎回プリセット宣言から組み立てる純表示で、
      物理・保存 JSON・AI 仕様には一切影響しない */
-  #avPanel{position:absolute;left:8px;right:8px;top:8px;bottom:8px;z-index:7;display:none;
-    background:rgba(20,24,48,.96);border:1px solid var(--line);border-radius:10px;padding:10px;
-    overflow-y:auto;font-size:calc(12px*var(--uz,1));line-height:1.5;}
+  /* 第278便e: 外枠・箱は .fmModal / .fmBox(上の #aboutPanel と共通 —— 画面手前のモーダル) */
+  #avPanel .fmBox{line-height:1.5;}
   #avPanel .beHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;
     font-weight:700;color:var(--acc);}
   #avPanel .beHead button{background:none;border:none;color:var(--dim);font-size:calc(14px*var(--uz,1));
@@ -539,7 +558,12 @@
      スマホの横持ち(幅 900px 未満)は従来の縦積みのまま。DOM 順は不変で CSS のみ —
      #canvasWrap は ResizeObserver 監視済みなので列替えでもキャンバス解像度は追随する。 */
   @media (orientation:landscape) and (min-width:900px){
-    #app{display:grid;grid-template-columns:minmax(0,1fr) clamp(320px,36vw,420px);
+    /* 第278便e(第68報「UI」①「横画面での、タブと『サンプルを選ぶ』の幅を広げる(1.5 倍程度)」):
+       右カラム clamp(320px,36vw,420px) の 3 値をそろって 1.5 倍 → clamp(480px,54vw,630px)。
+       キャンバス列は minmax(0,1fr) のまま(残り全部)。実測(tests/exp-w278e-uilayout.mjs):
+       1024×768 右 553px・キャンバス 471px / 1280×800 630・650 / 1366×768 630・736 /
+       1920×1080 630・1290 —— 5 画面とも折り返し・横はみ出し 0。幅 900(下限)でキャンバス 414px */
+    #app{display:grid;grid-template-columns:minmax(0,1fr) clamp(480px,54vw,630px);
       grid-template-rows:auto auto auto minmax(0,1fr);
       grid-template-areas:"hd hd" "cv tp" "cv tb" "cv pn";}
     header{grid-area:hd;}
@@ -555,6 +579,9 @@
        レイアウトとボタンの出方がずれるため)。 */
     #btnPanelExpand{display:none;}
     #panel.wide{max-height:none;}
+    /* 第278便e: 「サンプルを選ぶ」の箱も同じ比率(560px × 1.5 = 840px)。画面手前のモーダル
+       2 枚(このアプリについて・監査ビュー)の箱も同じ幅にそろえる。縦画面は 560px のまま */
+    .ppBox,.fmBox{max-width:840px;}
   }
 </style>
 </head>
@@ -587,11 +614,8 @@
     <canvas id="cv"></canvas>
     <div id="hud"></div>
     <div id="notice"></div>
-    <!-- 第27便(原仮定者指示): タイトルタップでアプリの説明(操作・法則要約は説明タブから移動) -->
-    <div id="aboutPanel" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
-      <div class="beHead"><span id="aboutTitle">このアプリについて</span><button id="aboutClose" aria-label="close">✕</button></div>
-      <div id="aboutBody"></div>
-    </div>
+    <!-- 第278便e: 「このアプリについて」#aboutPanel と「監査ビュー」#avPanel は画面手前のモーダルへ
+         なったので、#app の直後(body 直下)へ移した -->
     <!-- 第83便B: 相図ランナー — 2変数バッチ掃引と秩序変数の色マップ。プリセットが phaseMap を
          宣言したときだけパラメータタブに開くボタンが出る(宣言なしのプリセットでは UI 非表示)。
          バッチは描画なしのスクラッチ sim インスタンスだけを使い、本編 sim と保存 JSON には
@@ -606,15 +630,6 @@
       <div id="pmStatus"></div>
       <canvas id="pmCv"></canvas>
       <div class="pmNote" id="pmNote"></div>
-    </div>
-    <!-- 第146便: 現実較正ファミリー監査ビュー — 現実較正ファミリーの各サンプルを1画面に並べる
-         表示専用パネル。行の中身(失敗→補正→結果・件数・役割別内訳・主要残差・QA ゲート・
-         結果ファイル)は**すべてプリセット宣言(failureFirst / parameterAudit / claims)から
-         実行時に導出**する(手書きの数値は持たない)。物理・保存 JSON・AI 仕様には影響しない -->
-    <div id="avPanel" role="dialog" aria-modal="true" aria-labelledby="avTitle">
-      <div class="beHead"><span id="avTitle">現実較正ファミリー監査ビュー</span><button id="avClose" aria-label="close">✕</button></div>
-      <div class="avNote" id="avNote"></div>
-      <div id="avBody"></div>
     </div>
     <div id="bodyEdit">
       <!-- 第26便(原仮定者指示): 閉じる✕ → 最小化トグル(−/＋)。選択解除は粒子の再タップ/空白タップ -->
@@ -880,6 +895,28 @@
       <div class="group"><h3 id="aiListHead">生成済みプリセット</h3><div id="customList"></div></div>
     </div>
   </section>
+</div>
+<!-- 第278便e(原仮定者の裁定(第68報)「UI」②): 画面手前のモーダル 2 枚。「サンプルを選ぶ」#ppModal と
+     同じ契約 —— ビューポート全体を覆う背景(.fmModal)・role=dialog・aria-modal・aria-labelledby・
+     閉じるボタン・Esc・背景クリックで閉じる・箱(.fmBox)の中だけスクロール・--uz の文字倍率・z-index 9998。
+     横画面 2 カラムでもキャンバス列に閉じ込めず、右カラムの上にも被る -->
+<!-- 第27便(原仮定者指示): タイトルタップでアプリの説明(操作・法則要約は説明タブから移動) -->
+<div id="aboutPanel" class="fmModal" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+  <div class="fmBox">
+    <div class="beHead"><span id="aboutTitle">このアプリについて</span><button id="aboutClose" aria-label="close">✕</button></div>
+    <div id="aboutBody"></div>
+  </div>
+</div>
+<!-- 第146便: 現実較正ファミリー監査ビュー — 現実較正ファミリーの各サンプルを1画面に並べる
+     表示専用パネル。行の中身(失敗→補正→結果・件数・役割別内訳・主要残差・QA ゲート・
+     結果ファイル)は**すべてプリセット宣言(failureFirst / parameterAudit / claims)から
+     実行時に導出**する(手書きの数値は持たない)。物理・保存 JSON・AI 仕様には影響しない -->
+<div id="avPanel" class="fmModal" role="dialog" aria-modal="true" aria-labelledby="avTitle">
+  <div class="fmBox">
+    <div class="beHead"><span id="avTitle">現実較正ファミリー監査ビュー</span><button id="avClose" aria-label="close">✕</button></div>
+    <div class="avNote" id="avNote"></div>
+    <div id="avBody"></div>
+  </div>
 </div>
 <script>
 "use strict";
@@ -1466,7 +1503,7 @@ ja: {
   keySet:"キーを設定しました", keySetSaved:"キーを設定しました(この端末に保存)", keyCleared:"キーを消去しました",
   noKey:"APIキーを設定してください", noPrompt:"作りたいシミュレーションの説明を入力してください",
   generating:(m)=>"生成中("+m+")…", retrying:"検証エラーを修正して再試行中…",
-  // 第170便: 連鎖の向きは選択モデル依存(sonnet-5→opus-5 / haiku-4-5→sonnet-5)なので、
+  // 第170便: 連鎖の向きは選択モデル依存(第278便e 以降 sonnet-5→opus-5-5 / haiku-4-5→sonnet-5)なので、
   // 向きに依存しない表現にしておく(モデル名は m で必ず示す)
   fallback:(m)=>"別のモデル("+m+")にフォールバック中…",
   added:(n)=>"追加しました: "+n, autofix:(w)=>"\n(自動修正: "+w+")",
@@ -1534,7 +1571,7 @@ ja: {
   bdgFidRealTip:"スケール換算込みで数値を現実の対応対象へ較正したサンプル(質量・距離・速度・定数が換算で実値一致 — ☄️🌙🌘💍系)。較正の根拠は説明・観測結果カードを参照。このチップの無いサンプルはトイ(誇張アナログ)— 現実の数値を主張しない。",
   // 第92便(原仮定者指示): プリセット選択ウィンドウ
   ppTitle:"サンプルを選ぶ",
-  ppSearchPh:"検索(名前・ID・絵文字)",
+  ppSearchPh:"検索(名前・ID・絵文字)", ppSearchClear:"検索をクリア",
   ppPickTip:"タップしてサンプル選択ウィンドウを開く(スケール・分類・E水準で絞り込み/検索。一覧はグループごとに畳めます)",
   ppDimGroup:"グループ", ppDimScale:"スケール", ppDimClass:"分類", ppDimE:"E水準",
   // 第255便c: グループは絞り込みの次元ではなくなった(一覧の見出しとして残る)ので、説明行の見出し語を分ける
@@ -1580,7 +1617,7 @@ ja: {
   hudSysOpen:(r)=>`系: 開放系(${r} — リザーバ・帳簿を含めて読む)`,
   sysPin:"固定天体", sysRail:"レール", sysBath:"熱浴", sysWall:"伝熱壁", sysGrav:"外部重力",
   helpOps:"操作",
-  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。「パラメータ」タブは 時空 → 引きずり・測地線 → スピン・熱 →(実験箱など)→ シミュレーション → グラフ → 表示 → スケール → 共通設定 の順に並びます(第254便c)。「表示」カテゴリのチェックボックスは ⏮初めから では保持され、「プリセット既定値に戻す」でサンプルの既定に戻ります。「共通設定」(保存量モニタ・描画品質・文字サイズ・カメラ追従など)と「シミュレーション」のステップ診断・物理ベンチ・コア軸の投影線は端末に永続する設定で、サンプルを変えても引き継がれます。コア軸の投影線(第275便e・第276便c で言葉を統一)は core.axisMode:\"prescribed\" を宣言した親子コアだけに描く表示専用の線で、3D 単位軸を公転面へ正射影したものです(3D 表示ではありません)。既定は「宣言した粒子だけ ON」です — トグルは ON ですが、宣言の無い粒子には何も描かないので、内蔵サンプルでは線は出ません。縦画面ではタブを開いたときパネル右上に「⤢ 広げる」が出ます(第275便f) — 押すとパネルが画面いっぱい(ヘッダー+操作列+タブを除いた高さ)まで伸びて「⤡ 狭くする」に変わり、「✕ 閉じる」は広い状態でもそのまま効きます。広い/狭いの選択は端末に記憶されます(横画面2カラムではパネルが元から残り高さを全部使うのでボタンは出ません)。広げた状態ではキャンバス上の文字(HUD・各パネル)が操作列・タブ・パネルの上へはみ出しません(第276便f — 広げた状態でだけキャンバス領域をクリップします)。「説明」タブは チップ → タイトル → ID → 🔖概要 → 注意書き → 他の仲間 → 🔬監査ビュー → 較正台帳 → 📌要約・👀観察・🎛操作 → 観測結果カード → 🧪失敗から見る → 🔎数値主張 … の順です(第276便f)。🔖概要は 120 字以内の短い要約で、サンプルが宣言していなければ📌要約の先頭 1〜2 文を機械抽出したものです(切ったときだけ末尾が「…」)。🧪失敗から見ると観測結果カードは🔎数値主張と同じ折り畳みで、見出しをタップすると開きます(既定は畳む・開閉は記憶しません)。🔬監査ビューを開くボタンはトグルで、もう一度タップすると閉じます。",   /* 第254便c: パラメータタブの構成を追記 */
+  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。「パラメータ」タブは 時空 → 引きずり・測地線 → スピン・熱 →(実験箱など)→ シミュレーション → グラフ → 表示 → スケール → 共通設定 の順に並びます(第254便c)。「表示」カテゴリのチェックボックスは ⏮初めから では保持され、「プリセット既定値に戻す」でサンプルの既定に戻ります。「共通設定」(保存量モニタ・描画品質・文字サイズ・カメラ追従など)と「シミュレーション」のステップ診断・物理ベンチ・コア軸の投影線は端末に永続する設定で、サンプルを変えても引き継がれます。コア軸の投影線(第275便e・第276便c で言葉を統一)は core.axisMode:\"prescribed\" を宣言した親子コアだけに描く表示専用の線で、3D 単位軸を公転面へ正射影したものです(3D 表示ではありません)。既定は「宣言した粒子だけ ON」です — トグルは ON ですが、宣言の無い粒子には何も描かないので、内蔵サンプルでは線は出ません。縦画面ではタブを開いたときパネル右上に「⤢ 広げる」が出ます(第275便f) — 押すとパネルが画面いっぱい(ヘッダー+操作列+タブを除いた高さ)まで伸びて「⤡ 狭くする」に変わり、「✕ 閉じる」は広い状態でもそのまま効きます。広い/狭いの選択は端末に記憶されます(横画面2カラムではパネルが元から残り高さを全部使うのでボタンは出ません)。広げた状態ではキャンバス上の文字(HUD・各パネル)が操作列・タブ・パネルの上へはみ出しません(第276便f — 広げた状態でだけキャンバス領域をクリップします)。「説明」タブは チップ → タイトル → ID → 🔖概要 → 注意書き → 他の仲間 → 🔬監査ビュー → 較正台帳 → 📌要約・👀観察・🎛操作 → 観測結果カード → 🧪失敗から見る → 🔎数値主張 … の順です(第276便f)。🔖概要は 120 字以内の短い要約で、サンプルが宣言していなければ📌要約の先頭 1〜2 文を機械抽出したものです(切ったときだけ末尾が「…」)。🧪失敗から見ると観測結果カードは🔎数値主張と同じ折り畳みで、見出しをタップすると開きます(既定は畳む・開閉は記憶しません)。🔬監査ビューを開くボタンはトグルで、もう一度タップすると閉じます。横画面2カラムでは右カラム(操作列・タブ・パネル)と「サンプルを選ぶ」のウィンドウの幅が 1.5 倍です(第278便e)。「このアプリについて」と🔬監査ビューは「サンプルを選ぶ」と同じく画面の手前に開くウィンドウで、縦画面でも横画面でもキャンバスと右カラムの上に重なり、✕・Esc・ウィンドウの外のタップで閉じます。「サンプルを選ぶ」の検索欄は、文字を入れている間だけ右端に ✕ が出て、タップすると検索文字列を消します(Esc はウィンドウを閉じます)。説明タブの観測結果カードの見出しには 📇 が付きます。",   /* 第254便c: パラメータタブの構成を追記 */
   helpLaws:"この宇宙の法則(要約)",
   helpLawsBody:"① 空間は質点の相対配置だけで決まる(絶対空間なし)。② 決定力=質量÷距離。決定力の勾配が重力になる。③ 質点は「近くの空間」に対して慣性を持ち、空間ごと引きずられる(kFrame)。遠方宇宙の決定力がD₀。④ スピン=熱(温度T=Is²)。衝突で速度がスピンに変わり(muF)、スピンは斥力=圧力を生み(kRep)、拡散して平衡になる(κs)。⑤ 決定力が高い場所の時計は遅く、空間(共動フレーム)に対して速く動く時計も遅れる。光は同じψ=W·κ(κ=時空係数)で屈折して曲がり(n=e^{2ψ}。v1.7で時間と光を単一のψに統一)、「決定した空間」に運ばれる(c₀)。⑥ すべての相互作用は作用反作用対称で、運動量・角運動量を厳密に保存する(遠方宇宙との交換は帳簿に記録=保存量モニタ)。温度Tの質点はλ=b_m/Tの光を放射する(η_rad)。詳細は docs/PHYSICS.md(v1.6)。",
   ovCurve:"v(r): 実測(青) / 基準 v_bar(点線)", ovTemp:"平均温度(Is²) 左/右", ovLeft:"左", ovRight:"右",
@@ -2271,7 +2308,7 @@ en: {
   keySet:"Key set", keySetSaved:"Key set (saved on this device)", keyCleared:"Key cleared",
   noKey:"Please set an API key first", noPrompt:"Describe the simulation you want to create",
   generating:(m)=>"Generating ("+m+")…", retrying:"Fixing validation errors, retrying…",
-  fallback:(m)=>"Falling back to another model ("+m+")…",   // Wave 170: the direction depends on the selected model (sonnet-5→opus-5 / haiku-4-5→sonnet-5), so the wording stays direction-neutral
+  fallback:(m)=>"Falling back to another model ("+m+")…",   // Wave 170: the direction depends on the selected model (sonnet-5→opus-5-5 since wave 278e / haiku-4-5→sonnet-5), so the wording stays direction-neutral
   added:(n)=>"Added: "+n, autofix:(w)=>"\n(auto-corrected: "+w+")",
   genFailed:(e)=>"Generation failed: "+e,
   errNet:"Network unreachable", errKey:"Invalid API key",
@@ -2335,7 +2372,7 @@ en: {
   bdgFidRealTip:"A sample whose scale-converted numbers are calibrated toward its real counterpart (see the description and numeric claims for the basis). Samples without this chip are toys (exaggerated analogs) — no real-world numbers are claimed.",
   // 第92便: preset picker window
   ppTitle:"Choose a sample",
-  ppSearchPh:"Search (name, ID, emoji)",
+  ppSearchPh:"Search (name, ID, emoji)", ppSearchClear:"Clear search",
   ppPickTip:"Tap to open the sample picker (filter by scale, class, E-level; search; the list folds by group)",
   ppDimGroup:"Group", ppDimScale:"Scale", ppDimClass:"Class", ppDimE:"E-level",
   // wave 255c: groups are no longer a filter dimension - they stay as the list headings
@@ -2373,7 +2410,7 @@ en: {
   hudSysOpen:(r)=>`System: open (${r} — read together with reservoirs/ledgers)`,
   sysPin:"pinned bodies", sysRail:"rail", sysBath:"heat bath", sysWall:"thermal walls", sysGrav:"external gravity",
   helpOps:"Controls",
-  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction. The Parameters tab is ordered Spacetime → Dragging & Geodesics → Spin & Heat → (Lab Box etc.) → Simulation → Graphs → Display → Scale → General (wave 254c). Checkboxes in Display are kept by ⏮Restart and returned to the sample defaults by \"Restore preset defaults\". General (conservation monitor, render quality, text size, camera follow, …) and the step diagnostics / physics bench / core-axis projection in Simulation are device-persistent settings that carry over between samples. The core-axis projection (wave 275e, wording unified in wave 276c) is a display-only line drawn only for parent-child cores that declare core.axisMode:\"prescribed\"; it is the 3D unit axis orthogonally projected onto the orbital plane (it is NOT a 3D view). The default is 'on for declared bodies only': the toggle is on, but nothing is drawn for bodies without the declaration, so no line appears in the built-in samples. In portrait, opening a tab also shows a \"⤢ Expand\" button at the top right of the panel (wave 275f): it stretches the panel to the full screen height minus the header, transport row and tab bar, turns into \"⤡ Shrink\", and \"✕ Close\" keeps working in both states. The choice is remembered on the device (in the landscape two-column layout the panel already fills the remaining height, so the button is not shown). In the expanded state the text drawn over the canvas (the HUD and the full-screen panels) no longer spills over the transport row, the tab bar or the panel (wave 276f - the canvas area is clipped in the expanded state only). The Description tab is ordered chips -> title -> ID -> 🔖 In brief -> caveats -> family -> 🔬 audit view -> calibration ledger -> 📌 Summary / 👀 What to observe / 🎛 Controls -> observation card -> 🧪 Failure First -> 🔎 Numeric claims ... (wave 276f). \"🔖 In brief\" is a summary of at most 120 characters: the sample's own declaration when it has one, otherwise the first one or two sentences extracted from \"📌 Summary\" (a trailing \"…\" appears only when something was cut). \"🧪 Failure First\" and the observation card now fold like \"🔎 Numeric claims\" - tap the heading to open them (collapsed by default; the open/closed state is not remembered). The button that opens the audit view is a toggle: tap it again to close.",   /* wave 254c */
+  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction. The Parameters tab is ordered Spacetime → Dragging & Geodesics → Spin & Heat → (Lab Box etc.) → Simulation → Graphs → Display → Scale → General (wave 254c). Checkboxes in Display are kept by ⏮Restart and returned to the sample defaults by \"Restore preset defaults\". General (conservation monitor, render quality, text size, camera follow, …) and the step diagnostics / physics bench / core-axis projection in Simulation are device-persistent settings that carry over between samples. The core-axis projection (wave 275e, wording unified in wave 276c) is a display-only line drawn only for parent-child cores that declare core.axisMode:\"prescribed\"; it is the 3D unit axis orthogonally projected onto the orbital plane (it is NOT a 3D view). The default is 'on for declared bodies only': the toggle is on, but nothing is drawn for bodies without the declaration, so no line appears in the built-in samples. In portrait, opening a tab also shows a \"⤢ Expand\" button at the top right of the panel (wave 275f): it stretches the panel to the full screen height minus the header, transport row and tab bar, turns into \"⤡ Shrink\", and \"✕ Close\" keeps working in both states. The choice is remembered on the device (in the landscape two-column layout the panel already fills the remaining height, so the button is not shown). In the expanded state the text drawn over the canvas (the HUD and the full-screen panels) no longer spills over the transport row, the tab bar or the panel (wave 276f - the canvas area is clipped in the expanded state only). The Description tab is ordered chips -> title -> ID -> 🔖 In brief -> caveats -> family -> 🔬 audit view -> calibration ledger -> 📌 Summary / 👀 What to observe / 🎛 Controls -> observation card -> 🧪 Failure First -> 🔎 Numeric claims ... (wave 276f). \"🔖 In brief\" is a summary of at most 120 characters: the sample's own declaration when it has one, otherwise the first one or two sentences extracted from \"📌 Summary\" (a trailing \"…\" appears only when something was cut). \"🧪 Failure First\" and the observation card now fold like \"🔎 Numeric claims\" - tap the heading to open them (collapsed by default; the open/closed state is not remembered). The button that opens the audit view is a toggle: tap it again to close. In the landscape two-column layout the right column (transport row, tabs, panel) and the \"Choose a sample\" window are 1.5 times wider (wave 278e). \"About this app\" and the 🔬 audit view open in front of the screen like \"Choose a sample\": in portrait and landscape alike they cover the canvas and the right column, and close with ✕, Esc or a tap outside the window. The search box in \"Choose a sample\" shows a ✕ at its right end while it holds text; tapping it clears the search (Esc closes the window). The observation-card heading in the Description tab now carries 📇.",   /* wave 254c */
   helpLaws:"Laws of this universe (summary)",
   helpLawsBody:"(1) Space is defined only by the relative configuration of masses (no absolute space). (2) Determinacy = mass ÷ distance; its gradient is gravity. (3) Masses have inertia relative to the \"nearby space\" and are dragged along with it (kFrame). D₀ is the determinacy of the distant universe. (4) Spin = heat (T = Is²). Collisions convert velocity to spin (muF), spin creates repulsion = pressure (kRep), and diffuses to equilibrium (κs). (5) Clocks run slow where determinacy is high, and clocks moving fast relative to the comoving frame also run slow. Light refracts under the same ψ = W·κ (κ = the spacetime coefficient; n = e^{2ψ}; time and light unified in v1.7) and is carried by the \"determined space\" (c₀). (6) All interactions are action–reaction symmetric and conserve momentum and angular momentum exactly (exchanges with the distant universe are ledgered — see the conservation monitor). A mass at temperature T radiates at λ = b_m/T (η_rad). Details: docs/PHYSICS.md (v1.6).",
   ovCurve:"v(r): measured (blue) / baseline v_bar (dotted)", ovTemp:"Mean temperature (Is²) L/R", ovLeft:"L", ovRight:"R",
@@ -15327,6 +15364,11 @@ function avOpen(on){
     const ap=$("#aboutPanel"); if(ap) ap.style.display="none";
     const pp=$("#pmPanel"); if(pp && pp.style.display==="block") pmOpen(false);
     avRender();
+    // 第278便e: 画面手前のモーダルになったので、開いたらフォーカスを閉じるボタンへ(#aboutPanel と同じ)
+    const c=$("#avClose"); if(c) c.focus();
+  } else if(el.contains(document.activeElement)){
+    // 閉じたらフォーカスを導線ボタンへ返す(モーダルの中にフォーカスがあったときだけ)
+    const b=$("#btnAuditView"); if(b) b.focus(); else document.activeElement.blur();
   }
   // 第276便f(第66報(5)④): 開閉の状態を導線ボタンへ返す。✕・Escape・説明タブからの
   // どの経路で閉じても aria-expanded が実態と食い違わない(再タップで閉じる導線の裏づけ)
@@ -27755,14 +27797,25 @@ function showPresetPicker(rebuildOnly){
   const old=$("#ppModal"); if(old) old.remove();
   ppNoteSyncs=[];   // 第149便: 説明ブロックの同期関数はウィンドウごとに作り直す(開閉状態は ppNoteOpen が持ち越す)
   const ov=document.createElement("div"); ov.id="ppModal";
+  // 第278便e: 画面手前のモーダル 3 枚(サンプルを選ぶ・このアプリについて・監査ビュー)の契約をそろえる
+  // —— role=dialog・aria-modal・aria-labelledby(見出し h3#ppTitle)。Esc は下の keydown(捕捉相)
+  ov.setAttribute("role","dialog"); ov.setAttribute("aria-modal","true"); ov.setAttribute("aria-labelledby","ppTitle");
   ov.addEventListener("click",(e)=>{ if(e.target===ov) hidePresetPicker(); });
   const box=document.createElement("div"); box.className="ppBox";
   const hd=document.createElement("div"); hd.className="ppHead";
-  const h=document.createElement("h3"); h.textContent=T("ppTitle"); hd.appendChild(h);
+  const h=document.createElement("h3"); h.id="ppTitle"; h.textContent=T("ppTitle"); hd.appendChild(h);
   const si=document.createElement("input"); si.id="ppSearch"; si.type="text"; si.placeholder=T("ppSearchPh");
   si.value=ppSearch; si.autocomplete="off";
-  si.addEventListener("input",()=>{ ppSearch=si.value.trim(); ppRender(); });
-  hd.appendChild(si);
+  // 第278便e(第68報「UI」③): 検索文字列のクリアボタン ✕(入力が空のときは hidden)。押すと検索語を
+  // 空にして再フィルタし、フォーカスを検索欄へ戻す。キー操作は持たない(Esc は窓を閉じるだけ)
+  const sw=document.createElement("div"); sw.className="ppSearchWrap";
+  const sc=document.createElement("button"); sc.type="button"; sc.id="ppSearchClear"; sc.textContent="✕";
+  sc.setAttribute("aria-label",T("ppSearchClear")); sc.title=T("ppSearchClear");
+  const syncClear=()=>{ sc.hidden=!si.value; };
+  si.addEventListener("input",()=>{ ppSearch=si.value.trim(); syncClear(); ppRender(); });
+  sc.addEventListener("click",()=>{ si.value=""; ppSearch=""; syncClear(); ppRender(); si.focus(); });
+  syncClear();
+  sw.appendChild(si); sw.appendChild(sc); hd.appendChild(sw);
   const cl=document.createElement("button"); cl.type="button"; cl.id="ppClose"; cl.textContent="✕";
   cl.addEventListener("click",hidePresetPicker); hd.appendChild(cl);
   box.appendChild(hd);
@@ -27809,6 +27862,12 @@ function showPresetPicker(rebuildOnly){
   ppRender();
 }
 $("#btnPresetPick").addEventListener("click",()=>showPresetPicker());
+// 第278便e: 「サンプルを選ぶ」も Esc で閉じる(画面手前のモーダル 3 枚の契約をそろえた)。**捕捉相**で受けて
+// 伝播を止めるので、いちばん手前の窓だけが閉じる(下に開いているモーダルの Esc まで届かない —
+// document 自身へ送られた keydown でも同じ document 上の後続リスナーを止めるため stopImmediatePropagation)
+document.addEventListener("keydown",(e)=>{
+  if(e.key==="Escape" && $("#ppModal")){ e.stopImmediatePropagation(); hidePresetPicker(); }
+}, true);
 // 第26便(原仮定者指示): AI生成のベースサンプル候補(なし+内蔵+AI生成)
 function rebuildAiBaseSelect(){
   const sel=$("#aiBasePreset"); if(!sel) return;
@@ -29097,6 +29156,8 @@ addEventListener("keydown",(e)=>{ if(e.key==="Escape" && $("#pmPanel").style.dis
 // 第146便: 現実較正ファミリー監査ビュー(表示専用パネル)の開閉導線
 $("#avClose").addEventListener("click",()=>avOpen(false));
 addEventListener("keydown",(e)=>{ if(e.key==="Escape" && $("#avPanel").style.display==="block") avOpen(false); });
+// 第278便e: 背景(箱の外)のクリックで閉じる —— #ppModal と同じ作法(e.target が外枠自身のときだけ)
+$("#avPanel").addEventListener("click",(e)=>{ if(e.target===e.currentTarget) avOpen(false); });
 
 function buildParamRows(){
   updateAbQuickRow();
@@ -31980,7 +32041,9 @@ const AI_PROVIDERS={
   // 第170便(原仮定者許可): 実行時 LLM の既定を Haiku 4.5 → Sonnet 5 へ引き上げ
   // (第25便: Opus 5 は同価格の置き換え上位)。候補の並びも既定を先頭に合わせる
   // 第238便(第30報): Haiku は使わない — 候補から撤去(手入力で指定された場合は従来どおり Sonnet 5 へフォールバック)
-  anthropic:{ models:["claude-sonnet-5","claude-opus-5"],
+  // 第278便e(原仮定者の裁定(第68報)「Opus にルーティングする際は最新モデルを使用する」): 候補に
+  // claude-opus-5-5 を足す(既定 Sonnet 5 は不変・claude-opus-5 は手元の指定のために残す)
+  anthropic:{ models:["claude-sonnet-5","claude-opus-5-5","claude-opus-5"],
     defModel:"claude-sonnet-5", keyPh:"sk-ant-..." },
   openai:{ models:["gpt-5-mini","gpt-5","gpt-4.1-mini"],
     defModel:"gpt-5-mini", keyPh:"sk-...", defBase:"https://api.openai.com/v1" },
@@ -32020,11 +32083,25 @@ async function fetchJSON(url, headers, body){
 // 3プロバイダ共通の呼び出し: system+messages(user/assistant)→ 応答テキスト
 // 第170便: sysOverride — 実天体カタログ経路は自由生成の仕様(SYSTEM_PROMPT)ではなく
 // カタログ仕様プロンプトを送る。省略時は従来どおり getSystemPrompt()
+// 第278便e: claude-opus-5-5 は thinking を無効化できない({type:"disabled"}・budget_tokens は 400)。
+// 送信本文を読んで確かめた結果、従来の本文は sonnet/opus に thinking:{type:"disabled"} を付けていた
+// (tool_choice・budget_tokens・effort は送っていない)ので、この 1 点だけを分岐する。
+function aiThinkingAlwaysOn(model){ return String(model||"").indexOf("opus-5-5")>=0; }
+// Anthropic 経路の送信本文(純関数 — QA ai.modelList が読む)。
+//   ・thinking を切れるモデル(sonnet-5・opus-5 等): 従来どおり thinking:{type:"disabled"}・max_tokens 4000
+//   ・opus-5-5: thinking キーを**送らない**(= 適応的思考。effort も送らない = モデル既定の medium)。
+//     思考のトークンも max_tokens に数えられるので上限を 16000 にする(4000 のままだと思考だけで
+//     上限に達し errLong で落ちうる — 応答 JSON 自体の長さの見込みは同じ)
+function aiAnthropicBody(model, sys, messages){
+  const always=aiThinkingAlwaysOn(model);
+  const body={ model, max_tokens: always? 16000 : 4000, system:sys, messages };
+  if(!always && (model.indexOf("sonnet")>=0 || model.indexOf("opus")>=0)) body.thinking={type:"disabled"};
+  return body;
+}
 async function callLLM(cfg, model, messages, sysOverride){
   const sys=(typeof sysOverride==="string" && sysOverride)? sysOverride : getSystemPrompt();
   if(cfg.provider==="anthropic"){
-    const body={ model, max_tokens:4000, system:sys, messages };
-    if(model.indexOf("sonnet")>=0 || model.indexOf("opus")>=0) body.thinking={type:"disabled"};
+    const body=aiAnthropicBody(model, sys, messages);
     const data=await fetchJSON("https://api.anthropic.com/v1/messages",
       { "content-type":"application/json", "x-api-key":cfg.key, "anthropic-version":"2023-06-01",
         "anthropic-dangerous-direct-browser-access":"true" }, body);
@@ -32185,8 +32262,10 @@ function buildExternalPromptShort(){ return buildUnifiedPrompt(true); }
 //   opus-5 は最上位なのでフォールバック先なし。
 //   理由(統括): 本便の目的は挙動の安定化=品質優先であり、フォールバックは**検証失敗時のみ**
 //   発火するのでコスト影響は限定的。降格(sonnet-5→haiku-4-5)の案は破棄した。
+// 第278便e(第68報): 上位エスカレーション先を最新の Opus = claude-opus-5-5 へ(sonnet-5 → opus-5-5)。
+//   opus-5 / opus-5-5 を選んだときは従来どおり連鎖なし(null)。
 function aiFallbackModel(model){
-  if(model.indexOf("sonnet")>=0) return "claude-opus-5";
+  if(model.indexOf("sonnet")>=0) return "claude-opus-5-5";
   if(model.indexOf("haiku")>=0)  return "claude-sonnet-5";
   return null;
 }
@@ -32820,7 +32899,11 @@ function renderHelp(){
     if(oc && oc.length){
       // 第276便f(第66報(5)⑤): div → details(既定は畳む)。宣言行 .ocRow の数え方は不変
       const box=document.createElement("details"); box.className="ffBox ocBox";
-      const bh=document.createElement("summary"); bh.className="ffHead"; bh.textContent=T("ocHead");
+      const bh=document.createElement("summary"); bh.className="ffHead";
+      // 第278便e(第68報「UI」④「『観測結果カード』にアイコンを付ける」): 📇(他の節の 🔖🔬🧪🔎📌 と
+      // 被らない)。aria-hidden なので読み上げ名は T("ocHead") のまま
+      { const ic=document.createElement("span"); ic.className="ocHeadIcon"; ic.setAttribute("aria-hidden","true");
+        ic.textContent="📇 "; bh.appendChild(ic); bh.appendChild(document.createTextNode(T("ocHead"))); }
       bh.title=T("ffFoldTip"); descFoldStatusTag(bh,currentPreset); box.appendChild(bh);
       // 第261便c: 観測結果カードの**先頭 1 行**に較正の現在地を出す(宣言のあるサンプルのみ)。
       // obsCard の行数(≤8 行)は宣言のままで、この 1 行は宣言ではなく派生表示である
@@ -33088,6 +33171,8 @@ function aboutToggle(show){
   const el=$("#aboutPanel");
   const to=(show===undefined)? el.style.display!=="block" : !!show;
   el.style.display=to?"block":"none";
+  // 第278便e: 監査ビューとは排他(どちらも画面手前の同じ z-index のモーダル — avOpen 側と対称)
+  if(to){ const av=$("#avPanel"); if(av && av.style.display==="block") avOpen(false); }
   $("#appTitle").setAttribute("aria-expanded",String(to));
   if(to) $("#aboutClose").focus(); else $("#appTitle").focus();
 }
@@ -33095,6 +33180,8 @@ $("#appTitle").addEventListener("click",()=>aboutToggle());
 $("#appTitle").addEventListener("keydown",(e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); aboutToggle(); } });
 $("#aboutClose").addEventListener("click",()=>aboutToggle(false));
 document.addEventListener("keydown",(e)=>{ if(e.key==="Escape" && $("#aboutPanel").style.display==="block") aboutToggle(false); });
+// 第278便e: 背景(箱の外)のクリックで閉じる —— #ppModal と同じ作法
+$("#aboutPanel").addEventListener("click",(e)=>{ if(e.target===e.currentTarget) aboutToggle(false); });
 
 // ===== タッチ/マウス操作(パン・ピンチ・タップ選択) =====
 (function(){
@@ -41905,6 +41992,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   ASTRO_CATALOG, buildAstroPreset, validateAstroSpec, buildAstroSpecPrompt,
   getAstroSystemPrompt, astroBodyIds, astroCatalogSummary, aiGenMode, aiFallbackModel,
   AI_PROVIDERS,
+  // 第278便e: 実行時 LLM の送信本文(QA ai.modelList — fetch を差し替えて本文を読む)
+  aiAnthropicBody, aiThinkingAlwaysOn, callLLM,
   // 第176便: ObservationRecord 経路(カタログ外の出典つき観測転写)— QA ai.obs-schema /
   // ai.obs-build が読む公開フック
   validateObservationRecords, buildAstroFromRecords, buildObsCollectPrompt, astroObsSelfCheck,
