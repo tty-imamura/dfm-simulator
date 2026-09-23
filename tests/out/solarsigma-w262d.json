@@ -1,10 +1,10 @@
 {
- "when": "2026-09-23T10:46:42.168Z",
+ "when": "2026-09-23T12:20:38.397Z",
  "wave": "第262便d(第54報 W4)→ 第263便c(第55報 W3)で σ 未確認の状態名と不足一覧を足した",
  "inputs": {
   "calaudit": "tests/out/calaudit-w249.json",
   "csv": "paper/data/solar-observations.csv",
-  "calauditWhen": "2026-09-22T15:29:14.849Z"
+  "calauditWhen": "2026-09-23T12:17:19.266Z"
  },
  "gate": {
   "nSigma": 3,
@@ -3534,7 +3534,7 @@
    "kind": "period",
    "target": "フォボス",
    "unit": "s",
-   "obs": 27553.824,
+   "obs": 27553.841567549454,
    "meas": 27566.6434406517,
    "sigmaCard": null,
    "csvBody": "Phobos",
@@ -3608,7 +3608,7 @@
    "kind": "period",
    "target": "ダイモス",
    "unit": "s",
-   "obs": 109123.2,
+   "obs": 109074.88527411409,
    "meas": 109116.89173659829,
    "sigmaCard": null,
    "csvBody": "Deimos",
@@ -3682,7 +3682,7 @@
    "kind": "period",
    "target": "ダイモス",
    "unit": "s",
-   "obs": null,
+   "obs": 109074.88527411409,
    "meas": 109116.89173659829,
    "sigmaCard": null,
    "csvBody": "Deimos",
@@ -3756,7 +3756,7 @@
    "kind": "period",
    "target": "フォボス",
    "unit": "s",
-   "obs": null,
+   "obs": 27553.841567549454,
    "meas": 27566.822022411514,
    "sigmaCard": null,
    "csvBody": "Phobos",
@@ -6311,7 +6311,7 @@
     "🥔"
    ],
    "nQuantities": 2,
-   "obsPresent": 1
+   "obsPresent": 2
   },
   {
    "key": "Deimos|orbital_period",
@@ -6324,7 +6324,7 @@
     "🥔"
    ],
    "nQuantities": 2,
-   "obsPresent": 1
+   "obsPresent": 2
   },
   {
    "key": "Miranda|orbital_period",
