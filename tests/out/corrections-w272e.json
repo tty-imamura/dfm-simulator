@@ -3,73 +3,73 @@
   "provenanceVersion": "w272e-1",
   "wave": "第272便e(第62報・AG18)+ 第273便e(第63報・AH18)",
   "target": "paper/data/solar-observations.csv",
-  "targetSha256": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4",
-  "generatedAt": "2026-09-23T11:05:28.243Z",
+  "targetSha256": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+  "generatedAt": "2026-09-23T19:48:31.832Z",
   "inputs": [
    {
     "file": "paper/data/corrections.json",
-    "bytes": 381463,
-    "sha256": "339787911c4cc18fac453268cde0e08608b2de5e0b0aab0d6937a9e24b02d01f",
-    "mtime": "2026-09-23T11:01:04.947Z"
+    "bytes": 413247,
+    "sha256": "97b1715fe7bf6c600acd535737271505f04a49a30104bc0de5e2f9cf4256e4d9",
+    "mtime": "2026-09-23T19:48:24.995Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
-    "bytes": 558062,
-    "sha256": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4",
-    "mtime": "2026-09-23T11:01:04.949Z"
+    "bytes": 563636,
+    "sha256": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+    "mtime": "2026-09-23T19:46:52.870Z"
    },
    {
     "file": "paper/data/cluster-galaxy-observations.csv",
     "bytes": 94818,
     "sha256": "6fe0e68c2f539813d5339962dead965d2d7ef7f5ba6709deef5fceb22ec18461",
-    "mtime": "2026-09-18T09:19:35.127Z"
+    "mtime": "2026-09-23T19:40:25.639Z"
    },
    {
     "file": "paper/data/transient-observations.csv",
     "bytes": 21528,
     "sha256": "0b30b785a8378626537e8714e35dbd9d812c6bfc16397605a3a99bde1ef13a63",
-    "mtime": "2026-09-18T09:19:35.129Z"
+    "mtime": "2026-09-23T19:40:25.647Z"
    },
    {
     "file": "paper/data/supernova-observations.csv",
     "bytes": 6800,
     "sha256": "db9a6ab7e4a0f616ba63bb2b6f970ad97977c42624601fcaecf77ba3feba3986",
-    "mtime": "2026-09-09T09:57:57.061Z"
+    "mtime": "2026-09-23T19:40:25.647Z"
    },
    {
     "file": "paper/data/jovian-satellites.csv",
     "bytes": 8138,
     "sha256": "81bcb3807281b2e2ab6b8ad0525b86f62c954f97fee202da76865fe5c2f1437d",
-    "mtime": "2026-09-09T09:57:57.061Z"
+    "mtime": "2026-09-23T19:40:25.643Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w272e-corrections.mjs",
-    "bytes": 13784,
-    "sha256": "30c67dbe02fc902aa2053e06bc55af6e2e882c3225563d11c5eef1696edd6197",
-    "mtime": "2026-09-23T11:01:04.951Z"
+    "bytes": 14298,
+    "sha256": "a3dc355169a1fc374784b45872641bcdc1b710fd03acfa6436b1b6f34661c4d7",
+    "mtime": "2026-09-23T19:48:29.651Z"
    },
    {
     "file": "tests/lib-w270b-obscsv.mjs",
     "bytes": 14614,
     "sha256": "a096a132d0eea0841d194dd174b1ebc96caea453e9c0bbebab0a5d9391058b77",
-    "mtime": "2026-09-23T11:01:04.951Z"
+    "mtime": "2026-09-23T19:40:25.495Z"
    },
    {
     "file": "tests/lib-w264d-sigmamark.mjs",
     "bytes": 8862,
     "sha256": "a6b63351e348c728d5da295acfdb0071ccacd3a75974f80aa9152fb5be11cf09",
-    "mtime": "2026-09-16T06:13:49.563Z"
+    "mtime": "2026-09-23T19:40:25.491Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-09-23T19:40:25.495Z"
    }
   ],
-  "codeSha256": "40672a31935da52698d934b2a365b0b9a7379199ad4b05f414700f3cb7655403"
+  "codeSha256": "6f819191825148c5f10f9b61a16aaf6468d3fd85ab3f606002bbff8b8957f3e6"
  },
  "what": "変更履歴の台帳(paper/data/corrections.json)と観測 CSV の突き合わせ",
  "markKeys": [
@@ -89,20 +89,20 @@
   "superseded_by"
  ],
  "tally": {
-  "records": 145,
-  "revisions": 397,
-  "markedRowsInCsv": 58,
+  "records": 159,
+  "revisions": 422,
+  "markedRowsInCsv": 63,
   "missingFromLedger": 0,
   "annotations": 3,
   "annotationRows": 9
  },
  "byField": {
-  "note": 201,
+  "note": 225,
   "mark": 84,
   "verified_by": 47,
   "solution_id": 25,
   "value": 3,
-  "sigma": 11,
+  "sigma": 12,
   "source": 8,
   "url": 16,
   "quantity": 1,
@@ -119,12 +119,15 @@
   "第270便b": 6,
   "第271便b": 2,
   "第272便e": 1,
-  "第273便e": 14
+  "第273便e": 14,
+  "第279便e": 25
  },
  "byKind": {
   "intake": 30,
   "confirmation": 245,
-  "correction": 122
+  "correction": 122,
+  "ruling": 15,
+  "source-replacement": 10
  },
  "byBulk": {
   "bulk-w277a-intakeC-12": 12,
@@ -134,7 +137,12 @@
   "bulk-w267a-confirmation2-23": 23,
   "bulk-w273e-derivedFromRecordId-14": 14,
   "bulk-w278a-intakeD": 18,
-  "bulk-w278a-sigmaRaised": 22
+  "bulk-w278a-sigmaRaised": 22,
+  "bulk-w279e-AN3": 3,
+  "bulk-w279e-AN1": 4,
+  "bulk-w279e-AM8prime": 4,
+  "bulk-w279e-AN2": 4,
+  "bulk-w279e-AM7prime": 10
  },
  "annotations": [
   {
@@ -1733,6 +1741,18 @@
    "currentMatches": true
   },
   {
+   "record_id": "SOL-2a069190",
+   "ln": 556,
+   "revision": 10,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": null,
+   "kind": "ruling",
+   "bulk": "bulk-w279e-AN3",
+   "currentMatches": true
+  },
+  {
    "record_id": "SOL-bf096d96",
    "ln": 557,
    "revision": 1,
@@ -2693,6 +2713,18 @@
    "currentMatches": true
   },
   {
+   "record_id": "SOL-5cc14657",
+   "ln": 547,
+   "revision": 7,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": null,
+   "kind": "ruling",
+   "bulk": "bulk-w279e-AN1",
+   "currentMatches": true
+  },
+  {
    "record_id": "SOL-74f37821",
    "ln": 550,
    "revision": 1,
@@ -3053,6 +3085,18 @@
    "currentMatches": true
   },
   {
+   "record_id": "SOL-17ac6945",
+   "ln": 548,
+   "revision": 7,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": null,
+   "kind": "ruling",
+   "bulk": "bulk-w279e-AN1",
+   "currentMatches": true
+  },
+  {
    "record_id": "SOL-dbe2abde",
    "ln": 549,
    "revision": 1,
@@ -3122,6 +3166,18 @@
    "markKey": null,
    "kind": "correction",
    "bulk": "bulk-w278a-solutionId",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-dbe2abde",
+   "ln": 549,
+   "revision": 7,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": null,
+   "kind": "ruling",
+   "bulk": "bulk-w279e-AN1",
    "currentMatches": true
   },
   {
@@ -3233,6 +3289,18 @@
    "currentMatches": true
   },
   {
+   "record_id": "SOL-b8f464fc",
+   "ln": 554,
+   "revision": 10,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": null,
+   "kind": "ruling",
+   "bulk": "bulk-w279e-AN1",
+   "currentMatches": true
+  },
+  {
    "record_id": "SOL-40b0757c",
    "ln": 568,
    "revision": 1,
@@ -3806,6 +3874,18 @@
    "markKey": null,
    "kind": "confirmation",
    "bulk": "bulk-w278a-confirmation5",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-17f5dad0",
+   "ln": 528,
+   "revision": 5,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": null,
+   "kind": "ruling",
+   "bulk": "bulk-w279e-AM8prime",
    "currentMatches": true
   },
   {
@@ -4469,6 +4549,18 @@
    "currentMatches": true
   },
   {
+   "record_id": "SOL-36584acc",
+   "ln": 570,
+   "revision": 7,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": null,
+   "kind": "ruling",
+   "bulk": "bulk-w279e-AN2",
+   "currentMatches": true
+  },
+  {
    "record_id": "SOL-47d6c979",
    "ln": 571,
    "revision": 1,
@@ -4541,6 +4633,18 @@
    "currentMatches": true
   },
   {
+   "record_id": "SOL-47d6c979",
+   "ln": 571,
+   "revision": 7,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": null,
+   "kind": "ruling",
+   "bulk": "bulk-w279e-AN2",
+   "currentMatches": true
+  },
+  {
    "record_id": "SOL-d3a36169",
    "ln": 572,
    "revision": 1,
@@ -4613,6 +4717,18 @@
    "currentMatches": true
   },
   {
+   "record_id": "SOL-d3a36169",
+   "ln": 572,
+   "revision": 7,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": null,
+   "kind": "ruling",
+   "bulk": "bulk-w279e-AN2",
+   "currentMatches": true
+  },
+  {
    "record_id": "SOL-b66fe697",
    "ln": 573,
    "revision": 1,
@@ -4682,6 +4798,18 @@
    "markKey": null,
    "kind": "confirmation",
    "bulk": "bulk-w278a-confirmation5",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-b66fe697",
+   "ln": 573,
+   "revision": 7,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": null,
+   "kind": "ruling",
+   "bulk": "bulk-w279e-AN2",
    "currentMatches": true
   },
   {
@@ -4923,6 +5051,186 @@
    "kind": "intake",
    "bulk": "bulk-w278a-intakeD",
    "currentMatches": true
+  },
+  {
+   "record_id": "SOL-b2769170",
+   "ln": 39,
+   "revision": 1,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": "superseded_by",
+   "kind": "source-replacement",
+   "bulk": "bulk-w279e-AM7prime",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-dc7dc8ee",
+   "ln": 45,
+   "revision": 1,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": "superseded_by",
+   "kind": "source-replacement",
+   "bulk": "bulk-w279e-AM7prime",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-6866353f",
+   "ln": 51,
+   "revision": 1,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": "superseded_by",
+   "kind": "source-replacement",
+   "bulk": "bulk-w279e-AM7prime",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-5ad04eb8",
+   "ln": 57,
+   "revision": 1,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": "superseded_by",
+   "kind": "source-replacement",
+   "bulk": "bulk-w279e-AM7prime",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-11242088",
+   "ln": 63,
+   "revision": 1,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": "superseded_by",
+   "kind": "source-replacement",
+   "bulk": "bulk-w279e-AM7prime",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-0209ddd1",
+   "ln": 594,
+   "revision": 1,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": null,
+   "kind": "source-replacement",
+   "bulk": "bulk-w279e-AM7prime",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-dedae320",
+   "ln": 595,
+   "revision": 1,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": null,
+   "kind": "source-replacement",
+   "bulk": "bulk-w279e-AM7prime",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-3e22ae39",
+   "ln": 596,
+   "revision": 1,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": null,
+   "kind": "source-replacement",
+   "bulk": "bulk-w279e-AM7prime",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-b908b3a5",
+   "ln": 597,
+   "revision": 1,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": null,
+   "kind": "source-replacement",
+   "bulk": "bulk-w279e-AM7prime",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-096d042d",
+   "ln": 598,
+   "revision": 1,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": null,
+   "kind": "source-replacement",
+   "bulk": "bulk-w279e-AM7prime",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-c34be08a",
+   "ln": 529,
+   "revision": 1,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": null,
+   "kind": "ruling",
+   "bulk": "bulk-w279e-AM8prime",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-432f643e",
+   "ln": 530,
+   "revision": 1,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": null,
+   "kind": "ruling",
+   "bulk": "bulk-w279e-AM8prime",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-dd3a44c7",
+   "ln": 531,
+   "revision": 1,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": null,
+   "kind": "ruling",
+   "bulk": "bulk-w279e-AM8prime",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-2ed99d44",
+   "ln": 582,
+   "revision": 1,
+   "field": "sigma",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": null,
+   "kind": "ruling",
+   "bulk": "bulk-w279e-AN3",
+   "currentMatches": true
+  },
+  {
+   "record_id": "SOL-2ed99d44",
+   "ln": 582,
+   "revision": 2,
+   "field": "note",
+   "wave": "第279便e",
+   "date": "2026-09-24",
+   "markKey": null,
+   "kind": "ruling",
+   "bulk": "bulk-w279e-AN3",
+   "currentMatches": true
   }
  ],
  "markedRows": [
@@ -4938,6 +5246,46 @@
    "file": "solar-observations.csv",
    "ln": 14,
    "record_id": "SOL-64b859aa",
+   "keys": [
+    "superseded_by"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 39,
+   "record_id": "SOL-b2769170",
+   "keys": [
+    "superseded_by"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 45,
+   "record_id": "SOL-dc7dc8ee",
+   "keys": [
+    "superseded_by"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 51,
+   "record_id": "SOL-6866353f",
+   "keys": [
+    "superseded_by"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 57,
+   "record_id": "SOL-5ad04eb8",
+   "keys": [
+    "superseded_by"
+   ]
+  },
+  {
+   "file": "solar-observations.csv",
+   "ln": 63,
+   "record_id": "SOL-11242088",
    "keys": [
     "superseded_by"
    ]

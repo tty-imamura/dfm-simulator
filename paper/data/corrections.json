@@ -1,13 +1,14 @@
 {
   "schema": "corrections-v1",
-  "wave": "第273便e(2026-09-19・AH16 (a)・AH18) / 第278便a(2026-09-23・確認依頼 第 5 回・取得依頼 D の回答の転写)",
+  "wave": "第273便e(2026-09-19・AH16 (a)・AH18) / 第278便a(2026-09-23・確認依頼 第 5 回・取得依頼 D の回答の転写) / 第279便e(2026-09-24・第69報の裁定 AM7′・AN1・AN2・AN3・AM8′ の転写)",
   "what": "観測レコードの変更履歴の台帳。record_id -> 変更(revision)の並び + 値も印も動かさない注記(annotations)。",
   "scope": [
     "**この台帳は便ごとのスナップショットである。** 件数(record / revision / annotation)は便ごとに増えうるので、QA `docs.correctionsLedger` の件数 pin は**その便で実測した値へ更新する**運用である(pin は「増えていないこと」ではなく「この便で数えた値と同じであること」を機械固定する)。",
     "第273便e(AH18)で範囲を広げた: それまで載せていたのは**転写者側の訂正**(`kind:\"correction\"`)だけだったが、**確認記録による印の一括更新**(`kind:\"confirmation\"`)と、**値も印も動かさない注記**(`annotations`)も収録する。",
     "`kind` は 3 つ: `correction`(転写者側の誤り・記法・印の訂正)/ `confirmation`(確認記録で印または確認者欄が入った変更)/ 注記は `revisions` ではなく `annotations` に置く(**変更ではないから**)。",
     "第277便a(取得依頼 C の回答・2 系統の外部調査)で `kind:\"intake\"` を足した: 既存 12 行の note に照合結果(`both=` / `not_verified_in=` / `definition=` / `intake_check=`)を書き足した変更である。**新しく足した 54 行は revision ではない**(既存行の変更ではないので `records` には入らない)。",
-    "第278便a(確認依頼 第 5 回・取得依頼 D の回答): 既存行の印の更新と確認者欄(`kind:\"confirmation\"`・`bulk-w278a-confirmation5`)・印字 1σ を sigma 列へ上げた変更(`field:\"sigma\"`・`markKey:\"sigma_raised\"`・`bulk-w278a-sigmaRaised`)・2 系統目の一致の記録(`kind:\"intake\"`・`bulk-w278a-intakeD`)・解タグの移設と `solution_id` 欄(`field:\"solution_id\"`・`bulk-w278a-solutionId`)・書誌の訂正(Porter & Canup 2023 の DOI・Lower 2024 と Weaver 2016 の出典ラベル — 後者 2 つは record_id が変わったので `previousRecordId` を持つ)・判定行の差し替え(AM7 — 旧判定行に `superseded_by=`)を載せた。**新しく足した 21 行は revision ではない**(既存行の変更ではないので `records` には入らない)。"
+    "第278便a(確認依頼 第 5 回・取得依頼 D の回答): 既存行の印の更新と確認者欄(`kind:\"confirmation\"`・`bulk-w278a-confirmation5`)・印字 1σ を sigma 列へ上げた変更(`field:\"sigma\"`・`markKey:\"sigma_raised\"`・`bulk-w278a-sigmaRaised`)・2 系統目の一致の記録(`kind:\"intake\"`・`bulk-w278a-intakeD`)・解タグの移設と `solution_id` 欄(`field:\"solution_id\"`・`bulk-w278a-solutionId`)・書誌の訂正(Porter & Canup 2023 の DOI・Lower 2024 と Weaver 2016 の出典ラベル — 後者 2 つは record_id が変わったので `previousRecordId` を持つ)・判定行の差し替え(AM7 — 旧判定行に `superseded_by=`)を載せた。**新しく足した 21 行は revision ではない**(既存行の変更ではないので `records` には入らない)。",
+    "第279便e(第69報の裁定 AM7′・AN1・AN2・AN3・AM8′): `kind` に `source-replacement`(天王星の衛星 5 本の判定行の差し替え —— 旧判定行 5 行に `superseded_by=`・新判定行 5 行に `judgement_row_since=`・`bulk-w279e-AM7prime`)と `ruling`(裁定を note に写した 15 行・AN3 で sigma 列へ公表の膨らませた ± を入れた 1 行 —— `bulk-w279e-AN1` / `-AN2` / `-AN3` / `-AM8prime`)を足した。**新しい行は 1 行も足していない**(CSV は 601 行のまま)。"
   ],
   "contract": [
     "**この台帳は値を作らない。** 現行値は CSV が正本であり、台帳の `current` は CSV と一致していなければならない(検査器 tests/exp-w272e-corrections.mjs・QA docs.correctionsLedger)。",
@@ -29,7 +30,7 @@
     "current": "変更後の値 = **現行の CSV と一致していなければならない**(`note` は note に含まれていること)。",
     "reason": "なぜそうなったか(一次資料の側の変更ではないことを含む)。",
     "markKey": "note に残っている機械可読な印の鍵(印の無い変更は null)。 第278便a で `sigma_raised`(印字 1σ を sigma 列へ上げた行)と `superseded_by`(判定行の差し替えで履歴になった行)を足した。",
-    "kind": "correction(転写者側の訂正)| confirmation(確認記録による印・確認者欄)| intake(転写便の追記 —— 外部調査の照合結果を note に書き足しただけで、値・σ・単位・出典・印・record_id は 1 文字も動いていない)。**欄が無い revision は `correction` である**(第272便e までに載せた 28 件)。",
+    "kind": "correction(転写者側の訂正)| confirmation(確認記録による印・確認者欄)| intake(転写便の追記 —— 外部調査の照合結果を note に書き足しただけで、値・σ・単位・出典・印・record_id は 1 文字も動いていない)| source-replacement(第279便e: **判定行の差し替え** —— 旧判定行に `superseded_by=`・新判定行に宣言日を書き足した変更。値・σ・単位・出典・record_id は動いていない)| ruling(第279便e: **原仮定者の裁定を note・sigma 列へ写した変更** —— 裁定の ID を `ruling=<ID> <日付>` で note に残す)。**欄が無い revision は `correction` である**(第272便e までに載せた 28 件)。",
     "bulk": "同じ 1 回の一括操作でまとまって入った変更の操作 id(単発の訂正はこの欄を持たない)。第273便e の実測で `bulk-w266a-confirmation1-21` 21 件・`bulk-w267a-confirmation2-23` 23 件・`bulk-w273e-derivedFromRecordId-14` 14 件。第277便a の実測で `bulk-w277a-intakeC-12` 12 件。 第278便a の実測で `bulk-w278a-confirmation5` 179 件・`bulk-w278a-intakeD` 18 件・`bulk-w278a-sigmaRaised` 22 件・`bulk-w278a-solutionId` 50 件。",
     "previousAbsent": "true のとき、その欄は変更前に**存在しなかった**(`previous` は null)。**「値が空だった」ではない。**",
     "sourceHash": "訂正後の CSV ファイルの完全 SHA-256(その便のコミット)。",
@@ -46,7 +47,8 @@
     "第272便e": { "commit": "33ca33a", "parent": "743ad9b", "note": "第272便の統合コミット(台帳を作った便)" },
     "第273便e": { "commit": null, "parent": "33ca33a", "note": "本便(コミット前に書いた台帳なので commit は null)" },
     "第277便a": { "commit": null, "parent": "410f028", "note": "本便(コミット前に書いた台帳なので commit は null)。取得依頼 C の回答・2 系統の外部調査の転写便。" },
-    "第278便a": { "commit": null, "parent": "d09f2ea", "note": "本便(コミット前に書いた台帳なので commit は null)。確認依頼 第 5 回の回答と取得依頼 D の回答(2 系統の外部調査)の転写便。" }
+    "第278便a": { "commit": null, "parent": "d09f2ea", "note": "本便(コミット前に書いた台帳なので commit は null)。確認依頼 第 5 回の回答と取得依頼 D の回答(2 系統の外部調査)の転写便。" },
+    "第279便e": { "commit": null, "parent": "0624159", "note": "本便(コミット前に書いた台帳なので commit は null)。第69報で閉じた観測レコードの裁定(AM7′・AN1・AN2・AN3・AM8′)の転写便。" }
   },
   "records": {
     "SOL-89b3bd11": {
@@ -1951,6 +1953,15 @@
           "reason": "AM14(2 系統が登録に賛成・署名外): 暦の解 `PLU060-2024` / `PLU043-2015` を `paper/data/solutions.json` に登録し、note の `solutionId=` を解タグ `solution=` へ移して `solution_id` 欄を埋めた。**値・σ・単位・出典・印は動いていない。**",
           "sourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4",
           "previousSourceHash": "702efd3ad1441598a7af6a099ee91f6007d2519b83146c98614e3ce4560b1085"
+        },
+        {
+          "revision": 10, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "ruling=AN3 2026-09-24 (report 69: the sigma column keeps the published inflated bound 0.3 km^3/s^2; the formal value stays in the note; the two are not added in quadrature); formal_sigma=0.12 km^3/s^2 (1.2e8 m^3/s^2); uncertainty_kind=published-inflated",
+          "markKey": null, "bulk": "bulk-w279e-AN3", "kind": "ruling",
+          "reason": "AN3: 公表の膨らませた ± を sigma 列に置き、形式 1σ を note に置く規約(`formal_sigma=`・`uncertainty_kind=published-inflated`)を書き足した。値は動いていない。",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
         }
       ]
     },
@@ -2755,6 +2766,15 @@
           "reason": "AM14(2 系統が登録に賛成・署名外): 暦の解 `PLU060-2024` / `PLU043-2015` を `paper/data/solutions.json` に登録し、note の `solutionId=` を解タグ `solution=` へ移して `solution_id` 欄を埋めた。**値・σ・単位・出典・印は動いていない。**",
           "sourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4",
           "previousSourceHash": "702efd3ad1441598a7af6a099ee91f6007d2519b83146c98614e3ce4560b1085"
+        },
+        {
+          "revision": 7, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "ruling=AN1 2026-09-24 (report 69: the sigma column keeps the published conservative +/- as printed - systematic plus random per the abstract - and it is not read as a formal 1-sigma)",
+          "markKey": null, "bulk": "bulk-w279e-AN1", "kind": "ruling",
+          "reason": "AN1(原仮定者の裁定・第69報): Brozović 2015 の系/冥王星/カロンの ±(系統+偶然を反映した保守的な値)は sigma 列に**印字のまま残す**(sigma 列が空の行は空のまま)。`uncertainty_kind=conservative-inflated` は第278便a で既に note にある。**値・σ・印は動いていない。**判定量ではないので門は動かない。",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
         }
       ]
     },
@@ -3060,6 +3080,15 @@
           "reason": "AM14(2 系統が登録に賛成・署名外): 暦の解 `PLU060-2024` / `PLU043-2015` を `paper/data/solutions.json` に登録し、note の `solutionId=` を解タグ `solution=` へ移して `solution_id` 欄を埋めた。**値・σ・単位・出典・印は動いていない。**",
           "sourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4",
           "previousSourceHash": "702efd3ad1441598a7af6a099ee91f6007d2519b83146c98614e3ce4560b1085"
+        },
+        {
+          "revision": 7, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "ruling=AN1 2026-09-24 (report 69: the sigma column keeps the published conservative +/- as printed - systematic plus random per the abstract - and it is not read as a formal 1-sigma)",
+          "markKey": null, "bulk": "bulk-w279e-AN1", "kind": "ruling",
+          "reason": "AN1(原仮定者の裁定・第69報): Brozović 2015 の系/冥王星/カロンの ±(系統+偶然を反映した保守的な値)は sigma 列に**印字のまま残す**(sigma 列が空の行は空のまま)。`uncertainty_kind=conservative-inflated` は第278便a で既に note にある。**値・σ・印は動いていない。**判定量ではないので門は動かない。",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
         }
       ]
     },
@@ -3121,6 +3150,15 @@
           "reason": "AM14(2 系統が登録に賛成・署名外): 暦の解 `PLU060-2024` / `PLU043-2015` を `paper/data/solutions.json` に登録し、note の `solutionId=` を解タグ `solution=` へ移して `solution_id` 欄を埋めた。**値・σ・単位・出典・印は動いていない。**",
           "sourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4",
           "previousSourceHash": "702efd3ad1441598a7af6a099ee91f6007d2519b83146c98614e3ce4560b1085"
+        },
+        {
+          "revision": 7, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "ruling=AN1 2026-09-24 (report 69: the sigma column keeps the published conservative +/- as printed - systematic plus random per the abstract - and it is not read as a formal 1-sigma)",
+          "markKey": null, "bulk": "bulk-w279e-AN1", "kind": "ruling",
+          "reason": "AN1(原仮定者の裁定・第69報): Brozović 2015 の系/冥王星/カロンの ±(系統+偶然を反映した保守的な値)は sigma 列に**印字のまま残す**(sigma 列が空の行は空のまま)。`uncertainty_kind=conservative-inflated` は第278便a で既に note にある。**値・σ・印は動いていない。**判定量ではないので門は動かない。",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
         }
       ]
     },
@@ -3209,6 +3247,15 @@
           "reason": "AM14(2 系統が登録に賛成・署名外): 暦の解 `PLU060-2024` / `PLU043-2015` を `paper/data/solutions.json` に登録し、note の `solutionId=` を解タグ `solution=` へ移して `solution_id` 欄を埋めた。**値・σ・単位・出典・印は動いていない。**",
           "sourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4",
           "previousSourceHash": "702efd3ad1441598a7af6a099ee91f6007d2519b83146c98614e3ce4560b1085"
+        },
+        {
+          "revision": 10, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "ruling=AN1 2026-09-24 (report 69: the sigma column keeps the published conservative +/- as printed - systematic plus random per the abstract - and it is not read as a formal 1-sigma)",
+          "markKey": null, "bulk": "bulk-w279e-AN1", "kind": "ruling",
+          "reason": "AN1(原仮定者の裁定・第69報): Brozović 2015 の系/冥王星/カロンの ±(系統+偶然を反映した保守的な値)は sigma 列に**印字のまま残す**(sigma 列が空の行は空のまま)。`uncertainty_kind=conservative-inflated` は第278便a で既に note にある。**値・σ・印は動いていない。**判定量ではないので門は動かない。",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
         }
       ]
     },
@@ -3690,6 +3737,15 @@
           "reason": "確認依頼 第 5 回の回答の転写(`verified_at=` / `verified_value=` と照合の記載を note に書き足した)。**値・σ・単位・出典・url は 1 文字も動いていない。**",
           "sourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4",
           "previousSourceHash": "702efd3ad1441598a7af6a099ee91f6007d2519b83146c98614e3ce4560b1085"
+        },
+        {
+          "revision": 5, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "ruling=AM8-prime 2026-09-24 (report 69: the Chapront 2002 formal errors are not read as 1-sigma; the sigma column stays EMPTY); stated_level=none",
+          "markKey": null, "bulk": "bulk-w279e-AM8prime", "kind": "ruling",
+          "reason": "AM8′(原仮定者の裁定・第69報): Chapront 2002 の「formal errors」は水準(1σ 等)が印字されていないので **1σ として読まない**。sigma 列は空のまま。`stated_level=none` を note に足した(528 行は既に `level_statement=`〔表の文の引用〕を持つので、同じ鍵を 2 度書かないよう別の鍵にした)。値・σ・印は動いていない。",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
         }
       ]
     },
@@ -4282,6 +4338,15 @@
           "reason": "確認依頼 第 5 回の回答の転写(`verified_at=` / `verified_value=` と照合の記載を note に書き足した)。**値・σ・単位・出典・url は 1 文字も動いていない。**",
           "sourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4",
           "previousSourceHash": "702efd3ad1441598a7af6a099ee91f6007d2519b83146c98614e3ce4560b1085"
+        },
+        {
+          "revision": 7, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "source_status=secondary-transcription; primary_reference=(5) unresolved; confirmation_request=7; ruling=AN2 2026-09-24 (report 69: the source label is not re-pointed until the primary reference of the table footnote is opened)",
+          "markKey": null, "bulk": "bulk-w279e-AN2", "kind": "ruling",
+          "reason": "AN2(原仮定者の裁定・第69報): Weaver 2016 Table 2 の周期は表の脚注「The orbital periods are from (5)」の**転載**であり、参照 (5) は未解決。`source_status=secondary-transcription`・`primary_reference=(5) unresolved`・`confirmation_request=7` を note に足した。**出典ラベルは付け替えていない**(一次資料が開くまで)。値・σ・印は動いていない。",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
         }
       ]
     },
@@ -4345,6 +4410,15 @@
           "reason": "確認依頼 第 5 回の回答の転写(`verified_at=` / `verified_value=` と照合の記載を note に書き足した)。**値・σ・単位・出典・url は 1 文字も動いていない。**",
           "sourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4",
           "previousSourceHash": "702efd3ad1441598a7af6a099ee91f6007d2519b83146c98614e3ce4560b1085"
+        },
+        {
+          "revision": 7, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "source_status=secondary-transcription; primary_reference=(5) unresolved; confirmation_request=7; ruling=AN2 2026-09-24 (report 69: the source label is not re-pointed until the primary reference of the table footnote is opened)",
+          "markKey": null, "bulk": "bulk-w279e-AN2", "kind": "ruling",
+          "reason": "AN2(原仮定者の裁定・第69報): Weaver 2016 Table 2 の周期は表の脚注「The orbital periods are from (5)」の**転載**であり、参照 (5) は未解決。`source_status=secondary-transcription`・`primary_reference=(5) unresolved`・`confirmation_request=7` を note に足した。**出典ラベルは付け替えていない**(一次資料が開くまで)。値・σ・印は動いていない。",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
         }
       ]
     },
@@ -4408,6 +4482,15 @@
           "reason": "確認依頼 第 5 回の回答の転写(`verified_at=` / `verified_value=` と照合の記載を note に書き足した)。**値・σ・単位・出典・url は 1 文字も動いていない。**",
           "sourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4",
           "previousSourceHash": "702efd3ad1441598a7af6a099ee91f6007d2519b83146c98614e3ce4560b1085"
+        },
+        {
+          "revision": 7, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "source_status=secondary-transcription; primary_reference=(5) unresolved; confirmation_request=7; ruling=AN2 2026-09-24 (report 69: the source label is not re-pointed until the primary reference of the table footnote is opened)",
+          "markKey": null, "bulk": "bulk-w279e-AN2", "kind": "ruling",
+          "reason": "AN2(原仮定者の裁定・第69報): Weaver 2016 Table 2 の周期は表の脚注「The orbital periods are from (5)」の**転載**であり、参照 (5) は未解決。`source_status=secondary-transcription`・`primary_reference=(5) unresolved`・`confirmation_request=7` を note に足した。**出典ラベルは付け替えていない**(一次資料が開くまで)。値・σ・印は動いていない。",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
         }
       ]
     },
@@ -4471,6 +4554,15 @@
           "reason": "確認依頼 第 5 回の回答の転写(`verified_at=` / `verified_value=` と照合の記載を note に書き足した)。**値・σ・単位・出典・url は 1 文字も動いていない。**",
           "sourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4",
           "previousSourceHash": "702efd3ad1441598a7af6a099ee91f6007d2519b83146c98614e3ce4560b1085"
+        },
+        {
+          "revision": 7, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "source_status=secondary-transcription; primary_reference=(5) unresolved; confirmation_request=7; ruling=AN2 2026-09-24 (report 69: the source label is not re-pointed until the primary reference of the table footnote is opened)",
+          "markKey": null, "bulk": "bulk-w279e-AN2", "kind": "ruling",
+          "reason": "AN2(原仮定者の裁定・第69報): Weaver 2016 Table 2 の周期は表の脚注「The orbital periods are from (5)」の**転載**であり、参照 (5) は未解決。`source_status=secondary-transcription`・`primary_reference=(5) unresolved`・`confirmation_request=7` を note に足した。**出典ラベルは付け替えていない**(一次資料が開くまで)。値・σ・印は動いていない。",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
         }
       ]
     },
@@ -4735,6 +4827,239 @@
           "reason": "取得依頼 D の回答の照合結果を note に書き足した(同じ表・同じ桁の既存行なので行は増やしていない — §5.25.1 の規約)。**値・σ・単位・出典・印は動いていない。**",
           "sourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4",
           "previousSourceHash": "702efd3ad1441598a7af6a099ee91f6007d2519b83146c98614e3ce4560b1085"
+        }
+      ]
+    },
+    "SOL-b2769170": {
+      "file": "solar-observations.csv",
+      "body": "Miranda",
+      "quantity": "orbital_period",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "superseded_by=SOL-0209ddd1; superseded_on=2026-09-24 (AM7-prime ruling of report 69: the judgement row is now the lambda_dot-derived period of Jacobson 2014 Table 2; this NSSDC fact-sheet value stays as the history row; its orbital_period_candidate copy stays a candidate)",
+          "markKey": "superseded_by", "bulk": "bulk-w279e-AM7prime", "kind": "source-replacement",
+          "reason": "AM7′(原仮定者の裁定・第69報「概ね同意」): 天王星の衛星の判定行を Jacobson 2014 AJ 148 76 Table 2 の λ̇(mean_motion)由来(`derived-in-record`・P=360/λ̇ d×86400 s・**1σ は印字されていない**)へ差し替えた。**この行の値・単位・出典・σ は 1 文字も動いていない** —— 動いたのは「判定に採る行」の宣言(`paper/data/judgement-sources.json`)で、この行は履歴の行になった(量名 `orbital_period` のまま —— ダイモス/フォボス(第278便a)と同じ形)。**σ が無いので門へは 1 bit も入らない(4 値は動かない)。**",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
+        }
+      ]
+    },
+    "SOL-dc7dc8ee": {
+      "file": "solar-observations.csv",
+      "body": "Ariel",
+      "quantity": "orbital_period",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "superseded_by=SOL-dedae320; superseded_on=2026-09-24 (AM7-prime ruling of report 69: the judgement row is now the lambda_dot-derived period of Jacobson 2014 Table 2; this NSSDC fact-sheet value stays as the history row; its orbital_period_candidate copy stays a candidate)",
+          "markKey": "superseded_by", "bulk": "bulk-w279e-AM7prime", "kind": "source-replacement",
+          "reason": "AM7′(原仮定者の裁定・第69報「概ね同意」): 天王星の衛星の判定行を Jacobson 2014 AJ 148 76 Table 2 の λ̇(mean_motion)由来(`derived-in-record`・P=360/λ̇ d×86400 s・**1σ は印字されていない**)へ差し替えた。**この行の値・単位・出典・σ は 1 文字も動いていない** —— 動いたのは「判定に採る行」の宣言(`paper/data/judgement-sources.json`)で、この行は履歴の行になった(量名 `orbital_period` のまま —— ダイモス/フォボス(第278便a)と同じ形)。**σ が無いので門へは 1 bit も入らない(4 値は動かない)。**",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
+        }
+      ]
+    },
+    "SOL-6866353f": {
+      "file": "solar-observations.csv",
+      "body": "Umbriel",
+      "quantity": "orbital_period",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "superseded_by=SOL-3e22ae39; superseded_on=2026-09-24 (AM7-prime ruling of report 69: the judgement row is now the lambda_dot-derived period of Jacobson 2014 Table 2; this NSSDC fact-sheet value stays as the history row; its orbital_period_candidate copy stays a candidate)",
+          "markKey": "superseded_by", "bulk": "bulk-w279e-AM7prime", "kind": "source-replacement",
+          "reason": "AM7′(原仮定者の裁定・第69報「概ね同意」): 天王星の衛星の判定行を Jacobson 2014 AJ 148 76 Table 2 の λ̇(mean_motion)由来(`derived-in-record`・P=360/λ̇ d×86400 s・**1σ は印字されていない**)へ差し替えた。**この行の値・単位・出典・σ は 1 文字も動いていない** —— 動いたのは「判定に採る行」の宣言(`paper/data/judgement-sources.json`)で、この行は履歴の行になった(量名 `orbital_period` のまま —— ダイモス/フォボス(第278便a)と同じ形)。**σ が無いので門へは 1 bit も入らない(4 値は動かない)。**",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
+        }
+      ]
+    },
+    "SOL-5ad04eb8": {
+      "file": "solar-observations.csv",
+      "body": "Titania",
+      "quantity": "orbital_period",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "superseded_by=SOL-b908b3a5; superseded_on=2026-09-24 (AM7-prime ruling of report 69: the judgement row is now the lambda_dot-derived period of Jacobson 2014 Table 2; this NSSDC fact-sheet value stays as the history row; its orbital_period_candidate copy stays a candidate)",
+          "markKey": "superseded_by", "bulk": "bulk-w279e-AM7prime", "kind": "source-replacement",
+          "reason": "AM7′(原仮定者の裁定・第69報「概ね同意」): 天王星の衛星の判定行を Jacobson 2014 AJ 148 76 Table 2 の λ̇(mean_motion)由来(`derived-in-record`・P=360/λ̇ d×86400 s・**1σ は印字されていない**)へ差し替えた。**この行の値・単位・出典・σ は 1 文字も動いていない** —— 動いたのは「判定に採る行」の宣言(`paper/data/judgement-sources.json`)で、この行は履歴の行になった(量名 `orbital_period` のまま —— ダイモス/フォボス(第278便a)と同じ形)。**σ が無いので門へは 1 bit も入らない(4 値は動かない)。**",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
+        }
+      ]
+    },
+    "SOL-11242088": {
+      "file": "solar-observations.csv",
+      "body": "Oberon",
+      "quantity": "orbital_period",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "superseded_by=SOL-096d042d; superseded_on=2026-09-24 (AM7-prime ruling of report 69: the judgement row is now the lambda_dot-derived period of Jacobson 2014 Table 2; this NSSDC fact-sheet value stays as the history row; its orbital_period_candidate copy stays a candidate)",
+          "markKey": "superseded_by", "bulk": "bulk-w279e-AM7prime", "kind": "source-replacement",
+          "reason": "AM7′(原仮定者の裁定・第69報「概ね同意」): 天王星の衛星の判定行を Jacobson 2014 AJ 148 76 Table 2 の λ̇(mean_motion)由来(`derived-in-record`・P=360/λ̇ d×86400 s・**1σ は印字されていない**)へ差し替えた。**この行の値・単位・出典・σ は 1 文字も動いていない** —— 動いたのは「判定に採る行」の宣言(`paper/data/judgement-sources.json`)で、この行は履歴の行になった(量名 `orbital_period` のまま —— ダイモス/フォボス(第278便a)と同じ形)。**σ が無いので門へは 1 bit も入らない(4 値は動かない)。**",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
+        }
+      ]
+    },
+    "SOL-0209ddd1": {
+      "file": "solar-observations.csv",
+      "body": "Miranda",
+      "quantity": "orbital_period_candidate",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "judgement_row_since=2026-09-24 (AM7-prime ruling of report 69 - declared in paper/data/judgement-sources.json; the earlier text the judgement row of this body is NOT replaced is history); frame=Uranus mean equator; sigma column EMPTY (no 1-sigma is printed for lambda_dot)",
+          "markKey": null, "bulk": "bulk-w279e-AM7prime", "kind": "source-replacement",
+          "reason": "AM7′: 差し替え後の判定行に宣言の日付と参照面(`frame=Uranus mean equator` —— 同じ Table 2 の λ̇ 行の note の写し)を書き足した。`derived_from=<λ̇ 行の record_id>` と式は第278便a の転写で既にある。**値・単位・出典・σ・record_id は動いていない。**",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
+        }
+      ]
+    },
+    "SOL-dedae320": {
+      "file": "solar-observations.csv",
+      "body": "Ariel",
+      "quantity": "orbital_period_candidate",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "judgement_row_since=2026-09-24 (AM7-prime ruling of report 69 - declared in paper/data/judgement-sources.json; the earlier text the judgement row of this body is NOT replaced is history); frame=Uranus mean equator; sigma column EMPTY (no 1-sigma is printed for lambda_dot)",
+          "markKey": null, "bulk": "bulk-w279e-AM7prime", "kind": "source-replacement",
+          "reason": "AM7′: 差し替え後の判定行に宣言の日付と参照面(`frame=Uranus mean equator` —— 同じ Table 2 の λ̇ 行の note の写し)を書き足した。`derived_from=<λ̇ 行の record_id>` と式は第278便a の転写で既にある。**値・単位・出典・σ・record_id は動いていない。**",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
+        }
+      ]
+    },
+    "SOL-3e22ae39": {
+      "file": "solar-observations.csv",
+      "body": "Umbriel",
+      "quantity": "orbital_period_candidate",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "judgement_row_since=2026-09-24 (AM7-prime ruling of report 69 - declared in paper/data/judgement-sources.json; the earlier text the judgement row of this body is NOT replaced is history); frame=Uranus mean equator; sigma column EMPTY (no 1-sigma is printed for lambda_dot)",
+          "markKey": null, "bulk": "bulk-w279e-AM7prime", "kind": "source-replacement",
+          "reason": "AM7′: 差し替え後の判定行に宣言の日付と参照面(`frame=Uranus mean equator` —— 同じ Table 2 の λ̇ 行の note の写し)を書き足した。`derived_from=<λ̇ 行の record_id>` と式は第278便a の転写で既にある。**値・単位・出典・σ・record_id は動いていない。**",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
+        }
+      ]
+    },
+    "SOL-b908b3a5": {
+      "file": "solar-observations.csv",
+      "body": "Titania",
+      "quantity": "orbital_period_candidate",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "judgement_row_since=2026-09-24 (AM7-prime ruling of report 69 - declared in paper/data/judgement-sources.json; the earlier text the judgement row of this body is NOT replaced is history); frame=Uranus mean equator; sigma column EMPTY (no 1-sigma is printed for lambda_dot)",
+          "markKey": null, "bulk": "bulk-w279e-AM7prime", "kind": "source-replacement",
+          "reason": "AM7′: 差し替え後の判定行に宣言の日付と参照面(`frame=Uranus mean equator` —— 同じ Table 2 の λ̇ 行の note の写し)を書き足した。`derived_from=<λ̇ 行の record_id>` と式は第278便a の転写で既にある。**値・単位・出典・σ・record_id は動いていない。**",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
+        }
+      ]
+    },
+    "SOL-096d042d": {
+      "file": "solar-observations.csv",
+      "body": "Oberon",
+      "quantity": "orbital_period_candidate",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "judgement_row_since=2026-09-24 (AM7-prime ruling of report 69 - declared in paper/data/judgement-sources.json; the earlier text the judgement row of this body is NOT replaced is history); frame=Uranus mean equator; sigma column EMPTY (no 1-sigma is printed for lambda_dot)",
+          "markKey": null, "bulk": "bulk-w279e-AM7prime", "kind": "source-replacement",
+          "reason": "AM7′: 差し替え後の判定行に宣言の日付と参照面(`frame=Uranus mean equator` —— 同じ Table 2 の λ̇ 行の note の写し)を書き足した。`derived_from=<λ̇ 行の record_id>` と式は第278便a の転写で既にある。**値・単位・出典・σ・record_id は動いていない。**",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
+        }
+      ]
+    },
+    "SOL-c34be08a": {
+      "file": "solar-observations.csv",
+      "body": "Moon",
+      "quantity": "periastron_advance_secular",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "ruling=AM8-prime 2026-09-24 (report 69: the Chapront 2002 formal errors are not read as 1-sigma; the sigma column stays EMPTY); stated_level=none",
+          "markKey": null, "bulk": "bulk-w279e-AM8prime", "kind": "ruling",
+          "reason": "AM8′(原仮定者の裁定・第69報): Chapront 2002 の「formal errors」は水準(1σ 等)が印字されていないので **1σ として読まない**。sigma 列は空のまま。`stated_level=none` を note に足した(528 行は既に `level_statement=`〔表の文の引用〕を持つので、同じ鍵を 2 度書かないよう別の鍵にした)。値・σ・印は動いていない。",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
+        }
+      ]
+    },
+    "SOL-432f643e": {
+      "file": "solar-observations.csv",
+      "body": "Moon",
+      "quantity": "sidereal_period",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "ruling=AM8-prime 2026-09-24 (report 69: the Chapront 2002 formal errors are not read as 1-sigma; the sigma column stays EMPTY); stated_level=none",
+          "markKey": null, "bulk": "bulk-w279e-AM8prime", "kind": "ruling",
+          "reason": "AM8′(原仮定者の裁定・第69報): Chapront 2002 の「formal errors」は水準(1σ 等)が印字されていないので **1σ として読まない**。sigma 列は空のまま。`stated_level=none` を note に足した(528 行は既に `level_statement=`〔表の文の引用〕を持つので、同じ鍵を 2 度書かないよう別の鍵にした)。値・σ・印は動いていない。",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
+        }
+      ]
+    },
+    "SOL-dd3a44c7": {
+      "file": "solar-observations.csv",
+      "body": "Moon",
+      "quantity": "anomalistic_period",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "ruling=AM8-prime 2026-09-24 (report 69: the Chapront 2002 formal errors are not read as 1-sigma; the sigma column stays EMPTY); stated_level=none",
+          "markKey": null, "bulk": "bulk-w279e-AM8prime", "kind": "ruling",
+          "reason": "AM8′(原仮定者の裁定・第69報): Chapront 2002 の「formal errors」は水準(1σ 等)が印字されていないので **1σ として読まない**。sigma 列は空のまま。`stated_level=none` を note に足した(528 行は既に `level_statement=`〔表の文の引用〕を持つので、同じ鍵を 2 度書かないよう別の鍵にした)。値・σ・印は動いていない。",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
+        }
+      ]
+    },
+    "SOL-2ed99d44": {
+      "file": "solar-observations.csv",
+      "body": "Pluto-Charon system",
+      "quantity": "GM",
+      "revisions": [
+        {
+          "revision": 1, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "sigma", "previous": "",
+          "current": "2e8",
+          "markKey": null, "bulk": "bulk-w279e-AN3", "kind": "ruling",
+          "reason": "AN3(原仮定者の裁定・第69報): Brozović & Jacobson 2024 Table 8 の系の GM の公表 ±0.2 km³/s²(形式 1σ 0.09 を約 2 倍に膨らませた推奨値)を sigma 列へ入れた(2e8 m³/s²)。形式 1σ は note の `formal_sigma=` に残し、**二乗和しない**。**判定量ではない**(GM は門の宛先に無い)ので門は動かない。",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
+        },
+        {
+          "revision": 2, "date": "2026-09-24", "wave": "第279便e", "commit": null,
+          "field": "note", "previous": null, "previousAbsent": true,
+          "current": "ruling=AN3 2026-09-24 (report 69: the sigma column carries the published inflated bound 0.2 km^3/s^2; the formal value stays in the note; the two are not added in quadrature; the earlier text sigma column kept EMPTY is history); formal_sigma=0.09 km^3/s^2 (9e7 m^3/s^2); uncertainty_kind=published-inflated; sigma_entered=2026-09-24 (AN3)",
+          "markKey": null, "bulk": "bulk-w279e-AN3", "kind": "ruling",
+          "reason": "AN3: 公表の膨らませた ± を sigma 列に置き、形式 1σ を note に置く規約(`formal_sigma=`・`uncertainty_kind=published-inflated`)を書き足した。値は動いていない。",
+          "sourceHash": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+          "previousSourceHash": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4"
         }
       ]
     }

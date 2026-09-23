@@ -1,5 +1,5 @@
 {
- "when": "2026-09-23T12:20:38.397Z",
+ "when": "2026-09-23T19:49:12.840Z",
  "wave": "第262便d(第54報 W4)→ 第263便c(第55報 W3)で σ 未確認の状態名と不足一覧を足した",
  "inputs": {
   "calaudit": "tests/out/calaudit-w249.json",
@@ -322,7 +322,12 @@
    "PSR J1946+2052|orbital_period",
    "PSR J1946+2052|eccentricity",
    "Deimos|orbital_period",
-   "Phobos|orbital_period"
+   "Phobos|orbital_period",
+   "Miranda|orbital_period",
+   "Ariel|orbital_period",
+   "Umbriel|orbital_period",
+   "Titania|orbital_period",
+   "Oberon|orbital_period"
   ],
   "notDeclared": [
    "Deimos|eccentricity(第278便a: AM7 の裁定は**周期だけ**である(e の判定行は裁定の外)。Table 6 の e=0.00024 は 1σ が印字されておらず、採用解を決めるのは別の裁定である)",
@@ -330,7 +335,12 @@
    "Mars|orbital_period(同上)",
    "Triton|orbital_period(NSSDC 値が Jacobson 2009 の平均運動の換算と判明している — 周期定義の照合が先)",
    "Triton|eccentricity(同上)",
-   "Mercury|periastron_advance(現行の判定行が既に Park 2017 Table 3 で、宣言しても行は動かない(宣言の必要が無い))"
+   "Mercury|periastron_advance(現行の判定行が既に Park 2017 Table 3 で、宣言しても行は動かない(宣言の必要が無い))",
+   "Miranda|eccentricity(第279便e: AM7′ の裁定は**周期だけ**である(e の判定行は裁定の外)。Jacobson 2014 Table 2 の e は候補行のまま(1σ は印字されていない))",
+   "Ariel|eccentricity(第279便e: AM7′ の裁定は**周期だけ**である(e の判定行は裁定の外)。Jacobson 2014 Table 2 の e は候補行のまま(1σ は印字されていない))",
+   "Umbriel|eccentricity(第279便e: AM7′ の裁定は**周期だけ**である(e の判定行は裁定の外)。Jacobson 2014 Table 2 の e は候補行のまま(1σ は印字されていない))",
+   "Titania|eccentricity(第279便e: AM7′ の裁定は**周期だけ**である(e の判定行は裁定の外)。Jacobson 2014 Table 2 の e は候補行のまま(1σ は印字されていない))",
+   "Oberon|eccentricity(第279便e: AM7′ の裁定は**周期だけ**である(e の判定行は裁定の外)。Jacobson 2014 Table 2 の e は候補行のまま(1σ は印字されていない))"
   ],
   "rows": [
    {
@@ -690,6 +700,246 @@
      "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
     },
     "verdict": "保留(観測量対応が未確定/数値収束が未確認)",
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
+   },
+   {
+    "id": "uranusReal",
+    "emoji": "💠",
+    "target": "ミランダ",
+    "kind": "period",
+    "meas": 122209.47905699206,
+    "key": "Miranda|orbital_period",
+    "declaredSource": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
+    "declaredValue": 122124.62101961837,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
+    "previousRow": {
+     "value": 122124.5856,
+     "sigma": null,
+     "unit": "s",
+     "source": "NASA NSSDC Uranian Satellite Fact Sheet (archived)",
+     "primaryVerified": false
+    },
+    "valueDelta": 0.035419618361629546,
+    "residual": 84.85803737369133,
+    "nSigma": null,
+    "assessedStage": "h",
+    "primaryVerified": false,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
+   },
+   {
+    "id": "uranusReal",
+    "emoji": "💠",
+    "target": "アリエル",
+    "kind": "period",
+    "meas": 217720.28333595072,
+    "key": "Ariel|orbital_period",
+    "declaredSource": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
+    "declaredValue": 217760.7611919261,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
+    "previousRow": {
+     "value": 217760.7456,
+     "sigma": null,
+     "unit": "s",
+     "source": "NASA NSSDC Uranian Satellite Fact Sheet (archived)",
+     "primaryVerified": false
+    },
+    "valueDelta": 0.015591926116030663,
+    "residual": 40.47785597539041,
+    "nSigma": null,
+    "assessedStage": "h",
+    "primaryVerified": false,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
+   },
+   {
+    "id": "uranusReal",
+    "emoji": "💠",
+    "target": "ウンブリエル",
+    "kind": "period",
+    "meas": 358079.59246302873,
+    "key": "Umbriel|orbital_period",
+    "declaredSource": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
+    "declaredValue": 358056.89773906855,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
+    "previousRow": {
+     "value": 358056.8064,
+     "sigma": null,
+     "unit": "s",
+     "source": "NASA NSSDC Uranian Satellite Fact Sheet (archived)",
+     "primaryVerified": false
+    },
+    "valueDelta": 0.09133906854549423,
+    "residual": 22.69472396018682,
+    "nSigma": null,
+    "assessedStage": "h",
+    "primaryVerified": false,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
+   },
+   {
+    "id": "uranusReal",
+    "emoji": "💠",
+    "target": "チタニア",
+    "kind": "period",
+    "meas": 752215.2982110824,
+    "key": "Titania|orbital_period",
+    "declaredSource": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
+    "declaredValue": 752187.0102125419,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
+    "previousRow": {
+     "value": 752186.9088,
+     "sigma": null,
+     "unit": "s",
+     "source": "NASA NSSDC Uranian Satellite Fact Sheet (archived)",
+     "primaryVerified": false
+    },
+    "valueDelta": 0.10141254193149507,
+    "residual": 28.28799854044337,
+    "nSigma": null,
+    "assessedStage": "h",
+    "primaryVerified": false,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
+   },
+   {
+    "id": "uranusReal",
+    "emoji": "💠",
+    "target": "オベロン",
+    "kind": "period",
+    "meas": 1163316.6195162511,
+    "key": "Oberon|orbital_period",
+    "declaredSource": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
+    "declaredValue": 1163223.665109313,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
+    "previousRow": {
+     "value": 1163223.4176,
+     "sigma": null,
+     "unit": "s",
+     "source": "NASA NSSDC Uranian Satellite Fact Sheet (archived)",
+     "primaryVerified": false
+    },
+    "valueDelta": 0.24750931304879487,
+    "residual": 92.95440693804994,
+    "nSigma": null,
+    "assessedStage": "h",
+    "primaryVerified": false,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
+   },
+   {
+    "id": "uranusReal",
+    "emoji": "💠",
+    "target": "ミランダ",
+    "kind": "period",
+    "meas": 122209.47905699206,
+    "key": "Miranda|orbital_period",
+    "declaredSource": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
+    "declaredValue": 122124.62101961837,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
+    "previousRow": {
+     "value": 122124.5856,
+     "sigma": null,
+     "unit": "s",
+     "source": "NASA NSSDC Uranian Satellite Fact Sheet (archived)",
+     "primaryVerified": false
+    },
+    "valueDelta": 0.035419618361629546,
+    "residual": 84.85803737369133,
+    "nSigma": null,
+    "assessedStage": "h",
+    "primaryVerified": false,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
     "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
    }
   ],
@@ -4375,13 +4625,19 @@
    "csvBody": "Miranda",
    "csvQuantity": "orbital_period",
    "csvRow": {
-    "value": 122124.5856,
+    "value": 122124.62101961837,
     "unit": "s",
     "sigma": null,
     "primaryVerified": false
    },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
+   "declaredApplied": true,
+   "csvRowLegacy": {
+    "value": 122124.5856,
+    "unit": "s",
+    "sigma": null,
+    "primaryVerified": false,
+    "source": "NASA NSSDC Uranian Satellite Fact Sheet (archived)"
+   },
    "ad8Converted": false,
    "previousUnit": null,
    "cut": "csv-sigma-empty",
@@ -4394,7 +4650,41 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": {
+    "key": "Miranda|orbital_period",
+    "declaredSource": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
+    "declaredValue": 122124.62101961837,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
+    "previousRow": {
+     "value": 122124.5856,
+     "sigma": null,
+     "unit": "s",
+     "source": "NASA NSSDC Uranian Satellite Fact Sheet (archived)",
+     "primaryVerified": false
+    },
+    "valueDelta": 0.035419618361629546,
+    "residual": 84.85803737369133,
+    "nSigma": null,
+    "assessedStage": "h",
+    "primaryVerified": false,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
+   }
   },
   {
    "id": "uranusReal",
@@ -4409,13 +4699,19 @@
    "csvBody": "Ariel",
    "csvQuantity": "orbital_period",
    "csvRow": {
-    "value": 217760.7456,
+    "value": 217760.7611919261,
     "unit": "s",
     "sigma": null,
     "primaryVerified": false
    },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
+   "declaredApplied": true,
+   "csvRowLegacy": {
+    "value": 217760.7456,
+    "unit": "s",
+    "sigma": null,
+    "primaryVerified": false,
+    "source": "NASA NSSDC Uranian Satellite Fact Sheet (archived)"
+   },
    "ad8Converted": false,
    "previousUnit": null,
    "cut": "csv-sigma-empty",
@@ -4428,7 +4724,41 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": {
+    "key": "Ariel|orbital_period",
+    "declaredSource": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
+    "declaredValue": 217760.7611919261,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
+    "previousRow": {
+     "value": 217760.7456,
+     "sigma": null,
+     "unit": "s",
+     "source": "NASA NSSDC Uranian Satellite Fact Sheet (archived)",
+     "primaryVerified": false
+    },
+    "valueDelta": 0.015591926116030663,
+    "residual": 40.47785597539041,
+    "nSigma": null,
+    "assessedStage": "h",
+    "primaryVerified": false,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
+   }
   },
   {
    "id": "uranusReal",
@@ -4443,13 +4773,19 @@
    "csvBody": "Umbriel",
    "csvQuantity": "orbital_period",
    "csvRow": {
-    "value": 358056.8064,
+    "value": 358056.89773906855,
     "unit": "s",
     "sigma": null,
     "primaryVerified": false
    },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
+   "declaredApplied": true,
+   "csvRowLegacy": {
+    "value": 358056.8064,
+    "unit": "s",
+    "sigma": null,
+    "primaryVerified": false,
+    "source": "NASA NSSDC Uranian Satellite Fact Sheet (archived)"
+   },
    "ad8Converted": false,
    "previousUnit": null,
    "cut": "csv-sigma-empty",
@@ -4462,7 +4798,41 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": {
+    "key": "Umbriel|orbital_period",
+    "declaredSource": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
+    "declaredValue": 358056.89773906855,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
+    "previousRow": {
+     "value": 358056.8064,
+     "sigma": null,
+     "unit": "s",
+     "source": "NASA NSSDC Uranian Satellite Fact Sheet (archived)",
+     "primaryVerified": false
+    },
+    "valueDelta": 0.09133906854549423,
+    "residual": 22.69472396018682,
+    "nSigma": null,
+    "assessedStage": "h",
+    "primaryVerified": false,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
+   }
   },
   {
    "id": "uranusReal",
@@ -4477,13 +4847,19 @@
    "csvBody": "Titania",
    "csvQuantity": "orbital_period",
    "csvRow": {
-    "value": 752186.9088,
+    "value": 752187.0102125419,
     "unit": "s",
     "sigma": null,
     "primaryVerified": false
    },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
+   "declaredApplied": true,
+   "csvRowLegacy": {
+    "value": 752186.9088,
+    "unit": "s",
+    "sigma": null,
+    "primaryVerified": false,
+    "source": "NASA NSSDC Uranian Satellite Fact Sheet (archived)"
+   },
    "ad8Converted": false,
    "previousUnit": null,
    "cut": "csv-sigma-empty",
@@ -4496,7 +4872,41 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": {
+    "key": "Titania|orbital_period",
+    "declaredSource": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
+    "declaredValue": 752187.0102125419,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
+    "previousRow": {
+     "value": 752186.9088,
+     "sigma": null,
+     "unit": "s",
+     "source": "NASA NSSDC Uranian Satellite Fact Sheet (archived)",
+     "primaryVerified": false
+    },
+    "valueDelta": 0.10141254193149507,
+    "residual": 28.28799854044337,
+    "nSigma": null,
+    "assessedStage": "h",
+    "primaryVerified": false,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
+   }
   },
   {
    "id": "uranusReal",
@@ -4511,13 +4921,19 @@
    "csvBody": "Oberon",
    "csvQuantity": "orbital_period",
    "csvRow": {
-    "value": 1163223.4176,
+    "value": 1163223.665109313,
     "unit": "s",
     "sigma": null,
     "primaryVerified": false
    },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
+   "declaredApplied": true,
+   "csvRowLegacy": {
+    "value": 1163223.4176,
+    "unit": "s",
+    "sigma": null,
+    "primaryVerified": false,
+    "source": "NASA NSSDC Uranian Satellite Fact Sheet (archived)"
+   },
    "ad8Converted": false,
    "previousUnit": null,
    "cut": "csv-sigma-empty",
@@ -4530,7 +4946,41 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": {
+    "key": "Oberon|orbital_period",
+    "declaredSource": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
+    "declaredValue": 1163223.665109313,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
+    "previousRow": {
+     "value": 1163223.4176,
+     "sigma": null,
+     "unit": "s",
+     "source": "NASA NSSDC Uranian Satellite Fact Sheet (archived)",
+     "primaryVerified": false
+    },
+    "valueDelta": 0.24750931304879487,
+    "residual": 92.95440693804994,
+    "nSigma": null,
+    "assessedStage": "h",
+    "primaryVerified": false,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
+   }
   },
   {
    "id": "uranusReal",
@@ -4545,13 +4995,19 @@
    "csvBody": "Miranda",
    "csvQuantity": "orbital_period",
    "csvRow": {
-    "value": 122124.5856,
+    "value": 122124.62101961837,
     "unit": "s",
     "sigma": null,
     "primaryVerified": false
    },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
+   "declaredApplied": true,
+   "csvRowLegacy": {
+    "value": 122124.5856,
+    "unit": "s",
+    "sigma": null,
+    "primaryVerified": false,
+    "source": "NASA NSSDC Uranian Satellite Fact Sheet (archived)"
+   },
    "ad8Converted": false,
    "previousUnit": null,
    "cut": "csv-sigma-empty",
@@ -4564,7 +5020,41 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": {
+    "key": "Miranda|orbital_period",
+    "declaredSource": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
+    "declaredValue": 122124.62101961837,
+    "declaredSigma": null,
+    "applied": true,
+    "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
+    "previousRow": {
+     "value": 122124.5856,
+     "sigma": null,
+     "unit": "s",
+     "source": "NASA NSSDC Uranian Satellite Fact Sheet (archived)",
+     "primaryVerified": false
+    },
+    "valueDelta": 0.035419618361629546,
+    "residual": 84.85803737369133,
+    "nSigma": null,
+    "assessedStage": "h",
+    "primaryVerified": false,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
+   }
   },
   {
    "id": "uranusReal",

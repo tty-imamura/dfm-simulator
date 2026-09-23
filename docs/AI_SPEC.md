@@ -2161,6 +2161,15 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     Jacobson 2010 Table 6 の **λ̇ 由来の行**(`csvQuantity:"orbital_period_candidate"`・`derived-in-record`・
     note に `derived_from=<λ̇ 行>` と式)へ移した。**1σ は印字されていないので `sigma:null`**(門へは入らない)。
     旧判定行は CSV に残り `superseded_by=<新しい行>; superseded_on=2026-09-23` を持つ。QA `docs.deimosSwap`。
+  - **第279便e(AM7′・原仮定者の裁定(第69報)): 宣言は 11 件になった** —— 天王星の 5 衛星
+    (`Miranda` / `Ariel` / `Umbriel` / `Titania` / `Oberon` の `|orbital_period`)を Jacobson 2014 AJ 148 76 Table 2 の
+    **λ̇ 由来の行**(`csvQuantity:"orbital_period_candidate"`・`derived-in-record`・note に `derived_from=<λ̇ 行>` と式・
+    `frame=Uranus mean equator`)へ移した。**1σ は印字されていないので `sigma:null`**・`solution_id:""`(解タグは
+    CSV の行の note に無いので台帳に登録していない)。旧判定行(NSSDC)は量名 `orbital_period` のまま CSV に残り
+    `superseded_by=<新しい行>; superseded_on=2026-09-24` を持つ(ダイモス/フォボスと同じ形)。QA `docs.uranusSwap`。
+    変更履歴の台帳 `paper/data/corrections.json` の revision の `kind` に **`source-replacement`**(判定行の差し替え)と
+    **`ruling`**(原仮定者の裁定を note・sigma 列へ写した変更 —— note に `ruling=<ID> <日付>`)を足した
+    (器 `tests/exp-w272e-corrections.mjs` の `KINDS`)。AN1/AN2/AN3/AM8′ の note の鍵は QA `docs.obsRulings69` が固定する。
   - **宣言は行選択であって、単位の一致・観測量対応・数値収束の宣言ではない。**
     第269便a は宣言を診断欄だけに置いていた(`applied:false`・`mode:"diagnostic-only-until-AD5"`)。
   - **第270便a(AD5): 宣言は正式経路へ入った**(`mode:"applied-AD5"`・`appliedToJudgement:true`)。

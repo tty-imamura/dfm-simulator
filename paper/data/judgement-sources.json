@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "wave": "第268便a(2026-09-17・第58報 W1・統括の読み (D)・AB2)/ 第270便b(2026-09-18・第60報 W2・AE2 で record_id を追加)/ 第270便c(2026-09-18・第60報・AD9 で PSR J1946+2052 の 2 件を追加・統括の統合で record_id を付与)/ 第271便b(2026-09-18・第61報・AF4 で solution_id を記入・R1 で内容照合を一致条件に追加) / 第278便a(2026-09-23・第68報・AM7 でダイモス P と同型のフォボス P を λ̇ 由来の行へ差し替え)",
+  "wave": "第268便a(2026-09-17・第58報 W1・統括の読み (D)・AB2)/ 第270便b(2026-09-18・第60報 W2・AE2 で record_id を追加)/ 第270便c(2026-09-18・第60報・AD9 で PSR J1946+2052 の 2 件を追加・統括の統合で record_id を付与)/ 第271便b(2026-09-18・第61報・AF4 で solution_id を記入・R1 で内容照合を一致条件に追加) / 第278便a(2026-09-23・第68報・AM7 でダイモス P と同型のフォボス P を λ̇ 由来の行へ差し替え) / 第279便e(2026-09-24・第69報・AM7′ で天王星の 5 衛星 P を Jacobson 2014 Table 2 の λ̇ 由来の行へ差し替え)",
   "what": "判定(3σ の門)に採る観測解の明示宣言。body|quantity → 採用行(source/solution/value/sigma)。宣言の無い body|quantity は従来どおり CSV のファイル順で最初の行を採る(後方互換)。",
   "doNotWrite": [
     "宣言したので判定が増えた(宣言後の判定は『宣言後の初判定』欄に別に置く)",
@@ -14,7 +14,8 @@
     "csvQuantity は CSV 上の鍵(候補行は `<quantity>_candidate` という別の鍵である)",
     "sigma が null の宣言は『どの行を読むか』だけを決める(σ が無いので門へは 1 bit も入らない)",
     "宣言は行選択であって、単位の一致・観測量対応・数値収束を宣言するものではない",
-    "第278便a(AM7): **λ̇ 由来の周期(`derived-in-record`)を判定行に宣言してよい**。値は CSV の行から 1 文字も変えずに写し、その行の note が `derived_from=<λ̇ 行の record_id>` と式を持つ。**1σ が印字されていないので sigma は null**(門へは入らない)。"
+    "第278便a(AM7): **λ̇ 由来の周期(`derived-in-record`)を判定行に宣言してよい**。値は CSV の行から 1 文字も変えずに写し、その行の note が `derived_from=<λ̇ 行の record_id>` と式を持つ。**1σ が印字されていないので sigma は null**(門へは入らない)。",
+    "第279便e(AM7′): 天王星の 5 衛星(ミランダ・アリエル・ウンブリエル・チタニア・オベロン)の P を Jacobson 2014 Table 2 の λ̇ 由来の行へ差し替えた(ダイモス/フォボスと同じ形・**sigma は null**)。`solution_id` は空欄 —— Jacobson 2014 の解タグは CSV の行の note に書かれていないので台帳に登録していない(『解が無い』ではない)。"
   ],
   "declarations": [
     {
@@ -100,6 +101,76 @@
       "sigma": null,
       "declared": "2026-09-23",
       "reason": "AM7 と同型(フォボス): 従来の判定行は二次資料(Wikipedia の 0.31891023 d = 27553.843872 s)で、その桁は Table 6 の存在しない `Period` 列の読みに対応していた。λ̇=1128.844409 deg/d(原仮定者が同じ表で確認)から `P=360/λ̇ d×86400 s` = 27553.841567549454 s(差 0.0023 s・1σ は印字されていない)。**σ が無いので門へは 1 bit も入らない**。"
+    },
+    {
+      "body": "Miranda",
+      "quantity": "orbital_period",
+      "csvQuantity": "orbital_period_candidate",
+      "record_id": "SOL-0209ddd1",
+      "solution_id": "",
+      "source": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
+      "solution": "Jacobson 2014 Table 2 mean elements (epoch 2000 Jan 1.5 TDT, Uranus mean equator); P=360/lambda_dot (lambda_dot=254.6906573 deg/d, record SOL-6c790395)",
+      "value": 122124.62101961837,
+      "unit": "s",
+      "sigma": null,
+      "declared": "2026-09-24",
+      "reason": "AM7′(原仮定者の裁定・第69報「概ね同意」): 従来の判定行は NSSDC Uranian Satellite Fact Sheet の 1.413479 d = 122124.5856 s(SOL-b2769170・σ なし)。判定行を Jacobson 2014 AJ 148 76 Table 2 の λ̇=254.6906573 deg/d から作った `P=360/λ̇ d×86400 s`(`derived-in-record`・**1σ は印字されていない**)へ差し替える(ダイモス/フォボスと同じ形)。旧行は CSV に履歴として残る(`superseded_by=`)。**σ が無いので門へは 1 bit も入らない**(4 値は動かない)。"
+    },
+    {
+      "body": "Ariel",
+      "quantity": "orbital_period",
+      "csvQuantity": "orbital_period_candidate",
+      "record_id": "SOL-dedae320",
+      "solution_id": "",
+      "source": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
+      "solution": "Jacobson 2014 Table 2 mean elements (epoch 2000 Jan 1.5 TDT, Uranus mean equator); P=360/lambda_dot (lambda_dot=142.8356506 deg/d, record SOL-47a34fc3)",
+      "value": 217760.7611919261,
+      "unit": "s",
+      "sigma": null,
+      "declared": "2026-09-24",
+      "reason": "AM7′(原仮定者の裁定・第69報「概ね同意」): 従来の判定行は NSSDC Uranian Satellite Fact Sheet の 2.520379 d = 217760.7456 s(SOL-dc7dc8ee・σ なし)。判定行を Jacobson 2014 AJ 148 76 Table 2 の λ̇=142.8356506 deg/d から作った `P=360/λ̇ d×86400 s`(`derived-in-record`・**1σ は印字されていない**)へ差し替える(ダイモス/フォボスと同じ形)。旧行は CSV に履歴として残る(`superseded_by=`)。**σ が無いので門へは 1 bit も入らない**(4 値は動かない)。"
+    },
+    {
+      "body": "Umbriel",
+      "quantity": "orbital_period",
+      "csvQuantity": "orbital_period_candidate",
+      "record_id": "SOL-3e22ae39",
+      "solution_id": "",
+      "source": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
+      "solution": "Jacobson 2014 Table 2 mean elements (epoch 2000 Jan 1.5 TDT, Uranus mean equator); P=360/lambda_dot (lambda_dot=86.8688753 deg/d, record SOL-48e882d5)",
+      "value": 358056.89773906855,
+      "unit": "s",
+      "sigma": null,
+      "declared": "2026-09-24",
+      "reason": "AM7′(原仮定者の裁定・第69報「概ね同意」): 従来の判定行は NSSDC Uranian Satellite Fact Sheet の 4.144176 d = 358056.8064 s(SOL-6866353f・σ なし)。判定行を Jacobson 2014 AJ 148 76 Table 2 の λ̇=86.8688753 deg/d から作った `P=360/λ̇ d×86400 s`(`derived-in-record`・**1σ は印字されていない**)へ差し替える(ダイモス/フォボスと同じ形)。旧行は CSV に履歴として残る(`superseded_by=`)。**σ が無いので門へは 1 bit も入らない**(4 値は動かない)。"
+    },
+    {
+      "body": "Titania",
+      "quantity": "orbital_period",
+      "csvQuantity": "orbital_period_candidate",
+      "record_id": "SOL-b908b3a5",
+      "solution_id": "",
+      "source": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
+      "solution": "Jacobson 2014 Table 2 mean elements (epoch 2000 Jan 1.5 TDT, Uranus mean equator); P=360/lambda_dot (lambda_dot=41.3514187 deg/d, record SOL-f37678a4)",
+      "value": 752187.0102125419,
+      "unit": "s",
+      "sigma": null,
+      "declared": "2026-09-24",
+      "reason": "AM7′(原仮定者の裁定・第69報「概ね同意」): 従来の判定行は NSSDC Uranian Satellite Fact Sheet の 8.705867 d = 752186.9088 s(SOL-5ad04eb8・σ なし)。判定行を Jacobson 2014 AJ 148 76 Table 2 の λ̇=41.3514187 deg/d から作った `P=360/λ̇ d×86400 s`(`derived-in-record`・**1σ は印字されていない**)へ差し替える(ダイモス/フォボスと同じ形)。旧行は CSV に履歴として残る(`superseded_by=`)。**σ が無いので門へは 1 bit も入らない**(4 値は動かない)。"
+    },
+    {
+      "body": "Oberon",
+      "quantity": "orbital_period",
+      "csvQuantity": "orbital_period_candidate",
+      "record_id": "SOL-096d042d",
+      "solution_id": "",
+      "source": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
+      "solution": "Jacobson 2014 Table 2 mean elements (epoch 2000 Jan 1.5 TDT, Uranus mean equator); P=360/lambda_dot (lambda_dot=26.7394835 deg/d, record SOL-f7ae17f4)",
+      "value": 1163223.665109313,
+      "unit": "s",
+      "sigma": null,
+      "declared": "2026-09-24",
+      "reason": "AM7′(原仮定者の裁定・第69報「概ね同意」): 従来の判定行は NSSDC Uranian Satellite Fact Sheet の 13.463234 d = 1163223.4176 s(SOL-11242088・σ なし)。判定行を Jacobson 2014 AJ 148 76 Table 2 の λ̇=26.7394835 deg/d から作った `P=360/λ̇ d×86400 s`(`derived-in-record`・**1σ は印字されていない**)へ差し替える(ダイモス/フォボスと同じ形)。旧行は CSV に履歴として残る(`superseded_by=`)。**σ が無いので門へは 1 bit も入らない**(4 値は動かない)。"
     }
   ],
   "notDeclared": [
@@ -132,6 +203,31 @@
       "body": "Mercury",
       "quantity": "periastron_advance",
       "why": "現行の判定行が既に Park 2017 Table 3 で、宣言しても行は動かない(宣言の必要が無い)"
+    },
+    {
+      "body": "Miranda",
+      "quantity": "eccentricity",
+      "why": "第279便e: AM7′ の裁定は**周期だけ**である(e の判定行は裁定の外)。Jacobson 2014 Table 2 の e は候補行のまま(1σ は印字されていない)"
+    },
+    {
+      "body": "Ariel",
+      "quantity": "eccentricity",
+      "why": "第279便e: AM7′ の裁定は**周期だけ**である(e の判定行は裁定の外)。Jacobson 2014 Table 2 の e は候補行のまま(1σ は印字されていない)"
+    },
+    {
+      "body": "Umbriel",
+      "quantity": "eccentricity",
+      "why": "第279便e: AM7′ の裁定は**周期だけ**である(e の判定行は裁定の外)。Jacobson 2014 Table 2 の e は候補行のまま(1σ は印字されていない)"
+    },
+    {
+      "body": "Titania",
+      "quantity": "eccentricity",
+      "why": "第279便e: AM7′ の裁定は**周期だけ**である(e の判定行は裁定の外)。Jacobson 2014 Table 2 の e は候補行のまま(1σ は印字されていない)"
+    },
+    {
+      "body": "Oberon",
+      "quantity": "eccentricity",
+      "why": "第279便e: AM7′ の裁定は**周期だけ**である(e の判定行は裁定の外)。Jacobson 2014 Table 2 の e は候補行のまま(1σ は印字されていない)"
     }
   ]
 }

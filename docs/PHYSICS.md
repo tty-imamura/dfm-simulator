@@ -25101,6 +25101,20 @@ s₁ は 4 件とも 0。**ラベルの入れ替え対称性** pairSlip(−r,−
 
 **言わないこと。** 「UI を完成させた」「見やすくなった」「実機で確認した」「Opus 5.5 で生成に成功した」「判定が増えた」「較正した」「v1.45.0 RC を切った」。
 
+〔第279便e — 観測転写便2(天王星の 5 衛星の判定行を Jacobson 2014 の λ̇ 由来へ差し替え(AM7′)・σ の読み方の裁定 AN1・AN2・AN3・AM8′ を CSV へ写す)〕
+
+原仮定者の裁定(第69報)「**概ね同意**」で閉じた観測レコードの裁定を判定 CSV と台帳へ写す**転写だけの便**である。触ったのは `paper/data/solar-observations.csv`(**既存 24 行の note・うち 1 行の sigma 列 —— 行の追加 0**)・`paper/data/judgement-sources.json`(宣言 6 → **11** 件)・`paper/data/corrections.json`(台帳)・台帳の器 `tests/exp-w272e-corrections.mjs`(`kind` の語彙に `source-replacement`・`ruling`)・`tests/qa.mjs`。**html は 1 バイトも触っていない**(内蔵 133 本・署名・`S._core` 35197 字は定義上不変 —— bitsame/sigsame/jitprobe は本枝の対象外)。台帳の正本は CALIBRATION_VERDICT §5.31。
+
+**① AM7′: 天王星の 5 衛星の判定行。** 判定行の宣言を NSSDC Uranian Satellite Fact Sheet の周期(σ 無し)から、第278便a で置いた候補行 —— Jacobson 2014 AJ 148 76 Table 2 の λ̇ から `P=360/λ̇ d×86400 s` で作った `derived-in-record` の行 —— へ移した(ダイモス/フォボスと同じ形・**sigma は null**・`solution_id` は空欄)。新−旧: ミランダ **+0.035420 s**・アリエル **+0.015592 s**・ウンブリエル **+0.091339 s**・チタニア **+0.101413 s**・オベロン **+0.247509 s**。**ウンブリエル・チタニア・オベロンの差は NSSDC の印字桁(1e−6 d)の半幅 0.0432 s の 2.114・2.348・5.729 倍**で、NSSDC の値は Jacobson 2014 の λ̇ の丸めとしては説明できない(未解決・決断事項)。旧判定行は量名 `orbital_period` のまま `superseded_by=`・`superseded_on=2026-09-24` を持つ履歴の行として残る(量名を変えると record_id が変わるので `orbital_period_historical` への改名はしていない)。QA `docs.uranusSwap`。
+
+**② AN1・AN3・AN2・AM8′(どの行も判定量ではない)。** AN1: Brozović 2015 の系/冥王星/カロン GM の保守的な ± は sigma 列に印字のまま(`ruling=AN1`)。AN3: 2024 Table 8 の系 GM の sigma 列へ公表の ±0.2 km³/s²(= 2e8 m³/s²)を入れ、形式 1σ 0.09 は note の `formal_sigma=`(**二乗和しない**・`uncertainty_kind=published-inflated`)。AN2: Weaver 2016 Table 2 の周期 4 行に `source_status=secondary-transcription; primary_reference=(5) unresolved; confirmation_request=7`(出典は付け替えない)。AM8′: Chapront 2002 の 4 行に `stated_level=none`(formal errors を 1σ として読まない・sigma 列は空)。QA `docs.obsRulings69`。
+
+**③ 判定は動いていない。** 切断点 **106/26/3/4**(前後とも)・4 値 **0/2/2/33**・太陽系 **否 2・保留 14**・門 **合 2 / 否 2 / 数値未解決 34 / mapping-unresolved 15 / 条件不一致 0**(`--regate` で比較 —— σ の宛先 99・変化 0・印の反転 0。産物の差は 💠 の周期 6 量の σ の読み先が Jacobson 2014 の行へ移ったことと宣言の件数だけ。産物は戻した)。σ 接続器を再走し、5 衛星の宣言行は `appliedToJudgement:true`・判定は保留(σ が無い)。
+
+**④ 否定結果・未解決(そのまま残す)。** ① 判定へ届く印字 1σ は 1 本も増えていない(AN3 で sigma 列に入れたのは系 GM —— 門の宛先ではない)。② 門の器の宣言の件数(6 → 11)と中心値の移動は**通常走行で入る** —— 統合後の再走までは QA `docs.judgementSources` ④ が落ちる。③ CSV を入力に持つ正本のうちブラウザで走る `bh90-w269c`・`j1946adopt-w270c` の来歴刻印は統合後の再走で揃う(node の `nsgrid-w277c`・`plutostates-w277a` は本枝で再走 —— 刻印以外の差 0)。
+
+**言わないこと。** 「観測一致を達成した」「差し替えで判定に近づいた」「σ が揃った」「新発見」「v1.45.0 RC を切った」。合否は門(3σ)が出す —— **本便で門は 1 行も動いていない。**
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、

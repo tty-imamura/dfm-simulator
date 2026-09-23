@@ -2193,7 +2193,10 @@ const add = (id, pass, detail) => {
   const bad = [];
   // 第278便a(確認依頼 第 5 回・取得依頼 D・AM7・AM14): 89/98/37 → **145/397/58**(印の更新 42 行・
   //   σ を上げた 9 行・解タグの移設 25 行・書誌訂正 10 行・判定行の差し替え 2 行 —— 器の実測値)。
-  const EXPECT = { records: 145, revisions: 397, markedRows: 58, annotations: 3, annotationRows: 9 };
+  // 第279便e(第69報の裁定 AM7′・AN1・AN2・AN3・AM8′): 145/397/58 → **159/422/63**(判定行の差し替え 10 revision
+  //   〔kind `source-replacement`・旧判定行 5 行に `superseded_by=`〕・裁定の写し 15 revision〔kind `ruling`・
+  //   うち AN3 の sigma 列 1 件〕—— 新しい record 14 件・器の実測値)。
+  const EXPECT = { records: 159, revisions: 422, markedRows: 63, annotations: 3, annotationRows: 9 };
   let lg = null, J = null, redacted = 0;
   try { lg = JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data', 'corrections.json'), 'utf8')); }
   catch (e) { bad.push('①台帳が読めない: ' + String(e).slice(0, 80)); }
@@ -2485,7 +2488,10 @@ const add = (id, pass, detail) => {
     console.log('SKIP docs.intakeD(beta 対象でない: ' + TARGET + ')');
   } else {
     const bad = [];
-    const EXPECT = { csvRows: 601, newRows: 21, newWithSigma: 9, newVerified: 10, confirmed: 42, raised: 9,
+    // 第279便e(AN3): 2026-09-23 の新規行のうち 2024 系 GM(SOL-2ed99d44)の sigma 列へ公表の膨らませた
+    //   ±0.2 km³/s² = 2e8 m³/s² を入れた(`sigma_raised=` ではなく `ruling=AN3` —— 2of2 の一致で上げた行ではない)
+    //   ので、sigma 列を持つ新規行は 9 → **10**(③ の `sigma_raised` 9 行は不変)。
+    const EXPECT = { csvRows: 601, newRows: 21, newWithSigma: 10, newVerified: 10, confirmed: 42, raised: 9,
       cut: { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
       four: { 否: 2, 保留: 14 } };
     let nRows = 0, nNew = 0, nNewSig = 0, nNewVer = 0, nConf = 0, nRaised = 0, cut = null, four = null;
@@ -2584,7 +2590,9 @@ const add = (id, pass, detail) => {
 // ----     ④ 旧判定行(二次資料 109123.2 s)は CSV に**履歴の行**として残り、`superseded_by=<新しい行>`・
 // ----        `superseded_on=2026-09-23` を持つ。旧値の候補行(`orbital_period_candidate`)も残っている。
 // ----     ⑤ σ 接続器が宣言行で読んでいて(`appliedToJudgement`)、判定は**保留**(σ が無い)。
-// ----     ⑥ フォボスも同型(λ̇=1128.844409 deg/day)。天王星の衛星 5 本は**差し替えていない**(AM7′ 裁定待ち)。
+// ----     ⑥ フォボスも同型(λ̇=1128.844409 deg/day)。天王星の衛星 5 本は第278便a の時点では差し替えていなかった
+// ----        (AM7′ 裁定待ち)が、**第279便e で原仮定者の裁定(第69報)AM7′ により差し替えた** —— その検査は
+// ----        `docs.uranusSwap` が持つ(本ブロックの ⑥ は「天王星の宣言が uranusSwap の 5 件だけ」であることを見る)。
 // ----   root は SKIP。
 {
   if (!TARGET.startsWith('beta/')) {
@@ -2637,9 +2645,13 @@ const add = (id, pass, detail) => {
         bad.push('④ダイモスの旧値の候補行(orbital_period_candidate 109123.2)が無い');
       const pc = L.rows.find((x) => x.body === 'Deimos' && x.quantity === 'orbital_period_candidate' && x.value === 109092.7872);
       if (!pc || !/(?:^|[^A-Za-z0-9_])period_column=absent/.test(pc.note)) bad.push('③Period 列読みの行に period_column=absent が無い');
-      // ⑥ 天王星の衛星は差し替えていない(AM7′)
-      for (const b of ['Miranda', 'Ariel', 'Umbriel', 'Titania', 'Oberon'])
-        if ((JS.declarations || []).some((x) => x.body === b)) bad.push(`⑥${b} の判定行を宣言している(AM7′ は裁定待ち)`);
+      // ⑥ 天王星の衛星: 第279便e(AM7′)で差し替えた —— 宣言は各 1 件で、Jacobson 2014 Table 2 の λ̇ 由来の行だけ
+      //   (中身の検査は docs.uranusSwap)。ここでは「ダイモス/フォボスの検査が天王星の宣言に紛れない」ことだけを見る。
+      for (const b of ['Miranda', 'Ariel', 'Umbriel', 'Titania', 'Oberon']) {
+        const ds = (JS.declarations || []).filter((x) => x.body === b);
+        if (ds.length !== 1 || ds[0].quantity !== 'orbital_period' || !/Jacobson R\.A\. 2014 AJ 148 76 Table 2/.test(String(ds[0].source)))
+          bad.push(`⑥${b} の宣言が Jacobson 2014 Table 2 の P 1 件でない(${ds.length} 件)`);
+      }
     } catch (e) { bad.push('読めない: ' + String(e).slice(0, 110)); }
     add('docs.deimosSwap', bad.length === 0,
       `**ダイモスの判定行の差し替え**(第278便a・AM7 —— 原仮定者の裁定(第68報)「概ね同意」): `
@@ -2648,7 +2660,204 @@ const add = (id, pass, detail) => {
       + `計算し直すと行の値に一致 / ③ **「Table 6 に Period 列がある」とは書かない**(Period 列読みの行に`
       + ` \`period_column=absent\`)/ ④ 旧判定行は履歴の行(\`superseded_by=\`・\`superseded_on=2026-09-23\`)/ `
       + `⑤ σ 接続器が宣言行で読み、判定は**保留**(σ が無いので門へは入らない)/ ⑥ フォボスも同型・`
-      + `天王星の衛星 5 本は**差し替えていない**(AM7′ 裁定待ち)`
+      + `天王星の衛星 5 本は第279便e(AM7′)で Jacobson 2014 Table 2 の λ̇ 由来へ差し替えた(検査は \`docs.uranusSwap\`)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第279便e(第69報・AM7′): docs.uranusSwap ----
+// ----   **天王星の 5 衛星の判定行の差し替え**(原仮定者の裁定(第69報)AM7′ —— ダイモス/フォボス〔第278便a〕と同じ形)
+// ----   を機械で固定する:
+// ----     ① `paper/data/judgement-sources.json` の `<衛星>|orbital_period` の宣言が各 1 件で、Jacobson 2014 AJ 148 76
+// ----        Table 2 の **λ̇ 由来の行**(`orbital_period_candidate`・`derived-in-record`)を指し、**sigma は null**
+// ----        (1σ は印字されていない)・`solution_id` は空欄(解タグは CSV の行の note に書かれていない)。
+// ----     ② その行の `derived_from=` が **λ̇ の行**(同じ Table 2・mean_motion・deg/day)へ 1 件で解決し、
+// ----        `P=360/λ̇ d×86400 s` を**今ここで計算し直すと行の値に一致**する(相対 1e−12 以内)。行の note に
+// ----        `judgement_row_since=2026-09-24` と `frame=Uranus mean equator` がある。
+// ----     ③ 旧判定行(NSSDC Uranian Satellite Fact Sheet の P)は CSV に**履歴の行**として 1 行で残り(量名
+// ----        `orbital_period` のまま)、`superseded_by=<新しい行>`・`superseded_on=2026-09-24` を持つ。
+// ----        同じ NSSDC 値の候補行(`orbital_period_candidate`)も**候補のまま**残っている。
+// ----     ④ σ 接続器(`tests/out/solarsigma-w262d.json`)が宣言行で読み(`appliedToJudgement`)、判定は**保留**
+// ----        (σ が無い)。**切断点 106/26/3/4 と太陽系 4 値(否 2・保留 14)は動いていない**。
+// ----     ⑤ 変更履歴の台帳に、旧判定行 5 行の `source-replacement` の revision(`markKey:"superseded_by"`)がある。
+// ----     ⑥ CALIBRATION_VERDICT §5.31 に 5 本の新値と `106/26/3/4`・`0/2/2/33` があり、**4 値の禁止語が無い**。
+// ----   root は SKIP。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.uranusSwap(beta 対象でない: ' + TARGET + ')');
+  } else {
+    const bad = [];
+    const rowsOut = [];
+    let cut = null, four = null;
+    try {
+      const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+      const L = OB.loadObsCsv(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'));
+      const byId = new Map(L.rows.map((r) => [r.recordId, r]));
+      const JS = JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data', 'judgement-sources.json'), 'utf8'));
+      const S = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8'));
+      const CJ = JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data', 'corrections.json'), 'utf8'));
+      // [衛星, λ̇ (deg/day), 旧判定行の値 (s)] —— 値は CSV の既存行の値(ここで新しい数値を作らない)
+      const CASES = [['Miranda', 254.6906573, 122124.5856], ['Ariel', 142.8356506, 217760.7456],
+        ['Umbriel', 86.8688753, 358056.8064], ['Titania', 41.3514187, 752186.9088],
+        ['Oberon', 26.7394835, 1163223.4176]];
+      const hasKey = (note, k) => new RegExp('(?:^|[^A-Za-z0-9_])' + k).test(String(note || ''));
+      for (const [body, lam, oldV] of CASES) {
+        const ds = (JS.declarations || []).filter((x) => x.body === body && x.quantity === 'orbital_period');
+        if (ds.length !== 1) { bad.push(`①${body}|orbital_period の宣言が 1 件でない(${ds.length})`); continue; }
+        const d = ds[0];
+        if (d.sigma !== null) bad.push(`①${body} の宣言の sigma が null でない`);
+        if (d.csvQuantity !== 'orbital_period_candidate') bad.push(`①${body} の csvQuantity が候補行の鍵でない`);
+        if (d.solution_id !== '') bad.push(`①${body} の宣言の solution_id が空欄でない(${d.solution_id})`);
+        const r = byId.get(d.record_id);
+        if (!r) { bad.push(`①${body} の宣言行 ${d.record_id} が CSV に無い`); continue; }
+        if (!/^Jacobson R\.A\. 2014 AJ 148 76 Table 2/.test(r.source)) bad.push(`①${body} の宣言行の出典が Jacobson 2014 Table 2 でない`);
+        if (r.sigma !== null) bad.push(`①${body} の宣言行に sigma がある`);
+        if (String(r.solutionId || '') !== '') bad.push(`①${body} の宣言行の solution_id が空欄でない`);
+        const refs = OB.listKeyRefs(r.note, 'derived_from');
+        const src = refs.ids.length === 1 ? byId.get(refs.ids[0]) : null;
+        if (!src) bad.push(`②${body} の derived_from が λ̇ の行へ 1 件で解決しない`);
+        else {
+          if (src.quantity !== 'mean_motion' || src.value !== lam || src.unit !== 'deg/day' || !/Table 2/.test(src.source))
+            bad.push(`②${body} の derived_from の先が λ̇=${lam} deg/day の行でない(${src.quantity} ${src.value})`);
+          const P = 360 / src.value * 86400;
+          if (!(Math.abs(P - r.value) <= 1e-12 * r.value)) bad.push(`②${body} の P=360/λ̇×86400=${P} が行の値 ${r.value} と違う`);
+        }
+        if (!hasKey(r.note, 'judgement_row_since=2026-09-24')) bad.push(`②${body} の宣言行に judgement_row_since=2026-09-24 が無い`);
+        if (!hasKey(r.note, 'frame=Uranus mean equator')) bad.push(`②${body} の宣言行に frame= が無い`);
+        const old = L.rows.filter((x) => x.body === body && x.quantity === 'orbital_period' && x.value === oldV);
+        if (old.length !== 1) bad.push(`③${body} の旧判定行(${oldV} s)が 1 行でない(${old.length})`);
+        else {
+          if (!/NSSDC Uranian Satellite Fact Sheet/.test(old[0].source)) bad.push(`③${body} の旧判定行の出典が NSSDC でない`);
+          if (!new RegExp('(?:^|[^A-Za-z0-9_])superseded_by=' + d.record_id + '(?![A-Za-z0-9_-])').test(old[0].note))
+            bad.push(`③${body} の旧判定行に superseded_by=${d.record_id} が無い`);
+          if (!hasKey(old[0].note, 'superseded_on=2026-09-24')) bad.push(`③${body} の旧判定行に superseded_on=2026-09-24 が無い`);
+          const rec = (CJ.records || {})[old[0].recordId];
+          const rv = rec ? (rec.revisions || []).filter((z) => z.kind === 'source-replacement' && z.markKey === 'superseded_by') : [];
+          if (rv.length !== 1) bad.push(`⑤${body} の旧判定行 ${old[0].recordId} に source-replacement の revision が 1 件でない(${rv.length})`);
+        }
+        if (!L.rows.some((x) => x.body === body && x.quantity === 'orbital_period_candidate' && x.value === oldV
+          && /NSSDC/.test(x.source)))
+          bad.push(`③${body} の NSSDC 値の候補行(orbital_period_candidate ${oldV})が無い`);
+        const dr = ((S.declaredFirst || {}).rows || []).filter((x) => x.key === body + '|orbital_period');
+        if (!dr.length) bad.push(`④σ 接続器に ${body} の宣言行が無い(器を走らせ直すこと)`);
+        for (const x of dr) {
+          if (x.appliedToJudgement !== true) bad.push(`④${body} の宣言が判定経路に入っていない`);
+          if (x.declaredSigma !== null || !/^保留/.test(String(x.verdict))) bad.push(`④${body} の判定が保留でない(${x.verdict})`);
+        }
+        rowsOut.push(`${body} ${d.record_id}=${r.value} s(旧 ${oldV} s・差 ${(r.value - oldV).toFixed(6)} s)`);
+      }
+      cut = S.cutTally || {}; four = S.fourTally || {};
+      const EC = { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 };
+      for (const [k, v] of Object.entries(EC)) if (cut[k] !== v) bad.push(`④切断点 ${k} が ${v} でない(${cut[k]})`);
+      if (four['否'] !== 2 || four['保留'] !== 14) bad.push(`④太陽系 4 値が 否 2・保留 14 でない(${JSON.stringify(four)})`);
+      // ⑥ CALIBRATION_VERDICT §5.31
+      const V = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
+      const i31 = V.indexOf('### 5.31 ');
+      if (i31 < 0) bad.push('⑥台帳に §5.31 が無い');
+      const sec = (i31 < 0) ? '' : V.slice(i31, (() => { const e = [V.indexOf('\n### 5.32 ', i31), V.indexOf('\n## ', i31)]
+        .filter((x) => x > 0); return e.length ? Math.min(...e) : V.length; })());
+      for (const sN of ['122124.62101961837', '217760.7611919261', '358056.89773906855', '752187.0102125419',
+        '1163223.665109313', '106/26/3/4', '0/2/2/33'])
+        if (sec.indexOf(sN) < 0) bad.push(`⑥§5.31 に ${sN} が無い`);
+      for (const line of sec.split('\n'))
+        if (/較正した|較正を完了|判定が増えた|カロンが合|カロンが否|kF0 版が成立した|引きずりが完全に消えていることを確認/.test(line))
+          bad.push('⑥禁止語(§5.31): ' + line.slice(0, 40));
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 110)); }
+    add('docs.uranusSwap', bad.length === 0,
+      `**天王星の 5 衛星の判定行の差し替え**(第279便e・AM7′ —— 原仮定者の裁定(第69報)「概ね同意」): `
+      + `${rowsOut.join(' / ')} / ① 宣言は Jacobson 2014 Table 2 の **λ̇ 由来**(\`derived-in-record\`・`
+      + `**sigma は null** —— 1σ は印字されていない・\`solution_id\` は空欄)/ ② \`derived_from=\` が λ̇ の行へ解決し、`
+      + `P=360/λ̇ d×86400 s を計算し直すと行の値に一致 / ③ 旧判定行(NSSDC)は履歴の行(量名は \`orbital_period\` のまま・`
+      + `\`superseded_by=\`・\`superseded_on=2026-09-24\`)・NSSDC 値の候補行は候補のまま / ④ σ 接続器が宣言行で読み、`
+      + `判定は**保留** —— **切断点 ${cut ? Object.values(cut).join('/') : '—'}・太陽系 4 値 ${four ? JSON.stringify(four) : '—'} は動いていない** / `
+      + `⑤ 台帳に \`source-replacement\` の revision / ⑥ §5.31 に 5 本の新値・禁止語なし`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第279便e(第69報・AN1・AN2・AN3・AM8′): docs.obsRulings69 ----
+// ----   原仮定者の裁定(第69報)で閉じた**観測レコードの σ の読み方**が CSV に写っていることを機械で固定する。
+// ----   **どの行も判定量ではない**(GM・Weaver の周期・Chapront の月の量は門の宛先に無い)ので門は動かない。
+// ----     ① AN1: Brozović 2015 の系/冥王星/カロン GM 4 行は `uncertainty_kind=conservative-inflated` と
+// ----        `ruling=AN1` を持ち、**sigma 列は印字のまま**(冥王星 1.8e9・系 1.5e9・カロン 2 行は空のまま)。
+// ----     ② AN3: 2024 Table 8 の系 GM は sigma 列が **2e8**(公表の膨らませた 0.2 km³/s²)で、note に
+// ----        `formal_sigma=0.09`・`uncertainty_kind=published-inflated`(二乗和しない)。カロン GM は sigma 3e8 のまま
+// ----        `formal_sigma=0.12`。
+// ----     ③ AN2: Weaver 2016 Table 2 の周期 4 行は `source_status=secondary-transcription`・
+// ----        `primary_reference=(5) unresolved`・`confirmation_request=7` を持ち、**出典ラベルは付け替えていない**・sigma 列は空。
+// ----     ④ AM8′: Chapront 2002 の 4 行は sigma 列が空のまま、`stated_level=none`・`ruling=AM8-prime`。
+// ----   root は SKIP。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.obsRulings69(beta 対象でない: ' + TARGET + ')');
+  } else {
+    const bad = [];
+    const tally = { AN1: 0, AN2: 0, AN3: 0, AM8: 0 };
+    try {
+      const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+      const L = OB.loadObsCsv(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'));
+      const byId = new Map(L.rows.map((r) => [r.recordId, r]));
+      const has = (r, k) => new RegExp('(?:^|[^A-Za-z0-9_])' + k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).test(String(r.note || ''));
+      const JQ = ['orbital_period', 'eccentricity', 'periastron_advance', 'rotation_period'];
+      const GATED = ['Moon', 'Earth', 'Mercury', 'Venus', 'Mars', 'Phobos', 'Deimos', 'Charon',
+        'Miranda', 'Ariel', 'Umbriel', 'Titania', 'Oberon', 'Triton', 'Io', 'Europa', 'Ganymede',
+        'Callisto', 'Saturn ring feature D68', 'Saturn ring C inner edge', 'Mimas', 'Titan'];
+      const get = (id, tag) => { const r = byId.get(id); if (!r) bad.push(`${tag} ${id} が CSV に無い`); return r; };
+      // ① AN1(record_id → 期待する sigma 列の生値)
+      for (const [id, sg] of [['SOL-5cc14657', '1.8e9'], ['SOL-b8f464fc', '1.5e9'], ['SOL-17ac6945', ''], ['SOL-dbe2abde', '']]) {
+        const r = get(id, '①'); if (!r) continue;
+        if (!/^Brozovic M\. Showalter M\.R\. Jacobson R\.A\. Buie M\.W\. 2015 Icarus 246 317/.test(r.source)) bad.push(`①${id} の出典が Brozović 2015 でない`);
+        if (!has(r, 'uncertainty_kind=conservative-inflated')) bad.push(`①${id} に uncertainty_kind=conservative-inflated が無い`);
+        if (!has(r, 'ruling=AN1')) bad.push(`①${id} に ruling=AN1 が無い`);
+        if (String(r.rawSigma || '').trim() !== sg) bad.push(`①${id} の sigma 列が ${sg || '空'} でない(${r.rawSigma})`);
+        tally.AN1++;
+      }
+      // ② AN3
+      { const r = get('SOL-2ed99d44', '②');
+        if (r) {
+          if (r.body !== 'Pluto-Charon system' || r.quantity !== 'GM') bad.push('②SOL-2ed99d44 が系 GM の行でない');
+          if (String(r.rawSigma).trim() !== '2e8') bad.push(`②系 GM の sigma 列が 2e8 でない(${r.rawSigma})`);
+          if (!has(r, 'formal_sigma=0.09')) bad.push('②系 GM に formal_sigma=0.09 が無い');
+          if (!has(r, 'uncertainty_kind=published-inflated')) bad.push('②系 GM に uncertainty_kind=published-inflated が無い');
+          if (!has(r, 'ruling=AN3')) bad.push('②系 GM に ruling=AN3 が無い');
+          tally.AN3++;
+        } }
+      { const r = get('SOL-2a069190', '②');
+        if (r) {
+          if (String(r.rawSigma).trim() !== '3e8') bad.push(`②カロン GM(2024)の sigma 列が 3e8 でない(${r.rawSigma})`);
+          if (!has(r, 'formal_sigma=0.12') || !has(r, 'uncertainty_kind=published-inflated') || !has(r, 'ruling=AN3'))
+            bad.push('②カロン GM(2024)に formal_sigma=0.12 / uncertainty_kind / ruling=AN3 が揃っていない');
+          tally.AN3++;
+        } }
+      // ③ AN2
+      for (const id of ['SOL-36584acc', 'SOL-47d6c979', 'SOL-d3a36169', 'SOL-b66fe697']) {
+        const r = get(id, '③'); if (!r) continue;
+        if (!/^Weaver et al\. 2016 Science 351 aae0030 Table 2/.test(r.source)) bad.push(`③${id} の出典ラベルが Weaver 2016 Table 2 でない(付け替えない)`);
+        for (const k of ['source_status=secondary-transcription', 'primary_reference=(5) unresolved', 'confirmation_request=7', 'ruling=AN2'])
+          if (!has(r, k)) bad.push(`③${id} に ${k} が無い`);
+        if (r.sigma !== null) bad.push(`③${id} の sigma 列が空でない`);
+        tally.AN2++;
+      }
+      // ④ AM8′
+      for (const id of ['SOL-17f5dad0', 'SOL-c34be08a', 'SOL-432f643e', 'SOL-dd3a44c7']) {
+        const r = get(id, '④'); if (!r) continue;
+        if (!/^Chapront J\. Chapront-Touze M\. Francou G\. 2002/.test(r.source)) bad.push(`④${id} の出典が Chapront 2002 でない`);
+        if (r.sigma !== null) bad.push(`④${id} の sigma 列が空でない`);
+        if (!has(r, 'stated_level=none') || !has(r, 'ruling=AM8-prime')) bad.push(`④${id} に stated_level=none / ruling=AM8-prime が無い`);
+        tally.AM8++;
+      }
+      // どの行も判定量(宛先天体の P/e/ω̇/自転)ではない
+      for (const r of L.rows)
+        if (/(?:^|[^A-Za-z0-9_])ruling=(?:AN1|AN2|AN3|AM8-prime)/.test(r.note) && GATED.includes(r.body) && JQ.includes(r.quantity))
+          bad.push(`⑤行 ${r.ln} が判定量 ${r.body}|${r.quantity}`);
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 110)); }
+    add('docs.obsRulings69', bad.length === 0,
+      `**観測レコードの σ の読み方の裁定**(第279便e・原仮定者の裁定(第69報)): `
+      + `① AN1 ${tally.AN1} 行(Brozović 2015 の保守的な ± は sigma 列に印字のまま・\`uncertainty_kind=conservative-inflated\`)/ `
+      + `② AN3 ${tally.AN3} 行(2024 系 GM の sigma 列 = 公表の膨らませた 0.2 km³/s²・形式 1σ 0.09 は note —— 二乗和しない)/ `
+      + `③ AN2 ${tally.AN2} 行(Weaver 2016 Table 2 の周期は転載 —— \`source_status=secondary-transcription\`・出典は付け替えない)/ `
+      + `④ AM8′ ${tally.AM8} 行(Chapront 2002 の formal errors は 1σ として読まない・sigma 列は空)/ `
+      + `⑤ どの行も判定量ではない(門は動かない)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
@@ -3394,10 +3603,15 @@ const add = (id, pass, detail) => {
     //   きつくなるので σ 倍の距離はむしろ増える —— `docs.j1946Adopted` が数で置く)。
     // 第278便a(AM7): **ダイモス P と同型のフォボス P** を Jacobson 2010 Table 6 の λ̇ 由来の行へ差し替えた
     //   (4 件 → 6 件)。**1σ は印字されていないので sigma は null** —— 門へは 1 bit も入らない。
-    if (decl.length !== 6) bad.push(`①宣言が 6 件でない(${decl.length})`);
+    // 第279便e(AM7′・原仮定者の裁定(第69報)): **天王星の 5 衛星 P** を Jacobson 2014 Table 2 の λ̇ 由来の行へ
+    //   差し替えた(6 件 → 11 件)。**1σ は印字されていないので sigma は null** —— 門へは 1 bit も入らない。
+    //   ④(門の器が読んだ件数)は calaudit の**通常走行**で入る(--regate の産物は正本にしない —— 統合後の再走で揃う)。
+    if (decl.length !== 11) bad.push(`①宣言が 11 件でない(${decl.length})`);
     const keys = decl.map((d) => d.body + '|' + d.quantity).sort();
-    if (keys.join(' , ') !== 'Charon|orbital_period , Deimos|orbital_period , PSR J1946+2052|eccentricity , '
-      + 'PSR J1946+2052|orbital_period , Phobos|orbital_period , Venus|eccentricity')
+    if (keys.join(' , ') !== 'Ariel|orbital_period , Charon|orbital_period , Deimos|orbital_period , '
+      + 'Miranda|orbital_period , Oberon|orbital_period , PSR J1946+2052|eccentricity , '
+      + 'PSR J1946+2052|orbital_period , Phobos|orbital_period , Titania|orbital_period , '
+      + 'Umbriel|orbital_period , Venus|eccentricity')
       bad.push(`①宣言の対象が違う(${keys.join(' , ')})`);
     // ① 宣言が CSV の行に 1 件で当たる(値も σ も CSV から 1 文字も変えずに写している)
     const rows = [];
@@ -3456,7 +3670,8 @@ const add = (id, pass, detail) => {
     + `**金星 e = JPL SSD Table 1 の 0.00677672(σ の印字なし)**・`
     + `**PSR J1946+2052 の P = 6781.367998656 s ± 1.728e-6 と e = 0.0638363 ± 8e-7`
     + `(Meng 2025 Table 1 DDFWHE — 第270便c/AD9 で採用解を一組へ揃えた)**・`
-    + `**ダイモス P と同型のフォボス P = Jacobson 2010 Table 6 の λ̇ 由来(σ の印字なし — 第278便a/AM7)**)で、どれも CSV の行に`
+    + `**ダイモス P と同型のフォボス P = Jacobson 2010 Table 6 の λ̇ 由来(σ の印字なし — 第278便a/AM7)**・`
+    + `**天王星の 5 衛星 P = Jacobson 2014 Table 2 の λ̇ 由来(σ の印字なし — 第279便e/AM7′)**)で、どれも CSV の行に`
     + `**1 件で当たる**(${hits.join(' / ')} —— 宣言に新しい数値は 1 つも書いていない)/ `
     + `**宣言の無い対象は従来どおりファイル順の最初の行**(ダイモス e・水星 P・火星 P・`
     + `トリトン P/e は**周期定義の照合が先**なので宣言しない)/ `
