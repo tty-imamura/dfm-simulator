@@ -640,3 +640,9 @@ _scratch-*.log
 #   calaudit-w249.json / charonwin-w278b.json から機械で作る。QA docs.sampleStatus-sync が docs/SAMPLE_STATUS_v1.45.md と
 #   html の生成領域 sample-status と突き合わせ、lint.provenanceMeta が来歴を固定するのでコミットする。**判定はしない**(台帳の転記)。
 !tests/out/samplestatus-w279a.json
+# 第279便b: QA の確認順・並列化(W5b)・失敗注入・preflight の実測の正本(tests/exp-w279b-qaorder.mjs --record)。
+#   QA `lint.provenanceMeta` の CANON に入っている
+!tests/out/qaorder-w279b.json
+# 第279便b: 前回 FAIL の先行再実行・preflight が一時的に書く切り出し版(終われば消す — 途中終了の残りを拾わない)
+tests/.qa-replay-*.mjs
+tests/.qa-preflight-*.mjs

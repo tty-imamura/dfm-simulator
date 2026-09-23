@@ -1,0 +1,875 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第279便b",
+  "target": "tests/lib-w279b-qaorder.mjs",
+  "targetSha256": "92a6d07cb2259b5f4ceb940087a48bae7bc99da86ab7e6e33161ecc2a6327ed6",
+  "generatedAt": "2026-09-23T22:37:37.217Z",
+  "inputs": [
+   {
+    "file": "tests/lib-w279b-qaorder.mjs",
+    "bytes": 24157,
+    "sha256": "92a6d07cb2259b5f4ceb940087a48bae7bc99da86ab7e6e33161ecc2a6327ed6",
+    "mtime": "2026-09-23T21:53:17.127Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w279b-qaorder.mjs",
+    "bytes": 9235,
+    "sha256": "ebecd0ab9cd37d520be045c2dfe838419b10e9563f4ea06eb45c79d5e840ddab",
+    "mtime": "2026-09-23T22:32:36.107Z"
+   },
+   {
+    "file": "tests/lib-w279b-qaorder.mjs",
+    "bytes": 24157,
+    "sha256": "92a6d07cb2259b5f4ceb940087a48bae7bc99da86ab7e6e33161ecc2a6327ed6",
+    "mtime": "2026-09-23T21:53:17.127Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-09-23T20:00:42.657Z"
+   },
+   {
+    "file": "tests/qa-preflight.mjs",
+    "bytes": 7080,
+    "sha256": "fadf9c2b5b35cdc6c5bd053faa4e6687f6b161f8612e05a1dfbc4cd1957eb523",
+    "mtime": "2026-09-23T20:01:12.421Z"
+   }
+  ],
+  "codeSha256": "350f6691ea9041db90e8477914ea71de576c82d5659223be3b348b224c358ef3"
+ },
+ "what": "QA の確認順・並列化(W5b)・失敗注入・preflight の実測(判定式・閾値・seed・物理時間・母集団は不変)",
+ "environment": {
+  "machine": "同一コンテナ(Linux・4 コア・メモリ 15 GB・Node v22 系・Chromium 1194)",
+  "method": "基点 0624159 の複製(git archive)と本便の木の複製(.git を除く)を別ディレクトリで `QA_TARGET=<target> QA_CACHE=0 node tests/qa.mjs` として 1 本ずつ直列に走らせた(同時に 2 本のフル QA は回していない)。壁時計は起動から終了までの ms。",
+  "cpu": "10 秒ごとに /proc/stat(機械全体)と走行のプロセス木(node + Chromium)の utime+stime を読み、コア数の平均に直した。others = 機械全体 − 自分 = 同じ機械で同時に走っていた他の枝の器。before-beta と before-root の前半は機械全体だけを記録した(分けて記録し始めたのは before-root の終盤から)。",
+  "caveat": "他の枝の器の負荷は制御できない。after の 4 本はいずれも他の走行が平均 ≈1.2 コアあった条件で、before-beta は分けて記録していない(実行中の ps では他の重い走行は見えなかった)。削減率はこの条件の 1 回ずつの値である"
+ },
+ "runs": [
+  {
+   "tag": "before-beta",
+   "target": "beta/index.html",
+   "codeState": "before",
+   "note": "基点 0624159",
+   "wallMs": 2184505,
+   "exit": 0,
+   "resultsFile": "before-beta.json",
+   "total": 846,
+   "failed": 0,
+   "pass": true,
+   "durationMsSumOfMs": 2183632,
+   "wallDurationMs": null,
+   "cacheCached": 0,
+   "targetSha256": "d334ed09709f20d0f97328227681b11305f2bf3319b4bc36ca95e0a12f7c0744",
+   "resultsSha256": "304a0c9117593feda387caa0e57e0194ed6a64566320e3af46b5766a4b5ef01e",
+   "failedIds": [],
+   "cpu": {
+    "machine": 2.51,
+    "own": null,
+    "others": null,
+    "samples": 205
+   },
+   "w5": null
+  },
+  {
+   "tag": "before-root",
+   "target": "index.html",
+   "codeState": "before",
+   "note": "基点 0624159。後半(≈20 分目以降)に他の枝の器が同時に走っていた(ps で確認)",
+   "wallMs": 2016824,
+   "exit": 0,
+   "resultsFile": "before-root.json",
+   "total": 748,
+   "failed": 0,
+   "pass": true,
+   "durationMsSumOfMs": 2016317,
+   "wallDurationMs": null,
+   "cacheCached": 0,
+   "targetSha256": "f68b9cb87ef233184938b4e049432651b93296da6ff6be058f888126dccc99ad",
+   "resultsSha256": "2ebae8a8a8566718e238bce4d64546830f7b35e936c1a5d12d89e65b6f959cf6",
+   "failedIds": [],
+   "cpu": {
+    "machine": 2.95,
+    "own": null,
+    "others": null,
+    "samples": 202,
+    "lastSamplesSplit": {
+     "own": 0.65,
+     "others": 2.57,
+     "samples": 7
+    }
+   },
+   "w5": null
+  },
+  {
+   "tag": "after-beta-run1",
+   "target": "beta/index.html",
+   "codeState": "after-run1",
+   "note": "本便の 1 版目(ワーカーのレンダラの nice なし)",
+   "wallMs": 1156983,
+   "exit": 0,
+   "resultsFile": "after-beta-run1.json",
+   "total": 848,
+   "failed": 0,
+   "pass": true,
+   "durationMsSumOfMs": 1156493,
+   "wallDurationMs": 1156628,
+   "cacheCached": 0,
+   "targetSha256": "d334ed09709f20d0f97328227681b11305f2bf3319b4bc36ca95e0a12f7c0744",
+   "resultsSha256": "48e65f758e39611d4c18f77c9099686bf875c7c23d23b21533f561389945487d",
+   "failedIds": [],
+   "cpu": {
+    "machine": 3.41,
+    "own": 2.22,
+    "others": 1.19,
+    "samples": 115
+   },
+   "w5": null
+  },
+  {
+   "tag": "after-root-run1",
+   "target": "index.html",
+   "codeState": "after-run1",
+   "note": "本便の 1 版目(nice なし)。ab.sync-advance が FAIL(実時間 0.8+5 秒でアニメーションが t>0.5 に届かない — 主ページがワーカーと他の走行に CPU を取られた)。これを受けてワーカーのレンダラの nice を 10 にした",
+   "wallMs": 1087850,
+   "exit": 1,
+   "resultsFile": "after-root-run1.json",
+   "total": 748,
+   "failed": 1,
+   "pass": false,
+   "durationMsSumOfMs": 1087458,
+   "wallDurationMs": 1087574,
+   "cacheCached": 0,
+   "targetSha256": "f68b9cb87ef233184938b4e049432651b93296da6ff6be058f888126dccc99ad",
+   "resultsSha256": "943fc767bc15ca196bd6777180812000bad8614e1623fa81ee366576d7e65522",
+   "failedIds": [
+    "ab.sync-advance"
+   ],
+   "cpu": {
+    "machine": 3.45,
+    "own": 2.24,
+    "others": 1.2,
+    "samples": 108
+   },
+   "w5": null
+  },
+  {
+   "tag": "after-root",
+   "target": "index.html",
+   "codeState": "after",
+   "note": "本便の最終版(ワーカーのレンダラ nice=10)",
+   "wallMs": 1018510,
+   "exit": 0,
+   "resultsFile": "after-root.json",
+   "total": 748,
+   "failed": 0,
+   "pass": true,
+   "durationMsSumOfMs": 1018101,
+   "wallDurationMs": 1018224,
+   "cacheCached": 0,
+   "targetSha256": "f68b9cb87ef233184938b4e049432651b93296da6ff6be058f888126dccc99ad",
+   "resultsSha256": "6555a2a8154d9631f28a32039e59c7b5b7b708f6f9c6ba268f6e7eecf383f49f",
+   "failedIds": [],
+   "cpu": {
+    "machine": 3.56,
+    "own": 2.38,
+    "others": 1.18,
+    "samples": 101
+   },
+   "w5": {
+    "workers": 4,
+    "nice": 10,
+    "renicedRenderers": 5
+   }
+  },
+  {
+   "tag": "after-beta",
+   "target": "beta/index.html",
+   "codeState": "after",
+   "note": "本便の最終版(ワーカーのレンダラ nice=10)",
+   "wallMs": 1131393,
+   "exit": 0,
+   "resultsFile": "after-beta.json",
+   "total": 848,
+   "failed": 0,
+   "pass": true,
+   "durationMsSumOfMs": 1130960,
+   "wallDurationMs": 1131084,
+   "cacheCached": 0,
+   "targetSha256": "d334ed09709f20d0f97328227681b11305f2bf3319b4bc36ca95e0a12f7c0744",
+   "resultsSha256": "e8fed3d5d7c737fa204542a26a3367d3415672a4db833e5f0ce8ce5730b54961",
+   "failedIds": [],
+   "cpu": {
+    "machine": 3.44,
+    "own": 2.26,
+    "others": 1.18,
+    "samples": 113
+   },
+   "w5": {
+    "workers": 4,
+    "nice": 10,
+    "renicedRenderers": 5
+   }
+  },
+  {
+   "tag": "after-fast",
+   "target": "beta/index.html",
+   "codeState": "after-fast",
+   "note": "QA_FAST=1 の通し 1 回(本便の 1 版目・順序の確認用)。770/770 ALL PASS・W5b 25 本はすべてワーカーで先行",
+   "wallMs": 618043,
+   "exit": 0,
+   "resultsFile": null,
+   "total": null,
+   "failed": null,
+   "pass": null,
+   "durationMsSumOfMs": null,
+   "wallDurationMs": null,
+   "cacheCached": null,
+   "targetSha256": null,
+   "resultsSha256": null,
+   "failedIds": null,
+   "cpu": {
+    "machine": 3.63,
+    "own": 1.4,
+    "others": 2.24,
+    "samples": 61
+   },
+   "w5": null
+  }
+ ],
+ "pairs": [
+  {
+   "target": "beta/index.html",
+   "before": "before-beta",
+   "after": "after-beta",
+   "totalBefore": 846,
+   "totalAfter": 848,
+   "failedBefore": 0,
+   "failedAfter": 0,
+   "idsOnlyBefore": [],
+   "idsOnlyAfter": [
+    "lint.qaOrder",
+    "qa.w5cPoolFault"
+   ],
+   "passDiff": [],
+   "orderSame": false,
+   "detailDiffCount": 23,
+   "detailDiffIds": [
+    "box.redshift-bar",
+    "echo.hud",
+    "freebox.graph-measured",
+    "ui.valid-window",
+    "shot.capture",
+    "shot.regress-gclock",
+    "shot.regress-boxredshift",
+    "shot.regress-galaxy",
+    "shot.regress-darkrotor",
+    "shot.regress-convection",
+    "shot.regress-saturn",
+    "shot.regress-earthMoon",
+    "shot.regress-fig8",
+    "shot.regress-echo",
+    "shot.regress-freebox",
+    "shot.regress-spinup",
+    "version.beta-label-http",
+    "phasemap.smoke",
+    "ui.input-responsive",
+    "ui.step-accounting",
+    "ui.spaceLines",
+    "ui.spaceMeshView",
+    "behavior.spaceMeshGrid"
+   ],
+   "wallBeforeMs": 2184505,
+   "wallAfterMs": 1131393,
+   "reductionPct": 48.2
+  },
+  {
+   "target": "index.html",
+   "before": "before-root",
+   "after": "after-root",
+   "totalBefore": 748,
+   "totalAfter": 748,
+   "failedBefore": 0,
+   "failedAfter": 0,
+   "idsOnlyBefore": [],
+   "idsOnlyAfter": [],
+   "passDiff": [],
+   "orderSame": true,
+   "detailDiffCount": 18,
+   "detailDiffIds": [
+    "lint.qaFullResultsSaved",
+    "box.redshift-bar",
+    "echo.hud",
+    "ui.valid-window",
+    "shot.capture",
+    "shot.regress-gclock",
+    "shot.regress-boxredshift",
+    "shot.regress-galaxy",
+    "shot.regress-darkrotor",
+    "shot.regress-gas",
+    "shot.regress-earthMoon",
+    "shot.regress-freebox",
+    "phasemap.smoke",
+    "ui.input-responsive",
+    "ui.step-accounting",
+    "ui.spaceLines",
+    "ui.spaceMeshView",
+    "behavior.spaceMeshGrid"
+   ],
+   "wallBeforeMs": 2016824,
+   "wallAfterMs": 1018510,
+   "reductionPct": 49.5
+  }
+ ],
+ "preflight": {
+  "beta": {
+   "wallMs": 13255,
+   "total": 133,
+   "failed": 0,
+   "qaBlocks": 128,
+   "judgements": 131,
+   "qaBlocksS": 9.6,
+   "builtins": "133/133",
+   "builtinsS": 3,
+   "htmlLoadMs": 142
+  },
+  "root": {
+   "wallMs": 8761,
+   "total": 107,
+   "failed": 0,
+   "qaBlocks": 128,
+   "judgements": 105,
+   "qaBlocksS": 5.7,
+   "builtins": "122/122",
+   "builtinsS": 2.3,
+   "htmlLoadMs": 105
+  },
+  "note": "他の枝の器が同時に走っていた条件(load average ≈2.1)での 1 回ずつ"
+ },
+ "w5cFault": {
+  "pure": {
+   "ok": true,
+   "rows": [
+    {
+     "scene": "S1 正常",
+     "ok": true,
+     "got": [
+      "fulfilled",
+      "fulfilled",
+      "fulfilled"
+     ]
+    },
+    {
+     "scene": "S2 ユニット例外",
+     "ok": true,
+     "got": [
+      "rejected",
+      "fulfilled"
+     ],
+     "legacy": "pending(hang)"
+    },
+    {
+     "scene": "S3 全ワーカー起動失敗",
+     "ok": true,
+     "got": [
+      "rejected",
+      "rejected",
+      "rejected",
+      "rejected"
+     ],
+     "legacy": "pending(hang)"
+    },
+    {
+     "scene": "S4 一部ワーカー起動失敗",
+     "ok": true,
+     "got": [
+      "fulfilled",
+      "fulfilled",
+      "fulfilled"
+     ]
+    },
+    {
+     "scene": "S5 横取り",
+     "ok": true,
+     "got": [
+      false,
+      true,
+      "fulfilled"
+     ]
+    }
+   ]
+  },
+  "integration": [
+   {
+    "env": "QA_W5C_FAULT=startup",
+    "target": "beta/index.html",
+    "exit": 1,
+    "wallMs": 128881,
+    "resultsWritten": 264,
+    "aborted": "uncaught: W5c: ジョブ W5b:roundtripBuiltins は実行されなかった(全ワーカーの起動に失敗)",
+    "fullSavedTouched": false
+   },
+   {
+    "env": "QA_W5C_FAULT=unit:buoyancy",
+    "target": "beta/index.html",
+    "exit": 1,
+    "wallMs": 572689,
+    "resultsWritten": 329,
+    "aborted": "uncaught: 失敗注入: ユニット buoyancy(ワーカー上で失敗し、主ページが待っていた位置で例外)",
+    "fullSavedTouched": false
+   },
+   {
+    "env": "QA_BAIL=1(複製で lib-core-budget の予算を 1000 字にし、前回 FAIL = lint.coreBudget・behavior.gas を与えた)",
+    "target": "beta/index.html",
+    "exit": 1,
+    "wallMs": 18774,
+    "replay": {
+     "units": 2,
+     "ms": 18501,
+     "failedNow": [
+      "lint.coreBudget"
+     ],
+     "passed": [
+      "behavior.gas"
+     ]
+    },
+    "tmpLeft": false
+   }
+  ]
+ },
+ "classification": [
+  {
+   "rank": 1,
+   "id": "behavior.phase-multiseed",
+   "beforeS": 216.8,
+   "class": "必要",
+   "note": "多 seed の 4 件(🧬🧊⛓️♻️)+機構ノックアウト対照(seed 7/8/9)。⛓️chain2 の 7/8/9 は ♻️ の走行の前半と同一の可能性(下の冗長候補)",
+   "w5b": "phaseMultiseed",
+   "afterWhere": "worker",
+   "afterRunS": 378.8
+  },
+  {
+   "rank": 2,
+   "id": "claim.galaxygeo2-outerboost",
+   "beforeS": 138.2,
+   "class": "必要",
+   "note": "W5b galaxyGeo2 へ(本文は不変・ワーカーで先行)",
+   "w5b": "galaxyGeo2",
+   "afterWhere": "main(stolen)",
+   "afterRunS": 129.7
+  },
+  {
+   "rank": 3,
+   "id": "preset.roundtrip-builtins",
+   "beforeS": 121.8,
+   "class": "必要",
+   "note": "W5b roundtripBuiltins へ(本文は不変・ワーカーで先行)",
+   "w5b": "roundtripBuiltins",
+   "afterWhere": "main(stolen)",
+   "afterRunS": 108.8
+  },
+  {
+   "rank": 4,
+   "id": "behavior.selfrotor-multiseed",
+   "beforeS": 111.6,
+   "class": "必要",
+   "note": "W5b selfrotorMultiseed へ(本文は不変・ワーカーで先行)",
+   "w5b": "selfrotorMultiseed",
+   "afterWhere": "worker",
+   "afterRunS": 93.6
+  },
+  {
+   "rank": 5,
+   "id": "behavior.uranusReal",
+   "beforeS": 108.8,
+   "class": "必要",
+   "note": "W5b uranusReal へ(本文は不変・ワーカーで先行)",
+   "w5b": "uranusReal",
+   "afterWhere": "worker",
+   "afterRunS": 155.6
+  },
+  {
+   "rank": 6,
+   "id": "claim.bhcore-selfdrive",
+   "beforeS": 73.7,
+   "class": "必要",
+   "note": "W5b bhcoreSelfdrive へ(本文は不変・ワーカーで先行)",
+   "w5b": "bhcoreSelfdrive",
+   "afterWhere": "main(stolen)",
+   "afterRunS": 70.2
+  },
+  {
+   "rank": 7,
+   "id": "claim.galaxystd-outerboost",
+   "beforeS": 53.5,
+   "class": "必要",
+   "note": "W5b galaxyStd へ(本文は不変・ワーカーで先行)",
+   "w5b": "galaxyStd",
+   "afterWhere": "main(stolen)",
+   "afterRunS": 49.7
+  },
+  {
+   "rank": 8,
+   "id": "kernel.bitident",
+   "beforeS": 48.4,
+   "class": "必要",
+   "note": "自前のページを開く(並列プールに載せるとページ数が増える)ので主ページのまま",
+   "w5b": null,
+   "afterWhere": "main",
+   "afterRunS": null
+  },
+  {
+   "rank": 9,
+   "id": "behavior.nsThreeStage",
+   "beforeS": 46.8,
+   "class": "必要",
+   "note": "W5b nsThreeStage へ(本文は不変・ワーカーで先行)",
+   "w5b": "nsThreeStage",
+   "afterWhere": "worker",
+   "afterRunS": 48.3
+  },
+  {
+   "rank": 10,
+   "id": "phasechange.emergent2",
+   "beforeS": 45.4,
+   "class": "必要",
+   "note": "W5b phasechangeSchema へ(本文は不変・ワーカーで先行)",
+   "w5b": "phasechangeSchema",
+   "afterWhere": "worker",
+   "afterRunS": 363.3
+  },
+  {
+   "rank": 11,
+   "id": "clamp.reaction-cap",
+   "beforeS": 41.5,
+   "class": "必要",
+   "note": "W5b reactionCap へ(本文は不変・ワーカーで先行)",
+   "w5b": "reactionCap",
+   "afterWhere": "worker",
+   "afterRunS": 61.9
+  },
+  {
+   "rank": 12,
+   "id": "claim.galaxydb-contrast",
+   "beforeS": 38.7,
+   "class": "必要",
+   "note": "W5b galaxyDB へ(本文は不変・ワーカーで先行)",
+   "w5b": "galaxyDB",
+   "afterWhere": "main(stolen)",
+   "afterRunS": 38
+  },
+  {
+   "rank": 13,
+   "id": "claim.bhcore-free",
+   "beforeS": 36.7,
+   "class": "必要",
+   "note": "W5b bhcoreFree へ(本文は不変・ワーカーで先行)",
+   "w5b": "bhcoreFree",
+   "afterWhere": "main(stolen)",
+   "afterRunS": 37.6
+  },
+  {
+   "rank": 14,
+   "id": "phasechange.multiseed",
+   "beforeS": 35.9,
+   "class": "冗長候補",
+   "note": "⛓️chain2 seed 7/8/9×15000 步は、phase-multiseed の ♻️chaincycle seed 7/8/9×33000 步の前半と同一の可能性(⛓️≡♻️ の同一性は seed 7・18000 步でだけ検査)。共有すると判定の証拠経路が変わるので変えない",
+   "w5b": "phasechangeSchema",
+   "afterWhere": "worker",
+   "afterRunS": 363.3
+  },
+  {
+   "rank": 15,
+   "id": "phasechange.chain2",
+   "beforeS": 33.5,
+   "class": "必要",
+   "note": "W5b phasechangeSchema へ(本文は不変・ワーカーで先行)",
+   "w5b": "phasechangeSchema",
+   "afterWhere": "worker",
+   "afterRunS": 363.3
+  },
+  {
+   "rank": 16,
+   "id": "phasechange.emergent",
+   "beforeS": 33,
+   "class": "必要",
+   "note": "W5b phasechangeSchema へ(本文は不変・ワーカーで先行)",
+   "w5b": "phasechangeSchema",
+   "afterWhere": "worker",
+   "afterRunS": 363.3
+  },
+  {
+   "rank": 17,
+   "id": "behavior.toyLedger",
+   "beforeS": 32.2,
+   "class": "必要",
+   "note": "W5b toyLedger へ(本文は不変・ワーカーで先行)",
+   "w5b": "toyLedger",
+   "afterWhere": "worker",
+   "afterRunS": 65.5
+  },
+  {
+   "rank": 18,
+   "id": "behavior.ledgerNorm",
+   "beforeS": 31.7,
+   "class": "必要",
+   "note": "W5b ledgerNorm へ(本文は不変・ワーカーで先行)",
+   "w5b": "ledgerNorm",
+   "afterWhere": "worker",
+   "afterRunS": 53.5
+  },
+  {
+   "rank": 19,
+   "id": "behavior.selfrotor",
+   "beforeS": 31.6,
+   "class": "必要",
+   "note": "W5b selfrotor へ(本文は不変・ワーカーで先行)",
+   "w5b": "selfrotor",
+   "afterWhere": "worker",
+   "afterRunS": 29
+  },
+  {
+   "rank": 20,
+   "id": "behavior.wave100c",
+   "beforeS": 28.8,
+   "class": "必要",
+   "note": "ui.presetpicker ブロック(UI 20 判定)の一部 — 画面寸法に触れるので並列化しない",
+   "w5b": null,
+   "afterWhere": "main",
+   "afterRunS": null
+  },
+  {
+   "rank": 21,
+   "id": "claim.chaincycle",
+   "beforeS": 27.5,
+   "class": "必要",
+   "note": "W5b phasechangeSchema へ(本文は不変・ワーカーで先行)",
+   "w5b": "phasechangeSchema",
+   "afterWhere": "worker",
+   "afterRunS": 363.3
+  },
+  {
+   "rank": 22,
+   "id": "behavior.supernova",
+   "beforeS": 26.3,
+   "class": "必要",
+   "note": "W5b supernova へ(本文は不変・ワーカーで先行)",
+   "w5b": "supernova",
+   "afterWhere": "worker",
+   "afterRunS": 52.1
+  },
+  {
+   "rank": 23,
+   "id": "perf.geoToyPrepared",
+   "beforeS": 23.6,
+   "class": "必要",
+   "note": "時間計測の試験 — 並列化すると測る量が変わるので主ページのまま",
+   "w5b": null,
+   "afterWhere": "main",
+   "afterRunS": null
+  },
+  {
+   "rank": 24,
+   "id": "preset.shapeToys",
+   "beforeS": 22.8,
+   "class": "必要",
+   "note": "W5b shapeToys へ(本文は不変・ワーカーで先行)",
+   "w5b": "shapeToys",
+   "afterWhere": "worker",
+   "afterRunS": 31.3
+  },
+  {
+   "rank": 25,
+   "id": "ai.stabilize",
+   "beforeS": 21.7,
+   "class": "必要",
+   "note": "ai.ui-unified ブロック(UI)の一部 — 主ページのまま",
+   "w5b": null,
+   "afterWhere": "main",
+   "afterRunS": null
+  },
+  {
+   "rank": 26,
+   "id": "behavior.ngc3198",
+   "beforeS": 21.4,
+   "class": "必要",
+   "note": "W5b ngc3198 へ(本文は不変・ワーカーで先行)",
+   "w5b": "ngc3198",
+   "afterWhere": "worker",
+   "afterRunS": 48.1
+  },
+  {
+   "rank": 27,
+   "id": "behavior.gas",
+   "beforeS": 21.1,
+   "class": "必要",
+   "note": "W5b gas へ(本文は不変・ワーカーで先行)",
+   "w5b": "gas",
+   "afterWhere": "main(stolen)",
+   "afterRunS": 20
+  },
+  {
+   "rank": 28,
+   "id": "collapse.rotation",
+   "beforeS": 19.2,
+   "class": "必要",
+   "note": "ms は W5c ユニット collapseCooling の待ち(既に並列)",
+   "w5b": null,
+   "afterWhere": "main",
+   "afterRunS": null
+  },
+  {
+   "rank": 29,
+   "id": "params.d0Zero",
+   "beforeS": 18.5,
+   "class": "必要",
+   "note": "自前のページを開く — 主ページのまま",
+   "w5b": null,
+   "afterWhere": "main",
+   "afterRunS": null
+  },
+  {
+   "rank": 30,
+   "id": "behavior.emAudit",
+   "beforeS": 15.6,
+   "class": "必要",
+   "note": "W5b emAudit へ(本文は不変・ワーカーで先行)",
+   "w5b": "emAudit",
+   "afterWhere": "worker",
+   "afterRunS": 20.9
+  },
+  {
+   "rank": 31,
+   "id": "verify.V1",
+   "beforeS": 14.1,
+   "class": "必要",
+   "note": "HP.verify.all の先頭 — 並列プール起動直後の競合を含む",
+   "w5b": null,
+   "afterWhere": "main",
+   "afterRunS": null
+  },
+  {
+   "rank": 32,
+   "id": "phasechange.dt-convergence",
+   "beforeS": 13.8,
+   "class": "必要",
+   "note": "W5b phasechangeSchema へ(本文は不変・ワーカーで先行)",
+   "w5b": "phasechangeSchema",
+   "afterWhere": "worker",
+   "afterRunS": 363.3
+  },
+  {
+   "rank": 33,
+   "id": "behavior.tuc47",
+   "beforeS": 12.6,
+   "class": "必要",
+   "note": "W5b tuc47 へ(本文は不変・ワーカーで先行)",
+   "w5b": "tuc47",
+   "afterWhere": "worker",
+   "afterRunS": 25.6
+  },
+  {
+   "rank": 34,
+   "id": "preset.ngc3198DFM",
+   "beforeS": 12.3,
+   "class": "必要",
+   "note": "全内蔵の起動スモーク(120 フレーム)の 1 本 — ループは主ページのまま",
+   "w5b": null,
+   "afterWhere": "main",
+   "afterRunS": null
+  },
+  {
+   "rank": 35,
+   "id": "behavior.templates229",
+   "beforeS": 11.5,
+   "class": "必要",
+   "note": "W5b templates229 へ(本文は不変・ワーカーで先行)",
+   "w5b": "templates229",
+   "afterWhere": "worker",
+   "afterRunS": 22.8
+  },
+  {
+   "rank": 36,
+   "id": "new.gclock",
+   "beforeS": 11.1,
+   "class": "必要",
+   "note": "W5b gclock へ(本文は不変・ワーカーで先行)",
+   "w5b": "gclock",
+   "afterWhere": "main(stolen)",
+   "afterRunS": 11.5
+  },
+  {
+   "rank": 37,
+   "id": "behavior.galaxyMesh",
+   "beforeS": 10.7,
+   "class": "必要",
+   "note": "W5b galaxyMesh へ(本文は不変・ワーカーで先行)",
+   "w5b": "galaxyMesh",
+   "afterWhere": "worker",
+   "afterRunS": 23.8
+  },
+  {
+   "rank": 38,
+   "id": "behavior.coreTerminal",
+   "beforeS": 10,
+   "class": "必要",
+   "note": "W5b coreTerminal へ(本文は不変・ワーカーで先行)",
+   "w5b": "coreTerminal",
+   "afterWhere": "worker",
+   "afterRunS": 19.3
+  },
+  {
+   "rank": 39,
+   "id": "claim.nebulabipolar-multiseed",
+   "beforeS": 9.9,
+   "class": "必要",
+   "note": "!FAST 区画の中の入れ子 if(10 秒)— 変更を小さくするため並列化していない",
+   "w5b": null,
+   "afterWhere": "main",
+   "afterRunS": null
+  },
+  {
+   "rank": 40,
+   "id": "behavior.pressure",
+   "beforeS": 9.7,
+   "class": "必要",
+   "note": "W5b pressure へ(本文は不変・ワーカーで先行)",
+   "w5b": "pressure",
+   "afterWhere": "main(stolen)",
+   "afterRunS": 9.3
+  }
+ ],
+ "notDone": {
+  "jsonParseShare": {
+   "files": 83,
+   "sites": 158,
+   "upperBoundMs": 369,
+   "largest": "calaudit-w249.json 2.4 MB × 27 箇所 = 285 ms",
+   "decision": "変えない(フル beta の 0.02%・書き換えの危険に見合わない)"
+  },
+  "doubleMeasurement": {
+   "candidate": "phasechange.multiseed(⛓️chain2 seed 7/8/9 × 15000 歩)と behavior.phase-multiseed(♻️chaincycle seed 7/8/9 × 33000 歩の前半)",
+   "decision": "変えない(共有すると判定の証拠経路が変わる — 決断事項候補)"
+  },
+  "rootBetaSameDetail": {
+   "rootTotal": 748,
+   "both": 745,
+   "sameDetail": 670,
+   "rootMsSameDetail": 1696720,
+   "rootMsTotal": 2016317,
+   "pctTime": 84.1,
+   "decision": "判定は変えず時間だけを記録(root フルの範囲は決断事項候補)"
+  },
+  "tail": {
+   "afterBetaPoolDrainedAtS": 764,
+   "afterBetaWallS": 1131,
+   "afterRootPoolDrainedAtS": 749,
+   "afterRootWallS": 1018,
+   "mainStolenBeta": 9,
+   "mainStolenRunSBeta": 475
+  }
+ }
+}

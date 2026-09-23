@@ -11,7 +11,7 @@
 //   QA_TARGET=index.html node tests/exp-w258c-qapart.mjs
 // 終了コード: 1 件でも FAIL なら 1。
 // 限界(正直に): 切り出したブロックが**上流のローカル変数**(ワーカープール w5cGetUnit 等)を
-// 参照している場合、その行で ReferenceError になる。**それまでに出た PASS/FAIL は有効**で、
+// 参照している場合、その行で ReferenceError になる(第279便b: fpRun は本体をそのまま走らせる代用を置いた)。**それまでに出た PASS/FAIL は有効**で、
 // 統括のフル QA が本来の裁定者である。よく使う共有フラグ(FAST / OUT_DIR / hasMerger /
 // pageErrors / page)はこの器が先に用意する。
 import fs from 'node:fs';
@@ -24,10 +24,23 @@ const DEFAULT_IDS = ['behavior.spaceMeshGrid', 'ui.spaceMeshGain', 'ui.samplePic
   'params.scaleBase', 'ui.spaceMeshRow', 'ui.raysDesc'];
 const IDS = process.argv.slice(2).length ? process.argv.slice(2) : DEFAULT_IDS;
 
-const lines = fs.readFileSync(path.join(ROOT, 'tests/qa.mjs'), 'utf8').split('\n');
+const qaSrc = fs.readFileSync(path.join(ROOT, 'tests/qa.mjs'), 'utf8');
+const lines = qaSrc.split('\n');
+// 第279便b: W5b で関数宣言へ持ち上げたブロック(`await w5bRun('<key>', <ガード>); async function W5B_<key>(…) {`)は
+// 最上位の文の切り出し(tests/lib-w279b-qaorder.mjs splitTopLevel)で範囲を取り、見出し行を
+// `if (<ガード>) {` に戻して走らせる(本文は 1 文字も変えない)。
+const QO = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w279b-qaorder.mjs')).href);
+const W5B_UNITS = QO.splitTopLevel(qaSrc).filter((u) => QO.w5bHeadKey(lines[u.l0 - 1]));
+const headRewrite = new Map();
 function spanOf(id) {
   const i = lines.findIndex((l) => l.includes("add('" + id + "'"));
   if (i < 0) throw new Error('QA ブロックが見つからない: ' + id);
+  const wu = W5B_UNITS.find((u) => u.l0 - 1 <= i && i <= u.l1 - 1);
+  if (wu) {
+    const m = /^await w5bRun\('[\w$]+', ([^;]*)\); async function /.exec(lines[wu.l0 - 1]);
+    headRewrite.set(wu.l0 - 1, `if (${m[1]}) {`);
+    return [wu.l0 - 1, wu.l1];
+  }
   let a = i;
   while (a >= 0 && lines[a].trimEnd() !== '{') a--;
   if (a < 0) throw new Error('列 0 の { が見つからない: ' + id);
@@ -45,7 +58,7 @@ for (const [s0, e0] of spans) {
     merged[merged.length - 1][1] = Math.max(merged[merged.length - 1][1], e0);
   } else merged.push([s0, e0]);
 }
-const body = merged.map(([s0, e0]) => lines.slice(s0, e0).join('\n')).join('\n');
+const body = merged.map(([s0, e0]) => lines.slice(s0, e0).map((l, k) => headRewrite.get(s0 + k) ?? l).join('\n')).join('\n');
 
 const src = `import fs from 'node:fs';
 import crypto from 'node:crypto';
@@ -71,6 +84,8 @@ const FAST = process.env.QA_FAST === '1';
 const OUT_DIR = path.join(ROOT, 'tests', 'out');
 // tests/qa.mjs が上流で作っている共有フラグ(切り出したブロックが参照する)
 const hasMerger = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'merger'));
+// 第279便b: fpRun(指紋キャッシュ)は部分実行では使わない — 本体をそのまま走らせる
+const fpRun = async (testId, body) => { await body(); return false; };
 const results = [];
 let lastAddAt = Date.now();
 const add = (id, pass, detail) => {
