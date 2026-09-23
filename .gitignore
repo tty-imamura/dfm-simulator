@@ -616,3 +616,11 @@ _scratch-*.log
 #   〔第278便d〕と突き合わせ、`lint.provenanceMeta` が来歴を固定するのでコミットする。**エンジン未接続**。
 #   **「背景を無視してよいことを証明した」「閾値を採用した」とは書かない。**
 !tests/out/bgequiv-w278d.json
+# 第278便c(統括の検証項目 R55): **pairSlip の符号修正の影響範囲**(tests/exp-w278c-slipaudit.mjs —— 最小対照 4 件・
+#   入れ替え対称性・beta/index.html の 2D 実装〔ソースを文字列で評価〕との突合・lib-w277b との 1 步ビット突合・
+#   slipRmsCircular との一致・格子の力学が pairSlip を経由しないこと)と、**H6 の共役変数模型**
+#   (tests/exp-w278c-nsmode.mjs —— 内部モード Q・P・有限容量・角力積の記帳・θ 依存の係数表・歳差との結合・
+#   摂動復帰・供給停止・別系の零点)の正本。QA `behavior.pairSlipSign`・`behavior.nsModeExchange` が読み、
+#   `lint.provenanceMeta` が来歴を固定するのでコミットする。**較正ではない**・**エンジン未接続**。
+!tests/out/slipaudit-w278c.json
+!tests/out/nsmode-w278c.json
