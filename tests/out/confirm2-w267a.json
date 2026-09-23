@@ -1,5 +1,5 @@
 {
- "when": "2026-09-22T13:55:00.277Z",
+ "when": "2026-09-23T11:13:52.985Z",
  "wave": "第267便a(第57報 追加 3・4・W1)",
  "provenance": "原仮定者が提供した確認記録(2026-09-17・第 2 回)。確認日は記録の記載どおり 2026-09-16。一次資料は各行の source/url にある。**器は印を上げない** —— 上げるのは原仮定者の照合である。",
  "rule": [
@@ -1080,9 +1080,9 @@
   },
   "after": {
    "solar": {
-    "rows": 580,
-    "verified": 57,
-    "verifiedBy": 57,
+    "rows": 601,
+    "verified": 109,
+    "verifiedBy": 109,
     "verifiedWithoutBy": 0,
     "round2": 17,
     "round2Verified": 17
@@ -1145,7 +1145,9 @@
   "connected": false,
   "why": "**印が `verified` であることは門に繋がっていることではない。** 星団・銀河(47 Tuc / NGC 3198)は 門の対応表(`tests/exp-w249b-calaudit.mjs` の SIGMA_BODY / SIGMA_TARGET_BODY)に 1 行も無い。太陽系の判定行の σ も、本便で 1 件も増えていない(切断点は `unit-not-converted` のままである)。"
  },
- "violations": [],
+ "violations": [
+  "太陽系 CSV の verified の増分が宣言と合わない(既に verified だった 5 行と第 3 回で上がった 5 行・第 4 回で上がった 3 行を除く)"
+ ],
  "doNotWrite": [
   "太陽系の σ が揃った",
   "判定(4 値)が増えた",
