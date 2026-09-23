@@ -4074,6 +4074,9 @@ function validateBackgroundComplex(a){
   if(a===null || a===undefined) return {ok:true, backgroundComplex:null};   // **未宣言 = 未確定**
   if(typeof a!=="object" || Array.isArray(a))
     return {ok:false, err:"physics.backgroundComplex はオブジェクト({W0,A0,gradW,gradA,dWdt,dAdt,background,note})か null"};
+  // 第278便d(統括の読み R56): **潮汐テンソル T はこの鍵の中へ入れない**(別鍵 physics.backgroundTidal・単位 1/s²)
+  for(const nk of BG_TIDAL_NESTED) if(a[nk]!==undefined)
+    return {ok:false, err:"physics.backgroundComplex に "+nk+" は置けない(潮汐テンソル T は別鍵 physics.backgroundTidal —— 単位 1/s² の宣言専用。W₀・A₀ とは次元も役割も違う)"};
   if(BG_COMPLEX_BACKGROUNDS.indexOf(a.background)<0)
     return {ok:false, err:'physics.backgroundComplex.background は "solar-excluded"/"heliocentric"/"galactic"/"declared"/"zero" のみ'};
   if(!isNum(a.W0) || !(a.W0>=0))
@@ -4130,6 +4133,62 @@ function validateBackgroundComplex(a){
   if(a.background==="declared" && out.note===undefined)
     return {ok:false, err:'physics.backgroundComplex.background:"declared" は note に背景の出所を書くこと(出所を名指ししない宣言は受理しない)'};
   return {ok:true, backgroundComplex:out};
+}
+// ===== 第278便d(統括の読み R56): physics.backgroundTidal — **潮汐テンソル T** の宣言(**宣言専用の別鍵**) =====
+// 背景勾配による差動加速度は一様重力相当のパラメータ 1 つでは代替できない(第277便d ⑤)ので、
+// 宣言する口として a_ext(x) = a₀ + T·(x−x₀) の **T**(単位 **1/s²**)を置く。
+// **backgroundComplex の中には入れない**(W₀[M/L²]・A₀[M/(L·T)]・∇W・∇A は重み付き平均の量で、
+// T はポテンシャルのヘッセ行列 —— **次元も役割も違う**)。**メッシュ速度勾配 J[1/s] とも別物**である。
+// 形: {T:[[..],[..]] または 3×3, unit:"1/s^2", frame, epoch, source, note?}。
+//   ・T は**対称**(T[i][j]===T[j][i] —— ヘッセ行列なので厳密に対称で宣言する)の**有限数**の正方行列(2×2 か 3×3)。
+//     2×2 は**面内ブロック**(3 次元の真空では tr T=0 だが、面内ブロックのトレースは −T_zz で 0 とは限らない)。
+//   ・unit は "1/s^2" だけ(**SI の秒**で書く —— サンプルの scaleExp の時間単位ではない)。
+//   ・frame(どの座標系の成分か)・epoch(いつの値か)・source(出所)は**明示必須**(未確定を 0 で埋めない)。
+//   ・知らない鍵は拒否(W0 等を紛れ込ませない —— 別鍵の分離を両方向で守る)。
+// **この鍵は宣言専用**で、**エンジンのどの経路からも読まれない**(力学への接続は AL17 の順で裁定)。
+// **内蔵はこの鍵を 1 本も宣言していない**ので presetSig も既定経路の力学も 1 bit も動かない。
+const BG_TIDAL_KEY = "backgroundTidal";
+const BG_TIDAL_UNIT = "1/s^2";
+const BG_TIDAL_DIMS = [2,3];
+const BG_TIDAL_REQUIRED = ["T","unit","frame","epoch","source"];
+const BG_TIDAL_TEXT_MAX = { frame:80, epoch:60, source:200, note:200 };
+const BG_TIDAL_NESTED = ["T","tidal","tidalTensor","backgroundTidal"];
+function validateBackgroundTidal(a){
+  if(a===null || a===undefined) return {ok:true, backgroundTidal:null};   // **未宣言 = 未確定**
+  if(typeof a!=="object" || Array.isArray(a))
+    return {ok:false, err:'physics.backgroundTidal はオブジェクト({T,unit:"1/s^2",frame,epoch,source,note})か null'};
+  for(const k of Object.keys(a)) if(BG_TIDAL_REQUIRED.indexOf(k)<0 && k!=="note")
+    return {ok:false, err:"physics.backgroundTidal に知らない鍵 "+k+" がある(T/unit/frame/epoch/source/note のみ —— 背景の重み W₀ 等は physics.backgroundComplex)"};
+  const miss=BG_TIDAL_REQUIRED.filter((k)=>a[k]===undefined || a[k]===null);
+  if(miss.length)
+    return {ok:false, err:"physics.backgroundTidal は "+miss.join("/")+" を明示すること(**未確定を 0 で補完しない** —— 値が未確定なら鍵ごと書かない)"};
+  if(a.unit!==BG_TIDAL_UNIT)
+    return {ok:false, err:'physics.backgroundTidal.unit は "1/s^2" のみ(潮汐テンソルは T⁻² —— メッシュ速度勾配 J〔1/s〕とは別物)'};
+  const T=a.T;
+  if(!Array.isArray(T) || BG_TIDAL_DIMS.indexOf(T.length)<0)
+    return {ok:false, err:"physics.backgroundTidal.T は 2×2 または 3×3 の行列(配列の配列)"};
+  const n=T.length, out=[];
+  for(let i=0;i<n;i++){
+    const row=T[i];
+    if(!Array.isArray(row) || row.length!==n)
+      return {ok:false, err:"physics.backgroundTidal.T は正方行列(各行の長さ "+n+")"};
+    const o=[];
+    for(let j=0;j<n;j++){
+      if(!isNum(row[j])) return {ok:false, err:"physics.backgroundTidal.T の成分は有限数"};
+      o.push(row[j]);
+    }
+    out.push(o);
+  }
+  for(let i=0;i<n;i++) for(let j=i+1;j<n;j++) if(out[i][j]!==out[j][i])
+    return {ok:false, err:"physics.backgroundTidal.T は対称行列(T["+i+"]["+j+"]≠T["+j+"]["+i+"] —— 潮汐テンソルはポテンシャルのヘッセ行列)"};
+  const res={T:out, unit:BG_TIDAL_UNIT};
+  for(const k of ["frame","epoch","source","note"]){
+    if(a[k]===undefined || a[k]===null) continue;
+    if(typeof a[k]!=="string" || a[k]==="" || a[k].length>BG_TIDAL_TEXT_MAX[k])
+      return {ok:false, err:"physics.backgroundTidal."+k+" は 1〜"+BG_TIDAL_TEXT_MAX[k]+" 字の文字列"};
+    res[k]=a[k];
+  }
+  return {ok:true, backgroundTidal:res};
 }
 // ===== 第277便b(原仮定者の裁定(第67報)(1)): physics.relativeDrag — **相対すべりの零条件**を持つ引きずり則 =====
 // 裁定の字義は「**空間メッシュ(複素決定力場)による引きずり(座標変換)は相対的に動いていなければ
@@ -15688,6 +15747,14 @@ function validatePreset(obj){
         const bcv=validateBackgroundComplex(p.physics[k]);
         if(!bcv.ok){ bad(bcv.err); continue; }
         if(bcv.backgroundComplex!==null) ph[k]=bcv.backgroundComplex;
+        continue;
+      }
+      // 第278便d(統括の読み R56): backgroundTidal — **潮汐テンソル T** の宣言専用オブジェクト鍵(backgroundComplex とは
+      // 別鍵・単位 1/s²)。**力学・光学・帳簿のどの経路からも読まれない**(既定は無し=ph へ入れない=署名不変)
+      if(k===BG_TIDAL_KEY){
+        const btv=validateBackgroundTidal(p.physics[k]);
+        if(!btv.ok){ bad(btv.err); continue; }
+        if(btv.backgroundTidal!==null) ph[k]=btv.backgroundTidal;
         continue;
       }
       // 第277便b(第67報 (1)): relativeDrag — **相対すべりの零条件**を持つ引きずり則の opt-in。
@@ -41794,6 +41861,10 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // QA preset.backgroundComplex-declared が「受理契約」「未宣言の 1 bit 不変」「内蔵の宣言 0 本」を機械固定する
   validateBackgroundComplex, BG_COMPLEX_KEY, BG_COMPLEX_BACKGROUNDS, BG_COMPLEX_NOTE_MAX, BG_COMPLEX_UNITS,
   BG_COMPLEX_REQUIRED, BG_COMPLEX_STRICT,
+  // 第278便d(統括の読み R56): **潮汐テンソル T** の宣言鍵(**宣言専用** —— エンジンは 1 箇所も読まない・
+  // backgroundComplex とは別鍵)。QA preset.backgroundTidal が受理契約・内蔵 0 本・読み口 0 を機械固定する
+  validateBackgroundTidal, BG_TIDAL_KEY, BG_TIDAL_UNIT, BG_TIDAL_DIMS, BG_TIDAL_REQUIRED, BG_TIDAL_TEXT_MAX,
+  BG_TIDAL_NESTED,
   // 第264便b(第56報): **源の閉包**の値域("gravity" 既定 /"iterate" 診断)と反復・残差の宣言値。
   // QA behavior.geoToyClosure が「既定は 122 本ビット不変」「iterate は反復数と残差を返す」
   // 「特異点(det=1−η²χ₀χ₁→0)で収束しない」を機械固定する
