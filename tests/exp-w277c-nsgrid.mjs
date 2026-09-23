@@ -17,6 +17,12 @@
 //      `solveDelta` の有理化の検算も同じ段に置く。
 //   ⑥ **否定対照**: 無減衰の局所試作(R44 の局所調和則)を NS の分離へ延長したときの動径加速度。
 //
+// 第278便c(統括の検証項目 R55)の改訂: lib 版 w277c-2(`pairSlip` の第二天体の符号修正 ——
+//   格子の力学は `pairSlip` を経由しないので格子の数は動かない。器が前後を突き合わせる)・
+//   (C) の **why 別内訳**(`whyBreakdown`)・**時間尺度の表示ガード**(`timeScaleGuard`)・
+//   **入力の出所**(Ferdman 2013 §6 / Lower 2024 A&A 682 A26 §5.2・§4.1)を正本へ刻む。
+//   語の訂正: 1512 は**走行数**、分類は **252 設定 × 2 天体 = 504 件**。
+//
 // 使い方: node tests/exp-w277c-nsgrid.mjs [--quick]   → tests/out/nsgrid-w277c.json
 // 書かないこと: 「NS の平衡を実証した」「ロックすると加速する」「観測と一致した」「較正を完了した」
 //   「潮汐ロックを証明した」「新発見」。
@@ -111,7 +117,7 @@ const DECL = {
 };
 
 const THETA_CASES = [
-  { tag: 'obs', th: [3.2, 40.6], kind: '観測材料(A の 95% 上限値・B の幾何解)' },
+  { tag: 'obs', th: [3.2, 40.6], kind: '観測材料(A の 95% 上限値〔Ferdman 2013 §6〕・B の幾何解〔Lower 2024 A&A 682 A26 §5.2・GR 仮定〕)' },
   { tag: 'obs+5', th: [8.2, 45.6], kind: '観測材料 +5°' },
   { tag: 'obs-5', th: [1.8, 35.6], kind: '観測材料 −5°(A は 3.2−5 が負なので |−1.8|=1.8 を使う — **宣言**)' },
   { tag: '0deg', th: [0, 0], kind: '0°' },
@@ -244,6 +250,7 @@ for (const S of SYSTEMS) {
             classDt1: [c0[0].cls, c0[1].cls], classDt2: [c1[0].cls, c1[1].cls],
             classStable: c0[0].cls === c1[0].cls && c0[1].cls === c1[1].cls,
             gate: c0, run: stages[0].base,
+            gateDt2: c1.map((g) => ({ whyCode: g.whyCode, failed: g.failed })),
             dtCheck: {
               thetaRelDiff: [rel(stages[1].base.thetaEndDeg[0], stages[0].base.thetaEndDeg[0]),
                 rel(stages[1].base.thetaEndDeg[1], stages[0].base.thetaEndDeg[1])],
@@ -278,6 +285,10 @@ for (const r of gridRows) {
 }
 const clsTotal = { A: 0, B: 0, C: 0 };
 for (const r of gridRows) for (let i = 0; i < 2; i++) clsTotal[r.classDt1[i]]++;
+// 第278便c(R55): (C) の why 別内訳(主因は排他的・満たさなかった条件は重複あり)
+const whyTable = NG.whyBreakdown(gridRows);
+const whyTableDt2 = NG.whyBreakdown(gridRows.map((r) => ({ classDt1: r.classDt2,
+  gate: r.gateDt2 })));
 // **中間傾斜**(0° でも 90° でもない θ*)で (A)(B) になった行
 const midRows = gridRows.filter((r) => [0, 1].some((i) =>
   r.thetaStarDeg[i] > 1e-9 && Math.abs(r.thetaStarDeg[i] - 90) > 1e-9
@@ -357,11 +368,20 @@ const verdict = [
       + `**この材料は照合前の候補行であり、「観測から決めた」とは書かない**` },
   { id: 'V2', claim: '中間傾斜の相対平衡 (A) / 吸引状態 (B) が格子に出るか',
     inModel: midRows.length === 0 ? '**出ない**(0 行)' : `**${midRows.length} 行**出た`,
-    evidence: `格子 ${gridRows.length} 行 × 2 天体 = ${gridRows.length * 2} 分類のうち `
+    evidence: `格子 ${gridRows.length} 設定 × 2 天体 = ${gridRows.length * 2} 分類(走行は ${runCount} 本)のうち `
       + `(A) ${clsTotal.A} / (B) ${clsTotal.B} / (C) ${clsTotal.C}。`
       + `**0° でも 90° でもない θ\* で (A)(B) になった行は ${midRows.length} 行**である。`
       + `**観測角を初期値にして保持しただけでは (A)(B) と書かない**(門は平均トルク・小摂動の`
       + `有界性・復帰・収支の閉じをすべて見る)` },
+  { id: 'V2b', claim: '(第278便c・R55)(C) の why 別内訳',
+    inModel: `主因: 過渡 ${whyTable.primary.transient} / 収支不成立 ${whyTable.primary.ledger} / `
+      + `摂動非有界 ${whyTable.primary.unbounded} / その他 ${whyTable.primary.other}`,
+    evidence: `満たさなかった条件(重複あり): 永年変位 ${whyTable.failedAny.transient}・収支 `
+      + `${whyTable.failedAny.ledger}・有界性 ${whyTable.failedAny.unbounded}・散逸だが戻らない `
+      + `${whyTable.failedAny.noReturn}。**(A) は与えた保存系・指定窓(${DECL.orbits} 公転)・摂動幅 `
+      + `±${DECL.perturbDeg}° での相対平衡候補であって、全時間の安定性の証明ではない**。`
+      + `**格子の θ の動きを実在 NS の進化速度として出力しない**(time_scale_gain=`
+      + `${NG.NSGRID_TIME_GUARD.time_scale_gain}・not_a_prediction=true)` },
   { id: 'V3', claim: '格子の帳簿が閉じる',
     inModel: (worstE <= NG.GATE.ledgerTol && worstJz <= NG.GATE.ledgerTol
       && heatDropRows === 0 && supRiseRows === 0) ? '**閉じる**' : '**閉じない行がある**',
@@ -423,8 +443,15 @@ const out = {
       + '観測の傾きは**照合前の材料**として初期値にだけ使い、そこから係数を決めることはしていない。'
       + '離心率は記録した入力であって、格子の軌道は準円である。',
     csvSha256: crypto.createHash('sha256').update(fs.readFileSync(CSVP)).digest('hex'),
+    // 第278便c(R55)
+    timeScaleGuard: Object.assign({}, NG.NSGRID_TIME_GUARD, {
+      gainMeasured: [Math.min(...tideRows.map((r) => r.gain)), Math.max(...tideRows.map((r) => r.gain))] }),
+    inputSources: NG.NSGRID_INPUT_SOURCES,
+    counting: NG.NSGRID_PREMISE.counting,
+    revision: '第278便c: lib 版 w277c-2(pairSlip の第二天体の符号修正 —— 格子の力学は pairSlip を'
+      + '経由しない)・(C) の why 別内訳・時間尺度の表示ガード・入力の出所',
   }, {
-    root: ROOT, wave: '第277便c', target: 'tests/lib-w277c-nsgrid.mjs',
+    root: ROOT, wave: '第277便c(第278便c 改訂)', target: 'tests/lib-w277c-nsgrid.mjs',
     code: ['tests/exp-w277c-nsgrid.mjs', 'tests/lib-w277c-nsgrid.mjs',
       'tests/lib-w276c-axiswork.mjs', 'tests/lib-w275e-powerball.mjs',
       'tests/lib-w270b-obscsv.mjs', 'tests/lib-w272e-provenance.mjs'],
@@ -447,8 +474,13 @@ const out = {
     note: '**相対すべり** s_i=v−ω_i×r の円軌道 360 位相 RMS / v_orb。'
       + '相互同期(零条件)なら 0・閉形式と一致・共通並進で不変' },
   stage2: { rows: tideRows, dimension: tideDimension,
+    time_scale_gain: NG.NSGRID_TIME_GUARD.time_scale_gain, not_a_prediction: true,
     note: '**潮汐の手の係数は宣言**。実在の潮汐(k₂・R/a から作った値)と診断用の値の差(利得)を出す' },
   stage3: { rows: gridRows, tally, clsTotal, midRows: midRows.length,
+    time_scale_gain: NG.NSGRID_TIME_GUARD.time_scale_gain, not_a_prediction: true,
+    settings: gridRows.length, classifications: gridRows.length * 2,
+    whyBreakdown: whyTable, whyBreakdownDt2: whyTableDt2,
+    classARole: NG.NSGRID_PREMISE.classARole,
     tideOff: tideOffRows, runCount, seconds: gridSeconds,
     note: '格子 = 系 3 × θ\* 7 × k∈{0,1} × λ 3 × η(k=1 のみ)3 × dt 2 段 × '
       + DECL.orbits + ' 公転。各行は基準 + 小摂動 ±1° の 3 本。'
@@ -478,12 +510,16 @@ console.log('② 潮汐の手の係数(**宣言** —— 実在 vs 診断用):')
 for (const r of tideRows) console.log(`   ${r.system.padEnd(6)} 天体${r.body} |S|=${e(r.Smag)}`
   + ` 実在 C_t ${e(r.CtPhysicalTorque)}(整列 ${e(r.alignOrbitsPhysical)} 公転)`
   + ` / 診断 ${e(r.CtDiagnostic)}(整列 ${f(r.alignOrbitsDiagnostic, 2)} 公転)/ **利得 ${e(r.gain)} 倍**`);
-console.log(`③ 格子 ${gridRows.length} 行(走行 ${runCount} 本・${f(gridSeconds, 1)} s)—— 分類 `
+console.log(`③ 格子 ${gridRows.length} 設定(走行 ${runCount} 本・${f(gridSeconds, 1)} s)—— 分類 ${gridRows.length * 2} 件 `
   + `(A) ${clsTotal.A} / (B) ${clsTotal.B} / (C) ${clsTotal.C}・**中間傾斜の (A)(B) は ${midRows.length} 行**`);
 for (const key of Object.keys(tally)) {
   const t = tally[key];
   console.log(`   ${key.padEnd(26)} θ*=${f(t.thetaStarDeg, 1)}° → A ${t.A} / B ${t.B} / C ${t.C}(${t.n} 行)`);
 }
+console.log(`   (C) の why 内訳(主因): 過渡 ${whyTable.primary.transient} / 収支不成立 ${whyTable.primary.ledger}`
+  + ` / 摂動非有界 ${whyTable.primary.unbounded} / その他 ${whyTable.primary.other}`
+  + ` —— 満たさなかった条件(重複あり) ${JSON.stringify(whyTable.failedAny)} / 組 ${JSON.stringify(whyTable.combos)}`);
+console.log(`   **時間尺度の表示ガード**: time_scale_gain=${NG.NSGRID_TIME_GUARD.time_scale_gain}・not_a_prediction=true`);
 console.log(`   E 最悪 ${e(worstE)} / J_z 最悪 ${e(worstJz)} / 熱が減った行 ${heatDropRows}`
   + ` / 供給元が増えた行 ${supRiseRows} / dt 2 段で分類が変わった行 `
   + gridRows.filter((r) => !r.classStable).length);

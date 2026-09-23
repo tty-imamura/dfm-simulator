@@ -1967,7 +1967,10 @@ const add = (id, pass, detail) => {
       // 第277便c(裁定(第67報)(2)): 中性子星連星の**診断格子**(観測の傾き × 潮汐の手 ×
       //   パワーボールの有限口座)。**較正ではない**・html を走らせない器なので target は
       //   器が読む正本ファイル(lib 自身)である
-      'tests/out/nsgrid-w277c.json'];
+      'tests/out/nsgrid-w277c.json',
+      // 第278便c(統括の検証項目 R55): pairSlip の符号修正の影響範囲(html の 2D 実装をソースの文字列で評価して
+      //   突き合わせる —— target=beta/index.html)と、H6 の共役変数模型(**エンジン未接続** —— target は lib 自身)
+      'tests/out/slipaudit-w278c.json', 'tests/out/nsmode-w278c.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -47719,7 +47722,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   try { NG = await import('file://' + path.join(ROOT, 'tests', 'lib-w277c-nsgrid.mjs')); }
   catch (e) { bad.push('lib-w277c-nsgrid.mjs が読めない: ' + String(e).slice(0, 70)); }
   if (AW && NG) {
-    if (NG.NSGRID_VERSION !== 'w277c-1') bad.push('版が w277c-1 でない: ' + NG.NSGRID_VERSION);
+    // 第278便c: pairSlip の符号修正で版を w277c-2 へ上げた(本ブロックが見る可逆対照・有理化は不変)
+    if (NG.NSGRID_VERSION !== 'w277c-2') bad.push('版が w277c-2 でない: ' + NG.NSGRID_VERSION);
     if (typeof AW.signedAxisWork !== 'function') bad.push('signedAxisWork が無い');
     // ① 有理化
     probe = NG.rationalisedDeltaProbe([
@@ -47803,9 +47807,18 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
 //        (= この系は kF0 の零条件に分類しない)。
 //     ⑦ **負の対照**: 潮汐の手を切る(C_t=0)と供給元は 1 も減らない。
 //     ⑧ **供給元を軌道 E にすると J_z が閉じない**(否定対照が否定対照のまま残っている)。
+//   第278便c(統括の検証項目 R55)で足した 3 点:
+//     ⑨ **(C) の why 別内訳**: 各分類の gate の生データ(永年変位・有界性・復帰・散逸・収支)から
+//        主因(過渡 → 収支不成立 → 散逸だが戻らない → 摂動非有界 → その他)と「満たさなかった条件」を
+//        **引き直し**、正本の `whyBreakdown` と一致させる。固定値: 過渡 432 / 収支不成立 0 / 摂動非有界 0 /
+//        その他 0・満たさなかった条件(重複あり)永年変位 432・散逸だが戻らない 60。
+//     ⑩ **数え方**: 252 設定・**走行 1512 本**・**分類 504 件**(= 252 × 2 天体)。
+//     ⑪ **時間尺度の表示ガード**: 正本に `time_scale_gain`(1e16〜1e19)と `not_a_prediction=true` が
+//        刻まれていて、実測の利得(stage2)がその範囲に入る。lib 版 w277c-2・入力の出所の記録がある。
 //   **書かないこと**: 「NS の平衡を実証した」「観測と一致した」「較正を完了した」。
 {
   const bad = [];
+  let whyRe = null, whyJ = null;
   const P = path.join(ROOT, 'tests', 'out', 'nsgrid-w277c.json');
   let J = null, NG = null, nRows = 0, cls = { A: 0, B: 0, C: 0 }, reDerived = 0, mismatch = 0;
   let worstE = 0, worstJz = 0, slipA = null, slipB = null, orbitJz = 0, intJz = 0;
@@ -47880,6 +47893,48 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     if (!(intJz <= NG.GATE.ledgerTol)) bad.push('⑧内部モード口座で J_z が閉じていない');
     if (!(orbitJz > NG.GATE.ledgerTol))
       bad.push('⑧軌道 E を供給元にした否定対照で J_z が閉じてしまっている(対照が対照でない)');
+    // ⑨ why 別内訳(生データから引き直す)
+    whyRe = { transient: 0, ledger: 0, unbounded: 0, other: 0, fTransient: 0, fLedger: 0, fUnbounded: 0, fNoReturn: 0 };
+    for (const r of rows) for (let i = 0; i < 2; i++) {
+      const g = (r.gate || [])[i];
+      if (!g || r.classDt1[i] !== 'C') continue;
+      const tr = g.secularDeg > NG.GATE.secularTolDeg, nr = g.dissipating && !g.returning;
+      if (tr) whyRe.transient++; else if (!g.closes) whyRe.ledger++;
+      else if (nr) whyRe.other++; else if (!g.bounded) whyRe.unbounded++; else whyRe.other++;
+      if (tr) whyRe.fTransient++; if (!g.closes) whyRe.fLedger++; if (!g.bounded) whyRe.fUnbounded++; if (nr) whyRe.fNoReturn++;
+      const code = tr ? 'transient' : (!g.closes) ? 'ledger' : nr ? 'noReturn' : (!g.bounded) ? 'unbounded' : 'neither';
+      if (g.whyCode !== code) bad.push(`⑨主因コードが門の式と違う: ${r.system}|${r.thetaTag} ${g.whyCode} / 式 ${code}`);
+    }
+    whyJ = (J.stage3 || {}).whyBreakdown || null;
+    if (!whyJ) bad.push('⑨正本に whyBreakdown が無い');
+    else {
+      for (const k of ['transient', 'ledger', 'unbounded', 'other'])
+        if (whyJ.primary[k] !== whyRe[k]) bad.push(`⑨主因 ${k} が引き直しと違う(${whyJ.primary[k]} vs ${whyRe[k]})`);
+      if (whyJ.failedAny.transient !== whyRe.fTransient || whyJ.failedAny.ledger !== whyRe.fLedger
+        || whyJ.failedAny.unbounded !== whyRe.fUnbounded || whyJ.failedAny.noReturn !== whyRe.fNoReturn)
+        bad.push('⑨満たさなかった条件の集計が引き直しと違う');
+    }
+    const fixedWhy = { transient: 432, ledger: 0, unbounded: 0, other: 0, fTransient: 432, fNoReturn: 60 };
+    for (const k of Object.keys(fixedWhy)) if (whyRe[k] !== fixedWhy[k])
+      bad.push(`⑨固定値 ${k}=${fixedWhy[k]} と違う: ${whyRe[k]}`);
+    // ⑩ 数え方
+    const s3 = J.stage3 || {};
+    if (!(s3.settings === 252 && s3.classifications === 504 && s3.runCount === 1512 && reDerived === 504))
+      bad.push(`⑩数え方が 252 設定・504 分類・1512 走行でない(${s3.settings}/${s3.classifications}/${s3.runCount}/${reDerived})`);
+    // ⑪ 時間尺度の表示ガード・版・入力の出所
+    const tg = (J.meta || {}).timeScaleGuard || {};
+    if (!(tg.not_a_prediction === true && s3.not_a_prediction === true && (J.stage2 || {}).not_a_prediction === true))
+      bad.push('⑪not_a_prediction=true が正本に刻まれていない');
+    if (tg.time_scale_gain !== '1e16〜1e19' || s3.time_scale_gain !== '1e16〜1e19') bad.push('⑪time_scale_gain の刻印が違う');
+    const gm = tg.gainMeasured || [];
+    if (!(gm[0] >= 1e16 && gm[1] < 1e20)) bad.push('⑪実測の利得が 1e16〜1e19 の桁に入らない: ' + gm.join(' / '));
+    if (((J.meta || {}).premise || {}).version !== 'w277c-2' || NG.NSGRID_VERSION !== 'w277c-2')
+      bad.push('⑪lib / 正本の版が w277c-2 でない');
+    const src = (J.meta || {}).inputSources || {};
+    if (!(src.J0737A_misalignment && /Ferdman/.test(src.J0737A_misalignment.source)
+      && src.J0737B_misalignment && /682 A26 §5\.2/.test(src.J0737B_misalignment.source)
+      && src.J0737B_precession && /§4\.1/.test(src.J0737B_precession.source)))
+      bad.push('⑪入力の出所(Ferdman 2013 §6・Lower 2024 A&A 682 A26 §5.2・§4.1)が正本に無い');
   }
   add('behavior.nsGridLedger', bad.length === 0,
     `**中性子星連星の診断格子**(第277便c・裁定(第67報)(2)・正本 tests/out/nsgrid-w277c.json・`
@@ -47898,7 +47953,12 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     + `**供給元の対照**: 内部モード口座 J_z ${intJz.toExponential(2)} に対し `
     + `**軌道 E は ${orbitJz.toExponential(2)}**(準円パラメータ化では E_orb=E(L) なので閉じない —— 否定対照)/ `
     + `**k₂・K・λ・η・要求率・C_t は宣言された自由パラメータ**(観測の傾きは**初期値としてのみ**使い、`
-    + `そこから係数を決めていない)`
+    + `そこから係数を決めていない)/ `
+    + `第278便c: **(C) の why 別内訳**(生データから引き直し)過渡 ${whyRe ? whyRe.transient : '—'}・`
+    + `収支不成立 ${whyRe ? whyRe.ledger : '—'}・摂動非有界 ${whyRe ? whyRe.unbounded : '—'}・その他 `
+    + `${whyRe ? whyRe.other : '—'}(満たさなかった条件: 永年変位 ${whyRe ? whyRe.fTransient : '—'}・散逸だが戻らない `
+    + `${whyRe ? whyRe.fNoReturn : '—'})/ 数え方 252 設定・**走行 1512 本**・**分類 504 件** / `
+    + `**時間尺度の表示ガード** time_scale_gain=1e16〜1e19・not_a_prediction=true(格子の θ の動きは実在 NS の進化速度ではない)`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
 }
 
@@ -47911,9 +47971,15 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
 //     ④ docs/CALIBRATION_VERDICT_v1.44.md に §5.27 があり、**禁止語**(第276便の教訓)が無い。
 //     ⑤ CHANGELOG.md の v1.45-b1 節に第277便c の行がある。
 //     ⑥ 節に**言わないことの明記**(「NS の平衡を実証した」等)がある。
+//   第278便c(統括の検証項目 R55)で足した 3 点(§5.27 の切り出しは「次の `### `」までに変えた —— §5.28〜§5.30 の順に依らない):
+//     ⑦ docs/PHYSICS.md に 〔第278便c〕節があり、正本 nsgrid-w277c.json の **why 内訳**(過渡・収支不成立・摂動非有界・
+//        その他・散逸だが戻らない)と数え方(252 設定・1512 走行・504 分類)、正本 nsmode-w278c.json の **係数表の数**
+//        (導出式の b₁/|b₂|・ω_m=6 の b₃/|b₂|・J0737 B の零点の 90° からの距離)が**そのまま**載り、`not_a_prediction` の語がある。
+//     ⑧ docs/CALIBRATION_VERDICT_v1.44.md に §5.30 があり、why 内訳の 4 数が載り、**禁止語が無い**。
+//     ⑨ CHANGELOG.md の v1.45-b1 節に第278便c の行がある。
 {
   const bad = [];
-  let J = null;
+  let J = null, NMJ = null, sec278len = 0, sec30len = 0;
   const phys = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
   const cal = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
   const chg = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
@@ -47947,7 +48013,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   const i27 = cal.indexOf('### 5.27 ');
   if (i27 < 0) bad.push('④CALIBRATION_VERDICT に §5.27 が無い');
   const sec27 = (i27 < 0) ? '' : cal.slice(i27, (() => {
-    const j = cal.indexOf('\n## ', i27); const k3 = cal.indexOf('\n### 5.28 ', i27);
+    const j = cal.indexOf('\n## ', i27); const k3 = cal.indexOf('\n### ', i27 + 5);
     const ends = [j, k3].filter((x) => x > 0);
     return ends.length ? Math.min(...ends) : cal.length; })());
   for (const line of sec27.split('\n')) {
@@ -47963,6 +48029,52 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   if (sec.indexOf('言わないこと') < 0) bad.push('⑥節に「言わないこと」が無い');
   for (const w of ['NS の平衡を実証した', '較正を完了した'])
     if (sec.indexOf(w) < 0) bad.push('⑥「言わないこと」に語が無い: ' + w);
+  // ⑦ 〔第278便c〕節
+  const i78h = phys.indexOf('\n〔第278便c — '), i78 = (i78h < 0) ? -1 : i78h + 1;   // 節の見出し(本文中の参照ではなく)
+  const sec278 = (i78 < 0) ? '' : phys.slice(i78, (() => {
+    const j = phys.indexOf('\n〔第2', i78 + 5); const k2 = phys.indexOf('\n## ', i78);
+    const ends = [j, k2].filter((x) => x > 0);
+    return ends.length ? Math.min(...ends) : phys.length; })());
+  sec278len = sec278.length;
+  if (i78 < 0) bad.push('⑦PHYSICS.md に〔第278便c〕節が無い');
+  try { NMJ = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'nsmode-w278c.json'), 'utf8')); }
+  catch (e) { bad.push('⑦正本 nsmode-w278c.json が読めない: ' + String(e).slice(0, 60)); }
+  const need78 = [];
+  if (J && J.stage3 && J.stage3.whyBreakdown) {
+    const w = J.stage3.whyBreakdown;
+    need78.push('**' + w.primary.transient + '**', '**' + w.primary.ledger + '**', String(w.failedAny.noReturn),
+      String(J.stage3.settings) + ' 設定', '走行は 1512 本', String(J.stage3.classifications) + ' 件');
+  } else bad.push('⑦正本 nsgrid-w277c.json に whyBreakdown が無い');
+  if (NMJ) {
+    const rows = (NMJ.stage4 || {}).rows || [];
+    const lag = rows[0], wm6 = rows.find((r) => r.omegaM === 6 && r.gamma === 3);
+    if (lag) need78.push(Math.abs(lag.sineCoefRel[0]).toFixed(6));
+    if (wm6) need78.push(wm6.sineCoefRel[2].toFixed(6));
+    const b = ((NMJ.stage10 || {}).rows || []).find((r) => r.system === 'J0737' && r.body === 2);
+    if (b) need78.push(b.lagNinetyMinusDeg.toExponential(3));
+  }
+  for (const t of need78) if (sec278.indexOf(t) < 0) bad.push('⑦正本の数値が〔第278便c〕節に無い: ' + t);
+  for (const w of ['not_a_prediction', '相対平衡候補', 'sinθ 項', '言わないこと'])
+    if (sec278.indexOf(w) < 0) bad.push('⑦〔第278便c〕節に語が無い: ' + w);
+  // ⑧ §5.30
+  const i30 = cal.indexOf('### 5.30 ');
+  if (i30 < 0) bad.push('⑧CALIBRATION_VERDICT に §5.30 が無い');
+  const sec30 = (i30 < 0) ? '' : cal.slice(i30, (() => {
+    const j = cal.indexOf('\n## ', i30); const k3 = cal.indexOf('\n### ', i30 + 5);
+    const ends = [j, k3].filter((x) => x > 0);
+    return ends.length ? Math.min(...ends) : cal.length; })());
+  sec30len = sec30.length;
+  if (J && J.stage3 && J.stage3.whyBreakdown) {
+    const w = J.stage3.whyBreakdown.primary;
+    for (const [lab, v] of [['過渡', w.transient], ['収支不成立', w.ledger], ['摂動非有界', w.unbounded], ['その他', w.other]])
+      if (!new RegExp(lab + '[^|\\n]*\\|\\s*\\*\\*' + v + '\\*\\*').test(sec30)) bad.push(`⑧§5.30 の内訳表に ${lab} ${v} が無い`);
+  }
+  for (const line of sec30.split('\n')) {
+    if (/判定が増えた|較正を完了|較正した|カロンが合|カロンが否|kF0 版が成立した|引きずりが完全に消えていることを確認/.test(line))
+      bad.push('⑧禁止語(§5.30): ' + line.slice(0, 40));
+  }
+  // ⑨ CHANGELOG
+  if (head.indexOf('第278便c') < 0) bad.push('⑨CHANGELOG の v1.45-b1 節に第278便c の行が無い');
   add('docs.nsGridCriteria', bad.length === 0,
     `**診断格子の文書同期**(第277便c): docs/PHYSICS.md 〔第277便c〕節 ${sec.length} 字 / `
     + `正本 tests/out/nsgrid-w277c.json の主要数値 ${need.length} 個が**そのまま節に載っている** `
@@ -47971,7 +48083,187 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     + `門の定義(**永年**変位・小摂動の**有界**性・復帰・**収支**の閉じ)が節にある / `
     + `docs/CALIBRATION_VERDICT_v1.44.md §5.27(${sec27.length} 字・**禁止語なし**)/ `
     + `CHANGELOG の v1.45-b1 節に第277便c の行 / `
-    + `**言わないこと**の明記(「NS の平衡を実証した」「較正を完了した」等)`
+    + `**言わないこと**の明記(「NS の平衡を実証した」「較正を完了した」等)/ `
+    + `第278便c: 〔第278便c〕節 ${sec278len} 字に why 内訳・数え方(252 設定・走行 1512 本・504 分類)・係数表の数が`
+    + `そのまま載る / §5.30(${sec30len} 字・内訳表・**禁止語なし**)/ CHANGELOG に第278便c の行`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 第278便c(統括の検証項目 R55): behavior.pairSlipSign ----
+//   `tests/lib-w277c-nsgrid.mjs` の `pairSlip` の**第二天体の符号修正**(w277c-1 の s2=v+ω₂×r →
+//   w277c-2 の s2=v−ω₂×r)を機械固定する。**純関数をその場で走らせる**(html は開かない —— root/beta で同じ結果)。
+//     ① 最小対照 4 件: 相互同期(r=(1,0,0)・v=(0,1,0)・ω₁=ω₂=(0,0,1))と反転(r=(−1,0,0)・v=(0,−1,0))で
+//        s₁=s₂=0、相手が自転しない(ω₂=0)で s₂=v、逆回転(ω₂=(0,0,−1))で s₂=(0,2,0)。旧式は同期で s₂=(0,2,0)。
+//     ② ラベルの入れ替え対称性 pairSlip(−r,−v,ω₂,ω₁).s1 = −pairSlip(r,v,ω₁,ω₂).s2(乱数 32 件で 0・旧式は満たさない)。
+//     ③ 正本 tests/out/slipaudit-w278c.json(器 tests/exp-w278c-slipaudit.mjs)で、**html の 2D 実装**
+//        (`relativeDragProbe` のソースを文字列で評価)と修正後の式の差 0・旧式との差 >0、
+//        `lib-w277b-charondfm.mjs` の `pairSlipStep` と html の `dfmRelativeDragStep` が 1 步ビット同一、
+//        `slipRmsCircular`(別実装)と修正後の式の 360 位相 RMS が一致。
+//     ④ **影響範囲**: 格子の力学(bodyTorques・nsDerivs・runNsRun・transferStep)は pairSlip を経由しない
+//        (正本 nsgrid-w277c.json の数値の葉は修正前後で 1 つも動いていない —— 器 tests/exp-w278c-nsgriddiff.mjs)。
+{
+  const bad = [];
+  let NG = null, A = null, minRows = [], swapMax = 0, swapLegacyMin = Infinity;
+  try { NG = await import('file://' + path.join(ROOT, 'tests', 'lib-w277c-nsgrid.mjs')); }
+  catch (e) { bad.push('lib-w277c-nsgrid.mjs が読めない: ' + String(e).slice(0, 70)); }
+  try { A = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'slipaudit-w278c.json'), 'utf8')); }
+  catch (e) { bad.push('正本 slipaudit-w278c.json が読めない: ' + String(e).slice(0, 70)); }
+  if (NG) {
+    if (NG.NSGRID_VERSION !== 'w277c-2') bad.push('版が w277c-2 でない: ' + NG.NSGRID_VERSION);
+    const cases = [
+      { id: '同期', r: [1, 0, 0], v: [0, 1, 0], w1: [0, 0, 1], w2: [0, 0, 1], s2: [0, 0, 0], legacyS2: [0, 2, 0] },
+      { id: '反転', r: [-1, 0, 0], v: [0, -1, 0], w1: [0, 0, 1], w2: [0, 0, 1], s2: [0, 0, 0], legacyS2: [0, -2, 0] },
+      { id: '相手静止', r: [1, 0, 0], v: [0, 1, 0], w1: [0, 0, 1], w2: [0, 0, 0], s2: [0, 1, 0], legacyS2: [0, 1, 0] },
+      { id: '逆回転', r: [1, 0, 0], v: [0, 1, 0], w1: [0, 0, 1], w2: [0, 0, -1], s2: [0, 2, 0], legacyS2: [0, 0, 0] },
+    ];
+    for (const c of cases) {
+      const a = NG.pairSlip(c.r, c.v, c.w1, c.w2), b = NG.pairSlipLegacyW277c1(c.r, c.v, c.w1, c.w2);
+      const d = Math.hypot(a.s2[0] - c.s2[0], a.s2[1] - c.s2[1], a.s2[2] - c.s2[2]) + Math.hypot(...a.s1);
+      const dl = Math.hypot(b.s2[0] - c.legacyS2[0], b.s2[1] - c.legacyS2[1], b.s2[2] - c.legacyS2[2]);
+      minRows.push(c.id + ' s₂=(' + a.s2.map((x) => x + 0).join(',') + ')');
+      if (!(d === 0)) bad.push(`①${c.id}: 修正後の s が期待と違う(${a.s1} / ${a.s2})`);
+      if (!(dl === 0)) bad.push(`①${c.id}: 旧式の記録が期待と違う(${b.s2})`);
+    }
+    let seed = 2781;
+    const rnd = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648 * 2 - 1; };
+    for (let k = 0; k < 32; k++) {
+      const r = [rnd(), rnd(), rnd()], v = [rnd(), rnd(), rnd()], w1 = [rnd(), rnd(), rnd()], w2 = [rnd(), rnd(), rnd()];
+      swapMax = Math.max(swapMax, NG.pairSlipSwapResidual(r, v, w1, w2));
+      swapLegacyMin = Math.min(swapLegacyMin, NG.pairSlipSwapResidual(r, v, w1, w2, NG.pairSlipLegacyW277c1));
+    }
+    if (!(swapMax === 0)) bad.push('②入れ替え対称性が崩れた: ' + swapMax);
+    if (!(swapLegacyMin > 0)) bad.push('②旧式が入れ替え対称性を満たしてしまった(対照が対照でない)');
+  }
+  if (A) {
+    if (!A.meta || !A.meta.provenanceVersion) bad.push('③来歴 meta が無い');
+    if (A.libVersion !== 'w277c-2') bad.push('③正本の lib 版が w277c-2 でない: ' + A.libVersion);
+    const h = A.html2d || {};
+    if (!h.available) bad.push('③正本の html 2D 突合が空(beta に relativeDragProbe が無かった)');
+    else {
+      if (!(h.maxDiffFixed === 0)) bad.push('③html 2D と修正後の式が一致しない: ' + h.maxDiffFixed);
+      if (!(h.maxDiffLegacy > 0)) bad.push('③html 2D と旧式が一致してしまう(符号の違いが検出できていない)');
+      if (!(h.cases >= 36)) bad.push('③html 2D の突合件数が足りない: ' + h.cases);
+    }
+    for (const r of A.charonLibStep || []) if (!r.bitSame) bad.push('③lib-w277b pairSlipStep と html が 1 步でビット同一でない: ' + r.id);
+    if (!((A.charonLibStep || []).length >= 2)) bad.push('③lib-w277b と html の 1 步突合が無い');
+    for (const r of A.rmsCircular || []) if (!(r.absDiffFixed <= 1e-9 * Math.max(1, r.slipRmsCircular)))
+      bad.push(`③slipRmsCircular と修正後の RMS が合わない(ω/n=${r.omegaOverN}・θ=${r.thetaDeg})`);
+    const sc = A.scope || {};
+    if (sc.gridDynamicsUsesPairSlip !== false) bad.push('④格子の力学が pairSlip を経由している(影響範囲の前提が崩れた)');
+  }
+  add('behavior.pairSlipSign', bad.length === 0,
+    `**相対すべり pairSlip の第二天体の符号修正**(第278便c・統括の検証項目 R55・lib 版 ${NG ? NG.NSGRID_VERSION : '—'}・`
+    + `**html は開かない**)/ ① 最小対照 4 件: ${minRows.join(' / ')}(旧式は同期で s₂=(0,2,0))/ `
+    + `② 入れ替え対称性 32 件: 修正後の最大残差 ${swapMax}・旧式の最小残差 ${Number.isFinite(swapLegacyMin) ? swapLegacyMin.toExponential(2) : '—'} / `
+    + `③ 正本 tests/out/slipaudit-w278c.json: html 2D(${A && A.meta ? A.meta.htmlVersion : '—'})と修正後の差 `
+    + `${A && A.html2d ? A.html2d.maxDiffFixed : '—'}・旧式との差 ${A && A.html2d ? Number(A.html2d.maxDiffLegacy).toExponential(2) : '—'}`
+    + `(${A && A.html2d ? A.html2d.cases : '—'} 件)・lib-w277b pairSlipStep と html dfmRelativeDragStep は 1 步ビット同一・`
+    + `slipRmsCircular と一致 / ④ **影響範囲**: 格子の力学は pairSlip を経由しない`
+    + `(正本 nsgrid-w277c.json の数値は修正前後で不変)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 第278便c(統括の検証項目 R55 の H6・AM15): behavior.nsModeExchange ----
+//   **内部モードの共役変数模型**(純関数 tests/lib-w278c-nsmode.mjs・器 tests/exp-w278c-nsmode.mjs・
+//   正本 tests/out/nsmode-w278c.json・**エンジン未接続**)を機械固定する。**html は開かない**。
+//     ① トルクの式 τ_k = tr(G_k[Q,F]) が有限回転の差分と一致(その場で計算)。
+//     ② 導出した閉形式(遅れの小さい極限)τ_θ=(Kω/4)sin2θ − Kn sinθ・K=18f²γ/(μω_m⁴) が、
+//        線形定常応答の数値解と ω_m=3000 で相対 1e−5 以内(その場で計算)。平均の収支(軌道の供給 = 自転の仕事 + 熱)が閉じる。
+//     ③ 時間領域の短い走行(動的自転・有限容量・2 公転)で、步ごとのエネルギーと角力積の和が RK4 の刻みの誤差水準
+//        (E ≤1e−6・J ≤1e−8 —— J_mode が 2 次式なので構造保存ではない)・dE_orb = n dL_orb,z の恒等式が丸め水準(その場で計算)。
+//     ④ **θ 依存の係数表**(正本): 閉形式の正弦係数 b₁/b₂ = −4n/ω(ω/n=3 で −4/3)・sin2θ だけでは表せない
+//        (残差 >0.1)・摩擦 0 の対照は平均トルク 0。
+//     ⑤ 正本の帳簿(動的自転・有限容量・供給停止)が閉じ(E・J の相対漂い ≤1e−6・熱の減少 0)、刻みを半分にすると
+//        4 次で縮む・供給停止後は θ が動かない・自転の大きさを固定した対照で摂動が縮む。
+//     ⑥ 別系の零点(導出式)が 90° から 0.1° 以内(実系の ω/n)—— 観測材料 3.2°・40.6° を作らない。
+//        **合わせる係数探索はしていない**・not_a_prediction=true。
+{
+  const bad = [];
+  let NM = null, J = null, tq = 0, lagRel = 0, clo = 0, stepE = 0, stepJ = 0, orbId = 0, b12 = null;
+  try { NM = await import('file://' + path.join(ROOT, 'tests', 'lib-w278c-nsmode.mjs')); }
+  catch (e) { bad.push('lib-w278c-nsmode.mjs が読めない: ' + String(e).slice(0, 70)); }
+  try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'nsmode-w278c.json'), 'utf8')); }
+  catch (e) { bad.push('正本 nsmode-w278c.json が読めない: ' + String(e).slice(0, 70)); }
+  if (NM) {
+    if (NM.NSMODE_VERSION !== 'w278c-1') bad.push('版が w278c-1 でない: ' + NM.NSMODE_VERSION);
+    // ①
+    const Q = [0.3, 0.1, -0.2, 0.1, -0.5, 0.4, -0.2, 0.4, 0.2], F = NM.tideTensor(0.7, 0.4);
+    for (let k = 0; k < 3; k++) {
+      const e = [0, 0, 0]; e[k] = 1; const h = 1e-6;
+      const R = NM.rotMat(e, h), Rm = NM.rotMat(e, -h);
+      const up = -NM.mat.dot(NM.mat.mul(NM.mat.mul(R, Q), NM.mat.transpose(R)), F);
+      const um = -NM.mat.dot(NM.mat.mul(NM.mat.mul(Rm, Q), NM.mat.transpose(Rm)), F);
+      const fd = -(up - um) / (2 * h), an = NM.torqueOf(Q, F)[k];
+      tq = Math.max(tq, Math.abs(fd - an) / Math.abs(an));
+    }
+    if (!(tq <= 1e-7)) bad.push('①トルクの式が有限回転と合わない: ' + tq);
+    // ②
+    const p = { mu: 1, omegaM: 3000, gamma: 3, f: 1, n: 1 };
+    for (const d of [10, 30, 48.19, 70, 100, 150]) {
+      const t = d * Math.PI / 180;
+      const s = NM.steadyState(p, t, { omega: 3 }), l = NM.lagLimit(p, t, { omega: 3 });
+      const sc = Math.max(Math.abs(l.tauS), Math.abs(l.tauTheta));
+      lagRel = Math.max(lagRel, Math.abs(s.local.theta - l.tauTheta) / sc, Math.abs(s.local.s - l.tauS) / sc);
+      clo = Math.max(clo, Math.abs(s.agentWork) / s.heat);
+      if (!(s.heat > 0)) bad.push('②熱が正でない: θ=' + d);
+    }
+    if (!(lagRel <= 1e-5)) bad.push('②閉形式と数値解の差が 1e−5 を超えた: ' + lagRel);
+    if (!(clo <= 1e-12)) bad.push('②平均の収支が閉じない: ' + clo);
+    const ll = NM.thetaCoefficients((t) => NM.lagLimit({ mu: 1, omegaM: 30, gamma: 3, f: 1, n: 1 }, t, { omega: 3 }).tauTheta,
+      { samples: 360, kmax: 4 });
+    b12 = ll.sineCoefRel[0];
+    if (!(Math.abs(b12 + 4 / 3) <= 1e-9)) bad.push('②閉形式の b₁/b₂ が −4/3 でない: ' + b12);
+    // ③ 短い時間領域(動的自転・有限容量あり)
+    const st = NM.makeMode({ mu: 1, omegaM: 30, gamma: 3, f: 1, n: 1, Is: 0.01, Ecap: 1e-3, gammaSat: 9,
+      spin: { theta: 0.7, omega: 3 } });
+    const L0 = NM.modeLedger(st);
+    const Es = 0.5 * 0.01 * 9, Js = 0.03;
+    for (let k = 0; k < 4800; k++) {
+      const ex = NM.modeExchange(st, 2 * Math.PI / 2400);
+      stepE = Math.max(stepE, Math.abs(ex.sumE) / Es);
+      stepJ = Math.max(stepJ, Math.hypot(...ex.sumJ) / Js);
+      orbId = Math.max(orbId, Math.abs(ex.orbitIdentity) / Es);
+    }
+    if (!(stepE <= 1e-6 && stepJ <= 1e-8)) bad.push(`③步ごとの和が刻みの誤差水準を超えた(E ${stepE}・J ${stepJ})`);
+    if (!(orbId <= 1e-14)) bad.push('③dE_orb = n dL_orb,z の恒等式が崩れた: ' + orbId);
+    if (!(NM.modeLedger(st).heat > L0.heat)) bad.push('③熱が増えていない');
+  }
+  if (J) {
+    if (!J.meta || !J.meta.provenanceVersion) bad.push('来歴 meta が無い');
+    if (!(J.meta && J.meta.not_a_prediction === true)) bad.push('⑥not_a_prediction=true が無い');
+    const s4 = J.stage4 || {}, lag = (s4.rows || [])[0];
+    if (!lag || !(Math.abs(lag.sineCoefRel[0] + 4 / 3) <= 1e-9)) bad.push('④正本の閉形式 b₁/b₂ が −4/3 でない');
+    for (const r of s4.rows || []) {
+      if (!(r.sin2OnlyMaxResidualRel > 0.1)) bad.push('④sin2θ だけで表せてしまう行がある: ' + r.label);
+      if (r.kind === 'steady-state' && r.omegaM >= 300 && !(Math.abs(r.sineCoefRel[0] - r.expectB1overB2) <= 1e-3))
+        bad.push('④ω_m≥300 の数値解の b₁/b₂ が −4n/ω に寄らない: ' + r.label);
+    }
+    if (!(s4.frictionless && s4.frictionless.worstTorque <= 1e-15)) bad.push('④摩擦 0 の対照で平均トルクが 0 でない');
+    const s6 = J.stage6 || {};
+    if (!(s6.worstErel <= 1e-6 && s6.worstJrel <= 1e-6 && s6.heatDrops === 0)) bad.push('⑤正本の帳簿が閉じない');
+    if (!(s6.ErelOrder > 3 && s6.JrelOrder > 3)) bad.push('⑤刻みを半分にしても漂いが 4 次で縮まない');
+    const s9 = J.stage9 || {};
+    if (!(Math.abs(s9.thetaRateAfterDegPerOrbit) <= 1e-9)) bad.push('⑤供給停止後に θ が動いている');
+    const s8 = J.stage8 || {};
+    if (!(s8.held && s8.held.pairGapRatio < 1)) bad.push('⑤自転の大きさを固定した対照で摂動が縮まない');
+    for (const r of (J.stage10 || {}).rows || []) {
+      if (!(r.lagNinetyMinusDeg > 0 && r.lagNinetyMinusDeg < 0.1)) bad.push('⑥別系の零点が 90° から 0.1° 以内にない: ' + r.system);
+      if (!(r.steadyZeroDeg !== null && Math.abs(r.steadyZeroDeg - r.lagThetaStarDeg) < 1e-3))
+        bad.push('⑥数値解の零点が導出式と合わない: ' + r.system);
+    }
+  }
+  add('behavior.nsModeExchange', bad.length === 0,
+    `**H6 の共役変数模型**(第278便c・統括の検証項目 R55・純関数 tests/lib-w278c-nsmode.mjs 版 `
+    + `${NM ? NM.NSMODE_VERSION : '—'}・正本 tests/out/nsmode-w278c.json・**エンジン未接続**・**較正ではない**)/ `
+    + `① トルク式 τ_k=tr(G_k[Q,F]) と有限回転の差 ${tq.toExponential(2)} / `
+    + `② 閉形式 **τ_θ=(Kω/4)sin2θ − Kn sinθ**(K=18f²γ/(μω_m⁴))と数値解の差 ${lagRel.toExponential(2)}(ω_m=3000)・`
+    + `平均の収支 ${clo.toExponential(2)}・**b₁/b₂=${b12 === null ? '—' : b12.toFixed(9)}(=−4n/ω)** / `
+    + `③ 步ごとの和 E ${stepE.toExponential(2)}・J ${stepJ.toExponential(2)}・恒等式 ${orbId.toExponential(2)} / `
+    + `④ 正本の係数表: **sin2θ 以外に sinθ 項が出る**(有限 ω_m で sin3θ・sin4θ も)/ `
+    + `⑤ 正本の帳簿 E ${J && J.stage6 ? Number(J.stage6.worstErel).toExponential(2) : '—'}・`
+    + `J ${J && J.stage6 ? Number(J.stage6.worstJrel).toExponential(2) : '—'}・供給停止後の θ 変化 `
+    + `${J && J.stage9 ? J.stage9.thetaRateAfterDegPerOrbit : '—'} / ⑥ 別系の零点は 90° から 0.1° 以内 —— `
+    + `**観測材料 3.2°・40.6° を作らない**・合わせる係数探索はしていない・not_a_prediction`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
 }
 
