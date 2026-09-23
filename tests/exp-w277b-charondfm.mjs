@@ -22,6 +22,19 @@
 //   PLAYWRIGHT_CORE_DIR=/opt/node22/lib/node_modules/playwright node tests/exp-w277b-charondfm.mjs
 //       [--pilot] [--only A,B,C,D,E] [--stages h,h2,h4]
 // 出力: tests/out/charondfm-w277b.json(来歴 meta は tests/lib-w272e-provenance.mjs 版 w272e-1)
+//
+// ■ 第278便b(統括の検証項目 R53・R54)で改めたこと(版 w278b-1 —— 旧版の値は `history.w277b` に残す)
+//   ・⛄ は `integrator:"leapfrog"`+`relativeDrag.integration:"midpoint"`、🌨️ は `integrator:"leapfrog"` を宣言した
+//     (入力は変えていない)。§C はその宣言のまま測る。
+//   ・**判定量を 2 欄に分ける**(AM16): 欄 (1) **暦の再現**(PLU060 400 年平均 P・Horizons PR 元期 A/B に対する
+//     差を s と ppm で記帳 —— σ は無いので合否を出さない)/ 欄 (2) **観測検定**(Buie 2012 二体 P)は
+//     差と σ 倍を**比較値**として記帳し、状態語は **「判定保留(量定義不一致)」**(同一暦の入力を Buie の σ で
+//     判定しない)。**門の語をこの 2 本の正式判定に使わない**(母集団外・4 値は動かない)。
+//   ・追加の診断行 **「Buie 二体再現(転写・積分器の試験)」**: Buie の a・P から GM=4π²a³/P² を作って二体を回し
+//     P を再現する(**独立の検証ではない**)。
+//   ・帳簿の読み口: `S.totals()` は物質+コアだけなので、**器の側で 1 回だけ** resPx/resPy/resL/radL を足す。
+//   ・周の数え方: 角度の足し込み(累積 32 rad 超で丸めが揃い ≈4e-4 s の段差を生む)をやめ、初期方向に対する
+//     位相 φ=atan2(r₀×r, r₀·r) の負→非負を直接判定する(第278便b の器 `exp-w278b-charonwin.mjs` と同じ)。
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -31,12 +44,13 @@ import { withProvenance } from './lib-w272e-provenance.mjs';
 import { CHARON_DFM_VERSION, GM_2024, GM_2015, ELEM_2024, BUIE_2012, HORIZONS_PR, HORIZONS_STATE,
   G_MODEL, PRECISE_UNITS, projectToOrbitPlane, massFromGM, charonPairState, osculating,
   pairSlipStep, totalsOf, syncCircularPair } from './lib-w277b-charondfm.mjs';
+import { pairSlipMidpointStep } from './lib-w278b-midpoint.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
 const INDEX = 'file://' + path.join(ROOT, TARGET);
 const OUT = path.join(ROOT, 'tests', 'out', 'charondfm-w277b.json');
-const HARNESS_VERSION = 'w277b-charondfm-1';
+const HARNESS_VERSION = 'w278b-1';   // 第278便b: 2 欄・中点法の宣言・Buie 二体再現・帳簿の読み口(旧 w277b-charondfm-1)
 
 const argv = process.argv.slice(2);
 const getArg = (k, d) => { const i = argv.indexOf(k); return (i >= 0 && argv[i + 1]) ? argv[i + 1] : d; };
@@ -54,9 +68,21 @@ const SEC_PER_UNIT = Math.pow(10, PRECISE_UNITS.T);
 const OBS = { value: BUIE_2012.periodSec, sigma: BUIE_2012.sigmaSec, source: BUIE_2012.source };
 const sigOf = (sec) => Number.isFinite(sec) ? (sec - OBS.value) / OBS.sigma : null;
 const pctOf = (sec) => Number.isFinite(sec) ? (sec - OBS.value) / OBS.value * 100 : null;
-// **門** —— 3σ の線だけを機械で当てる(語はこの 3 つしかない)
-const gateWord = (nSigma) => (nSigma === null || !Number.isFinite(nSigma)) ? '保留(測定不能)'
-  : (Math.abs(nSigma) <= 3 ? '合(3σ)' : '否(3σ)');
+// 第278便b(R53): ⛄🌨️ の観測検定欄は**門を掛けない**(同一暦の入力を Buie の σ で判定しない)。
+// 返すのは状態語 1 つだけで、差と σ 倍は**比較値**として別の欄に置く。
+const OBS_STATUS = '判定保留(量定義不一致)';
+const gateWord = (nSigma) => (nSigma === null || !Number.isFinite(nSigma)) ? '保留(測定不能)' : OBS_STATUS;
+// 欄 (1) 暦の再現(σ なし —— 合否を出さない)
+const ALMANAC = [
+  { key: 'plu060-mean400', label: 'PLU060 400 年平均 P', sec: ELEM_2024.Charon.periodSec },
+  { key: 'horizons-PR-epochA', label: 'Horizons osculating PR 元期 A', sec: HORIZONS_PR.epochA.periodSec },
+  { key: 'horizons-PR-epochB', label: 'Horizons osculating PR 元期 B', sec: HORIZONS_PR.epochB.periodSec },
+];
+const almanacOf = (sec) => ALMANAC.map((a) => ({ key: a.key, label: a.label, refSec: a.sec,
+  diffSec: sec - a.sec, ppm: (sec - a.sec) / a.sec * 1e6, verdict: '合否なし(σ なし — 表示桁・400 年の散らばりは σ ではない)' }));
+const observationOf = (sec) => ({ refSec: OBS.value, sigmaSec: OBS.sigma, diffSec: sec - OBS.value,
+  comparisonSigma: sigOf(sec), status: OBS_STATUS,
+  note: '比較値(門ではない)—— 入力も目標も同一暦(PLU060)の量であり、Buie 2012 の二体 P の σ で判定しない' });
 
 const sha = (b) => crypto.createHash('sha256').update(b).digest('hex');
 
@@ -178,9 +204,16 @@ function installRunner() {
       else p.physics.massPrecision = cfg.massPrecision;
     }
     if (cfg.kappa !== undefined) {
+      const integ = p.physics.relativeDrag ? p.physics.relativeDrag.integration : undefined;
       if (cfg.kappa === null) delete p.physics.relativeDrag;
-      else p.physics.relativeDrag = { law: 'pairSlip', kappa: cfg.kappa, pairs: 'all', spins: 'declared' };
+      else { p.physics.relativeDrag = { law: 'pairSlip', kappa: cfg.kappa, pairs: 'all', spins: 'declared' };
+        if (integ) p.physics.relativeDrag.integration = integ; }
     }
+    if (cfg.integration !== undefined && p.physics.relativeDrag) {
+      if (cfg.integration === 'explicit') delete p.physics.relativeDrag.integration;
+      else p.physics.relativeDrag.integration = cfg.integration;
+    }
+    if (cfg.integrator !== undefined) p.integrator = cfg.integrator;
     if (cfg.pairs !== undefined && p.physics.relativeDrag) p.physics.relativeDrag.pairs = cfg.pairs;
     if (cfg.spinScale !== undefined) for (const b of p.bodies) b.spin = b.spin * cfg.spinScale;
     if (cfg.spin0 === true) p.bodies[0].spin = 0;
@@ -200,6 +233,7 @@ function installRunner() {
     return { id, emoji: src.emoji, n: S.n, warnings: v.warnings,
       G: S.params.G, softening: S.params.softening, kFrame: S.params.kFrame,
       massPrec: S.massPrec, framePrec: S.framePrec, spinPrec: S.spinPrec, hasRelativeDrag: !!S.hasRelativeDrag,
+      integrator: S.integrator, integration: S.relDrag ? (S.relDrag.integration || 'explicit') : null,
       spinIsF64: S.spin instanceof Float64Array,
       relDrag: S.relDrag ? JSON.parse(JSON.stringify(S.relDrag)) : null,
       mIsF64: S.m instanceof Float64Array, xIsF64: S.x instanceof Float64Array,
@@ -218,7 +252,11 @@ function installRunner() {
     const G = S.params.G, eps = S.params.softening, ci = 0, oi = 1;
     const mA = S.m[ci], mB = S.m[oi], MT = mA + mB;
     const cm0x = (mA * S.x[ci] + mB * S.x[oi]) / MT, cm0y = (mA * S.y[ci] + mB * S.y[oi]) / MT;
-    const tot0 = S.totals();
+    // 第278便b(R54): 帳簿の読み口 —— S.totals() は物質+コアだけなので、器の側で 1 回だけ
+    // リザーバ(resPx/resPy/resL)と放射(radL)を足す(**S.totals 自体は変えない**)
+    const ledger = () => { const t = S.totals();
+      return { px: t.px + (S.resPx || 0), py: t.py + (S.resPy || 0), L: t.L + (S.resL || 0) + (S.radL || 0) }; };
+    const tot0 = ledger();
     const spin0 = [S.spin[ci], S.spin[oi]];
     const energy = () => { const E = S.energies(); return E.kin + E.rot; };
     const eNewton = () => {
@@ -239,22 +277,23 @@ function installRunner() {
     };
     const osc0 = osc();
     const rev = [];
-    let angAcc = 0, angPrev = Math.atan2(S.y[oi] - S.y[ci], S.x[oi] - S.x[ci]);
-    let rMin = Infinity, rMax = -Infinity, cmMax = 0, nan = false, stop = 'steps';
+    // 第278便b: 周は**初期方向に対する位相の負→非負**で数える(角度の足し込みはしない)
+    const r0x = S.x[oi] - S.x[ci], r0y = S.y[oi] - S.y[ci];
+    const hSign = Math.sign(r0x * (S.vy[oi] - S.vy[ci]) - r0y * (S.vx[oi] - S.vx[ci])) || 1;
+    let phPrev = 0;
+    let rMin = Infinity, rMax = -Infinity, cmMax = 0, nan = false, stop = 'steps', err = null;
     const sampleEvery = Math.max(1, Math.round(maxSteps / 2000));
     let k = 0;
-    for (; k < maxSteps; k++) {
+    try { for (; k < maxSteps; k++) {
       S.step(dt);
       const dx = S.x[oi] - S.x[ci], dy = S.y[oi] - S.y[ci];
-      const rr = Math.hypot(dx, dy), th = Math.atan2(dy, dx);
+      const rr = Math.hypot(dx, dy);
       if (rr < rMin) rMin = rr; if (rr > rMax) rMax = rr;
-      let d = th - angPrev; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI;
-      const prevAcc = angAcc; angAcc += d; angPrev = th;
-      const nPrev = Math.floor(Math.abs(prevAcc) / (2 * Math.PI)), nNow = Math.floor(Math.abs(angAcc) / (2 * Math.PI));
-      if (nNow > nPrev && rev.length < orbMax + 1) {
-        const target = Math.sign(angAcc) * nNow * 2 * Math.PI;
-        const fr = (angAcc !== prevAcc) ? (target - prevAcc) / (angAcc - prevAcc) : 0;
-        rev.push((k - 1 + fr) * dt);
+      const ph = hSign * Math.atan2(r0x * dy - r0y * dx, r0x * dx + r0y * dy);
+      const prevPh = phPrev; phPrev = ph;
+      if (prevPh < 0 && ph >= 0 && rev.length < orbMax + 1) {
+        const fr = (ph !== prevPh) ? (0 - prevPh) / (ph - prevPh) : 0;
+        rev.push((k + fr) * dt);
       }
       if (k % sampleEvery === 0) {
         const cx = (S.m[ci] * S.x[ci] + S.m[oi] * S.x[oi]) / MT, cy = (S.m[ci] * S.y[ci] + S.m[oi] * S.y[oi]) / MT;
@@ -262,12 +301,13 @@ function installRunner() {
         if (S.hasNaN()) { nan = true; stop = 'nan'; break; }
       }
       if (rev.length >= orbMax) { stop = 'orbMax'; break; }
-    }
-    const tot1 = S.totals(), e1 = eNewton(), osc1 = osc();
+    } } catch (e) { err = String(e); stop = 'error'; }
+    const tot1 = ledger(), e1 = eNewton(), osc1 = osc();
     const revP = []; for (let i = 0; i < rev.length; i++) revP.push(i ? rev[i] - rev[i - 1] : rev[0]);
     const heat = S.relDragHeat || 0;
     return {
-      applied: { kFrame: S.params.kFrame, softening: S.params.softening, massPrec: S.massPrec, spinPrec: S.spinPrec,
+      err, applied: { integrator: S.integrator, integration: S.relDrag ? (S.relDrag.integration || 'explicit') : null,
+        kFrame: S.params.kFrame, softening: S.params.softening, massPrec: S.massPrec, spinPrec: S.spinPrec,
         hasRelativeDrag: !!S.hasRelativeDrag, kappa: S.relDrag ? S.relDrag.kappa : null,
         n: S.n, warnings: v.warnings },
       steps: k, stop, nan, dt,
@@ -288,6 +328,42 @@ function installRunner() {
         cmMax },
       clamp: { V: S.clampVN, S: S.clampSN, H: S.clampHN, A: S.clampAN, R: S.clampRN, T: S.clampTN },
     };
+  };
+  // 第278便b(R53): **Buie 二体再現(転写・積分器の試験 —— 独立の検証ではない)**。
+  // Buie 2012 の a と P から GM=4π²a³/P² を作り、🌨️ の診断コピーを**円軌道の二体**に置き直して P を測る。
+  // 質量比は 2024 の GM 比のまま(ニュートン二体の相対運動の周期には効かない — geoPN=0 の行)。
+  // geoPN=2 の行は同じ置き直しに 1PN を残したもの(1PN が足す量の記録)。ε の寄与は解析式で並べる。
+  window.__w277b.buieTwoBody = (o) => {
+    const src = HP.allPresets().find((q) => q.id === 'plutoCharonKF0Control');
+    const p = JSON.parse(JSON.stringify(src));
+    p.sampleClass = 'principle'; p.fidelity = 'toy'; delete p.notClaim; delete p.claims;
+    const G = p.physics.G, a = o.aUnit, Pu = o.Punit;
+    const GM = 4 * Math.PI * Math.PI * a * a * a / (Pu * Pu);
+    const M = GM / G, q = o.ratio, m1 = M / (1 + q), m2 = M - m1;
+    const eps = p.physics.softening, d2 = a * a + eps * eps;
+    const w = Math.sqrt(GM / (d2 * Math.sqrt(d2)));     // Plummer 軟化の円軌道の角速度
+    p.bodies[0].m = m1; p.bodies[1].m = m2;
+    p.bodies[0].x = -(m2 / M) * a; p.bodies[1].x = (m1 / M) * a; p.bodies[0].y = 0; p.bodies[1].y = 0;
+    p.bodies[0].vx = 0; p.bodies[1].vx = 0; p.bodies[0].vy = w * p.bodies[0].x; p.bodies[1].vy = w * p.bodies[1].x;
+    p.bodies[0].spin = w; p.bodies[1].spin = w;
+    if (o.geoPN !== undefined) p.physics.geoPN = o.geoPN;
+    const v = HP.validatePreset(p);
+    if (!v.ok) return { error: v.errors };
+    HP.sim.build(v.preset);
+    const S = HP.sim, ci = 0, oi = 1;
+    const r0x = S.x[oi] - S.x[ci], r0y = S.y[oi] - S.y[ci];
+    let phPrev = 0; const rev = []; let k = 0;
+    const maxSteps = Math.ceil((o.orbits + 0.3) * Pu / o.dt);
+    for (; k < maxSteps && rev.length < o.orbits; k++) {
+      S.step(o.dt);
+      const dx = S.x[oi] - S.x[ci], dy = S.y[oi] - S.y[ci];
+      const ph = Math.atan2(r0x * dy - r0y * dx, r0x * dx + r0y * dy);
+      if (phPrev < 0 && ph >= 0) rev.push((k + (0 - phPrev) / (ph - phPrev)) * o.dt);
+      phPrev = ph;
+    }
+    const P = rev.map((t, i) => (i ? t - rev[i - 1] : t));
+    return { GM, M, m1, m2, eps, geoPN: S.params.geoPN, integrator: S.integrator, dt: o.dt,
+      revUnits: P, keplerSoftenedUnits: 2 * Math.PI / w, keplerUnits: Pu };
   };
   // 同一構成 2 回のビット同一
   window.__w277b.twice = (cfg, dt, steps) => {
@@ -384,7 +460,10 @@ if (want('C') || want('D')) {
   {
     const s2 = { m: os.m.slice(), x: os.x.slice(), y: os.y.slice(), vx: os.vx.slice(), vy: os.vy.slice(),
       spin: os.spin.slice(), R: os.R.slice() };
-    const r2 = pairSlipStep(s2, { dt: 0.16, kappa: 1, eps: os.eps, G: os.G });
+    // 第278便b: ⛄ は中点法を宣言したので、突き合わせる純関数も中点法(lib-w278b-midpoint)にする
+    const r2 = (os.probe && os.probe.integration === 'midpoint')
+      ? pairSlipMidpointStep(s2, { dt: 0.16, kappa: 1, eps: os.eps, G: os.G })
+      : pairSlipStep(s2, { dt: 0.16, kappa: 1, eps: os.eps, G: os.G });
     results.oneStep = { engineProbe: os.probe, libStep: r2,
       kickMatch: Math.abs(os.probe.kickMag - r2.kickMax) / Math.max(1e-300, Math.abs(r2.kickMax)),
       slipMatch: Math.abs(Math.max(os.probe.slipI, os.probe.slipJ) - r2.slipMax)
@@ -406,6 +485,7 @@ if (want('C') || want('D')) {
       r.periodSec = sec; r.revSec = (r.rev || []).map((z) => z * SEC_PER_UNIT);
       r.diffSec = sec - OBS.value; r.nSigma = sigOf(sec); r.pct = pctOf(sec);
       r.gate = gateWord(r.nSigma);
+      r.almanac = almanacOf(sec); r.observation = observationOf(sec);
       r.vsPlu060Sec = sec - ELEM_2024.Charon.periodSec;
       r.vsHorizonsPRSec = sec - HORIZONS_PR.epochA.periodSec;
       results.columns[id][sname] = r;
@@ -424,8 +504,9 @@ if (want('C') || want('D')) {
     results.richardson[id] = { stages: { h: p('h'), h2: p('h2'), h4: p('h4') },
       extrapFromH: e1, extrapFromH2: e2, agreeSec: e2 - e1, periodSec: use,
       diffSec: use - OBS.value, nSigma: sigOf(use), gate: gateWord(sigOf(use)),
+      almanac: almanacOf(use), observation: observationOf(use),
       vsPlu060Sec: use - ELEM_2024.Charon.periodSec, vsHorizonsPRSec: use - HORIZONS_PR.epochA.periodSec,
-      note: '**1 次外挿**であって観測との一致ではない。判定の語は門が返す 3 つだけである' };
+      note: '**1 次外挿**であって観測との一致ではない。観測検定欄の状態語は「判定保留(量定義不一致)」(第278便b)' };
   }
   {
     const a = results.richardson.plutoCharonDFM, b = results.richardson.plutoCharonKF0Control;
@@ -444,6 +525,23 @@ if (want('C') || want('D')) {
       dfmSpinChange: a.spinChange, controlSpinChange: b.spinChange,
       dfmHeat: a.relDrag.heat, dfmKickMax: a.relDrag.kickMax, dfmSlipMax: a.relDrag.slipMax,
       dEcc: a.osc1.e - b.osc1.e, dA: a.osc1.a - b.osc1.a };
+  }
+  // 第278便b(R53): Buie 二体再現(転写・積分器の試験)
+  results.buieTwoBody = { note: '**転写・積分器の試験であって独立の検証ではない** —— Buie 2012 の a と P から '
+      + 'GM=4π²a³/P² を作り、その GM で二体を回して同じ P が出るかを見る(出るのは作り方から当然で、'
+      + '外れた量が転写・積分器・軟化・1PN の誤差の上限になる)。**Buie の a と PLU060 の GM を混ぜない**'
+      + '(質量比だけ 2024 の GM 比を使う —— ニュートン二体の相対周期には効かない)', rows: [] };
+  for (const geoPN of [0, 2]) for (const sname of STAGE_LIST) {
+    const dt = STAGES[sname].dt;
+    const b = await page.evaluate((z) => window.__w277b.buieTwoBody(z), { aUnit: BUIE_2012.aKm / PRECISE_UNITS.kmPerUnit,
+      Punit: BUIE_2012.periodSec / SEC_PER_UNIT, ratio: st.massRatio, geoPN, dt, orbits: 2 });
+    const secs = (b.revUnits || []).map((z) => z * SEC_PER_UNIT);
+    const p2 = secs.length >= 2 ? secs[1] : NaN;
+    results.buieTwoBody.rows.push({ geoPN, stage: sname, dt, periodSec: p2, revSec: secs,
+      vsBuieSec: p2 - BUIE_2012.periodSec, keplerSoftenedSec: b.keplerSoftenedUnits * SEC_PER_UNIT,
+      vsSoftenedSec: p2 - b.keplerSoftenedUnits * SEC_PER_UNIT,
+      softeningShiftSec: (b.keplerSoftenedUnits - b.keplerUnits) * SEC_PER_UNIT,
+      GMunit: b.GM, integrator: b.integrator, error: b.error || null });
   }
   // §D 追加系列
   if (want('D') && !PILOT) {
@@ -513,8 +611,9 @@ if (want('C') || want('D')) {
     {
       const mb = moonBodies(false);
       const r = await seriesRun('smallMoons・pairs="all"(**否定対照** — 試験粒子の I が小さく自転が暴走)',
-        { id: 'plutoCharonDFM', addBodies: mb.bodies, diagClass: true });
+        { id: 'plutoCharonDFM', addBodies: mb.bodies, diagClass: true, integration: 'explicit' });
       r.negativeControl = true;
+      r.note = '第278便b: 中点法は単一対に限るので、この否定対照は**陽的経路**のまま回す(第277便b と同じ条件)';
       results.series.smallMoons.push(r);
     }
   }
@@ -549,15 +648,49 @@ const factors2 = (() => {
 
 const meta = withProvenance({
   harness: HARNESS_VERSION, libVersion: CHARON_DFM_VERSION,
-  wave: '第277便b', pilot: PILOT, stages: STAGE_LIST, orbMax: ORB_MAX,
+  wave: '第278便b', pilot: PILOT, stages: STAGE_LIST, orbMax: ORB_MAX,
   doNotWrite: ['較正完了', '観測一致', '較正した', 'kF0 版が成立した'],
-  gateRule: '観測 σ に対する |nσ|≤3 を 合(3σ)・それ以外を 否(3σ)・測れなければ 保留(測定不能)',
+  gateRule: '⛄🌨️ の観測検定欄は門を掛けない —— 状態語「判定保留(量定義不一致)」+ 比較値(差・σ 倍)。'
+    + '暦の再現欄は σ なし(合否を出さない)',
   obs: OBS,
-}, { root: ROOT, wave: '第277便b', target: TARGET,
-  code: ['tests/exp-w277b-charondfm.mjs', 'tests/lib-w277b-charondfm.mjs'],
+}, { root: ROOT, wave: '第278便b', target: TARGET,
+  code: ['tests/exp-w277b-charondfm.mjs', 'tests/lib-w277b-charondfm.mjs', 'tests/lib-w278b-midpoint.mjs'],
   inputs: [TARGET] });
 
-const out = { meta, inputs, law: { rows: lawRows, zero, nsControl,
+// 第278便b: 旧版(w277b-charondfm-1)の値を history に残す(**消さない** —— 陽的 semi の履歴値)
+let history = null;
+try {
+  const old = JSON.parse(fs.readFileSync(OUT, 'utf8'));
+  if (old && old.meta && old.meta.harness === 'w277b-charondfm-1') {
+    const oc = (old.engine || {}).columns || {};
+    const pick = (id) => { const c = oc[id] || {}; const o2 = {};
+      for (const k of Object.keys(c)) o2[k] = { periodSec: c[k].periodSec, revSec: c[k].revSec, diffSec: c[k].diffSec,
+        nSigma: c[k].nSigma, gateAtThatTime: c[k].gate, dt: c[k].dt, ledger: c[k].ledger };
+      return o2; };
+    history = { w277b: { harness: old.meta.harness, targetSha256: old.meta.targetSha256, codeSha256: old.meta.codeSha256,
+      configuration: '⛄ semi(既定)+ 陽的インパルス・🌨️ semi(既定)—— 第277便b の構成',
+      columns: { plutoCharonDFM: pick('plutoCharonDFM'), plutoCharonKF0Control: pick('plutoCharonKF0Control') },
+      richardson: (old.engine || {}).richardson || null, lawContributionExtrapolated: (old.engine || {}).lawContributionExtrapolated || null,
+      lawContribution: (old.engine || {}).lawContribution || null,
+      note: '当時の器は角度の足し込みで周を数えていた(第278便b で位相の直接判定へ変更)。当時の「門」の語は記録として残す' } };
+  } else if (old && old.history) history = old.history;
+} catch { history = null; }
+
+// 第278便b(R53・AM16): 2 欄の要約(dt=0.04・第 2 周 —— 過渡を含む値であることは charonwin-w278b.json の時間窓が示す)
+const twoColumns = (() => {
+  const C = results.columns || {};
+  const one = (id) => { const r = (C[id] || {}).h4 || (C[id] || {}).h; if (!r) return null;
+    return { stage: r.stage, dt: r.dt, periodSec: r.periodSec, almanac: r.almanac, observation: r.observation }; };
+  return { definition: { almanac: '欄 (1) 暦の再現 —— 入力も目標も PLU060。σ は無い(表示桁・400 年の散らばりは σ ではない)ので'
+      + '合否を出さず、差を s と ppm で記帳する',
+    observation: '欄 (2) 観測検定 —— 判定行は Buie 2012 二体 P。⛄🌨️ は (1) の入力に (2) の門を掛けていた(量定義の不一致)ので、'
+      + '状態語は「判定保留(量定義不一致)」、差と σ 倍は比較値(門ではない)。4 値の母集団外なので 0/2/2/33 は動かない',
+    buieTwoBody: 'Buie 二体再現は転写・積分器の試験であって独立の検証ではない' },
+    plutoCharonDFM: one('plutoCharonDFM'), plutoCharonKF0Control: one('plutoCharonKF0Control'),
+    buieTwoBody: (results.buieTwoBody || {}).rows || null };
+})();
+
+const out = { meta, inputs, history, twoColumns, law: { rows: lawRows, zero, nsControl,
   version: 'pairSlip(κ χ μ ν dt・ν=√(G(m_i+m_j)/d³)・χ_ij=W_j/(W_j+W₀))',
   note: '**統括が設定した検証仮説**であって現行 DFM から一意に導出された法則ではない' },
   factors2, engine: results, pageErrors };

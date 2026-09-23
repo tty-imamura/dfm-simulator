@@ -588,6 +588,9 @@ _scratch-*.log
 #   **「較正を完了した」「観測と一致した」「残差がゼロになる ε・a・f を採用した」とは書かない**
 #   (どれも本便はしていない)。判定の語は門が返す 合/否/保留 の 3 つだけである。
 !tests/out/charondfm-w277b.json
+# 第278便b(R53・R54): 陰的中点法の検定と、カロン周期の 4 構成 × 3 刻み・第 2〜第 6 周の時間窓の正本
+# (QA docs.charonTwoColumns が読む)
+!tests/out/charonwin-w278b.json
 # 第277便a(第67報 (1)・統括の検証項目 R47): **冥王星系の状態ファイルの整合検査と「別の量」の診断**
 #   (tests/exp-w277a-plutostates.mjs)。paper/data/pluto-system-states.csv の 72 成分(6 体 × 2 元期 ×
 #   6 成分)・単位・sigma 全空・record_id 一意の検査と、2D へ移すときの面外成分の最大値、
