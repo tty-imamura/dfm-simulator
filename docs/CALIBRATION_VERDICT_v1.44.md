@@ -4029,6 +4029,74 @@ R₀=8.178 kpc は GRAVITY Collaboration 2019・M(<R₀)≈1×10¹¹ M☉ は Bl
 
 **書かないこと。** 「NS の平衡を実証した」「DFM 版中性子星連星の安定状態を導出した」「観測と一致した」「観測から k₂ や潮汐結合を決めた」「中間傾斜で安定する」「ロックすると加速する」「潮汐ロックを証明した」「新発見」。
 
+### 5.28 第278便a: **確認依頼 第 5 回・取得依頼 D の回答の転写** —— 印の更新・sigma 列へ上げた行・新規行・書誌の訂正・ダイモスの判定行の差し替え(AM7)・暦の解の台帳登録(AM14)(第68報)
+
+原仮定者の裁定(第68報)「**実機確認済み / 提案を参考に改善 / 概ね同意**」で閉じた観測レコードの裁定を台帳へ反映した。材料は 2 つ —— **確認依頼 第 5 回の回答(原仮定者 2026-09-23・同じ表を開いた確認)**と、**取得依頼 D の回答(2 系統の外部調査)**。出典は一次資料の表・列で書いた。**html は 1 バイトも触っていない**(内蔵 133 本・署名・門の器は不変)。
+
+**この節で動いた判定は 0 件である。** 切断点は **106/26/3/4** のまま(前後とも)、較正母集団の 4 値は **0/2/2/33** のまま、太陽系 16 本は **否 2・保留 14** のまま、門の集計は **合 2 / 否 2 / 数値未解決 34 / mapping-unresolved 15 / 条件不一致 0** のまま(`tests/exp-w249b-calaudit.mjs --regate` —— σ の宛先 99 件・変化 0 件・一次表の印の反転 0 件。産物は比較だけで戻した)。**sigma 列へ上げた行はすべて定義名の量(GM・追加近日点移動)であり、判定量ではない**ので、門へ届く印字 1σ は 1 本も増えていない。
+
+#### 5.28.1 件数(正本は CSV と台帳。QA `docs.intakeD` が数で固定する)
+
+| 分類 | 行 | 中身 |
+| --- | --- | --- |
+| **印を `verified` へ上げた既存行**(`confirmation_round=5`・`verified_by=原仮定者 2026-09-23`・`verified_at=`・`verified_value=`) | **42** | Brozović & Jacobson 2024 Table 8 の 6 行(Kerberos/Styx は unconstrained と `upper_limit=0.17e-3 / 0.33e-3 km^3/s^2; level=formal-sensitivity`)+ 同じ値を引く JPL SSD の 2 行 / 同 Table 10 の 7 行(カロンの a・e・P と小衛星の P 4 行 —— `scatter_not_sigma=true` のまま・表の脚注の文を `level_statement=` に)/ Brozović 2015 の 10 行(要旨・Table 9・Table 10 —— カロン 105.88 は原仮定者が Table 10 を開いて確認)/ Pitjeva & Pitjev 2013 Table 4 の 4 行(列頭 \|σ_π̇/π̇\| が ± を σ と呼ぶ)/ Chapront 2002 の 1 行(`level_statement="The uncertainties reported in these tables are formal errors."`・**sigma 列は空のまま**)/ Ferdman 2013 §6 の 2 行(値は空のまま・68/95/99% 上限 0.85/3.2/4.7° と α=90±11(統計)±5(系統)°・両磁極放射の仮定)/ Lower 2024 の 2 行 / Jacobson 2010 Table 6 の λ̇ 2 行(ダイモス・フォボス)/ Akeson 2021 Table 8 の ω 2 行 / Weaver 2016 Table 2 の周期 4 行 |
+| **sigma 列へ上げた既存行**(2 系統一致かつ verified の定義名の量だけ・`sigma_raised=`) | **9** | 2024 Table 8 の GM 4 行(冥王星 4e8・カロン 3e8・Nix 5.2e5・Hydra 2.7e5 m³/s²)/ 2015 の系 GM 1 行(1.5e9)/ EPM2011 Table 4 の 4 行(8.333333333333e−9・4.444444444444e−9・5.277777777778e−10・1.027777777778e−10 deg/yr = 0.030/0.016/0.0019/0.00037 mas/yr の換算) |
+| **新規行**(`intake_row=2026-09-23; intake_round=request-D-2026-09-23`) | **21** | うち sigma 列あり **9** 行・verified **10** 行(下の 5.28.2) |
+| **注記だけ**(値も印も動かさない) | 6 | Akeson 2021 の ω̇ が無い 4 行に `acknowledged=原仮定者 2026-09-23`・Table 6 の周期行 2 行に `period_column=absent` |
+| **書誌の訂正** | **10 行**(2 件) | Porter & Canup 2023 の DOI(4 行の url)・Lower 2024 の出典(2 行の source と url)。Weaver 2016 の 4 行は出典ラベルへ表の脚注「The orbital periods are from (5)」を追記 |
+| **判定行の差し替え**(AM7) | **2** | ダイモス P と、同型のフォボス P(5.28.3) |
+| **解の台帳**(AM14) | 2 件・**26 行** | `PLU060-2024`(16 行)・`PLU043-2015`(10 行)。`solution_id` 欄の付与は 55 → **81 行** |
+
+- 訂正台帳 `paper/data/corrections.json` は **record 89 → 145・revision 98 → 397・印つき行 37 → 58**(本便の revision 299 = `confirmation` 201・`correction` 80・`intake` 18。欄別 note 169・mark 42・verified_by 42・solution_id 25・sigma 9・source 6・url 6)。台帳の器 `tests/exp-w272e-corrections.mjs` の違反 0 件。**新規 21 行は revision ではない**(既存行の変更ではない)。
+- 出典ラベルを変えた 6 行は鍵に source が入るので **record_id が変わった**(`SOL-f9080bd9→SOL-912f7aa2`・`SOL-85793ff8→SOL-7e3303df`・`SOL-b5126649→SOL-36584acc`・`SOL-08c9dfdd→SOL-47d6c979`・`SOL-a0bd2c7d→SOL-d3a36169`・`SOL-0058c079→SOL-b66fe697`)。旧 ID は台帳の `previousRecordId` に残した(§5.27 の表の ID は第277便の時点の記録である)。
+
+#### 5.28.2 新規行 21 行
+
+| 行 | 本数 | sigma 列 | 備考 |
+| --- | --- | --- | --- |
+| 2024 Table 8 の**系の GM** 975.4 ± 0.2 {0.09} km³/s² | 1 | **空** | `sigma_kind=inflated-conservative; formal_1sigma=0.09; inflation=~2` —— 0.2 と 0.09 のどちらを sigma 列に入れるかは裁定(AN3)。`solution_id=PLU060-2024` |
+| EPM2011 Table 4 の Jupiter 0.587±0.283・Saturn −0.0032±0.0047 mas/yr | 2 | **入れた**(deg/yr へ換算) | 2 系統一致・verified。**判定量ではない** |
+| Breton 2008 の Ω_B = 4.77 +0.66/−0.65 °/yr | 1 | 空 | `sigma_kind=asymmetric; level=68`(非対称の区間を 1 つの σ にしない) |
+| Breton 2008 の GR 予測 5.0734 ± 0.0007 °/yr | 1 | **入れた** | `kind=model-derived`(観測ではない) |
+| Lower 2024 の GR 予測 5.074005 °/yr | 1 | 空 | `sigma_kind=level-not-stated` |
+| Ferdman 2013 の 68%・99% 上限(0.85°・4.7°) | 2 | 空 | 値も空(上限は中心値ではない)。95% の 3.2° は既存行 |
+| Buie 2012 Table 5 の a=19573(2) km・i=96.218(8)°・L=4.50177(18) rad・Ω=3.89249(12) rad | 4 | **入れた**(2000 m・0.008°・0.00018 rad・0.00012 rad) | 候補行(`elements=two-body-fit; epoch=JDT 2452600.5; covariance=not_published`)。括弧誤差は `sigma_kind=level-not-stated` で、**P 行 SOL-25d4320f と同じ扱い**にした(読み方は裁定)。**a は PLU060 の GM と混ぜない** |
+| Jacobson 2014 Table 2 の λ̇ から作った**周期の候補** 5 行(天王星の 5 衛星) | 5 | 空 | `derived_from=<λ̇ 行>`・`P=360/λ̇ d×86400 s`・1σ は印字されていない。**判定行は差し替えていない**(AM7′ 裁定待ち)。λ̇ 5 行そのものは既存行と同じ表・同じ桁なので**照合だけ**にした(§5.25.1 の規約・note に `intake_check=2026-09-23`) |
+| Porter & Canup 2023 **本文 §3** の Nix (1.74±0.35)e−3・Hydra (2.01±0.20)e−3 km³/s² と Styx <0.03e−3・Kerberos <0.05e−3(1σ 上限) | 4 | Nix・Hydra は**入れた**(3.5e5・2.0e5) | 既存の 4 行は**図ラベルの桁**(1.74550±0.34724 等)なので `printed_in=figure-label; collate=mismatch` を記し、値は動かしていない。上限は `upper_limit=3e4 / 5e4 m^3/s^2; level=68` |
+
+#### 5.28.3 ダイモスの判定行の差し替え(AM7・裁定済み)と同型のフォボス
+
+| 天体 | 旧判定行 | **新判定行**(`paper/data/judgement-sources.json`) | 差 | シミュレータ実測との差(σ 接続器の宣言欄) |
+| --- | --- | --- | --- | --- |
+| ダイモス | Wikipedia 1.263 d = 109123.2 s(二次資料・σ 無し) | **Jacobson 2010 Table 6 の λ̇=285.161886 deg/day から P=360/λ̇ d×86400 s = 109074.88527411409 s**(`derived-in-record`・**σ は印字されていない**) | −48.314726 s | 実測 109116.8917 s → 旧 −6.3083 s / **新 +42.0065 s**(**判定は保留** —— σ が無い) |
+| フォボス | Wikipedia 0.31891023 d = 27553.843872 s | **λ̇=1128.844409 deg/day から 27553.841567549454 s** | −0.002304 s | 実測 27566.6434 s → 旧 +12.7996 s / **新 +12.8019 s**(**保留**) |
+
+- **Table 6 に Period 列は無い**(2 系統一致・原仮定者が同じ表で確認)。周期は λ̇ から作った `derived-in-record` の量であり、**「表に Period 列がある」とは書かない**。旧「Period 列 1.262648 d」読みの行(SOL-5a3853dc)には `period_column=absent` を記した。
+- 旧判定行は CSV に**履歴の行**として残り、note に `superseded_by=<新しい行>; superseded_on=2026-09-23` を持つ(台帳 `markKey: superseded_by`)。ダイモスの旧値は候補行 `orbital_period_candidate` 109123.2 s(SOL-51e498c2)にも残っている。
+- 新判定行の note に `derived_from=<λ̇ 行の record_id>` と式を足した(`lint.derivedFromRecordIds` の参照が 7 件増えた —— 天王星の衛星の候補 5 行を含む)。
+- **σ が無いので門へは 1 bit も入らない。** 切断点 `csv-sigma-empty` の 106 は動かない。σ 接続器(`tests/exp-w262d-solarsigma.mjs`)は宣言行で読んでいる(`appliedToJudgement:true`)。門の器の宣言の件数(4 → 6)は**通常走行で入る** —— `--regate` の産物は正本にしないので、統合後の再走で揃う(QA `docs.judgementSources` ④)。
+- **天王星の衛星 5 本の判定行は差し替えていない**(AM7′ 裁定待ち)。候補行だけを置いた。
+
+#### 5.28.4 暦の解の台帳(AM14)
+
+`paper/data/solutions.json` に **`PLU060-2024`**(Brozović & Jacobson 2024 AJ 167 256・Table 8 / Table 10)と **`PLU043-2015`**(Brozović et al. 2015 Icarus 246 317・要旨 / Table 9 / Table 10)を登録した(台帳 4 → 6 件)。綴りに**暦の解の形** `<3 文字の暦記号><3 桁の番号>-<西暦 4 桁>` を足し、読取器 `solutionTag()`(`tests/lib-w270b-obscsv.mjs`)が 2 つの形を読む。note の旧綴り `solutionId=` は**書き換えずに残し**(第277便a の revision の記録を壊さない)、解タグ `solution=<id>` を足して `solution_id` 欄を埋めた。QA `lint.solutionId` に**参照切れの検査**(⑦ 台帳の id の重複・綴り・どの行も指していない孤立 id・宣言の `solution_id`)を足した。**署名は動かしていない**(html 不変)。
+
+#### 5.28.5 2015 GM の σ の再監査(統括が設定した検証仮説)
+
+Brozović 2015 の系/冥王星/カロンの ±(1.5 / 1.8 / 1.0 km³/s²)は、要旨が「**系統と偶然の両方を反映した**」と書く**保守的な誤差**で、小衛星の formal 1σ(「形式的な共分散から・測定誤差だけを反映」)と同じ種類ではない。該当 4 行(SOL-5cc14657・SOL-b8f464fc・SOL-17ac6945・SOL-dbe2abde)の note に `uncertainty_kind=conservative-inflated (systematic+random per abstract)` を足した。**sigma 列は動かしていない**(外すかは裁定 AN1)。2024 Table 8 のカロン(0.3 {0.12})と系(0.2 {0.09})も**膨らませた値**である(表の脚注 —— 形式 1σ を約 2 倍にした)。
+
+#### 5.28.6 残る未確認(**決断事項**)
+
+1. **AB3** —— C 環内縁 74490 km の印字箇所は、確認依頼 第 5 回でも一次表で確認できていない(開いた論文の序論は Mimas 3:1 共鳴と Bond ringlet・Dawes gap の縁を述べる)。値は残し、判定の出典には上げていない。
+2. **AM8′** —— Chapront 2002 の「formal errors」を 1σ と読むか(sigma 列は空のまま)。
+3. **AN1** —— 2015 の系・冥王星・カロンの保守的な ± を sigma 列に残すか。
+4. **AN2** —— Weaver 2016 Table 2 の周期の一次資料(表の脚注の参照 (5))の解決。`primary_source_candidate=Weaver 2016 ref (5) (to be resolved)`・`sigma_kind=level-not-stated`(± の水準は周期に及ばない)で sigma 列は空。
+5. **AN3** —— 2024 系 GM の 0.2(膨らませた値)か 0.09(形式)か(カロンの 0.3 / 0.12 も同じ問い)。
+6. **AM7′** —— 天王星の衛星 5 本の判定行を Jacobson 2014 の λ̇ 由来へ差し替えるか。
+7. Buie 2012 Table 5 の括弧誤差(a・i・L・Ω)を P 行と同じく 1σ と読むか(本便は同じ扱いで sigma 列へ入れた)。
+
+**書かないこと。** 「観測一致を達成した」「印を上げたので判定に近づいた」「σ が揃った」「新発見」。合否は門(3σ)が出す —— **本便で門は 1 行も動いていない**(判定は門のとおり)。
+
 ## 5′. NS 連星の現実較正 —— **完了定義 4 条件と現在の距離**(第260便d)
 
 第52報の指示は「**中性子星連星までの現実較正を終える**」である。

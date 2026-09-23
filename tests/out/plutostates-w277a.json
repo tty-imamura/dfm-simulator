@@ -4,19 +4,19 @@
     "wave": "第277便a(第67報 (1)・統括の検証項目 R47)",
     "target": "paper/data/pluto-system-states.csv",
     "targetSha256": "90cd4a4c23e46a1bb2797071495db1a530c50babbc0128963160b82713ab2771",
-    "generatedAt": "2026-09-22T06:41:26.537Z",
+    "generatedAt": "2026-09-23T10:48:18.277Z",
     "inputs": [
       {
         "file": "paper/data/pluto-system-states.csv",
         "bytes": 54843,
         "sha256": "90cd4a4c23e46a1bb2797071495db1a530c50babbc0128963160b82713ab2771",
-        "mtime": "2026-09-22T06:22:19.727Z"
+        "mtime": "2026-09-23T10:29:45.362Z"
       },
       {
         "file": "paper/data/solar-observations.csv",
-        "bytes": 511051,
-        "sha256": "702efd3ad1441598a7af6a099ee91f6007d2519b83146c98614e3ce4560b1085",
-        "mtime": "2026-09-22T06:23:10.081Z"
+        "bytes": 558062,
+        "sha256": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4",
+        "mtime": "2026-09-23T10:46:36.250Z"
       }
     ],
     "code": [
@@ -24,28 +24,28 @@
         "file": "tests/exp-w277a-plutostates.mjs",
         "bytes": 8818,
         "sha256": "b5ea852d858a88b89e720a27a0758db2c5758faaff9cd2c2abb6aeeca6731df1",
-        "mtime": "2026-09-22T06:22:19.729Z"
+        "mtime": "2026-09-23T10:29:48.542Z"
       },
       {
         "file": "tests/lib-w277a-plutostates.mjs",
         "bytes": 12341,
         "sha256": "a6561a6e677a57bf8b1ba032c58c963b155b92620eaa0cdc81ba2c4cd9938df5",
-        "mtime": "2026-09-22T06:22:19.729Z"
+        "mtime": "2026-09-23T10:29:49.246Z"
       },
       {
         "file": "tests/lib-w270b-obscsv.mjs",
-        "bytes": 14068,
-        "sha256": "603104b67e24f166bc5a2a2d00038686ed4631e39285bcb8780281026d7e2d4a",
-        "mtime": "2026-09-19T11:48:42.098Z"
+        "bytes": 14614,
+        "sha256": "a096a132d0eea0841d194dd174b1ebc96caea453e9c0bbebab0a5d9391058b77",
+        "mtime": "2026-09-23T10:45:59.374Z"
       },
       {
         "file": "tests/lib-w272e-provenance.mjs",
         "bytes": 4587,
         "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-        "mtime": "2026-09-18T17:14:55.948Z"
+        "mtime": "2026-09-23T10:29:48.985Z"
       }
     ],
-    "codeSha256": "309007458fe03dd4ba30958a92368640c776cd36aeb07d6935fb281ca166b45b"
+    "codeSha256": "9224b2d941d359e7bddde1f43a649728dab154538ee62dd6e8e5351d45fb2415"
   },
   "what": "冥王星系の状態ファイル(取得依頼 C の回答・2 系統の外部調査)の整合検査と「別の量」の診断",
   "integrity": {

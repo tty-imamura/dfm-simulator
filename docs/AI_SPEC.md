@@ -2099,6 +2099,10 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     その行の値がその解から来たという意味ではない** —— 指し先だけの行(太陽系 CSV 145〜148)は
     **空欄のまま**である。**空欄は「解が無い」ではなく「台帳に登録していない」**。
     QA `lint.solutionId` が位置・台帳・付与数(太陽系 55 / 星団・銀河 0 / 過渡天体 0)を機械固定する。
+    **第278便a(AM14)**: 暦の解 `PLU060-2024`・`PLU043-2015` を台帳へ登録した(台帳 6 件・太陽系の付与 **81 行**)。
+    解 id の綴りは 2 形 —— タイミング解 `<著者><西暦4桁>-<モデル>` と**暦の解** `<3 文字><3 桁>-<西暦4桁>`
+    (`solutionTag()` が両方を読む)。note の旧綴り `solutionId=` は鍵名が違うので解タグに当たらない(履歴として残す)。
+    `lint.solutionId` ⑦ が**参照切れ**(台帳 id の重複・綴り・どの行も指していない孤立 id・宣言の `solution_id`)を見る。
   - **`verified_by=` / `verified_at=` / `verified_value=` / `value_checked_*=` の値に `;` を書かない**
     (第270便b・AE15): 読取器は値を `;` まで(`/…=([^;]*)/`)で切るので、`;` を入れると値が途中で切れる。
     補足は**別の鍵**へ置く。
@@ -2153,6 +2157,10 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     解タグの照合は**語境界つき**(直前が英数字・`_`・`-` なら別の鍵)で行う —— 器 6 本を直した
     (`exp-w265a-kjoint2` / `exp-w265a-basis` / `exp-w264a-kjoint` / `exp-w264a-fixed07` /
     `exp-w263c-obsintake` / `exp-w264a-obsdelta`)。QA `docs.j1946Adopted` ④ が機械固定する。
+  - **第278便a(AM7): 宣言は 6 件になった** —— `Deimos|orbital_period` と同型の `Phobos|orbital_period` を
+    Jacobson 2010 Table 6 の **λ̇ 由来の行**(`csvQuantity:"orbital_period_candidate"`・`derived-in-record`・
+    note に `derived_from=<λ̇ 行>` と式)へ移した。**1σ は印字されていないので `sigma:null`**(門へは入らない)。
+    旧判定行は CSV に残り `superseded_by=<新しい行>; superseded_on=2026-09-23` を持つ。QA `docs.deimosSwap`。
   - **宣言は行選択であって、単位の一致・観測量対応・数値収束の宣言ではない。**
     第269便a は宣言を診断欄だけに置いていた(`applied:false`・`mode:"diagnostic-only-until-AD5"`)。
   - **第270便a(AD5): 宣言は正式経路へ入った**(`mode:"applied-AD5"`・`appliedToJudgement:true`)。

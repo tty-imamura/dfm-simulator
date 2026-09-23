@@ -1,13 +1,14 @@
 {
   "schemaVersion": 1,
-  "wave": "第271便b(2026-09-18・第61報・AF4)",
+  "wave": "第271便b(2026-09-18・第61報・AF4) / 第278便a(2026-09-23・第68報・AM14 で暦の解 2 件を登録)",
   "what": "観測 CSV の `solution_id` 欄が指す**公表タイミング解の台帳**。1 件 = 1 つの公表解(論文・表・モデル・元期・時系)。`solution_id` は行の値が**どの公表解のどの列から来たか**を機械可読にする鍵であって、印(`sigma_primary`)でも σ でも判定でもない。",
   "rule": [
     "台帳の欄はすべて **CSV の行の note に既に書かれている記載**の写しである(ここで新しい数値を作らない)",
     "`printedRecord` は `exampleRecordId` の行の note に**そのまま現れる文字列**でなければならない(器が照合する)",
     "`solution_id` を付けるのは、その行の note が**語境界で** `solution=<id>` を持つ行だけである。`adopted_solution=<id>` は『この系の採用解は <id> である』という**指し先**であって、その行の値がその解から来たという意味ではない(例: 太陽系 CSV 行 145/146 の値は Stovall 2018 の転写である)",
     "台帳に無い解タグの行は `solution_id` を**空欄のまま**にする(空欄は『解が無い』ではなく『台帳に登録していない』である)",
-    "時系・天体暦・元期が論文に印字されていない場合は `not published` と書く(**推定値を入れない**)"
+    "時系・天体暦・元期が論文に印字されていない場合は `not published` と書く(**推定値を入れない**)",
+    "第278便a(AM14): 綴りに**暦の解の形** `<3 文字の暦記号><3 桁の番号>-<西暦 4 桁>`(例 `PLU060-2024`)を足した。暦名(`PLU060`)だけでは版を区別できないので、公表論文の西暦を添える。読取器 `solutionTag()` は 2 つの綴りを読む。"
   ],
   "doNotWrite": [
     "solution_id を足したので判定が増えた",
@@ -74,6 +75,36 @@
       "printedRecord": "0.07848805554(2) d",
       "printedRecordAt": "Meng 2025 A&A 704 A153 Table 1 DDFWHE column (A&A table view)",
       "exampleRecordId": "SOL-dd4b7894"
+    },
+    {
+      "id": "PLU060-2024",
+      "body": "Pluto system (Pluto, Charon, Nix, Hydra, Kerberos, Styx)",
+      "paper": "Brozovic & Jacobson 2024, AJ 167, 256",
+      "table": "Table 8 (Current Work) / Table 10",
+      "model": "PLU060 numerically integrated satellite ephemeris (orbit fit)",
+      "epoch": "not published (the fit span runs through 2023; Table 10 averages 1800-2200)",
+      "timeScale": "not published",
+      "ephemeris": "PLU060",
+      "span": "not published",
+      "frame": "not published",
+      "printedRecord": "orig 869.3 +/- 0.4 km^3/s^2",
+      "printedRecordAt": "Table 8 Current Work column Pluto GM (km^3 s^-2)",
+      "exampleRecordId": "SOL-5e034c8b"
+    },
+    {
+      "id": "PLU043-2015",
+      "body": "Pluto system (Pluto, Charon, Nix, Hydra, Kerberos, Styx)",
+      "paper": "Brozovic, Showalter, Jacobson & Buie 2015, Icarus 246, 317",
+      "table": "abstract / Table 9 / Table 10",
+      "model": "PLU043 numerically integrated satellite ephemeris (orbit fit)",
+      "epoch": "2013-01-01 TDB fitted state",
+      "timeScale": "TDB",
+      "ephemeris": "PLU043",
+      "span": "1965-2012 astrometry plus 1985-1990 mutual-event light curves",
+      "frame": "ICRF",
+      "printedRecord": "orig 869.6 +/- 1.8 km^3/s^2",
+      "printedRecordAt": "abstract and Table 10 GM column Pluto row",
+      "exampleRecordId": "SOL-5cc14657"
     }
   ],
   "notRegistered": [

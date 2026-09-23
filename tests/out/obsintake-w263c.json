@@ -1,5 +1,5 @@
 {
- "when": "2026-09-22T06:27:12.660Z",
+ "when": "2026-09-23T10:46:42.035Z",
  "wave": "第263便c(第55報 W3)",
  "inputs": {
   "csv": "paper/data/solar-observations.csv",
@@ -27,34 +27,37 @@
    "プリセット・builder・本体 JSON は変えない(署名不変)",
    "非対称・非 1σ の区間は sigma 列へ入れない(note に sigma_asymmetric= で残す)"
   ],
-  "csvRows": 580,
+  "csvRows": 601,
   "addedRows": 174,
   "sigmaAddedToExistingRows": 24,
-  "candidateRows": 84,
-  "solutionRows": 105,
-  "rowsWithSigma": 199,
-  "sigmaVerified": 57,
-  "sigmaUnverified": 142
+  "candidateRows": 93,
+  "solutionRows": 131,
+  "rowsWithSigma": 217,
+  "sigmaVerified": 79,
+  "sigmaUnverified": 138
  },
  "csvAudit": {
   "太陽系": {
-   "rows": 340,
-   "keys": 279,
-   "withSigma": 36,
-   "verified": 8,
-   "unverified": 28,
+   "rows": 356,
+   "keys": 284,
+   "withSigma": 53,
+   "verified": 27,
+   "unverified": 26,
    "intakeRows": 36,
    "sigmaAddedAtIntake": 6,
-   "candidateRows": 66,
-   "solutionRows": 0,
-   "solutions": []
+   "candidateRows": 75,
+   "solutionRows": 26,
+   "solutions": [
+    "PLU060-2024",
+    "PLU043-2015"
+   ]
   },
   "恒星": {
    "rows": 49,
    "keys": 43,
    "withSigma": 42,
-   "verified": 16,
-   "unverified": 26,
+   "verified": 18,
+   "unverified": 24,
    "intakeRows": 27,
    "sigmaAddedAtIntake": 8,
    "candidateRows": 13,
@@ -62,10 +65,10 @@
    "solutions": []
   },
   "NS": {
-   "rows": 174,
-   "keys": 88,
-   "withSigma": 121,
-   "verified": 33,
+   "rows": 179,
+   "keys": 89,
+   "withSigma": 122,
+   "verified": 34,
    "unverified": 88,
    "intakeRows": 111,
    "sigmaAddedAtIntake": 10,
