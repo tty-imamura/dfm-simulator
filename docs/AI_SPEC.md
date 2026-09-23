@@ -274,6 +274,33 @@ guarantee that it does not overwrite curated work (QA `ai.stabilize`).
   box is refused with a pointer to the AI tab's paste box, instead of the old
   "added 0 / invalid 9" report.
 
+## 4.1 Runtime model routing (wave 278e, 2026-09-23)
+
+This section is about **which model the app's own "Generate" button calls**, not about the
+specification text sent to it (section 5 is unchanged, byte for byte).
+
+- **Candidates** (`AI_PROVIDERS.anthropic.models`): `claude-sonnet-5` (default, unchanged) /
+  `claude-opus-5-5` / `claude-opus-5`. Per the originator's ruling (report 68: "when routing to Opus,
+  use the latest model"), the **upper fallback** after a failed validation + one retry is now
+  `claude-sonnet-5` → **`claude-opus-5-5`** (was `claude-opus-5`). Choosing `claude-opus-5` or
+  `claude-opus-5-5` directly has no further fallback, as before.
+- **What the request body contains** (read from the code and checked by QA `ai.modelList`, which
+  swaps `fetch` and reads the body `callLLM` actually sends — nothing goes to the network):
+  `model`, `max_tokens`, `system`, `messages`, and for `claude-sonnet-5` / `claude-opus-5` also
+  `thinking:{type:"disabled"}`. No request carries `tool_choice`, `tools`, `budget_tokens` or
+  `output_config`.
+- **Opus 5.5 cannot switch thinking off** (`thinking:{type:"disabled"}` and `budget_tokens` are
+  rejected with HTTP 400; forced `tool_choice` `any`/`tool` is also rejected). The previous body
+  sent `thinking:{type:"disabled"}` to every model whose id contains `sonnet` or `opus`, so it
+  would have failed on `claude-opus-5-5`. The pure function `aiAnthropicBody(model, sys, messages)`
+  now **omits the `thinking` key** for `claude-opus-5-5` (adaptive thinking) and raises
+  `max_tokens` from 4000 to **16000** on that route, because thinking tokens count toward
+  `max_tokens` and a 4000 cap could end the turn before the JSON (reported as "too long").
+  The other models' bodies are unchanged. **No live API call was made** for this change (no key
+  in the build environment): the 16000 figure follows the published contract, not a measurement.
+- **Effort is not sent.** Opus 5.5's default effort is **`medium`** (one level below Opus 5's
+  default `high`); the app relies on that default. Whether to set it explicitly is left open.
+
 ---
 
 ## 5. The preset specification (verbatim — Japanese, machine-synced)
@@ -411,6 +438,27 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
   (8番が2つ)を一意化 / 例の `cLight`=60 が既定 30 と違う意図を明示。
   値域の四者一致(実装の clamp ⇄ 正本定数 `AI_SCHEMA_LIMITS` ⇄ SYSTEM_PROMPT ⇄ 本ファイル)は
   新設 QA `prompt.schema-sync` が機械照合する。
+
+## 6.2c 実行時 LLM のモデル(第278便e・2026-09-23)
+
+- 本節は**アプリの「生成する」が呼ぶモデル**の話で、送る仕様文(§5)は 1 バイトも変えていない。
+- 候補は `claude-sonnet-5`(既定・不変)/ `claude-opus-5-5` / `claude-opus-5`。原仮定者の裁定
+  (第68報「Opus にルーティングする際は最新モデルを使用する」)により、検証 NG → リトライ 1 回の後の
+  **上位フォールバック先を `claude-opus-5` → `claude-opus-5-5`** に替えた。opus を直接選んだときの
+  フォールバックは従来どおり無し。
+- **送信本文を読んで確かめた**: キーは `model`・`max_tokens`・`system`・`messages` と、
+  `claude-sonnet-5` / `claude-opus-5` のときの `thinking:{type:"disabled"}` だけで、
+  `tool_choice`・`tools`・`budget_tokens`・`output_config` は無い(QA `ai.modelList` が `fetch` を
+  差し替えて `callLLM` の実際の送信本文を読む — ネットワークへは出ない)。
+- **Opus 5.5 は thinking を無効化できない**(`{type:"disabled"}`・`budget_tokens` は 400、
+  `tool_choice` の any/tool も 400)。従来の本文は id に sonnet/opus を含むモデルすべてへ
+  `thinking:{type:"disabled"}` を付けていたので、`claude-opus-5-5` では 400 になるところだった。
+  純関数 `aiAnthropicBody` は `claude-opus-5-5` のときだけ **`thinking` キーを送らず**(適応的思考)、
+  思考のトークンも `max_tokens` に数えられるので上限を 4000 → **16000** にする
+  (4000 のままだと思考だけで上限に達し「長すぎる」で落ちうる)。他のモデルの本文は不変。
+  **実 API への送信はしていない**(開発環境にキーが無い)— 16000 は公開されている契約に従った値で、実測値ではない。
+- **effort は送らない**。Opus 5.5 の既定 effort は **medium**(Opus 5 の既定 high より 1 段低い)で、
+  アプリはその既定に任せている。明示するかは決断事項として残す。
 
 ## 6.3 出力の使い分け(逐語 — アプリと同一)
 

@@ -30826,7 +30826,14 @@ if (!FAST) {
     await hp.waitForFunction(() => !!window.HP);
     const r = await hp.evaluate(async () => {
       const wait = (ms) => new Promise((res) => setTimeout(res, ms));
-      const IDS = ['hud', 'bodyEdit', 'aboutPanel', 'pmPanel', 'avPanel'];
+      // 第278便e(原仮定者の裁定(第68報)「UI」②): 「このアプリについて」「監査ビュー」は**画面手前の
+      // モーダル**(position:fixed・ビューポート全体を覆う)になった世代では、フッターの上に出るのが
+      // 仕様である —— キャンバス上の絶対配置ではなくなったので、この検査の対象から外す(外した名前は
+      // detail に出す。手前表示の契約は ui.frontModals が別に測る)。root 等の旧世代は従来どおり 5 枚
+      const FRONT = ['aboutPanel', 'avPanel'].filter((id) => { const el = document.getElementById(id);
+        return !!el && getComputedStyle(el).position === 'fixed'; });
+      const IDS = ['hud', 'bodyEdit', 'aboutPanel', 'pmPanel', 'avPanel'].filter((id) => FRONT.indexOf(id) < 0);
+      const OPEN = ['aboutPanel', 'pmPanel', 'avPanel', 'bodyEdit'].filter((id) => FRONT.indexOf(id) < 0);
       // 「フッター」= 操作列の上端から画面下端まで(操作列・タブ・パネル)
       const hits = (el) => {
         const tr = document.getElementById('transport').getBoundingClientRect();
@@ -30861,18 +30868,18 @@ if (!FAST) {
       const narrow = snap();
       document.getElementById('btnPanelExpand').click();
       await wait(140);
-      // 全面パネル 3 枚と粒子編集も開いた状態で測る(いちばん不利な形)
-      for (const id of ['aboutPanel', 'pmPanel', 'avPanel', 'bodyEdit'])
+      // 全面パネル 3 枚と粒子編集も開いた状態で測る(いちばん不利な形。第278便e 以降は手前のモーダル 2 枚を除く)
+      for (const id of OPEN)
         document.getElementById(id).style.display = 'block';
       await wait(80);
       const wide = snap();
-      for (const id of ['aboutPanel', 'pmPanel', 'avPanel', 'bodyEdit'])
+      for (const id of OPEN)
         document.getElementById(id).style.display = 'none';
       document.getElementById('btnPanelExpand').click();
       await wait(140);
       const back = snap();
       document.getElementById('btnPanelClose').click();
-      return { narrow, wide, back };
+      return { narrow, wide, back, front: FRONT };
     });
     await ctxH.close();
     const sum = (o) => Object.values(o.out).reduce((a, b) => a + (b ? b.hit : 0), 0);
@@ -30893,6 +30900,7 @@ if (!FAST) {
       Object.keys(r.wide.out).map((k) => k + '=' + (r.wide.out[k] ? r.wide.out[k].hit + '/' + r.wide.out[k].n : '—')).join(' ') +
       `)→ 狭 ${r.back.canvasH}px(当たり ${sum(r.back)}点) / #hud の矩形下端 ${r.wide.hudRect}px(クリップで描かれない)/ ` +
       `JSエラー=${herrs.length}` +
+      (r.front.length ? ` / 画面手前のモーダル(対象外・ui.frontModals が測る)=${r.front.join(',')}` : '') +
       (Object.values(ok).every(Boolean) ? '' : ' / NG: ' + Object.keys(ok).filter((k) => !ok[k]).join(',')));
   } else {
     console.log('SKIP ui.hudUnderPanel(対象に第276便f の #app.panelWide の overflow:hidden なし — root 等)');
@@ -31272,6 +31280,342 @@ if (!FAST) {
       `失敗から見る ${rs.src.failureFirst} 本・無し ${rs.src.none} 本(門の語 ${rs.nGates} 種と 1 字も違わない)/ ` +
       `畳んだ見出しへ付いた札 ${rs.nTag} 個(失敗から見る ${rs.nFf} 箱・観測結果カード ${rs.nOc} 箱を掃引)/ ` +
       `例=[${rs.sample.join(' | ')}] / NG=[${rs.bad.slice(0, 4).join(' ')}](0件)`);
+  }
+}
+
+// ---- 第278便e(原仮定者の裁定(第68報)「UI」4 件 + モデルルーティング): UI はすべて表示専用、
+// ---- 実行時 LLM は送信本文だけ(物理・presetSig・保存 JSON には 1 bit も効かない)。世代判定は
+// ---- 第278便e の実体(html の幅宣言・.fmModal・#ppSearchClear・.ocHeadIcon・claude-opus-5-5)の
+// ---- 有無 —— root 等では自動 SKIP。採寸の器は tests/exp-w278e-uilayout.mjs(ログ用・正本ではない)。
+// ----   ui.landscapeWidth … 横画面 2 カラムの右カラム = clamp(480px,54vw,630px)(旧 clamp(320px,36vw,420px)
+// ----     の 3 値をそろって 1.5 倍)・「サンプルを選ぶ」の箱 = min(840px, 画面幅−28px)(560×1.5)。
+// ----     1024×768 / 1280×800 / 1366×768 / 1920×1080 で右カラム幅が clamp の計算値・文書の横はみ出し 0・
+// ----     操作列/タブのボタンの折り返し 0・4 タブのパネル内の横はみ出し 0・キャンバス幅 ≥ 400px。
+// ----     縦画面 412×915 は flex のまま・箱の上限 560px のまま(縦画面は不変)。
+// ----   ui.frontModals … #aboutPanel / #avPanel が #ppModal と同じ画面手前のモーダル: body 直下
+// ----     (#canvasWrap の外)・position fixed・z-index が #ppModal と同値・ビューポートの当たり判定 100%・
+// ----     role=dialog / aria-modal=true / aria-labelledby(参照先が実在)・✕・Esc・背景クリックで閉じ、
+// ----     箱のクリックでは閉じない・箱だけが縦スクロール(overflow-y:auto)・--uz で文字が拡大・
+// ----     #appTitle の aria-controls と監査ビュー導線(aria-controls / aria-expanded)は不変・
+// ----     横画面 1280×800 で箱がキャンバス列と右カラムの両方に被る・about と av は排他・
+// ----     「サンプルを選ぶ」を上に重ねた Esc は手前の窓だけを閉じる。
+// ----   ui.searchClear … ✕ は type=button・aria-label(ja「検索をクリア」/ en「Clear search」)・
+// ----     入力が空で非表示/入力で表示・押すと検索欄が空・一覧が絞り込み前の行数へ戻る・フォーカスが
+// ----     検索欄・412×915 で見出し行が 1 行(はみ出し 0)・✕ は検索欄の内側。
+// ----   ui.obscardIcon … obsCard を持つ内蔵の全本で「観測結果カード」summary の先頭が 📇(aria-hidden)・
+// ----     aria-hidden を除いた文字列は T('ocHead')+状態語のまま(読み上げ名は不変)・📇 は説明タブの
+// ----     他の見出しに無い・ja/en とも。
+// ----   ai.modelList … anthropic.models = [claude-sonnet-5, claude-opus-5-5, claude-opus-5]・既定 sonnet-5・
+// ----     フォールバック sonnet-5→opus-5-5・opus-5 / opus-5-5 は連鎖なし・候補の datalist に opus-5-5。
+// ----     **fetch を差し替えて callLLM が実際に送る本文を読む**: opus-5-5 は thinking キー無し・
+// ----     max_tokens 16000、sonnet-5 / opus-5 は thinking:{type:"disabled"}・max_tokens 4000。どの本文にも
+// ----     tool_choice / budget_tokens / output_config(effort)が無い。thinking ブロックが先頭の応答からも
+// ----     text を取り出せる。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has278e = /clamp\(480px,54vw,630px\)/.test(html) && /class="fmModal"/.test(html)
+    && /ppSearchClear/.test(html) && /ocHeadIcon/.test(html) && /"claude-opus-5-5"/.test(html);
+  if (!has278e) {
+    console.log('SKIP ui.landscapeWidth / ui.frontModals / ui.searchClear / ui.obscardIcon / ai.modelList(対象に第278便e の幅宣言・.fmModal・#ppSearchClear・.ocHeadIcon・claude-opus-5-5 なし — root 等)');
+  } else {
+    const errs = [];
+    const openAt = async (w, h) => {
+      const ctx = await browser.newContext({ viewport: { width: w, height: h } });
+      const pg = await ctx.newPage();
+      pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+      await pg.goto(INDEX, { waitUntil: 'load' });
+      await pg.waitForFunction(() => !!window.HP);
+      await pg.evaluate(() => HP.setLang('ja'));
+      return { ctx, pg };
+    };
+    // --- ① 横画面の幅
+    const lw = [];
+    for (const [w, h] of [[412, 915], [1024, 768], [1280, 800], [1366, 768], [1920, 1080]]) {
+      const { ctx, pg } = await openAt(w, h);
+      lw.push(await pg.evaluate(async () => {
+        const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+        const lines = (el) => { const rg = document.createRange(); rg.selectNodeContents(el);
+          const ts = new Set(); for (const q of rg.getClientRects()) if (q.width > 0) ts.add(Math.round(q.top)); return ts.size; };
+        const grid = getComputedStyle(document.getElementById('app')).display === 'grid';
+        const col = document.getElementById('tabs').getBoundingClientRect().width;
+        const cv = document.getElementById('canvasWrap').getBoundingClientRect().width;
+        const expCol = grid ? Math.min(630, Math.max(480, 0.54 * innerWidth)) : innerWidth;
+        const wrapped = [...document.querySelectorAll('#transport button, nav#tabs button')]
+          .filter((b) => b.getBoundingClientRect().width > 0 && lines(b) > 1).length;
+        let panelX = 0;
+        for (const t of ['help', 'params', 'saves', 'ai']) {
+          document.querySelector('nav#tabs button[data-tab="' + t + '"]').click(); await wait(100);
+          const p = document.getElementById('panel'); panelX = Math.max(panelX, p.scrollWidth - p.clientWidth);
+        }
+        document.getElementById('btnPanelClose').click();
+        document.getElementById('btnPresetPick').click(); await wait(120);
+        const bx = document.querySelector('#ppModal .ppBox');
+        const boxW = bx.getBoundingClientRect().width, boxMax = getComputedStyle(bx).maxWidth;
+        document.getElementById('ppClose').click();
+        return { vw: innerWidth, vh: innerHeight, grid, col: +col.toFixed(1), expCol: +expCol.toFixed(1), cv: +cv.toFixed(1),
+          docX: document.documentElement.scrollWidth - innerWidth, wrapped, panelX,
+          boxW: +boxW.toFixed(1), boxMax };
+      }));
+      await ctx.close();
+    }
+    const lwBad = [];
+    for (const r of lw) {
+      const tag = r.vw + '×' + r.vh;
+      if (r.docX !== 0) lwBad.push(tag + ':docX' + r.docX);
+      if (r.wrapped !== 0) lwBad.push(tag + ':wrap' + r.wrapped);
+      if (r.panelX !== 0) lwBad.push(tag + ':panelX' + r.panelX);
+      if (r.vw >= 900) {
+        if (!r.grid) lwBad.push(tag + ':notGrid');
+        if (Math.abs(r.col - r.expCol) > 1) lwBad.push(tag + ':col' + r.col + '≠' + r.expCol);
+        if (r.cv < 400) lwBad.push(tag + ':canvas' + r.cv);
+        if (r.boxMax !== '840px' || Math.abs(r.boxW - Math.min(840, r.vw - 28)) > 1) lwBad.push(tag + ':box' + r.boxW + '/' + r.boxMax);
+      } else {
+        if (r.grid) lwBad.push(tag + ':grid');
+        if (r.boxMax !== '560px' || Math.abs(r.boxW - Math.min(560, r.vw - 28)) > 1) lwBad.push(tag + ':box' + r.boxW + '/' + r.boxMax);
+      }
+    }
+    const declOk = /grid-template-columns:minmax\(0,1fr\) clamp\(480px,54vw,630px\);/.test(html)
+      && !/grid-template-columns:minmax\(0,1fr\) clamp\(320px,36vw,420px\)/.test(html);
+    add('ui.landscapeWidth', declOk && lwBad.length === 0,
+      `宣言 clamp(480px,54vw,630px)(旧 320/36vw/420 の 1.5 倍・旧値の残り無し)=${declOk} / ` +
+      lw.map((r) => `${r.vw}×${r.vh}: ${r.grid ? '2カラム 右' + r.col + 'px(期待' + r.expCol + ')・キャンバス' + r.cv + 'px' : '縦積み'}` +
+        `・箱${r.boxW}px(上限${r.boxMax})・横はみ出し${r.docX}・折り返し${r.wrapped}・パネル内横${r.panelX}`).join(' / ') +
+      ` / NG=[${lwBad.slice(0, 6).join(' ')}](0件)`);
+
+    // --- ② 画面手前のモーダル(縦 412×915・横 1280×800)
+    const fm = [];
+    for (const [w, h] of [[412, 915], [1280, 800]]) {
+      const { ctx, pg } = await openAt(w, h);
+      fm.push(await pg.evaluate(async () => {
+        const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+        const bad = [];
+        // 実機と同じく、フォーカスのある要素(無ければ body)へ送って document / window へ浮上させる
+        const esc = () => (document.activeElement || document.body).dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+        const isOpen = (id) => document.getElementById(id).style.display === 'block';
+        const cover = (el) => { let hit = 0, n = 0;
+          for (let fy = 0.03; fy < 1; fy += 0.06) for (let fx = 0.03; fx < 1; fx += 0.06) {
+            n++; const s = document.elementsFromPoint(innerWidth * fx, innerHeight * fy)[0];
+            if (s && (s === el || el.contains(s))) hit++; }
+          return hit / n; };
+        const inter = (a, b) => a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom;
+        document.getElementById('btnPresetPick').click(); await wait(100);
+        const pp = document.getElementById('ppModal');
+        const ppZ = getComputedStyle(pp).zIndex, ppBg = getComputedStyle(pp).backgroundColor;
+        const ppAria = pp.getAttribute('role') === 'dialog' && pp.getAttribute('aria-modal') === 'true'
+          && !!document.getElementById(pp.getAttribute('aria-labelledby') || '_');
+        esc(); await wait(40);
+        if (document.getElementById('ppModal')) bad.push('pp:esc');
+        const cvR = document.getElementById('canvasWrap').getBoundingClientRect();
+        const tbR = document.getElementById('tabs').getBoundingClientRect();
+        const grid = getComputedStyle(document.getElementById('app')).display === 'grid';
+        const rows = {};
+        const openers = {
+          aboutPanel: [() => document.getElementById('appTitle').click(), 'aboutClose'],
+          avPanel: [() => { HP.loadPreset('mercury', false); document.querySelector('nav#tabs button[data-tab="help"]').click();
+            document.getElementById('btnAuditView').click(); }, 'avClose'],
+        };
+        for (const id of ['aboutPanel', 'avPanel']) {
+          const el = document.getElementById(id);
+          const box = el.querySelector('.fmBox');
+          const o = { body: el.parentElement === document.body, inCanvas: !!el.closest('#canvasWrap') };
+          openers[id][0](); await wait(100);
+          const cs = getComputedStyle(el);
+          o.opened = isOpen(id); o.pos = cs.position; o.z = cs.zIndex; o.zSame = cs.zIndex === ppZ;
+          o.bgSame = cs.backgroundColor === ppBg;
+          o.cover = +cover(el).toFixed(3);
+          o.aria = el.getAttribute('role') === 'dialog' && el.getAttribute('aria-modal') === 'true'
+            && !!document.getElementById(el.getAttribute('aria-labelledby') || '_');
+          o.scroll = !!box && getComputedStyle(box).overflowY === 'auto' && cs.overflowY !== 'auto' && cs.overflowY !== 'scroll';
+          const br = box.getBoundingClientRect();
+          o.overBoth = grid ? (inter(br, cvR) && inter(br, tbR)) : inter(br, cvR);
+          // --uz(文字サイズ)で箱の文字が拡大する
+          const fs0 = parseFloat(getComputedStyle(box).fontSize);
+          const uz0 = document.documentElement.style.getPropertyValue('--uz');
+          document.documentElement.style.setProperty('--uz', '1.5');
+          const fs1 = parseFloat(getComputedStyle(box).fontSize);
+          if (uz0) document.documentElement.style.setProperty('--uz', uz0); else document.documentElement.style.removeProperty('--uz');
+          o.uz = Math.abs(fs1 - 18) < 0.01 && fs0 > 0;
+          // 箱のクリックでは閉じない / 背景(外枠自身)のクリックで閉じる
+          box.click(); await wait(30); o.boxClickKeeps = isOpen(id);
+          el.click(); await wait(30); o.bgCloses = !isOpen(id);
+          // ✕ で閉じる
+          openers[id][0](); await wait(60);
+          document.getElementById(openers[id][1]).click(); await wait(30); o.xCloses = !isOpen(id);
+          // Esc で閉じる
+          openers[id][0](); await wait(60);
+          esc(); await wait(30); o.escCloses = !isOpen(id);
+          if (isOpen(id)) (id === 'aboutPanel' ? document.getElementById('aboutClose') : document.getElementById('avClose')).click();
+          rows[id] = o;
+        }
+        // 導線(aria-controls / aria-expanded)は不変
+        const t = document.getElementById('appTitle'), bt = document.getElementById('btnAuditView');
+        const links = t.getAttribute('aria-controls') === 'aboutPanel' && !!bt && bt.getAttribute('aria-controls') === 'avPanel';
+        bt.click(); await wait(40); const avAria = bt.getAttribute('aria-expanded') === 'true';
+        // 排他: 監査ビューを開いたまま about → 監査ビューは閉じる。逆も同じ
+        t.click(); await wait(40);
+        const exA = isOpen('aboutPanel') && !isOpen('avPanel') && bt.getAttribute('aria-expanded') === 'false';
+        bt.click(); await wait(40);
+        const exB = isOpen('avPanel') && !isOpen('aboutPanel');
+        HP.auditView.open(false); await wait(30);
+        // 「サンプルを選ぶ」を上に重ねた Esc は手前だけを閉じる
+        t.click(); await wait(40);
+        document.getElementById('btnPresetPick').click(); await wait(100);
+        const c = document.elementsFromPoint(innerWidth / 2, innerHeight / 2)[0];
+        const ppOnTop = !!c && !!c.closest('#ppModal');
+        esc(); await wait(40);
+        const stack = !document.getElementById('ppModal') && isOpen('aboutPanel');
+        esc(); await wait(40);
+        const stack2 = !isOpen('aboutPanel');
+        return { vw: innerWidth, vh: innerHeight, grid, ppZ, ppAria, rows, links, avAria, exA, exB, ppOnTop, stack, stack2, bad };
+      }));
+      await ctx.close();
+    }
+    const fmBad = [];
+    for (const r of fm) {
+      const tag = r.vw + '×' + r.vh;
+      for (const b of r.bad) fmBad.push(tag + ':' + b);
+      if (!r.ppAria) fmBad.push(tag + ':ppAria');
+      for (const [id, o] of Object.entries(r.rows)) for (const k of ['body', 'opened', 'zSame', 'bgSame', 'aria', 'scroll',
+        'overBoth', 'uz', 'boxClickKeeps', 'bgCloses', 'xCloses', 'escCloses']) if (!o[k]) fmBad.push(tag + ':' + id + '.' + k);
+      for (const [id, o] of Object.entries(r.rows)) {
+        if (o.inCanvas) fmBad.push(tag + ':' + id + '.inCanvas');
+        if (o.pos !== 'fixed') fmBad.push(tag + ':' + id + '.pos=' + o.pos);
+        if (o.cover !== 1) fmBad.push(tag + ':' + id + '.cover=' + o.cover);
+      }
+      for (const k of ['links', 'avAria', 'exA', 'exB', 'ppOnTop', 'stack', 'stack2']) if (!r[k]) fmBad.push(tag + ':' + k);
+    }
+    add('ui.frontModals', fmBad.length === 0 && errs.length === 0,
+      fm.map((r) => `${r.vw}×${r.vh}(${r.grid ? '2カラム' : '縦積み'}): ` + Object.entries(r.rows).map(([id, o]) =>
+        `${id} body直下=${o.body}・${o.pos}・z=${o.z}(#ppModal ${r.ppZ} と同値=${o.zSame})・被覆${o.cover}・` +
+        `dialog/aria-modal/labelledby=${o.aria}・箱だけスクロール=${o.scroll}・${r.grid ? 'キャンバスと右カラムに被る' : 'キャンバスに被る'}=${o.overBoth}・` +
+        `--uz=${o.uz}・閉じる(✕/Esc/背景)=${o.xCloses}/${o.escCloses}/${o.bgCloses}・箱クリックで閉じない=${o.boxClickKeeps}`).join(' | ') +
+        ` | 導線不変=${r.links}・aria-expanded=${r.avAria}・排他=${r.exA}/${r.exB}・pp を重ねた Esc は手前だけ=${r.ppOnTop && r.stack}→次の Esc で about=${r.stack2}`).join(' / ') +
+      ` / JSエラー=${errs.length} / NG=[${fmBad.slice(0, 6).join(' ')}](0件)`);
+
+    // --- ③ 検索欄のクリアボタン(412×915)
+    const { ctx: ctxS, pg: ps } = await openAt(412, 915);
+    const sc = await ps.evaluate(async () => {
+      const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+      const rows = (el) => { const bs = [];
+        for (const c of el.children) { const b = c.getBoundingClientRect(); if (b.width > 0 && b.height > 0) bs.push(b); }
+        bs.sort((a, b) => a.top - b.top); let n = 0, bottom = -Infinity;
+        for (const b of bs) { if (b.top >= bottom - 1) { n++; bottom = b.bottom; } else bottom = Math.max(bottom, b.bottom); }
+        return n; };
+      const o = {};
+      document.getElementById('btnPresetPick').click(); await wait(100);
+      const si = document.getElementById('ppSearch'), cl = document.getElementById('ppSearchClear');
+      const hd = document.querySelector('#ppModal .ppHead');
+      const nRows = () => document.querySelectorAll('#ppList .ppRow').length;
+      const shown = () => getComputedStyle(cl).display !== 'none';
+      o.attrs = cl.type === 'button' && cl.getAttribute('aria-label') === '検索をクリア';
+      o.emptyHidden = si.value === '' && !shown() && cl.hidden;
+      const n0 = nRows();
+      si.focus(); si.value = 'mercury'; si.dispatchEvent(new Event('input', { bubbles: true })); await wait(60);
+      const n1 = nRows();
+      o.typedShown = shown();
+      const cb = cl.getBoundingClientRect(), sb = si.getBoundingClientRect();
+      o.inside = cb.left >= sb.left - 0.5 && cb.right <= sb.right + 0.5 && cb.top >= sb.top - 0.5 && cb.bottom <= sb.bottom + 0.5;
+      o.headRows = rows(hd); o.headX = hd.scrollWidth - hd.clientWidth; o.boxX = document.documentElement.scrollWidth - innerWidth;
+      si.blur();
+      cl.click(); await wait(60);
+      const n2 = nRows();
+      o.cleared = si.value === '' && !shown();
+      o.focus = document.activeElement === si;
+      o.n = [n0, n1, n2];
+      o.refiltered = n1 < n0 && n2 === n0;
+      document.getElementById('ppClose').click();
+      HP.setLang('en');
+      document.getElementById('btnPresetPick').click(); await wait(100);
+      o.en = document.getElementById('ppSearchClear').getAttribute('aria-label') === 'Clear search';
+      document.getElementById('ppClose').click();
+      HP.setLang('ja');
+      return o;
+    });
+    await ctxS.close();
+    const scOk = sc.attrs && sc.emptyHidden && sc.typedShown && sc.inside && sc.headRows === 1 && sc.headX === 0 && sc.boxX === 0
+      && sc.cleared && sc.focus && sc.refiltered && sc.en;
+    add('ui.searchClear', scOk,
+      `412×915: type=button・aria-label ja=${sc.attrs}/en=${sc.en}・空で非表示=${sc.emptyHidden}・入力で表示=${sc.typedShown}` +
+      `(検索欄の内側=${sc.inside})・見出し行 ${sc.headRows} 行・はみ出し ${sc.headX}/${sc.boxX}px・` +
+      `押すと空=${sc.cleared}・一覧 ${sc.n[0]}→${sc.n[1]}→${sc.n[2]} 行(絞り込み前へ戻る=${sc.refiltered})・フォーカスが検索欄=${sc.focus}`);
+
+    // --- ④ 観測結果カードのアイコン(内蔵を掃引・ja/en)
+    const oi = await page.evaluate(() => {
+      let lang0 = 'ja'; try { lang0 = LANG; } catch (_) {}
+      const bad = []; let n = 0, other = 0;
+      for (const lg of ['ja', 'en']) {
+        HP.setLang(lg);
+        for (const p of HP.allPresets()) {
+          if (String(p.id).startsWith('custom_')) continue;
+          if (!(Array.isArray(p.obsCard) && p.obsCard.length)) continue;
+          HP.loadPreset(p.id, false);
+          const sm = document.querySelector('#helpBody .ocBox summary.ffHead');
+          if (!sm) { bad.push(lg + ':' + p.id + ':no-summary'); continue; }
+          n++;
+          const ic = sm.firstElementChild;
+          if (!ic || !ic.classList.contains('ocHeadIcon') || ic.getAttribute('aria-hidden') !== 'true'
+            || ic.textContent.trim() !== '📇' || sm.firstChild !== ic) bad.push(lg + ':' + p.id + ':icon');
+          const cl = sm.cloneNode(true);
+          for (const e of cl.querySelectorAll('[aria-hidden="true"]')) e.remove();
+          const tag = sm.querySelector('.ffFoldStatus');
+          if (cl.textContent !== HP.T('ocHead') + (tag ? tag.textContent : '')) bad.push(lg + ':' + p.id + ':name');
+          // 📇 は説明タブの他の見出しに無い
+          const hb = document.getElementById('helpBody').cloneNode(true);
+          for (const e of hb.querySelectorAll('.ocHeadIcon')) e.remove();
+          if (hb.textContent.indexOf('📇') >= 0) other++;
+        }
+      }
+      HP.setLang(lang0);
+      HP.loadPreset('saturn', false);
+      return { n, bad, other, keyNoIcon: HP.T('ocHead').indexOf('📇') < 0 };
+    });
+    add('ui.obscardIcon', oi.bad.length === 0 && oi.n > 0 && oi.other === 0 && oi.keyNoIcon,
+      `obsCard を持つ内蔵 ×(ja/en)= ${oi.n} 箱すべての summary 先頭が 📇(aria-hidden)・読み上げ名は T('ocHead')+状態語のまま・` +
+      `他の見出しに 📇 = ${oi.other} 本(0)・文言キーに絵文字を入れていない=${oi.keyNoIcon} / NG=[${oi.bad.slice(0, 4).join(' ')}](0件)`);
+
+    // --- ⑤ 実行時 LLM のモデル表と送信本文(fetch を差し替えて読む — ネットワークへは出ない)
+    const ml = await page.evaluate(async () => {
+      const A = HP.AI_PROVIDERS.anthropic;
+      const o = { models: A.models.slice(), def: A.defModel,
+        fb: { sonnet5: HP.aiFallbackModel('claude-sonnet-5'), opus5: HP.aiFallbackModel('claude-opus-5'),
+          opus55: HP.aiFallbackModel('claude-opus-5-5'), haiku: HP.aiFallbackModel('claude-haiku-4-5') },
+        datalist: [...document.querySelectorAll('#modelSuggest option')].map((x) => x.value) };
+      const f0 = window.fetch;
+      const sent = {};
+      try {
+        for (const m of ['claude-sonnet-5', 'claude-opus-5-5', 'claude-opus-5']) {
+          window.fetch = async (url, init) => {
+            sent[m] = { url: String(url), body: JSON.parse(init.body) };
+            return { ok: true, status: 200, json: async () => ({ stop_reason: 'end_turn',
+              content: [{ type: 'thinking', thinking: '' }, { type: 'text', text: 'OK:' + m }] }) };
+          };
+          sent[m + ':text'] = await HP.callLLM({ provider: 'anthropic', key: 'x', model: m }, m, [{ role: 'user', content: 'hi' }]);
+        }
+      } finally { window.fetch = f0; }
+      o.sent = {};
+      for (const m of ['claude-sonnet-5', 'claude-opus-5-5', 'claude-opus-5']) {
+        const b = sent[m].body;
+        o.sent[m] = { keys: Object.keys(b).sort().join(','), thinking: b.thinking ? JSON.stringify(b.thinking) : null,
+          max: b.max_tokens, forbidden: ['tool_choice', 'budget_tokens', 'output_config', 'tools'].filter((k) => JSON.stringify(b).indexOf('"' + k + '"') >= 0),
+          text: sent[m + ':text'], model: b.model };
+      }
+      o.pure = JSON.stringify(HP.aiAnthropicBody('claude-opus-5-5', 's', [])) === JSON.stringify({ model: 'claude-opus-5-5', max_tokens: 16000, system: 's', messages: [] });
+      return o;
+    });
+    const s55 = ml.sent['claude-opus-5-5'], s5 = ml.sent['claude-opus-5'], sS = ml.sent['claude-sonnet-5'];
+    const mlOk = JSON.stringify(ml.models) === JSON.stringify(['claude-sonnet-5', 'claude-opus-5-5', 'claude-opus-5'])
+      && ml.def === 'claude-sonnet-5' && ml.fb.sonnet5 === 'claude-opus-5-5' && ml.fb.opus5 === null && ml.fb.opus55 === null
+      && ml.fb.haiku === 'claude-sonnet-5' && ml.datalist.indexOf('claude-opus-5-5') >= 0
+      && s55.thinking === null && s55.max === 16000 && s55.forbidden.length === 0 && s55.text === 'OK:claude-opus-5-5'
+      && s5.thinking === '{"type":"disabled"}' && s5.max === 4000 && s5.forbidden.length === 0
+      && sS.thinking === '{"type":"disabled"}' && sS.max === 4000 && sS.forbidden.length === 0 && sS.text === 'OK:claude-sonnet-5'
+      && ml.pure;
+    add('ai.modelList', mlOk,
+      `候補=[${ml.models.join(', ')}]・既定=${ml.def}・フォールバック sonnet-5→${ml.fb.sonnet5}・opus-5→${ml.fb.opus5}・opus-5-5→${ml.fb.opus55}・` +
+      `haiku-4-5→${ml.fb.haiku}・datalist に opus-5-5=${ml.datalist.indexOf('claude-opus-5-5') >= 0} / 送信本文: ` +
+      ['claude-sonnet-5', 'claude-opus-5-5', 'claude-opus-5'].map((m) => `${m}{${ml.sent[m].keys}・thinking=${ml.sent[m].thinking || '無し'}・` +
+        `max_tokens=${ml.sent[m].max}・禁止キー=${ml.sent[m].forbidden.length ? ml.sent[m].forbidden.join('|') : '無し'}・応答text=${ml.sent[m].text}}`).join(' ') +
+      ` / 純関数 aiAnthropicBody(opus-5-5) の形=${ml.pure}`);
   }
 }
 
@@ -34087,15 +34431,18 @@ if (!FAST) {
           && !document.querySelector('#aiObsGroup') && !document.querySelector('#aiObsRecords'),
         defModel: HP.AI_PROVIDERS.anthropic.defModel,
         fb: HP.aiFallbackModel(HP.AI_PROVIDERS.anthropic.defModel),
-        fbHaiku: HP.aiFallbackModel('claude-haiku-4-5'), fbOpus: HP.aiFallbackModel('claude-opus-5') };
+        fbHaiku: HP.aiFallbackModel('claude-haiku-4-5'), fbOpus: HP.aiFallbackModel('claude-opus-5'),
+        // 第278便e(原仮定者の裁定(第68報)): 候補に claude-opus-5-5 がある世代は、上位エスカレーション先が
+        // 最新の Opus(claude-opus-5-5)。無い世代(root 等)は従来どおり claude-opus-5 —— 世代判定は候補表
+        fbExpect: HP.AI_PROVIDERS.anthropic.models.indexOf('claude-opus-5-5') >= 0 ? 'claude-opus-5-5' : 'claude-opus-5' };
     });
     // 既定モデル(第170便で Sonnet 5 へ引き上げ)と、検証失敗時の**上位エスカレーション**先
-    // (統括再裁定: sonnet-5 → opus-5)も同じゲートで機械固定する
+    // (統括再裁定: sonnet-5 → opus-5。第278便e 以降の世代は sonnet-5 → opus-5-5 —— fbExpect)も同じゲートで機械固定する
     // 第178便: 生成モードは撤去された(自由生成へ一本化)。モード前提の検査は
     // 「モードが unified で、モード選択UIの残骸が無い」等価検査へ差し替える(弱体化なし —
     // カタログ検証器そのものの否定対照/正例は1件も減らしていない)
     add('ai.schema-validation', sch.bad.length === 0 && sch.mode === 'unified' && sch.modeUiGone
-      && sch.defModel === 'claude-sonnet-5' && sch.fb === 'claude-opus-5'
+      && sch.defModel === 'claude-sonnet-5' && sch.fb === sch.fbExpect
       && sch.fbHaiku === 'claude-sonnet-5' && sch.fbOpus === null,
       `否定対照=${sch.nNeg}件 全て拒否・正例=${sch.nPos}件 全て受理・カタログ仕様=${sch.promptLen}字・` +
       `生成モード=${sch.mode}(モード選択UI撤去=${sch.modeUiGone})・既定モデル=${sch.defModel}→フォールバック=${sch.fb}` +
