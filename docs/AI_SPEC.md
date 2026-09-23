@@ -1099,6 +1099,28 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     (docs/PHYSICS.md〔第277便d〕④)。
   - **`physics.backgroundComplex` は勾配を持てるが、潮汐テンソル T の鍵はまだ無い**(決断事項)。
     背景勾配による差動加速度は**一様重力相当のパラメータ 1 つでは代替できない**(同節⑤)。
+    → **第278便d で T は別鍵 `physics.backgroundTidal` に置いた**(下の項)。**`backgroundComplex` の中へ
+    `T`・`tidal`・`tidalTensor`・`backgroundTidal` を書くと拒否する**(定数 `BG_TIDAL_NESTED`)。
+- **潮汐テンソル T の宣言(第278便d・統括の読み R56)**: **`physics.backgroundTidal`** —— 背景勾配による
+  差動加速度 a_ext(x) = a₀ + T·(x−x₀) の **T** を宣言する**宣言専用の別鍵**。
+  - **なぜ別鍵か**: `backgroundComplex` の W₀[M/L²]・A₀[M/(L·T)]・∇W・∇A は**重み付き平均の量**、
+    T は**ポテンシャルのヘッセ行列**(単位 **1/s²**)で、次元も役割も違う。**メッシュ速度勾配 J[1/s] とも別物**である。
+  - **正準形**: `{T, unit:"1/s^2", frame, epoch, source, note?}`。
+    - `T` は **2×2 または 3×3** の有限数の**対称**行列(配列の配列・`T[i][j]===T[j][i]` を厳密に要求)。
+      **2×2 は面内ブロック**で、3 次元の真空では tr T=0 でも面内ブロックのトレースは −T_zz(0 とは限らない)。
+    - `unit` は **`"1/s^2"` だけ**(SI の秒で書く —— サンプルの `scaleExp` の時間単位ではない)。
+    - `frame`(どの座標系の成分か・1〜80 字)・`epoch`(いつの値か・1〜60 字)・`source`(出所・1〜200 字)は
+      **明示必須**、`note` は 200 字以内。**知らない鍵は拒否**(`W0` 等を紛れ込ませない)。
+    - 例(冥王星の軌道距離の点質量の太陽・面内): 
+      `{ "T": [[1.2881e-18, 0], [0, -6.4407e-19]], "unit": "1/s^2", "frame": "sample-xy", "epoch": "JD 2452600.5", "source": "太陽の点質量 GM/r³" }`
+  - **未宣言は「未確定」**(`physics` に入らない —— presetSig 不変)。宣言すると署名は変わる。
+  - **エンジンのどの経路からも読まれない**(力学・光学・帳簿に接続しない —— 接続の順序は裁定待ち)。
+    **内蔵はこの鍵を 1 本も宣言していない**。
+  - 純関数側: `normalizeTidal`(アプリの `validateBackgroundTidal` と同じ判定)・`tidalCheck(T)`(対称性・
+    トレース・固有値)・`pointMassTidal`(`tests/lib-w278d-bgequiv.mjs`)。
+  - QA: **`preset.backgroundTidal`**(受理/拒否・入れ子の拒否・検証器ごし・内蔵 0 本・力学へのビット不変・
+    **読み口 0** の機械監査・純関数との一致)/ **`docs.bgEquivalence`**(明示天体 ↔ 局所背景展開の一致試験)/
+    **`docs.comovingAdvection`**(fieldTime + 移流 = advected)。
 - **geoPN=3(トイの測地線モード・第259便a)**: `CLAMPS.geoPN` の上限が 3 になったが、**3 は宣言だけでは通らない**。
   - **受理条件**: (a) `sampleClass:"calibration"` では**拒否**、(b) `physics.spaceMesh.lawVersion` の宣言が無ければ
     **従来どおり 2 へ丸めて警告**、(c) `kFrame>0` は拒否、(d) `spaceMesh.inertia`・`weave` との併用は拒否(**重複適用禁止**)。

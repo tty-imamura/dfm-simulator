@@ -1967,7 +1967,10 @@ const add = (id, pass, detail) => {
       // 第277便c(裁定(第67報)(2)): 中性子星連星の**診断格子**(観測の傾き × 潮汐の手 ×
       //   パワーボールの有限口座)。**較正ではない**・html を走らせない器なので target は
       //   器が読む正本ファイル(lib 自身)である
-      'tests/out/nsgrid-w277c.json'];
+      'tests/out/nsgrid-w277c.json',
+      // 第278便d(統括の読み R56): **明示天体 ↔ 局所背景展開の一致試験**(はしご 12 段 × 項 9 × 刻み 3 段)・
+      //   移流項の数値検証・潮汐鍵の受理契約の突合(純関数の 2 体 + 外部源 1 つ —— **エンジン未接続**)
+      'tests/out/bgequiv-w278d.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -6663,6 +6666,30 @@ const add = (id, pass, detail) => {
           bad.push(`⑤ ${v.id} が門を超えたのに代替不能の文が無い`);
       }
       cases.push(`判定 ${(J.verdicts || []).map((z) => z.emoji + (z.negligible ? ' 無視できる' : ' **無視できない**')).join(' / ')}`);
+      // ⑦ 第278便d(R56): **版 w278d・規格化候補の列**(診断・採用しない)。対象 html が第278便d の世代
+      //    (BG_TIDAL_KEY あり)なら版と候補の列を要求する。候補は (N3)/局所遮蔽 λ=1 au・10 au/W_eff の 4 つで、
+      //    読める行は刻み 3 段(N・2N・4N)の収束つき。🌘 の W_eff は「逆算しない」(明示天体の ON 走行が壊れる)。
+      if (fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('BG_TIDAL_KEY') >= 0) {
+        if (J.meta.harnessVersion !== 'w278d-bgbudget-2') bad.push(`⑦ 版が w278d-bgbudget-2 でない(${J.meta.harnessVersion})`);
+        const C = (J.candidates || []).filter((z) => !z.skipped);
+        if (C.length !== 3) bad.push(`⑦ 候補の行が 3 本でない(${C.length})`);
+        for (const c of C) {
+          const keys = (c.rows || []).map((z) => z.key).join(',');
+          if (keys !== 'N3,shield1au,shield10au,Weff') bad.push(`⑦ ${c.id} の候補の並びが違う(${keys})`);
+          for (const r of (c.rows || [])) {
+            if (r.skipped) { if (!r.why) bad.push(`⑦ ${c.id}/${r.key} が理由なしで SKIP`); continue; }
+            if (!r.dPhaseTimeS || !Array.isArray(r.dPhaseTimeS.values) || r.dPhaseTimeS.values.length !== 3)
+              bad.push(`⑦ ${c.id}/${r.key} に刻み 3 段の収束が無い`);
+          }
+        }
+        const em = C.find((z) => z.id === 'earthMoonRealKF1');
+        if (em && !(em.rows.find((z) => z.key === 'Weff') || {}).skipped) bad.push('⑦ 🌘 の W_eff が逆算されている(明示天体の ON 走行は壊れる)');
+        const pc = C.find((z) => z.id === 'plutoCharonReal');
+        const n3 = pc ? pc.rows.find((z) => z.key === 'N3') : null;
+        if (n3 && !(Math.abs(n3.dPhaseTimeS.values[2] - J.rows.find((z) => z.id === 'plutoCharonReal').total.dPhaseTimeS) < 1e-3))
+          bad.push('⑦ ❄️ の (N3) 候補が既存の予算の行と合わない');
+        cases.push(`版 ${J.meta.harnessVersion}・候補 4 列 × ${C.length} 行(刻み 3 段・**採用しない**)`);
+      }
       const nw = J.meta.doNotWrite || [];
       if (!nw.length) bad.push('⑥ meta.doNotWrite が無い');
       const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
@@ -6687,6 +6714,181 @@ const add = (id, pass, detail) => {
       + `**一様な背景「速度」は参照系の取り替えで消えるが、一様な背景「重み」W₀ は消えない** ——`
       + `重み付き平均の分母を変えるからである(実測: 一様項の大半が W₀ の希釈から来る)。`
       + `**背景を無視してよいことを証明してはいない**`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 0a3z8) 第278便d(統括の読み R56): docs.bgEquivalence ----
+// ----   **明示天体 ↔ 局所背景展開の一致試験**の正本 `tests/out/bgequiv-w278d.json` を PHYSICS と突き合わせる。
+// ----   固定するのは 8 点(**どれも「背景を無視してよい」の判定ではない**):
+// ----     ① `meta.targetSha256` が検査対象の html と一致し、門は測る前に宣言されている。
+// ----     ② 3 行(❄️🌘📻)× はしご 12 段 × 項 9 つ × 刻み 3 段(N・2N・4N)がそろう。
+// ----     ③ **分解恒等式**: 外部源を明示天体として足した場と、その点で厳密に評価した背景として足した場が
+// ----        1 点でも(相対差 ≤1e−12)走行でも(|Δt| ≤1e−9 s)一致する —— (N3) の規格化そのものの検算。
+// ----     ④ ❄️: EXP の ON/OFF 差と、凍結(自由落下系)L0ff との食い違い・項の内訳が PHYSICS の表と一致し、
+// ----        L0ff は相対の門を通り参考の絶対門(1e−3σ_Buie)は通らない(**実測の固定**)。
+// ----     ⑤ 🌘: ON 走行の軌道が 1 公転で壊れる —— 門は判定しない(null)=**差として読まない**。
+// ----     ⑥ 📻: どの段も相対の門を通る。
+// ----     ⑦ 潮汐鍵の受理契約がページと純関数で全件一致し、3×3 の点質量 T はトレース 0(丸めの範囲)。
+// ----     ⑧ 書かない語が宣言され、docs/PHYSICS.md〔第278便d〕節があって禁止語が無い。
+// ----   **root は SKIP**(対象 html に BG_TIDAL_KEY が無い世代)。
+{
+  const bad = [];
+  const cases = [];
+  const htmlT = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!TARGET.startsWith('beta/') || htmlT.indexOf('BG_TIDAL_KEY') < 0) {
+    console.log('SKIP docs.bgEquivalence(第278便d 未適用 — 対象に BG_TIDAL_KEY なし: ' + TARGET + ')');
+  } else {
+    try {
+      const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'bgequiv-w278d.json'), 'utf8');
+      const J = JSON.parse(text);
+      const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)');
+      else cases.push('html の SHA-256 一致');
+      if (!J.gate || J.gate.declaredBeforeMeasuring !== true) bad.push('① 門が「測る前に宣言」になっていない');
+      const S = (J.samples || []).filter((z) => !z.skipped);
+      if (S.length !== 3) bad.push(`② 行が 3 本でない(${S.length})`);
+      for (const s of S) {
+        if (!Array.isArray(s.ladder) || s.ladder.length !== 12) bad.push(`② ${s.id} のはしごが 12 段でない`);
+        if (!Array.isArray(s.items) || s.items.length !== 9) bad.push(`② ${s.id} の項が 9 つでない`);
+        if (!Array.isArray(s.steps) || s.steps.length !== 3 || s.steps[1] !== 2 * s.steps[0] || s.steps[2] !== 4 * s.steps[0])
+          bad.push(`② ${s.id} の刻みが N・2N・4N でない`);
+        for (const p of (s.identityPoint || []))
+          if (!(p.uRel <= 1e-12 && p.gradURel <= 1e-12 && p.dUdtRel <= 1e-12)) bad.push(`③ ${s.id} の 1 点の分解恒等式が崩れた`);
+        const dec = (s.items || []).find((z) => z.key === 'decomposition');
+        if (!dec || !dec.dPhaseTimeS || dec.dPhaseTimeS.values.some((v) => Math.abs(v) > 1e-9))
+          bad.push(`③ ${s.id} の走行の分解恒等式が崩れた`);
+      }
+      cases.push(`3 行 × はしご 12 段 × 項 9 × 刻み ${S.length ? S[0].steps.join('/') : '—'} 步・分解恒等式は 1 点も走行も一致`);
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const at = P.indexOf('〔第278便d');
+      const whole = at >= 0 ? P.slice(at, at + 40000) : '';
+      const cut = whole.indexOf('**言わないこと。**');
+      const sec = cut >= 0 ? whole.slice(0, cut) : whole;
+      const pc = S.find((z) => z.id === 'plutoCharonReal');
+      if (!pc) bad.push('④ ❄️ の行が無い');
+      else {
+        const L = (k) => pc.ladder.find((z) => z.key === k);
+        const I = (k) => pc.items.find((z) => z.key === k);
+        const V = (k) => pc.verdicts.find((z) => z.bg === k);
+        const expT = L('EXP').dPhaseTimeS.values[2], l0ffT = L('L0ff').dPhaseTimeS.values[2];
+        const v0ff = V('L0ff');
+        if (!(L('EXP').onBound && v0ff.readable)) bad.push('④ ❄️ の EXP/L0ff が読めない行になっている');
+        if (v0ff.gateRel !== true) bad.push(`④ ❄️ L0ff が相対の門を通っていない(${v0ff.mismatchRel})`);
+        if (v0ff.gateAbsReference !== false) bad.push('④ ❄️ L0ff の参考の絶対門の実測が変わった');
+        // 表の数は**絶対値**で照合する(PHYSICS は負号に U+2212 を使うため)
+        const want = [expT, l0ffT, v0ff.mismatchS, I('frameOfFreeze').dPhaseTimeS.values[2],
+          I('reactionDFM').dPhaseTimeS.values[2]].map((v, i) => Math.abs(v).toFixed(i < 2 ? 1 : 3));
+        const miss = [];
+        for (const w of want) if (sec.indexOf(w) < 0) miss.push(w);
+        if (miss.length) bad.push('④ PHYSICS〔第278便d〕に ❄️ の値が無い: ' + miss.join(','));
+        cases.push(`❄️ EXP ${expT.toFixed(1)} s / L0ff ${l0ffT.toFixed(1)} s(食い違い ${v0ff.mismatchS.toFixed(3)} s・相対 `
+          + `${v0ff.mismatchRel.toExponential(2)}・相対の門=${v0ff.gateRel}・参考の絶対門=${v0ff.gateAbsReference})`);
+      }
+      const em = S.find((z) => z.id === 'earthMoonRealKF1');
+      if (!em) bad.push('⑤ 🌘 の行が無い');
+      else {
+        if (em.ladder.find((z) => z.key === 'EXP').onBound !== false) bad.push('⑤ 🌘 の EXP が 1 公転で壊れない(実測が変わった)');
+        if (em.verdicts.some((v) => v.gateRel !== null)) bad.push('⑤ 🌘 の壊れた行で門が判定を出している');
+        cases.push('🌘 は ON 走行が 1 公転で壊れる —— 門は判定しない(差として読まない)');
+      }
+      const ps = S.find((z) => z.id === 'psrDoubleAB');
+      if (!ps) bad.push('⑥ 📻 の行が無い');
+      else {
+        if (!ps.verdicts.every((v) => v.gateRel === true)) bad.push('⑥ 📻 に相対の門を通らない段がある');
+        cases.push(`📻 は全段が相対の門を通る(EXP の ON/OFF 差 ${ps.ladder.find((z) => z.key === 'EXP').dPhaseTimeS.values[2].toExponential(3)} s)`);
+      }
+      if (!(J.tidalContract && J.tidalContract.allAgree === true)) bad.push('⑦ 潮汐鍵の受理契約がページと純関数で食い違う');
+      // 3×3 の点質量 T のトレースは真空で 0。軟化 ε があると −3ε²/q だけずれる(q=r²+ε²)ので、その分を許す
+      for (const s of S) {
+        const q = s.extDistanceM ** 2 + s.eps ** 2, allow = 3 * s.eps * s.eps / q + 1e-14;
+        if (!(Math.abs(s.tidal.check3.traceRel) <= allow)) bad.push(`⑦ ${s.id} の 3×3 T のトレースが 0 でない(${s.tidal.check3.traceRel})`);
+      }
+      cases.push(`潮汐鍵の受理契約 ページ=純関数 ${(J.tidalContract.rows || []).length} 件・3×3 の T はトレース 0(軟化 ε の分を除く)`);
+      if (!(J.meta.doNotWrite || []).length) bad.push('⑧ meta.doNotWrite が無い');
+      if (at < 0) bad.push('⑧ PHYSICS に〔第278便d〕節が無い');
+      else {
+        if (cut < 0) bad.push('⑧ PHYSICS〔第278便d〕に「言わないこと。」の宣言が無い');
+        for (const q of ['背景を無視してよいことを証明した', '背景を較正した', '閾値を採用した'])
+          if (sec.indexOf(q) >= 0) bad.push(`⑧ PHYSICS〔第278便d〕に「${q}」が出ている`);
+      }
+      cases.push('PHYSICS〔第278便d〕と一致(禁止語なし)');
+    } catch (e) { bad.push('正本 JSON が読めない: ' + String(e).slice(0, 90)); }
+    add('docs.bgEquivalence', bad.length === 0,
+      `**明示天体 ↔ 局所背景展開の一致試験**(第278便d・統括の読み R56 ①「同じ外部源を明示天体と局所背景展開に`
+      + `分け直したときの一致」): ${cases.join(' / ')} —— **一致は「背景展開が明示天体の効果を再現する」ことであって、`
+      + `効果が小さいことではない**(❄️ の ON/OFF 差そのものは 10³ s 級)。閾値 1e−3σ_Buie は**採用していない**`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 0a3z9) 第278便d(統括の読み R56 ③): docs.comovingAdvection ----
+// ----   `toComovingFrame` の 2 規約(`fieldTime`=偏微分・`advected`=物質微分)を結ぶ**移流項 (V·∇)** を
+// ----   純関数 `advectionOfBackground`/`fieldTimePlusAdvection`(tests/lib-w278d-bgequiv.mjs)で明示し、
+// ----   **fieldTime + 移流 = advected** を**差分(真値)**で確かめる。固定するのは 5 点:
+// ----     ① 代数: fieldTime+移流 と advected の全成分の相対差 ≤1e−15。
+// ----     ② 背景+局所源(toy): 差分だけで ∂ₜ′u′ − ∂ₜu = (V·∇)u(残差 ≤1e−9)・advected と fieldTime+移流の
+// ----        予言が差分に合い(≤1e−9)、座標変換の加速度 a=(v·∇)u+∂ₜu を不変にする(≤1e−12)。
+// ----        fieldTime だけ(移流なし)は差分から外れる(≥1e−3 —— **見分けられる配置である**ことの確認)。
+// ----     ③ 背景だけでも一般の線形背景なら見分けられ、**点源形(∇A=u_bg⊗∇W)の背景だけ**なら (V·∇)u≡0 で
+// ----        見分けられない(第277便d の「背景だけでは区別できない」はこの形のときの話)。
+// ----     ④ ❄️ の配置(正本 JSON): fieldTime+移流 の予言が差分に合う。
+// ----     ⑤ PHYSICS〔第278便d〕に fieldTime を禁止しない旨と移流項がある。
+// ----   **root は SKIP**(対象 html に BG_TIDAL_KEY が無い世代 —— 同便の成果物の世代判定)。
+{
+  const bad = [];
+  const cases = [];
+  const htmlT = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!TARGET.startsWith('beta/') || htmlT.indexOf('BG_TIDAL_KEY') < 0) {
+    console.log('SKIP docs.comovingAdvection(第278便d 未適用 — 対象に BG_TIDAL_KEY なし: ' + TARGET + ')');
+  } else {
+    try {
+      const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w278d-bgequiv.mjs'));
+      const toyBg = { W0: 1, A0: [0.3, 0.1], gradW: [-0.2, 0.05], gradA: [0.1, -0.05, 0.02, 0.07], dWdt: 0.03, dAdt: [0.01, -0.02] };
+      const toySrc = [{ m: 0.5, x: 1.2, y: -0.4, vx: 0.2, vy: 0.5, ax: -0.1, ay: 0.05 }];
+      const V = [0.7, -0.4];
+      const alg = L.advectionIdentity(toyBg, V);
+      if (!(alg && alg.maxRel <= 1e-15)) bad.push(`① 代数の恒等式が崩れた(${alg && alg.maxRel})`);
+      const o = { p: 2, eps: 0.1, h: 1e-3, dl: 1e-3, vParticle: [0.6, 0.2], Lref: 1 };
+      const a = L.advectionFDCheck(toySrc, toyBg, [0, 0], V, o);
+      const C = a.conventions;
+      if (!(a.identityFD <= 1e-9)) bad.push(`② 差分の恒等式 ∂ₜ′u′−∂ₜu=(V·∇)u が崩れた(${a.identityFD})`);
+      for (const k of ['advected', 'fieldTime+advection']) {
+        if (!(C[k] && C[k].residVsMovingFD <= 1e-9)) bad.push(`② ${k} の予言が差分に合わない(${C[k] && C[k].residVsMovingFD})`);
+        if (!(C[k] && C[k].accelRel <= 1e-12)) bad.push(`② ${k} で座標変換の加速度が不変でない(${C[k] && C[k].accelRel})`);
+      }
+      if (!(C.fieldTime && C.fieldTime.residVsMovingFD >= 1e-3)) bad.push('② fieldTime だけで差分に合ってしまう(見分けられない配置)');
+      if (!a.distinguishable) bad.push('② toy の配置で (V·∇)u が立っていない');
+      cases.push(`代数 ${alg.maxRel.toExponential(1)}・差分の恒等式 ${a.identityFD.toExponential(1)}・advected/fieldTime+移流の残差 `
+        + `${C.advected.residVsMovingFD.toExponential(1)}/${C['fieldTime+advection'].residVsMovingFD.toExponential(1)}・`
+        + `fieldTime だけ ${C.fieldTime.residVsMovingFD.toExponential(2)}`);
+      const b = L.advectionFDCheck([], toyBg, [0, 0], V, o);
+      const pointBg = { W0: 1, A0: [0, 0.8], gradW: [-0.2, 0.05], gradA: [0, 0, -0.16, 0.04], dWdt: -0.04, dAdt: [0, -0.032] };
+      const c = L.advectionFDCheck([], pointBg, [0, 0], V, o);
+      if (!b.distinguishable) bad.push('③ 一般の線形背景だけで見分けられない(実測が変わった)');
+      if (c.distinguishable) bad.push('③ 点源形の背景だけで見分けられてしまう(∇u≡0 のはず)');
+      cases.push(`背景だけ: 一般の線形背景は見分けられる=${b.distinguishable}・点源形は |(V·∇)u|/参照率 `
+        + `${c.VgradUOverRateRef.toExponential(1)} で見分けられない`);
+      const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'bgequiv-w278d.json'), 'utf8'));
+      const pc = (J.advection || []).find((z) => String(z.config).startsWith('❄️'));
+      if (!pc) bad.push('④ 正本 JSON に ❄️ の移流行が無い');
+      else {
+        if (!(pc.conventions['fieldTime+advection'].residVsMovingFD <= 1e-9)) bad.push('④ ❄️ で fieldTime+移流 が差分に合わない');
+        if (!pc.distinguishable) bad.push('④ ❄️ の配置で (V·∇)u が立っていない');
+        cases.push(`❄️ fieldTime+移流の残差 ${pc.conventions['fieldTime+advection'].residVsMovingFD.toExponential(1)}・`
+          + `fieldTime だけ ${pc.conventions.fieldTime.residVsMovingFD.toExponential(2)}`);
+      }
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const at = P.indexOf('〔第278便d');
+      const sec = at >= 0 ? P.slice(at, at + 40000) : '';
+      if (at < 0) bad.push('⑤ PHYSICS に〔第278便d〕節が無い');
+      else if (sec.indexOf('fieldTime + 移流 = advected') < 0 || sec.indexOf('fieldTime を禁止しない') < 0)
+        bad.push('⑤ PHYSICS〔第278便d〕に「fieldTime + 移流 = advected」「fieldTime を禁止しない」が無い');
+      cases.push('PHYSICS〔第278便d〕と一致');
+    } catch (e) { bad.push('純関数/正本が読めない: ' + String(e).slice(0, 90)); }
+    add('docs.comovingAdvection', bad.length === 0,
+      `**移流項の一貫性**(第278便d・統括の読み R56 ③「advected は物質微分・fieldTime は偏微分 —— 両者を結ぶ`
+      + `移流項を一貫して扱う。fieldTime を禁止にはしない」): ${cases.join(' / ')} —— `
+      + `**規約を混ぜる(背景だけ fieldTime・局所源は共動系の偏微分)と座標変換の加速度が不変でなくなる**。`
+      + `fieldTime は**背景と局所源の両方に同じ規約で使えば**整合し、共動系の物質微分へは移流項を足して戻す`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
@@ -32541,6 +32743,165 @@ if (!FAST) {
       `恒星間距離=${bi.sep.toFixed(1)}(60〜350) 円盤残存=${bi.keep}/${bi.free}(≥95%) NaN=${bi.nan}`);
   } else {
     console.log('SKIP 第26便系(groups.reorder / ai.base-context / overlay.minimize / bodyedit.minimize / behavior.binary — 対象にベースサンプルUIなし)');
+  }
+}
+
+// ---- 7n′) 第278便d(統括の読み R56): preset.backgroundTidal ----
+// ----   **潮汐テンソル T** の宣言専用鍵 `physics.backgroundTidal`(backgroundComplex とは**別鍵**・単位 1/s²)。
+// ----   固定するのは 8 点:
+// ----     ① 受理: 2×2・3×3・0 行列・note つき・未宣言(null)は「未確定」
+// ----     ② 拒否: 非対称・非有限・次元違い(1×1/4×4)・行の長さ違い・平坦な配列・文字列成分・単位違い
+// ----        (**"1/s" はメッシュ速度勾配 J の単位で別物**)・T/unit/frame/epoch/source の欠落・空文字・長すぎる note・
+// ----        知らない鍵(W0 等 —— 背景の重みは backgroundComplex)・配列そのもの
+// ----     ③ `backgroundComplex` の中へ T/tidal/tidalTensor/backgroundTidal を入れると拒否(**別鍵の分離を両方向で守る**)
+// ----     ④ 検証器ごし: 未宣言は physics に入らない(署名不変)・宣言は保存・再検証で冪等・宣言すると presetSig が変わる
+// ----     ⑤ **内蔵の宣言 0 本**
+// ----     ⑥ **力学に 1 bit も効かない**(3 体 2000 步の状態突合)
+// ----     ⑦ **読み口 0**: html の潰した写し(コメント・文字列・正規表現を空白へ)で識別子
+// ----        BG_TIDAL_*/validateBackgroundTidal/backgroundTidal の出現が、定数の宣言(と HP の書き出し)・
+// ----        検証器・検証器の分岐・backgroundComplex の入れ子拒否の外に無い(`docs.d0sites-sync` ⑤ と同型)
+// ----     ⑧ 純関数 `normalizeTidal`(tests/lib-w278d-bgequiv.mjs)と**同じ判定**(アプリと純関数で契約を揃える)
+// ----   **root は SKIP**(世代判定は HP.validateBackgroundTidal の有無)。
+{
+  const btGen = await page.evaluate(() => !!(window.HP && typeof HP.validateBackgroundTidal === 'function'));
+  if (!btGen) {
+    console.log('SKIP preset.backgroundTidal(第278便d 未適用 — 対象に BG_TIDAL_KEY なし・root は v1.44.0 RC)');
+  } else {
+    const bad = [];
+    const cases = [];
+    const OK2 = { T: [[1.2881435513714005e-18, 0], [0, -6.440717756857003e-19]], unit: '1/s^2', frame: 'sample-xy',
+      epoch: 'JD 2452600.5', source: '太陽の点質量 GM/r³(冥王星の軌道距離)' };
+    const mod = (k, v) => { const o = JSON.parse(JSON.stringify(OK2)); if (v === undefined) delete o[k]; else o[k] = v; return o; };
+    // [名前, 宣言, 期待(受理=true)]
+    const TC = [
+      ['ok2', OK2, true],
+      ['ok3', { T: [[1, 0, 0], [0, 1, 0], [0, 0, -2]], unit: '1/s^2', frame: 'icrs', epoch: 'J2000', source: 's', note: '3×3' }, true],
+      ['zero', mod('T', [[0, 0], [0, 0]]), true],
+      ['none', null, true],
+      ['asym', mod('T', [[1, 2], [2.0000001, 1]]), false],
+      ['nan', mod('T', [[1, NaN], [NaN, 1]]), false],
+      ['inf', mod('T', [[Infinity, 0], [0, 1]]), false],
+      ['dim1', mod('T', [[1]]), false],
+      ['dim4', mod('T', [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]), false],
+      ['ragged', mod('T', [[1, 0], [0]]), false],
+      ['flat', mod('T', [1, 0, 0, 1]), false],
+      ['stringEntry', mod('T', [['1', 0], [0, 1]]), false],
+      ['unitJ', mod('unit', '1/s'), false],
+      ['unitSample', mod('unit', '1/T^2'), false],
+      ['noT', mod('T'), false],
+      ['noUnit', mod('unit'), false],
+      ['noFrame', mod('frame'), false],
+      ['noEpoch', mod('epoch'), false],
+      ['noSource', mod('source'), false],
+      ['emptySource', mod('source', ''), false],
+      ['longNote', Object.assign(mod('note', 'x'.repeat(201))), false],
+      ['extraW0', Object.assign(JSON.parse(JSON.stringify(OK2)), { W0: 1 }), false],
+      ['array', [OK2], false],
+    ];
+    const r = await page.evaluate((TCa) => {
+      const res = {};
+      res.unit = HP.BG_TIDAL_UNIT; res.dims = HP.BG_TIDAL_DIMS; res.required = HP.BG_TIDAL_REQUIRED;
+      res.nested = HP.BG_TIDAL_NESTED; res.key = HP.BG_TIDAL_KEY;
+      res.cases = TCa.map(([n, v]) => { const z = HP.validateBackgroundTidal(v); return [n, z.ok, z.ok ? z.backgroundTidal : null]; });
+      // ③ backgroundComplex の中へ入れると拒否
+      const FULL = { background: 'heliocentric', W0: 5.7e-9, A0: [2.7e-9, 0], gradW: [1e-12, 0],
+        gradA: [1e-13, 0, 0, 0], dWdt: 1e-14, dAdt: [1e-15, 0] };
+      res.bgcFullOk = HP.validateBackgroundComplex(FULL).ok;
+      res.nestedReject = {};
+      for (const k of (HP.BG_TIDAL_NESTED || [])) {
+        const o = JSON.parse(JSON.stringify(FULL)); o[k] = [[1, 0], [0, 1]];
+        res.nestedReject[k] = HP.validateBackgroundComplex(o).ok;       // 期待 false
+      }
+      // ④ 検証器ごし
+      const mk = (phy, cls) => {
+        const o = { name: 't', description: 'd', camera: { scale: 200 }, world: { boundary: 'none', size: 0 }, physics: phy,
+          bodies: [{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] };
+        if (cls) o.sampleClass = cls; return o;
+      };
+      const DECL = TCa[0][1];
+      const wPlain = HP.validatePreset(mk({ D0: 0.006 }, 'calibration'));
+      const wDecl = HP.validatePreset(mk({ D0: 0.006, backgroundTidal: DECL }, 'calibration'));
+      const wBad = HP.validatePreset(mk({ D0: 0.006, backgroundTidal: Object.assign({}, DECL, { unit: '1/s' }) }, 'calibration'));
+      res.preset = { plainOk: wPlain.ok, declOk: wDecl.ok, badOk: wBad.ok,
+        plainHasKey: wPlain.ok ? (wPlain.preset.physics.backgroundTidal !== undefined) : null,
+        declKept: wDecl.ok ? JSON.stringify(wDecl.preset.physics.backgroundTidal) : null,
+        idempotent: wDecl.ok ? (JSON.stringify(HP.validatePreset(JSON.parse(JSON.stringify(wDecl.preset)))
+          .preset.physics.backgroundTidal) === JSON.stringify(wDecl.preset.physics.backgroundTidal)) : null };
+      res.sigDiff = presetSig(mk({ D0: 0.006 }, 'principle')) !== presetSig(mk({ D0: 0.006, backgroundTidal: DECL }, 'principle'));
+      // ⑤ 内蔵の宣言
+      const bis = HP.allPresets().filter(p => !String(p.id).startsWith('custom_'));
+      res.nBuiltins = bis.length;
+      res.declaredBuiltins = bis.filter(p => p.physics && p.physics.backgroundTidal !== undefined).map(p => p.id);
+      // ⑥ 力学に 1 bit も効かない
+      const prevId = HP.currentPreset() ? HP.currentPreset().id : null;
+      const build = (phy) => {
+        const v2 = HP.validatePreset({ name: 'd', description: 'd', camera: { scale: 200 },
+          world: { boundary: 'none', size: 0 }, physics: phy, seed: 7,
+          bodies: [{ type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false },
+            { type: 'single', m: 1, x: 120, y: 0, vx: 0, vy: 0.9, spin: 0, pinned: false },
+            { type: 'single', m: 1, x: -90, y: 40, vx: 0.1, vy: -0.8, spin: 0, pinned: false }] });
+        HP.sim.build(v2.preset);
+        const S = HP.sim;
+        for (let i = 0; i < 2000; i++) S.step(0.016);
+        const o = [];
+        for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i], S.spin[i]);
+        return o;
+      };
+      const aS = build({ D0: 0.006, kFrame: 1 });
+      const bS = build({ D0: 0.006, kFrame: 1, backgroundTidal: DECL });
+      res.inert = { n: aS.length, steps: 2000, same: aS.length === bS.length && aS.every((z, i) => z === bS[i]),
+        maxAbs: Math.max(...aS.map((z, i) => Math.abs(z - bS[i]))) };
+      if (prevId) { try { HP.loadPreset(prevId, false); } catch (e) { /* 表示の戻しだけ */ } }
+      return res;
+    }, TC);
+    // ①② 期待どおりか・⑧ 純関数と同じ判定か
+    let libAgree = 0;
+    try {
+      const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w278d-bgequiv.mjs'));
+      for (let i = 0; i < TC.length; i++) {
+        const [name, decl, want] = TC[i];
+        const [, got, val] = r.cases[i];
+        if (got !== want) bad.push(`①② ${name}: 受理=${got}(期待 ${want})`);
+        const lib = L.normalizeTidal(decl);
+        if (lib.ok === got && (!got || JSON.stringify(lib.value) === JSON.stringify(val))) libAgree++;
+        else bad.push(`⑧ ${name}: 純関数 ${lib.ok} ≠ アプリ ${got}`);
+      }
+      if (L.TIDAL_UNIT !== r.unit) bad.push('⑧ 単位の宣言が純関数と違う');
+    } catch (e) { bad.push('⑧ 純関数が読めない: ' + String(e).slice(0, 80)); }
+    cases.push(`受理/拒否 ${TC.length} 件が期待どおり・純関数と一致 ${libAgree}/${TC.length}`);
+    if (r.unit !== '1/s^2') bad.push(`② 単位の宣言が "1/s^2" でない(${r.unit})`);
+    if (!r.bgcFullOk) bad.push('③ backgroundComplex の正しい宣言が拒否された(対照が壊れている)');
+    for (const [k, ok] of Object.entries(r.nestedReject)) if (ok !== false) bad.push(`③ backgroundComplex の中の ${k} が受理された`);
+    if (Object.keys(r.nestedReject).length < 4) bad.push('③ 入れ子拒否の鍵が 4 つ無い');
+    cases.push(`backgroundComplex の中の ${Object.keys(r.nestedReject).join('/')} は拒否`);
+    const P = r.preset;
+    if (!(P.plainOk && P.declOk && P.badOk === false && P.plainHasKey === false && P.idempotent === true))
+      bad.push('④ 検証器ごしの契約が崩れている: ' + JSON.stringify(P).slice(0, 120));
+    if (r.sigDiff !== true) bad.push('④ 宣言しても presetSig が変わらない');
+    cases.push(`検証器: 未宣言は physics に入らない(署名不変)・宣言は保存・冪等・宣言すると署名が変わる=${r.sigDiff}`);
+    if (r.declaredBuiltins.length !== 0) bad.push('⑤ 内蔵が宣言している: ' + r.declaredBuiltins.join(','));
+    cases.push(`**内蔵 ${r.nBuiltins} 本の宣言 ${r.declaredBuiltins.length} 本**`);
+    if (r.inert.same !== true) bad.push(`⑥ 宣言で力学が動いた(最大差 ${r.inert.maxAbs})`);
+    cases.push(`力学に 1 bit も効かない=${r.inert.same}(3 体・${r.inert.steps} 步・${r.inert.n} 量)`);
+    // ⑦ 読み口 0
+    try {
+      const A = await import('file://' + path.join(ROOT, 'tests', 'lib-w278d-readaudit.mjs'));
+      const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+      const au = A.auditTokenSites(html, /\b(BG_TIDAL_[A-Z_]+|validateBackgroundTidal|backgroundTidal)\b/g,
+        ['(top-level)', 'validateBackgroundTidal', 'validatePreset', 'validateBackgroundComplex']);
+      if (!au.selfCheck.ok) bad.push('⑦ 潰しの自己検査が通らない(' + JSON.stringify(au.selfCheck) + ')');
+      if (au.outsideAllowed.length) bad.push('⑦ 検証器の外から読まれている: ' + au.outsideAllowed.join(','));
+      const inBgc = au.sites.filter((z) => z.fn === 'validateBackgroundComplex').map((z) => z.token);
+      if (inBgc.some((t) => t !== 'BG_TIDAL_NESTED')) bad.push('⑦ backgroundComplex の検証器が入れ子拒否以外で読んでいる');
+      cases.push(`読み口 ${au.sites.length} 箇所・関数 ${au.functions.join('/')}・**許可の外 ${au.outsideAllowed.length}**`
+        + `(潰しの収支 0=${au.selfCheck.ok})`);
+    } catch (e) { bad.push('⑦ 読み口監査が走らない: ' + String(e).slice(0, 80)); }
+    add('preset.backgroundTidal', bad.length === 0,
+      `**潮汐テンソル T の宣言専用鍵**(第278便d・統括の読み R56「T は**別鍵** physics.backgroundTidal —— 宣言専用・`
+      + `対称 2×2/3×3・単位 T⁻²・メッシュ速度勾配 J〔T⁻¹〕とは別物」): ${cases.join(' / ')} —— `
+      + `**backgroundComplex の中には入れない**(W₀・A₀ は重み付き平均の量、T はポテンシャルのヘッセ行列で次元も役割も違う)。`
+      + `**力学への接続はしていない**(AL17 の順で裁定)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
 
