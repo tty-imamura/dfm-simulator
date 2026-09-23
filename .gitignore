@@ -635,3 +635,8 @@ _scratch-*.log
 #   突き合わせ、`lint.provenanceMeta` が来歴を固定するのでコミットする。**「背景を無視してよいことを証明した」とは書かない。**
 !tests/out/bgcompose-w279c.json
 !tests/out/bgbudget2-w279c.json
+# 第279便a(原仮定者の裁定(第69報)「各サンプルの状況確認」・統括の読み R59/R60): **内蔵 133 本の status(目的・状況・
+#   較正・合わない量・見込み・根拠)と概要の正本**(tests/exp-w279a-samplestatus.mjs)。較正の語・合わない量・見込みは
+#   calaudit-w249.json / charonwin-w278b.json から機械で作る。QA docs.sampleStatus-sync が docs/SAMPLE_STATUS_v1.45.md と
+#   html の生成領域 sample-status と突き合わせ、lint.provenanceMeta が来歴を固定するのでコミットする。**判定はしない**(台帳の転記)。
+!tests/out/samplestatus-w279a.json

@@ -1997,6 +1997,9 @@ const add = (id, pass, detail) => {
       // 第278便c(統括の検証項目 R55): pairSlip の符号修正の影響範囲(html の 2D 実装をソースの文字列で評価して
       //   突き合わせる —— target=beta/index.html)と、H6 の共役変数模型(**エンジン未接続** —— target は lib 自身)
       'tests/out/slipaudit-w278c.json', 'tests/out/nsmode-w278c.json',
+      // 第279便a(第69報「各サンプルの状況確認」・R60): 内蔵 133 本の status と概要・一覧 md の生成物の正本
+      //   (target=beta/index.html —— 生成領域 sample-status を書いた後の html。inputs に原稿・calaudit・charonwin・一覧 md)
+      'tests/out/samplestatus-w279a.json',
       // 第279便c(第69報・R62/R63): 背景の閾値なし合成と速度分解 RHS の検算(target=beta/index.html —— 純関数を
       //   html のソースから取り出す)/ 新契約での背景の誤差予算(純関数の積分 + エンジンの診断コピー)
       'tests/out/bgcompose-w279c.json', 'tests/out/bgbudget2-w279c.json'];
@@ -4319,6 +4322,15 @@ const add = (id, pass, detail) => {
       }
     }
     if (md.indexOf('### 5.25 ') < 0) bad.push('④§5.25(第277便a の転写便の節)が無い');
+    // 第279便a: 生成物の一覧 docs/SAMPLE_STATUS_v1.45.md にも同じ禁止語を掛ける(全行 —— 否定文でも書かない)
+    const ssPath = path.join(ROOT, 'docs', 'SAMPLE_STATUS_v1.45.md');
+    if (fs.existsSync(ssPath)) {
+      for (const line of fs.readFileSync(ssPath, 'utf8').split('\n')) {
+        const bare = line.replace(/[「『][^」』]*[」』]/g, '');
+        if (/判定が増えた|較正を完了|D68 が合\(3σ\)|カロンが合|較正した|kF0 版が成立した|引きずりが完全に消えていることを確認/.test(bare))
+          bad.push(`⑤禁止語(SAMPLE_STATUS): ${line.slice(0, 40)}`);
+      }
+    }
   } catch (e) { bad.push('4 値の履歴が読めない: ' + String(e).slice(0, 90)); }
   add('docs.fourValuesHistory', bad.length === 0,
     `**4 値の履歴**(第270便a・署名便): 本便は既定経路の結果が動く便なので、`
@@ -4329,6 +4341,63 @@ const add = (id, pass, detail) => {
     + `履歴には commit・入力 CSV の SHA・宣言版・理由が付く(数字だけを残さない)/ `
     + `**「判定が増えた」「較正を完了した」とは書かない**`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 第279便a(原仮定者の裁定(第69報)「各サンプルについて目的と状況を一覧化する」・R60): docs.sampleStatus-sync ----
+// ----   一覧 docs/SAMPLE_STATUS_v1.45.md(生成物)と、html の生成領域 sample-status(表)と、正本
+// ----   tests/out/samplestatus-w279a.json の 3 者が一致することを fs だけで固定する:
+// ----     ① md の表の行数 = html の表の行数 = 正本 rows の数(= 内蔵本数)・ID の集合が同じ。
+// ----     ② md の各行の較正の語 = html の表の calibration の語(4 値の正式語・判定保留(量定義不一致)・較正対象外)。
+// ----     ③ md の集計行(状況 達/部分/未達・4 値・判定保留・較正対象外)= 正本の tally = html の表から数え直した値。
+// ----     ④ 正本の status が html の表と 1 字も違わない(表を手で直すと食い違う)。
+// ----     ⑤ md に禁止語が無い(否定文でも書かない)。
+// ----   **対象 html に生成領域 sample-status が無ければ SKIP**(root 等の旧世代)。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (html.indexOf('// >>> w275a-generated: sample-status') < 0) {
+    console.log('SKIP docs.sampleStatus-sync(対象 html に第279便a の生成領域 sample-status なし — root 等)');
+  } else {
+    const bad = [];
+    let nMd = 0, nHtml = 0, nCanon = 0, tl = null;
+    try {
+      const SS = await import('file://' + path.join(ROOT, 'tests', 'lib-w279a-samplestatus.mjs'));
+      const reg = SS.parseRegion(html);
+      if (!reg) throw new Error('生成領域が読めない');
+      const T = reg.table;
+      nHtml = Object.keys(T).length;
+      const md = fs.readFileSync(path.join(ROOT, 'docs', 'SAMPLE_STATUS_v1.45.md'), 'utf8');
+      const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'samplestatus-w279a.json'), 'utf8'));
+      const rows = SS.parseMdRows(md);
+      nMd = rows.length; nCanon = (J.rows || []).length;
+      if (!(nMd === nHtml && nHtml === nCanon)) bad.push(`①行数 md ${nMd}・html ${nHtml}・正本 ${nCanon}`);
+      const idsMd = new Set(rows.map((z) => z.id));
+      for (const id of Object.keys(T)) if (!idsMd.has(id)) bad.push('①md に無い ' + id);
+      for (const z of rows) {
+        if (!T[z.id]) { bad.push('①html に無い ' + z.id); continue; }
+        if (z.cal !== SS.CAL_WORD.ja[T[z.id].calibration]) bad.push(`②${z.id}: md「${z.cal}」≠ html ${T[z.id].calibration}`);
+      }
+      tl = SS.tally(T, []);
+      const jt = J.tally || {};
+      const eqo = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+      if (!eqo(jt.objective, tl.objective)) bad.push('③正本 tally.objective ≠ html');
+      if (!eqo(jt.four, tl.four)) bad.push('③正本 tally.four ≠ html');
+      if (!eqo(jt.calibration, tl.calibration)) bad.push('③正本 tally.calibration ≠ html');
+      const want = `状況: **達 ${tl.objective.met}・部分 ${tl.objective.partial}・未達 ${tl.objective.unmet}・対象外 ${tl.objective['n/a']}**`;
+      if (md.indexOf(want) < 0) bad.push('③md の状況の集計行 ≠ html');
+      const want4 = `**${tl.four['合']}/${tl.four['量限定合']}/${tl.four['否']}/${tl.four['保留']}**(台帳の転記)・判定保留(量定義不一致)**${tl.calibration['hold-definition']}**・較正対象外 **${tl.calibration['out-of-scope']}**`;
+      if (md.indexOf(want4) < 0) bad.push('③md の較正の集計行 ≠ html');
+      for (const z of J.rows || []) if (JSON.stringify(z.status) !== JSON.stringify(T[z.id])) bad.push('④正本の status ≠ html ' + z.id);
+      for (const line of md.split('\n')) {
+        const bare = line.replace(/[「『][^」』]*[」』]/g, '');
+        if (SS.FORBIDDEN.test(bare)) bad.push('⑤禁止語: ' + line.slice(0, 40));
+      }
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 90)); }
+    add('docs.sampleStatus-sync', bad.length === 0,
+      `**サンプル状況一覧 ↔ html ↔ 正本**(第279便a): 行数 md ${nMd}・html ${nHtml}・正本 ${nCanon}` +
+      (tl ? ` / 状況 達 ${tl.objective.met}・部分 ${tl.objective.partial}・未達 ${tl.objective.unmet} / 4 値 ${Object.values(tl.four).join('/')}` +
+        `・判定保留(量定義不一致)${tl.calibration['hold-definition']}・較正対象外 ${tl.calibration['out-of-scope']}` : '') +
+      (bad.length ? ` / **食い違い ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ' / 3 者一致・禁止語 0'));
+  }
 }
 
 // ---- 0a3s) 第271便a(第61報・R3): docs.assessedStageH4 ----
@@ -10124,7 +10193,7 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
       };
       const MASSW = /\.(m|mMin|mMax|aroundMass) を値域に修正$/;
       const ng = [], dsNg = [], massNg = [], bit0Ng = [], bit400Ng = [];
-      let total = 0, nDS = 0, n400 = 0;
+      let total = 0, nDS = 0, n400 = 0, nST = 0;
       for (const p of HP.allPresets()) {
         if (String(p.id).startsWith('custom_')) continue;
         total++;
@@ -10135,6 +10204,13 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
           nDS++;
           if (!dsEq(p.descStruct, v.preset.descStruct)) dsNg.push(p.id + ':ja');
           if (p.en && !dsEq(p.en.descStruct, v.preset.en && v.preset.en.descStruct)) dsNg.push(p.id + ':en');
+        }
+        // 第279便a: status(サンプルの状況 — 表示専用の宣言)も往復で一字一句保たれること(ja/en)
+        if (p.status || (p.en && p.en.status)) {
+          nST++;
+          if (JSON.stringify(p.status || null) !== JSON.stringify(v.preset.status || null)) dsNg.push(p.id + ':status');
+          if (p.en && JSON.stringify(p.en.status || null) !== JSON.stringify((v.preset.en || {}).status || null))
+            dsNg.push(p.id + ':en.status');
         }
         // 質量クランプ発動 0
         for (const w of (v.warnings || [])) if (MASSW.test(w)) massNg.push(p.id + ':' + w);
@@ -10167,7 +10243,7 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
           vMass.warnings.some((w) => /^bodies\[0\]\.m を値域に修正$/.test(w))
       };
       HP.loadPreset('saturn', false);
-      return { total, nDS, n400, ng, dsNg, massNg, bit0Ng, bit400Ng, caps };
+      return { total, nDS, nST, n400, ng, dsNg, massNg, bit0Ng, bit400Ng, caps };
     }, { fast: FAST, sample: FAST_SAMPLE });
     const capsOk = Object.values(r.caps).every(Boolean);
     add('preset.roundtrip-builtins',
@@ -10175,7 +10251,7 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
       r.bit0Ng.length === 0 && r.bit400Ng.length === 0 && capsOk,
       `内蔵${r.total}件のエクスポートJSON往復(stringify→parse→validatePreset→build)/ ` +
       `致命エラー=[${r.ng.slice(0, 3).join(' ')}](0件)/ ` +
-      `descStruct 保全 ${r.nDS}件=[${r.dsNg.slice(0, 3).join(' ')}](喪失0件)/ ` +
+      `descStruct 保全 ${r.nDS}件・status 保全 ${r.nST}件(第279便a)=[${r.dsNg.slice(0, 3).join(' ')}](喪失0件)/ ` +
       `質量クランプ発動=[${r.massNg.slice(0, 3).join(' ')}](0件)/ ` +
       `bit一致(往復build vs 直接build)t=0 のみ ${r.total - r.n400}件=[${r.bit0Ng.slice(0, 3).join(' ')}](0件)・` +
       `t=0+400步 ${r.n400}件(${FAST ? 'QA_FAST=代表' : 'フル=全件'})=[${r.bit400Ng.slice(0, 3).join(' ')}](0件)/ ` +
@@ -31803,6 +31879,130 @@ if (!FAST) {
   }
 }
 
+// ---- 第279便a(原仮定者の裁定(第69報)「各サンプルの状況確認」・統括の読み R59/R60): **サンプルの状況 status** ----
+// ----   preset.status … 受理契約(validatePreset が status/en.status を型検査して残す・列挙値の外は status ごと落とす・
+// ----     未宣言は素通り)と、内蔵 133 本の**宣言 133/133**・objective/calibration が列挙値・mismatch/outlook は
+// ----     文字列か null・evidence は空でない文字列配列・**根拠 ID が保存 QA(qa-results-full-beta.json)で PASS か
+// ----     tests/out/ の正本として存在する**・status が presetSig に入らない(表示専用)。
+// ----   preset.statusLedger-sync … 較正母集団 37 本の calibration・mismatch・outlook が**正本 calaudit-w249.json の
+// ----     verdictLedger から lib-w279a で作り直した値と 1 字も違わない**(手書きと正本が食い違えば FAIL)。⛄🌨️ は
+// ----     charonwin-w278b.json の比較値つき「判定保留(量定義不一致)」・それ以外は「較正対象外」で mismatch/outlook null。
+// ----     4 値の集計が台帳(fourValues.current.counts)と一致する。正本が無い環境は SKIP。
+// ----   **root 等(第279便a の HP.sampleStatusOf が無い)は SKIP**。
+{
+  const hasW279a = await page.evaluate(() => typeof (window.HP || {}).sampleStatusOf === 'function');
+  if (!hasW279a) {
+    console.log('SKIP preset.status / preset.statusLedger-sync(対象に第279便a の HP.sampleStatusOf なし — root 等)');
+  } else {
+    const SS = await import('file://' + path.join(ROOT, 'tests', 'lib-w279a-samplestatus.mjs'));
+    const r = await page.evaluate(() => {
+      const o = { rows: [], accept: {} };
+      for (const p of HP.allPresets()) {
+        if (String(p.id).startsWith('custom_')) continue;
+        o.rows.push({ id: p.id, status: p.status || null, enStatus: (p.en || {}).status || null,
+          sigHas: presetSig(p).indexOf('"status"') >= 0 || (p.status && presetSig(p).indexOf(p.status.purpose) >= 0) });
+      }
+      // 受理契約(合成プリセットで叩く)
+      const base = () => ({ name: 't', description: 'd', camera: { scale: 100 }, world: { boundary: 'none', size: 0 },
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      const ok = { purpose: 'p', objective: 'met', state: 's', calibration: 'out-of-scope', mismatch: null, outlook: null, evidence: ['x'] };
+      const v1 = HP.validatePreset(Object.assign(base(), { status: ok, en: { name: 't', status: { purpose: 'P', state: 'S', mismatch: null, outlook: null } } }));
+      const v2 = HP.validatePreset(Object.assign(base(), { status: Object.assign({}, ok, { objective: 'done' }) }));
+      const v3 = HP.validatePreset(Object.assign(base(), { status: Object.assign({}, ok, { calibration: '合' }) }));
+      const v4 = HP.validatePreset(Object.assign(base(), { status: Object.assign({}, ok, { evidence: 'x' }) }));
+      const v5 = HP.validatePreset(base());
+      const v6 = HP.validatePreset(Object.assign(base(), { status: Object.assign({}, ok, { mismatch: 3 }) }));
+      o.accept = {
+        keep: !!(v1.ok && v1.preset.status && v1.preset.status.objective === 'met' && v1.preset.en && v1.preset.en.status
+          && v1.preset.en.status.state === 'S'),
+        badObjective: !!(v2.ok && v2.preset.status === undefined && v2.warnings.some((w) => /objective/.test(w))),
+        badCalibration: !!(v3.ok && v3.preset.status === undefined && v3.warnings.some((w) => /calibration/.test(w))),
+        badEvidence: !!(v4.ok && v4.preset.status === undefined),
+        undeclared: !!(v5.ok && v5.preset.status === undefined && !v5.warnings.some((w) => /status/.test(w))),
+        badText: !!(v6.ok && v6.preset.status === undefined),
+      };
+      return o;
+    });
+    // ---- preset.status
+    let qaIds = null;
+    try {
+      const Q = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'qa-results-full-beta.json'), 'utf8'));
+      qaIds = new Set((Q.results || []).filter((z) => z.pass).map((z) => z.id));
+    } catch (e) { qaIds = null; }
+    const bad = [];
+    let nDecl = 0;
+    const obj = { met: 0, partial: 0, unmet: 0, 'n/a': 0 };
+    for (const row of r.rows) {
+      const st = row.status;
+      if (!st) { bad.push(row.id + ':未宣言'); continue; }
+      nDecl++;
+      if (SS.OBJECTIVES.indexOf(st.objective) < 0) bad.push(row.id + ':objective');
+      else obj[st.objective]++;
+      if (SS.CALIBRATIONS.indexOf(st.calibration) < 0) bad.push(row.id + ':calibration');
+      for (const k of ['mismatch', 'outlook']) if (!(st[k] === null || typeof st[k] === 'string')) bad.push(row.id + ':' + k);
+      if (!Array.isArray(st.evidence) || !st.evidence.length || st.evidence.some((e) => typeof e !== 'string')) bad.push(row.id + ':evidence');
+      else for (const e of st.evidence) {
+        if (/^tests\/out\//.test(e)) { if (!fs.existsSync(path.join(ROOT, e))) bad.push(row.id + ':正本なし ' + e); }
+        else if (qaIds && !qaIds.has(e)) bad.push(row.id + ':保存 QA で PASS でない ' + e);
+      }
+      if (!row.enStatus || typeof row.enStatus.purpose !== 'string' || typeof row.enStatus.state !== 'string') bad.push(row.id + ':en.status');
+      if (row.sigHas) bad.push(row.id + ':presetSig に status が入った');
+    }
+    const acc = r.accept;
+    const accOk = Object.values(acc).every(Boolean);
+    add('preset.status', bad.length === 0 && accOk && nDecl === r.rows.length && r.rows.length >= 133,
+      `**サンプルの状況 status**(第279便a・R60): 内蔵 ${r.rows.length} 本のうち宣言 ${nDecl} 本 / ` +
+      `objective 達 ${obj.met}・部分 ${obj.partial}・未達 ${obj.unmet}・対象外 ${obj['n/a']} / ` +
+      `根拠 ID の照合=${qaIds ? '保存 QA ' + qaIds.size + ' 件(PASS)' : '保存 QA 無し — 正本の存在だけ'} / ` +
+      `受理契約: 保持=${acc.keep}・objective 外=${acc.badObjective}・calibration 外=${acc.badCalibration}・` +
+      `evidence 非配列=${acc.badEvidence}・mismatch 非文字列=${acc.badText}・未宣言は素通り=${acc.undeclared} / ` +
+      `presetSig に入らない=${!r.rows.some((z) => z.sigHas)}` +
+      (bad.length ? ` / **NG ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    // ---- preset.statusLedger-sync
+    let C = null, W = null;
+    try {
+      C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+      W = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'charonwin-w278b.json'), 'utf8'));
+    } catch (e) { C = null; }
+    if (!C || !W) {
+      console.log('SKIP preset.statusLedger-sync(正本 calaudit-w249.json / charonwin-w278b.json が無い)');
+    } else {
+      const bad2 = [];
+      const ledgerIds = new Set(((C.verdictLedger || {}).rows || []).map((z) => z.id));
+      const cnt = { '合': 0, '量限定合': 0, '否': 0, '保留': 0 };
+      let nPop = 0, nHold = 0, nOut = 0;
+      for (const row of r.rows) {
+        const st = row.status; if (!st) continue;
+        const en = row.enStatus || {};
+        let want = null;
+        if (ledgerIds.has(row.id)) { want = SS.ledgerStatus(C, row.id); nPop++; }
+        else if (SS.HOLD_DEFINITION_ROWS[row.id]) { want = SS.holdDefinitionStatus(W, row.id); nHold++; }
+        if (want && want.error) { bad2.push(row.id + ':' + want.error); continue; }
+        if (want) {
+          if (st.calibration !== want.calibration) bad2.push(`${row.id}: calibration ${st.calibration} ≠ 正本 ${want.calibration}`);
+          const wm = want.mismatch || { ja: null, en: null }, wo = want.outlook || { ja: null, en: null };
+          if (st.mismatch !== wm.ja || en.mismatch !== wm.en) bad2.push(`${row.id}: mismatch ≠ 正本`);
+          if (st.outlook !== wo.ja || en.outlook !== wo.en) bad2.push(`${row.id}: outlook ≠ 正本`);
+          if (want.verdict4) cnt[want.verdict4]++;
+        } else {
+          nOut++;
+          if (st.calibration !== 'out-of-scope' || st.mismatch !== null || st.outlook !== null)
+            bad2.push(`${row.id}: 母集団外なのに較正対象外・null でない(${st.calibration})`);
+        }
+      }
+      for (const id of ledgerIds) if (!r.rows.some((z) => z.id === id)) bad2.push(`台帳の ${id} が内蔵に無い`);
+      const cur = ((C.fourValues || {}).current || {}).counts || {};
+      const fourOk = ['合', '量限定合', '否', '保留'].every((k) => cur[k] === cnt[k]);
+      if (!fourOk) bad2.push(`4 値 ${JSON.stringify(cnt)} ≠ fourValues.current ${JSON.stringify(cur)}`);
+      add('preset.statusLedger-sync', bad2.length === 0 && nPop === ledgerIds.size && nHold === 2,
+        `**status の較正欄 ↔ 正本**(第279便a・R60): 較正母集団 ${nPop}/${ledgerIds.size} 本の calibration・mismatch・outlook を` +
+        ` calaudit-w249.json の verdictLedger から lib-w279a で作り直して照合 / 4 値 ${cnt['合']}/${cnt['量限定合']}/${cnt['否']}/${cnt['保留']}` +
+        `(台帳 fourValues.current と一致=${fourOk})/ 判定保留(量定義不一致)${nHold} 本(charonwin の比較値)/ 較正対象外 ${nOut} 本(mismatch・outlook null)` +
+        (bad2.length ? ` / **食い違い ${bad2.length} 件**: ${bad2.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
 // ---- 第276便f(原仮定者の裁定(第66報)(5)「UI」5 件): 説明タブの並び・概要・畳み・
 // ---- 監査ビューの再タップ・広げた画面のはみ出し。**すべて表示専用**(物理・保存 JSON・
 // ---- presetSig・AI 仕様には 1 バイトも効かない)。世代判定は第276便f の実体の有無 ----
@@ -31923,7 +32123,10 @@ if (!FAST) {
     // --- ② 概要(brief)
     const rb = await page.evaluate(() => {
       const CAP = HP.DESC_BRIEF_CAP;
-      const o = { CAP, langs: {}, bad: [] };
+      // 第279便a: en の宣言の上限は DESC_BRIEF_CAP_EN(200)。旧世代(定数なし)は 120 のまま
+      const CAPL = { ja: CAP, en: HP.DESC_BRIEF_CAP_EN || CAP };
+      const hasW279a = typeof HP.sampleStatusOf === 'function';
+      const o = { CAP, CAPL, hasW279a, langs: {}, bad: [], w279: [] };
       for (const lang of ['ja', 'en']) {
         HP.setLang(lang);
         let declared = 0, extracted = 0, empty = 0, max = 0, min = 1e9, mid = [], unstable = [];
@@ -31936,7 +32139,10 @@ if (!FAST) {
           const src = HP.descBriefSource(p);
           if (src === 'declared') declared++; else if (src === 'extracted') extracted++;
           if (!b) { empty++; continue; }
-          if (b.length > CAP) o.bad.push(`${lang}:${p.id}:${b.length}字`);
+          if (b.length > CAPL[lang]) o.bad.push(`${lang}:${p.id}:${b.length}字`);
+          // 第279便a: 内蔵の概要と status を Node 側の lib で照合するために持ち帰る
+          if (hasW279a) o.w279.push({ lang, id: p.id, brief: b, src,
+            status: p.status || null, enStatus: (p.en || {}).status || null });
           max = Math.max(max, b.length); min = Math.min(min, b.length);
           // 文の途中で切れていないこと(「…」で終わるなら直前が文末記号)
           if (b.endsWith('…') && !/[。．.！？!?][」』）)\]】〕]?$/.test(b.slice(0, -1))) mid.push(p.id);
@@ -31966,11 +32172,42 @@ if (!FAST) {
         heads: document.querySelectorAll('#helpBody .descSectHead').length,
         text: (document.querySelector('#helpBody #descBrief') || {}).textContent || '',
         src: (document.querySelector('#helpBody #descBrief') || { dataset: {} }).dataset.src };
+      // 第279便a: 状態チップ(概要の直後・aria-label・区分見出しは増えない)
+      if (hasW279a) {
+        const box = document.querySelector('#helpBody #descStatus');
+        const bEl = document.querySelector('#helpBody #descBrief');
+        o.chips = { shown: !!box, n: box ? box.querySelectorAll('.stChip').length : 0,
+          aria: box ? box.getAttribute('aria-label') : null,
+          afterBrief: !!(box && bEl && bEl.nextElementSibling === box),
+          text: box ? box.textContent : '' };
+      }
       HP.loadPreset('saturn', false);
       return o;
     });
     const ruleOk = Object.values(rb.rule).every(Boolean);
-    const ok2 = rb.bad.length === 0 && ruleOk && rb.sigClean && rb.descClean
+    // 第279便a(第69報・R59): 内蔵 133 本は ja/en とも**宣言の概要 133/133**・1 行 3 節・較正節の語 = status.calibration・
+    //   概要 = status から組み立てた文(lib-w279a の composeBrief)・禁止語 0。旧世代(root 等)は判定子なしで素通り
+    const w279 = { n: 0, notDeclared: [], clauses: [], calWord: [], composed: [], forbidden: [], noStatus: [] };
+    if (rb.hasW279a) {
+      const SS = await import('file://' + path.join(ROOT, 'tests', 'lib-w279a-samplestatus.mjs'));
+      for (const r of rb.w279) {
+        w279.n++;
+        const tag = r.lang + ':' + r.id;
+        if (r.src !== 'declared') { w279.notDeclared.push(tag); continue; }
+        if (!r.status) { w279.noStatus.push(tag); continue; }
+        const parts = SS.splitBrief(r.brief, r.lang);
+        if (parts.length !== 3) { w279.clauses.push(tag + '(' + parts.length + '節)'); continue; }
+        if (SS.calWordOfClause(parts[2], r.lang) !== r.status.calibration) w279.calWord.push(tag);
+        const st = Object.assign({}, r.status, { en: r.enStatus || {} });
+        if (SS.composeBrief(st, r.lang) !== r.brief) w279.composed.push(tag);
+        if (SS.FORBIDDEN.test(r.brief)) w279.forbidden.push(tag);
+      }
+    }
+    const w279ok = !rb.hasW279a || (['ja', 'en'].every((L) => rb.langs[L].declared === rb.langs[L].n)
+      && !w279.notDeclared.length && !w279.noStatus.length && !w279.clauses.length && !w279.calWord.length
+      && !w279.composed.length && !w279.forbidden.length
+      && rb.chips && rb.chips.shown && rb.chips.n >= 2 && rb.chips.afterBrief && !!rb.chips.aria);
+    const ok2 = rb.bad.length === 0 && ruleOk && rb.sigClean && rb.descClean && w279ok
       && rb.ui.shown && rb.ui.heads === 3 && rb.ui.text.length > 0 && rb.ui.text.length <= rb.CAP
       && ['ja', 'en'].every((L) => rb.langs[L].empty === 0 && rb.langs[L].mid.length === 0
         && rb.langs[L].unstable.length === 0 && rb.langs[L].n >= 100);
@@ -31982,7 +32219,18 @@ if (!FAST) {
       }).join(' / ') +
       ` / 超過=[${rb.bad.slice(0, 3).join(' ')}](0件)/ 抽出規則=${ruleOk}(${Object.keys(rb.rule).filter((k) => !rb.rule[k]).join(',') || 'すべて可'})` +
       ` / 宣言 ${rb.nDecl}本が presetSig に入らない=${rb.sigClean}・純分割 description 不変=${rb.descClean}` +
-      ` / 画面表示=${rb.ui.shown}(区分見出しは ${rb.ui.heads} のまま・出所 ${rb.ui.src}・${rb.ui.text.length}字)`);
+      ` / 画面表示=${rb.ui.shown}(区分見出しは ${rb.ui.heads} のまま・出所 ${rb.ui.src}・${rb.ui.text.length}字)` +
+      (rb.hasW279a
+        ? ` / **第279便a**: 上限 ja ${rb.CAPL.ja}・en ${rb.CAPL.en} / 宣言 ja ${rb.langs.ja.declared}/${rb.langs.ja.n}・en ${rb.langs.en.declared}/${rb.langs.en.n}` +
+          ` / 3 節の崩れ ${w279.clauses.length}・較正節の語 ≠ status ${w279.calWord.length}・status からの組み立て ≠ 概要 ${w279.composed.length}` +
+          `・status 無し ${w279.noStatus.length}・禁止語 ${w279.forbidden.length}(照合 ${w279.n} 件)` +
+          ` / 状態チップ=${rb.chips ? rb.chips.shown : false}(${rb.chips ? rb.chips.n : 0} 個・概要の直後=${rb.chips ? rb.chips.afterBrief : false}・aria「${rb.chips ? rb.chips.aria : ''}」)` +
+          ([].concat(w279.notDeclared, w279.clauses, w279.calWord, w279.composed, w279.forbidden).length
+            ? ' / NG: ' + [].concat(w279.notDeclared, w279.clauses, w279.calWord, w279.composed, w279.forbidden).slice(0, 5).join(' ') : '')
+        : ' / 第279便a の status なし(旧世代 — 宣言 133/133 の検査は素通り)'));
+
+    // --- ②b 第279便a(原仮定者の裁定(第69報)「各サンプルの状況確認」・統括の読み R60): preset.status /
+    //   preset.statusLedger-sync は下の独立ブロック(root 等の旧世代は SKIP)
 
     // --- ③ 並び(全内蔵掃引)
     const ro = await page.evaluate(() => {

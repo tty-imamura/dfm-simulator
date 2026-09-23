@@ -25100,20 +25100,66 @@ s₁ は 4 件とも 0。**ラベルの入れ替え対称性** pairSlip(−r,−
 **検証と否定結果。** bitsame **133/133**(`identical:true`・差 0・新規 0)・sigsame **133/133**・jitprobe の出力チェックサム 4 本とも基点と一致(galaxyGeo2 `3cfc4377` / bhCore `4df5bb5a` / galaxyMeshSpiral `392b13cf` / gw150914DFM `758f4d1c`・基点比 ×1.02 / ×1.01 / ×0.99 / ×0.91 は同一機の走行ゆらぎの幅)。新設 QA 5 本(`ui.landscapeWidth`・`ui.frontModals`・`ui.searchClear`・`ui.obscardIcon`・`ai.modelList`)は beta で PASS・root と基点 html で SKIP。既存 QA の固定値は 2 つ変えた —— `ui.hudUnderPanel` は手前のモーダル(position:fixed)になった 2 枚を検査対象から外す(旧世代は従来どおり 5 枚)、`ai.schema-validation` のフォールバック先の期待値は候補表の世代で `claude-opus-5` / `claude-opus-5-5` を切り替える。**未解決・決断事項候補**: ①幅は 1.5 倍ちょうどを採ったが、**1024×768 ではキャンバス 471px が右カラム 553px より狭く**、下限 900px では 414px になる(折り返し・はみ出しは 0 だが、キャンバスの見やすさは測っていない)②手前のモーダルになったので、監査ビューを開いたまま説明タブの導線ボタンを**再タップして閉じる操作は画面上ではできない**(ボタンが背景の下に入る —— ✕・Esc・背景タップで閉じる。導線のトグル自体は残っている)③背景クリックで閉じるかどうか・Esc を「サンプルを選ぶ」にも足したことは #ppModal への合わせ込みであり、変えるなら 3 枚そろえて変える ④アイコン 📇 は候補 ⑤Opus 5.5 の effort を明示するか、`max_tokens` 16000 の妥当性は実 API で測っていない ⑥採寸はヘッドレス Chromium だけで、実機・他ブラウザ・スクリーンリーダでは測っていない。
 
 **言わないこと。** 「UI を完成させた」「見やすくなった」「実機で確認した」「Opus 5.5 で生成に成功した」「判定が増えた」「較正した」「v1.45.0 RC を切った」。
+〔第279便a — 概要便: 内蔵 133 本の構造化した状態 `status`・専用の概要 133/133(1 行 3 節「目的。状況。較正。」)・サンプル状況一覧 `docs/SAMPLE_STATUS_v1.45.md`(**表示と宣言データだけ**・物理は 1 bit も動かさない)〕
 
-〔第279便e — 観測転写便2(天王星の 5 衛星の判定行を Jacobson 2014 の λ̇ 由来へ差し替え(AM7′)・σ の読み方の裁定 AN1・AN2・AN3・AM8′ を CSV へ写す)〕
+原仮定者の裁定(第69報)「各サンプルについて目的と状況を一覧化する(一覧の情報はサンプルの『概要』で利用する)」「『説明』タブの『概要』を全サンプルで専用に用意する(何が確認できるのか・何の数値が合わないのかを端的に)」と、AM6′ の第 1 段(禁止語 QA は残したまま、**構造化した状態を正とし表示文をそこから生成する**)に応える便である(統括の読み R59・R60)。触ったのは `beta/index.html` の生成領域 1 つ(`// >>> w275a-generated: sample-status` —— `lib-w275a-physsha` の数え方で物理コード領域の hash から外れる)・付与ループ・検証器の受理・概要の en 上限・説明タブの状態チップ・辞書(ja/en)・`HP` の読み口だけで、**`S._core` は 1 命令も増やしていない**・**内蔵 133 本は 600 歩の状態指紋も `presetSig` も基点(0624159)と完全一致**である。
 
-原仮定者の裁定(第69報)「**概ね同意**」で閉じた観測レコードの裁定を判定 CSV と台帳へ写す**転写だけの便**である。触ったのは `paper/data/solar-observations.csv`(**既存 24 行の note・うち 1 行の sigma 列 —— 行の追加 0**)・`paper/data/judgement-sources.json`(宣言 6 → **11** 件)・`paper/data/corrections.json`(台帳)・台帳の器 `tests/exp-w272e-corrections.mjs`(`kind` の語彙に `source-replacement`・`ruling`)・`tests/qa.mjs`。**html は 1 バイトも触っていない**(内蔵 133 本・署名・`S._core` 35197 字は定義上不変 —— bitsame/sigsame/jitprobe は本枝の対象外)。台帳の正本は CALIBRATION_VERDICT §5.31。
+**① 契約(`status` と `brief`)。** 各内蔵プリセットに `status:{purpose, objective, state, calibration, mismatch, outlook, evidence}`(ja)と `en.status:{purpose, state, mismatch, outlook}`(en の文だけ — 列挙値は ja 側を共有)を宣言する。`objective` ∈ {met 達・partial 部分・unmet 未達・n/a 対象外}、`calibration` ∈ {pass 合・pass-limited 量限定合・fail 否・hold 保留(**台帳 37 本の 4 値の正式語そのまま**)・hold-definition 判定保留(量定義不一致)(⛄🌨️ —— **第 5 の値ではない**母集団外の表示・AN5)・out-of-scope 較正対象外}、`mismatch`・`outlook` は文字列か null、`evidence` は保存 QA の ID か `tests/out/` の正本のパスの配列。`validatePreset` は型が合わない `status` を警告つきで落とし(`descStruct` と同じ方針)、未宣言は素通りする。**`presetSig` は物理・bodies 等の鍵しか直列化しないので `status` は署名に入らない**(sigsame 133/133 で実測)。概要 `descStruct.brief` は **status から機械的に組み立てた 1 行 3 節**である —— ja「`{purpose}。{達|部分|未達}・{state}。{較正節}。`」、en「`{purpose}. {Met|Partial|Unmet}: {state}. {Calibration…}.`」。較正節は ja「較正対象外」または「較正は{語}・{mismatch}・{outlook}」、en は "Out of calibration scope" または "Calibration: {word} — {mismatch}; {outlook}"。上限は ja 120 字(`DESC_BRIEF_CAP` 据え置き — 60 字の畳み見出し AM11 とは別物)・en 200 文字(新 `DESC_BRIEF_CAP_EN`。**機械抽出は従来どおり 120 字**)。**合否の語は門に入る本だけ**に付く(較正母集団外は「較正対象外」か「判定保留(量定義不一致)」)。
 
-**① AM7′: 天王星の 5 衛星の判定行。** 判定行の宣言を NSSDC Uranian Satellite Fact Sheet の周期(σ 無し)から、第278便a で置いた候補行 —— Jacobson 2014 AJ 148 76 Table 2 の λ̇ から `P=360/λ̇ d×86400 s` で作った `derived-in-record` の行 —— へ移した(ダイモス/フォボスと同じ形・**sigma は null**・`solution_id` は空欄)。新−旧: ミランダ **+0.035420 s**・アリエル **+0.015592 s**・ウンブリエル **+0.091339 s**・チタニア **+0.101413 s**・オベロン **+0.247509 s**。**ウンブリエル・チタニア・オベロンの差は NSSDC の印字桁(1e−6 d)の半幅 0.0432 s の 2.114・2.348・5.729 倍**で、NSSDC の値は Jacobson 2014 の λ̇ の丸めとしては説明できない(未解決・決断事項)。旧判定行は量名 `orbital_period` のまま `superseded_by=`・`superseded_on=2026-09-24` を持つ履歴の行として残る(量名を変えると record_id が変わるので `orbital_period_historical` への改名はしていない)。QA `docs.uranusSwap`。
+**② 生成の流れ(手で直さない欄を分ける)。** 原稿 `tests/data-w279a-samplestatus-src.json`(手書き: 目的・状況・根拠 ID)+ 正本 `tests/out/calaudit-w249.json`(verdictLedger の 4 値・代表量・欠け)・`tests/out/charonwin-w278b.json`(⛄🌨️ の比較値)→ 純関数 `tests/lib-w279a-samplestatus.mjs`(版 `w279a-1`)→ 器 `tests/exp-w279a-samplestatus.mjs` が html の生成領域・一覧 md・正本 `tests/out/samplestatus-w279a.json`(来歴 w272e-1・CANON 登録)を**同時に**書く。`calibration`・`mismatch`・`outlook` は**原稿に欄が無い**(正本からしか作れない)。規則: `mismatch` = 代表量が 3σ を外れていればその量の差 %(σ 倍)/ σ の無い本は、写像が確定していて目安判定が「否/窓」の量のうち |差%| 最大のもの(「σ なし」と明記)/ どれも無ければ null。`outlook` = 正本の数から決まる語だけ ——「σ 未接続」「数値未解決」「写像未確定」と、**門で否かつ代表量の刻み間差(`convergence.lastDiffInSigma`)が 1σ 未満**のときの「刻み間差 xσ・刻みでは縮まない」。器は ①根拠 ID が保存 QA(`qa-results-full-beta.json`)で PASS でない/正本が無い、②概要が上限超過、③禁止語、④ページで読んだ `p.status`・宣言の概要が表と 1 字でも違う —— のどれかで**何も書かずに止まる**(`--check` は書かずに照合だけ)。
 
-**② AN1・AN3・AN2・AM8′(どの行も判定量ではない)。** AN1: Brozović 2015 の系/冥王星/カロン GM の保守的な ± は sigma 列に印字のまま(`ruling=AN1`)。AN3: 2024 Table 8 の系 GM の sigma 列へ公表の ±0.2 km³/s²(= 2e8 m³/s²)を入れ、形式 1σ 0.09 は note の `formal_sigma=`(**二乗和しない**・`uncertainty_kind=published-inflated`)。AN2: Weaver 2016 Table 2 の周期 4 行に `source_status=secondary-transcription; primary_reference=(5) unresolved; confirmation_request=7`(出典は付け替えない)。AM8′: Chapront 2002 の 4 行に `stated_level=none`(formal errors を 1σ として読まない・sigma 列は空)。QA `docs.obsRulings69`。
+**③ なぜ 3 欄を分けるか。** 「保存 QA が通った」「サンプルの目的に達した」「観測との較正が成り立つ」は別の問いである。例: 🧲 `emAuditDFM` は**目的(較正窓の一致が長期に続くかを調べる)には達している**(長い窓で 20.77 年へずれることを `behavior.emAudit` が検出)が、**較正は保留**(σ 未接続・近点移動 +23.1% σ なし)。🥏 `shapeToyDisk` は保存 QA `docs.shapeToyCriteria` が PASS だが、その QA が**固定しているのは「形状トイの門で KS 比 1.330 が不合格」という結果**なので状況は**未達**。⚾🛷☕♾️💡 のように保存 QA が受理・構築・画像回帰しか測っていない本は、QA が PASS でも**部分**(「定量の門は無い」と状況に書く)。1 つの語にまとめると、どれか 2 つが必ず嘘になる。
 
-**③ 判定は動いていない。** 切断点 **106/26/3/4**(前後とも)・4 値 **0/2/2/33**・太陽系 **否 2・保留 14**・門 **合 2 / 否 2 / 数値未解決 34 / mapping-unresolved 15 / 条件不一致 0**(`--regate` で比較 —— σ の宛先 99・変化 0・印の反転 0。産物の差は 💠 の周期 6 量の σ の読み先が Jacobson 2014 の行へ移ったことと宣言の件数だけ。産物は戻した)。σ 接続器を再走し、5 衛星の宣言行は `appliedToJudgement:true`・判定は保留(σ が無い)。
+**④ 実測(器の出力・`tests/out/samplestatus-w279a.json`)。** 内蔵 **133 本・宣言 133/133**(ja/en とも `data-src=declared`)。状況 **達 77・部分 51・未達 5・対象外 0**(未達 = 🥏 shapeToyDisk・❄️ plutoCharonReal・🩻 psrDoubleABGeoToy・🛞 ngc3198DFM・📡 saturnZonalD68)。較正 4 値 **0/2/2/33**(台帳の転記 —— 本便で動いていない)・判定保留(量定義不一致)**2**・較正対象外 **94**。概要の最長 **ja 116 字・en 199 文字**。`predictionEligible` の合計 **0**(「刻みを細かくすれば合格」の証拠付き予測は 0 件 —— 概要・一覧もその予測を書かない)。群別: 🧭5 🌌17 🪐18 ⏱️5 💡5 🌡️12 📦10 🌗10 ☀️21 ⭐19 🔭11 ⚗️0 🖥️0 📏0。較正母集団 37 本 + ⛄🌨️ の生成結果:
 
-**④ 否定結果・未解決(そのまま残す)。** ① 判定へ届く印字 1σ は 1 本も増えていない(AN3 で sigma 列に入れたのは系 GM —— 門の宛先ではない)。② 門の器の宣言の件数(6 → 11)と中心値の移動は**通常走行で入る** —— 統合後の再走までは QA `docs.judgementSources` ④ が落ちる。③ CSV を入力に持つ正本のうちブラウザで走る `bh90-w269c`・`j1946adopt-w270c` の来歴刻印は統合後の再走で揃う(node の `nsgrid-w277c`・`plutostates-w277a` は本枝で再走 —— 刻印以外の差 0)。
+| サンプル | 較正 | 合わない量と差 | 精度見込み |
+| --- | --- | --- | --- |
+| 🌙 `earthMoonReal` | 保留 | — | σ 未接続 |
+| 🌘 `earthMoonRealKF1` | 保留 | 近点移動 +12.7%(σ なし) | σ 未接続 |
+| 🧲 `emAuditDFM` | 保留 | 近点移動 +23.1%(σ なし) | σ 未接続 |
+| 🔆 `emAuditSolar` | 保留 | — | σ 未接続 |
+| ☄️ `mercuryReal` | 保留 | 近点移動 −21.7%(6.2×10³σ) | 数値未解決 |
+| 🪨 `mercuryRealKF1` | 保留 | 近点移動 −21.8%(6.3×10³σ) | 数値未解決 |
+| 🌞 `solarInner` | 保留 | — | σ 未接続 |
+| 🟠 `jupiterGalilean` | 保留 | — | σ 未接続 |
+| 🌇 `venusReal` | 保留 | — | σ 未接続 |
+| 🥔 `marsMoonsReal` | 保留 | — | σ 未接続 |
+| ❄️ `plutoCharonReal` | 否 | 周期 +0.00138%(294σ) | 刻み間差 1×10⁻³σ・刻みでは縮まない・数値未解決・写像未確定 |
+| ⛄ `plutoCharonDFM` | 判定保留(量定義不一致) | 比較値 +31.6 s(Buie 2012 比・門ではない) | 量の定義が揃うまで門に入れない |
+| 🌨️ `plutoCharonKF0Control` | 判定保留(量定義不一致) | 比較値 +30.2 s(Buie 2012 比・門ではない) | 量の定義が揃うまで門に入れない |
+| 💠 `uranusReal` | 保留 | — | σ 未接続 |
+| 🌊 `neptuneReal` | 保留 | — | σ 未接続 |
+| ✨ `alphaCenAB` | 量限定合 | — | 写像未確定 |
+| ✴️ `alphaCenABDFM` | 保留 | 周期 −0.618%(25.9σ) | 数値未解決・写像未確定 |
+| 🌟 `siriusAB` | 量限定合 | — | 写像未確定 |
+| 💫 `siriusABDFM` | 保留 | 周期 −1.80%(210σ) | 数値未解決・写像未確定 |
+| 📻 `psrDoubleAB` | 保留 | 周期 +0.00269%(9.5×10⁵σ) | 数値未解決・写像未確定 |
+| ⚡ `psrDoubleABDFM` | 保留 | 周期 −1.10%(4.9×10⁷σ) | 数値未解決・写像未確定 |
+| 🧿 `psrDoubleABSpinCal` | 保留 | 近点移動 +2.42%(3.2×10⁴σ) | 数値未解決 |
+| 🧮 `psrJ1757DFM` | 保留 | 近点移動 5.3×10⁴σ(差の%は正本に無い) | 数値未解決・写像未確定 |
+| 🩺 `psrJ1946DFM` | 保留 | 近点移動 6.6×10⁴σ(差の%は正本に無い) | 数値未解決・写像未確定 |
+| 🪶 `psrDoubleABPN` | 保留 | 近点移動 +3.37%(4.4×10⁴σ) | 数値未解決・写像未確定 |
+| 🪃 `psrJ1757PN` | 保留 | 近点移動 +1.70%(899σ) | 数値未解決・写像未確定 |
+| 🪀 `psrJ1946PN` | 保留 | 近点移動 +7.53%(4.9×10³σ) | 数値未解決・写像未確定 |
+| 🪝 `psrDoubleABCF` | 保留 | 近点移動 +2.61%(3.6×10³σ) | 数値未解決 |
+| 🪄 `psrJ1757CF` | 保留 | 近点移動 +1.59%(169σ) | 数値未解決 |
+| 🩹 `psrJ1946CF` | 保留 | 近点移動 +8.28%(276σ) | 数値未解決・写像未確定 |
+| 📿 `psrB1534` | 保留 | 周期 +0.000769%(3.2×10⁵σ) | 数値未解決・写像未確定 |
+| 🧶 `psrB1534DFM` | 保留 | 近点移動 2.0×10⁵σ(差の%は正本に無い) | 数値未解決・写像未確定 |
+| 🪤 `psrB1534CF` | 保留 | 近点移動 +2.80%(5.0×10³σ) | 数値未解決 |
+| 🎐 `gw150914` | 保留 | — | σ 未接続 |
+| 🎻 `gw150914DFM` | 保留 | — | σ 未接続 |
+| ⏰ `gw150914Merge4s` | 保留 | — | σ 未接続 |
+| 📡 `saturnZonalD68` | 否 | 近点移動 −0.306%(14.6σ) | 刻み間差 4×10⁻³σ・刻みでは縮まない |
+| 💍 `saturnRingReal` | 保留 | — | σ 未接続 |
+| 💿 `saturnRingRealKF1` | 保留 | — | σ 未接続 |
 
-**言わないこと。** 「観測一致を達成した」「差し替えで判定に近づいた」「σ が揃った」「新発見」「v1.45.0 RC を切った」。合否は門(3σ)が出す —— **本便で門は 1 行も動いていない。**
+**⑤ 表示。** 説明タブの 🔖概要の直下に**状態チップ**(`#descStatus` — 目的の達成・較正の語・精度見込み。`role=group`・`aria-label`「サンプルの状況」/"Sample status")を並べた。**区分見出し `.descSectHead` は付けない**(`desc.struct-sync` の員数 3・`ui.descOrder` の固定順は不変)。畳み見出しの状態語(第277便e・60 字)は触っていない。旧来の宣言済み概要 54 行(ja 4・en 50)は内蔵配列から外し、表の 1 か所へ寄せた(概要の出所を 2 つにしない)。
+
+**⑥ 検証と否定結果。** bitsame **133/133**(600 歩・`identical:true`)・sigsame **133/133**・jitprobe の出力チェックサム 4 本とも基点と一致(galaxyGeo2 `3cfc4377` / bhCore `4df5bb5a` / galaxyMeshSpiral `60cc818` / gw150914DFM `ce7e5de5`・基点比 ×0.95 / ×0.89 / ×1.05 / ×0.97 は同一機の走行ゆらぎの幅)。新設 QA 3 本(`preset.status`・`preset.statusLedger-sync`・`docs.sampleStatus-sync`)は beta で PASS・root で SKIP。拡張 3 本(`ui.descBrief` —— en の上限を言語別に・第279便a の世代では宣言 133/133・3 節・較正節の語 = `status.calibration`・概要 = status からの組み立て・禁止語 0・状態チップ /`preset.roundtrip-builtins` —— status の往復保全 133 件 /`docs.fourValuesHistory` —— SAMPLE_STATUS の全行に同じ禁止語)も PASS。**状況の語は、根拠に挙げた保存 QA の detail を読んで裏づくものだけにした** —— 保存 QA が受理・構築・画像回帰しか測っていない本(⚾🛷☕♾️💡)と、形の門が無い本(🥢🎏🎚️🪁🎋)は「部分」、門の結果が不合格の本は「未達」に落とした。**未解決**: 「部分」の 51 本のうち較正母集団外の 16 本は、目的を測る定量の門そのものが無い(本便では門を足していない)。
+
+**言わないこと。** 「全サンプルの状況を確定した」「較正した」「較正を完了した」「観測と一致した」「精度を上げれば合格」「判定が増えた」「QA を短縮した」「v1.45.0 RC を切った」。
+
 〔第279便c — 背景・慣性便3(複素決定力の 2 経路の整理・閾値なしの背景合成と速度分解 RHS の純関数・源の分割と凍結参照系の宣言・opt-in 外部ステップ `physics.meshVelocity`・新契約での誤差予算)〕
 
 原仮定者の裁定(第69報)「**背景複素決定力は閾値で無視せず適切に導入する**/**慣性力を複素決定力の直接作用とすることで相対作用の引きずり(座標変換)が簡潔に表現できるので整理する**/**実装としては慣性速度は vx,vy で扱って構わない。厳密には空間に対する加速と空間による引きずり(座標変換)は区別する必要がある**」と、統括の読み R62(複素決定力の 2 経路と慣性)・R63(背景の導入順)に応える便である。
@@ -25246,6 +25292,7 @@ s₁ は 4 件とも 0。**ラベルの入れ替え対称性** pairSlip(−r,−
 8. **値の時間外挿**: 勾配を凍結したまま値だけを時間で外挿する形は見かけの J を作った(❄️ 4.270×10⁻² s)。背景を時間で追従させるなら、勾配も同じ規則で進める(または毎步評価し直す)必要がある —— 本便は値を凍結した。
 
 **言わないこと。** 「慣性を導出した」「運動量則を導出した」「背景を接続した」(宣言した診断コピーについてだけ言える)「背景を無視してよいことを証明した」「無視できる」「背景を較正した」「閾値を採用した」「参照系の問題を解決した」「新発見」「v1.45.0 RC を切った」。
+
 〔第279便d — 横画面の右カラムを 3/4 へ・文字色の 3 段と文字用アクセント・コントラストの静的検査・フォーカスリング・状態チップの見た目(**表示だけ**・物理は 1 bit も動かさない)〕
 
 原仮定者の裁定(第69報)「UI」のうち幅とトンマナの 2 件に応える便である(統括の検証項目 R64)。触ったのは `beta/index.html` の **CSS**(`<style>` の中)と、ヘルプの操作説明(ja/en)の幅の 1 文だけで、プリセット定義・説明文・描画関数は触っていない —— **`S._core` は 1 命令も増やしていない**・内蔵 133 本の状態指紋と `presetSig` は基点(0624159)と一致(下の検証)。① **横画面 2 カラムの右カラム**を `clamp(480px,54vw,630px)` → **`clamp(360px,40.5vw,472px)`**(3 値そろって 3/4 —— 630×¾=472.5 は整数へ)、「サンプルを選ぶ」「このアプリについて」「監査ビュー」の箱の上限を 840 → **630px**(横画面だけ・縦画面の 560px は不変)。候補 `clamp(360px,40vw,472px)` も同じ器で測った(1024×768 で右 409.6px・キャンバス 614.4px・折り返し/はみ出し 0)が、3 値の比をそろえる 40.5vw を採った。幅 900・文字サイズ「大」(`--uz` 1.3)・ja で「パラメータ」タブの文字が 2 行に折れた(実測)ので、タブのボタンの左右余白を UA 既定から 2px にした。② **文字の色を 3 段**にした —— 本文・タイトル `--fg` > 節見出し・数値・選択中 **`--accText` #9db7ff**(新)> ラベル・補足 `--dim`。**`--acc`(#5b8cff)は枠線・下線・`accent-color`・塗りに残し、文字の色には使わない**(CSS の `color:var(--acc)` の宣言は 26 → 0。本文の `style` 属性で `--acc` を持つ粒子の編集パネルの小見出し 4 つは、属性を変えずに CSS の `!important` で `--accText` へ寄せた)。説明タブのタイトル(最初の h4)は `--fg`・15px、窓の見出し(`.beHead`)と監査ビューのカード見出しは `--fg`、節見出し(`#helpBody h4`・`#aboutPanel h4`)・数値(`.prow .val`・数値欄)・選択中のチップ/群見出しは `--accText`。状態語は文字用の明るさ **`--okText` #9ae6a0 / `--errText` #ff9a9a / `--hotText` #ffb070**(枠は従来の `--ok`/`--err`/`--hot` —— 「チップの枠は状態色・文字は文字用」)。primary の塗り `--accFill` #24407e・押下 `--press` #26305e・角丸 2 段 `--rS` 8px / `--rL` 12px(6/8 → 小、10/12/14 → 大、丸いチップ 999px とスピナー 50% は別)。③ **キーボード操作のフォーカスリング** `:focus-visible{outline:2px solid var(--focus)}`(`--focus` = #9db7ff・行いっぱいの要素は内側に描く)。④ **状態チップの見た目だけ**(`.statusChips` の入れ物と `.statusChip[data-kind=objective|calibration|outlook]`・値 `data-v` で枠色を細分・文字は `--fg`・小ラベル `.scKey` は `--dim`・`--uz` 追随)—— 付ける側の描画は本便に無い。
@@ -25266,6 +25313,20 @@ s₁ は 4 件とも 0。**ラベルの入れ替え対称性** pairSlip(−r,−
 **検証と否定結果。** bitsame **133/133**(`identical:true`・差 0・新規 0)・sigsame **133/133**・jitprobe の出力チェックサム 4 本とも基点と一致(galaxyGeo2 `3cfc4377` / bhCore `c251069` / galaxyMeshSpiral `60cc818` / gw150914DFM `dbc0c820`・基点比 ×1.06 / ×0.89 / ×1.01 / ×1.09 は同一機の走行ゆらぎの幅)・`S._core` 35197 字で不変。部分 QA: `ui.contrast`・`ui.landscapeWidth`・`ui.frontModals`・`ui.searchClear`・`ui.obscardIcon`・`ai.modelList`・`ui.54d-params`(開いた説明の文字色 = ラベルの文字色)・`ui.hudUnderPanel`・`ui.descBrief`・`ui.descOrder`・`ui.descFold`・`ui.descFoldSummary`・`ui.groupIcons`・`ui.failure-first`・`lint.coreBudget`・`docs.fourValuesHistory` が PASS。同じ切り出しに入る `divergence.undo` は**基点 html でも同じく FAIL**(部分実行器での既存の失敗 —— 本便の差分ではない)。`preset.roundtrip-builtins` は上流の関数に依存して切り出せない(統括のフル QA 待ち)。root は `ui.contrast`・第278便e のブロックとも SKIP、基点 html では `ui.landscapeWidth` が第278便e の固定値で PASS(世代の切り替え)。QA 新設 `ui.contrast`(静的・root は SKIP): 下限割れ 0・文字色に `--acc` を直に使う宣言 0・文字用アクセントの最小比 ≥7・`:focus-visible` のリングと `--focus` の非文字比 ≥3・角丸の値は 2 段と丸だけ・`.statusChip` の文字は `--fg`。**固定値を変えた QA**: `ui.landscapeWidth` —— html が第279便d の宣言を持つとき右カラム min(472, max(360, 0.405×幅))・箱 630px・旧 2 宣言の残り無し、に切り替え(第278便e の宣言だけの html は従来の固定値)、全画面で文字「大」ja/en の折り返し・パネル内の横はみ出し 0 を足した。第278便e のブロックの世代判定は「480/54vw/630 か 360/40.5vw/472 のどちらかの宣言」に広げた(`ui.frontModals`・`ui.searchClear`・`ui.obscardIcon`・`ai.modelList` の判定そのものは不変)。**未解決・決断事項候補**: ①幅の最終値(3/4 ちょうど・40vw 案との差は 1024 幅で 5px)②文字用アクセントの値 #9db7ff(`--focus` と同値)③状態語の色(`--okText`/`--errText`/`--hotText` —— 監査ビューが以前から使っていた 2 色を流用)④フォーカスリングの色と太さ ⑤**`--line` の枠線は非文字 3:1 に届かない**(直すなら入力欄とボタンの輪郭の見た目が変わる)⑥**余白・見出しの字間・ボタンの高さは変えていない**(トンマナのうち手を入れたのは色・角丸・フォーカス・primary の塗りだけ)⑦静的解析の文脈表は置き場所を手で書いたもので、画像やグラデーションの上の文字・JS が実行時に付ける色(説明タブの理論注記の `--dim` など)は測っていない ⑧採寸・画面はヘッドレス Chromium だけで、実機・他ブラウザ・スクリーンリーダでは測っていない。README は日本語版だけ(英語の README は無い)。
 
 **言わないこと。** 「UI を完成させた」「見やすくなったことを確認した」「実機で確認した」「アクセシビリティ適合」「判定が増えた」「較正した」「v1.45.0 RC を切った」。
+
+〔第279便e — 観測転写便2(天王星の 5 衛星の判定行を Jacobson 2014 の λ̇ 由来へ差し替え(AM7′)・σ の読み方の裁定 AN1・AN2・AN3・AM8′ を CSV へ写す)〕
+
+原仮定者の裁定(第69報)「**概ね同意**」で閉じた観測レコードの裁定を判定 CSV と台帳へ写す**転写だけの便**である。触ったのは `paper/data/solar-observations.csv`(**既存 24 行の note・うち 1 行の sigma 列 —— 行の追加 0**)・`paper/data/judgement-sources.json`(宣言 6 → **11** 件)・`paper/data/corrections.json`(台帳)・台帳の器 `tests/exp-w272e-corrections.mjs`(`kind` の語彙に `source-replacement`・`ruling`)・`tests/qa.mjs`。**html は 1 バイトも触っていない**(内蔵 133 本・署名・`S._core` 35197 字は定義上不変 —— bitsame/sigsame/jitprobe は本枝の対象外)。台帳の正本は CALIBRATION_VERDICT §5.31。
+
+**① AM7′: 天王星の 5 衛星の判定行。** 判定行の宣言を NSSDC Uranian Satellite Fact Sheet の周期(σ 無し)から、第278便a で置いた候補行 —— Jacobson 2014 AJ 148 76 Table 2 の λ̇ から `P=360/λ̇ d×86400 s` で作った `derived-in-record` の行 —— へ移した(ダイモス/フォボスと同じ形・**sigma は null**・`solution_id` は空欄)。新−旧: ミランダ **+0.035420 s**・アリエル **+0.015592 s**・ウンブリエル **+0.091339 s**・チタニア **+0.101413 s**・オベロン **+0.247509 s**。**ウンブリエル・チタニア・オベロンの差は NSSDC の印字桁(1e−6 d)の半幅 0.0432 s の 2.114・2.348・5.729 倍**で、NSSDC の値は Jacobson 2014 の λ̇ の丸めとしては説明できない(未解決・決断事項)。旧判定行は量名 `orbital_period` のまま `superseded_by=`・`superseded_on=2026-09-24` を持つ履歴の行として残る(量名を変えると record_id が変わるので `orbital_period_historical` への改名はしていない)。QA `docs.uranusSwap`。
+
+**② AN1・AN3・AN2・AM8′(どの行も判定量ではない)。** AN1: Brozović 2015 の系/冥王星/カロン GM の保守的な ± は sigma 列に印字のまま(`ruling=AN1`)。AN3: 2024 Table 8 の系 GM の sigma 列へ公表の ±0.2 km³/s²(= 2e8 m³/s²)を入れ、形式 1σ 0.09 は note の `formal_sigma=`(**二乗和しない**・`uncertainty_kind=published-inflated`)。AN2: Weaver 2016 Table 2 の周期 4 行に `source_status=secondary-transcription; primary_reference=(5) unresolved; confirmation_request=7`(出典は付け替えない)。AM8′: Chapront 2002 の 4 行に `stated_level=none`(formal errors を 1σ として読まない・sigma 列は空)。QA `docs.obsRulings69`。
+
+**③ 判定は動いていない。** 切断点 **106/26/3/4**(前後とも)・4 値 **0/2/2/33**・太陽系 **否 2・保留 14**・門 **合 2 / 否 2 / 数値未解決 34 / mapping-unresolved 15 / 条件不一致 0**(`--regate` で比較 —— σ の宛先 99・変化 0・印の反転 0。産物の差は 💠 の周期 6 量の σ の読み先が Jacobson 2014 の行へ移ったことと宣言の件数だけ。産物は戻した)。σ 接続器を再走し、5 衛星の宣言行は `appliedToJudgement:true`・判定は保留(σ が無い)。
+
+**④ 否定結果・未解決(そのまま残す)。** ① 判定へ届く印字 1σ は 1 本も増えていない(AN3 で sigma 列に入れたのは系 GM —— 門の宛先ではない)。② 門の器の宣言の件数(6 → 11)と中心値の移動は**通常走行で入る** —— 統合後の再走までは QA `docs.judgementSources` ④ が落ちる。③ CSV を入力に持つ正本のうちブラウザで走る `bh90-w269c`・`j1946adopt-w270c` の来歴刻印は統合後の再走で揃う(node の `nsgrid-w277c`・`plutostates-w277a` は本枝で再走 —— 刻印以外の差 0)。
+
+**言わないこと。** 「観測一致を達成した」「差し替えで判定に近づいた」「σ が揃った」「新発見」「v1.45.0 RC を切った」。合否は門(3σ)が出す —— **本便で門は 1 行も動いていない。**
 
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
