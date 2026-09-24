@@ -39,6 +39,11 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
           node-version: 24  # 第41便 41A(台帳4-84): actions の Node 20 非推奨警告に対応(QA は Node 24 で CI 実測確認)
+      # 第279便b: preflight(Chromium なしの一周 — 構文・ブラウザに触れない lint/文書検査・全内蔵の
+      #           受理/構築/1 歩)。落ちたらここで止まる(依存の導入より前・所要 十数秒)。
+      #           **フル(npm test)は従来どおり次のステップで必ず走る**(CI が最終裁定者)
+      - name: QA preflight (${{ matrix.name }})
+        run: npm run test:preflight
       - name: Install Playwright
         run: |
           npm ci

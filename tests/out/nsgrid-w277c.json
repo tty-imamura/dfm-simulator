@@ -74,7 +74,7 @@
    "新発見"
   ],
   "caveat": "k₂・K・λ・η・要求率・I_a・ξ・C_t は**宣言された自由パラメータ**である。観測の傾きは**照合前の材料**として初期値にだけ使い、そこから係数を決めることはしていない。離心率は記録した入力であって、格子の軌道は準円である。",
-  "csvSha256": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4",
+  "csvSha256": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
   "timeScaleGuard": {
    "time_scale_gain": "1e16〜1e19",
    "not_a_prediction": true,
@@ -110,7 +110,7 @@
   "wave": "第277便c(第278便c 改訂)",
   "target": "tests/lib-w277c-nsgrid.mjs",
   "targetSha256": "0f7a956cd50168921befdc2b0bf43811b0da0d6dd39cdaf897e3a81ad23a8477",
-  "generatedAt": "2026-09-23T11:39:09.799Z",
+  "generatedAt": "2026-09-23T21:03:16.510Z",
   "inputs": [
    {
     "file": "tests/lib-w277c-nsgrid.mjs",
@@ -132,9 +132,9 @@
    },
    {
     "file": "paper/data/solar-observations.csv",
-    "bytes": 558062,
-    "sha256": "3022e46cfcbe151428036c48d8c65e5a3045efe50fd625bf59d210ccfcaadbd4",
-    "mtime": "2026-09-23T11:01:04.949Z"
+    "bytes": 563636,
+    "sha256": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+    "mtime": "2026-09-23T20:24:15.944Z"
    }
   ],
   "code": [
@@ -34499,7 +34499,7 @@
    }
   ],
   "runCount": 1512,
-  "seconds": 609.599,
+  "seconds": 593.561,
   "note": "格子 = 系 3 × θ* 7 × k∈{0,1} × λ 3 × η(k=1 のみ)3 × dt 2 段 × 100 公転。各行は基準 + 小摂動 ±1° の 3 本。**k は口座の有無であって kFrame ではない**"
  },
  "stage4": {

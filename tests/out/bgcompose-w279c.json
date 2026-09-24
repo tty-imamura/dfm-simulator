@@ -1,0 +1,1283 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第279便c",
+  "target": "beta/index.html",
+  "targetSha256": "f853eef9a8ea1d81e339329074e5ca220b9ba9ed22da83c4cc5925a8e13a35c8",
+  "generatedAt": "2026-09-23T21:06:36.425Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4617352,
+    "sha256": "f853eef9a8ea1d81e339329074e5ca220b9ba9ed22da83c4cc5925a8e13a35c8",
+    "mtime": "2026-09-23T20:29:53.263Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w279c-bgcompose.mjs",
+    "bytes": 9894,
+    "sha256": "6759bab9a04d20bdfc347c3eb79e140de1cca3a7c4419881d9e7af42c91d8916",
+    "mtime": "2026-09-23T20:24:22.938Z"
+   },
+   {
+    "file": "tests/lib-w279c-bgcompose.mjs",
+    "bytes": 21462,
+    "sha256": "86bbcc73e9f00a5b156019d5905fc227cae2d1986fc2435f68af7f438f7c97a8",
+    "mtime": "2026-09-23T20:24:22.939Z"
+   },
+   {
+    "file": "tests/lib-w278d-readaudit.mjs",
+    "bytes": 4816,
+    "sha256": "41f86f7bcd16c23be9d0952957b4b59a28add8a930bb1ba92386b0cc8d1c885b",
+    "mtime": "2026-09-23T11:00:54.407Z"
+   },
+   {
+    "file": "tests/lib-w275b-meshfield.mjs",
+    "bytes": 22488,
+    "sha256": "1fc47d3dfd8ed8eaac7656a8c95a7ecd48486a8e1ac9ef8466cc9fd3bb9e6534",
+    "mtime": "2026-09-22T06:21:31.427Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-18T17:14:55.948Z"
+   }
+  ],
+  "codeSha256": "8b7836cc40ff846524d25dea9565fb12366d1680164028917a9fb2a706acb134",
+  "harnessVersion": "w279c-bgcompose-1",
+  "libVersion": "w279c-bgcompose-1",
+  "stepVersion": "w279c-vMinusU-1",
+  "ruling": "第69報: 背景複素決定力は閾値で無視せず適切に導入する/慣性力を複素決定力の直接作用として整理する/厳密には空間に対する加速と空間による引きずり(座標変換)は区別する",
+  "law": "W=W_loc+W_bg・A=A_loc+A_bg・u=A/W・∇u=(∇A−u⊗∇W)/W・∂ₜu=(∂ₜA−u∂ₜW)/W・χ=W_loc/W / ẋ=v+u・v̇=a_space−Jᵀv・ẍ=a_space+∂ₜu+Ju+(J−Jᵀ)v・H/m=|p|²/2+p·u+Φ",
+  "method": "html の純関数をソースから取り出して node で評価(写しを持たない)+ 同じ入力をページの HP.* に渡してビット一致を数える",
+  "notClaim": [
+   "慣性を導出した",
+   "運動量則を導出した",
+   "背景を無視してよいことを証明した",
+   "背景を較正した",
+   "閾値を採用した",
+   "新発見"
+  ]
+ },
+ "table": {
+  "a": {
+   "n": 30,
+   "ok": 30,
+   "uRelMax": 3.007438658544375e-16,
+   "gradUTermRelMax": 1.5547573189423982e-16,
+   "dUdtTermRelMax": 2.4709870280517597e-16,
+   "gradUValueRelMax": 0.002378121284185373,
+   "dUdtValueRelMax": 6.4674152469090084e-15,
+   "WRelMax": 1.8086878557045785e-16,
+   "uBitIdentical": 21,
+   "chiLocalRange": [
+    0.000004378744780520592,
+    0.9999999999999988
+   ]
+  },
+  "b": {
+   "n": 12,
+   "advected": {
+    "coordAccelRelMax": 4.4063986192980876e-15,
+    "vRateRelMax": 1.0300068566480787e-15,
+    "uShiftRelMax": 2.0340523741654962e-16,
+    "gradURelMax": 4.094074841141326e-15
+   },
+   "fieldTimeOnly": {
+    "coordAccelRelMin": 0.014196818460395458,
+    "coordAccelRelMax": 1.0789783004194726,
+    "vRateRelMax": 1.0300068566480787e-15
+   }
+  },
+  "c": {
+   "steps": [
+    20000,
+    40000
+   ],
+   "dHrelMax": [
+    8.839424476171648e-11,
+    5.663848005652274e-12
+   ],
+   "ratio": 15.606747333880229,
+   "dHdtAlgebraResidMax": [
+    9.847374648060715e-10,
+    1.893595997456611e-9
+   ],
+   "JasymmetryMax": [
+    3.2677650342190767,
+    3.273455348822727
+   ],
+   "H0": -0.38231587165968284
+  },
+  "d": {
+   "n": 30,
+   "pass": 30,
+   "inertiaKeptAtW0": true
+  },
+  "e": {
+   "n": 4,
+   "relErrMax": 0,
+   "allDefined": true,
+   "nonzeroKept": true
+  },
+  "f": {
+   "n": 3,
+   "extraAccelMax": 0,
+   "extraVRateMax": 0,
+   "transportRelMax": 0
+  }
+ },
+ "pageVsNode": {
+  "n": 24,
+  "bitIdentical": 24
+ },
+ "a": [
+  {
+   "case": 0,
+   "scale": 38.50453423804348,
+   "far": 5.454066496142353,
+   "eps": 0.030419713992159814,
+   "ok": true,
+   "nL": 3,
+   "nE": 1,
+   "uRel": 0,
+   "gradURel": 0,
+   "dUdtRel": 0,
+   "gradUTermRel": 0,
+   "dUdtTermRel": 0,
+   "chiDirect": 1,
+   "chiLocal": 0.9968736625392176,
+   "WRel": 0,
+   "uBits": true
+  },
+  {
+   "case": 1,
+   "scale": 0.00010048700190052839,
+   "far": 1.8569968288056176,
+   "eps": 0,
+   "ok": true,
+   "nL": 3,
+   "nE": 2,
+   "uRel": 0,
+   "gradURel": 0,
+   "dUdtRel": 0,
+   "gradUTermRel": 0,
+   "dUdtTermRel": 0,
+   "chiDirect": 1,
+   "chiLocal": 0.9999995451440784,
+   "WRel": 0,
+   "uBits": true
+  },
+  {
+   "case": 2,
+   "scale": 0.00003637634901151472,
+   "far": 781.1032607458993,
+   "eps": 0.009755580546334387,
+   "ok": true,
+   "nL": 1,
+   "nE": 1,
+   "uRel": 0,
+   "gradURel": 0,
+   "dUdtRel": 0,
+   "gradUTermRel": 0,
+   "dUdtTermRel": 0,
+   "chiDirect": 1,
+   "chiLocal": 0.9999999999981658,
+   "WRel": 0,
+   "uBits": true
+  },
+  {
+   "case": 3,
+   "scale": 50977.95295092825,
+   "far": 23.82425924845477,
+   "eps": 0.03126415099250153,
+   "ok": true,
+   "nL": 1,
+   "nE": 2,
+   "uRel": 0,
+   "gradURel": 4.80528074100805e-18,
+   "dUdtRel": 2.473121981372355e-16,
+   "gradUTermRel": 4.6411748201985256e-18,
+   "dUdtTermRel": 2.4709870280517597e-16,
+   "chiDirect": 1,
+   "chiLocal": 0.07382263422046981,
+   "WRel": 0,
+   "uBits": true
+  },
+  {
+   "case": 4,
+   "scale": 0.3519879616339624,
+   "far": 1.7501927492379818,
+   "eps": 0,
+   "ok": true,
+   "nL": 3,
+   "nE": 2,
+   "uRel": 0,
+   "gradURel": 2.0537724894093003e-16,
+   "dUdtRel": 6.969021712921137e-17,
+   "gradUTermRel": 1.4042496164116633e-16,
+   "dUdtTermRel": 5.90622861516943e-17,
+   "chiDirect": 1,
+   "chiLocal": 0.9813337750189413,
+   "WRel": 0,
+   "uBits": true
+  },
+  {
+   "case": 5,
+   "scale": 1.078944648670508e-8,
+   "far": 1.0939352938024343,
+   "eps": 0.014592338353395462,
+   "ok": true,
+   "nL": 3,
+   "nE": 2,
+   "uRel": 1.6359414633614768e-16,
+   "gradURel": 1.8415384957208503e-16,
+   "dUdtRel": 1.2061548018690797e-16,
+   "gradUTermRel": 7.476339174148604e-17,
+   "dUdtTermRel": 7.017935406786484e-17,
+   "chiDirect": 1,
+   "chiLocal": 0.9999999999011859,
+   "WRel": 0,
+   "uBits": false
+  },
+  {
+   "case": 6,
+   "scale": 0.000004291955945172933,
+   "far": 458.06133321504416,
+   "eps": 0.01970667474670336,
+   "ok": true,
+   "nL": 1,
+   "nE": 2,
+   "uRel": 3.007438658544375e-16,
+   "gradURel": 0.002378121284185373,
+   "dUdtRel": 3.351502197975063e-15,
+   "gradUTermRel": 1.5547573189423982e-16,
+   "dUdtTermRel": 1.4757624543392022e-16,
+   "chiDirect": 1,
+   "chiLocal": 0.9999999999995854,
+   "WRel": 0,
+   "uBits": false
+  },
+  {
+   "case": 7,
+   "scale": 0.0008854738067848546,
+   "far": 799.305279967189,
+   "eps": 0,
+   "ok": true,
+   "nL": 1,
+   "nE": 2,
+   "uRel": 0,
+   "gradURel": 5.098508278852302e-7,
+   "dUdtRel": 1.1958118637419698e-15,
+   "gradUTermRel": 3.1956129887235014e-17,
+   "dUdtTermRel": 1.1870024274883335e-16,
+   "chiDirect": 1,
+   "chiLocal": 0.9999999998235337,
+   "WRel": 0,
+   "uBits": true
+  },
+  {
+   "case": 8,
+   "scale": 1.3798677197698686e-8,
+   "far": 326.0584831152615,
+   "eps": 0.049742046999745076,
+   "ok": true,
+   "nL": 2,
+   "nE": 2,
+   "uRel": 9.590959931364771e-17,
+   "gradURel": 9.546604158381378e-16,
+   "dUdtRel": 3.3610847900995627e-16,
+   "gradUTermRel": 5.761464720082606e-17,
+   "dUdtTermRel": 5.3857714251243606e-17,
+   "chiDirect": 1,
+   "chiLocal": 0.9999999999999988,
+   "WRel": 1.5702659486729908e-16,
+   "uBits": false
+  },
+  {
+   "case": 9,
+   "scale": 0.0008723647071532535,
+   "far": 114.87639347231479,
+   "eps": 0.029523619310930373,
+   "ok": true,
+   "nL": 1,
+   "nE": 2,
+   "uRel": 3.623583787807795e-17,
+   "gradURel": 4.512231057161089e-9,
+   "dUdtRel": 6.4674152469090084e-15,
+   "gradUTermRel": 1.214942660637702e-17,
+   "dUdtTermRel": 3.4012335690584e-17,
+   "chiDirect": 1,
+   "chiLocal": 0.9999999964340818,
+   "WRel": 0,
+   "uBits": false
+  },
+  {
+   "case": 10,
+   "scale": 0.01689278744394325,
+   "far": 8.724357411850308,
+   "eps": 0.02378462702035904,
+   "ok": true,
+   "nL": 3,
+   "nE": 2,
+   "uRel": 1.612359569204191e-16,
+   "gradURel": 1.0280268647160402e-16,
+   "dUdtRel": 5.57006486888545e-16,
+   "gradUTermRel": 1.5378320421244886e-17,
+   "dUdtTermRel": 5.841804340477798e-17,
+   "chiDirect": 1,
+   "chiLocal": 0.9999976406240507,
+   "WRel": 0,
+   "uBits": false
+  },
+  {
+   "case": 11,
+   "scale": 1.324153148269137e-7,
+   "far": 120.93601138565825,
+   "eps": 0,
+   "ok": true,
+   "nL": 2,
+   "nE": 1,
+   "uRel": 0,
+   "gradURel": 0,
+   "dUdtRel": 0,
+   "gradUTermRel": 0,
+   "dUdtTermRel": 0,
+   "chiDirect": 1,
+   "chiLocal": 0.9999999999999323,
+   "WRel": 0,
+   "uBits": true
+  },
+  {
+   "case": 12,
+   "scale": 0.000005849002266756498,
+   "far": 463.18024225260416,
+   "eps": 0,
+   "ok": true,
+   "nL": 2,
+   "nE": 1,
+   "uRel": 0,
+   "gradURel": 0,
+   "dUdtRel": 0,
+   "gradUTermRel": 0,
+   "dUdtTermRel": 0,
+   "chiDirect": 1,
+   "chiLocal": 0.9999999999989216,
+   "WRel": 0,
+   "uBits": true
+  },
+  {
+   "case": 13,
+   "scale": 54085052.317644164,
+   "far": 1.3500705891672946,
+   "eps": 0.006496215763036162,
+   "ok": true,
+   "nL": 2,
+   "nE": 1,
+   "uRel": 0,
+   "gradURel": 0,
+   "dUdtRel": 0,
+   "gradUTermRel": 0,
+   "dUdtTermRel": 0,
+   "chiDirect": 1,
+   "chiLocal": 0.000004378744780520592,
+   "WRel": 0,
+   "uBits": true
+  },
+  {
+   "case": 14,
+   "scale": 1749397.6549789035,
+   "far": 36.038940136824245,
+   "eps": 0,
+   "ok": true,
+   "nL": 2,
+   "nE": 1,
+   "uRel": 0,
+   "gradURel": 0,
+   "dUdtRel": 0,
+   "gradUTermRel": 0,
+   "dUdtTermRel": 0,
+   "chiDirect": 1,
+   "chiLocal": 0.19673931332980338,
+   "WRel": 0,
+   "uBits": true
+  },
+  {
+   "case": 15,
+   "scale": 0.1036098815270615,
+   "far": 210.8021614622431,
+   "eps": 0.032726691768039017,
+   "ok": true,
+   "nL": 3,
+   "nE": 2,
+   "uRel": 0,
+   "gradURel": 1.2768648271713127e-17,
+   "dUdtRel": 1.4566634942802124e-16,
+   "gradUTermRel": 1.114582743359419e-17,
+   "dUdtTermRel": 1.205160547841557e-16,
+   "chiDirect": 1,
+   "chiLocal": 0.9999999922817613,
+   "WRel": 0,
+   "uBits": true
+  },
+  {
+   "case": 16,
+   "scale": 18811.76274023703,
+   "far": 91.26222581270864,
+   "eps": 0,
+   "ok": true,
+   "nL": 2,
+   "nE": 2,
+   "uRel": 0,
+   "gradURel": 9.680409473397635e-16,
+   "dUdtRel": 1.7988173599696834e-16,
+   "gradUTermRel": 5.194750017083469e-17,
+   "dUdtTermRel": 1.2874793689413998e-16,
+   "chiDirect": 1,
+   "chiLocal": 0.93577117319424,
+   "WRel": 0,
+   "uBits": true
+  },
+  {
+   "case": 17,
+   "scale": 5684415.456901445,
+   "far": 2.5394407625424673,
+   "eps": 0,
+   "ok": true,
+   "nL": 1,
+   "nE": 2,
+   "uRel": 0,
+   "gradURel": 0,
+   "dUdtRel": 4.4500142116405656e-17,
+   "gradUTermRel": 0,
+   "dUdtTermRel": 4.117747364171035e-17,
+   "chiDirect": 1,
+   "chiLocal": 0.00004067882959028779,
+   "WRel": 0,
+   "uBits": true
+  },
+  {
+   "case": 18,
+   "scale": 318051.8529408935,
+   "far": 55.806236398776306,
+   "eps": 0,
+   "ok": true,
+   "nL": 3,
+   "nE": 1,
+   "uRel": 0,
+   "gradURel": 0,
+   "dUdtRel": 0,
+   "gradUTermRel": 0,
+   "dUdtTermRel": 0,
+   "chiDirect": 1,
+   "chiLocal": 0.18386766614383887,
+   "WRel": 0,
+   "uBits": true
+  },
+  {
+   "case": 19,
+   "scale": 0.003269874856658554,
+   "far": 4.093380646656712,
+   "eps": 0.0316942420322448,
+   "ok": true,
+   "nL": 1,
+   "nE": 1,
+   "uRel": 0,
+   "gradURel": 0,
+   "dUdtRel": 0,
+   "gradUTermRel": 0,
+   "dUdtTermRel": 0,
+   "chiDirect": 1,
+   "chiLocal": 0.9999995948440289,
+   "WRel": 0,
+   "uBits": true
+  },
+  {
+   "case": 20,
+   "scale": 32.59046398212321,
+   "far": 311.61917725358205,
+   "eps": 0.026961528789252044,
+   "ok": true,
+   "nL": 2,
+   "nE": 2,
+   "uRel": 1.346810983906723e-16,
+   "gradURel": 5.274129919280612e-16,
+   "dUdtRel": 8.525104685712196e-16,
+   "gradUTermRel": 5.5000376558581186e-17,
+   "dUdtTermRel": 6.754317685221973e-17,
+   "chiDirect": 1,
+   "chiLocal": 0.9999894978504238,
+   "WRel": 0,
+   "uBits": false
+  },
+  {
+   "case": 21,
+   "scale": 3060.429747517779,
+   "far": 16.320666640669046,
+   "eps": 0.005362836923450232,
+   "ok": true,
+   "nL": 1,
+   "nE": 2,
+   "uRel": 1.8871324035857108e-16,
+   "gradURel": 1.7390652873753278e-16,
+   "dUdtRel": 0,
+   "gradUTermRel": 1.343587140457245e-16,
+   "dUdtTermRel": 0,
+   "chiDirect": 1,
+   "chiLocal": 0.11856922029467973,
+   "WRel": 0,
+   "uBits": false
+  },
+  {
+   "case": 22,
+   "scale": 7.68620171761618e-8,
+   "far": 31.81324636149671,
+   "eps": 0.03841751577565447,
+   "ok": true,
+   "nL": 3,
+   "nE": 2,
+   "uRel": 0,
+   "gradURel": 1.6228387984808562e-16,
+   "dUdtRel": 0,
+   "gradUTermRel": 6.406946244714183e-17,
+   "dUdtTermRel": 0,
+   "chiDirect": 1,
+   "chiLocal": 0.999999999997364,
+   "WRel": 0,
+   "uBits": true
+  },
+  {
+   "case": 23,
+   "scale": 1.1780963670541729,
+   "far": 319.04046932375564,
+   "eps": 0.01659943945705891,
+   "ok": true,
+   "nL": 3,
+   "nE": 1,
+   "uRel": 0,
+   "gradURel": 0,
+   "dUdtRel": 0,
+   "gradUTermRel": 0,
+   "dUdtTermRel": 0,
+   "chiDirect": 1,
+   "chiLocal": 0.9999999872853828,
+   "WRel": 0,
+   "uBits": true
+  },
+  {
+   "case": 24,
+   "scale": 1.5829600474277197e-7,
+   "far": 2.7965678885102054,
+   "eps": 0.0049592821975238625,
+   "ok": true,
+   "nL": 2,
+   "nE": 2,
+   "uRel": 0,
+   "gradURel": 0,
+   "dUdtRel": 2.345928871484126e-16,
+   "gradUTermRel": 0,
+   "dUdtTermRel": 1.0401553255486788e-16,
+   "chiDirect": 1,
+   "chiLocal": 0.9999999997399182,
+   "WRel": 0,
+   "uBits": true
+  },
+  {
+   "case": 25,
+   "scale": 9.346294223906233e-7,
+   "far": 867.1000273270784,
+   "eps": 0,
+   "ok": true,
+   "nL": 1,
+   "nE": 1,
+   "uRel": 0,
+   "gradURel": 0,
+   "dUdtRel": 0,
+   "gradUTermRel": 0,
+   "dUdtTermRel": 0,
+   "chiDirect": 1,
+   "chiLocal": 0.9999999999999841,
+   "WRel": 0,
+   "uBits": true
+  },
+  {
+   "case": 26,
+   "scale": 1.431360679180524,
+   "far": 55.76156291082765,
+   "eps": 0,
+   "ok": true,
+   "nL": 2,
+   "nE": 2,
+   "uRel": 1.6611940370227412e-16,
+   "gradURel": 1.233324068707111e-16,
+   "dUdtRel": 4.3580328894556616e-16,
+   "gradUTermRel": 7.649643197193867e-17,
+   "dUdtTermRel": 2.246664081037012e-16,
+   "chiDirect": 1,
+   "chiLocal": 0.9999847467472199,
+   "WRel": 1.8086878557045785e-16,
+   "uBits": false
+  },
+  {
+   "case": 27,
+   "scale": 0.0001139941087683552,
+   "far": 25.473475476787353,
+   "eps": 0.04099216128233821,
+   "ok": true,
+   "nL": 1,
+   "nE": 2,
+   "uRel": 2.1628946697668783e-16,
+   "gradURel": 1.3768115440427948e-8,
+   "dUdtRel": 1.3336968692391886e-15,
+   "gradUTermRel": 1.2530203053504692e-16,
+   "dUdtTermRel": 1.3648064277306106e-16,
+   "chiDirect": 1,
+   "chiLocal": 0.9999999904432949,
+   "WRel": 1.3315002278198965e-16,
+   "uBits": false
+  },
+  {
+   "case": 28,
+   "scale": 1.5368257988547717e-7,
+   "far": 10.442320073112317,
+   "eps": 0,
+   "ok": true,
+   "nL": 3,
+   "nE": 1,
+   "uRel": 0,
+   "gradURel": 0,
+   "dUdtRel": 0,
+   "gradUTermRel": 0,
+   "dUdtTermRel": 0,
+   "chiDirect": 1,
+   "chiLocal": 0.9999999998844219,
+   "WRel": 0,
+   "uBits": true
+  },
+  {
+   "case": 29,
+   "scale": 125543.38720699905,
+   "far": 952.4284350103884,
+   "eps": 0,
+   "ok": true,
+   "nL": 1,
+   "nE": 1,
+   "uRel": 0,
+   "gradURel": 0,
+   "dUdtRel": 0,
+   "gradUTermRel": 0,
+   "dUdtTermRel": 0,
+   "chiDirect": 1,
+   "chiLocal": 0.990023846096745,
+   "WRel": 0,
+   "uBits": true
+  }
+ ],
+ "b": [
+  {
+   "case": 0,
+   "V": [
+    0.9155113357119262,
+    -2.4244717760011554
+   ],
+   "advected": {
+    "coordAccelRel": 4.162544731127486e-15,
+    "vRateRel": 0,
+    "uShiftRel": 1.9420879155951485e-16,
+    "gradURel": 1.051853898132687e-15
+   },
+   "fieldTime": {
+    "coordAccelRel": 0.5706914118946483,
+    "vRateRel": 0,
+    "uShiftRel": 1.9420879155951485e-16,
+    "gradURel": 1.051853898132687e-15
+   }
+  },
+  {
+   "case": 1,
+   "V": [
+    0.3700341135263443,
+    -1.0234756227582693
+   ],
+   "advected": {
+    "coordAccelRel": 1.037542701713523e-15,
+    "vRateRel": 2.9233943955251864e-16,
+    "uShiftRel": 0,
+    "gradURel": 4.2129729164259424e-16
+   },
+   "fieldTime": {
+    "coordAccelRel": 0.16976951185897898,
+    "vRateRel": 2.9233943955251864e-16,
+    "uShiftRel": 0,
+    "gradURel": 4.2129729164259424e-16
+   }
+  },
+  {
+   "case": 2,
+   "V": [
+    -2.5962139824405313,
+    0.15582928340882063
+   ],
+   "advected": {
+    "coordAccelRel": 1.105254674435804e-15,
+    "vRateRel": 9.272306638376686e-16,
+    "uShiftRel": 1.5069825843629835e-16,
+    "gradURel": 1.7944053964601945e-15
+   },
+   "fieldTime": {
+    "coordAccelRel": 0.11601012564330578,
+    "vRateRel": 9.272306638376686e-16,
+    "uShiftRel": 1.5069825843629835e-16,
+    "gradURel": 1.7944053964601945e-15
+   }
+  },
+  {
+   "case": 3,
+   "V": [
+    -1.7763206684030592,
+    -0.10804007900878787
+   ],
+   "advected": {
+    "coordAccelRel": 4.4063986192980876e-15,
+    "vRateRel": 2.951256184762968e-16,
+    "uShiftRel": 1.8913499379207823e-16,
+    "gradURel": 4.094074841141326e-15
+   },
+   "fieldTime": {
+    "coordAccelRel": 0.0858819906906224,
+    "vRateRel": 2.951256184762968e-16,
+    "uShiftRel": 1.8913499379207823e-16,
+    "gradURel": 4.094074841141326e-15
+   }
+  },
+  {
+   "case": 4,
+   "V": [
+    0.15459821512922645,
+    -2.5576495178975165
+   ],
+   "advected": {
+    "coordAccelRel": 5.560860528949847e-16,
+    "vRateRel": 3.2154112522530305e-16,
+    "uShiftRel": 2.4306026991427465e-17,
+    "gradURel": 3.8100611730274835e-16
+   },
+   "fieldTime": {
+    "coordAccelRel": 0.014196818460395458,
+    "vRateRel": 3.2154112522530305e-16,
+    "uShiftRel": 2.4306026991427465e-17,
+    "gradURel": 3.8100611730274835e-16
+   }
+  },
+  {
+   "case": 5,
+   "V": [
+    1.6976263211108744,
+    2.6750868964008987
+   ],
+   "advected": {
+    "coordAccelRel": 1.6351296490804504e-15,
+    "vRateRel": 2.6338713890913997e-16,
+    "uShiftRel": 1.734096949897454e-16,
+    "gradURel": 4.719504973554243e-16
+   },
+   "fieldTime": {
+    "coordAccelRel": 0.1095068356108562,
+    "vRateRel": 2.6338713890913997e-16,
+    "uShiftRel": 1.734096949897454e-16,
+    "gradURel": 4.719504973554243e-16
+   }
+  },
+  {
+   "case": 6,
+   "V": [
+    -2.7943232506513596,
+    -2.886320498306304
+   ],
+   "advected": {
+    "coordAccelRel": 2.3315192604409955e-15,
+    "vRateRel": 1.0278576425213706e-15,
+    "uShiftRel": 0,
+    "gradURel": 5.817259054443289e-16
+   },
+   "fieldTime": {
+    "coordAccelRel": 0.31812421140841596,
+    "vRateRel": 1.0278576425213706e-15,
+    "uShiftRel": 0,
+    "gradURel": 5.817259054443289e-16
+   }
+  },
+  {
+   "case": 7,
+   "V": [
+    1.2741113333031535,
+    -0.4001605063676834
+   ],
+   "advected": {
+    "coordAccelRel": 1.1161880030431673e-15,
+    "vRateRel": 6.208659067311716e-16,
+    "uShiftRel": 0,
+    "gradURel": 1.3157819347225404e-15
+   },
+   "fieldTime": {
+    "coordAccelRel": 0.25108039995689446,
+    "vRateRel": 6.208659067311716e-16,
+    "uShiftRel": 0,
+    "gradURel": 1.3157819347225404e-15
+   }
+  },
+  {
+   "case": 8,
+   "V": [
+    2.0878662317991257,
+    -1.9717097044922411
+   ],
+   "advected": {
+    "coordAccelRel": 5.060659970739804e-16,
+    "vRateRel": 1.0300068566480787e-15,
+    "uShiftRel": 2.0340523741654962e-16,
+    "gradURel": 1.0160201253145856e-15
+   },
+   "fieldTime": {
+    "coordAccelRel": 0.14380124332811223,
+    "vRateRel": 1.0300068566480787e-15,
+    "uShiftRel": 2.0340523741654962e-16,
+    "gradURel": 1.0160201253145856e-15
+   }
+  },
+  {
+   "case": 9,
+   "V": [
+    2.9098274228163064,
+    1.454596631694585
+   ],
+   "advected": {
+    "coordAccelRel": 2.4322170241636517e-15,
+    "vRateRel": 5.493870362094636e-16,
+    "uShiftRel": 1.87147279339729e-16,
+    "gradURel": 4.762304248718354e-16
+   },
+   "fieldTime": {
+    "coordAccelRel": 1.0789783004194726,
+    "vRateRel": 5.493870362094636e-16,
+    "uShiftRel": 1.87147279339729e-16,
+    "gradURel": 4.762304248718354e-16
+   }
+  },
+  {
+   "case": 10,
+   "V": [
+    -1.3225621227174997,
+    -1.080916048027575
+   ],
+   "advected": {
+    "coordAccelRel": 7.087796743267002e-16,
+    "vRateRel": 9.784320114447236e-16,
+    "uShiftRel": 1.7623027083475958e-16,
+    "gradURel": 7.714554728023103e-16
+   },
+   "fieldTime": {
+    "coordAccelRel": 0.04200723988344755,
+    "vRateRel": 9.784320114447236e-16,
+    "uShiftRel": 1.7623027083475958e-16,
+    "gradURel": 7.714554728023103e-16
+   }
+  },
+  {
+   "case": 11,
+   "V": [
+    -2.1831985227763653,
+    -1.1109398226253688
+   ],
+   "advected": {
+    "coordAccelRel": 2.9595361007114834e-15,
+    "vRateRel": 2.981225730431708e-16,
+    "uShiftRel": 1.1141790647566352e-16,
+    "gradURel": 1.0419819920536628e-15
+   },
+   "fieldTime": {
+    "coordAccelRel": 0.0846061321469334,
+    "vRateRel": 2.981225730431708e-16,
+    "uShiftRel": 1.1141790647566352e-16,
+    "gradURel": 1.0419819920536628e-15
+   }
+  }
+ ],
+ "c": [
+  {
+   "steps": 20000,
+   "dt": 0.002,
+   "H0": -0.38231587165968284,
+   "HT": -0.38231587165730463,
+   "dHrelMax": 8.839424476171648e-11,
+   "dHdtAlgebraResidMax": 9.847374648060715e-10,
+   "JasymmetryMax": 3.2677650342190767,
+   "xT": [
+    -2.3363991258701664,
+    1.23082854639348
+   ]
+  },
+  {
+   "steps": 40000,
+   "dt": 0.001,
+   "H0": -0.38231587165968284,
+   "HT": -0.38231587165947467,
+   "dHrelMax": 5.663848005652274e-12,
+   "dHdtAlgebraResidMax": 1.893595997456611e-9,
+   "JasymmetryMax": 3.273455348822727,
+   "xT": [
+    -2.3363991257635983,
+    1.2308285465733884
+   ]
+  }
+ ],
+ "d": {
+  "cases": [
+   {
+    "name": "W=0(局所も背景も重み 0)→ 未定義",
+    "want": "undefined",
+    "got": "undefined",
+    "err": "W=0(外部平均が未定義 —— 慣性を 0 にしない)"
+   },
+   {
+    "name": "背景だけ W=0 → 未定義",
+    "want": "undefined",
+    "got": "undefined",
+    "err": "W=0(外部平均が未定義 —— 慣性を 0 にしない)"
+   },
+   {
+    "name": "背景の A 欠落 → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "background.A が欠けている/長さ違い(欠けた微分を 0 で補完しない)"
+   },
+   {
+    "name": "背景の gradW 欠落 → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "background.gradW が欠けている/長さ違い(欠けた微分を 0 で補完しない)"
+   },
+   {
+    "name": "背景の gradA 欠落 → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "background.gradA が欠けている/長さ違い(欠けた微分を 0 で補完しない)"
+   },
+   {
+    "name": "背景の dWdt 欠落 → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "background.dWdt が欠けている/非有限(欠けた微分を 0 で補完しない)"
+   },
+   {
+    "name": "背景の dAdt 欠落 → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "background.dAdt が欠けている/長さ違い(欠けた微分を 0 で補完しない)"
+   },
+   {
+    "name": "局所の A 欠落 → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "local.A が欠けている/長さ違い(欠けた微分を 0 で補完しない)"
+   },
+   {
+    "name": "局所の gradW 欠落 → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "local.gradW が欠けている/長さ違い(欠けた微分を 0 で補完しない)"
+   },
+   {
+    "name": "局所の gradA 欠落 → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "local.gradA が欠けている/長さ違い(欠けた微分を 0 で補完しない)"
+   },
+   {
+    "name": "局所の dWdt 欠落 → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "local.dWdt が欠けている/非有限(欠けた微分を 0 で補完しない)"
+   },
+   {
+    "name": "局所の dAdt 欠落 → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "local.dAdt が欠けている/長さ違い(欠けた微分を 0 で補完しない)"
+   },
+   {
+    "name": "背景 W 欠落 → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "background.W は 0 以上の有限数"
+   },
+   {
+    "name": "背景 W 負 → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "background.W は 0 以上の有限数"
+   },
+   {
+    "name": "背景 A に NaN → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "background.A に非有限の成分"
+   },
+   {
+    "name": "背景 dAdt に Infinity → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "background.dAdt に非有限の成分"
+   },
+   {
+    "name": "背景 gradA の長さ 3 → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "background.gradA が欠けている/長さ違い(欠けた微分を 0 で補完しない)"
+   },
+   {
+    "name": "ゼロ重みに非ゼロ分子 A → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "background は重み 0 なのに分子・微分が 0 でない(重み 0 の成分に分子は置けない)"
+   },
+   {
+    "name": "ゼロ重みに非ゼロ微分 dAdt → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "background は重み 0 なのに分子・微分が 0 でない(重み 0 の成分に分子は置けない)"
+   },
+   {
+    "name": "局所に selfExcluded なし → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "local は selfExcluded:true の宣言が要る(**自己項を外部平均の分母へ足さない** —— 慣性は自己作用として別に書く)"
+   },
+   {
+    "name": "局所に D0 → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "local に D₀ は足さない(W は [M/L²]・D₀ は [M/L] —— 別の量)"
+   },
+   {
+    "name": "背景に D0 → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "background に D₀ は足さない(W は [M/L²]・D₀ は [M/L] —— 別の量)"
+   },
+   {
+    "name": "局所も背景も無い → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "局所も背景も無い(合成する量が無い)"
+   },
+   {
+    "name": "正しい背景 → 受理",
+    "want": "ok",
+    "got": "ok",
+    "err": null
+   },
+   {
+    "name": "RHS: uQuantity なし → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "場の u が速度でない(uQuantity:\"velocity\" の宣言が要る —— 位置の移送 ẋ=v+u は速度の場でだけ意味を持つ)"
+   },
+   {
+    "name": "RHS: uQuantity \"weight\" → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "場の u が速度でない(uQuantity:\"velocity\" の宣言が要る —— 位置の移送 ẋ=v+u は速度の場でだけ意味を持つ)"
+   },
+   {
+    "name": "RHS: timeDerivativeComplete なし → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "場の時間微分が揃っていない(timeDerivativeComplete:true の宣言が要る —— ∂ₜu を 0 で補完しない)"
+   },
+   {
+    "name": "RHS: dUdt 欠落 → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "場の u/∇u/∂ₜu が欠けている/非有限"
+   },
+   {
+    "name": "RHS: v に NaN → 拒否",
+    "want": "reject",
+    "got": "reject",
+    "err": "v は有限数 2 つ"
+   },
+   {
+    "name": "RHS: 正しい場 → 受理",
+    "want": "ok",
+    "got": "ok",
+    "err": null
+   }
+  ],
+  "pass": 30,
+  "n": 30,
+  "inertiaKeptAtW0": true,
+  "W0rhs": {
+   "positionRate": [
+    0.7,
+    -0.4
+   ],
+   "vRate": [
+    0.01,
+    0.02
+   ],
+   "defined": false
+  }
+ },
+ "e": [
+  {
+   "name": "e1 局所なし・W_bg=1e−30",
+   "defined": true,
+   "u": [
+    3,
+    4
+   ],
+   "expected": [
+    3,
+    4
+   ],
+   "relErr": 0
+  },
+  {
+   "name": "e2 局所 W=1・u_loc=0 + 背景 W=1e−30・u_bg=(1e20,−2e20)",
+   "defined": true,
+   "u": [
+    1e-10,
+    -2e-10
+   ],
+   "expected": [
+    1e-10,
+    -2e-10
+   ],
+   "relErr": 0,
+   "nonzero": true
+  },
+  {
+   "name": "e3 局所 W=1e−30・u=(2,0) + 背景 W=1e−30・u=(0,2)",
+   "defined": true,
+   "u": [
+    1,
+    1
+   ],
+   "expected": [
+    1,
+    1
+   ],
+   "relErr": 0
+  },
+  {
+   "name": "e4 背景 ∂ₜA=1e−30(W_bg=1e−30)",
+   "defined": true,
+   "dUdt": [
+    1e-30,
+    0
+   ],
+   "expected": [
+    1e-30,
+    0
+   ],
+   "relErr": 0,
+   "nonzero": true
+  }
+ ],
+ "f": [
+  {
+   "W0": 1,
+   "U": [
+    0.3,
+    -0.2
+   ],
+   "gradUmax": 0,
+   "dUdtMax": 0,
+   "extraAccel": [
+    0,
+    0
+   ],
+   "extraVRate": [
+    0,
+    0
+   ],
+   "transportRel": 0
+  },
+  {
+   "W0": 57000,
+   "U": [
+    0,
+    4740.27
+   ],
+   "gradUmax": 0,
+   "dUdtMax": 0,
+   "extraAccel": [
+    0,
+    0
+   ],
+   "extraVRate": [
+    0,
+    0
+   ],
+   "transportRel": 0
+  },
+  {
+   "W0": 1e-12,
+   "U": [
+    229000,
+    0
+   ],
+   "gradUmax": 0,
+   "dUdtMax": 0,
+   "extraAccel": [
+    0,
+    0
+   ],
+   "extraVRate": [
+    0,
+    0
+   ],
+   "transportRel": 0
+  }
+ ],
+ "hamiltonianConfig": {
+  "GM": 1,
+  "Msrc": 1,
+  "eps": 0.2,
+  "bg": {
+   "W0": 0.2,
+   "A0": [
+    0.06,
+    0.020000000000000004
+   ],
+   "gradW": [
+    0.002,
+    -0.001
+   ],
+   "gradA": [
+    0.0015,
+    0.004,
+    -0.003,
+    0.0005
+   ],
+   "xStar": [
+    0,
+    0
+   ]
+  },
+  "x0": [
+   2,
+   0
+  ],
+  "v0": [
+   0,
+   0.45
+  ],
+  "T": 40
+ },
+ "pageErrors": [],
+ "elapsedS": 1.857
+}

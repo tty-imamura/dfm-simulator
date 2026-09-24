@@ -16,12 +16,38 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'index.html';
 const INDEX = 'file://' + path.join(ROOT, TARGET);
 const OUT_DIR = path.join(ROOT, 'tests', 'out');
-const FAST = process.env.QA_FAST === '1';
+// 第279便b: QA_TIER=fast は QA_FAST=1 と同じ意味(QA_FAST=1 は残す・意味不変)
+const FAST = process.env.QA_FAST === '1' || process.env.QA_TIER === 'fast';
 // 第35便 W5c(台帳4-45): フルQA時間短縮の並列ワーカー化。QA_SERIAL=1 で従来どおりの完全直列実行に
 // 戻せる互換スイッチ(既定=並列)。NW は QA_WORKERS で上書き可(既定4 — exp-darkrotor.mjs 226行の
 // 先行例〔4コア環境〕と同じ)。詳細設計: scratchpad/w5c-report.md。
 const QA_SERIAL = process.env.QA_SERIAL === '1';
 const W5C_NW = Math.max(1, Number(process.env.QA_WORKERS) || 4);
+
+// ==== 第279便b(原仮定者の裁定 第69報「QA が長いので対策・確認順を最適化する」・統括の検証項目 R61) ====
+// 確認順(tier): ① preflight(tests/qa-preflight.mjs — 構文・読み取り専用 lint・全内蔵の受理/構築/1 歩を
+// Node で一周・html に依らない文書検査。**フル QA の代わりではない**)→ ② 前回の FAIL を先に再実行
+// (QA_REPLAY_FAIL)→ ③ 本走行(先頭の lint 群 → ブラウザ。重いブロックは W5c/W5b プールへ)。
+//   QA_TIER=lint  … preflight だけ走らせて終わる(`npm run test:preflight` と同じ)
+//   QA_TIER=fast  … QA_FAST=1 と同じ
+//   QA_TIER=full  … 既定(`npm test` — CI の既定。判定の中身は従来どおり)
+//   QA_REPLAY_FAIL=1 … 保存 `tests/out/qa-results-full[-beta].json` と直近 `qa-results[-beta].json` の
+//     `pass:false` の id を出すブロックだけを**別プロセスで先に**走らせる(同じ qa.mjs の本文を、選んだ
+//     試験の文以外を空行にした版で実行する — コピーを持たない)。既定: ローカル ON・CI(process.env.CI)OFF。
+//     **起動成功だけで「直った」とはしない**(当該ブロックそのものを実行する)。本走行はその後に全件を走る。
+//   QA_BAIL=1 … 先行再実行で 1 件でも FAIL なら本走行へ進まず exit 1(結果 JSON は書く)。
+const QA_T0 = Date.now();
+const QA_TIER = process.env.QA_TIER || (FAST ? 'fast' : 'full');
+if (!['lint', 'fast', 'full'].includes(QA_TIER)) throw new Error(`QA_TIER=${QA_TIER} は lint|fast|full のどれか`);
+const QA_REPLAY_CHILD = process.env.QA_REPLAY_CHILD === '1';
+const QA_REPLAY_FAIL = !QA_REPLAY_CHILD && (process.env.QA_REPLAY_FAIL !== undefined
+  ? process.env.QA_REPLAY_FAIL === '1' : !process.env.CI);
+const QA_BAIL = process.env.QA_BAIL === '1';
+if (QA_TIER === 'lint') {
+  const { spawnSync } = await import('node:child_process');
+  const r = spawnSync(process.execPath, [path.join(ROOT, 'tests', 'qa-preflight.mjs')], { stdio: 'inherit', env: process.env });
+  process.exit(r.status === null ? 1 : r.status);
+}
 
 async function getBrowser() {
   // CI: playwright(npm install でブラウザ管理)。ローカル: playwright-core + 既存 Chromium も可。
@@ -48,6 +74,79 @@ const add = (id, pass, detail) => {
   results.push({ id, pass: !!pass, detail: String(detail ?? ''), ms });
   console.log(`${pass ? 'PASS' : 'FAIL'} ${id}${detail ? '  ' + detail : ''}  [${(ms / 1000).toFixed(1)}s]`);
 };
+
+// ==== 第279便b: 途中終了でも結果 JSON を書く / 前回 FAIL の先行再実行 ====
+// 旧実装は最上位で例外が出ると結果 JSON を書かずに終わった(W5c のユニット例外は待機がハングした)。
+// 途中終了は `aborted` 付きで qa-results.json(beta 対象なら -beta も)へ書く — **フル走行の保存物
+// (qa-results-full*.json)は書かない**(件数の揃わない走行で上書きしない)。
+const W5_ORDER = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-qaorder.mjs'));
+let qaReplay = null;
+const qaOutNames = () => (QA_REPLAY_CHILD
+  ? [TARGET.startsWith('beta/') ? 'qa-replay-beta.json' : 'qa-replay.json']
+  : (TARGET.startsWith('beta/') ? ['qa-results.json', 'qa-results-beta.json'] : ['qa-results.json']));
+function qaWriteAborted(phase, reason) {
+  let commit0 = 'unknown';
+  try { commit0 = execSync('git rev-parse HEAD', { cwd: ROOT, stdio: 'pipe' }).toString().trim(); } catch {}
+  let sha0 = 'unknown';
+  try { sha0 = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex'); } catch {}
+  const rs = results.concat([{ id: 'qa.aborted', pass: false, detail: `${phase}: ${String(reason).slice(0, 400)}`, ms: 0 }]);
+  const out = JSON.stringify({ commit: commit0, date: new Date().toISOString(), fast: FAST, tier: QA_TIER, target: TARGET,
+    targetSha256: sha0, total: rs.length, failed: rs.filter((r) => !r.pass).length, pass: false,
+    aborted: { phase, reason: String(reason).slice(0, 2000) }, wallDurationMs: Date.now() - QA_T0,
+    replay: qaReplay, results: rs }, null, 1);
+  fs.mkdirSync(OUT_DIR, { recursive: true });
+  for (const f of qaOutNames()) fs.writeFileSync(path.join(OUT_DIR, f), out);
+  console.log(`\nABORTED (${phase}) → ${qaOutNames().map((f) => 'tests/out/' + f).join(' + ')}: ${String(reason).slice(0, 300)}`);
+}
+process.on('uncaughtException', (e) => {
+  try { qaWriteAborted('uncaught', (e && e.stack) || e); } catch (e2) { console.error('結果 JSON の書き出しに失敗:', e2); }
+  process.exit(1);
+});
+if (QA_REPLAY_FAIL) {
+  const t0 = Date.now();
+  const beta = TARGET.startsWith('beta/');
+  const cands = [beta ? 'qa-results-full-beta.json' : 'qa-results-full.json', beta ? 'qa-results-beta.json' : 'qa-results.json'];
+  const files = cands.map((f) => {
+    let json = null;
+    try { json = JSON.parse(fs.readFileSync(path.join(OUT_DIR, f), 'utf8')); } catch {}
+    return { path: 'tests/out/' + f, json };
+  });
+  const failed = W5_ORDER.collectFailedIds(files, TARGET).filter((x) => x.id !== 'qa.aborted');
+  qaReplay = { enabled: true, sources: files.filter((f) => f.json).map((f) => f.path), failedIds: failed.map((x) => x.id),
+    units: [], missing: [], exit: null, total: 0, failed: 0, failedNow: [], ms: 0 };
+  if (failed.length) {
+    const src = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8');
+    const units = W5_ORDER.splitTopLevel(src);
+    const { units: sel, missing } = W5_ORDER.unitsForIds(units.filter(W5_ORDER.isTestUnit), failed.map((x) => x.id));
+    qaReplay.units = sel.map((u) => `${u.l0}-${u.l1}`);
+    qaReplay.missing = missing;
+    console.log(`[REPLAY] 前回の FAIL ${failed.length} 件(${failed.slice(0, 6).map((x) => x.id).join(' ')}${failed.length > 6 ? ' …' : ''})`
+      + ` → ${sel.length} ブロックを先に再実行${missing.length ? `(qa.mjs に無い id ${missing.length} 件は対象外)` : ''}`);
+    if (sel.length) {
+      const tmp = path.join(ROOT, 'tests', `.qa-replay-${process.pid}.mjs`);
+      fs.writeFileSync(tmp, W5_ORDER.buildReplaySource(src, units, sel));
+      const { spawnSync } = await import('node:child_process');
+      const r = spawnSync(process.execPath, [tmp], { stdio: 'inherit',
+        env: { ...process.env, QA_REPLAY_CHILD: '1', QA_SERIAL: '1', QA_CACHE: '0', QA_REPLAY_FAIL: '0' } });
+      try { fs.unlinkSync(tmp); } catch {}
+      qaReplay.exit = r.status;
+      let rj = null;
+      try { rj = JSON.parse(fs.readFileSync(path.join(OUT_DIR, beta ? 'qa-replay-beta.json' : 'qa-replay.json'), 'utf8')); } catch {}
+      if (rj) { qaReplay.total = rj.total; qaReplay.failed = rj.failed;
+        qaReplay.failedNow = rj.results.filter((z) => !z.pass).map((z) => z.id); }
+      else { qaReplay.failed = 1; qaReplay.failedNow = ['(先行再実行の結果 JSON が無い)']; }
+    }
+  } else console.log('[REPLAY] 前回の FAIL なし(保存結果: ' + (qaReplay.sources.join(', ') || 'なし') + ')');
+  qaReplay.ms = Date.now() - t0;
+  if (qaReplay.units.length)
+    console.log(`[REPLAY] 先行再実行: ${qaReplay.total - qaReplay.failed}/${qaReplay.total} PASS・${(qaReplay.ms / 1000).toFixed(1)}s`
+      + (qaReplay.failed ? ` — まだ FAIL: ${qaReplay.failedNow.slice(0, 6).join(' ')}` : ''));
+  if (QA_BAIL && (qaReplay.failed || (qaReplay.exit !== null && qaReplay.exit !== 0))) {
+    for (const id of qaReplay.failedNow) results.push({ id, pass: false, detail: '先行再実行(QA_REPLAY_FAIL)で FAIL — tests/out/qa-replay*.json', ms: 0 });
+    qaWriteAborted('replay-bail', `QA_BAIL=1: 前回 FAIL の先行再実行で ${qaReplay.failed} 件 FAIL(本走行へ進まない)`);
+    process.exit(1);
+  }
+}
 
 // ---- 0) 構文検査(node --check)----
 {
@@ -1996,7 +2095,16 @@ const add = (id, pass, detail) => {
       'tests/out/bgequiv-w278d.json',
       // 第278便c(統括の検証項目 R55): pairSlip の符号修正の影響範囲(html の 2D 実装をソースの文字列で評価して
       //   突き合わせる —— target=beta/index.html)と、H6 の共役変数模型(**エンジン未接続** —— target は lib 自身)
-      'tests/out/slipaudit-w278c.json', 'tests/out/nsmode-w278c.json'];
+      'tests/out/slipaudit-w278c.json', 'tests/out/nsmode-w278c.json',
+      // 第279便a(第69報「各サンプルの状況確認」・R60): 内蔵 133 本の status と概要・一覧 md の生成物の正本
+      //   (target=beta/index.html —— 生成領域 sample-status を書いた後の html。inputs に原稿・calaudit・charonwin・一覧 md)
+      'tests/out/samplestatus-w279a.json',
+      // 第279便b(R61): QA の確認順・並列化(W5b)・失敗注入・preflight の実測(**判定ではなく時間の正本** ——
+      //   html を走らせない器なので target は器が読む正本ファイル(lib 自身)である)
+      'tests/out/qaorder-w279b.json',
+      // 第279便c(第69報・R62/R63): 背景の閾値なし合成と速度分解 RHS の検算(target=beta/index.html —— 純関数を
+      //   html のソースから取り出す)/ 新契約での背景の誤差予算(純関数の積分 + エンジンの診断コピー)
+      'tests/out/bgcompose-w279c.json', 'tests/out/bgbudget2-w279c.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -2193,7 +2301,10 @@ const add = (id, pass, detail) => {
   const bad = [];
   // 第278便a(確認依頼 第 5 回・取得依頼 D・AM7・AM14): 89/98/37 → **145/397/58**(印の更新 42 行・
   //   σ を上げた 9 行・解タグの移設 25 行・書誌訂正 10 行・判定行の差し替え 2 行 —— 器の実測値)。
-  const EXPECT = { records: 145, revisions: 397, markedRows: 58, annotations: 3, annotationRows: 9 };
+  // 第279便e(第69報の裁定 AM7′・AN1・AN2・AN3・AM8′): 145/397/58 → **159/422/63**(判定行の差し替え 10 revision
+  //   〔kind `source-replacement`・旧判定行 5 行に `superseded_by=`〕・裁定の写し 15 revision〔kind `ruling`・
+  //   うち AN3 の sigma 列 1 件〕—— 新しい record 14 件・器の実測値)。
+  const EXPECT = { records: 159, revisions: 422, markedRows: 63, annotations: 3, annotationRows: 9 };
   let lg = null, J = null, redacted = 0;
   try { lg = JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data', 'corrections.json'), 'utf8')); }
   catch (e) { bad.push('①台帳が読めない: ' + String(e).slice(0, 80)); }
@@ -2485,7 +2596,10 @@ const add = (id, pass, detail) => {
     console.log('SKIP docs.intakeD(beta 対象でない: ' + TARGET + ')');
   } else {
     const bad = [];
-    const EXPECT = { csvRows: 601, newRows: 21, newWithSigma: 9, newVerified: 10, confirmed: 42, raised: 9,
+    // 第279便e(AN3): 2026-09-23 の新規行のうち 2024 系 GM(SOL-2ed99d44)の sigma 列へ公表の膨らませた
+    //   ±0.2 km³/s² = 2e8 m³/s² を入れた(`sigma_raised=` ではなく `ruling=AN3` —— 2of2 の一致で上げた行ではない)
+    //   ので、sigma 列を持つ新規行は 9 → **10**(③ の `sigma_raised` 9 行は不変)。
+    const EXPECT = { csvRows: 601, newRows: 21, newWithSigma: 10, newVerified: 10, confirmed: 42, raised: 9,
       cut: { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
       four: { 否: 2, 保留: 14 } };
     let nRows = 0, nNew = 0, nNewSig = 0, nNewVer = 0, nConf = 0, nRaised = 0, cut = null, four = null;
@@ -2584,7 +2698,9 @@ const add = (id, pass, detail) => {
 // ----     ④ 旧判定行(二次資料 109123.2 s)は CSV に**履歴の行**として残り、`superseded_by=<新しい行>`・
 // ----        `superseded_on=2026-09-23` を持つ。旧値の候補行(`orbital_period_candidate`)も残っている。
 // ----     ⑤ σ 接続器が宣言行で読んでいて(`appliedToJudgement`)、判定は**保留**(σ が無い)。
-// ----     ⑥ フォボスも同型(λ̇=1128.844409 deg/day)。天王星の衛星 5 本は**差し替えていない**(AM7′ 裁定待ち)。
+// ----     ⑥ フォボスも同型(λ̇=1128.844409 deg/day)。天王星の衛星 5 本は第278便a の時点では差し替えていなかった
+// ----        (AM7′ 裁定待ち)が、**第279便e で原仮定者の裁定(第69報)AM7′ により差し替えた** —— その検査は
+// ----        `docs.uranusSwap` が持つ(本ブロックの ⑥ は「天王星の宣言が uranusSwap の 5 件だけ」であることを見る)。
 // ----   root は SKIP。
 {
   if (!TARGET.startsWith('beta/')) {
@@ -2637,9 +2753,13 @@ const add = (id, pass, detail) => {
         bad.push('④ダイモスの旧値の候補行(orbital_period_candidate 109123.2)が無い');
       const pc = L.rows.find((x) => x.body === 'Deimos' && x.quantity === 'orbital_period_candidate' && x.value === 109092.7872);
       if (!pc || !/(?:^|[^A-Za-z0-9_])period_column=absent/.test(pc.note)) bad.push('③Period 列読みの行に period_column=absent が無い');
-      // ⑥ 天王星の衛星は差し替えていない(AM7′)
-      for (const b of ['Miranda', 'Ariel', 'Umbriel', 'Titania', 'Oberon'])
-        if ((JS.declarations || []).some((x) => x.body === b)) bad.push(`⑥${b} の判定行を宣言している(AM7′ は裁定待ち)`);
+      // ⑥ 天王星の衛星: 第279便e(AM7′)で差し替えた —— 宣言は各 1 件で、Jacobson 2014 Table 2 の λ̇ 由来の行だけ
+      //   (中身の検査は docs.uranusSwap)。ここでは「ダイモス/フォボスの検査が天王星の宣言に紛れない」ことだけを見る。
+      for (const b of ['Miranda', 'Ariel', 'Umbriel', 'Titania', 'Oberon']) {
+        const ds = (JS.declarations || []).filter((x) => x.body === b);
+        if (ds.length !== 1 || ds[0].quantity !== 'orbital_period' || !/Jacobson R\.A\. 2014 AJ 148 76 Table 2/.test(String(ds[0].source)))
+          bad.push(`⑥${b} の宣言が Jacobson 2014 Table 2 の P 1 件でない(${ds.length} 件)`);
+      }
     } catch (e) { bad.push('読めない: ' + String(e).slice(0, 110)); }
     add('docs.deimosSwap', bad.length === 0,
       `**ダイモスの判定行の差し替え**(第278便a・AM7 —— 原仮定者の裁定(第68報)「概ね同意」): `
@@ -2648,7 +2768,204 @@ const add = (id, pass, detail) => {
       + `計算し直すと行の値に一致 / ③ **「Table 6 に Period 列がある」とは書かない**(Period 列読みの行に`
       + ` \`period_column=absent\`)/ ④ 旧判定行は履歴の行(\`superseded_by=\`・\`superseded_on=2026-09-23\`)/ `
       + `⑤ σ 接続器が宣言行で読み、判定は**保留**(σ が無いので門へは入らない)/ ⑥ フォボスも同型・`
-      + `天王星の衛星 5 本は**差し替えていない**(AM7′ 裁定待ち)`
+      + `天王星の衛星 5 本は第279便e(AM7′)で Jacobson 2014 Table 2 の λ̇ 由来へ差し替えた(検査は \`docs.uranusSwap\`)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第279便e(第69報・AM7′): docs.uranusSwap ----
+// ----   **天王星の 5 衛星の判定行の差し替え**(原仮定者の裁定(第69報)AM7′ —— ダイモス/フォボス〔第278便a〕と同じ形)
+// ----   を機械で固定する:
+// ----     ① `paper/data/judgement-sources.json` の `<衛星>|orbital_period` の宣言が各 1 件で、Jacobson 2014 AJ 148 76
+// ----        Table 2 の **λ̇ 由来の行**(`orbital_period_candidate`・`derived-in-record`)を指し、**sigma は null**
+// ----        (1σ は印字されていない)・`solution_id` は空欄(解タグは CSV の行の note に書かれていない)。
+// ----     ② その行の `derived_from=` が **λ̇ の行**(同じ Table 2・mean_motion・deg/day)へ 1 件で解決し、
+// ----        `P=360/λ̇ d×86400 s` を**今ここで計算し直すと行の値に一致**する(相対 1e−12 以内)。行の note に
+// ----        `judgement_row_since=2026-09-24` と `frame=Uranus mean equator` がある。
+// ----     ③ 旧判定行(NSSDC Uranian Satellite Fact Sheet の P)は CSV に**履歴の行**として 1 行で残り(量名
+// ----        `orbital_period` のまま)、`superseded_by=<新しい行>`・`superseded_on=2026-09-24` を持つ。
+// ----        同じ NSSDC 値の候補行(`orbital_period_candidate`)も**候補のまま**残っている。
+// ----     ④ σ 接続器(`tests/out/solarsigma-w262d.json`)が宣言行で読み(`appliedToJudgement`)、判定は**保留**
+// ----        (σ が無い)。**切断点 106/26/3/4 と太陽系 4 値(否 2・保留 14)は動いていない**。
+// ----     ⑤ 変更履歴の台帳に、旧判定行 5 行の `source-replacement` の revision(`markKey:"superseded_by"`)がある。
+// ----     ⑥ CALIBRATION_VERDICT §5.31 に 5 本の新値と `106/26/3/4`・`0/2/2/33` があり、**4 値の禁止語が無い**。
+// ----   root は SKIP。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.uranusSwap(beta 対象でない: ' + TARGET + ')');
+  } else {
+    const bad = [];
+    const rowsOut = [];
+    let cut = null, four = null;
+    try {
+      const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+      const L = OB.loadObsCsv(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'));
+      const byId = new Map(L.rows.map((r) => [r.recordId, r]));
+      const JS = JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data', 'judgement-sources.json'), 'utf8'));
+      const S = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8'));
+      const CJ = JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data', 'corrections.json'), 'utf8'));
+      // [衛星, λ̇ (deg/day), 旧判定行の値 (s)] —— 値は CSV の既存行の値(ここで新しい数値を作らない)
+      const CASES = [['Miranda', 254.6906573, 122124.5856], ['Ariel', 142.8356506, 217760.7456],
+        ['Umbriel', 86.8688753, 358056.8064], ['Titania', 41.3514187, 752186.9088],
+        ['Oberon', 26.7394835, 1163223.4176]];
+      const hasKey = (note, k) => new RegExp('(?:^|[^A-Za-z0-9_])' + k).test(String(note || ''));
+      for (const [body, lam, oldV] of CASES) {
+        const ds = (JS.declarations || []).filter((x) => x.body === body && x.quantity === 'orbital_period');
+        if (ds.length !== 1) { bad.push(`①${body}|orbital_period の宣言が 1 件でない(${ds.length})`); continue; }
+        const d = ds[0];
+        if (d.sigma !== null) bad.push(`①${body} の宣言の sigma が null でない`);
+        if (d.csvQuantity !== 'orbital_period_candidate') bad.push(`①${body} の csvQuantity が候補行の鍵でない`);
+        if (d.solution_id !== '') bad.push(`①${body} の宣言の solution_id が空欄でない(${d.solution_id})`);
+        const r = byId.get(d.record_id);
+        if (!r) { bad.push(`①${body} の宣言行 ${d.record_id} が CSV に無い`); continue; }
+        if (!/^Jacobson R\.A\. 2014 AJ 148 76 Table 2/.test(r.source)) bad.push(`①${body} の宣言行の出典が Jacobson 2014 Table 2 でない`);
+        if (r.sigma !== null) bad.push(`①${body} の宣言行に sigma がある`);
+        if (String(r.solutionId || '') !== '') bad.push(`①${body} の宣言行の solution_id が空欄でない`);
+        const refs = OB.listKeyRefs(r.note, 'derived_from');
+        const src = refs.ids.length === 1 ? byId.get(refs.ids[0]) : null;
+        if (!src) bad.push(`②${body} の derived_from が λ̇ の行へ 1 件で解決しない`);
+        else {
+          if (src.quantity !== 'mean_motion' || src.value !== lam || src.unit !== 'deg/day' || !/Table 2/.test(src.source))
+            bad.push(`②${body} の derived_from の先が λ̇=${lam} deg/day の行でない(${src.quantity} ${src.value})`);
+          const P = 360 / src.value * 86400;
+          if (!(Math.abs(P - r.value) <= 1e-12 * r.value)) bad.push(`②${body} の P=360/λ̇×86400=${P} が行の値 ${r.value} と違う`);
+        }
+        if (!hasKey(r.note, 'judgement_row_since=2026-09-24')) bad.push(`②${body} の宣言行に judgement_row_since=2026-09-24 が無い`);
+        if (!hasKey(r.note, 'frame=Uranus mean equator')) bad.push(`②${body} の宣言行に frame= が無い`);
+        const old = L.rows.filter((x) => x.body === body && x.quantity === 'orbital_period' && x.value === oldV);
+        if (old.length !== 1) bad.push(`③${body} の旧判定行(${oldV} s)が 1 行でない(${old.length})`);
+        else {
+          if (!/NSSDC Uranian Satellite Fact Sheet/.test(old[0].source)) bad.push(`③${body} の旧判定行の出典が NSSDC でない`);
+          if (!new RegExp('(?:^|[^A-Za-z0-9_])superseded_by=' + d.record_id + '(?![A-Za-z0-9_-])').test(old[0].note))
+            bad.push(`③${body} の旧判定行に superseded_by=${d.record_id} が無い`);
+          if (!hasKey(old[0].note, 'superseded_on=2026-09-24')) bad.push(`③${body} の旧判定行に superseded_on=2026-09-24 が無い`);
+          const rec = (CJ.records || {})[old[0].recordId];
+          const rv = rec ? (rec.revisions || []).filter((z) => z.kind === 'source-replacement' && z.markKey === 'superseded_by') : [];
+          if (rv.length !== 1) bad.push(`⑤${body} の旧判定行 ${old[0].recordId} に source-replacement の revision が 1 件でない(${rv.length})`);
+        }
+        if (!L.rows.some((x) => x.body === body && x.quantity === 'orbital_period_candidate' && x.value === oldV
+          && /NSSDC/.test(x.source)))
+          bad.push(`③${body} の NSSDC 値の候補行(orbital_period_candidate ${oldV})が無い`);
+        const dr = ((S.declaredFirst || {}).rows || []).filter((x) => x.key === body + '|orbital_period');
+        if (!dr.length) bad.push(`④σ 接続器に ${body} の宣言行が無い(器を走らせ直すこと)`);
+        for (const x of dr) {
+          if (x.appliedToJudgement !== true) bad.push(`④${body} の宣言が判定経路に入っていない`);
+          if (x.declaredSigma !== null || !/^保留/.test(String(x.verdict))) bad.push(`④${body} の判定が保留でない(${x.verdict})`);
+        }
+        rowsOut.push(`${body} ${d.record_id}=${r.value} s(旧 ${oldV} s・差 ${(r.value - oldV).toFixed(6)} s)`);
+      }
+      cut = S.cutTally || {}; four = S.fourTally || {};
+      const EC = { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 };
+      for (const [k, v] of Object.entries(EC)) if (cut[k] !== v) bad.push(`④切断点 ${k} が ${v} でない(${cut[k]})`);
+      if (four['否'] !== 2 || four['保留'] !== 14) bad.push(`④太陽系 4 値が 否 2・保留 14 でない(${JSON.stringify(four)})`);
+      // ⑥ CALIBRATION_VERDICT §5.31
+      const V = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
+      const i31 = V.indexOf('### 5.31 ');
+      if (i31 < 0) bad.push('⑥台帳に §5.31 が無い');
+      const sec = (i31 < 0) ? '' : V.slice(i31, (() => { const e = [V.indexOf('\n### 5.32 ', i31), V.indexOf('\n## ', i31)]
+        .filter((x) => x > 0); return e.length ? Math.min(...e) : V.length; })());
+      for (const sN of ['122124.62101961837', '217760.7611919261', '358056.89773906855', '752187.0102125419',
+        '1163223.665109313', '106/26/3/4', '0/2/2/33'])
+        if (sec.indexOf(sN) < 0) bad.push(`⑥§5.31 に ${sN} が無い`);
+      for (const line of sec.split('\n'))
+        if (/較正した|較正を完了|判定が増えた|カロンが合|カロンが否|kF0 版が成立した|引きずりが完全に消えていることを確認/.test(line))
+          bad.push('⑥禁止語(§5.31): ' + line.slice(0, 40));
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 110)); }
+    add('docs.uranusSwap', bad.length === 0,
+      `**天王星の 5 衛星の判定行の差し替え**(第279便e・AM7′ —— 原仮定者の裁定(第69報)「概ね同意」): `
+      + `${rowsOut.join(' / ')} / ① 宣言は Jacobson 2014 Table 2 の **λ̇ 由来**(\`derived-in-record\`・`
+      + `**sigma は null** —— 1σ は印字されていない・\`solution_id\` は空欄)/ ② \`derived_from=\` が λ̇ の行へ解決し、`
+      + `P=360/λ̇ d×86400 s を計算し直すと行の値に一致 / ③ 旧判定行(NSSDC)は履歴の行(量名は \`orbital_period\` のまま・`
+      + `\`superseded_by=\`・\`superseded_on=2026-09-24\`)・NSSDC 値の候補行は候補のまま / ④ σ 接続器が宣言行で読み、`
+      + `判定は**保留** —— **切断点 ${cut ? Object.values(cut).join('/') : '—'}・太陽系 4 値 ${four ? JSON.stringify(four) : '—'} は動いていない** / `
+      + `⑤ 台帳に \`source-replacement\` の revision / ⑥ §5.31 に 5 本の新値・禁止語なし`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第279便e(第69報・AN1・AN2・AN3・AM8′): docs.obsRulings69 ----
+// ----   原仮定者の裁定(第69報)で閉じた**観測レコードの σ の読み方**が CSV に写っていることを機械で固定する。
+// ----   **どの行も判定量ではない**(GM・Weaver の周期・Chapront の月の量は門の宛先に無い)ので門は動かない。
+// ----     ① AN1: Brozović 2015 の系/冥王星/カロン GM 4 行は `uncertainty_kind=conservative-inflated` と
+// ----        `ruling=AN1` を持ち、**sigma 列は印字のまま**(冥王星 1.8e9・系 1.5e9・カロン 2 行は空のまま)。
+// ----     ② AN3: 2024 Table 8 の系 GM は sigma 列が **2e8**(公表の膨らませた 0.2 km³/s²)で、note に
+// ----        `formal_sigma=0.09`・`uncertainty_kind=published-inflated`(二乗和しない)。カロン GM は sigma 3e8 のまま
+// ----        `formal_sigma=0.12`。
+// ----     ③ AN2: Weaver 2016 Table 2 の周期 4 行は `source_status=secondary-transcription`・
+// ----        `primary_reference=(5) unresolved`・`confirmation_request=7` を持ち、**出典ラベルは付け替えていない**・sigma 列は空。
+// ----     ④ AM8′: Chapront 2002 の 4 行は sigma 列が空のまま、`stated_level=none`・`ruling=AM8-prime`。
+// ----   root は SKIP。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.obsRulings69(beta 対象でない: ' + TARGET + ')');
+  } else {
+    const bad = [];
+    const tally = { AN1: 0, AN2: 0, AN3: 0, AM8: 0 };
+    try {
+      const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+      const L = OB.loadObsCsv(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'));
+      const byId = new Map(L.rows.map((r) => [r.recordId, r]));
+      const has = (r, k) => new RegExp('(?:^|[^A-Za-z0-9_])' + k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).test(String(r.note || ''));
+      const JQ = ['orbital_period', 'eccentricity', 'periastron_advance', 'rotation_period'];
+      const GATED = ['Moon', 'Earth', 'Mercury', 'Venus', 'Mars', 'Phobos', 'Deimos', 'Charon',
+        'Miranda', 'Ariel', 'Umbriel', 'Titania', 'Oberon', 'Triton', 'Io', 'Europa', 'Ganymede',
+        'Callisto', 'Saturn ring feature D68', 'Saturn ring C inner edge', 'Mimas', 'Titan'];
+      const get = (id, tag) => { const r = byId.get(id); if (!r) bad.push(`${tag} ${id} が CSV に無い`); return r; };
+      // ① AN1(record_id → 期待する sigma 列の生値)
+      for (const [id, sg] of [['SOL-5cc14657', '1.8e9'], ['SOL-b8f464fc', '1.5e9'], ['SOL-17ac6945', ''], ['SOL-dbe2abde', '']]) {
+        const r = get(id, '①'); if (!r) continue;
+        if (!/^Brozovic M\. Showalter M\.R\. Jacobson R\.A\. Buie M\.W\. 2015 Icarus 246 317/.test(r.source)) bad.push(`①${id} の出典が Brozović 2015 でない`);
+        if (!has(r, 'uncertainty_kind=conservative-inflated')) bad.push(`①${id} に uncertainty_kind=conservative-inflated が無い`);
+        if (!has(r, 'ruling=AN1')) bad.push(`①${id} に ruling=AN1 が無い`);
+        if (String(r.rawSigma || '').trim() !== sg) bad.push(`①${id} の sigma 列が ${sg || '空'} でない(${r.rawSigma})`);
+        tally.AN1++;
+      }
+      // ② AN3
+      { const r = get('SOL-2ed99d44', '②');
+        if (r) {
+          if (r.body !== 'Pluto-Charon system' || r.quantity !== 'GM') bad.push('②SOL-2ed99d44 が系 GM の行でない');
+          if (String(r.rawSigma).trim() !== '2e8') bad.push(`②系 GM の sigma 列が 2e8 でない(${r.rawSigma})`);
+          if (!has(r, 'formal_sigma=0.09')) bad.push('②系 GM に formal_sigma=0.09 が無い');
+          if (!has(r, 'uncertainty_kind=published-inflated')) bad.push('②系 GM に uncertainty_kind=published-inflated が無い');
+          if (!has(r, 'ruling=AN3')) bad.push('②系 GM に ruling=AN3 が無い');
+          tally.AN3++;
+        } }
+      { const r = get('SOL-2a069190', '②');
+        if (r) {
+          if (String(r.rawSigma).trim() !== '3e8') bad.push(`②カロン GM(2024)の sigma 列が 3e8 でない(${r.rawSigma})`);
+          if (!has(r, 'formal_sigma=0.12') || !has(r, 'uncertainty_kind=published-inflated') || !has(r, 'ruling=AN3'))
+            bad.push('②カロン GM(2024)に formal_sigma=0.12 / uncertainty_kind / ruling=AN3 が揃っていない');
+          tally.AN3++;
+        } }
+      // ③ AN2
+      for (const id of ['SOL-36584acc', 'SOL-47d6c979', 'SOL-d3a36169', 'SOL-b66fe697']) {
+        const r = get(id, '③'); if (!r) continue;
+        if (!/^Weaver et al\. 2016 Science 351 aae0030 Table 2/.test(r.source)) bad.push(`③${id} の出典ラベルが Weaver 2016 Table 2 でない(付け替えない)`);
+        for (const k of ['source_status=secondary-transcription', 'primary_reference=(5) unresolved', 'confirmation_request=7', 'ruling=AN2'])
+          if (!has(r, k)) bad.push(`③${id} に ${k} が無い`);
+        if (r.sigma !== null) bad.push(`③${id} の sigma 列が空でない`);
+        tally.AN2++;
+      }
+      // ④ AM8′
+      for (const id of ['SOL-17f5dad0', 'SOL-c34be08a', 'SOL-432f643e', 'SOL-dd3a44c7']) {
+        const r = get(id, '④'); if (!r) continue;
+        if (!/^Chapront J\. Chapront-Touze M\. Francou G\. 2002/.test(r.source)) bad.push(`④${id} の出典が Chapront 2002 でない`);
+        if (r.sigma !== null) bad.push(`④${id} の sigma 列が空でない`);
+        if (!has(r, 'stated_level=none') || !has(r, 'ruling=AM8-prime')) bad.push(`④${id} に stated_level=none / ruling=AM8-prime が無い`);
+        tally.AM8++;
+      }
+      // どの行も判定量(宛先天体の P/e/ω̇/自転)ではない
+      for (const r of L.rows)
+        if (/(?:^|[^A-Za-z0-9_])ruling=(?:AN1|AN2|AN3|AM8-prime)/.test(r.note) && GATED.includes(r.body) && JQ.includes(r.quantity))
+          bad.push(`⑤行 ${r.ln} が判定量 ${r.body}|${r.quantity}`);
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 110)); }
+    add('docs.obsRulings69', bad.length === 0,
+      `**観測レコードの σ の読み方の裁定**(第279便e・原仮定者の裁定(第69報)): `
+      + `① AN1 ${tally.AN1} 行(Brozović 2015 の保守的な ± は sigma 列に印字のまま・\`uncertainty_kind=conservative-inflated\`)/ `
+      + `② AN3 ${tally.AN3} 行(2024 系 GM の sigma 列 = 公表の膨らませた 0.2 km³/s²・形式 1σ 0.09 は note —— 二乗和しない)/ `
+      + `③ AN2 ${tally.AN2} 行(Weaver 2016 Table 2 の周期は転載 —— \`source_status=secondary-transcription\`・出典は付け替えない)/ `
+      + `④ AM8′ ${tally.AM8} 行(Chapront 2002 の formal errors は 1σ として読まない・sigma 列は空)/ `
+      + `⑤ どの行も判定量ではない(門は動かない)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
@@ -2779,6 +3096,143 @@ const add = (id, pass, detail) => {
     + ` / ④ 未生成でも FAIL にしない(フルゲートは統括だけが回すため)。`
     + `**QA_FAST の走行はこの 2 本を読み書きしない**(従来どおり qa-results.json だけを上書きする)`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 第279便b(原仮定者の裁定 第69報「QA が長いので対策」・統括の検証項目 R61): lint.qaOrder ----
+// ----   QA の**確認順と並列化の契約**を機械で固定する(判定の中身には触らない):
+// ----     ① preflight の器(tests/qa-preflight.mjs・lib 2 本)とマニフェスト(tests/qa-manifest.json)がある。
+// ----     ② package.json: `npm test` は従来どおりフル(`node tests/qa.mjs`)・`test:preflight` がある。
+// ----     ③ ci.yml の qa ジョブ: preflight のステップが `npm test` より前にあり、`npm test`(フル)は残る。
+// ----        CI で QA_REPLAY_FAIL を ON にしていない(CI は全件を最初から走らせる最終裁定者)。
+// ----     ④ W5b: 呼び出し(`await w5bRun('<key>', <ガード>); async function W5B_<key>(page, add, fpRun, console) {`)と
+// ----        表 W5B_JOBS が 1 対 1 で、**ガード式が表の enabled と文字列一致**する。W5b の本文は
+// ----        w5cGetUnit・`browser.`・`results`・`lastAddAt` に触れない(主ページ以外の共有状態を持たない)。
+// ----     ⑤ 最上位の文の切り出し(splitTopLevel)が qa.mjs の全 add() の静的 id を試験の文に 1 回ずつ収め、
+// ----        各文が単独で構文として閉じる(async 関数で包んで vm でコンパイルできる)。
+// ----     ⑥ 前回 FAIL の先行再実行用の版(buildReplaySource)が行数を保ち、W5b の関数宣言を全部残し、
+// ----        選んだ文だけを残す(試しに `lint.coreBudget` を選ぶ)。
+// ----   root(リリース世代)では SKIP する(QA 基盤の契約であって html の世代差ではないので、beta で 1 回見る)。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP lint.qaOrder(root 対象 — QA 基盤の契約は beta 対象の走行で 1 回見る)');
+  } else {
+    const bad = [];
+    const info = {};
+    try {
+      const QO = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-qaorder.mjs'));
+      for (const f of ['tests/qa-preflight.mjs', 'tests/lib-w279b-qaorder.mjs', 'tests/lib-w279b-headless.mjs', 'tests/qa-manifest.json'])
+        if (!fs.existsSync(path.join(ROOT, f))) bad.push(`①${f} が無い`);
+      const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
+      if (!pkg.scripts || pkg.scripts.test !== 'node tests/qa.mjs') bad.push('②`npm test` がフル(node tests/qa.mjs)でない');
+      if (!pkg.scripts || !/tests\/qa-preflight\.mjs/.test(pkg.scripts['test:preflight'] || '')) bad.push('②`test:preflight` が無い');
+      const ci = fs.readFileSync(path.join(ROOT, '.github', 'workflows', 'ci.yml'), 'utf8');
+      const iPre = ci.search(/run:\s*npm run test:preflight/), iFull = ci.search(/run:\s*npm test\s*$/m);
+      info.ci = { preflightAt: iPre, fullAt: iFull };
+      if (iPre < 0) bad.push('③ci.yml に preflight のステップが無い');
+      if (iFull < 0) bad.push('③ci.yml に `npm test`(フル)が無い');
+      if (iPre >= 0 && iFull >= 0 && iPre > iFull) bad.push('③preflight が `npm test` より後にある');
+      if (/QA_REPLAY_FAIL:\s*'?1/.test(ci)) bad.push('③CI で QA_REPLAY_FAIL を ON にしている');
+      const src = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8');
+      const lines = src.split('\n');
+      const units = QO.splitTopLevel(src);
+      // ④ W5b の呼び出しと表
+      const calls = [];
+      // 本ブロックはブラウザに触れない(preflight の対象)。preflight の段分け(classifyUnit)は識別子
+      // `pa`+`ge`/`brow`+`ser` の出現で見るので、正規表現の中の語は連結で組む(意味は同じ)
+      const PG = 'pa' + 'ge', BR = 'brow' + 'ser';
+      const HEAD_RE = new RegExp(`^await w5bRun\\('([\\w$]+)', ([^;]*)\\); async function W5B_([\\w$]+)\\(${PG}, add, fpRun, console\\) \\{\\s*$`);
+      const SHARED_RE = new RegExp(`\\bw5cGetUnit\\(|(^|[^\\w$.])${BR}\\.|(^|[^\\w$.])results\\b|\\blastAddAt\\b`);
+      for (const u of units) {
+        const m = HEAD_RE.exec(lines[u.l0 - 1]);
+        if (m) calls.push({ key: m[1], cond: m[2], fn: m[3], u });
+      }
+      const tblM = /const W5B_JOBS = \{([\s\S]*?)\n\};/.exec(src);
+      const tbl = {};
+      if (tblM) for (const m of tblM[1].matchAll(/^\s+([\w$]+): \{ fn: W5B_([\w$]+), enabled: ([^,]+), weight: (\d+) \}/gm))
+        tbl[m[1]] = { fn: m[2], enabled: m[3].trim(), weight: +m[4] };
+      else bad.push('④表 W5B_JOBS が見つからない');
+      info.w5b = { calls: calls.length, table: Object.keys(tbl).length };
+      for (const c of calls) {
+        const t = tbl[c.key];
+        if (!t) { bad.push(`④${c.key} が表に無い`); continue; }
+        if (t.fn !== c.key || c.fn !== c.key) bad.push(`④${c.key} の関数名が食い違う`);
+        if (t.enabled !== c.cond.trim()) bad.push(`④${c.key} のガード式が表と違う(呼び出し ${c.cond} / 表 ${t.enabled})`);
+        const body = c.u.text.replace(/\/\/[^\n]*/g, ' ');
+        if (SHARED_RE.test(body))
+          bad.push(`④${c.key} の本文が共有状態(w5cGetUnit・ブラウザ・結果配列・lastAddAt)に触れる`);
+      }
+      for (const k of Object.keys(tbl)) if (!calls.some((c) => c.key === k)) bad.push(`④表の ${k} に呼び出しが無い`);
+      if (calls.length !== new Set(calls.map((c) => c.key)).size) bad.push('④W5b の key が重複している');
+      // ⑤ 切り出しの健全性
+      const vm = await import('node:vm');
+      let nCompiled = 0;
+      const seen = new Map();
+      for (const u of units) {
+        if (/^import\s/.test(u.head)) continue;
+        // import.meta は Script では書けないので構文検査のときだけ同じ長さの識別子に置く
+        try { new vm.Script('(async () => {\n' + u.text.replace(/\bimport\.meta\b/g, 'import_meta') + '\n})', { filename: `qa.mjs:${u.l0}` }); nCompiled++; }
+        catch (e) { bad.push(`⑤${u.l0}-${u.l1} が単独で閉じない: ${String(e.message).slice(0, 60)}`); }
+        if (QO.isTestUnit(u)) for (const id of QO.unitIds(u.text).ids) seen.set(id, (seen.get(id) || 0) + 1);
+      }
+      const allIds = [...new Set([...src.matchAll(/(^|[^\w$.])add\(\s*'([^'\\]+)'\s*,/gm)].map((m) => m[2]))];
+      const miss = allIds.filter((id) => !seen.has(id));
+      info.split = { units: units.length, compiled: nCompiled, ids: allIds.length, covered: allIds.length - miss.length };
+      if (miss.length) bad.push(`⑤試験の文に入っていない id ${miss.length} 件(${miss.slice(0, 3).join(' ')})`);
+      // ⑥ 先行再実行用の版
+      const { units: sel } = QO.unitsForIds(units.filter(QO.isTestUnit), ['lint.coreBudget']);
+      const rep = QO.buildReplaySource(src, units, sel);
+      const rl = rep.split('\n');
+      const FN_RE = new RegExp(`async function W5B_[\\w$]+\\(${PG}, add, fpRun, console\\)`, 'g');
+      const nFn = (s) => (s.match(FN_RE) || []).length;
+      info.replay = { lines: rl.length === lines.length, w5bFns: `${nFn(rep)}/${nFn(src)}`, selected: sel.map((u) => `${u.l0}-${u.l1}`).join(',') };
+      if (rl.length !== lines.length) bad.push('⑥先行再実行の版で行数が変わった');
+      if (nFn(rep) !== nFn(src)) bad.push('⑥先行再実行の版で W5b の関数宣言が欠けた');
+      if (sel.length !== 1 || rl.slice(sel[0].l0 - 1, sel[0].l1).join('\n') !== sel[0].text) bad.push('⑥選んだ文が残っていない');
+      if ((rep.match(/(^|[^\w$.])add\('/gm) || []).length >= (src.match(/(^|[^\w$.])add\('/gm) || []).length)
+        bad.push('⑥選ばなかった試験の文が消えていない');
+      // ① マニフェストの形(想定時間の更新は決断事項 — 古さは detail に出すだけで FAIL にしない)
+      const man = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'qa-manifest.json'), 'utf8'));
+      if (!Array.isArray(man.units) || !man.units.length) bad.push('①マニフェストに units が無い');
+      const manIds = new Set((man.units || []).flatMap((u) => u.ids || []));
+      info.manifest = { units: (man.units || []).length, unknownIds: allIds.filter((id) => !manIds.has(id)).length, generatedAt: man.generatedAt };
+      for (const k of Object.keys(tbl)) if (!(man.units || []).some((u) => u.w5b === k)) bad.push(`①マニフェストに W5b ${k} が無い`);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('lint.qaOrder', bad.length === 0,
+      `**QA の確認順と並列化の契約**(第279便b・統括の検証項目 R61): ① preflight の器・マニフェストあり / `
+      + `② \`npm test\` はフルのまま・\`test:preflight\` あり / ③ ci.yml: preflight(${info.ci ? info.ci.preflightAt : '?'})→ `
+      + `\`npm test\`(${info.ci ? info.ci.fullAt : '?'})の順・CI で先行再実行 OFF / `
+      + `④ W5b 呼び出し ${info.w5b ? info.w5b.calls : '?'} 件 = 表 ${info.w5b ? info.w5b.table : '?'} 件(ガード式は表と文字列一致・本文は共有状態に触れない)/ `
+      + `⑤ 最上位の文 ${info.split ? info.split.units : '?'} 件(単独でコンパイル ${info.split ? info.split.compiled : '?'})・`
+      + `add() の静的 id ${info.split ? info.split.covered : '?'}/${info.split ? info.split.ids : '?'} が試験の文に入る / `
+      + `⑥ 先行再実行の版: 行数保存=${info.replay ? info.replay.lines : '?'}・W5b 関数 ${info.replay ? info.replay.w5bFns : '?'}・選択 ${info.replay ? info.replay.selected : '?'} / `
+      + `マニフェスト ${info.manifest ? info.manifest.units : '?'} 文(生成 ${info.manifest ? String(info.manifest.generatedAt).slice(0, 10) : '?'}・`
+      + `未収載の id ${info.manifest ? info.manifest.unknownIds : '?'} 件 — 想定時間の古さは FAIL にしない)。`
+      + `**判定式・閾値・seed・物理時間・母集団は変えていない**`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第279便b(統括の検証項目 R61 ④): qa.w5cPoolFault ----
+// ----   W5c/W5b のワーカープールの**失敗注入**を Chromium なしの偽ワーカーで走らせる
+// ----   (tests/lib-w279b-qaorder.mjs w5PoolSelfTest — 5 場面)。旧実装(第35便の Promise.all + deferred)を
+// ----   同じ偽ワーカーで再現し、「旧はユニット例外・全ワーカー起動失敗で待機が**解決しない**、
+// ----   新は reject で終わる」を並べて固定する。root では SKIP(QA 基盤の契約 — beta で 1 回見る)。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP qa.w5cPoolFault(root 対象 — QA 基盤の契約は beta 対象の走行で 1 回見る)');
+  } else {
+    let r = null, err = null;
+    try {
+      const QO = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-qaorder.mjs'));
+      r = await QO.w5PoolSelfTest({ timeoutMs: 1000 });
+    } catch (e) { err = e; }
+    const legacyHang = !!r && r.rows.filter((x) => x.legacy).every((x) => x.legacy === 'pending(hang)');
+    add('qa.w5cPoolFault', !err && !!r && r.ok && legacyHang,
+      `**ワーカープールの失敗注入**(第279便b): `
+      + (r ? r.rows.map((x) => `${x.scene}=${x.ok ? 'OK' : 'NG'}[${x.got.join('/')}]${x.legacy ? `(旧実装: ${x.legacy})` : ''}`).join(' / ') : '未実行')
+      + ` / 旧実装はユニット例外・全ワーカー起動失敗で待機が解決しない(=QA のハング/結果 JSON なし)ことを再現=${legacyHang}`
+      + (err ? ` / 例外: ${String(err).slice(0, 120)}` : ''));
+  }
 }
 
 // ---- 第271便e(統括の検証項目 R8): docs.j1946adoptPublished ----
@@ -3394,10 +3848,15 @@ const add = (id, pass, detail) => {
     //   きつくなるので σ 倍の距離はむしろ増える —— `docs.j1946Adopted` が数で置く)。
     // 第278便a(AM7): **ダイモス P と同型のフォボス P** を Jacobson 2010 Table 6 の λ̇ 由来の行へ差し替えた
     //   (4 件 → 6 件)。**1σ は印字されていないので sigma は null** —— 門へは 1 bit も入らない。
-    if (decl.length !== 6) bad.push(`①宣言が 6 件でない(${decl.length})`);
+    // 第279便e(AM7′・原仮定者の裁定(第69報)): **天王星の 5 衛星 P** を Jacobson 2014 Table 2 の λ̇ 由来の行へ
+    //   差し替えた(6 件 → 11 件)。**1σ は印字されていないので sigma は null** —— 門へは 1 bit も入らない。
+    //   ④(門の器が読んだ件数)は calaudit の**通常走行**で入る(--regate の産物は正本にしない —— 統合後の再走で揃う)。
+    if (decl.length !== 11) bad.push(`①宣言が 11 件でない(${decl.length})`);
     const keys = decl.map((d) => d.body + '|' + d.quantity).sort();
-    if (keys.join(' , ') !== 'Charon|orbital_period , Deimos|orbital_period , PSR J1946+2052|eccentricity , '
-      + 'PSR J1946+2052|orbital_period , Phobos|orbital_period , Venus|eccentricity')
+    if (keys.join(' , ') !== 'Ariel|orbital_period , Charon|orbital_period , Deimos|orbital_period , '
+      + 'Miranda|orbital_period , Oberon|orbital_period , PSR J1946+2052|eccentricity , '
+      + 'PSR J1946+2052|orbital_period , Phobos|orbital_period , Titania|orbital_period , '
+      + 'Umbriel|orbital_period , Venus|eccentricity')
       bad.push(`①宣言の対象が違う(${keys.join(' , ')})`);
     // ① 宣言が CSV の行に 1 件で当たる(値も σ も CSV から 1 文字も変えずに写している)
     const rows = [];
@@ -3456,7 +3915,8 @@ const add = (id, pass, detail) => {
     + `**金星 e = JPL SSD Table 1 の 0.00677672(σ の印字なし)**・`
     + `**PSR J1946+2052 の P = 6781.367998656 s ± 1.728e-6 と e = 0.0638363 ± 8e-7`
     + `(Meng 2025 Table 1 DDFWHE — 第270便c/AD9 で採用解を一組へ揃えた)**・`
-    + `**ダイモス P と同型のフォボス P = Jacobson 2010 Table 6 の λ̇ 由来(σ の印字なし — 第278便a/AM7)**)で、どれも CSV の行に`
+    + `**ダイモス P と同型のフォボス P = Jacobson 2010 Table 6 の λ̇ 由来(σ の印字なし — 第278便a/AM7)**・`
+    + `**天王星の 5 衛星 P = Jacobson 2014 Table 2 の λ̇ 由来(σ の印字なし — 第279便e/AM7′)**)で、どれも CSV の行に`
     + `**1 件で当たる**(${hits.join(' / ')} —— 宣言に新しい数値は 1 つも書いていない)/ `
     + `**宣言の無い対象は従来どおりファイル順の最初の行**(ダイモス e・水星 P・火星 P・`
     + `トリトン P/e は**周期定義の照合が先**なので宣言しない)/ `
@@ -4101,6 +4561,15 @@ const add = (id, pass, detail) => {
       }
     }
     if (md.indexOf('### 5.25 ') < 0) bad.push('④§5.25(第277便a の転写便の節)が無い');
+    // 第279便a: 生成物の一覧 docs/SAMPLE_STATUS_v1.45.md にも同じ禁止語を掛ける(全行 —— 否定文でも書かない)
+    const ssPath = path.join(ROOT, 'docs', 'SAMPLE_STATUS_v1.45.md');
+    if (fs.existsSync(ssPath)) {
+      for (const line of fs.readFileSync(ssPath, 'utf8').split('\n')) {
+        const bare = line.replace(/[「『][^」』]*[」』]/g, '');
+        if (/判定が増えた|較正を完了|D68 が合\(3σ\)|カロンが合|較正した|kF0 版が成立した|引きずりが完全に消えていることを確認/.test(bare))
+          bad.push(`⑤禁止語(SAMPLE_STATUS): ${line.slice(0, 40)}`);
+      }
+    }
   } catch (e) { bad.push('4 値の履歴が読めない: ' + String(e).slice(0, 90)); }
   add('docs.fourValuesHistory', bad.length === 0,
     `**4 値の履歴**(第270便a・署名便): 本便は既定経路の結果が動く便なので、`
@@ -4111,6 +4580,63 @@ const add = (id, pass, detail) => {
     + `履歴には commit・入力 CSV の SHA・宣言版・理由が付く(数字だけを残さない)/ `
     + `**「判定が増えた」「較正を完了した」とは書かない**`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 第279便a(原仮定者の裁定(第69報)「各サンプルについて目的と状況を一覧化する」・R60): docs.sampleStatus-sync ----
+// ----   一覧 docs/SAMPLE_STATUS_v1.45.md(生成物)と、html の生成領域 sample-status(表)と、正本
+// ----   tests/out/samplestatus-w279a.json の 3 者が一致することを fs だけで固定する:
+// ----     ① md の表の行数 = html の表の行数 = 正本 rows の数(= 内蔵本数)・ID の集合が同じ。
+// ----     ② md の各行の較正の語 = html の表の calibration の語(4 値の正式語・判定保留(量定義不一致)・較正対象外)。
+// ----     ③ md の集計行(状況 達/部分/未達・4 値・判定保留・較正対象外)= 正本の tally = html の表から数え直した値。
+// ----     ④ 正本の status が html の表と 1 字も違わない(表を手で直すと食い違う)。
+// ----     ⑤ md に禁止語が無い(否定文でも書かない)。
+// ----   **対象 html に生成領域 sample-status が無ければ SKIP**(root 等の旧世代)。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (html.indexOf('// >>> w275a-generated: sample-status') < 0) {
+    console.log('SKIP docs.sampleStatus-sync(対象 html に第279便a の生成領域 sample-status なし — root 等)');
+  } else {
+    const bad = [];
+    let nMd = 0, nHtml = 0, nCanon = 0, tl = null;
+    try {
+      const SS = await import('file://' + path.join(ROOT, 'tests', 'lib-w279a-samplestatus.mjs'));
+      const reg = SS.parseRegion(html);
+      if (!reg) throw new Error('生成領域が読めない');
+      const T = reg.table;
+      nHtml = Object.keys(T).length;
+      const md = fs.readFileSync(path.join(ROOT, 'docs', 'SAMPLE_STATUS_v1.45.md'), 'utf8');
+      const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'samplestatus-w279a.json'), 'utf8'));
+      const rows = SS.parseMdRows(md);
+      nMd = rows.length; nCanon = (J.rows || []).length;
+      if (!(nMd === nHtml && nHtml === nCanon)) bad.push(`①行数 md ${nMd}・html ${nHtml}・正本 ${nCanon}`);
+      const idsMd = new Set(rows.map((z) => z.id));
+      for (const id of Object.keys(T)) if (!idsMd.has(id)) bad.push('①md に無い ' + id);
+      for (const z of rows) {
+        if (!T[z.id]) { bad.push('①html に無い ' + z.id); continue; }
+        if (z.cal !== SS.CAL_WORD.ja[T[z.id].calibration]) bad.push(`②${z.id}: md「${z.cal}」≠ html ${T[z.id].calibration}`);
+      }
+      tl = SS.tally(T, []);
+      const jt = J.tally || {};
+      const eqo = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+      if (!eqo(jt.objective, tl.objective)) bad.push('③正本 tally.objective ≠ html');
+      if (!eqo(jt.four, tl.four)) bad.push('③正本 tally.four ≠ html');
+      if (!eqo(jt.calibration, tl.calibration)) bad.push('③正本 tally.calibration ≠ html');
+      const want = `状況: **達 ${tl.objective.met}・部分 ${tl.objective.partial}・未達 ${tl.objective.unmet}・対象外 ${tl.objective['n/a']}**`;
+      if (md.indexOf(want) < 0) bad.push('③md の状況の集計行 ≠ html');
+      const want4 = `**${tl.four['合']}/${tl.four['量限定合']}/${tl.four['否']}/${tl.four['保留']}**(台帳の転記)・判定保留(量定義不一致)**${tl.calibration['hold-definition']}**・較正対象外 **${tl.calibration['out-of-scope']}**`;
+      if (md.indexOf(want4) < 0) bad.push('③md の較正の集計行 ≠ html');
+      for (const z of J.rows || []) if (JSON.stringify(z.status) !== JSON.stringify(T[z.id])) bad.push('④正本の status ≠ html ' + z.id);
+      for (const line of md.split('\n')) {
+        const bare = line.replace(/[「『][^」』]*[」』]/g, '');
+        if (SS.FORBIDDEN.test(bare)) bad.push('⑤禁止語: ' + line.slice(0, 40));
+      }
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 90)); }
+    add('docs.sampleStatus-sync', bad.length === 0,
+      `**サンプル状況一覧 ↔ html ↔ 正本**(第279便a): 行数 md ${nMd}・html ${nHtml}・正本 ${nCanon}` +
+      (tl ? ` / 状況 達 ${tl.objective.met}・部分 ${tl.objective.partial}・未達 ${tl.objective.unmet} / 4 値 ${Object.values(tl.four).join('/')}` +
+        `・判定保留(量定義不一致)${tl.calibration['hold-definition']}・較正対象外 ${tl.calibration['out-of-scope']}` : '') +
+      (bad.length ? ` / **食い違い ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ' / 3 者一致・禁止語 0'));
+  }
 }
 
 // ---- 0a3s) 第271便a(第61報・R3): docs.assessedStageH4 ----
@@ -6598,8 +7124,11 @@ const add = (id, pass, detail) => {
 // ----     ③ **宣言表に無い読み口が 0**(`unclassified` が空 —— 新しい読み口を黙って落とさない)。
 // ----     ④ **時計と光の読み口は「置換禁止」**に分類されていて、**重力の読み口は 1 つも無い**
 // ----        (D₀ は χ の分母に入るだけで引力を供給しない —— 第275便b ③ の否定結果と整合)。
-// ----     ⑤ **新しい宣言鍵 `physics.backgroundComplex` はエンジンのどの経路からも読まれない**
-// ----        (参照は検証器・検証器の分岐・定数・HP の書き出しだけ)。
+// ----     ⑤ **新しい宣言鍵 `physics.backgroundComplex` は既定経路のどこからも読まれない**
+// ----        (参照は検証器・検証器の分岐・定数・HP の書き出しだけ)。**第279便c で契約を「宣言した外部ステップ
+// ----        だけが読む」へ更新**: 力学側の読み口は `meshVelocity` を宣言した本の準備関数 `meshVelocityPrepare`
+// ----        だけで(正本の `readers.declared`)、その関数は meshVelocity が未宣言なら背景鍵に触れる前に戻る
+// ----        (`readers.guardBeforeRead`)—— 内蔵 133 本は宣言 0 なので**既定経路の読み口は 0 のまま**。
 // ----     ⑥ **R39 の実測**: `qLockCalc` は D₀ を振っても同じ q を返す(プリセットごとに 1 値)。
 // ----     ⑦ 書かない語(`meta.notClaim`)が宣言されていて、JSON 本文にその語が出てこない。
 // ----     ⑧ docs/PHYSICS.md に〔第276便a〕節があり、節に出る主要な数が正本と一致する。
@@ -6634,7 +7163,16 @@ const add = (id, pass, detail) => {
       const B = J.backgroundComplexKey || {};
       if (!B.outsideAllowed || B.outsideAllowed.length !== 0)
         bad.push('⑤ backgroundComplex が受理契約の外から参照されている: ' + (B.outsideAllowed || []).join(','));
-      cases.push(`backgroundComplex の参照 ${B.sites} 箇所(${(B.functions || []).join('/')})`);
+      // 第279便c: 「宣言した外部ステップだけが読む」—— 力学側の読み口は宣言した準備関数だけで、未宣言では読む前に戻る
+      const html5 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+      if (html5.indexOf('MESH_VEL_KEY') >= 0) {
+        const R5 = B.readers || {};
+        if (JSON.stringify(R5.declared) !== JSON.stringify(['meshVelocityPrepare'])) bad.push('⑤ 宣言した読み口が meshVelocityPrepare だけでない');
+        if (JSON.stringify(R5.found) !== JSON.stringify(R5.declared)) bad.push('⑤ 検証器の外の読み口が宣言と違う: ' + JSON.stringify(R5.found));
+        if (R5.guardBeforeRead !== true) bad.push('⑤ meshVelocityPrepare が未宣言の判定より前に背景鍵を読む');
+      }
+      cases.push(`backgroundComplex の参照 ${B.sites} 箇所(${(B.functions || []).join('/')})`
+        + (B.readers ? `・力学側の読み口は宣言した外部ステップの準備 ${(B.readers.found || []).join('/')} だけ(未宣言は読む前に戻る=${B.readers.guardBeforeRead})` : ''));
       const q = (J.qLock || {}).sameAcrossD0 || {};
       const qIds = Object.keys(q);
       if (!qIds.length) bad.push('⑥ qLock の実測が無い');
@@ -7116,6 +7654,179 @@ const add = (id, pass, detail) => {
       + `移流項を一貫して扱う。fieldTime を禁止にはしない」): ${cases.join(' / ')} —— `
       + `**規約を混ぜる(背景だけ fieldTime・局所源は共動系の偏微分)と座標変換の加速度が不変でなくなる**。`
       + `fieldTime は**背景と局所源の両方に同じ規約で使えば**整合し、共動系の物質微分へは移流項を足して戻す`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 0a3z10) 第279便c(原仮定者の裁定〔第69報〕・統括の読み R62): docs.bgCompose ----
+// ----   **背景の閾値なし合成と速度分解 RHS** の検算の正本 `tests/out/bgcompose-w279c.json` を PHYSICS と突き合わせる。
+// ----   固定するのは 9 点:
+// ----     ① `meta.targetSha256` が検査対象の html と一致する(器を走らせ直せば直る種類の FAIL)。
+// ----     ② (a) 直接計算(源をすべて明示天体)と分解→合成が 24 条件以上で一致(u は値比・∇u/∂ₜu は項比 ≤1e−14)。
+// ----     ③ (b) 一定速度の座標変換で ẍ・v̇ が不変(advected ≤1e−12)・**否定対照** fieldTime だけでは崩れる(≥1e−3)。
+// ----     ④ (c) 定常な指定場で H の相対変化が刻みで 4 次に縮む(比 8〜32)・細かい刻みで ≤1e−10・J が非対称(>0.1)。
+// ----     ⑤ (d) 境界の全件が期待どおり・W=0 で慣性をそのまま残す。
+// ----     ⑥ (e) 背景重み 1e−30 でも寄与が残る(相対誤差 0・非ゼロ)—— **閾値なし**の代数検査。
+// ----     ⑦ (f) 一様定常な場で追加の加速度・追加の v̇ が厳密に 0。
+// ----     ⑧ ページの HP.* と html から取り出した node の関数がビット一致(全件)。いまの html で (d)(e)(f) を引き直しても同じ。
+// ----     ⑨ PHYSICS〔第279便c〕に表の数があり、「言わないこと。」の前に禁止語が無い。
+// ----   **root は SKIP**(対象 html に MESH_VEL_KEY が無い世代)。
+{
+  const bad = [];
+  const cases = [];
+  const htmlT = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!TARGET.startsWith('beta/') || htmlT.indexOf('MESH_VEL_KEY') < 0) {
+    console.log('SKIP docs.bgCompose(第279便c 未適用 — 対象に MESH_VEL_KEY なし: ' + TARGET + ')');
+  } else {
+    // 数を PHYSICS の書式(例 4.4×10⁻¹⁵)へ
+    const SUP = { '-': '⁻', '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹' };
+    const sci = (x, d) => { const [m, e] = Number(x).toExponential(d).split('e'); return m + '×10' + String(Number(e)).split('').map((c) => SUP[c]).join(''); };
+    try {
+      const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'bgcompose-w279c.json'), 'utf8');
+      const J = JSON.parse(text);
+      const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)');
+      else cases.push('html の SHA-256 一致');
+      const T = J.table;
+      if (!(T.a.n >= 24 && T.a.ok === T.a.n && T.a.uRelMax <= 1e-14 && T.a.gradUTermRelMax <= 1e-14 && T.a.dUdtTermRelMax <= 1e-14))
+        bad.push('② 分解→合成が直接計算と合わない: ' + JSON.stringify(T.a).slice(0, 140));
+      cases.push(`(a) ${T.a.ok}/${T.a.n} 条件: u ${sci(T.a.uRelMax, 1)}・∇u(項比)${sci(T.a.gradUTermRelMax, 1)}・∂ₜu(項比)${sci(T.a.dUdtTermRelMax, 1)}`);
+      if (!(T.b.advected.coordAccelRelMax <= 1e-12 && T.b.advected.vRateRelMax <= 1e-12)) bad.push('③ 座標変換で ẍ・v̇ が変わる');
+      if (!(T.b.fieldTimeOnly.coordAccelRelMin >= 1e-3)) bad.push('③ 否定対照(fieldTime だけ)で崩れない');
+      cases.push(`(b) ${T.b.n} 条件: ẍ ${sci(T.b.advected.coordAccelRelMax, 1)}・v̇ ${sci(T.b.advected.vRateRelMax, 1)}・fieldTime だけ ${sci(T.b.fieldTimeOnly.coordAccelRelMin, 1)}〜`);
+      if (!(T.c.ratio >= 8 && T.c.ratio <= 32 && T.c.dHrelMax[1] <= 1e-10 && Math.min(...T.c.JasymmetryMax) > 0.1))
+        bad.push('④ H の保存が刻みで 4 次に縮まない/J が対称: ' + JSON.stringify(T.c).slice(0, 140));
+      if (!(Math.max(...T.c.dHdtAlgebraResidMax) <= 1e-7)) bad.push('④ dH/dt の代数残差が大きい');
+      cases.push(`(c) dH/H ${sci(T.c.dHrelMax[0], 2)} → ${sci(T.c.dHrelMax[1], 2)}(比 ${T.c.ratio.toFixed(2)})`);
+      if (!(T.d.pass === T.d.n && T.d.inertiaKeptAtW0 === true)) bad.push('⑤ 境界が期待どおりでない');
+      cases.push(`(d) ${T.d.pass}/${T.d.n}・W=0 で慣性を保つ`);
+      if (!(T.e.relErrMax === 0 && T.e.nonzeroKept === true && T.e.allDefined === true)) bad.push('⑥ 背景重み 1e−30 の寄与が落ちた');
+      cases.push(`(e) ${T.e.n} 件・相対誤差 ${T.e.relErrMax}`);
+      if (!(T.f.extraAccelMax === 0 && T.f.extraVRateMax === 0 && T.f.transportRelMax === 0)) bad.push('⑦ 一様定常な場で追加の加速度が 0 でない');
+      cases.push(`(f) ${T.f.n} 件・追加の加速度 ${T.f.extraAccelMax}`);
+      if (!(J.pageVsNode && J.pageVsNode.bitIdentical === J.pageVsNode.n && J.pageVsNode.n >= 24)) bad.push('⑧ ページと node がビット一致しない');
+      const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w279c-bgcompose.mjs'));
+      const pure = L.makePure(htmlT);
+      const d2 = L.boundaryCases(pure), e2 = L.tinyWeightCases(pure), f2 = L.uniformCases(pure);
+      if (JSON.stringify(d2) !== JSON.stringify(J.d) || JSON.stringify(e2) !== JSON.stringify(J.e) || JSON.stringify(f2) !== JSON.stringify(J.f))
+        bad.push('⑧ いまの html で (d)(e)(f) を引き直すと正本と違う');
+      cases.push(`ページ vs node ${J.pageVsNode.bitIdentical}/${J.pageVsNode.n} ビット一致・(d)(e)(f) の引き直しは正本と同じ`);
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const at = P.indexOf('〔第279便c');
+      const whole = at >= 0 ? P.slice(at, at + 60000) : '';
+      const cut = whole.indexOf('**言わないこと。**');
+      const sec = cut >= 0 ? whole.slice(0, cut) : whole;
+      if (at < 0) bad.push('⑨ PHYSICS に〔第279便c〕節が無い');
+      else {
+        if (cut < 0) bad.push('⑨ PHYSICS〔第279便c〕に「言わないこと。」の宣言が無い');
+        const want = [sci(T.a.uRelMax, 1), sci(T.a.gradUTermRelMax, 1), sci(T.a.dUdtTermRelMax, 1), sci(T.b.advected.coordAccelRelMax, 1),
+          sci(T.b.fieldTimeOnly.coordAccelRelMin, 2), sci(T.c.dHrelMax[0], 2), sci(T.c.dHrelMax[1], 2), T.c.ratio.toFixed(2)];
+        const miss = want.filter((w) => sec.indexOf(w) < 0);
+        if (miss.length) bad.push('⑨ PHYSICS〔第279便c〕に検算表の数が無い: ' + miss.join(','));
+        for (const q of ['慣性を導出した', '運動量則を導出した', '背景を無視してよいことを証明した', '背景を較正した', '閾値を採用した', '新発見'])
+          if (sec.indexOf(q) >= 0) bad.push(`⑨ PHYSICS〔第279便c〕に「${q}」が出ている`);
+      }
+      cases.push('PHYSICS〔第279便c〕と一致(禁止語なし)');
+    } catch (e) { bad.push('正本 JSON/純関数が読めない: ' + String(e).slice(0, 90)); }
+    add('docs.bgCompose', bad.length === 0,
+      `**背景の閾値なし合成と速度分解 RHS の検算**(第279便c・原仮定者の裁定〔第69報〕「背景複素決定力は閾値で無視せず`
+      + `適切に導入する/厳密には空間に対する加速と空間による引きずり(座標変換)は区別する」): ${cases.join(' / ')} —— `
+      + `W=W_loc+W_bg・A=A_loc+A_bg・u=A/W(**閾値なし・D₀ なし・自己項なし**)と ẋ=v+u・v̇=a_space−Jᵀv・`
+      + `ẍ=a_space+∂ₜu+Ju+(J−Jᵀ)v を**別々に**返す。**慣性は導出していない**(構成則の候補の検算である)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 0a3z11) 第279便c(統括の読み R63 ④・AM4/AM13): docs.bgbudget2-sync ----
+// ----   **新契約での背景の誤差予算**の正本 `tests/out/bgbudget2-w279c.json` を PHYSICS と突き合わせる。
+// ----   固定するのは 9 点(**どれも「背景を無視してよい」の判定ではない —— 閾値は置いていない**):
+// ----     ① `meta.targetSha256` が一致・入力(事前予測表・第278便d の一致試験の正本)が刻まれている。
+// ----     ② 3 行(❄️📻 + 🌘 は参考行)× 模型 12 × 刻み N・2N・4N。
+// ----     ③ mutual:0 の明示天体(EXP0)の ON/OFF 差は 3 行とも全刻みで**厳密に 0**(静止した外部源は u=0)・
+// ----        慣性系の背景(BN_*)も厳密に 0。
+// ----     ④ ❄️: comoving の背景(エンジンと同じ形 BC_SH)の ON/OFF 差が 1e−5 s 以下(刻みの幅と同程度)・
+// ----        値を時間で線形に外挿する形(BC_TL)は 1e−2 s 級に立つ(**採らない形の実測**)。
+// ----     ⑤ ❄️: 背景合成(comoving)と明示天体の食い違いは T なしで 3e−3〜4e−3 s(ニュートンの潮汐)・
+// ----        backgroundTidal を足すと 1e−5 s 以下。
+// ----     ⑥ mutual:1: ❄️ は EXP1・BC1 とも ON 走行が 1 公転で束縛を失う(**差として読まない**)。
+// ----     ⑦ エンジン(診断コピー・刻み 2 段): λ_PN=0 の ON/OFF 差は ❄️📻 とも 1e−5 s 以下・λ_PN=1 では立つ
+// ----        (❄️ 1e−4〜1e−2 s・📻 1e−3〜1e−1 s —— **1PN が慣性速度 v=ẋ−u を読む**)・mutual:1 は壊れる。
+// ----     ⑧ 第278便d の項(凍結する参照系 2.148 s 等)が並記されている。
+// ----     ⑨ PHYSICS〔第279便c〕に表の数があり、「言わないこと。」の前に禁止語が無い。
+// ----   **root は SKIP**(対象 html に MESH_VEL_KEY が無い世代)。
+{
+  const bad = [];
+  const cases = [];
+  const htmlT = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!TARGET.startsWith('beta/') || htmlT.indexOf('MESH_VEL_KEY') < 0) {
+    console.log('SKIP docs.bgbudget2-sync(第279便c 未適用 — 対象に MESH_VEL_KEY なし: ' + TARGET + ')');
+  } else {
+    const SUP = { '-': '⁻', '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹' };
+    const sci = (x, d) => { const [m, e] = Math.abs(Number(x)).toExponential(d).split('e'); return m + '×10' + String(Number(e)).split('').map((c) => SUP[c]).join(''); };
+    try {
+      const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'bgbudget2-w279c.json'), 'utf8');
+      const J = JSON.parse(text);
+      const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)');
+      else cases.push('html の SHA-256 一致');
+      const ins = (J.meta.inputs || []).map((z) => z.file);
+      for (const f of ['tests/out/bgpredict-w276a.json', 'tests/out/bgequiv-w278d.json']) if (ins.indexOf(f) < 0) bad.push('① 入力に ' + f + ' が無い');
+      const S = (J.samples || []).filter((z) => !z.skipped);
+      if (S.length !== 3) bad.push(`② 行が 3 本でない(${S.length})`);
+      for (const s of S) {
+        if (!Array.isArray(s.onoff) || s.onoff.length !== 12) bad.push(`② ${s.id} の模型が 12 でない`);
+        if (!(s.steps.length === 3 && s.steps[1] === 2 * s.steps[0] && s.steps[2] === 4 * s.steps[0])) bad.push(`② ${s.id} の刻みが N・2N・4N でない`);
+        const O = (k) => s.onoff.find((z) => z.key === k);
+        for (const k of ['EXP0', 'BN_FF', 'BN_SH', 'BNT_SH'])
+          if (!O(k) || O(k).dPhaseTimeS.values.some((v) => v !== 0) || O(k).dPos.values.some((v) => v !== 0)) bad.push(`③ ${s.id} の ${k} の ON/OFF 差が厳密に 0 でない`);
+      }
+      cases.push(`3 行 × 模型 12 × 刻み ${S.length ? S[0].steps.join('/') : '—'} 步・mutual:0 の明示天体と慣性系の背景は ON/OFF 差が厳密に 0`);
+      const pc = S.find((z) => z.id === 'plutoCharonReal');
+      let want = [];
+      if (!pc) bad.push('④ ❄️ の行が無い');
+      else {
+        const O = (k) => pc.onoff.find((z) => z.key === k);
+        const sh = O('BC_SH').dPhaseTimeS.values[2], tl = O('BC_TL').dPhaseTimeS.values[2];
+        if (!(Math.abs(sh) <= 1e-5)) bad.push(`④ ❄️ BC_SH の ON/OFF 差が 1e−5 s を超えた(${sh})`);
+        if (!(Math.abs(tl) >= 1e-2 && Math.abs(tl) <= 1e-1)) bad.push(`④ ❄️ BC_TL(時間の線形外挿)の実測が変わった(${tl})`);
+        const noT = pc.tidal.withoutT.values[2], withT = pc.tidal.withT.values[2];
+        if (!(Math.abs(noT) >= 3e-3 && Math.abs(noT) <= 4e-3)) bad.push(`⑤ ❄️ T なしの食い違いが 3e−3〜4e−3 s でない(${noT})`);
+        if (!(Math.abs(withT) <= 1e-5)) bad.push(`⑤ ❄️ T ありの食い違いが 1e−5 s を超えた(${withT})`);
+        for (const k of ['EXP1', 'BC1_SH']) if (O(k).onBound !== false) bad.push(`⑥ ❄️ ${k} が束縛を保った(実測が変わった)`);
+        const it = (k) => pc.items.find((z) => z.key === k);
+        if (!(it('frameOfFreeze').w278d && Math.abs(it('frameOfFreeze').w278d.dPhaseTimeS4N - 2.148) < 1e-3)) bad.push('⑧ 第278便d の凍結する参照系 2.148 s が並記されていない');
+        want = [sci(sh, 2), sci(tl, 3), sci(noT, 3), sci(withT, 2), sci(it('frameOfFreeze').dPhaseTimeS.values[2], 2),
+          sci(it('valueShift1').dPhaseTimeS.values[2], 2), O('EXP1').initDet.toFixed(4)];
+        cases.push(`❄️ BC_SH ${sh.toExponential(2)} s・BC_TL ${tl.toExponential(3)} s・T なし/あり ${noT.toExponential(3)}/${withT.toExponential(2)} s・mutual:1 は束縛を失う(行列式 ${O('EXP1').initDet.toFixed(4)})`);
+      }
+      const eng = J.engine || [];
+      if (eng.length !== 2) bad.push(`⑦ エンジンの行が 2 本でない(${eng.length})`);
+      for (const g of eng) {
+        if (!(g.on0noPN.every((z) => z && Math.abs(z.dPhaseTimeS) <= 1e-5))) bad.push(`⑦ ${g.id} の λ_PN=0 の ON/OFF 差が 1e−5 s を超えた`);
+        const lo = g.id === 'plutoCharonReal' ? 1e-4 : 1e-3, hi = g.id === 'plutoCharonReal' ? 1e-2 : 1e-1;
+        if (!(g.on0.every((z) => z && Math.abs(z.dPhaseTimeS) >= lo && Math.abs(z.dPhaseTimeS) <= hi))) bad.push(`⑦ ${g.id} の λ_PN=1 の ON/OFF 差の実測が変わった`);
+        if (!g.on1Broken.every((z) => z === true)) bad.push(`⑦ ${g.id} の mutual:1 が壊れない(実測が変わった)`);
+        want.push(sci(g.on0[1].dPhaseTimeS, 3));
+      }
+      cases.push(`エンジン: λ_PN=0 の ON/OFF 差 ${eng.map((g) => g.emoji + ' ' + g.on0noPN.map((z) => z.dPhaseTimeS.toExponential(1)).join('/')).join('・')} s・`
+        + `λ_PN=1 ${eng.map((g) => g.emoji + ' ' + g.on0.map((z) => z.dPhaseTimeS.toExponential(3)).join('/')).join('・')} s`);
+      if (!(J.meta.notClaim || []).length) bad.push('⑨ meta.notClaim が無い');
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const at = P.indexOf('〔第279便c');
+      const whole = at >= 0 ? P.slice(at, at + 60000) : '';
+      const cut = whole.indexOf('**言わないこと。**');
+      const sec = cut >= 0 ? whole.slice(0, cut) : whole;
+      if (at < 0) bad.push('⑨ PHYSICS に〔第279便c〕節が無い');
+      else {
+        const miss = want.filter((w) => sec.indexOf(w) < 0);
+        if (miss.length) bad.push('⑨ PHYSICS〔第279便c〕に予算表の数が無い: ' + miss.join(','));
+        for (const q of ['背景を無視してよいことを証明した', '背景を較正した', '閾値を採用した', '慣性を導出した', '無視できる'])
+          if (sec.indexOf(q) >= 0) bad.push(`⑨ PHYSICS〔第279便c〕に「${q}」が出ている`);
+      }
+      cases.push('PHYSICS〔第279便c〕と一致(禁止語なし)');
+    } catch (e) { bad.push('正本 JSON が読めない: ' + String(e).slice(0, 90)); }
+    add('docs.bgbudget2-sync', bad.length === 0,
+      `**新契約での背景の誤差予算**(第279便c・統括の読み R63 ④「誤差予算をサンプルごとに出す(❄️・📻 で ON/OFF 差と刻み収束 2 段・`
+      + `🌘 は最初の対象にしない)」): ${cases.join(' / ')} —— **閾値は置いていない**(差と収束を並べるだけ)。`
+      + `**qLock は再 fit していない**(診断コピーの q は宣言値のまま)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
@@ -9444,39 +10155,145 @@ const W5C_UNITS = {
 };
 
 const w5cUnitKeys = Object.keys(W5C_UNITS).filter(k => W5C_UNITS[k].enabled);
-let w5cPoolPromise = null;
-const w5cUnitResults = {};
-if (!QA_SERIAL && w5cUnitKeys.length) {
-  const deferred = {};
+// ==== 第279便b(原仮定者の裁定 第69報「QA が長いので対策」・統括の検証項目 R61): W5b — 重いブロックの並列化 ====
+// 背景(実測): 変更前のフル beta 36 分 45 秒のうち、W5c プール(4 ワーカー)が働くのは最初の数分だけで、
+// 残りは**主ページ 1 枚の直列実行**(CPU 使用率 ≈ 30〜35%・4 コア中 1.3 コア)だった。
+// W5b は「最上位のブロックの**本文を 1 文字も変えずに**」関数宣言(W5B_<key>)として持ち上げ、
+//   ① W5c と同じワーカープールに載せて**先に**走らせる(後ろのブロックから — 主ページは前から進むので
+//      両端から埋まる)。ワーカーでの add()/console は記録し、**元の位置で同じ順に再生**する
+//      (結果 JSON の並び・件数・id・detail は直列実行と同じ)。
+//   ② 主ページがそのブロックに着いたとき**未着手なら横取り(steal)して主ページでその場で実行**する
+//      (= 変更前と同じ経路)。着手済みなら結果を待って再生する。
+//   ③ QA_SERIAL=1 では従来どおり全てを主ページでその場で実行する(W5b の関数は元の位置で呼ばれるだけ)。
+// **判定式・閾値・seed・物理時間・母集団・ガード式は変えていない**(ガード式は表の enabled に同じ式を
+// 先読みし、呼び出し位置の式と食い違えば例外で止める)。対象の選定: 変更前のフル beta の実測で
+// 1 ブロック ≈ 8 秒以上・主ページ以外の共有状態(ページ間の window 変数・結果配列・後から宣言される
+// 最上位の名前)に触れない物理ブロック。perf.*(時間計測)・ui.*(画面寸法)・自前でページを開く
+// ブロック・w5cGetUnit を待つブロックは載せない。ワーカーは**別のブラウザコンテキスト**
+// (localStorage を主ページと共有しない — 🧪 の保存テストが主ページの保存テストと競合しない)。
+// weight は変更前の実測秒(判定には使わない — キュー順の目安だけ)。
+const W5B_JOBS = {
+  roundtripBuiltins: { fn: W5B_roundtripBuiltins, enabled: true, weight: 123 },
+  gclock: { fn: W5B_gclock, enabled: true, weight: 11 },
+  gas: { fn: W5B_gas, enabled: true, weight: 21 },
+  pressure: { fn: W5B_pressure, enabled: true, weight: 10 },
+  galaxyStd: { fn: W5B_galaxyStd, enabled: !FAST, weight: 53 },
+  galaxyGeo2: { fn: W5B_galaxyGeo2, enabled: !FAST, weight: 138 },
+  galaxyDB: { fn: W5B_galaxyDB, enabled: !FAST, weight: 40 },
+  bhcoreSelfdrive: { fn: W5B_bhcoreSelfdrive, enabled: !FAST, weight: 76 },
+  bhcoreFree: { fn: W5B_bhcoreFree, enabled: !FAST, weight: 39 },
+  reactionCap: { fn: W5B_reactionCap, enabled: !FAST, weight: 41 },
+  uranusReal: { fn: W5B_uranusReal, enabled: true, weight: 110 },
+  psrDoubleAB: { fn: W5B_psrDoubleAB, enabled: true, weight: 8 },
+  nsThreeStage: { fn: W5B_nsThreeStage, enabled: true, weight: 47 },
+  tuc47: { fn: W5B_tuc47, enabled: true, weight: 13 },
+  ngc3198: { fn: W5B_ngc3198, enabled: true, weight: 24 },
+  templates229: { fn: W5B_templates229, enabled: true, weight: 12 },
+  supernova: { fn: W5B_supernova, enabled: true, weight: 32 },
+  axisForceBit: { fn: W5B_axisForceBit, enabled: true, weight: 9 },
+  compactMeasures: { fn: W5B_compactMeasures, enabled: true, weight: 11 },
+  coreTerminal: { fn: W5B_coreTerminal, enabled: true, weight: 11 },
+  galaxyMesh: { fn: W5B_galaxyMesh, enabled: true, weight: 12 },
+  toyLedger: { fn: W5B_toyLedger, enabled: true, weight: 34 },
+  ledgerNorm: { fn: W5B_ledgerNorm, enabled: true, weight: 33 },
+  kalign: { fn: W5B_kalign, enabled: true, weight: 11 },
+  framePull: { fn: W5B_framePull, enabled: true, weight: 11 },
+  emAudit: { fn: W5B_emAudit, enabled: true, weight: 20 },
+  mechspecZeroCost: { fn: W5B_mechspecZeroCost, enabled: true, weight: 10 },
+  phasechangeSchema: { fn: W5B_phasechangeSchema, enabled: true, weight: 208 },
+  selfrotor: { fn: W5B_selfrotor, enabled: true, weight: 31 },
+  selfrotorMultiseed: { fn: W5B_selfrotorMultiseed, enabled: !FAST, weight: 110 },
+  phaseMultiseed: { fn: W5B_phaseMultiseed, enabled: !FAST, weight: 216 },
+  emergenceMonitor: { fn: W5B_emergenceMonitor, enabled: true, weight: 9 },
+  shapeToys: { fn: W5B_shapeToys, enabled: true, weight: 24 },
+};
+const W5B_KEYS = Object.keys(W5B_JOBS);   // 表の並び = ソース上の出現順(後ろほど先にワーカーへ渡す)
+// 各ユニット/ブロックの実時間(unitTimings)。`ms`(直前の add() からの経過)は互換のため従来どおり残す
+const qaUnitTimings = {};
+let w5Pool = null;
+const w5cHandles = {};
+const w5bHandles = {};
+// 第279便b: 旧実装はユニットが例外を投げると、そのユニットを待つ `await` が**永遠に解決しなかった**
+// (ワーカーの async 関数ごと落ちて deferred が放置される → QA がハング/結果 JSON なしで終了)。
+// 本実装はユニットの例外を**待機者へ reject で届け**(QA_SERIAL=1 と同じ「その場で例外」)、
+// 生きたワーカーが 0 になったら待機中の全ジョブを失敗で終える(tests/lib-w279b-qaorder.mjs createW5Pool)。
+const w5bEnabledN = W5B_KEYS.filter((k) => W5B_JOBS[k].enabled).length;
+// 失敗注入(第279便b の検証用 — 通常の走行では未設定): QA_W5C_FAULT=unit:<key> でそのユニットの実行を
+// 例外にし(ワーカーでも主ページの横取りでも)、=startup で全ワーカーの起動を失敗させる。
+const W5C_FAULT = process.env.QA_W5C_FAULT || '';
+const w5cRun = (k, pg) => (W5C_FAULT === 'unit:' + k
+  ? Promise.reject(new Error('失敗注入: ユニット ' + k)) : W5C_UNITS[k].run(pg));
+// ワーカーのレンダラの nice(QA_W5_NICE — 既定 10・0 で無効・Linux の /proc があるときだけ効く)。
+// 主ページの実時間の試験(`ab.sync-advance` 等 — 数秒の実時間でアニメーションが進むことを見る)が、
+// ワーカーとの CPU の取り合いで遅れないようにする(スケジューリングだけ — 判定には関係しない)。
+const W5_NICE = Math.max(0, Math.min(19, Number(process.env.QA_W5_NICE ?? 10) || 0));
+const w5Reniced = new Set();
+if (!QA_SERIAL && (w5cUnitKeys.length || w5bEnabledN)) {
+  const nw = Math.min(W5C_NW, w5cUnitKeys.length + w5bEnabledN);
+  const osMod = await import('node:os');
+  const rBefore = W5_NICE ? W5_ORDER.ownRendererPids(fs, process.pid) : null;
+  w5Pool = W5_ORDER.createW5Pool({
+    nw,
+    openWorker: async (i) => {
+      if (W5C_FAULT === 'startup') throw new Error('失敗注入: ワーカー起動');
+      const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+      const wp = await ctx.newPage();
+      // page.no-errors との等価性確保のため、主ページと同じ収集先へ流し込む
+      wp.on('pageerror', e => pageErrors.push(String(e)));
+      wp.on('console', m => { if (m.type() === 'error') pageErrors.push(m.text()); });
+      await wp.goto(INDEX);
+      await wp.waitForFunction(() => window.HP && HP.sim);
+      if (rBefore) for (const pid of W5_ORDER.reniceNew(osMod, rBefore, W5_ORDER.ownRendererPids(fs, process.pid), W5_NICE)) w5Reniced.add(pid);
+      return wp;
+    },
+    closeWorker: async (wp) => { if (wp) await wp.context().close(); },
+    log: (m) => console.log(m),
+  });
   for (const k of w5cUnitKeys) {
-    let resolve; w5cUnitResults[k] = new Promise(r => { resolve = r; }); deferred[k] = resolve;
+    // 既存ユニットは従来どおり重い順(weight 降順)に、W5b のブロックより先に取り出す
+    w5cHandles[k] = w5Pool.submit(k, (wp) => w5cRun(k, wp), { prio: 1e6 + W5C_UNITS[k].weight });
   }
-  const queue = w5cUnitKeys.slice().sort((a, b) => W5C_UNITS[b].weight - W5C_UNITS[a].weight);
-  const nw = Math.min(W5C_NW, queue.length);
-  console.log(`[W5c] 並列ワーカー起動: NW=${nw} units=[${queue.join(', ')}]`);
-  w5cPoolPromise = Promise.all(Array.from({ length: nw }, async () => {
-    const wp = await browser.newPage({ viewport: { width: 390, height: 844 } });
-    // page.no-errors との等価性確保のため、主ページと同じ収集先へ流し込む
-    wp.on('pageerror', e => pageErrors.push(String(e)));
-    wp.on('console', m => { if (m.type() === 'error') pageErrors.push(m.text()); });
-    await wp.goto(INDEX);
-    await wp.waitForFunction(() => window.HP && HP.sim);
-    while (queue.length) {
-      const k = queue.shift();
-      const t0 = Date.now();
-      const res = await W5C_UNITS[k].run(wp);
-      console.log(`  [W5c] ${k} 完了 [${((Date.now() - t0) / 1000).toFixed(1)}s]`);
-      deferred[k](res);
-    }
-    await wp.close();
-  }));
-  w5cPoolPromise.catch(e => console.error('[W5c] worker pool error:', e));
+  console.log(`[W5c] 並列ワーカー起動: NW=${nw} units=[${w5cUnitKeys.slice().sort((a, b) => W5C_UNITS[b].weight - W5C_UNITS[a].weight).join(', ')}]`
+    + ` + W5b ブロック ${w5bEnabledN} 件(後ろから)・ワーカーのレンダラ nice=${W5_NICE}`);
 }
 // getUnit(key): QA_SERIAL=1 なら主ページ(page)でその場で直列実行(元コードと同一経路)。
-// 並列時は事前に起動済みのワーカープールの結果を待つ(既に完了していれば即座に返る)。
+// 並列時: 未着手なら主ページが横取りしてその場で実行(= QA_SERIAL と同じ経路)、着手済みなら結果を待つ。
+// 指紋ユニット(fpDigests)は待たずに Promise を作る呼び出し(下の fpPromise)なので横取りしない。
 async function w5cGetUnit(key) {
   if (QA_SERIAL) return W5C_UNITS[key].run(page);
-  return w5cUnitResults[key];
+  const h = w5cHandles[key];
+  if (!h) return undefined;     // 旧実装と同じ(無効なユニットは undefined)
+  const t0 = Date.now();
+  if (key !== 'fpDigests' && h.steal()) {
+    const res = await w5cRun(key, page);
+    qaUnitTimings['W5c:' + key] = { where: 'main(stolen)', runMs: Date.now() - t0 };
+    return res;
+  }
+  const res = await h.promise;
+  const wt = (w5Pool && w5Pool.timings[key]) || {};
+  qaUnitTimings['W5c:' + key] = { where: 'worker', runMs: wt.runMs ?? null, mainWaitMs: Date.now() - t0 };
+  return res;
+}
+// W5b: ブロックを元の位置で実行する(QA_SERIAL・未着手なら主ページでその場で、着手済みなら待って再生)。
+async function w5bRun(key, cond) {
+  const job = W5B_JOBS[key];
+  if (!job) throw new Error(`W5b: 未登録のブロック ${key}`);
+  if (!!cond !== !!job.enabled) throw new Error(`W5b: ${key} のガード(${!!cond})が表の enabled(${!!job.enabled})と食い違う`);
+  if (!cond) return;
+  const h = w5bHandles[key];
+  const t0 = Date.now();
+  if (!h || h.steal()) {
+    await job.fn(page, add, fpRun, console);
+    qaUnitTimings['W5b:' + key] = { where: h ? 'main(stolen)' : 'main', runMs: Date.now() - t0 };
+    return;
+  }
+  let out = null, err = null;
+  try { out = await h.promise; } catch (e) { err = e; }
+  const events = out ? out.events : ((err && err.w5bEvents) || []);
+  W5_ORDER.replayEvents(events, add, console);
+  const wt = (w5Pool && w5Pool.timings['W5b:' + key]) || {};
+  qaUnitTimings['W5b:' + key] = { where: 'worker', runMs: wt.runMs ?? null, mainWaitMs: Date.now() - t0 };
+  if (err) throw err;
 }
 // ==== W5c ここまで(以下、既存セクション本体。各対象セクション内の該当箇所だけ getUnit() 経由に
 // ====   置き換えてあり、判定式・閾値・detail 文字列の生成コードそのものは変更していない) ========
@@ -9521,23 +10338,25 @@ async function fpKey(testId) {
 }
 
 // 重いテストの本体を包む: 指紋一致なら前回の判定と detail をそのまま再利用し、本体を実行しない
-async function fpRun(testId, body) {
+// 第279便b: ctx(W5b のワーカー実行)では add/console/結果配列を ctx のもの(記録器)に差し替える。
+async function fpRun(testId, body, ctx = null) {
+  const A = ctx ? ctx.add : add, R = ctx ? ctx.results : results, C = ctx ? ctx.console : console;
   const key = await fpKey(testId);
   const prev = (fpPrev && fpPrev.tests && fpPrev.tests[testId]) || null;
   if (key && !QA_REFRESH && prev && prev.key === key
       && Array.isArray(prev.results) && prev.results.length && prev.results.every((r) => r.pass)) {
     const tag = `【cached: 指紋一致 — 前回 ${prev.date}/${String(prev.commit).slice(0, 7)} の実測をそのまま再利用】`;
-    console.log(`[FP] CACHED ${testId}(指紋一致・前回 ${prev.date}/${String(prev.commit).slice(0, 7)}`
+    C.log(`[FP] CACHED ${testId}(指紋一致・前回 ${prev.date}/${String(prev.commit).slice(0, 7)}`
       + `・省略 ${((prev.ms || 0) / 1000).toFixed(1)}s。再実行は QA_REFRESH=1 / QA_CACHE=0)`);
-    for (const r of prev.results) { add(r.id, true, `${r.detail} ${tag}`); fpCachedIds.push(r.id); }
+    for (const r of prev.results) { A(r.id, true, `${r.detail} ${tag}`); fpCachedIds.push(r.id); }
     fpSavedMs += prev.ms || 0;
     fpNext.tests[testId] = prev;   // 記録はそのまま持ち越す
     return true;
   }
-  const from = results.length;
+  const from = R.length;
   const t0 = Date.now();
   await body();
-  const made = results.slice(from);
+  const made = R.slice(from);
   if (key && made.length && made.every((r) => r.pass)) {
     fpNext.tests[testId] = { key, commit: HEAD_COMMIT, date: new Date().toISOString().slice(0, 10),
       htmlSha256: TARGET_SHA, ms: Date.now() - t0,
@@ -9546,6 +10365,22 @@ async function fpRun(testId, body) {
   return false;
 }
 // ==== 指紋キャッシュ ここまで ============================================================
+// 第279便b: W5b のブロックをプールへ渡す(fpRun/fpPromise の初期化の後 — ワーカーでの実行が
+// 最上位の名前を未初期化のまま読まないように、ここで初めて投入する)。後ろのブロックほど先に取り出す。
+if (w5Pool) {
+  W5B_KEYS.forEach((k, idx) => {
+    const job = W5B_JOBS[k];
+    if (!job.enabled) return;
+    w5bHandles[k] = w5Pool.submit('W5b:' + k, async (wp) => {
+      const rec = W5_ORDER.makeRecorder();
+      try { await job.fn(wp, rec.add, (id, body) => fpRun(id, body, rec), rec.console); }
+      catch (e) { const err = (e instanceof Error) ? e : new Error(String(e)); err.w5bEvents = rec.events; throw err; }
+      return { events: rec.events };
+    }, { prio: idx });
+  });
+  // 投入はここで締め切る(ワーカーはキューが空になったらページを閉じて抜ける — 旧実装と同じ)
+  w5Pool.seal();
+}
 
 
 // ---- 1) HP.verify.all() ----
@@ -9675,7 +10510,7 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
 // ----          第83便C の preset.validate-all-builtins が別の4件(galaxyDB/nebulaRotor/
 // ----          nebulaShell/nebulaBipolar)の400步 bit 不変を持っているので重複させない。
 // ----      第83便D より前の対象(root 等)は自動 SKIP。
-{
+await w5bRun('roundtripBuiltins', true); async function W5B_roundtripBuiltins(page, add, fpRun, console) {
   const hasW83D = await page.evaluate(() => {
     // 判定子: description の上限が 200 字より広がっていること(DESC_CAP の実測較正)
     const long = 'あ'.repeat(1000);
@@ -9721,7 +10556,7 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
       };
       const MASSW = /\.(m|mMin|mMax|aroundMass) を値域に修正$/;
       const ng = [], dsNg = [], massNg = [], bit0Ng = [], bit400Ng = [];
-      let total = 0, nDS = 0, n400 = 0;
+      let total = 0, nDS = 0, n400 = 0, nST = 0;
       for (const p of HP.allPresets()) {
         if (String(p.id).startsWith('custom_')) continue;
         total++;
@@ -9732,6 +10567,13 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
           nDS++;
           if (!dsEq(p.descStruct, v.preset.descStruct)) dsNg.push(p.id + ':ja');
           if (p.en && !dsEq(p.en.descStruct, v.preset.en && v.preset.en.descStruct)) dsNg.push(p.id + ':en');
+        }
+        // 第279便a: status(サンプルの状況 — 表示専用の宣言)も往復で一字一句保たれること(ja/en)
+        if (p.status || (p.en && p.en.status)) {
+          nST++;
+          if (JSON.stringify(p.status || null) !== JSON.stringify(v.preset.status || null)) dsNg.push(p.id + ':status');
+          if (p.en && JSON.stringify(p.en.status || null) !== JSON.stringify((v.preset.en || {}).status || null))
+            dsNg.push(p.id + ':en.status');
         }
         // 質量クランプ発動 0
         for (const w of (v.warnings || [])) if (MASSW.test(w)) massNg.push(p.id + ':' + w);
@@ -9764,7 +10606,7 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
           vMass.warnings.some((w) => /^bodies\[0\]\.m を値域に修正$/.test(w))
       };
       HP.loadPreset('saturn', false);
-      return { total, nDS, n400, ng, dsNg, massNg, bit0Ng, bit400Ng, caps };
+      return { total, nDS, nST, n400, ng, dsNg, massNg, bit0Ng, bit400Ng, caps };
     }, { fast: FAST, sample: FAST_SAMPLE });
     const capsOk = Object.values(r.caps).every(Boolean);
     add('preset.roundtrip-builtins',
@@ -9772,7 +10614,7 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
       r.bit0Ng.length === 0 && r.bit400Ng.length === 0 && capsOk,
       `内蔵${r.total}件のエクスポートJSON往復(stringify→parse→validatePreset→build)/ ` +
       `致命エラー=[${r.ng.slice(0, 3).join(' ')}](0件)/ ` +
-      `descStruct 保全 ${r.nDS}件=[${r.dsNg.slice(0, 3).join(' ')}](喪失0件)/ ` +
+      `descStruct 保全 ${r.nDS}件・status 保全 ${r.nST}件(第279便a)=[${r.dsNg.slice(0, 3).join(' ')}](喪失0件)/ ` +
       `質量クランプ発動=[${r.massNg.slice(0, 3).join(' ')}](0件)/ ` +
       `bit一致(往復build vs 直接build)t=0 のみ ${r.total - r.n400}件=[${r.bit0Ng.slice(0, 3).join(' ')}](0件)・` +
       `t=0+400步 ${r.n400}件(${FAST ? 'QA_FAST=代表' : 'フル=全件'})=[${r.bit400Ng.slice(0, 3).join(' ')}](0件)/ ` +
@@ -10202,7 +11044,7 @@ if (has40BSemanticSync) {
 }
 
 // ---- 7) 新内蔵サンプルの挙動(v1.12 付録L)----
-{
+await w5bRun('gclock', true); async function W5B_gclock(page, add, fpRun, console) {
   const r = await page.evaluate(() => {
     const s = HP.sim, res = {};
     // ⏱ gclock: τ/t が解析値 e^{-ψ} と一致し、内側ほど遅い
@@ -11418,7 +12260,7 @@ if (hasBadgeClassify) {
 // ----   から余裕を持って確定し、下の各コメントに実測値を記録した(詳細: scratchpad/w5ab-report.md)。
 // ----   6件合計の実測所要時間は約14s(gas/pressure/phaseがn=195〜240のため、design memoの想定
 // ----   「nが小さいので+10s」より重いが、+20sの上限内なので !FAST 化はしていない)----
-{
+await w5bRun('gas', true); async function W5B_gas(page, add, fpRun, console) {
   // 🔥gas: 左右で異なる初期温度が接触・伝導(muF/gammaN/kappaS)で熱平衡化し、温度の粒子間分散が
   // 縮小する。G=0・kFrame=0で純粋に熱過程だけの統制実験。
   // 第36便 D(台帳4-51)再較正: 主張「温度の粒子間分散が明確に縮小する」は不変で、参照量を
@@ -11447,7 +12289,7 @@ if (hasBadgeClassify) {
     `温度分散(T_obs) 初期=${gas.v0.toFixed(3)} → 6000步後=${gas.v1.toFixed(3)}(比=${(gas.v1 / gas.v0).toFixed(3)} < 0.75 — 実測 tint 0.640 / spin 0.485)${gas.tint ? ' tint' : ' spin'}`);
 }
 
-{
+await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, console) {
   // 🎈pressure: 既定(kRep=2)は中心の熱いガスがスピン斥力=圧力(E5′)で周りの冷たい殻を外へ押し広げる
   // → 粒子雲全体のRMS半径が増加。同構成をkRep=0に差し替えると(box.rot-support 302-341 と同じ手法で
   // s.params を直接書き換え)この機構が消え、増加はごく僅かになる(比較判定)
@@ -13009,7 +13851,8 @@ if (!FAST) {
   // 較正実測(66A・seed 20260727・6000步): kF1/kF0 = 1.2646(中心スピンのみ 1.2646 ≈ 全スピン
   // 1.2648 / 恒星のみ 1.0215 — 主源は中心天体のコヒーレントスピン。tests/exp-scale66.mjs)。
   // 窓は claims の {1.15,1.4} と同期(claims.sync が説明文の「実測約1.26倍」と照合)
-  {
+}
+await w5bRun('galaxyStd', !FAST); async function W5B_galaxyStd(page, add, fpRun, console) {
     const hasStd = await page.evaluate(() => HP.allPresets().some(p => p.id === 'galaxyStd'));
     if (hasStd) {
      await fpRun('claim.galaxystd-outerboost', async () => {
@@ -13044,6 +13887,7 @@ if (!FAST) {
       console.log('SKIP claim.galaxystd-outerboost(対象に 66B 未適用 — root 等)');
     }
   }
+if (!FAST) {
 
   // ---- 8a2b) 第70便: 💫galaxyGeo2 — v−u 統一測地線則の基準銀河(beta 先行) ----
   // 🎡galaxyStd と厳密同一の初期配置で geoPN=2 だけを変えた統一則の較正値を機械固定する。
@@ -13051,7 +13895,8 @@ if (!FAST) {
   //   外縁増強 kF1/kF0 = 1.0803(legacy 🎡 1.2646 の約1/3 — 「legacy 較正値を統一則に
   //   流用しない」ChatGPT レビュー裁定の実装)。純度Π: 熱斥力=0・結合=0(厳密)、
   //   測地線=6.7%(1PN — geoPN=2 で初めて銀河系に立つ)・引きずり=19.3%(輸送+渦度)
-  {
+}
+await w5bRun('galaxyGeo2', !FAST); async function W5B_galaxyGeo2(page, add, fpRun, console) {
     const hasG2 = await page.evaluate(() => HP.allPresets().some(p => p.id === 'galaxyGeo2'));
     if (hasG2) {
      await fpRun('claim.galaxygeo2-outerboost', async () => {
@@ -13090,6 +13935,7 @@ if (!FAST) {
       console.log('SKIP claim.galaxygeo2-outerboost(対象に 💫galaxyGeo2 なし — root 等。第70便)');
     }
   }
+if (!FAST) {
 
   // ---- 8a2b1) 第74便: 5段階スケール(scaleTier)— 分類の完全性と表示換算の物理不変 ----
   // scaleTier は UI 分類・表示換算専用のメタデータ(ChatGPT §8「スケールを物理入力にしない」)。
@@ -13242,7 +14088,8 @@ if (!FAST) {
   // バルジ側が強い)③kFrame=0 対照では両群のスピンが厳密0(経路の唯一性)。
   // 較正実測(exp-4-75 kf1・seed 20260804・6000步): σ 4.246/1.624=2.61・|spin| 5.040/2.618=1.92・
   // 対照は厳密0・保持 disk99.5%/bulge97.4%
-  {
+}
+await w5bRun('galaxyDB', !FAST); async function W5B_galaxyDB(page, add, fpRun, console) {
     const hasDB = await page.evaluate(() => HP.allPresets().some(p => p.id === 'galaxyDB'));
     if (hasDB) {
      await fpRun('claim.galaxydb-contrast', async () => {
@@ -13287,6 +14134,7 @@ if (!FAST) {
       console.log('SKIP claim.galaxydb-contrast(対象に 🍳galaxyDB なし — root 等。第74便)');
     }
   }
+if (!FAST) {
 
   // ---- 8a2b3) 第74便: 🌑nebulaRotor — ローター星雲の減光コントラスト(暗黒⇔散光) ----
   // 高スピンコア(lightSweep auto・粒子0..53)の平均減光がエンベロープ(54..)より1桁以上高く、
@@ -13858,7 +14706,8 @@ if (!FAST) {
   // ③因果: コアなし対照は 1.05(=コアが主因)④帳簿込み総 L 保存(<1e-3)。
   // 較正実測は exp-4-81(seed 20260805・6000步): 増強 1.5236 / 殻 1.3302 / Ω_c 4.241 /
   // コアなし対照 1.0453 / |ΔL| 1.3e-6(pinned 対照は 1.5215 — 同帯)
-  {
+}
+await w5bRun('bhcoreSelfdrive', !FAST); async function W5B_bhcoreSelfdrive(page, add, fpRun, console) {
     const hasBH = await page.evaluate(() => HP.allPresets().some(p => p.id === 'bhCore'));
     if (hasBH) {
      await fpRun('claim.bhcore-selfdrive', async () => {
@@ -13906,6 +14755,7 @@ if (!FAST) {
       console.log('SKIP claim.bhcore-selfdrive(対象に ⚫bhCore なし — root 等。第78便)');
     }
   }
+if (!FAST) {
 
   // ---- 8a2b4d2) 第80便 A → 第81便: ⚫bhCore の「自由な支配天体 + E6′-R」の固定seed受入 ----
   // 第80便は実験サンプル 🕳️bhCoreFree でこの受入を組んでいたが、第81便で ⚫bhCore 本体が
@@ -13914,7 +14764,8 @@ if (!FAST) {
   // ③τ_cs の自走(殻 0.15→1.33・コアΩ 20→4.24)が保たれる ④支配天体は重心まわりに有限反跳
   // ⑤帳簿込み総 L が保存する。較正実測は exp-4-81(seed 20260805・6000步)。
   // 「安定」の定義は原点不動ではなく上の5点(提案 §12.4)。対象に無ければ SKIP(root 等)
-  {
+}
+await w5bRun('bhcoreFree', !FAST); async function W5B_bhcoreFree(page, add, fpRun, console) {
     const hasBHF = await page.evaluate(() => {
       const p = HP.allPresets().find(q => q.id === 'bhCore');
       return !!(p && p.balanceFrame === 'barycentric' && p.bodies[0].pinned === false);
@@ -13985,6 +14836,7 @@ if (!FAST) {
       console.log('SKIP claim.bhcore-free(対象の ⚫bhCore が自由中心構成でない — root 等。第81便)');
     }
   }
+if (!FAST) {
 
   // ---- 8a2b4e) 第78便: コアv2 の堅牢性(ChatGPT P1: extreme-fuzz / 保存互換) ----
   // ①境界値・不正値の総当たりで NaN/Infinity/負慣性/半径逆転を起こさない(validate のクランプが
@@ -14509,7 +15361,8 @@ if (!FAST) {
   // 検査: ①病的構成で発動+発振停止(v最大<20・速度クランプ0)+P が帳簿込みで閉じる
   //       ②正規のドラッグ系(darkrotor/galaxy)では発動0(既存挙動 bit 不変 — baseline QA も担保)
   // 機能判定子 = S.clampRN の有無(root は SKIP)
-  {
+}
+await w5bRun('reactionCap', !FAST); async function W5B_reactionCap(page, add, fpRun, console) {
     const hasRN = await page.evaluate(() => {
       HP.loadPreset('galaxy', false); return HP.sim.clampRN !== undefined; });
     if (hasRN) {
@@ -14566,6 +15419,7 @@ if (!FAST) {
       console.log('SKIP clamp.reaction-cap(対象に clampRN なし — root 等。第71便 P0)');
     }
   }
+if (!FAST) {
 
   // ---- 8a3) 第69便 P4b(E12v2): geoPN=2 — v−u 統一測地線則(beta 先行) ----
   // DERIVATIONS §18 の実装アンカーを機械固定する: ①kF=0 で geoPN=1 と bit 等価(段階導入)
@@ -15830,7 +16684,7 @@ if (!FAST) {
 // ----   ②衛星の公転周期の観測照合 ③環11帯の半径保持(kFrame=1)とその kFrame=0 対照
 // ----   ④🌊 の kFrame=1 引きずり超過(第3例)とトリトンの負符号自転 ⑤決定性。
 // ----   窓は説明文の宣言と同じ(💠 2ミランダ公転・🌊 1.5トリトン公転)。
-{
+await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun, console) {
   const hasUN = await page.evaluate(() =>
     ['uranusReal', 'neptuneReal'].every((id) => HP.allPresets().some((q) => q.id === id)));
   if (hasUN) {
@@ -16617,7 +17471,7 @@ if (!FAST) {
 //     窓 0.008〜0.012 は据置・宣言 +0.0095848°/周・A/B 差 <2%・**柵却下(偽検出)0**)・**スピンは保持できない宣言**(±40 飽和・clampSN>0・
 //     帳簿 L 残差<1e-4〔宣言 5.0×10⁻⁶ — クランプ捨て分〕・P 残差<1e-8)・重心機械ゼロ・
 //     否定対照(cmGauge除去→歩行/kF0×f→深い楕円)・決定性
-{
+await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpRun, console) {
   const hasPsr = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'psrDoubleAB'));
   if (hasPsr) {
     const csvText = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8');
@@ -17130,7 +17984,7 @@ if (!FAST) {
 //        dt を細かくするほど柵の却下が増える**ことを固定する(第254便d ③ の実測を門にした)。
 //   **窓は 20 近点(19 区間)・柵は「一周に近点 1 つ」**(第252便b)。値そのものの窓は張らない
 //   (棚卸しと同じ方針 — 固定するのは符号と偽検出数の契約である)。
-{
+await w5bRun('nsThreeStage', true); async function W5B_nsThreeStage(page, add, fpRun, console) {
   const NS4 = ['psrDoubleABDFM', 'psrJ1757DFM', 'psrJ1946DFM', 'psrB1534DFM'];
   const hasNs = await page.evaluate((ids) => ids.every((id) => HP.allPresets().some((p) => p.id === id)), NS4);
   if (!hasNs) {
@@ -17848,7 +18702,7 @@ if (!FAST) {
 //   2.107(21.1 km/s)は**面内分散 proxy** であり、観測の**中心 1D 視線分散** 12.4 km/s との比 1.70 は
 //   **方向・開口・重みの対応が未確定**なので、比較サンプル v1a では **not-applicable** である
 //   (数値の不一致ではなく対応の未宣言)。**旧測定は履歴として残す。**
-{
+await w5bRun('tuc47', true); async function W5B_tuc47(page, add, fpRun, console) {
   const hasTuc = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'tuc47'));
   if (hasTuc) {
     const tc = await page.evaluate(() => {
@@ -17912,7 +18766,7 @@ if (!FAST) {
 // ---- 第228便→第230便: behavior.ngc3198 — NGC 3198(🌃)+恒星 f≈2 hold-out(🛞)----
 // 🌃: NFW(自前 fit 宣言)で保持/ハロー除去で空(不変)。🛞(第230便): 恒星 f=1.99973 適用後も
 // 届かない(外縁 49 vs 150 km/s — 中心核相対で機械固定)・HI 非適用+gas 宣言・自由中心核・台帳一致
-{
+await w5bRun('ngc3198', true); async function W5B_ngc3198(page, add, fpRun, console) {
   const hasNgc = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'ngc3198'));
   if (hasNgc) {
     const ng = await page.evaluate(() => {
@@ -18014,7 +18868,7 @@ if (!FAST) {
 // ---- 第229便: behavior.templates229 — 天体雛形(🏮/🪩)の機械固定 ----
 // 第245便: 🌻 starDFM(と ☀️starcore)の廃止に伴い「🌻=☀️ ビット同一+方位歳差」の節を撤去。
 // 🏮: 静止保持+傾き45°でも位相恒等(運動学時計)/🪩: tilt90 で Jz 機械ゼロ・|J| 保存・減光1.000 のまま
-{
+await w5bRun('templates229', true); async function W5B_templates229(page, add, fpRun, console) {
   const hasT = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'pulsarSolo'));
   if (hasT) {
     const tp = await page.evaluate(() => {
@@ -18165,7 +19019,7 @@ if (!FAST) {
 //   解放E 0.0687=ΔKE 7202.96+ΔU −7202.89(jFrac 0)・burstL 414.72=frac 2.7e-3×J₀ 153600=J₀−J₁・
 //   burstE 25900.21=注入KE 25900.07(相対残差 5.3e-6)・脱出 128/128・平均 v 33.38(dt/2 33.37)・
 //   対照 用量半分 27.56 / kF0 26.48 / burst なし 19.83(J 不変)/ 単層 27.31 / Ω0・shed なしは粒子 1 のまま
-{
+await w5bRun('supernova', true); async function W5B_supernova(page, add, fpRun, console) {
   const hasSN = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'supernovaCore') && HP.sim.coreBR !== undefined);
   if (hasSN) {
     const sn = await page.evaluate(() => {
@@ -18887,7 +19741,7 @@ if (!FAST) {
 //       同ブロックで **pinned の帳簿 4 条件**(中心/受け手の固定有無)も検査する。中心を原点外
 //       (100,50)に置いた 1 キックで、修正前は ΔL=−2.76(pinned 中心の反力のモーメント落ち)/
 //       +3.87(受け手 pinned の未適用力)等になっていた。4 条件すべてで ΔP・ΔL が丸め級になる。
-{
+await w5bRun('axisForceBit', true); async function W5B_axisForceBit(page, add, fpRun, console) {
   const hasAF = await page.evaluate(() => typeof HP.dfmAxisPotential === 'function'
     && typeof HP.validateAxisForce === 'function');
   if (hasAF) {
@@ -19198,7 +20052,7 @@ if (!FAST) {
 //   E) HP.dfmCompactMeasures — 「手段」表の正本(⚡ NS–NS・🎻 BH・🪨 太陽–水星を**同じ無次元則**で同時評価)。
 //      ①kind "spin" では質量補正 f が η から約分される ②kind "kerr" では f² で効く
 //      ③Δϖ = −2π·η(r=p) の恒等式 ④エンジンの η と 1e-12 で一致 ⑤**どの則も 3 系を同時に満たさない**
-{
+await w5bRun('compactMeasures', true); async function W5B_compactMeasures(page, add, fpRun, console) {
   const has247 = await page.evaluate(() => typeof HP.dfmCompactMeasures === 'function'
     && Array.isArray(HP.FRAME_PRECISIONS) && typeof HP.dfmSpinDipoleDeclared === 'function'
     && HP.allPresets().some((q) => q.id === 'psrDoubleABSpinCal'));
@@ -20664,7 +21518,7 @@ if (!FAST) {
 //   ⑤**裸コア終端** — 🔘 の 7 回目で殻を全部出して Mc=M(massFrac=1・coreBare=1)・器の半径が残る。
 //     事象の閉性は _shed() の直接呼び出しで ΔM/ΔP 厳密 0・ΔL・全E ≤1e-9、**2 回目は発火しない**
 //   ⑥ U_bind=−a·G·Mc²/Rc が coreState から読める(記録専用 — 力学は 1 bit も読まない)
-{
+await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, fpRun, console) {
   const hasTerm = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'whiteDwarfBareDFM')
     && typeof HP.coreLedger === 'function' && HP.sim.coreRT !== undefined);
   if (hasTerm) {
@@ -24843,7 +25697,7 @@ if (!FAST) {
 //        u_x=−x·t の観測次数が 4 になる(**各段が同じ時刻を見ると 1 次に落ちる**ことを対照で示す)。
 //     ⑫ **新 opt の門**: 未知の unSource/unFit/need・非正の fitH は null。
 //   **これは表示と記録の契約であって、力の接続ではない**(銀河へ力を載せる条件は未決 — PHYSICS〔第254便b〕⑧)。
-{
+await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun, console) {
   const hasGM = await page.evaluate(() => typeof HP.dfmGalaxyMeshField === 'function'
     && typeof HP.dfmGalaxyTracerCreate === 'function' && typeof HP.dfmGalaxyTracerStep === 'function'
     && typeof HP.dfmGalaxyTracerObserve === 'function' && typeof HP.dfmGalaxyMeshRecord === 'function');
@@ -28326,7 +29180,7 @@ if (!FAST) {
 //     ⑤ **減光は観測写像**であって帳簿の項ではない(`obs` に分かれていて Etot に入らない)。
 //     ⑥ **門**: S でないもの・maxPairs 超過(打ち切らず未定義)・不正 opts は null/未定義。
 //   **Q を重力波と読まない。「トイが完成した」とは書かない。**
-{
+await w5bRun('toyLedger', true); async function W5B_toyLedger(page, add, fpRun, console) {
   const hasTL = await page.evaluate(() => typeof HP.dfmToyLedger === 'function');
   if (hasTL) {
     const tl = await page.evaluate(() => {
@@ -28826,7 +29680,7 @@ if (!FAST) {
 //        **🫐 tuc47DFM 0.3098 = "undefined-terms"**(従来分母も同値)。**どれも FAIL にしない。**
 //   **書かないこと**: 「帳簿が閉じた」「規格化で残差が縮んだ」「1e−3 を通ったから合格」
 //   「🎠🫐 は帳簿が壊れている」(未定義項があるので**判定そのものが未定義**である)。
-{
+await w5bRun('ledgerNorm', true); async function W5B_ledgerNorm(page, add, fpRun, console) {
   const hasLN = await page.evaluate(() => typeof HP.dfmToyLedger === 'function'
     && typeof HP.dfmLedgerRelative === 'function'
     && typeof HP.dfmLedgerGateState === 'function');   // 第262便d: 状態名の純関数
@@ -29298,7 +30152,7 @@ if (!FAST) {
 // テスト内でその場で組む(物理宣言は旧 🌻 と 1 対 1 — 判定窓は不変)。
 // 旧 🌻 パッチ(tilt60・Kalign0.5・殻スピン0.08): θ の指数減衰と方位歳差の共存(螺旋)・|J| 保存・
 // L_z(核+殻)保存・帳簿閉性(ΔE_vis = ΔalignE − Δ散逸)・Kalign 未宣言=0 明示のビット同一・kF0 力学不干渉
-{
+await w5bRun('kalign', true); async function W5B_kalign(page, add, fpRun, console) {
   const hasKal = await page.evaluate(() => { const S = HP.sim; return S.coreKal !== undefined; });
   if (hasKal) {
     const ka = await page.evaluate(() => {
@@ -29720,7 +30574,7 @@ if (!FAST) {
 // 既定 frameWeight="pull"(w=m/(d²+ε²)・分母 D0pull+W_B+Σw)。"pull3"/"pull4" は w=m/(d²+ε²)^{p/2}(opt-in)。"share" は旧来の分率(明示)。
 // 玩具で χ が解析 dfmPullEntrainment(p) と 1e-5 一致(p=2/3/4)/既定の明示は署名不変・legacy 内蔵サンプルは "share" 明示/
 // 🌘 は宣言どおり pull・D0pull=3.24204e-5 で近点移動 2.995°/周(±0.15)・pull3 は再較正値で同窓・pull4 は門(denom>1e-9)の直上で最大 1.78°/周(較正不能の記録)/物理予測(p=2): 地表 χ_E 0.998・GPS 0.97・月 0.12・α Cen 相手 10⁻³・PSR 0.9999。
-{
+await w5bRun('framePull', true); async function W5B_framePull(page, add, fpRun, console) {
   const hasPull = await page.evaluate(() => typeof (window.HP && HP.dfmPullEntrainment) === 'function' && typeof HP.frameWeightPow === 'function');
   if (hasPull) {
     const fp = await page.evaluate(({ D0P3, D0P4 }) => {
@@ -30317,7 +31171,7 @@ if (!FAST) {
 // ----   フルQAでは追加で 🧲B を 118公転(=約8.85年ぶん)まで延ばし、第135便の一次発見
 // ----   (①近点回転が単調に遅くなる ②離心率が単調に汲み上げられる)を機械固定する。
 // ----   軽い(A 20公転 2.8s+B 8公転 1.8s+C 118公転 2.1s ≈ 7s)ので QA_FAST=1 でも中核3件を実行する。
-{
+await w5bRun('emAudit', true); async function W5B_emAudit(page, add, fpRun, console) {
   const hasEA = await page.evaluate(() => ['emAuditNewton', 'emAuditDFM', 'emAuditSolar']
     .every((id) => HP.allPresets().some((p) => p.id === id)));
   if (hasEA) {
@@ -31400,6 +32254,130 @@ if (!FAST) {
   }
 }
 
+// ---- 第279便a(原仮定者の裁定(第69報)「各サンプルの状況確認」・統括の読み R59/R60): **サンプルの状況 status** ----
+// ----   preset.status … 受理契約(validatePreset が status/en.status を型検査して残す・列挙値の外は status ごと落とす・
+// ----     未宣言は素通り)と、内蔵 133 本の**宣言 133/133**・objective/calibration が列挙値・mismatch/outlook は
+// ----     文字列か null・evidence は空でない文字列配列・**根拠 ID が保存 QA(qa-results-full-beta.json)で PASS か
+// ----     tests/out/ の正本として存在する**・status が presetSig に入らない(表示専用)。
+// ----   preset.statusLedger-sync … 較正母集団 37 本の calibration・mismatch・outlook が**正本 calaudit-w249.json の
+// ----     verdictLedger から lib-w279a で作り直した値と 1 字も違わない**(手書きと正本が食い違えば FAIL)。⛄🌨️ は
+// ----     charonwin-w278b.json の比較値つき「判定保留(量定義不一致)」・それ以外は「較正対象外」で mismatch/outlook null。
+// ----     4 値の集計が台帳(fourValues.current.counts)と一致する。正本が無い環境は SKIP。
+// ----   **root 等(第279便a の HP.sampleStatusOf が無い)は SKIP**。
+{
+  const hasW279a = await page.evaluate(() => typeof (window.HP || {}).sampleStatusOf === 'function');
+  if (!hasW279a) {
+    console.log('SKIP preset.status / preset.statusLedger-sync(対象に第279便a の HP.sampleStatusOf なし — root 等)');
+  } else {
+    const SS = await import('file://' + path.join(ROOT, 'tests', 'lib-w279a-samplestatus.mjs'));
+    const r = await page.evaluate(() => {
+      const o = { rows: [], accept: {} };
+      for (const p of HP.allPresets()) {
+        if (String(p.id).startsWith('custom_')) continue;
+        o.rows.push({ id: p.id, status: p.status || null, enStatus: (p.en || {}).status || null,
+          sigHas: presetSig(p).indexOf('"status"') >= 0 || (p.status && presetSig(p).indexOf(p.status.purpose) >= 0) });
+      }
+      // 受理契約(合成プリセットで叩く)
+      const base = () => ({ name: 't', description: 'd', camera: { scale: 100 }, world: { boundary: 'none', size: 0 },
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      const ok = { purpose: 'p', objective: 'met', state: 's', calibration: 'out-of-scope', mismatch: null, outlook: null, evidence: ['x'] };
+      const v1 = HP.validatePreset(Object.assign(base(), { status: ok, en: { name: 't', status: { purpose: 'P', state: 'S', mismatch: null, outlook: null } } }));
+      const v2 = HP.validatePreset(Object.assign(base(), { status: Object.assign({}, ok, { objective: 'done' }) }));
+      const v3 = HP.validatePreset(Object.assign(base(), { status: Object.assign({}, ok, { calibration: '合' }) }));
+      const v4 = HP.validatePreset(Object.assign(base(), { status: Object.assign({}, ok, { evidence: 'x' }) }));
+      const v5 = HP.validatePreset(base());
+      const v6 = HP.validatePreset(Object.assign(base(), { status: Object.assign({}, ok, { mismatch: 3 }) }));
+      o.accept = {
+        keep: !!(v1.ok && v1.preset.status && v1.preset.status.objective === 'met' && v1.preset.en && v1.preset.en.status
+          && v1.preset.en.status.state === 'S'),
+        badObjective: !!(v2.ok && v2.preset.status === undefined && v2.warnings.some((w) => /objective/.test(w))),
+        badCalibration: !!(v3.ok && v3.preset.status === undefined && v3.warnings.some((w) => /calibration/.test(w))),
+        badEvidence: !!(v4.ok && v4.preset.status === undefined),
+        undeclared: !!(v5.ok && v5.preset.status === undefined && !v5.warnings.some((w) => /status/.test(w))),
+        badText: !!(v6.ok && v6.preset.status === undefined),
+      };
+      return o;
+    });
+    // ---- preset.status
+    let qaIds = null;
+    try {
+      const Q = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'qa-results-full-beta.json'), 'utf8'));
+      qaIds = new Set((Q.results || []).filter((z) => z.pass).map((z) => z.id));
+    } catch (e) { qaIds = null; }
+    const bad = [];
+    let nDecl = 0;
+    const obj = { met: 0, partial: 0, unmet: 0, 'n/a': 0 };
+    for (const row of r.rows) {
+      const st = row.status;
+      if (!st) { bad.push(row.id + ':未宣言'); continue; }
+      nDecl++;
+      if (SS.OBJECTIVES.indexOf(st.objective) < 0) bad.push(row.id + ':objective');
+      else obj[st.objective]++;
+      if (SS.CALIBRATIONS.indexOf(st.calibration) < 0) bad.push(row.id + ':calibration');
+      for (const k of ['mismatch', 'outlook']) if (!(st[k] === null || typeof st[k] === 'string')) bad.push(row.id + ':' + k);
+      if (!Array.isArray(st.evidence) || !st.evidence.length || st.evidence.some((e) => typeof e !== 'string')) bad.push(row.id + ':evidence');
+      else for (const e of st.evidence) {
+        if (/^tests\/out\//.test(e)) { if (!fs.existsSync(path.join(ROOT, e))) bad.push(row.id + ':正本なし ' + e); }
+        else if (qaIds && !qaIds.has(e)) bad.push(row.id + ':保存 QA で PASS でない ' + e);
+      }
+      if (!row.enStatus || typeof row.enStatus.purpose !== 'string' || typeof row.enStatus.state !== 'string') bad.push(row.id + ':en.status');
+      if (row.sigHas) bad.push(row.id + ':presetSig に status が入った');
+    }
+    const acc = r.accept;
+    const accOk = Object.values(acc).every(Boolean);
+    add('preset.status', bad.length === 0 && accOk && nDecl === r.rows.length && r.rows.length >= 133,
+      `**サンプルの状況 status**(第279便a・R60): 内蔵 ${r.rows.length} 本のうち宣言 ${nDecl} 本 / ` +
+      `objective 達 ${obj.met}・部分 ${obj.partial}・未達 ${obj.unmet}・対象外 ${obj['n/a']} / ` +
+      `根拠 ID の照合=${qaIds ? '保存 QA ' + qaIds.size + ' 件(PASS)' : '保存 QA 無し — 正本の存在だけ'} / ` +
+      `受理契約: 保持=${acc.keep}・objective 外=${acc.badObjective}・calibration 外=${acc.badCalibration}・` +
+      `evidence 非配列=${acc.badEvidence}・mismatch 非文字列=${acc.badText}・未宣言は素通り=${acc.undeclared} / ` +
+      `presetSig に入らない=${!r.rows.some((z) => z.sigHas)}` +
+      (bad.length ? ` / **NG ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    // ---- preset.statusLedger-sync
+    let C = null, W = null;
+    try {
+      C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+      W = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'charonwin-w278b.json'), 'utf8'));
+    } catch (e) { C = null; }
+    if (!C || !W) {
+      console.log('SKIP preset.statusLedger-sync(正本 calaudit-w249.json / charonwin-w278b.json が無い)');
+    } else {
+      const bad2 = [];
+      const ledgerIds = new Set(((C.verdictLedger || {}).rows || []).map((z) => z.id));
+      const cnt = { '合': 0, '量限定合': 0, '否': 0, '保留': 0 };
+      let nPop = 0, nHold = 0, nOut = 0;
+      for (const row of r.rows) {
+        const st = row.status; if (!st) continue;
+        const en = row.enStatus || {};
+        let want = null;
+        if (ledgerIds.has(row.id)) { want = SS.ledgerStatus(C, row.id); nPop++; }
+        else if (SS.HOLD_DEFINITION_ROWS[row.id]) { want = SS.holdDefinitionStatus(W, row.id); nHold++; }
+        if (want && want.error) { bad2.push(row.id + ':' + want.error); continue; }
+        if (want) {
+          if (st.calibration !== want.calibration) bad2.push(`${row.id}: calibration ${st.calibration} ≠ 正本 ${want.calibration}`);
+          const wm = want.mismatch || { ja: null, en: null }, wo = want.outlook || { ja: null, en: null };
+          if (st.mismatch !== wm.ja || en.mismatch !== wm.en) bad2.push(`${row.id}: mismatch ≠ 正本`);
+          if (st.outlook !== wo.ja || en.outlook !== wo.en) bad2.push(`${row.id}: outlook ≠ 正本`);
+          if (want.verdict4) cnt[want.verdict4]++;
+        } else {
+          nOut++;
+          if (st.calibration !== 'out-of-scope' || st.mismatch !== null || st.outlook !== null)
+            bad2.push(`${row.id}: 母集団外なのに較正対象外・null でない(${st.calibration})`);
+        }
+      }
+      for (const id of ledgerIds) if (!r.rows.some((z) => z.id === id)) bad2.push(`台帳の ${id} が内蔵に無い`);
+      const cur = ((C.fourValues || {}).current || {}).counts || {};
+      const fourOk = ['合', '量限定合', '否', '保留'].every((k) => cur[k] === cnt[k]);
+      if (!fourOk) bad2.push(`4 値 ${JSON.stringify(cnt)} ≠ fourValues.current ${JSON.stringify(cur)}`);
+      add('preset.statusLedger-sync', bad2.length === 0 && nPop === ledgerIds.size && nHold === 2,
+        `**status の較正欄 ↔ 正本**(第279便a・R60): 較正母集団 ${nPop}/${ledgerIds.size} 本の calibration・mismatch・outlook を` +
+        ` calaudit-w249.json の verdictLedger から lib-w279a で作り直して照合 / 4 値 ${cnt['合']}/${cnt['量限定合']}/${cnt['否']}/${cnt['保留']}` +
+        `(台帳 fourValues.current と一致=${fourOk})/ 判定保留(量定義不一致)${nHold} 本(charonwin の比較値)/ 較正対象外 ${nOut} 本(mismatch・outlook null)` +
+        (bad2.length ? ` / **食い違い ${bad2.length} 件**: ${bad2.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
 // ---- 第276便f(原仮定者の裁定(第66報)(5)「UI」5 件): 説明タブの並び・概要・畳み・
 // ---- 監査ビューの再タップ・広げた画面のはみ出し。**すべて表示専用**(物理・保存 JSON・
 // ---- presetSig・AI 仕様には 1 バイトも効かない)。世代判定は第276便f の実体の有無 ----
@@ -31520,7 +32498,10 @@ if (!FAST) {
     // --- ② 概要(brief)
     const rb = await page.evaluate(() => {
       const CAP = HP.DESC_BRIEF_CAP;
-      const o = { CAP, langs: {}, bad: [] };
+      // 第279便a: en の宣言の上限は DESC_BRIEF_CAP_EN(200)。旧世代(定数なし)は 120 のまま
+      const CAPL = { ja: CAP, en: HP.DESC_BRIEF_CAP_EN || CAP };
+      const hasW279a = typeof HP.sampleStatusOf === 'function';
+      const o = { CAP, CAPL, hasW279a, langs: {}, bad: [], w279: [] };
       for (const lang of ['ja', 'en']) {
         HP.setLang(lang);
         let declared = 0, extracted = 0, empty = 0, max = 0, min = 1e9, mid = [], unstable = [];
@@ -31533,7 +32514,10 @@ if (!FAST) {
           const src = HP.descBriefSource(p);
           if (src === 'declared') declared++; else if (src === 'extracted') extracted++;
           if (!b) { empty++; continue; }
-          if (b.length > CAP) o.bad.push(`${lang}:${p.id}:${b.length}字`);
+          if (b.length > CAPL[lang]) o.bad.push(`${lang}:${p.id}:${b.length}字`);
+          // 第279便a: 内蔵の概要と status を Node 側の lib で照合するために持ち帰る
+          if (hasW279a) o.w279.push({ lang, id: p.id, brief: b, src,
+            status: p.status || null, enStatus: (p.en || {}).status || null });
           max = Math.max(max, b.length); min = Math.min(min, b.length);
           // 文の途中で切れていないこと(「…」で終わるなら直前が文末記号)
           if (b.endsWith('…') && !/[。．.！？!?][」』）)\]】〕]?$/.test(b.slice(0, -1))) mid.push(p.id);
@@ -31563,11 +32547,42 @@ if (!FAST) {
         heads: document.querySelectorAll('#helpBody .descSectHead').length,
         text: (document.querySelector('#helpBody #descBrief') || {}).textContent || '',
         src: (document.querySelector('#helpBody #descBrief') || { dataset: {} }).dataset.src };
+      // 第279便a: 状態チップ(概要の直後・aria-label・区分見出しは増えない)
+      if (hasW279a) {
+        const box = document.querySelector('#helpBody #descStatus');
+        const bEl = document.querySelector('#helpBody #descBrief');
+        o.chips = { shown: !!box, n: box ? box.querySelectorAll('.stChip').length : 0,
+          aria: box ? box.getAttribute('aria-label') : null,
+          afterBrief: !!(box && bEl && bEl.nextElementSibling === box),
+          text: box ? box.textContent : '' };
+      }
       HP.loadPreset('saturn', false);
       return o;
     });
     const ruleOk = Object.values(rb.rule).every(Boolean);
-    const ok2 = rb.bad.length === 0 && ruleOk && rb.sigClean && rb.descClean
+    // 第279便a(第69報・R59): 内蔵 133 本は ja/en とも**宣言の概要 133/133**・1 行 3 節・較正節の語 = status.calibration・
+    //   概要 = status から組み立てた文(lib-w279a の composeBrief)・禁止語 0。旧世代(root 等)は判定子なしで素通り
+    const w279 = { n: 0, notDeclared: [], clauses: [], calWord: [], composed: [], forbidden: [], noStatus: [] };
+    if (rb.hasW279a) {
+      const SS = await import('file://' + path.join(ROOT, 'tests', 'lib-w279a-samplestatus.mjs'));
+      for (const r of rb.w279) {
+        w279.n++;
+        const tag = r.lang + ':' + r.id;
+        if (r.src !== 'declared') { w279.notDeclared.push(tag); continue; }
+        if (!r.status) { w279.noStatus.push(tag); continue; }
+        const parts = SS.splitBrief(r.brief, r.lang);
+        if (parts.length !== 3) { w279.clauses.push(tag + '(' + parts.length + '節)'); continue; }
+        if (SS.calWordOfClause(parts[2], r.lang) !== r.status.calibration) w279.calWord.push(tag);
+        const st = Object.assign({}, r.status, { en: r.enStatus || {} });
+        if (SS.composeBrief(st, r.lang) !== r.brief) w279.composed.push(tag);
+        if (SS.FORBIDDEN.test(r.brief)) w279.forbidden.push(tag);
+      }
+    }
+    const w279ok = !rb.hasW279a || (['ja', 'en'].every((L) => rb.langs[L].declared === rb.langs[L].n)
+      && !w279.notDeclared.length && !w279.noStatus.length && !w279.clauses.length && !w279.calWord.length
+      && !w279.composed.length && !w279.forbidden.length
+      && rb.chips && rb.chips.shown && rb.chips.n >= 2 && rb.chips.afterBrief && !!rb.chips.aria);
+    const ok2 = rb.bad.length === 0 && ruleOk && rb.sigClean && rb.descClean && w279ok
       && rb.ui.shown && rb.ui.heads === 3 && rb.ui.text.length > 0 && rb.ui.text.length <= rb.CAP
       && ['ja', 'en'].every((L) => rb.langs[L].empty === 0 && rb.langs[L].mid.length === 0
         && rb.langs[L].unstable.length === 0 && rb.langs[L].n >= 100);
@@ -31579,7 +32594,18 @@ if (!FAST) {
       }).join(' / ') +
       ` / 超過=[${rb.bad.slice(0, 3).join(' ')}](0件)/ 抽出規則=${ruleOk}(${Object.keys(rb.rule).filter((k) => !rb.rule[k]).join(',') || 'すべて可'})` +
       ` / 宣言 ${rb.nDecl}本が presetSig に入らない=${rb.sigClean}・純分割 description 不変=${rb.descClean}` +
-      ` / 画面表示=${rb.ui.shown}(区分見出しは ${rb.ui.heads} のまま・出所 ${rb.ui.src}・${rb.ui.text.length}字)`);
+      ` / 画面表示=${rb.ui.shown}(区分見出しは ${rb.ui.heads} のまま・出所 ${rb.ui.src}・${rb.ui.text.length}字)` +
+      (rb.hasW279a
+        ? ` / **第279便a**: 上限 ja ${rb.CAPL.ja}・en ${rb.CAPL.en} / 宣言 ja ${rb.langs.ja.declared}/${rb.langs.ja.n}・en ${rb.langs.en.declared}/${rb.langs.en.n}` +
+          ` / 3 節の崩れ ${w279.clauses.length}・較正節の語 ≠ status ${w279.calWord.length}・status からの組み立て ≠ 概要 ${w279.composed.length}` +
+          `・status 無し ${w279.noStatus.length}・禁止語 ${w279.forbidden.length}(照合 ${w279.n} 件)` +
+          ` / 状態チップ=${rb.chips ? rb.chips.shown : false}(${rb.chips ? rb.chips.n : 0} 個・概要の直後=${rb.chips ? rb.chips.afterBrief : false}・aria「${rb.chips ? rb.chips.aria : ''}」)` +
+          ([].concat(w279.notDeclared, w279.clauses, w279.calWord, w279.composed, w279.forbidden).length
+            ? ' / NG: ' + [].concat(w279.notDeclared, w279.clauses, w279.calWord, w279.composed, w279.forbidden).slice(0, 5).join(' ') : '')
+        : ' / 第279便a の status なし(旧世代 — 宣言 133/133 の検査は素通り)'));
+
+    // --- ②b 第279便a(原仮定者の裁定(第69報)「各サンプルの状況確認」・統括の読み R60): preset.status /
+    //   preset.statusLedger-sync は下の独立ブロック(root 等の旧世代は SKIP)
 
     // --- ③ 並び(全内蔵掃引)
     const ro = await page.evaluate(() => {
@@ -31907,6 +32933,11 @@ if (!FAST) {
 // ----     #appTitle の aria-controls と監査ビュー導線(aria-controls / aria-expanded)は不変・
 // ----     横画面 1280×800 で箱がキャンバス列と右カラムの両方に被る・about と av は排他・
 // ----     「サンプルを選ぶ」を上に重ねた Esc は手前の窓だけを閉じる。
+// ----     第279便d(原仮定者の裁定(第69報)「UI」「前回 1.5 倍を頼んだが 2 倍になっていたので 3/4 程度に狭める」):
+// ----     html が第279便d の宣言 clamp(360px,40.5vw,472px) を持つときは、固定値を 3/4 へ —— 右カラム
+// ----     min(472, max(360, 0.405×幅))・箱 min(630px, 画面幅−28px)・旧 2 宣言(480/54vw/630・320/36vw/420)の残り無し。
+// ----     加えて文字サイズ「大」(--uz 1.3)の ja/en で操作列・タブの折り返し 0・4 タブのパネル内の横はみ出し 0
+// ----     (900 幅で「パラメータ」が 2 行に折れた実測への回帰検査)。第278便e の宣言だけの html は従来の固定値で測る。
 // ----   ui.searchClear … ✕ は type=button・aria-label(ja「検索をクリア」/ en「Clear search」)・
 // ----     入力が空で非表示/入力で表示・押すと検索欄が空・一覧が絞り込み前の行数へ戻る・フォーカスが
 // ----     検索欄・412×915 で見出し行が 1 行(はみ出し 0)・✕ は検索欄の内側。
@@ -31921,7 +32952,11 @@ if (!FAST) {
 // ----     text を取り出せる。
 {
   const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
-  const has278e = /clamp\(480px,54vw,630px\)/.test(html) && /class="fmModal"/.test(html)
+  // 第279便d: 幅の宣言は第278便e(480/54vw/630)か第279便d(360/40.5vw/472)のどちらか —— 世代で固定値を切り替える
+  const has279dW = /grid-template-columns:minmax\(0,1fr\) clamp\(360px,40\.5vw,472px\);/.test(html);
+  const LW = has279dW ? { min: 360, vw: 0.405, max: 472, box: 630, decl: 'clamp(360px,40.5vw,472px)', gen: '第279便d(第278便e の 3/4)' }
+    : { min: 480, vw: 0.54, max: 630, box: 840, decl: 'clamp(480px,54vw,630px)', gen: '第278便e(旧 320/36vw/420 の 1.5 倍)' };
+  const has278e = (/clamp\(480px,54vw,630px\)/.test(html) || has279dW) && /class="fmModal"/.test(html)
     && /ppSearchClear/.test(html) && /ocHeadIcon/.test(html) && /"claude-opus-5-5"/.test(html);
   if (!has278e) {
     console.log('SKIP ui.landscapeWidth / ui.frontModals / ui.searchClear / ui.obscardIcon / ai.modelList(対象に第278便e の幅宣言・.fmModal・#ppSearchClear・.ocHeadIcon・claude-opus-5-5 なし — root 等)');
@@ -31940,14 +32975,14 @@ if (!FAST) {
     const lw = [];
     for (const [w, h] of [[412, 915], [1024, 768], [1280, 800], [1366, 768], [1920, 1080]]) {
       const { ctx, pg } = await openAt(w, h);
-      lw.push(await pg.evaluate(async () => {
+      lw.push(await pg.evaluate(async (LW) => {
         const wait = (ms) => new Promise((r) => setTimeout(r, ms));
         const lines = (el) => { const rg = document.createRange(); rg.selectNodeContents(el);
           const ts = new Set(); for (const q of rg.getClientRects()) if (q.width > 0) ts.add(Math.round(q.top)); return ts.size; };
         const grid = getComputedStyle(document.getElementById('app')).display === 'grid';
         const col = document.getElementById('tabs').getBoundingClientRect().width;
         const cv = document.getElementById('canvasWrap').getBoundingClientRect().width;
-        const expCol = grid ? Math.min(630, Math.max(480, 0.54 * innerWidth)) : innerWidth;
+        const expCol = grid ? Math.min(LW.max, Math.max(LW.min, LW.vw * innerWidth)) : innerWidth;
         const wrapped = [...document.querySelectorAll('#transport button, nav#tabs button')]
           .filter((b) => b.getBoundingClientRect().width > 0 && lines(b) > 1).length;
         let panelX = 0;
@@ -31956,14 +32991,29 @@ if (!FAST) {
           const p = document.getElementById('panel'); panelX = Math.max(panelX, p.scrollWidth - p.clientWidth);
         }
         document.getElementById('btnPanelClose').click();
+        // 第279便d: 文字サイズ「大」(--uz 1.3)の ja/en —— 操作列・タブの折り返しと 4 タブのパネル内の横はみ出し
+        const uz13 = { wrapped: 0, panelX: 0 };
+        const uz0 = document.documentElement.style.getPropertyValue('--uz');
+        for (const lg of ['ja', 'en']) {
+          HP.setLang(lg); document.documentElement.style.setProperty('--uz', '1.3'); await wait(60);
+          uz13.wrapped += [...document.querySelectorAll('#transport button, nav#tabs button')]
+            .filter((b) => b.getBoundingClientRect().width > 0 && lines(b) > 1).length;
+          for (const t of ['help', 'params', 'saves', 'ai']) {
+            document.querySelector('nav#tabs button[data-tab="' + t + '"]').click(); await wait(80);
+            const p = document.getElementById('panel'); uz13.panelX = Math.max(uz13.panelX, p.scrollWidth - p.clientWidth);
+          }
+          document.getElementById('btnPanelClose').click();
+        }
+        if (uz0) document.documentElement.style.setProperty('--uz', uz0); else document.documentElement.style.removeProperty('--uz');
+        HP.setLang('ja');
         document.getElementById('btnPresetPick').click(); await wait(120);
         const bx = document.querySelector('#ppModal .ppBox');
         const boxW = bx.getBoundingClientRect().width, boxMax = getComputedStyle(bx).maxWidth;
         document.getElementById('ppClose').click();
         return { vw: innerWidth, vh: innerHeight, grid, col: +col.toFixed(1), expCol: +expCol.toFixed(1), cv: +cv.toFixed(1),
-          docX: document.documentElement.scrollWidth - innerWidth, wrapped, panelX,
+          docX: document.documentElement.scrollWidth - innerWidth, wrapped, panelX, uz13,
           boxW: +boxW.toFixed(1), boxMax };
-      }));
+      }, LW));
       await ctx.close();
     }
     const lwBad = [];
@@ -31972,22 +33022,29 @@ if (!FAST) {
       if (r.docX !== 0) lwBad.push(tag + ':docX' + r.docX);
       if (r.wrapped !== 0) lwBad.push(tag + ':wrap' + r.wrapped);
       if (r.panelX !== 0) lwBad.push(tag + ':panelX' + r.panelX);
+      if (r.uz13.wrapped !== 0) lwBad.push(tag + ':uz13wrap' + r.uz13.wrapped);
+      if (r.uz13.panelX !== 0) lwBad.push(tag + ':uz13panelX' + r.uz13.panelX);
       if (r.vw >= 900) {
         if (!r.grid) lwBad.push(tag + ':notGrid');
         if (Math.abs(r.col - r.expCol) > 1) lwBad.push(tag + ':col' + r.col + '≠' + r.expCol);
         if (r.cv < 400) lwBad.push(tag + ':canvas' + r.cv);
-        if (r.boxMax !== '840px' || Math.abs(r.boxW - Math.min(840, r.vw - 28)) > 1) lwBad.push(tag + ':box' + r.boxW + '/' + r.boxMax);
+        if (r.boxMax !== LW.box + 'px' || Math.abs(r.boxW - Math.min(LW.box, r.vw - 28)) > 1) lwBad.push(tag + ':box' + r.boxW + '/' + r.boxMax);
       } else {
         if (r.grid) lwBad.push(tag + ':grid');
         if (r.boxMax !== '560px' || Math.abs(r.boxW - Math.min(560, r.vw - 28)) > 1) lwBad.push(tag + ':box' + r.boxW + '/' + r.boxMax);
       }
     }
-    const declOk = /grid-template-columns:minmax\(0,1fr\) clamp\(480px,54vw,630px\);/.test(html)
-      && !/grid-template-columns:minmax\(0,1fr\) clamp\(320px,36vw,420px\)/.test(html);
+    const declOk = has279dW
+      ? (!/grid-template-columns:minmax\(0,1fr\) clamp\(480px,54vw,630px\)/.test(html)
+        && !/grid-template-columns:minmax\(0,1fr\) clamp\(320px,36vw,420px\)/.test(html)
+        && /\.ppBox,\.fmBox\{max-width:630px;\}/.test(html) && !/\.ppBox,\.fmBox\{max-width:840px;\}/.test(html))
+      : (/grid-template-columns:minmax\(0,1fr\) clamp\(480px,54vw,630px\);/.test(html)
+        && !/grid-template-columns:minmax\(0,1fr\) clamp\(320px,36vw,420px\)/.test(html));
     add('ui.landscapeWidth', declOk && lwBad.length === 0,
-      `宣言 clamp(480px,54vw,630px)(旧 320/36vw/420 の 1.5 倍・旧値の残り無し)=${declOk} / ` +
+      `宣言 ${LW.decl}(${LW.gen}・旧値の残り無し)=${declOk} / ` +
       lw.map((r) => `${r.vw}×${r.vh}: ${r.grid ? '2カラム 右' + r.col + 'px(期待' + r.expCol + ')・キャンバス' + r.cv + 'px' : '縦積み'}` +
-        `・箱${r.boxW}px(上限${r.boxMax})・横はみ出し${r.docX}・折り返し${r.wrapped}・パネル内横${r.panelX}`).join(' / ') +
+        `・箱${r.boxW}px(上限${r.boxMax})・横はみ出し${r.docX}・折り返し${r.wrapped}・パネル内横${r.panelX}` +
+        `・文字「大」ja/en 折り返し${r.uz13.wrapped}・パネル内横${r.uz13.panelX}`).join(' / ') +
       ` / NG=[${lwBad.slice(0, 6).join(' ')}](0件)`);
 
     // --- ② 画面手前のモーダル(縦 412×915・横 1280×800)
@@ -32224,6 +33281,43 @@ if (!FAST) {
       ['claude-sonnet-5', 'claude-opus-5-5', 'claude-opus-5'].map((m) => `${m}{${ml.sent[m].keys}・thinking=${ml.sent[m].thinking || '無し'}・` +
         `max_tokens=${ml.sent[m].max}・禁止キー=${ml.sent[m].forbidden.length ? ml.sent[m].forbidden.join('|') : '無し'}・応答text=${ml.sent[m].text}}`).join(' ') +
       ` / 純関数 aiAnthropicBody(opus-5-5) の形=${ml.pure}`);
+  }
+}
+
+// ---- 第279便d(原仮定者の裁定(第69報)「UI」— アプリ全体のトンマナ・デザインをクールかつ見易く。
+// ---- 例: 下地が紺色なのにタイトルが青色で読み辛い): **静的**な検査(ブラウザを使わない・表示だけ)。
+// ---- 世代判定は :root の文字用アクセント変数 `--accText:` の有無 —— root 等では自動 SKIP。
+// ----   ui.contrast … tests/lib-w279d-contrast.mjs が html の <style> と本文の style 属性から文字の
+// ----     前景/背景の組を解き、WCAG 2.x の下限(普通の文字 4.5:1・大きい文字 3:1)を割る組が 0
+// ----     (非活性 [disabled]/.lockedRow は例外として数えない)・文字の色に --acc を直に使う宣言が 0
+// ----     (--acc は枠線・下線・accent-color・塗りに残す — 文字は --accText)・文字用アクセントの組の最小比 ≥ 7
+// ----     (第279便d の実測 7.92)・キーボード操作のフォーカスリング(:focus-visible の outline が --focus)が
+// ----     あり --focus は --bg/--panel/--panel2 で非文字の 3:1 以上・角丸は 2 段(var(--rS)/var(--rL))と
+// ----     丸(999px・50%)だけ・状態チップ .statusChip の文字は --fg。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!/--accText:/.test(html)) {
+    console.log('SKIP ui.contrast(対象に第279便d の文字用アクセント変数 --accText なし — root 等)');
+  } else {
+    const LC = await import('file://' + path.join(ROOT, 'tests/lib-w279d-contrast.mjs'));
+    const { rows } = LC.contrastTable(html);
+    const sm = LC.summarize(rows);
+    const cssTxt = LC.extractStyle(html).replace(/\/\*[\s\S]*?\*\//g, '');
+    const accTextDecl = (cssTxt.match(/(^|[;{\s])color:var\(--acc(,[^)]*)?\)/g) || []).length;
+    const nt = LC.nonTextTable(html).filter((x) => x.fg === '--focus');
+    const focusRule = /:focus-visible[^{]*\{[^}]*outline:2px solid var\(--focus\)/.test(cssTxt);
+    const radii = [...new Set((cssTxt.match(/border-radius:[^;}]+/g) || []).map((x) => x.slice(14).trim()))];
+    const radBad = radii.filter((v) => !/^(var\(--r[SL]\)|999px|50%|0 var\(--rS\) var\(--rS\) 0)$/.test(v));
+    const chip = rows.find((r) => r.sel === '.statusChip');
+    const ok = sm.fails === 0 && accTextDecl === 0 && sm.accText.n > 0 && sm.accText.min >= 7
+      && focusRule && nt.length === 3 && nt.every((x) => x.ratio >= 3) && radBad.length === 0
+      && !!chip && chip.fgDecl === 'var(--fg)';
+    add('ui.contrast', ok,
+      `文字の組 ${sm.n}(非活性の例外 ${sm.exempt})・WCAG 下限割れ ${sm.fails}(0)・最小比 ${sm.minRatio.toFixed(2)}` +
+      `${sm.failRows.length ? '[' + sm.failRows.slice(0, 4).map((r) => r.sel + ' ' + r.ratio).join(' | ') + ']' : ''} / ` +
+      `文字色に --acc を直に使う宣言 ${accTextDecl}(0)・文字用アクセント ${sm.accText.n} 組の最小比 ${sm.accText.min.toFixed(2)}(≥7) / ` +
+      `フォーカスリング :focus-visible=${focusRule}・--focus の非文字比 ${nt.map((x) => x.bg + ' ' + x.ratio).join('・')}(≥3) / ` +
+      `角丸の値 [${radii.join(' , ')}]・2 段と丸以外 ${radBad.length}(0) / .statusChip の文字=${chip ? chip.fgDecl : '無し'}`);
   }
 }
 
@@ -33655,6 +34749,318 @@ if (!FAST) {
   }
 }
 
+// ---- 7n″) 第279便c(原仮定者の裁定〔第69報〕・統括の読み R62/R63 ⑤): preset.meshVelocity ----
+// ----   **複素決定力による座標変換**(ẋ=v+u・v̇=a_space−Jᵀv)の opt-in 鍵 `physics.meshVelocity` と外部ステップ
+// ----   `dfmMeshVelocityStep`。固定するのは 8 点:
+// ----     ① 受理/拒否(law・field・mutual 0/1〔分数は拒否〕・frame の必須鍵と値域・external の形・知らない鍵)
+// ----     ② 検証器ごしの相互検査: kFrame>0(既定 kFrame=1 を含む)・geoPN=3・spaceMesh・calibration・single 以外・
+// ----        backgroundComplex の未宣言/sources・frame の欠落/frame の不一致・external の範囲外 を拒否。
+// ----        未宣言は physics に入らない(署名不変)・宣言は冪等・宣言すると presetSig が変わる
+// ----     ③ **内蔵 133 本の宣言 0 本**・読み込んだ全内蔵で `S.hasMeshVelocity` が false
+// ----     ④ backgroundComplex(sources/frame つき)を宣言しても meshVelocity が無ければ**力学は 1 bit も動かない**
+// ----     ⑤ 一様定常な背景(u≡U・∇u=0・∂ₜu=0)の自由粒子: v は 1 bit も動かず、位置は (v+U)t だけ進む
+// ----     ⑥ エンジンの 1 步 = 「外部ステップを切った 1 步」+ 純関数の場から作った x+uΔt・v+(−Jᵀv)Δt(**ビット一致**)
+// ----     ⑦ **読み口の監査**(`docs.d0sites-sync` ⑤ と同型): 背景鍵を読む関数は検証器・検証器の分岐・定数のほかは
+// ----        `meshVelocityPrepare` だけで、その関数は meshVelocity が未宣言なら背景鍵に触れる前に戻る。
+// ----        `dfmMeshVelocityStep(` の呼び出しはすべて `S.hasMeshVelocity` の真偽値の下にある
+// ----     ⑧ mutual:0 の field:"explicit" で外部の明示天体が静止していれば移送は 0(u=0)
+// ----   **root は SKIP**(世代判定は HP.validateMeshVelocity の有無)。
+{
+  const mvGen = await page.evaluate(() => !!(window.HP && typeof HP.validateMeshVelocity === 'function'));
+  if (!mvGen) {
+    console.log('SKIP preset.meshVelocity(第279便c 未適用 — 対象に MESH_VEL_KEY なし・root は v1.44.0 RC)');
+  } else {
+    const bad = [];
+    const cases = [];
+    const FR = { origin: 'barycenter', epoch: 't0', rotation: 'none', translation: 'comoving' };
+    const MV = { law: 'vMinusU', field: 'backgroundComplex', mutual: 0, frame: FR };
+    const mod = (k, v) => { const o = JSON.parse(JSON.stringify(MV)); if (v === undefined) delete o[k]; else o[k] = v; return o; };
+    const frm = (k, v) => { const o = JSON.parse(JSON.stringify(MV)); if (v === undefined) delete o.frame[k]; else o.frame[k] = v; return o; };
+    const TC = [
+      ['ok', MV, true], ['ok1', mod('mutual', 1), true], ['none', null, true],
+      ['okExplicit', { law: 'vMinusU', field: 'explicit', mutual: 0, frame: FR, external: ['body:2'] }, true],
+      ['badLaw', mod('law', 'E6'), false], ['badField', mod('field', 'background'), false],
+      ['mutualHalf', mod('mutual', 0.5), false], ['mutualStr', mod('mutual', '1'), false], ['noMutual', mod('mutual'), false],
+      ['noFrame', mod('frame'), false], ['frameNoEpoch', frm('epoch'), false], ['frameRot', frm('rotation', 'corotating'), false],
+      ['frameTrans', frm('translation', 'accelerating'), false], ['frameOrigin', frm('origin', 'sun'), false],
+      ['frameExtra', Object.assign(JSON.parse(JSON.stringify(MV)), { frame: Object.assign({}, FR, { omega: 0 }) }), false],
+      ['unknownKey', Object.assign(JSON.parse(JSON.stringify(MV)), { kappa: 1 }), false],
+      ['explicitNoExt', { law: 'vMinusU', field: 'explicit', mutual: 0, frame: FR }, false],
+      ['explicitBadExt', { law: 'vMinusU', field: 'explicit', mutual: 0, frame: FR, external: ['sun'] }, false],
+      ['explicitDupExt', { law: 'vMinusU', field: 'explicit', mutual: 0, frame: FR, external: ['body:1', 'body:1'] }, false],
+      ['bgWithExt', Object.assign(JSON.parse(JSON.stringify(MV)), { external: ['body:1'] }), false],
+      ['array', [MV], false],
+    ];
+    const r = await page.evaluate(({ TCa, MV, FR }) => {
+      const res = {};
+      res.cases = TCa.map(([n, v]) => { const z = HP.validateMeshVelocity(v); return [n, z.ok]; });
+      res.key = HP.MESH_VEL_KEY; res.version = HP.MESH_VEL_STEP_VERSION;
+      const BG = { background: 'declared', note: 'QA', W0: 0.5, A0: [0.15, 0], gradW: [0.001, 0], gradA: [0.0003, 0, 0.0002, 0],
+        dWdt: 0, dAdt: [0, 0], sources: [{ id: 'sun', kind: 'body', excludedExplicit: true }], frame: FR };
+      const B3 = [{ type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false },
+        { type: 'single', m: 1, x: 120, y: 0, vx: 0, vy: 0.9, spin: 0, pinned: false },
+        { type: 'single', m: 1, x: -90, y: 40, vx: 0.1, vy: -0.8, spin: 0, pinned: false }];
+      const mk = (phy, extra) => Object.assign({ name: 't', description: 'd', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+        physics: phy, bodies: JSON.parse(JSON.stringify(B3)) }, extra || {});
+      const V = (phy, extra) => HP.validatePreset(mk(phy, extra));
+      const base = { D0: 0.006, kFrame: 0 };
+      const X = {
+        ok: V(Object.assign({}, base, { backgroundComplex: BG, meshVelocity: MV })).ok,
+        okExplicit: V(Object.assign({}, base, { meshVelocity: { law: 'vMinusU', field: 'explicit', mutual: 1, frame: FR, external: ['body:0'] } })).ok,
+        defaultKFrame: V({ D0: 0.006, backgroundComplex: BG, meshVelocity: MV }).ok,
+        kFrame1: V(Object.assign({}, base, { kFrame: 1, backgroundComplex: BG, meshVelocity: MV })).ok,
+        geoPN3: V(Object.assign({}, base, { geoPN: 3, spaceMesh: { mode: 'toy', lawVersion: 'scalar', inertia: false }, backgroundComplex: BG, meshVelocity: MV })).ok,
+        spaceMesh: V(Object.assign({}, base, { spaceMesh: { mode: 'toy', gravity: true }, backgroundComplex: BG, meshVelocity: MV })).ok,
+        calibration: V(Object.assign({}, base, { backgroundComplex: BG, meshVelocity: MV }), { sampleClass: 'calibration' }).ok,
+        noBg: V(Object.assign({}, base, { meshVelocity: MV })).ok,
+        bgNoSources: V(Object.assign({}, base, { backgroundComplex: Object.assign({}, BG, { sources: undefined }), meshVelocity: MV })).ok,
+        bgNoFrame: V(Object.assign({}, base, { backgroundComplex: Object.assign({}, BG, { frame: undefined }), meshVelocity: MV })).ok,
+        frameMismatch: V(Object.assign({}, base, { backgroundComplex: Object.assign({}, BG, { frame: Object.assign({}, FR, { translation: 'none' }) }), meshVelocity: MV })).ok,
+        extOutOfRange: V(Object.assign({}, base, { meshVelocity: { law: 'vMinusU', field: 'explicit', mutual: 0, frame: FR, external: ['body:7'] } })).ok,
+        extAll: V(Object.assign({}, base, { meshVelocity: { law: 'vMinusU', field: 'explicit', mutual: 0, frame: FR, external: ['body:0', 'body:1', 'body:2'] } })).ok,
+        originOutOfRange: V(Object.assign({}, base, { meshVelocity: { law: 'vMinusU', field: 'explicit', mutual: 0, frame: Object.assign({}, FR, { origin: 'body:9' }), external: ['body:0'] } })).ok,
+      };
+      const disk = mk(Object.assign({}, base, { backgroundComplex: BG, meshVelocity: MV }));
+      disk.bodies[2] = { type: 'disk', m: 1, x: -90, y: 40, vx: 0, vy: 0, spin: 0, pinned: false, n: 8, radius: 5 };
+      X.disk = HP.validatePreset(disk).ok;
+      res.cross = X;
+      const plain = V(base), decl = V(Object.assign({}, base, { backgroundComplex: BG, meshVelocity: MV }));
+      res.preset = { plainHasKey: plain.ok ? plain.preset.physics.meshVelocity !== undefined : null,
+        idempotent: decl.ok ? JSON.stringify(HP.validatePreset(JSON.parse(JSON.stringify(decl.preset))).preset.physics.meshVelocity)
+          === JSON.stringify(decl.preset.physics.meshVelocity) : null,
+        sigDiff: presetSig(mk(Object.assign({}, base, { backgroundComplex: BG }))) !== presetSig(mk(Object.assign({}, base, { backgroundComplex: BG, meshVelocity: MV }))) };
+      // ③ 内蔵
+      const bis = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
+      res.nBuiltins = bis.length;
+      res.declaredBuiltins = bis.filter((p) => p.physics && p.physics.meshVelocity !== undefined).map((p) => p.id);
+      const prevId = HP.currentPreset() ? HP.currentPreset().id : null;
+      res.hasMVBuiltins = [];
+      for (const p of bis) { HP.loadPreset(p.id, false); if (HP.sim.hasMeshVelocity !== false) res.hasMVBuiltins.push(p.id); }
+      // ④ 背景だけ(sources/frame つき)は力学に効かない
+      const run = (phy, steps) => {
+        const v2 = HP.validatePreset(Object.assign(mk(phy), { seed: 7 }));
+        HP.sim.build(v2.preset);
+        const S = HP.sim;
+        for (let i = 0; i < steps; i++) S.step(0.016);
+        const o = [];
+        for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i], S.spin[i]);
+        return o;
+      };
+      const a0 = run(base, 2000), a1 = run(Object.assign({}, base, { backgroundComplex: BG }), 2000);
+      res.inert = { same: a0.length === a1.length && a0.every((z, i) => z === a1[i]), n: a0.length };
+      // ⑤ 一様定常な背景の自由粒子(重力 0・1 体・倍精度の状態)
+      const U = [0.25, -0.125], W0 = 0.5, gW = [0.0625, 0.03125];      // 2 の冪(u=A/W と ∇u が丸めなしで 0 になる値)
+      const BGU = { background: 'declared', note: 'QA 一様', W0, A0: [W0 * U[0], W0 * U[1]], gradW: gW,
+        gradA: [U[0] * gW[0], U[0] * gW[1], U[1] * gW[0], U[1] * gW[1]], dWdt: 0, dAdt: [0, 0],
+        sources: [{ id: 'bg', kind: 'field', excludedExplicit: true }], frame: FR };
+      const vu = HP.validatePreset({ name: 'u', description: 'd', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+        physics: { G: 0, D0: 0.006, kFrame: 0, stateCarry: 'double', backgroundComplex: BGU, meshVelocity: MV },
+        bodies: [{ type: 'single', m: 1, x: 3, y: -2, vx: 0.05, vy: 0.07, spin: 0, pinned: false }] });
+      if (vu.ok) {
+        HP.sim.build(vu.preset);
+        const S = HP.sim, x0 = S.x[0], y0 = S.y[0], vx0 = S.vx[0], vy0 = S.vy[0];
+        const n = 1000, dt = 0.016;
+        for (let i = 0; i < n; i++) S.step(dt);
+        const ex = x0 + (vx0 + U[0]) * n * dt, ey = y0 + (vy0 + U[1]) * n * dt;
+        res.uniform = { ok: true, has: S.hasMeshVelocity, vSame: S.vx[0] === vx0 && S.vy[0] === vy0,
+          posRel: Math.hypot(S.x[0] - ex, S.y[0] - ey) / Math.hypot(ex - x0, ey - y0), kick: S.meshVelKickMax, n: S.meshVelN };
+      } else res.uniform = { ok: false, err: vu.errors };
+      // ⑥ 1 步のビット一致(3 体・mutual:1・背景つき)
+      const MV1 = Object.assign({}, MV, { mutual: 1 });
+      const vp = HP.validatePreset(Object.assign(mk(Object.assign({}, base, { stateCarry: 'double', backgroundComplex: BG, meshVelocity: MV1 })), { seed: 7 }));
+      if (vp.ok) {
+        const dt = 0.016;
+        HP.sim.build(vp.preset);
+        let S = HP.sim;
+        for (let i = 0; i < 50; i++) S.step(dt);
+        const snap = { x: Array.from(S.x), y: Array.from(S.y), vx: Array.from(S.vx), vy: Array.from(S.vy), spin: Array.from(S.spin), t: S.t };
+        // A: 外部ステップを切って 1 步 → 純関数の場から期待値を作る
+        S.hasMeshVelocity = false; S.step(dt); S.hasMeshVelocity = true;
+        const src = [];
+        for (let j = 0; j < S.n; j++) src.push({ m: S.m[j], x: S.x[j], y: S.y[j], vx: S.vx[j], vy: S.vy[j], ax: S.ax[j], ay: S.ay[j] });
+        const O = HP.meshVelocityOrigin(S);
+        const exp = [];
+        for (let i = 0; i < S.n; i++) {
+          const f = HP.dfmMeshVelocityFieldAt(S, i, src, O);
+          if (!f || !f.ok || f.defined !== true) { exp.push([src[i].x, src[i].y, src[i].vx, src[i].vy]); continue; }   // 外部ステップと同じ扱い
+          const rr = HP.dfmMeshVelocityRHS(f, [src[i].vx, src[i].vy], [0, 0]);
+          exp.push([src[i].x + rr.transport[0] * dt, src[i].y + rr.transport[1] * dt, src[i].vx + rr.canonical[0] * dt, src[i].vy + rr.canonical[1] * dt]);
+        }
+        // B: 同じ状態から通常の 1 步
+        HP.sim.build(vp.preset); S = HP.sim;
+        for (let i = 0; i < 50; i++) S.step(dt);
+        const same0 = S.x.every((z, i) => z === snap.x[i]) && S.vx.every((z, i) => z === snap.vx[i]);
+        S.step(dt);
+        let nBit = 0, maxAbs = 0;
+        for (let i = 0; i < S.n; i++) {
+          const got = [S.x[i], S.y[i], S.vx[i], S.vy[i]];
+          if (got.every((z, k) => z === exp[i][k])) nBit++;
+          for (let k = 0; k < 4; k++) maxAbs = Math.max(maxAbs, Math.abs(got[k] - exp[i][k]));
+        }
+        res.oneStep = { ok: true, reproducible: same0, nBit, n: S.n, maxAbs, chi: [S.meshVelChiMin, S.meshVelChiMax],
+          bad: S.meshVelBad, undef: S.meshVelUndef, kick: S.meshVelKickMax };
+      } else res.oneStep = { ok: false, err: vp.errors };
+      // ⑧ explicit・mutual:0・静止した外部天体 → u=0
+      const ve = HP.validatePreset({ name: 'e', description: 'd', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+        physics: { G: 0, D0: 0.006, kFrame: 0, stateCarry: 'double', meshVelocity: { law: 'vMinusU', field: 'explicit', mutual: 0, frame: FR, external: ['body:0'] } },
+        bodies: [{ type: 'single', m: 50, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false },
+          { type: 'single', m: 1, x: 10, y: 0, vx: 0, vy: 0.3, spin: 0, pinned: false }] });
+      if (ve.ok) {
+        HP.sim.build(ve.preset);
+        const f = HP.dfmMeshVelocityFieldAt(HP.sim, 1);
+        const f0 = HP.dfmMeshVelocityFieldAt(HP.sim, 0);
+        res.explicitStatic = { u: f && f.u, defined0: f0 && f0.defined };
+      } else res.explicitStatic = { err: ve.errors };
+      if (prevId) { try { HP.loadPreset(prevId, false); } catch (e) { /* 表示の戻しだけ */ } }
+      return res;
+    }, { TCa: TC, MV, FR });
+    for (let i = 0; i < TC.length; i++) if (r.cases[i][1] !== TC[i][2]) bad.push(`① ${TC[i][0]}: 受理=${r.cases[i][1]}(期待 ${TC[i][2]})`);
+    cases.push(`受理/拒否 ${TC.length} 件が期待どおり(${r.version})`);
+    const X = r.cross;
+    const wantX = { ok: true, okExplicit: true, defaultKFrame: false, kFrame1: false, geoPN3: false, spaceMesh: false, calibration: false,
+      noBg: false, bgNoSources: false, bgNoFrame: false, frameMismatch: false, extOutOfRange: false, extAll: false, originOutOfRange: false, disk: false };
+    for (const [k, w] of Object.entries(wantX)) if (X[k] !== w) bad.push(`② ${k}: 受理=${X[k]}(期待 ${w})`);
+    if (r.preset.plainHasKey !== false || r.preset.idempotent !== true || r.preset.sigDiff !== true)
+      bad.push('② 検証器ごしの契約が崩れた: ' + JSON.stringify(r.preset));
+    cases.push(`相互検査 ${Object.keys(wantX).length} 件(kFrame>0〔既定 1 を含む〕・geoPN=3・spaceMesh・calibration・disk・背景/源分割/凍結参照系の欠落・frame 不一致・external 範囲外を拒否)・未宣言は physics に入らない・冪等・署名が変わる=${r.preset.sigDiff}`);
+    if (r.declaredBuiltins.length !== 0) bad.push('③ 内蔵が宣言している: ' + r.declaredBuiltins.join(','));
+    if (r.hasMVBuiltins.length !== 0) bad.push('③ 内蔵で hasMeshVelocity が立った: ' + r.hasMVBuiltins.join(','));
+    cases.push(`**内蔵 ${r.nBuiltins} 本の宣言 ${r.declaredBuiltins.length} 本**・読み込んで hasMeshVelocity が立った本 ${r.hasMVBuiltins.length}`);
+    if (r.inert.same !== true) bad.push('④ 背景の宣言だけで力学が動いた');
+    cases.push(`背景(sources/frame つき)だけでは力学に 1 bit も効かない=${r.inert.same}(3 体 2000 步・${r.inert.n} 量)`);
+    const Uu = r.uniform;
+    if (!(Uu.ok && Uu.has && Uu.vSame && Uu.posRel <= 1e-12 && Uu.kick === 0))
+      bad.push('⑤ 一様定常な背景で v が動いた/位置が (v+U)t でない: ' + JSON.stringify(Uu).slice(0, 160));
+    cases.push(`一様定常な背景: v は不変=${Uu.vSame}・位置の相対差 ${Uu.posRel !== undefined ? Uu.posRel.toExponential(1) : '—'}・正準項 0=${Uu.kick === 0}`);
+    const O1 = r.oneStep;
+    if (!(O1.ok && O1.reproducible && O1.nBit === O1.n && O1.bad === 0 && O1.kick > 0)) bad.push('⑥ エンジンの 1 步が純関数の場とビット一致しない: ' + JSON.stringify(O1).slice(0, 160));
+    cases.push(`エンジンの 1 步 = 外部ステップを切った 1 步 + 純関数の場(ビット一致 ${O1.nBit}/${O1.n}・χ ${O1.chi ? O1.chi.map((z) => Number(z).toExponential(2)).join('〜') : '—'})`);
+    const ES = r.explicitStatic;
+    if (!(ES.u && ES.u[0] === 0 && ES.u[1] === 0 && ES.defined0 === false)) bad.push('⑧ 静止した外部天体で u≠0 / 外部天体自身の場が定義された: ' + JSON.stringify(ES));
+    cases.push('field:"explicit"・mutual:0 で静止した外部天体 → u=0・外部天体自身は未定義(移送なし)');
+    // ⑦ 読み口の監査
+    try {
+      const A = await import('file://' + path.join(ROOT, 'tests', 'lib-w278d-readaudit.mjs'));
+      const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+      const au = A.auditTokenSites(html, /\b(BG_COMPLEX_[A-Z_]+|validateBackgroundComplex|backgroundComplex)\b/g,
+        ['(top-level)', 'validateBackgroundComplex', 'validatePreset', 'meshVelocityPrepare']);
+      if (!au.selfCheck.ok) bad.push('⑦ 潰しの自己検査が通らない');
+      if (au.outsideAllowed.length) bad.push('⑦ 検証器と宣言した外部ステップの外から背景鍵が読まれている: ' + au.outsideAllowed.join(','));
+      const st = A.stripJs(html);
+      const fi = st.indexOf('function meshVelocityPrepare(');
+      const body = fi >= 0 ? st.slice(fi, st.indexOf('\nfunction ', fi + 10)) : '';
+      const iGuard = body.indexOf('return false;'), iRead = body.indexOf('BG_COMPLEX_KEY');
+      if (!(iGuard > 0 && iRead > iGuard)) bad.push('⑦ meshVelocityPrepare が未宣言の判定より前に背景鍵を読む');
+      const calls = st.split('\n').filter((l) => /dfmMeshVelocityStep\(/.test(l) && !/function dfmMeshVelocityStep\(/.test(l));
+      if (!calls.length || calls.some((l) => l.indexOf('S.hasMeshVelocity') < 0)) bad.push('⑦ dfmMeshVelocityStep の呼び出しに真偽値の門が無い行がある');
+      const preps = st.split('\n').filter((l) => /meshVelocityPrepare\(/.test(l) && !/function meshVelocityPrepare\(/.test(l));
+      cases.push(`読み口: 背景鍵の出現 ${au.sites.length} 箇所・関数 ${au.functions.join('/')}・許可の外 ${au.outsideAllowed.length}・`
+        + `外部ステップの呼び出し ${calls.length} 行はすべて真偽値の下・準備の呼び出し ${preps.length} 行(build)`);
+    } catch (e) { bad.push('⑦ 読み口監査が走らない: ' + String(e).slice(0, 80)); }
+    add('preset.meshVelocity', bad.length === 0,
+      `**複素決定力による座標変換の opt-in 経路**(第279便c・原仮定者の裁定〔第69報〕「慣性速度は vx,vy で扱って構わない・`
+      + `厳密には空間に対する加速と空間による引きずり(座標変換)は区別する」・統括の読み R63 ⑤): ${cases.join(' / ')} —— `
+      + `**宣言した本だけが背景を読む**(内蔵 133 本は宣言 0 → 既定経路は 1 bit 不変)。`
+      + `**mutual は相対作用の引きずりの端点 0/1 だけ**(分数を法則にしない)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 7n‴) 第279便c(統括の読み R63 ①②): preset.bgSources ----
+// ----   `physics.backgroundComplex` の任意鍵 **sources**(源の分割 —— 明示天体と背景の排他)と
+// ----   **frame**(凍結参照系)。固定するのは 6 点:
+// ----     ① sources の受理/拒否(1〜16 件・id の重複・kind・excludedExplicit の型・知らない鍵・
+// ----        excludedExplicit:true で "body:<n>" の id〔同じ源を明示天体と背景の両方に入れない〕・
+// ----        excludedExplicit:false で body 以外の id)
+// ----     ② frame の受理/拒否(必須 4 鍵・origin・rotation は "none" だけ・translation・知らない鍵)
+// ----     ③ 検証器ごし: "body:<n>" が bodies の範囲外なら拒否(源の排他と原点)
+// ----     ④ **未宣言は従来と同じ正準形**(sources/frame の鍵を出さない —— 第276便a〜第278便d の宣言の署名は不変)・
+// ----        宣言すると presetSig が変わる・冪等
+// ----     ⑤ 内蔵の宣言 0 本
+// ----     ⑥ 宣言しても(meshVelocity が無ければ)力学に 1 bit も効かない —— preset.meshVelocity ④ と同じ走行を共有しない
+// ----        ので、ここでは受理契約だけを見る
+// ----   **root は SKIP**(世代判定は HP.validateBgSources の有無)。
+{
+  const bsGen = await page.evaluate(() => !!(window.HP && typeof HP.validateBgSources === 'function'));
+  if (!bsGen) {
+    console.log('SKIP preset.bgSources(第279便c 未適用 — 対象に validateBgSources なし・root は v1.44.0 RC)');
+  } else {
+    const bad = [];
+    const cases = [];
+    const r = await page.evaluate(() => {
+      const res = {};
+      const FR = { origin: 'barycenter', epoch: 'JD 2452600.5', rotation: 'none', translation: 'comoving' };
+      const BASE = { background: 'heliocentric', W0: 5.7e-9, A0: [2.7e-9, 0], gradW: [1e-12, 0], gradA: [1e-13, 0, 0, 0], dWdt: 0, dAdt: [0, 0] };
+      const S1 = [{ id: 'sun', kind: 'body', excludedExplicit: true }];
+      const V = (o) => HP.validateBackgroundComplex(o).ok;
+      const withS = (s) => Object.assign({}, BASE, { sources: s });
+      const withF = (f) => Object.assign({}, BASE, { frame: f });
+      res.src = {
+        ok: V(withS(S1)), okTwo: V(withS([{ id: 'sun', kind: 'body', excludedExplicit: true }, { id: 'body:1', kind: 'body', excludedExplicit: false }])),
+        okField: V(withS([{ id: 'galaxy-disk', kind: 'field', excludedExplicit: true }])),
+        empty: V(withS([])), notArray: V(withS({ id: 'sun' })), dup: V(withS([S1[0], S1[0]])),
+        badKind: V(withS([{ id: 'sun', kind: 'star', excludedExplicit: true }])),
+        noExcl: V(withS([{ id: 'sun', kind: 'body' }])), exclStr: V(withS([{ id: 'sun', kind: 'body', excludedExplicit: 'yes' }])),
+        extraKey: V(withS([{ id: 'sun', kind: 'body', excludedExplicit: true, W0: 1 }])),
+        bodyIdButBackground: V(withS([{ id: 'body:0', kind: 'body', excludedExplicit: true }])),
+        bodyPrefixButBackground: V(withS([{ id: 'body:x', kind: 'body', excludedExplicit: true }])),
+        explicitNotBody: V(withS([{ id: 'sun', kind: 'body', excludedExplicit: false }])),
+        explicitField: V(withS([{ id: 'body:0', kind: 'field', excludedExplicit: false }])),
+        longId: V(withS([{ id: 'x'.repeat(61), kind: 'body', excludedExplicit: true }])),
+        tooMany: V(withS(Array.from({ length: 17 }, (_, i) => ({ id: 's' + i, kind: 'body', excludedExplicit: true })))),
+      };
+      const fm = (k, v) => { const o = Object.assign({}, FR); if (v === undefined) delete o[k]; else o[k] = v; return o; };
+      res.frame = {
+        ok: V(withF(FR)), okNone: V(withF(fm('translation', 'none'))), okBody: V(withF(fm('origin', 'body:1'))),
+        noOrigin: V(withF(fm('origin'))), noEpoch: V(withF(fm('epoch'))), noRot: V(withF(fm('rotation'))), noTrans: V(withF(fm('translation'))),
+        badOrigin: V(withF(fm('origin', 'sun'))), rotating: V(withF(fm('rotation', 'corotating'))),
+        badTrans: V(withF(fm('translation', 'free-fall'))), emptyEpoch: V(withF(fm('epoch', ''))),
+        extraKey: V(withF(Object.assign({}, FR, { omega: 1 }))), notObject: V(withF('comoving')),
+      };
+      const mk = (bgc) => ({ name: 't', description: 'd', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+        physics: { D0: 0.006, backgroundComplex: bgc },
+        bodies: [{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false },
+          { type: 'single', m: 1, x: 50, y: 0, vx: 0, vy: 0.4, spin: 0, pinned: false }] });
+      res.preset = {
+        inRange: HP.validatePreset(mk(withS([{ id: 'body:1', kind: 'body', excludedExplicit: false }]))).ok,
+        outOfRange: HP.validatePreset(mk(withS([{ id: 'body:2', kind: 'body', excludedExplicit: false }]))).ok,
+        originIn: HP.validatePreset(mk(withF(fm('origin', 'body:0')))).ok,
+        originOut: HP.validatePreset(mk(withF(fm('origin', 'body:5')))).ok,
+      };
+      const plain = HP.validatePreset(mk(BASE)), decl = HP.validatePreset(mk(Object.assign({}, BASE, { sources: S1, frame: FR })));
+      res.canon = { plainKeys: plain.ok ? Object.keys(plain.preset.physics.backgroundComplex).sort().join(',') : null,
+        declKept: decl.ok ? JSON.stringify([decl.preset.physics.backgroundComplex.sources, decl.preset.physics.backgroundComplex.frame]) : null,
+        idempotent: decl.ok ? JSON.stringify(HP.validatePreset(JSON.parse(JSON.stringify(decl.preset))).preset.physics.backgroundComplex)
+          === JSON.stringify(decl.preset.physics.backgroundComplex) : null,
+        sigDiff: presetSig(mk(BASE)) !== presetSig(mk(Object.assign({}, BASE, { sources: S1, frame: FR }))) };
+      const bis = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
+      res.nBuiltins = bis.length;
+      res.declaredBuiltins = bis.filter((p) => p.physics && p.physics.backgroundComplex
+        && (p.physics.backgroundComplex.sources !== undefined || p.physics.backgroundComplex.frame !== undefined)).map((p) => p.id);
+      return res;
+    });
+    const WS = { ok: true, okTwo: true, okField: true, empty: false, notArray: false, dup: false, badKind: false, noExcl: false, exclStr: false,
+      extraKey: false, bodyIdButBackground: false, bodyPrefixButBackground: false, explicitNotBody: false, explicitField: false, longId: false, tooMany: false };
+    for (const [k, w] of Object.entries(WS)) if (r.src[k] !== w) bad.push(`① sources ${k}: 受理=${r.src[k]}(期待 ${w})`);
+    cases.push(`sources ${Object.keys(WS).length} 件(**excludedExplicit:true で "body:…" の id は拒否 —— 同じ源を明示天体と背景の両方に入れない**)`);
+    const WF = { ok: true, okNone: true, okBody: true, noOrigin: false, noEpoch: false, noRot: false, noTrans: false, badOrigin: false,
+      rotating: false, badTrans: false, emptyEpoch: false, extraKey: false, notObject: false };
+    for (const [k, w] of Object.entries(WF)) if (r.frame[k] !== w) bad.push(`② frame ${k}: 受理=${r.frame[k]}(期待 ${w})`);
+    cases.push(`frame ${Object.keys(WF).length} 件(必須 4 鍵・rotation は "none" だけ)`);
+    const WP = { inRange: true, outOfRange: false, originIn: true, originOut: false };
+    for (const [k, w] of Object.entries(WP)) if (r.preset[k] !== w) bad.push(`③ ${k}: 受理=${r.preset[k]}(期待 ${w})`);
+    cases.push('検証器ごし: body:<n> の範囲外は拒否(源と原点)');
+    if (r.canon.plainKeys !== 'A0,W0,background,dAdt,dWdt,gradA,gradW') bad.push('④ 未宣言の正準形が変わった: ' + r.canon.plainKeys);
+    if (!(r.canon.idempotent === true && r.canon.sigDiff === true && r.canon.declKept)) bad.push('④ 宣言の保存/冪等/署名が崩れた: ' + JSON.stringify(r.canon).slice(0, 120));
+    cases.push(`未宣言の正準形は従来どおり(${r.canon.plainKeys})・宣言は保存・冪等・署名が変わる=${r.canon.sigDiff}`);
+    if (r.declaredBuiltins.length !== 0) bad.push('⑤ 内蔵が sources/frame を宣言している: ' + r.declaredBuiltins.join(','));
+    cases.push(`**内蔵 ${r.nBuiltins} 本の宣言 ${r.declaredBuiltins.length} 本**`);
+    add('preset.bgSources', bad.length === 0,
+      `**背景の源の分割と凍結参照系の宣言**(第279便c・統括の読み R63 ①②「源の分割の宣言 → 凍結参照系の宣言」): `
+      + `${cases.join(' / ')} —— **太陽を明示源で入れたら背景側の太陽分を除く**(源 ID の排他)。`
+      + `凍結参照系は第278便d の +2.148 s(自由落下系と慣性系の凍結の差)を宣言で固定する口である`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
 // ---- 7o) 第27便: タイトルタップの説明パネル / A/B説明の折り畳み / 文字サイズ既定
 // ----     (beta 先行 — ルート対象時はスキップ)----
 // ----     旧④❄️改名検査(preset.snowline-name)は第37便 B2(原仮定者裁定)で snowline 自体を
@@ -37493,7 +38899,7 @@ if (hasEchoFlipAt) {
 // ----          (E14″ の「観測ラベルは物理へ還流しない」原則の機械固定)
 // ----       ③ mechspec.sanity: 支配機構の分離 — ☿=重力+測地線 / 🧊=結合優勢 / 🕊️=熱斥力 /
 // ----          🌌=引きずりチャネルが kFrame=1 でだけ立つ(T13 の診断層としての妥当性)----
-{
+await w5bRun('mechspecZeroCost', true); async function W5B_mechspecZeroCost(page, add, fpRun, console) {
   const hasMech = await page.evaluate(() => !!(HP.sim && typeof HP.sim.mechSpec === 'function'));
   if (hasMech) {
     // 基準は 65A 実装直前の beta(= 第64便 5e6ec71)で採取(tint.zero-cost と同形式+tint 系は Tint も連結)
@@ -38360,7 +39766,7 @@ if (hasEchoFlipAt) {
 // 熱伝導のすべてを「いまの結合状態(滑らかな配位数)」から導出する。エンタルピー正本・潜熱・
 // 相率・valence リンク台帳は廃止(旧テスト群は git 履歴 — 第59便 c833013 以前を参照)。
 // 機能判定子: HP.phaseEnergy + S.angNbr(第60便ビルドの指紋)
-{
+await w5bRun('phasechangeSchema', true); async function W5B_phasechangeSchema(page, add, fpRun, console) {
   const hasPC = await page.evaluate(() => typeof HP.phaseEnergy === 'function' && 'angNbr' in HP.sim);
   if (hasPC) {
     // ① phasechange.schema: バリデータ(tint 必須・fusion 排他・bondN 必須・値域クランプ・
@@ -39762,7 +41168,7 @@ if (hasSwAutoCb) {
 // ----   継承則の総和恒等式)をそのまま判定に使う。決定論(seed 20260806 固定)。
 // ----   軽量寄り(180粒→25体・9000步×3構成)なので QA_FAST=1 でも実行する。
 // ----   実測ハーネスは tests/exp-4-84.mjs(3seed・G/Kt/dFrac 用量反応つき)----
-{
+await w5bRun('selfrotor', true); async function W5B_selfrotor(page, add, fpRun, console) {
   const hasSR = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'selfRotor'));
   if (hasSR) {
     await fpRun('behavior.selfrotor', async () => {
@@ -39888,7 +41294,7 @@ if (hasSwAutoCb) {
 // ----   selfRotor.multi-seed-min-mass-fraction の窓(0.10〜0.60)。対照(融合オフ)は
 // ----   融合が無ければ質量が動かないので全seedで厳密に 1/180=0.5556% になることも固定する。
 // ----   **重い(9000步 × 8構成)ので QA_FAST=1 では実行しない**(FAST への時間増はゼロ)----
-if (!FAST) {
+await w5bRun('selfrotorMultiseed', !FAST); async function W5B_selfrotorMultiseed(page, add, fpRun, console) {
   const hasSR2 = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'selfRotor'
     && Array.isArray(p.claims) && p.claims.some((c) => c.id === 'selfRotor.multi-seed-min-mass-fraction')));
   if (hasSR2) {
@@ -39975,7 +41381,7 @@ if (!FAST) {
 // ----     ♻️ 解離末(t=528)の成分数 48〜84。凍結期は ⛓️ と**壁スケジュール以外が同一設定**なので
 // ----        t=288(18000步)までの軌道が一致する — ⛓️ の値は ♻️ の run から読み、同一性も検査する
 // ----   **重い(3seed × 63000步 + 対照1seed)ので QA_FAST=1 では実行しない**(FAST への時間増はゼロ)----
-if (!FAST) {
+await w5bRun('phaseMultiseed', !FAST); async function W5B_phaseMultiseed(page, add, fpRun, console) {
   const PIDS = ['emergent', 'emergent2', 'chain2', 'chaincycle'];
   const hasPM = await page.evaluate((pids) => pids.every((id) => {
     const p = HP.allPresets().find((q) => q.id === id);
@@ -40225,7 +41631,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
 // ----   (600步の x,y,spin ハッシュ一致 = 計測は sim.step に一切載っていない)
 // ----   ④統計式の健全性: 単一の接触塊は nCluster=1・maxFrac=1、離れた2群は nCluster=2、
 // ----     同符号スピンの整列度=+1・逆符号対称なら 0、剛体回転の V/σ は分散≈0 で大きくなる ----
-{
+await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page, add, fpRun, console) {
   const hasEM = await page.evaluate(() => !!(window.HP && HP.emergenceStats));
   if (hasEM) {
     const r = await page.evaluate(() => {
@@ -47777,7 +49183,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
 //     ⑫ **重力の扱い**: coreField の 3 本は G を 0→0.8 にすると指紋が**変わる**(規定運動ではない)。
 //        中心重力を Φ の κ₀ が持つ既定宣言(`centreGravity:"phi"`)では、中心が engine 質量を
 //        持ったままの G≠0 は**二重加算の門** `gravityDouble` で止まる。
-{
+await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, console) {
   const hasToys = await page.evaluate(() => !!(window.HP
     && HP.allPresets().some((z) => z.id === 'shapeToyCluster')));
   if (hasToys) {
@@ -49896,8 +51302,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
 
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
 // W5c: ワーカープールの後片付け(全ユニットは既に上流の getUnit() で待ち合わせ済みのはずだが、
-// 各ワーカーの wp.close() 完了を確実に待ってから共有 browser を閉じる)
-if (w5cPoolPromise) await w5cPoolPromise;
+// 各ワーカーのページ/コンテキストを閉じ終えてから共有 browser を閉じる)
+if (w5Pool) await w5Pool.close();
 // 第251便b: 指紋ページの後片付け(キャッシュが 1 件も使われなくても採取は完了させる)
 if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 await browser.close();
@@ -49932,11 +51338,21 @@ const QA_OUT = JSON.stringify({
   env: { node: process.version, playwright: playwrightVersion, platform: `${process.platform}/${process.arch}` },
   total: results.length, failed: results.filter(r => !r.pass).length, pass,
   durationMs: results.reduce((a, r) => a + (r.ms || 0), 0),  // 第17便: 項目別 ms の合計
+  // 第279便b: `ms`(直前の add() からの経過)は互換のため従来どおり。実際の壁時計は wallDurationMs、
+  // 並列ユニット/ブロックの実行時間は unitTimings(where=worker/main/main(stolen)・runMs・mainWaitMs)
+  wallDurationMs: Date.now() - QA_T0, tier: QA_TIER, replay: qaReplay, unitTimings: qaUnitTimings,
+  w5: { workers: w5Pool ? W5C_NW : 0, nice: W5_NICE, renicedRenderers: w5Reniced.size },
   // 第251便b: 指紋キャッシュで再実行を省いた項目(cached=0 なら従来どおりの全実行)
   cache: { enabled: FP_ON, refresh: QA_REFRESH, cached: fpCachedIds.slice(),
     cachedCount: fpCachedIds.length, savedMs: fpSavedMs, file: 'tests/out/qa-fingerprints.json' },
   results,
 }, null, 1);
+// 第279便b: 前回 FAIL の先行再実行(子プロセス)は qa-replay[-beta].json だけを書く(保存物を上書きしない)
+if (QA_REPLAY_CHILD) {
+  for (const f of qaOutNames()) fs.writeFileSync(path.join(OUT_DIR, f), QA_OUT);
+  console.log(`\n[REPLAY] ${pass ? 'ALL PASS' : 'FAILED'} (${results.filter(r => r.pass).length}/${results.length}) → tests/out/${qaOutNames()[0]}`);
+  process.exit(pass ? 0 : 1);
+}
 fs.writeFileSync(path.join(OUT_DIR, 'qa-results.json'), QA_OUT);
 if (TARGET.startsWith('beta/')) fs.writeFileSync(path.join(OUT_DIR, 'qa-results-beta.json'), QA_OUT);
 // 第271便e(統括の検証項目 R8): **フル走行の保存物を別名で残す**。従来は QA_FAST=1 の短い走行が

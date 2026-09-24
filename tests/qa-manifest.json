@@ -1,0 +1,8139 @@
+{
+ "schema": "qa-manifest/w279b-1",
+ "generatedAt": "2026-09-23T22:33:09.452Z",
+ "generator": "tests/exp-w279b-qaorder.mjs --manifest",
+ "qaSha256AtGeneration": "2ed6448094c5e42b9d4fef4560232a58d17f7b582c55410d4d563212f6df4e50",
+ "expectedFrom": {
+  "beta": {
+   "file": "tests/out/qa-results-full-beta.json",
+   "commit": "c42d16ae83d2a79c4b659eb28ff09e936b36f3c2",
+   "date": "2026-09-23T15:49:42.856Z",
+   "total": 846
+  },
+  "root": {
+   "file": "tests/out/qa-results-full.json",
+   "commit": "c42d16ae83d2a79c4b659eb28ff09e936b36f3c2",
+   "date": "2026-09-23T16:23:13.367Z",
+   "total": 748
+  }
+ },
+ "order": [
+  "preflight: tests/qa-preflight.mjs(tier=lint の文 + 全内蔵の受理/構築/1 歩 — Chromium なし)",
+  "replay: QA_REPLAY_FAIL=1 なら前回 FAIL の文を別プロセスで先に(QA_BAIL=1 で FAIL なら停止)",
+  "main: qa.mjs の本文順(先頭の lint 群 → ブラウザ)。tier=pooled は W5c/W5b プールで先行し元の位置で再生"
+ ],
+ "note": "想定時間(expectedMs*)は順序の目安で判定に使わない。ms は「直前の add() からの経過」なので並列の待ちを含む(W5b は unitTimings.runMs を優先)。qa.mjs が変わったら --manifest で作り直す(古さは lint.qaOrder で FAIL にしない)",
+ "tiers": {
+  "lint": 128,
+  "browser": 247,
+  "pooled": 44
+ },
+ "units": [
+  {
+   "l0": 152,
+   "l1": 160,
+   "kind": "block",
+   "ids": [
+    "syntax"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "OUT_DIR",
+    "add"
+   ],
+   "expectedMsBeta": 151,
+   "expectedMsRoot": 161
+  },
+  {
+   "l0": 174,
+   "l1": 194,
+   "kind": "block",
+   "ids": [
+    "lint.coreBudget"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 207,
+   "expectedMsRoot": 206
+  },
+  {
+   "l0": 230,
+   "l1": 323,
+   "kind": "block",
+   "ids": [
+    "lint.perfAbJit"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "OUT_DIR",
+    "add"
+   ],
+   "expectedMsBeta": 2,
+   "expectedMsRoot": 1
+  },
+  {
+   "l0": 343,
+   "l1": 406,
+   "kind": "block",
+   "ids": [
+    "lint.frozenBaseline"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 0,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 425,
+   "l1": 684,
+   "kind": "block",
+   "ids": [
+    "lint.sigmaMark"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 128,
+   "expectedMsRoot": 157
+  },
+  {
+   "l0": 697,
+   "l1": 768,
+   "kind": "block",
+   "ids": [
+    "docs.intakeA-sync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 25,
+   "expectedMsRoot": 21
+  },
+  {
+   "l0": 780,
+   "l1": 841,
+   "kind": "block",
+   "ids": [
+    "docs.solarSourceDeclaration"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 48,
+   "expectedMsRoot": 42
+  },
+  {
+   "l0": 858,
+   "l1": 980,
+   "kind": "block",
+   "ids": [
+    "docs.intakeB-sync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 41,
+   "expectedMsRoot": 40
+  },
+  {
+   "l0": 994,
+   "l1": 1089,
+   "kind": "block",
+   "ids": [
+    "docs.clusterGalaxySigma"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 6,
+   "expectedMsRoot": 9
+  },
+  {
+   "l0": 1101,
+   "l1": 1152,
+   "kind": "block",
+   "ids": [
+    "docs.transientObs"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 15,
+   "expectedMsRoot": 18
+  },
+  {
+   "l0": 1169,
+   "l1": 1295,
+   "kind": "block",
+   "ids": [
+    "docs.confirm2-sync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 29,
+   "expectedMsRoot": 25
+  },
+  {
+   "l0": 1316,
+   "l1": 1475,
+   "kind": "block",
+   "ids": [
+    "docs.confirm3-sync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 19,
+   "expectedMsRoot": 20
+  },
+  {
+   "l0": 1494,
+   "l1": 1625,
+   "kind": "block",
+   "ids": [
+    "docs.confirm4-sync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 17,
+   "expectedMsRoot": 18
+  },
+  {
+   "l0": 1641,
+   "l1": 1751,
+   "kind": "block",
+   "ids": [
+    "lint.recordId"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 56,
+   "expectedMsRoot": 60
+  },
+  {
+   "l0": 1766,
+   "l1": 1832,
+   "kind": "block",
+   "ids": [
+    "behavior.declaredContentMatch"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 16,
+   "expectedMsRoot": 17
+  },
+  {
+   "l0": 1849,
+   "l1": 1944,
+   "kind": "block",
+   "ids": [
+    "lint.solutionId"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 20,
+   "expectedMsRoot": 20
+  },
+  {
+   "l0": 1954,
+   "l1": 2004,
+   "kind": "block",
+   "ids": [
+    "lint.externalNamesCsv"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 19,
+   "expectedMsRoot": 21
+  },
+  {
+   "l0": 2020,
+   "l1": 2155,
+   "kind": "block",
+   "ids": [
+    "lint.provenanceMeta"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 422,
+   "expectedMsRoot": 433
+  },
+  {
+   "l0": 2170,
+   "l1": 2205,
+   "kind": "block",
+   "ids": [
+    "lint.legacyRecordBasis"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 1,
+   "expectedMsRoot": 1
+  },
+  {
+   "l0": 2224,
+   "l1": 2273,
+   "kind": "block",
+   "ids": [
+    "lint.listKeys"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 23,
+   "expectedMsRoot": 19
+  },
+  {
+   "l0": 2294,
+   "l1": 2369,
+   "kind": "block",
+   "ids": [
+    "docs.correctionsLedger"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 4,
+   "expectedMsRoot": 3
+  },
+  {
+   "l0": 2385,
+   "l1": 2465,
+   "kind": "block",
+   "ids": [
+    "docs.plutoStatesFile"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 5,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 2478,
+   "l1": 2568,
+   "kind": "block",
+   "ids": [
+    "docs.intakeC"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 30,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 2585,
+   "l1": 2676,
+   "kind": "block",
+   "ids": [
+    "docs.intakeD"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 25,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 2691,
+   "l1": 2756,
+   "kind": "block",
+   "ids": [
+    "docs.deimosSwap"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 16,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 2772,
+   "l1": 2819,
+   "kind": "block",
+   "ids": [
+    "lint.derivedFromRecordIds"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 28,
+   "expectedMsRoot": 23
+  },
+  {
+   "l0": 2834,
+   "l1": 2884,
+   "kind": "block",
+   "ids": [
+    "lint.qaFullResultsSaved"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "OUT_DIR",
+    "add"
+   ],
+   "expectedMsBeta": 27,
+   "expectedMsRoot": 29
+  },
+  {
+   "l0": 2900,
+   "l1": 2998,
+   "kind": "block",
+   "ids": [
+    "lint.qaOrder"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 0,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 3005,
+   "l1": 3021,
+   "kind": "block",
+   "ids": [
+    "qa.w5cPoolFault"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 0,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 3035,
+   "l1": 3120,
+   "kind": "block",
+   "ids": [
+    "docs.j1946adoptPublished"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "OUT_DIR",
+    "add"
+   ],
+   "expectedMsBeta": 30,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 3133,
+   "l1": 3177,
+   "kind": "block",
+   "ids": [
+    "lint.sigmaDestinations"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 20,
+   "expectedMsRoot": 19
+  },
+  {
+   "l0": 3191,
+   "l1": 3234,
+   "kind": "block",
+   "ids": [
+    "behavior.analogyGateWiring"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 1,
+   "expectedMsRoot": 2
+  },
+  {
+   "l0": 3246,
+   "l1": 3317,
+   "kind": "block",
+   "ids": [
+    "behavior.clusterCenterContract"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 31,
+   "expectedMsRoot": 31
+  },
+  {
+   "l0": 3326,
+   "l1": 3406,
+   "kind": "block",
+   "ids": [
+    "behavior.clusterV1a"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 65,
+   "expectedMsRoot": 78
+  },
+  {
+   "l0": 3413,
+   "l1": 3456,
+   "kind": "block",
+   "ids": [
+    "docs.clusterV1bDesign"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 31,
+   "expectedMsRoot": 42
+  },
+  {
+   "l0": 3467,
+   "l1": 3509,
+   "kind": "block",
+   "ids": [
+    "behavior.solarsigmaGuards"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 20,
+   "expectedMsRoot": 27
+  },
+  {
+   "l0": 3523,
+   "l1": 3608,
+   "kind": "block",
+   "ids": [
+    "behavior.unitConvertedFirst"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 19,
+   "expectedMsRoot": 27
+  },
+  {
+   "l0": 3620,
+   "l1": 3706,
+   "kind": "block",
+   "ids": [
+    "docs.judgementSources"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 42,
+   "expectedMsRoot": 50
+  },
+  {
+   "l0": 3720,
+   "l1": 3774,
+   "kind": "block",
+   "ids": [
+    "behavior.d68SameWindow"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 2,
+   "expectedMsRoot": 1
+  },
+  {
+   "l0": 3785,
+   "l1": 3834,
+   "kind": "block",
+   "ids": [
+    "behavior.convergenceRule"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 0,
+   "expectedMsRoot": 1
+  },
+  {
+   "l0": 3846,
+   "l1": 3899,
+   "kind": "block",
+   "ids": [
+    "lint.judgementSourceStrict"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 1,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 3912,
+   "l1": 3973,
+   "kind": "block",
+   "ids": [
+    "behavior.declaredDiagnosticOnly"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 17,
+   "expectedMsRoot": 17
+  },
+  {
+   "l0": 3987,
+   "l1": 4060,
+   "kind": "block",
+   "ids": [
+    "behavior.stopRuleDeclared"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 17,
+   "expectedMsRoot": 18
+  },
+  {
+   "l0": 4074,
+   "l1": 4134,
+   "kind": "block",
+   "ids": [
+    "docs.threeStageD68"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 20,
+   "expectedMsRoot": 19
+  },
+  {
+   "l0": 4146,
+   "l1": 4206,
+   "kind": "block",
+   "ids": [
+    "behavior.declaredApplied"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 25,
+   "expectedMsRoot": 23
+  },
+  {
+   "l0": 4218,
+   "l1": 4353,
+   "kind": "block",
+   "ids": [
+    "docs.fourValuesHistory"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 35,
+   "expectedMsRoot": 25
+  },
+  {
+   "l0": 4370,
+   "l1": 4456,
+   "kind": "block",
+   "ids": [
+    "docs.assessedStageH4"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 19,
+   "expectedMsRoot": 20
+  },
+  {
+   "l0": 4469,
+   "l1": 4530,
+   "kind": "block",
+   "ids": [
+    "behavior.charonRegistered"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 22,
+   "expectedMsRoot": 28
+  },
+  {
+   "l0": 4543,
+   "l1": 4605,
+   "kind": "block",
+   "ids": [
+    "docs.stopRuleVersion"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 20,
+   "expectedMsRoot": 23
+  },
+  {
+   "l0": 4617,
+   "l1": 4693,
+   "kind": "block",
+   "ids": [
+    "lint.calauditDiagSplit"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 19,
+   "expectedMsRoot": 31
+  },
+  {
+   "l0": 4705,
+   "l1": 4753,
+   "kind": "block",
+   "ids": [
+    "docs.periodContractRows"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 26,
+   "expectedMsRoot": 34
+  },
+  {
+   "l0": 4763,
+   "l1": 4813,
+   "kind": "block",
+   "ids": [
+    "lint.calauditMergeKeyHash"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 20,
+   "expectedMsRoot": 26
+  },
+  {
+   "l0": 4825,
+   "l1": 4879,
+   "kind": "block",
+   "ids": [
+    "docs.adoptedUnitColumns"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 32,
+   "expectedMsRoot": 22
+  },
+  {
+   "l0": 4891,
+   "l1": 4945,
+   "kind": "block",
+   "ids": [
+    "docs.h8Rule"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 26,
+   "expectedMsRoot": 28
+  },
+  {
+   "l0": 4956,
+   "l1": 5003,
+   "kind": "block",
+   "ids": [
+    "docs.issuesSync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 26,
+   "expectedMsRoot": 21
+  },
+  {
+   "l0": 5017,
+   "l1": 5084,
+   "kind": "block",
+   "ids": [
+    "docs.issuesD68Explain"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 1,
+   "expectedMsRoot": 1
+  },
+  {
+   "l0": 5094,
+   "l1": 5148,
+   "kind": "block",
+   "ids": [
+    "behavior.orderNonPositiveNoRichardson"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 26,
+   "expectedMsRoot": 24
+  },
+  {
+   "l0": 5159,
+   "l1": 5207,
+   "kind": "block",
+   "ids": [
+    "docs.mappingRowsDeclared"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 40,
+   "expectedMsRoot": 26
+  },
+  {
+   "l0": 5215,
+   "l1": 5245,
+   "kind": "block",
+   "ids": [
+    "docs.nsLockLedgerRow"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 7,
+   "expectedMsRoot": 6
+  },
+  {
+   "l0": 5268,
+   "l1": 5411,
+   "kind": "block",
+   "ids": [
+    "docs.transcriptionCorrections"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 116,
+   "expectedMsRoot": 26
+  },
+  {
+   "l0": 5422,
+   "l1": 5484,
+   "kind": "block",
+   "ids": [
+    "behavior.compareStates"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 11,
+   "expectedMsRoot": 3
+  },
+  {
+   "l0": 5494,
+   "l1": 5574,
+   "kind": "block",
+   "ids": [
+    "behavior.compareGuards"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 5,
+   "expectedMsRoot": 5
+  },
+  {
+   "l0": 5586,
+   "l1": 5662,
+   "kind": "block",
+   "ids": [
+    "behavior.bh90Intervals"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 25,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 5673,
+   "l1": 5758,
+   "kind": "block",
+   "ids": [
+    "behavior.sparc10"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 32,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 5772,
+   "l1": 5870,
+   "kind": "block",
+   "ids": [
+    "behavior.galaxyStateBranch"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 30,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 5878,
+   "l1": 5935,
+   "kind": "block",
+   "ids": [
+    "behavior.clusterInjection"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 7,
+   "expectedMsRoot": 3
+  },
+  {
+   "l0": 5948,
+   "l1": 6016,
+   "kind": "block",
+   "ids": [
+    "behavior.compareObsRequired"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 10,
+   "expectedMsRoot": 4
+  },
+  {
+   "l0": 6026,
+   "l1": 6091,
+   "kind": "block",
+   "ids": [
+    "docs.quasiSteadyVariant"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 26,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 6101,
+   "l1": 6179,
+   "kind": "block",
+   "ids": [
+    "docs.clampSNSeparation"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 47,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 6188,
+   "l1": 6262,
+   "kind": "block",
+   "ids": [
+    "docs.nSeedSeries"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 20,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 6268,
+   "l1": 6334,
+   "kind": "block",
+   "ids": [
+    "docs.paramAuditRestated"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 46,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 6346,
+   "l1": 6395,
+   "kind": "block",
+   "ids": [
+    "behavior.pairLockPure"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 27,
+   "expectedMsRoot": 28
+  },
+  {
+   "l0": 6408,
+   "l1": 6474,
+   "kind": "block",
+   "ids": [
+    "docs.charonSeries"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 43,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 6494,
+   "l1": 6612,
+   "kind": "block",
+   "ids": [
+    "docs.charonKScan"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 25,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 6633,
+   "l1": 6743,
+   "kind": "block",
+   "ids": [
+    "docs.charonFactors"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 56,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 6758,
+   "l1": 6830,
+   "kind": "block",
+   "ids": [
+    "docs.d0audit-sync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 29,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 6846,
+   "l1": 6912,
+   "kind": "block",
+   "ids": [
+    "docs.d0sites-sync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 32,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 6924,
+   "l1": 6984,
+   "kind": "block",
+   "ids": [
+    "docs.bgpredict-sync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 31,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 6997,
+   "l1": 7067,
+   "kind": "block",
+   "ids": [
+    "docs.selfInertia-sync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 26,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 7080,
+   "l1": 7185,
+   "kind": "block",
+   "ids": [
+    "docs.bgbudget-sync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 57,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 7200,
+   "l1": 7288,
+   "kind": "block",
+   "ids": [
+    "docs.bgEquivalence"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 57,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 7302,
+   "l1": 7360,
+   "kind": "block",
+   "ids": [
+    "docs.comovingAdvection"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 63,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 7374,
+   "l1": 7406,
+   "kind": "block",
+   "ids": [
+    "version.promote-check"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 0,
+   "expectedMsRoot": 406
+  },
+  {
+   "l0": 7418,
+   "l1": 7469,
+   "kind": "block",
+   "ids": [
+    "lint.precisionUlp"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 34,
+   "expectedMsRoot": 37
+  },
+  {
+   "l0": 7479,
+   "l1": 7533,
+   "kind": "block",
+   "ids": [
+    "lint.periPhaseGate"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 10,
+   "expectedMsRoot": 47
+  },
+  {
+   "l0": 7536,
+   "l1": 7542,
+   "kind": "block",
+   "ids": [
+    "version.sync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 26,
+   "expectedMsRoot": 17
+  },
+  {
+   "l0": 7547,
+   "l1": 7555,
+   "kind": "if",
+   "ids": [
+    "version.sw-sync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 0,
+   "expectedMsRoot": 17
+  },
+  {
+   "l0": 7558,
+   "l1": 7598,
+   "kind": "block",
+   "ids": [
+    "slider.covers-builtins",
+    "prompt.physics-keys"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 40,
+   "expectedMsRoot": 25
+  },
+  {
+   "l0": 7602,
+   "l1": 7632,
+   "kind": "block",
+   "ids": [
+    "builtin.explicit-physics",
+    "docs.no-preset-count",
+    "docs.no-qa-count",
+    "docs.preset-table-sync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 73,
+   "expectedMsRoot": 62
+  },
+  {
+   "l0": 7635,
+   "l1": 7638,
+   "kind": "block",
+   "ids": [
+    "docs.gravity-params"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 21,
+   "expectedMsRoot": 20
+  },
+  {
+   "l0": 7645,
+   "l1": 7657,
+   "kind": "block",
+   "ids": [
+    "behavior.w248b-so-reference"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 150,
+   "expectedMsRoot": 129
+  },
+  {
+   "l0": 7665,
+   "l1": 7712,
+   "kind": "block",
+   "ids": [
+    "docs.calaudit-sync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 48,
+   "expectedMsRoot": 42
+  },
+  {
+   "l0": 7732,
+   "l1": 7854,
+   "kind": "block",
+   "ids": [
+    "docs.calaudit-period"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 72,
+   "expectedMsRoot": 69
+  },
+  {
+   "l0": 7869,
+   "l1": 7975,
+   "kind": "block",
+   "ids": [
+    "docs.j1946Adopted"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 71,
+   "expectedMsRoot": 59
+  },
+  {
+   "l0": 7988,
+   "l1": 8099,
+   "kind": "block",
+   "ids": [
+    "docs.nsLockBranch"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 11,
+   "expectedMsRoot": 6
+  },
+  {
+   "l0": 8113,
+   "l1": 8183,
+   "kind": "block",
+   "ids": [
+    "docs.twoBodyMesh"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 0,
+   "expectedMsRoot": 1
+  },
+  {
+   "l0": 8195,
+   "l1": 8261,
+   "kind": "block",
+   "ids": [
+    "docs.meshV2Rpar"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 2,
+   "expectedMsRoot": 1
+  },
+  {
+   "l0": 8277,
+   "l1": 8362,
+   "kind": "block",
+   "ids": [
+    "docs.binlockAxisDef"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 3,
+   "expectedMsRoot": 3
+  },
+  {
+   "l0": 8375,
+   "l1": 8445,
+   "kind": "block",
+   "ids": [
+    "docs.rparCanonical"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 1,
+   "expectedMsRoot": 1
+  },
+  {
+   "l0": 8462,
+   "l1": 8529,
+   "kind": "block",
+   "ids": [
+    "behavior.syncTorqueLedger"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 175,
+   "expectedMsRoot": 185
+  },
+  {
+   "l0": 8543,
+   "l1": 8629,
+   "kind": "block",
+   "ids": [
+    "docs.syncCausal"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 21,
+   "expectedMsRoot": 23
+  },
+  {
+   "l0": 8642,
+   "l1": 8689,
+   "kind": "block",
+   "ids": [
+    "docs.period-definitions"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 25,
+   "expectedMsRoot": 25
+  },
+  {
+   "l0": 8706,
+   "l1": 8723,
+   "kind": "if",
+   "ids": [
+    "release.no-beta-identifiers"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 0,
+   "expectedMsRoot": 660
+  },
+  {
+   "l0": 9915,
+   "l1": 9917,
+   "kind": "for",
+   "ids": [],
+   "prefixes": [
+    "verify."
+   ],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 9591,
+   "expectedMsRoot": 8804
+  },
+  {
+   "l0": 9920,
+   "l1": 9923,
+   "kind": "for",
+   "ids": [],
+   "prefixes": [
+    "preset."
+   ],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 347732,
+   "expectedMsRoot": 288408
+  },
+  {
+   "l0": 9951,
+   "l1": 10012,
+   "kind": "block",
+   "ids": [
+    "preset.validate-all-builtins"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 7453,
+   "expectedMsRoot": 8202
+  },
+  {
+   "l0": 10041,
+   "l1": 10148,
+   "kind": "other",
+   "ids": [
+    "preset.roundtrip-builtins"
+   ],
+   "prefixes": [],
+   "w5b": "roundtripBuiltins",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 123260,
+   "expectedMsRoot": 118546
+  },
+  {
+   "l0": 10177,
+   "l1": 10321,
+   "kind": "block",
+   "ids": [
+    "migration.fixtures"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 27,
+   "expectedMsRoot": 30
+  },
+  {
+   "l0": 10334,
+   "l1": 10429,
+   "kind": "block",
+   "ids": [
+    "migration.export-record"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 42,
+   "expectedMsRoot": 49
+  },
+  {
+   "l0": 10432,
+   "l1": 10451,
+   "kind": "block",
+   "ids": [
+    "i18n.presets-en",
+    "i18n.toggle"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 32,
+   "expectedMsRoot": 20
+  },
+  {
+   "l0": 10464,
+   "l1": 10496,
+   "kind": "if",
+   "ids": [
+    "i18n.claim-sync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "has40BSemanticSync"
+   ],
+   "expectedMsBeta": 8,
+   "expectedMsRoot": 9
+  },
+  {
+   "l0": 10499,
+   "l1": 10510,
+   "kind": "block",
+   "ids": [
+    "fewshot.validate",
+    "fewshot.bh-nonescape"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 6,
+   "expectedMsRoot": 6
+  },
+  {
+   "l0": 10513,
+   "l1": 10518,
+   "kind": "block",
+   "ids": [
+    "compat.kLens"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 3,
+   "expectedMsRoot": 3
+  },
+  {
+   "l0": 10521,
+   "l1": 10565,
+   "kind": "block",
+   "ids": [
+    "import.formats",
+    "import.content-dedup",
+    "import.rename",
+    "import.to-saves",
+    "import.saves-dropdown",
+    "seed.deterministic"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 19,
+   "expectedMsRoot": 18
+  },
+  {
+   "l0": 10568,
+   "l1": 10615,
+   "kind": "other",
+   "ids": [
+    "new.gclock",
+    "new.coolrace",
+    "new.counterring"
+   ],
+   "prefixes": [],
+   "w5b": "gclock",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 10865,
+   "expectedMsRoot": 10990
+  },
+  {
+   "l0": 10619,
+   "l1": 10982,
+   "kind": "block",
+   "ids": [
+    "box.trans-clocks",
+    "box.rot-support",
+    "box.expand-sqrt",
+    "box.breath-return",
+    "box.schema-clamp",
+    "box.redshift",
+    "box.hist",
+    "box.graph-overlay",
+    "box.edit-ui",
+    "box.redshift-bar",
+    "box.save-roundtrip",
+    "box.photon-abc",
+    "box.photon-zero-cost",
+    "box.flrw-badge",
+    "box.photon-draw"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "pageErrors"
+   ],
+   "expectedMsBeta": 3991,
+   "expectedMsRoot": 3683
+  },
+  {
+   "l0": 10993,
+   "l1": 11023,
+   "kind": "block",
+   "ids": [
+    "integrator.default-unchanged"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "hasE6Acc",
+    "satTotN",
+    "hasSat240"
+   ],
+   "expectedMsBeta": 1215,
+   "expectedMsRoot": 955
+  },
+  {
+   "l0": 11029,
+   "l1": 11164,
+   "kind": "block",
+   "ids": [
+    "echo.leapfrog-return",
+    "echo.semi-noreturn",
+    "echo.friction-noreturn",
+    "echo.energy",
+    "echo.schema-clamp",
+    "echo.hud"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 686,
+   "expectedMsRoot": 662
+  },
+  {
+   "l0": 11171,
+   "l1": 11391,
+   "kind": "block",
+   "ids": [
+    "freebox.pressure-expand",
+    "freebox.inertial-decel",
+    "freebox.conservation",
+    "freebox.quadrants",
+    "freebox.shape",
+    "freebox.no-rail-badge",
+    "freebox.schema",
+    "freebox.graph-measured",
+    "freebox.zero-cost-elsewhere"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "pageErrors"
+   ],
+   "expectedMsBeta": 1127,
+   "expectedMsRoot": 1088
+  },
+  {
+   "l0": 11420,
+   "l1": 11480,
+   "kind": "block",
+   "ids": [
+    "conservation.float32-range",
+    "conservation.float32-canary"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "hasE6Acc"
+   ],
+   "expectedMsBeta": 5389,
+   "expectedMsRoot": 5516
+  },
+  {
+   "l0": 11498,
+   "l1": 11536,
+   "kind": "if",
+   "ids": [
+    "badge.classify"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "hasBadgeClassify"
+   ],
+   "expectedMsBeta": 10,
+   "expectedMsRoot": 12
+  },
+  {
+   "l0": 11542,
+   "l1": 11558,
+   "kind": "if",
+   "ids": [
+    "badge.no-hscroll"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "hasBadgeClassify"
+   ],
+   "expectedMsBeta": 45,
+   "expectedMsRoot": 46
+  },
+  {
+   "l0": 11563,
+   "l1": 11596,
+   "kind": "if",
+   "ids": [
+    "badge.tint"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "hasBadgeClassify"
+   ],
+   "expectedMsBeta": 63,
+   "expectedMsRoot": 72
+  },
+  {
+   "l0": 11609,
+   "l1": 11702,
+   "kind": "block",
+   "ids": [
+    "ui.valid-window"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 2556,
+   "expectedMsRoot": 2510
+  },
+  {
+   "l0": 11708,
+   "l1": 11744,
+   "kind": "block",
+   "ids": [
+    "ui.ab-body-onetap"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 20,
+   "expectedMsRoot": 19
+  },
+  {
+   "l0": 11756,
+   "l1": 11776,
+   "kind": "block",
+   "ids": [
+    "drawscale.legacy-ignored"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 5,
+   "expectedMsRoot": 5
+  },
+  {
+   "l0": 11784,
+   "l1": 11811,
+   "kind": "other",
+   "ids": [
+    "behavior.gas"
+   ],
+   "prefixes": [],
+   "w5b": "gas",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 21070,
+   "expectedMsRoot": 22132
+  },
+  {
+   "l0": 11813,
+   "l1": 11837,
+   "kind": "other",
+   "ids": [
+    "behavior.pressure"
+   ],
+   "prefixes": [],
+   "w5b": "pressure",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 9857,
+   "expectedMsRoot": 9422
+  },
+  {
+   "l0": 11839,
+   "l1": 11893,
+   "kind": "block",
+   "ids": [
+    "behavior.conduction"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 431,
+   "expectedMsRoot": 543
+  },
+  {
+   "l0": 11895,
+   "l1": 11946,
+   "kind": "block",
+   "ids": [
+    "behavior.phase"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 0,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 11948,
+   "l1": 11967,
+   "kind": "block",
+   "ids": [
+    "behavior.blens"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 16,
+   "expectedMsRoot": 21
+  },
+  {
+   "l0": 11969,
+   "l1": 11995,
+   "kind": "block",
+   "ids": [
+    "behavior.boxbound"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 258,
+   "expectedMsRoot": 545
+  },
+  {
+   "l0": 12004,
+   "l1": 12040,
+   "kind": "block",
+   "ids": [
+    "behavior.probeH"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 63,
+   "expectedMsRoot": 87
+  },
+  {
+   "l0": 12044,
+   "l1": 12075,
+   "kind": "block",
+   "ids": [
+    "rail.custom-center"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 10,
+   "expectedMsRoot": 16
+  },
+  {
+   "l0": 12078,
+   "l1": 12096,
+   "kind": "block",
+   "ids": [
+    "gravity.uniform"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 4,
+   "expectedMsRoot": 3
+  },
+  {
+   "l0": 12101,
+   "l1": 12105,
+   "kind": "block",
+   "ids": [
+    "behavior.buoyancy"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "pooled",
+   "htmlDependent": false,
+   "deps": [
+    "add",
+    "w5cGetUnit"
+   ],
+   "expectedMsBeta": 0,
+   "expectedMsRoot": 1
+  },
+  {
+   "l0": 12106,
+   "l1": 12140,
+   "kind": "block",
+   "ids": [
+    "merger.bulk-velocity",
+    "collapse.rotation"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "hasMerger"
+   ],
+   "expectedMsBeta": 19562,
+   "expectedMsRoot": 18286
+  },
+  {
+   "l0": 12143,
+   "l1": 12157,
+   "kind": "block",
+   "ids": [
+    "theory.refs-all",
+    "theory.panel"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 37,
+   "expectedMsRoot": 26
+  },
+  {
+   "l0": 12160,
+   "l1": 12175,
+   "kind": "block",
+   "ids": [
+    "ext.detect",
+    "ext.panel"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 12,
+   "expectedMsRoot": 15
+  },
+  {
+   "l0": 12178,
+   "l1": 12211,
+   "kind": "block",
+   "ids": [
+    "grcal.clocks",
+    "grcal.calib-text",
+    "grcal.rays"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 9,
+   "expectedMsRoot": 9
+  },
+  {
+   "l0": 12230,
+   "l1": 12390,
+   "kind": "block",
+   "ids": [
+    "behavior.grcal3"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 76,
+   "expectedMsRoot": 111
+  },
+  {
+   "l0": 12393,
+   "l1": 12449,
+   "kind": "block",
+   "ids": [
+    "label.gravity-notation",
+    "params.direct-input",
+    "display.trail-toggle",
+    "speed.multiplier",
+    "saves.default-name",
+    "saves.copy-button",
+    "customs.copy-button"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 75,
+   "expectedMsRoot": 52
+  },
+  {
+   "l0": 12453,
+   "l1": 12512,
+   "kind": "block",
+   "ids": [
+    "params.desc-all",
+    "params.desc-toggle",
+    "overlay.slots-distinct",
+    "trail.sampled",
+    "spinlens.kframe-control",
+    "projectile.layout"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 559,
+   "expectedMsRoot": 545
+  },
+  {
+   "l0": 12516,
+   "l1": 12924,
+   "kind": "block",
+   "ids": [
+    "activeParams.all",
+    "activeParams.ui",
+    "ui.54d-preset-nav",
+    "ui.54d-params",
+    "ui.57c-labbox",
+    "ui.58b-reset-keep",
+    "ui.61b-tools",
+    "ui.63-ab-tools",
+    "render.on-demand",
+    "cache.rays-field",
+    "divergence.undo"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add",
+    "browser",
+    "page"
+   ],
+   "expectedMsBeta": 8746,
+   "expectedMsRoot": 8592
+  },
+  {
+   "l0": 12928,
+   "l1": 12998,
+   "kind": "block",
+   "ids": [
+    "ab.edit-target",
+    "ab.display-sync",
+    "display.timescale-both",
+    "quality.levels"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 56,
+   "expectedMsRoot": 36
+  },
+  {
+   "l0": 13006,
+   "l1": 13056,
+   "kind": "block",
+   "ids": [
+    "physlock.kt-derive"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 17,
+   "expectedMsRoot": 11
+  },
+  {
+   "l0": 13062,
+   "l1": 13120,
+   "kind": "block",
+   "ids": [
+    "pn.source-flag"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 22,
+   "expectedMsRoot": 25
+  },
+  {
+   "l0": 13127,
+   "l1": 13169,
+   "kind": "block",
+   "ids": [
+    "state.carry-double"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 228,
+   "expectedMsRoot": 64
+  },
+  {
+   "l0": 13172,
+   "l1": 13195,
+   "kind": "block",
+   "ids": [
+    "time.step-accounting"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 8,
+   "expectedMsRoot": 11
+  },
+  {
+   "l0": 13204,
+   "l1": 13283,
+   "kind": "block",
+   "ids": [
+    "paper.v1-convergence",
+    "paper.zeroth-law-isolated"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 1579,
+   "expectedMsRoot": 1444
+  },
+  {
+   "l0": 13286,
+   "l1": 13332,
+   "kind": "block",
+   "ids": [
+    "ab.same-init",
+    "ab.params-differ",
+    "ab.sync-advance",
+    "ab.effect-visible",
+    "ab.stop",
+    "ab.copy-state",
+    "ab.trail-view",
+    "ab.stop-keeps-A"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 1637,
+   "expectedMsRoot": 1642
+  },
+  {
+   "l0": 13336,
+   "l1": 13375,
+   "kind": "if",
+   "ids": [
+    "claim.galaxy-outerboost",
+    "behavior.saturn",
+    "behavior.convection"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "pooled",
+   "htmlDependent": false,
+   "deps": [
+    "FAST",
+    "add",
+    "w5cGetUnit"
+   ],
+   "expectedMsBeta": 0,
+   "expectedMsRoot": 1
+  },
+  {
+   "l0": 13376,
+   "l1": 13410,
+   "kind": "other",
+   "ids": [
+    "claim.galaxystd-outerboost"
+   ],
+   "prefixes": [],
+   "w5b": "galaxyStd",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 52954,
+   "expectedMsRoot": 51675
+  },
+  {
+   "l0": 13420,
+   "l1": 13458,
+   "kind": "other",
+   "ids": [
+    "claim.galaxygeo2-outerboost"
+   ],
+   "prefixes": [],
+   "w5b": "galaxyGeo2",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 137980,
+   "expectedMsRoot": 137877
+  },
+  {
+   "l0": 13459,
+   "l1": 13612,
+   "kind": "if",
+   "ids": [
+    "preset.scale-tier",
+    "light.canonical-builtins",
+    "scale.display-invariant",
+    "ai.scale-templates"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "FAST",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 1784,
+   "expectedMsRoot": 1856
+  },
+  {
+   "l0": 13613,
+   "l1": 13657,
+   "kind": "other",
+   "ids": [
+    "claim.galaxydb-contrast"
+   ],
+   "prefixes": [],
+   "w5b": "galaxyDB",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 40066,
+   "expectedMsRoot": 38507
+  },
+  {
+   "l0": 13658,
+   "l1": 14230,
+   "kind": "if",
+   "ids": [
+    "claim.nebularotor-contrast",
+    "lsw.core-auto",
+    "preset.group-core",
+    "core.v2-mech",
+    "core.tilt-sink",
+    "core.tilt-energy-audit",
+    "behavior.core-axis3d",
+    "core.edit-ui",
+    "preset.rmul-audit",
+    "claim.starseed-powerball"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 3681,
+   "expectedMsRoot": 3775
+  },
+  {
+   "l0": 14231,
+   "l1": 14278,
+   "kind": "other",
+   "ids": [
+    "claim.bhcore-selfdrive"
+   ],
+   "prefixes": [],
+   "w5b": "bhcoreSelfdrive",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 76061,
+   "expectedMsRoot": 70189
+  },
+  {
+   "l0": 14289,
+   "l1": 14359,
+   "kind": "other",
+   "ids": [
+    "claim.bhcore-free"
+   ],
+   "prefixes": [],
+   "w5b": "bhcoreFree",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 39106,
+   "expectedMsRoot": 37446
+  },
+  {
+   "l0": 14360,
+   "l1": 14885,
+   "kind": "if",
+   "ids": [
+    "core.extreme-fuzz",
+    "core.active-energy",
+    "core.cavity-no-negative-mass",
+    "core.group-core",
+    "core.merge-split",
+    "core.schema-roundtrip",
+    "claim.nebulashell-stress",
+    "claim.nebulabipolar-polar",
+    "claim.nebulabipolar-multiseed",
+    "dimming.dynamics-invariant"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 25239,
+   "expectedMsRoot": 29473
+  },
+  {
+   "l0": 14886,
+   "l1": 14942,
+   "kind": "other",
+   "ids": [
+    "clamp.reaction-cap"
+   ],
+   "prefixes": [],
+   "w5b": "reactionCap",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 40887,
+   "expectedMsRoot": 43417
+  },
+  {
+   "l0": 14943,
+   "l1": 15092,
+   "kind": "if",
+   "ids": [
+    "geo2.kf0-bitequal",
+    "geo2.comoving",
+    "geo2.conservation",
+    "behavior.mercury-builtin"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 435,
+   "expectedMsRoot": 385
+  },
+  {
+   "l0": 15100,
+   "l1": 15142,
+   "kind": "block",
+   "ids": [
+    "claim.massladder"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 4123,
+   "expectedMsRoot": 4436
+  },
+  {
+   "l0": 15146,
+   "l1": 15388,
+   "kind": "block",
+   "ids": [
+    "zonal.analytic-d68",
+    "zonal.point-mass-degenerate",
+    "zonal.order-convergence",
+    "zonal.radial-monotonic",
+    "zonal.ai-open",
+    "zonal.d68-preset",
+    "zonal.d68-realunit",
+    "zonal.peri-ui",
+    "zonal.sim-precession",
+    "zonal.no-double-count",
+    "zonal.dt-convergence"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 7010,
+   "expectedMsRoot": 7351
+  },
+  {
+   "l0": 15398,
+   "l1": 15466,
+   "kind": "block",
+   "ids": [
+    "behavior.solarInner"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 1019,
+   "expectedMsRoot": 1051
+  },
+  {
+   "l0": 15474,
+   "l1": 15606,
+   "kind": "block",
+   "ids": [
+    "behavior.venusReal",
+    "behavior.marsMoonsReal",
+    "behavior.plutoCharonReal"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 2682,
+   "expectedMsRoot": 2739
+  },
+  {
+   "l0": 15625,
+   "l1": 15810,
+   "kind": "block",
+   "ids": [
+    "behavior.plutoCharonDFM"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 6347,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 15822,
+   "l1": 15884,
+   "kind": "block",
+   "ids": [
+    "behavior.relativeDragLaw"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 4,
+   "expectedMsRoot": 7
+  },
+  {
+   "l0": 15894,
+   "l1": 15965,
+   "kind": "block",
+   "ids": [
+    "preset.massPrecision",
+    "preset.softeningFloor"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 21,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 15976,
+   "l1": 16035,
+   "kind": "block",
+   "ids": [
+    "docs.charonDfm"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 31,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 16049,
+   "l1": 16127,
+   "kind": "block",
+   "ids": [
+    "behavior.relativeDragMidpoint"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 23,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 16139,
+   "l1": 16200,
+   "kind": "block",
+   "ids": [
+    "docs.charonTwoColumns"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 38,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 16208,
+   "l1": 16326,
+   "kind": "other",
+   "ids": [
+    "behavior.uranusReal",
+    "behavior.neptuneReal"
+   ],
+   "prefixes": [],
+   "w5b": "uranusReal",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 109818,
+   "expectedMsRoot": 115096
+  },
+  {
+   "l0": 16342,
+   "l1": 16671,
+   "kind": "block",
+   "ids": [
+    "behavior.alphaCenAB"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 2285,
+   "expectedMsRoot": 2835
+  },
+  {
+   "l0": 16683,
+   "l1": 16976,
+   "kind": "block",
+   "ids": [
+    "behavior.siriusAB"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 1778,
+   "expectedMsRoot": 1850
+  },
+  {
+   "l0": 16995,
+   "l1": 17491,
+   "kind": "other",
+   "ids": [
+    "behavior.psrDoubleAB"
+   ],
+   "prefixes": [],
+   "w5b": "psrDoubleAB",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "FAST",
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 7815,
+   "expectedMsRoot": 7249
+  },
+  {
+   "l0": 17508,
+   "l1": 17664,
+   "kind": "other",
+   "ids": [
+    "behavior.nsThreeStage"
+   ],
+   "prefixes": [],
+   "w5b": "nsThreeStage",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 47166,
+   "expectedMsRoot": 46126
+  },
+  {
+   "l0": 17677,
+   "l1": 17878,
+   "kind": "block",
+   "ids": [
+    "behavior.gw150914"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "FAST",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 2742,
+   "expectedMsRoot": 2833
+  },
+  {
+   "l0": 17887,
+   "l1": 17953,
+   "kind": "block",
+   "ids": [
+    "behavior.petersScale"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 44,
+   "expectedMsRoot": 36
+  },
+  {
+   "l0": 17961,
+   "l1": 18019,
+   "kind": "block",
+   "ids": [
+    "behavior.petersDirection"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 5024,
+   "expectedMsRoot": 4863
+  },
+  {
+   "l0": 18027,
+   "l1": 18084,
+   "kind": "block",
+   "ids": [
+    "behavior.gwMerge4s"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 4527,
+   "expectedMsRoot": 4343
+  },
+  {
+   "l0": 18092,
+   "l1": 18169,
+   "kind": "block",
+   "ids": [
+    "behavior.gwSpinDipole"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 323,
+   "expectedMsRoot": 317
+  },
+  {
+   "l0": 18175,
+   "l1": 18217,
+   "kind": "block",
+   "ids": [
+    "gen.profile"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 25,
+   "expectedMsRoot": 24
+  },
+  {
+   "l0": 18226,
+   "l1": 18285,
+   "kind": "other",
+   "ids": [
+    "behavior.tuc47"
+   ],
+   "prefixes": [],
+   "w5b": "tuc47",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 12999,
+   "expectedMsRoot": 12802
+  },
+  {
+   "l0": 18290,
+   "l1": 18353,
+   "kind": "other",
+   "ids": [
+    "behavior.ngc3198"
+   ],
+   "prefixes": [],
+   "w5b": "ngc3198",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 23769,
+   "expectedMsRoot": 21043
+  },
+  {
+   "l0": 18357,
+   "l1": 18387,
+   "kind": "block",
+   "ids": [
+    "shell.decl"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 22,
+   "expectedMsRoot": 27
+  },
+  {
+   "l0": 18392,
+   "l1": 18432,
+   "kind": "other",
+   "ids": [
+    "behavior.templates229"
+   ],
+   "prefixes": [],
+   "w5b": "templates229",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 11456,
+   "expectedMsRoot": 11301
+  },
+  {
+   "l0": 18440,
+   "l1": 18477,
+   "kind": "block",
+   "ids": [
+    "behavior.coreEditAzimuth"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 1145,
+   "expectedMsRoot": 1103
+  },
+  {
+   "l0": 18486,
+   "l1": 18527,
+   "kind": "block",
+   "ids": [
+    "ui.pulse-readout"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 64,
+   "expectedMsRoot": 46
+  },
+  {
+   "l0": 18543,
+   "l1": 18638,
+   "kind": "other",
+   "ids": [
+    "behavior.supernova"
+   ],
+   "prefixes": [],
+   "w5b": "supernova",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 31549,
+   "expectedMsRoot": 25153
+  },
+  {
+   "l0": 18642,
+   "l1": 18660,
+   "kind": "block",
+   "ids": [
+    "behavior.burstRecipients"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 7,
+   "expectedMsRoot": 7
+  },
+  {
+   "l0": 18667,
+   "l1": 18755,
+   "kind": "block",
+   "ids": [
+    "behavior.envelopeShed"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 533,
+   "expectedMsRoot": 291
+  },
+  {
+   "l0": 18765,
+   "l1": 18845,
+   "kind": "block",
+   "ids": [
+    "behavior.shedLayers"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 23,
+   "expectedMsRoot": 19
+  },
+  {
+   "l0": 18858,
+   "l1": 18949,
+   "kind": "block",
+   "ids": [
+    "behavior.shedRepeat"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 1505,
+   "expectedMsRoot": 1183
+  },
+  {
+   "l0": 18953,
+   "l1": 18976,
+   "kind": "block",
+   "ids": [
+    "behavior.envelopeShedMulti"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "results",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 18,
+   "expectedMsRoot": 6
+  },
+  {
+   "l0": 18980,
+   "l1": 19000,
+   "kind": "block",
+   "ids": [
+    "behavior.remnantRange"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 7,
+   "expectedMsRoot": 6
+  },
+  {
+   "l0": 19016,
+   "l1": 19081,
+   "kind": "block",
+   "ids": [
+    "behavior.remnantSamples"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 259,
+   "expectedMsRoot": 190
+  },
+  {
+   "l0": 19092,
+   "l1": 19241,
+   "kind": "block",
+   "ids": [
+    "behavior.spinDipole"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 1264,
+   "expectedMsRoot": 1163
+  },
+  {
+   "l0": 19265,
+   "l1": 19414,
+   "kind": "other",
+   "ids": [
+    "behavior.axisForce-bitIdentity",
+    "behavior.axisForce-conservation",
+    "behavior.axisForce-energy"
+   ],
+   "prefixes": [],
+   "w5b": "axisForceBit",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 8816,
+   "expectedMsRoot": 8084
+  },
+  {
+   "l0": 19429,
+   "l1": 19554,
+   "kind": "block",
+   "ids": [
+    "behavior.compactSpinSpin"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 1785,
+   "expectedMsRoot": 1731
+  },
+  {
+   "l0": 19576,
+   "l1": 19862,
+   "kind": "other",
+   "ids": [
+    "behavior.compactMeasures"
+   ],
+   "prefixes": [],
+   "w5b": "compactMeasures",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 10963,
+   "expectedMsRoot": 9117
+  },
+  {
+   "l0": 19868,
+   "l1": 19908,
+   "kind": "block",
+   "ids": [
+    "behavior.spinSpinEvents"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 21,
+   "expectedMsRoot": 21
+  },
+  {
+   "l0": 19919,
+   "l1": 19986,
+   "kind": "block",
+   "ids": [
+    "behavior.runStateEdit"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 69,
+   "expectedMsRoot": 53
+  },
+  {
+   "l0": 20000,
+   "l1": 20051,
+   "kind": "block",
+   "ids": [
+    "behavior.channelSeparation"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 15,
+   "expectedMsRoot": 13
+  },
+  {
+   "l0": 20058,
+   "l1": 20092,
+   "kind": "block",
+   "ids": [
+    "behavior.planetSpinMoment"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 9,
+   "expectedMsRoot": 7
+  },
+  {
+   "l0": 20101,
+   "l1": 20185,
+   "kind": "block",
+   "ids": [
+    "behavior.gasCohSurface"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 145,
+   "expectedMsRoot": 132
+  },
+  {
+   "l0": 20198,
+   "l1": 20313,
+   "kind": "block",
+   "ids": [
+    "behavior.mmPhase"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 30,
+   "expectedMsRoot": 24
+  },
+  {
+   "l0": 20330,
+   "l1": 20439,
+   "kind": "block",
+   "ids": [
+    "behavior.mmWavelength"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 12,
+   "expectedMsRoot": 12
+  },
+  {
+   "l0": 20456,
+   "l1": 20540,
+   "kind": "block",
+   "ids": [
+    "behavior.mmPhaseCount"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 10,
+   "expectedMsRoot": 10
+  },
+  {
+   "l0": 20559,
+   "l1": 20659,
+   "kind": "block",
+   "ids": [
+    "behavior.mmCoherent"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 10,
+   "expectedMsRoot": 8
+  },
+  {
+   "l0": 20684,
+   "l1": 20764,
+   "kind": "block",
+   "ids": [
+    "behavior.mmLambdaSweep"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 12,
+   "expectedMsRoot": 10
+  },
+  {
+   "l0": 20782,
+   "l1": 20843,
+   "kind": "block",
+   "ids": [
+    "behavior.mmDetectorFringe"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 10,
+   "expectedMsRoot": 7
+  },
+  {
+   "l0": 20858,
+   "l1": 20962,
+   "kind": "block",
+   "ids": [
+    "behavior.meshWaveRHS"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 20,
+   "expectedMsRoot": 14
+  },
+  {
+   "l0": 20972,
+   "l1": 21028,
+   "kind": "block",
+   "ids": [
+    "behavior.contractBudget"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 12,
+   "expectedMsRoot": 10
+  },
+  {
+   "l0": 21042,
+   "l1": 21161,
+   "kind": "other",
+   "ids": [
+    "behavior.coreTerminal"
+   ],
+   "prefixes": [],
+   "w5b": "coreTerminal",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 11265,
+   "expectedMsRoot": 9089
+  },
+  {
+   "l0": 21169,
+   "l1": 21191,
+   "kind": "block",
+   "ids": [
+    "behavior.dipoleDiscStability"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 8,
+   "expectedMsRoot": 7
+  },
+  {
+   "l0": 21198,
+   "l1": 21238,
+   "kind": "block",
+   "ids": [
+    "behavior.dragChannels250"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 9,
+   "expectedMsRoot": 10
+  },
+  {
+   "l0": 21245,
+   "l1": 21278,
+   "kind": "block",
+   "ids": [
+    "behavior.tidalSpinScale"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 7,
+   "expectedMsRoot": 7
+  },
+  {
+   "l0": 21283,
+   "l1": 21319,
+   "kind": "block",
+   "ids": [
+    "behavior.inducedPair"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 7,
+   "expectedMsRoot": 6
+  },
+  {
+   "l0": 21332,
+   "l1": 21484,
+   "kind": "block",
+   "ids": [
+    "behavior.compactForce"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 44,
+   "expectedMsRoot": 41
+  },
+  {
+   "l0": 21497,
+   "l1": 21592,
+   "kind": "block",
+   "ids": [
+    "behavior.boxBinary"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 778,
+   "expectedMsRoot": 772
+  },
+  {
+   "l0": 21608,
+   "l1": 21864,
+   "kind": "block",
+   "ids": [
+    "behavior.spaceMesh"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 21,
+   "expectedMsRoot": 19
+  },
+  {
+   "l0": 21880,
+   "l1": 22049,
+   "kind": "block",
+   "ids": [
+    "behavior.meshTransport"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 229,
+   "expectedMsRoot": 170
+  },
+  {
+   "l0": 22063,
+   "l1": 22227,
+   "kind": "block",
+   "ids": [
+    "behavior.spaceMeshForce"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 66,
+   "expectedMsRoot": 81
+  },
+  {
+   "l0": 22243,
+   "l1": 22353,
+   "kind": "block",
+   "ids": [
+    "behavior.pairWeave"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 175,
+   "expectedMsRoot": 219
+  },
+  {
+   "l0": 22366,
+   "l1": 22494,
+   "kind": "block",
+   "ids": [
+    "behavior.pairWeavePN"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 226,
+   "expectedMsRoot": 287
+  },
+  {
+   "l0": 22510,
+   "l1": 22840,
+   "kind": "block",
+   "ids": [
+    "behavior.meshCoordInertia"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 1075,
+   "expectedMsRoot": 995
+  },
+  {
+   "l0": 22862,
+   "l1": 23198,
+   "kind": "block",
+   "ids": [
+    "behavior.dfmField"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 770,
+   "expectedMsRoot": 921
+  },
+  {
+   "l0": 23213,
+   "l1": 23280,
+   "kind": "block",
+   "ids": [
+    "ui.geoPNRestart"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 60,
+   "expectedMsRoot": 47
+  },
+  {
+   "l0": 23298,
+   "l1": 23429,
+   "kind": "block",
+   "ids": [
+    "behavior.geoToyOverlay"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 114,
+   "expectedMsRoot": 115
+  },
+  {
+   "l0": 23447,
+   "l1": 23586,
+   "kind": "block",
+   "ids": [
+    "behavior.kJointRoot"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 1896,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 23606,
+   "l1": 23753,
+   "kind": "block",
+   "ids": [
+    "behavior.jointCalProtocol"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 3341,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 23771,
+   "l1": 23876,
+   "kind": "block",
+   "ids": [
+    "behavior.geoToyPinned"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 36,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 23890,
+   "l1": 23997,
+   "kind": "block",
+   "ids": [
+    "behavior.geoToyClosure"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 127,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 24010,
+   "l1": 24093,
+   "kind": "block",
+   "ids": [
+    "behavior.geoToyClosureGuard"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 170,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 24110,
+   "l1": 24253,
+   "kind": "block",
+   "ids": [
+    "behavior.meshV2"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 123,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 24263,
+   "l1": 24323,
+   "kind": "block",
+   "ids": [
+    "preset.galaxyGeoToyCopy"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 7247,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 24340,
+   "l1": 24406,
+   "kind": "block",
+   "ids": [
+    "behavior.geoToyNeedMesh"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 4922,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 24421,
+   "l1": 24508,
+   "kind": "block",
+   "ids": [
+    "behavior.geoToyBandPressure"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 4058,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 24518,
+   "l1": 24577,
+   "kind": "block",
+   "ids": [
+    "preset.galaxyLite"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 1219,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 24595,
+   "l1": 24676,
+   "kind": "block",
+   "ids": [
+    "perf.geoToyPrepared"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 23508,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 24684,
+   "l1": 24719,
+   "kind": "block",
+   "ids": [
+    "ui.geoToySaveNote"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 38,
+   "expectedMsRoot": 71
+  },
+  {
+   "l0": 24735,
+   "l1": 24854,
+   "kind": "block",
+   "ids": [
+    "behavior.fieldApiIdentity"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 106,
+   "expectedMsRoot": 126
+  },
+  {
+   "l0": 24871,
+   "l1": 25029,
+   "kind": "block",
+   "ids": [
+    "behavior.calibrationForecast"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 114,
+   "expectedMsRoot": 113
+  },
+  {
+   "l0": 25043,
+   "l1": 25114,
+   "kind": "block",
+   "ids": [
+    "behavior.forecastGateMissing"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 21,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 25124,
+   "l1": 25197,
+   "kind": "block",
+   "ids": [
+    "behavior.meshRotorExchange"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 20,
+   "expectedMsRoot": 26
+  },
+  {
+   "l0": 25221,
+   "l1": 25844,
+   "kind": "other",
+   "ids": [
+    "behavior.galaxyMesh"
+   ],
+   "prefixes": [],
+   "w5b": "galaxyMesh",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 11499,
+   "expectedMsRoot": 11255
+  },
+  {
+   "l0": 25859,
+   "l1": 25924,
+   "kind": "block",
+   "ids": [
+    "behavior.meshHaloReference"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 12,
+   "expectedMsRoot": 15
+  },
+  {
+   "l0": 25938,
+   "l1": 26022,
+   "kind": "block",
+   "ids": [
+    "behavior.armBudget"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 9,
+   "expectedMsRoot": 13
+  },
+  {
+   "l0": 26053,
+   "l1": 26577,
+   "kind": "block",
+   "ids": [
+    "behavior.bodyLayers"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 131,
+   "expectedMsRoot": 65
+  },
+  {
+   "l0": 26593,
+   "l1": 26730,
+   "kind": "block",
+   "ids": [
+    "behavior.coreV2Migrate"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 30,
+   "expectedMsRoot": 37
+  },
+  {
+   "l0": 26747,
+   "l1": 26854,
+   "kind": "block",
+   "ids": [
+    "behavior.layerRotationSource"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 56,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 26864,
+   "l1": 26967,
+   "kind": "block",
+   "ids": [
+    "behavior.coreV2ReplaceReport"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 17,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 26980,
+   "l1": 27048,
+   "kind": "block",
+   "ids": [
+    "behavior.lightTrapLedger"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 2432,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 27056,
+   "l1": 27102,
+   "kind": "block",
+   "ids": [
+    "preset.lfbotTrap"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 431,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 27112,
+   "l1": 27237,
+   "kind": "block",
+   "ids": [
+    "ui.bodyLayerNumbers"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 257,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 27251,
+   "l1": 27362,
+   "kind": "block",
+   "ids": [
+    "behavior.layerJDeclared"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 27,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 27374,
+   "l1": 27480,
+   "kind": "block",
+   "ids": [
+    "behavior.layerInertiaScale"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 20,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 27502,
+   "l1": 27588,
+   "kind": "block",
+   "ids": [
+    "behavior.zetaMergeCounterexample"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 15,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 27611,
+   "l1": 27743,
+   "kind": "block",
+   "ids": [
+    "behavior.zetaIndependentQ"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 20,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 27759,
+   "l1": 27926,
+   "kind": "block",
+   "ids": [
+    "behavior.layerQNoClamp",
+    "behavior.layerQNullDerive",
+    "behavior.layerEditJ0Ambiguous",
+    "behavior.coreQOmegaSeparate",
+    "behavior.zetaEffClassification"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 23,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 27944,
+   "l1": 28012,
+   "kind": "block",
+   "ids": [
+    "behavior.lightTrapNuMax"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 128,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 28023,
+   "l1": 28063,
+   "kind": "block",
+   "ids": [
+    "behavior.collapseRControl"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 154,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 28077,
+   "l1": 28170,
+   "kind": "block",
+   "ids": [
+    "behavior.shellSpinMassLaw"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 39,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 28191,
+   "l1": 28690,
+   "kind": "block",
+   "ids": [
+    "behavior.chainMesh"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 338,
+   "expectedMsRoot": 364
+  },
+  {
+   "l0": 28704,
+   "l1": 29174,
+   "kind": "other",
+   "ids": [
+    "behavior.toyLedger"
+   ],
+   "prefixes": [],
+   "w5b": "toyLedger",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 34004,
+   "expectedMsRoot": 33236
+  },
+  {
+   "l0": 29204,
+   "l1": 29390,
+   "kind": "other",
+   "ids": [
+    "behavior.ledgerNorm"
+   ],
+   "prefixes": [],
+   "w5b": "ledgerNorm",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 33101,
+   "expectedMsRoot": 33177
+  },
+  {
+   "l0": 29406,
+   "l1": 29510,
+   "kind": "block",
+   "ids": [
+    "behavior.periSubsteps"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 334,
+   "expectedMsRoot": 297
+  },
+  {
+   "l0": 29524,
+   "l1": 29608,
+   "kind": "block",
+   "ids": [
+    "behavior.periCounterRefresh"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 17,
+   "expectedMsRoot": 16
+  },
+  {
+   "l0": 29613,
+   "l1": 29669,
+   "kind": "block",
+   "ids": [
+    "behavior.supernovaObs"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 361,
+   "expectedMsRoot": 306
+  },
+  {
+   "l0": 29676,
+   "l1": 29729,
+   "kind": "other",
+   "ids": [
+    "behavior.kalign"
+   ],
+   "prefixes": [],
+   "w5b": "kalign",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 10958,
+   "expectedMsRoot": 8830
+  },
+  {
+   "l0": 29733,
+   "l1": 29763,
+   "kind": "block",
+   "ids": [
+    "behavior.dfm-star-structure"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 14,
+   "expectedMsRoot": 14
+  },
+  {
+   "l0": 29769,
+   "l1": 29796,
+   "kind": "block",
+   "ids": [
+    "behavior.starStructure"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 12,
+   "expectedMsRoot": 11
+  },
+  {
+   "l0": 29801,
+   "l1": 29863,
+   "kind": "block",
+   "ids": [
+    "behavior.dragQ"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 32,
+   "expectedMsRoot": 31
+  },
+  {
+   "l0": 29868,
+   "l1": 29901,
+   "kind": "block",
+   "ids": [
+    "behavior.dragSign"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 49,
+   "expectedMsRoot": 47
+  },
+  {
+   "l0": 29905,
+   "l1": 29946,
+   "kind": "block",
+   "ids": [
+    "behavior.dragRef"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 2755,
+   "expectedMsRoot": 2125
+  },
+  {
+   "l0": 29954,
+   "l1": 30034,
+   "kind": "block",
+   "ids": [
+    "behavior.dragChannels"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 35,
+   "expectedMsRoot": 27
+  },
+  {
+   "l0": 30041,
+   "l1": 30092,
+   "kind": "block",
+   "ids": [
+    "behavior.dragContact"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 29,
+   "expectedMsRoot": 25
+  },
+  {
+   "l0": 30098,
+   "l1": 30186,
+   "kind": "other",
+   "ids": [
+    "behavior.framePull"
+   ],
+   "prefixes": [],
+   "w5b": "framePull",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 11287,
+   "expectedMsRoot": 9860
+  },
+  {
+   "l0": 30196,
+   "l1": 30240,
+   "kind": "block",
+   "ids": [
+    "behavior.w249a-pnResponse"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 12,
+   "expectedMsRoot": 9
+  },
+  {
+   "l0": 30248,
+   "l1": 30302,
+   "kind": "block",
+   "ids": [
+    "behavior.frameConsistency"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 21,
+   "expectedMsRoot": 14
+  },
+  {
+   "l0": 30312,
+   "l1": 30440,
+   "kind": "block",
+   "ids": [
+    "behavior.chi-law"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 13,
+   "expectedMsRoot": 10
+  },
+  {
+   "l0": 30447,
+   "l1": 30616,
+   "kind": "block",
+   "ids": [
+    "behavior.halokit"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 198,
+   "expectedMsRoot": 150
+  },
+  {
+   "l0": 30623,
+   "l1": 30677,
+   "kind": "block",
+   "ids": [
+    "ui.customlist-time"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 112,
+   "expectedMsRoot": 40
+  },
+  {
+   "l0": 30695,
+   "l1": 30811,
+   "kind": "other",
+   "ids": [
+    "behavior.emAudit"
+   ],
+   "prefixes": [],
+   "w5b": "emAudit",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 19689,
+   "expectedMsRoot": 14940
+  },
+  {
+   "l0": 30826,
+   "l1": 30974,
+   "kind": "block",
+   "ids": [
+    "behavior.qlockRadial"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "OUT_DIR",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 539,
+   "expectedMsRoot": 483
+  },
+  {
+   "l0": 30990,
+   "l1": 31149,
+   "kind": "block",
+   "ids": [
+    "behavior.jupiter"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "OUT_DIR",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 280,
+   "expectedMsRoot": 248
+  },
+  {
+   "l0": 31153,
+   "l1": 31343,
+   "kind": "block",
+   "ids": [
+    "zonal.trail-default",
+    "ice.e10-off",
+    "pwa.sw-offline",
+    "pwa.sw-fail-ui",
+    "behavior.saturnExp",
+    "behavior.saturn-kframe-control",
+    "behavior.saturn-muf-control"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "FAST",
+    "add",
+    "browser",
+    "page",
+    "hasSat240",
+    "w5cGetUnit"
+   ],
+   "expectedMsBeta": 1121,
+   "expectedMsRoot": 1065
+  },
+  {
+   "l0": 31348,
+   "l1": 31437,
+   "kind": "if",
+   "ids": [
+    "behavior.merger-causal",
+    "behavior.collapse-cooling"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "pooled",
+   "htmlDependent": false,
+   "deps": [
+    "FAST",
+    "add",
+    "hasMerger",
+    "w5cGetUnit"
+   ],
+   "expectedMsBeta": 0,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 31440,
+   "l1": 31474,
+   "kind": "block",
+   "ids": [
+    "draft.restore",
+    "draft.discard"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "INDEX",
+    "add",
+    "browser",
+    "page"
+   ],
+   "expectedMsBeta": 388,
+   "expectedMsRoot": 343
+  },
+  {
+   "l0": 31482,
+   "l1": 31651,
+   "kind": "block",
+   "ids": [
+    "core.twolayer",
+    "core.ab-body-edit",
+    "behavior.saturnLayered",
+    "behavior.earthMoon",
+    "behavior.earthMoonFree"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page",
+    "satTotN",
+    "w5cGetUnit"
+   ],
+   "expectedMsBeta": 1147,
+   "expectedMsRoot": 853
+  },
+  {
+   "l0": 31656,
+   "l1": 31686,
+   "kind": "block",
+   "ids": [
+    "ui.landscape"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "INDEX",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 459,
+   "expectedMsRoot": 393
+  },
+  {
+   "l0": 31695,
+   "l1": 31776,
+   "kind": "block",
+   "ids": [
+    "ui.panelExpand"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "INDEX",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 1481,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 31797,
+   "l1": 32101,
+   "kind": "block",
+   "ids": [
+    "ui.hudUnderPanel",
+    "ui.descBrief",
+    "ui.descOrder",
+    "ui.auditToggle",
+    "ui.descFold"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "INDEX",
+    "add",
+    "browser",
+    "page"
+   ],
+   "expectedMsBeta": 3190,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 32114,
+   "l1": 32267,
+   "kind": "block",
+   "ids": [
+    "ui.groupIcons",
+    "ui.descFoldSummary"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "INDEX",
+    "add",
+    "browser",
+    "page"
+   ],
+   "expectedMsBeta": 1069,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 32297,
+   "l1": 32603,
+   "kind": "block",
+   "ids": [
+    "ui.landscapeWidth",
+    "ui.frontModals",
+    "ui.searchClear",
+    "ui.obscardIcon",
+    "ai.modelList"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "INDEX",
+    "add",
+    "browser",
+    "page"
+   ],
+   "expectedMsBeta": 11572,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 32616,
+   "l1": 32975,
+   "kind": "block",
+   "ids": [
+    "obs.attrs",
+    "obs.equivalence",
+    "darkrotor.uphi",
+    "darkrotor.allfree",
+    "behavior.darkrotor",
+    "behavior.darkrotorLong",
+    "behavior.darkrotor-pitch"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page",
+    "w5cGetUnit"
+   ],
+   "expectedMsBeta": 495,
+   "expectedMsRoot": 335
+  },
+  {
+   "l0": 32979,
+   "l1": 33872,
+   "kind": "block",
+   "ids": [
+    "groups.reorder",
+    "groups.family-split",
+    "groups.family-invariant",
+    "preset.kframe-unitInterval",
+    "preset.kframe-calib-declared",
+    "preset.kframe-binary-default",
+    "preset.d0source-declared",
+    "preset.backgroundComplex-declared",
+    "preset.backgroundComplex-strict",
+    "params.radius-default",
+    "ai.base-context",
+    "overlay.minimize",
+    "bodyedit.minimize",
+    "ui.bodyLayerTabs",
+    "behavior.binary"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "hasMerger",
+    "w5cGetUnit"
+   ],
+   "expectedMsBeta": 1315,
+   "expectedMsRoot": 148
+  },
+  {
+   "l0": 33890,
+   "l1": 34031,
+   "kind": "block",
+   "ids": [
+    "preset.backgroundTidal"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 1069,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 34037,
+   "l1": 34074,
+   "kind": "block",
+   "ids": [
+    "about.panel",
+    "about.help-moved",
+    "ab.note-collapsed",
+    "ui.scale-default"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 53,
+   "expectedMsRoot": 36
+  },
+  {
+   "l0": 34078,
+   "l1": 34200,
+   "kind": "block",
+   "ids": [
+    "rail.validator",
+    "rail.motion",
+    "rail.ab-reset-roundtrip",
+    "rail.badge",
+    "perf.particle-caps",
+    "about.keyboard"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 115,
+   "expectedMsRoot": 121
+  },
+  {
+   "l0": 34204,
+   "l1": 34276,
+   "kind": "block",
+   "ids": [
+    "perf.convection-timescale",
+    "perf.rail-indices",
+    "perf.trail-cap",
+    "perf.draw-radius-uncapped"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "hasEchoFlipAt"
+   ],
+   "expectedMsBeta": 74,
+   "expectedMsRoot": 59
+  },
+  {
+   "l0": 34280,
+   "l1": 34335,
+   "kind": "block",
+   "ids": [
+    "curve.vbar-degenerate",
+    "curve.vbar-distributed"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 21,
+   "expectedMsRoot": 17
+  },
+  {
+   "l0": 34338,
+   "l1": 34368,
+   "kind": "block",
+   "ids": [
+    "ai.payload-preview"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 23,
+   "expectedMsRoot": 23
+  },
+  {
+   "l0": 34372,
+   "l1": 35375,
+   "kind": "block",
+   "ids": [
+    "ai.external-prompt",
+    "prompt.spec-sync",
+    "prompt.intent-map",
+    "prompt.no-contract-conflict",
+    "prompt.schema-sync",
+    "import.fenced-json",
+    "save.copy-with-preset",
+    "scale.base-select",
+    "ext02.claim-provenance",
+    "claims.prov-coverage",
+    "budget.consistency",
+    "claims.mainline",
+    "claims.obs-family",
+    "claims.role-audit",
+    "ui.audit-view",
+    "provchain.ui",
+    "ui.preset-id"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 799,
+   "expectedMsRoot": 567
+  },
+  {
+   "l0": 35390,
+   "l1": 35596,
+   "kind": "block",
+   "ids": [
+    "ai.catalog-integrity",
+    "ai.placement-determinism",
+    "ai.schema-validation"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 29,
+   "expectedMsRoot": 30
+  },
+  {
+   "l0": 35613,
+   "l1": 36334,
+   "kind": "block",
+   "ids": [
+    "ai.obs-schema",
+    "ai.obs-build",
+    "ai.obs-name-unicode",
+    "ai.obs-demote",
+    "ai.obs-freecenter",
+    "ai.obs-inclination",
+    "ai.obs-binary"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 1244,
+   "expectedMsRoot": 1192
+  },
+  {
+   "l0": 36348,
+   "l1": 36768,
+   "kind": "block",
+   "ids": [
+    "ai.ui-unified",
+    "ai.unified-prompt",
+    "ai.paste-shape",
+    "ai.stabilize",
+    "ai.intake-normalize"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 20778,
+   "expectedMsRoot": 18317
+  },
+  {
+   "l0": 36775,
+   "l1": 36854,
+   "kind": "block",
+   "ids": [
+    "physlock.ui-110"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 52,
+   "expectedMsRoot": 73
+  },
+  {
+   "l0": 36859,
+   "l1": 36867,
+   "kind": "block",
+   "ids": [
+    "shot.capture"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "TARGET",
+    "OUT_DIR",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 2421,
+   "expectedMsRoot": 2731
+  },
+  {
+   "l0": 36876,
+   "l1": 36997,
+   "kind": "if",
+   "ids": [],
+   "prefixes": [
+    "shot.regress-"
+   ],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "OUT_DIR",
+    "FAST",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 18517,
+   "expectedMsRoot": 18441
+  },
+  {
+   "l0": 37009,
+   "l1": 37023,
+   "kind": "if",
+   "ids": [
+    "ui.aitab-no-hscroll"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "hasAiTabForHscroll"
+   ],
+   "expectedMsBeta": 33,
+   "expectedMsRoot": 35
+  },
+  {
+   "l0": 37028,
+   "l1": 37065,
+   "kind": "block",
+   "ids": [
+    "ai.base-topkeys"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 11,
+   "expectedMsRoot": 22
+  },
+  {
+   "l0": 37074,
+   "l1": 37107,
+   "kind": "if",
+   "ids": [
+    "import.distinct-topkeys"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "hasEchoFlipAt"
+   ],
+   "expectedMsBeta": 18,
+   "expectedMsRoot": 18
+  },
+  {
+   "l0": 37110,
+   "l1": 37130,
+   "kind": "if",
+   "ids": [
+    "save.dedup-box"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "hasEchoFlipAt"
+   ],
+   "expectedMsBeta": 11,
+   "expectedMsRoot": 5
+  },
+  {
+   "l0": 37134,
+   "l1": 37166,
+   "kind": "block",
+   "ids": [
+    "draft.box-restore"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "INDEX",
+    "add",
+    "browser",
+    "page",
+    "hasEchoFlipAt"
+   ],
+   "expectedMsBeta": 370,
+   "expectedMsRoot": 337
+  },
+  {
+   "l0": 37177,
+   "l1": 37191,
+   "kind": "block",
+   "ids": [
+    "version.beta-label"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 39,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 37198,
+   "l1": 37232,
+   "kind": "block",
+   "ids": [
+    "version.beta-label-http"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 367,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 37238,
+   "l1": 37269,
+   "kind": "block",
+   "ids": [
+    "ray.wavelength-color"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 17,
+   "expectedMsRoot": 72
+  },
+  {
+   "l0": 37284,
+   "l1": 37409,
+   "kind": "block",
+   "ids": [
+    "ray.alpha-threshold"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 706,
+   "expectedMsRoot": 621
+  },
+  {
+   "l0": 37414,
+   "l1": 37451,
+   "kind": "block",
+   "ids": [
+    "ai.help-collapsed"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 63,
+   "expectedMsRoot": 47
+  },
+  {
+   "l0": 37455,
+   "l1": 37616,
+   "kind": "block",
+   "ids": [
+    "radius.default-one",
+    "rmul.schema",
+    "sweep.auto-monotonic",
+    "sweep.auto-physlock",
+    "sweep.numeric-unchanged"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add",
+    "page",
+    "hasE6Acc"
+   ],
+   "expectedMsBeta": 2063,
+   "expectedMsRoot": 2344
+  },
+  {
+   "l0": 37620,
+   "l1": 37862,
+   "kind": "block",
+   "ids": [
+    "tint.schema",
+    "tint.zero-cost",
+    "tint.migrated",
+    "tint.latent-heat",
+    "tint.microspin-alias"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "hasE6Acc",
+    "hasSat240"
+   ],
+   "expectedMsBeta": 5645,
+   "expectedMsRoot": 5682
+  },
+  {
+   "l0": 37871,
+   "l1": 37951,
+   "kind": "other",
+   "ids": [
+    "mechspec.zero-cost",
+    "mechspec.on-unchanged",
+    "mechspec.sanity"
+   ],
+   "prefixes": [],
+   "w5b": "mechspecZeroCost",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 10351,
+   "expectedMsRoot": 10603
+  },
+  {
+   "l0": 37957,
+   "l1": 37996,
+   "kind": "block",
+   "ids": [
+    "p3.sample-class"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 61,
+   "expectedMsRoot": 68
+  },
+  {
+   "l0": 38005,
+   "l1": 38109,
+   "kind": "block",
+   "ids": [
+    "conduction.pinned-bath",
+    "conduction.pinned-zero-cost"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 29,
+   "expectedMsRoot": 38
+  },
+  {
+   "l0": 38114,
+   "l1": 38343,
+   "kind": "block",
+   "ids": [
+    "fusion.conservation",
+    "fusion.zero-cost",
+    "fusion.chain"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 2581,
+   "expectedMsRoot": 2894
+  },
+  {
+   "l0": 38348,
+   "l1": 38619,
+   "kind": "block",
+   "ids": [
+    "fission.conservation",
+    "fission.zero-cost",
+    "fission.cycle"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 183,
+   "expectedMsRoot": 205
+  },
+  {
+   "l0": 38623,
+   "l1": 38731,
+   "kind": "block",
+   "ids": [
+    "thermalwalls.schema",
+    "thermalwalls.ledger"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 1294,
+   "expectedMsRoot": 1262
+  },
+  {
+   "l0": 38738,
+   "l1": 39447,
+   "kind": "other",
+   "ids": [
+    "phasechange.schema",
+    "phasechange.zero-cost",
+    "phasechange.schema-angK",
+    "phasechange.schema-condN",
+    "phasechange.angK-budget",
+    "phasechange.grid",
+    "phasechange.compat",
+    "phasechange.saveparams",
+    "phasechange.wallschedule",
+    "phasechange.damp-residual",
+    "phasechange.abclone",
+    "phasechange.observables",
+    "phasechange.emergent",
+    "phasechange.emergent2",
+    "phasechange.chain2",
+    "phasechange.multiseed",
+    "phasechange.dt-convergence",
+    "claim.chaincycle"
+   ],
+   "prefixes": [],
+   "w5b": "phasechangeSchema",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 207806,
+   "expectedMsRoot": 199039
+  },
+  {
+   "l0": 39460,
+   "l1": 39491,
+   "kind": "block",
+   "ids": [
+    "ui.tabbar-safearea"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 71,
+   "expectedMsRoot": 43
+  },
+  {
+   "l0": 39504,
+   "l1": 39542,
+   "kind": "if",
+   "ids": [
+    "ui.sweep-auto-checkbox"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "hasSwAutoCb"
+   ],
+   "expectedMsBeta": 9,
+   "expectedMsRoot": 11
+  },
+  {
+   "l0": 39553,
+   "l1": 39621,
+   "kind": "block",
+   "ids": [
+    "ui.ray-lambda0"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 19,
+   "expectedMsRoot": 17
+  },
+  {
+   "l0": 39629,
+   "l1": 39654,
+   "kind": "block",
+   "ids": [
+    "radius.explicit-scale"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 15,
+   "expectedMsRoot": 8
+  },
+  {
+   "l0": 39664,
+   "l1": 39703,
+   "kind": "block",
+   "ids": [
+    "field.uniform-gravity"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 21,
+   "expectedMsRoot": 21
+  },
+  {
+   "l0": 39715,
+   "l1": 39789,
+   "kind": "block",
+   "ids": [
+    "behavior.rotorSolo"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 704,
+   "expectedMsRoot": 675
+  },
+  {
+   "l0": 39803,
+   "l1": 39853,
+   "kind": "block",
+   "ids": [
+    "ray.observer-flux"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 23,
+   "expectedMsRoot": 23
+  },
+  {
+   "l0": 39862,
+   "l1": 39906,
+   "kind": "block",
+   "ids": [
+    "clamp.ledger-zero"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 663,
+   "expectedMsRoot": 606
+  },
+  {
+   "l0": 39915,
+   "l1": 39941,
+   "kind": "block",
+   "ids": [
+    "behavior.agnjet"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "pooled",
+   "htmlDependent": false,
+   "deps": [
+    "FAST",
+    "add",
+    "w5cHasAgnjet",
+    "w5cGetUnit"
+   ],
+   "expectedMsBeta": 0,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 39946,
+   "l1": 39989,
+   "kind": "block",
+   "ids": [
+    "behavior.spinup"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "pooled",
+   "htmlDependent": false,
+   "deps": [
+    "FAST",
+    "add",
+    "w5cHasSpinup",
+    "w5cGetUnit"
+   ],
+   "expectedMsBeta": 0,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 40005,
+   "l1": 40131,
+   "kind": "block",
+   "ids": [
+    "behavior.starcore"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "hasStarcore"
+   ],
+   "expectedMsBeta": 0,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 40140,
+   "l1": 40251,
+   "kind": "other",
+   "ids": [
+    "behavior.selfrotor"
+   ],
+   "prefixes": [],
+   "w5b": "selfrotor",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 31061,
+   "expectedMsRoot": 29814
+  },
+  {
+   "l0": 40266,
+   "l1": 40337,
+   "kind": "other",
+   "ids": [
+    "behavior.selfrotor-multiseed"
+   ],
+   "prefixes": [],
+   "w5b": "selfrotorMultiseed",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 110052,
+   "expectedMsRoot": 111074
+  },
+  {
+   "l0": 40353,
+   "l1": 40489,
+   "kind": "other",
+   "ids": [
+    "behavior.phase-multiseed"
+   ],
+   "prefixes": [],
+   "w5b": "phaseMultiseed",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 215951,
+   "expectedMsRoot": 212070
+  },
+  {
+   "l0": 40504,
+   "l1": 40539,
+   "kind": "if",
+   "ids": [
+    "behavior.darkrotor-multiseed"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "FAST",
+    "add",
+    "page",
+    "w5cDrFree",
+    "w5cDrMulti",
+    "w5cGetUnit"
+   ],
+   "expectedMsBeta": 8,
+   "expectedMsRoot": 10
+  },
+  {
+   "l0": 40548,
+   "l1": 40595,
+   "kind": "block",
+   "ids": [
+    "emergence.tag"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 31,
+   "expectedMsRoot": 32
+  },
+  {
+   "l0": 40603,
+   "l1": 40667,
+   "kind": "other",
+   "ids": [
+    "emergence.monitor"
+   ],
+   "prefixes": [],
+   "w5b": "emergenceMonitor",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 8792,
+   "expectedMsRoot": 8597
+  },
+  {
+   "l0": 40680,
+   "l1": 40800,
+   "kind": "block",
+   "ids": [
+    "phasemap.smoke"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "INDEX",
+    "add",
+    "browser",
+    "page"
+   ],
+   "expectedMsBeta": 3053,
+   "expectedMsRoot": 2706
+  },
+  {
+   "l0": 40806,
+   "l1": 40828,
+   "kind": "block",
+   "ids": [
+    "behavior.cosmicweb"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "pooled",
+   "htmlDependent": false,
+   "deps": [
+    "FAST",
+    "add",
+    "w5cHasCosmicweb",
+    "w5cGetUnit"
+   ],
+   "expectedMsBeta": 0,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 40836,
+   "l1": 40893,
+   "kind": "block",
+   "ids": [
+    "claims.sync-pilot"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 10,
+   "expectedMsRoot": 9
+  },
+  {
+   "l0": 40903,
+   "l1": 40940,
+   "kind": "block",
+   "ids": [
+    "claims.sync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 25,
+   "expectedMsRoot": 26
+  },
+  {
+   "l0": 40954,
+   "l1": 40989,
+   "kind": "block",
+   "ids": [
+    "behavior.periDetectorSynthetic"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "add"
+   ],
+   "expectedMsBeta": 1753,
+   "expectedMsRoot": 1723
+  },
+  {
+   "l0": 41002,
+   "l1": 41239,
+   "kind": "block",
+   "ids": [
+    "behavior.calauditMapping"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 25,
+   "expectedMsRoot": 25
+  },
+  {
+   "l0": 41249,
+   "l1": 41417,
+   "kind": "block",
+   "ids": [
+    "docs.calibration-verdict-sync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 65,
+   "expectedMsRoot": 58
+  },
+  {
+   "l0": 41428,
+   "l1": 41456,
+   "kind": "block",
+   "ids": [
+    "behavior.clusterVirial"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "FAST",
+    "add"
+   ],
+   "expectedMsBeta": 57,
+   "expectedMsRoot": 62
+  },
+  {
+   "l0": 41472,
+   "l1": 41546,
+   "kind": "block",
+   "ids": [
+    "claims.note-sync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 18,
+   "expectedMsRoot": 15
+  },
+  {
+   "l0": 41552,
+   "l1": 41603,
+   "kind": "block",
+   "ids": [
+    "desc.config-sync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 36,
+   "expectedMsRoot": 24
+  },
+  {
+   "l0": 41612,
+   "l1": 41742,
+   "kind": "block",
+   "ids": [
+    "camera.follow-ui"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 146,
+   "expectedMsRoot": 152
+  },
+  {
+   "l0": 41748,
+   "l1": 41802,
+   "kind": "block",
+   "ids": [
+    "camera.follow-com"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 402,
+   "expectedMsRoot": 376
+  },
+  {
+   "l0": 41810,
+   "l1": 41849,
+   "kind": "block",
+   "ids": [
+    "claims.kind"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 30,
+   "expectedMsRoot": 22
+  },
+  {
+   "l0": 41858,
+   "l1": 41899,
+   "kind": "block",
+   "ids": [
+    "desc.struct-sync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 25,
+   "expectedMsRoot": 41
+  },
+  {
+   "l0": 41908,
+   "l1": 41956,
+   "kind": "block",
+   "ids": [
+    "ui.claims-display"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 76,
+   "expectedMsRoot": 76
+  },
+  {
+   "l0": 41967,
+   "l1": 42008,
+   "kind": "block",
+   "ids": [
+    "ui.strongfield-badge"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 87,
+   "expectedMsRoot": 62
+  },
+  {
+   "l0": 42018,
+   "l1": 42091,
+   "kind": "block",
+   "ids": [
+    "reaction.pair-momentum",
+    "reaction.pair-test-particle-limit"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 119,
+   "expectedMsRoot": 107
+  },
+  {
+   "l0": 42103,
+   "l1": 42252,
+   "kind": "block",
+   "ids": [
+    "optics.dynamics-invariant",
+    "optics.default-bitequal",
+    "claim.reddening"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 3468,
+   "expectedMsRoot": 3235
+  },
+  {
+   "l0": 42257,
+   "l1": 42507,
+   "kind": "block",
+   "ids": [
+    "ui.firstvisit",
+    "params.roles",
+    "ui.notclaim",
+    "ui.notclaim-real",
+    "ui.qlock-wording",
+    "ui.failure-first"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 1409,
+   "expectedMsRoot": 1183
+  },
+  {
+   "l0": 42516,
+   "l1": 42572,
+   "kind": "block",
+   "ids": [
+    "perturb.inject"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 31,
+   "expectedMsRoot": 32
+  },
+  {
+   "l0": 42576,
+   "l1": 42648,
+   "kind": "block",
+   "ids": [
+    "ui.stdtests",
+    "monitor.system-energy"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 694,
+   "expectedMsRoot": 672
+  },
+  {
+   "l0": 42652,
+   "l1": 43964,
+   "kind": "block",
+   "ids": [
+    "ui.presetpicker",
+    "catalog.visibility",
+    "wave118.ui",
+    "wave119.ui",
+    "wave120.ui",
+    "wave121.ui",
+    "wave122.ui",
+    "wave123.ui",
+    "wave124.ui",
+    "wave125.ui",
+    "wave128.engine",
+    "scale.exponents",
+    "scale.cg-consistency",
+    "scale.realc-display",
+    "scale.clink",
+    "behavior.wave100c",
+    "ext.formation-lineage",
+    "ui.fidelity",
+    "ui.scalebar-conv",
+    "ui.corev2-fit"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "FAST",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 38803,
+   "expectedMsRoot": 37438
+  },
+  {
+   "l0": 43969,
+   "l1": 44016,
+   "kind": "block",
+   "ids": [
+    "box.wall-restitution"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 35,
+   "expectedMsRoot": 37
+  },
+  {
+   "l0": 44022,
+   "l1": 44117,
+   "kind": "block",
+   "ids": [
+    "ui.wave95"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 564,
+   "expectedMsRoot": 564
+  },
+  {
+   "l0": 44122,
+   "l1": 44199,
+   "kind": "block",
+   "ids": [
+    "ui.wave96a"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 737,
+   "expectedMsRoot": 734
+  },
+  {
+   "l0": 44214,
+   "l1": 44292,
+   "kind": "block",
+   "ids": [
+    "ui.hud-sync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 1364,
+   "expectedMsRoot": 1362
+  },
+  {
+   "l0": 44306,
+   "l1": 44338,
+   "kind": "block",
+   "ids": [
+    "qa.testid-live"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "FAST",
+    "results",
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 69,
+   "expectedMsRoot": 60
+  },
+  {
+   "l0": 44363,
+   "l1": 44497,
+   "kind": "block",
+   "ids": [
+    "manifest.coverage"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "OUT_DIR",
+    "add"
+   ],
+   "expectedMsBeta": 273,
+   "expectedMsRoot": 69
+  },
+  {
+   "l0": 44512,
+   "l1": 44632,
+   "kind": "block",
+   "ids": [
+    "errorbudget.presence",
+    "errorbudget.consistency"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "OUT_DIR",
+    "add"
+   ],
+   "expectedMsBeta": 31,
+   "expectedMsRoot": 122
+  },
+  {
+   "l0": 44638,
+   "l1": 44667,
+   "kind": "block",
+   "ids": [
+    "p2sens.papersync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 3,
+   "expectedMsRoot": 1
+  },
+  {
+   "l0": 44683,
+   "l1": 44834,
+   "kind": "block",
+   "ids": [
+    "ui.input-responsive"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "INDEX",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 4890,
+   "expectedMsRoot": 4811
+  },
+  {
+   "l0": 44854,
+   "l1": 45008,
+   "kind": "block",
+   "ids": [
+    "ui.step-accounting"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "INDEX",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 6718,
+   "expectedMsRoot": 6698
+  },
+  {
+   "l0": 45039,
+   "l1": 45172,
+   "kind": "block",
+   "ids": [
+    "kernel.bitident"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "INDEX",
+    "FAST",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 50381,
+   "expectedMsRoot": 48069
+  },
+  {
+   "l0": 45180,
+   "l1": 45361,
+   "kind": "block",
+   "ids": [
+    "ui.paramTabLayout"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "INDEX",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 428,
+   "expectedMsRoot": 381
+  },
+  {
+   "l0": 45372,
+   "l1": 45528,
+   "kind": "block",
+   "ids": [
+    "ui.spaceLines"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "INDEX",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 658,
+   "expectedMsRoot": 619
+  },
+  {
+   "l0": 45544,
+   "l1": 45689,
+   "kind": "block",
+   "ids": [
+    "ui.spaceMeshView"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "INDEX",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 8668,
+   "expectedMsRoot": 8347
+  },
+  {
+   "l0": 45718,
+   "l1": 46125,
+   "kind": "block",
+   "ids": [
+    "behavior.spaceMeshGrid"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "INDEX",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 6320,
+   "expectedMsRoot": 5878
+  },
+  {
+   "l0": 46139,
+   "l1": 46292,
+   "kind": "block",
+   "ids": [
+    "ui.spaceMeshGain"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "INDEX",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 701,
+   "expectedMsRoot": 647
+  },
+  {
+   "l0": 46300,
+   "l1": 46387,
+   "kind": "block",
+   "ids": [
+    "params.d0Zero"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "INDEX",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 18955,
+   "expectedMsRoot": 18330
+  },
+  {
+   "l0": 46404,
+   "l1": 46612,
+   "kind": "block",
+   "ids": [
+    "ui.samplePicker"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "INDEX",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 665,
+   "expectedMsRoot": 607
+  },
+  {
+   "l0": 46630,
+   "l1": 46739,
+   "kind": "block",
+   "ids": [
+    "params.scaleBase"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "INDEX",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 425,
+   "expectedMsRoot": 367
+  },
+  {
+   "l0": 46753,
+   "l1": 46874,
+   "kind": "block",
+   "ids": [
+    "ui.spaceMeshRow"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "INDEX",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 657,
+   "expectedMsRoot": 590
+  },
+  {
+   "l0": 46881,
+   "l1": 46928,
+   "kind": "block",
+   "ids": [
+    "ui.raysDesc"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "INDEX",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 405,
+   "expectedMsRoot": 332
+  },
+  {
+   "l0": 46937,
+   "l1": 47002,
+   "kind": "block",
+   "ids": [
+    "ui.massBasisChip"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "INDEX",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 753,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 47022,
+   "l1": 47169,
+   "kind": "block",
+   "ids": [
+    "ui.assessedValuePanel"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "INDEX",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 452,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 47170,
+   "l1": 47260,
+   "kind": "block",
+   "ids": [
+    "ui.meshChipState"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "INDEX",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 1204,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 47274,
+   "l1": 47366,
+   "kind": "block",
+   "ids": [
+    "ui.meshChipStop"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "INDEX",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 385,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 47367,
+   "l1": 47432,
+   "kind": "block",
+   "ids": [
+    "preset.groupAnalogies"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "INDEX",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 392,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 47433,
+   "l1": 47513,
+   "kind": "block",
+   "ids": [
+    "ui.groupOrderPaper"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "INDEX",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 356,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 47514,
+   "l1": 47563,
+   "kind": "block",
+   "ids": [
+    "docs.rotorDimmingScope"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "INDEX",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 369,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 47569,
+   "l1": 47690,
+   "kind": "block",
+   "ids": [
+    "ui.groupRenameAliases",
+    "preset.clocksGravity"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "INDEX",
+    "add",
+    "browser"
+   ],
+   "expectedMsBeta": 448,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 47706,
+   "l1": 47763,
+   "kind": "block",
+   "ids": [
+    "docs.bhDesignSync"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 10,
+   "expectedMsRoot": 2550
+  },
+  {
+   "l0": 47780,
+   "l1": 47907,
+   "kind": "block",
+   "ids": [
+    "behavior.armBarPure"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 30,
+   "expectedMsRoot": 22
+  },
+  {
+   "l0": 47927,
+   "l1": 48124,
+   "kind": "block",
+   "ids": [
+    "behavior.shapeToyStationary"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 6925,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 48155,
+   "l1": 48378,
+   "kind": "other",
+   "ids": [
+    "preset.shapeToys"
+   ],
+   "prefixes": [],
+   "w5b": "shapeToys",
+   "tier": "pooled",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page",
+    "w5bRun",
+    "fpRun"
+   ],
+   "expectedMsBeta": 23476,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 48395,
+   "l1": 48517,
+   "kind": "block",
+   "ids": [
+    "docs.shapeToyCriteria"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 31,
+   "expectedMsRoot": 40
+  },
+  {
+   "l0": 48538,
+   "l1": 48689,
+   "kind": "block",
+   "ids": [
+    "behavior.coreFieldLedger"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 6650,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 48701,
+   "l1": 48763,
+   "kind": "block",
+   "ids": [
+    "docs.coreFieldCriteria"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 25,
+   "expectedMsRoot": 32
+  },
+  {
+   "l0": 48776,
+   "l1": 48849,
+   "kind": "block",
+   "ids": [
+    "preset.coreAxis-declared"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 19,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 48861,
+   "l1": 48946,
+   "kind": "block",
+   "ids": [
+    "behavior.coreAxisPrescribed"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "browser",
+   "htmlDependent": true,
+   "deps": [
+    "add",
+    "page"
+   ],
+   "expectedMsBeta": 6343,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 48967,
+   "l1": 49104,
+   "kind": "block",
+   "ids": [
+    "docs.powerballLedger"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 31,
+   "expectedMsRoot": 44
+  },
+  {
+   "l0": 49117,
+   "l1": 49188,
+   "kind": "block",
+   "ids": [
+    "behavior.axisWorkLedger"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 42,
+   "expectedMsRoot": 44
+  },
+  {
+   "l0": 49203,
+   "l1": 49279,
+   "kind": "block",
+   "ids": [
+    "behavior.axisWorkReversible"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 4,
+   "expectedMsRoot": 4
+  },
+  {
+   "l0": 49305,
+   "l1": 49449,
+   "kind": "block",
+   "ids": [
+    "behavior.nsGridLedger"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 7,
+   "expectedMsRoot": 7
+  },
+  {
+   "l0": 49466,
+   "l1": 49576,
+   "kind": "block",
+   "ids": [
+    "docs.nsGridCriteria"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 37,
+   "expectedMsRoot": 41
+  },
+  {
+   "l0": 49590,
+   "l1": 49650,
+   "kind": "block",
+   "ids": [
+    "behavior.pairSlipSign"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 1,
+   "expectedMsRoot": 1
+  },
+  {
+   "l0": 49666,
+   "l1": 49754,
+   "kind": "block",
+   "ids": [
+    "behavior.nsModeExchange"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 135,
+   "expectedMsRoot": 146
+  },
+  {
+   "l0": 49776,
+   "l1": 49945,
+   "kind": "block",
+   "ids": [
+    "behavior.galaxyProtoLedger"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 1068,
+   "expectedMsRoot": 909
+  },
+  {
+   "l0": 49958,
+   "l1": 50032,
+   "kind": "block",
+   "ids": [
+    "docs.galaxyProtoCriteria"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "ROOT",
+    "add"
+   ],
+   "expectedMsBeta": 27,
+   "expectedMsRoot": 32
+  },
+  {
+   "l0": 50052,
+   "l1": 50179,
+   "kind": "block",
+   "ids": [
+    "docs.kf0Ledger"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 26,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 50196,
+   "l1": 50270,
+   "kind": "block",
+   "ids": [
+    "lint.kf0RunsCondition"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": true,
+   "deps": [
+    "ROOT",
+    "TARGET",
+    "add"
+   ],
+   "expectedMsBeta": 18,
+   "expectedMsRoot": 0
+  },
+  {
+   "l0": 50272,
+   "l1": 50272,
+   "kind": "other",
+   "ids": [
+    "page.no-errors"
+   ],
+   "prefixes": [],
+   "w5b": null,
+   "tier": "lint",
+   "htmlDependent": false,
+   "deps": [
+    "add",
+    "pageErrors"
+   ],
+   "expectedMsBeta": 1,
+   "expectedMsRoot": 0
+  }
+ ]
+}

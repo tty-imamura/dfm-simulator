@@ -55,8 +55,12 @@ export const MARK_KEYS = ['corrected', 'url_corrected', 'source_corrected', 'qua
   'sigma_raised', 'superseded_by'];
 /** 第273便e(AH18): revision の `kind` の語彙(欄が無い revision は `correction`)。
  *  第277便a: **転写便の追記** `intake` を足した —— 外部調査の照合結果を note に書き足しただけで、
- *  値・σ・単位・出典・印・record_id は 1 文字も動いていない変更である(訂正でも確認記録でもない)。 */
-export const KINDS = ['correction', 'confirmation', 'intake'];
+ *  値・σ・単位・出典・印・record_id は 1 文字も動いていない変更である(訂正でも確認記録でもない)。
+ *  第279便e(第69報の裁定 AM7′・AN1・AN2・AN3・AM8′): **判定行の差し替え** `source-replacement`
+ *  (旧判定行に `superseded_by=`・新判定行に宣言日 —— 値・σ・単位・出典・record_id は動かない)と、
+ *  **原仮定者の裁定を note・sigma 列へ写した変更** `ruling`(note に `ruling=<ID> <日付>` を残す)を足した。
+ *  どちらも転写者側の誤りの訂正ではないので `correction` と分ける。 */
+export const KINDS = ['correction', 'confirmation', 'intake', 'source-replacement', 'ruling'];
 const hasKey = (note, key) =>
   new RegExp('(?:^|[^A-Za-z0-9_])' + key + '=').test(String(note || ''));
 
