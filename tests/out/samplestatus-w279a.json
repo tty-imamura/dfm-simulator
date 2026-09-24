@@ -12,32 +12,32 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "f853eef9a8ea1d81e339329074e5ca220b9ba9ed22da83c4cc5925a8e13a35c8",
-  "generatedAt": "2026-09-23T23:56:19.138Z",
+  "targetSha256": "99d5ecbd6cf716e8005c7b37c715c42bad787e133c6536b1338fc94572d12b39",
+  "generatedAt": "2026-09-24T08:26:12.418Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 48147,
-    "sha256": "bc17fe423c4d2b529797f6e220775727c9252a863b24d70248d1061cb5f14cf7",
-    "mtime": "2026-09-23T20:24:37.441Z"
+    "bytes": 48819,
+    "sha256": "80c7ac243efaf9eaf5a66d5517f93f25a2dd5c41ff05cefc59be9be868f0883e",
+    "mtime": "2026-09-24T08:26:10.960Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
     "bytes": 2812256,
     "sha256": "1ace8de3591a9e993b5e59d23991424c8e402dea99a216a41a1bb3e65c7652a2",
-    "mtime": "2026-09-23T21:44:24.611Z"
+    "mtime": "2026-09-24T07:37:13.742Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
     "bytes": 89924,
     "sha256": "1d34097e8fa7954228a386afee79faac7fd90426f1da77ea41cfb0b7bf43eb59",
-    "mtime": "2026-09-23T23:55:46.392Z"
+    "mtime": "2026-09-24T07:37:13.750Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 44287,
-    "sha256": "b7fdd2edf5bf3bfaf149d56b35d75b5c2705b69d92b3f871c6ccf47eebe6ae15",
-    "mtime": "2026-09-23T23:56:19.124Z"
+    "bytes": 44807,
+    "sha256": "a620114cc01c80275e84cce73157895dcf4b3348b960befbeb9118938185dd85",
+    "mtime": "2026-09-24T08:26:12.390Z"
    }
   ],
   "code": [
@@ -45,32 +45,32 @@
     "file": "tests/exp-w279a-samplestatus.mjs",
     "bytes": 15287,
     "sha256": "4748dd7356dc847f31a76a845169cd91ebd1199c7fcf3961d47d9a874ccdbb43",
-    "mtime": "2026-09-23T20:24:37.442Z"
+    "mtime": "2026-09-24T07:37:14.378Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
     "bytes": 19451,
     "sha256": "09e47055bdeceb639a2b4770f085a9315ada2a6e81398c2c9343a3e3e388244f",
-    "mtime": "2026-09-23T20:24:37.442Z"
+    "mtime": "2026-09-24T07:37:16.042Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-09-24T07:37:15.102Z"
    }
   ],
   "codeSha256": "dd9d3d7276f5a2a355b7718a70baf4cde99977af80ef7aa66b65c60e4dea6181",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "c42d16ae83d2a79c4b659eb28ff09e936b36f3c2",
-   "date": "2026-09-23T15:49:42.856Z",
-   "pass": 845
+   "commit": "61707854674c4cbc6f8852cf3df60c34dff96109",
+   "date": "2026-09-24T00:16:33.950Z",
+   "pass": 857
   }
  },
  "tally": {
   "objective": {
-   "met": 77,
+   "met": 78,
    "partial": 51,
    "unmet": 5,
    "n/a": 0
@@ -81,7 +81,7 @@
    "fail": 2,
    "hold": 33,
    "hold-definition": 2,
-   "out-of-scope": 94
+   "out-of-scope": 95
   },
   "four": {
    "合": 0,
@@ -133,7 +133,7 @@
    {
     "group": "現実との照合・太陽系",
     "icon": "☀️",
-    "n": 21
+    "n": 22
    },
    {
     "group": "現実との照合・連星",
@@ -161,7 +161,7 @@
     "n": 0
    }
   ],
-  "n": 133,
+  "n": 134,
   "predictionEligible": 0
  },
  "rows": [
@@ -1871,22 +1871,23 @@
    "status": {
     "purpose": "月の周期と近点回転を kF1 で照合する",
     "objective": "partial",
-    "state": "照合の走行は台帳に記帳",
+    "state": "照合の走行は台帳に記帳・🧲 との差は重みと初速の両方",
     "calibration": "hold",
     "mismatch": "近点移動 +12.7%(σ なし)",
     "outlook": "σ 未接続",
     "evidence": [
      "tests/out/calaudit-w249.json",
-     "docs.calibration-verdict-sync"
+     "docs.calibration-verdict-sync",
+     "tests/out/emgrid-w280b.json"
     ],
     "en": {
      "purpose": "Compare the Moon's period and apsidal rotation with kF1",
-     "state": "the comparison runs are in the ledger",
+     "state": "the comparison runs are in the ledger; 🧲 gap: weight + speed",
      "mismatch": "apsidal advance +12.7% (no σ)",
      "outlook": "no σ connected",
-     "brief": "Compare the Moon's period and apsidal rotation with kF1. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +12.7% (no σ); no σ connected."
+     "brief": "Compare the Moon's period and apsidal rotation with kF1. Partial: the comparison runs are in the ledger; 🧲 gap: weight + speed. Calibration: hold — apsidal advance +12.7% (no σ); no σ connected."
     },
-    "brief": "月の周期と近点回転を kF1 で照合する。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +12.7%(σ なし)・σ 未接続。"
+    "brief": "月の周期と近点回転を kF1 で照合する。部分・照合の走行は台帳に記帳・🧲 との差は重みと初速の両方。較正は保留・近点移動 +12.7%(σ なし)・σ 未接続。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[1]",
@@ -1933,22 +1934,23 @@
    "status": {
     "purpose": "月の較正窓の一致が長期に続くかを調べる",
     "objective": "met",
-    "state": "長い窓で 20.77 年へずれることを検出",
+    "state": "長い窓で 20.77 年へずれることを検出・🌘 との差は重みと初速",
     "calibration": "hold",
     "mismatch": "近点移動 +23.1%(σ なし)",
     "outlook": "σ 未接続",
     "evidence": [
      "behavior.emAudit",
-     "tests/out/calaudit-w249.json"
+     "tests/out/calaudit-w249.json",
+     "tests/out/emgrid-w280b.json"
     ],
     "en": {
      "purpose": "Check whether the lunar calibration-window agreement lasts",
-     "state": "detects the drift to 20.77 yr over a long window",
+     "state": "detects a drift to 20.77 yr in a long window; 🌘 gap: weight+speed",
      "mismatch": "apsidal advance +23.1% (no σ)",
      "outlook": "no σ connected",
-     "brief": "Check whether the lunar calibration-window agreement lasts. Met: detects the drift to 20.77 yr over a long window. Calibration: hold — apsidal advance +23.1% (no σ); no σ connected."
+     "brief": "Check whether the lunar calibration-window agreement lasts. Met: detects a drift to 20.77 yr in a long window; 🌘 gap: weight+speed. Calibration: hold — apsidal advance +23.1% (no σ); no σ connected."
     },
-    "brief": "月の較正窓の一致が長期に続くかを調べる。達・長い窓で 20.77 年へずれることを検出。較正は保留・近点移動 +23.1%(σ なし)・σ 未接続。"
+    "brief": "月の較正窓の一致が長期に続くかを調べる。達・長い窓で 20.77 年へずれることを検出・🌘 との差は重みと初速。較正は保留・近点移動 +23.1%(σ なし)・σ 未接続。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[2]",
@@ -1993,6 +1995,34 @@
      "σ 未接続"
     ]
    }
+  },
+  {
+   "id": "earthMoonDiagOne",
+   "emoji": "🌓",
+   "name": "地球と月(表裏核の診断)— 同じ初期状態・経路だけ置換",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "🌘 の初期状態のまま引きずりを表裏核の座標変換へ置き換える診断",
+    "objective": "met",
+    "state": "近点移動 1.07×10⁻³ °/周・c² 抑制なしを記帳",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/emgrid-w280b.json",
+     "tests/out/spherekernel-w280b.json"
+    ],
+    "en": {
+     "purpose": "Diagnostic that swaps 🌘's dragging for the front-back kernel transport",
+     "state": "apsidal advance 1.07e-3 deg/orbit and no c² suppression are recorded",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Diagnostic that swaps 🌘's dragging for the front-back kernel transport. Met: apsidal advance 1.07e-3 deg/orbit and no c² suppression are recorded. Out of calibration scope."
+    },
+    "brief": "🌘 の初期状態のまま引きずりを表裏核の座標変換へ置き換える診断。達・近点移動 1.07×10⁻³ °/周・c² 抑制なしを記帳。較正対象外。"
+   },
+   "ledgerSource": null
   },
   {
    "id": "qLockRadialAudit",

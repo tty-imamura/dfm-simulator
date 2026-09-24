@@ -2528,5 +2528,41 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   `uQuantity:"velocity"` と `timeDerivativeComplete:true` の無い場は拒否)・`dfmMeshVelocityFieldAt(S,i)`(診断)。
 - **既知の性質(実測・docs/PHYSICS.md〔第279便c〕)**: mutual:0 で外部の点源 1 つは相対軌道に何も与えない(u が一様)。
   **mutual:1 は 2 体の相対運動を壊す**(2 体だけなら ẋ_P−ẋ_C=0 が恒等的)。サンプルの 1PN は慣性速度 v を読む(速度に依る「空間に対する加速」)。
-- **内蔵の宣言**: **0 本**。
+- **内蔵の宣言**: **0 本**(第279便c)→ 第280便b で**診断コピー 🌓 `earthMoonDiagOne`(`sampleClass:"principle"`)の 1 本**だけ(§13)。
 - QA: **`preset.meshVelocity`**・**`docs.bgCompose`**・**`docs.bgbudget2-sync`**・**`docs.d0sites-sync`** ⑤(背景鍵の読み口は宣言した外部ステップの準備だけ)。
+
+## 13. 第280便b の宣言鍵(原仮定者の裁定〔第70報〕・統括の読み R69/R70・**SYSTEM_PROMPT には載せない**)
+
+本便が開けたのは **`physics.qLock`(引きずり核の宣言)** と **天体の密度宣言 `bodies[].densityClass`(+ `densityProfile`・`rotationProfile`)** である。
+**どれも `SYSTEM_PROMPT` の逐語ブロックには載せていない**(AI 生成には開放していない —— §5 の逐語ブロックは 1 バイトも変わっていない)。
+**未宣言は正準形に出ない**ので、宣言していない本の `presetSig`・エクスポート JSON・600 步の状態は 1 bit も変わらない。
+**トップレベルの `qLock:true`(q の自動算出 —— 第123便・第172便の q_exact)とは別の鍵**で、そちらは 1 文字も変えていない。
+
+### 13.1 `physics.qLock` —— 引きずり核(表裏核)
+
+- **正準形**: `{kernel:"frontBack", epsC:<0 以上の有限数>, nodes:8|16|32|64}`(`nodes` は省略時 16・知らない鍵は拒否)。
+  - `kernel:"frontBack"` … **球体の表裏を積分した複素モーメント** W_b(x)=∫ρ(ξ)/(|x−X−ξ|²+ε_c²)d³ξ・A_spin(x)=∫ρ(ξ)(Ω×ξ)/(…)d³ξ
+    (並進 V_bW_b は別に足す)を、`physics.meshVelocity` の外部の場(`field:"explicit"` の `external`)と局所の場(`mutual:1`)の源に使う
+    (密度を宣言した源だけ —— 残りは従来の点源)。**構成則の候補(統括が設定した検証仮説)であって、現行 DFM から導出した法則ではない**。
+    **q は使わない**(核に指数は無い)・**c² の抑制は入っていない**(弱場振幅は導出できていない —— docs/PHYSICS.md〔第280便b〕)。
+  - `epsC` … 複素場の正則化 ε_c(**重力の ε とは別に宣言する**)。`epsC:0` のとき、球の内部・表面の点は拒否(場が作れない点は `S.meshVelBad` に数える)。
+  - `nodes` … 半径の求積の区間あたりの点数。
+- **拒否**: `meshVelocity` の未宣言・`meshVelocity.field:"backgroundComplex"`(背景の値には核を掛けない)・`external` に `densityClass` の無い天体
+  (と、`meshVelocity` 側の拒否 —— kFrame>0・geoPN=3・spaceMesh・calibration・single 以外)。
+- **純関数(HP 公開)**: `dfmSphereProfile(decl,nodes)`・`dfmSphereKernelRadial(profile,r/R,ε_c/R)`(無次元の W・dW/dr・A_φ・dA_φ/dr)・
+  `dfmSphereKernelMomentsOf(list,px,py)`(`dfmComplexMomentsOf` と同じ形 —— 並進を含む)・`dfmSphereKernelQEff(profile,r,ε,W_bg)`(局所の角速度の傾き)・
+  `dfmLaneEmden(n)`・`dfmGaussLegendre01(n)`・`dfmAddMoments(a,b)`・`meshVelocityMomentsOf(S,list,px,py,e2)`・`validateQLockKernel`・`validateSphereBody`・
+  `qLockKernelCrossCheck`・`sphereDeclOf`・`SPHERE_KERNEL_VERSION`(`"w280b-frontBack-1"`)。
+- QA: **`preset.qlockKernel`**・**`docs.sphereKernel`**・**`docs.emgrid-sync`**。
+
+### 13.2 `bodies[].densityClass` —— 密度の物理入力(single 専用)
+
+- **正準形**: `densityClass:"solid"|"gas"|"star"|"compact"`・`densityProfile:{…クラスの入力…}`・`rotationProfile:{law:"rigid"}|{law:"shellular", centerRatio:(0,10]}`。
+  - **同じ積分則に ρ(r) と Ω(r) の物理入力を与える**だけで、**クラスごとの経験 q は配らない**。
+  - `solid` … 2 層 `{coreFrac:0.01〜0.99, coreRatio:0.01〜100}`(核の半径比・核/マントルの密度比)/ `gas` … ρ∝(1−s²)^β `{beta:0〜20}` /
+    `star` … Lane–Emden のポリトロープ `{polyN:0〜4.5}` / `compact` … 一様(入力なし)。
+  - 省略した入力は既定(solid 0.546・2.44 / gas β=1 / star n=3)で埋まる —— **形の例示であって出典を確定した値ではない**(出典は決断事項)。
+  - `shellular` … Ω(s)=Ω_表(c+(1−c)s²)(c=`centerRatio` —— 中心/表面の比)。
+- 読むのは `physics.qLock.kernel` を宣言した宇宙の `meshVelocityPrepare` だけ(未宣言の宇宙では build が `S.sphereDecl=null` にして 1 度も読まない)。
+- **内蔵の宣言**: **1 本**(🌓 `earthMoonDiagOne` —— 🌘 と同じ初期状態の診断コピー・`sampleClass:"principle"`・較正母集団に入れない)。
+- QA: **`preset.qlockKernel`**。
