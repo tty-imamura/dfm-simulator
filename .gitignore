@@ -655,6 +655,11 @@ _scratch-*.log
 # 第279便b: QA の確認順・並列化(W5b)・失敗注入・preflight の実測の正本(tests/exp-w279b-qaorder.mjs --record)。
 #   QA `lint.provenanceMeta` の CANON に入っている
 !tests/out/qaorder-w279b.json
+# 第280便c(原仮定者の裁定〔第70報〕「近点移動の差分を精査する — geoPN=3 として進める」・統括の読み R65): **geoPN=3 の契約の検算**の正本
+#   (tests/exp-w280c-geo3.mjs —— 正式の判定器 calaudit のページ側ヘルパをソースから取り出した同じ抽出器・同じ窓で、☄️ の一様な u=V の零試験・
+#   ❄️ の太陽の背景・velocityMeaning の往復・二重計上の拒否・保存の往復・診断コピー 2 本の再現性・NaN 受理の修正を測る)。
+#   QA `docs.geo3-sync` が docs/PHYSICS.md〔第280便c〕と突き合わせ、`lint.provenanceMeta` が来歴を固定するのでコミットする。**較正ではない。**
+!tests/out/geo3-w280c.json
 # 第279便b: 前回 FAIL の先行再実行・preflight が一時的に書く切り出し版(終われば消す — 途中終了の残りを拾わない)
 tests/.qa-replay-*.mjs
 tests/.qa-preflight-*.mjs

@@ -12,14 +12,14 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "7295015e59b89254afffcd0c6bd1174e8839bd224ba7c4dbedb577e8bc306309",
-  "generatedAt": "2026-09-24T08:53:01.114Z",
+  "targetSha256": "72ec45e5a1776250de1575c4aead8c33c2420d5a71a90cb10dd6cbd0b44209de",
+  "generatedAt": "2026-09-24T09:38:11.897Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 50819,
-    "sha256": "acab34275bb7e6fcd483aefe36bfcfb45509b1e99b4984aad08e61116ad7378c",
-    "mtime": "2026-09-24T08:51:12.596Z"
+    "bytes": 51756,
+    "sha256": "4aa61f074ec423a755e8a54b9e80be8107cbd3e870db1f09dae81f1a63573533",
+    "mtime": "2026-09-24T09:36:39.941Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
@@ -35,9 +35,9 @@
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 46486,
-    "sha256": "bf89760def6e3d91fba71ea4dddc6cfa68ce5f3804319101e712f73d58180620",
-    "mtime": "2026-09-24T08:53:01.086Z"
+    "bytes": 47232,
+    "sha256": "f2c8bbd9dc3803ac45a962b8a4d7920ff395d7b65bb2acbfa1290326dcbba66b",
+    "mtime": "2026-09-24T09:38:11.870Z"
    }
   ],
   "code": [
@@ -70,8 +70,8 @@
  },
  "tally": {
   "objective": {
-   "met": 80,
-   "partial": 53,
+   "met": 81,
+   "partial": 54,
    "unmet": 5,
    "n/a": 0
   },
@@ -81,7 +81,7 @@
    "fail": 2,
    "hold": 33,
    "hold-definition": 2,
-   "out-of-scope": 99
+   "out-of-scope": 101
   },
   "four": {
    "合": 0,
@@ -133,7 +133,7 @@
    {
     "group": "現実との照合・太陽系",
     "icon": "☀️",
-    "n": 26
+    "n": 28
    },
    {
     "group": "現実との照合・連星",
@@ -161,7 +161,7 @@
     "n": 0
    }
   ],
-  "n": 138,
+  "n": 140,
   "predictionEligible": 0
  },
  "rows": [
@@ -2142,6 +2142,33 @@
    }
   },
   {
+   "id": "mercuryGeoToy3",
+   "emoji": "🔁",
+   "name": "水星 — geoPN=3 契約の零試験(一様な座標変換・較正ではない)",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "一様な座標変換で近点移動が変わらないかを geoPN=3 契約で確かめる",
+    "objective": "met",
+    "state": "u=V の近点移動は ☄️ と刻みの幅の 10⁻⁴ 未満で一致",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/geo3-w280c.json"
+    ],
+    "en": {
+     "purpose": "Check with the geoPN=3 contract that a uniform coordinate change leaves the periapsis advance unchanged",
+     "state": "with u=V the advance matches ☄️ to below 1e-4 of the step width",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Check with the geoPN=3 contract that a uniform coordinate change leaves the periapsis advance unchanged. Met: with u=V the advance matches ☄️ to below 1e-4 of the step width. Out of calibration scope."
+    },
+    "brief": "一様な座標変換で近点移動が変わらないかを geoPN=3 契約で確かめる。達・u=V の近点移動は ☄️ と刻みの幅の 10⁻⁴ 未満で一致。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
    "id": "mercuryRealKF1",
    "emoji": "🪨",
    "name": "水星(実単位・kFrame=1)— 共通補正(43.0″/世紀は RL 勾配・600 公転・λ_PN 差引き)",
@@ -2470,6 +2497,33 @@
      "brief": "Test the zero-slip condition on an exact synchronous circle. Partial: first step exactly zero; rounding-level heat while running. Out of calibration scope."
     },
     "brief": "厳密同期円で相対すべり則の零条件を走行中も試す。部分・初期 1 歩は厳密に 0・走行中は丸め級の熱が残る。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "charonGeoToy3",
+   "emoji": "🌒",
+   "name": "冥王星とカロン — geoPN=3 契約の診断コピー(太陽の背景・mutual:0・較正ではない)",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる",
+    "objective": "partial",
+    "state": "1PN が読む速度で差が分かれる(ẋ は kF0 と 10⁻⁵ s 未満・v は +5.6×10⁻⁴ s)",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/geo3-w280c.json"
+    ],
+    "en": {
+     "purpose": "Compare the geoPN=3 period with a solar background against kF0",
+     "state": "it depends on the velocity 1PN reads (xdot within 1e-5 s; v +5.6e-4 s)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare the geoPN=3 period with a solar background against kF0. Partial: it depends on the velocity 1PN reads (xdot within 1e-5 s; v +5.6e-4 s). Out of calibration scope."
+    },
+    "brief": "太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる。部分・1PN が読む速度で差が分かれる(ẋ は kF0 と 10⁻⁵ s 未満・v は +5.6×10⁻⁴ s)。較正対象外。"
    },
    "ledgerSource": null
   },

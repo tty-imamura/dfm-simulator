@@ -1100,7 +1100,7 @@ ja: {
   tgCoreAxis:"コア軸の投影線を表示(宣言した粒子だけ)",
   tgCoreAxisDesc:"親子コア(コア V2)のうち **core.axisMode:\"prescribed\" を宣言した粒子**だけ、コア回転軸の 2D 投影線を描く(**既定は「宣言した粒子だけ ON」** —— トグル自体は ON だが、宣言の無い粒子には何も描かない。内蔵サンプルは 1 本も宣言していないので実質 OFF と同じ見え方になる。永続・表示専用)。3D 単位軸 e=(sinθcosφ, sinθsinφ, cosθ) を公転面へ正射影した (sinθcosφ, sinθsinφ) を線分にし、+J 側の端に丸を置く。傾き角 θ(core.tilt)が小さいほど線は短く(軸が画面手前を向く)、90° で最長になり、宣言した歳差角速度 core.precessionRate で方位 φ が回る。**3D 表示ではない** —— 面外成分 cosθ は線の長さにしか現れず、エンジンの力学が読むのは従来どおり z 射影 J_z だけである。宣言の無い粒子には何も描かないので、内蔵サンプルの画面は 1 ピクセルも変わらない。物理・セーブ・署名には一切効かない。",
   tgStepDiag:"ステップ診断を表示",
-  tgStepDiagDesc:"HUD の末尾に、1フレームあたりのステップ会計を1行だけ追記する開発者向けの表示(既定 OFF・共通設定・永続)。「step 要求→実行 (+繰越) ms/步 trim 打切り回数/窓 fps 実効×倍率(要求×倍率) 破棄 累計」の並びで、要求した歩数のうち何步が実際に走り・何步が次フレームへ繰り越され・何步が上限超過で破棄されたかがその場で読める。実効倍率は「実行歩数×dt ÷ 壁時計」を「時間倍率×1・60fps で全要求を実行できたときの進み」で割った値なので、括弧内の要求倍率と直接比べられる(実効 < 要求 なら、その差がそのまま繰越+破棄として現れている)。**第259便a 追記**: 座標変換慣性(physics.spaceMesh の inertia:coordinate)を宣言した宇宙では行末に「mesh:<停止理由> N=<対象数>」が、トイの測地線モード(geoPN=3)では「geoToy:<停止理由> N=<対象数>」が付く。**第262便a 追記**: geoPN=3 を選んでも入場条件(kFrame=0・空間メッシュの慣性/織り込みと排他)が立たないときは、値を 3 のまま保って「geoToy:denied」と出る(力学は geoPN=2 と同じで走る)。2 体だけの系は非頂点が 0 なので mesh:noTargets と出る(黙って素通りさせないための読み口)。**第265便b 追記**: 源の閉包(toyClosure:iterate)が収束しなかった步は geoToy:closureUnconverged と出る(その步はメッシュキックを当てず帳簿にも記帳しない —— 重力側の步と時刻は進む)。法則版 mesh-v2 を宣言した宇宙では meshV2:<ゲージ> λmin=… cond=… が付き、共通並進が零固有値になる配置では「構造的特異」と出る。表示のみ・物理は一切変わらない。",
+  tgStepDiagDesc:"HUD の末尾に、1フレームあたりのステップ会計を1行だけ追記する開発者向けの表示(既定 OFF・共通設定・永続)。「step 要求→実行 (+繰越) ms/步 trim 打切り回数/窓 fps 実効×倍率(要求×倍率) 破棄 累計」の並びで、要求した歩数のうち何步が実際に走り・何步が次フレームへ繰り越され・何步が上限超過で破棄されたかがその場で読める。実効倍率は「実行歩数×dt ÷ 壁時計」を「時間倍率×1・60fps で全要求を実行できたときの進み」で割った値なので、括弧内の要求倍率と直接比べられる(実効 < 要求 なら、その差がそのまま繰越+破棄として現れている)。**第259便a 追記**: 座標変換慣性(physics.spaceMesh の inertia:coordinate)を宣言した宇宙では行末に「mesh:<停止理由> N=<対象数>」が、トイの測地線モード(geoPN=3)では「geoToy:<停止理由> N=<対象数>」が付く。**第262便a 追記**: geoPN=3 を選んでも入場条件(kFrame=0・空間メッシュの慣性/織り込みと排他)が立たないときは、値を 3 のまま保って「geoToy:denied」と出る(力学は geoPN=2 と同じで走る)。2 体だけの系は非頂点が 0 なので mesh:noTargets と出る(黙って素通りさせないための読み口)。**第265便b 追記**: 源の閉包(toyClosure:iterate)が収束しなかった步は geoToy:closureUnconverged と出る(その步はメッシュキックを当てず帳簿にも記帳しない —— 重力側の步と時刻は進む)。法則版 mesh-v2 を宣言した宇宙では meshV2:<ゲージ> λmin=… cond=… が付き、共通並進が零固有値になる配置では「構造的特異」と出る。**第280便c 追記**: geoPN=3 の速度分解の契約(spaceMesh.lawVersion:vMinusU)を宣言した宇宙では geoToy: の代わりに「geoPN=3 / vMinusU / pn:<off|reference-1PN(読む速度)> v0:<初期速度の意味> N=<步数> |u|max=…」が付き、入場条件が立たないときは「未作動:<理由>」と出る。表示のみ・物理は一切変わらない。",
   benchLabel:"物理ベンチ(200步)",
   benchDesc:"いまの状態の複製に対して、描画も HUD も通さずに 200 步だけ回し、1步あたりの所要時間を測る開発者向けの機能(共通設定)。複製で走らせるので本編の座標時間・粒子は 1 ビットも変わらない。表示される ms/步 が 16ms 近い、あるいはそれを超えるなら「重いのは物理」で、逆に ms/步 が小さいのに fps が出ないなら「重いのは描画」— この 1 行で切り分けられる。併記の「予算内 n 步」は、1フレームの物理予算(12ms)にこの ms/步 なら何步入るかの目安。",
   benchRun:"測定",
@@ -1246,6 +1246,7 @@ ja: {
      積分器へ接続していない(意図された未接続)ので、作動中の語としては 1 度も出せない */
   bdgMesh_law:(v)=>"空間メッシュ: "+v+"・実験",
   bdgMesh_v2:"空間メッシュ: v2・実験",
+  bdgMesh_geo3:(pn,pv,vm)=>"geoPN=3 / vMinusU / pn:"+pn+(pv? "("+pv+")" : "")+"・実験",   // 第280便c(速度分解の契約 —— トイではない)
   bdgMesh_declared:"空間メッシュ: 宣言のみ(測地線トイは未選択)",
   bdgMesh_stopped:(r)=>"メッシュ未作動: "+r,
   bdgMesh_dragOverlay:" +引きずり重畳(明示した実験 variant)",
@@ -1925,7 +1926,7 @@ en: {
   tgCoreAxis:"Show the core axis projection (declared bodies only)",
   tgCoreAxisDesc:"Draws the 2D projection of the core rotation axis, but ONLY for particles that declare core.axisMode:\"prescribed\" (the default is 'on for declared bodies only': the toggle itself is on, but nothing is drawn for bodies without the declaration, and no built-in sample declares it, so it looks the same as off; persisted, display only). The 3D unit axis e = (sin(theta)cos(phi), sin(theta)sin(phi), cos(theta)) is orthogonally projected onto the orbital plane, giving the segment (sin(theta)cos(phi), sin(theta)sin(phi)), with a dot at the +J end. The smaller the tilt angle theta (core.tilt), the shorter the line (the axis points towards the viewer); it is longest at 90 degrees, and the azimuth phi turns at the declared core.precessionRate. THIS IS NOT A 3D VIEW - the out-of-plane component cos(theta) shows up only in the length of the line, and the dynamics still read the z projection J_z alone. Nothing is drawn for particles without the declaration, so the built-in samples look pixel-identical. Physics, saves and signatures are untouched.",
   tgStepDiag:"Show step diagnostics",
-  tgStepDiagDesc:"Appends one developer-facing line to the HUD with the per-frame step accounting (default OFF, General, persisted). It reads \"step requested→executed (+carried) ms/step trim trims/window fps eff ×rate (req ×rate) cancelled total\", so you can see at a glance how many of the requested steps actually ran, how many were carried over to the next frame, and how many were cancelled at the backlog cap. The effective rate is (executed steps × dt) / wall-clock seconds, divided by the advance you would get at time-scale ×1 and 60 fps — so it is directly comparable with the requested rate in parentheses (whenever effective < requested, the gap is exactly what shows up as carried + cancelled). WAVE 259a ADDS: when a sample declares the coordinate inertia (physics.spaceMesh with inertia set to coordinate) the line ends with mesh:<stop reason> N=<targets>, and with the toy geodesic mode (geoPN=3) it ends with geoToy:<stop reason> N=<targets>. WAVE 262a ADDS: when geoPN=3 is selected but the entry conditions do not hold (kFrame=0, exclusive with the space-mesh inertia/weave), the value stays 3 and the line reads geoToy:denied (the dynamics run exactly as geoPN=2). A two-body system has no non-vertex particles, so it reads mesh:noTargets - a read-out so that nothing passes through silently. WAVE 265b ADDS: a step whose source closure (toyClosure iterate) did not converge reads geoToy:closureUnconverged (no mesh kick is applied and nothing is booked to the ledger on that step, while gravity and the clock still advance), and a universe declaring the mesh-v2 law appends meshV2:<gauge> lambda_min=... cond=..., with a note when the common translation is a structural zero mode. Display only; the physics never changes.",
+  tgStepDiagDesc:"Appends one developer-facing line to the HUD with the per-frame step accounting (default OFF, General, persisted). It reads \"step requested→executed (+carried) ms/step trim trims/window fps eff ×rate (req ×rate) cancelled total\", so you can see at a glance how many of the requested steps actually ran, how many were carried over to the next frame, and how many were cancelled at the backlog cap. The effective rate is (executed steps × dt) / wall-clock seconds, divided by the advance you would get at time-scale ×1 and 60 fps — so it is directly comparable with the requested rate in parentheses (whenever effective < requested, the gap is exactly what shows up as carried + cancelled). WAVE 259a ADDS: when a sample declares the coordinate inertia (physics.spaceMesh with inertia set to coordinate) the line ends with mesh:<stop reason> N=<targets>, and with the toy geodesic mode (geoPN=3) it ends with geoToy:<stop reason> N=<targets>. WAVE 262a ADDS: when geoPN=3 is selected but the entry conditions do not hold (kFrame=0, exclusive with the space-mesh inertia/weave), the value stays 3 and the line reads geoToy:denied (the dynamics run exactly as geoPN=2). A two-body system has no non-vertex particles, so it reads mesh:noTargets - a read-out so that nothing passes through silently. WAVE 265b ADDS: a step whose source closure (toyClosure iterate) did not converge reads geoToy:closureUnconverged (no mesh kick is applied and nothing is booked to the ledger on that step, while gravity and the clock still advance), and a universe declaring the mesh-v2 law appends meshV2:<gauge> lambda_min=... cond=..., with a note when the common translation is a structural zero mode. WAVE 280c ADDS: a universe declaring the geoPN=3 velocity-decomposition contract (spaceMesh lawVersion vMinusU) shows, in place of geoToy:, 'geoPN=3 / vMinusU / pn:<off|reference-1PN(velocity read)> v0:<meaning of the initial velocity> N=<steps> |u|max=...', and 'not acting:<reason>' when its entry conditions do not hold. Display only; the physics never changes.",
   benchLabel:"Physics bench (200 steps)",
   benchDesc:"Runs 200 steps on a copy of the current state with no rendering and no HUD, and reports the time per step (General, developer-facing). It runs on a copy, so the live coordinate time and bodies are not touched by a single bit. If the reported ms/step is near or above 16 ms, the cost is in the physics; if ms/step is small yet the frame rate is poor, the cost is in the rendering — this one line separates the two. The \"n steps per budget\" figure says how many steps fit into one frame's physics budget (12 ms) at this cost.",
   benchRun:"Measure",
@@ -2061,6 +2062,7 @@ en: {
      wired into the integrator (an intended non-connection), so it can never be printed as acting */
   bdgMesh_law:(v)=>"Space mesh: " + v + " - experimental",
   bdgMesh_v2:"Space mesh: v2 - experimental",
+  bdgMesh_geo3:(pn,pv,vm)=>"geoPN=3 / vMinusU / pn:"+pn+(pv? "("+pv+")" : "")+" - experimental",   // wave 280c
   bdgMesh_declared:"Space mesh: declared only (the geodesic toy is not selected)",
   bdgMesh_stopped:(r)=>"Mesh not acting: " + r,
   bdgMesh_dragOverlay:" + dragging overlaid (an explicitly declared experiment variant)",
@@ -2695,7 +2697,7 @@ en: {
     cHeat:"Heat-capacity coefficient, active only in the internal-temperature mode (samples with thermal:\"tint\"). A particle's heat energy is E=C·m·T_int, so a dissipated ΔE raises it by ΔT_int=ΔE/(C·m) (A9′/E9). Larger C means the same dissipation heats less. It does nothing in the default spin-as-heat mode (thermal omitted).",
     gravityX:"Uniform external gravity acting horizontally across the whole scene (v1.17). It does not contribute to determinacy W, so it builds a 'ground lab' without distorting clocks, light or dragging. Momentum exchange is ledgered.",
     gravityY:"Uniform external gravity acting vertically (+y is down on screen). The 'downward gravity' of ⚾ free fall, ♨️ convection and 🧪 buoyancy. Beaker-tag samples (♨️🧪) default to 0.031 (≈9.8 m/s² converted — wave 98: the beaker tag inherited the old everyday calibration); the everyday tag (⚾) uses the real value 9.8 (9.8 m/s² as-is). Set 0 for weightlessness.",
-    geoPN:"The v2.0 geodesic mode (E12). At 1, matter's motion is derived by an action principle from the same ψ=W·κ that slows clocks, enabling the 1PN correction (☿); E6′ dragging on matter is disabled (no double counting). At 2, the unified v−u geodesic law (stage 2): frame transport, vorticity Coriolis (the true face of dragging) and 1PN all follow from one equation derived with u≠0 — exactly equal to 1 when kFrame=0. 0 = legacy. AT 3, A SEPARATE TOY PATH (wave 259a, the complex determinacy field) that is EXCLUSIVE with E6-prime, 1PN and the coordinate inertia — no double application. Declaring 3 in a sample JSON requires physics.spaceMesh.lawVersion (scalar/local/complex); a JSON without that declaration is still rounded down to 2 on load, and it is rejected outright for the reality-calibration class (sampleClass:calibration). WAVE 262a: A VALUE OF 3 SET FROM THIS ROW (the UI) IS NO LONGER REWRITTEN TO 2 - samples that declare no lawVersion use the runtime default scalar, and when the entry conditions cannot hold (kFrame>0, or the space-mesh inertia/weave is on) the value stays 3, one warning line is shown, and the dynamics run exactly as geoPN=2 (geoToy:denied in the step accounting). WAVE 263a: MIND THE SAVE ASYMMETRY - setting 3 from this row is still rounded down to 2 on load unless the saved JSON declares physics.spaceMesh.lawVersion (THE RUNNING VALUE AND THE SAVEABLE DECLARATION ARE DIFFERENT THINGS). And a sample that declares physics.spaceMesh.toyAllowDrag:true keeps the toy running with kFrame>0, SO THE E6-PRIME FOLLOWING KICK AND THE TOY ACT IN THE SAME STEP (a diagnostic configuration that may double-count; the HUD shows overlay:drag; rejected for sampleClass:calibration).",
+    geoPN:"The v2.0 geodesic mode (E12). At 1, matter's motion is derived by an action principle from the same ψ=W·κ that slows clocks, enabling the 1PN correction (☿); E6′ dragging on matter is disabled (no double counting). At 2, the unified v−u geodesic law (stage 2): frame transport, vorticity Coriolis (the true face of dragging) and 1PN all follow from one equation derived with u≠0 — exactly equal to 1 when kFrame=0. 0 = legacy. AT 3, A SEPARATE TOY PATH (wave 259a, the complex determinacy field) that is EXCLUSIVE with E6-prime, 1PN and the coordinate inertia — no double application. Declaring 3 in a sample JSON requires physics.spaceMesh.lawVersion (scalar/local/complex); a JSON without that declaration is still rounded down to 2 on load, and it is rejected outright for the reality-calibration class (sampleClass:calibration). WAVE 262a: A VALUE OF 3 SET FROM THIS ROW (the UI) IS NO LONGER REWRITTEN TO 2 - samples that declare no lawVersion use the runtime default scalar, and when the entry conditions cannot hold (kFrame>0, or the space-mesh inertia/weave is on) the value stays 3, one warning line is shown, and the dynamics run exactly as geoPN=2 (geoToy:denied in the step accounting). WAVE 263a: MIND THE SAVE ASYMMETRY - setting 3 from this row is still rounded down to 2 on load unless the saved JSON declares physics.spaceMesh.lawVersion (THE RUNNING VALUE AND THE SAVEABLE DECLARATION ARE DIFFERENT THINGS). And a sample that declares physics.spaceMesh.toyAllowDrag:true keeps the toy running with kFrame>0, SO THE E6-PRIME FOLLOWING KICK AND THE TOY ACT IN THE SAME STEP (a diagnostic configuration that may double-count; the HUD shows overlay:drag; rejected for sampleClass:calibration). WAVE 280c: a 3 that declares physics.spaceMesh.lawVersion vMinusU IS NOT THE TOY but the velocity-decomposition contract (xdot=v+u, vdot=a_space-J^T v - the transport path physics.meshVelocity, the 1PN switch pn, the velocity read by 1PN pnVelocity and the meaning of the initial velocity velocityMeaning are declared separately; kFrame=0 only).",
     lambdaPN:"Strength of the 1PN correction in geodesic mode (geoPN≥1 — also gates the a₁ₚₙ(w) term of geoPN=2), continuous on 0–1 (integer restriction removed in wave 110). The 1PN acceleration scales as λ_PN/c₀², so the 1PN strength can be calibrated with c₀ held fixed. At 0 you recover Newtonian gravity and the ellipse closes — the A/B control for ☿ Mercury.",
     pnAlpha:"Breakdown of the 1PN correction (E12). 1.5 = full (GR's β=γ=1 — the full 42.98″/century of Mercury), 0.5 = time-rate only (advance drops to 1/3). Machine-verified in V18–V20.",
     radiusScale:"Global scale of the particle radius R=radiusScale·rMul·√m (default 1). Affects contact size and the moment of inertia I=½mR² (the I in temperature T=Is²). Per-body variation lives in the body key rMul; this knob scales every particle relatively. A discretization setting, not a law of physics.",
@@ -3307,6 +3309,17 @@ function meshChipState(p,S){
   const runGeo3=!!(S && S.params && S.params.geoPN>=3);
   if(!sm && !declaredGeo3 && !runGeo3) return null;
   const law=sm? (sm.lawVersion||null) : null;
+  // 第280便c(R65): **geoPN=3・vMinusU は速度分解の契約**(トイではない)。作動は `S.hasGeo3`(外部ステップへ
+  // dispatch できた)で読み、宣言の法則名・pn・初期速度の意味をそのまま出す。未作動なら理由(S.meshVelDeny 等)
+  if(law===GEO3_LAW){
+    const on=!!(S && S.hasGeo3===true);
+    const g3={law, pn:(sm.pn||GEO3_PN[0]), pnVelocity:(sm.pnVelocity||null), velocityMeaning:(sm.velocityMeaning||null),
+      meshV2:false, overlay:false, unconverged:false, source};
+    if(on) return Object.assign({key:"geo3", acting:true, entered:true}, g3);
+    if(declaredGeo3 || runGeo3)
+      return Object.assign({key:"stopped", reason:(S && (S.meshVelDeny || S.geoToyDeny)) || "denied", acting:false, entered:false}, g3);
+    return Object.assign({key:"declared", acting:false, entered:false}, g3);
+  }
   const meshV2=!!(sm && sm.law==="mesh-v2");
   const overlay=!!(S && S.geoToyOverlay==="drag");
   // 走っているか: hasGeoToy は「geoPN>=3 かつ入場条件が立っている」(第262便a)。
@@ -3332,7 +3345,8 @@ function meshChipState(p,S){
 function meshChipLabel(st){
   if(!st) return null;
   let s;
-  if(st.key==="v2") s=T("bdgMesh_v2");
+  if(st.key==="geo3") s=T("bdgMesh_geo3")(st.pn, st.pnVelocity, st.velocityMeaning);   // 第280便c
+  else if(st.key==="v2") s=T("bdgMesh_v2");
   else if(st.key==="law") s=T("bdgMesh_law")(st.law);
   else if(st.key==="declared") s=T("bdgMesh_declared");
   else {
@@ -3342,6 +3356,22 @@ function meshChipLabel(st){
     s=T("bdgMesh_stopped")((k in I18N.ja)? T(k) : st.reason);
   }
   if(st.overlay) s+=T("bdgMesh_dragOverlay");
+  return s;
+}
+// 第280便c(R65): **geoPN=3・vMinusU の作動表示**(ステップ診断の HUD 1 行)。宣言(法則名・pn・pnVelocity・
+// 初期速度の意味)と作動(外部ステップの步数・最大の移送速さ・1PN の步数)を分けて出す。未作動なら理由を出す
+// (**黙って別の経路で走らせない**)。vMinusU を宣言していない宇宙では null(トイの行は従来どおり)
+function geo3HudText(S){
+  if(!S || !S.params || !(S.params.geoPN>=3)) return null;
+  const sm=S.params[SPACE_MESH_KEY];
+  if(!(sm && typeof sm==="object" && sm.lawVersion===GEO3_LAW)) return null;
+  let s="geoPN=3 / vMinusU / pn:"+(sm.pn||GEO3_PN[0])+(sm.pnVelocity? "("+sm.pnVelocity+")" : "")
+    +" v0:"+(sm.velocityMeaning||"—");
+  if(S.hasGeo3!==true) return s+" 未作動:"+(S.meshVelDeny||S.geoToyDeny||"denied");
+  s+=" N="+(S.meshVelN||0)+" |u|max="+Number(S.meshVelUMax||0).toExponential(2);
+  if(S.hasGeo3PN) s+=" pnN="+(S.geo3PnN||0);
+  if(S.meshVelBad) s+=" bad="+S.meshVelBad;
+  if(S.meshVelUndef) s+=" undef="+S.meshVelUndef;
   return s;
 }
 // 第273便d(統括の検証項目 R17): **チップだけを実行中に追従させる**。
@@ -3631,6 +3661,25 @@ const SPACE_MESH_LIGHT = ["background","mesh"];
 //                   ∇u = χ∇u_n + (1−χ)∇u_bg + (u_n−u_bg)⊗∇χ / ∂ₜu = χ∂ₜu_n + (1−χ)∂ₜu_bg + χ̇(u_n−u_bg)
 //                 (純関数 `HP.dfmMeshWeaveBlend` が正本)。geoPN<2 では停止理由 "geoPN" で素通りする。
 const SPACE_MESH_WEAVE = ["off","pair","pairFull","pairPN","pairPNFull"];
+// ===== 第280便c(原仮定者の裁定〔第70報〕「近点移動の差分を精査する — geoPN=3 として進める」・統括の読み R65) =====
+// **geoPN=3 の契約**: 複素決定力(座標変換)の研究系列を geoPN=3 にまとめる。**番号の切替を同条件比較にしない**ため、
+// 次の 5 つを**独立に宣言**する(どれも既定経路には 1 文字も入らない):
+//   ・法則名   `physics.spaceMesh.lawVersion:"vMinusU"`(第279便c の速度分解 ẋ=v+u・v̇=a_space−Jᵀv。
+//              トイの場の法則 scalar/local/complex〔DFM_FIELD_LAWS〕とは別の値で、`dfmGeoToyStep` は読まない)
+//   ・1PN の有無 `pn:"off"|"reference-1PN"`(既定 off)。reference-1PN は**比較用の外部理論項**(E12 の試験粒子形)で、
+//              重力側の専用ステップ `dfmGeo3PNKick` に 1 回だけ接続する —— **DFM から導出した項ではない**
+//   ・1PN が読む速度 `pnVelocity:"xdot"|"v"`(reference-1PN のとき**必須** —— 既定を置かない。両方を診断で並べる)
+//   ・輸送経路 `physics.meshVelocity{law:"vMinusU", field, mutual, frame, external?}`(第279便c の鍵そのもの)
+//   ・初期速度の意味 `velocityMeaning:"xdot"|"v"`(必須)。"xdot" は bodies の vx,vy を**観測の座標速度 ẋ** と読み、
+//              build で v=ẋ−u(0) へ変換して状態に持つ(位置から求める速度は v+u)。"v" はそのまま v と読む
+// **遠心力の扱い**: 独立の遠心斥力は足さない。ẋ=v+u(移送)と v̇=a_space−Jᵀv(正準項)を分けて計算し、
+// Ju・(J−Jᵀ)v の項は**消さない**(消すと別の運動方程式になる)。
+const GEO3_LAW = "vMinusU";
+const GEO3_PN = ["off","reference-1PN"];
+const GEO3_PN_VELOCITY = ["xdot","v"];
+const GEO3_VELOCITY_MEANING = ["xdot","v"];
+const GEO3_STEP_VERSION = "w280c-geo3-1";
+const GEO3_INIT_MAX_N = 64;   // velocityMeaning:"xdot" の連立(ẋ=v+u(v))を直接解く天体数の上限
 function validateSpaceMesh(a){
   const warn=[];
   if(a===null || a===undefined) return {ok:true, spaceMesh:null, warn};
@@ -3722,8 +3771,9 @@ function validateSpaceMesh(a){
   // (coordinate の η_eff=kFrame×η に対し、**トイは kFrame=0 専用**なので自前の強度を持つ)。
   let lawV=null, toyG=1;
   if(a.lawVersion!==undefined && a.lawVersion!==null){
-    if(DFM_FIELD_LAWS.indexOf(a.lawVersion)<0)
-      return {ok:false, err:'physics.spaceMesh.lawVersion は "scalar"/"local"/"complex"'};
+    // 第280便c: "vMinusU"(geoPN=3 の速度分解の法則)も受ける —— **トイの場の法則表 DFM_FIELD_LAWS には入れない**
+    if(DFM_FIELD_LAWS.indexOf(a.lawVersion)<0 && a.lawVersion!==GEO3_LAW)
+      return {ok:false, err:'physics.spaceMesh.lawVersion は "scalar"/"local"/"complex"/"vMinusU"'};
     lawV=a.lawVersion;
   }
   if(a.toyGain!==undefined && a.toyGain!==null){
@@ -3838,6 +3888,31 @@ function validateSpaceMesh(a){
       return {ok:false, err:"physics.spaceMesh.meshEnergyCapacity は 0 以上の数値(初期メッシュ貯蔵エネルギーの宣言値)"};
     capE=clamp(Number(a.meshEnergyCapacity),0,1e18);
   }
+  // 第280便c(R65): **geoPN=3 の契約鍵**(pn・pnVelocity・velocityMeaning)。`lawVersion:"vMinusU"` 専用で、
+  // トイの鍵・メッシュのチャネルとは排他(同じ步で 2 つの座標変換を当てない)。**未宣言は 1 文字も出さない**。
+  let g3pn=null, g3pv=null, g3vm=null;
+  // 宣言の有無(undefined/null は未宣言)。**関数を作らずに**読む(D₀ の読み口の機械監査〔docs.d0sites-sync〕の関数境界を増やさない)
+  const g3hPn=(a.pn!==undefined && a.pn!==null), g3hPv=(a.pnVelocity!==undefined && a.pnVelocity!==null),
+    g3hVm=(a.velocityMeaning!==undefined && a.velocityMeaning!==null), g3hTg=(a.toyGain!==undefined && a.toyGain!==null);
+  if(lawV===GEO3_LAW){
+    g3pn=g3hPn? a.pn : GEO3_PN[0];
+    if(GEO3_PN.indexOf(g3pn)<0) return {ok:false, err:'physics.spaceMesh.pn は "off"/"reference-1PN"(reference-1PN は比較用の外部理論項 —— DFM から導出した項ではない)'};
+    if(g3pn===GEO3_PN[1]){
+      if(GEO3_PN_VELOCITY.indexOf(a.pnVelocity)<0)
+        return {ok:false, err:'physics.spaceMesh.pn:"reference-1PN" は pnVelocity:"xdot"|"v" の宣言が要る(既定を置かない —— 1PN が座標速度 ẋ と慣性速度 v のどちらを読むかは導出できていない)'};
+      g3pv=a.pnVelocity;
+    } else if(g3hPv)
+      return {ok:false, err:'physics.spaceMesh.pnVelocity は pn:"reference-1PN" のときだけ(1PN を切った宣言に読む速度は無い)'};
+    if(GEO3_VELOCITY_MEANING.indexOf(a.velocityMeaning)<0)
+      return {ok:false, err:'physics.spaceMesh.lawVersion:"vMinusU" は velocityMeaning:"xdot"|"v" の宣言が要る(bodies の vx,vy が観測の座標速度 ẋ か慣性速度 v か)'};
+    g3vm=a.velocityMeaning;
+    if(grav===true || iner!==false || wv!==SPACE_MESH_WEAVE[0] || res)
+      return {ok:false, err:'physics.spaceMesh.lawVersion:"vMinusU" は gravity/inertia/weave/reservoir のチャネルと排他(座標変換を二重に当てない)'};
+    if(g3hTg || tAllowDrag || tClosure!==SPACE_MESH_TOY_CLOSURE[0] || mLaw!==MESH_V2_LAWS[0]
+      || dSup!==SPACE_MESH_DISK_SUPPORT[0] || capE!==null || a.D0!==undefined)
+      return {ok:false, err:'physics.spaceMesh.lawVersion:"vMinusU" はトイ専用の鍵(toyGain/toyAllowDrag/toyClosure/law/diskSupport/meshEnergyCapacity/D0)と排他'};
+  } else if(g3hPn || g3hPv || g3hVm)
+    return {ok:false, err:'physics.spaceMesh の pn/pnVelocity/velocityMeaning は lawVersion:"vMinusU"(geoPN=3 の速度分解)専用'};
   // 4 チャネル(gravity・inertia・weave・reservoir)がすべて OFF **かつ帳簿の宣言も無い** = 未宣言(1 bit 不変)
   // 第259便a: **lawVersion の宣言も 1 チャネル**である(宣言だけで力は動かないが、geoPN=3 の門になる)
   // 第263便a: `toyAllowDrag` も「宣言があれば正準形を残す」側に数える(単独では力を 1 バイトも
@@ -3871,6 +3946,8 @@ function validateSpaceMesh(a){
   }
   if(capE!==null) out.meshEnergyCapacity=capE;   // 第259便c(宣言したときだけ正準形に入る)
   if(lawV!==null){ out.lawVersion=lawV; if(toyG!==1) out.toyGain=toyG; }   // 第259便a(未宣言は 1 文字も出さない)
+  // 第280便c: vMinusU は **pn を既定 off でも明示**する(署名から「1PN なしで走った」が読めないと再現できない)
+  if(lawV===GEO3_LAW){ out.pn=g3pn; if(g3pv!==null) out.pnVelocity=g3pv; out.velocityMeaning=g3vm; }
   if(tAllowDrag) out.toyAllowDrag=true;   // 第263便a(既定 false は 1 文字も出さない = 内蔵 122 本は署名不変)
   // 第264便b(既定 "gravity" は 1 文字も出さない = 内蔵 122 本は署名不変。反復数は "iterate" のときだけ)
   if(tClosure!==SPACE_MESH_TOY_CLOSURE[0]){
@@ -4459,10 +4536,18 @@ function meshVelocityCrossCheck(mv, bgc, ph, bodies, sampleClass){
     return 'physics.meshVelocity は sampleClass:"calibration" では使えない(**検証仮説の構成則** —— 現実較正へ入れない)';
   if(ph.kFrame>0)
     return "physics.meshVelocity は kFrame=0 専用(E6′ の追従キック・geoPN=2 の v−u 輸送は kFrame>0 で立つ —— 座標変換を二重に当てない)";
-  if(ph.geoPN>=3) return "physics.meshVelocity は geoPN=3(トイの輸送)と排他";
-  if(ph[SPACE_MESH_KEY]) return "physics.meshVelocity は physics.spaceMesh(座標変換慣性・織り込み・メッシュ重力)と排他";
+  // 第280便c(R65): geoPN=3 で受けるのは **spaceMesh.lawVersion:"vMinusU" の輸送経路としてだけ**。
+  // トイ(scalar/local/complex)・メッシュのチャネル(座標変換慣性・織り込み・メッシュ重力)とは従来どおり排他
+  // (vMinusU の spaceMesh はそれらのチャネルを持てない —— validateSpaceMesh が拒否する)。
+  const smX=ph[SPACE_MESH_KEY], g3X=!!(smX && smX.lawVersion===GEO3_LAW);
+  if(ph.geoPN>=3){ if(!g3X) return "physics.meshVelocity は geoPN=3 のトイ(scalar/local/complex の輸送)と排他 —— geoPN=3 で使えるのは spaceMesh.lawVersion:\"vMinusU\" の輸送経路としてだけ"; }
+  else if(smX) return "physics.meshVelocity は physics.spaceMesh(座標変換慣性・織り込み・メッシュ重力)と排他";
   const nb=Array.isArray(bodies)? bodies.length : 0;
   if(nb<1) return "physics.meshVelocity は bodies が要る";
+  // 第280便c: velocityMeaning:"xdot" で u が天体の速度に依る輸送(explicit / mutual:1)は build で連立 ẋ=v+u(v) を
+  // 直接解く —— 解く天体数に上限を置く(黙って反復の近似に落とさない)
+  if(g3X && smX.velocityMeaning==="xdot" && (mv.field==="explicit" || mv.mutual===1) && nb>GEO3_INIT_MAX_N)
+    return "geoPN=3・vMinusU の velocityMeaning:\"xdot\" は explicit / mutual:1 の輸送で天体 "+GEO3_INIT_MAX_N+" 個まで(初期速度の連立を直接解く)";
   for(const b of bodies) if(!b || b.type!=="single")
     return 'physics.meshVelocity は type:"single" の天体だけの宇宙に限る(body:<n> と粒子を 1 対 1 に保つ)';
   const oi=bgBodyRefIndex(mv.frame.origin);
@@ -5342,7 +5427,7 @@ const PARAM_DEFS = [
   {key:"gravityY",label:"一様重力 g_y",      mode:"lin", lo:-10, hi:10, step:0.005, cat:"st", group:"法則の実験室",   /* 第79便: 同上。第94便: ⚾の g_y=9.8(実値化)がスライダー内に収まるよう CLAMPS と同じ±10へ拡大(第56便 kRep と同じ方針) */
    desc:"画面全体に働く縦方向の一様な外部重力場(+yは画面下向き)。⚾自由落下・♨️対流・🧪浮力の「下向きの重力」はこれ。ビーカータグ(♨️🧪)は 0.031(換算 ≈9.8 m/s² — 第98便: 旧日常較正を引き継ぎ)、日常タグ(⚾)は実値 9.8(そのまま 9.8 m/s²)を既定とする。0にすると無重力になる。"},
   {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:3, step:1,    cat:"dg", group:"法則の実験室",
-   desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W·κから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では 1 と厳密に同じ。0=従来(legacy)。**3=トイ(複素決定力場)**: 第259便a で足した**トイモデル専用**の別処理で、E6′・1PN・座標変換慣性のどれとも**排他**(重複適用を禁止する)。サンプル JSON で 3 を宣言するには physics.spaceMesh.lawVersion(scalar/local/complex)が要り、宣言の無い JSON は読み込み時に従来どおり 2 へ丸める。「現実較正」分類(sampleClass:calibration)の JSON では拒否する。**第262便a**: **この行(UI)で 3 にした値はもう 2 へ書き換えない** —— lawVersion の宣言が無いサンプルでは実行時の既定 scalar を使い、kFrame>0 や空間メッシュの慣性/織り込みと重なって入場条件が立たないときは、値を 3 のまま保ったうえで警告を 1 行出し、力学は geoPN=2 と同じで走る(ステップ会計の geoToy:denied)。**第263便a**: **保存の非対称**に注意 —— この行で 3 にしても、保存 JSON に physics.spaceMesh.lawVersion の宣言が無ければ読み込み時に 2 へ丸められる(**実行中の値と、保存できる宣言は別物である**)。また physics.spaceMesh.toyAllowDrag:true を宣言したサンプルだけは kFrame>0 のままトイが走り、**E6′ の追従キックと同じ步で重なる**(二重計上の可能性がある診断構成・HUD に overlay:drag と出る。sampleClass:calibration では拒否する)。"},
+   desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W·κから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では 1 と厳密に同じ。0=従来(legacy)。**3=トイ(複素決定力場)**: 第259便a で足した**トイモデル専用**の別処理で、E6′・1PN・座標変換慣性のどれとも**排他**(重複適用を禁止する)。サンプル JSON で 3 を宣言するには physics.spaceMesh.lawVersion(scalar/local/complex)が要り、宣言の無い JSON は読み込み時に従来どおり 2 へ丸める。「現実較正」分類(sampleClass:calibration)の JSON では拒否する。**第262便a**: **この行(UI)で 3 にした値はもう 2 へ書き換えない** —— lawVersion の宣言が無いサンプルでは実行時の既定 scalar を使い、kFrame>0 や空間メッシュの慣性/織り込みと重なって入場条件が立たないときは、値を 3 のまま保ったうえで警告を 1 行出し、力学は geoPN=2 と同じで走る(ステップ会計の geoToy:denied)。**第263便a**: **保存の非対称**に注意 —— この行で 3 にしても、保存 JSON に physics.spaceMesh.lawVersion の宣言が無ければ読み込み時に 2 へ丸められる(**実行中の値と、保存できる宣言は別物である**)。また physics.spaceMesh.toyAllowDrag:true を宣言したサンプルだけは kFrame>0 のままトイが走り、**E6′ の追従キックと同じ步で重なる**(二重計上の可能性がある診断構成・HUD に overlay:drag と出る。sampleClass:calibration では拒否する)。**第280便c**: physics.spaceMesh.lawVersion:\"vMinusU\" を宣言した 3 は**トイではなく速度分解の契約**(ẋ=v+u・v̇=a_space−Jᵀv —— 輸送経路 physics.meshVelocity・1PN の有無 pn・1PN が読む速度 pnVelocity・初期速度の意味 velocityMeaning を別々に宣言する。kFrame=0 専用)。"},
   {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, cat:"dg", group:"法則の実験室",
    desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。**第275便a(原仮定者の裁定〔第65報〕)**: サンプル JSON の既定は **0 か 1 の二値**である —— 分数の補正はそのサンプル限りで予測に使えないので、0<kFrame<1 を JSON に書くには `physics.kFrameApprox`(「space-mesh-effective」= 空間メッシュの影響の実効近似 /「sample-only」= そのサンプル限り)の宣言が要る。宣言が無い分数は読み込み時に**最寄りの 0/1 へ丸めて警告 1 行**(k<0.5→0・k≥0.5→1)。**現実較正クラス(sampleClass:calibration)では丸めず拒否**し、使える宣言は「space-mesh-effective」だけである。**このスライダー(UI)で動かした値は丸めない**(保存 JSON にしたときに初めて門が効く — 第263便a と同じ保存の非対称)。"},   // 第124便(原仮定者指示): geoPN の次へ移動
   {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:0.05, cat:"dg", group:"法則の実験室",
@@ -9814,6 +9899,75 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
+// ===== 第280便c(原仮定者の裁定〔第70報〕「近点移動の差分を精査する — geoPN=3 として進め、必要に応じてサンプルを追加する」・統括の読み R65) =====
+// **🔁 水星の geoPN=3 契約の零試験**(診断コピー・`sampleClass:"principle"`・較正母集団に入れない)。
+// ☄️ mercuryReal の physics と bodies を**ビット同一で複製**し、法則だけを geoPN=3・`spaceMesh.lawVersion:"vMinusU"`
+// (第279便c の速度分解 ẋ=v+u・v̇=a_space−Jᵀv)へ替え、**一様な u=V の背景**(点源 1 個の mutual:0 の場と同じ形 ——
+// A=W V・∇A=V⊗∇W・時間微分 0)を置いた。1PN は `pn:"reference-1PN"`(**比較用の外部理論項** —— DFM から導出した項ではない)・
+// `pnVelocity:"v"`。**純粋な座標の変更は近点を変えない**ことを、☄️ と同じ抽出器・同じ窓で確かめる本である
+// (器 tests/exp-w280c-geo3.mjs・正本 tests/out/geo3-w280c.json)。**☄️ 本体は 1 bit も動かない。**
+{ id:"mercuryGeoToy3", name:"水星 — geoPN=3 契約の零試験(一様な座標変換・較正ではない)", emoji:"🔁", group:"現実との照合・太陽系",
+  familyId:"mercury", familyRole:"variant",   // 仲間のメインは 🪨(primary)。本サンプルは法則の契約を確かめる診断の枝
+  scaleTier:"planetary",
+  scaleExp:{L:8, T:4, M:27},   // ☄️ と同じ単位系(1単位=10⁸m/10⁴s/10²⁷kg)
+  sampleClass:"principle",
+  fidelity:"toy",   // 幾何と質量は ☄️ の実値だが、**法則が検証仮説の構成則**なので現実較正(real)とは名乗らない
+  notClaim:["solar_cal"],
+  orbitObs:{center:0, orbiter:1, ghostAmp:1e5},
+  obsCard:[
+    {q:"何を替えたか(法則だけ)", model:"☄️ の physics・bodies をビット同一で複製し geoPN=3・vMinusU へ。一様な u=V=(2.3,0)=230 km/s(診断値)を置く", obs:"—(零試験 — 観測転写はしない)"},
+    {q:"(a) 近点移動 — u=V・pn:reference-1PN(v)", model:"2.2514654×10⁻⁵ °/周・☄️ との差 −2.81×10⁻¹²(59 近点・dt=0.016)", obs:"☄️ の正式値 2.2514657×10⁻⁵ °/周"},
+    {q:"(a) dt/2 で同じ比較", model:"差 −7.08×10⁻¹¹ °/周(☄️ 自身の dt/2 は 2.3873189×10⁻⁵)", obs:"—(刻みの幅と比べる)"},
+    {q:"pnVelocity:\"xdot\"(1PN が ẋ=v+u を読む)", model:"2.3561689×10⁻⁵ °/周・☄️ との差 +1.05×10⁻⁶ —— u=V が 1PN の入力に入る", obs:"—(事後採用しない — v と並べる)"},
+    {q:"(b) pn:off と 1PN なし対照", model:"geoPN=2・λ_PN=0 との差 −3.25×10⁻¹¹ °/周(dt)/ +5.92×10⁻¹¹(dt/2)", obs:"—"},
+    {q:"pinned の太陽", model:"慣性速度 v=0 を規定したまま、位置は ẋ=u で移送(正準項は受けない)", obs:"—(運ばないと相対軌道が u で壊れる)"},
+    {q:"言わないこと", model:"43″ を再現した/較正した/1PN を DFM から導出した、とは書かない", obs:"—"}],
+  descStruct:{
+    summary:"**☄️ mercuryReal の physics と bodies をビット同一で複製し、法則だけを geoPN=3 の速度分解(lawVersion:\"vMinusU\")へ替えた零試験**(第280便c・原仮定者の裁定〔第70報〕「近点移動の差分を精査する — geoPN=3 として進める」)。移送 ẋ=v+u と正準項 v̇=a_space−Jᵀv を分けて当て(第279便c の外部ステップ)、**独立の遠心斥力は足さない**。背景は一様な u=V=(2.3,0)単位=230 km/s(**診断値** —— 観測の転写ではない。点源 1 個の mutual:0 の場は u が一様になる、という第279便c の結論を背景の宣言形で置いた)。1PN は pn:\"reference-1PN\"(E12 の試験粒子形 —— **比較用の外部理論項**で DFM から導出した項ではない)・pnVelocity:\"v\"。**較正ではない**(sampleClass:\"principle\")。",
+    observe:"実測(器 tests/exp-w280c-geo3.mjs・正式の判定器 calaudit のページ側ヘルパをソースから取り出した同じ抽出器・同じ窓 59 近点): 近点移動は 2.2514654×10⁻⁵ °/周で、☄️ 自身(同じ抽出器で測り直すと正本 2.2514656997711987×10⁻⁵ にビット一致)との差は −2.81×10⁻¹² °/周(dt=0.016)・−7.08×10⁻¹¹ °/周(dt/2)。1PN の寄与(λ_PN=1 と 0 の差)は 2.87151×10⁻⁵ °/周。pnVelocity:\"xdot\" にすると 2.3561689×10⁻⁵ °/周(差 +1.05×10⁻⁶)で、**u=V が 1PN の入力に入る**。pn:\"off\" は 1PN なし対照(geoPN=2・λ_PN=0)と差 −3.25×10⁻¹¹ °/周。太陽(pinned)は慣性速度 v=0 のまま位置だけ ẋ=u で運ばれる。",
+    control:"ワンタップ対照 A/B: B 側は geoPN=2(☄️ と同じ統一測地線則 —— 速度分解の外部ステップは立たない)。**kFrame は動かさないこと**(vMinusU は kFrame=0 専用 —— E6′ の追従キック・geoPN=2 の v−u 輸送と座標変換を二重に当てない。kFrame>0 にすると入場条件が立たず「未作動」になる)。ステップ診断の HUD に「geoPN=3 / vMinusU / pn:reference-1PN(v)」と作動の步数が出る。"},
+  en:{name:"Mercury — geoPN=3 contract null test (uniform coordinate change; NOT a calibration)",
+    obsCard:[
+      {q:"What was swapped (the law only)", model:"☄️'s physics and bodies copied bit for bit, law swapped to geoPN=3 vMinusU. A uniform u=V=(2.3,0)=230 km/s (a diagnostic value)", obs:"- (a null test; nothing is transcribed)"},
+      {q:"(a) Periapsis advance - u=V, pn reference-1PN (v)", model:"2.2514654×10⁻⁵ deg/orbit; difference from ☄️ −2.81×10⁻¹² (59 periapsides, dt=0.016)", obs:"☄️'s official 2.2514657e-5 deg/orbit"},
+      {q:"(a) The same comparison at dt/2", model:"difference −7.08×10⁻¹¹ deg/orbit (☄️ itself at dt/2: 2.3873189×10⁻⁵)", obs:"- (compare with the step width)"},
+      {q:"pnVelocity xdot (1PN reads xdot=v+u)", model:"2.3561689×10⁻⁵ deg/orbit; difference from ☄️ +1.05×10⁻⁶ - u=V enters the 1PN input", obs:"- (not adopted after the fact; listed beside v)"},
+      {q:"(b) pn off against the no-1PN control", model:"difference from geoPN=2, lambda_PN=0: −3.25×10⁻¹¹ deg/orbit (dt) / +5.92×10⁻¹¹ (dt/2)", obs:"-"},
+      {q:"The pinned Sun", model:"its inertial velocity v=0 stays prescribed while its position is carried by xdot=u (no canonical term)", obs:"- (without carrying it, u would break the relative orbit)"},
+      {q:"What this does not claim", model:"NOT a reproduction of 43 arcsec, NOT a calibration, NOT a 1PN term derived from DFM", obs:"-"}],
+    descStruct:{
+      summary:"A NULL TEST: ☄️ mercuryReal's physics and bodies are copied bit for bit and ONLY THE LAW is swapped for the geoPN=3 velocity decomposition (lawVersion vMinusU) (wave 280c; the originator's ruling, report 70: 'examine the periapsis-advance differences - proceed as geoPN=3'). The transport xdot=v+u and the canonical term vdot=a_space-J^T v are applied separately (wave 279c's external step) and NO SEPARATE CENTRIFUGAL REPULSION IS ADDED. The background is a uniform u=V=(2.3,0) units = 230 km/s (A DIAGNOSTIC VALUE, not a transcription; it puts wave 279c's result - one point source gives a uniform u under mutual:0 - in declared-background form). 1PN is pn reference-1PN (the E12 test-particle form - AN EXTERNAL REFERENCE TERM FOR COMPARISON, not derived from DFM) with pnVelocity v. NOT A CALIBRATION (sampleClass principle).",
+      observe:"Measured (harness tests/exp-w280c-geo3.mjs, the same extractor lifted from the official calaudit page helpers, the same 59-periapsis window): the advance is 2.2514654×10⁻⁵ deg/orbit, differing from ☄️ itself (remeasured with the same extractor it reproduces the official 2.2514656997711987e-5 bit for bit) by −2.81×10⁻¹² deg/orbit at dt=0.016 and −7.08×10⁻¹¹ at dt/2. The 1PN contribution (lambda_PN 1 minus 0) is 2.87151×10⁻⁵ deg/orbit. With pnVelocity xdot it reads 2.3561689×10⁻⁵ (difference +1.05×10⁻⁶): u=V ENTERS THE 1PN INPUT. pn off differs from the no-1PN control (geoPN=2, lambda_PN=0) by −3.25×10⁻¹¹ deg/orbit. The pinned Sun keeps v=0 and is only carried by xdot=u.",
+      control:"One-tap A/B: side B is geoPN=2 (☄️'s unified geodesic law - the velocity-decomposition step does not run). DO NOT MOVE kFrame (vMinusU is kFrame=0 only - it must not apply the coordinate change twice with the E6-prime following kick or the geoPN=2 v-u transport; with kFrame>0 the entry condition fails and the chip reads not acting). The step-diagnostics HUD prints 'geoPN=3 / vMinusU / pn:reference-1PN(v)' with the step counts."}},
+  parameterAudit:{
+    observedInputs:["☄️ の実値をそのまま(実 G=6.674・c₀=3×10⁴・太陽 1.9885×10³⁰kg・水星 3.3011×10²³kg・近日点 4.60×10¹⁰m・近日点速度 58.98 km/s)"],
+    fixedConventions:["geoPN=3・spaceMesh.lawVersion:\"vMinusU\"・pn:\"reference-1PN\"・pnVelocity:\"v\"・velocityMeaning:\"v\"",
+      "meshVelocity{field:\"backgroundComplex\", mutual:0}・凍結参照系 barycenter/comoving",
+      "kFrame=0(vMinusU の入場条件)・太陽 pinned(v を規定・位置は ẋ=u で移送)"],
+    fitted:["**無い。**"],
+    derived:["背景 W₀=1・A₀=W₀V(u=A/W=V —— W₀ の値そのものは u に効かない)"],
+    numerical:["ソフトニング ε=0.05","時間倍率 timeScale=100","粒子表示倍率 dispMag=10(表示専用)",
+      "u=V=(2.3,0)単位=230 km/s は**診断値**(観測の転写ではない)"]},
+  abBody:{ label:{ja:"geoPN=2(☄️ と同じ統一測地線則へ戻す — 速度分解を切る)", en:"geoPN=2 (back to ☄️'s unified geodesic law — the velocity decomposition off)"},
+    physicsPatch:{geoPN:2} },
+  activeParams:["geoPN","lambdaPN","cLight"],
+  camera:{scale:800, follow:0}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:3, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:100, dispMag:10, stateCarry:"double", frameWeight:"share",
+    spaceMesh:{mode:"vertex", gravity:false, inertia:false, lawVersion:"vMinusU", pn:"reference-1PN", pnVelocity:"v", velocityMeaning:"v"},
+    backgroundComplex:{background:"declared", note:"第280便c: 一様な座標変換 u=V の零試験(点源 1 個の mutual:0 の場と同じ形)", W0:1,
+      A0:[2.3,0], gradW:[0,0], gradA:[0,0,0,0], dWdt:0, dAdt:[0,0],
+      sources:[{id:"uniform-u", kind:"field", excludedExplicit:true}],
+      frame:{origin:"barycenter", epoch:"t0(第280便c の診断コピー)", rotation:"none", translation:"comoving"}},
+    meshVelocity:{law:"vMinusU", field:"backgroundComplex", mutual:0,
+      frame:{origin:"barycenter", epoch:"t0(第280便c の診断コピー)", rotation:"none", translation:"comoving"}}},
+  bodies:[   // ☄️ mercuryReal の bodies を**ビット同一で複製**(太陽 pinned・pnSource)
+    {type:"single", m:1988.5, radius:6.95, x:0,y:0, vx:0,vy:0, spin:0.029031, pinned:true, pnSource:true},
+    {type:"single", m:0.00033011, radius:0.0244, x:460.012,y:0, vx:0,vy:5.897643, spin:0.0124, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
 { id:"mercuryRealKF1", name:"水星(実単位・kFrame=1)— 共通補正(43.0″/世紀は RL 勾配・600 公転・λ_PN 差引き)", emoji:"🪨", group:"現実との照合・太陽系",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
   familyId:"mercury", familyRole:"primary",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(天体の現実較正の雛形)
   scaleTier:"planetary",
@@ -10934,6 +11088,74 @@ const BUILTIN_PRESETS = [
       vx:0, vy:-0.002426750450824057, spin:0.00011383995344422988, pinned:false, pnSource:true},
     {type:"single", m:0.0015897512735990414, radius:6.06, x:174.65648081478, y:0,
       vx:0, vy:0.019882885644687584, spin:0.00011383995344422988, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+// ===== 第280便c(原仮定者の裁定〔第70報〕・統括の読み R65): **🌒 冥王星–カロンの geoPN=3 契約の診断コピー** =====
+// ❄️ plutoCharonReal の physics と bodies を複製し(kFrame=0・`sampleClass:"principle"` —— 較正母集団に入れない)、
+// 法則だけを geoPN=3・`spaceMesh.lawVersion:"vMinusU"` へ替えた。外部の場は**第279便c の器と同じ太陽の背景**
+// (点質量を t=0・対の重心で評価した comoving の値 —— tests/out/bgbudget2-w279c.json の engine[].background)を
+// `mutual:0` で置き、bodies の vx,vy は**観測の座標速度 ẋ** と読む(`velocityMeaning:"xdot"` —— build で v=ẋ−u(0)
+// へ変換する)。1PN は `pn:"reference-1PN"`・`pnVelocity:"v"`(ẋ を読む版は器で並べる)。**❄️ 本体は 1 bit も動かない。**
+{ id:"charonGeoToy3", name:"冥王星とカロン — geoPN=3 契約の診断コピー(太陽の背景・mutual:0・較正ではない)", emoji:"🌒", group:"現実との照合・太陽系",
+  familyId:"pluto", familyRole:"variant",   // 仲間のメインは ❄️(primary)。本サンプルは法則の契約を確かめる診断の枝
+  scaleTier:"planetary",
+  scaleExp:{L:6, T:2, M:25},   // ❄️ と同じ単位系(1単位=10⁶m/10²s/10²⁵kg)
+  sampleClass:"principle",
+  fidelity:"toy",   // 幾何と質量は ❄️ の転写だが、**法則が検証仮説の構成則**なので現実較正(real)とは名乗らない
+  notClaim:["solar_cal"],
+  obsCard:[
+    {q:"何を替えたか(法則だけ)", model:"❄️ の physics・bodies を複製し kFrame=0・geoPN=3・vMinusU へ。太陽の背景(第279便c と同じ値・u=4740 m/s)を mutual:0 で", obs:"—(診断コピー — ❄️ の判定行ではない)"},
+    {q:"初期速度の意味(xdot → v)", model:"v=ẋ−u(0): 両天体とも y 成分が −4740.16 m/s ずれる・往復の相対差 4.84×10⁻¹⁵", obs:"—(位置から求める速度は v+u)"},
+    {q:"周期(同方向1周・2周目)— pnVelocity:\"v\"", model:"551864.0619249 s・kF0(geoPN=2)との差 +5.62×10⁻⁴ s(dt=0.016)/ +5.53×10⁻⁴ s(dt/2)", obs:"551856.43872±0.02592 s(照合先 — 判定しない)"},
+    {q:"同 pnVelocity:\"xdot\"", model:"kF0 との差 +6.98×10⁻⁹ s(dt)/ −9.22×10⁻⁶ s(dt/2)", obs:"—(事後採用しない — v と並べる)"},
+    {q:"(b) pn:off と 1PN なし対照", model:"差 −2.57×10⁻⁸ s(dt)/ −9.15×10⁻⁶ s(dt/2)", obs:"—"},
+    {q:"1PN 項の大きさ(kF0 の λ_PN=1 と 0)", model:"+1.73×10⁻⁶ s(dt)", obs:"—(差の桁を読むための物差し)"},
+    {q:"言わないこと", model:"観測と合った/潮汐ロックで観測値版と同じ精度になる/引きずりが消えた、とは書かない", obs:"—"}],
+  descStruct:{
+    summary:"**❄️ plutoCharonReal の physics と bodies を複製し(kFrame=0)、法則だけを geoPN=3 の速度分解(lawVersion:\"vMinusU\")へ替えた診断コピー**(第280便c・原仮定者の裁定〔第70報〕「近点移動の差分を精査する — geoPN=3 として進める」)。外部の場は第279便c の器と同じ**太陽の背景**(点質量を t=0・対の重心で評価した comoving の値 —— u=A/W は y 向き 4740 m/s)を mutual:0 で置く。bodies の vx,vy は**観測の座標速度 ẋ**(velocityMeaning:\"xdot\")として読み、build で慣性速度 v=ẋ−u(0) へ変換する。1PN は pn:\"reference-1PN\"(**比較用の外部理論項** —— DFM から導出した項ではない)・pnVelocity:\"v\"。**較正ではない**(sampleClass:\"principle\"・❄️ の判定行ではない)。",
+    observe:"実測(器 tests/exp-w280c-geo3.mjs・正式の判定器と同じ抽出器・同じ窓 20694498 步): 周期(同方向 1 周・2 周目)は 551864.0619249 s で、kF0 の診断コピー(geoPN=2・λ_PN=1 —— 同じ抽出器で測り直すと正本の kF0 行にビット一致)との差は +5.62×10⁻⁴ s(dt=0.016)/ +5.53×10⁻⁴ s(dt/2)。pnVelocity:\"xdot\" では差 +6.98×10⁻⁹ s / −9.22×10⁻⁶ s、pn:\"off\" と 1PN なし対照(λ_PN=0)の差は −2.57×10⁻⁸ s / −9.15×10⁻⁶ s。1PN 項そのものの大きさ(λ_PN=1 と 0 の差)は +1.73×10⁻⁶ s。mutual:0 の外部点源 1 つは u が一様(J=0)なので、移送は両天体に等しく正準項は 0 である(第279便c)。",
+    control:"ワンタップ対照 A/B: B 側は geoPN=2(❄️ の kF0 と同じ —— 速度分解の外部ステップは立たない。**ただし bodies は ẋ→v の変換を受けたまま**なので、B は ❄️ の kF0 そのものではない)。**kFrame は動かさないこと**(vMinusU は kFrame=0 専用)。ステップ診断の HUD に「geoPN=3 / vMinusU / pn:reference-1PN(v) v0:xdot」と作動の步数が出る。"},
+  en:{name:"Pluto and Charon — geoPN=3 contract diagnostic copy (solar background, mutual 0; NOT a calibration)",
+    obsCard:[
+      {q:"What was swapped (the law only)", model:"❄️'s physics and bodies copied, kFrame=0, law swapped to geoPN=3 vMinusU. The solar background (wave 279c's values, u=4740 m/s) under mutual 0", obs:"- (a diagnostic copy; not ❄️'s verdict row)"},
+      {q:"Meaning of the initial velocity (xdot to v)", model:"v=xdot-u(0): both bodies shift by -4740.16 m/s in y; round-trip relative difference 4.84×10⁻¹⁵", obs:"- (velocities taken from positions are v+u)"},
+      {q:"Period (same-direction revolution 2) - pnVelocity v", model:"551864.0619249 s; difference from kF0 (geoPN=2) +5.62×10⁻⁴ s (dt=0.016) / +5.53×10⁻⁴ s (dt/2)", obs:"551856.43872 +/- 0.02592 s (reference - not judged)"},
+      {q:"The same with pnVelocity xdot", model:"difference from kF0 +6.98×10⁻⁹ s (dt) / −9.22×10⁻⁶ s (dt/2)", obs:"- (not adopted after the fact; listed beside v)"},
+      {q:"(b) pn off against the no-1PN control", model:"difference −2.57×10⁻⁸ s (dt) / −9.15×10⁻⁶ s (dt/2)", obs:"-"},
+      {q:"Size of the 1PN term (kF0 lambda_PN 1 minus 0)", model:"+1.73×10⁻⁶ s (dt)", obs:"- (a yardstick for the differences)"},
+      {q:"What this does not claim", model:"NOT an observational match, NOT 'tidal locking makes it as precise as the observed build', NOT 'the dragging vanished'", obs:"-"}],
+    descStruct:{
+      summary:"A DIAGNOSTIC COPY: ❄️ plutoCharonReal's physics and bodies are copied (kFrame=0) and ONLY THE LAW is swapped for the geoPN=3 velocity decomposition (lawVersion vMinusU) (wave 280c; the originator's ruling, report 70: 'examine the periapsis-advance differences - proceed as geoPN=3'). The external field is THE SAME SOLAR BACKGROUND as wave 279c's harness (the point mass evaluated at t=0 at the pair's barycentre, comoving - u=A/W is 4740 m/s along y), under mutual 0. The bodies' vx, vy are read as OBSERVED COORDINATE VELOCITIES xdot (velocityMeaning xdot) and converted at build to the inertial velocity v=xdot-u(0). 1PN is pn reference-1PN (AN EXTERNAL REFERENCE TERM FOR COMPARISON, not derived from DFM) with pnVelocity v. NOT A CALIBRATION (sampleClass principle; not ❄️'s verdict row).",
+      observe:"Measured (harness tests/exp-w280c-geo3.mjs, the same extractor as the official judge, the same 20694498-step window): the period (same-direction revolution 2) is 551864.0619249 s, differing from the kF0 diagnostic copy (geoPN=2, lambda_PN=1 - remeasured with the same extractor it reproduces the official kF0 row bit for bit) by +5.62×10⁻⁴ s at dt=0.016 and +5.53×10⁻⁴ s at dt/2. With pnVelocity xdot the difference is +6.98×10⁻⁹ s / −9.22×10⁻⁶ s; pn off against the no-1PN control (lambda_PN=0) differs by −2.57×10⁻⁸ s / −9.15×10⁻⁶ s. The 1PN term itself (lambda_PN 1 minus 0) is +1.73×10⁻⁶ s. One external point source under mutual 0 gives a uniform u (J=0), so the transport is equal for both bodies and the canonical term vanishes (wave 279c).",
+      control:"One-tap A/B: side B is geoPN=2 (the same as ❄️'s kF0 - the velocity-decomposition step does not run; BUT THE BODIES KEEP THE xdot-to-v CONVERSION, so B is not ❄️'s kF0 itself). DO NOT MOVE kFrame (vMinusU is kFrame=0 only). The step-diagnostics HUD prints 'geoPN=3 / vMinusU / pn:reference-1PN(v) v0:xdot' with the step counts."}},
+  parameterAudit:{
+    observedInputs:["❄️ の転写をそのまま(質量・半径・自転・a=1.9596×10⁷m・e=0・重心系配分)",
+      "太陽の背景は第279便c の器の値(太陽の点質量・距離は事前予測表 bgpredict-w276a)"],
+    fixedConventions:["geoPN=3・spaceMesh.lawVersion:\"vMinusU\"・pn:\"reference-1PN\"・pnVelocity:\"v\"・velocityMeaning:\"xdot\"",
+      "meshVelocity{field:\"backgroundComplex\", mutual:0}・凍結参照系 barycenter/comoving",
+      "kFrame=0(vMinusU の入場条件)・二体とも自由"],
+    fitted:["**無い。** q=11.9386・D₀=0.006 は ❄️ の宣言のまま(kFrame=0 なので力に入らない —— 再 fit しない)"],
+    derived:["慣性速度 v=ẋ−u(0)(build で 1 度だけ変換)"],
+    numerical:["ソフトニング ε=0.05","時間倍率 timeScale=1000","粒子表示倍率 dispMag=1(表示専用)"]},
+  abBody:{ label:{ja:"geoPN=2(速度分解を切る — bodies は ẋ→v 変換済みのまま)", en:"geoPN=2 (velocity decomposition off — the bodies keep the xdot-to-v conversion)"},
+    physicsPatch:{geoPN:2} },
+  activeParams:["geoPN","lambdaPN","D0"],
+  camera:{scale:23, follow:0}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:0, q:11.9386, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:3, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1000, dispMag:1,
+    stateCarry:"double", frameReaction:"pairReduced", frameWeight:"share",
+    spaceMesh:{mode:"vertex", gravity:false, inertia:false, lawVersion:"vMinusU", pn:"reference-1PN", pnVelocity:"v", velocityMeaning:"xdot"},
+    backgroundComplex:{background:"declared", note:"第279便c の器(bgbudget2-w279c)と同じ値: 太陽の点質量を t=0・対の重心で評価(comoving)",
+      sources:[{id:"sun", kind:"body", excludedExplicit:true}], W0:5.699987574282822e-09,
+      A0:[0,2.7018851611140787e-09], gradW:[-1.930092225608931e-15,0], gradA:[0,0,-9.148945459956653e-16,0], dWdt:0, dAdt:[2.1683731460773505e-16,0],
+      frame:{origin:"barycenter", epoch:"t0(第280便c の診断コピー)", rotation:"none", translation:"comoving"}},
+    meshVelocity:{law:"vMinusU", field:"backgroundComplex", mutual:0,
+      frame:{origin:"barycenter", epoch:"t0(第280便c の診断コピー)", rotation:"none", translation:"comoving"}}},
+  bodies:[ // ❄️ plutoCharonReal の bodies を**ビット同一で複製**(vx,vy は観測の座標速度 ẋ として読む —— velocityMeaning:"xdot")
+    {type:"single", m:0.001303, radius:1.188, x:-2.126385878489327, y:0, vx:0, vy:-0.002421019578680394, spin:0.00113855918, pinned:false, pnSource:true},
+    {type:"single", m:0.0001586, radius:0.606, x:17.469614121510673, y:0, vx:0, vy:0.01989021759785973, spin:0.00113855918, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -15988,6 +16210,7 @@ const SAMPLE_STATUS={
 "qLockRadialAuditQ3":{"purpose":"q=3 の対照で r⁻³ 則の物差しを示す","objective":"met","state":"q=3 対照は qLock の 8.5 倍(門 >5)","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.qlockRadial"],"en":{"purpose":"Give the yardstick of the r⁻³ law with a q=3 control","state":"the q=3 control is 8.5× qLock (gate >5)","mismatch":null,"outlook":null,"brief":"Give the yardstick of the r⁻³ law with a q=3 control. Met: the q=3 control is 8.5× qLock (gate >5). Out of calibration scope."},"brief":"q=3 の対照で r⁻³ 則の物差しを示す。達・q=3 対照は qLock の 8.5 倍(門 >5)。較正対象外。"},
 "mercuryReal":{"purpose":"水星の近日点前進を kF0 で照合する","objective":"partial","state":"不足を軟化 70.3%・刻み 29.0%・入力 0.63% に分解","calibration":"hold","mismatch":"近点移動 −21.7%(6.2×10³σ)","outlook":"数値未解決","evidence":["tests/out/calaudit-w249.json","tests/out/mercury-w280a.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare Mercury's perihelion advance with kF0","state":"the shortfall splits into softening 70.3%, step 29.0%, inputs 0.63%","mismatch":"apsidal advance −21.7% (6.2×10³σ)","outlook":"numerics unresolved","brief":"Compare Mercury's perihelion advance with kF0. Partial: the shortfall splits into softening 70.3%, step 29.0%, inputs 0.63%. Calibration: hold — apsidal advance −21.7% (6.2×10³σ); numerics unresolved."},"brief":"水星の近日点前進を kF0 で照合する。部分・不足を軟化 70.3%・刻み 29.0%・入力 0.63% に分解。較正は保留・近点移動 −21.7%(6.2×10³σ)・数値未解決。"},
 "mercuryRealKF1":{"purpose":"水星の近日点前進を kF1 で照合する","objective":"partial","state":"☄️ との差 −2.856×10⁻⁸ °/周 は太陽自転の引きずり","calibration":"hold","mismatch":"近点移動 −21.8%(6.3×10³σ)","outlook":"数値未解決","evidence":["tests/out/calaudit-w249.json","tests/out/mercury-w280a.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare Mercury's perihelion advance with kF1","state":"the −2.856×10⁻⁸ °/orbit gap to ☄️ is the Sun-spin drag","mismatch":"apsidal advance −21.8% (6.3×10³σ)","outlook":"numerics unresolved","brief":"Compare Mercury's perihelion advance with kF1. Partial: the −2.856×10⁻⁸ °/orbit gap to ☄️ is the Sun-spin drag. Calibration: hold — apsidal advance −21.8% (6.3×10³σ); numerics unresolved."},"brief":"水星の近日点前進を kF1 で照合する。部分・☄️ との差 −2.856×10⁻⁸ °/周 は太陽自転の引きずり。較正は保留・近点移動 −21.8%(6.3×10³σ)・数値未解決。"},
+"mercuryGeoToy3":{"purpose":"一様な座標変換で近点移動が変わらないかを geoPN=3 契約で確かめる","objective":"met","state":"u=V の近点移動は ☄️ と刻みの幅の 10⁻⁴ 未満で一致","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/geo3-w280c.json"],"en":{"purpose":"Check with the geoPN=3 contract that a uniform coordinate change leaves the periapsis advance unchanged","state":"with u=V the advance matches ☄️ to below 1e-4 of the step width","mismatch":null,"outlook":null,"brief":"Check with the geoPN=3 contract that a uniform coordinate change leaves the periapsis advance unchanged. Met: with u=V the advance matches ☄️ to below 1e-4 of the step width. Out of calibration scope."},"brief":"一様な座標変換で近点移動が変わらないかを geoPN=3 契約で確かめる。達・u=V の近点移動は ☄️ と刻みの幅の 10⁻⁴ 未満で一致。較正対象外。"},
 "solarInner":{"purpose":"内惑星 4 つの周期を実単位で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","behavior.solarInner"],"en":{"purpose":"Compare the periods of the four inner planets in real units","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","brief":"Compare the periods of the four inner planets in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"brief":"内惑星 4 つの周期を実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
 "jupiterGalilean":{"purpose":"木星 4 衛星へ規則を再 fit せず当てる","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Apply the rule to Jupiter's four moons without refitting","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","brief":"Apply the rule to Jupiter's four moons without refitting. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"brief":"木星 4 衛星へ規則を再 fit せず当てる。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
 "venusReal":{"purpose":"自由中心の太陽–金星を実単位で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","behavior.venusReal"],"en":{"purpose":"Compare a free-centre Sun–Venus pair in real units","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","brief":"Compare a free-centre Sun–Venus pair in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"brief":"自由中心の太陽–金星を実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
@@ -15997,6 +16220,7 @@ const SAMPLE_STATUS={
 "plutoCharonKF0Control":{"purpose":"⛄ と同じ入力で則だけを外した kF0 対照","objective":"met","state":"則なしで定常・⛄ との差 1.37 s を記帳","calibration":"hold-definition","mismatch":"比較値 +30.2 s(Buie 2012 比・門ではない)","outlook":"量の定義が揃うまで門に入れない","evidence":["docs.charonTwoColumns","behavior.plutoCharonDFM","tests/out/charonwin-w278b.json"],"en":{"purpose":"kF0 control: ⛄'s inputs without the law","state":"steady; the 1.37 s gap to ⛄ is recorded","mismatch":"comparison +30.2 s vs Buie 2012","outlook":"not gated until definitions match","brief":"kF0 control: ⛄'s inputs without the law. Met: steady; the 1.37 s gap to ⛄ is recorded. Calibration: hold (definitions differ) — comparison +30.2 s vs Buie 2012; not gated until definitions match."},"brief":"⛄ と同じ入力で則だけを外した kF0 対照。達・則なしで定常・⛄ との差 1.37 s を記帳。較正は判定保留(量定義不一致)・比較値 +30.2 s(Buie 2012 比・門ではない)・量の定義が揃うまで門に入れない。"},
 "plutoCharonDiagInput":{"purpose":"❄️ の入力の丸めと軟化を外した kF0 診断コピー","objective":"met","state":"要因の鎖と同一定義の表を記帳","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/charoninput-w280d.json"],"en":{"purpose":"kF0 copy of ❄️ with rounding and softening removed","state":"factor chain and same-definition table recorded","mismatch":null,"outlook":null,"brief":"kF0 copy of ❄️ with rounding and softening removed. Met: factor chain and same-definition table recorded. Out of calibration scope."},"brief":"❄️ の入力の丸めと軟化を外した kF0 診断コピー。達・要因の鎖と同一定義の表を記帳。較正対象外。"},
 "plutoCharonSyncZero":{"purpose":"厳密同期円で相対すべり則の零条件を走行中も試す","objective":"partial","state":"初期 1 歩は厳密に 0・走行中は丸め級の熱が残る","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/charoninput-w280d.json"],"en":{"purpose":"Test the zero-slip condition on an exact synchronous circle","state":"first step exactly zero; rounding-level heat while running","mismatch":null,"outlook":null,"brief":"Test the zero-slip condition on an exact synchronous circle. Partial: first step exactly zero; rounding-level heat while running. Out of calibration scope."},"brief":"厳密同期円で相対すべり則の零条件を走行中も試す。部分・初期 1 歩は厳密に 0・走行中は丸め級の熱が残る。較正対象外。"},
+"charonGeoToy3":{"purpose":"太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる","objective":"partial","state":"1PN が読む速度で差が分かれる(ẋ は kF0 と 10⁻⁵ s 未満・v は +5.6×10⁻⁴ s)","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/geo3-w280c.json"],"en":{"purpose":"Compare the geoPN=3 period with a solar background against kF0","state":"it depends on the velocity 1PN reads (xdot within 1e-5 s; v +5.6e-4 s)","mismatch":null,"outlook":null,"brief":"Compare the geoPN=3 period with a solar background against kF0. Partial: it depends on the velocity 1PN reads (xdot within 1e-5 s; v +5.6e-4 s). Out of calibration scope."},"brief":"太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる。部分・1PN が読む速度で差が分かれる(ẋ は kF0 と 10⁻⁵ s 未満・v は +5.6×10⁻⁴ s)。較正対象外。"},
 "uranusReal":{"purpose":"天王星の環と 5 衛星を実単位で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","behavior.uranusReal"],"en":{"purpose":"Compare Uranus's rings and five moons in real units","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","brief":"Compare Uranus's rings and five moons in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"brief":"天王星の環と 5 衛星を実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
 "neptuneReal":{"purpose":"逆行衛星トリトンを実単位で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","behavior.neptuneReal"],"en":{"purpose":"Compare the retrograde moon Triton in real units","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","brief":"Compare the retrograde moon Triton in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"brief":"逆行衛星トリトンを実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
 "saturnZonalD68":{"purpose":"帯状重力係数で D68 の近点移動を照合する","objective":"unmet","state":"代表量が門の外","calibration":"fail","mismatch":"近点移動 −0.306%(14.6σ)","outlook":"刻み間差 4×10⁻³σ・刻みでは縮まない","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare D68's apsidal motion via zonal harmonics","state":"the representative quantity is outside the gate","mismatch":"apsidal advance −0.306% (14.6σ)","outlook":"step Δ 4×10⁻³σ (not step-limited)","brief":"Compare D68's apsidal motion via zonal harmonics. Unmet: the representative quantity is outside the gate. Calibration: fail — apsidal advance −0.306% (14.6σ); step Δ 4×10⁻³σ (not step-limited)."},"brief":"帯状重力係数で D68 の近点移動を照合する。未達・代表量が門の外。較正は否・近点移動 −0.306%(14.6σ)・刻み間差 4×10⁻³σ・刻みでは縮まない。"},
@@ -16829,6 +17053,12 @@ function validatePreset(obj){
       warnings.push('physics.geoPN=3 は physics.spaceMesh.lawVersion("scalar"/"local"/"complex")の宣言が要る — 従来どおり 2 へ丸めた');
       ph.geoPN=2;
     }
+    // 第280便c(R65): **vMinusU(速度分解)は kFrame=0 専用**・**輸送経路 physics.meshVelocity の宣言が必須**。
+    // (toyAllowDrag は validateSpaceMesh が vMinusU と排他にしてあるので、ここで kFrame>0 を迂回する道は無い)
+    else if(sm3.lawVersion===GEO3_LAW && ph.kFrame>0)
+      bad('physics.geoPN=3・spaceMesh.lawVersion:"vMinusU" は kFrame=0 専用です(E6′ の追従キック・geoPN=2 の v−u 輸送と座標変換を二重に当てない)');
+    else if(sm3.lawVersion===GEO3_LAW && !ph[MESH_VEL_KEY])
+      bad('physics.geoPN=3・spaceMesh.lawVersion:"vMinusU" は physics.meshVelocity(輸送経路 {law:"vMinusU",field,mutual,frame})の宣言が要る');
     else if(ph.kFrame>0 && !tad3)
       bad("physics.geoPN=3(トイ)は kFrame=0 専用です(E6′/E12 の追従を置換するので、追従の結合が立っていてはならない)。診断で重ねるなら physics.spaceMesh.toyAllowDrag:true を明示してください");
     else if(ph.kFrame>0)
@@ -16838,6 +17068,9 @@ function validatePreset(obj){
     else if(sm3.weave!==undefined)
       bad('physics.geoPN=3(トイ)は physics.spaceMesh.weave と排他です(重複適用禁止)');
   }
+  // 第280便c: **vMinusU は geoPN=3 の法則**(geoPN≤2 の宇宙に宣言だけが残って効かない状態を作らない)
+  if(ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].lawVersion===GEO3_LAW && !(ph.geoPN>=3))
+    bad('physics.spaceMesh.lawVersion:"vMinusU" は physics.geoPN=3 専用です(geoPN≤2 の座標変換は physics.meshVelocity 単独の互換経路 —— 第279便c)');
   // 第263便a: **診断キーは現実較正クラスへ入れない**(geoPN が 3 でなくても宣言そのものを拒否する)
   if(p.sampleClass==="calibration" && ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].toyAllowDrag===true)
     bad('physics.spaceMesh.toyAllowDrag(geoPN=3 を kFrame>0 のまま許す診断キー)は sampleClass:"calibration" では使えません');
@@ -19980,6 +20213,9 @@ function makeSim(){
     // 初期化だけでは null に戻ってしまう)。**重力が 1 步も当たる前の配置**が初期値になる
     if(S.hasShapeToy) shapeToyInitLatent(S);
     if(S.hasCoreField) coreFieldInitState(S);   // 第276便d: Core 力学の初期条件(等温定常から引く)
+    // 第280便c: geoPN=3・vMinusU の**初期速度の意味**(velocityMeaning:"xdot" は v=ẋ−u(0) へ **build で 1 度だけ**変換)。
+    // 未宣言の宇宙は真偽値 1 つで素通り(S.geo3Init は null)
+    if(S.hasGeo3) geo3InitVelocity(S); else S.geo3Init=null;
     // 第259便b(第51報 W2): 親子コアの読み口と **K_cs 熱記帳の診断列**。
     // QcsOld=本体の既定記帳 |ΔJΔω|/2 の累積(**radE へ入れている値そのもの**)・
     // QcsExact=正確式 μΔω²(f−f²/2) の累積。**既定の Q は 1 bit も変えない** —— 両方を並べて出すだけ。
@@ -20145,7 +20381,9 @@ function makeSim(){
       if(!okToy) S.geoToyStop="denied";
       S.geoToyOverlay=(okToy && __tad && __kf)? "drag" : null;
     } else { S.geoToyDeny=null; S.geoToyOverlay=null; }
-    S.hasGeoToy=(S.params.geoPN>=3 && !S.geoToyDeny);
+    // 第280便c: **lawVersion:"vMinusU" はトイ積分器を通らない**(速度分解の外部ステップ dfmMeshVelocityStep へ
+    // dispatch する —— 下の meshVelocityPrepare が S.hasGeo3 を立てる)。入場条件の門(denied)は共通のまま
+    S.hasGeoToy=(S.params.geoPN>=3 && !S.geoToyDeny && !(__sm && __sm.lawVersion===GEO3_LAW));
     // 第252便b: 近点サブステップ(physics.periSubsteps)の有無フラグと発火しきい値も同じ場所で張る。
     // validatePeriSubsteps が n<=1 を null へ正規化しているので、キーの有無だけで判定できる
     // 第258便b: 引きずりの仕事の記録(physics.ledger.dragWork)の有無フラグも同じ場所で張る。
@@ -24651,7 +24889,10 @@ function stepDiagText(){
   if(sim && sim.hasCoordInertia) out+="  mesh:"+(sim.meshCoordStop||"on")+" N="+sim.meshCoordN;
   // 第262便a: **入場条件を満たさない 3 も出す**(黙って 2 に丸めなくなったので、denied はここに出る)
   // 第263便a: **明示キーで E6′ と重ねた診断構成**は HUD にも出す(黙って重ねない = 二重計上の可能性の表示)
-  if(sim && sim.params && sim.params.geoPN>=3) out+="  geoToy:"+(sim.geoToyStop||"on")+" N="+sim.geoToyN
+  // 第280便c(R65): **geoPN=3・vMinusU は作動表示を別の行にする**(トイの停止理由と混ぜない)
+  const g3t=geo3HudText(sim);
+  if(g3t) out+="  "+g3t;
+  else if(sim && sim.params && sim.params.geoPN>=3) out+="  geoToy:"+(sim.geoToyStop||"on")+" N="+sim.geoToyN
     +(sim.geoToyOverlay? (" overlay:"+sim.geoToyOverlay+"(kF="+fmt(sim.params.kFrame)+" 二重計上の可能性)") : "")
     // 第264便b: 源の閉包(既定 "gravity" は 1 文字も出さない)。"iterate" は**反復数と相対残差**を必ず出す
     +((sim.geoToyClosure==="iterate")? (" closure:iterate it="+sim.geoToyIters
@@ -28376,7 +28617,8 @@ const FAMILY_VARIANT_LABEL={
   plutoCharonDiagInput:{ja:"観測入力 kF0 対照(入力を整えた二体)", en:"observed-input kF0 control (cleaned two-body inputs)"},
   plutoCharonKF0Control:{ja:"観測入力 kF0 対照(元期 A の状態)", en:"observed-input kF0 control (epoch-A state)"},
   plutoCharonDFM:{ja:"相対すべりモデル", en:"relative-slip model"},
-  plutoCharonSyncZero:{ja:"厳密同期円の零試験", en:"exact synchronous-circle zero test"} };
+  plutoCharonSyncZero:{ja:"厳密同期円の零試験", en:"exact synchronous-circle zero test"},
+  charonGeoToy3:{ja:"geoPN=3 契約の診断コピー(太陽の背景)", en:"geoPN=3 contract diagnostic (solar background)"} };   // 第280便c の 🌒(統合時に追加 — 表示専用)
 function familyVariantLabel(p){
   const e=p? FAMILY_VARIANT_LABEL[p.id] : null;
   return e? (LANG==="en"? e.en : e.ja) : "";
@@ -41663,10 +41905,162 @@ function dfmMeshV2Step(S,dt,cf){
 // 第262便a: **入場条件を満たさない 3**(`S.geoToyDeny`)は 3 のまま保つので、`_core` へは
 // **2** を渡す —— 第259便a が `S.params.geoPN=2` と書き換えていたときと**力学は 1 bit 同じ**である
 // (`geo`・`geo2`・kKind の特別化②が読む値が同じ 2 になる)。受理された 3 は従来どおり 0。
+// 第280便c(R65): **geoPN=3・lawVersion:"vMinusU" の dispatch**。`_core` へは **0** を渡す(トイと同じ ——
+// E6′・E12 の 1PN・geo2 の輸送はどれも立たない)。1PN は宣言 `pn:"reference-1PN"` のときだけ、**`_core` の前**に
+// 重力側の専用ステップ `dfmGeo3PNKick` で 1 回当てる(semi は dt・leapfrog は各パスの前に dt/2 —— `_core` が
+// 自分の加速度に足すのと同じ相)。座標変換(移送 ẋ=v+u と正準項 −Jᵀv)は `_core` の**後**の外部ステップ
+// `dfmMeshVelocityStep`(第279便c)が当てる。**トイの 3 本(🪁🎋🩻)は hasGeo3=false なので従来と 1 命令も違わない**。
 function geoCoreDispatch(S,dt,mode){
   const p=S.params;
-  if(p.geoPN>=3){ const g=p.geoPN; p.geoPN=S.hasGeoToy?0:2; try{ S._core(dt,mode); } finally{ p.geoPN=g; } }
+  if(p.geoPN>=3){ const g=p.geoPN;
+    if(S.hasGeo3PN) dfmGeo3PNKick(S,(mode===0)? dt : dt*0.5);
+    p.geoPN=(S.hasGeoToy || S.hasGeo3)?0:2; try{ S._core(dt,mode); } finally{ p.geoPN=g; } }
   else S._core(dt,mode);
+}
+// ===== 第280便c: geoPN=3・vMinusU の**天体ごとのメッシュ速度 u**(步の頭の状態で評価・未定義の点は null) =====
+// `dfmMeshVelocityFieldAt`(第279便c の合成)をそのまま使う —— 写しを持たない。pnVelocity:"xdot" の 1PN と
+// 初期速度の変換(velocityMeaning:"xdot")と HUD が読む。戻り値 [ux0,uy0,ux1,uy1,…](未定義は NaN を置かず null)
+function geo3TransportAt(S, src){
+  if(!S || S.hasMeshVelocity!==true || !S.meshVel || !S.meshVel.geo3) return null;
+  const n=S.n, SR=src || meshVelocitySources(S), O=meshVelocityOrigin(S), out=new Array(n);
+  for(let i=0;i<n;i++){
+    const f=dfmMeshVelocityFieldAt(S,i,SR,O);
+    out[i]=(f && f.ok && f.defined===true && Array.isArray(f.u))? [f.u[0], f.u[1]] : null;
+  }
+  return out;
+}
+// ===== 第280便c: `pn:"reference-1PN"` —— **比較用の外部理論項**(重力側の専用ステップ・`S._core` の外) =====
+// 式は E12 の試験粒子形そのもの(`_core` の geoPN≥1 と同じ係数・同じ源の条件 pnSource ∨ m≥pnK·max(R,ε)・
+// pinned の受け手は受けない):
+//   a₁ₚₙ = (λ/c²)[((α−½)w² − (1+2α)U)∇U − (1+2α)(∇U·w)w]、 U=Gm_j/√(d²+ε²)
+// **w(1PN が読む速度)は宣言 `pnVelocity`**: "v" は状態の慣性速度 v、"xdot" は座標速度 ẋ=v+u(u は步の頭の
+// メッシュ速度 —— 未定義の点は u=0 として数え `S.geo3PnUndef` に記録)。**どちらが正しいかは導出できていない**
+// (両方を診断で並べる — 事後採用しない)。自由源へは geoPN=2 と同じ ∇U 因子の**運動量の対反作用**を返す。
+// 残余トルクはスピンへ移譲しない —— 対が閉じない角運動量を `S.geo3PnDL` に記帳する(黙って捨てない)。
+// **DFM から導出した項ではない**(照合用の参照項)。stateCarry:"double" の宇宙は `_core` と同じ補償和で足す。
+function dfmGeo3PNKick(S,h){
+  if(!S || S.hasGeo3PN!==true || !S.geo3) return null;
+  const p=S.params, n=S.n;
+  const G=p.G, c=p.cLight;
+  const invC2=(p.lambdaPN!==undefined? p.lambdaPN : 1)/(c*c);
+  if(!(n>=1) || !(invC2>0) || !(G>0) || !isNum(h)) return null;
+  const pnA=(p.pnAlpha!==undefined? p.pnAlpha : 1.5), cA=1+2*pnA, cB=pnA-0.5;
+  const pnK=(RAY_ALPHA_MIN/4)*(c*c)/G;
+  const eps=p.softening, eps2=eps*eps;
+  const x=S.x, y=S.y, vx=S.vx, vy=S.vy, m=S.mEff, R=S.R, pin=S.pinned, pnOv=S.pnOv;
+  let U=null, nUndef=0;
+  if(S.geo3.pnVelocity===GEO3_PN_VELOCITY[0]){
+    U=geo3TransportAt(S);
+    if(!U) return null;
+  }
+  const ax=new Float64Array(n), ay=new Float64Array(n);
+  let dL=0;
+  for(let i=0;i<n;i++){
+    if(pin[i]) continue;
+    let wx=vx[i], wy=vy[i];
+    if(U){ const u=U[i]; if(u){ wx+=u[0]; wy+=u[1]; } else nUndef++; }
+    const v2=wx*wx+wy*wy;
+    for(let j=0;j<n;j++){
+      if(j===i) continue;
+      const mj=m[j];
+      if(!(pnOv[j] || mj>=pnK*Math.max(R[j],eps))) continue;
+      const dx=x[i]-x[j], dy=y[i]-y[j];
+      const invW=1/Math.sqrt(dx*dx+dy*dy+eps2), fg=G*invW*invW*invW;
+      const Uj=G*mj*invW, gux=-fg*mj*dx, guy=-fg*mj*dy, dU=gux*wx+guy*wy;
+      const pnx=invC2*((cB*v2-cA*Uj)*gux - cA*dU*wx), pny=invC2*((cB*v2-cA*Uj)*guy - cA*dU*wy);
+      ax[i]+=pnx; ay[i]+=pny;
+      if(!pin[j]){ const r=m[i]/mj; ax[j]-=pnx*r; ay[j]-=pny*r; dL+=m[i]*(dx*pny-dy*pnx); }
+    }
+  }
+  const carV=!!S.carVx;
+  let kMax=0;
+  for(let i=0;i<n;i++){
+    if(pin[i] || (ax[i]===0 && ay[i]===0)) continue;
+    const kx=ax[i]*h, ky=ay[i]*h;
+    if(carV){
+      const addX=kx+S.carVx[i], v0x=vx[i]; vx[i]=v0x+addX; S.carVx[i]=addX-(vx[i]-v0x);
+      const addY=ky+S.carVy[i], v0y=vy[i]; vy[i]=v0y+addY; S.carVy[i]=addY-(vy[i]-v0y);
+    } else { vx[i]+=kx; vy[i]+=ky; }
+    const km=Math.hypot(kx,ky); if(km>kMax) kMax=km;
+  }
+  S.geo3PnN+=1; S.geo3PnUndef+=nUndef; S.geo3PnDL+=dL*h;
+  if(kMax>S.geo3PnKickMax) S.geo3PnKickMax=kMax;
+  return {n:1, kickMax:kMax, dL:dL*h, undef:nUndef};
+}
+// ===== 第280便c: **初期速度の意味**(velocityMeaning:"xdot")—— build で 1 度だけ v=ẋ−u(0) へ変換する =====
+// u は天体の速度に**線形**に依る(A=Σw_j v_j + A_bg、W は速度に依らない)ので、連立 v_i + u_i(v) = ẋ_i を
+// **直接解く**(反復の近似に落とさない)。係数は `dfmMeshVelocityFieldAt` を単位速度で評価して取る(写しを持たない)。
+// pinned は v を規定する(変換しない)。解けない(枢軸が 0 に近い —— mutual:1 の 2 体は行列式 1−χ₀χ₁)ときは
+// **変換せず**に経路ごと拒否する(S.meshVelDeny)。結果は `S.geo3Init`(往復の残差・最小枢軸)に残す。
+function geo3InitVelocity(S){
+  S.geo3Init=null;
+  if(!S || S.hasGeo3!==true || !S.geo3) return null;
+  const g3=S.geo3;
+  if(g3.velocityMeaning!==GEO3_VELOCITY_MEANING[0]){ S.geo3Init={meaning:g3.velocityMeaning, converted:false}; return S.geo3Init; }
+  const n=S.n, pin=S.pinned;
+  const free=[]; for(let i=0;i<n;i++) if(!pin[i]) free.push(i);
+  const nf=free.length;
+  const declX=Array.from(S.vx), declY=Array.from(S.vy);
+  const fail=(why)=>{ S.geo3Init={meaning:"xdot", converted:false, stop:why};
+    S.hasMeshVelocity=false; S.hasGeo3=false; S.hasGeo3PN=false; S.meshVelDeny="velocityMeaning:"+why; return S.geo3Init; };
+  if(nf>GEO3_INIT_MAX_N) return fail("n>"+GEO3_INIT_MAX_N);
+  const src=meshVelocitySources(S);
+  // 基準: 自由な天体の速度を 0 にした u(背景と規定運動の源だけの分)
+  for(const j of free){ src[j].vx=0; src[j].vy=0; }
+  const u0=geo3TransportAt(S, src);
+  if(!u0) return fail("field");
+  // 係数: 自由な天体 j に単位速度を置いたときの u の増分(x・y 成分は同じ重みなので x で取る)
+  const Cm=[];
+  for(let a=0;a<nf;a++){
+    const j=free[a]; src[j].vx=1;
+    const uj=geo3TransportAt(S, src); src[j].vx=0;
+    const col=new Float64Array(nf);
+    for(let b=0;b<nf;b++){ const i=free[b]; col[b]=(uj[i] && u0[i])? (uj[i][0]-u0[i][0]) : 0; }
+    Cm.push(col);
+  }
+  // M = I + C(M[b][a] = δ_ab + ∂u_i/∂v_j)・右辺 = ẋ − u0(未定義の点は u=0)
+  const M=[], rx=new Float64Array(nf), ry=new Float64Array(nf);
+  for(let b=0;b<nf;b++){
+    const row=new Float64Array(nf);
+    for(let a=0;a<nf;a++) row[a]=(a===b?1:0)+Cm[a][b];
+    M.push(row);
+    const i=free[b], u=u0[i];
+    rx[b]=declX[i]-(u? u[0] : 0); ry[b]=declY[i]-(u? u[1] : 0);
+  }
+  // 部分枢軸選択つきの Gauss 消去(x・y を同時に解く)
+  let minPiv=Infinity;
+  for(let k=0;k<nf;k++){
+    let pr=k, pv=Math.abs(M[k][k]);
+    for(let r=k+1;r<nf;r++) if(Math.abs(M[r][k])>pv){ pv=Math.abs(M[r][k]); pr=r; }
+    if(pv<minPiv) minPiv=pv;
+    if(!(pv>1e-12)) return fail("singular(最小枢軸 "+pv.toExponential(2)+")");
+    if(pr!==k){ const t=M[k]; M[k]=M[pr]; M[pr]=t; let z=rx[k]; rx[k]=rx[pr]; rx[pr]=z; z=ry[k]; ry[k]=ry[pr]; ry[pr]=z; }
+    for(let r=k+1;r<nf;r++){
+      const f=M[r][k]/M[k][k]; if(f===0) continue;
+      for(let c2=k;c2<nf;c2++) M[r][c2]-=f*M[k][c2];
+      rx[r]-=f*rx[k]; ry[r]-=f*ry[k];
+    }
+  }
+  const sx=new Float64Array(nf), sy=new Float64Array(nf);
+  for(let k=nf-1;k>=0;k--){
+    let ax=rx[k], ay=ry[k];
+    for(let c2=k+1;c2<nf;c2++){ ax-=M[k][c2]*sx[c2]; ay-=M[k][c2]*sy[c2]; }
+    sx[k]=ax/M[k][k]; sy[k]=ay/M[k][k];
+  }
+  for(let b=0;b<nf;b++){ const i=free[b]; S.vx[i]=sx[b]; S.vy[i]=sy[b];
+    if(S.carVx){ S.carVx[i]=0; S.carVy[i]=0; } }
+  // 往復: ẋ = v + u(v) を組み直して宣言と比べる(座標速度の最大相対差)
+  const uB=geo3TransportAt(S);
+  let rt=0, nUndef=0;
+  for(const i of free){
+    const u=uB? uB[i] : null; if(!u) nUndef++;
+    const ex=S.vx[i]+(u? u[0] : 0), ey=S.vy[i]+(u? u[1] : 0);
+    const sc=Math.max(Math.hypot(declX[i],declY[i]), 1e-300);
+    rt=Math.max(rt, Math.hypot(ex-declX[i], ey-declY[i])/sc);
+  }
+  S.geo3Init={meaning:"xdot", converted:true, n:nf, minPivot:minPiv, roundTripRel:rt, undef:nUndef,
+    declared:free.map((i)=>[declX[i],declY[i]]), inertial:free.map((i)=>[S.vx[i],S.vy[i]])};
+  return S.geo3Init;
 }
 // ===== 第279便c(原仮定者の裁定〔第69報〕・統括の読み R62・R63): **複素決定力の 2 経路**と、背景の**閾値なし合成** =====
 //
@@ -41698,9 +42092,12 @@ function dfmComplexMomentsOf(list, px, py, eps2){
   const e2=(isNum(eps2) && eps2>=0)? eps2 : 0;
   if(!isNum(px) || !isNum(py)) return null;
   let W=0, gWx=0, gWy=0, Wd=0, Nx=0, Ny=0, g0=0, g1=0, g2=0, g3=0, Tx=0, Ty=0;
+  // 第280便c: **未宣言(undefined)だけを既定 0 にする**。旧形 `b.vx||0` は NaN・false・空文字・null も 0 と
+  // 読んで受理していた(壊れた入力が「静止した源」に化ける)—— 非有限値・数でない値は拒否する(下の isNum)
+  const z0=(v)=>(v===undefined)? 0 : v;
   for(const b of list){
     if(!b) return null;
-    const mi=b.m, bx=b.x, by=b.y, vix=b.vx||0, viy=b.vy||0, aix=b.ax||0, aiy=b.ay||0;
+    const mi=b.m, bx=b.x, by=b.y, vix=z0(b.vx), viy=z0(b.vy), aix=z0(b.ax), aiy=z0(b.ay);
     if(!(isNum(mi) && isNum(bx) && isNum(by) && isNum(vix) && isNum(viy) && isNum(aix) && isNum(aiy))) return null;
     if(!(mi>0)) return null;                          // 負質量・0 質量の源は拒否
     const dx=px-bx, dy=py-by, s=dx*dx+dy*dy+e2;
@@ -42060,6 +42457,9 @@ function meshVelocityPrepare(S){
   S.hasMeshVelocity=false; S.meshVel=null; S.meshVelDeny=null;
   S.meshVelN=0; S.meshVelUndef=0; S.meshVelBad=0; S.meshVelUMax=0; S.meshVelKickMax=0;
   S.meshVelWork=0; S.meshVelChiMin=null; S.meshVelChiMax=null;
+  // 第280便c: geoPN=3・vMinusU の読み口(未宣言は false/null のまま —— 既定経路は真偽値を読むだけ)
+  S.hasGeo3=false; S.hasGeo3PN=false; S.geo3=null; S.geo3PnN=0; S.geo3PnKickMax=0; S.geo3PnDL=0;
+  S.geo3PnUndef=0; S.geo3PinCarry=0;
   const raw=(S.params)? S.params[MESH_VEL_KEY] : undefined;
   if(raw===undefined || raw===null) return false;            // **未宣言: 背景鍵に触れない**
   const deny=(why)=>{ S.meshVelDeny=why; return false; };
@@ -42067,8 +42467,18 @@ function meshVelocityPrepare(S){
   if(!mvv.ok || !mvv.meshVelocity) return deny(mvv.ok? "none" : mvv.err);
   const mv=mvv.meshVelocity, P=S.params;
   if(P.kFrame>0) return deny("kFrame>0");
-  if(P.geoPN>=3) return deny("geoPN=3");
-  if(P[SPACE_MESH_KEY]) return deny("spaceMesh");
+  // 第280便c(R65): geoPN=3 で通すのは **spaceMesh.lawVersion:"vMinusU"(速度分解の契約)だけ**。
+  // トイ(scalar/local/complex)・メッシュのチャネルとは従来どおり排他。契約鍵は検証器で正規化してから読む
+  let g3=null;
+  if(P.geoPN>=3){
+    const smv=validateSpaceMesh(P[SPACE_MESH_KEY]===undefined? null : P[SPACE_MESH_KEY]);
+    const sm=(smv.ok && smv.spaceMesh)? smv.spaceMesh : null;
+    if(!sm || sm.lawVersion!==GEO3_LAW) return deny("geoPN=3");
+    if(S.geoToyDeny) return deny("geoPN=3 denied:"+S.geoToyDeny);
+    g3={law:GEO3_LAW, pn:sm.pn, pnVelocity:(sm.pnVelocity===undefined)? null : sm.pnVelocity,
+      velocityMeaning:sm.velocityMeaning, version:GEO3_STEP_VERSION, init:null};
+  }
+  else if(P[SPACE_MESH_KEY]) return deny("spaceMesh");
   let bg=null;
   if(mv.field==="backgroundComplex"){
     const b0=P[BG_COMPLEX_KEY];
@@ -42103,8 +42513,11 @@ function meshVelocityPrepare(S){
     kernel={kernel:qkv.qLock.kernel, epsC:qkv.qLock.epsC, nodes:qkv.qLock.nodes, prof, version:SPHERE_KERNEL_VERSION};
   }
   S.meshVel={law:mv.law, field:mv.field, mutual:mv.mutual, frame:mv.frame, bg, ext, originIdx:oi,
-    O0:meshVelocityOriginNow(S, oi), t0:S.t, version:MESH_VEL_STEP_VERSION, kernel};
+    O0:meshVelocityOriginNow(S, oi), t0:S.t, version:MESH_VEL_STEP_VERSION, kernel, geo3:g3};
   S.hasMeshVelocity=true;
+  // 第280便c: geoPN=3・vMinusU は**同じ外部ステップ**(dfmMeshVelocityStep)へ dispatch する。1PN は重力側の
+  // 専用ステップ(dfmGeo3PNKick —— geoCoreDispatch が `_core` の前に 1 回だけ呼ぶ)
+  if(g3){ S.hasGeo3=true; S.geo3=g3; S.hasGeo3PN=(g3.pn===GEO3_PN[1]); }
   return true;
 }
 function meshVelocitySources(S){
@@ -42170,8 +42583,12 @@ function dfmMeshVelocityStep(S,dt){
   const n=S.n;
   const src=meshVelocitySources(S), O=meshVelocityOrigin(S);
   const F=new Array(n);
+  // 第280便c(geoPN=3・vMinusU): **pinned は慣性速度 v を規定する**(v は規定値のまま)が、**位置は ẋ=v+u で
+  // 移送される** —— 一様な u は純粋な座標の変更なので、規定運動の源も同じだけ運ばれる(運ばないと相対軌道が
+  // u で壊れる)。正準項 −Jᵀv は受けない。**geoPN≤2 の互換経路(第279便c)は従来どおり pinned を受け取らない**
+  const carryPin=!!(S.meshVel && S.meshVel.geo3);
   for(let i=0;i<n;i++){
-    if(S.pinned && S.pinned[i]){ F[i]=null; continue; }      // 規定運動の粒子は受け取らない
+    if(S.pinned && S.pinned[i] && !carryPin){ F[i]=null; continue; }      // 規定運動の粒子は受け取らない
     F[i]=dfmMeshVelocityFieldAt(S,i,src,O);
   }
   let uMax=0, kMax=0, work=0, nUndef=0, nBad=0;
@@ -42183,6 +42600,11 @@ function dfmMeshVelocityStep(S,dt){
     const vx=S.vx[i], vy=S.vy[i];
     const r=dfmMeshVelocityRHS(f,[vx,vy],[0,0]);
     if(!r.ok){ nBad++; continue; }
+    if(carryPin && S.pinned && S.pinned[i]){       // 第280便c: 規定運動の源は移送だけ(v・正準項・仕事は触らない)
+      S.x[i]+=r.transport[0]*dt; S.y[i]+=r.transport[1]*dt; S.geo3PinCarry++;
+      const up=Math.hypot(r.transport[0],r.transport[1]); if(up>uMax) uMax=up;
+      continue;
+    }
     const kx=r.canonical[0]*dt, ky=r.canonical[1]*dt;
     S.x[i]+=r.transport[0]*dt; S.y[i]+=r.transport[1]*dt;
     S.vx[i]=vx+kx; S.vy[i]=vy+ky;
@@ -43477,6 +43899,10 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   DENSITY_PROFILE_DEFAULTS, DENSITY_PROFILE_RANGES, ROTATION_LAWS,
   dfmGaussLegendre01, dfmLaneEmden, dfmSphereProfile, dfmSphereRho, dfmSphereOmega, dfmSphereKernelRadial,
   dfmSphereKernelMomentsOf, dfmAddMoments, dfmSphereKernelQEff, meshVelocityMomentsOf, meshVelocitySources,
+  // 第280便c(原仮定者の裁定〔第70報〕・統括の読み R65): **geoPN=3 の契約**(lawVersion:"vMinusU"・pn・pnVelocity・
+  // velocityMeaning)。QA preset.geo3Contract・docs.geo3-sync・ui.geo3Hud が機械固定する
+  GEO3_LAW, GEO3_PN, GEO3_PN_VELOCITY, GEO3_VELOCITY_MEANING, GEO3_STEP_VERSION, GEO3_INIT_MAX_N,
+  geoCoreDispatch, dfmGeo3PNKick, geo3TransportAt, geo3InitVelocity, geo3HudText, validateSpaceMesh,
   // 第264便b(第56報): **源の閉包**の値域("gravity" 既定 /"iterate" 診断)と反復・残差の宣言値。
   // QA behavior.geoToyClosure が「既定は 122 本ビット不変」「iterate は反復数と残差を返す」
   // 「特異点(det=1−η²χ₀χ₁→0)で収束しない」を機械固定する
