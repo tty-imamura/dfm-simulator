@@ -11113,7 +11113,7 @@ const BUILTIN_PRESETS = [
     {q:"1PN 項の大きさ(kF0 の λ_PN=1 と 0)", model:"+1.73×10⁻⁶ s(dt)", obs:"—(差の桁を読むための物差し)"},
     {q:"言わないこと", model:"観測と合った/潮汐ロックで観測値版と同じ精度になる/引きずりが消えた、とは書かない", obs:"—"}],
   descStruct:{
-    summary:"**❄️ plutoCharonReal の physics と bodies を複製し(kFrame=0)、法則だけを geoPN=3 の速度分解(lawVersion:\"vMinusU\")へ替えた診断コピー**(第280便c・原仮定者の裁定〔第70報〕「近点移動の差分を精査する — geoPN=3 として進める」)。外部の場は第279便c の器と同じ**太陽の背景**(点質量を t=0・対の重心で評価した comoving の値 —— u=A/W は y 向き 4740 m/s)を mutual:0 で置く。bodies の vx,vy は**観測の座標速度 ẋ**(velocityMeaning:\"xdot\")として読み、build で慣性速度 v=ẋ−u(0) へ変換する。1PN は pn:\"reference-1PN\"(**比較用の外部理論項** —— DFM から導出した項ではない)・pnVelocity:\"v\"。**較正ではない**(sampleClass:\"principle\"・❄️ の判定行ではない)。",
+    summary:"**❄️ plutoCharonReal の physics と bodies を複製し(kFrame=0)、法則だけを geoPN=3 の速度分解(lawVersion:\"vMinusU\")へ替えた診断コピー**(第280便c・原仮定者の裁定〔第70報〕「近点移動の差分を精査する — geoPN=3 として進める」)。外部の場は第279便c の器と同じ**太陽の背景**(点質量を t=0・対の重心で評価した comoving の値 —— u=A/W は y 向き 4740 m/s)を mutual:0 で置く。bodies の vx,vy は**観測の座標速度 ẋ**(velocityMeaning:\"xdot\")として読み、build で慣性速度 v=ẋ−u(0) へ変換する。1PN は pn:\"reference-1PN\"(E12 の試験粒子形 —— **比較用の外部理論項**で DFM から導出した項ではない)・pnVelocity:\"v\"。働いているのは重力(E4)と速度分解の移送だけで、kFrame=0 なので核の E6′ 運動引きずりは使わない。**較正ではない**(sampleClass:\"principle\"・❄️ の判定行ではない)。",
     observe:"実測(器 tests/exp-w280c-geo3.mjs・正式の判定器と同じ抽出器・同じ窓 20694498 步): 周期(同方向 1 周・2 周目)は 551864.0619249 s で、kF0 の診断コピー(geoPN=2・λ_PN=1 —— 同じ抽出器で測り直すと正本の kF0 行にビット一致)との差は +5.62×10⁻⁴ s(dt=0.016)/ +5.53×10⁻⁴ s(dt/2)。pnVelocity:\"xdot\" では差 +6.98×10⁻⁹ s / −9.22×10⁻⁶ s、pn:\"off\" と 1PN なし対照(λ_PN=0)の差は −2.57×10⁻⁸ s / −9.15×10⁻⁶ s。1PN 項そのものの大きさ(λ_PN=1 と 0 の差)は +1.73×10⁻⁶ s。mutual:0 の外部点源 1 つは u が一様(J=0)なので、移送は両天体に等しく正準項は 0 である(第279便c)。",
     control:"ワンタップ対照 A/B: B 側は geoPN=2(❄️ の kF0 と同じ —— 速度分解の外部ステップは立たない。**ただし bodies は ẋ→v の変換を受けたまま**なので、B は ❄️ の kF0 そのものではない)。**kFrame は動かさないこと**(vMinusU は kFrame=0 専用)。ステップ診断の HUD に「geoPN=3 / vMinusU / pn:reference-1PN(v) v0:xdot」と作動の步数が出る。"},
   en:{name:"Pluto and Charon — geoPN=3 contract diagnostic copy (solar background, mutual 0; NOT a calibration)",
@@ -15117,7 +15117,7 @@ const BUILTIN_PRESETS = [
     fail:"**観測入力ではない**: e*=0.001 は診断用の離心率で、D68 の観測(ae=25 km)とも違う。C=1.000302283 は D68 の ϖ̇ そのものへ合わせた既存の fit なので、この値を観測との一致と読むと fit を二重に数える。較正母集団の外(4 値は不変・📡 の判定は門のとおり否)。",
     pass:"📡 と初速の作り方(と 2 天体・ε 10 km)だけが違うコピーで、正式の抽出器・同じ 58 近点窓の近点移動が 📡 の 13925.5846 から 13968.2434 deg/yr へ動く —— 差 +42.66 deg/yr のうち初速の幾何が +42.23(残りは ε +0.54・他の環粒子 +0.11)。"},
   descStruct:{
-    summary:"📡 saturnZonalD68 の**原因診断のためのコピー**(第280便e・統括の検証項目 R67)。📡 は D68 の初速を「帯状重力込みの局所円速度 × √(1+e)」で作るので、同じ帯状ポテンシャルの中では宣言 a=67627 km・e=0.05 の軌道にならず、遠近点の平均半径 67800.72 km・幾何離心率 0.0524 の軌道に乗る。このコピーは同じポテンシャル U(r)(単極子 + J2〜J12 × C)から、r_p=a(1−e*)・r_a=a(1+e*)(a=67627 km・e*=0.001)を**転回点にする速度**を解いて置いた(土星・J・C・1PN の宣言は 📡 のまま・2 天体・ε=0.01=10 km)。",
+    summary:"📡 saturnZonalD68 の**原因診断のためのコピー**(第280便e・統括の検証項目 R67)。📡 は D68 の初速を「帯状重力込みの局所円速度 × √(1+e)」で作るので、同じ帯状ポテンシャルの中では宣言 a=67627 km・e=0.05 の軌道にならず、遠近点の平均半径 67800.72 km・幾何離心率 0.0524 の軌道に乗る。このコピーは同じポテンシャル U(r)(単極子 + J2〜J12 × C)から、r_p=a(1−e*)・r_a=a(1+e*)(a=67627 km・e*=0.001)を**転回点にする速度**を解いて置いた(土星・J・C・1PN〔E12〕の宣言は 📡 のまま・重力は E4・2 天体・ε=0.01=10 km)。",
     observe:"近点移動は正式の門と同じ抽出器(ṙ の −→+ 交差・最初の 58 近点の方位を近点番号へ回帰・周期は同じ 58 近点の平均)で 13968.2434 deg/yr(h/4)。同じ a の円軌道極限(独立計算・ε=0.01)は 13968.2023 deg/yr で、📡 との差の大部分は**初期軌道と比較対象(a=67627 km の円に近いリングレット)の不一致**である。ただし C は D68 の ϖ̇ への既存 fit であり、C=1 の同じ構成は 13964.0190 deg/yr になる —— 観測との近さを予測の成功と読まない。",
     control:"比べる相手は 📡(同じ土星・同じ C・初速だけが違う)と 📎 saturnD68ObsOrbit(e を観測の ae/a にしたもの)。数値の正本は tests/out/d68-w280e.json(器 tests/exp-w280e-d68.mjs)。"},
   en:{name:"Saturn D68 Apsidal Motion — Diagnostic Copy with a Consistent Initial Speed (e*=0.001)",
@@ -15166,7 +15166,7 @@ const BUILTIN_PRESETS = [
     fail:"**観測との一致とは書かない**: C=1.000302283 は D68 の ϖ̇ そのものへの既存 fit である。a(67627 km)には印字の 1σ が無く、丸め ±0.5 km だけで ±0.39 deg/yr、Table 4 の a の範囲では ±6 deg/yr(≈2σ)動く。a・ae・ϖ̇ は同じ単一の fit 元期の組として CSV に揃っていない(確認依頼の候補)。較正母集団の外。",
     pass:"観測の幾何要素と同じ定義(r=a∓ae)で置いた軌道は、正式の抽出器・同じ窓で 13968.2142 deg/yr になる(📡 は 13925.5846)。整合コピー 🧷 との差は −0.0292 deg/yr で、この範囲の離心率は近点移動をほとんど動かさない。"},
   descStruct:{
-    summary:"📡 saturnZonalD68 の**原因診断のためのコピー 2 本目**(第280便e・統括の検証項目 R67)。観測レコード(paper/data/solar-observations.csv の Hedman et al. 2014 の行)にある **a=67627 km と動径振幅 ae=25±1 km** を、観測の幾何要素と同じ定義 r=a∓ae のまま、同じ帯状ポテンシャル U の転回点として置いた(e=ae/a=3.697×10⁻⁴・土星・J・C・1PN は 📡 のまま・2 天体・ε=0.01=10 km)。",
+    summary:"📡 saturnZonalD68 の**原因診断のためのコピー 2 本目**(第280便e・統括の検証項目 R67)。観測レコード(paper/data/solar-observations.csv の Hedman et al. 2014 の行)にある **a=67627 km と動径振幅 ae=25±1 km** を、観測の幾何要素と同じ定義 r=a∓ae のまま、同じ帯状ポテンシャル U の転回点として置いた(e=ae/a=3.697×10⁻⁴・土星・J・C・1PN〔E12〕は 📡 のまま・重力は E4・2 天体・ε=0.01=10 km)。",
     observe:"近点移動は正式の門と同じ抽出器・同じ 58 近点窓で 13968.2142 deg/yr(h/4)。これは観測の比較値に近いが、**C は D68 の ϖ̇ への既存 fit**、a に印字の 1σ は無い(丸め ±0.5 km で ±0.39 deg/yr・Table 4 の範囲で ±6 deg/yr)。記録の平均運動 1751.6/1751.65 °/日 は同じ U では a=67623.21/67621.94 km を要し、a=67627 km と 4〜5 km ずれる —— 観測側の a・ae・ϖ̇・n が同じ元期の同じ fit の組かは未確認である。",
     control:"比べる相手は 📡(初速の作り方が違う)と 🧷 saturnD68Consistent(e*=0.001)。数値の正本は tests/out/d68-w280e.json(器 tests/exp-w280e-d68.mjs)。"},
   en:{name:"Saturn D68 Apsidal Motion — Diagnostic Copy on the Observed-Definition Orbit (ae=25 km)",
