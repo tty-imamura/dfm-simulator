@@ -1673,7 +1673,7 @@ ja: {
   hudSysOpen:(r)=>`系: 開放系(${r} — リザーバ・帳簿を含めて読む)`,
   sysPin:"固定天体", sysRail:"レール", sysBath:"熱浴", sysWall:"伝熱壁", sysGrav:"外部重力",
   helpOps:"操作",
-  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。「パラメータ」タブは 時空 → 引きずり・測地線 → スピン・熱 →(実験箱など)→ シミュレーション → グラフ → 表示 → スケール → 共通設定 の順に並びます(第254便c)。「表示」カテゴリのチェックボックスは ⏮初めから では保持され、「プリセット既定値に戻す」でサンプルの既定に戻ります。「共通設定」(保存量モニタ・描画品質・文字サイズ・カメラ追従など)と「シミュレーション」のステップ診断・物理ベンチ・コア軸の投影線は端末に永続する設定で、サンプルを変えても引き継がれます。コア軸の投影線(第275便e・第276便c で言葉を統一)は core.axisMode:\"prescribed\" を宣言した親子コアだけに描く表示専用の線で、3D 単位軸を公転面へ正射影したものです(3D 表示ではありません)。既定は「宣言した粒子だけ ON」です — トグルは ON ですが、宣言の無い粒子には何も描かないので、内蔵サンプルでは線は出ません。縦画面ではタブを開いたときパネル右上に「⤢ 広げる」が出ます(第275便f) — 押すとパネルが画面いっぱい(ヘッダー+操作列+タブを除いた高さ)まで伸びて「⤡ 狭くする」に変わり、「✕ 閉じる」は広い状態でもそのまま効きます。広い/狭いの選択は端末に記憶されます(横画面2カラムではパネルが元から残り高さを全部使うのでボタンは出ません)。広げた状態ではキャンバス上の文字(HUD・各パネル)が操作列・タブ・パネルの上へはみ出しません(第276便f — 広げた状態でだけキャンバス領域をクリップします)。「説明」タブは チップ → タイトル → ID → 🔖概要 → 注意書き → 他の仲間 → 🔬監査ビュー → 較正台帳 → 📌要約・👀観察・🎛操作 → 観測結果カード → 🧪失敗から見る → 🔎数値主張 … の順です(第276便f)。🔖概要は 120 字以内の短い要約で、サンプルが宣言していなければ📌要約の先頭 1〜2 文を機械抽出したものです(切ったときだけ末尾が「…」)。内蔵サンプルの概要は「目的。状況。較正。」の 1 行 3 節で、その下に状態チップ(目的の達成・較正の語・精度見込み)が並びます —— 宣言の転記で、この画面では何も測りません(第279便a)。🧪失敗から見ると観測結果カードは🔎数値主張と同じ折り畳みで、見出しをタップすると開きます(既定は畳む・開閉は記憶しません)。🔬監査ビューを開くボタンはトグルで、もう一度タップすると閉じます。横画面2カラムでは右カラム(操作列・タブ・パネル)と「サンプルを選ぶ」のウィンドウの幅は第278便e の 3/4 です(右カラムは画面幅の 40.5%・360〜472px、ウィンドウの上限 630px — 第279便d)。見出し・数値・選択中の文字は紺の下地で読みやすい明るい青、枠線は従来の青で、キーボード操作(Tab)では選んでいる部品に明るい枠が出ます(第279便d)。「このアプリについて」と🔬監査ビューは「サンプルを選ぶ」と同じく画面の手前に開くウィンドウで、縦画面でも横画面でもキャンバスと右カラムの上に重なり、✕・Esc・ウィンドウの外のタップで閉じます。「サンプルを選ぶ」の検索欄は、文字を入れている間だけ右端に ✕ が出て、タップすると検索文字列を消します(Esc はウィンドウを閉じます)。説明タブの観測結果カードの見出しには 📇 が付きます。",   /* 第254便c: パラメータタブの構成を追記 */
+  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。「パラメータ」タブは 時空 → 引きずり・測地線 → スピン・熱 →(実験箱など)→ シミュレーション → グラフ → 表示 → スケール → 共通設定 の順に並びます(第254便c)。「表示」カテゴリのチェックボックスは ⏮初めから では保持され、「プリセット既定値に戻す」でサンプルの既定に戻ります。「共通設定」(保存量モニタ・描画品質・文字サイズ・カメラ追従など)と「シミュレーション」のステップ診断・物理ベンチ・コア軸の投影線は端末に永続する設定で、サンプルを変えても引き継がれます。コア軸の投影線(第275便e・第276便c で言葉を統一)は core.axisMode:\"prescribed\" を宣言した親子コアだけに描く表示専用の線で、3D 単位軸を公転面へ正射影したものです(3D 表示ではありません)。既定は「宣言した粒子だけ ON」です — トグルは ON ですが、宣言の無い粒子には何も描かないので、内蔵サンプルでは線は出ません。縦画面ではタブを開いたときパネル右上に「⤢ 広げる」が出ます(第275便f) — 押すとパネルが画面いっぱい(ヘッダー+操作列+タブを除いた高さ)まで伸びて「⤡ 狭くする」に変わり、「✕ 閉じる」は広い状態でもそのまま効きます。広い/狭いの選択は端末に記憶されます(横画面2カラムではパネルが元から残り高さを全部使うのでボタンは出ません)。広げた状態ではキャンバス上の文字(HUD・各パネル)が操作列・タブ・パネルの上へはみ出しません(第276便f — 広げた状態でだけキャンバス領域をクリップします)。「説明」タブは チップ → タイトル → ID → 🔖概要 → 注意書き → 他の仲間 → 🔬監査ビュー → 較正台帳 → 📌要約・👀観察・🎛操作 → 観測結果カード → 🧪失敗から見る → 🔎数値主張 … の順です(第276便f)。🔖概要は 120 字以内の短い要約で、サンプルが宣言していなければ📌要約の先頭 1〜2 文を機械抽出したものです(切ったときだけ末尾が「…」)。内蔵サンプルの概要は「目的。状況。較正。」の 1 行 3 節で、その下に状態チップ(目的の達成・較正の語・精度見込み)が並びます —— 宣言の転記で、この画面では何も測りません(第279便a)。🧪失敗から見ると観測結果カードは🔎数値主張と同じ折り畳みで、見出しをタップすると開きます(既定は畳む・開閉は記憶しません)。🔬監査ビューを開くボタンはトグルで、もう一度タップすると閉じます。横画面2カラムでは右カラム(操作列・タブ・パネル)と「サンプルを選ぶ」のウィンドウの幅は第278便e の 3/4 です(右カラムは画面幅の 40.5%・360〜472px、ウィンドウの上限 630px — 第279便d)。見出し・数値・選択中の文字は紺の下地で読みやすい明るい青、枠線は従来の青で、キーボード操作(Tab)では選んでいる部品に明るい枠が出ます(第279便d)。「このアプリについて」と🔬監査ビューは「サンプルを選ぶ」と同じく画面の手前に開くウィンドウで、縦画面でも横画面でもキャンバスと右カラムの上に重なり、✕・Esc・ウィンドウの外のタップで閉じます。「サンプルを選ぶ」の検索欄は、文字を入れている間だけ右端に ✕ が出て、タップすると検索文字列を消します(Esc はウィンドウを閉じます)。説明タブの観測結果カードの見出しには 📇 が付きます。地球と月の実単位のサンプル(🌙🌘⭕🧲🔆🌓)は一覧の入口を 🌘 の 1 つにまとめました —— 残りは「すべて表示」か説明タブの「他の仲間」から開きます(サンプルの ID は 1 つも変えていません・第280便b)。",   /* 第254便c: パラメータタブの構成を追記 */
   helpLaws:"この宇宙の法則(要約)",
   helpLawsBody:"① 空間は質点の相対配置だけで決まる(絶対空間なし)。② 決定力=質量÷距離。決定力の勾配が重力になる。③ 質点は「近くの空間」に対して慣性を持ち、空間ごと引きずられる(kFrame)。遠方宇宙の決定力がD₀。④ スピン=熱(温度T=Is²)。衝突で速度がスピンに変わり(muF)、スピンは斥力=圧力を生み(kRep)、拡散して平衡になる(κs)。⑤ 決定力が高い場所の時計は遅く、空間(共動フレーム)に対して速く動く時計も遅れる。光は同じψ=W·κ(κ=時空係数)で屈折して曲がり(n=e^{2ψ}。v1.7で時間と光を単一のψに統一)、「決定した空間」に運ばれる(c₀)。⑥ すべての相互作用は作用反作用対称で、運動量・角運動量を厳密に保存する(遠方宇宙との交換は帳簿に記録=保存量モニタ)。温度Tの質点はλ=b_m/Tの光を放射する(η_rad)。詳細は docs/PHYSICS.md(v1.6)。",
   ovCurve:"v(r): 実測(青) / 基準 v_bar(点線)", ovTemp:"平均温度(Is²) 左/右", ovLeft:"左", ovRight:"右",
@@ -2472,7 +2472,7 @@ en: {
   hudSysOpen:(r)=>`System: open (${r} — read together with reservoirs/ledgers)`,
   sysPin:"pinned bodies", sysRail:"rail", sysBath:"heat bath", sysWall:"thermal walls", sysGrav:"external gravity",
   helpOps:"Controls",
-  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction. The Parameters tab is ordered Spacetime → Dragging & Geodesics → Spin & Heat → (Lab Box etc.) → Simulation → Graphs → Display → Scale → General (wave 254c). Checkboxes in Display are kept by ⏮Restart and returned to the sample defaults by \"Restore preset defaults\". General (conservation monitor, render quality, text size, camera follow, …) and the step diagnostics / physics bench / core-axis projection in Simulation are device-persistent settings that carry over between samples. The core-axis projection (wave 275e, wording unified in wave 276c) is a display-only line drawn only for parent-child cores that declare core.axisMode:\"prescribed\"; it is the 3D unit axis orthogonally projected onto the orbital plane (it is NOT a 3D view). The default is 'on for declared bodies only': the toggle is on, but nothing is drawn for bodies without the declaration, so no line appears in the built-in samples. In portrait, opening a tab also shows a \"⤢ Expand\" button at the top right of the panel (wave 275f): it stretches the panel to the full screen height minus the header, transport row and tab bar, turns into \"⤡ Shrink\", and \"✕ Close\" keeps working in both states. The choice is remembered on the device (in the landscape two-column layout the panel already fills the remaining height, so the button is not shown). In the expanded state the text drawn over the canvas (the HUD and the full-screen panels) no longer spills over the transport row, the tab bar or the panel (wave 276f - the canvas area is clipped in the expanded state only). The Description tab is ordered chips -> title -> ID -> 🔖 In brief -> caveats -> family -> 🔬 audit view -> calibration ledger -> 📌 Summary / 👀 What to observe / 🎛 Controls -> observation card -> 🧪 Failure First -> 🔎 Numeric claims ... (wave 276f). \"🔖 In brief\" is a summary of at most 120 characters: the sample's own declaration when it has one, otherwise the first one or two sentences extracted from \"📌 Summary\" (a trailing \"…\" appears only when something was cut). For built-in samples it is one line in three parts - purpose, state, calibration - with status chips below it (goal, calibration word, outlook); they transcribe the declaration and measure nothing on this screen (wave 279a). \"🧪 Failure First\" and the observation card now fold like \"🔎 Numeric claims\" - tap the heading to open them (collapsed by default; the open/closed state is not remembered). The button that opens the audit view is a toggle: tap it again to close. In the landscape two-column layout the right column (transport row, tabs, panel) and the \"Choose a sample\" window are 3/4 of the wave-278e width (the right column is 40.5% of the screen width, 360-472px; the window is at most 630px wide — wave 279d). Headings, values and selected items use a lighter blue that reads well on the navy background, borders keep the original blue, and keyboard navigation (Tab) draws a bright ring around the focused control (wave 279d). \"About this app\" and the 🔬 audit view open in front of the screen like \"Choose a sample\": in portrait and landscape alike they cover the canvas and the right column, and close with ✕, Esc or a tap outside the window. The search box in \"Choose a sample\" shows a ✕ at its right end while it holds text; tapping it clears the search (Esc closes the window). The observation-card heading in the Description tab now carries 📇.",   /* wave 254c */
+  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction. The Parameters tab is ordered Spacetime → Dragging & Geodesics → Spin & Heat → (Lab Box etc.) → Simulation → Graphs → Display → Scale → General (wave 254c). Checkboxes in Display are kept by ⏮Restart and returned to the sample defaults by \"Restore preset defaults\". General (conservation monitor, render quality, text size, camera follow, …) and the step diagnostics / physics bench / core-axis projection in Simulation are device-persistent settings that carry over between samples. The core-axis projection (wave 275e, wording unified in wave 276c) is a display-only line drawn only for parent-child cores that declare core.axisMode:\"prescribed\"; it is the 3D unit axis orthogonally projected onto the orbital plane (it is NOT a 3D view). The default is 'on for declared bodies only': the toggle is on, but nothing is drawn for bodies without the declaration, so no line appears in the built-in samples. In portrait, opening a tab also shows a \"⤢ Expand\" button at the top right of the panel (wave 275f): it stretches the panel to the full screen height minus the header, transport row and tab bar, turns into \"⤡ Shrink\", and \"✕ Close\" keeps working in both states. The choice is remembered on the device (in the landscape two-column layout the panel already fills the remaining height, so the button is not shown). In the expanded state the text drawn over the canvas (the HUD and the full-screen panels) no longer spills over the transport row, the tab bar or the panel (wave 276f - the canvas area is clipped in the expanded state only). The Description tab is ordered chips -> title -> ID -> 🔖 In brief -> caveats -> family -> 🔬 audit view -> calibration ledger -> 📌 Summary / 👀 What to observe / 🎛 Controls -> observation card -> 🧪 Failure First -> 🔎 Numeric claims ... (wave 276f). \"🔖 In brief\" is a summary of at most 120 characters: the sample's own declaration when it has one, otherwise the first one or two sentences extracted from \"📌 Summary\" (a trailing \"…\" appears only when something was cut). For built-in samples it is one line in three parts - purpose, state, calibration - with status chips below it (goal, calibration word, outlook); they transcribe the declaration and measure nothing on this screen (wave 279a). \"🧪 Failure First\" and the observation card now fold like \"🔎 Numeric claims\" - tap the heading to open them (collapsed by default; the open/closed state is not remembered). The button that opens the audit view is a toggle: tap it again to close. In the landscape two-column layout the right column (transport row, tabs, panel) and the \"Choose a sample\" window are 3/4 of the wave-278e width (the right column is 40.5% of the screen width, 360-472px; the window is at most 630px wide — wave 279d). Headings, values and selected items use a lighter blue that reads well on the navy background, borders keep the original blue, and keyboard navigation (Tab) draws a bright ring around the focused control (wave 279d). \"About this app\" and the 🔬 audit view open in front of the screen like \"Choose a sample\": in portrait and landscape alike they cover the canvas and the right column, and close with ✕, Esc or a tap outside the window. The search box in \"Choose a sample\" shows a ✕ at its right end while it holds text; tapping it clears the search (Esc closes the window). The observation-card heading in the Description tab now carries 📇. The real-unit Earth–Moon samples (🌙🌘⭕🧲🔆🌓) now share one entry in the list, 🌘 — open the others with \"Show all\" or from \"family\" in the Description tab (no sample ID was changed; wave 280b).",   /* wave 254c */
   helpLaws:"Laws of this universe (summary)",
   helpLawsBody:"(1) Space is defined only by the relative configuration of masses (no absolute space). (2) Determinacy = mass ÷ distance; its gradient is gravity. (3) Masses have inertia relative to the \"nearby space\" and are dragged along with it (kFrame). D₀ is the determinacy of the distant universe. (4) Spin = heat (T = Is²). Collisions convert velocity to spin (muF), spin creates repulsion = pressure (kRep), and diffuses to equilibrium (κs). (5) Clocks run slow where determinacy is high, and clocks moving fast relative to the comoving frame also run slow. Light refracts under the same ψ = W·κ (κ = the spacetime coefficient; n = e^{2ψ}; time and light unified in v1.7) and is carried by the \"determined space\" (c₀). (6) All interactions are action–reaction symmetric and conserve momentum and angular momentum exactly (exchanges with the distant universe are ledgered — see the conservation monitor). A mass at temperature T radiates at λ = b_m/T (η_rad). Details: docs/PHYSICS.md (v1.6).",
   ovCurve:"v(r): measured (blue) / baseline v_bar (dotted)", ovTemp:"Mean temperature (Is²) L/R", ovLeft:"L", ovRight:"R",
@@ -4478,6 +4478,91 @@ function meshVelocityCrossCheck(mv, bgc, ph, bodies, sampleClass){
     if(mv.external.length>=nb) return "physics.meshVelocity.external が全天体を挙げている(外部でない天体が 1 つも無い)";
   }
   return null;
+}
+// ===== 第280便b(原仮定者の裁定〔第70報〕・統括の読み R69): physics.qLock —— 引きずり核の宣言(opt-in) =====
+// 形: {kernel:"frontBack", epsC:数値≥0, nodes?:8|16|32|64}
+//   ・kernel "frontBack" … 球体の表裏を積分した複素モーメント(`dfmSphereKernelMomentsOf`)を、
+//     `physics.meshVelocity` の外部の場(field:"explicit" の external)に使う。**q は使わない**(核に指数は無い)。
+//   ・epsC … 複素場の正則化 ε_c(重力の ε_g とは別に宣言する)。0 のときは球の内部・表面の点を拒否する。
+//   ・nodes … 半径の求積の区間あたりの点数(既定 16)。
+// 天体側の宣言 `bodies[].densityClass:"solid"|"gas"|"star"|"compact"`(+ 任意の `densityProfile`・`rotationProfile`)は
+// **同じ積分則への物理入力**(ρ(r) と Ω(r))であって、クラスごとの経験 q ではない。
+// **拒否**: meshVelocity の未宣言・field:"backgroundComplex"(核は明示天体の場だけ)・external に densityClass の無い天体。
+// **トップレベルの `qLock:true`(q の自動算出 —— 第123便)とは別の鍵**で、そちらは 1 文字も変えていない。
+// **未宣言は 1 bit 不変**(`meshVelocityPrepare` が kernel を張らない = `dfmComplexMomentsOf` の点源のまま)。
+const QLOCK_KERNEL_KEY = "qLock";
+const QLOCK_KERNELS = ["frontBack"];
+const QLOCK_KERNEL_KEYS = ["kernel","epsC","nodes"];
+const QLOCK_KERNEL_NODES = [8,16,32,64];
+const SPHERE_KERNEL_VERSION = "w280b-frontBack-1";
+const DENSITY_CLASSES = ["solid","gas","star","compact"];
+const DENSITY_PROFILE_KEYS = {solid:["coreFrac","coreRatio"], gas:["beta"], star:["polyN"], compact:[]};
+// 既定の物理入力(**形の例示であって出典を確定した値ではない** —— 出典の確定は第280便b の決断事項候補)
+const DENSITY_PROFILE_DEFAULTS = {solid:{coreFrac:0.546, coreRatio:2.44}, gas:{beta:1}, star:{polyN:3}, compact:{}};
+const DENSITY_PROFILE_RANGES = {coreFrac:[0.01,0.99], coreRatio:[0.01,100], beta:[0,20], polyN:[0,4.5]};
+const ROTATION_LAWS = ["rigid","shellular"];
+function validateQLockKernel(a){
+  if(a===null || a===undefined) return {ok:true, qLock:null};
+  if(typeof a!=="object" || Array.isArray(a))
+    return {ok:false, err:'physics.qLock はオブジェクト {kernel:"frontBack", epsC} か null(q の自動算出はトップレベルの qLock:true)'};
+  for(const k of Object.keys(a)) if(QLOCK_KERNEL_KEYS.indexOf(k)<0)
+    return {ok:false, err:"physics.qLock に知らない鍵 "+k+" がある(kernel/epsC/nodes のみ)"};
+  if(QLOCK_KERNELS.indexOf(a.kernel)<0) return {ok:false, err:'physics.qLock.kernel は "frontBack" のみ'};
+  if(!isNum(a.epsC) || a.epsC<0) return {ok:false, err:"physics.qLock.epsC は 0 以上の有限数(複素場の正則化 ε_c —— 重力の ε とは別に宣言する)"};
+  const nd=(a.nodes===undefined)? 16 : a.nodes;
+  if(QLOCK_KERNEL_NODES.indexOf(nd)<0) return {ok:false, err:"physics.qLock.nodes は 8/16/32/64"};
+  return {ok:true, qLock:{kernel:a.kernel, epsC:a.epsC, nodes:nd}};
+}
+// 天体の密度クラスの宣言(single 専用)。null=未宣言 / {ok:false} は拒否 / 正規化した {densityClass, densityProfile, rotationProfile}
+function validateSphereBody(b){
+  if(!b || (b.densityClass===undefined && b.densityProfile===undefined && b.rotationProfile===undefined)) return {ok:true, sphere:null};
+  const cls=b.densityClass;
+  if(DENSITY_CLASSES.indexOf(cls)<0) return {ok:false, err:'densityClass は "solid"/"gas"/"star"/"compact"(densityProfile・rotationProfile は densityClass と一緒に書く)'};
+  const dp=(b.densityProfile===undefined)? {} : b.densityProfile;
+  if(!dp || typeof dp!=="object" || Array.isArray(dp)) return {ok:false, err:"densityProfile はオブジェクト"};
+  const keys=DENSITY_PROFILE_KEYS[cls], outP={};
+  for(const k of Object.keys(dp)) if(keys.indexOf(k)<0)
+    return {ok:false, err:"densityProfile に "+cls+" の入力でない鍵 "+k+" がある("+(keys.length? keys.join("/") : "入力なし")+")"};
+  for(const k of keys){
+    const v=(dp[k]===undefined)? DENSITY_PROFILE_DEFAULTS[cls][k] : dp[k];
+    const rg=DENSITY_PROFILE_RANGES[k];
+    if(!isNum(v) || v<rg[0] || v>rg[1]) return {ok:false, err:"densityProfile."+k+" は "+rg[0]+"〜"+rg[1]};
+    outP[k]=v;
+  }
+  const rp=(b.rotationProfile===undefined)? {law:"rigid"} : b.rotationProfile;
+  if(!rp || typeof rp!=="object" || Array.isArray(rp)) return {ok:false, err:"rotationProfile はオブジェクト"};
+  for(const k of Object.keys(rp)) if(k!=="law" && k!=="centerRatio") return {ok:false, err:"rotationProfile に知らない鍵 "+k+" がある(law/centerRatio のみ)"};
+  if(ROTATION_LAWS.indexOf(rp.law)<0) return {ok:false, err:'rotationProfile.law は "rigid"/"shellular"'};
+  const outR={law:rp.law};
+  if(rp.law==="shellular"){
+    if(!isNum(rp.centerRatio) || rp.centerRatio<=0 || rp.centerRatio>10) return {ok:false, err:"rotationProfile.centerRatio は 0 より大きく 10 以下(中心の Ω / 表面の Ω)"};
+    outR.centerRatio=rp.centerRatio;
+  } else if(rp.centerRatio!==undefined) return {ok:false, err:'rotationProfile.centerRatio は law:"shellular" のときだけ'};
+  return {ok:true, sphere:{densityClass:cls, densityProfile:outP, rotationProfile:outR}};
+}
+// validatePreset が physics と bodies の確定後に呼ぶ相互検査(null=問題なし / 文字列=拒否理由)
+function qLockKernelCrossCheck(qk, mv, bodies){
+  if(!qk) return null;
+  if(!mv) return 'physics.qLock.kernel は physics.meshVelocity(field:"explicit")の外部の場にだけ使う —— meshVelocity の宣言が要る';
+  if(mv.field!=="explicit") return 'physics.qLock.kernel は meshVelocity の field:"explicit" 専用(背景 backgroundComplex の値には核を掛けない)';
+  const nb=Array.isArray(bodies)? bodies.length : 0;
+  for(const s of mv.external){
+    const bi=bgBodyRefIndex(s);
+    if(!(bi>=0 && bi<nb) || !bodies[bi] || !bodies[bi].densityClass)
+      return "physics.qLock.kernel: external の "+s+" に bodies[].densityClass の宣言が無い(表裏核は密度の入力が要る)";
+  }
+  return null;
+}
+// build が meshVelocityPrepare の直前に呼ぶ: physics.qLock を宣言した宇宙だけ、天体ごとの密度宣言を index で並べる
+function sphereDeclOf(preset){
+  const ph=preset && preset.physics;
+  if(!ph || ph[QLOCK_KERNEL_KEY]===undefined || ph[QLOCK_KERNEL_KEY]===null) return null;
+  const out=[];
+  for(const b of (preset.bodies||[])){
+    const v=(b && b.type==="single")? validateSphereBody(b) : {ok:true, sphere:null};
+    out.push(v.ok? v.sphere : null);
+  }
+  return out;
 }
 // ===== 第277便b(原仮定者の裁定(第67報)(1)): physics.relativeDrag — **相対すべりの零条件**を持つ引きずり則 =====
 // 裁定の字義は「**空間メッシュ(複素決定力場)による引きずり(座標変換)は相対的に動いていなければ
@@ -8850,7 +8935,7 @@ const BUILTIN_PRESETS = [
 //   ③ C は窓にも dt にも依存しない定常な永年率(118公転 8.754年 / 236公転 8.752年)で、
 //      離心率も有界(0.011〜0.055)。**数値一致の頑健さ**が A/B/C を判別する。
 { id:"emAuditNewton", name:"地球と月・機構判別A(二体ニュートン)— 閉じた楕円", emoji:"⭕", group:"現実との照合・太陽系",
-  familyId:"emAudit", familyRole:"variant",
+  familyId:"earthmoon", familyRole:"variant",   // 第280便b(第70報「まとめても良い」・R70): 地球–月の入口を 🌘 の 1 つへ(表示専用 — ID・物理・claims・QA の窓は不変。旧 family "emAudit")
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 🌙🌘 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
   // 第259便d(第51報 W4): **分類変更** —— 「現実較正」から**原理実証**(principle)へ移した 3 本のうちの 1 本である。
@@ -8954,7 +9039,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"emAuditDFM", name:"地球と月・機構判別B(二体DFM較正)— 8.85年を別機構で", emoji:"🧲", group:"現実との照合・太陽系",
-  familyId:"emAudit", familyRole:"variant",   // 第137便(統括裁定): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)
+  familyId:"earthmoon", familyRole:"variant",   // 第137便(統括裁定): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)/ 第280便b(第70報・R70): 旧 family "emAudit" → 🌘 の "earthmoon"(ID は削除しない)
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 🌙🌘 と同一の指数系
   sampleClass:"calibration",
@@ -9061,7 +9146,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"emAuditSolar", name:"地球と月・機構判別C(太陽+地球+月の三体)— 較正なしの太陽摂動", emoji:"🔆", group:"現実との照合・太陽系",
-  familyId:"emAudit", familyRole:"primary",   // 第137便(統括裁定): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)
+  familyId:"earthmoon", familyRole:"variant",   // 第137便(統括裁定): emAudit の primary / 第280便b(第70報・R70): 地球–月の入口を 🌘 の 1 つへ(primary → variant・表示専用 — ID・物理・claims・QA の窓は不変)
   scaleTier:"planetary",
   scaleExp:{L:8, T:4, M:27},   // ☄️🪨🌞 と同一の指数系(1単位=10⁸m/10⁴s/10²⁷kg — 太陽を座標 ±1500 に収める)
   sampleClass:"calibration",
@@ -9180,6 +9265,74 @@ const BUILTIN_PRESETS = [
     {type:"single", m:0.00007346, radius:0.0174, x:1499.5874090,y:0, vx:0,vy:3.08512000, spin:0.026617, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false} },
+
+// ===== 第280便b(原仮定者の裁定〔第70報〕「引きずり減衰 q の算出を見直す …表側と裏側の引きずりは逆転している …密度分布にも
+// 影響を受ける」・統括の読み R69/R70): **表裏核の診断コピー 🌓 earthMoonDiagOne**(sampleClass:"principle" — 較正母集団に入れない)。
+// 🌘 earthMoonRealKF1 と**同じ初期状態**(質量・半径・位置・自転・座標速度)から、引きずりの経路だけを
+// kFrame=1 の E6′(q_exact=8.2358)→ kFrame=0 + `physics.meshVelocity`(field:"explicit"・外部の場=地球)+
+// `physics.qLock.kernel:"frontBack"`(地球 densityClass:"solid")へ置き換えた。vx,vy は**慣性速度 v=ẋ−u(0)**
+// (月の座標速度 ẋ を 🌘 の宣言値に揃えるため、t=0 の u を差し引いた —— 地球は自分の場を受けないので v=ẋ)。
+// **q は使わない**(核に指数は無い)・**c² の抑制は入っていない**(弱場振幅の導出は未了 —— PHYSICS〔第280便b〕)。
+{ id:"earthMoonDiagOne", name:"地球と月(表裏核の診断)— 同じ初期状態・経路だけ置換", emoji:"🌓", group:"現実との照合・太陽系",
+  familyId:"earthmoon", familyRole:"variant",
+  scaleTier:"planetary",
+  scaleExp:{L:6, T:2, M:25},   // 🌘 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
+  sampleClass:"principle",   // 診断コピー — 較正母集団 37 本は不変・calaudit の CFG に登録しない
+  fidelity:"real",
+  notClaim:["solar_cal"],
+  obsCard:[
+    {q:"近点移動(27 周窓・dt 0.016・近点検出器 B)", model:"1.072×10⁻³ °/周(周期 2.57×10⁴ 年・8 公転窓も同値)・点源 −3.598×10⁻⁵ との差 +1.11×10⁻³ —— 🌘 は 2.7322", obs:"🌘 と同じ抽出器の値を並記(PHYSICS〔第280便b〕の 1 表)"},
+    {q:"月の座標での移送 u_φ(t=0)", model:"u_φ=2.830 m/s(地球の並進 V_E に上乗せ)・恒星月 27.950 日(🌘 27.317 日 —— 並進の移送で月の質量の寄与が抜ける)", obs:"—(c² 抑制なし — 導出できていない)"},
+    {q:"表裏核の振幅 / 現行核(a=月)", model:"3.56×10¹⁰ 倍(表裏核 1.067×10⁻⁴・現行 3.000×10⁻¹⁵)・同じ振幅の単一べき q 相当 2.2523(fit ではない)", obs:"—(一致は期待しない)"}],
+  failureFirst:{
+    fail:"**表裏核には c² の抑制が無い**: 地球の自転が月の位置に作る移送の角速度は、現行の q_exact=8.2358 の核(=レンズ=サーリング級)の 約 3.56×10¹⁰ 倍になる。旧 q に合わせて振幅を縮める操作(再 fit)は**していない** —— 弱場振幅をどう置くかは**導出できていない**(決断事項)。",
+    pass:"🌘 と同じ初期状態から**経路だけ**を置き換えた診断コピーで、同じ抽出器・同じ窓で並べられる(PHYSICS〔第280便b〕の 1 表)。表裏核は遠方で W→M/r²・A_φ→IΩ/r³ に一致し(相対誤差は r⁻² で縮む)、密度クラスは同じ積分則への物理入力(ρ・Ω)として入る。"},
+  descStruct:{
+    summary:"🌘 earthMoonRealKF1 と**同じ初期状態**(実質量・実半径・自転・座標速度)の地球と月で、引きずりを **kFrame=1 の E6′(q_exact)から、球体の表裏を積分した複素モーメント(表裏核)による座標変換** ẋ=v+u へ置き換えた診断コピー(第280便b)。地球は densityClass:\"solid\"(2 層 — 形の例示)。",
+    observe:"月の近点移動は 27 公転窓で 1.072×10⁻³ °/周(近点回転の周期 2.57×10⁴ 年)で、🌘(2.7322 °/周)の約 1/2500 —— 地球の自転が作る表裏核の移送 u_φ=2.830 m/s(公転速度の 0.26%)があっても近点はほとんど回らない。恒星月は 27.950 日(🌘 より 2.3% 長い)—— 外部の場を地球だけにした mutual:0 では月が地球の並進ごと運ばれ、相対加速度から月自身の質量の寄与が抜ける。判定は門の外(principle の診断コピー)。",
+    control:"ワンタップの対照は同じファミリーの 🌘(kFrame=1・q_exact)と ⭕(kFrame=0・引きずりなし)である。**vx,vy は慣性速度 v=ẋ−u(0)**(月の座標速度を 🌘 に揃えた)。**q は使わない**・**c² の抑制は入っていない**。1PN(geoPN=2)は慣性速度 v を読む(第279便c と同じ —— どちらの速度を読むべきかは導出できていない)。"},
+  en:{name:"Earth & Moon (front–back kernel diagnostic) — same initial state, only the route replaced",
+    obsCard:[
+      {q:"Apsidal advance (27-orbit window, dt 0.016, detector B)", model:"1.072e-3 deg/orbit (apsidal period 2.57e4 yr; same over 8 orbits); +1.11e-3 above the point source (-3.598e-5) — 🌘 gives 2.7322", obs:"listed next to 🌘 with the same extractor (PHYSICS [wave 280b] table)"},
+      {q:"Transport u_φ at the Moon (t=0)", model:"u_φ = 2.830 m/s on top of the Earth's translation; sidereal month 27.950 d (🌘 27.317 d — translation transport removes the Moon's own mass from the relative pull)", obs:"— (no c² suppression — not derived)"},
+      {q:"Front–back amplitude / current kernel (a = Moon)", model:"3.56e10 times (front–back 1.067e-4 vs current 3.000e-15); single power with the same amplitude q ≈ 2.2523 (not a fit)", obs:"— (agreement is not expected)"}],
+    failureFirst:{
+      fail:"THE FRONT–BACK KERNEL HAS NO c² SUPPRESSION: the angular velocity of the transport that the Earth's spin produces at the Moon is about 3.56e10 times that of the current q_exact=8.2358 kernel (Lense–Thirring class). The amplitude is NOT shrunk to match the old q (no refit) — how to set the weak-field amplitude is NOT DERIVED (a decision item).",
+      pass:"A diagnostic copy that replaces ONLY THE ROUTE from 🌘's initial state, so it can be listed with the same extractor and the same window (PHYSICS [wave 280b] table). Far away the kernel matches W→M/r² and A_φ→IΩ/r³ (the relative error shrinks as r⁻²); the density class enters as physical input (ρ, Ω) to one integration rule."},
+    descStruct:{
+      summary:"The Earth and Moon in THE SAME INITIAL STATE as 🌘 earthMoonRealKF1 (real masses, radii, spins, coordinate velocities), with the dragging replaced FROM kFrame=1 E6′ (q_exact) TO A COORDINATE TRANSFORMATION ẋ=v+u BUILT FROM THE COMPLEX MOMENTS INTEGRATED OVER THE FRONT AND BACK OF THE SPHERE (the front–back kernel) — a diagnostic copy (wave 280b). The Earth is densityClass:\"solid\" (two layers — an illustrative shape).",
+      observe:"The Moon's apsidal advance over the 27-orbit window is 1.072e-3 deg/orbit (apsidal period 2.57e4 yr), about 1/2500 of 🌘 (2.7322 deg/orbit): even with the front–back transport u_φ = 2.830 m/s from the Earth's spin (0.26% of the orbital speed) the apse barely turns. The sidereal month is 27.950 d (2.3% longer than 🌘): with mutual:0 and the Earth as the only external field, the Moon is carried along with the Earth's translation and its own mass drops out of the relative pull. Outside the gates (a principle diagnostic copy).",
+      control:"The one-tap controls are 🌘 (kFrame=1, q_exact) and ⭕ (kFrame=0, no dragging) in the same family. vx,vy ARE THE INERTIAL VELOCITY v=ẋ−u(0) (the Moon's coordinate velocity matches 🌘). NO q IS USED and THERE IS NO c² SUPPRESSION. The 1PN term (geoPN=2) reads the inertial velocity v (as in wave 279c — which velocity it should read is not derived)."},
+    parameterAudit:{
+      observedInputs:["the same real values as 🌘 (Earth 5.9724e24 kg / 6.38e6 m / 23.93 h; Moon 7.346e22 kg / 1.74e6 m)","real G=6.674 and c₀=3e4"],
+      fixedConventions:["per-sample scale exponents (1 unit = 1e6 m / 1e2 s / 1e25 kg)","kFrame=0 + physics.meshVelocity {law:\"vMinusU\", field:\"explicit\", mutual:0, external:[Earth]}",
+        "physics.qLock {kernel:\"frontBack\", epsC:0, nodes:16}","the Earth densityClass:\"solid\" {coreFrac:0.546, coreRatio:2.44} (illustrative — the source is a decision item), rigid rotation",
+        "geoPN=2, λ_PN=1, pnα=1.5 (reads the inertial velocity v)","stateCarry:\"double\", massFloor=1e-6"],
+      fitted:[],
+      derived:["the Moon's inertial velocity v=ẋ−u(0) (ẋ = 🌘's declared value)","κ=G/c₀²=7.4156e-9"],
+      numerical:["softening ε=0.1 (gravity) — ε_c=0 for the complex field (a separate declaration)","timeScale=100","dispMag=10 (display only)"]}},
+  parameterAudit:{
+    observedInputs:["🌘 と同じ実値(地球 5.9724×10²⁴kg・6.38×10⁶m・23.93時間/月 7.346×10²²kg・1.74×10⁶m)","実 G=6.674・c₀=3×10⁴"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)","kFrame=0 + physics.meshVelocity {law:\"vMinusU\", field:\"explicit\", mutual:0, external:[地球]}",
+      "physics.qLock {kernel:\"frontBack\", epsC:0, nodes:16}","地球 densityClass:\"solid\" {coreFrac:0.546, coreRatio:2.44}(形の例示 — 出典は決断事項)・剛体回転",
+      "geoPN=2・λ_PN=1・pnα=1.5(慣性速度 v を読む)","stateCarry:\"double\"・massFloor=1e-6"],
+    fitted:[],
+    derived:["月の慣性速度 v=ẋ−u(0)(ẋ は 🌘 の宣言値)","κ=G/c₀²=7.4156×10⁻⁹"],
+    numerical:["ソフトニング ε=0.1(重力)— 複素場は ε_c=0(別の宣言)","時間倍率 timeScale=100","粒子表示倍率 dispMag=10(表示専用)"]},
+  activeParams:["dispMag"],
+  camera:{scale:450}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:0, q:8.2358, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:100, dispMag:10, stateCarry:"double",
+    meshVelocity:{law:"vMinusU", field:"explicit", mutual:0, external:["body:0"],
+      frame:{origin:"barycenter", epoch:"🌘 t=0", rotation:"none", translation:"comoving"}},
+    qLock:{kernel:"frontBack", epsC:0, nodes:16}},
+  bodies:[   // 🌘 と同じ値。月の vy だけが慣性速度 v=ẋ−u(0)=0.10675096027535999−(−0.0010300293704929766)(u は地球の並進 V_E+表裏核の u_φ=2.830 m/s)
+    {type:"single", m:0.59724, radius:6.38, x:-4.41822,y:0, vx:0,vy:-0.0013130341660799998, spin:0.0072921, pinned:false, pnSource:true,
+      densityClass:"solid", densityProfile:{coreFrac:0.546, coreRatio:2.44}, rotationProfile:{law:"rigid"}},
+    {type:"single", m:0.007346, radius:1.74, x:359.2071,y:0, vx:0,vy:0.10778098964585296, spin:0.00026617, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 // ===== 第136便: qLock 半径方向監査サンプル群 qlockAudit =====
 // 論文3 の Cost 2(qLock の代償)を、注意書きではなく**同一の実測・同一の図**として置く。
@@ -15826,10 +15979,11 @@ const SAMPLE_STATUS={
 "selfRotor":{"purpose":"一様な雲から暗く回る中心が育つかを見る","objective":"met","state":"4 seed で質量比の最小 18.3%・対照の 33 倍","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.selfrotor-multiseed"],"en":{"purpose":"See whether a dark spinning centre grows from a uniform cloud","state":"minimum mass fraction 18.3% over 4 seeds, 33× the control","mismatch":null,"outlook":null,"brief":"See whether a dark spinning centre grows from a uniform cloud. Met: minimum mass fraction 18.3% over 4 seeds, 33× the control. Out of calibration scope."},"brief":"一様な雲から暗く回る中心が育つかを見る。達・4 seed で質量比の最小 18.3%・対照の 33 倍。較正対象外。"},
 "starSeed":{"purpose":"コアの圧縮・軸仕事と減光の経路を測る","objective":"met","state":"Ω 比 107.9・減光 0.9988 が窓内","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["claim.starseed-powerball"],"en":{"purpose":"Measure the path from core compression and axial work to dimming","state":"Ω ratio 107.9 and dimming 0.9988 lie in their windows","mismatch":null,"outlook":null,"brief":"Measure the path from core compression and axial work to dimming. Met: Ω ratio 107.9 and dimming 0.9988 lie in their windows. Out of calibration scope."},"brief":"コアの圧縮・軸仕事と減光の経路を測る。達・Ω 比 107.9・減光 0.9988 が窓内。較正対象外。"},
 "earthMoonReal":{"purpose":"実単位の地球と月を kF0 で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare the real Earth and Moon in real units with kF0","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","brief":"Compare the real Earth and Moon in real units with kF0. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"brief":"実単位の地球と月を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
-"earthMoonRealKF1":{"purpose":"月の周期と近点回転を kF1 で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":"近点移動 +12.7%(σ なし)","outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare the Moon's period and apsidal rotation with kF1","state":"the comparison runs are in the ledger","mismatch":"apsidal advance +12.7% (no σ)","outlook":"no σ connected","brief":"Compare the Moon's period and apsidal rotation with kF1. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +12.7% (no σ); no σ connected."},"brief":"月の周期と近点回転を kF1 で照合する。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +12.7%(σ なし)・σ 未接続。"},
+"earthMoonRealKF1":{"purpose":"月の周期と近点回転を kF1 で照合する","objective":"partial","state":"照合の走行は台帳に記帳・🧲 との差は重みと初速の両方","calibration":"hold","mismatch":"近点移動 +12.7%(σ なし)","outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync","tests/out/emgrid-w280b.json"],"en":{"purpose":"Compare the Moon's period and apsidal rotation with kF1","state":"the comparison runs are in the ledger; 🧲 gap: weight + speed","mismatch":"apsidal advance +12.7% (no σ)","outlook":"no σ connected","brief":"Compare the Moon's period and apsidal rotation with kF1. Partial: the comparison runs are in the ledger; 🧲 gap: weight + speed. Calibration: hold — apsidal advance +12.7% (no σ); no σ connected."},"brief":"月の周期と近点回転を kF1 で照合する。部分・照合の走行は台帳に記帳・🧲 との差は重みと初速の両方。較正は保留・近点移動 +12.7%(σ なし)・σ 未接続。"},
 "emAuditNewton":{"purpose":"純二体では月の近点回転が出ないことを示す","objective":"met","state":"陰性対照として Δϖ が窓内","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.emAudit"],"en":{"purpose":"Show that a pure two-body system gives no lunar apsidal rotation","state":"as a negative control Δϖ lies in its window","mismatch":null,"outlook":null,"brief":"Show that a pure two-body system gives no lunar apsidal rotation. Met: as a negative control Δϖ lies in its window. Out of calibration scope."},"brief":"純二体では月の近点回転が出ないことを示す。達・陰性対照として Δϖ が窓内。較正対象外。"},
-"emAuditDFM":{"purpose":"月の較正窓の一致が長期に続くかを調べる","objective":"met","state":"長い窓で 20.77 年へずれることを検出","calibration":"hold","mismatch":"近点移動 +23.1%(σ なし)","outlook":"σ 未接続","evidence":["behavior.emAudit","tests/out/calaudit-w249.json"],"en":{"purpose":"Check whether the lunar calibration-window agreement lasts","state":"detects the drift to 20.77 yr over a long window","mismatch":"apsidal advance +23.1% (no σ)","outlook":"no σ connected","brief":"Check whether the lunar calibration-window agreement lasts. Met: detects the drift to 20.77 yr over a long window. Calibration: hold — apsidal advance +23.1% (no σ); no σ connected."},"brief":"月の較正窓の一致が長期に続くかを調べる。達・長い窓で 20.77 年へずれることを検出。較正は保留・近点移動 +23.1%(σ なし)・σ 未接続。"},
+"emAuditDFM":{"purpose":"月の較正窓の一致が長期に続くかを調べる","objective":"met","state":"長い窓で 20.77 年へずれることを検出・🌘 との差は重みと初速","calibration":"hold","mismatch":"近点移動 +23.1%(σ なし)","outlook":"σ 未接続","evidence":["behavior.emAudit","tests/out/calaudit-w249.json","tests/out/emgrid-w280b.json"],"en":{"purpose":"Check whether the lunar calibration-window agreement lasts","state":"detects a drift to 20.77 yr in a long window; 🌘 gap: weight+speed","mismatch":"apsidal advance +23.1% (no σ)","outlook":"no σ connected","brief":"Check whether the lunar calibration-window agreement lasts. Met: detects a drift to 20.77 yr in a long window; 🌘 gap: weight+speed. Calibration: hold — apsidal advance +23.1% (no σ); no σ connected."},"brief":"月の較正窓の一致が長期に続くかを調べる。達・長い窓で 20.77 年へずれることを検出・🌘 との差は重みと初速。較正は保留・近点移動 +23.1%(σ なし)・σ 未接続。"},
 "emAuditSolar":{"purpose":"太陽摂動だけで月の近点回転を出す","objective":"partial","state":"向きは前進・年数は記録のみ","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["behavior.emAudit","tests/out/calaudit-w249.json"],"en":{"purpose":"Get the lunar apsidal rotation from solar perturbation alone","state":"the direction is prograde; the period is only recorded","mismatch":null,"outlook":"no σ connected","brief":"Get the lunar apsidal rotation from solar perturbation alone. Partial: the direction is prograde; the period is only recorded. Calibration: hold; no σ connected."},"brief":"太陽摂動だけで月の近点回転を出す。部分・向きは前進・年数は記録のみ。較正は保留・σ 未接続。"},
+"earthMoonDiagOne":{"purpose":"🌘 の初期状態のまま引きずりを表裏核の座標変換へ置き換える診断","objective":"met","state":"近点移動 1.07×10⁻³ °/周・c² 抑制なしを記帳","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/emgrid-w280b.json","tests/out/spherekernel-w280b.json"],"en":{"purpose":"Diagnostic that swaps 🌘's dragging for the front-back kernel transport","state":"apsidal advance 1.07e-3 deg/orbit and no c² suppression are recorded","mismatch":null,"outlook":null,"brief":"Diagnostic that swaps 🌘's dragging for the front-back kernel transport. Met: apsidal advance 1.07e-3 deg/orbit and no c² suppression are recorded. Out of calibration scope."},"brief":"🌘 の初期状態のまま引きずりを表裏核の座標変換へ置き換える診断。達・近点移動 1.07×10⁻³ °/周・c² 抑制なしを記帳。較正対象外。"},
 "qLockRadialAudit":{"purpose":"qLock が参照軌道の外で崩れるかを監査する","objective":"met","state":"内側 2 点で逆行・落ち方 5.49 倍を検出","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.qlockRadial"],"en":{"purpose":"Audit whether qLock breaks away from its reference orbit","state":"detects retrograde drag at two inner points and a 5.49× falloff","mismatch":null,"outlook":null,"brief":"Audit whether qLock breaks away from its reference orbit. Met: detects retrograde drag at two inner points and a 5.49× falloff. Out of calibration scope."},"brief":"qLock が参照軌道の外で崩れるかを監査する。達・内側 2 点で逆行・落ち方 5.49 倍を検出。較正対象外。"},
 "qLockRadialAuditQ3":{"purpose":"q=3 の対照で r⁻³ 則の物差しを示す","objective":"met","state":"q=3 対照は qLock の 8.5 倍(門 >5)","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.qlockRadial"],"en":{"purpose":"Give the yardstick of the r⁻³ law with a q=3 control","state":"the q=3 control is 8.5× qLock (gate >5)","mismatch":null,"outlook":null,"brief":"Give the yardstick of the r⁻³ law with a q=3 control. Met: the q=3 control is 8.5× qLock (gate >5). Out of calibration scope."},"brief":"q=3 の対照で r⁻³ 則の物差しを示す。達・q=3 対照は qLock の 8.5 倍(門 >5)。較正対象外。"},
 "mercuryReal":{"purpose":"水星の近日点前進を kF0 で照合する","objective":"partial","state":"不足を軟化 70.3%・刻み 29.0%・入力 0.63% に分解","calibration":"hold","mismatch":"近点移動 −21.7%(6.2×10³σ)","outlook":"数値未解決","evidence":["tests/out/calaudit-w249.json","tests/out/mercury-w280a.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare Mercury's perihelion advance with kF0","state":"the shortfall splits into softening 70.3%, step 29.0%, inputs 0.63%","mismatch":"apsidal advance −21.7% (6.2×10³σ)","outlook":"numerics unresolved","brief":"Compare Mercury's perihelion advance with kF0. Partial: the shortfall splits into softening 70.3%, step 29.0%, inputs 0.63%. Calibration: hold — apsidal advance −21.7% (6.2×10³σ); numerics unresolved."},"brief":"水星の近日点前進を kF0 で照合する。部分・不足を軟化 70.3%・刻み 29.0%・入力 0.63% に分解。較正は保留・近点移動 −21.7%(6.2×10³σ)・数値未解決。"},
@@ -16469,6 +16623,14 @@ function validatePreset(obj){
         const btv=validateBackgroundTidal(p.physics[k]);
         if(!btv.ok){ bad(btv.err); continue; }
         if(btv.backgroundTidal!==null) ph[k]=btv.backgroundTidal;
+        continue;
+      }
+      // 第280便b(第70報・R69): qLock — **引きずり核の宣言**(kernel:"frontBack" = 表裏核)の opt-in。
+      // null/未宣言は「なし」へ正規化する(宣言と未宣言で署名が 1 文字も変わらない)。相互検査は bodies の確定後
+      if(k===QLOCK_KERNEL_KEY){
+        const qkv=validateQLockKernel(p.physics[k]);
+        if(!qkv.ok){ bad(qkv.err); continue; }
+        if(qkv.qLock!==null) ph[k]=qkv.qLock;
         continue;
       }
       // 第279便c(R62・R63 ⑤): meshVelocity — **複素決定力による座標変換**(ẋ=v+u・v̇=a−Jᵀv)の opt-in。
@@ -17117,6 +17279,13 @@ function validatePreset(obj){
           }
         }
         // 第243便(裁定 B7): frameSource:false — 粗視化の代表粒子をフレーム u の源から除く(重力・光学 W・反作用は従来どおり)。未宣言=true(1 bit 不変)
+        // 第280便b(第70報・R69): densityClass(+densityProfile・rotationProfile)— 表裏核への密度の物理入力(single 専用)。
+        // 未宣言はキーが無い = 署名も挙動も 1 bit 不変。physics.qLock.kernel を宣言した宇宙の外部の場だけが読む
+        {
+          const sv=validateSphereBody(b);
+          if(!sv.ok){ bad(at+"."+sv.err); return; }
+          if(sv.sphere){ o.densityClass=sv.sphere.densityClass; o.densityProfile=sv.sphere.densityProfile; o.rotationProfile=sv.sphere.rotationProfile; }
+        }
         if(b.frameSource!==undefined){
           if(b.frameSource===false) o.frameSource=false;
           else if(b.frameSource!==true) warnings.push(at+".frameSource は true/false のみ — 無視します");
@@ -17431,6 +17600,9 @@ function validatePreset(obj){
     if(bsx) bad(bsx);
     const mvx=meshVelocityCrossCheck(p.physics[MESH_VEL_KEY], p.physics[BG_COMPLEX_KEY], p.physics, p.bodies, p.sampleClass);
     if(mvx) bad(mvx);
+    // 第280便b(R69): 引きずり核は meshVelocity(field:"explicit")の外部の明示天体にだけ(密度の宣言が要る)
+    const qkx=qLockKernelCrossCheck(p.physics[QLOCK_KERNEL_KEY], p.physics[MESH_VEL_KEY], p.bodies);
+    if(qkx) bad(qkx);
   }
   if(p.rays!==undefined){
     if(!p.rays || !isNum(p.rays.n) || !isNum(p.rays.spread)) bad("rays.n/spread が不正です");
@@ -19217,6 +19389,8 @@ function makeSim(){
     const rng = mulberry32(isNum(preset.seed)? (preset.seed>>>0) : (hashStr(preset.id||preset.name||"p")+7));
     const P = [];
     const phys = Object.assign({},DEFAULT_PHYSICS,preset.physics||{});
+    // 第280便b(R69): 表裏核の密度宣言(physics.qLock を宣言した宇宙だけ配列 —— 未宣言は null)。meshVelocityPrepare が読む
+    S.sphereDecl=sphereDeclOf(preset);
     // 第128便: 内部 params は κ 正準(kappaT)。build は実行時経路なので、明示の Kt 上書き
     // (プリセット展開後に physics.Kt を差し替えるテスト/フック互換 — 第125便裁定)があれば
     // それを優先して κ へ換算する(宣言層=validator は 規約8 どおり kappaT 優先)。
@@ -41619,6 +41793,243 @@ function dfmMeshVelocityRHS(field, v, aSpace){
     coordAccel:[aSpace[0]+du[0]+Ju0+(Jv0-JTv0), aSpace[1]+du[1]+Ju1+(Jv1-JTv1)],
     transport:[u[0],u[1]], canonical:[-JTv0,-JTv1]};
 }
+// ===== 第280便b(原仮定者の裁定〔第70報〕・統括の読み R69): **表裏核** —— 球体の表側と裏側を積分した複素モーメント =====
+// 裁定「引きずり減衰 q の算出を見直す。天体は球体なので、表側の引きずり(座標変換)と裏側の引きずり(座標変換)は
+// 逆転している。手前側の方が距離が近いので、その差分が残る。潮汐力に良く似ている。…天体の密度分布にも影響を受けるので、
+// 固体惑星・気体惑星・恒星・コンパクト天体で算出方法を分ける」への**構成則の候補**(統括が設定した検証仮説 ——
+// 現行 DFM から一意に導出された法則ではない)。
+//
+// ■ 核(p=2 —— `dfmComplexMomentsOf` の点源 w=m/(r²+ε²) を球の体積で積分したもの)
+//   W_b(x)    = ∫ρ(ξ) / (|x−X−ξ|²+ε_c²) d³ξ
+//   A_spin(x) = ∫ρ(ξ) (Ω(ξ)×ξ) / (|x−X−ξ|²+ε_c²) d³ξ      (並進 V_b W_b は**別に足す**)
+//   密度 ρ(|ξ|) と回転 Ω(|ξ|) が球対称なら、方位の積分は閉じた形になり、半径の 1 次元積分が残る:
+//     W(r)  = (2π/r) ∫ρ(s) s atanh(t) ds                 t = 2rs/(r²+s²+ε²)
+//     A_φ(r)= (2π/r) ∫ρ(s) Ω(s) s² K(t) ds,  K(t)=atanh(t)/t − 1
+//   (無次元: M=R=Ω_表面=1。A_φ は φ̂=ẑ×r̂ 方向 —— 表側と裏側の Ω×ξ は向きが逆で、近い側の重みが大きいぶんだけ残る)。
+//   遠方では W→M/r²・A_φ→L/r³(L=∫ρ(Ω×ξ)×… = 角運動量 —— 剛体なら IΩ)。**c² の抑制は入っていない**。
+//   ε_c は複素場の正則化で、重力の軟化 ε_g と同じと仮定しない(別に宣言する)。**ε_c=0 の内部と表面は拒否**
+//   (中心 r=0 では対称性で A_spin=0 —— 「ゼロ距離の作用」は自己慣性の別契約であって、外部場の球積分へ移植しない)。
+// ■ 密度クラス: **同じ積分則**に ρ(r) と Ω(r) の物理入力を変えて与える(クラスごとの経験 q は配らない)。
+//   solid … 2 層(核の半径比 coreFrac・核/マントルの密度比 coreRatio)/ gas … ρ∝(1−s²)^β(中心集中)/
+//   star … Lane–Emden のポリトロープ(指数 polyN)/ compact … 一様。回転は rigid か shellular(Ω(s)=Ω_表(c+(1−c)s²))。
+// ■ 求積: 半径は区間分割の Gauss–Legendre(密度の不連続と、特異点に最も近い点 s*〔外部は s=1・内部は s=r〕へ
+//   等比に細かくした区間)。点数は `nodes`(8/16/32/64)。方位の積分は閉じた式(tests/lib-w280b-sphereKernel.mjs が
+//   独立な 2 次元求積と突き合わせる)。
+// 純関数だけ(**力学からは `dfmMeshVelocityStep` だけが呼ぶ** —— physics.qLock.kernel を宣言した本の外で 1 度も呼ばれない)。
+function dfmGaussLegendre01(n){
+  const x=new Array(n), w=new Array(n);
+  for(let i=0;i<n;i++){
+    let z=Math.cos(Math.PI*(i+0.75)/(n+0.5)), pp=1;
+    for(let it=0;it<100;it++){
+      let p1=1, p2=0;
+      for(let j=1;j<=n;j++){ const p3=p2; p2=p1; p1=((2*j-1)*z*p2-(j-1)*p3)/j; }
+      pp=n*(z*p1-p2)/(z*z-1);
+      const z1=z; z=z1-p1/pp;
+      if(Math.abs(z-z1)<=1e-16) break;
+    }
+    x[i]=0.5*(1-z); w[i]=1/((1-z*z)*pp*pp);
+  }
+  return {x, w};
+}
+function dfmLaneEmden(nPoly){
+  if(!(isNum(nPoly) && nPoly>=0 && nPoly<=4.5)) return null;
+  const f=(xi,th,dth)=>{ const tp=(th>0)? Math.pow(th,nPoly) : 0; return -tp-2*dth/xi; };
+  const h=1e-3;
+  let xi=1e-4, th=1-xi*xi/6+nPoly*Math.pow(xi,4)/120, dth=-xi/3+nPoly*Math.pow(xi,3)/30;
+  const X=[0, xi], T=[1, th], D=[0, dth];
+  for(let k=0;k<200000;k++){
+    const k1t=dth, k1d=f(xi,th,dth);
+    const k2t=dth+0.5*h*k1d, k2d=f(xi+0.5*h, th+0.5*h*k1t, dth+0.5*h*k1d);
+    const k3t=dth+0.5*h*k2d, k3d=f(xi+0.5*h, th+0.5*h*k2t, dth+0.5*h*k2d);
+    const k4t=dth+h*k3d, k4d=f(xi+h, th+h*k3t, dth+h*k3d);
+    const th1=th+h*(k1t+2*k2t+2*k3t+k4t)/6, dth1=dth+h*(k1d+2*k2d+2*k3d+k4d)/6;
+    if(th1<=0){
+      // 線形の根 + Newton 1 回(3 次の Hermite で)
+      let fr=th/(th-th1);
+      for(let it=0;it<3;it++){
+        const u=fr, h00=2*u*u*u-3*u*u+1, h10=u*u*u-2*u*u+u, h01=-2*u*u*u+3*u*u, h11=u*u*u-u*u;
+        const val=h00*th+h10*h*dth+h01*th1+h11*h*dth1;
+        const d00=6*u*u-6*u, d10=3*u*u-4*u+1, d01=-6*u*u+6*u, d11=3*u*u-2*u;
+        const der=(d00*th+d10*h*dth+d01*th1+d11*h*dth1);
+        if(der!==0) fr=Math.min(1, Math.max(0, fr-val/der));
+      }
+      X.push(xi+fr*h); T.push(0); D.push(dth+fr*(dth1-dth));
+      return {n:nPoly, xi1:xi+fr*h, X, T, D};
+    }
+    xi+=h; th=th1; dth=dth1; X.push(xi); T.push(th); D.push(dth);
+  }
+  return null;
+}
+// 宣言 {densityClass, densityProfile, rotationProfile} → 積分則に渡す物理入力(ρ の形と Ω の形)と求積の準備
+function dfmSphereProfile(decl, nodes){
+  if(!decl || typeof decl!=="object") return {ok:false, err:"宣言が無い"};
+  const cls=decl.densityClass, dp=decl.densityProfile||{}, rp=decl.rotationProfile||{law:"rigid"};
+  const nG=(nodes===undefined)? 16 : nodes;
+  if([8,16,32,64].indexOf(nG)<0) return {ok:false, err:"nodes は 8/16/32/64"};
+  const pr={ok:true, cls, params:{}, rot:{law:rp.law||"rigid"}, breaks:[], gl:dfmGaussLegendre01(nG), nodes:nG, norm:1, le:null};
+  if(cls==="solid"){
+    const cf=dp.coreFrac, cr=dp.coreRatio;
+    if(!(isNum(cf) && cf>0 && cf<1 && isNum(cr) && cr>0)) return {ok:false, err:"solid は coreFrac(0〜1)と coreRatio(>0)"};
+    pr.params={coreFrac:cf, coreRatio:cr}; pr.breaks=[cf];
+  } else if(cls==="gas"){
+    const be=dp.beta;
+    if(!(isNum(be) && be>=0)) return {ok:false, err:"gas は beta(≥0)"};
+    pr.params={beta:be};
+  } else if(cls==="star"){
+    const pn=dp.polyN;
+    const le=dfmLaneEmden(pn);
+    if(!le) return {ok:false, err:"star は polyN(0〜4.5)"};
+    pr.params={polyN:pn, xi1:le.xi1}; pr.le=le;
+  } else if(cls==="compact"){
+    pr.params={};
+  } else return {ok:false, err:"densityClass は solid/gas/star/compact"};
+  if(pr.rot.law==="shellular"){
+    const c=rp.centerRatio;
+    if(!(isNum(c) && c>0)) return {ok:false, err:"shellular は centerRatio(>0)"};
+    pr.rot.centerRatio=c;
+  } else if(pr.rot.law!=="rigid") return {ok:false, err:"rotationProfile.law は rigid/shellular"};
+  // 正規化(∫4πρs²ds=1)と慣性・角運動量の係数(細かい固定求積 —— 64 点 × 64 区間)
+  const G=dfmGaussLegendre01(64), br=[0].concat(pr.breaks, [1]);
+  let m=0, i4=0, l4=0;
+  for(let b=0;b<br.length-1;b++){
+    const a0=br[b], a1=br[b+1];
+    for(let q=0;q<64;q++){
+      const a=a0+(a1-a0)*q/64, bb=a0+(a1-a0)*(q+1)/64;
+      for(let k=0;k<64;k++){
+        const s=a+(bb-a)*G.x[k], w=(bb-a)*G.w[k], rho=dfmSphereRho(pr,s);
+        m+=w*4*Math.PI*rho*s*s; i4+=w*rho*s*s*s*s; l4+=w*rho*dfmSphereOmega(pr,s)*s*s*s*s;
+      }
+    }
+  }
+  if(!(m>0)) return {ok:false, err:"質量の積分が正でない"};
+  pr.norm=1/m;
+  pr.br0=br;
+  pr.kI=(8*Math.PI/3)*i4/m;         // I/(MR²)
+  pr.kL=(8*Math.PI/3)*l4/m;         // L/(MR²Ω_表面)(剛体なら kI)
+  pr.rhoCenterOverMean=dfmSphereRho(pr,0)*(4*Math.PI/3);
+  return pr;
+}
+function dfmSphereRho(pr, s){
+  if(!(s>=0 && s<=1)) return 0;
+  const P=pr.params;
+  let v;
+  if(pr.cls==="solid") v=(s<P.coreFrac)? P.coreRatio : 1;
+  else if(pr.cls==="gas") v=Math.pow(1-s*s, P.beta);
+  else if(pr.cls==="star"){
+    const L=pr.le, xi=s*L.xi1, X=L.X;
+    let lo=0, hi=X.length-1;
+    while(hi-lo>1){ const mid=(lo+hi)>>1; if(X[mid]<=xi) lo=mid; else hi=mid; }
+    const hh=X[hi]-X[lo], u=(hh>0)? (xi-X[lo])/hh : 0;
+    const h00=2*u*u*u-3*u*u+1, h10=u*u*u-2*u*u+u, h01=-2*u*u*u+3*u*u, h11=u*u*u-u*u;
+    const th=h00*L.T[lo]+h10*hh*L.D[lo]+h01*L.T[hi]+h11*hh*L.D[hi];
+    v=(th>0)? Math.pow(th, L.n) : 0;
+  } else v=1;
+  return v*pr.norm;
+}
+function dfmSphereOmega(pr, s){
+  if(pr.rot.law==="shellular"){ const c=pr.rot.centerRatio; return c+(1-c)*s*s; }
+  return 1;
+}
+// 半径の関数(無次元 M=R=Ω_表面=1): r=|x−X|/R・eps=ε_c/R → {W, dW(=dW/dr), G(=A_φ), dG(=dA_φ/dr)}
+function dfmSphereKernelRadial(pr, r, eps){
+  if(!pr || pr.ok!==true) return {ok:false, err:"密度の準備が無い"};
+  if(!(isNum(r) && r>=0) || !(isNum(eps) && eps>=0)) return {ok:false, err:"r・ε_c は 0 以上の有限数"};
+  if(eps===0 && r<=1) return {ok:false, err:"ε_c=0 で球の内部・表面の点は拒否(被積分関数が特異 —— ε_c を宣言すること)"};
+  // 区間: 0・密度の不連続・1 と、特異点に最も近い点 s* へ等比に細かくした点
+  const sStar=(r<1)? r : 1, del=(r<1)? eps : Math.hypot(r-1, eps);
+  let br=pr.br0;                                          // 遠方(特異点までの距離 ≥ R)は細分なし
+  if(!(del>=1 && r>=1)){
+    const pts=[0, 1].concat(pr.breaks);
+    if(r<1 && r>0) pts.push(r);
+    for(let d=del; d<1; d*=2){ if(sStar-d>0) pts.push(sStar-d); if(sStar+d<1) pts.push(sStar+d); }
+    pts.sort((a,b)=>a-b);
+    br=[pts[0]];
+    for(let i=1;i<pts.length;i++) if(pts[i]-br[br.length-1]>1e-15) br.push(pts[i]);
+  }
+  const gx=pr.gl.x, gw=pr.gl.w, nG=gx.length, e2=eps*eps;
+  let sW=0, sWp=0, sG=0, sGp=0, nn=0;
+  if(r===0){
+    // 中心: W(0)=4π∫ρs²/(s²+ε²)ds・dW=0・A_φ=0・dA_φ/dr=(8π/3)∫ρΩs⁴/(s²+ε²)²ds
+    for(let b=0;b<br.length-1;b++){
+      const a0=br[b], a1=br[b+1], hw=a1-a0;
+      for(let k=0;k<nG;k++){
+        const s=a0+hw*gx[k], w=hw*gw[k], rho=dfmSphereRho(pr,s), om=dfmSphereOmega(pr,s), q=s*s+e2;
+        sW+=w*rho*s*s/q; sGp+=w*rho*om*s*s*s*s/(q*q); nn++;
+      }
+    }
+    return {ok:true, W:4*Math.PI*sW, dW:0, G:0, dG:(8*Math.PI/3)*sGp, nNodes:nn, nPanels:br.length-1};
+  }
+  for(let b=0;b<br.length-1;b++){
+    const a0=br[b], a1=br[b+1], hw=a1-a0;
+    for(let k=0;k<nG;k++){
+      const s=a0+hw*gx[k], w=hw*gw[k];
+      const rho=dfmSphereRho(pr,s);
+      if(rho===0){ nn++; continue; }
+      const om=dfmSphereOmega(pr,s);
+      const D=r*r+s*s+e2, Pp=(r+s)*(r+s)+e2, Qm=(r-s)*(r-s)+e2;
+      const t=2*r*s/D;
+      const at=(t<0.5)? Math.atanh(t) : 0.5*Math.log(Pp/Qm);
+      const inv=D*D/(Pp*Qm);                              // 1/(1−t²)
+      const tp=2*s*(s*s+e2-r*r)/(D*D);                    // dt/dr
+      let K, Kp;
+      if(t<0.1){
+        K=0; Kp=0; let t2k=t*t, t2km1=t;
+        for(let kk=1;kk<=10;kk++){ K+=t2k/(2*kk+1); Kp+=2*kk*t2km1/(2*kk+1); if(t2k<1e-17*K) break; t2km1=t2k*t; t2k*=t*t; }
+      } else { K=at/t-1; Kp=inv/t-at/(t*t); }
+      sW+=w*rho*s*at; sWp+=w*rho*s*inv*tp;
+      sG+=w*rho*om*s*s*K; sGp+=w*rho*om*s*s*Kp*tp;
+      nn++;
+    }
+  }
+  const W=2*Math.PI*sW/r, G=2*Math.PI*sG/r;
+  return {ok:true, W, dW:-W/r+2*Math.PI*sWp/r, G, dG:-G/r+2*Math.PI*sGp/r, nNodes:nn, nPanels:br.length-1};
+}
+// 天体の並び list=[{m,R,spin,x,y,vx,vy,ax,ay,prof,epsC}] の表裏核の和(dfmComplexMomentsOf と同じ形 —— 並進 V W を含む)。
+// 源の上の特異点は ε_c で扱い、ε_c=0 の内部・表面は拒否(null)。返り値に `kernel:"frontBack"` を付ける
+function dfmSphereKernelMomentsOf(list, px, py){
+  if(!Array.isArray(list) || !isNum(px) || !isNum(py)) return null;
+  let W=0, gWx=0, gWy=0, Wd=0, Nx=0, Ny=0, g0=0, g1=0, g2=0, g3=0, Tx=0, Ty=0;
+  for(const b of list){
+    if(!b) return null;
+    const m=b.m, R=b.R, Om=b.spin, V0=b.vx, V1=b.vy, a0=b.ax, a1=b.ay, eC=b.epsC;
+    if(!(isNum(m) && m>0 && isNum(R) && R>0 && isNum(Om) && isNum(b.x) && isNum(b.y) && isNum(V0) && isNum(V1)
+      && isNum(a0) && isNum(a1) && isNum(eC) && eC>=0)) return null;
+    const dx=px-b.x, dy=py-b.y, r=Math.hypot(dx,dy);
+    const rad=dfmSphereKernelRadial(b.prof, r/R, eC/R);
+    if(!rad.ok) return null;
+    const Wb=m/(R*R)*rad.W, dWb=m/(R*R*R)*rad.dW;
+    const Gb=m*Om/R*rad.G, dGb=m*Om/(R*R)*rad.dG;
+    let gx=0, gy=0, Ax=0, Ay=0, J0, J1, J2, J3;
+    if(r>0){
+      const ex=dx/r, ey=dy/r, h=Gb/r, hp=(dGb-h)/r;
+      gx=dWb*ex; gy=dWb*ey;
+      Ax=-h*dy; Ay=h*dx;
+      J0=-hp*ex*dy; J1=-hp*ey*dy-h; J2=hp*ex*dx+h; J3=hp*ey*dx;
+    } else { J0=0; J1=-dGb; J2=dGb; J3=0; }
+    const wd=-(gx*V0+gy*V1);
+    W+=Wb; gWx+=gx; gWy+=gy; Wd+=wd;
+    Nx+=V0*Wb+Ax; Ny+=V1*Wb+Ay;
+    g0+=V0*gx+J0; g1+=V0*gy+J1; g2+=V1*gx+J2; g3+=V1*gy+J3;
+    Tx+=a0*Wb+V0*wd-(J0*V0+J1*V1); Ty+=a1*Wb+V1*wd-(J2*V0+J3*V1);
+  }
+  return {W, A:[Nx,Ny], gradW:[gWx,gWy], gradA:[g0,g1,g2,g3], dWdt:Wd, dAdt:[Tx,Ty], n:list.length, kernel:"frontBack"};
+}
+// 2 つのモーメント(同じ形)の和。どちらかが null なら他方(両方 null は null)
+function dfmAddMoments(a, b){
+  if(!a) return b||null;
+  if(!b) return a;
+  return {W:a.W+b.W, A:[a.A[0]+b.A[0], a.A[1]+b.A[1]], gradW:[a.gradW[0]+b.gradW[0], a.gradW[1]+b.gradW[1]],
+    gradA:[a.gradA[0]+b.gradA[0], a.gradA[1]+b.gradA[1], a.gradA[2]+b.gradA[2], a.gradA[3]+b.gradA[3]],
+    dWdt:a.dWdt+b.dWdt, dAdt:[a.dAdt[0]+b.dAdt[0], a.dAdt[1]+b.dAdt[1]], n:(a.n||0)+(b.n||0)};
+}
+// 局所の角速度の傾き q_eff = −d ln(u_φ/r)/d ln r(背景は一定の W_bg として足す —— 無次元の半径関数から)
+function dfmSphereKernelQEff(pr, r, eps, Wbg){
+  const z=dfmSphereKernelRadial(pr, r, eps);
+  if(!z.ok) return z;
+  const wb=(isNum(Wbg) && Wbg>=0)? Wbg : 0;
+  const uphi=z.G/(z.W+wb);
+  return {ok:true, r, uphi, omegaU:uphi/r, qEff:1+r*z.dW/(z.W+wb)-r*z.dG/z.G, W:z.W, G:z.G, dW:z.dW, dG:z.dG};
+}
 // ===== 第279便c: opt-in 外部ステップ `dfmMeshVelocityStep(S,dt)`(`physics.meshVelocity` を宣言した本だけ) =====
 // **背景鍵 `physics.backgroundComplex` を力学が読むのはここだけ**(準備 `meshVelocityPrepare` が build で 1 度だけ
 // 宣言を検証して `S.meshVel.bg` に写す —— 未宣言の宇宙では 1 行目で戻り、背景鍵に触れない)。
@@ -41674,8 +42085,25 @@ function meshVelocityPrepare(S){
   if(mv.field==="explicit"){
     for(const s of mv.external){ const k=bgBodyRefIndex(s); if(!(k>=0 && k<n)) return deny("external 範囲外"); ext[k]=1; }
   }
+  // 第280便b(R69): physics.qLock.kernel:"frontBack" —— 密度を宣言した明示天体の場を**表裏核**で作る
+  // (未宣言は kernel=null のまま = 点源 `dfmComplexMomentsOf` —— 第279便c と 1 bit も変わらない)
+  let kernel=null;
+  const qk0=P[QLOCK_KERNEL_KEY];
+  if(qk0!==undefined && qk0!==null){
+    const qkv=validateQLockKernel(qk0);
+    if(!qkv.ok || !qkv.qLock) return deny("qLock 不正");
+    if(mv.field!=="explicit") return deny("qLock.kernel は field:explicit 専用");
+    const decl=S.sphereDecl||[], prof=new Array(n).fill(null);
+    for(let j=0;j<n;j++) if(decl[j]){
+      const pr=dfmSphereProfile(decl[j], qkv.qLock.nodes);
+      if(!pr.ok) return deny("densityClass 不正(body:"+j+")");
+      prof[j]=pr;
+    }
+    for(let j=0;j<n;j++) if(ext[j] && !prof[j]) return deny("external に densityClass が無い(body:"+j+")");
+    kernel={kernel:qkv.qLock.kernel, epsC:qkv.qLock.epsC, nodes:qkv.qLock.nodes, prof, version:SPHERE_KERNEL_VERSION};
+  }
   S.meshVel={law:mv.law, field:mv.field, mutual:mv.mutual, frame:mv.frame, bg, ext, originIdx:oi,
-    O0:meshVelocityOriginNow(S, oi), t0:S.t, version:MESH_VEL_STEP_VERSION};
+    O0:meshVelocityOriginNow(S, oi), t0:S.t, version:MESH_VEL_STEP_VERSION, kernel};
   S.hasMeshVelocity=true;
   return true;
 }
@@ -41683,7 +42111,22 @@ function meshVelocitySources(S){
   const n=S.n, src=new Array(n);
   for(let j=0;j<n;j++) src[j]={m:S.m[j], x:S.x[j], y:S.y[j], vx:S.vx[j], vy:S.vy[j],
     ax:(S.ax? S.ax[j] : 0), ay:(S.ay? S.ay[j] : 0)};
+  // 第280便b: 表裏核を宣言した宇宙だけ、密度を宣言した源に半径・自転・密度の準備・ε_c を添える
+  const K=S.meshVel && S.meshVel.kernel;
+  if(K) for(let j=0;j<n;j++) if(K.prof[j]){ const o=src[j]; o.R=S.R[j]; o.spin=S.spin[j]; o.prof=K.prof[j]; o.epsC=K.epsC; }
   return src;
+}
+// 第280便b: 源の並びの場 —— 表裏核を宣言した宇宙では密度を宣言した源を表裏核で、残りを点源で作って足す
+function meshVelocityMomentsOf(S, L, px, py, e2){
+  const K=S.meshVel && S.meshVel.kernel;
+  if(!K) return dfmComplexMomentsOf(L,px,py,e2);
+  const Ls=[], Lp=[];
+  for(const o of L) (o.prof? Ls : Lp).push(o);
+  const ms=Ls.length? dfmSphereKernelMomentsOf(Ls,px,py) : null;
+  if(Ls.length && !ms) return null;
+  const mp=Lp.length? dfmComplexMomentsOf(Lp,px,py,e2) : null;
+  if(Lp.length && !mp) return null;
+  return dfmAddMoments(ms, mp);
 }
 // 天体 i の場(合成済み)。src・O を省くとその場で作る(診断・QA 用 —— 力学は `dfmMeshVelocityStep` が呼ぶ)
 function dfmMeshVelocityFieldAt(S, i, src, O){
@@ -41705,13 +42148,13 @@ function dfmMeshVelocityFieldAt(S, i, src, O){
   } else {
     const L=[];
     for(let j=0;j<S.n;j++) if(j!==i && mv.ext[j]) L.push(SR[j]);
-    if(L.length){ ext=dfmComplexMomentsOf(L,px,py,e2); if(!ext) return {ok:false, err:"外部の明示天体の場が作れない", bad:true}; }
+    if(L.length){ ext=meshVelocityMomentsOf(S,L,px,py,e2); if(!ext) return {ok:false, err:"外部の明示天体の場が作れない", bad:true}; }
   }
   if(mv.mutual===1){
     const L=[];
     for(let j=0;j<S.n;j++) if(j!==i && !(mv.field==="explicit" && mv.ext[j])) L.push(SR[j]);
     if(L.length){
-      loc=dfmComplexMomentsOf(L,px,py,e2);
+      loc=meshVelocityMomentsOf(S,L,px,py,e2);
       if(!loc) return {ok:false, err:"局所の場が作れない", bad:true};
       loc.selfExcluded=true;                        // i は源に入れていない(自己項は分母へ足さない)
     }
@@ -43027,6 +43470,13 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   MESH_VEL_KEYS, MESH_VEL_EXTERNAL_MAX, MESH_VEL_STEP_VERSION, MESH_MOMENT_KEYS,
   dfmComplexMomentsOf, dfmBlendComplexMoments, dfmMeshVelocityRHS, dfmMeshVelocityStep, dfmMeshVelocityFieldAt,
   meshVelocityPrepare, meshVelocityOrigin, meshVelocityOriginNow,
+  // 第280便b(第70報・R69): **表裏核**(球体の表裏を積分した複素モーメント)と密度クラスの宣言、`physics.qLock.kernel`。
+  // QA preset.qlockKernel・docs.sphereKernel・docs.emgrid-sync が機械固定する
+  validateQLockKernel, validateSphereBody, qLockKernelCrossCheck, sphereDeclOf, QLOCK_KERNEL_KEY, QLOCK_KERNELS,
+  QLOCK_KERNEL_KEYS, QLOCK_KERNEL_NODES, SPHERE_KERNEL_VERSION, DENSITY_CLASSES, DENSITY_PROFILE_KEYS,
+  DENSITY_PROFILE_DEFAULTS, DENSITY_PROFILE_RANGES, ROTATION_LAWS,
+  dfmGaussLegendre01, dfmLaneEmden, dfmSphereProfile, dfmSphereRho, dfmSphereOmega, dfmSphereKernelRadial,
+  dfmSphereKernelMomentsOf, dfmAddMoments, dfmSphereKernelQEff, meshVelocityMomentsOf, meshVelocitySources,
   // 第264便b(第56報): **源の閉包**の値域("gravity" 既定 /"iterate" 診断)と反復・残差の宣言値。
   // QA behavior.geoToyClosure が「既定は 122 本ビット不変」「iterate は反復数と残差を返す」
   // 「特異点(det=1−η²χ₀χ₁→0)で収束しない」を機械固定する
