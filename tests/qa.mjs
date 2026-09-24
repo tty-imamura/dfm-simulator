@@ -2104,7 +2104,10 @@ if (QA_REPLAY_FAIL) {
       'tests/out/qaorder-w279b.json',
       // 第279便c(第69報・R62/R63): 背景の閾値なし合成と速度分解 RHS の検算(target=beta/index.html —— 純関数を
       //   html のソースから取り出す)/ 新契約での背景の誤差予算(純関数の積分 + エンジンの診断コピー)
-      'tests/out/bgcompose-w279c.json', 'tests/out/bgbudget2-w279c.json'];
+      'tests/out/bgcompose-w279c.json', 'tests/out/bgbudget2-w279c.json',
+      // 第280便a(第70報・R66): 水星の近点移動の不足の分解(判定器の抽出器をソースのまま評価 —— target=beta/index.html・
+      //   inputs に calaudit-w249.json と obscal-results.json。**calaudit を走らせ直したら本器も走らせ直す**)
+      'tests/out/mercury-w280a.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -7827,6 +7830,162 @@ if (QA_REPLAY_FAIL) {
       `**新契約での背景の誤差予算**(第279便c・統括の読み R63 ④「誤差予算をサンプルごとに出す(❄️・📻 で ON/OFF 差と刻み収束 2 段・`
       + `🌘 は最初の対象にしない)」): ${cases.join(' / ')} —— **閾値は置いていない**(差と収束を並べるだけ)。`
       + `**qLock は再 fit していない**(診断コピーの q は宣言値のまま)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 0a3z12) 第280便a(原仮定者の裁定(第70報)「mercuryReal: 観測値版で問題が出ている理由を調査する」・
+// ----   統括の検証項目 R66): docs.mercuryDecomp ----
+// ----   **水星の近点移動の不足の分解**の正本 `tests/out/mercury-w280a.json`(器 `tests/exp-w280a-mercury.mjs`)を
+// ----   CALIBRATION_VERDICT §5.32 と PHYSICS〔第280便a〕に突き合わせる(fs のみ):
+// ----     ① 来歴 w272e-1・`targetSha256` が対象 html と一致・抽出器は判定器のヘルパの sha256 を持つ。
+// ----     ② **正式値の再現**: 判定器の正本(☄️ 2.2514656997711987e−5・🪨 2.2486098667853376e−5 deg/周)を
+// ----        同じ抽出器・同じ窓(近点 59 本)で**ビット一致**で再現している。
+// ----     ③ 格子 24 行(λ_PN 1/0 × ε 0.05/0.02/0.01 × dt 0.032/0.016/0.008/0.004)がすべて近点 59 本・NaN なし。
+// ----     ④ 刻みの観測次数 p が 6 列とも 2±0.01・ε² の係数が解析値 −3π/(a²(1−e²)²) と相対 1e−3 以内・
+// ----        λ_PN=1 − 0 の差が 12 格子点とも 1PN 解析値と相対 2e−6 以内。
+// ----     ⑤ 分解が閉じる(残差 1e−15 以下)・軟化 0.70±0.01・刻み 0.29±0.01・入力と換算 0.0063±0.001(対 ☄️ の観測換算)。
+// ----     ⑥ 1 表: vMinusU(field:"explicit"・固定した太陽 1 個)は kF0 と**ビット一致**(u・正準項とも最大 0)・
+// ----        geoPN=3 scalar は λ_PN=0 と**ビット一致**・kF1−kF0 は −3.0e−8〜−2.7e−8 deg/周・太陽の自転 0 の 🪨 は kF0 とビット一致。
+// ----     ⑦ §5.32 に `keyNumbers()` の数がすべて・PHYSICS〔第280便a〕に主要な数がある。
+// ----     ⑧ 禁止語(「精度を上げれば成立」「43″ を再現した」「観測一致を達成」「較正した」等)が §5.32・〔第280便a〕に無い(「」内は除く)。
+// ----   **root は SKIP**(正本は beta を写したもの)。
+{
+  const bad = [];
+  const cases = [];
+  if (!TARGET.startsWith('beta/') || !fs.existsSync(path.join(ROOT, 'tests', 'out', 'mercury-w280a.json'))) {
+    console.log('SKIP docs.mercuryDecomp(第280便a 未適用 — beta 対象でない/正本なし: ' + TARGET + ')');
+  } else {
+    try {
+      const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'mercury-w280a.json'), 'utf8'));
+      const LM = await import('file://' + path.join(ROOT, 'tests', 'lib-w280a-mercury.mjs'));
+      const m = J.meta || {};
+      const shaT = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      if (m.provenanceVersion !== 'w272e-1') bad.push('①来歴の版が w272e-1 でない');
+      if (m.targetSha256 !== shaT) bad.push('①targetSha256 が対象 html と違う(器を再走する)');
+      if (!m.extractor || !/^[0-9a-f]{64}$/.test(String(m.extractor.helperSha256 || ''))) bad.push('①抽出器の sha256 が無い');
+      const calSrc = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w249b-calaudit.mjs'), 'utf8');
+      const hs = crypto.createHash('sha256').update(LM.extractCalauditHelpers(calSrc), 'utf8').digest('hex');
+      if (m.extractor && m.extractor.helperSha256 !== hs) bad.push('①判定器のヘルパが正本の走行後に変わった');
+      cases.push('来歴・抽出器');
+      const R = J.reproduction || {};
+      if (!(R.kF0 && R.kF0.bitIdentical && R.kF0.formal === 0.000022514656997711987 && R.kF0.nPeri === 59)) bad.push('②☄️ の正式値をビットで再現していない');
+      if (!(R.kF1 && R.kF1.bitIdentical && R.kF1.formal === 0.000022486098667853376 && R.kF1.nPeri === 59)) bad.push('②🪨 の正式値をビットで再現していない');
+      cases.push('正式値 2.2514657×10⁻⁵/2.2486099×10⁻⁵ をビット再現(59 近点)');
+      const G = J.grid || [];
+      if (G.length !== 24) bad.push('③格子が 24 行でない: ' + G.length);
+      if (G.some((g) => g.nPeriA !== 59 || g.nan)) bad.push('③近点 59 本でない/NaN の行がある');
+      for (const [k, r] of Object.entries(J.richardson || {}))
+        if (!(r.coarse && r.coarse.ok && Math.abs(r.coarse.p - 2) < 0.01)) bad.push('④' + k + ' の p が 2 でない');
+      const sc = J.analytic.softeningCoef;
+      for (const k of ['lam1_coarse', 'lam0_coarse'])
+        if (!(Math.abs(J.epsExtrap[k].k / sc - 1) < 1e-3)) bad.push('④' + k + ' の ε² 係数が解析値と合わない');
+      for (const d of J.pnDiff || [])
+        if (!(Math.abs(d.diff / J.analytic.pn1 - 1) < 2e-6)) bad.push(`④λ_PN 差(ε=${d.eps}・dt=${d.dt})が 1PN 解析値と合わない`);
+      if ((J.pnDiff || []).length !== 12) bad.push('④λ_PN 差が 12 点でない');
+      cases.push('p=2・ε² 係数=解析値・λ 差=1PN 解析値(12 点)');
+      const D = J.decomposition.coarse.obsKF0;
+      if (!(Math.abs(D.closure) < 1e-15)) bad.push('⑤分解が閉じない');
+      if (!(Math.abs(D.share.softening - 0.70) < 0.01 && Math.abs(D.share.step - 0.29) < 0.01
+        && Math.abs(D.share.inputConversion - 0.0063) < 0.001)) bad.push('⑤分解の割合が §5.32 と違う: ' + JSON.stringify(D.share));
+      cases.push(`分解 軟化 ${(D.share.softening * 100).toFixed(1)}%・刻み ${(D.share.step * 100).toFixed(1)}%・入力 ${(D.share.inputConversion * 100).toFixed(2)}%`);
+      for (const d of J.table.diff) {
+        if (!d.vMinusU_bitIdenticalToKF0) bad.push('⑥vMinusU が kF0 とビット一致でない(dt=' + d.dt + ')');
+        if (d.geoPN3_minus_lam0 !== 0) bad.push('⑥geoPN=3 scalar が λ_PN=0 と一致しない(dt=' + d.dt + ')');
+        if (!(d.kF1_minus_kF0 > -3.0e-8 && d.kF1_minus_kF0 < -2.7e-8)) bad.push('⑥kF1−kF0 が窓外(dt=' + d.dt + ')');
+      }
+      for (const r of J.table.rows.filter((x) => x.cond === 'vMinusU'))
+        if (!(r.state.hasMeshVelocity && r.state.meshVelUMax === 0 && r.state.meshVelKickMax === 0 && r.state.meshVelN === r.steps))
+          bad.push('⑥vMinusU の走行で u・正準項が 0 でない/外部ステップが毎步入っていない');
+      if (!(J.aim && J.aim.sunSpin0 && J.aim.sunSpin0.bitIdentical)) bad.push('⑥太陽の自転 0 の 🪨 が kF0 とビット一致でない');
+      cases.push('vMinusU≡kF0・geoPN3≡λ0・自転 0 の 🪨≡kF0(ビット)');
+      const md = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
+      const i32 = md.indexOf('### 5.32 ');
+      const sec = (i32 < 0) ? '' : md.slice(i32, (() => { const j = md.indexOf('\n### 5.', i32 + 4); const k = md.indexOf('\n## ', i32);
+        const e = [j, k].filter((z) => z >= 0); return e.length ? Math.min(...e) : md.length; })());
+      if (!sec) bad.push('⑦§5.32 が無い');
+      const KN = LM.keyNumbers(J);
+      const miss = KN.filter((k) => sec.indexOf(k.text) < 0).map((k) => k.key + '=' + k.text);
+      if (miss.length) bad.push('⑦§5.32 に無い数: ' + miss.slice(0, 6).join(','));
+      const ph = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const ip = ph.indexOf('〔第280便a');
+      const psec = (ip < 0) ? '' : ph.slice(ip, (() => { const j = ph.indexOf('\n〔第', ip + 4); const k = ph.indexOf('\n## ', ip);
+        const e = [j, k].filter((z) => z >= 0); return e.length ? Math.min(...e) : ph.length; })());
+      if (!psec) bad.push('⑦PHYSICS〔第280便a〕が無い');
+      const pk = ['formal', 'richQ', 'epsQ0', 'pn1', 'shareStep', 'shareSoft', 'shareInput', 'kf1minuskf0_016'];
+      const pmiss = KN.filter((k) => pk.includes(k.key) && psec.indexOf(k.text) < 0).map((k) => k.key);
+      if (pmiss.length) bad.push('⑦PHYSICS〔第280便a〕に無い数: ' + pmiss.join(','));
+      cases.push(`§5.32 に ${KN.length - miss.length}/${KN.length} の数`);
+      const FORBID = /精度を上げれば成立|43″ を再現した|観測一致を達成|較正した|較正を完了|較正完了|新発見|判定が増えた|kF0 版が成立した|引きずり消失を確認|慣性を導出/;
+      for (const [nm, t] of [['§5.32', sec], ['〔第280便a〕', psec]])
+        for (const line of t.split('\n')) {
+          const bare = line.replace(/[「『][^」』]*[」』]/g, '');
+          if (FORBID.test(bare)) bad.push(`⑧禁止語(${nm}): ${line.slice(0, 40)}`);
+        }
+      cases.push('禁止語 0');
+    } catch (e) { bad.push('正本 JSON/文書が読めない: ' + String(e).slice(0, 120)); }
+    add('docs.mercuryDecomp', bad.length === 0,
+      `**水星の近点移動の不足の分解**(第280便a・原仮定者の裁定(第70報)・統括の検証項目 R66)—— 判定器と同じ抽出器・同じ窓(59 近点)で `
+      + `${cases.join(' / ')}。**外挿値(dt→0・ε→0)は外挿であって、そこで走らせた値ではない**(ε=0.01・dt=0.004 の実測でも観測換算に届かない)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 0a3z13) 第280便a(第70報・統括の検証項目 R66「名称『共通補正で 43″/世紀成立』は基線差引き推定器の値なので、
+// ----   推定器・窓・差引き対象を併記するか改名する」): ui.mercuryNaming ----
+// ----   ☄️🪨 の表示文言を固定する(対象 html を Node の vm で読む —— `tests/lib-w279b-headless.mjs`):
+// ----     ① ja/en の name に「成立」「holds」が無く、推定器(RL 勾配 / RL gradient)・窓(600 公転 / 600 orbits)・
+// ----        差引き対象(λ_PN 差引き / λ_PN-subtracted)が併記されている。
+// ----     ② ja の説明文(「」内の引用を除く)に「43″/世紀(を)成立」「較正が成り立つ」が無い・en("" 内の引用を除く)に
+// ----        "43″/century holds" / "now holds" / "the calibration survives" が無い。
+// ----     ③ 説明文(ja/en)に差引き対象と別系(λ_PN=1 と 0 の差・別系 / λ_PN=1 minus 0・separate system)と RL 勾配・600 公転がある。
+// ----     ④ obsCard の ja の model/obs に「成立」が無い・ja 各欄 120 字以内・8 行以内。
+// ----     ⑤ claims の descPattern が説明文から窓内の値を取り出せる(名称の変更で切れていない)。
+// ----     ⑥ 署名 presetSigHash が宣言 ASSESSED_SIG と一致(物理・bodies は 1 bit も動いていない)。
+// ----   **root は SKIP**(root は v1.44.0 RC の旧名のまま —— 開発差分)。
+{
+  const bad = [];
+  const cases = [];
+  const htmlN = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!TARGET.startsWith('beta/') || htmlN.indexOf('第280便a') < 0) {
+    console.log('SKIP ui.mercuryNaming(第280便a 未適用 — beta 対象でない/改名前の世代: ' + TARGET + ')');
+  } else {
+    try {
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      const H = loadHtmlHeadless(path.join(ROOT, TARGET));
+      const all = H.HP.allPresets();
+      const unq = (t) => String(t || '').replace(/[「『][^」』]*[」』]/g, '');
+      const joinDs = (ds) => ds ? [ds.summary, ds.observe, ds.control].join('') : '';
+      for (const id of ['mercuryReal', 'mercuryRealKF1']) {
+        const p = all.find((q) => q.id === id);
+        if (!p) { bad.push(id + ' 不在'); continue; }
+        const nj = p.name, ne = (p.en || {}).name || '';
+        if (/成立/.test(nj) || /holds/.test(ne)) bad.push(`①${id} の name に成立/holds`);
+        if (!(/RL 勾配/.test(nj) && /600 公転/.test(nj) && /λ_PN 差引き/.test(nj))) bad.push(`①${id} の ja name に推定器・窓・差引き対象が無い`);
+        if (!(/RL gradient/.test(ne) && /600 orbits/.test(ne) && /λ_PN-subtracted/.test(ne))) bad.push(`①${id} の en name に推定器・窓・差引き対象が無い`);
+        const dj = p.description || '', de = joinDs((p.en || {}).descStruct);
+        if (/43″\/世紀(を)?成立|較正が成り立つ/.test(unq(dj))) bad.push(`②${id} の ja 説明に「43″/世紀成立」型の語`);
+        if (/43″\/century (now )?holds|the calibration survives/.test(de.replace(/"[^"]*"/g, ''))) bad.push(`②${id} の en 説明に "holds" 型の語(引用の外)`);
+        if (!(/λ_PN=1 と 0 の差/.test(dj) && /別系/.test(dj) && /RL 勾配/.test(dj) && /600 公転/.test(dj))) bad.push(`③${id} の ja 説明に差引き対象・別系・推定器・窓が無い`);
+        if (!(/λ_PN=1 minus 0/.test(de) && /separate system/.test(de))) bad.push(`③${id} の en 説明に差引き対象・別系が無い`);
+        const oc = p.obsCard || [];
+        if (oc.length > 8) bad.push(`④${id} の obsCard が 8 行超`);
+        for (const r of oc) {
+          if (/成立/.test(r.model + r.obs)) bad.push(`④${id} の obsCard に「成立」`);
+          for (const f of [r.q, r.model, r.obs]) if ([...String(f)].length > 120) bad.push(`④${id} の obsCard 欄が 120 字超`);
+        }
+        for (const c of p.claims || []) {
+          const mm = dj.match(new RegExp(c.descPattern));
+          const v = mm ? Number(mm[1]) * (c.descScale || 1) : null;
+          if (!(v !== null && c.expected && v >= c.expected.min && v <= c.expected.max)) bad.push(`⑤${c.id} の descPattern が窓内の値を取れない`);
+        }
+        const sig = H.evalExpr(`presetSigHash(HP.allPresets().find((q) => q.id === ${JSON.stringify(id)}))`);
+        const want = H.evalExpr(`ASSESSED_SIG[${JSON.stringify(id)}]`);
+        if (sig !== want) bad.push(`⑥${id} の署名 ${sig} が宣言 ${want} と違う`);
+        cases.push(`${p.emoji} ${nj}`);
+      }
+    } catch (e) { bad.push('対象 html が読めない: ' + String(e).slice(0, 120)); }
+    add('ui.mercuryNaming', bad.length === 0,
+      `**水星 2 本の名称の是正**(第280便a・統括の検証項目 R66): ${cases.join(' / ')} —— 「43″/世紀」は **別系(a=150・ε=2)で λ_PN=1 と 0 の差を `
+      + `RL 勾配・600 公転で取った値**として推定器・窓・差引き対象を併記(数値は履歴として残す)・claims の descPattern は切れていない・署名は宣言どおり`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }

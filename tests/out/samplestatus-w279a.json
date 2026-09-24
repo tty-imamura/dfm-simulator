@@ -12,32 +12,32 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "f853eef9a8ea1d81e339329074e5ca220b9ba9ed22da83c4cc5925a8e13a35c8",
-  "generatedAt": "2026-09-23T23:56:19.138Z",
+  "targetSha256": "0da8ee27eddd978ca96e4fddfcd5573cd26f9586a40a37b370e7054e00cd801a",
+  "generatedAt": "2026-09-24T08:00:27.293Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 48147,
-    "sha256": "bc17fe423c4d2b529797f6e220775727c9252a863b24d70248d1061cb5f14cf7",
-    "mtime": "2026-09-23T20:24:37.441Z"
+    "bytes": 48338,
+    "sha256": "29eb8f811786acc3f87c26d0d8d9c3283cd5f2b8a5bb08bba7354a855e4984cf",
+    "mtime": "2026-09-24T08:00:19.661Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
     "bytes": 2812256,
     "sha256": "1ace8de3591a9e993b5e59d23991424c8e402dea99a216a41a1bb3e65c7652a2",
-    "mtime": "2026-09-23T21:44:24.611Z"
+    "mtime": "2026-09-24T07:37:06.438Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
     "bytes": 89924,
     "sha256": "1d34097e8fa7954228a386afee79faac7fd90426f1da77ea41cfb0b7bf43eb59",
-    "mtime": "2026-09-23T23:55:46.392Z"
+    "mtime": "2026-09-24T07:37:07.582Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 44287,
-    "sha256": "b7fdd2edf5bf3bfaf149d56b35d75b5c2705b69d92b3f871c6ccf47eebe6ae15",
-    "mtime": "2026-09-23T23:56:19.124Z"
+    "bytes": 44520,
+    "sha256": "553d74d953ccc175f98fc74f2805d4da520d4edca7a55a221db8d4a1d8071e10",
+    "mtime": "2026-09-24T08:00:27.242Z"
    }
   ],
   "code": [
@@ -45,27 +45,27 @@
     "file": "tests/exp-w279a-samplestatus.mjs",
     "bytes": 15287,
     "sha256": "4748dd7356dc847f31a76a845169cd91ebd1199c7fcf3961d47d9a874ccdbb43",
-    "mtime": "2026-09-23T20:24:37.442Z"
+    "mtime": "2026-09-24T07:37:14.378Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
     "bytes": 19451,
     "sha256": "09e47055bdeceb639a2b4770f085a9315ada2a6e81398c2c9343a3e3e388244f",
-    "mtime": "2026-09-23T20:24:37.442Z"
+    "mtime": "2026-09-24T07:37:16.042Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-09-24T07:37:15.102Z"
    }
   ],
   "codeSha256": "dd9d3d7276f5a2a355b7718a70baf4cde99977af80ef7aa66b65c60e4dea6181",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "c42d16ae83d2a79c4b659eb28ff09e936b36f3c2",
-   "date": "2026-09-23T15:49:42.856Z",
-   "pass": 845
+   "commit": "61707854674c4cbc6f8852cf3df60c34dff96109",
+   "date": "2026-09-24T00:16:33.950Z",
+   "pass": 857
   }
  },
  "tally": {
@@ -2078,28 +2078,29 @@
   {
    "id": "mercuryReal",
    "emoji": "☄️",
-   "name": "水星(実単位)— 43″/世紀",
+   "name": "水星(実単位)— 近日点前進(43.0″/世紀は RL 勾配・600 公転・λ_PN 差引き)",
    "group": "現実との照合・太陽系",
    "sampleClass": "calibration",
    "status": {
     "purpose": "水星の近日点前進を kF0 で照合する",
     "objective": "partial",
-    "state": "照合の走行は台帳に記帳",
+    "state": "不足を軟化 70.3%・刻み 29.0%・入力 0.63% に分解",
     "calibration": "hold",
     "mismatch": "近点移動 −21.7%(6.2×10³σ)",
     "outlook": "数値未解決",
     "evidence": [
      "tests/out/calaudit-w249.json",
+     "tests/out/mercury-w280a.json",
      "docs.calibration-verdict-sync"
     ],
     "en": {
      "purpose": "Compare Mercury's perihelion advance with kF0",
-     "state": "the comparison runs are in the ledger",
+     "state": "the shortfall splits into softening 70.3%, step 29.0%, inputs 0.63%",
      "mismatch": "apsidal advance −21.7% (6.2×10³σ)",
      "outlook": "numerics unresolved",
-     "brief": "Compare Mercury's perihelion advance with kF0. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance −21.7% (6.2×10³σ); numerics unresolved."
+     "brief": "Compare Mercury's perihelion advance with kF0. Partial: the shortfall splits into softening 70.3%, step 29.0%, inputs 0.63%. Calibration: hold — apsidal advance −21.7% (6.2×10³σ); numerics unresolved."
     },
-    "brief": "水星の近日点前進を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は保留・近点移動 −21.7%(6.2×10³σ)・数値未解決。"
+    "brief": "水星の近日点前進を kF0 で照合する。部分・不足を軟化 70.3%・刻み 29.0%・入力 0.63% に分解。較正は保留・近点移動 −21.7%(6.2×10³σ)・数値未解決。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[4]",
@@ -2113,28 +2114,29 @@
   {
    "id": "mercuryRealKF1",
    "emoji": "🪨",
-   "name": "水星(実単位・kFrame=1)— 共通補正で 43″/世紀成立",
+   "name": "水星(実単位・kFrame=1)— 共通補正(43.0″/世紀は RL 勾配・600 公転・λ_PN 差引き)",
    "group": "現実との照合・太陽系",
    "sampleClass": "calibration",
    "status": {
     "purpose": "水星の近日点前進を kF1 で照合する",
     "objective": "partial",
-    "state": "照合の走行は台帳に記帳",
+    "state": "☄️ との差 −2.856×10⁻⁸ °/周 は太陽自転の引きずり",
     "calibration": "hold",
     "mismatch": "近点移動 −21.8%(6.3×10³σ)",
     "outlook": "数値未解決",
     "evidence": [
      "tests/out/calaudit-w249.json",
+     "tests/out/mercury-w280a.json",
      "docs.calibration-verdict-sync"
     ],
     "en": {
      "purpose": "Compare Mercury's perihelion advance with kF1",
-     "state": "the comparison runs are in the ledger",
+     "state": "the −2.856×10⁻⁸ °/orbit gap to ☄️ is the Sun-spin drag",
      "mismatch": "apsidal advance −21.8% (6.3×10³σ)",
      "outlook": "numerics unresolved",
-     "brief": "Compare Mercury's perihelion advance with kF1. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance −21.8% (6.3×10³σ); numerics unresolved."
+     "brief": "Compare Mercury's perihelion advance with kF1. Partial: the −2.856×10⁻⁸ °/orbit gap to ☄️ is the Sun-spin drag. Calibration: hold — apsidal advance −21.8% (6.3×10³σ); numerics unresolved."
     },
-    "brief": "水星の近日点前進を kF1 で照合する。部分・照合の走行は台帳に記帳。較正は保留・近点移動 −21.8%(6.3×10³σ)・数値未解決。"
+    "brief": "水星の近日点前進を kF1 で照合する。部分・☄️ との差 −2.856×10⁻⁸ °/周 は太陽自転の引きずり。較正は保留・近点移動 −21.8%(6.3×10³σ)・数値未解決。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[5]",

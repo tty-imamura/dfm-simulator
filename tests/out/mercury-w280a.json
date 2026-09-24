@@ -1,0 +1,2907 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第280便a",
+  "target": "beta/index.html",
+  "targetSha256": "0da8ee27eddd978ca96e4fddfcd5573cd26f9586a40a37b370e7054e00cd801a",
+  "generatedAt": "2026-09-24T08:19:43.007Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4620063,
+    "sha256": "0da8ee27eddd978ca96e4fddfcd5573cd26f9586a40a37b370e7054e00cd801a",
+    "mtime": "2026-09-24T08:00:23.866Z"
+   },
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "bytes": 2812256,
+    "sha256": "1ace8de3591a9e993b5e59d23991424c8e402dea99a216a41a1bb3e65c7652a2",
+    "mtime": "2026-09-24T07:37:06.438Z"
+   },
+   {
+    "file": "tests/out/obscal-results.json",
+    "bytes": 20962,
+    "sha256": "3ac9ba57f46c406f6eeb42f37c19f9217d5eaabe98b35227dbff7682311b0565",
+    "mtime": "2026-09-24T07:37:13.758Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w280a-mercury.mjs",
+    "bytes": 25946,
+    "sha256": "eedb0d79857a4156d0e5f324a35b898549f42e1a77639c1e29a8de6037d44625",
+    "mtime": "2026-09-24T07:57:50.482Z"
+   },
+   {
+    "file": "tests/lib-w280a-mercury.mjs",
+    "bytes": 9579,
+    "sha256": "a0071d7615a287dda2d94b462b48c73369eb0f79e6fbd834541795bf5f9665af",
+    "mtime": "2026-09-24T07:52:54.766Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-09-24T07:37:16.042Z"
+   },
+   {
+    "file": "tests/lib-w270a-stoprule.mjs",
+    "bytes": 20880,
+    "sha256": "96fbd72473f42b46c381760ca4c34bb7e59c6b090aebd2482b78d4156937c7d2",
+    "mtime": "2026-09-24T07:37:15.014Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-24T07:37:15.102Z"
+   },
+   {
+    "file": "tests/exp-w249b-calaudit.mjs",
+    "bytes": 302651,
+    "sha256": "fffb7d97b35cfe58745945fa306ce3f12eb614c5146a98c6260d966cd7312234",
+    "mtime": "2026-09-24T07:37:07.158Z"
+   }
+  ],
+  "codeSha256": "efb28d4844e1588957cf7cae5fcf4c3c8e7e296264361b4c7416270675ba88cc",
+  "version": "w280a-mercury-1",
+  "extractor": {
+   "from": "tests/exp-w249b-calaudit.mjs",
+   "helperSha256": "bc0583dac48746bcf485cb8ae036a46d85619fbc1f77202fe400d9767aab0358",
+   "periWindow": 20,
+   "orbMax": 60,
+   "dtBase": 0.016,
+   "detector": "A(ṙ の −→+ 交差 = 相対距離の極小)・近点位相の直線 fit(判定器の q.meas と同じ)",
+   "stopRuleVersion": "w272a-1"
+  },
+  "engine": "Chromium(判定器と同じ —— ページで対象 html を読む)",
+  "declarations": [
+   "(M1) 較正 2 本の物理・入力・claims は不変 —— 診断コピーは器の中だけ",
+   "(M2) q は触らない",
+   "(M3) 窓は判定器の正式窓(近点 59 本)",
+   "(M4) dt→0・ε→0 の外挿値は外挿であって、そこで走らせた値ではない"
+  ],
+  "units": {
+   "length": "1 単位 = 10⁸ m = 10⁵ km",
+   "time": "1 単位 = 10⁴ s",
+   "precession": "deg/周(近点番号に対する傾き)"
+  },
+  "wallSec": 357.067,
+  "doNotWrite": [
+   "精度を上げれば成立する",
+   "43″ を再現した",
+   "観測一致を達成した",
+   "較正した"
+  ]
+ },
+ "reproduction": {
+  "kF0": {
+   "formal": 0.000022514656997711987,
+   "here": 0.000022514656997711987,
+   "bitIdentical": true,
+   "nPeri": 59
+  },
+  "kF1": {
+   "formal": 0.000022486098667853376,
+   "here": 0.000022486098667853376,
+   "bitIdentical": true,
+   "nPeri": 59
+  },
+  "engine": "chromium",
+  "note": "判定器の正本値(calaudit-w249.json)と、同じ抽出器のソースを本器(chromium)で評価した値のビット比較"
+ },
+ "grid": [
+  {
+   "lambdaPN": 1,
+   "eps": 0.05,
+   "epsKm": 5000,
+   "id": "mercuryReal",
+   "dt": 0.032,
+   "steps": 1425099,
+   "maxSteps": 1425099,
+   "wallSec": 1.517,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": 0.000017080528976819483,
+   "residDegA": 2.413048450625227e-10,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": 0.000017080497218600703,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0537627348007,
+   "perMeanFitSimA": 760.0537678115819,
+   "revP2Sim": 760.0537371391963,
+   "revN": 59,
+   "eProxy": 0.2056310691683888,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 1,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.05,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 1,
+   "eps": 0.05,
+   "epsKm": 5000,
+   "id": "mercuryReal",
+   "dt": 0.016,
+   "steps": 2850199,
+   "maxSteps": 2850199,
+   "wallSec": 4.159,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": 0.000022514656997711987,
+   "residDegA": 3.07512772250131e-11,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": 0.00002251464899894646,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0537079004313,
+   "perMeanFitSimA": 760.0537104389077,
+   "revP2Sim": 760.0536760786634,
+   "revN": 59,
+   "eProxy": 0.20563096846947732,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 1,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.05,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 1,
+   "eps": 0.05,
+   "epsKm": 5000,
+   "id": "mercuryReal",
+   "dt": 0.008,
+   "steps": 5700398,
+   "maxSteps": 5700398,
+   "wallSec": 5.712,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": 0.000023873188928945693,
+   "residDegA": 7.8925234813811e-12,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": 0.000023873186634293415,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0536938501631,
+   "perMeanFitSimA": 760.0536951194006,
+   "revP2Sim": 760.0536607647077,
+   "revN": 59,
+   "eProxy": 0.2056309422341003,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 1,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.05,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 1,
+   "eps": 0.05,
+   "epsKm": 5000,
+   "id": "mercuryReal",
+   "dt": 0.004,
+   "steps": 11400795,
+   "maxSteps": 11400795,
+   "wallSec": 13.853,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": 0.000024212822100134063,
+   "residDegA": 5.930864752124582e-12,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": 0.0000242128291877146,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0536901667774,
+   "perMeanFitSimA": 760.0536908012862,
+   "revP2Sim": 760.0536569118578,
+   "revN": 59,
+   "eProxy": 0.20563093514475758,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 1,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.05,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 1,
+   "eps": 0.02,
+   "epsKm": 2000,
+   "id": "mercuryDiag_eps0.02_lam1",
+   "dt": 0.032,
+   "steps": 1425099,
+   "maxSteps": 1425099,
+   "wallSec": 1.36,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": 0.000020767299205749105,
+   "residDegA": 2.421977037151674e-10,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": 0.000020767266960733043,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0537484920185,
+   "perMeanFitSimA": 760.0537535688563,
+   "revP2Sim": 760.0537178774694,
+   "revN": 59,
+   "eProxy": 0.20563105665391748,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 1,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.02,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 1,
+   "eps": 0.02,
+   "epsKm": 2000,
+   "id": "mercuryDiag_eps0.02_lam1",
+   "dt": 0.016,
+   "steps": 2850199,
+   "maxSteps": 2850199,
+   "wallSec": 2.643,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": 0.000026201428309512032,
+   "residDegA": 3.01078129850226e-11,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": 0.000026201419675802182,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0536936576381,
+   "perMeanFitSimA": 760.0536961960378,
+   "revP2Sim": 760.0536568169395,
+   "revN": 59,
+   "eProxy": 0.20563095595671246,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 1,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.02,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 1,
+   "eps": 0.02,
+   "epsKm": 2000,
+   "id": "mercuryDiag_eps0.02_lam1",
+   "dt": 0.008,
+   "steps": 5700398,
+   "maxSteps": 5700398,
+   "wallSec": 6.096,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": 0.000027559959620442437,
+   "residDegA": 6.0022411063947345e-12,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": 0.00002755995995967666,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0536796073633,
+   "perMeanFitSimA": 760.053680876617,
+   "revP2Sim": 760.0536415030463,
+   "revN": 59,
+   "eProxy": 0.20563092970646826,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 1,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.02,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 1,
+   "eps": 0.02,
+   "epsKm": 2000,
+   "id": "mercuryDiag_eps0.02_lam1",
+   "dt": 0.004,
+   "steps": 11400795,
+   "maxSteps": 11400795,
+   "wallSec": 14.905,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": 0.000027899593484830845,
+   "residDegA": 1.649519935572695e-11,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": 0.000027899599364161477,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0536759239725,
+   "perMeanFitSimA": 760.0536765584502,
+   "revP2Sim": 760.053637650193,
+   "revN": 59,
+   "eProxy": 0.20563092262326385,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 1,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.02,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 1,
+   "eps": 0.01,
+   "epsKm": 1000,
+   "id": "mercuryDiag_eps0.01_lam1",
+   "dt": 0.032,
+   "steps": 1425099,
+   "maxSteps": 1425099,
+   "wallSec": 3.833,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": 0.00002129398069436133,
+   "residDegA": 2.4206523640154106e-10,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": 0.00002129394786834094,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0537464572901,
+   "perMeanFitSimA": 760.0537515339962,
+   "revP2Sim": 760.0537151257666,
+   "revN": 59,
+   "eProxy": 0.20563105487081937,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 1,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.01,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 1,
+   "eps": 0.01,
+   "epsKm": 1000,
+   "id": "mercuryDiag_eps0.01_lam1",
+   "dt": 0.016,
+   "steps": 2850199,
+   "maxSteps": 2850199,
+   "wallSec": 4.535,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": 0.000026728108855342714,
+   "residDegA": 3.0066707014586404e-11,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": 0.000026728100098870608,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0536916229024,
+   "perMeanFitSimA": 760.0536941612474,
+   "revP2Sim": 760.0536540652324,
+   "revN": 59,
+   "eProxy": 0.20563095416891605,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 1,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.01,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 1,
+   "eps": 0.01,
+   "epsKm": 1000,
+   "id": "mercuryDiag_eps0.01_lam1",
+   "dt": 0.008,
+   "steps": 5700398,
+   "maxSteps": 5700398,
+   "wallSec": 9.073,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": 0.000028086641876405335,
+   "residDegA": 8.72168338579227e-12,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": 0.000028086639384659416,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0536775726987,
+   "perMeanFitSimA": 760.0536788418976,
+   "revP2Sim": 760.0536387513264,
+   "revN": 59,
+   "eProxy": 0.20563092791660337,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 1,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.01,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 1,
+   "eps": 0.01,
+   "epsKm": 1000,
+   "id": "mercuryDiag_eps0.01_lam1",
+   "dt": 0.004,
+   "steps": 11400795,
+   "maxSteps": 11400795,
+   "wallSec": 19.823,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": 0.000028426274468084906,
+   "residDegA": 1.2940699591994374e-11,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": 0.00002842627672800965,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0536738895022,
+   "perMeanFitSimA": 760.0536745241585,
+   "revP2Sim": 760.0536348984922,
+   "revN": 59,
+   "eProxy": 0.20563092083463932,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 1,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.01,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 0,
+   "eps": 0.05,
+   "epsKm": 5000,
+   "id": "mercuryDiag_eps0.05_lam0",
+   "dt": 0.032,
+   "steps": 1425099,
+   "maxSteps": 1425099,
+   "wallSec": 1.439,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": -0.000011634549755886574,
+   "residDegA": 2.2655599419783427e-10,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": -0.000011634547946531865,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0534611547237,
+   "perMeanFitSimA": 760.0534611547257,
+   "revP2Sim": 760.053476993356,
+   "revN": 59,
+   "eProxy": 0.2056309135841881,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.05,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 0,
+   "eps": 0.05,
+   "epsKm": 5000,
+   "id": "mercuryDiag_eps0.05_lam0",
+   "dt": 0.016,
+   "steps": 2850199,
+   "maxSteps": 2850199,
+   "wallSec": 3.547,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": -0.000006200396458198256,
+   "residDegA": 2.813629929006781e-11,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": -0.000006200395184441173,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0534076872626,
+   "perMeanFitSimA": 760.0534076873206,
+   "revP2Sim": 760.053416128172,
+   "revN": 59,
+   "eProxy": 0.20563081679792033,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.05,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 0,
+   "eps": 0.05,
+   "epsKm": 5000,
+   "id": "mercuryDiag_eps0.05_lam0",
+   "dt": 0.008,
+   "steps": 5700398,
+   "maxSteps": 5700398,
+   "wallSec": 6.121,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": -0.0000048418581907660044,
+   "residDegA": 7.252216605101036e-12,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": -0.0000048418600722275615,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0533943204163,
+   "perMeanFitSimA": 760.0533943204302,
+   "revP2Sim": 760.0534009118977,
+   "revN": 59,
+   "eProxy": 0.20563079260140615,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.05,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 0,
+   "eps": 0.05,
+   "epsKm": 5000,
+   "id": "mercuryDiag_eps0.05_lam0",
+   "dt": 0.004,
+   "steps": 11400795,
+   "maxSteps": 11400795,
+   "wallSec": 14.253,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": -0.000004502224211137456,
+   "residDegA": 9.203132694072899e-12,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": -0.000004502224148138243,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0533909786973,
+   "perMeanFitSimA": 760.053390978642,
+   "revP2Sim": 760.0533971077638,
+   "revN": 59,
+   "eProxy": 0.20563078655248895,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.05,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 0,
+   "eps": 0.02,
+   "epsKm": 2000,
+   "id": "mercuryDiag_eps0.02_lam0",
+   "dt": 0.032,
+   "steps": 1425099,
+   "maxSteps": 1425099,
+   "wallSec": 2.186,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": -0.000007947780533701727,
+   "residDegA": 2.3137721509553766e-10,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": -0.0000079477789433829,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0534469118999,
+   "perMeanFitSimA": 760.053446911771,
+   "revP2Sim": 760.0534577316467,
+   "revN": 59,
+   "eProxy": 0.2056309010587878,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.02,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 0,
+   "eps": 0.02,
+   "epsKm": 2000,
+   "id": "mercuryDiag_eps0.02_lam0",
+   "dt": 0.016,
+   "steps": 2850199,
+   "maxSteps": 2850199,
+   "wallSec": 2.197,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": -0.000002513626010816283,
+   "residDegA": 2.8995082414139762e-11,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": -0.0000025136253650233336,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0533934445145,
+   "perMeanFitSimA": 760.0533934445928,
+   "revP2Sim": 760.0533968664181,
+   "revN": 59,
+   "eProxy": 0.20563080427652436,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.02,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 0,
+   "eps": 0.02,
+   "epsKm": 2000,
+   "id": "mercuryDiag_eps0.02_lam0",
+   "dt": 0.008,
+   "steps": 5700398,
+   "maxSteps": 5700398,
+   "wallSec": 7.072,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": -0.0000011550882583712274,
+   "residDegA": 7.294672165214416e-12,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": -0.0000011550936962237727,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0533800776228,
+   "perMeanFitSimA": 760.0533800775977,
+   "revP2Sim": 760.0533816501592,
+   "revN": 59,
+   "eProxy": 0.20563078008045246,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.02,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 0,
+   "eps": 0.02,
+   "epsKm": 2000,
+   "id": "mercuryDiag_eps0.02_lam0",
+   "dt": 0.004,
+   "steps": 11400795,
+   "maxSteps": 11400795,
+   "wallSec": 13.127,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": -8.154526846779714e-7,
+   "residDegA": 9.392544689958914e-12,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": -8.1545900153885e-7,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0533767357938,
+   "perMeanFitSimA": 760.0533767355853,
+   "revP2Sim": 760.0533778459976,
+   "revN": 59,
+   "eProxy": 0.20563077403142913,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.02,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 0,
+   "eps": 0.01,
+   "epsKm": 1000,
+   "id": "mercuryDiag_eps0.01_lam0",
+   "dt": 0.032,
+   "steps": 1425099,
+   "maxSteps": 1425099,
+   "wallSec": 1.324,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": -0.00000742109929441103,
+   "residDegA": 2.3260707327369046e-10,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": -0.000007421097171855753,
+   "nPeriB": 60,
+   "perMeanSimA": 760.053444877292,
+   "perMeanFitSimA": 760.0534448772707,
+   "revP2Sim": 760.0534549799307,
+   "revN": 59,
+   "eProxy": 0.20563089926865627,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.01,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 0,
+   "eps": 0.01,
+   "epsKm": 1000,
+   "id": "mercuryDiag_eps0.01_lam0",
+   "dt": 0.016,
+   "steps": 2850199,
+   "maxSteps": 2850199,
+   "wallSec": 3.353,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": -0.0000019869453238399566,
+   "residDegA": 2.9093223784701724e-11,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": -0.000001986946079100059,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0533914098531,
+   "perMeanFitSimA": 760.0533914098576,
+   "revP2Sim": 760.0533941147564,
+   "revN": 59,
+   "eProxy": 0.2056308024871562,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.01,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 0,
+   "eps": 0.01,
+   "epsKm": 1000,
+   "id": "mercuryDiag_eps0.01_lam0",
+   "dt": 0.008,
+   "steps": 5700398,
+   "maxSteps": 5700398,
+   "wallSec": 5.066,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": -6.284067331196183e-7,
+   "residDegA": 6.763164811476767e-12,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": -6.284101037454409e-7,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0533780429761,
+   "perMeanFitSimA": 760.0533780429748,
+   "revP2Sim": 760.053378898432,
+   "revN": 59,
+   "eProxy": 0.20563077829169588,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.01,
+    "spin0": 0.029030999168753624
+   }
+  },
+  {
+   "lambdaPN": 0,
+   "eps": 0.01,
+   "epsKm": 1000,
+   "id": "mercuryDiag_eps0.01_lam0",
+   "dt": 0.004,
+   "steps": 11400795,
+   "maxSteps": 11400795,
+   "wallSec": 10.39,
+   "nan": false,
+   "clamp": 0,
+   "warnings": 0,
+   "slopeDegA": -2.8877292870770253e-7,
+   "residDegA": 7.15541147972149e-12,
+   "nPeriA": 59,
+   "rejA": {
+    "apo": 0,
+    "dup": 0,
+    "jump": 0
+   },
+   "slopeDegB": -2.887709850939759e-7,
+   "nPeriB": 60,
+   "perMeanSimA": 760.0533747012549,
+   "perMeanFitSimA": 760.053374701218,
+   "revP2Sim": 760.053375094473,
+   "revN": 59,
+   "eProxy": 0.20563077224299242,
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "state": {
+    "hasMeshVelocity": false,
+    "meshVelN": 0,
+    "meshVelUMax": 0,
+    "meshVelKickMax": 0,
+    "meshVelWork": 0,
+    "meshVelUndef": 0,
+    "meshVelBad": 0,
+    "meshVelDeny": null,
+    "hasGeoToy": false,
+    "geoToyStop": null,
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "kFrame": 0,
+    "q": 3,
+    "softening": 0.01,
+    "spin0": 0.029030999168753624
+   }
+  }
+ ],
+ "richardson": {
+  "lam1_eps0.05": {
+   "lambdaPN": 1,
+   "eps": 0.05,
+   "coarse": {
+    "p": 2.000000078573174,
+    "ratio": 4.0000002178511025,
+    "qStar": 0.000024326032873139412,
+    "d12": -0.000005434128020892504,
+    "d23": -0.0000013585319312337062,
+    "ok": true
+   },
+   "fine": {
+    "p": 1.9999991997987565,
+    "ratio": 3.9999977813716723,
+    "qStar": 0.000024326033240921335,
+    "d12": -0.0000013585319312337062,
+    "d23": -3.396331711883702e-7,
+    "ok": true
+   }
+  },
+  "lam1_eps0.02": {
+   "lambdaPN": 1,
+   "eps": 0.02,
+   "coarse": {
+    "p": 2.0000010247942814,
+    "ratio": 4.0000028413340765,
+    "qStar": 0.000028012802961859498,
+    "d12": -0.000005434129103762927,
+    "d23": -0.0000013585313109304048,
+    "ok": true
+   },
+   "fine": {
+    "p": 1.9999955964918967,
+    "ratio": 3.9999877909017276,
+    "qStar": 0.000028012805233698102,
+    "d12": -0.0000013585313109304048,
+    "d23": -3.3963386438840793e-7,
+    "ok": true
+   }
+  },
+  "lam1_eps0.01": {
+   "lambdaPN": 1,
+   "eps": 0.01,
+   "coarse": {
+    "p": 1.9999989584200708,
+    "ratio": 3.9999971121282774,
+    "qStar": 0.00002853948665267875,
+    "d12": -0.000005434128160981386,
+    "d23": -0.0000013585330210626203,
+    "ok": true
+   },
+   "fine": {
+    "p": 2.0000028187854766,
+    "ratio": 4.000007815340458,
+    "qStar": 0.000028539485037051717,
+    "d12": -0.0000013585330210626203,
+    "d23": -3.396325916795714e-7,
+    "ok": true
+   }
+  },
+  "lam0_eps0.05": {
+   "lambdaPN": 0,
+   "eps": 0.05,
+   "coarse": {
+    "p": 2.0000000605201502,
+    "ratio": 4.00000016779749,
+    "qStar": -0.000004389012126950732,
+    "d12": -0.0000054341532976883175,
+    "d23": -0.0000013585382674322517,
+    "ok": true
+   },
+   "fine": {
+    "p": 2.0000024944276107,
+    "ratio": 4.000006916027841,
+    "qStar": -0.0000043890131455849,
+    "d12": -0.0000013585382674322517,
+    "d23": -3.396339796285482e-7,
+    "ok": true
+   }
+  },
+  "lam0_eps0.02": {
+   "lambdaPN": 0,
+   "eps": 0.02,
+   "coarse": {
+    "p": 2.000000932682554,
+    "ratio": 4.000002585945966,
+    "qStar": -7.022427312342302e-7,
+    "d12": -0.000005434154522885444,
+    "d23": -0.0000013585377524450558,
+    "ok": true
+   },
+   "fine": {
+    "p": 1.9999951762966715,
+    "ratio": 3.9999866258769106,
+    "qStar": -7.022403220748618e-7,
+    "d12": -0.0000013585377524450558,
+    "d23": -3.39635573693256e-7,
+    "ok": true
+   }
+  },
+  "lam0_eps0.01": {
+   "lambdaPN": 0,
+   "eps": 0.01,
+   "coarse": {
+    "p": 1.999999895846883,
+    "ratio": 3.999999711226253,
+    "qStar": -1.7556049262280364e-7,
+    "d12": -0.000005434153970571073,
+    "d23": -0.0000013585385907203382,
+    "ok": true
+   },
+   "fine": {
+    "p": 2.000003582026521,
+    "ratio": 4.000009931498665,
+    "qStar": -1.7556203535500936e-7,
+    "d12": -0.0000013585385907203382,
+    "d23": -3.3963380441191573e-7,
+    "ok": true
+   }
+  }
+ },
+ "epsExtrap": {
+  "lam1_coarse": {
+   "Q0": 0.000028715047882951834,
+   "k": -0.001755612302730838,
+   "from": [
+    0.01,
+    0.02
+   ],
+   "predictLargest": 0.000024326017126124738,
+   "residLargest": 1.5747014674475594e-11,
+   "quad": {
+    "Q0": 0.00002871504800792813,
+    "k": -0.0017556138649346769,
+    "j": 0.0000031244076676983923,
+    "det": 1.5120000000000008e-9
+   }
+  },
+  "lam1_fine": {
+   "Q0": 0.000028715044971502923,
+   "k": -0.0017555993445120504,
+   "from": [
+    0.01,
+    0.02
+   ],
+   "predictLargest": 0.000024326046610222796,
+   "residLargest": -1.3369301461252717e-11,
+   "quad": {
+    "Q0": 0.00002871504486539735,
+    "k": -0.0017555980181924408,
+    "j": -0.0000026526391909698077,
+    "det": 1.5120000000000008e-9
+   }
+  },
+  "lam0_coarse": {
+   "Q0": 2.5358100519494465e-13,
+   "k": -0.0017556074620380883,
+   "from": [
+    0.01,
+    0.02
+   ],
+   "predictLargest": -0.000004389018401514217,
+   "residLargest": 6.274563484957277e-12,
+   "quad": {
+    "Q0": 3.033791281957345e-13,
+    "k": -0.0017556080845146245,
+    "j": 0.0000012449530725211488,
+    "det": 1.5120000000000008e-9
+   }
+  },
+  "lam0_fine": {
+   "Q0": -2.6064483919025314e-12,
+   "k": -0.0017555942890661745,
+   "from": [
+    0.01,
+    0.02
+   ],
+   "predictLargest": -0.000004388988329113829,
+   "residLargest": -2.4816471071678777e-11,
+   "quad": {
+    "Q0": -2.803404511459893e-12,
+    "k": -0.0017555918271146798,
+    "j": -0.000004923902990228157,
+    "det": 1.5120000000000008e-9
+   }
+  }
+ },
+ "pnDiff": [
+  {
+   "eps": 0.05,
+   "dt": 0.032,
+   "diff": 0.000028715078732706056
+  },
+  {
+   "eps": 0.05,
+   "dt": 0.016,
+   "diff": 0.000028715053455910243
+  },
+  {
+   "eps": 0.05,
+   "dt": 0.008,
+   "diff": 0.000028715047119711696
+  },
+  {
+   "eps": 0.05,
+   "dt": 0.004,
+   "diff": 0.00002871504631127152
+  },
+  {
+   "eps": 0.02,
+   "dt": 0.032,
+   "diff": 0.000028715079739450833
+  },
+  {
+   "eps": 0.02,
+   "dt": 0.016,
+   "diff": 0.000028715054320328314
+  },
+  {
+   "eps": 0.02,
+   "dt": 0.008,
+   "diff": 0.000028715047878813665
+  },
+  {
+   "eps": 0.02,
+   "dt": 0.004,
+   "diff": 0.000028715046169508817
+  },
+  {
+   "eps": 0.01,
+   "dt": 0.032,
+   "diff": 0.00002871507998877236
+  },
+  {
+   "eps": 0.01,
+   "dt": 0.016,
+   "diff": 0.00002871505417918267
+  },
+  {
+   "eps": 0.01,
+   "dt": 0.008,
+   "diff": 0.000028715048609524953
+  },
+  {
+   "eps": 0.01,
+   "dt": 0.004,
+   "diff": 0.00002871504739679261
+  }
+ ],
+ "analytic": {
+  "pn1": 0.00002871505361399241,
+  "pn1WithMu": 0.000028715058380965584,
+  "softeningCoef": -0.0017556055108560499,
+  "softening": {
+   "0.05": -0.000004389013777140126,
+   "0.02": -7.022422043424201e-7,
+   "0.01": -1.7556055108560502e-7
+  },
+  "orbit": {
+   "a": 579.0907634765185,
+   "e": 0.20563056948385805,
+   "Psim": 760.0530225710731,
+   "GM": 13271.249000000002
+  }
+ },
+ "observed": {
+  "kF0Row": {
+   "value": 0.00002875439440328561,
+   "source": "obsCard の obs 欄 \"42.98″/世紀\"(☄️)",
+   "arcsecPerCentury": 42.98
+  },
+  "kF1Row": {
+   "value": 0.00002876777476271172,
+   "source": "obsCard の obs 欄 \"+43″/世紀\"(🪨)",
+   "arcsecPerCentury": 43
+  },
+  "rowsDiffer": true,
+  "rowsDiffDeg": 1.338035942610941e-8,
+  "sigmaGateDeg": 1.0036073088007635e-9,
+  "sigmaFrom": "CSV Mercury|periastron_advance の先頭行(Park 2017 Table 3 の **総量** 575.3100″/世紀・1σ 0.0015″/世紀)",
+  "parkGR": {
+   "arcsecPerCentury": 42.9799,
+   "sigma": 0.0009,
+   "degPerOrbit_P87969": 0.00002875426894136436,
+   "sigmaDegPerOrbit": 6.021149897330594e-10,
+   "source": "CSV Mercury|periastron_advance_gr(Park 2017 Table 3 Gravitoelectric)"
+  },
+  "parkLT": {
+   "arcsecPerCentury": -0.002,
+   "sigma": 0.0002,
+   "degPerOrbit_P87969": -1.33803331051791e-9,
+   "source": "CSV の note(Park 2017 Table 3 Lense–Thirring —— GR 行には含まれない)"
+  },
+  "judgeConvPeriodDay": {
+   "kF0": 87.96917915514251,
+   "kF1": 87.96917915230148,
+   "note": "判定器の換算に使われた周期(日)—— 観測の 87.969 日ではなく模型の近点間周期"
+  },
+  "periodChoice": {
+   "P87969": 0.000028754335843029886,
+   "Pstandish": 0.000028754419684919002,
+   "Psim": 0.000028754394499321396
+  }
+ },
+ "inputBreak": {
+  "pnAnSim": 0.00002871505361399241,
+  "pnAnSimWithMu": 0.000028715058380965584,
+  "cTrue": 0.000028754825411872186,
+  "gmTrue": 0.00002871504279936743,
+  "aTrue": 0.000028715066678862852,
+  "eTrue": 0.000028715055100050897,
+  "allTrue": 0.00002875482915334629,
+  "allTrueArcsecPerCentury": 42.980737366271114,
+  "simArcsecPerCentury": 42.92128363064105,
+  "constants": {
+   "cSim": 300000000,
+   "cTrue": 299792458,
+   "GMsim": 132712490000000010000,
+   "GMtrue": 132712440018000000000,
+   "aSim_m": 57909076347.651855,
+   "aTrue_m": 57909050000,
+   "eSim": 0.20563056948385805,
+   "eTrue": 0.20563069
+  },
+  "note": "サンプル単位: 1 単位=10⁸ m・10⁴ s → G·M の単位は 10¹⁶ m³/s²(L³/T²)・c の単位は 10⁴ m/s",
+  "cTrueDelta": 3.977179787977426e-8,
+  "gmTrueDelta": -1.0814624982889058e-11,
+  "aTrueDelta": 1.3064870440658485e-11,
+  "eTrueDelta": 1.4860584856039253e-12,
+  "allTrueDelta": 3.9775539353878e-8,
+  "obsKF0MinusAllTrue": -4.3475006067898855e-10
+ },
+ "operator": {
+  "formal": {
+   "estimator": "periapsis-crossing(検出器 A)",
+   "window": "59 近点(60 公転ぶんの步数)",
+   "system": "☄️ そのもの(a=579.09・ε=0.05・dt=0.016)",
+   "subtraction": "なし(1PN + 軟化 + 刻みの総量)",
+   "degPerOrbit": 0.000022514656997711987,
+   "arcsecPerCentury": 33.65335798553069
+  },
+  "lambdaDiffFormalCell": {
+   "estimator": "periapsis-crossing(検出器 A)の λ_PN=1 − λ_PN=0",
+   "window": "59 近点",
+   "system": "☄️ そのもの(ε=0.05・dt=0.016)",
+   "degPerOrbit": 0.000028715053455910243,
+   "arcsecPerCentury": 42.92128339435072,
+   "ratioToAnalytic": 0.999999994494798
+  },
+  "obscalD": {
+   "estimator": "RL-gradient(Runge–Lenz 角の周回ボックスカー平均の最小二乗勾配)の λ_PN=1 − λ_PN=0",
+   "window": "600 公転",
+   "dt": 0.016,
+   "system": "a=150・e=0.206・M=515.8076(GM/(c²a)=2.55e-8 を合わせた別の系)・ε=2・kFrame=1(自転 0)",
+   "pn1RadPerOrbit": 5.028989689256566e-7,
+   "theoRadPerOrbit": 5.019650655196293e-7,
+   "ratio": 1.0018604948235998,
+   "lam0RadPerOrbit": -0.0018245824375317605,
+   "arcsecPerCentury": 43.04083755408758,
+   "orbitsPerCentury": 414.93,
+   "orbitsPerCenturyNote": "§D は 414.93 公転/世紀で換算している(36525/87.969 = 415.2031 ではない)",
+   "source": "tests/out/obscal-results.json(2026-08-20T08:08:36.767Z)"
+  }
+ },
+ "decomposition": {
+  "coarse": {
+   "obsKF0": {
+    "deficit": 0.000006239737405573624,
+    "parts": {
+     "step": 0.0000018113758754274255,
+     "softening": 0.000004389015009812422,
+     "modelResidual": 5.731040577679593e-12,
+     "inputConversion": 3.934078929319901e-8
+    },
+    "share": {
+     "step": 0.2902968118192635,
+     "softening": 0.7033973907126203,
+     "modelResidual": 9.18474641666869e-7,
+     "inputConversion": 0.006304878993474626
+    },
+    "closure": 0
+   },
+   "obsKF1Row": {
+    "deficit": 0.0000062531177649997335,
+    "parts": {
+     "step": 0.0000018113758754274255,
+     "softening": 0.000004389015009812422,
+     "modelResidual": 5.731040577679593e-12,
+     "inputConversion": 5.272114871930842e-8
+    },
+    "share": {
+     "step": 0.2896756375781294,
+     "softening": 0.7018922679465336,
+     "modelResidual": 9.165092987305729e-7,
+     "inputConversion": 0.008431177966038301
+    },
+    "closure": 0
+   },
+   "qStarEps005": 0.000024326032873139412,
+   "q00": 0.000028715047882951834,
+   "arcsecPerCentury": {
+    "formal": 33.65335798553069,
+    "qStarEps005": 36.36087783752347,
+    "q00": 42.92127506427647,
+    "pnAn": 42.92128363064105,
+    "obsKF0": 42.980087531835366,
+    "step": 2.7075198519927723,
+    "softening": 6.5603972267530075,
+    "inputConversion": 0.05880390119431547
+   }
+  },
+  "fine": {
+   "obsKF0": {
+    "deficit": 0.000006239737405573624,
+    "parts": {
+     "step": 0.000001811376243209348,
+     "softening": 0.000004389011730581589,
+     "modelResidual": 8.64248948827858e-12,
+     "inputConversion": 3.934078929319901e-8
+    },
+    "share": {
+     "step": 0.2902968707611545,
+     "softening": 0.7033968651727426,
+     "modelResidual": 0.0000013850726283062339,
+     "inputConversion": 0.006304878993474626
+    },
+    "closure": 0
+   },
+   "obsKF1Row": {
+    "deficit": 0.0000062531177649997335,
+    "parts": {
+     "step": 0.000001811376243209348,
+     "softening": 0.000004389011730581589,
+     "modelResidual": 8.64248948827858e-12,
+     "inputConversion": 5.272114871930842e-8
+    },
+    "share": {
+     "step": 0.28967569639389723,
+     "softening": 0.7018917435312009,
+     "modelResidual": 0.0000013821088636220412,
+     "inputConversion": 0.008431177966038301
+    },
+    "closure": 0
+   },
+   "qStarEps005": 0.000024326033240921335,
+   "q00": 0.000028715044971502923,
+   "arcsecPerCentury": {
+    "formal": 33.65335798553069,
+    "qStarEps005": 36.360878387258545,
+    "q00": 42.921270712443246,
+    "pnAn": 42.92128363064105,
+    "obsKF0": 42.980087531835366,
+    "step": 2.7075204017278494,
+    "softening": 6.5603923251847025,
+    "inputConversion": 0.05880390119431547
+   }
+  }
+ },
+ "atSmallest": {
+  "eps": 0.01,
+  "dt": 0.004,
+  "value": 0.000028426274468084906,
+  "deficitToObsKF0": 3.2811993520070475e-7,
+  "deficitShare": 0.052585535876495816,
+  "softeningAnalyticAt": -1.7556055108560502e-7,
+  "richardsonAtEps001": 0.000028539485037051717,
+  "deficitAfterDtExtrapAtEps001": 2.1490936623389347e-7
+ },
+ "table": {
+  "conds": [
+   {
+    "key": "kF0",
+    "id": "mercuryReal",
+    "label": "kF0(☄️ そのもの・λ_PN=1)"
+   },
+   {
+    "key": "kF1",
+    "id": "mercuryRealKF1",
+    "label": "kF1(🪨 そのもの・q=6.1471 qLock・D0pull)"
+   },
+   {
+    "key": "geoPN3scalar",
+    "id": "mercuryDiag_geoToyScalar",
+    "label": "geoPN=3 scalar(現行トイ —— _core の geoPN は 0 = 1PN なし)"
+   },
+   {
+    "key": "vMinusU",
+    "id": "mercuryDiag_vMinusU",
+    "label": "meshVelocity vMinusU(field:\"explicit\"・external 太陽・mutual:0・kF0・geoPN=2・λ_PN=1)"
+   },
+   {
+    "key": "vMinusU_mutual1",
+    "id": "mercuryDiag_vMinusU_mutual1",
+    "label": "同上 mutual:1(2 体で外部=太陽なので局所の源は空)"
+   },
+   {
+    "key": "lam0",
+    "id": "mercuryDiag_eps0.05_lam0",
+    "label": "λ_PN=0(1PN を切った対照)"
+   }
+  ],
+  "rows": [
+   {
+    "cond": "kF0",
+    "label": "kF0(☄️ そのもの・λ_PN=1)",
+    "lambdaPN": 1,
+    "eps": 0.05,
+    "epsKm": 5000,
+    "id": "mercuryReal",
+    "dt": 0.016,
+    "steps": 2850199,
+    "maxSteps": 2850199,
+    "wallSec": 4.159,
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "slopeDegA": 0.000022514656997711987,
+    "residDegA": 3.07512772250131e-11,
+    "nPeriA": 59,
+    "rejA": {
+     "apo": 0,
+     "dup": 0,
+     "jump": 0
+    },
+    "slopeDegB": 0.00002251464899894646,
+    "nPeriB": 60,
+    "perMeanSimA": 760.0537079004313,
+    "perMeanFitSimA": 760.0537104389077,
+    "revP2Sim": 760.0536760786634,
+    "revN": 59,
+    "eProxy": 0.20563096846947732,
+    "osc0": {
+     "a": 579.0907634765185,
+     "e": 0.20563056948385805,
+     "P": 760.0530225710731,
+     "mu": 13271.251203154095
+    },
+    "state": {
+     "hasMeshVelocity": false,
+     "meshVelN": 0,
+     "meshVelUMax": 0,
+     "meshVelKickMax": 0,
+     "meshVelWork": 0,
+     "meshVelUndef": 0,
+     "meshVelBad": 0,
+     "meshVelDeny": null,
+     "hasGeoToy": false,
+     "geoToyStop": null,
+     "geoPN": 2,
+     "lambdaPN": 1,
+     "kFrame": 0,
+     "q": 3,
+     "softening": 0.05,
+     "spin0": 0.029030999168753624
+    }
+   },
+   {
+    "cond": "kF0",
+    "label": "kF0(☄️ そのもの・λ_PN=1)",
+    "lambdaPN": 1,
+    "eps": 0.05,
+    "epsKm": 5000,
+    "id": "mercuryReal",
+    "dt": 0.008,
+    "steps": 5700398,
+    "maxSteps": 5700398,
+    "wallSec": 5.712,
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "slopeDegA": 0.000023873188928945693,
+    "residDegA": 7.8925234813811e-12,
+    "nPeriA": 59,
+    "rejA": {
+     "apo": 0,
+     "dup": 0,
+     "jump": 0
+    },
+    "slopeDegB": 0.000023873186634293415,
+    "nPeriB": 60,
+    "perMeanSimA": 760.0536938501631,
+    "perMeanFitSimA": 760.0536951194006,
+    "revP2Sim": 760.0536607647077,
+    "revN": 59,
+    "eProxy": 0.2056309422341003,
+    "osc0": {
+     "a": 579.0907634765185,
+     "e": 0.20563056948385805,
+     "P": 760.0530225710731,
+     "mu": 13271.251203154095
+    },
+    "state": {
+     "hasMeshVelocity": false,
+     "meshVelN": 0,
+     "meshVelUMax": 0,
+     "meshVelKickMax": 0,
+     "meshVelWork": 0,
+     "meshVelUndef": 0,
+     "meshVelBad": 0,
+     "meshVelDeny": null,
+     "hasGeoToy": false,
+     "geoToyStop": null,
+     "geoPN": 2,
+     "lambdaPN": 1,
+     "kFrame": 0,
+     "q": 3,
+     "softening": 0.05,
+     "spin0": 0.029030999168753624
+    }
+   },
+   {
+    "cond": "kF0",
+    "label": "kF0(☄️ そのもの・λ_PN=1)",
+    "lambdaPN": 1,
+    "eps": 0.05,
+    "epsKm": 5000,
+    "id": "mercuryReal",
+    "dt": 0.004,
+    "steps": 11400795,
+    "maxSteps": 11400795,
+    "wallSec": 13.853,
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "slopeDegA": 0.000024212822100134063,
+    "residDegA": 5.930864752124582e-12,
+    "nPeriA": 59,
+    "rejA": {
+     "apo": 0,
+     "dup": 0,
+     "jump": 0
+    },
+    "slopeDegB": 0.0000242128291877146,
+    "nPeriB": 60,
+    "perMeanSimA": 760.0536901667774,
+    "perMeanFitSimA": 760.0536908012862,
+    "revP2Sim": 760.0536569118578,
+    "revN": 59,
+    "eProxy": 0.20563093514475758,
+    "osc0": {
+     "a": 579.0907634765185,
+     "e": 0.20563056948385805,
+     "P": 760.0530225710731,
+     "mu": 13271.251203154095
+    },
+    "state": {
+     "hasMeshVelocity": false,
+     "meshVelN": 0,
+     "meshVelUMax": 0,
+     "meshVelKickMax": 0,
+     "meshVelWork": 0,
+     "meshVelUndef": 0,
+     "meshVelBad": 0,
+     "meshVelDeny": null,
+     "hasGeoToy": false,
+     "geoToyStop": null,
+     "geoPN": 2,
+     "lambdaPN": 1,
+     "kFrame": 0,
+     "q": 3,
+     "softening": 0.05,
+     "spin0": 0.029030999168753624
+    }
+   },
+   {
+    "cond": "kF1",
+    "label": "kF1(🪨 そのもの・q=6.1471 qLock・D0pull)",
+    "id": "mercuryRealKF1",
+    "dt": 0.016,
+    "steps": 2850199,
+    "maxSteps": 2850199,
+    "wallSec": 4.653,
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "slopeDegA": 0.000022486098667853376,
+    "residDegA": 3.1023778996022725e-11,
+    "nPeriA": 59,
+    "rejA": {
+     "apo": 0,
+     "dup": 0,
+     "jump": 0
+    },
+    "slopeDegB": 0.000022486089601952825,
+    "nPeriB": 60,
+    "perMeanSimA": 760.0537078758849,
+    "perMeanFitSimA": 760.0537104157787,
+    "revP2Sim": 760.0536760922814,
+    "revN": 59,
+    "eProxy": 0.20563096848619541,
+    "osc0": {
+     "a": 579.0907634765185,
+     "e": 0.20563056948385805,
+     "P": 760.0530225710731,
+     "mu": 13271.251203154095
+    },
+    "state": {
+     "hasMeshVelocity": false,
+     "meshVelN": 0,
+     "meshVelUMax": 0,
+     "meshVelKickMax": 0,
+     "meshVelWork": 0,
+     "meshVelUndef": 0,
+     "meshVelBad": 0,
+     "meshVelDeny": null,
+     "hasGeoToy": false,
+     "geoToyStop": null,
+     "geoPN": 2,
+     "lambdaPN": 1,
+     "kFrame": 1,
+     "q": 6.1471,
+     "softening": 0.05,
+     "spin0": 0.029030999168753624
+    }
+   },
+   {
+    "cond": "kF1",
+    "label": "kF1(🪨 そのもの・q=6.1471 qLock・D0pull)",
+    "id": "mercuryRealKF1",
+    "dt": 0.008,
+    "steps": 5700398,
+    "maxSteps": 5700398,
+    "wallSec": 10.496,
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "slopeDegA": 0.000023844954011458964,
+    "residDegA": 4.60927739301266e-12,
+    "nPeriA": 59,
+    "rejA": {
+     "apo": 0,
+     "dup": 0,
+     "jump": 0
+    },
+    "slopeDegB": 0.00002384495071598752,
+    "nPeriB": 60,
+    "perMeanSimA": 760.0536938258416,
+    "perMeanFitSimA": 760.05369509491,
+    "revP2Sim": 760.0536607788275,
+    "revN": 59,
+    "eProxy": 0.20563094224971243,
+    "osc0": {
+     "a": 579.0907634765185,
+     "e": 0.20563056948385805,
+     "P": 760.0530225710731,
+     "mu": 13271.251203154095
+    },
+    "state": {
+     "hasMeshVelocity": false,
+     "meshVelN": 0,
+     "meshVelUMax": 0,
+     "meshVelKickMax": 0,
+     "meshVelWork": 0,
+     "meshVelUndef": 0,
+     "meshVelBad": 0,
+     "meshVelDeny": null,
+     "hasGeoToy": false,
+     "geoToyStop": null,
+     "geoPN": 2,
+     "lambdaPN": 1,
+     "kFrame": 1,
+     "q": 6.1471,
+     "softening": 0.05,
+     "spin0": 0.029030999168753624
+    }
+   },
+   {
+    "cond": "kF1",
+    "label": "kF1(🪨 そのもの・q=6.1471 qLock・D0pull)",
+    "id": "mercuryRealKF1",
+    "dt": 0.004,
+    "steps": 11400795,
+    "maxSteps": 11400795,
+    "wallSec": 18.325,
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "slopeDegA": 0.00002418389802677673,
+    "residDegA": 8.331725886225795e-12,
+    "nPeriA": 59,
+    "rejA": {
+     "apo": 0,
+     "dup": 0,
+     "jump": 0
+    },
+    "slopeDegB": 0.00002418390322802715,
+    "nPeriB": 60,
+    "perMeanSimA": 760.0536901403188,
+    "perMeanFitSimA": 760.0536907756531,
+    "revP2Sim": 760.0536569245909,
+    "revN": 59,
+    "eProxy": 0.20563093516155043,
+    "osc0": {
+     "a": 579.0907634765185,
+     "e": 0.20563056948385805,
+     "P": 760.0530225710731,
+     "mu": 13271.251203154095
+    },
+    "state": {
+     "hasMeshVelocity": false,
+     "meshVelN": 0,
+     "meshVelUMax": 0,
+     "meshVelKickMax": 0,
+     "meshVelWork": 0,
+     "meshVelUndef": 0,
+     "meshVelBad": 0,
+     "meshVelDeny": null,
+     "hasGeoToy": false,
+     "geoToyStop": null,
+     "geoPN": 2,
+     "lambdaPN": 1,
+     "kFrame": 1,
+     "q": 6.1471,
+     "softening": 0.05,
+     "spin0": 0.029030999168753624
+    }
+   },
+   {
+    "cond": "geoPN3scalar",
+    "label": "geoPN=3 scalar(現行トイ —— _core の geoPN は 0 = 1PN なし)",
+    "id": "mercuryDiag_geoToyScalar",
+    "dt": 0.016,
+    "steps": 2850199,
+    "maxSteps": 2850199,
+    "wallSec": 5.995,
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "slopeDegA": -0.000006200396458198256,
+    "residDegA": 2.813629929006781e-11,
+    "nPeriA": 59,
+    "rejA": {
+     "apo": 0,
+     "dup": 0,
+     "jump": 0
+    },
+    "slopeDegB": -0.000006200395184441173,
+    "nPeriB": 60,
+    "perMeanSimA": 760.0534076872626,
+    "perMeanFitSimA": 760.0534076873206,
+    "revP2Sim": 760.053416128172,
+    "revN": 59,
+    "eProxy": 0.20563081679792033,
+    "osc0": {
+     "a": 579.0907634765185,
+     "e": 0.20563056948385805,
+     "P": 760.0530225710731,
+     "mu": 13271.251203154095
+    },
+    "state": {
+     "hasMeshVelocity": false,
+     "meshVelN": 0,
+     "meshVelUMax": 0,
+     "meshVelKickMax": 0,
+     "meshVelWork": 0,
+     "meshVelUndef": 0,
+     "meshVelBad": 0,
+     "meshVelDeny": null,
+     "hasGeoToy": true,
+     "geoToyStop": null,
+     "geoPN": 3,
+     "lambdaPN": 1,
+     "kFrame": 0,
+     "q": 3,
+     "softening": 0.05,
+     "spin0": 0.029030999168753624
+    }
+   },
+   {
+    "cond": "geoPN3scalar",
+    "label": "geoPN=3 scalar(現行トイ —— _core の geoPN は 0 = 1PN なし)",
+    "id": "mercuryDiag_geoToyScalar",
+    "dt": 0.008,
+    "steps": 5700398,
+    "maxSteps": 5700398,
+    "wallSec": 10.99,
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "slopeDegA": -0.0000048418581907660044,
+    "residDegA": 7.252216605101036e-12,
+    "nPeriA": 59,
+    "rejA": {
+     "apo": 0,
+     "dup": 0,
+     "jump": 0
+    },
+    "slopeDegB": -0.0000048418600722275615,
+    "nPeriB": 60,
+    "perMeanSimA": 760.0533943204163,
+    "perMeanFitSimA": 760.0533943204302,
+    "revP2Sim": 760.0534009118977,
+    "revN": 59,
+    "eProxy": 0.20563079260140615,
+    "osc0": {
+     "a": 579.0907634765185,
+     "e": 0.20563056948385805,
+     "P": 760.0530225710731,
+     "mu": 13271.251203154095
+    },
+    "state": {
+     "hasMeshVelocity": false,
+     "meshVelN": 0,
+     "meshVelUMax": 0,
+     "meshVelKickMax": 0,
+     "meshVelWork": 0,
+     "meshVelUndef": 0,
+     "meshVelBad": 0,
+     "meshVelDeny": null,
+     "hasGeoToy": true,
+     "geoToyStop": null,
+     "geoPN": 3,
+     "lambdaPN": 1,
+     "kFrame": 0,
+     "q": 3,
+     "softening": 0.05,
+     "spin0": 0.029030999168753624
+    }
+   },
+   {
+    "cond": "geoPN3scalar",
+    "label": "geoPN=3 scalar(現行トイ —— _core の geoPN は 0 = 1PN なし)",
+    "id": "mercuryDiag_geoToyScalar",
+    "dt": 0.004,
+    "steps": 11400795,
+    "maxSteps": 11400795,
+    "wallSec": 22.062,
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "slopeDegA": -0.000004502224211137456,
+    "residDegA": 9.203132694072899e-12,
+    "nPeriA": 59,
+    "rejA": {
+     "apo": 0,
+     "dup": 0,
+     "jump": 0
+    },
+    "slopeDegB": -0.000004502224148138243,
+    "nPeriB": 60,
+    "perMeanSimA": 760.0533909786973,
+    "perMeanFitSimA": 760.053390978642,
+    "revP2Sim": 760.0533971077638,
+    "revN": 59,
+    "eProxy": 0.20563078655248895,
+    "osc0": {
+     "a": 579.0907634765185,
+     "e": 0.20563056948385805,
+     "P": 760.0530225710731,
+     "mu": 13271.251203154095
+    },
+    "state": {
+     "hasMeshVelocity": false,
+     "meshVelN": 0,
+     "meshVelUMax": 0,
+     "meshVelKickMax": 0,
+     "meshVelWork": 0,
+     "meshVelUndef": 0,
+     "meshVelBad": 0,
+     "meshVelDeny": null,
+     "hasGeoToy": true,
+     "geoToyStop": null,
+     "geoPN": 3,
+     "lambdaPN": 1,
+     "kFrame": 0,
+     "q": 3,
+     "softening": 0.05,
+     "spin0": 0.029030999168753624
+    }
+   },
+   {
+    "cond": "vMinusU",
+    "label": "meshVelocity vMinusU(field:\"explicit\"・external 太陽・mutual:0・kF0・geoPN=2・λ_PN=1)",
+    "id": "mercuryDiag_vMinusU",
+    "dt": 0.016,
+    "steps": 2850199,
+    "maxSteps": 2850199,
+    "wallSec": 8.246,
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "slopeDegA": 0.000022514656997711987,
+    "residDegA": 3.07512772250131e-11,
+    "nPeriA": 59,
+    "rejA": {
+     "apo": 0,
+     "dup": 0,
+     "jump": 0
+    },
+    "slopeDegB": 0.00002251464899894646,
+    "nPeriB": 60,
+    "perMeanSimA": 760.0537079004313,
+    "perMeanFitSimA": 760.0537104389077,
+    "revP2Sim": 760.0536760786634,
+    "revN": 59,
+    "eProxy": 0.20563096846947732,
+    "osc0": {
+     "a": 579.0907634765185,
+     "e": 0.20563056948385805,
+     "P": 760.0530225710731,
+     "mu": 13271.251203154095
+    },
+    "state": {
+     "hasMeshVelocity": true,
+     "meshVelN": 2850199,
+     "meshVelUMax": 0,
+     "meshVelKickMax": 0,
+     "meshVelWork": 0,
+     "meshVelUndef": 0,
+     "meshVelBad": 0,
+     "meshVelDeny": null,
+     "hasGeoToy": false,
+     "geoToyStop": null,
+     "geoPN": 2,
+     "lambdaPN": 1,
+     "kFrame": 0,
+     "q": 3,
+     "softening": 0.05,
+     "spin0": 0.029030999168753624
+    }
+   },
+   {
+    "cond": "vMinusU",
+    "label": "meshVelocity vMinusU(field:\"explicit\"・external 太陽・mutual:0・kF0・geoPN=2・λ_PN=1)",
+    "id": "mercuryDiag_vMinusU",
+    "dt": 0.008,
+    "steps": 5700398,
+    "maxSteps": 5700398,
+    "wallSec": 12.779,
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "slopeDegA": 0.000023873188928945693,
+    "residDegA": 7.8925234813811e-12,
+    "nPeriA": 59,
+    "rejA": {
+     "apo": 0,
+     "dup": 0,
+     "jump": 0
+    },
+    "slopeDegB": 0.000023873186634293415,
+    "nPeriB": 60,
+    "perMeanSimA": 760.0536938501631,
+    "perMeanFitSimA": 760.0536951194006,
+    "revP2Sim": 760.0536607647077,
+    "revN": 59,
+    "eProxy": 0.2056309422341003,
+    "osc0": {
+     "a": 579.0907634765185,
+     "e": 0.20563056948385805,
+     "P": 760.0530225710731,
+     "mu": 13271.251203154095
+    },
+    "state": {
+     "hasMeshVelocity": true,
+     "meshVelN": 5700398,
+     "meshVelUMax": 0,
+     "meshVelKickMax": 0,
+     "meshVelWork": 0,
+     "meshVelUndef": 0,
+     "meshVelBad": 0,
+     "meshVelDeny": null,
+     "hasGeoToy": false,
+     "geoToyStop": null,
+     "geoPN": 2,
+     "lambdaPN": 1,
+     "kFrame": 0,
+     "q": 3,
+     "softening": 0.05,
+     "spin0": 0.029030999168753624
+    }
+   },
+   {
+    "cond": "vMinusU",
+    "label": "meshVelocity vMinusU(field:\"explicit\"・external 太陽・mutual:0・kF0・geoPN=2・λ_PN=1)",
+    "id": "mercuryDiag_vMinusU",
+    "dt": 0.004,
+    "steps": 11400795,
+    "maxSteps": 11400795,
+    "wallSec": 23.231,
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "slopeDegA": 0.000024212822100134063,
+    "residDegA": 5.930864752124582e-12,
+    "nPeriA": 59,
+    "rejA": {
+     "apo": 0,
+     "dup": 0,
+     "jump": 0
+    },
+    "slopeDegB": 0.0000242128291877146,
+    "nPeriB": 60,
+    "perMeanSimA": 760.0536901667774,
+    "perMeanFitSimA": 760.0536908012862,
+    "revP2Sim": 760.0536569118578,
+    "revN": 59,
+    "eProxy": 0.20563093514475758,
+    "osc0": {
+     "a": 579.0907634765185,
+     "e": 0.20563056948385805,
+     "P": 760.0530225710731,
+     "mu": 13271.251203154095
+    },
+    "state": {
+     "hasMeshVelocity": true,
+     "meshVelN": 11400795,
+     "meshVelUMax": 0,
+     "meshVelKickMax": 0,
+     "meshVelWork": 0,
+     "meshVelUndef": 0,
+     "meshVelBad": 0,
+     "meshVelDeny": null,
+     "hasGeoToy": false,
+     "geoToyStop": null,
+     "geoPN": 2,
+     "lambdaPN": 1,
+     "kFrame": 0,
+     "q": 3,
+     "softening": 0.05,
+     "spin0": 0.029030999168753624
+    }
+   },
+   {
+    "cond": "vMinusU_mutual1",
+    "label": "同上 mutual:1(2 体で外部=太陽なので局所の源は空)",
+    "id": "mercuryDiag_vMinusU_mutual1",
+    "dt": 0.016,
+    "steps": 2850199,
+    "maxSteps": 2850199,
+    "wallSec": 7.39,
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "slopeDegA": 0.000022514656997711987,
+    "residDegA": 3.07512772250131e-11,
+    "nPeriA": 59,
+    "rejA": {
+     "apo": 0,
+     "dup": 0,
+     "jump": 0
+    },
+    "slopeDegB": 0.00002251464899894646,
+    "nPeriB": 60,
+    "perMeanSimA": 760.0537079004313,
+    "perMeanFitSimA": 760.0537104389077,
+    "revP2Sim": 760.0536760786634,
+    "revN": 59,
+    "eProxy": 0.20563096846947732,
+    "osc0": {
+     "a": 579.0907634765185,
+     "e": 0.20563056948385805,
+     "P": 760.0530225710731,
+     "mu": 13271.251203154095
+    },
+    "state": {
+     "hasMeshVelocity": true,
+     "meshVelN": 2850199,
+     "meshVelUMax": 0,
+     "meshVelKickMax": 0,
+     "meshVelWork": 0,
+     "meshVelUndef": 0,
+     "meshVelBad": 0,
+     "meshVelDeny": null,
+     "hasGeoToy": false,
+     "geoToyStop": null,
+     "geoPN": 2,
+     "lambdaPN": 1,
+     "kFrame": 0,
+     "q": 3,
+     "softening": 0.05,
+     "spin0": 0.029030999168753624
+    }
+   },
+   {
+    "cond": "vMinusU_mutual1",
+    "label": "同上 mutual:1(2 体で外部=太陽なので局所の源は空)",
+    "id": "mercuryDiag_vMinusU_mutual1",
+    "dt": 0.008,
+    "steps": 5700398,
+    "maxSteps": 5700398,
+    "wallSec": 13.037,
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "slopeDegA": 0.000023873188928945693,
+    "residDegA": 7.8925234813811e-12,
+    "nPeriA": 59,
+    "rejA": {
+     "apo": 0,
+     "dup": 0,
+     "jump": 0
+    },
+    "slopeDegB": 0.000023873186634293415,
+    "nPeriB": 60,
+    "perMeanSimA": 760.0536938501631,
+    "perMeanFitSimA": 760.0536951194006,
+    "revP2Sim": 760.0536607647077,
+    "revN": 59,
+    "eProxy": 0.2056309422341003,
+    "osc0": {
+     "a": 579.0907634765185,
+     "e": 0.20563056948385805,
+     "P": 760.0530225710731,
+     "mu": 13271.251203154095
+    },
+    "state": {
+     "hasMeshVelocity": true,
+     "meshVelN": 5700398,
+     "meshVelUMax": 0,
+     "meshVelKickMax": 0,
+     "meshVelWork": 0,
+     "meshVelUndef": 0,
+     "meshVelBad": 0,
+     "meshVelDeny": null,
+     "hasGeoToy": false,
+     "geoToyStop": null,
+     "geoPN": 2,
+     "lambdaPN": 1,
+     "kFrame": 0,
+     "q": 3,
+     "softening": 0.05,
+     "spin0": 0.029030999168753624
+    }
+   },
+   {
+    "cond": "vMinusU_mutual1",
+    "label": "同上 mutual:1(2 体で外部=太陽なので局所の源は空)",
+    "id": "mercuryDiag_vMinusU_mutual1",
+    "dt": 0.004,
+    "steps": 11400795,
+    "maxSteps": 11400795,
+    "wallSec": 23.105,
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "slopeDegA": 0.000024212822100134063,
+    "residDegA": 5.930864752124582e-12,
+    "nPeriA": 59,
+    "rejA": {
+     "apo": 0,
+     "dup": 0,
+     "jump": 0
+    },
+    "slopeDegB": 0.0000242128291877146,
+    "nPeriB": 60,
+    "perMeanSimA": 760.0536901667774,
+    "perMeanFitSimA": 760.0536908012862,
+    "revP2Sim": 760.0536569118578,
+    "revN": 59,
+    "eProxy": 0.20563093514475758,
+    "osc0": {
+     "a": 579.0907634765185,
+     "e": 0.20563056948385805,
+     "P": 760.0530225710731,
+     "mu": 13271.251203154095
+    },
+    "state": {
+     "hasMeshVelocity": true,
+     "meshVelN": 11400795,
+     "meshVelUMax": 0,
+     "meshVelKickMax": 0,
+     "meshVelWork": 0,
+     "meshVelUndef": 0,
+     "meshVelBad": 0,
+     "meshVelDeny": null,
+     "hasGeoToy": false,
+     "geoToyStop": null,
+     "geoPN": 2,
+     "lambdaPN": 1,
+     "kFrame": 0,
+     "q": 3,
+     "softening": 0.05,
+     "spin0": 0.029030999168753624
+    }
+   },
+   {
+    "cond": "lam0",
+    "label": "λ_PN=0(1PN を切った対照)",
+    "lambdaPN": 0,
+    "eps": 0.05,
+    "epsKm": 5000,
+    "id": "mercuryDiag_eps0.05_lam0",
+    "dt": 0.016,
+    "steps": 2850199,
+    "maxSteps": 2850199,
+    "wallSec": 3.547,
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "slopeDegA": -0.000006200396458198256,
+    "residDegA": 2.813629929006781e-11,
+    "nPeriA": 59,
+    "rejA": {
+     "apo": 0,
+     "dup": 0,
+     "jump": 0
+    },
+    "slopeDegB": -0.000006200395184441173,
+    "nPeriB": 60,
+    "perMeanSimA": 760.0534076872626,
+    "perMeanFitSimA": 760.0534076873206,
+    "revP2Sim": 760.053416128172,
+    "revN": 59,
+    "eProxy": 0.20563081679792033,
+    "osc0": {
+     "a": 579.0907634765185,
+     "e": 0.20563056948385805,
+     "P": 760.0530225710731,
+     "mu": 13271.251203154095
+    },
+    "state": {
+     "hasMeshVelocity": false,
+     "meshVelN": 0,
+     "meshVelUMax": 0,
+     "meshVelKickMax": 0,
+     "meshVelWork": 0,
+     "meshVelUndef": 0,
+     "meshVelBad": 0,
+     "meshVelDeny": null,
+     "hasGeoToy": false,
+     "geoToyStop": null,
+     "geoPN": 2,
+     "lambdaPN": 0,
+     "kFrame": 0,
+     "q": 3,
+     "softening": 0.05,
+     "spin0": 0.029030999168753624
+    }
+   },
+   {
+    "cond": "lam0",
+    "label": "λ_PN=0(1PN を切った対照)",
+    "lambdaPN": 0,
+    "eps": 0.05,
+    "epsKm": 5000,
+    "id": "mercuryDiag_eps0.05_lam0",
+    "dt": 0.008,
+    "steps": 5700398,
+    "maxSteps": 5700398,
+    "wallSec": 6.121,
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "slopeDegA": -0.0000048418581907660044,
+    "residDegA": 7.252216605101036e-12,
+    "nPeriA": 59,
+    "rejA": {
+     "apo": 0,
+     "dup": 0,
+     "jump": 0
+    },
+    "slopeDegB": -0.0000048418600722275615,
+    "nPeriB": 60,
+    "perMeanSimA": 760.0533943204163,
+    "perMeanFitSimA": 760.0533943204302,
+    "revP2Sim": 760.0534009118977,
+    "revN": 59,
+    "eProxy": 0.20563079260140615,
+    "osc0": {
+     "a": 579.0907634765185,
+     "e": 0.20563056948385805,
+     "P": 760.0530225710731,
+     "mu": 13271.251203154095
+    },
+    "state": {
+     "hasMeshVelocity": false,
+     "meshVelN": 0,
+     "meshVelUMax": 0,
+     "meshVelKickMax": 0,
+     "meshVelWork": 0,
+     "meshVelUndef": 0,
+     "meshVelBad": 0,
+     "meshVelDeny": null,
+     "hasGeoToy": false,
+     "geoToyStop": null,
+     "geoPN": 2,
+     "lambdaPN": 0,
+     "kFrame": 0,
+     "q": 3,
+     "softening": 0.05,
+     "spin0": 0.029030999168753624
+    }
+   },
+   {
+    "cond": "lam0",
+    "label": "λ_PN=0(1PN を切った対照)",
+    "lambdaPN": 0,
+    "eps": 0.05,
+    "epsKm": 5000,
+    "id": "mercuryDiag_eps0.05_lam0",
+    "dt": 0.004,
+    "steps": 11400795,
+    "maxSteps": 11400795,
+    "wallSec": 14.253,
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "slopeDegA": -0.000004502224211137456,
+    "residDegA": 9.203132694072899e-12,
+    "nPeriA": 59,
+    "rejA": {
+     "apo": 0,
+     "dup": 0,
+     "jump": 0
+    },
+    "slopeDegB": -0.000004502224148138243,
+    "nPeriB": 60,
+    "perMeanSimA": 760.0533909786973,
+    "perMeanFitSimA": 760.053390978642,
+    "revP2Sim": 760.0533971077638,
+    "revN": 59,
+    "eProxy": 0.20563078655248895,
+    "osc0": {
+     "a": 579.0907634765185,
+     "e": 0.20563056948385805,
+     "P": 760.0530225710731,
+     "mu": 13271.251203154095
+    },
+    "state": {
+     "hasMeshVelocity": false,
+     "meshVelN": 0,
+     "meshVelUMax": 0,
+     "meshVelKickMax": 0,
+     "meshVelWork": 0,
+     "meshVelUndef": 0,
+     "meshVelBad": 0,
+     "meshVelDeny": null,
+     "hasGeoToy": false,
+     "geoToyStop": null,
+     "geoPN": 2,
+     "lambdaPN": 0,
+     "kFrame": 0,
+     "q": 3,
+     "softening": 0.05,
+     "spin0": 0.029030999168753624
+    }
+   }
+  ],
+  "diff": [
+   {
+    "dt": 0.016,
+    "kF1_minus_kF0": -2.8558329858611e-8,
+    "vMinusU_minus_kF0": 0,
+    "vMinusU_bitIdenticalToKF0": true,
+    "vMinusU_mutual1_minus_kF0": 0,
+    "geoPN3_minus_kF0": -0.000028715053455910243,
+    "geoPN3_minus_lam0": 0,
+    "lam0_minus_kF0": -0.000028715053455910243
+   },
+   {
+    "dt": 0.008,
+    "kF1_minus_kF0": -2.8234917486729197e-8,
+    "vMinusU_minus_kF0": 0,
+    "vMinusU_bitIdenticalToKF0": true,
+    "vMinusU_mutual1_minus_kF0": 0,
+    "geoPN3_minus_kF0": -0.000028715047119711696,
+    "geoPN3_minus_lam0": 0,
+    "lam0_minus_kF0": -0.000028715047119711696
+   },
+   {
+    "dt": 0.004,
+    "kF1_minus_kF0": -2.8924073357333794e-8,
+    "vMinusU_minus_kF0": 0,
+    "vMinusU_bitIdenticalToKF0": true,
+    "vMinusU_mutual1_minus_kF0": 0,
+    "geoPN3_minus_kF0": -0.00002871504631127152,
+    "geoPN3_minus_lam0": 0,
+    "lam0_minus_kF0": -0.00002871504631127152
+   }
+  ]
+ },
+ "aim": {
+  "rows": [
+   {
+    "eps": 0.02,
+    "dt": 0.016,
+    "kF1": 0.000026172868822156332,
+    "kF0": 0.000026201428309512032,
+    "diff": -2.8559487355699764e-8,
+    "qApplied": 6.1471
+   },
+   {
+    "eps": 0.02,
+    "dt": 0.008,
+    "kF1": 0.000027531723562407667,
+    "kF0": 0.000027559959620442437,
+    "diff": -2.8236058034770002e-8,
+    "qApplied": 6.1471
+   },
+   {
+    "eps": 0.01,
+    "dt": 0.016,
+    "kF1": 0.000026699550453534716,
+    "kF0": 0.000026728108855342714,
+    "diff": -2.85584018079985e-8,
+    "qApplied": 6.1471
+   },
+   {
+    "eps": 0.01,
+    "dt": 0.008,
+    "kF1": 0.00002805840530156818,
+    "kF0": 0.000028086641876405335,
+    "diff": -2.8236574837153903e-8,
+    "qApplied": 6.1471
+   },
+   {
+    "eps": 0.05,
+    "dt": 0.016,
+    "kF1": 0.000022486098667853376,
+    "kF0": 0.000022514656997711987,
+    "diff": -2.8558329858611e-8,
+    "qApplied": 6.1471
+   },
+   {
+    "eps": 0.05,
+    "dt": 0.008,
+    "kF1": 0.000023844954011458964,
+    "kF0": 0.000023873188928945693,
+    "diff": -2.8234917486729197e-8,
+    "qApplied": 6.1471
+   },
+   {
+    "eps": 0.05,
+    "dt": 0.004,
+    "kF1": 0.00002418389802677673,
+    "kF0": 0.000024212822100134063,
+    "diff": -2.8924073357333794e-8,
+    "qApplied": 6.1471
+   }
+  ],
+  "sunSpin0": {
+   "dt": 0.016,
+   "eps": 0.05,
+   "kF1spin0": 0.000022514656997711987,
+   "kF0": 0.000022514656997711987,
+   "diff": 0,
+   "bitIdentical": true
+  },
+  "declaredDragRadPerOrbit": -4.98e-10,
+  "declaredDragDegPerOrbit": -2.8533298197514998e-8,
+  "dragArcsecPerCentury": -0.04268702375960578
+ }
+}

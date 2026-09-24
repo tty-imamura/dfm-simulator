@@ -640,6 +640,11 @@ _scratch-*.log
 #   calaudit-w249.json / charonwin-w278b.json から機械で作る。QA docs.sampleStatus-sync が docs/SAMPLE_STATUS_v1.45.md と
 #   html の生成領域 sample-status と突き合わせ、lint.provenanceMeta が来歴を固定するのでコミットする。**判定はしない**(台帳の転記)。
 !tests/out/samplestatus-w279a.json
+# 第280便a(原仮定者の裁定(第70報)「mercuryReal: 観測値版で問題が出ている理由を調査する」・統括の検証項目 R66):
+#   **水星の近点移動の不足の分解**の正本(tests/exp-w280a-mercury.mjs —— 判定器の抽出器をソースのまま評価し、
+#   dt 4 段 × ε 3 段 × λ_PN 2 値の格子・kF0/kF1/geoPN=3/vMinusU の 1 表・🪨−☄️ の差)。QA docs.mercuryDecomp が
+#   CALIBRATION_VERDICT §5.32 と PHYSICS〔第280便a〕に突き合わせ、lint.provenanceMeta が来歴を固定するのでコミットする。
+!tests/out/mercury-w280a.json
 # 第279便b: QA の確認順・並列化(W5b)・失敗注入・preflight の実測の正本(tests/exp-w279b-qaorder.mjs --record)。
 #   QA `lint.provenanceMeta` の CANON に入っている
 !tests/out/qaorder-w279b.json
