@@ -14427,7 +14427,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
-{ id:"saturnZonalD68", name:"土星の近点移動(実単位・D68精密較正)", emoji:"📡", group:"現実との照合・太陽系",
+{ id:"saturnZonalD68", name:"土星の近点移動(実単位・D68 — 帯状重力の照合)", emoji:"📡", group:"現実との照合・太陽系",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   scaleExp:{L:6, T:2, M:25},   // 第131便(原仮定者指示): 💍💿 と同じ惑星(e6)指数系へ実単位化
                                // 1単位=10⁶m/10²s/10²⁵kg(実G=6.674・実c=3×10⁴〔eC=L−T=4〕)
@@ -14440,15 +14440,15 @@ const BUILTIN_PRESETS = [
     {q:"D68 リングレットの近点移動(推定器つき宣言 — 第250便d)", model:"38.108°/日(estimator=RL-gradient・window=60公転・dt=0.016。°/日 への換算は第250便c で訂正 — 数値は現行のまま)", obs:"38.243°/日(Cassini)"},
     {q:"D68 の公転周期・同方向1周(履歴)", model:"4.984 時間(実軌道半径 67,627km+実 GM)・棚卸し実測 4.9628 時間(−0.346%)", obs:"≈4.98 時間"},
     {q:"D68 の公転周期・近点間(第250便d)", model:"実測 5.0625 時間(+1.656%)", obs:"≈4.98 時間(円軌道のリングレット — 近点間は観測に対応しない。判定は据置)"},
-    {q:"解析式(J一次永年理論)の較正", model:"C=1.000302283 で 38.243°/日 に精密一致", obs:"38.243°/日(Cassini)"}],
+    {q:"解析式(J一次永年理論)への fit", model:"C=1.000302283 は解析式を 38.243°/日 に合わせた fit 値(実軌道の照合とは別の量 — 第280便e)", obs:"38.243°/日(Cassini)"}],
   failureFirst:{
     fail:"第11次裁定版はスケールがトイだった(G=1・土星 1500・J_n 基準半径 100 単位・テスト粒子は質量 0.05 で軌道が交差)。この構成でエンジンの近点移動を測ると解析式との比は 0.42〜10.9 と桁で散らばる — テスト質量どうしが散乱し合っていて、画面の歳差は観測値と照合できる量になっていなかった(第131便 再実測)。",
     pass:"第131便: 💍💿 と同じ惑星(e6)指数系へ実単位化(土星 5.6834×10²⁶kg・半径 6.03×10⁷m・自転10.56時間・J_n 基準半径 60,330km、テスト粒子は D68 67,627km から A環外縁 136,775km の実半径・質量 10¹⁹kg)。さらに初速を帯状重力込みの局所円速度基準に直したことで、10粒とも解析式との比が 0.996〜1.003 に収まり、D68 の近点移動はエンジン実測 38.108°/日(Cassini 38.243 に対し −0.35%)まで直接照合できるようになった。"},
   descStruct:{
-    summary:"実際の土星は完全な球ではなく少しつぶれた形をしていて、その「扁平さ」は重力にもわずかなクセを作る。そのクセ(帯状重力調和係数 J2〜J12・Cassini探査機の実測値)をそのまま中心星に持たせた較正デモ(E13)を、第131便で実単位化した。1単位=10⁶m/10²s/10²⁵kg(💍💿 と同じ惑星e6指数系)で、土星質量 56.834(=5.6834×10²⁶kg)・半径 60.3(=6.03×10⁷m)・自転 0.016528(10.56時間)・J_n の基準半径 60.330(=60,330km — Cassini 重力解の基準半径)。テスト粒子10個は D68 リングレット(a=67.627=67,627km)から A環外縁(136.775=136,775km)まで実半径に置いてある。実G=6.674・実c₀=3×10⁴・物理対応条件 κ=G/c₀² 成立。",
-    observe:"近点方向を揃えた離心率 e=0.05 の軌道のテスト粒子は、近点が公転と同じ向きに回り続け、内側ほど速い(差動近点移動)。線の軌跡は既定ONで、楕円の向きがゆっくり回るのがそのまま見える。解析式(J一次の永年理論 ϖ̇=C(Ω−κ))は J2〜J12 で打ち切るため D68 実測 38.243°/日 に対し −0.03% の残差が残るので、較正係数 C=1.000302283(高次項・離心率補正の代替)を中心星の zonal.calib に与えて観測値へ精密一致させている。第131便の実単位化で、この歳差率を**シミュレータ自身が出す値**として初めて直接照合できるようになった: エンジン実測 38.108°/日(200公転窓の収束値。Cassini 観測 38.243 に対し −0.35%。QA ゲートの60公転窓では 38.072=−0.45%)。10粒とも解析式との比は 0.996〜1.003(60公転窓でも 0.994〜1.002)に収まる。残差 −0.35% は e=0.05 の有限離心率ぶんで、独立な求積法(動径ポテンシャルの近点角を直接積分)でも −0.30% と一致し、e を 0.01 に下げると −0.15% へ縮む。初速は帯状重力込みの局所円速度 v_c(r)=√[(μ/r)(1+CΣ(2k+1)A_{2k}(R_S/r)^{2k})] に √(1+e) を掛けて与えている — 旧版の点質量 vis-viva では軌道の実効長半径・離心率がずれ、同じ場でも見かけ +9.4% の差が出ていた。DFM 効果(kFrame/kRep/muF/γN)は 0 にして扁平重力の効果だけを分離。測地線 E12(geoPN=2・λ_PN=1)は入れてあるが、実スケールの 1PN 寄与は歳差率の 10⁻⁶ 級で、λ_PN=0 との差は6桁一致(実測)。旧「現実較正」版(C=1)は本サンプルへ一本化(差は 0.03% で画面では区別できない)。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。",
+    summary:"実際の土星は完全な球ではなく少しつぶれた形をしていて、その「扁平さ」は重力にもわずかなクセを作る。そのクセ(帯状重力調和係数 J2〜J12・Cassini探査機の実測値)をそのまま中心星に持たせた照合デモ(E13)を、第131便で実単位化した。1単位=10⁶m/10²s/10²⁵kg(💍💿 と同じ惑星e6指数系)で、土星質量 56.834(=5.6834×10²⁶kg)・半径 60.3(=6.03×10⁷m)・自転 0.016528(10.56時間)・J_n の基準半径 60.330(=60,330km — Cassini 重力解の基準半径)。テスト粒子10個は D68 リングレット(a=67.627=67,627km)から A環外縁(136.775=136,775km)まで実半径に置いてある。実G=6.674・実c₀=3×10⁴・物理対応条件 κ=G/c₀² 成立。",
+    observe:"近点方向を揃えた離心率 e=0.05 の軌道のテスト粒子は、近点が公転と同じ向きに回り続け、内側ほど速い(差動近点移動)。線の軌跡は既定ONで、楕円の向きがゆっくり回るのがそのまま見える。解析式(J一次の永年理論 ϖ̇=C(Ω−κ))は J2〜J12 で打ち切るため D68 実測 38.243°/日 に対し −0.03% の残差が残るので、較正係数 C=1.000302283(高次項・離心率補正の代替)を中心星の zonal.calib に与えて解析式を観測値へ合わせている(解析式に対する fit であり、実軌道の照合とは別の量 —— 実軌道の門の判定は否 14.6σ。第280便e: その差の大部分は初速の作り方が軌道を平均半径 67,800.72km に置くことによる —— 🧷📎 の診断コピーを参照)。第131便の実単位化で、この歳差率を**シミュレータ自身が出す値**として初めて直接照合できるようになった: エンジン実測 38.108°/日(200公転窓の収束値。Cassini 観測 38.243 に対し −0.35%。QA ゲートの60公転窓では 38.072=−0.45%)。10粒とも解析式との比は 0.996〜1.003(60公転窓でも 0.994〜1.002)に収まる。残差 −0.35% は e=0.05 の有限離心率ぶんで、独立な求積法(動径ポテンシャルの近点角を直接積分)でも −0.30% と一致し、e を 0.01 に下げると −0.15% へ縮む。初速は帯状重力込みの局所円速度 v_c(r)=√[(μ/r)(1+CΣ(2k+1)A_{2k}(R_S/r)^{2k})] に √(1+e) を掛けて与えている — 旧版の点質量 vis-viva では軌道の実効長半径・離心率がずれ、同じ場でも見かけ +9.4% の差が出ていた。DFM 効果(kFrame/kRep/muF/γN)は 0 にして扁平重力の効果だけを分離。測地線 E12(geoPN=2・λ_PN=1)は入れてあるが、実スケールの 1PN 寄与は歳差率の 10⁻⁶ 級で、λ_PN=0 との差は6桁一致(実測)。旧「現実較正」版(C=1)は本サンプルへ一本化(差は 0.03% で画面では区別できない)。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。",
     control:"DFM 本来の環の物語は 🪐 を、実単位の環そのものは 💍(kFrame=0)・💿(kFrame=1)を参照。粒子表示倍率 dispMag=1 で半径は実値のまま(土星 60.3 単位=6.03×10⁷m・テスト粒子 0.1 単位=100km 級)。timeScale=3 なので画面の1秒≈9.6分(1公転≈31秒)。"},
-  en:{name:"Saturn Apsidal Precession (Real Units, D68 Calibrated)",
+  en:{name:"Saturn Apsidal Precession (Real Units, D68 — Zonal-Gravity Comparison)",
     parameterAudit:{
       observedInputs:["real G=6.674","real c₀=3×10⁴","Saturn's real mass, radius and rotation (10.56 h)",
         "the Cassini gravity solution's zonal harmonics J2–J12 and reference radius R_S=60,330 km",
@@ -14466,13 +14466,13 @@ const BUILTIN_PRESETS = [
       {q:"D68 ringlet apsidal precession (declared with its estimator — wave 250d)", model:"38.108°/day (estimator=RL-gradient, window=60 orbits, dt=0.016; the °/day conversion is corrected in wave 250c — the number stands as is)", obs:"38.243°/day (Cassini)"},
       {q:"D68 orbital period — same-direction revolution (historical)", model:"4.984 h (real radius 67,627 km + real GM); audited 4.9628 h (−0.346%)", obs:"≈4.98 h"},
       {q:"D68 orbital period — periapsis to periapsis (wave 250d)", model:"5.0625 h (+1.656%)", obs:"≈4.98 h (a circular ringlet — this definition does not correspond to the observation; the verdict is unchanged)"},
-      {q:"Analytic (first-order secular) calibration", model:"C=1.000302283 matches 38.243°/day exactly", obs:"38.243°/day (Cassini)"}],
+      {q:"Analytic (first-order secular) fit", model:"C=1.000302283 is the fit that sets the analytic rate to 38.243°/day (a different quantity from the real-orbit comparison — wave 280e)", obs:"38.243°/day (Cassini)"}],
     failureFirst:{
       fail:"The wave-11 build was toy-scaled (G=1, Saturn 1500, J_n reference radius 100 units, test grains of mass 0.05 on crossing orbits). Measuring the engine's apsidal drift there gives ratios of 0.42–10.9 against the analytic formula — the test masses were scattering off each other, so the on-screen precession was not a quantity that could be compared with observation (re-measured in wave 131).",
       pass:"Wave 131: recast into the same planetary (e6) exponent system as 💍💿 (Saturn 5.6834×10²⁶ kg, radius 6.03×10⁷ m, 10.56-hour rotation, J_n reference radius 60,330 km; test particles at real radii from D68 at 67,627 km out to the A-ring edge at 136,775 km, mass 10¹⁹ kg). Re-basing the initial speeds on the zonal-inclusive local circular speed brings all ten particles to within 0.996–1.003 of the analytic rate, and D68's apsidal precession becomes directly comparable: 38.108°/day measured in the engine, −0.35% from Cassini's 38.243."},
     descStruct:{
-    summary:"The real Saturn is not a perfect sphere but slightly flattened, and that flattening puts a subtle twist on its gravity. This calibration demo (E13) gives the central star that exact twist — the real zonal gravity harmonics J2–J12 measured by the Cassini spacecraft — and wave 131 recast it in real units. With per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg, the same planetary e6 system as 💍💿), Saturn's mass is 56.834 (=5.6834×10²⁶ kg), its radius 60.3 (=6.03×10⁷ m), its spin 0.016528 (10.56 h) and the J_n reference radius 60.330 (=60,330 km, the Cassini gravity solution's reference). The ten test particles sit at real radii from the D68 ringlet (a=67.627=67,627 km) out to the A-ring outer edge (136.775=136,775 km). G=6.674 and c₀=3×10⁴ are the real constants and κ=G/c₀² holds. ",
-    observe:"Test particles on apse-aligned elliptical orbits (e=0.05) precess prograde, faster on inner orbits (differential apsidal precession); trails are on by default so the slow rotation of the ellipse orientation is directly visible. The analytic formula (first-order secular theory ϖ̇=C(Ω−κ)) truncates at J2–J12 and leaves a −0.03% residual against the observed 38.243°/day at D68, so the calibration factor C=1.000302283 (standing in for higher-order and eccentricity corrections) is applied via the central star's zonal.calib. Wave 131's real-unit recast makes this rate directly checkable AS THE SIMULATOR'S OWN OUTPUT for the first time: the engine measures 38.108°/day (converged over a 200-orbit window), −0.35% from Cassini's 38.243 (the QA gate's 60-orbit window gives 38.072 = −0.45%). All ten particles land within 0.996–1.003 of the analytic rate (0.994–1.002 over the 60-orbit window). The −0.35% residual is the finite-eccentricity effect of e=0.05: an independent quadrature (direct integration of the apsidal angle of the radial potential) gives −0.30%, and lowering e to 0.01 shrinks it to −0.15%. Initial speeds are set from the zonal-inclusive local circular speed v_c(r)=√[(μ/r)(1+CΣ(2k+1)A_2k(R_S/r)^2k)] times √(1+e) — the old point-mass vis-viva put the orbit at a different effective semi-major axis and eccentricity, which alone produced an apparent +9.4% discrepancy in the same field. The DFM effects (kFrame/kRep/muF/γN) are all zero so that only the oblateness gravity acts. Geodesic E12 (geoPN=2, λ_PN=1) is on, but at real scale the 1PN contribution is ~10⁻⁶ of the precession rate and switching λ_PN to 0 reproduces the measurement to six digits. The former “real-calibrated” variant (C=1) was merged into this sample (the 0.03% difference is invisible on screen).  Periods are judged only after their DEFINITION has been declared (adjudication I6, waves 249b→250d): the same-direction revolution and the periapsis-to-periapsis interval are different quantities; the verdict follows the periapsis definition, and where a system is near-circular that definition does not correspond to the observation, so it is annotated rather than judged.",
+    summary:"The real Saturn is not a perfect sphere but slightly flattened, and that flattening puts a subtle twist on its gravity. This comparison demo (E13) gives the central star that exact twist — the real zonal gravity harmonics J2–J12 measured by the Cassini spacecraft — and wave 131 recast it in real units. With per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg, the same planetary e6 system as 💍💿), Saturn's mass is 56.834 (=5.6834×10²⁶ kg), its radius 60.3 (=6.03×10⁷ m), its spin 0.016528 (10.56 h) and the J_n reference radius 60.330 (=60,330 km, the Cassini gravity solution's reference). The ten test particles sit at real radii from the D68 ringlet (a=67.627=67,627 km) out to the A-ring outer edge (136.775=136,775 km). G=6.674 and c₀=3×10⁴ are the real constants and κ=G/c₀² holds. ",
+    observe:"Test particles on apse-aligned elliptical orbits (e=0.05) precess prograde, faster on inner orbits (differential apsidal precession); trails are on by default so the slow rotation of the ellipse orientation is directly visible. The analytic formula (first-order secular theory ϖ̇=C(Ω−κ)) truncates at J2–J12 and leaves a −0.03% residual against the observed 38.243°/day at D68, so the calibration factor C=1.000302283 (standing in for higher-order and eccentricity corrections) is applied via the central star's zonal.calib to set the analytic formula to the observation (a fit to the formula — a different quantity from the real-orbit comparison, whose gate verdict is fail at 14.6σ; wave 280e: most of that gap comes from the initial speed placing the orbit at a mean radius of 67,800.72 km — see the diagnostic copies 🧷📎). Wave 131's real-unit recast makes this rate directly checkable AS THE SIMULATOR'S OWN OUTPUT for the first time: the engine measures 38.108°/day (converged over a 200-orbit window), −0.35% from Cassini's 38.243 (the QA gate's 60-orbit window gives 38.072 = −0.45%). All ten particles land within 0.996–1.003 of the analytic rate (0.994–1.002 over the 60-orbit window). The −0.35% residual is the finite-eccentricity effect of e=0.05: an independent quadrature (direct integration of the apsidal angle of the radial potential) gives −0.30%, and lowering e to 0.01 shrinks it to −0.15%. Initial speeds are set from the zonal-inclusive local circular speed v_c(r)=√[(μ/r)(1+CΣ(2k+1)A_2k(R_S/r)^2k)] times √(1+e) — the old point-mass vis-viva put the orbit at a different effective semi-major axis and eccentricity, which alone produced an apparent +9.4% discrepancy in the same field. The DFM effects (kFrame/kRep/muF/γN) are all zero so that only the oblateness gravity acts. Geodesic E12 (geoPN=2, λ_PN=1) is on, but at real scale the 1PN contribution is ~10⁻⁶ of the precession rate and switching λ_PN to 0 reproduces the measurement to six digits. The former “real-calibrated” variant (C=1) was merged into this sample (the 0.03% difference is invisible on screen).  Periods are judged only after their DEFINITION has been declared (adjudication I6, waves 249b→250d): the same-direction revolution and the periapsis-to-periapsis interval are different quantities; the verdict follows the periapsis definition, and where a system is near-circular that definition does not correspond to the observation, so it is annotated rather than judged.",
     control:"See 🪐 for the DFM-native ring story, and 💍 (kFrame=0) / 💿 (kFrame=1) for the real-unit rings themselves. The display magnification is dispMag=1, so radii are the real values (Saturn 60.3 units = 6.03×10⁷ m, test grains 0.1 units = 100 km class). With timeScale=3 one on-screen second ≈ 9.6 minutes (about 31 s of wall clock per orbit)."}},
   activeParams:["G","softening","dispMag"],
   // 第42便 42A(台帳4-78 A案): claims — D68実測近点移動率と較正係数を機械可読化。両方とも
@@ -14518,7 +14518,7 @@ const BUILTIN_PRESETS = [
       "geoPN=2・λ_PN=1(実スケールの 1PN 寄与は歳差率の 10⁻⁶ 級)","pnSource:true・stateCarry:\"double\"",
       "テスト粒子は質量 10⁻⁶(=10¹⁹kg)の完全テスト質量・離心率 e=0.05 を近点+x方向へ整列",
       "土星 pinned(展示系の外部拘束)"],
-    fitted:["E13 の較正係数 C=1.000302283(D68 の Cassini 実測へ精密一致させる 1 個の自由パラメータ。J2〜J12 打ち切りの高次項・離心率補正の代替)"],
+    fitted:["E13 の較正係数 C=1.000302283(解析式を D68 の Cassini 実測へ合わせる 1 個の自由パラメータ。J2〜J12 打ち切りの高次項・離心率補正の代替)"],
     derived:["κ=G/c₀²=7.4156×10⁻⁹(物理対応条件の導出値)"],
     numerical:["ソフトニング ε=0.05","時間倍率 timeScale=3","粒子表示倍率 dispMag=1(実半径のまま)"]},
   camera:{scale:160}, world:{boundary:"none",size:0},
@@ -14527,7 +14527,7 @@ const BUILTIN_PRESETS = [
     geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:3, dispMag:1,
     stateCarry:"double", frameWeight:"share"},
   bodies:[ // 第131便(実単位化): 中心に Cassini 重力解 J2〜J12(基準半径 R_S=60.330=60,330km)+
-           // calib=1.000302283(D68 精密較正)。土星は実値 5.6834e26kg/6.03e7m/自転10.56時間。
+           // calib=1.000302283(D68 の解析式への fit)。土星は実値 5.6834e26kg/6.03e7m/自転10.56時間。
            // テスト粒子10個は実半径 a=67.627(D68)/74.658(C環内縁)/82/92(B環内縁)/101/110/
            // 117.58(B環外縁)/122.17(A環内縁)/129/136.775(A環外縁)、e=0.05・近点+x方向で整列。
            // 初速は帯状重力込みの局所円速度 × √(1+e):
@@ -14550,6 +14550,111 @@ const BUILTIN_PRESETS = [
     {type:"single", m:0.000001, radius:0.1, x:116.061500,y:0, vx:0,vy:1.858685, spin:0, pinned:false},
     {type:"single", m:0.000001, radius:0.1, x:122.550000,y:0, vx:0,vy:1.808176, spin:0, pinned:false},
     {type:"single", m:0.000001, radius:0.1, x:129.936250,y:0, vx:0,vy:1.755440, spin:0, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+// ===== 第280便e(原仮定者の裁定(第70報)「saturnZonalD(68): 観測値版で問題が出ている理由を調査する」・統括の検証項目 R67):
+// **📡 の診断コピー 2 本**(sampleClass:"principle" —— 較正母集団 37 本には入れない・門の器 calaudit の CFG にも登録しない)。
+// 📡 と違うのは **(1) 土星+D68 の 2 天体 (2) ε=0.01(10 km) (3) D68 の初速の作り方** の 3 点だけ(土星・J・C・G・
+// 1PN の宣言は 📡 のまま)。初速は**同じ帯状ポテンシャル U**から r_p・r_a を転回点にする近点速度
+// v_p²=2[U(r_a)−U(r_p)]/(1−r_p²/r_a²)(tests/lib-w280e-d68.mjs の d68ConsistentIc / d68ObsOrbitIc の値を 17 桁で写した)。
+// **C=1.000302283 は D68 の ϖ̇ そのものへの既存 fit** なので、2 本の近点移動が観測に近いのは fit の写しであって
+// ゼロ fit 予測ではない(器 tests/exp-w280e-d68.mjs が C=1 の同じ構成を並べて記録する)。
+{ id:"saturnD68Consistent", name:"土星 D68 の近点移動 — 整合した初速の診断コピー(e*=0.001)", emoji:"🧷", group:"現実との照合・太陽系",
+  scaleTier:"planetary",
+  scaleExp:{L:6, T:2, M:25},
+  sampleClass:"principle",   // 第280便e: 📡 の診断コピー(較正母集団の外・4 値に入らない)
+  notClaim:["solar_cal"],
+  familyId:"saturn", familyRole:"variant",
+  obsCard:[
+    {q:"D68 の近点移動(正式の抽出器・58 近点窓・h/4)", model:"13968.2434 deg/yr(h 13968.1870・h/2 13968.2321)— 診断コピーの値で門の判定ではない", obs:"13968.25575 ± 2.922 deg/yr(Hedman et al. 2014)"},
+    {q:"📡 との違い", model:"初速を同じ U で r_p=a(1−e*)・r_a=a(1+e*) の転回点に作る(+ 2 天体・ε 10 km)。📡 は平均半径 67800.72 km の軌道に乗る", obs:"—"},
+    {q:"C の扱い", model:"C=1.000302283 は D68 の ϖ̇ への既存 fit。観測に近いのは fit の写しでゼロ fit 予測ではない", obs:"—"},
+    {q:"C=1(fit なし)の同じ構成", model:"13964.0190 deg/yr(同じ窓・h/4)・独立計算 13964.0116 deg/yr", obs:"—"},
+    {q:"独立計算(同じ U・動径 ODE)との差", model:"エンジン h/4 − 独立 = +0.0073 deg/yr(1PN +0.011・刻み −0.004 の和)", obs:"—"},
+    {q:"近点間周期(58 近点平均)", model:"18155.419 s(📡 は 18224.859 s)", obs:"—(記録の 17757 s は方位角の周期で別量)"}],
+  failureFirst:{
+    fail:"**観測入力ではない**: e*=0.001 は診断用の離心率で、D68 の観測(ae=25 km)とも違う。C=1.000302283 は D68 の ϖ̇ そのものへ合わせた既存の fit なので、この値を観測との一致と読むと fit を二重に数える。較正母集団の外(4 値は不変・📡 の判定は門のとおり否)。",
+    pass:"📡 と初速の作り方(と 2 天体・ε 10 km)だけが違うコピーで、正式の抽出器・同じ 58 近点窓の近点移動が 📡 の 13925.5846 から 13968.2434 deg/yr へ動く —— 差 +42.66 deg/yr のうち初速の幾何が +42.23(残りは ε +0.54・他の環粒子 +0.11)。"},
+  descStruct:{
+    summary:"📡 saturnZonalD68 の**原因診断のためのコピー**(第280便e・統括の検証項目 R67)。📡 は D68 の初速を「帯状重力込みの局所円速度 × √(1+e)」で作るので、同じ帯状ポテンシャルの中では宣言 a=67627 km・e=0.05 の軌道にならず、遠近点の平均半径 67800.72 km・幾何離心率 0.0524 の軌道に乗る。このコピーは同じポテンシャル U(r)(単極子 + J2〜J12 × C)から、r_p=a(1−e*)・r_a=a(1+e*)(a=67627 km・e*=0.001)を**転回点にする速度**を解いて置いた(土星・J・C・1PN の宣言は 📡 のまま・2 天体・ε=0.01=10 km)。",
+    observe:"近点移動は正式の門と同じ抽出器(ṙ の −→+ 交差・最初の 58 近点の方位を近点番号へ回帰・周期は同じ 58 近点の平均)で 13968.2434 deg/yr(h/4)。同じ a の円軌道極限(独立計算・ε=0.01)は 13968.2023 deg/yr で、📡 との差の大部分は**初期軌道と比較対象(a=67627 km の円に近いリングレット)の不一致**である。ただし C は D68 の ϖ̇ への既存 fit であり、C=1 の同じ構成は 13964.0190 deg/yr になる —— 観測との近さを予測の成功と読まない。",
+    control:"比べる相手は 📡(同じ土星・同じ C・初速だけが違う)と 📎 saturnD68ObsOrbit(e を観測の ae/a にしたもの)。数値の正本は tests/out/d68-w280e.json(器 tests/exp-w280e-d68.mjs)。"},
+  en:{name:"Saturn D68 Apsidal Motion — Diagnostic Copy with a Consistent Initial Speed (e*=0.001)",
+    obsCard:[
+      {q:"D68 apsidal advance (formal extractor, 58-periapsis window, h/4)", model:"13968.2434 deg/yr (h 13968.1870, h/2 13968.2321) — a diagnostic-copy value, not a gate verdict", obs:"13968.25575 ± 2.922 deg/yr (Hedman et al. 2014)"},
+      {q:"Difference from 📡", model:"the initial speed makes r_p=a(1−e*) and r_a=a(1+e*) turning points of the same U (+ two bodies, ε 10 km); 📡 sits on an orbit of mean radius 67800.72 km", obs:"—"},
+      {q:"How C is used", model:"C=1.000302283 is the existing fit to D68's own ϖ̇; closeness to the observation copies that fit and is not a zero-fit prediction", obs:"—"},
+      {q:"Same construction with C=1 (no fit)", model:"13964.0190 deg/yr (same window, h/4); independent calculation 13964.0116 deg/yr", obs:"—"},
+      {q:"Against the independent calculation (same U, radial ODE)", model:"engine h/4 − independent = +0.0073 deg/yr (1PN +0.011 plus step −0.004)", obs:"—"},
+      {q:"Periapsis-to-periapsis period (58-periapsis mean)", model:"18155.419 s (📡: 18224.859 s)", obs:"— (the recorded 17757 s is the azimuthal period, a different quantity)"}],
+    failureFirst:{
+      fail:"NOT AN OBSERVED INPUT: e*=0.001 is a diagnostic eccentricity and differs from D68's observed ae=25 km. C=1.000302283 is the existing fit to D68's own ϖ̇, so reading this value as agreement with the observation counts the fit twice. Outside the calibration population (the four values are unchanged; 📡's verdict stays as the gate gives it: fail).",
+      pass:"A copy that differs from 📡 only in how the initial speed is built (plus two bodies and ε 10 km): with the formal extractor and the same 58-periapsis window the apsidal advance moves from 📡's 13925.5846 to 13968.2434 deg/yr — of the +42.66 deg/yr, the initial geometry accounts for +42.23 (the rest: ε +0.54, the other ring particles +0.11)."},
+    descStruct:{
+      summary:"A copy of 📡 saturnZonalD68 for diagnosing the cause (wave 280e, the integrator's check item R67). 📡 builds D68's initial speed as the zonal-inclusive local circular speed × √(1+e), so inside the same zonal potential the orbit is not the declared a=67627 km, e=0.05 but one with a mean peri/apo radius of 67800.72 km and a geometric eccentricity of 0.0524. This copy solves, in the same potential U(r) (monopole + J2–J12 × C), for the speed that makes r_p=a(1−e*) and r_a=a(1+e*) turning points (a=67627 km, e*=0.001); Saturn, J, C and the 1PN declaration are 📡's, with two bodies and ε=0.01=10 km.",
+      observe:"With the gate's own extractor (ṙ −→+ crossings, the first 58 periapsis longitudes regressed on periapsis number, the period from the same 58 periapses) the apsidal advance is 13968.2434 deg/yr (h/4). The circular-orbit limit at the same a (independent calculation, ε=0.01) is 13968.2023 deg/yr: most of 📡's gap is a mismatch between the initial orbit and the comparison target (a near-circular ringlet at a=67627 km). C, however, is the existing fit to D68's ϖ̇, and the same construction with C=1 gives 13964.0190 deg/yr — do not read the closeness as a predictive success.",
+      control:"Compare with 📡 (same Saturn, same C, only the initial speed differs) and 📎 saturnD68ObsOrbit (e set to the observed ae/a). The numbers' canonical file is tests/out/d68-w280e.json (harness tests/exp-w280e-d68.mjs)."}},
+  activeParams:["G","softening","dispMag"],
+  camera:{scale:160}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:3, dispMag:1,
+    stateCarry:"double", frameWeight:"share"},
+  bodies:[ // 土星は 📡 の body 0 と同じ宣言。D68 は r_p=67.627×(1−0.001) の近点に置き、同じ U の転回点速度を与える
+    {type:"single", m:56.834, radius:60.3, x:0,y:0, vx:0,vy:0, spin:0.016528, pinned:true, pnSource:true,
+     zonal:{refR:60.330, calib:1.000302283, J:{2:0.016290573, 4:-0.000935314, 6:0.000086340,
+            8:-0.000014624, 10:0.000004672, 12:-0.000000997}}},
+    {type:"single", m:0.000001, radius:0.1, x:67.559373, y:0, vx:0, vy:2.395057404866819, spin:0, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+{ id:"saturnD68ObsOrbit", name:"土星 D68 の近点移動 — 観測定義の軌道の診断コピー(ae=25 km)", emoji:"📎", group:"現実との照合・太陽系",
+  scaleTier:"planetary",
+  scaleExp:{L:6, T:2, M:25},
+  sampleClass:"principle",   // 第280便e: 📡 の診断コピー(較正母集団の外・4 値に入らない)
+  notClaim:["solar_cal"],
+  familyId:"saturn", familyRole:"variant",
+  obsCard:[
+    {q:"D68 の近点移動(正式の抽出器・58 近点窓・h/4)", model:"13968.2142 deg/yr(h 13968.1578・h/2 13968.2029)— 診断コピーの値で門の判定ではない", obs:"13968.25575 ± 2.922 deg/yr(Hedman et al. 2014)"},
+    {q:"初速の定義", model:"CSV の a=67627 km と ae=25 km から r=a∓ae を同じ U の転回点にする(e=ae/a=3.697×10⁻⁴)", obs:"a・ae・ϖ̇ の元期はどれも mid-Cassini(2005–2013)の記載"},
+    {q:"C の扱い", model:"C=1.000302283 は D68 の ϖ̇ への既存 fit。観測に近いのは fit の写しでゼロ fit 予測ではない", obs:"—"},
+    {q:"a の入力幅(σ ではない)", model:"dϖ̇/da=−0.781 deg/yr/km: 丸め ±0.5 km で ±0.39・Table 4 の範囲で +6.41/−6.33 deg/yr", obs:"a に印字の 1σ は無い・年 −2.4 km の変化"},
+    {q:"平均運動との整合(同じ U)", model:"a=67627 km の Ω は 1751.4505 °/日。記録の 1751.6/1751.65 °/日 には a=67623.21/67621.94 km が要る", obs:"1751.6(要旨)/1751.65(本文)°/日"},
+    {q:"🧷(e*=0.001)との差", model:"−0.0292 deg/yr(離心率だけが違う)", obs:"—"}],
+  failureFirst:{
+    fail:"**観測との一致とは書かない**: C=1.000302283 は D68 の ϖ̇ そのものへの既存 fit である。a(67627 km)には印字の 1σ が無く、丸め ±0.5 km だけで ±0.39 deg/yr、Table 4 の a の範囲では ±6 deg/yr(≈2σ)動く。a・ae・ϖ̇ は同じ単一の fit 元期の組として CSV に揃っていない(確認依頼の候補)。較正母集団の外。",
+    pass:"観測の幾何要素と同じ定義(r=a∓ae)で置いた軌道は、正式の抽出器・同じ窓で 13968.2142 deg/yr になる(📡 は 13925.5846)。整合コピー 🧷 との差は −0.0292 deg/yr で、この範囲の離心率は近点移動をほとんど動かさない。"},
+  descStruct:{
+    summary:"📡 saturnZonalD68 の**原因診断のためのコピー 2 本目**(第280便e・統括の検証項目 R67)。観測レコード(paper/data/solar-observations.csv の Hedman et al. 2014 の行)にある **a=67627 km と動径振幅 ae=25±1 km** を、観測の幾何要素と同じ定義 r=a∓ae のまま、同じ帯状ポテンシャル U の転回点として置いた(e=ae/a=3.697×10⁻⁴・土星・J・C・1PN は 📡 のまま・2 天体・ε=0.01=10 km)。",
+    observe:"近点移動は正式の門と同じ抽出器・同じ 58 近点窓で 13968.2142 deg/yr(h/4)。これは観測の比較値に近いが、**C は D68 の ϖ̇ への既存 fit**、a に印字の 1σ は無い(丸め ±0.5 km で ±0.39 deg/yr・Table 4 の範囲で ±6 deg/yr)。記録の平均運動 1751.6/1751.65 °/日 は同じ U では a=67623.21/67621.94 km を要し、a=67627 km と 4〜5 km ずれる —— 観測側の a・ae・ϖ̇・n が同じ元期の同じ fit の組かは未確認である。",
+    control:"比べる相手は 📡(初速の作り方が違う)と 🧷 saturnD68Consistent(e*=0.001)。数値の正本は tests/out/d68-w280e.json(器 tests/exp-w280e-d68.mjs)。"},
+  en:{name:"Saturn D68 Apsidal Motion — Diagnostic Copy on the Observed-Definition Orbit (ae=25 km)",
+    obsCard:[
+      {q:"D68 apsidal advance (formal extractor, 58-periapsis window, h/4)", model:"13968.2142 deg/yr (h 13968.1578, h/2 13968.2029) — a diagnostic-copy value, not a gate verdict", obs:"13968.25575 ± 2.922 deg/yr (Hedman et al. 2014)"},
+      {q:"How the initial speed is defined", model:"the CSV's a=67627 km and ae=25 km: r=a∓ae made turning points of the same U (e=ae/a=3.697×10⁻⁴)", obs:"a, ae and ϖ̇ are all recorded at mid-Cassini (2005–2013)"},
+      {q:"How C is used", model:"C=1.000302283 is the existing fit to D68's own ϖ̇; closeness copies that fit and is not a zero-fit prediction", obs:"—"},
+      {q:"Input width of a (not a σ)", model:"dϖ̇/da=−0.781 deg/yr/km: ±0.5 km rounding gives ±0.39; Table 4's range gives +6.41/−6.33 deg/yr", obs:"no printed 1σ on a; a drifts −2.4 km/yr"},
+      {q:"Consistency with the mean motion (same U)", model:"Ω at a=67627 km is 1751.4505 °/day; the recorded 1751.6/1751.65 °/day need a=67623.21/67621.94 km", obs:"1751.6 (abstract) / 1751.65 (body text) °/day"},
+      {q:"Against 🧷 (e*=0.001)", model:"−0.0292 deg/yr (only the eccentricity differs)", obs:"—"}],
+    failureFirst:{
+      fail:"DO NOT WRITE AGREEMENT WITH THE OBSERVATION: C=1.000302283 is the existing fit to D68's own ϖ̇. a (67627 km) has no printed 1σ; rounding alone (±0.5 km) moves the rate ±0.39 deg/yr and Table 4's range of a moves it ±6 deg/yr (≈2σ). a, ae and ϖ̇ are not recorded in the CSV as one set from a single fit epoch (a confirmation-request candidate). Outside the calibration population.",
+      pass:"The orbit placed with the observed geometric definition (r=a∓ae) gives 13968.2142 deg/yr with the formal extractor and the same window (📡: 13925.5846). The gap to the consistent copy 🧷 is −0.0292 deg/yr, so eccentricities in this range barely move the apsidal advance."},
+    descStruct:{
+      summary:"The second copy of 📡 saturnZonalD68 for diagnosing the cause (wave 280e, the integrator's check item R67). It places the observation record's a=67627 km and radial amplitude ae=25±1 km (the Hedman et al. 2014 rows of paper/data/solar-observations.csv) with the observed geometric definition r=a∓ae as turning points of the same zonal potential U (e=ae/a=3.697×10⁻⁴; Saturn, J, C and 1PN as in 📡; two bodies; ε=0.01=10 km).",
+      observe:"With the gate's extractor and the same 58-periapsis window the apsidal advance is 13968.2142 deg/yr (h/4). That is close to the comparison value, but C is the existing fit to D68's ϖ̇ and a carries no printed 1σ (±0.39 deg/yr from ±0.5 km rounding, ±6 deg/yr over Table 4's range). The recorded mean motion 1751.6/1751.65 °/day needs a=67623.21/67621.94 km in the same U, 4–5 km off a=67627 km — whether the observed a, ae, ϖ̇ and n form one set from the same fit and epoch is not yet confirmed.",
+      control:"Compare with 📡 (the initial speed is built differently) and 🧷 saturnD68Consistent (e*=0.001). The numbers' canonical file is tests/out/d68-w280e.json (harness tests/exp-w280e-d68.mjs)."}},
+  activeParams:["G","softening","dispMag"],
+  camera:{scale:160}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:3, dispMag:1,
+    stateCarry:"double", frameWeight:"share"},
+  bodies:[ // 土星は 📡 の body 0 と同じ宣言。D68 は r_p=a−ae=67.602(=67602 km)の近点に置き、同じ U の転回点速度を与える
+    {type:"single", m:56.834, radius:60.3, x:0,y:0, vx:0,vy:0, spin:0.016528, pinned:true, pnSource:true,
+     zonal:{refR:60.330, calib:1.000302283, J:{2:0.016290573, 4:-0.000935314, 6:0.000086340,
+            8:-0.000014624, 10:0.000004672, 12:-0.000000997}}},
+    {type:"single", m:0.000001, radius:0.1, x:67.602, y:0, vx:0, vy:2.3935481607049645, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -15574,6 +15679,8 @@ const SAMPLE_STATUS={
 "uranusReal":{"purpose":"天王星の環と 5 衛星を実単位で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","behavior.uranusReal"],"en":{"purpose":"Compare Uranus's rings and five moons in real units","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","brief":"Compare Uranus's rings and five moons in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"brief":"天王星の環と 5 衛星を実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
 "neptuneReal":{"purpose":"逆行衛星トリトンを実単位で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","behavior.neptuneReal"],"en":{"purpose":"Compare the retrograde moon Triton in real units","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","brief":"Compare the retrograde moon Triton in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"brief":"逆行衛星トリトンを実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
 "saturnZonalD68":{"purpose":"帯状重力係数で D68 の近点移動を照合する","objective":"unmet","state":"代表量が門の外","calibration":"fail","mismatch":"近点移動 −0.306%(14.6σ)","outlook":"刻み間差 4×10⁻³σ・刻みでは縮まない","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare D68's apsidal motion via zonal harmonics","state":"the representative quantity is outside the gate","mismatch":"apsidal advance −0.306% (14.6σ)","outlook":"step Δ 4×10⁻³σ (not step-limited)","brief":"Compare D68's apsidal motion via zonal harmonics. Unmet: the representative quantity is outside the gate. Calibration: fail — apsidal advance −0.306% (14.6σ); step Δ 4×10⁻³σ (not step-limited)."},"brief":"帯状重力係数で D68 の近点移動を照合する。未達・代表量が門の外。較正は否・近点移動 −0.306%(14.6σ)・刻み間差 4×10⁻³σ・刻みでは縮まない。"},
+"saturnD68Consistent":{"purpose":"📡 の差を同じ窓で初速の幾何と他の要因に分ける","objective":"met","state":"同じ抽出器・同じ窓で差 +42.66 deg/yr のうち初速が +42.23","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/d68-w280e.json"],"en":{"purpose":"Split 📡's gap into initial geometry and the rest in the same window","state":"same extractor and window: of the +42.66 deg/yr gap the initial speed gives +42.23","mismatch":null,"outlook":null,"brief":"Split 📡's gap into initial geometry and the rest in the same window. Met: same extractor and window: of the +42.66 deg/yr gap the initial speed gives +42.23. Out of calibration scope."},"brief":"📡 の差を同じ窓で初速の幾何と他の要因に分ける。達・同じ抽出器・同じ窓で差 +42.66 deg/yr のうち初速が +42.23。較正対象外。"},
+"saturnD68ObsOrbit":{"purpose":"観測の a と ae の定義で置いた D68 の近点移動を測る","objective":"partial","state":"同じ窓で測定済み・a と ae と ϖ̇ の同一元期の組は未確認","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/d68-w280e.json"],"en":{"purpose":"Measure D68's apsidal motion on the observed a and ae definition","state":"measured in the same window; whether a, ae and the rate share one epoch is unconfirmed","mismatch":null,"outlook":null,"brief":"Measure D68's apsidal motion on the observed a and ae definition. Partial: measured in the same window; whether a, ae and the rate share one epoch is unconfirmed. Out of calibration scope."},"brief":"観測の a と ae の定義で置いた D68 の近点移動を測る。部分・同じ窓で測定済み・a と ae と ϖ̇ の同一元期の組は未確認。較正対象外。"},
 "saturnRingReal":{"purpose":"実単位の土星の環を kF0 で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare Saturn's rings in real units with kF0","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","brief":"Compare Saturn's rings in real units with kF0. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"brief":"実単位の土星の環を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
 "saturnRingRealKF1":{"purpose":"土星の環を kF1 と自動算出 q で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare Saturn's rings with kF1 and the automatic q","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","brief":"Compare Saturn's rings with kF1 and the automatic q. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"brief":"土星の環を kF1 と自動算出 q で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
 "alphaCenAB":{"purpose":"α Cen AB を kF0 で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"pass-limited","mismatch":null,"outlook":"写像未確定","evidence":["tests/out/calaudit-w249.json","behavior.alphaCenAB"],"en":{"purpose":"Compare α Cen AB with kF0","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"mapping unresolved","brief":"Compare α Cen AB with kF0. Partial: the comparison runs are in the ledger. Calibration: limited pass; mapping unresolved."},"brief":"α Cen AB を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は量限定合・写像未確定。"},
@@ -27161,8 +27268,9 @@ function render(){
     for(let i=0;i<sim.n;i++) if(P.cnt[i]>0){ const ae=(P.rmin[i]+P.rmax[i])/2; if(ae<ba){ba=ae;bi=i;} }
     if(bi>=0){
       const mdeg=(P.sum[bi]/P.cnt[bi])*180/Math.PI;
-      const Z=sim.zonal, th=zonalApsidal(sim.params.G*sim.m[Z.i], Z.refR, Z.J, ba, 1);
-      const adeg=(Z.calib||1)*2*Math.PI*(th.omega/th.kappa-1)*180/Math.PI;
+      // 第280便e(R67): C は帯状分に掛けてから Ω/κ を取る(旧: C·2π(Ω/κ−1))—— 表示だけ
+      const Z=sim.zonal, th=zonalApsidal(sim.params.G*sim.m[Z.i], Z.refR, Z.J, ba, Z.calib||1);
+      const adeg=2*Math.PI*(th.omega/th.kappa-1)*180/Math.PI;
       ctx.font=(10*uiFontScale)+"px sans-serif"; ctx.fillStyle="#8b93c8";
       ctx.fillText(T("periHud")(mdeg.toFixed(2), adeg.toFixed(2)), 8, 20);
     }
@@ -31167,7 +31275,7 @@ const ASTRO_CATALOG = {
       {id:"aInner",    name:{ja:"A環内縁",en:"the A-ring inner edge"},      m:0.000001, radius:0.1, spin:0, a:122.17},
       {id:"r129",      name:{ja:"A環中間(129)",en:"mid A ring (129)"},      m:0.000001, radius:0.1, spin:0, a:129},
       {id:"aOuter",    name:{ja:"A環外縁",en:"the A-ring outer edge"},      m:0.000001, radius:0.1, spin:0, a:136.775}],
-    variants:{ zonal:{ src:"saturnZonalD68", name:{ja:"D68 精密較正(C=1.000302283)",en:"the D68 precision calibration (C=1.000302283)"},
+    variants:{ zonal:{ src:"saturnZonalD68", name:{ja:"D68 の解析式への fit(C=1.000302283)",en:"the D68 analytic-formula fit (C=1.000302283)"},
       physics:astroPh({frameWeight:"share", G:6.674, D0:0.1, kFrame:0, q:3, softening:0.05, timeScale:3, dispMag:1}) } },
     defVariant:"zonal" }
 };
@@ -35192,9 +35300,14 @@ function zonalA(J){
   }
   return out;
 }
-// 解析式(単位系任意): Ω²=(μ/a³)[1+Σ(2k+1)A_{2k}z^k], κ²=(μ/a³)[1+Σ(2k+1)(1−2k)A_{2k}z^k],
-// z=(R_S/a)², ϖ̇=C(Ω−κ)。実単位(km, s)なら Cassini 観測と直接比較できる(QA が D68 で検証)
-function zonalApsidal(mu, refR, J, a, calib){
+// 解析式(単位系任意): Ω²=Ω0²+C·(μ/a³)Σ(2k+1)A_{2k}z^k, κ²=κ0²+C·(μ/a³)Σ(2k+1)(1−2k)A_{2k}z^k,
+// z=(R_S/a)², ϖ̇=Ω−κ。実単位(km, s)なら Cassini 観測と直接比較できる(QA が D68 で検証)
+// 第280便e(統括の検証項目 R67): **C は帯状ポテンシャル/力に掛かる**(E13 の Δa_r = −C·(μ/r²)·Σ…)ので、
+// 帯状分を C 倍して Ω²・κ² を作ってから平方根を取る(旧: C=1 の Ω−κ に後から C を掛けた C·(Ω−κ) ——
+// D68(a=67627 km・ε=0)での差 9.31×10⁻⁶ °/日。C=1 の値は旧式とビット同一)。
+// 第 6 引数 eps(省略時 0)は単極子の Plummer 軟化: Ω0²=μ/(a²+ε²)^{3/2}・κ0²=μ(a²+4ε²)/(a²+ε²)^{5/2}
+// (帯状補正は軟化しない —— エンジンの E4+E13 と同じ分け方)。
+function zonalApsidal(mu, refR, J, a, calib, eps){
   let sO=0, sK=0;
   for(const l of [2,4,6,8,10,12]){
     const v=(J && +J[l]) || 0;
@@ -35202,9 +35315,17 @@ function zonalApsidal(mu, refR, J, a, calib){
     const A=-v*ZONAL_P0[l], z=A*Math.pow(refR/a, l);
     sO+=(l+1)*z; sK+=(l+1)*(1-l)*z;
   }
-  const n0=Math.sqrt(mu/(a*a*a));
-  const omega=n0*Math.sqrt(1+sO), kappa=n0*Math.sqrt(1+sK);
-  return {omega, kappa, apsidal:(calib||1)*(omega-kappa)};
+  const C=calib||1, e2=(eps>0)? eps*eps : 0;
+  let omega, kappa;
+  if(e2===0){
+    const n0=Math.sqrt(mu/(a*a*a));
+    omega=n0*Math.sqrt(1+C*sO); kappa=n0*Math.sqrt(1+C*sK);
+  } else {
+    const n02=mu/(a*a*a), s2=a*a+e2;
+    omega=Math.sqrt(mu/Math.pow(s2,1.5)+C*n02*sO);
+    kappa=Math.sqrt(mu*(a*a+4*e2)/Math.pow(s2,2.5)+C*n02*sK);
+  }
+  return {omega, kappa, apsidal:omega-kappa};
 }
 // 第224便(第23報 原仮定者指示): χ-law v1 — 連星 DFM 版の粒子別質量スケールの較正則(純関数)。
 // E6′-R が各粒子で使う局所場分率 χ_i = w_j/(D₀+w_j)(w_j=m_j/√(d²+ε²)・d=採用位相の遠点分離)から

@@ -651,3 +651,8 @@ _scratch-*.log
 # 第279便b: 前回 FAIL の先行再実行・preflight が一時的に書く切り出し版(終われば消す — 途中終了の残りを拾わない)
 tests/.qa-replay-*.mjs
 tests/.qa-preflight-*.mjs
+# 第280便e(原仮定者の裁定(第70報)「saturnZonalD(68): 観測値版で問題が出ている理由を調査する」・統括の検証項目 R67):
+#   **📡 D68 の問題の分解**の正本(tests/exp-w280e-d68.mjs —— 同じ帯状ポテンシャルの独立計算・正式の抽出器と窓での
+#   実エンジンの条件×刻み 3 段・診断コピー 🧷📎)。QA docs.d68Decomp・behavior.d68Consistent が読み、lint.provenanceMeta が
+#   来歴を固定するのでコミットする。**診断の器であって門の判定ではない**。
+!tests/out/d68-w280e.json

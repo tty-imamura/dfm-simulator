@@ -1,0 +1,1917 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第280便e",
+  "target": "beta/index.html",
+  "targetSha256": "721f9c6dc5aea56fb31045f614860a92873b2a9d3313afad884b2090122cf716",
+  "generatedAt": "2026-09-24T08:13:32.130Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4637830,
+    "sha256": "721f9c6dc5aea56fb31045f614860a92873b2a9d3313afad884b2090122cf716",
+    "mtime": "2026-09-24T08:03:23.122Z"
+   },
+   {
+    "file": "paper/data/solar-observations.csv",
+    "bytes": 563636,
+    "sha256": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
+    "mtime": "2026-09-24T07:37:38.758Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w280e-d68.mjs",
+    "bytes": 26127,
+    "sha256": "7bb21f36732d82cb9119381a4f02987f3c191d8c14e6c6241397e92427d4411b",
+    "mtime": "2026-09-24T08:07:19.593Z"
+   },
+   {
+    "file": "tests/lib-w280e-d68.mjs",
+    "bytes": 9382,
+    "sha256": "2c75a061ee37098c416224f4d1984c5f94b3781d928c24351ea93e390bf67d49",
+    "mtime": "2026-09-24T07:46:49.997Z"
+   },
+   {
+    "file": "tests/lib-w269a-periwindow.mjs",
+    "bytes": 6830,
+    "sha256": "12fbfe9dd30e2b5459af8581fef6f1e5f1651c2e757d18f09525acbf9e93c201",
+    "mtime": "2026-09-24T07:37:38.542Z"
+   },
+   {
+    "file": "tests/lib-w268a-judgement.mjs",
+    "bytes": 15169,
+    "sha256": "4b22112d05f75509594d8d2428ec4363615e9cda98f26ee6a6aeccdc6100330a",
+    "mtime": "2026-09-24T07:37:38.542Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-24T07:37:38.542Z"
+   }
+  ],
+  "codeSha256": "fe9b53a2c6e038997e9a51f47e0f7fae5f9ee5147b6078ac4f1cf4db6b7ad4f5"
+ },
+ "declaration": {
+  "window": {
+   "tEnd": 10698.816,
+   "fitPeri": 58,
+   "divs": [
+    1,
+    2,
+    4
+   ],
+   "dt0": 0.016,
+   "why": "正式の窓(第249便b の h 段と同じ終了時刻・第270便a AD8 の 58 近点)。步数ではなく時刻を揃える"
+  },
+  "extractor": "近点 = ṙ の −→+ 交差(線形内挿)。最初の 58 近点の方位を近点番号へ回帰(Δϖ)・周期は同じ 58 近点の平均・ϖ̇ = Δϖ × 31557600 / P_peri(tests/exp-w268a-d68.mjs・lib-w269a-periwindow と同じ)",
+  "notFormal": "診断の器である —— 正式の門(tests/exp-w249b-calaudit.mjs)を置き換えない。📡 の判定は門のとおり",
+  "eStar": 0.001,
+  "epsCopy": 0.01
+ },
+ "observation": {
+  "periastronAdvance": {
+   "quantity": "periastron_advance",
+   "value": 13968.25575,
+   "unit": "deg/yr",
+   "note": "kind=observed; Cassini imaging fit; pericenter precession orig 38.243+/-0.008 deg/d; converted *365.25 d/Julian yr; consistent with Saturn J2+J4+... apsidal rate at this radius (not GR-separated; J2 is the principal term); does NOT include Earth equinox precession; epoch mid-Cassini (~2005-2013); frame=Saturn equator; 1-sigma orig 0.008 deg/d = 2.922 deg/yr; sigma_primary=verified; intake 2026-09-15; intake_row=2026-09-15; verified_by=原仮定者 2026-09-16; verified_at=abstract pericenter-precession statement for the D68 ringlet; verified_value=38.243 +/- 0.008 deg/day; record_stream=1+2; collate=agree; agree=2; value_confirmed=2026-09-16 (the original hypothesis author checked the cited table and column and the printed digits of this row against the confirmation record)",
+   "sigma": 2.922,
+   "record_id": "SOL-fa1f6c6a"
+  },
+  "radialAmplitude": {
+   "quantity": "radial_amplitude_ae",
+   "value": 25,
+   "unit": "km",
+   "note": "kind=observed; F5 auxiliary; orig ae=25 km; 1-sigma orig 1 km; epoch mid-Cassini 2005-2013; frame=Saturn equator; sigma_primary=verified; intake 2026-09-15; intake_row=2026-09-15; verified_by=原仮定者 2026-09-16; verified_at=abstract a*e statement for the D68 ringlet; verified_value=ae=25 +/- 1 km; record_stream=1+2; collate=agree; agree=2; value_confirmed=2026-09-16 (the original hypothesis author checked the cited table and column and the printed digits of this row against the confirmation record)",
+   "sigma": 1,
+   "record_id": "SOL-bde72dc4"
+  },
+  "semiMajorAxis": {
+   "quantity": "semi_major_axis",
+   "value": 67627,
+   "unit": "km",
+   "note": "kind=observed; F5 radius/a of requested feature; orig 67627 km; Table 4 subset a values 67618.8 to 67635.1 km with 1-sigma 1.5-3.2 km; a decreases -2.4+/-0.4 km/yr (2005-2013); epoch mid-Cassini; frame=Saturn equator; sigma_kind=none on the rounded abstract 67627; sigma_primary=unverified; intake 2026-09-15; intake_row=2026-09-15; verified_by=; record_stream=1; collate=only-1; orig_quantity=semi_major_axis_km",
+   "sigma": null,
+   "record_id": "SOL-c695516e"
+  },
+  "radius": {
+   "quantity": "radius",
+   "value": 67627,
+   "unit": "km",
+   "note": "kind=ephemeris-fit; epoch=300000000 TDB seconds past J2000 = 2009-185T17:18:54 UTC; timescale=TDB fit epoch / UTC observation tags; reference_plane=Saturn equatorial/ring plane; element_type=mean; F5; characteristic radius; orig 67627 km; sigma_kind=none; no uncertainty published; digits=0.5 km (rounding width, not sigma); sigma_primary=unverified; intake 2026-09-15; intake_row=2026-09-15; verified_by=; record_stream=2; collate=only-2",
+   "sigma": null,
+   "record_id": "SOL-9207a18c"
+  },
+  "meanMotion": [
+   {
+    "quantity": "mean_motion",
+    "value": 1751.6,
+    "unit": "deg/day",
+    "note": "kind=observed; orig 1751.6 deg/d; body text 1751.65 deg/d used for co-rotating longitude; epoch 2009-185T17:18:54 UTC (300000000 TDB); frame=Saturn equator; sigma_kind=none; no 1-sigma published on 1751.6; sigma_primary=unverified; intake 2026-09-15; intake_row=2026-09-15; verified_by=; record_stream=1+2; collate=agree; agree=2",
+    "sigma": null,
+    "record_id": "SOL-4c51df29"
+   },
+   {
+    "quantity": "mean_motion",
+    "value": 1751.65,
+    "unit": "deg/day",
+    "note": "intake_row=2026-09-22; intake_round=request-C-2026-09-22 (two independent external surveys collated by the integrator); kind=observed; epoch=Cassini imaging 2005-2013; frame=Saturn equatorial inertial longitude (J2000 tie); elements=mean; orig 1751.65 deg/day; sigma_kind=spread; spread=0.05 deg/day; spread_sources=Hedman 2014 abstract n=1751.6 deg/day (survey 1, the value already in this file); Hedman 2014 Section III.1/Summary orbital-rate fit n=1751.65 deg/day (survey 2); not averaged; intake_agreement=spread; record_stream=2; collate=conflict; covariance=not_published; sigma_primary=unverified; intake 2026-09-22; verified_by=",
+    "sigma": null,
+    "record_id": "SOL-f114e714"
+   }
+  ],
+  "eccentricity": {
+   "quantity": "eccentricity",
+   "value": null,
+   "unit": "1",
+   "note": "F2/F5: not published as dimensionless e; paper publishes ae=25+/-1 km and a~67627 km (a also time-variable at -2.4+/-0.4 km/yr). e=ae/a is not tabulated so value left blank; upper_limit not published as e; sigma_primary=unverified; intake 2026-09-15; intake_row=2026-09-15; verified_by=; record_stream=1+2; collate=agree-both-empty; agree=2",
+   "sigma": null,
+   "record_id": "SOL-baca80b3"
+  },
+  "epochs": {
+   "prec": "mid-Cassini (~2005-2013)",
+   "ae": "mid-Cassini 2005-2013",
+   "a": "mid-Cassini",
+   "n": [
+    "2009-185T17:18:54 UTC (300000000 TDB)",
+    "Cassini imaging 2005-2013"
+   ]
+  }
+ },
+ "independent": {
+  "potential": "U(r) = −GM/√(r²+ε²) − C·GM/r·Σ_l A_l (R/r)^l(A_l = −J_l P_l(0)・l=2..12)。単極子だけ軟化・C はポテンシャルに掛ける",
+  "method": "動径運動の ODE(r̈ = −g + L²/r³・θ̇ = L/r²)を RK4 で近点 → 遠点に積分(半周期 20000 / 40000 刻み —— 差は stepDiffDegPerYear)",
+  "currentInitialSpeed": {
+   "declaredVy0": 2.518398,
+   "formulaVp": 2.518396974365695,
+   "formulaVc": 2.4577037909968467,
+   "roundingDiff": 0.000001025634305040768,
+   "note": "宣言の vy0 は現行の式 √(g(r_p)·r_p·(1+e)) の小数 6 桁丸め"
+  },
+  "orbits": [
+   {
+    "label": "現行 📡 の初速(宣言値 x0・vy0・ε=0.05)",
+    "eps": 0.05,
+    "r0": 64.24565,
+    "vt": 2.518398,
+    "rpKm": 64245.649999999994,
+    "raKm": 71355.78947975666,
+    "meanRKm": 67800.71973987833,
+    "eGeom": 0.05243410030922345,
+    "TrSec": 18224.94008959174,
+    "dPomegaDegPerOrbit": 8.042145842754797,
+    "rateDegPerDay": 38.12585376951874,
+    "rateDegPerYear": 13925.468089316719,
+    "stepDiffDegPerYear": -2.707655717590589e-8
+   },
+   {
+    "label": "現行の式で丸めない初速(ε=0.05)",
+    "eps": 0.05,
+    "r0": 64.24565,
+    "vt": 2.518396974365695,
+    "rpKm": 64245.649999999994,
+    "raKm": 71355.66139382157,
+    "meanRKm": 67800.65569691078,
+    "eGeom": 0.05243320525988317,
+    "TrSec": 18224.914733235586,
+    "dPomegaDegPerOrbit": 8.04216155725326,
+    "rateDegPerDay": 38.12598131279826,
+    "rateDegPerYear": 13925.514674499564,
+    "stepDiffDegPerYear": 1.5943646069478903e-8
+   },
+   {
+    "label": "現行 📡 の初速・ε=0.01",
+    "eps": 0.01,
+    "r0": 64.24565,
+    "vt": 2.518398,
+    "rpKm": 64245.649999999994,
+    "raKm": 71355.66805049872,
+    "meanRKm": 67800.65902524936,
+    "eGeom": 0.052433251775996094,
+    "TrSec": 18224.923378241285,
+    "dPomegaDegPerOrbit": 8.042451088109564,
+    "rateDegPerDay": 38.12733582420808,
+    "rateDegPerYear": 13926.009409792,
+    "stepDiffDegPerYear": 7.502119653668856e-8
+   },
+   {
+    "label": "整合コピー(e*=0.001・ε=0.01)",
+    "eps": 0.01,
+    "r0": 67.559373,
+    "vt": 2.395057404866819,
+    "rpKm": 67559.37299999999,
+    "raKm": 67694.62700000544,
+    "meanRKm": 67627.0000000027,
+    "eGeom": 0.0010000000000402254,
+    "TrSec": 18155.4175046797,
+    "dPomegaDegPerOrbit": 8.03607240829284,
+    "rateDegPerDay": 38.24294626645385,
+    "rateDegPerYear": 13968.23612382227,
+    "stepDiffDegPerYear": 3.208038806147639e-7
+   },
+   {
+    "label": "整合初速(e*=0.001)・ε=0.05(対照)",
+    "eps": 0.05,
+    "r0": 67.559373,
+    "vt": 2.3950564813175923,
+    "rpKm": 67559.37299999999,
+    "raKm": 67694.62699999663,
+    "meanRKm": 67626.9999999983,
+    "eGeom": 0.0009999999999751486,
+    "TrSec": 18155.410187678317,
+    "dPomegaDegPerOrbit": 8.035782165642038,
+    "rateDegPerDay": 38.24158043989955,
+    "rateDegPerYear": 13967.73725567331,
+    "stepDiffDegPerYear": -0.0000014805046650615746
+   },
+   {
+    "label": "観測定義コピー(r=a∓ae・ae/a=0.000369675・ε=0.01)",
+    "eps": 0.01,
+    "r0": 67.602,
+    "vt": 2.3935481607049645,
+    "rpKm": 67602,
+    "raKm": 67652.00000001206,
+    "meanRKm": 67627.00000000604,
+    "eGeom": 0.0003696748341051482,
+    "TrSec": 18155.41723035895,
+    "dPomegaDegPerOrbit": 8.036055466933119,
+    "rateDegPerDay": 38.24286622187939,
+    "rateDegPerYear": 13968.206887541448,
+    "stepDiffDegPerYear": 0.0000035281173518250237
+   },
+   {
+    "label": "整合初速・C=1(fit なし)・ε=0.01",
+    "eps": 0.01,
+    "calib": 1,
+    "r0": 67.559373,
+    "vt": 2.3950500732531848,
+    "rpKm": 67559.37299999999,
+    "raKm": 67694.62700001214,
+    "meanRKm": 67627.00000000607,
+    "eGeom": 0.0010000000000897678,
+    "TrSec": 18155.35175294707,
+    "dPomegaDegPerOrbit": 8.033612919372146,
+    "rateDegPerDay": 38.231380238671655,
+    "rateDegPerYear": 13964.011632174823,
+    "stepDiffDegPerYear": 3.9868132851297106e-7
+   }
+  ],
+  "circular": [
+   {
+    "label": "a=67627 km の円軌道極限(ε=0.05)",
+    "aKm": 67627,
+    "eps": 0.05,
+    "OmegaDegPerDay": 1751.4498494650034,
+    "kappaDegPerDay": 1713.208361722512,
+    "rateDegPerDay": 38.241487742491,
+    "rateDegPerYear": 13967.703397944837,
+    "legacyCTimesRateDegPerDay": 38.24147800632396,
+    "helperFixDegPerDay": 0.00000973616704413871
+   },
+   {
+    "label": "a=67627 km の円軌道極限(ε=0.01)",
+    "aKm": 67627,
+    "eps": 0.01,
+    "OmegaDegPerDay": 1751.4505248337675,
+    "kappaDegPerDay": 1713.2076712791713,
+    "rateDegPerDay": 38.242853554595975,
+    "rateDegPerYear": 13968.20226081618,
+    "legacyCTimesRateDegPerDay": 38.24284423085743,
+    "helperFixDegPerDay": 0.000009323738545674587
+   },
+   {
+    "label": "a=67627 km の円軌道極限(ε=0)",
+    "aKm": 67627,
+    "eps": 0,
+    "OmegaDegPerDay": 1751.4505529741461,
+    "kappaDegPerDay": 1713.2076425106338,
+    "rateDegPerDay": 38.24291046351243,
+    "rateDegPerYear": 13968.223046797915,
+    "legacyCTimesRateDegPerDay": 38.242901156957586,
+    "helperFixDegPerDay": 0.000009306554844101811
+   },
+   {
+    "label": "現行軌道の平均半径の円軌道極限(ε=0.05)",
+    "aKm": 67800.71973987833,
+    "eps": 0.05,
+    "OmegaDegPerDay": 1744.6264019086443,
+    "kappaDegPerDay": 1706.7540663930074,
+    "rateDegPerDay": 37.87233551563694,
+    "rateDegPerYear": 13832.870547086392,
+    "legacyCTimesRateDegPerDay": 37.872325979269704,
+    "helperFixDegPerDay": 0.000009536367237217291
+   }
+  ],
+  "decomposition": {
+   "totalDegPerDay": -0.11563397297226174,
+   "radiusShiftDegPerDay": -0.36915222685406235,
+   "finiteEDegPerDay": 0.2535182538818006,
+   "totalDegPerYear": -42.2353086281186,
+   "radiusShiftDegPerYear": -134.83285085844625,
+   "finiteEDegPerYear": 92.59754223032768
+  },
+  "eScan": [
+   {
+    "e": 0.05,
+    "eps": 0.05,
+    "meanRKm": 67626.99999999983,
+    "rateDegPerYear": 14052.787162267197,
+    "nSigma": 28.92929920164171
+   },
+   {
+    "e": 0.01,
+    "eps": 0.05,
+    "meanRKm": 67626.99999999942,
+    "rateDegPerYear": 13971.090135627437,
+    "nSigma": 0.9700156151392398
+   },
+   {
+    "e": 0.001,
+    "eps": 0.05,
+    "meanRKm": 67626.9999999983,
+    "rateDegPerYear": 13967.73725567331,
+    "nSigma": -0.1774450125566104
+   },
+   {
+    "e": 0.0003696748340159995,
+    "eps": 0.05,
+    "meanRKm": 67626.99999999788,
+    "rateDegPerYear": 13967.708031209939,
+    "nSigma": -0.18744654006210842
+   },
+   {
+    "e": 0.05,
+    "eps": 0.01,
+    "meanRKm": 67626.9999999997,
+    "rateDegPerYear": 14053.288553305192,
+    "nSigma": 29.100890932646102
+   },
+   {
+    "e": 0.01,
+    "eps": 0.01,
+    "meanRKm": 67626.99999999913,
+    "rateDegPerYear": 13971.589098961236,
+    "nSigma": 1.140776509663234
+   },
+   {
+    "e": 0.001,
+    "eps": 0.01,
+    "meanRKm": 67627.0000000027,
+    "rateDegPerYear": 13968.23612382227,
+    "nSigma": -0.006716693268641371
+   },
+   {
+    "e": 0.0003696748340159995,
+    "eps": 0.01,
+    "meanRKm": 67627.00000000604,
+    "rateDegPerYear": 13968.206887541448,
+    "nSigma": -0.016722265076085277
+   }
+  ],
+  "consistentIc": {
+   "eStar": 0.001,
+   "eps": 0.01,
+   "rp": 67.559373,
+   "ra": 67.69462699999998,
+   "vp": 2.395057404866819
+  },
+  "obsIc": {
+   "eObs": 0.0003696748340159995,
+   "aeKm": 25,
+   "aKm": 67627,
+   "eps": 0.01,
+   "rp": 67.602,
+   "ra": 67.652,
+   "vp": 2.3935481607049645
+  },
+  "sensitivity": {
+   "dRateDaDegPerYearPerKm": -0.7811400497421346,
+   "aRoundingHalfKm": 0.5,
+   "aRoundingDegPerYear": 0.3905700248710673,
+   "table4RangeKm": [
+    67618.8,
+    67635.1
+   ],
+   "table4RangeDegPerYear": [
+    6.407280040804835,
+    -6.325350528240961
+   ],
+   "aDriftKmPerYear": -2.4,
+   "note": "a の感度は円軌道極限(ε=0.01)の中心差分。Table 4 の範囲と年 −2.4 km のドリフトは CSV の note の記載(σ ではない)"
+  },
+  "meanMotionImpliedA": [
+   {
+    "nDegPerDay": 1751.6,
+    "aKm": 67623.20719361205,
+    "rateDegPerYear": 13971.165386984487
+   },
+   {
+    "nDegPerDay": 1751.65,
+    "aKm": 67621.938606967,
+    "rateDegPerYear": 13972.156653480319
+   }
+  ],
+  "meanMotionAtDeclA": 1751.4505248337675,
+  "orderTruncation": [
+   {
+    "upToJ": 2,
+    "rateDegPerDay": 33.72556515405854
+   },
+   {
+    "upToJ": 4,
+    "rateDegPerDay": 37.59942934987143
+   },
+   {
+    "upToJ": 6,
+    "rateDegPerDay": 38.09870028460974
+   },
+   {
+    "upToJ": 8,
+    "rateDegPerDay": 38.19975468734413
+   },
+   {
+    "upToJ": 10,
+    "rateDegPerDay": 38.235103241931284
+   },
+   {
+    "upToJ": 12,
+    "rateDegPerDay": 38.24291046351243
+   }
+  ],
+  "gm": {
+   "declUnits": 379.31011600000005,
+   "declKm3s2": 37931011.60000001,
+   "qaHelperKm3s2": 37931207.7,
+   "relDiff": -0.000005169885481715042,
+   "rateShiftDegPerYear": 0.03610719677089946,
+   "note": "rateShift = QA ヘルパの GM で作った円軌道極限 − 宣言 G×M の円軌道極限(ε=0・a=67627 km)"
+  }
+ },
+ "units": {
+  "csvDegPerYear": 13968.25575,
+  "csvSigmaDegPerYear": 2.922,
+  "degPerDayFromCsv": 38.242999999999995,
+  "sigmaDegPerDayFromCsv": 0.008,
+  "yearSec": 31557600,
+  "daysPerYear": 365.25,
+  "timeUnitSec": 100,
+  "timeUnitsPerDay": 864,
+  "lengthUnitKm": 1000,
+  "refRKm": 60330,
+  "orders": [
+   2,
+   4,
+   6,
+   8,
+   10,
+   12
+  ],
+  "note": "CSV の deg/yr = 38.243 deg/d × 365.25(ユリウス年)。σ 0.008 deg/d = 2.922 deg/yr。1 時間単位 = 100 s(864 単位 = 1 日)"
+ },
+ "engine": [
+  {
+   "key": "formal11",
+   "label": "現行 11 天体(📡 そのもの)",
+   "cond": {
+    "src": "saturnZonalD68"
+   },
+   "presetId": null,
+   "ranAs": "harness-copy",
+   "presetIdentity": null,
+   "stages": [
+    {
+     "tag": "h",
+     "dt": 0.016,
+     "steps": 668676,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.042145452277042,
+     "pPeriSec": 18224.862222665284,
+     "degPerYear": 13925.526910658999,
+     "degPerDay": 38.126014813576994,
+     "residualDegPerYear": -42.72883934100173,
+     "nSigma": -14.623148302875334,
+     "rMinKm": 64244.29089787581,
+     "rMaxKm": 71356.18240104585,
+     "wallSec": 6.951,
+     "state0": {
+      "n": 11,
+      "eps": 0.05,
+      "lambdaPN": 1,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       64.24565,
+       0,
+       0,
+       2.518398,
+       9.999999974752427e-7
+      ]
+     }
+    },
+    {
+     "tag": "h/2",
+     "dt": 0.008,
+     "steps": 1337352,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.042170763288139,
+     "pPeriSec": 18224.85937143462,
+     "degPerYear": 13925.572917030628,
+     "degPerDay": 38.126140772157775,
+     "residualDegPerYear": -42.68283296937261,
+     "nSigma": -14.6074034802781,
+     "rMinKm": 64244.333117883034,
+     "rMaxKm": 71356.1173454406,
+     "wallSec": 9.415,
+     "state0": {
+      "n": 11,
+      "eps": 0.05,
+      "lambdaPN": 1,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       64.24565,
+       0,
+       0,
+       2.518398,
+       9.999999974752427e-7
+      ]
+     }
+    },
+    {
+     "tag": "h/4",
+     "dt": 0.004,
+     "steps": 2674704,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.042177157993406,
+     "pPeriSec": 18224.85859672282,
+     "degPerYear": 13925.58458185949,
+     "degPerDay": 38.126172708718656,
+     "residualDegPerYear": -42.67116814051042,
+     "nSigma": -14.603411410167835,
+     "rMinKm": 64244.34295503485,
+     "rMaxKm": 71356.1011032169,
+     "wallSec": 19.45,
+     "state0": {
+      "n": 11,
+      "eps": 0.05,
+      "lambdaPN": 1,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       64.24565,
+       0,
+       0,
+       2.518398,
+       9.999999974752427e-7
+      ]
+     }
+    }
+   ],
+   "stageDiffH2DegPerYear": 0.0460063716291188,
+   "stageDiffLastDegPerYear": 0.011664828862194554,
+   "independentDegPerYear": 13925.468089316719,
+   "engineMinusIndependentDegPerYear": 0.11649254277108412,
+   "independentTrSec": 18224.94008959174
+  },
+  {
+   "key": "pair",
+   "label": "土星+D68 の 2 天体",
+   "cond": {
+    "src": "saturnZonalD68",
+    "pair": true
+   },
+   "presetId": null,
+   "ranAs": "harness-copy",
+   "presetIdentity": null,
+   "stages": [
+    {
+     "tag": "h",
+     "dt": 0.016,
+     "steps": 668676,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.042119295448135,
+     "pPeriSec": 18224.945078861772,
+     "degPerYear": 13925.418308798786,
+     "degPerDay": 38.125717477888536,
+     "residualDegPerYear": -42.83744120121446,
+     "nSigma": -14.660315263933764,
+     "rMinKm": 64245.58982969157,
+     "rMaxKm": 71355.88097294293,
+     "wallSec": 0.687,
+     "state0": {
+      "n": 2,
+      "eps": 0.05,
+      "lambdaPN": 1,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       64.24565,
+       0,
+       0,
+       2.518398,
+       9.999999974752427e-7
+      ]
+     }
+    },
+    {
+     "tag": "h/2",
+     "dt": 0.008,
+     "steps": 1337352,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.042144380292491,
+     "pPeriSec": 18224.94243539159,
+     "degPerYear": 13925.463764575412,
+     "degPerDay": 38.12584192902234,
+     "residualDegPerYear": -42.79198542458835,
+     "nSigma": -14.644758872206825,
+     "rMinKm": 64245.63495728215,
+     "rMaxKm": 71355.815676948,
+     "wallSec": 1.574,
+     "state0": {
+      "n": 2,
+      "eps": 0.05,
+      "lambdaPN": 1,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       64.24565,
+       0,
+       0,
+       2.518398,
+       9.999999974752427e-7
+      ]
+     }
+    },
+    {
+     "tag": "h/4",
+     "dt": 0.004,
+     "steps": 2674704,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.042150658005779,
+     "pPeriSec": 18224.94176503289,
+     "degPerYear": 13925.475147032666,
+     "degPerDay": 38.1258730924919,
+     "residualDegPerYear": -42.780602967333834,
+     "nSigma": -14.640863438512605,
+     "rMinKm": 64245.64623931174,
+     "rMaxKm": 71355.79929437024,
+     "wallSec": 2.866,
+     "state0": {
+      "n": 2,
+      "eps": 0.05,
+      "lambdaPN": 1,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       64.24565,
+       0,
+       0,
+       2.518398,
+       9.999999974752427e-7
+      ]
+     }
+    }
+   ],
+   "stageDiffH2DegPerYear": 0.04545577662611322,
+   "stageDiffLastDegPerYear": 0.011382457254512701,
+   "independentDegPerYear": 13925.468089316719,
+   "engineMinusIndependentDegPerYear": 0.00705771594766702,
+   "independentTrSec": 18224.94008959174
+  },
+  {
+   "key": "geo3scalar11",
+   "label": "11 天体・geoPN=3(lawVersion scalar)対照",
+   "cond": {
+    "src": "saturnZonalD68",
+    "geoPN3": true
+   },
+   "presetId": null,
+   "ranAs": "harness-copy",
+   "presetIdentity": null,
+   "stages": [
+    {
+     "tag": "h",
+     "dt": 0.016,
+     "steps": 668676,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.04213765901167,
+     "pPeriSec": 18224.917028209744,
+     "degPerYear": 13925.471539606611,
+     "degPerDay": 38.12586321589764,
+     "residualDegPerYear": -42.784210393389,
+     "nSigma": -14.642098012795689,
+     "rMinKm": 64245.41088610225,
+     "rMaxKm": 71355.8398761393,
+     "wallSec": 14.27,
+     "state0": {
+      "n": 11,
+      "eps": 0.05,
+      "lambdaPN": 1,
+      "geoPN": 3,
+      "hasGeoToy": true,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       64.24565,
+       0,
+       0,
+       2.518398,
+       9.999999974752427e-7
+      ]
+     }
+    },
+    {
+     "tag": "h/2",
+     "dt": 0.008,
+     "steps": 1337352,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.042162790294082,
+     "pPeriSec": 18224.91428215475,
+     "degPerYear": 13925.517154255636,
+     "degPerDay": 38.12598810200037,
+     "residualDegPerYear": -42.73859574436392,
+     "nSigma": -14.626487249953428,
+     "rMinKm": 64245.455155065574,
+     "rMaxKm": 71355.77433837498,
+     "wallSec": 25.567,
+     "state0": {
+      "n": 11,
+      "eps": 0.05,
+      "lambdaPN": 1,
+      "geoPN": 3,
+      "hasGeoToy": true,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       64.24565,
+       0,
+       0,
+       2.518398,
+       9.999999974752427e-7
+      ]
+     }
+    },
+    {
+     "tag": "h/4",
+     "dt": 0.004,
+     "steps": 2674704,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.042169091638137,
+     "pPeriSec": 18224.913560467052,
+     "degPerYear": 13925.528616870748,
+     "degPerDay": 38.12601948493018,
+     "residualDegPerYear": -42.72713312925225,
+     "nSigma": -14.622564383727669,
+     "rMinKm": 64245.46603643921,
+     "rMaxKm": 71355.75783629665,
+     "wallSec": 48.309,
+     "state0": {
+      "n": 11,
+      "eps": 0.05,
+      "lambdaPN": 1,
+      "geoPN": 3,
+      "hasGeoToy": true,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       64.24565,
+       0,
+       0,
+       2.518398,
+       9.999999974752427e-7
+      ]
+     }
+    }
+   ],
+   "stageDiffH2DegPerYear": 0.045614649025083054,
+   "stageDiffLastDegPerYear": 0.011462615111668129,
+   "independentDegPerYear": null,
+   "engineMinusIndependentDegPerYear": null,
+   "independentTrSec": null
+  },
+  {
+   "key": "eps01lpn0_11",
+   "label": "11 天体・ε=0.01・λPN=0",
+   "cond": {
+    "src": "saturnZonalD68",
+    "eps": 0.01,
+    "lambdaPN": 0
+   },
+   "presetId": null,
+   "ranAs": "harness-copy",
+   "presetIdentity": null,
+   "stages": [
+    {
+     "tag": "h",
+     "dt": 0.016,
+     "steps": 668676,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.042443569295575,
+     "pPeriSec": 18224.844270394005,
+     "degPerYear": 13926.056838504612,
+     "degPerDay": 38.12746567694623,
+     "residualDegPerYear": -42.19891149538853,
+     "nSigma": -14.441790381720919,
+     "rMinKm": 64244.29090866494,
+     "rMaxKm": 71356.05744827466,
+     "wallSec": 3.644,
+     "state0": {
+      "n": 11,
+      "eps": 0.01,
+      "lambdaPN": 0,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       64.24565,
+       0,
+       0,
+       2.518398,
+       9.999999974752427e-7
+      ]
+     }
+    },
+    {
+     "tag": "h/2",
+     "dt": 0.008,
+     "steps": 1337352,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.04246885595223,
+     "pPeriSec": 18224.8414570437,
+     "degPerYear": 13926.102773887604,
+     "degPerDay": 38.127591441170715,
+     "residualDegPerYear": -42.15297611239657,
+     "nSigma": -14.426069853660701,
+     "rMinKm": 64244.333317528246,
+     "rMaxKm": 71355.99261863824,
+     "wallSec": 10.946,
+     "state0": {
+      "n": 11,
+      "eps": 0.01,
+      "lambdaPN": 0,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       64.24565,
+       0,
+       0,
+       2.518398,
+       9.999999974752427e-7
+      ]
+     }
+    },
+    {
+     "tag": "h/4",
+     "dt": 0.004,
+     "steps": 2674704,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.042475238423574,
+     "pPeriSec": 18224.840701269408,
+     "degPerYear": 13926.114403095873,
+     "degPerDay": 38.12762328020773,
+     "residualDegPerYear": -42.141346904127204,
+     "nSigma": -14.42208997403395,
+     "rMinKm": 64244.34323484534,
+     "rMaxKm": 71355.97648194434,
+     "wallSec": 19.409,
+     "state0": {
+      "n": 11,
+      "eps": 0.01,
+      "lambdaPN": 0,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       64.24565,
+       0,
+       0,
+       2.518398,
+       9.999999974752427e-7
+      ]
+     }
+    }
+   ],
+   "stageDiffH2DegPerYear": 0.04593538299195643,
+   "stageDiffLastDegPerYear": 0.011629208269368974,
+   "independentDegPerYear": 13926.009409792,
+   "engineMinusIndependentDegPerYear": 0.10499330387392547,
+   "independentTrSec": 18224.923378241285
+  },
+  {
+   "key": "pairLpn0",
+   "label": "2 天体・λPN=0(ε=0.05)",
+   "cond": {
+    "src": "saturnZonalD68",
+    "pair": true,
+    "lambdaPN": 0
+   },
+   "presetId": null,
+   "ranAs": "harness-copy",
+   "presetIdentity": null,
+   "stages": [
+    {
+     "tag": "h",
+     "dt": 0.016,
+     "steps": 668676,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.04211230654973,
+     "pPeriSec": 18224.94382286628,
+     "degPerYear": 13925.407166783776,
+     "degPerDay": 38.125686972713964,
+     "residualDegPerYear": -42.84858321622414,
+     "nSigma": -14.664128410754326,
+     "rMinKm": 64245.58982966673,
+     "rMaxKm": 71355.8772692336,
+     "wallSec": 0.664,
+     "state0": {
+      "n": 2,
+      "eps": 0.05,
+      "lambdaPN": 0,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       64.24565,
+       0,
+       0,
+       2.518398,
+       9.999999974752427e-7
+      ]
+     }
+    },
+    {
+     "tag": "h/2",
+     "dt": 0.008,
+     "steps": 1337352,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.042137365457728,
+     "pPeriSec": 18224.941217385804,
+     "degPerYear": 13925.45254862406,
+     "degPerDay": 38.12581122142111,
+     "residualDegPerYear": -42.80320137594026,
+     "nSigma": -14.648597322361486,
+     "rMinKm": 64245.63495727186,
+     "rMaxKm": 71355.81218723244,
+     "wallSec": 1.275,
+     "state0": {
+      "n": 2,
+      "eps": 0.05,
+      "lambdaPN": 0,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       64.24565,
+       0,
+       0,
+       2.518398,
+       9.999999974752427e-7
+      ]
+     }
+    },
+    {
+     "tag": "h/4",
+     "dt": 0.004,
+     "steps": 2674704,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.042143630185958,
+     "pPeriSec": 18224.94056601791,
+     "degPerYear": 13925.463894086586,
+     "degPerDay": 38.12584228360461,
+     "residualDegPerYear": -42.79185591341411,
+     "nSigma": -14.644714549423036,
+     "rMinKm": 64245.64623931019,
+     "rMaxKm": 71355.79591658739,
+     "wallSec": 3.006,
+     "state0": {
+      "n": 2,
+      "eps": 0.05,
+      "lambdaPN": 0,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       64.24565,
+       0,
+       0,
+       2.518398,
+       9.999999974752427e-7
+      ]
+     }
+    }
+   ],
+   "stageDiffH2DegPerYear": 0.04538184028388059,
+   "stageDiffLastDegPerYear": 0.011345462526151096,
+   "independentDegPerYear": 13925.468089316719,
+   "engineMinusIndependentDegPerYear": -0.00419523013260914,
+   "independentTrSec": 18224.94008959174
+  },
+  {
+   "key": "pairEps01",
+   "label": "2 天体・ε=0.01(λPN=1)",
+   "cond": {
+    "src": "saturnZonalD68",
+    "pair": true,
+    "eps": 0.01
+   },
+   "presetId": null,
+   "ranAs": "harness-copy",
+   "presetIdentity": null,
+   "stages": [
+    {
+     "tag": "h",
+     "dt": 0.016,
+     "steps": 668676,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.042424540503513,
+     "pPeriSec": 18224.92836752388,
+     "degPerYear": 13925.959628552218,
+     "degPerDay": 38.12719953060155,
+     "residualDegPerYear": -42.29612144778184,
+     "nSigma": -14.475058674805558,
+     "rMinKm": 64245.589828562996,
+     "rMaxKm": 71355.75955149012,
+     "wallSec": 0.658,
+     "state0": {
+      "n": 2,
+      "eps": 0.01,
+      "lambdaPN": 1,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       64.24565,
+       0,
+       0,
+       2.518398,
+       9.999999974752427e-7
+      ]
+     }
+    },
+    {
+     "tag": "h/2",
+     "dt": 0.008,
+     "steps": 1337352,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.042449625555589,
+     "pPeriSec": 18224.925724059984,
+     "degPerYear": 13926.005084803917,
+     "degPerDay": 38.12732398303606,
+     "residualDegPerYear": -42.25066519608299,
+     "nSigma": -14.459502120493836,
+     "rMinKm": 64245.634957000024,
+     "rMaxKm": 71355.69423736286,
+     "wallSec": 1.344,
+     "state0": {
+      "n": 2,
+      "eps": 0.01,
+      "lambdaPN": 1,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       64.24565,
+       0,
+       0,
+       2.518398,
+       9.999999974752427e-7
+      ]
+     }
+    },
+    {
+     "tag": "h/4",
+     "dt": 0.004,
+     "steps": 2674704,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.042455903321063,
+     "pPeriSec": 18224.92505370094,
+     "degPerYear": 13926.01646738215,
+     "degPerDay": 38.12735514683682,
+     "residualDegPerYear": -42.23928261785113,
+     "nSigma": -14.455606645397374,
+     "rMinKm": 64245.6462392412,
+     "rMaxKm": 71355.67786543914,
+     "wallSec": 2.645,
+     "state0": {
+      "n": 2,
+      "eps": 0.01,
+      "lambdaPN": 1,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       64.24565,
+       0,
+       0,
+       2.518398,
+       9.999999974752427e-7
+      ]
+     }
+    }
+   ],
+   "stageDiffH2DegPerYear": 0.0454562516988517,
+   "stageDiffLastDegPerYear": 0.011382578231859952,
+   "independentDegPerYear": 13926.009409792,
+   "engineMinusIndependentDegPerYear": 0.00705759014999785,
+   "independentTrSec": 18224.923378241285
+  },
+  {
+   "key": "pairEps01Lpn0",
+   "label": "2 天体・ε=0.01・λPN=0",
+   "cond": {
+    "src": "saturnZonalD68",
+    "pair": true,
+    "eps": 0.01,
+    "lambdaPN": 0
+   },
+   "presetId": null,
+   "ranAs": "harness-copy",
+   "presetIdentity": null,
+   "stages": [
+    {
+     "tag": "h",
+     "dt": 0.016,
+     "steps": 668676,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.042417551587931,
+     "pPeriSec": 18224.927111527697,
+     "degPerYear": 13925.94848653508,
+     "degPerDay": 38.12716902542116,
+     "residualDegPerYear": -42.30726346491974,
+     "nSigma": -14.478871822354463,
+     "rMinKm": 64245.58982853814,
+     "rMaxKm": 71355.75584117052,
+     "wallSec": 0.657,
+     "state0": {
+      "n": 2,
+      "eps": 0.01,
+      "lambdaPN": 0,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       64.24565,
+       0,
+       0,
+       2.518398,
+       9.999999974752427e-7
+      ]
+     }
+    },
+    {
+     "tag": "h/2",
+     "dt": 0.008,
+     "steps": 1337352,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.04244261070797,
+     "pPeriSec": 18224.924506055653,
+     "degPerYear": 13925.993868855086,
+     "degPerDay": 38.127293275441716,
+     "residualDegPerYear": -42.26188114491379,
+     "nSigma": -14.46334056978569,
+     "rMinKm": 64245.63495699378,
+     "rMaxKm": 71355.69075826331,
+     "wallSec": 1.374,
+     "state0": {
+      "n": 2,
+      "eps": 0.01,
+      "lambdaPN": 0,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       64.24565,
+       0,
+       0,
+       2.518398,
+       9.999999974752427e-7
+      ]
+     }
+    },
+    {
+     "tag": "h/4",
+     "dt": 0.004,
+     "steps": 2674704,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.042448875493518,
+     "pPeriSec": 18224.92385468437,
+     "degPerYear": 13926.005214449204,
+     "degPerDay": 38.1273243379855,
+     "residualDegPerYear": -42.250535550796485,
+     "nSigma": -14.459457751812623,
+     "rMinKm": 64245.64623923652,
+     "rMaxKm": 71355.6744873952,
+     "wallSec": 3.742,
+     "state0": {
+      "n": 2,
+      "eps": 0.01,
+      "lambdaPN": 0,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       64.24565,
+       0,
+       0,
+       2.518398,
+       9.999999974752427e-7
+      ]
+     }
+    }
+   ],
+   "stageDiffH2DegPerYear": 0.04538232000595599,
+   "stageDiffLastDegPerYear": 0.011345594117301516,
+   "independentDegPerYear": 13926.009409792,
+   "engineMinusIndependentDegPerYear": -0.0041953427953558275,
+   "independentTrSec": 18224.923378241285
+  },
+  {
+   "key": "consistent",
+   "label": "整合コピー(2 天体・e*=0.001・ε=0.01・既存 C)",
+   "cond": {
+    "src": "saturnZonalD68",
+    "pair": true,
+    "eps": 0.01,
+    "ic": {
+     "x": 67.559373,
+     "vy": 2.395057404866819
+    }
+   },
+   "presetId": "saturnD68Consistent",
+   "ranAs": "preset",
+   "presetIdentity": {
+    "presetId": "saturnD68Consistent",
+    "sameInitialState": true,
+    "harness": [
+     67.559373,
+     0,
+     0,
+     2.395057404866819,
+     9.999999974752427e-7
+    ],
+    "preset": [
+     67.559373,
+     0,
+     0,
+     2.395057404866819,
+     9.999999974752427e-7
+    ]
+   },
+   "stages": [
+    {
+     "tag": "h",
+     "dt": 0.016,
+     "steps": 668676,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.036045937450195,
+     "pPeriSec": 18155.421534553567,
+     "degPerYear": 13968.187011963759,
+     "degPerDay": 38.24281180551337,
+     "residualDegPerYear": -0.06873803624148422,
+     "nSigma": -0.02352431082870781,
+     "rMinKm": 67556.59349866354,
+     "rMaxKm": 67697.43298490808,
+     "wallSec": 0.948,
+     "state0": {
+      "n": 2,
+      "eps": 0.01,
+      "lambdaPN": 1,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       67.559373,
+       0,
+       0,
+       2.395057404866819,
+       9.999999974752427e-7
+      ]
+     }
+    },
+    {
+     "tag": "h/2",
+     "dt": 0.008,
+     "steps": 1337352,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.03607099741273,
+     "pPeriSec": 18155.419491563025,
+     "degPerYear": 13968.232142793595,
+     "degPerDay": 38.24293536699136,
+     "residualDegPerYear": -0.02360720640535874,
+     "nSigma": -0.008079126079862674,
+     "rMinKm": 67558.66743839103,
+     "rMaxKm": 67695.34189833686,
+     "wallSec": 1.585,
+     "state0": {
+      "n": 2,
+      "eps": 0.01,
+      "lambdaPN": 1,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       67.559373,
+       0,
+       0,
+       2.395057404866819,
+       9.999999974752427e-7
+      ]
+     }
+    },
+    {
+     "tag": "h/4",
+     "dt": 0.004,
+     "steps": 2674704,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.036077268908596,
+     "pPeriSec": 18155.418971494484,
+     "degPerYear": 13968.243443981208,
+     "degPerDay": 38.24296630795676,
+     "residualDegPerYear": -0.012306018792514806,
+     "nSigma": -0.004211505404693636,
+     "rMinKm": 67559.19591585292,
+     "rMaxKm": 67694.80908759542,
+     "wallSec": 3.456,
+     "state0": {
+      "n": 2,
+      "eps": 0.01,
+      "lambdaPN": 1,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       67.559373,
+       0,
+       0,
+       2.395057404866819,
+       9.999999974752427e-7
+      ]
+     }
+    }
+   ],
+   "stageDiffH2DegPerYear": 0.045130829836125486,
+   "stageDiffLastDegPerYear": 0.011301187612843933,
+   "independentDegPerYear": 13968.23612382227,
+   "engineMinusIndependentDegPerYear": 0.007320158938455279,
+   "independentTrSec": 18155.4175046797
+  },
+  {
+   "key": "obsOrbit",
+   "label": "観測定義コピー(2 天体・r=a∓ae・ε=0.01・既存 C)",
+   "cond": {
+    "src": "saturnZonalD68",
+    "pair": true,
+    "eps": 0.01,
+    "ic": {
+     "x": 67.602,
+     "vy": 2.3935481607049645
+    }
+   },
+   "presetId": "saturnD68ObsOrbit",
+   "ranAs": "preset",
+   "presetIdentity": {
+    "presetId": "saturnD68ObsOrbit",
+    "sameInitialState": true,
+    "harness": [
+     67.602,
+     0,
+     0,
+     2.3935481607049645,
+     9.999999974752427e-7
+    ],
+    "preset": [
+     67.602,
+     0,
+     0,
+     2.3935481607049645,
+     9.999999974752427e-7
+    ]
+   },
+   "stages": [
+    {
+     "tag": "h",
+     "dt": 0.016,
+     "steps": 668676,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.036029008997183,
+     "pPeriSec": 18155.421250835643,
+     "degPerYear": 13968.157805352883,
+     "degPerDay": 38.24273184217079,
+     "residualDegPerYear": -0.09794464711740147,
+     "nSigma": -0.033519728650719186,
+     "rMinKm": 67595.25016702262,
+     "rMaxKm": 67658.7762627526,
+     "wallSec": 0.86,
+     "state0": {
+      "n": 2,
+      "eps": 0.01,
+      "lambdaPN": 1,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       67.602,
+       0,
+       0,
+       2.3935481607049645,
+       9.999999974752427e-7
+      ]
+     }
+    },
+    {
+     "tag": "h/2",
+     "dt": 0.008,
+     "steps": 1337352,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.036054060332148,
+     "pPeriSec": 18155.419213584933,
+     "degPerYear": 13968.202916767721,
+     "degPerDay": 38.24285535049342,
+     "residualDegPerYear": -0.05283323227922665,
+     "nSigma": -0.018081188322801728,
+     "rMinKm": 67600.15246577741,
+     "rMaxKm": 67653.85685120858,
+     "wallSec": 1.321,
+     "state0": {
+      "n": 2,
+      "eps": 0.01,
+      "lambdaPN": 1,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       67.602,
+       0,
+       0,
+       2.3935481607049645,
+       9.999999974752427e-7
+      ]
+     }
+    },
+    {
+     "tag": "h/4",
+     "dt": 0.004,
+     "steps": 2674704,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.036060330367093,
+     "pPeriSec": 18155.418695006665,
+     "degPerYear": 13968.214214268743,
+     "degPerDay": 38.242886281365486,
+     "residualDegPerYear": -0.04153573125768162,
+     "nSigma": -0.01421482931474388,
+     "rMinKm": 67601.52551438886,
+     "rMaxKm": 67652.47947739632,
+     "wallSec": 4.308,
+     "state0": {
+      "n": 2,
+      "eps": 0.01,
+      "lambdaPN": 1,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1.000302283,
+      "d68": [
+       67.602,
+       0,
+       0,
+       2.3935481607049645,
+       9.999999974752427e-7
+      ]
+     }
+    }
+   ],
+   "stageDiffH2DegPerYear": 0.045111414838174824,
+   "stageDiffLastDegPerYear": 0.011297501021545031,
+   "independentDegPerYear": 13968.206887541448,
+   "engineMinusIndependentDegPerYear": 0.007326727294639568,
+   "independentTrSec": 18155.41723035895
+  },
+  {
+   "key": "consistentC1",
+   "label": "整合初速・C=1(fit なし —— J2〜J12 だけ)・2 天体・ε=0.01",
+   "cond": {
+    "src": "saturnZonalD68",
+    "pair": true,
+    "eps": 0.01,
+    "calib": 1,
+    "ic": {
+     "x": 67.559373,
+     "vy": 2.3950500732531848
+    }
+   },
+   "presetId": null,
+   "ranAs": "harness-copy",
+   "presetIdentity": null,
+   "stages": [
+    {
+     "tag": "h",
+     "dt": 0.016,
+     "steps": 668676,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.033586450723245,
+     "pPeriSec": 18155.355782358332,
+     "degPerYear": 13963.96252524511,
+     "degPerDay": 38.23124579122548,
+     "residualDegPerYear": -4.293224754890616,
+     "nSigma": -1.469276096814037,
+     "rMinKm": 67556.59355189845,
+     "rMaxKm": 67697.43293104971,
+     "wallSec": 0.899,
+     "state0": {
+      "n": 2,
+      "eps": 0.01,
+      "lambdaPN": 1,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1,
+      "d68": [
+       67.559373,
+       0,
+       0,
+       2.3950500732531848,
+       9.999999974752427e-7
+      ]
+     }
+    },
+    {
+     "tag": "h/2",
+     "dt": 0.008,
+     "steps": 1337352,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.033611510532996,
+     "pPeriSec": 18155.353739875325,
+     "degPerYear": 13964.007655107085,
+     "degPerDay": 38.231369350053626,
+     "residualDegPerYear": -4.2480948929151054,
+     "nSigma": -1.453831243297435,
+     "rMinKm": 67558.66745209298,
+     "rMaxKm": 67695.34188440914,
+     "wallSec": 2.34,
+     "state0": {
+      "n": 2,
+      "eps": 0.01,
+      "lambdaPN": 1,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1,
+      "d68": [
+       67.559373,
+       0,
+       0,
+       2.3950500732531848,
+       9.999999974752427e-7
+      ]
+     }
+    },
+    {
+     "tag": "h/4",
+     "dt": 0.004,
+     "steps": 2674704,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0,
+     "geoToyStop": null,
+     "nPeriFound": 58,
+     "nFitUsed": 58,
+     "dup": 0,
+     "jump": 0,
+     "windowComplete": true,
+     "slopeDegPerOrbit": 8.033617781689946,
+     "pPeriSec": 18155.353219832403,
+     "degPerYear": 13964.01895560581,
+     "degPerDay": 38.23140028913295,
+     "residualDegPerYear": -4.236794394189928,
+     "nSigma": -1.449963858381221,
+     "rMinKm": 67559.19591930785,
+     "rMaxKm": 67694.80908414228,
+     "wallSec": 4.431,
+     "state0": {
+      "n": 2,
+      "eps": 0.01,
+      "lambdaPN": 1,
+      "geoPN": 2,
+      "hasGeoToy": false,
+      "geoToyDeny": null,
+      "zonalCalib": 1,
+      "d68": [
+       67.559373,
+       0,
+       0,
+       2.3950500732531848,
+       9.999999974752427e-7
+      ]
+     }
+    }
+   ],
+   "stageDiffH2DegPerYear": 0.04512986197551072,
+   "stageDiffLastDegPerYear": 0.011300498725177022,
+   "independentDegPerYear": 13964.011632174823,
+   "engineMinusIndependentDegPerYear": 0.007323430987526081,
+   "independentTrSec": 18155.35175294707
+  }
+ ],
+ "engineDecomp": {
+  "judgedStage": "h/4",
+  "otherParticlesDegPerYear": 0.1094348268234171,
+  "pn1DegPerYear": 0.01125294608027616,
+  "softening005to001DegPerYear": 0.5413203626176255,
+  "initialGeometryDegPerYear": 42.22697659905862,
+  "geo3MinusFormalDegPerYear": -0.05596498874183453,
+  "calibFitDegPerYear": 4.224488375397414,
+  "note": "差はすべて判定段(最後の段)の値の差。initialGeometry = 整合コピー − 同じ ε=0.01・λPN=1 の 2 天体(初速だけが違う)"
+ },
+ "reproduction": [
+  {
+   "tag": "h",
+   "w268a": 13925.526910658999,
+   "w280e": 13925.526910658999,
+   "diff": 0
+  },
+  {
+   "tag": "h/2",
+   "w268a": 13925.572917030628,
+   "w280e": 13925.572917030628,
+   "diff": 0
+  },
+  {
+   "tag": "h/4",
+   "w268a": 13925.58458185949,
+   "w280e": 13925.58458185949,
+   "diff": 0
+  }
+ ],
+ "doNotWrite": [
+  "D68 が合(3σ)",
+  "観測一致を達成した",
+  "較正を完了した",
+  "e*=0.001 のコピーで観測を再現した",
+  "引きずりで説明できた",
+  "C を再 fit した"
+ ],
+ "pageErrors": []
+}
