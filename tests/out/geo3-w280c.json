@@ -1,0 +1,1829 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第280便c",
+  "target": "beta/index.html",
+  "targetSha256": "943e6a80631d0c072684953155c56007a1328fc4db0d4e6a83a3bd653727c5ca",
+  "generatedAt": "2026-09-24T09:26:04.083Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4665317,
+    "sha256": "943e6a80631d0c072684953155c56007a1328fc4db0d4e6a83a3bd653727c5ca",
+    "mtime": "2026-09-24T09:09:03.158Z"
+   },
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "bytes": 2812256,
+    "sha256": "1ace8de3591a9e993b5e59d23991424c8e402dea99a216a41a1bb3e65c7652a2",
+    "mtime": "2026-09-24T07:37:22.358Z"
+   },
+   {
+    "file": "tests/out/bgbudget2-w279c.json",
+    "bytes": 140626,
+    "sha256": "b98fada578d7ef04a7bc4889cdc5bfc041e48b334b49a5fe5a26c534907a1c3e",
+    "mtime": "2026-09-24T07:37:22.390Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w280c-geo3.mjs",
+    "bytes": 30948,
+    "sha256": "3943b68cdc4be0e1deabf0bf1b4d5751b07f2d7a4a1e856ecea188e60bbec566",
+    "mtime": "2026-09-24T08:39:29.176Z"
+   },
+   {
+    "file": "tests/lib-w280c-geo3.mjs",
+    "bytes": 5394,
+    "sha256": "720a78b1243add6a208a29df1896e052cc32f10315ef0957d87471685dbe5ec3",
+    "mtime": "2026-09-24T07:53:04.578Z"
+   },
+   {
+    "file": "tests/exp-w249b-calaudit.mjs",
+    "bytes": 302651,
+    "sha256": "fffb7d97b35cfe58745945fa306ce3f12eb614c5146a98c6260d966cd7312234",
+    "mtime": "2026-09-24T07:37:22.354Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-24T07:37:22.370Z"
+   }
+  ],
+  "codeSha256": "1a40dde05af23277957677226aedd91f0bd4c39e976b9f5e13eee27f2bfe8aee",
+  "harnessVersion": "w280c-geo3-1",
+  "quick": false,
+  "part": null,
+  "extractor": "tests/exp-w249b-calaudit.mjs のページ側ヘルパ(__w249run —— 近点 検出器 A の方位の回帰)をソースから文字列で取り出して評価(写しを持たない)",
+  "extractorSha256": "bc0583dac48746bcf485cb8ae036a46d85619fbc1f77202fe400d9767aab0358",
+  "window": "正本 calaudit-w249.json の presets[].run(dt と dt/2 の步数・60 公転上限)",
+  "runner": "Chromium(playwright —— 正式の判定器と同じ)",
+  "notClaim": [
+   "観測一致を達成した",
+   "較正した",
+   "43″ を再現した",
+   "慣性を導出した",
+   "1PN を DFM から導出した",
+   "新発見",
+   "v1.45.0 RC を切った"
+  ]
+ },
+ "cases": {
+  "mercury": {
+   "base": "mercuryReal",
+   "window": {
+    "dt": 0.016,
+    "steps": 2850199,
+    "dtHalf": 0.008,
+    "stepsHalf": 5700398
+   },
+   "V": [
+    2.3,
+    0
+   ],
+   "unitsNote": "1 単位 = 10⁸ m / 10⁴ s(V=2.3 単位 = 230 km/s・診断値)",
+   "official": {
+    "precession": {
+     "meas": 0.000022514656997711987,
+     "detectorA": 0.000022514656997711987
+    },
+    "period": {
+     "meas": 7600536.760786635,
+     "periASec": 7600537.079004313,
+     "rev": [
+      7600376.759484342,
+      7600536.760786635,
+      7600536.762088612,
+      7600536.763389832,
+      7600536.764691778,
+      7600536.765993565
+     ]
+    }
+   },
+   "rows": {
+    "M0": {
+     "label": "☄️ mercuryReal そのもの(geoPN=2・kF0・λ_PN=1)",
+     "id": "mercuryReal",
+     "runs": {
+      "dt": {
+       "steps": 2850199,
+       "dt": 0.016,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": 0.000022514656997711987,
+       "residDegA": 3.07512772250131e-11,
+       "slopeDegPerOrbitB": 0.00002251464899894646,
+       "nPeriB": 60,
+       "periMeanA20S": 7600537.079004313,
+       "rev2S": 7600536.760786635,
+       "revN": 59,
+       "eProxy": 0.20563096846947732,
+       "diag": {
+        "geoPN": 2,
+        "hasGeo3": false,
+        "hasGeo3PN": false,
+        "hasGeoToy": false,
+        "meshVelN": 0,
+        "meshVelUMax": 0,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 0,
+        "geo3PnKickMax": 0,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 0,
+        "meshVelDeny": null,
+        "geo3Init": null
+       },
+       "wallSec": 2.455
+      },
+      "dt/2": {
+       "steps": 5700398,
+       "dt": 0.008,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": 0.000023873188928945693,
+       "residDegA": 7.8925234813811e-12,
+       "slopeDegPerOrbitB": 0.000023873186634293415,
+       "nPeriB": 60,
+       "periMeanA20S": 7600536.938501631,
+       "rev2S": 7600536.607647077,
+       "revN": 59,
+       "eProxy": 0.2056309422341003,
+       "diag": {
+        "geoPN": 2,
+        "hasGeo3": false,
+        "hasGeo3PN": false,
+        "hasGeoToy": false,
+        "meshVelN": 0,
+        "meshVelUMax": 0,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 0,
+        "geo3PnKickMax": 0,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 0,
+        "meshVelDeny": null,
+        "geo3Init": null
+       },
+       "wallSec": 4.835
+      }
+     }
+    },
+    "M0n": {
+     "label": "1PN なし対照(geoPN=2・kF0・λ_PN=0)",
+     "id": "mercuryRealNoPN_w280c",
+     "runs": {
+      "dt": {
+       "steps": 2850199,
+       "dt": 0.016,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": -0.000006200396458198256,
+       "residDegA": 2.813629929006781e-11,
+       "slopeDegPerOrbitB": -0.000006200395184441173,
+       "nPeriB": 60,
+       "periMeanA20S": 7600534.076872626,
+       "rev2S": 7600534.16128172,
+       "revN": 59,
+       "eProxy": 0.20563081679792033,
+       "diag": {
+        "geoPN": 2,
+        "hasGeo3": false,
+        "hasGeo3PN": false,
+        "hasGeoToy": false,
+        "meshVelN": 0,
+        "meshVelUMax": 0,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 0,
+        "geo3PnKickMax": 0,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 0,
+        "meshVelDeny": null,
+        "geo3Init": null
+       },
+       "wallSec": 2.216
+      },
+      "dt/2": {
+       "steps": 5700398,
+       "dt": 0.008,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": -0.0000048418581907660044,
+       "residDegA": 7.252216605101036e-12,
+       "slopeDegPerOrbitB": -0.0000048418600722275615,
+       "nPeriB": 60,
+       "periMeanA20S": 7600533.943204163,
+       "rev2S": 7600534.009118977,
+       "revN": 59,
+       "eProxy": 0.20563079260140615,
+       "diag": {
+        "geoPN": 2,
+        "hasGeo3": false,
+        "hasGeo3PN": false,
+        "hasGeoToy": false,
+        "meshVelN": 0,
+        "meshVelUMax": 0,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 0,
+        "geo3PnKickMax": 0,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 0,
+        "meshVelDeny": null,
+        "geo3Init": null
+       },
+       "wallSec": 4.572
+      }
+     }
+    },
+    "M0nX": {
+     "label": "丸めの対照: 同 λ_PN=0 で両天体を x に +52000 単位ずらした複製",
+     "id": "mercuryRealNoPNShift_w280c",
+     "runs": {
+      "dt": {
+       "steps": 2850199,
+       "dt": 0.016,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": -0.000006200403282078715,
+       "residDegA": 3.0114305624715946e-10,
+       "slopeDegPerOrbitB": -0.000006200408832818701,
+       "nPeriB": 60,
+       "periMeanA20S": 7600534.07684018,
+       "rev2S": 7600534.161299616,
+       "revN": 59,
+       "eProxy": 0.20563081679706904,
+       "diag": {
+        "geoPN": 2,
+        "hasGeo3": false,
+        "hasGeo3PN": false,
+        "hasGeoToy": false,
+        "meshVelN": 0,
+        "meshVelUMax": 0,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 0,
+        "geo3PnKickMax": 0,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 0,
+        "meshVelDeny": null,
+        "geo3Init": null
+       },
+       "wallSec": 2.191
+      },
+      "dt/2": {
+       "steps": 5700398,
+       "dt": 0.008,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": -0.000004841832660496006,
+       "residDegA": 2.805078641163753e-10,
+       "slopeDegPerOrbitB": -0.000004841799962897044,
+       "nPeriB": 60,
+       "periMeanA20S": 7600533.943224218,
+       "rev2S": 7600534.009135703,
+       "revN": 59,
+       "eProxy": 0.20563079260353306,
+       "diag": {
+        "geoPN": 2,
+        "hasGeo3": false,
+        "hasGeo3PN": false,
+        "hasGeoToy": false,
+        "meshVelN": 0,
+        "meshVelUMax": 0,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 0,
+        "geo3PnKickMax": 0,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 0,
+        "meshVelDeny": null,
+        "geo3Init": null
+       },
+       "wallSec": 4.468
+      }
+     }
+    },
+    "M1": {
+     "label": "geoPN=3・vMinusU・u=0・pn:reference-1PN(v)",
+     "id": "m1_w280c",
+     "runs": {
+      "dt": {
+       "steps": 2850199,
+       "dt": 0.016,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": 0.000022514657357298937,
+       "residDegA": 3.0376968730810113e-11,
+       "slopeDegPerOrbitB": 0.000022514648871668857,
+       "nPeriB": 60,
+       "periMeanA20S": 7600537.079005162,
+       "rev2S": 7600536.76078661,
+       "revN": 59,
+       "eProxy": 0.20563096846952664,
+       "diag": {
+        "geoPN": 3,
+        "hasGeo3": true,
+        "hasGeo3PN": true,
+        "hasGeoToy": false,
+        "meshVelN": 2850199,
+        "meshVelUMax": 0,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 2850199,
+        "geo3PnKickMax": 8.988296749735662e-11,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 2850199,
+        "meshVelDeny": null,
+        "geo3Init": {
+         "meaning": "v",
+         "converted": false,
+         "stop": null
+        }
+       },
+       "wallSec": 8.917
+      },
+      "dt/2": {
+       "steps": 5700398,
+       "dt": 0.008,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": 0.000023873189426737666,
+       "residDegA": 5.350312818356912e-12,
+       "slopeDegPerOrbitB": 0.000023873187238905837,
+       "nPeriB": 60,
+       "periMeanA20S": 7600536.938501184,
+       "rev2S": 7600536.607647077,
+       "revN": 59,
+       "eProxy": 0.2056309422340138,
+       "diag": {
+        "geoPN": 3,
+        "hasGeo3": true,
+        "hasGeo3PN": true,
+        "hasGeoToy": false,
+        "meshVelN": 5700398,
+        "meshVelUMax": 0,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 5700398,
+        "geo3PnKickMax": 4.494148083861868e-11,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 5700398,
+        "meshVelDeny": null,
+        "geo3Init": {
+         "meaning": "v",
+         "converted": false,
+         "stop": null
+        }
+       },
+       "wallSec": 18.785
+      }
+     }
+    },
+    "M1x": {
+     "label": "geoPN=3・vMinusU・u=0・pn:reference-1PN(xdot)",
+     "id": "m1x_w280c",
+     "runs": {
+      "dt": {
+       "steps": 2850199,
+       "dt": 0.016,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": 0.000022514657357298937,
+       "residDegA": 3.0376968730810113e-11,
+       "slopeDegPerOrbitB": 0.000022514648871668857,
+       "nPeriB": 60,
+       "periMeanA20S": 7600537.079005162,
+       "rev2S": 7600536.76078661,
+       "revN": 59,
+       "eProxy": 0.20563096846952664,
+       "diag": {
+        "geoPN": 3,
+        "hasGeo3": true,
+        "hasGeo3PN": true,
+        "hasGeoToy": false,
+        "meshVelN": 2850199,
+        "meshVelUMax": 0,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 2850199,
+        "geo3PnKickMax": 8.988296749735662e-11,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 2850199,
+        "meshVelDeny": null,
+        "geo3Init": {
+         "meaning": "v",
+         "converted": false,
+         "stop": null
+        }
+       },
+       "wallSec": 14.243
+      },
+      "dt/2": {
+       "steps": 5700398,
+       "dt": 0.008,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": 0.000023873189426737666,
+       "residDegA": 5.350312818356912e-12,
+       "slopeDegPerOrbitB": 0.000023873187238905837,
+       "nPeriB": 60,
+       "periMeanA20S": 7600536.938501184,
+       "rev2S": 7600536.607647077,
+       "revN": 59,
+       "eProxy": 0.2056309422340138,
+       "diag": {
+        "geoPN": 3,
+        "hasGeo3": true,
+        "hasGeo3PN": true,
+        "hasGeoToy": false,
+        "meshVelN": 5700398,
+        "meshVelUMax": 0,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 5700398,
+        "geo3PnKickMax": 4.494148083861868e-11,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 5700398,
+        "meshVelDeny": null,
+        "geo3Init": {
+         "meaning": "v",
+         "converted": false,
+         "stop": null
+        }
+       },
+       "wallSec": 28.751
+      }
+     }
+    },
+    "M2": {
+     "label": "geoPN=3・vMinusU・u=V・pn:reference-1PN(v)",
+     "id": "m2_w280c",
+     "runs": {
+      "dt": {
+       "steps": 2850199,
+       "dt": 0.016,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": 0.0000225146541883175,
+       "residDegA": 6.154230138690801e-10,
+       "slopeDegPerOrbitB": 0.00002251472578372093,
+       "nPeriB": 60,
+       "periMeanA20S": 7600537.07919225,
+       "rev2S": 7600536.760636021,
+       "revN": 59,
+       "eProxy": 0.20563096848184978,
+       "diag": {
+        "geoPN": 3,
+        "hasGeo3": true,
+        "hasGeo3PN": true,
+        "hasGeoToy": false,
+        "meshVelN": 2850199,
+        "meshVelUMax": 2.3,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 2850199,
+        "geo3PnKickMax": 8.988296749735658e-11,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 2850199,
+        "meshVelDeny": null,
+        "geo3Init": {
+         "meaning": "v",
+         "converted": false,
+         "stop": null
+        }
+       },
+       "wallSec": 8.659
+      },
+      "dt/2": {
+       "steps": 5700398,
+       "dt": 0.008,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": 0.000023873118167535168,
+       "residDegA": 6.584190709563186e-10,
+       "slopeDegPerOrbitB": 0.000023872945560292426,
+       "nPeriB": 60,
+       "periMeanA20S": 7600536.938590452,
+       "rev2S": 7600536.607631095,
+       "revN": 59,
+       "eProxy": 0.20563094225823833,
+       "diag": {
+        "geoPN": 3,
+        "hasGeo3": true,
+        "hasGeo3PN": true,
+        "hasGeoToy": false,
+        "meshVelN": 5700398,
+        "meshVelUMax": 2.3,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 5700398,
+        "geo3PnKickMax": 4.4941480838618675e-11,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 5700398,
+        "meshVelDeny": null,
+        "geo3Init": {
+         "meaning": "v",
+         "converted": false,
+         "stop": null
+        }
+       },
+       "wallSec": 16.996
+      }
+     }
+    },
+    "M3": {
+     "label": "geoPN=3・vMinusU・u=V・pn:reference-1PN(xdot)",
+     "id": "m3_w280c",
+     "runs": {
+      "dt": {
+       "steps": 2850199,
+       "dt": 0.016,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": 0.000023561689035504784,
+       "residDegA": 5.637939893221448e-9,
+       "slopeDegPerOrbitB": 0.000023528950829042185,
+       "nPeriB": 60,
+       "periMeanA20S": 7600549.1354155345,
+       "rev2S": 7600538.419698987,
+       "revN": 59,
+       "eProxy": 0.205653930360861,
+       "diag": {
+        "geoPN": 3,
+        "hasGeo3": true,
+        "hasGeo3PN": true,
+        "hasGeoToy": false,
+        "meshVelN": 2850199,
+        "meshVelUMax": 2.3,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 2850199,
+        "geo3PnKickMax": 1.299057661207144e-10,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 2850199,
+        "meshVelDeny": null,
+        "geo3Init": {
+         "meaning": "v",
+         "converted": false,
+         "stop": null
+        }
+       },
+       "wallSec": 12.75
+      },
+      "dt/2": {
+       "steps": 5700398,
+       "dt": 0.008,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": 0.000024936462781852688,
+       "residDegA": 5.6648134858882564e-9,
+       "slopeDegPerOrbitB": 0.00002492022123383318,
+       "nPeriB": 60,
+       "periMeanA20S": 7600548.995050032,
+       "rev2S": 7600538.266755106,
+       "revN": 59,
+       "eProxy": 0.20565390472414105,
+       "diag": {
+        "geoPN": 3,
+        "hasGeo3": true,
+        "hasGeo3PN": true,
+        "hasGeoToy": false,
+        "meshVelN": 5700398,
+        "meshVelUMax": 2.3,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 5700398,
+        "geo3PnKickMax": 6.495053264780572e-11,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 5700398,
+        "meshVelDeny": null,
+        "geo3Init": {
+         "meaning": "v",
+         "converted": false,
+         "stop": null
+        }
+       },
+       "wallSec": 25.515
+      }
+     }
+    },
+    "M4": {
+     "label": "geoPN=3・vMinusU・u=V・pn:off",
+     "id": "m4_w280c",
+     "runs": {
+      "dt": {
+       "steps": 2850199,
+       "dt": 0.016,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": -0.000006200428943023575,
+       "residDegA": 4.964386635924885e-10,
+       "slopeDegPerOrbitB": -0.000006200351236692076,
+       "nPeriB": 60,
+       "periMeanA20S": 7600534.077036183,
+       "rev2S": 7600534.161130262,
+       "revN": 59,
+       "eProxy": 0.20563081678944478,
+       "diag": {
+        "geoPN": 3,
+        "hasGeo3": true,
+        "hasGeo3PN": false,
+        "hasGeoToy": false,
+        "meshVelN": 2850199,
+        "meshVelUMax": 2.3,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 0,
+        "geo3PnKickMax": 0,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 2850199,
+        "meshVelDeny": null,
+        "geo3Init": {
+         "meaning": "v",
+         "converted": false,
+         "stop": null
+        }
+       },
+       "wallSec": 7.944
+      },
+      "dt/2": {
+       "steps": 5700398,
+       "dt": 0.008,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": -0.000004841799027706646,
+       "residDegA": 1.1503282441132413e-9,
+       "slopeDegPerOrbitB": -0.000004841907394529031,
+       "nPeriB": 60,
+       "periMeanA20S": 7600533.94329102,
+       "rev2S": 7600534.009101774,
+       "revN": 59,
+       "eProxy": 0.20563079261608846,
+       "diag": {
+        "geoPN": 3,
+        "hasGeo3": true,
+        "hasGeo3PN": false,
+        "hasGeoToy": false,
+        "meshVelN": 5700398,
+        "meshVelUMax": 2.3,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 0,
+        "geo3PnKickMax": 0,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 5700398,
+        "meshVelDeny": null,
+        "geo3Init": {
+         "meaning": "v",
+         "converted": false,
+         "stop": null
+        }
+       },
+       "wallSec": 15.784
+      }
+     }
+    },
+    "M0e": {
+     "label": "参考: ☄️ に同じ第 3 天体(速度 V・自由)を置いた geoPN=2 の複製(配置が M2e と違う)",
+     "id": "m0e_w280c",
+     "runs": {
+      "dt": {
+       "steps": 2850199,
+       "dt": 0.016,
+       "nan": false,
+       "clamp": 2759677,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": 0.000022515307184745564,
+       "residDegA": 4.8138149314971705e-8,
+       "slopeDegPerOrbitB": 0.000022515933670330496,
+       "nPeriB": 60,
+       "periMeanA20S": 7600537.064506298,
+       "rev2S": 7600536.761735644,
+       "revN": 59,
+       "eProxy": 0.20563096838958,
+       "diag": {
+        "geoPN": 2,
+        "hasGeo3": false,
+        "hasGeo3PN": false,
+        "hasGeoToy": false,
+        "meshVelN": 0,
+        "meshVelUMax": 0,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 0,
+        "geo3PnKickMax": 0,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 0,
+        "meshVelDeny": null,
+        "geo3Init": null
+       },
+       "wallSec": 3.461
+      },
+      "dt/2": {
+       "steps": 5700398,
+       "dt": 0.008,
+       "nan": false,
+       "clamp": 5519365,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": 0.00002387383869354183,
+       "residDegA": 4.814162494901803e-8,
+       "slopeDegPerOrbitB": 0.00002387446871969575,
+       "nPeriB": 60,
+       "periMeanA20S": 7600536.924003163,
+       "rev2S": 7600536.608595799,
+       "revN": 59,
+       "eProxy": 0.2056309421375703,
+       "diag": {
+        "geoPN": 2,
+        "hasGeo3": false,
+        "hasGeo3PN": false,
+        "hasGeoToy": false,
+        "meshVelN": 0,
+        "meshVelUMax": 0,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 0,
+        "geo3PnKickMax": 0,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 0,
+        "meshVelDeny": null,
+        "geo3Init": null
+       },
+       "wallSec": 6.473
+      }
+     }
+    },
+    "M0s": {
+     "label": "☄️ に同じ第 3 天体を同じ位置に pinned で止めた geoPN=2 の複製(M2e の対照)",
+     "id": "m0s_w280c",
+     "runs": {
+      "dt": {
+       "steps": 2850199,
+       "dt": 0.016,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": 0.000022533468083938366,
+       "residDegA": 3.1086989886253864e-11,
+       "slopeDegPerOrbitB": 0.000022533459070941528,
+       "nPeriB": 60,
+       "periMeanA20S": 7600537.079600221,
+       "rev2S": 7600536.761126379,
+       "revN": 59,
+       "eProxy": 0.20563096848273907,
+       "diag": {
+        "geoPN": 2,
+        "hasGeo3": false,
+        "hasGeo3PN": false,
+        "hasGeoToy": false,
+        "meshVelN": 0,
+        "meshVelUMax": 0,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 0,
+        "geo3PnKickMax": 0,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 0,
+        "meshVelDeny": null,
+        "geo3Init": null
+       },
+       "wallSec": 3.048
+      },
+      "dt/2": {
+       "steps": 5700398,
+       "dt": 0.008,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": 0.000023892000923780137,
+       "residDegA": 6.115060972160589e-12,
+       "slopeDegPerOrbitB": 0.000023891998304704574,
+       "nPeriB": 60,
+       "periMeanA20S": 7600536.939097262,
+       "rev2S": 7600536.607986874,
+       "revN": 59,
+       "eProxy": 0.20563094224696338,
+       "diag": {
+        "geoPN": 2,
+        "hasGeo3": false,
+        "hasGeo3PN": false,
+        "hasGeoToy": false,
+        "meshVelN": 0,
+        "meshVelUMax": 0,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 0,
+        "geo3PnKickMax": 0,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 0,
+        "meshVelDeny": null,
+        "geo3Init": null
+       },
+       "wallSec": 6.062
+      }
+     }
+    },
+    "M2e": {
+     "label": "geoPN=3・vMinusU・明示の点源 1 個(速度 V・field:\"explicit\"・mutual:0)・pn:reference-1PN(v)",
+     "id": "m2e_w280c",
+     "runs": {
+      "dt": {
+       "steps": 2850199,
+       "dt": 0.016,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": 0.00002253342230316457,
+       "residDegA": 1.4972576023808474e-9,
+       "slopeDegPerOrbitB": 0.000022533516403185092,
+       "nPeriB": 60,
+       "periMeanA20S": 7600537.079583351,
+       "rev2S": 7600536.7611255795,
+       "revN": 59,
+       "eProxy": 0.20563096852295837,
+       "diag": {
+        "geoPN": 3,
+        "hasGeo3": true,
+        "hasGeo3PN": true,
+        "hasGeoToy": false,
+        "meshVelN": 2850199,
+        "meshVelUMax": 26.508431797841325,
+        "meshVelKickMax": 1.9965322421315988e-19,
+        "meshVelBad": 0,
+        "meshVelUndef": 2850199,
+        "geo3PnN": 2850199,
+        "geo3PnKickMax": 8.988296749735667e-11,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 2850199,
+        "meshVelDeny": null,
+        "geo3Init": {
+         "meaning": "v",
+         "converted": false,
+         "stop": null
+        }
+       },
+       "wallSec": 9.866
+      },
+      "dt/2": {
+       "steps": 5700398,
+       "dt": 0.008,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": 0.00002389206403510721,
+       "residDegA": 2.7788842539211835e-9,
+       "slopeDegPerOrbitB": 0.000023892174028437075,
+       "nPeriB": 60,
+       "periMeanA20S": 7600536.939084825,
+       "rev2S": 7600536.607987344,
+       "revN": 59,
+       "eProxy": 0.20563094227220008,
+       "diag": {
+        "geoPN": 3,
+        "hasGeo3": true,
+        "hasGeo3PN": true,
+        "hasGeoToy": false,
+        "meshVelN": 5700398,
+        "meshVelUMax": 26.50843179782766,
+        "meshVelKickMax": 9.982982041291641e-20,
+        "meshVelBad": 0,
+        "meshVelUndef": 5700398,
+        "geo3PnN": 5700398,
+        "geo3PnKickMax": 4.4941480838618675e-11,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 5700398,
+        "meshVelDeny": null,
+        "geo3Init": {
+         "meaning": "v",
+         "converted": false,
+         "stop": null
+        }
+       },
+       "wallSec": 20.127
+      }
+     }
+    }
+   }
+  },
+  "charon": {
+   "base": "plutoCharonReal",
+   "window": {
+    "dt": 0.016,
+    "steps": 20694498,
+    "dtHalf": 0.008,
+    "stepsHalf": 41388996
+   },
+   "background": {
+    "background": "declared",
+    "note": "第279便c の器(bgbudget2-w279c)と同じ値: 太陽の点質量を t=0・対の重心で評価(comoving)",
+    "sources": [
+     {
+      "id": "sun",
+      "kind": "body",
+      "excludedExplicit": true
+     }
+    ],
+    "W0": 5.699987574282822e-9,
+    "A0": [
+     0,
+     2.7018851611140787e-9
+    ],
+    "gradW": [
+     -1.930092225608931e-15,
+     0
+    ],
+    "gradA": [
+     0,
+     0,
+     -9.148945459956653e-16,
+     0
+    ],
+    "dWdt": 0,
+    "dAdt": [
+     2.1683731460773505e-16,
+     0
+    ]
+   },
+   "uBackgroundMS": 4740.1597387763295,
+   "unitsNote": "1 単位 = 10⁶ m / 10² s(速度 1 単位 = 10⁴ m/s)",
+   "officialKf0": {
+    "period": {
+     "name": "公転周期(kFrame=0 対照・同方向1周)",
+     "meas": 551864.0613632939,
+     "rev": [
+      551862.4613633327,
+      551864.0613632939,
+      551864.0613632784,
+      551864.0613630436,
+      551864.0613630799,
+      551864.0613632607
+     ]
+    }
+   },
+   "rows": {
+    "C0": {
+     "label": "❄️ の kF0 診断コピー(geoPN=2・λ_PN=1 —— 正式の kf0 行と同じ構成)",
+     "id": "plutoCharonKF0_w280c",
+     "runs": {
+      "dt": {
+       "steps": 20694498,
+       "dt": 0.016,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": -0.0035154788699808264,
+       "residDegA": 2.0555161013100482e-7,
+       "slopeDegPerOrbitB": -0.003976141839752314,
+       "nPeriB": 55,
+       "periMeanA20S": 551858.672387397,
+       "rev2S": 551864.0613632939,
+       "revN": 59,
+       "eProxy": 0.000013340793691291012,
+       "diag": {
+        "geoPN": 2,
+        "hasGeo3": false,
+        "hasGeo3PN": false,
+        "hasGeoToy": false,
+        "meshVelN": 0,
+        "meshVelUMax": 0,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 0,
+        "geo3PnKickMax": 0,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 0,
+        "meshVelDeny": null,
+        "geo3Init": null
+       },
+       "wallSec": 18.206
+      },
+      "dt/2": {
+       "steps": 41388996,
+       "dt": 0.008,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": -0.003515444653023405,
+       "residDegA": 5.206448847115363e-7,
+       "slopeDegPerOrbitB": -0.004666164042913723,
+       "nPeriB": 44,
+       "periMeanA20S": 551858.672336422,
+       "rev2S": 551864.0612661137,
+       "revN": 59,
+       "eProxy": 0.000010758874767439755,
+       "diag": {
+        "geoPN": 2,
+        "hasGeo3": false,
+        "hasGeo3PN": false,
+        "hasGeoToy": false,
+        "meshVelN": 0,
+        "meshVelUMax": 0,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 0,
+        "geo3PnKickMax": 0,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 0,
+        "meshVelDeny": null,
+        "geo3Init": null
+       },
+       "wallSec": 37.05
+      }
+     }
+    },
+    "C0n": {
+     "label": "同 λ_PN=0(1PN なし対照)",
+     "id": "plutoCharonKF0noPN_w280c",
+     "runs": {
+      "dt": {
+       "steps": 20694498,
+       "dt": 0.016,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": -0.00351550120247874,
+       "residDegA": 2.2057784486994574e-7,
+       "slopeDegPerOrbitB": -0.003693646931506392,
+       "nPeriB": 58,
+       "periMeanA20S": 551858.6723965332,
+       "rev2S": 551864.0613615632,
+       "revN": 59,
+       "eProxy": 0.000013340792377644221,
+       "diag": {
+        "geoPN": 2,
+        "hasGeo3": false,
+        "hasGeo3PN": false,
+        "hasGeoToy": false,
+        "meshVelN": 0,
+        "meshVelUMax": 0,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 0,
+        "geo3PnKickMax": 0,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 0,
+        "meshVelDeny": null,
+        "geo3Init": null
+       },
+       "wallSec": 17.712
+      },
+      "dt/2": {
+       "steps": 41388996,
+       "dt": 0.008,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": -0.003515461748683752,
+       "residDegA": 2.159494172213108e-7,
+       "slopeDegPerOrbitB": -0.004670573819168042,
+       "nPeriB": 45,
+       "periMeanA20S": 551858.6723007341,
+       "rev2S": 551864.0612644644,
+       "revN": 59,
+       "eProxy": 0.000010758873587672944,
+       "diag": {
+        "geoPN": 2,
+        "hasGeo3": false,
+        "hasGeo3PN": false,
+        "hasGeoToy": false,
+        "meshVelN": 0,
+        "meshVelUMax": 0,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 0,
+        "geo3PnKickMax": 0,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 0,
+        "meshVelDeny": null,
+        "geo3Init": null
+       },
+       "wallSec": 34.3
+      }
+     }
+    },
+    "C0nV": {
+     "label": "丸めの対照: 同 λ_PN=0 に一様な速度 u を足したガリレイ変換の複製",
+     "id": "plutoCharonKF0noPNBoost_w280c",
+     "runs": {
+      "dt": {
+       "steps": 20694498,
+       "dt": 0.016,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": -0.003534300850849824,
+       "residDegA": 0.001229982914502664,
+       "slopeDegPerOrbitB": -0.005771393743810855,
+       "nPeriB": 9,
+       "periMeanA20S": 551858.6291430081,
+       "rev2S": 551864.0613711192,
+       "revN": 59,
+       "eProxy": 0.000013341419045664413,
+       "diag": {
+        "geoPN": 2,
+        "hasGeo3": false,
+        "hasGeo3PN": false,
+        "hasGeoToy": false,
+        "meshVelN": 0,
+        "meshVelUMax": 0,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 0,
+        "geo3PnKickMax": 0,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 0,
+        "meshVelDeny": null,
+        "geo3Init": null
+       },
+       "wallSec": 17.35
+      },
+      "dt/2": {
+       "steps": 41388996,
+       "dt": 0.008,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": -0.0033230225219289685,
+       "residDegA": 0.0031204778944969903,
+       "slopeDegPerOrbitB": -0.005022937325597203,
+       "nPeriB": 7,
+       "periMeanA20S": 551858.6734519076,
+       "rev2S": 551864.0612716755,
+       "revN": 59,
+       "eProxy": 0.0000107612779397007,
+       "diag": {
+        "geoPN": 2,
+        "hasGeo3": false,
+        "hasGeo3PN": false,
+        "hasGeoToy": false,
+        "meshVelN": 0,
+        "meshVelUMax": 0,
+        "meshVelKickMax": 0,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 0,
+        "geo3PnKickMax": 0,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 0,
+        "meshVelDeny": null,
+        "geo3Init": null
+       },
+       "wallSec": 35.281
+      }
+     }
+    },
+    "C1": {
+     "label": "geoPN=3・vMinusU・太陽の背景・mutual:0・v0:xdot・pn:reference-1PN(xdot)",
+     "id": "c1_w280c",
+     "runs": {
+      "dt": {
+       "steps": 20694498,
+       "dt": 0.016,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": -0.0035180696926470577,
+       "residDegA": 1.6851433670074453e-7,
+       "slopeDegPerOrbitB": -0.0038311568144364524,
+       "nPeriB": 56,
+       "periMeanA20S": 551858.6684539339,
+       "rev2S": 551864.0613633009,
+       "revN": 59,
+       "eProxy": 0.000013340793180674039,
+       "diag": {
+        "geoPN": 3,
+        "hasGeo3": true,
+        "hasGeo3PN": true,
+        "hasGeoToy": false,
+        "meshVelN": 20694498,
+        "meshVelUMax": 0.474015973877633,
+        "meshVelKickMax": 5.468372266843111e-25,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 20694498,
+        "geo3PnKickMax": 5.553759255716082e-19,
+        "geo3PnDL": 3.732182428365147e-19,
+        "geo3PinCarry": 0,
+        "meshVelDeny": null,
+        "geo3Init": {
+         "meaning": "xdot",
+         "converted": true,
+         "roundTripRel": 4.836550503745116e-15,
+         "minPivot": 1,
+         "stop": null
+        }
+       },
+       "wallSec": 92.157
+      },
+      "dt/2": {
+       "steps": 41388996,
+       "dt": 0.008,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": -0.003602877769946962,
+       "residDegA": 2.6343660293875157e-7,
+       "slopeDegPerOrbitB": -0.0040317487679325985,
+       "nPeriB": 51,
+       "periMeanA20S": 551858.5382611236,
+       "rev2S": 551864.0612568945,
+       "revN": 59,
+       "eProxy": 0.000010758864669255153,
+       "diag": {
+        "geoPN": 3,
+        "hasGeo3": true,
+        "hasGeo3PN": true,
+        "hasGeoToy": false,
+        "meshVelN": 41388996,
+        "meshVelUMax": 0.474015973877633,
+        "meshVelKickMax": 2.73418613337523e-25,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 41388996,
+        "geo3PnKickMax": 2.776860176379353e-19,
+        "geo3PnDL": 1.8660912449997236e-19,
+        "geo3PinCarry": 0,
+        "meshVelDeny": null,
+        "geo3Init": {
+         "meaning": "xdot",
+         "converted": true,
+         "roundTripRel": 4.836550503745116e-15,
+         "minPivot": 1,
+         "stop": null
+        }
+       },
+       "wallSec": 183.262
+      }
+     }
+    },
+    "C2": {
+     "label": "geoPN=3・vMinusU・太陽の背景・mutual:0・v0:xdot・pn:reference-1PN(v)",
+     "id": "c2_w280c",
+     "runs": {
+      "dt": {
+       "steps": 20694498,
+       "dt": 0.016,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": -0.005454848548832263,
+       "residDegA": 0.000007699643888922605,
+       "slopeDegPerOrbitB": -0.004728239903687964,
+       "nPeriB": 58,
+       "periMeanA20S": 551855.7018093022,
+       "rev2S": 551864.0619248715,
+       "revN": 59,
+       "eProxy": 0.000013341439379657212,
+       "diag": {
+        "geoPN": 3,
+        "hasGeo3": true,
+        "hasGeo3PN": true,
+        "hasGeoToy": false,
+        "meshVelN": 20694498,
+        "meshVelUMax": 0.474015973877633,
+        "meshVelKickMax": 5.468372266385055e-25,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 20694498,
+        "geo3PnKickMax": 2.7268217146069314e-16,
+        "geo3PnDL": 6.416438091475445e-18,
+        "geo3PinCarry": 0,
+        "meshVelDeny": null,
+        "geo3Init": {
+         "meaning": "xdot",
+         "converted": true,
+         "roundTripRel": 4.836550503745116e-15,
+         "minPivot": 1,
+         "stop": null
+        }
+       },
+       "wallSec": 62.894
+      },
+      "dt/2": {
+       "steps": 41388996,
+       "dt": 0.008,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": -0.005538860151658364,
+       "residDegA": 0.000004186113985638259,
+       "slopeDegPerOrbitB": -0.006476441077178988,
+       "nPeriB": 48,
+       "periMeanA20S": 551855.5721269134,
+       "rev2S": 551864.0618187807,
+       "revN": 59,
+       "eProxy": 0.000010759724456274884,
+       "diag": {
+        "geoPN": 3,
+        "hasGeo3": true,
+        "hasGeo3PN": true,
+        "hasGeoToy": false,
+        "meshVelN": 41388996,
+        "meshVelUMax": 0.474015973877633,
+        "meshVelKickMax": 2.7341861332356594e-25,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 41388996,
+        "geo3PnKickMax": 1.3633989576070186e-16,
+        "geo3PnDL": 4.003285980492371e-18,
+        "geo3PinCarry": 0,
+        "meshVelDeny": null,
+        "geo3Init": {
+         "meaning": "xdot",
+         "converted": true,
+         "roundTripRel": 4.836550503745116e-15,
+         "minPivot": 1,
+         "stop": null
+        }
+       },
+       "wallSec": 123.791
+      }
+     }
+    },
+    "C3": {
+     "label": "geoPN=3・vMinusU・太陽の背景・mutual:0・v0:xdot・pn:off",
+     "id": "c3_w280c",
+     "runs": {
+      "dt": {
+       "steps": 20694498,
+       "dt": 0.016,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": -0.0035180975422831186,
+       "residDegA": 3.845646536245622e-7,
+       "slopeDegPerOrbitB": -0.0037292024712490663,
+       "nPeriB": 57,
+       "periMeanA20S": 551858.66846624,
+       "rev2S": 551864.0613615374,
+       "revN": 59,
+       "eProxy": 0.00001334079203182124,
+       "diag": {
+        "geoPN": 3,
+        "hasGeo3": true,
+        "hasGeo3PN": false,
+        "hasGeoToy": false,
+        "meshVelN": 20694498,
+        "meshVelUMax": 0.474015973877633,
+        "meshVelKickMax": 5.468372266878917e-25,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 0,
+        "geo3PnKickMax": 0,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 0,
+        "meshVelDeny": null,
+        "geo3Init": {
+         "meaning": "xdot",
+         "converted": true,
+         "roundTripRel": 4.836550503745116e-15,
+         "minPivot": 1,
+         "stop": null
+        }
+       },
+       "wallSec": 56.501
+      },
+      "dt/2": {
+       "steps": 41388996,
+       "dt": 0.008,
+       "nan": false,
+       "clamp": 0,
+       "nPeriA": 59,
+       "slopeDegPerOrbitA": -0.00360291609667844,
+       "residDegA": 2.4117729706313755e-7,
+       "slopeDegPerOrbitB": -0.0047381011021193345,
+       "nPeriB": 44,
+       "periMeanA20S": 551858.5382877602,
+       "rev2S": 551864.0612553138,
+       "revN": 59,
+       "eProxy": 0.00001075886329513744,
+       "diag": {
+        "geoPN": 3,
+        "hasGeo3": true,
+        "hasGeo3PN": false,
+        "hasGeoToy": false,
+        "meshVelN": 41388996,
+        "meshVelUMax": 0.474015973877633,
+        "meshVelKickMax": 2.734186133375118e-25,
+        "meshVelBad": 0,
+        "meshVelUndef": 0,
+        "geo3PnN": 0,
+        "geo3PnKickMax": 0,
+        "geo3PnDL": 0,
+        "geo3PinCarry": 0,
+        "meshVelDeny": null,
+        "geo3Init": {
+         "meaning": "xdot",
+         "converted": true,
+         "roundTripRel": 4.836550503745116e-15,
+         "minPivot": 1,
+         "stop": null
+        }
+       },
+       "wallSec": 111.792
+      }
+     }
+    }
+   }
+  }
+ },
+ "tables": {
+  "mercury": [
+   {
+    "tag": "dt",
+    "officialReproducedBit": true,
+    "pn1PNContribution": 0.000028715053455910243,
+    "a_M1_minus_M0": 3.595869499243339e-13,
+    "a_M2_minus_M0": -2.8093944881503637e-12,
+    "a_M3_minus_M0": 0.000001047032037792797,
+    "a_M1x_minus_M1": 0,
+    "a_M2e_minus_M0s": -4.578077379471519e-11,
+    "thirdBodyStatic_M0s_minus_M0": 1.8811086226379206e-8,
+    "thirdBodyFree_M0e_minus_M0": 6.501870335769014e-10,
+    "stepWidthM0": 0.0000013585319312337062,
+    "b_M4_minus_M0n": -3.248482531893206e-11,
+    "roundoffControl_M0nX_minus_M0n": -6.823880459277249e-12
+   },
+   {
+    "tag": "dt/2",
+    "officialReproducedBit": null,
+    "pn1PNContribution": 0.000028715047119711696,
+    "a_M1_minus_M0": 4.977919728439868e-13,
+    "a_M2_minus_M0": -7.076141052503402e-11,
+    "a_M3_minus_M0": 0.0000010632738529069953,
+    "a_M1x_minus_M1": 0,
+    "a_M2e_minus_M0s": 6.311132707406751e-11,
+    "thirdBodyStatic_M0s_minus_M0": 1.881199483444416e-8,
+    "thirdBodyFree_M0e_minus_M0": 6.497645961385458e-10,
+    "stepWidthM0": 0.0000013585319312337062,
+    "b_M4_minus_M0n": 5.916305935879483e-11,
+    "roundoffControl_M0nX_minus_M0n": 2.5530269998599766e-11
+   }
+  ],
+  "charon": [
+   {
+    "tag": "dt",
+    "officialKf0ReproducedBit": true,
+    "rev2": {
+     "pn1PN": 0.0000017307465896010399,
+     "C1_minus_C0": 6.984919309616089e-9,
+     "C2_minus_C0": 0.0005615776171907783,
+     "C3_minus_C0n": -2.5727786123752594e-8,
+     "roundoffControl_C0nV_minus_C0n": 0.000009556068107485771
+    },
+    "peri20": {
+     "pn1PN": -0.000009136158041656017,
+     "C1_minus_C0": -0.0039334631292149425,
+     "C2_minus_C0": -2.9705780948279426,
+     "C3_minus_C0n": -0.003930293140001595,
+     "roundoffControl_C0nV_minus_C0n": -0.043253525043837726
+    }
+   },
+   {
+    "tag": "dt/2",
+    "officialKf0ReproducedBit": null,
+    "rev2": {
+     "pn1PN": 0.0000016492558643221855,
+     "C1_minus_C0": -0.000009219162166118622,
+     "C2_minus_C0": 0.0005526670720428228,
+     "C3_minus_C0n": -0.000009150593541562557,
+     "roundoffControl_C0nV_minus_C0n": 0.000007211114279925823
+    },
+    "peri20": {
+     "pn1PN": 0.000035687931813299656,
+     "C1_minus_C0": -0.13407529843971133,
+     "C2_minus_C0": -3.100209508673288,
+     "C3_minus_C0n": -0.13401297386735678,
+     "roundoffControl_C0nV_minus_C0n": 0.001151173491962254
+    }
+   }
+  ]
+ },
+ "checks": {
+  "c_velocityMeaning": {
+   "bgMutual0": {
+    "accepted": true,
+    "hasGeo3": true,
+    "deny": null,
+    "init": {
+     "meaning": "xdot",
+     "converted": true,
+     "n": 2,
+     "minPivot": 1,
+     "roundTripRel": 4.836550503745116e-15,
+     "undef": 0,
+     "stop": null
+    },
+    "vMinusXdot": [
+     [
+      0,
+      -0.4740159738776329
+     ],
+     [
+      0,
+      -0.474015973877633
+     ]
+    ]
+   },
+   "bgMeaningV": {
+    "accepted": true,
+    "hasGeo3": true,
+    "deny": null,
+    "init": {
+     "meaning": "v",
+     "converted": false,
+     "stop": null
+    },
+    "vMinusXdot": [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    "sameAsDeclared": true
+   },
+   "bgMutual1": {
+    "accepted": true,
+    "hasGeo3": true,
+    "deny": null,
+    "init": {
+     "meaning": "xdot",
+     "converted": true,
+     "n": 2,
+     "minPivot": 0.015267249584693388,
+     "roundTripRel": 2.776538252149974e-14,
+     "undef": 0,
+     "stop": null
+    },
+    "vMinusXdot": [
+     [
+      0,
+      -1.812521090287205
+     ],
+     [
+      0,
+      1.81110350405397
+     ]
+    ]
+   },
+   "explicitMutual0": {
+    "accepted": true,
+    "hasGeo3": true,
+    "deny": null,
+    "init": {
+     "meaning": "xdot",
+     "converted": true,
+     "n": 3,
+     "minPivot": 1,
+     "roundTripRel": 4.836550503745116e-15,
+     "undef": 1,
+     "stop": null
+    },
+    "vMinusXdot": [
+     [
+      -0.3,
+      0.2
+     ],
+     [
+      -0.3,
+      0.2
+     ],
+     [
+      0,
+      0
+     ]
+    ]
+   },
+   "explicitMutual1": {
+    "accepted": true,
+    "hasGeo3": true,
+    "deny": null,
+    "init": {
+     "meaning": "xdot",
+     "converted": true,
+     "n": 3,
+     "minPivot": 3.924332249289463e-8,
+     "roundTripRel": 8.32759612357486e-9,
+     "undef": 0,
+     "stop": null
+    },
+    "vMinusXdot": [
+     [
+      -0.6106552779519592,
+      -725090.3009487825
+     ],
+     [
+      0.6106552659698884,
+      725090.2922141915
+     ],
+     [
+      0.4788082924255696,
+      568535.5732312285
+     ]
+    ]
+   },
+   "uBackgroundUnits": 0.47401597387763295
+  },
+  "d_doubleCounting": {
+   "ok": true,
+   "kFrame1": "physics.geoPN=3・spaceMesh.lawVersion:\"vMinusU\" は kFrame=0 専用です(E6′ の追従キック・geoPN=2 の v−u 輸送と座標変換を二重に当てない) | physics.meshVelocity は kFrame=0 専用(E6′ の追従キック・geoPN=2",
+   "kFrameDefault": "physics.geoPN=3・spaceMesh.lawVersion:\"vMinusU\" は kFrame=0 専用です(E6′ の追従キック・geoPN=2 の v−u 輸送と座標変換を二重に当てない) | physics.meshVelocity は kFrame=0 専用(E6′ の追従キック・geoPN=2",
+   "toyAllowDrag": "physics.spaceMesh.lawVersion:\"vMinusU\" はトイ専用の鍵(toyGain/toyAllowDrag/toyClosure/law/diskSupport/meshEnergyCapacity/D0)と排他",
+   "toyGain": "physics.spaceMesh.lawVersion:\"vMinusU\" はトイ専用の鍵(toyGain/toyAllowDrag/toyClosure/law/diskSupport/meshEnergyCapacity/D0)と排他",
+   "inertiaCoordinate": "physics.spaceMesh.lawVersion:\"vMinusU\" は gravity/inertia/weave/reservoir のチャネルと排他(座標変換を二重に当てない)",
+   "gravityChannel": "physics.spaceMesh.lawVersion:\"vMinusU\" は gravity/inertia/weave/reservoir のチャネルと排他(座標変換を二重に当てない)",
+   "weave": "physics.spaceMesh.lawVersion:\"vMinusU\" は gravity/inertia/weave/reservoir のチャネルと排他(座標変換を二重に当てない)",
+   "meshV2": "physics.spaceMesh.lawVersion:\"vMinusU\" はトイ専用の鍵(toyGain/toyAllowDrag/toyClosure/law/diskSupport/meshEnergyCapacity/D0)と排他",
+   "noMeshVelocity": "physics.geoPN=3・spaceMesh.lawVersion:\"vMinusU\" は physics.meshVelocity(輸送経路 {law:\"vMinusU\",field,mutual,frame})の宣言が要る",
+   "geoPN2WithVMinusU": "physics.spaceMesh.lawVersion:\"vMinusU\" は physics.geoPN=3 専用です(geoPN≤2 の座標変換は physics.meshVelocity 単独の互換経路 —— 第279便c) | physics.meshVelocity は physics.spaceMesh(",
+   "toyLawWithMeshVelocity": "physics.meshVelocity は geoPN=3 のトイ(scalar/local/complex の輸送)と排他 —— geoPN=3 で使えるのは spaceMesh.lawVersion:\"vMinusU\" の輸送経路としてだけ",
+   "calibration": "physics.geoPN=3(トイの測地線モード)は sampleClass:\"calibration\" では使えません(現実較正にトイを混ぜない) | physics.meshVelocity は sampleClass:\"calibration\" では使えない(**検証仮説の構成則** —— 現実較正へ入れない)",
+   "pnRefNoVelocity": "physics.spaceMesh.pn:\"reference-1PN\" は pnVelocity:\"xdot\"|\"v\" の宣言が要る(既定を置かない —— 1PN が座標速度 ẋ と慣性速度 v のどちらを読むかは導出できていない)",
+   "pnOffWithVelocity": "physics.spaceMesh.pnVelocity は pn:\"reference-1PN\" のときだけ(1PN を切った宣言に読む速度は無い)",
+   "noVelocityMeaning": "physics.spaceMesh.lawVersion:\"vMinusU\" は velocityMeaning:\"xdot\"|\"v\" の宣言が要る(bodies の vx,vy が観測の座標速度 ẋ か慣性速度 v か)",
+   "pnBad": "physics.spaceMesh.pn は \"off\"/\"reference-1PN\"(reference-1PN は比較用の外部理論項 —— DFM から導出した項ではない)",
+   "pnKeysWithoutVMinusU": "physics.spaceMesh の pn/pnVelocity/velocityMeaning は lawVersion:\"vMinusU\"(geoPN=3 の速度分解)専用",
+   "runtimeKFrame": {
+    "before": {
+     "hasGeo3": true,
+     "hasGeoToy": false
+    },
+    "after": {
+     "hasGeo3": false,
+     "hasGeo3PN": false,
+     "hasMeshVelocity": false,
+     "hasGeoToy": false,
+     "geoToyDeny": "kFrame",
+     "meshVelDeny": "kFrame>0",
+     "hud": "geoPN=3 / vMinusU / pn:reference-1PN(v) v0:v 未作動:kFrame>0"
+    }
+   }
+  },
+  "e_saveLoad": {
+   "idempotent": true,
+   "canonical": {
+    "spaceMesh": {
+     "mode": "vertex",
+     "gravity": false,
+     "inertia": false,
+     "lawVersion": "vMinusU",
+     "pn": "reference-1PN",
+     "pnVelocity": "v",
+     "velocityMeaning": "v"
+    },
+    "meshVelocity": {
+     "law": "vMinusU",
+     "field": "backgroundComplex",
+     "mutual": 0,
+     "frame": {
+      "origin": "barycenter",
+      "epoch": "t0(第280便c の診断コピー)",
+      "rotation": "none",
+      "translation": "comoving"
+     }
+    }
+   },
+   "sigDiffers": {
+    "pnOff": true,
+    "pnVelocityXdot": true,
+    "velocityMeaningXdot": true
+   },
+   "plainHasNoKeys": true,
+   "save_mercuryGeoToy3": {
+    "spaceMesh": true,
+    "meshVelocity": true,
+    "hasGeo3": true,
+    "spaceMeshAfter": {
+     "mode": "vertex",
+     "gravity": false,
+     "inertia": false,
+     "lawVersion": "vMinusU",
+     "pn": "reference-1PN",
+     "pnVelocity": "v",
+     "velocityMeaning": "v"
+    },
+    "stateBitSameAsFreshBuild": true
+   },
+   "save_charonGeoToy3": {
+    "spaceMesh": true,
+    "meshVelocity": true,
+    "hasGeo3": true,
+    "spaceMeshAfter": {
+     "mode": "vertex",
+     "gravity": false,
+     "inertia": false,
+     "lawVersion": "vMinusU",
+     "pn": "reference-1PN",
+     "pnVelocity": "v",
+     "velocityMeaning": "xdot"
+    },
+    "stateBitSameAsFreshBuild": true
+   }
+  },
+  "f_builtinCopies": {
+   "mercuryGeoToy3": {
+    "bitSame": true,
+    "hasGeo3": true,
+    "meshVelN": 2000,
+    "pnN": 2000,
+    "hud": "geoPN=3 / vMinusU / pn:reference-1PN(v) v0:v N=2000 |u|max=2.30e+0 pnN=2000",
+    "chip": "geoPN=3 / vMinusU / pn:reference-1PN(v)・実験",
+    "physicsSameAsHarnessCopy": true,
+    "bodiesSameAsHarnessCopy": true,
+    "integratorSame": true,
+    "sampleClass": "principle",
+    "geoPN": 3
+   },
+   "charonGeoToy3": {
+    "bitSame": true,
+    "hasGeo3": true,
+    "meshVelN": 2000,
+    "pnN": 2000,
+    "hud": "geoPN=3 / vMinusU / pn:reference-1PN(v) v0:xdot N=2000 |u|max=4.74e-1 pnN=2000",
+    "chip": "geoPN=3 / vMinusU / pn:reference-1PN(v)・実験",
+    "physicsSameAsHarnessCopy": true,
+    "bodiesSameAsHarnessCopy": true,
+    "integratorSame": true,
+    "sampleClass": "principle",
+    "geoPN": 3
+   }
+  },
+  "g_nanAcceptance": {
+   "target": {
+    "NaN": "rejected",
+    "false": "rejected",
+    "empty": "rejected",
+    "null": "rejected",
+    "undefined": "accepted A=[0,0]",
+    "Infinity": "rejected",
+    "finite": "accepted A=[0.0499001996007984,0]"
+   },
+   "base": {
+    "NaN": "accepted A=[0,0]",
+    "false": "accepted A=[0,0]",
+    "empty": "accepted A=[0,0]",
+    "null": "accepted A=[0,0]",
+    "undefined": "accepted A=[0,0]",
+    "Infinity": "rejected",
+    "finite": "accepted A=[0.0499001996007984,0]"
+   }
+  },
+  "h_core": {
+   "length": 76890,
+   "sha256": "56b96a8fa15cd439dc443b01f0aece2fe26daf6616799822f7c1efc26645e2a5",
+   "baseLength": 76890,
+   "baseSha256": "56b96a8fa15cd439dc443b01f0aece2fe26daf6616799822f7c1efc26645e2a5",
+   "identical": true
+  }
+ },
+ "pageErrors": [],
+ "elapsedS": 1019.96
+}

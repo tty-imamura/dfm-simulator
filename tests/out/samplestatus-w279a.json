@@ -12,32 +12,32 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "f853eef9a8ea1d81e339329074e5ca220b9ba9ed22da83c4cc5925a8e13a35c8",
-  "generatedAt": "2026-09-23T23:56:19.138Z",
+  "targetSha256": "943e6a80631d0c072684953155c56007a1328fc4db0d4e6a83a3bd653727c5ca",
+  "generatedAt": "2026-09-24T09:09:04.056Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 48147,
-    "sha256": "bc17fe423c4d2b529797f6e220775727c9252a863b24d70248d1061cb5f14cf7",
-    "mtime": "2026-09-23T20:24:37.441Z"
+    "bytes": 49084,
+    "sha256": "3716ed4b7d6ee64d22a9ee5835042aa3fdac4c1c22079e2b27822796cb31b696",
+    "mtime": "2026-09-24T08:17:45.994Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
     "bytes": 2812256,
     "sha256": "1ace8de3591a9e993b5e59d23991424c8e402dea99a216a41a1bb3e65c7652a2",
-    "mtime": "2026-09-23T21:44:24.611Z"
+    "mtime": "2026-09-24T07:37:22.358Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
     "bytes": 89924,
     "sha256": "1d34097e8fa7954228a386afee79faac7fd90426f1da77ea41cfb0b7bf43eb59",
-    "mtime": "2026-09-23T23:55:46.392Z"
+    "mtime": "2026-09-24T07:37:22.362Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 44287,
-    "sha256": "b7fdd2edf5bf3bfaf149d56b35d75b5c2705b69d92b3f871c6ccf47eebe6ae15",
-    "mtime": "2026-09-23T23:56:19.124Z"
+    "bytes": 45031,
+    "sha256": "da2faee600ffb96f63acd9804820d30cc366b44bef2e4152be2af6336b1164b9",
+    "mtime": "2026-09-24T09:09:04.026Z"
    }
   ],
   "code": [
@@ -45,33 +45,33 @@
     "file": "tests/exp-w279a-samplestatus.mjs",
     "bytes": 15287,
     "sha256": "4748dd7356dc847f31a76a845169cd91ebd1199c7fcf3961d47d9a874ccdbb43",
-    "mtime": "2026-09-23T20:24:37.442Z"
+    "mtime": "2026-09-24T07:37:22.362Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
     "bytes": 19451,
     "sha256": "09e47055bdeceb639a2b4770f085a9315ada2a6e81398c2c9343a3e3e388244f",
-    "mtime": "2026-09-23T20:24:37.442Z"
+    "mtime": "2026-09-24T07:37:22.382Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-09-24T07:37:22.370Z"
    }
   ],
   "codeSha256": "dd9d3d7276f5a2a355b7718a70baf4cde99977af80ef7aa66b65c60e4dea6181",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "c42d16ae83d2a79c4b659eb28ff09e936b36f3c2",
-   "date": "2026-09-23T15:49:42.856Z",
-   "pass": 845
+   "commit": "61707854674c4cbc6f8852cf3df60c34dff96109",
+   "date": "2026-09-24T00:16:33.950Z",
+   "pass": 857
   }
  },
  "tally": {
   "objective": {
-   "met": 77,
-   "partial": 51,
+   "met": 78,
+   "partial": 52,
    "unmet": 5,
    "n/a": 0
   },
@@ -81,7 +81,7 @@
    "fail": 2,
    "hold": 33,
    "hold-definition": 2,
-   "out-of-scope": 94
+   "out-of-scope": 96
   },
   "four": {
    "合": 0,
@@ -133,7 +133,7 @@
    {
     "group": "現実との照合・太陽系",
     "icon": "☀️",
-    "n": 21
+    "n": 23
    },
    {
     "group": "現実との照合・連星",
@@ -161,7 +161,7 @@
     "n": 0
    }
   ],
-  "n": 133,
+  "n": 135,
   "predictionEligible": 0
  },
  "rows": [
@@ -2111,6 +2111,33 @@
    }
   },
   {
+   "id": "mercuryGeoToy3",
+   "emoji": "🔁",
+   "name": "水星 — geoPN=3 契約の零試験(一様な座標変換・較正ではない)",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "一様な座標変換で近点移動が変わらないかを geoPN=3 契約で確かめる",
+    "objective": "met",
+    "state": "u=V の近点移動は ☄️ と刻みの幅の 10⁻⁴ 未満で一致",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/geo3-w280c.json"
+    ],
+    "en": {
+     "purpose": "Check with the geoPN=3 contract that a uniform coordinate change leaves the periapsis advance unchanged",
+     "state": "with u=V the advance matches ☄️ to below 1e-4 of the step width",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Check with the geoPN=3 contract that a uniform coordinate change leaves the periapsis advance unchanged. Met: with u=V the advance matches ☄️ to below 1e-4 of the step width. Out of calibration scope."
+    },
+    "brief": "一様な座標変換で近点移動が変わらないかを geoPN=3 契約で確かめる。達・u=V の近点移動は ☄️ と刻みの幅の 10⁻⁴ 未満で一致。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
    "id": "mercuryRealKF1",
    "emoji": "🪨",
    "name": "水星(実単位・kFrame=1)— 共通補正で 43″/世紀成立",
@@ -2384,6 +2411,33 @@
     "row": "tables.grid.kf0Leap",
     "vsBuieSec": 30.225398794165812
    }
+  },
+  {
+   "id": "charonGeoToy3",
+   "emoji": "🌒",
+   "name": "冥王星とカロン — geoPN=3 契約の診断コピー(太陽の背景・mutual:0・較正ではない)",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる",
+    "objective": "partial",
+    "state": "1PN が読む速度で差が分かれる(ẋ は kF0 と 10⁻⁵ s 未満・v は +5.6×10⁻⁴ s)",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/geo3-w280c.json"
+    ],
+    "en": {
+     "purpose": "Compare the geoPN=3 period with a solar background against kF0",
+     "state": "it depends on the velocity 1PN reads (xdot within 1e-5 s; v +5.6e-4 s)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare the geoPN=3 period with a solar background against kF0. Partial: it depends on the velocity 1PN reads (xdot within 1e-5 s; v +5.6e-4 s). Out of calibration scope."
+    },
+    "brief": "太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる。部分・1PN が読む速度で差が分かれる(ẋ は kF0 と 10⁻⁵ s 未満・v は +5.6×10⁻⁴ s)。較正対象外。"
+   },
+   "ledgerSource": null
   },
   {
    "id": "uranusReal",
