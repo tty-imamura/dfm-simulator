@@ -12,32 +12,32 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "f853eef9a8ea1d81e339329074e5ca220b9ba9ed22da83c4cc5925a8e13a35c8",
-  "generatedAt": "2026-09-23T23:56:19.138Z",
+  "targetSha256": "1b6289b903379f24bfa799913cdca18b5d8e6b4692068e6b5aaac2f0378b69e4",
+  "generatedAt": "2026-09-24T08:33:44.342Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 48147,
-    "sha256": "bc17fe423c4d2b529797f6e220775727c9252a863b24d70248d1061cb5f14cf7",
-    "mtime": "2026-09-23T20:24:37.441Z"
+    "bytes": 49058,
+    "sha256": "95d39db83dd901d10d733efadb491062d1b01ebf2fee5b5fc6bf6f5d37608413",
+    "mtime": "2026-09-24T08:12:47.286Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
     "bytes": 2812256,
     "sha256": "1ace8de3591a9e993b5e59d23991424c8e402dea99a216a41a1bb3e65c7652a2",
-    "mtime": "2026-09-23T21:44:24.611Z"
+    "mtime": "2026-09-24T07:37:31.218Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
     "bytes": 89924,
     "sha256": "1d34097e8fa7954228a386afee79faac7fd90426f1da77ea41cfb0b7bf43eb59",
-    "mtime": "2026-09-23T23:55:46.392Z"
+    "mtime": "2026-09-24T07:37:31.226Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 44287,
-    "sha256": "b7fdd2edf5bf3bfaf149d56b35d75b5c2705b69d92b3f871c6ccf47eebe6ae15",
-    "mtime": "2026-09-23T23:56:19.124Z"
+    "bytes": 45045,
+    "sha256": "066e13df1964df6c5818a23dcf741dbb9725ed669ba80b0d9ae31395b884257d",
+    "mtime": "2026-09-24T08:33:44.314Z"
    }
   ],
   "code": [
@@ -45,33 +45,33 @@
     "file": "tests/exp-w279a-samplestatus.mjs",
     "bytes": 15287,
     "sha256": "4748dd7356dc847f31a76a845169cd91ebd1199c7fcf3961d47d9a874ccdbb43",
-    "mtime": "2026-09-23T20:24:37.442Z"
+    "mtime": "2026-09-24T07:37:31.214Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
     "bytes": 19451,
     "sha256": "09e47055bdeceb639a2b4770f085a9315ada2a6e81398c2c9343a3e3e388244f",
-    "mtime": "2026-09-23T20:24:37.442Z"
+    "mtime": "2026-09-24T07:37:31.230Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-09-24T07:37:31.222Z"
    }
   ],
   "codeSha256": "dd9d3d7276f5a2a355b7718a70baf4cde99977af80ef7aa66b65c60e4dea6181",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "c42d16ae83d2a79c4b659eb28ff09e936b36f3c2",
-   "date": "2026-09-23T15:49:42.856Z",
-   "pass": 845
+   "commit": "61707854674c4cbc6f8852cf3df60c34dff96109",
+   "date": "2026-09-24T00:16:33.950Z",
+   "pass": 857
   }
  },
  "tally": {
   "objective": {
-   "met": 77,
-   "partial": 51,
+   "met": 78,
+   "partial": 52,
    "unmet": 5,
    "n/a": 0
   },
@@ -81,7 +81,7 @@
    "fail": 2,
    "hold": 33,
    "hold-definition": 2,
-   "out-of-scope": 94
+   "out-of-scope": 96
   },
   "four": {
    "合": 0,
@@ -133,7 +133,7 @@
    {
     "group": "現実との照合・太陽系",
     "icon": "☀️",
-    "n": 21
+    "n": 23
    },
    {
     "group": "現実との照合・連星",
@@ -161,7 +161,7 @@
     "n": 0
    }
   ],
-  "n": 133,
+  "n": 135,
   "predictionEligible": 0
  },
  "rows": [
@@ -2294,22 +2294,23 @@
    "status": {
     "purpose": "旧入力の冥王星–カロンを照合する",
     "objective": "unmet",
-    "state": "代表量が門の外",
+    "state": "代表量が門の外・残差を要因の鎖で分解",
     "calibration": "fail",
     "mismatch": "周期 +0.00138%(294σ)",
     "outlook": "刻み間差 1×10⁻³σ・刻みでは縮まない・数値未解決・写像未確定",
     "evidence": [
      "tests/out/calaudit-w249.json",
-     "behavior.plutoCharonReal"
+     "behavior.plutoCharonReal",
+     "tests/out/charoninput-w280d.json"
     ],
     "en": {
      "purpose": "Pluto–Charon from older inputs",
-     "state": "key quantity outside the gate",
+     "state": "outside the gate; residual traced",
      "mismatch": "period +0.00138% (294σ)",
      "outlook": "step Δ 1×10⁻³σ (not step-limited); numerics unresolved; mapping unresolved",
-     "brief": "Pluto–Charon from older inputs. Unmet: key quantity outside the gate. Calibration: fail — period +0.00138% (294σ); step Δ 1×10⁻³σ (not step-limited); numerics unresolved; mapping unresolved."
+     "brief": "Pluto–Charon from older inputs. Unmet: outside the gate; residual traced. Calibration: fail — period +0.00138% (294σ); step Δ 1×10⁻³σ (not step-limited); numerics unresolved; mapping unresolved."
     },
-    "brief": "旧入力の冥王星–カロンを照合する。未達・代表量が門の外。較正は否・周期 +0.00138%(294σ)・刻み間差 1×10⁻³σ・刻みでは縮まない・数値未解決・写像未確定。"
+    "brief": "旧入力の冥王星–カロンを照合する。未達・代表量が門の外・残差を要因の鎖で分解。較正は否・周期 +0.00138%(294σ)・刻み間差 1×10⁻³σ・刻みでは縮まない・数値未解決・写像未確定。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[10]",
@@ -2330,23 +2331,24 @@
    "status": {
     "purpose": "同一観測解の二体に零条件つき引きずり則を載せる",
     "objective": "partial",
-    "state": "中点法の刻み収束と 2 欄は確認・第 2 周は過渡",
+    "state": "中点法の収束と 2 欄は確認・則の寄与は同期の定義に由来",
     "calibration": "hold-definition",
     "mismatch": "比較値 +31.6 s(Buie 2012 比・門ではない)",
     "outlook": "量の定義が揃うまで門に入れない",
     "evidence": [
      "docs.charonTwoColumns",
      "behavior.plutoCharonDFM",
-     "tests/out/charonwin-w278b.json"
+     "tests/out/charonwin-w278b.json",
+     "tests/out/charoninput-w280d.json"
     ],
     "en": {
      "purpose": "One observed solution, zero-slip drag law",
-     "state": "midpoint converges; orbit 2 transient",
+     "state": "midpoint converges; law term via sync",
      "mismatch": "comparison +31.6 s vs Buie 2012",
      "outlook": "not gated until definitions match",
-     "brief": "One observed solution, zero-slip drag law. Partial: midpoint converges; orbit 2 transient. Calibration: hold (definitions differ) — comparison +31.6 s vs Buie 2012; not gated until definitions match."
+     "brief": "One observed solution, zero-slip drag law. Partial: midpoint converges; law term via sync. Calibration: hold (definitions differ) — comparison +31.6 s vs Buie 2012; not gated until definitions match."
     },
-    "brief": "同一観測解の二体に零条件つき引きずり則を載せる。部分・中点法の刻み収束と 2 欄は確認・第 2 周は過渡。較正は判定保留(量定義不一致)・比較値 +31.6 s(Buie 2012 比・門ではない)・量の定義が揃うまで門に入れない。"
+    "brief": "同一観測解の二体に零条件つき引きずり則を載せる。部分・中点法の収束と 2 欄は確認・則の寄与は同期の定義に由来。較正は判定保留(量定義不一致)・比較値 +31.6 s(Buie 2012 比・門ではない)・量の定義が揃うまで門に入れない。"
    },
    "ledgerSource": {
     "row": "tables.grid.dfmMid",
@@ -2384,6 +2386,60 @@
     "row": "tables.grid.kf0Leap",
     "vsBuieSec": 30.225398794165812
    }
+  },
+  {
+   "id": "plutoCharonDiagInput",
+   "emoji": "🥶",
+   "name": "冥王星とカロン(入力を整えた二体)— 観測入力 kF0 対照",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "❄️ の入力の丸めと軟化を外した kF0 診断コピー",
+    "objective": "met",
+    "state": "要因の鎖と同一定義の表を記帳",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/charoninput-w280d.json"
+    ],
+    "en": {
+     "purpose": "kF0 copy of ❄️ with rounding and softening removed",
+     "state": "factor chain and same-definition table recorded",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "kF0 copy of ❄️ with rounding and softening removed. Met: factor chain and same-definition table recorded. Out of calibration scope."
+    },
+    "brief": "❄️ の入力の丸めと軟化を外した kF0 診断コピー。達・要因の鎖と同一定義の表を記帳。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "plutoCharonSyncZero",
+   "emoji": "☃️",
+   "name": "冥王星とカロン(厳密同期円)— 相対すべり則の零試験",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "厳密同期円で相対すべり則の零条件を走行中も試す",
+    "objective": "partial",
+    "state": "初期 1 歩は厳密に 0・走行中は丸め級の熱が残る",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/charoninput-w280d.json"
+    ],
+    "en": {
+     "purpose": "Test the zero-slip condition on an exact synchronous circle",
+     "state": "first step exactly zero; rounding-level heat while running",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Test the zero-slip condition on an exact synchronous circle. Partial: first step exactly zero; rounding-level heat while running. Out of calibration scope."
+    },
+    "brief": "厳密同期円で相対すべり則の零条件を走行中も試す。部分・初期 1 歩は厳密に 0・走行中は丸め級の熱が残る。較正対象外。"
+   },
+   "ledgerSource": null
   },
   {
    "id": "uranusReal",

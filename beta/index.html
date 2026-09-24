@@ -10536,7 +10536,9 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"plutoCharonKF0Control", name:"冥王星とカロン(同一観測解)— kF0 対照(引きずり則なし)", emoji:"🌨️", group:"現実との照合・太陽系",
-  familyId:"pluto", familyRole:"control",
+  // 第280便d(原仮定者の裁定(第70報)「まとめても良い」): familyRole を "control" → "variant"(**表示専用** ——
+  // presetSig は familyRole を見ない)。入口は ❄️ の 1 つにまとめ、役割名は FAMILY_VARIANT_LABEL が出す。ID は削除しない
+  familyId:"pluto", familyRole:"variant",
   scaleTier:"planetary",
   scaleExp:{L:5, T:1, M:24},
   integrator:"leapfrog",   // 第278便b: ⛄ と同じ積分器(対照は 1 か所 — relativeDrag の有無 — だけが違う)
@@ -10616,6 +10618,169 @@ const BUILTIN_PRESETS = [
       vx:3.3746189324353684e-7, vy:-0.0024266847512964917, spin:0.00011385554400956285, pinned:false, pnSource:true},
     {type:"single", m:0.0015897512735990414, radius:6.06, x:174.65648081478, y:0,
       vx:-0.0000027648974910141987, vy:0.019882347354401884, spin:0.00011385554400956285, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+// ===== 第280便d(原仮定者の裁定(第70報)「plutoCharonReal: 観測値版で問題が出ている理由を調査する/
+// plutoCharonDFM・plutoCharonKF0Control: まとめても良い。plutoCharonReal の精度を目標にする。互いに潮汐ロックで
+// 引きずりが消えると、観測値版と変わらない想定」・統括の検証項目 R68): **principle の診断コピー 2 本** =====
+// **❄️⛄🌨️ の物理・入力は 1 bit も変えていない**(本 2 本は別の ID で足しただけ)。較正母集団 37 本には入れない
+// (sampleClass:"principle"・判定器 exp-w249b-calaudit の CFG に登録しない)。数値は器
+// tests/exp-w280d-charonInput.mjs の正本 tests/out/charoninput-w280d.json の実測(台帳 §5.33)。
+{ id:"plutoCharonDiagInput", name:"冥王星とカロン(入力を整えた二体)— 観測入力 kF0 対照", emoji:"🥶", group:"現実との照合・太陽系",
+  familyId:"pluto", familyRole:"variant",
+  scaleTier:"planetary",
+  scaleExp:{L:5, T:1, M:24},   // 1単位=10⁵m/10s/10²⁴kg(⛄🌨️ と同じ精密単位 —— ε=0.01 単位が 1 km)
+  integrator:"leapfrog",   // ⛄🌨️ と同じ積分器(❄️ の semi との差は第 2 周で −4×10⁻⁶ s —— §5.33)
+  sampleClass:"principle",   // 第280便d: 診断コピー — 較正母集団 37 本・4 値・門の署名は不変
+  fidelity:"real",   // 観測解の GM(Brozović & Jacobson 2024 Table 8)と暦の 400 年平均 a(同 Table 10)の転写
+  notClaim:["solar_cal"],
+  obsCard:[
+    {q:"同方向1周(第2周)— 3 刻み", model:"551863.659899 / .659853 / .659841 s(dt 0.16/0.08/0.04)・第5周 551863.659842 s", obs:"—(入力を整えた二体の kF0 —— 門ではない)"},
+    {q:"Buie 2012 二体 P との差(比較値)", model:"+7.221 s・+278.6σ(門ではない —— 入力は PLU060 の解・目標は Buie の二体当てはめ)", obs:"551856.43872±0.02592 s"},
+    {q:"PLU060 400年平均 P との差(σ なし)", model:"+7.765 s(暦の平均 a からケプラーの式で作る P は暦の平均 P より長い)", obs:"551855.8944 s"},
+    {q:"❄️ の否の要因の鎖(第2周・dt 0.004)", model:"出発 +7.622 s → 入力の丸め +17.975 → 軟化 1km +7.201 → double +7.221 → leapfrog +7.221 s", obs:"—(Buie 比・§5.33)"},
+    {q:"残る差の由来(閉じた式)", model:"PLU060 の同じ解の二体 P − Buie = +7.217 s。Buie の a・P が含意する GM は 972.030 km³/s²", obs:"975.4±0.5 km³/s²(PLU060)"},
+    {q:"⛄🌨️ との差(同じ定義・第5周)", model:"🌨️ 比 −23.004 s・⛄ 比 −24.683 s(元期 A の接触状態と暦の平均の差)", obs:"—(同一定義の表 §5.33.2)"}],
+  failureFirst:{
+    fail:"**入力を整えても Buie 2012 比の差は +7.22 s(+278.6σ・比較値)残る** —— ❄️ の +7.62 s と同じ桁である。要因の鎖(dt 0.004・第 2 周)は ❄️ kF0 の +7.622 s から、入力の丸めを外すと(a=19595.764 km・GM を 2024 Table 8 から直接)+17.975 s、軟化を 50→1 km にすると +7.201 s、質量配列を double にすると +7.221 s、leapfrog にしても +7.221 s。**残るのは定義の差**である: PLU060 の同じ解から作った二体の閉じた式(ε=0)は Buie に対して +7.217 s で、Buie の a・P が含意する GM(972.030 km³/s²)は PLU060 の GM(975.4±0.5)と 6.74σ_GM 違う。**❄️ の +7.62 s は、旧入力の閉じた式 −3.14 s と軟化 50 km の +10.77 s の和がたまたま同じ桁になった値**である。残差がゼロになる a・GM・ε は探索していない。",
+    pass:"**入力の組を 1 つの観測解へそろえた二体**になっている: GM は Brozović & Jacobson 2024 Table 8(869.3+106.1 km³/s²)を内蔵 G=6.674 で割った質量(⛄🌨️ と 1 bit 同じ)、a は同じ論文の Table 10 の 400 年平均 19595.764 km、❄️ と同じ規約(重心系・円軌道・ε=0 のケプラー初速)。3 段の第 2 周は 551863.659899 / .659853 / .659841 s(刻み半減差 12 μs)で、第 2〜第 6 周は 2 μs 以内で同じ値を保つ。フィットはゼロ。"},
+  descStruct:{
+    summary:"**❄️ plutoCharonReal の入力を整えた kF0 の診断コピー**(第280便d・原仮定者の裁定(第70報)「観測値版で問題が出ている理由を調査する」)。❄️ の旧入力(a=19,596km に丸めた値・出典表の質量×4 桁の G・ε=50km・Float32 の質量)を、**1 つの観測解**(Brozović & Jacobson 2024 AJ 167 256 の Table 8 の GM と Table 10 の 400 年平均 a=19595.764km)へ置き換え、ε=0.01 単位=1km・質量と状態を double・kFrame=0 にした二体である。組み立ての規約(重心系・円軌道・ε=0 のケプラー初速・近点整列)は ❄️ と同じで、単位と積分器は ⛄🌨️ と同じ精密単位・leapfrog。働いているのは重力(E4)+測地線1PN(E12)だけで、kFrame=0 なので核の E6′ 運動引きずりも使わない。",
+    observe:"3 段(dt=0.16/0.08/0.04)の同方向1周(第 2 周)は 551863.659899 / 551863.659853 / 551863.659841 s(ε=0 の閉じた式 551863.6555 s との差 +4 ms は軟化 1km とケプラー初速の分)。Buie 2012(551856.43872±0.02592 s)に対して **+7.221 s・+278.6σ(比較値 —— 門ではない)**、PLU060 の 400 年平均 P に対して +7.765 s。**これは入力の丸めでも軟化でもない**: 同じ正式の抽出器で ❄️ kF0 から 1 要因ずつ足した鎖(§5.33)は +7.622 → +17.975(入力の丸め)→ +7.201(軟化)→ +7.221(double)→ +7.221 s(leapfrog)で、終点は PLU060 の同じ解の二体の閉じた式 +7.217 s と 4 ms 以内で一致する。残るのは **定義の差** —— 暦の 400 年平均 a はケプラーの式で暦の平均 P を与えない(差 +7.761 s)し、Buie の a(19573±2km)と P が含意する GM 972.030 km³/s² は PLU060 の 975.4±0.5 と一致しない。同じ定義の欄で ⛄🌨️ と比べると(第 5 周)🌨️ 比 −23.004 s・⛄ 比 −24.683 s で、差の本体は元期 A の接触状態(a=19596.309km)と 400 年平均(19595.764km)の違いである。",
+    control:"対照の並べ方: ❄️(旧入力)・本サンプル(入力を整えた二体)・🌨️(同じ GM・元期 A の状態)・⛄(🌨️ + 相対すべり則)を同じ抽出器・同じ物理刻みで並べた表が台帳 §5.33.2 にある。Buie の a・P から GM を作った二体(器の中だけの行)は Buie に対して +4.3 ms(軟化 1km とケプラー初速の規約の分)で、転写と積分器の試験である。Buie の a と PLU060 の GM を混ぜた行は −954.1 s(物差し —— 候補ではない)。粒子表示は実半径のまま(dispMag=1)。"},
+  en:{name:"Pluto and Charon (cleaned two-body inputs) — the observed-input kF0 control",
+    obsCard:[
+      {q:"Same-direction revolution (rev 2) — three steps", model:"551863.659899 / .659853 / .659841 s (dt 0.16/0.08/0.04); revolution 5: 551863.659842 s", obs:"— (kF0 two-body with cleaned inputs — not a gate)"},
+      {q:"Difference from the Buie 2012 two-body P (comparison)", model:"+7.221 s, +278.6 sigma (not a gate — the input is the PLU060 solution, the target is Buie's two-body fit)", obs:"551856.43872 +/- 0.02592 s"},
+      {q:"Difference from the PLU060 400-year mean P (no sigma)", model:"+7.765 s (Kepler's law applied to the ephemeris mean a gives a longer P than the ephemeris mean P)", obs:"551855.8944 s"},
+      {q:"Chain of factors behind the snowflake sample's FAIL (rev 2, dt 0.004)", model:"start +7.622 s -> input rounding +17.975 -> softening 1 km +7.201 -> double +7.221 -> leapfrog +7.221 s", obs:"— (vs Buie, section 5.33)"},
+      {q:"Where the remaining gap comes from (closed form)", model:"two-body P of the same PLU060 solution minus Buie = +7.217 s; Buie's a and P imply GM = 972.030 km^3/s^2", obs:"975.4 +/- 0.5 km^3/s^2 (PLU060)"},
+      {q:"Against the DFM build and its control (same definition, rev 5)", model:"-23.004 s vs the kF0 control, -24.683 s vs the DFM build (epoch-A osculating state vs the ephemeris mean)", obs:"— (same-definition table, section 5.33.2)"}],
+    failureFirst:{
+      fail:"CLEANING THE INPUTS LEAVES +7.22 s (+278.6 sigma, a comparison value) AGAINST BUIE 2012 — the same size as the snowflake sample's +7.62 s. The chain (dt 0.004, rev 2) runs from +7.622 s: removing the input rounding (a = 19595.764 km, GM straight from Table 8 of 2024) gives +17.975 s, softening 50 -> 1 km +7.201 s, a double mass array +7.221 s, leapfrog +7.221 s. WHAT REMAINS IS A DIFFERENCE OF DEFINITIONS: the closed-form two-body P of the same PLU060 solution (epsilon 0) is +7.217 s from Buie, and the GM implied by Buie's a and P (972.030 km^3/s^2) differs from PLU060's 975.4 +/- 0.5 by 6.74 sigma_GM. THE SNOWFLAKE'S +7.62 s IS THE SUM OF THE OLD INPUT'S CLOSED FORM (-3.14 s) AND THE 50 km SOFTENING (+10.77 s), WHICH HAPPENS TO LAND AT THE SAME SIZE. No a, GM or epsilon was searched for to zero the residual.",
+      pass:"It is a two-body pair WHOSE INPUTS COME FROM ONE OBSERVED SOLUTION: GM from Table 8 of Brozovic & Jacobson 2024 (869.3 + 106.1 km^3/s^2) divided by the built-in G = 6.674 (bit-identical to the DFM build's masses), a = 19595.764 km from Table 10 of the same paper (400-year mean), and the snowflake sample's construction (barycentric, circular, epsilon-0 Kepler speed). Revolution 2 over the three steps is 551863.659899 / .659853 / .659841 s (halving difference 12 microseconds), and revolutions 2 to 6 stay within 2 microseconds. Zero fits."},
+    descStruct:{
+      summary:"A kF0 DIAGNOSTIC COPY OF plutoCharonReal WITH ITS INPUTS CLEANED (wave 280d, the originator's ruling (report 70): find out why the observed-value build has a problem). The old inputs (a rounded to 19,596 km, source-table masses times a four-digit G, epsilon 50 km, Float32 masses) are replaced by ONE OBSERVED SOLUTION (the Table 8 GM and the Table 10 400-year mean a = 19595.764 km of Brozovic & Jacobson 2024, AJ 167 256), with epsilon = 0.01 unit = 1 km, double masses and state, and kFrame = 0. The construction (barycentric, circular, epsilon-0 Kepler speed, periapsis-aligned) is the snowflake sample's; units and integrator are the DFM build's precision units and leapfrog. Only gravity (E4) and the geodesic 1PN term (E12) act, and kFrame=0 keeps the core's E6' motion dragging out.",
+      observe:"Revolution 2 over the three steps (dt = 0.16/0.08/0.04) is 551863.659899 / 551863.659853 / 551863.659841 s (the +4 ms against the epsilon-0 closed form 551863.6555 s is the 1 km softening and the Kepler speed). Against Buie 2012 (551856.43872 +/- 0.02592 s) it is +7.221 s, +278.6 sigma (A COMPARISON VALUE — NOT A GATE); against the PLU060 400-year mean P, +7.765 s. THIS IS NEITHER INPUT ROUNDING NOR SOFTENING: the chain that adds one factor at a time to the snowflake's kF0 with the same formal extractor (section 5.33) runs +7.622 -> +17.975 (input rounding) -> +7.201 (softening) -> +7.221 (double) -> +7.221 s (leapfrog), and its end agrees within 4 ms with the closed-form two-body P of the same PLU060 solution (+7.217 s). WHAT REMAINS IS A DIFFERENCE OF DEFINITIONS: the ephemeris 400-year mean a does not give the ephemeris mean P through Kepler's law (a +7.761 s gap), and the GM implied by Buie's a (19573 +/- 2 km) and P, 972.030 km^3/s^2, does not match PLU060's 975.4 +/- 0.5. In the same-definition columns (revolution 5) it is -23.004 s from the kF0 control and -24.683 s from the DFM build; the bulk is the difference between the epoch-A osculating state (a = 19596.309 km) and the 400-year mean (19595.764 km).",
+      control:"How to line the controls up: the snowflake sample (old inputs), this sample (cleaned two-body inputs), the kF0 control (same GM, epoch-A state) and the DFM build (the control plus the relative-slip law) are compared with the same extractor and the same physical step in section 5.33.2 of the ledger. A pair built from Buie's a and P (a harness-only row) is +4.3 ms from Buie (the 1 km softening with the Kepler-speed rule) — a transcription and integrator test. The row that mixes Buie's a with PLU060's GM is -954.1 s (a yardstick, not a candidate). Bodies are drawn at real radii (dispMag=1)."},
+    parameterAudit:{
+      observedInputs:["the built-in G=6.674 (unchanged) and c0=3e4",
+        "GM of Pluto and Charon from Brozovic & Jacobson (2024) AJ 167 256 Table 8",
+        "the 400-year mean semi-major axis 19595.764 km (same paper, Table 10)",
+        "the declared mutual synchronism omega = 2 pi / 551855.8944 s (as in the DFM build)",
+        "the observed period 551856.43872 +/- 0.02592 s (Buie 2012 — COMPARED AGAINST, NOT FITTED TO)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 1e5 m / 10 s / 1e24 kg)",
+        "kFrame=0 and no relativeDrag","two-body barycentric, circular, epsilon-0 Kepler speed (the snowflake sample's rule)",
+        "kRep=muF=gammaN=kappaS=0 / geoPN=2, lambdaPN=1, pnAlpha=1.5 / stateCarry:\"double\", massPrecision:\"double\"",
+        "2D (the ecliptic-frame retrograde sign is not transcribed)"],
+      fitted:["none (D0=0.006 is carried over and unused at kFrame=0)"],
+      derived:["the masses 1.3025172e22 kg and 1.5897513e21 kg (GM/G)","q=11.9386 (carried over)","kappa_T=G/c0^2=7.4156e-9",
+        "camera.scale=210, timeScale=1000, dispMag=1"],
+      numerical:["softening epsilon=0.01 unit = 1 km","three step sizes dt=0.16/0.08/0.04","integrator:\"leapfrog\"",
+        "time multiplier timeScale=1000","display magnification dispMag=1 (display only)"]}},
+  parameterAudit:{
+    observedInputs:["内蔵 G=6.674(変えていない)・c₀=3×10⁴",
+      "冥王星・カロンの GM(Brozović & Jacobson 2024 AJ 167 256 Table 8)",
+      "400 年平均の軌道長半径 19595.764km(同 Table 10)",
+      "相互同期の宣言 ω=2π/551855.8944s(⛄ と同じ)","観測周期 551856.43872±0.02592 s(Buie 2012 — 照合先)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁵m/10s/10²⁴kg)",
+      "kFrame=0 かつ relativeDrag なし","二体重心系・円軌道・ε=0 のケプラー初速(❄️ の規約)",
+      "kRep=muF=γN=κ_S=0 / geoPN=2・λ_PN=1・pnα=1.5 / stateCarry:\"double\"・massPrecision:\"double\"",
+      "2D(黄道基準の逆行符号は転写しない)"],
+    fitted:["なし(D₀=0.006 は引き継いだ値 —— kFrame=0 では使われない)"],
+    derived:["質量 1.3025172×10²²kg・1.5897513×10²¹kg(GM/G)","q=11.9386(引き継ぎ)","κ=G/c₀²=7.4156×10⁻⁹",
+      "camera.scale=210・timeScale=1000・dispMag=1"],
+    numerical:["ソフトニング ε=0.01 単位=1km","刻み 3 段 dt=0.16/0.08/0.04","integrator:\"leapfrog\"",
+      "時間倍率 timeScale=1000","粒子表示倍率 dispMag=1(表示専用)"]},
+  activeParams:["kFrame","q","D0"],
+  camera:{scale:210}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:0, q:11.9386, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:1000, dispMag:1,
+    stateCarry:"double", massPrecision:"double", frameReaction:"pairReduced", frameWeight:"share"},
+  bodies:[ // 器の純関数 diagInputPair("plu060Mean")(tests/lib-w280d-charoninput.mjs)の出力そのもの:
+           // 質量は ⛄🌨️ と 1 bit 同じ・a=195.95764 単位・重心系配分・ε=0 のケプラー初速
+    {type:"single", m:0.013025172310458496, radius:11.88, x:-21.315466069304904, y:0,
+      vx:0, vy:-0.0024268498546968042, spin:0.00011385554400956285, pinned:false, pnSource:true},
+    {type:"single", m:0.0015897512735990414, radius:6.06, x:174.6421739306951, y:0,
+      vx:0, vy:0.019883700081884368, spin:0.00011385554400956285, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+{ id:"plutoCharonSyncZero", name:"冥王星とカロン(厳密同期円)— 相対すべり則の零試験", emoji:"☃️", group:"現実との照合・太陽系",
+  familyId:"pluto", familyRole:"variant",
+  scaleTier:"planetary",
+  scaleExp:{L:5, T:1, M:24},
+  integrator:"leapfrog",   // ⛄ と同じ(散逸半歩 → 重力 KDK → 散逸半歩の対称分割)
+  sampleClass:"principle",   // 第280便d: 零試験の診断コピー — 較正母集団・4 値・門の署名は不変
+  fidelity:"toy",   // ⛄ の質量・離角を使うが、状態は厳密同期円に作り直した試験配置(観測状態の転写ではない)
+  notClaim:["solar_cal"],
+  obsCard:[
+    {q:"初期 1 歩の零条件", model:"すべり・キック・自転トルク・ΔE が 0 そのもの・状態は 1 bit も動かない(読み口と步の両方)", obs:"—(s=v−ω×r=0 の配置)"},
+    {q:"走行中の則の作用(dt 0.16・3 周)", model:"熱 4.1×10⁻³² ・キック最大 3.4×10⁻²³・すべり最大 2.5×10⁻¹⁵(丸め級)", obs:"—(則が 0 でないのは丸めのすべり)"},
+    {q:"則を外した対との周期差", model:"第2周 +1.3×10⁻⁹ s・第3周 +1.9×10⁻⁹ s(dt 0.16)—— 終状態は 1 bit 同じではない", obs:"—(同じ入力・同じ刻みの A/B)"},
+    {q:"同方向1周(第2周)", model:"551931.4719 s(dt 0.16)", obs:"—(試験配置の周期 —— 観測と比べない)"},
+    {q:"速度の作り方で変わること", model:"連続の円速度にすると差は +2.0×10⁻⁷ s(離散の離心率 O(dt²) に則が作用)", obs:"—(§5.33.3)"}],
+  failureFirst:{
+    fail:"**「零条件なら則のない kF0 と 1 bit 同じ」は走行中には成り立たない。** 初期 1 歩は厳密に 0 だが、刻みを進めると丸め(ULP)で相対すべり 2.5×10⁻¹⁵ 単位が生まれ、則はそれに作用して自転の最下位ビットを動かす(熱 4.1×10⁻³²・ΔE>0 の步 58 回)。則を外した対との周期差は第 2 周 +1.3×10⁻⁹ s で、終状態は 1 bit 同じにならない。速度を連続の円速度で作ると、離散の軌道が持つ O(dt²) の離心率に則が作用して差は +2.0×10⁻⁷ s になる。1PN を入れると(geoPN 2)−3.1×10⁻⁸ s。",
+    pass:"**零条件そのものは厳密に効いている**: ⛄ と同じ質量・同じ離角(元期 A の |r|)で、速度を leapfrog KDK の離散相対平衡(刻み 0.16・軟化 1km の重力で 1 步ごとに同じ半径へ戻る接線速度)に、両体の自転を v_t/a にすると、読み口と步のすべり・キック・トルク・ΔE は 0 そのもので、状態は 1 bit も動かない。走行中の熱は丸め級(非負)で、周期への影響は 10⁻⁹ s 級である。"},
+  descStruct:{
+    summary:"**相対すべり則(pairSlip)の零条件を、走行中も含めて試す診断コピー**(第280便d・原仮定者の裁定(第70報)「互いに潮汐ロックで引きずりが消えると、観測値版と変わらない想定」)。質量と離角は ⛄ plutoCharonDFM と 1 bit 同じで、状態だけを**厳密同期円**に作り直した: 速度は leapfrog の KDK が 1 步ごとに同じ半径へ戻す接線速度 v_t=√(ga−g²dt²/4)(g=GMa/(a²+ε²)^{3/2}・dt=0.16・ε=1km)、両体の自転は ω=v_t/a(**瞬間の公転角速度と同期** —— すべり s=v−ω×r が 0)。則は ⛄ と同じ(κ=1・中点法)で、1PN は切った(geoPN 0 —— 1PN は軟化重力の円を相対平衡から外すため)。働いているのは重力(E4)と相対すべり則だけで、kFrame=0 なので核の E6′ 運動引きずりは使わない。",
+    observe:"初期状態では読み口 relativeDragProbe と步 dfmRelativeDragStep のすべり・キック・自転トルク・ΔE が **0 そのもの**で、状態は 1 bit も動かない。走行中(dt 0.16・3 周)は丸めで相対すべり最大 2.5×10⁻¹⁵ 単位が生まれ、則はそれに作用する —— 熱 4.1×10⁻³²(非負)・キック最大 3.4×10⁻²³・ΔE>0 と記帳した步 58 回。**則を外した対(kF0)との周期差は第 2 周 +1.3×10⁻⁹ s・第 3 周 +1.9×10⁻⁹ s** で、終状態は 1 bit 同じではない。同方向1周(第 2 周)は 551931.4719 s(試験配置の周期 —— 観測と比べない)。速度を連続の円速度にした場合は +2.0×10⁻⁷ s、1PN を入れた場合は −3.1×10⁻⁸ s、刻み 0.04 で走らせると第 2 周は −1.6×10⁻⁵ s(速度を 0.16 で作ったための過渡 —— 第 3 周は −4.7×10⁻¹⁰ s)。",
+    control:"対になるのは同じ宣言から physics.relativeDrag を外した構成(器と QA の中だけで作る)。**⛄ の実入力(元期 A)では零条件が成り立たない**: 離心率 1.49×10⁻⁴ と動径速度があり、宣言の自転は 400 年平均の同期(瞬間同期ではない)なので、則は自転と軌道の間で角運動量を動かし続ける(⛄ と 🌨️ の差 +1.678 s の由来 —— §5.33.3)。粒子表示は実半径のまま(dispMag=1)。"},
+  en:{name:"Pluto and Charon (exact synchronous circle) — a zero test of the relative-slip law",
+    obsCard:[
+      {q:"Zero condition on the first step", model:"slip, kick, spin torque and dE are exactly zero and the state does not move a bit (probe and step)", obs:"— (a configuration with s = v - omega x r = 0)"},
+      {q:"The law while running (dt 0.16, three orbits)", model:"heat 4.1e-32, largest kick 3.4e-23, largest slip 2.5e-15 (rounding level)", obs:"— (the law acts only on rounding slip)"},
+      {q:"Period difference against the same set-up without the law", model:"+1.3e-9 s at revolution 2, +1.9e-9 s at revolution 3 (dt 0.16) — the final state is not bit-identical", obs:"— (same inputs, same step)"},
+      {q:"Same-direction revolution (rev 2)", model:"551931.4719 s (dt 0.16)", obs:"— (the period of a test configuration — not compared with observation)"},
+      {q:"What the velocity construction changes", model:"with the continuous circular speed the difference is +2.0e-7 s (the law acts on the O(dt^2) eccentricity of the discrete orbit)", obs:"— (section 5.33.3)"}],
+    failureFirst:{
+      fail:"\"UNDER THE ZERO CONDITION IT IS BIT-IDENTICAL TO THE kF0 RUN\" DOES NOT HOLD WHILE RUNNING. The first step is exactly zero, but stepping on, rounding (ULPs) creates a relative slip of 2.5e-15 units, the law acts on it and moves the last bits of the spins (heat 4.1e-32, 58 steps booked with dE > 0). The period difference against the same set-up without the law is +1.3e-9 s at revolution 2, and the final states are not bit-identical. Building the velocity from the continuous circular speed instead lets the law act on the O(dt^2) eccentricity of the discrete orbit: +2.0e-7 s. With 1PN on (geoPN 2): -3.1e-8 s.",
+      pass:"THE ZERO CONDITION ITSELF ACTS EXACTLY: with the DFM build's masses and separation (the epoch-A |r|), a velocity at the discrete relative equilibrium of leapfrog KDK (the tangential speed that returns to the same radius every step at dt 0.16 with the 1 km softened gravity) and both spins at v_t/a, the probe and the step give slip, kick, torque and dE of exactly zero and the state does not move a bit. The heat while running stays at rounding level (non-negative) and the period effect is of order 1e-9 s."},
+    descStruct:{
+      summary:"A DIAGNOSTIC COPY THAT TESTS THE ZERO CONDITION OF THE RELATIVE-SLIP LAW (pairSlip), INCLUDING WHILE RUNNING (wave 280d, the originator's ruling (report 70): with mutual tidal locking the dragging vanishes and the result should equal the observed-value build). Masses and separation are bit-identical to plutoCharonDFM; only the state is rebuilt as an EXACT SYNCHRONOUS CIRCLE: the velocity is the tangential speed v_t = sqrt(g a - g^2 dt^2 / 4) (g = G M a / (a^2 + eps^2)^(3/2), dt = 0.16, eps = 1 km) that leapfrog KDK returns to the same radius every step, and both spins are omega = v_t / a (SYNCHRONOUS WITH THE INSTANTANEOUS ORBITAL RATE — the slip s = v - omega x r is zero). The law is the DFM build's (kappa = 1, midpoint), and 1PN is off (geoPN 0 — 1PN moves the softened circle off relative equilibrium). Only gravity (E4) and the relative-slip law act; kFrame=0 keeps the core's E6' motion dragging out.",
+      observe:"In the initial state the probe relativeDragProbe and the step dfmRelativeDragStep give slip, kick, spin torque and dE of EXACTLY ZERO, and the state does not move a bit. While running (dt 0.16, three orbits) rounding creates a relative slip of at most 2.5e-15 units and the law acts on it — heat 4.1e-32 (non-negative), largest kick 3.4e-23, 58 steps booked with dE > 0. THE PERIOD DIFFERENCE AGAINST THE SAME SET-UP WITHOUT THE LAW (kF0) IS +1.3e-9 s AT REVOLUTION 2 AND +1.9e-9 s AT REVOLUTION 3, and the final states are not bit-identical. Revolution 2 is 551931.4719 s (the period of a test configuration — not compared with observation). With the continuous circular speed the difference is +2.0e-7 s, with 1PN on -3.1e-8 s, and at dt 0.04 revolution 2 differs by -1.6e-5 s (a transient because the velocity was built for 0.16; revolution 3 is -4.7e-10 s).",
+      control:"Its counterpart is the same declaration with physics.relativeDrag removed (built only inside the harness and the QA). THE ZERO CONDITION DOES NOT HOLD FOR THE DFM BUILD'S REAL INPUT (epoch A): there is an eccentricity of 1.49e-4 and a radial velocity, and the declared spin is the 400-year-mean synchronism (not the instantaneous one), so the law keeps moving angular momentum between the spins and the orbit (the origin of the +1.678 s between the DFM build and its control — section 5.33.3). Bodies are drawn at real radii (dispMag=1)."},
+    parameterAudit:{
+      observedInputs:["the built-in G=6.674 (unchanged) and c0=3e4",
+        "the masses of the DFM build (GM of Brozovic & Jacobson 2024 Table 8 divided by G)",
+        "the separation of the DFM build (the epoch-A |r| of JPL Horizons PLU060/DE440)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 1e5 m / 10 s / 1e24 kg)",
+        "relativeDrag:{law:\"pairSlip\",kappa:1,pairs:\"all\",spins:\"declared\",integration:\"midpoint\"} (the DFM build's law)",
+        "kFrame=0 / geoPN=0 (1PN off for the zero test)","two-body barycentric, exact synchronous circle",
+        "stateCarry:\"double\", massPrecision:\"double\""],
+      fitted:["none"],
+      derived:["the tangential speed of the leapfrog KDK discrete relative equilibrium at dt=0.16 and eps=1 km",
+        "the spins omega = v_t / a (both bodies)","camera.scale=210, timeScale=1000, dispMag=1"],
+      numerical:["softening epsilon=0.01 unit = 1 km","step dt=0.16 (the velocity is built for it)","integrator:\"leapfrog\"",
+        "display magnification dispMag=1 (display only)"]}},
+  parameterAudit:{
+    observedInputs:["内蔵 G=6.674(変えていない)・c₀=3×10⁴",
+      "⛄ の質量(Brozović & Jacobson 2024 Table 8 の GM/G)",
+      "⛄ の離角(JPL Horizons PLU060/DE440 元期 A の |r|)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁵m/10s/10²⁴kg)",
+      "relativeDrag:{law:\"pairSlip\",kappa:1,pairs:\"all\",spins:\"declared\",integration:\"midpoint\"}(⛄ と同じ則)",
+      "kFrame=0 / geoPN=0(零試験のため 1PN を切る)","二体重心系・厳密同期円",
+      "stateCarry:\"double\"・massPrecision:\"double\""],
+    fitted:["なし"],
+    derived:["leapfrog KDK の離散相対平衡の接線速度(dt=0.16・ε=1km)","自転 ω=v_t/a(両体)",
+      "camera.scale=210・timeScale=1000・dispMag=1"],
+    numerical:["ソフトニング ε=0.01 単位=1km","刻み dt=0.16(速度はこの刻みで作った)","integrator:\"leapfrog\"",
+      "粒子表示倍率 dispMag=1(表示専用)"]},
+  activeParams:["kFrame","q","D0"],
+  camera:{scale:210}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:0, q:11.9386, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:1000, dispMag:1,
+    stateCarry:"double", massPrecision:"double", frameReaction:"pairReduced", frameWeight:"share",
+    relativeDrag:{law:"pairSlip", kappa:1, pairs:"all", spins:"declared", integration:"midpoint"}},
+  bodies:[ // 器の純関数 syncZeroPair({…⛄ の質量・離角, eps:0.01, dt:0.16, speed:"kdk"})の出力そのもの
+    {type:"single", m:0.013025172310458496, radius:11.88, x:-21.31721225635357, y:0,
+      vx:0, vy:-0.002426750450824057, spin:0.00011383995344422988, pinned:false, pnSource:true},
+    {type:"single", m:0.0015897512735990414, radius:6.06, x:174.65648081478, y:0,
+      vx:0, vy:0.019882885644687584, spin:0.00011383995344422988, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -15568,9 +15733,11 @@ const SAMPLE_STATUS={
 "jupiterGalilean":{"purpose":"木星 4 衛星へ規則を再 fit せず当てる","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Apply the rule to Jupiter's four moons without refitting","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","brief":"Apply the rule to Jupiter's four moons without refitting. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"brief":"木星 4 衛星へ規則を再 fit せず当てる。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
 "venusReal":{"purpose":"自由中心の太陽–金星を実単位で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","behavior.venusReal"],"en":{"purpose":"Compare a free-centre Sun–Venus pair in real units","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","brief":"Compare a free-centre Sun–Venus pair in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"brief":"自由中心の太陽–金星を実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
 "marsMoonsReal":{"purpose":"火星の 2 衛星を実単位で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","behavior.marsMoonsReal"],"en":{"purpose":"Compare Mars's two moons in real units","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","brief":"Compare Mars's two moons in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"brief":"火星の 2 衛星を実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
-"plutoCharonReal":{"purpose":"旧入力の冥王星–カロンを照合する","objective":"unmet","state":"代表量が門の外","calibration":"fail","mismatch":"周期 +0.00138%(294σ)","outlook":"刻み間差 1×10⁻³σ・刻みでは縮まない・数値未解決・写像未確定","evidence":["tests/out/calaudit-w249.json","behavior.plutoCharonReal"],"en":{"purpose":"Pluto–Charon from older inputs","state":"key quantity outside the gate","mismatch":"period +0.00138% (294σ)","outlook":"step Δ 1×10⁻³σ (not step-limited); numerics unresolved; mapping unresolved","brief":"Pluto–Charon from older inputs. Unmet: key quantity outside the gate. Calibration: fail — period +0.00138% (294σ); step Δ 1×10⁻³σ (not step-limited); numerics unresolved; mapping unresolved."},"brief":"旧入力の冥王星–カロンを照合する。未達・代表量が門の外。較正は否・周期 +0.00138%(294σ)・刻み間差 1×10⁻³σ・刻みでは縮まない・数値未解決・写像未確定。"},
-"plutoCharonDFM":{"purpose":"同一観測解の二体に零条件つき引きずり則を載せる","objective":"partial","state":"中点法の刻み収束と 2 欄は確認・第 2 周は過渡","calibration":"hold-definition","mismatch":"比較値 +31.6 s(Buie 2012 比・門ではない)","outlook":"量の定義が揃うまで門に入れない","evidence":["docs.charonTwoColumns","behavior.plutoCharonDFM","tests/out/charonwin-w278b.json"],"en":{"purpose":"One observed solution, zero-slip drag law","state":"midpoint converges; orbit 2 transient","mismatch":"comparison +31.6 s vs Buie 2012","outlook":"not gated until definitions match","brief":"One observed solution, zero-slip drag law. Partial: midpoint converges; orbit 2 transient. Calibration: hold (definitions differ) — comparison +31.6 s vs Buie 2012; not gated until definitions match."},"brief":"同一観測解の二体に零条件つき引きずり則を載せる。部分・中点法の刻み収束と 2 欄は確認・第 2 周は過渡。較正は判定保留(量定義不一致)・比較値 +31.6 s(Buie 2012 比・門ではない)・量の定義が揃うまで門に入れない。"},
+"plutoCharonReal":{"purpose":"旧入力の冥王星–カロンを照合する","objective":"unmet","state":"代表量が門の外・残差を要因の鎖で分解","calibration":"fail","mismatch":"周期 +0.00138%(294σ)","outlook":"刻み間差 1×10⁻³σ・刻みでは縮まない・数値未解決・写像未確定","evidence":["tests/out/calaudit-w249.json","behavior.plutoCharonReal","tests/out/charoninput-w280d.json"],"en":{"purpose":"Pluto–Charon from older inputs","state":"outside the gate; residual traced","mismatch":"period +0.00138% (294σ)","outlook":"step Δ 1×10⁻³σ (not step-limited); numerics unresolved; mapping unresolved","brief":"Pluto–Charon from older inputs. Unmet: outside the gate; residual traced. Calibration: fail — period +0.00138% (294σ); step Δ 1×10⁻³σ (not step-limited); numerics unresolved; mapping unresolved."},"brief":"旧入力の冥王星–カロンを照合する。未達・代表量が門の外・残差を要因の鎖で分解。較正は否・周期 +0.00138%(294σ)・刻み間差 1×10⁻³σ・刻みでは縮まない・数値未解決・写像未確定。"},
+"plutoCharonDFM":{"purpose":"同一観測解の二体に零条件つき引きずり則を載せる","objective":"partial","state":"中点法の収束と 2 欄は確認・則の寄与は同期の定義に由来","calibration":"hold-definition","mismatch":"比較値 +31.6 s(Buie 2012 比・門ではない)","outlook":"量の定義が揃うまで門に入れない","evidence":["docs.charonTwoColumns","behavior.plutoCharonDFM","tests/out/charonwin-w278b.json","tests/out/charoninput-w280d.json"],"en":{"purpose":"One observed solution, zero-slip drag law","state":"midpoint converges; law term via sync","mismatch":"comparison +31.6 s vs Buie 2012","outlook":"not gated until definitions match","brief":"One observed solution, zero-slip drag law. Partial: midpoint converges; law term via sync. Calibration: hold (definitions differ) — comparison +31.6 s vs Buie 2012; not gated until definitions match."},"brief":"同一観測解の二体に零条件つき引きずり則を載せる。部分・中点法の収束と 2 欄は確認・則の寄与は同期の定義に由来。較正は判定保留(量定義不一致)・比較値 +31.6 s(Buie 2012 比・門ではない)・量の定義が揃うまで門に入れない。"},
 "plutoCharonKF0Control":{"purpose":"⛄ と同じ入力で則だけを外した kF0 対照","objective":"met","state":"則なしで定常・⛄ との差 1.37 s を記帳","calibration":"hold-definition","mismatch":"比較値 +30.2 s(Buie 2012 比・門ではない)","outlook":"量の定義が揃うまで門に入れない","evidence":["docs.charonTwoColumns","behavior.plutoCharonDFM","tests/out/charonwin-w278b.json"],"en":{"purpose":"kF0 control: ⛄'s inputs without the law","state":"steady; the 1.37 s gap to ⛄ is recorded","mismatch":"comparison +30.2 s vs Buie 2012","outlook":"not gated until definitions match","brief":"kF0 control: ⛄'s inputs without the law. Met: steady; the 1.37 s gap to ⛄ is recorded. Calibration: hold (definitions differ) — comparison +30.2 s vs Buie 2012; not gated until definitions match."},"brief":"⛄ と同じ入力で則だけを外した kF0 対照。達・則なしで定常・⛄ との差 1.37 s を記帳。較正は判定保留(量定義不一致)・比較値 +30.2 s(Buie 2012 比・門ではない)・量の定義が揃うまで門に入れない。"},
+"plutoCharonDiagInput":{"purpose":"❄️ の入力の丸めと軟化を外した kF0 診断コピー","objective":"met","state":"要因の鎖と同一定義の表を記帳","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/charoninput-w280d.json"],"en":{"purpose":"kF0 copy of ❄️ with rounding and softening removed","state":"factor chain and same-definition table recorded","mismatch":null,"outlook":null,"brief":"kF0 copy of ❄️ with rounding and softening removed. Met: factor chain and same-definition table recorded. Out of calibration scope."},"brief":"❄️ の入力の丸めと軟化を外した kF0 診断コピー。達・要因の鎖と同一定義の表を記帳。較正対象外。"},
+"plutoCharonSyncZero":{"purpose":"厳密同期円で相対すべり則の零条件を走行中も試す","objective":"partial","state":"初期 1 歩は厳密に 0・走行中は丸め級の熱が残る","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/charoninput-w280d.json"],"en":{"purpose":"Test the zero-slip condition on an exact synchronous circle","state":"first step exactly zero; rounding-level heat while running","mismatch":null,"outlook":null,"brief":"Test the zero-slip condition on an exact synchronous circle. Partial: first step exactly zero; rounding-level heat while running. Out of calibration scope."},"brief":"厳密同期円で相対すべり則の零条件を走行中も試す。部分・初期 1 歩は厳密に 0・走行中は丸め級の熱が残る。較正対象外。"},
 "uranusReal":{"purpose":"天王星の環と 5 衛星を実単位で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","behavior.uranusReal"],"en":{"purpose":"Compare Uranus's rings and five moons in real units","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","brief":"Compare Uranus's rings and five moons in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"brief":"天王星の環と 5 衛星を実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
 "neptuneReal":{"purpose":"逆行衛星トリトンを実単位で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","behavior.neptuneReal"],"en":{"purpose":"Compare the retrograde moon Triton in real units","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","brief":"Compare the retrograde moon Triton in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"brief":"逆行衛星トリトンを実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
 "saturnZonalD68":{"purpose":"帯状重力係数で D68 の近点移動を照合する","objective":"unmet","state":"代表量が門の外","calibration":"fail","mismatch":"近点移動 −0.306%(14.6σ)","outlook":"刻み間差 4×10⁻³σ・刻みでは縮まない","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare D68's apsidal motion via zonal harmonics","state":"the representative quantity is outside the gate","mismatch":"apsidal advance −0.306% (14.6σ)","outlook":"step Δ 4×10⁻³σ (not step-limited)","brief":"Compare D68's apsidal motion via zonal harmonics. Unmet: the representative quantity is outside the gate. Calibration: fail — apsidal advance −0.306% (14.6σ); step Δ 4×10⁻³σ (not step-limited)."},"brief":"帯状重力係数で D68 の近点移動を照合する。未達・代表量が門の外。較正は否・近点移動 −0.306%(14.6σ)・刻み間差 4×10⁻³σ・刻みでは縮まない。"},
@@ -27919,6 +28086,19 @@ function setShowAllSamples(v){
 }
 function familyMembersOf(fid){ return BUILTIN_PRESETS.filter(p=>p.familyId===fid); }
 function familyVariantCountOf(fid){ return familyMembersOf(fid).filter(p=>p.familyRole==="variant").length; }
+// 第280便d(原仮定者の裁定(第70報)「plutoCharonDFM・plutoCharonKF0Control: まとめても良い」): **ファミリー内の役割名**。
+// 物理的な統合(ID の削除)はしない —— 入口を 1 つ(primary)にまとめ、variant ごとに「何を試す本か」を名前の横に出す。
+// **プリセットの外に置く表示専用の side table**(presetSig・保存 JSON・物理・600 步の状態には 1 bit も効かない)。
+const FAMILY_VARIANT_LABEL={
+  plutoCharonReal:{ja:"観測値版(旧入力)", en:"observed-value build (older inputs)"},
+  plutoCharonDiagInput:{ja:"観測入力 kF0 対照(入力を整えた二体)", en:"observed-input kF0 control (cleaned two-body inputs)"},
+  plutoCharonKF0Control:{ja:"観測入力 kF0 対照(元期 A の状態)", en:"observed-input kF0 control (epoch-A state)"},
+  plutoCharonDFM:{ja:"相対すべりモデル", en:"relative-slip model"},
+  plutoCharonSyncZero:{ja:"厳密同期円の零試験", en:"exact synchronous-circle zero test"} };
+function familyVariantLabel(p){
+  const e=p? FAMILY_VARIANT_LABEL[p.id] : null;
+  return e? (LANG==="en"? e.en : e.ja) : "";
+}
 // 第117便(外部レビュー採択・原仮定者裁定「サンプルの整理を進める」): catalog 可視性 —
 // 「すべて表示」OFF のとき catalog:"extended"/"diagnostic" は**検索・グループ/属性絞り込みでも
 // 表示しない**(strict — family variant の「検索で再表示」より強い)。読込中の自身だけ選択保持。
@@ -28237,6 +28417,7 @@ function ppRender(){
     nInGroup++;
     let label=(p.emoji||"")+" "+pName(p);
     if(p.familyId&&p.familyRole==="variant") label="└ "+label;
+    { const vl=familyVariantLabel(p); if(vl) label+="〔"+vl+"〕"; }   // 第280便d: 役割名(表示専用)
     const tags=[(p.scaleTier||p.scaleExp? SCALE_EMOJI[presetTierOf(p)]:""),(p.emergence||""),
       sampleClassLabel(p)].filter(Boolean).join(" ");   // 第258便c: 較正は DFM / kF0 を出す
     mkRow(label,tags,!!(currentPreset&&currentPreset.id===p.id),()=>pick(p.id));
@@ -33564,6 +33745,8 @@ function renderHelp(){
         if(fp.id===currentPreset.id) return;
         const b=document.createElement("button"); b.type="button"; b.className="familyLink";
         b.textContent=(fp.emoji||"")+" "+pName(fp);
+        const vl=familyVariantLabel(fp);   // 第280便d: 役割名(表示専用 — 宣言のある本だけ)
+        if(vl){ b.dataset.variant=vl; b.title=vl; b.textContent=(fp.emoji||"")+" "+vl+" — "+pName(fp); }
         b.addEventListener("click",()=>{
           if(paramsDirty && !confirm(T("confirmDiscard"))) return;   // 第13次裁定 P1-2 と同方針
           loadPreset(fp.id,false);
