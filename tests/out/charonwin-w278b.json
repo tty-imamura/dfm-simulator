@@ -31,14 +31,14 @@
   },
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "74089924c59e42e8b8331f7d59a2a00ba4a362ec6c07581f2b622db7732609a7",
-  "generatedAt": "2026-09-24T16:02:19.463Z",
+  "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
+  "generatedAt": "2026-09-24T21:39:43.995Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4758232,
-    "sha256": "74089924c59e42e8b8331f7d59a2a00ba4a362ec6c07581f2b622db7732609a7",
-    "mtime": "2026-09-24T09:41:43.038Z"
+    "bytes": 4758438,
+    "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
+    "mtime": "2026-09-24T16:22:58.318Z"
    }
   ],
   "code": [
@@ -524,7 +524,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 1833.5,
+     "ms": 1825.3999999985099,
      "applied": {
       "integrator": "semi",
       "hasRelativeDrag": false,
@@ -690,7 +690,7 @@
       "n": 0
      },
      "stage": "h",
-     "wallMs": 1841
+     "wallMs": 1832
     },
     "h2": {
      "cfg": {
@@ -704,7 +704,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 3645.300000000745,
+     "ms": 3577,
      "applied": {
       "integrator": "semi",
       "hasRelativeDrag": false,
@@ -870,7 +870,7 @@
       "n": 0
      },
      "stage": "h2",
-     "wallMs": 3652
+     "wallMs": 3583
     },
     "h4": {
      "cfg": {
@@ -884,7 +884,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 6799.199999999255,
+     "ms": 7061.10000000149,
      "applied": {
       "integrator": "semi",
       "hasRelativeDrag": false,
@@ -1050,7 +1050,7 @@
       "n": 0
      },
      "stage": "h4",
-     "wallMs": 6807
+     "wallMs": 7070
     }
    },
    "dfmSemi": {
@@ -1066,7 +1066,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 2229.2999999970198,
+     "ms": 2371.2000000029802,
      "applied": {
       "integrator": "semi",
       "hasRelativeDrag": true,
@@ -1232,7 +1232,7 @@
       "n": 2069502
      },
      "stage": "h",
-     "wallMs": 2237
+     "wallMs": 2378
     },
     "h2": {
      "cfg": {
@@ -1246,7 +1246,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 4676.300000000745,
+     "ms": 4354.10000000149,
      "applied": {
       "integrator": "semi",
       "hasRelativeDrag": true,
@@ -1412,7 +1412,7 @@
       "n": 4139079
      },
      "stage": "h2",
-     "wallMs": 4683
+     "wallMs": 4360
     },
     "h4": {
      "cfg": {
@@ -1426,7 +1426,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 9010.89999999851,
+     "ms": 8953.39999999851,
      "applied": {
       "integrator": "semi",
       "hasRelativeDrag": true,
@@ -1592,7 +1592,7 @@
       "n": 8278233
      },
      "stage": "h4",
-     "wallMs": 9017
+     "wallMs": 8959
     }
    },
    "kf0Leap": {
@@ -1608,7 +1608,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 3112,
+     "ms": 3183,
      "applied": {
       "integrator": "leapfrog",
       "hasRelativeDrag": false,
@@ -1774,7 +1774,7 @@
       "n": 0
      },
      "stage": "h",
-     "wallMs": 3118
+     "wallMs": 3189
     },
     "h2": {
      "cfg": {
@@ -1788,7 +1788,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 6463,
+     "ms": 6590.30000000447,
      "applied": {
       "integrator": "leapfrog",
       "hasRelativeDrag": false,
@@ -1954,7 +1954,7 @@
       "n": 0
      },
      "stage": "h2",
-     "wallMs": 6470
+     "wallMs": 6598
     },
     "h4": {
      "cfg": {
@@ -1968,7 +1968,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 12763.10000000149,
+     "ms": 12490.60000000149,
      "applied": {
       "integrator": "leapfrog",
       "hasRelativeDrag": false,
@@ -2134,7 +2134,7 @@
       "n": 0
      },
      "stage": "h4",
-     "wallMs": 12768
+     "wallMs": 12496
     }
    },
    "dfmMid": {
@@ -2150,7 +2150,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 4836.199999999255,
+     "ms": 4904,
      "applied": {
       "integrator": "leapfrog",
       "hasRelativeDrag": true,
@@ -2316,7 +2316,7 @@
       "n": 4139156
      },
      "stage": "h",
-     "wallMs": 4844
+     "wallMs": 4910
     },
     "h2": {
      "cfg": {
@@ -2330,7 +2330,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 10033.099999997765,
+     "ms": 9946.10000000149,
      "applied": {
       "integrator": "leapfrog",
       "hasRelativeDrag": true,
@@ -2496,7 +2496,7 @@
       "n": 8278310
      },
      "stage": "h2",
-     "wallMs": 10042
+     "wallMs": 9952
     },
     "h4": {
      "cfg": {
@@ -2510,7 +2510,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 19669.5,
+     "ms": 19747.89999999851,
      "applied": {
       "integrator": "leapfrog",
       "hasRelativeDrag": true,
@@ -2676,7 +2676,7 @@
       "n": 16556618
      },
      "stage": "h4",
-     "wallMs": 19677
+     "wallMs": 19755
     }
    }
   },
