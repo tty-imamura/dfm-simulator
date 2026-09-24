@@ -1,7 +1,7 @@
 {
  "meta": {
   "wave": "第249便b",
-  "when": "2026-09-24T12:02:22.911Z",
+  "when": "2026-09-24T12:30:15.247Z",
   "target": "beta/index.html",
   "dtBase": 0.016,
   "targetSha256": "74089924c59e42e8b8331f7d59a2a00ba4a362ec6c07581f2b622db7732609a7",
@@ -167,20 +167,7 @@
   ],
   "verdictsNote": "第258便d(第50報 W4): 5 区分に **`条`(condition-mismatch)** を足した。行が要求している条件(kFrame)と、割り当てられている測定値の走行条件が違う行の隔離である。**数値が間違っているのではなく、行の割り当てが間違っている** —— 元の証拠は conditionRejectedEvidence に残す。",
   "dt8": {
-   "on": true,
-   "ids": [
-    "plutoCharonReal",
-    "saturnZonalD68",
-    "psrDoubleAB",
-    "psrDoubleABDFM",
-    "psrDoubleABCF",
-    "psrJ1757DFM",
-    "psrJ1757CF",
-    "psrJ1946DFM",
-    "psrJ1946CF"
-   ],
-   "dt": 0.002,
-   "note": "第258便d: h8 検査点。名指しした系だけ 4 段目を走らせる(予算の都合で 1 系)。走らせていない系は**未走行**である(推定で埋めない)。"
+   "on": false
   },
   "toleranceNote": "観測誤差が obsCard の obs 欄から読めた量は誤差で機械判定する。読めない量は ±1% を「目安」として使い(guide:true)、確定基準にはしない。",
   "periodNote": "公転周期は 2 定義(近点間 / 同方向 1 周)を両方測り、判定は同方向 1 周で行う(obsCard の「2 周目/周回時間」がこの定義)。両定義が許容の内外に分かれた行は note に「定義依存」を書く。 **第252便b: 近点間周期の窓を「最初の 20 近点(19 区間)」に固定した。**20 近点に満たない対象は unmeasured を返し、他の周期定義へは置換しない(第251便c の定義契約 ④ の延長)。 窓外の全近点平均は detail.periAllSec に履歴として残す。",
@@ -190,35 +177,22 @@
    "reason": "第251便 統括の未解決「近点間平均の窓感度で ⚡🧿🪶 の周期残差が 0.66pt 割れる」— 窓の長さが走行長(時間予算)で決まっていたのをやめ、宣言した固定窓にする(第252便b)",
    "unmeasured": "**窓感度は未計測のままである**(第253便b L6): 窓を 20・30・40 近点と振って値がどう動くかは測っていない。窓は全系で 20 近点に固定したので系間の比較は揃うが、「20 が十分な長さか」は確かめていない。"
   },
-  "dtNote": "dt はアプリ既定 0.016 と、その半分 0.008 の 2 段。dt/2 段は実行時 n≤12 のサンプルだけ(重い環・多体は時間予算に収まらない — 明記)。**第255便d(第47報 N8): 本走行は --dt3 で dt/4=0.004 を足した 3 段**である(--only で絞った系だけ。ε_num=|Q_h−Q_{h/4}|・観測次数 p_obs を実測して numBoundDecl へ入れる)。",
+  "dtNote": "dt はアプリ既定 0.016 と、その半分 0.008 の 2 段。dt/2 段は実行時 n≤12 のサンプルだけ(重い環・多体は時間予算に収まらない — 明記)。",
   "kf0Runs": {
-   "on": false,
-   "dt3": false,
-   "only": false,
-   "ids": [],
+   "on": true,
+   "dt3": true,
+   "only": true,
+   "ids": [
+    "jupiterGalilean",
+    "venusReal",
+    "marsMoonsReal",
+    "plutoCharonReal",
+    "neptuneReal"
+   ],
    "how": "`physics.kFrame` の 1 鍵だけを 0 にした診断コピー(`__w249build(id, true)`)。停止条件・近点窓・抽出器・σ の宛先は既定経路と同じ宣言を引く。"
   },
   "dt3": {
-   "on": true,
-   "only": [
-    "psrDoubleABDFM",
-    "psrJ1757DFM",
-    "psrJ1946DFM",
-    "psrB1534DFM",
-    "alphaCenAB",
-    "alphaCenABDFM",
-    "siriusAB",
-    "siriusABDFM",
-    "psrDoubleAB",
-    "psrDoubleABCF",
-    "psrJ1757CF",
-    "psrJ1946CF",
-    "psrB1534",
-    "psrB1534CF",
-    "saturnZonalD68",
-    "plutoCharonReal"
-   ],
-   "note": "3 段(dt, dt/2, dt/4)を走らせた系だけ numBoundDecl.steps=3・order=p_obs になる。2 段のままの系の値・文言は第253便b から 1 文字も動いていない。"
+   "on": false
   }
  },
  "presets": [
@@ -10179,52 +10153,52 @@
     {
      "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(イオ)",
      "kind": "period",
-     "version": "dfm",
+     "version": "obs",
      "target": "イオ",
      "declaredModel": "1.770342 / 3.552263 / 7.154235 / 16.684462 日(最大ずれ 0.0681%)",
      "declaredObs": "1.769138 / 3.551181 / 7.154553 / 16.689017 日",
      "model": 152957.54880000002,
      "obs": 152853.5232,
      "obsErr": null,
-     "meas": 152933.5450591308,
+     "meas": 152929.0080392533,
      "unit": "s",
-     "residualPct": null,
-     "modelResidualPct": -0.015693073704139835,
-     "verdict": "条",
+     "residualPct": 0.04938377452676354,
+     "modelResidualPct": -0.018659269170192453,
+     "verdict": "合",
      "method": "同方向1周(2周目 — obsCard の数え方)",
-     "note": "**条件不一致(condition-mismatch)**: この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
+     "note": null,
      "standard": false,
      "rowDefContract": null,
      "periodDef": "revolution",
      "detail": {
       "revSec": [
-       152915.3855980632,
-       152933.5450591308,
-       152930.87776217965,
-       152933.5150932273,
-       152930.93460866009,
-       152933.03936293977
+       152958.789965722,
+       152929.0080392533,
+       152961.52391981086,
+       152943.22928772273,
+       152978.25927917505,
+       152933.69615500388
       ],
-      "periASec": 153043.8082887324,
-      "periBSec": 153049.7525930924,
-      "oscSec": 152923.42363538803,
+      "periASec": 153445.38003277918,
+      "periBSec": 153546.51057713272,
+      "oscSec": 152896.10932577314,
       "periWindow": 20,
       "periFoundA": 63,
       "periFoundB": 63,
       "periUnmeasuredA": false,
-      "periAllSec": 153000.05740588252,
+      "periAllSec": 153141.0752332814,
       "revN": 62,
-      "aOscMean": 42.17907391665198,
+      "aOscMean": 42.1740504003577,
       "aOsc0": 42.17800016217281,
       "periodDef": "revolution",
       "detPairSec": [
-       153043.8082887324,
-       153049.7525930924
+       153445.38003277918,
+       153546.51057713272
       ]
      },
-     "residualPctPeri": 0.12448851995607915,
-     "residualPctRev": 0.05235198865916165,
-     "defDiffPct": 0.07209878614856961,
+     "residualPctPeri": 0.3872052278473011,
+     "residualPctRev": 0.04938377452676354,
+     "defDiffPct": 0.337654706681511,
      "sigmaSource": {
       "body": "Io",
       "quantity": "orbital_period",
@@ -10239,7 +10213,7 @@
      "toleranceUsedPct": 1,
      "strictOK": true,
      "stageHealth": {
-      "stages": 2,
+      "stages": 3,
       "nan": false,
       "clamp": 0,
       "dup": 0,
@@ -10256,37 +10230,98 @@
       "periodWindowFilledWithH8": null,
       "extractionCleanWithH8": null,
       "rowsMoved": "calaudit-w249-diag.json",
-      "rowsN": 2,
+      "rowsN": 3,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
-     "numBoundDt2": 0.03233634392381646,
+     "numBoundDt2": 0.016061719448771328,
      "numBoundDef": "revolution-or-osculating",
+     "numBoundDt3": 0.016061719448771328,
+     "pObs": 4.9126572341256045,
+     "dtStages": {
+      "dt": 152929.0080392533,
+      "dtHalf": 152928.99142596673,
+      "dtQuarter": 152928.99197753385
+     },
      "numBoundDecl": {
-      "value": 0.03233634392381646,
-      "steps": 2,
-      "order": null,
+      "value": 0.016061719448771328,
+      "steps": 3,
+      "order": 4.9126572341256045,
+      "assessedStage": "h",
       "estimate": {
-       "raw": 0.03233634392381646,
-       "order": null,
-       "factor": null,
-       "refined": null,
+       "raw": 0.016061719448771328,
+       "order": 4.9126572341256045,
+       "factor": 1.0011034803384933,
+       "refined": 0.016079443240385443,
        "side": "coarse",
-       "asymptotic": "unconfirmed",
-       "richardsonUsable": false,
-       "reason": "order-not-measured",
-       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
+       "asymptotic": "order-positive",
+       "richardsonUsable": true,
+       "reason": null,
+       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、**粗い側**の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0011 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
       },
-      "basisRef": "numBoundDecl.basis#cd426718",
-      "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
+      "basisRef": "numBoundDecl.basis#d5d9728a",
+      "orderNoteRef": "numBoundDecl.orderNote#5a367735"
+     },
+     "orderEstimable": {
+      "ok": false,
+      "d1": 0.01661328657064587,
+      "d2": -0.000551567121874541,
+      "reason": "orderNotEstimable(nonMonotone)",
+      "asymptotic": "unconfirmed",
+      "richardsonUsable": false,
+      "ruleRef": "orderEstimable.rule#a18ab000"
+     },
+     "kf0Applied": {
+      "since": "第274便a(第64報)",
+      "requiredKFrame": 0,
+      "measuredKFrame": 0,
+      "stages": [
+       "h",
+       "h/2",
+       "h/4"
+      ],
+      "how": "`physics.kFrame` の 1 鍵だけを 0 にした**診断コピー**を、**同じ停止条件・同じ近点窓・同じ抽出器・同じ σ の宛先**で走らせた(preset id が同じなので宣言はすべて同じ 1 本を引く)。**プリセットの physics は 1 bit も書き換えていない**。",
+      "replaced": {
+       "meas": 152933.5450591308,
+       "unit": "s",
+       "periodDef": "revolution",
+       "verdict": "条",
+       "residualPct": null,
+       "residualPctRev": 0.05235198865916165,
+       "residualPctPeri": 0.12448851995607915,
+       "measuredKFrame": 1,
+       "gate": {
+        "status": "condition-mismatch",
+        "assessedStage": "h",
+        "assessedValue": 152933.5450591308,
+        "nSigma": null,
+        "numBound": 0.03233634392381646,
+        "sigma": null
+       },
+       "gateNote": "**配る前の門の転記**である(このとき隔離されていたので status は `condition-mismatch` のはずである)。beta の「正式判定値」表はこの世代の転記なので、QA `ui.assessedValuePanel` はこの欄と突き合わせる。",
+       "why": "**証拠として捨てていない** —— この数値は kFrame=1 の走行の実測であり、**kFrame=0 の行に配られていたことだけが誤りだった**(第258便d の隔離の理由)。"
+      },
+      "deltaPct": -0.002966661026354035,
+      "doNotWrite": [
+       "kF0 版が成立した",
+       "引きずりが消えた",
+       "対照が合った"
+      ]
+     },
+     "measurementContextOverride": {
+      "kFrame": 0,
+      "source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
+      "dt": 0.016,
+      "steps": null,
+      "note": "**プリセットの physics は kFrame=1 のままである**。この行に配られている数だけが、kFrame=0 の診断コピーの走行から来ている。"
      },
      "gate": {
-      "status": "condition-mismatch",
-      "reason": "測定条件が行の要求条件と違う(kFrame 1 ≠ 0)",
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
       "key": "jupiterGalilean|イオ|period",
       "assessedStage": "h",
-      "assessedValue": 152933.5450591308,
+      "assessedValue": 152929.0080392533,
       "coarseStage": "h",
-      "coarseValue": 152933.5450591308,
+      "coarseValue": 152929.0080392533,
       "coarseNumBound": null,
       "assessedStageRule": "**判定値は h 段**(3 段登録表の外の系 —— 第271便a でも扱いを変えていない)。",
       "h8Promoted": false,
@@ -10300,14 +10335,14 @@
       "mappingResolved": true,
       "mappingNote": null,
       "orbitNoiseIndicator": {
-       "abRelPct": 0.003883903279343007,
+       "abRelPct": 0.06586313422129929,
        "sigmaRelPct": null,
        "ratio": null,
        "gate": "none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)",
        "meaningRef": "orbitNoiseIndicator.meaning#2cecac37"
       },
       "sigmaRelPct": null,
-      "numBound": 0.03233634392381646,
+      "numBound": 0.016061719448771328,
       "sigma": null,
       "sigmaFrom": null,
       "sigmaSource": {
@@ -10319,44 +10354,44 @@
        "primaryVerified": false
       },
       "sigmaCardVsCsvRel": null,
-      "detSpreadPct": 0.003883903279343007,
-      "defSpreadCrossDefPct": 0.0786602572756517,
-      "defSpreadPct": 0.003883903279343007,
+      "detSpreadPct": 0.06586313422129929,
+      "defSpreadCrossDefPct": 0.35795845198383064,
+      "defSpreadPct": 0.06586313422129929,
       "defMeta": true,
       "numBoundDecl": {
-       "value": 0.03233634392381646,
-       "steps": 2,
-       "order": null,
+       "value": 0.016061719448771328,
+       "steps": 3,
+       "order": 4.9126572341256045,
+       "assessedStage": "h",
        "estimate": {
-        "raw": 0.03233634392381646,
-        "order": null,
-        "factor": null,
-        "refined": null,
+        "raw": 0.016061719448771328,
+        "order": 4.9126572341256045,
+        "factor": 1.0011034803384933,
+        "refined": 0.016079443240385443,
         "side": "coarse",
-        "asymptotic": "unconfirmed",
-        "richardsonUsable": false,
-        "reason": "order-not-measured",
-        "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
+        "asymptotic": "order-positive",
+        "richardsonUsable": true,
+        "reason": null,
+        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、**粗い側**の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0011 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
        },
-       "basisRef": "numBoundDecl.basis#cd426718",
-       "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
+       "basisRef": "numBoundDecl.basis#d5d9728a",
+       "orderNoteRef": "numBoundDecl.orderNote#5a367735"
       },
       "convergence": {
        "ok": false,
-       "okLegacy": false,
-       "steps": 2,
-       "order": null,
+       "okLegacy": true,
+       "steps": 3,
+       "order": 4.9126572341256045,
        "orderGuard": false,
-       "epsHat": null,
+       "epsHat": 0.0005515671218745408,
        "epsHatInSigma": null,
        "epsHatOk": null,
-       "lastDiff": 0.03233634392381646,
+       "lastDiff": 0.016061719448771328,
        "lastDiffInSigma": null,
        "lastDiffOk": null,
        "assessedStage": "h",
-       "orderEstimable": true,
-       "orderEstimableReason": null,
-       "orderEstimableRule": null,
+       "orderEstimable": false,
+       "orderEstimableReason": "orderNotEstimable(nonMonotone)",
        "asymptoticStatus": "unconfirmed",
        "richardsonUsable": false,
        "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
@@ -10368,25 +10403,19 @@
        "fitWindows": [
         63
        ],
-       "hold": "dt 3 段が走っていない(2 段は感度診断)",
+       "hold": "**次数が推定できない列である**(orderNotEstimable(nonMonotone)) —— 連続 2 段差が同符号でない、または 3 段が完全に一致している(第271便a・R3)。**漸近収束は未確認**である(漸近域に居ないことが確定したのではない —— 第273便c・AH30)",
        "previous": {
         "rule": "3 段かつ order>0(第253便b〜第269便a)",
-        "ok": false,
+        "ok": true,
         "noteRef": "convergence.previous.note#522b1e55"
        },
        "ruleRef": "convergence.rule#3c5d2263",
-       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f"
+       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f",
+       "orderEstimableRuleRef": "convergence.orderEstimableRule#a18ab000"
       },
       "arithOnly": null,
-      "conditionMismatch": {
-       "requiredKFrame": 0,
-       "measuredKFrame": 1,
-       "evidence": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(イオ)",
-       "note": "この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
-       "fix": "対照条件(kFrame=0)を**別の走行**として測り、その行に割り当てる(プリセットの physics は変えない —— 検証器の中で physics を差し替えた診断コピーを走らせる)"
-      },
       "deprecatedKeysMoved": "calaudit-w249-diag.json",
-      "definitionNoteRef": "gate.definitionNote#89f06f65"
+      "definitionNoteRef": "gate.definitionNote#81349276"
      },
      "requiredContext": {
       "kFrame": 0,
@@ -10394,82 +10423,67 @@
       "evidence": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(イオ)"
      },
      "measurementContext": {
-      "kFrame": 1,
-      "source": "run(preset physics)",
+      "kFrame": 0,
+      "source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
       "dt": 0.016,
-      "steps": 5407442
+      "steps": null,
+      "override": true,
+      "presetKFrame": 1,
+      "note": "**プリセットの physics は kFrame=1 のままである**。この行に配られている数だけが、kFrame=0 の診断コピーの走行から来ている。"
      },
-     "conditionMatch": false,
-     "conditionRejectedEvidence": {
-      "verdict": "合",
-      "residualPct": 0.05235198865916165,
-      "residualPctRev": 0.05235198865916165,
-      "residualPctPeri": 0.12448851995607915,
-      "strictOK": true,
-      "meas": 152933.5450591308,
-      "obs": 152853.5232,
-      "note": null,
-      "why": "**証拠として捨てていない** —— この数値は kFrame=1 の走行の実測であり、kFrame=0 の行に割り当てられていたことだけが誤りである"
-     },
-     "conditionMismatch": {
-      "requiredKFrame": 0,
-      "measuredKFrame": 1,
-      "evidence": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(イオ)",
-      "note": "この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
-      "fix": "対照条件(kFrame=0)を**別の走行**として測り、その行に割り当てる(プリセットの physics は変えない —— 検証器の中で physics を差し替えた診断コピーを走らせる)"
-     },
+     "conditionMatch": true,
      "predictionEligible": false,
      "predictionEligibleReasonsMoved": "calaudit-w249-diag.json"
     },
     {
      "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(エウロパ)",
      "kind": "period",
-     "version": "dfm",
+     "version": "obs",
      "target": "エウロパ",
      "declaredModel": "1.770342 / 3.552263 / 7.154235 / 16.684462 日(最大ずれ 0.0681%)",
      "declaredObs": "1.769138 / 3.551181 / 7.154553 / 16.689017 日",
      "model": 306915.5232,
      "obs": 306822.0384,
      "obsErr": null,
-     "meas": 306919.3630930592,
+     "meas": 306825.7073951724,
      "unit": "s",
-     "residualPct": null,
-     "modelResidualPct": 0.0012511237682561634,
-     "verdict": "条",
+     "residualPct": 0.0011958056179733115,
+     "modelResidualPct": -0.029264015026402256,
+     "verdict": "合",
      "method": "同方向1周(2周目 — obsCard の数え方)",
-     "note": "**条件不一致(condition-mismatch)**: この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
+     "note": "**周期の定義依存**: 同方向1周 0.0012% / 近点間 1.0399%(判定に採ったのは revolution)",
      "standard": false,
      "rowDefContract": null,
      "periodDef": "revolution",
      "detail": {
       "revSec": [
-       306888.7228320601,
-       306919.3630930592,
-       306909.0415728873,
-       306924.22293395316,
-       306914.6980102398,
-       306929.5183241504
+       307028.0213330864,
+       306825.7073951724,
+       307015.69624066143,
+       306820.5276697976,
+       307026.0846312915,
+       306819.8375684956
       ],
-      "periASec": 306841.8959255734,
-      "periBSec": 306872.8425538126,
-      "oscSec": 306871.33087766776,
+      "periASec": 310012.71989399946,
+      "periBSec": 310179.3871978341,
+      "oscSec": 306977.14785997686,
       "periWindow": 20,
       "periFoundA": 63,
       "periFoundB": 63,
       "periUnmeasuredA": false,
-      "periAllSec": 306511.4569695747,
+      "periAllSec": 307683.1934121134,
       "revN": 62,
-      "aOscMean": 67.10405302872414,
+      "aOscMean": 67.11946240407723,
       "aOsc0": 67.10827410822766,
       "periodDef": "revolution",
       "detPairSec": [
-       306841.8959255734,
-       306872.8425538126
+       310012.71989399946,
+       310179.3871978341
       ]
      },
-     "residualPctPeri": 0.006472001058644655,
-     "residualPctRev": 0.031720241990022414,
-     "defDiffPct": -0.02524023466786226,
+     "residualPctPeri": 1.0399127489791933,
+     "residualPctRev": 0.0011958056179733115,
+     "defDiffPct": 1.0387045224741862,
      "sigmaSource": {
       "body": "Europa",
       "quantity": "orbital_period",
@@ -10484,7 +10498,7 @@
      "toleranceUsedPct": 1,
      "strictOK": true,
      "stageHealth": {
-      "stages": 2,
+      "stages": 3,
       "nan": false,
       "clamp": 0,
       "dup": 0,
@@ -10501,37 +10515,98 @@
       "periodWindowFilledWithH8": null,
       "extractionCleanWithH8": null,
       "rowsMoved": "calaudit-w249-diag.json",
-      "rowsN": 2,
+      "rowsN": 3,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
-     "numBoundDt2": 0.028578357596416026,
+     "numBoundDt2": 0.2246749397017993,
      "numBoundDef": "revolution-or-osculating",
+     "numBoundDt3": 0.2246749397017993,
+     "pObs": 1.088022808906819,
+     "dtStages": {
+      "dt": 306825.7073951724,
+      "dtHalf": 306825.55459723884,
+      "dtQuarter": 306825.4827202327
+     },
      "numBoundDecl": {
-      "value": 0.028578357596416026,
-      "steps": 2,
-      "order": null,
+      "value": 0.2246749397017993,
+      "steps": 3,
+      "order": 1.088022808906819,
+      "assessedStage": "h",
       "estimate": {
-       "raw": 0.028578357596416026,
-       "order": null,
-       "factor": null,
-       "refined": null,
+       "raw": 0.2246749397017993,
+       "order": 1.088022808906819,
+       "factor": 1.28416100076569,
+       "refined": 0.28851879541443365,
        "side": "coarse",
-       "asymptotic": "unconfirmed",
-       "richardsonUsable": false,
-       "reason": "order-not-measured",
-       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
+       "asymptotic": "order-positive",
+       "richardsonUsable": true,
+       "reason": null,
+       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、**粗い側**の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.2842 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
       },
-      "basisRef": "numBoundDecl.basis#cd426718",
-      "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
+      "basisRef": "numBoundDecl.basis#d5d9728a",
+      "orderNoteRef": "numBoundDecl.orderNote#3e84a894"
+     },
+     "orderEstimable": {
+      "ok": true,
+      "d1": 0.15279793355148286,
+      "d2": 0.07187700615031645,
+      "reason": null,
+      "asymptotic": "order-estimable",
+      "richardsonUsable": true,
+      "ruleRef": "orderEstimable.rule#a18ab000"
+     },
+     "kf0Applied": {
+      "since": "第274便a(第64報)",
+      "requiredKFrame": 0,
+      "measuredKFrame": 0,
+      "stages": [
+       "h",
+       "h/2",
+       "h/4"
+      ],
+      "how": "`physics.kFrame` の 1 鍵だけを 0 にした**診断コピー**を、**同じ停止条件・同じ近点窓・同じ抽出器・同じ σ の宛先**で走らせた(preset id が同じなので宣言はすべて同じ 1 本を引く)。**プリセットの physics は 1 bit も書き換えていない**。",
+      "replaced": {
+       "meas": 306919.3630930592,
+       "unit": "s",
+       "periodDef": "revolution",
+       "verdict": "条",
+       "residualPct": null,
+       "residualPctRev": 0.031720241990022414,
+       "residualPctPeri": 0.006472001058644655,
+       "measuredKFrame": 1,
+       "gate": {
+        "status": "condition-mismatch",
+        "assessedStage": "h",
+        "assessedValue": 306919.3630930592,
+        "nSigma": null,
+        "numBound": 0.028578357596416026,
+        "sigma": null
+       },
+       "gateNote": "**配る前の門の転記**である(このとき隔離されていたので status は `condition-mismatch` のはずである)。beta の「正式判定値」表はこの世代の転記なので、QA `ui.assessedValuePanel` はこの欄と突き合わせる。",
+       "why": "**証拠として捨てていない** —— この数値は kFrame=1 の走行の実測であり、**kFrame=0 の行に配られていたことだけが誤りだった**(第258便d の隔離の理由)。"
+      },
+      "deltaPct": -0.03051475701728055,
+      "doNotWrite": [
+       "kF0 版が成立した",
+       "引きずりが消えた",
+       "対照が合った"
+      ]
+     },
+     "measurementContextOverride": {
+      "kFrame": 0,
+      "source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
+      "dt": 0.016,
+      "steps": null,
+      "note": "**プリセットの physics は kFrame=1 のままである**。この行に配られている数だけが、kFrame=0 の診断コピーの走行から来ている。"
      },
      "gate": {
-      "status": "condition-mismatch",
-      "reason": "測定条件が行の要求条件と違う(kFrame 1 ≠ 0)",
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
       "key": "jupiterGalilean|エウロパ|period",
       "assessedStage": "h",
-      "assessedValue": 306919.3630930592,
+      "assessedValue": 306825.7073951724,
       "coarseStage": "h",
-      "coarseValue": 306919.3630930592,
+      "coarseValue": 306825.7073951724,
       "coarseNumBound": null,
       "assessedStageRule": "**判定値は h 段**(3 段登録表の外の系 —— 第271便a でも扱いを変えていない)。",
       "h8Promoted": false,
@@ -10545,14 +10620,14 @@
       "mappingResolved": true,
       "mappingNote": null,
       "orbitNoiseIndicator": {
-       "abRelPct": 0.010084511871966542,
+       "abRelPct": 0.05373255306882564,
        "sigmaRelPct": null,
        "ratio": null,
        "gate": "none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)",
        "meaningRef": "orbitNoiseIndicator.meaning#2cecac37"
       },
       "sigmaRelPct": null,
-      "numBound": 0.028578357596416026,
+      "numBound": 0.2246749397017993,
       "sigma": null,
       "sigmaFrom": null,
       "sigmaSource": {
@@ -10564,46 +10639,46 @@
        "primaryVerified": false
       },
       "sigmaCardVsCsvRel": null,
-      "detSpreadPct": 0.010084511871966542,
-      "defSpreadCrossDefPct": 0.02524023466786226,
-      "defSpreadPct": 0.010084511871966542,
+      "detSpreadPct": 0.05373255306882564,
+      "defSpreadCrossDefPct": 1.0280263661171007,
+      "defSpreadPct": 0.05373255306882564,
       "defMeta": true,
       "numBoundDecl": {
-       "value": 0.028578357596416026,
-       "steps": 2,
-       "order": null,
+       "value": 0.2246749397017993,
+       "steps": 3,
+       "order": 1.088022808906819,
+       "assessedStage": "h",
        "estimate": {
-        "raw": 0.028578357596416026,
-        "order": null,
-        "factor": null,
-        "refined": null,
+        "raw": 0.2246749397017993,
+        "order": 1.088022808906819,
+        "factor": 1.28416100076569,
+        "refined": 0.28851879541443365,
         "side": "coarse",
-        "asymptotic": "unconfirmed",
-        "richardsonUsable": false,
-        "reason": "order-not-measured",
-        "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
+        "asymptotic": "order-positive",
+        "richardsonUsable": true,
+        "reason": null,
+        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、**粗い側**の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.2842 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
        },
-       "basisRef": "numBoundDecl.basis#cd426718",
-       "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
+       "basisRef": "numBoundDecl.basis#d5d9728a",
+       "orderNoteRef": "numBoundDecl.orderNote#3e84a894"
       },
       "convergence": {
        "ok": false,
-       "okLegacy": false,
-       "steps": 2,
-       "order": null,
+       "okLegacy": true,
+       "steps": 3,
+       "order": 1.088022808906819,
        "orderGuard": false,
-       "epsHat": null,
+       "epsHat": 0.19956471757558514,
        "epsHatInSigma": null,
        "epsHatOk": null,
-       "lastDiff": 0.028578357596416026,
+       "lastDiff": 0.2246749397017993,
        "lastDiffInSigma": null,
        "lastDiffOk": null,
        "assessedStage": "h",
        "orderEstimable": true,
        "orderEstimableReason": null,
-       "orderEstimableRule": null,
-       "asymptoticStatus": "unconfirmed",
-       "richardsonUsable": false,
+       "asymptoticStatus": "order-estimable",
+       "richardsonUsable": true,
        "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
        "lastDiffDef": "|Q_h−Q_{h/4}|(3 段)/|Q_h−Q_{h/2}|(2 段)",
        "coarseNumBound": null,
@@ -10613,25 +10688,19 @@
        "fitWindows": [
         63
        ],
-       "hold": "dt 3 段が走っていない(2 段は感度診断)",
+       "hold": "**次数ガード(AE3)で保留**: 観測次数 p=1.0880 が 2 から 0.9120 離れている(|p−2|≤0.5 を満たさない)= 漸近域に居ない",
        "previous": {
         "rule": "3 段かつ order>0(第253便b〜第269便a)",
-        "ok": false,
+        "ok": true,
         "noteRef": "convergence.previous.note#522b1e55"
        },
        "ruleRef": "convergence.rule#3c5d2263",
-       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f"
+       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f",
+       "orderEstimableRuleRef": "convergence.orderEstimableRule#a18ab000"
       },
       "arithOnly": null,
-      "conditionMismatch": {
-       "requiredKFrame": 0,
-       "measuredKFrame": 1,
-       "evidence": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(エウロパ)",
-       "note": "この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
-       "fix": "対照条件(kFrame=0)を**別の走行**として測り、その行に割り当てる(プリセットの physics は変えない —— 検証器の中で physics を差し替えた診断コピーを走らせる)"
-      },
       "deprecatedKeysMoved": "calaudit-w249-diag.json",
-      "definitionNoteRef": "gate.definitionNote#22af5cde"
+      "definitionNoteRef": "gate.definitionNote#6a40f89e"
      },
      "requiredContext": {
       "kFrame": 0,
@@ -10639,82 +10708,67 @@
       "evidence": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(エウロパ)"
      },
      "measurementContext": {
-      "kFrame": 1,
-      "source": "run(preset physics)",
+      "kFrame": 0,
+      "source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
       "dt": 0.016,
-      "steps": 5407442
+      "steps": null,
+      "override": true,
+      "presetKFrame": 1,
+      "note": "**プリセットの physics は kFrame=1 のままである**。この行に配られている数だけが、kFrame=0 の診断コピーの走行から来ている。"
      },
-     "conditionMatch": false,
-     "conditionRejectedEvidence": {
-      "verdict": "合",
-      "residualPct": 0.031720241990022414,
-      "residualPctRev": 0.031720241990022414,
-      "residualPctPeri": 0.006472001058644655,
-      "strictOK": true,
-      "meas": 306919.3630930592,
-      "obs": 306822.0384,
-      "note": null,
-      "why": "**証拠として捨てていない** —— この数値は kFrame=1 の走行の実測であり、kFrame=0 の行に割り当てられていたことだけが誤りである"
-     },
-     "conditionMismatch": {
-      "requiredKFrame": 0,
-      "measuredKFrame": 1,
-      "evidence": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(エウロパ)",
-      "note": "この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
-      "fix": "対照条件(kFrame=0)を**別の走行**として測り、その行に割り当てる(プリセットの physics は変えない —— 検証器の中で physics を差し替えた診断コピーを走らせる)"
-     },
+     "conditionMatch": true,
      "predictionEligible": false,
      "predictionEligibleReasonsMoved": "calaudit-w249-diag.json"
     },
     {
      "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(ガニメデ)",
      "kind": "period",
-     "version": "dfm",
+     "version": "obs",
      "target": "ガニメデ",
      "declaredModel": "1.770342 / 3.552263 / 7.154235 / 16.684462 日(最大ずれ 0.0681%)",
      "declaredObs": "1.769138 / 3.551181 / 7.154553 / 16.689017 日",
      "model": 618125.904,
      "obs": 618153.3792,
      "obsErr": null,
-     "meas": 618322.1193396464,
+     "meas": 618087.6169737832,
      "unit": "s",
-     "residualPct": null,
-     "modelResidualPct": 0.03174358789636518,
-     "verdict": "条",
+     "residualPct": -0.010638496598018415,
+     "modelResidualPct": -0.0061940497832204825,
+     "verdict": "合",
      "method": "同方向1周(2周目 — obsCard の数え方)",
-     "note": "**周期の定義依存**: 同方向1周 0.0273% / 近点間 -0.4174%(判定に採ったのは revolution) / **条件不一致(condition-mismatch)**: この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
+     "note": "**周期の定義依存**: 同方向1周 -0.0106% / 近点間 1.3933%(判定に採ったのは revolution)",
      "standard": false,
      "rowDefContract": null,
      "periodDef": "revolution",
      "detail": {
       "revSec": [
-       618304.2077314522,
-       618322.1193396464,
-       618306.8051769724,
-       618306.9561397099,
-       618312.5210816561,
-       618309.594122868
+       618243.3521751609,
+       618087.6169737832,
+       618174.0787055073,
+       618131.9001217491,
+       618113.0803572651,
+       618245.741696851
       ],
-      "periASec": 615573.4745242097,
-      "periBSec": 615761.3829482343,
-      "oscSec": 618337.352871119,
+      "periASec": 626766.3286542266,
+      "periBSec": 627954.7656525776,
+      "oscSec": 618285.548124855,
       "periWindow": 20,
       "periFoundA": 63,
       "periFoundB": 63,
       "periUnmeasuredA": false,
-      "periAllSec": 617912.8073818281,
+      "periAllSec": 618506.235899404,
       "revN": 62,
-      "aOscMean": 107.0539000743232,
+      "aOscMean": 107.04792084511983,
       "aOsc0": 107.03163636783007,
       "periodDef": "revolution",
       "detPairSec": [
-       615573.4745242097,
-       615761.3829482343
+       626766.3286542266,
+       627954.7656525776
       ]
      },
-     "residualPctPeri": -0.41735672126051937,
-     "residualPctRev": 0.027297454858992327,
-     "defDiffPct": -0.444532829970917,
+     "residualPctPeri": 1.393335334569121,
+     "residualPctRev": -0.010638496598018415,
+     "defDiffPct": 1.4041232087669362,
      "sigmaSource": {
       "body": "Ganymede",
       "quantity": "orbital_period",
@@ -10729,7 +10783,7 @@
      "toleranceUsedPct": 1,
      "strictOK": true,
      "stageHealth": {
-      "stages": 2,
+      "stages": 3,
       "nan": false,
       "clamp": 0,
       "dup": 0,
@@ -10746,37 +10800,98 @@
       "periodWindowFilledWithH8": null,
       "extractionCleanWithH8": null,
       "rowsMoved": "calaudit-w249-diag.json",
-      "rowsN": 2,
+      "rowsN": 3,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
-     "numBoundDt2": 0.013083533267490566,
+     "numBoundDt2": 0.1529577343026176,
      "numBoundDef": "revolution-or-osculating",
+     "numBoundDt3": 0.1529577343026176,
+     "pObs": 1.0626046078771254,
+     "dtStages": {
+      "dt": 618087.6169737832,
+      "dtHalf": 618087.5135377841,
+      "dtQuarter": 618087.4640160489
+     },
      "numBoundDecl": {
-      "value": 0.013083533267490566,
-      "steps": 2,
-      "order": null,
+      "value": 0.1529577343026176,
+      "steps": 3,
+      "order": 1.0626046078771254,
+      "assessedStage": "h",
       "estimate": {
-       "raw": 0.013083533267490566,
-       "order": null,
-       "factor": null,
-       "refined": null,
+       "raw": 0.1529577343026176,
+       "order": 1.0626046078771254,
+       "factor": 1.2973833052771904,
+       "refined": 0.1984448108972403,
        "side": "coarse",
-       "asymptotic": "unconfirmed",
-       "richardsonUsable": false,
-       "reason": "order-not-measured",
-       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
+       "asymptotic": "order-positive",
+       "richardsonUsable": true,
+       "reason": null,
+       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、**粗い側**の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.2974 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
       },
-      "basisRef": "numBoundDecl.basis#cd426718",
-      "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
+      "basisRef": "numBoundDecl.basis#d5d9728a",
+      "orderNoteRef": "numBoundDecl.orderNote#fde0fc09"
+     },
+     "orderEstimable": {
+      "ok": true,
+      "d1": 0.10343599913176149,
+      "d2": 0.04952173517085612,
+      "reason": null,
+      "asymptotic": "order-estimable",
+      "richardsonUsable": true,
+      "ruleRef": "orderEstimable.rule#a18ab000"
+     },
+     "kf0Applied": {
+      "since": "第274便a(第64報)",
+      "requiredKFrame": 0,
+      "measuredKFrame": 0,
+      "stages": [
+       "h",
+       "h/2",
+       "h/4"
+      ],
+      "how": "`physics.kFrame` の 1 鍵だけを 0 にした**診断コピー**を、**同じ停止条件・同じ近点窓・同じ抽出器・同じ σ の宛先**で走らせた(preset id が同じなので宣言はすべて同じ 1 本を引く)。**プリセットの physics は 1 bit も書き換えていない**。",
+      "replaced": {
+       "meas": 618322.1193396464,
+       "unit": "s",
+       "periodDef": "revolution",
+       "verdict": "条",
+       "residualPct": null,
+       "residualPctRev": 0.027297454858992327,
+       "residualPctPeri": -0.41735672126051937,
+       "measuredKFrame": 1,
+       "gate": {
+        "status": "condition-mismatch",
+        "assessedStage": "h",
+        "assessedValue": 618322.1193396464,
+        "nSigma": null,
+        "numBound": 0.013083533267490566,
+        "sigma": null
+       },
+       "gateNote": "**配る前の門の転記**である(このとき隔離されていたので status は `condition-mismatch` のはずである)。beta の「正式判定値」表はこの世代の転記なので、QA `ui.assessedValuePanel` はこの欄と突き合わせる。",
+       "why": "**証拠として捨てていない** —— この数値は kFrame=1 の走行の実測であり、**kFrame=0 の行に配られていたことだけが誤りだった**(第258便d の隔離の理由)。"
+      },
+      "deltaPct": -0.037925598733816374,
+      "doNotWrite": [
+       "kF0 版が成立した",
+       "引きずりが消えた",
+       "対照が合った"
+      ]
+     },
+     "measurementContextOverride": {
+      "kFrame": 0,
+      "source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
+      "dt": 0.016,
+      "steps": null,
+      "note": "**プリセットの physics は kFrame=1 のままである**。この行に配られている数だけが、kFrame=0 の診断コピーの走行から来ている。"
      },
      "gate": {
-      "status": "condition-mismatch",
-      "reason": "測定条件が行の要求条件と違う(kFrame 1 ≠ 0)",
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
       "key": "jupiterGalilean|ガニメデ|period",
       "assessedStage": "h",
-      "assessedValue": 618322.1193396464,
+      "assessedValue": 618087.6169737832,
       "coarseStage": "h",
-      "coarseValue": 618322.1193396464,
+      "coarseValue": 618087.6169737832,
       "coarseNumBound": null,
       "assessedStageRule": "**判定値は h 段**(3 段登録表の外の系 —— 第271便a でも扱いを変えていない)。",
       "h8Promoted": false,
@@ -10790,14 +10905,14 @@
       "mappingResolved": true,
       "mappingNote": null,
       "orbitNoiseIndicator": {
-       "abRelPct": 0.03051643529915607,
+       "abRelPct": 0.18925519215002284,
        "sigmaRelPct": null,
        "ratio": null,
        "gate": "none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)",
        "meaningRef": "orbitNoiseIndicator.meaning#2cecac37"
       },
       "sigmaRelPct": null,
-      "numBound": 0.013083533267490566,
+      "numBound": 0.1529577343026176,
       "sigma": null,
       "sigmaFrom": null,
       "sigmaSource": {
@@ -10809,46 +10924,46 @@
        "primaryVerified": false
       },
       "sigmaCardVsCsvRel": null,
-      "detSpreadPct": 0.03051643529915607,
-      "defSpreadCrossDefPct": 0.4469855062250109,
-      "defSpreadPct": 0.03051643529915607,
+      "detSpreadPct": 0.18925519215002284,
+      "defSpreadCrossDefPct": 1.3846805872737353,
+      "defSpreadPct": 0.18925519215002284,
       "defMeta": true,
       "numBoundDecl": {
-       "value": 0.013083533267490566,
-       "steps": 2,
-       "order": null,
+       "value": 0.1529577343026176,
+       "steps": 3,
+       "order": 1.0626046078771254,
+       "assessedStage": "h",
        "estimate": {
-        "raw": 0.013083533267490566,
-        "order": null,
-        "factor": null,
-        "refined": null,
+        "raw": 0.1529577343026176,
+        "order": 1.0626046078771254,
+        "factor": 1.2973833052771904,
+        "refined": 0.1984448108972403,
         "side": "coarse",
-        "asymptotic": "unconfirmed",
-        "richardsonUsable": false,
-        "reason": "order-not-measured",
-        "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
+        "asymptotic": "order-positive",
+        "richardsonUsable": true,
+        "reason": null,
+        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、**粗い側**の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.2974 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
        },
-       "basisRef": "numBoundDecl.basis#cd426718",
-       "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
+       "basisRef": "numBoundDecl.basis#d5d9728a",
+       "orderNoteRef": "numBoundDecl.orderNote#fde0fc09"
       },
       "convergence": {
        "ok": false,
-       "okLegacy": false,
-       "steps": 2,
-       "order": null,
+       "okLegacy": true,
+       "steps": 3,
+       "order": 1.0626046078771254,
        "orderGuard": false,
-       "epsHat": null,
+       "epsHat": 0.1404958883601015,
        "epsHatInSigma": null,
        "epsHatOk": null,
-       "lastDiff": 0.013083533267490566,
+       "lastDiff": 0.1529577343026176,
        "lastDiffInSigma": null,
        "lastDiffOk": null,
        "assessedStage": "h",
        "orderEstimable": true,
        "orderEstimableReason": null,
-       "orderEstimableRule": null,
-       "asymptoticStatus": "unconfirmed",
-       "richardsonUsable": false,
+       "asymptoticStatus": "order-estimable",
+       "richardsonUsable": true,
        "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
        "lastDiffDef": "|Q_h−Q_{h/4}|(3 段)/|Q_h−Q_{h/2}|(2 段)",
        "coarseNumBound": null,
@@ -10858,25 +10973,19 @@
        "fitWindows": [
         63
        ],
-       "hold": "dt 3 段が走っていない(2 段は感度診断)",
+       "hold": "**次数ガード(AE3)で保留**: 観測次数 p=1.0626 が 2 から 0.9374 離れている(|p−2|≤0.5 を満たさない)= 漸近域に居ない",
        "previous": {
         "rule": "3 段かつ order>0(第253便b〜第269便a)",
-        "ok": false,
+        "ok": true,
         "noteRef": "convergence.previous.note#522b1e55"
        },
        "ruleRef": "convergence.rule#3c5d2263",
-       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f"
+       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f",
+       "orderEstimableRuleRef": "convergence.orderEstimableRule#a18ab000"
       },
       "arithOnly": null,
-      "conditionMismatch": {
-       "requiredKFrame": 0,
-       "measuredKFrame": 1,
-       "evidence": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(ガニメデ)",
-       "note": "この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
-       "fix": "対照条件(kFrame=0)を**別の走行**として測り、その行に割り当てる(プリセットの physics は変えない —— 検証器の中で physics を差し替えた診断コピーを走らせる)"
-      },
       "deprecatedKeysMoved": "calaudit-w249-diag.json",
-      "definitionNoteRef": "gate.definitionNote#df5c0eff"
+      "definitionNoteRef": "gate.definitionNote#d1892508"
      },
      "requiredContext": {
       "kFrame": 0,
@@ -10884,82 +10993,67 @@
       "evidence": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(ガニメデ)"
      },
      "measurementContext": {
-      "kFrame": 1,
-      "source": "run(preset physics)",
+      "kFrame": 0,
+      "source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
       "dt": 0.016,
-      "steps": 5407442
+      "steps": null,
+      "override": true,
+      "presetKFrame": 1,
+      "note": "**プリセットの physics は kFrame=1 のままである**。この行に配られている数だけが、kFrame=0 の診断コピーの走行から来ている。"
      },
-     "conditionMatch": false,
-     "conditionRejectedEvidence": {
-      "verdict": "合",
-      "residualPct": 0.027297454858992327,
-      "residualPctRev": 0.027297454858992327,
-      "residualPctPeri": -0.41735672126051937,
-      "strictOK": true,
-      "meas": 618322.1193396464,
-      "obs": 618153.3792,
-      "note": "**周期の定義依存**: 同方向1周 0.0273% / 近点間 -0.4174%(判定に採ったのは revolution)",
-      "why": "**証拠として捨てていない** —— この数値は kFrame=1 の走行の実測であり、kFrame=0 の行に割り当てられていたことだけが誤りである"
-     },
-     "conditionMismatch": {
-      "requiredKFrame": 0,
-      "measuredKFrame": 1,
-      "evidence": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(ガニメデ)",
-      "note": "この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
-      "fix": "対照条件(kFrame=0)を**別の走行**として測り、その行に割り当てる(プリセットの physics は変えない —— 検証器の中で physics を差し替えた診断コピーを走らせる)"
-     },
+     "conditionMatch": true,
      "predictionEligible": false,
      "predictionEligibleReasonsMoved": "calaudit-w249-diag.json"
     },
     {
      "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(カリスト)",
      "kind": "period",
-     "version": "dfm",
+     "version": "obs",
      "target": "カリスト",
      "declaredModel": "1.770342 / 3.552263 / 7.154235 / 16.684462 日(最大ずれ 0.0681%)",
      "declaredObs": "1.769138 / 3.551181 / 7.154553 / 16.689017 日",
      "model": 1441537.5168,
      "obs": 1441931.0688,
      "obsErr": null,
-     "meas": 1442107.2605434186,
+     "meas": 1441544.0757841982,
      "unit": "s",
-     "residualPct": null,
-     "modelResidualPct": 0.03952333787907441,
-     "verdict": "条",
+     "residualPct": -0.026838523988794362,
+     "modelResidualPct": 0.000454999202011878,
+     "verdict": "合",
      "method": "同方向1周(2周目 — obsCard の数え方)",
-     "note": "**条件不一致(condition-mismatch)**: この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
+     "note": null,
      "standard": false,
      "rowDefContract": null,
      "periodDef": "revolution",
      "detail": {
       "revSec": [
-       1442015.133415738,
-       1442107.2605434186,
-       1442163.8055337889,
-       1442026.8036206143,
-       1442105.8474117927,
-       1442168.0017073385
+       1441654.1333078805,
+       1441544.0757841982,
+       1441435.6634054289,
+       1441672.1924339936,
+       1441544.091335606,
+       1441431.8551488568
       ],
-      "periASec": 1441985.0096237054,
-      "periBSec": 1441834.2311647572,
-      "oscSec": 1442418.3615444324,
+      "periASec": 1441432.9001748804,
+      "periBSec": 1442463.7981845434,
+      "oscSec": 1441910.6472354508,
       "periWindow": 20,
       "periFoundA": 59,
       "periFoundB": 60,
       "periUnmeasuredA": false,
-      "periAllSec": 1442070.5262944193,
-      "revN": 59,
-      "aOscMean": 188.29693264477092,
+      "periAllSec": 1441591.8064333901,
+      "revN": 60,
+      "aOscMean": 188.252748865417,
       "aOsc0": 188.25917352723408,
       "periodDef": "revolution",
       "detPairSec": [
-       1441985.0096237054,
-       1441834.2311647572
+       1441432.9001748804,
+       1442463.7981845434
       ]
      },
-     "residualPctPeri": 0.003740873948315141,
-     "residualPctRev": 0.012219151610708004,
-     "defDiffPct": -0.008477241815363037,
+     "residualPctPeri": -0.034548712896115934,
+     "residualPctRev": -0.026838523988794362,
+     "defDiffPct": -0.007712258763739958,
      "sigmaSource": {
       "body": "Callisto",
       "quantity": "orbital_period",
@@ -10974,14 +11068,15 @@
      "toleranceUsedPct": 1,
      "strictOK": true,
      "stageHealth": {
-      "stages": 2,
+      "stages": 3,
       "nan": false,
       "clamp": 0,
       "dup": 0,
       "jump": 0,
-      "sameFitWindow": true,
+      "sameFitWindow": false,
       "fitWindows": [
-       59
+       59,
+       55
       ],
       "periodWindowFilled": true,
       "extractionClean": true,
@@ -10991,37 +11086,98 @@
       "periodWindowFilledWithH8": null,
       "extractionCleanWithH8": null,
       "rowsMoved": "calaudit-w249-diag.json",
-      "rowsN": 2,
+      "rowsN": 3,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
-     "numBoundDt2": 0.06233130721375346,
+     "numBoundDt2": 0.19615282025188208,
      "numBoundDef": "revolution-or-osculating",
+     "numBoundDt3": 0.19615282025188208,
+     "pObs": 1.021274419134932,
+     "dtStages": {
+      "dt": 1441544.0757841982,
+      "dtHalf": 1441543.9443744547,
+      "dtQuarter": 1441543.879631378
+     },
      "numBoundDecl": {
-      "value": 0.06233130721375346,
-      "steps": 2,
-      "order": null,
+      "value": 0.19615282025188208,
+      "steps": 3,
+      "order": 1.021274419134932,
+      "assessedStage": "h",
       "estimate": {
-       "raw": 0.06233130721375346,
-       "order": null,
-       "factor": null,
-       "refined": null,
+       "raw": 0.19615282025188208,
+       "order": 1.021274419134932,
+       "factor": 1.3205408384741877,
+       "refined": 0.25902780972449696,
        "side": "coarse",
-       "asymptotic": "unconfirmed",
-       "richardsonUsable": false,
-       "reason": "order-not-measured",
-       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
+       "asymptotic": "order-positive",
+       "richardsonUsable": true,
+       "reason": null,
+       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、**粗い側**の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3205 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
       },
-      "basisRef": "numBoundDecl.basis#cd426718",
-      "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
+      "basisRef": "numBoundDecl.basis#d5d9728a",
+      "orderNoteRef": "numBoundDecl.orderNote#8420b215"
+     },
+     "orderEstimable": {
+      "ok": true,
+      "d1": 0.13140974356792867,
+      "d2": 0.0647430766839534,
+      "reason": null,
+      "asymptotic": "order-estimable",
+      "richardsonUsable": true,
+      "ruleRef": "orderEstimable.rule#a18ab000"
+     },
+     "kf0Applied": {
+      "since": "第274便a(第64報)",
+      "requiredKFrame": 0,
+      "measuredKFrame": 0,
+      "stages": [
+       "h",
+       "h/2",
+       "h/4"
+      ],
+      "how": "`physics.kFrame` の 1 鍵だけを 0 にした**診断コピー**を、**同じ停止条件・同じ近点窓・同じ抽出器・同じ σ の宛先**で走らせた(preset id が同じなので宣言はすべて同じ 1 本を引く)。**プリセットの physics は 1 bit も書き換えていない**。",
+      "replaced": {
+       "meas": 1442107.2605434186,
+       "unit": "s",
+       "periodDef": "revolution",
+       "verdict": "条",
+       "residualPct": null,
+       "residualPctRev": 0.012219151610708004,
+       "residualPctPeri": 0.003740873948315141,
+       "measuredKFrame": 1,
+       "gate": {
+        "status": "condition-mismatch",
+        "assessedStage": "h",
+        "assessedValue": 1442107.2605434186,
+        "nSigma": null,
+        "numBound": 0.06233130721375346,
+        "sigma": null
+       },
+       "gateNote": "**配る前の門の転記**である(このとき隔離されていたので status は `condition-mismatch` のはずである)。beta の「正式判定値」表はこの世代の転記なので、QA `ui.assessedValuePanel` はこの欄と突き合わせる。",
+       "why": "**証拠として捨てていない** —— この数値は kFrame=1 の走行の実測であり、**kFrame=0 の行に配られていたことだけが誤りだった**(第258便d の隔離の理由)。"
+      },
+      "deltaPct": -0.03905290366599503,
+      "doNotWrite": [
+       "kF0 版が成立した",
+       "引きずりが消えた",
+       "対照が合った"
+      ]
+     },
+     "measurementContextOverride": {
+      "kFrame": 0,
+      "source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
+      "dt": 0.016,
+      "steps": null,
+      "note": "**プリセットの physics は kFrame=1 のままである**。この行に配られている数だけが、kFrame=0 の診断コピーの走行から来ている。"
      },
      "gate": {
-      "status": "condition-mismatch",
-      "reason": "測定条件が行の要求条件と違う(kFrame 1 ≠ 0)",
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
       "key": "jupiterGalilean|カリスト|period",
       "assessedStage": "h",
-      "assessedValue": 1442107.2605434186,
+      "assessedValue": 1441544.0757841982,
       "coarseStage": "h",
-      "coarseValue": 1442107.2605434186,
+      "coarseValue": 1441544.0757841982,
       "coarseNumBound": null,
       "assessedStageRule": "**判定値は h 段**(3 段登録表の外の系 —— 第271便a でも扱いを変えていない)。",
       "h8Promoted": false,
@@ -11035,14 +11191,14 @@
       "mappingResolved": true,
       "mappingNote": null,
       "orbitNoiseIndicator": {
-       "abRelPct": 0.010456312509628215,
+       "abRelPct": 0.07146786012657302,
        "sigmaRelPct": null,
        "ratio": null,
        "gate": "none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)",
        "meaningRef": "orbitNoiseIndicator.meaning#2cecac37"
       },
       "sigmaRelPct": null,
-      "numBound": 0.06233130721375346,
+      "numBound": 0.19615282025188208,
       "sigma": null,
       "sigmaFrom": null,
       "sigmaSource": {
@@ -11054,74 +11210,69 @@
        "primaryVerified": false
       },
       "sigmaCardVsCsvRel": null,
-      "detSpreadPct": 0.010456312509628215,
-      "defSpreadCrossDefPct": 0.03004342791802383,
-      "defSpreadPct": 0.010456312509628215,
+      "detSpreadPct": 0.07146786012657302,
+      "defSpreadCrossDefPct": 0.033132917180851394,
+      "defSpreadPct": 0.07146786012657302,
       "defMeta": true,
       "numBoundDecl": {
-       "value": 0.06233130721375346,
-       "steps": 2,
-       "order": null,
+       "value": 0.19615282025188208,
+       "steps": 3,
+       "order": 1.021274419134932,
+       "assessedStage": "h",
        "estimate": {
-        "raw": 0.06233130721375346,
-        "order": null,
-        "factor": null,
-        "refined": null,
+        "raw": 0.19615282025188208,
+        "order": 1.021274419134932,
+        "factor": 1.3205408384741877,
+        "refined": 0.25902780972449696,
         "side": "coarse",
-        "asymptotic": "unconfirmed",
-        "richardsonUsable": false,
-        "reason": "order-not-measured",
-        "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
+        "asymptotic": "order-positive",
+        "richardsonUsable": true,
+        "reason": null,
+        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、**粗い側**の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.3205 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
        },
-       "basisRef": "numBoundDecl.basis#cd426718",
-       "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
+       "basisRef": "numBoundDecl.basis#d5d9728a",
+       "orderNoteRef": "numBoundDecl.orderNote#8420b215"
       },
       "convergence": {
        "ok": false,
-       "okLegacy": false,
-       "steps": 2,
-       "order": null,
+       "okLegacy": true,
+       "steps": 3,
+       "order": 1.021274419134932,
        "orderGuard": false,
-       "epsHat": null,
+       "epsHat": 0.19049305562918326,
        "epsHatInSigma": null,
        "epsHatOk": null,
-       "lastDiff": 0.06233130721375346,
+       "lastDiff": 0.19615282025188208,
        "lastDiffInSigma": null,
        "lastDiffOk": null,
        "assessedStage": "h",
        "orderEstimable": true,
        "orderEstimableReason": null,
-       "orderEstimableRule": null,
-       "asymptoticStatus": "unconfirmed",
-       "richardsonUsable": false,
+       "asymptoticStatus": "order-estimable",
+       "richardsonUsable": true,
        "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
        "lastDiffDef": "|Q_h−Q_{h/4}|(3 段)/|Q_h−Q_{h/2}|(2 段)",
        "coarseNumBound": null,
        "budget": null,
-       "windowsComplete": true,
+       "windowsComplete": false,
        "extractionClean": true,
        "fitWindows": [
-        59
+        59,
+        55
        ],
-       "hold": "dt 3 段が走っていない(2 段は感度診断)",
+       "hold": "**次数ガード(AE3)で保留**: 観測次数 p=1.0213 が 2 から 0.9787 離れている(|p−2|≤0.5 を満たさない)= 漸近域に居ない",
        "previous": {
         "rule": "3 段かつ order>0(第253便b〜第269便a)",
-        "ok": false,
+        "ok": true,
         "noteRef": "convergence.previous.note#522b1e55"
        },
        "ruleRef": "convergence.rule#3c5d2263",
-       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f"
+       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f",
+       "orderEstimableRuleRef": "convergence.orderEstimableRule#a18ab000"
       },
       "arithOnly": null,
-      "conditionMismatch": {
-       "requiredKFrame": 0,
-       "measuredKFrame": 1,
-       "evidence": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(カリスト)",
-       "note": "この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
-       "fix": "対照条件(kFrame=0)を**別の走行**として測り、その行に割り当てる(プリセットの physics は変えない —— 検証器の中で physics を差し替えた診断コピーを走らせる)"
-      },
       "deprecatedKeysMoved": "calaudit-w249-diag.json",
-      "definitionNoteRef": "gate.definitionNote#78743f4c"
+      "definitionNoteRef": "gate.definitionNote#915b9192"
      },
      "requiredContext": {
       "kFrame": 0,
@@ -11129,30 +11280,15 @@
       "evidence": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(カリスト)"
      },
      "measurementContext": {
-      "kFrame": 1,
-      "source": "run(preset physics)",
+      "kFrame": 0,
+      "source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
       "dt": 0.016,
-      "steps": 5407442
+      "steps": null,
+      "override": true,
+      "presetKFrame": 1,
+      "note": "**プリセットの physics は kFrame=1 のままである**。この行に配られている数だけが、kFrame=0 の診断コピーの走行から来ている。"
      },
-     "conditionMatch": false,
-     "conditionRejectedEvidence": {
-      "verdict": "合",
-      "residualPct": 0.012219151610708004,
-      "residualPctRev": 0.012219151610708004,
-      "residualPctPeri": 0.003740873948315141,
-      "strictOK": true,
-      "meas": 1442107.2605434186,
-      "obs": 1441931.0688,
-      "note": null,
-      "why": "**証拠として捨てていない** —— この数値は kFrame=1 の走行の実測であり、kFrame=0 の行に割り当てられていたことだけが誤りである"
-     },
-     "conditionMismatch": {
-      "requiredKFrame": 0,
-      "measuredKFrame": 1,
-      "evidence": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(カリスト)",
-      "note": "この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
-      "fix": "対照条件(kFrame=0)を**別の走行**として測り、その行に割り当てる(プリセットの physics は変えない —— 検証器の中で physics を差し替えた診断コピーを走らせる)"
-     },
+     "conditionMatch": true,
      "predictionEligible": false,
      "predictionEligibleReasonsMoved": "calaudit-w249-diag.json"
     },
@@ -14418,12 +14554,12 @@
     }
    ],
    "tally": {
-    "合": 4,
+    "合": 8,
     "窓": 0,
     "否": 0,
     "従": 0,
     "転": 13,
-    "条": 4
+    "条": 0
    },
    "notes": [
     "dt 収束(主対象 イオ): 周期 152933.545 → 152933.513 s(-0.0000%) / 近点移動 1.8192e-1 → 1.8277e-1 °/周"
@@ -14885,52 +15021,52 @@
     {
      "name": "公転周期(kFrame=0 対照)",
      "kind": "period",
-     "version": "dfm",
+     "version": "obs",
      "target": "金星",
      "declaredModel": "224.7000 日(−0.0004%)",
      "declaredObs": "同上",
      "model": 19414080,
      "obs": 19414166.4,
      "obsErr": null,
-     "meas": 19414266.84737822,
+     "meas": 19413888.60730327,
      "unit": "s",
-     "residualPct": null,
-     "modelResidualPct": 0.0009624323079971298,
-     "verdict": "条",
+     "residualPct": -0.0014308762529680514,
+     "modelResidualPct": -0.000985844792700929,
+     "verdict": "合",
      "method": "同方向1周(2周目 — obsCard の数え方)",
-     "note": "**条件不一致(condition-mismatch)**: この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
+     "note": null,
      "standard": false,
      "rowDefContract": null,
      "periodDef": "revolution",
      "detail": {
       "revSec": [
-       19414092.300828237,
-       19414266.84737822,
-       19414281.01455929,
-       19414294.520684626,
-       19414308.513989754,
-       19414322.603738528
+       19413728.60678712,
+       19413888.60730327,
+       19413888.607819427,
+       19413888.608339522,
+       19413888.608855132,
+       19413888.60936857
       ],
-      "periASec": 19417738.44402731,
-      "periBSec": 19417724.29833824,
-      "oscSec": 19414311.333049346,
+      "periASec": 19413889.320460748,
+      "periBSec": 19413889.319961935,
+      "oscSec": 19413886.902350016,
       "periWindow": 20,
       "periFoundA": 59,
       "periFoundB": 60,
       "periUnmeasuredA": false,
-      "periAllSec": 19418012.256487217,
+      "periAllSec": 19413889.33053527,
       "revN": 59,
-      "aOscMean": 1082.0957746023669,
+      "aOscMean": 1082.0800035633579,
       "aOsc0": 1082.0799999999115,
       "periodDef": "revolution",
       "detPairSec": [
-       19417738.44402731,
-       19417724.29833824
+       19413889.320460748,
+       19413889.319961935
       ]
      },
-     "residualPctPeri": 0.018399162517273287,
-     "residualPctRev": 0.000517392177198498,
-     "defDiffPct": 0.01788167782167259,
+     "residualPctPeri": -0.0014272028658958154,
+     "residualPctRev": -0.0014308762529680514,
+     "defDiffPct": 0.000003673439634611216,
      "sigmaSource": {
       "body": "Venus",
       "quantity": "orbital_period",
@@ -14945,7 +15081,7 @@
      "toleranceUsedPct": 1,
      "strictOK": true,
      "stageHealth": {
-      "stages": 2,
+      "stages": 3,
       "nan": false,
       "clamp": 0,
       "dup": 0,
@@ -14962,37 +15098,98 @@
       "periodWindowFilledWithH8": null,
       "extractionCleanWithH8": null,
       "rowsMoved": "calaudit-w249-diag.json",
-      "rowsN": 2,
+      "rowsN": 3,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
-     "numBoundDt2": 12.325632251799107,
+     "numBoundDt2": 0.03576129302382469,
      "numBoundDef": "revolution-or-osculating",
+     "numBoundDt3": 0.03576129302382469,
+     "pObs": 1.9799142729174297,
+     "dtStages": {
+      "dt": 19413888.60730327,
+      "dtHalf": 19413888.57877423,
+      "dtQuarter": 19413888.571541976
+     },
      "numBoundDecl": {
-      "value": 12.325632251799107,
-      "steps": 2,
-      "order": null,
+      "value": 0.03576129302382469,
+      "steps": 3,
+      "order": 1.9799142729174297,
+      "assessedStage": "h",
       "estimate": {
-       "raw": 12.325632251799107,
-       "order": null,
-       "factor": null,
-       "refined": null,
+       "raw": 0.03576129302382469,
+       "order": 1.9799142729174297,
+       "factor": 1.068678348072816,
+       "refined": 0.03821731955364889,
        "side": "coarse",
-       "asymptotic": "unconfirmed",
-       "richardsonUsable": false,
-       "reason": "order-not-measured",
-       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
+       "asymptotic": "order-positive",
+       "richardsonUsable": true,
+       "reason": null,
+       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、**粗い側**の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0687 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
       },
-      "basisRef": "numBoundDecl.basis#cd426718",
-      "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
+      "basisRef": "numBoundDecl.basis#d5d9728a",
+      "orderNoteRef": "numBoundDecl.orderNote#a663291a"
+     },
+     "orderEstimable": {
+      "ok": true,
+      "d1": 0.02852904051542282,
+      "d2": 0.007232252508401871,
+      "reason": null,
+      "asymptotic": "order-estimable",
+      "richardsonUsable": true,
+      "ruleRef": "orderEstimable.rule#a18ab000"
+     },
+     "kf0Applied": {
+      "since": "第274便a(第64報)",
+      "requiredKFrame": 0,
+      "measuredKFrame": 0,
+      "stages": [
+       "h",
+       "h/2",
+       "h/4"
+      ],
+      "how": "`physics.kFrame` の 1 鍵だけを 0 にした**診断コピー**を、**同じ停止条件・同じ近点窓・同じ抽出器・同じ σ の宛先**で走らせた(preset id が同じなので宣言はすべて同じ 1 本を引く)。**プリセットの physics は 1 bit も書き換えていない**。",
+      "replaced": {
+       "meas": 19414266.84737822,
+       "unit": "s",
+       "periodDef": "revolution",
+       "verdict": "条",
+       "residualPct": null,
+       "residualPctRev": 0.000517392177198498,
+       "residualPctPeri": 0.018399162517273287,
+       "measuredKFrame": 1,
+       "gate": {
+        "status": "condition-mismatch",
+        "assessedStage": "h",
+        "assessedValue": 19414266.84737822,
+        "nSigma": null,
+        "numBound": 12.325632251799107,
+        "sigma": null
+       },
+       "gateNote": "**配る前の門の転記**である(このとき隔離されていたので status は `condition-mismatch` のはずである)。beta の「正式判定値」表はこの世代の転記なので、QA `ui.assessedValuePanel` はこの欄と突き合わせる。",
+       "why": "**証拠として捨てていない** —— この数値は kFrame=1 の走行の実測であり、**kFrame=0 の行に配られていたことだけが誤りだった**(第258便d の隔離の理由)。"
+      },
+      "deltaPct": -0.0019482583500302548,
+      "doNotWrite": [
+       "kF0 版が成立した",
+       "引きずりが消えた",
+       "対照が合った"
+      ]
+     },
+     "measurementContextOverride": {
+      "kFrame": 0,
+      "source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
+      "dt": 0.016,
+      "steps": null,
+      "note": "**プリセットの physics は kFrame=1 のままである**。この行に配られている数だけが、kFrame=0 の診断コピーの走行から来ている。"
      },
      "gate": {
-      "status": "condition-mismatch",
-      "reason": "測定条件が行の要求条件と違う(kFrame 1 ≠ 0)",
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
       "key": "venusReal|金星|period",
       "assessedStage": "h",
-      "assessedValue": 19414266.84737822,
+      "assessedValue": 19413888.60730327,
       "coarseStage": "h",
-      "coarseValue": 19414266.84737822,
+      "coarseValue": 19413888.60730327,
       "coarseNumBound": null,
       "assessedStageRule": "**判定値は h 段**(3 段登録表の外の系 —— 第271便a でも扱いを変えていない)。",
       "h8Promoted": false,
@@ -15006,14 +15203,14 @@
       "mappingResolved": true,
       "mappingNote": null,
       "orbitNoiseIndicator": {
-       "abRelPct": 0.00007284931307011103,
+       "abRelPct": 2.569359685944236e-9,
        "sigmaRelPct": null,
        "ratio": null,
        "gate": "none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)",
        "meaningRef": "orbitNoiseIndicator.meaning#2cecac37"
       },
       "sigmaRelPct": null,
-      "numBound": 12.325632251799107,
+      "numBound": 0.03576129302382469,
       "sigma": null,
       "sigmaFrom": null,
       "sigmaSource": {
@@ -15025,46 +15222,46 @@
        "primaryVerified": false
       },
       "sigmaCardVsCsvRel": null,
-      "detSpreadPct": 0.00007284931307011103,
-      "defSpreadCrossDefPct": 0.017878480849327704,
-      "defSpreadPct": 0.00007284931307011103,
+      "detSpreadPct": 2.569359685944236e-9,
+      "defSpreadCrossDefPct": 0.000012455570813626935,
+      "defSpreadPct": 2.569359685944236e-9,
       "defMeta": true,
       "numBoundDecl": {
-       "value": 12.325632251799107,
-       "steps": 2,
-       "order": null,
+       "value": 0.03576129302382469,
+       "steps": 3,
+       "order": 1.9799142729174297,
+       "assessedStage": "h",
        "estimate": {
-        "raw": 12.325632251799107,
-        "order": null,
-        "factor": null,
-        "refined": null,
+        "raw": 0.03576129302382469,
+        "order": 1.9799142729174297,
+        "factor": 1.068678348072816,
+        "refined": 0.03821731955364889,
         "side": "coarse",
-        "asymptotic": "unconfirmed",
-        "richardsonUsable": false,
-        "reason": "order-not-measured",
-        "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
+        "asymptotic": "order-positive",
+        "richardsonUsable": true,
+        "reason": null,
+        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、**粗い側**の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0687 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
        },
-       "basisRef": "numBoundDecl.basis#cd426718",
-       "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
+       "basisRef": "numBoundDecl.basis#d5d9728a",
+       "orderNoteRef": "numBoundDecl.orderNote#a663291a"
       },
       "convergence": {
-       "ok": false,
-       "okLegacy": false,
-       "steps": 2,
-       "order": null,
-       "orderGuard": false,
-       "epsHat": null,
+       "ok": true,
+       "okLegacy": true,
+       "steps": 3,
+       "order": 1.9799142729174297,
+       "orderGuard": true,
+       "epsHat": 0.012144305568050255,
        "epsHatInSigma": null,
        "epsHatOk": null,
-       "lastDiff": 12.325632251799107,
+       "lastDiff": 0.03576129302382469,
        "lastDiffInSigma": null,
        "lastDiffOk": null,
        "assessedStage": "h",
        "orderEstimable": true,
        "orderEstimableReason": null,
-       "orderEstimableRule": null,
-       "asymptoticStatus": "unconfirmed",
-       "richardsonUsable": false,
+       "asymptoticStatus": "order-estimable",
+       "richardsonUsable": true,
        "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
        "lastDiffDef": "|Q_h−Q_{h/4}|(3 段)/|Q_h−Q_{h/2}|(2 段)",
        "coarseNumBound": null,
@@ -15074,25 +15271,19 @@
        "fitWindows": [
         59
        ],
-       "hold": "dt 3 段が走っていない(2 段は感度診断)",
+       "hold": null,
        "previous": {
         "rule": "3 段かつ order>0(第253便b〜第269便a)",
-        "ok": false,
+        "ok": true,
         "noteRef": "convergence.previous.note#522b1e55"
        },
        "ruleRef": "convergence.rule#3c5d2263",
-       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f"
+       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f",
+       "orderEstimableRuleRef": "convergence.orderEstimableRule#a18ab000"
       },
       "arithOnly": null,
-      "conditionMismatch": {
-       "requiredKFrame": 0,
-       "measuredKFrame": 1,
-       "evidence": "公転周期(kFrame=0 対照)",
-       "note": "この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
-       "fix": "対照条件(kFrame=0)を**別の走行**として測り、その行に割り当てる(プリセットの physics は変えない —— 検証器の中で physics を差し替えた診断コピーを走らせる)"
-      },
       "deprecatedKeysMoved": "calaudit-w249-diag.json",
-      "definitionNoteRef": "gate.definitionNote#885ecac8"
+      "definitionNoteRef": "gate.definitionNote#2b20a2ec"
      },
      "requiredContext": {
       "kFrame": 0,
@@ -15100,30 +15291,15 @@
       "evidence": "公転周期(kFrame=0 対照)"
      },
      "measurementContext": {
-      "kFrame": 1,
-      "source": "run(preset physics)",
+      "kFrame": 0,
+      "source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
       "dt": 0.016,
-      "steps": 7280208
+      "steps": null,
+      "override": true,
+      "presetKFrame": 1,
+      "note": "**プリセットの physics は kFrame=1 のままである**。この行に配られている数だけが、kFrame=0 の診断コピーの走行から来ている。"
      },
-     "conditionMatch": false,
-     "conditionRejectedEvidence": {
-      "verdict": "合",
-      "residualPct": 0.000517392177198498,
-      "residualPctRev": 0.000517392177198498,
-      "residualPctPeri": 0.018399162517273287,
-      "strictOK": true,
-      "meas": 19414266.84737822,
-      "obs": 19414166.4,
-      "note": null,
-      "why": "**証拠として捨てていない** —— この数値は kFrame=1 の走行の実測であり、kFrame=0 の行に割り当てられていたことだけが誤りである"
-     },
-     "conditionMismatch": {
-      "requiredKFrame": 0,
-      "measuredKFrame": 1,
-      "evidence": "公転周期(kFrame=0 対照)",
-      "note": "この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
-      "fix": "対照条件(kFrame=0)を**別の走行**として測り、その行に割り当てる(プリセットの physics は変えない —— 検証器の中で physics を差し替えた診断コピーを走らせる)"
-     },
+     "conditionMatch": true,
      "predictionEligible": false,
      "predictionEligibleReasonsMoved": "calaudit-w249-diag.json"
     },
@@ -15957,12 +16133,12 @@
     }
    ],
    "tally": {
-    "合": 1,
+    "合": 2,
     "窓": 0,
     "否": 1,
     "従": 0,
     "転": 3,
-    "条": 1
+    "条": 0
    },
    "notes": [
     "dt 収束(主対象 金星): 周期 19414266.8 → 19414254.5 s(-0.0001%) / 近点移動 6.2922e-2 → 6.2929e-2 °/周"
@@ -17045,47 +17221,47 @@
     {
      "name": "kFrame=0 対照との周期差",
      "kind": "period",
-     "version": "dfm",
+     "version": "obs",
      "target": "フォボス",
      "declaredModel": "0.002% 未満(実スケールでは引きずりが効かない)",
      "declaredObs": "—",
      "model": null,
      "obs": 27553.841567549454,
      "obsErr": null,
-     "meas": 27566.6434406517,
+     "meas": 27566.822022411514,
      "unit": "s",
-     "residualPct": null,
+     "residualPct": 0.04710941968014661,
      "modelResidualPct": null,
-     "verdict": "条",
+     "verdict": "合",
      "method": "同方向1周(2周目 — obsCard の数え方)",
-     "note": "**条件不一致(condition-mismatch)**: この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
+     "note": null,
      "standard": false,
      "rowDefContract": null,
      "periodDef": "revolution",
      "detail": {
       "revSec": [
-       27565.050958838623,
-       27566.6434406517,
-       27566.353444149536,
-       27566.360340307678,
-       27566.665009925986,
-       27566.628455379534
+       27565.234281381727,
+       27566.822022411514,
+       27566.322771897787,
+       27566.337038483915,
+       27566.856876766768,
+       27566.797818376675
       ],
-      "periASec": 27565.204309902754,
-      "periBSec": 27565.546501915167,
-      "oscSec": 27563.358803421368,
+      "periASec": 27565.15884497299,
+      "periBSec": 27565.71081819774,
+      "oscSec": 27563.37036180884,
       "periWindow": 20,
       "periFoundA": 63,
       "periFoundB": 63,
       "periUnmeasuredA": false,
-      "periAllSec": 27565.362700961192,
+      "periAllSec": 27565.411322882097,
       "revN": 62,
-      "aOscMean": 9.375881479402526,
+      "aOscMean": 9.375884100491579,
       "aOsc0": 9.375849216960834,
       "periodDef": "revolution",
       "detPairSec": [
-       27565.204309902754,
-       27565.546501915167
+       27565.15884497299,
+       27565.71081819774
       ]
      },
      "judgementSource": {
@@ -17141,8 +17317,8 @@
      "obsUnitDeclared": "s",
      "declaredSolution": "Jacobson 2010 Table 6 mean elements (epoch 1950 Jan 1.0 TDT, local Laplace plane); P=360/lambda_dot",
      "measurementDefinition": "検出器 A(ṙ の −→+ 交差)の近点間周期・窓=最初の 20 近点(19 区間)/ 非タイミング連星は同方向 1 周(2 周目)",
-     "residualPctPeri": 0.041238323612493646,
-     "residualPctRev": 0.04646130039929779,
+     "residualPctPeri": 0.04107331965232729,
+     "residualPctRev": 0.04710941968014661,
      "sigmaSource": {
       "body": "Phobos",
       "quantity": "orbital_period_candidate",
@@ -17157,7 +17333,7 @@
      "toleranceUsedPct": 1,
      "strictOK": true,
      "stageHealth": {
-      "stages": 2,
+      "stages": 3,
       "nan": false,
       "clamp": 0,
       "dup": 0,
@@ -17174,37 +17350,98 @@
       "periodWindowFilledWithH8": null,
       "extractionCleanWithH8": null,
       "rowsMoved": "calaudit-w249-diag.json",
-      "rowsN": 2,
+      "rowsN": 3,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
-     "numBoundDt2": 0.002074687883578008,
+     "numBoundDt2": 0.002614339358842699,
      "numBoundDef": "revolution-or-osculating",
+     "numBoundDt3": 0.002614339358842699,
+     "pObs": 1.9620043067468504,
+     "dtStages": {
+      "dt": 27566.822022411514,
+      "dtHalf": 27566.819942043567,
+      "dtQuarter": 27566.819408072155
+     },
      "numBoundDecl": {
-      "value": 0.002074687883578008,
-      "steps": 2,
-      "order": null,
+      "value": 0.002614339358842699,
+      "steps": 3,
+      "order": 1.9620043067468504,
+      "assessedStage": "h",
       "estimate": {
-       "raw": 0.002074687883578008,
-       "order": null,
-       "factor": null,
-       "refined": null,
+       "raw": 0.002614339358842699,
+       "order": 1.9620043067468504,
+       "factor": 1.0705266381554146,
+       "refined": 0.0027987199248192566,
        "side": "coarse",
-       "asymptotic": "unconfirmed",
-       "richardsonUsable": false,
-       "reason": "order-not-measured",
-       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
+       "asymptotic": "order-positive",
+       "richardsonUsable": true,
+       "reason": null,
+       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、**粗い側**の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0705 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
       },
-      "basisRef": "numBoundDecl.basis#cd426718",
-      "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
+      "basisRef": "numBoundDecl.basis#d5d9728a",
+      "orderNoteRef": "numBoundDecl.orderNote#9286dca4"
+     },
+     "orderEstimable": {
+      "ok": true,
+      "d1": 0.0020803679472010117,
+      "d2": 0.0005339714116416872,
+      "reason": null,
+      "asymptotic": "order-estimable",
+      "richardsonUsable": true,
+      "ruleRef": "orderEstimable.rule#a18ab000"
+     },
+     "kf0Applied": {
+      "since": "第274便a(第64報)",
+      "requiredKFrame": 0,
+      "measuredKFrame": 0,
+      "stages": [
+       "h",
+       "h/2",
+       "h/4"
+      ],
+      "how": "`physics.kFrame` の 1 鍵だけを 0 にした**診断コピー**を、**同じ停止条件・同じ近点窓・同じ抽出器・同じ σ の宛先**で走らせた(preset id が同じなので宣言はすべて同じ 1 本を引く)。**プリセットの physics は 1 bit も書き換えていない**。",
+      "replaced": {
+       "meas": 27566.6434406517,
+       "unit": "s",
+       "periodDef": "revolution",
+       "verdict": "条",
+       "residualPct": null,
+       "residualPctRev": 0.04646130039929779,
+       "residualPctPeri": 0.041238323612493646,
+       "measuredKFrame": 1,
+       "gate": {
+        "status": "condition-mismatch",
+        "assessedStage": "h",
+        "assessedValue": 27566.6434406517,
+        "nSigma": null,
+        "numBound": 0.002074687883578008,
+        "sigma": null
+       },
+       "gateNote": "**配る前の門の転記**である(このとき隔離されていたので status は `condition-mismatch` のはずである)。beta の「正式判定値」表はこの世代の転記なので、QA `ui.assessedValuePanel` はこの欄と突き合わせる。",
+       "why": "**証拠として捨てていない** —— この数値は kFrame=1 の走行の実測であり、**kFrame=0 の行に配られていたことだけが誤りだった**(第258便d の隔離の理由)。"
+      },
+      "deltaPct": 0.0006478182960442496,
+      "doNotWrite": [
+       "kF0 版が成立した",
+       "引きずりが消えた",
+       "対照が合った"
+      ]
+     },
+     "measurementContextOverride": {
+      "kFrame": 0,
+      "source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
+      "dt": 0.016,
+      "steps": null,
+      "note": "**プリセットの physics は kFrame=1 のままである**。この行に配られている数だけが、kFrame=0 の診断コピーの走行から来ている。"
      },
      "gate": {
-      "status": "condition-mismatch",
-      "reason": "測定条件が行の要求条件と違う(kFrame 1 ≠ 0)",
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
       "key": "marsMoonsReal|フォボス|period",
       "assessedStage": "h",
-      "assessedValue": 27566.6434406517,
+      "assessedValue": 27566.822022411514,
       "coarseStage": "h",
-      "coarseValue": 27566.6434406517,
+      "coarseValue": 27566.822022411514,
       "coarseNumBound": null,
       "assessedStageRule": "**判定値は h 段**(3 段登録表の外の系 —— 第271便a でも扱いを変えていない)。",
       "h8Promoted": false,
@@ -17218,14 +17455,14 @@
       "mappingResolved": true,
       "mappingNote": null,
       "orbitNoiseIndicator": {
-       "abRelPct": 0.0012413757600963126,
+       "abRelPct": 0.002002390681629433,
        "sigmaRelPct": null,
        "ratio": null,
        "gate": "none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)",
        "meaningRef": "orbitNoiseIndicator.meaning#2cecac37"
       },
       "sigmaRelPct": null,
-      "numBound": 0.002074687883578008,
+      "numBound": 0.002614339358842699,
       "sigma": null,
       "sigmaFrom": null,
       "sigmaSource": {
@@ -17237,46 +17474,46 @@
        "primaryVerified": false
       },
       "sigmaCardVsCsvRel": null,
-      "detSpreadPct": 0.0012413757600963126,
-      "defSpreadCrossDefPct": 0.011915259967734243,
-      "defSpreadPct": 0.0012413757600963126,
+      "detSpreadPct": 0.002002390681629433,
+      "defSpreadCrossDefPct": 0.012521068260488984,
+      "defSpreadPct": 0.002002390681629433,
       "defMeta": true,
       "numBoundDecl": {
-       "value": 0.002074687883578008,
-       "steps": 2,
-       "order": null,
+       "value": 0.002614339358842699,
+       "steps": 3,
+       "order": 1.9620043067468504,
+       "assessedStage": "h",
        "estimate": {
-        "raw": 0.002074687883578008,
-        "order": null,
-        "factor": null,
-        "refined": null,
+        "raw": 0.002614339358842699,
+        "order": 1.9620043067468504,
+        "factor": 1.0705266381554146,
+        "refined": 0.0027987199248192566,
         "side": "coarse",
-        "asymptotic": "unconfirmed",
-        "richardsonUsable": false,
-        "reason": "order-not-measured",
-        "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
+        "asymptotic": "order-positive",
+        "richardsonUsable": true,
+        "reason": null,
+        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、**粗い側**の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0705 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
        },
-       "basisRef": "numBoundDecl.basis#cd426718",
-       "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
+       "basisRef": "numBoundDecl.basis#d5d9728a",
+       "orderNoteRef": "numBoundDecl.orderNote#9286dca4"
       },
       "convergence": {
-       "ok": false,
-       "okLegacy": false,
-       "steps": 2,
-       "order": null,
-       "orderGuard": false,
-       "epsHat": null,
+       "ok": true,
+       "okLegacy": true,
+       "steps": 3,
+       "order": 1.9620043067468504,
+       "orderGuard": true,
+       "epsHat": 0.0009027325435948023,
        "epsHatInSigma": null,
        "epsHatOk": null,
-       "lastDiff": 0.002074687883578008,
+       "lastDiff": 0.002614339358842699,
        "lastDiffInSigma": null,
        "lastDiffOk": null,
        "assessedStage": "h",
        "orderEstimable": true,
        "orderEstimableReason": null,
-       "orderEstimableRule": null,
-       "asymptoticStatus": "unconfirmed",
-       "richardsonUsable": false,
+       "asymptoticStatus": "order-estimable",
+       "richardsonUsable": true,
        "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
        "lastDiffDef": "|Q_h−Q_{h/4}|(3 段)/|Q_h−Q_{h/2}|(2 段)",
        "coarseNumBound": null,
@@ -17286,25 +17523,19 @@
        "fitWindows": [
         63
        ],
-       "hold": "dt 3 段が走っていない(2 段は感度診断)",
+       "hold": null,
        "previous": {
         "rule": "3 段かつ order>0(第253便b〜第269便a)",
-        "ok": false,
+        "ok": true,
         "noteRef": "convergence.previous.note#522b1e55"
        },
        "ruleRef": "convergence.rule#3c5d2263",
-       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f"
+       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f",
+       "orderEstimableRuleRef": "convergence.orderEstimableRule#a18ab000"
       },
       "arithOnly": null,
-      "conditionMismatch": {
-       "requiredKFrame": 0,
-       "measuredKFrame": 1,
-       "evidence": "kFrame=0 対照との周期差",
-       "note": "この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
-       "fix": "対照条件(kFrame=0)を**別の走行**として測り、その行に割り当てる(プリセットの physics は変えない —— 検証器の中で physics を差し替えた診断コピーを走らせる)"
-      },
       "deprecatedKeysMoved": "calaudit-w249-diag.json",
-      "definitionNoteRef": "gate.definitionNote#202140e2"
+      "definitionNoteRef": "gate.definitionNote#37b7c27e"
      },
      "requiredContext": {
       "kFrame": 0,
@@ -17312,30 +17543,15 @@
       "evidence": "kFrame=0 対照との周期差"
      },
      "measurementContext": {
-      "kFrame": 1,
-      "source": "run(preset physics)",
+      "kFrame": 0,
+      "source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
       "dt": 0.016,
-      "steps": 4091814
+      "steps": null,
+      "override": true,
+      "presetKFrame": 1,
+      "note": "**プリセットの physics は kFrame=1 のままである**。この行に配られている数だけが、kFrame=0 の診断コピーの走行から来ている。"
      },
-     "conditionMatch": false,
-     "conditionRejectedEvidence": {
-      "verdict": "合",
-      "residualPct": 0.04646130039929779,
-      "residualPctRev": 0.04646130039929779,
-      "residualPctPeri": 0.041238323612493646,
-      "strictOK": true,
-      "meas": 27566.6434406517,
-      "obs": 27553.841567549454,
-      "note": null,
-      "why": "**証拠として捨てていない** —— この数値は kFrame=1 の走行の実測であり、kFrame=0 の行に割り当てられていたことだけが誤りである"
-     },
-     "conditionMismatch": {
-      "requiredKFrame": 0,
-      "measuredKFrame": 1,
-      "evidence": "kFrame=0 対照との周期差",
-      "note": "この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
-      "fix": "対照条件(kFrame=0)を**別の走行**として測り、その行に割り当てる(プリセットの physics は変えない —— 検証器の中で physics を差し替えた診断コピーを走らせる)"
-     },
+     "conditionMatch": true,
      "predictionEligible": false,
      "predictionEligibleReasonsMoved": "calaudit-w249-diag.json"
     },
@@ -18314,12 +18530,12 @@
     }
    ],
    "tally": {
-    "合": 3,
+    "合": 4,
     "窓": 0,
     "否": 0,
     "従": 0,
     "転": 5,
-    "条": 1
+    "条": 0
    },
    "notes": [
     "dt 収束(主対象 フォボス): 周期 27566.6434 → 27566.6414 s(-0.0000%) / 近点移動 -1.4977e-2 → -1.4968e-2 °/周"
@@ -18700,52 +18916,52 @@
     {
      "name": "公転周期(kFrame=0 対照・同方向1周)",
      "kind": "period",
-     "version": "dfm",
+     "version": "obs",
      "target": "カロン",
      "declaredModel": "6.3874 日=551864.061 s・+0.001381%・+294.08σ — 正式判定は 否(3σ)(観測 551856.43872±0.02592 s)",
      "declaredObs": "6.3872 日",
      "model": 551871.36,
      "obs": 551856.43872,
      "obsErr": null,
-     "meas": 553210.6340099995,
+     "meas": 551864.0613632939,
      "unit": "s",
-     "residualPct": null,
-     "modelResidualPct": 0.2426786579393194,
-     "verdict": "条",
+     "residualPct": 0.001381272874447126,
+     "modelResidualPct": -0.0013225250004059437,
+     "verdict": "合",
      "method": "同方向1周(2周目 — obsCard の数え方)",
-     "note": "**条件不一致(condition-mismatch)**: この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
+     "note": null,
      "standard": false,
      "rowDefContract": null,
      "periodDef": "revolution",
      "detail": {
       "revSec": [
-       553209.4743340951,
-       553210.6340099995,
-       553210.1891976292,
-       553209.7431041136,
-       553209.2958135919,
-       553208.8054608634
+       551862.4613633327,
+       551864.0613632939,
+       551864.0613632784,
+       551864.0613630436,
+       551864.0613630799,
+       551864.0613632607
       ],
-      "periASec": 556266.4212066433,
-      "periBSec": 556298.3334047276,
-      "oscSec": 551847.0280698998,
+      "periASec": 551858.672387397,
+      "periBSec": 551858.674714759,
+      "oscSec": 551853.2833992661,
       "periWindow": 20,
       "periFoundA": 59,
-      "periFoundB": 60,
+      "periFoundB": 55,
       "periUnmeasuredA": false,
-      "periAllSec": 555447.4166398183,
+      "periAllSec": 551858.6723956055,
       "revN": 59,
-      "aOscMean": 19.59585157205356,
+      "aOscMean": 19.595999655285645,
       "aOsc0": 19.595999648299134,
       "periodDef": "revolution",
       "detPairSec": [
-       556266.4212066433,
-       556298.3334047276
+       551858.672387397,
+       551858.674714759
       ]
      },
-     "residualPctPeri": 0.7991177011311256,
-     "residualPctRev": 0.24538905320022347,
-     "defDiffPct": 0.5523731846030727,
+     "residualPctPeri": 0.000404755157380708,
+     "residualPctRev": 0.001381272874447126,
+     "defDiffPct": -0.0009765042288783867,
      "judgementSource": {
       "declared": true,
       "key": "Charon|orbital_period",
@@ -18844,7 +19060,7 @@
      },
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false,
+     "strictOK": true,
      "stageHealth": {
       "stages": 3,
       "nan": false,
@@ -18857,115 +19073,102 @@
       ],
       "periodWindowFilled": true,
       "extractionClean": true,
-      "eighth": {
-       "tag": "dt/8",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      "sameFitWindowWithH8": true,
-      "fitWindowsWithH8": [
-       59
-      ],
-      "periodWindowFilledWithH8": true,
-      "extractionCleanWithH8": true,
+      "eighth": null,
+      "sameFitWindowWithH8": null,
+      "fitWindowsWithH8": null,
+      "periodWindowFilledWithH8": null,
+      "extractionCleanWithH8": null,
       "rowsMoved": "calaudit-w249-diag.json",
       "rowsN": 3,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
-     "numBoundDt2": 0.20490921463351697,
+     "numBoundDt2": 0.00002534058876335621,
      "numBoundDef": "revolution-or-osculating",
-     "numBoundDt3": 0.416884433478117,
-     "pObs": 0.6276319563895256,
+     "numBoundDt3": 0.00012252083979547024,
+     "pObs": 1.939213114720429,
      "dtStages": {
-      "dt": 553210.6340099995,
-      "dtHalf": 553210.8870908859,
-      "dtQuarter": 553211.0508944329
+      "dt": 551864.0613632939,
+      "dtHalf": 551864.0612661137,
+      "dtQuarter": 551864.0612407731
      },
      "numBoundDecl": {
-      "value": 0.20490921463351697,
-      "steps": 4,
-      "order": -0.32301826510270937,
-      "assessedStage": "h8",
+      "value": 0.00002534058876335621,
+      "steps": 3,
+      "order": 1.939213114720429,
+      "assessedStage": "h4",
       "estimate": {
-       "raw": 0.20490921463351697,
-       "order": -0.32301826510270937,
-       "factor": null,
-       "refined": null,
+       "raw": 0.00002534058876335621,
+       "order": 1.939213114720429,
+       "factor": 0.35273813883694327,
+       "refined": 0.000008938592117418627,
        "side": "fine",
-       "asymptotic": "unconfirmed",
-       "richardsonUsable": false,
-       "reason": "order-non-positive",
-       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
-      },
-      "basisRef": "numBoundDecl.basis#536b424c",
-      "orderNoteRef": "numBoundDecl.orderNote#f6fbd33c"
-     },
-     "orderEstimable": {
-      "ok": true,
-      "d1": -0.1638035470386967,
-      "d2": -0.20490921463351697,
-      "reason": null,
-      "asymptotic": "order-estimable",
-      "richardsonUsable": true,
-      "ruleRef": "orderEstimable.rule#7bc27592"
-     },
-     "assessedStage": "h8",
-     "assessedValue": 553211.2558036476,
-     "coarseValue": 553210.6340099995,
-     "coarseNumBound": 0.621793648111634,
-     "h8": {
-      "stages": {
-       "dt": 553210.6340099995,
-       "dtHalf": 553210.8870908859,
-       "dtQuarter": 553211.0508944329,
-       "dtEighth": 553211.2558036476
-      },
-      "pObs3": 0.6276319563895256,
-      "pObsShifted": -0.32301826510270937,
-      "numBoundH4": 0.416884433478117,
-      "numBoundH8": 0.3687127616722137,
-      "estimateFromH4": {
-       "raw": 0.416884433478117,
-       "order": 0.6276319563895256,
-       "factor": 1.7209243353344545,
-       "refined": 0.7174265665946091,
-       "side": "coarse",
        "asymptotic": "order-positive",
        "richardsonUsable": true,
        "reason": null,
-       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、**粗い側**の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.7209 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3527 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
       },
-      "estimateFromH8": {
-       "raw": 0.3687127616722137,
-       "order": -0.32301826510270937,
-       "factor": null,
-       "refined": null,
-       "side": "coarse",
-       "asymptotic": "unconfirmed",
-       "richardsonUsable": false,
-       "reason": "order-non-positive",
-       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
-      },
-      "richardson": null,
-      "richardsonUsable": false,
-      "richardsonBlockedReason": "shifted p = -0.323018 が非正である(**漸近収束未確認** —— 「漸近域に居ないことが確定」ではない。第273便c・AH30)",
-      "note": "**h8 検査点**(第258便d): dt/8=0.002 まで走らせた系の欄である。pObs3 は (h,h/2,h/4)・pObsShifted は (h/2,h/4,h/8) の観測次数で、**2 つが揃っていれば漸近域に居る**と読める。**揃わないときに言えるのは「漸近収束が未確認」までである**(「漸近域に居ないことが確定した」ではない —— 第273便c・AH30)。第272便a(AG1)で**条件を満たした量だけ正式段が (h/2,h/4,h/8) になる** —— 昇格しなかった量の門は従来どおり h/4(または h)である",
-      "rule": "3 段登録系 かつ その量の 3 段観測次数が **|p−2| > 0.5** → 正式段 (h/2, h/4, h/8)・ε̂ = |Q_{h/4} − Q_{h/8}| / (2^p − 1)(p は shifted = log₂|(Q_{h/2}−Q_{h/4})/(Q_{h/4}−Q_{h/8})|)",
-      "promoted": true,
-      "promoteReason": null
+      "basisRef": "numBoundDecl.basis#5627953f",
+      "orderNoteRef": "numBoundDecl.orderNote#4114f63b"
      },
-     "h4Value": 553211.0508944329,
-     "h4NumBound": 0.1638035470386967,
-     "pObsAssessed": -0.32301826510270937,
-     "pObsThreeStage": 0.6276319563895256,
+     "orderEstimable": {
+      "ok": true,
+      "d1": 0.00009718025103211403,
+      "d2": 0.00002534058876335621,
+      "reason": null,
+      "asymptotic": "order-estimable",
+      "richardsonUsable": true,
+      "ruleRef": "orderEstimable.rule#a18ab000"
+     },
+     "assessedStage": "h4",
+     "assessedValue": 551864.0612407731,
+     "coarseValue": 551864.0613632939,
+     "coarseNumBound": 0.00012252083979547024,
+     "kf0Applied": {
+      "since": "第274便a(第64報)",
+      "requiredKFrame": 0,
+      "measuredKFrame": 0,
+      "stages": [
+       "h",
+       "h/2",
+       "h/4"
+      ],
+      "how": "`physics.kFrame` の 1 鍵だけを 0 にした**診断コピー**を、**同じ停止条件・同じ近点窓・同じ抽出器・同じ σ の宛先**で走らせた(preset id が同じなので宣言はすべて同じ 1 本を引く)。**プリセットの physics は 1 bit も書き換えていない**。",
+      "replaced": {
+       "meas": 553210.6340099995,
+       "unit": "s",
+       "periodDef": "revolution",
+       "verdict": "条",
+       "residualPct": null,
+       "residualPctRev": 0.24538905320022347,
+       "residualPctPeri": 0.7991177011311256,
+       "measuredKFrame": 1,
+       "gate": {
+        "status": "condition-mismatch",
+        "assessedStage": "h8",
+        "assessedValue": 553211.2558036476,
+        "nSigma": 52269.177609860766,
+        "numBound": 0.20490921463351697,
+        "sigma": 0.02592
+       },
+       "gateNote": "**配る前の門の転記**である(このとき隔離されていたので status は `condition-mismatch` のはずである)。beta の「正式判定値」表はこの世代の転記なので、QA `ui.assessedValuePanel` はこの欄と突き合わせる。",
+       "why": "**証拠として捨てていない** —— この数値は kFrame=1 の走行の実測であり、**kFrame=0 の行に配られていたことだけが誤りだった**(第258便d の隔離の理由)。"
+      },
+      "deltaPct": -0.2434104776592582,
+      "doNotWrite": [
+       "kF0 版が成立した",
+       "引きずりが消えた",
+       "対照が合った"
+      ]
+     },
+     "measurementContextOverride": {
+      "kFrame": 0,
+      "source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
+      "dt": 0.016,
+      "steps": null,
+      "note": "**プリセットの physics は kFrame=1 のままである**。この行に配られている数だけが、kFrame=0 の診断コピーの走行から来ている。"
+     },
      "infoDistance": {
-      "value": 515.5753159869959,
+      "value": 2.902127007785751,
       "scale": 2.6265712263727456,
       "scaleKind": "spread",
       "scaleFrom": "destination-row",
@@ -18973,22 +19176,22 @@
       "why": "**σ ではない尺度**(同じ量の別転写との隔たり/古い版の 1σ)で割った距離。門には入らない。"
      },
      "gate": {
-      "residual": 1354.817083647591,
-      "nSigma": 52269.177609860766,
+      "residual": 7.622520773089491,
+      "nSigma": 294.07873352968716,
       "sigma": 0.02592,
-      "status": "condition-mismatch",
-      "reason": "測定条件が行の要求条件と違う(kFrame 1 ≠ 0)",
-      "numBound": 0.20490921463351697,
+      "status": "否(3σ)",
+      "numBound": 0.00002534058876335621,
+      "tolerance": 0.07778534058876335,
       "key": "plutoCharonReal|カロン|period",
-      "assessedStage": "h8",
-      "assessedValue": 553211.2558036476,
+      "assessedStage": "h4",
+      "assessedValue": 551864.0612407731,
       "coarseStage": "h",
-      "coarseValue": 553210.6340099995,
-      "coarseNumBound": 0.621793648111634,
-      "h8Promoted": true,
+      "coarseValue": 551864.0613632939,
+      "coarseNumBound": 0.00012252083979547024,
+      "h8Promoted": false,
       "h8PromoteReason": null,
-      "h4Value": 553211.0508944329,
-      "pObsThreeStage": 0.6276319563895256,
+      "h4Value": null,
+      "pObsThreeStage": null,
       "detectorCanonical": "A",
       "definitionDeclared": true,
       "definitionDeclaredNote": "定義=revolution・判定に採ったのは**検出器 A**(近点間は ṙ の −→+ 交差・20 近点窓)",
@@ -18996,9 +19199,9 @@
       "mappingResolved": true,
       "mappingNote": null,
       "orbitNoiseIndicator": {
-       "abRelPct": 0.005736525919280947,
+       "abRelPct": 4.217315167213174e-7,
        "sigmaRelPct": 0.000004696873712322716,
-       "ratio": 1221.3498319596285,
+       "ratio": 0.08978983522909349,
        "gate": "none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)",
        "meaningRef": "orbitNoiseIndicator.meaning#2cecac37"
       },
@@ -19013,76 +19216,69 @@
        "primaryVerified": true
       },
       "sigmaCardVsCsvRel": null,
-      "detSpreadPct": 0.005736525919280947,
-      "defSpreadCrossDefPct": 0.7944741886733164,
-      "defSpreadPct": 0.005736525919280947,
+      "detSpreadPct": 4.217315167213174e-7,
+      "defSpreadCrossDefPct": 0.0019530106746226698,
+      "defSpreadPct": 4.217315167213174e-7,
       "defMeta": true,
       "numBoundDecl": {
-       "value": 0.20490921463351697,
-       "steps": 4,
-       "order": -0.32301826510270937,
-       "assessedStage": "h8",
+       "value": 0.00002534058876335621,
+       "steps": 3,
+       "order": 1.939213114720429,
+       "assessedStage": "h4",
        "estimate": {
-        "raw": 0.20490921463351697,
-        "order": -0.32301826510270937,
-        "factor": null,
-        "refined": null,
+        "raw": 0.00002534058876335621,
+        "order": 1.939213114720429,
+        "factor": 0.35273813883694327,
+        "refined": 0.000008938592117418627,
         "side": "fine",
-        "asymptotic": "unconfirmed",
-        "richardsonUsable": false,
-        "reason": "order-non-positive",
-        "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
+        "asymptotic": "order-positive",
+        "richardsonUsable": true,
+        "reason": null,
+        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3527 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
        },
-       "basisRef": "numBoundDecl.basis#536b424c",
-       "orderNoteRef": "numBoundDecl.orderNote#f6fbd33c"
+       "basisRef": "numBoundDecl.basis#5627953f",
+       "orderNoteRef": "numBoundDecl.orderNote#4114f63b"
       },
       "convergence": {
-       "ok": false,
-       "okLegacy": false,
-       "steps": 4,
-       "order": -0.32301826510270937,
-       "orderGuard": false,
-       "epsHat": null,
-       "epsHatInSigma": null,
-       "epsHatOk": null,
-       "lastDiff": 0.20490921463351697,
-       "lastDiffInSigma": 7.905448095428896,
-       "lastDiffOk": false,
-       "assessedStage": "h8",
+       "ok": true,
+       "okLegacy": true,
+       "steps": 3,
+       "order": 1.939213114720429,
+       "orderGuard": true,
+       "epsHat": 0.000008938592117418627,
+       "epsHatInSigma": 0.00034485309094979273,
+       "epsHatOk": true,
+       "lastDiff": 0.00002534058876335621,
+       "lastDiffInSigma": 0.0009776461714257798,
+       "lastDiffOk": true,
+       "assessedStage": "h4",
        "orderEstimable": true,
        "orderEstimableReason": null,
-       "asymptoticStatus": "unconfirmed",
-       "richardsonUsable": false,
+       "asymptoticStatus": "order-estimable",
+       "richardsonUsable": true,
        "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
-       "lastDiffDef": "|Q_{h/4}−Q_{h/8}|(最終 2 段差・第272便a AG1)",
-       "coarseNumBound": 0.621793648111634,
+       "lastDiffDef": "|Q_{h/2}−Q_{h/4}|(最終 2 段差)",
+       "coarseNumBound": 0.00012252083979547024,
        "budget": 0.007775999999999999,
        "windowsComplete": true,
        "extractionClean": true,
        "fitWindows": [
         59
        ],
-       "hold": "収束次数が未測定または非正(**漸近収束未確認** —— この次数から Richardson 補正/外挿は作らない。第273便c・AH30)",
+       "hold": null,
        "previous": {
         "rule": "3 段かつ order>0(第253便b〜第269便a)",
-        "ok": false,
+        "ok": true,
         "noteRef": "convergence.previous.note#522b1e55"
        },
-       "ruleRef": "convergence.rule#a99ce352",
+       "ruleRef": "convergence.rule#42ad47c1",
        "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f",
-       "orderEstimableRuleRef": "convergence.orderEstimableRule#7bc27592"
+       "orderEstimableRuleRef": "convergence.orderEstimableRule#a18ab000"
       },
       "arithOnly": false,
-      "conditionMismatch": {
-       "requiredKFrame": 0,
-       "measuredKFrame": 1,
-       "evidence": "公転周期(kFrame=0 対照・同方向1周)",
-       "note": "この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
-       "fix": "対照条件(kFrame=0)を**別の走行**として測り、その行に割り当てる(プリセットの physics は変えない —— 検証器の中で physics を差し替えた診断コピーを走らせる)"
-      },
       "deprecatedKeysMoved": "calaudit-w249-diag.json",
-      "assessedStageRuleRef": "gate.assessedStageRule#f668d5f3",
-      "definitionNoteRef": "gate.definitionNote#cc3c49af"
+      "assessedStageRuleRef": "gate.assessedStageRule#71c47000",
+      "definitionNoteRef": "gate.definitionNote#bba395bd"
      },
      "requiredContext": {
       "kFrame": 0,
@@ -19090,34 +19286,19 @@
       "evidence": "公転周期(kFrame=0 対照・同方向1周)"
      },
      "measurementContext": {
-      "kFrame": 1,
-      "source": "run(preset physics)",
+      "kFrame": 0,
+      "source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
       "dt": 0.016,
-      "steps": 20694498
+      "steps": null,
+      "override": true,
+      "presetKFrame": 1,
+      "note": "**プリセットの physics は kFrame=1 のままである**。この行に配られている数だけが、kFrame=0 の診断コピーの走行から来ている。"
      },
-     "conditionMatch": false,
-     "conditionRejectedEvidence": {
-      "verdict": "合",
-      "residualPct": 0.24538905320022347,
-      "residualPctRev": 0.24538905320022347,
-      "residualPctPeri": 0.7991177011311256,
-      "strictOK": false,
-      "meas": 553210.6340099995,
-      "obs": 551856.43872,
-      "note": null,
-      "why": "**証拠として捨てていない** —— この数値は kFrame=1 の走行の実測であり、kFrame=0 の行に割り当てられていたことだけが誤りである"
-     },
-     "conditionMismatch": {
-      "requiredKFrame": 0,
-      "measuredKFrame": 1,
-      "evidence": "公転周期(kFrame=0 対照・同方向1周)",
-      "note": "この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
-      "fix": "対照条件(kFrame=0)を**別の走行**として測り、その行に割り当てる(プリセットの physics は変えない —— 検証器の中で physics を差し替えた診断コピーを走らせる)"
-     },
+     "conditionMatch": true,
      "predictionEligible": false,
      "predictionEligibleReasonsMoved": "calaudit-w249-diag.json",
      "numBoundDeclCoarseMoved": "calaudit-w249-diag.json",
-     "assessedStageNoteRef": "assessedStageNote#b0392569"
+     "assessedStageNoteRef": "assessedStageNote#1af96a21"
     },
     {
      "name": "公転周期(kFrame=1・E6′-R)同方向1周",
@@ -20745,12 +20926,12 @@
     }
    ],
    "tally": {
-    "合": 2,
+    "合": 3,
     "窓": 0,
     "否": 0,
     "従": 0,
     "転": 4,
-    "条": 1
+    "条": 0
    },
    "notes": [
     "**dt 3 段(第255便d N8)**: dt/4=0.004 まで走らせた。近点移動 1.4507e+0 → 1.4511e+0 °/周(h → h/4) / ε_num=|Q_h−Q_{h/4}| と観測次数 p_obs は各量の numBoundDecl へ入れた",
@@ -24617,52 +24798,52 @@
     {
      "name": "公転周期(kFrame=0 対照)",
      "kind": "period",
-     "version": "dfm",
+     "version": "obs",
      "target": "トリトン",
      "declaredModel": "5.87741 日(+0.009%)",
      "declaredObs": "5.876854 日",
      "model": 507808.22400000005,
      "obs": 507760.18559999997,
      "obsErr": null,
-     "meas": 508323.3145286334,
+     "meas": 507781.4823558789,
      "unit": "s",
-     "residualPct": null,
-     "modelResidualPct": 0.10143406591093906,
-     "verdict": "条",
+     "residualPct": 0.004194254784625883,
+     "modelResidualPct": -0.005266091185069978,
+     "verdict": "合",
      "method": "同方向1周(2周目 — obsCard の数え方)",
-     "note": "**条件不一致(condition-mismatch)**: この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
+     "note": null,
      "standard": false,
      "rowDefContract": null,
      "periodDef": "revolution",
      "detail": {
       "revSec": [
-       508306.40325127146,
-       508323.3145286334,
-       508324.2272189242,
-       508325.1473012574,
-       508326.0745209634,
-       508326.99857551185
+       507765.48235496663,
+       507781.4823558789,
+       507781.4823567413,
+       507781.482357434,
+       507781.4823583292,
+       507781.4823592012
       ],
-      "periASec": 511223.62243029143,
-      "periBSec": 513644.8206453276,
-      "oscSec": 507806.817834137,
+      "periASec": 507779.9648616233,
+      "periBSec": 507779.96476185275,
+      "oscSec": 507778.45664464915,
       "periWindow": 20,
       "periFoundA": 59,
       "periFoundB": 60,
       "periUnmeasuredA": false,
-      "periAllSec": 509373.3228891197,
+      "periAllSec": 507779.9648013519,
       "revN": 59,
-      "aOscMean": 35.4773198653819,
+      "aOscMean": 35.47599891121609,
       "aOsc0": 35.47599821106013,
       "periodDef": "revolution",
       "detPairSec": [
-       511223.62243029143,
-       513644.8206453276
+       507779.9648616233,
+       507779.96476185275
       ]
      },
-     "residualPctPeri": 0.6821009067890704,
-     "residualPctRev": 0.11090450661624439,
-     "defDiffPct": 0.5705636194057921,
+     "residualPctPeri": 0.0038953943582563963,
+     "residualPctRev": 0.004194254784625883,
+     "defDiffPct": -0.00029884789192748096,
      "sigmaSource": {
       "body": "Triton",
       "quantity": "orbital_period",
@@ -24675,9 +24856,9 @@
      "sigmaNote": "CSV の sigma 列が空欄(**未記録**であって 0 ではない)",
      "guideTolerance": true,
      "toleranceUsedPct": 1,
-     "strictOK": false,
+     "strictOK": true,
      "stageHealth": {
-      "stages": 2,
+      "stages": 3,
       "nan": false,
       "clamp": 0,
       "dup": 0,
@@ -24694,31 +24875,92 @@
       "periodWindowFilledWithH8": null,
       "extractionCleanWithH8": null,
       "rowsMoved": "calaudit-w249-diag.json",
-      "rowsN": 2,
+      "rowsN": 3,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
-     "numBoundDt2": 0.6780746126314625,
+     "numBoundDt2": 0.013218357460573316,
      "numBoundDef": "revolution-or-osculating",
+     "numBoundDt3": 0.013218357460573316,
+     "pObs": 1.9999227490564389,
+     "dtStages": {
+      "dt": 507781.4823558789,
+      "dtHalf": 507781.4717813062,
+      "dtQuarter": 507781.46913752146
+     },
      "numBoundDecl": {
-      "value": 0.6780746126314625,
-      "steps": 2,
-      "order": null,
+      "value": 0.013218357460573316,
+      "steps": 3,
+      "order": 1.9999227490564389,
+      "assessedStage": "h",
       "estimate": {
-       "raw": 0.6780746126314625,
-       "order": null,
-       "factor": null,
-       "refined": null,
+       "raw": 0.013218357460573316,
+       "order": 1.9999227490564389,
+       "factor": 1.066674282598879,
+       "refined": 0.014099681961392583,
        "side": "coarse",
-       "asymptotic": "unconfirmed",
-       "richardsonUsable": false,
-       "reason": "order-not-measured",
-       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
+       "asymptotic": "order-positive",
+       "richardsonUsable": true,
+       "reason": null,
+       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、**粗い側**の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0667 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
       },
-      "basisRef": "numBoundDecl.basis#cd426718",
-      "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
+      "basisRef": "numBoundDecl.basis#d5d9728a",
+      "orderNoteRef": "numBoundDecl.orderNote#88003956"
+     },
+     "orderEstimable": {
+      "ok": true,
+      "d1": 0.01057457271963358,
+      "d2": 0.0026437847409397364,
+      "reason": null,
+      "asymptotic": "order-estimable",
+      "richardsonUsable": true,
+      "ruleRef": "orderEstimable.rule#a18ab000"
+     },
+     "kf0Applied": {
+      "since": "第274便a(第64報)",
+      "requiredKFrame": 0,
+      "measuredKFrame": 0,
+      "stages": [
+       "h",
+       "h/2",
+       "h/4"
+      ],
+      "how": "`physics.kFrame` の 1 鍵だけを 0 にした**診断コピー**を、**同じ停止条件・同じ近点窓・同じ抽出器・同じ σ の宛先**で走らせた(preset id が同じなので宣言はすべて同じ 1 本を引く)。**プリセットの physics は 1 bit も書き換えていない**。",
+      "replaced": {
+       "meas": 508323.3145286334,
+       "unit": "s",
+       "periodDef": "revolution",
+       "verdict": "条",
+       "residualPct": null,
+       "residualPctRev": 0.11090450661624439,
+       "residualPctPeri": 0.6821009067890704,
+       "measuredKFrame": 1,
+       "gate": {
+        "status": "condition-mismatch",
+        "assessedStage": "h",
+        "assessedValue": 508323.3145286334,
+        "nSigma": null,
+        "numBound": 0.6780746126314625,
+        "sigma": null
+       },
+       "gateNote": "**配る前の門の転記**である(このとき隔離されていたので status は `condition-mismatch` のはずである)。beta の「正式判定値」表はこの世代の転記なので、QA `ui.assessedValuePanel` はこの欄と突き合わせる。",
+       "why": "**証拠として捨てていない** —— この数値は kFrame=1 の走行の実測であり、**kFrame=0 の行に配られていたことだけが誤りだった**(第258便d の隔離の理由)。"
+      },
+      "deltaPct": -0.1065920364594909,
+      "doNotWrite": [
+       "kF0 版が成立した",
+       "引きずりが消えた",
+       "対照が合った"
+      ]
+     },
+     "measurementContextOverride": {
+      "kFrame": 0,
+      "source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
+      "dt": 0.016,
+      "steps": null,
+      "note": "**プリセットの physics は kFrame=1 のままである**。この行に配られている数だけが、kFrame=0 の診断コピーの走行から来ている。"
      },
      "infoDistance": {
-      "value": 46.554970951835884,
+      "value": 1.7606445005748401,
       "scale": 12.095999999999998,
       "scaleKind": "spread",
       "scaleFrom": "intake-candidate-row",
@@ -24726,13 +24968,13 @@
       "why": "**σ ではない尺度**(同じ量の別転写との隔たり/古い版の 1σ)で割った距離。門には入らない。"
      },
      "gate": {
-      "status": "condition-mismatch",
-      "reason": "測定条件が行の要求条件と違う(kFrame 1 ≠ 0)",
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
       "key": "neptuneReal|トリトン|period",
       "assessedStage": "h",
-      "assessedValue": 508323.3145286334,
+      "assessedValue": 507781.4823558789,
       "coarseStage": "h",
-      "coarseValue": 508323.3145286334,
+      "coarseValue": 507781.4823558789,
       "coarseNumBound": null,
       "assessedStageRule": "**判定値は h 段**(3 段登録表の外の系 —— 第271便a でも扱いを変えていない)。",
       "h8Promoted": false,
@@ -24746,14 +24988,14 @@
       "mappingResolved": true,
       "mappingNote": null,
       "orbitNoiseIndicator": {
-       "abRelPct": 0.4713759620887967,
+       "abRelPct": 1.9648382577995773e-8,
        "sigmaRelPct": null,
        "ratio": null,
        "gate": "none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)",
        "meaningRef": "orbitNoiseIndicator.meaning#2cecac37"
       },
       "sigmaRelPct": null,
-      "numBound": 0.6780746126314625,
+      "numBound": 0.013218357460573316,
       "sigma": null,
       "sigmaFrom": null,
       "sigmaSource": {
@@ -24765,46 +25007,46 @@
        "primaryVerified": false
       },
       "sigmaCardVsCsvRel": null,
-      "detSpreadPct": 0.4713759620887967,
-      "defSpreadCrossDefPct": 0.6683581208378785,
-      "defSpreadPct": 0.4713759620887967,
+      "detSpreadPct": 1.9648382577995773e-8,
+      "defSpreadCrossDefPct": 0.0005958687614466692,
+      "defSpreadPct": 1.9648382577995773e-8,
       "defMeta": true,
       "numBoundDecl": {
-       "value": 0.6780746126314625,
-       "steps": 2,
-       "order": null,
+       "value": 0.013218357460573316,
+       "steps": 3,
+       "order": 1.9999227490564389,
+       "assessedStage": "h",
        "estimate": {
-        "raw": 0.6780746126314625,
-        "order": null,
-        "factor": null,
-        "refined": null,
+        "raw": 0.013218357460573316,
+        "order": 1.9999227490564389,
+        "factor": 1.066674282598879,
+        "refined": 0.014099681961392583,
         "side": "coarse",
-        "asymptotic": "unconfirmed",
-        "richardsonUsable": false,
-        "reason": "order-not-measured",
-        "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
+        "asymptotic": "order-positive",
+        "richardsonUsable": true,
+        "reason": null,
+        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、**粗い側**の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0667 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
        },
-       "basisRef": "numBoundDecl.basis#cd426718",
-       "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
+       "basisRef": "numBoundDecl.basis#d5d9728a",
+       "orderNoteRef": "numBoundDecl.orderNote#88003956"
       },
       "convergence": {
-       "ok": false,
-       "okLegacy": false,
-       "steps": 2,
-       "order": null,
-       "orderGuard": false,
-       "epsHat": null,
+       "ok": true,
+       "okLegacy": true,
+       "steps": 3,
+       "order": 1.9999227490564389,
+       "orderGuard": true,
+       "epsHat": 0.004406433742578269,
        "epsHatInSigma": null,
        "epsHatOk": null,
-       "lastDiff": 0.6780746126314625,
+       "lastDiff": 0.013218357460573316,
        "lastDiffInSigma": null,
        "lastDiffOk": null,
        "assessedStage": "h",
        "orderEstimable": true,
        "orderEstimableReason": null,
-       "orderEstimableRule": null,
-       "asymptoticStatus": "unconfirmed",
-       "richardsonUsable": false,
+       "asymptoticStatus": "order-estimable",
+       "richardsonUsable": true,
        "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
        "lastDiffDef": "|Q_h−Q_{h/4}|(3 段)/|Q_h−Q_{h/2}|(2 段)",
        "coarseNumBound": null,
@@ -24814,25 +25056,19 @@
        "fitWindows": [
         59
        ],
-       "hold": "dt 3 段が走っていない(2 段は感度診断)",
+       "hold": null,
        "previous": {
         "rule": "3 段かつ order>0(第253便b〜第269便a)",
-        "ok": false,
+        "ok": true,
         "noteRef": "convergence.previous.note#522b1e55"
        },
        "ruleRef": "convergence.rule#3c5d2263",
-       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f"
+       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f",
+       "orderEstimableRuleRef": "convergence.orderEstimableRule#a18ab000"
       },
       "arithOnly": null,
-      "conditionMismatch": {
-       "requiredKFrame": 0,
-       "measuredKFrame": 1,
-       "evidence": "公転周期(kFrame=0 対照)",
-       "note": "この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
-       "fix": "対照条件(kFrame=0)を**別の走行**として測り、その行に割り当てる(プリセットの physics は変えない —— 検証器の中で physics を差し替えた診断コピーを走らせる)"
-      },
       "deprecatedKeysMoved": "calaudit-w249-diag.json",
-      "definitionNoteRef": "gate.definitionNote#8e8e8505"
+      "definitionNoteRef": "gate.definitionNote#cdb4ba1f"
      },
      "requiredContext": {
       "kFrame": 0,
@@ -24840,30 +25076,15 @@
       "evidence": "公転周期(kFrame=0 対照)"
      },
      "measurementContext": {
-      "kFrame": 1,
-      "source": "run(preset physics)",
+      "kFrame": 0,
+      "source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
       "dt": 0.016,
-      "steps": 1904169
+      "steps": null,
+      "override": true,
+      "presetKFrame": 1,
+      "note": "**プリセットの physics は kFrame=1 のままである**。この行に配られている数だけが、kFrame=0 の診断コピーの走行から来ている。"
      },
-     "conditionMatch": false,
-     "conditionRejectedEvidence": {
-      "verdict": "合",
-      "residualPct": 0.11090450661624439,
-      "residualPctRev": 0.11090450661624439,
-      "residualPctPeri": 0.6821009067890704,
-      "strictOK": false,
-      "meas": 508323.3145286334,
-      "obs": 507760.18559999997,
-      "note": null,
-      "why": "**証拠として捨てていない** —— この数値は kFrame=1 の走行の実測であり、kFrame=0 の行に割り当てられていたことだけが誤りである"
-     },
-     "conditionMismatch": {
-      "requiredKFrame": 0,
-      "measuredKFrame": 1,
-      "evidence": "公転周期(kFrame=0 対照)",
-      "note": "この行は kFrame=0 の条件を要求しているが、割り当てられている測定値は kFrame=1 の走行のものである(プリセットの physics は 1 つで、1 回の走行から 2 つの条件の行へ同じ数値が配られていた)。**合っていないのではなく、条件が違う** —— 対照条件の走行は行われていない",
-      "fix": "対照条件(kFrame=0)を**別の走行**として測り、その行に割り当てる(プリセットの physics は変えない —— 検証器の中で physics を差し替えた診断コピーを走らせる)"
-     },
+     "conditionMatch": true,
      "predictionEligible": false,
      "predictionEligibleReasonsMoved": "calaudit-w249-diag.json"
     },
@@ -25990,12 +26211,12 @@
     }
    ],
    "tally": {
-    "合": 1,
+    "合": 2,
     "窓": 0,
     "否": 0,
     "従": 0,
     "転": 5,
-    "条": 1
+    "条": 0
    },
    "notes": [
     "dt 収束(主対象 トリトン): 周期 508323.315 → 508322.636 s(-0.0001%) / 近点移動 -3.2011e-1 → -3.0499e-1 °/周"
@@ -70069,7 +70290,7 @@
    {
     "id": "jupiterGalilean",
     "emoji": "🟠",
-    "residPct": 0.05235198865916165,
+    "residPct": 0.04938377452676354,
     "nu": 0.000047045098813325016,
     "chiA": 0.1295517191353547,
     "chiB": 0.9996839776677552,
@@ -70123,7 +70344,7 @@
    {
     "id": "plutoCharonReal",
     "emoji": "❄️",
-    "residPct": 0.24538905320022347,
+    "residPct": 0.001381272874447126,
     "nu": 0.0967365355883843,
     "chiA": 0.02575260611177865,
     "chiB": 0.17841982746816373,
@@ -70159,7 +70380,7 @@
    {
     "id": "neptuneReal",
     "emoji": "🌊",
-    "residPct": 0.11090450661624439,
+    "residPct": 0.004194254784625883,
     "nu": 0.00020887870262817303,
     "chiA": 0.034438364982298034,
     "chiB": 0.9941752662388723,
@@ -70449,7 +70670,7 @@
    {
     "correlate": "nu",
     "n": 24,
-    "rho": 0.7266444828278156,
+    "rho": 0.7039368427394463,
     "samples": [
      "🌘",
      "🧲",
@@ -70480,7 +70701,7 @@
    {
     "correlate": "chi",
     "n": 24,
-    "rho": 0.5332482719250349,
+    "rho": 0.5472008023433514,
     "samples": [
      "🌘",
      "🧲",
@@ -70511,7 +70732,7 @@
    {
     "correlate": "GMac2",
     "n": 24,
-    "rho": 0.6373913043478261,
+    "rho": 0.6565217391304348,
     "samples": [
      "🌘",
      "🧲",
@@ -70542,7 +70763,7 @@
    {
     "correlate": "aOverR",
     "n": 24,
-    "rho": 0.6217391304347826,
+    "rho": 0.6182608695652174,
     "samples": [
      "🌘",
      "🧲",
@@ -70573,7 +70794,7 @@
    {
     "correlate": "e",
     "n": 24,
-    "rho": 0.7652173913043478,
+    "rho": 0.8,
     "samples": [
      "🌘",
      "🧲",
@@ -70604,7 +70825,7 @@
    {
     "correlate": "spinRatio",
     "n": 24,
-    "rho": -0.5980572512273372,
+    "rho": -0.5828925665686409,
     "samples": [
      "🌘",
      "🧲",
@@ -71025,8 +71246,8 @@
     "scaleFrom": "destination-row",
     "unitBridge": 1.0000042741733468,
     "scaleInJudgedUnit": 2.6265712263727456,
-    "residual": 1354.1952899994794,
-    "infoDistance": 515.5753159869959,
+    "residual": 7.622643293929286,
+    "infoDistance": 2.902127007785751,
     "gateStatus": null,
     "judgement": "informational"
    },
@@ -71045,7 +71266,7 @@
     "scaleInJudgedUnit": 2.6265712263727456,
     "residual": 1354.1952899994794,
     "infoDistance": 515.5753159869959,
-    "gateStatus": null,
+    "gateStatus": "数値未解決",
     "judgement": "informational"
    },
    {
@@ -71063,7 +71284,7 @@
     "scaleInJudgedUnit": 2.6265712263727456,
     "residual": 4409.982486643363,
     "infoDistance": 1678.98834890287,
-    "gateStatus": null,
+    "gateStatus": "mapping-unresolved",
     "judgement": "informational"
    },
    {
@@ -71079,9 +71300,9 @@
     "scaleFrom": "intake-candidate-row",
     "unitBridge": 0.9999999999999999,
     "scaleInJudgedUnit": 12.095999999999998,
-    "residual": 563.1289286334068,
-    "infoDistance": 46.554970951835884,
-    "gateStatus": "condition-mismatch",
+    "residual": 21.296755878953263,
+    "infoDistance": 1.7606445005748401,
+    "gateStatus": null,
     "judgement": "informational"
    },
    {
@@ -71117,7 +71338,7 @@
     "scaleInJudgedUnit": 0.511767647377016,
     "residual": 62.05016943063674,
     "infoDistance": 121.24676061229165,
-    "gateStatus": null,
+    "gateStatus": "未判定",
     "judgement": "informational"
    },
    {
@@ -71135,7 +71356,7 @@
     "scaleInJudgedUnit": 0.511767647377016,
     "residual": 296.8582236515649,
     "infoDistance": 580.0644592776912,
-    "gateStatus": null,
+    "gateStatus": "未判定",
     "judgement": "informational"
    }
   ],
@@ -71159,23 +71380,14 @@
   "nPresets": 37,
   "stages": {
    "note": "第258便d(第50報・3 審査 v16): 段は**階段ではない**。**①(数値収束)と ②(観測量対応)は独立な集合**である —— 数値が収束していなくても観測量対応は宣言できるし、その逆もある(①∩② が空でないだけで、①→② という順序は無い)。**④ ⊆ ③ だけが包含である**。第258便d で ④ は「③ のうち従属量でないもの」から「**証拠付き予測**」へ狭めた ——`usedForFit:false` / `validation:\"held-out\"` / `dataset` / `frozenProtocol` の 4 つが宣言として揃った量だけを数える。**現行は 0 件である**(宣言が無い)。**3σ は 1 mm も緩めていない**。",
-   "①数値収束": 11,
+   "①数値収束": 15,
    "②観測量対応": 39,
    "③観測適合(3σ)": 2,
    "④予測(従属量でない③)": 2,
    "④予測(証拠付き)": 0,
    "predictionNote": "「④予測(従属量でない③)」は第257便d までの弱い数え方(2 件)で、**証拠付き予測は 0 件**である。③ を通ったからといって予測ではない ——fit に使っていないこと・hold-out であること・どのデータか・凍結手順、の 4 つが要る。",
-   "conditionMismatch": 8,
-   "conditionMismatchKeys": [
-    "jupiterGalilean|イオ|period",
-    "jupiterGalilean|エウロパ|period",
-    "jupiterGalilean|ガニメデ|period",
-    "jupiterGalilean|カリスト|period",
-    "venusReal|金星|period",
-    "marsMoonsReal|フォボス|period",
-    "plutoCharonReal|カロン|period",
-    "neptuneReal|トリトン|period"
-   ],
+   "conditionMismatch": 0,
+   "conditionMismatchKeys": [],
    "mappingUnresolved": 15,
    "mappingUnresolvedKeys": [
     "plutoCharonReal|カロン|period",
@@ -71199,6 +71411,7 @@
     "siriusAB|B|period"
    ],
    "ng3Keys": [
+    "plutoCharonReal|カロン|period",
     "saturnZonalD68|D68|precession"
    ],
    "numUnresolvedKeys": [
@@ -71247,12 +71460,12 @@
   },
   "nQuantities": 314,
   "tally": {
-   "合": 58,
+   "合": 66,
    "窓": 6,
    "否": 26,
    "従": 4,
    "転": 212,
-   "条": 8
+   "条": 0
   },
   "byVersion": {
    "obs": 10,
@@ -71262,18 +71475,17 @@
    "rule": "|y_sim−y_obs| ≤ 3σ_obs + ε_num(ε_num ≤ 0.3σ_obs)。**ただし収束の保留条件**(第253便b): dt 3 段(dt, dt/2, dt/4)かつ正の実測次数 order>0 が揃うまで「収束済み」としない —— dt 2 段の差は**感度診断**であって誤差上限ではない(漸近域でも粗い側の誤差は 2^p/(2^p−1)|Q_h−Q_{h/2}|)。第253便b の走行は 2 段・次数未測定なので、σ を持つ量はすべて「数値未解決」へ保留された。**第255便d(第47報 N8)**: NS 4 系(⚡🧮🩺🧶)だけ --dt3 で 3 段を走らせ、観測次数 p_obs を実測した。3 段+正の次数が揃った量は保留を抜け、**3σ の合否がその場で出る**(= 収束の門と観測一致の門が分かれた)。**収束したことは一致したことではない** —— 次数が正でも残差が 3σ+ε_num を超えれば「否(3σ)」になる。**第257便d(第49報)**: (a) `definitionMatches` を **A 正本**へ —— 判定に採るのは検出器 A で、門が見るのは「定義が宣言されているか」だけになった。A−B は `orbitNoiseIndicator`(軌道側の相対 1e−10〜1e−8 の雑音に対する検出器差の感度)として別欄へ出す。(b) 第 4 の状態 `mapping-unresolved` を足した(観測量対応が未確定 — 例: タイミングの e_T と距離極値の eProxy)。**3σ そのものは 1 mm も緩めていない**",
    "byStatus": {
     "合(3σ)": 2,
-    "否(3σ)": 1,
+    "否(3σ)": 2,
     "数値未解決": 34,
     "mapping-unresolved": 15,
-    "condition-mismatch": 8,
-    "未判定": 254
+    "condition-mismatch": 0,
+    "未判定": 261
    },
    "byReason": {
-    "観測誤差(σ)または有限の実測が無い": 254,
+    "観測誤差(σ)または有限の実測が無い": 261,
     "数値誤差幅が予算(0.3σ)を超える/収束未確認(dt 3 段+正の実測次数が無い)": 34,
-    "測定条件が行の要求条件と違う(kFrame 1 ≠ 0)": 8,
+    "(判定済み)": 4,
     "観測量対応が未確定(**円に近い系の近点間周期である**(この preset の転写は e=0.0・実測 eProxy ≈1.2×10⁻³)。近点方位が縮退しているので、観測側の「公転周期」(two-body Keplerian fit の P)と、ここで測る近点間平均間隔が**同じ測定量であることは確定していない**。**数値が足りないのではない** —— 観測量対応が未確定である。)": 1,
-    "(判定済み)": 3,
     "観測量対応が未確定(軌道 fit のケプラー要素 e と、距離の極値から作る eProxy は同じ測定量ではない)": 4,
     "観測量対応が未確定(タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない)": 10
    },
@@ -71287,9 +71499,9 @@
    "note": "5 区分(合/窓/否/従/転)は来歴・解釈の欄として不変(**CSV の σ は 5 区分の経路へ入れない** — 第251便c: σ が効くのは門だけ)。門は別欄であり、第251便c で観測 σ の転写(paper/data/solar-observations.csv の sigma 列)と一次表の照合印(sigma_primary)が入った。定義の一致は**同じ定義の検出器 A/B の広がり**だけで見る(定義違いの広がりは σ と比較しない)。**第253便b(第45報)**: ε_num は dt 2 段の差であり、これは**感度診断**であって誤差上限ではない(旧文言「上限としての宣言」は撤回)。門は 3 段+正の実測次数が揃うまで「収束済み」としない保留条件を持つ。これは判定を甘くする条件ではなく、**「まだ言えない」を言えるようにする条件**である。 **第256便d(第48報)**: 恒星 4 系 ✨✴️🌟💫 と 📻 を --dt3 で走らせ、保留を外した(3 段が揃った量は 29 件)。**収束したことは合ったことではない** —— 保留が外れた 4 件のうち2 件は「合(3σ)」、2 件(DFM 版 ✴️💫)は「否(3σ)」である。"
   },
   "agreementBreakdown": {
-   "verdictOK": 58,
+   "verdictOK": 66,
    "sigma3": 2,
-   "guide": 54,
+   "guide": 62,
    "unassessed": 2,
    "note": "「合」の内訳: sigma3 = 機械門を通った 3σ 一致 / guide = 観測誤差が読めないときの ±1% 目安(観測一致ではない)/ unassessed = 観測誤差はあるが定義・一次表・数値収束の条件が未達。 **第253便b**: 収束の保留条件(3 段+正の次数)を入れたので、2 段しか走っていない量は sigma3 に入らない(第252便までの sigma3=2 件は一度「数値未解決」へ移った — 数値が悪くなったのではなく、2 段の差を上限として使ってよいという根拠が無かったということである)。 **第256便d(第48報)**: 恒星 4 系(✨✴️🌟💫)と 📻 を --dt3 で走らせて 3 段+正の次数を揃えた結果、保留が外れて**合否がその場で出た** —— 観測版 ✨🌟 が「合(3σ)」、**DFM 版 ✴️💫 が「否(3σ)」**である(sigma3 が 0 でなくなったのは、判定が甘くなったからではなく、保留の条件を満たしたからである)。"
   }
@@ -71316,109 +71528,21 @@
   "note": "**記録器あり・記録 0 件**。第258便d の「宣言が無いので 0 件」は、**宣言する場所が無かった**ことと区別が付かなかった —— 第259便d で枠を作り、区別が付くようにした。**中身は空のまま出荷する**: 過去に測った値を後から「fit に使っていない」と宣言すると**後付けの hold-out** になるからである(hold-out は観測値を見る前に手順を凍結したことに意味がある)。宣言は**測る前**に `--record-evidence` で入れる。**「予測が 0 件」ではなく「記録が 0 件」である** —— この 2 つを台帳でも混ぜない。"
  },
  "conditionMismatch": {
-  "n": 8,
-  "rows": [
-   {
-    "id": "jupiterGalilean",
-    "emoji": "🟠",
-    "target": "イオ",
-    "kind": "period",
-    "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(イオ)",
-    "requiredKFrame": 0,
-    "measuredKFrame": 1,
-    "formerVerdict": "合",
-    "formerResidualPct": 0.05235198865916165
-   },
-   {
-    "id": "jupiterGalilean",
-    "emoji": "🟠",
-    "target": "エウロパ",
-    "kind": "period",
-    "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(エウロパ)",
-    "requiredKFrame": 0,
-    "measuredKFrame": 1,
-    "formerVerdict": "合",
-    "formerResidualPct": 0.031720241990022414
-   },
-   {
-    "id": "jupiterGalilean",
-    "emoji": "🟠",
-    "target": "ガニメデ",
-    "kind": "period",
-    "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(ガニメデ)",
-    "requiredKFrame": 0,
-    "measuredKFrame": 1,
-    "formerVerdict": "合",
-    "formerResidualPct": 0.027297454858992327
-   },
-   {
-    "id": "jupiterGalilean",
-    "emoji": "🟠",
-    "target": "カリスト",
-    "kind": "period",
-    "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(カリスト)",
-    "requiredKFrame": 0,
-    "measuredKFrame": 1,
-    "formerVerdict": "合",
-    "formerResidualPct": 0.012219151610708004
-   },
-   {
-    "id": "venusReal",
-    "emoji": "🌇",
-    "target": "金星",
-    "kind": "period",
-    "name": "公転周期(kFrame=0 対照)",
-    "requiredKFrame": 0,
-    "measuredKFrame": 1,
-    "formerVerdict": "合",
-    "formerResidualPct": 0.000517392177198498
-   },
-   {
-    "id": "marsMoonsReal",
-    "emoji": "🥔",
-    "target": "フォボス",
-    "kind": "period",
-    "name": "kFrame=0 対照との周期差",
-    "requiredKFrame": 0,
-    "measuredKFrame": 1,
-    "formerVerdict": "合",
-    "formerResidualPct": 0.04646130039929779
-   },
-   {
-    "id": "plutoCharonReal",
-    "emoji": "❄️",
-    "target": "カロン",
-    "kind": "period",
-    "name": "公転周期(kFrame=0 対照・同方向1周)",
-    "requiredKFrame": 0,
-    "measuredKFrame": 1,
-    "formerVerdict": "合",
-    "formerResidualPct": 0.24538905320022347
-   },
-   {
-    "id": "neptuneReal",
-    "emoji": "🌊",
-    "target": "トリトン",
-    "kind": "period",
-    "name": "公転周期(kFrame=0 対照)",
-    "requiredKFrame": 0,
-    "measuredKFrame": 1,
-    "formerVerdict": "合",
-    "formerResidualPct": 0.11090450661624439
-   }
-  ],
+  "n": 0,
+  "rows": [],
   "rule": "行が明記している条件(現行の宣言は kFrame だけ)と、その行に割り当てられている測定値の走行条件が違うとき、判定を `条`(condition-mismatch)にして隔離する。**宣言である**(閾値による自動判定ではない)。元の測定値・残差は conditionRejectedEvidence に残す —— **数値が間違っているのではなく、行の割り当てが間違っている**。",
   "fix": "対照条件の走行を**別に**行い、その行へ割り当てる。プリセットの physics は変えない(検証器の中で physics を差し替えた診断コピーを走らせる)。",
   "note": "**「対照が合っていた」という記録は、この便で 1 件も残っていない** —— 対照条件の走行そのものが行われていなかったからである。",
   "kf0Runs": "第274便a(--kf0-runs)。out.kf0Runs に走行・配布・健全性の記録がある。"
  },
  "kf0Runs": {
-  "on": false,
+  "on": true,
   "since": "第274便a(第64報)",
   "what": "条件不一致 8 行が要求する **kFrame=0 の対照条件**を、`physics.kFrame` の 1 鍵だけを 0 にした**診断コピー**で走らせ、その行へ配った記録。**プリセットの physics は 1 bit も変えない**。",
   "stages": [
    "h",
-   "h/2"
+   "h/2",
+   "h/4"
   ],
   "registry": [
    {
@@ -71452,10 +71576,297 @@
     "why": "「公転周期(kFrame=0 対照)」1 行"
    }
   ],
-  "nApplied": 0,
-  "applied": [],
+  "nApplied": 8,
+  "applied": [
+   {
+    "id": "jupiterGalilean",
+    "emoji": "🟠",
+    "target": "イオ",
+    "kind": "period",
+    "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(イオ)",
+    "kf1Meas": 152933.5450591308,
+    "kf0Meas": 152929.0080392533,
+    "unit": "s",
+    "obs": 152853.5232,
+    "kf1ResidualPct": null,
+    "kf0ResidualPct": 0.04938377452676354,
+    "kf1Verdict": "条",
+    "kf0Verdict": "合",
+    "deltaPct": -0.002966661026354035,
+    "periodDef": "revolution"
+   },
+   {
+    "id": "jupiterGalilean",
+    "emoji": "🟠",
+    "target": "エウロパ",
+    "kind": "period",
+    "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(エウロパ)",
+    "kf1Meas": 306919.3630930592,
+    "kf0Meas": 306825.7073951724,
+    "unit": "s",
+    "obs": 306822.0384,
+    "kf1ResidualPct": null,
+    "kf0ResidualPct": 0.0011958056179733115,
+    "kf1Verdict": "条",
+    "kf0Verdict": "合",
+    "deltaPct": -0.03051475701728055,
+    "periodDef": "revolution"
+   },
+   {
+    "id": "jupiterGalilean",
+    "emoji": "🟠",
+    "target": "ガニメデ",
+    "kind": "period",
+    "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(ガニメデ)",
+    "kf1Meas": 618322.1193396464,
+    "kf0Meas": 618087.6169737832,
+    "unit": "s",
+    "obs": 618153.3792,
+    "kf1ResidualPct": null,
+    "kf0ResidualPct": -0.010638496598018415,
+    "kf1Verdict": "条",
+    "kf0Verdict": "合",
+    "deltaPct": -0.037925598733816374,
+    "periodDef": "revolution"
+   },
+   {
+    "id": "jupiterGalilean",
+    "emoji": "🟠",
+    "target": "カリスト",
+    "kind": "period",
+    "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(カリスト)",
+    "kf1Meas": 1442107.2605434186,
+    "kf0Meas": 1441544.0757841982,
+    "unit": "s",
+    "obs": 1441931.0688,
+    "kf1ResidualPct": null,
+    "kf0ResidualPct": -0.026838523988794362,
+    "kf1Verdict": "条",
+    "kf0Verdict": "合",
+    "deltaPct": -0.03905290366599503,
+    "periodDef": "revolution"
+   },
+   {
+    "id": "venusReal",
+    "emoji": "🌇",
+    "target": "金星",
+    "kind": "period",
+    "name": "公転周期(kFrame=0 対照)",
+    "kf1Meas": 19414266.84737822,
+    "kf0Meas": 19413888.60730327,
+    "unit": "s",
+    "obs": 19414166.4,
+    "kf1ResidualPct": null,
+    "kf0ResidualPct": -0.0014308762529680514,
+    "kf1Verdict": "条",
+    "kf0Verdict": "合",
+    "deltaPct": -0.0019482583500302548,
+    "periodDef": "revolution"
+   },
+   {
+    "id": "marsMoonsReal",
+    "emoji": "🥔",
+    "target": "フォボス",
+    "kind": "period",
+    "name": "kFrame=0 対照との周期差",
+    "kf1Meas": 27566.6434406517,
+    "kf0Meas": 27566.822022411514,
+    "unit": "s",
+    "obs": 27553.841567549454,
+    "kf1ResidualPct": null,
+    "kf0ResidualPct": 0.04710941968014661,
+    "kf1Verdict": "条",
+    "kf0Verdict": "合",
+    "deltaPct": 0.0006478182960442496,
+    "periodDef": "revolution"
+   },
+   {
+    "id": "plutoCharonReal",
+    "emoji": "❄️",
+    "target": "カロン",
+    "kind": "period",
+    "name": "公転周期(kFrame=0 対照・同方向1周)",
+    "kf1Meas": 553210.6340099995,
+    "kf0Meas": 551864.0613632939,
+    "unit": "s",
+    "obs": 551856.43872,
+    "kf1ResidualPct": null,
+    "kf0ResidualPct": 0.001381272874447126,
+    "kf1Verdict": "条",
+    "kf0Verdict": "合",
+    "deltaPct": -0.2434104776592582,
+    "periodDef": "revolution"
+   },
+   {
+    "id": "neptuneReal",
+    "emoji": "🌊",
+    "target": "トリトン",
+    "kind": "period",
+    "name": "公転周期(kFrame=0 対照)",
+    "kf1Meas": 508323.3145286334,
+    "kf0Meas": 507781.4823558789,
+    "unit": "s",
+    "obs": 507760.18559999997,
+    "kf1ResidualPct": null,
+    "kf0ResidualPct": 0.004194254784625883,
+    "kf1Verdict": "条",
+    "kf0Verdict": "合",
+    "deltaPct": -0.1065920364594909,
+    "periodDef": "revolution"
+   }
+  ],
   "missing": [],
-  "health": [],
+  "health": [
+   {
+    "id": "jupiterGalilean",
+    "emoji": "🟠",
+    "kFrameApplied": 0,
+    "stages": [
+     "dt",
+     "dt/2",
+     "dt/4"
+    ],
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "orbits": [
+     {
+      "label": "イオ",
+      "rev": 62,
+      "periA": 63,
+      "periB": 63
+     },
+     {
+      "label": "エウロパ",
+      "rev": 62,
+      "periA": 63,
+      "periB": 63
+     },
+     {
+      "label": "ガニメデ",
+      "rev": 62,
+      "periA": 63,
+      "periB": 63
+     },
+     {
+      "label": "カリスト",
+      "rev": 60,
+      "periA": 59,
+      "periB": 60
+     }
+    ],
+    "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+    "periastraOk": true,
+    "runComplete": true,
+    "runCompleteRule": "**走行成立** = 窓を完走し(stopRule)・NaN 0・安全クランプ 0。**これだけでは「成立」ではない**(R28 の 4 列のうち 1 列である)。"
+   },
+   {
+    "id": "venusReal",
+    "emoji": "🌇",
+    "kFrameApplied": 0,
+    "stages": [
+     "dt",
+     "dt/2",
+     "dt/4"
+    ],
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "orbits": [
+     {
+      "label": "金星",
+      "rev": 59,
+      "periA": 59,
+      "periB": 60
+     }
+    ],
+    "stoppedBy": "orbit-window(走り切った)",
+    "periastraOk": true,
+    "runComplete": true,
+    "runCompleteRule": "**走行成立** = 窓を完走し(stopRule)・NaN 0・安全クランプ 0。**これだけでは「成立」ではない**(R28 の 4 列のうち 1 列である)。"
+   },
+   {
+    "id": "marsMoonsReal",
+    "emoji": "🥔",
+    "kFrameApplied": 0,
+    "stages": [
+     "dt",
+     "dt/2",
+     "dt/4"
+    ],
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "orbits": [
+     {
+      "label": "フォボス",
+      "rev": 62,
+      "periA": 63,
+      "periB": 63
+     },
+     {
+      "label": "ダイモス",
+      "rev": 59,
+      "periA": 59,
+      "periB": 60
+     }
+    ],
+    "stoppedBy": "orbit-window(走り切った)",
+    "periastraOk": true,
+    "runComplete": true,
+    "runCompleteRule": "**走行成立** = 窓を完走し(stopRule)・NaN 0・安全クランプ 0。**これだけでは「成立」ではない**(R28 の 4 列のうち 1 列である)。"
+   },
+   {
+    "id": "plutoCharonReal",
+    "emoji": "❄️",
+    "kFrameApplied": 0,
+    "stages": [
+     "dt",
+     "dt/2",
+     "dt/4"
+    ],
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "orbits": [
+     {
+      "label": "カロン",
+      "rev": 59,
+      "periA": 59,
+      "periB": 55
+     }
+    ],
+    "stoppedBy": "declared-max-steps",
+    "periastraOk": true,
+    "runComplete": true,
+    "runCompleteRule": "**走行成立** = 窓を完走し(stopRule)・NaN 0・安全クランプ 0。**これだけでは「成立」ではない**(R28 の 4 列のうち 1 列である)。"
+   },
+   {
+    "id": "neptuneReal",
+    "emoji": "🌊",
+    "kFrameApplied": 0,
+    "stages": [
+     "dt",
+     "dt/2",
+     "dt/4"
+    ],
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "orbits": [
+     {
+      "label": "トリトン",
+      "rev": 59,
+      "periA": 59,
+      "periB": 60
+     }
+    ],
+    "stoppedBy": "orbit-window(走り切った)",
+    "periastraOk": true,
+    "runComplete": true,
+    "runCompleteRule": "**走行成立** = 窓を完走し(stopRule)・NaN 0・安全クランプ 0。**これだけでは「成立」ではない**(R28 の 4 列のうち 1 列である)。"
+   }
+  ],
   "charonCitation": {
    "id": "plutoCharonReal",
    "target": "カロン",
@@ -71473,12 +71884,12 @@
     "softening": 0.05
    },
    "citedTargetSha256": "f853eef9a8ea1d81e339329074e5ca220b9ba9ed22da83c4cc5925a8e13a35c8",
-   "thisRunValue": null,
-   "relDiff": null,
-   "identical": null,
+   "thisRunValue": 551864.0613632939,
+   "relDiff": 0,
+   "identical": true,
    "note": "**一致は「正しい」ではない** —— 同じ html を同じ定義で走らせた 2 本の器が同じ数に着いた、というだけである。"
   },
-  "conditionMismatchAfter": 8,
+  "conditionMismatchAfter": 0,
   "doNotWrite": [
    "kF0 版が成立した(観測と合った)",
    "引きずりが完全に消えていることを確認した",
@@ -72433,50 +72844,9 @@
   "moved": 3
  },
  "h8": {
-  "requested": [
-   "plutoCharonReal",
-   "saturnZonalD68",
-   "psrDoubleAB",
-   "psrDoubleABDFM",
-   "psrDoubleABCF",
-   "psrJ1757DFM",
-   "psrJ1757CF",
-   "psrJ1946DFM",
-   "psrJ1946CF"
-  ],
-  "n": 32,
+  "requested": null,
+  "n": 31,
   "rows": [
-   {
-    "id": "plutoCharonReal",
-    "emoji": "❄️",
-    "kind": "period",
-    "target": "カロン",
-    "name": "公転周期(kFrame=0 対照・同方向1周)",
-    "stages": {
-     "dt": 553210.6340099995,
-     "dtHalf": 553210.8870908859,
-     "dtQuarter": 553211.0508944329,
-     "dtEighth": 553211.2558036476
-    },
-    "pObs3": 0.6276319563895256,
-    "pObsShifted": -0.32301826510270937,
-    "numBoundH4": 0.416884433478117,
-    "numBoundH8": 0.3687127616722137,
-    "estimateFromH4": 0.7174265665946091,
-    "estimateFactorH4": 1.7209243353344545,
-    "richardson": null,
-    "promoted": true,
-    "promoteReason": null,
-    "lastDiff": 0.20490921463351697,
-    "epsHat": null,
-    "epsHatInSigma": null,
-    "lastDiffInSigma": 7.905448095428896,
-    "convergenceOk": false,
-    "gateStatus": "condition-mismatch",
-    "nSigma": 52269.177609860766,
-    "assessedStage": "h8",
-    "assessedValue": 553211.2558036476
-   },
    {
     "id": "plutoCharonReal",
     "emoji": "❄️",
@@ -73431,7 +73801,7 @@
     "assessedValue": 0.05243231044423437
    }
   ],
-  "promoted": 10,
+  "promoted": 9,
   "conditionalRule": {
    "since": "第272便a(第62報・AG1)",
    "condition": "3 段登録系 かつ その量の 3 段観測次数が **|p−2| > 0.5**",
@@ -73682,7 +74052,7 @@
     "blocked": "class-max-steps"
    }
   ],
-  "notRun": null,
+  "notRun": "**未走行**(--dt8 を指定していない走行である)",
   "rule": "dt/8=0.002 の 4 段目。pObs3=(h,h/2,h/4)・pObsShifted=(h/2,h/4,h/8) の観測次数を並べる(**2 つが揃えば漸近域に居る**と読める)。門が読む ε_num は |Q_h−Q_{h/4}| のままで、**|Q_h−Q_{h/4}| は上限ではない** —— 漸近形なら /(1−4^−p) 倍(p≈1 で 4/3)である。"
  },
  "verdictLedger": {
@@ -73916,17 +74286,16 @@
      "ng": 0,
      "num": 0,
      "map": 0,
-     "cond": 4,
+     "cond": 0,
      "withSigma": 0,
      "nQ": 21
     },
     "representative": null,
     "missing": [
-     "条件不一致",
      "σ 未接続"
     ],
-    "comparedCount": 4,
-    "residualPeriodPct": 0.05235198865916165,
+    "comparedCount": 8,
+    "residualPeriodPct": 0.04938377452676354,
     "residualWorst": {
      "kind": "period",
      "pct": 0.05235198865916165
@@ -73946,16 +74315,15 @@
      "ng": 0,
      "num": 0,
      "map": 0,
-     "cond": 1,
+     "cond": 0,
      "withSigma": 0,
      "nQ": 6
     },
     "representative": null,
     "missing": [
-     "条件不一致",
      "σ 未接続"
     ],
-    "comparedCount": 2,
+    "comparedCount": 3,
     "residualPeriodPct": 0.000517392177198498,
     "residualWorst": {
      "kind": "ecc",
@@ -73976,20 +74344,19 @@
      "ng": 0,
      "num": 0,
      "map": 0,
-     "cond": 1,
+     "cond": 0,
      "withSigma": 0,
      "nQ": 9
     },
     "representative": null,
     "missing": [
-     "条件不一致",
      "σ 未接続"
     ],
-    "comparedCount": 3,
+    "comparedCount": 4,
     "residualPeriodPct": 0.04646130039929779,
     "residualWorst": {
      "kind": "period",
-     "pct": 0.04646130039929779
+     "pct": 0.04710941968014661
     },
     "classProposal": null,
     "classProposalReason": null,
@@ -74000,28 +74367,27 @@
     "emoji": "❄️",
     "version": "dfm",
     "referenceKind": null,
-    "verdict4": "保留",
+    "verdict4": "否",
     "gateCounts": {
      "ok": 0,
-     "ng": 0,
+     "ng": 1,
      "num": 1,
      "map": 1,
-     "cond": 1,
+     "cond": 0,
      "withSigma": 3,
      "nQ": 7
     },
     "representative": {
      "kind": "period",
-     "nSigma": 52269.177609860766,
-     "residualPct": 0.24538905320022347
+     "nSigma": 294.07873352968716,
+     "residualPct": 0.001381272874447126
     },
     "missing": [
-     "条件不一致",
      "写像未確定",
      "数値精度"
     ],
-    "comparedCount": 2,
-    "residualPeriodPct": 0.24538905320022347,
+    "comparedCount": 3,
+    "residualPeriodPct": 0.001381272874447126,
     "residualWorst": {
      "kind": "period",
      "pct": 0.7991177011311256
@@ -74070,17 +74436,16 @@
      "ng": 0,
      "num": 0,
      "map": 0,
-     "cond": 1,
+     "cond": 0,
      "withSigma": 0,
      "nQ": 7
     },
     "representative": null,
     "missing": [
-     "条件不一致",
      "σ 未接続"
     ],
-    "comparedCount": 1,
-    "residualPeriodPct": 0.11090450661624439,
+    "comparedCount": 2,
+    "residualPeriodPct": 0.004194254784625883,
     "residualWorst": {
      "kind": "period",
      "pct": 0.11090450661624439
@@ -74871,8 +75236,8 @@
   "counts": {
    "合": 0,
    "量限定合": 2,
-   "否": 1,
-   "保留": 34
+   "否": 2,
+   "保留": 33
   },
   "rule": "**4 値**(合/量限定合/否/保留)。「合」は**その系の σ を持つ判定量がすべて 3σ を通った**ときだけ。「量限定合」は一部の量だけが通った系。「否」は 3σ を外した量がある系。「保留」は**判定できない**系(σ 未接続・写像未確定・数値精度・未測定・条件不一致)——**保留は否定ではない**(物理仮説が否定されたという意味ではまったくない)。",
   "note": "docs/CALIBRATION_VERDICT_v1.44.md はこの欄の転記である(QA docs.calibration-verdict-sync が照合する)。"
@@ -75512,14 +75877,14 @@
       "primaryVerified": true
      }
     ],
-    "verdict4": "保留",
+    "verdict4": "否",
     "tally": {
-     "合": 2,
+     "合": 3,
      "窓": 0,
      "否": 0,
      "従": 0,
      "転": 4,
-     "条": 1
+     "条": 0
     }
    }
   ],
@@ -75576,24 +75941,24 @@
    "counts": {
     "合": 0,
     "量限定合": 2,
-    "否": 1,
-    "保留": 34
+    "否": 2,
+    "保留": 33
    },
    "gate": {
     "合(3σ)": 2,
-    "否(3σ)": 1,
+    "否(3σ)": 2,
     "数値未解決": 34,
     "mapping-unresolved": 15,
-    "condition-mismatch": 8,
-    "未判定": 254
+    "condition-mismatch": 0,
+    "未判定": 261
    },
    "tally": {
-    "合": 58,
+    "合": 66,
     "窓": 6,
     "否": 26,
     "従": 4,
     "転": 212,
-    "条": 8
+    "条": 0
    },
    "commit": "第274便a(署名便)",
    "csvSha": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
@@ -75601,9 +75966,15 @@
    "targetSha256": "74089924c59e42e8b8331f7d59a2a00ba4a362ec6c07581f2b622db7732609a7",
    "measurementCodeSha256": "95a3cb77a4eb162323f8d9386db89e6a22f643ff3c9ba87dbba31174dcf84ba2",
    "kf0Runs": {
-    "on": false
+    "on": true,
+    "applied": 8,
+    "stages": [
+     "h",
+     "h/2",
+     "h/4"
+    ]
    },
-   "when": "2026-09-24T12:02:22.911Z"
+   "when": "2026-09-24T12:30:15.247Z"
   },
   "history": [
    {
@@ -75971,12 +76342,11 @@
    }
   ],
   "byStatus": {
-   "未判定": 254,
+   "未判定": 261,
    "数値未解決": 11,
-   "condition-mismatch": 8,
+   "否(3σ)": 19,
    "mapping-unresolved": 15,
-   "合(3σ)": 8,
-   "否(3σ)": 18
+   "合(3σ)": 8
   },
   "n": 23,
   "note": "**AE3(次数ガード |p−2|≤0.5)を入れたことで「数値未解決」へ戻った行**が 23 件ある。**測定が悪くなったのではない** —— 観測次数が 2 から離れている量は漸近域に居ないので、「収束した」と書ける条件を満たしていなかったということである。"
@@ -77384,7 +77754,7 @@
    "quantities[].judgementSource.{note,previous.note}"
   ],
   "n": 223,
-  "hoisted": 2281,
+  "hoisted": 1868,
   "texts": {
    "stopRule.rule#33ef3b99": "步数 = min(**宣言した步数上限**, 60 公転ぶんの步数)。**步/秒も壁時計も入らない**(第270便a・AE9 —— 機種で走行長が変わらない)。近点は **20 本**要る(不足は未測定であって「否」ではない)。",
    "stopRule.note#ece8d590": "近点が 13 本で宣言 20 本に足りない —— **宣言した步数上限で切れた**(max-steps: 上限を上げれば伸びる)",
@@ -77615,9 +77985,9 @@
   "since": "第271便a(第61報・AF16)",
   "file": "tests/out/calaudit-w249-diag.json",
   "relPath": "./calaudit-w249-diag.json",
-  "sha256": "683883df0958c1f7e01e148c3c66206bbf80bfce848675dc230eb55b8389fb72",
-  "bytes": 277366,
-  "movedFields": 817,
+  "sha256": "4513d01c0579934514422b5660d37efeb9058fe030cc5fa514b8d2a7f4456b78",
+  "bytes": 151807,
+  "movedFields": 637,
   "fields": [
    {
     "path": "presets[].run.stopRule.machineIndependence",
@@ -77646,13 +78016,13 @@
   ],
   "presets": 37,
   "missingReferences": [],
-  "carriedOverFrom": "2026-09-24T12:02:21.734Z",
-  "bytesBeforeSplit": 3858284,
-  "contractsHoisted": 2281,
+  "carriedOverFrom": "2026-09-24T12:30:14.131Z",
+  "bytesBeforeSplit": 3637486,
+  "contractsHoisted": 1868,
   "contractsTexts": 223,
   "contractsDangling": 0,
   "rule": "**削っていない** —— 上の欄は別ファイルへ移しただけである。正本を単独で配るとこれらの欄の参照先が欠ける(`…Moved` の印が残るので、欠けていることが分かる)。",
   "says": "**分離はサイズの都合であって、診断を捨てたという意味ではない**。",
-  "bytesAfterSplit": 2810683
+  "bytesAfterSplit": 2812554
  }
 }
