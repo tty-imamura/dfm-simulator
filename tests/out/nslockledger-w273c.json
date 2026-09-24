@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第273便c(第63報・AH24)",
   "target": "beta/index.html",
-  "targetSha256": "74089924c59e42e8b8331f7d59a2a00ba4a362ec6c07581f2b622db7732609a7",
-  "generatedAt": "2026-09-24T10:55:38.814Z",
+  "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
+  "generatedAt": "2026-09-24T16:34:35.597Z",
   "inputs": [
    {
     "file": "tests/out/nslock-w272c.json",
-    "bytes": 148020,
-    "sha256": "fecc49d429e613ac22e95dc366a649e6de2d23aff2a2f3c21325c7e11d899a00",
-    "mtime": "2026-09-24T10:54:54.206Z"
+    "bytes": 164802,
+    "sha256": "4f8b547d965cde00a55783ed36ecfa7168cb2560ef3aeda8aa9f10f5b37d0a48",
+    "mtime": "2026-09-24T16:34:12.566Z"
    }
   ],
   "code": [
@@ -31,7 +31,7 @@
  },
  "section": "NS 連星 4 系の lock 枝(kFrame=0・f=1・λ_PN=1)の記録",
  "sourceHarness": "w272c-nslock-1",
- "sourceAt": "2026-09-24T10:49:22.441Z",
+ "sourceAt": "2026-09-24T16:26:31.042Z",
  "metric": "近点間 P = 位相制限(1.5π)の最初の 20 近点(19 区間)の平均間隔。ω̇ = 採用近点の方位を実時刻に回帰した傾き(°/年)。e = 窓内の (r_max−r_min)/(r_max+r_min)(eProxy)。",
  "assessedStageRule": "**ω̇ は 3 段(h, h/2, h/4)の Richardson 外挿**(`omegaDotExt`)と**h/4 段の値**(`omegaDotH4`)を両方置く。外挿は観測次数 p が正で単調な列だけに作る(第273便c・AH30 —— 非正の次数から外挿は作らない)。",
  "declarationNote": "`pnAlpha`・`lambdaPN`・`geoPN`・`frameWeight` は**内蔵プリセットの宣言**であって実測ではない。**速度は E12 の主張域どおり u=0 の絶対値(座標速度)**で、正本は docs/PHYSICS.md の E12 節である(この器は宣言を読んだだけで、規約を作っていない)。",
@@ -416,9 +416,51 @@
      "pObs": 1.999677491324462,
      "resolved": true
     },
-    "root": null,
-    "kf0Ledger": null,
-    "corr": null,
+    "root": {
+     "spec": {
+      "f": 1.9355285854208322,
+      "kFrame": 0.9366303438690935,
+      "lambdaPN": 1,
+      "keepCore": false
+     },
+     "omegaDotExt": 3.1983548323749496,
+     "omegaDotH4": 3.201932061396673,
+     "ratioExt": 1.8216054619176618,
+     "ratioH4": 1.823642853097196,
+     "nSigmaExt": 160285.0924861055,
+     "pObs": 1.072251997017144,
+     "resolved": true
+    },
+    "kf0Ledger": {
+     "spec": {
+      "f": 1.9994854557873434,
+      "kFrame": 0,
+      "lambdaPN": 1,
+      "keepCore": false
+     },
+     "omegaDotExt": 2.404381940938993,
+     "omegaDotH4": 2.4042106355312582,
+     "ratioExt": 1.3694025540306909,
+     "ratioH4": 1.369304987974784,
+     "nSigmaExt": 72065.88232655475,
+     "pObs": 1.9992273688643747,
+     "resolved": true
+    },
+    "corr": {
+     "spec": {
+      "f": 1.9994854557873434,
+      "kFrame": 1,
+      "lambdaPN": 1,
+      "keepCore": false
+     },
+     "omegaDotExt": 3.556937191015676,
+     "omegaDotH4": 3.5612823062722234,
+     "ratioExt": 2.0258340785912634,
+     "ratioH4": 2.0283088151664144,
+     "nSigmaExt": 200127.57677951956,
+     "pObs": 1.0652876126344037,
+     "resolved": true
+    },
     "newton": null
    },
    "spinTranscribed": true,
