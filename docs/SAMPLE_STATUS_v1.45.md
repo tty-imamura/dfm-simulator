@@ -173,9 +173,11 @@
 | 🟠 | `jupiterGalilean` | 木星とガリレオ衛星(実単位)— 規則を再フィットしない hold-out | 木星 4 衛星へ規則を再 fit せず当てる | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 保留 | — | σ 未接続 |
 | 🌇 | `venusReal` | 太陽と金星(実単位)— 自由中心の二体転写 | 自由中心の太陽–金星を実単位で照合する | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `behavior.venusReal`) | 保留 | — | σ 未接続 |
 | 🥔 | `marsMoonsReal` | 火星とフォボス・ダイモス(実単位)— テスト粒子転写 | 火星の 2 衛星を実単位で照合する | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `behavior.marsMoonsReal`) | 保留 | — | σ 未接続 |
-| ❄️ | `plutoCharonReal` | 冥王星とカロン(実単位)— 重心が外にある二体 | 旧入力の冥王星–カロンを照合する | 未達・代表量が門の外(根拠: `tests/out/calaudit-w249.json`, `behavior.plutoCharonReal`) | 否 | 周期 +0.00138%(294σ) | 刻み間差 1×10⁻³σ・刻みでは縮まない・数値未解決・写像未確定 |
-| ⛄ | `plutoCharonDFM` | 冥王星とカロン(同一観測解)— 相対すべりの零条件を持つ DFM 版 | 同一観測解の二体に零条件つき引きずり則を載せる | 部分・中点法の刻み収束と 2 欄は確認・第 2 周は過渡(根拠: `docs.charonTwoColumns`, `behavior.plutoCharonDFM`, `tests/out/charonwin-w278b.json`) | 判定保留(量定義不一致) | 比較値 +31.6 s(Buie 2012 比・門ではない) | 量の定義が揃うまで門に入れない |
+| ❄️ | `plutoCharonReal` | 冥王星とカロン(実単位)— 重心が外にある二体 | 旧入力の冥王星–カロンを照合する | 未達・代表量が門の外・残差を要因の鎖で分解(根拠: `tests/out/calaudit-w249.json`, `behavior.plutoCharonReal`, `tests/out/charoninput-w280d.json`) | 否 | 周期 +0.00138%(294σ) | 刻み間差 1×10⁻³σ・刻みでは縮まない・数値未解決・写像未確定 |
+| ⛄ | `plutoCharonDFM` | 冥王星とカロン(同一観測解)— 相対すべりの零条件を持つ DFM 版 | 同一観測解の二体に零条件つき引きずり則を載せる | 部分・中点法の収束と 2 欄は確認・則の寄与は同期の定義に由来(根拠: `docs.charonTwoColumns`, `behavior.plutoCharonDFM`, `tests/out/charonwin-w278b.json`, `tests/out/charoninput-w280d.json`) | 判定保留(量定義不一致) | 比較値 +31.6 s(Buie 2012 比・門ではない) | 量の定義が揃うまで門に入れない |
 | 🌨️ | `plutoCharonKF0Control` | 冥王星とカロン(同一観測解)— kF0 対照(引きずり則なし) | ⛄ と同じ入力で則だけを外した kF0 対照 | 達・則なしで定常・⛄ との差 1.37 s を記帳(根拠: `docs.charonTwoColumns`, `behavior.plutoCharonDFM`, `tests/out/charonwin-w278b.json`) | 判定保留(量定義不一致) | 比較値 +30.2 s(Buie 2012 比・門ではない) | 量の定義が揃うまで門に入れない |
+| 🥶 | `plutoCharonDiagInput` | 冥王星とカロン(入力を整えた二体)— 観測入力 kF0 対照 | ❄️ の入力の丸めと軟化を外した kF0 診断コピー | 達・要因の鎖と同一定義の表を記帳(根拠: `tests/out/charoninput-w280d.json`) | 較正対象外 | — | — |
+| ☃️ | `plutoCharonSyncZero` | 冥王星とカロン(厳密同期円)— 相対すべり則の零試験 | 厳密同期円で相対すべり則の零条件を走行中も試す | 部分・初期 1 歩は厳密に 0・走行中は丸め級の熱が残る(根拠: `tests/out/charoninput-w280d.json`) | 較正対象外 | — | — |
 | 💠 | `uranusReal` | 天王星の環と主要5衛星(実単位) | 天王星の環と 5 衛星を実単位で照合する | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `behavior.uranusReal`) | 保留 | — | σ 未接続 |
 | 🌊 | `neptuneReal` | 海王星とトリトン(実単位)— 逆行衛星の二体 | 逆行衛星トリトンを実単位で照合する | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `behavior.neptuneReal`) | 保留 | — | σ 未接続 |
 | 📡 | `saturnZonalD68` | 土星の近点移動(実単位・D68 — 帯状重力の照合) | 帯状重力係数で D68 の近点移動を照合する | 未達・代表量が門の外(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 否 | 近点移動 −0.306%(14.6σ) | 刻み間差 4×10⁻³σ・刻みでは縮まない |

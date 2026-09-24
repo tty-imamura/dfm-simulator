@@ -656,3 +656,9 @@ tests/.qa-preflight-*.mjs
 #   実エンジンの条件×刻み 3 段・診断コピー 🧷📎)。QA docs.d68Decomp・behavior.d68Consistent が読み、lint.provenanceMeta が
 #   来歴を固定するのでコミットする。**診断の器であって門の判定ではない**。
 !tests/out/d68-w280e.json
+# 第280便d(第70報・R68): ❄️ の否の要因の鎖・入力を整えた二体・同一定義の表・零条件の 3 検査の正本
+#   (tests/exp-w280d-charonInput.mjs)。QA docs.charonInput・docs.charonSameColumn が読み、
+#   lint.provenanceMeta の CANON に入っているのでコミットする。途中経過(.partial)と --pilot の出力は無視する
+!tests/out/charoninput-w280d.json
+tests/out/charoninput-w280d.json.partial
+tests/out/charoninput-w280d-pilot.json
