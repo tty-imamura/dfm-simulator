@@ -2123,7 +2123,10 @@ if (QA_REPLAY_FAIL) {
       'tests/out/geo3-w280c.json',
       // 第281便d(第71報・R75): 渦伸長便 —— 2D の恒等式の数値・ひずみ率の純関数の単体試験・🎠 の 2 読み手の伸び
       //   (target=beta/index.html —— html を Node の vm で読む。inputs に galaxyproto-w276e・corefield-w276d)
-      'tests/out/strain-w281d.json'];
+      'tests/out/strain-w281d.json',
+      // 第281便b(第71報・R72/R73): 銀河の場の契約の一覧・🎋 の連鎖の実測・中心応答(target=beta/index.html —— **html が
+      //   変わったら器を走らせ直す**)/ 有限予算の交換模型の帳簿(**エンジン未接続** —— target は lib 自身)
+      'tests/out/galaxychain-w281b.json', 'tests/out/chainledger-w281b.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -8090,6 +8093,201 @@ if (QA_REPLAY_FAIL) {
       `**表裏核の検算**(第280便b・原仮定者の裁定〔第70報〕「表側の引きずりと裏側の引きずりは逆転している。手前側の方が距離が近いので、`
       + `その差分が残る。潮汐力に良く似ている」・統括の読み R69): ${cases.join(' / ')} —— **弱場振幅(c² の抑制)は導出できていない**`
       + `(旧 q に合わせて再 fit していない)。密度は表面近くの振幅に効き、遠方の指数(角速度 r⁻² / 背景優勢で r⁻⁴)には効かない`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 0a3z15) 第281便b(原仮定者の裁定(第71報)「銀河の引きずり(座標変換)の分布を確認する」・統括の読み R72/R73):
+// ----   **銀河連鎖便**の 3 ブロック(器 tests/exp-w281b-galaxychain.mjs・純関数 tests/lib-w281b-chain.mjs・正本 2 本)。
+// ----   **html は 1 バイトも触っていない**(表示・純関数・記録だけ —— エンジンへは接続しない)。**root は SKIP**。
+// ----   ① docs.galaxyFieldContract …… 場の契約の一覧(lawId 5 つ)と 3 列の半径表(表示 p=2・D₀ 流用 / 共通 API p=1 /
+// ----      共通 API p=2)が正本と PHYSICS〔第281便b〕で一致し、表示の χ と共通 API p=2 の χ の差が全点 0・🪁=🎠。
+// ----      いまの html で 🎠 の行(3 列と E6′ の 2 列)を headless で引き直すと正本と**相対 1e-12** で一致する
+// ----      (正本は Node 22・CI は Node 24 —— 文字列一致にしない)。**正本の targetSha256 は照合しない**
+// ----      (html が変わると古くなる —— 来歴は lint.provenanceMeta が見る)。
+{
+  const bad = [];
+  const cases = [];
+  const fnE = path.join(ROOT, 'tests', 'exp-w281b-galaxychain.mjs');
+  if (!TARGET.startsWith('beta/') || !fs.existsSync(fnE)) {
+    console.log('SKIP docs.galaxyFieldContract(第281便b 未適用 — 対象に銀河連鎖便の器なし: ' + TARGET + ')');
+  } else {
+    const f4 = (x) => (x === null || x === undefined ? '—' : x.toFixed(4));
+    const f3 = (x) => (x === null || x === undefined ? '—' : (x < 0 ? '−' + (-x).toFixed(3) : x.toFixed(3)));
+    const nearEq = (a, b, tol) => { if (typeof a === 'number' && typeof b === 'number') return (Number.isNaN(a) && Number.isNaN(b)) || a === b || Math.abs(a - b) <= tol * Math.max(1, Math.abs(a), Math.abs(b));
+      if (Array.isArray(a) && Array.isArray(b)) return a.length === b.length && a.every((z, i) => nearEq(z, b[i], tol));
+      if (a && b && typeof a === 'object' && typeof b === 'object') { const ka = Object.keys(a).sort(), kb = Object.keys(b).sort(); return JSON.stringify(ka) === JSON.stringify(kb) && ka.every((k) => nearEq(a[k], b[k], tol)); }
+      return a === b; };
+    try {
+      const E = await import('file://' + fnE);
+      const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'galaxychain-w281b.json'), 'utf8'));
+      // ① 来歴と版
+      if (!J.meta || J.meta.provenanceVersion !== 'w272e-1' || J.meta.harnessVersion !== E.HARNESS_VERSION) bad.push('① 来歴(w272e-1)/器の版が違う');
+      // ② lawId
+      const ids = ['GF-disp', 'GF-api1', 'GF-api2', 'GF-e6', 'GF-toy'];
+      const got = (J.contracts || []).map((c) => c.lawId);
+      if (JSON.stringify(got) !== JSON.stringify(ids) || JSON.stringify(E.FIELD_CONTRACTS.map((c) => c.lawId)) !== JSON.stringify(ids)) bad.push('② lawId の並び: ' + got.join(','));
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const at = P.indexOf('〔第281便b — '), end = at >= 0 ? P.indexOf('\n## 7. 論文', at) : -1;
+      const sec = at >= 0 ? P.slice(at, end > at ? end : undefined) : '';
+      if (!sec) bad.push('PHYSICS に〔第281便b〕節が無い');
+      for (const id of ids) if (sec.indexOf('| ' + id + ' |') < 0) bad.push('② PHYSICS の契約表に ' + id + ' の行が無い');
+      // ③ 4 本 × 6 半径・表示 χ ≡ API p=2 χ・🪁=🎠
+      const C = Object.fromEntries((J.contract || []).map((c) => [c.id, c]));
+      for (const id of E.CONTRACT_PRESETS) {
+        const c = C[id];
+        if (!c || !Array.isArray(c.rows) || c.rows.length !== 6) { bad.push('③ 契約表の行が無い ' + id); continue; }
+        if (c.maxAbsChiDispMinusApi2 !== 0) bad.push(`③ ${id} の表示 χ と API p=2 χ が一致しない(${c.maxAbsChiDispMinusApi2})`);
+        if (c.rows.some((r) => r.api1.nNull || r.api2.nNull || r.disp.nNull)) bad.push('③ ' + id + ' に null の点がある');
+      }
+      if (C.galaxyMeshSpiralGeoToy && C.galaxyMeshSpiral && !nearEq(C.galaxyMeshSpiralGeoToy.rows, C.galaxyMeshSpiral.rows, 0)) bad.push('③ 🪁 の初期状態の行が 🎠 と違う');
+      // ④ PHYSICS の半径表
+      let nNum = 0;
+      for (const id of ['galaxyMeshSpiral', 'galaxyMeshSpiralGeoToyLite', 'ngc3198DFM']) {
+        const c = C[id]; if (!c) continue;
+        for (const r of c.rows) {
+          const want = [`| ${r.R} | ${f4(r.disp.chi)} / ${f4(r.api1.chi)} / ${f4(r.api2.chi)} | ${f3(r.disp.uPhi)} / ${f3(r.api1.uPhi)} / ${f3(r.api2.uPhi)} | ${r.disp.nExtrap}/64 |`];
+          for (const w of want) { nNum++; if (sec.indexOf(w) < 0) bad.push(`④ PHYSICS の半径表に ${c.emoji} R=${r.R} の行が無い`); }
+        }
+        if (c.e6AfterOneStep) c.e6AfterOneStep.forEach((b, k) => { if (!b.n) return; nNum++;
+          const w = `| ${c.emoji} | ${b.lo}–${b.hi}(${b.R}) | ${b.n} | ${f4(b.uPhi)} | ${f4(c.e6SpinZeroAfterOneStep[k].uPhi)} |`;
+          if (sec.indexOf(w) < 0) bad.push(`④ PHYSICS の E6′ 表に ${c.emoji} R=${b.R} の行が無い`); });
+      }
+      const m240 = C.galaxyMeshSpiral.rows.find((r) => r.R === 240);
+      cases.push(`🎠 r=240 の χ: 表示 ${f4(m240.disp.chi)} / 共通 API p=1 ${f4(m240.api1.chi)} / p=2 ${f4(m240.api2.chi)}(**χ の割れは p だけ** —— 表示と p=2 は 4 本の全点で差 0)`);
+      const e20 = C.galaxyMeshSpiral.e6AfterOneStep[0], z20 = C.galaxyMeshSpiral.e6SpinZeroAfterOneStep[0];
+      cases.push(`🎠 E6′ の u_φ(10–30): 自転そのまま ${f4(e20.uPhi)}・自転 0 で ${f4(z20.uPhi)}`);
+      cases.push(`PHYSICS の表 ${nNum} 行と一致`);
+      // ⑤ いまの html で 🎠 の行を引き直す
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      const H = loadHtmlHeadless(path.join(ROOT, TARGET));
+      const row = JSON.parse(JSON.stringify(E.contractRow(H.HP, 'galaxyMeshSpiral')));
+      if (!nearEq(row, C.galaxyMeshSpiral, 1e-12)) bad.push('⑤ いまの html で 🎠 の行を引き直すと正本と違う(相対 1e-12)—— 器を走らせ直すこと');
+      else cases.push('いまの html で 🎠 の行(3 列・E6′ の 2 列)を引き直して正本と相対 1e-12 で一致');
+    } catch (e) { bad.push('正本/器が読めない: ' + String(e && e.stack || e).slice(0, 160)); }
+    add('docs.galaxyFieldContract', bad.length === 0,
+      `**銀河の場の契約の一覧**(第281便b・原仮定者の裁定(第71報)・統括の読み R72): 読み手 5 つ(GF-disp=表示 p=2・D₀ 流用・disk/affine / `
+      + `GF-api1=共通 API p=1 / GF-api2=対照 p=2 / GF-e6=E6′(自転項あり)/ GF-toy=geoPN=3 トイ(自転なし))/ ${cases.join(' / ')} —— `
+      + `**どれを境界判定の正典にするかは決断事項**(本ブロックは数と宣言の一致だけを見る)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 0a3z16) 第281便b: behavior.chainLedger ----
+// ----   **有限予算の交換模型** I_iΩ̇_i=ΣK_ij(Ω_j−Ω_i)(K 対称・対ごとの厳密解の対称合成 —— 連鎖仮説を調べる構成則であって
+// ----   DFM の導出則ではない)の帳簿 4 条件を、純関数 tests/lib-w281b-chain.mjs をいま走らせて固定する:
+// ----     ① J 保存(閉じた鎖・因果対照・長時間・開いた実験〔J_ext 込み〕で相対 ≤1e−12)
+// ----     ② Q̇=−Ė_rot≥0(各辺・各半歩の ΔQ≥0)と E_rot+Q=E_rot(0)+W_ext の閉じ(相対 ≤1e−12)
+// ----     ③ 刻み収束の次数(厳密解〔固有値分解〕との差・dt 5 段の隣接 4 組がすべて 1.9〜2.1)
+// ----     ④ 因果対照(辺 3–4 の K=0 → 外側の節点はビットで 0 のまま・内側は動く)
+// ----   あわせて: 閉じた鎖は長時間で共通角速度へ(T=4000 で差 ≤1e−12 —— 差動回転を自動では作らない)・両端固定の開いた実験は
+// ----   定常の散逸率=外部の仕事率(相対 1e−9)・正本 chainledger-w281b.json と相対 1e−12 で一致。**root は SKIP**。
+{
+  const bad = [];
+  const cases = [];
+  const fnL = path.join(ROOT, 'tests', 'lib-w281b-chain.mjs');
+  if (!TARGET.startsWith('beta/') || !fs.existsSync(fnL)) {
+    console.log('SKIP behavior.chainLedger(第281便b 未適用 — 交換模型の純関数なし: ' + TARGET + ')');
+  } else {
+    const nearEq = (a, b, tol) => { if (typeof a === 'number' && typeof b === 'number') return (Number.isNaN(a) && Number.isNaN(b)) || a === b || Math.abs(a - b) <= tol * Math.max(1, Math.abs(a), Math.abs(b));
+      if (Array.isArray(a) && Array.isArray(b)) return a.length === b.length && a.every((z, i) => nearEq(z, b[i], tol));
+      if (a && b && typeof a === 'object' && typeof b === 'object') { const ka = Object.keys(a).sort(), kb = Object.keys(b).sort(); return JSON.stringify(ka) === JSON.stringify(kb) && ka.every((k) => nearEq(a[k], b[k], tol)); }
+      return a === b; };
+    const SUP = { '-': '⁻', '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹', '+': '' };
+    const sci = (x, d) => { if (x === 0) return '0'; const [m, e] = Math.abs(Number(x)).toExponential(d).split('e'); return (x < 0 ? '−' : '') + m + '×10' + String(Number(e)).split('').map((c) => SUP[c]).join(''); };
+    try {
+      const L = await import('file://' + fnL);
+      const S = JSON.parse(JSON.stringify(L.chainLedgerSuite()));
+      const led = [['closed', S.closed.ledger], ['causal', S.causal.ledger], ['openBothFixed', S.openBothFixed.ledger], ['openCoreFixed', S.openCoreFixed.ledger]];
+      const jMax = Math.max(...led.map(([, l]) => l.jRelMax), ...S.longTime.rows.map((r) => r.jRelMax));
+      const cMax = Math.max(...led.map(([, l]) => l.closeRelMax), ...S.longTime.rows.map((r) => r.closeRelMax));
+      const qMin = Math.min(...led.map(([, l]) => l.dQmin));
+      if (!(jMax <= 1e-12)) bad.push('① J の相対残差 ' + jMax);
+      if (!(qMin >= 0)) bad.push('② ΔQ が負 ' + qMin);
+      if (!(cMax <= 1e-12)) bad.push('② E_rot+Q の閉じ ' + cMax);
+      const ords = S.convergence.rows.slice(1).map((r) => r.order);
+      if (!(ords.length === 4 && ords.every((o) => o >= 1.9 && o <= 2.1))) bad.push('③ 次数 ' + ords.join(','));
+      if (!(S.causal.outerExactZero === true && S.causal.innerMoved === true && S.causal.Omega.slice(4).every((w) => w === 0))) bad.push('④ 因果対照');
+      const lt = S.longTime.rows.find((r) => r.T === 4000);
+      if (!(lt && lt.spreadMax <= 1e-12)) bad.push('長時間で共通角速度へ近づかない');
+      const ob = S.openBothFixed;
+      if (!(Math.abs(ob.steadyDissipationRate - ob.steadyWorkRate) <= 1e-9 * ob.steadyWorkRate)) bad.push('開いた実験の散逸率 ≠ 仕事率');
+      if (!(ob.profileDevMax <= 1e-3)) bad.push('開いた実験の定常分布が直線から離れた ' + ob.profileDevMax);
+      const Jc = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'chainledger-w281b.json'), 'utf8'));
+      if (!Jc.meta || Jc.meta.provenanceVersion !== 'w272e-1' || Jc.meta.target !== 'tests/lib-w281b-chain.mjs') bad.push('正本の来歴/target');
+      if (!nearEq(S, Jc.suite, 1e-12)) bad.push('正本 chainledger-w281b.json と純関数の引き直しが違う(相対 1e-12)—— 器を走らせ直すこと');
+      cases.push(`① J 相対 ≤${sci(jMax, 2)} ② ΔQ の最小 ${sci(qMin, 2)}(負なし)・閉じ ≤${sci(cMax, 2)} ③ 次数 ${ords.map((o) => o.toFixed(4)).join('/')} ④ 辺 3–4 を 0 → 外側 4 節点はビットで 0`);
+      cases.push(`閉じた鎖は共通角速度 ${S.longTime.OmegaCommon.toFixed(6)} へ(T=4000 で差 ${sci(lt.spreadMax, 2)})・両端固定の開いた実験は定常の散逸率 ${ob.steadyDissipationRate.toFixed(6)} = 外部の仕事率 ${ob.steadyWorkRate.toFixed(6)}`);
+    } catch (e) { bad.push('純関数/正本が読めない: ' + String(e && e.stack || e).slice(0, 160)); }
+    add('behavior.chainLedger', bad.length === 0,
+      `**有限予算の交換模型の帳簿**(第281便b・統括の読み R73 —— **連鎖仮説を調べる構成則であって DFM の導出則ではない**・K と I は宣言値・`
+      + `エンジン未接続): ${cases.join(' / ')} —— **差動回転の勾配が定常に残るのは外部トルクで両端を固定して仕事を払う開いた実験だけ**`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 0a3z17) 第281便b: docs.galaxyChain ----
+// ----   🎋 の連鎖の実測(t=0/10/20/40 の χ̄(R)・R_edge・中心応答)と交換模型の帳簿の数が正本 2 本と PHYSICS〔第281便b〕で一致し、
+// ----   「言わないこと。」より前に禁止語が無いことを固定する:
+// ----     ① 🎋 の χ̄(R)(共通 API p=1 と表示)と u_φ(R)の 4 時刻の行が PHYSICS にある。
+// ----     ② R_edge(0.5/0.2/0.1)の t=0・t=40 の 6 列(API p=1・表示=p=2・外部の環 2 半径 × p 2 つ)が PHYSICS にある。表示の R_edge は p=2 と同じ値。
+// ----     ③ 中心応答: 🎋 の 2 走行(spin 1.2/0)は全時刻で全粒子ビット一致(∂u_φ/∂Ω_core=0)・🎠 は t=0 で 0・t>0 で 0 でない。🎠 の応答表の行が PHYSICS にある。
+// ----     ④ 帳簿の数(次数・前線の時刻・定常の散逸率)が PHYSICS にある。
+// ----     ⑤ 禁止語 0(境界を発見した・平坦回転を再現した・観測一致を達成した・較正した・較正を完了・引きずり消失を確認した・新発見・腕が創発した・DFM から導出した)。
+// ----   **root は SKIP**。
+{
+  const bad = [];
+  const cases = [];
+  const fnC = path.join(ROOT, 'tests', 'out', 'galaxychain-w281b.json');
+  if (!TARGET.startsWith('beta/') || !fs.existsSync(path.join(ROOT, 'tests', 'exp-w281b-galaxychain.mjs'))) {
+    console.log('SKIP docs.galaxyChain(第281便b 未適用 — ' + TARGET + ')');
+  } else {
+    const f4 = (x) => (x === null || x === undefined ? '—' : x.toFixed(4));
+    const f3 = (x) => (x === null || x === undefined ? '—' : (x < 0 ? '−' + (-x).toFixed(3) : x.toFixed(3)));
+    const f1 = (x) => (x === null || x === undefined ? '—' : x.toFixed(1));
+    try {
+      const J = JSON.parse(fs.readFileSync(fnC, 'utf8'));
+      const Lc = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'chainledger-w281b.json'), 'utf8')).suite;
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const at = P.indexOf('〔第281便b — '), end = at >= 0 ? P.indexOf('\n## 7. 論文', at) : -1;
+      const whole = at >= 0 ? P.slice(at, end > at ? end : undefined) : '';
+      const cut = whole.indexOf('**言わないこと。**');
+      const sec = cut >= 0 ? whole.slice(0, cut) : whole;
+      if (!whole) bad.push('PHYSICS に〔第281便b〕節が無い');
+      if (cut < 0) bad.push('「言わないこと。」の宣言が無い');
+      const has = (s, lab) => { if (sec.indexOf(s) < 0) bad.push(lab + ' が PHYSICS に無い: ' + s.slice(0, 60)); };
+      // ①
+      const A = J.chain.runA.recs;
+      if (A.map((r) => Math.round(r.t)).join(',') !== '0,10,20,40') bad.push('① 時刻が 0/10/20/40 でない');
+      for (const r of A) has(`| ${r.t.toFixed(0)} | ${r.ring.map((z) => f4(z.api1.chi)).join(' / ')} | ${r.ring.map((z) => f4(z.disp.chi)).join(' / ')} | ${r.ring.map((z) => f3(z.disp.uPhi)).join(' / ')} | ${r.ring.map((z) => f3(z.api1.uPhi)).join(' / ')} |`, '① t=' + r.t.toFixed(0) + ' の χ̄(R)・u_φ(R)');
+      // ②
+      for (const r of [A[0], A[3]]) {
+        const row = (lab, e) => has(`| ${r.t.toFixed(0)} | ${lab} | ${f1(e['0.5'].R)} | ${f1(e['0.2'].R)} | ${f1(e['0.1'].R)} |`, '② R_edge ' + lab);
+        row('API p=1(D₀=1.5)', r.edge.api1); row('表示 = API p=2(D₀=1.5)', r.edge.disp);
+        for (const e of r.ext) row(`外部の環 R_ext=${e.Rext}・p=${e.p}(0.95 R_ext の内側)`, e.edgeInside095);
+        for (const k of ['0.5', '0.2', '0.1']) if (r.edge.disp[k].R !== r.edge.api2[k].R) bad.push('② 表示の R_edge が p=2 と違う');
+        if (![r.edge.api1, r.edge.api2].every((e) => ['0.5', '0.2', '0.1'].every((k) => e[k].nCross === 1))) bad.push('② χ̄ の交差が 1 回でない');
+      }
+      const e0 = A[0].edge;
+      cases.push(`🎋 R_edge(χ̄=0.5/0.2/0.1): p=1 ${f1(e0.api1['0.5'].R)}/${f1(e0.api1['0.2'].R)}/${f1(e0.api1['0.1'].R)}・p=2(=表示)${f1(e0.api2['0.5'].R)}/${f1(e0.api2['0.2'].R)}/${f1(e0.api2['0.1'].R)}(診断量 —— 場は切らない)`);
+      // ③
+      const rb = J.chain.response;
+      if (!rb.every((r) => r.maxAbsDx === 0 && r.maxAbsDv === 0 && r.rows.every((z) => z.dDispUphi === 0 && z.dApi1Uphi === 0))) bad.push('③ 🎋 の 2 走行がビット一致でない');
+      const rc = J.contrast.response;
+      if (!(rc[0].maxAbsDx === 0 && rc[0].rows.every((z) => z.dDispUphi === 0 && z.dApi1Uphi === 0))) bad.push('③ 🎠 の t=0 の応答が 0 でない');
+      if (!(rc.slice(1).every((r) => r.maxAbsDx > 0))) bad.push('③ 🎠 の t>0 の応答が 0(E6′ が自転を読んでいない?)');
+      for (const r of rc) has(`| ${r.t.toFixed(0)} | ${f3(r.maxAbsDx)} | ${f3(r.maxAbsDv)} | ${r.rows.map((z) => f3(z.dDispUphiPerOmega)).join(' / ')} |`, '③ 🎠 の応答 t=' + r.t.toFixed(0));
+      cases.push(`中心応答: 🎋 は t=0/10/20/40 で 2 走行ビット一致(∂u_φ/∂Ω_core=0)・🎠(E6′)は t=40 で r=20 の表示 ∂u_φ/∂Ω=${f3(rc[3].rows[0].dDispUphiPerOmega)}(間接)`);
+      // ④
+      has(Lc.convergence.rows.slice(1).map((r) => r.order.toFixed(4)).join(' / '), '④ 次数');
+      has(Lc.closed.front.slice(1, 7).map((x) => x.toFixed(1)).join(' / '), '④ 前線の時刻');
+      has(Lc.openBothFixed.steadyDissipationRate.toFixed(6), '④ 定常の散逸率');
+      has(Lc.longTime.OmegaCommon.toFixed(6), '④ 共通角速度');
+      // ⑤
+      for (const q of ['境界を発見した', '平坦回転を再現した', '観測一致を達成した', '較正した', '較正を完了', '引きずり消失を確認した', '新発見', '腕が創発した', 'DFM から導出した', '判定が増えた'])
+        if (sec.indexOf(q) >= 0) bad.push(`⑤ PHYSICS〔第281便b〕に「${q}」が出ている`);
+      cases.push('PHYSICS〔第281便b〕と一致(禁止語なし)');
+    } catch (e) { bad.push('正本が読めない: ' + String(e && e.stack || e).slice(0, 160)); }
+    add('docs.galaxyChain', bad.length === 0,
+      `**銀河の連鎖の実測**(第281便b・原仮定者の裁定(第71報)「中心天体群から外縁にかけて引きずりが連鎖する」・統括の読み R73): ${cases.join(' / ')} —— `
+      + `**χ̄(R) の裾はなだらかで、有限の境界は自動には出ない**(真に有限の境界には遮蔽・支持半径・伝播時間尺度などの追加則が要る —— 本便では実装しない)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
