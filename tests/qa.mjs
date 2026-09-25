@@ -2017,12 +2017,24 @@ if (QA_REPLAY_FAIL) {
 // ----     ⑤ `generatedAt` が ISO 日時である。
 // ----   **不一致は FAIL のままにする**(AG10)—— 走らせ直せば直る種類の FAIL であり、
 // ----   html や器を変えた枝の統合後は**統括が再走する**。短縮 hash は表示用で、判定は完全値で行う。
+// ----   第281便a(原仮定者の裁定(第71報)・AN16 採用・統括の検証項目 R71)—— **領域 hash と履歴**:
+// ----     ② は「targetSha256 一致 **または**(`scopeComplete===true` かつ `scopeSha256` が**今の html で引き直した値**と
+// ----        一致)」で通す(`tests/lib-w281a-scope.mjs`)。`targetSha256` は生成当時の値のまま(付け替えない)。
+// ----        入力に対象 html 自身が載っている行(③)も同じ規則で見る。
+// ----     ③ JSON の入力は「sha256 一致 **または** 刻印の安定 hash(`inputsStable` —— 時刻・wall 秒を除いた正準 JSON)
+// ----        が今のファイルの安定 hash と一致」で通す(常時群 calaudit は毎回書き直されるため)。
+// ----     履歴の正本(再生成表 `tests/lib-w281a-regentable.mjs` の role:'history' か meta.role==='history')は
+// ----        ①⑤ の形だけを見て ②③④ を照合しない(**生成当時の記録として固定** —— 現行の判定に使わない。
+// ----        `lint.regenScope` ④ が「現行の正本の入力に履歴が無い」ことを照合する)。
 {
   const bad = [];
   const rows = [];
   let PV = null;
   try {
     const P = await import('file://' + path.join(ROOT, 'tests', 'lib-w272e-provenance.mjs'));
+    const SC = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'));
+    const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
+    const HIST = new Set(RT.historyOuts());
     PV = P.PROVENANCE_VERSION;
     const CANON = ['tests/out/bh90-w269c.json', 'tests/out/sparc-w269c.json',
       'tests/out/cluster-w269d.json', 'tests/out/galaxydiag-w271d.json',
@@ -2120,11 +2132,13 @@ if (QA_REPLAY_FAIL) {
 
       // 第280便c(第70報・R65): geoPN=3 の契約(vMinusU・pn・pnVelocity・velocityMeaning)の検算 —— 正式の判定器の
       //   抽出器と窓で ☄️❄️ の複製を測る(target=beta/index.html)
-      'tests/out/geo3-w280c.json'];
+      'tests/out/geo3-w280c.json',
+      // 第281便a(AN16・R71): ❄️ 対照系列の**履歴列**(C2/C4/C7 と C3/C5/S の h4 段 —— 再生成しない・role:"history")
+      'tests/out/charon-history-w272b.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
-        code: 0, codeOk: 0, digestOk: null };
+        code: 0, codeOk: 0, digestOk: null, scopeOk: null, stableOk: 0, history: false };
       let J = null;
       try { J = JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8')); }
       catch (e) { bad.push(`${rel} が読めない: ` + String(e).slice(0, 60)); rows.push(r); continue; }
@@ -2136,14 +2150,28 @@ if (QA_REPLAY_FAIL) {
       if (!m.generatedAt || Number.isNaN(Date.parse(m.generatedAt)))
         bad.push(`⑤${rel} の generatedAt が日時でない(${m.generatedAt})`);
       r.target = m.target || null;
+      // 第281便a: 履歴の正本は ①⑤ の形だけ(②③④ は生成当時の記録として固定)
+      r.history = HIST.has(rel) || m.role === 'history';
+      if (r.history) {
+        if (!HEX64.test(String(m.targetSha256 || ''))) bad.push(`②${rel}(履歴)の targetSha256(64 桁)が無い`);
+        if (m.role === 'history' && m.frozen !== true) bad.push(`①${rel}(履歴)に frozen:true が無い`);
+        for (const key of ['inputs', 'code']) if (!Array.isArray(m[key]) || !m[key].length) bad.push(`①${rel} の meta.${key} が無い`);
+        rows.push(r);
+        continue;
+      }
+      let targetNow = null;
       if (!m.target || !HEX64.test(String(m.targetSha256 || ''))) {
         bad.push(`②${rel} の target / targetSha256(64 桁)が無い`);
       } else {
         const now = P.sha256File(path.join(ROOT, m.target));
+        targetNow = now;
         r.targetOk = (now === m.targetSha256);
-        if (!r.targetOk) bad.push(`②${rel} の targetSha256 が現行 ${m.target} と一致しない`
-          + `(刻印 ${String(m.targetSha256).slice(0, 12)} ≠ 現行 ${String(now).slice(0, 12)})`
-          + ' —— **器を走らせ直すこと**');
+        if (!r.targetOk) {
+          r.scopeOk = SC.scopeOkNow(ROOT, m);
+          if (!r.scopeOk) bad.push(`②${rel} の targetSha256 が現行 ${m.target} と一致しない`
+            + `(刻印 ${String(m.targetSha256).slice(0, 12)} ≠ 現行 ${String(now).slice(0, 12)})`
+            + (m.scope ? '・領域 hash も一致しない' : '・領域の宣言なし') + ' —— **器を走らせ直すこと**');
+        }
       }
       for (const key of ['inputs', 'code']) {
         const arr = Array.isArray(m[key]) ? m[key] : null;
@@ -2153,8 +2181,14 @@ if (QA_REPLAY_FAIL) {
           if (s.missing) continue;
           if (!HEX64.test(String(s.sha256 || ''))) { bad.push(`③${rel} の ${key} ${s.file} に完全な sha256 が無い`); continue; }
           const now = P.sha256File(path.join(ROOT, s.file));
-          if (now === s.sha256) r[key === 'inputs' ? 'inputsOk' : 'codeOk']++;
-          else bad.push(`${key === 'inputs' ? '③' : '④'}${rel} の ${s.file} が刻印と違う`
+          if (now === s.sha256) { r[key === 'inputs' ? 'inputsOk' : 'codeOk']++; continue; }
+          // 第281便a: 入力に載った対象 html は ② と同じ規則(領域一致)/ JSON の入力は安定 hash でも通す
+          if (key === 'inputs' && s.file === m.target && r.scopeOk === true) { r.inputsOk++; continue; }
+          if (key === 'inputs') {
+            const st = (m.inputsStable || []).find((z) => z.file === s.file);
+            if (st && SC.stableJsonSha(path.join(ROOT, s.file)) === st.stableSha256) { r.inputsOk++; r.stableOk++; continue; }
+          }
+          bad.push(`${key === 'inputs' ? '③' : '④'}${rel} の ${s.file} が刻印と違う`
             + ' —— **器を走らせ直すこと**');
         }
       }
@@ -2169,11 +2203,165 @@ if (QA_REPLAY_FAIL) {
     `**正本 JSON の来歴**(第272便e・AG11・統括の検証項目 R11): 版 \`${PV}\` を `
     + `**${rows.length} 本**に同じ形で持たせた(\`provenanceVersion\`・\`wave\`・\`target\`・`
     + `**完全 64 桁の \`targetSha256\`**・\`generatedAt\`・\`inputs[]\`・\`code[]\`・\`codeSha256\`)/ `
-    + rows.map((r) => `${r.file.replace('tests/out/', '')}(target ${r.targetOk === null ? '—' : (r.targetOk ? '一致' : '**不一致**')}`
-      + `・入力 ${r.inputsOk}/${r.inputs}・コード ${r.codeOk}/${r.code}）`).join(' / ')
+    + rows.map((r) => `${r.file.replace('tests/out/', '')}(` + (r.history ? '**履歴**(②③④ は照合しない)）'
+      : `target ${r.targetOk === null ? '—' : (r.targetOk ? '一致' : (r.scopeOk ? '**領域一致**' : '**不一致**'))}`
+      + `・入力 ${r.inputsOk}/${r.inputs}` + (r.stableOk ? `(安定 hash ${r.stableOk})` : '') + `・コード ${r.codeOk}/${r.code}）`)).join(' / ')
+    + ` / **第281便a**: 領域一致 ${rows.filter((r) => r.scopeOk === true).length} 本・履歴 ${rows.filter((r) => r.history).length} 本`
     + ` / **不一致は FAIL のまま**(AG10 —— 走らせ直せば直る種類の FAIL で、html や器を変えた枝の`
     + `統合後は統括が再走する)。短縮 hash は表示用で、**判定は完全値**で行う`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 第281便a(原仮定者の裁定(第71報)・AN16 採用・統括の検証項目 R71): lint.regenScope ----
+// ----   **再生成範囲**(領域 hash・履歴列・常時群)の宣言と表を機械で固定する。固定するのは 6 つ:
+// ----     ① 再生成表(`tests/lib-w281a-regentable.mjs`)が `lint.provenanceMeta` の CANON を**全部**覆っている。
+// ----     ② 領域を宣言した器(`const REGEN_SCOPE = {…}` —— 1 行の JSON)は `complete:true` で、宣言が
+// ----        **器のコードから機械で引いた下限**(HP.*・html の最上位名・内蔵プリセット id・`allPresets()` の走査)を
+// ----        覆い、その器が書いた現行の正本の `meta.scope` が宣言と同じで `scopeComplete:true` である。
+// ----     ③ **常時群は計画で省略されない**(calaudit 系・solarsigma・stoprule・issues・assessed・kf0ledger 旧/新・
+// ----        samplestatus・mercury —— `planRegen` が今の html で全部 always を返す)。
+// ----     ④ **履歴の正本は現行の判定に使われていない**(現行の正本の meta.inputs[] と html の SAMPLE_STATUS_META の
+// ----        入力に履歴が無い・現行の charon-w272b.json に履歴列 C2/C4/C7 が無い)。
+// ----     ⑤ 領域の切り出しを信用できる: 潰した写しの括弧の収支 0・動的な最上位参照 0・説明文の欄(PROSE_KEYS)を
+// ----        力学(makeSim / applyQLock / loadPreset)が `.欄名` で読まない・文言の表 I18N の葉が文字列/関数だけ。
+// ----     ⑥ **感度の自己試験**(一時ファイル): CSS の値だけ変えた html では領域 hash が同じ・宣言したプリセットの
+// ----        数値を 1 bit 変えた html では領域 hash が変わる(どちらも html 全体の sha256 は変わる)。
+// ----   **beta 線の正本なので root は SKIP** する。
+{
+  const bad = [];
+  const cases = [];
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP lint.regenScope(beta 対象でない: ' + TARGET + ' — 再生成範囲は beta 線の正本)');
+  } else {
+    try {
+      const SC = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'));
+      const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
+      const HTML = path.join(ROOT, 'beta', 'index.html');
+      const readJ = (rel) => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8')); } catch { return null; } };
+      // ① 表が CANON を覆う(CANON は lint.provenanceMeta の本文から読む —— 同じ一覧を 2 か所に持たない)
+      const qaText = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8');
+      const cm = qaText.match(/const CANON = \['tests\/out\/bh90-w269c\.json'[\s\S]*?\];/);
+      const CANON = cm ? [...cm[0].matchAll(/'(tests\/out\/[^']+\.json)'/g)].map((z) => z[1]) : [];
+      if (CANON.length < 50) bad.push(`① CANON が読めない(${CANON.length} 本)`);
+      const outs = new Set(RT.REGEN_STEPS.flatMap((z) => z.outs));
+      const miss = CANON.filter((f) => !outs.has(f));
+      if (miss.length) bad.push('① 再生成表に無い正本: ' + miss.slice(0, 4).join(', '));
+      cases.push(`表 ${RT.REGEN_STEPS.length} 段が CANON ${CANON.length} 本を覆う`);
+      // ② 宣言
+      const HIST = new Set(RT.historyOuts());
+      const harnesses = fs.readdirSync(path.join(ROOT, 'tests')).filter((f) => /^exp-.*\.mjs$/.test(f)).sort();
+      let nDecl = 0, nStamp = 0;
+      const declRows = [];
+      for (const f of harnesses) {
+        const rel = 'tests/' + f;
+        const text = fs.readFileSync(path.join(ROOT, rel), 'utf8');
+        if (text.indexOf('const REGEN_SCOPE = ') < 0) continue;
+        nDecl++;
+        const decl = SC.readDeclaredScope(text);
+        if (!decl) { bad.push(`② ${f} の REGEN_SCOPE が 1 行の JSON でない`); continue; }
+        if (decl.complete !== true) bad.push(`② ${f} が complete:true を宣言していない`);
+        const mine = RT.REGEN_STEPS.filter((z) => z.cmd.indexOf(rel) >= 0 && z.role !== 'history').flatMap((z) => z.outs)
+          .filter((o) => !HIST.has(o));
+        const metaCode = [];
+        for (const o of mine) { const J = readJ(o); for (const c of ((J && J.meta && J.meta.code) || [])) metaCode.push(c.file); }
+        const der = SC.deriveScope(HTML, SC.codeFilesOf(ROOT, rel, [...new Set(metaCode)]));
+        const cv = SC.coversDerived(HTML, decl, der);
+        if (!cv.ok) bad.push(`② ${f} の宣言が下限を覆わない: ${cv.miss.slice(0, 3).join(', ')}`);
+        for (const o of [...new Set(mine)]) {
+          const J = readJ(o);
+          const m = (J && J.meta) || {};
+          if (!m.scope) { bad.push(`② ${o} に領域の刻印が無い(器 ${f} を走らせ直すこと)`); continue; }
+          const a = SC.normalizeScope(m.scope), b = SC.normalizeScope(decl);
+          delete a.note; delete b.note;
+          if (JSON.stringify(a) !== JSON.stringify(b)) bad.push(`② ${o} の meta.scope が器の宣言と違う(器を走らせ直すこと)`);
+          if (m.scopeComplete !== true) bad.push(`② ${o} の scopeComplete が true でない`);
+          nStamp++;
+        }
+        declRows.push(f.replace(/^exp-|\.mjs$/g, '') + '(' + (decl.presets === 'all' ? 'all' : decl.presets.length) + ')');
+      }
+      if (nDecl < 20) bad.push(`② 領域を宣言した器が 20 本に満たない(${nDecl})`);
+      cases.push(`宣言 ${nDecl} 器・刻印 ${nStamp} 本(下限を覆う)`);
+      // ③ 常時群
+      const ALWAYS = ['calaudit', 'dt3', 'kf0', 'solarsigma', 'stoprule', 'issues', 'assessed',
+        'kf0ledger-old', 'kf0ledger', 'samplestatus', 'mercury'];
+      const tableAlways = RT.REGEN_STEPS.filter((z) => z.alwaysRun).map((z) => z.key).sort();
+      if (JSON.stringify(tableAlways) !== JSON.stringify(ALWAYS.slice().sort())) bad.push('③ 常時群の集合が契約と違う: ' + tableAlways.join(','));
+      const plan = RT.planRegen({ root: ROOT, html: HTML });
+      for (const k of ALWAYS) { const r = plan.steps.find((z) => z.key === k);
+        if (!r || r.status !== 'always') bad.push(`③ 常時群 ${k} が計画で ${r ? r.status : '無い'}`); }
+      cases.push(`常時群 ${ALWAYS.length} 段は計画で always・計画 ${Object.entries(plan.count).map(([k, v]) => k + ' ' + v).join('/')}`);
+      // ④ 履歴
+      for (const f of CANON) {
+        if (HIST.has(f)) continue;
+        const J = readJ(f);
+        for (const inp of ((J && J.meta && J.meta.inputs) || [])) if (HIST.has(inp.file)) bad.push(`④ 現行の正本 ${f} が履歴 ${inp.file} を入力にしている`);
+      }
+      const htmlText = fs.readFileSync(HTML, 'utf8');
+      const ssm = htmlText.match(/const SAMPLE_STATUS_META=(\{[^\n]*\});/);
+      if (ssm) { const src = (JSON.parse(ssm[1]).sources || []); for (const f of src) if (HIST.has(f)) bad.push('④ SAMPLE_STATUS の入力に履歴 ' + f); }
+      else bad.push('④ html の SAMPLE_STATUS_META が読めない');
+      const CJ = readJ('tests/out/charon-w272b.json') || {};
+      const curSeries = new Set(Object.values(CJ.columns || {}).map((z) => ((z.h || z.h2 || z.h4 || {}).series)));
+      for (const s of ['C2', 'C4', 'C7']) if (curSeries.has(s)) bad.push(`④ 現行の charon-w272b.json に履歴列 ${s} がある`);
+      const HJ = readJ('tests/out/charon-history-w272b.json') || {};
+      if (!HJ.meta || HJ.meta.role !== 'history' || HJ.meta.frozen !== true) bad.push('④ 履歴の正本に role:"history"・frozen:true が無い');
+      cases.push(`履歴 ${HIST.size} 本は現行の入力に無い`);
+      // ⑤ 切り出しの信用
+      const src = htmlText.slice(htmlText.indexOf('<script>') + 8, htmlText.lastIndexOf('</script>'));
+      const PT = SC.parseTopLevel(src);
+      if (!PT.selfCheck.ok) bad.push('⑤ 潰した写しの括弧の収支が 0 でない');
+      const dyn = SC.countDynamicRefs(PT.code);
+      if (dyn !== 0) bad.push(`⑤ 動的な最上位参照が ${dyn} 件`);
+      for (const fn of ['makeSim', 'applyQLock', 'loadPreset']) {
+        const seg = PT.segments.find((z) => z.names.includes(fn));
+        if (!seg) { bad.push(`⑤ ${fn} が最上位に無い`); continue; }
+        const hits = SC.PROSE_KEYS.filter((k) => new RegExp('\\.' + k + '\\b').test(seg.codeText));
+        if (hits.length) bad.push(`⑤ ${fn} が説明文の欄 ${hits.join(',')} を読む(PROSE_KEYS から外すこと)`);
+      }
+      const L = (await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'))).loadHtmlHeadless(HTML);
+      const I = L.evalExpr('I18N');
+      let nLeaf = 0, nBadLeaf = 0;
+      // 葉を再帰で数える(配列・入れ子の表も中身が文字列/関数なら文言である)
+      const walkLeaf = (v) => { if (v && typeof v === 'object') { for (const k of Object.keys(v)) walkLeaf(v[k]); return; }
+        nLeaf++; const t = typeof v; if (t !== 'string' && t !== 'function') nBadLeaf++; };
+      for (const lang of Object.keys(I)) walkLeaf(I[lang]);
+      if (nBadLeaf) bad.push(`⑤ I18N の葉に文字列/関数でないものが ${nBadLeaf} 件(文言の表として外せない)`);
+      cases.push(`収支 0・動的参照 ${dyn}・説明文の欄を力学が読まない・I18N ${nLeaf} 葉は文字列/関数`);
+      // ⑥ 感度の自己試験(一時ファイル —— CSS だけ / 宣言したプリセットの数値 1 bit)
+      const os = await import('node:os');
+      const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'w281a-'));
+      try {
+        const decl = SC.readDeclaredScope(fs.readFileSync(path.join(ROOT, 'tests', 'exp-w272b-charon.mjs'), 'utf8'));
+        const base = SC.scopeHash(HTML, decl).scopeSha256;
+        const cssHtml = htmlText.replace(/(<style>[\s\S]*?)(--bg:\s*)([^;]+);/, (m0, a, b, c) => a + b + c + ' ;');
+        if (cssHtml === htmlText) bad.push('⑥ CSS の一時変更が作れない');
+        const fC = path.join(tmp, 'css.html'); fs.writeFileSync(fC, cssHtml);
+        const hC = SC.scopeHash(fC, decl).scopeSha256;
+        const iP = htmlText.indexOf('id:"plutoCharonReal"');
+        const numRe = /(\bm:\s*)(\d+\.\d*[1-9])/g; numRe.lastIndex = iP;
+        const nm = numRe.exec(htmlText);
+        let hP = null;
+        if (iP < 0 || !nm) bad.push('⑥ ❄️ の質量の数値が見つからない');
+        else {
+          const v = nm[2], last = Number(v[v.length - 1]);
+          const v2 = v.slice(0, -1) + String(last === 9 ? 8 : last + 1);
+          const pHtml = htmlText.slice(0, nm.index) + nm[1] + v2 + htmlText.slice(nm.index + nm[0].length);
+          const fP = path.join(tmp, 'preset.html'); fs.writeFileSync(fP, pHtml);
+          hP = SC.scopeHash(fP, decl).scopeSha256;
+        }
+        if (hC !== base) bad.push('⑥ CSS だけ変えた html で領域 hash が変わった');
+        if (hP === base) bad.push('⑥ 宣言したプリセットの数値を変えた html で領域 hash が変わらない');
+        cases.push(`感度: CSS だけ → 領域 hash 同じ(${hC === base})・❄️ の質量の最下位桁 → 変わる(${hP !== base})`);
+      } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
+    } catch (e) { bad.push('再生成範囲の器が読めない: ' + String(e).slice(0, 160)); }
+    add('lint.regenScope', bad.length === 0,
+      `**正本の再生成範囲**(第281便a・原仮定者の裁定(第71報)AN16 採用・統括の検証項目 R71): ${cases.join(' / ')} —— `
+      + `**領域 hash** = 器が宣言した html の領域(宣言したプリセットの生の定義と受理後の定義・roots から辿った最上位の依存閉包・`
+      + `S._core の本文・宣言した定数)の正準 JSON の sha256。\`targetSha256\` は生成当時の値のまま残し、`
+      + `lint.provenanceMeta ② は「一致 **または**(scopeComplete かつ領域 hash 一致)」で通す。**履歴は再生成しない・現行の結論に昇格させない**。`
+      + `閉包は**静的な識別子の閉包**(過大近似)で、UI の操作で閉包の値を書き換える経路は辿らない(器は UI を操作しない)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
 }
 
 // ---- 第272便e(第62報・AG12): lint.legacyRecordBasis ----
@@ -3282,7 +3470,7 @@ if (QA_REPLAY_FAIL) {
       const m = j.meta || {};
       htmlSha = crypto.createHash('sha256')
         .update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
-      shaMatch = (m.targetSha256 === htmlSha);
+      shaMatch = (await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'))).provTargetOk(ROOT, m, htmlSha);   // 第281便a: 領域一致も可
       if (m.target !== TARGET) bad.push(`② JSON の target が ${m.target}(検査対象は ${TARGET})`);
       if (!shaMatch) bad.push(`② JSON の入力 hash ${String(m.targetSha256).slice(0, 8)}… が`
         + ` 現行 ${TARGET} の ${htmlSha.slice(0, 8)}… と不一致 —— **統合後は再走して入れ替える**`);
@@ -6702,6 +6890,10 @@ if (QA_REPLAY_FAIL) {
 // ----     ① `meta.targetSha256` が**いま検査している html の SHA-256**と一致する(別ソースの走行を混ぜない)。
 // ----     ② **走行前に固定した契約**が記録されている(近点窓 20・ORB_MAX 60・判定する周回 index 1・h 段 20,700,000 步)。
 // ----     ③ **9 系列 38 列**がそろっている(C0 1・C1 1・C2 6・C3 6・C4 6・C5 6・C6 3・C7 3・S 6)。
+// ----        **第281便a(AN16・R71)から 2 ファイルに分かれる**: 現行 6 系列 23 列(C0 1・C1 1・C3 6・C5 6・C6 3・S 6)が
+// ----        charon-w272b.json、履歴 3 系列 15 列(C2 6・C4 6・C7 3 —— 全段)が charon-history-w272b.json
+// ----        (`role:"history"`・`frozen:true`・再生成しない)。**h4 段は C0/C1/C6 の 5 列だけ**が現行にあり、
+// ----        C3/C5/S は **h/h2 まで**(`stageDiffs` —— 旧 3 段の h4 と stageOrders は履歴ファイルに 18 列ある)。
 // ----     ④ **NaN は 1 列も無い**。
 // ----     ⑤ **C0 が公開測定(calaudit 正本の ❄️ 同方向 1 周)を再現する**(相対 1e-12 以内)。
 // ----     ⑥ 観測値と σ は**手打ちではなく calaudit 正本から引いている**。
@@ -6711,8 +6903,11 @@ if (QA_REPLAY_FAIL) {
 {
   const bad = [];
   const cases = [];
-  const WANT = { C0: 1, C1: 1, C2: 6, C3: 6, C4: 6, C5: 6, C6: 3, C7: 3, S: 6 };
-  let seen = null, c0 = null;
+  const WANT = { C0: 1, C1: 1, C3: 6, C5: 6, C6: 3, S: 6 };
+  // 第281便a: 履歴列(再生成しない)と、h4 段を持つ現行列
+  const WANT_H = { C2: 6, C4: 6, C7: 3 };
+  const H4_SERIES = ['C0', 'C1', 'C6'];
+  let seen = null, c0 = null, seenH = null, nH4 = 0, nDiff = 0;
   if (!TARGET.startsWith('beta/')) {
     console.log('SKIP docs.charonSeries(beta 対象でない: ' + TARGET + ' — 対照系列は beta 線の実測)');
   } else {
@@ -6720,7 +6915,7 @@ if (QA_REPLAY_FAIL) {
       const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'charon-w272b.json'), 'utf8');
       const J = JSON.parse(text);
       const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
-      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(別ソースの走行)');
+      if (!(await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'))).provTargetOk(ROOT, J.meta, sha)) bad.push('① meta.targetSha256 が検査対象の html と違う(別ソースの走行)');
       const libSha = crypto.createHash('sha256')
         .update(fs.readFileSync(path.join(ROOT, 'tests', 'lib-w272b-pairlock.mjs'))).digest('hex');
       if (J.meta.libSha256 !== libSha) bad.push('① meta.libSha256 が候補式ライブラリと違う');
@@ -6743,7 +6938,34 @@ if (QA_REPLAY_FAIL) {
       }
       for (const [s, n] of Object.entries(WANT))
         if ((seen[s] || 0) !== n) bad.push(`③ 系列 ${s} が ${n} 列でない(${seen[s] || 0})`);
-      cases.push(`${Object.keys(WANT).length} 系列 ${nCol} 列・NaN ${nan}`);
+      for (const s of Object.keys(seen)) if (!(s in WANT)) bad.push(`③ 現行の正本に現行でない系列 ${s} がある`);
+      cases.push(`現行 ${Object.keys(WANT).length} 系列 ${nCol} 列・NaN ${nan}`);
+      // 第281便a: h4 段は C0/C1/C6 だけ・C3/C5/S は h/h2 まで(stageDiffs)
+      for (const [id, byStage] of Object.entries(J.columns || {})) {
+        const sr = (byStage.h || {}).series;
+        if (byStage.h4) { nH4++; if (!H4_SERIES.includes(sr)) bad.push(`③ ${id} に h4 段がある(h4 は C0/C1/C6 だけ)`); }
+        else if (H4_SERIES.includes(sr)) bad.push(`③ ${id} に h4 段が無い`);
+      }
+      nDiff = Object.keys(J.stageDiffs || {}).length;
+      const sp = J.split || {};
+      if (JSON.stringify(sp.currentSeries) !== JSON.stringify(['C0', 'C1', 'C3', 'C5', 'C6', 'S'])
+        || JSON.stringify(sp.historySeries) !== JSON.stringify(['C2', 'C4', 'C7'])
+        || JSON.stringify(sp.h4Series) !== JSON.stringify(H4_SERIES)) bad.push('③ split の宣言(現行/履歴/h4 の系列)が違う');
+      cases.push(`h4 段 ${nH4} 列(C0/C1/C6)・h/h2 までの差 ${nDiff} 列`);
+      // 第281便a: 履歴列
+      const HJ = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'charon-history-w272b.json'), 'utf8'));
+      const hm = HJ.meta || {};
+      if (hm.role !== 'history' || hm.frozen !== true) bad.push('③ 履歴の正本に role:"history"・frozen:true が無い');
+      seenH = {};
+      for (const [id, byStage] of Object.entries(HJ.columns || {})) {
+        const r = byStage.h || byStage.h2 || byStage.h4 || {};
+        if (!WANT_H[r.series]) continue;
+        if (!(byStage.h && byStage.h2 && byStage.h4)) bad.push(`③ 履歴列 ${id} に 3 段がそろっていない`);
+        seenH[r.series] = (seenH[r.series] || 0) + 1;
+      }
+      for (const [s, n] of Object.entries(WANT_H))
+        if ((seenH[s] || 0) !== n) bad.push(`③ 履歴の系列 ${s} が ${n} 列でない(${seenH[s] || 0})`);
+      cases.push(`履歴 ${Object.keys(WANT_H).length} 系列 ${Object.values(seenH).reduce((a, b) => a + b, 0)} 列(再生成しない)`);
       const CA = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
       const pc = CA.presets.find((p) => p.id === 'plutoCharonReal');
       // 第274便a: kF0 対照を配った行(`kf0Applied`)は **kFrame=0 の走行**なので、
@@ -6810,7 +7032,7 @@ if (QA_REPLAY_FAIL) {
       if (M.harnessVersion !== 'w273b-charonk-1') bad.push(`①器の版が違う(${M.harnessVersion})`);
       if (M.provenanceVersion !== 'w272e-1') bad.push(`①来歴の版が違う(${M.provenanceVersion})`);
       const shaNow = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
-      if (M.targetSha256 !== shaNow) bad.push('① meta.targetSha256 が検査対象の html と違う(器を再走する)');
+      if (!(await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'))).provTargetOk(ROOT, M, shaNow)) bad.push('① meta.targetSha256 が検査対象の html と違う(器を再走する)');
       if (M.canonicalRun !== true) bad.push('①正本でない走行(短い走行)が書かれている');
       cases.push('来歴 w272e-1・html の SHA-256 一致');
       // ② fit の刻印
@@ -6948,7 +7170,7 @@ if (QA_REPLAY_FAIL) {
       if (M.provenanceVersion !== 'w272e-1') bad.push('①来歴の版が違う(' + M.provenanceVersion + ')');
       if (M.harnessVersion !== 'w276b-charonfactors-1') bad.push('①器の版が違う(' + M.harnessVersion + ')');
       const shaNow = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
-      if (M.targetSha256 !== shaNow) bad.push('① meta.targetSha256 が検査対象の html と違う(器を再走する)');
+      if (!(await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'))).provTargetOk(ROOT, M, shaNow)) bad.push('① meta.targetSha256 が検査対象の html と違う(器を再走する)');
       if (M.canonicalRun !== true) bad.push('①短い走行が正本に書かれている');
       cases.push('来歴 w272e-1・html の SHA-256 一致');
       // ② 書かない語(宣言そのものは本文から外して数える)
@@ -7523,7 +7745,7 @@ if (QA_REPLAY_FAIL) {
       const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'bgequiv-w278d.json'), 'utf8');
       const J = JSON.parse(text);
       const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
-      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)');
+      if (!(await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'))).provTargetOk(ROOT, J.meta, sha)) bad.push('① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)');
       else cases.push('html の SHA-256 一致');
       if (!J.gate || J.gate.declaredBeforeMeasuring !== true) bad.push('① 門が「測る前に宣言」になっていない');
       const S = (J.samples || []).filter((z) => !z.skipped);
@@ -7781,7 +8003,7 @@ if (QA_REPLAY_FAIL) {
       const text = fs.readFileSync(path.join(ROOT, 'tests', 'out', 'bgbudget2-w279c.json'), 'utf8');
       const J = JSON.parse(text);
       const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
-      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)');
+      if (!(await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'))).provTargetOk(ROOT, J.meta, sha)) bad.push('① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)');
       else cases.push('html の SHA-256 一致');
       const ins = (J.meta.inputs || []).map((z) => z.file);
       for (const f of ['tests/out/bgpredict-w276a.json', 'tests/out/bgequiv-w278d.json']) if (ins.indexOf(f) < 0) bad.push('① 入力に ' + f + ' が無い');
@@ -7874,7 +8096,7 @@ if (QA_REPLAY_FAIL) {
       const m = J.meta || {};
       const shaT = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
       if (m.provenanceVersion !== 'w272e-1') bad.push('①来歴の版が w272e-1 でない');
-      if (m.targetSha256 !== shaT) bad.push('①targetSha256 が対象 html と違う(器を再走する)');
+      if (!(await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'))).provTargetOk(ROOT, m, shaT)) bad.push('①targetSha256 が対象 html と違う(器を再走する)');
       if (!m.extractor || !/^[0-9a-f]{64}$/.test(String(m.extractor.helperSha256 || ''))) bad.push('①抽出器の sha256 が無い');
       const calSrc = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w249b-calaudit.mjs'), 'utf8');
       const hs = crypto.createHash('sha256').update(LM.extractCalauditHelpers(calSrc), 'utf8').digest('hex');
@@ -8743,7 +8965,7 @@ if (!TARGET.startsWith('beta/')) {
       hashChecked = true;
       const htmlSha = crypto.createHash('sha256')
         .update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
-      if (M.targetSha256 !== htmlSha) bad.push('②対象 html の hash が走行時と違う(器を再走する)');
+      if (!(await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'))).provTargetOk(ROOT, M, htmlSha)) bad.push('②対象 html の hash が走行時と違う(器を再走する)');
     } else {
       console.log(`SKIP docs.nsLockBranch ②(走行対象は ${M.target} — 今の QA_TARGET は ${TARGET})`);
     }
@@ -17145,7 +17367,7 @@ if (!FAST) {
     if (M.provenanceVersion !== 'w272e-1' || !/^[0-9a-f]{64}$/.test(String(M.targetSha256 || ''))) bad.push('①来歴が w272e-1/64 桁でない');
     if (M.harness !== 'w280d-charoninput-1') bad.push('①器の版が w280d-charoninput-1 でない(' + M.harness + ')');
     const shaNow = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
-    if (M.targetSha256 !== shaNow) bad.push('① meta.targetSha256 が検査対象の html と違う(器を再走する)');
+    if (!(await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'))).provTargetOk(ROOT, M, shaNow)) bad.push('① meta.targetSha256 が検査対象の html と違う(器を再走する)');
     const fc = (J.factors || {}).formalCheck || {};
     for (const s of ['h', 'h2', 'h4']) if (!fc[s] || fc[s].bitSame !== true) bad.push(`②正式の値(${s})を 1 bit 再現していない`);
     let md = '';
@@ -36241,7 +36463,7 @@ if (!FAST) {
       const J = JSON.parse(text);
       const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
       if (J.meta.provenanceVersion !== 'w272e-1') bad.push('① 来歴の版が w272e-1 でない');
-      if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(別ソースの走行)');
+      if (!(await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'))).provTargetOk(ROOT, J.meta, sha)) bad.push('① meta.targetSha256 が検査対象の html と違う(別ソースの走行)');
       else cases.push('html の SHA-256 一致');
       if (J.meta.quick || J.meta.part) bad.push('① 正本が --quick/--part の走行');
       const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w280c-geo3.mjs'));

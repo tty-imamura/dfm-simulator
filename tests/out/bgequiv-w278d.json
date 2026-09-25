@@ -4,48 +4,48 @@
   "wave": "第278便d",
   "target": "beta/index.html",
   "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-  "generatedAt": "2026-09-24T17:13:39.789Z",
+  "generatedAt": "2026-09-25T03:57:47.865Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 4758438,
     "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-    "mtime": "2026-09-24T16:22:58.318Z"
+    "mtime": "2026-09-25T03:35:30.689Z"
    },
    {
     "file": "tests/out/bgpredict-w276a.json",
     "bytes": 97740,
     "sha256": "699c7b22e26eef8736a838c1ba71a4df4249d479af7679b8942866b899a7fe17",
-    "mtime": "2026-09-24T16:42:56.282Z"
+    "mtime": "2026-09-25T03:35:40.409Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w278d-bgequiv.mjs",
-    "bytes": 26431,
-    "sha256": "ae9756ba97173dd2186b12297862187f79db39dc9d7ed9ccf35248cb9407dadd",
-    "mtime": "2026-09-23T11:00:54.407Z"
+    "bytes": 27844,
+    "sha256": "d91b850f08099980a84bee9b2c4f77a219c20d01389251497c9501485f3e1bb9",
+    "mtime": "2026-09-25T03:55:57.667Z"
    },
    {
     "file": "tests/lib-w278d-bgequiv.mjs",
     "bytes": 34150,
     "sha256": "99005d9c84a9d978cea6af75866e2226c359282f5caca10ef2b97c1c4fbb7a71",
-    "mtime": "2026-09-23T11:00:54.407Z"
+    "mtime": "2026-09-25T03:35:40.065Z"
    },
    {
     "file": "tests/lib-w275b-meshfield.mjs",
     "bytes": 22488,
     "sha256": "1fc47d3dfd8ed8eaac7656a8c95a7ecd48486a8e1ac9ef8466cc9fd3bb9e6534",
-    "mtime": "2026-09-22T06:21:31.427Z"
+    "mtime": "2026-09-25T03:35:39.565Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-09-25T03:45:28.121Z"
    }
   ],
-  "codeSha256": "1550a90a267f8281f483d19f56ec5338daa2ba5fbe3b77145a140f34b06789cf",
+  "codeSha256": "e803c4d4b68003e9c2aca19677c180faa035d5a3bad32638c516a5fc29c0582d",
   "harnessVersion": "w278d-bgequiv-1",
   "libVersion": "w278d-bgequiv-1",
   "steps": [
@@ -67,6 +67,61 @@
    "新発見",
    "v1.45.0 RC を切った",
    "観測と合った"
+  ],
+  "scope": {
+   "version": "w281a-scope-1",
+   "presets": [
+    "earthMoonRealKF1",
+    "plutoCharonReal",
+    "psrDoubleAB"
+   ],
+   "roots": [
+    "$",
+    "HP.BG_TIDAL_DIMS",
+    "HP.BG_TIDAL_NESTED",
+    "HP.BG_TIDAL_REQUIRED",
+    "HP.BG_TIDAL_UNIT",
+    "HP.allPresets",
+    "HP.sim",
+    "HP.validateBackgroundTidal",
+    "HP.validatePreset",
+    "T",
+    "applyQLock",
+    "ch",
+    "ctx",
+    "dfmField",
+    "dfmGeoToyStep",
+    "dfmLocalMeshField",
+    "isNum",
+    "validateBackgroundTidal",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 953,
+   "segments": 873,
+   "closureShare": 0.3779
+  },
+  "scopeSha256": "8713db2f1ed44cf81837d985ae054699aa90fdb2ec6a9643e7a31856022a8ecd",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/out/bgpredict-w276a.json",
+    "stableSha256": "ae70afc83040a47202e2f2eac17edcc35c458e84f2cff1c89f357e62e827477f"
+   }
+  ],
+  "volatileKeys": [
+   "generatedAt",
+   "when",
+   "wallSec",
+   "wallClock",
+   "wallS",
+   "spentSec",
+   "rateStepsPerSec",
+   "mtime",
+   "measuredAt",
+   "elapsedSec"
   ]
  },
  "gate": {
@@ -4870,5 +4925,5 @@
   }
  },
  "pageErrors": [],
- "elapsedS": 97.479
+ "elapsedS": 94.765
 }

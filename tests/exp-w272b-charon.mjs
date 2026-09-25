@@ -54,6 +54,20 @@
 //      この系列は**正本 `tests/out/charon-w272b.json` を 1 バイトも触らず**
 //      `tests/out/charond0-w275b.json` へ書く(併合鍵は同じ 6 成分で作る)。
 //
+//   ■ 第281便a(原仮定者の裁定(第71報)・AN16 採用・統括の検証項目 R71)—— **現行列と履歴列の分離・段の分離**
+//   ・**現行列** = C0 / C1 / C3 / C5 / C6 / S(`tests/out/charon-w272b.json` に残す)。
+//     **履歴列** = C2 / C4 / C7(`tests/out/charon-history-w272b.json` —— `role:"history"`・対象 html の hash は
+//     生成当時〔53aaa64 の beta/index.html〕のまま固定・**再生成しない**・現行の結論に昇格させない)。
+//     転記は `tests/exp-w281a-charonsplit.mjs` が 1 度だけ行う(本器は履歴列を走らせない —— `--only C2` 等で
+//     明示したときだけ走り、そのときも正本〔現行〕へは書かず probe へ落とす)。
+//   ・**段の分離**: 既定の列は h/h2 段 = 現行列の全部(23 列)、**h4 段 = C0/C1/C6 だけ**(5 列)。
+//     C3/C5/S は **h/h2 まで**(次数は立てない —— `stageDiffs` に h→h2 の差だけを刻む)。旧 3 段(h/h2/h4)の
+//     収束確認はその 3 系列については履歴(`charon-history-w272b.json` の `stageOrders`)にある。
+//   ・併合: 鍵(第273便b の 6 成分)が一致すれば従来どおり併合する。鍵が**対象 html の hash だけ**で違い、
+//     旧正本の `scopeSha256`(本器の領域宣言 REGEN_SCOPE の hash)が今の html でも同じなら、旧段は
+//     **「転記」**として残す(`carried` 欄に生成時刻・当時の targetSha256・scopeSha256 を刻む)。
+//     今回走らせた段以外はすべて `carried` を持つ(走らせた段は持たない)。
+//
 // 実行:
 //   PLAYWRIGHT_CORE_DIR=/opt/node22/lib/node_modules/playwright node tests/exp-w272b-charon.mjs [--stage h|h2|h4]
 //       [--only C0,C1,C2_k0.3,…] [--pilot] [--steps N] [--D0 rule|v1,v2,…]
@@ -83,9 +97,17 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 // 第276便b(第66報 (2)): 診断コピーの単位換算(受理下限 ε=0.01 単位の実長さを下げるため)
 import { unitChangeSpec, ACCEPT_LIMITS, epsFloorMeters, acceptedDynamicRange, UNITS_VERSION }
   from './lib-w276b-units.mjs';
+// 第281便a(原仮定者の裁定(第71報)・AN16・統括の検証項目 R71): **この器が読む html の領域**の宣言。
+//   `tests/lib-w281a-scope.mjs` がこの領域だけの hash(`scopeSha256`)を正本の meta に刻む。
+//   `lint.provenanceMeta` ② は「targetSha256 一致 **または**(scopeComplete かつ scopeSha256 が今の html で
+//   引き直した値と一致)」で通す。`lint.regenScope` が「宣言 ⊇ 器のコードから機械で引いた下限
+//   (HP.*・html の最上位名・内蔵プリセット id)」を照合する。**1 行の JSON**(lint が読む)。
+import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
+const REGEN_SCOPE = {"presets":["alphaCenAB","neptuneReal","plutoCharonReal","psrB1534DFM","psrDoubleABDFM","psrJ1757DFM","psrJ1946DFM","siriusAB","venusReal"],"roots":["$","DT","HP.allPresets","HP.dfmBinaryChi","HP.dfmBinaryMassFactor","HP.dfmBinaryMassFactorLinear","HP.sim","HP.validatePreset","SCALE_DIMS","T","applyQLock","ch","clamp","ctx","isNum","scaleExpT","validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
+const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);   // 第281便a: 走行開始時の html の領域
 const INDEX = 'file://' + path.join(ROOT, TARGET);
 const OUT = path.join(ROOT, 'tests', 'out', 'charon-w272b.json');
 const CALAUDIT = path.join(ROOT, 'tests', 'out', 'calaudit-w249.json');
@@ -116,6 +138,11 @@ const STEPS = PILOT ? 2100000 : Number(getArg('--steps', STAGES[STAGE].steps));
 const DT = STAGES[STAGE].dt;
 const KF_SERIES = [0, 0.1, 0.3, 0.5, 0.7, 1];
 const EPS_SERIES = [0.05, 0.025, 0.0125];
+// 第281便a: 現行列・履歴列・h4 段の既定列(契約 —— docs/PHYSICS.md〔第281便a〕と QA docs.charonSeries が同じ集合を持つ)
+const CURRENT_SERIES = ['C0', 'C1', 'C3', 'C5', 'C6', 'S'];
+const HISTORY_SERIES = ['C2', 'C4', 'C7'];
+const H4_SERIES = ['C0', 'C1', 'C6'];
+const HISTORY_OUT = path.join(ROOT, 'tests', 'out', 'charon-history-w272b.json');
 
 const sha = (b) => crypto.createHash('sha256').update(b).digest('hex');
 const targetSha256 = sha(fs.readFileSync(path.join(ROOT, TARGET)));
@@ -281,8 +308,13 @@ if (EPS_MODE) {
 }
 
 // `--D0` を付けたときは **D 系列だけ**を走らせる(既存の正本を 1 バイトも触らないため)
+// 第281便a: 既定(`--only` 無し)は**現行列**だけ・h4 段は C0/C1/C6 だけ。履歴列は `--only` で明示したときだけ
+//   走り、そのときは正本へ書かない(下の HISTORY_RUN)。
+const DEFAULT_SERIES = (STAGE === 'h4') ? H4_SERIES : CURRENT_SERIES;
 const run = COLUMNS.filter((c) => (EPS_MODE ? c.series === 'E' : (D0ARG ? c.series === 'D' : true)))
-  .filter((c) => !ONLY.length || ONLY.includes(c.id) || ONLY.includes(c.series));
+  .filter((c) => (ONLY.length ? (ONLY.includes(c.id) || ONLY.includes(c.series))
+    : (EPS_MODE || D0ARG || DEFAULT_SERIES.includes(c.series))));
+const HISTORY_RUN = !EPS_MODE && !D0ARG && run.some((c) => HISTORY_SERIES.includes(c.series));
 
 // ---------------------------------------------------------------- 走行
 const SEC = Math.pow(10, base.scaleExpT);   // 1 時間単位 = 10^T 秒
@@ -341,7 +373,18 @@ const OUT_USED = EPS_MODE ? path.join(ROOT, 'tests', 'out', 'charoneps-w276b.jso
   : (D0ARG ? path.join(ROOT, 'tests', 'out', 'charond0-w275b.json') : OUT);
 let prev = null;
 try { prev = JSON.parse(fs.readFileSync(OUT_USED, 'utf8')); } catch { prev = null; }
-const MD = charonMergeDecision(prev && prev.meta, MK);
+let MD = charonMergeDecision(prev && prev.meta, MK);
+// 第281便a: 鍵の違いが**対象 html の hash だけ**で、旧正本の領域 hash が今の html でも同じなら旧段を「転記」で残す
+if (prev && !MD.accept && W281A_SCOPE.scopeComplete && prev.meta && prev.meta.scopeComplete === true
+  && prev.meta.scopeSha256 === W281A_SCOPE.scopeSha256) {
+  // 鍵の 6 成分のうち、**対象 html の hash** と **観測入力ファイルの hash**(calaudit は常時群で毎回書き直される)
+  // だけを旧値に置き換えて鍵を作り直し、旧鍵と一致すれば(= 測定コード・候補式・採用行〔key/recordId/値/σ〕・
+  // 窓・段の步数が同じ)旧段を残す。
+  const pp = prev.meta.mergeKeyParts || {};
+  const oldKey = charonMergeKey(Object.assign({}, MK.parts, { targetSha256: pp.targetSha256, obsSha256: pp.obsSha256 }));
+  if (oldKey.key === prev.meta.mergeKey) MD = { accept: 'scope', reasons: ['対象 html と観測入力ファイルの hash だけが違い、'
+    + '領域 hash(REGEN_SCOPE)と採用行が一致 —— 旧段を転記で残す'] };
+}
 if (prev && !MD.accept) {
   console.error('併合鍵が違う走行は混ぜない(既存を捨てる): ' + MD.reasons.join(' / '));
   prev = null;
@@ -349,15 +392,41 @@ if (prev && !MD.accept) {
   console.log('併合: ' + MD.reasons[0]);
 }
 const merged = (prev && prev.columns) ? prev.columns : {};
+// 第281便a: 今回走らせない段は「転記」(旧走行の生成時刻・当時の targetSha256・scopeSha256 を刻む)
+const CARRY = prev && prev.meta ? { mark: '転記', fromGeneratedAt: prev.meta.generatedAt || null,
+  fromTargetSha256: prev.meta.targetSha256 || null, fromScopeSha256: prev.meta.scopeSha256 || null } : null;
+for (const byStage of Object.values(merged))
+  for (const st of Object.keys(byStage)) if (CARRY && !byStage[st].carried) byStage[st].carried = CARRY;
 for (const [id, r] of Object.entries(results)) {
   merged[id] = merged[id] || {};
   merged[id][STAGE] = { ...r, mergeKey: MK.key, canonicalRun: CANON.canonical };
+}
+// 第281便a: **現行の正本には現行列だけを残す**(履歴列 C2/C4/C7 と、C3/C5/S の h4 段は履歴ファイルにある)
+if (!EPS_MODE && !D0ARG) {
+  for (const id of Object.keys(merged)) {
+    const byStage = merged[id];
+    const any = byStage.h || byStage.h2 || byStage.h4 || {};
+    const series = any.series || String(id).split('_')[0];
+    if (HISTORY_SERIES.includes(series)) { delete merged[id]; continue; }
+    if (!H4_SERIES.includes(series) && byStage.h4) delete byStage.h4;
+  }
 }
 
 // ---------------------------------------------------------------- 3 段そろった列の次数と ε̂
 // 規約は第271便a と同じ: p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})|・**ε̂=|Q_{h/2}−Q_{h/4}|/(2^p−1)**・
 // 次数は**連続 2 段差が同符号のときだけ**立てる。**判定はしない**(門は統括の器が持つ)。
 const stageOrders = {};
+// 第281便a: h/h2 までの列(C3/C5/S)は次数を立てない —— h→h2 の差だけを刻む(旧 3 段の確認は履歴ファイル)
+const stageDiffs = {};
+for (const [id, byStage] of Object.entries(merged)) {
+  if (!byStage.h || !byStage.h2 || byStage.h4) continue;
+  const q = [byStage.h.rev2Sec, byStage.h2.rev2Sec];
+  if (!q.every((z) => Number.isFinite(z))) continue;
+  stageDiffs[id] = { stages: q, d1: q[1] - q[0], upTo: 'h2',
+    d1Sigma: (OBS && OBS.sigma > 0) ? (q[1] - q[0]) / OBS.sigma : null,
+    note: '**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は '
+      + 'tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)' };
+}
 for (const [id, byStage] of Object.entries(merged)) {
   if (!byStage.h || !byStage.h2 || !byStage.h4) continue;
   const q = [byStage.h.rev2Sec, byStage.h2.rev2Sec, byStage.h4.rev2Sec];
@@ -407,6 +476,10 @@ const out = {
     observation: OBS, secondsPerUnit: SEC,
     notClaim: ['カロンの合否', '新発見', 'kFrame≈0 の法則化', '潮汐ロックの証明', '引きずり式の確定'] },
   declaredSystems: declared, referenceCases: refCases, stageOrders,
+  ...((EPS_MODE || D0ARG) ? {} : { stageDiffs,
+    split: { version: 'w281a-split-1', currentSeries: CURRENT_SERIES, historySeries: HISTORY_SERIES,
+      h4Series: H4_SERIES, historyFile: 'tests/out/charon-history-w272b.json',
+      note: '第281便a(AN16): 現行列と履歴列を分けた。履歴列は再生成しない・現行の結論に昇格させない' } }),
   fLinearAtKF: fLinAt, fLinearAtCandidate: fLinCand, candidateK: candK,
   columns: merged, pageErrors };
 // 第275便b: D 系列の正本には**来歴**(第272便e の形)と**背景規則の材料**を足す。
@@ -456,7 +529,22 @@ if (EPS_MODE) {
     notClaim: ['ε を小さくすれば ❄️ が観測と合う', '残差ゼロの ε を採用した', 'ε の既定を変えた',
       'カロンの合否', '単位を変えたら物理が変わった', '新発見'] });
 }
-if (CANON.canonical) {
+Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, ['tests/out/calaudit-w249.json']));   // 第281便a: 領域 hash の 3 欄 + 観測入力の安定 hash
+// 第281便a: 器と lib の刻印(再生成計画 tools/regen-plan.mjs が「コードが変わったか」を読む —— D/E 系列の正本は既に持つ)
+if (!EPS_MODE && !D0ARG) {
+  const pm = provenanceMeta({ root: ROOT, target: TARGET, code: ['tests/exp-w272b-charon.mjs', 'tests/lib-w273b-charonpage.mjs',
+    'tests/lib-w273b-mergekey.mjs', 'tests/lib-w272b-pairlock.mjs', 'tests/lib-w275b-dsplit.mjs', 'tests/lib-w276b-units.mjs',
+    'tests/lib-w272e-provenance.mjs'] });   // 領域 hash の lib は刻まない(領域は lint が今の lib で引き直して照合する)
+  out.meta.code = pm.code; out.meta.codeSha256 = pm.codeSha256;
+}
+if (CARRY) out.meta.carriedStages = [...new Set(Object.values(merged).flatMap((z) => Object.keys(z).filter((k) => z[k].carried)))].sort();
+out.meta.mergeDecision = { accept: MD.accept, reasons: MD.reasons };
+if (CANON.canonical && HISTORY_RUN) {
+  // 第281便a: 履歴列を明示して走らせた走行は**現行の正本にも履歴の正本にも書かない**(履歴は再生成しない)
+  fs.mkdirSync(path.dirname(PROBE_OUT), { recursive: true });
+  fs.writeFileSync(PROBE_OUT, JSON.stringify({ meta: out.meta, results }, null, 1));
+  console.log('履歴列(' + HISTORY_SERIES.join('/') + ')を含む走行なので正本へは書かない → ' + PROBE_OUT);
+} else if (CANON.canonical) {
   fs.mkdirSync(path.dirname(OUT_USED), { recursive: true });
   fs.writeFileSync(OUT_USED, JSON.stringify(out, null, 1));
   console.log('wrote ' + OUT_USED + ' (' + Object.keys(merged).length + ' columns)');

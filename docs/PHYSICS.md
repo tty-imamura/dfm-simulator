@@ -25816,6 +25816,64 @@ mutual:1 の 2 体は χ≈1 で行列式が 0 に近く(第279便c の「mutual
 
 **言わないこと。** 「D68 が合(3σ)」「観測一致を達成した」「C を再 fit した」「引きずりで説明できた」「e*=0.001 のコピーで観測を再現した」「新発見」。
 
+〔第281便a — 再生成範囲便(領域 hash・履歴列の分離・段の分離・再生成計画)〕
+
+原仮定者の裁定(第71報)「AN16 を採用。カロン以外も全サンプルの再生成範囲を確認し、基本的に採用」と統括の検証項目 R71。**html・物理・内蔵 140 本・較正 37 本は 1 bit も変えていない**(beta/index.html の sha256 は基点 53aaa64 と同じ b7635fca…・4 値 **0/2/2/33** 不変・`S._core` 35197 字)。変えたのは**正本 JSON の縛り方**と、❄️ 対照系列の**列と段の契約**である。
+
+**① 領域 hash(`tests/lib-w281a-scope.mjs`・版 w281a-scope-1)。** 正本はこれまで「target = html 全体の sha256」で縛られ、CSS を 1 行変えても html を読む正本は全部「走らせ直せ」になった。器(exp-*.mjs)に**読む html の領域**を 1 行の JSON で宣言させる —— `const REGEN_SCOPE = {"presets":[…],"roots":[…],"core":true,"consts":[],"complete":true}`。領域 hash(`scopeSha256`)は次の正準 JSON の sha256: (a) 宣言したプリセットの**生の定義**(`BUILTIN_PRESETS` の要素 —— `sim.build` が読むのはこちら)と**受理後の定義**(`validatePreset(p)` の preset・ok・legacyCore・kFrameSnapped)。説明文だけの欄(`PROSE_KEYS` = descStruct・en・description・status・notClaim・obsCard・failureFirst・parameterAudit・fidelity・emoji・familyRole)は除く (b) roots(最上位の宣言名か `HP.<名前>`)から**最上位の識別子を辿った依存閉包**の本文(コメントを除いた原文)。閉包の名前を書き換える最上位の文(`X.k=…`・`X.push(…)`)と、閉包の let/var へ代入する閉包の外の関数も入れる。`BUILTIN_PRESETS`(宣言したプリセットだけを (a) で入れる)と文言の表 `I18N` は辿らない (c) `S._core` の本文(headless で `HP.sim._core.toString()`) (d) 宣言した定数の評価値。**完全性**: 宣言が `complete:true`・括弧の収支 0・動的な最上位参照(`window[`・`HP[`・`eval(`・`new Function(`)0・宣言した名前とプリセットがすべて見つかる、のときだけ `scopeComplete:true`。閉包は**静的な識別子の閉包(過大近似)**で、今の html では宣言した 20 器とも名前 953〜959 個・inline script の約 38% になる(物理の閉包がひとかたまりに繋がっているため —— UI の描画・文言・生成領域 sample-status・他のプリセットは入らない)。
+
+**② 来歴と lint。** 版は **w272e-1 のまま**(`tests/lib-w272e-provenance.mjs` は 1 バイトも変えていない —— 変えると、その lib を `code[]` に刻んだ既存 53 本の ④ が全部動く)。領域を宣言した器だけが `scopeStamp` で `scope`・`scopeSha256`・`scopeComplete` の 3 欄と、JSON 入力の**安定 hash**(`inputsStable` —— 時刻・wall 秒の欄 `VOLATILE_KEYS` を除いた正準 JSON の sha256)を meta に足す。`lint.provenanceMeta` ② は「targetSha256 一致 **または**(scopeComplete かつ scopeSha256 が**今の html で引き直した値**と一致)」、③ は「sha256 一致 **または** 安定 hash 一致」で通す。`targetSha256` は生成当時の値のまま(付け替えない)。常時群の calaudit は毎回書き直されるので(`when`・`wallSec` が変わる)、安定 hash が無いと後段は中身が同じでも毎回「走らせ直せ」になる —— これが安定 hash を足した理由である。正本を読む各 QA の ①(charonSeries・charonKScan・charonFactors・j1946 採用・bgequiv・bgbudget2・水星・nslock・charonInput・geo3)も同じ規則にした。
+
+**③ ❄️ 対照系列の分離(契約変更)。** 現行列 = **C0/C1/C3/C5/C6/S**(23 列 —— `charon-w272b.json`)。履歴列 = **C2/C4/C7**(15 列の全段)と、**h4 段を C0/C1/C6 の 5 列に絞った**ことで現行から外れた C3/C5/S の h4 段(18 列)を `charon-history-w272b.json` へ**値を 1 つも変えずに 1 度だけ**写した(`tests/exp-w281a-charonsplit.mjs`・写し元は 53aaa64 の正本・`role:"history"`・`frozen:true`・targetSha256 は写し元の走行の html のまま・**再生成しない・現行の結論に昇格させない**)。C3/C5/S は **h/h2 まで**で次数を立てず、`stageDiffs` に h→h2 の差だけを刻む(旧 3 段の収束確認は履歴の `stageOrders`)。器の既定列は h/h2 段が現行 23 列・h4 段が C0/C1/C6 だけ。履歴列は `--only` で明示したときだけ走り、そのときも正本へは書かない。併合は第273便b の鍵のまま、鍵の違いが**対象 html と観測入力ファイルの hash だけ**で領域 hash と採用行が同じなら旧段を**「転記」**(`carried` 欄)で残す。C2/C4/C7 を読んでいた器・QA は `docs.charonSeries` の本数だけで(calaudit は C1・issues は S/C6・kf0ledger 旧/新は C0/C1/S・pairlock は notClaim の綴りだけ)、付け替えたのは docs.charonSeries ③(現行 6 系列 23 列 + 履歴 3 系列 15 列・h4 は C0/C1/C6 だけ)である。D₀ 系列 `charond0-w275b.json` は**履歴**(D₀ の規則が変わるときだけ再走)、ε 系列 `charoneps-w276b.json` は **h 段だけ**を再生成して h2/h4 を転記した。
+
+**④ 領域を宣言した器と、本便で再生成した正本(20 器・21 本 —— 所要は本便の再生成の実測 / Chromium 1 本 + node 1 本)。** 値は再生成の前後で**時刻・wall 秒と meta を除いてすべて同一**(`nslockledger` だけ 1 欄違う —— 下の ⑦)。宣言 = プリセット数 / roots 数・閉包の名前数。
+
+| 器 | 正本 | プリセット | roots / 名前 | scopeSha256(先頭) | 所要 |
+|---|---|---|---|---|---|
+| exp-w272b-charon(h 段だけ・h2/h4 転記) | charon-w272b | 9 | 17 / 959 | 981af8ac80fe | 677 s |
+| 同(`--eps rule` の h 段だけ・h2/h4 転記) | charoneps-w276b | 9 | 17 / 959 | 981af8ac80fe | 212 s |
+| exp-w280b-emgrid(4 部分 + 併合・node) | emgrid-w280b | 5 | 37 / 954 | 2b927f21cdd3 | 2295 s |
+| exp-w280c-geo3(`W280_BASE`) | geo3-w280c | 34 | 22 / 953 | e9b245424639 | 1016 s |
+| exp-w280d-charonInput | charoninput-w280d | 5 | 16 / 955 | 15704963b582 | 603 s |
+| exp-w273b-charonk | charonk-w273b | 1 | 17 / 959 | 5148e50526ea | 979 s |
+| exp-w271d-galaxydiag | galaxydiag-w271d | 2 | 12 / 953 | ef53a785ec35 | 352 s |
+| exp-w276b-charonfactors | charonfactors-w276b | 1 | 17 / 959 | 5148e50526ea | 308 s |
+| exp-w280a-mercury | mercury-w280a | 32 | 13 / 953 | f9b27a34077e | 284 s |
+| exp-w274d-shapetoy | shapetoy-w274d | 3 | 13 / 953 | ad4f7bb2aeb1 | 265 s |
+| exp-w269c-sparc | sparc-w269c | 3 | 12 / 953 | 0aa91ab585d9 | 192 s |
+| exp-w276d-corefield | corefield-w276d | 5 | 13 / 953 | dbcc7be30514 | 187 s |
+| exp-w280e-d68 | d68-w280e | all | 13 / 953 | 4beb46875598 | 153 s |
+| exp-w270c-j1946adopt | j1946adopt-w270c | 3 | 14 / 959 | f0a54e05a9d2 | 149 s |
+| exp-w275d-shapecrit | shapecrit-w275d | all | 11 / 953 | 109f6778a5db | 106 s |
+| exp-w278d-bgequiv | bgequiv-w278d | 3 | 19 / 953 | 8713db2f1ed4 | 96 s |
+| exp-w278b-charonwin | charonwin-w278b | 2 | 17 / 955 | 6fce10815b2f | 87 s |
+| exp-w269d-cluster | cluster-w269d | 3 | 14 / 953 | d476502e38e2 | 84 s |
+| exp-w279c-bgbudget2 | bgbudget2-w279c | 4 | 18 / 953 | 95648530c0ff | 77 s |
+| exp-w277b-charondfm | charondfm-w277b | 2 | 18 / 956 | e762ea73d5f4 | 76 s |
+| exp-w272c-nslock | nslock-w272c | 9 | 10 / 953 | 29600dd2e260 | 688 s |
+
+宣言できていない(html 全体のまま)の器: bh90・qsplit・bhcore・galaxyprof・needmesh・galaxylite・galaxyprof2・presetaxes・kfgate・d0audit・meshnod0・bgfield・d0audit2・bgpredict・selfinertia・bgbudget(w277d)・slipaudit・bgcompose・sphereKernel(と常時群の kf0ledger 旧/新・samplestatus)。どれも実測 53 秒以下(合計 199 秒)なので本便では宣言していない。
+
+**⑤ 検証(実測)。** (a) 53aaa64 の html(= 今の html)で 21 本すべての scopeSha256 を引き直して一致。(b) `--bg` の値だけ変えた html(sha256 08ce3565…)では、CANON の 54 本のうち宣言した 19 本が**領域一致**で通り、宣言の無い html 対象の 22 本が ② で落ち、html を読まない 11 本は target 一致のまま、履歴 2 本は照合外(charon-w272b・nslock-w272c は CANON の外で、各 QA の ① が同じ規則で通る)。(c) ❄️ の冥王星の質量の最下位桁を 1 つ変えた html(0.001303 → 0.001304)では、❄️ を領域に含む 10 本(charonk・charoneps・charonfactors・bgequiv・bgbudget2・mercury・charonInput・geo3・shapecrit〔all〕・d68〔all〕)が落ち、❄️ を含まない 9 本(sparc・cluster・galaxydiag・j1946adopt・shapetoy・corefield・charondfm・charonwin・emgrid)は領域一致のまま通る。(d) `assessed --check` 一致・4 値 **0/2/2/33**(samplestatus の `four`)・`samplestatus --check` 一致(html は変わらない)。(e) 部分実行の結果は ⑧。
+
+**⑥ 再生成計画(`tools/regen-plan.mjs` —— 表 `tests/lib-w281a-regentable.mjs` の 79 段)と所要の見積り(実測秒の和・逐次)。**
+
+| 条件 | 常時 | 再生成 | 再計画(recheck) | 再利用 | 履歴 | 下限(常時+再生成) | 上限(+recheck) |
+|---|---|---|---|---|---|---|---|
+| 今の html(基点と同じ) | 11(5993 s) | 8(11 s) | 9(5923 s) | 49 | 2 | 1.67 h | 3.31 h |
+| CSS だけ変えた一時コピー | 11(5993 s) | 28(199 s) | 10(6075 s) | 28 | 2 | 1.72 h | 3.41 h |
+| ❄️ の質量を 1 bit 変えた一時コピー | 11 | 42(7810 s) | 0 | 24 | 2 | 3.83 h | 3.83 h |
+
+「再計画」は自分の領域・コード・入力は一致しているが、依存先(常時群の calaudit 等)が走る段 —— 依存先が走った後に計画し直し、入力の安定 hash が同じなら再利用に戻る(戻るかは calaudit の中身次第なので下限と上限で書く)。比較: 新しい表で全段を走らせると 5.49 h、旧契約(❄️ 3 段 38 列 7988 s・D₀ 系列 1402 s を含む)では 7.32 h(どれも第280便の chain の 4 本並列と本便の実測の和)。❄️ 対照系列だけでは 3 段 7988 s → 2784 s。
+
+**⑦ 再生成で見つかったこと。** `nslockledger-w273c.json` の 1 欄(行 3 の変種 `newton`)が、基点の正本では null、本便の再生成では値あり。第280便の chain で nslockledger(chain2)が nslock(chain1)の書き終わりより前に走っていたため(ログの時刻 16:34 対 16:38)、基点の正本は 1 つ前の nslock から作られていた。表では nslockledger を nslock の後に置いた(`after`)。kf0 棚卸し表 2 本は再生成の前後で同一。
+
+**⑧ QA。** 新設 `lint.regenScope`(①表が CANON を覆う ②宣言 ⊇ 下限・刻印 = 宣言 ③常時群 11 段 ④履歴は現行の入力に無い ⑤切り出しの信用 ⑥感度の自己試験 —— root は SKIP)。変更 `lint.provenanceMeta`(②③の規則・履歴・CANON に charon-history-w272b.json を足して 54 本)・`docs.charonSeries`(③ を現行 6 系列 23 列 + 履歴 3 系列 15 列・h4 は C0/C1/C6 の 5 列・h/h2 までの差 18 列へ)・対象一致の ① を領域一致も可にした 10 ブロック(j1946adoptPublished・charonSeries・charonKScan・charonFactors・bgEquivalence・bgbudget2-sync・mercuryDecomp・nsLockBranch・charonInput・geo3-sync)。部分実行 48 ブロック ALL PASS(lint 2・正本を読む 46)。
+
+**⑨ 否定結果・未解決(そのまま残す)。** ① 閉包は物理の中核がひとかたまりに繋がっているので、宣言した 20 器の領域は互いにほぼ同じ大きさになる(プリセットの差だけが効く)—— 力学の関数を 1 行変えれば全部「再生成」になる(過大近似の代償で、漏らすより多めに再生成する)。② 閉包の外の関数が閉包の**オブジェクトのプロパティ**を書き換える経路(UI の操作ハンドラ)は辿らない —— 宣言した器は UI を操作しないことを確かめたが、機械の保証ではない。③ `charonk` の h/h2 化は器の契約(docs.charonKScan ④ の 3 段と次数)を変えるので本便では入れていない(計画は従来どおり 3 段)。④ geo3 の項目 g・h は基点 html(`W280_BASE`)を読むが、その html は領域にも入力にも刻まれていない(第280便からの既存の欠け)。⑤ 所要秒は第280便の chain(4 本並列)と本便の再生成の実測で、並列度で変わる見積りである。
+
+**言わないこと。** 「再生成が不要になった」(常時群と依存先は毎回走る)・「領域が一致したから結果が同じ」(一致は同じ領域を読んだことだけを意味する)・「履歴列の結論」・「カロンの合否」・「新発見」。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、

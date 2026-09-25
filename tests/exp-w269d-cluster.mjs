@@ -35,11 +35,19 @@ import { richardson3, protocolDeclaration } from './lib-w265a-analogy.mjs';
 import { STATES, stateRecord, numericalVerdict, halfRadiusRatioTheory } from './lib-w269d-state.mjs';
 // 第272便e(AG11): 来歴(targetSha256・codeSha256・generatedAt・wave)は共通の 1 本で作る。
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
+// 第281便a(原仮定者の裁定(第71報)・AN16・統括の検証項目 R71): **この器が読む html の領域**の宣言。
+//   `tests/lib-w281a-scope.mjs` がこの領域だけの hash(`scopeSha256`)を正本の meta に刻む。
+//   `lint.provenanceMeta` ② は「targetSha256 一致 **または**(scopeComplete かつ scopeSha256 が今の html で
+//   引き直した値と一致)」で通す。`lint.regenScope` が「宣言 ⊇ 器のコードから機械で引いた下限
+//   (HP.*・html の最上位名・内蔵プリセット id)」を照合する。**1 行の JSON**(lint が読む)。
+import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
+const REGEN_SCOPE = {"presets":["galaxy","tuc47","tuc47DFM"],"roots":["$","HP.allPresets","HP.sim","HP.validatePreset","T","applyQLock","ch","clamp","ctx","isNum","presetSig","render","sim","validatePreset"],"core":true,"consts":[],"complete":true};
 // 第270便e(F1): 注入文字列の `import` を **Node 側で解決した配列**に差し替えるための実体。
 const SHARED_STATES_RESOLVED = STATES.slice();
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
+const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);   // 第281便a: 走行開始時の html の領域
 const INDEX = 'file://' + path.join(ROOT, TARGET);
 const OUT = path.join(ROOT, 'tests', 'out', 'cluster-w269d.json');
 const argv = process.argv.slice(2);
@@ -345,6 +353,7 @@ out.contracts = {
 out.geometry = { theory: halfRadiusRatioTheory({ plummerScale: facts[0].plummerScale,
   truncationRadius: facts[0].diskRadius }), measured: null };
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
+Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs));   // 第281便a: 領域 hash の 3 欄 + JSON 入力の安定 hash
 fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
 
 // ---- 走行
@@ -385,6 +394,7 @@ for (const spec of COLUMNS) {
       + ` R2d=${f4(e.halfMassRadius2D)} rCore=${f4(e.coreRadiusHalfDensity)}`
       + ` σ=${f4(e.sigmaInPlaneProxyAll)} 束縛=${r.end && r.end.bound ? (r.end.bound.countFraction * 100).toFixed(1) + '%' : '—'}`
       + `  [${((Date.now() - tAll) / 1000).toFixed(0)} s]`);
+    Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs));   // 第281便a: 領域 hash の 3 欄 + JSON 入力の安定 hash
     fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
   }
   for (const ck of CKEYS) {
@@ -412,6 +422,7 @@ for (const spec of COLUMNS) {
       ? s.end.massCentroid.halfMassRadius2D / s.end.massCentroid.projectedHalfMassRadius : null)),
     endOrigin: col.stages.map((s) => (s.end && s.end.origin && s.end.origin.projectedHalfMassRadius
       ? s.end.origin.halfMassRadius2D / s.end.origin.projectedHalfMassRadius : null)) };
+  Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs));   // 第281便a: 領域 hash の 3 欄 + JSON 入力の安定 hash
   fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
 }
 
@@ -469,6 +480,7 @@ for (const spec of COLUMNS) {
     })(),
     doNotSay: ['ビリアル平衡に置いた', '2K/|U|=1 を満たしている', '初期化を較正した',
       '有限標本の K を合わせた'] };
+  Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs));   // 第281便a: 領域 hash の 3 欄 + JSON 入力の安定 hash
   fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
 }
 
@@ -688,11 +700,13 @@ out.v1bDesign = {
     htmlUntouched: false,
     doNotSay: ['σ hold-out が成立した', 'σ hold-out の不成立が確定した', '観測と合った',
       '対応を宣言した', 'html を直した'] };
+  Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs));   // 第281便a: 領域 hash の 3 欄 + JSON 入力の安定 hash
   fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
 }
 
 out.meta.spentSec = +((Date.now() - tAll) / 1000).toFixed(1);
 out.pageErrors = pageErrors;
 await browser.close();
+Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs));   // 第281便a: 領域 hash の 3 欄 + JSON 入力の安定 hash
 fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
 console.error('[w269d-cluster] wrote ' + OUT + '  (' + out.meta.spentSec + ' s)');

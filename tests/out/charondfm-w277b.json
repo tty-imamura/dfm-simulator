@@ -25,36 +25,84 @@
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
   "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-  "generatedAt": "2026-09-24T21:38:17.904Z",
+  "generatedAt": "2026-09-25T04:12:06.877Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 4758438,
     "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-    "mtime": "2026-09-24T16:22:58.318Z"
+    "mtime": "2026-09-25T03:35:30.689Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w277b-charondfm.mjs",
-    "bytes": 47588,
-    "sha256": "4e5c49bca4e60a863f4c086af3fc436ee039391c86d7a1f23c10bcc5c417730e",
-    "mtime": "2026-09-23T11:03:31.996Z"
+    "bytes": 48984,
+    "sha256": "43badace7feff3fd7c454e830436c4aaa52edd5218c7fb1d17f6f4b2a2820984",
+    "mtime": "2026-09-25T03:55:57.669Z"
    },
    {
     "file": "tests/lib-w277b-charondfm.mjs",
     "bytes": 12728,
     "sha256": "4e9be37415c45969b4a4904fedd5bf791ee37efb82e6a2c80295c57bf95d205b",
-    "mtime": "2026-09-22T06:21:54.659Z"
+    "mtime": "2026-09-25T03:35:40.065Z"
    },
    {
     "file": "tests/lib-w278b-midpoint.mjs",
     "bytes": 5687,
     "sha256": "99d9c1dd77de20ef67f653ea74fdeed653e209aee15f53c9a0ad56671c54d7ea",
-    "mtime": "2026-09-23T11:03:31.996Z"
+    "mtime": "2026-09-25T03:35:40.065Z"
    }
   ],
-  "codeSha256": "08705d4f709601198406a7d51832d6a6b648be263eb2c57637e0ee9b47063036"
+  "codeSha256": "8d4c32e331d0657507190ecf6b26a46098210c82e8e5227a7c3237d999a2dc4b",
+  "scope": {
+   "version": "w281a-scope-1",
+   "presets": [
+    "plutoCharonDFM",
+    "plutoCharonKF0Control"
+   ],
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.orbitPlaneProject",
+    "HP.presetSig",
+    "HP.relativeDragProbe",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "applyQLock",
+    "ch",
+    "clamp",
+    "ctx",
+    "dfmRelativeDragMidpointStep",
+    "dfmRelativeDragStep",
+    "isNum",
+    "relativeDragMidpointGuard",
+    "relativeDragMidpointSolve",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 956,
+   "segments": 876,
+   "closureShare": 0.3792
+  },
+  "scopeSha256": "e762ea73d5f4be4fbe2d2ba2acbef559e20f43e88ec12933b4212ad89652560b",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "volatileKeys": [
+   "generatedAt",
+   "when",
+   "wallSec",
+   "wallClock",
+   "wallS",
+   "spentSec",
+   "rateStepsPerSec",
+   "mtime",
+   "measuredAt",
+   "elapsedSec"
+  ]
  },
  "inputs": {
   "note": "**数値をここで作らない** —— 一次資料の表・列の転記と、決定論的な換算だけである",
