@@ -8057,8 +8057,15 @@ if (QA_REPLAY_FAIL) {
       const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w280b-sphereKernel.mjs'));
       const Pn = L.makePure(htmlT);
       const C2 = L.nearSurface(Pn), E2 = L.earthCompare(Pn);
-      if (JSON.stringify(C2) !== JSON.stringify(J.c) || JSON.stringify(E2) !== JSON.stringify(T.e)) bad.push('⑧ いまの html で (c)(e) を引き直すと正本と違う');
-      cases.push(`ページ vs node ${pv.bitIdentical}/${pv.n} ビット一致(残りは Math.pow の最下位ビット・最大 ${sci(pv.maxRelDiff, 1)})・(c)(e) の引き直しは正本と同じ`);
+      // 第280便 統合: 引き直しの照合は**相対 1e-12** で行う(正本は Node 22 で生成・CI は Node 24 —— Math.pow/exp の最下位ビットが
+      //   プラットフォームで違い、JSON の文字列一致では CI で落ちた〔PR #282 の preflight〕。値の同一性の主張は 1e-12 で十分)
+      const nearEq = (a, b, tol) => { if (typeof a === 'number' && typeof b === 'number') return (Number.isNaN(a) && Number.isNaN(b)) || Math.abs(a - b) <= tol * Math.max(1, Math.abs(a), Math.abs(b));
+        if (Array.isArray(a) && Array.isArray(b)) return a.length === b.length && a.every((z, i) => nearEq(z, b[i], tol));
+        if (a && b && typeof a === 'object' && typeof b === 'object') { const ka = Object.keys(a).sort(), kb = Object.keys(b).sort(); return JSON.stringify(ka) === JSON.stringify(kb) && ka.every((k) => nearEq(a[k], b[k], tol)); }
+        return a === b; };
+      const RE_TOL = 1e-12;
+      if (!(nearEq(C2, J.c, RE_TOL) && nearEq(E2, T.e, RE_TOL))) bad.push('⑧ いまの html で (c)(e) を引き直すと正本と違う(相対 1e-12)');
+      cases.push(`ページ vs node ${pv.bitIdentical}/${pv.n} ビット一致(残りは Math.pow の最下位ビット・最大 ${sci(pv.maxRelDiff, 1)})・(c)(e) の引き直しは正本と相対 1e-12 で同じ`);
       const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
       const at = P.indexOf('〔第280便b — ');
       const whole = at >= 0 ? P.slice(at, at + 60000) : '';
