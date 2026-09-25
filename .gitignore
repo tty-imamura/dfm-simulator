@@ -674,3 +674,8 @@ tests/.qa-preflight-*.mjs
 !tests/out/charoninput-w280d.json
 tests/out/charoninput-w280d.json.partial
 tests/out/charoninput-w280d-pilot.json
+# 第281便d(原仮定者の裁定(第71報)「ナビエ・ストークス方程式の渦伸長が渦巻銀河の腕に似ているので参考にする」・統括の読み R75):
+#   **渦伸長便**の正本(tests/exp-w281d-strain.mjs —— 2D で渦伸長項が 0 の数値・ひずみ率の純関数の単体試験・🎠 の初期場の
+#   2 読み手の S/ω/伸び・galaxyproto/corefield の既存正本の読み)。QA behavior.strainPure・docs.vortexStretch が読み、
+#   lint.provenanceMeta が来歴を固定するのでコミットする。**エンジン未接続・門ではない**。
+!tests/out/strain-w281d.json

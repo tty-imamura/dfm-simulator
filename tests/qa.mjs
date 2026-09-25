@@ -2120,7 +2120,10 @@ if (QA_REPLAY_FAIL) {
 
       // 第280便c(第70報・R65): geoPN=3 の契約(vMinusU・pn・pnVelocity・velocityMeaning)の検算 —— 正式の判定器の
       //   抽出器と窓で ☄️❄️ の複製を測る(target=beta/index.html)
-      'tests/out/geo3-w280c.json'];
+      'tests/out/geo3-w280c.json',
+      // 第281便d(第71報・R75): 渦伸長便 —— 2D の恒等式の数値・ひずみ率の純関数の単体試験・🎠 の 2 読み手の伸び
+      //   (target=beta/index.html —— html を Node の vm で読む。inputs に galaxyproto-w276e・corefield-w276d)
+      'tests/out/strain-w281d.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -52442,6 +52445,19 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     if (barLit) need.push(String(barLit.zeroModes) + ' 本');
     for (const t of need) if (!phys.includes(t)) bad.push('⑥PHYSICS.md に正本の数値が無い: ' + t);
   }
+  // 第281便d(第71報・R75): **記録欄「伸び(strain)」= 材料線の伸び率 t̂·S·t̂**(正本 tests/out/strain-w281d.json)。
+  //   **門ではない** —— 表示に足すだけで、bad には 1 件も足さない(正本が無くても FAIL にしない)。
+  let strainRecordNote = ' / 伸び(strain・記録欄): 正本なし';
+  try {
+    const SR = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'strain-w281d.json'), 'utf8')).strainRecord;
+    const g = (r) => (SR.galaxyMeshSpiral || []).find((q) => q.r === r) || {};
+    strainRecordNote = ` / **伸び(strain)t̂·S·t̂ —— 記録欄・門ではない**(第281便d・tests/out/strain-w281d.json): `
+      + `宣言した流れ(剛体回転)の |S| ${Number(SR.galaxyprotoDeclaredFlow).toExponential(1)}・`
+      + `パターン腕 ${Number(SR.galaxyprotoPattern).toExponential(1)}・`
+      + `円盤の後行腕 ${(SR.galaxyprotoDiskTrail || []).map((d) => d.min + '〜' + d.max).join(' / ')}・`
+      + `🎠 初期場 r=20/80/240 表示 ${[20, 80, 240].map((r) => g(r).display).join('/')}・`
+      + `共通 API ${[20, 80, 240].map((r) => g(r).api).join('/')}(gate=${SR.gate})`;
+  } catch (e) { /* 記録欄 —— 読めなくても FAIL にしない */ }
   add('docs.galaxyProtoCriteria', bad.length === 0,
     `**渦巻・棒の node 試作の正本**(第276便e・第66報 (4)・tests/out/galaxyproto-w276e.json・`
     + `器 tests/exp-w276e-galaxyproto.mjs・**エンジン未接続**)/ `
@@ -52457,7 +52473,130 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       + `仮説の対応づけ ${(J.verdict || []).map((v) => v.id + '=' + String(v.inModel).replace(/\*/g, '')).join('・')} / `
       + `**腕は与えた位相結合の帰結・棒は与えた結合グラフ**(創発でも自発形成でもない)`
       : '正本なし')
+    + strainRecordNote
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 第281便d(原仮定者の裁定(第71報)「ナビエ・ストークス方程式の渦伸長が渦巻銀河の腕に似ているので参考にする」・
+// ----        統括の読み R75): behavior.strainPure ----
+// ----   ひずみ率の診断の純関数 `tests/lib-w281d-strain.mjs`(**エンジン未接続**・場のサンプラ u(x,y) を引数に取る)の
+// ----   単体試験をその場で回して固定する:
+// ----     ① lib の版が `w281d-strain-1`・許容の宣言が 1e−10
+// ----     ② 解析場 5 種(剛体回転・純ずり・純伸長・点渦・平坦回転曲線)で S・ω_z・発散・伸び t̂·S·t̂・t̂·(∇u)t̂ の
+// ----        最大誤差がすべて 1e−10 未満(null の点 0)
+// ----     ③ 剛体回転で S=0・ω=2Ω(②の行の中身を個別に見る)
+// ----     ④ 2D の場を 3 次元へ埋め込むと (ω·∇)u が**すべての点で === 0**(面内の ω 成分も === 0)・
+// ----        3D の対照(Burgers 型)は (ω·∇)U=(0,0,2Ωa) を 1e−10 で再現する(差分が「何でも 0」ではない)
+// ----     ⑤ 材料線 2 点の RK4 輸送から作った d ln ℓ/dt が t̂·S·t̂ と 1e−7 以内(独立な経路の検算)
+// ----     ⑥ 正本 `tests/out/strain-w281d.json` の単体試験と**行の並びと pass が一致**(誤差の値は Node の版で
+// ----        最下位ビットが違い得るので文字列では比べない)
+// ----   root は SKIP(beta 線の器)。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP behavior.strainPure(beta 対象でない: ' + TARGET + ' — 第281便d の器は beta 線)');
+  } else {
+    const bad = [];
+    let U = null, Lm = null;
+    try {
+      Lm = await import('file://' + path.join(ROOT, 'tests', 'lib-w281d-strain.mjs'));
+      U = Lm.runStrainUnitTests({ h: 1e-3 });
+    } catch (e) { bad.push('lib が読めない: ' + String(e).slice(0, 80)); }
+    const row = (id) => (U && U.rows.find((r) => r.id === id)) || null;
+    if (Lm) {
+      if (Lm.STRAIN_VERSION !== 'w281d-strain-1') bad.push('①版が w281d-strain-1 でない: ' + Lm.STRAIN_VERSION);
+      if (Lm.STRAIN_UNIT_TOL !== 1e-10) bad.push('①許容の宣言が 1e−10 でない');
+    }
+    for (const id of ['rigid', 'shear', 'extension', 'pointVortex', 'flatRotation']) {
+      const r = row(id);
+      if (!r) { bad.push('②行が無い: ' + id); continue; }
+      if (!(r.nNull === 0 && r.n === 20)) bad.push(`②${id} の評価点が 20 でない(null ${r.nNull})`);
+      if (!(r.maxErr < 1e-10)) bad.push(`②${id} の最大誤差 ${r.maxErr} が 1e−10 以上`);
+      if (!(r.err.lineVsStretch < 1e-14)) bad.push(`②${id} の t̂·(∇u)t̂ と t̂·S·t̂ の差 ${r.err.lineVsStretch}`);
+    }
+    const rg = row('rigid');
+    if (rg && !(rg.err.S < 1e-10 && rg.err.omega < 1e-10)) bad.push('③剛体回転で S=0・ω=2Ω でない');
+    const em = row('embed2D'), bg = row('burgers3'), ml = row('materialLine');
+    if (!em || !(em.n === 20 && em.nExactZero === 20 && em.nInPlaneZero === 20)) bad.push('④2D の埋め込みで (ω·∇)u === 0 でない点がある');
+    if (!bg || !(bg.pass && bg.stretchZ > 0)) bad.push('④3D の対照が 2Ωa を再現しない');
+    if (!ml || !(ml.pass && ml.maxErr < 1e-7)) bad.push('⑤材料線の独立検算が 1e−7 を超えた');
+    let J = null;
+    try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'strain-w281d.json'), 'utf8')); } catch (e) { J = null; }
+    if (!J) bad.push('⑥正本が読めない');
+    else if (U) {
+      const a = (J.units.rows || []).map((r) => r.id + ':' + r.pass).join(','), b = U.rows.map((r) => r.id + ':' + r.pass).join(',');
+      if (a !== b) bad.push('⑥正本の単体試験の行・pass がいまの lib と違う(器を再走する)');
+      if (J.meta && J.meta.harness !== (Lm && Lm.STRAIN_VERSION)) bad.push('⑥正本の器の版が lib と違う');
+    }
+    const e = (id) => { const r = row(id); return r && Number.isFinite(r.maxErr) ? r.maxErr.toExponential(1) : '—'; };
+    add('behavior.strainPure', bad.length === 0,
+      `**ひずみ率の診断の純関数**(第281便d・R75・tests/lib-w281d-strain.mjs・**エンジン未接続**・4 次の中心差分 h=1e−3)/ `
+      + `解析場の最大誤差(許容 1e−10): 剛体回転 ${e('rigid')}・純ずり ${e('shear')}・純伸長 ${e('extension')}・`
+      + `点渦 ${e('pointVortex')}・平坦回転曲線 ${e('flatRotation')} / `
+      + `**2D の埋め込みで (ω·∇)u === 0**: ${em ? em.nExactZero + '/' + em.n : '—'} 点(3D の対照 (ω·∇)U_z=2Ωa=${bg ? bg.stretchZ : '—'} を ${e('burgers3')} で再現)/ `
+      + `材料線の RK4 輸送 ↔ t̂·S·t̂ ${e('materialLine')}(許容 1e−7)/ 足す診断量は「伸び」t̂·S·t̂ の 1 つ・粘性項なし・門なし`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第281便d(第71報・R75): docs.vortexStretch ----
+// ----   正本 `tests/out/strain-w281d.json`(器 tests/exp-w281d-strain.mjs)と docs/PHYSICS.md〔第281便d〕の一致を固定する:
+// ----     ① 来歴(w272e-1・64 桁)・器の版・**記録欄の gate が false**(伸びは門ではない)
+// ----     ② 2D の恒等式の数値: 🎠 の 2 読み手 × 6 半径 × 64 方位 = 384 点ずつで (ω·∇)u === 0・面内の ω === 0
+// ----     ③ 単体試験が全 PASS・差分 ∇u と各読み手の解析 gradU の相対差 < 1e−6
+// ----     ④ PHYSICS〔第281便d〕に 2D で伸長項が 0 の記述(`(ω·∇)u` と `≡ 0`)と 384/384 があり、
+// ----        正本の主要数値(🎠 の 2 読み手の ⟨伸び⟩ 6 半径・材料腕のピッチの最大・t=0 の伸び・横断幅の相対変化)がそのまま載る
+// ----     ⑤ 禁止語 0(〔第281便d〕と正本〔doNotWrite を除く〕—— 「」の中の引用は除く)
+// ----   root は SKIP(beta 線の実測)。
+{
+  let J = null;
+  try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'strain-w281d.json'), 'utf8')); } catch (e) { J = null; }
+  if (!TARGET.startsWith('beta/') || !J) {
+    console.log('SKIP docs.vortexStretch(beta 対象でないか正本が無い: ' + TARGET + ' — 第281便d の実測は beta 線)');
+  } else {
+    const bad = [];
+    const M = J.meta || {};
+    if (M.provenanceVersion !== 'w272e-1' || !/^[0-9a-f]{64}$/.test(String(M.targetSha256 || ''))) bad.push('①来歴が w272e-1/64 桁でない');
+    if (M.harness !== 'w281d-strain-1') bad.push('①器の版が w281d-strain-1 でない(' + M.harness + ')');
+    if (!J.strainRecord || J.strainRecord.gate !== false) bad.push('①記録欄の gate が false でない(伸びを門にしない)');
+    const G = (J.galaxyMeshSpiral || {}).field || {};
+    for (const k of ['display', 'api']) {
+      const v = (G[k] || {}).vortexStretch2D || {};
+      if (!(v.points === 384 && v.exactZero === 384 && v.inPlaneOmegaZero === 384)) bad.push(`②${k} で (ω·∇)u === 0 が 384/384 でない`);
+      if (!(G[k] && G[k].fdVsAnalyticRelMax < 1e-6)) bad.push(`③${k} の差分 ∇u と解析 gradU の相対差が 1e−6 以上`);
+    }
+    if (!(J.units && J.units.allPass === true)) bad.push('③単体試験が全 PASS でない');
+    let phys = '';
+    try { phys = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'); } catch (e) { phys = ''; }
+    const pi = phys.indexOf('〔第281便d');
+    const psec = pi < 0 ? '' : phys.slice(pi, (() => { const j = phys.indexOf('\n〔第', pi + 5); const k = phys.indexOf('\n## ', pi); const z = [j, k].filter((q) => q >= 0); return z.length ? Math.min(...z) : phys.length; })());
+    if (!psec) bad.push('④PHYSICS に〔第281便d〕節が無い');
+    const fm = (x) => (x < 0 ? '−' : '') + String(Math.abs(x));
+    const need = ['(ω·∇)u', '≡ 0', '384/384'];
+    for (const k of ['display', 'api']) for (const r of (G[k] || {}).rows || []) need.push(fm(r.stretchT.mean));
+    const mats = ((J.galaxyproto || {}).material || []).find((m) => m.declaredField);
+    if (mats) { need.push(String(mats.pitchMax)); const s0 = mats.stretchAtT0; need.push(fm(s0[0].stretch0)); need.push(fm(s0[s0.length - 1].stretch0)); }
+    const ws = (J.galaxyproto || {}).widthSeries || [];
+    if (ws[0]) need.push(fm(ws[0].relChange));
+    if (J.corefield && J.corefield.stat) need.push(fm(J.corefield.stat.relChange));
+    for (const t of need) if (psec && psec.indexOf(t) < 0) bad.push('④PHYSICS〔第281便d〕に ' + t + ' が無い');
+    const scanJ = JSON.parse(JSON.stringify(J)); if (scanJ.meta) delete scanJ.meta.doNotWrite;
+    const FORBID = /腕が創発|創発した|NS を解いた|ナビエ・ストークス方程式を解いた|腕が力学から出た|渦伸長で腕を説明|観測一致|新発見|較正完了|較正した|精度を上げれば成立/;
+    for (const [nm, t] of [['〔第281便d〕', psec], ['正本', JSON.stringify(scanJ)]])
+      for (const line of String(t).split('\n')) {
+        const bare = line.replace(/[「『][^」』]*[」』]/g, '');
+        if (FORBID.test(bare)) { bad.push(`⑤禁止語(${nm}): ${line.slice(0, 50)}`); break; }
+      }
+    const rowS = (k, r) => (((G[k] || {}).rows || []).find((q) => q.r === r) || {}).stretchT || {};
+    add('docs.vortexStretch', bad.length === 0,
+      `**渦伸長便**(第281便d・R75・正本 tests/out/strain-w281d.json・**エンジン未接続・粘性項なし・NS ソルバなし**)/ `
+      + `2D の恒等式 (ω·∇)u = ω_z ∂_z u ≡ 0: 🎠 の表示 ${(((G.display || {}).vortexStretch2D) || {}).exactZero}/384・`
+      + `共通 API ${(((G.api || {}).vortexStretch2D) || {}).exactZero}/384 点で === 0 / `
+      + `🎠 初期場の ⟨伸び⟩(後行腕の接線)r=20/80/240: 表示 ${[20, 80, 240].map((r) => rowS('display', r).mean).join('/')}・`
+      + `共通 API ${[20, 80, 240].map((r) => rowS('api', r).mean).join('/')}(**2 読み手で桁が違う —— 場の契約が割れている**)/ `
+      + `材料腕(宣言した剪断場・先行)t=0 の伸び ${mats ? mats.stretchAtT0[0].stretch0 : '—'}(r=3)・ピッチ最大 ${mats ? mats.pitchMax : '—'}° / `
+      + `記録欄 gate=${J.strainRecord && J.strainRecord.gate} / 禁止語 0`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
 }
 
 // ---- 0a4a) 第274便a(第64報・原仮定者の優先課題(2)): docs.kf0Ledger ----

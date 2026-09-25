@@ -1,0 +1,1668 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第281便d",
+  "target": "beta/index.html",
+  "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
+  "generatedAt": "2026-09-25T03:45:42.485Z",
+  "inputs": [
+   {
+    "file": "tests/out/galaxyproto-w276e.json",
+    "bytes": 47959,
+    "sha256": "54483b335cb9bbac75d97ea2a4f825e6e47114f58eee908ec28937eaca7637c3",
+    "mtime": "2026-09-25T03:35:44.157Z"
+   },
+   {
+    "file": "tests/out/corefield-w276d.json",
+    "bytes": 64958,
+    "sha256": "b1569b9209d63ae413019f75ba99a714ffd6c95803275cedd6a6937bf8ef81dd",
+    "mtime": "2026-09-25T03:35:44.077Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w281d-strain.mjs",
+    "bytes": 18763,
+    "sha256": "c601dfe215887348b09eeda00c50eb1085fcd42aa1af68c61ec3983db3a35597",
+    "mtime": "2026-09-25T03:45:11.805Z"
+   },
+   {
+    "file": "tests/lib-w281d-strain.mjs",
+    "bytes": 19744,
+    "sha256": "b73fc4d2f0a5d60a1c228763a1ebadd2e5ba4899fc6f71e1f5fa162a59074360",
+    "mtime": "2026-09-25T03:43:16.345Z"
+   },
+   {
+    "file": "tests/lib-w276e-galaxyproto.mjs",
+    "bytes": 51536,
+    "sha256": "ee7752be43e39dd3690e1a9fcc67db29d9031185ae2939168f77e268add8e6d1",
+    "mtime": "2026-09-25T03:35:44.025Z"
+   },
+   {
+    "file": "tests/lib-w274e-armbar.mjs",
+    "bytes": 16448,
+    "sha256": "988d4541cf90451ffdb312a36918a453748a370c00c4fb35a776fd88bd66c879",
+    "mtime": "2026-09-25T03:35:44.021Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-09-25T03:35:44.025Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-25T03:35:44.021Z"
+   }
+  ],
+  "codeSha256": "b622f18491504503dda61346c32500e1d0b94f7603d6973d899f201d251eda47",
+  "harness": "w281d-strain-1",
+  "note": "第281便d — 渦伸長便(原仮定者の裁定(第71報)・統括の読み R75)。**エンジン未接続・粘性項なし・NS ソルバなし・形状門なし**",
+  "doNotWrite": [
+   "腕が創発した",
+   "NS を解いた",
+   "腕が力学から出た",
+   "渦伸長で腕を説明した"
+  ],
+  "afterCanon": [
+   "tests/out/galaxyproto-w276e.json",
+   "tests/out/corefield-w276d.json"
+  ],
+  "env": {
+   "QA_TARGET": "beta/index.html"
+  }
+ },
+ "declarations": {
+  "radii": [
+   20,
+   40,
+   80,
+   120,
+   160,
+   240
+  ],
+  "nPhi": 64,
+  "h": 0.03,
+  "hCheck": 0.06,
+  "arm": {
+   "m": 2,
+   "beta_s": 6,
+   "r0": 5,
+   "rd": 5,
+   "rmin": 0.5,
+   "rw": 1,
+   "lambdaA": 0.3,
+   "chiA": 0,
+   "Jref": 1,
+   "Jc0": 0,
+   "A0": null
+  },
+  "unitH": 0.001,
+  "note": "伸び(strain)= 材料線の伸び率 t̂·S·t̂。**門ではない**(記録欄)。腕の接線の定義(armShape か実測の A2 位相か)は決断事項候補"
+ },
+ "identity2D": {
+  "equation": "Dω/Dt = (ω·∇)u + ν∇²ω",
+  "statement": "2D(u=(u_x,u_y,0)・∂_z=0)では ω=(0,0,ω_z) なので (ω·∇)u = ω_z ∂_z u ≡ 0。腕を巻くのは材料線 ℓ̇=(∇u)ℓ の伸び(差動回転)",
+  "numeric": {
+   "display": {
+    "points": 384,
+    "exactZero": 384,
+    "inPlaneOmegaZero": 384,
+    "maxAbs": 0
+   },
+   "api": {
+    "points": 384,
+    "exactZero": 384,
+    "inPlaneOmegaZero": 384,
+    "maxAbs": 0
+   }
+  }
+ },
+ "units": {
+  "version": "w281d-strain-1",
+  "tol": 1e-10,
+  "h": 0.001,
+  "rows": [
+   {
+    "id": "rigid",
+    "note": "剛体回転: S=0・ω=2Ω・伸び 0(どの接線でも)",
+    "n": 20,
+    "nNull": 0,
+    "err": {
+     "S": 5.090372567906343e-14,
+     "omega": 1.8185453143360064e-13,
+     "div": 0,
+     "stretch": 5.030487158604999e-14,
+     "line": 5.029310301551959e-14,
+     "lineVsStretch": 6.807124121482224e-17
+    },
+    "maxErr": 1.8185453143360064e-13,
+    "pass": true
+   },
+   {
+    "id": "shear",
+    "note": "純ずり: S_xy=γ/2・ω=−γ・伸び=γ t_x t_y",
+    "n": 20,
+    "nNull": 0,
+    "err": {
+     "S": 6.811218256075335e-14,
+     "omega": 1.362243651215067e-13,
+     "div": 0,
+     "stretch": 6.80566714095221e-14,
+     "line": 6.80566714095221e-14,
+     "lineVsStretch": 5.551115123125783e-17
+    },
+    "maxErr": 1.362243651215067e-13,
+    "pass": true
+   },
+   {
+    "id": "extension",
+    "note": "純伸長: S=diag(a,−a)・ω=0・伸び=a cos2α",
+    "n": 20,
+    "nNull": 0,
+    "err": {
+     "S": 6.256106743762757e-14,
+     "omega": 0,
+     "div": 6.478151348687788e-14,
+     "stretch": 6.228351168147128e-14,
+     "line": 6.228351168147128e-14,
+     "lineVsStretch": 0
+    },
+    "maxErr": 6.478151348687788e-14,
+    "pass": true
+   },
+   {
+    "id": "pointVortex",
+    "note": "点渦: ω=0・S_rθ=−Ω・伸び=±(r dΩ/dr) sin i cos i",
+    "n": 20,
+    "nNull": 0,
+    "err": {
+     "S": 6.503686478254167e-13,
+     "omega": 7.632783294297951e-14,
+     "div": 7.632783294297951e-14,
+     "stretch": 6.367129046225273e-13,
+     "line": 6.36657393471296e-13,
+     "lineVsStretch": 1.1102230246251565e-16
+    },
+    "maxErr": 6.503686478254167e-13,
+    "pass": true
+   },
+   {
+    "id": "flatRotation",
+    "note": "平坦回転曲線(差動回転): S_rθ=(r/2)dΩ/dr・ω=v/r+dv/dr",
+    "n": 20,
+    "nNull": 0,
+    "err": {
+     "S": 1.2112533198660458e-13,
+     "omega": 1.4066525722000733e-13,
+     "div": 1.4339918141814678e-13,
+     "stretch": 1.2510825708744733e-13,
+     "line": 1.2505274593621607e-13,
+     "lineVsStretch": 6.938893903907228e-17
+    },
+    "maxErr": 1.4339918141814678e-13,
+    "pass": true
+   },
+   {
+    "id": "embed2D",
+    "note": "2D の場を 3 次元へ埋め込む: (ω·∇)u = ω_z ∂_z u ≡ 0(=== 0)",
+    "n": 20,
+    "nExactZero": 20,
+    "nInPlaneZero": 20,
+    "pass": true
+   },
+   {
+    "id": "burgers3",
+    "note": "3D の対照: (ω·∇)U=(0,0,2Ωa)=0.27(0 ではない)",
+    "n": 5,
+    "stretchZ": 0.27,
+    "maxErr": 1.176836406102666e-13,
+    "pass": true
+   },
+   {
+    "id": "materialLine",
+    "note": "材料線 2 点の RK4 輸送(δ=1e−4・τ=±1e−3)の d ln ℓ/dt と t̂·S·t̂ の差(有限の δ・τ・丸めを含む独立検算 —— 許容は 1e−7 を別に宣言)",
+    "n": 20,
+    "delta": 0.0001,
+    "tau": 0.001,
+    "tol": 1e-7,
+    "maxRate": 0.19225358313223678,
+    "maxErr": 1.356831354215604e-8,
+    "pass": true
+   }
+  ],
+  "allPass": true
+ },
+ "galaxyMeshSpiral": {
+  "id": "galaxyMeshSpiral",
+  "emoji": "🎠",
+  "state": "build 直後(t=0)",
+  "n": 351,
+  "centre": [
+   0.19341067005471552,
+   0.20867088489984503
+  ],
+  "rotSign": 1,
+  "trailingMirror": true,
+  "Lz": 39627.5,
+  "options": {
+   "lawVersion": "scalar",
+   "G": 0.8,
+   "eps": 3,
+   "p": 1,
+   "D0": 1.5,
+   "background": "static",
+   "energyContract": "none"
+  },
+  "field": {
+   "display": {
+    "label": "表示 dfmGalaxyMeshField(宣言 disk/affine/bg static)",
+    "rows": [
+     {
+      "r": 20,
+      "pitchDeg": 18.4457,
+      "n": 64,
+      "Srr": {
+       "mean": -0.02692,
+       "min": -0.3231,
+       "max": 0.2981,
+       "rms": 0.1187
+      },
+      "Srt": {
+       "mean": -0.02711,
+       "min": -0.2865,
+       "max": 0.1647,
+       "rms": 0.1205
+      },
+      "Stt": {
+       "mean": -0.0006566,
+       "min": -0.2596,
+       "max": 0.3063,
+       "rms": 0.1098
+      },
+      "omegaZ": {
+       "mean": 0.1052,
+       "min": -0.4291,
+       "max": 0.5094,
+       "rms": 0.2349
+      },
+      "div": {
+       "mean": -0.02757,
+       "min": -0.3596,
+       "max": 0.4267,
+       "rms": 0.168
+      },
+      "stretchT": {
+       "mean": 0.01299,
+       "min": -0.2079,
+       "max": 0.3314,
+       "rms": 0.1126
+      },
+      "stretchL": {
+       "mean": -0.01956,
+       "min": -0.402,
+       "max": 0.3474,
+       "rms": 0.1341
+      },
+      "compressT": {
+       "mean": -0.04056,
+       "min": -0.4533,
+       "max": 0.2774,
+       "rms": 0.1531
+      },
+      "uTheta": {
+       "mean": 1.594,
+       "min": 0.3862,
+       "max": 2.999,
+       "rms": 1.746
+      },
+      "chi": {
+       "mean": 0.8064,
+       "min": 0.8015,
+       "max": 0.8109,
+       "rms": 0.8064
+      },
+      "shearMag": {
+       "mean": 0.1209,
+       "min": 0.01001,
+       "max": 0.3267,
+       "rms": 0.1433
+      },
+      "condMedian": 3.469,
+      "condMax": 669.3,
+      "stretchCircularFromSrt": 0.01627
+     },
+     {
+      "r": 40,
+      "pitchDeg": 18.4376,
+      "n": 64,
+      "Srr": {
+       "mean": 0.01375,
+       "min": -0.04393,
+       "max": 0.1965,
+       "rms": 0.04299
+      },
+      "Srt": {
+       "mean": -0.02295,
+       "min": -0.1517,
+       "max": 0.1137,
+       "rms": 0.05797
+      },
+      "Stt": {
+       "mean": -0.0004902,
+       "min": -0.2622,
+       "max": 0.2722,
+       "rms": 0.1067
+      },
+      "omegaZ": {
+       "mean": 0.04687,
+       "min": -0.2103,
+       "max": 0.2638,
+       "rms": 0.102
+      },
+      "div": {
+       "mean": 0.01326,
+       "min": -0.2662,
+       "max": 0.2653,
+       "rms": 0.1118
+      },
+      "stretchT": {
+       "mean": 0.01471,
+       "min": -0.2404,
+       "max": 0.2879,
+       "rms": 0.1013
+      },
+      "stretchL": {
+       "mean": -0.01284,
+       "min": -0.2323,
+       "max": 0.2039,
+       "rms": 0.1025
+      },
+      "compressT": {
+       "mean": -0.001446,
+       "min": -0.08399,
+       "max": 0.1387,
+       "rms": 0.04981
+      },
+      "uTheta": {
+       "mean": 1.854,
+       "min": 0.2938,
+       "max": 3.033,
+       "rms": 1.966
+      },
+      "chi": {
+       "mean": 0.5227,
+       "min": 0.5159,
+       "max": 0.5316,
+       "rms": 0.5227
+      },
+      "shearMag": {
+       "mean": 0.07474,
+       "min": 0.01611,
+       "max": 0.1873,
+       "rms": 0.08276
+      },
+      "condMedian": 4.575,
+      "condMax": 239.8,
+      "stretchCircularFromSrt": 0.01377
+     },
+     {
+      "r": 80,
+      "pitchDeg": 18.4356,
+      "n": 64,
+      "Srr": {
+       "mean": -0.0004093,
+       "min": -0.02194,
+       "max": 0.01796,
+       "rms": 0.005064
+      },
+      "Srt": {
+       "mean": -0.01358,
+       "min": -0.02654,
+       "max": 0.005053,
+       "rms": 0.01517
+      },
+      "Stt": {
+       "mean": 0.000004556,
+       "min": -0.0285,
+       "max": 0.03525,
+       "rms": 0.01256
+      },
+      "omegaZ": {
+       "mean": -0.002008,
+       "min": -0.02934,
+       "max": 0.02934,
+       "rms": 0.01339
+      },
+      "div": {
+       "mean": -0.0004048,
+       "min": -0.04291,
+       "max": 0.03517,
+       "rms": 0.01395
+      },
+      "stretchT": {
+       "mean": 0.008109,
+       "min": -0.0241,
+       "max": 0.03496,
+       "rms": 0.0145
+      },
+      "stretchL": {
+       "mean": -0.008182,
+       "min": -0.03715,
+       "max": 0.03129,
+       "rms": 0.0146
+      },
+      "compressT": {
+       "mean": -0.008513,
+       "min": -0.01994,
+       "max": 0.008542,
+       "rms": 0.009902
+      },
+      "uTheta": {
+       "mean": 1.011,
+       "min": 0.7656,
+       "max": 1.205,
+       "rms": 1.018
+      },
+      "chi": {
+       "mean": 0.2216,
+       "min": 0.2145,
+       "max": 0.2371,
+       "rms": 0.2217
+      },
+      "shearMag": {
+       "mean": 0.0156,
+       "min": 0.004237,
+       "max": 0.02805,
+       "rms": 0.01652
+      },
+      "condMedian": 2.388,
+      "condMax": 100.5,
+      "stretchCircularFromSrt": 0.008145
+     },
+     {
+      "r": 120,
+      "pitchDeg": 18.4352,
+      "n": 64,
+      "Srr": {
+       "mean": -0.00003841,
+       "min": -0.0009195,
+       "max": 0.0008752,
+       "rms": 0.0003799
+      },
+      "Srt": {
+       "mean": -0.005724,
+       "min": -0.01198,
+       "max": 0.003898,
+       "rms": 0.006054
+      },
+      "Stt": {
+       "mean": 0.00007669,
+       "min": -0.00849,
+       "max": 0.01233,
+       "rms": 0.003167
+      },
+      "omegaZ": {
+       "mean": -0.003213,
+       "min": -0.01436,
+       "max": 0.01698,
+       "rms": 0.005066
+      },
+      "div": {
+       "mean": 0.00003828,
+       "min": -0.008046,
+       "max": 0.01206,
+       "rms": 0.003183
+      },
+      "stretchT": {
+       "mean": 0.0035,
+       "min": -0.004268,
+       "max": 0.01613,
+       "rms": 0.004585
+      },
+      "stretchL": {
+       "mean": -0.003369,
+       "min": -0.01308,
+       "max": 0.006014,
+       "rms": 0.004648
+      },
+      "compressT": {
+       "mean": -0.003461,
+       "min": -0.008021,
+       "max": 0.001472,
+       "rms": 0.00367
+      },
+      "uTheta": {
+       "mean": 0.4945,
+       "min": 0.4463,
+       "max": 0.5504,
+       "rms": 0.4952
+      },
+      "chi": {
+       "mean": 0.1136,
+       "min": 0.1095,
+       "max": 0.1247,
+       "rms": 0.1136
+      },
+      "shearMag": {
+       "mean": 0.006057,
+       "min": 0.001228,
+       "max": 0.01234,
+       "rms": 0.006261
+      },
+      "condMedian": 2.128,
+      "condMax": 12.8,
+      "stretchCircularFromSrt": 0.003434
+     },
+     {
+      "r": 160,
+      "pitchDeg": 18.4351,
+      "n": 64,
+      "Srr": {
+       "mean": -0.000001939,
+       "min": -0.000595,
+       "max": 0.0009515,
+       "rms": 0.0002527
+      },
+      "Srt": {
+       "mean": -0.002479,
+       "min": -0.004916,
+       "max": 0.002696,
+       "rms": 0.002662
+      },
+      "Stt": {
+       "mean": -0.0002847,
+       "min": -0.01154,
+       "max": 0.007413,
+       "rms": 0.002381
+      },
+      "omegaZ": {
+       "mean": -0.001453,
+       "min": -0.005445,
+       "max": 0.01078,
+       "rms": 0.002606
+      },
+      "div": {
+       "mean": -0.0002866,
+       "min": -0.0114,
+       "max": 0.007105,
+       "rms": 0.002338
+      },
+      "stretchT": {
+       "mean": 0.001231,
+       "min": -0.01199,
+       "max": 0.00959,
+       "rms": 0.002806
+      },
+      "stretchL": {
+       "mean": -0.001744,
+       "min": -0.0104,
+       "max": 0.003692,
+       "rms": 0.002523
+      },
+      "compressT": {
+       "mean": -0.001517,
+       "min": -0.003187,
+       "max": 0.0005946,
+       "rms": 0.001613
+      },
+      "uTheta": {
+       "mean": 0.2813,
+       "min": 0.2522,
+       "max": 0.3436,
+       "rms": 0.2819
+      },
+      "chi": {
+       "mean": 0.06728,
+       "min": 0.06495,
+       "max": 0.07989,
+       "rms": 0.06734
+      },
+      "shearMag": {
+       "mean": 0.002766,
+       "min": 0.0008811,
+       "max": 0.006435,
+       "rms": 0.00293
+      },
+      "condMedian": 2.433,
+      "condMax": 113.4,
+      "stretchCircularFromSrt": 0.001487
+     },
+     {
+      "r": 240,
+      "pitchDeg": 18.435,
+      "n": 64,
+      "Srr": {
+       "mean": -0.000009817,
+       "min": -0.0003159,
+       "max": 0.0002409,
+       "rms": 0.0001031
+      },
+      "Srt": {
+       "mean": -0.0005836,
+       "min": -0.001488,
+       "max": 0.0005546,
+       "rms": 0.0006598
+      },
+      "Stt": {
+       "mean": 0.00009806,
+       "min": -0.002286,
+       "max": 0.006121,
+       "rms": 0.001147
+      },
+      "omegaZ": {
+       "mean": 0.0001451,
+       "min": -0.001398,
+       "max": 0.002932,
+       "rms": 0.0006578
+      },
+      "div": {
+       "mean": 0.00008824,
+       "min": -0.002277,
+       "max": 0.00617,
+       "rms": 0.001154
+      },
+      "stretchT": {
+       "mean": 0.0004375,
+       "min": -0.001581,
+       "max": 0.005181,
+       "rms": 0.001056
+      },
+      "stretchL": {
+       "mean": -0.0002629,
+       "min": -0.002532,
+       "max": 0.005846,
+       "rms": 0.001154
+      },
+      "compressT": {
+       "mean": -0.0003492,
+       "min": -0.00117,
+       "max": 0.0009895,
+       "rms": 0.0004509
+      },
+      "uTheta": {
+       "mean": 0.158,
+       "min": 0.1061,
+       "max": 0.2328,
+       "rms": 0.1619
+      },
+      "chi": {
+       "mean": 0.03018,
+       "min": 0.02961,
+       "max": 0.03767,
+       "rms": 0.0302
+      },
+      "shearMag": {
+       "mean": 0.0007594,
+       "min": 0.0001608,
+       "max": 0.003086,
+       "rms": 0.000875
+      },
+      "condMedian": 3.349,
+      "condMax": 293,
+      "stretchCircularFromSrt": 0.0003502
+     }
+    ],
+    "nNull": 0,
+    "fdVsAnalyticRelMax": 4.88e-8,
+    "hConvergenceRelMax": 7.31e-7,
+    "vortexStretch2D": {
+     "points": 384,
+     "exactZero": 384,
+     "inPlaneOmegaZero": 384,
+     "maxAbs": 0
+    },
+    "unValidFalse": 0,
+    "fitCondMin": 0.04807
+   },
+   "api": {
+    "label": "共通 API dfmField(dfmFieldSnapshot: scalar・全源・static・p=1・D₀=1.5)",
+    "rows": [
+     {
+      "r": 20,
+      "pitchDeg": 18.4457,
+      "n": 64,
+      "Srr": {
+       "mean": -0.0001453,
+       "min": -0.001896,
+       "max": 0.000759,
+       "rms": 0.0006314
+      },
+      "Srt": {
+       "mean": 0.0001942,
+       "min": -0.0005116,
+       "max": 0.001245,
+       "rms": 0.0005206
+      },
+      "Stt": {
+       "mean": -0.00001006,
+       "min": -0.0008695,
+       "max": 0.0007305,
+       "rms": 0.0003874
+      },
+      "omegaZ": {
+       "mean": 0.002152,
+       "min": 0.0008409,
+       "max": 0.004359,
+       "rms": 0.002358
+      },
+      "div": {
+       "mean": -0.0001554,
+       "min": -0.001823,
+       "max": 0.001021,
+       "rms": 0.0006934
+      },
+      "stretchT": {
+       "mean": -0.0001402,
+       "min": -0.000735,
+       "max": 0.0005499,
+       "rms": 0.0003505
+      },
+      "stretchL": {
+       "mean": 0.00009296,
+       "min": -0.001053,
+       "max": 0.001189,
+       "rms": 0.000558
+      },
+      "compressT": {
+       "mean": -0.00001524,
+       "min": -0.001887,
+       "max": 0.001213,
+       "rms": 0.0007111
+      },
+      "uTheta": {
+       "mean": 0.01763,
+       "min": -0.0004827,
+       "max": 0.03568,
+       "rms": 0.02174
+      },
+      "chi": {
+       "mean": 0.9882,
+       "min": 0.9881,
+       "max": 0.9884,
+       "rms": 0.9882
+      },
+      "shearMag": {
+       "mean": 0.0005697,
+       "min": 0.00003467,
+       "max": 0.001253,
+       "rms": 0.0006521
+      },
+      "condMedian": 2.85,
+      "condMax": 101.9,
+      "stretchCircularFromSrt": -0.0001166
+     },
+     {
+      "r": 40,
+      "pitchDeg": 18.4376,
+      "n": 64,
+      "Srr": {
+       "mean": 0.0001396,
+       "min": -0.0002898,
+       "max": 0.001262,
+       "rms": 0.0003187
+      },
+      "Srt": {
+       "mean": -0.00001313,
+       "min": -0.001125,
+       "max": 0.001536,
+       "rms": 0.0005898
+      },
+      "Stt": {
+       "mean": -0.000008033,
+       "min": -0.003473,
+       "max": 0.003533,
+       "rms": 0.001258
+      },
+      "omegaZ": {
+       "mean": 0.0022,
+       "min": -0.0004452,
+       "max": 0.004829,
+       "rms": 0.002423
+      },
+      "div": {
+       "mean": 0.0001316,
+       "min": -0.003218,
+       "max": 0.003605,
+       "rms": 0.001243
+      },
+      "stretchT": {
+       "mean": 0.00001462,
+       "min": -0.003229,
+       "max": 0.003192,
+       "rms": 0.001201
+      },
+      "stretchL": {
+       "mean": -0.000001143,
+       "min": -0.002971,
+       "max": 0.003181,
+       "rms": 0.001161
+      },
+      "compressT": {
+       "mean": 0.000117,
+       "min": -0.0007064,
+       "max": 0.001028,
+       "rms": 0.0003754
+      },
+      "uTheta": {
+       "mean": 0.04444,
+       "min": 0.008959,
+       "max": 0.1016,
+       "rms": 0.05021
+      },
+      "chi": {
+       "mean": 0.9772,
+       "min": 0.9771,
+       "max": 0.9774,
+       "rms": 0.9772
+      },
+      "shearMag": {
+       "mean": 0.0007882,
+       "min": 0.00006682,
+       "max": 0.001877,
+       "rms": 0.0008965
+      },
+      "condMedian": 3.478,
+      "condMax": 49.55,
+      "stretchCircularFromSrt": 0.000007881
+     },
+     {
+      "r": 80,
+      "pitchDeg": 18.4356,
+      "n": 64,
+      "Srr": {
+       "mean": -0.000005031,
+       "min": -0.00028,
+       "max": 0.0003549,
+       "rms": 0.000093
+      },
+      "Srt": {
+       "mean": -0.0002981,
+       "min": -0.001251,
+       "max": 0.000821,
+       "rms": 0.0005404
+      },
+      "Stt": {
+       "mean": -0.000006013,
+       "min": -0.002736,
+       "max": 0.003629,
+       "rms": 0.001028
+      },
+      "omegaZ": {
+       "mean": 0.001,
+       "min": -0.0009036,
+       "max": 0.003251,
+       "rms": 0.001332
+      },
+      "div": {
+       "mean": -0.00001104,
+       "min": -0.002731,
+       "max": 0.003534,
+       "rms": 0.001022
+      },
+      "stretchT": {
+       "mean": 0.0001729,
+       "min": -0.002499,
+       "max": 0.003001,
+       "rms": 0.0009154
+      },
+      "stretchL": {
+       "mean": -0.0001848,
+       "min": -0.003054,
+       "max": 0.003511,
+       "rms": 0.00104
+      },
+      "compressT": {
+       "mean": -0.000184,
+       "min": -0.0009173,
+       "max": 0.0005626,
+       "rms": 0.000361
+      },
+      "uTheta": {
+       "mean": 0.06412,
+       "min": 0.01737,
+       "max": 0.1244,
+       "rms": 0.06991
+      },
+      "chi": {
+       "mean": 0.9561,
+       "min": 0.9559,
+       "max": 0.9563,
+       "rms": 0.9561
+      },
+      "shearMag": {
+       "mean": 0.0006327,
+       "min": 0.00003605,
+       "max": 0.001909,
+       "rms": 0.0007507
+      },
+      "condMedian": 3.524,
+      "condMax": 230,
+      "stretchCircularFromSrt": 0.0001788
+     },
+     {
+      "r": 120,
+      "pitchDeg": 18.4352,
+      "n": 64,
+      "Srr": {
+       "mean": -0.000002046,
+       "min": -0.00006834,
+       "max": 0.000108,
+       "rms": 0.00003278
+      },
+      "Srt": {
+       "mean": -0.0002532,
+       "min": -0.001746,
+       "max": 0.00147,
+       "rms": 0.0005022
+      },
+      "Stt": {
+       "mean": 0.00002082,
+       "min": -0.00202,
+       "max": 0.002371,
+       "rms": 0.0008207
+      },
+      "omegaZ": {
+       "mean": 0.0005186,
+       "min": -0.002516,
+       "max": 0.003847,
+       "rms": 0.001004
+      },
+      "div": {
+       "mean": 0.00001878,
+       "min": -0.002088,
+       "max": 0.0024,
+       "rms": 0.0008274
+      },
+      "stretchT": {
+       "mean": 0.0001705,
+       "min": -0.001512,
+       "max": 0.002662,
+       "rms": 0.0007665
+      },
+      "stretchL": {
+       "mean": -0.0001334,
+       "min": -0.002263,
+       "max": 0.001965,
+       "rms": 0.0008288
+      },
+      "compressT": {
+       "mean": -0.0001517,
+       "min": -0.001181,
+       "max": 0.0009008,
+       "rms": 0.0003219
+      },
+      "uTheta": {
+       "mean": 0.06121,
+       "min": 0.02531,
+       "max": 0.1045,
+       "rms": 0.06521
+      },
+      "chi": {
+       "mean": 0.9358,
+       "min": 0.9356,
+       "max": 0.9362,
+       "rms": 0.9358
+      },
+      "shearMag": {
+       "mean": 0.0005333,
+       "min": 0.00002614,
+       "max": 0.001865,
+       "rms": 0.0006468
+      },
+      "condMedian": 4.815,
+      "condMax": 146.2,
+      "stretchCircularFromSrt": 0.0001519
+     },
+     {
+      "r": 160,
+      "pitchDeg": 18.4351,
+      "n": 64,
+      "Srr": {
+       "mean": 0.000001631,
+       "min": -0.00005732,
+       "max": 0.00007723,
+       "rms": 0.00002616
+      },
+      "Srt": {
+       "mean": -0.0002049,
+       "min": -0.0009723,
+       "max": 0.0008887,
+       "rms": 0.0003536
+      },
+      "Stt": {
+       "mean": -0.00006155,
+       "min": -0.002888,
+       "max": 0.00196,
+       "rms": 0.0006933
+      },
+      "omegaZ": {
+       "mean": 0.0002544,
+       "min": -0.001191,
+       "max": 0.002456,
+       "rms": 0.0006237
+      },
+      "div": {
+       "mean": -0.00005992,
+       "min": -0.002845,
+       "max": 0.002022,
+       "rms": 0.0006894
+      },
+      "stretchT": {
+       "mean": 0.00006769,
+       "min": -0.002986,
+       "max": 0.002353,
+       "rms": 0.0007193
+      },
+      "stretchL": {
+       "mean": -0.0001781,
+       "min": -0.002675,
+       "max": 0.001186,
+       "rms": 0.0005917
+      },
+      "compressT": {
+       "mean": -0.0001276,
+       "min": -0.0004662,
+       "max": 0.0003895,
+       "rms": 0.0002024
+      },
+      "uTheta": {
+       "mean": 0.05284,
+       "min": 0.02642,
+       "max": 0.08649,
+       "rms": 0.05605
+      },
+      "chi": {
+       "mean": 0.9163,
+       "min": 0.9162,
+       "max": 0.9167,
+       "rms": 0.9163
+      },
+      "shearMag": {
+       "mean": 0.0003898,
+       "min": 0.00004848,
+       "max": 0.001663,
+       "rms": 0.0004968
+      },
+      "condMedian": 2.764,
+      "condMax": 112.1,
+      "stretchCircularFromSrt": 0.0001229
+     },
+     {
+      "r": 240,
+      "pitchDeg": 18.435,
+      "n": 64,
+      "Srr": {
+       "mean": -1.358e-7,
+       "min": -0.00003143,
+       "max": 0.00002357,
+       "rms": 0.00001065
+      },
+      "Srt": {
+       "mean": -0.0001613,
+       "min": -0.0003206,
+       "max": 0.0001993,
+       "rms": 0.0001766
+      },
+      "Stt": {
+       "mean": 0.0000263,
+       "min": -0.0004538,
+       "max": 0.001742,
+       "rms": 0.0002621
+      },
+      "omegaZ": {
+       "mean": -0.00004526,
+       "min": -0.0003672,
+       "max": 0.0007067,
+       "rms": 0.0001517
+      },
+      "div": {
+       "mean": 0.00002616,
+       "min": -0.0004544,
+       "max": 0.001751,
+       "rms": 0.0002638
+      },
+      "stretchT": {
+       "mean": 0.0001204,
+       "min": -0.0003011,
+       "max": 0.001449,
+       "rms": 0.0002415
+      },
+      "stretchL": {
+       "mean": -0.00007313,
+       "min": -0.000538,
+       "max": 0.001688,
+       "rms": 0.0002749
+      },
+      "compressT": {
+       "mean": -0.00009428,
+       "min": -0.0002351,
+       "max": 0.0003018,
+       "rms": 0.0001155
+      },
+      "uTheta": {
+       "mean": 0.03312,
+       "min": 0.008845,
+       "max": 0.07007,
+       "rms": 0.03805
+      },
+      "chi": {
+       "mean": 0.8794,
+       "min": 0.8792,
+       "max": 0.8798,
+       "rms": 0.8794
+      },
+      "shearMag": {
+       "mean": 0.0001939,
+       "min": 0.00007613,
+       "max": 0.0008892,
+       "rms": 0.0002195
+      },
+      "condMedian": 1.702,
+      "condMax": 41.7,
+      "stretchCircularFromSrt": 0.00009678
+     }
+    ],
+    "nNull": 0,
+    "fdVsAnalyticRelMax": 3.14e-8,
+    "hConvergenceRelMax": 4.71e-7,
+    "vortexStretch2D": {
+     "points": 384,
+     "exactZero": 384,
+     "inPlaneOmegaZero": 384,
+     "maxAbs": 0
+    }
+   }
+  }
+ },
+ "galaxyproto": {
+  "imposedPitchDeg": 18.434949,
+  "cores": [
+   {
+    "label": "parent(面外軸・円盤)",
+    "omega_m": 0.15,
+    "axis": [
+     0,
+     0,
+     1
+    ],
+    "Omega": [
+     0,
+     0,
+     0.15
+    ],
+    "points": 12,
+    "SmaxAbs": 9.946210521860621e-14,
+    "stretchMaxAbs": 0,
+    "omegaMinus2OmegaMax": 2.18103313187612e-13
+   },
+   {
+    "label": "child(面内軸・腕)",
+    "omega_m": 0.2,
+    "axis": [
+     1,
+     0,
+     0
+    ],
+    "Omega": [
+     0.2,
+     0,
+     0
+    ],
+    "points": 12,
+    "SmaxAbs": 7.864542350688453e-14,
+    "stretchMaxAbs": 0,
+    "omegaMinus2OmegaMax": 2.19824158875781e-13
+   }
+  ],
+  "twoAxis": {
+   "id": "親(面外)+ 子(面内)を**同時に**1 つのメッシュへ",
+   "Omega": [
+    0.2,
+    0,
+    0.15
+   ],
+   "points": 12,
+   "SmaxAbs": 1.6653345369377348e-13,
+   "stretchMaxAbs": 6.106920524828752e-14,
+   "omegaMinus2OmegaMax": 2.19824158875781e-13
+  },
+  "pattern": [
+   {
+    "id": "spiral(λ_A=0.3・I_c=1·N·r_d²)",
+    "OmegaPattern0": 0.1,
+    "OmegaPattern1": 0.104567,
+    "stretchMaxAbs": 8.473812335243054e-14,
+    "shearMax": 0.030649,
+    "stretchBound": 0.009195,
+    "pitchWindow": 14.2144
+   },
+   {
+    "id": "spiral(λ_A=1・I_c=1·N·r_d²)",
+    "OmegaPattern0": 0.1,
+    "OmegaPattern1": 0.172303,
+    "stretchMaxAbs": 1.2367818451428385e-13,
+    "shearMax": 0.136412,
+    "stretchBound": 0.04092,
+    "pitchWindow": 20.1404
+   },
+   {
+    "id": "spiral(λ_A=3・I_c=1·N·r_d²)",
+    "OmegaPattern0": 0.1,
+    "OmegaPattern1": 0.181598,
+    "stretchMaxAbs": 1.6031128346891634e-13,
+    "shearMax": 0.070845,
+    "stretchBound": 0.02125,
+    "pitchWindow": 19.1932
+   }
+  ],
+  "disks": [
+   {
+    "id": "disk(Ω_p=0.15=ω_m 共回転)",
+    "shearMax": 0.056453,
+    "pairs": [
+     {
+      "r": 2.745,
+      "rdOmega": 0.01821,
+      "stretchTrail": -0.005464
+     },
+     {
+      "r": 4.446,
+      "rdOmega": -0.03918,
+      "stretchTrail": 0.01175
+     },
+     {
+      "r": 5.845,
+      "rdOmega": -0.05645,
+      "stretchTrail": 0.01694
+     },
+     {
+      "r": 7.416,
+      "rdOmega": 0.01151,
+      "stretchTrail": -0.003453
+     },
+     {
+      "r": 9.838,
+      "rdOmega": 0.02257,
+      "stretchTrail": -0.00677
+     }
+    ],
+    "stretchTrailMin": -0.00677,
+    "stretchTrailMax": 0.01694,
+    "stretchTrailMean": 0.002601
+   },
+   {
+    "id": "disk(Ω_p=0.28)",
+    "shearMax": 0.048089,
+    "pairs": [
+     {
+      "r": 2.779,
+      "rdOmega": -0.01163,
+      "stretchTrail": 0.00349
+     },
+     {
+      "r": 4.45,
+      "rdOmega": -0.01238,
+      "stretchTrail": 0.003714
+     },
+     {
+      "r": 5.816,
+      "rdOmega": 0.04079,
+      "stretchTrail": -0.01224
+     },
+     {
+      "r": 7.318,
+      "rdOmega": -0.04809,
+      "stretchTrail": 0.01443
+     },
+     {
+      "r": 9.772,
+      "rdOmega": 0.02756,
+      "stretchTrail": -0.008267
+     }
+    ],
+    "stretchTrailMin": -0.01224,
+    "stretchTrailMax": 0.01443,
+    "stretchTrailMean": 0.0002254
+   },
+   {
+    "id": "disk(Ω_p=0.3)",
+    "shearMax": 0.03891,
+    "pairs": [
+     {
+      "r": 2.784,
+      "rdOmega": 0.01213,
+      "stretchTrail": -0.00364
+     },
+     {
+      "r": 4.452,
+      "rdOmega": -0.01942,
+      "stretchTrail": 0.005827
+     },
+     {
+      "r": 5.811,
+      "rdOmega": 0.03051,
+      "stretchTrail": -0.009154
+     },
+     {
+      "r": 7.309,
+      "rdOmega": -0.03891,
+      "stretchTrail": 0.01167
+     },
+     {
+      "r": 9.765,
+      "rdOmega": 0.01775,
+      "stretchTrail": -0.005325
+     }
+    ],
+    "stretchTrailMin": -0.009154,
+    "stretchTrailMax": 0.01167,
+    "stretchTrailMean": -0.0001244
+   }
+  ],
+  "material": [
+   {
+    "id": "材料腕 @ R44 の調和コア(円盤)",
+    "shearMax": 0,
+    "pitch0": 18.4349,
+    "pitchSeries": [
+     [
+      0,
+      18.4349
+     ],
+     [
+      25,
+      18.4349
+     ],
+     [
+      50,
+      18.4349
+     ],
+     [
+      75,
+      18.4349
+     ],
+     [
+      100,
+      18.4349
+     ],
+     [
+      125,
+      18.4349
+     ],
+     [
+      150,
+      18.4349
+     ],
+     [
+      175,
+      18.4349
+     ],
+     [
+      200,
+      18.4349
+     ],
+     [
+      225,
+      18.4349
+     ],
+     [
+      250,
+      18.4349
+     ],
+     [
+      275,
+      18.4349
+     ],
+     [
+      300,
+      18.4349
+     ]
+    ],
+    "stretchAtT0": "shearMax=0(円軌道の角速度が r に依らない)→ 伸び 0"
+   },
+   {
+    "id": "材料腕 @ **宣言した剪断場**(平坦回転曲線・R44 の外)",
+    "shearMax": 0.228507,
+    "pitch0": 18.4349,
+    "pitchSeries": [
+     [
+      0,
+      18.4349
+     ],
+     [
+      12.5,
+      46.8578
+     ],
+     [
+      25,
+      41.6166
+     ],
+     [
+      37.5,
+      17.4128
+     ],
+     [
+      50,
+      10.7816
+     ],
+     [
+      62.5,
+      7.7853
+     ],
+     [
+      75,
+      6.0872
+     ],
+     [
+      87.5,
+      4.9957
+     ],
+     [
+      100,
+      4.2356
+     ],
+     [
+      112.5,
+      3.6759
+     ],
+     [
+      125,
+      3.2467
+     ],
+     [
+      137.5,
+      2.9072
+     ],
+     [
+      150,
+      2.6319
+     ]
+    ],
+    "declaredField": {
+     "vc": 1,
+     "rh": 1,
+     "kz": 0.5
+    },
+    "lineSense": "β_s>0・回転 v>0 → **先行**(外へ進むと回転の向きへ θ が進む)",
+    "stretchAtT0": [
+     {
+      "r": 3,
+      "pitchDeg": 18.4349,
+      "stretch0": -0.08538,
+      "compress0": 0.08538,
+      "omegaZ": 0.3479
+     },
+     {
+      "r": 4.5,
+      "pitchDeg": 18.4349,
+      "stretch0": -0.06202,
+      "compress0": 0.06202,
+      "omegaZ": 0.2271
+     },
+     {
+      "r": 6,
+      "pitchDeg": 18.4349,
+      "stretch0": -0.04799,
+      "compress0": 0.04799,
+      "omegaZ": 0.1688
+     },
+     {
+      "r": 7.5,
+      "pitchDeg": 18.4349,
+      "stretch0": -0.03896,
+      "compress0": 0.03896,
+      "omegaZ": 0.1345
+     },
+     {
+      "r": 9,
+      "pitchDeg": 18.4349,
+      "stretch0": -0.03273,
+      "compress0": 0.03273,
+      "omegaZ": 0.1118
+     },
+     {
+      "r": 10.5,
+      "pitchDeg": 18.4349,
+      "stretch0": -0.02819,
+      "compress0": 0.02819,
+      "omegaZ": 0.09566
+     },
+     {
+      "r": 12,
+      "pitchDeg": 18.4349,
+      "stretch0": -0.02474,
+      "compress0": 0.02474,
+      "omegaZ": 0.08362
+     }
+    ],
+    "pitchMax": 46.8578
+   }
+  ],
+  "widthSeries": [
+   {
+    "id": "arm(子コアのスピンあり)",
+    "n": 8,
+    "t0": 100.01,
+    "t1": 275.01,
+    "w0": 0.869678,
+    "w1": 0.86938,
+    "wMean": 0.86953,
+    "wSd": 0.0001042,
+    "dlnwdt": -0.000001957,
+    "dlnwdtSe": 6.77e-9,
+    "relChange": -0.0003427
+   },
+   {
+    "id": "arm(**スピン 0 の対照**)",
+    "n": 8,
+    "t0": 100.01,
+    "t1": 275.01,
+    "w0": 8.754276,
+    "w1": 8.69998,
+    "wMean": 8.72682,
+    "wSd": 0.02339,
+    "dlnwdt": -0.00001138,
+    "dlnwdtSe": 0.0000173,
+    "relChange": -0.006202
+   }
+  ]
+ },
+ "corefield": {
+  "id": "shapeToyArmCore",
+  "emoji": "🧹",
+  "axis": [
+   1,
+   0,
+   0
+  ],
+  "omegaM": 0.5,
+  "width0": 7.27595,
+  "widthEnd": 6.95535,
+  "widthRelMean": -0.0109,
+  "stat": {
+   "n": 21,
+   "t0": 712.5,
+   "t1": 4812.5,
+   "w0": 6.9523,
+   "w1": 6.9554,
+   "wMean": 7.12156,
+   "wSd": 0.4205,
+   "dlnwdt": 0.00001189,
+   "dlnwdtSe": 0.0000102,
+   "relChange": 0.0004459
+  },
+  "declaredFlow": {
+   "Omega": [
+    0.5,
+    0,
+    0
+   ],
+   "points": 12,
+   "SmaxAbs": 2.072425564492164e-12,
+   "stretchMaxAbs": 0,
+   "omegaMinus2OmegaMax": 4.4788617259428065e-12
+  }
+ },
+ "strainRecord": {
+  "quantity": "伸び(strain)",
+  "definition": "t̂·S·t̂(材料線の伸び率 d ln|ℓ|/dt・t̂ = armShape の後行腕の接線)",
+  "gate": false,
+  "note": "**記録欄であって門ではない**(docs.galaxyProtoCriteria の表示にだけ出す)",
+  "galaxyMeshSpiral": [
+   {
+    "r": 20,
+    "display": 0.01299,
+    "api": -0.0001402
+   },
+   {
+    "r": 40,
+    "display": 0.01471,
+    "api": 0.00001462
+   },
+   {
+    "r": 80,
+    "display": 0.008109,
+    "api": 0.0001729
+   },
+   {
+    "r": 120,
+    "display": 0.0035,
+    "api": 0.0001705
+   },
+   {
+    "r": 160,
+    "display": 0.001231,
+    "api": 0.00006769
+   },
+   {
+    "r": 240,
+    "display": 0.0004375,
+    "api": 0.0001204
+   }
+  ],
+  "galaxyprotoDeclaredFlow": 1.6653345369377348e-13,
+  "galaxyprotoPattern": 1.6031128346891634e-13,
+  "galaxyprotoDiskTrail": [
+   {
+    "id": "disk(Ω_p=0.15=ω_m 共回転)",
+    "min": -0.00677,
+    "max": 0.01694
+   },
+   {
+    "id": "disk(Ω_p=0.28)",
+    "min": -0.01224,
+    "max": 0.01443
+   },
+   {
+    "id": "disk(Ω_p=0.3)",
+    "min": -0.009154,
+    "max": 0.01167
+   }
+  ],
+  "armCoreDeclaredFlow": 2.072425564492164e-12
+ },
+ "wallSec": 26.341
+}
