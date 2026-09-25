@@ -2023,6 +2023,8 @@ if (QA_REPLAY_FAIL) {
 // ----        入力に対象 html 自身が載っている行(③)も同じ規則で見る。
 // ----     ③ JSON の入力は「sha256 一致 **または** 刻印の安定 hash(`inputsStable` —— 時刻・wall 秒を除いた正準 JSON)
 // ----        が今のファイルの安定 hash と一致」で通す(常時群 calaudit は毎回書き直されるため)。
+// ----   第282便e(統括の検証項目 R82): ② の領域 hash と ③ の安定 hash は**刻印の版で**引き直す(旧版 w281a-scope-1 の
+// ----        刻印は停止集合なしの旧版の閉包で・版なしの安定 hash は旧方式で・版 w282e-stable-1 は刻印の JSON Pointer で)。
 // ----     履歴の正本(再生成表 `tests/lib-w281a-regentable.mjs` の role:'history' か meta.role==='history')は
 // ----        ①⑤ の形だけを見て ②③④ を照合しない(**生成当時の記録として固定** —— 現行の判定に使わない。
 // ----        `lint.regenScope` ④ が「現行の正本の入力に履歴が無い」ことを照合する)。
@@ -2195,7 +2197,8 @@ if (QA_REPLAY_FAIL) {
           if (key === 'inputs' && s.file === m.target && r.scopeOk === true) { r.inputsOk++; continue; }
           if (key === 'inputs') {
             const st = (m.inputsStable || []).find((z) => z.file === s.file);
-            if (st && SC.stableJsonSha(path.join(ROOT, s.file)) === st.stableSha256) { r.inputsOk++; r.stableOk++; continue; }
+            // 第282便e: 安定 hash は**刻印の版で**照合する(版なし = 第281便a の旧方式・版 w282e-stable-1 = 宣言した JSON Pointer だけを除く)
+            if (st && SC.stableMatches(ROOT, st)) { r.inputsOk++; r.stableOk++; continue; }
           }
           bad.push(`${key === 'inputs' ? '③' : '④'}${rel} の ${s.file} が刻印と違う`
             + ' —— **器を走らせ直すこと**');
@@ -2369,6 +2372,252 @@ if (QA_REPLAY_FAIL) {
       + `S._core の本文・宣言した定数)の正準 JSON の sha256。\`targetSha256\` は生成当時の値のまま残し、`
       + `lint.provenanceMeta ② は「一致 **または**(scopeComplete かつ領域 hash 一致)」で通す。**履歴は再生成しない・現行の結論に昇格させない**。`
       + `閉包は**静的な識別子の閉包**(過大近似)で、UI の操作で閉包の値を書き換える経路は辿らない(器は UI を操作しない)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第282便e(原仮定者の裁定(第72報)AN22・統括の検証項目 R82): lint.scopeStop ----
+// ----   領域 hash の閉包を**純粋な表示関数で止める**(停止集合 `SCOPE_STOP` —— `tests/lib-w281a-scope.mjs`・版 w282e-scope-2)
+// ----   ことを機械で固定する。固定するのは 5 つ:
+// ----     ① 宣言: 停止集合はすべて html の最上位の function 宣言で、`$`・`ctx`・`sim` と物理側(`PHYSICS_KEEP` ——
+// ----        validatePreset・applyQLock・qLockCalc・makeSim・loadPreset・初速・メッシュ速度・コア・背景の源)を含まない。
+// ----     ② 直接の書き込み: 停止した関数の本体が(操作ハンドラ = 入れ子の関数の外で)書く閉包の名前 ⊆ 表示の境界
+// ----        `SCOPE_STOP_BOUNDARY`(キャンバスの要素・文脈・寸法・描画の平滑値と履歴・行の表示同期・相図のタップ領域)。
+// ----        宣言した器(と import する lib・正本の code[])は停止関数・境界の名前を `HP.<名前>` の式や文字列で読まない。
+// ----     ③ 物理は依存に残る: `PHYSICS_KEEP` はどの宣言の現行版の閉包にもある。
+// ----     ④ 感度の自己試験(一時 html —— `scopeStopProbe`): (b) CSS と第281便e で変えた表示関数 9 個だけを変えた html で
+// ----        **現行版の領域が 1 本も変わらない**(旧版では変わる本数を記録)・(c) validatePreset の本体に 1 文 → 全本変わる・
+// ----        (d) ❄️ の質量の最下位桁 → 変わるのは ❄️ か all を宣言した本だけ(予想と 1 本ずつ一致)。
+// ----     ⑤ 旧刻印: 旧版(w281a-scope-1)の刻印は旧版の閉包で引き直して今の html と一致した本数を記録(付け替えは統合時)。
+// ----   **beta 線の正本なので root は SKIP** する。
+{
+  const bad = [];
+  const cases = [];
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP lint.scopeStop(beta 対象でない: ' + TARGET + ' — 再生成範囲は beta 線の正本)');
+  } else {
+    try {
+      const SC = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'));
+      const HTML = path.join(ROOT, 'beta', 'index.html');
+      const htmlText = fs.readFileSync(HTML, 'utf8');
+      const src = htmlText.slice(htmlText.indexOf('<script>') + 8, htmlText.lastIndexOf('</script>'));
+      const PT = SC.parseTopLevel(src);
+      // ①
+      if (SC.SCOPE_VERSION !== 'w282e-scope-2' || SC.SCOPE_VERSION_LEGACY !== 'w281a-scope-1') bad.push('① 版が契約と違う: ' + SC.SCOPE_VERSION);
+      for (const nm of SC.SCOPE_STOP) if (!PT.segments.some((z) => z.kind === 'function' && z.names.includes(nm))) bad.push('① 停止集合の ' + nm + ' が最上位の function 宣言でない');
+      for (const nm of ['$', 'ctx', 'sim'].concat(SC.PHYSICS_KEEP)) if (SC.SCOPE_STOP.includes(nm)) bad.push('① 停止集合に ' + nm + ' がある(止めてはいけない)');
+      cases.push(`停止集合 ${SC.SCOPE_STOP.length} 関数(最上位の function)・$/ctx/sim と物理側 ${SC.PHYSICS_KEEP.length} 名を含まない`);
+      // ② 直接の書き込み + 器が読まない
+      const rows = await SC.declaredOuts(ROOT);
+      const decls = [...new Map(rows.map((r) => [r.harness, r.decl])).entries()];
+      const cl0 = SC.closureOf(PT, decls[0][1].roots, undefined, { hardStop: SC.SCOPE_STOP });
+      const names0 = new Set(cl0.functions);
+      let nDirect = 0, nNested = 0;
+      for (const nm of SC.SCOPE_STOP) {
+        const w = SC.directWrites(PT, nm, names0);
+        nDirect += w.direct.length; nNested += w.nested.length;
+        for (const d of w.direct) { const b = d.split(/[.[]/)[0]; if (!SC.SCOPE_STOP_BOUNDARY.includes(b)) bad.push(`② ${nm} が表示の境界の外 ${d} を直接書く(止めてはいけない)`); }
+      }
+      let reads = [];
+      for (const [h] of decls) {
+        const metaCode = [];
+        for (const r of rows.filter((z) => z.harness === h)) for (const c of ((r.meta && r.meta.code) || [])) metaCode.push(c.file);
+        reads = reads.concat(SC.stopReadsOf(HTML, SC.codeFilesOf(ROOT, h, [...new Set(metaCode)])));
+      }
+      if (reads.length) bad.push('② 宣言した器が停止関数・境界を読む: ' + reads.slice(0, 3).join(', '));
+      cases.push(`停止関数の直接の書き込み ${nDirect} 件はすべて境界 ${SC.SCOPE_STOP_BOUNDARY.length} 名の中(操作ハンドラの中の書き込み ${nNested} 件は辿らない)・器 ${decls.length} 本は停止関数・境界を HP/文字列で読まない`);
+      // ③ 物理は依存に残る
+      for (const [h, d] of decls) {
+        const cl = SC.closureOf(PT, d.roots, undefined, { hardStop: SC.SCOPE_STOP });
+        const have = new Set(cl.functions);
+        const miss = SC.PHYSICS_KEEP.filter((k) => !have.has(k));
+        if (miss.length) bad.push(`③ ${h} の閉包に物理側 ${miss.join(',')} が無い`);
+      }
+      // ④⑤ 感度・旧刻印
+      const pr = await SC.scopeStopProbe({ root: ROOT, html: HTML, rows });
+      if (!pr.b.ok || !pr.c.ok || !pr.d.ok) bad.push('④ 一時 html が作れない');
+      if (pr.incomplete) bad.push(`④ 現行版で complete でない宣言が ${pr.incomplete} 本`);
+      if (pr.b.nowChanged !== 0) bad.push(`④(b) CSS+表示関数だけの html で現行版の領域が ${pr.b.nowChanged} 本変わった: ${pr.b.nowChangedOuts.slice(0, 3).join(', ')}`);
+      if (pr.c.nowChanged !== rows.length) bad.push(`④(c) validatePreset を変えた html で変わったのが ${pr.c.nowChanged}/${rows.length} 本`);
+      if (!pr.d.match) bad.push(`④(d) ❄️ の質量で変わった本が予想と違う(${pr.d.nowChanged} 本・予想 ${pr.d.expected})`);
+      cases.push(`閉包の名前 旧版 ${pr.names.legacy} → 現行版 ${pr.names.now}(inline script の ${pr.share.legacy} → ${pr.share.now})`);
+      cases.push(`感度(宣言 ${rows.length} 本): (b) CSS+表示関数 ${pr.b.touched.length} 個 → 現行版 ${pr.b.nowChanged} 本・旧版 ${pr.b.legacyChanged} 本が変わる / (c) validatePreset → ${pr.c.nowChanged} 本 / (d) ❄️ の質量 ${pr.d.from}→${pr.d.to} → ${pr.d.nowChanged} 本(予想 ${pr.d.expected})`);
+      const nLegacy = rows.filter((r) => r.meta && r.meta.scope && (r.meta.scope.version || SC.SCOPE_VERSION_LEGACY) === SC.SCOPE_VERSION_LEGACY).length;
+      cases.push(`刻印の版: 旧版 ${nLegacy} 本(旧版の閉包で引き直して今の html と一致 ${pr.a.legacySameNow} 本 —— 付け替えは統合時)・現行版 ${rows.length - nLegacy} 本`);
+    } catch (e) { bad.push('停止集合の器が読めない: ' + String(e).slice(0, 160)); }
+    add('lint.scopeStop', bad.length === 0,
+      `**停止集合**(第282便e・原仮定者の裁定(第72報)AN22・統括の検証項目 R82): ${cases.join(' / ')} —— `
+      + `閉包の roots($・ctx・sim)から閉包の let へ代入する関数を経て UI の関数まで入る経路を、**純粋な表示関数**で止めた`
+      + `($・ctx・sim と物理側は止めない)。止めた関数は名前で辿らず・書き換える文/代入する関数としても入れず・素の名前の roots でも辿らない。`
+      + `**「停止した関数が結果を変えない」ことの証明ではない**(操作ハンドラの中の書き込みは辿らない —— 器は UI を操作しない)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第282便e(統括の検証項目 R82): lint.stableHashPaths ----
+// ----   安定 hash(常時群の正本を入力にする器が、実行時刻だけ違う入力で走らせ直さないための hash)の**除外契約**を固定する。
+// ----   第281便a の旧方式は欄名(`when`・`durationMs` …)を**階層を問わず**除いていたので、観測の元期や継続時間の欄まで
+// ----   落としうる。第282便e から**正本ごとに宣言した JSON Pointer だけ**を除く(再生成表の段の `volatilePaths`・表の外は
+// ----   `EXTERNAL_VOLATILE` —— 既定は除外なし・方式の版を hash に入れる)。固定するのは 5 つ:
+// ----     ① 安定 hash を刻まれた JSON 入力(正本の `meta.inputsStable` に現れるファイル)はすべて宣言を持つ(空の [] を含む)。
+// ----     ② 宣言した Pointer は、最後の鍵が実行時刻・壁時計の所要(`STABLE_RUNTIME_KEYS`)で、今のファイルで 1 か所以上に合い、
+// ----        合った値が時刻の鍵なら ISO 日時・所要の鍵なら有限の数。`*` という名の鍵はファイルに無い。
+// ----     ③ 回帰(合成の値): 観測の `durationMs`・`when` を変えると hash が変わる/宣言した実行時刻だけを変えても同じ/
+// ----        旧方式はこの 2 つの観測の欄の変化を**見落とす**(除外契約を変えた理由)。
+// ----     ④ 実物: 宣言した位置の値をすべて書き換えても安定 hash は同じ・宣言の外の値を 1 つ変えると変わる(ファイルごと)。
+// ----     ⑤ 刻印: 版 w282e-stable-1 の行は刻印の Pointer = 今の宣言。版なし(旧方式)の行の数を記録(統合時に付け替える)。
+// ----   **beta 線の正本なので root は SKIP** する。
+{
+  const bad = [];
+  const cases = [];
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP lint.stableHashPaths(beta 対象でない: ' + TARGET + ' — 再生成範囲は beta 線の正本)');
+  } else {
+    try {
+      const SC = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'));
+      const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
+      if (SC.STABLE_VERSION !== 'w282e-stable-1') bad.push('安定 hash の版が契約と違う: ' + SC.STABLE_VERSION);
+      // ① 安定 hash を刻まれた入力
+      const stamped = new Map();   // file -> rows
+      for (const f of fs.readdirSync(path.join(ROOT, 'tests', 'out')).filter((x) => x.endsWith('.json'))) {
+        let m = null;
+        try { m = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', f), 'utf8')).meta; } catch { m = null; }
+        for (const st of ((m && m.inputsStable) || [])) { if (!stamped.has(st.file)) stamped.set(st.file, []); stamped.get(st.file).push({ out: f, st }); }
+      }
+      for (const f of stamped.keys()) if (!RT.volatileDeclared(f)) bad.push('① 安定 hash を刻まれた ' + f + ' に除外の宣言が無い');
+      // ② 宣言した Pointer
+      const declared = new Set(RT.REGEN_STEPS.flatMap((z) => Object.keys(z.volatilePaths || {})).concat(Object.keys(RT.EXTERNAL_VOLATILE)));
+      let nPtr = 0, nHit = 0, nOutsideMeta = 0;
+      const outsideMeta = [];
+      const valuesAt = (J, ptr) => { const toks = SC.parsePointer(ptr); const out = [];
+        const walk = (x, i) => { if (i === toks.length) { out.push(x); return; } if (!x || typeof x !== 'object') return;
+          const keys = toks[i] === '*' ? Object.keys(x) : (Object.prototype.hasOwnProperty.call(x, toks[i]) ? [toks[i]] : []);
+          for (const k of keys) walk(x[k], i + 1); };
+        walk(J, 0); return out; };
+      const hasStarKey = (x) => { if (!x || typeof x !== 'object') return false; if (!Array.isArray(x) && Object.prototype.hasOwnProperty.call(x, '*')) return true; return Object.values(x).some(hasStarKey); };
+      for (const f of [...declared].sort()) {
+        const vp = RT.volatilePathsOf(f);
+        let J = null;
+        try { J = JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8')); } catch { J = null; }
+        if (!J) { if (vp.length) bad.push('② 宣言のある ' + f + ' が読めない'); continue; }
+        if (hasStarKey(J)) bad.push('② ' + f + ' に `*` という名の鍵がある(ワイルドカードと衝突)');
+        for (const ptr of vp) {
+          nPtr++;
+          const toks = SC.parsePointer(ptr);
+          if (!toks) { bad.push('② Pointer が不正: ' + f + ' ' + ptr); continue; }
+          const last = toks[toks.length - 1];
+          if (!SC.STABLE_RUNTIME_KEYS.includes(last)) bad.push(`② ${f} ${ptr} の最後の鍵 ${last} は実行時刻・所要の欄でない`);
+          const vals = valuesAt(J, ptr);
+          if (!vals.length) bad.push(`② ${f} ${ptr} が今のファイルのどこにも合わない`);
+          nHit += vals.length;
+          const isTime = SC.STABLE_TIME_KEYS.includes(last);
+          const badV = vals.filter((v) => (isTime ? !(typeof v === 'string' && /^\d{4}-\d\d-\d\dT/.test(v) && !Number.isNaN(Date.parse(v))) : !(typeof v === 'number' && Number.isFinite(v))));
+          if (badV.length) bad.push(`② ${f} ${ptr} の値 ${badV.length} 件が${isTime ? ' ISO 日時' : '有限の数'}でない`);
+          if (toks[0] !== 'meta') { nOutsideMeta++; outsideMeta.push(f.replace('tests/out/', '') + ptr); }
+        }
+      }
+      cases.push(`宣言 ${declared.size} ファイル・Pointer ${nPtr} 本(合った位置 ${nHit})・meta の外の Pointer ${nOutsideMeta} 本`);
+      // ③ 回帰(合成)
+      const base = { meta: { generatedAt: '2026-09-25T00:00:00.000Z' }, obs: [{ when: '2015-09-14T09:50:45Z', durationMs: 200, value: 1.25 }] };
+      const vp0 = ['/meta/generatedAt'];
+      const clone = (x) => JSON.parse(JSON.stringify(x));
+      const h0 = SC.stableValueSha(base, vp0);
+      const aDur = clone(base); aDur.obs[0].durationMs = 201;
+      const aWhen = clone(base); aWhen.obs[0].when = '2015-09-14T09:50:46Z';
+      const aGen = clone(base); aGen.meta.generatedAt = '2026-09-26T12:00:00.000Z';
+      const r3 = { dur: SC.stableValueSha(aDur, vp0) !== h0, when: SC.stableValueSha(aWhen, vp0) !== h0, gen: SC.stableValueSha(aGen, vp0) === h0,
+        legacyMissDur: SC.legacyStableValueSha(aDur) === SC.legacyStableValueSha(base), legacyMissWhen: SC.legacyStableValueSha(aWhen) === SC.legacyStableValueSha(base),
+        noDecl: SC.stableValueSha(aGen, []) !== SC.stableValueSha(base, []) };
+      if (!r3.dur || !r3.when) bad.push('③ 観測の durationMs/when を変えても hash が変わらない');
+      if (!r3.gen) bad.push('③ 宣言した実行時刻だけを変えたのに hash が変わった');
+      if (!r3.noDecl) bad.push('③ 宣言なし(既定)で実行時刻が除かれている');
+      cases.push(`回帰: 観測の durationMs → 変わる ${r3.dur}・観測の when → 変わる ${r3.when}・宣言した生成時刻だけ → 同じ ${r3.gen}・宣言なしなら生成時刻も効く ${r3.noDecl} / 旧方式はこの durationMs・when の変化を見落とす(${r3.legacyMissDur}・${r3.legacyMissWhen})`);
+      // ④ 実物
+      let nFile = 0;
+      for (const f of [...stamped.keys()].sort()) {
+        const vp = RT.volatilePathsOf(f);
+        let J = null;
+        try { J = JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8')); } catch { J = null; }
+        if (!J || !vp.length) continue;
+        const h = SC.stableValueSha(J, vp);
+        const K = clone(J);
+        for (const ptr of vp) {
+          const toks = SC.parsePointer(ptr);
+          const walk = (x, i) => { if (!x || typeof x !== 'object') return;
+            const keys = toks[i] === '*' ? Object.keys(x) : (Object.prototype.hasOwnProperty.call(x, toks[i]) ? [toks[i]] : []);
+            for (const k of keys) { if (i === toks.length - 1) x[k] = (typeof x[k] === 'number') ? x[k] * 1.5 + 1 : '2099-01-01T00:00:00.000Z'; else walk(x[k], i + 1); } };
+          walk(K, 0);
+        }
+        if (SC.stableValueSha(K, vp) !== h) bad.push('④ ' + f + ' の宣言した位置だけを書き換えたのに安定 hash が変わった');
+        const K2 = clone(J);
+        const firstKey = Object.keys(K2).find((k) => k !== 'meta') || 'meta';
+        K2[firstKey] = [K2[firstKey], 'w282e-probe'];
+        if (SC.stableValueSha(K2, vp) === h) bad.push('④ ' + f + ' の宣言の外(/' + firstKey + ')を変えても安定 hash が変わらない');
+        nFile++;
+      }
+      cases.push(`実物 ${nFile} ファイル: 宣言した位置だけ書き換え → 同じ・宣言の外 → 変わる`);
+      // ⑤ 刻印
+      let nNew = 0, nLegacy = 0;
+      for (const [f, list] of stamped) for (const { out, st } of list) {
+        if (st.stableVersion === SC.STABLE_VERSION) {
+          nNew++;
+          if (JSON.stringify((st.volatilePaths || []).slice().sort()) !== JSON.stringify(RT.volatilePathsOf(f))) bad.push(`⑤ ${out} の ${f} の刻印の Pointer が今の宣言と違う(器を走らせ直すこと)`);
+        } else if (st.stableVersion === undefined) nLegacy++;
+        else bad.push(`⑤ ${out} の ${f} の安定 hash の版 ${st.stableVersion} を照合できない`);
+      }
+      cases.push(`刻印: 版 ${SC.STABLE_VERSION} ${nNew} 行・版なし(旧方式 —— 照合だけ旧方式で行う・統合時に付け替え)${nLegacy} 行 / meta の外の Pointer: ${outsideMeta.slice(0, 6).join(' , ')}${outsideMeta.length > 6 ? ' …' : ''}`);
+    } catch (e) { bad.push('安定 hash の器が読めない: ' + String(e).slice(0, 160)); }
+    add('lint.stableHashPaths', bad.length === 0,
+      `**安定 hash の除外契約**(第282便e・統括の検証項目 R82): ${cases.join(' / ')} —— 除くのは**正本ごとに宣言した JSON Pointer**`
+      + `(再生成表の段の volatilePaths —— 既定は除外なし・\`*\` は 1 段の任意)だけ。方式の版と Pointer の並びを hash の本文に入れる。`
+      + `**安定 hash の一致は「実行時刻と所要以外が同じ」ことだけを意味する**(結果が正しいことの保証ではない)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第282便e(原仮定者の裁定(第72報)AA16): docs.rcResearch ----
+// ----   研究用 RC の条件文 `docs/dev/RC_RESEARCH.md` の存在と 6 項目(①法則/速度/参照系/単位の契約 ②NaN・縮退・閉包失敗の
+// ----   可視化 ③閉じた系の E/P/L と開いた系の交換帳簿 ④主要診断の刻み・軟化・窓の収束 ⑤概要/カード/保存の一致
+// ----   ⑥beta と root の必要 QA)・開示の分離(kF0 の観測合・DFM の概略整合・アナロジーの形状達成は別々)・
+// ----   「観測 3σ 合は条件にしない」・PHYSICS〔第282便e〕からの参照・「RC を切った」と書いていないこと。ファイルだけを読む。
+{
+  const bad = [];
+  const f = path.join(ROOT, 'docs', 'dev', 'RC_RESEARCH.md');
+  let t = '';
+  try { t = fs.readFileSync(f, 'utf8'); } catch { t = ''; }
+  const phys = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+  const hasPhysSec = phys.indexOf('〔第282便e') >= 0;
+  if (!t) {
+    if (hasPhysSec) bad.push('docs/dev/RC_RESEARCH.md が無い');
+    else console.log('SKIP docs.rcResearch(第282便e の条件文も PHYSICS の節も無い)');
+  }
+  if (t) {
+    const ITEMS = [
+      ['①', ['法則', '速度', '参照系', '単位', '契約']],
+      ['②', ['NaN', '縮退', '閉包', '可視化']],
+      ['③', ['E/P/L', '交換', '帳簿']],
+      ['④', ['刻み', '軟化', '窓', '収束']],
+      ['⑤', ['概要', 'カード', '保存', '一致']],
+      ['⑥', ['beta', 'root', 'QA']],
+    ];
+    const items = [];
+    for (const [mk, words] of ITEMS) {
+      const line = t.split('\n').find((l) => /^###\s/.test(l) && l.indexOf(mk) >= 0);
+      if (!line) { bad.push(`${mk} の見出し(### ${mk} …)が無い`); continue; }
+      const i0 = t.indexOf(line);
+      const i1 = t.indexOf('\n### ', i0 + line.length);
+      const body = t.slice(i0, i1 < 0 ? t.length : i1);
+      const miss = words.filter((w) => body.indexOf(w) < 0);
+      if (miss.length) bad.push(`${mk} の節に ${miss.join('・')} が無い`);
+      items.push(mk);
+    }
+    for (const w of ['kF0 の観測合', 'DFM の概略整合', 'アナロジーの形状達成', '別々に開示']) if (t.indexOf(w) < 0) bad.push('開示の分離の語「' + w + '」が無い');
+    if (t.indexOf('観測 3σ 合は条件にしない') < 0) bad.push('「観測 3σ 合は条件にしない」が無い');
+    if (/RC を切った|RC を切りました/.test(t.replace(/「[^」]*」/g, ''))) bad.push('「RC を切った」と書いている(括弧の引用の外)');
+    if (!hasPhysSec || phys.indexOf('docs/dev/RC_RESEARCH.md') < 0) bad.push('PHYSICS〔第282便e〕から docs/dev/RC_RESEARCH.md を参照していない');
+    add('docs.rcResearch', bad.length === 0,
+      `研究用 RC の条件文(第282便e・原仮定者の裁定(第72報)AA16): docs/dev/RC_RESEARCH.md の 6 項目 ${items.join('')}・開示の分離(kF0 の観測合/DFM の概略整合/アナロジーの形状達成)・`
+      + `「観測 3σ 合は条件にしない」・PHYSICS からの参照 —— **本便は RC を切らない**(条件文を置いただけ)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
@@ -34760,6 +35009,86 @@ if (!FAST) {
           `${r.uz13en ? '・文字大+en ' + r.uz13en.help.cv + '/' + r.uz13en.help.hdr : ''}${r.safeTop40 ? '・ヘッダー+40px ' + r.safeTop40.saves.cv + '/' + r.safeTop40.saves.hdr : ''}`
         : `キャンバス ${[...new Set(Object.values(r.tabs).map((x) => x.narrow.cv))].join('/')}px(2 カラム・広げるボタンなし)`) +
         `・門 ${r.gate.ok}${r.gate.bad.length ? '[' + r.gate.bad.slice(0, 4).join(' ; ') + ']' : ''}`).join(' / ') + ` / JSエラー ${jsErr}`);
+  }
+}
+
+// ---- 第282便e(原仮定者の裁定(第72報)⑦「ワンタップ対照のボタンを A/B比較のラベルの下に配置」・統括の検証項目 R82):
+// ---- ui.abQuickPlacement —— **表示だけ**(物理・presetSig・保存 JSON に 1 bit も効かない)。世代判定: beta 線は常に走らせ、
+// ---- root 等は html の h3#abHead の直下に #abQuickRow があるときだけ走らせる(v1.44 の root は旧配置なので SKIP)。
+// ----   縦 390×844・768×1024 と横 1024×768(2 カラム)× ワンタップ対照のある本 3 つ(⛓️ chain2 = 相変化 abQuick・
+// ----   🕶️ darkrotor = 粒子 patch abBody・💿 saturnRingRealKF1 = physicsPatch の abBody)で、パラメータタブを開いて:
+// ----   ① DOM: #abQuickRow の親が #abGroup・直前の兄弟が h3#abHead・直後の兄弟が #btnAB の行 / #pmRow は #abGroup の直前の兄弟のまま
+// ----   ② 配置(bounding box): 見出しの下端 ≤ 行の上端・行の下端 ≤ 「A/B比較を開始」の行の上端・行は #abGroup の左右の内側・
+// ----      行の高さ > 0・表示は flex・ボタン 1 個以上(文言は ja「⚖️ ワンタップ対照A/B(B側:」・en「⚖️ One-tap control A/B (side B:」で始まる)
+// ----   ③ ワンタップ対照の無い本(🪐 saturn)では行が display:none・高さ 0 のまま / JS エラー 0。
+// ----   (🎠 galaxyMeshSpiral 系は abQuick {D0} を宣言するが相変化の `phase` を持たないので、第62便の表示条件どおり行は出ない
+// ----    —— 表示条件は本便で変えていない。detail に行の表示の有無だけを出す)
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  // 世代判定: beta 線は常に走らせる(配置が戻ったら FAIL)。root 等は html に「見出しの直下の #abQuickRow」があるときだけ
+  const placed = /<h3 id="abHead">[^<]*<\/h3>(?:\s*<!--[\s\S]*?-->)*\s*<div class="rowBtns" id="abQuickRow"/.test(html);
+  if (html.indexOf('id="abQuickRow"') < 0 || !(TARGET.startsWith('beta/') || placed)) {
+    console.log('SKIP ui.abQuickPlacement(beta 線でなく、見出し直下の #abQuickRow も無い — root 等)');
+  } else {
+    const VPS = [{ name: '390x844', width: 390, height: 844 }, { name: '768x1024', width: 768, height: 1024 }, { name: '1024x768', width: 1024, height: 768 }];
+    const WITH = ['chain2', 'darkrotor', 'saturnRingRealKF1'];
+    const res = {};
+    let jsErr = 0;
+    for (const vp of VPS) {
+      const ctxA = await browser.newContext({ viewport: { width: vp.width, height: vp.height } });
+      const pg = await ctxA.newPage();
+      pg.on('pageerror', () => { jsErr++; });
+      await pg.goto(INDEX, { waitUntil: 'load' });
+      await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
+      res[vp.name] = await pg.evaluate(async (ids) => {
+        const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+        const R = (el) => { const b = el.getBoundingClientRect(); return { t: +b.top.toFixed(1), b: +b.bottom.toFixed(1), l: +b.left.toFixed(1), r: +b.right.toFixed(1), h: +b.height.toFixed(1) }; };
+        const out = { rows: {}, none: null };
+        const measure = (id, lang) => {
+          const row = document.getElementById('abQuickRow'), head = document.getElementById('abHead'), grp = document.getElementById('abGroup');
+          const startRow = document.getElementById('btnAB').parentElement, pm = document.getElementById('pmRow');
+          const btns = [...row.querySelectorAll('button')];
+          const o = { lang, disp: getComputedStyle(row).display, n: btns.length, text: btns.map((b) => b.textContent),
+            parent: row.parentElement && row.parentElement.id, prev: row.previousElementSibling && row.previousElementSibling.id,
+            nextHasStart: !!(row.nextElementSibling && row.nextElementSibling.contains(document.getElementById('btnAB'))),
+            pmBeforeGroup: !!(pm && pm.nextElementSibling === grp), head: R(head), row: R(row), start: R(startRow), grp: R(grp) };
+          const pre = lang === 'en' ? '⚖️ One-tap control A/B (side B:' : '⚖️ ワンタップ対照A/B(B側:';
+          o.ok = o.parent === 'abGroup' && o.prev === 'abHead' && o.nextHasStart && o.pmBeforeGroup && o.disp === 'flex' && o.n >= 1
+            && o.text.every((x) => x.startsWith(pre)) && o.row.h > 0 && o.head.b <= o.row.t + 0.5 && o.row.b <= o.start.t + 0.5
+            && o.row.l >= o.grp.l - 0.5 && o.row.r <= o.grp.r + 0.5;
+          return o;
+        };
+        HP.setLang('ja');
+        document.querySelector('nav#tabs button[data-tab="params"]').click(); await wait(150);
+        for (const id of ids) {
+          HP.loadPreset(id, false); await wait(120);
+          document.getElementById('abGroup').scrollIntoView({ block: 'start' }); await wait(60);
+          out.rows[id] = measure(id, 'ja');
+        }
+        HP.setLang('en'); await wait(80);
+        HP.loadPreset(ids[0], false); await wait(120);
+        out.en = measure(ids[0], 'en');
+        HP.setLang('ja'); await wait(60);
+        HP.loadPreset('saturn', false); await wait(120);
+        const row = document.getElementById('abQuickRow');
+        out.none = { disp: getComputedStyle(row).display, h: +row.getBoundingClientRect().height.toFixed(1), n: row.querySelectorAll('button').length,
+          parent: row.parentElement && row.parentElement.id };
+        out.none.ok = out.none.disp === 'none' && out.none.h === 0 && out.none.n === 0 && out.none.parent === 'abGroup';
+        HP.loadPreset('galaxyMeshSpiral', false); await wait(120);
+        out.gms = getComputedStyle(row).display;
+        out.layout = getComputedStyle(document.body).display + '/' + (window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
+        return out;
+      }, WITH);
+      await ctxA.close();
+    }
+    const allOk = jsErr === 0 && Object.values(res).every((r) => Object.values(r.rows).every((x) => x.ok) && r.en.ok && r.none.ok);
+    add('ui.abQuickPlacement', allOk,
+      Object.entries(res).map(([k, r]) => `${k}: ` + Object.entries(r.rows).map(([id, x]) =>
+        `${id} 見出し下端 ${x.head.b}≤行 ${x.row.t}〜${x.row.b}(高さ ${x.row.h}・ボタン ${x.n})≤開始の行 ${x.start.t}・左右 ${x.row.l}/${x.row.r} ⊂ ${x.grp.l}/${x.grp.r}${x.ok ? '' : ' **NG**(親 ' + x.parent + '・前 ' + x.prev + '・pmRow 直前 ' + x.pmBeforeGroup + ')'}`).join('; ')
+        + ` / en ${r.en.ok ? 'OK' : '**NG** ' + r.en.text.join('|')} / 無い本(saturn): ${r.none.disp}・高さ ${r.none.h}${r.none.ok ? '' : ' **NG**'}`
+        + `・🎠(abQuick D0・phase なし): ${r.gms}`).join(' // ')
+      + ` / JSエラー ${jsErr} —— #abQuickRow を #abGroup の見出し h3#abHead の直下(「A/B比較を開始」の行より上)へ移した(第282便e)。`
+      + `表示条件(相変化 abQuick / 粒子 patch abBody)・#pmRow・文言(ja/en)は不変`);
   }
 }
 
