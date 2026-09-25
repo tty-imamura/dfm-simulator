@@ -674,3 +674,9 @@ tests/.qa-preflight-*.mjs
 !tests/out/charoninput-w280d.json
 tests/out/charoninput-w280d.json.partial
 tests/out/charoninput-w280d-pilot.json
+# 第281便b(原仮定者の裁定(第71報)「銀河の引きずり(座標変換)の分布を確認する」・統括の読み R72/R73): **銀河連鎖便**の正本 2 本
+#   (tests/exp-w281b-galaxychain.mjs —— 場の契約の 3 列の半径表・🎋 の連鎖の実測・R_edge・中心応答 / 純関数 tests/lib-w281b-chain.mjs の
+#   有限予算の交換模型の帳簿)。QA docs.galaxyFieldContract・behavior.chainLedger・docs.galaxyChain が読み、lint.provenanceMeta が
+#   来歴を固定するのでコミットする。**境界の発見でも較正でもない**(R_edge は診断量)。
+!tests/out/galaxychain-w281b.json
+!tests/out/chainledger-w281b.json
