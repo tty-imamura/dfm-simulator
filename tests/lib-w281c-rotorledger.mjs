@@ -46,7 +46,7 @@ export function kappaMasPerSun() {
 /**
  * 🛞 ngc3198DFM の宣言から質量群を読む(bodies の宣言値 —— エンジンの Float32 化の前の値)。
  * 形の前提(崩れていたら例外): bodies[0] = 恒星の円盤(mMin=mMax・shell なし)・bodies[1] = 気体の円盤(shell:"gas")・
- * bodies[2] = 中心核(single)・massCalibration.factorUniform = f★。
+ * bodies[2] = 中心核(single)・massCalibration.factorUniform(f 固定形なら f)= f★(1≤f★≤3 — 第282便a)。
  */
 export function massGroupsFromPreset(p) {
   const b = (p && p.bodies) || [];
@@ -55,8 +55,10 @@ export function massGroupsFromPreset(p) {
   if (!st || st.type !== 'disk' || st.shell !== undefined || st.mMin !== st.mMax) throw new Error('bodies[0] が恒星の円盤(mMin=mMax)でない');
   if (!gs || gs.type !== 'disk' || gs.shell !== 'gas' || gs.mMin !== gs.mMax) throw new Error('bodies[1] が気体の円盤(shell:"gas")でない');
   if (!co || co.type !== 'single') throw new Error('bodies[2] が中心核(single)でない');
-  const f = mc.factorUniform;
-  if (!(typeof f === 'number' && f > 1 && f <= 3)) throw new Error('massCalibration.factorUniform が無い');
+  // 第282便a(原仮定者の裁定(第72報)③ f=1): f★ は 1≤f≤3 を受理する(旧 1<f≤3)。f 固定形(law:"f-fixed-1" の `f`)も読む。
+  //   二重加算の検査(ledgerIdentityError・validateMassLedger)は f★=1 でも同じ式 totalUnit = f★·M★ + gas + core + M_DR で効く
+  const f = (typeof mc.factorUniform === 'number') ? mc.factorUniform : mc.f;
+  if (!(typeof f === 'number' && f >= 1 && f <= 3)) throw new Error('massCalibration.factorUniform(または f)が 1≤f≤3 で無い');
   const se = p.scaleExp || {};
   if (typeof se.M !== 'number') throw new Error('scaleExp.M が無い');
   const starEff = st.n * st.mMin;

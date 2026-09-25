@@ -14,6 +14,7 @@
 //   'w280-chain' … 第280便の統括 chain(4 本並列・同じ容器)の各段の開始〜終了の差(scratch の chain ログ)。
 //   'w281a-chain' … 第281便a の再生成(Chromium 1 本 + node 1 本)の各段の差。
 //   'w272b-wallSec' … 正本 charon-w272b.json の列ごとの `wallSec`(実測)を、新しい既定列の集合で足した値。
+//   'w282a-branch' … 第282便a の枝で器を 1 回走らせた実測(fmigration は正本の meta.wallSec の前後の和)。
 //
 // ■ しないこと: 走らせない・判定しない(表と、表を読む計画の純関数だけ)。
 import fs from 'node:fs';
@@ -111,8 +112,8 @@ export const REGEN_STEPS = [
   S('qaorder', 'node tests/exp-w279b-qaorder.mjs --record', ['tests/out/qaorder-w279b.json'], 0, { secSource: 'chain の外(フル QA の後)' }),
   S('emgrid', 'node tests/exp-w280b-emgrid.mjs(4 部分 + --merge —— 第280便の chain2c と同じ分割)', ['tests/out/emgrid-w280b.json'], 2295, { secSource: 'w281a-chain', node: true }),
   // ---- 後段(calaudit と署名の後 —— 読む正本が揃ってから)
-  S('kf0ledger-old', 'node tests/exp-w274a-kf0ledger.mjs', ['tests/out/kf0ledger-w274a.json'], 0, { alwaysRun: true, after: ['kf0', 'charon-h', 'charon-h2', 'charon-h4', 'nslockledger', 'galaxydiag'] }),
-  S('kf0ledger', 'node tests/exp-w275a-kf0ledger.mjs', ['tests/out/kf0ledger-w275a.json'], 0, { alwaysRun: true, after: ['kf0', 'charon-h', 'charon-h2', 'charon-h4', 'nslockledger', 'galaxydiag', 'presetaxes'] }),
+  S('kf0ledger-old', 'node tests/exp-w274a-kf0ledger.mjs', ['tests/out/kf0ledger-w274a.json'], 0, { alwaysRun: true, after: ['kf0', 'charon-h', 'charon-h2', 'charon-h4', 'nslockledger', 'galaxydiag', 'calcontract'] }),
+  S('kf0ledger', 'node tests/exp-w275a-kf0ledger.mjs', ['tests/out/kf0ledger-w275a.json'], 0, { alwaysRun: true, after: ['kf0', 'charon-h', 'charon-h2', 'charon-h4', 'nslockledger', 'galaxydiag', 'presetaxes', 'calcontract'] }),
   S('charonInput', 'node tests/exp-w280d-charonInput.mjs', ['tests/out/charoninput-w280d.json'], 603, { secSource: 'w281a-chain', after: ['kf0'] }),
   S('geo3', 'node tests/exp-w280c-geo3.mjs', ['tests/out/geo3-w280c.json'], 1016, { secSource: 'w281a-chain', after: ['kf0', 'bgbudget2'],
     env: { W280_BASE: 'beta/_w280_base.html(第280便の基点 d0286cf の beta/index.html —— 項目 g・h の対照)' } }),
@@ -123,6 +124,12 @@ export const REGEN_STEPS = [
     note: '第281便c: 条件付き質量台帳・η 対照(html だけを読む・他の正本を読まない)' }),
   S('strain', 'node tests/exp-w281d-strain.mjs', ['tests/out/strain-w281d.json'], 26, { secSource: 'w281-chain3', node: true, after: ['galaxyproto', 'corefield'],
     note: '第281便d: 2D の渦伸長 0・ひずみ率の診断(inputs に galaxyproto-w276e・corefield-w276d)' }),
+  // ---- 第282便a(原仮定者の裁定(第72報)・R77/R78): 較正契約の 3 系統と f=1 の棚卸し(calaudit の後 —— 旧 4 値の区分・門・残差を読む)/
+  //   恒星連星 2 本の f=1 移行の前後記録(**履歴** —— 移行は 1 度きり。判定器を --only で 2 回・一時ファイルへ)
+  S('calcontract', 'node tests/exp-w282a-calcontract.mjs', ['tests/out/calcontract-w282a.json'], 2, { secSource: 'w282a-branch', after: ['calaudit', 'kf0'],
+    note: '第282便a: html の CAL_CONTRACT と内蔵 140 本の宣言・calaudit の旧 4 値の区分を読む(判定は変えない)。kf0ledger 旧/新がこの正本の fEffective を読む' }),
+  S('fmigration', 'node tests/exp-w282a-fmigration.mjs', ['tests/out/fmigration-w282a.json'], 391, { role: 'history', secSource: 'w282a-branch', env: { W282A_BASE_REV: '基点(既定 8b05232 —— git show で一時ファイルを作り終了後に削除)' },
+    note: '第282便a: ✴️💫 の f=1 移行の前後(基点 8b05232 と移行後の html に判定器を --only --dt3 で 2 回)。**再生成しない**(計画は常に「履歴」)' }),
   S('samplestatus', 'node tests/exp-w279a-samplestatus.mjs && node tests/exp-w279a-samplestatus.mjs --check', ['tests/out/samplestatus-w279a.json'], 2, { alwaysRun: true, after: ['kf0', 'charonwin'] }),
   S('mercury', 'node tests/exp-w280a-mercury.mjs', ['tests/out/mercury-w280a.json'], 284, { secSource: 'w281a-chain', alwaysRun: true, after: ['kf0'] }),
 ];

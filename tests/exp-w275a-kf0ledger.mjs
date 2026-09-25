@@ -104,6 +104,8 @@ const INPUTS = [
   'tests/out/nslockledger-w273c.json',
   'tests/out/galaxydiag-w271d.json',
   'tests/out/kf0-w259d.json',
+  // 第282便a(R78): f の列は**基準質量との数値比較**(正本 calcontract-w282a.json の fEffective)から読む
+  'tests/out/calcontract-w282a.json',
 ];
 const CODE = ['tests/exp-w275a-kf0ledger.mjs', 'tests/lib-w272e-provenance.mjs'];
 
@@ -112,6 +114,19 @@ const charon = rd('tests/out/charon-w272b.json');
 const nslock = rd('tests/out/nslockledger-w273c.json');
 const gdiag = rd('tests/out/galaxydiag-w271d.json');
 const w259d = rd('tests/out/kf0-w259d.json');
+// 第282便a(統括の検証項目 R78): **f は基準質量との数値比較で出す**。旧版は calaudit の `correlates.massFactor`
+//   (= `massCalibration.factor`、**台帳が無ければ 1**)を f の列に書いていた —— 台帳を持たない ⏰ gw150914Merge4s
+//   (質量は 🎐 の実質 2 倍)が f=1 と表示されていた。本版は正本 `tests/out/calcontract-w282a.json` の
+//   fEffective(基準質量〔massCalibration.baseMass・宣言した観測版の対・観測解そのもの〕と現 m の比)を読み、
+//   **基準質量が無い本は「出典不明」**と書く(推定で埋めない)。旧値は massFactorDeclared に残す。
+const calContract = rd('tests/out/calcontract-w282a.json');
+const fEff = new Map((calContract.rows || []).map((z) => [z.id, z]));
+const fOf = (id, fallback) => { const z = fEff.get(id);
+  if (!z) return { f: fallback, source: 'calcontract に行が無い(旧値のまま)', kind: 'fallback' };
+  return { f: Number.isFinite(z.fEffective) ? z.fEffective : null, source: z.fSource, kind: z.fSourceKind }; };
+// 文書の f のセル: 基準質量が無ければ「出典不明」・観測版の対の**宣言質量**との比(基準そのものは出典不明)には † を付ける
+const fCell = (f, kind) => (f === null || f === undefined) ? '出典不明'
+  : fx(f, 8) + ((kind === 'twin-unknown' || kind === 'twin-total') ? '†' : '');
 // 第275便a(R33 の処置 P1): **対照の軸**(k を除く 5 成分)。器 `tests/exp-w275a-presetaxes.mjs`。
 const axesDoc = rd('tests/out/presetaxes-w275a.json');
 const AXIS_KEYS = axesDoc.meta.axisKeys;
@@ -193,12 +208,14 @@ function sideAssess(rec, k, health) {
 const calRows = [];
 for (const rec of (cal.presets || [])) {
   const pk = num((rec.correlates || {}).kFrame);
-  const f = num((rec.correlates || {}).massFactor);
+  const fDecl = num((rec.correlates || {}).massFactor);
+  const fe = fOf(rec.id, fDecl);
+  const f = fe.f;
   const kf1 = sideAssess(rec, 1, null);
   const kf0 = sideAssess(rec, 0, kf0Health.get(rec.id) || null);
   const appliedHere = kf0Applied.filter((z) => z.id === rec.id);
   calRows.push({ scope: 'calibration', id: rec.id, emoji: rec.emoji, name: rec.name,
-    declaredKFrame: pk, massFactor: f, version: rec.version,
+    declaredKFrame: pk, massFactor: f, massFactorSource: fe.source, massFactorSourceKind: fe.kind, massFactorDeclared: fDecl, version: rec.version,
     kf0Source: appliedHere.length ? 'kf0-diagnostic-copy(第274便a・--kf0-runs)'
       : (pk === 0 ? 'preset(宣言そのものが kFrame=0)' : null),
     kf0AppliedRows: appliedHere.map((z) => ({ target: z.target, kind: z.kind, name: z.name,
@@ -548,6 +565,11 @@ lines.push('列は 5 列を **' + COLUMNS.map((c) => c.name).join(' ') + '** の
   + '(**外挿残差**は第275便a で観測成立から切り離した列 —— R33)。');
 lines.push('');
 const COLHEAD = COLUMNS.map((c) => c.name).join(' ');
+lines.push('**f の列**(第282便a・R78): **基準質量との数値比較**(`tests/out/calcontract-w282a.json` の fEffective —— '
+  + '`massCalibration.baseMass`・宣言した観測版の対・観測解そのもの、のどれかと現 m の比)。`massCalibration` が無いことを '
+  + 'f=1 の根拠にしない(台帳を持たない ⏰ `gw150914Merge4s` は実質 ' + fx((fEff.get('gw150914Merge4s') || {}).fEffective, 8)
+  + ')。**基準質量が無い本は「出典不明」**。**†** は観測版の対の**宣言質量**との比(その対の基準質量そのものは出典不明)。');
+lines.push('');
 lines.push('| # | 系 | 宣言 kFrame | f | kF1 側(' + COLHEAD + ') | kF0 側(' + COLHEAD + ') | f 固定・k のみの対照 | ラベル |');
 lines.push('| ---: | --- | ---: | ---: | --- | --- | --- | --- |');
 calRows.forEach((r, i) => {
@@ -558,7 +580,7 @@ calRows.forEach((r, i) => {
     : (r.pair ? 'なし(対 `' + r.pair.with + '` は '
         + ((r.pair.axisDiffering || []).join('・') || '他の軸') + ' も動く)' : 'なし');
   lines.push('| ' + (i + 1) + ' | ' + (r.emoji || '') + ' `' + r.id + '` | ' + r.declaredKFrame
-    + ' | ' + fx(r.massFactor, 8) + ' | ' + colCell(r.kf1) + ' | ' + colCell(r.kf0)
+    + ' | ' + fCell(r.massFactor, r.massFactorSourceKind) + ' | ' + colCell(r.kf1) + ' | ' + colCell(r.kf0)
     + ' | ' + kc + ' | ' + (r.label ? '**' + r.label + '**' : '—') + ' |');
 });
 lines.push('');
@@ -605,7 +627,7 @@ for (const q of pairs) {
   const dif = (q.axisDiffering || []);
   lines.push('| ' + (q.emoji0 || '') + ' `' + q.k0 + '` ↔ ' + (q.emoji1 || '') + ' `' + q.k1 + '` '
     + '(' + q.why + ') | ' + (q.axisValues ? '0 → 1' : '—') + ' | '
-    + fx(q.f0, 8) + ' → ' + fx(q.f1, 8) + ' | '
+    + fCell(q.f0, (byId.get(q.k0) || {}).massFactorSourceKind) + ' → ' + fCell(q.f1, (byId.get(q.k1) || {}).massFactorSourceKind) + ' | '
     + (q.kOnly ? '**はい**' : 'いいえ') + ' | '
     + (dif.length ? dif.map((k) => '`' + k + '` ' + String(q.axisValues[k][0]).slice(0, 22)
       + ' → ' + String(q.axisValues[k][1]).slice(0, 22)).join(' / ') : '(なし)') + ' |');

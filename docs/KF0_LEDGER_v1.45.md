@@ -49,25 +49,27 @@
 
 列は 5 列を **走行成立 構造安定 数値成立 外挿残差 観測成立** の順に並べたものである(**外挿残差**は第275便a で観測成立から切り離した列 —— R33)。
 
+**f の列**(第282便a・R78): **基準質量との数値比較**(`tests/out/calcontract-w282a.json` の fEffective —— `massCalibration.baseMass`・宣言した観測版の対・観測解そのもの、のどれかと現 m の比)。`massCalibration` が無いことを f=1 の根拠にしない(台帳を持たない ⏰ `gw150914Merge4s` は実質 2.0000000)。**基準質量が無い本は「出典不明」**。**†** は観測版の対の**宣言質量**との比(その対の基準質量そのものは出典不明)。
+
 | # | 系 | 宣言 kFrame | f | kF1 側(走行成立 構造安定 数値成立 外挿残差 観測成立) | kF0 側(走行成立 構造安定 数値成立 外挿残差 観測成立) | f 固定・k のみの対照 | ラベル |
 | ---: | --- | ---: | ---: | --- | --- | --- | --- |
-| 1 | 🌙 `earthMoonReal` | 0 | 1.0000000 | 未測定 未測定 未測定 未測定 未測定 | ✓ 未測定 未測定 未測定 未測定 | なし(対 `earthMoonRealKF1` は D0eff・q・frameWeight・bodiesSha256 も動く) | — |
-| 2 | 🌘 `earthMoonRealKF1` | 1 | 1.0000000 | ✓ 未測定 未測定 未測定 未測定 | 未測定 未測定 未測定 未測定 未測定 | なし(対 `earthMoonReal` は D0eff・q・frameWeight・bodiesSha256 も動く) | — |
-| 3 | 🧲 `emAuditDFM` | 1 | 1.0000000 | ✓ 未測定 未測定 未測定 未測定 | 未測定 未測定 未測定 未測定 未測定 | なし | — |
-| 4 | 🔆 `emAuditSolar` | 0 | 1.0000000 | 未測定 未測定 未測定 未測定 未測定 | ✓ 未測定 未測定 未測定 未測定 | なし | — |
-| 5 | ☄️ `mercuryReal` | 0 | 1.0000000 | 未測定 未測定 未測定 未測定 未測定 | ✓ 未測定 未測定 未測定 未測定 | なし(対 `mercuryRealKF1` は D0eff・q・frameWeight も動く) | — |
-| 6 | 🪨 `mercuryRealKF1` | 1 | 1.0000000 | ✓ 未測定 未測定 未測定 未測定 | 未測定 未測定 未測定 未測定 未測定 | なし(対 `mercuryReal` は D0eff・q・frameWeight も動く) | — |
-| 7 | 🌞 `solarInner` | 1 | 1.0000000 | ✓ 未測定 未測定 未測定 未測定 | 未測定 未測定 未測定 未測定 未測定 | なし | — |
-| 8 | 🟠 `jupiterGalilean` | 1 | 1.0000000 | ✓ 未測定 未測定 未測定 未測定 | ✓ 未測定 未測定 未測定 未測定 | あり(同一プリセットの診断コピー) | — |
-| 9 | 🌇 `venusReal` | 1 | 1.0000000 | ✓ 未測定 未測定 未測定 未測定 | ✓ 未測定 未測定 未測定 未測定 | あり(同一プリセットの診断コピー) | — |
-| 10 | 🥔 `marsMoonsReal` | 1 | 1.0000000 | ✓ 未測定 未測定 未測定 未測定 | ✓ 未測定 未測定 未測定 未測定 | あり(同一プリセットの診断コピー) | — |
+| 1 | 🌙 `earthMoonReal` | 0 | 出典不明 | 未測定 未測定 未測定 未測定 未測定 | ✓ 未測定 未測定 未測定 未測定 | なし(対 `earthMoonRealKF1` は D0eff・q・frameWeight・bodiesSha256 も動く) | — |
+| 2 | 🌘 `earthMoonRealKF1` | 1 | 1.0000000† | ✓ 未測定 未測定 未測定 未測定 | 未測定 未測定 未測定 未測定 未測定 | なし(対 `earthMoonReal` は D0eff・q・frameWeight・bodiesSha256 も動く) | — |
+| 3 | 🧲 `emAuditDFM` | 1 | 出典不明 | ✓ 未測定 未測定 未測定 未測定 | 未測定 未測定 未測定 未測定 未測定 | なし | — |
+| 4 | 🔆 `emAuditSolar` | 0 | 出典不明 | 未測定 未測定 未測定 未測定 未測定 | ✓ 未測定 未測定 未測定 未測定 | なし | — |
+| 5 | ☄️ `mercuryReal` | 0 | 出典不明 | 未測定 未測定 未測定 未測定 未測定 | ✓ 未測定 未測定 未測定 未測定 | なし(対 `mercuryRealKF1` は D0eff・q・frameWeight も動く) | — |
+| 6 | 🪨 `mercuryRealKF1` | 1 | 1.0000000† | ✓ 未測定 未測定 未測定 未測定 | 未測定 未測定 未測定 未測定 未測定 | なし(対 `mercuryReal` は D0eff・q・frameWeight も動く) | — |
+| 7 | 🌞 `solarInner` | 1 | 出典不明 | ✓ 未測定 未測定 未測定 未測定 | 未測定 未測定 未測定 未測定 未測定 | なし | — |
+| 8 | 🟠 `jupiterGalilean` | 1 | 出典不明 | ✓ 未測定 未測定 未測定 未測定 | ✓ 未測定 未測定 未測定 未測定 | あり(同一プリセットの診断コピー) | — |
+| 9 | 🌇 `venusReal` | 1 | 出典不明 | ✓ 未測定 未測定 未測定 未測定 | ✓ 未測定 未測定 未測定 未測定 | あり(同一プリセットの診断コピー) | — |
+| 10 | 🥔 `marsMoonsReal` | 1 | 出典不明 | ✓ 未測定 未測定 未測定 未測定 | ✓ 未測定 未測定 未測定 未測定 | あり(同一プリセットの診断コピー) | — |
 | 11 | ❄️ `plutoCharonReal` | 1 | 1.0000000 | ✓ 未測定 ✗ 未測定 未測定 | ✓ 未測定 ✓ 未測定 ✗ | あり(同一プリセットの診断コピー) | — |
-| 12 | 💠 `uranusReal` | 1 | 1.0000000 | ✓ 未測定 未測定 未測定 未測定 | 未測定 未測定 未測定 未測定 未測定 | なし | — |
-| 13 | 🌊 `neptuneReal` | 1 | 1.0000000 | ✓ 未測定 未測定 未測定 未測定 | ✓ 未測定 未測定 未測定 未測定 | あり(同一プリセットの診断コピー) | — |
-| 14 | ✨ `alphaCenAB` | 0 | 1.0000000 | 未測定 未測定 未測定 未測定 未測定 | ✓ 未測定 ✓ 未測定 ✓ | なし(対 `alphaCenABDFM` は massFactor・bodiesSha256 も動く) | — |
-| 15 | ✴️ `alphaCenABDFM` | 1 | 1.0002158 | ✓ 未測定 ✗ 未測定 未測定 | 未測定 未測定 未測定 未測定 未測定 | なし(対 `alphaCenAB` は massFactor・bodiesSha256 も動く) | — |
-| 16 | 🌟 `siriusAB` | 0 | 1.0000000 | 未測定 未測定 未測定 未測定 未測定 | ✓ 未測定 ✓ 未測定 ✓ | なし(対 `siriusABDFM` は massFactor・bodiesSha256 も動く) | — |
-| 17 | 💫 `siriusABDFM` | 1 | 1.0003769 | ✓ 未測定 ✗ 未測定 未測定 | 未測定 未測定 未測定 未測定 未測定 | なし(対 `siriusAB` は massFactor・bodiesSha256 も動く) | — |
+| 12 | 💠 `uranusReal` | 1 | 出典不明 | ✓ 未測定 未測定 未測定 未測定 | 未測定 未測定 未測定 未測定 未測定 | なし | — |
+| 13 | 🌊 `neptuneReal` | 1 | 出典不明 | ✓ 未測定 未測定 未測定 未測定 | ✓ 未測定 未測定 未測定 未測定 | あり(同一プリセットの診断コピー) | — |
+| 14 | ✨ `alphaCenAB` | 0 | 1.0000000 | 未測定 未測定 未測定 未測定 未測定 | ✓ 未測定 ✓ 未測定 ✓ | なし(対 `alphaCenABDFM` は bodiesSha256 も動く) | — |
+| 15 | ✴️ `alphaCenABDFM` | 1 | 1.0000000 | ✓ 未測定 ✗ 未測定 未測定 | 未測定 未測定 未測定 未測定 未測定 | なし(対 `alphaCenAB` は bodiesSha256 も動く) | — |
+| 16 | 🌟 `siriusAB` | 0 | 1.0000000 | 未測定 未測定 未測定 未測定 未測定 | ✓ 未測定 ✓ 未測定 ✓ | なし(対 `siriusABDFM` は bodiesSha256 も動く) | — |
+| 17 | 💫 `siriusABDFM` | 1 | 1.0000000 | ✓ 未測定 ✗ 未測定 未測定 | 未測定 未測定 未測定 未測定 未測定 | なし(対 `siriusAB` は bodiesSha256 も動く) | — |
 | 18 | 📻 `psrDoubleAB` | 0 | 1.0000000 | 未測定 未測定 未測定 未測定 未測定 | ✓ 未測定 ✓ 未測定 未測定 | なし(対 `psrDoubleABDFM` は massFactor・bodiesSha256 も動く) | — |
 | 19 | ⚡ `psrDoubleABDFM` | 1 | 1.9999423 | ✓ 未測定 ✗ 未測定 未測定 | 未測定 未測定 未測定 未測定 未測定 | なし(対 `psrDoubleAB` は massFactor・bodiesSha256 も動く) | — |
 | 20 | 🧿 `psrDoubleABSpinCal` | 1 | 1.9999140 | ✓ 未測定 未測定 未測定 未測定 | 未測定 未測定 未測定 未測定 未測定 | なし | — |
@@ -84,10 +86,10 @@
 | 31 | 🪤 `psrB1534CF` | 1 | 1.9994855 | ✓ 未測定 ✗ 未測定 未測定 | 未測定 未測定 未測定 未測定 未測定 | なし | — |
 | 32 | 🎐 `gw150914` | 0 | 1.0000000 | 未測定 未測定 未測定 未測定 未測定 | ✓ 未測定 未測定 未測定 未測定 | なし(対 `gw150914DFM` は massFactor・bodiesSha256 も動く) | — |
 | 33 | 🎻 `gw150914DFM` | 1 | 2.0000000 | ✓ 未測定 未測定 未測定 未測定 | 未測定 未測定 未測定 未測定 未測定 | なし(対 `gw150914` は massFactor・bodiesSha256 も動く) | — |
-| 34 | ⏰ `gw150914Merge4s` | 1 | 1.0000000 | ✓ 未測定 未測定 未測定 未測定 | 未測定 未測定 未測定 未測定 未測定 | なし | — |
-| 35 | 📡 `saturnZonalD68` | 0 | 1.0000000 | 未測定 未測定 未測定 未測定 未測定 | ✓ 未測定 ✓ 未測定 ✗ | なし | — |
-| 36 | 💍 `saturnRingReal` | 0 | 1.0000000 | 未測定 未測定 未測定 未測定 未測定 | ✓ 未測定 未測定 未測定 未測定 | なし(対 `saturnRingRealKF1` は D0eff・q・frameWeight・bodiesSha256 も動く) | — |
-| 37 | 💿 `saturnRingRealKF1` | 1 | 1.0000000 | ✓ 未測定 未測定 未測定 未測定 | 未測定 未測定 未測定 未測定 未測定 | なし(対 `saturnRingReal` は D0eff・q・frameWeight・bodiesSha256 も動く) | — |
+| 34 | ⏰ `gw150914Merge4s` | 1 | 2.0000000 | ✓ 未測定 未測定 未測定 未測定 | 未測定 未測定 未測定 未測定 未測定 | なし | — |
+| 35 | 📡 `saturnZonalD68` | 0 | 出典不明 | 未測定 未測定 未測定 未測定 未測定 | ✓ 未測定 ✓ 未測定 ✗ | なし | — |
+| 36 | 💍 `saturnRingReal` | 0 | 出典不明 | 未測定 未測定 未測定 未測定 未測定 | ✓ 未測定 未測定 未測定 未測定 | なし(対 `saturnRingRealKF1` は D0eff・q・frameWeight・bodiesSha256 も動く) | — |
+| 37 | 💿 `saturnRingRealKF1` | 1 | 1.0000000† | ✓ 未測定 未測定 未測定 未測定 | 未測定 未測定 未測定 未測定 未測定 | なし(対 `saturnRingReal` は D0eff・q・frameWeight・bodiesSha256 も動く) | — |
 
 ## 3. 診断系列 6 行
 
@@ -121,11 +123,11 @@
 
 | 対 | kFrame | f | **k のみの対照か** | k と一緒に動いている軸 |
 | --- | --- | ---: | --- | --- |
-| 🌙 `earthMoonReal` ↔ 🌘 `earthMoonRealKF1` (🌙 / 🌘 地球・月) | 0 → 1 | 1.0000000 → 1.0000000 | いいえ | `D0eff` 0.1 → 0.0000324204 / `q` 3 → 8.2358 / `frameWeight` share → pull / `bodiesSha256` c61e669c32aa3688be07e4 → 5483dfb522293d7635bcd4 |
-| ☄️ `mercuryReal` ↔ 🪨 `mercuryRealKF1` (☄️ / 🪨 水星) | 0 → 1 | 1.0000000 → 1.0000000 | いいえ | `D0eff` 0.1 → 0.00324204 / `q` 3 → 6.1471 / `frameWeight` share → pull |
-| 💍 `saturnRingReal` ↔ 💿 `saturnRingRealKF1` (💍 / 💿 土星の環) | 0 → 1 | 1.0000000 → 1.0000000 | いいえ | `D0eff` 0.1 → 0.0000324204 / `q` 3 → 20.4932 / `frameWeight` share → pull / `bodiesSha256` 26e5f0b1c58fe5f9b2c49d → 8f0bd73b5835def64bde42 |
-| ✨ `alphaCenAB` ↔ ✴️ `alphaCenABDFM` (✨ / ✴️ α Cen AB) | 0 → 1 | 1.0000000 → 1.0002158 | いいえ | `massFactor` 1 → 1.0002157798299423 / `bodiesSha256` 274816ab932583e1162d89 → 7626187e195e5342ebf669 |
-| 🌟 `siriusAB` ↔ 💫 `siriusABDFM` (🌟 / 💫 Sirius AB) | 0 → 1 | 1.0000000 → 1.0003769 | いいえ | `massFactor` 1 → 1.0003769425929947 / `bodiesSha256` d42e9735986258e42a789e → 4453d5ec7535a662bfecf6 |
+| 🌙 `earthMoonReal` ↔ 🌘 `earthMoonRealKF1` (🌙 / 🌘 地球・月) | 0 → 1 | 出典不明 → 1.0000000† | いいえ | `D0eff` 0.1 → 0.0000324204 / `q` 3 → 8.2358 / `frameWeight` share → pull / `bodiesSha256` c61e669c32aa3688be07e4 → 5483dfb522293d7635bcd4 |
+| ☄️ `mercuryReal` ↔ 🪨 `mercuryRealKF1` (☄️ / 🪨 水星) | 0 → 1 | 出典不明 → 1.0000000† | いいえ | `D0eff` 0.1 → 0.00324204 / `q` 3 → 6.1471 / `frameWeight` share → pull |
+| 💍 `saturnRingReal` ↔ 💿 `saturnRingRealKF1` (💍 / 💿 土星の環) | 0 → 1 | 出典不明 → 1.0000000† | いいえ | `D0eff` 0.1 → 0.0000324204 / `q` 3 → 20.4932 / `frameWeight` share → pull / `bodiesSha256` 26e5f0b1c58fe5f9b2c49d → 8f0bd73b5835def64bde42 |
+| ✨ `alphaCenAB` ↔ ✴️ `alphaCenABDFM` (✨ / ✴️ α Cen AB) | 0 → 1 | 1.0000000 → 1.0000000 | いいえ | `bodiesSha256` 274816ab932583e1162d89 → c367559cf95d903cebc3a1 |
+| 🌟 `siriusAB` ↔ 💫 `siriusABDFM` (🌟 / 💫 Sirius AB) | 0 → 1 | 1.0000000 → 1.0000000 | いいえ | `bodiesSha256` d42e9735986258e42a789e → 4f9874e9dea0251dd67178 |
 | 📻 `psrDoubleAB` ↔ ⚡ `psrDoubleABDFM` (📻 / ⚡ J0737−3039) | 0 → 1 | 1.0000000 → 1.9999423 | いいえ | `massFactor` 1 → 1.999942269345993 / `bodiesSha256` 66a468318b94d424e8a088 → 9dd7daf4ffa2a691427c2f |
 | 📿 `psrB1534` ↔ 🧶 `psrB1534DFM` (📿 / 🧶 B1534+12) | 0 → 1 | 1.0000000 → 1.9994855 | いいえ | `massFactor` 1 → 1.9994854557873434 / `bodiesSha256` 6d0ce4ac9cf50a88519018 → 75e498092c87175162d6b4 |
 | 🎐 `gw150914` ↔ 🎻 `gw150914DFM` (🎐 / 🎻 GW150914) | 0 → 1 | 1.0000000 → 2.0000000 | いいえ | `massFactor` 1 → 1.9999999999889444 / `bodiesSha256` b71cf7f8ac0d80a75adec0 → 4accd6ac299be4ab9c3758 |
@@ -363,4 +365,4 @@
 
 ---
 
-生成: 2026-09-25T09:56:44.308Z / 対象 `beta/index.html` sha256 `590fae67d128bccd…` / 表の版 `w275a-1`
+生成: 2026-09-25T23:39:04.541Z / 対象 `beta/index.html` sha256 `13622832e411f9ca…` / 表の版 `w275a-1`

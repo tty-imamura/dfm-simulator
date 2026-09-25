@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
-  "generatedAt": "2026-09-25T06:50:46.219Z",
+  "targetSha256": "13622832e411f9caf4d3b4b0c219074500fc666ae2d4dbc1786ee8c27d98526a",
+  "generatedAt": "2026-09-25T23:39:01.784Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4780811,
-    "sha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
-    "mtime": "2026-09-25T04:06:38.157Z"
+    "bytes": 4794265,
+    "sha256": "13622832e411f9caf4d3b4b0c219074500fc666ae2d4dbc1786ee8c27d98526a",
+    "mtime": "2026-09-25T23:38:50.612Z"
    }
   ],
   "code": [
@@ -18,13 +18,13 @@
     "file": "tests/exp-w275a-presetaxes.mjs",
     "bytes": 6278,
     "sha256": "663d7b481c38f3e3b78c67d273e5a35c8da6484ed0c40b20732c096ddedac71d",
-    "mtime": "2026-09-20T17:32:23.348Z"
+    "mtime": "2026-09-25T22:50:04.796Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-09-25T22:50:06.808Z"
    }
   ],
   "codeSha256": "05ee87040a77aa72146ec46d8c220cad3ed01d59813e78054346064ff81efb92",
@@ -1886,8 +1886,8 @@
    "sampleClass": "calibration",
    "kFrame": 1,
    "kFrameApprox": null,
-   "massFactor": 1.0002157798299423,
-   "massCalibrationDeclared": true,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
    "D0": 0.006,
    "D0pull": 0.324204,
    "D0eff": 0.324204,
@@ -1897,8 +1897,8 @@
    "softening": 0.05,
    "geoPN": 2,
    "nBodyDecl": 2,
-   "presetSigHash": "8bf6c4cc",
-   "bodiesSha256": "7626187e195e5342ebf669ab283e5f40fad06a35a438d748316583c2230d5b73"
+   "presetSigHash": "3db39372",
+   "bodiesSha256": "c367559cf95d903cebc3a1b4f39ef7f5cd9477dddc542467f49e0d442ee74658"
   },
   {
    "id": "siriusAB",
@@ -1928,8 +1928,8 @@
    "sampleClass": "calibration",
    "kFrame": 1,
    "kFrameApprox": null,
-   "massFactor": 1.0003769425929947,
-   "massCalibrationDeclared": true,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
    "D0": 0.006,
    "D0pull": 0.324204,
    "D0eff": 0.324204,
@@ -1939,8 +1939,8 @@
    "softening": 0.05,
    "geoPN": 2,
    "nBodyDecl": 2,
-   "presetSigHash": "b1111485",
-   "bodiesSha256": "4453d5ec7535a662bfecf698c2a9797551f29dde9e99a4a60987d2cd6c55ad2f"
+   "presetSigHash": "dd6d9902",
+   "bodiesSha256": "4f9874e9dea0251dd671783388de9ce83de5068753e96a77aad5fa3035236bc9"
   },
   {
    "id": "psrDoubleAB",

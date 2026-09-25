@@ -3,55 +3,61 @@
   "provenanceVersion": "w272e-1",
   "wave": "第274便a(第64報・kF0 棚卸し便)",
   "target": "beta/index.html",
-  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
-  "generatedAt": "2026-09-25T09:56:44.175Z",
+  "targetSha256": "13622832e411f9caf4d3b4b0c219074500fc666ae2d4dbc1786ee8c27d98526a",
+  "generatedAt": "2026-09-25T23:39:04.403Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
     "bytes": 2812516,
     "sha256": "84d94bc4c3fb91c3ceb63ba50357af1c73afb3b408a705fc3952e9baebdd6a49",
-    "mtime": "2026-09-25T08:20:06.072Z"
+    "mtime": "2026-09-25T22:50:08.812Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
     "bytes": 155855,
     "sha256": "525cb5181add3b7ec3db399f20fc3a6d252b74d940c6f84c089d6f574678d0bb",
-    "mtime": "2026-09-25T09:06:24.816Z"
+    "mtime": "2026-09-25T22:50:08.816Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
     "bytes": 13500,
     "sha256": "401889d6f89c73997c0962ecd20322f49a966e7c8a809ea7157745ef92ce7c95",
-    "mtime": "2026-09-25T09:56:43.908Z"
+    "mtime": "2026-09-25T22:50:09.004Z"
    },
    {
     "file": "tests/out/galaxydiag-w271d.json",
     "bytes": 224268,
     "sha256": "660ab8a889a514856543403f211a6de30a60b2e6897fdf5e33764d81eb0ebea9",
-    "mtime": "2026-09-25T06:42:25.221Z"
+    "mtime": "2026-09-25T22:50:08.972Z"
    },
    {
     "file": "tests/out/kf0-w259d.json",
     "bytes": 9323,
     "sha256": "ae207310de5a2ed3d39d2a20de8fdc2eb7be4323dfba70bcf3997384a0cec694",
-    "mtime": "2026-09-16T05:09:24.054Z"
+    "mtime": "2026-09-25T22:50:08.984Z"
+   },
+   {
+    "file": "tests/out/calcontract-w282a.json",
+    "bytes": 125721,
+    "sha256": "881d4f0794e2468c03f75271a347b3d2ed300247b2c7b9ef12592242ca535296",
+    "mtime": "2026-09-25T23:39:04.228Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w274a-kf0ledger.mjs",
-    "bytes": 33396,
-    "sha256": "7e2f2002c2b8eb5ae3f017a2007ce62705f6ebfc962f341bad5c4e9f3fed8547",
-    "mtime": "2026-09-19T23:43:49.098Z"
+    "bytes": 34130,
+    "sha256": "8124ff2a9eb4950bcd6e9eda4f0e86db568b1cff5f79fd25aa50f59f3b90906a",
+    "mtime": "2026-09-25T23:29:37.144Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-09-25T22:50:06.808Z"
    }
   ],
-  "codeSha256": "48b3ad0bb838a1a93be301b7a6bb9a102b57aa0e051a281a99bfb36055911c41",
+  "codeSha256": "58a3d2b7a8a645fb2503022da97e15f27b1e52cb1e7008f2cc208da681678c96",
   "ledgerVersion": "w274a-1",
   "question": "**「kFrame=1 が成立しないサンプルで、kF0 版が成立しているか」**(原仮定者の優先課題・第64報)",
   "answerRule": "**4 列がすべて ✓ のときだけ「成立」と書く**。完走だけを成立と書かない。**「kF1 不成立・kF0 成立」と言えるのは、kF1 が 否(3σ) で kF0 が 合(3σ) の行だけである** ——保留(数値未解決・mapping-unresolved・未判定)は「不成立」ではない。",
@@ -145,31 +151,29 @@
   "nLabelled": 0,
   "labelledIds": [],
   "kf1NgKf0OkIds": [],
-  "nKOnlyContrast": 13,
+  "nKOnlyContrast": 11,
   "kOnlyContrastIds": [
-   "earthMoonReal",
-   "earthMoonRealKF1",
-   "mercuryReal",
-   "mercuryRealKF1",
    "jupiterGalilean",
    "venusReal",
    "marsMoonsReal",
    "plutoCharonReal",
    "neptuneReal",
-   "saturnRingReal",
-   "saturnRingRealKF1",
+   "alphaCenAB",
+   "alphaCenABDFM",
+   "siriusAB",
+   "siriusABDFM",
    "plutoCharonReal@charon-w272b",
    "ngc3198DFM@galaxydiag-w271d"
   ],
-  "nPairsKOnly": 3,
+  "nPairsKOnly": 2,
   "pairsKOnly": [
-   "earthMoonReal↔earthMoonRealKF1",
-   "mercuryReal↔mercuryRealKF1",
-   "saturnRingReal↔saturnRingRealKF1"
+   "alphaCenAB↔alphaCenABDFM",
+   "siriusAB↔siriusABDFM"
   ],
   "pairsNotKOnly": [
-   "alphaCenAB↔alphaCenABDFM",
-   "siriusAB↔siriusABDFM",
+   "earthMoonReal↔earthMoonRealKF1",
+   "mercuryReal↔mercuryRealKF1",
+   "saturnRingReal↔saturnRingRealKF1",
    "psrDoubleAB↔psrDoubleABDFM",
    "psrB1534↔psrB1534DFM",
    "gw150914↔gw150914DFM"
@@ -205,14 +209,14 @@
    "why": "🌙 / 🌘 地球・月",
    "emoji0": "🌙",
    "emoji1": "🌘",
-   "f0": 1,
+   "f0": null,
    "f1": 1,
-   "fSame": true,
-   "kOnly": true,
-   "fDeltaRel": 0,
+   "fSame": false,
+   "kOnly": false,
+   "fDeltaRel": null,
    "kf1Observation": "未測定",
    "kf0Observation": "未測定",
-   "note": "**f 固定・k のみの対照**である"
+   "note": "**k のみの対照ではない** —— 質量補正 f が一緒に動いている(f — → 1.0000000)。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
   },
   {
    "k0": "mercuryReal",
@@ -220,14 +224,14 @@
    "why": "☄️ / 🪨 水星",
    "emoji0": "☄️",
    "emoji1": "🪨",
-   "f0": 1,
+   "f0": null,
    "f1": 1,
-   "fSame": true,
-   "kOnly": true,
-   "fDeltaRel": 0,
+   "fSame": false,
+   "kOnly": false,
+   "fDeltaRel": null,
    "kf1Observation": "未測定",
    "kf0Observation": "未測定",
-   "note": "**f 固定・k のみの対照**である"
+   "note": "**k のみの対照ではない** —— 質量補正 f が一緒に動いている(f — → 1.0000000)。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
   },
   {
    "k0": "saturnRingReal",
@@ -235,14 +239,14 @@
    "why": "💍 / 💿 土星の環",
    "emoji0": "💍",
    "emoji1": "💿",
-   "f0": 1,
+   "f0": null,
    "f1": 1,
-   "fSame": true,
-   "kOnly": true,
-   "fDeltaRel": 0,
+   "fSame": false,
+   "kOnly": false,
+   "fDeltaRel": null,
    "kf1Observation": "未測定",
    "kf0Observation": "未測定",
-   "note": "**f 固定・k のみの対照**である"
+   "note": "**k のみの対照ではない** —— 質量補正 f が一緒に動いている(f — → 1.0000000)。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
   },
   {
    "k0": "alphaCenAB",
@@ -251,13 +255,13 @@
    "emoji0": "✨",
    "emoji1": "✴️",
    "f0": 1,
-   "f1": 1.0002157798299423,
-   "fSame": false,
-   "kOnly": false,
-   "fDeltaRel": 0.0002157798299422531,
+   "f1": 1,
+   "fSame": true,
+   "kOnly": true,
+   "fDeltaRel": 0,
    "kf1Observation": "未測定",
    "kf0Observation": "✓",
-   "note": "**k のみの対照ではない** —— 質量補正 f が一緒に動いている(f 1.0000000 → 1.0002158)。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
+   "note": "**f 固定・k のみの対照**である"
   },
   {
    "k0": "siriusAB",
@@ -266,13 +270,13 @@
    "emoji0": "🌟",
    "emoji1": "💫",
    "f0": 1,
-   "f1": 1.0003769425929947,
-   "fSame": false,
-   "kOnly": false,
-   "fDeltaRel": 0.0003769425929947001,
+   "f1": 1,
+   "fSame": true,
+   "kOnly": true,
+   "fDeltaRel": 0,
    "kf1Observation": "未測定",
    "kf0Observation": "✓",
-   "note": "**k のみの対照ではない** —— 質量補正 f が一緒に動いている(f 1.0000000 → 1.0003769)。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
+   "note": "**f 固定・k のみの対照**である"
   },
   {
    "k0": "psrDoubleAB",
@@ -281,10 +285,10 @@
    "emoji0": "📻",
    "emoji1": "⚡",
    "f0": 1,
-   "f1": 1.999942269345993,
+   "f1": 1.9999422693459927,
    "fSame": false,
    "kOnly": false,
-   "fDeltaRel": 0.999942269345993,
+   "fDeltaRel": 0.9999422693459927,
    "kf1Observation": "未測定",
    "kf0Observation": "未測定",
    "note": "**k のみの対照ではない** —— 質量補正 f が一緒に動いている(f 1.0000000 → 1.9999423)。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
@@ -327,7 +331,9 @@
    "emoji": "🌙",
    "name": "地球と月(実単位)— 恒星月 27.32日",
    "declaredKFrame": 0,
-   "massFactor": 1,
+   "massFactor": null,
+   "massFactorSource": "出典不明",
+   "massFactorDeclared": 1,
    "version": "obs",
    "kf0Source": "preset(宣言そのものが kFrame=0)",
    "kf0AppliedRows": [],
@@ -370,18 +376,17 @@
     }
    },
    "kOnlyContrast": {
-    "has": true,
-    "how": "paired-preset",
-    "pairedWith": "earthMoonRealKF1",
-    "why": "対 `earthMoonRealKF1` と **f が同じ**(1.0000000)で kFrame だけが違う。**別サンプルの対**なので、同一プリセットの診断コピーより弱い対照である(初期条件・停止条件の宣言も別である)。"
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
    },
    "label": null,
    "labelBasis": null,
    "pair": {
     "with": "earthMoonRealKF1",
     "side": "kF0",
-    "kOnly": true,
-    "note": "**f 固定・k のみの対照**である"
+    "kOnly": false,
+    "note": "**k のみの対照ではない** —— 質量補正 f が一緒に動いている(f — → 1.0000000)。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
    }
   },
   {
@@ -391,6 +396,8 @@
    "name": "地球と月(実単位・kFrame=1)— 近点回転 8.85年の較正再現",
    "declaredKFrame": 1,
    "massFactor": 1,
+   "massFactorSource": "twin:earthMoonReal(基準は出典不明(観測版の宣言質量))",
+   "massFactorDeclared": 1,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -433,18 +440,17 @@
     "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
    },
    "kOnlyContrast": {
-    "has": true,
-    "how": "paired-preset",
-    "pairedWith": "earthMoonReal",
-    "why": "対 `earthMoonReal` と **f が同じ**(1.0000000)で kFrame だけが違う。**別サンプルの対**なので、同一プリセットの診断コピーより弱い対照である(初期条件・停止条件の宣言も別である)。"
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
    },
    "label": null,
    "labelBasis": null,
    "pair": {
     "with": "earthMoonReal",
     "side": "kF1",
-    "kOnly": true,
-    "note": "**f 固定・k のみの対照**である"
+    "kOnly": false,
+    "note": "**k のみの対照ではない** —— 質量補正 f が一緒に動いている(f — → 1.0000000)。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
    }
   },
   {
@@ -453,7 +459,9 @@
    "emoji": "🧲",
    "name": "地球と月・機構判別B(二体DFM較正)— 8.85年を別機構で",
    "declaredKFrame": 1,
-   "massFactor": 1,
+   "massFactor": null,
+   "massFactorSource": "出典不明",
+   "massFactorDeclared": 1,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -509,7 +517,9 @@
    "emoji": "🔆",
    "name": "地球と月・機構判別C(太陽+地球+月の三体)— 較正なしの太陽摂動",
    "declaredKFrame": 0,
-   "massFactor": 1,
+   "massFactor": null,
+   "massFactorSource": "出典不明",
+   "massFactorDeclared": 1,
    "version": "obs",
    "kf0Source": "preset(宣言そのものが kFrame=0)",
    "kf0AppliedRows": [],
@@ -565,7 +575,9 @@
    "emoji": "☄️",
    "name": "水星(実単位)— 近日点前進(43.0″/世紀は RL 勾配・600 公転・λ_PN 差引き)",
    "declaredKFrame": 0,
-   "massFactor": 1,
+   "massFactor": null,
+   "massFactorSource": "出典不明",
+   "massFactorDeclared": 1,
    "version": "obs",
    "kf0Source": "preset(宣言そのものが kFrame=0)",
    "kf0AppliedRows": [],
@@ -615,18 +627,17 @@
     }
    },
    "kOnlyContrast": {
-    "has": true,
-    "how": "paired-preset",
-    "pairedWith": "mercuryRealKF1",
-    "why": "対 `mercuryRealKF1` と **f が同じ**(1.0000000)で kFrame だけが違う。**別サンプルの対**なので、同一プリセットの診断コピーより弱い対照である(初期条件・停止条件の宣言も別である)。"
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
    },
    "label": null,
    "labelBasis": null,
    "pair": {
     "with": "mercuryRealKF1",
     "side": "kF0",
-    "kOnly": true,
-    "note": "**f 固定・k のみの対照**である"
+    "kOnly": false,
+    "note": "**k のみの対照ではない** —— 質量補正 f が一緒に動いている(f — → 1.0000000)。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
    }
   },
   {
@@ -636,6 +647,8 @@
    "name": "水星(実単位・kFrame=1)— 共通補正(43.0″/世紀は RL 勾配・600 公転・λ_PN 差引き)",
    "declaredKFrame": 1,
    "massFactor": 1,
+   "massFactorSource": "twin:mercuryReal(基準は出典不明(観測版の宣言質量))",
+   "massFactorDeclared": 1,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -685,18 +698,17 @@
     "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
    },
    "kOnlyContrast": {
-    "has": true,
-    "how": "paired-preset",
-    "pairedWith": "mercuryReal",
-    "why": "対 `mercuryReal` と **f が同じ**(1.0000000)で kFrame だけが違う。**別サンプルの対**なので、同一プリセットの診断コピーより弱い対照である(初期条件・停止条件の宣言も別である)。"
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
    },
    "label": null,
    "labelBasis": null,
    "pair": {
     "with": "mercuryReal",
     "side": "kF1",
-    "kOnly": true,
-    "note": "**f 固定・k のみの対照**である"
+    "kOnly": false,
+    "note": "**k のみの対照ではない** —— 質量補正 f が一緒に動いている(f — → 1.0000000)。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
    }
   },
   {
@@ -705,7 +717,9 @@
    "emoji": "🌞",
    "name": "太陽系 — 内惑星(実単位)",
    "declaredKFrame": 1,
-   "massFactor": 1,
+   "massFactor": null,
+   "massFactorSource": "出典不明",
+   "massFactorDeclared": 1,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -761,7 +775,9 @@
    "emoji": "🟠",
    "name": "木星とガリレオ衛星(実単位)— 規則を再フィットしない hold-out",
    "declaredKFrame": 1,
-   "massFactor": 1,
+   "massFactor": null,
+   "massFactorSource": "出典不明",
+   "massFactorDeclared": 1,
    "version": "dfm",
    "kf0Source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
    "kf0AppliedRows": [
@@ -893,7 +909,9 @@
    "emoji": "🌇",
    "name": "太陽と金星(実単位)— 自由中心の二体転写",
    "declaredKFrame": 1,
-   "massFactor": 1,
+   "massFactor": null,
+   "massFactorSource": "出典不明",
+   "massFactorDeclared": 1,
    "version": "dfm",
    "kf0Source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
    "kf0AppliedRows": [
@@ -989,7 +1007,9 @@
    "emoji": "🥔",
    "name": "火星とフォボス・ダイモス(実単位)— テスト粒子転写",
    "declaredKFrame": 1,
-   "massFactor": 1,
+   "massFactor": null,
+   "massFactorSource": "出典不明",
+   "massFactorDeclared": 1,
    "version": "dfm",
    "kf0Source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
    "kf0AppliedRows": [
@@ -1086,6 +1106,8 @@
    "name": "冥王星とカロン(実単位)— 重心が外にある二体",
    "declaredKFrame": 1,
    "massFactor": 1,
+   "massFactorSource": "MASS_BASIS observed-solution(自身が基準)",
+   "massFactorDeclared": 1,
    "version": "dfm",
    "kf0Source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
    "kf0AppliedRows": [
@@ -1216,7 +1238,9 @@
    "emoji": "💠",
    "name": "天王星の環と主要5衛星(実単位)",
    "declaredKFrame": 1,
-   "massFactor": 1,
+   "massFactor": null,
+   "massFactorSource": "出典不明",
+   "massFactorDeclared": 1,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -1272,7 +1296,9 @@
    "emoji": "🌊",
    "name": "海王星とトリトン(実単位)— 逆行衛星の二体",
    "declaredKFrame": 1,
-   "massFactor": 1,
+   "massFactor": null,
+   "massFactorSource": "出典不明",
+   "massFactorDeclared": 1,
    "version": "dfm",
    "kf0Source": "kf0-diagnostic-copy(第274便a・--kf0-runs)",
    "kf0AppliedRows": [
@@ -1369,6 +1395,8 @@
    "name": "αケンタウリAB(実単位)— 恒星連星の二体",
    "declaredKFrame": 0,
    "massFactor": 1,
+   "massFactorSource": "MASS_BASIS observed-solution(自身が基準)",
+   "massFactorDeclared": 1,
    "version": "obs",
    "kf0Source": "preset(宣言そのものが kFrame=0)",
    "kf0AppliedRows": [],
@@ -1445,17 +1473,18 @@
     }
    },
    "kOnlyContrast": {
-    "has": false,
-    "how": null,
-    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+    "has": true,
+    "how": "paired-preset",
+    "pairedWith": "alphaCenABDFM",
+    "why": "対 `alphaCenABDFM` と **f が同じ**(1.0000000)で kFrame だけが違う。**別サンプルの対**なので、同一プリセットの診断コピーより弱い対照である(初期条件・停止条件の宣言も別である)。"
    },
    "label": null,
    "labelBasis": null,
    "pair": {
     "with": "alphaCenABDFM",
     "side": "kF0",
-    "kOnly": false,
-    "note": "**k のみの対照ではない** —— 質量補正 f が一緒に動いている(f 1.0000000 → 1.0002158)。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
+    "kOnly": true,
+    "note": "**f 固定・k のみの対照**である"
    }
   },
   {
@@ -1464,7 +1493,9 @@
    "emoji": "✴️",
    "name": "αケンタウリAB(DFM版)— pull 重み・観測質量のまま kF1",
    "declaredKFrame": 1,
-   "massFactor": 1.0002157798299423,
+   "massFactor": 1,
+   "massFactorSource": "massCalibration.baseMass",
+   "massFactorDeclared": 1.0002157798299423,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -1523,17 +1554,18 @@
     "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
    },
    "kOnlyContrast": {
-    "has": false,
-    "how": null,
-    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+    "has": true,
+    "how": "paired-preset",
+    "pairedWith": "alphaCenAB",
+    "why": "対 `alphaCenAB` と **f が同じ**(1.0000000)で kFrame だけが違う。**別サンプルの対**なので、同一プリセットの診断コピーより弱い対照である(初期条件・停止条件の宣言も別である)。"
    },
    "label": null,
    "labelBasis": null,
    "pair": {
     "with": "alphaCenAB",
     "side": "kF1",
-    "kOnly": false,
-    "note": "**k のみの対照ではない** —— 質量補正 f が一緒に動いている(f 1.0000000 → 1.0002158)。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
+    "kOnly": true,
+    "note": "**f 固定・k のみの対照**である"
    }
   },
   {
@@ -1543,6 +1575,8 @@
    "name": "シリウスAB(実単位)— 白色矮星との連星",
    "declaredKFrame": 0,
    "massFactor": 1,
+   "massFactorSource": "MASS_BASIS observed-solution(自身が基準)",
+   "massFactorDeclared": 1,
    "version": "obs",
    "kf0Source": "preset(宣言そのものが kFrame=0)",
    "kf0AppliedRows": [],
@@ -1619,17 +1653,18 @@
     }
    },
    "kOnlyContrast": {
-    "has": false,
-    "how": null,
-    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+    "has": true,
+    "how": "paired-preset",
+    "pairedWith": "siriusABDFM",
+    "why": "対 `siriusABDFM` と **f が同じ**(1.0000000)で kFrame だけが違う。**別サンプルの対**なので、同一プリセットの診断コピーより弱い対照である(初期条件・停止条件の宣言も別である)。"
    },
    "label": null,
    "labelBasis": null,
    "pair": {
     "with": "siriusABDFM",
     "side": "kF0",
-    "kOnly": false,
-    "note": "**k のみの対照ではない** —— 質量補正 f が一緒に動いている(f 1.0000000 → 1.0003769)。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
+    "kOnly": true,
+    "note": "**f 固定・k のみの対照**である"
    }
   },
   {
@@ -1638,7 +1673,9 @@
    "emoji": "💫",
    "name": "シリウスAB(DFM版)— pull 重み・観測質量のまま kF1",
    "declaredKFrame": 1,
-   "massFactor": 1.0003769425929947,
+   "massFactor": 1,
+   "massFactorSource": "massCalibration.baseMass",
+   "massFactorDeclared": 1.0003769425929947,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -1697,17 +1734,18 @@
     "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
    },
    "kOnlyContrast": {
-    "has": false,
-    "how": null,
-    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+    "has": true,
+    "how": "paired-preset",
+    "pairedWith": "siriusAB",
+    "why": "対 `siriusAB` と **f が同じ**(1.0000000)で kFrame だけが違う。**別サンプルの対**なので、同一プリセットの診断コピーより弱い対照である(初期条件・停止条件の宣言も別である)。"
    },
    "label": null,
    "labelBasis": null,
    "pair": {
     "with": "siriusAB",
     "side": "kF1",
-    "kOnly": false,
-    "note": "**k のみの対照ではない** —— 質量補正 f が一緒に動いている(f 1.0000000 → 1.0003769)。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
+    "kOnly": true,
+    "note": "**f 固定・k のみの対照**である"
    }
   },
   {
@@ -1717,6 +1755,8 @@
    "name": "二重パルサー J0737−3039A/B(実単位)— 2.45時間の中性子星連星",
    "declaredKFrame": 0,
    "massFactor": 1,
+   "massFactorSource": "MASS_BASIS observed-solution(自身が基準)",
+   "massFactorDeclared": 1,
    "version": "obs",
    "kf0Source": "preset(宣言そのものが kFrame=0)",
    "kf0AppliedRows": [],
@@ -1809,7 +1849,9 @@
    "emoji": "⚡",
    "name": "二重パルサー J0737−3039A/B(DFM版)— pull 重み・kF1 質量較正(f≈2)",
    "declaredKFrame": 1,
-   "massFactor": 1.999942269345993,
+   "massFactor": 1.9999422693459927,
+   "massFactorSource": "massCalibration.baseMass",
+   "massFactorDeclared": 1.999942269345993,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -1893,7 +1935,9 @@
    "emoji": "🧿",
    "name": "二重パルサー J0737−3039A/B(スピン–スピン較正候補)— f と λ を回した比較 variant",
    "declaredKFrame": 1,
-   "massFactor": 1.999914,
+   "massFactor": 1.9999139999999997,
+   "massFactorSource": "massCalibration.baseMass",
+   "massFactorDeclared": 1.999914,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -1962,6 +2006,8 @@
    "name": "PSR J1757−1854(DFM版・hold-out)— ⚡ の処方をそのまま当てた中性子星連星2例目",
    "declaredKFrame": 1,
    "massFactor": 1.9998956627766773,
+   "massFactorSource": "massCalibration.baseMass",
+   "massFactorDeclared": 1.9998956627766773,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -2040,7 +2086,9 @@
    "emoji": "🩺",
    "name": "PSR J1946+2052(DFM版・hold-out)— 銀河系で最短周期の中性子星連星",
    "declaredKFrame": 1,
-   "massFactor": 1.9999655295617553,
+   "massFactor": 1.999965529561755,
+   "massFactorSource": "massCalibration.baseMass",
+   "massFactorDeclared": 1.9999655295617553,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -2124,7 +2172,9 @@
    "emoji": "🪶",
    "name": "二重パルサー J0737−3039A/B(NS 応答候補 λ_PN=1/f)— 1PN の強さだけを観測質量へ戻す",
    "declaredKFrame": 1,
-   "massFactor": 1.999942269345993,
+   "massFactor": 1.9999422693459927,
+   "massFactorSource": "massCalibration.baseMass",
+   "massFactorDeclared": 1.999942269345993,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -2198,6 +2248,8 @@
    "name": "PSR J1757−1854(NS 応答候補 λ_PN=1/f)— ⚡ の処方に 1/f を足して当てた 2 例目",
    "declaredKFrame": 1,
    "massFactor": 1.9998956627766773,
+   "massFactorSource": "massCalibration.baseMass",
+   "massFactorDeclared": 1.9998956627766773,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -2270,7 +2322,9 @@
    "emoji": "🪀",
    "name": "PSR J1946+2052(NS 応答候補 λ_PN=1/f)— ⚡ の処方に 1/f を足して当てた 3 例目",
    "declaredKFrame": 1,
-   "massFactor": 1.9999655295617553,
+   "massFactor": 1.999965529561755,
+   "massFactorSource": "massCalibration.baseMass",
+   "massFactorDeclared": 1.9999655295617553,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -2343,7 +2397,9 @@
    "emoji": "🪝",
    "name": "二重パルサー J0737−3039A/B(コンパクト力 案K)— χ ゲート付き質量電流結合",
    "declaredKFrame": 1,
-   "massFactor": 1.999942269345993,
+   "massFactor": 1.9999422693459927,
+   "massFactorSource": "massCalibration.baseMass",
+   "massFactorDeclared": 1.999942269345993,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -2415,6 +2471,8 @@
    "name": "PSR J1757−1854(コンパクト力 案K)— ⚡ で凍結した κ をそのまま流した 2 例目",
    "declaredKFrame": 1,
    "massFactor": 1.9998956627766773,
+   "massFactorSource": "massCalibration.baseMass",
+   "massFactorDeclared": 1.9998956627766773,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -2485,7 +2543,9 @@
    "emoji": "🩹",
    "name": "PSR J1946+2052(コンパクト力 案K)— ⚡ で凍結した κ をそのまま流した 3 例目",
    "declaredKFrame": 1,
-   "massFactor": 1.9999655295617553,
+   "massFactor": 1.999965529561755,
+   "massFactorSource": "massCalibration.baseMass",
+   "massFactorDeclared": 1.9999655295617553,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -2563,6 +2623,8 @@
    "name": "PSR B1534+12(実単位・観測版)— 第 4 の凍結 hold-out の入力確認",
    "declaredKFrame": 0,
    "massFactor": 1,
+   "massFactorSource": "MASS_BASIS observed-solution(自身が基準)",
+   "massFactorDeclared": 1,
    "version": "obs",
    "kf0Source": "preset(宣言そのものが kFrame=0)",
    "kf0AppliedRows": [],
@@ -2647,6 +2709,8 @@
    "name": "PSR B1534+12(DFM版・凍結 hold-out)— ⚡ の処方をそのまま当てた 4 例目",
    "declaredKFrame": 1,
    "massFactor": 1.9994854557873434,
+   "massFactorSource": "massCalibration.baseMass",
+   "massFactorDeclared": 1.9994854557873434,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -2731,6 +2795,8 @@
    "name": "PSR B1534+12(コンパクト力 案K・凍結 hold-out)— ⚡ の κ を 4 例目へ",
    "declaredKFrame": 1,
    "massFactor": 1.9994854557873434,
+   "massFactorSource": "massCalibration.baseMass",
+   "massFactorDeclared": 1.9994854557873434,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -2802,6 +2868,8 @@
    "name": "GW150914(実単位)— 連星ブラックホールの基準状態",
    "declaredKFrame": 0,
    "massFactor": 1,
+   "massFactorSource": "MASS_BASIS observed-solution(自身が基準)",
+   "massFactorDeclared": 1,
    "version": "obs",
    "kf0Source": "preset(宣言そのものが kFrame=0)",
    "kf0AppliedRows": [],
@@ -2864,6 +2932,8 @@
    "name": "GW150914(DFM版)— pull 重み・kF1 質量較正(f≈2)",
    "declaredKFrame": 1,
    "massFactor": 1.9999999999889444,
+   "massFactorSource": "massCalibration.baseMass",
+   "massFactorDeclared": 1.9999999999889444,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -2925,7 +2995,9 @@
    "emoji": "⏰",
    "name": "GW150914 の合体(約4秒)— 放射の方向と用量の較正 variant",
    "declaredKFrame": 1,
-   "massFactor": 1,
+   "massFactor": 1.9999999999889444,
+   "massFactorSource": "twin:gw150914(観測解の質量)",
+   "massFactorDeclared": 1,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -2981,7 +3053,9 @@
    "emoji": "📡",
    "name": "土星の近点移動(実単位・D68 — 帯状重力の照合)",
    "declaredKFrame": 0,
-   "massFactor": 1,
+   "massFactor": null,
+   "massFactorSource": "出典不明",
+   "massFactorDeclared": 1,
    "version": "obs",
    "kf0Source": "preset(宣言そのものが kFrame=0)",
    "kf0AppliedRows": [],
@@ -3057,7 +3131,9 @@
    "emoji": "💍",
    "name": "土星の環(実単位)— 見えないのが正しい",
    "declaredKFrame": 0,
-   "massFactor": 1,
+   "massFactor": null,
+   "massFactorSource": "出典不明",
+   "massFactorDeclared": 1,
    "version": "obs",
    "kf0Source": "preset(宣言そのものが kFrame=0)",
    "kf0AppliedRows": [],
@@ -3100,18 +3176,17 @@
     }
    },
    "kOnlyContrast": {
-    "has": true,
-    "how": "paired-preset",
-    "pairedWith": "saturnRingRealKF1",
-    "why": "対 `saturnRingRealKF1` と **f が同じ**(1.0000000)で kFrame だけが違う。**別サンプルの対**なので、同一プリセットの診断コピーより弱い対照である(初期条件・停止条件の宣言も別である)。"
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
    },
    "label": null,
    "labelBasis": null,
    "pair": {
     "with": "saturnRingRealKF1",
     "side": "kF0",
-    "kOnly": true,
-    "note": "**f 固定・k のみの対照**である"
+    "kOnly": false,
+    "note": "**k のみの対照ではない** —— 質量補正 f が一緒に動いている(f — → 1.0000000)。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
    }
   },
   {
@@ -3121,6 +3196,8 @@
    "name": "土星の環(実単位・kFrame=1)— 表面随伴と自動算出q",
    "declaredKFrame": 1,
    "massFactor": 1,
+   "massFactorSource": "twin:saturnRingReal(基準は出典不明(観測版の宣言質量))",
+   "massFactorDeclared": 1,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -3163,18 +3240,17 @@
     "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
    },
    "kOnlyContrast": {
-    "has": true,
-    "how": "paired-preset",
-    "pairedWith": "saturnRingReal",
-    "why": "対 `saturnRingReal` と **f が同じ**(1.0000000)で kFrame だけが違う。**別サンプルの対**なので、同一プリセットの診断コピーより弱い対照である(初期条件・停止条件の宣言も別である)。"
+    "has": false,
+    "how": null,
+    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
    },
    "label": null,
    "labelBasis": null,
    "pair": {
     "with": "saturnRingReal",
     "side": "kF1",
-    "kOnly": true,
-    "note": "**f 固定・k のみの対照**である"
+    "kOnly": false,
+    "note": "**k のみの対照ではない** —— 質量補正 f が一緒に動いている(f — → 1.0000000)。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
    }
   },
   {

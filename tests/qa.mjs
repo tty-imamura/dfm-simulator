@@ -2143,7 +2143,10 @@ if (QA_REPLAY_FAIL) {
       //   html を読む。**html を変えたら走らせ直す**。他の正本は読まない)
       'tests/out/rotorledger-w281c.json',
       // 第281便a(AN16・R71): ❄️ 対照系列の**履歴列**(C2/C4/C7 と C3/C5/S の h4 段 —— 再生成しない・role:"history")
-      'tests/out/charon-history-w272b.json'];
+      'tests/out/charon-history-w272b.json',
+      // 第282便a(原仮定者の裁定(第72報)・R77/R78): 較正契約の 3 系統と f=1 の棚卸し(target=beta/index.html —— 内蔵の宣言と
+      //   CAL_CONTRACT・calaudit の旧 4 値の区分を読む)/ ✴️💫 の f=1 移行の前後記録(**履歴** —— 再生成しない・role:"history")
+      'tests/out/calcontract-w282a.json', 'tests/out/fmigration-w282a.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -18227,9 +18230,15 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
           const w242 = pd.physics.frameWeight === "pull";
           // 第245便(裁定 A6): 台帳は一次則 f=1+k_F(αχ_A+βχ_B)へ切替 — 不動点 1.0002157798299423
           //   (χ² 則の 1.0000000468819212 は台帳 factorQuad に併記して残す)
-          const FA = w242 ? 1.0002157798299423 : (w224 ? 1.844194580781074 : 1.827), FB = FA;
+          // 第282便a(原仮定者の裁定(第72報)③): f 固定形(law:"f-fixed-1")の世代は f=1・m=✨ の m(ビット)。
+          //   旧一次則の値(1.0002157798299423)の検算は behavior.chi-law の履歴検証へ移した
+          const w282 = !!(pd.massCalibration && pd.massCalibration.law === 'f-fixed-1');
+          const FA = w282 ? 1 : (w242 ? 1.0002157798299423 : (w224 ? 1.844194580781074 : 1.827)), FB = FA;
           const FQ = 1.0000000468819212;
-          const massOk = Math.abs(pd.bodies[0].m / p.bodies[0].m - FA) < 1e-9
+          const massOk = w282
+            ? (pd.bodies[0].m === p.bodies[0].m && pd.bodies[1].m === p.bodies[1].m && pd.massCalibration.f === 1
+              && pd.massCalibration.baseMass[0] === p.bodies[0].m && pd.massCalibration.baseMass[1] === p.bodies[1].m)
+            : Math.abs(pd.bodies[0].m / p.bodies[0].m - FA) < 1e-9
             && Math.abs(pd.bodies[1].m / p.bodies[1].m - FB) < 1e-9
             && (!w224 || ((w242 ? pd.massCalibration.law === 'inertia-law-lin-v1' : pd.massCalibration.law === 'inertia-law-v1')
               && pd.massCalibration.fitDt === 0.016
@@ -18357,7 +18366,7 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
             invA: Math.abs((1 - pd.bodies[0].lightSweep) * pd.massCalibration.factorByBody[0] - 1),
             invB: Math.abs((1 - pd.bodies[1].lightSweep) * pd.massCalibration.factorByBody[1] - 1),
           };
-          dfm = { massOk, declOk, w242, p2, e1, nan: S.hasNaN(), angSign, dPeri, shellHold, driftA, driftB,
+          dfm = { massOk, declOk, w242, w282, p2, e1, nan: S.hasNaN(), angSign, dPeri, shellHold, driftA, driftB,
             coreDriftA, coreDriftB, clampD, lRel, comMax, pRel, negSat, negWalk, negWalkMax, dimOff,
             det: da.length === db.length && da.every((x2, i) => Object.is(x2, db[i])) };
         }
@@ -18407,9 +18416,9 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
       + `実測離心率 ${ac.kf0.ecc.toFixed(5)}(転写 0.51947)・座標最大 ${ac.kf0.maxAbs.toFixed(0)}(±5000 内)・重心 ${ac.kf0.comMax.toExponential(1)}(<1e-3) / `
       + `kF1(測定側・遠点発 0.56公転窓 — 第211便): 接触要素周期 ${(ac.kf1.growth * 100).toFixed(1)}%(宣言 pull −0.43%/share −13.0%)・rmin=${ac.kf1.rmin.toFixed(0)}(pull は近点 167.5 にほぼ届く) / `
       + `経路等価: CSV ${csvRows.length}行(2026-09-14 intake の併置行 ${csvIntakeN} 本は builder へ渡さない)→ buildAstroFromRecords が観測安定則発動(${ac.eq.stab})+内蔵とビット一致=${ac.eq.same}(第242便 pull: 記録経路は kF${ac.eq.recKF}〔自己診断通過〕・kFrame 以外の一致=${ac.eq.sameNoKF}) / `
-      + `✴️ DFM版(第245便 一次則): 質量係数 f=${dm.w242 ? '1.0002158(=観測質量+0.022%・χ² 則 1.0000000)' : '1.84419〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・A/B=kF0・外殻=転写光学半径ビット・${dm.w242 ? 'coupleSink:reservoir・コア無し・fitted 0ノブ' : 'coupleSink:core・massFrac=(f−1)/f・fitted 2ノブ'})=${dm.declOk}・`
+      + `✴️ DFM版(${dm.w282 ? '第282便a f 固定形' : '第245便 一次則'}): 質量係数 f=${dm.w282 ? '1(=観測質量そのもの — 旧一次則 1.0002158 は behavior.chi-law の履歴検証)' : (dm.w242 ? '1.0002158(=観測質量+0.022%・χ² 則 1.0000000)' : '1.84419〔share〕')}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・A/B=kF0・外殻=転写光学半径ビット・${dm.w242 ? 'coupleSink:reservoir・コア無し・fitted 0ノブ' : 'coupleSink:core・massFrac=(f−1)/f・fitted 2ノブ'})=${dm.declOk}・`
       + `familyRole: ✴️=primary/✨=variant(第204便) / `
-      + `kF1 の2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(3) + '年'}(観測 79.762・宣言 ${dm.w242 ? '79.269〔hold-out −0.62%〕' : '79.761'})・`
+      + `kF1 の2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(3) + '年'}(観測 79.762・宣言 ${dm.w282 ? '79.286〔第282便a f=1・−0.60%〕' : (dm.w242 ? '79.269〔hold-out −0.62%〕' : '79.761')})・`
       + `1周目 e=${dm.e1 === null ? '—' : dm.e1.toFixed(5)}(宣言 ${dm.w242 ? '0.52051' : '0.51684'})・向き=✨と同回り(angSign=${dm.angSign})・`
       + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(3) + '°/周'}(宣言 ${dm.w242 ? '+0.886・窓 0.7〜1.0' : '+4.26・窓 3.5〜5.0'})・`
       + `殻スピン=観測自転をビット保持(${dm.shellHold} — ドリフト A ${(dm.driftA * 100).toFixed(2)}%/B ${(dm.driftB * 100).toFixed(2)}%)・`
@@ -18540,9 +18549,14 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
           // 世代ゲート w224(root=旧共通 f=1.8702 世代は massCalibration を持たない)
           const w224 = !!pd.massCalibration;
           // 第245便(裁定 A6): 一次則の不動点 1.0003769425929947(χ² 則 1.000000160419523 は factorQuad に併記)
-          const FA = (pd.physics.frameWeight === 'pull') ? 1.0003769425929947 : (w224 ? 1.8881281616124954 : 1.8702), FB = FA;   // 第242便 pull / 第240便 share
+          // 第282便a(原仮定者の裁定(第72報)③): f 固定形の世代は f=1・m=🌟 の m(ビット)。旧一次則の検算は behavior.chi-law の履歴検証へ
+          const w282 = !!(pd.massCalibration && pd.massCalibration.law === 'f-fixed-1');
+          const FA = w282 ? 1 : ((pd.physics.frameWeight === 'pull') ? 1.0003769425929947 : (w224 ? 1.8881281616124954 : 1.8702)), FB = FA;   // 第242便 pull / 第240便 share
           const FQ = 1.000000160419523;
-          const massOk = Math.abs(pd.bodies[0].m / p.bodies[0].m - FA) < 1e-9
+          const massOk = w282
+            ? (pd.bodies[0].m === p.bodies[0].m && pd.bodies[1].m === p.bodies[1].m && pd.massCalibration.f === 1
+              && pd.massCalibration.baseMass[0] === p.bodies[0].m && pd.massCalibration.baseMass[1] === p.bodies[1].m)
+            : Math.abs(pd.bodies[0].m / p.bodies[0].m - FA) < 1e-9
             && Math.abs(pd.bodies[1].m / p.bodies[1].m - FB) < 1e-9
             && (!w224 || (pd.massCalibration.law === (pd.physics.frameWeight === 'pull' ? 'inertia-law-lin-v1' : 'inertia-law-v1')
               && pd.massCalibration.fitDt === 0.016
@@ -18671,7 +18685,7 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
             invA: Math.abs((1 - pd.bodies[0].lightSweep) * pd.massCalibration.factorByBody[0] - 1),
             invB: Math.abs((1 - pd.bodies[1].lightSweep) * pd.massCalibration.factorByBody[1] - 1),
           };
-          dfm = { massOk, declOk, p2, e1, rmin, nan: S.hasNaN(), angSign, dPeri, sMax,
+          dfm = { massOk, declOk, w282, p2, e1, rmin, nan: S.hasNaN(), angSign, dPeri, sMax,
             clampD, lRel, comMax, pRel, negSat, negWalk, negWalkMax, n0max, dimOff,
             w221, w242, s0hold: s0min === s0max,   // 第221便/第242便: A 殻自転の全窓 bit 保持
             // コア Ω ドリフトは**宣言値 SPIN_A 基準**(coreOmV は初回 step 前 0 のため t=0 読みは使わない)
@@ -18717,8 +18731,8 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
       + `kF0(採用側・1.05公転): ${t0 === null ? '—' : t0.toFixed(4) + '年'}(観測 50.1284・宣言 50.1306)・実測離心率 ${si.kf0.ecc.toFixed(5)}(転写 0.59142)・重心 ${si.kf0.comMax.toExponential(1)} / `
       + `kF1(測定側・遠点発 0.56公転): 接触要素周期 ${(si.kf1.growth * 100).toFixed(1)}%(宣言 pull −0.94%/share −19.0%)・rmin=${si.kf1.rmin.toFixed(0)}(pull は近点 120.9 にほぼ届く) / `
       + `経路等価: CSV ${csvRows.length}行(2026-09-14 intake の併置行 ${csvIntakeN} 本は builder へ渡さない)→ 観測安定則発動(${si.eq.stab})+二体クロージャ確認 note=${si.eq.closure}+半径限定降格=${si.eq.demR}+内蔵とビット一致=${si.eq.same} / `
-      + `💫 DFM版: 質量係数 f=${dm.w242 ? '1.0003769(=観測質量+0.038%・第245便 一次則)' : '1.88813〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・${dm.w242 ? 'coupleSink:reservoir・コア無し・fitted 0ノブ' : (dm.w221 ? 'coupleSink:core+二層〔第221便〕' : 'coupleSink:reservoir')}・cmGauge)=${dm.declOk}・`
-      + `2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(4) + '年'}(宣言 ${dm.w242 ? '49.225〔hold-out −1.80%〕' : (dm.w221 ? '50.128' : '50.1290')})・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(5)}(宣言 ${dm.w242 ? '0.59377' : '0.58880'})・近点 ${dm.rmin === undefined ? '—' : dm.rmin.toFixed(2)}・`
+      + `💫 DFM版: 質量係数 f=${dm.w282 ? '1(=観測質量そのもの・第282便a f 固定形 — 旧一次則 1.0003769 は behavior.chi-law の履歴検証)' : (dm.w242 ? '1.0003769(=観測質量+0.038%・第245便 一次則)' : '1.88813〔share〕')}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・${dm.w242 ? 'coupleSink:reservoir・コア無し・fitted 0ノブ' : (dm.w221 ? 'coupleSink:core+二層〔第221便〕' : 'coupleSink:reservoir')}・cmGauge)=${dm.declOk}・`
+      + `2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(4) + '年'}(宣言 ${dm.w282 ? '49.242〔第282便a f=1・−1.77%〕' : (dm.w242 ? '49.225〔hold-out −1.80%〕' : (dm.w221 ? '50.128' : '50.1290'))})・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(5)}(宣言 ${dm.w242 ? '0.59377' : '0.58880'})・近点 ${dm.rmin === undefined ? '—' : dm.rmin.toFixed(2)}・`
       + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(3) + '°/周'}(宣言 ${dm.w242 ? '+2.197' : '+2.55'})・spin残余 ${dm.sMax === undefined ? '—' : dm.sMax.toExponential(1)}(<1e-3)・`
       + (dm.w242 ? `A殻自転13.66 bit保持=${dm.s0hold}・コア無し(第242便 — (f−1)/f=3.768e-4 は massFrac 値域下限割れ)・` : (dm.w221 ? `A殻自転13.66 bit保持=${dm.s0hold}・コアΩドリフトA ${dm.omDriftA === null ? '—' : '+' + dm.omDriftA.toFixed(2) + '%'}(宣言 +1.2・窓0〜5)・` : ''))
       + `clampSN Δ=${dm.clampD}・帳簿 L ${dm.lRel === undefined ? '—' : dm.lRel.toExponential(1)}/P ${dm.pRel === undefined ? '—' : dm.pRel.toExponential(1)}・重心 ${dm.comMax === undefined ? '—' : dm.comMax.toExponential(1)}・`
@@ -32090,12 +32104,51 @@ await w5bRun('framePull', true); async function W5B_framePull(page, add, fpRun, 
       const PAIRS = [
         ['alphaCenAB', 'alphaCenABDFM'], ['siriusAB', 'siriusABDFM'],
         ['psrDoubleAB', 'psrDoubleABDFM'], ['gw150914', 'gw150914DFM']];
+      // 第282便a: 旧一次則台帳(第245便 inertia-law-lin-v1)の**履歴**。f=1 へ移した 2 本だけ(docs/PHYSICS.md〔第282便a〕の旧台帳表と同じ値)
+      const LEGACY_LIN = {
+        alphaCenABDFM: { f: 1.0002157798299423, chi: [0.00019882195798777018, 0.0002359009828947666],
+          fQuad: 1.0000000468819212, chiQuad: [0.0001987790833182524, 0.00023585011425950422] },
+        siriusABDFM: { f: 1.0003769425929947, chi: [0.00028151427778575297, 0.0005703302298080955],
+          fQuad: 1.000000160419523, chiQuad: [0.00028140827802898143, 0.0005701155429814001] } };
       const out = { pairs: {}, allOk: true };
       for (const [obsId, dfmId] of PAIRS) {
         const p = HP.allPresets().find((q) => q.id === obsId);
         const pd = HP.allPresets().find((q) => q.id === dfmId);
         const mc = pd && pd.massCalibration;
         const r = { ok: false };
+        // 第282便a(原仮定者の裁定(第72報)③ f=1): **f 固定形**(law:"f-fixed-1")の本は、旧一次則の判定式を
+        //   **旧台帳の履歴検証**として回す(判定式は消さない・対象を旧台帳 LEGACY_LIN に限定)+ 現行の宣言を照合する:
+        //   現行 = f===1・baseMass=観測版の m(bit)・bodies の m=baseMass(bit)・位置/速度=観測版(bit)・コア無し
+        //   履歴 = HP.dfmBinaryMassFactorLinear(baseMass…)の不動点が旧台帳の f とビット一致(χ² 則の併記も)
+        if (p && pd && mc && mc.law === 'f-fixed-1') {
+          const LEG = LEGACY_LIN[dfmId] || null;
+          const pw = HP.frameWeightPow ? HP.frameWeightPow(pd.physics) : 1;
+          const isPull = HP.frameWeightIsPull ? HP.frameWeightIsPull(pd.physics) : false;
+          const D0f = isPull ? pd.physics.D0pull : pd.physics.D0;
+          const rx = p.bodies[1].x - p.bodies[0].x, eps = pd.physics.softening;
+          r.law = mc.law; r.fixed = true;
+          r.decl = mc.f === 1 && Array.isArray(mc.baseMass) && mc.baseMass.length === 2
+            && mc.baseMass[0] === p.bodies[0].m && mc.baseMass[1] === p.bodies[1].m
+            && typeof mc.note === 'string' && /第282便a/.test(mc.note);
+          r.massEq = pd.bodies[0].m === mc.baseMass[0] && pd.bodies[1].m === mc.baseMass[1];
+          r.redis = [0, 1].every((i) => ['x', 'y', 'vx', 'vy'].every((k) => Object.is(pd.bodies[i][k], p.bodies[i][k])));
+          r.coreDecl = !pd.bodies[0].core && !pd.bodies[1].core
+            && pd.bodies[0].lightSweep === undefined && pd.bodies[1].lightSweep === undefined;
+          r.shell = Math.max(Math.abs(pd.bodies[0].m / mc.baseMass[0] - 1), Math.abs(pd.bodies[1].m / mc.baseMass[1] - 1));
+          r.ratio = 1;
+          if (LEG) {
+            const g = HP.dfmBinaryMassFactorLinear(mc.baseMass[0], mc.baseMass[1], rx, D0f, eps, pd.physics.kFrame, pw);
+            const gq = HP.dfmBinaryMassFactor(mc.baseMass[0], mc.baseMass[1], rx, D0f, eps, pd.physics.kFrame, pw);
+            r.legacyLawEq = !!g && Object.is(g.f, LEG.f) && Object.is(g.chiA, LEG.chi[0]) && Object.is(g.chiB, LEG.chi[1]);
+            r.legacyQuadEq = !!gq && Object.is(gq.f, LEG.fQuad) && Object.is(gq.chiA, LEG.chiQuad[0]) && Object.is(gq.chiB, LEG.chiQuad[1]);
+            r.fLegacy = g ? g.f : null;
+          }
+          r.ok = r.decl && r.massEq && r.redis && r.coreDecl && r.shell === 0
+            && !!LEG && r.legacyLawEq === true && r.legacyQuadEq === true;
+          out.pairs[dfmId] = r;
+          out.allOk = out.allOk && r.ok;
+          continue;
+        }
         if (p && pd && mc) {
           const rx = p.bodies[1].x - p.bodies[0].x, rvy = p.bodies[1].vy - p.bodies[0].vy;
           const fA = mc.factorByBody[0], fB = mc.factorByBody[1];
@@ -32181,7 +32234,20 @@ await w5bRun('framePull', true); async function W5B_framePull(page, add, fpRun, 
         out.allOk = out.allOk && r.ok;
       }
       // (d) validator: 正常受理(警告ゼロ・正規化保持)+不正形は警告つき無視
-      const pd0 = HP.allPresets().find((q) => q.id === 'alphaCenABDFM');
+      // 第282便a: 一次則台帳の見本は ✴️ から ⚡(f≈2 の現行台帳)へ。✴️ は f 固定形の受理を見る
+      const pdF = HP.allPresets().find((q) => q.id === 'alphaCenABDFM');
+      const w282 = !!(pdF && pdF.massCalibration && pdF.massCalibration.law === 'f-fixed-1');
+      if (w282) {
+        const vf = HP.validatePreset(JSON.parse(JSON.stringify(pdF)));
+        out.vFixed = vf.ok && vf.warnings.length === 0 && !!vf.preset.massCalibration
+          && vf.preset.massCalibration.law === 'f-fixed-1' && vf.preset.massCalibration.f === 1
+          && vf.preset.massCalibration.baseMass[0] === pdF.massCalibration.baseMass[0]
+          && vf.preset.massCalibration.note === pdF.massCalibration.note;
+        const bf = JSON.parse(JSON.stringify(pdF)); bf.massCalibration.f = 1.5;
+        const vbf = HP.validatePreset(bf);
+        out.vFixedBad = vbf.ok && vbf.preset.massCalibration === undefined && vbf.warnings.some((w) => /f-fixed-1/.test(w));
+      }
+      const pd0 = HP.allPresets().find((q) => q.id === (w282 ? 'psrDoubleABDFM' : 'alphaCenABDFM'));
       const v1 = HP.validatePreset(JSON.parse(JSON.stringify(pd0)));
       out.vOk = v1.ok && v1.warnings.length === 0 && v1.preset.massCalibration
         && v1.preset.massCalibration.law === 'inertia-law-lin-v1'   // 第245便(裁定 A6): 台帳は一次則
@@ -32198,14 +32264,17 @@ await w5bRun('framePull', true); async function W5B_framePull(page, add, fpRun, 
     });
     const pr = cl.pairs;
     // 第245便(裁定 A6): 宣言された一次則の不動点と、併記された χ² 則の不動点を**並記**する
-    const fmt = (id) => { const r = pr[id] || {}; return `${id}: 台帳=${r.decl} 法則一致=${r.lawEq} 固定点残差=${r.fp === undefined ? '—' : r.fp.toExponential(1)} 質量=${r.massEq} 再配分=${r.redis} 殻=${r.shell === undefined ? '—' : r.shell.toExponential(1)} 比=${r.ratio === undefined ? '—' : r.ratio.toFixed(6)}`
+    const fmt = (id) => { const r = pr[id] || {}; if (r.fixed) return `${id}: **f 固定形**(第282便a — f=1・m=baseMass=観測版 ${r.massEq}・位置速度=観測版 ${r.redis}・コア無し ${r.coreDecl})・`
+      + `**旧一次則台帳の履歴検証** f_lin 再計算=${r.fLegacy}(一致=${r.legacyLawEq}・χ² 併記一致=${r.legacyQuadEq})`;
+      return `${id}: 台帳=${r.decl} 法則一致=${r.lawEq} 固定点残差=${r.fp === undefined ? '—' : r.fp.toExponential(1)} 質量=${r.massEq} 再配分=${r.redis} 殻=${r.shell === undefined ? '—' : r.shell.toExponential(1)} 比=${r.ratio === undefined ? '—' : r.ratio.toFixed(6)}`
       + (r.lin ? ` / 宣言=一次則 f_lin=${r.fDecl} × χ²則(併記)f_quad=${r.fQuad}(一致=${r.quadEq}・差 ${r.dQuadPct === null ? '—' : r.dQuadPct.toExponential(3) + '%'})` : ''); };
-    add('behavior.chi-law', cl.allOk && cl.vOk && cl.vBad,
+    add('behavior.chi-law', cl.allOk && cl.vOk && cl.vBad && (cl.vFixed === undefined || (cl.vFixed === true && cl.vFixedBad === true)),
       `質量較正則(**第245便 裁定 A6: 台帳=inertia-law-lin-v1 — 一次則 f=1+k_F(αχ_A+βχ_B) の自己無撞着解**・両体共通・質量比=観測・fit ノブなし。`
       + `第240便の χ² 則 f=1+k_F·Σ(m_i/M)χ_i² は factorQuad/chiQuad に併記して A-B 対照を残す / 第224便 chi-law-v1 は f_i=C·2χ_i): `
       + `4連星の massCalibration 台帳×chiMassFactors 再計算×bodies が三者ビット一致+固定点性の代入検査+`
       + `殻質量=観測質量+重心再配分の再計算一致 / ${fmt('alphaCenABDFM')} / ${fmt('siriusABDFM')} / `
-      + `${fmt('psrDoubleABDFM')} / ${fmt('gw150914DFM')} / validator 受理(警告0)=${cl.vOk}・不正形無視=${cl.vBad}`);
+      + `${fmt('psrDoubleABDFM')} / ${fmt('gw150914DFM')} / validator 受理(警告0)=${cl.vOk}・不正形無視=${cl.vBad}`
+      + (cl.vFixed === undefined ? '' : ` / f 固定形(第282便a)の受理=${cl.vFixed}・f≠1 の f-fixed-1 は警告つき無視=${cl.vFixedBad}`));
   } else {
     console.log('SKIP behavior.chi-law(対象に第224便の chiMassFactors なし — root 等)');
   }
@@ -50099,7 +50168,8 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       // ④ f は**当該サンプルの massCalibration 台帳から読む**(side table に数値を二重に持たない)
       o.fFromLedger = decl.filter((x) => x[1].kind === 'dfm-calibrated').every(([id, m]) => {
         const p = ps.find((q) => q.id === id), mc = p.massCalibration || {};
-        const f = (typeof mc.factor === 'number') ? mc.factor : mc.factorUniform;
+        // 第282便a: f 固定形(law:"f-fixed-1")は台帳の `f`(=1)を読む
+        const f = (typeof mc.factor === 'number') ? mc.factor : ((typeof mc.factorUniform === 'number') ? mc.factorUniform : mc.f);
         return Object.is(m.factor, f);
       });
       o.noFactorInTable = Object.keys(HP.MASS_BASIS).every((k) => !('factor' in HP.MASS_BASIS[k]));
@@ -53463,6 +53533,116 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
+// ---- 0a4a′) 第282便a(原仮定者の裁定(第72報)②③⑤⑥・統括の検証項目 R77/R78): docs.calContract ----
+// ----   **較正契約の 3 系統+アナロジー**(html の side table `CAL_CONTRACT`)と、その棚卸しの正本
+// ----   `tests/out/calcontract-w282a.json`(器 tests/exp-w282a-calcontract.mjs)・f=1 移行の前後記録
+// ----   `tests/out/fmigration-w282a.json`(履歴)・docs/PHYSICS.md〔第282便a〕を fs だけで照合する。固定するのは 8 点:
+// ----     ① 正本の `contract` が html の `CAL_CONTRACT`(1 行の JSON)と一致し、系統が kf0/dfm/compare/analogy の 4 つで
+// ----        語彙(合/否/数値未解決/写像未解決・概略整合/調整中/適用外・比較のみ・形状達成/未達/収支/適用窓)を持つ。
+// ----     ② 行の系統が宣言どおり(kf0 = 較正かつ kFrame 0・dfm = 較正かつ kFrame≠0・それ以外は較正でない)。
+// ----     ③ `sampleClass:"calibration"` の文字列の出現数が現行 html の数と一致し、「プリセット + 非プリセットの出現」で
+// ----        全部説明され、プリセットの集合と旧母集団(calaudit)の差が 0 本である。
+// ----     ④ 旧 4 値は calaudit の現行値と同じ数で「旧契約の履歴」欄にあり、系統別の旧 4 値の和が旧 4 値に一致する
+// ----        (**数えるだけで合否を変えない** —— DFM 版の新語彙は許容幅が未裁定なので当てていない)。
+// ----     ⑤ fLedger: 台帳の無い ⏰ gw150914Merge4s が**基準質量との比で実質 2 倍**と出る・移した 2 本は f=1(law f-fixed-1)・
+// ----        基準質量の無い本は「出典不明」で f を持たない。
+// ----     ⑥ 前後記録(履歴): role:"history"・frozen:true・判定器の部分走行(前)が正本の 2 行とビット一致・4 値の前後の文字列。
+// ----     ⑦ PHYSICS〔第282便a〕が「## 7.」の前にあり、旧 4 値 0/2/2/33 を旧契約の履歴として持ち、前後記録の 4 値・
+// ----        旧一次則台帳の f(✴️ 1.0002157798299423・💫 1.0003769425929947)と基準質量を書いている。
+// ----     ⑧ **禁止語 0**(PHYSICS〔第282便a〕の節・「」の引用を除く)。
+// ----   **beta 線の正本なので root は SKIP** する。
+{
+  const bad = [];
+  const cases = [];
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.calContract(beta 対象でない: ' + TARGET + ' — 較正契約の宣言と棚卸しは beta 線)');
+  } else {
+    try {
+      const htmlText = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+      const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calcontract-w282a.json'), 'utf8'));
+      const M = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'fmigration-w282a.json'), 'utf8'));
+      const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+      // ①
+      const cm = htmlText.match(/^const CAL_CONTRACT=(\{.*\});$/m);
+      const H = cm ? JSON.parse(cm[1]) : null;
+      if (!H) bad.push('① html に CAL_CONTRACT(1 行の JSON)が無い');
+      else if (JSON.stringify(H) !== JSON.stringify(J.contract)) bad.push('① 正本の contract が html の CAL_CONTRACT と違う(器を走らせ直すこと)');
+      const sysKeys = H ? H.systems.map((z) => z.key) : [];
+      if (JSON.stringify(sysKeys) !== JSON.stringify(['kf0', 'dfm', 'compare', 'analogy'])) bad.push('① 系統が kf0/dfm/compare/analogy でない: ' + sysKeys.join(','));
+      const VOC = { kf0: ['合', '否', '数値未解決', '写像未解決'], dfm: ['概略整合', '調整中', '適用外'], compare: ['比較のみ'],
+        analogy: ['形状達成', '未達', '収支', '適用窓'] };
+      for (const z of (H ? H.systems : [])) if (JSON.stringify(z.verdicts) !== JSON.stringify(VOC[z.key])) bad.push(`① ${z.key} の語彙が違う`);
+      const kf0Def = H && H.systems[0].defaults, dfmDef = H && H.systems[1].defaults;
+      if (!(kf0Def && kf0Def.f === 1 && kf0Def.kFrame === 0 && kf0Def.geoPN === 1)) bad.push('① kf0 の既定が f=1・kFrame=0・geoPN=1 でない');
+      if (!(dfmDef && dfmDef.f === 1 && dfmDef.kFrame === 1 && dfmDef.geoPN === 1)) bad.push('① dfm の既定が f=1・kFrame=1・geoPN=1 でない');
+      cases.push('宣言 ' + (H ? H.version : '—') + '(系統 ' + sysKeys.join('/') + ')= 正本の contract');
+      // ②
+      const rows = J.rows || [];
+      for (const r of rows) {
+        const cal = r.sampleClass === 'calibration';
+        const want = cal ? (r.kFrame === 0 ? 'kf0' : 'dfm') : null;
+        if (cal && r.system !== want) bad.push(`② ${r.id} の系統 ${r.system} が ${want} でない`);
+        if (!cal && (r.system === 'kf0' || r.system === 'dfm')) bad.push(`② ${r.id} は較正でないのに ${r.system}`);
+      }
+      const T = J.newTally || {};
+      cases.push('行 ' + rows.length + '(' + ['kf0', 'dfm', 'compare', 'analogy', 'outside'].map((k) => k + ' ' + ((T[k] || {}).population)).join('・') + ')');
+      // ③
+      const nOcc = htmlText.split('sampleClass:"calibration"').length - 1;
+      const A = J.sampleClassAudit || {};
+      if (A.htmlOccurrences !== nOcc) bad.push(`③ 出現数 ${A.htmlOccurrences} が現行 html の ${nOcc} と違う`);
+      if ((A.presets || 0) + (A.nonPresetOccurrences || []).length !== A.htmlOccurrences) bad.push('③ プリセット + 非プリセットの出現が出現数と合わない');
+      if ((A.presetsNotInPopulation || []).length || (A.populationNotPresets || []).length) bad.push('③ プリセットの集合と旧母集団がずれている');
+      const popNow = (C.presets || []).length;
+      if (A.population !== popNow) bad.push(`③ 旧母集団 ${A.population} が calaudit の ${popNow} と違う`);
+      cases.push(`sampleClass:"calibration" の出現 ${A.htmlOccurrences} = プリセット ${A.presets} + 非プリセット ${(A.nonPresetOccurrences || []).length}・旧母集団 ${A.population}(差 0)`);
+      // ④
+      const L = J.legacyFourValues || {};
+      const cc = ((C.fourValues || {}).current || {}).counts || {};
+      if (JSON.stringify((L.current || {}).counts) !== JSON.stringify(cc)) bad.push('④ 旧 4 値の欄が calaudit の現行値と違う');
+      if (!(J.tallyCheck && J.tallyCheck.sameAsLegacy === true)) bad.push('④ 系統別の旧 4 値の和が旧 4 値に一致しない');
+      if (T.dfm && T.dfm.newVocabularyApplied !== false) bad.push('④ DFM 版の新語彙を当てている(許容幅は未裁定 —— 数えるだけ)');
+      cases.push('旧 4 値 ' + ['合', '量限定合', '否', '保留'].map((k) => cc[k]).join('/') + '(旧契約の履歴)= kf0 '
+        + ['合', '量限定合', '否', '保留'].map((k) => ((T.kf0 || {}).oldVerdict4 || {})[k]).join('/') + ' + dfm '
+        + ['合', '量限定合', '否', '保留'].map((k) => ((T.dfm || {}).oldVerdict4 || {})[k]).join('/'));
+      // ⑤
+      const FL = new Map((J.fLedger || []).map((z) => [z.id, z]));
+      const m4 = FL.get('gw150914Merge4s');
+      if (!m4 || !(Math.abs(m4.fEffective - 2) < 1e-6) || m4.ledgerMissingButEffective !== true) bad.push('⑤ ⏰ Merge4s が基準質量との比で実質 2 倍と出ていない');
+      for (const id of ['alphaCenABDFM', 'siriusABDFM']) { const z = FL.get(id);
+        if (!z || z.fEffective !== 1 || z.law !== 'f-fixed-1' || z.migrated !== true) bad.push(`⑤ ${id} が f=1(f-fixed-1)の移行済みでない`); }
+      for (const z of (J.fLedger || [])) if (z.fSourceKind === 'unknown' && (z.fEffective !== null || z.fSource !== '出典不明')) bad.push(`⑤ ${z.id} は基準質量が無いのに f を持つ`);
+      cases.push(`fLedger ${(J.fLedger || []).length} 本(宣言 f≠1 ${(J.fSummary || {}).declaredOff}・台帳なしで実質 f≠1 ${((J.fSummary || {}).ledgerMissingButEffective || []).join(',')}・出典不明 ${((J.fSummary || {}).unknownBase || []).length})`);
+      // ⑥
+      const mm = M.meta || {};
+      if (mm.role !== 'history' || mm.frozen !== true) bad.push('⑥ 前後記録に role:"history"・frozen:true が無い');
+      if (M.reproducedCanonical !== true) bad.push('⑥ 前後記録の部分走行(前)が正本の 2 行と一致しない');
+      const S = M.summary || {};
+      cases.push(`前後記録(履歴): 4 値 ${S.fourBefore} → ${S.fourAfter}・門 ${S.gateBefore} → ${S.gateAfter}・正本の再現 ${M.reproducedCanonical}`);
+      // ⑦
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const i0 = P.indexOf('〔第282便a'), i7 = P.indexOf('\n## 7. ');
+      if (i0 < 0) bad.push('⑦ PHYSICS に〔第282便a〕節が無い');
+      else if (!(i7 > i0)) bad.push('⑦〔第282便a〕が「## 7.」の前に無い');
+      const sec = i0 < 0 ? '' : P.slice(i0, (() => { const j = P.indexOf('\n〔第', i0 + 5); const k = P.indexOf('\n## ', i0);
+        const e = [j, k].filter((z) => z >= 0); return e.length ? Math.min(...e) : P.length; })());
+      for (const need of ['0/2/2/33', '旧契約', '1.0002157798299423', '1.0003769425929947', '21.451938', '18.079442', '41.022755', '20.24293',
+        String(S.fourBefore), String(S.fourAfter), 'f-fixed-1', '出典不明'])
+        if (sec.indexOf(need) < 0) bad.push(`⑦〔第282便a〕に「${need}」が無い`);
+      // ⑧
+      const FORBID = /観測一致を達成した|較正を完了した|f=1 で合った|kF0 版が成立した|引きずり消失を確認した|精度を上げれば成立する|DFM 版を外して合率が上がった|判定が増えた|新発見/;
+      let nForbid = 0;
+      for (const line of sec.split('\n')) { const bare = line.replace(/[「『][^」』]*[」』]/g, '');
+        if (FORBID.test(bare)) { nForbid++; bad.push(`⑧ 禁止語: ${line.slice(0, 40)}`); } }
+      cases.push('禁止語 ' + nForbid);
+    } catch (e) { bad.push('較正契約の正本が読めない: ' + String(e).slice(0, 120)); }
+    add('docs.calContract', bad.length === 0,
+      `**較正契約の 3 系統+アナロジー**(第282便a・原仮定者の裁定(第72報)②③⑤⑥・R77/R78): ${cases.join(' / ')} —— `
+      + `**旧 4 値は旧契約(第281便まで)の履歴**として別欄に残し、新集計は系統ごとに母集団・法則版・観測量を明記して**数えるだけ**`
+      + `(合否は 1 つも動かさない・DFM 版の許容幅は未裁定)。f は **基準質量との数値比較**で出す(台帳の有無を f=1 の根拠にしない)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
 // ---- 0a4b) 第274便a(第64報): lint.kf0RunsCondition ----
 // ----   **条件不一致 8 行の kFrame=0 対照走行**(calaudit `--kf0-runs`)を機械固定する。
 // ----   第258便d は 8 行を `条`(condition-mismatch)へ隔離しただけで、**対照条件の走行を
