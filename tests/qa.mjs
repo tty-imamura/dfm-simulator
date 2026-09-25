@@ -2142,6 +2142,9 @@ if (QA_REPLAY_FAIL) {
       // 第281便c(第71報・R74): 条件付き質量台帳・η 対照・減光と偏向の分離の正本(target=beta/index.html —— 器は Node だけで
       //   html を読む。**html を変えたら走らせ直す**。他の正本は読まない)
       'tests/out/rotorledger-w281c.json',
+      // 第282便c(第72報 ④・R80): 引きずりプロファイル —— kF0 不感の実測・純関数の単体試験・診断表(target=beta/index.html ——
+      //   器は Node だけで html を読む・**エンジン未接続**・他の正本は読まない)
+      'tests/out/dragprofile-w282c.json',
       // 第281便a(AN16・R71): ❄️ 対照系列の**履歴列**(C2/C4/C7 と C3/C5/S の h4 段 —— 再生成しない・role:"history")
       'tests/out/charon-history-w272b.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
@@ -53313,6 +53316,153 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       + `共通 API ${[20, 80, 240].map((r) => rowS('api', r).mean).join('/')}(**2 読み手で桁が違う —— 場の契約が割れている**)/ `
       + `材料腕(宣言した剪断場・先行)t=0 の伸び ${mats ? mats.stretchAtT0[0].stretch0 : '—'}(r=3)・ピッチ最大 ${mats ? mats.pitchMax : '—'}° / `
       + `記録欄 gate=${J.strainRecord && J.strainRecord.gate} / 禁止語 0`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第282便c(原仮定者の裁定(第72報)④「較正は引きずりパラメータで行い、天体種別と相対自転で分けて観測値に合わせる。
+// ----        中心密度が高い場合、計算で使う半径は外殻の半径をそのままでは使えない」・統括の読み R80): behavior.dragProfilePure ----
+// ----   引きずりプロファイルの純関数 `tests/lib-w282c-dragprofile.mjs`(**エンジン未接続**)の単体試験を**その場で回して**固定する:
+// ----     ① lib の版が `w282c-1`・許容の宣言が 1e−12(Lane–Emden の閉じた解との比較は 1e−6)
+// ----     ② 単体試験 17 行が全 PASS(一様球で R_drag=R・gas/solid の閉じた式・Lane–Emden n=1 の閉じた解・中心集中で R_drag が単調に縮む・
+// ----        コア半径の宣言は compact だけ・同期で 0・逆回転で符号反転(ビット)・A=0 で 0・接線・遠方で ∝ R_drag^q/r^q・縮退・
+// ----        離心軌道の平均運動・相対自転の分類・自転 0・Ω_orb の対称性・profileOf の宣言あり/なし)
+// ----     ③ 同期(ΔΩ=0)の u は厳密に 0・逆回転は Object.is で符号反転・遠方の誤差は 10 倍ごとに 1/10
+// ----     ④ 正本 `tests/out/dragprofile-w282c.json` の単体試験と**行の並びと pass が一致**(値は Node の版で最下位ビットが違い得るので文字列では比べない)
+// ----   root は SKIP(beta 線の器)。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP behavior.dragProfilePure(beta 対象でない: ' + TARGET + ' — 第282便c の器は beta 線)');
+  } else {
+    const bad = [];
+    let U = null, Ld = null;
+    try {
+      Ld = await import('file://' + path.join(ROOT, 'tests', 'lib-w282c-dragprofile.mjs'));
+      U = Ld.runUnitTests(Ld.makePure(fs.readFileSync(path.join(ROOT, TARGET), 'utf8')));
+    } catch (e) { bad.push('lib が読めない: ' + String(e).slice(0, 80)); }
+    const row = (id) => (U && U.rows.find((r) => r.id === id)) || null;
+    if (Ld) {
+      if (Ld.DRAGPROFILE_VERSION !== 'w282c-1') bad.push('①版が w282c-1 でない: ' + Ld.DRAGPROFILE_VERSION);
+      if (Ld.UNIT_TOL !== 1e-12 || Ld.LE_TOL !== 1e-6) bad.push('①許容の宣言が 1e−12 / 1e−6 でない');
+    }
+    const IDS = ['uniformRdragEqualsR', 'analyticKIandRhoC', 'laneEmdenN1Exact', 'concentrationShrinksRdrag', 'declaredCoreRadius',
+      'syncZero', 'counterFlipsSign', 'amplitudeZero', 'tangential', 'farFieldPowerLaw', 'degeneracyARdrag', 'eccentricMeanMotion',
+      'relativeSpinCases', 'nonRotating', 'orbitSymmetric', 'profileOfDeclared', 'profileOfUndeclared'];
+    if (U) {
+      if (U.rows.map((r) => r.id).join(',') !== IDS.join(',')) bad.push('②行の並びが 17 行の契約と違う: ' + U.rows.map((r) => r.id).join(','));
+      for (const r of U.rows) if (!r.pass) bad.push('②FAIL ' + r.id);
+    }
+    const sz = row('syncZero'), ff = row('farFieldPowerLaw'), cs = row('concentrationShrinksRdrag'), dg = row('degeneracyARdrag');
+    if (sz && !(sz.u[0] === 0 && sz.u[1] === 0)) bad.push('③同期で u が 0 でない');
+    if (ff && !(ff.shrink.every((s) => s > 9 && s < 11))) bad.push('③遠方の誤差が 10 倍ごとに 1/10 で縮まない');
+    let J = null;
+    try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'dragprofile-w282c.json'), 'utf8')); } catch (e) { J = null; }
+    if (!J) bad.push('④正本が読めない');
+    else if (U) {
+      const a = (J.units.rows || []).map((r) => r.id + ':' + r.pass).join(','), b = U.rows.map((r) => r.id + ':' + r.pass).join(',');
+      if (a !== b) bad.push('④正本の単体試験の行・pass がいまの lib と違う(器を再走する)');
+      if (J.libVersion !== (Ld && Ld.DRAGPROFILE_VERSION)) bad.push('④正本の lib の版が違う');
+    }
+    const f = (x, d) => (Number.isFinite(x) ? x.toFixed(d) : '—');
+    add('behavior.dragProfilePure', bad.length === 0,
+      `**引きずりプロファイルの純関数**(第282便c・R80・tests/lib-w282c-dragprofile.mjs 版 ${Ld ? Ld.DRAGPROFILE_VERSION : '—'}・**エンジン未接続**)/ `
+      + `単体試験 ${U ? U.rows.filter((r) => r.pass).length + '/' + U.rows.length : '—'} PASS / `
+      + `R_drag=√(5I/(2M)) の R_drag/R: 一様 1・solid ${cs ? f(cs.ratios.solid, 4) : '—'}・gas β=1 ${cs ? f(cs.ratios['gas-b1'], 4) : '—'}・gas β=3 ${cs ? f(cs.ratios['gas-b3'], 4) : '—'}・`
+      + `star n=3 ${cs ? f(cs.ratios['star-n3'], 4) : '—'}(ρ_c/ρ̄ ${cs ? f(cs.n3RhoC, 4) : '—'})—— **宣言した近似**(表裏核の厳密解ではない)/ `
+      + `候補式 u=AΔΩ(R_drag/(R_drag+r))^q e_z×r(**現象論・未実証**): 同期で 0・逆回転で符号反転・遠方の誤差 ${ff ? ff.errs.map((e) => e.toExponential(1)).join('→') : '—'}・`
+      + `縮退(A と R_drag)の差 ${dg ? Object.values(dg.relDiffAt).map((e) => e.toExponential(1)).join('→') : '—'}(10R→10⁴R)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第282便c(第72報 ④・R80): docs.dragProfile ----
+// ----   正本 `tests/out/dragprofile-w282c.json`(器 tests/exp-w282c-dragprofile.mjs)と docs/PHYSICS.md〔第282便c〕の一致を固定する:
+// ----     ① 来歴(w272e-1)・器と lib の版
+// ----     ② **kF0 不感**: 正本の 4 条件(✴️⚡ × geoPN 1/2)× 2 種(body.dragQ・physics.q を 2→8)がすべてビット一致。
+// ----        いまの html を headless で読み、**同じ関数 measureAll でもう一度走らせても**ビット一致(真偽で比べる —— 値は Node の版で違い得る)
+// ----     ③ 対照が動く: kFrame=1・geoPN=2 では q で差が出る(3 本)/ geoPN=1 では kFrame=1 でも q も kFrame 1/0 もビット一致(3 本)/
+// ----        門の文字列 3 つが html に 1 回ずつ在る
+// ----     ④ 引き直し: 参照表(8 クラス)・診断表(19 本・68 行)・🌓 の地球の R_drag を**相対 1e−12** で正本と照合(文字列一致にしない)
+// ----     ⑤ 表の数: 19 本(太陽系 12・恒星連星 2・NS 連星 4・BH 1)・densityClass の宣言 0 行・NS/BH の R_drag 用コア半径は「未宣言」
+// ----     ⑥ PHYSICS〔第282便c〕に正本の数が同じ書式で載り、「言わないこと。」より前と正本(doNotWrite を除く)に禁止の言い回しが無い
+// ----   root は SKIP(beta 線の実測)。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.dragProfile(beta 対象でない: ' + TARGET + ' — 第282便c の正本は beta 線)');
+  } else {
+    const bad = [];
+    const cases = [];
+    try {
+      const Ld = await import('file://' + path.join(ROOT, 'tests', 'lib-w282c-dragprofile.mjs'));
+      const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'dragprofile-w282c.json'), 'utf8'));
+      if (!J.meta || J.meta.provenanceVersion !== 'w272e-1' || J.harnessVersion !== 'w282c-dragprofile-1' || J.libVersion !== Ld.DRAGPROFILE_VERSION)
+        bad.push('①来歴・版');
+      // ② 正本の kF0 不感
+      const k0 = J.kf0 || {};
+      if (!((k0.rows || []).length === 4 && k0.rows.every((r) => r.kFrame === 0 && r.dragQ.bitSame === true && r.physicsQ.bitSame === true)
+        && JSON.stringify(k0.rows.map((r) => r.id + '/' + r.geoPN)) === JSON.stringify(['alphaCenABDFM/1', 'alphaCenABDFM/2', 'psrDoubleABDFM/1', 'psrDoubleABDFM/2'])
+        && k0.steps === 128 && JSON.stringify(k0.qPair) === '[2,8]')) bad.push('②正本の kF0 不感 4 条件 × 2 種がビット一致でない');
+      // ② いまの html で引き直す(headless —— 同じ関数)
+      const HL = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      const Hh = HL.loadHtmlHeadless(path.join(ROOT, TARGET));
+      const htmlT = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+      const Pn = Ld.makePure(htmlT);
+      const M = Ld.measureAll(Hh.HP, Hh.evalExpr('DT'), htmlT, Pn);
+      if (!M.kf0.every((r) => r.dragQ.bitSame && r.physicsQ.bitSame)) bad.push('②いまの html で kF0 に q が効いた');
+      cases.push(`kF0 不感: 正本 ${k0.rows.filter((r) => r.dragQ.bitSame && r.physicsQ.bitSame).length}/4・引き直し ${M.kf0.filter((r) => r.dragQ.bitSame && r.physicsQ.bitSame).length}/4 条件で body.dragQ・physics.q とも 2→8 でビット一致`);
+      // ③ 対照
+      for (const src of [J.control.rows, M.control]) {
+        const g2 = src.filter((r) => r.geoPN === 2), g1 = src.filter((r) => r.geoPN === 1);
+        if (!(g2.length === 3 && g2.every((r) => r.kF1DragQ2vs8.bitSame === false && r.kFrame0vs1.bitSame === false))) bad.push('③kFrame=1・geoPN=2 で q が効かない(対照が死んでいる)');
+        if (!(g1.length === 3 && g1.every((r) => r.kF1DragQ2vs8.bitSame === true && r.kFrame0vs1.bitSame === true))) bad.push('③geoPN=1 で kFrame/q が効いた(構造が変わった —— 正本と PHYSICS を直す)');
+      }
+      if (!(M.gates.length === 3 && M.gates.every((g) => g.count === 1))) bad.push('③門の文字列が html に 1 回ずつ無い: ' + M.gates.map((g) => g.key + '×' + g.count).join(','));
+      cases.push(`対照: kFrame=1・geoPN=2 で q の差 位置 ${J.control.rows.filter((r) => r.geoPN === 2).map((r) => Ld.fmtSci(r.kF1DragQ2vs8.maxAbs.pos)).join('/')}・`
+        + `geoPN=1 は kFrame=1 でも q・kFrame 1/0 ともビット一致(門 ${M.gates.map((g) => g.key).join('・')})`);
+      // ④ 引き直し(相対 1e-12)
+      const nearEq = (a, b, tol) => { if (typeof a === 'number' && typeof b === 'number') return (Number.isNaN(a) && Number.isNaN(b)) || Math.abs(a - b) <= tol * Math.max(1, Math.abs(a), Math.abs(b));
+        if (Array.isArray(a) && Array.isArray(b)) return a.length === b.length && a.every((z, i) => nearEq(z, b[i], tol));
+        if (a && b && typeof a === 'object' && typeof b === 'object') { const ka = Object.keys(a).sort(), kb = Object.keys(b).sort(); return JSON.stringify(ka) === JSON.stringify(kb) && ka.every((k) => nearEq(a[k], b[k], tol)); }
+        return a === b; };
+      const RE_TOL = 1e-12;
+      const strip = (o) => JSON.parse(JSON.stringify(o));
+      if (!nearEq(strip(M.classes), J.classes, RE_TOL)) bad.push('④参照表(8 クラス)の引き直しが正本と違う');
+      if (!nearEq(strip(M.table), J.table.rows, RE_TOL)) bad.push('④診断表の引き直しが正本と違う');
+      if (!nearEq(M.earth.R_drag, J.diagOne.earth.R_drag, RE_TOL)) bad.push('④🌓 の地球の R_drag');
+      if (!nearEq(strip(M.vRelExample), J.vRelExample, RE_TOL)) bad.push('④v_rel の例');
+      cases.push(`参照表 ${J.classes.length} クラス・診断表・🌓 の地球 R_drag ${J.diagOne.earth.R_drag.toFixed(4)} が引き直しと相対 1e−12 で一致`);
+      // ⑤ 表の数
+      const T = J.table;
+      const byG = (g) => T.rows.filter((t) => t.group === g).length;
+      if (!(T.nPresets === 19 && byG('solar') === 12 && byG('stellar') === 2 && byG('ns') === 4 && byG('bh') === 1)) bad.push('⑤表の本数が 19(12/2/4/1)でない');
+      if (T.nRows !== T.rows.reduce((s, t) => s + t.rows.length, 0)) bad.push('⑤行数の集計');
+      if (T.nDensityDeclared !== 0 || T.rows.some((t) => t.rows.some((r) => r.R_drag !== null))) bad.push('⑤較正対象に densityClass の宣言が現れた(表と PHYSICS を直す)');
+      if (!T.rows.filter((t) => t.group === 'ns' || t.group === 'bh').every((t) => t.rows.every((r) => r.rDragCore && r.rDragCore.status === '未宣言'))) bad.push('⑤NS/BH の R_drag 用コア半径の欄');
+      cases.push(`表 ${T.nPresets} 本(太陽系 ${byG('solar')}・恒星連星 ${byG('stellar')}・NS 連星 ${byG('ns')}・BH ${byG('bh')})・${T.nRows} 行・densityClass の宣言 ${T.nDensityDeclared}`);
+      // ⑥ PHYSICS
+      const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const pa = Pd.indexOf('〔第282便c — '), pb = (pa >= 0) ? Pd.indexOf('\n## 7. 論文', pa) : -1;
+      const whole = (pa >= 0) ? Pd.slice(pa, pb > pa ? pb : undefined) : '';
+      const cut = whole.indexOf('**言わないこと。**');
+      const sec = cut >= 0 ? whole.slice(0, cut) : whole;
+      if (!whole) bad.push('⑥PHYSICS に〔第282便c〕節が無い');
+      if (cut < 0) bad.push('⑥「言わないこと。」の宣言が無い');
+      const miss = Ld.docTokens(J).filter((t) => sec.indexOf(t) < 0);
+      if (miss.length) bad.push('⑥PHYSICS に無い数: ' + miss.slice(0, 6).join(' '));
+      for (const s of ['R_drag=√(5I/(2M))', '宣言した近似', '表裏核の厳密解ではない', '現象論・未実証', 'I=mR²/2', '密度 → R_drag → 振幅 → q', '同期(ΔΩ=0)で消えるのはこのチャネルだけ', '未決'])
+        if (sec.indexOf(s) < 0) bad.push('⑥PHYSICS に「' + s + '」が無い');
+      const scanJ = JSON.parse(JSON.stringify(J)); delete scanJ.doNotWrite;
+      const FORBID = /観測一致を達成|較正を完了|較正した|f=1 で合った|kF0 版が成立した|引きずりで kF0 を合わせた|引きずり消失を確認|新発見|精度を上げれば成立|判定が増えた/;
+      for (const [nm, t] of [['〔第282便c〕', sec], ['正本', JSON.stringify(scanJ)]])
+        for (const line of String(t).split('\n')) {
+          const bare = line.replace(/[「『][^」』]*[」』]/g, '');
+          if (FORBID.test(bare)) { bad.push(`⑥禁止語(${nm}): ${line.slice(0, 50)}`); break; }
+        }
+      cases.push(`PHYSICS〔第282便c〕に ${Ld.docTokens(J).length} 個の数・禁止語 0`);
+    } catch (e) { bad.push('正本・lib・headless が読めない: ' + String(e && e.stack || e).slice(0, 160)); }
+    add('docs.dragProfile', bad.length === 0,
+      `**引きずりプロファイル便**(第282便c・原仮定者の裁定(第72報)④・R80・正本 tests/out/dragprofile-w282c.json・**エンジン未接続**): ${cases.join(' / ')} —— `
+      + `**kF0 は引きずりでは直らない**(引きずりプロファイルは DFM 版の概略整合のノブ)。R_drag は宣言した近似・相対自転チャネルは候補式(現象論・未実証)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }

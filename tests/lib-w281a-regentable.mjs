@@ -14,6 +14,7 @@
 //   'w280-chain' … 第280便の統括 chain(4 本並列・同じ容器)の各段の開始〜終了の差(scratch の chain ログ)。
 //   'w281a-chain' … 第281便a の再生成(Chromium 1 本 + node 1 本)の各段の差。
 //   'w272b-wallSec' … 正本 charon-w272b.json の列ごとの `wallSec`(実測)を、新しい既定列の集合で足した値。
+//   'w282c-run' … 第282便c の器の単独走行(正本の elapsedS —— Node だけ・Chromium なし)。
 //
 // ■ しないこと: 走らせない・判定しない(表と、表を読む計画の純関数だけ)。
 import fs from 'node:fs';
@@ -125,6 +126,9 @@ export const REGEN_STEPS = [
     note: '第281便d: 2D の渦伸長 0・ひずみ率の診断(inputs に galaxyproto-w276e・corefield-w276d)' }),
   S('samplestatus', 'node tests/exp-w279a-samplestatus.mjs && node tests/exp-w279a-samplestatus.mjs --check', ['tests/out/samplestatus-w279a.json'], 2, { alwaysRun: true, after: ['kf0', 'charonwin'] }),
   S('mercury', 'node tests/exp-w280a-mercury.mjs', ['tests/out/mercury-w280a.json'], 284, { secSource: 'w281a-chain', alwaysRun: true, after: ['kf0'] }),
+  // ---- 第282便c の新しい正本(html だけを読む・他の正本を読まない —— 所要は器の elapsedS の実測)
+  S('dragprofile', 'node tests/exp-w282c-dragprofile.mjs', ['tests/out/dragprofile-w282c.json'], 2, { secSource: 'w282c-run', node: true,
+    note: '第282便c: kF0 不感の実測(128 歩 × 2 本)・引きずりプロファイルの純関数の単体試験・診断表(html だけを読む・環境変数なし)' }),
 ];
 
 /** 正本ファイル → 段の key の並び。 */
