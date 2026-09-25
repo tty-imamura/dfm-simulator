@@ -4,15 +4,15 @@
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4758438,
-    "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-    "mtime": "2026-09-25T03:35:30.689Z"
+    "bytes": 4780811,
+    "sha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+    "mtime": "2026-09-25T04:06:38.157Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
     "bytes": 563636,
     "sha256": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
-    "mtime": "2026-09-25T03:35:33.097Z"
+    "mtime": "2026-09-23T20:24:15.944Z"
    }
   ],
   "code": [
@@ -20,26 +20,26 @@
     "file": "tests/exp-w270c-j1946adopt.mjs",
     "bytes": 27824,
     "sha256": "0b3e4c2eff21bfa8ce5549a98a89a74bbe4c481f5ed7d182f2f7796071eccc26",
-    "mtime": "2026-09-25T03:55:57.666Z"
+    "mtime": "2026-09-25T06:28:51.037Z"
    },
    {
     "file": "tests/lib-w270b-obscsv.mjs",
     "bytes": 14614,
     "sha256": "a096a132d0eea0841d194dd174b1ebc96caea453e9c0bbebab0a5d9391058b77",
-    "mtime": "2026-09-25T03:35:39.561Z"
+    "mtime": "2026-09-23T11:01:04.951Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-25T03:45:28.121Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
   "codeSha256": "ecb9d5b5dd9498566062c1998668e4e558bf58fa8499f7134aff865d794d70b6",
   "wave": "第270便c",
   "target": "beta/index.html",
-  "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-  "generatedAt": "2026-09-25T04:13:35.200Z",
+  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+  "generatedAt": "2026-09-25T06:32:04.514Z",
   "dt0": 0.016,
   "periWindow": 20,
   "divs": [
@@ -87,11 +87,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 959,
-   "segments": 879,
-   "closureShare": 0.379
+   "names": 972,
+   "segments": 892,
+   "closureShare": 0.3797
   },
-  "scopeSha256": "f0a54e05a9d277fb12d1a2e60abfc414c47a4b917211519301bfe52dc2127215",
+  "scopeSha256": "70ae2dca52de97a8f7375e01196ccd695d2f582291f14309c2588d3bc5a99f36",
   "scopeComplete": true,
   "inputsStable": [],
   "volatileKeys": [
@@ -104,7 +104,22 @@
    "rateStepsPerSec",
    "mtime",
    "measuredAt",
-   "elapsedSec"
+   "elapsedSec",
+   "elapsedS",
+   "elapsedMs",
+   "wallMs",
+   "wallDurationMs",
+   "durationMs",
+   "runMs",
+   "spentSecTotal",
+   "measurementElapsedSecTotal",
+   "startedAt",
+   "htmlLoadMs",
+   "baseWallSec",
+   "nowWallSec",
+   "baseRate",
+   "nowRate",
+   "maxWallSec"
   ]
  },
  "build": {
@@ -525,7 +540,7 @@
      "perMeanSec": 6685.64411532186,
      "degPerYear": 54.942476479119506,
      "degPerOrbit": 0.011639853618584273,
-     "wallSec": 1.8,
+     "wallSec": 1.9,
      "div": 1
     },
     {
@@ -544,7 +559,7 @@
      "perMeanSec": 6733.571607728655,
      "degPerYear": 52.57788919729853,
      "degPerOrbit": 0.011218754971646532,
-     "wallSec": 3.4,
+     "wallSec": 3.6,
      "div": 2
     },
     {
@@ -563,7 +578,7 @@
      "perMeanSec": 6757.542284471263,
      "degPerYear": 51.826564089038456,
      "degPerOrbit": 0.011097808397677175,
-     "wallSec": 6.9,
+     "wallSec": 6.8,
      "div": 4
     },
     {
@@ -582,7 +597,7 @@
      "perMeanSec": 6769.530421578729,
      "degPerYear": 51.66225429690325,
      "degPerOrbit": 0.011082249667599024,
-     "wallSec": 13.3,
+     "wallSec": 14.2,
      "div": 8
     }
    ],
@@ -702,7 +717,7 @@
      "perMeanSec": 6685.368221330618,
      "degPerYear": 28.605965874594634,
      "degPerOrbit": 0.006060074758488703,
-     "wallSec": 1.7,
+     "wallSec": 1.8,
      "div": 1
     },
     {
@@ -721,7 +736,7 @@
      "perMeanSec": 6733.302986694917,
      "degPerYear": 26.61052024656983,
      "degPerOrbit": 0.0056777668597654506,
-     "wallSec": 3.3,
+     "wallSec": 3.6,
      "div": 2
     },
     {
@@ -740,7 +755,7 @@
      "perMeanSec": 6757.273326459284,
      "degPerYear": 25.99779593163629,
      "degPerOrbit": 0.005566779888064289,
-     "wallSec": 6.9,
+     "wallSec": 7.3,
      "div": 4
     },
     {
@@ -759,7 +774,7 @@
      "perMeanSec": 6769.2609924003955,
      "degPerYear": 25.868850475405814,
      "degPerOrbit": 0.005548996135365269,
-     "wallSec": 13.5,
+     "wallSec": 13.9,
      "div": 8
     }
    ],
@@ -917,7 +932,7 @@
      "perMeanSec": 6757.630767019822,
      "degPerYear": 25.994677767121722,
      "degPerOrbit": 0.005566406642389405,
-     "wallSec": 9,
+     "wallSec": 9.8,
      "div": 4
     },
     {
@@ -936,7 +951,7 @@
      "perMeanSec": 6769.617812398712,
      "degPerYear": 25.83709267361936,
      "degPerOrbit": 0.005542476068646851,
-     "wallSec": 18.1,
+     "wallSec": 19.2,
      "div": 8
     }
    ],

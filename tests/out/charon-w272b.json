@@ -6,18 +6,18 @@
   "pairlockVersion": "w272b-1",
   "libSha256": "be657f0bf0988b43c558517512b615b48553c5d08d82ea545fbce1aab89c2efe",
   "target": "beta/index.html",
-  "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
+  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
   "measureLib": "tests/lib-w273b-charonpage.mjs",
   "measureVersion": "w273b-charonpage-1",
   "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
   "mergeKeyVersion": "w273b-mergekey-1",
-  "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+  "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
   "mergeKeyParts": {
    "target": "beta/index.html",
-   "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
+   "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
    "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
    "libSha256": "be657f0bf0988b43c558517512b615b48553c5d08d82ea545fbce1aab89c2efe",
-   "obsSha256": "6460733cb8ee1cdb0b04cb1dd07528f282563bbe24027002804a854b2351387f",
+   "obsSha256": "84d94bc4c3fb91c3ceb63ba50357af1c73afb3b408a705fc3952e9baebdd6a49",
    "obsRow": {
     "key": "Charon|orbital_period",
     "recordId": "SOL-25d4320f",
@@ -50,11 +50,11 @@
   },
   "canonicalRun": true,
   "canonicalRunWhy": "",
-  "generatedAt": "2026-09-25T06:01:22.158Z",
+  "generatedAt": "2026-09-25T09:06:24.651Z",
   "pilot": false,
-  "stage": "h",
-  "dt": 0.016,
-  "stepsRequested": 20700000,
+  "stage": "h4",
+  "dt": 0.004,
+  "stepsRequested": 82800000,
   "contract": {
    "stepH": 20700000,
    "orbMax": 60,
@@ -121,7 +121,7 @@
    "recordId": "SOL-25d4320f",
    "source": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
    "from": "tests/out/calaudit-w249.json",
-   "calauditSha256": "6460733cb8ee1cdb0b04cb1dd07528f282563bbe24027002804a854b2351387f"
+   "calauditSha256": "84d94bc4c3fb91c3ceb63ba50357af1c73afb3b408a705fc3952e9baebdd6a49"
   },
   "secondsPerUnit": 100,
   "notClaim": [
@@ -166,16 +166,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 959,
-   "segments": 879,
-   "closureShare": 0.379
+   "names": 972,
+   "segments": 892,
+   "closureShare": 0.3797
   },
-  "scopeSha256": "981af8ac80fe218d265068c2c2f7641c2d010a20c49c3e3e63c2a1671a2c2da5",
+  "scopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "f3d08ba3d1a4814631215d52c2d17bb29e853fff7c4416eda7d60e7d17bbf393"
+    "stableSha256": "ed8c5aea43c0cf640821852eada00ccf5083b9e4de25a5bef500a795e470ec26"
    }
   ],
   "volatileKeys": [
@@ -210,49 +210,49 @@
     "file": "tests/exp-w272b-charon.mjs",
     "bytes": 42075,
     "sha256": "f5b220e1904cf0531bf08338fcf8691fdb2b25739fa780d7b224926855d43ec9",
-    "mtime": "2026-09-25T05:49:56.155Z"
+    "mtime": "2026-09-25T06:28:51.038Z"
    },
    {
     "file": "tests/lib-w273b-charonpage.mjs",
     "bytes": 13221,
     "sha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
-    "mtime": "2026-09-25T03:35:39.565Z"
+    "mtime": "2026-09-19T11:49:00.959Z"
    },
    {
     "file": "tests/lib-w273b-mergekey.mjs",
     "bytes": 6901,
     "sha256": "117bab590575bc3c52453d45088971ff9f287fd2297557236eac4bcc76e38019",
-    "mtime": "2026-09-25T03:35:39.565Z"
+    "mtime": "2026-09-19T11:49:00.959Z"
    },
    {
     "file": "tests/lib-w272b-pairlock.mjs",
     "bytes": 14317,
     "sha256": "be657f0bf0988b43c558517512b615b48553c5d08d82ea545fbce1aab89c2efe",
-    "mtime": "2026-09-25T03:35:39.561Z"
+    "mtime": "2026-09-19T11:48:54.255Z"
    },
    {
     "file": "tests/lib-w275b-dsplit.mjs",
     "bytes": 10918,
     "sha256": "0320d33c45339e747b2095a3fa57cffc22b77800afb878f561210588bccc9440",
-    "mtime": "2026-09-25T03:35:39.565Z"
+    "mtime": "2026-09-20T17:43:15.901Z"
    },
    {
     "file": "tests/lib-w276b-units.mjs",
     "bytes": 6467,
     "sha256": "ada33ba49f7ce73ed6ebff008852f3c11ab334c4a4b5bde9701c8470c7a344e2",
-    "mtime": "2026-09-25T03:35:39.569Z"
+    "mtime": "2026-09-21T14:49:00.094Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-25T03:45:28.121Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
   "codeSha256": "6d459c71da2ebf26350fd1769d3ba6b9ed56bf07f64d4295b192bf04167f1b45",
   "carriedStages": [
-   "h2",
-   "h4"
+   "h",
+   "h2"
   ]
  },
  "declaredSystems": [
@@ -1188,7 +1188,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 30.544,
+    "wallSec": 31.06,
     "revSec": [
      553209.4743340951,
      553210.6340099995,
@@ -1253,8 +1253,14 @@
     "warnings": [],
     "oscA": 19.595851587697478,
     "oscE": 0.0019280224628431188,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "C0",
@@ -1269,7 +1275,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 62.754,
+    "wallSec": 62.248,
     "revSec": [
      553210.3587952818,
      553210.8870908859,
@@ -1334,13 +1340,13 @@
     "warnings": [],
     "oscA": 19.596013264547402,
     "oscE": 0.00192630197037084,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    },
    "h4": {
@@ -1356,7 +1362,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 125.772,
+    "wallSec": 125.684,
     "revSec": [
      553210.8208372663,
      553211.0508944329,
@@ -1421,14 +1427,8 @@
     "warnings": [],
     "oscA": 19.596100052014208,
     "oscE": 0.0019257977319826348,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
-    }
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true
    }
   },
   "C1": {
@@ -1445,7 +1445,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 18.932,
+    "wallSec": 18.115,
     "revSec": [
      551862.4613633327,
      551864.0613632939,
@@ -1510,8 +1510,14 @@
     "warnings": [],
     "oscA": 19.59599965528715,
     "oscE": 0.000016990022693039395,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "C1",
@@ -1526,7 +1532,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 36.999,
+    "wallSec": 36.459,
     "revSec": [
      551863.2612657931,
      551864.0612661137,
@@ -1591,13 +1597,13 @@
     "warnings": [],
     "oscA": 19.59599965283887,
     "oscE": 0.000013705498380582199,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    },
    "h4": {
@@ -1613,7 +1619,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 74.644,
+    "wallSec": 72.547,
     "revSec": [
      551863.66124295,
      551864.0612407731,
@@ -1678,14 +1684,8 @@
     "warnings": [],
     "oscA": 19.595999652232763,
     "oscE": 0.00001275287125529755,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
-    }
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true
    }
   },
   "C3_k0": {
@@ -1702,7 +1702,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 18.675,
+    "wallSec": 18.382,
     "revSec": [
      551862.4613633327,
      551864.0613632939,
@@ -1767,8 +1767,14 @@
     "warnings": [],
     "oscA": 19.59599965528715,
     "oscE": 0.000016990022693039395,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "C3_k0",
@@ -1783,7 +1789,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 37.236,
+    "wallSec": 37.002,
     "revSec": [
      551863.2612657931,
      551864.0612661137,
@@ -1848,13 +1854,13 @@
     "warnings": [],
     "oscA": 19.59599965283887,
     "oscE": 0.000013705498380582199,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    }
   },
@@ -1872,7 +1878,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.204,
+    "wallSec": 30.777,
     "revSec": [
      551732.3110241252,
      551733.8680872674,
@@ -1937,8 +1943,14 @@
     "warnings": [],
     "oscA": 19.591282789188,
     "oscE": 0.00015536613633076007,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "C3_k0.1",
@@ -1953,7 +1965,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 62.852,
+    "wallSec": 63.783,
     "revSec": [
      551733.1171578799,
      551733.892583623,
@@ -2018,13 +2030,13 @@
     "warnings": [],
     "oscA": 19.591299224990667,
     "oscE": 0.00015487173212739953,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    }
   },
@@ -2042,7 +2054,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 30.711,
+    "wallSec": 30.946,
     "revSec": [
      551471.8550030612,
      551473.3020894056,
@@ -2107,8 +2119,14 @@
     "warnings": [],
     "oscA": 19.581846582286012,
     "oscE": 0.0004624012590680837,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "C3_k0.3",
@@ -2123,7 +2141,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 62.835,
+    "wallSec": 62.656,
     "revSec": [
      551472.6951213406,
      551473.4283033673,
@@ -2188,13 +2206,13 @@
     "warnings": [],
     "oscA": 19.581892774054907,
     "oscE": 0.0004617624453751336,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    }
   },
@@ -2212,7 +2230,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.709,
+    "wallSec": 31.33,
     "revSec": [
      551211.3277880623,
      551212.6948852338,
@@ -2277,8 +2295,14 @@
     "warnings": [],
     "oscA": 19.5724067165682,
     "oscE": 0.0007775879601175937,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "C3_k0.5",
@@ -2293,7 +2317,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 62.142,
+    "wallSec": 63.659,
     "revSec": [
      551212.1949723669,
      551212.8428421393,
@@ -2358,13 +2382,13 @@
     "warnings": [],
     "oscA": 19.572483036112946,
     "oscE": 0.0007765991720715259,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    }
   },
@@ -2382,7 +2406,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.521,
+    "wallSec": 30.873,
     "revSec": [
      550950.5535610846,
      550951.8684797975,
@@ -2447,8 +2471,14 @@
     "warnings": [],
     "oscA": 19.56296150671337,
     "oscE": 0.001105488176683871,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "C3_k0.7",
@@ -2463,7 +2493,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 62.775,
+    "wallSec": 63.656,
     "revSec": [
      550951.3910852084,
      550951.9863821173,
@@ -2528,13 +2558,13 @@
     "warnings": [],
     "oscA": 19.563078740489257,
     "oscE": 0.0011039448818298036,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    }
   },
@@ -2552,7 +2582,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.237,
+    "wallSec": 30.882,
     "revSec": [
      550558.9804692541,
      550560.1605895405,
@@ -2617,8 +2647,14 @@
     "warnings": [],
     "oscA": 19.548792312736172,
     "oscE": 0.0016293853126825891,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "C3_k1",
@@ -2633,7 +2669,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 63.334,
+    "wallSec": 63.286,
     "revSec": [
      550559.8671969477,
      550560.4099179535,
@@ -2698,13 +2734,13 @@
     "warnings": [],
     "oscA": 19.548952367657883,
     "oscE": 0.0016277526863046976,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    }
   },
@@ -2722,7 +2758,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.353,
+    "wallSec": 31.334,
     "revSec": [
      551862.4613633318,
      551864.0613633126,
@@ -2787,8 +2823,14 @@
     "warnings": [],
     "oscA": 19.59599965528281,
     "oscE": 0.000016990022722629176,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "C5_i_f1",
@@ -2803,7 +2845,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 63.183,
+    "wallSec": 63.72,
     "revSec": [
      551863.2612657888,
      551864.0612661075,
@@ -2868,13 +2910,13 @@
     "warnings": [],
     "oscA": 19.595999652832873,
     "oscE": 0.000013705498406223136,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    }
   },
@@ -2892,7 +2934,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 30.449,
+    "wallSec": 31.04,
     "revSec": [
      551862.4613633318,
      551864.0613633126,
@@ -2957,8 +2999,14 @@
     "warnings": [],
     "oscA": 19.59599965528281,
     "oscE": 0.000016990022722629176,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "C5_i_flin",
@@ -2973,7 +3021,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 61.972,
+    "wallSec": 63.985,
     "revSec": [
      551863.2612657888,
      551864.0612661075,
@@ -3038,13 +3086,13 @@
     "warnings": [],
     "oscA": 19.595999652832873,
     "oscE": 0.000013705498406223136,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    }
   },
@@ -3062,7 +3110,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.254,
+    "wallSec": 30.901,
     "revSec": [
      553206.2071350162,
      553207.3981243718,
@@ -3127,8 +3175,14 @@
     "warnings": [],
     "oscA": 19.595853971185498,
     "oscE": 0.0019216878476978696,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "C5_ii_f1",
@@ -3143,7 +3197,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 63.252,
+    "wallSec": 64.046,
     "revSec": [
      553207.1445918093,
      553207.7103920574,
@@ -3208,13 +3262,13 @@
     "warnings": [],
     "oscA": 19.59601307661321,
     "oscE": 0.0019202552639717258,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    }
   },
@@ -3232,7 +3286,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.009,
+    "wallSec": 30.801,
     "revSec": [
      550562.0354357901,
      550563.200249943,
@@ -3297,8 +3351,14 @@
     "warnings": [],
     "oscA": 19.548896196900575,
     "oscE": 0.001625189272397607,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "C5_ii_flin",
@@ -3313,7 +3373,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 62.615,
+    "wallSec": 63.914,
     "revSec": [
      550562.984626901,
      550563.6047829372,
@@ -3378,13 +3438,13 @@
     "warnings": [],
     "oscA": 19.5490674369007,
     "oscE": 0.0016230665845300002,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    }
   },
@@ -3402,7 +3462,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 30.717,
+    "wallSec": 31.102,
     "revSec": [
      551862.4632342617,
      551864.0632335386,
@@ -3467,8 +3527,14 @@
     "warnings": [],
     "oscA": 19.595999654822073,
     "oscE": 0.000016991600291773945,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "C5_iii_f1",
@@ -3483,7 +3549,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 62.23,
+    "wallSec": 64.202,
     "revSec": [
      551863.2631368728,
      551864.0631370463,
@@ -3548,13 +3614,13 @@
     "warnings": [],
     "oscA": 19.595999652622247,
     "oscE": 0.000013707453995967056,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    }
   },
@@ -3572,7 +3638,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.129,
+    "wallSec": 31.06,
     "revSec": [
      551862.4632342617,
      551864.0632335386,
@@ -3637,8 +3703,14 @@
     "warnings": [],
     "oscA": 19.595999654822073,
     "oscE": 0.000016991600291773945,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "C5_iii_flin",
@@ -3653,7 +3725,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 63.198,
+    "wallSec": 63.881,
     "revSec": [
      551863.2631368728,
      551864.0631370463,
@@ -3718,13 +3790,13 @@
     "warnings": [],
     "oscA": 19.595999652622247,
     "oscE": 0.000013707453995967056,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    }
   },
@@ -3743,7 +3815,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 43.595,
+    "wallSec": 43.415,
     "revSec": [
      553223.1046360554,
      553224.9272364771,
@@ -3808,8 +3880,14 @@
     "warnings": [],
     "oscA": 19.596333077410254,
     "oscE": 0.001943004085628778,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "C6_scalar",
@@ -3825,7 +3903,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 89.196,
+    "wallSec": 87.911,
     "revSec": [
      553223.8484537594,
      553224.7588905616,
@@ -3890,13 +3968,13 @@
     "warnings": [],
     "oscA": 19.5962535810197,
     "oscE": 0.0019412840918647323,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    },
    "h4": {
@@ -3913,7 +3991,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 175.917,
+    "wallSec": 175.072,
     "revSec": [
      553224.2203877618,
      553224.6747429437,
@@ -3978,14 +4056,8 @@
     "warnings": [],
     "oscA": 19.596213832988674,
     "oscE": 0.0019404302534954587,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
-    }
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true
    }
   },
   "C6_local": {
@@ -4003,7 +4075,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 57.71,
+    "wallSec": 59.406,
     "revSec": [
      551615.4981211532,
      551617.2024403799,
@@ -4068,8 +4140,14 @@
     "warnings": [],
     "oscA": 19.596068955433346,
     "oscE": 0.0005074481603814414,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "C6_local",
@@ -4085,7 +4163,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 118.743,
+    "wallSec": 118.264,
     "revSec": [
      551616.2719124913,
      551617.1240119033,
@@ -4150,13 +4228,13 @@
     "warnings": [],
     "oscA": 19.596031795835195,
     "oscE": 0.0005039039562013387,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    },
    "h4": {
@@ -4173,7 +4251,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 245.526,
+    "wallSec": 241.084,
     "revSec": [
      551616.6588330005,
      551617.0848226522,
@@ -4238,14 +4316,8 @@
     "warnings": [],
     "oscA": 19.596013216554855,
     "oscE": 0.0005021502445758458,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
-    }
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true
    }
   },
   "C6_complex": {
@@ -4263,7 +4335,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 19.033,
+    "wallSec": 19.245,
     "revSec": [
      551862.4613616312,
      551864.0613615632,
@@ -4328,8 +4400,14 @@
     "warnings": [],
     "oscA": 19.595999655277684,
     "oscE": 0.00001699002132576785,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "C6_complex",
@@ -4345,7 +4423,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 38.57,
+    "wallSec": 38.716,
     "revSec": [
      551863.2612641874,
      551864.0612644644,
@@ -4410,13 +4488,13 @@
     "warnings": [],
     "oscA": 19.59599965283485,
     "oscE": 0.00001370549659440613,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    },
    "h4": {
@@ -4433,7 +4511,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 77.674,
+    "wallSec": 72.558,
     "revSec": [
      551863.6612412025,
      551864.0612390139,
@@ -4498,14 +4576,8 @@
     "warnings": [],
     "oscA": 19.595999652227572,
     "oscE": 0.00001275286945873011,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
-    }
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true
    }
   },
   "S_e0.05_k0": {
@@ -4522,7 +4594,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 18.38,
+    "wallSec": 18.841,
     "revSec": [
      551862.4613633327,
      551864.0613632939,
@@ -4587,8 +4659,14 @@
     "warnings": [],
     "oscA": 19.59599965528715,
     "oscE": 0.000016990022693039395,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "S_e0.05_k0",
@@ -4603,7 +4681,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 40.83,
+    "wallSec": 37.028,
     "revSec": [
      551863.2612657931,
      551864.0612661137,
@@ -4668,13 +4746,13 @@
     "warnings": [],
     "oscA": 19.59599965283887,
     "oscE": 0.000013705498380582199,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    }
   },
@@ -4692,7 +4770,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.351,
+    "wallSec": 31.355,
     "revSec": [
      553209.4743340951,
      553210.6340099995,
@@ -4757,8 +4835,14 @@
     "warnings": [],
     "oscA": 19.595851587697478,
     "oscE": 0.0019280224628431188,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "S_e0.05_k1",
@@ -4773,7 +4857,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 69.936,
+    "wallSec": 62.761,
     "revSec": [
      553210.3587952818,
      553210.8870908859,
@@ -4838,13 +4922,13 @@
     "warnings": [],
     "oscA": 19.596013264547402,
     "oscE": 0.00192630197037084,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    }
   },
@@ -4862,7 +4946,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 18.128,
+    "wallSec": 18.879,
     "revSec": [
      551854.3777987654,
      551855.9777990397,
@@ -4927,8 +5011,14 @@
     "warnings": [],
     "oscA": 19.595999651779508,
     "oscE": 0.00001200053989319149,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "S_e0.025_k0",
@@ -4943,7 +5033,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 41.049,
+    "wallSec": 37.617,
     "revSec": [
      551855.1777015859,
      551855.977699629,
@@ -5008,13 +5098,13 @@
     "warnings": [],
     "oscA": 19.59599964933889,
     "oscE": 0.000006572167781705575,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    }
   },
@@ -5032,7 +5122,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.2,
+    "wallSec": 31.489,
     "revSec": [
      553201.3046566721,
      553202.4413371511,
@@ -5097,8 +5187,14 @@
     "warnings": [],
     "oscA": 19.595854969796985,
     "oscE": 0.0019202501307705564,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "S_e0.025_k1",
@@ -5113,7 +5209,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 69.185,
+    "wallSec": 64.277,
     "revSec": [
      553202.2970844025,
      553202.8678904031,
@@ -5178,13 +5274,13 @@
     "warnings": [],
     "oscA": 19.596008488461248,
     "oscE": 0.0019183051467476567,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    }
   },
@@ -5202,7 +5298,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 18.379,
+    "wallSec": 18.938,
     "revSec": [
      551852.3568783228,
      551853.9568783055,
@@ -5267,8 +5363,14 @@
     "warnings": [],
     "oscA": 19.595999651568352,
     "oscE": 0.000011619467652871863,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "S_e0.0125_k0",
@@ -5283,7 +5385,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 41.896,
+    "wallSec": 37.353,
     "revSec": [
      551853.1567810276,
      551853.9567799019,
@@ -5348,13 +5450,13 @@
     "warnings": [],
     "oscA": 19.595999649121968,
     "oscE": 0.0000058474362821873055,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    }
   },
@@ -5372,7 +5474,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.234,
+    "wallSec": 31.691,
     "revSec": [
      553199.2768115981,
      553200.3863079243,
@@ -5437,8 +5539,14 @@
     "warnings": [],
     "oscA": 19.59584768294502,
     "oscE": 0.0019182665692638586,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
-    "canonicalRun": true
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-25T08:31:50.557Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
+    }
    },
    "h2": {
     "id": "S_e0.0125_k1",
@@ -5453,7 +5561,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 70.509,
+    "wallSec": 62.322,
     "revSec": [
      553200.1812614606,
      553200.7782677386,
@@ -5518,13 +5626,13 @@
     "warnings": [],
     "oscA": 19.596013519015752,
     "oscE": 0.0019162382565838982,
-    "mergeKey": "56ee933922c5552988fa0c8e6f62cdd0f2db92abf92cfd4a45e1df1412ea62de",
+    "mergeKey": "c54ded48da3d39666d1e46c9ec7d4efb695a471004a448b88232fbfa0d9dfb52",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-24T20:26:57.821Z",
-     "fromTargetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-     "fromScopeSha256": null
+     "fromGeneratedAt": "2026-09-25T08:54:55.513Z",
+     "fromTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+     "fromScopeSha256": "29ab14c4b0b6885204d0ddaf715e6956000fcd94f61941c5f60dce3379794949"
     }
    }
   }

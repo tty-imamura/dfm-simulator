@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第278便d",
   "target": "beta/index.html",
-  "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-  "generatedAt": "2026-09-25T03:57:47.865Z",
+  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+  "generatedAt": "2026-09-25T07:21:26.168Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4758438,
-    "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-    "mtime": "2026-09-25T03:35:30.689Z"
+    "bytes": 4780811,
+    "sha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+    "mtime": "2026-09-25T04:06:38.157Z"
    },
    {
     "file": "tests/out/bgpredict-w276a.json",
     "bytes": 97740,
-    "sha256": "699c7b22e26eef8736a838c1ba71a4df4249d479af7679b8942866b899a7fe17",
-    "mtime": "2026-09-25T03:35:40.409Z"
+    "sha256": "844fa4c13348e148edcf7cbeb1e0ef65a27276ea6f018282141ef5102a3bc5e3",
+    "mtime": "2026-09-25T06:50:49.917Z"
    }
   ],
   "code": [
@@ -24,25 +24,25 @@
     "file": "tests/exp-w278d-bgequiv.mjs",
     "bytes": 27844,
     "sha256": "d91b850f08099980a84bee9b2c4f77a219c20d01389251497c9501485f3e1bb9",
-    "mtime": "2026-09-25T03:55:57.667Z"
+    "mtime": "2026-09-25T06:28:51.041Z"
    },
    {
     "file": "tests/lib-w278d-bgequiv.mjs",
     "bytes": 34150,
     "sha256": "99005d9c84a9d978cea6af75866e2226c359282f5caca10ef2b97c1c4fbb7a71",
-    "mtime": "2026-09-25T03:35:40.065Z"
+    "mtime": "2026-09-23T11:00:54.407Z"
    },
    {
     "file": "tests/lib-w275b-meshfield.mjs",
     "bytes": 22488,
     "sha256": "1fc47d3dfd8ed8eaac7656a8c95a7ecd48486a8e1ac9ef8466cc9fd3bb9e6534",
-    "mtime": "2026-09-25T03:35:39.565Z"
+    "mtime": "2026-09-22T06:21:31.427Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-25T03:45:28.121Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
   "codeSha256": "e803c4d4b68003e9c2aca19677c180faa035d5a3bad32638c516a5fc29c0582d",
@@ -99,16 +99,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 953,
-   "segments": 873,
-   "closureShare": 0.3779
+   "names": 966,
+   "segments": 886,
+   "closureShare": 0.3786
   },
-  "scopeSha256": "8713db2f1ed44cf81837d985ae054699aa90fdb2ec6a9643e7a31856022a8ecd",
+  "scopeSha256": "90eb8d14331b63d57f6b847db4b292bd5fa0880d2610c2b7cf9cbacbf4c51cc5",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/bgpredict-w276a.json",
-    "stableSha256": "ae70afc83040a47202e2f2eac17edcc35c458e84f2cff1c89f357e62e827477f"
+    "stableSha256": "f8ba0d64e34ad56337e23a74b33fe2c2a8e2f71a6c6a7e700b3da3489f607e0e"
    }
   ],
   "volatileKeys": [
@@ -121,7 +121,22 @@
    "rateStepsPerSec",
    "mtime",
    "measuredAt",
-   "elapsedSec"
+   "elapsedSec",
+   "elapsedS",
+   "elapsedMs",
+   "wallMs",
+   "wallDurationMs",
+   "durationMs",
+   "runMs",
+   "spentSecTotal",
+   "measurementElapsedSecTotal",
+   "startedAt",
+   "htmlLoadMs",
+   "baseWallSec",
+   "nowWallSec",
+   "baseRate",
+   "nowRate",
+   "maxWallSec"
   ]
  },
  "gate": {
@@ -4925,5 +4940,5 @@
   }
  },
  "pageErrors": [],
- "elapsedS": 94.765
+ "elapsedS": 96.112
 }

@@ -24,14 +24,14 @@
   },
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-  "generatedAt": "2026-09-25T04:12:06.877Z",
+  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+  "generatedAt": "2026-09-25T09:54:48.884Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4758438,
-    "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-    "mtime": "2026-09-25T03:35:30.689Z"
+    "bytes": 4780811,
+    "sha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+    "mtime": "2026-09-25T04:06:38.157Z"
    }
   ],
   "code": [
@@ -39,19 +39,19 @@
     "file": "tests/exp-w277b-charondfm.mjs",
     "bytes": 48984,
     "sha256": "43badace7feff3fd7c454e830436c4aaa52edd5218c7fb1d17f6f4b2a2820984",
-    "mtime": "2026-09-25T03:55:57.669Z"
+    "mtime": "2026-09-25T06:28:51.041Z"
    },
    {
     "file": "tests/lib-w277b-charondfm.mjs",
     "bytes": 12728,
     "sha256": "4e9be37415c45969b4a4904fedd5bf791ee37efb82e6a2c80295c57bf95d205b",
-    "mtime": "2026-09-25T03:35:40.065Z"
+    "mtime": "2026-09-22T06:21:54.659Z"
    },
    {
     "file": "tests/lib-w278b-midpoint.mjs",
     "bytes": 5687,
     "sha256": "99d9c1dd77de20ef67f653ea74fdeed653e209aee15f53c9a0ad56671c54d7ea",
-    "mtime": "2026-09-25T03:35:40.065Z"
+    "mtime": "2026-09-23T11:03:31.996Z"
    }
   ],
   "codeSha256": "8d4c32e331d0657507190ecf6b26a46098210c82e8e5227a7c3237d999a2dc4b",
@@ -84,11 +84,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 956,
-   "segments": 876,
-   "closureShare": 0.3792
+   "names": 969,
+   "segments": 889,
+   "closureShare": 0.3799
   },
-  "scopeSha256": "e762ea73d5f4be4fbe2d2ba2acbef559e20f43e88ec12933b4212ad89652560b",
+  "scopeSha256": "2283a075b268f6d68145f55e64d0a45ee0615cb32670ebcbde59ee1323b826dc",
   "scopeComplete": true,
   "inputsStable": [],
   "volatileKeys": [
@@ -101,7 +101,22 @@
    "rateStepsPerSec",
    "mtime",
    "measuredAt",
-   "elapsedSec"
+   "elapsedSec",
+   "elapsedS",
+   "elapsedMs",
+   "wallMs",
+   "wallDurationMs",
+   "durationMs",
+   "runMs",
+   "spentSecTotal",
+   "measurementElapsedSecTotal",
+   "startedAt",
+   "htmlLoadMs",
+   "baseWallSec",
+   "nowWallSec",
+   "baseRate",
+   "nowRate",
+   "maxWallSec"
   ]
  },
  "inputs": {
