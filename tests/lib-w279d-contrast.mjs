@@ -68,6 +68,11 @@ export function parseRules(css) {
   return out;
 }
 
+/** 第281便e: スキンの上書き規則(`html[data-…]` で始まるセレクタ)を外した規則の列 = 既定(ダーク)の見え方。
+ *  スキンを持たない html では入力と同じ列を返す(第279便d の表は 1 行も変わらない)。 */
+export const SKIN_PREFIX_RE = /^html\[data-[\w-]+(="[^"]*")?\](\[data-[\w-]+(="[^"]*")?\])*(:not\([^)]*\))*(\s+|$)/;
+export function darkRules(rules) { return rules.filter((r) => !SKIN_PREFIX_RE.test(r.sel)); }
+
 /** :root の変数表(最初に現れた値)。 */
 export function rootVars(rules) {
   const v = {};
@@ -156,7 +161,7 @@ export const CONTEXTS = [
 ];
 
 /** 規則の背景(不透明色)と、どこから決めたか。 */
-export function backgroundOf(rule, rules, vars) {
+export function backgroundOf(rule, rules, vars, contexts = CONTEXTS) {
   const own = rule.decl['background-color'] || rule.decl.background;
   const tok = own ? firstColorToken(resolveVars(own, vars)) : null;
   const under = (layers) => {
@@ -164,7 +169,7 @@ export function backgroundOf(rule, rules, vars) {
     for (let i = layers.length - 2; i >= 0; i--) c = over(parseColor(resolveVars(layers[i], vars)), c);
     return c;
   };
-  const ctxRow = CONTEXTS.find((x) => x.re.test(rule.sel));
+  const ctxRow = contexts.find((x) => x.re.test(rule.sel));
   const ctxLayers = ctxRow ? ctxRow.layers : ['var(--panel2)'];
   if (tok) {
     const c = parseColor(tok);
@@ -192,15 +197,21 @@ export const isInactive = (sel) => /\[disabled\]|lockedRow/.test(sel);
 /**
  * html → 文字の組の表。各行 {sel, media, fgDecl, fg, bg, bgFrom, opacity, px, bold, large, need, ratio, pass, exempt}
  */
-export function contrastTable(html) {
-  const rules = parseRules(extractStyle(html));
-  const vars = rootVars(rules);
+export function contrastTable(html, opts = {}) {
+  // 第281便e(スキン): opts は既定 {} で従来と同じ表(ダーク)。opts.rules(平らにした規則の列)・
+  // opts.vars(変数表)・opts.varsFor(rule → その規則で解く変数表 — 部分木で変数の値を差し替える場合)・
+  // opts.contexts(文脈表)を渡すと、同じ手順を別のスキンで回せる(tests/lib-w281e-skin.mjs が組む)。
+  const rules = opts.rules || darkRules(parseRules(extractStyle(html)));
+  const vars = opts.vars || rootVars(rules);
+  const varsFor = opts.varsFor || (() => vars);
+  const contexts = opts.contexts || CONTEXTS;
   const rows = [];
   const push = (rule, fgDecl, src) => {
+    const vars = varsFor(rule);
     const fgStr = resolveVars(fgDecl, vars);
     let fg = parseColor(fgStr);
     if (!fg || fg.a === 0) return;
-    const { bg, from } = backgroundOf(rule, rules, vars);
+    const { bg, from } = backgroundOf(rule, rules, vars, contexts);
     const op = rule.decl.opacity != null ? +rule.decl.opacity : 1;
     if (fg.a < 1) fg = over(fg, bg);
     const fgEff = op < 1 ? over({ ...fg, a: op }, bg) : fg;
@@ -239,10 +250,10 @@ export function contrastTable(html) {
   return { vars, rows };
 }
 
-/** 非文字(枠線)の参考表示: 変数ごとに主要な背景との比。 */
-export function nonTextTable(html) {
+/** 非文字(枠線)の参考表示: 変数ごとに主要な背景との比。opts.vars で別スキンの変数表(第281便e)。 */
+export function nonTextTable(html, opts = {}) {
   const rules = parseRules(extractStyle(html));
-  const vars = rootVars(rules);
+  const vars = opts.vars || rootVars(rules);
   const bgs = ['--bg', '--panel', '--panel2'].filter((k) => k in vars);
   const out = [];
   for (const k of ['--line', '--acc', '--dim', '--focus']) {

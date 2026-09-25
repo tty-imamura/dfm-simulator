@@ -32944,12 +32944,16 @@ if (!FAST) {
     const land = await pp.evaluate(() =>
       getComputedStyle(document.getElementById('btnPanelExpand')).display);
     await ctxP.close();
-    const reserve = r.narrow.header.h + r.narrow.transport.h + r.narrow.tabs.h;
-    const wantWide = 844 - reserve;                       // 画面高 −(ヘッダー+操作列+タブ)
+    // 第281便e(原仮定者の裁定(第71報)「タブを広げた時にヘッダー高さ程度のシミュレーション画面を残す」): html が
+    // 第281便e の宣言(#panel.wide を height で固定)を持つときは、控除にヘッダー高 1 つ分を足し、広げた状態の
+    // キャンバスは 0 ではなくヘッダー高(±1.5px)—— 世代で固定値を切り替える(第275便f だけの html は従来どおり)
+    const has281e = /#panel\.wide\{height:max\(/.test(html);
+    const reserve = r.narrow.header.h + r.narrow.transport.h + r.narrow.tabs.h + (has281e ? r.narrow.header.h : 0);
+    const wantWide = 844 - reserve;                       // 画面高 −(ヘッダー+操作列+タブ〔+ヘッダー高〕)
     const ok = {
       shown: r.narrow.display !== 'none',
-      grew: r.wide.maxH - r.narrow.maxH > 100 && Math.abs(r.wide.maxH - wantWide) < 1,
-      canvasCollapsed: r.wide.canvas.h < 1 && r.narrow.canvas.h > 300,
+      grew: r.wide.maxH - r.narrow.maxH > 100 && Math.abs(r.wide.maxH - wantWide) < 1.5,
+      canvasCollapsed: (has281e ? Math.abs(r.wide.canvas.h - r.wide.header.h) <= 1.5 : r.wide.canvas.h < 1) && r.narrow.canvas.h > 300,
       headerIntact: r.wide.header.top === r.narrow.header.top
         && r.wide.header.h === r.narrow.header.h && r.wide.header.bottom <= 844,
       label: r.narrow.label.includes('広げる') && r.wide.label.includes('狭くする')
@@ -32963,7 +32967,8 @@ if (!FAST) {
       noErr: perrs.length === 0,
     };
     add('ui.panelExpand', Object.values(ok).every(Boolean),
-      `390×844: 控除=${reserve}px(header ${r.narrow.header.h}+操作列 ${r.narrow.transport.h}+タブ ${r.narrow.tabs.h}) ` +
+      `390×844: 控除=${reserve}px(header ${r.narrow.header.h}+操作列 ${r.narrow.transport.h}+タブ ${r.narrow.tabs.h}` +
+      `${has281e ? '+最小キャンバス=ヘッダー高 ' + r.narrow.header.h + ' — 第281便e' : ''}) ` +
       `max-height 狭 ${r.narrow.maxH}px → 広 ${r.wide.maxH}px(期待 ${wantWide}) / ` +
       `キャンバス ${r.narrow.canvas.h}→${r.wide.canvas.h}px / ヘッダー ${r.wide.header.top}..${r.wide.header.bottom}(不動=${ok.headerIntact}) / ` +
       `ラベル ${r.narrow.label}⇄${r.wide.label}(en ${r.enNarrow}⇄${r.enWide}) / ` +
@@ -33160,7 +33165,7 @@ if (!FAST) {
         const sv = hud.textContent, pe = hud.style.pointerEvents;
         hud.textContent = LONG; hud.style.pointerEvents = 'auto';   // pointer-events:none を一時解除
         const cw = document.getElementById('canvasWrap');
-        const o = { canvasH: +cw.getBoundingClientRect().height.toFixed(1),
+        const o = { canvasH: +cw.getBoundingClientRect().height.toFixed(1), hdr: document.querySelector('header').offsetHeight,
           overflow: getComputedStyle(cw).overflow, hudRect: +hud.getBoundingClientRect().bottom.toFixed(1),
           out: {} };
         for (const id of IDS) {
@@ -33193,8 +33198,9 @@ if (!FAST) {
     const ok = {
       // 狭い状態は従来どおり(クリップしない・はみ出してもいない)
       narrowIntact: r.narrow.canvasH > 300 && r.narrow.overflow === 'visible' && sum(r.narrow) === 0,
-      // 広い状態: キャンバスは潰れるが、クリップされるのでフッターの上には 1 点も出ない
-      wideClipped: r.wide.canvasH < 1 && r.wide.overflow === 'hidden' && sum(r.wide) === 0,
+      // 広い状態: キャンバスは潰れる(第281便e 以降はヘッダー高 61px まで縮む)が、クリップされるのでフッターの上には 1 点も出ない
+      wideClipped: (/#panel\.wide\{height:max\(/.test(html) ? Math.abs(r.wide.canvasH - r.wide.hdr) <= 1.5 : r.wide.canvasH < 1)
+        && r.wide.overflow === 'hidden' && sum(r.wide) === 0,
       // 矩形自体は依然としてフッター域へ伸びている(= z-order をいじって直したのではない)
       rectStillOut: r.wide.hudRect > 200,
       // 狭くすると元に戻る
@@ -34039,6 +34045,145 @@ if (!FAST) {
       `文字色に --acc を直に使う宣言 ${accTextDecl}(0)・文字用アクセント ${sm.accText.n} 組の最小比 ${sm.accText.min.toFixed(2)}(≥7) / ` +
       `フォーカスリング :focus-visible=${focusRule}・--focus の非文字比 ${nt.map((x) => x.bg + ' ' + x.ratio).join('・')}(≥3) / ` +
       `角丸の値 [${radii.join(' , ')}]・2 段と丸以外 ${radBad.length}(0) / .statusChip の文字=${chip ? chip.fgDecl : '無し'}`);
+  }
+}
+
+// ---- 第281便e(原仮定者の裁定(第71報)「UI」— スキン(トンマナ・スタイル)を複数用意し共通設定で選択可能に・現状を
+// ---- 既定の『ダーク』にし『ライト』を追加/タブを広げた時にヘッダー高さ程度のシミュレーション画面を残して安定させる):
+// ---- **表示だけ**(物理・presetSig・保存 JSON に 1 bit も効かない)。世代判定は html の `html[data-skin="light"]{` の
+// ---- 宣言(ui.skin)と `#panel.wide{height:max(`(ui.panelReserve)—— root 等では自動 SKIP。
+// ----   ui.skin … ① 静的(tests/lib-w281e-skin.mjs が第279便d の手順を 2 スキンで回す): ライトが上書きする変数は
+// ----     :root の変数集合の部分集合で、足した変数 0・上書きしないのは形のトークン(--rS/--rL/--sab)だけ・
+// ----     平らにする手順の自己検査(ダークで組み直した文脈表 = 第279便d の直書き)・**両スキン**で WCAG 下限割れ 0・
+// ----     文字用アクセントの最小比 ≥7・--focus の非文字比 ≥3(--bg/--panel/--panel2 の 3 組)・操作部の輪郭(AN10′ —
+// ----     .btn の上の --line)の非文字比 ≥3(同 3 組)。比較用のキャンバス「追随」案の下限割れ数は detail に出すだけ。
+// ----     ② 実機(390×844): 既定は data-skin 属性なし・HP.skin()="dark"・共通設定の #skinSel(選択肢 dark/light・
+// ----     ja「ダーク/ライト」・en「Dark/Light」・aria-label)・ライトを選ぶと属性 light・hp_skin=light・theme-color が
+// ----     ライトの地色・--panel2 の計算値がライトの値・#canvasWrap の中の --fg はダークの値(キャンバス固定)・
+// ----     #canvasWrap の背景 #05070f のまま・再読み込みで light が残る・ダークへ戻すと属性が外れ hp_skin=dark・
+// ----     スキンを切り替えても sim の状態(停止中の位置・速度の和)が 1 bit も変わらない・JS エラー 0。
+// ----   ui.panelReserve … tests/exp-w281e-uilayout.mjs の MEASURE/gateOf で 縦 390×844・412×915・768×1024 と
+// ----     横 1024×768 × タブ(説明/パラメータ/セーブ〔保存 0 件・5 件〕/AI追加)× 開く/広げる/戻す: 広げた状態の
+// ----     #canvasWrap の高さ = header.offsetHeight(±1.5px — 全タブで同じ高さ)・操作列とキャンバスの間/タブとパネルの
+// ----     間の隙間 0・パネルの下端 = 画面下端・クリック直後の次フレームと 300 ms 後で高さが同じ・renderSaves()/
+// ----     renderCustomList() の前後で高さが動かない・resizeCanvas の CSS 高 = #canvasWrap の高さ・
+// ----     文字「大」+英語とヘッダーだけ 40px 高い場合(window の resize なし)もキャンバス = ヘッダー高。横画面は不変。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!/html\[data-skin="light"\]\{/.test(html)) {
+    console.log('SKIP ui.skin(対象に第281便e のライトスキンの宣言なし — root 等)');
+  } else {
+    const LS = await import('file://' + path.join(ROOT, 'tests/lib-w281e-skin.mjs'));
+    const vs = LS.varSets(html);
+    const sc = LS.selfCheck(html);
+    const tb = {};
+    for (const [k, a] of [['dark', { skin: 'dark' }], ['light', { skin: 'light' }], ['follow', { skin: 'light', canvas: 'follow' }]]) tb[k] = LS.skinTable(html, a);
+    const stOk = (t) => t.summary.fails === 0 && t.summary.accText.n > 0 && t.summary.accText.min >= 7
+      && t.nonText.filter((x) => x.fg === '--focus').length === 3 && t.nonText.filter((x) => x.fg === '--focus').every((x) => x.ratio >= 3)
+      && t.controlBorder.rows.length === 3 && t.controlBorder.rows.every((x) => x.ratio >= 3);
+    const shape = ['--rS', '--rL', '--sab'];
+    const staticOk = vs.extra.length === 0 && vs.notOverridden.length === shape.length && shape.every((k) => vs.notOverridden.includes(k))
+      && sc.ok && stOk(tb.dark) && stOk(tb.light);
+    // ② 実機
+    const ctxS = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const ps = await ctxS.newPage();
+    const serrs = [];
+    ps.on('pageerror', (e) => serrs.push(String(e.message || e)));
+    await ps.goto(INDEX, { waitUntil: 'load' });
+    await ps.evaluate(() => { try { localStorage.removeItem('hp_skin'); } catch (_) {} });
+    await ps.reload({ waitUntil: 'load' });
+    await ps.waitForFunction(() => !!window.HP && !!HP.setSkin);
+    const r1 = await ps.evaluate(async () => {
+      const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+      const de = document.documentElement;
+      const cvar = (el, k) => getComputedStyle(el).getPropertyValue(k).trim();
+      const o = { attr0: de.getAttribute('data-skin'), skin0: HP.skin(), skins: HP.skins() };
+      HP.setLang('ja');
+      document.querySelector('nav#tabs button[data-tab="params"]').click(); await wait(200);
+      const sel = document.getElementById('skinSel');
+      o.sel = sel ? { vals: [...sel.options].map((x) => x.value), ja: [...sel.options].map((x) => x.textContent), aria: sel.getAttribute('aria-label'), v: sel.value } : null;
+      // 物理の状態(停止中)— スキンの切替の前後で比べる
+      HP.setRunning(false);
+      const st = () => { const S = HP.sim; let a = 0; for (let i = 0; i < S.n; i++) a += S.x[i] * 1.1 + S.y[i] * 1.3 + S.vx[i] * 1.7 + S.vy[i] * 1.9; return a; };
+      o.st0 = st();
+      if (sel) { sel.value = 'light'; sel.dispatchEvent(new Event('change', { bubbles: true })); }
+      await wait(150);
+      o.attr1 = de.getAttribute('data-skin'); o.ls1 = localStorage.getItem('hp_skin');
+      o.theme1 = document.querySelector('meta[name="theme-color"]').getAttribute('content');
+      o.panel2 = cvar(de, '--panel2'); o.cwFg = cvar(document.getElementById('canvasWrap'), '--fg');
+      o.cwBg = getComputedStyle(document.getElementById('canvasWrap')).backgroundColor;
+      o.st1 = st();
+      HP.setLang('en'); document.querySelector('nav#tabs button[data-tab="params"]').click(); await wait(80);
+      document.querySelector('nav#tabs button[data-tab="params"]').click(); await wait(200);
+      const se = document.getElementById('skinSel');
+      o.en = se ? [...se.options].map((x) => x.textContent) : null; o.enV = se ? se.value : null;
+      HP.setLang('ja');
+      return o;
+    });
+    await ps.reload({ waitUntil: 'load' });
+    await ps.waitForFunction(() => !!window.HP && !!HP.setSkin);
+    const r2 = await ps.evaluate(async () => {
+      const o = { attr: document.documentElement.getAttribute('data-skin'), skin: HP.skin() };
+      HP.setSkin('dark');
+      o.attrD = document.documentElement.getAttribute('data-skin'); o.lsD = localStorage.getItem('hp_skin');
+      o.themeD = document.querySelector('meta[name="theme-color"]').getAttribute('content');
+      try { localStorage.removeItem('hp_skin'); } catch (_) {}
+      return o;
+    });
+    await ctxS.close();
+    const lightPanel2 = (tb.light.vars['--panel2'] || '').toLowerCase();
+    const darkFg = (LS.skinRules(html, { skin: 'dark' }).vars['--fg'] || '').toLowerCase();
+    const ok = {
+      static: staticOk,
+      default: r1.attr0 === null && r1.skin0 === 'dark' && JSON.stringify(r1.skins) === '["dark","light"]',
+      select: !!r1.sel && JSON.stringify(r1.sel.vals) === '["dark","light"]' && JSON.stringify(r1.sel.ja) === '["ダーク","ライト"]'
+        && !!r1.sel.aria && r1.sel.v === 'dark' && JSON.stringify(r1.en) === '["Dark","Light"]' && r1.enV === 'light',
+      light: r1.attr1 === 'light' && r1.ls1 === 'light' && r1.panel2.toLowerCase() === lightPanel2 && r1.theme1.toLowerCase() === (tb.light.vars['--bg'] || '').toLowerCase(),
+      canvasFixed: r1.cwFg.toLowerCase() === darkFg && r1.cwBg === 'rgb(5, 7, 15)',
+      persisted: r2.attr === 'light' && r2.skin === 'light',
+      backToDark: r2.attrD === null && r2.lsD === 'dark' && r2.themeD === '#0b0e1a',
+      physicsUntouched: Object.is(r1.st0, r1.st1),
+      noErr: serrs.length === 0,
+    };
+    const line = (k, t) => `${k}: 組 ${t.summary.n}・下限割れ ${t.summary.fails}・最小比 ${t.summary.minRatio.toFixed(2)}・文字用アクセント ${t.summary.accText.n} 組の最小 ${t.summary.accText.min.toFixed(2)}・` +
+      `--focus ${t.nonText.filter((x) => x.fg === '--focus').map((x) => x.ratio).join('/')}・操作部の輪郭 ${t.controlBorder.value} ${t.controlBorder.rows.map((x) => x.ratio).join('/')}`;
+    add('ui.skin', Object.values(ok).every(Boolean),
+      `変数: :root ${vs.root.length}・ライトの上書き ${vs.light.length}・足した変数 ${vs.extra.length}(0)・上書きしない ${vs.notOverridden.join(',')} / 自己検査 ${sc.ok} / ` +
+      `${line('ダーク', tb.dark)} / ${line('ライト(キャンバス固定=採用)', tb.light)} / 比較案 ライト(キャンバス追随)の下限割れ ${tb.follow.summary.fails} / ` +
+      `実機: 既定の属性=${r1.attr0}・選択肢 ${r1.sel ? r1.sel.ja.join('/') : '無し'}(en ${r1.en ? r1.en.join('/') : '—'})・ライト: 属性 ${r1.attr1}・hp_skin ${r1.ls1}・--panel2 ${r1.panel2}・` +
+      `#canvasWrap の --fg ${r1.cwFg}・背景 ${r1.cwBg}・theme-color ${r1.theme1}・再読み込み ${r2.attr}・ダークへ戻す 属性=${r2.attrD}・hp_skin ${r2.lsD} / ` +
+      `切替前後の状態和 一致=${ok.physicsUntouched} / JSエラー ${serrs.length}` +
+      (Object.values(ok).every(Boolean) ? '' : ' / NG: ' + Object.keys(ok).filter((k) => !ok[k]).join(',')));
+  }
+}
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!/#panel\.wide\{height:max\(/.test(html)) {
+    console.log('SKIP ui.panelReserve(対象に第281便e の #panel.wide の height 固定なし — root 等)');
+  } else {
+    const UL = await import('file://' + path.join(ROOT, 'tests/exp-w281e-uilayout.mjs'));
+    const res = {};
+    let jsErr = 0;
+    for (const vp of UL.VIEWPORTS) {
+      const ctx = await browser.newContext({ viewport: { width: vp.width, height: vp.height } });
+      const pg = await ctx.newPage();
+      pg.on('pageerror', () => { jsErr++; });
+      await pg.goto(INDEX, { waitUntil: 'load' });
+      await pg.waitForFunction(() => !!window.HP);
+      await pg.evaluate(() => { try { HP.setLang('ja'); localStorage.removeItem('hp_panel_wide'); } catch (_) {} });
+      const r = await pg.evaluate(UL.MEASURE, { tabs: UL.TABS, uz13en: vp.name === '390x844' });
+      r.gate = UL.gateOf(r);
+      res[vp.name] = r;
+      await ctx.close();
+    }
+    const allOk = Object.values(res).every((r) => r.gate.ok) && jsErr === 0
+      && res['390x844'].canWide && res['1024x768'].layout === 'grid' && !res['1024x768'].canWide;
+    add('ui.panelReserve', allOk,
+      Object.entries(res).map(([k, r]) => `${k}(${r.layout}): ` + (r.canWide
+        ? `広げた状態のキャンバス ${[...new Set(Object.values(r.tabs).map((x) => x.wide.cv))].join('/')}px・ヘッダー ${r.closed.hdr}px・控除 ${Object.values(r.tabs)[0].wide.reserve}` +
+          `${r.uz13en ? '・文字大+en ' + r.uz13en.help.cv + '/' + r.uz13en.help.hdr : ''}${r.safeTop40 ? '・ヘッダー+40px ' + r.safeTop40.saves.cv + '/' + r.safeTop40.saves.hdr : ''}`
+        : `キャンバス ${[...new Set(Object.values(r.tabs).map((x) => x.narrow.cv))].join('/')}px(2 カラム・広げるボタンなし)`) +
+        `・門 ${r.gate.ok}${r.gate.bad.length ? '[' + r.gate.bad.slice(0, 4).join(' ; ') + ']' : ''}`).join(' / ') + ` / JSエラー ${jsErr}`);
   }
 }
 
