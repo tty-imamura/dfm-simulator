@@ -2592,3 +2592,20 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 - **`dfmComplexMomentsOf` の受理の修正**: 源の vx・vy・ax・ay は**未宣言(undefined)だけを 0** と読み、NaN・false・空文字・null・非有限は拒否する(旧形 `b.vx||0` は 0 と読んで受理していた)。
 - **内蔵の宣言**: **principle の診断コピー 2 本だけ**(🔁 `mercuryGeoToy3` —— ☄️ の複製に一様な u=V の背景・pnVelocity:"v"・velocityMeaning:"v" / 🌒 `charonGeoToy3` —— ❄️ の複製〔kFrame=0〕に第279便c の太陽の背景・pnVelocity:"v"・velocityMeaning:"xdot")。較正母集団には入れない。
 - QA: **`preset.geo3Contract`**・**`docs.geo3-sync`**・**`ui.geo3Hud`**・**`preset.meshVelocity`** ③⑨(顔ぶれと NaN の受理)。器 `tests/exp-w280c-geo3.mjs`・正本 `tests/out/geo3-w280c.json`・docs/PHYSICS.md〔第280便c〕。
+
+## 15. 第281便c の宣言鍵 —— `massLedger`(条件付き質量台帳・**表示専用**・原仮定者の裁定〔第71報〕・統括の検証項目 R74・**SYSTEM_PROMPT には載せない**)
+
+浮遊惑星の個数比(恒星の約 20 倍 —— 個数の推定)を恒星質量程度のダークローターへ当てはめたときの銀河の質量を、⟨m_DR⟩ ごとの**仮定のシナリオの表**として宣言するだけの鍵である。
+**`SYSTEM_PROMPT` の逐語ブロックには載せていない**(AI 生成には開放していない —— §5 の逐語ブロックは 1 バイトも変わっていない)。
+build・力学・光線・`presetSig`・保存 JSON の物理は**この鍵を読まない**(宣言した 🛞 の `presetSigHash` は基点と同じ 1a98b3d3)。
+
+- **正準形**: `massLedger:{version:"w281c-1", starBase, fStar, gas, core, unitKg, mSunKg, mStarSun, nRatio, rotorInFStar:false, defaultScenario, currentTotalUnit, currentTotalSun, rotorScenarios:[{mRotorSun, nRotor, mRotorUnit, totalUnit, totalSun}], note?, noteEn?}`。
+  - `starBase` … 恒星の基準質量 M★(単位 —— f★ を掛ける前)・`fStar` … 恒星の補正 f★(1<f≤3 —— `massCalibration.factorUniform` と同じ値)・`gas`・`core` … 気体・中心核(単位・0 以上)。
+  - `unitKg`・`mSunKg` … 1 単位の kg と M☉ の kg・`mStarSun` … 平均恒星質量 ⟨m★⟩(M☉・宣言)・`nRatio` … ダークローター数 / 恒星数(個数比)。
+  - `rotorScenarios` … 1〜6 行。N_DR=nRatio·M★/⟨m★⟩・M_DR=N_DR·⟨m_DR⟩・**M_gal=f★M★+M_gas+M_core+M_DR**。
+  - `defaultScenario` … `"none"`(**追加 0 = 現状** —— 既定)かシナリオの `mRotorSun`。不正値は警告つきで `"none"` へ。
+- **二重加算の拒否**: `rotorInFStar` は **false だけ**を受理(f★ は恒星の見掛け質量の補正で、ダークローターには掛けない —— 別集団として 1 回だけ足す)。
+  各行の `totalUnit` が `fStar·starBase+gas+core+mRotorUnit` と相対 1e-9 で一致しない台帳、`currentTotalUnit` が `fStar·starBase+gas+core` と一致しない台帳は**落とす**(警告つき)。知らない鍵は警告つきで無視。
+- **純関数(HP 公開)**: `validateMassLedger(ml)`(`{ok, value, warnings}`)・`MASS_LEDGER_VERSION`(`"w281c-1"`)・`MASS_LEDGER_KEYS`。値は `tests/lib-w281c-rotorledger.mjs` が作る。
+- **内蔵の宣言**: **1 本**(🛞 `ngc3198DFM` —— 観測結果カードに「条件付き質量台帳」の 1 行)。較正母集団には入れない。
+- QA: **`preset.massLedger`**・**`docs.rotorLedger`**。器 `tests/exp-w281c-rotorledger.mjs`・正本 `tests/out/rotorledger-w281c.json`・docs/PHYSICS.md〔第281便c〕。

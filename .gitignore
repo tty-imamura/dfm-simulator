@@ -674,3 +674,7 @@ tests/.qa-preflight-*.mjs
 !tests/out/charoninput-w280d.json
 tests/out/charoninput-w280d.json.partial
 tests/out/charoninput-w280d-pilot.json
+# 第281便c(原仮定者の裁定(第71報)「浮遊惑星の質量算出根拠を調べ、ダークローターを恒星質量程度に調整して当てはめる」・統括の検証項目 R74):
+#   **条件付き質量台帳・η 対照・減光と偏向の分離**の正本(tests/exp-w281c-rotorledger.mjs —— Node だけで html を読む)。
+#   QA docs.rotorLedger・preset.massLedger が読み、lint.provenanceMeta が来歴を固定するのでコミットする。**較正ではない**。
+!tests/out/rotorledger-w281c.json

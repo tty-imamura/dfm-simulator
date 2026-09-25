@@ -2120,7 +2120,10 @@ if (QA_REPLAY_FAIL) {
 
       // 第280便c(第70報・R65): geoPN=3 の契約(vMinusU・pn・pnVelocity・velocityMeaning)の検算 —— 正式の判定器の
       //   抽出器と窓で ☄️❄️ の複製を測る(target=beta/index.html)
-      'tests/out/geo3-w280c.json'];
+      'tests/out/geo3-w280c.json',
+      // 第281便c(第71報・R74): 条件付き質量台帳・η 対照・減光と偏向の分離の正本(target=beta/index.html —— 器は Node だけで
+      //   html を読む。**html を変えたら走らせ直す**。他の正本は読まない)
+      'tests/out/rotorledger-w281c.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -16303,6 +16306,156 @@ if (!FAST) {
       add('ui.d68Naming', bad.length === 0,
         `**📡 の名前**(第280便e): 「${nm.ja}」/「${nm.en}」—— 解析式への fit(C)と実軌道の照合(門の判定)を分けた名前・語`
         + (bad.length ? ` / **食い違い ${bad.length} 件**: ${bad.join(' , ')}` : ''));
+    }
+  }
+}
+
+// ---- 8c1b) 第281便c(原仮定者の裁定(第71報)「浮遊惑星の質量算出根拠を調べ、ダークローターを恒星質量程度に調整して当てはめ、
+// ----   DFM 版銀河の質量に計上する」・統括の検証項目 R74): **条件付き質量台帳**の 2 ブロック。**root(宣言の無い世代)では SKIP**。
+// ----   ① docs.rotorLedger …… 正本 tests/out/rotorledger-w281c.json(来歴 w272e-1)を、いまの html の 🛞 の bodies から
+// ----      純関数 tests/lib-w281c-rotorledger.mjs で引き直した値と**相対 1e-12** で照合し(JSON 文字列一致にしない —— Node 22/24)、
+// ----      PHYSICS〔第281便c〕の表に同じ書式の数が載っている・出典(NASA の URL・arXiv 3 番号・未取得の明記)がある・
+// ----      「言わないこと」より前に禁止の言い回しが 0・減光と偏向の分離(ビット一致)と質量比例(2 倍・4 倍)の実測が正本にある。
+// ----   ② preset.massLedger …… 🛞 の表示専用の宣言 massLedger の型(version・3 行・0.1/1/10 M☉・既定 "none"・rotorInFStar:false)、
+// ----      bodies との整合(f★M★ = 恒星の宣言質量・気体・中心核)、内蔵で宣言するのは 🛞 の 1 本だけ、検証器の拒否
+// ----      (オブジェクトでない・rotorInFStar:true・二重加算した合計・未知の鍵は警告・既定の不正値は "none" へ)、
+// ----      physics・bodies は不変(presetSigHash が基点 53aaa64 の 1a98b3d3 のまま・massLedger を外しても同じ署名)。
+{
+  const htmlSrc = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const hasW281c = htmlSrc.indexOf('massLedger:{version:"w281c-1"') >= 0;
+  if (!hasW281c) {
+    console.log('SKIP docs.rotorLedger / preset.massLedger(対象に第281便c の massLedger なし — root 等)');
+  } else {
+    const LR = await import('file://' + path.join(ROOT, 'tests', 'lib-w281c-rotorledger.mjs'));
+    let JR = null;
+    try { JR = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'rotorledger-w281c.json'), 'utf8')); } catch { JR = null; }
+    const pdNow = await page.evaluate(() => {
+      const p = HP.allPresets().find((q) => q.id === 'ngc3198DFM');
+      return p ? JSON.parse(JSON.stringify({ bodies: p.bodies, massCalibration: p.massCalibration, scaleExp: p.scaleExp })) : null;
+    });
+    // ---- ① docs.rotorLedger
+    {
+      const bad = [];
+      let sum = '';
+      if (!JR) bad.push('正本 rotorledger-w281c.json が読めない');
+      else if (!pdNow) bad.push('🛞 ngc3198DFM が無い');
+      else {
+        if (!JR.meta || JR.meta.provenanceVersion !== 'w272e-1') bad.push('来歴の版');
+        const rel = LR.relDiff;
+        const g = LR.massGroupsFromPreset(pdNow);
+        const led = LR.rotorLedger(g), ffp = LR.ffpObsRow(g, led);
+        const e75 = LR.lensEtaTable({ mLensEarth: 0.75 }), e37 = LR.lensEtaTable({ mLensEarth: 0.37 });
+        let worst = 0;
+        const cmp = (a, b, what) => { const r = rel(a, b); if (!(r <= 1e-12)) bad.push('引き直しの差 ' + what + ' ' + r.toExponential(2)); worst = Math.max(worst, Number.isFinite(r) ? r : 1); };
+        for (const k of ['starBase', 'fStar', 'gas', 'core', 'unitKg', 'totalUnit']) cmp(g[k], JR.groups[k], 'groups.' + k);
+        cmp(led.current.totalUnit, JR.ledger.current.totalUnit, 'current.totalUnit');
+        cmp(led.current.totalSun, JR.ledger.current.totalSun, 'current.totalSun');
+        cmp(led.nRotor, JR.ledger.nRotor, 'nRotor');
+        led.rows.forEach((r, k) => { for (const f of ['mRotorSun', 'nRotor', 'mRotorUnit', 'totalUnit', 'totalSun']) cmp(r[f], JR.ledger.rows[k][f], `rows[${k}].${f}`); });
+        for (const f of ['fracOfStarMass', 'addUnit', 'addUnitLo', 'addUnitHi']) cmp(ffp[f], JR.ffpObs[f], 'ffp.' + f);
+        [[e75, JR.eta.mLens075], [e37, JR.eta.mLens037]].forEach(([a, b], j) => a.rows.forEach((r, k) => {
+          for (const f of ['eta', 'tEDaysEta1', 'thetaEMuasEta1', 'piRelMasForSameThetaE', 'losGapAU']) cmp(r[f], b.rows[k][f], `eta${j}[${k}].${f}`);
+        }));
+        if (JR.ledger.rotorInFStar !== false) bad.push('正本の rotorInFStar が false でない');
+        if (!(JR.declaration && JR.declaration.present && JR.declaration.maxRel <= 1e-12)) bad.push('正本の宣言照合(html の massLedger ↔ 純関数 ≤1e-12)');
+        const ls = JR.lightSweepVsDeflection || {};
+        if (!(ls.sameDeclVsZero === true && ls.sameDeclVsOne === true && ls.rays >= 20 && ls.heavyBodies >= 1)) bad.push('減光 ↔ 偏向の分離(ビット一致)');
+        const lm = JR.lensMassCoupling || {};
+        if (!(lm.ratio2x > 1.95 && lm.ratio2x < 2.05 && lm.ratio4x > 3.9 && lm.ratio4x < 4.1 && (lm.rows || []).every((r) => r.lswInvariant === true))) bad.push('偏向の質量比例(2 倍・4 倍)');
+        // PHYSICS の表(正本から同じ書式で作った文字列を探す)
+        const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+        const pa = Pd.indexOf('〔第281便c'), pb = (pa >= 0) ? Pd.indexOf('\n## 7. 論文', pa) : -1;
+        const psec = (pa >= 0) ? Pd.slice(pa, pb > pa ? pb : undefined) : '';
+        if (!psec) bad.push('PHYSICS〔第281便c〕が無い');
+        const toks = LR.docTokens(JR);
+        const miss = toks.filter((t) => psec.indexOf(t) < 0);
+        if (miss.length) bad.push('PHYSICS の表に無い数 ' + miss.slice(0, 6).join(' '));
+        for (const s of ['https://www.nasa.gov/missions/roman-space-telescope/new-study-reveals-nasas-roman-could-find-400-earth-mass-rogue-planets/',
+          '2303.08279', '2303.08280', '2507.13794', '未取得(番号のみ)']) if (psec.indexOf(s) < 0) bad.push('出典の記載 ' + s.slice(0, 30));
+        const body = psec.split('**言わないこと。**')[0];
+        const NG = [/観測一致/, /観測と一致/, /ダークローター[^。\n]{0,15}(検出|発見)/, /浮遊惑星を(検出|発見)した/, /較正した/, /較正を完了/, /新発見/, /創発/, /η\s*を測った/];
+        for (const re of NG) if (re.test(body)) bad.push('禁止の言い回し ' + re.source);
+        if (!/二重加算しない/.test(body) || !/別集団/.test(body)) bad.push('二重加算の脚注');
+        sum = `現状 ${led.current.totalUnit.toFixed(3)} 単位(${LR.fmtSci(led.current.totalSun)} M☉)→ A/B/C `
+          + led.rows.map((r) => `${r.totalUnit.toFixed(3)}(${LR.fmtSci(r.totalSun)})`).join(' / ')
+          + ` / 観測の行 +${ffp.addUnit.toFixed(4)} 単位(恒星質量の ${(ffp.fracOfStarMass * 100).toFixed(4)}%)`
+          + ` / η ${e75.rows.map((r) => LR.fmtSci(r.eta)).join('・')}(η=1 の t_E ${e75.rows.map((r) => r.tEDaysEta1.toFixed(2)).join('/')} 日)`
+          + ` / 偏向の質量比 ${lm.ratio2x ? lm.ratio2x.toFixed(3) : '—'}・${lm.ratio4x ? lm.ratio4x.toFixed(3) : '—'} / 引き直しの最大相対差 ${worst.toExponential(1)}`;
+      }
+      add('docs.rotorLedger', bad.length === 0,
+        '**条件付き質量台帳**(第281便c・R74 —— 仮定の 3 シナリオ・既定は追加 0・較正母集団の外): ' + sum
+        + (bad.length ? ` / **食い違い ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ' / 正本 ↔ いまの html の引き直し(≤1e-12)↔ PHYSICS 一致・出典あり・禁止の言い回し 0'));
+    }
+    // ---- ② preset.massLedger
+    {
+      const bad = [];
+      const r = await page.evaluate(() => {
+        const p = HP.allPresets().find((q) => q.id === 'ngc3198DFM');
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+        const ml = v.preset.massLedger || null;
+        const declared = HP.allPresets().filter((q) => q.massLedger !== undefined).map((q) => q.id);
+        const noML = JSON.parse(JSON.stringify(p)); delete noML.massLedger;
+        const tryML = (patch) => {
+          const q = JSON.parse(JSON.stringify(p));
+          q.massLedger = (typeof patch === 'function') ? patch(JSON.parse(JSON.stringify(p.massLedger))) : patch;
+          const w = HP.validatePreset(q);
+          return { kept: w.ok && w.preset.massLedger !== undefined, warn: (w.warnings || []).filter((s) => /massLedger/.test(s)).length,
+            ds: w.ok && w.preset.massLedger ? w.preset.massLedger.defaultScenario : null, sig: HP.presetSigHash(q) };
+        };
+        return {
+          ok: v.ok, warn: (v.warnings || []).filter((s) => /massLedger/.test(s)), ml, declared,
+          b: p.bodies, f: p.massCalibration.factorUniform,
+          sig: HP.presetSigHash(p), sigNo: HP.presetSigHash(noML),
+          rej: {
+            notObj: tryML('x'),
+            inF: tryML((m) => { m.rotorInFStar = true; return m; }),
+            dbl: tryML((m) => { m.rotorScenarios[0].totalUnit = m.fStar * (m.starBase + m.rotorScenarios[0].mRotorUnit) + m.gas + m.core; return m; }),
+            unk: tryML((m) => { m.foo = 1; return m; }),
+            ds: tryML((m) => { m.defaultScenario = 5; return m; }),
+            ds1: tryML((m) => { m.defaultScenario = 1; return m; }),
+          },
+          hp: typeof HP.validateMassLedger === 'function' && HP.MASS_LEDGER_VERSION === 'w281c-1',
+        };
+      });
+      const ml = r.ml;
+      if (!r.ok || r.warn.length) bad.push('① 🛞 の検証に警告 ' + r.warn.join(' '));
+      if (!ml) bad.push('① massLedger が受理されていない');
+      else {
+        if (ml.version !== 'w281c-1') bad.push('① version');
+        if (!(Array.isArray(ml.rotorScenarios) && ml.rotorScenarios.length === 3 && ml.rotorScenarios.map((x) => x.mRotorSun).join(',') === '0.1,1,10')) bad.push('① シナリオ 0.1/1/10 の 3 行');
+        if (ml.defaultScenario !== 'none') bad.push('① 既定が追加 0("none")でない');
+        if (ml.rotorInFStar !== false) bad.push('① 二重加算の宣言 rotorInFStar:false');
+        if (!(typeof ml.note === 'string' && ml.note.indexOf('条件付き') >= 0 && typeof ml.noteEn === 'string')) bad.push('① note');
+        if (/観測一致|検出した|発見した/.test(ml.note)) bad.push('① note の禁止の言い回し');
+        const rel = (a, b) => Math.abs(a - b) / Math.max(Math.abs(b), 1e-300);
+        const st = r.b[0], gs = r.b[1], co = r.b[2];
+        if (!(rel(ml.fStar * ml.starBase, st.n * st.mMin) <= 1e-12 && ml.fStar === r.f)) bad.push('② f★M★ ≠ 恒星の宣言質量');
+        if (!(ml.gas === gs.n * gs.mMin && gs.shell === 'gas' && ml.core === co.m)) bad.push('② 気体・中心核');
+        const base = ml.fStar * ml.starBase + ml.gas + ml.core;
+        for (const x of ml.rotorScenarios || []) {
+          if (!(rel(x.totalUnit, base + x.mRotorUnit) <= 1e-12)) bad.push('② 合計の恒等式 ' + x.mRotorSun);
+          if (!(rel(x.mRotorUnit, ml.nRatio * ml.starBase * x.mRotorSun / ml.mStarSun) <= 1e-12)) bad.push('② M_DR = nRatio·M★·⟨m_DR⟩/⟨m★⟩ ' + x.mRotorSun);
+          if (!(rel(x.totalSun, x.totalUnit * ml.unitKg / ml.mSunKg) <= 1e-12)) bad.push('② M☉ 換算 ' + x.mRotorSun);
+        }
+      }
+      if (r.declared.join(',') !== 'ngc3198DFM') bad.push('③ 宣言する内蔵が 🛞 の 1 本でない: ' + r.declared.join(','));
+      const j = r.rej;
+      if (j.notObj.kept || !j.notObj.warn) bad.push('④ オブジェクトでない台帳を落とさない');
+      if (j.inF.kept || !j.inF.warn) bad.push('④ rotorInFStar:true を落とさない');
+      if (j.dbl.kept || !j.dbl.warn) bad.push('④ 二重加算した合計を落とさない');
+      if (!j.unk.kept || !j.unk.warn) bad.push('④ 未知の鍵(警告して残す)');
+      if (!j.ds.kept || j.ds.ds !== 'none' || !j.ds.warn) bad.push('④ 既定の不正値 → "none"');
+      if (!j.ds1.kept || j.ds1.ds !== 1) bad.push('④ 既定にシナリオの値を受理');
+      if (!r.hp) bad.push('HP.validateMassLedger / MASS_LEDGER_VERSION');
+      // ⑤ 物理は不変: 署名は基点 53aaa64 の値のまま・台帳の有無・不正な台帳でも署名は同じ
+      const SIG0 = '1a98b3d3';
+      if (r.sig !== SIG0) bad.push(`⑤ presetSigHash ${r.sig} ≠ 基点 ${SIG0}`);
+      if (r.sigNo !== r.sig || Object.values(j).some((x) => x.sig !== r.sig)) bad.push('⑤ massLedger が署名に入っている');
+      add('preset.massLedger', bad.length === 0,
+        `**🛞 の条件付き質量台帳の宣言**(第281便c・表示専用): 3 シナリオ ${ml ? ml.rotorScenarios.map((x) => x.mRotorSun + ' M☉→' + x.totalUnit.toFixed(1)).join(' / ') : '—'} 単位・`
+        + `既定 ${ml ? ml.defaultScenario : '—'}(追加 0)・rotorInFStar ${ml ? ml.rotorInFStar : '—'}(f★ を掛けない別集団)・宣言は ${r.declared.length} 本・`
+        + `拒否 3 種と未知の鍵・既定の修正を確認・presetSigHash ${r.sig}(基点と同じ・台帳の有無で不変)`
+        + (bad.length ? ` / **食い違い ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
     }
   }
 }
