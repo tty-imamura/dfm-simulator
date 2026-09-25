@@ -14693,7 +14693,8 @@ const BUILTIN_PRESETS = [
     {q:"HI は f 非適用(宣言)", model:"HI は 21cm 転写の質量 — 恒星の補正則を外挿しない。shell:\"gas\" 宣言(第229便)", obs:"M_HI=1.09×10¹⁰ M☉(CSV — He 込み ×1.33)"},
     {q:"外縁 hold-out(正直な結果)", model:"**f=2 でも届かない** — 円運動解の t=0 で外帯 v_c 10.2(102 km/s)・t=40 の中心核相対 vt 5.53(55 km/s)・最遠 514(kF0 5.13/568)", obs:"V_flat=150.1 km/s(SPARC)"},
     {q:"中心核(⚫ の縮小 — 自由化)", model:"m=100 単位(宣言値・fit しない)Ω=20・Kcs=0.02。pinned を外し重心系・測定は中心核相対(反跳 43 単位)", obs:"—(SPARC はバルジ無し — 中心核は DFM 仮説)"},
-    {q:"配置と初期場の宣言(第235便)", model:"seed は 🌃 と共有(排他帯・重心系変換で完全同一ではない)。初期速度=実ポテンシャルの円運動解(vMode enclosed)。N=300 の自己重力円盤は滑らかな支配場なしに t=40 で散逸(平衡ではない — 記録)", obs:"—(🌃 は観測回転曲線の flat 転写のまま)"}],
+    {q:"配置と初期場の宣言(第235便)", model:"seed は 🌃 と共有(排他帯・重心系変換で完全同一ではない)。初期速度=実ポテンシャルの円運動解(vMode enclosed)。N=300 の自己重力円盤は滑らかな支配場なしに t=40 で散逸(平衡ではない — 記録)", obs:"—(🌃 は観測回転曲線の flat 転写のまま)"},
+    {q:"条件付き質量台帳(第71報 — 表示専用・既定は追加 0)", model:"仮定: ダークローター数=恒星数×20・⟨m_DR⟩ 0.1/1/10 M☉ → +1520/+15200/+152000 単位(f★ を掛けない別集団 — massLedger)", obs:"浮遊惑星の推定は地球質量級(総質量 80 M⊕/恒星=恒星質量の 0.048%)。約 20 倍は個数の比で質量の測定ではない"}],
   descStruct:{
     summary:"**🌃 の対になる DFM 版 — 連星の質量補正(χ-law f≈2)を先に適用してから「ハロー無しの引きずりが外縁を支えるか」を測り直す hold-out**(第230便・第28報 — 第228便の f=1 版を置換)。**平均場 χ̄=0.99987(飽和)→ 恒星円盤に f=1.99973(C=1・ゼロフィット)を一様適用**し lightSweep=(f−1)/f で見掛けを観測側へ。**HI(21cm 転写)には掛けない**(恒星の補正則を外挿しない — 宣言)・HI は shell:\"gas\" 宣言(第229便)。中心は暗い回転核 m=100 単位(5×10⁹ M☉ の宣言値・⚫ の縮小)を **pinned を外して重心系に置き**、測定は中心核相対。fit ノブはゼロ(C=1)。働くのは重力(E4)+空間引きずり(A8/E6′)。**初期速度は観測 V_flat の先置きではなく、配置の実ポテンシャルの円運動解(vMode=enclosed — 第235便)**: t=0 の v_c は内/中/外帯で 142/139/**102** km/s — f=2 のバリオンだけでは外帯が観測 150 に t=0 ですら届かない。**結果(正直な記録): f=2 でも届かない** — t=40 の外縁帯 vt 55 km/s(観測 150)・最遠 514 単位へ散逸(kF0 対照 51 km/s・568 — 引きずりの寄与は +8%)。N=300 の 2D 自己重力円盤は 🌃 の NFW のような滑らかな支配場が無いと平衡を保てない(平衡初期化でも散逸する — 記録)。中心質量は太らせない(NFW の再発明はしない)。",
     observe:"実測(t=40・dt=0.016・kF1・halo 無し・enclosed 初期化・中心核相対): t=0 の円運動解 v_c 14.2/13.9/10.2(内/中/外帯)→ t=40 の外縁帯(60〜130 単位)vt **5.53**(55 km/s — 観測 150 の 1/3・hold-out 不成立の機械固定)・最遠 **514** 単位(kF0 同構成対照 5.13/568)・中心核は残存し反跳で 76 単位歩く(自由中心の記録 — seed 依存 25〜76)・HI 100 粒は gas 宣言のまま残存・NaN 0・決定性ビット同一。旧 flat 15.01 初期化(観測値の先置き)では vt 4.92・最遠 604 だった(第230便の記録)。massCalibration 台帳・mMin=1.9×f・lightSweep=(f−1)/f・HI 非適用の整合を QA 照合。",
@@ -14709,6 +14710,19 @@ const BUILTIN_PRESETS = [
     derived:["平均場 chiMean=0.9998660398257284(自己無撞着・全対 W)","恒星 f=C·2χ̄=1.9997320796514568(C=1)— mMin=1.9×f=3.7994909513377677","lightSweep=(f−1)/f=0.49993301093899795(測光相殺)","enclosed 初期化: t=0 の v_c 14.2/13.9/10.2(内/中/外帯 — 外帯 102 km/s は t=0 ですら観測 150 に届かない)","外縁 hold-out: t=40 vt 5.53(55 km/s)vs 観測 15.01(150 km/s)— 不成立・最遠 514(kF0 5.13/568)〔旧 flat 初期化 4.92/604〕","中心核の反跳 76 単位(自由中心の記録・seed 7 では 44)"],
     numerical:["🌃 と同一(dt=0.016・t=40=2500步)"]},
   massCalibration:{law:"chi-law-v1-meanfield", C:1, meanChi:0.9998660398257284, factorUniform:1.9997320796514568},   // 第230便: 平均場台帳(恒星のみ — QA 照合)
+  // 第281便c(原仮定者の裁定(第71報)・統括の検証項目 R74): **条件付き質量台帳**(表示専用 —— bodies・physics・presetSig は不変)。
+  // 値は純関数 tests/lib-w281c-rotorledger.mjs の出力(器 tests/exp-w281c-rotorledger.mjs・正本 tests/out/rotorledger-w281c.json)。
+  // N_DR=nRatio·M★/⟨m★⟩(M★=starBase=恒星の基準質量 380 単位 = 200 粒 × 1.9)・M_DR=N_DR·⟨m_DR⟩・
+  // M_gal=f★M★+M_gas+M_core+M_DR。**f★ はダークローターに掛けない**(rotorInFStar:false)。**既定は追加 0**(defaultScenario:"none")
+  massLedger:{version:"w281c-1", starBase:380, fStar:1.9997320796514568, gas:287.5, core:100, unitKg:1e38, mSunKg:1.9885e30,
+    mStarSun:0.5, nRatio:20, rotorInFStar:false, defaultScenario:"none",
+    currentTotalUnit:1147.3981902675537, currentTotalSun:57701694255.345924,
+    rotorScenarios:[
+      {mRotorSun:0.1, nRotor:764395272818.7075, mRotorUnit:1520, totalUnit:2667.3981902675537, totalSun:134141221537.21667},
+      {mRotorSun:1, nRotor:764395272818.7075, mRotorUnit:15200, totalUnit:16347.398190267551, totalSun:822096967074.0533},
+      {mRotorSun:10, nRotor:764395272818.7075, mRotorUnit:152000, totalUnit:153147.39819026756, totalSun:7701654422442.422}],
+    note:"条件付き台帳(第281便c・原仮定者の裁定〔第71報〕)。浮遊惑星の個数比(恒星の約 20 倍 —— 個数の推定)を恒星質量程度のダークローターへ当てはめた仮定の 3 シナリオ。観測で推定されている浮遊惑星の質量は地球質量級で、恒星質量の暗い天体が恒星の 20 倍あることを観測は示していない。f★ は恒星だけに掛け、ダークローターは別集団として 1 回だけ足す。🛞 の力学(bodies・physics)には入れていない(既定は追加 0)。較正母集団に入れない。",
+    noteEn:"A conditional ledger (wave 281c, the adjudicator's ruling in the 71st report). Three hypothetical scenarios that apply the free-floating-planet NUMBER ratio (about 20 per star - a count estimate) to dark rotors of roughly stellar mass. The masses inferred for free-floating planets are Earth-mass class; observations do not show 20 stellar-mass dark bodies per star. f★ multiplies the stars only; the rotors are a separate population added once. Not put into the dynamics of this sample (bodies and physics unchanged; the default adds 0). Not in the calibration population."},
   activeParams:["kFrame","G","softening"],
   seed:1573711561,   // 第230便: 🌃 と実効 seed 共有(配置の完全同一は中心核の排他帯で不成立 — 宣言)
   balanceFrame:"barycentric",   // 第230便: 自由中心核の重心系(⚫ の型)
@@ -16626,6 +16640,63 @@ function validateCompactForce(a){
   const off=(model==="current")? (out.kappa===0) : (model==="manev")? (out.alphaK===0) : (out.C6===0 && out.C8===0);
   if(off) return {ok:true, compactForce:null};   // 用量 0 = 未宣言(1 bit 不変)
   return {ok:true, compactForce:out};
+}
+// ===== 第281便c(原仮定者の裁定(第71報)・統括の検証項目 R74): `massLedger` —— **条件付き質量台帳**(表示専用の宣言) =====
+// 「浮遊惑星の個数比(恒星の約 20 倍)を恒星質量程度のダークローターに当てはめたら銀河の質量はいくらになるか」を
+// ⟨m_DR⟩ ごとのシナリオの表として**宣言するだけ**の鍵。S.build・力学・光線・presetSig・保存 JSON の物理は一切読まない
+// (`presetSig` は preset の決まった鍵しか見ない)。**既定は追加 0(現状)** —— `defaultScenario:"none"`。
+// **二重加算しない**: f★(massCalibration.factorUniform)は恒星の見掛け質量の補正で、ダークローターには掛けない ——
+// ダークローターは f★ に含めない別集団として 1 回だけ足す(`rotorInFStar:false` だけを受理。true の形は未実装 = 決断事項)。
+// 受理の条件: 各数値が有限・正(gas・core は 0 以上)・1<fStar≤3・シナリオ 1〜6 行・各行の
+// totalUnit = fStar·starBase + gas + core + mRotorUnit(相対 1e-9)・currentTotalUnit = fStar·starBase + gas + core(同)。
+// 知らない鍵は警告つきで落とす。崩れていれば台帳ごと落とす(物理へは何も効かない)。
+// 値は純関数 tests/lib-w281c-rotorledger.mjs が作り、QA `preset.massLedger`・`docs.rotorLedger` が照合する。
+const MASS_LEDGER_VERSION="w281c-1";
+const MASS_LEDGER_KEYS=["version","starBase","fStar","gas","core","unitKg","mSunKg","mStarSun","nRatio","rotorInFStar",
+  "defaultScenario","currentTotalUnit","currentTotalSun","rotorScenarios","note","noteEn"];
+const MASS_LEDGER_ROW_KEYS=["mRotorSun","nRotor","mRotorUnit","totalUnit","totalSun"];
+function validateMassLedger(ml){
+  const warnings=[];
+  if(!ml || typeof ml!=="object" || Array.isArray(ml)) return {ok:false, warnings:["massLedger はオブジェクトが必要"]};
+  for(const k of Object.keys(ml)) if(MASS_LEDGER_KEYS.indexOf(k)<0) warnings.push("massLedger の未知キー("+String(k).slice(0,20)+")— 無視");
+  const pos=(x)=>isNum(x) && x>0, nn=(x)=>isNum(x) && x>=0;
+  const o={version:(typeof ml.version==="string" && ml.version)? ml.version.slice(0,20) : MASS_LEDGER_VERSION};
+  for(const k of ["starBase","unitKg","mSunKg","mStarSun","nRatio","currentTotalUnit","currentTotalSun"]){
+    if(!pos(ml[k])) return {ok:false, warnings:warnings.concat(["massLedger."+k+" は正の有限数が必要"])};
+    o[k]=ml[k];
+  }
+  if(!(isNum(ml.fStar) && ml.fStar>1 && ml.fStar<=3)) return {ok:false, warnings:warnings.concat(["massLedger.fStar は 1<f≤3"])};
+  o.fStar=ml.fStar;
+  for(const k of ["gas","core"]){
+    if(!nn(ml[k])) return {ok:false, warnings:warnings.concat(["massLedger."+k+" は 0 以上の有限数が必要"])};
+    o[k]=ml[k];
+  }
+  if(ml.rotorInFStar!==false) return {ok:false, warnings:warnings.concat(["massLedger.rotorInFStar は false(f★ に含めない別集団)だけを受理 —— 二重加算の宣言が必要"])};
+  o.rotorInFStar=false;
+  const rel=(a,b)=>Math.abs(a-b)/Math.max(Math.abs(b),1e-300);
+  const base=o.fStar*o.starBase+o.gas+o.core;
+  if(rel(o.currentTotalUnit,base)>1e-9) return {ok:false, warnings:warnings.concat(["massLedger.currentTotalUnit が fStar·starBase+gas+core と一致しない"])};
+  const rs=ml.rotorScenarios;
+  if(!Array.isArray(rs) || rs.length<1 || rs.length>6) return {ok:false, warnings:warnings.concat(["massLedger.rotorScenarios は 1〜6 行の配列"])};
+  o.rotorScenarios=[];
+  for(let i=0;i<rs.length;i++){
+    const r=rs[i];
+    if(!r || typeof r!=="object" || Array.isArray(r)) return {ok:false, warnings:warnings.concat(["massLedger.rotorScenarios["+i+"] はオブジェクト"])};
+    for(const k of Object.keys(r)) if(MASS_LEDGER_ROW_KEYS.indexOf(k)<0) warnings.push("massLedger.rotorScenarios["+i+"] の未知キー("+String(k).slice(0,20)+")— 無視");
+    const row={};
+    for(const k of MASS_LEDGER_ROW_KEYS){
+      if(!pos(r[k])) return {ok:false, warnings:warnings.concat(["massLedger.rotorScenarios["+i+"]."+k+" は正の有限数が必要"])};
+      row[k]=r[k];
+    }
+    // 二重加算の拒否: 合計は f★ を恒星にだけ掛けた現状の質量 + ダークローター(f★ を掛けない)
+    if(rel(row.totalUnit,base+row.mRotorUnit)>1e-9) return {ok:false, warnings:warnings.concat(["massLedger.rotorScenarios["+i+"].totalUnit が現状+mRotorUnit と一致しない(二重加算の疑い)"])};
+    o.rotorScenarios.push(row);
+  }
+  const ds=(ml.defaultScenario===undefined)? "none" : ml.defaultScenario;
+  if(ds==="none" || (isNum(ds) && o.rotorScenarios.some((r)=>r.mRotorSun===ds))) o.defaultScenario=ds;
+  else { warnings.push('massLedger.defaultScenario は "none" かシナリオの mRotorSun —— "none"(追加 0)に修正'); o.defaultScenario="none"; }
+  for(const k of ["note","noteEn"]) if(typeof ml[k]==="string" && ml[k].trim()) o[k]=ml[k].trim().slice(0,600);
+  return {ok:true, value:o, warnings};
 }
 function validatePreset(obj){
   const errors=[], warnings=[];
@@ -18551,6 +18622,14 @@ function validatePreset(obj){
         p.massCalibration=o;   // 第233便: 規約転写形(恒星単体 — 連星契約 f≈2 を一様に転写。χ は単体で飽和しないため法則導出ではない宣言)
       else { warnings.push("massCalibration は law/baseMass/factorByBody(または -meanfield 形の meanChi/factorUniform・-transfer 形の factorUniform)が必須 — 無視します"); delete p.massCalibration; }
     }
+  }
+  // 第281便c: massLedger — 条件付き質量台帳(表示専用 — build・力学・光線・presetSig は読まない)。
+  // 型と二重加算の拒否は validateMassLedger。崩れていれば警告つきで台帳ごと落とす(既存の内蔵は未宣言 = 素通り)
+  if(p.massLedger!==undefined){
+    const r=validateMassLedger(p.massLedger);
+    for(const w of r.warnings) warnings.push(w);
+    if(r.ok) p.massLedger=r.value;
+    else { warnings.push("massLedger を無視します(表示専用の宣言 —— 物理は不変)"); delete p.massLedger; }
   }
   const ov={rotationCurve:false,tempHistogram:false,field:false,spectrum:false,trail:false,monitor:false,boxGraph:false,phaseGraph:false,mechSpectrum:false,emergence:false}; // v1.12: trail/monitor を正式化(第6次裁定 7.5)。boxGraph は第32便(W2)。phaseGraph は第53便 53B(E14)。mechSpectrum は第65便 65A(機構スペクトル診断)。emergence は第82便B(創発モニタ)
   if(p.overlays!==undefined){
@@ -43717,6 +43796,8 @@ function dfmMeshTransportObserve(S){
   return r;
 }
 window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON, frameWeightPow, frameWeightIsPull, frameWeightOf, FRAME_WEIGHT_DEFAULT,   // 第242便
+  // 第281便c: 条件付き質量台帳 massLedger の検証器(表示専用の宣言 —— QA preset.massLedger が読む)
+  validateMassLedger, MASS_LEDGER_VERSION, MASS_LEDGER_KEYS,
   // 第247便d(裁定 A5′(2)): MM 2 腕干渉計の位相玩具(純関数の解析器)と、光が感じる u の 1 点評価。
   // どちらも読み取り専用で力学へは接続しない。QA behavior.mmPhase が階段(1)〜(5)を機械固定する
   dfmMMPhase, dfmFrameAt,
