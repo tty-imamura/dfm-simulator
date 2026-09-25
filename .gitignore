@@ -709,3 +709,7 @@ tests/out/regen-plan-w281a.json
 #   lint.provenanceMeta が来歴を固定するのでコミットする。**較正ではない**
 !tests/out/calcontract-w282a.json
 !tests/out/fmigration-w282a.json
+# 第282便b(原仮定者の裁定(第72報)⑤「geoPN=1 で進め、比較に geoPN=2 または 3」・統括の検証項目 R79): **geoPN=1 主系列便**の正本
+#   (tests/exp-w282b-geo1.mjs —— 自由二体の 1 歩・重心系・ブースト・固定源・質量比の近点移動・水星の表・kF0 の比較表・内蔵 geoPN:1 の 3 本)。
+#   QA behavior.geo1Momentum・docs.geo1Contract が読み、lint.provenanceMeta が来歴を固定するのでコミットする。**較正ではない**。
+!tests/out/geo1-w282b.json

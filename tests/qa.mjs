@@ -2151,7 +2151,10 @@ if (QA_REPLAY_FAIL) {
       'tests/out/charon-history-w272b.json',
       // 第282便a(原仮定者の裁定(第72報)・R77/R78): 較正契約の 3 系統と f=1 の棚卸し(target=beta/index.html —— 内蔵の宣言と
       //   CAL_CONTRACT・calaudit の旧 4 値の区分を読む)/ ✴️💫 の f=1 移行の前後記録(**履歴** —— 再生成しない・role:"history")
-      'tests/out/calcontract-w282a.json', 'tests/out/fmigration-w282a.json'];
+      'tests/out/calcontract-w282a.json', 'tests/out/fmigration-w282a.json',
+      // 第282便b(第72報 ⑤・R79): geoPN=1 の自由連星の契約の穴・二体/重心/ブースト/固定源・主系列の見本・比較表
+      //   (target=beta/index.html —— Node の vm で本体と反作用返しのコピーを読み、水星と比較表は Chromium。inputs に calaudit-w249.json)
+      'tests/out/geo1-w282b.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -54210,6 +54213,165 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       + `元の(kFrame=1 の走行から配られていた)値は \`kf0Applied.replaced\` に残す —— **証拠は捨てない**。`
       + `**条件不一致が 0 になったことは「合った」ではない** —— 「条件が違う」から`
       + `「条件は合っている(まだ判定できない)」へ 1 段動いただけである`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第282便b(原仮定者の裁定(第72報)⑤「geoPN=1 で進め、比較に geoPN=2 または 3」・統括の検証項目 R79): behavior.geo1Momentum ----
+// ----   **自由二体の 1 歩の Σm·vx を geoPN 別に固定する記録**(門ではない —— 物理の正しさを言わない。値が動いたら気づくため)。
+// ----   宇宙は `tests/lib-w282b-geo1.mjs` の `freeTwoBody()`(m=2/1・距離 10・初速 0・自転 0・両体 free・pnSource・G=1・c=10・
+// ----   ε=0.001・stateCarry:"double"・kFrame=0)を `lawVariant` で geoPN=0/1/2/3(宣言なし・トイ scalar・vMinusU+reference-1PN)と
+// ----   λ_PN=0 に切り替えたもの。固定するのは 3 点:
+// ----     ① dt 0.001 / 0.0005 の Σm·vx が記録 `GEO1_MOMENTUM_RECORD`(第282便b の器の実測)と相対 1e−12 で一致(0 は厳密に 0)
+// ----     ② 特別化カーネル(pairCorePN / pairCorePlain)と汎用対ループ(`HP.setKernelForceGeneric(true)`)で全状態がビット一致
+// ----     ③ geoPN=1 だけ Σm·vx ≠ 0 で、dt を半分にすると半分(比 2 —— 丸めではなく分岐の力学)
+// ----   **root は SKIP**(第282便b の器は beta 線)。geoPN は**アプリのモード番号**(標準理論の 2PN・3PN ではない)。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP behavior.geo1Momentum(beta 対象でない: ' + TARGET + ' — 第282便b の記録は beta 線)');
+  } else {
+    const bad = [];
+    let Lg = null, out = null;
+    try {
+      Lg = await import('file://' + path.join(ROOT, 'tests', 'lib-w282b-geo1.mjs'));
+      const R = Lg.GEO1_MOMENTUM_RECORD;
+      const universes = Object.keys(R.px).map((law) => [law, Lg.lawVariant(law, Lg.freeTwoBody())]);
+      out = await page.evaluate(({ universes, dts }) => {
+        const o = {};
+        const one = (p, dt, gen) => {
+          const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+          if (!v.ok) return { err: JSON.stringify(v.errors || v.err || '') };
+          HP.sim.build(v.preset); HP.setKernelForceGeneric(!!gen);
+          try { HP.sim.step(dt); } finally { HP.setKernelForceGeneric(false); }
+          const S = HP.sim;
+          return { px: S.m[0] * S.vx[0] + S.m[1] * S.vx[1], st: JSON.stringify([Array.from(S.x), Array.from(S.y), Array.from(S.vx), Array.from(S.vy), Array.from(S.spin)]),
+            kKind: S._kKind };
+        };
+        for (const [law, p] of universes) o[law] = dts.map((dt) => { const a = one(p, dt, false), b = one(p, dt, true);
+          return { px: a.px, same: a.st === b.st, kKind: a.kKind, err: a.err || b.err || null }; });
+        HP.loadPreset('saturn', false);
+        return o;
+      }, { universes, dts: R.dts });
+      for (const [law, v] of Object.entries(R.px)) R.dts.forEach((dt, i) => {
+        const g = out[law] && out[law][i];
+        if (!g || g.err) { bad.push(`${law}@${dt} が走らない(${g && g.err})`); return; }
+        if (Lg.relErr(g.px, v[i]) > 1e-12 || (v[i] === 0 && g.px !== 0)) bad.push(`① ${law}@${dt} の Σm·vx ${g.px} ≠ 記録 ${v[i]}`);
+        if (!g.same) bad.push(`② ${law}@${dt} で特別化と汎用の状態が違う`);
+      });
+      const g1 = out.g1 || [];
+      if (!(g1[0] && g1[1] && g1[0].px !== 0 && Math.abs(g1[0].px / g1[1].px - 2) < 1e-9)) bad.push('③ geoPN=1 の dt と dt/2 の比が 2 でない');
+      for (const law of ['g0', 'g2', 'g3raw', 'g3vmu', 'newton']) if (out[law] && out[law].some((z) => z.px !== 0)) bad.push(`③ ${law} の Σm·vx が 0 でない`);
+    } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 100)); }
+    const f = (law, i) => (out && out[law] && out[law][i]) ? Number(out[law][i].px).toExponential(6) : '—';
+    add('behavior.geo1Momentum', bad.length === 0,
+      `**自由二体の 1 歩の Σm·vx**(第282便b・R79・**記録であって門ではない** —— 値が動いたら気づくため): `
+      + `geoPN=1 ${f('g1', 0)}(dt=0.001)/ ${f('g1', 1)}(dt/2)・geoPN=0/2/3(宣言なし→2)/3 vMinusU/λ_PN=0 は 0・`
+      + `トイ scalar ${f('g3toy', 0)}(メッシュの帳簿へ移った分)/ 特別化カーネルと汎用対ループの全状態がビット一致 —— `
+      + `**geoPN=1 だけが 1PN の反作用を自由源へ返さない**(Σm·v は状態変数の和で、相対論的な全運動量ではない)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第282便b(第72報 ⑤・R79): docs.geo1Contract ----
+// ----   正本 `tests/out/geo1-w282b.json`(器 tests/exp-w282b-geo1.mjs)と docs/PHYSICS.md〔第282便b〕を突き合わせる。固定するのは 6 点:
+// ----     ① 来歴(w272e-1・targetSha256 または領域一致)・器の版・quick でない・抽出器が今の calaudit のページ側ヘルパと同じ
+// ----     ② **再導出**: 1 歩の表(反作用返しのコピー g1R を除く 7 法則 × dt 2 段)をこのページで作り直し、正本の Σm·vx・各体の vx/vy と
+// ----        相対 1e−12 で一致(0 は厳密に 0)
+// ----     ③ 表の数: 1 歩 16 行・重心系 5 行・ブースト 1 歩 12 行/軌道 12 行・質量比 32 行・水星 8 行・比較表 18 行 + 未宣言 1 行
+// ----     ④ 契約の事実(正本の値): g1 の Σm·vx が解析 Σm·a·dt と相対 1e−10・g1R と g3vmu が g2 とビット同一・水星の g1 が g2 と
+// ----        ビット同一で ☄️ の正式値をビットで再現・内蔵 geoPN:1 のうち ☿ と V18 はコピーでビット同一で ⭐ だけ変わる・
+// ----        質量比の近点移動が c=20 で解析(geoPN=1: 1−11ν/3・geoPN=2: 1−10ν/3)との差を c=10 の 1/3 未満へ縮める
+// ----     ⑤ PHYSICS〔第282便b〕があり、主要な数と「アプリのモード番号」「AN23」「①②③」がある
+// ----     ⑥ 禁止語 0(〔第282便b〕〔「」の中の引用は除く〕と正本〔doNotWrite を除く〕)
+// ----   **root は SKIP**(beta 線の実測)。
+{
+  let J = null;
+  try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'geo1-w282b.json'), 'utf8')); } catch (e) { J = null; }
+  if (!TARGET.startsWith('beta/') || !J) {
+    console.log('SKIP docs.geo1Contract(beta 対象でないか正本が無い: ' + TARGET + ' — 第282便b の実測は beta 線)');
+  } else {
+    const bad = [], cases = [];
+    let Lg = null;
+    try {
+      Lg = await import('file://' + path.join(ROOT, 'tests', 'lib-w282b-geo1.mjs'));
+      const M = J.meta || {};
+      const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      if (M.provenanceVersion !== 'w272e-1') bad.push('① 来歴の版が w272e-1 でない');
+      if (!(await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'))).provTargetOk(ROOT, M, sha)) bad.push('① meta.targetSha256 が検査対象の html と違う(器を再走する)');
+      if (M.version !== Lg.GEO1_W282B_VERSION) bad.push('① 器の版が lib と違う: ' + M.version);
+      if (M.quick !== false) bad.push('① 正本が W282B_QUICK の走行');
+      const helpers = (await import('file://' + path.join(ROOT, 'tests', 'lib-w280a-mercury.mjs'))).extractCalauditHelpers(fs.readFileSync(path.join(ROOT, 'tests', 'exp-w249b-calaudit.mjs'), 'utf8'));
+      if (!M.extractor || M.extractor.helperSha256 !== crypto.createHash('sha256').update(helpers, 'utf8').digest('hex')) bad.push('① 正本の抽出器が今の calaudit のページ側ヘルパと違う');
+      cases.push('来歴・抽出器 sha 一致');
+      // ② 再導出
+      const lawsA = ['g0', 'g1', 'g2', 'g3raw', 'g3toy', 'g3vmu', 'newton'];
+      const universes = lawsA.map((law) => [law, Lg.lawVariant(law, Lg.freeTwoBody())]);
+      const re = await page.evaluate(({ universes, dts }) => {
+        const o = {};
+        for (const [law, p] of universes) o[law] = dts.map((dt) => {
+          const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+          if (!v.ok) return null;
+          HP.sim.build(v.preset); HP.sim.step(dt);
+          const S = HP.sim;
+          return { px: S.m[0] * S.vx[0] + S.m[1] * S.vx[1], vx: Array.from(S.vx), vy: Array.from(S.vy), applied: v.preset.physics.geoPN };
+        });
+        HP.loadPreset('saturn', false);
+        return o;
+      }, { universes, dts: [0.001, 0.0005] });
+      let nCmp = 0;
+      for (const law of lawsA) [0.001, 0.0005].forEach((dt, i) => {
+        const row = (J.A.rows || []).find((z) => z.law === law && z.dt === dt), g = re[law] && re[law][i];
+        if (!row || !g) { bad.push(`② ${law}@${dt} が無い`); return; }
+        const pairs = [[row.px, g.px], [row.vx[0], g.vx[0]], [row.vx[1], g.vx[1]], [row.vy[0], g.vy[0]], [row.vy[1], g.vy[1]]];
+        for (const [a, b] of pairs) { nCmp++; if (Lg.relErr(a, b) > 1e-12 || ((a === 0) !== (b === 0))) bad.push(`② ${law}@${dt}: 正本 ${a} ⇔ 再導出 ${b}`); }
+        if (row.applied !== g.applied) bad.push(`② ${law}@${dt} の適用 geoPN が違う`);
+      });
+      cases.push(`1 歩の表を再導出(${nCmp} 値・相対 1e−12)`);
+      // ③ 表の数
+      const cnt = { A: (J.A.rows || []).length, B: (J.B.rows || []).length, C1: (J.C.oneStep || []).length, C2: (J.C.orbit || []).length,
+        E: (J.E.rows || []).length, F: ((J.F || {}).rows || []).length, G: ((J.G || {}).rows || []).length, Gu: ((J.G || {}).undeclared || []).length };
+      const want = { A: 16, B: 5, C1: 12, C2: 12, E: 32, F: 8, G: 18, Gu: 1 };
+      for (const k of Object.keys(want)) if (cnt[k] !== want[k]) bad.push(`③ 表 ${k} の行数 ${cnt[k]}(想定 ${want[k]})`);
+      cases.push('表の行数 ' + Object.entries(cnt).map(([k, v]) => k + ' ' + v).join('・'));
+      // ④ 契約の事実
+      const S = J.A.summary || {};
+      if (!(S.g1VsAnalyticRel < 1e-10 && S.g1VsAnalyticRelDt2 < 1e-10)) bad.push('④ geoPN=1 の Σm·vx が解析 Σm·a·dt と合わない');
+      if (!(Math.abs(S.g1Ratio - 2) < 1e-9)) bad.push('④ geoPN=1 の dt/dt2 比が 2 でない');
+      if (!(S.g1RBitSameAsG2 && S.g3vmuBitSameAsG2 && S.kernelBitSameAll && J.A.recordMatches === true)) bad.push('④ g1R/g3vmu ≡ g2・カーネル一致・記録一致のどれかが崩れた');
+      const Fd = (J.F || {}).diff || [];
+      if (!(Fd.length === 2 && Fd.every((z) => z.g1BitSameAsG2 === true))) bad.push('④ 水星の geoPN=1 が geoPN=2 とビット同一でない');
+      if (!(J.reproduction && J.reproduction.bitIdentical === true)) bad.push('④ ☄️ の正式値をビットで再現していない');
+      const H = J.H || {};
+      if (!(H.mercury && H.mercury.bitSame === true && H.verify_v18 && H.verify_v18.bitSame === true && H.binary && H.binary.bitSame === false)) bad.push('④ 内蔵 geoPN:1 の 3 本の反作用コピーの結果が想定と違う');
+      const ER = J.E.rows || [];
+      for (const pair of ['1/1', '2/1']) for (const law of ['g1', 'g2']) {
+        const a = ER.find((z) => z.pair === pair && z.law === law && z.c === 10 && z.dt === 0.01), b = ER.find((z) => z.pair === pair && z.law === law && z.c === 20);
+        if (!a || !b || !(Math.abs(b.ratioMinusAnalytic) < Math.abs(a.ratioMinusAnalytic) / 3)) bad.push(`④ ${pair} ${law}: c=20 で解析との差が縮まらない`);
+      }
+      const pin = ER.filter((z) => z.pair === 'pinned');
+      if (!(pin.length === 4 && pin.every((z) => Math.abs(z.ratio - 1) < 2e-3))) bad.push('④ 固定源の近点移動が試験粒子 1PN の 1 と 2×10⁻³ で合わない');
+      cases.push(`g1 の Σm·vx=${Number(S.g1PxDt).toExponential(3)}(dt/2 で ${Number(S.g1PxDt2).toExponential(3)})・水星 g1≡g2・⭐ だけ変わる`);
+      // ⑤ PHYSICS
+      const Pm = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const i0 = Pm.indexOf('\n〔第282便b — ');
+      if (i0 < 0) bad.push('⑤ PHYSICS に〔第282便b〕節が無い');
+      else {
+        const i1 = (() => { const z = [Pm.indexOf('\n〔第', i0 + 5), Pm.indexOf('\n## ', i0 + 5)].filter((q) => q >= 0); return z.length ? Math.min(...z) : Pm.length; })();
+        const sec = Pm.slice(i0, i1);
+        const need = ['アプリのモード番号', 'AN23', '①', '②', '③', 'Σm·v', ...Lg.physicsNumbers(J)];
+        for (const w of need) if (sec.indexOf(w) < 0) bad.push('⑤ PHYSICS〔第282便b〕に ' + w + ' が無い');
+        const secNoQuote = sec.replace(/「[^」]*」/g, '');   // 「」の中は「言わないこと」の引用
+        for (const w of Lg.FORBIDDEN_W282B) if (secNoQuote.indexOf(w) >= 0) bad.push('⑥ PHYSICS〔第282便b〕に禁止語 ' + w);
+        cases.push(`PHYSICS〔第282便b〕の数 ${need.length} 件`);
+      }
+      const scanJ = JSON.parse(JSON.stringify(J)); if (scanJ.meta) delete scanJ.meta.doNotWrite;
+      const txt = JSON.stringify(scanJ);
+      for (const w of Lg.FORBIDDEN_W282B) if (txt.indexOf(w) >= 0) bad.push('⑥ 正本に禁止語 ' + w);
+    } catch (e) { bad.push('正本・lib が読めない: ' + String(e).slice(0, 120)); }
+    add('docs.geo1Contract', bad.length === 0,
+      `**geoPN=1 の自由連星の契約**(第282便b・R79・原仮定者の裁定〔第72報〕⑤): ${cases.join(' / ')} —— `
+      + `現行の geoPN=1 は「固定中心用の試験粒子 1PN を相互に当て、反作用を返さない」。**Σm·v は状態変数の和で、相対論的な全運動量ではない**。`
+      + `geoPN は**アプリのモード番号**(標準理論の 2PN・3PN ではない)。契約の選択は AN23(第283便の署名便)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
